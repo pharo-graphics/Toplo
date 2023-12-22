@@ -10,8 +10,8 @@ Class {
 ToMenuWindowManager >> defaultPositionHook [ 
 
 	^ [ :event :theMenu | theMenu isSubmenu
-		  ifTrue: [ theMenu bounds inSpace bounds topRight ]
-		  ifFalse: [ theMenu bounds inSpace bounds bottomLeft ] ]
+		  ifTrue: [ (theMenu bounds inParent: self anchorRoot) bounds topRight ]
+		  ifFalse: [ (theMenu bounds inParent: self anchorRoot) bounds bottomLeft ] ]
 ]
 
 { #category : 'accessing' }

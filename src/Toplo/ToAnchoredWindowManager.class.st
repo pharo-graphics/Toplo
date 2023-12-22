@@ -2,6 +2,7 @@ Class {
 	#name : 'ToAnchoredWindowManager',
 	#superclass : 'Object',
 	#instVars : [
+		'anchorRoot',
 		'currentWindow',
 		'element',
 		'builder',
@@ -15,6 +16,18 @@ Class {
 	#package : 'Toplo',
 	#tag : 'Core-Window'
 }
+
+{ #category : 'accessing' }
+ToAnchoredWindowManager >> anchorRoot [
+
+	^ anchorRoot ifNil: [ anchorRoot := self element space root ]
+]
+
+{ #category : 'accessing' }
+ToAnchoredWindowManager >> anchorRoot: anElement [
+
+	anchorRoot := anElement
+]
 
 { #category : 'position hook' }
 ToAnchoredWindowManager >> applyHeightHookFromEvent: anEvent [
@@ -51,13 +64,6 @@ ToAnchoredWindowManager >> builder: aWindowBuilderValuable [
 	builder := aWindowBuilderValuable
 ]
 
-{ #category : 'window handling' }
-ToAnchoredWindowManager >> closeWindow [
-
-	self currentWindow ifNil: [ ^ self ].
-	self currentWindow close
-]
-
 { #category : 'accessing' }
 ToAnchoredWindowManager >> currentWindow [
 
@@ -68,6 +74,12 @@ ToAnchoredWindowManager >> currentWindow [
 ToAnchoredWindowManager >> currentWindow: aWindowElement [
 
 	currentWindow := aWindowElement
+]
+
+{ #category : 'accessing' }
+ToAnchoredWindowManager >> currentWindowDo: aValuable [
+
+	self currentWindow ifNotNil: [ :cw | aValuable value: cw ]
 ]
 
 { #category : 'initialization' }
@@ -88,7 +100,7 @@ ToAnchoredWindowManager >> defaultHeightHook [
 { #category : 'initialization' }
 ToAnchoredWindowManager >> defaultPositionHook [
 
-	^ [ :event :theElement| theElement bounds inSpace bounds topLeft ]
+	^ [ :event :theElement| (theElement bounds inParent: self anchorRoot) bounds topLeft ]
 ]
 
 { #category : 'initialization' }
@@ -192,7 +204,14 @@ ToAnchoredWindowManager >> newWindowEvent: anEvent [
 { #category : 'window handling' }
 ToAnchoredWindowManager >> onWindowClosed [
 
+	self onWindowRemoved
+]
+
+{ #category : 'window handling' }
+ToAnchoredWindowManager >> onWindowRemoved [
+
 	self currentWindow removeEventHandler: windowClosedHandler.
+	self currentWindow root removeChildren.
 	windowClosedHandler := nil.
 	currentWindow manager: nil.
 	currentWindow := nil
@@ -212,6 +231,14 @@ ToAnchoredWindowManager >> positionHook: aValuable [
 	positionHook := aValuable.
 	self currentWindow ifNil: [ ^ self ].
 	self applyPositionHookFromEvent: nil
+]
+
+{ #category : 'window handling' }
+ToAnchoredWindowManager >> removeWindow [
+
+	self currentWindow ifNil: [ ^ self ].
+	self currentWindow isOpened ifTrue: [ ^ self currentWindow close ].
+	self onWindowRemoved
 ]
 
 { #category : 'accessing' }

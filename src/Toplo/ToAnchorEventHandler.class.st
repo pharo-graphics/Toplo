@@ -19,13 +19,13 @@ ToAnchorEventHandler >> elementPositionInSpaceChangedEvent: anEvent [
 { #category : 'element handlers' }
 ToAnchorEventHandler >> elementRemovedFromParentEvent: anEvent [
 
-	windowManager closeWindow
+	windowManager currentWindowDo: [:cw | cw close ]
 ]
 
 { #category : 'element handlers' }
 ToAnchorEventHandler >> elementRemovedFromSceneGraphEvent: anEvent [
 
-	windowManager closeWindow
+	windowManager currentWindowDo: [:cw | cw close ]
 ]
 
 { #category : 'api - accessing' }

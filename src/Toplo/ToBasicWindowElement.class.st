@@ -12,7 +12,7 @@ Class {
 { #category : 'api - displaying' }
 ToBasicWindowElement >> close [
 
-	self isOpened ifFalse: [ ^ self ].
+	self isOpened ifFalse: [ ^ Error signal: 'Trying to close a closed window' ].
 	self removeFromParent
 ]
 

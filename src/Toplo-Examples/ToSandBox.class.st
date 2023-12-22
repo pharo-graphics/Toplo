@@ -514,7 +514,7 @@ ToSandBox class >> example_EditableListWithAllClassesNames [
 	l := ToListElement new.
 	l beVertical.
 	l
-		nodeClass: ToClassNodeExample;
+		nodeClass: ToListClassNodeExample;
 		nodeBuilder: [ :node :holder | node forClassNameAssoc: holder data ];
 		addEventHandler: (BlEventHandler
 				 on: ToListStrongSelectionEvent
@@ -1043,7 +1043,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 							                 ifTrue: [ 'Be multiline' ]
 							                 ifFalse: [ 'Be monoline' ]);
 					                whenClickedDo: [ :event |
-						                node label monoLine: label isMonoLine not ];
+						                node firstChild label monoLine: label isMonoLine not ];
 					                yourself).
 			               selectionMenu addItem: (ToMenuItem new
 					                labelText: 'Inspect';
@@ -2279,11 +2279,15 @@ ToSandBox class >> example_scaledImage [
 { #category : 'select' }
 ToSandBox class >> example_selectReadOnly [
 
-	| select |
+	| select innerWindow |
 	select := ToSelect new.
-	select hMatchParent.
+	innerWindow := ToInnerWindow new.
+	select windowManager anchorRoot: innerWindow root.
+	select width: 300.
+	select position: 50@50.
 	select data addAll: self statesOfAmerica.
-	select openInInnerWindow
+	innerWindow pane addChild: select.
+	innerWindow openInSpace 
 ]
 
 { #category : 'space' }
@@ -2944,22 +2948,25 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeave [
 { #category : 'tooltip' }
 ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 
-	| but  |
+	| but |
 	self flag: 'not working as expected'.
 	but := ToButton new.
 	but labelText: 'Button with editable tooltip'.
 	but closeTooltipWindowOnMouseLeave: false.
-	but tooltipBuilder: [ :win :theElement | | lab |
+	but tooltipBuilder: [ :win :theElement |
+		| lab |
 		lab := ToLabel text: ' keep mouse pressed to edit ' asRopedText.
-		lab beEditable;
-		stillHoveredStartDelay: 800 milliSeconds;
-		when: ToStillHoveredLookEvent do: [ :event |
-			event consumed: true.
-			event currentTarget addEditorEvent: event ].
+		lab
+			beEditable;
+			stillHoveredStartDelay: 800 milliSeconds;
+			addEventHandler: (BlEventHandler
+					 on: ToStillHoveredLookEvent
+					 do: [ :event |
+						 event consumed: true.
+						 event currentTarget addEditorEvent: event ]).
 		win root addChild: lab ].
 	but whenClickedDo: [ :ann | self inform: 'Button clicked' ].
 	but openInSpace
- 
 ]
 
 { #category : 'label' }

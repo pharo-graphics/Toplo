@@ -62,11 +62,11 @@ TToElementWithTooltip >> removeTooltip [
 { #category : 't - element with tooltip' }
 TToElementWithTooltip >> removeTooltipWindowManager [
 
-	| tmp1 |
-	tmp1 := self rawTooltipWindowManager.
-	tmp1 ifNil: [ ^ self ] ifNotNil: [ tmp1 ].
-	tmp1 hasWindow ifTrue: [ tmp1 closeWindow ].
-	tmp1 element: nil.
+	| manager |
+	manager := self rawTooltipWindowManager.
+	manager ifNil: [ ^ self ].
+	manager currentWindowDo: [:cw | cw isOpened ifTrue: [ cw close ] ].
+	manager element: nil.
 	self userData removeKey: #tooltipWindowManager
 ]
 

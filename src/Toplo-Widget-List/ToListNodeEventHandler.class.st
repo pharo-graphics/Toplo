@@ -1,5 +1,5 @@
 Class {
-	#name : 'ToNodeEventHandler',
+	#name : 'ToListNodeEventHandler',
 	#superclass : 'BlCustomEventHandler',
 	#instVars : [
 		'monitor',
@@ -11,7 +11,7 @@ Class {
 }
 
 { #category : 'mouse handlers' }
-ToNodeEventHandler >> clickEvent: anEvent [
+ToListNodeEventHandler >> clickEvent: anEvent [
 
 	target := anEvent currentTarget.
 	self
@@ -25,13 +25,13 @@ ToNodeEventHandler >> clickEvent: anEvent [
 ]
 
 { #category : 'api - accessing' }
-ToNodeEventHandler >> eventsToHandle [ 
+ToListNodeEventHandler >> eventsToHandle [ 
 
 	^ { ToNodeHolderSelectedEvent. ToNodeHolderDeselectedEvent. BlPrimaryClickEvent }
 ]
 
 { #category : 'events handling' }
-ToNodeEventHandler >> launchClick: aBlock event: anEvent for: anElement [
+ToListNodeEventHandler >> launchClick: aBlock event: anEvent for: anElement [
 	" click launcher management to allow double click to work with several selected nodes "
 
 	| infinite |
@@ -68,23 +68,23 @@ ToNodeEventHandler >> launchClick: aBlock event: anEvent for: anElement [
 ]
 
 { #category : 'event handling' }
-ToNodeEventHandler >> nodeHolderDeselectedEvent: anEvent [
+ToListNodeEventHandler >> nodeHolderDeselectedEvent: anEvent [
 ]
 
 { #category : 'event handling' }
-ToNodeEventHandler >> nodeHolderSelectedEvent: anEvent [
+ToListNodeEventHandler >> nodeHolderSelectedEvent: anEvent [
 
 ]
 
 { #category : 'api - hooks' }
-ToNodeEventHandler >> onInstalledIn: anElement [
+ToListNodeEventHandler >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	monitor := Monitor new
 ]
 
 { #category : 'api - hooks' }
-ToNodeEventHandler >> onUninstalledIn: anElement [
+ToListNodeEventHandler >> onUninstalledIn: anElement [
 
 	monitor := nil.
 	super onUninstalledIn: anElement.

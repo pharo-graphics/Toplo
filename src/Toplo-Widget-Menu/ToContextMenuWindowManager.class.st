@@ -12,6 +12,12 @@ ToContextMenuWindowManager >> defaultPositionHook [
 	^ [ :event :theContextMenu | event position ]
 ]
 
+{ #category : 'accessing' }
+ToContextMenuWindowManager >> elementEventHandlerClass [ 
+
+	^ ToElementWithContextMenuEventHandler
+]
+
 { #category : 'initialization' }
 ToContextMenuWindowManager >> initialize [
 
@@ -22,7 +28,7 @@ ToContextMenuWindowManager >> initialize [
 { #category : 'accessing' }
 ToContextMenuWindowManager >> windowClass [
 
-	^ ToContextMenu
+	^ ToContextMenu 
 ]
 
 { #category : 'accessing' }

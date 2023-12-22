@@ -27,13 +27,14 @@ ToLabelEditorEventHandler >> elementPositionInSpaceChangedEvent: anEvent [
 	target := anEvent currentTarget.
 	editorPosition ifNil: [ ^ self ].
 	editorPosition ~= target positionInSpace ifTrue: [
-		self label removeEditor ]
+		"self label removeEditor" ]
 ]
 
 { #category : 'api - accessing' }
 ToLabelEditorEventHandler >> eventsToHandle [ 
 
-	^ super eventsToHandle , { BlElementPositionInSpaceChangedEvent  }
+self flag: 'is this class useful ?'.
+	^ super eventsToHandle ", { BlElementPositionInSpaceChangedEvent  }"
 ]
 
 { #category : 'accessing' }

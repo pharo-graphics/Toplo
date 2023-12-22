@@ -31,7 +31,7 @@ ToPopupWindowManager >> defaultAutoCloseOnMouseUpDelay [
 { #category : 'initialization' }
 ToPopupWindowManager >> defaultPositionHook [
 
-	^ [ :event :theElement | theElement bounds inSpace bounds bottomLeft ]
+	^ [ :event :theElement | (theElement bounds inParent: self anchorRoot) bounds bottomLeft ]
 ]
 
 { #category : 'accessing' }
@@ -53,7 +53,7 @@ ToPopupWindowManager >> mouseDownInElementEvent: anEvent [
 	builder ifNil: [ ^ self ].
 	anEvent button = mouseButton ifFalse: [ ^ self ].
 	currentWindow ifNotNil: [
-		^ self closeWindow ].
+		^ currentWindow close ].
 	self newWindowEvent: anEvent.
 	element enqueueTask:
 		(BlTaskAction new action: [ currentWindow popupEvent: anEvent ])
@@ -69,7 +69,7 @@ ToPopupWindowManager >> mouseUpInElementEvent: anEvent [
 		The mouse up can occur immediately after the window opening -> don't close the popup window.
 		After a given delay between down and up, the popup window is closed "
 	delay := anEvent timestamp - currentWindow popupTimestamp.
-	delay > self autoCloseOnMouseUpDelay ifTrue: [ self closeWindow ]
+	delay > self autoCloseOnMouseUpDelay ifTrue: [ currentWindow close ]
 ]
 
 { #category : 'initialization' }

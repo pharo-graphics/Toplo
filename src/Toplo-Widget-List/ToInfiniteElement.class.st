@@ -263,7 +263,7 @@ ToInfiniteElement >> nodeBuilder: aValuable [
 { #category : 'initialization' }
 ToInfiniteElement >> nodeClass [
 
-	^ nodeClass ifNil: [ nodeClass := ToNode ]
+	^ nodeClass ifNil: [ nodeClass := ToListNode ]
 ]
 
 { #category : 'initialization' }

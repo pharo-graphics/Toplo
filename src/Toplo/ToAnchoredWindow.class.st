@@ -11,6 +11,12 @@ Class {
 }
 
 { #category : 'accessing' }
+ToAnchoredWindow >> anchorRoot [
+
+	^ self manager anchorRoot
+]
+
+{ #category : 'accessing' }
 ToAnchoredWindow >> applyHeightHookFromEvent: anEvent [
 
 	windowManager applyHeightHookFromEvent: anEvent
@@ -61,7 +67,7 @@ ToAnchoredWindow >> dispatchClosedEvent [
 
 	| event |
 	event := self closedEventClass new.
-	self element dispatchEvent: event copy.
+	self element ifNotNil: [:e | e dispatchEvent: event copy ].
 	self dispatchEvent: event.
 
 ]
@@ -136,7 +142,7 @@ ToAnchoredWindow >> popupEvent: anEvent [
 	self element isAttachedToSceneGraph ifFalse: [
 		Error signal: 'Can''t popup an anchored window if the element is not attached to a space' ].
 	self visibility: BlVisibility hidden. 
-	self element space root addChild: self.
+	self anchorRoot addChild: self.
 	self checkBeforePopupEvent: anEvent.
 	self requestLayout.
 	popupTimestamp := DateAndTime now.

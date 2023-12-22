@@ -12,11 +12,23 @@ Class {
 }
 
 { #category : 't - menu item holder - adding/removing' }
+ToContextMenu >> addAllItems: aCollection [
+
+	aCollection do: [ :item | self addItem: item ]
+]
+
+{ #category : 't - menu item holder - adding/removing' }
 ToContextMenu >> addItem: aMenuItem [
 
 	self items add: aMenuItem.
 	self root addChild: aMenuItem.
 	aMenuItem  addedInMenu: self
+]
+
+{ #category : 't - menu item holder - adding/removing' }
+ToContextMenu >> addSeparator [
+
+	self addItem: ToSeparatorMenuItem new
 ]
 
 { #category : 'api - displaying' }
@@ -36,6 +48,12 @@ ToContextMenu >> closeWindow [
 ToContextMenu >> closedEventClass [
 
 	^ ToContextMenuClosedEvent 
+]
+
+{ #category : 't - menu item holder - testing' }
+ToContextMenu >> hasItems [ 
+
+	^ self items notEmpty
 ]
 
 { #category : 't - menu window model' }

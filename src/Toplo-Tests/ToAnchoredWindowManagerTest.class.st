@@ -143,7 +143,7 @@ ToAnchoredWindowManagerTest >> testCloseWindow [
 	win := windowManager newWindowEvent: nil.
 	win popup.
 	self assert: win isOpened.
-	windowManager closeWindow.
+	win close.
 	self assert: win isClosed
 
 ]
@@ -161,7 +161,7 @@ ToAnchoredWindowManagerTest >> testCurrentWindow [
 	self assert: windowManager currentWindow identicalTo: win.
 	win popup.
 	self assert: windowManager currentWindow identicalTo: win.
-	windowManager closeWindow.
+	win close.
 	self assert: windowManager currentWindow isNil.
 
 ]
@@ -317,7 +317,7 @@ ToAnchoredWindowManagerTest >> testHasWindow [
 	self assert: windowManager hasWindow.
 	win popup.
 	self assert: windowManager hasWindow.
-	windowManager closeWindow.
+	win close.
 	self deny: windowManager hasWindow.
 
 ]
@@ -380,7 +380,8 @@ ToAnchoredWindowManagerTest >> testNewWindowEvent2 [
 	win1 := windowManager newWindowEvent: nil.
 	self assert: windowManager currentWindow identicalTo: win1.
 	" the window is already built -> Error "
-	windowManager closeWindow.
+	self should: [ windowManager newWindowEvent: nil ] raise: Error.
+	windowManager removeWindow.
 	win2 := windowManager newWindowEvent: nil.
 	self deny: win1 identicalTo: win2
 

@@ -183,7 +183,6 @@ TToElementWithContextMenuTest >> testCurrentContextMenu [
 	self assert: e hasContextMenu.
 	self assert: e currentContextMenu notNil.
 	self assert: e currentContextMenu identicalTo: ttwin.
-	ttwin close.
 	^ e
 ]
 

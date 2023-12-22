@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToTabNode',
-	#superclass : 'ToNode',
+	#superclass : 'ToListNode',
 	#category : 'Toplo-Widget-TabPane',
 	#package : 'Toplo-Widget-TabPane'
 }

@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToSelectNode',
-	#superclass : 'ToNode',
+	#superclass : 'ToElement',
 	#category : 'Toplo-Widget-Select',
 	#package : 'Toplo-Widget-Select'
 }

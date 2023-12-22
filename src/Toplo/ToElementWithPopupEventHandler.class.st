@@ -9,12 +9,6 @@ Class {
 	#tag : 'Core-Window'
 }
 
-{ #category : 'event handling' }
-ToElementWithPopupEventHandler >> elementPositionInSpaceChangedEvent: anEvent [
-
-	windowManager closeWindow
-]
-
 { #category : 'api - accessing' }
 ToElementWithPopupEventHandler >> eventsToHandle [
 
@@ -47,7 +41,7 @@ ToElementWithPopupEventHandler >> mouseUpOutsideEvent: anEvent [
 	
 	" ok, mouseUp outside the element and outside of the popup window "
 	anEvent consumed: true.
-	windowManager closeWindow
+	windowManager currentWindowDo: [:w | w close ]
 ]
 
 { #category : 'api - hooks' }

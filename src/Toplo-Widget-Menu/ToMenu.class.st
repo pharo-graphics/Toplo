@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'items',
 		'isSubmenu',
-		'windowHandler'
+		'windowManager'
 	],
 	#category : 'Toplo-Widget-Menu-Basic',
 	#package : 'Toplo-Widget-Menu',
@@ -28,11 +28,11 @@ ToMenu >> clickEventClass [
 	^ BlMouseDownEvent
 ]
 
-{ #category : 't - menu window model' }
+{ #category : 'menu window' }
 ToMenu >> closeWindow [
 
 	self items do: [ :it | it closeWindow ].
-	windowHandler closeWindow
+	self menuWindow ifNotNil: [:mw | mw close ]
 ]
 
 { #category : 'testing' }
@@ -50,8 +50,8 @@ ToMenu >> initialize [
 	super initialize.
 	isSubmenu := false.
 	self initializeWithMenuConstraints.
-	windowHandler := ToMenuWindowManager new element: self.
-	windowHandler builder: [ :menWin :request |
+	windowManager := ToMenuWindowManager new element: self.
+	windowManager builder: [ :menWin :request |
 		request currentTarget items do: [ :it |
 			menWin root addChild: it] ]
 ]
@@ -96,7 +96,7 @@ ToMenu >> items [
 { #category : 't - menu window model' }
 ToMenu >> menuWindow [ 
 
-	^ windowHandler currentWindow
+	^ windowManager currentWindow
 ]
 
 { #category : 'menu window' }
@@ -115,7 +115,7 @@ ToMenu >> newRawSkin [
 { #category : 't - menu window model' }
 ToMenu >> popupEvent: anEvent [
 
-	(windowHandler newWindowEvent: anEvent) popupEvent: anEvent
+	(windowManager newWindowEvent: anEvent) popupEvent: anEvent
 ]
 
 { #category : 'adding-removing' }
@@ -137,7 +137,7 @@ ToMenu >> rootMenu [
 { #category : 'theme event handling' }
 ToMenu >> toThemeChanged [ 
 
-	windowHandler toThemeChanged.
+	windowManager toThemeChanged.
 	super toThemeChanged.
 
 	

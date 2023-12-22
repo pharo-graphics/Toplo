@@ -121,10 +121,10 @@ TToElementWithContextMenu >> removeContextMenu [
 { #category : 't - element with context menu' }
 TToElementWithContextMenu >> removeContextMenuWindowManager [
 
-	| handler |
-	handler := self rawContextMenuWindowManager.
-	handler ifNil: [ ^ self ].
-	handler hasWindow ifTrue: [ handler closeWindow ].
-	handler element: nil.
+	| manager |
+	manager := self rawContextMenuWindowManager.
+	manager ifNil: [ ^ self ].
+	manager hasWindow ifTrue: [ manager currentWindow close ].
+	manager element: nil.
 	self userData removeKey: #contextMenuWindowManager
 ]

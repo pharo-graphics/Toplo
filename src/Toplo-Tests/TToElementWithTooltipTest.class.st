@@ -166,7 +166,6 @@ TToElementWithTooltipTest >> testTooltip [
 	self assert: ttwin element identicalTo: e.
 	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
 			 eh isKindOf: ToElementWithTooltipEventHandler ]).
-	ttwin close.
 	^ e
 ]
 
@@ -189,7 +188,8 @@ TToElementWithTooltipTest >> testTooltipContent [
 	|  e ttwin |
 	e := self testTooltip.
 	self assert: e hasTooltip.
-	ttwin := e newTooltipWindowEvent: nil.
+	self assert: e tooltipWindowManager currentWindow notNil.
+	ttwin := e tooltipWindowManager currentWindow.
 	self assert: ttwin root firstChild notNil.
 	e tooltipContent: nil.
 	self assert: e currentTooltipWindow isNil.

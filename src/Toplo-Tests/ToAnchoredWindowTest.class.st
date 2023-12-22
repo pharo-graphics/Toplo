@@ -12,20 +12,21 @@ Class {
 { #category : 'tests' }
 ToAnchoredWindowTest >> testClose [
 
-	| win e  windowHandler  winRootChild |
+	| win e  windowManager  winRootChild |
 	e := ToElement new.
 	space root addChild: e.
 	self waitTestingSpaces.
 	self applyAllEnqueuedStates.
 	winRootChild := ToElement new.
 
-	windowHandler := ToAnchoredWindowManager new builder: [ :anchWin :element | anchWin root addChild: winRootChild ].
-	windowHandler element: e.
-	win := windowHandler newWindowEvent: nil.
+	windowManager := ToAnchoredWindowManager new builder: [ :anchWin :element | anchWin root addChild: winRootChild ].
+	windowManager element: e.
+	win := windowManager newWindowEvent: nil.
 	self assert: winRootChild parent identicalTo: win root.
 	self deny: win isOpened.
-	" even it is not opened, a win can be closed "
-	win close.
+	" not opened, try to close -> Error "
+	self should: [ win close ] raise: Error.
+	windowManager removeWindow.
 	self assert: winRootChild parent isNil.
 	" but after it has been closed, it can't be opened anymore "
 	self should: [ win popup ] raise: Error
@@ -42,6 +43,7 @@ ToAnchoredWindowTest >> testClosedEventClass [
 	win := windowManager newWindowEvent: nil.
 	win addEventHandler: (BlEventHandler on: win closedEventClass do: [:event | closeEvent := event]).
 	self assert: closeEvent isNil.
+	win popup.
 	win close.
 	" need to wait space pulsing "
 	self waitTestingSpaces.
@@ -85,6 +87,7 @@ ToAnchoredWindowTest >> testDispatchClosedEvent [
 	e addEventHandler: (BlEventHandler
 			 on: win closedEventClass
 			 do: [ :event | closedEventReceivedByElement := event ]).
+	win popup.
 	win close.
 	self waitTestingSpaces.
 	self assert: closedEventReceivedByWin notNil.	
@@ -256,6 +259,8 @@ ToAnchoredWindowTest >> testPopupEventNotInSpace [
 	self assert: win isOpened not.
 	self assert: openEventFromWindow isNil.
 	self assert: openEventFromWidget isNil.
+	space root addChild: e.
+	win popup.
 	win close.
 	self assert: closeEventFromWindow notNil.
 	self assert: closeEventFromWidget notNil

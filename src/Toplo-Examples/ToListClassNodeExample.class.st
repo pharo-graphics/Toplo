@@ -1,6 +1,6 @@
 Class {
-	#name : 'ToClassNodeExample',
-	#superclass : 'ToNode',
+	#name : 'ToListClassNodeExample',
+	#superclass : 'ToListNode',
 	#instVars : [
 		'label'
 	],
@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : 'instance creation' }
-ToClassNodeExample >> forClassNameAssoc: aClassNameAssoc [
+ToListClassNodeExample >> forClassNameAssoc: aClassNameAssoc [
 
 	| icon isel |
 	isel := aClassNameAssoc key hasComment
@@ -40,7 +40,7 @@ ToClassNodeExample >> forClassNameAssoc: aClassNameAssoc [
 ]
 
 { #category : 'accessing' }
-ToClassNodeExample >> label [
+ToListClassNodeExample >> label [
 
 	^ label
 ]

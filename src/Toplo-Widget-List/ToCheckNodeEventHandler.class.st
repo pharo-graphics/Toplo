@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToCheckNodeEventHandler',
-	#superclass : 'ToNodeEventHandler',
+	#superclass : 'ToListNodeEventHandler',
 	#category : 'Toplo-Widget-List-Node',
 	#package : 'Toplo-Widget-List',
 	#tag : 'Node'

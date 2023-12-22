@@ -27,7 +27,7 @@ ToElementWithPopupEventHandlerTest >> testElementPositionInSpaceChangedEvent [
 	self assert: win isOpened.
 	e position: 20 asPoint.
 	self waitTestingSpaces.
-	self assert: win isClosed
+	self assert: win isOpened
 ]
 
 { #category : 'tests' }

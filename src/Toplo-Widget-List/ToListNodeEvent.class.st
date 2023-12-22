@@ -1,5 +1,5 @@
 Class {
-	#name : 'ToNodeEvent',
+	#name : 'ToListNodeEvent',
 	#superclass : 'BlEvent',
 	#instVars : [
 		'holder',
@@ -11,25 +11,25 @@ Class {
 }
 
 { #category : 'accessing' }
-ToNodeEvent >> event [
+ToListNodeEvent >> event [
 
 	^ event
 ]
 
 { #category : 'accessing' }
-ToNodeEvent >> event: anEvent [
+ToListNodeEvent >> event: anEvent [
 
 	event := anEvent
 ]
 
 { #category : 'accessing' }
-ToNodeEvent >> holder [
+ToListNodeEvent >> holder [
 
 	^ holder
 ]
 
 { #category : 'accessing' }
-ToNodeEvent >> holder: anHolder [
+ToListNodeEvent >> holder: anHolder [
 
 	holder := anHolder
 ]

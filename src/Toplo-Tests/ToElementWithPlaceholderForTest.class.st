@@ -7,3 +7,9 @@ Class {
 	#package : 'Toplo-Tests',
 	#tag : 'Core'
 }
+
+{ #category : 't - element with placeholder' }
+ToElementWithPlaceholderForTest >> newPlaceholder [
+
+	^ self placeholderClass new
+]

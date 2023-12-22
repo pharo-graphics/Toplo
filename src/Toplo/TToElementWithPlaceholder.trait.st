@@ -40,7 +40,7 @@ TToElementWithPlaceholder >> isShowingPlaceholder: aBoolean [
 { #category : 't - element with placeholder' }
 TToElementWithPlaceholder >> newPlaceholder [
 
-	^ self placeholderClass new
+	^ self explicitRequirement 
 ]
 
 { #category : 't - element with placeholder' }

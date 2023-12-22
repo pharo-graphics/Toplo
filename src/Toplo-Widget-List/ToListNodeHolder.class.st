@@ -1,5 +1,5 @@
 Class {
-	#name : 'ToNodeHolder',
+	#name : 'ToListNodeHolder',
 	#superclass : 'BlInfiniteHolder',
 	#traits : 'TBlEventTarget',
 	#classTraits : 'TBlEventTarget classTrait',
@@ -16,13 +16,13 @@ Class {
 }
 
 { #category : 'accessing' }
-ToNodeHolder >> data [
+ToListNodeHolder >> data [
 
 	^ data
 ]
 
 { #category : 'accessing' }
-ToNodeHolder >> data: aData [ 
+ToListNodeHolder >> data: aData [ 
 
 	data := aData.
 	self node: infiniteElement nodeClass new.
@@ -30,7 +30,7 @@ ToNodeHolder >> data: aData [
 ]
 
 { #category : 'event management accessing' }
-ToNodeHolder >> eventDispatcher [
+ToListNodeHolder >> eventDispatcher [
 	"Return an object responsible for event dispatching"
 	<return: #BlDirectEventDispatcher>
 
@@ -38,35 +38,35 @@ ToNodeHolder >> eventDispatcher [
 ]
 
 { #category : 'initialization' }
-ToNodeHolder >> initialize [ 
+ToListNodeHolder >> initialize [ 
 
 	super initialize.
 	eventDispatcher := BlDirectEventDispatcher on: self
 ]
 
 { #category : 'accessing' }
-ToNodeHolder >> isSelected [
+ToListNodeHolder >> isSelected [
 
 	^ self infiniteElement isSelectedAtIndex: self position
 ]
 
 { #category : 'accessing' }
-ToNodeHolder >> node [
+ToListNodeHolder >> node [
 
 	^ self itemElement 
 ]
 
 { #category : 'accessing' }
-ToNodeHolder >> node: aNode [
+ToListNodeHolder >> node: aNode [
 
 	itemElement := aNode
 ]
 
 { #category : 'accessing' }
-ToNodeHolder >> onAttachedFromDatasource: aDataSource [
+ToListNodeHolder >> onAttachedFromDatasource: aDataSource [
 
 	clickHandler := BlEventHandler
-		                on: ToClickOnNodeEvent
+		                on: ToClickOnListNodeEvent
 		                do: [ :event | infiniteElement whenClickOnNodeEvent: event ].
 
 	deselectHandler := BlEventHandler
@@ -88,7 +88,7 @@ ToNodeHolder >> onAttachedFromDatasource: aDataSource [
 ]
 
 { #category : 'accessing' }
-ToNodeHolder >> onDetachedFromDatasource: aDataSource [
+ToListNodeHolder >> onDetachedFromDatasource: aDataSource [
 
 	self removeEventHandler: clickHandler.
 	infiniteElement primarySelection removeEventHandler: deselectHandler.
@@ -101,22 +101,22 @@ ToNodeHolder >> onDetachedFromDatasource: aDataSource [
 ]
 
 { #category : 'accessing' }
-ToNodeHolder >> selected: aBoolean [
+ToListNodeHolder >> selected: aBoolean [
 
 	aBoolean
-		ifTrue: [ self node dispatchEvent: (ToNodeHolderSelectedEvent new holder: self; yourself) ]
-		ifFalse: [ self node dispatchEvent: (ToNodeHolderDeselectedEvent new holder: self; yourself) ]
+		ifTrue: [ self node dispatchEvent: (ToListNodeHolderSelectedEvent new holder: self; yourself) ]
+		ifFalse: [ self node dispatchEvent: (ToListNodeHolderDeselectedEvent new holder: self; yourself) ]
 ]
 
 { #category : 'selection - handling' }
-ToNodeHolder >> whenDeselectEvent: anEvent [
+ToListNodeHolder >> whenDeselectEvent: anEvent [
 
 	(anEvent indexes includes: self position) ifFalse: [ ^ self ].
 	self selected: false
 ]
 
 { #category : 'selection - handling' }
-ToNodeHolder >> whenSelectEvent: anEvent [
+ToListNodeHolder >> whenSelectEvent: anEvent [
 
 	(anEvent indexes includes: self position) ifFalse: [ ^ self ].
 	self selected: true

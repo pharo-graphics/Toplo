@@ -99,12 +99,8 @@ ToAnchoredWindow >> hasAssociateElement [
 ToAnchoredWindow >> installRawStyle [
 
 	super installRawStyle.
-	self background: (self tokenValueNamed: #'color-bg-container').
 	(self tokenValueNamed: #'animation-window-opening') value: self.
-	self effect: (self tokenValueNamed: #'effect-window').
-	self padding: (BlInsets
-			 horizontal: (self tokenValueNamed: #'padding-content-H')
-			 vertical: (self tokenValueNamed: #'padding-content-V'))
+	self effect: (self tokenValueNamed: #'effect-window')
 ]
 
 { #category : 'accessing' }

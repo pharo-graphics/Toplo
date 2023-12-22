@@ -27,7 +27,7 @@ ToListInfiniteElement >> defaultNodeBuilder [
 { #category : 'initialization' }
 ToListInfiniteElement >> holderClass [
 
-	^ ToNodeHolder 
+	^ ToListNodeHolder 
 ]
 
 { #category : 'initialization' }

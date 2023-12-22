@@ -1,6 +1,9 @@
 Class {
 	#name : 'ToAlbumEventHandler',
 	#superclass : 'BlCustomEventHandler',
+	#instVars : [
+		'textEmpty'
+	],
 	#category : 'Toplo-Widget-Album-TextPane',
 	#package : 'Toplo-Widget-Album',
 	#tag : 'TextPane'
@@ -17,9 +20,10 @@ ToAlbumEventHandler >> blurEvent: aBlurEvent [
 { #category : 'event handling' }
 ToAlbumEventHandler >> checkTextIn: anEditorElement [
 
-	anEditorElement text
-		ifEmpty: [ anEditorElement showPlaceholder ]
-		ifNotEmpty: [ anEditorElement hidePlaceholder ]
+	(textEmpty isNil or: [ anEditorElement text isEmpty ~= textEmpty ])
+		ifTrue: [
+		anEditorElement dispatchEvent: ToTextEmptinessChangeEvent new ].
+	textEmpty := anEditorElement text isEmpty
 ]
 
 { #category : 'event handling' }
@@ -27,8 +31,7 @@ ToAlbumEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	target text ifEmpty: [ ^ target showPlaceholder ].
-	target hidePlaceholder
+	self checkTextIn: target
 ]
 
 { #category : 'api - accessing' }
@@ -39,7 +42,8 @@ ToAlbumEventHandler >> eventsToHandle [
 		  AlbTextEditedEvent.
 		  AlbTextReplacedEvent.
 		  BlBlurEvent.
-		  BlFocusEvent }
+		  BlFocusEvent.
+		  ToTextEmptinessChangeEvent }
 ]
 
 { #category : 'event handling' }
@@ -55,6 +59,16 @@ ToAlbumEventHandler >> textEditedEvent: aTextEditedEvent [
 
 	aTextEditedEvent currentTarget edited: true.
 	self checkTextIn: aTextEditedEvent currentTarget
+]
+
+{ #category : 'event handling' }
+ToAlbumEventHandler >> textEmptinessChangeEvent: anEvent [
+
+	| target |
+	target := anEvent currentTarget.
+	target text
+		ifEmpty: [ target showPlaceholder ]
+		ifNotEmpty: [ target hidePlaceholder ]
 ]
 
 { #category : 'event handling' }

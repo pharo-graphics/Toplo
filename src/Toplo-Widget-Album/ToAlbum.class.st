@@ -1,8 +1,8 @@
 Class {
 	#name : 'ToAlbum',
-	#superclass : 'ToPane',
-	#traits : 'TAlbInfiniteDecorator + TBlAnnouncerProvider + TObservable',
-	#classTraits : 'TAlbInfiniteDecorator classTrait + TBlAnnouncerProvider classTrait + TObservable classTrait',
+	#superclass : 'ToElement',
+	#traits : 'TAlbInfiniteDecorator + TBlAnnouncerProvider + TObservable + TToElementWithPlaceholder',
+	#classTraits : 'TAlbInfiniteDecorator classTrait + TBlAnnouncerProvider classTrait + TObservable classTrait + TToElementWithPlaceholder classTrait',
 	#instVars : [
 		'#editsFeedbackLayer',
 		'#innerElement',
@@ -200,7 +200,7 @@ ToAlbum >> innerElement [
 { #category : 't - element with placeholder' }
 ToAlbum >> newPlaceholder [
 
-	^ super newPlaceholder
+	^ self placeholderClass new
 		  padding: self padding;
 		  yourself
 ]

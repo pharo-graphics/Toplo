@@ -7,15 +7,15 @@ Class {
 }
 
 { #category : 'event handling' }
-ToCheckNodeEventHandler >> nodeHolderDeselectedEvent: anEvent [
+ToCheckNodeEventHandler >> listNodeHolderDeselectedEvent: anEvent [
 
-	super nodeHolderDeselectedEvent: anEvent.
+	super listNodeHolderDeselectedEvent: anEvent.
 	anEvent currentTarget uncheck
 ]
 
 { #category : 'event handling' }
-ToCheckNodeEventHandler >> nodeHolderSelectedEvent: anEvent [
+ToCheckNodeEventHandler >> listNodeHolderSelectedEvent: anEvent [
 
-	super nodeHolderSelectedEvent: anEvent.
+	super listNodeHolderSelectedEvent: anEvent.
 	anEvent currentTarget check
 ]

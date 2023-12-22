@@ -16,7 +16,7 @@ ToListNodeEventHandler >> clickEvent: anEvent [
 	target := anEvent currentTarget.
 	self
 		launchClick: [
-			target holder fireEvent: (ToClickOnNodeEvent new
+			target holder fireEvent: (ToClickOnListNodeEvent new
 					 holder: target holder;
 					 event: anEvent;
 					 yourself) ]
@@ -27,7 +27,7 @@ ToListNodeEventHandler >> clickEvent: anEvent [
 { #category : 'api - accessing' }
 ToListNodeEventHandler >> eventsToHandle [ 
 
-	^ { ToNodeHolderSelectedEvent. ToNodeHolderDeselectedEvent. BlPrimaryClickEvent }
+	^ { ToListNodeHolderSelectedEvent. ToListNodeHolderDeselectedEvent. BlPrimaryClickEvent }
 ]
 
 { #category : 'events handling' }
@@ -68,11 +68,11 @@ ToListNodeEventHandler >> launchClick: aBlock event: anEvent for: anElement [
 ]
 
 { #category : 'event handling' }
-ToListNodeEventHandler >> nodeHolderDeselectedEvent: anEvent [
+ToListNodeEventHandler >> listNodeHolderDeselectedEvent: anEvent [
 ]
 
 { #category : 'event handling' }
-ToListNodeEventHandler >> nodeHolderSelectedEvent: anEvent [
+ToListNodeEventHandler >> listNodeHolderSelectedEvent: anEvent [
 
 ]
 

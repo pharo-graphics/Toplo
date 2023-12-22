@@ -19,3 +19,12 @@ ToTooltipWindow >> initialize [
 	self fitContent.
 	self addEventHandler: ToTooltipWindowEventHandler new
 ]
+
+{ #category : 'skin' }
+ToTooltipWindow >> installRawStyle [
+
+	super installRawStyle.
+	self padding: (BlInsets
+			 horizontal: (self tokenValueNamed: #'padding-content-H')
+			 vertical: (self tokenValueNamed: #'padding-content-V'))
+]

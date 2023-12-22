@@ -11,3 +11,11 @@ ToLabelEditorWindow >> defaultElevation [
 
 	^ BlRelativeElevation elevation: (SmallInteger maxVal - 200)
 ]
+
+{ #category : 'skin' }
+ToLabelEditorWindow >> installRawStyle [ 
+
+	super installRawStyle.
+	self border: BlBorder empty.
+
+]

@@ -192,7 +192,7 @@ ToInfiniteElement >> initialize [
 	self matchParent
 ]
 
-{ #category : 'initialization' }
+{ #category : 'shortcuts installation' }
 ToInfiniteElement >> installShortcuts [
 
 	shortcuts := self primarySelection shortcutsIn: self.
@@ -232,7 +232,7 @@ ToInfiniteElement >> list: aList [
 ]
 
 { #category : 'instance creation' }
-ToInfiniteElement >> newElementHolderFromDataSource: aDataSource [
+ToInfiniteElement >> newListNodeHolderFromDataSource: aDataSource [
 
 	^ self holderClass new infiniteElement: self
 ]
@@ -477,7 +477,7 @@ ToInfiniteElement >> terminateClickLauncher [
 	clickLauncher := nil.
 ]
 
-{ #category : 'initialization' }
+{ #category : 'shortcuts installation' }
 ToInfiniteElement >> uninstallShortcuts [
 
 	shortcuts do: [ :s | self removeShortcut: s ].

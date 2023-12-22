@@ -35,8 +35,9 @@ ToMenuWindow >> includes: anElement [
 ToMenuWindow >> installRawStyle [
 
 	super installRawStyle.
-	self padding: (BlInsets all: 5).
-	self effect: (self tokenValueNamed: #'effect-window-menu')
+	self padding: (BlInsets
+			 horizontal: (self tokenValueNamed: #'padding-content-H')
+			 vertical: (self tokenValueNamed: #'padding-content-V'))
 ]
 
 { #category : 'accessing' }

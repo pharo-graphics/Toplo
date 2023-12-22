@@ -1127,10 +1127,10 @@ ToSandBox class >> example_ListWithPanes [
 				                 yourself.
 			        blContent := ToPaneNodeExample new.
 			        blContent
-				        when: ToNodeHolderSelectedEvent
+				        when: ToListNodeHolderSelectedEvent
 				        do: [ 'S' traceCr ].
 			        blContent
-				        when: ToNodeHolderDeselectedEvent
+				        when: ToListNodeHolderDeselectedEvent
 				        do: [ 'D' traceCr ].
 			        blContent addChild: title at: 1.
 			        blContent margin: (BlInsets all: 4).

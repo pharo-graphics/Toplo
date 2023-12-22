@@ -1,8 +1,8 @@
 Class {
 	#name : 'ToListElement',
-	#superclass : 'ToPane',
-	#traits : 'TToListElementDecorator',
-	#classTraits : 'TToListElementDecorator classTrait',
+	#superclass : 'ToElement',
+	#traits : 'TToListElementDecorator + TToElementWithPlaceholder',
+	#classTraits : 'TToListElementDecorator classTrait + TToElementWithPlaceholder classTrait',
 	#instVars : [
 		'selectionElements'
 	],
@@ -109,6 +109,12 @@ ToListElement >> isHorizontal [
 ToListElement >> isVertical [
 
 	^ self infinite layout isVertical
+]
+
+{ #category : 't - element with placeholder' }
+ToListElement >> newPlaceholder [
+
+	^ self placeholderClass new
 ]
 
 { #category : 'skin' }

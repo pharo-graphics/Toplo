@@ -31,6 +31,9 @@ ToListElementSelectionEventHandler >> adjacentSelectedNodesGroupsIn: aListElemen
 { #category : 'element handlers' }
 ToListElementSelectionEventHandler >> blurEvent: anEvent [
 
+	" Don't update the selection when the element is removed from the scene 
+	This is the case if the event reason is for element removal "
+	anEvent isDueToRemoval ifTrue: [ ^ self ].
 	self updatePrimarySelectionFromEvent: anEvent
 ]
 

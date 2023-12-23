@@ -45,6 +45,8 @@ ToAnchoredWindow >> checkBeforePopupEvent: anEvent [
 { #category : 'api - displaying' }
 ToAnchoredWindow >> close [
 
+	" if case one of my children has focus "
+	self element requestFocus.
 	super close.
 	self root removeChildren.
 	self dispatchClosedEvent

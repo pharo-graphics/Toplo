@@ -7,5 +7,9 @@ Class {
 }
 
 { #category : 'sending' }
+ToIntrinsicLookEventForTest >> fromState: aState [
+]
+
+{ #category : 'sending' }
 ToIntrinsicLookEventForTest >> sendTo: anElement [
 ]

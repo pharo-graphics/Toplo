@@ -39,6 +39,14 @@ ToRawSkinForTest >> closedLookEvent: anEvent [
 ]
 
 { #category : 'event handling' }
+ToRawSkinForTest >> deselectedLookEvent: anEvent [
+
+	super deselectedLookEvent: anEvent.
+	self addReceivedEvent: anEvent
+
+]
+
+{ #category : 'event handling' }
 ToRawSkinForTest >> disabledLookEvent: anEvent [
 
 	super disabledLookEvent: anEvent.
@@ -159,6 +167,14 @@ ToRawSkinForTest >> receivedEvents [
 ToRawSkinForTest >> releasedLookEvent: anEvent [
 
 	super releasedLookEvent: anEvent.
+	self addReceivedEvent: anEvent
+
+]
+
+{ #category : 'event handling' }
+ToRawSkinForTest >> selectedLookEvent: anEvent [
+
+	super selectedLookEvent: anEvent.
 	self addReceivedEvent: anEvent
 
 ]

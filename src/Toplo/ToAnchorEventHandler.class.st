@@ -25,13 +25,17 @@ ToAnchorEventHandler >> elementRemovedFromParentEvent: anEvent [
 { #category : 'element handlers' }
 ToAnchorEventHandler >> elementRemovedFromSceneGraphEvent: anEvent [
 
-	windowManager currentWindowDo: [:cw | cw close ]
+	windowManager currentWindowDo: [ :cw |
+		cw isOpened ifTrue: [ cw close ] ]
 ]
 
 { #category : 'api - accessing' }
-ToAnchorEventHandler >> eventsToHandle [ 
+ToAnchorEventHandler >> eventsToHandle [
 
-	^ { BlElementRemovedFromParentEvent. BlElementRemovedFromSceneGraphEvent. BlElementPositionInSpaceChangedEvent }
+	^ {
+		  BlElementRemovedFromParentEvent.
+		  BlElementRemovedFromSceneGraphEvent.
+		  BlElementPositionInSpaceChangedEvent }
 ]
 
 { #category : 'api - accessing' }

@@ -31,6 +31,10 @@ ToListElementEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
+	"target dispatchEvent: (ToListElementSelectionChangedEvent new
+			 newSelectedIndexes: target selectedIndexes;
+			 oldSelectedIndexes: target selectedIndexes;
+			 yourself)."
 	target data ifEmpty: [ ^ target showPlaceholder ].
 	target hidePlaceholder
 ]
@@ -53,11 +57,12 @@ ToListElementEventHandler >> eventsToHandle [
 { #category : 'infinite element events handling' }
 ToListElementEventHandler >> infiniteSelectionChangedEvent: anEvent [
 
-	anEvent currentTarget dispatchEvent:
-		(ToListElementSelectionChangedEvent new
+	| target |
+	target := anEvent currentTarget.
+	target dispatchEvent: (ToListElementSelectionChangedEvent new
 			 newSelectedIndexes: anEvent newSelectedIndexes;
 			 oldSelectedIndexes: anEvent oldSelectedIndexes;
-			 yourself)
+			 yourself).
 ]
 
 { #category : 'mouse handlers' }

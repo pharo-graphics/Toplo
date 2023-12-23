@@ -12,7 +12,11 @@ Class {
 { #category : 'api - accessing' }
 ToElementWithPopupEventHandler >> eventsToHandle [
 
-	^ super eventsToHandle , { BlMouseUpEvent. BlMouseDownEvent. BlMouseUpOutsideEvent .  BlElementRemovedFromParentEvent }
+	^ super eventsToHandle , {
+		  BlMouseUpEvent.
+		  BlMouseDownEvent.
+		  BlMouseUpOutsideEvent.
+		  BlElementRemovedFromParentEvent }
 ]
 
 { #category : 'mouse handlers' }

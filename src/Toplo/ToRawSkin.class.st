@@ -25,6 +25,12 @@ ToRawSkin >> closedLookEvent: anEvent [
 ]
 
 { #category : 'event handling' }
+ToRawSkin >> deselectedLookEvent: anEvent [
+
+
+]
+
+{ #category : 'event handling' }
 ToRawSkin >> disabledLookEvent: anEvent [
 
 
@@ -114,6 +120,12 @@ ToRawSkin >> pressedLookEvent: anEvent [
 
 { #category : 'event handling' }
 ToRawSkin >> releasedLookEvent: anEvent [
+
+
+]
+
+{ #category : 'event handling' }
+ToRawSkin >> selectedLookEvent: anEvent [
 
 
 ]

@@ -167,6 +167,12 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty
 			   name: #'color-text-secondary'
 			   value: (Color black alpha: 0.45)).
+		(ToTokenProperty
+			   name: #'color-text-list-selection-focused'
+			   value: (Color white)).
+		(ToTokenProperty
+			   name: #'color-text-list-selection-unfocused'
+			   value: (Color blue)).
 		  (ToTokenProperty
 			   name: #'color-text-tooltip'
 			   value: (Color fromHexString: '#313339')).
@@ -244,6 +250,7 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty
 			   name: #'color-primary-selection-unfocused'
 			   value: self defaultColorPrimary veryMuchLighter).
+
 		  (ToTokenProperty name: #'border-width-primary-selection' value: 1).
 		  (ToTokenProperty
 			   name: #'border-color-primary-selection'

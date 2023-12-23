@@ -129,7 +129,8 @@ ToSkinStateGenerator >> eventsToHandle [
 		  BlMouseEnterEvent.
 		  BlMouseLeaveEvent.
 		  ToWindowOpenedEvent.
-		  ToWindowClosedEvent }
+		  ToWindowClosedEvent.
+		  ToListNodeSelectionEvent }
 ]
 
 { #category : 'focus events handling' }
@@ -141,9 +142,9 @@ ToSkinStateGenerator >> focusEvent: anEvent [
 { #category : 'state generating' }
 ToSkinStateGenerator >> generateCheckStateFromEvent: anEvent [
 
-	target enqueueSkinState: (ToCheckState new
+	target withAllChildrenBreadthFirstDo: [ :child | child enqueueSkinState: (ToCheckState new
 			 checked: anEvent current
-			 yourself)
+			 yourself) ]
 
 ]
 
@@ -223,6 +224,16 @@ ToSkinStateGenerator >> generateReleasedStateFromEvent: anEvent [
 ]
 
 { #category : 'state generating' }
+ToSkinStateGenerator >> generateSelectionStateFromEvent: anEvent [
+
+	target withAllChildrenBreadthFirstDo: [ :child |
+		child enqueueSkinState: (ToSelectionState new
+				 selected: anEvent selected;
+				 focused: anEvent listElement infinite isFocused;
+				 yourself) ]
+]
+
+{ #category : 'state generating' }
 ToSkinStateGenerator >> generateStillHoveredStateFromEvent: anEvent [
 
 	self enqueueTransientStateFromLookEvent: (ToStillHoveredLookEvent sourceEvent: anEvent)
@@ -258,6 +269,12 @@ ToSkinStateGenerator >> keyDownEvent: anEvent [
 
 { #category : 'keyboard handlers' }
 ToSkinStateGenerator >> keyUpEvent: anEvent [
+]
+
+{ #category : 'list selection' }
+ToSkinStateGenerator >> listNodeSelectionEvent: anEvent [
+
+	self generateSelectionStateFromEvent: anEvent
 ]
 
 { #category : 'mouse handlers' }

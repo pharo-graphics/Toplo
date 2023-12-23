@@ -14,7 +14,7 @@ ToOverlayedEventHandler >> elementExtentChangedEvent: anEvent [
 ]
 
 { #category : 'api - accessing' }
-ToOverlayedEventHandler >> eventsToHandle [ 
+ToOverlayedEventHandler >> eventsToHandle [
 
 	^ super eventsToHandle , { BlElementExtentChangedEvent }
 ]

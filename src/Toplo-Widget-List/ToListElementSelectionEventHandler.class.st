@@ -1,6 +1,11 @@
 Class {
 	#name : 'ToListElementSelectionEventHandler',
 	#superclass : 'BlCustomEventHandler',
+	#instVars : [
+		'previousNodesArray',
+		'previousSelectedIndexes',
+		'wasFocused'
+	],
 	#category : 'Toplo-Widget-List-Selection',
 	#package : 'Toplo-Widget-List',
 	#tag : 'Selection'
@@ -26,9 +31,7 @@ ToListElementSelectionEventHandler >> adjacentSelectedNodesGroupsIn: aListElemen
 { #category : 'element handlers' }
 ToListElementSelectionEventHandler >> blurEvent: anEvent [
 
-	anEvent currentTarget selectionElements do: [ :d |
-		d focused: false.
-		d dispatchEvent: (anEvent copy consumed: false) ]
+	self updatePrimarySelectionFromEvent: anEvent
 ]
 
 { #category : 'element handlers' }
@@ -58,9 +61,7 @@ ToListElementSelectionEventHandler >> eventsToHandle [
 { #category : 'element handlers' }
 ToListElementSelectionEventHandler >> focusEvent: anEvent [
 
-	anEvent currentTarget selectionElements do: [ :d |
-		d focused: true.
-		d dispatchEvent: (anEvent copy consumed: false) ]
+	self updatePrimarySelectionFromEvent: anEvent
 ]
 
 { #category : 'element handlers' }
@@ -72,15 +73,32 @@ ToListElementSelectionEventHandler >> listElementSelectionChangedEvent: anEvent 
 { #category : 'element handlers' }
 ToListElementSelectionEventHandler >> listSelectionElementUpdatedEvent: anEvent [
 
-	| target focusEventClass |
+	| target nodesArray selectedIndexes focused |
 	target := anEvent currentTarget.
-	focusEventClass := target infinite isFocused
-		                   ifTrue: [ BlFocusEvent ]
-		                   ifFalse: [ BlBlurEvent ].
-	target selectionElements do: [ :d |
-		d focused: target infinite isFocused.
-		d dispatchEvent: (focusEventClass new
-				 yourself) ]
+
+	nodesArray := target infinite children asArray.
+	selectedIndexes := target infinite selectedIndexes.
+	focused := target infinite isFocused.
+	
+	" ** important note **
+	do not send unnecessary event here. 
+	If not then the consequence is an infinite layout request loop. 
+	(which would be normal since dispatching a node change event 
+	implies the skin application which implies a layout request somewhere... ) "
+	
+	(previousNodesArray = nodesArray and: [
+		 previousSelectedIndexes = selectedIndexes and: [
+			 wasFocused = focused ] ]) ifTrue: [ ^ self ].
+	wasFocused := focused.
+	previousNodesArray := nodesArray.
+	previousSelectedIndexes := selectedIndexes.
+	
+	" Ok, the state of the infinite has changed "
+	
+	nodesArray do: [ :node |
+		node dispatchEvent: (ToListNodeSelectionEvent new
+				 listElement: target;
+				 selected: (selectedIndexes includes: node holder position)) ]
 ]
 
 { #category : 'selection managing' }
@@ -101,7 +119,8 @@ ToListElementSelectionEventHandler >> updatePrimarySelectionFromEvent: anEvent [
 
 	| newSelectionElements target |
 	target := anEvent currentTarget.
-	target selectionElements do: [ :d | d removeFromParent ].
+	target selectionElements do: [ :s |
+		s removeFromParent ].
 	newSelectionElements := self newPrimarySelectionElementsFromEvent: anEvent.
 	target addChildren: newSelectionElements.
 	target selectionElements: newSelectionElements.

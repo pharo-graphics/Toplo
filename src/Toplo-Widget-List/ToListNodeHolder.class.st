@@ -65,6 +65,9 @@ ToListNodeHolder >> node: aNode [
 { #category : 'accessing' }
 ToListNodeHolder >> onAttachedFromDatasource: aDataSource [
 
+
+	self flag: 'Sould be changed because all these handlers here is a mess '.
+
 	clickHandler := BlEventHandler
 		                on: ToClickOnListNodeEvent
 		                do: [ :event | infiniteElement whenClickOnNodeEvent: event ].
@@ -81,10 +84,9 @@ ToListNodeHolder >> onAttachedFromDatasource: aDataSource [
 	infiniteElement primarySelection addEventHandler: deselectHandler.
 	infiniteElement primarySelection addEventHandler: selectHandler.
 
-	" when holder is attached it can be already selected (as an example with a selectAll) "
-	"Selection must be preserved "
-	self isSelected ifFalse: [ ^ self ].
-	self selected: true
+	" Selection model: when holder is attached the hold data can be selected 
+	( example: selectAll -> the selection model select all indexes ) "
+	self selected: self isSelected
 ]
 
 { #category : 'accessing' }
@@ -104,8 +106,14 @@ ToListNodeHolder >> onDetachedFromDatasource: aDataSource [
 ToListNodeHolder >> selected: aBoolean [
 
 	aBoolean
-		ifTrue: [ self node dispatchEvent: (ToListNodeHolderSelectedEvent new holder: self; yourself) ]
-		ifFalse: [ self node dispatchEvent: (ToListNodeHolderDeselectedEvent new holder: self; yourself) ]
+		ifTrue: [
+			self node dispatchEvent: (ToListNodeHolderSelectedEvent new
+					 holder: self;
+					 yourself) ]
+		ifFalse: [
+			self node dispatchEvent: (ToListNodeHolderDeselectedEvent new
+					 holder: self;
+					 yourself) ]
 ]
 
 { #category : 'selection - handling' }

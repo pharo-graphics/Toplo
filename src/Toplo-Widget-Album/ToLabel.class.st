@@ -91,12 +91,6 @@ ToLabel >> defaultEventHandler [
 ]
 
 { #category : 'initialization' }
-ToLabel >> defaultLayout [ 
-
-	^ BlFrameLayout new
-]
-
-{ #category : 'initialization' }
 ToLabel >> defaultLineMode [
 
 	^ ToLabelMonoLineMode new
@@ -219,28 +213,6 @@ ToLabel >> innerElement: anInnerElement [
 	self addChild: innerElement
 ]
 
-{ #category : 'skin' }
-ToLabel >> installRawStyle [
-
-	super installRawStyle.
-	self 
-		weight: (self tokenValueNamed: #'font-weight-strong');
-		defaultFontName: (self tokenValueNamed: #'font-family-code');
-		defaultFontSize: (self tokenValueNamed: #'font-size');
-		lineSpacing: (self tokenValueNamed: #'line-height');
-		foreground: (self tokenValueNamed: #'color-text').
-	(self hasStamp: #tooltip) ifTrue: [
-		self 
-			foreground: (self tokenValueNamed: #'color-text-tooltip');
-			defaultFontSize: (self tokenValueNamed: #'font-size-tooltip') ].
-	self isDisabled ifTrue: [
-		self foreground:
-			(self tokenValueNamed: #'color-text-disabled') ].
-	self hasText ifFalse: [ ^ self ].
-	self applyAttributesBuilder.
-	self textChanged
-]
-
 { #category : 'accessing' }
 ToLabel >> isEditable [
 
@@ -310,6 +282,12 @@ ToLabel >> newEditor [
 ToLabel >> newEditorFrameEvent: anEvent [
 
 	^  frameManager newWindowEvent: anEvent
+]
+
+{ #category : 'skin' }
+ToLabel >> newRawSkin [ 
+
+	^ ToLabelSkin new
 ]
 
 { #category : 'private-change' }

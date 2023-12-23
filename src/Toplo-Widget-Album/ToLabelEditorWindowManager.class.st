@@ -24,7 +24,7 @@ ToLabelEditorWindowManager >> initialize [
 		label := request currentTarget.
 		ed := label newEditor.
 		anchWin root addChild: ed.
-		ed text: label text copy ]
+		ed text: label text asString ]
 ]
 
 { #category : 'accessing' }

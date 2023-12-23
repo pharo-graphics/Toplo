@@ -23,14 +23,13 @@ ToListClassNodeExample >> forClassNameAssoc: aClassNameAssoc [
 		margin: (BlInsets all: 1);
 		padding: (BlInsets all: 1);
 		beEditable;
-		stillPressedStartDelay: 800 milliSeconds;
+		stillPressedStartDelay: 400 milliSeconds;
 		addEventHandler: (BlEventHandler
 				 on: ToStillPressedLookEvent
 				 do: [ :event |
 					 event consumed: true.
 					 event currentTarget addEditorEvent: event ]);
 		whenTextReplacedDo: [ self holder data value: label text asString ].
-
 
 	self addChild: (ToLabeledIcon new
 			 label: label;

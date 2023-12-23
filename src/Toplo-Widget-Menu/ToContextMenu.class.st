@@ -41,6 +41,7 @@ ToContextMenu >> close [
 { #category : 't - menu window model' }
 ToContextMenu >> closeWindow [
 
+	self isOpened ifFalse: [ ^ self ].
 	self close
 ]
 

@@ -125,8 +125,13 @@ ToInfiniteElement >> dispatchSelectionChangedAfter: aBlock [
 	prevIndexes := self primarySelectionIndexes copy.
 	aBlock value.
 	currentIndexes := self primarySelectionIndexes.
+	prevIndexes := prevIndexes reject: [ :idx |
+		               currentIndexes includes: idx ].
 	prevIndexes = currentIndexes ifTrue: [ ^ self ].
-	self dispatchEvent: (ToInfiniteSelectionChangedEvent from: prevIndexes to: currentIndexes)
+	self dispatchEvent:
+		(ToInfiniteSelectionChangedEvent
+			 from: prevIndexes
+			 to: currentIndexes)
 ]
 
 { #category : 'selection events' }
@@ -205,32 +210,6 @@ ToInfiniteElement >> isSelectedAtIndex: anIndex [
 	^ self primarySelection includes: anIndex
 ]
 
-{ #category : 'accessing' }
-ToInfiniteElement >> list [
-
-	self
-		deprecated: 'Please use #data instead.'
-		transformWith:
-			'`@receiver list'
-				-> '`@receiver data'.
-
-	^ self data
-
-]
-
-{ #category : 'accessing' }
-ToInfiniteElement >> list: aList [
-
-	self
-		deprecated: 'Please use #privateData: instead.'
-		transformWith:
-			'`@receiver list: `@statements1'
-				-> '`@receiver privateData: `@statements1'.
-
-	self privateData: aList
-
-]
-
 { #category : 'instance creation' }
 ToInfiniteElement >> newListNodeHolderFromDataSource: aDataSource [
 
@@ -240,7 +219,8 @@ ToInfiniteElement >> newListNodeHolderFromDataSource: aDataSource [
 { #category : 'accessing' }
 ToInfiniteElement >> nodeAt: anIndex [
 
-	" return the holder for the data at anIndex according to currently viewed data range. Returns nil if anIndex is not currently viewed in the infinite element"
+	" return the holder for the data at anIndex according to currently viewed data range. 
+	Returns nil if anIndex is not currently viewed in the infinite element"
 	^ (self findElementHolderForDataSourcePosition: anIndex)
 		  ifNotNil: [ :holder | holder itemElement ]
 		  ifNil: [  ]
@@ -487,13 +467,17 @@ ToInfiniteElement >> uninstallShortcuts [
 { #category : 'dispatching' }
 ToInfiniteElement >> whenChildAttachedDo: aBlock [
 
-	self when: BlInfiniteElementAttachedEvent do: aBlock
+	self addEventHandler: (BlEventHandler
+			 on: BlInfiniteElementAttachedEvent
+			 do: aBlock)
 ]
 
 { #category : 'dispatching' }
 ToInfiniteElement >> whenChildDetachedDo: aBlock [
 
-	self when: BlInfiniteElementDetachedEvent do: aBlock
+	self addEventHandler: (BlEventHandler
+			 on: BlInfiniteElementDetachedEvent
+			 do: aBlock)
 ]
 
 { #category : 'selection events' }

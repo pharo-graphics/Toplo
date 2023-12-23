@@ -22,4 +22,6 @@ ToImplicitState >> lookEventClass [
 ToImplicitState >> newLookEvent [
 
 	^ self lookEventClass new
+		  fromState: self;
+		  yourself
 ]

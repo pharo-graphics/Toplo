@@ -121,7 +121,7 @@ ToListElementContextMenuSelectionEventHandler >> listElementContextMenuSelection
 { #category : 'element handlers' }
 ToListElementContextMenuSelectionEventHandler >> listSelectionElementUpdatedEvent: anEvent [
 
-	anEvent currentTarget currentContextMenu ifNotNil: [ :win | win close ].
+	anEvent currentTarget currentContextMenu ifNotNil: [ :win | win isOpened ifTrue: [win close ] ].
 	self removeContextMenuSelectionIn: anEvent currentTarget.
 ]
 

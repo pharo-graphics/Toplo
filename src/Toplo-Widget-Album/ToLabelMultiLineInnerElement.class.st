@@ -81,7 +81,7 @@ ToLabelMultiLineInnerElement >> newLineElement [
 { #category : 'private - text splitting' }
 ToLabelMultiLineInnerElement >> newTextElement [
 
-	^ BlAttributedTextElement new labelMeasurement
+	^ BlTextElement new labelMeasurement
 ]
 
 { #category : 'layout' }

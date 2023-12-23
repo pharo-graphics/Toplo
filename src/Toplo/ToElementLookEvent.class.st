@@ -12,6 +12,10 @@ ToElementLookEvent >> elementDo: aBlock [
 	aBlock value: self target
 ]
 
+{ #category : 'instance creation' }
+ToElementLookEvent >> fromState: aState [
+]
+
 { #category : 'sending' }
 ToElementLookEvent >> sendTo: anObject [
 

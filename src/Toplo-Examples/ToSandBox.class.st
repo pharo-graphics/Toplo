@@ -914,6 +914,7 @@ ToSandBox class >> example_ListWithAllClasses3 [
 	l addEventHandler: (BlEventHandler
 			 on: ToListElementSelectionChangedEvent
 			 do: [ :evt | evt traceCr ]).
+
 	l data addAll: Smalltalk globals allClasses.
 	l withRowNumbers.
 	l infinite requestFocus.
@@ -1126,18 +1127,19 @@ ToSandBox class >> example_ListWithPanes [
 				                 padding: (BlInsets all: 1);
 				                 yourself.
 			        blContent := ToPaneNodeExample new.
-			        blContent
-				        when: ToListNodeHolderSelectedEvent
-				        do: [ 'S' traceCr ].
-			        blContent
-				        when: ToListNodeHolderDeselectedEvent
-				        do: [ 'D' traceCr ].
+			        blContent addEventHandler: (BlEventHandler
+					         on: ToListNodeHolderSelectedEvent
+					         do: [ 'S' traceCr ]).
+			        blContent addEventHandler: (BlEventHandler
+					         on: ToListNodeHolderDeselectedEvent
+					         do: [ 'D' traceCr ]).
 			        blContent addChild: title at: 1.
 			        blContent margin: (BlInsets all: 4).
 			        blContent padding: (BlInsets all: 12).
-			        blContent geometry: (BlRoundedRectangleGeometry cornerRadius: 6).
+			        blContent geometry:
+				        (BlRoundedRectangleGeometry cornerRadius: 6).
 			        blContent border: (BlBorder paint: Color lightGray).
-			        node addChild: (blContent) ].
+			        node addChild: blContent ].
 	list data addAll: (1 to: 1000).
 	list openInSpace
 ]

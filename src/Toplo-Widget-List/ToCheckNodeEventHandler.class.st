@@ -10,12 +10,12 @@ Class {
 ToCheckNodeEventHandler >> listNodeHolderDeselectedEvent: anEvent [
 
 	super listNodeHolderDeselectedEvent: anEvent.
-	anEvent currentTarget uncheck
+	anEvent currentTarget uncheck.
 ]
 
 { #category : 'event handling' }
 ToCheckNodeEventHandler >> listNodeHolderSelectedEvent: anEvent [
 
 	super listNodeHolderSelectedEvent: anEvent.
-	anEvent currentTarget check
+	anEvent currentTarget check.
 ]

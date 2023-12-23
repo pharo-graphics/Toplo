@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToContextMenuRequest',
-	#superclass : 'ToWindowRequest',
+	#superclass : 'ToWindowOpenRequest',
 	#category : 'Toplo-Widget-Menu-Context menu',
 	#package : 'Toplo-Widget-Menu',
 	#tag : 'Context menu'

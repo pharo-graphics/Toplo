@@ -9,10 +9,11 @@ Class {
 { #category : 'initialization' }
 ToLabelEditorWindowManager >> defaultPositionHook [
 
-	^ [ :event :theLabel |
-				(theLabel innerElement bounds inParent: self anchorRoot) bounds topLeft
-				- (theLabel editor padding left
-					 @ theLabel editor padding top) ]
+	^ [ :theWindow :theLabel :event |
+	  theWindow position:
+		  (theLabel innerElement bounds inParent: self anchorRoot) bounds
+			  topLeft - theLabel editor padding left
+		  @ theLabel editor padding top ]
 ]
 
 { #category : 'initialization' }

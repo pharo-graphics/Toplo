@@ -80,10 +80,7 @@ ToSelect >> initialize [
 	filler := self newFiller.
 	iconHolder := self newIconHolder.
 	self addChildren: { contentElement. filler. iconHolder }.
-	windowManager := ToSelectWindowManager new element: self.
-	windowManager widthHook: [ :theWindow :theElement |
-		theElement measuredWidth ].
-	windowManager heightHook: [ :theWindow :theElement | 400 ]
+	windowManager := ToSelectWindowManager new element: self
 ]
 
 { #category : 'accessing' }

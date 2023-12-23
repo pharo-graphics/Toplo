@@ -99,7 +99,7 @@ ToContextMenu >> openedEventClass [
 	^ ToContextMenuOpenedEvent 
 ]
 
-{ #category : 'api - displaying' }
+{ #category : 't - menu window model' }
 ToContextMenu >> popupEvent: anEvent [
 
 	^ super popupEvent: anEvent

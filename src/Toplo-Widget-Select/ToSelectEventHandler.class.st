@@ -10,8 +10,7 @@ ToSelectEventHandler >> elementExtentChangedEvent: anEvent [
 
 	windowManager currentWindow ifNil: [ ^ self ].
 	windowManager applyPositionHookFromEvent: anEvent.
-	windowManager applyWidthHookFromEvent: anEvent.
-	windowManager applyHeightHookFromEvent: anEvent
+	windowManager applySizeHookFromEvent: anEvent
 ]
 
 { #category : 'api - accessing' }

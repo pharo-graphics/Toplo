@@ -2123,9 +2123,8 @@ ToSandBox class >> example_overlayWindow2 [
 		     size: 100 @ 100;
 		     position: 50 @ 50.
 	windowHandler := ToOverlayWindowManager new.
-	windowHandler positionHook: [ :event :theElement| theElement bounds inSpace bounds topLeft + (20 @ 40) ].
-	windowHandler widthHook: [ :event :theElement|  theElement measuredWidth - 40 ].
-	windowHandler heightHook: [ :event :theElement|  theElement measuredHeight - 60 ].
+	windowHandler positionHook: [ :theWindow :theElement :event | theWindow position: theElement bounds inSpace bounds topLeft + (20 @ 40) ].
+	windowHandler sizeHook: [ :theWindow :theElement :event | theWindow size: (theElement measuredWidth - 40) @ (theElement measuredHeight - 60)].
 	windowHandler element: e.
 	windowHandler builder: [ :anchWin :element |
 		anchWin background: (Color gray alpha: 0.2).
@@ -2288,6 +2287,20 @@ ToSandBox class >> example_selectReadOnly [
 	select width: 300.
 	select position: 50@50.
 	select data addAll: self statesOfAmerica.
+	innerWindow pane addChild: select.
+	innerWindow openInSpace 
+]
+
+{ #category : 'select' }
+ToSandBox class >> example_selectWith5Nodes [
+
+	| select innerWindow |
+	select := ToSelect new.
+	innerWindow := ToInnerWindow new.
+	select windowManager anchorRoot: innerWindow root.
+	select width: 300.
+	select position: 50@50.
+	select data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	innerWindow pane addChild: select.
 	innerWindow openInSpace 
 ]

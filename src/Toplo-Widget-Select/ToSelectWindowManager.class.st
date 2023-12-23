@@ -2,7 +2,8 @@ Class {
 	#name : 'ToSelectWindowManager',
 	#superclass : 'ToPopupWindowManager',
 	#instVars : [
-		'listElement'
+		'listElement',
+		'maxHeight'
 	],
 	#category : 'Toplo-Widget-Select',
 	#package : 'Toplo-Widget-Select'
@@ -15,9 +16,16 @@ ToSelectWindowManager >> data [
 ]
 
 { #category : 'initialization' }
-ToSelectWindowManager >> defaultWidthtHook [
+ToSelectWindowManager >> defaultMaxHeight [
 
-	^ [ :event :theElement | theElement measuredWidth ]
+	^ 200
+]
+
+{ #category : 'initialization' }
+ToSelectWindowManager >> defaultSizeHook [
+
+	^ [ :theWindow :theElement :event |
+	  theWindow width: theElement measuredWidth  ]
 ]
 
 { #category : 'accessing' }
@@ -30,12 +38,16 @@ ToSelectWindowManager >> elementEventHandlerClass [
 ToSelectWindowManager >> initialize [ 
 
 	super initialize.
-	listElement := ToListElement new matchParent.
+	maxHeight := self defaultMaxHeight.
+	listElement := ToListElement new vFitContent; hMatchParent.
+	listElement infinite maxHeight: self maxHeight.
+	listElement infinite vFitContent.
 	listElement addEventHandler: (BlEventHandler
 			 on: ToListElementSelectionChangedEvent
 			 do: [ :evt | evt sendTo: self  ]).
 	self builder: [ :selectWin :request | 
-		selectWin root matchParent.
+		selectWin root hMatchParent.
+		selectWin root vFitContent.
 		selectWin root addChild: self listElement ].
 ]
 
@@ -49,4 +61,26 @@ ToSelectWindowManager >> listElement [
 ToSelectWindowManager >> listElementSelectionChangedEvent: anEvent [
 
 	self element selectIndexes: anEvent newSelectedIndexes
+]
+
+{ #category : 'accessing' }
+ToSelectWindowManager >> maxHeight [
+
+	^ maxHeight
+]
+
+{ #category : 'accessing' }
+ToSelectWindowManager >> maxHeight: anInteger [
+
+	maxHeight := anInteger
+]
+
+{ #category : 'window handling' }
+ToSelectWindowManager >> onCloseRequest [
+
+	super onCloseRequest.
+	" if case one of my children has focus "
+	self element requestFocus.
+
+
 ]

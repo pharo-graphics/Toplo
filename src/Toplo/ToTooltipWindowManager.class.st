@@ -18,9 +18,9 @@ ToTooltipWindowManager >> defaultPopupDelay [
 { #category : 'initialization' }
 ToTooltipWindowManager >> defaultPositionHook [
 
-	^ [ :event :theElement| 
-	  event position x
-	  @ (theElement localPointToGlobal: 0 @ theElement height) y + self vgap ]
+	^ [ :theWindow :theElement :event |
+	  theWindow position: (event position x)
+		  @ ((theElement localPointToGlobal: 0 @ theElement height) y + self vgap) ]
 ]
 
 { #category : 'accessing' }

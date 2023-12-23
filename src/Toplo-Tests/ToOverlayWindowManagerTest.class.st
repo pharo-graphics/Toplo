@@ -10,7 +10,7 @@ Class {
 }
 
 { #category : 'tests' }
-ToOverlayWindowManagerTest >> testDefaultHeightHook [
+ToOverlayWindowManagerTest >> testDefaultSizeHook [
 
 	| e windowManager win |
 	e := ToElement new.
@@ -19,28 +19,11 @@ ToOverlayWindowManagerTest >> testDefaultHeightHook [
 	e size: 10 asPoint.
 	windowManager := ToOverlayWindowManager new.
 	windowManager element: e.
-	self assert: (windowManager defaultHeightHook isKindOf: BlockClosure).
+	self assert: (windowManager defaultSizeHook isKindOf: BlockClosure).
 	win := windowManager newWindowEvent: nil.
 	win popup.
 	self waitTestingSpaces.
-	self assert: win bounds inSpace height equals: e bounds inSpace height
-]
-
-{ #category : 'tests' }
-ToOverlayWindowManagerTest >> testDefaultWidthHook [
-
-	| e windowManager win |
-	e := ToElement new.
-	space root addChild: e.
-	e position: 10 asPoint.
-	e size: 10 asPoint.
-	windowManager := ToOverlayWindowManager new.
-	windowManager element: e.
-	self assert: (windowManager defaultWidthHook isKindOf: BlockClosure).
-	win := windowManager newWindowEvent: nil.
-	win popup.
-	self waitTestingSpaces.
-	self assert: win bounds inSpace width equals: e bounds inSpace width
+	self assert: win bounds inSpace extent equals: e bounds inSpace extent
 ]
 
 { #category : 'tests' }

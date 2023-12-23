@@ -33,9 +33,23 @@ ToAnchorEventHandler >> elementRemovedFromSceneGraphEvent: anEvent [
 ToAnchorEventHandler >> eventsToHandle [
 
 	^ {
+		  ToWindowCloseRequest.
+		  ToWindowClosedEvent.
 		  BlElementRemovedFromParentEvent.
 		  BlElementRemovedFromSceneGraphEvent.
 		  BlElementPositionInSpaceChangedEvent }
+]
+
+{ #category : 'event handling' }
+ToAnchorEventHandler >> windowCloseRequest: aRequest [
+
+	windowManager onCloseRequest
+]
+
+{ #category : 'event handling' }
+ToAnchorEventHandler >> windowClosedEvent: anEvent [
+
+	windowManager onWindowClosed 
 ]
 
 { #category : 'api - accessing' }

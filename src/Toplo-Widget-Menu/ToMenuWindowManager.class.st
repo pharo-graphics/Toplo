@@ -7,11 +7,12 @@ Class {
 }
 
 { #category : 'initialization' }
-ToMenuWindowManager >> defaultPositionHook [ 
+ToMenuWindowManager >> defaultPositionHook [
 
-	^ [ :event :theMenu | theMenu isSubmenu
-		  ifTrue: [ (theMenu bounds inParent: self anchorRoot) bounds topRight ]
-		  ifFalse: [ (theMenu bounds inParent: self anchorRoot) bounds bottomLeft ] ]
+	^ [ :window :theMenu :event |
+	  window position: (theMenu isSubmenu
+			   ifTrue: [ (theMenu bounds inParent: self anchorRoot) bounds topRight ]
+			   ifFalse: [ (theMenu bounds inParent: self anchorRoot) bounds bottomLeft ]) ]
 ]
 
 { #category : 'accessing' }

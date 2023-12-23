@@ -7,10 +7,8 @@ Class {
 		'element',
 		'builder',
 		'elementEventHandler',
-		'windowClosedHandler',
 		'positionHook',
-		'widthHook',
-		'heightHook'
+		'sizeHook'
 	],
 	#category : 'Toplo-Core-Window',
 	#package : 'Toplo',
@@ -29,27 +27,26 @@ ToAnchoredWindowManager >> anchorRoot: anElement [
 	anchorRoot := anElement
 ]
 
-{ #category : 'position hook' }
-ToAnchoredWindowManager >> applyHeightHookFromEvent: anEvent [
-
-	self currentWindow ifNil: [ Error signal: 'No current window' ].
-	self heightHook ifNil: [ ^ self ].
-	self currentWindow height: (self heightHook value: anEvent value: self element)
-]
-
-{ #category : 'position hook' }
+{ #category : 'bounds hook' }
 ToAnchoredWindowManager >> applyPositionHookFromEvent: anEvent [
 
-	self currentWindow ifNil: [ Error signal: 'No current window'. ].
-	self currentWindow position: (self positionHook value: anEvent value: self element)
+	self currentWindow ifNil: [ Error signal: 'No current window' ].
+	self positionHook ifNil: [ ^ self ].
+	self positionHook
+		value: self currentWindow
+		value: self element
+		value: anEvent
 ]
 
-{ #category : 'position hook' }
-ToAnchoredWindowManager >> applyWidthHookFromEvent: anEvent [
+{ #category : 'bounds hook' }
+ToAnchoredWindowManager >> applySizeHookFromEvent: anEvent [
 
 	self currentWindow ifNil: [ Error signal: 'No current window' ].
-	self widthHook ifNil: [ ^ self ].
-	self currentWindow width: (self widthHook value: anEvent value: self element)
+	self sizeHook ifNil: [ ^ self ].
+	self sizeHook
+			 value: self currentWindow
+			 value: self element
+			 value: anEvent
 ]
 
 { #category : 'accessing' }
@@ -92,19 +89,15 @@ ToAnchoredWindowManager >> defaultBuilder [
 ]
 
 { #category : 'initialization' }
-ToAnchoredWindowManager >> defaultHeightHook [
-
-	^ nil
-]
-
-{ #category : 'initialization' }
 ToAnchoredWindowManager >> defaultPositionHook [
 
-	^ [ :event :theElement| (theElement bounds inParent: self anchorRoot) bounds topLeft ]
+	^ [ :window :theElement :event |
+	  window position:
+		  (theElement bounds inParent: self anchorRoot) bounds topLeft ]
 ]
 
 { #category : 'initialization' }
-ToAnchoredWindowManager >> defaultWidthHook [
+ToAnchoredWindowManager >> defaultSizeHook [
 
 	^ nil
 ]
@@ -144,27 +137,12 @@ ToAnchoredWindowManager >> hasWindow [
 	^ self currentWindow notNil
 ]
 
-{ #category : 'accessing' }
-ToAnchoredWindowManager >> heightHook [
-	
-	^ heightHook
-]
-
-{ #category : 'accessing' }
-ToAnchoredWindowManager >> heightHook: aValuable [
-	
-	heightHook := aValuable.
-	self currentWindow ifNil: [  ^self ].
-	self applyHeightHookFromEvent: nil
-]
-
 { #category : 'initialization' }
 ToAnchoredWindowManager >> initialize [ 
 
 	super initialize.
 	self positionHook: self defaultPositionHook.
-	self heightHook: self defaultHeightHook.
-	self widthHook: self defaultWidthHook.
+	self sizeHook: self defaultSizeHook.
 	self builder: self defaultBuilder.
 
 	
@@ -194,11 +172,13 @@ ToAnchoredWindowManager >> newWindowEvent: anEvent [
 			 manager: self;
 			 yourself).
 	builder value: self currentWindow value: request.
-	windowClosedHandler := BlEventHandler
-		                       on: ToWindowClosedEvent
-		                       do: [ self onWindowClosed ].
-	self currentWindow addEventHandler: windowClosedHandler.
 	^ self currentWindow
+]
+
+{ #category : 'window handling' }
+ToAnchoredWindowManager >> onCloseRequest [
+
+	
 ]
 
 { #category : 'window handling' }
@@ -210,9 +190,7 @@ ToAnchoredWindowManager >> onWindowClosed [
 { #category : 'window handling' }
 ToAnchoredWindowManager >> onWindowRemoved [
 
-	self currentWindow removeEventHandler: windowClosedHandler.
 	self currentWindow root removeChildren.
-	windowClosedHandler := nil.
 	currentWindow manager: nil.
 	currentWindow := nil
 ]
@@ -244,21 +222,15 @@ ToAnchoredWindowManager >> removeWindow [
 { #category : 'accessing' }
 ToAnchoredWindowManager >> sizeHook [
 	
-	^ nil
+	^ sizeHook
 ]
 
 { #category : 'accessing' }
-ToAnchoredWindowManager >> widthHook [
+ToAnchoredWindowManager >> sizeHook: aValuable [
 	
-	^ widthHook
-]
-
-{ #category : 'accessing' }
-ToAnchoredWindowManager >> widthHook: aValuable [
-	
-	widthHook := aValuable.
-	self currentWindow ifNil: [  ^self ].
-	self applyWidthHookFromEvent: nil
+	sizeHook := aValuable.
+	self currentWindow ifNil: [ ^ self ].
+	self applySizeHookFromEvent: nil
 ]
 
 { #category : 'accessing' }
@@ -270,5 +242,5 @@ ToAnchoredWindowManager >> windowClass [
 { #category : 'accessing' }
 ToAnchoredWindowManager >> windowRequestClass [
 
-	^ ToWindowRequest 
+	^ ToWindowOpenRequest 
 ]

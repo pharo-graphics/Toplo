@@ -9,13 +9,13 @@ Class {
 	#tag : 'Core-Window'
 }
 
-{ #category : 'accessing' }
+{ #category : 'as yet unclassified' }
 ToWindowOpeningEvent >> sourceEvent [
 
 	^ sourceEvent
 ]
 
-{ #category : 'accessing' }
+{ #category : 'as yet unclassified' }
 ToWindowOpeningEvent >> sourceEvent: anEvent [
 
 	sourceEvent := anEvent

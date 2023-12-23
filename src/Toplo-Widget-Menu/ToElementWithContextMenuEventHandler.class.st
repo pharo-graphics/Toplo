@@ -6,6 +6,12 @@ Class {
 	#tag : 'Context menu'
 }
 
+{ #category : 'element handlers' }
+ToElementWithContextMenuEventHandler >> contextMenuClosedEvent: anEvent [
+
+	windowManager onWindowClosed 
+]
+
 { #category : 'event handling' }
 ToElementWithContextMenuEventHandler >> elementPositionInSpaceChangedEvent: anEvent [
 

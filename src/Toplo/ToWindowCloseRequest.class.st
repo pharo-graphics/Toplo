@@ -1,5 +1,5 @@
 Class {
-	#name : 'ToWindowClosedEvent',
+	#name : 'ToWindowCloseRequest',
 	#superclass : 'ToWindowClosingEvent',
 	#category : 'Toplo-Core-Window',
 	#package : 'Toplo',
@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'sending' }
-ToWindowClosedEvent >> sendTo: anObject [
+ToWindowCloseRequest >> sendTo: anObject [
 
-	anObject windowClosedEvent: self
+	anObject windowCloseRequest: self
 ]

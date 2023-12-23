@@ -17,39 +17,37 @@ ToAnchoredWindow >> anchorRoot [
 ]
 
 { #category : 'accessing' }
-ToAnchoredWindow >> applyHeightHookFromEvent: anEvent [
-
-	windowManager applyHeightHookFromEvent: anEvent
-]
-
-{ #category : 'accessing' }
 ToAnchoredWindow >> applyPositionHookFromEvent: anEvent [
 
 	windowManager applyPositionHookFromEvent: anEvent
 ]
 
 { #category : 'accessing' }
-ToAnchoredWindow >> applyWidthHookFromEvent: anEvent [
+ToAnchoredWindow >> applySizeHookFromEvent: anEvent [
 
-	windowManager applyWidthHookFromEvent: anEvent
+	windowManager applySizeHookFromEvent: anEvent
 ]
 
 { #category : 'api - displaying' }
 ToAnchoredWindow >> checkBeforePopupEvent: anEvent [
 
 	self applyPositionHookFromEvent: anEvent.
-	self applyWidthHookFromEvent: anEvent.
-	self applyHeightHookFromEvent: anEvent
+	self applySizeHookFromEvent: anEvent
 ]
 
 { #category : 'api - displaying' }
 ToAnchoredWindow >> close [
 
-	" if case one of my children has focus "
-	self element requestFocus.
+	self dispatchCloseRequest.
 	super close.
 	self root removeChildren.
 	self dispatchClosedEvent
+]
+
+{ #category : 'accessing' }
+ToAnchoredWindow >> closeRequestClass [
+
+	^ ToWindowCloseRequest 
 ]
 
 { #category : 'accessing' }
@@ -62,6 +60,16 @@ ToAnchoredWindow >> closedEventClass [
 ToAnchoredWindow >> defaultElevation [
 
 	^ BlRelativeElevation elevation: (SmallInteger maxVal - 900)
+]
+
+{ #category : 'api - displaying' }
+ToAnchoredWindow >> dispatchCloseRequest [
+
+	| event |
+	event := self closeRequestClass new.
+	self element ifNotNil: [:e | e dispatchEvent: event copy ].
+	self dispatchEvent: event.
+
 ]
 
 { #category : 'api - displaying' }
@@ -144,11 +152,9 @@ ToAnchoredWindow >> popupEvent: anEvent [
 	self checkBeforePopupEvent: anEvent.
 	self requestLayout.
 	popupTimestamp := DateAndTime now.
-	self whenLayoutedDoOnce: [
-		" I need to finalize my position as soon as my layout is up-to-date "
-		self toFront.
-		self visibility: BlVisibility visible. 
-		self dispatchOpenedEvent: anEvent ]
+	self toFront.
+	self visibility: BlVisibility visible. 
+	self dispatchOpenedEvent: anEvent
 ]
 
 { #category : 'accessing' }

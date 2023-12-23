@@ -6,15 +6,10 @@ Class {
 	#tag : 'Basic'
 }
 
-{ #category : 'api - accessing' }
-ToMenuEventHandler >> eventsToHandle [ 
-
-	^ super eventsToHandle, { ToWindowClosedEvent }
-]
-
 { #category : 'window handlers' }
 ToMenuEventHandler >> windowClosedEvent: anEvent [
-
+	
+	super windowClosedEvent: anEvent.
 	anEvent currentTarget items do: [ :child |
 		child removeFromParent ]
 ]

@@ -7,15 +7,10 @@ Class {
 }
 
 { #category : 'initialization' }
-ToOverlayWindowManager >> defaultHeightHook [
+ToOverlayWindowManager >> defaultSizeHook [
 
-	^ [ :event :theElement | theElement measuredHeight ]
-]
-
-{ #category : 'initialization' }
-ToOverlayWindowManager >> defaultWidthHook [
-
-	^ [ :event :theElement | theElement measuredWidth ]
+	^ [ :theWindow :theElement :event |
+	  theWindow size: theElement measuredWidth @ theElement measuredHeight ]
 ]
 
 { #category : 'accessing' }

@@ -1,7 +1,6 @@
 Class {
 	#name : 'ToSelect',
 	#superclass : 'ToPane',
-	#classTraits : '{} + TraitedClass',
 	#instVars : [
 		'windowManager',
 		'truc',

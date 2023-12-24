@@ -12,7 +12,7 @@ To install the latest version of Toplo in Pharo you just need to execute the fol
 ```Smalltalk
 EpMonitor disableDuring: [
   Author useAuthor: 'Load' during: [
-    [ Metacello new baseline: 'Toplo'; repository: 'github://plantec/Toplo:SteelSheet/src';
+    [ Metacello new baseline: 'Toplo'; repository: 'github://plantec/Toplo:main/src';
         onConflictUseIncoming;
         ignoreImage;
         load.
@@ -24,7 +24,7 @@ EpMonitor disableDuring: [
 To add in your project BaselineOf:
 
 ```Smalltalk
-spec baseline: 'Toplo' with: [ spec repository: 'github://plantec/Toplo:SteelSheet/src' ].
+spec baseline: 'Toplo' with: [ spec repository: 'github://plantec/Toplo:main/src' ].
 ```
 
 ## Look and Feel features (work in progress)

@@ -1,6 +1,6 @@
 Class {
-	#name : 'ToSelectNode',
-	#superclass : 'ToElement',
+	#name : #ToSelectNode,
+	#superclass : #ToElement,
 	#instVars : [
 		'selectHolder',
 		'startContainer',
@@ -8,11 +8,10 @@ Class {
 		'endContainer',
 		'removable'
 	],
-	#category : 'Toplo-Widget-Select',
-	#package : 'Toplo-Widget-Select'
+	#category : #'Toplo-Widget-Select'
 }
 
-{ #category : 'private configurating' }
+{ #category : #'private configurating' }
 ToSelectNode >> addRemoveButton [
 
 	| but | 
@@ -38,25 +37,25 @@ ToSelectNode >> addRemoveButton [
 	self endContainer addChild: but
 ]
 
-{ #category : 'configurating' }
+{ #category : #configurating }
 ToSelectNode >> beRemovable [
 
 	self removable: true
 ]
 
-{ #category : 'configurating' }
+{ #category : #configurating }
 ToSelectNode >> beUnremovable [
 
 	self removable: false
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectNode >> endContainer [
 
 	^ endContainer
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToSelectNode >> initialize [
 
 	super initialize.
@@ -91,25 +90,25 @@ ToSelectNode >> initialize [
 	self fitContent
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ToSelectNode >> isRemovable [
 
 	^ removable
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectNode >> middleContainer [
 
 	^ middleContainer
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectNode >> removable [
 
 	^ removable 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectNode >> removable: aBoolean [
 
 	removable = aBoolean ifTrue: [ ^ self ].
@@ -119,7 +118,7 @@ ToSelectNode >> removable: aBoolean [
 	
 ]
 
-{ #category : 'private configurating' }
+{ #category : #'private configurating' }
 ToSelectNode >> removeRemoveButton [
 
 	| but |
@@ -127,19 +126,19 @@ ToSelectNode >> removeRemoveButton [
 	but removeFromParent
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectNode >> selectHolder [
 
 	^ selectHolder 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectNode >> selectHolder: aSelectNodeHolder [
 
 	selectHolder := aSelectNodeHolder
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectNode >> startContainer [
 
 	^ startContainer

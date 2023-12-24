@@ -1,9 +1,9 @@
 Class {
-	#name : 'ToSelect',
-	#superclass : 'ToPane',
+	#name : #ToSelect,
+	#superclass : #ToPane,
+	#classTraits : '{} + TraitedClass',
 	#instVars : [
 		'windowManager',
-		'truc',
 		'iconHolder',
 		'icon',
 		'filler',
@@ -12,29 +12,28 @@ Class {
 		'nodeBuilder',
 		'nodeHolders'
 	],
-	#category : 'Toplo-Widget-Select',
-	#package : 'Toplo-Widget-Select'
+	#category : #'Toplo-Widget-Select'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelect >> contentElement [
 
 	^ contentElement 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelect >> currentSelectContentElement [
 
 	^ self contentElement childWithId: #'select-content' ifNone: [  ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelect >> data [
 
 	^ self listElement data
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToSelect >> defaultNodeBuilder [
 
 	^ [ :aSelectNode :aNodeHolder |
@@ -42,19 +41,19 @@ ToSelect >> defaultNodeBuilder [
 	  aSelectNode middleContainer addChild: (ToLabel text: aNodeHolder data asString) ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelect >> filler [ 
 
 	^ filler
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelect >> icon [
 
 	^ icon
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelect >> icon: anElement [
 
 	anElement = self icon ifTrue: [ ^ self ].
@@ -64,13 +63,13 @@ ToSelect >> icon: anElement [
 	self iconHolder addChild: anElement
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelect >> iconHolder [
 
 	^ iconHolder
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToSelect >> initialize [
 
 	super initialize.
@@ -85,19 +84,19 @@ ToSelect >> initialize [
 	windowManager := ToSelectWindowManager new element: self
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelect >> listElement [
 
 	^ self windowManager listElement
 ]
 
-{ #category : 't - infinite accessing' }
+{ #category : #'t - infinite accessing' }
 ToSelect >> listNodeBuilder: aNodeFactory [
 
 	self listElement nodeBuilder: aNodeFactory
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToSelect >> newContentElement [
 
 	^ ToElement new
@@ -108,7 +107,7 @@ ToSelect >> newContentElement [
 		  yourself
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToSelect >> newFiller [
 
 	^ ToElement new
@@ -117,7 +116,7 @@ ToSelect >> newFiller [
 		  yourself
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToSelect >> newIconHolder [
 
 	^ ToElement new
@@ -128,25 +127,25 @@ ToSelect >> newIconHolder [
 		  yourself
 ]
 
-{ #category : 'accessing selection' }
+{ #category : #'accessing selection' }
 ToSelect >> newNode [
 
 	^ self nodeClass new
 ]
 
-{ #category : 'accessing selection' }
+{ #category : #'accessing selection' }
 ToSelect >> newNodeHolder [
 
 	^ self nodeHolderClass new
 ]
 
-{ #category : 'skin' }
+{ #category : #skin }
 ToSelect >> newRawSkin [ 
 
 	^ ToSelectSkin new
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelect >> newSelectContentElement [
 
 	^ ToElement new
@@ -158,7 +157,7 @@ ToSelect >> newSelectContentElement [
 		  yourself
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelect >> nodeBuilder [
 
 	" see the mutator method  "
@@ -166,7 +165,7 @@ ToSelect >> nodeBuilder [
 	^ nodeBuilder
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelect >> nodeBuilder: aValuable [
 
 	" builds a select node element from list data. 
@@ -176,31 +175,31 @@ ToSelect >> nodeBuilder: aValuable [
 	nodeBuilder := aValuable
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelect >> nodeClass [ 
 
 	^ nodeClass ifNil: [nodeClass := ToSelectNode]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelect >> nodeClass: aNodeClass [
 
 	nodeClass := aNodeClass
 ]
 
-{ #category : 'accessing selection' }
+{ #category : #'accessing selection' }
 ToSelect >> nodeHolderClass [ 
 
 	^ ToSelectNodeHolder
 ]
 
-{ #category : 'accessing selection' }
+{ #category : #'accessing selection' }
 ToSelect >> nodeHolders [
 
 	^ nodeHolders
 ]
 
-{ #category : 'accessing selection' }
+{ #category : #'accessing selection' }
 ToSelect >> selectIndexes: aCollectionOfInteger [
 
 	| selectContent |
@@ -227,13 +226,13 @@ ToSelect >> selectIndexes: aCollectionOfInteger [
 		selectContent addChild: node ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelect >> windowManager [
 
 	^ windowManager 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelect >> windowManager: anObject [
 
 	windowManager := anObject

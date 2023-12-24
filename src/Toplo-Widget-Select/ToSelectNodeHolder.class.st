@@ -1,65 +1,64 @@
 Class {
-	#name : 'ToSelectNodeHolder',
-	#superclass : 'Object',
+	#name : #ToSelectNodeHolder,
+	#superclass : #Object,
 	#instVars : [
 		'select',
 		'node',
 		'data',
 		'position'
 	],
-	#category : 'Toplo-Widget-Select',
-	#package : 'Toplo-Widget-Select'
+	#category : #'Toplo-Widget-Select'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectNodeHolder >> data [
 
 	^ data
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectNodeHolder >> data: anObject [
 
 	data := anObject
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectNodeHolder >> listElement [
 
 	^ select listElement
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectNodeHolder >> node [
 
 	^ node
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectNodeHolder >> node: aSelectNode [
 
 	node := aSelectNode
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectNodeHolder >> position [
 
 	^ position
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectNodeHolder >> position: anInteger [
 
 	position := anInteger
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectNodeHolder >> select [
 
 	^ select
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectNodeHolder >> select: aSelect [
 
 	select := aSelect

@@ -1,40 +1,39 @@
 Class {
-	#name : 'ToSelectWindowManager',
-	#superclass : 'ToPopupWindowManager',
+	#name : #ToSelectWindowManager,
+	#superclass : #ToPopupWindowManager,
 	#instVars : [
 		'listElement',
 		'maxHeight'
 	],
-	#category : 'Toplo-Widget-Select',
-	#package : 'Toplo-Widget-Select'
+	#category : #'Toplo-Widget-Select'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectWindowManager >> data [
 
 	^ self listElement data
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToSelectWindowManager >> defaultMaxHeight [
 
 	^ 200
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToSelectWindowManager >> defaultSizeHook [
 
 	^ [ :theWindow :theElement :event |
 	  theWindow width: theElement measuredWidth  ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectWindowManager >> elementEventHandlerClass [ 
 
 	^ ToSelectEventHandler
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToSelectWindowManager >> initialize [ 
 
 	super initialize.
@@ -51,31 +50,31 @@ ToSelectWindowManager >> initialize [
 		selectWin root addChild: self listElement ].
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectWindowManager >> listElement [
 
 	^ listElement 
 ]
 
-{ #category : 'element handlers' }
+{ #category : #'element handlers' }
 ToSelectWindowManager >> listElementSelectionChangedEvent: anEvent [
 
 	self element selectIndexes: anEvent newSelectedIndexes
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectWindowManager >> maxHeight [
 
 	^ maxHeight
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectWindowManager >> maxHeight: anInteger [
 
 	maxHeight := anInteger
 ]
 
-{ #category : 'window handling' }
+{ #category : #'window handling' }
 ToSelectWindowManager >> onCloseRequest [
 
 	super onCloseRequest.

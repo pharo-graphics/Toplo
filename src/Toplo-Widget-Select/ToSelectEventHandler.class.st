@@ -1,11 +1,10 @@
 Class {
-	#name : 'ToSelectEventHandler',
-	#superclass : 'ToElementWithPopupEventHandler',
-	#category : 'Toplo-Widget-Select',
-	#package : 'Toplo-Widget-Select'
+	#name : #ToSelectEventHandler,
+	#superclass : #ToElementWithPopupEventHandler,
+	#category : #'Toplo-Widget-Select'
 }
 
-{ #category : 'element handlers' }
+{ #category : #'element handlers' }
 ToSelectEventHandler >> elementExtentChangedEvent: anEvent [
 
 	windowManager currentWindow ifNil: [ ^ self ].
@@ -13,7 +12,7 @@ ToSelectEventHandler >> elementExtentChangedEvent: anEvent [
 	windowManager applySizeHookFromEvent: anEvent
 ]
 
-{ #category : 'api - accessing' }
+{ #category : #'api - accessing' }
 ToSelectEventHandler >> eventsToHandle [ 
 
 	^ super eventsToHandle , { BlElementExtentChangedEvent }

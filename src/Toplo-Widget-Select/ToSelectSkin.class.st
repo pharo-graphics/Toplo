@@ -1,11 +1,10 @@
 Class {
-	#name : 'ToSelectSkin',
-	#superclass : 'ToGeneralButtonSkin',
-	#category : 'Toplo-Widget-Select',
-	#package : 'Toplo-Widget-Select'
+	#name : #ToSelectSkin,
+	#superclass : #ToGeneralButtonSkin,
+	#category : #'Toplo-Widget-Select'
 }
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToSelectSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
@@ -13,7 +12,7 @@ ToSelectSkin >> hoveredLookEvent: anEvent [
 		e mouseCursor: BlCursor default ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToSelectSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
@@ -21,7 +20,7 @@ ToSelectSkin >> installLookEvent: anEvent [
 		e icon: (ToImage inner: (self iconNamed: #bottom)) ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToSelectSkin >> uninstallLookEvent: anEvent [
 
 	super installLookEvent: anEvent.

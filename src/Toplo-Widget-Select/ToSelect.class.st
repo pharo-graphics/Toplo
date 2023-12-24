@@ -37,7 +37,8 @@ ToSelect >> data [
 ToSelect >> defaultNodeBuilder [
 
 	^ [ :aSelectNode :aNodeHolder |
-	  aSelectNode addChild: (ToLabel text: aNodeHolder data asString) ]
+		aSelectNode beRemovable.
+	  aSelectNode middleContainer addChild: (ToLabel text: aNodeHolder data asString) ]
 ]
 
 { #category : 'accessing' }
@@ -214,6 +215,7 @@ ToSelect >> selectIndexes: aCollectionOfInteger [
 		| node holder |
 		node := self newNode.
 		holder := self newNodeHolder.
+		node selectHolder: holder.
 		self nodeHolders add: holder.
 		holder
 			node: node;

@@ -6,6 +6,14 @@ Class {
 }
 
 { #category : 'event handling' }
+ToSelectSkin >> hoveredLookEvent: anEvent [
+
+	super hoveredLookEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e mouseCursor: BlCursor default ]
+]
+
+{ #category : 'event handling' }
 ToSelectSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.

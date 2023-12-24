@@ -72,7 +72,7 @@ TToElementWithPlaceholder >> placeholderText: aText [
 
 	self placeholderBuilder: [ :placeholder :e |
 		placeholder padding: e padding.
-		placeholder addChild: (ToLabel new
+		placeholder addChild: (ToAttributedLabel new
 				 text: aText;
 				 yourself) ]
 ]

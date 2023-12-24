@@ -2282,13 +2282,14 @@ ToSandBox class >> example_selectReadOnly [
 
 	| select innerWindow |
 	select := ToSelect new.
+	"select placeholderText: ('Select a state' asRopedText foreground: Color lightGray). "
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
 	select width: 300.
 	select position: 50@50.
 	select data addAll: self statesOfAmerica.
 	innerWindow pane addChild: select.
-	innerWindow openInSpace 
+	innerWindow openInSpace
 ]
 
 { #category : 'select' }

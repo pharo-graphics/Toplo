@@ -24,6 +24,12 @@ ToSelectNodeHolder >> data: anObject [
 ]
 
 { #category : 'accessing' }
+ToSelectNodeHolder >> listElement [
+
+	^ select listElement
+]
+
+{ #category : 'accessing' }
 ToSelectNodeHolder >> node [
 
 	^ node

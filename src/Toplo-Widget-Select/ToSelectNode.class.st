@@ -1,7 +1,6 @@
 Class {
 	#name : 'ToSelectNode',
 	#superclass : 'ToElement',
-	#classTraits : '{} + TraitedClass',
 	#instVars : [
 		'selectHolder',
 		'startContainer',

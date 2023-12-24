@@ -16,7 +16,7 @@ Class {
 { #category : 'private configurating' }
 ToSelectNode >> addRemoveButton [
 
-	| but |
+	| but | 
 	but := ToButton new.
 	but defaultSkin: ToTabInnerCloseButtonSkin new.
 	but icon:	(ToImage inner: (Smalltalk ui icons iconNamed: #windowClose)).

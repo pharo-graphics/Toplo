@@ -1,35 +1,33 @@
 Class {
-	#name : 'ToElementForRawSkinTest',
-	#superclass : 'ToElement',
+	#name : #ToElementForRawSkinTest,
+	#superclass : #ToElement,
 	#instVars : [
 		'styleInstalled',
 		'styleUninstalled'
 	],
-	#category : 'Toplo-Tests-Core-Theme',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Theme'
+	#category : 'Toplo-Tests-Core-Theme'
 }
 
-{ #category : 'skin' }
+{ #category : #skin }
 ToElementForRawSkinTest >> installRawStyle [
 
 	super installRawStyle.
 	styleInstalled := true
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToElementForRawSkinTest >> styleInstalled [
 
 	^ styleInstalled ifNil: [ styleInstalled := false ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToElementForRawSkinTest >> styleUninstalled [
 
 	^ styleUninstalled ifNil: [ styleUninstalled := false ]
 ]
 
-{ #category : 'skin' }
+{ #category : #skin }
 ToElementForRawSkinTest >> uninstallRawStyle [
 
 	super uninstallRawStyle.

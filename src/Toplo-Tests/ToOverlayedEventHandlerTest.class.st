@@ -2,14 +2,12 @@
 A ToOverlayedEventHandlerTest is a test class for testing the behavior of ToOverlayedEventHandler
 "
 Class {
-	#name : 'ToOverlayedEventHandlerTest',
-	#superclass : 'ToParameterizedHostTest',
-	#category : 'Toplo-Tests-Core-Window',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Window'
+	#name : #ToOverlayedEventHandlerTest,
+	#superclass : #ToParameterizedHostTest,
+	#category : 'Toplo-Tests-Core-Window'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToOverlayedEventHandlerTest >> testElementExtentChangedEvent [
 
 	| e windowManager win |

@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToLabeledIconEventHandler',
-	#superclass : 'BlCustomEventHandler',
-	#category : 'Toplo-Core',
-	#package : 'Toplo',
-	#tag : 'Core'
+	#name : #ToLabeledIconEventHandler,
+	#superclass : #BlCustomEventHandler,
+	#category : 'Toplo-Core'
 }
 
-{ #category : 'api - accessing' }
+{ #category : #'api - accessing' }
 ToLabeledIconEventHandler >> eventsToHandle [
 
 	^ {
@@ -15,19 +13,19 @@ ToLabeledIconEventHandler >> eventsToHandle [
 		  ToLayoutConstraintsChangedEvent }
 ]
 
-{ #category : 'events handling' }
+{ #category : #'events handling' }
 ToLabeledIconEventHandler >> layoutConstraintsChangedEvent: anEvent [
 
 	anEvent currentTarget requestNewSkin 
 ]
 
-{ #category : 'events handling' }
+{ #category : #'events handling' }
 ToLabeledIconEventHandler >> layoutDirectionChangedEvent: anEvent [
 
 	anEvent currentTarget requestNewSkin 
 ]
 
-{ #category : 'events handling' }
+{ #category : #'events handling' }
 ToLabeledIconEventHandler >> layoutOrientationChangedEvent: anEvent [
 
 	anEvent currentTarget requestInstallSkin 

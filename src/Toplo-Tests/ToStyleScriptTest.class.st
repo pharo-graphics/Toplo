@@ -2,14 +2,12 @@
 A ToStyleScriptTest is a test class for testing the behavior of ToStyleScript
 "
 Class {
-	#name : 'ToStyleScriptTest',
-	#superclass : 'TestCase',
-	#category : 'Toplo-Tests-Core-StyleSheet',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-StyleSheet'
+	#name : #ToStyleScriptTest,
+	#superclass : #TestCase,
+	#category : 'Toplo-Tests-Core-StyleSheet'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleScriptTest >> testAction [
 	" a rule with an And operator  "
 
@@ -18,7 +16,7 @@ ToStyleScriptTest >> testAction [
 	self assert: (selector isKindOf: ToActionSelector ).
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleScriptTest >> testAddLookEventListener [
 
 	| styleScript styleRule writer |
@@ -36,7 +34,7 @@ ToStyleScriptTest >> testAddLookEventListener [
 	self assert: writer value equals: 40 asPoint
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleScriptTest >> testAddPropertyWriter1 [
 
 	| styleScript |
@@ -46,7 +44,7 @@ ToStyleScriptTest >> testAddPropertyWriter1 [
 	self should: [styleScript addLookEventListener: ToPropertyWriter new] raise: Error
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleScriptTest >> testAny [
 	" a rule with an And operator  "
 
@@ -55,7 +53,7 @@ ToStyleScriptTest >> testAny [
 	self assert: (selector isKindOf: ToUniversalSelector )
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleScriptTest >> testRuleStack [
 
 	| styleScript |
@@ -63,7 +61,7 @@ ToStyleScriptTest >> testRuleStack [
 	self assert: styleScript ruleStack isEmpty
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleScriptTest >> testRuleStackWithSelectStyle [
 
 	| styleScript styleRule rhs |
@@ -79,7 +77,7 @@ ToStyleScriptTest >> testRuleStackWithSelectStyle [
 	self assert: styleRule styleRules size equals: 2
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleScriptTest >> testRuleStackWithSelectStyle2 [
 
 	| styleScript styleRule wasHere top |
@@ -99,7 +97,7 @@ ToStyleScriptTest >> testRuleStackWithSelectStyle2 [
 	self assert: styleRule styleRules isEmpty
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleScriptTest >> testRuleStackWithSelectStyleWithSubSelect [
 
 	| styleScript styleRule wasHere top |
@@ -119,7 +117,7 @@ ToStyleScriptTest >> testRuleStackWithSelectStyleWithSubSelect [
 	self assert: styleRule styleRules size equals: 1
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleScriptTest >> testSelectStyle [
 
 	| styleRule rhs styleScript |
@@ -133,7 +131,7 @@ ToStyleScriptTest >> testSelectStyle [
 	self assert: (styleRule selector allStamps includes: #button)
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleScriptTest >> testSelectStyleWithAndSelector [
 	" a rule with an And operator  "
 
@@ -176,7 +174,7 @@ ToStyleScriptTest >> testSelectStyleWithAndSelector [
 	self assert: (rule canBeAppliedTo: e)
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleScriptTest >> testSelectStyleWithSubRule [
 
 	| styleScript styleRule |
@@ -191,7 +189,7 @@ ToStyleScriptTest >> testSelectStyleWithSubRule [
 	self assert: styleRule styleRules size equals: 2
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleScriptTest >> testSelectStyleWithSubRule2 [
 	" a rule with an And operator  "
 
@@ -203,7 +201,7 @@ ToStyleScriptTest >> testSelectStyleWithSubRule2 [
 		sr select: #checkable asStampSelector style: [ :sr2 |  ] ]
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleScriptTest >> testSelectStyleWithSubRule3 [
 	" a rule with an And operator  "
 
@@ -224,7 +222,7 @@ ToStyleScriptTest >> testSelectStyleWithSubRule3 [
 	self assert: (rule canBeRecursivelyAppliedTo: parent forTheme: nil)
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleScriptTest >> testSupplementWith [
 
 	| styleScript styleRule wasHere writer |
@@ -253,7 +251,7 @@ ToStyleScriptTest >> testSupplementWith [
 	self assert: (writer value isKindOf: BlockClosure)
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleScriptTest >> testWhenDo [
 
 	| styleScript styleRule wasHere listener |
@@ -273,7 +271,7 @@ ToStyleScriptTest >> testWhenDo [
 	self assert: listener eventClass identicalTo: ToEnabledLookEvent
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleScriptTest >> testWhenSupplementWith [
 
 	| styleScript styleRule wasHere writer |
@@ -303,7 +301,7 @@ ToStyleScriptTest >> testWhenSupplementWith [
 	self assert: (writer value isKindOf: BlockClosure)
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleScriptTest >> testWhenWriteWith [
 
 	| styleScript styleRule wasHere writer |
@@ -324,7 +322,7 @@ ToStyleScriptTest >> testWhenWriteWith [
 	self assert: writer eventClass identicalTo: ToEnabledLookEvent
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleScriptTest >> testWhenWriteWithAnimation [
 
 	| styleScript styleRule wasHere writer |
@@ -349,7 +347,7 @@ ToStyleScriptTest >> testWhenWriteWithAnimation [
 		(writer animation isKindOf: ToPropertyColorTransitionAnimation)
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleScriptTest >> testWithChild [
 
 	| selector rhs |
@@ -361,7 +359,7 @@ ToStyleScriptTest >> testWithChild [
 	self assert: selector depth isNil
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleScriptTest >> testWithChildAtDepth [
 
 	| selector rhs |
@@ -373,7 +371,7 @@ ToStyleScriptTest >> testWithChildAtDepth [
 	self assert: selector depth equals: 2
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleScriptTest >> testWithParent [
 
 	| selector rhs |
@@ -385,7 +383,7 @@ ToStyleScriptTest >> testWithParent [
 	self assert: selector depth isNil
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleScriptTest >> testWithParentAtDepth [
 
 	| selector rhs |
@@ -397,7 +395,7 @@ ToStyleScriptTest >> testWithParentAtDepth [
 	self assert: selector depth equals: 2
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleScriptTest >> testWriteWith [
 
 	| styleScript styleRule wasHere writer |
@@ -420,7 +418,7 @@ ToStyleScriptTest >> testWriteWith [
 	self assert: writer value equals: 40 asPoint
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleScriptTest >> testWriteWith2 [
 
 	| styleScript styleRule wasHere writer |
@@ -443,7 +441,7 @@ ToStyleScriptTest >> testWriteWith2 [
 	self assert: writer eventClass identicalTo: ToInstallLookEvent
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleScriptTest >> testWriteWith3 [
 
 	| styleScript styleRule dangerRule dangerWriter |

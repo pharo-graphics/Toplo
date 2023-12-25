@@ -1,15 +1,13 @@
 Class {
-	#name : 'ToPropertyIndexWithChangedAction',
-	#superclass : 'ToPropertyIndex',
+	#name : #ToPropertyIndexWithChangedAction,
+	#superclass : #ToPropertyIndex,
 	#instVars : [
 		'changedAction'
 	],
-	#category : 'Toplo-Core-Properties',
-	#package : 'Toplo',
-	#tag : 'Core-Properties'
+	#category : 'Toplo-Core-Properties'
 }
 
-{ #category : 'adding' }
+{ #category : #adding }
 ToPropertyIndexWithChangedAction >> addAllProperties: aCollectionOfProperties [
 
 	(aCollectionOfProperties anySatisfy: [ :p |
@@ -18,7 +16,7 @@ ToPropertyIndexWithChangedAction >> addAllProperties: aCollectionOfProperties [
 	self changedAction value
 ]
 
-{ #category : 'adding' }
+{ #category : #adding }
 ToPropertyIndexWithChangedAction >> addProperty: anElementProperty [
 
 	(self hasProperty: anElementProperty) ifTrue: [ ^ self ].
@@ -26,19 +24,19 @@ ToPropertyIndexWithChangedAction >> addProperty: anElementProperty [
 	self changedAction value 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPropertyIndexWithChangedAction >> changedAction [
 
 	^ changedAction
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPropertyIndexWithChangedAction >> changedAction: aBlockNoArg [
 
 	changedAction := aBlockNoArg
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ToPropertyIndexWithChangedAction >> hasProperty: anElementProperty [
 
 	" compare property value conversion to string to get a correct result in case of BlockClosure "
@@ -49,14 +47,14 @@ ToPropertyIndexWithChangedAction >> hasProperty: anElementProperty [
 		  (self propertyNamed: key) value asString = anElementProperty value asString ]
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToPropertyIndexWithChangedAction >> initialize [ 
 
 	super initialize.
 	changedAction := [  ]
 ]
 
-{ #category : 'removing' }
+{ #category : #removing }
 ToPropertyIndexWithChangedAction >> removeAllProperties [
 
 	index ifEmpty: [ ^ self ].
@@ -64,7 +62,7 @@ ToPropertyIndexWithChangedAction >> removeAllProperties [
 	self changedAction value
 ]
 
-{ #category : 'adding' }
+{ #category : #adding }
 ToPropertyIndexWithChangedAction >> removeAllPropertyFromNames: aCollectionOfSymbol [
 
 	| change |
@@ -76,7 +74,7 @@ ToPropertyIndexWithChangedAction >> removeAllPropertyFromNames: aCollectionOfSym
 	self changedAction value
 ]
 
-{ #category : 'removing' }
+{ #category : #removing }
 ToPropertyIndexWithChangedAction >> removePropertyNamed: aSymbol [
 
 	(self hasPropertyNamed: aSymbol) ifFalse: [ ^ self ].

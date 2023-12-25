@@ -1,42 +1,40 @@
 Class {
-	#name : 'ToPropertyWriter',
-	#superclass : 'ToLookEventListener',
+	#name : #ToPropertyWriter,
+	#superclass : #ToLookEventListener,
 	#instVars : [
 		'property',
 		'value',
 		'animation',
 		'supplement'
 	],
-	#category : 'Toplo-Core-StyleSheet',
-	#package : 'Toplo',
-	#tag : 'Core-StyleSheet'
+	#category : 'Toplo-Core-StyleSheet'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPropertyWriter >> animation [
 
 	^ animation
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPropertyWriter >> animation: aPropertyAnimation [
 
 	animation := aPropertyAnimation
 ]
 
-{ #category : 'look event handling' }
+{ #category : #'look event handling' }
 ToPropertyWriter >> applyOn: anObject [
 
 	self writeTo: anObject
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ToPropertyWriter >> isSupplement [
 
 	^ self supplement 
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 ToPropertyWriter >> printOn: aStream [
 
 	super printOn: aStream.
@@ -53,43 +51,43 @@ ToPropertyWriter >> printOn: aStream [
 	self value printOn: aStream
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPropertyWriter >> property [
 
 	^ property
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPropertyWriter >> property: anObject [
 
 	property := anObject
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPropertyWriter >> supplement [ 
 
 	^ supplement ifNil: [ supplement := false ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPropertyWriter >> supplement: aBoolean [
 
 	supplement := aBoolean
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPropertyWriter >> value [
 
 	^ value
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPropertyWriter >> value: aBlockOrObject [
 
 	value := aBlockOrObject
 ]
 
-{ #category : 'operating' }
+{ #category : #operating }
 ToPropertyWriter >> valueFrom: anElement [
 
 	^ value isClosure
@@ -97,7 +95,7 @@ ToPropertyWriter >> valueFrom: anElement [
 		  ifFalse: [ value ]
 ]
 
-{ #category : 'operating' }
+{ #category : #operating }
 ToPropertyWriter >> writeTo: anElement [
 
 	self animation ifNil: [ ^ self property write: (self valueFrom: anElement) to: anElement ].

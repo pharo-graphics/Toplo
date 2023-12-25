@@ -1,24 +1,22 @@
 Class {
-	#name : 'ToStyleScript',
-	#superclass : 'Object',
+	#name : #ToStyleScript,
+	#superclass : #Object,
 	#traits : 'TToStyleRulesHolder + TToStyleRuleScripter',
 	#classTraits : 'TToStyleRulesHolder classTrait + TToStyleRuleScripter classTrait',
 	#instVars : [
 		'ruleStack',
 		'styleRules'
 	],
-	#category : 'Toplo-Core-StyleSheet',
-	#package : 'Toplo',
-	#tag : 'Core-StyleSheet'
+	#category : 'Toplo-Core-StyleSheet'
 }
 
-{ #category : 'private - adding' }
+{ #category : #'private - adding' }
 ToStyleScript >> addLookEventListener: aPropertyWriter [
 
 	self ruleStack top addLookEventListener: aPropertyWriter
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToStyleScript >> initialize [
 
 	super initialize.
@@ -26,13 +24,13 @@ ToStyleScript >> initialize [
 	styleRules := #(  )
 ]
 
-{ #category : 't - stylesheet scripter' }
+{ #category : #'t - stylesheet scripter' }
 ToStyleScript >> lookEventListenerHolder [ 
 
 	^ self 
 ]
 
-{ #category : 'rules declaring' }
+{ #category : #'rules declaring' }
 ToStyleScript >> newUniversalSelector [
 
 	^ self ruleStack
@@ -40,7 +38,7 @@ ToStyleScript >> newUniversalSelector [
 		  ifNotEmpty: [ :stk | stk top selector ]
 ]
 
-{ #category : 'rules declaring' }
+{ #category : #'rules declaring' }
 ToStyleScript >> pushStyleRuleFor: aStyleSelector styleWith: aBlock [
 
 	| rule |
@@ -52,25 +50,25 @@ ToStyleScript >> pushStyleRuleFor: aStyleSelector styleWith: aBlock [
 		ifNotEmpty: [ :stk | stk top addStyleRule: rule ]
 ]
 
-{ #category : 't - style rules holder' }
+{ #category : #'t - style rules holder' }
 ToStyleScript >> rawStyleRules [
 
 	^ styleRules
 ]
 
-{ #category : 't - style rules holder' }
+{ #category : #'t - style rules holder' }
 ToStyleScript >> rawStyleRules: aStyleRuleCollection [
 
 	styleRules := aStyleRuleCollection
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleScript >> ruleStack [
 
 	^ ruleStack
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleScript >> rules [
 
 	^ self styleRules 

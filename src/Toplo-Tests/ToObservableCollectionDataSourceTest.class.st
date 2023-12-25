@@ -2,14 +2,12 @@
 A ToObservableCollectionDataSourceTest is a test class for testing the behavior of ToObservableCollectionDataSource
 "
 Class {
-	#name : 'ToObservableCollectionDataSourceTest',
-	#superclass : 'TestCase',
-	#category : 'Toplo-Tests-Core-Collection',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Collection'
+	#name : #ToObservableCollectionDataSourceTest,
+	#superclass : #TestCase,
+	#category : 'Toplo-Tests-Core-Collection'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToObservableCollectionDataSourceTest >> statesOfAmerica [
 
 	^ { #Alabama. #Alaska. #Arizona. #Arkansas. #California. #Colorado.
@@ -23,7 +21,7 @@ ToObservableCollectionDataSourceTest >> statesOfAmerica [
 		#Washington. #'West Virginia'. #Wisconsin. #Wyoming }.
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToObservableCollectionDataSourceTest >> testRangeChangedNotification [
 
 	| datasource rangeEvent |
@@ -51,7 +49,7 @@ ToObservableCollectionDataSourceTest >> testRangeChangedNotification [
 	self assert: rangeEvent itemCount equals: 9
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToObservableCollectionDataSourceTest >> testRangeInsertedNotification [
 
 	| datasource rangeEvent |
@@ -70,7 +68,7 @@ ToObservableCollectionDataSourceTest >> testRangeInsertedNotification [
 	self assert: rangeEvent itemCount equals: 1
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToObservableCollectionDataSourceTest >> testRangeRemovedNotification [
 
 	| datasource rangeEvent |
@@ -102,7 +100,7 @@ ToObservableCollectionDataSourceTest >> testRangeRemovedNotification [
 		equals: self statesOfAmerica size - 2
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToObservableCollectionDataSourceTest >> testWithData [
 
 	| datasource changedEvent |
@@ -118,7 +116,7 @@ ToObservableCollectionDataSourceTest >> testWithData [
 	self assert: datasource hasStableIds not
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToObservableCollectionDataSourceTest >> testWithoutData [
 
 	| datasource |

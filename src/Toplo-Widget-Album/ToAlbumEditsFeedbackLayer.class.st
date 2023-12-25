@@ -1,17 +1,15 @@
 Class {
-	#name : 'ToAlbumEditsFeedbackLayer',
-	#superclass : 'BlOverlayElement',
+	#name : #ToAlbumEditsFeedbackLayer,
+	#superclass : #BlOverlayElement,
 	#instVars : [
 		'feedback',
 		'backgroundAnimation',
 		'coverColor'
 	],
-	#category : 'Toplo-Widget-Album-TextPane',
-	#package : 'Toplo-Widget-Album',
-	#tag : 'TextPane'
+	#category : 'Toplo-Widget-Album-TextPane'
 }
 
-{ #category : 'api - attaching / detaching' }
+{ #category : #'api - attaching / detaching' }
 ToAlbumEditsFeedbackLayer >> attachTo: anEditorElement [
 
 	super attachTo: anEditorElement.
@@ -33,7 +31,7 @@ ToAlbumEditsFeedbackLayer >> attachTo: anEditorElement [
 			ifFalse: [ self hideEditsFeedback ] ]
 ]
 
-{ #category : 'api - attaching / detaching' }
+{ #category : #'api - attaching / detaching' }
 ToAlbumEditsFeedbackLayer >> coverWithColor: aCoverColor [
 
 	| previousBackground |
@@ -50,13 +48,13 @@ ToAlbumEditsFeedbackLayer >> coverWithColor: aCoverColor [
 	self addAnimation: backgroundAnimation
 ]
 
-{ #category : 'api - attaching / detaching' }
+{ #category : #'api - attaching / detaching' }
 ToAlbumEditsFeedbackLayer >> flash [
 
 	self coverWithColor: coverColor
 ]
 
-{ #category : 'edition-flag' }
+{ #category : #'edition-flag' }
 ToAlbumEditsFeedbackLayer >> hideEditsFeedback [
 
 	feedback ifNil: [ ^ self ].
@@ -64,7 +62,7 @@ ToAlbumEditsFeedbackLayer >> hideEditsFeedback [
 	feedback := nil
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToAlbumEditsFeedbackLayer >> initialize [
 
 	super initialize.
@@ -74,7 +72,7 @@ ToAlbumEditsFeedbackLayer >> initialize [
 
 ]
 
-{ #category : 'edition-flag' }
+{ #category : #'edition-flag' }
 ToAlbumEditsFeedbackLayer >> newEditsFeedback [
 
 	| flag |
@@ -96,7 +94,7 @@ ToAlbumEditsFeedbackLayer >> newEditsFeedback [
 	^ flag
 ]
 
-{ #category : 'edition-flag' }
+{ #category : #'edition-flag' }
 ToAlbumEditsFeedbackLayer >> showEditsFeedback [
 
 	feedback ifNotNil: [ ^ self ].

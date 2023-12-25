@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToInstallStateTest',
-	#superclass : 'ToTestCaseWithSpace',
-	#category : 'Toplo-Tests-Core-States',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-States'
+	#name : #ToInstallStateTest,
+	#superclass : #ToTestCaseWithSpace,
+	#category : 'Toplo-Tests-Core-States'
 }
 
-{ #category : 'running' }
+{ #category : #running }
 ToInstallStateTest >> testApplyOn [
 
 	| e stateEvt receivedEvt |
@@ -18,7 +16,7 @@ ToInstallStateTest >> testApplyOn [
 	self assert: (receivedEvt isKindOf: ToInstallLookEvent)
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 ToInstallStateTest >> testCanBeEnqueuedFromElementInQueue [
 
 	| e state |
@@ -28,7 +26,7 @@ ToInstallStateTest >> testCanBeEnqueuedFromElementInQueue [
 	self should: [state canBeEnqueuedFromElement: e inQueue: e skinStateQueue] raise: Error
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 ToInstallStateTest >> testLookEvent [
 
 	| state  |
@@ -37,7 +35,7 @@ ToInstallStateTest >> testLookEvent [
 	
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 ToInstallStateTest >> testRequestEnqueueFromElementInQueue [
 
 	| e state |

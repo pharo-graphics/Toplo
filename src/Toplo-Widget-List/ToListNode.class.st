@@ -1,36 +1,34 @@
 Class {
-	#name : 'ToListNode',
-	#superclass : 'ToElement',
-	#category : 'Toplo-Widget-List-Node',
-	#package : 'Toplo-Widget-List',
-	#tag : 'Node'
+	#name : #ToListNode,
+	#superclass : #ToElement,
+	#category : 'Toplo-Widget-List-Node'
 }
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToListNode >> defaultEventHandler [
 
 	^ ToListNodeEventHandler new
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToListNode >> defaultLayout [ 
 
 	^ BlLinearLayout vertical
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToListNode >> defaultMargin [
 
 	^ BlInsets empty
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToListNode >> defaultPadding [
 
 	^ BlInsets empty
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToListNode >> initialize [
 
 	super initialize.

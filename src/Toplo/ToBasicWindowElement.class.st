@@ -1,34 +1,32 @@
 Class {
-	#name : 'ToBasicWindowElement',
-	#superclass : 'ToElement',
+	#name : #ToBasicWindowElement,
+	#superclass : #ToElement,
 	#instVars : [
 		'rootElement'
 	],
-	#category : 'Toplo-Core-Window',
-	#package : 'Toplo',
-	#tag : 'Core-Window'
+	#category : 'Toplo-Core-Window'
 }
 
-{ #category : 'api - displaying' }
+{ #category : #'api - displaying' }
 ToBasicWindowElement >> close [
 
 	self isOpened ifFalse: [ ^ Error signal: 'Trying to close a closed window' ].
 	self removeFromParent
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToBasicWindowElement >> defaultElevation [
 
 	^ BlRelativeElevation elevation: (SmallInteger maxVal - 1000)
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToBasicWindowElement >> defaultLayout [
 
 	^ BlFrameLayout new
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToBasicWindowElement >> defaultRootElement [
 
 	^ ToElement new
@@ -37,20 +35,20 @@ ToBasicWindowElement >> defaultRootElement [
 		  fitContent
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToBasicWindowElement >> defaultRootId [
 
 	^ 'window-root'
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToBasicWindowElement >> defaultRootLayout [
 
 	^ BlLinearLayout vertical 
 
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToBasicWindowElement >> initialize [
 
 	super initialize.
@@ -64,13 +62,13 @@ ToBasicWindowElement >> initialize [
 	self initializeRootElement 
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToBasicWindowElement >> initializeRootElement [
 
 
 ]
 
-{ #category : 'skin' }
+{ #category : #skin }
 ToBasicWindowElement >> installRawStyle [
 
 	super installRawStyle.
@@ -81,19 +79,19 @@ ToBasicWindowElement >> installRawStyle [
 	self outskirts: BlOutskirts outside 
 ]
 
-{ #category : 'api - displaying' }
+{ #category : #'api - displaying' }
 ToBasicWindowElement >> isClosed [
 
 	^ self isOpened not
 ]
 
-{ #category : 'api - displaying' }
+{ #category : #'api - displaying' }
 ToBasicWindowElement >> isOpened [
 
 	^ self hasParent
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToBasicWindowElement >> root [
 	"Return my current root element.
 	root can not be nil"
@@ -101,7 +99,7 @@ ToBasicWindowElement >> root [
 	^ rootElement
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToBasicWindowElement >> root: anElement [
 
 	"Make a given element my root element.
@@ -113,21 +111,21 @@ ToBasicWindowElement >> root: anElement [
 	rootElement := anElement
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToBasicWindowElement >> rootLayout [
 
 	^ self root layout
 
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToBasicWindowElement >> rootLayout: aLayout [
 
 	self root layout: aLayout
 
 ]
 
-{ #category : 'api - displaying' }
+{ #category : #'api - displaying' }
 ToBasicWindowElement >> toFront [
 
 	self elevation: self defaultElevation.

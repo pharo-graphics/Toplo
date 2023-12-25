@@ -1,18 +1,16 @@
 Class {
-	#name : 'ToLabelMultiLineInnerElement',
-	#superclass : 'ToElement',
+	#name : #ToLabelMultiLineInnerElement,
+	#superclass : #ToElement,
 	#traits : 'TToLabelInnerElement + TObservable',
 	#classTraits : 'TToLabelInnerElement classTrait + TObservable classTrait',
 	#instVars : [
 		'#lines',
 		'#text => ObservableSlot'
 	],
-	#category : 'Toplo-Widget-Album-Label',
-	#package : 'Toplo-Widget-Album',
-	#tag : 'Label'
+	#category : #'Toplo-Widget-Album-Label'
 }
 
-{ #category : 'api - editor' }
+{ #category : #'api - editor' }
 ToLabelMultiLineInnerElement >> editorShortcutsIn: aLabel [
 
 	^ { 
@@ -32,7 +30,7 @@ ToLabelMultiLineInnerElement >> editorShortcutsIn: aLabel [
 			   yourself) }
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToLabelMultiLineInnerElement >> initialize [
 
 	super initialize.
@@ -46,28 +44,16 @@ ToLabelMultiLineInnerElement >> initialize [
 	self withoutSkin.
 ]
 
-{ #category : 'api - editor' }
+{ #category : #'api - editor' }
 ToLabelMultiLineInnerElement >> newEditorIn: aLabel [
 
-	| ed handler |
-	handler := ToLabelEditorEventHandler new label: aLabel.
-	ed := ToAlbum new.
-	ed fitContent.
-	ed next fitContent.
-	ed infinite fitContent.
-	ed next background: Color transparent.
-	ed next padding: aLabel padding.
-	ed next margin: aLabel margin.
-	ed addEventHandler: handler.
-	
-	self flag: 'Why this selection handler ?'.
-	"ed addEventHandler: (AlbTextEditorSelectionHandler new element: ed infinite)."
-	"ed addEventHandler: (AlbTextEditorMouseHandler new element: ed infinite )."
+	| ed |
+	ed := ToTextField new.
 	(self editorShortcutsIn: aLabel) do: [ :s | ed editor addEditorShortcut: s ].
 	^ ed
 ]
 
-{ #category : 'private - text splitting' }
+{ #category : #'private - text splitting' }
 ToLabelMultiLineInnerElement >> newLineElement [
 
 	^ AlbTextEditorSegmentElement new
@@ -78,20 +64,20 @@ ToLabelMultiLineInnerElement >> newLineElement [
 		  yourself
 ]
 
-{ #category : 'private - text splitting' }
+{ #category : #'private - text splitting' }
 ToLabelMultiLineInnerElement >> newTextElement [
 
 	^ BlTextElement new labelMeasurement
 ]
 
-{ #category : 'layout' }
+{ #category : #layout }
 ToLabelMultiLineInnerElement >> requestLayout [ 
 	lines ifNotNil: [ 
 		lines do: [:l | l childrenDo: #requestLayout] ].
 	super requestLayout
 ]
 
-{ #category : 'private - text splitting' }
+{ #category : #'private - text splitting' }
 ToLabelMultiLineInnerElement >> splitText [
 
 	^ Array streamContents: [ :stream |
@@ -126,13 +112,13 @@ ToLabelMultiLineInnerElement >> splitText [
 						  stream nextPut: lineElement ] ] ] ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToLabelMultiLineInnerElement >> text [
 
 	^ text 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToLabelMultiLineInnerElement >> text: aBlText [
 
 	text = aBlText ifTrue: [ ^ self ].
@@ -141,13 +127,13 @@ ToLabelMultiLineInnerElement >> text: aBlText [
 	self forceLocalLayout
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToLabelMultiLineInnerElement >> textChanged [
 
 	self textReplaced
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToLabelMultiLineInnerElement >> textReplaced [
 
 	self removeChildren.
@@ -157,7 +143,7 @@ ToLabelMultiLineInnerElement >> textReplaced [
 
 ]
 
-{ #category : 'slot - change hook' }
+{ #category : #'slot - change hook' }
 ToLabelMultiLineInnerElement >> whenTextReplacedDo: aBlock [
 
 	"set a block to perform after that the text has been chanbed, and its action performed"

@@ -1,44 +1,42 @@
 Class {
-	#name : 'ToStyleSheetPrinter',
-	#superclass : 'Object',
+	#name : #ToStyleSheetPrinter,
+	#superclass : #Object,
 	#instVars : [
 		'selectorPrinter',
 		'indentLevel'
 	],
-	#category : 'Toplo-Core-StyleSheet',
-	#package : 'Toplo',
-	#tag : 'Core-StyleSheet'
+	#category : 'Toplo-Core-StyleSheet'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheetPrinter class >> styleRules: aStyleRuleList [
 	"Initialize the printer with a style rules list to print"
 
 	^ self new styleSheet: (ToStyleSheet new addAllStyleRules: aStyleRuleList)
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheetPrinter class >> styleSheet: aToStyleSheet [
 	"Initialize the printer with a style sheet to print"
 
 	^ self new styleSheet: aToStyleSheet
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheetPrinter class >> toElement: aToElement [
 	"Initialize the printer with a ToElement"
 
 	^ self new toElement: aToElement
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 ToStyleSheetPrinter >> crIndentOn: aStream [
 
 	aStream cr.
 	indentLevel timesRepeat: [ aStream nextPutAll: '    ' ]
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToStyleSheetPrinter >> initialize [ 
 
 	super initialize.
@@ -47,7 +45,7 @@ ToStyleSheetPrinter >> initialize [
 
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 ToStyleSheetPrinter >> printStyleRule: aStyleRule on: aStream [
 	"print selector"
 
@@ -79,7 +77,7 @@ ToStyleSheetPrinter >> printStyleRule: aStyleRule on: aStream [
 	indentLevel := indentLevel - 1
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 ToStyleSheetPrinter >> printStyleSheet: aStyleSheet on: aStream [
 
 	aStyleSheet styleRules do: [ :rule |

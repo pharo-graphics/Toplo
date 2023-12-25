@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToPropertyBorderEffectTransitionAnimation',
-	#superclass : 'ToPropertyAnimation',
-	#category : 'Toplo-Core-StyleSheet',
-	#package : 'Toplo',
-	#tag : 'Core-StyleSheet'
+	#name : #ToPropertyBorderEffectTransitionAnimation,
+	#superclass : #ToPropertyAnimation,
+	#category : 'Toplo-Core-StyleSheet'
 }
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToPropertyBorderEffectTransitionAnimation >> newRawAnimationFor: anElement to: aStopBorder [
 
 	| newAnim origEffect |

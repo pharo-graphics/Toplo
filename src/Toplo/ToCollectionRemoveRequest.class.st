@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToCollectionRemoveRequest',
-	#superclass : 'ToCollectionChangeRequest',
-	#category : 'Toplo-Core-Collection',
-	#package : 'Toplo',
-	#tag : 'Core-Collection'
+	#name : #ToCollectionRemoveRequest,
+	#superclass : #ToCollectionChangeRequest,
+	#category : 'Toplo-Core-Collection'
 }
 
-{ #category : 'sending' }
+{ #category : #sending }
 ToCollectionRemoveRequest >> sendTo: anObject [
 
 	anObject collectionRemoveRequest: self

@@ -1,40 +1,38 @@
 Class {
-	#name : 'ToStampSelector',
-	#superclass : 'ToSimpleSelector',
+	#name : #ToStampSelector,
+	#superclass : #ToSimpleSelector,
 	#instVars : [
 		'stamps'
 	],
-	#category : 'Toplo-Core-Selectors',
-	#package : 'Toplo',
-	#tag : 'Core-Selectors'
+	#category : 'Toplo-Core-Selectors'
 }
 
-{ #category : 'visiting' }
+{ #category : #visiting }
 ToStampSelector >> accept: aVisitor [
 
 	aVisitor visitStyleStampSelector: self
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStampSelector >> addAllStamps: aCollectionOfSymbols [
 
 	aCollectionOfSymbols do: [ :sy | self addStamp: sy ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStampSelector >> addStamp: aSymbol [
 
 	(stamps includes: aSymbol) ifTrue: [ ^ self ].
 	stamps := stamps copyWith: aSymbol asSymbol
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStampSelector >> allStamps [
 
 	^ stamps 
 ]
 
-{ #category : 'converting' }
+{ #category : #converting }
 ToStampSelector >> asStampSelector [
 
 	^ self
@@ -42,7 +40,7 @@ ToStampSelector >> asStampSelector [
 	
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToStampSelector >> initialize [ 
 
 	super initialize.

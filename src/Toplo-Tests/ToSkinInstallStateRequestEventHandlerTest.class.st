@@ -2,14 +2,12 @@
 A ToSkinManagementEventHandlerTest is a test class for testing the behavior of ToSkinManagementEventHandler
 "
 Class {
-	#name : 'ToSkinInstallStateRequestEventHandlerTest',
-	#superclass : 'TestCase',
-	#category : 'Toplo-Tests-Core-Theme',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Theme'
+	#name : #ToSkinInstallStateRequestEventHandlerTest,
+	#superclass : #TestCase,
+	#category : 'Toplo-Tests-Core-Theme'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinInstallStateRequestEventHandlerTest >> testEventsToHandle [
 
 	| handler |
@@ -17,7 +15,7 @@ ToSkinInstallStateRequestEventHandlerTest >> testEventsToHandle [
 	self assert: handler eventsToHandle anyOne equals: ToSkinManagementEvent
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinInstallStateRequestEventHandlerTest >> testSkinInstallStateRequest [
 
 	| e nk nextInQueue |
@@ -42,7 +40,7 @@ ToSkinInstallStateRequestEventHandlerTest >> testSkinInstallStateRequest [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinInstallStateRequestEventHandlerTest >> testSkinUninstallStateRequest [
 
 	| e nk |

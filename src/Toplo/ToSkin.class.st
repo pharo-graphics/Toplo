@@ -1,27 +1,25 @@
 Class {
-	#name : 'ToSkin',
-	#superclass : 'BlCustomEventHandler',
+	#name : #ToSkin,
+	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'removeFromSceneGraphHandler'
 	],
-	#category : 'Toplo-Core-Theme',
-	#package : 'Toplo',
-	#tag : 'Core-Theme'
+	#category : 'Toplo-Core-Theme'
 }
 
-{ #category : 'api - accessing' }
+{ #category : #'api - accessing' }
 ToSkin >> eventsToHandle [
 
 	^ { ToElementLookEvent }
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ToSkin >> isNullSkin [
 
 	^ false
 ]
 
-{ #category : 'api - hooks' }
+{ #category : #'api - hooks' }
 ToSkin >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
@@ -33,7 +31,7 @@ ToSkin >> onInstalledIn: anElement [
 	anElement addEventHandler: removeFromSceneGraphHandler
 ]
 
-{ #category : 'api - hooks' }
+{ #category : #'api - hooks' }
 ToSkin >> onUninstalledIn: anElement [
 
 	anElement skinManager installedSkin: nil.

@@ -2,14 +2,12 @@
 A ToAnchorEventHandlerTest is a test class for testing the behavior of ToAnchorEventHandler
 "
 Class {
-	#name : 'ToAnchorEventHandlerTest',
-	#superclass : 'ToParameterizedHostTest',
-	#category : 'Toplo-Tests-Core-Window',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Window'
+	#name : #ToAnchorEventHandlerTest,
+	#superclass : #ToParameterizedHostTest,
+	#category : 'Toplo-Tests-Core-Window'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchorEventHandlerTest >> testElementPositionInSpaceChangedEvent [
 
 	| win e  windowManager |
@@ -38,7 +36,7 @@ ToAnchorEventHandlerTest >> testElementPositionInSpaceChangedEvent [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchorEventHandlerTest >> testElementRemovedFromParentEvent [
 
 	| win e windowManager closed |
@@ -65,7 +63,7 @@ ToAnchorEventHandlerTest >> testElementRemovedFromParentEvent [
 	self assert: windowManager currentWindow isNil.
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchorEventHandlerTest >> testElementRemovedFromSceneGraphEvent [
 
 	self testElementRemovedFromParentEvent 

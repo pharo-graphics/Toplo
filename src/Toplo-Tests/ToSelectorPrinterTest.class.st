@@ -2,17 +2,15 @@
 A ToSelectorPrinterTest is a test class for testing the behavior of ToSelectorPrinter
 "
 Class {
-	#name : 'ToSelectorPrinterTest',
-	#superclass : 'TestCase',
+	#name : #ToSelectorPrinterTest,
+	#superclass : #TestCase,
 	#instVars : [
 		'printer'
 	],
-	#category : 'Toplo-Tests-Core-Selectors',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Selectors'
+	#category : 'Toplo-Tests-Core-Selectors'
 }
 
-{ #category : 'running' }
+{ #category : #running }
 ToSelectorPrinterTest >> setUp [ 
 
 
@@ -20,7 +18,7 @@ ToSelectorPrinterTest >> setUp [
 	printer := ToSelectorPrinter new
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorPrinterTest >> test1 [
 
 	| selector |
@@ -35,7 +33,7 @@ ToSelectorPrinterTest >> test1 [
 		'(stamp:#''button-label'' parent:((stamp:#button && stamp:#danger) depth:1))'
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorPrinterTest >> test2 [
 
 	| selector |
@@ -54,7 +52,7 @@ ToSelectorPrinterTest >> test2 [
 		'((stamp:#''button-label'' parent:((stamp:#button && stamp:#danger) depth:1)) && not((stamp:#''button-label'' parent:((stamp:#button && stamp:#danger) depth:1))))'
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorPrinterTest >> testAndNot [
 
 	| selector |
@@ -66,7 +64,7 @@ ToSelectorPrinterTest >> testAndNot [
 		equals: '(stamp:#''labeled-icon'' && not(type:ToImage))'
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorPrinterTest >> testVisitActionSelector [
 
 	| selector |
@@ -75,7 +73,7 @@ ToSelectorPrinterTest >> testVisitActionSelector [
 	self assert: printer contents equals: 'action:[ :e | e isKindOf: ToButton ]'
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorPrinterTest >> testVisitAndSelector [
 
 	| selector |
@@ -86,7 +84,7 @@ ToSelectorPrinterTest >> testVisitAndSelector [
 		equals: '(stamp:#''labeled-icon'' && type:ToImage)'
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorPrinterTest >> testVisitChildSelector [
 
 	| selector |
@@ -95,7 +93,7 @@ ToSelectorPrinterTest >> testVisitChildSelector [
 	self assert: printer contents equals: '(stamp:#button child:(type:ToImage))'
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorPrinterTest >> testVisitChildSelectorWithDepth [
 
 	| selector |
@@ -104,7 +102,7 @@ ToSelectorPrinterTest >> testVisitChildSelectorWithDepth [
 	self assert: printer contents equals: '(stamp:#button child:(type:ToImage depth:2))'
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorPrinterTest >> testVisitIdSelector [
 
 	| selector |
@@ -113,7 +111,7 @@ ToSelectorPrinterTest >> testVisitIdSelector [
 	self assert: printer contents equals: 'id:#''button-label'''
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorPrinterTest >> testVisitNotSelector [
 
 	| selector |
@@ -122,7 +120,7 @@ ToSelectorPrinterTest >> testVisitNotSelector [
 	self assert: printer contents equals: 'not(stamp:#''labeled-icon'')'
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorPrinterTest >> testVisitOrSelector [
 
 	| selector |
@@ -133,7 +131,7 @@ ToSelectorPrinterTest >> testVisitOrSelector [
 		equals: '(stamp:#''labeled-icon'' || type:ToImage)'
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorPrinterTest >> testVisitParentSelector [
 
 	| selector |
@@ -142,7 +140,7 @@ ToSelectorPrinterTest >> testVisitParentSelector [
 	self assert: printer contents equals: '(stamp:#button parent:(type:ToPane))'
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorPrinterTest >> testVisitParentSelectorWithDepth [
 
 	| selector |
@@ -151,7 +149,7 @@ ToSelectorPrinterTest >> testVisitParentSelectorWithDepth [
 	self assert: printer contents equals: '(stamp:#button parent:(type:ToPane depth:2))'
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorPrinterTest >> testVisitSiblingSelector [
 
 	| selector |
@@ -160,7 +158,7 @@ ToSelectorPrinterTest >> testVisitSiblingSelector [
 	self assert: printer contents equals: '(stamp:#icon sibling:(stamp:#label))'
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorPrinterTest >> testVisitStyleStampSelector [
 
 	| selector |
@@ -169,7 +167,7 @@ ToSelectorPrinterTest >> testVisitStyleStampSelector [
 	self assert: printer contents equals: 'stamp:#''labeled-icon'''
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorPrinterTest >> testVisitStyleStampSelectorWith2Stamps [
 
 	| selector |
@@ -182,7 +180,7 @@ ToSelectorPrinterTest >> testVisitStyleStampSelectorWith2Stamps [
 	self assert: printer contents equals: 'stamps:(#''button-one'', #primary)'
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorPrinterTest >> testVisitTypeSelector [
 
 	| selector |
@@ -191,7 +189,7 @@ ToSelectorPrinterTest >> testVisitTypeSelector [
 	self assert: printer contents equals: 'type:ToButton'
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorPrinterTest >> testVisitUniversalSelector [
 
 	| selector |

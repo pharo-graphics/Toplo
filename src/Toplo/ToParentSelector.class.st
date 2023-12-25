@@ -1,35 +1,33 @@
 Class {
-	#name : 'ToParentSelector',
-	#superclass : 'ToBinarySelector',
+	#name : #ToParentSelector,
+	#superclass : #ToBinarySelector,
 	#instVars : [
 		'depth'
 	],
-	#category : 'Toplo-Core-Selectors',
-	#package : 'Toplo',
-	#tag : 'Core-Selectors'
+	#category : 'Toplo-Core-Selectors'
 }
 
-{ #category : 'visiting' }
+{ #category : #visiting }
 ToParentSelector >> accept: aVisitor [
 
 	aVisitor visitParentSelector: self
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToParentSelector >> depth [
 	"evaluate only for parent at a given depth or at any depth if selector depth is not specified "
 
 	^ depth
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToParentSelector >> depth: anInteger [
 	"evaluate only for parent at a given depth or at any depth if selector depth is not specified "
 
 	depth := anInteger
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToParentSelector >> initialize [ 
 
 	super initialize.

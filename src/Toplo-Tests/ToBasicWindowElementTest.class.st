@@ -2,14 +2,12 @@
 A ToBasicWindowElementTest is a test class for testing the behavior of ToBasicWindowElement
 "
 Class {
-	#name : 'ToBasicWindowElementTest',
-	#superclass : 'ToTestCaseWithSpace',
-	#category : 'Toplo-Tests-Core-Window',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Window'
+	#name : #ToBasicWindowElementTest,
+	#superclass : #ToTestCaseWithSpace,
+	#category : 'Toplo-Tests-Core-Window'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToBasicWindowElementTest >> testClose [
 
 	| w |
@@ -23,7 +21,7 @@ ToBasicWindowElementTest >> testClose [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToBasicWindowElementTest >> testDefaultElevation [ 
 
 	| w |
@@ -33,7 +31,7 @@ ToBasicWindowElementTest >> testDefaultElevation [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToBasicWindowElementTest >> testDefaultLayout [
 
 	| w |
@@ -41,7 +39,7 @@ ToBasicWindowElementTest >> testDefaultLayout [
 	self assert: w layout class identicalTo: w defaultLayout class
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToBasicWindowElementTest >> testDefaultRootElement [
 
 	| w |
@@ -50,7 +48,7 @@ ToBasicWindowElementTest >> testDefaultRootElement [
 	self assert: w root id equals: w defaultRootId
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToBasicWindowElementTest >> testInitialize [
 
 	| w |
@@ -59,7 +57,7 @@ ToBasicWindowElementTest >> testInitialize [
 	self assert: w root parent identicalTo: w
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToBasicWindowElementTest >> testIsClosed [
 
 	| w |
@@ -69,7 +67,7 @@ ToBasicWindowElementTest >> testIsClosed [
 	self deny: w isClosed
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToBasicWindowElementTest >> testIsOpened [
 
 	| w |
@@ -79,7 +77,7 @@ ToBasicWindowElementTest >> testIsOpened [
 	self assert: w isOpened
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToBasicWindowElementTest >> testRoot [
 
 	| w r prev |
@@ -91,7 +89,7 @@ ToBasicWindowElementTest >> testRoot [
 	self assert: prev parent isNil
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToBasicWindowElementTest >> testRootLayout [
 
 	| w l |
@@ -101,7 +99,7 @@ ToBasicWindowElementTest >> testRootLayout [
 	self assert: w rootLayout identicalTo: l
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToBasicWindowElementTest >> testToFront [
 
 	| w |

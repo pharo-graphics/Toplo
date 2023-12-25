@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToListElementContextMenuWindowManager',
-	#superclass : 'ToContextMenuWindowManager',
-	#category : 'Toplo-Widget-List-Context-menu',
-	#package : 'Toplo-Widget-List',
-	#tag : 'Context-menu'
+	#name : #ToListElementContextMenuWindowManager,
+	#superclass : #ToContextMenuWindowManager,
+	#category : 'Toplo-Widget-List-Context-menu'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListElementContextMenuWindowManager >> windowRequestClass [
 
 	^ ToListElementContextMenuRequest

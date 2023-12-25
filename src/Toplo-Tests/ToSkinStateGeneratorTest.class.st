@@ -2,14 +2,12 @@
 A ToSkinStateGeneratorTest is a test class for testing the behavior of ToSkinStateGenerator
 "
 Class {
-	#name : 'ToSkinStateGeneratorTest',
-	#superclass : 'ToTestCaseWithSpace',
-	#category : 'Toplo-Tests-Core-States',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-States'
+	#name : #ToSkinStateGeneratorTest,
+	#superclass : #ToTestCaseWithSpace,
+	#category : 'Toplo-Tests-Core-States'
 }
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToSkinStateGeneratorTest >> newElementInSpace [
 
 	| e |
@@ -23,13 +21,13 @@ ToSkinStateGeneratorTest >> newElementInSpace [
 	^ e
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinStateGeneratorTest >> testCheckableCheckedEvent [
 
 	self testGenerateCheckStateFromEvent 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinStateGeneratorTest >> testGenerateCheckStateFromEvent [
 
 	| e evt nextStates  nextStatesSize  |
@@ -70,7 +68,7 @@ ToSkinStateGeneratorTest >> testGenerateCheckStateFromEvent [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinStateGeneratorTest >> testGenerateClickedStateFromEvent [
 
 	| e evt nextStates  |
@@ -92,7 +90,7 @@ ToSkinStateGeneratorTest >> testGenerateClickedStateFromEvent [
 	self assert: nextStates size equals: 2
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinStateGeneratorTest >> testGenerateHoveredStateFromEvent [
 
 	| e evt nextStates  |
@@ -118,7 +116,7 @@ ToSkinStateGeneratorTest >> testGenerateHoveredStateFromEvent [
 	self assert: nextStates size equals: 3
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinStateGeneratorTest >> testOnInstalledIn [
 
 	| e h |
@@ -128,13 +126,13 @@ ToSkinStateGeneratorTest >> testOnInstalledIn [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinStateGeneratorTest >> testOnUninstalledIn [
 
 	self testOnInstalledIn
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinStateGeneratorTest >> testTarget [
 
 	| e gen |
@@ -144,7 +142,7 @@ ToSkinStateGeneratorTest >> testTarget [
 	self assert: gen target identicalTo: e
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinStateGeneratorTest >> testWantsEvent [
 
 	| e gen  |

@@ -1,15 +1,13 @@
 Class {
-	#name : 'ToAlbumEventHandler',
-	#superclass : 'BlCustomEventHandler',
+	#name : #ToAlbumEventHandler,
+	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'textEmpty'
 	],
-	#category : 'Toplo-Widget-Album-TextPane',
-	#package : 'Toplo-Widget-Album',
-	#tag : 'TextPane'
+	#category : 'Toplo-Widget-Album-TextPane'
 }
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToAlbumEventHandler >> blurEvent: aBlurEvent [
 
 	| target |
@@ -17,7 +15,7 @@ ToAlbumEventHandler >> blurEvent: aBlurEvent [
 	target border: target defaultBlurBorder
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToAlbumEventHandler >> checkTextIn: anEditorElement [
 
 	(textEmpty isNil or: [ anEditorElement text isEmpty ~= textEmpty ])
@@ -26,7 +24,7 @@ ToAlbumEventHandler >> checkTextIn: anEditorElement [
 	textEmpty := anEditorElement text isEmpty
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToAlbumEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 
 	| target |
@@ -34,7 +32,7 @@ ToAlbumEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 	self checkTextIn: target
 ]
 
-{ #category : 'api - accessing' }
+{ #category : #'api - accessing' }
 ToAlbumEventHandler >> eventsToHandle [
 
 	^ {
@@ -46,7 +44,7 @@ ToAlbumEventHandler >> eventsToHandle [
 		  ToTextEmptinessChangeEvent }
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToAlbumEventHandler >> focusEvent: aFocusEvent [
 
 	| target |
@@ -54,14 +52,14 @@ ToAlbumEventHandler >> focusEvent: aFocusEvent [
 	target border: target defaultFocusBorder
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToAlbumEventHandler >> textEditedEvent: aTextEditedEvent [
 
 	aTextEditedEvent currentTarget edited: true.
 	self checkTextIn: aTextEditedEvent currentTarget
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToAlbumEventHandler >> textEmptinessChangeEvent: anEvent [
 
 	| target |
@@ -71,7 +69,7 @@ ToAlbumEventHandler >> textEmptinessChangeEvent: anEvent [
 		ifNotEmpty: [ target hidePlaceholder ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToAlbumEventHandler >> textReplacedEvent: aTextReplacedEvent [
 
 	self checkTextIn: aTextReplacedEvent currentTarget

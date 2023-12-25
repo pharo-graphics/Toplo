@@ -2,14 +2,12 @@
 A ToTooltipWindowTest is a test class for testing the behavior of ToTooltipWindow
 "
 Class {
-	#name : 'ToTooltipWindowTest',
-	#superclass : 'ToTestCaseWithSpace',
-	#category : 'Toplo-Tests-Core-Tooltip',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Tooltip'
+	#name : #ToTooltipWindowTest,
+	#superclass : #ToTestCaseWithSpace,
+	#category : 'Toplo-Tests-Core-Tooltip'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToTooltipWindowTest >> testContent [
 
 	| e windowHandler |
@@ -29,7 +27,7 @@ ToTooltipWindowTest >> testContent [
 	^  windowHandler currentWindow
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToTooltipWindowTest >> testCurrentWindow [
 
 	| window |
@@ -41,7 +39,7 @@ ToTooltipWindowTest >> testCurrentWindow [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToTooltipWindowTest >> testDefaultElevation [
 
 	| window |
@@ -51,7 +49,7 @@ ToTooltipWindowTest >> testDefaultElevation [
 		equals: window  defaultElevation elevation
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToTooltipWindowTest >> testInitialize [
 
 	| w |

@@ -1,19 +1,17 @@
 Class {
-	#name : 'ToListPrimarySelectionElement',
-	#superclass : 'ToListSelectionElement',
-	#category : 'Toplo-Widget-List-Selection',
-	#package : 'Toplo-Widget-List',
-	#tag : 'Selection'
+	#name : #ToListPrimarySelectionElement,
+	#superclass : #ToListSelectionElement,
+	#category : 'Toplo-Widget-List-Selection'
 }
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToListPrimarySelectionElement >> initialize [ 
 
 	super initialize.
 	self applySkinInstallerOnFirstRequest: true
 ]
 
-{ #category : 'skin' }
+{ #category : #skin }
 ToListPrimarySelectionElement >> newRawSkin [ 
 
 	^ ToListPrimarySelectionElementSkin new

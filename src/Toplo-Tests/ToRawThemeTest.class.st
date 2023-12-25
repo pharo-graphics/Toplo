@@ -2,21 +2,19 @@
 A ToRawThemeTest is a test class for testing the behavior of ToRawTheme
 "
 Class {
-	#name : 'ToRawThemeTest',
-	#superclass : 'TestCase',
-	#category : 'Toplo-Tests-Core-Theme',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Theme'
+	#name : #ToRawThemeTest,
+	#superclass : #TestCase,
+	#category : 'Toplo-Tests-Core-Theme'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToRawThemeTest >> testName [
 	| theme |
 	theme := ToRawTheme light.
 	theme name
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToRawThemeTest >> testNewRootSkinInstance [
 
 	| space e theme |
@@ -27,7 +25,7 @@ ToRawThemeTest >> testNewRootSkinInstance [
 	self assert: (theme newSkinInstanceFor: e) class identicalTo: theme newRootSkinInstance class
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToRawThemeTest >> testNewSkinInstanceFor [
 
 	| e |

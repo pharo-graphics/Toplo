@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToListContextMenuSelectionElementSkin',
-	#superclass : 'ToRawSkin',
-	#category : 'Toplo-Widget-List-Context-menu',
-	#package : 'Toplo-Widget-List',
-	#tag : 'Context-menu'
+	#name : #ToListContextMenuSelectionElementSkin,
+	#superclass : #ToRawSkin,
+	#category : 'Toplo-Widget-List-Context-menu'
 }
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToListContextMenuSelectionElementSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.

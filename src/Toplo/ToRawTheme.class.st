@@ -1,36 +1,34 @@
 Class {
-	#name : 'ToRawTheme',
-	#superclass : 'ToTheme',
-	#category : 'Toplo-Core-Theme',
-	#package : 'Toplo',
-	#tag : 'Core-Theme'
+	#name : #ToRawTheme,
+	#superclass : #ToTheme,
+	#category : 'Toplo-Core-Theme'
 }
 
-{ #category : 'testing' }
+{ #category : #testing }
 ToRawTheme class >> canBeDefault [
 
 	^ true
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToRawTheme class >> label [
 
 	^'Raw'
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ToRawTheme class >> supportedVariantClasses [
 
 	^ { ToThemeDarkVariant. ToThemeLightVariant }
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToRawTheme >> newRootSkinInstance [
 
 	^ ToSpaceRootSkin new
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToRawTheme >> newSkinInstanceFor: anElement [
 
 	| space |

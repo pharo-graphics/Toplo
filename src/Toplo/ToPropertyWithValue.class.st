@@ -1,21 +1,19 @@
 Class {
-	#name : 'ToPropertyWithValue',
-	#superclass : 'ToAbstractProperty',
+	#name : #ToPropertyWithValue,
+	#superclass : #ToAbstractProperty,
 	#instVars : [
 		'value'
 	],
-	#category : 'Toplo-Core-Properties',
-	#package : 'Toplo',
-	#tag : 'Core-Properties'
+	#category : 'Toplo-Core-Properties'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPropertyWithValue class >> name: aSymbol [
 
 	^ self new name: aSymbol asSymbol
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPropertyWithValue class >> name: aSymbol value: anObject [
 
 	^ (self name: aSymbol)
@@ -23,13 +21,13 @@ ToPropertyWithValue class >> name: aSymbol value: anObject [
 		  yourself
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPropertyWithValue >> value [
 
 	^ value
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPropertyWithValue >> value: anObject [
 
 	value := anObject

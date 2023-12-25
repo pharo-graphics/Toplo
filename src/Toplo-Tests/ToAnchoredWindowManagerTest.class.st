@@ -2,14 +2,12 @@
 A ToAnchoredWindowHandlerTest is a test class for testing the behavior of ToAnchoredWindowHandler
 "
 Class {
-	#name : 'ToAnchoredWindowManagerTest',
-	#superclass : 'ToParameterizedHostTest',
-	#category : 'Toplo-Tests-Core-Window',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Window'
+	#name : #ToAnchoredWindowManagerTest,
+	#superclass : #ToParameterizedHostTest,
+	#category : 'Toplo-Tests-Core-Window'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowManagerTest >> testApplyPositionHookFromEvent [
 
 	| win e  windowManager |
@@ -43,7 +41,7 @@ ToAnchoredWindowManagerTest >> testApplyPositionHookFromEvent [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowManagerTest >> testApplySizeHookFromEvent [
 
 	| win e  windowManager |
@@ -73,7 +71,7 @@ ToAnchoredWindowManagerTest >> testApplySizeHookFromEvent [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowManagerTest >> testBuilder [
 
 	| win e  windowManager builder|
@@ -101,7 +99,7 @@ ToAnchoredWindowManagerTest >> testBuilder [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowManagerTest >> testCloseWindow [
 
 	| win e  windowManager |
@@ -118,7 +116,7 @@ ToAnchoredWindowManagerTest >> testCloseWindow [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowManagerTest >> testCurrentWindow [
 
 	| win e  windowManager |
@@ -136,7 +134,7 @@ ToAnchoredWindowManagerTest >> testCurrentWindow [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowManagerTest >> testDefaultPositionHook [
 
 	| win e  windowManager |
@@ -165,7 +163,7 @@ ToAnchoredWindowManagerTest >> testDefaultPositionHook [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowManagerTest >> testDefaultSizeHook [
 
 	| e windowManager |
@@ -177,7 +175,7 @@ ToAnchoredWindowManagerTest >> testDefaultSizeHook [
 	self assert: windowManager defaultSizeHook isNil
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowManagerTest >> testElement [
 
 	| win e openEventFromWindow openEventFromWidget closeEventFromWindow closeEventFromWidget windowManager |
@@ -224,7 +222,7 @@ ToAnchoredWindowManagerTest >> testElement [
 	self assert: closeEventFromWidget currentTarget equals: e
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowManagerTest >> testElementEventHandler [
 
 	| e windowManager |
@@ -237,7 +235,7 @@ ToAnchoredWindowManagerTest >> testElementEventHandler [
 	self assert: (e eventDispatcher handlers includes: windowManager elementEventHandler)
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowManagerTest >> testElementEventHandlerClass [
 
 	| win e  windowManager |
@@ -260,7 +258,7 @@ ToAnchoredWindowManagerTest >> testElementEventHandlerClass [
 	self should: [ win popup ] raise: Error
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowManagerTest >> testHasWindow [
 
 	| win e  windowManager |
@@ -278,7 +276,7 @@ ToAnchoredWindowManagerTest >> testHasWindow [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowManagerTest >> testNewElementEventHandler [
 
 	| windowManager |
@@ -288,7 +286,7 @@ ToAnchoredWindowManagerTest >> testNewElementEventHandler [
 	self assert: windowManager elementEventHandler notNil
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowManagerTest >> testNewWindowEvent [
 
 	| win e  windowManager |
@@ -306,7 +304,7 @@ ToAnchoredWindowManagerTest >> testNewWindowEvent [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowManagerTest >> testNewWindowEvent2 [
 
 	| win1 win2 e  windowManager |
@@ -324,7 +322,7 @@ ToAnchoredWindowManagerTest >> testNewWindowEvent2 [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowManagerTest >> testPositionHook [
 
 	| win e  windowManager |
@@ -354,7 +352,7 @@ ToAnchoredWindowManagerTest >> testPositionHook [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowManagerTest >> testPositionHook2 [
 
 	| win e windowManager |
@@ -388,7 +386,7 @@ ToAnchoredWindowManagerTest >> testPositionHook2 [
 		equals: e bounds inSpace bounds bottomRight
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowManagerTest >> testPositionHook3 [
 
 	| win e  windowManager |
@@ -419,7 +417,7 @@ ToAnchoredWindowManagerTest >> testPositionHook3 [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowManagerTest >> testSizeHook [
 
 	| win e  windowManager |
@@ -438,7 +436,7 @@ ToAnchoredWindowManagerTest >> testSizeHook [
 	self assert: win bounds extent equals: 100 asPoint 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowManagerTest >> testWindowClass [
 
 	| windowManager |
@@ -446,7 +444,7 @@ ToAnchoredWindowManagerTest >> testWindowClass [
 	self assert: windowManager windowClass identicalTo: ToAnchoredWindow
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowManagerTest >> testWindowRequestClass [
 
 	| windowManager |

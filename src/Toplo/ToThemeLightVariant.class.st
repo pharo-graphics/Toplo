@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToThemeLightVariant',
-	#superclass : 'ToThemeVariant',
-	#category : 'Toplo-Core-Theme',
-	#package : 'Toplo',
-	#tag : 'Core-Theme'
+	#name : #ToThemeLightVariant,
+	#superclass : #ToThemeVariant,
+	#category : 'Toplo-Core-Theme'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToThemeLightVariant class >> label [
 
 	^ 'Light variant'

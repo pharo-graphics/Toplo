@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToThemeDarkVariant',
-	#superclass : 'ToThemeVariant',
-	#category : 'Toplo-Core-Theme',
-	#package : 'Toplo',
-	#tag : 'Core-Theme'
+	#name : #ToThemeDarkVariant,
+	#superclass : #ToThemeVariant,
+	#category : 'Toplo-Core-Theme'
 }
 
-{ #category : 'space configurating' }
+{ #category : #'space configurating' }
 ToThemeDarkVariant class >> changedTokenProperties [
 
 	^ Array streamContents: [ :str |
@@ -66,7 +64,7 @@ ToThemeDarkVariant class >> changedTokenProperties [
  } ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToThemeDarkVariant class >> label [
 
 	^ 'Dark variant'

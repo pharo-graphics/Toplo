@@ -1,18 +1,16 @@
 Class {
-	#name : 'ToSiblingSelector',
-	#superclass : 'ToBinarySelector',
-	#category : 'Toplo-Core-Selectors',
-	#package : 'Toplo',
-	#tag : 'Core-Selectors'
+	#name : #ToSiblingSelector,
+	#superclass : #ToBinarySelector,
+	#category : 'Toplo-Core-Selectors'
 }
 
-{ #category : 'visiting' }
+{ #category : #visiting }
 ToSiblingSelector >> accept: aVisitor [
 
 	aVisitor visitSiblingSelector: self
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToSiblingSelector >> initialize [ 
 
 	super initialize.

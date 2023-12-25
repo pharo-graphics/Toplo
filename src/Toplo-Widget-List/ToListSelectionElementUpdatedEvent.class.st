@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToListSelectionElementUpdatedEvent',
-	#superclass : 'BlEvent',
-	#category : 'Toplo-Widget-List-Selection',
-	#package : 'Toplo-Widget-List',
-	#tag : 'Selection'
+	#name : #ToListSelectionElementUpdatedEvent,
+	#superclass : #BlEvent,
+	#category : 'Toplo-Widget-List-Selection'
 }
 
-{ #category : 'sending' }
+{ #category : #sending }
 ToListSelectionElementUpdatedEvent >> sendTo: anObject [
 
 	anObject listSelectionElementUpdatedEvent: self

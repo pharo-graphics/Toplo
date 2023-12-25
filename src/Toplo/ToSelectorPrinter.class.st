@@ -1,40 +1,38 @@
 Class {
-	#name : 'ToSelectorPrinter',
-	#superclass : 'ToElementSelectorVisitor',
+	#name : #ToSelectorPrinter,
+	#superclass : #ToElementSelectorVisitor,
 	#instVars : [
 		'stream',
 		'indentLevel'
 	],
-	#category : 'Toplo-Core-Selectors',
-	#package : 'Toplo',
-	#tag : 'Core-Selectors'
+	#category : 'Toplo-Core-Selectors'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectorPrinter >> contents [
 	
 	^ stream contents
 ]
 
-{ #category : 'printing utility' }
+{ #category : #'printing utility' }
 ToSelectorPrinter >> indent [
 
 	self indentLevel timesRepeat: [ self nextPut: '    ' ].
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectorPrinter >> indentLevel [
 
 	^ indentLevel
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectorPrinter >> indentLevel: anObject [
 
 	indentLevel := anObject
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToSelectorPrinter >> initialize [ 
 
 	super initialize.
@@ -42,13 +40,13 @@ ToSelectorPrinter >> initialize [
 	indentLevel := 0
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ToSelectorPrinter >> nextPut: aString [
 
 	stream nextPutAll: aString
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToSelectorPrinter >> reset [
 
 	stream reset
@@ -56,20 +54,20 @@ ToSelectorPrinter >> reset [
 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectorPrinter >> stream: aStream [
 
 	stream := aStream
 ]
 
-{ #category : 'visiting' }
+{ #category : #visiting }
 ToSelectorPrinter >> visitActionSelector: aSelector [
 
 	self nextPut: 'action:'.
 	self nextPut: aSelector action printString
 ]
 
-{ #category : 'visiting' }
+{ #category : #visiting }
 ToSelectorPrinter >> visitAndSelector: aSelector [
 
 	self nextPut: '('.
@@ -79,7 +77,7 @@ ToSelectorPrinter >> visitAndSelector: aSelector [
 	self nextPut: ')'.
 ]
 
-{ #category : 'visiting' }
+{ #category : #visiting }
 ToSelectorPrinter >> visitChildSelector: aSelector [
 
 	self nextPut: '('.
@@ -95,14 +93,14 @@ ToSelectorPrinter >> visitChildSelector: aSelector [
 
 ]
 
-{ #category : 'visiting' }
+{ #category : #visiting }
 ToSelectorPrinter >> visitIdSelector: aSelector [
 
 	self nextPut: 'id:'.
 	self nextPut: aSelector id printString
 ]
 
-{ #category : 'visiting' }
+{ #category : #visiting }
 ToSelectorPrinter >> visitNotSelector: aSelector [
 
 	self nextPut: 'not('.
@@ -110,7 +108,7 @@ ToSelectorPrinter >> visitNotSelector: aSelector [
 	self nextPut: ')'.
 ]
 
-{ #category : 'visiting' }
+{ #category : #visiting }
 ToSelectorPrinter >> visitOrSelector: aSelector [
 
 	self nextPut: '('.
@@ -120,7 +118,7 @@ ToSelectorPrinter >> visitOrSelector: aSelector [
 	self nextPut: ')'.
 ]
 
-{ #category : 'visiting' }
+{ #category : #visiting }
 ToSelectorPrinter >> visitParentSelector: aSelector [
 
 	self nextPut: '('.
@@ -136,7 +134,7 @@ ToSelectorPrinter >> visitParentSelector: aSelector [
 
 ]
 
-{ #category : 'visiting' }
+{ #category : #visiting }
 ToSelectorPrinter >> visitSiblingSelector: aSelector [
 
 	self nextPut: '('.
@@ -148,7 +146,7 @@ ToSelectorPrinter >> visitSiblingSelector: aSelector [
 
 ]
 
-{ #category : 'visiting' }
+{ #category : #visiting }
 ToSelectorPrinter >> visitStyleStampSelector: aSelector [
 
 	aSelector allStamps size = 1
@@ -163,14 +161,14 @@ ToSelectorPrinter >> visitStyleStampSelector: aSelector [
 			self nextPut: ')' ]
 ]
 
-{ #category : 'visiting' }
+{ #category : #visiting }
 ToSelectorPrinter >> visitTypeSelector: aSelector [
 
 	self nextPut: 'type:'.
 	self nextPut: aSelector type name
 ]
 
-{ #category : 'visiting' }
+{ #category : #visiting }
 ToSelectorPrinter >> visitUniversalSelector: aSelector [
 
 	self nextPut: '*'

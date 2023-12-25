@@ -2,14 +2,12 @@
 A ToSinnablePropertyTest is a test class for testing the behavior of ToSinnableProperty
 "
 Class {
-	#name : 'ToSkinnablePropertyTest',
-	#superclass : 'ToTestCaseWithSpace',
-	#category : 'Toplo-Tests-Core-Properties',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Properties'
+	#name : #ToSkinnablePropertyTest,
+	#superclass : #ToTestCaseWithSpace,
+	#category : 'Toplo-Tests-Core-Properties'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinnablePropertyTest >> testRead [
 
 	| w prop  reader v |
@@ -24,7 +22,7 @@ ToSkinnablePropertyTest >> testRead [
 	self assert: v equals: w background
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinnablePropertyTest >> testWriteTo [
 
 	| w prop  writer reader |
@@ -48,7 +46,7 @@ ToSkinnablePropertyTest >> testWriteTo [
 	self assert: (prop read: w) equals: w background
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinnablePropertyTest >> testWriteToWithDelegation [
 
 	| w prop  writer reader |
@@ -73,7 +71,7 @@ ToSkinnablePropertyTest >> testWriteToWithDelegation [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinnablePropertyTest >> testWrongDefinition [
 
 	| w prop  writer reader |

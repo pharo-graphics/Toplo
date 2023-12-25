@@ -2,14 +2,12 @@
 A ToCollectionEmptinessEventTest is a test class for testing the behavior of ToCollectionEmptinessEvent
 "
 Class {
-	#name : 'ToCollectionEmptinessEventTest',
-	#superclass : 'TestCase',
-	#category : 'Toplo-Tests-Core-Collection',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Collection'
+	#name : #ToCollectionEmptinessEventTest,
+	#superclass : #TestCase,
+	#category : 'Toplo-Tests-Core-Collection'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToCollectionEmptinessEventTest >> testSendTo [
 
 	| l count |

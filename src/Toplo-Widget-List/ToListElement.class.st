@@ -1,29 +1,27 @@
 Class {
-	#name : 'ToListElement',
-	#superclass : 'ToElement',
+	#name : #ToListElement,
+	#superclass : #ToElement,
 	#traits : 'TToListElementDecorator + TToElementWithPlaceholder',
 	#classTraits : 'TToListElementDecorator classTrait + TToElementWithPlaceholder classTrait',
 	#instVars : [
 		'selectionElements'
 	],
-	#category : 'Toplo-Widget-List-Core',
-	#package : 'Toplo-Widget-List',
-	#tag : 'Core'
+	#category : 'Toplo-Widget-List-Core'
 }
 
-{ #category : 'orientation' }
+{ #category : #orientation }
 ToListElement >> beHorizontal [
 
 	self infinite layout beHorizontal
 ]
 
-{ #category : 'orientation' }
+{ #category : #orientation }
 ToListElement >> beVertical [
 
 	self infinite layout beVertical
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToListElement >> dataSharedEvents [
 
 	^ {
@@ -33,7 +31,7 @@ ToListElement >> dataSharedEvents [
 		  ToCollectionUpdateEvent }
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToListElement >> dataSourceSharedEvents [
 
 	^ {
@@ -41,19 +39,19 @@ ToListElement >> dataSourceSharedEvents [
 		  ToDataFilterRequest }
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToListElement >> defaultLayout [
 
 	^ BlFrameLayout new
 ]
 
-{ #category : 'orientation' }
+{ #category : #orientation }
 ToListElement >> horizontal: aBoolean [
 
 	self vertical: aBoolean not
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToListElement >> infiniteElementSharedEvents [
 
 	^ {
@@ -65,7 +63,7 @@ ToListElement >> infiniteElementSharedEvents [
 		  BlFocusEvent }
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToListElement >> initialize [
 
 	| sharedDistributor |
@@ -99,55 +97,55 @@ ToListElement >> initialize [
 	self matchParent
 ]
 
-{ #category : 'orientation' }
+{ #category : #orientation }
 ToListElement >> isHorizontal [
 
 	^ self infinite layout isHorizontal
 ]
 
-{ #category : 'orientation' }
+{ #category : #orientation }
 ToListElement >> isVertical [
 
 	^ self infinite layout isVertical
 ]
 
-{ #category : 't - element with placeholder' }
+{ #category : #'t - element with placeholder' }
 ToListElement >> newPlaceholder [
 
 	^ self placeholderClass new
 ]
 
-{ #category : 'skin' }
+{ #category : #skin }
 ToListElement >> newRawSkin [ 
 
 	^ ToListElementSkin new
 ]
 
-{ #category : 't - element with placeholder' }
+{ #category : #'t - element with placeholder' }
 ToListElement >> placeholderElevation [
 
 	^ self infinite elevation
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListElement >> selectionElements [
 
 	^ selectionElements
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListElement >> selectionElements: aListElementSelectionCollection [
 
 	selectionElements := aListElementSelectionCollection
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToListElement >> sharedEvents [
 
 	^ self dataSourceSharedEvents , self dataSharedEvents , self infiniteElementSharedEvents
 ]
 
-{ #category : 'orientation' }
+{ #category : #orientation }
 ToListElement >> vertical: aBoolean [
 
 	aBoolean

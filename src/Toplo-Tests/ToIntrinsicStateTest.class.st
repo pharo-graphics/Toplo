@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToIntrinsicStateTest',
-	#superclass : 'ToTestCaseWithSpace',
-	#category : 'Toplo-Tests-Core-States',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-States'
+	#name : #ToIntrinsicStateTest,
+	#superclass : #ToTestCaseWithSpace,
+	#category : 'Toplo-Tests-Core-States'
 }
 
-{ #category : 'running' }
+{ #category : #running }
 ToIntrinsicStateTest >> testApplyOn [ 
 
 	| e state  |
@@ -15,7 +13,7 @@ ToIntrinsicStateTest >> testApplyOn [
 	state applyOn: e
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToIntrinsicStateTest >> testApplyOnEnqueueFromElementInQueue [
 
 	| e nextInQueue firstValState secondValState |
@@ -37,7 +35,7 @@ ToIntrinsicStateTest >> testApplyOnEnqueueFromElementInQueue [
 	self assert: nextInQueue isNil
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 ToIntrinsicStateTest >> testApplyOnUnchecked [
 
 	| e state checkedEvt uncheckedEvt |
@@ -53,7 +51,7 @@ ToIntrinsicStateTest >> testApplyOnUnchecked [
 	self assert: (uncheckedEvt isKindOf: ToUncheckedLookEvent)
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 ToIntrinsicStateTest >> testApplyOnWhenDisabled [
 	" even if an element is disabled, enqueuing an intrinsic state is allowed.
 	Disabling state change is controled at the level of the API of the element 
@@ -76,7 +74,7 @@ ToIntrinsicStateTest >> testApplyOnWhenDisabled [
 	self assert: (uncheckedEvt isKindOf: ToUncheckedLookEvent)
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 ToIntrinsicStateTest >> testLookEvent [
 
 	| state  |
@@ -88,7 +86,7 @@ ToIntrinsicStateTest >> testLookEvent [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToIntrinsicStateTest >> testRequestEnqueueFromElementInQueue [
 
 	| e state nextInQueue firstValState secondValState |

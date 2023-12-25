@@ -1,27 +1,25 @@
 Class {
-	#name : 'ToTheme',
-	#superclass : 'Object',
+	#name : #ToTheme,
+	#superclass : #Object,
 	#instVars : [
 		'variant'
 	],
-	#category : 'Toplo-Core-Theme',
-	#package : 'Toplo',
-	#tag : 'Core-Theme'
+	#category : 'Toplo-Core-Theme'
 }
 
-{ #category : 'testing' }
+{ #category : #testing }
 ToTheme class >> canBeDefault [
 
 	^ false
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToTheme class >> dark [
 
 	^ self variant: ToThemeDarkVariant new
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTheme class >> defaultCheckboxBlankImage [
 
 	| bar im |
@@ -44,13 +42,13 @@ ToTheme class >> defaultCheckboxBlankImage [
 	^ im
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTheme class >> defaultColorPrimary [
 
 	^ Color fromHexString: '#1677ff'
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTheme class >> defaultTokenProperties [
 	" skin managing need a list of unique stamps . "
 
@@ -257,63 +255,63 @@ ToTheme class >> defaultTokenProperties [
 			   value: self defaultColorPrimary) }
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTheme class >> label [
 
 	^ 'Unsupported abstract theme'
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToTheme class >> light [
 
 	^ self variant: ToThemeLightVariant new
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToTheme class >> new [
 
 	self error: 'Use one of the builder methods'
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToTheme class >> variant: aThemeVariant [
 
 	^ self basicNew initialize variant: aThemeVariant
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTheme >> defaultTokenProperties [
 
 	^ self class defaultTokenProperties
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTheme >> name [
 
 	^ self class label, ' - ', self variant class label
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTheme >> newSkinFor: anElement [
 
 	anElement setUpForTheme: self.
 	^ self newSkinInstanceFor: anElement
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTheme >> newSkinInstanceFor: anElement [
 
 	^ self subclassResponsibility 
 ]
 
-{ #category : 'space configurating' }
+{ #category : #'space configurating' }
 ToTheme >> onInstalledIn: aSpace [
 
 	aSpace root addAllTokenProperties: self defaultTokenProperties.
 	self variant onInstalledIn: aSpace
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 ToTheme >> printOn: aStream [
 
 	super printOn: aStream.
@@ -323,23 +321,23 @@ ToTheme >> printOn: aStream [
 		nextPutAll: ' ]'
 ]
 
-{ #category : 'hook' }
+{ #category : #hook }
 ToTheme >> setUpElement: anElement [
 ]
 
-{ #category : 'styling' }
+{ #category : #styling }
 ToTheme >> styleSheet [ 
 
 	^ nil
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTheme >> variant [
 
 	^ variant
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTheme >> variant: aThemeVariant [
 
 	variant ifNotNil: [ (BlImmutableObjectChangeError object: self) signal ].

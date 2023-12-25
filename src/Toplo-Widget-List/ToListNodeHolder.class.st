@@ -1,6 +1,6 @@
 Class {
-	#name : 'ToListNodeHolder',
-	#superclass : 'BlInfiniteHolder',
+	#name : #ToListNodeHolder,
+	#superclass : #BlInfiniteHolder,
 	#traits : 'TBlEventTarget',
 	#classTraits : 'TBlEventTarget classTrait',
 	#instVars : [
@@ -10,18 +10,16 @@ Class {
 		'deselectHandler',
 		'selectHandler'
 	],
-	#category : 'Toplo-Widget-List-Node',
-	#package : 'Toplo-Widget-List',
-	#tag : 'Node'
+	#category : 'Toplo-Widget-List-Node'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListNodeHolder >> data [
 
 	^ data
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListNodeHolder >> data: aData [ 
 
 	data := aData.
@@ -29,7 +27,7 @@ ToListNodeHolder >> data: aData [
 	infiniteElement nodeBuilder value: self node value: self
 ]
 
-{ #category : 'event management accessing' }
+{ #category : #'event management accessing' }
 ToListNodeHolder >> eventDispatcher [
 	"Return an object responsible for event dispatching"
 	<return: #BlDirectEventDispatcher>
@@ -37,32 +35,32 @@ ToListNodeHolder >> eventDispatcher [
 	^ eventDispatcher 
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToListNodeHolder >> initialize [ 
 
 	super initialize.
 	eventDispatcher := BlDirectEventDispatcher on: self
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListNodeHolder >> isSelected [
 
 	^ self infiniteElement isSelectedAtIndex: self position
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListNodeHolder >> node [
 
 	^ self itemElement 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListNodeHolder >> node: aNode [
 
 	itemElement := aNode
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListNodeHolder >> onAttachedFromDatasource: aDataSource [
 
 
@@ -89,7 +87,7 @@ ToListNodeHolder >> onAttachedFromDatasource: aDataSource [
 	self selected: self isSelected
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListNodeHolder >> onDetachedFromDatasource: aDataSource [
 
 	self removeEventHandler: clickHandler.
@@ -102,7 +100,7 @@ ToListNodeHolder >> onDetachedFromDatasource: aDataSource [
 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListNodeHolder >> selected: aBoolean [
 
 	aBoolean
@@ -116,14 +114,14 @@ ToListNodeHolder >> selected: aBoolean [
 					 yourself) ]
 ]
 
-{ #category : 'selection - handling' }
+{ #category : #'selection - handling' }
 ToListNodeHolder >> whenDeselectEvent: anEvent [
 
 	(anEvent indexes includes: self position) ifFalse: [ ^ self ].
 	self selected: false
 ]
 
-{ #category : 'selection - handling' }
+{ #category : #'selection - handling' }
 ToListNodeHolder >> whenSelectEvent: anEvent [
 
 	(anEvent indexes includes: self position) ifFalse: [ ^ self ].

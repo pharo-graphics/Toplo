@@ -1,28 +1,26 @@
 Class {
-	#name : 'ToSelectionState',
-	#superclass : 'ToIntrinsicState',
+	#name : #ToSelectionState,
+	#superclass : #ToIntrinsicState,
 	#instVars : [
 		'selected',
 		'focused'
 	],
-	#category : 'Toplo-Core-States',
-	#package : 'Toplo',
-	#tag : 'Core-States'
+	#category : 'Toplo-Core-States'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectionState >> focused [
 
 	^ focused
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectionState >> focused: aBoolean [
 
 	focused := aBoolean
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectionState >> lookEventClass [
 
 	^ self selected
@@ -30,13 +28,13 @@ ToSelectionState >> lookEventClass [
 				  ifFalse: [ ToDeselectedLookEvent ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectionState >> selected [
 
 	^ selected
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectionState >> selected: aBoolean [
 
 	selected := aBoolean

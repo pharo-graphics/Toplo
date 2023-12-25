@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToListElementEventHandler',
-	#superclass : 'BlCustomEventHandler',
-	#category : 'Toplo-Widget-List-Core',
-	#package : 'Toplo-Widget-List',
-	#tag : 'Core'
+	#name : #ToListElementEventHandler,
+	#superclass : #BlCustomEventHandler,
+	#category : 'Toplo-Widget-List-Core'
 }
 
-{ #category : 'mouse handlers' }
+{ #category : #'mouse handlers' }
 ToListElementEventHandler >> collectionRemoveRequest: anEvent [
 
 	| target interval |
@@ -17,7 +15,7 @@ ToListElementEventHandler >> collectionRemoveRequest: anEvent [
 	"target deselectIndex: idx" ]
 ]
 
-{ #category : 'data source events handling' }
+{ #category : #'data source events handling' }
 ToListElementEventHandler >> dataEmptinessChangeEvent: anEvent [
 
 	| target |
@@ -26,7 +24,7 @@ ToListElementEventHandler >> dataEmptinessChangeEvent: anEvent [
 	target hidePlaceholder
 ]
 
-{ #category : 'infinite element events handling' }
+{ #category : #'infinite element events handling' }
 ToListElementEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 
 	| target |
@@ -39,7 +37,7 @@ ToListElementEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 	target hidePlaceholder
 ]
 
-{ #category : 'api - accessing' }
+{ #category : #'api - accessing' }
 ToListElementEventHandler >> eventsToHandle [
 
 	^ {
@@ -54,7 +52,7 @@ ToListElementEventHandler >> eventsToHandle [
 		  ToInfiniteSelectionChangedEvent }
 ]
 
-{ #category : 'infinite element events handling' }
+{ #category : #'infinite element events handling' }
 ToListElementEventHandler >> infiniteSelectionChangedEvent: anEvent [
 
 	| target |
@@ -65,7 +63,7 @@ ToListElementEventHandler >> infiniteSelectionChangedEvent: anEvent [
 			 yourself).
 ]
 
-{ #category : 'mouse handlers' }
+{ #category : #'mouse handlers' }
 ToListElementEventHandler >> mouseDownEvent: anEvent [
 
 	anEvent currentTarget infinite requestFocus

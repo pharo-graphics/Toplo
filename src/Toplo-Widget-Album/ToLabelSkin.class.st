@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToLabelSkin',
-	#superclass : 'ToRawSkin',
-	#category : 'Toplo-Widget-Album-Label',
-	#package : 'Toplo-Widget-Album',
-	#tag : 'Label'
+	#name : #ToLabelSkin,
+	#superclass : #ToRawSkin,
+	#category : 'Toplo-Widget-Album-Label'
 }
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToLabelSkin >> deselectedLookEvent: anEvent [
 
 	super selectedLookEvent: anEvent.
@@ -16,7 +14,7 @@ ToLabelSkin >> deselectedLookEvent: anEvent [
 		e textChanged ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToLabelSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
@@ -38,7 +36,7 @@ ToLabelSkin >> installLookEvent: anEvent [
 		e textChanged ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToLabelSkin >> selectedLookEvent: anEvent [
 
 	super selectedLookEvent: anEvent.

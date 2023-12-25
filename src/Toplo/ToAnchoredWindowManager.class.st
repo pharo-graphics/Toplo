@@ -1,6 +1,6 @@
 Class {
-	#name : 'ToAnchoredWindowManager',
-	#superclass : 'Object',
+	#name : #ToAnchoredWindowManager,
+	#superclass : #Object,
 	#instVars : [
 		'anchorRoot',
 		'currentWindow',
@@ -10,24 +10,22 @@ Class {
 		'positionHook',
 		'sizeHook'
 	],
-	#category : 'Toplo-Core-Window',
-	#package : 'Toplo',
-	#tag : 'Core-Window'
+	#category : 'Toplo-Core-Window'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAnchoredWindowManager >> anchorRoot [
 
 	^ anchorRoot ifNil: [ anchorRoot := self element space root ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAnchoredWindowManager >> anchorRoot: anElement [
 
 	anchorRoot := anElement
 ]
 
-{ #category : 'bounds hook' }
+{ #category : #'bounds hook' }
 ToAnchoredWindowManager >> applyPositionHookFromEvent: anEvent [
 
 	self currentWindow ifNil: [ Error signal: 'No current window' ].
@@ -38,7 +36,7 @@ ToAnchoredWindowManager >> applyPositionHookFromEvent: anEvent [
 		value: anEvent
 ]
 
-{ #category : 'bounds hook' }
+{ #category : #'bounds hook' }
 ToAnchoredWindowManager >> applySizeHookFromEvent: anEvent [
 
 	self currentWindow ifNil: [ Error signal: 'No current window' ].
@@ -49,37 +47,37 @@ ToAnchoredWindowManager >> applySizeHookFromEvent: anEvent [
 			 value: anEvent
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAnchoredWindowManager >> builder [
 
 	^ builder
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAnchoredWindowManager >> builder: aWindowBuilderValuable [
 
 	builder := aWindowBuilderValuable
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAnchoredWindowManager >> currentWindow [
 
 	^ currentWindow
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAnchoredWindowManager >> currentWindow: aWindowElement [
 
 	currentWindow := aWindowElement
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAnchoredWindowManager >> currentWindowDo: aValuable [
 
 	self currentWindow ifNotNil: [ :cw | aValuable value: cw ]
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToAnchoredWindowManager >> defaultBuilder [
 	" return a valuable used to build the window. The window is passed as first argument and the argument is request event "
 
@@ -88,7 +86,7 @@ ToAnchoredWindowManager >> defaultBuilder [
 	
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToAnchoredWindowManager >> defaultPositionHook [
 
 	^ [ :window :theElement :event |
@@ -96,19 +94,19 @@ ToAnchoredWindowManager >> defaultPositionHook [
 		  (theElement bounds inParent: self anchorRoot) bounds topLeft ]
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToAnchoredWindowManager >> defaultSizeHook [
 
 	^ nil
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAnchoredWindowManager >> element [
 
 	^ element
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAnchoredWindowManager >> element: anElement [
 
 	element ifNotNil: [
@@ -119,25 +117,25 @@ ToAnchoredWindowManager >> element: anElement [
 		element addEventHandler: self newElementEventHandler ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAnchoredWindowManager >> elementEventHandler [
 
 	^ elementEventHandler
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAnchoredWindowManager >> elementEventHandlerClass [
 
 	^ ToAnchorEventHandler 
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ToAnchoredWindowManager >> hasWindow [
 
 	^ self currentWindow notNil
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToAnchoredWindowManager >> initialize [ 
 
 	super initialize.
@@ -148,7 +146,7 @@ ToAnchoredWindowManager >> initialize [
 	
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAnchoredWindowManager >> newElementEventHandler [
 
 	elementEventHandler := self elementEventHandlerClass new.
@@ -156,7 +154,7 @@ ToAnchoredWindowManager >> newElementEventHandler [
 	^ elementEventHandler
 ]
 
-{ #category : 'window handling' }
+{ #category : #'window handling' }
 ToAnchoredWindowManager >> newWindowEvent: anEvent [
 
 	| request |
@@ -175,19 +173,19 @@ ToAnchoredWindowManager >> newWindowEvent: anEvent [
 	^ self currentWindow
 ]
 
-{ #category : 'window handling' }
+{ #category : #'window handling' }
 ToAnchoredWindowManager >> onCloseRequest [
 
 	
 ]
 
-{ #category : 'window handling' }
+{ #category : #'window handling' }
 ToAnchoredWindowManager >> onWindowClosed [
 
 	self onWindowRemoved
 ]
 
-{ #category : 'window handling' }
+{ #category : #'window handling' }
 ToAnchoredWindowManager >> onWindowRemoved [
 
 	self currentWindow root removeChildren.
@@ -195,13 +193,13 @@ ToAnchoredWindowManager >> onWindowRemoved [
 	currentWindow := nil
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAnchoredWindowManager >> positionHook [
 
 	^ positionHook
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAnchoredWindowManager >> positionHook: aValuable [
 	" aValuable takes the event as first argument and the element as second argument. 
 	Computes the window position according to the element position "
@@ -211,7 +209,7 @@ ToAnchoredWindowManager >> positionHook: aValuable [
 	self applyPositionHookFromEvent: nil
 ]
 
-{ #category : 'window handling' }
+{ #category : #'window handling' }
 ToAnchoredWindowManager >> removeWindow [
 
 	self currentWindow ifNil: [ ^ self ].
@@ -219,13 +217,13 @@ ToAnchoredWindowManager >> removeWindow [
 	self onWindowRemoved
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAnchoredWindowManager >> sizeHook [
 	
 	^ sizeHook
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAnchoredWindowManager >> sizeHook: aValuable [
 	
 	sizeHook := aValuable.
@@ -233,13 +231,13 @@ ToAnchoredWindowManager >> sizeHook: aValuable [
 	self applySizeHookFromEvent: nil
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAnchoredWindowManager >> windowClass [
 
 	^ ToAnchoredWindow 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAnchoredWindowManager >> windowRequestClass [
 
 	^ ToWindowOpenRequest 

@@ -1,37 +1,35 @@
 Class {
-	#name : 'ToStyleSheetCSSLikePrinter',
-	#superclass : 'Object',
+	#name : #ToStyleSheetCSSLikePrinter,
+	#superclass : #Object,
 	#instVars : [
 		'styleSheet',
 		'toElement'
 	],
-	#category : 'Toplo-Core-StyleSheet',
-	#package : 'Toplo',
-	#tag : 'Core-StyleSheet'
+	#category : 'Toplo-Core-StyleSheet'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheetCSSLikePrinter class >> styleRules: aStyleRuleList [
 	"Initialize the printer with a style rules list to print"
 
 	^ self new styleSheet: (ToStyleSheet new addAllStyleRules: aStyleRuleList)
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheetCSSLikePrinter class >> styleSheet: aToStyleSheet [
 	"Initialize the printer with a style sheet to print"
 
 	^ self new styleSheet: aToStyleSheet
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheetCSSLikePrinter class >> toElement: aToElement [
 	"Initialize the printer with a ToElement"
 
 	^ self new toElement: aToElement
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ToStyleSheetCSSLikePrinter >> getSelectorCSS: aToElementSelector hangSelector: aSelector [
 	"https://www.w3schools.com/cssref/css_selectors.php"
 
@@ -131,7 +129,7 @@ ToStyleSheetCSSLikePrinter >> getSelectorCSS: aToElementSelector hangSelector: a
 	^ stream contents
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 ToStyleSheetCSSLikePrinter >> printOn: aStream [
 
 	self toElement
@@ -145,7 +143,7 @@ ToStyleSheetCSSLikePrinter >> printOn: aStream [
 			self toElement printOn: aStream ]
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ToStyleSheetCSSLikePrinter >> printStyleRuleCSS: aStyleRule on: aStream hangSelector: aSelector [
 		
 	"print selector"
@@ -172,14 +170,14 @@ ToStyleSheetCSSLikePrinter >> printStyleRuleCSS: aStyleRule on: aStream hangSele
 	].
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 ToStyleSheetCSSLikePrinter >> printStyleSheetCSSLikeOn: aStream [
 
 	self styleRules do: [ :rule |
 		self printStyleRuleCSS: rule on: aStream hangSelector: nil ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheetCSSLikePrinter >> styleRules [
 
 	^ self styleSheet ifNotNil: [ :e | e styleRules ] ifNil: [
@@ -193,25 +191,25 @@ ToStyleSheetCSSLikePrinter >> styleRules [
 			  ifNil: [ #(  ) ] ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheetCSSLikePrinter >> styleSheet [
 
 	^ styleSheet
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheetCSSLikePrinter >> styleSheet: anObject [
 
 	styleSheet := anObject
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheetCSSLikePrinter >> toElement [
 
 	^ toElement ifNotNil: [ :e | e first ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheetCSSLikePrinter >> toElement: aToElement [
 
 	aToElement ~= toElement ifFalse: [ ^ self ].

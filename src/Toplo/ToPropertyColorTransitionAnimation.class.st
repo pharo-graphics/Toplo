@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToPropertyColorTransitionAnimation',
-	#superclass : 'ToPropertyAnimation',
-	#category : 'Toplo-Core-StyleSheet',
-	#package : 'Toplo',
-	#tag : 'Core-StyleSheet'
+	#name : #ToPropertyColorTransitionAnimation,
+	#superclass : #ToPropertyAnimation,
+	#category : 'Toplo-Core-StyleSheet'
 }
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToPropertyColorTransitionAnimation >> newRawAnimationFor: anElement to: aStopColor [
 
 	| newAnim |

@@ -1,27 +1,25 @@
 Class {
-	#name : 'ToListElementContextMenuRequest',
-	#superclass : 'ToContextMenuRequest',
+	#name : #ToListElementContextMenuRequest,
+	#superclass : #ToContextMenuRequest,
 	#instVars : [
 		'selectionIndexes'
 	],
-	#category : 'Toplo-Widget-List-Context-menu',
-	#package : 'Toplo-Widget-List',
-	#tag : 'Context-menu'
+	#category : 'Toplo-Widget-List-Context-menu'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListElementContextMenuRequest >> selectionIndexes [
 
 	^ selectionIndexes
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListElementContextMenuRequest >> selectionIndexes: aCollection [
 
 	selectionIndexes := aCollection
 ]
 
-{ #category : 'sending' }
+{ #category : #sending }
 ToListElementContextMenuRequest >> sendTo: anEvent [
 
 	anEvent listElementContextMenuRequest: self

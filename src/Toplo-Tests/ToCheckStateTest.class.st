@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToCheckStateTest',
-	#superclass : 'ToTestCaseWithSpace',
-	#category : 'Toplo-Tests-Core-States',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-States'
+	#name : #ToCheckStateTest,
+	#superclass : #ToTestCaseWithSpace,
+	#category : 'Toplo-Tests-Core-States'
 }
 
-{ #category : 'running' }
+{ #category : #running }
 ToCheckStateTest >> testApplyOn [
 
 	| e state checkedEvt uncheckedEvt |
@@ -22,7 +20,7 @@ ToCheckStateTest >> testApplyOn [
 	self assert: (checkedEvt isKindOf: ToCheckedLookEvent)
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 ToCheckStateTest >> testApplyOnUnchecked [
 
 	| e state checkedEvt uncheckedEvt |
@@ -38,7 +36,7 @@ ToCheckStateTest >> testApplyOnUnchecked [
 	self assert: (uncheckedEvt isKindOf: ToUncheckedLookEvent)
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 ToCheckStateTest >> testApplyOnWhenDisabled [
 	" even if an element is disabled, enqueuing an intrinsic state is allowed.
 	Disabling state change is controled at the level of the API of the element 
@@ -61,7 +59,7 @@ ToCheckStateTest >> testApplyOnWhenDisabled [
 	self assert: (uncheckedEvt isKindOf: ToUncheckedLookEvent)
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 ToCheckStateTest >> testLookEvent [
 
 	| state  |

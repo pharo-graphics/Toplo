@@ -2,14 +2,12 @@
 A ToRawSkinTest is a test class for testing the behavior of ToRawSkin
 "
 Class {
-	#name : 'ToRawSkinTest',
-	#superclass : 'TestCase',
-	#category : 'Toplo-Tests-Core-Theme',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Theme'
+	#name : #ToRawSkinTest,
+	#superclass : #TestCase,
+	#category : 'Toplo-Tests-Core-Theme'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToRawSkinTest >> instanciableLookEventClasses [
 	" returns all look event classes that implement #sendTo: "
 
@@ -19,7 +17,7 @@ ToRawSkinTest >> instanciableLookEventClasses [
 				  cm selector asSymbol = #sendTo: ifTrue: [ str nextPut: cls ] ] ] ]
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToRawSkinTest >> testHasAllNecessaryLookEventHandlingMethods [
 
 	| lookEventClasses lookEventSelectors |
@@ -39,7 +37,7 @@ ToRawSkinTest >> testHasAllNecessaryLookEventHandlingMethods [
 		self assert: (ToRawSkin canUnderstand: s asSymbol) ]
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToRawSkinTest >> testIsAbleToHandleAnyLookEvent [
 
 	| e skin instanciableLookEventClasses |
@@ -52,7 +50,7 @@ ToRawSkinTest >> testIsAbleToHandleAnyLookEvent [
 		self assert: (skin receivedCountForClass: cls) equals: 1 ]
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToRawSkinTest >> testOnInstalledIn [ 
 
 	| skin e  |
@@ -61,7 +59,7 @@ ToRawSkinTest >> testOnInstalledIn [
 	skin onInstalledIn: e
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToRawSkinTest >> testOnInstalledInSendsInstallRawStyle [
 
 	| skin e  |
@@ -72,7 +70,7 @@ ToRawSkinTest >> testOnInstalledInSendsInstallRawStyle [
 	self assert: e styleInstalled.
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToRawSkinTest >> testOnUninstalledIn [ 
 
 	| skin e  |
@@ -81,7 +79,7 @@ ToRawSkinTest >> testOnUninstalledIn [
 	skin onUninstalledIn: e.
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToRawSkinTest >> testOnUninstalledInSendsUninstallRawStyle [
 
 	| skin e  |

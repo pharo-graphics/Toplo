@@ -1,17 +1,16 @@
 Class {
-	#name : 'ToBeeStyleSheet',
-	#superclass : 'ToStyleSheet',
-	#category : 'Toplo-Theme-Bee',
-	#package : 'Toplo-Theme-Bee'
+	#name : #ToBeeStyleSheet,
+	#superclass : #ToStyleSheet,
+	#category : 'Toplo-Theme-Bee'
 }
 
-{ #category : 'testing' }
+{ #category : #testing }
 ToBeeStyleSheet class >> isDeprecated [ 
 
 	^ true
 ]
 
-{ #category : 'accessing rules  -button' }
+{ #category : #'accessing rules  -button' }
 ToBeeStyleSheet >> buttonRules [
 	<script:'(ToStyleSheetCSSLikePrinter styleRules: (self new buttonRules)) asCSSLikeString inspect'>
 	self deprecated: 'Not used anymore. see #initializeStyleRules'.
@@ -36,7 +35,7 @@ ToBeeStyleSheet >> buttonRules [
 		"str nextPutAll: self toggleButtonRules" ]
 ]
 
-{ #category : 'accessing rules  -button' }
+{ #category : #'accessing rules  -button' }
 ToBeeStyleSheet >> checkableButtonRules [
 	" checkbox family "
 	self deprecated: 'Not used anymore. see #initializeStyleRules'.
@@ -168,7 +167,7 @@ ToBeeStyleSheet >> checkableButtonRules [
 						   c horizontal matchParent ] ] ] ]) }
 ]
 
-{ #category : 'accessing rules  -button' }
+{ #category : #'accessing rules  -button' }
 ToBeeStyleSheet >> checkableInnerImageRules [
 	" checkbox family "
 	self deprecated: 'Not used anymore. see #initializeStyleRules'.
@@ -285,7 +284,7 @@ ToBeeStyleSheet >> checkableInnerImageRules [
 				   with: [ :e | e tokenValueNamed: #'color-error' ] ]) }
 ]
 
-{ #category : 'accessing rules  -button' }
+{ #category : #'accessing rules  -button' }
 ToBeeStyleSheet >> circleButtonRules [
 
 	self deprecated: 'Not used anymore. see #initializeStyleRules'.
@@ -334,7 +333,7 @@ ToBeeStyleSheet >> circleButtonRules [
 					   with: [ :e | BlLinearLayout new alignCenter ] ]) }
 ]
 
-{ #category : 'accessing rules  -button' }
+{ #category : #'accessing rules  -button' }
 ToBeeStyleSheet >> commonButtonRules [
 
 	<script:
@@ -386,7 +385,7 @@ ToBeeStyleSheet >> commonButtonRules [
 				   c linear horizontal alignCenter ] ] ]) }
 ]
 
-{ #category : 'accessing rules  -button' }
+{ #category : #'accessing rules  -button' }
 ToBeeStyleSheet >> commonButtonRulesNew [
 
 	<script:
@@ -487,7 +486,7 @@ ToBeeStyleSheet >> commonButtonRulesNew [
 						   with: [ :e | BlLayoutDirection rightToLeft ] ] ]) }
 ]
 
-{ #category : 'accessing rules  -button' }
+{ #category : #'accessing rules  -button' }
 ToBeeStyleSheet >> commonButtonRulesOld [
 
 	<script:
@@ -638,7 +637,7 @@ ToBeeStyleSheet >> commonButtonRulesOld [
 				   c linear horizontal alignCenter ] ] ]) }
 ]
 
-{ #category : 'accessing rules  -button' }
+{ #category : #'accessing rules  -button' }
 ToBeeStyleSheet >> defaultButtonRules [
 	<script:'(ToStyleSheetCSSLikePrinter styleRules: (self new defaultButtonRules)) asCSSLikeString inspect'>
 	
@@ -722,7 +721,7 @@ ToBeeStyleSheet >> defaultButtonRules [
 	} 
 ]
 
-{ #category : 'accessing rules  -button' }
+{ #category : #'accessing rules  -button' }
 ToBeeStyleSheet >> defaultButtonRulesNew [
 	" ToButton default rule including icon and label "
 
@@ -879,7 +878,7 @@ ToBeeStyleSheet >> defaultButtonRulesNew [
 				   with: [ :e | e borderBuilder dashArray: (e tokenValueNamed: #'dash-array') ] ]) } 
 ]
 
-{ #category : 'accessing rules  -button' }
+{ #category : #'accessing rules  -button' }
 ToBeeStyleSheet >> defaultButtonRulesOld [
 	" ToButton default rule including icon and label "
 
@@ -1035,7 +1034,7 @@ ToBeeStyleSheet >> defaultButtonRulesOld [
 				   with: [ :e | e borderBuilder dashArray: (e tokenValueNamed: #'dash-array') ] ]) } 
 ]
 
-{ #category : 'accessing rules  - label' }
+{ #category : #'accessing rules  - label' }
 ToBeeStyleSheet >> labelRules [
 	" label  rules"
 	self deprecated: 'Not used anymore. see #initializeStyleRules'.
@@ -1160,7 +1159,7 @@ ToBeeStyleSheet >> labelRules [
 						   yourself ] ] ]) }
 ]
 
-{ #category : 'accessing rules - labeled icon' }
+{ #category : #'accessing rules - labeled icon' }
 ToBeeStyleSheet >> labeledIconRules [
 
 	<script:
@@ -1175,7 +1174,7 @@ ToBeeStyleSheet >> labeledIconRules [
 			   c linear horizontal alignCenter ] ] ]) }
 ]
 
-{ #category : 'accessing rules  -button' }
+{ #category : #'accessing rules  -button' }
 ToBeeStyleSheet >> linkButtonRules [
 	" ToButton link "
 	self deprecated: 'Not used anymore. see #initializeStyleRules'.
@@ -1281,7 +1280,7 @@ ToBeeStyleSheet >> linkButtonRules [
 				   with: [ :e | (e tokenValueNamed: #'color-error-pressed') ] ]) }
 ]
 
-{ #category : 'accessing rules  -button' }
+{ #category : #'accessing rules  -button' }
 ToBeeStyleSheet >> primaryButtonRules [
 	<script:'(ToStyleSheetCSSLikePrinter styleRules: (self new primaryButtonRules)) asCSSLikeString inspect'>
 	
@@ -1360,7 +1359,7 @@ ToBeeStyleSheet >> primaryButtonRules [
 	}
 ]
 
-{ #category : 'accessing rules  -button' }
+{ #category : #'accessing rules  -button' }
 ToBeeStyleSheet >> primaryButtonRulesOld [
 	<script:'(ToStyleSheetCSSLikePrinter styleRules: (self new primaryButtonRulesOld)) asCSSLikeString inspect'>
 	self deprecated: 'Not used anymore. see #initializeStyleRules'.
@@ -1480,7 +1479,7 @@ ToBeeStyleSheet >> primaryButtonRulesOld [
 				   with: [ :e | (e tokenValueNamed: #'color-text-light-solid') ] ]) }
 ]
 
-{ #category : 'accessing rules  - pane' }
+{ #category : #'accessing rules  - pane' }
 ToBeeStyleSheet >> rootPaneRules [
 	self deprecated: 'Not used anymore. see #initializeStyleRules'.
 
@@ -1490,7 +1489,7 @@ ToBeeStyleSheet >> rootPaneRules [
 			   with: [ :e | e tokenValueNamed: #'background-color' ] ]) }
 ]
 
-{ #category : 'accessing rules  -button' }
+{ #category : #'accessing rules  -button' }
 ToBeeStyleSheet >> textButtonRules [
 	" ToButton text "
 	self deprecated: 'Not used anymore. see #initializeStyleRules'.
@@ -1605,7 +1604,7 @@ ToBeeStyleSheet >> textButtonRules [
 				   with: [ :e | e tokenValueNamed: #'color-bg-container-disabled' ] ]) }
 ]
 
-{ #category : 'accessing rules  -button' }
+{ #category : #'accessing rules  -button' }
 ToBeeStyleSheet >> toggleButtonRules [
 	self deprecated: 'Not used anymore. see #initializeStyleRules'.
 
@@ -1628,7 +1627,7 @@ ToBeeStyleSheet >> toggleButtonRules [
 				] ) }
 ]
 
-{ #category : 'accessing rules  -button' }
+{ #category : #'accessing rules  -button' }
 ToBeeStyleSheet >> verticalButtonRules [
 	"  
 	'button:hover' rule: [ :e | e mouseCursor: BlCursor hand. e background: Color gray. e font-size: 18 ].

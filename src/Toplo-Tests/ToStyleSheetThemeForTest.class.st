@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToStyleSheetThemeForTest',
-	#superclass : 'ToStyleSheetTheme',
-	#category : 'Toplo-Tests-Core-Theme',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Theme'
+	#name : #ToStyleSheetThemeForTest,
+	#superclass : #ToStyleSheetTheme,
+	#category : 'Toplo-Tests-Core-Theme'
 }
 
-{ #category : 'rules declaring' }
+{ #category : #'rules declaring' }
 ToStyleSheetThemeForTest >> declareElementRules [
 	" one rule for elements with the stamp #element "
 
@@ -27,13 +25,13 @@ ToStyleSheetThemeForTest >> declareElementRules [
 				with: Color brown ]
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToStyleSheetThemeForTest >> defaultElementStampsFor: anElement [ 
 
 	^ { #element }
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToStyleSheetThemeForTest >> initializeStyleRules [
 
 	super initializeStyleRules.

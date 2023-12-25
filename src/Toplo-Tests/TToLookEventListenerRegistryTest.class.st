@@ -2,14 +2,12 @@
 A TToPropertyWriterHolderTest is a test class for testing the behavior of TToPropertyWriterHolder
 "
 Class {
-	#name : 'TToLookEventListenerRegistryTest',
-	#superclass : 'TestCase',
-	#category : 'Toplo-Tests-Core-StyleSheet',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-StyleSheet'
+	#name : #TToLookEventListenerRegistryTest,
+	#superclass : #TestCase,
+	#category : 'Toplo-Tests-Core-StyleSheet'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToLookEventListenerRegistryTest >> testAddAllLookEventListeners [
 
 	| e |
@@ -23,7 +21,7 @@ TToLookEventListenerRegistryTest >> testAddAllLookEventListeners [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToLookEventListenerRegistryTest >> testAddLookEventListener [
 
 	| e |
@@ -33,7 +31,7 @@ TToLookEventListenerRegistryTest >> testAddLookEventListener [
 	self assert: e lookEventListeners size equals: 1
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToLookEventListenerRegistryTest >> testLookEventListeners [
 
 	| e |
@@ -42,7 +40,7 @@ TToLookEventListenerRegistryTest >> testLookEventListeners [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToLookEventListenerRegistryTest >> testRemoveAllLookEventListeners [
 
 	| e |
@@ -60,7 +58,7 @@ TToLookEventListenerRegistryTest >> testRemoveAllLookEventListeners [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToLookEventListenerRegistryTest >> testRemoveLookEventListener [
 
 	| e first second |
@@ -80,7 +78,7 @@ TToLookEventListenerRegistryTest >> testRemoveLookEventListener [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToLookEventListenerRegistryTest >> testlookEventListenerIndex [
 
 	| e |

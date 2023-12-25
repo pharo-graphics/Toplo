@@ -1,17 +1,15 @@
 Class {
-	#name : 'ToListElementSelectionEventHandler',
-	#superclass : 'BlCustomEventHandler',
+	#name : #ToListElementSelectionEventHandler,
+	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'previousNodesArray',
 		'previousSelectedIndexes',
 		'wasFocused'
 	],
-	#category : 'Toplo-Widget-List-Selection',
-	#package : 'Toplo-Widget-List',
-	#tag : 'Selection'
+	#category : 'Toplo-Widget-List-Selection'
 }
 
-{ #category : 'selection managing' }
+{ #category : #'selection managing' }
 ToListElementSelectionEventHandler >> adjacentSelectedNodesGroupsIn: aListElement [
 	" return an array of collection. Each collection contains a list of adjacent selected nodes "
 
@@ -28,7 +26,7 @@ ToListElementSelectionEventHandler >> adjacentSelectedNodesGroupsIn: aListElemen
 		  g ifNotEmpty: [ stream nextPut: g ] ]
 ]
 
-{ #category : 'element handlers' }
+{ #category : #'element handlers' }
 ToListElementSelectionEventHandler >> blurEvent: anEvent [
 
 	" Don't update the selection when the element is removed from the scene 
@@ -37,19 +35,19 @@ ToListElementSelectionEventHandler >> blurEvent: anEvent [
 	self updatePrimarySelectionFromEvent: anEvent
 ]
 
-{ #category : 'element handlers' }
+{ #category : #'element handlers' }
 ToListElementSelectionEventHandler >> elementExtentChangedEvent: anEvent [
 
 	self updatePrimarySelectionFromEvent: anEvent
 ]
 
-{ #category : 'element handlers' }
+{ #category : #'element handlers' }
 ToListElementSelectionEventHandler >> elementScrolledEvent: anEvent [
 
 	self updatePrimarySelectionFromEvent: anEvent
 ]
 
-{ #category : 'api - accessing' }
+{ #category : #'api - accessing' }
 ToListElementSelectionEventHandler >> eventsToHandle [
 
 	^ {
@@ -61,19 +59,19 @@ ToListElementSelectionEventHandler >> eventsToHandle [
 		  ToListSelectionElementUpdatedEvent }
 ]
 
-{ #category : 'element handlers' }
+{ #category : #'element handlers' }
 ToListElementSelectionEventHandler >> focusEvent: anEvent [
 
 	self updatePrimarySelectionFromEvent: anEvent
 ]
 
-{ #category : 'element handlers' }
+{ #category : #'element handlers' }
 ToListElementSelectionEventHandler >> listElementSelectionChangedEvent: anEvent [
 
 	self updatePrimarySelectionFromEvent: anEvent
 ]
 
-{ #category : 'element handlers' }
+{ #category : #'element handlers' }
 ToListElementSelectionEventHandler >> listSelectionElementUpdatedEvent: anEvent [
 
 	| target nodesArray selectedIndexes focused |
@@ -104,7 +102,7 @@ ToListElementSelectionEventHandler >> listSelectionElementUpdatedEvent: anEvent 
 				 selected: (selectedIndexes includes: node holder position)) ]
 ]
 
-{ #category : 'selection managing' }
+{ #category : #'selection managing' }
 ToListElementSelectionEventHandler >> newPrimarySelectionElementsFromEvent: anEvent [
 	" return a collection with instances of ListSelectionDecorationElement "
 
@@ -116,7 +114,7 @@ ToListElementSelectionEventHandler >> newPrimarySelectionElementsFromEvent: anEv
 				  yourself ]
 ]
 
-{ #category : 'selection managing' }
+{ #category : #'selection managing' }
 ToListElementSelectionEventHandler >> updatePrimarySelectionFromEvent: anEvent [
 	"add a ListDecorationElement for each group of adjacent selected nodes "
 

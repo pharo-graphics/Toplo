@@ -1,6 +1,6 @@
 Class {
-	#name : 'ToStyleRule',
-	#superclass : 'Object',
+	#name : #ToStyleRule,
+	#superclass : #Object,
 	#traits : 'TToLookEventListenerRegistry + TToStyleRulesHolder',
 	#classTraits : 'TToLookEventListenerRegistry classTrait + TToStyleRulesHolder classTrait',
 	#instVars : [
@@ -8,18 +8,16 @@ Class {
 		'subStyleRules',
 		'lookEventListeners'
 	],
-	#category : 'Toplo-Core-StyleSheet',
-	#package : 'Toplo',
-	#tag : 'Core-StyleSheet'
+	#category : 'Toplo-Core-StyleSheet'
 }
 
-{ #category : 'testing' }
+{ #category : #testing }
 ToStyleRule >> canBeAppliedTo: anElement [
 
 	^ self canBeAppliedTo: anElement inTheme: nil
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ToStyleRule >> canBeAppliedTo: anElement inTheme: aTheme [
 
 	" check if my rules are applicable to the element.
@@ -33,7 +31,7 @@ ToStyleRule >> canBeAppliedTo: anElement inTheme: aTheme [
 	^ engine result
 ]
 
-{ #category : 'private - for tests implementation  only' }
+{ #category : #'private - for tests implementation  only' }
 ToStyleRule >> canBeRecursivelyAppliedTo: anElement forTheme: aTheme [
 
 	" I'm an helper for testing purpose. **** It does'nt make sense to use this method for writer interpreting *** "
@@ -46,7 +44,7 @@ ToStyleRule >> canBeRecursivelyAppliedTo: anElement forTheme: aTheme [
 		  r canBeRecursivelyAppliedTo: anElement forTheme: aTheme ]
 ]
 
-{ #category : 'copying' }
+{ #category : #copying }
 ToStyleRule >> copyWithOnlyApplicableRuleFor: anElement inTheme: aTheme [
 
 	| copy |
@@ -59,7 +57,7 @@ ToStyleRule >> copyWithOnlyApplicableRuleFor: anElement inTheme: aTheme [
 	^ copy
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToStyleRule >> initialize [
 
 	super initialize.
@@ -67,7 +65,7 @@ ToStyleRule >> initialize [
 	self rawStyleRules: #(  )
 ]
 
-{ #category : 'listener selecting' }
+{ #category : #'listener selecting' }
 ToStyleRule >> putApplicableListenersForElement: anElement forTheme: aTheme in: aStream [
 
 	(self canBeAppliedTo: anElement inTheme: aTheme) ifFalse: [ ^ self ].
@@ -75,37 +73,37 @@ ToStyleRule >> putApplicableListenersForElement: anElement forTheme: aTheme in: 
 	self styleRules do: [ :r | r putApplicableListenersForElement: anElement forTheme: aTheme in: aStream ] 
 ]
 
-{ #category : 't - look event listener registry' }
+{ #category : #'t - look event listener registry' }
 ToStyleRule >> rawLookEventListeners [
 
 	^ lookEventListeners
 ]
 
-{ #category : 't - look event listener registry' }
+{ #category : #'t - look event listener registry' }
 ToStyleRule >> rawLookEventListeners: aLookEventListenerCollection [
 
 	lookEventListeners := aLookEventListenerCollection
 ]
 
-{ #category : 't - style rules holder' }
+{ #category : #'t - style rules holder' }
 ToStyleRule >> rawStyleRules [
 
 	^ subStyleRules
 ]
 
-{ #category : 't - style rules holder' }
+{ #category : #'t - style rules holder' }
 ToStyleRule >> rawStyleRules: aStyleRuleCollection [
 
 	subStyleRules := aStyleRuleCollection
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleRule >> selector [
 
 	^ selector
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleRule >> selector: aStyleSelector [
 
 	selector := aStyleSelector

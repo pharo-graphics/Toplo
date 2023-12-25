@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToAlbumPlaceholder',
-	#superclass : 'ToPlaceholderLayer',
-	#category : 'Toplo-Widget-Album-TextPane',
-	#package : 'Toplo-Widget-Album',
-	#tag : 'TextPane'
+	#name : #ToAlbumPlaceholder,
+	#superclass : #ToPlaceholderLayer,
+	#category : 'Toplo-Widget-Album-TextPane'
 }
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToAlbumPlaceholder >> initialize [
 
 	super initialize.

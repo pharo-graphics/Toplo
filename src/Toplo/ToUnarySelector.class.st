@@ -1,21 +1,19 @@
 Class {
-	#name : 'ToUnarySelector',
-	#superclass : 'ToElementSelector',
+	#name : #ToUnarySelector,
+	#superclass : #ToElementSelector,
 	#instVars : [
 		'left'
 	],
-	#category : 'Toplo-Core-Selectors',
-	#package : 'Toplo',
-	#tag : 'Core-Selectors'
+	#category : 'Toplo-Core-Selectors'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToUnarySelector >> left [
 
 	^ left
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToUnarySelector >> left: aSelector [
 
 	left := aSelector

@@ -1,40 +1,38 @@
 Class {
-	#name : 'ToListElementSelectionChangedEvent',
-	#superclass : 'BlEvent',
+	#name : #ToListElementSelectionChangedEvent,
+	#superclass : #BlEvent,
 	#instVars : [
 		'newSelectedIndexes',
 		'oldSelectedIndexes'
 	],
-	#category : 'Toplo-Widget-List-Selection',
-	#package : 'Toplo-Widget-List',
-	#tag : 'Selection'
+	#category : 'Toplo-Widget-List-Selection'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListElementSelectionChangedEvent >> newSelectedIndexes [
 
 	^ newSelectedIndexes
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListElementSelectionChangedEvent >> newSelectedIndexes: aCollection [
 
 	newSelectedIndexes := aCollection
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListElementSelectionChangedEvent >> oldSelectedIndexes [
 
 	^ oldSelectedIndexes
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListElementSelectionChangedEvent >> oldSelectedIndexes: aCollection [
 
 	oldSelectedIndexes := aCollection
 ]
 
-{ #category : 'sending' }
+{ #category : #sending }
 ToListElementSelectionChangedEvent >> sendTo: anObject [
 
 	anObject listElementSelectionChangedEvent: self

@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToLookEventActionTest',
-	#superclass : 'ToTestCaseWithSpace',
-	#category : 'Toplo-Tests-Core-StyleSheet',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-StyleSheet'
+	#name : #ToLookEventActionTest,
+	#superclass : #ToTestCaseWithSpace,
+	#category : 'Toplo-Tests-Core-StyleSheet'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLookEventActionTest >> testCanReceiveEvent [
 
 	| action |
@@ -16,7 +14,7 @@ ToLookEventActionTest >> testCanReceiveEvent [
 	self deny: (action canReceiveEvent: ToLeavedLookEvent new)
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLookEventActionTest >> testIsSupplement [
 
 	| action |
@@ -24,7 +22,7 @@ ToLookEventActionTest >> testIsSupplement [
 	self deny: action isSupplement
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLookEventActionTest >> testProperty [
 
 	| action |
@@ -33,7 +31,7 @@ ToLookEventActionTest >> testProperty [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLookEventActionTest >> testReceiveEvent [
 
 	| w action evt |

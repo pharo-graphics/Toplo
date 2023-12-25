@@ -2,14 +2,12 @@
 A ToStyleSelectorInterpreterTest is a test class for testing the behavior of ToStyleSelectorInterpreter
 "
 Class {
-	#name : 'ToSelectorInterpreterTest',
-	#superclass : 'TestCase',
-	#category : 'Toplo-Tests-Core-Selectors',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Selectors'
+	#name : #ToSelectorInterpreterTest,
+	#superclass : #TestCase,
+	#category : 'Toplo-Tests-Core-Selectors'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorInterpreterTest >> testPush [
 
 	| selector e engine theme |
@@ -32,7 +30,7 @@ ToSelectorInterpreterTest >> testPush [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorInterpreterTest >> testResult [
 
 	| selector e engine  |
@@ -45,7 +43,7 @@ ToSelectorInterpreterTest >> testResult [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorInterpreterTest >> testTheme [
 
 	| engine  th |
@@ -56,7 +54,7 @@ ToSelectorInterpreterTest >> testTheme [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorInterpreterTest >> testThemeDo [
 
 	| engine wentHere|
@@ -71,7 +69,7 @@ ToSelectorInterpreterTest >> testThemeDo [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorInterpreterTest >> testVisitActionSelector [
 
 	| selector e engine  |
@@ -84,7 +82,7 @@ ToSelectorInterpreterTest >> testVisitActionSelector [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorInterpreterTest >> testVisitAndSelector [
 	" a rule with an And operator  "
 
@@ -106,7 +104,7 @@ ToSelectorInterpreterTest >> testVisitAndSelector [
 	self assert: engine result not
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorInterpreterTest >> testVisitAndSelectorWithParentSelector [
 	" a rule with an And operator  "
 
@@ -133,7 +131,7 @@ ToSelectorInterpreterTest >> testVisitAndSelectorWithParentSelector [
 	self assert: engine result
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorInterpreterTest >> testVisitChildSelector [
 	" selector: an element with a parent of type Object "
 
@@ -154,7 +152,7 @@ ToSelectorInterpreterTest >> testVisitChildSelector [
 	self assert: engine result
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorInterpreterTest >> testVisitChildSelectorMixedWithParentSelector [
 
 	| button innerElement icon label engine innerElementSelector buttonSelector |
@@ -186,7 +184,7 @@ ToSelectorInterpreterTest >> testVisitChildSelectorMixedWithParentSelector [
 	self assert: engine result
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorInterpreterTest >> testVisitChildSelectorWithDepth [
 
 	| childSelectorAnyDepth childSelectorDepth1 childSelectorDepth2 sub subsub parent engine |
@@ -233,7 +231,7 @@ ToSelectorInterpreterTest >> testVisitChildSelectorWithDepth [
 	self assert: engine result not
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorInterpreterTest >> testVisitChildSelectorWithTwoChildrenDepth1 [
 
 	| button icon label engine buttonSelector |
@@ -256,7 +254,7 @@ ToSelectorInterpreterTest >> testVisitChildSelectorWithTwoChildrenDepth1 [
 	self assert: engine result
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorInterpreterTest >> testVisitChildSelectorWithTwoChildrenWithTwoChildSelectorsDepth2 [
 
 	| button innerElement icon label engine buttonSelector |
@@ -297,7 +295,7 @@ ToSelectorInterpreterTest >> testVisitChildSelectorWithTwoChildrenWithTwoChildSe
 	self assert: engine result not
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorInterpreterTest >> testVisitIdSelector [
 
 	| selector e engine |
@@ -312,7 +310,7 @@ ToSelectorInterpreterTest >> testVisitIdSelector [
 	self assert: engine result
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorInterpreterTest >> testVisitNotSelector [
 
 	| selector e engine |
@@ -328,7 +326,7 @@ ToSelectorInterpreterTest >> testVisitNotSelector [
 	self deny: engine result
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorInterpreterTest >> testVisitNotSelector2 [
 
 	| selector e engine |
@@ -345,7 +343,7 @@ ToSelectorInterpreterTest >> testVisitNotSelector2 [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorInterpreterTest >> testVisitOrSelector [
 	" a rule with an And operator  "
 
@@ -368,7 +366,7 @@ ToSelectorInterpreterTest >> testVisitOrSelector [
 	self assert: engine result not
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorInterpreterTest >> testVisitOrSelectorWithParentSelector [
 	" a rule with an Or operator with a child selector  "
 
@@ -396,7 +394,7 @@ ToSelectorInterpreterTest >> testVisitOrSelectorWithParentSelector [
 	self assert: engine result
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorInterpreterTest >> testVisitParentSelector [
 	" selector: an element with a parent of type Object "
 
@@ -417,7 +415,7 @@ ToSelectorInterpreterTest >> testVisitParentSelector [
 	self assert: engine result
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorInterpreterTest >> testVisitParentSelectorWithDepth [
 
 	| engine parent directParentSelector1 directParentSelector2 parentParentSelector sub subsub |
@@ -445,7 +443,7 @@ ToSelectorInterpreterTest >> testVisitParentSelectorWithDepth [
 	engine check: parentParentSelector on: subsub
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorInterpreterTest >> testVisitParentSelectorWithElementWithNoParent [
 
 	| selector e engine |
@@ -456,7 +454,7 @@ ToSelectorInterpreterTest >> testVisitParentSelectorWithElementWithNoParent [
 	self assert: engine result not
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorInterpreterTest >> testVisitParentSelectorWithoutLeft [
 
 	" selector: an element with a parent of type Object "
@@ -477,7 +475,7 @@ ToSelectorInterpreterTest >> testVisitParentSelectorWithoutLeft [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorInterpreterTest >> testVisitSiblingSelector [
 	" a rule with an And operator  "
 
@@ -495,7 +493,7 @@ ToSelectorInterpreterTest >> testVisitSiblingSelector [
 	self assert: engine result
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorInterpreterTest >> testVisitSiblingSelector2 [
 
 	| selector engine parent child sibling |
@@ -518,7 +516,7 @@ ToSelectorInterpreterTest >> testVisitSiblingSelector2 [
 	self assert: engine result
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorInterpreterTest >> testVisitSiblingSelector3 [
 
 	| selector engine parent child sibling |
@@ -541,7 +539,7 @@ ToSelectorInterpreterTest >> testVisitSiblingSelector3 [
 	self assert: engine result
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorInterpreterTest >> testVisitSiblingSelectorTwoSiblingSelectors [
 
 	| selector engine parent child sibling1 sibling2 |
@@ -565,7 +563,7 @@ ToSelectorInterpreterTest >> testVisitSiblingSelectorTwoSiblingSelectors [
 	self assert: engine result
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorInterpreterTest >> testVisitSiblingSelectorTwoSiblingSelectors2 [
 	" a rule with an And operator  "
 
@@ -591,7 +589,7 @@ ToSelectorInterpreterTest >> testVisitSiblingSelectorTwoSiblingSelectors2 [
 	self assert: engine result
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorInterpreterTest >> testVisitSiblingSelectorTwoSiblingSelectors3 [
 	" a rule with an And operator  "
 
@@ -620,7 +618,7 @@ ToSelectorInterpreterTest >> testVisitSiblingSelectorTwoSiblingSelectors3 [
 	self assert: engine result
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorInterpreterTest >> testVisitStyleStampSelector [
 
 	" element with no class, selector without class "
@@ -633,7 +631,7 @@ ToSelectorInterpreterTest >> testVisitStyleStampSelector [
 	self assert: engine result 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorInterpreterTest >> testVisitStyleStampSelectorWithElementWithoutClass0 [
 
 	" element with no class, selector without class "
@@ -646,7 +644,7 @@ ToSelectorInterpreterTest >> testVisitStyleStampSelectorWithElementWithoutClass0
 	self assert: engine result 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorInterpreterTest >> testVisitStyleStampSelectorWithElementWithoutClass1 [
 
 	" element with a class, selector without class "
@@ -659,7 +657,7 @@ ToSelectorInterpreterTest >> testVisitStyleStampSelectorWithElementWithoutClass1
 	self assert: engine result 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorInterpreterTest >> testVisitStyleStampSelectorWithElementWithoutClass2 [
 
 	" element with a class, selector with the same class "
@@ -672,7 +670,7 @@ ToSelectorInterpreterTest >> testVisitStyleStampSelectorWithElementWithoutClass2
 	self assert: engine result 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorInterpreterTest >> testVisitStyleStampSelectorWithElementWithoutClass3 [
 
 	" element with a class, selector with the a different class "
@@ -690,7 +688,7 @@ ToSelectorInterpreterTest >> testVisitStyleStampSelectorWithElementWithoutClass3
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorInterpreterTest >> testVisitStyleStampSelectorWithElementWithoutClass4 [
 	" element with multiple classes "
 
@@ -709,7 +707,7 @@ ToSelectorInterpreterTest >> testVisitStyleStampSelectorWithElementWithoutClass4
 	self assert: engine result
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorInterpreterTest >> testVisitTypeSelector [ 
 
 	| selector e engine |
@@ -720,7 +718,7 @@ ToSelectorInterpreterTest >> testVisitTypeSelector [
 	self assert: engine result.
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorInterpreterTest >> testVisitTypeSelectorAndChildSelector [
 
 	| selector e engine |
@@ -733,7 +731,7 @@ ToSelectorInterpreterTest >> testVisitTypeSelectorAndChildSelector [
 	self assert: engine result
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorInterpreterTest >> testVisitTypeSelectorAndParentSelector [
 
 	| selector e engine |
@@ -756,7 +754,7 @@ ToSelectorInterpreterTest >> testVisitTypeSelectorAndParentSelector [
 	self assert: engine result
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorInterpreterTest >> testVisitTypeSelectorExact [
 
 	| selector engine |
@@ -780,7 +778,7 @@ ToSelectorInterpreterTest >> testVisitTypeSelectorExact [
 	self assert: engine result.
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorInterpreterTest >> testVisitUniversalSelector [
 
 	| selector e engine |
@@ -791,7 +789,7 @@ ToSelectorInterpreterTest >> testVisitUniversalSelector [
 	self assert: engine result
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSelectorInterpreterTest >> testVisitUniversalSelectorWithParent [
 
 	| selector button engine chilLevel3 |

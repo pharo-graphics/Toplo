@@ -1,15 +1,13 @@
 Class {
-	#name : 'ToParameterizedHostTest',
-	#superclass : 'BlParameterizedHostTest',
+	#name : #ToParameterizedHostTest,
+	#superclass : #BlParameterizedHostTest,
 	#instVars : [
 		'space'
 	],
-	#category : 'Toplo-Tests-Core',
-	#package : 'Toplo-Tests',
-	#tag : 'Core'
+	#category : 'Toplo-Tests-Core'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToParameterizedHostTest >> applyAllEnqueuedStates [
 
 	testingSpaces ifNil: [ ^ self ].
@@ -19,7 +17,7 @@ ToParameterizedHostTest >> applyAllEnqueuedStates [
 		each requestNextPulse ].
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 ToParameterizedHostTest >> setUp [ 
 
 	super setUp.
@@ -27,7 +25,7 @@ ToParameterizedHostTest >> setUp [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToParameterizedHostTest >> testingSpace: aSpace showThenDo: aBlock [
 
 	aSpace show.
@@ -38,7 +36,7 @@ ToParameterizedHostTest >> testingSpace: aSpace showThenDo: aBlock [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToParameterizedHostTest >> waitTestingSpaces [
 
 	testingSpaces ifNil: [ ^ self ].

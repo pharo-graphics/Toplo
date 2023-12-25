@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToEnablementStateTest',
-	#superclass : 'ToTestCaseWithSpace',
-	#category : 'Toplo-Tests-Core-States',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-States'
+	#name : #ToEnablementStateTest,
+	#superclass : #ToTestCaseWithSpace,
+	#category : 'Toplo-Tests-Core-States'
 }
 
-{ #category : 'running' }
+{ #category : #running }
 ToEnablementStateTest >> testApplyOn [
 
 	| e receivedEnabledEvt receivedDisabledEvt |
@@ -22,7 +20,7 @@ ToEnablementStateTest >> testApplyOn [
 	self assert: (receivedEnabledEvt isKindOf: ToEnabledLookEvent)
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 ToEnablementStateTest >> testApplyOn2 [
 
 	| e receivedEnabledEvt receivedDisabledEvt |
@@ -39,7 +37,7 @@ ToEnablementStateTest >> testApplyOn2 [
 	self assert: (receivedEnabledEvt isKindOf: ToEnabledLookEvent)
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 ToEnablementStateTest >> testApplyOn3 [
 
 	| e receivedEnabledEvt receivedDisabledEvt |
@@ -56,7 +54,7 @@ ToEnablementStateTest >> testApplyOn3 [
 	self assert: (receivedEnabledEvt isKindOf: ToEnabledLookEvent)
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 ToEnablementStateTest >> testApplyOnWhenDisabled [
 
 	| e receivedEnabledEvt receivedDisabledEvt |
@@ -73,7 +71,7 @@ ToEnablementStateTest >> testApplyOnWhenDisabled [
 	self assert: (receivedDisabledEvt isKindOf: ToDisabledLookEvent)
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 ToEnablementStateTest >> testApplyOnWhenDisabled2 [
 
 	| e receivedEnabledEvt receivedDisabledEvt |
@@ -90,7 +88,7 @@ ToEnablementStateTest >> testApplyOnWhenDisabled2 [
 	self assert: (receivedDisabledEvt isKindOf: ToDisabledLookEvent)
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToEnablementStateTest >> testCanBeEnqueuedFromElementInQueue [
 
 	| e state |
@@ -100,7 +98,7 @@ ToEnablementStateTest >> testCanBeEnqueuedFromElementInQueue [
 	self should: [state canBeEnqueuedFromElement: e inQueue: e skinStateQueue] raise: Error
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 ToEnablementStateTest >> testLookEvent [
 
 	| state  |
@@ -112,7 +110,7 @@ ToEnablementStateTest >> testLookEvent [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToEnablementStateTest >> testRequestEnqueueFromElementInQueue [
 
 	| e state |

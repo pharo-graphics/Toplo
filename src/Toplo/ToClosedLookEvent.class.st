@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToClosedLookEvent',
-	#superclass : 'ToTransientLookEvent',
-	#category : 'Toplo-Core-LookEvents',
-	#package : 'Toplo',
-	#tag : 'Core-LookEvents'
+	#name : #ToClosedLookEvent,
+	#superclass : #ToTransientLookEvent,
+	#category : 'Toplo-Core-LookEvents'
 }
 
-{ #category : 'sending' }
+{ #category : #sending }
 ToClosedLookEvent >> sendTo: anObject [
 
 	anObject closedLookEvent: self

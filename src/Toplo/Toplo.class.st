@@ -1,22 +1,20 @@
 Class {
-	#name : 'Toplo',
-	#superclass : 'Object',
+	#name : #Toplo,
+	#superclass : #Object,
 	#classVars : [
 		'DefaultThemeClass',
 		'DefaultThemeVariantClass'
 	],
-	#category : 'Toplo-Core',
-	#package : 'Toplo',
-	#tag : 'Core'
+	#category : 'Toplo-Core'
 }
 
-{ #category : 'settings' }
+{ #category : #settings }
 Toplo class >> defaultThemeClass [
 
 	^ DefaultThemeClass ifNil: [ DefaultThemeClass := ToRawTheme ]
 ]
 
-{ #category : 'settings' }
+{ #category : #settings }
 Toplo class >> defaultThemeClass: aClass [
 
 	DefaultThemeClass := aClass.
@@ -24,25 +22,25 @@ Toplo class >> defaultThemeClass: aClass [
 		self defaultThemeVariantClass: DefaultThemeClass supportedVariantClasses first ]
 ]
 
-{ #category : 'settings' }
+{ #category : #settings }
 Toplo class >> defaultThemeVariantClass [
 
 	^ DefaultThemeVariantClass ifNil: [ DefaultThemeVariantClass := ToThemeLightVariant ]
 ]
 
-{ #category : 'settings' }
+{ #category : #settings }
 Toplo class >> defaultThemeVariantClass: aThemeVariantClass [
 
 	DefaultThemeVariantClass := aThemeVariantClass
 ]
 
-{ #category : 'settings' }
+{ #category : #settings }
 Toplo class >> newDefaultThemeInstance [
 
 	^ self defaultThemeClass variant: self defaultThemeVariantClass new
 ]
 
-{ #category : 'settings' }
+{ #category : #settings }
 Toplo class >> settingsOn: aBuilder [
 
 	<systemsettings>
@@ -65,7 +63,7 @@ Toplo class >> settingsOn: aBuilder [
 				description: 'Choose the default theme variant' ]
 ]
 
-{ #category : 'settings' }
+{ #category : #settings }
 Toplo class >> supportedThemeClasses [
 
 	^ (ToTheme allSubclasses 

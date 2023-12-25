@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToFocusStateTest',
-	#superclass : 'ToTestCaseWithSpace',
-	#category : 'Toplo-Tests-Core-States',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-States'
+	#name : #ToFocusStateTest,
+	#superclass : #ToTestCaseWithSpace,
+	#category : 'Toplo-Tests-Core-States'
 }
 
-{ #category : 'running' }
+{ #category : #running }
 ToFocusStateTest >> testApplyOn [
 
 	| e state focusedEvt unfocusedEvt |
@@ -23,7 +21,7 @@ ToFocusStateTest >> testApplyOn [
 	self assert: unfocusedEvt isNil
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 ToFocusStateTest >> testApplyOnUnfocused [
 
 	| e state focusedEvt unfocusedEvt |
@@ -40,7 +38,7 @@ ToFocusStateTest >> testApplyOnUnfocused [
 	self assert: focusedEvt isNil
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 ToFocusStateTest >> testApplyOnWhenDisabled [
 	" even if an element is disabled, enqueuing an intrinsic state is allowed.
 	Disabling state change is controled at the level of the API of the element 
@@ -63,7 +61,7 @@ ToFocusStateTest >> testApplyOnWhenDisabled [
 	self assert: (unfocusedEvt isKindOf: ToUnfocusedLookEvent)
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 ToFocusStateTest >> testLookEvent [
 
 	| state  |

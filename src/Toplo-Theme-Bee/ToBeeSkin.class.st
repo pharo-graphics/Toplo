@@ -1,11 +1,10 @@
 Class {
-	#name : 'ToBeeSkin',
-	#superclass : 'ToStyleSheetSkin',
-	#category : 'Toplo-Theme-Bee',
-	#package : 'Toplo-Theme-Bee'
+	#name : #ToBeeSkin,
+	#superclass : #ToStyleSheetSkin,
+	#category : 'Toplo-Theme-Bee'
 }
 
-{ #category : 'api - hooks' }
+{ #category : #'api - hooks' }
 ToBeeSkin >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
@@ -13,7 +12,7 @@ ToBeeSkin >> onInstalledIn: anElement [
 	
 ]
 
-{ #category : 'api - hooks' }
+{ #category : #'api - hooks' }
 ToBeeSkin >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.

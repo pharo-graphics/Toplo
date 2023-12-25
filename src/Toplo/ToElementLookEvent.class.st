@@ -1,28 +1,26 @@
 Class {
-	#name : 'ToElementLookEvent',
-	#superclass : 'BlEvent',
-	#category : 'Toplo-Core-LookEvents',
-	#package : 'Toplo',
-	#tag : 'Core-LookEvents'
+	#name : #ToElementLookEvent,
+	#superclass : #BlEvent,
+	#category : 'Toplo-Core-LookEvents'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToElementLookEvent >> elementDo: aBlock [
 
 	aBlock value: self target
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToElementLookEvent >> fromState: aState [
 ]
 
-{ #category : 'sending' }
+{ #category : #sending }
 ToElementLookEvent >> sendTo: anObject [
 
 	anObject elementLookEvent: self
 ]
 
-{ #category : 'sending' }
+{ #category : #sending }
 ToElementLookEvent >> sendToStyleSheetSkin: aStyleSheetSkin [
 
 	aStyleSheetSkin sendEventToPropertyWriters: self

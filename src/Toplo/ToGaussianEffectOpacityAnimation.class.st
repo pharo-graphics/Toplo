@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToGaussianEffectOpacityAnimation',
-	#superclass : 'BlGaussianEffectOpacityAnimation',
-	#category : 'Toplo-Core-StyleSheet',
-	#package : 'Toplo',
-	#tag : 'Core-StyleSheet'
+	#name : #ToGaussianEffectOpacityAnimation,
+	#superclass : #BlGaussianEffectOpacityAnimation,
+	#category : 'Toplo-Core-StyleSheet'
 }
 
-{ #category : 'pulse' }
+{ #category : #pulse }
 ToGaussianEffectOpacityAnimation >> applyValue: anOpacity [
 
 	self target effect: (BlGaussianShadowEffect

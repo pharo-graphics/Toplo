@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToPropertyIndexWithChangedActionTest',
-	#superclass : 'TestCase',
-	#category : 'Toplo-Tests-Core-Properties',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Properties'
+	#name : #ToPropertyIndexWithChangedActionTest,
+	#superclass : #TestCase,
+	#category : 'Toplo-Tests-Core-Properties'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToPropertyIndexWithChangedActionTest >> testAddAllProperties [
 
 	| idx count |
@@ -24,7 +22,7 @@ ToPropertyIndexWithChangedActionTest >> testAddAllProperties [
 		
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToPropertyIndexWithChangedActionTest >> testAddProperty [
 
 	| idx count |
@@ -44,7 +42,7 @@ ToPropertyIndexWithChangedActionTest >> testAddProperty [
 		
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToPropertyIndexWithChangedActionTest >> testAddPropertyWithBlockClosure [
 
 	| idx count |
@@ -64,7 +62,7 @@ ToPropertyIndexWithChangedActionTest >> testAddPropertyWithBlockClosure [
 		
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToPropertyIndexWithChangedActionTest >> testChangedAction [
 
 	| idx action |
@@ -79,7 +77,7 @@ ToPropertyIndexWithChangedActionTest >> testChangedAction [
 		
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToPropertyIndexWithChangedActionTest >> testHasProperty [
 
 	| idx  |
@@ -97,7 +95,7 @@ ToPropertyIndexWithChangedActionTest >> testHasProperty [
 		
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToPropertyIndexWithChangedActionTest >> testInitialize [
 
 	| idx  |
@@ -107,7 +105,7 @@ ToPropertyIndexWithChangedActionTest >> testInitialize [
 		
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToPropertyIndexWithChangedActionTest >> testRemoveAllProperties [
 
 	| idx count |
@@ -126,7 +124,7 @@ ToPropertyIndexWithChangedActionTest >> testRemoveAllProperties [
 	self assert: idx size equals: 0
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToPropertyIndexWithChangedActionTest >> testRemovePropertyNamed [
 
 	| idx count |

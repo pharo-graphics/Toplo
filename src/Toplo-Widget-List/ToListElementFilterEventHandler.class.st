@@ -1,43 +1,41 @@
 Class {
-	#name : 'ToListElementFilterEventHandler',
-	#superclass : 'BlCustomEventHandler',
+	#name : #ToListElementFilterEventHandler,
+	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'dataFilter',
 		'target'
 	],
-	#category : 'Toplo-Widget-List-Filter',
-	#package : 'Toplo-Widget-List',
-	#tag : 'Filter'
+	#category : 'Toplo-Widget-List-Filter'
 }
 
-{ #category : 'data events handling' }
+{ #category : #'data events handling' }
 ToListElementFilterEventHandler >> collectionAddEvent: anEvent [
 
 	self dataFilter ifNil: [ ^ self ].
 	self dataFilter collectionAddEvent: anEvent
 ]
 
-{ #category : 'data events handling' }
+{ #category : #'data events handling' }
 ToListElementFilterEventHandler >> collectionRemoveEvent: anEvent [
 
 	self dataFilter ifNil: [ ^ self ].
 	self dataFilter collectionRemoveEvent: anEvent
 ]
 
-{ #category : 'data events handling' }
+{ #category : #'data events handling' }
 ToListElementFilterEventHandler >> collectionUpdateEvent: anEvent [
 
 	self dataFilter ifNil: [ ^ self ].
 	self dataFilter collectionUpdateEvent: anEvent
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListElementFilterEventHandler >> dataFilter [
 
 	^ dataFilter
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListElementFilterEventHandler >> dataFilter: aDataFilter [
 
 	dataFilter = aDataFilter ifTrue: [ ^ self ].
@@ -48,14 +46,14 @@ ToListElementFilterEventHandler >> dataFilter: aDataFilter [
 		dataFilter onInstalledIn: target ]
 ]
 
-{ #category : 'data events handling' }
+{ #category : #'data events handling' }
 ToListElementFilterEventHandler >> dataFilterRequest: anEvent [
 
 	self dataFilter ifNil: [ ^ self ].
 	self dataFilter dataFilterRequest: anEvent
 ]
 
-{ #category : 'api - accessing' }
+{ #category : #'api - accessing' }
 ToListElementFilterEventHandler >> eventsToHandle [
 
 	^ {
@@ -68,7 +66,7 @@ ToListElementFilterEventHandler >> eventsToHandle [
 		  ToDataFilterRequest }
 ]
 
-{ #category : 'api - hooks' }
+{ #category : #'api - hooks' }
 ToListElementFilterEventHandler >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
@@ -79,7 +77,7 @@ ToListElementFilterEventHandler >> onInstalledIn: anElement [
 		dataFilter onInstalledIn: target ]
 ]
 
-{ #category : 'api - hooks' }
+{ #category : #'api - hooks' }
 ToListElementFilterEventHandler >> onUninstalledIn: anElement [
 
 	self dataFilter ifNotNil: [ :df | df onUninstalledIn: target ].

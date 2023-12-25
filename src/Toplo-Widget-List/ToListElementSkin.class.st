@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToListElementSkin',
-	#superclass : 'ToRawSkin',
-	#category : 'Toplo-Widget-List-Core',
-	#package : 'Toplo-Widget-List',
-	#tag : 'Core'
+	#name : #ToListElementSkin,
+	#superclass : #ToRawSkin,
+	#category : 'Toplo-Widget-List-Core'
 }
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToListElementSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.

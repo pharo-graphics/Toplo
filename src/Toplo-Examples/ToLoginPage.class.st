@@ -1,18 +1,17 @@
 Class {
-	#name : 'ToLoginPage',
-	#superclass : 'Object',
-	#category : 'Toplo-Examples',
-	#package : 'Toplo-Examples'
+	#name : #ToLoginPage,
+	#superclass : #Object,
+	#category : #'Toplo-Examples'
 }
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToLoginPage class >> open [
 
 	<script>
 	self new open
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToLoginPage >> open [
 
 	| panel loginNamePanel passwdPanel btnLogin loginLabel loginValue pwLabel pwValue groupLogin btnPanel space sep btnCancel |
@@ -32,7 +31,7 @@ ToLoginPage >> open [
 		                  beHorizontal;
 		                  hMatchParent;
 		                  vFitContent.
-	loginLabel := ToLabel new text: 'Login :'.
+	loginLabel := (ToLabel new text: 'Login :') inHorizontalPane fitContent.
 
 	loginLabel layout alignCenterRight.
 	loginValue := ToTextField new hMatchParent.
@@ -40,22 +39,24 @@ ToLoginPage >> open [
 	loginNamePanel addChildren: {
 			loginLabel.
 			loginValue }.
+	loginNamePanel childrenDo: [ :child | child constraintsDo: [ :c | c linear vertical alignCenter ] ].
 	passwdPanel := ToPane new
 		               beHorizontal;
 		               hMatchParent;
 		               vFitContent.
-	pwLabel := ToLabel new text: 'Password :'.
+	pwLabel := (ToLabel new text: 'Password :')  inHorizontalPane fitContent.
 	pwLabel layout alignCenterRight.
 	pwValue := ToTextField new hMatchParent.
 
 	passwdPanel addChildren: {
 			pwLabel.
 			pwValue }.
+	passwdPanel childrenDo: [ :child | child constraintsDo: [ :c | c linear vertical alignCenter ] ].
 
 	" get actual pwLabel and loginLabel width then reset pwLabel and loginLabel to the max "
 	passwdPanel whenLayoutedDoOnce: [
 		| w |
-		w := pwLabel width max: loginLabel width.
+		w := pwLabel measuredWidth max: loginLabel measuredWidth.
 		pwLabel width: w.
 		loginLabel width: w ].
 
@@ -107,6 +108,7 @@ ToLoginPage >> open [
 
 	panel addChild: groupLogin.
 	panel matchParent.
+	panel inspect.
 	space := panel openInSpace.
 	space extent: 450 @ 200.
 	space borderless: true.
@@ -116,6 +118,6 @@ ToLoginPage >> open [
 	btnCancel whenClickedDo: [ space close ]
 ]
 
-{ #category : 'see class side' }
+{ #category : #'see class side' }
 ToLoginPage >> seeClassSide [
 ]

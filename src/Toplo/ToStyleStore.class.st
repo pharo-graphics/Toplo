@@ -1,18 +1,16 @@
 Class {
-	#name : 'ToStyleStore',
-	#superclass : 'Object',
+	#name : #ToStyleStore,
+	#superclass : #Object,
 	#traits : 'TToStampsHolder + TToTokenPropertyIndexHolder',
 	#classTraits : 'TToStampsHolder classTrait + TToTokenPropertyIndexHolder classTrait',
 	#instVars : [
 		'tokenPropertyIndex',
 		'stampIndex'
 	],
-	#category : 'Toplo-Core-Theme',
-	#package : 'Toplo',
-	#tag : 'Core-Theme'
+	#category : 'Toplo-Core-Theme'
 }
 
-{ #category : 'api - hooks' }
+{ #category : #'api - hooks' }
 ToStyleStore >> onInstalledIn: anElement [
 
 	" changing a token property may require a install state and an initial state.
@@ -21,13 +19,13 @@ ToStyleStore >> onInstalledIn: anElement [
 	self stampIndex changedAction: [ anElement requestNewSkinRecursively ]
 ]
 
-{ #category : 't - stamps holder' }
+{ #category : #'t - stamps holder' }
 ToStyleStore >> rawStampIndex [
 
 	^ stampIndex
 ]
 
-{ #category : 't - stamps holder' }
+{ #category : #'t - stamps holder' }
 ToStyleStore >> rawStampIndex: aPropertyIndex [
 
 	stampIndex := aPropertyIndex
@@ -35,13 +33,13 @@ ToStyleStore >> rawStampIndex: aPropertyIndex [
 	
 ]
 
-{ #category : 't - token property index holder' }
+{ #category : #'t - token property index holder' }
 ToStyleStore >> rawTokenPropertyIndex [
 
 	^ tokenPropertyIndex
 ]
 
-{ #category : 't - token property index holder' }
+{ #category : #'t - token property index holder' }
 ToStyleStore >> rawTokenPropertyIndex: aPropertyIndex [
 
 	^ tokenPropertyIndex := aPropertyIndex

@@ -1,34 +1,32 @@
 Class {
-	#name : 'ToPopupWindowManager',
-	#superclass : 'ToAnchoredWindowManager',
+	#name : #ToPopupWindowManager,
+	#superclass : #ToAnchoredWindowManager,
 	#instVars : [
 		'autoCloseOnMouseUpDelay',
 		'mouseButton'
 	],
-	#category : 'Toplo-Core-Window',
-	#package : 'Toplo',
-	#tag : 'Core-Window'
+	#category : 'Toplo-Core-Window'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPopupWindowManager >> autoCloseOnMouseUpDelay [
 
 	^ autoCloseOnMouseUpDelay ifNil: [ autoCloseOnMouseUpDelay := self defaultAutoCloseOnMouseUpDelay ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPopupWindowManager >> autoCloseOnMouseUpDelay: aDelay [
 
 	autoCloseOnMouseUpDelay := aDelay ifNotNil: [:d| d asDuration ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPopupWindowManager >> defaultAutoCloseOnMouseUpDelay [
 
 	^ 300 milliSeconds
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToPopupWindowManager >> defaultPositionHook [
 
 	^ [ :window :theElement :event |
@@ -36,20 +34,20 @@ ToPopupWindowManager >> defaultPositionHook [
 		  (theElement bounds inParent: self anchorRoot) bounds bottomLeft ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPopupWindowManager >> elementEventHandlerClass [ 
 
 	^ ToElementWithPopupEventHandler
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToPopupWindowManager >> initialize [ 
 
 	super initialize.
 	self usePrimaryMouseButton 
 ]
 
-{ #category : 'mouse handlers' }
+{ #category : #'mouse handlers' }
 ToPopupWindowManager >> mouseDownInElementEvent: anEvent [
 
 	builder ifNil: [ ^ self ].
@@ -61,7 +59,7 @@ ToPopupWindowManager >> mouseDownInElementEvent: anEvent [
 		(BlTaskAction new action: [ currentWindow popupEvent: anEvent ])
 ]
 
-{ #category : 'mouse handlers' }
+{ #category : #'mouse handlers' }
 ToPopupWindowManager >> mouseUpInElementEvent: anEvent [
 
 	| delay |
@@ -74,13 +72,13 @@ ToPopupWindowManager >> mouseUpInElementEvent: anEvent [
 	delay > self autoCloseOnMouseUpDelay ifTrue: [ currentWindow close ]
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToPopupWindowManager >> usePrimaryMouseButton [
 
 	mouseButton := BlMouseButton primary
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToPopupWindowManager >> useSecondaryMouseButton [
 
 	mouseButton := BlMouseButton secondary

@@ -1,12 +1,12 @@
-Extension { #name : 'String' }
+Extension { #name : #String }
 
-{ #category : '*Toplo' }
+{ #category : #'*Toplo' }
 String >> asIdSelector [ 
 
 	^ ToIdSelector new id: self asSymbol
 ]
 
-{ #category : '*Toplo' }
+{ #category : #'*Toplo' }
 String >> asStampProperty [
 
 	^ ToStampProperty new
@@ -15,13 +15,13 @@ String >> asStampProperty [
 		  yourself
 ]
 
-{ #category : '*Toplo' }
+{ #category : #'*Toplo' }
 String >> asStampSelector [ 
 
 	^ ToStampSelector new addStamp: self asSymbol
 ]
 
-{ #category : '*Toplo' }
+{ #category : #'*Toplo' }
 String >> asTokenProperty [
 
 	^ ToTokenProperty new

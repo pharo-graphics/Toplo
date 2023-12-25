@@ -2,14 +2,12 @@
 A ToSpaceSkinPhasesManagerTest is a test class for testing the behavior of ToSpaceSkinPhasesManager
 "
 Class {
-	#name : 'ToSpaceSkinPhasesManagerTest',
-	#superclass : 'ToTestCaseWithSpace',
-	#category : 'Toplo-Tests-Core-SpaceFrame',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-SpaceFrame'
+	#name : #ToSpaceSkinPhasesManagerTest,
+	#superclass : #ToTestCaseWithSpace,
+	#category : 'Toplo-Tests-Core-SpaceFrame'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSpaceSkinPhasesManagerTest >> testAllowSkinPhases [
 
 	| m |
@@ -21,7 +19,7 @@ ToSpaceSkinPhasesManagerTest >> testAllowSkinPhases [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSpaceSkinPhasesManagerTest >> testApplyAllEnqueuedStatesIn [
 
 	| e |
@@ -36,7 +34,7 @@ ToSpaceSkinPhasesManagerTest >> testApplyAllEnqueuedStatesIn [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSpaceSkinPhasesManagerTest >> testApplyAllSkinInstallersIn [
 
 	space skinPhasesManager applyAllSkinInstallersIn: space.
@@ -44,7 +42,7 @@ ToSpaceSkinPhasesManagerTest >> testApplyAllSkinInstallersIn [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSpaceSkinPhasesManagerTest >> testCheckSkinPhasesIn [
 
 	space checkSkinPhases.
@@ -67,7 +65,7 @@ ToSpaceSkinPhasesManagerTest >> testCheckSkinPhasesIn [
 	self assert: space skinPhasesManager skinPhasesInstalled
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSpaceSkinPhasesManagerTest >> testInitialize [
 
 	| m |
@@ -78,7 +76,7 @@ ToSpaceSkinPhasesManagerTest >> testInitialize [
 	self assert: m needSkinInstallPass 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSpaceSkinPhasesManagerTest >> testInstalledSkinInstallerPhaseIn [
 
 	space skinPhasesManager startSkinPhasesIn: space.
@@ -87,14 +85,14 @@ ToSpaceSkinPhasesManagerTest >> testInstalledSkinInstallerPhaseIn [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSpaceSkinPhasesManagerTest >> testInstalledSkinStateApplicationPhaseIn [
 
 	space skinPhasesManager startSkinPhasesIn: space.
 	self assert: ((space skinPhasesManager installedSkinStateApplicationPhaseIn: space) isKindOf: ToSpaceSkinStateApplicationPhase).
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSpaceSkinPhasesManagerTest >> testIsSkinInstallerPhaseInstalledIn [
 
 	space checkSkinPhases.
@@ -105,7 +103,7 @@ ToSpaceSkinPhasesManagerTest >> testIsSkinInstallerPhaseInstalledIn [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSpaceSkinPhasesManagerTest >> testIsSkinPhasesInstallationPostponed [
 
 	space checkSkinPhases.
@@ -118,7 +116,7 @@ ToSpaceSkinPhasesManagerTest >> testIsSkinPhasesInstallationPostponed [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSpaceSkinPhasesManagerTest >> testIsSkinStateApplicationPhaseInstalledIn [
 
 	space checkSkinPhases.
@@ -129,7 +127,7 @@ ToSpaceSkinPhasesManagerTest >> testIsSkinStateApplicationPhaseInstalledIn [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSpaceSkinPhasesManagerTest >> testNeedSkinInstallPass [
 
 	| e |
@@ -152,7 +150,7 @@ ToSpaceSkinPhasesManagerTest >> testNeedSkinInstallPass [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSpaceSkinPhasesManagerTest >> testOnInstalledIn [
 
 	space checkSkinPhases.
@@ -165,7 +163,7 @@ ToSpaceSkinPhasesManagerTest >> testOnInstalledIn [
 	self assert: space skinPhasesManager isSkinPhasesInstallationPostponed
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSpaceSkinPhasesManagerTest >> testOnInstalledIn2 [
 
 	space skinPhasesManager startSkinPhasesIn: space.
@@ -179,7 +177,7 @@ ToSpaceSkinPhasesManagerTest >> testOnInstalledIn2 [
 	self assert: space skinPhasesManager isSkinPhasesInstallationPostponed
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSpaceSkinPhasesManagerTest >> testOnUninstalledIn [
 
 	space checkSkinPhases.
@@ -191,7 +189,7 @@ ToSpaceSkinPhasesManagerTest >> testOnUninstalledIn [
 	self deny: space skinPhasesManager skinPhasesInstalled
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSpaceSkinPhasesManagerTest >> testPostponeStartSkinPhasesIn [
 
 	space checkSkinPhases.
@@ -201,7 +199,7 @@ ToSpaceSkinPhasesManagerTest >> testPostponeStartSkinPhasesIn [
 	self assert: space skinPhasesManager isSkinPhasesInstallationPostponed
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSpaceSkinPhasesManagerTest >> testSkinPhasesInstalled [
 
 	space checkSkinPhases.
@@ -212,7 +210,7 @@ ToSpaceSkinPhasesManagerTest >> testSkinPhasesInstalled [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSpaceSkinPhasesManagerTest >> testStartSkinInstallerPhaseIn [
 
 	space checkSkinPhases.
@@ -222,7 +220,7 @@ ToSpaceSkinPhasesManagerTest >> testStartSkinInstallerPhaseIn [
 	self assert: (space skinPhasesManager isSkinInstallerPhaseInstalledIn: space)
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSpaceSkinPhasesManagerTest >> testStartSkinPhasesIn [
 
 	space checkSkinPhases.
@@ -234,7 +232,7 @@ ToSpaceSkinPhasesManagerTest >> testStartSkinPhasesIn [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSpaceSkinPhasesManagerTest >> testStartSkinStateApplicationPhaseIn [
 
 	space checkSkinPhases.
@@ -244,7 +242,7 @@ ToSpaceSkinPhasesManagerTest >> testStartSkinStateApplicationPhaseIn [
 	self assert: (space skinPhasesManager isSkinStateApplicationPhaseInstalledIn: space)
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSpaceSkinPhasesManagerTest >> testStopSkinInstallerPhaseIn [
 
 	space checkSkinPhases.
@@ -257,7 +255,7 @@ ToSpaceSkinPhasesManagerTest >> testStopSkinInstallerPhaseIn [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSpaceSkinPhasesManagerTest >> testStopSkinPhasesIn [
 
 	space checkSkinPhases.
@@ -276,7 +274,7 @@ ToSpaceSkinPhasesManagerTest >> testStopSkinPhasesIn [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSpaceSkinPhasesManagerTest >> testStopSkinStateApplicationPhaseIn [
 
 	space checkSkinPhases.

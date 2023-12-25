@@ -1,6 +1,6 @@
 Class {
-	#name : 'ToListElementFilter',
-	#superclass : 'Object',
+	#name : #ToListElementFilter,
+	#superclass : #Object,
 	#instVars : [
 		'pattern',
 		'semaphore',
@@ -11,75 +11,73 @@ Class {
 		'delayBeforeFilter',
 		'filterResultTask'
 	],
-	#category : 'Toplo-Widget-List-Filter',
-	#package : 'Toplo-Widget-List',
-	#tag : 'Filter'
+	#category : 'Toplo-Widget-List-Filter'
 }
 
-{ #category : 'filter events handling' }
+{ #category : #'filter events handling' }
 ToListElementFilter >> collectionAddEvent: anEvent [
 
 	self dataChangedIn: anEvent currentTarget
 ]
 
-{ #category : 'filter events handling' }
+{ #category : #'filter events handling' }
 ToListElementFilter >> collectionRemoveEvent: anEvent [ 
 
 	self dataChangedIn: anEvent currentTarget
 ]
 
-{ #category : 'filter events handling' }
+{ #category : #'filter events handling' }
 ToListElementFilter >> collectionUpdateEvent: anEvent [ 
 
 	self dataChangedIn: anEvent currentTarget
 ]
 
-{ #category : 'filter events handling' }
+{ #category : #'filter events handling' }
 ToListElementFilter >> dataChangedIn: anElement [
 
 	originalData := originalDataProvider value.
 	self filterDataIn: anElement
 ]
 
-{ #category : 'private filtering' }
+{ #category : #'private filtering' }
 ToListElementFilter >> dataFilterPattern: aString [
 
 	pattern := aString asString trimBoth.
 	self semaphore signal
 ]
 
-{ #category : 'private filtering' }
+{ #category : #'private filtering' }
 ToListElementFilter >> dataFilterRequest: anEvent [
 
 	self dataFilterPattern: anEvent pattern
 ]
 
-{ #category : 'filter events handling' }
+{ #category : #'filter events handling' }
 ToListElementFilter >> defaultFilter [
 
 	"^ [ :data :p | data includesSubstring: p caseSensitive: false ]"
 	^ [ :data :p | data asString beginsWith: p caseSensitive: false ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListElementFilter >> delayBeforeFilter [
 
 	^ delayBeforeFilter
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListElementFilter >> filter [
 
 	^ filter ifNil: [ filter := self defaultFilter ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListElementFilter >> filter: aValuable [
 	" filter takes a data and a pattern as argument "
 	filter := aValuable
 ]
 
-{ #category : 'private filtering' }
+{ #category : #'private filtering' }
 ToListElementFilter >> filterDataIn: anElement [
 
 	| filtered indexes |
@@ -111,7 +109,7 @@ ToListElementFilter >> filterDataIn: anElement [
 	anElement enqueueTask: filterResultTask
 ]
 
-{ #category : 'private filtering' }
+{ #category : #'private filtering' }
 ToListElementFilter >> filterProcessIn: anElement [
 	"Runs in background, thank to Henrik Johansen for this"
 
@@ -134,14 +132,14 @@ ToListElementFilter >> filterProcessIn: anElement [
 		  named: self class name, ' filter process'
 ]
 
-{ #category : 'private filtering' }
+{ #category : #'private filtering' }
 ToListElementFilter >> filterRequestEvent: anEvent in: anElement [
 
 	pattern := anEvent pattern asString trimBoth.
 	self semaphore signal
 ]
 
-{ #category : 'filter events handling' }
+{ #category : #'filter events handling' }
 ToListElementFilter >> onInstalledIn: anElement [
 
 	originalDataProvider ifNil: [ originalDataProvider := [ anElement data asArray ] ].
@@ -150,7 +148,7 @@ ToListElementFilter >> onInstalledIn: anElement [
 	process := self filterProcessIn: anElement
 ]
 
-{ #category : 'filter events handling' }
+{ #category : #'filter events handling' }
 ToListElementFilter >> onUninstalledIn: anElement [
 
 	process terminate.
@@ -159,20 +157,20 @@ ToListElementFilter >> onUninstalledIn: anElement [
 	semaphore := nil.
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListElementFilter >> originalDataProvider: aBlock [
 
 	" returns an array "
 	originalDataProvider := aBlock
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListElementFilter >> pattern [
 
 	^ pattern
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListElementFilter >> semaphore [
 
 	^ semaphore 

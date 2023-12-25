@@ -1,34 +1,32 @@
 Class {
-	#name : 'ToSelectedLookEvent',
-	#superclass : 'ToIntrasicStateLookEvent',
+	#name : #ToSelectedLookEvent,
+	#superclass : #ToIntrasicStateLookEvent,
 	#instVars : [
 		'focused'
 	],
-	#category : 'Toplo-Core-LookEvents',
-	#package : 'Toplo',
-	#tag : 'Core-LookEvents'
+	#category : 'Toplo-Core-LookEvents'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectedLookEvent >> focused [
 
 	^ focused
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectedLookEvent >> focused: aBoolean [
 
 	focused := aBoolean
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToSelectedLookEvent >> fromState: aState [
 
 	super fromState: aState.
 	self focused: aState focused
 ]
 
-{ #category : 'sending' }
+{ #category : #sending }
 ToSelectedLookEvent >> sendTo: anObject [
 
 	anObject selectedLookEvent: self

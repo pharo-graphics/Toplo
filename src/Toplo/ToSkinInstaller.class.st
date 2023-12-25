@@ -1,15 +1,13 @@
 Class {
-	#name : 'ToSkinInstaller',
-	#superclass : 'Object',
+	#name : #ToSkinInstaller,
+	#superclass : #Object,
 	#instVars : [
 		'installing'
 	],
-	#category : 'Toplo-Core-Theme',
-	#package : 'Toplo',
-	#tag : 'Core-Theme'
+	#category : 'Toplo-Core-Theme'
 }
 
-{ #category : 'hook' }
+{ #category : #hook }
 ToSkinInstaller >> applyOn: anElement [
 	" if there is an installed skin -> nothing to do "
 
@@ -23,26 +21,26 @@ ToSkinInstaller >> applyOn: anElement [
 		anElement skinInstaller: nil ]
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToSkinInstaller >> initialize [ 
 
 	super initialize.
 	installing := false
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSkinInstaller >> installing [
 
 	^ installing
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSkinInstaller >> installing: aBoolean [
 
 	installing := aBoolean
 ]
 
-{ #category : 'hook' }
+{ #category : #hook }
 ToSkinInstaller >> installingWhile: aBlock [
 
 	self installing: true.	
@@ -50,7 +48,7 @@ ToSkinInstaller >> installingWhile: aBlock [
 	self installing: false
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ToSkinInstaller >> isInstalling [
 
 	^ installing

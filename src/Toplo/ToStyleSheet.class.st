@@ -1,6 +1,6 @@
 Class {
-	#name : 'ToStyleSheet',
-	#superclass : 'Object',
+	#name : #ToStyleSheet,
+	#superclass : #Object,
 	#traits : 'TToStyleRuleScripter',
 	#classTraits : 'TToStyleRuleScripter classTrait',
 	#instVars : [
@@ -8,12 +8,10 @@ Class {
 		'inherits',
 		'writablePropertyIndex'
 	],
-	#category : 'Toplo-Core-StyleSheet',
-	#package : 'Toplo',
-	#tag : 'Core-StyleSheet'
+	#category : 'Toplo-Core-StyleSheet'
 }
 
-{ #category : 'class initialization' }
+{ #category : #'class initialization' }
 ToStyleSheet class >> defaultWritablePropertyList [
 	" skin managing need a list of unique writeable properties. "
 
@@ -94,32 +92,32 @@ ToStyleSheet class >> defaultWritablePropertyList [
 			   writer: [ :e :v | v value: e constraints ]) }
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToStyleSheet >> defaultScript [
 
 	^ ToStyleScript new
 ]
 
-{ #category : 'accessing - writable properties' }
+{ #category : #'accessing - writable properties' }
 ToStyleSheet >> defaultWritablePropertyList [
 	" skin managing need a list of unique writeable properties. "
 
 	^ self class defaultWritablePropertyList
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheet >> inherits [
 
 	^ inherits
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheet >> inherits: aBoolean [
 
 	inherits := aBoolean
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToStyleSheet >> initialize [ 
 
 	super initialize.
@@ -128,61 +126,61 @@ ToStyleSheet >> initialize [
 	self initializeStyleRules.
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToStyleSheet >> initializeStyleRules [
 ]
 
-{ #category : 't - stylesheet scripter' }
+{ #category : #'t - stylesheet scripter' }
 ToStyleSheet >> lookEventListenerHolder [ 
 
 	^ self script
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToStyleSheet >> onInstalledIn: anElement [
 
 	anElement requestNewSkinRecursively
 
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToStyleSheet >> onUnInstalledIn: anElement [
 
 	anElement requestUninstallSkinRecursively
 
 ]
 
-{ #category : 'accessing - writable properties' }
+{ #category : #'accessing - writable properties' }
 ToStyleSheet >> property: aSymbol [
 
 	^ self writablePropertyNamed: aSymbol
 ]
 
-{ #category : 'accessing - writable properties' }
+{ #category : #'accessing - writable properties' }
 ToStyleSheet >> rawWritablePropertyIndex [
 
 	^ writablePropertyIndex 
 ]
 
-{ #category : 'accessing - writable properties' }
+{ #category : #'accessing - writable properties' }
 ToStyleSheet >> rawWritablePropertyIndex: aPropertyIndex [
 
 	writablePropertyIndex := aPropertyIndex
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheet >> script [
 
 	^ styleScript
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheet >> styleRules [
 
 	^ styleScript styleRules
 ]
 
-{ #category : 'accessing - writable properties' }
+{ #category : #'accessing - writable properties' }
 ToStyleSheet >> writablePropertyIndex [
 
 	^ self rawWritablePropertyIndex ifNil: [
@@ -191,7 +189,7 @@ ToStyleSheet >> writablePropertyIndex [
 		  self rawWritablePropertyIndex ]
 ]
 
-{ #category : 'accessing - writable properties' }
+{ #category : #'accessing - writable properties' }
 ToStyleSheet >> writablePropertyNamed: aName [ 
 
 	^ self writablePropertyIndex propertyNamed: aName

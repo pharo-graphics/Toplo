@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToUninstallStateTest',
-	#superclass : 'ToTestCaseWithSpace',
-	#category : 'Toplo-Tests-Core-States',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-States'
+	#name : #ToUninstallStateTest,
+	#superclass : #ToTestCaseWithSpace,
+	#category : 'Toplo-Tests-Core-States'
 }
 
-{ #category : 'running' }
+{ #category : #running }
 ToUninstallStateTest >> testApplyOn [
 
 	| e stateEvt receivedEvt |
@@ -18,7 +16,7 @@ ToUninstallStateTest >> testApplyOn [
 	self assert: (receivedEvt isKindOf: ToUninstallLookEvent)
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 ToUninstallStateTest >> testCanBeEnqueuedFromElementInQueue [
 
 	| e state |
@@ -28,7 +26,7 @@ ToUninstallStateTest >> testCanBeEnqueuedFromElementInQueue [
 	self should: [state canBeEnqueuedFromElement: e inQueue: e skinStateQueue] raise: Error
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 ToUninstallStateTest >> testLookEvent [
 
 	| state  |
@@ -37,7 +35,7 @@ ToUninstallStateTest >> testLookEvent [
 	
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 ToUninstallStateTest >> testRequestEnqueueFromElementInQueue [
 
 	| e state |

@@ -1,40 +1,38 @@
 Class {
-	#name : 'ToLookEventAction',
-	#superclass : 'ToLookEventListener',
+	#name : #ToLookEventAction,
+	#superclass : #ToLookEventListener,
 	#instVars : [
 		'action'
 	],
-	#category : 'Toplo-Core-StyleSheet',
-	#package : 'Toplo',
-	#tag : 'Core-StyleSheet'
+	#category : 'Toplo-Core-StyleSheet'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToLookEventAction >> action [
 
 	^ action
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToLookEventAction >> action: aValuable [
 
 	" aValuable takes an element as unique argument "
 	action := aValuable
 ]
 
-{ #category : 'look event handling' }
+{ #category : #'look event handling' }
 ToLookEventAction >> applyOn: anObject [
 
 	self action value: anObject
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ToLookEventAction >> isSupplement [ 
 
 	^ false
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToLookEventAction >> property [
 
 	^ ToNullProperty uniqueInstance 

@@ -2,8 +2,8 @@
 A TToOrientableTest is a test class for testing the behavior of TToOrientable
 "
 Class {
-	#name : 'TToOrientableTest',
-	#superclass : 'ToParameterizedHostTest',
+	#name : #TToOrientableTest,
+	#superclass : #ToParameterizedHostTest,
 	#instVars : [
 		'pane',
 		'child1',
@@ -11,12 +11,10 @@ Class {
 		'oriCpt',
 		'dirCpt'
 	],
-	#category : 'Toplo-Tests-Core',
-	#package : 'Toplo-Tests',
-	#tag : 'Core'
+	#category : 'Toplo-Tests-Core'
 }
 
-{ #category : 'running' }
+{ #category : #running }
 TToOrientableTest >> setUp [
 
 	super setUp.
@@ -37,7 +35,7 @@ TToOrientableTest >> setUp [
 			child2 }
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToOrientableTest >> testBeHorizontal [
 
 	| ocpt |
@@ -59,7 +57,7 @@ TToOrientableTest >> testBeHorizontal [
 	self assert: child1 bounds top equals: child2 bounds top
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToOrientableTest >> testBeLeftToRight [
 
 	| dcpt |
@@ -81,7 +79,7 @@ TToOrientableTest >> testBeLeftToRight [
 	self assert: child1 bounds top equals: child2 bounds top
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToOrientableTest >> testBeRightToLeft [
 
 	| dcpt |
@@ -103,7 +101,7 @@ TToOrientableTest >> testBeRightToLeft [
 	self assert: child2 bounds top equals: child1 bounds top
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToOrientableTest >> testBeVertical [
 	" to be sure pane is horizontal"
 
@@ -125,7 +123,7 @@ TToOrientableTest >> testBeVertical [
 	self assert: child1 bounds left equals: child2 bounds left
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToOrientableTest >> testDirection [
 
 	| dcpt |
@@ -166,7 +164,7 @@ TToOrientableTest >> testDirection [
 	self assert: child1 bounds top equals: child2 bounds top
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToOrientableTest >> testHorizontal [
 	" to be sure pane is horizontal"
 
@@ -188,7 +186,7 @@ TToOrientableTest >> testHorizontal [
 	self assert: child1 bounds top equals: child2 bounds top
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToOrientableTest >> testIsHorizontal [
 
 	pane beHorizontal.
@@ -199,7 +197,7 @@ TToOrientableTest >> testIsHorizontal [
 	self assert: pane isHorizontal not.
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToOrientableTest >> testIsLeftToRight [
 
 	pane beLeftToRight.
@@ -210,7 +208,7 @@ TToOrientableTest >> testIsLeftToRight [
 	self assert: pane isLeftToRight not.
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToOrientableTest >> testIsRightToLeft [
 
 	pane beRightToLeft.
@@ -221,7 +219,7 @@ TToOrientableTest >> testIsRightToLeft [
 	self assert: pane isRightToLeft not.
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToOrientableTest >> testIsVertical [
 
 	pane beVertical.
@@ -232,7 +230,7 @@ TToOrientableTest >> testIsVertical [
 	self assert: pane isVertical not.
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToOrientableTest >> testLeftToRight [
 
 	| dcpt |
@@ -254,7 +252,7 @@ TToOrientableTest >> testLeftToRight [
 	self assert: child1 bounds top equals: child2 bounds top
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToOrientableTest >> testOrientation [
 
 	| ocpt |
@@ -295,7 +293,7 @@ TToOrientableTest >> testOrientation [
 	self assert: child1 bounds top equals: child2 bounds top
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToOrientableTest >> testRightToLeft [
 
 	| dcpt |
@@ -317,7 +315,7 @@ TToOrientableTest >> testRightToLeft [
 	self assert: child2 bounds top equals: child1 bounds top
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToOrientableTest >> testVertical [
 	" to be sure pane is horizontal"
 
@@ -339,7 +337,7 @@ TToOrientableTest >> testVertical [
 	self assert: child1 bounds left equals: child2 bounds left
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToOrientableTest >> testVerticalRightToLeft [
 
 	" to be sure pane is leftToRight"

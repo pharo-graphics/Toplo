@@ -1,27 +1,25 @@
 Class {
-	#name : 'ToSkinManagementEvent',
-	#superclass : 'BlEvent',
+	#name : #ToSkinManagementEvent,
+	#superclass : #BlEvent,
 	#instVars : [
 		'skin'
 	],
-	#category : 'Toplo-Core-Theme',
-	#package : 'Toplo',
-	#tag : 'Core-Theme'
+	#category : 'Toplo-Core-Theme'
 }
 
-{ #category : 'sending' }
+{ #category : #sending }
 ToSkinManagementEvent >> sendToStyleSheetSkin: aStyleSheetSkin [
 
 	self sendTo: aStyleSheetSkin 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSkinManagementEvent >> skin [
 
 	^ skin
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSkinManagementEvent >> skin: aSkin [
 
 	skin := aSkin

@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToInstallLookEvent',
-	#superclass : 'ToSkinManagementLookEvent',
-	#category : 'Toplo-Core-LookEvents',
-	#package : 'Toplo',
-	#tag : 'Core-LookEvents'
+	#name : #ToInstallLookEvent,
+	#superclass : #ToSkinManagementLookEvent,
+	#category : 'Toplo-Core-LookEvents'
 }
 
-{ #category : 'sending' }
+{ #category : #sending }
 ToInstallLookEvent >> sendTo: anObject [
 
 	anObject installLookEvent: self

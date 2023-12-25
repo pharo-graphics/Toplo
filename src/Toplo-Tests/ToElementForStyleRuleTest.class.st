@@ -1,21 +1,19 @@
 Class {
-	#name : 'ToElementForStyleRuleTest',
-	#superclass : 'ToElement',
+	#name : #ToElementForStyleRuleTest,
+	#superclass : #ToElement,
 	#instVars : [
 		'themeForSetup'
 	],
-	#category : 'Toplo-Tests-Core-StyleSheet',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-StyleSheet'
+	#category : 'Toplo-Tests-Core-StyleSheet'
 }
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToElementForStyleRuleTest >> setUpByTheme: aTheme [
 
 	themeForSetup := aTheme
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToElementForStyleRuleTest >> themeForSetup [
 
 	^ themeForSetup

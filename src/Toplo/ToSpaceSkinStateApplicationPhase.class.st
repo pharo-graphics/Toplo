@@ -1,19 +1,17 @@
 Class {
-	#name : 'ToSpaceSkinStateApplicationPhase',
-	#superclass : 'BlSpaceFramePhase',
-	#category : 'Toplo-Core-SpaceFrame',
-	#package : 'Toplo',
-	#tag : 'Core-SpaceFrame'
+	#name : #ToSpaceSkinStateApplicationPhase,
+	#superclass : #BlSpaceFramePhase,
+	#category : 'Toplo-Core-SpaceFrame'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSpaceSkinStateApplicationPhase >> name [
 	<return: #String>
 	
 	^ 'Skin state phase'
 ]
 
-{ #category : 'actions' }
+{ #category : #actions }
 ToSpaceSkinStateApplicationPhase >> runOn: aSpace [
 
 	aSpace applyAllEnqueuedStates

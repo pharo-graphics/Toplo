@@ -2,14 +2,12 @@
 A ToSkinnablePropertySlotTest is a test class for testing the behavior of ToSkinnablePropertySlot
 "
 Class {
-	#name : 'ToSkinnablePropertySlotTest',
-	#superclass : 'ToTestCaseWithSpace',
-	#category : 'Toplo-Tests-Core-Slots',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Slots'
+	#name : #ToSkinnablePropertySlotTest,
+	#superclass : #ToTestCaseWithSpace,
+	#category : 'Toplo-Tests-Core-Slots'
 }
 
-{ #category : 'running' }
+{ #category : #running }
 ToSkinnablePropertySlotTest >> testNew [
 
 	| e |
@@ -27,7 +25,7 @@ ToSkinnablePropertySlotTest >> testNew [
 	self assert: e skinStatesApplied equals: 1
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 ToSkinnablePropertySlotTest >> testWriteTo [
 
 	| e |
@@ -49,7 +47,7 @@ ToSkinnablePropertySlotTest >> testWriteTo [
 	self assert: e skinStatesApplied equals: 1
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 ToSkinnablePropertySlotTest >> testWriteTo2 [
 
 	| e |
@@ -72,7 +70,7 @@ ToSkinnablePropertySlotTest >> testWriteTo2 [
 	self assert: e skinInstallStateCount equals: 1
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 ToSkinnablePropertySlotTest >> testWriteTo4 [
 
 	| e requestCpt |
@@ -140,7 +138,7 @@ ToSkinnablePropertySlotTest >> testWriteTo4 [
 	self assert: e skinInstallStateCount equals: 2
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 ToSkinnablePropertySlotTest >> testWriteToWithSpaceAddChildBefore [
 
 	| e |

@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToElementSelector',
-	#superclass : 'Object',
-	#category : 'Toplo-Core-Selectors',
-	#package : 'Toplo',
-	#tag : 'Core-Selectors'
+	#name : #ToElementSelector,
+	#superclass : #Object,
+	#category : 'Toplo-Core-Selectors'
 }
 
-{ #category : 'logical operator' }
+{ #category : #'logical operator' }
 ToElementSelector >> && aStyleSelector [
 
 	^ ToAndSelector new
@@ -15,7 +13,7 @@ ToElementSelector >> && aStyleSelector [
 		  yourself
 ]
 
-{ #category : 'logical operator' }
+{ #category : #'logical operator' }
 ToElementSelector >> + aStyleSelector [
 
 	self
@@ -27,7 +25,7 @@ ToElementSelector >> + aStyleSelector [
 	^ self && aStyleSelector
 ]
 
-{ #category : 'logical operator' }
+{ #category : #'logical operator' }
 ToElementSelector >> - aStyleSelector [
 
 
@@ -42,13 +40,13 @@ ToElementSelector >> - aStyleSelector [
 		  yourself
 ]
 
-{ #category : 'visiting' }
+{ #category : #visiting }
 ToElementSelector >> accept: aVisitor [
 
 	self subclassResponsibility 
 ]
 
-{ #category : 'logical operator' }
+{ #category : #'logical operator' }
 ToElementSelector >> and: aStyleSelector [
 
 	self
@@ -59,31 +57,31 @@ ToElementSelector >> and: aStyleSelector [
 	^ self && aStyleSelector
 ]
 
-{ #category : 'converting' }
+{ #category : #converting }
 ToElementSelector >> asActionSelector [ 
 
 	Error signal: 'Can''t convert an abstract selector'
 ]
 
-{ #category : 'converting' }
+{ #category : #converting }
 ToElementSelector >> asIdelector [ 
 
 	Error signal: 'Can''t convert an abstract selector'
 ]
 
-{ #category : 'converting' }
+{ #category : #converting }
 ToElementSelector >> asStampSelector [ 
 
 	Error signal: 'Can''t convert an abstract selector'
 ]
 
-{ #category : 'converting' }
+{ #category : #converting }
 ToElementSelector >> asTypeSelector [ 
 
 	Error signal: 'Can''t convert an abstract selector'
 ]
 
-{ #category : 'logical operator' }
+{ #category : #'logical operator' }
 ToElementSelector >> child: aSelector [ 
 
 	self
@@ -94,7 +92,7 @@ ToElementSelector >> child: aSelector [
 	^ self withChild: aSelector
 ]
 
-{ #category : 'logical operator' }
+{ #category : #'logical operator' }
 ToElementSelector >> child: aSelector depth: anInteger [
 
 	self
@@ -105,7 +103,7 @@ ToElementSelector >> child: aSelector depth: anInteger [
 	^ self withChild: aSelector atDepth: anInteger
 ]
 
-{ #category : 'logical operator' }
+{ #category : #'logical operator' }
 ToElementSelector >> not [
 
 	^ ToNotSelector new
@@ -113,7 +111,7 @@ ToElementSelector >> not [
 		  yourself
 ]
 
-{ #category : 'logical operator' }
+{ #category : #'logical operator' }
 ToElementSelector >> or: aStyleSelector [
 
 	self
@@ -124,7 +122,7 @@ ToElementSelector >> or: aStyleSelector [
 	^ self || aStyleSelector
 ]
 
-{ #category : 'logical operator' }
+{ #category : #'logical operator' }
 ToElementSelector >> parent: aSelector [ 
 
 	self
@@ -135,7 +133,7 @@ ToElementSelector >> parent: aSelector [
 	^ self withParent: aSelector
 ]
 
-{ #category : 'logical operator' }
+{ #category : #'logical operator' }
 ToElementSelector >> parent: aSelector depth: anInteger [
 
 	self
@@ -146,7 +144,7 @@ ToElementSelector >> parent: aSelector depth: anInteger [
 	^ self withParent: aSelector atDepth: anInteger
 ]
 
-{ #category : 'logical operator' }
+{ #category : #'logical operator' }
 ToElementSelector >> sibling: aSelector [
 
 	self
@@ -157,7 +155,7 @@ ToElementSelector >> sibling: aSelector [
 	^ self withSibling: aSelector
 ]
 
-{ #category : 'logical operator' }
+{ #category : #'logical operator' }
 ToElementSelector >> withChild: aSelector [ 
 
 	^ ToChildSelector new
@@ -166,7 +164,7 @@ ToElementSelector >> withChild: aSelector [
 		  yourself
 ]
 
-{ #category : 'logical operator' }
+{ #category : #'logical operator' }
 ToElementSelector >> withChild: aSelector atDepth: anInteger [
 
 	^ ToChildSelector new
@@ -176,7 +174,7 @@ ToElementSelector >> withChild: aSelector atDepth: anInteger [
 		  yourself
 ]
 
-{ #category : 'logical operator' }
+{ #category : #'logical operator' }
 ToElementSelector >> withParent: aSelector [
 
 	^ ToParentSelector new
@@ -185,7 +183,7 @@ ToElementSelector >> withParent: aSelector [
 		  yourself
 ]
 
-{ #category : 'logical operator' }
+{ #category : #'logical operator' }
 ToElementSelector >> withParent: aSelector atDepth: anInteger [
 
 	^ ToParentSelector new
@@ -195,7 +193,7 @@ ToElementSelector >> withParent: aSelector atDepth: anInteger [
 		  yourself
 ]
 
-{ #category : 'logical operator' }
+{ #category : #'logical operator' }
 ToElementSelector >> withSibling: aSelector [
 
 	^ ToSiblingSelector new
@@ -204,7 +202,7 @@ ToElementSelector >> withSibling: aSelector [
 		  yourself
 ]
 
-{ #category : 'logical operator' }
+{ #category : #'logical operator' }
 ToElementSelector >> || aStyleSelector [
 
 	^ ToOrSelector new

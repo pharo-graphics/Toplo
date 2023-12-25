@@ -2,14 +2,12 @@
 A ToPopupWindowManagerTest is a test class for testing the behavior of ToPopupWindowManager
 "
 Class {
-	#name : 'ToPopupWindowManagerTest',
-	#superclass : 'ToParameterizedHostTest',
-	#category : 'Toplo-Tests-Core-Window',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Window'
+	#name : #ToPopupWindowManagerTest,
+	#superclass : #ToParameterizedHostTest,
+	#category : 'Toplo-Tests-Core-Window'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToPopupWindowManagerTest >> testAutoCloseOnMouseUpDelay [
 
 	| windowManager |
@@ -23,7 +21,7 @@ ToPopupWindowManagerTest >> testAutoCloseOnMouseUpDelay [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToPopupWindowManagerTest >> testElementEventHandlerClass [
 
 	| win e  windowManager |
@@ -46,7 +44,7 @@ ToPopupWindowManagerTest >> testElementEventHandlerClass [
 	self should: [ win popup ] raise: Error
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToPopupWindowManagerTest >> testMouseDownInElementEvent [
 
 	|  e  windowManager  |
@@ -64,7 +62,7 @@ ToPopupWindowManagerTest >> testMouseDownInElementEvent [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToPopupWindowManagerTest >> testMouseUpInElementEvent [
 
 	|  e  windowManager closed |
@@ -91,7 +89,7 @@ ToPopupWindowManagerTest >> testMouseUpInElementEvent [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToPopupWindowManagerTest >> testMouseUpInElementEventAfterLongDelayShouldCloseWindow [
 
 	|  e  windowManager closed |
@@ -118,7 +116,7 @@ ToPopupWindowManagerTest >> testMouseUpInElementEventAfterLongDelayShouldCloseWi
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToPopupWindowManagerTest >> testUsePrimaryMouseButton [
 
 	|  e  windowManager  event |
@@ -138,7 +136,7 @@ ToPopupWindowManagerTest >> testUsePrimaryMouseButton [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToPopupWindowManagerTest >> testUsePrimaryMouseButton2 [
 
 	|  e  windowManager  event |
@@ -156,7 +154,7 @@ ToPopupWindowManagerTest >> testUsePrimaryMouseButton2 [
 	self assert: windowManager currentWindow isNil.
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToPopupWindowManagerTest >> testUseSecondaryMouseButton [
 
 	|  e  windowManager  event |
@@ -176,7 +174,7 @@ ToPopupWindowManagerTest >> testUseSecondaryMouseButton [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToPopupWindowManagerTest >> testUseSecondaryMouseButton2 [
 
 	|  e  windowManager  event |

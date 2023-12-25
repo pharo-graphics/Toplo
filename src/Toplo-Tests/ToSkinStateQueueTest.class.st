@@ -2,14 +2,12 @@
 A ToSkinnableEventHandlerTest is a test class for testing the behavior of ToSkinnableEventHandler
 "
 Class {
-	#name : 'ToSkinStateQueueTest',
-	#superclass : 'ToTestCaseWithSpace',
-	#category : 'Toplo-Tests-Core-States',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-States'
+	#name : #ToSkinStateQueueTest,
+	#superclass : #ToTestCaseWithSpace,
+	#category : 'Toplo-Tests-Core-States'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinStateQueueTest >> newElementInSpace [
 
 	| e |
@@ -25,7 +23,7 @@ ToSkinStateQueueTest >> newElementInSpace [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinStateQueueTest >> testEnqueueInstallStateFor [
 
 	| q e sk isk |
@@ -51,7 +49,7 @@ ToSkinStateQueueTest >> testEnqueueInstallStateFor [
 	self deny: e installedSkin identicalTo: sk
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinStateQueueTest >> testEnqueueInstallStateForThroughARequest [
 
 	| q e sk isk |
@@ -77,7 +75,7 @@ ToSkinStateQueueTest >> testEnqueueInstallStateForThroughARequest [
 	self assert: e installedSkin identicalTo: sk
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinStateQueueTest >> testInitialize [
 
 	| q |
@@ -85,7 +83,7 @@ ToSkinStateQueueTest >> testInitialize [
 	self assert: q nextStates notNil
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinStateQueueTest >> testInitializeThroughAnElement [
 
 	| q e  |

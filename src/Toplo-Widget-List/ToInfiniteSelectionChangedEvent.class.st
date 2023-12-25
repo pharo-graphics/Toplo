@@ -1,16 +1,14 @@
 Class {
-	#name : 'ToInfiniteSelectionChangedEvent',
-	#superclass : 'BlEvent',
+	#name : #ToInfiniteSelectionChangedEvent,
+	#superclass : #BlEvent,
 	#instVars : [
 		'newSelectedIndexes',
 		'oldSelectedIndexes'
 	],
-	#category : 'Toplo-Widget-List-Infinite',
-	#package : 'Toplo-Widget-List',
-	#tag : 'Infinite'
+	#category : 'Toplo-Widget-List-Infinite'
 }
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToInfiniteSelectionChangedEvent class >> from: oldArray to: newArray [
 	^ self new
 		oldSelectedIndexes: oldArray;
@@ -18,27 +16,27 @@ ToInfiniteSelectionChangedEvent class >> from: oldArray to: newArray [
 		yourself
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToInfiniteSelectionChangedEvent >> newSelectedIndexes [
 	^ newSelectedIndexes
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToInfiniteSelectionChangedEvent >> newSelectedIndexes: anObject [
 	newSelectedIndexes := anObject
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToInfiniteSelectionChangedEvent >> oldSelectedIndexes [
 	^ oldSelectedIndexes
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToInfiniteSelectionChangedEvent >> oldSelectedIndexes: anObject [
 	oldSelectedIndexes := anObject
 ]
 
-{ #category : 'sending' }
+{ #category : #sending }
 ToInfiniteSelectionChangedEvent >> sendTo: anObject [
 
 	anObject infiniteSelectionChangedEvent: self

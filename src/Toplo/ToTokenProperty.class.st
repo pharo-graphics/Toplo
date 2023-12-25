@@ -3,20 +3,18 @@ terminology : https://design-tokens.github.io/community-group/format/#design-tok
 
 "
 Class {
-	#name : 'ToTokenProperty',
-	#superclass : 'ToPropertyWithValue',
-	#category : 'Toplo-Core-Properties',
-	#package : 'Toplo',
-	#tag : 'Core-Properties'
+	#name : #ToTokenProperty,
+	#superclass : #ToPropertyWithValue,
+	#category : 'Toplo-Core-Properties'
 }
 
-{ #category : 'converting' }
+{ #category : #converting }
 ToTokenProperty >> asTokenProperty [ 
 
 	^ self
 ]
 
-{ #category : 'operating' }
+{ #category : #operating }
 ToTokenProperty >> read: anObject [
 
 	self value isClosure ifFalse: [ Error signal ].

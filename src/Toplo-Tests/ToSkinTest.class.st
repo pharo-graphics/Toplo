@@ -2,14 +2,12 @@
 A ToSkinTest is a test class for testing the behavior of ToSkin
 "
 Class {
-	#name : 'ToSkinTest',
-	#superclass : 'TestCase',
-	#category : 'Toplo-Tests-Core-Theme',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Theme'
+	#name : #ToSkinTest,
+	#superclass : #TestCase,
+	#category : 'Toplo-Tests-Core-Theme'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinTest >> testElementRemovedFromSceneGraph [
 	" test that a requestUninstallSkin is sent to an element when it is removed from a space. "
 	" this ensures that the skin is removed if the element is added back as a child."
@@ -28,7 +26,7 @@ ToSkinTest >> testElementRemovedFromSceneGraph [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinTest >> testEventsToHandle [
 
 	| skin |
@@ -38,7 +36,7 @@ ToSkinTest >> testEventsToHandle [
 				 evtCls inheritsFrom: ToElementLookEvent ] ])
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinTest >> testIsNullSkin [
 
 	| skin |
@@ -46,7 +44,7 @@ ToSkinTest >> testIsNullSkin [
 	self deny: skin isNullSkin
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinTest >> testOnInstalledIn [ 
 
 	| skin e eventHandlerCount |
@@ -63,7 +61,7 @@ ToSkinTest >> testOnInstalledIn [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinTest >> testOnUninstalledIn [ 
 
 	| skin e eventHandlerCount |

@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToSpaceSkinStateApplicationPhaseTest',
-	#superclass : 'ToTestCaseWithSpace',
-	#category : 'Toplo-Tests-Core-SpaceFrame',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-SpaceFrame'
+	#name : #ToSpaceSkinStateApplicationPhaseTest,
+	#superclass : #ToTestCaseWithSpace,
+	#category : 'Toplo-Tests-Core-SpaceFrame'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSpaceSkinStateApplicationPhaseTest >> testStartSkinPhases [
 
 	| nb |
@@ -33,7 +31,7 @@ ToSpaceSkinStateApplicationPhaseTest >> testStartSkinPhases [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSpaceSkinStateApplicationPhaseTest >> testStartStopSkinStatePhases [
 
 	| nb stopped started |

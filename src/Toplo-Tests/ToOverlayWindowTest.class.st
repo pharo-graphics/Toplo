@@ -2,14 +2,12 @@
 A ToOverlayWindowTest is a test class for testing the behavior of ToOverlayWindow
 "
 Class {
-	#name : 'ToOverlayWindowTest',
-	#superclass : 'ToParameterizedHostTest',
-	#category : 'Toplo-Tests-Core-Window',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Window'
+	#name : #ToOverlayWindowTest,
+	#superclass : #ToParameterizedHostTest,
+	#category : 'Toplo-Tests-Core-Window'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToOverlayWindowTest >> testWindowSize [
 
 	| win e windowHandler |
@@ -42,7 +40,7 @@ ToOverlayWindowTest >> testWindowSize [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToOverlayWindowTest >> testWindowSize2 [
 
 	| win e  windowHandler |

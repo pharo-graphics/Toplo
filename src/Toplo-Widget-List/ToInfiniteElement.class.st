@@ -1,6 +1,6 @@
 Class {
-	#name : 'ToInfiniteElement',
-	#superclass : 'BlInfiniteElement',
+	#name : #ToInfiniteElement,
+	#superclass : #BlInfiniteElement,
 	#traits : 'TBlLayoutResizable',
 	#classTraits : 'TBlLayoutResizable classTrait',
 	#instVars : [
@@ -11,70 +11,67 @@ Class {
 		'nodeClass',
 		'selectionStrategy'
 	],
-	#category : 'Toplo-Widget-List-Infinite',
-	#package : 'Toplo-Widget-List',
-	#tag : 'Infinite'
+	#category : #'Toplo-Widget-List-Infinite'
 }
 
-{ #category : 'selection mode' }
+{ #category : #'selection mode' }
 ToInfiniteElement >> beMultipleSelection [ 
 
 	self selection beMultipleSelection
 ]
 
-{ #category : 'selection mode' }
+{ #category : #'selection mode' }
 ToInfiniteElement >> beSingleSelection [ 
 
 	self primarySelection beSingleSelection
 ]
 
-{ #category : 'selection mode' }
+{ #category : #'selection mode' }
 ToInfiniteElement >> beWithoutSelection [ 
 
 	self primarySelection beWithoutSelection
 ]
 
-{ #category : 'selection events' }
+{ #category : #'selection events' }
 ToInfiniteElement >> cherryPickIndex: anIndex [
 
 	self primarySelection dispatchSelectionChangedAfter: [
 		self primarySelection cherryPickIndex: anIndex ]
 		to: self.
-	self fireEvent: (ToInfiniteNodeSelectedEvent new index: anIndex)
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ToInfiniteElement >> clickLauncher: aProcessOrNil [
 
 	clickLauncher := aProcessOrNil
 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToInfiniteElement >> client [
 
 	^ self
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToInfiniteElement >> data [
 
 	^ dataSource data
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToInfiniteElement >> defaultDataSource [
 
 	^ self subclassResponsibility 
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToInfiniteElement >> defaultLayout [
 
 	^ BlInfiniteLinearLayout new
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToInfiniteElement >> defaultMouseScrollEventHandler [
 
 	^ BlInfiniteMouseScrollListener new
@@ -82,19 +79,19 @@ ToInfiniteElement >> defaultMouseScrollEventHandler [
 		  yourself
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToInfiniteElement >> defaultNodeBuilder [
 
 	^ self subclassResponsibility 
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToInfiniteElement >> defaultSelectionStrategy [
 
 	^ ToListSelectionStrategy new infiniteElement: self
 ]
 
-{ #category : 'selection events' }
+{ #category : #'selection events' }
 ToInfiniteElement >> deselectAll [
 
 	self primarySelection dispatchSelectionChangedAfter: [
@@ -102,31 +99,29 @@ ToInfiniteElement >> deselectAll [
 	to: self
 ]
 
-{ #category : 'selection events' }
+{ #category : #'selection events' }
 ToInfiniteElement >> deselectIndex: anIndex [
 
 	self primarySelection
 		dispatchSelectionChangedAfter: [ 
-			" ensure that the layout is computed before updating the selection "
 			self primarySelection deselectIndex: anIndex ]
 		to: self
 ]
 
-{ #category : 'scrolled event' }
+{ #category : #'scrolled event' }
 ToInfiniteElement >> disableScrolledEvent [
 
 	self eventDispatcher disableScrolledEvent 
 ]
 
-{ #category : 'selection events' }
+{ #category : #'selection events' }
 ToInfiniteElement >> dispatchSelectionChangedAfter: aBlock [
 
 	| prevIndexes currentIndexes |
 	prevIndexes := self primarySelectionIndexes copy.
 	aBlock value.
 	currentIndexes := self primarySelectionIndexes.
-	prevIndexes := prevIndexes reject: [ :idx |
-		               currentIndexes includes: idx ].
+	prevIndexes := prevIndexes reject: [ :idx | currentIndexes includes: idx ].
 	prevIndexes = currentIndexes ifTrue: [ ^ self ].
 	self dispatchEvent:
 		(ToInfiniteSelectionChangedEvent
@@ -134,50 +129,50 @@ ToInfiniteElement >> dispatchSelectionChangedAfter: aBlock [
 			 to: currentIndexes)
 ]
 
-{ #category : 'selection events' }
+{ #category : #'selection events' }
 ToInfiniteElement >> dispatchStrongSelectionChanged [
 
 	self terminateClickLauncher.
 	self dispatchEvent: (ToListStrongSelectionEvent indexes: self primarySelectionIndexes)
 ]
 
-{ #category : 'scrolled event' }
+{ #category : #'scrolled event' }
 ToInfiniteElement >> enableScrolledEvent [
 
 	self eventDispatcher enableScrolledEvent 
 ]
 
-{ #category : 'selection events' }
+{ #category : #'selection events' }
 ToInfiniteElement >> ensureSelectIndex: anIndex [
 
 	self selectedIndex = anIndex ifFalse: [ self selectIndex: anIndex ]
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ToInfiniteElement >> hasClickLauncher [
 
 	^ clickLauncher notNil
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ToInfiniteElement >> hasSelection [
 
 	^ self primarySelection isNotEmpty
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToInfiniteElement >> holderClass [
 
 	^ self subclassResponsibility 
 ]
 
-{ #category : 't - infinite accessing' }
+{ #category : #'t - infinite accessing' }
 ToInfiniteElement >> infinite [ 
 
 	^ self
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToInfiniteElement >> initialize [
 
 	self class initializeSlots: self.
@@ -197,26 +192,26 @@ ToInfiniteElement >> initialize [
 	self matchParent
 ]
 
-{ #category : 'shortcuts installation' }
+{ #category : #'shortcuts installation' }
 ToInfiniteElement >> installShortcuts [
 
 	shortcuts := self primarySelection shortcutsIn: self.
 	shortcuts do: [ :s | self addShortcut: s ]
 ]
 
-{ #category : 'selection events' }
+{ #category : #'selection events' }
 ToInfiniteElement >> isSelectedAtIndex: anIndex [
 
 	^ self primarySelection includes: anIndex
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToInfiniteElement >> newListNodeHolderFromDataSource: aDataSource [
 
 	^ self holderClass new infiniteElement: self
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToInfiniteElement >> nodeAt: anIndex [
 
 	" return the holder for the data at anIndex according to currently viewed data range. 
@@ -226,62 +221,59 @@ ToInfiniteElement >> nodeAt: anIndex [
 		  ifNil: [  ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToInfiniteElement >> nodeBuilder [
 
 	"aValuable takes 2 args: first, the ToNode to build and second, the data"
 	^ nodeBuilder 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToInfiniteElement >> nodeBuilder: aValuable [
 
 	"aValuable takes 2 args: first, the ToNode to build and second, its holder in the list element "
 	nodeBuilder := aValuable
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToInfiniteElement >> nodeClass [
 
 	^ nodeClass ifNil: [ nodeClass := ToListNode ]
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToInfiniteElement >> nodeClass: aNodeClass [
 
 	nodeClass := aNodeClass
 ]
 
-{ #category : 'private - commands' }
+{ #category : #'private - commands' }
 ToInfiniteElement >> offsetPositionRecordsForInsert: aStartPosition itemCount: anItemCount [
 
 	| selectedAfter |
-	
 	" deselect items after "
-	
-	selectedAfter := self selectedIndexes select: [ :idx | idx >= aStartPosition ].
+	selectedAfter := self selectedIndexes select: [ :idx |
+		                 idx >= aStartPosition ].
 	selectedAfter do: [ :idx | self primarySelection deselectIndex: idx ].
 
 	super
 		offsetPositionRecordsForInsert: aStartPosition
 		itemCount: anItemCount.
 
-	" Have to wait for the layout done to update the selection decorations (that depends on items bounds) "
-	self whenLayoutedDoOnce: [
-		self primarySelection
-			dispatchSelectionChangedAfter: [
-				selectedAfter reverseDo: [ :idx |
-					self primarySelection addToSelection: idx + anItemCount ] ]
-			to: self ]
+	self primarySelection
+		dispatchSelectionChangedAfter: [
+			selectedAfter reverseDo: [ :idx |
+				self primarySelection addToSelection: idx + anItemCount ] ]
+		to: self
 ]
 
-{ #category : 'private - commands' }
+{ #category : #'private - commands' }
 ToInfiniteElement >> offsetPositionRecordsForMove: aFromPosition to: aToPosition [
 
 	super offsetPositionRecordsForMove: aFromPosition to: aToPosition
 ]
 
-{ #category : 'private - commands' }
+{ #category : #'private - commands' }
 ToInfiniteElement >> offsetPositionRecordsForRemove: aStartPosition itemCount: anItemCount applyToPreLayout: applyToPreLayout [
 
 	super
@@ -297,44 +289,44 @@ ToInfiniteElement >> offsetPositionRecordsForRemove: aStartPosition itemCount: a
 		to: self
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToInfiniteElement >> preserveSelectionOnFocused [
 
 	^ preserveSelectionOnFocused
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToInfiniteElement >> preserveSelectionOnFocused: aBoolean [
 
 	preserveSelectionOnFocused := aBoolean
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToInfiniteElement >> preserveSelectionOnFocusedByDefault [
 
 	^ true
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToInfiniteElement >> primarySelection [
 
 	^ self selection
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToInfiniteElement >> primarySelectionIndexes [ 
 
 	^ self primarySelection selectedIndexes
 ]
 
-{ #category : 'private - accessing' }
+{ #category : #'private - accessing' }
 ToInfiniteElement >> privateData: aCollection [
 
 	self primarySelection deselectAll.
 	dataSource data: aCollection
 ]
 
-{ #category : 't - resizeable' }
+{ #category : #'t - resizeable' }
 ToInfiniteElement >> resizableConstraintsDo: aBlock [
 	"Perform aBlock with my constraints as argument.
 	Note: After evaluation I request a layout update!
@@ -350,7 +342,7 @@ ToInfiniteElement >> resizableConstraintsDo: aBlock [
 	self constraintsDo: aBlock
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ToInfiniteElement >> scrollToIndex: anIndex [
 	"Request a scrollable widget to scroll to an item (logical or physical) at a given index,
 	which can, for example, be a data source position or child index"
@@ -362,7 +354,7 @@ ToInfiniteElement >> scrollToIndex: anIndex [
 		ifFalse: [ self listElement scrollToPosition: aWish index ]"
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ToInfiniteElement >> scrollToIndexAtTop: anIndex [
 	"Request a scrollable widget to scroll to an item (logical or physical) at a given index,
 	which can, for example, be a data source position or child index"
@@ -371,7 +363,7 @@ ToInfiniteElement >> scrollToIndexAtTop: anIndex [
 	self scrollToPosition: anIndex offset: self layout computeExtraLayoutSpace y.
 ]
 
-{ #category : 'selection events' }
+{ #category : #'selection events' }
 ToInfiniteElement >> selectAll [
 
 	self primarySelection dispatchSelectionChangedAfter: [
@@ -379,92 +371,90 @@ ToInfiniteElement >> selectAll [
 	to: self
 ]
 
-{ #category : 'selection events' }
+{ #category : #'selection events' }
 ToInfiniteElement >> selectAndScrollTo: anIndex [
 
-	self primarySelection selectIndex: anIndex.
+	self selectIndex: anIndex.
 	self scrollToIndex: anIndex
 ]
 
-{ #category : 'selection events' }
+{ #category : #'selection events' }
 ToInfiniteElement >> selectIndex: anIndex [
 
 
 	self primarySelection
 		dispatchSelectionChangedAfter: [ 
 			self primarySelection selectIndex: anIndex.
-			self whenLayoutedDoOnce: [ self scrollToIndex: anIndex ] ]
-		to: self.
-	self fireEvent: (ToInfiniteNodeSelectedEvent new index: anIndex)
+			self scrollToIndex: anIndex ]
+		to: self
 ]
 
-{ #category : 'selection events' }
+{ #category : #'selection events' }
 ToInfiniteElement >> selectIndexes: aCollection [
 
 	self primarySelection
 		dispatchSelectionChangedAfter: [
 			self primarySelection deselectAll.
 			aCollection ifNotEmpty: [
-				self whenLayoutedDoOnce: [ self scrollToIndexAtTop:  aCollection first ] ].
+				self scrollToIndexAtTop:  aCollection first ].
 			self primarySelection selectIndexes: aCollection.
 			self requestLayout ]
 		to: self
 ]
 
-{ #category : 'selection events' }
+{ #category : #'selection events' }
 ToInfiniteElement >> selectToIndex: anIndex [
 
 	self primarySelection dispatchSelectionChangedAfter: [
 		self primarySelection selectToIndex: anIndex ]
-	to: self.
-	self fireEvent: (ToInfiniteNodeSelectedEvent new index: anIndex)
+	to: self
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToInfiniteElement >> selectedIndex [
 
 	^ self selection selectedIndex
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToInfiniteElement >> selectedIndexes [
 
 	^ self selectionIndexes 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToInfiniteElement >> selection [
 
 	^ self selectionStrategy
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToInfiniteElement >> selectionIndexes [
 
 	^ self selection selectedIndexes
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToInfiniteElement >> selectionStrategy [
 
 	^ selectionStrategy
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ToInfiniteElement >> terminateClickLauncher [
 
 	clickLauncher ifNotNil: #terminate.
 	clickLauncher := nil.
 ]
 
-{ #category : 'shortcuts installation' }
+{ #category : #'shortcuts installation' }
 ToInfiniteElement >> uninstallShortcuts [
 
 	shortcuts do: [ :s | self removeShortcut: s ].
 	shortcuts := nil
 ]
 
-{ #category : 'dispatching' }
+{ #category : #dispatching }
 ToInfiniteElement >> whenChildAttachedDo: aBlock [
 
 	self addEventHandler: (BlEventHandler
@@ -472,7 +462,7 @@ ToInfiniteElement >> whenChildAttachedDo: aBlock [
 			 do: aBlock)
 ]
 
-{ #category : 'dispatching' }
+{ #category : #dispatching }
 ToInfiniteElement >> whenChildDetachedDo: aBlock [
 
 	self addEventHandler: (BlEventHandler
@@ -480,7 +470,7 @@ ToInfiniteElement >> whenChildDetachedDo: aBlock [
 			 do: aBlock)
 ]
 
-{ #category : 'selection events' }
+{ #category : #'selection events' }
 ToInfiniteElement >> whenClickOnNodeEvent: anEvent [
 
 	| originalEvent |

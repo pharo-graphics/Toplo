@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToListPrimarySelectionElementSkin',
-	#superclass : 'ToRawSkin',
-	#category : 'Toplo-Widget-List-Selection',
-	#package : 'Toplo-Widget-List',
-	#tag : 'Selection'
+	#name : #ToListPrimarySelectionElementSkin,
+	#superclass : #ToRawSkin,
+	#category : 'Toplo-Widget-List-Selection'
 }
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToListPrimarySelectionElementSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.

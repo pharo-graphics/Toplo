@@ -2,14 +2,12 @@
 A TToWidgetWithTooltipTest is a test class for testing the behavior of TToWidgetWithTooltip
 "
 Class {
-	#name : 'TToElementWithTooltipTest',
-	#superclass : 'ToTestCaseWithSpace',
-	#category : 'Toplo-Tests-Core',
-	#package : 'Toplo-Tests',
-	#tag : 'Core'
+	#name : #TToElementWithTooltipTest,
+	#superclass : #ToTestCaseWithSpace,
+	#category : 'Toplo-Tests-Core'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithTooltipTest >> testCloseTooltipWindowOnMouseLeave [
 
 	| e |
@@ -28,7 +26,7 @@ TToElementWithTooltipTest >> testCloseTooltipWindowOnMouseLeave [
 	^ e
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithTooltipTest >> testCloseTooltipWindowOnMouseLeave2 [
 
 	| e |
@@ -48,7 +46,7 @@ TToElementWithTooltipTest >> testCloseTooltipWindowOnMouseLeave2 [
 	^ e
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithTooltipTest >> testCurrentTooltipWindow [
 
 	| e |
@@ -64,7 +62,7 @@ TToElementWithTooltipTest >> testCurrentTooltipWindow [
 	^ e
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithTooltipTest >> testHasOpenedTooltip [
 
 	| e |
@@ -81,7 +79,7 @@ TToElementWithTooltipTest >> testHasOpenedTooltip [
 	^ e
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithTooltipTest >> testHasTooltip [
 
 	|  e  |
@@ -95,7 +93,7 @@ TToElementWithTooltipTest >> testHasTooltip [
 	^ e
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithTooltipTest >> testNewTooltipWindowEvent [
 
 	| e |
@@ -112,7 +110,7 @@ TToElementWithTooltipTest >> testNewTooltipWindowEvent [
 	^ e
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithTooltipTest >> testRawTooltipWindowManager [
 
 	| e |
@@ -125,7 +123,7 @@ TToElementWithTooltipTest >> testRawTooltipWindowManager [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithTooltipTest >> testRemoveTooltip [
 
 	|  e  |
@@ -139,7 +137,7 @@ TToElementWithTooltipTest >> testRemoveTooltip [
 	^ e
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithTooltipTest >> testRemoveTooltipWindowManager [
 
 	| e |
@@ -151,7 +149,7 @@ TToElementWithTooltipTest >> testRemoveTooltipWindowManager [
 	^ e
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithTooltipTest >> testTooltip [
 
 	| tt e ttwin |
@@ -169,7 +167,7 @@ TToElementWithTooltipTest >> testTooltip [
 	^ e
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithTooltipTest >> testTooltipBuilder [
 
 	| e b |
@@ -182,7 +180,7 @@ TToElementWithTooltipTest >> testTooltipBuilder [
 	self assert: e rawTooltipWindowManager isNil
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithTooltipTest >> testTooltipContent [
 
 	|  e ttwin |
@@ -198,7 +196,7 @@ TToElementWithTooltipTest >> testTooltipContent [
 	^ e
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithTooltipTest >> testTooltipPopupDelay [
 
 	| e |
@@ -219,7 +217,7 @@ TToElementWithTooltipTest >> testTooltipPopupDelay [
 	^ e
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithTooltipTest >> testTooltipRequestEvent [
 
 	"test that context menu item are added on popup (an not on window instanciation)"
@@ -234,7 +232,7 @@ TToElementWithTooltipTest >> testTooltipRequestEvent [
 	self assert: request target identicalTo: e
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithTooltipTest >> testTooltipString [
 
 	| tt e ttwin |
@@ -249,7 +247,7 @@ TToElementWithTooltipTest >> testTooltipString [
 	^ e
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithTooltipTest >> testTooltipText [
 
 	| tt e ttwin |
@@ -265,7 +263,7 @@ TToElementWithTooltipTest >> testTooltipText [
 	^ e
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithTooltipTest >> testTooltipWindowManager [
 
 	| e |

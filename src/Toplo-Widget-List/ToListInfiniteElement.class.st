@@ -1,43 +1,41 @@
 Class {
-	#name : 'ToListInfiniteElement',
-	#superclass : 'ToInfiniteElement',
-	#category : 'Toplo-Widget-List-Infinite',
-	#package : 'Toplo-Widget-List',
-	#tag : 'Infinite'
+	#name : #ToListInfiniteElement,
+	#superclass : #ToInfiniteElement,
+	#category : 'Toplo-Widget-List-Infinite'
 }
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToListInfiniteElement >> defaultDataSource [
 
 	^ ToListObservableCollectionDataSource new
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToListInfiniteElement >> defaultEventHandler [ 
 
 	^ ToListInfiniteElementEventHandler new
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToListInfiniteElement >> defaultNodeBuilder [
 
 	^ [ :node :holder | node addChild: ((ToLabel text: holder data asString) hMatchParent) ]
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToListInfiniteElement >> holderClass [
 
 	^ ToListNodeHolder 
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToListInfiniteElement >> initialize [
 
 	super initialize.
 	self addEventHandler: self defaultEventHandler
 ]
 
-{ #category : 'skin' }
+{ #category : #skin }
 ToListInfiniteElement >> newRawSkin [
 
 	^ ToListInfiniteElementSkin new

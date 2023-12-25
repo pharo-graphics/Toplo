@@ -2,14 +2,12 @@
 A ToTransientStateTest is a test class for testing the behavior of ToTransientState
 "
 Class {
-	#name : 'ToTransientStateTest',
-	#superclass : 'ToTestCaseWithSpace',
-	#category : 'Toplo-Tests-Core-States',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-States'
+	#name : #ToTransientStateTest,
+	#superclass : #ToTestCaseWithSpace,
+	#category : 'Toplo-Tests-Core-States'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToTransientStateTest >> testApplyOn [
 
 	| e stateEvt receivedEvt |
@@ -24,7 +22,7 @@ ToTransientStateTest >> testApplyOn [
 	self assert: receivedEvt identicalTo: stateEvt
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToTransientStateTest >> testCanBeEnqueuedFromElementInQueue [
 
 	| e stateEvt state |
@@ -37,7 +35,7 @@ ToTransientStateTest >> testCanBeEnqueuedFromElementInQueue [
 	self assert: (state canBeEnqueuedFromElement: e inQueue: e skinStateQueue)
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToTransientStateTest >> testLookEvent [
 
 	| state stateEvt |
@@ -48,7 +46,7 @@ ToTransientStateTest >> testLookEvent [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToTransientStateTest >> testOnAppliedOn [
 
 	| e stateEvt state |
@@ -60,7 +58,7 @@ ToTransientStateTest >> testOnAppliedOn [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToTransientStateTest >> testRequestEnqueueFromElementInQueue [
 
 	| e stateEvt state |
@@ -81,7 +79,7 @@ ToTransientStateTest >> testRequestEnqueueFromElementInQueue [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToTransientStateTest >> testSourceEvent [
 
 	| state stateEvt sourceEvt |

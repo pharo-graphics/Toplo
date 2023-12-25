@@ -1,29 +1,27 @@
 Trait {
-	#name : 'TToLabelInnerElement',
-	#category : 'Toplo-Widget-Album-Label',
-	#package : 'Toplo-Widget-Album',
-	#tag : 'Label'
+	#name : #TToLabelInnerElement,
+	#category : 'Toplo-Widget-Album-Label'
 }
 
-{ #category : 'api - editor' }
+{ #category : #'api - editor' }
 TToLabelInnerElement >> editorShortcutsIn: aLabel [
 
 	^ self explicitRequirement 
 ]
 
-{ #category : 'api - editor' }
+{ #category : #'api - editor' }
 TToLabelInnerElement >> newEditorIn: aLabel [
 
 	^ self explicitRequirement 
 ]
 
-{ #category : 'api - text accessing' }
+{ #category : #'api - text accessing' }
 TToLabelInnerElement >> text [
 
 	^ self explicitRequirement 
 ]
 
-{ #category : 'api - text accessing' }
+{ #category : #'api - text accessing' }
 TToLabelInnerElement >> text: aText [
 
 	^ self explicitRequirement 

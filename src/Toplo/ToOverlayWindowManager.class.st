@@ -1,19 +1,17 @@
 Class {
-	#name : 'ToOverlayWindowManager',
-	#superclass : 'ToAnchoredWindowManager',
-	#category : 'Toplo-Core-Window',
-	#package : 'Toplo',
-	#tag : 'Core-Window'
+	#name : #ToOverlayWindowManager,
+	#superclass : #ToAnchoredWindowManager,
+	#category : 'Toplo-Core-Window'
 }
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToOverlayWindowManager >> defaultSizeHook [
 
 	^ [ :theWindow :theElement :event |
 	  theWindow size: theElement measuredWidth @ theElement measuredHeight ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToOverlayWindowManager >> elementEventHandlerClass [
 
 	^ ToOverlayedEventHandler 

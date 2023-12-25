@@ -1,24 +1,22 @@
 Class {
-	#name : 'ToThemeForStyleRuleTest',
-	#superclass : 'ToTheme',
-	#category : 'Toplo-Tests-Core-StyleSheet',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-StyleSheet'
+	#name : #ToThemeForStyleRuleTest,
+	#superclass : #ToTheme,
+	#category : 'Toplo-Tests-Core-StyleSheet'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToThemeForStyleRuleTest class >> label [ 
 
 	^ 'A theme class for tests'
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToThemeForStyleRuleTest >> newSkinInstanceFor: anElement [
 
 	^ ToNullSkin new
 ]
 
-{ #category : 'hook' }
+{ #category : #hook }
 ToThemeForStyleRuleTest >> setUpElement: anElement [
 
 	super setUpElement: anElement.

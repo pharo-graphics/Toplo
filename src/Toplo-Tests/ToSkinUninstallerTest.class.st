@@ -2,14 +2,12 @@
 A ToSkinUninstallerTest is a test class for testing the behavior of ToSkinUninstaller
 "
 Class {
-	#name : 'ToSkinUninstallerTest',
-	#superclass : 'ToTestCaseWithSpace',
-	#category : 'Toplo-Tests-Core-Theme',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Theme'
+	#name : #ToSkinUninstallerTest,
+	#superclass : #ToTestCaseWithSpace,
+	#category : 'Toplo-Tests-Core-Theme'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinUninstallerTest >> testApplyOn [
 
 	| e |
@@ -27,7 +25,7 @@ ToSkinUninstallerTest >> testApplyOn [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinUninstallerTest >> testApplyOnWithRawSkin [ 
 
 	| e |
@@ -51,7 +49,7 @@ ToSkinUninstallerTest >> testApplyOnWithRawSkin [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinUninstallerTest >> testWithSetSkin [
 
 	| e |
@@ -70,7 +68,7 @@ ToSkinUninstallerTest >> testWithSetSkin [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinUninstallerTest >> testWithoutSkin [
 
 	| e |

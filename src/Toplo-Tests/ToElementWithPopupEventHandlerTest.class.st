@@ -2,14 +2,12 @@
 A ToElementWithPopupEventHandlerTest is a test class for testing the behavior of ToElementWithPopupEventHandler
 "
 Class {
-	#name : 'ToElementWithPopupEventHandlerTest',
-	#superclass : 'ToParameterizedHostTest',
-	#category : 'Toplo-Tests-Core-Window',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Window'
+	#name : #ToElementWithPopupEventHandlerTest,
+	#superclass : #ToParameterizedHostTest,
+	#category : 'Toplo-Tests-Core-Window'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToElementWithPopupEventHandlerTest >> testElementPositionInSpaceChangedEvent [
 
 	| win e  windowManager |
@@ -30,7 +28,7 @@ ToElementWithPopupEventHandlerTest >> testElementPositionInSpaceChangedEvent [
 	self assert: win isOpened
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToElementWithPopupEventHandlerTest >> testMouseDownEvent [
 
 	|  e  windowManager  position event |
@@ -51,7 +49,7 @@ ToElementWithPopupEventHandlerTest >> testMouseDownEvent [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToElementWithPopupEventHandlerTest >> testMouseUpEvent [
 
 	|  e  windowManager closed position event |
@@ -82,7 +80,7 @@ ToElementWithPopupEventHandlerTest >> testMouseUpEvent [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToElementWithPopupEventHandlerTest >> testMouseUpOutsideEvent [
 
 	|  e  windowManager closed event |
@@ -113,7 +111,7 @@ ToElementWithPopupEventHandlerTest >> testMouseUpOutsideEvent [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToElementWithPopupEventHandlerTest >> testOnInstalledIn [
 
 	|  e  windowManager handler |
@@ -127,7 +125,7 @@ ToElementWithPopupEventHandlerTest >> testOnInstalledIn [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToElementWithPopupEventHandlerTest >> testOnUninstalledIn [
 
 	|  e  windowManager handler |
@@ -141,7 +139,7 @@ ToElementWithPopupEventHandlerTest >> testOnUninstalledIn [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToElementWithPopupEventHandlerTest >> testTarget [
 
 	|  e  windowManager handler |

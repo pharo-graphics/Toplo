@@ -1,11 +1,10 @@
 Class {
-	#name : 'ToClassNameViewExample',
-	#superclass : 'ToElement',
-	#category : 'Toplo-Examples',
-	#package : 'Toplo-Examples'
+	#name : #ToClassNameViewExample,
+	#superclass : #ToElement,
+	#category : 'Toplo-Examples'
 }
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToClassNameViewExample >> class: aClass position: anInteger [
 
 	self addChild: (ToLabeledIcon new
@@ -19,20 +18,20 @@ ToClassNameViewExample >> class: aClass position: anInteger [
 			 yourself)
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ToClassNameViewExample >> colorFor: index [
 
 	index odd ifTrue: [ ^ Smalltalk ui theme lightBackgroundColor alpha: 0.7].
 	^ Smalltalk ui theme backgroundColor alpha: 0.7
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ToClassNameViewExample >> iconFor: aClass [
 
 	^ ToImage new innerImage: (self iconImageFor: aClass)
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ToClassNameViewExample >> iconImageFor: aClass [
 
 	((aClass includesBehavior:
@@ -54,7 +53,7 @@ ToClassNameViewExample >> iconImageFor: aClass [
 	^ self iconNamed: aClass systemIconName
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToClassNameViewExample >> initialize [ 
 
 	super initialize.

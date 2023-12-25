@@ -2,14 +2,12 @@
 A ToStyleSheetThemeTest is a test class for testing the behavior of ToStyleSheetTheme
 "
 Class {
-	#name : 'ToStyleSheetThemeTest',
-	#superclass : 'TestCase',
-	#category : 'Toplo-Tests-Core-Theme',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Theme'
+	#name : #ToStyleSheetThemeTest,
+	#superclass : #TestCase,
+	#category : 'Toplo-Tests-Core-Theme'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleSheetThemeTest >> testApplicableListenersFor [
 
 	| e space theme |
@@ -23,7 +21,7 @@ ToStyleSheetThemeTest >> testApplicableListenersFor [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleSheetThemeTest >> testApplicableRulesFor [
 
 	| e space theme |
@@ -37,7 +35,7 @@ ToStyleSheetThemeTest >> testApplicableRulesFor [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleSheetThemeTest >> testDefaultElementStampsFor [
 
 	| e theme skin |
@@ -49,7 +47,7 @@ ToStyleSheetThemeTest >> testDefaultElementStampsFor [
 	self assert: (e allStamps includesAll: (theme defaultElementStampsFor: e))
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleSheetThemeTest >> testNewSkinInstanceFor [
 
 	| e theme skin |
@@ -59,7 +57,7 @@ ToStyleSheetThemeTest >> testNewSkinInstanceFor [
 	self assert: (skin isKindOf: ToStyleSheetSkin)
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleSheetThemeTest >> testRootRulesFor [
 
 	| e space theme |
@@ -73,7 +71,7 @@ ToStyleSheetThemeTest >> testRootRulesFor [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleSheetThemeTest >> testSetUpElement [
 
 	| e theme skin |
@@ -87,7 +85,7 @@ ToStyleSheetThemeTest >> testSetUpElement [
 	self assert: (e allStamps includesAll: (theme defaultElementStampsFor: e))
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleSheetThemeTest >> testSkinClassFor [
 
 	| e theme skinCls |
@@ -97,7 +95,7 @@ ToStyleSheetThemeTest >> testSkinClassFor [
 	self assert: skinCls identicalTo: ToStyleSheetSkin 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleSheetThemeTest >> testUnsortedApplicableListenersFor [
 
 	| e space theme |

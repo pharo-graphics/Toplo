@@ -1,29 +1,27 @@
 Class {
-	#name : 'ToRawSkinForTest',
-	#superclass : 'ToRawSkin',
+	#name : #ToRawSkinForTest,
+	#superclass : #ToRawSkin,
 	#instVars : [
 		'receivedEvents'
 	],
-	#category : 'Toplo-Tests-Core-Theme',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Theme'
+	#category : 'Toplo-Tests-Core-Theme'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToRawSkinForTest >> addReceivedEvent: anEvent [
 
 	self receivedEvents at: anEvent class ifAbsentPut: [ OrderedCollection new ].
 	(self receivedEvents at: anEvent class) add: anEvent
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToRawSkinForTest >> checkedLookEvent: anEvent [
 
 	super checkedLookEvent: anEvent.
 	self addReceivedEvent: anEvent
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToRawSkinForTest >> clickedLookEvent: anEvent [
 
 	super clickedLookEvent: anEvent.
@@ -31,14 +29,14 @@ ToRawSkinForTest >> clickedLookEvent: anEvent [
 
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToRawSkinForTest >> closedLookEvent: anEvent [
 
 	super closedLookEvent: anEvent.
 	self addReceivedEvent: anEvent
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToRawSkinForTest >> deselectedLookEvent: anEvent [
 
 	super deselectedLookEvent: anEvent.
@@ -46,7 +44,7 @@ ToRawSkinForTest >> deselectedLookEvent: anEvent [
 
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToRawSkinForTest >> disabledLookEvent: anEvent [
 
 	super disabledLookEvent: anEvent.
@@ -54,7 +52,7 @@ ToRawSkinForTest >> disabledLookEvent: anEvent [
 
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToRawSkinForTest >> dragStartedLookEvent: anEvent [
 
 	super dragStartedLookEvent: anEvent.
@@ -62,14 +60,14 @@ ToRawSkinForTest >> dragStartedLookEvent: anEvent [
 
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToRawSkinForTest >> draggedLookEvent: anEvent [
 
 	super draggedLookEvent: anEvent.
 	self addReceivedEvent: anEvent
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToRawSkinForTest >> droppedLookEvent: anEvent [
 
 	super droppedLookEvent: anEvent.
@@ -77,7 +75,7 @@ ToRawSkinForTest >> droppedLookEvent: anEvent [
 
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToRawSkinForTest >> enabledLookEvent: anEvent [
 
 	super enabledLookEvent: anEvent.
@@ -85,7 +83,7 @@ ToRawSkinForTest >> enabledLookEvent: anEvent [
 
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToRawSkinForTest >> focusedLookEvent: anEvent [
 
 	super focusedLookEvent: anEvent.
@@ -93,7 +91,7 @@ ToRawSkinForTest >> focusedLookEvent: anEvent [
 
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToRawSkinForTest >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
@@ -101,7 +99,7 @@ ToRawSkinForTest >> hoveredLookEvent: anEvent [
 
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToRawSkinForTest >> indeterminateLookEvent: anEvent [
 
 	super indeterminateLookEvent: anEvent.
@@ -109,14 +107,14 @@ ToRawSkinForTest >> indeterminateLookEvent: anEvent [
 
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToRawSkinForTest >> initialize [ 
 
 	super initialize.
 	receivedEvents := IdentityDictionary new.
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToRawSkinForTest >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
@@ -124,7 +122,7 @@ ToRawSkinForTest >> installLookEvent: anEvent [
 
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToRawSkinForTest >> leavedLookEvent: anEvent [
 
 	super leavedLookEvent: anEvent.
@@ -132,7 +130,7 @@ ToRawSkinForTest >> leavedLookEvent: anEvent [
 
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToRawSkinForTest >> openedLookEvent: anEvent [
 
 	super openedLookEvent: anEvent.
@@ -140,7 +138,7 @@ ToRawSkinForTest >> openedLookEvent: anEvent [
 
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToRawSkinForTest >> pressedLookEvent: anEvent [
 
 	super pressedLookEvent: anEvent.
@@ -148,7 +146,7 @@ ToRawSkinForTest >> pressedLookEvent: anEvent [
 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToRawSkinForTest >> receivedCountForClass: anEventClass [
 
 	^ self receivedEvents
@@ -157,13 +155,13 @@ ToRawSkinForTest >> receivedCountForClass: anEventClass [
 		  ifAbsent: [ 0 ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToRawSkinForTest >> receivedEvents [
 
 	^ receivedEvents ifNil: [ receivedEvents := OrderedCollection new ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToRawSkinForTest >> releasedLookEvent: anEvent [
 
 	super releasedLookEvent: anEvent.
@@ -171,7 +169,7 @@ ToRawSkinForTest >> releasedLookEvent: anEvent [
 
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToRawSkinForTest >> selectedLookEvent: anEvent [
 
 	super selectedLookEvent: anEvent.
@@ -179,21 +177,21 @@ ToRawSkinForTest >> selectedLookEvent: anEvent [
 
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToRawSkinForTest >> stillHoveredLookEvent: anEvent [
 
 	super stillHoveredLookEvent: anEvent.
 	self addReceivedEvent: anEvent
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToRawSkinForTest >> stillPressedLookEvent: anEvent [
 
 	super stillPressedLookEvent: anEvent.
 	self addReceivedEvent: anEvent
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToRawSkinForTest >> uncheckedLookEvent: anEvent [
 
 	super uncheckedLookEvent: anEvent.
@@ -201,7 +199,7 @@ ToRawSkinForTest >> uncheckedLookEvent: anEvent [
 
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToRawSkinForTest >> unfocusedLookEvent: anEvent [
 
 	super unfocusedLookEvent: anEvent.
@@ -209,7 +207,7 @@ ToRawSkinForTest >> unfocusedLookEvent: anEvent [
 
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToRawSkinForTest >> uninstallLookEvent: anEvent [
 
 	super uninstallLookEvent: anEvent.

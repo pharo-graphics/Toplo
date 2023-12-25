@@ -1,40 +1,38 @@
 Class {
-	#name : 'ToListElementContextMenuSelectionChangedEvent',
-	#superclass : 'BlEvent',
+	#name : #ToListElementContextMenuSelectionChangedEvent,
+	#superclass : #BlEvent,
 	#instVars : [
 		'selectedIndexes',
 		'sourceEvent'
 	],
-	#category : 'Toplo-Widget-List-Context-menu',
-	#package : 'Toplo-Widget-List',
-	#tag : 'Context-menu'
+	#category : 'Toplo-Widget-List-Context-menu'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListElementContextMenuSelectionChangedEvent >> selectedIndexes [
 
 	^ selectedIndexes
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListElementContextMenuSelectionChangedEvent >> selectedIndexes: aCollection [
 
 	selectedIndexes := aCollection
 ]
 
-{ #category : 'sending' }
+{ #category : #sending }
 ToListElementContextMenuSelectionChangedEvent >> sendTo: anObject [
 
 	anObject listElementContextMenuSelectionChangedEvent: self
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListElementContextMenuSelectionChangedEvent >> sourceEvent [
 
 	^ sourceEvent
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListElementContextMenuSelectionChangedEvent >> sourceEvent: anEvent [
 
 	sourceEvent := anEvent

@@ -1,62 +1,60 @@
 Class {
-	#name : 'ToPropertyAnimation',
-	#superclass : 'Object',
+	#name : #ToPropertyAnimation,
+	#superclass : #Object,
 	#instVars : [
 		'finishedAction',
 		'rawAnimIndex',
 		'property',
 		'duration'
 	],
-	#category : 'Toplo-Core-Theme',
-	#package : 'Toplo',
-	#tag : 'Core-Theme'
+	#category : 'Toplo-Core-Theme'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPropertyAnimation >> duration [
 
 	^ duration ifNil: [ duration := 200 milliSeconds ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPropertyAnimation >> duration: aDuration [
 
 	duration := aDuration
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToPropertyAnimation >> initialize [ 
 
 	super initialize.
 	rawAnimIndex := IdentityDictionary new
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToPropertyAnimation >> newRawAnimationFor: anElement to: aValue [
 
 	^ self subclassResponsibility 
 ]
 
-{ #category : 'writing' }
+{ #category : #writing }
 ToPropertyAnimation >> onFinishedDo: aValuable [
 	" aValuable takes the element as argument "
 
 	finishedAction := aValuable
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPropertyAnimation >> property [
 
 	^ property
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPropertyAnimation >> property: aProperty [
 
 	property := aProperty
 ]
 
-{ #category : 'writing' }
+{ #category : #writing }
 ToPropertyAnimation >> write: aValue to: anElement [
 
 	| rawAnimation |

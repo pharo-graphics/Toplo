@@ -1,14 +1,12 @@
 Class {
-	#name : 'ToElement',
-	#superclass : 'BlElement',
+	#name : #ToElement,
+	#superclass : #BlElement,
 	#traits : 'TBlLayoutResizable + TToEnableable + TToElementWithTooltip + TToElementWithContextMenu',
 	#classTraits : 'TBlLayoutResizable classTrait + TToEnableable classTrait + TToElementWithTooltip classTrait + TToElementWithContextMenu classTrait',
-	#category : 'Toplo-Core',
-	#package : 'Toplo',
-	#tag : 'Core'
+	#category : #'Toplo-Core'
 }
 
-{ #category : 'event management' }
+{ #category : #'event management' }
 ToElement >> addEventFilter: anEventHandler [
 
 	self checkEventHandler: anEventHandler.
@@ -16,7 +14,7 @@ ToElement >> addEventFilter: anEventHandler [
 	super addEventFilter: anEventHandler
 ]
 
-{ #category : 'event management' }
+{ #category : #'event management' }
 ToElement >> addEventHandler: anEventHandler [
 
 	self checkEventHandler: anEventHandler.
@@ -24,7 +22,7 @@ ToElement >> addEventHandler: anEventHandler [
 	super addEventHandler: anEventHandler
 ]
 
-{ #category : 'event management' }
+{ #category : #'event management' }
 ToElement >> checkEventFilter: anEventHandler [
 
 	(anEventHandler isKindOf: ToSkinStateGenerator) ifTrue: [
@@ -33,7 +31,7 @@ ToElement >> checkEventFilter: anEventHandler [
 			Error signal: 'Only one ' , ToSkinStateGenerator name , ' is allowed' ] ]
 ]
 
-{ #category : 'event management' }
+{ #category : #'event management' }
 ToElement >> checkEventHandler: anEventHandler [
 
 	(anEventHandler isKindOf: ToSkinStateGenerator) ifTrue: [
@@ -42,13 +40,31 @@ ToElement >> checkEventHandler: anEventHandler [
 			Error signal: 'Only one ' , ToSkinStateGenerator name , ' is allowed' ] ]
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToElement >> defaultLayout [ 
 
 	^ BlFrameLayout new
 ]
 
-{ #category : 'initialization' }
+{ #category : #utilities }
+ToElement >> inHorizontalPane [
+
+	| pane |
+	pane := ToPane horizontal.
+	pane addChild: self.
+	^ pane
+]
+
+{ #category : #utilities }
+ToElement >> inVerticalPane [
+
+	| pane |
+	pane := ToPane vertical.
+	pane addChild: self.
+	^ pane
+]
+
+{ #category : #initialization }
 ToElement >> initialize [
 
 	super initialize.
@@ -57,7 +73,7 @@ ToElement >> initialize [
 		self addEventHandler: cls new ]
 ]
 
-{ #category : 'hooks - children' }
+{ #category : #'hooks - children' }
 ToElement >> onAddedToParent [
 
 	super onAddedToParent.
@@ -65,14 +81,14 @@ ToElement >> onAddedToParent [
 		self enabled: self parent isEnabled ]
 ]
 
-{ #category : 'hooks - children' }
+{ #category : #'hooks - children' }
 ToElement >> onAddedToSceneGraph [
 
 	super onAddedToSceneGraph.
 	self requestInstallSkin
 ]
 
-{ #category : 't  - layout resizeable' }
+{ #category : #'t  - layout resizeable' }
 ToElement >> resizableConstraintsDo: aBlock [
 	"Perform aBlock with my constraints as argument.
 	Note: After evaluation I request a layout update!

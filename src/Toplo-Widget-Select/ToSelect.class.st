@@ -3,13 +3,13 @@ Class {
 	#superclass : #ToPane,
 	#instVars : [
 		'windowManager',
-		'iconHolder',
 		'icon',
 		'filler',
 		'contentElement',
 		'nodeClass',
 		'nodeBuilder',
-		'nodeHolders'
+		'nodeHolders',
+		'iconContainer'
 	],
 	#category : #'Toplo-Widget-Select'
 }
@@ -59,13 +59,13 @@ ToSelect >> icon: anElement [
 	self icon ifNotNil: [ :s | self icon removeFromParent ].
 	icon := anElement.
 	anElement ifNil: [ ^ self ].
-	self iconHolder addChild: anElement
+	self iconContainer addChild: anElement
 ]
 
 { #category : #accessing }
-ToSelect >> iconHolder [
+ToSelect >> iconContainer [
 
-	^ iconHolder
+	^ iconContainer
 ]
 
 { #category : #initialization }
@@ -78,8 +78,8 @@ ToSelect >> initialize [
 	nodeBuilder := self defaultNodeBuilder.
 	contentElement := self newContentElement.
 	filler := self newFiller.
-	iconHolder := self newIconHolder.
-	self addChildren: { contentElement. filler. iconHolder }.
+	iconContainer := self newIconHolder.
+	self addChildren: { contentElement. filler. iconContainer }.
 	windowManager := ToSelectWindowManager new element: self
 ]
 
@@ -120,7 +120,7 @@ ToSelect >> newIconHolder [
 
 	^ ToElement new
 		  fitContent;
-		  id: #iconHolder;
+		  id: #iconContainer;
 		  layout: BlFrameLayout new;
 		  constraintsDo: [ :c | c linear vertical alignCenter ];
 		  yourself

@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToAttributedLabel',
-	#superclass : 'ToLabel',
-	#category : 'Toplo-Widget-Album-Label',
-	#package : 'Toplo-Widget-Album',
-	#tag : 'Label'
+	#name : #ToAttributedLabel,
+	#superclass : #ToLabel,
+	#category : 'Toplo-Widget-Album-Label'
 }
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToAttributedLabel >> initialize [
 
 	super initialize.
@@ -15,7 +13,7 @@ ToAttributedLabel >> initialize [
 	self withoutSkin
 ]
 
-{ #category : 'private-change' }
+{ #category : #'private-change' }
 ToAttributedLabel >> privateText: aText [
 
 	super privateText: aText.
@@ -23,7 +21,7 @@ ToAttributedLabel >> privateText: aText [
 	self applyAttributesBuilder
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToAttributedLabel >> textChanged [
 
 	self applyAttributesBuilder.

@@ -1,41 +1,39 @@
 Class {
-	#name : 'ToAnchoredWindow',
-	#superclass : 'ToBasicWindowElement',
+	#name : #ToAnchoredWindow,
+	#superclass : #ToBasicWindowElement,
 	#instVars : [
 		'popupTimestamp',
 		'windowManager'
 	],
-	#category : 'Toplo-Core-Window',
-	#package : 'Toplo',
-	#tag : 'Core-Window'
+	#category : 'Toplo-Core-Window'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAnchoredWindow >> anchorRoot [
 
 	^ self manager anchorRoot
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAnchoredWindow >> applyPositionHookFromEvent: anEvent [
 
 	windowManager applyPositionHookFromEvent: anEvent
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAnchoredWindow >> applySizeHookFromEvent: anEvent [
 
 	windowManager applySizeHookFromEvent: anEvent
 ]
 
-{ #category : 'api - displaying' }
+{ #category : #'api - displaying' }
 ToAnchoredWindow >> checkBeforePopupEvent: anEvent [
 
 	self applyPositionHookFromEvent: anEvent.
 	self applySizeHookFromEvent: anEvent
 ]
 
-{ #category : 'api - displaying' }
+{ #category : #'api - displaying' }
 ToAnchoredWindow >> close [
 
 	self dispatchCloseRequest.
@@ -44,25 +42,25 @@ ToAnchoredWindow >> close [
 	self dispatchClosedEvent
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAnchoredWindow >> closeRequestClass [
 
 	^ ToWindowCloseRequest 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAnchoredWindow >> closedEventClass [
 
 	^ ToWindowClosedEvent 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAnchoredWindow >> defaultElevation [
 
 	^ BlRelativeElevation elevation: (SmallInteger maxVal - 900)
 ]
 
-{ #category : 'api - displaying' }
+{ #category : #'api - displaying' }
 ToAnchoredWindow >> dispatchCloseRequest [
 
 	| event |
@@ -72,7 +70,7 @@ ToAnchoredWindow >> dispatchCloseRequest [
 
 ]
 
-{ #category : 'api - displaying' }
+{ #category : #'api - displaying' }
 ToAnchoredWindow >> dispatchClosedEvent [
 
 	| event |
@@ -82,7 +80,7 @@ ToAnchoredWindow >> dispatchClosedEvent [
 
 ]
 
-{ #category : 'api - displaying' }
+{ #category : #'api - displaying' }
 ToAnchoredWindow >> dispatchOpenedEvent: anEvent [
 
 	| event |
@@ -93,19 +91,19 @@ ToAnchoredWindow >> dispatchOpenedEvent: anEvent [
 	self element dispatchEvent: event copy
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAnchoredWindow >> element [
 
 	^ self manager ifNotNil: [:h | h element]
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ToAnchoredWindow >> hasAssociateElement [
 
 	^ self element notNil
 ]
 
-{ #category : 'skin' }
+{ #category : #skin }
 ToAnchoredWindow >> installRawStyle [
 
 	super installRawStyle.
@@ -113,31 +111,31 @@ ToAnchoredWindow >> installRawStyle [
 	self effect: (self tokenValueNamed: #'effect-window')
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAnchoredWindow >> manager [
 
 	^ windowManager 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAnchoredWindow >> manager: aWindowHandler [
 
 	windowManager := aWindowHandler 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAnchoredWindow >> openedEventClass [
 
 	^ ToWindowOpenedEvent 
 ]
 
-{ #category : 'api - displaying' }
+{ #category : #'api - displaying' }
 ToAnchoredWindow >> popup [
 	
 	self popupEvent: nil
 ]
 
-{ #category : 'api - displaying' }
+{ #category : #'api - displaying' }
 ToAnchoredWindow >> popupEvent: anEvent [
 	" I have to set the position here "
 
@@ -157,7 +155,7 @@ ToAnchoredWindow >> popupEvent: anEvent [
 	self dispatchOpenedEvent: anEvent
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAnchoredWindow >> popupTimestamp [
 
 	^ popupTimestamp 

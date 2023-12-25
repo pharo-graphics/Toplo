@@ -1,15 +1,13 @@
 Class {
-	#name : 'ToElementWithPopupEventHandler',
-	#superclass : 'ToAnchorEventHandler',
+	#name : #ToElementWithPopupEventHandler,
+	#superclass : #ToAnchorEventHandler,
 	#instVars : [
 		'target'
 	],
-	#category : 'Toplo-Core-Window',
-	#package : 'Toplo',
-	#tag : 'Core-Window'
+	#category : 'Toplo-Core-Window'
 }
 
-{ #category : 'api - accessing' }
+{ #category : #'api - accessing' }
 ToElementWithPopupEventHandler >> eventsToHandle [
 
 	^ super eventsToHandle , {
@@ -19,19 +17,19 @@ ToElementWithPopupEventHandler >> eventsToHandle [
 		  BlElementRemovedFromParentEvent }
 ]
 
-{ #category : 'mouse handlers' }
+{ #category : #'mouse handlers' }
 ToElementWithPopupEventHandler >> mouseDownEvent: anEvent [
 
 	windowManager mouseDownInElementEvent: anEvent 
 ]
 
-{ #category : 'mouse handlers' }
+{ #category : #'mouse handlers' }
 ToElementWithPopupEventHandler >> mouseUpEvent: anEvent [
 
 	windowManager mouseUpInElementEvent: anEvent
 ]
 
-{ #category : 'mouse handlers' }
+{ #category : #'mouse handlers' }
 ToElementWithPopupEventHandler >> mouseUpOutsideEvent: anEvent [
 
 	" 
@@ -48,7 +46,7 @@ ToElementWithPopupEventHandler >> mouseUpOutsideEvent: anEvent [
 	windowManager currentWindowDo: [:w | w close ]
 ]
 
-{ #category : 'api - hooks' }
+{ #category : #'api - hooks' }
 ToElementWithPopupEventHandler >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
@@ -56,7 +54,7 @@ ToElementWithPopupEventHandler >> onInstalledIn: anElement [
 	target allowMousePickOutsideEvent.
 ]
 
-{ #category : 'api - hooks' }
+{ #category : #'api - hooks' }
 ToElementWithPopupEventHandler >> onUninstalledIn: anElement [
 
 	target := nil.
@@ -64,7 +62,7 @@ ToElementWithPopupEventHandler >> onUninstalledIn: anElement [
 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToElementWithPopupEventHandler >> target [
 
 	^ target

@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToLabelEditorWindowManager',
-	#superclass : 'ToAnchoredWindowManager',
-	#category : 'Toplo-Widget-Album-Label',
-	#package : 'Toplo-Widget-Album',
-	#tag : 'Label'
+	#name : #ToLabelEditorWindowManager,
+	#superclass : #ToAnchoredWindowManager,
+	#category : 'Toplo-Widget-Album-Label'
 }
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToLabelEditorWindowManager >> defaultPositionHook [
 
 	^ [ :theWindow :theLabel :event |
@@ -16,7 +14,7 @@ ToLabelEditorWindowManager >> defaultPositionHook [
 		  @ theLabel editor padding top ]
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToLabelEditorWindowManager >> initialize [
 
 	super initialize.
@@ -28,7 +26,7 @@ ToLabelEditorWindowManager >> initialize [
 		ed text: label text asString ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToLabelEditorWindowManager >> windowClass [
 
 	^ ToLabelEditorWindow 

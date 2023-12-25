@@ -1,17 +1,15 @@
 Class {
-	#name : 'ToSkinStateQueue',
-	#superclass : 'Object',
+	#name : #ToSkinStateQueue,
+	#superclass : #Object,
 	#instVars : [
 		'nextStates',
 		'previousInstallState',
 		'intrinsicStateIndex'
 	],
-	#category : 'Toplo-Core-States',
-	#package : 'Toplo',
-	#tag : 'Core-States'
+	#category : 'Toplo-Core-States'
 }
 
-{ #category : 'hook' }
+{ #category : #hook }
 ToSkinStateQueue >> applyEnqueuedStatesIn: anElement [
 
 	| nextInQueue |
@@ -19,7 +17,7 @@ ToSkinStateQueue >> applyEnqueuedStatesIn: anElement [
 		nextInQueue applyOn: anElement ]
 ]
 
-{ #category : 'hook' }
+{ #category : #hook }
 ToSkinStateQueue >> applyOn: anElement [
 
 	self
@@ -30,7 +28,7 @@ ToSkinStateQueue >> applyOn: anElement [
 	self applyEnqueuedStatesIn: anElement
 ]
 
-{ #category : 'adding' }
+{ #category : #adding }
 ToSkinStateQueue >> enqueueInstallStateForElement: anElement [
 	" install state required  "
 
@@ -48,7 +46,7 @@ ToSkinStateQueue >> enqueueInstallStateForElement: anElement [
 	
 ]
 
-{ #category : 'adding' }
+{ #category : #adding }
 ToSkinStateQueue >> enqueueState: aState for: anElement [
 
 	" all states kinds are enqueued here "
@@ -56,7 +54,7 @@ ToSkinStateQueue >> enqueueState: aState for: anElement [
 	anElement spaceDo: [:sp | sp requestNextPulse ]
 ]
 
-{ #category : 'adding' }
+{ #category : #adding }
 ToSkinStateQueue >> enqueueUninstallStateForElement: anElement [
 	" uninstall state required  "
 
@@ -67,19 +65,19 @@ ToSkinStateQueue >> enqueueUninstallStateForElement: anElement [
 	self enqueueState: ToUninstallState new for: anElement
 ]
 
-{ #category : 'hook' }
+{ #category : #hook }
 ToSkinStateQueue >> flushStates: aBlock [
 
 	self nextStates flush: aBlock
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSkinStateQueue >> hasInstallStateEnqueued [
 
 	^ previousInstallState notNil
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToSkinStateQueue >> initialize [ 
 
 	super initialize.
@@ -89,25 +87,25 @@ ToSkinStateQueue >> initialize [
 	intrinsicStateIndex := OrderedIdentityDictionary new
 ]
 
-{ #category : 'intrinsic states' }
+{ #category : #'intrinsic states' }
 ToSkinStateQueue >> intrinsicStatesDo: aBlock [
 
 	intrinsicStateIndex valuesDo: aBlock
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSkinStateQueue >> nextStates [
 
 	^ nextStates
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSkinStateQueue >> nextStates: anObject [
 
 	nextStates := anObject
 ]
 
-{ #category : 'intrinsic states' }
+{ #category : #'intrinsic states' }
 ToSkinStateQueue >> onIntrinsicStateEnqueueRequested: aState [
 
 	intrinsicStateIndex at: aState class put: aState

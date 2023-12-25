@@ -1,45 +1,43 @@
 Class {
-	#name : 'ToLookEventListener',
-	#superclass : 'Object',
+	#name : #ToLookEventListener,
+	#superclass : #Object,
 	#instVars : [
 		'eventClass'
 	],
-	#category : 'Toplo-Core-StyleSheet',
-	#package : 'Toplo',
-	#tag : 'Core-StyleSheet'
+	#category : 'Toplo-Core-StyleSheet'
 }
 
-{ #category : 'look event handling' }
+{ #category : #'look event handling' }
 ToLookEventListener >> applyOn: anObject [
 
 	self subclassResponsibility 
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ToLookEventListener >> canReceiveEvent: aLookEvent [ 
 
 	^ self eventClass = aLookEvent class 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToLookEventListener >> eventClass [
 
 	^ eventClass ifNil: [ eventClass := ToInstallLookEvent  ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToLookEventListener >> eventClass: aLookEventClass [
 
 	eventClass := aLookEventClass
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ToLookEventListener >> isSupplement [ 
 
 	^ self subclassResponsibility 
 ]
 
-{ #category : 'look event handling' }
+{ #category : #'look event handling' }
 ToLookEventListener >> receiveEvent: aLookEvent [
 
 	| target |

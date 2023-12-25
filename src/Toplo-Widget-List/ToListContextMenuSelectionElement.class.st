@@ -1,15 +1,13 @@
 Class {
-	#name : 'ToListContextMenuSelectionElement',
-	#superclass : 'ToListSelectionElement',
+	#name : #ToListContextMenuSelectionElement,
+	#superclass : #ToListSelectionElement,
 	#instVars : [
 		'inner'
 	],
-	#category : 'Toplo-Widget-List-Context-menu',
-	#package : 'Toplo-Widget-List',
-	#tag : 'Context-menu'
+	#category : 'Toplo-Widget-List-Context-menu'
 }
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToListContextMenuSelectionElement >> initialize [
 
 	super initialize.
@@ -20,13 +18,13 @@ ToListContextMenuSelectionElement >> initialize [
 	self addChild: inner
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListContextMenuSelectionElement >> inner [
 
 	^ inner
 ]
 
-{ #category : 'skin' }
+{ #category : #skin }
 ToListContextMenuSelectionElement >> newRawSkin [ 
 
 	^ ToListContextMenuSelectionElementSkin new

@@ -2,24 +2,22 @@
 A ToCollectionChangedEventTest is a test class for testing the behavior of ToCollectionChangedEvent
 "
 Class {
-	#name : 'ToCollectionChangedEventTest',
-	#superclass : 'TestCase',
+	#name : #ToCollectionChangedEventTest,
+	#superclass : #TestCase,
 	#instVars : [
 		'ocol'
 	],
-	#category : 'Toplo-Tests-Core-Collection',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Collection'
+	#category : 'Toplo-Tests-Core-Collection'
 }
 
-{ #category : 'running' }
+{ #category : #running }
 ToCollectionChangedEventTest >> setUp [ 
 
 	super setUp.
 	ocol := ToObservableCollection new.
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToCollectionChangedEventTest >> testAddRequestAddEvent [
 
 	| validate requestCount eventCount candidates reqInterval eventInterval |
@@ -65,7 +63,7 @@ ToCollectionChangedEventTest >> testAddRequestAddEvent [
 	self assert: eventInterval equals: (2 to: 4)
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToCollectionChangedEventTest >> testFilterRequestFilterEvent [
 
 	| validate requestCount eventCount reqInterval eventInterval |
@@ -112,7 +110,7 @@ ToCollectionChangedEventTest >> testFilterRequestFilterEvent [
 	self assert: ocol size equals: 51
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToCollectionChangedEventTest >> testRemoveRequestRemoveEvent [
 
 	| validate requestCount eventCount reqInterval eventInterval |
@@ -154,7 +152,7 @@ ToCollectionChangedEventTest >> testRemoveRequestRemoveEvent [
 	self assert: eventInterval equals: (1 to: 3)
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToCollectionChangedEventTest >> testUpdateRequestUpdateEvent [
 
 	| validate requestCount eventCount reqInterval eventInterval |

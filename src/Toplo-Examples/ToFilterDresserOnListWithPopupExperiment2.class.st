@@ -1,22 +1,21 @@
 Class {
-	#name : 'ToFilterDresserOnListWithPopupExperiment2',
-	#superclass : 'Object',
+	#name : #ToFilterDresserOnListWithPopupExperiment2,
+	#superclass : #Object,
 	#instVars : [
 		'filterField',
 		'listElement',
 		'filterWin'
 	],
-	#category : 'Toplo-Examples',
-	#package : 'Toplo-Examples'
+	#category : #'Toplo-Examples'
 }
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToFilterDresserOnListWithPopupExperiment2 class >> open [
 	<script>
 	self new open 
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToFilterDresserOnListWithPopupExperiment2 >> close [
 
 	filterWin ifNil: [ ^ self ].
@@ -27,7 +26,7 @@ ToFilterDresserOnListWithPopupExperiment2 >> close [
 	
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToFilterDresserOnListWithPopupExperiment2 >> filterResultPlaceholder [
 
 	| placeholder lab |
@@ -40,7 +39,7 @@ ToFilterDresserOnListWithPopupExperiment2 >> filterResultPlaceholder [
 	^ placeholder
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToFilterDresserOnListWithPopupExperiment2 >> listElement [
 
 	^ listElement ifNil: [
@@ -49,7 +48,7 @@ ToFilterDresserOnListWithPopupExperiment2 >> listElement [
 			                 yourself ]
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToFilterDresserOnListWithPopupExperiment2 >> open [
 
 	| pane filler |
@@ -78,29 +77,36 @@ ToFilterDresserOnListWithPopupExperiment2 >> open [
 	pane addChild: listElement.
 	pane addChild: filler.
 
-	listElement placeholderBuilder: [ :ph :e | | lab but |
+	listElement placeholderBuilder: [ :ph :e |
+		| lab but |
 		ph layout: BlLinearLayout vertical.
-		ph addChild: (lab := ToLabel new text: ('No element - click to get data' asRopedText foreground: Color red)).
+		ph addChild: (lab := ToLabel new text:
+				        ('No element - click to get data' asRopedText foreground:
+					         Color red)).
 		ph addChild: (but := ToButton new labelText: 'Fetch data').
 		lab constraintsDo: [ :c | c linear horizontal alignCenter ].
 		but constraintsDo: [ :c | c linear horizontal alignCenter ].
-		but when: BlClickEvent do: [
-			self listElement data addAll:
-				(((Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ])
-					 collect: [ :c | c name ]) "copyFrom: 1 to: 1000").
-			e placeholderBuilder: [:ph2 :e2 | ph2 addChild: self filterResultPlaceholder].
-			e requestFocus.
-			e whenLayoutedDoOnce: [ self textUpdated ] ]].
+		but addEventHandler: (BlEventHandler
+				 on: BlClickEvent
+				 do: [
+					 self listElement data addAll:
+						 ((Smalltalk allClassesAndTraits sorted: [ :a :b |
+							   a name < b name ]) collect: [ :c | c name ]). "copyFrom: 1 to: 1000"
+					 e placeholderBuilder: [ :ph2 :e2 |
+						 ph2 addChild: self filterResultPlaceholder ].
+					 e requestFocus.
+					 e whenLayoutedDoOnce: [ self textUpdated ] ]) ].
 	listElement showPlaceholder.
 
-	listElement when: ToDataFilterResultEvent do: [ :event |
-			listElement selectIndexes: event indexes ].
+	listElement addEventHandler: (BlEventHandler
+			 on: ToDataFilterResultEvent
+			 do: [ :event | listElement selectIndexes: event indexes ]).
 
 	listElement requestFocus.
-	pane openInInnerWindow 
+	pane openInInnerWindow
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToFilterDresserOnListWithPopupExperiment2 >> popupTextFieldWith: aString [
 
 	filterWin ifNotNil: [
@@ -146,7 +152,7 @@ ToFilterDresserOnListWithPopupExperiment2 >> popupTextFieldWith: aString [
 	self textUpdated
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToFilterDresserOnListWithPopupExperiment2 >> requestCancel [
 
 	filterWin ifNil: [  ^ self ].
@@ -154,11 +160,11 @@ ToFilterDresserOnListWithPopupExperiment2 >> requestCancel [
 	self close
 ]
 
-{ #category : 'see class side' }
+{ #category : #'see class side' }
 ToFilterDresserOnListWithPopupExperiment2 >> seeClassSide [ 
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToFilterDresserOnListWithPopupExperiment2 >> startPlaceholder [
 	| placeholder lab but |
 	placeholder := ToPane vertical.
@@ -182,7 +188,7 @@ ToFilterDresserOnListWithPopupExperiment2 >> startPlaceholder [
 	^ placeholder
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToFilterDresserOnListWithPopupExperiment2 >> textUpdated [
 
 	filterField ifNil: [ ^self ].

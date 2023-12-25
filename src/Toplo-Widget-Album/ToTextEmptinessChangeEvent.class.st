@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToTextEmptinessChangeEvent',
-	#superclass : 'BlEvent',
-	#category : 'Toplo-Widget-Album-TextPane',
-	#package : 'Toplo-Widget-Album',
-	#tag : 'TextPane'
+	#name : #ToTextEmptinessChangeEvent,
+	#superclass : #BlEvent,
+	#category : 'Toplo-Widget-Album-TextPane'
 }
 
-{ #category : 'sending' }
+{ #category : #sending }
 ToTextEmptinessChangeEvent >> sendTo: anObject [
 
 	anObject textEmptinessChangeEvent: self

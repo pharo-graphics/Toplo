@@ -1,6 +1,6 @@
-Extension { #name : 'Object' }
+Extension { #name : #Object }
 
-{ #category : '*Toplo' }
+{ #category : #'*Toplo' }
 Object class >> asTypeSelector [
 
 	^ ToTypeSelector new type: self

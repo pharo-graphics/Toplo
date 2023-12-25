@@ -49,37 +49,36 @@ paddingXS	Control the extra small padding of the element.	number	8
 
 "
 Class {
-	#name : 'ToBeeTheme',
-	#superclass : 'ToStyleSheetTheme',
-	#category : 'Toplo-Theme-Bee',
-	#package : 'Toplo-Theme-Bee'
+	#name : #ToBeeTheme,
+	#superclass : #ToStyleSheetTheme,
+	#category : 'Toplo-Theme-Bee'
 }
 
-{ #category : 'testing' }
+{ #category : #testing }
 ToBeeTheme class >> canBeDefault [
 
 	^ true
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToBeeTheme class >> label [ 
 
 	^ 'Bee'
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ToBeeTheme class >> supportedVariantClasses [
 
 	^ { ToThemeDarkVariant. ToThemeLightVariant }
 ]
 
-{ #category : 'syntactic sugar' }
+{ #category : #'syntactic sugar' }
 ToBeeTheme >> buttonSelector [
 
 	^ ToButton asTypeSelector
 ]
 
-{ #category : 'rules declaring - button' }
+{ #category : #'rules declaring - button' }
 ToBeeTheme >> declareButtonRules [
 
 	self declareLabeledIconInButtonRules.
@@ -88,7 +87,7 @@ ToBeeTheme >> declareButtonRules [
 	self declarePrimaryButtonRules
 ]
 
-{ #category : 'rules declaring - button' }
+{ #category : #'rules declaring - button' }
 ToBeeTheme >> declareCommonButtonRules [
 
 	self select: self buttonSelector style: [
@@ -140,7 +139,7 @@ ToBeeTheme >> declareCommonButtonRules [
 					BlRoundedRectangleGeometry cornerRadius: e requestedHeight ] ] ] ]
 ]
 
-{ #category : 'rules declaring - button' }
+{ #category : #'rules declaring - button' }
 ToBeeTheme >> declareDefaultButtonRules [
 
 	| borderColorAnim borderEffectAnim |
@@ -238,7 +237,7 @@ ToBeeTheme >> declareDefaultButtonRules [
 				e borderBuilder dashArray: (e tokenValueNamed: #'dash-array') ] ] ]
 ]
 
-{ #category : 'rules declaring - label' }
+{ #category : #'rules declaring - label' }
 ToBeeTheme >> declareLabelRules [
 	" label  rules"
 
@@ -362,7 +361,7 @@ ToBeeTheme >> declareLabelRules [
 						yourself ] ] ]
 ]
 
-{ #category : 'rules declaring - button' }
+{ #category : #'rules declaring - button' }
 ToBeeTheme >> declareLabeledIconInButtonRules [
 
 	self
@@ -419,7 +418,7 @@ ToBeeTheme >> declareLabeledIconInButtonRules [
 						with: [ :e | BlLayoutDirection rightToLeft ] ] ]
 ]
 
-{ #category : 'rules declaring - button' }
+{ #category : #'rules declaring - button' }
 ToBeeTheme >> declarePrimaryButtonRules [
 
 	| backgroundColorAnim |
@@ -501,7 +500,7 @@ ToBeeTheme >> declarePrimaryButtonRules [
 				with: [ :e | e tokenValueNamed: #'color-text-light-solid' ] ]
 ]
 
-{ #category : 'rules declaring - pane' }
+{ #category : #'rules declaring - pane' }
 ToBeeTheme >> declareRootPaneRules [
 
 	self select: (self id: #'Space root') style: [
@@ -510,13 +509,13 @@ ToBeeTheme >> declareRootPaneRules [
 			with: [ :e | e tokenValueNamed: #'background-color' ] ]
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToBeeTheme >> defaultElementStampsFor: anElement [ 
 
 	^ anElement defaultBeeStyleStamps
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToBeeTheme >> initializeStyleRules [ 
 
 	super initializeStyleRules.
@@ -525,7 +524,7 @@ ToBeeTheme >> initializeStyleRules [
 	self declareButtonRules
 ]
 
-{ #category : 'styling' }
+{ #category : #styling }
 ToBeeTheme >> skinClassFor: anElement [
 
 	^ ToBeeSkin

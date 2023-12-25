@@ -1,23 +1,21 @@
 Class {
-	#name : 'ToStyleSheetTheme',
-	#superclass : 'ToTheme',
+	#name : #ToStyleSheetTheme,
+	#superclass : #ToTheme,
 	#traits : 'TToStyleRuleScripter',
 	#classTraits : 'TToStyleRuleScripter classTrait',
 	#instVars : [
 		'styleSheet'
 	],
-	#category : 'Toplo-Core-Theme',
-	#package : 'Toplo',
-	#tag : 'Core-Theme'
+	#category : 'Toplo-Core-Theme'
 }
 
-{ #category : 'testing' }
+{ #category : #testing }
 ToStyleSheetTheme class >> canBeDefault [
 
 	^ false
 ]
 
-{ #category : 'styling' }
+{ #category : #styling }
 ToStyleSheetTheme >> applicableListenersFor: anElement [
 	" for an element, several writers can be found. These writers 
 	are found with #rawWritersFor:. After, for each property only the last writers is kept"
@@ -67,7 +65,7 @@ ToStyleSheetTheme >> applicableListenersFor: anElement [
 		  str nextPutAll: supplement ]
 ]
 
-{ #category : 'css like printing' }
+{ #category : #'css like printing' }
 ToStyleSheetTheme >> applicableRulesFor: anElement [
 	" return applicable rules for an element "
 
@@ -80,13 +78,13 @@ ToStyleSheetTheme >> applicableRulesFor: anElement [
 			ifNotNil:[ :anApplicableRule | str nextPut: anApplicableRule ] ] ]
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToStyleSheetTheme >> defaultElementStampsFor: anElement [ 
 
 	^ { }
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToStyleSheetTheme >> initialize [ 
 
 	super initialize.
@@ -94,17 +92,17 @@ ToStyleSheetTheme >> initialize [
 	self initializeStyleRules
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToStyleSheetTheme >> initializeStyleRules [
 ]
 
-{ #category : 't - stylesheet scripter' }
+{ #category : #'t - stylesheet scripter' }
 ToStyleSheetTheme >> lookEventListenerHolder [ 
 
 	^ self styleSheet script
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheetTheme >> newSkinInstanceFor: anElement [
 
 	| skin |
@@ -114,13 +112,13 @@ ToStyleSheetTheme >> newSkinInstanceFor: anElement [
 	^ skin
 ]
 
-{ #category : 'accessing - writable properties' }
+{ #category : #'accessing - writable properties' }
 ToStyleSheetTheme >> property: aSymbol [
 
 	^ self styleSheet writablePropertyNamed: aSymbol
 ]
 
-{ #category : 'styling' }
+{ #category : #styling }
 ToStyleSheetTheme >> rootRulesFor: anElement [
 
 	^ Array streamContents: [ :str |
@@ -128,26 +126,26 @@ ToStyleSheetTheme >> rootRulesFor: anElement [
 			  str nextPutAll: ss styleRules ] ]
 ]
 
-{ #category : 'hook' }
+{ #category : #hook }
 ToStyleSheetTheme >> setUpElement: anElement [
 
 	super setUpElement: anElement.
 	anElement addAllStamps: (self defaultElementStampsFor: anElement) 
 ]
 
-{ #category : 'styling' }
+{ #category : #styling }
 ToStyleSheetTheme >> skinClassFor: anElement [
 
 	^ ToStyleSheetSkin
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheetTheme >> styleSheet [
 
 	^ styleSheet
 ]
 
-{ #category : 'styling' }
+{ #category : #styling }
 ToStyleSheetTheme >> unsortedApplicableListenersFor: anElement [
 
 	^ Array streamContents: [ :stream |

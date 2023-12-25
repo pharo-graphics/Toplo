@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToSpaceRootSkin',
-	#superclass : 'ToRawSkin',
-	#category : 'Toplo-Core-Theme',
-	#package : 'Toplo',
-	#tag : 'Core-Theme'
+	#name : #ToSpaceRootSkin,
+	#superclass : #ToRawSkin,
+	#category : 'Toplo-Core-Theme'
 }
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToSpaceRootSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.

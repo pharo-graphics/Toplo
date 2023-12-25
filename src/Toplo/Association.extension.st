@@ -1,12 +1,12 @@
-Extension { #name : 'Association' }
+Extension { #name : #Association }
 
-{ #category : '*Toplo' }
+{ #category : #'*Toplo' }
 Association >> asStampProperty [
 
 	^ ToStampProperty new name: self key asSymbol; value: self value; yourself
 ]
 
-{ #category : '*Toplo' }
+{ #category : #'*Toplo' }
 Association >> asTokenProperty [
 
 	^ ToTokenProperty new name: self key asSymbol; value: self value; yourself

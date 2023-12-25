@@ -1,15 +1,13 @@
 Class {
-	#name : 'ToIntrinsicLookEventForTest',
-	#superclass : 'BlEvent',
-	#category : 'Toplo-Tests-Core-States',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-States'
+	#name : #ToIntrinsicLookEventForTest,
+	#superclass : #BlEvent,
+	#category : 'Toplo-Tests-Core-States'
 }
 
-{ #category : 'sending' }
+{ #category : #sending }
 ToIntrinsicLookEventForTest >> fromState: aState [
 ]
 
-{ #category : 'sending' }
+{ #category : #sending }
 ToIntrinsicLookEventForTest >> sendTo: anElement [
 ]

@@ -2,14 +2,12 @@
 A ToSpaceRootSkinTest is a test class for testing the behavior of ToSpaceRootSkin
 "
 Class {
-	#name : 'ToSpaceRootSkinTest',
-	#superclass : 'ToTestCaseWithSpace',
-	#category : 'Toplo-Tests-Core-Theme',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Theme'
+	#name : #ToSpaceRootSkinTest,
+	#superclass : #ToTestCaseWithSpace,
+	#category : 'Toplo-Tests-Core-Theme'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSpaceRootSkinTest >> testInstallLookEvent [
 	" test that a ToSpaceRootSkin is installed as soon a the space skin related phases are installed "
 

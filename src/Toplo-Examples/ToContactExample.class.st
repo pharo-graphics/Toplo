@@ -1,46 +1,45 @@
 Class {
-	#name : 'ToContactExample',
-	#superclass : 'Object',
+	#name : #ToContactExample,
+	#superclass : #Object,
 	#instVars : [
 		'name',
 		'phoneNumber',
 		'address'
 	],
-	#category : 'Toplo-Examples',
-	#package : 'Toplo-Examples'
+	#category : 'Toplo-Examples'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToContactExample >> address [
 
 	^ address
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToContactExample >> address: anObject [
 
 	address := anObject
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToContactExample >> name [
 
 	^ name
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToContactExample >> name: anObject [
 
 	name := anObject
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToContactExample >> phoneNumber [
 
 	^ phoneNumber
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToContactExample >> phoneNumber: anObject [
 
 	phoneNumber := anObject

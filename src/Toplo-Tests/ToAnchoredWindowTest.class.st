@@ -2,14 +2,12 @@
 A ToAnchoredWindowTest is a test class for testing the behavior of ToAnchoredWindow
 "
 Class {
-	#name : 'ToAnchoredWindowTest',
-	#superclass : 'ToParameterizedHostTest',
-	#category : 'Toplo-Tests-Core-Window',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Window'
+	#name : #ToAnchoredWindowTest,
+	#superclass : #ToParameterizedHostTest,
+	#category : 'Toplo-Tests-Core-Window'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowTest >> testClose [
 
 	| win e  windowManager  winRootChild |
@@ -32,7 +30,7 @@ ToAnchoredWindowTest >> testClose [
 	self should: [ win popup ] raise: Error
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowTest >> testClosedEventClass [
 
 	| win windowManager e closeEvent |
@@ -50,7 +48,7 @@ ToAnchoredWindowTest >> testClosedEventClass [
 	self assert: closeEvent notNil
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowTest >> testDefaultElevation [
 
 	| win e  windowHandler |
@@ -69,7 +67,7 @@ ToAnchoredWindowTest >> testDefaultElevation [
 		equals: win defaultElevation elevation
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowTest >> testDispatchClosedEvent [
 
 	| win e  windowHandler closedEventReceivedByWin closedEventReceivedByElement |
@@ -94,7 +92,7 @@ ToAnchoredWindowTest >> testDispatchClosedEvent [
 	self assert: closedEventReceivedByElement notNil.
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowTest >> testDispatchOpenedEvent [
 
 	| win e windowHandler openedEventReceivedByWin openedEventReceivedByElement |
@@ -118,7 +116,7 @@ ToAnchoredWindowTest >> testDispatchOpenedEvent [
 	self assert: openedEventReceivedByElement notNil
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowTest >> testElement [
 
 	| win e  windowManager |
@@ -134,7 +132,7 @@ ToAnchoredWindowTest >> testElement [
 	self assert: win element identicalTo: e.
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowTest >> testHasAssociateElement [
 
 	| win e  windowManager |
@@ -151,7 +149,7 @@ ToAnchoredWindowTest >> testHasAssociateElement [
 	self assert: win hasAssociateElement.
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowTest >> testManager [
 
 	| win e  windowManager |
@@ -168,7 +166,7 @@ ToAnchoredWindowTest >> testManager [
 	self assert: win manager identicalTo: windowManager
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowTest >> testOpenedEventClass [
 
 	| win windowManager e openedEvent |
@@ -185,7 +183,7 @@ ToAnchoredWindowTest >> testOpenedEventClass [
 	self assert: openedEvent notNil
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowTest >> testPopup [
 
 	| win e  windowHandler |
@@ -202,7 +200,7 @@ ToAnchoredWindowTest >> testPopup [
 	self assert: win parent notNil
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowTest >> testPopupEvent [
 
 	| win e  windowHandler openedEvent sourceEvent |
@@ -231,7 +229,7 @@ ToAnchoredWindowTest >> testPopupEvent [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowTest >> testPopupEventNotInSpace [
 
 	| win e openEventFromWindow openEventFromWidget closeEventFromWindow closeEventFromWidget windowHandler |
@@ -266,7 +264,7 @@ ToAnchoredWindowTest >> testPopupEventNotInSpace [
 	self assert: closeEventFromWidget notNil
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowTest >> testPopupEventNotInSpace2 [
 
 	| win e windowHandler |
@@ -281,7 +279,7 @@ ToAnchoredWindowTest >> testPopupEventNotInSpace2 [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowTest >> testPopupEventWithoutElement [
 
 	| w |
@@ -290,7 +288,7 @@ ToAnchoredWindowTest >> testPopupEventWithoutElement [
 	self should: [ w popup ] raise: Error
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowTest >> testPopupTimeStamp [
 
 	| win windowManager e openedEvent timeStamp |
@@ -317,7 +315,7 @@ ToAnchoredWindowTest >> testPopupTimeStamp [
 	self assert: win isClosed
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowTest >> testWindowSize [
 	" since there is no size hook by default, the window is fitContent by default"
 

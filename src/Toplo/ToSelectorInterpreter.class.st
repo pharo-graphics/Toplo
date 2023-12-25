@@ -1,17 +1,15 @@
 Class {
-	#name : 'ToSelectorInterpreter',
-	#superclass : 'ToElementSelectorVisitor',
+	#name : #ToSelectorInterpreter,
+	#superclass : #ToElementSelectorVisitor,
 	#instVars : [
 		'theme',
 		'targetStack',
 		'result'
 	],
-	#category : 'Toplo-Core-Selectors',
-	#package : 'Toplo',
-	#tag : 'Core-Selectors'
+	#category : 'Toplo-Core-Selectors'
 }
 
-{ #category : 'operating' }
+{ #category : #operating }
 ToSelectorInterpreter >> check: aSelector on: anElement [
 
 	targetStack := Stack new.
@@ -21,64 +19,64 @@ ToSelectorInterpreter >> check: aSelector on: anElement [
 	^ result
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToSelectorInterpreter >> initialize [ 
 
 	super initialize.
 	result := false
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectorInterpreter >> pop [
 
 	^ targetStack pop
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectorInterpreter >> push: anElement [
 
 	self themeDo: [ :th | anElement setUpForTheme: th ].
 	targetStack push: anElement
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectorInterpreter >> result [
 
 	^ result
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectorInterpreter >> theme [
 
 	^ theme
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectorInterpreter >> theme: aTheme [
 
 	theme := aTheme
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectorInterpreter >> themeDo: aBlock [
 
 	self theme ifNil: [ ^ self ].
 	aBlock value: self theme
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectorInterpreter >> top [
 
 	^ targetStack top
 ]
 
-{ #category : 'visiting' }
+{ #category : #visiting }
 ToSelectorInterpreter >> visitActionSelector: aSelector [
 
 	result := aSelector action value: self top
 ]
 
-{ #category : 'visiting' }
+{ #category : #visiting }
 ToSelectorInterpreter >> visitAndSelector: aSelector [
 
 	aSelector left accept: self.
@@ -86,7 +84,7 @@ ToSelectorInterpreter >> visitAndSelector: aSelector [
 	aSelector right accept: self.
 ]
 
-{ #category : 'visiting' }
+{ #category : #visiting }
 ToSelectorInterpreter >> visitChildSelector: aSelector [
 
 	| parent |
@@ -104,20 +102,20 @@ ToSelectorInterpreter >> visitChildSelector: aSelector [
 			result ifTrue: [ ^ self ] ] ]
 ]
 
-{ #category : 'visiting' }
+{ #category : #visiting }
 ToSelectorInterpreter >> visitIdSelector: aSelector [
 
 	result := aSelector id = self top id
 ]
 
-{ #category : 'visiting' }
+{ #category : #visiting }
 ToSelectorInterpreter >> visitNotSelector: aSelector [
 
 	aSelector left accept: self.
 	result := result not
 ]
 
-{ #category : 'visiting' }
+{ #category : #visiting }
 ToSelectorInterpreter >> visitOrSelector: aSelector [
 
 	aSelector left accept: self.
@@ -125,7 +123,7 @@ ToSelectorInterpreter >> visitOrSelector: aSelector [
 	aSelector right accept: self.
 ]
 
-{ #category : 'visiting' }
+{ #category : #visiting }
 ToSelectorInterpreter >> visitParentSelector: aSelector [
 
 	| current depth |
@@ -149,7 +147,7 @@ ToSelectorInterpreter >> visitParentSelector: aSelector [
 		(depth notNil or: [ result ]) ifTrue: [ ^ self ] ] ] repeat
 ]
 
-{ #category : 'visiting' }
+{ #category : #visiting }
 ToSelectorInterpreter >> visitSiblingSelector: aSelector [
 
 	| current |
@@ -165,19 +163,19 @@ ToSelectorInterpreter >> visitSiblingSelector: aSelector [
 		result ifTrue: [ ^ self ] ]
 ]
 
-{ #category : 'visiting' }
+{ #category : #visiting }
 ToSelectorInterpreter >> visitStyleStampSelector: aSelector [
 
 	result := aSelector allStamps allSatisfy: [ :t | self top hasStamp: t ]
 ]
 
-{ #category : 'visiting' }
+{ #category : #visiting }
 ToSelectorInterpreter >> visitTypeSelector: aSelector [
 
 	result := (aSelector selectType: self top class)
 ]
 
-{ #category : 'visiting' }
+{ #category : #visiting }
 ToSelectorInterpreter >> visitUniversalSelector: aSelector [
 
 	result := true

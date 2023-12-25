@@ -1,16 +1,14 @@
 Class {
-	#name : 'ToListSelectionElement',
-	#superclass : 'ToElement',
+	#name : #ToListSelectionElement,
+	#superclass : #ToElement,
 	#instVars : [
 		'listElement',
 		'nodes'
 	],
-	#category : 'Toplo-Widget-List-Core',
-	#package : 'Toplo-Widget-List',
-	#tag : 'Core'
+	#category : 'Toplo-Widget-List-Core'
 }
 
-{ #category : 'private' }
+{ #category : #private }
 ToListSelectionElement >> boundsFromSelectedNodes [
 	" compute my bounds from my list of adjacent nodes. "
 
@@ -24,7 +22,7 @@ ToListSelectionElement >> boundsFromSelectedNodes [
 	^ BlBounds origin: top origin corner: bottom corner
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ToListSelectionElement >> boundsOfNode: aNode [
 	" compute local node bounds "
 
@@ -47,39 +45,39 @@ ToListSelectionElement >> boundsOfNode: aNode [
 	^ bnds expandBy: hgap @ vgap
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ToListSelectionElement >> computeBounds [
 	" compute my bounds from my list of adjacent nodes. "
 
 	self bounds: self boundsFromSelectedNodes
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToListSelectionElement >> initialize [
 
 	super initialize.
 	self constraintsDo: [ :c | c ignoreByLayout ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListSelectionElement >> listElement [
 
 	^ listElement
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListSelectionElement >> listElement: aListElement [
 
 	listElement := aListElement
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListSelectionElement >> nodes [
 
 	^ nodes
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListSelectionElement >> nodes: aCollection [
 
 	nodes := aCollection.

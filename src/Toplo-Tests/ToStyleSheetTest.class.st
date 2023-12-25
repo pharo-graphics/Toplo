@@ -2,14 +2,12 @@
 A ToStyleSheetTest is a test class for testing the behavior of ToStyleSheet
 "
 Class {
-	#name : 'ToStyleSheetTest',
-	#superclass : 'ToTestCaseWithSpace',
-	#category : 'Toplo-Tests-Core-StyleSheet',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-StyleSheet'
+	#name : #ToStyleSheetTest,
+	#superclass : #ToTestCaseWithSpace,
+	#category : 'Toplo-Tests-Core-StyleSheet'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleSheetTest >> testDefaultStyleScript [
 
 	| sheet defaultScript |
@@ -19,7 +17,7 @@ ToStyleSheetTest >> testDefaultStyleScript [
 	self assert: sheet script styleRules size equals: defaultScript styleRules size
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleSheetTest >> testInherits [
 
 	| sheet |
@@ -29,7 +27,7 @@ ToStyleSheetTest >> testInherits [
 	self deny: sheet inherits
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleSheetTest >> testInitialize [
 
 	| sheet |
@@ -39,7 +37,7 @@ ToStyleSheetTest >> testInitialize [
 	self assert: sheet inherits.
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleSheetTest >> testOnInstalledIn [
 
 	| sheet e child |
@@ -61,7 +59,7 @@ ToStyleSheetTest >> testOnInstalledIn [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleSheetTest >> testOnUninstalledIn [
 
 	| sheet e child |

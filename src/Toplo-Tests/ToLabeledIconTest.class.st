@@ -2,21 +2,19 @@
 A ToLabeledIconTest is a test class for testing the behavior of ToLabeledIcon
 "
 Class {
-	#name : 'ToLabeledIconTest',
-	#superclass : 'TestCase',
-	#category : 'Toplo-Tests-Core',
-	#package : 'Toplo-Tests',
-	#tag : 'Core'
+	#name : #ToLabeledIconTest,
+	#superclass : #TestCase,
+	#category : #'Toplo-Tests-Core'
 }
 
-{ #category : 'running' }
+{ #category : #running }
 ToLabeledIconTest >> setUp [ 
 
 	super setUp.
 	ToTheme cleanUp
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testBeIconFirst [
 
 	| li |
@@ -29,7 +27,7 @@ ToLabeledIconTest >> testBeIconFirst [
 	self assert: li isIconFirst
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testBeLabelFirst [
 
 	| li |
@@ -42,7 +40,7 @@ ToLabeledIconTest >> testBeLabelFirst [
 	self assert: li isLabelFirst
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testFiller [
 
 	| li |
@@ -51,7 +49,7 @@ ToLabeledIconTest >> testFiller [
 	self assert: li filler size equals: 0 asPoint
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testFlexible [
 
 	| li |
@@ -63,7 +61,7 @@ ToLabeledIconTest >> testFlexible [
 	self assert: li isFlexible
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testFlexibleInEmpty [
 
 	| li container |
@@ -84,7 +82,7 @@ ToLabeledIconTest >> testFlexibleInEmpty [
 	self assert: li height equals: li label height.
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testFlexibleWithLabel [
 
 	| li container |
@@ -92,7 +90,7 @@ ToLabeledIconTest >> testFlexibleWithLabel [
 	li := ToLabeledIcon new.
 	li matchParent.
 	container addChild: li.
-	li flexible: true.	
+	li flexible: true.
 	li vertical: false.
 	li label: (ToLabel text: 'A').
 	li icon: (ToImage inner: (BlElement new
@@ -100,11 +98,11 @@ ToLabeledIconTest >> testFlexibleWithLabel [
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
 	container forceLayout.
-	self assert: li labelHolder bounds right equals: container width.	
-	self assert: li iconHolder bounds left equals: 0.
+	self assert: li labelContainer bounds right equals: container width.
+	self assert: li iconContainer bounds left equals: 0
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testFlexibleWithLabelAndVertical [
 
 	| li container |
@@ -113,18 +111,18 @@ ToLabeledIconTest >> testFlexibleWithLabelAndVertical [
 	li vertical: true.
 	li matchParent.
 	container addChild: li.
-	li flexible: true.	
+	li flexible: true.
 	li label: (ToLabel text: 'A').
 	li icon: (ToImage inner: (BlElement new
 				  size: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
 	container forceLayout.
-	self assert: li labelHolder bounds bottom equals: container height.	
-	self assert: li iconHolder bounds top equals: 0.
+	self assert: li labelContainer bounds bottom equals: container height.
+	self assert: li iconContainer bounds top equals: 0
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testHasIcon [
 
 	| li |
@@ -137,7 +135,7 @@ ToLabeledIconTest >> testHasIcon [
 	self assert: li hasIcon
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testHasLabel [
 
 	| li |
@@ -148,7 +146,7 @@ ToLabeledIconTest >> testHasLabel [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testIcon [
 
 	| li |
@@ -158,17 +156,105 @@ ToLabeledIconTest >> testIcon [
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
 	li forceLayout.
-	self assert: li width equals: li iconHolder width.
-	self assert: li height equals: li iconHolder height.
+	self assert: li width equals: li iconContainer width.
+	self assert: li height equals: li iconContainer height.
 	self assert: li hasIcon.
 	li icon: nil.
 	self assert: li icon isNil.
 	self deny: li hasIcon.
-	
+
 	^ li
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
+ToLabeledIconTest >> testIconContainer [
+
+	| li |
+	li := self testInitialize.
+	self assert: li iconContainer hasChildren not.
+	self assert: li iconContainer size equals: 0 asPoint.
+	li icon: (ToImage inner: (BlElement new
+				  size: 60 @ 20;
+				  background: (Color blue alpha: 0.2);
+				  yourself)).
+	li forceLayout.
+	self assert: li width equals: li iconContainer width.
+	self assert: li height equals: li iconContainer height.
+	^ li
+]
+
+{ #category : #tests }
+ToLabeledIconTest >> testIconContainerHeight [
+
+	| li |
+	li := self testWithLabelAndIcon.
+	li iconContainerHeight: 40.
+	li forceLayout.
+	self
+		assert: li height
+		equals: (li labelContainer height max: li iconContainer height).
+	self
+		assert: li height
+		equals: (li labelContainer height max: li iconContainerHeight)
+]
+
+{ #category : #tests }
+ToLabeledIconTest >> testIconContainerHeightVertical [
+
+	| li |
+	li := self testWithLabelAndIcon.
+	li beVertical.
+	li iconContainerHeight: 40.
+	li forceLayout.
+	self
+		assert: li height
+		equals: li labelContainer height + li iconContainer height.
+	self
+		assert: li height
+		equals: li labelContainer height + li iconContainerHeight.
+	self
+		assert: li width
+		equals: (li labelContainer width max: li iconContainer width)
+]
+
+{ #category : #tests }
+ToLabeledIconTest >> testIconContainerWidth [
+
+	| li |
+	li := self testWithLabelAndIcon.
+	li iconContainerWidth: 40.
+	li forceLayout.
+	self
+		assert: li width
+		equals: li labelContainer width + li iconContainer width.
+	self
+		assert: li width
+		equals: li labelContainer width + li iconContainerWidth.
+	self
+		assert: li height
+		equals: (li labelContainer height max: li iconContainer height)
+]
+
+{ #category : #tests }
+ToLabeledIconTest >> testIconContainerWidthVertical [
+
+	| li |
+	li := self testWithLabelAndIcon.
+	li beVertical.
+	li iconContainerWidth: 40.
+	li forceLayout.
+	self
+		assert: li width
+		equals: (li labelContainer width max: li iconContainer width).
+	self
+		assert: li width
+		equals: (li labelContainer width max: li iconContainerWidth).
+	self
+		assert: li height
+		equals: li labelContainer height + li iconContainer height
+]
+
+{ #category : #tests }
 ToLabeledIconTest >> testIconFirst [
 
 	| li |
@@ -184,88 +270,22 @@ ToLabeledIconTest >> testIconFirst [
 	^ li
 ]
 
-{ #category : 'tests' }
-ToLabeledIconTest >> testIconHolder [
-
-	| li |
-	li := self testInitialize.
-	self assert: li iconHolder hasChildren not.
-	self assert: li iconHolder size equals: 0 asPoint.
-	li icon: (ToImage inner: (BlElement new
-				  size: 60 @ 20;
-				  background: (Color blue alpha: 0.2);
-				  yourself)).
-	li forceLayout.
-	self assert: li width equals: li iconHolder width.
-	self assert: li height equals: li iconHolder height.
-	^ li
-]
-
-{ #category : 'tests' }
-ToLabeledIconTest >> testIconHolderHeight [
-
-	| li |
-	li := self testWithLabelAndIcon.
-	li iconHolderHeight: 40.
-	li forceLayout.
-	self assert: li height equals: (li labelHolder height max: li iconHolder height).	
-	self assert: li height equals: (li labelHolder height max: li iconHolderHeight)
-]
-
-{ #category : 'tests' }
-ToLabeledIconTest >> testIconHolderHeightVertical [
-
-	| li |
-	li := self testWithLabelAndIcon.
-	li beVertical.
-	li iconHolderHeight: 40.
-	li forceLayout.
-	self assert: li height equals: (li labelHolder height + li iconHolder height).	
-	self assert: li height equals: (li labelHolder height + li iconHolderHeight).
-	self assert: li width equals: (li labelHolder width max: li iconHolder width).
-]
-
-{ #category : 'tests' }
-ToLabeledIconTest >> testIconHolderWidth [
-
-	| li |
-	li := self testWithLabelAndIcon.
-	li iconHolderWidth: 40.
-	li forceLayout.
-	self assert: li width equals: li labelHolder width + li iconHolder width.	
-	self assert: li width equals: li labelHolder width + li iconHolderWidth.	
-	self assert: li height equals: (li labelHolder height max: li iconHolder height).
-]
-
-{ #category : 'tests' }
-ToLabeledIconTest >> testIconHolderWidthVertical [
-
-	| li |
-	li := self testWithLabelAndIcon.
-	li beVertical.
-	li iconHolderWidth: 40.
-	li forceLayout.
-	self assert: li width equals: (li labelHolder width max: li iconHolder width).	
-	self assert: li width equals: (li labelHolder width max: li iconHolderWidth).	
-	self assert: li height equals: (li labelHolder height + li iconHolder height).
-]
-
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testIconImage [
 
 	| li |
 	li := self testInitialize.
 	li iconImage: (BlElement new
-				  size: 60 @ 20;
-				  background: (Color blue alpha: 0.2);
-				  yourself).
+			 size: 60 @ 20;
+			 background: (Color blue alpha: 0.2);
+			 yourself).
 	li forceLayout.
-	self assert: li width equals: li iconHolder width.
-	self assert: li height equals: li iconHolder height.
+	self assert: li width equals: li iconContainer width.
+	self assert: li height equals: li iconContainer height.
 	^ li
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testInitialize [
 
 	| li |
@@ -277,7 +297,7 @@ ToLabeledIconTest >> testInitialize [
 	^ li
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testInterspace [
 
 	| li |
@@ -295,27 +315,29 @@ ToLabeledIconTest >> testInterspace [
 	self assert: li width equals: li label width + 10.
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testInterspaceWithLabel [
 
 	| li |
 	li := ToLabeledIcon new.
-	li interspace: 10.	
+	li interspace: 10.
 	li label: (ToLabel text: 'A').
 	li icon: (ToImage inner: (BlElement new
 				  size: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
 	li forceLayout.
-	self assert: li labelHolder bounds left equals: li iconHolder bounds right + 10
+	self
+		assert: li labelContainer bounds left
+		equals: li iconContainer bounds right + 10
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testInterspaceWithLabelAndVertical [
 
 	| li |
 	li := ToLabeledIcon new.
-	li interspace: 10.	
+	li interspace: 10.
 	li vertical: true.
 	li label: (ToLabel text: 'A').
 	li icon: (ToImage inner: (BlElement new
@@ -323,10 +345,12 @@ ToLabeledIconTest >> testInterspaceWithLabelAndVertical [
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
 	li forceLayout.
-	self assert: li labelHolder bounds top equals: li iconHolder bounds bottom + 10
+	self
+		assert: li labelContainer bounds top
+		equals: li iconContainer bounds bottom + 10
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testIsExact [
 
 	| li |
@@ -339,7 +363,7 @@ ToLabeledIconTest >> testIsExact [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testIsFlexible [
 
 	| li |
@@ -349,7 +373,7 @@ ToLabeledIconTest >> testIsFlexible [
 	self assert: li isFlexible
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testIsIconFirst [
 
 	| li |
@@ -360,7 +384,7 @@ ToLabeledIconTest >> testIsIconFirst [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testIsLabelFirst [
 
 	| li |
@@ -372,14 +396,14 @@ ToLabeledIconTest >> testIsLabelFirst [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testLabel [
 
 	| li |
 	li := self testInitialize.
 	li label: (ToLabel text: 'A').
 	li forceLayout.
-	self assert: li size equals: li labelHolder size.
+	self assert: li size equals: li labelContainer size.
 	self assert: li hasLabel.
 	li label: nil.
 	self assert: li label isNil.
@@ -388,7 +412,20 @@ ToLabeledIconTest >> testLabel [
 	^ li
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
+ToLabeledIconTest >> testLabelContainer [
+
+	| li |
+	li := self testInitialize.
+	self assert: li labelContainer hasChildren not.
+	self assert: li labelContainer size equals: 0 asPoint.
+	li label: (ToLabel text: 'A').
+	li forceLayout.
+	self assert: li size equals: li labelContainer size.
+	^ li
+]
+
+{ #category : #tests }
 ToLabeledIconTest >> testLabelFirst [
 
 	| li |
@@ -404,20 +441,7 @@ ToLabeledIconTest >> testLabelFirst [
 	^ li
 ]
 
-{ #category : 'tests' }
-ToLabeledIconTest >> testLabelHolder [
-
-	| li |
-	li := self testInitialize.
-	self assert: li labelHolder hasChildren not.
-	self assert: li labelHolder size equals: 0 asPoint.
-	li label: (ToLabel text: 'A').
-	li forceLayout.
-	self assert: li size equals: li labelHolder size.
-	^ li
-]
-
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testLabelText [
 
 	| li |
@@ -425,15 +449,15 @@ ToLabeledIconTest >> testLabelText [
 	li labelText: 'A' asRopedText.
 	li forceLayout.
 	self assert: li label text asString equals: 'A'.
-	self assert: li size equals: li labelHolder size.
+	self assert: li size equals: li labelContainer size.
 	li labelText: 'X'.
 	li forceLayout.
 	self assert: li label text asString equals: 'X'.
-	self assert: li size equals: li labelHolder size.
+	self assert: li size equals: li labelContainer size.
 	^ li
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testRightLabelAlignment [
 
 	| li |
@@ -444,35 +468,41 @@ ToLabeledIconTest >> testRightLabelAlignment [
 				  yourself)).
 	li label: (ToLabel text: 'ba').
 	li forceLayout.
-	self assert: li labelHolder bounds left equals: li iconHolder bounds right.
+	self
+		assert: li labelContainer bounds left
+		equals: li iconContainer bounds right.
 	li rightLabelAlignment: 100.
 	li forceLayout.
-	self assert: li iconHolder bounds width equals: 100.
-	self assert: li labelHolder bounds left equals: 100.
+	self assert: li iconContainer bounds width equals: 100.
+	self assert: li labelContainer bounds left equals: 100.
 	li rightLabelAlignment: 50.
 	li forceLayout.
-	self assert: li labelHolder bounds left equals: 50.
-	self assert: li iconHolder bounds width equals: 50.
-	
+	self assert: li labelContainer bounds left equals: 50.
+	self assert: li iconContainer bounds width equals: 50.
+
 	^ li
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testWithLabelAndIcon [
 
 	| li |
 	li := self testLabel.
 	li icon: (ToImage inner: (BlElement new
-			 size: 60 @ 20;
-			 background: (Color blue alpha: 0.2);
-			 yourself)).
+				  size: 60 @ 20;
+				  background: (Color blue alpha: 0.2);
+				  yourself)).
 	li forceLayout.
-	self assert: li width equals: li labelHolder width + li iconHolder width.	
-	self assert: li height equals: (li labelHolder height max: li iconHolder height).
+	self
+		assert: li width
+		equals: li labelContainer width + li iconContainer width.
+	self
+		assert: li height
+		equals: (li labelContainer height max: li iconContainer height).
 	^ li
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testWithLabelAndIconIconFirst [
 
 	| li |
@@ -485,11 +515,13 @@ ToLabeledIconTest >> testWithLabelAndIconIconFirst [
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
 	li forceLayout.
-	self assert: li iconHolder bounds left equals: 0.
-	self assert: li labelHolder bounds left equals: li iconHolder bounds right
+	self assert: li iconContainer bounds left equals: 0.
+	self
+		assert: li labelContainer bounds left
+		equals: li iconContainer bounds right
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testWithLabelAndIconIconFirstVertical [
 
 	| li |
@@ -503,11 +535,13 @@ ToLabeledIconTest >> testWithLabelAndIconIconFirstVertical [
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
 	li forceLayout.
-	self assert: li iconHolder bounds top equals: 0.
-	self assert: li labelHolder bounds top equals: li iconHolder bounds bottom
+	self assert: li iconContainer bounds top equals: 0.
+	self
+		assert: li labelContainer bounds top
+		equals: li iconContainer bounds bottom
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testWithLabelAndIconLabelFirst [
 
 	| li |
@@ -519,11 +553,13 @@ ToLabeledIconTest >> testWithLabelAndIconLabelFirst [
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
 	li forceLayout.
-	self assert: li labelHolder bounds left equals: 0.
-	self assert: li iconHolder bounds left equals: li label bounds right
+	self assert: li labelContainer bounds left equals: 0.
+	self
+		assert: li iconContainer bounds left
+		equals: li label bounds right
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testWithLabelAndIconLabelFirstVertical [
 
 	| li |
@@ -536,11 +572,13 @@ ToLabeledIconTest >> testWithLabelAndIconLabelFirstVertical [
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
 	li forceLayout.
-	self assert: li labelHolder bounds top equals: 0.
-	self assert: li iconHolder bounds top equals: li labelHolder bounds bottom
+	self assert: li labelContainer bounds top equals: 0.
+	self
+		assert: li iconContainer bounds top
+		equals: li labelContainer bounds bottom
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testWithLabelAndIconVertical [
 
 	| li |
@@ -548,10 +586,14 @@ ToLabeledIconTest >> testWithLabelAndIconVertical [
 	li vertical: true.
 	li label: (ToLabel text: 'A').
 	li icon: (ToImage inner: (BlElement new
-			 size: 60 @ 20;
-			 background: (Color blue alpha: 0.2);
-			 yourself)).
+				  size: 60 @ 20;
+				  background: (Color blue alpha: 0.2);
+				  yourself)).
 	li forceLayout.
-	self assert: li height equals: li labelHolder height + li iconHolder height.	
-	self assert: li width equals: (li labelHolder width max: li iconHolder width).
+	self
+		assert: li height
+		equals: li labelContainer height + li iconContainer height.
+	self
+		assert: li width
+		equals: (li labelContainer width max: li iconContainer width)
 ]

@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToSkinnableProperty',
-	#superclass : 'ToPseudoProperty',
-	#category : 'Toplo-Core-Properties',
-	#package : 'Toplo',
-	#tag : 'Core-Properties'
+	#name : #ToSkinnableProperty,
+	#superclass : #ToPseudoProperty,
+	#category : 'Toplo-Core-Properties'
 }
 
-{ #category : 'operating' }
+{ #category : #operating }
 ToSkinnableProperty >> write: anPropertyValue to: anObject [
 
 	| prev r |

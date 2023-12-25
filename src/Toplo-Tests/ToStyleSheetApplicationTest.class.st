@@ -2,14 +2,12 @@
 A ToStyleSheetTest is a test class for testing the behavior of ToStyleSheet
 "
 Class {
-	#name : 'ToStyleSheetApplicationTest',
-	#superclass : 'ToTestCaseWithSpace',
-	#category : 'Toplo-Tests-Core-StyleSheet',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-StyleSheet'
+	#name : #ToStyleSheetApplicationTest,
+	#superclass : #ToTestCaseWithSpace,
+	#category : 'Toplo-Tests-Core-StyleSheet'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleSheetApplicationTest >> testButtonLabelSkin0 [
 
 	|  styleSheet button labelSkin attributes foregroundAttr prop writers label theme |
@@ -82,7 +80,7 @@ ToStyleSheetApplicationTest >> testButtonLabelSkin0 [
 		equals: (button tokenValueNamed: #'color-error')
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleSheetApplicationTest >> testButtonSkin0 [
 
 	| styleSheet button skin labelSkin attributes foregroundAttr writers label theme nb  |
@@ -201,7 +199,7 @@ ToStyleSheetApplicationTest >> testButtonSkin0 [
 		equals: (button label tokenValueNamed: #'color-error')
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleSheetApplicationTest >> testButtonSkinWithInterspace [
 
 	| elem writers skin interspaceProp layoutProp theme styleSheet  |
@@ -239,7 +237,7 @@ ToStyleSheetApplicationTest >> testButtonSkinWithInterspace [
 	self assert: elem layout interspace equals: 10
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleSheetApplicationTest >> testEmptyStyleSheet [
 
 	| ss ssi |
@@ -248,7 +246,7 @@ ToStyleSheetApplicationTest >> testEmptyStyleSheet [
 	self assert: (ssi applicableListenersFor: (ToElement new)) isEmpty
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleSheetApplicationTest >> testSkinWith2LookEventActionOnSameLookEventEvent [
 
 	| elem listeners skin styleSheet theme  |
@@ -278,7 +276,7 @@ ToStyleSheetApplicationTest >> testSkinWith2LookEventActionOnSameLookEventEvent 
 	self assert: elem border paint color equals: Color blue
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleSheetApplicationTest >> testSkinWithAnUniversalRule [
 
 	| styleSheet elem skin writers theme  |
@@ -304,7 +302,7 @@ ToStyleSheetApplicationTest >> testSkinWithAnUniversalRule [
 	self assert: elem background paint color equals: Color red
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleSheetApplicationTest >> testSkinWithChildRule [
 	" with a direct child "
 
@@ -346,7 +344,7 @@ ToStyleSheetApplicationTest >> testSkinWithChildRule [
 	self assert: child border paint color equals: Color red
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleSheetApplicationTest >> testSkinWithChildRule2 [
 	" with a direct child "
 
@@ -389,7 +387,7 @@ ToStyleSheetApplicationTest >> testSkinWithChildRule2 [
 	self assert: child border paint color equals: Color red
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleSheetApplicationTest >> testSkinWithIdRule [
 
 	| elem writers skin styleSheet theme  |
@@ -421,7 +419,7 @@ ToStyleSheetApplicationTest >> testSkinWithIdRule [
 	self assert: elem border paint color equals: Color red
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleSheetApplicationTest >> testSkinWithLookEventAction [
 
 	| elem listeners skin styleSheet theme  |
@@ -451,7 +449,7 @@ ToStyleSheetApplicationTest >> testSkinWithLookEventAction [
 	self assert: elem border paint color equals: Color red
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleSheetApplicationTest >> testSkinWithLookEventAction2 [
 
 	| elem listeners skin styleSheet theme  |
@@ -481,7 +479,7 @@ ToStyleSheetApplicationTest >> testSkinWithLookEventAction2 [
 	self assert: elem border paint color equals: Color red
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleSheetApplicationTest >> testSkinWithLookEventActionMixedWithWriter [
 
 	| elem listeners skin styleSheet theme  |
@@ -515,7 +513,7 @@ ToStyleSheetApplicationTest >> testSkinWithLookEventActionMixedWithWriter [
 	self assert: elem border paint color equals: Color blue
 ]
 
-{ #category : 'tests - style sheet style' }
+{ #category : #'tests - style sheet style' }
 ToStyleSheetApplicationTest >> testStyleSheetStyle0 [
 
 	| button skin writers styleSheet theme |
@@ -551,7 +549,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyle0 [
 	self assert: button background paint color equals: Color black
 ]
 
-{ #category : 'tests - style sheet style' }
+{ #category : #'tests - style sheet style' }
 ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules0 [
 
 	| button skin writers styleSheet theme  |
@@ -610,7 +608,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules0 [
 		equals: (Color red alpha: 0.1)
 ]
 
-{ #category : 'tests - style sheet style' }
+{ #category : #'tests - style sheet style' }
 ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules1 [
 
 	| elem child childchild1 childchild2 skin writers  styleSheet theme  |
@@ -655,7 +653,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules1 [
 	self assert: child background paint color equals: Color red
 ]
 
-{ #category : 'tests - style sheet style' }
+{ #category : #'tests - style sheet style' }
 ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules2 [
 
 	| elem child childchild1 childchild2 skin writers styleSheet theme  |
@@ -705,7 +703,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules2 [
 	self assert: child background paint color equals: Color red
 ]
 
-{ #category : 'tests - style sheet style' }
+{ #category : #'tests - style sheet style' }
 ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules22 [
 
 	| elem child childchild1 childchild2 skin writers styleSheet theme  |
@@ -755,7 +753,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules22 [
 	self assert: child background paint color equals: Color red
 ]
 
-{ #category : 'tests - style sheet style' }
+{ #category : #'tests - style sheet style' }
 ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules3 [
 
 	| elem child childchild1 childchild2 skin writers  styleSheet theme  |
@@ -805,7 +803,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules3 [
 	self assert: child background paint color equals: Color red
 ]
 
-{ #category : 'tests - style sheet style' }
+{ #category : #'tests - style sheet style' }
 ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules32 [
 
 	| elem child childchild1 childchild2 skin writers styleSheet theme  |
@@ -856,7 +854,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules32 [
 	self assert: child background paint color equals: Color red
 ]
 
-{ #category : 'tests - style sheet style' }
+{ #category : #'tests - style sheet style' }
 ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules33 [
 
 	| elem child childchild1 childchild2 skin writers styleSheet theme  |
@@ -906,7 +904,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules33 [
 	self assert: child background paint color equals: Color red
 ]
 
-{ #category : 'tests - style sheet style' }
+{ #category : #'tests - style sheet style' }
 ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules1 [
 
 	| elem child childchild1 childchild2 skin writers styleSheet theme  |
@@ -944,7 +942,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules1 [
 	self assert: child background paint color equals: Color red
 ]
 
-{ #category : 'tests - style sheet style' }
+{ #category : #'tests - style sheet style' }
 ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules2 [
 
 	| elem child childchild1 childchild2 skin writers styleSheet theme  |
@@ -983,7 +981,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules2 [
 	self assert: child background paint color equals: Color red
 ]
 
-{ #category : 'tests - style sheet style' }
+{ #category : #'tests - style sheet style' }
 ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules3 [
 
 	| elem child childchild1 childchild2 skin writers styleSheet theme  |
@@ -1027,7 +1025,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules3 [
 	self assert: child background paint color equals: Color red
 ]
 
-{ #category : 'tests - style sheet style' }
+{ #category : #'tests - style sheet style' }
 ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules4 [
 
 	| elem child childchild1 childchild2 writers skin styleSheet theme  |

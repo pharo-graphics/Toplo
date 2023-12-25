@@ -1,15 +1,13 @@
 Class {
-	#name : 'ToTestCaseWithSpace',
-	#superclass : 'TestCase',
+	#name : #ToTestCaseWithSpace,
+	#superclass : #TestCase,
 	#instVars : [
 		'space'
 	],
-	#category : 'Toplo-Tests-Core',
-	#package : 'Toplo-Tests',
-	#tag : 'Core'
+	#category : 'Toplo-Tests-Core'
 }
 
-{ #category : 'running' }
+{ #category : #running }
 ToTestCaseWithSpace >> setUp [ 
 
 	super setUp.

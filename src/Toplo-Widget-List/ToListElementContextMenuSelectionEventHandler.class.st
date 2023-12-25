@@ -1,15 +1,13 @@
 Class {
-	#name : 'ToListElementContextMenuSelectionEventHandler',
-	#superclass : 'BlCustomEventHandler',
+	#name : #ToListElementContextMenuSelectionEventHandler,
+	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'contextMenuSelection'
 	],
-	#category : 'Toplo-Widget-List-Context-menu',
-	#package : 'Toplo-Widget-List',
-	#tag : 'Context-menu'
+	#category : 'Toplo-Widget-List-Context-menu'
 }
 
-{ #category : 'selection managing' }
+{ #category : #'selection managing' }
 ToListElementContextMenuSelectionEventHandler >> addContextMenuSelectionIn: aListElement onNode: aChildNode [
 	" update selection decoration to show the secondary selection on which the popup is opened"
 
@@ -21,7 +19,7 @@ ToListElementContextMenuSelectionEventHandler >> addContextMenuSelectionIn: aLis
 	aListElement addChild: deco
 ]
 
-{ #category : 'element handlers' }
+{ #category : #'element handlers' }
 ToListElementContextMenuSelectionEventHandler >> contextMenuClosedEvent: anEvent [
 
 	| target |
@@ -35,13 +33,13 @@ ToListElementContextMenuSelectionEventHandler >> contextMenuClosedEvent: anEvent
 	target enableScrolledEvent
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListElementContextMenuSelectionEventHandler >> contextMenuSelection [
 
 	^ contextMenuSelection
 ]
 
-{ #category : 'selection managing' }
+{ #category : #'selection managing' }
 ToListElementContextMenuSelectionEventHandler >> contextMenuSelectionOverPrimaryIn: aListElement [
 
 	aListElement selectionElements do: [ :d |
@@ -53,7 +51,7 @@ ToListElementContextMenuSelectionEventHandler >> contextMenuSelectionOverPrimary
 		aListElement addChild: deco ]
 ]
 
-{ #category : 'api - accessing' }
+{ #category : #'api - accessing' }
 ToListElementContextMenuSelectionEventHandler >> eventsToHandle [
 
 	^ {
@@ -63,7 +61,7 @@ ToListElementContextMenuSelectionEventHandler >> eventsToHandle [
 		  ToListElementContextMenuSelectionChangedEvent }
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToListElementContextMenuSelectionEventHandler >> initialize [
 
 	super initialize.
@@ -71,7 +69,7 @@ ToListElementContextMenuSelectionEventHandler >> initialize [
 
 ]
 
-{ #category : 'element handlers' }
+{ #category : #'element handlers' }
 ToListElementContextMenuSelectionEventHandler >> listElementContextMenuRequest: anEvent [
 
 	| pos targetChildren childNode target infinite |
@@ -100,7 +98,7 @@ ToListElementContextMenuSelectionEventHandler >> listElementContextMenuRequest: 
 			 yourself)
 ]
 
-{ #category : 'element handlers' }
+{ #category : #'element handlers' }
 ToListElementContextMenuSelectionEventHandler >> listElementContextMenuSelectionChangedEvent: anEvent [
 
 	| node target pos targetChildren infinite childNode |
@@ -118,7 +116,7 @@ ToListElementContextMenuSelectionEventHandler >> listElementContextMenuSelection
 		self addContextMenuSelectionIn: target onNode: childNode ]
 ]
 
-{ #category : 'element handlers' }
+{ #category : #'element handlers' }
 ToListElementContextMenuSelectionEventHandler >> listSelectionElementUpdatedEvent: anEvent [
 
 	| target |
@@ -128,7 +126,7 @@ ToListElementContextMenuSelectionEventHandler >> listSelectionElementUpdatedEven
 	self removeContextMenuSelectionIn: target
 ]
 
-{ #category : 'selection managing' }
+{ #category : #'selection managing' }
 ToListElementContextMenuSelectionEventHandler >> removeContextMenuSelectionIn: aListElement [
 
 	(aListElement allChildrenBreadthFirstSelect: [ :child |
@@ -136,13 +134,13 @@ ToListElementContextMenuSelectionEventHandler >> removeContextMenuSelectionIn: a
 		d removeFromParent ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListElementContextMenuSelectionEventHandler >> secondarySelectionElementClass [
 
 	^ ToListContextMenuSelectionElement
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListElementContextMenuSelectionEventHandler >> secondarySelectionIndexes [ 
 
 	^ self contextMenuSelection selectedIndexes

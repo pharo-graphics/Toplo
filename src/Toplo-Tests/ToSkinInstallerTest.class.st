@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToSkinInstallerTest',
-	#superclass : 'ToTestCaseWithSpace',
-	#category : 'Toplo-Tests-Core-Theme',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Theme'
+	#name : #ToSkinInstallerTest,
+	#superclass : #ToTestCaseWithSpace,
+	#category : 'Toplo-Tests-Core-Theme'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinInstallerTest >> testApplyOn [
 
 	| e |
@@ -21,7 +19,7 @@ ToSkinInstallerTest >> testApplyOn [
 	self assert: e installedSkin notNil
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinInstallerTest >> testApplyOnWithRawSkin [ 
 
 	| e |
@@ -39,7 +37,7 @@ ToSkinInstallerTest >> testApplyOnWithRawSkin [
 	self assert: e styleInstalled
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinInstallerTest >> testInstallSkinInWithErrorNonAttachedInSpace [
 
 	| e |

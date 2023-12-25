@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToListInfiniteElementEventHandler',
-	#superclass : 'BlCustomEventHandler',
-	#category : 'Toplo-Widget-List-Infinite',
-	#package : 'Toplo-Widget-List',
-	#tag : 'Infinite'
+	#name : #ToListInfiniteElementEventHandler,
+	#superclass : #BlCustomEventHandler,
+	#category : 'Toplo-Widget-List-Infinite'
 }
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToListInfiniteElementEventHandler >> doubleClickEvent: anEvent [
 
 	| target |
@@ -14,13 +12,13 @@ ToListInfiniteElementEventHandler >> doubleClickEvent: anEvent [
 	target primarySelection dispatchStrongSelectionChangedTo: target 
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToListInfiniteElementEventHandler >> elementScrolledEvent: anEvent [
 
 	anEvent currentTarget spaceDo: [ :sp | sp mouseProcessor handleLastMouseMove ]
 ]
 
-{ #category : 'api - accessing' }
+{ #category : #'api - accessing' }
 ToListInfiniteElementEventHandler >> eventsToHandle [
 
 	^ {

@@ -1,11 +1,10 @@
 Class {
-	#name : 'ToTabPaneHeaderOnRight',
-	#superclass : 'ToTabPaneHeaderPositioning',
-	#category : 'Toplo-Widget-TabPane',
-	#package : 'Toplo-Widget-TabPane'
+	#name : #ToTabPaneHeaderOnRight,
+	#superclass : #ToTabPaneHeaderPositioning,
+	#category : 'Toplo-Widget-TabPane'
 }
 
-{ #category : 'hook' }
+{ #category : #hook }
 ToTabPaneHeaderOnRight >> applyOn: aTabPane [
 
 	super applyOn: aTabPane.
@@ -27,7 +26,7 @@ ToTabPaneHeaderOnRight >> applyOn: aTabPane [
 		b constraintsDo: [ :c | c linear horizontal alignLeft ] ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTabPaneHeaderOnRight >> tabGeometry [
 
 	^ BlRoundedRectangleGeometry cornerRadii: (BlCornerRadii new

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToListElementEventHandler,
 	#superclass : #BlCustomEventHandler,
-	#category : 'Toplo-Widget-List-Core'
+	#category : #'Toplo-Widget-List-Core'
 }
 
 { #category : #'mouse handlers' }
@@ -58,9 +58,9 @@ ToListElementEventHandler >> infiniteSelectionChangedEvent: anEvent [
 	| target |
 	target := anEvent currentTarget.
 	target dispatchEvent: (ToListElementSelectionChangedEvent new
-			 newSelectedIndexes: anEvent newSelectedIndexes;
-			 oldSelectedIndexes: anEvent oldSelectedIndexes;
-			 yourself).
+			 currentIndexes: anEvent currentIndexes;
+			 previousIndexes: anEvent previousIndexes;
+			 yourself)
 ]
 
 { #category : #'mouse handlers' }

@@ -1,15 +1,14 @@
 Class {
-	#name : 'ToTabPaneHeaderPositioning',
-	#superclass : 'Object',
-	#category : 'Toplo-Widget-TabPane',
-	#package : 'Toplo-Widget-TabPane'
+	#name : #ToTabPaneHeaderPositioning,
+	#superclass : #Object,
+	#category : 'Toplo-Widget-TabPane'
 }
 
-{ #category : 'hook' }
+{ #category : #hook }
 ToTabPaneHeaderPositioning >> applyOn: aTabPane [
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTabPaneHeaderPositioning >> tabGeometry [
 
 	^ self subclassResponsibility 

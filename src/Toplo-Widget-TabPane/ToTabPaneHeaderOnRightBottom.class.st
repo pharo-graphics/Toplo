@@ -1,11 +1,10 @@
 Class {
-	#name : 'ToTabPaneHeaderOnRightBottom',
-	#superclass : 'ToTabPaneHeaderOnRight',
-	#category : 'Toplo-Widget-TabPane',
-	#package : 'Toplo-Widget-TabPane'
+	#name : #ToTabPaneHeaderOnRightBottom,
+	#superclass : #ToTabPaneHeaderOnRight,
+	#category : 'Toplo-Widget-TabPane'
 }
 
-{ #category : 'hook' }
+{ #category : #hook }
 ToTabPaneHeaderOnRightBottom >> applyOn: aTabPane [
 
 	super applyOn: aTabPane.

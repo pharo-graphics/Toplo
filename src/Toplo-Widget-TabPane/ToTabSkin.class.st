@@ -1,11 +1,10 @@
 Class {
-	#name : 'ToTabSkin',
-	#superclass : 'ToRawSkin',
-	#category : 'Toplo-Widget-TabPane',
-	#package : 'Toplo-Widget-TabPane'
+	#name : #ToTabSkin,
+	#superclass : #ToRawSkin,
+	#category : 'Toplo-Widget-TabPane'
 }
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToTabSkin >> checkedLookEvent: anEvent [
 
 	super checkedLookEvent: anEvent.
@@ -13,7 +12,7 @@ ToTabSkin >> checkedLookEvent: anEvent [
 		e background: e selectedBackground ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToTabSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
@@ -25,7 +24,7 @@ ToTabSkin >> hoveredLookEvent: anEvent [
 			ifFalse: [ e background: e hoveredBackground ] ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToTabSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
@@ -40,7 +39,7 @@ ToTabSkin >> installLookEvent: anEvent [
 		e geometry: e defaultGeometry ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToTabSkin >> leavedLookEvent: anEvent [
 
 	super leavedLookEvent: anEvent.
@@ -51,14 +50,14 @@ ToTabSkin >> leavedLookEvent: anEvent [
 
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToTabSkin >> pressedLookEvent: anEvent [
 
 	anEvent elementDo: [ :e | e isChecked ifTrue: [ ^ self ] ].
 	super pressedLookEvent: anEvent
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToTabSkin >> uncheckedLookEvent: anEvent [
 
 	super uncheckedLookEvent: anEvent.

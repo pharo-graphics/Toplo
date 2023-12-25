@@ -1885,8 +1885,8 @@ ToSandBox class >> example_contactList [
 	list addEventHandler: (BlEventHandler
 			 on: ToListElementSelectionChangedEvent
 			 do: [ :evt |
-				 evt newSelectedIndexes size = 1 ifTrue: [
-					 contact := list data at: evt newSelectedIndexes anyOne.
+				 evt currentIndexes size = 1 ifTrue: [
+					 contact := list data at: evt currentIndexes anyOne.
 					 nameTxtF text: contact name.
 					 phoneTxtF text: contact phoneNumber.
 					 addressTxtF text: contact address ] ]).

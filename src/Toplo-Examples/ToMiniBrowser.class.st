@@ -12,7 +12,7 @@ Class {
 		'classSide',
 		'selectedSelector'
 	],
-	#category : 'Toplo-Examples'
+	#category : #'Toplo-Examples'
 }
 
 { #category : #'instance creation' }
@@ -163,7 +163,9 @@ ToMiniBrowser >> initialize [
 
 	sideToggle checked: self classSide.
 	sideToggle when: ToCheckableCheckEvent do: [ :event |
-		classes infinite dispatchSelectionChangedAfter: [ classSide := event current. classes deselectAll. ] ].
+		classes infinite dispatchSelectionChangedAfter: [ 
+			classSide := event current. 
+			classes deselectAll. ] ].
 
 	protocols := ToListElement new id: #protocols; nodeBuilder: [  :node :holder | 
 			node addChild: (

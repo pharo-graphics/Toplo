@@ -11,7 +11,7 @@ Class {
 		'#pivot',
 		'#distance'
 	],
-	#category : 'Toplo-Widget-List-Infinite'
+	#category : #'Toplo-Widget-List-Infinite'
 }
 
 { #category : #'private - selection managing' }
@@ -152,9 +152,10 @@ ToListSelectionStrategy >> deselectIndex: index [
 ]
 
 { #category : #'event management' }
-ToListSelectionStrategy >> dispatchSelectionChangedAfter: aBlock to: anInfiniteElement [
+ToListSelectionStrategy >> dispatchSelectionChanged: eventBlock  after: aBlock to: anInfiniteElement [
+	" a Valuable takes the event as argument "
 
-	anInfiniteElement dispatchSelectionChangedAfter: aBlock
+	anInfiniteElement dispatchSelectionChanged: eventBlock after: aBlock
 ]
 
 { #category : #'event management' }
@@ -445,16 +446,18 @@ ToListSelectionStrategy >> shortcutsIn: aList [
 	shortcuts := {
 		             (BlShortcutWithAction new
 			              combination: BlKeyCombination builder arrowDown build;
-			              action: [ :aShortcutEvent :aShortcut | 
+			              action: [ :aShortcutEvent :aShortcut |
 				              aList primarySelection
-					              dispatchSelectionChangedAfter: [
+					              dispatchSelectionChanged: [ :event |  ]
+					              after: [
 						              self selectNextIn: aList event: aShortcutEvent ]
 					              to: aList ]).
 		             (BlShortcutWithAction new
 			              combination: BlKeyCombination builder arrowUp build;
 			              action: [ :aShortcutEvent :aShortcut |
 				              aList primarySelection
-					              dispatchSelectionChangedAfter: [
+					              dispatchSelectionChanged: [ :event |  ]
+					              after: [
 						              self selectPreviousIn: aList event: aShortcutEvent ]
 					              to: aList ]) }.
 	self isMultiple ifTrue: [
@@ -463,20 +466,23 @@ ToListSelectionStrategy >> shortcutsIn: aList [
 				              combination: BlKeyCombination primaryA;
 				              action: [ :aShortcutEvent :aShortcut |
 					              aList primarySelection
-						              dispatchSelectionChangedAfter: [ self selectAll ]
+						              dispatchSelectionChanged: [ :event |  ]
+						              after: [ self selectAll ]
 						              to: aList ]).
 			             (BlShortcutWithAction new
 				              combination: BlKeyCombination shiftArrowDown;
 				              action: [ :aShortcutEvent :aShortcut |
 					              aList primarySelection
-						              dispatchSelectionChangedAfter: [
+						              dispatchSelectionChanged: [ :event |  ]
+						              after: [
 							              self selectNextIn: aList event: aShortcutEvent ]
 						              to: aList ]).
 			             (BlShortcutWithAction new
 				              combination: BlKeyCombination shiftArrowUp;
 				              action: [ :aShortcutEvent :aShortcut |
 					              aList primarySelection
-						              dispatchSelectionChangedAfter: [
+						              dispatchSelectionChanged: [ :event |  ]
+						              after: [
 							              self
 								              selectPreviousIn: aList
 								              event: aShortcutEvent ]

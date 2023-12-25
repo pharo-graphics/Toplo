@@ -1,6 +1,6 @@
 Class {
-	#name : 'ToTabPaneHeader',
-	#superclass : 'ToPane',
+	#name : #ToTabPaneHeader,
+	#superclass : #ToPane,
 	#instVars : [
 		'tabsPane',
 		'group',
@@ -13,73 +13,72 @@ Class {
 		'startContainer',
 		'endContainer'
 	],
-	#category : 'Toplo-Widget-TabPane',
-	#package : 'Toplo-Widget-TabPane'
+	#category : 'Toplo-Widget-TabPane'
 }
 
-{ #category : 'add-remove' }
+{ #category : #'add-remove' }
 ToTabPaneHeader >> addTab: aTab [
 
 	aTab header: self.
 	self tabRow addChild: aTab
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToTabPaneHeader >> applyPositioning [
 
 	self positioningStrategy applyOn: self tabsPane
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTabPaneHeader >> body [
 
 	^ self tabsPane body
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToTabPaneHeader >> checkableGroupChangedEvent: anEvent [
 
 	anEvent uncheckedButtons do: [ :but | ].
 	anEvent checkedButtons do: [ :but | ].
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTabPaneHeader >> checkingStrategy [
 
 	^ self group checkingStrategy
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTabPaneHeader >> checkingStrategy: aCheckingStrategy [
 
 	^ self group checkingStrategy: aCheckingStrategy
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToTabPaneHeader >> defaultPositioningStrategy [
 
 	^ ToTabPaneHeaderOnTopLeft new
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTabPaneHeader >> endContainer [
 
 	^ endContainer
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTabPaneHeader >> endFiller [
 
 	^ endFiller
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTabPaneHeader >> group [
 
 	^ group
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToTabPaneHeader >> initialize [
 
 	super initialize.
@@ -102,7 +101,7 @@ ToTabPaneHeader >> initialize [
 	self addChild: endContainer
 ]
 
-{ #category : 'add-remove' }
+{ #category : #'add-remove' }
 ToTabPaneHeader >> onTabAdded: aButton [
 
 	self group add: aButton.
@@ -110,7 +109,7 @@ ToTabPaneHeader >> onTabAdded: aButton [
 	
 ]
 
-{ #category : 'add-remove' }
+{ #category : #'add-remove' }
 ToTabPaneHeader >> onTabRemoved: aTab [
 
 	| index nextSelected |
@@ -132,62 +131,62 @@ ToTabPaneHeader >> onTabRemoved: aTab [
 	nextSelected checked: true
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTabPaneHeader >> positioningStrategy [
 
 	^ positioningStrategy ifNil: [ positioningStrategy := self defaultPositioningStrategy ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTabPaneHeader >> positioningStrategy: anObject [
 
 	positioningStrategy := anObject.
 	self applyPositioning 
 ]
 
-{ #category : 'add-remove' }
+{ #category : #'add-remove' }
 ToTabPaneHeader >> removeTab: aTab [
 
 	self tabRow removeChild: aTab
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTabPaneHeader >> startContainer [
 
 	^ startContainer
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTabPaneHeader >> startFiller [
 
 	^ startFiller
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTabPaneHeader >> tabRow [
 
 	^ tabRow 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTabPaneHeader >> tabRowContainer [
 
 	^ tabRowContainer
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTabPaneHeader >> tabs [ 
 
 	^ tabs
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTabPaneHeader >> tabsPane [ 
 
 	^ tabsPane 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTabPaneHeader >> tabsPane: aTabPane [ 
 
 	tabsPane := aTabPane

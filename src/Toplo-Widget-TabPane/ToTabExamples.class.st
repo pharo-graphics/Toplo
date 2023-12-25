@@ -1,29 +1,32 @@
 Class {
-	#name : 'ToTabExamples',
-	#superclass : 'Object',
-	#category : 'Toplo-Widget-TabPane',
-	#package : 'Toplo-Widget-TabPane'
+	#name : #ToTabExamples,
+	#superclass : #Object,
+	#category : #'Toplo-Widget-TabPane'
 }
 
-{ #category : 'tabs' }
+{ #category : #tabs }
 ToTabExamples class >> example_closeableTabs [
 
 	| nb but |
 	nb := ToTabPane new.
-	nb group when: ToCheckableGroupChangedEvent do: [ :event | event traceCr ].
+	nb group addEventHandler: (BlEventHandler
+			 on: ToCheckableGroupChangedEvent
+			 do: [ :event | event traceCr ]).
 	nb preservePaneOnSelect: false.
 	(Color wheel: 5) withIndexDo: [ :eachColor :index |
 		but := ToTab new.
 		but closable: true.
-		but when: ToCheckableCheckEvent do: [ :event | event current traceCr ].
-		
+		but addEventHandler: (BlEventHandler
+				 on: ToCheckableCheckEvent
+				 do: [ :event | event current traceCr ]).
+
 		but labelText: 'Button ' , index asString.
 		but paneBuilder: [ :pane :theNoteBook | pane background: eachColor ].
 		nb addTab: but ].
 	nb openInSpace
 ]
 
-{ #category : 'header positionning' }
+{ #category : #'header positionning' }
 ToTabExamples class >> example_headerOnBottomCenter [
 
 	| nb |
@@ -33,7 +36,7 @@ ToTabExamples class >> example_headerOnBottomCenter [
 	^ nb
 ]
 
-{ #category : 'header positionning' }
+{ #category : #'header positionning' }
 ToTabExamples class >> example_headerOnBottomLeft [
 
 	| nb |
@@ -42,7 +45,7 @@ ToTabExamples class >> example_headerOnBottomLeft [
 	^ nb
 ]
 
-{ #category : 'tabs' }
+{ #category : #tabs }
 ToTabExamples class >> example_headerOnBottomResizablePanes [
 
 	| nb |
@@ -51,7 +54,7 @@ ToTabExamples class >> example_headerOnBottomResizablePanes [
 	nb withResizablePanes 
 ]
 
-{ #category : 'header positionning' }
+{ #category : #'header positionning' }
 ToTabExamples class >> example_headerOnBottomRight [
 
 	| nb |
@@ -60,7 +63,7 @@ ToTabExamples class >> example_headerOnBottomRight [
 	^ nb
 ]
 
-{ #category : 'header positionning' }
+{ #category : #'header positionning' }
 ToTabExamples class >> example_headerOnLeftBottom [
 
 	| nb |
@@ -69,7 +72,7 @@ ToTabExamples class >> example_headerOnLeftBottom [
 	^ nb
 ]
 
-{ #category : 'header positionning' }
+{ #category : #'header positionning' }
 ToTabExamples class >> example_headerOnLeftCenter [
 
 	| nb |
@@ -78,7 +81,7 @@ ToTabExamples class >> example_headerOnLeftCenter [
 	^ nb
 ]
 
-{ #category : 'tabs' }
+{ #category : #tabs }
 ToTabExamples class >> example_headerOnLeftResizablePanes [
 
 	| nb |
@@ -87,7 +90,7 @@ ToTabExamples class >> example_headerOnLeftResizablePanes [
 	nb withResizablePanes 
 ]
 
-{ #category : 'header positionning' }
+{ #category : #'header positionning' }
 ToTabExamples class >> example_headerOnLeftTop [
 
 	| nb |
@@ -96,7 +99,7 @@ ToTabExamples class >> example_headerOnLeftTop [
 	^ nb
 ]
 
-{ #category : 'vertical labels' }
+{ #category : #'vertical labels' }
 ToTabExamples class >> example_headerOnLeftTopVerticalLabels [
 
 	| nb but |
@@ -115,7 +118,7 @@ ToTabExamples class >> example_headerOnLeftTopVerticalLabels [
 	^ nb
 ]
 
-{ #category : 'header positionning' }
+{ #category : #'header positionning' }
 ToTabExamples class >> example_headerOnRightBottom [
 
 	| nb |
@@ -124,7 +127,7 @@ ToTabExamples class >> example_headerOnRightBottom [
 	^ nb
 ]
 
-{ #category : 'header positionning' }
+{ #category : #'header positionning' }
 ToTabExamples class >> example_headerOnRightCenter [
 
 	| nb |
@@ -133,7 +136,7 @@ ToTabExamples class >> example_headerOnRightCenter [
 	^ nb
 ]
 
-{ #category : 'header positionning' }
+{ #category : #'header positionning' }
 ToTabExamples class >> example_headerOnRightTop [
 
 	| nb |
@@ -142,7 +145,7 @@ ToTabExamples class >> example_headerOnRightTop [
 	^ nb
 ]
 
-{ #category : 'vertical labels' }
+{ #category : #'vertical labels' }
 ToTabExamples class >> example_headerOnRightTopLabelsDiagonally [
 
 	| nb but |
@@ -164,7 +167,7 @@ ToTabExamples class >> example_headerOnRightTopLabelsDiagonally [
 	^ nb
 ]
 
-{ #category : 'header positionning' }
+{ #category : #'header positionning' }
 ToTabExamples class >> example_headerOnTopCenter [
 
 	| nb |
@@ -173,7 +176,7 @@ ToTabExamples class >> example_headerOnTopCenter [
 	^ nb
 ]
 
-{ #category : 'header positionning' }
+{ #category : #'header positionning' }
 ToTabExamples class >> example_headerOnTopLeft [
 
 	| nb |
@@ -182,7 +185,7 @@ ToTabExamples class >> example_headerOnTopLeft [
 	^ nb
 ]
 
-{ #category : 'tabs' }
+{ #category : #tabs }
 ToTabExamples class >> example_headerOnTopResizablePanes [
 
 	| nb |
@@ -191,7 +194,7 @@ ToTabExamples class >> example_headerOnTopResizablePanes [
 	nb withResizablePanes 
 ]
 
-{ #category : 'tabs' }
+{ #category : #tabs }
 ToTabExamples class >> example_headerOnTopResizablePanesHorizontalBody [
 
 	| nb |
@@ -201,7 +204,7 @@ ToTabExamples class >> example_headerOnTopResizablePanesHorizontalBody [
 	nb withHorizontalBody
 ]
 
-{ #category : 'header positionning' }
+{ #category : #'header positionning' }
 ToTabExamples class >> example_headerOnTopRight [
 
 	| nb |
@@ -210,7 +213,7 @@ ToTabExamples class >> example_headerOnTopRight [
 	^ nb
 ]
 
-{ #category : 'tabs' }
+{ #category : #tabs }
 ToTabExamples class >> example_notPreservingPane [
 
 	| nb but |
@@ -227,7 +230,7 @@ ToTabExamples class >> example_notPreservingPane [
 	nb openInSpace
 ]
 
-{ #category : 'tabs' }
+{ #category : #tabs }
 ToTabExamples class >> example_preservingPane [
 
 	| nb but |
@@ -244,7 +247,7 @@ ToTabExamples class >> example_preservingPane [
 	nb openInSpace
 ]
 
-{ #category : 'tabs' }
+{ #category : #tabs }
 ToTabExamples class >> example_tabPane [
 	| nb but |
 	nb := ToTabPane new.
@@ -259,7 +262,7 @@ ToTabExamples class >> example_tabPane [
 	^ nb
 ]
 
-{ #category : 'composing tabs' }
+{ #category : #'composing tabs' }
 ToTabExamples class >> example_tabPaneInTabPane [
 
 	| tabPane tab |
@@ -273,7 +276,7 @@ ToTabExamples class >> example_tabPaneInTabPane [
 	tabPane openInSpace
 ]
 
-{ #category : 'tabs' }
+{ #category : #tabs }
 ToTabExamples class >> example_tabPaneWithStartContainer [
 	| nb but header |
 	nb := ToTabPane new.
@@ -300,7 +303,7 @@ ToTabExamples class >> example_tabPaneWithStartContainer [
 	^ nb
 ]
 
-{ #category : 'tabs' }
+{ #category : #tabs }
 ToTabExamples class >> example_tabsWith2Pages [
 
 	| aNotebook redPage greenPage redCount greenCount |
@@ -329,7 +332,7 @@ ToTabExamples class >> example_tabsWith2Pages [
 	aNotebook openInSpace
 ]
 
-{ #category : 'composing tabs' }
+{ #category : #'composing tabs' }
 ToTabExamples class >> subTabPane [
 
 	| nb but |
@@ -343,7 +346,7 @@ ToTabExamples class >> subTabPane [
 	^ nb
 ]
 
-{ #category : 'composing tabs' }
+{ #category : #'composing tabs' }
 ToTabExamples class >> subsubTabPane [
 
 	| nb but |
@@ -357,7 +360,7 @@ ToTabExamples class >> subsubTabPane [
 	^ nb
 ]
 
-{ #category : 'composing tabs' }
+{ #category : #'composing tabs' }
 ToTabExamples class >> subsubsubTabPane [
 
 	| nb but |
@@ -371,6 +374,6 @@ ToTabExamples class >> subsubsubTabPane [
 	^ nb
 ]
 
-{ #category : 'see class side' }
+{ #category : #'see class side' }
 ToTabExamples >> seeClassSide [ 
 ]

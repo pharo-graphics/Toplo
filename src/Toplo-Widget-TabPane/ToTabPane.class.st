@@ -1,17 +1,16 @@
 Class {
-	#name : 'ToTabPane',
-	#superclass : 'ToPane',
+	#name : #ToTabPane,
+	#superclass : #ToPane,
 	#instVars : [
 		'rebuildPaneOnSelect',
 		'header',
 		'body',
 		'resizablePanes'
 	],
-	#category : 'Toplo-Widget-TabPane',
-	#package : 'Toplo-Widget-TabPane'
+	#category : 'Toplo-Widget-TabPane'
 }
 
-{ #category : 'adding-removing' }
+{ #category : #'adding-removing' }
 ToTabPane >> addTab: aTab [
 
 	aTab header: self header.
@@ -19,7 +18,7 @@ ToTabPane >> addTab: aTab [
 	self tabs size = 1 ifTrue: [ aTab selected: true ]
 ]
 
-{ #category : 'adding-removing' }
+{ #category : #'adding-removing' }
 ToTabPane >> addTabWithText: aText [ 
 
 	| but |
@@ -27,7 +26,7 @@ ToTabPane >> addTabWithText: aText [
 	self addTab: but
 ]
 
-{ #category : 'adding-removing' }
+{ #category : #'adding-removing' }
 ToTabPane >> addTabWithText: aText builder: aValuable [
 
 	| but |
@@ -36,56 +35,56 @@ ToTabPane >> addTabWithText: aText builder: aValuable [
 	self addTab: but
 ]
 
-{ #category : 'configuration - private' }
+{ #category : #'configuration - private' }
 ToTabPane >> applyHeaderPositioning [
 
 	self header applyPositioning
 ]
 
-{ #category : 'configuration - private' }
+{ #category : #'configuration - private' }
 ToTabPane >> applyResizablePanesConfiguration [
 
 	self body removeDividers.
 	self resizablePanes ifTrue: [ self body addDividers ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTabPane >> body [
 
 	^ body
 ]
 
-{ #category : 'configuration' }
+{ #category : #configuration }
 ToTabPane >> checkingStrategy [
 
 	^ self header checkingStrategy
 ]
 
-{ #category : 'configuration' }
+{ #category : #configuration }
 ToTabPane >> checkingStrategy: aCheckingStrategy [
 
 	self header checkingStrategy: aCheckingStrategy
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTabPane >> group [ 
 
 	^ self header group
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTabPane >> header [
 
 	^ header
 ]
 
-{ #category : 'configuration' }
+{ #category : #configuration }
 ToTabPane >> headerPositioning: aPositioningStategy [
 
 	self header positioningStrategy: aPositioningStategy
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToTabPane >> initialize [
 
 	super initialize.
@@ -103,183 +102,183 @@ ToTabPane >> initialize [
 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTabPane >> lastTab [
 
 	^ self tabs last
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToTabPane >> newRawSkin [
 
 	^ ToTabPaneSkin new
 ]
 
-{ #category : 'adding-removing - private' }
+{ #category : #'adding-removing - private' }
 ToTabPane >> onTabRemoved: aTab [
 
 
 ]
 
-{ #category : 'configuration' }
+{ #category : #configuration }
 ToTabPane >> preservePaneOnSelect [
 
 	^ self rebuildPaneOnSelect not
 ]
 
-{ #category : 'configuration' }
+{ #category : #configuration }
 ToTabPane >> preservePaneOnSelect: aBoolean [
 
 	self rebuildPaneOnSelect: aBoolean not
 ]
 
-{ #category : 'configuration' }
+{ #category : #configuration }
 ToTabPane >> rebuildPaneOnSelect [
 
 	^ rebuildPaneOnSelect
 ]
 
-{ #category : 'configuration' }
+{ #category : #configuration }
 ToTabPane >> rebuildPaneOnSelect: aBoolean [
 
 	rebuildPaneOnSelect := aBoolean
 ]
 
-{ #category : 'configuration' }
+{ #category : #configuration }
 ToTabPane >> resizablePanes [
 
 	^ resizablePanes
 ]
 
-{ #category : 'configuration' }
+{ #category : #configuration }
 ToTabPane >> resizablePanes: aBoolean [
 
 	resizablePanes := aBoolean.
 	self applyResizablePanesConfiguration
 ]
 
-{ #category : 'accessing - private' }
+{ #category : #'accessing - private' }
 ToTabPane >> tabGeometry [
 
 	^ self header positioningStrategy tabGeometry
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTabPane >> tabs [ 
 
 	^ self header tabs
 ]
 
-{ #category : 'configuration' }
+{ #category : #configuration }
 ToTabPane >> withHeaderOnBottomCenter [
 
 	self headerPositioning: ToTabPaneHeaderOnBottomCenter new
 ]
 
-{ #category : 'configuration' }
+{ #category : #configuration }
 ToTabPane >> withHeaderOnBottomLeft [
 
 	self headerPositioning: ToTabPaneHeaderOnBottomLeft new
 ]
 
-{ #category : 'configuration' }
+{ #category : #configuration }
 ToTabPane >> withHeaderOnBottomRight [
 
 	self headerPositioning: ToTabPaneHeaderOnBottomRight new
 ]
 
-{ #category : 'configuration' }
+{ #category : #configuration }
 ToTabPane >> withHeaderOnLeftBottom [
 
 	self headerPositioning: ToTabPaneHeaderOnLeftBottom new
 ]
 
-{ #category : 'configuration' }
+{ #category : #configuration }
 ToTabPane >> withHeaderOnLeftCenter [
 
 	self headerPositioning: ToTabPaneHeaderOnLeftCenter new
 ]
 
-{ #category : 'configuration' }
+{ #category : #configuration }
 ToTabPane >> withHeaderOnLeftTop [
 
 	self headerPositioning: ToTabPaneHeaderOnLeftTop new
 ]
 
-{ #category : 'configuration' }
+{ #category : #configuration }
 ToTabPane >> withHeaderOnRightBottom [
 
 	self headerPositioning: ToTabPaneHeaderOnRightBottom new
 ]
 
-{ #category : 'configuration' }
+{ #category : #configuration }
 ToTabPane >> withHeaderOnRightCenter [
 
 	self headerPositioning: ToTabPaneHeaderOnRightCenter new
 ]
 
-{ #category : 'configuration' }
+{ #category : #configuration }
 ToTabPane >> withHeaderOnRightTop [
 
 	self headerPositioning: ToTabPaneHeaderOnRightTop new
 ]
 
-{ #category : 'configuration' }
+{ #category : #configuration }
 ToTabPane >> withHeaderOnTopCenter [
 
 	self headerPositioning: ToTabPaneHeaderOnTopCenter new
 ]
 
-{ #category : 'configuration' }
+{ #category : #configuration }
 ToTabPane >> withHeaderOnTopLeft [
 
 	self headerPositioning: ToTabPaneHeaderOnTopLeft new
 ]
 
-{ #category : 'configuration' }
+{ #category : #configuration }
 ToTabPane >> withHeaderOnTopRight [
 
 	self headerPositioning: ToTabPaneHeaderOnTopRight new
 ]
 
-{ #category : 'configuration' }
+{ #category : #configuration }
 ToTabPane >> withHorizontalBody [
 
 	self body beHorizontal
 ]
 
-{ #category : 'configuration' }
+{ #category : #configuration }
 ToTabPane >> withResizablePanes [
 
 	self resizablePanes ifTrue: [ ^ self ].
 	self resizablePanes: true
 ]
 
-{ #category : 'configuration' }
+{ #category : #configuration }
 ToTabPane >> withStrictCheckingStrategy [
 
 	self group withStrictCheckingStrategy
 ]
 
-{ #category : 'configuration' }
+{ #category : #configuration }
 ToTabPane >> withUncheckingStrategy [
 
 	self group withUncheckingStrategy
 ]
 
-{ #category : 'configuration' }
+{ #category : #configuration }
 ToTabPane >> withVerticalBody [
 
 	self body beVertical
 ]
 
-{ #category : 'configuration' }
+{ #category : #configuration }
 ToTabPane >> withoutCheckingStrategy [
 
 	self group withoutCheckingStrategy
 ]
 
-{ #category : 'configuration' }
+{ #category : #configuration }
 ToTabPane >> withoutResizablePanes [
 
 	self resizablePanes ifFalse: [ ^ self ].

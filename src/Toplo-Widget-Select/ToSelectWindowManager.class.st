@@ -59,7 +59,7 @@ ToSelectWindowManager >> listElement [
 { #category : #'element handlers' }
 ToSelectWindowManager >> listElementSelectionChangedEvent: anEvent [
 
-	self element selectIndexes: anEvent newSelectedIndexes
+	self element selectIndexes: anEvent currentIndexes
 ]
 
 { #category : #accessing }

@@ -1,11 +1,10 @@
 Class {
-	#name : 'ToTabPaneSkin',
-	#superclass : 'ToRawSkin',
-	#category : 'Toplo-Widget-TabPane',
-	#package : 'Toplo-Widget-TabPane'
+	#name : #ToTabPaneSkin,
+	#superclass : #ToRawSkin,
+	#category : 'Toplo-Widget-TabPane'
 }
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToTabPaneSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.

@@ -10,7 +10,7 @@ Class {
 		'deselectHandler',
 		'selectHandler'
 	],
-	#category : 'Toplo-Widget-List-Node'
+	#category : #'Toplo-Widget-List-Node'
 }
 
 { #category : #accessing }
@@ -63,25 +63,10 @@ ToListNodeHolder >> node: aNode [
 { #category : #accessing }
 ToListNodeHolder >> onAttachedFromDatasource: aDataSource [
 
-
-	self flag: 'Sould be changed because all these handlers here is a mess '.
-
 	clickHandler := BlEventHandler
 		                on: ToClickOnListNodeEvent
 		                do: [ :event | infiniteElement whenClickOnNodeEvent: event ].
-
-	deselectHandler := BlEventHandler
-		                   on: ToListSelectionModelDeselectEvent
-		                   do: [ :event | self whenDeselectEvent: event ].
-
-	selectHandler := BlEventHandler
-		                 on: ToListSelectionModelSelectEvent
-		                 do: [ :event | self whenSelectEvent: event ].
-
 	self addEventHandler: clickHandler.
-	infiniteElement primarySelection addEventHandler: deselectHandler.
-	infiniteElement primarySelection addEventHandler: selectHandler.
-
 	" Selection model: when holder is attached the hold data can be selected 
 	( example: selectAll -> the selection model select all indexes ) "
 	self selected: self isSelected

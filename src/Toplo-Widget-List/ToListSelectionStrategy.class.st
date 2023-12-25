@@ -1,15 +1,14 @@
 Class {
 	#name : #ToListSelectionStrategy,
 	#superclass : #Object,
-	#traits : 'TObservable',
 	#classTraits : 'TObservable classTrait',
 	#instVars : [
-		'#selectionModel',
-		'#dataSource',
-		'#mode => ObservableSlot',
-		'#currentIndex',
-		'#pivot',
-		'#distance'
+		'selectionModel',
+		'dataSource',
+		'mode',
+		'currentIndex',
+		'pivot',
+		'distance'
 	],
 	#category : #'Toplo-Widget-List-Infinite'
 }
@@ -21,12 +20,6 @@ ToListSelectionStrategy >> addAllToSelection: aCollection [
 	aCollection ifEmpty: [ ^ self ].
 	selectionModel selectIndexes: aCollection.
 	self markPointedPosition: aCollection first
-]
-
-{ #category : #adding }
-ToListSelectionStrategy >> addEventHandler: anEventHandler [
-
-	selectionModel addEventHandler: anEventHandler
 ]
 
 { #category : #'private - shortcuts' }
@@ -82,23 +75,26 @@ ToListSelectionStrategy >> atLeastMonoSelectionDo: aBlock [
 ]
 
 { #category : #'mode changing' }
-ToListSelectionStrategy >> beMultipleSelection [ 
+ToListSelectionStrategy >> beMultipleSelectionIn: anInfiniteElement [ 
 
-	mode := #multiple
+	mode := #multiple.
+	anInfiniteElement onSelectionModeChange 
 ]
 
 { #category : #'mode changing' }
-ToListSelectionStrategy >> beSingleSelection [ 
+ToListSelectionStrategy >> beSingleSelectionIn: anInfiniteElement [ 
 
 	self deselectAll.
-	mode := #single
+	mode := #single.
+	anInfiniteElement onSelectionModeChange 
 ]
 
 { #category : #'mode changing' }
-ToListSelectionStrategy >> beWithoutSelection [ 
+ToListSelectionStrategy >> beWithoutSelectionIn: anInfiniteElement [ 
 
 	self deselectAll.
-	mode := #none
+	mode := #none.
+	anInfiniteElement onSelectionModeChange 
 ]
 
 { #category : #'private - shortcuts' }
@@ -228,7 +224,6 @@ ToListSelectionStrategy >> infiniteElement: anInfiniteElement [
 { #category : #initialization }
 ToListSelectionStrategy >> initialize [
 
-	self class initializeSlots: self.
 	super initialize.
 	selectionModel := ToListSelectionModel new.
 	mode := #multiple.
@@ -339,12 +334,6 @@ ToListSelectionStrategy >> pivot [
 ToListSelectionStrategy >> pivot: anIndex [
 
 	pivot := anIndex
-]
-
-{ #category : #adding }
-ToListSelectionStrategy >> removeEventHandler: anEventHandler [
-
-	selectionModel removeEventHandler: anEventHandler
 ]
 
 { #category : #'private - selection managing' }
@@ -494,12 +483,4 @@ ToListSelectionStrategy >> shortcutsIn: aList [
 ToListSelectionStrategy >> size [ 
 
 	^ self selectedIndexes size
-]
-
-{ #category : #'slot change hook' }
-ToListSelectionStrategy >> whenModeChangedDo: aBlock [
-
-	"set a block to perform after that the slot has been changed, and its action performed"
-
-	self property: #mode whenChangedDo: aBlock
 ]

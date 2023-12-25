@@ -15,21 +15,21 @@ Class {
 }
 
 { #category : #'selection mode' }
-ToInfiniteElement >> beMultipleSelection [ 
+ToInfiniteElement >> beMultipleSelection [
 
-	self selection beMultipleSelection
+	self selection beMultipleSelectionIn: self
 ]
 
 { #category : #'selection mode' }
-ToInfiniteElement >> beSingleSelection [ 
+ToInfiniteElement >> beSingleSelection [
 
-	self primarySelection beSingleSelection
+	self primarySelection beSingleSelectionIn: self
 ]
 
 { #category : #'selection mode' }
-ToInfiniteElement >> beWithoutSelection [ 
+ToInfiniteElement >> beWithoutSelection [
 
-	self primarySelection beWithoutSelection
+	self primarySelection beWithoutSelectionIn: self
 ]
 
 { #category : #'selection events' }
@@ -191,10 +191,6 @@ ToInfiniteElement >> initialize [
 		self addEventHandler: cls new ].
 	selectionStrategy := self defaultSelectionStrategy.
 	self privateData: ToObservableCollection new.
-	
-	self primarySelection whenModeChangedDo: [
-		self uninstallShortcuts.
-		self installShortcuts ].
 	self installShortcuts.
 	
 	self preserveSelectionOnFocused: self preserveSelectionOnFocusedByDefault.
@@ -299,6 +295,13 @@ ToInfiniteElement >> offsetPositionRecordsForRemove: aStartPosition itemCount: a
 				offsetPositionForRemove: aStartPosition
 				itemCount: anItemCount ]
 		to: self
+]
+
+{ #category : #'selection mode' }
+ToInfiniteElement >> onSelectionModeChange [
+
+	self uninstallShortcuts.
+	self installShortcuts
 ]
 
 { #category : #accessing }

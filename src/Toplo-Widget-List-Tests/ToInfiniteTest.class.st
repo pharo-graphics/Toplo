@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToInfiniteTest',
-	#superclass : 'ToParameterizedHostTest',
-	#category : 'Toplo-Widget-List-Tests-Core',
-	#package : 'Toplo-Widget-List-Tests',
-	#tag : 'Core'
+	#name : #ToInfiniteTest,
+	#superclass : #ToParameterizedHostTest,
+	#category : 'Toplo-Widget-List-Tests-Core'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToInfiniteTest >> statesOfAmerica [
 
 	^ { #Alabama. #Alaska. #Arizona. #Arkansas. #California. #Colorado.

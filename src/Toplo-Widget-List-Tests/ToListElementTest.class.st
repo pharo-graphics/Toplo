@@ -2,14 +2,12 @@
 A ToListElementTest is a test class for testing the behavior of ToListElement
 "
 Class {
-	#name : 'ToListElementTest',
-	#superclass : 'ToInfiniteTest',
-	#category : 'Toplo-Widget-List-Tests-Core',
-	#package : 'Toplo-Widget-List-Tests',
-	#tag : 'Core'
+	#name : #ToListElementTest,
+	#superclass : #ToInfiniteTest,
+	#category : 'Toplo-Widget-List-Tests-Core'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToListElementTest >> listWithRemoveRowButtons [
 
 	| list |
@@ -36,7 +34,7 @@ ToListElementTest >> listWithRemoveRowButtons [
 	^ list
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToListElementTest >> testDataRemovedWhenNodeRemoved [
 
 	| list but remButtons |
@@ -57,7 +55,7 @@ ToListElementTest >> testDataRemovedWhenNodeRemoved [
 	self assert: list selectionElements isEmpty
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToListElementTest >> testNodeDeselectedWhenNodeRemoved [
 
 	| list fillers remButtons but |
@@ -85,7 +83,7 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToListElementTest >> testNodeDeselectedWhenNodeRemoved2 [
 
 	| list fillers  but |
@@ -114,7 +112,7 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved2 [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToListElementTest >> testNodeDeselectedWhenNodeRemoved3 [
 
 	| list fillers  but |
@@ -150,7 +148,7 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved3 [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToListElementTest >> testNodeDeselectedWhenNodeRemoved4 [
 
 	| list fillers  but |

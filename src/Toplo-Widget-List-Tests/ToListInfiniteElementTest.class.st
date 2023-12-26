@@ -191,15 +191,14 @@ ToListInfiniteElementTest >> testListWithFiveFromMultipleToSingleSelectionMode [
 	l primarySelection beSingleSelectionIn: l.
 	self assert: l primarySelection isSingle.
 	self assert: l selectedIndexes isEmpty.
-	self should: [ l selectIndexes: #(4 2) ] raise: Error.
-	l selectIndex: 4.
+	self should: [ l selectIndexes: #( 4 2 ) ] raise: Error.
+	l selectOnlyIndex: 4.
 	self assert: l selectedIndex equals: 4.
 	l deselectIndex: 4.
 	self assert: l selectedIndex equals: 0.
 	self should: [ l cherryPickIndex: 4 ] raise: Error.
 	self should: [ l deselectAll ] raise: Error.
-	self should: [ l selectAll ] raise: Error.
-
+	self should: [ l selectAll ] raise: Error
 ]
 
 { #category : #'test selection - mode' }
@@ -214,20 +213,17 @@ ToListInfiniteElementTest >> testListWithFiveFromMultipleToSingleSelectionMode2 
 	self assert: l primarySelection isMultiple.
 	self assert: l selectedIndex equals: 0.
 
-	l selectIndexes: #(4 2).
-	self assert: l selectedIndexes asArray equals: #(2 4).
+	l selectIndexes: #( 4 2 ).
+	self assert: l selectedIndexes asArray equals: #( 2 4 ).
 
 	l primarySelection beSingleSelectionIn: l.
 	self assert: l primarySelection isSingle.
 	self assert: l selectedIndexes isEmpty.
-	self should: [ l selectIndexes: #(4 2) ] raise: Error.
-	l selectIndex: 2.
+	self should: [ l selectIndexes: #( 4 2 ) ] raise: Error.
+	l selectOnlyIndex: 2.
 	self assert: l selectedIndex equals: 2.
 	l deselectIndex: 2.
 	self assert: l selectedIndex equals: 0
-
-
-	
 ]
 
 { #category : #'test selection - mode' }
@@ -244,16 +240,14 @@ ToListInfiniteElementTest >> testListWithFiveFromMultipleToWithoutSelectionMode 
 	l primarySelection beWithoutSelectionIn: l.
 	self assert: l primarySelection isNone.
 	self assert: l selectedIndexes isEmpty.
-	self should: [ l selectIndexes: #(4 2) ] raise: Error.
-	self should: [ l selectIndex: 4 ] raise: Error.
+	self should: [ l selectIndexes: #( 4 2 ) ] raise: Error.
+	self should: [ l selectOnlyIndex: 4 ] raise: Error.
 	self should: [ l selectToIndex: 4 ] raise: Error.
 	self should: [ l deselectIndex: 4 ] raise: Error.
 	self should: [ l cherryPickIndex: 4 ] raise: Error.
 	self should: [ l deselectAll ] raise: Error.
 	self should: [ l selectAll ] raise: Error.
 	self assert: l selectedIndex equals: 0
-
-	
 ]
 
 { #category : #'test selection - select next/previous' }
@@ -301,14 +295,13 @@ ToListInfiniteElementTest >> testListWithOneElementAddOrRemovePreviousInSelectio
 	l data add: self statesOfAmerica first.
 	l forceLayout.
 	self assert: l selectedIndexes isEmpty.
-	l selectIndex: 1.
+	l selectOnlyIndex: 1.
 	l primarySelection addOrRemovePrevious.
 	self assert: l primarySelection currentIndex equals: 1.
 	self assert: l selectedIndex equals: 1.
 	l primarySelection addOrRemovePrevious.
 	self assert: l primarySelection currentIndex equals: 1.
-	self assert: l selectedIndex equals: 1.
-
+	self assert: l selectedIndex equals: 1
 ]
 
 { #category : #'test selection - select next/previous' }
@@ -320,14 +313,13 @@ ToListInfiniteElementTest >> testListWithOneElementAddOrRemovePreviousInSelectio
 	l data add: self statesOfAmerica first.
 	l forceLayout.
 	self assert: l selectedIndexes isEmpty.
-	l selectIndex: 1.
+	l selectOnlyIndex: 1.
 	l primarySelection addOrRemovePrevious.
 	self assert: l primarySelection currentIndex equals: 1.
 	self assert: l selectedIndex equals: 1.
 	l primarySelection addOrRemoveNext.
 	self assert: l primarySelection currentIndex equals: 1.
-	self assert: l selectedIndex equals: 1.
-
+	self assert: l selectedIndex equals: 1
 ]
 
 { #category : #'test selection - select next/previous' }
@@ -485,15 +477,13 @@ ToListInfiniteElementTest >> testRemoveAll [
 	self assert: l data size equals: 5.
 	l forceLayout.
 	self assert: l children size equals: 5.
-	l selectIndex: 2.
+	l selectOnlyIndex: 2.
 	l forceLayout.
-	self assert: l selectedIndexes equals: #(2).
+	self assert: l selectedIndexes equals: #( 2 ).
 	l data removeAll.
-	l forceLayout.	
+	l forceLayout.
 	self assert: l children size equals: 0.
 	self assert: l selectedIndexes isEmpty
-
-	
 ]
 
 { #category : #'test selection - adding/removing' }
@@ -506,15 +496,14 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterInsert [
 	self assert: l data size equals: 5.
 	l forceLayout.
 	self assert: l selectedIndexes isEmpty.
-	l selectIndex: 3.
+	l selectOnlyIndex: 3.
 	self assert: l primarySelection currentIndex equals: 3.
 	l data add: (self statesOfAmerica at: 6) afterIndex: 1.
 	self assert: l primarySelection currentIndex equals: 3.
 	sp := l inSpace.
 	sp pulse.
 	self assert: l primarySelection currentIndex equals: 4.
-	self assert: l selectedIndex equals: 4.
-	
+	self assert: l selectedIndex equals: 4
 ]
 
 { #category : #'test selection - adding/removing' }
@@ -527,17 +516,18 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterInsert1 [
 	self assert: l data size equals: 5.
 	l forceLayout.
 	self assert: l selectedIndexes isEmpty.
-	l selectIndex: 3.
+	l selectOnlyIndex: 3.
+	self assert: l selectedIndexes equals: {3}.
 	self assert: l primarySelection currentIndex equals: 3.
 	self assert: l children size equals: 5.
 	l data addAllFirst: (self statesOfAmerica copyFrom: 6 to: 10).
 	self assert: l data size equals: 10.
+	self assert: l children size equals: 5.
 	self assert: l primarySelection currentIndex equals: 3.
 	sp := l inSpace.
 	sp pulse.
 	self assert: l primarySelection currentIndex equals: 8.
-	self assert: l selectedIndex equals: 8.
-	
+	self assert: l selectedIndex equals: 8
 ]
 
 { #category : #'test selection - adding/removing' }
@@ -549,14 +539,13 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterInsert2 [
 	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	self assert: l data size equals: 5.
 	self assert: l selectedIndexes isEmpty.
-	l selectIndex: 3.
+	l selectOnlyIndex: 3.
 	self assert: l primarySelection currentIndex equals: 3.
 	l data add: (self statesOfAmerica at: 6) afterIndex: 3.
 	self assert: l primarySelection currentIndex equals: 3.
 	sp := l inSpace.
 	sp pulse.
-	self assert: l primarySelection currentIndex equals: 3.
-	
+	self assert: l primarySelection currentIndex equals: 3
 ]
 
 { #category : #'test selection - adding/removing' }
@@ -590,15 +579,14 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove [
 	self assert: l data size equals: 5.
 	l forceLayout.
 	self assert: l selectedIndexes isEmpty.
-	l selectIndex: 3.
+	l selectOnlyIndex: 3.
 	self assert: l primarySelection currentIndex equals: 3.
 	l data removeAt: 2.
 	self assert: l primarySelection currentIndex equals: 3.
 	sp := l inSpace.
 	sp pulse.
 	self assert: l primarySelection currentIndex equals: 2.
-	self assert: l selectedIndex equals: 2.
-	
+	self assert: l selectedIndex equals: 2
 ]
 
 { #category : #'test selection - adding/removing' }
@@ -611,7 +599,7 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove1 [
 	self assert: l data size equals: 5.
 	l forceLayout.
 	self assert: l selectedIndexes isEmpty.
-	l selectIndex: 3.
+	l selectOnlyIndex: 3.
 	self assert: l primarySelection currentIndex equals: 3.
 	self assert: l children size equals: 5.
 	l data removeAll.
@@ -621,8 +609,7 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove1 [
 	self assert: l children size equals: 0.
 	self assert: l data size equals: 0.
 	self assert: l primarySelection currentIndex equals: 0.
-	self assert: l selectedIndex equals: 0.
-	
+	self assert: l selectedIndex equals: 0
 ]
 
 { #category : #'test selection - adding/removing' }
@@ -634,14 +621,13 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove2 [
 	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	self assert: l data size equals: 5.
 	self assert: l selectedIndexes isEmpty.
-	l selectIndex: 3.
+	l selectOnlyIndex: 3.
 	self assert: l primarySelection currentIndex equals: 3.
 	l data removeAt: 4.
 	self assert: l primarySelection currentIndex equals: 3.
 	sp := l inSpace.
 	sp pulse.
-	self assert: l primarySelection currentIndex equals: 3.
-	
+	self assert: l primarySelection currentIndex equals: 3
 ]
 
 { #category : #'test selection - adding/removing' }
@@ -675,7 +661,7 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove4 [
 	self assert: l data size equals: 5.
 	l forceLayout.
 	self assert: l selectedIndexes isEmpty.
-	l selectIndex: 2.
+	l selectOnlyIndex: 2.
 	self assert: l primarySelection currentIndex equals: 2.
 	self assert: l primarySelection pivot isNil.
 	self assert: l primarySelection distance isNil.
@@ -685,5 +671,4 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove4 [
 	sp pulse.
 	self assert: l selectedIndexes isEmpty.
 	self assert: l primarySelection currentIndex equals: 0
-	
 ]

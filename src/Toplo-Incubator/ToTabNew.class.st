@@ -1,6 +1,6 @@
 Class {
-	#name : 'ToTabNew',
-	#superclass : 'Object',
+	#name : #ToTabNew,
+	#superclass : #Object,
 	#classTraits : 'TToCheckable classTrait',
 	#instVars : [
 		'data',
@@ -9,23 +9,22 @@ Class {
 		'pageBuilder',
 		'buttonBuilder'
 	],
-	#category : 'Toplo-Incubator',
-	#package : 'Toplo-Incubator'
+	#category : 'Toplo-Incubator'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTabNew >> buttonBuilder [
 
 	^ buttonBuilder
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTabNew >> buttonBuilder: aValuable2Args [
 
 	buttonBuilder := aValuable2Args
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTabNew >> closable: aBoolean [
 
 	closable := aBoolean.
@@ -42,19 +41,19 @@ ToTabNew >> closable: aBoolean [
 			self removeChildNamed: #innerCloseButton ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTabNew >> data [
 
 	^ data
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTabNew >> data: anObject [
 
 	data := anObject
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToTabNew >> defaultButtonBuilder [
 
 	^ [ :node :holder |
@@ -64,7 +63,7 @@ ToTabNew >> defaultButtonBuilder [
 	  node fitContent ]
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToTabNew >> initialize [
 
 	super initialize.
@@ -73,19 +72,19 @@ ToTabNew >> initialize [
 	buttonBuilder := self defaultButtonBuilder
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ToTabNew >> isClosable [
 
 	^ closable
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTabNew >> pageBuilder [
 
 	^ pageBuilder
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTabNew >> pageBuilder: aValuable2Args [
 	"Establish what is my body. When a tab is selected in a notebook, it will send `#value:value:` to this factory, 
 	with the page pane and the notebook as arguments"
@@ -93,13 +92,13 @@ ToTabNew >> pageBuilder: aValuable2Args [
 	pageBuilder := aValuable2Args
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTabNew >> preserveOnSelect [
 
 	^ preserveOnSelect
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTabNew >> preserveOnSelect: aBoolean [
 
 	preserveOnSelect := aBoolean

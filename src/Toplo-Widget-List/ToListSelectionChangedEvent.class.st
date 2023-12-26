@@ -1,5 +1,5 @@
 Class {
-	#name : #ToListElementSelectionChangedEvent,
+	#name : #ToListSelectionChangedEvent,
 	#superclass : #BlEvent,
 	#instVars : [
 		'currentIndexes',
@@ -9,19 +9,19 @@ Class {
 }
 
 { #category : #accessing }
-ToListElementSelectionChangedEvent >> currentIndexes [
+ToListSelectionChangedEvent >> currentIndexes [
 
 	^ currentIndexes
 ]
 
 { #category : #accessing }
-ToListElementSelectionChangedEvent >> currentIndexes: currentSelectedIndexes [
+ToListSelectionChangedEvent >> currentIndexes: currentSelectedIndexes [
 
 	currentIndexes := currentSelectedIndexes copy
 ]
 
 { #category : #accessing }
-ToListElementSelectionChangedEvent >> newSelectedIndexes [
+ToListSelectionChangedEvent >> newSelectedIndexes [
 
 	self
 		deprecated: 'Use currentIndexes instead'
@@ -33,7 +33,7 @@ ToListElementSelectionChangedEvent >> newSelectedIndexes [
 ]
 
 { #category : #accessing }
-ToListElementSelectionChangedEvent >> newSelectedIndexes: anArray [
+ToListSelectionChangedEvent >> newSelectedIndexes: anArray [
 
 	self
 		deprecated: 'Use currentIndexes: instead'
@@ -45,7 +45,7 @@ ToListElementSelectionChangedEvent >> newSelectedIndexes: anArray [
 ]
 
 { #category : #accessing }
-ToListElementSelectionChangedEvent >> oldSelectedIndexes [
+ToListSelectionChangedEvent >> oldSelectedIndexes [
 
 	self
 		deprecated: 'Use previousIndexes instead'
@@ -57,7 +57,7 @@ ToListElementSelectionChangedEvent >> oldSelectedIndexes [
 ]
 
 { #category : #accessing }
-ToListElementSelectionChangedEvent >> oldSelectedIndexes: anArray [
+ToListSelectionChangedEvent >> oldSelectedIndexes: anArray [
 
 	self
 		deprecated: 'Use previousIndexes: instead'
@@ -69,19 +69,19 @@ ToListElementSelectionChangedEvent >> oldSelectedIndexes: anArray [
 ]
 
 { #category : #accessing }
-ToListElementSelectionChangedEvent >> previousIndexes [
+ToListSelectionChangedEvent >> previousIndexes [
 
 	^ previousIndexes
 ]
 
 { #category : #accessing }
-ToListElementSelectionChangedEvent >> previousIndexes: previousSelectedIndexes [
+ToListSelectionChangedEvent >> previousIndexes: previousSelectedIndexes [
 
 	previousIndexes := previousSelectedIndexes copy
 ]
 
 { #category : #sending }
-ToListElementSelectionChangedEvent >> sendTo: anObject [
+ToListSelectionChangedEvent >> sendTo: anObject [
 
-	anObject listElementSelectionChangedEvent: self
+	anObject listSelectionChangedEvent: self
 ]

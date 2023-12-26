@@ -110,15 +110,93 @@ ToInfiniteElement >> disableScrolledEvent [
 	self eventDispatcher disableScrolledEvent 
 ]
 
+{ #category : #'selection action dispatching' }
+ToInfiniteElement >> dispatchCherryPickIndex: anIndex [
+
+	self dispatchEvent: (ToListCherryPickEvent new
+			 index: anIndex;
+			 yourself)
+]
+
+{ #category : #'selection action dispatching' }
+ToInfiniteElement >> dispatchDeselectAll [
+
+	self dispatchEvent: ToListDeselectAllEvent new
+]
+
+{ #category : #'selection action dispatching' }
+ToInfiniteElement >> dispatchDeselectIndex: anIndex [
+
+	self dispatchEvent: (ToListDeselectIndexEvent new
+			 index: anIndex;
+			 yourself)
+]
+
+{ #category : #'selection action dispatching' }
+ToInfiniteElement >> dispatchMoveSelectedIndexesFrom: anIndex itemCount: aNumber [
+
+	self dispatchEvent: (ToListMoveSelectedIndexesEvent new
+			 startIndex: anIndex;
+			 itemCount: aNumber;
+			 yourself)
+]
+
+{ #category : #'selection action dispatching' }
+ToInfiniteElement >> dispatchRemoveSelectedIndexesFrom: anIndex itemCount: aNumber [
+
+	self dispatchEvent: (ToListRemoveSelectedIndexesEvent new
+			 startIndex: anIndex;
+			 itemCount: aNumber;
+			 yourself)
+]
+
+{ #category : #'selection action dispatching' }
+ToInfiniteElement >> dispatchSelectAll [
+
+	self dispatchEvent: ToListSelectAllEvent new
+]
+
+{ #category : #'selection action dispatching' }
+ToInfiniteElement >> dispatchSelectFrom: aStartIndex toIndex: anEndIndex [
+
+	self dispatchEvent: (ToListSelectFromToIndexEvent new
+			 interval: (aStartIndex to: anEndIndex);
+			 yourself)
+]
+
+{ #category : #'selection action dispatching' }
+ToInfiniteElement >> dispatchSelectIndex: anIndex [
+
+	self dispatchEvent: (ToListSelectIndexEvent new
+			 index: anIndex;
+			 yourself)
+]
+
+{ #category : #'selection action dispatching' }
+ToInfiniteElement >> dispatchSelectIndexes: aCollection [
+
+	self dispatchEvent: (ToListSelectIndexesEvent new
+			 indexes: aCollection;
+			 yourself)
+]
+
+{ #category : #'selection action dispatching' }
+ToInfiniteElement >> dispatchSelectOnlyIndex: anIndex [
+
+	self dispatchEvent: (ToListSelectIndexOnlyEvent new
+			 index: anIndex;
+			 yourself)
+]
+
 { #category : #'selection events' }
 ToInfiniteElement >> dispatchSelectionChangedAfter: aBlock [
 
 	| prevIndexes currentIndexes event |
-	prevIndexes := self primarySelectionIndexes copy.
+	prevIndexes := self primarySelectionIndexes.
+	
 	aBlock value.
+
 	currentIndexes := self primarySelectionIndexes.
-	prevIndexes := prevIndexes reject: [ :idx |
-		               currentIndexes includes: idx ].
 	prevIndexes = currentIndexes ifTrue: [ ^ self ].
 	event := ToInfiniteSelectionChangedEvent
 		         previousIndexes: prevIndexes
@@ -244,19 +322,14 @@ ToInfiniteElement >> nodeClass: aNodeClass [
 { #category : #'private - commands' }
 ToInfiniteElement >> offsetPositionRecordsForInsert: aStartPosition itemCount: anItemCount [
 
-	| selectedAfter |
-	" deselect items after "
-	selectedAfter := self selectedIndexes select: [ :idx |
-		                 idx >= aStartPosition ].
-	selectedAfter do: [ :idx | self primarySelection deselectIndex: idx ].
-
 	super
 		offsetPositionRecordsForInsert: aStartPosition
 		itemCount: anItemCount.
 
 	self dispatchSelectionChangedAfter: [
-		selectedAfter reverseDo: [ :idx |
-			self primarySelection addToSelection: idx + anItemCount ] ]
+		self primarySelection
+			offsetPositionForInsert: aStartPosition + anItemCount - 1
+			itemCount: anItemCount ]
 ]
 
 { #category : #'private - commands' }
@@ -279,20 +352,22 @@ ToInfiniteElement >> offsetPositionRecordsForRemove: aStartPosition itemCount: a
 			itemCount: anItemCount ]
 ]
 
-{ #category : #'selection strategy hooks' }
-ToInfiniteElement >> onAddSelectionIndex: anIndex [
-]
+{ #category : #'selection events' }
+ToInfiniteElement >> onClickOnNodeEvent: anEvent [
 
-{ #category : #'selection strategy hooks' }
-ToInfiniteElement >> onRemoveAllSelectionIndexes: aCollection [
-]
+	| originalEvent |
+	originalEvent := anEvent event.
 
-{ #category : #'selection strategy hooks' }
-ToInfiniteElement >> onRemoveSelectionIndex: anIndex [
-]
+	self hasFocus ifFalse: [ self requestFocus ].
 
-{ #category : #'selection strategy hooks' }
-ToInfiniteElement >> onSelectAll [
+	self primarySelection multipleSelectionModeDo: [
+		originalEvent modifiers isShift ifTrue: [
+			^ self selectToIndex: anEvent holder layoutPosition ].
+		originalEvent modifiers isPrimaryModifier ifTrue: [
+			^ self cherryPickIndex: anEvent holder layoutPosition ] ].
+
+	self primarySelection atLeastMonoSelectionDo: [
+		self selectOnlyIndex: anEvent holder layoutPosition ]
 ]
 
 { #category : #'selection mode' }
@@ -391,11 +466,14 @@ ToInfiniteElement >> selectAndScrollTo: anIndex [
 ]
 
 { #category : #'selection events' }
-ToInfiniteElement >> selectIndex: anIndex [
+ToInfiniteElement >> selectIndex: index [
 
-	self dispatchSelectionChangedAfter: [
-		self primarySelection selectIndex: anIndex.
-		self scrollToIndex: anIndex ]
+	self
+		deprecated: 'Use selectOnlyIndex: instead'
+		transformWith: '`@receiver selectIndex: `@argument'
+			-> '`@receiver selectOnlyIndex: `@argument'.
+			
+	self selectOnlyIndex: index
 ]
 
 { #category : #'selection events' }
@@ -407,6 +485,14 @@ ToInfiniteElement >> selectIndexes: aCollection [
 			self scrollToIndexAtTop: aCollection first ].
 		self primarySelection selectIndexes: aCollection.
 		self requestLayout ]
+]
+
+{ #category : #'selection events' }
+ToInfiniteElement >> selectOnlyIndex: index [
+
+	self dispatchSelectionChangedAfter: [
+		self primarySelection selectOnlyIndex: index.
+		self scrollToIndex: index ]
 ]
 
 { #category : #'selection events' }
@@ -474,22 +560,4 @@ ToInfiniteElement >> whenChildDetachedDo: aBlock [
 	self addEventHandler: (BlEventHandler
 			 on: BlInfiniteElementDetachedEvent
 			 do: aBlock)
-]
-
-{ #category : #'selection events' }
-ToInfiniteElement >> whenClickOnNodeEvent: anEvent [
-
-	| originalEvent |
-	originalEvent := anEvent event.
-
-	self hasFocus ifFalse: [	self requestFocus ].
-
-	self primarySelection multipleSelectionModeDo: [
-		originalEvent modifiers isShift ifTrue: [
-			^ self selectToIndex: anEvent holder layoutPosition ].
-		originalEvent modifiers isPrimaryModifier ifTrue: [
-			^ self cherryPickIndex: anEvent holder layoutPosition ] ].
-
-	self primarySelection atLeastMonoSelectionDo: [
-		self selectIndex: anEvent holder layoutPosition ]
 ]

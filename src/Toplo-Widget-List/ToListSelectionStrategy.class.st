@@ -13,6 +13,15 @@ Class {
 	#category : #'Toplo-Widget-List-Infinite'
 }
 
+{ #category : #'private - selection managing' }
+ToListSelectionStrategy >> addAllToSelection: aCollection [
+
+	self isMultiple ifFalse: [ self invalidOperation ].
+	aCollection ifEmpty: [ ^ self ].
+	selectionModel selectIndexes: aCollection.
+	self markPointedPosition: aCollection first
+]
+
 { #category : #'private - shortcuts' }
 ToListSelectionStrategy >> addOrRemoveNext [
 
@@ -39,14 +48,17 @@ ToListSelectionStrategy >> addOrRemoveWithGap: aGap [
 
 	deselect := prevDistance abs - self distance abs ~= -1.
 	deselect
-		ifTrue: [ selectionModel deselectIndex: nextIdx - aGap ]
-		ifFalse: [
-			selectionModel select: nextIdx.
+		ifTrue: [ infiniteElement dispatchDeselectIndex: nextIdx - aGap.
+			selectionModel deselectIndex: nextIdx - aGap ]
+		ifFalse: [			
 			[
+			infiniteElement dispatchCherryPickIndex: nextIdx.
+			selectionModel select: nextIdx.
 			nextIdx < self dataSource itemCount and: [
 				nextIdx > 1 and: [ self includes: nextIdx + aGap ] ] ] whileTrue: [
 				nextIdx := nextIdx + aGap.
-				self distance: self distance - aGap ] ].
+				self distance: self distance - aGap ].
+			].
 
 	self currentIndex: nextIdx
 ]
@@ -99,12 +111,13 @@ ToListSelectionStrategy >> checkPivot [
 { #category : #'selection managing' }
 ToListSelectionStrategy >> cherryPickIndex: index [
 
+	self isNone ifTrue: [ self invalidOperation ].
 	self isMultiple ifFalse: [ self invalidOperation ].
-	(self includes: index) ifTrue: [
-		infiniteElement onRemoveSelectionIndex: index.
-		^ self deselectIndex: index ].
-	infiniteElement onAddSelectionIndex: index.
-	self addToSelection: index
+	infiniteElement dispatchCherryPickIndex: index.
+	(self includes: index)
+		ifTrue: [ selectionModel deselectIndex: index ]
+		ifFalse: [ selectionModel select: index ].
+	self markPointedPosition: index
 ]
 
 { #category : #'private - accessing' }
@@ -125,23 +138,30 @@ ToListSelectionStrategy >> dataSource [
 	^ infiniteElement dataSource
 ]
 
+{ #category : #'private - selection managing' }
+ToListSelectionStrategy >> deselect: index [
+
+	selectionModel deselectIndex: index.
+	self markPointedPosition: index
+]
+
 { #category : #'selection managing' }
 ToListSelectionStrategy >> deselectAll [
 
 	self isMultiple ifFalse: [ self invalidOperation ].
+	infiniteElement dispatchDeselectAll.
 	selectionModel deselectAll.
 	self markPointedPosition: 0.
-	infiniteElement onRemoveAllSelectionIndexes: self selectedIndexes
+
 ]
 
 { #category : #'selection managing' }
 ToListSelectionStrategy >> deselectIndex: index [
 
 	self isNone ifTrue: [ self invalidOperation ].
-	(self includes: index) ifFalse: [ ^ self ].
+	infiniteElement dispatchDeselectIndex: index.
 	selectionModel deselectIndex: index.
-	self markPointedPosition: index.
-	infiniteElement onRemoveSelectionIndex: index
+	self markPointedPosition: index
 ]
 
 { #category : #'event management' }
@@ -277,14 +297,15 @@ ToListSelectionStrategy >> multipleSelectionModeDo: aBlock [
 { #category : #'data source change' }
 ToListSelectionStrategy >> offsetPositionForInsert: aStartPosition itemCount: anItemCount [
 
-	| selected |
-	selected := self selectedIndexes select: [ :idx |
-		            idx >= aStartPosition ].
-	selected do: [ :idx | selectionModel deselectIndex: idx ].
-	selected do: [ :idx |
-		self currentIndex = idx ifTrue: [
-			self currentIndex: idx + anItemCount ].
-		selectionModel select: idx + anItemCount ]
+	| selectedAfter |
+
+	infiniteElement
+		dispatchMoveSelectedIndexesFrom: aStartPosition - anItemCount + 1
+		itemCount: anItemCount.
+	selectedAfter := self selectedIndexes select: [ :idx |idx >= (aStartPosition - anItemCount + 1)].
+	selectedAfter do: [ :idx | selectionModel deselectIndex: idx. ].
+	selectedAfter reverseDo: [ :idx | selectionModel select: idx + anItemCount].
+	self markPointedPosition: currentIndex + anItemCount
 ]
 
 { #category : #'data source change' }
@@ -292,6 +313,9 @@ ToListSelectionStrategy >> offsetPositionForRemove: aStartPosition itemCount: an
 
 	| idxs removedIdx afterIdx |
 	idxs := self selectedIndexes.
+	infiniteElement
+		dispatchRemoveSelectedIndexesFrom: aStartPosition
+		itemCount: anItemCount.
 	removedIdx := idxs select: [ :i |
 		              i
 			              between: aStartPosition
@@ -333,6 +357,13 @@ ToListSelectionStrategy >> pivot: anIndex [
 ]
 
 { #category : #'private - selection managing' }
+ToListSelectionStrategy >> select: index [
+
+	selectionModel select: index.
+	self markPointedPosition: index
+]
+
+{ #category : #'private - selection managing' }
 ToListSelectionStrategy >> select: aFirstIndex to: aLastIndex [
 
 	self isMultiple ifFalse: [ self invalidOperation ].
@@ -343,39 +374,31 @@ ToListSelectionStrategy >> select: aFirstIndex to: aLastIndex [
 ToListSelectionStrategy >> selectAll [
 	
 	self dataSource itemCount > 0 ifFalse: [ ^ self ].
-	self select: 1 to: self dataSource itemCount.
-	infiniteElement onSelectAll
+	infiniteElement dispatchSelectAll.
+	self select: 1 to: self dataSource itemCount
 ]
 
 { #category : #'selection managing' }
 ToListSelectionStrategy >> selectIndex: index [
 
-	self isNone ifTrue: [ self invalidOperation ].
-	self selectedIndexes do: [ :idx |
-		selectionModel deselectIndex: idx.
-		self markPointedPosition: idx.
-		infiniteElement onRemoveSelectionIndex: idx ].
+	self isNone ifTrue: [ self invalidOperation  ].
+	infiniteElement dispatchSelectIndex: index.
 	selectionModel select: index.
-	self markPointedPosition: index.
-	infiniteElement onAddSelectionIndex: index
+	self markPointedPosition: index
 ]
 
 { #category : #'selection managing' }
 ToListSelectionStrategy >> selectIndexes: indexes [
 
 	self isMultiple ifFalse: [ self invalidOperation ].
-	indexes ifEmpty: [ ^ self ].
-	indexes do: [ :idx |
-		(self includes: idx) ifFalse: [
-			selectionModel select: idx.
-			infiniteElement onAddSelectionIndex: idx ] ].
-	self markPointedPosition: indexes first
+	infiniteElement dispatchSelectIndexes: indexes.
+	self addAllToSelection: indexes
 ]
 
 { #category : #'private - selection managing' }
 ToListSelectionStrategy >> selectNext [
 
-	self goTowardNext ifTrue: [ self selectIndex: self currentIndex ]
+	self goTowardNext ifTrue: [ self selectOnlyIndex: self currentIndex ]
 ]
 
 { #category : #shortcuts }
@@ -388,11 +411,20 @@ ToListSelectionStrategy >> selectNextIn: anElement event: aShortcutEvent [
 	anElement scrollToIndex: self currentIndex
 ]
 
+{ #category : #'selection managing' }
+ToListSelectionStrategy >> selectOnlyIndex: index [
+
+	self isNone ifTrue: [ self invalidOperation  ].
+	infiniteElement dispatchSelectOnlyIndex: index.
+	selectionModel selectIndex: index.
+	self markPointedPosition: index
+]
+
 { #category : #'private - selection managing' }
 ToListSelectionStrategy >> selectPrevious [
 
-	self goTowardPrevious ifTrue: [ self selectIndex: self currentIndex ]
-	
+	self goTowardPrevious ifTrue: [
+		self selectOnlyIndex: self currentIndex ]
 ]
 
 { #category : #shortcuts }
@@ -410,27 +442,14 @@ ToListSelectionStrategy >> selectToIndex: index [
 
 	| curr |
 	self isNone ifTrue: [ self invalidOperation ].
-	self isMultiple ifFalse: [
-		self selectIndex: index.
-		^ self ].
 	curr := self currentIndex.
-	curr < index ifTrue: [
-		self markPointedPosition: index.
-		self pivot: curr.
-		self distance: index - curr.
-		curr to: index do: [ :idx |
-			(self includes: idx) ifFalse: [
-				infiniteElement onAddSelectionIndex: idx.
-				self addToSelection: idx ] ].
-		^ self ].
-	curr >= index ifFalse: [ ^ self ].
+	infiniteElement dispatchSelectFrom: curr toIndex: index.
 	self markPointedPosition: index.
 	self pivot: curr.
 	self distance: index - curr.
-	index to: curr do: [ :idx |
-		(self includes: idx) ifFalse: [
-			infiniteElement onAddSelectionIndex: idx.
-			self addToSelection: idx ] ]
+	curr < index
+		ifTrue: [ self select: curr to: index ]
+		ifFalse: [ self select: index to: curr ]
 ]
 
 { #category : #'selection accessing' }

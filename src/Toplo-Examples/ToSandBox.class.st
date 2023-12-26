@@ -910,7 +910,7 @@ ToSandBox class >> example_ListWithAllClasses3 [
 				      interspace: 10;
 				      hMatchParent) ].
 	l addEventHandler: (BlEventHandler
-			 on: ToListElementSelectionChangedEvent
+			 on: ToListSelectionChangedEvent
 			 do: [ :evt | evt traceCr ]).
 
 	l data addAll: Smalltalk globals allClasses.
@@ -968,6 +968,12 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 		           yourself)
 		          fontSize: 24;
 		          yourself.
+	l addEventHandler: (BlEventHandler
+			 on: ToListSelectionActionEvent
+			 do: [ :event | event traceCr ]).
+	l addEventHandler: (BlEventHandler
+			 on: ToListSelectionChangedEvent
+			 do: [ :event | event traceCr ]).
 	l placeholderBuilder: [ :placeholder :e |
 		| lab |
 		placeholder layout alignCenter.
@@ -1042,7 +1048,8 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 							                 ifTrue: [ 'Be multiline' ]
 							                 ifFalse: [ 'Be monoline' ]);
 					                whenClickedDo: [ :event |
-						                node firstChild label monoLine: label isMonoLine not ];
+						                node firstChild label monoLine:
+								                label isMonoLine not ];
 					                yourself).
 			               selectionMenu addItem: (ToMenuItem new
 					                labelText: 'Inspect';
@@ -1052,22 +1059,20 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Insert before';
 				                whenClickedDo: [ :event |
-					                selectedIndexes traceCr.
-					                selectedIndexes do: [ :idx |
-							                target data
-								                add: idx asString , ':XXXXXX'
-								                beforeIndex: idx ] ];
+					                | idx |
+					                idx := selectedIndexes first.
+					                target data
+						                add: idx asString , ':XXXXXX'
+						                beforeIndex: idx ];
 				                yourself).
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Insert after';
 				                whenClickedDo: [ :event |
-					                | nb |
-					                selectedIndexes traceCr.
-					                nb := selectedIndexes size.
-					                selectedIndexes do: [ :idx |
-							                target data
-								                add: idx asString , ':XXXXXX'
-								                afterIndex: idx + nb - 1 ] ];
+					                | idx |
+					                idx := selectedIndexes last.
+					                target data
+						                add: idx asString , ':XXXXXX'
+						                afterIndex: idx ];
 				                yourself).
 		               selectionMenu addSeparator.
 		               selectionMenu addItem: (ToMenuItem new
@@ -1883,7 +1888,7 @@ ToSandBox class >> example_contactList [
 						                yourself) ].
 
 	list addEventHandler: (BlEventHandler
-			 on: ToListElementSelectionChangedEvent
+			 on: ToListSelectionChangedEvent
 			 do: [ :evt |
 				 evt currentIndexes size = 1 ifTrue: [
 					 contact := list data at: evt currentIndexes anyOne.

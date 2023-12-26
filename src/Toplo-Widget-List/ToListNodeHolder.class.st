@@ -63,7 +63,7 @@ ToListNodeHolder >> onAttachedFromDatasource: aDataSource [
 
 	clickHandler := BlEventHandler
 		                on: ToClickOnListNodeEvent
-		                do: [ :event | infiniteElement whenClickOnNodeEvent: event ].
+		                do: [ :event | infiniteElement onClickOnNodeEvent: event ].
 	self addEventHandler: clickHandler.
 	" Selection model: when holder is attached the hold data can be selected 
 	( example: selectAll -> the selection model select all indexes ) "

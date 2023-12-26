@@ -42,7 +42,7 @@ ToSelectWindowManager >> initialize [
 	listElement infinite maxHeight: self maxHeight.
 	listElement infinite vFitContent.
 	listElement addEventHandler: (BlEventHandler
-			 on: ToListElementSelectionChangedEvent
+			 on: ToListSelectionChangedEvent
 			 do: [ :evt | evt sendTo: self  ]).
 	self builder: [ :selectWin :request | 
 		selectWin root hMatchParent.
@@ -57,7 +57,7 @@ ToSelectWindowManager >> listElement [
 ]
 
 { #category : #'element handlers' }
-ToSelectWindowManager >> listElementSelectionChangedEvent: anEvent [
+ToSelectWindowManager >> listSelectionChangedEvent: anEvent [
 
 	self element selectIndexes: anEvent currentIndexes
 ]

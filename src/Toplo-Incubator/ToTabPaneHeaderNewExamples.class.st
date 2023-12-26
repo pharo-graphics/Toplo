@@ -1,11 +1,10 @@
 Class {
-	#name : 'ToTabPaneHeaderNewExamples',
-	#superclass : 'Object',
-	#category : 'Toplo-Incubator',
-	#package : 'Toplo-Incubator'
+	#name : #ToTabPaneHeaderNewExamples,
+	#superclass : #Object,
+	#category : 'Toplo-Incubator'
 }
 
-{ #category : 'header' }
+{ #category : #header }
 ToTabPaneHeaderNewExamples class >> example_headerFourTab [
 
 	| header |

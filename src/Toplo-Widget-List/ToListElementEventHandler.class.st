@@ -57,7 +57,7 @@ ToListElementEventHandler >> infiniteSelectionChangedEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	target dispatchEvent: (ToListElementSelectionChangedEvent new
+	target dispatchEvent: (ToListSelectionChangedEvent new
 			 currentIndexes: anEvent currentIndexes;
 			 previousIndexes: anEvent previousIndexes;
 			 yourself)

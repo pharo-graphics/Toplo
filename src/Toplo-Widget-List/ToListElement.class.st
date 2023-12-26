@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'selectionElements'
 	],
-	#category : 'Toplo-Widget-List-Core'
+	#category : #'Toplo-Widget-List-Core'
 }
 
 { #category : #orientation }
@@ -55,10 +55,11 @@ ToListElement >> horizontal: aBoolean [
 ToListElement >> infiniteElementSharedEvents [
 
 	^ {
+		  ToListSelectionActionEvent.
 		  ToListStrongSelectionEvent.
+		  ToInfiniteSelectionChangedEvent.
 		  BlElementScrolledEvent.
 		  BlElementExtentChangedEvent.
-		  ToInfiniteSelectionChangedEvent.
 		  BlBlurEvent.
 		  BlFocusEvent }
 ]
@@ -92,7 +93,7 @@ ToListElement >> initialize [
 	self addChild: self next.
 	self infinite elevation: (BlRelativeElevation elevation: 10).
 	self contextMenuWindowManagerClass: ToListElementContextMenuWindowManager.
-	self addEventHandler: ToListElementSelectionEventHandler new.
+	self addEventHandler: ToListSelectionEventHandler new.
 	self addEventHandler: ToListElementContextMenuSelectionEventHandler new.
 	self matchParent
 ]

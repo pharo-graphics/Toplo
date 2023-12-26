@@ -27,10 +27,15 @@ ToListSelectionHistoryEventHandlerExample >> historyList: aList [
 
 { #category : #'event handling' }
 ToListSelectionHistoryEventHandlerExample >> listDeselectAllEvent: anEvent [
+
+	historyList data removeAll
 ]
 
 { #category : #'event handling' }
 ToListSelectionHistoryEventHandlerExample >> listDeselectIndexEvent: anEvent [
+
+	(historyList data includes: (anEvent currentTarget data at: anEvent index)) ifFalse: [ ^ self ].
+	historyList data remove: (anEvent currentTarget data at: anEvent index)
 ]
 
 { #category : #'event handling' }
@@ -62,6 +67,7 @@ ToListSelectionHistoryEventHandlerExample >> listSelectIndexEvent: anEvent [
 { #category : #'event handling' }
 ToListSelectionHistoryEventHandlerExample >> listSelectIndexOnlyEvent: anEvent [
 
+	historyList data removeAll.
 	historyList data add: (anEvent currentTarget data at: anEvent index)
 ]
 

@@ -35,10 +35,8 @@ ToInfiniteElement >> beWithoutSelection [
 { #category : #'selection events' }
 ToInfiniteElement >> cherryPickIndex: anIndex [
 
-	self primarySelection
-		dispatchSelectionChanged: [ :event |  ]
-		after: [ self primarySelection cherryPickIndex: anIndex ]
-		to: self
+	self dispatchSelectionChangedAfter: [
+		self primarySelection cherryPickIndex: anIndex ]
 ]
 
 { #category : #private }
@@ -89,25 +87,21 @@ ToInfiniteElement >> defaultNodeBuilder [
 { #category : #initialization }
 ToInfiniteElement >> defaultSelectionStrategy [
 
-	^ ToListSelectionStrategy new infiniteElement: self
+	^ ToListSelectionStrategy new 
 ]
 
 { #category : #'selection events' }
 ToInfiniteElement >> deselectAll [
 
-	self primarySelection
-		dispatchSelectionChanged: [ :event |  ]
-		after: [ self primarySelection deselectAll ]
-		to: self
+	self dispatchSelectionChangedAfter: [
+		self primarySelection deselectAll ]
 ]
 
 { #category : #'selection events' }
 ToInfiniteElement >> deselectIndex: anIndex [
 
-	self primarySelection
-		dispatchSelectionChanged: [ :event |  ]
-		after: [ self primarySelection deselectIndex: anIndex ]
-		to: self
+	self dispatchSelectionChangedAfter: [
+		self primarySelection deselectIndex: anIndex ]
 ]
 
 { #category : #'scrolled event' }
@@ -117,7 +111,7 @@ ToInfiniteElement >> disableScrolledEvent [
 ]
 
 { #category : #'selection events' }
-ToInfiniteElement >> dispatchSelectionChanged: anEventBlock after: aBlock [
+ToInfiniteElement >> dispatchSelectionChangedAfter: aBlock [
 
 	| prevIndexes currentIndexes event |
 	prevIndexes := self primarySelectionIndexes copy.
@@ -129,14 +123,7 @@ ToInfiniteElement >> dispatchSelectionChanged: anEventBlock after: aBlock [
 	event := ToInfiniteSelectionChangedEvent
 		         previousIndexes: prevIndexes
 		         currentIndexes: currentIndexes.
-	anEventBlock value: event.
 	self dispatchEvent: event
-]
-
-{ #category : #'selection events' }
-ToInfiniteElement >> dispatchSelectionChangedAfter: aBlock [
-
-	self dispatchSelectionChanged: [ :event | ] after: aBlock
 ]
 
 { #category : #'selection events' }
@@ -190,6 +177,7 @@ ToInfiniteElement >> initialize [
 	self skinStateGeneratorClass ifNotNil: [ :cls |
 		self addEventHandler: cls new ].
 	selectionStrategy := self defaultSelectionStrategy.
+	selectionStrategy onInstalledIn: self.
 	self privateData: ToObservableCollection new.
 	self installShortcuts.
 	
@@ -266,12 +254,9 @@ ToInfiniteElement >> offsetPositionRecordsForInsert: aStartPosition itemCount: a
 		offsetPositionRecordsForInsert: aStartPosition
 		itemCount: anItemCount.
 
-	self primarySelection
-		dispatchSelectionChanged: [ :event |  ]
-		after: [
-			selectedAfter reverseDo: [ :idx |
-				self primarySelection addToSelection: idx + anItemCount ] ]
-		to: self
+	self dispatchSelectionChangedAfter: [
+		selectedAfter reverseDo: [ :idx |
+			self primarySelection addToSelection: idx + anItemCount ] ]
 ]
 
 { #category : #'private - commands' }
@@ -288,13 +273,26 @@ ToInfiniteElement >> offsetPositionRecordsForRemove: aStartPosition itemCount: a
 		itemCount: anItemCount
 		applyToPreLayout: applyToPreLayout.
 
-	self primarySelection
-		dispatchSelectionChanged: [ :event |  ]
-		after: [
-			self primarySelection
-				offsetPositionForRemove: aStartPosition
-				itemCount: anItemCount ]
-		to: self
+	self dispatchSelectionChangedAfter: [
+		self primarySelection
+			offsetPositionForRemove: aStartPosition
+			itemCount: anItemCount ]
+]
+
+{ #category : #'selection strategy hooks' }
+ToInfiniteElement >> onAddSelectionIndex: anIndex [
+]
+
+{ #category : #'selection strategy hooks' }
+ToInfiniteElement >> onRemoveAllSelectionIndexes: aCollection [
+]
+
+{ #category : #'selection strategy hooks' }
+ToInfiniteElement >> onRemoveSelectionIndex: anIndex [
+]
+
+{ #category : #'selection strategy hooks' }
+ToInfiniteElement >> onSelectAll [
 ]
 
 { #category : #'selection mode' }
@@ -381,10 +379,8 @@ ToInfiniteElement >> scrollToIndexAtTop: anIndex [
 { #category : #'selection events' }
 ToInfiniteElement >> selectAll [
 
-	self primarySelection
-		dispatchSelectionChanged: [ :event | ]
-		after: [ self primarySelection selectAll ]
-		to: self
+	self dispatchSelectionChangedAfter: [
+		self primarySelection selectAll ]
 ]
 
 { #category : #'selection events' }
@@ -397,35 +393,27 @@ ToInfiniteElement >> selectAndScrollTo: anIndex [
 { #category : #'selection events' }
 ToInfiniteElement >> selectIndex: anIndex [
 
-	self primarySelection
-		dispatchSelectionChanged: [ :event | ]
-		after: [
-			self primarySelection selectIndex: anIndex.
-			self scrollToIndex: anIndex ]
-		to: self
+	self dispatchSelectionChangedAfter: [
+		self primarySelection selectIndex: anIndex.
+		self scrollToIndex: anIndex ]
 ]
 
 { #category : #'selection events' }
 ToInfiniteElement >> selectIndexes: aCollection [
 
-	self primarySelection
-		dispatchSelectionChanged: [ :event |  ]
-		after: [
-			self primarySelection deselectAll.
-			aCollection ifNotEmpty: [
-				self scrollToIndexAtTop: aCollection first ].
-			self primarySelection selectIndexes: aCollection.
-			self requestLayout ]
-		to: self
+	self dispatchSelectionChangedAfter: [
+		self primarySelection deselectAll.
+		aCollection ifNotEmpty: [
+			self scrollToIndexAtTop: aCollection first ].
+		self primarySelection selectIndexes: aCollection.
+		self requestLayout ]
 ]
 
 { #category : #'selection events' }
 ToInfiniteElement >> selectToIndex: anIndex [
 
-	self primarySelection
-		dispatchSelectionChanged: [ :event |  ]
-		after: [ self primarySelection selectToIndex: anIndex ]
-		to: self
+	self dispatchSelectionChangedAfter: [
+		self primarySelection selectToIndex: anIndex ]
 ]
 
 { #category : #accessing }

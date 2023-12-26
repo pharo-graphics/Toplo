@@ -6,9 +6,7 @@ Class {
 	#instVars : [
 		'data',
 		'eventDispatcher',
-		'clickHandler',
-		'deselectHandler',
-		'selectHandler'
+		'clickHandler'
 	],
 	#category : #'Toplo-Widget-List-Node'
 }
@@ -75,14 +73,8 @@ ToListNodeHolder >> onAttachedFromDatasource: aDataSource [
 { #category : #accessing }
 ToListNodeHolder >> onDetachedFromDatasource: aDataSource [
 
-	self removeEventHandler: clickHandler.
-	infiniteElement primarySelection removeEventHandler: deselectHandler.
-	infiniteElement primarySelection removeEventHandler: selectHandler.
-	
-	clickHandler := nil.
-	deselectHandler := nil.
-	selectHandler := nil
-
+	self removeEventHandler: clickHandler.	
+	clickHandler := nil
 ]
 
 { #category : #accessing }

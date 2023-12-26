@@ -1148,6 +1148,31 @@ ToSandBox class >> example_ListWithPanes [
 ]
 
 { #category : #list }
+ToSandBox class >> example_ListWithSelectionHistory [
+
+	| statesList historyList pane |
+	pane := ToPane horizontal.
+	statesList := ToListElement new.
+	statesList matchParent.
+	historyList := ToListElement new.
+	historyList matchParent.
+	statesList data addAll: self statesOfAmerica.
+	statesList addEventHandler: (BlEventHandler
+			 on: ToListSelectionActionEvent
+			 do: [ :event | event traceCr ]).
+	pane addChildren: {
+			statesList.
+			historyList }.
+
+	statesList addEventHandler:
+		(ToListSelectionHistoryEventHandlerExample new historyList:
+			 historyList).
+
+	pane matchParent.
+	pane openInInnerWindow
+]
+
+{ #category : #list }
 ToSandBox class >> example_ListWithSingleSelection [
 
 	| l |

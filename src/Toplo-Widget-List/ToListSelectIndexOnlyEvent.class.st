@@ -7,5 +7,5 @@ Class {
 { #category : #sending }
 ToListSelectIndexOnlyEvent >> sendTo: anObject [
 
-	anObject listSelectIndexEvent: self
+	anObject listSelectIndexOnlyEvent: self
 ]

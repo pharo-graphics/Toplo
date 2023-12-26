@@ -111,14 +111,6 @@ ToInfiniteElement >> disableScrolledEvent [
 ]
 
 { #category : #'selection action dispatching' }
-ToInfiniteElement >> dispatchCherryPickIndex: anIndex [
-
-	self dispatchEvent: (ToListCherryPickEvent new
-			 index: anIndex;
-			 yourself)
-]
-
-{ #category : #'selection action dispatching' }
 ToInfiniteElement >> dispatchDeselectAll [
 
 	self dispatchEvent: ToListDeselectAllEvent new

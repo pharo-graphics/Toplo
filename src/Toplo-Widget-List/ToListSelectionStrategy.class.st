@@ -52,7 +52,7 @@ ToListSelectionStrategy >> addOrRemoveWithGap: aGap [
 			selectionModel deselectIndex: nextIdx - aGap ]
 		ifFalse: [			
 			[
-			infiniteElement dispatchCherryPickIndex: nextIdx.
+			infiniteElement dispatchSelectIndex: nextIdx.
 			selectionModel select: nextIdx.
 			nextIdx < self dataSource itemCount and: [
 				nextIdx > 1 and: [ self includes: nextIdx + aGap ] ] ] whileTrue: [
@@ -113,10 +113,14 @@ ToListSelectionStrategy >> cherryPickIndex: index [
 
 	self isNone ifTrue: [ self invalidOperation ].
 	self isMultiple ifFalse: [ self invalidOperation ].
-	infiniteElement dispatchCherryPickIndex: index.
+
 	(self includes: index)
-		ifTrue: [ selectionModel deselectIndex: index ]
-		ifFalse: [ selectionModel select: index ].
+		ifTrue: [
+			infiniteElement dispatchDeselectIndex: index.
+			selectionModel deselectIndex: index ]
+		ifFalse: [
+			infiniteElement dispatchSelectIndex: index.
+			selectionModel select: index ].
 	self markPointedPosition: index
 ]
 

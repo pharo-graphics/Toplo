@@ -55,12 +55,18 @@ ToListSelectionHistoryEventHandlerExample >> listSelectAllEvent: anEvent [
 { #category : #'event handling' }
 ToListSelectionHistoryEventHandlerExample >> listSelectFromToIndexEvent: anEvent [
 
-	historyList data add: (anEvent currentTarget data at: anEvent interval last)
+	| s |
+	s := anEvent currentTarget data at: anEvent interval last.
+	(historyList data includes: s) ifTrue: [ historyList data remove: s ].
+	historyList data add: (s)
 ]
 
 { #category : #'event handling' }
 ToListSelectionHistoryEventHandlerExample >> listSelectIndexEvent: anEvent [
 
+	| s |
+	s := anEvent currentTarget data at: anEvent index.
+	(historyList data includes: s) ifTrue: [ historyList data remove: s ].
 	historyList data add: (anEvent currentTarget data at: anEvent index)
 ]
 

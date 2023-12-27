@@ -968,12 +968,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 		           yourself)
 		          fontSize: 24;
 		          yourself.
-	l addEventHandler: (BlEventHandler
-			 on: ToListSelectionActionEvent
-			 do: [ :event | event traceCr ]).
-	l addEventHandler: (BlEventHandler
-			 on: ToListSelectionChangedEvent
-			 do: [ :event | event traceCr ]).
+
 	l placeholderBuilder: [ :placeholder :e |
 		| lab |
 		placeholder layout alignCenter.
@@ -1152,14 +1147,9 @@ ToSandBox class >> example_ListWithSelectionHistory [
 
 	| statesList historyList pane |
 	pane := ToPane horizontal.
-	statesList := ToListElement new.
-	statesList matchParent.
-	historyList := ToListElement new.
-	historyList matchParent.
+	statesList := ToListElement new matchParent.
+	historyList := ToListElement new matchParent.
 	statesList data addAll: self statesOfAmerica.
-	statesList addEventHandler: (BlEventHandler
-			 on: ToListSelectionActionEvent
-			 do: [ :event | event traceCr ]).
 	pane addChildren: {
 			statesList.
 			historyList }.
@@ -1167,8 +1157,11 @@ ToSandBox class >> example_ListWithSelectionHistory [
 	statesList addEventHandler:
 		(ToListSelectionHistoryEventHandlerExample new historyList:
 			 historyList).
+	statesList addEventHandler: (BlEventHandler
+			 on: ToListSelectionActionEvent
+			 do: [ :event | event traceCr ]).
 
-	pane matchParent.
+	pane matchParent; addDividers.
 	pane openInInnerWindow
 ]
 

@@ -5,7 +5,7 @@ Class {
 		'monitor',
 		'target'
 	],
-	#category : 'Toplo-Widget-List-Node'
+	#category : #'Toplo-Widget-List-Node'
 }
 
 { #category : #'mouse handlers' }
@@ -25,7 +25,7 @@ ToListNodeEventHandler >> clickEvent: anEvent [
 { #category : #'api - accessing' }
 ToListNodeEventHandler >> eventsToHandle [ 
 
-	^ { ToListNodeHolderSelectedEvent. ToListNodeHolderDeselectedEvent. BlPrimaryClickEvent }
+	^ { ToListNodeHolderSelectedEvent. ToListNodeHolderDeselectedEvent. BlPrimaryClickEvent. BlPrimaryMouseDownEvent  }
 ]
 
 { #category : #'events handling' }
@@ -74,6 +74,16 @@ ToListNodeEventHandler >> listNodeHolderSelectedEvent: anEvent [
 
 ]
 
+{ #category : #'mouse handlers' }
+ToListNodeEventHandler >> mouseDownEvent: anEvent [
+
+	anEvent
+		ifPrimary: [ self primaryMouseDownEvent: anEvent ]
+		secondary: [  ]
+		middle: [  ]
+		other: [  ]
+]
+
 { #category : #'api - hooks' }
 ToListNodeEventHandler >> onInstalledIn: anElement [
 
@@ -87,4 +97,19 @@ ToListNodeEventHandler >> onUninstalledIn: anElement [
 	monitor := nil.
 	super onUninstalledIn: anElement.
 
+]
+
+{ #category : #'mouse handlers' }
+ToListNodeEventHandler >> primaryMouseDownEvent: anEvent [
+
+	| holder infinite |
+	holder := anEvent currentTarget holder.
+	infinite := holder infiniteElement.
+	infinite primarySelection multipleSelectionModeDo: [
+		anEvent modifiers isShift ifTrue: [
+			"anEvent consumed: true.
+			^ infinite selectToIndex: holder position" ].
+		anEvent modifiers isPrimaryModifier ifTrue: [
+			"anEvent consumed: true.
+			^ infinite cherryPickIndex: holder position" ] ]
 ]

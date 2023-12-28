@@ -78,7 +78,7 @@ ToSelect >> initialize [
 	nodeBuilder := self defaultNodeBuilder.
 	contentElement := self newContentElement.
 	filler := self newFiller.
-	iconContainer := self newIconHolder.
+	iconContainer := self newIconContainer.
 	self addChildren: { contentElement. filler. iconContainer }.
 	windowManager := ToSelectWindowManager new element: self
 ]
@@ -116,7 +116,7 @@ ToSelect >> newFiller [
 ]
 
 { #category : #initialization }
-ToSelect >> newIconHolder [
+ToSelect >> newIconContainer [
 
 	^ ToElement new
 		  fitContent;

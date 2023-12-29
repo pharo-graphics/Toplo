@@ -4,27 +4,16 @@ Class {
 	#instVars : [
 		'windowManager',
 		'icon',
-		'filler',
 		'contentElement',
 		'nodeClass',
 		'nodeBuilder',
 		'nodeHolders',
-		'iconContainer'
+		'iconContainer',
+		'selectTextField',
+		'selectFlow'
 	],
 	#category : #'Toplo-Widget-Select'
 }
-
-{ #category : #accessing }
-ToSelect >> contentElement [
-
-	^ contentElement 
-]
-
-{ #category : #accessing }
-ToSelect >> currentSelectContentElement [
-
-	^ self contentElement childWithId: #'select-content' ifNone: [  ]
-]
 
 { #category : #accessing }
 ToSelect >> data [
@@ -36,14 +25,15 @@ ToSelect >> data [
 ToSelect >> defaultNodeBuilder [
 
 	^ [ :aSelectNode :aNodeHolder |
-		aSelectNode beRemovable.
-	  aSelectNode middleContainer addChild: (ToLabel text: aNodeHolder data asString) ]
+	  aSelectNode beRemovable.
+	  aSelectNode middleContainer addChild:
+		  (ToLabel text: aNodeHolder data asString) ]
 ]
 
-{ #category : #accessing }
-ToSelect >> filler [ 
+{ #category : #initialization }
+ToSelect >> defaultNodeClass [ 
 
-	^ filler
+	^ ToSelectNode
 ]
 
 { #category : #accessing }
@@ -74,12 +64,22 @@ ToSelect >> initialize [
 	super initialize.
 	self fitContent.
 	self layout beHorizontal.
+	nodeClass := self defaultNodeClass.
 	nodeHolders := OrderedCollection new.
 	nodeBuilder := self defaultNodeBuilder.
+	
+	" the element that holds the flow"
 	contentElement := self newContentElement.
-	filler := self newFiller.
+	" the flow element taht contains nodes + the text field "
+	selectFlow := self newSelectFlow.
+	" the text field for the select input "
+	selectTextField := self newSelectTextField.
+
+	selectFlow addChild: selectTextField.
+	contentElement addChild: selectFlow.
+
 	iconContainer := self newIconContainer.
-	self addChildren: { contentElement. filler. iconContainer }.
+	self addChildren: { contentElement. iconContainer }.
 	windowManager := ToSelectWindowManager new element: self
 ]
 
@@ -103,15 +103,6 @@ ToSelect >> newContentElement [
 		  hMatchParent;
 		  id: #contentElement;
 		  layout: BlLinearLayout horizontal;
-		  yourself
-]
-
-{ #category : #initialization }
-ToSelect >> newFiller [
-
-	^ ToElement new
-		  matchParent;
-		  id: #'select-filler';
 		  yourself
 ]
 
@@ -144,8 +135,8 @@ ToSelect >> newRawSkin [
 	^ ToSelectSkin new
 ]
 
-{ #category : #accessing }
-ToSelect >> newSelectContentElement [
+{ #category : #initialization }
+ToSelect >> newSelectFlow [
 
 	^ ToElement new
 		  vFitContent;
@@ -153,6 +144,17 @@ ToSelect >> newSelectContentElement [
 		  id: #'select-content';
 		  layout: BlFlowLayout horizontal;
 		  constraintsDo: [ :c | c linear vertical alignCenter ];
+		  yourself
+]
+
+{ #category : #initialization }
+ToSelect >> newSelectTextField [
+
+	^ ToTextField new
+		  vMatchParent;
+		  hFitContent;
+		  id: #'select-content-textField';
+		  constraintsDo: [ :c | c flow vertical alignCenter ];
 		  yourself
 ]
 
@@ -177,7 +179,7 @@ ToSelect >> nodeBuilder: aValuable [
 { #category : #accessing }
 ToSelect >> nodeClass [ 
 
-	^ nodeClass ifNil: [nodeClass := ToSelectNode]
+	^ nodeClass 
 ]
 
 { #category : #accessing }
@@ -201,14 +203,8 @@ ToSelect >> nodeHolders [
 { #category : #'accessing selection' }
 ToSelect >> selectIndexes: aCollectionOfInteger [
 
-	| selectContent |
-	aCollectionOfInteger
-		ifEmpty: [ self filler matchParent ]
-		ifNotEmpty: [ self filler size: 0 @ 0 ].
-	self currentSelectContentElement ifNotNil: [ :child |
-		child removeFromParent ].
-	selectContent := self newSelectContentElement.
-	self contentElement addChild: selectContent at: 1.
+	selectFlow childrenDo: [ :child |
+		child ~= selectTextField ifTrue: [ child removeFromParent ] ].
 	self nodeHolders reset.
 	aCollectionOfInteger do: [ :idx |
 		| node holder |
@@ -222,17 +218,11 @@ ToSelect >> selectIndexes: aCollectionOfInteger [
 			select: self;
 			data: (self data at: idx).
 		self nodeBuilder value: node value: holder.
-		selectContent addChild: node ]
+		selectFlow addChild: node before: selectTextField ]
 ]
 
 { #category : #accessing }
 ToSelect >> windowManager [
 
 	^ windowManager 
-]
-
-{ #category : #accessing }
-ToSelect >> windowManager: anObject [
-
-	windowManager := anObject
 ]

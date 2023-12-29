@@ -47,7 +47,7 @@ ToSelectWindowManager >> initialize [
 	self builder: [ :selectWin :request | 
 		selectWin root hMatchParent.
 		selectWin root vFitContent.
-		selectWin root addChild: self listElement ].
+		selectWin root addChild: self listElement ]	
 ]
 
 { #category : #accessing }

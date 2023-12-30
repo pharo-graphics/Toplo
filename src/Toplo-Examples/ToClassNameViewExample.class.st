@@ -1,7 +1,7 @@
 Class {
 	#name : #ToClassNameViewExample,
 	#superclass : #ToElement,
-	#category : 'Toplo-Examples'
+	#category : #'Toplo-Examples'
 }
 
 { #category : #initialization }
@@ -21,8 +21,8 @@ ToClassNameViewExample >> class: aClass position: anInteger [
 { #category : #private }
 ToClassNameViewExample >> colorFor: index [
 
-	index odd ifTrue: [ ^ Smalltalk ui theme lightBackgroundColor alpha: 0.7].
-	^ Smalltalk ui theme backgroundColor alpha: 0.7
+	index odd ifTrue: [ ^ self tokenValueNamed: #'color-text-list-selection-focused'].
+	^ self tokenValueNamed: #'color-text-list-selection-unfocused'
 ]
 
 { #category : #private }

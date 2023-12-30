@@ -33,7 +33,7 @@ ToAlbum >> defaultBackground [
 ToAlbum >> defaultBlurBorder [
 
 	^ BlBorder
-			 paint: self defaultBorderColor
+			 paint: (self tokenValueNamed: #'color-border-disabled')
 			 width: self defaultBorderWidth
 ]
 
@@ -41,14 +41,8 @@ ToAlbum >> defaultBlurBorder [
 ToAlbum >> defaultBorder [
 
 	^ BlBorder
-		  paint: self theme editor borderColor
+		  paint: (self tokenValueNamed: #'color-primary')
 		  width: self defaultBorderWidth
-]
-
-{ #category : #initialization }
-ToAlbum >> defaultBorderColor [ 
-
-	^ self theme editor borderColor
 ]
 
 { #category : #initialization }
@@ -81,14 +75,8 @@ ToAlbum >> defaultEventHandler [
 ToAlbum >> defaultFocusBorder [
 
 	^ BlBorder
-			 paint: self defaultFocusBorderColor
+			 paint: (self tokenValueNamed: #'color-primary')
 			 width: self defaultBorderWidth
-]
-
-{ #category : #initialization }
-ToAlbum >> defaultFocusBorderColor [
-
-	^ self theme editor focusedBorderColor
 ]
 
 { #category : #initialization }
@@ -185,7 +173,6 @@ ToAlbum >> initialize [
 	self outskirts: self defaultOutskirts.
 	self margin: self defaultMargin.
 	self padding: self defaultPadding.
-	self border: self defaultBorder.
 	self background: self defaultBackground.
 	self addEventHandler: (AlbTextEditorFocusHandler new element: self).
 	self addEventHandler:	(AlbTextEditorCursorIconHandler new element: self).

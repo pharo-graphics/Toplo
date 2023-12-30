@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'textEmpty'
 	],
-	#category : 'Toplo-Widget-Album-TextPane'
+	#category : #'Toplo-Widget-Album-TextPane'
 }
 
 { #category : #'event handling' }
@@ -56,7 +56,8 @@ ToAlbumEventHandler >> focusEvent: aFocusEvent [
 ToAlbumEventHandler >> textEditedEvent: aTextEditedEvent [
 
 	aTextEditedEvent currentTarget edited: true.
-	self checkTextIn: aTextEditedEvent currentTarget
+	self checkTextIn: aTextEditedEvent currentTarget.
+	aTextEditedEvent currentTarget requestTextStyle.
 ]
 
 { #category : #'event handling' }
@@ -72,5 +73,6 @@ ToAlbumEventHandler >> textEmptinessChangeEvent: anEvent [
 { #category : #'event handling' }
 ToAlbumEventHandler >> textReplacedEvent: aTextReplacedEvent [
 
-	self checkTextIn: aTextReplacedEvent currentTarget
+	self checkTextIn: aTextReplacedEvent currentTarget.
+	aTextReplacedEvent currentTarget requestTextStyle.
 ]

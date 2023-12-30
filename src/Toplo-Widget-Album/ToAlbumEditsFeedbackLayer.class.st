@@ -6,7 +6,7 @@ Class {
 		'backgroundAnimation',
 		'coverColor'
 	],
-	#category : 'Toplo-Widget-Album-TextPane'
+	#category : #'Toplo-Widget-Album-TextPane'
 }
 
 { #category : #'api - attaching / detaching' }
@@ -24,11 +24,15 @@ ToAlbumEditsFeedbackLayer >> attachTo: anEditorElement [
 			 on: ToAlbumSaveRequestedEvent
 			 do: [ :event | event unacceptedEdits ifFalse: [ self flash ] ]).
 
-	" visual flag add/remove according to unaccepted edits or not"
-	anEditorElement whenEditedChangedDo: [ :state |
-		state
-			ifTrue: [ self showEditsFeedback ]
-			ifFalse: [ self hideEditsFeedback ] ]
+	" hide edit feedback when save is accepted "
+	anEditorElement addEventHandler: (BlEventHandler
+			 on: ToAlbumSaveAcceptedEvent
+			 do: [ :event | self hideEditsFeedback ]).
+
+	" show edit feedback when text is edited "
+	anEditorElement addEventHandler: (BlEventHandler
+			 on: AlbTextEditedEvent
+			 do: [ :event | self showEditsFeedback ])
 ]
 
 { #category : #'api - attaching / detaching' }

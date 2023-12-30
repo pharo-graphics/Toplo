@@ -1,7 +1,7 @@
 Class {
 	#name : #ToTextField,
 	#superclass : #ToAlbum,
-	#category : 'Toplo-Widget-Album-TextField'
+	#category : #'Toplo-Widget-Album-TextField'
 }
 
 { #category : #initialization }
@@ -19,36 +19,15 @@ ToTextField >> defaultGeometry [
 { #category : #initialization }
 ToTextField >> initialize [
 
-	| sharedDistributor |
 	super initialize.
 	self infinite vFitContent.
 	self next vFitContent.
 	self vFitContent.
 	self withoutLineWrapping.
-	self addEventHandler: (AlbTextEditorFocusHandler new element: self).
+	"self addEventHandler: (AlbTextEditorFocusHandler new element: self)."
 	"self addEventHandler:	(AlbTextEditorCursorIconHandler new element: self)."
-	self addEventHandler:	(AlbTextEditorSelectionHandler new element: self infinite).
-	self addEventHandler:	(AlbTextEditorDoubleClickHandler new element: self infinite).
-
-	sharedDistributor := BlSharedEventDistributor new.
-	sharedDistributor
-		adjustMousePosition: false;
-		shareEvents: {
-				BlMouseDownEvent.
-				BlDragEvent.
-				BlDragStartEvent.
-				BlDragEndEvent.
-				BlDragEnterEvent.
-				BlDragLeaveEvent.
-				BlMouseEnterEvent.
-				BlMouseLeaveEvent.
-				BlMouseOverEvent.
-				BlDoubleClickEvent.
-				BlFocusEvent.
-				BlBlurEvent }.
-	self addEventHandler: sharedDistributor.
-	"self next addEventHandler: sharedDistributor."
-	self infinite addEventHandler: sharedDistributor.
+	"self addEventHandler:	(AlbTextEditorSelectionHandler new element: self infinite)."
+	"self addEventHandler:	(AlbTextEditorDoubleClickHandler new element: self infinite)."
 
 ]
 

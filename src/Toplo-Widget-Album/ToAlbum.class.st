@@ -1,14 +1,14 @@
 Class {
 	#name : #ToAlbum,
 	#superclass : #ToElement,
-	#traits : 'TAlbInfiniteDecorator + TBlAnnouncerProvider + TObservable + TToElementWithPlaceholder',
-	#classTraits : 'TAlbInfiniteDecorator classTrait + TBlAnnouncerProvider classTrait + TObservable classTrait + TToElementWithPlaceholder classTrait',
+	#traits : 'TAlbInfiniteDecorator + TBlAnnouncerProvider + TToElementWithPlaceholder',
+	#classTraits : 'TAlbInfiniteDecorator classTrait + TBlAnnouncerProvider classTrait + TToElementWithPlaceholder classTrait',
 	#instVars : [
-		'#editsFeedbackLayer',
-		'#innerElement',
-		'#edited => ObservableSlot'
+		'next',
+		'editsFeedbackLayer',
+		'edited'
 	],
-	#category : 'Toplo-Widget-Album-TextPane'
+	#category : #'Toplo-Widget-Album-TextPane'
 }
 
 { #category : #'styler configuration' }
@@ -148,7 +148,7 @@ ToAlbum >> flash [
 { #category : #initialization }
 ToAlbum >> initialize [
 
-	self class initializeSlots: self.
+	| sharedDistributor |
 	super initialize.
 
 	self next: self defaultEditorElement.
@@ -156,26 +156,30 @@ ToAlbum >> initialize [
 
 	self matchParent.
 
-	self editorDo: [ :ed |
-		ed addEventHandler: (BlEventHandler
-				 on: AlbTextEditedEvent
-				 do: [ :evt | self dispatchEvent: evt ]).
-		ed addEventHandler: (BlEventHandler
-				 on: AlbTextReplacedEvent
-				 do: [ :evt | self dispatchEvent: evt ]) ].
-	self infiniteDo: [ :inf |
-		inf addEventHandler: (BlEventHandler
-				 on: BlBlurEvent
-				 do: [ :evt | self dispatchEvent: evt ]).
-		inf addEventHandler: (BlEventHandler
-				 on: BlFocusEvent
-				 do: [ :evt | self dispatchEvent: evt ]) ].
-
 	self addEventHandler: self defaultEventHandler.
-	self whenTextReplacedDo: [ :t | self requestTextStyle ].
-	self addEventHandler: (BlEventHandler
-			 on: AlbTextEditedEvent
-			 do: [ :evt | self requestTextStyle ]).
+	self addEventHandler: (AlbTextEditorFocusHandler new element: self).
+
+	sharedDistributor := BlSharedEventDistributor new.
+	sharedDistributor
+		adjustMousePosition: false;
+		shareEvents: {
+				AlbTextEditedEvent.
+				AlbTextReplacedEvent.
+				BlMouseDownEvent.
+				BlDragEvent.
+				BlDragStartEvent.
+				BlDragEndEvent.
+				BlDragEnterEvent.
+				BlDragLeaveEvent.
+				BlMouseEnterEvent.
+				BlMouseLeaveEvent.
+				BlMouseOverEvent.
+				BlDoubleClickEvent.
+				BlFocusEvent.
+				BlBlurEvent }.
+	self addEventHandler: sharedDistributor.
+	self infinite addEventHandler: sharedDistributor.
+	self editor addEventHandler: sharedDistributor.
 
 	self geometry: self defaultGeometry.
 	self outskirts: self defaultOutskirts.
@@ -183,16 +187,9 @@ ToAlbum >> initialize [
 	self padding: self defaultPadding.
 	self border: self defaultBorder.
 	self background: self defaultBackground.
-	"self addEventHandler: (AlbTextEditorFocusHandler new element: self)."
-	self addEventHandler:
-		(AlbTextEditorCursorIconHandler new element: self)
+	self addEventHandler: (AlbTextEditorFocusHandler new element: self).
+	self addEventHandler:	(AlbTextEditorCursorIconHandler new element: self)
 	"self addEventHandler:	(AlbTextEditorSelectionHandler new element: self infinite)"
-]
-
-{ #category : #accessing }
-ToAlbum >> innerElement [
-
-	^ self next
 ]
 
 { #category : #'t - element with placeholder' }
@@ -201,6 +198,18 @@ ToAlbum >> newPlaceholder [
 	^ self placeholderClass new
 		  padding: self padding;
 		  yourself
+]
+
+{ #category : #'t - infinite editor accessing' }
+ToAlbum >> next [
+
+	^ next
+]
+
+{ #category : #'t - infinite editor accessing' }
+ToAlbum >> next: aDecoratorOrInfinite [
+
+	next := aDecoratorOrInfinite
 ]
 
 { #category : #'t - element with placeholder' }
@@ -287,14 +296,6 @@ ToAlbum >> whenCancelRequestedDo: aBlock [
 	self addEventHandler: (BlEventHandler
 			 on: ToAlbumCancelRequestedEvent
 			 do: aBlock)
-]
-
-{ #category : #'property change hook' }
-ToAlbum >> whenEditedChangedDo: aBlock [
-
-	"set a block to perform after that the text has been chanbed, and its action performed"
-
-	self property: #edited whenChangedDo: aBlock
 ]
 
 { #category : #'transaction hook' }

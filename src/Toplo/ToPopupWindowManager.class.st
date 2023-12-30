@@ -5,7 +5,7 @@ Class {
 		'autoCloseOnMouseUpDelay',
 		'mouseButton'
 	],
-	#category : 'Toplo-Core-Window'
+	#category : #'Toplo-Core-Window'
 }
 
 { #category : #accessing }
@@ -53,7 +53,8 @@ ToPopupWindowManager >> mouseDownInElementEvent: anEvent [
 	builder ifNil: [ ^ self ].
 	anEvent button = mouseButton ifFalse: [ ^ self ].
 	currentWindow ifNotNil: [
-		^ currentWindow close ].
+		currentWindow isOpened ifTrue: [ currentWindow close ].
+		^ self ].
 	self newWindowEvent: anEvent.
 	element enqueueTask:
 		(BlTaskAction new action: [ currentWindow popupEvent: anEvent ])

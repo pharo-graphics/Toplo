@@ -188,7 +188,7 @@ ToAlbum >> initialize [
 	self border: self defaultBorder.
 	self background: self defaultBackground.
 	self addEventHandler: (AlbTextEditorFocusHandler new element: self).
-	self addEventHandler:	(AlbTextEditorCursorIconHandler new element: self)
+	self addEventHandler:	(AlbTextEditorCursorIconHandler new element: self).
 	"self addEventHandler:	(AlbTextEditorSelectionHandler new element: self infinite)"
 ]
 
@@ -245,9 +245,11 @@ ToAlbum >> saveResult: aBoolean [
 	| event |
 	self edited: aBoolean not.
 	event := aBoolean
-		                ifTrue: [ ToAlbumSaveAcceptedEvent new client: self ]
-		                ifFalse: [ ToAlbumSaveDeniedEvent new client: self ].
-	self dispatchEvent: event
+		         ifTrue: [ ToAlbumSaveAcceptedEvent new ]
+		         ifFalse: [ ToAlbumSaveDeniedEvent new ].
+	self dispatchEvent: (event
+			 client: self;
+			 yourself)
 ]
 
 { #category : #'styler configuration' }

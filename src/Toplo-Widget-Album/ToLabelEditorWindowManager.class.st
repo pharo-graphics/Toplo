@@ -1,7 +1,7 @@
 Class {
 	#name : #ToLabelEditorWindowManager,
 	#superclass : #ToAnchoredWindowManager,
-	#category : 'Toplo-Widget-Album-Label'
+	#category : #'Toplo-Widget-Album-Label'
 }
 
 { #category : #initialization }
@@ -23,7 +23,7 @@ ToLabelEditorWindowManager >> initialize [
 		label := request currentTarget.
 		ed := label newEditor.
 		anchWin root addChild: ed.
-		ed text: label text asString ]
+		ed text: label text copy ]
 ]
 
 { #category : #accessing }

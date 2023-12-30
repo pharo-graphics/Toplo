@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToElementWithTooltip,
-	#category : 'Toplo-Core'
+	#category : #'Toplo-Core'
 }
 
 { #category : #'t - element with tooltip' }
@@ -127,7 +127,7 @@ TToElementWithTooltip >> tooltipString: aString [
 TToElementWithTooltip >> tooltipText: aText [
 
 	self tooltipContent: ((ToLabel text: aText asRopedText)
-			 addStamp: #tooltip;
+			 defaultSkin: ToTooltipLabelSkin new;
 			 beMultiLine;
 			 yourself)
 ]

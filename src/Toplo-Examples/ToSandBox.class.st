@@ -982,6 +982,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 		| lab t |
 		t := holder data.
 		lab := ToLabel text: t.
+		lab defaultSkin: ToListLabelSkin new.
 		lab beMultiLine.
 		lab beEditable.
 		lab stillPressedStartDelay: 800 milliSeconds.
@@ -996,8 +997,9 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 		lab addEventHandler: (BlEventHandler
 				 on: ToLabelEditorClosedEvent
 				 do: [ l enableScrolledEvent ]).
-		lab whenTextReplacedDo: [
-			l data at: holder position put: lab text asString ].
+		lab addEventHandler: (BlEventHandler
+				 on: ToLabelTextReplacedEvent
+				 do: [ l data at: holder position put: lab text asString ]).
 		node addChild: (ToLabeledIcon new
 				 label: lab;
 				 hMatchParent) ].
@@ -1809,9 +1811,9 @@ ToSandBox class >> example_choiceButtonWithPlaceholder [
 	choice withUncheckingStrategy.
 	choice data addAll: { 'OS-X'. 'Windows'. 'Linux' }.
 	choice defaultLabel:
-		(ToAttributedLabel text: ('Invalid choice' asRopedText
+		(ToLabel text: ('Invalid choice' asRopedText
 				  foreground: Color red;
-				  yourself)).
+				  yourself)) withoutSkin.
 	win pane addChild: choice.
 	win openInSpace
 ]
@@ -1854,9 +1856,7 @@ ToSandBox class >> example_choiceButtonWithUncheckingStrategy [
 			      fontSize: 12).
 	choice defaultLabel: (ToAttributedLabel new
 			 beMultiLine;
-			 text: t;
-			"foreground: Color lightGray;"
-			textChanged).
+			 text: t).
 	choice dataToTextConverter: [ :assoc | assoc key ].
 	choice addEventHandler: (BlEventHandler
 			 on: ToChoiceSelectedIndexChangeEvent
@@ -1887,14 +1887,14 @@ ToSandBox class >> example_contactList [
 		            placeholderBuilder: [ :placeholder :e |
 			            placeholder addChild: (ToAttributedLabel new
 						             text:
-							             ('Name' asRopedText foreground: Color lightGray);
+							             ('Name' asRopedText foreground: Color lightGray; italic);
 						             yourself) ].
 	phoneTxtF := ToTextField new
 		             width: 100;
 		             placeholderBuilder: [ :placeholder :e |
 			             placeholder addChild: (ToAttributedLabel new
 						              text:
-							              ('Phone' asRopedText foreground: Color lightGray);
+							              ('Phone' asRopedText foreground: Color lightGray; italic);
 						              yourself) ].
 	addressTxtF := ToTextField new
 		               width: 200;
@@ -1902,7 +1902,7 @@ ToSandBox class >> example_contactList [
 			               placeholder addChild: (ToAttributedLabel new
 						                text:
 							                ('Adress' asRopedText foreground:
-									                 Color lightGray);
+									                 Color lightGray; italic);
 						                yourself) ].
 
 	list addEventHandler: (BlEventHandler
@@ -1952,14 +1952,17 @@ ToSandBox class >> example_contactList [
 		line := ToPane horizontal.
 		line addChild: (ToLabel new
 				 text: holder data name;
+				 defaultSkin: ToListLabelSkin new;
 				 width: 100;
 				 margin: (BlInsets right: 10)).
 		line addChild: (ToLabel new
 				 text: holder data phoneNumber;
+				 defaultSkin: ToListLabelSkin new;
 				 width: 100;
 				 margin: (BlInsets right: 10)).
 		line addChild: (ToLabel new
 				 text: holder data address;
+				 defaultSkin: ToListLabelSkin new;
 				 width: 200;
 				 margin: (BlInsets right: 10)).
 		line addChild: ToElement new matchParent.
@@ -3046,6 +3049,7 @@ ToSandBox class >> example_toLabel3 [
 			        bold;
 			        foreground: Color gray;
 			        yourself).
+	lab withoutSkin.
 	lab background: Color lightBlue.
 	lab hMatchParent.
 	lab isEditable: true.
@@ -3150,7 +3154,7 @@ ToSandBox class >> example_toLabel_Multiline2_Centered [
 				         fontSize: 20);
 		        border: (BlBorder paint: Color lightGray width: 1);
 		        outskirts: BlOutskirts inside.
-	lab2 := ToLabel new
+	lab2 := ToAttributedLabel new
 		        text: (('This is a Centered editable label' , String cr
 			          , AeFontManager defaultCodeFontFamilyName , ' size 20')
 				         asRopedText

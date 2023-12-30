@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'label'
 	],
-	#category : 'Toplo-Examples'
+	#category : #'Toplo-Examples'
 }
 
 { #category : #'instance creation' }
@@ -17,6 +17,7 @@ ToListClassNodeExample >> forClassNameAssoc: aClassNameAssoc [
 	icon := Smalltalk ui icons iconNamed: isel.
 
 	label := ToLabel new.
+	label defaultSkin: ToListLabelSkin new.
 	label
 		text: aClassNameAssoc value;
 		margin: (BlInsets all: 1);
@@ -28,7 +29,9 @@ ToListClassNodeExample >> forClassNameAssoc: aClassNameAssoc [
 				 do: [ :event |
 					 event consumed: true.
 					 event currentTarget addEditorEvent: event ]);
-		whenTextReplacedDo: [ self holder data value: label text asString ].
+		addEventHandler: (BlEventHandler
+				 on: ToLabelTextReplacedEvent
+				 do: [ self holder data value: label text asString ]).
 
 	self addChild: (ToLabeledIcon new
 			 label: label;

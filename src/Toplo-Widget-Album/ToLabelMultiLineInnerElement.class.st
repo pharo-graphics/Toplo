@@ -1,11 +1,11 @@
 Class {
 	#name : #ToLabelMultiLineInnerElement,
 	#superclass : #ToElement,
-	#traits : 'TToLabelInnerElement + TObservable',
-	#classTraits : 'TToLabelInnerElement classTrait + TObservable classTrait',
+	#traits : 'TToLabelInnerElement',
+	#classTraits : 'TToLabelInnerElement classTrait',
 	#instVars : [
-		'#lines',
-		'#text => ObservableSlot'
+		'lines',
+		'text'
 	],
 	#category : #'Toplo-Widget-Album-Label'
 }
@@ -34,12 +34,10 @@ ToLabelMultiLineInnerElement >> editorShortcutsIn: aLabel [
 ToLabelMultiLineInnerElement >> initialize [
 
 	super initialize.
-	self class initializeSlots: self.
 	
 	lines := OrderedCollection new.
 	self fitContent.
 	self layout: BlLinearLayout vertical.
-	self whenTextReplacedDo: [ :t | self textReplaced ].
 	self preventMouseEvents.
 	self withoutSkin.
 ]
@@ -130,23 +128,7 @@ ToLabelMultiLineInnerElement >> text: aBlText [
 { #category : #'event handling' }
 ToLabelMultiLineInnerElement >> textChanged [
 
-	self textReplaced
-]
-
-{ #category : #'event handling' }
-ToLabelMultiLineInnerElement >> textReplaced [
-
 	self removeChildren.
 	lines := self splitText.
-	self addChildren: lines.
-	self dispatchEvent: (ToTextReplacedEvent new text: self text)
-
-]
-
-{ #category : #'slot - change hook' }
-ToLabelMultiLineInnerElement >> whenTextReplacedDo: aBlock [
-
-	"set a block to perform after that the text has been chanbed, and its action performed"
-
-	self property: #text whenChangedDo: aBlock
+	self addChildren: lines
 ]

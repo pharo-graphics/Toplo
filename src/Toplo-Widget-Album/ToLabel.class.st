@@ -1,16 +1,15 @@
 Class {
 	#name : #ToLabel,
 	#superclass : #ToElement,
-	#traits : 'TBlAlignable + TObservable + TBlTextStyleable',
-	#classTraits : 'TBlAlignable classTrait + TObservable classTrait + TBlTextStyleable classTrait',
+	#traits : 'TBlAlignable',
+	#classTraits : 'TBlAlignable classTrait',
 	#instVars : [
-		'#isEditable',
-		'#innerElement',
-		'#text => ObservableSlot',
-		'#lineMode',
-		'#frameManager'
+		'isEditable',
+		'innerElement',
+		'lineMode',
+		'frameManager'
 	],
-	#category : 'Toplo-Widget-Album-Label'
+	#category : #'Toplo-Widget-Album-Label'
 }
 
 { #category : #'instance creation' }
@@ -33,7 +32,7 @@ ToLabel >> addEditorEvent: anEvent [
 	self dispatchEvent: ToLabelEditorOpenedEvent new
 ]
 
-{ #category : #'text decoration applying ' }
+{ #category : #'text decoration applying' }
 ToLabel >> applyAttributesBuilder [
 
 	self attributesBuilder applyOn: self text
@@ -55,13 +54,13 @@ ToLabel >> beEditable [
 { #category : #initialization }
 ToLabel >> beMonoLine [
 
-	self lineMode: ToLabelMonoLineMode new
+	self restoreTextAfter: [ self lineMode: ToLabelMonoLineMode new ]
 ]
 
 { #category : #initialization }
 ToLabel >> beMultiLine [
 
-	self lineMode: ToLabelMultiLineMode new
+	self restoreTextAfter: [ self lineMode: ToLabelMultiLineMode new ]
 ]
 
 { #category : #accessing }
@@ -167,9 +166,9 @@ ToLabel >> initialize [
 	self layout: self defaultLayout.
 	self fitContent.
 
-	self text: self defaultText.
 	self lineMode: self defaultLineMode.
 	self innerElement: self defaultTextElement.	
+	self text: self defaultText.
 
 	self isEditable: false.
 	self addEventHandler: self defaultEventHandler 
@@ -197,17 +196,9 @@ ToLabel >> innerElement [
 { #category : #accessing }
 ToLabel >> innerElement: anInnerElement [
 
-	| handler |
 	innerElement = anInnerElement ifTrue: [ ^ self ].
 	innerElement ifNotNil: [ innerElement removeFromParent ].
 	innerElement := anInnerElement.
-
-	handler := BlEventHandler
-		           on: ToTextReplacedEvent
-		           do: [ :evt |
-			           self text: evt text ].
-	innerElement addEventHandler: handler.
-
 	self addChild: innerElement
 ]
 
@@ -258,8 +249,7 @@ ToLabel >> lineMode: aLineMode [
 { #category : #'private-change' }
 ToLabel >> lineModeChanged [
 
-	self innerElement: self defaultTextElement.	
-	self innerElement text: self text
+	self restoreTextAfter: [ self innerElement: self defaultTextElement ]
 ]
 
 { #category : #initialization }
@@ -291,8 +281,7 @@ ToLabel >> newRawSkin [
 { #category : #'private-change' }
 ToLabel >> privateText: aText [
 
-	text := aText.
-	self innerElement ifNotNil: [:inner | inner text: aText ]
+	self innerElement text: aText
 ]
 
 { #category : #'private-editing' }
@@ -303,6 +292,16 @@ ToLabel >> removeEditor [
 	self cleanUpUserData.
 	self dispatchEvent: ToLabelEditorClosedEvent new
 
+]
+
+{ #category : #'private-change' }
+ToLabel >> restoreTextAfter: aBlock [
+
+	| t |
+	t := self innerElement ifNotNil: [ :inner | inner text ].
+	aBlock value.
+	t ifNil: [ ^ self ].
+	self text: t
 ]
 
 { #category : #rotation }
@@ -317,26 +316,26 @@ ToLabel >> rotateBy: aDegreesAngle [
 ToLabel >> text [
 	<return: #BlText>
 
-	^ text
+	^ self innerElement text
 ]
 
 { #category : #accessing }
 ToLabel >> text: aBlTextOrString [
 
 	| newText |
-	text = aBlTextOrString ifTrue: [ ^ self ].
+	self text = aBlTextOrString ifTrue: [ ^ self ].
 	newText := (aBlTextOrString ifNil: [ self defaultText ]) asRopedText.
 	self privateText: newText.
-	self requestNewSkin 
+	self requestNewSkin.
+	self dispatchEvent: (ToLabelTextReplacedEvent new text: self text)
+
 ]
 
 { #category : #'event handling' }
 ToLabel >> textChanged [
 
 	self forceLocalLayout.
-	self innerElement ifNil: [ ^ self ].
-	self innerElement textChanged.
-
+	self innerElement textChanged
 ]
 
 { #category : #accessing }
@@ -350,16 +349,4 @@ ToLabel >> verticalAlignment [
 ToLabel >> verticalAlignment: aBlElementAlignment [
 
 	self layout verticalAlignment: aBlElementAlignment
-]
-
-{ #category : #'change hook' }
-ToLabel >> whenTextReplacedDo: aBlock [
-
-	"Inform when text property has changed. 
-	 `aBlock` has three optional arguments: 
-	 - new value
-	 - old value
-	 - the announcement triggering this action"
-
-	self property: #text whenChangedDo: aBlock
 ]

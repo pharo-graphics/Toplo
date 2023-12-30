@@ -71,11 +71,3 @@ ToLabelMonoLineInnerElement >> text: aText [
 	super text: aText.
 	self forceLocalLayout 
 ]
-
-{ #category : #'event handling' }
-ToLabelMonoLineInnerElement >> textChanged [
-
-	super textChanged.
-	self dispatchEvent: (ToTextReplacedEvent new text: self text)
-	
-]

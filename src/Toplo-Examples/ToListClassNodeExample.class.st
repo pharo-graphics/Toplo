@@ -17,7 +17,7 @@ ToListClassNodeExample >> forClassNameAssoc: aClassNameAssoc [
 	icon := Smalltalk ui icons iconNamed: isel.
 
 	label := ToLabel new.
-	label defaultSkin: ToListLabelSkin new.
+	label defaultSkin: ToLabelInListSkin new.
 	label
 		text: aClassNameAssoc value;
 		margin: (BlInsets all: 1);

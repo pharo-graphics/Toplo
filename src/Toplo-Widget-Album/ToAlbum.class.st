@@ -24,34 +24,6 @@ ToAlbum >> codeFontName: aFontName [
 ]
 
 { #category : #initialization }
-ToAlbum >> defaultBackground [
-
-	^ Color white
-]
-
-{ #category : #initialization }
-ToAlbum >> defaultBlurBorder [
-
-	^ BlBorder
-			 paint: (self tokenValueNamed: #'color-border-disabled')
-			 width: self defaultBorderWidth
-]
-
-{ #category : #initialization }
-ToAlbum >> defaultBorder [
-
-	^ BlBorder
-		  paint: (self tokenValueNamed: #'color-primary')
-		  width: self defaultBorderWidth
-]
-
-{ #category : #initialization }
-ToAlbum >> defaultBorderWidth [ 
-
-	^ 1
-]
-
-{ #category : #initialization }
 ToAlbum >> defaultCodeFontName [
 
 	^ AeFontManager defaultCodeFontFamilyName
@@ -69,43 +41,6 @@ ToAlbum >> defaultEventHandler [
 
 	^ ToAlbumEventHandler new.
 
-]
-
-{ #category : #initialization }
-ToAlbum >> defaultFocusBorder [
-
-	^ BlBorder
-			 paint: (self tokenValueNamed: #'color-primary')
-			 width: self defaultBorderWidth
-]
-
-{ #category : #initialization }
-ToAlbum >> defaultGeometry [
-
-	^ BlRoundedRectangleGeometry cornerRadius: 8
-]
-
-{ #category : #initialization }
-ToAlbum >> defaultMargin [
-
-	"setup to not depend on parent layout"
-	^ BlInsets all: 0
-]
-
-{ #category : #initialization }
-ToAlbum >> defaultOutskirts [
-
-	^ BlOutskirts inside
-]
-
-{ #category : #initialization }
-ToAlbum >> defaultPadding [
-
-	^ BlInsets all: 3
-		 " top: (6 + self defaultBorderWidth )
-		  left: (3 + self defaultBorderWidth )
-		  bottom: (2 + self defaultBorderWidth )
-		  right: (3 + self defaultBorderWidth )"
 ]
 
 { #category : #initialization }
@@ -169,11 +104,6 @@ ToAlbum >> initialize [
 	self infinite addEventHandler: sharedDistributor.
 	self editor addEventHandler: sharedDistributor.
 
-	self geometry: self defaultGeometry.
-	self outskirts: self defaultOutskirts.
-	self margin: self defaultMargin.
-	self padding: self defaultPadding.
-	self background: self defaultBackground.
 	self addEventHandler: (AlbTextEditorFocusHandler new element: self).
 	self addEventHandler:	(AlbTextEditorCursorIconHandler new element: self).
 	"self addEventHandler:	(AlbTextEditorSelectionHandler new element: self infinite)"
@@ -185,6 +115,12 @@ ToAlbum >> newPlaceholder [
 	^ self placeholderClass new
 		  padding: self padding;
 		  yourself
+]
+
+{ #category : #skin }
+ToAlbum >> newRawSkin [ 
+
+	^ ToAlbumSkin new
 ]
 
 { #category : #'t - infinite editor accessing' }

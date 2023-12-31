@@ -1,28 +1,28 @@
 Class {
-	#name : #ToListLabelSkin,
+	#name : #ToLabelInListSkin,
 	#superclass : #ToLabelSkin,
 	#category : #'Toplo-Widget-List-Node'
 }
 
 { #category : #'event handling' }
-ToListLabelSkin >> deselectedLookEvent: anEvent [
+ToLabelInListSkin >> deselectedLookEvent: anEvent [
 
 	super deselectedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e textAttributesBuilder foreground: (e tokenValueNamed: #'color-text').
+		e textAttributesBuilder foreground: (e tokenValueNamed: #'label-in-list-foreground-deselected').
 		e applyAttributesBuilder.
 		e textChanged ]
 ]
 
 { #category : #'event handling' }
-ToListLabelSkin >> selectedLookEvent: anEvent [
+ToLabelInListSkin >> selectedLookEvent: anEvent [
 
 	super selectedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		| tokname |
 		tokname := anEvent focused
-			           ifTrue: [ #'color-text-list-selection-focused' ]
-			           ifFalse: [ #'color-text-list-selection-unfocused' ].
+			           ifTrue: [ #'label-in-list-foreground-selected-focused' ]
+			           ifFalse: [ #'label-in-list-foreground-selected-unfocused' ].
 		e textAttributesBuilder foreground: (e tokenValueNamed: tokname).
 		e applyAttributesBuilder.
 		e textChanged ]

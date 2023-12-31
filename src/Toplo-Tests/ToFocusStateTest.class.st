@@ -1,7 +1,7 @@
 Class {
 	#name : #ToFocusStateTest,
 	#superclass : #ToTestCaseWithSpace,
-	#category : 'Toplo-Tests-Core-States'
+	#category : #'Toplo-Tests-Core-States'
 }
 
 { #category : #running }
@@ -15,7 +15,7 @@ ToFocusStateTest >> testApplyOn [
 	e addEventHandler: (BlEventHandler
 			 on: ToUnfocusedLookEvent
 			 do: [ :event | unfocusedEvt := event ]).
-	state := ToFocusState new focused: true.
+	state := ToFocusState new focusedValuable: [true].
 	state applyOn: e.
 	self assert: (focusedEvt isKindOf: ToFocusedLookEvent).
 	self assert: unfocusedEvt isNil
@@ -32,7 +32,7 @@ ToFocusStateTest >> testApplyOnUnfocused [
 	e addEventHandler: (BlEventHandler
 			 on: ToUnfocusedLookEvent
 			 do: [ :event | unfocusedEvt := event ]).
-	state := ToFocusState new focused: false.
+	state := ToFocusState new focusedValuable: false.
 	state applyOn: e.
 	self assert: (unfocusedEvt isKindOf: ToUnfocusedLookEvent).
 	self assert: focusedEvt isNil
@@ -53,10 +53,10 @@ ToFocusStateTest >> testApplyOnWhenDisabled [
 	e addEventHandler: (BlEventHandler
 			 on: ToUnfocusedLookEvent
 			 do: [ :event | unfocusedEvt := event ]).
-	state := ToFocusState new focused: true.
+	state := ToFocusState new focusedValuable: true.
 	state applyOn: e.
 	self assert: (focusedEvt isKindOf: ToFocusedLookEvent).
-	state := ToFocusState new focused: false.
+	state := ToFocusState new focusedValuable: false.
 	state applyOn: e.
 	self assert: (unfocusedEvt isKindOf: ToUnfocusedLookEvent)
 ]
@@ -65,9 +65,9 @@ ToFocusStateTest >> testApplyOnWhenDisabled [
 ToFocusStateTest >> testLookEvent [
 
 	| state  |
-	state := ToFocusState new focused: true.
+	state := ToFocusState new focusedValuable: true.
 	self assert: (state lookEvent isKindOf: ToFocusedLookEvent).
-	state := ToFocusState new focused: false.
+	state := ToFocusState new focusedValuable: false.
 	self assert: (state lookEvent isKindOf: ToUnfocusedLookEvent ) 
 
 	

@@ -9,7 +9,7 @@ Class {
 		'stillPressedTask',
 		'stillHoveredTask'
 	],
-	#category : 'Toplo-Core-States'
+	#category : #'Toplo-Core-States'
 }
 
 { #category : #'focus events handling' }
@@ -182,7 +182,7 @@ ToSkinStateGenerator >> generateDroppedStateFromEvent: anEvent [
 ToSkinStateGenerator >> generateFocusStateFromEvent: anEvent [
 
 	target enqueueSkinState: (ToFocusState new
-			 focused: target isFocused
+			 focusedValuable: [ target hasFocus ]
 			 yourself)
 
 ]
@@ -227,7 +227,7 @@ ToSkinStateGenerator >> generateSelectionStateFromEvent: anEvent [
 	target withAllChildrenBreadthFirstDo: [ :child |
 		child enqueueSkinState: (ToSelectionState new
 				 selected: anEvent selected;
-				 focused: anEvent listElement infinite isFocused;
+				 focused: anEvent listElement hasFocus;
 				 yourself) ]
 ]
 

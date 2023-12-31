@@ -4,7 +4,7 @@ A ToSpaceSkinPhasesManagerTest is a test class for testing the behavior of ToSpa
 Class {
 	#name : #ToSpaceSkinPhasesManagerTest,
 	#superclass : #ToTestCaseWithSpace,
-	#category : 'Toplo-Tests-Core-SpaceFrame'
+	#category : #'Toplo-Tests-Core-SpaceFrame'
 }
 
 { #category : #tests }
@@ -26,7 +26,7 @@ ToSpaceSkinPhasesManagerTest >> testApplyAllEnqueuedStatesIn [
 	e := ToElement new.
 	space root addChild: e.
 	space applyAllSkinInstallers.
-	e enqueueSkinState: (ToFocusState new focused: true).
+	e enqueueSkinState: (ToFocusState new focusedValuable: true).
 	self assert: e skinManager skinStateQueue nextStates size > 0.
 	space skinPhasesManager applyAllEnqueuedStatesIn: space.
 	self assert: e skinManager skinStateQueue nextStates size equals: 0.

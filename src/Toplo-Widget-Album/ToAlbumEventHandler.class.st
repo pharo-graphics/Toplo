@@ -39,8 +39,8 @@ ToAlbumEventHandler >> eventsToHandle [
 		  BlElementAddedToSceneGraphEvent.
 		  AlbTextEditedEvent.
 		  AlbTextReplacedEvent.
-		  BlBlurEvent.
-		  BlFocusEvent.
+		  "BlBlurEvent.
+		  BlFocusEvent."
 		  ToTextEmptinessChangeEvent }
 ]
 

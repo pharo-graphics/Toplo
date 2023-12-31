@@ -127,7 +127,7 @@ TToElementWithTooltip >> tooltipString: aString [
 TToElementWithTooltip >> tooltipText: aText [
 
 	self tooltipContent: ((ToLabel text: aText asRopedText)
-			 defaultSkin: ToTooltipLabelSkin new;
+			 defaultSkin: ToLabelInTooltipSkin new;
 			 beMultiLine;
 			 yourself)
 ]

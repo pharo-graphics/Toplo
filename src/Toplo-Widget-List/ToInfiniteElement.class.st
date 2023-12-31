@@ -242,7 +242,6 @@ ToInfiniteElement >> infinite [
 { #category : #initialization }
 ToInfiniteElement >> initialize [
 
-	self class initializeSlots: self.
 	super initialize.
 	self skinStateGeneratorClass ifNotNil: [ :cls |
 		self addEventHandler: cls new ].

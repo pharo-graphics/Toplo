@@ -1,7 +1,7 @@
 Class {
 	#name : #ToThemeDarkVariant,
 	#superclass : #ToThemeVariant,
-	#category : 'Toplo-Core-Theme'
+	#category : #'Toplo-Core-Theme'
 }
 
 { #category : #'space configurating' }
@@ -59,7 +59,7 @@ ToThemeDarkVariant class >> changedTokenProperties [
 					   name: #'color-text-secondary'
 					   value: (Color white alpha: 0.45)).
 					(ToTokenProperty
-			   			name: #'color-text-tooltip'
+			   			name: #'text-foreground-in-tooltip'
 			   			value: (Color white)).
  } ]
 ]

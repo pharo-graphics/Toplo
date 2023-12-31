@@ -21,8 +21,8 @@ ToClassNameViewExample >> class: aClass position: anInteger [
 { #category : #private }
 ToClassNameViewExample >> colorFor: index [
 
-	index odd ifTrue: [ ^ self tokenValueNamed: #'color-text-list-selection-focused'].
-	^ self tokenValueNamed: #'color-text-list-selection-unfocused'
+	index odd ifTrue: [ ^ Color white].
+	^ Color veryLightGray
 ]
 
 { #category : #private }

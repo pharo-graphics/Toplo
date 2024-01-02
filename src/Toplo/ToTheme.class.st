@@ -170,7 +170,7 @@ ToTheme class >> defaultTokenProperties [
 			   value: (Color white)).
 		(ToTokenProperty
 			   name: #'label-in-list-foreground-selected-unfocused'
-			   value: (Color blue)).
+			   value: (self defaultColorPrimary)).
 		(ToTokenProperty
 			   name: #'label-in-list-foreground-deselected'
 			   value: (Color black)).

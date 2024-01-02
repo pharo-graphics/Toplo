@@ -68,8 +68,7 @@ ToAlbum >> initialize [
 	super initialize.
 
 	self next: self defaultEditorElement.
-	self next primarySelectionElementClass:
-		ToAlbumPrimarySelectionElement.
+	self next primarySelectionElementClass: ToAlbumPrimarySelectionElement.
 	self addChild: self next.
 	self matchParent.
 	self addEventHandler: ToAlbumEventHandler new.
@@ -77,12 +76,15 @@ ToAlbum >> initialize [
 	sharedDistributor
 		adjustMousePosition: false;
 		shareEvents: {
+				BlDragStartEvent.
+				BlDragEvent.
 				AlbTextEditedEvent.
 				AlbTextReplacedEvent.
 				BlFocusEvent.
 				BlBlurEvent }.
 	self addEventHandler: sharedDistributor.
 	" for the focus events "
+	self next addEventHandler: sharedDistributor.	
 	self infinite addEventHandler: sharedDistributor.
 	" for the styler "
 	self editor addEventHandler: sharedDistributor

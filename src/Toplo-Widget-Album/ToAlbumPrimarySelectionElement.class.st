@@ -8,15 +8,14 @@ Class {
 ToAlbumPrimarySelectionElement >> initialize [ 
 
 	super initialize.
-	self addEventHandler: ToSkinStateGenerator new
+	self addEventHandler: ToSkinStateGenerator new.
+	self addEventHandler: ToAlbumPrimarySelectionElementEventHandler new
 ]
 
 { #category : #skin }
-ToAlbumPrimarySelectionElement >> installRawStyle [ 
+ToAlbumPrimarySelectionElement >> newRawSkin [ 
 
-	super installRawStyle.
-	"self focusedBackground: (self tokenValueNamed: #'color-primary-selection-focused').
-	self unfocusedBackground: (self tokenValueNamed: #'color-primary-selection-unfocused')"
+	^ ToAlbumPrimarySelectionElementSkin new
 ]
 
 { #category : #'hooks - children' }

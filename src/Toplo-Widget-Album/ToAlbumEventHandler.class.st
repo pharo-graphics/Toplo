@@ -35,6 +35,7 @@ ToAlbumEventHandler >> eventsToHandle [
 
 	^ {
 		  BlMouseDownEvent.
+		  BlMouseUpEvent.
 		  BlDoubleClickEvent.
 		  BlElementAddedToSceneGraphEvent.
 		  AlbTextEditedEvent.
@@ -44,6 +45,13 @@ ToAlbumEventHandler >> eventsToHandle [
 
 { #category : #'mouse handlers' }
 ToAlbumEventHandler >> mouseDownEvent: anEvent [
+
+	" copy the event, else the double click can't works "
+	anEvent currentTarget infinite dispatchEvent: anEvent copy
+]
+
+{ #category : #'mouse handlers' }
+ToAlbumEventHandler >> mouseUpEvent: anEvent [
 
 	" copy the event, else the double click can't works "
 	anEvent currentTarget infinite dispatchEvent: anEvent copy

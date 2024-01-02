@@ -352,6 +352,7 @@ Here an example of a client for a method.
 	| text album menuBuilder |
 	text := self methodText asRopedText fontName: 'Source Code Pro'.
 	album := ToAlbum new.
+album inspect.
 	album styler: (BlRBTextStyler new classOrMetaClass: self class).
 	album text: (text copy fontName: 'Source Code Pro').
 	album withSaveCapability.
@@ -2470,6 +2471,7 @@ ToSandBox class >> example_textField0 [
 
 	| t |
 	t := ToTextField new text: 'AAAA'.
+	t background: Color yellow.
 	t openInSpace
 ]
 
@@ -2567,6 +2569,17 @@ ToSandBox class >> example_textFieldWithoutLineWrapping [
 		     withoutLineWrapping;
 		     withSaveCapability.
 	t openInSpace
+]
+
+{ #category : #'text field' }
+ToSandBox class >> example_textFields [
+
+	| pane |
+	pane := ToPane vertical.
+	pane matchParent.
+	10 timesRepeat: [ pane addChild: (ToTextField new text: 'AAAA') ].
+	10 timesRepeat: [ pane addChild: (ToTextField new) ].
+	pane openInSpace
 ]
 
 { #category : #'choice menu' }

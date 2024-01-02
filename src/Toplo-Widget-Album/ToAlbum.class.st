@@ -37,13 +37,6 @@ ToAlbum >> defaultEditorElement [
 ]
 
 { #category : #initialization }
-ToAlbum >> defaultEventHandler [
-
-	^ ToAlbumEventHandler new.
-
-]
-
-{ #category : #initialization }
 ToAlbum >> defaultStyler [
 
 	^ nil 
@@ -75,38 +68,25 @@ ToAlbum >> initialize [
 	super initialize.
 
 	self next: self defaultEditorElement.
+	self next primarySelectionElementClass: ToAlbumPrimarySelectionElement.
 	self addChild: self next.
-
 	self matchParent.
-
-	self addEventHandler: self defaultEventHandler.
-	self addEventHandler: (AlbTextEditorFocusHandler new element: self).
-
+	self addEventHandler: ToAlbumEventHandler new.
 	sharedDistributor := BlSharedEventDistributor new.
 	sharedDistributor
 		adjustMousePosition: false;
 		shareEvents: {
+		BlDragEvent.
+				BlDragStartEvent.
 				AlbTextEditedEvent.
 				AlbTextReplacedEvent.
-				BlMouseDownEvent.
-				BlDragEvent.
-				BlDragStartEvent.
-				BlDragEndEvent.
-				BlDragEnterEvent.
-				BlDragLeaveEvent.
-				BlMouseEnterEvent.
-				BlMouseLeaveEvent.
-				BlMouseOverEvent.
-				BlDoubleClickEvent.
 				BlFocusEvent.
 				BlBlurEvent }.
 	self addEventHandler: sharedDistributor.
+	" for the focus events "
 	self infinite addEventHandler: sharedDistributor.
-	self editor addEventHandler: sharedDistributor.
-
-	self addEventHandler: (AlbTextEditorFocusHandler new element: self).
-	self addEventHandler:	(AlbTextEditorCursorIconHandler new element: self).
-	"self addEventHandler:	(AlbTextEditorSelectionHandler new element: self infinite)"
+	" for the styler "
+	self editor addEventHandler: sharedDistributor
 ]
 
 { #category : #'t - element with placeholder' }

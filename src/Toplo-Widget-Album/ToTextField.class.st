@@ -24,7 +24,6 @@ ToTextField >> initialize [
 	self next vFitContent.
 	self vFitContent.
 	self withoutLineWrapping.
-	"self addEventHandler: (AlbTextEditorFocusHandler new element: self)."
 	"self addEventHandler:	(AlbTextEditorCursorIconHandler new element: self)."
 	"self addEventHandler:	(AlbTextEditorSelectionHandler new element: self infinite)."
 	"self addEventHandler:	(AlbTextEditorDoubleClickHandler new element: self infinite)."

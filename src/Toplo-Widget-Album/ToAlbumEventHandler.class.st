@@ -8,20 +8,18 @@ Class {
 }
 
 { #category : #'event handling' }
-ToAlbumEventHandler >> blurEvent: aBlurEvent [
-
-	| target |
-	target := aBlurEvent currentTarget.
-	target border: target defaultBlurBorder
-]
-
-{ #category : #'event handling' }
 ToAlbumEventHandler >> checkTextIn: anEditorElement [
 
 	(textEmpty isNil or: [ anEditorElement text isEmpty ~= textEmpty ])
 		ifTrue: [
 		anEditorElement dispatchEvent: ToTextEmptinessChangeEvent new ].
 	textEmpty := anEditorElement text isEmpty
+]
+
+{ #category : #'mouse handlers' }
+ToAlbumEventHandler >> doubleClickEvent: anEvent [
+
+	anEvent currentTarget infinite dispatchEvent: anEvent copy
 ]
 
 { #category : #'event handling' }
@@ -36,20 +34,19 @@ ToAlbumEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 ToAlbumEventHandler >> eventsToHandle [
 
 	^ {
+		  BlMouseDownEvent.
+		  BlDoubleClickEvent.
 		  BlElementAddedToSceneGraphEvent.
 		  AlbTextEditedEvent.
 		  AlbTextReplacedEvent.
-		  "BlBlurEvent.
-		  BlFocusEvent."
 		  ToTextEmptinessChangeEvent }
 ]
 
-{ #category : #'event handling' }
-ToAlbumEventHandler >> focusEvent: aFocusEvent [
+{ #category : #'mouse handlers' }
+ToAlbumEventHandler >> mouseDownEvent: anEvent [
 
-	| target |
-	target := aFocusEvent currentTarget.
-	target border: target defaultFocusBorder
+	" copy the event, else the double click can't works "
+	anEvent currentTarget infinite dispatchEvent: anEvent copy
 ]
 
 { #category : #'event handling' }

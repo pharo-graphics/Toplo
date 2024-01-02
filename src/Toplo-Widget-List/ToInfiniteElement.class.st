@@ -243,8 +243,7 @@ ToInfiniteElement >> infinite [
 ToInfiniteElement >> initialize [
 
 	super initialize.
-	self skinStateGeneratorClass ifNotNil: [ :cls |
-		self addEventHandler: cls new ].
+	self addEventHandler: ToSkinStateGenerator new.
 	selectionStrategy := self defaultSelectionStrategy.
 	selectionStrategy onInstalledIn: self.
 	self privateData: ToObservableCollection new.

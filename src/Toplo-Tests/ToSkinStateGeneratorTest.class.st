@@ -4,7 +4,7 @@ A ToSkinStateGeneratorTest is a test class for testing the behavior of ToSkinSta
 Class {
 	#name : #ToSkinStateGeneratorTest,
 	#superclass : #ToTestCaseWithSpace,
-	#category : 'Toplo-Tests-Core-States'
+	#category : #'Toplo-Tests-Core-States'
 }
 
 { #category : #'instance creation' }
@@ -138,7 +138,7 @@ ToSkinStateGeneratorTest >> testTarget [
 	| e gen |
 	e := ToElement new.
 	gen := e eventDispatcher handlers detect: [ :h |
-		       h isKindOf: e skinStateGeneratorClass ].
+		       h isKindOf: ToSkinStateGenerator ].
 	self assert: gen target identicalTo: e
 ]
 
@@ -149,7 +149,7 @@ ToSkinStateGeneratorTest >> testWantsEvent [
 	e := ToElement new.
 	self assert: e isEnabled.
 	gen := e eventDispatcher handlers detect: [ :h |
-		       h isKindOf: e skinStateGeneratorClass ].
+		       h isKindOf: ToSkinStateGenerator ].
 	gen eventsToHandle do: [ :cC |
 		self assert: (gen wantsEvent: (cC new currentTarget: e)) ].
 	e disable.

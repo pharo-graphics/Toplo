@@ -14,15 +14,15 @@ ToClassNameViewExample >> class: aClass position: anInteger [
 			 interspace: 10;
 			 background: (self colorFor: anInteger);
 			 icon: (self iconFor: aClass);
-			 labelText: aClass name;
+			 label: (ToLabel new text: aClass name; defaultSkin: ToLabelInListSkin new; yourself);
 			 yourself)
 ]
 
 { #category : #private }
 ToClassNameViewExample >> colorFor: index [
 
-	index odd ifTrue: [ ^ Color white].
-	^ Color veryLightGray
+	index odd ifTrue: [ ^ Color transparent].
+	^ Color gray alpha: 0.1
 ]
 
 { #category : #private }
@@ -41,15 +41,7 @@ ToClassNameViewExample >> iconImageFor: aClass [
 		aClass hasFailedTest ifTrue: [ ^ self iconNamed: #testYellow ].
 		aClass hasErrorTest ifTrue: [ ^ self iconNamed: #testRed ].
 		^ self iconNamed: #testNotRun ].
-	aClass classComment ifEmpty: [ ^ self iconNamed: #uncommentedClass ].
-	((aClass includesBehavior:
-		  (Smalltalk globals at: #TestCase ifAbsent: [ false ])) and: [
-		 aClass isAbstract not ]) ifTrue: [
-		aClass hasPassedTest ifTrue: [ ^ self iconNamed: #testGreen ].
-		aClass hasFailedTest ifTrue: [ ^ self iconNamed: #testYellow ].
-		aClass hasErrorTest ifTrue: [ ^ self iconNamed: #testRed ].
-		^ self iconNamed: #testNotRun ].
-	aClass classComment ifEmpty: [ ^ self iconNamed: #uncommentedClass ].
+	aClass hasComment ifFalse: [ ^ self iconNamed: #uncommentedClass ].
 	^ self iconNamed: aClass systemIconName
 ]
 

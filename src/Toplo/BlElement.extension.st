@@ -327,12 +327,6 @@ BlElement >> skinManager [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> skinStateGeneratorClass [
-
-	^ ToSkinStateGenerator 
-]
-
-{ #category : #'*Toplo' }
 BlElement >> skinStateQueue [
 
 	^ self skinManager skinStateQueue

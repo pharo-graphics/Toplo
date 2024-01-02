@@ -69,8 +69,7 @@ ToElement >> initialize [
 
 	super initialize.
 	self layout: self defaultLayout.
-	self skinStateGeneratorClass ifNotNil: [ :cls |
-		self addEventHandler: cls new ]
+	self addEventHandler: ToSkinStateGenerator new
 ]
 
 { #category : #'hooks - children' }

@@ -255,7 +255,7 @@ ToTheme class >> defaultTokenProperties [
 			   value: BlRoundedRectangleGeometry).
 		  (ToTokenProperty
 			   name: #'color-primary-selection-focused'
-			   value: (self defaultColorPrimary alpha: 0.4) ).
+			   value: (self defaultColorPrimary alpha: 0.6) ).
 		  (ToTokenProperty
 			   name: #'color-primary-selection-unfocused'
 			   value: (self defaultColorPrimary alpha: 0.1)).

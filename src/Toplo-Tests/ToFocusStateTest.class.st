@@ -15,7 +15,7 @@ ToFocusStateTest >> testApplyOn [
 	e addEventHandler: (BlEventHandler
 			 on: ToUnfocusedLookEvent
 			 do: [ :event | unfocusedEvt := event ]).
-	state := ToFocusState new focusedValuable: [true].
+	state := ToFocusState new focusedValuable: true.
 	state applyOn: e.
 	self assert: (focusedEvt isKindOf: ToFocusedLookEvent).
 	self assert: unfocusedEvt isNil

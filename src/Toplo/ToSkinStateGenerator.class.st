@@ -182,7 +182,7 @@ ToSkinStateGenerator >> generateDroppedStateFromEvent: anEvent [
 ToSkinStateGenerator >> generateFocusStateFromEvent: anEvent [
 
 	target enqueueSkinState: (ToFocusState new
-			 focusedValuable: [ target hasFocus ]
+			 focusedValuable: target hasFocus
 			 yourself)
 
 ]

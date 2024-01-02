@@ -1,6 +1,9 @@
 Class {
 	#name : #ToAlbumPrimarySelectionElementEventHandler,
 	#superclass : #BlCustomEventHandler,
+	#instVars : [
+		'prevMouseDownEvent'
+	],
 	#category : #'Toplo-Widget-Album-TextPane'
 }
 
@@ -10,10 +13,24 @@ ToAlbumPrimarySelectionElementEventHandler >> blurEvent: anEvent [
 	anEvent currentTarget focused: false
 ]
 
+{ #category : #'dnd handlers' }
+ToAlbumPrimarySelectionElementEventHandler >> dragEvent: anEvent [
+
+	anEvent consumed: true
+]
+
+{ #category : #'dnd handlers' }
+ToAlbumPrimarySelectionElementEventHandler >> dragStartEvent: anEvent [
+
+	anEvent consumed: true
+]
+
 { #category : #'api - accessing' }
 ToAlbumPrimarySelectionElementEventHandler >> eventsToHandle [
 
 	^ {
+		  BlDragStartEvent.
+		  BlDragEvent.
 		  BlMouseDownEvent.
 		  BlMouseUpEvent.
 		  BlFocusEvent.
@@ -29,12 +46,11 @@ ToAlbumPrimarySelectionElementEventHandler >> focusEvent: anEvent [
 { #category : #'mouse handlers' }
 ToAlbumPrimarySelectionElementEventHandler >> mouseDownEvent: anEvent [
 
-	| target |
-	target := anEvent currentTarget.
-	target hasFocus 
-		ifTrue: [ target editorElement dispatchEvent: anEvent ]
-		ifFalse: [ target dispatchEvent: BlFocusEvent new].
-	
+	anEvent
+		  ifPrimary: [ self primaryMouseDownEvent: anEvent ]
+		  secondary: [ self secondaryMouseDownEvent: anEvent ]
+		  middle: [  ]
+		  other: [  ]
 ]
 
 { #category : #'mouse handlers' }
@@ -42,5 +58,27 @@ ToAlbumPrimarySelectionElementEventHandler >> mouseUpEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	target editorElement dispatchEvent: anEvent 
+	prevMouseDownEvent ifNotNil: [
+		prevMouseDownEvent consumed: false.
+		target editorElement dispatchEvent: prevMouseDownEvent.
+		"target editorElement dispatchEvent: anEvent."
+		prevMouseDownEvent := nil ]
+]
+
+{ #category : #'mouse handlers' }
+ToAlbumPrimarySelectionElementEventHandler >> primaryMouseDownEvent: anEvent [
+
+	| target |
+	target := anEvent currentTarget.
+	target hasFocus
+		ifTrue: [
+			anEvent consumed: true.
+			prevMouseDownEvent := anEvent "target editorElement dispatchEvent: anEvent" ]
+		ifFalse: [ target dispatchEvent: BlFocusEvent new ]
+]
+
+{ #category : #'mouse handlers' }
+ToAlbumPrimarySelectionElementEventHandler >> secondaryMouseDownEvent: anEvent [
+
+	
 ]

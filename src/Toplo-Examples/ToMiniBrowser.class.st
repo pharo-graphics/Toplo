@@ -29,7 +29,7 @@ ToMiniBrowser >> candidateProtocolsForClass: aClass [
 		         ifTrue: [
 			         aClass organization allProtocols select: [ :p |
 				         aClass isLocalMethodsProtocol: p ] ]
-		         ifFalse: [ aClass allProtocols ].
+		         ifFalse: [ aClass organization allProtocols ].
 	^ prots sort: [ :a :b | a name < b name ]
 ]
 
@@ -37,7 +37,7 @@ ToMiniBrowser >> candidateProtocolsForClass: aClass [
 ToMiniBrowser >> changeCodeInEditor [
 
 	| selected cls sel codeText |
-	selected := selectors data at: selectors primarySelectionIndexes anyOne.
+	selected := selectors data at: selectors selectedIndexes anyOne.
 	selected = selectedSelector ifTrue: [ ^ self ].
 	selectedSelector := selected.
 	cls := selectedSelector key.
@@ -53,8 +53,8 @@ ToMiniBrowser >> classSelectionChangedEvent: aToSelectionChanged [
 	| selectedClasses allProtocols |
 	protocols deselectAll.
 	protocols data removeAll.
-	selectedClasses := aToSelectionChanged newSelectedIndexes collect: [
-		                   :idx | classes data at: idx ].
+	selectedClasses := aToSelectionChanged currentIndexes collect: [ :idx |
+		                   classes data at: idx ].
 	allProtocols := Array streamContents: [ :stream |
 		                selectedClasses do: [ :cls |
 			                | side prots |
@@ -69,8 +69,7 @@ ToMiniBrowser >> classSelectionChangedEvent: aToSelectionChanged [
 
 	selectedClasses size > 1 ifTrue: [
 		allProtocols := self filteredProtocolsFrom: allProtocols ].
-	protocols data addAll: allProtocols.
-
+	protocols data addAll: allProtocols
 ]
 
 { #category : #accessing }
@@ -110,46 +109,53 @@ ToMiniBrowser >> initialize [
 
 	| classesPane classesButtonPane sideToggle |
 	super initialize.
-	
-	listsPane := ToPane new id: #listPane; margin: (BlInsets top: 0 bottom: 5).
+
+	listsPane := ToPane new
+		             id: #listPane;
+		             margin: (BlInsets top: 0 bottom: 5).
 	listsPane layout: (BlLinearLayout horizontal cellSpacing: 0).
 	listsPane matchParent.
-	
+
 	mainPane := ToPane new beVertical.
 	mainPane matchParent.
 
-	packages := ToListElement new 
-		id: #packages;
-		nodeBuilder: [ :node :holder | 
-			node addChild: (ToLabel new
-				text: holder data name;
-			 	hMatchParent;
-				yourself)].
+	packages := ToListElement new
+		            id: #packages;
+		            nodeBuilder: [ :node :holder |
+			            node addChild: (ToLabel new
+						             text: holder data name;
+						             defaultSkin: ToLabelInListSkin new;
+						             hMatchParent;
+						             yourself) ].
 
-	packages infinite when: ToListStrongSelectionEvent do: [ :event | event traceCr ].
+	packages infinite addEventHandler: (BlEventHandler
+			 on: ToListStrongSelectionEvent
+			 do: [ :event | event traceCr ]).
 
 	packages margin: (BlInsets all: 2).
 
-	"packages hasFixedSize: true."
-	"packages selectionStrategy beWithoutSelection."
-	"packages selectionStrategy beSingleSelection."
-	packages
-		infinite when: ToInfiniteSelectionChangedEvent
-		do: [ :event | self packageSelectionChangedEvent: event ].
+	packages infinite addEventHandler: (BlEventHandler
+			 on: ToInfiniteSelectionChangedEvent
+			 do: [ :event | self packageSelectionChangedEvent: event ]).
 	packages data addAll:
 		(RPackage organizer packages asSortedCollection: [ :p1 :p2 |
 			 p1 name < p2 name ]).
 
-	classes := ToListElement new 
-		id: #classes; 
-		nodeBuilder:  [  :node :holder | 
-			node addChild: (ToClassNameViewExample new class: holder data position: holder position; yourself) ].
+	classes := ToListElement new
+		           id: #classes;
+		           nodeBuilder: [ :node :holder |
+			           node addChild: (ToClassNameViewExample new
+						            class: holder data position: holder position;
+						            yourself) ].
 
-	classes infinite
-		when: ToInfiniteSelectionChangedEvent
-		do: [ :event | self classSelectionChangedEvent: event ].
+	classes infinite addEventHandler: (BlEventHandler
+			 on: ToInfiniteSelectionChangedEvent
+			 do: [ :event | self classSelectionChangedEvent: event ]).
 	classes data whenRemoveChangeDo: [ protocols data removeAll ].
-	classesPane := ToPane new id: #classesPane; beVertical; matchParent.
+	classesPane := ToPane new
+		               id: #classesPane;
+		               beVertical;
+		               matchParent.
 	classesPane margin: (BlInsets all: 2).
 	classesPane addChild: classes.
 	classesButtonPane := ToPane new
@@ -162,42 +168,53 @@ ToMiniBrowser >> initialize [
 	classesPane addChild: classesButtonPane.
 
 	sideToggle checked: self classSide.
-	sideToggle when: ToCheckableCheckEvent do: [ :event |
-		classes infinite dispatchSelectionChangedAfter: [ 
-			classSide := event current. 
-			classes deselectAll. ] ].
+	sideToggle addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :event |
+				 classes infinite dispatchSelectionChangedAfter: [
+					 classSide := event current.
+					 classes deselectAll ] ]).
 
-	protocols := ToListElement new id: #protocols; nodeBuilder: [  :node :holder | 
-			node addChild: (
-		             ToLabel new
-			             text: holder data value name;
-			             hMatchParent) ].
+	protocols := ToListElement new
+		             id: #protocols;
+		             nodeBuilder: [ :node :holder |
+			             node addChild: (ToLabel new
+						              text: holder data value name;
+						              defaultSkin: ToLabelInListSkin new;
+						              hMatchParent) ].
 	protocols margin: (BlInsets all: 2).
 
-	protocols infinite
-		when: ToInfiniteSelectionChangedEvent
-		do: [ :event | self protocolSelectionChangedEvent: event ].
+	protocols infinite addEventHandler: (BlEventHandler
+			 on: ToInfiniteSelectionChangedEvent
+			 do: [ :event | self protocolSelectionChangedEvent: event ]).
 	protocols data whenRemoveChangeDo: [ selectors data removeAll ].
 
-	selectors := ToListElement new id: #selectors; nodeBuilder: [:node :holder | 
-			node addChild: (
-		             ToLabel new
-			             text: holder data value asString;
-			             hMatchParent) ].
-	
+	selectors := ToListElement new
+		             id: #selectors;
+		             nodeBuilder: [ :node :holder |
+			             node addChild: (ToLabel new
+						              text: holder data value asString;
+						              defaultSkin: ToLabelInListSkin new;
+						              hMatchParent) ].
+
 	selectors margin: (BlInsets all: 2).
-	selectors
-		infinite when: ToInfiniteSelectionChangedEvent
-		do: [ :event | self selectorSelectionChangedEvent: event ].
+	selectors infinite addEventHandler: (BlEventHandler
+			 on: ToInfiniteSelectionChangedEvent
+			 do: [ :event | self selectorSelectionChangedEvent: event ]).
 	selectors data whenRemoveChangeDo: [ self clearCodeInEditor ].
 
 	"selectors hasFixedSize: true."
 
 	codePane := ToAlbum new withRowNumbers.
 	codePane styler: BlRBTextStyler new.
-	codePane margin: (BlInsets top: 8 left: 3 bottom: 3 right: 3).
+	codePane margin: (BlInsets
+			 top: 8
+			 left: 3
+			 bottom: 3
+			 right: 3).
 
-	codePane contextMenuBuilder: [ :codeMenu :element  | codeMenu addItem: (ToMenuItem new labelText: 'Accept') ].
+	codePane contextMenuBuilder: [ :codeMenu :element |
+		codeMenu addItem: (ToMenuItem new labelText: 'Accept') ].
 
 	"packages withRowNumbers.
 	classes withRowNumbers.
@@ -227,13 +244,13 @@ ToMiniBrowser >> packageSelectionChangedEvent: aToSelectionChanged [
 	| selectedPackages clsList |
 	classes deselectAll.
 	classes data removeAll.
-	selectedPackages := aToSelectionChanged newSelectedIndexes collect: [
+	selectedPackages := aToSelectionChanged currentIndexes collect: [
 		                    :idx | packages data at: idx ].
 	clsList := Array streamContents: [ :stream |
 		           selectedPackages do: [ :pkg |
 			           stream nextPutAll: pkg definedClasses ] ].
 	clsList := clsList asSortedCollection: [ :a :b | a name < b name ].
-	classes data addAll: clsList	
+	classes data addAll: clsList
 ]
 
 { #category : #initialization }
@@ -242,7 +259,7 @@ ToMiniBrowser >> protocolSelectionChangedEvent: aToSelectionChanged [
 	| selectedProtocols |
 	selectors deselectAll.
 	selectors data removeAll.
-	selectedProtocols := aToSelectionChanged newSelectedIndexes collect: [
+	selectedProtocols := aToSelectionChanged currentIndexes collect: [
 		                     :idx | protocols data at: idx ].
 	selectedProtocols do: [ :assoc |
 		selectors data addAll:
@@ -253,6 +270,7 @@ ToMiniBrowser >> protocolSelectionChangedEvent: aToSelectionChanged [
 { #category : #initialization }
 ToMiniBrowser >> selectorSelectionChangedEvent: aToSelectionChanged [
 
-	aToSelectionChanged newSelectedIndexes size = 1 ifTrue: [ ^ self changeCodeInEditor ].
+	aToSelectionChanged currentIndexes size = 1 ifTrue: [
+		^ self changeCodeInEditor ].
 	self clearCodeInEditor
 ]

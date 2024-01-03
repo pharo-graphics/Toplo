@@ -189,7 +189,7 @@ ToSkinStateGenerator >> generateDragStartedStateFromEvent: anEvent [
 { #category : #'state generating' }
 ToSkinStateGenerator >> generateDraggedStateFromEvent: anEvent [
 
-	target addSkinStateGeneration: [
+	target addDraggedSkinStateGeneration: [
 		self dragged ifTrue: [
 			self enqueueTransientStateFromLookEvent:
 				(ToDraggedLookEvent sourceEvent: anEvent) ] ]

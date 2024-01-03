@@ -6,10 +6,22 @@ Class {
 		'allowSkinPhases',
 		'spaceShownEventHandler',
 		'needSkinInstallPass',
-		'skinStateGenerationList'
+		'skinStateGenerator'
 	],
 	#category : #'Toplo-Core-SpaceFrame'
 }
+
+{ #category : #adding }
+ToSpaceSkinPhasesManager >> addDraggedSkinStateGeneration: aValuable [
+
+	self skinStateGenerator addDraggedSkinStateGeneration: aValuable
+]
+
+{ #category : #adding }
+ToSpaceSkinPhasesManager >> addSkinStateGeneration: aValuable [
+
+	self skinStateGenerator addGeneration: aValuable
+]
 
 { #category : #accessing }
 ToSpaceSkinPhasesManager >> allowSkinPhases [
@@ -62,7 +74,8 @@ ToSpaceSkinPhasesManager >> initialize [
 	super initialize.
 	skinPhasesInstalled := false.
 	allowSkinPhases := true.
-	needSkinInstallPass := true
+	needSkinInstallPass := true.
+	skinStateGenerator := ToSpaceSkinStateGenerator new
 ]
 
 { #category : #'phases installation' }
@@ -151,8 +164,7 @@ ToSpaceSkinPhasesManager >> postponeStartSkinPhasesIn: aSpace [
 { #category : #'phases application' }
 ToSpaceSkinPhasesManager >> runStatesGeneration [
 
-	self skinStateGenerationList do: #value.
-	self skinStateGenerationList reset
+	self skinStateGenerator run
 ]
 
 { #category : #accessing }
@@ -168,9 +180,9 @@ ToSpaceSkinPhasesManager >> skinPhasesInstalled: aBoolean [
 ]
 
 { #category : #accessing }
-ToSpaceSkinPhasesManager >> skinStateGenerationList [
+ToSpaceSkinPhasesManager >> skinStateGenerator [
 
-	^ skinStateGenerationList ifNil: [ skinStateGenerationList := OrderedCollection new ]
+	^ skinStateGenerator
 ]
 
 { #category : #'phases installation' }

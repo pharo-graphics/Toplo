@@ -13,6 +13,12 @@ BlElement >> addAllTokenProperties: aTokenPropertyCollection [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> addDraggedSkinStateGeneration: aValuable [
+
+	self skinManager addDraggedSkinStateGeneration: aValuable for: self
+]
+
+{ #category : #'*Toplo' }
 BlElement >> addSkinStateGeneration: aValuable [
 
 	self skinManager addSkinStateGeneration: aValuable for: self

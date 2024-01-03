@@ -95,6 +95,12 @@ BlElement >> borderBuilder [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> defaultRawSkin: aSkin [
+
+	self skinManager defaultRawSkin: aSkin in: self
+]
+
+{ #category : #'*Toplo' }
 BlElement >> defaultSkin [
 
 	^ self skinManager defaultSkinIn: self

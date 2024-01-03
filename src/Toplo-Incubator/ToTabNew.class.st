@@ -9,7 +9,7 @@ Class {
 		'pageBuilder',
 		'buttonBuilder'
 	],
-	#category : 'Toplo-Incubator'
+	#category : #'Toplo-Incubator'
 }
 
 { #category : #accessing }
@@ -32,7 +32,7 @@ ToTabNew >> closable: aBoolean [
 		ifTrue: [
 			| but |
 			but := ToButton new.
-			but defaultSkin: ToTabInnerCloseButtonSkin new.
+			but defaultRawSkin: ToTabInnerCloseButtonSkin new.
 			but icon: (ToImage inner: (Smalltalk ui icons iconNamed: #windowClose)).
 			but constraintsDo: [ :c | c linear vertical alignCenter ].
 			but when: BlClickEvent do: [ :event | event currentTarget removeFromParent ].

@@ -124,7 +124,7 @@ ToMiniBrowser >> initialize [
 		            nodeBuilder: [ :node :holder |
 			            node addChild: (ToLabel new
 						             text: holder data name;
-						             defaultSkin: ToLabelInListSkin new;
+						             defaultRawSkin: ToLabelInListSkin new;
 						             hMatchParent;
 						             yourself) ].
 
@@ -180,7 +180,7 @@ ToMiniBrowser >> initialize [
 		             nodeBuilder: [ :node :holder |
 			             node addChild: (ToLabel new
 						              text: holder data value name;
-						              defaultSkin: ToLabelInListSkin new;
+						              defaultRawSkin: ToLabelInListSkin new;
 						              hMatchParent) ].
 	protocols margin: (BlInsets all: 2).
 
@@ -194,7 +194,7 @@ ToMiniBrowser >> initialize [
 		             nodeBuilder: [ :node :holder |
 			             node addChild: (ToLabel new
 						              text: holder data value asString;
-						              defaultSkin: ToLabelInListSkin new;
+						              defaultRawSkin: ToLabelInListSkin new;
 						              hMatchParent) ].
 
 	selectors margin: (BlInsets all: 2).

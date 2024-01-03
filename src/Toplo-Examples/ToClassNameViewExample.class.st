@@ -14,7 +14,7 @@ ToClassNameViewExample >> class: aClass position: anInteger [
 			 interspace: 10;
 			 background: (self colorFor: anInteger);
 			 icon: (self iconFor: aClass);
-			 label: (ToLabel new text: aClass name; defaultSkin: ToLabelInListSkin new; yourself);
+			 label: (ToLabel new text: aClass name; defaultRawSkin: ToLabelInListSkin new; yourself);
 			 yourself)
 ]
 

@@ -291,9 +291,22 @@ ToTheme class >> variant: aThemeVariant [
 ]
 
 { #category : #accessing }
+ToTheme >> defaultSkinFor: anElement [
+
+	anElement setUpForTheme: self.
+	^ self expectedDefaultSkinFor: anElement
+]
+
+{ #category : #accessing }
 ToTheme >> defaultTokenProperties [
 
 	^ self class defaultTokenProperties
+]
+
+{ #category : #accessing }
+ToTheme >> expectedDefaultSkinFor: anElement [
+
+	^ anElement skinManager expectedDefaultSkin
 ]
 
 { #category : #accessing }

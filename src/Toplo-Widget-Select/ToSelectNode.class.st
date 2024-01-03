@@ -16,7 +16,7 @@ ToSelectNode >> addRemoveButton [
 
 	| but | 
 	but := ToButton new.
-	but defaultSkin: ToSelectNodeInnerCloseButtonSkin new.
+	but defaultRawSkin: ToSelectNodeInnerCloseButtonSkin new.
 	but icon:	(ToImage inner: (Smalltalk ui icons iconNamed: #windowClose)).
 	but constraintsDo: [ :c | c linear vertical alignCenter ].
 	but addEventHandler: (BlEventHandler

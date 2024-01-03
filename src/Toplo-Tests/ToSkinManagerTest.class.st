@@ -4,7 +4,7 @@ A ToThemeManagerTest is a test class for testing the behavior of ToThemeManager
 Class {
 	#name : #ToSkinManagerTest,
 	#superclass : #ToTestCaseWithSpace,
-	#category : 'Toplo-Tests-Core-Theme'
+	#category : #'Toplo-Tests-Core-Theme'
 }
 
 { #category : #tests }
@@ -82,7 +82,8 @@ ToSkinManagerTest >> testBorderBuilder [
 ToSkinManagerTest >> testDefaultSkinIn [
 
 	| e sk |
-	e := ToElement new. 
+	e := ToElement new.
+	space root addChild: e.
 	e defaultSkin: (sk := ToRawSkin new).
 	self assert: e defaultSkin identicalTo: sk.
 	self assert: (e skinManager defaultSkinIn: e) identicalTo: sk.
@@ -149,7 +150,8 @@ ToSkinManagerTest >> testInstallSkinIn2 [
 ToSkinManagerTest >> testInstalledSkin [
 
 	| e sk |
-	e := ToElement new. 
+	e := ToElement new.
+	space root addChild: e.
 	e defaultSkin: (sk := ToRawSkin new).
 	self assert: e defaultSkin identicalTo: sk.
 	self assert: (e skinManager defaultSkinIn: e) identicalTo: sk.
@@ -490,8 +492,8 @@ ToSkinManagerTest >> testSetSkinIn [
 	| e sk |
 	e := ToElement new. 
 	e skinManager setSkin: (sk := ToRawSkin new) in: e.
-	self assert: e defaultSkin identicalTo: sk.
-	self assert: (e skinManager defaultSkinIn: e) identicalTo: sk.
+	self assert: e skinManager expectedDefaultSkin identicalTo: sk.
+	self should: [ e skinManager defaultSkinIn: e ] raise: Error.
 	self assert: e installedSkin isNil.
 	self assert: e skinManager installedSkin isNil.
 	self deny: e skinManager skinUninstaller notNil.

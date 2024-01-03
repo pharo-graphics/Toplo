@@ -14,9 +14,10 @@ Class {
 		'textAttributesBuilder',
 		'skinManagementEventHandler',
 		'skinInstallRequestCount',
-		'applySkinInstallerOnFirstRequest'
+		'applySkinInstallerOnFirstRequest',
+		'defaultRawSkin'
 	],
-	#category : 'Toplo-Core-Theme'
+	#category : #'Toplo-Core-Theme'
 }
 
 { #category : #'skin application' }
@@ -74,6 +75,15 @@ ToSkinManager >> borderBuilder [
 ]
 
 { #category : #'accessing - skin' }
+ToSkinManager >> defaultRawSkin: aSkin in: anElement [
+
+	defaultRawSkin = aSkin ifTrue: [ ^ self ].
+	skinInstallRequestCount := 0.
+	self setRawSkin: aSkin in: anElement
+
+]
+
+{ #category : #'accessing - skin' }
 ToSkinManager >> defaultSkin: aSkin in: anElement [
 
 	defaultSkin = aSkin ifTrue: [ ^ self ].
@@ -84,8 +94,21 @@ ToSkinManager >> defaultSkin: aSkin in: anElement [
 
 { #category : #'accessing - skin' }
 ToSkinManager >> defaultSkinIn: anElement [
+	| theme |
+	theme :=  anElement toTheme.
+	^ (theme defaultSkinFor: anElement) ifNil: [ theme newSkinFor: anElement ]
+]
 
-	^ defaultSkin ifNil: [ anElement toTheme newSkinFor: anElement ]
+{ #category : #'accessing - skin' }
+ToSkinManager >> expectedDefaultRawSkin [
+
+	^ defaultRawSkin
+]
+
+{ #category : #'accessing - skin' }
+ToSkinManager >> expectedDefaultSkin [
+
+	^ defaultSkin
 ]
 
 { #category : #testing }
@@ -199,6 +222,14 @@ ToSkinManager >> requestUninstallSkinIn: anElement [
 	(installer notNil and: [ installer isInstalling ]) ifTrue: [ ^ self ].
 	self skinUninstaller ifNotNil: [ ^ self ].
 	self skinUninstaller: ToSkinUninstaller new in: anElement
+]
+
+{ #category : #'accessing - skin' }
+ToSkinManager >> setRawSkin: aSkin in: anElement [
+
+	anElement requestUninstallSkin.
+	defaultRawSkin := aSkin.
+	anElement requestInstallSkin
 ]
 
 { #category : #'accessing - skin' }

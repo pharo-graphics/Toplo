@@ -1,7 +1,7 @@
 Class {
 	#name : #ToRawTheme,
 	#superclass : #ToTheme,
-	#category : 'Toplo-Core-Theme'
+	#category : #'Toplo-Core-Theme'
 }
 
 { #category : #testing }
@@ -20,6 +20,13 @@ ToRawTheme class >> label [
 ToRawTheme class >> supportedVariantClasses [
 
 	^ { ToThemeDarkVariant. ToThemeLightVariant }
+]
+
+{ #category : #accessing }
+ToRawTheme >> expectedDefaultSkinFor: anElement [
+
+	^ anElement skinManager expectedDefaultRawSkin ifNil: [
+		  super expectedDefaultSkinFor: anElement ]
 ]
 
 { #category : #accessing }

@@ -983,7 +983,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 		| lab t |
 		t := holder data.
 		lab := ToLabel text: t.
-		lab defaultSkin: ToLabelInListSkin new.
+		lab defaultRawSkin: ToLabelInListSkin new.
 		lab beMultiLine.
 		lab beEditable.
 		lab stillPressedStartDelay: 800 milliSeconds.
@@ -1953,17 +1953,17 @@ ToSandBox class >> example_contactList [
 		line := ToPane horizontal.
 		line addChild: (ToLabel new
 				 text: holder data name;
-				 defaultSkin: ToLabelInListSkin new;
+				 defaultRawSkin: ToLabelInListSkin new;
 				 width: 100;
 				 margin: (BlInsets right: 10)).
 		line addChild: (ToLabel new
 				 text: holder data phoneNumber;
-				 defaultSkin: ToLabelInListSkin new;
+				 defaultRawSkin: ToLabelInListSkin new;
 				 width: 100;
 				 margin: (BlInsets right: 10)).
 		line addChild: (ToLabel new
 				 text: holder data address;
-				 defaultSkin: ToLabelInListSkin new;
+				 defaultRawSkin: ToLabelInListSkin new;
 				 width: 200;
 				 margin: (BlInsets right: 10)).
 		line addChild: ToElement new matchParent.

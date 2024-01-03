@@ -1013,7 +1013,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 	menuFactory := [ :menu :request |
 	               | selectedIndexes target |
 	               target := request currentTarget.
-	               selectedIndexes := request selectionIndexes.
+	               selectedIndexes := request selectedIndexes.
 	               menu addItem: (ToMenuItem new
 			                labelText: 'Add initial Items';
 			                whenClickedDo: [ :event |
@@ -2303,21 +2303,6 @@ ToSandBox class >> example_scaledImage [
 ]
 
 { #category : #select }
-ToSandBox class >> example_selectReadOnly [
-
-	| select innerWindow |
-	select := ToSelect new.
-	"select placeholderText: ('Select a state' asRopedText foreground: Color lightGray). "
-	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
-	select hMatchParent.
-	select position: 0@50.
-	select data addAll: self statesOfAmerica.
-	innerWindow pane addChild: select.
-	innerWindow openInSpace
-]
-
-{ #category : #select }
 ToSandBox class >> example_selectWith5Nodes [
 
 	| select innerWindow |
@@ -2329,6 +2314,40 @@ ToSandBox class >> example_selectWith5Nodes [
 	select data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	innerWindow pane addChild: select.
 	innerWindow openInSpace 
+]
+
+{ #category : #select }
+ToSandBox class >> example_selectWithEditingMultiSelection [
+
+	| select innerWindow |
+	select := ToSelect new.
+	"select placeholderText: ('Select a state' asRopedText foreground: Color lightGray). "
+	innerWindow := ToInnerWindow new.
+	select windowManager anchorRoot: innerWindow root.
+	select hMatchParent.
+	select data addAll: self statesOfAmerica.
+
+	select textField addEventHandler: (BlEventHandler
+			 on: ToAlbumSaveAcceptedEvent
+			 do: [ :event |
+				 | target v idx |
+				 target := select.
+				 v := event client text asString.
+				 event client text: ''.
+				 target data addFirst: v.
+				 idx := target data indexOf: v.
+				target data size trace. ' ' trace. idx traceCr.
+				 target selectIndexes: { idx } ]).
+
+	select textField addEventHandler: (BlEventHandler
+			 on: ToAlbumSaveRequestedEvent
+			 do: [ :event |
+				 event validated:
+					 (select data includes: event client text asString)
+						 not ]).
+
+	innerWindow pane addChild: select.
+	innerWindow openInSpace
 ]
 
 { #category : #space }

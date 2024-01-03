@@ -30,8 +30,7 @@ ToPopupWindowManager >> defaultAutoCloseOnMouseUpDelay [
 ToPopupWindowManager >> defaultPositionHook [
 
 	^ [ :window :theElement :event |
-	  window position:
-		  (theElement bounds inParent: self anchorRoot) bounds bottomLeft ]
+	  window position: (theElement bounds inParent: self anchorRoot) bounds bottomLeft ]
 ]
 
 { #category : #accessing }

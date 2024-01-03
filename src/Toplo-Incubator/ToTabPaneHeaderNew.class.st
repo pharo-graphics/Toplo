@@ -29,7 +29,7 @@ ToTabPaneHeaderNew >> beVertical [
 { #category : #'tabs selection' }
 ToTabPaneHeaderNew >> dataEmptinessChangeEvent: anEvent [
 
-	self tabs selectionIndexes ifEmpty: [ self selectIndex: 1 ]
+	self tabs selectedIndexes ifEmpty: [ self selectIndex: 1 ]
 ]
 
 { #category : #initialization }

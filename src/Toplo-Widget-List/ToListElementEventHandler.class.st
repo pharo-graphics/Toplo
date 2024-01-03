@@ -66,5 +66,8 @@ ToListElementEventHandler >> infiniteSelectionChangedEvent: anEvent [
 { #category : #'mouse handlers' }
 ToListElementEventHandler >> mouseDownEvent: anEvent [
 
-	anEvent currentTarget infinite requestFocus
+	| target |
+	target := anEvent currentTarget.
+	target requestFocusOnMouseDown ifFalse: [ ^ self ].
+	target requestFocus
 ]

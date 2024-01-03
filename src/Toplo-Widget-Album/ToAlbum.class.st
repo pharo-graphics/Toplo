@@ -128,12 +128,30 @@ ToAlbum >> requestCancel [
 	self dispatchEvent: (ToAlbumCancelRequestedEvent new client: self)
 ]
 
+{ #category : #'focus requesting' }
+ToAlbum >> requestFocus [
+
+	self infinite requestFocus 
+]
+
 { #category : #'transaction hook' }
 ToAlbum >> requestSave [
 
-	self dispatchEvent: (ToAlbumSaveRequestedEvent new
+	| request answer |
+	request := ToAlbumSaveRequestedEvent new
+		           client: self;
+		           unacceptedEdits: self edited;
+		           yourself.
+
+	self dispatchEvent: request.
+	self edited: request validated not.
+
+	answer := request validated
+		          ifTrue: [ ToAlbumSaveAcceptedEvent new ]
+		          ifFalse: [ ToAlbumSaveDeniedEvent new ].
+
+	self dispatchEvent: (answer
 			 client: self;
-			 unacceptedEdits: self edited ;
 			 yourself)
 ]
 
@@ -147,6 +165,9 @@ ToAlbum >> requestTextStyle [
 ToAlbum >> saveResult: aBoolean [
 
 	| event |
+	
+	self deprecated: 'Send #validated: to the event instead '.
+	
 	self edited: aBoolean not.
 	event := aBoolean
 		         ifTrue: [ ToAlbumSaveAcceptedEvent new ]

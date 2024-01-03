@@ -315,7 +315,7 @@ ToInfiniteElement >> offsetPositionRecordsForInsert: aStartPosition itemCount: a
 	super
 		offsetPositionRecordsForInsert: aStartPosition
 		itemCount: anItemCount.
-
+		
 	self dispatchSelectionChangedAfter: [
 		self primarySelection
 			offsetPositionForInsert: aStartPosition + anItemCount - 1
@@ -347,8 +347,6 @@ ToInfiniteElement >> onClickOnNodeEvent: anEvent [
 
 	| originalEvent |
 	originalEvent := anEvent event.
-
-	self hasFocus ifFalse: [ self requestFocus ].
 
 	self primarySelection multipleSelectionModeDo: [
 		originalEvent modifiers isShift ifTrue: [
@@ -501,19 +499,13 @@ ToInfiniteElement >> selectedIndex [
 { #category : #accessing }
 ToInfiniteElement >> selectedIndexes [
 
-	^ self selectionIndexes 
+	^ self selectionStrategy selectedIndexes
 ]
 
 { #category : #accessing }
 ToInfiniteElement >> selection [
 
 	^ self selectionStrategy
-]
-
-{ #category : #accessing }
-ToInfiniteElement >> selectionIndexes [
-
-	^ self selection selectedIndexes
 ]
 
 { #category : #accessing }

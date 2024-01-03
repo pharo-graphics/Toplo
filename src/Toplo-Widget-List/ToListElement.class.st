@@ -4,7 +4,8 @@ Class {
 	#traits : 'TToListElementDecorator + TToElementWithPlaceholder',
 	#classTraits : 'TToListElementDecorator classTrait + TToElementWithPlaceholder classTrait',
 	#instVars : [
-		'selectionElements'
+		'selectionElements',
+		'requestFocusOnMouseDown'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -69,6 +70,7 @@ ToListElement >> initialize [
 
 	| sharedDistributor |
 	super initialize.
+	requestFocusOnMouseDown := true.
 
 	selectionElements := #(  ).
 	self layout: self defaultLayout.
@@ -126,6 +128,24 @@ ToListElement >> newRawSkin [
 ToListElement >> placeholderElevation [
 
 	^ self infinite elevation
+]
+
+{ #category : #'focus requesting' }
+ToListElement >> requestFocus [
+
+	self infinite requestFocus
+]
+
+{ #category : #accessing }
+ToListElement >> requestFocusOnMouseDown [
+
+	^ requestFocusOnMouseDown 
+]
+
+{ #category : #accessing }
+ToListElement >> requestFocusOnMouseDown: aBoolean [
+
+	requestFocusOnMouseDown := aBoolean
 ]
 
 { #category : #accessing }

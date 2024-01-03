@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'contextMenuSelection'
 	],
-	#category : 'Toplo-Widget-List-Context-menu'
+	#category : #'Toplo-Widget-List-Context-menu'
 }
 
 { #category : #'selection managing' }
@@ -80,16 +80,16 @@ ToListElementContextMenuSelectionEventHandler >> listElementContextMenuRequest: 
 	pos := infinite globalPointToLocal: anEvent sourceEvent position.
 	targetChildren := (infinite withAllChildrenAt: pos) allButLast.
 
-	anEvent selectionIndexes: #(  ).
+	anEvent selectedIndexes: #(  ).
 
 	targetChildren ifEmpty: [ ^ self ].
 	childNode := targetChildren last.
 
 	childNode holder isSelected
-		ifTrue: [ self contextMenuSelection selectIndexes: target selectionIndexes ]
+		ifTrue: [ self contextMenuSelection selectIndexes: target selectedIndexes ]
 		ifFalse: [ self contextMenuSelection selectIndex: childNode holder position ].
 
-	anEvent selectionIndexes: self secondarySelectionIndexes.
+	anEvent selectedIndexes: self secondarySelectionIndexes.
 
 	target dispatchEvent:
 		(ToListElementContextMenuSelectionChangedEvent new

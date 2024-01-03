@@ -61,26 +61,39 @@ ToSelect >> iconContainer [
 { #category : #initialization }
 ToSelect >> initialize [
 
+	| sharedDistributor |
 	super initialize.
 	self fitContent.
 	self layout beHorizontal.
 	nodeClass := self defaultNodeClass.
 	nodeHolders := OrderedCollection new.
 	nodeBuilder := self defaultNodeBuilder.
-	
+
 	" the element that holds the flow"
 	contentElement := self newContentElement.
 	" the flow element taht contains nodes + the text field "
 	selectFlow := self newSelectFlow.
 	" the text field for the select input "
 	selectTextField := self newSelectTextField.
+	selectTextField requestFocus.
+	sharedDistributor := BlSharedEventDistributor new.
+	sharedDistributor
+		adjustMousePosition: false;
+		shareEvents: { ToAlbumClientEvent }.
+	"selectTextField addEventHandler: sharedDistributor.
+	self addEventHandler: sharedDistributor."
 
 	selectFlow addChild: selectTextField.
 	contentElement addChild: selectFlow.
 
 	iconContainer := self newIconContainer.
-	self addChildren: { contentElement. iconContainer }.
-	windowManager := ToSelectWindowManager new element: self
+	self addChildren: {
+			contentElement.
+			iconContainer }.
+
+	windowManager := ToSelectWindowManager new element: self.
+	
+
 ]
 
 { #category : #accessing }
@@ -89,7 +102,7 @@ ToSelect >> listElement [
 	^ self windowManager listElement
 ]
 
-{ #category : #'t - infinite accessing' }
+{ #category : #'accessing list' }
 ToSelect >> listNodeBuilder: aNodeFactory [
 
 	self listElement nodeBuilder: aNodeFactory
@@ -155,6 +168,9 @@ ToSelect >> newSelectTextField [
 		  hFitContent;
 		  id: #'select-content-textField';
 		  constraintsDo: [ :c | c flow vertical alignCenter ];
+		  withSaveCapability;
+		  withoutEditsFeedback;
+		  defaultRawSkin: ToSelectTextFieldSkin new;
 		  yourself
 ]
 
@@ -201,7 +217,7 @@ ToSelect >> nodeHolders [
 ]
 
 { #category : #'accessing selection' }
-ToSelect >> selectIndexes: aCollectionOfInteger [
+ToSelect >> onIndexesSelectedInList: aCollectionOfInteger [
 
 	selectFlow childrenDo: [ :child |
 		child ~= selectTextField ifTrue: [ child removeFromParent ] ].
@@ -219,6 +235,30 @@ ToSelect >> selectIndexes: aCollectionOfInteger [
 			data: (self data at: idx).
 		self nodeBuilder value: node value: holder.
 		selectFlow addChild: node before: selectTextField ]
+]
+
+{ #category : #'accessing list' }
+ToSelect >> onListCloseRequest [
+
+	self textField requestFocus
+]
+
+{ #category : #'accessing selection' }
+ToSelect >> selectIndexes: aCollectionOfInteger [
+
+	self listElement selectIndexes: aCollectionOfInteger
+]
+
+{ #category : #'accessing selection' }
+ToSelect >> selectedIndexes [
+
+	^ self listElement selectedIndexes
+]
+
+{ #category : #accessing }
+ToSelect >> textField [
+
+	^ selectTextField 
 ]
 
 { #category : #accessing }

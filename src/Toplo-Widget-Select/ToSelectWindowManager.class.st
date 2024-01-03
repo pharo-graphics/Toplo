@@ -21,10 +21,17 @@ ToSelectWindowManager >> defaultMaxHeight [
 ]
 
 { #category : #initialization }
+ToSelectWindowManager >> defaultPositionHook [
+
+	^ [ :window :theElement :event |
+	  window position: (theElement bounds inParent: self anchorRoot) bounds bottomLeft + (4 @ 4) ]
+]
+
+{ #category : #initialization }
 ToSelectWindowManager >> defaultSizeHook [
 
 	^ [ :theWindow :theElement :event |
-	  theWindow width: theElement measuredWidth  ]
+	  theWindow width: theElement measuredWidth - 8 ]
 ]
 
 { #category : #accessing }
@@ -34,20 +41,23 @@ ToSelectWindowManager >> elementEventHandlerClass [
 ]
 
 { #category : #initialization }
-ToSelectWindowManager >> initialize [ 
+ToSelectWindowManager >> initialize [
 
 	super initialize.
 	maxHeight := self defaultMaxHeight.
-	listElement := ToListElement new vFitContent; hMatchParent.
+	listElement := ToListElement new
+		               vFitContent;
+		               hMatchParent.
+	listElement requestFocusOnMouseDown: false.
 	listElement infinite maxHeight: self maxHeight.
 	listElement infinite vFitContent.
 	listElement addEventHandler: (BlEventHandler
 			 on: ToListSelectionChangedEvent
-			 do: [ :evt | evt sendTo: self  ]).
-	self builder: [ :selectWin :request | 
+			 do: [ :evt | evt sendTo: self ]).
+	self builder: [ :selectWin :request |
 		selectWin root hMatchParent.
 		selectWin root vFitContent.
-		selectWin root addChild: self listElement ]	
+		selectWin root addChild: self listElement ]
 ]
 
 { #category : #accessing }
@@ -59,7 +69,7 @@ ToSelectWindowManager >> listElement [
 { #category : #'element handlers' }
 ToSelectWindowManager >> listSelectionChangedEvent: anEvent [
 
-	self element selectIndexes: anEvent currentIndexes
+	self element onIndexesSelectedInList: anEvent currentIndexes
 ]
 
 { #category : #accessing }
@@ -79,7 +89,7 @@ ToSelectWindowManager >> onCloseRequest [
 
 	super onCloseRequest.
 	" if case one of my children has focus "
-	self element requestFocus.
+	self element onListCloseRequest.
 
 
 ]

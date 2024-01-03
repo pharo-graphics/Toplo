@@ -36,11 +36,11 @@ ToListNodeEventHandler >> launchClick: aBlock event: anEvent for: anElement [
 
 	infinite := anElement holder infiniteElement.
 		
-	infinite isFocused ifFalse: [
+	"infinite isFocused ifFalse: [
 		infinite hasSelection ifTrue: [
 			infinite preserveSelectionOnFocused ifTrue: [
 				infinite requestFocus.
-				^ self ] ] ].
+				^ self ] ] ]."
 
 	" do not try double click if ctrl or Cmd or shift is pressed "
 	(anElement holder isSelected not or: [

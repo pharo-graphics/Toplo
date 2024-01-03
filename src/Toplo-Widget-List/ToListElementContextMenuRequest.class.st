@@ -2,21 +2,21 @@ Class {
 	#name : #ToListElementContextMenuRequest,
 	#superclass : #ToContextMenuRequest,
 	#instVars : [
-		'selectionIndexes'
+		'selectedIndexes'
 	],
-	#category : 'Toplo-Widget-List-Context-menu'
+	#category : #'Toplo-Widget-List-Context-menu'
 }
 
 { #category : #accessing }
-ToListElementContextMenuRequest >> selectionIndexes [
+ToListElementContextMenuRequest >> selectedIndexes [
 
-	^ selectionIndexes
+	^ selectedIndexes
 ]
 
 { #category : #accessing }
-ToListElementContextMenuRequest >> selectionIndexes: aCollection [
+ToListElementContextMenuRequest >> selectedIndexes: aCollection [
 
-	selectionIndexes := aCollection
+	selectedIndexes := aCollection
 ]
 
 { #category : #sending }

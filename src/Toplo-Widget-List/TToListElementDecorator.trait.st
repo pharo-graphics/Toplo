@@ -3,7 +3,7 @@ Trait {
 	#instVars : [
 		'next'
 	],
-	#category : 'Toplo-Widget-List-Core'
+	#category : #'Toplo-Widget-List-Core'
 }
 
 { #category : #'t - selection mode changing' }
@@ -157,15 +157,15 @@ TToListElementDecorator >> selectAndScrollTo: anInteger [
 ]
 
 { #category : #'t - accessing selection' }
-TToListElementDecorator >> selectIndex: anInteger [
-
-	self next selectIndex: anInteger
-]
-
-{ #category : #'t - accessing selection' }
 TToListElementDecorator >> selectIndexes: aCollection [
 
 	self next selectIndexes: aCollection
+]
+
+{ #category : #'t - accessing selection' }
+TToListElementDecorator >> selectOnlyIndex: anIndex [
+
+	self next selectOnlyIndex: anIndex
 ]
 
 { #category : #'t - accessing selection' }
@@ -184,12 +184,6 @@ TToListElementDecorator >> selectedIndexes [
 TToListElementDecorator >> selection [
 
 	^ self next selection
-]
-
-{ #category : #'t - accessing selection' }
-TToListElementDecorator >> selectionIndexes [
-
-	^ self next selectionIndexes
 ]
 
 { #category : #'t - infinite accessing' }

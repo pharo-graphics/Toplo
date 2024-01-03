@@ -1812,7 +1812,7 @@ ToSandBox class >> example_choiceButtonWithPlaceholder [
 	choice withUncheckingStrategy.
 	choice data addAll: { 'OS-X'. 'Windows'. 'Linux' }.
 	choice defaultLabel:
-		(ToLabel text: ('Invalid choice' asRopedText
+		(ToAttributedLabel text: ('Invalid choice' asRopedText
 				  foreground: Color red;
 				  yourself)) withoutSkin.
 	win pane addChild: choice.
@@ -2041,9 +2041,9 @@ ToSandBox class >> example_lookEventTrace [
 	but := ToButton new.
 	but icon: (ToImage new innerImage: (self iconNamed: #solidMenu)).
 	but label: (ToLabel text: 'Button with label').
-	but
-		when: ToElementLookEvent
-		do: [ :evt | evt target = but ifTrue: [ evt traceCr ] ].
+	but addEventHandler: (BlEventHandler
+			 on: ToElementLookEvent
+			 do: [ :evt | evt target = but ifTrue: [ evt traceCr ] ]).
 	but stillPressedStartDelay: 3000 milliSeconds.
 	but inspect.
 	but openInSpace
@@ -2577,7 +2577,7 @@ ToSandBox class >> example_textFields [
 	| pane |
 	pane := ToPane vertical.
 	pane matchParent.
-	10 timesRepeat: [ pane addChild: (ToTextField new text: 'AAAA') ].
+	10 timesRepeat: [ pane addChild: (ToTextField new text: (String loremIpsum: 50) ) ].
 	10 timesRepeat: [ pane addChild: (ToTextField new) ].
 	pane openInSpace
 ]

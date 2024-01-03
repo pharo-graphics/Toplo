@@ -45,6 +45,8 @@ ToSkinStateGeneratorTest >> testGenerateCheckStateFromEvent [
 	self assert: nextStates size equals: nextStatesSize.
 
 	e dispatchEvent: evt.
+	self assert: nextStates size equals: nextStatesSize.
+	e space runStatesGeneration.
 	self assert: nextStates size equals: nextStatesSize + 1.
 
 	nextStatesSize := nextStates size.
@@ -54,6 +56,7 @@ ToSkinStateGeneratorTest >> testGenerateCheckStateFromEvent [
 		       previous: true;
 		       yourself.
 	e dispatchEvent: evt.
+	e space runStatesGeneration.
 	
 	" no changed since the element is in the same state (2 successives uncheck) "
 	self assert: nextStates size equals: nextStatesSize + 1.
@@ -63,6 +66,7 @@ ToSkinStateGeneratorTest >> testGenerateCheckStateFromEvent [
 		       previous: false;
 		       yourself.
 	e dispatchEvent: evt.
+	e space runStatesGeneration.
 	self assert: nextStates size equals: nextStatesSize + 2.
 
 
@@ -80,6 +84,7 @@ ToSkinStateGeneratorTest >> testGenerateClickedStateFromEvent [
 
 	self assert: nextStates size equals: 0.
 	e dispatchEvent: evt.
+	e space runStatesGeneration.
 	self assert: nextStates size equals: 1.
 
 
@@ -87,6 +92,7 @@ ToSkinStateGeneratorTest >> testGenerateClickedStateFromEvent [
 		       BlMouseButton primary.
 
 	e dispatchEvent: evt.
+	e space runStatesGeneration.
 	self assert: nextStates size equals: 2
 ]
 
@@ -102,16 +108,19 @@ ToSkinStateGeneratorTest >> testGenerateHoveredStateFromEvent [
 
 	self assert: nextStates size equals: 0.
 	e dispatchEvent: evt.
+	e space runStatesGeneration.
 	self assert: nextStates size equals: 1.
 
 	evt := BlMouseEnterEvent new.
 
 	e dispatchEvent: evt.
+	e space runStatesGeneration.
 	self assert: nextStates size equals: 2.
 
 	evt := BlMouseLeaveEvent new.
 
 	e dispatchEvent: evt.
+	e space runStatesGeneration.
 
 	self assert: nextStates size equals: 3
 ]

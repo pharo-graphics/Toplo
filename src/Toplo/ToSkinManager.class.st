@@ -20,6 +20,15 @@ Class {
 	#category : #'Toplo-Core-Theme'
 }
 
+{ #category : #adding }
+ToSkinManager >> addSkinStateGeneration: aValuable for: anElement [
+
+	" add a skin generation action to be evaluated by the states application phase "
+	anElement space
+		ifNotNil: [ :space | space addSkinStateGeneration: aValuable ]
+		ifNil: [ aValuable value ]
+]
+
 { #category : #'skin - installing / uninstalling' }
 ToSkinManager >> applyEnqueuedStatesIn: anElement [
 	" run the skin actually by flushing the state queue"

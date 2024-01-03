@@ -5,9 +5,10 @@ Class {
 		'skinPhasesInstalled',
 		'allowSkinPhases',
 		'spaceShownEventHandler',
-		'needSkinInstallPass'
+		'needSkinInstallPass',
+		'skinStateGenerationList'
 	],
-	#category : 'Toplo-Core-SpaceFrame'
+	#category : #'Toplo-Core-SpaceFrame'
 }
 
 { #category : #accessing }
@@ -27,6 +28,7 @@ ToSpaceSkinPhasesManager >> allowSkinPhases: aBoolean [
 { #category : #'phases application' }
 ToSpaceSkinPhasesManager >> applyAllEnqueuedStatesIn: aSpace [
 
+	self runStatesGeneration.
 	aSpace root applyEnqueuedStatesRecursively
 ]
 
@@ -146,6 +148,13 @@ ToSpaceSkinPhasesManager >> postponeStartSkinPhasesIn: aSpace [
 	aSpace addEventHandler: spaceShownEventHandler
 ]
 
+{ #category : #'phases application' }
+ToSpaceSkinPhasesManager >> runStatesGeneration [
+
+	self skinStateGenerationList do: #value.
+	self skinStateGenerationList reset
+]
+
 { #category : #accessing }
 ToSpaceSkinPhasesManager >> skinPhasesInstalled [
 
@@ -156,6 +165,12 @@ ToSpaceSkinPhasesManager >> skinPhasesInstalled [
 ToSpaceSkinPhasesManager >> skinPhasesInstalled: aBoolean [
 
 	skinPhasesInstalled := aBoolean
+]
+
+{ #category : #accessing }
+ToSpaceSkinPhasesManager >> skinStateGenerationList [
+
+	^ skinStateGenerationList ifNil: [ skinStateGenerationList := OrderedCollection new ]
 ]
 
 { #category : #'phases installation' }

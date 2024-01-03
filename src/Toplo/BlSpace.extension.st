@@ -1,6 +1,12 @@
 Extension { #name : #BlSpace }
 
 { #category : #'*Toplo' }
+BlSpace >> addSkinStateGeneration: aValuable [
+
+	self skinStateGenerationList add: aValuable
+]
+
+{ #category : #'*Toplo' }
 BlSpace >> allowSkinPhases [
 
 	^ self skinPhasesManager allowSkinPhases
@@ -52,6 +58,12 @@ BlSpace >> renewRootStyleSheet [
 ]
 
 { #category : #'*Toplo' }
+BlSpace >> runStatesGeneration [
+
+	self skinPhasesManager runStatesGeneration
+]
+
+{ #category : #'*Toplo' }
 BlSpace >> skinPhasesInstalled [
 
 	^ self skinPhasesManager skinPhasesInstalled
@@ -61,6 +73,12 @@ BlSpace >> skinPhasesInstalled [
 BlSpace >> skinPhasesManager [
 
 	^ self userData at: #skinPhasesManager ifAbsentPut: [ ToSpaceSkinPhasesManager new ]
+]
+
+{ #category : #'*Toplo' }
+BlSpace >> skinStateGenerationList [
+
+	^ self skinPhasesManager skinStateGenerationList
 ]
 
 { #category : #'*Toplo' }

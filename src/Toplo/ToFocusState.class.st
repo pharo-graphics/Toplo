@@ -2,27 +2,27 @@ Class {
 	#name : #ToFocusState,
 	#superclass : #ToIntrinsicState,
 	#instVars : [
-		'focusedValuable'
+		'focused'
 	],
 	#category : #'Toplo-Core-States'
 }
 
 { #category : #accessing }
-ToFocusState >> focusedValuable [
+ToFocusState >> focused [
 
-	^ focusedValuable
+	^ focused
 ]
 
 { #category : #accessing }
-ToFocusState >> focusedValuable: aValuable [
+ToFocusState >> focused: aValuable [
 
-	focusedValuable := aValuable
+	focused := aValuable
 ]
 
 { #category : #accessing }
 ToFocusState >> lookEventClass [
 
-	^ self focusedValuable value
+	^ self focused value
 		  ifTrue: [ ToFocusedLookEvent ]
 		  ifFalse: [ ToUnfocusedLookEvent ]
 ]

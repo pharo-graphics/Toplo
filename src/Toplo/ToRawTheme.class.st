@@ -23,10 +23,10 @@ ToRawTheme class >> supportedVariantClasses [
 ]
 
 { #category : #accessing }
-ToRawTheme >> expectedDefaultSkinFor: anElement [
+ToRawTheme >> expectedSkinFor: anElement [
 
-	^ anElement skinManager expectedDefaultRawSkin ifNil: [
-		  super expectedDefaultSkinFor: anElement ]
+	^ anElement skinManager defaultRawSkin ifNil: [
+		  super expectedSkinFor: anElement ]
 ]
 
 { #category : #accessing }

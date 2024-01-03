@@ -95,21 +95,21 @@ BlElement >> borderBuilder [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> defaultRawSkin: aSkin [
+BlElement >> defaultRawSkin [
 
-	self skinManager defaultRawSkin: aSkin in: self
+	^ self skinManager defaultRawSkin
 ]
 
 { #category : #'*Toplo' }
-BlElement >> defaultSkin [
+BlElement >> defaultRawSkin: aSkin [
 
-	^ self skinManager defaultSkinIn: self
+	self skinManager setDefaultRawSkin: aSkin in: self
 ]
 
 { #category : #'*Toplo' }
 BlElement >> defaultSkin: aSkin [
 
-	self skinManager defaultSkin: aSkin in: self
+	self skinManager setDefaultSkin: aSkin in: self
 ]
 
 { #category : #'*Toplo' }
@@ -146,6 +146,12 @@ BlElement >> flagAsDisabled [
 BlElement >> flagAsEnabled [
 
 	self userData at: #enabled put: true
+]
+
+{ #category : #'*Toplo' }
+BlElement >> forceDefaultSkin: aSkin [
+
+	self skinManager forceDefaultSkin: aSkin in: self
 ]
 
 { #category : #'*Toplo' }
@@ -285,12 +291,6 @@ BlElement >> requestUninstallSkinRecursively [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> setSkin: aSkin [
-
-	self skinManager setSkin: aSkin in: self
-]
-
-{ #category : #'*Toplo' }
 BlElement >> setStamp: aSymbol value: anObject [
 
 	self toStyleStore addStamp: aSymbol value: anObject
@@ -323,7 +323,7 @@ BlElement >> skinInstaller [
 { #category : #'*Toplo' }
 BlElement >> skinInstaller: aSkinInstaller [
 
-	self skinManager skinInstaller: aSkinInstaller in: self
+	self skinManager setSkinInstaller: aSkinInstaller in: self
 ]
 
 { #category : #'*Toplo' }
@@ -339,6 +339,12 @@ BlElement >> skinStateQueue [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> skinToInstall [
+
+	^ self skinManager skinToInstallIn: self
+]
+
+{ #category : #'*Toplo' }
 BlElement >> skinUninstaller [
 
 	^ self skinManager skinUninstaller 
@@ -347,7 +353,7 @@ BlElement >> skinUninstaller [
 { #category : #'*Toplo' }
 BlElement >> skinUninstaller: aSkinUninstaller [
 
-	self skinManager skinUninstaller: aSkinUninstaller in: self
+	self skinManager setSkinUninstaller: aSkinUninstaller in: self
 ]
 
 { #category : #'*Toplo' }
@@ -383,13 +389,13 @@ BlElement >> stillPressedStartDelay: aDuration [
 { #category : #'*Toplo-LookAndFeel' }
 BlElement >> styleSheet: aStyleSheet [
 
-	self skinManager styleSheet: aStyleSheet in: self
+	self skinManager setStyleSheet: aStyleSheet in: self
 ]
 
 { #category : #'*Toplo-LookAndFeel' }
 BlElement >> styleSheetChain [
 	" return an array with all my inherited stylesheets "
-	^ self skinManager styleSheetChainIn: self
+	^ self skinManager computeStyleSheetChainIn: self
 ]
 
 { #category : #'*Toplo' }
@@ -450,5 +456,5 @@ BlElement >> uninstallRawStyle [
 { #category : #'*Toplo' }
 BlElement >> withoutSkin [
 
-	self skinManager setSkin: ToNullSkin new in: self
+	self skinManager setDefaultSkin: ToNullSkin new in: self
 ]

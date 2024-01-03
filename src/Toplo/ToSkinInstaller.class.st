@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'installing'
 	],
-	#category : 'Toplo-Core-Theme'
+	#category : #'Toplo-Core-Theme'
 }
 
 { #category : #hook }
@@ -13,7 +13,7 @@ ToSkinInstaller >> applyOn: anElement [
 
 	self installingWhile: [
 		anElement installedSkin ifNil: [
-			anElement defaultSkin ifNotNil: [ :found |
+			anElement skinToInstall ifNotNil: [ :found |
 				anElement skinManager installSkin: found in: anElement.
 				" apply style here directly to benefit from the installer recursion protection
 				because  requestNewSkin may be send during installation "

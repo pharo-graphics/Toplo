@@ -4,7 +4,7 @@ A ToSkinnableEventHandlerTest is a test class for testing the behavior of ToSkin
 Class {
 	#name : #ToSkinStateQueueTest,
 	#superclass : #ToTestCaseWithSpace,
-	#category : 'Toplo-Tests-Core-States'
+	#category : #'Toplo-Tests-Core-States'
 }
 
 { #category : #tests }
@@ -37,7 +37,7 @@ ToSkinStateQueueTest >> testEnqueueInstallStateFor [
 	sk := ToRawSkin new.
 	e defaultSkin: sk.
 	" the default skin is set "
-	self assert: e defaultSkin identicalTo: sk.
+	self assert: e skinToInstall identicalTo: sk.
 	" but not installed for now "
 	self deny: e installedSkin identicalTo: sk.
 	q enqueueInstallStateForElement: e.
@@ -63,7 +63,7 @@ ToSkinStateQueueTest >> testEnqueueInstallStateForThroughARequest [
 	sk := ToRawSkin new.
 	e defaultSkin: sk.
 	" the default skin is set "
-	self assert: e defaultSkin identicalTo: sk.
+	self assert: e skinToInstall identicalTo: sk.
 	" but not installed for now "
 	self deny: e installedSkin identicalTo: sk.
 	e dispatchEvent: (ToSkinInstallStateRequest new skin: sk).

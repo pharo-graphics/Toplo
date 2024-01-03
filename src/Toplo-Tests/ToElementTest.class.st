@@ -4,7 +4,7 @@ A ToElementTest is a test class for testing the behavior of ToElement
 Class {
 	#name : #ToElementTest,
 	#superclass : #ToTestCaseWithSpace,
-	#category : 'Toplo-Tests-Core'
+	#category : #'Toplo-Tests-Core'
 }
 
 { #category : #tests }
@@ -127,15 +127,15 @@ ToElementTest >> testDefaultSkin [
 	e := ToElement new.
 	space root addChild: e.
 	e defaultSkin: (sk := ToRawSkinForTest new).
-	self assert: e defaultSkin identicalTo: sk.
+	self assert: e skinToInstall identicalTo: sk.
 	self assert: e installedSkin isNil.
 	e requestInstallSkin.
 	" no change "
-	self assert: e defaultSkin identicalTo: sk.
+	self assert: e skinToInstall identicalTo: sk.
 	self assert: e installedSkin isNil.
 	self assert: (sk receivedCountForClass: ToInstallLookEvent) equals: 0.
 	e applySkinInstaller.
-	self assert: e defaultSkin identicalTo: sk.
+	self assert: e skinToInstall identicalTo: sk.
 	self assert: e installedSkin identicalTo: sk.
 	self
 		assert:
@@ -289,15 +289,15 @@ ToElementTest >> testSetSkin [
 	e := ToElement new.
 	space root addChild: e.
 	e defaultSkin: (sk := ToRawSkinForTest new).
-	self assert: e defaultSkin identicalTo: sk.
+	self assert: e skinToInstall identicalTo: sk.
 	self assert: e installedSkin isNil.
 	e requestInstallSkin.
 	" no change "
-	self assert: e defaultSkin identicalTo: sk.
+	self assert: e skinToInstall identicalTo: sk.
 	self assert: e installedSkin isNil.
 	self assert: (sk receivedCountForClass: ToInstallLookEvent) equals: 0.
 	e applySkinInstaller.
-	self assert: e defaultSkin identicalTo: sk.
+	self assert: e skinToInstall identicalTo: sk.
 	self assert: e installedSkin identicalTo: sk.
 	self assert: (sk receivedCountForClass: ToInstallLookEvent) equals: 1.
 	self assert: (sk receivedCountForClass: ToUninstallLookEvent) equals: 0.
@@ -309,7 +309,7 @@ ToElementTest >> testSetSkin [
 		equals: 1.
 
 	" force uninstall->install->initial states "
-	e setSkin: sk.
+	e forceDefaultSkin: sk.
 	e applySkinInstaller.
 	self assert: (sk receivedCountForClass: ToUninstallLookEvent) equals: 1.
 	self assert: (sk receivedCountForClass: ToInstallLookEvent) equals: 2.
@@ -367,7 +367,7 @@ ToElementTest >> testWithoutSkin [
 		equals: 1.
 
 	e withoutSkin.
-	self assert: e defaultSkin isNullSkin.
+	self assert: e skinToInstall isNullSkin.
 	
 	e applySkinInstaller.
 	self
@@ -394,9 +394,9 @@ ToElementTest >> testWithoutSkinNonContamination [
 	e requestInstallSkin.
 	e withoutSkin.
 	" withoutSkin must be applied to the element hierarchy "
-	self assert: e defaultSkin isNullSkin.
-	self deny: child defaultSkin isNullSkin.
-	self deny: childchild defaultSkin isNullSkin.
+	self assert: e skinToInstall isNullSkin.
+	self deny: child skinToInstall isNullSkin.
+	self deny: childchild skinToInstall isNullSkin.
 	
 	e applySkinInstallerRecursively .
 	
@@ -422,7 +422,7 @@ ToElementTest >> testWithoutSkinNonContamination2 [
 	child addChild: childchild.
 	e requestInstallSkin.
 	e withoutSkin.
-	self assert: e defaultSkin isNullSkin.
+	self assert: e skinToInstall isNullSkin.
 	self assert: child installedSkin isNil.
 	self assert: childchild installedSkin isNil.
 	e applySkinInstaller.

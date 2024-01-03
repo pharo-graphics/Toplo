@@ -4,7 +4,7 @@ A ToSkinUninstallerTest is a test class for testing the behavior of ToSkinUninst
 Class {
 	#name : #ToSkinUninstallerTest,
 	#superclass : #ToTestCaseWithSpace,
-	#category : 'Toplo-Tests-Core-Theme'
+	#category : #'Toplo-Tests-Core-Theme'
 }
 
 { #category : #tests }
@@ -58,7 +58,7 @@ ToSkinUninstallerTest >> testWithSetSkin [
 	self assert: e skinInstaller notNil.
 	e applySkinInstaller.
 	self assert: e installedSkin notNil.
-	e setSkin: ToNullSkin new.
+	e defaultSkin: ToNullSkin new.
 	e skinManager applySkinUninstallerIn: e.
 	self assert: e installedSkin isNil.
 	self assert: e skinInstaller notNil.

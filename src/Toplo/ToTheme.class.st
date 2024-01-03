@@ -294,7 +294,7 @@ ToTheme class >> variant: aThemeVariant [
 ToTheme >> defaultSkinFor: anElement [
 
 	anElement setUpForTheme: self.
-	^ self expectedDefaultSkinFor: anElement
+	^ self expectedSkinFor: anElement
 ]
 
 { #category : #accessing }
@@ -304,9 +304,9 @@ ToTheme >> defaultTokenProperties [
 ]
 
 { #category : #accessing }
-ToTheme >> expectedDefaultSkinFor: anElement [
+ToTheme >> expectedSkinFor: anElement [
 
-	^ anElement skinManager expectedDefaultSkin
+	^ anElement skinManager defaultSkin
 ]
 
 { #category : #accessing }

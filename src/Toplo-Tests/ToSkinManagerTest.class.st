@@ -13,7 +13,7 @@ ToSkinManagerTest >> testApplySkinInstallerIn [
 	| e sk |
 	e := ToElement new. 
 	space root addChild: e.
-	e skinManager setSkin: (sk := ToRawSkin new) in: e.
+	e skinManager setDefaultSkin: (sk := ToRawSkin new) in: e.
 	self assert: e installedSkin isNil.
 	self assert: e skinManager installedSkin isNil.
 	self assert: e skinManager hasPostponedRequestInstallSkin not.
@@ -45,7 +45,7 @@ ToSkinManagerTest >> testApplySkinUninstallerIn [
 	| e sk |
 	e := ToElement new. 
 	space root addChild: e.
-	e skinManager setSkin: (sk := ToRawSkin new) in: e.
+	e skinManager setDefaultSkin: (sk := ToRawSkin new) in: e.
 	e skinManager applySkinInstallerIn: e.
 	self assert: e skinManager installedSkin identicalTo: sk.
 	e skinManager requestUninstallSkinIn: e.
@@ -63,7 +63,7 @@ ToSkinManagerTest >> testApplyStylesIn [
 	| e sk |
 	e := ToElement new. 
 	space root addChild: e.
-	e skinManager setSkin: (sk := ToRawSkin new) in: e.
+	e skinManager setDefaultSkin: (sk := ToRawSkin new) in: e.
 	e skinManager applySkinInstallerIn: e.
 	self assert: e skinManager installedSkin identicalTo: sk.
 	self assert: e skinManager skinStateQueue nextStates isEmpty.
@@ -79,14 +79,70 @@ ToSkinManagerTest >> testBorderBuilder [
 ]
 
 { #category : #tests }
+ToSkinManagerTest >> testComputeStyleSheetChainIn [
+
+	| e child childchild childchildchild |
+	e := BlElement new.
+	child := BlElement new.
+	childchild := BlElement new.
+	childchildchild := BlElement new.
+	e addChild: child.
+	child addChild: childchild.
+	childchild addChild: childchildchild.
+	" e is not attached -> # ( )"
+	self
+		assert:
+		(childchildchild skinManager computeStyleSheetChainIn: childchildchild)
+		equals: #(  ).
+	space := BlSpace new.
+	space root addChild: e.
+	" no styleSheet theme by default "
+	self assert:
+		(childchildchild skinManager computeStyleSheetChainIn: childchildchild)
+			isEmpty.
+	space toTheme: ToStyleSheetTheme light.
+	" one style sheet in theme by default "
+	self assert:
+		(childchildchild skinManager computeStyleSheetChainIn: childchildchild)
+			size equals: 1.
+	childchild styleSheet: ToStyleSheet new.
+	self
+		assert:
+		(childchildchild skinManager computeStyleSheetChainIn: childchildchild)
+			size
+		equals: 2.
+	e styleSheet: ToStyleSheet new.
+	self
+		assert:
+		(childchildchild skinManager computeStyleSheetChainIn: childchildchild)
+			size
+		equals: 3.
+	childchild skinManager styleSheet inherits: false.
+	self
+		assert:
+		(childchildchild skinManager computeStyleSheetChainIn: childchildchild)
+			size
+		equals: 1
+]
+
+{ #category : #tests }
+ToSkinManagerTest >> testDefaultRawSkin [
+
+	| e sk |
+	e := ToElement new. 
+	e defaultRawSkin: (sk := ToRawSkin new).
+	self assert: e skinManager defaultRawSkin identicalTo: sk
+]
+
+{ #category : #tests }
 ToSkinManagerTest >> testDefaultRawSkinIn [
 
 	| e sk |
 	e := ToElement new.
 	space root addChild: e.
-	e skinManager defaultRawSkin: (sk := ToRawSkin new) in: e.
-	self assert: e defaultSkin identicalTo: sk.
-	self assert: (e skinManager expectedDefaultRawSkin) identicalTo: sk.
+	e skinManager setDefaultRawSkin: (sk := ToRawSkin new) in: e.
+	self assert: e skinToInstall identicalTo: sk.
+	self assert: (e skinManager defaultRawSkin) identicalTo: sk.
 	self assert: e installedSkin isNil.
 	self assert: e skinManager installedSkin isNil.
 	self
@@ -95,28 +151,20 @@ ToSkinManagerTest >> testDefaultRawSkinIn [
 ]
 
 { #category : #tests }
-ToSkinManagerTest >> testDefaultSkinIn [
+ToSkinManagerTest >> testDefaultSkin [
 
 	| e sk |
 	e := ToElement new.
 	space root addChild: e.
 	e defaultSkin: (sk := ToRawSkin new).
-	self assert: e defaultSkin identicalTo: sk.
-	self assert: (e skinManager defaultSkinIn: e) identicalTo: sk.
+	self assert: e skinManager defaultSkin identicalTo: sk.
+	self assert: e skinToInstall identicalTo: sk.
+	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
 	self assert: e installedSkin isNil.
 	self assert: e skinManager installedSkin isNil.
 	self
 		assert: (e eventDispatcher handlers select: [ :h | h isKindOf: ToRawSkin ]) size
 		equals: 0
-]
-
-{ #category : #tests }
-ToSkinManagerTest >> testExpectedDefaultRawSkin [
-
-	| e sk |
-	e := ToElement new. 
-	e defaultSkin: (sk := ToRawSkin new).
-	self assert: e skinManager expectedDefaultSkin identicalTo: sk
 ]
 
 { #category : #tests }
@@ -125,7 +173,38 @@ ToSkinManagerTest >> testExpectedDefaultSkin [
 	| e sk |
 	e := ToElement new. 
 	e defaultRawSkin: (sk := ToRawSkin new).
-	self assert: e skinManager expectedDefaultRawSkin identicalTo: sk
+	self assert: e skinManager defaultRawSkin identicalTo: sk
+]
+
+{ #category : #tests }
+ToSkinManagerTest >> testForceDefaultSkinIn [
+
+	| e sk |
+	e := ToElement new. 
+	e skinManager setDefaultSkin: (sk := ToRawSkin new) in: e.
+	self assert: e skinManager defaultSkin identicalTo: sk.
+	self should: [ e skinManager skinToInstallIn: e ] raise: Error.
+	self assert: e installedSkin isNil.
+	self assert: e skinManager installedSkin isNil.
+	self deny: e skinManager skinUninstaller notNil.
+	self assert: e skinManager hasPostponedRequestInstallSkin.
+	self assert: e skinManager skinInstaller isNil
+]
+
+{ #category : #tests }
+ToSkinManagerTest >> testForceDefaultSkinInWhenInSpace [
+
+	| e sk |
+	e := ToElement new. 
+	space root addChild: e.
+	e skinManager setDefaultSkin: (sk := ToRawSkin new) in: e.
+	self assert: e skinToInstall identicalTo: sk.
+	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
+	self assert: e installedSkin isNil.
+	self assert: e skinManager installedSkin isNil.
+	self deny: e skinManager skinUninstaller notNil.
+	self assert: e skinManager hasPostponedRequestInstallSkin not.
+	self assert: e skinManager skinInstaller notNil
 ]
 
 { #category : #tests }
@@ -173,7 +252,7 @@ ToSkinManagerTest >> testInstallSkinIn2 [
 	" if not theme is found in its parent chain, then an element must be attached to a space. 
 	If not, skin installation raises an Error because during skin installation the element theme is lookup "
 	space root addChild: e.
-	e skinManager installSkin: e defaultSkin in: e.
+	e skinManager installSkin: e skinToInstall in: e.
 	self assert: e installedSkin notNil.
 	self
 		assert: e installedSkin class
@@ -187,21 +266,21 @@ ToSkinManagerTest >> testInstalledSkin [
 	e := ToElement new.
 	space root addChild: e.
 	e defaultSkin: (sk := ToRawSkin new).
-	self assert: e defaultSkin identicalTo: sk.
-	self assert: (e skinManager defaultSkinIn: e) identicalTo: sk.
+	self assert: e skinToInstall identicalTo: sk.
+	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
 	self assert: e installedSkin isNil.
 	self assert: e skinManager installedSkin isNil.
 	e addEventHandler: sk.
-	self assert: e defaultSkin identicalTo: sk.
-	self assert: (e skinManager defaultSkinIn: e) identicalTo: sk.
+	self assert: e skinToInstall identicalTo: sk.
+	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
 	self assert: e installedSkin identicalTo: sk.
 	self assert: e skinManager installedSkin identicalTo: sk.
 	self
 		assert: (e eventDispatcher handlers select: [ :h | h isKindOf: ToRawSkin ]) size
 		equals: 1.
 	e removeEventHandler: sk.
-	self assert: e defaultSkin identicalTo: sk.
-	self assert: (e skinManager defaultSkinIn: e) identicalTo: sk.
+	self assert: e skinToInstall identicalTo: sk.
+	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
 	self assert: e installedSkin isNil.
 	self assert: e skinManager installedSkin isNil.
 	self
@@ -261,12 +340,12 @@ ToSkinManagerTest >> testIsSetUpForTheme [
 	space := BlSpace new.
 	theme := ToRawTheme light.
 	self deny: (e skinManager isSetUpForTheme: theme).
-	self assert: e skinManager themeClasses isEmpty.
+	self assert: e skinManager registeredThemeClasses isEmpty.
 	self assert: ((theme newSkinFor: e) isKindOf: ToRawSkin).
 	space root addChild: e.
 	skin := theme newSkinFor: e.
-	self assert: e skinManager themeClasses size equals: 1.
-	self assert: e skinManager themeClasses anyOne equals: ToRawTheme
+	self assert: e skinManager registeredThemeClasses size equals: 1.
+	self assert: e skinManager registeredThemeClasses anyOne equals: ToRawTheme
 ]
 
 { #category : #tests }
@@ -274,8 +353,8 @@ ToSkinManagerTest >> testOnInstalledIn [
 
 	| e |
 	e := BlElement new.
-	self assert: e skinManager themeClasses notNil.
-	self assert: e skinManager themeClasses isEmpty.
+	self assert: e skinManager registeredThemeClasses notNil.
+	self assert: e skinManager registeredThemeClasses isEmpty.
 	self deny: e skinManager hasPostponedRequestInstallSkin.
 	self assert: e skinInstaller isNil.
 	e toStyleStore tokenPropertyIndex changedAction value.
@@ -314,11 +393,23 @@ ToSkinManagerTest >> testRegisterTheme [
 
 	| e |
 	e := BlElement new.
-	self assert: e skinManager themeClasses notNil.
-	self assert: e skinManager themeClasses isEmpty.
+	self assert: e skinManager registeredThemeClasses notNil.
+	self assert: e skinManager registeredThemeClasses isEmpty.
 	e skinManager registerTheme: ToRawTheme light.
-	self assert: e skinManager themeClasses size equals: 1.
-	self assert: e skinManager themeClasses anyOne = ToRawTheme
+	self assert: e skinManager registeredThemeClasses size equals: 1.
+	self assert: e skinManager registeredThemeClasses anyOne = ToRawTheme
+]
+
+{ #category : #tests }
+ToSkinManagerTest >> testRegisteredThemeClasses [
+
+	| e |
+	e := BlElement new.
+	self assert: e skinManager registeredThemeClasses notNil.
+	self assert: e skinManager registeredThemeClasses isEmpty.
+	e skinManager setUpForTheme: ToRawTheme light in: e.
+	self assert: e skinManager registeredThemeClasses size equals: 1.
+	self assert: e skinManager registeredThemeClasses anyOne = ToRawTheme
 ]
 
 { #category : #tests }
@@ -521,16 +612,16 @@ ToSkinManagerTest >> testRequestUninstallSkinInWithInstalledSkin [
 ]
 
 { #category : #tests }
-ToSkinManagerTest >> testSetRawSkinIn [
+ToSkinManagerTest >> testSetDefaultRawSkinIn [
 
 	| e sk |
 	e := ToElement new. 
-	e skinManager setRawSkin: (sk := ToRawSkin new) in: e.
-	self assert: e skinManager expectedDefaultRawSkin identicalTo: sk.
-	self assert: e skinManager expectedDefaultSkin isNil.
-	self should: [ e skinManager defaultSkinIn: e ] raise: Error.
+	e skinManager setDefaultRawSkin: (sk := ToRawSkin new) in: e.
+	self assert: e skinManager defaultRawSkin identicalTo: sk.
+	self assert: e skinManager defaultSkin isNil.
+	self should: [ e skinManager skinToInstallIn: e ] raise: Error.
 	space root addChild: e.
-	self assert: (e skinManager defaultSkinIn: e) identicalTo: sk.	
+	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.	
 	self assert: e installedSkin isNil.
 	self assert: e skinManager installedSkin isNil.
 	self deny: e skinManager skinUninstaller notNil.
@@ -538,34 +629,29 @@ ToSkinManagerTest >> testSetRawSkinIn [
 ]
 
 { #category : #tests }
-ToSkinManagerTest >> testSetSkinIn [
+ToSkinManagerTest >> testSetDefaultSkinIn [
 
 	| e sk |
-	e := ToElement new. 
-	e skinManager setSkin: (sk := ToRawSkin new) in: e.
-	self assert: e skinManager expectedDefaultSkin identicalTo: sk.
-	self should: [ e skinManager defaultSkinIn: e ] raise: Error.
+	e := ToElement new.
+	space root addChild: e.
+	e skinManager setDefaultSkin: (sk := ToRawSkin new) in: e.
+	self assert: e skinToInstall identicalTo: sk.
+	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
+	self assert: (e skinManager defaultSkin) identicalTo: sk.
 	self assert: e installedSkin isNil.
 	self assert: e skinManager installedSkin isNil.
-	self deny: e skinManager skinUninstaller notNil.
-	self assert: e skinManager hasPostponedRequestInstallSkin.
-	self assert: e skinManager skinInstaller isNil
+	self
+		assert: (e eventDispatcher handlers select: [ :h | h isKindOf: ToRawSkin ]) size
+		equals: 0
 ]
 
 { #category : #tests }
-ToSkinManagerTest >> testSetSkinInWhenInSpace [
+ToSkinManagerTest >> testSetStyleSheetIn [
 
-	| e sk |
-	e := ToElement new. 
-	space root addChild: e.
-	e skinManager setSkin: (sk := ToRawSkin new) in: e.
-	self assert: e defaultSkin identicalTo: sk.
-	self assert: (e skinManager defaultSkinIn: e) identicalTo: sk.
-	self assert: e installedSkin isNil.
-	self assert: e skinManager installedSkin isNil.
-	self deny: e skinManager skinUninstaller notNil.
-	self assert: e skinManager hasPostponedRequestInstallSkin not.
-	self assert: e skinManager skinInstaller notNil
+	| e |
+	e := BlElement new.
+	e skinManager setStyleSheet: ToStyleSheet new in: e.
+	self assert: e skinManager styleSheet notNil
 ]
 
 { #category : #tests }
@@ -573,17 +659,17 @@ ToSkinManagerTest >> testSetUpForThemeIn [
 
 	| e theme  |
 	e := BlElement new.
-	self assert: e skinManager themeClasses notNil.
-	self assert: e skinManager themeClasses isEmpty.
+	self assert: e skinManager registeredThemeClasses notNil.
+	self assert: e skinManager registeredThemeClasses isEmpty.
 	theme := ToRawTheme light.
 	self deny: (e skinManager isSetUpForTheme: theme).
 	e skinManager setUpForTheme: theme in: e.
 	self assert: (e skinManager isSetUpForTheme: theme).
-	self assert: e skinManager themeClasses size equals: 1.
-	self assert: e skinManager themeClasses anyOne = ToRawTheme.
+	self assert: e skinManager registeredThemeClasses size equals: 1.
+	self assert: e skinManager registeredThemeClasses anyOne = ToRawTheme.
 	e skinManager setUpForTheme: ToRawTheme light in: e.
-	self assert: e skinManager themeClasses size equals: 1.
-	self assert: e skinManager themeClasses anyOne = ToRawTheme.
+	self assert: e skinManager registeredThemeClasses size equals: 1.
+	self assert: e skinManager registeredThemeClasses anyOne = ToRawTheme.
 
 ]
 
@@ -593,13 +679,13 @@ ToSkinManagerTest >> testSetUpForThemeIn2 [
 	| e theme skin |
 	e := BlElement new.
 	space := BlSpace new.
-	self assert: e skinManager themeClasses notNil.
-	self assert: e skinManager themeClasses isEmpty.
+	self assert: e skinManager registeredThemeClasses notNil.
+	self assert: e skinManager registeredThemeClasses isEmpty.
 	theme := ToRawTheme light.
 	space root addChild: e.
 	skin := theme newSkinFor: e.
-	self assert: e skinManager themeClasses size equals: 1.
-	self assert: e skinManager themeClasses anyOne = ToRawTheme
+	self assert: e skinManager registeredThemeClasses size equals: 1.
+	self assert: e skinManager registeredThemeClasses anyOne = ToRawTheme
 ]
 
 { #category : #tests }
@@ -702,63 +788,7 @@ ToSkinManagerTest >> testSkinUninstallerWithToThemeChanged [
 { #category : #tests }
 ToSkinManagerTest >> testStyleSheet [
 
-	self testStyleSheetIn 
-]
-
-{ #category : #tests }
-ToSkinManagerTest >> testStyleSheetChainIn [
-
-	| e child childchild childchildchild |
-	e := BlElement new.
-	child := BlElement new.
-	childchild := BlElement new.
-	childchildchild := BlElement new.
-	e addChild: child.
-	child addChild: childchild.
-	childchild addChild: childchildchild.
-	" e is not attached -> # ( )"
-	self
-		assert:
-		(childchildchild skinManager styleSheetChainIn: childchildchild)
-		equals: #(  ).
-	space := BlSpace new.
-	space root addChild: e.
-	" no styleSheet theme by default "
-	self assert:
-		(childchildchild skinManager styleSheetChainIn: childchildchild)
-			isEmpty.
-	space toTheme: ToStyleSheetTheme light.
-	" one style sheet in theme by default "
-	self assert:
-		(childchildchild skinManager styleSheetChainIn: childchildchild)
-			size equals: 1.
-	childchild styleSheet: ToStyleSheet new.
-	self
-		assert:
-		(childchildchild skinManager styleSheetChainIn: childchildchild)
-			size
-		equals: 2.
-	e styleSheet: ToStyleSheet new.
-	self
-		assert:
-		(childchildchild skinManager styleSheetChainIn: childchildchild)
-			size
-		equals: 3.
-	childchild skinManager styleSheet inherits: false.
-	self
-		assert:
-		(childchildchild skinManager styleSheetChainIn: childchildchild)
-			size
-		equals: 1
-]
-
-{ #category : #tests }
-ToSkinManagerTest >> testStyleSheetIn [
-
-	| e |
-	e := BlElement new.
-	e styleSheet: ToStyleSheet new.
-	self assert: e skinManager styleSheet notNil
+	self testSetStyleSheetIn 
 ]
 
 { #category : #tests }
@@ -767,18 +797,6 @@ ToSkinManagerTest >> testTextAttributesBuilder [
 	| e  |
 	e := BlElement new.
 	self assert: (e skinManager textAttributesBuilder ) notNil
-]
-
-{ #category : #tests }
-ToSkinManagerTest >> testThemeClasses [
-
-	| e |
-	e := BlElement new.
-	self assert: e skinManager themeClasses notNil.
-	self assert: e skinManager themeClasses isEmpty.
-	e skinManager setUpForTheme: ToRawTheme light in: e.
-	self assert: e skinManager themeClasses size equals: 1.
-	self assert: e skinManager themeClasses anyOne = ToRawTheme
 ]
 
 { #category : #tests }

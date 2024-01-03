@@ -79,6 +79,22 @@ ToSkinManagerTest >> testBorderBuilder [
 ]
 
 { #category : #tests }
+ToSkinManagerTest >> testDefaultRawSkinIn [
+
+	| e sk |
+	e := ToElement new.
+	space root addChild: e.
+	e skinManager defaultRawSkin: (sk := ToRawSkin new) in: e.
+	self assert: e defaultSkin identicalTo: sk.
+	self assert: (e skinManager expectedDefaultRawSkin) identicalTo: sk.
+	self assert: e installedSkin isNil.
+	self assert: e skinManager installedSkin isNil.
+	self
+		assert: (e eventDispatcher handlers select: [ :h | h isKindOf: ToRawSkin ]) size
+		equals: 0
+]
+
+{ #category : #tests }
 ToSkinManagerTest >> testDefaultSkinIn [
 
 	| e sk |
@@ -92,6 +108,24 @@ ToSkinManagerTest >> testDefaultSkinIn [
 	self
 		assert: (e eventDispatcher handlers select: [ :h | h isKindOf: ToRawSkin ]) size
 		equals: 0
+]
+
+{ #category : #tests }
+ToSkinManagerTest >> testExpectedDefaultRawSkin [
+
+	| e sk |
+	e := ToElement new. 
+	e defaultSkin: (sk := ToRawSkin new).
+	self assert: e skinManager expectedDefaultSkin identicalTo: sk
+]
+
+{ #category : #tests }
+ToSkinManagerTest >> testExpectedDefaultSkin [
+
+	| e sk |
+	e := ToElement new. 
+	e defaultRawSkin: (sk := ToRawSkin new).
+	self assert: e skinManager expectedDefaultRawSkin identicalTo: sk
 ]
 
 { #category : #tests }
@@ -484,6 +518,23 @@ ToSkinManagerTest >> testRequestUninstallSkinInWithInstalledSkin [
 	self assert: e skinManager skinUninstaller isNil.
 	self assert: e skinManager skinInstaller isNil.
 
+]
+
+{ #category : #tests }
+ToSkinManagerTest >> testSetRawSkinIn [
+
+	| e sk |
+	e := ToElement new. 
+	e skinManager setRawSkin: (sk := ToRawSkin new) in: e.
+	self assert: e skinManager expectedDefaultRawSkin identicalTo: sk.
+	self assert: e skinManager expectedDefaultSkin isNil.
+	self should: [ e skinManager defaultSkinIn: e ] raise: Error.
+	space root addChild: e.
+	self assert: (e skinManager defaultSkinIn: e) identicalTo: sk.	
+	self assert: e installedSkin isNil.
+	self assert: e skinManager installedSkin isNil.
+	self deny: e skinManager skinUninstaller notNil.
+	self assert: e skinManager skinInstaller notNil
 ]
 
 { #category : #tests }

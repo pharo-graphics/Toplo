@@ -298,44 +298,6 @@ ToListSelectionStrategy >> multipleSelectionModeDo: aBlock [
 	aBlock value
 ]
 
-{ #category : #'data source change' }
-ToListSelectionStrategy >> offsetPositionForInsert: aStartPosition itemCount: anItemCount [
-
-	| selectedAfter |
-
-	infiniteElement
-		dispatchMoveSelectedIndexesFrom: aStartPosition - anItemCount + 1
-		itemCount: anItemCount.
-	selectedAfter := self selectedIndexes select: [ :idx |idx >= (aStartPosition - anItemCount + 1)].
-	selectedAfter do: [ :idx | selectionModel deselectIndex: idx. ].
-	selectedAfter reverseDo: [ :idx | selectionModel select: idx + anItemCount].
-	self markPointedPosition: currentIndex + anItemCount
-]
-
-{ #category : #'data source change' }
-ToListSelectionStrategy >> offsetPositionForRemove: aStartPosition itemCount: anItemCount [
-
-	| idxs removedIdx afterIdx |
-	idxs := self selectedIndexes.
-	infiniteElement
-		dispatchRemoveSelectedIndexesFrom: aStartPosition
-		itemCount: anItemCount.
-	removedIdx := idxs select: [ :i |
-		              i
-			              between: aStartPosition
-			              and: aStartPosition + anItemCount - 1 ].
-	afterIdx := idxs select: [ :i |
-		            i > (aStartPosition + anItemCount - 1) ].
-	removedIdx do: [ :i |
-		self currentIndex = i ifTrue: [ self currentIndex: 0 ].
-		selectionModel deselectIndex: i ].
-	afterIdx do: [ :i |
-		self currentIndex = i ifTrue: [
-			self currentIndex: self currentIndex - anItemCount ].
-		selectionModel deselectIndex: i ].
-	afterIdx do: [ :i | selectionModel select: i - anItemCount ]
-]
-
 { #category : #accessing }
 ToListSelectionStrategy >> onInstalledIn: anInfiniteElement [
 
@@ -466,6 +428,44 @@ ToListSelectionStrategy >> selectedIndex [
 ToListSelectionStrategy >> selectedIndexes [
 
 	^ selectionModel indices
+]
+
+{ #category : #'data source change' }
+ToListSelectionStrategy >> shiftAfterAddingAt: aStartPosition itemCount: anItemCount [
+
+	| selectedAfter |
+
+	infiniteElement
+		dispatchShiftSelectionFrom: aStartPosition - anItemCount + 1
+		itemCount: anItemCount.
+	selectedAfter := self selectedIndexes select: [ :idx |idx >= (aStartPosition - anItemCount + 1)].
+	selectedAfter do: [ :idx | selectionModel deselectIndex: idx. ].
+	selectedAfter reverseDo: [ :idx | selectionModel select: idx + anItemCount].
+	self markPointedPosition: currentIndex + anItemCount
+]
+
+{ #category : #'data source change' }
+ToListSelectionStrategy >> shiftAfterRemovingAt: aStartPosition itemCount: anItemCount [
+
+	| idxs removedIdx afterIdx |
+	idxs := self selectedIndexes.
+	infiniteElement
+		dispatchRemoveSelectedIndexesFrom: aStartPosition
+		itemCount: anItemCount.
+	removedIdx := idxs select: [ :i |
+		              i
+			              between: aStartPosition
+			              and: aStartPosition + anItemCount - 1 ].
+	afterIdx := idxs select: [ :i |
+		            i > (aStartPosition + anItemCount - 1) ].
+	removedIdx do: [ :i |
+		self currentIndex = i ifTrue: [ self currentIndex: 0 ].
+		selectionModel deselectIndex: i ].
+	afterIdx do: [ :i |
+		self currentIndex = i ifTrue: [
+			self currentIndex: self currentIndex - anItemCount ].
+		selectionModel deselectIndex: i ].
+	afterIdx do: [ :i | selectionModel select: i - anItemCount ]
 ]
 
 { #category : #shortcuts }

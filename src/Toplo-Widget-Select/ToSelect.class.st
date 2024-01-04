@@ -16,9 +16,39 @@ Class {
 }
 
 { #category : #accessing }
+ToSelect >> addAllDataNodes: aNodeCollection [
+
+	aNodeCollection do: [ :n | self addDataNode: n ]
+]
+
+{ #category : #accessing }
+ToSelect >> addDataNode: aNode [
+
+	selectFlow addChild: aNode before: selectTextField 
+]
+
+{ #category : #accessing }
+ToSelect >> addNewData: aData [
+
+	| idx |
+	self data add: aData.
+	idx := self data size.
+	self dispatchEvent: (ToSelectNodeAddedEvent new
+			 index: idx;
+			 yourself)
+]
+
+{ #category : #accessing }
 ToSelect >> data [
 
 	^ self listElement data
+]
+
+{ #category : #accessing }
+ToSelect >> dataNodesDo: aBlock [
+
+	selectFlow childrenDo: [ :child |
+		child ~= selectTextField ifTrue: [ aBlock value: child ] ].
 ]
 
 { #category : #initialization }
@@ -82,14 +112,10 @@ ToSelect >> initialize [
 	sharedDistributor := BlSharedEventDistributor new.
 	sharedDistributor
 		adjustMousePosition: false;
-		shareEvents: { ToAlbumClientEvent. "ToListSelectionChangedEvent"  }.
+		shareEvents: { ToAlbumClientEvent. ToListSelectionChangedEvent. ToInfiniteSelectionDirtyEvent   }.
 	selectTextField addEventHandler: sharedDistributor.
 	self addEventHandler: sharedDistributor.
-	"self listElement addEventHandler: sharedDistributor."
-	self listElement addEventHandler: (BlEventHandler
-			 on: ToListSelectionChangedEvent
-			 do: [ :evt | self enqueueTask: (BlTaskAction new action: [self onIndexesSelectedInList: self listElement selectedIndexes ])]).
-
+	self listElement addEventHandler: sharedDistributor.
 	selectFlow addChild: selectTextField.
 	contentElement addChild: selectFlow.
 
@@ -221,13 +247,19 @@ ToSelect >> nodeHolders [
 	^ nodeHolders
 ]
 
-{ #category : #'accessing selection' }
-ToSelect >> onIndexesSelectedInList: aCollectionOfInteger [
+{ #category : #'accessing list' }
+ToSelect >> onListCloseRequest [
 
-	selectFlow childrenDo: [ :child |
-		child ~= selectTextField ifTrue: [ child removeFromParent ] ].
+	self textField requestFocus
+]
+
+{ #category : #'accessing selection' }
+ToSelect >> refreshNodes [ 
+
+	| nodes |
+	self dataNodesDo: [ :node | node removeFromParent ].
 	self nodeHolders reset.
-	aCollectionOfInteger do: [ :idx |
+	nodes := self selectedIndexes collect: [ :idx |
 		| node holder |
 		node := self newNode.
 		holder := self newNodeHolder.
@@ -239,13 +271,21 @@ ToSelect >> onIndexesSelectedInList: aCollectionOfInteger [
 			select: self;
 			data: (self data at: idx).
 		self nodeBuilder value: node value: holder.
-		selectFlow addChild: node before: selectTextField ]
+		node ].
+	self addAllDataNodes: nodes
 ]
 
-{ #category : #'accessing list' }
-ToSelect >> onListCloseRequest [
+{ #category : #accessing }
+ToSelect >> selectDataAt: anIndex [
 
-	self textField requestFocus
+	self selectIndex: anIndex.
+	self refreshNodes
+]
+
+{ #category : #'accessing selection' }
+ToSelect >> selectIndex: anInteger [
+
+	self listElement selectIndex: anInteger
 ]
 
 { #category : #'accessing selection' }

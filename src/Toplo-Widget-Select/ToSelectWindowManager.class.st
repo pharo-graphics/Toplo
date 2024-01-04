@@ -17,14 +17,14 @@ ToSelectWindowManager >> data [
 { #category : #initialization }
 ToSelectWindowManager >> defaultMaxHeight [
 
-	^ 200
+	^ 300
 ]
 
 { #category : #initialization }
 ToSelectWindowManager >> defaultPositionHook [
 
 	^ [ :window :theElement :event |
-	  window position: (theElement bounds inParent: self anchorRoot) bounds bottomLeft + (4 @ 4) ]
+	  window position: (theElement bounds inParent: self anchorRoot) bounds bottomLeft + (4 @ 2) ]
 ]
 
 { #category : #initialization }

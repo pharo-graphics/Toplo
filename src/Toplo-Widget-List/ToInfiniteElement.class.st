@@ -125,15 +125,6 @@ ToInfiniteElement >> dispatchDeselectIndex: anIndex [
 ]
 
 { #category : #'selection action dispatching' }
-ToInfiniteElement >> dispatchMoveSelectedIndexesFrom: anIndex itemCount: aNumber [
-
-	self dispatchEvent: (ToListMoveSelectedIndexesEvent new
-			 startIndex: anIndex;
-			 itemCount: aNumber;
-			 yourself)
-]
-
-{ #category : #'selection action dispatching' }
 ToInfiniteElement >> dispatchRemoveSelectedIndexesFrom: anIndex itemCount: aNumber [
 
 	self dispatchEvent: (ToListRemoveSelectedIndexesEvent new
@@ -194,6 +185,22 @@ ToInfiniteElement >> dispatchSelectionChangedAfter: aBlock [
 		         previousIndexes: prevIndexes
 		         currentIndexes: currentIndexes.
 	self dispatchEvent: event
+]
+
+{ #category : #'selection events' }
+ToInfiniteElement >> dispatchSelectionDirtyAfter: aBlock [
+
+	aBlock value.
+	self dispatchEvent: ToInfiniteSelectionDirtyEvent new
+]
+
+{ #category : #'selection action dispatching' }
+ToInfiniteElement >> dispatchShiftSelectionFrom: anIndex itemCount: aNumber [
+
+	self dispatchEvent: (ToListShiftSelectionEvent new
+			 startIndex: anIndex;
+			 itemCount: aNumber;
+			 yourself)
 ]
 
 { #category : #'selection events' }
@@ -312,34 +319,27 @@ ToInfiniteElement >> nodeClass: aNodeClass [
 { #category : #'private - commands' }
 ToInfiniteElement >> offsetPositionRecordsForInsert: aStartPosition itemCount: anItemCount [
 
-	super
-		offsetPositionRecordsForInsert: aStartPosition
-		itemCount: anItemCount.
-		
-	self dispatchSelectionChangedAfter: [
-		self primarySelection
-			offsetPositionForInsert: aStartPosition + anItemCount - 1
+	self dispatchSelectionDirtyAfter: [
+		super
+			offsetPositionRecordsForInsert: aStartPosition
 			itemCount: anItemCount ]
 ]
 
 { #category : #'private - commands' }
 ToInfiniteElement >> offsetPositionRecordsForMove: aFromPosition to: aToPosition [
 
-	super offsetPositionRecordsForMove: aFromPosition to: aToPosition
+	self dispatchSelectionDirtyAfter: [
+		super offsetPositionRecordsForMove: aFromPosition to: aToPosition ]
 ]
 
 { #category : #'private - commands' }
 ToInfiniteElement >> offsetPositionRecordsForRemove: aStartPosition itemCount: anItemCount applyToPreLayout: applyToPreLayout [
 
-	super
-		offsetPositionRecordsForRemove: aStartPosition
-		itemCount: anItemCount
-		applyToPreLayout: applyToPreLayout.
-
-	self dispatchSelectionChangedAfter: [
-		self primarySelection
-			offsetPositionForRemove: aStartPosition
-			itemCount: anItemCount ]
+	self dispatchSelectionDirtyAfter: [
+		super
+			offsetPositionRecordsForRemove: aStartPosition
+			itemCount: anItemCount
+			applyToPreLayout: applyToPreLayout ]
 ]
 
 { #category : #'selection events' }
@@ -456,12 +456,9 @@ ToInfiniteElement >> selectAndScrollTo: anIndex [
 { #category : #'selection events' }
 ToInfiniteElement >> selectIndex: index [
 
-	self
-		deprecated: 'Use selectOnlyIndex: instead'
-		transformWith: '`@receiver selectIndex: `@argument'
-			-> '`@receiver selectOnlyIndex: `@argument'.
-			
-	self selectOnlyIndex: index
+	self dispatchSelectionChangedAfter: [
+		self primarySelection selectIndex: index.
+		self scrollToIndex: index ]
 ]
 
 { #category : #'selection events' }
@@ -512,6 +509,18 @@ ToInfiniteElement >> selection [
 ToInfiniteElement >> selectionStrategy [
 
 	^ selectionStrategy
+]
+
+{ #category : #'selection events' }
+ToInfiniteElement >> shiftSelectionAfterAddingAt: aStartPosition itemCount: anItemCount [
+
+	self selectionStrategy shiftAfterAddingAt: aStartPosition itemCount: anItemCount
+]
+
+{ #category : #'selection events' }
+ToInfiniteElement >> shiftSelectionAfterRemovingAt: aStartPosition itemCount: anItemCount [ 
+
+	self selectionStrategy shiftAfterRemovingAt: aStartPosition itemCount: anItemCount
 ]
 
 { #category : #private }

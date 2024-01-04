@@ -39,10 +39,6 @@ ToListSelectionHistoryEventHandlerExample >> listDeselectIndexEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToListSelectionHistoryEventHandlerExample >> listMoveSelectedIndexesEvent: anEvent [
-]
-
-{ #category : #'event handling' }
 ToListSelectionHistoryEventHandlerExample >> listRemoveSelectedIndexesEvent: anEvent [
 ]
 
@@ -82,4 +78,8 @@ ToListSelectionHistoryEventHandlerExample >> listSelectIndexesEvent: anEvent [
 
 	historyList data add:
 		(anEvent currentTarget data at: anEvent indexes last)
+]
+
+{ #category : #'event handling' }
+ToListSelectionHistoryEventHandlerExample >> listShiftSelectionEvent: anEvent [
 ]

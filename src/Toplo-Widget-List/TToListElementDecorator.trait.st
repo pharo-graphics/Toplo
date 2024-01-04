@@ -157,6 +157,12 @@ TToListElementDecorator >> selectAndScrollTo: anInteger [
 ]
 
 { #category : #'t - accessing selection' }
+TToListElementDecorator >> selectIndex: anIndex [
+
+	self next selectIndex: anIndex
+]
+
+{ #category : #'t - accessing selection' }
 TToListElementDecorator >> selectIndexes: aCollection [
 
 	self next selectIndexes: aCollection
@@ -184,6 +190,18 @@ TToListElementDecorator >> selectedIndexes [
 TToListElementDecorator >> selection [
 
 	^ self next selection
+]
+
+{ #category : #'t - accessing selection' }
+TToListElementDecorator >> shiftSelectionAfterAddingAt: aStartPosition itemCount: anItemCount [
+
+	self next shiftSelectionAfterAddingAt: aStartPosition itemCount: anItemCount
+]
+
+{ #category : #'t - accessing selection' }
+TToListElementDecorator >> shiftSelectionAfterRemovingAt: aStartPosition itemCount: anItemCount [ 
+
+	self next shiftSelectionAfterRemovingAt: aStartPosition itemCount: anItemCount 
 ]
 
 { #category : #'t - infinite accessing' }

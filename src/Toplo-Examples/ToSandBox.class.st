@@ -1061,7 +1061,8 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 					                idx := selectedIndexes first.
 					                target data
 						                add: idx asString , ':XXXXXX'
-						                beforeIndex: idx ];
+						                beforeIndex: idx.
+					                target shiftSelectionAfterAddingAt: idx itemCount: 1 ];
 				                yourself).
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Insert after';
@@ -1079,7 +1080,13 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 					                selectedIndexes ifNotEmpty: [
 							                target data
 								                removeFrom: selectedIndexes first
-								                to: selectedIndexes last ] ];
+								                to: selectedIndexes last.
+							                target
+								                shiftSelectionAfterRemovingAt:
+									                selectedIndexes first
+								                itemCount:
+									                selectedIndexes last - selectedIndexes first
+									                + 1 ] ];
 				                yourself).
 		               menu addSeparator.
 		               menu addItem: selectionMenu ] ].
@@ -1887,23 +1894,25 @@ ToSandBox class >> example_contactList [
 		            width: 100;
 		            placeholderBuilder: [ :placeholder :e |
 			            placeholder addChild: (ToAttributedLabel new
-						             text:
-							             ('Name' asRopedText foreground: Color lightGray; italic);
+						             text: ('Name' asRopedText
+								              foreground: Color lightGray;
+								              italic);
 						             yourself) ].
 	phoneTxtF := ToTextField new
 		             width: 100;
 		             placeholderBuilder: [ :placeholder :e |
 			             placeholder addChild: (ToAttributedLabel new
-						              text:
-							              ('Phone' asRopedText foreground: Color lightGray; italic);
+						              text: ('Phone' asRopedText
+								               foreground: Color lightGray;
+								               italic);
 						              yourself) ].
 	addressTxtF := ToTextField new
 		               width: 200;
 		               placeholderBuilder: [ :placeholder :e |
 			               placeholder addChild: (ToAttributedLabel new
-						                text:
-							                ('Adress' asRopedText foreground:
-									                 Color lightGray; italic);
+						                text: ('Adress' asRopedText
+								                 foreground: Color lightGray;
+								                 italic);
 						                yourself) ].
 
 	list addEventHandler: (BlEventHandler
@@ -1975,7 +1984,10 @@ ToSandBox class >> example_contactList [
 				 on: BlClickEvent
 				 do: [ :event |
 					 event consumed: true.
-					 holder infiniteElement data removeAt: holder position ]).
+					 holder infiniteElement data removeAt: holder position.
+					 holder infiniteElement
+						 shiftSelectionAfterRemovingAt: holder position
+						 itemCount: 1 ]).
 		line addChild: remBut.
 		node addChild: line ].
 	list data addAll: contacts.
@@ -2326,27 +2338,24 @@ ToSandBox class >> example_selectWithEditingMultiSelection [
 	select windowManager anchorRoot: innerWindow root.
 	select hMatchParent.
 	select data addAll: self statesOfAmerica.
-
 	select addEventHandler: (BlEventHandler
 			 on: ToAlbumSaveAcceptedEvent
 			 do: [ :event |
-				 | target v idx |
-				 target := event currentTarget.
-				 v := event client text asString.
+				 | d |
+				 d := event client text asString asSymbol.
 				 event client text: ''.
-				 target data add: v.
-				 idx := target data indexOf: v.
-				 " ** have to ** defer the list element and the select header widgets update "
-				 target enqueueTask: (BlTaskAction new action: [
-						  target selectIndexes: target selectedIndexes , { idx } ]) ]).
+				 event currentTarget addNewData: d ]).
 
 	select addEventHandler: (BlEventHandler
 			 on: ToAlbumSaveRequestedEvent
 			 do: [ :event |
-				 | target |
+				 | target idx |
 				 target := event currentTarget.
-				 event validated:
-					 (target data includes: event client text asString) not ]).
+				 idx := target data indexOf: event client text asString asSymbol.
+				 event validated: idx isZero.
+				 idx > 0 ifTrue: [
+					 event client text: ''.
+					 target selectDataAt: idx ] ]).
 
 	innerWindow pane addChild: select.
 	innerWindow openInSpace

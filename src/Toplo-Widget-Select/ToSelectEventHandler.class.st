@@ -1,6 +1,9 @@
 Class {
 	#name : #ToSelectEventHandler,
 	#superclass : #ToElementWithPopupEventHandler,
+	#instVars : [
+		'addingNode'
+	],
 	#category : #'Toplo-Widget-Select'
 }
 
@@ -13,14 +16,23 @@ ToSelectEventHandler >> elementExtentChangedEvent: anEvent [
 ]
 
 { #category : #'api - accessing' }
-ToSelectEventHandler >> eventsToHandle [ 
+ToSelectEventHandler >> eventsToHandle [
 
-	^ super eventsToHandle , { BlElementExtentChangedEvent. "ToListSelectionChangedEvent" }
+	^ super eventsToHandle , {
+		  BlElementExtentChangedEvent.
+		  ToSelectNodeAddedEvent.
+		  ToListSelectionChangedEvent }
 ]
 
 { #category : #'element handlers' }
 ToSelectEventHandler >> listSelectionChangedEvent: anEvent [
 
-	target := anEvent currentTarget.
-	target onIndexesSelectedInList: anEvent currentIndexes
+	anEvent currentTarget refreshNodes
+]
+
+{ #category : #'element handlers' }
+ToSelectEventHandler >> selectNodeAddedEvent: anEvent [
+
+	anEvent currentTarget selectIndex: anEvent index.
+	anEvent currentTarget refreshNodes
 ]

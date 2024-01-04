@@ -58,6 +58,7 @@ ToListElement >> infiniteElementSharedEvents [
 	^ {
 		  ToListSelectionActionEvent.
 		  ToListStrongSelectionEvent.
+		  ToInfiniteSelectionDirtyEvent.
 		  ToInfiniteSelectionChangedEvent.
 		  BlElementScrolledEvent.
 		  BlElementExtentChangedEvent.

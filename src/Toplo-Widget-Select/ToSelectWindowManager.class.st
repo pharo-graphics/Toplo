@@ -40,6 +40,19 @@ ToSelectWindowManager >> elementEventHandlerClass [
 	^ ToSelectEventHandler
 ]
 
+{ #category : #'window handling' }
+ToSelectWindowManager >> fitListHeightToContent [
+
+	self listElement
+		vFitContent;
+		in: [ :e | e infinite vFitContent ];
+		maxHeight: self maxHeight.
+	self flag: 'Have to use this workaround. Else, selection in the listElement don''t work correctly'.
+	self currentWindowDo: [ :win | 
+		win root removeChild: self listElement.
+		win root addChild: self listElement ]
+]
+
 { #category : #initialization }
 ToSelectWindowManager >> initialize [
 
@@ -48,6 +61,7 @@ ToSelectWindowManager >> initialize [
 	listElement := ToListElement new
 		               vFitContent;
 		               hMatchParent.
+		
 	listElement requestFocusOnMouseDown: false.
 	listElement infinite maxHeight: self maxHeight.
 	listElement infinite vFitContent.

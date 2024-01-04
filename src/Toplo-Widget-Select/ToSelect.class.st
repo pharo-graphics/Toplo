@@ -24,7 +24,7 @@ ToSelect >> addAllDataNodes: aNodeCollection [
 { #category : #accessing }
 ToSelect >> addDataNode: aNode [
 
-	selectFlow addChild: aNode before: selectTextField 
+	selectFlow addChild: aNode before: selectTextField
 ]
 
 { #category : #accessing }
@@ -272,7 +272,8 @@ ToSelect >> refreshNodes [
 			data: (self data at: idx).
 		self nodeBuilder value: node value: holder.
 		node ].
-	self addAllDataNodes: nodes
+	self addAllDataNodes: nodes.
+	self windowManager fitListHeightToContent
 ]
 
 { #category : #accessing }

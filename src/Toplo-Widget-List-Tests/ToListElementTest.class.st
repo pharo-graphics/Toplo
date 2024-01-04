@@ -4,7 +4,7 @@ A ToListElementTest is a test class for testing the behavior of ToListElement
 Class {
 	#name : #ToListElementTest,
 	#superclass : #ToInfiniteTest,
-	#category : 'Toplo-Widget-List-Tests-Core'
+	#category : #'Toplo-Widget-List-Tests-Core'
 }
 
 { #category : #tests }
@@ -24,7 +24,10 @@ ToListElementTest >> listWithRemoveRowButtons [
 				 on: BlClickEvent
 				 do: [ :event |
 					 event consumed: true.
-					 holder infiniteElement data removeAt: holder position ]).
+					 holder infiniteElement data removeAt: holder position.
+					 holder infiniteElement
+						 shiftSelectionAfterRemovingAt: holder position
+						 itemCount: 1 ]).
 		filler := ToElement new
 			          matchParent;
 			          id: #filler.
@@ -135,6 +138,7 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved3 [
 	BlSpace simulateMouseUpOn: but.
 	self waitTestingSpaces.
 	self assert: list data size equals: 1.
+	list shiftSelectionAfterRemovingAt: 1 itemCount: 1.
 	self assert: list selectedIndexes isEmpty.
 	but := list childWithId: #'remove-button-2'.
 	BlSpace simulateMouseDownOn: but.

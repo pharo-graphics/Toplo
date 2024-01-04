@@ -483,6 +483,7 @@ ToListInfiniteElementTest >> testRemoveAll [
 	l data removeAll.
 	l forceLayout.
 	self assert: l children size equals: 0.
+	l shiftSelectionAfterRemovingAt: 2 itemCount: 3.
 	self assert: l selectedIndexes isEmpty
 ]
 
@@ -502,6 +503,7 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterInsert [
 	self assert: l primarySelection currentIndex equals: 3.
 	sp := l inSpace.
 	sp pulse.
+	l shiftSelectionAfterAddingAt: 1 itemCount: 1.
 	self assert: l primarySelection currentIndex equals: 4.
 	self assert: l selectedIndex equals: 4
 ]
@@ -526,7 +528,8 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterInsert1 [
 	self assert: l primarySelection currentIndex equals: 3.
 	sp := l inSpace.
 	sp pulse.
-	self assert: l primarySelection currentIndex equals: 8.
+	self assert: l primarySelection currentIndex equals: 3.
+	l shiftSelectionAfterAddingAt: 3 itemCount: 5.
 	self assert: l selectedIndex equals: 8
 ]
 
@@ -565,6 +568,7 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterInsert3 [
 	self assert: l primarySelection currentIndex equals: 3.
 	sp := l inSpace.
 	sp pulse.
+	l shiftSelectionAfterAddingAt: 1 itemCount: 1.
 	self assert: l primarySelection currentIndex equals: 4.
 	self assert: l selectedIndexes equals: #(4 5).	
 ]
@@ -585,6 +589,7 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove [
 	self assert: l primarySelection currentIndex equals: 3.
 	sp := l inSpace.
 	sp pulse.
+	l shiftSelectionAfterRemovingAt: 2 itemCount: 1.
 	self assert: l primarySelection currentIndex equals: 2.
 	self assert: l selectedIndex equals: 2
 ]
@@ -608,6 +613,7 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove1 [
 	sp pulse.
 	self assert: l children size equals: 0.
 	self assert: l data size equals: 0.
+	l shiftSelectionAfterRemovingAt: 1 itemCount: 5.
 	self assert: l primarySelection currentIndex equals: 0.
 	self assert: l selectedIndex equals: 0
 ]
@@ -647,6 +653,7 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove3 [
 	self assert: l primarySelection currentIndex equals: 3.
 	sp := l inSpace.
 	sp pulse.
+	l shiftSelectionAfterRemovingAt: 2 itemCount: 1.
 	self assert: l primarySelection currentIndex equals: 2.
 	self assert: l selectedIndexes equals: #(2 3).	
 ]
@@ -669,6 +676,7 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove4 [
 	self assert: l primarySelection currentIndex equals: 2.
 	sp := l inSpace.
 	sp pulse.
+	l shiftSelectionAfterRemovingAt: 2 itemCount: 1.
 	self assert: l selectedIndexes isEmpty.
 	self assert: l primarySelection currentIndex equals: 0
 ]

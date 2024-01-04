@@ -2327,24 +2327,26 @@ ToSandBox class >> example_selectWithEditingMultiSelection [
 	select hMatchParent.
 	select data addAll: self statesOfAmerica.
 
-	select textField addEventHandler: (BlEventHandler
+	select addEventHandler: (BlEventHandler
 			 on: ToAlbumSaveAcceptedEvent
 			 do: [ :event |
 				 | target v idx |
-				 target := select.
+				 target := event currentTarget.
 				 v := event client text asString.
 				 event client text: ''.
-				 target data addFirst: v.
+				 target data add: v.
 				 idx := target data indexOf: v.
-				target data size trace. ' ' trace. idx traceCr.
-				 target selectIndexes: { idx } ]).
+				 " ** have to ** defer the list element and the select header widgets update "
+				 target enqueueTask: (BlTaskAction new action: [
+						  target selectIndexes: target selectedIndexes , { idx } ]) ]).
 
-	select textField addEventHandler: (BlEventHandler
+	select addEventHandler: (BlEventHandler
 			 on: ToAlbumSaveRequestedEvent
 			 do: [ :event |
+				 | target |
+				 target := event currentTarget.
 				 event validated:
-					 (select data includes: event client text asString)
-						 not ]).
+					 (target data includes: event client text asString) not ]).
 
 	innerWindow pane addChild: select.
 	innerWindow openInSpace

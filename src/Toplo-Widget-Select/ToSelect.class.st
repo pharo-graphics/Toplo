@@ -73,15 +73,22 @@ ToSelect >> initialize [
 	contentElement := self newContentElement.
 	" the flow element taht contains nodes + the text field "
 	selectFlow := self newSelectFlow.
+	
+	windowManager := ToSelectWindowManager new element: self.
+	
 	" the text field for the select input "
 	selectTextField := self newSelectTextField.
 	selectTextField requestFocus.
 	sharedDistributor := BlSharedEventDistributor new.
 	sharedDistributor
 		adjustMousePosition: false;
-		shareEvents: { ToAlbumClientEvent }.
-	"selectTextField addEventHandler: sharedDistributor.
-	self addEventHandler: sharedDistributor."
+		shareEvents: { ToAlbumClientEvent. "ToListSelectionChangedEvent"  }.
+	selectTextField addEventHandler: sharedDistributor.
+	self addEventHandler: sharedDistributor.
+	"self listElement addEventHandler: sharedDistributor."
+	self listElement addEventHandler: (BlEventHandler
+			 on: ToListSelectionChangedEvent
+			 do: [ :evt | self enqueueTask: (BlTaskAction new action: [self onIndexesSelectedInList: self listElement selectedIndexes ])]).
 
 	selectFlow addChild: selectTextField.
 	contentElement addChild: selectFlow.
@@ -90,8 +97,6 @@ ToSelect >> initialize [
 	self addChildren: {
 			contentElement.
 			iconContainer }.
-
-	windowManager := ToSelectWindowManager new element: self.
 	
 
 ]

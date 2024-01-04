@@ -15,5 +15,12 @@ ToSelectEventHandler >> elementExtentChangedEvent: anEvent [
 { #category : #'api - accessing' }
 ToSelectEventHandler >> eventsToHandle [ 
 
-	^ super eventsToHandle , { BlElementExtentChangedEvent }
+	^ super eventsToHandle , { BlElementExtentChangedEvent. "ToListSelectionChangedEvent" }
+]
+
+{ #category : #'element handlers' }
+ToSelectEventHandler >> listSelectionChangedEvent: anEvent [
+
+	target := anEvent currentTarget.
+	target onIndexesSelectedInList: anEvent currentIndexes
 ]

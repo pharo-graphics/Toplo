@@ -10,7 +10,9 @@ Class {
 		'nodeHolders',
 		'iconContainer',
 		'selectTextField',
-		'selectFlow'
+		'selectFlow',
+		'fakeData',
+		'fakeNode'
 	],
 	#category : #'Toplo-Widget-Select'
 }
@@ -22,20 +24,20 @@ ToSelect >> addAllDataNodes: aNodeCollection [
 ]
 
 { #category : #accessing }
-ToSelect >> addDataNode: aNode [
-
-	selectFlow addChild: aNode before: selectTextField
-]
-
-{ #category : #accessing }
-ToSelect >> addNewData: aData [
+ToSelect >> addData: aData [
 
 	| idx |
 	self data add: aData.
 	idx := self data size.
-	self dispatchEvent: (ToSelectNodeAddedEvent new
+	self dispatchEvent: (ToSelectDataAddedEvent new
 			 index: idx;
 			 yourself)
+]
+
+{ #category : #accessing }
+ToSelect >> addDataNode: aNode [
+
+	selectFlow addChild: aNode before: selectTextField
 ]
 
 { #category : #accessing }
@@ -64,6 +66,19 @@ ToSelect >> defaultNodeBuilder [
 ToSelect >> defaultNodeClass [ 
 
 	^ ToSelectNode
+]
+
+{ #category : #accessing }
+ToSelect >> fakeData [
+
+	^ fakeData ifNil: [ fakeData := '' ]
+]
+
+{ #category : #accessing }
+ToSelect >> fakeData: aData [
+
+	fakeData := aData.
+	self initializeFakeNode
 ]
 
 { #category : #accessing }
@@ -98,12 +113,12 @@ ToSelect >> initialize [
 	nodeClass := self defaultNodeClass.
 	nodeHolders := OrderedCollection new.
 	nodeBuilder := self defaultNodeBuilder.
-
+	
 	" the element that holds the flow"
 	contentElement := self newContentElement.
 	" the flow element taht contains nodes + the text field "
 	selectFlow := self newSelectFlow.
-	
+
 	windowManager := ToSelectWindowManager new element: self.
 	
 	" the text field for the select input "
@@ -123,8 +138,30 @@ ToSelect >> initialize [
 	self addChildren: {
 			contentElement.
 			iconContainer }.
+			
+	self initializeFakeNode.
+	
 	
 
+]
+
+{ #category : #initialization }
+ToSelect >> initializeFakeNode [
+	" the fake node is added when no data is selected to ensure a 
+	suitable minimum height according to the node class, the node builder 
+	and the data kind."
+
+	| fakeHolder |
+	fakeNode := self newNode.
+	fakeNode id: #'fake-node'.
+	fakeHolder := self newNodeHolder.
+	fakeNode selectHolder: fakeHolder.
+	fakeHolder
+		node: fakeNode;
+		data: self fakeData.
+	self nodeBuilder value: fakeNode value: fakeHolder.
+	fakeNode width: 0.
+	self refreshNodes
 ]
 
 { #category : #accessing }
@@ -220,7 +257,8 @@ ToSelect >> nodeBuilder: aValuable [
 	aValuable take the select node element to build as first argument 
 	and the select node holder as second argument"
 	
-	nodeBuilder := aValuable
+	nodeBuilder := aValuable.
+	self initializeFakeNode
 ]
 
 { #category : #accessing }
@@ -232,7 +270,8 @@ ToSelect >> nodeClass [
 { #category : #accessing }
 ToSelect >> nodeClass: aNodeClass [
 
-	nodeClass := aNodeClass
+	nodeClass := aNodeClass.
+	self initializeFakeNode
 ]
 
 { #category : #'accessing selection' }
@@ -253,7 +292,7 @@ ToSelect >> onListCloseRequest [
 	self textField requestFocus
 ]
 
-{ #category : #'accessing selection' }
+{ #category : #'accessing list' }
 ToSelect >> refreshNodes [ 
 
 	| nodes |
@@ -273,6 +312,7 @@ ToSelect >> refreshNodes [
 		self nodeBuilder value: node value: holder.
 		node ].
 	self addAllDataNodes: nodes.
+	nodes ifEmpty: [ selectFlow addChild: fakeNode ].
 	self windowManager fitListHeightToContent
 ]
 

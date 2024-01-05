@@ -1,5 +1,5 @@
 Class {
-	#name : #ToSelectNodeAddedEvent,
+	#name : #ToSelectDataAddedEvent,
 	#superclass : #BlEvent,
 	#instVars : [
 		'index'
@@ -8,19 +8,19 @@ Class {
 }
 
 { #category : #accessing }
-ToSelectNodeAddedEvent >> index [
+ToSelectDataAddedEvent >> index [
 
 	^ index
 ]
 
 { #category : #accessing }
-ToSelectNodeAddedEvent >> index: anInteger [
+ToSelectDataAddedEvent >> index: anInteger [
 
 	index := anInteger
 ]
 
 { #category : #sending }
-ToSelectNodeAddedEvent >> sendTo: anObject [
+ToSelectDataAddedEvent >> sendTo: anObject [
 
-	anObject selectNodeAddedEvent: self
+	anObject selectDataAddedEvent: self
 ]

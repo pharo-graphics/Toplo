@@ -23,11 +23,7 @@ ToTextField >> initialize [
 	self infinite vFitContent.
 	self next vFitContent.
 	self vFitContent.
-	self withoutLineWrapping.
-	"self addEventHandler:	(AlbTextEditorCursorIconHandler new element: self)."
-	"self addEventHandler:	(AlbTextEditorSelectionHandler new element: self infinite)."
-	"self addEventHandler:	(AlbTextEditorDoubleClickHandler new element: self infinite)."
-
+	self withoutLineWrapping
 ]
 
 { #category : #'t - element with placeholder' }

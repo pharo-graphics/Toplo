@@ -43,12 +43,14 @@ ToSelectWindowManager >> elementEventHandlerClass [
 { #category : #'window handling' }
 ToSelectWindowManager >> fitListHeightToContent [
 
+	self listElement height < self maxHeight ifFalse: [ ^ self ].
 	self listElement
 		vFitContent;
 		in: [ :e | e infinite vFitContent ];
 		maxHeight: self maxHeight.
-	self flag: 'Have to use this workaround. Else, selection in the listElement don''t work correctly'.
-	self currentWindowDo: [ :win | 
+	self flag:
+		'Have to use this workaround. Else, selection in the listElement don''t work correctly'.
+	self currentWindowDo: [ :win |
 		win root removeChild: self listElement.
 		win root addChild: self listElement ]
 ]

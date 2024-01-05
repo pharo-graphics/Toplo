@@ -20,7 +20,7 @@ ToSelectEventHandler >> eventsToHandle [
 
 	^ super eventsToHandle , {
 		  BlElementExtentChangedEvent.
-		  ToSelectNodeAddedEvent.
+		  ToSelectDataAddedEvent.
 		  ToListSelectionChangedEvent }
 ]
 
@@ -31,7 +31,7 @@ ToSelectEventHandler >> listSelectionChangedEvent: anEvent [
 ]
 
 { #category : #'element handlers' }
-ToSelectEventHandler >> selectNodeAddedEvent: anEvent [
+ToSelectEventHandler >> selectDataAddedEvent: anEvent [
 
 	anEvent currentTarget selectIndex: anEvent index.
 	anEvent currentTarget refreshNodes

@@ -1,11 +1,11 @@
 Class {
-	#name : #ToSkinInstallStateRequestEventHandler,
+	#name : #ToSkinManagerEventHandler,
 	#superclass : #BlCustomEventHandler,
-	#category : 'Toplo-Core-Theme'
+	#category : #'Toplo-Core-Skin'
 }
 
 { #category : #enablement }
-ToSkinInstallStateRequestEventHandler >> enablementChangedEvent: anEvent [
+ToSkinManagerEventHandler >> enablementChangedEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
@@ -13,7 +13,7 @@ ToSkinInstallStateRequestEventHandler >> enablementChangedEvent: anEvent [
 ]
 
 { #category : #'api - accessing' }
-ToSkinInstallStateRequestEventHandler >> eventsToHandle [
+ToSkinManagerEventHandler >> eventsToHandle [
 
 	^ {
 		  ToSkinManagementEvent.
@@ -21,7 +21,7 @@ ToSkinInstallStateRequestEventHandler >> eventsToHandle [
 ]
 
 { #category : #'event handling' }
-ToSkinInstallStateRequestEventHandler >> skinInstallStateRequest: anEvent [
+ToSkinManagerEventHandler >> skinInstallStateRequest: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
@@ -29,7 +29,7 @@ ToSkinInstallStateRequestEventHandler >> skinInstallStateRequest: anEvent [
 ]
 
 { #category : #'event handling' }
-ToSkinInstallStateRequestEventHandler >> skinUninstallStateRequest: anEvent [
+ToSkinManagerEventHandler >> skinUninstallStateRequest: anEvent [
 
 	| target |
 	target := anEvent currentTarget.

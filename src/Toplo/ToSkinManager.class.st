@@ -17,7 +17,7 @@ Class {
 		'registeredThemeClasses',
 		'defaultRawSkin'
 	],
-	#category : #'Toplo-Core-Theme'
+	#category : #'Toplo-Core-Skin'
 }
 
 { #category : #adding }
@@ -185,7 +185,7 @@ ToSkinManager >> isSetUpForTheme: aTheme [
 ToSkinManager >> onInstalledIn: anElement [
 
 	registeredThemeClasses := IdentitySet new.
-	skinManagementEventHandler := ToSkinInstallStateRequestEventHandler new.
+	skinManagementEventHandler := ToSkinManagerEventHandler new.
 	anElement addEventHandler: skinManagementEventHandler
 ]
 

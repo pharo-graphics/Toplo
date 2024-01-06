@@ -7,7 +7,7 @@ Class {
 		'tokenPropertyIndex',
 		'stampIndex'
 	],
-	#category : 'Toplo-Core-Theme'
+	#category : #'Toplo-Core-Skin'
 }
 
 { #category : #'api - hooks' }

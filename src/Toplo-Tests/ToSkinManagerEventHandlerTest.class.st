@@ -2,33 +2,33 @@
 A ToSkinManagementEventHandlerTest is a test class for testing the behavior of ToSkinManagementEventHandler
 "
 Class {
-	#name : #ToSkinInstallStateRequestEventHandlerTest,
+	#name : #ToSkinManagerEventHandlerTest,
 	#superclass : #TestCase,
-	#category : 'Toplo-Tests-Core-Theme'
+	#category : #'Toplo-Tests-Core-Theme'
 }
 
 { #category : #tests }
-ToSkinInstallStateRequestEventHandlerTest >> testEventsToHandle [
+ToSkinManagerEventHandlerTest >> testEventsToHandle [
 
 	| handler |
-	handler := ToSkinInstallStateRequestEventHandler new.
+	handler := ToSkinManagerEventHandler new.
 	self assert: handler eventsToHandle anyOne equals: ToSkinManagementEvent
 ]
 
 { #category : #tests }
-ToSkinInstallStateRequestEventHandlerTest >> testSkinInstallStateRequest [
+ToSkinManagerEventHandlerTest >> testSkinInstallStateRequest [
 
 	| e nk nextInQueue |
 	e := BlElement new.
 	self
 		assert: (e eventDispatcher handlers select: [ :h |
-				 h isKindOf: ToSkinInstallStateRequestEventHandler ]) size
+				 h isKindOf: ToSkinManagerEventHandler ]) size
 		equals: 0.
 	" skinManager install on e will add a skin management event handler "
 	e skinManager.
 	self
 		assert: (e eventDispatcher handlers select: [ :h |
-				 h isKindOf: ToSkinInstallStateRequestEventHandler ]) size
+				 h isKindOf: ToSkinManagerEventHandler ]) size
 		equals: 1.
 	nk := ToNullSkin new.
 	e dispatchEvent: (ToSkinInstallStateRequest new skin: nk).
@@ -41,7 +41,7 @@ ToSkinInstallStateRequestEventHandlerTest >> testSkinInstallStateRequest [
 ]
 
 { #category : #tests }
-ToSkinInstallStateRequestEventHandlerTest >> testSkinUninstallStateRequest [
+ToSkinManagerEventHandlerTest >> testSkinUninstallStateRequest [
 
 	| e nk |
 	e := BlElement new.

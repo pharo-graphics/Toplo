@@ -1,7 +1,7 @@
 Class {
 	#name : #ToRawSkin,
 	#superclass : #ToSkin,
-	#category : 'Toplo-Core-Theme'
+	#category : #'Toplo-Core-Skin'
 }
 
 { #category : #'event handling' }

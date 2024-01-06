@@ -1,7 +1,7 @@
 Class {
 	#name : #ToNullSkin,
 	#superclass : #ToSkin,
-	#category : 'Toplo-Core-Theme'
+	#category : #'Toplo-Core-Skin'
 }
 
 { #category : #'api - accessing' }

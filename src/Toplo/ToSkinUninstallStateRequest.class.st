@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSkinUninstallStateRequest,
 	#superclass : #ToSkinManagementEvent,
-	#category : 'Toplo-Core-Theme'
+	#category : #'Toplo-Core-Skin'
 }
 
 { #category : #sending }

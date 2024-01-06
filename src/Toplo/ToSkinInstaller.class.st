@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'installing'
 	],
-	#category : #'Toplo-Core-Theme'
+	#category : #'Toplo-Core-Skin'
 }
 
 { #category : #hook }

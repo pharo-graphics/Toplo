@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'skin'
 	],
-	#category : 'Toplo-Core-Theme'
+	#category : #'Toplo-Core-Skin'
 }
 
 { #category : #sending }

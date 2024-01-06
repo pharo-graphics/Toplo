@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSkinInstallStateRequest,
 	#superclass : #ToSkinManagementEvent,
-	#category : 'Toplo-Core-Theme'
+	#category : #'Toplo-Core-Skin'
 }
 
 { #category : #sending }

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'removeFromSceneGraphHandler'
 	],
-	#category : 'Toplo-Core-Theme'
+	#category : #'Toplo-Core-Skin'
 }
 
 { #category : #'api - accessing' }

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSkinUninstaller,
 	#superclass : #Object,
-	#category : 'Toplo-Core-Theme'
+	#category : #'Toplo-Core-Skin'
 }
 
 { #category : #hook }

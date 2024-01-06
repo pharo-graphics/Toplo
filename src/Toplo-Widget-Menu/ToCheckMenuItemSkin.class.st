@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToCheckMenuItemSkin',
-	#superclass : 'ToMenuItemSkin',
-	#category : 'Toplo-Widget-Menu-Basic',
-	#package : 'Toplo-Widget-Menu',
-	#tag : 'Basic'
+	#name : #ToCheckMenuItemSkin,
+	#superclass : #ToMenuItemSkin,
+	#category : 'Toplo-Widget-Menu-Basic'
 }
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToCheckMenuItemSkin >> checkedLookEvent: anEvent [
 
 	super checkedLookEvent: anEvent.
@@ -15,7 +13,7 @@ ToCheckMenuItemSkin >> checkedLookEvent: anEvent [
 		e indeterminateChild background: Color transparent ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToCheckMenuItemSkin >> disabledLookEvent: anEvent [
 
 	super disabledLookEvent: anEvent.
@@ -27,7 +25,7 @@ ToCheckMenuItemSkin >> disabledLookEvent: anEvent [
 		e indeterminateChild background: Color transparent ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToCheckMenuItemSkin >> enabledLookEvent: anEvent [
 
 	super enabledLookEvent: anEvent.
@@ -37,7 +35,7 @@ ToCheckMenuItemSkin >> enabledLookEvent: anEvent [
 		e icon border: (e tokenValueNamed: #'color-border') ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToCheckMenuItemSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
@@ -47,13 +45,13 @@ ToCheckMenuItemSkin >> hoveredLookEvent: anEvent [
 		e icon border: (BlBorder paint: (e tokenValueNamed: #'color-primary') width: 1) ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToCheckMenuItemSkin >> iconGeometryIn: aCheckbox [
 
 	^ BlRoundedRectangleGeometry cornerRadius: 4
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToCheckMenuItemSkin >> indeterminateLookEvent: anEvent [
 
 	super indeterminateLookEvent: anEvent.
@@ -62,7 +60,7 @@ ToCheckMenuItemSkin >> indeterminateLookEvent: anEvent [
 		e indeterminateChild background: (e tokenValueNamed: #'color-primary')]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToCheckMenuItemSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
@@ -74,7 +72,7 @@ ToCheckMenuItemSkin >> installLookEvent: anEvent [
 	
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToCheckMenuItemSkin >> leavedLookEvent: anEvent [
 
 	super leavedLookEvent: anEvent.
@@ -83,7 +81,7 @@ ToCheckMenuItemSkin >> leavedLookEvent: anEvent [
 		e icon border: (e tokenValueNamed: #'color-border') ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToCheckMenuItemSkin >> pressedLookEvent: anEvent [
 
 	super pressedLookEvent: anEvent.
@@ -91,7 +89,7 @@ ToCheckMenuItemSkin >> pressedLookEvent: anEvent [
 		e border: BlBorder empty ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToCheckMenuItemSkin >> uncheckedLookEvent: anEvent [
 
 	super uncheckedLookEvent: anEvent.

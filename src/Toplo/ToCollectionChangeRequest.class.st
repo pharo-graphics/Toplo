@@ -2,19 +2,19 @@ Class {
 	#name : #ToCollectionChangeRequest,
 	#superclass : #ToCollectionChangedEvent,
 	#instVars : [
-		'validated'
+		'accepted'
 	],
-	#category : 'Toplo-Core-Collection'
+	#category : #'Toplo-Core-Collection'
 }
 
 { #category : #accessing }
-ToCollectionChangeRequest >> validated [
+ToCollectionChangeRequest >> accepted [
 
-	^ validated ifNil: [ validated := true ]
+	^ accepted ifNil: [ accepted := true ]
 ]
 
 { #category : #accessing }
-ToCollectionChangeRequest >> validated: anObject [
+ToCollectionChangeRequest >> accepted: anObject [
 
-	validated := anObject
+	accepted := anObject
 ]

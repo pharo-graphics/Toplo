@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToChoiceMenuSkin',
-	#superclass : 'ToMenuSkin',
-	#category : 'Toplo-Widget-Menu-Choice menu',
-	#package : 'Toplo-Widget-Menu',
-	#tag : 'Choice menu'
+	#name : #ToChoiceMenuSkin,
+	#superclass : #ToMenuSkin,
+	#category : 'Toplo-Widget-Menu-Choice menu'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 ToChoiceMenuSkin >> disabledLookEvent: anEvent [
 
 	super disabledLookEvent: anEvent.
@@ -16,7 +14,7 @@ ToChoiceMenuSkin >> disabledLookEvent: anEvent [
 				 width: (e tokenValueNamed: #'line-width')) ]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 ToChoiceMenuSkin >> enabledLookEvent: anEvent [
 
 	super enabledLookEvent: anEvent.
@@ -26,7 +24,7 @@ ToChoiceMenuSkin >> enabledLookEvent: anEvent [
 				 width: (e tokenValueNamed: #'line-width')) ]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 ToChoiceMenuSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
@@ -36,7 +34,7 @@ ToChoiceMenuSkin >> hoveredLookEvent: anEvent [
 				 width: (e tokenValueNamed: #'line-width')) ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToChoiceMenuSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
@@ -47,7 +45,7 @@ ToChoiceMenuSkin >> installLookEvent: anEvent [
 		e icon: (ToImage inner: (self iconNamed: #bottom)) ]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 ToChoiceMenuSkin >> leavedLookEvent: anEvent [
 
 	super leavedLookEvent: anEvent.
@@ -57,7 +55,7 @@ ToChoiceMenuSkin >> leavedLookEvent: anEvent [
 				 width: (e tokenValueNamed: #'line-width')) ]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 ToChoiceMenuSkin >> pressedLookEvent: anEvent [
 
 	super pressedLookEvent: anEvent.

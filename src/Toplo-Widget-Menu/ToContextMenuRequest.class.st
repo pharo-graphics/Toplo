@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToContextMenuRequest',
-	#superclass : 'ToWindowOpenRequest',
-	#category : 'Toplo-Widget-Menu-Context menu',
-	#package : 'Toplo-Widget-Menu',
-	#tag : 'Context menu'
+	#name : #ToContextMenuRequest,
+	#superclass : #ToWindowOpenRequest,
+	#category : 'Toplo-Widget-Menu-Context menu'
 }
 
-{ #category : 'sending' }
+{ #category : #sending }
 ToContextMenuRequest >> sendTo: anEvent [
 
 	anEvent contextMenuRequest: self

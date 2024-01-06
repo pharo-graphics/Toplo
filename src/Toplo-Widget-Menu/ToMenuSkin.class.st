@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToMenuSkin',
-	#superclass : 'ToMenuItemSkin',
-	#category : 'Toplo-Widget-Menu-Basic',
-	#package : 'Toplo-Widget-Menu',
-	#tag : 'Basic'
+	#name : #ToMenuSkin,
+	#superclass : #ToMenuItemSkin,
+	#category : 'Toplo-Widget-Menu-Basic'
 }
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToMenuSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
@@ -26,7 +24,7 @@ ToMenuSkin >> installLookEvent: anEvent [
 					ifFalse: [ e interspace: 0 ] ] ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToMenuSkin >> uninstallLookEvent: anEvent [
 
 	super uninstallLookEvent: anEvent.

@@ -3,16 +3,28 @@ Class {
 	#superclass : #ToAlbumClientEvent,
 	#instVars : [
 		'unacceptedEdits',
-		'validated'
+		'accepted'
 	],
 	#category : #'Toplo-Widget-Album-TextPane'
 }
+
+{ #category : #accessing }
+ToAlbumSaveRequestedEvent >> accepted [
+
+	^ accepted ifNil: [ accepted := false ]
+]
+
+{ #category : #accessing }
+ToAlbumSaveRequestedEvent >> accepted: aBoolean [
+
+	accepted := aBoolean
+]
 
 { #category : #copying }
 ToAlbumSaveRequestedEvent >> copySharedStatesFrom: anEvent [
 
 	super copySharedStatesFrom: anEvent.
-	self validated: anEvent validated.
+	self accepted: anEvent accepted.
 	self unacceptedEdits: anEvent unacceptedEdits.
 ]
 
@@ -26,16 +38,4 @@ ToAlbumSaveRequestedEvent >> unacceptedEdits [
 ToAlbumSaveRequestedEvent >> unacceptedEdits: aBoolean [
 
 	unacceptedEdits := aBoolean
-]
-
-{ #category : #accessing }
-ToAlbumSaveRequestedEvent >> validated [
-
-	^ validated ifNil: [ validated := false ]
-]
-
-{ #category : #accessing }
-ToAlbumSaveRequestedEvent >> validated: aBoolean [
-
-	validated := aBoolean
 ]

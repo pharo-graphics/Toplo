@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'ocol'
 	],
-	#category : 'Toplo-Tests-Core-Collection'
+	#category : #'Toplo-Tests-Core-Collection'
 }
 
 { #category : #running }
@@ -33,7 +33,7 @@ ToCollectionChangedEventTest >> testAddRequestAddEvent [
 				 requestCount := requestCount + 1.
 				 candidates := request candidates.
 				 reqInterval := request interval.
-				 request validated: validate ]).
+				 request accepted: validate ]).
 	ocol addEventHandler: (BlEventHandler
 			 on: ToCollectionAddEvent
 			 do: [ :event |
@@ -77,7 +77,7 @@ ToCollectionChangedEventTest >> testFilterRequestFilterEvent [
 			 do: [ :request |
 				 requestCount := requestCount + 1.
 				 reqInterval := request interval.
-				 request validated: validate ]).
+				 request accepted: validate ]).
 	ocol addEventHandler: (BlEventHandler
 			 on: ToCollectionFilterEvent
 			 do: [ :event |
@@ -124,7 +124,7 @@ ToCollectionChangedEventTest >> testRemoveRequestRemoveEvent [
 			 do: [ :request |
 				 requestCount := requestCount + 1.
 				 reqInterval := request interval.
-				 request validated: validate ]).
+				 request accepted: validate ]).
 	ocol addEventHandler: (BlEventHandler
 			 on: ToCollectionRemoveEvent
 			 do: [ :event |
@@ -166,7 +166,7 @@ ToCollectionChangedEventTest >> testUpdateRequestUpdateEvent [
 			 do: [ :request |
 				 requestCount := requestCount + 1.
 				 reqInterval := request interval.
-				 request validated: validate ]).
+				 request accepted: validate ]).
 	ocol addEventHandler: (BlEventHandler
 			 on: ToCollectionUpdateEvent
 			 do: [ :event |

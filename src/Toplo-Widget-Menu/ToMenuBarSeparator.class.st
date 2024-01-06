@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToMenuBarSeparator',
-	#superclass : 'ToElement',
-	#category : 'Toplo-Widget-Menu-Bar',
-	#package : 'Toplo-Widget-Menu',
-	#tag : 'Bar'
+	#name : #ToMenuBarSeparator,
+	#superclass : #ToElement,
+	#category : 'Toplo-Widget-Menu-Bar'
 }
 
-{ #category : 'orientation' }
+{ #category : #orientation }
 ToMenuBarSeparator >> beHorizontal [
 
 	self constraintsDo: [ :c | 
@@ -14,7 +12,7 @@ ToMenuBarSeparator >> beHorizontal [
 		c vertical exact: 1 ]
 ]
 
-{ #category : 'orientation' }
+{ #category : #orientation }
 ToMenuBarSeparator >> beVertical [
 
 	self constraintsDo: [ :c | 
@@ -22,7 +20,7 @@ ToMenuBarSeparator >> beVertical [
 		c horizontal exact: 1 ]
 ]
 
-{ #category : 'orientation' }
+{ #category : #orientation }
 ToMenuBarSeparator >> horizontal: aBoolean [
 
 	aBoolean
@@ -30,7 +28,7 @@ ToMenuBarSeparator >> horizontal: aBoolean [
 		ifFalse: [ self beVertical ]
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToMenuBarSeparator >> initialize [
 
 	super initialize.

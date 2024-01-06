@@ -1,6 +1,6 @@
 Class {
-	#name : 'ToChoiceMenu',
-	#superclass : 'ToMenu',
+	#name : #ToChoiceMenu,
+	#superclass : #ToMenu,
 	#instVars : [
 		'group',
 		'data',
@@ -8,25 +8,23 @@ Class {
 		'defaultLabel',
 		'defaultSelectedIndex'
 	],
-	#category : 'Toplo-Widget-Menu-Choice menu',
-	#package : 'Toplo-Widget-Menu',
-	#tag : 'Choice menu'
+	#category : #'Toplo-Widget-Menu-Choice menu'
 }
 
-{ #category : 'adding / removing' }
+{ #category : #'adding / removing' }
 ToChoiceMenu >> addData: anObject [
 
 	self data add: anObject
 ]
 
-{ #category : 'private - notifications' }
+{ #category : #'private - notifications' }
 ToChoiceMenu >> checkableGroupChangedEvent: anEvent [
 
 	self updateLabel.
 	self notifyChanged
 ]
 
-{ #category : 'private - accessing' }
+{ #category : #'private - accessing' }
 ToChoiceMenu >> checkedMenuItem [
 
 	^ group buttons
@@ -34,31 +32,31 @@ ToChoiceMenu >> checkedMenuItem [
 		  ifNone: [  ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToChoiceMenu >> data [
 
 	^ data 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToChoiceMenu >> dataToTextConverter [
 
 	^ dataToTextConverter
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToChoiceMenu >> dataToTextConverter: aValuable [
 
 	dataToTextConverter := aValuable
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToChoiceMenu >> defaultLabel [ 
 
 	^ defaultLabel
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToChoiceMenu >> defaultLabel: aLabel [
 
 	defaultLabel = aLabel ifTrue: [ ^ self ].
@@ -66,19 +64,19 @@ ToChoiceMenu >> defaultLabel: aLabel [
 	self selectedIndex > 0 ifFalse: [ self label: self defaultLabel ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToChoiceMenu >> defaultLabelText: aText [
 
 	self defaultLabel: (ToLabel text: aText)
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToChoiceMenu >> defaultSelectedIndex [
 
 	^ defaultSelectedIndex 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToChoiceMenu >> defaultSelectedIndex: anInteger [
 
 	defaultSelectedIndex = anInteger ifTrue: [ ^ self ].
@@ -88,19 +86,19 @@ ToChoiceMenu >> defaultSelectedIndex: anInteger [
 			self selectIndex: self defaultSelectedIndex ] ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToChoiceMenu >> group [
 
 	^ group
 ]
 
-{ #category : 'private - accessing' }
+{ #category : #'private - accessing' }
 ToChoiceMenu >> indexOfData: aData [
 
 	^ self data indexOf: aData ifAbsent: [ 0 ]
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToChoiceMenu >> initialize [
 
 	super initialize.
@@ -114,7 +112,7 @@ ToChoiceMenu >> initialize [
 			 do: [ :event | self checkableGroupChangedEvent: event ])
 ]
 
-{ #category : 'private - accessing' }
+{ #category : #'private - accessing' }
 ToChoiceMenu >> menuItemFromData: anObject [
 
 	^ group buttons
@@ -122,13 +120,13 @@ ToChoiceMenu >> menuItemFromData: anObject [
 		  ifNone: [  ]
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToChoiceMenu >> newDataCollection [
 
 	^ ToObservableCollection new
 ]
 
-{ #category : 'private - notifications' }
+{ #category : #'private - notifications' }
 ToChoiceMenu >> newMenuItemFromData: anObject [
 
 	^ ToChoiceItem new
@@ -137,14 +135,14 @@ ToChoiceMenu >> newMenuItemFromData: anObject [
 		  yourself
 ]
 
-{ #category : 'skin' }
+{ #category : #skin }
 ToChoiceMenu >> newRawSkin [
 
 	^ ToChoiceMenuSkin new
 	
 ]
 
-{ #category : 'private - notifications' }
+{ #category : #'private - notifications' }
 ToChoiceMenu >> notifyBeforeDataRemoved: anEvent [
 
 	| removedData |
@@ -155,7 +153,7 @@ ToChoiceMenu >> notifyBeforeDataRemoved: anEvent [
 		item := self menuItemFromData: d.
 		item isChecked ifTrue: [ item checked: false ].
 		item isChecked ifTrue: [ 
-			anEvent validated: false.
+			anEvent accepted: false.
 			^ Error signal: 'Can''t removed a checked item' ] ].
 	removedData do: [ :d |
 		| item |
@@ -164,13 +162,13 @@ ToChoiceMenu >> notifyBeforeDataRemoved: anEvent [
 		self group remove: item ]
 ]
 
-{ #category : 'private - notifications' }
+{ #category : #'private - notifications' }
 ToChoiceMenu >> notifyChanged [
 
 	self dispatchEvent: ToChoiceChangedEvent new
 ]
 
-{ #category : 'private - notifications' }
+{ #category : #'private - notifications' }
 ToChoiceMenu >> notifyDataChanged: anInterval [
 
 	anInterval ifEmpty: [ ^ self ].
@@ -184,7 +182,7 @@ ToChoiceMenu >> notifyDataChanged: anInterval [
 		(self selectedData = self data at: idx) ifTrue: [ self selectData: nil ] ]
 ]
 
-{ #category : 'private - notifications' }
+{ #category : #'private - notifications' }
 ToChoiceMenu >> notifyDataInserted: anInterval [
 
 	| newItems |
@@ -194,7 +192,7 @@ ToChoiceMenu >> notifyDataInserted: anInterval [
 	self group addAll: newItems
 ]
 
-{ #category : 'hooks - children' }
+{ #category : #'hooks - children' }
 ToChoiceMenu >> onAddedToSceneGraph [
 
 	super onAddedToSceneGraph.
@@ -204,7 +202,7 @@ ToChoiceMenu >> onAddedToSceneGraph [
 				self selectIndex: self defaultSelectedIndex ] ]
 ]
 
-{ #category : 'private - accessing' }
+{ #category : #'private - accessing' }
 ToChoiceMenu >> privateData: anObservableCollection [
 
 	data := anObservableCollection.
@@ -215,7 +213,7 @@ ToChoiceMenu >> privateData: anObservableCollection [
 	self notifyChanged
 ]
 
-{ #category : 'adding / removing' }
+{ #category : #'adding / removing' }
 ToChoiceMenu >> removeData: anObject [
 
 	| item |
@@ -224,7 +222,7 @@ ToChoiceMenu >> removeData: anObject [
 	self data remove: anObject
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToChoiceMenu >> selectData: aData [
 
 	aData
@@ -239,19 +237,19 @@ ToChoiceMenu >> selectData: aData [
 				ifNotNil: [ :mitem | mitem checked: true ] ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToChoiceMenu >> selectIndex: anInteger [
 
 	self selectData: (self data at: anInteger)
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToChoiceMenu >> selectedData [
 
 	^ self checkedMenuItem ifNotNil: [ :cmi | cmi data ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToChoiceMenu >> selectedIndex [
 
 	^ self selectedData
@@ -259,7 +257,7 @@ ToChoiceMenu >> selectedIndex [
 		  ifNotNil: [ :d | self data indexOf: d ]
 ]
 
-{ #category : 'private - notifications' }
+{ #category : #'private - notifications' }
 ToChoiceMenu >> updateLabel [
 
 	self selectedData ifNotNil: [ :d |
@@ -271,13 +269,13 @@ ToChoiceMenu >> updateLabel [
 	self label: nil
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToChoiceMenu >> withStrictCheckingStrategy [
 
 	self group withStrictCheckingStrategy
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToChoiceMenu >> withUncheckingStrategy [
 
 	self group withUncheckingStrategy

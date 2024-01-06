@@ -2318,7 +2318,7 @@ ToSandBox class >> example_scaledImage [
 ToSandBox class >> example_selectWith5Nodes [
 
 	| select innerWindow |
-	select := ToSelect new.
+	select := ToSelect2 new.
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
 	select width: 300.
@@ -2353,7 +2353,7 @@ ToSandBox class >> example_selectWithEditingMultiSelection [
 				 | target idx |
 				 target := event currentTarget.
 				 idx := target data indexOf: event client text asString asSymbol.
-				 event validated: idx isZero.
+				 event accepted: idx isZero.
 				 idx > 0 ifTrue: [
 					 event client text: ''.
 					 target selectDataAt: idx ] ]).

@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToMenuItemSkin',
-	#superclass : 'ToGeneralButtonMenuItemSkin',
-	#category : 'Toplo-Widget-Menu-Basic',
-	#package : 'Toplo-Widget-Menu',
-	#tag : 'Basic'
+	#name : #ToMenuItemSkin,
+	#superclass : #ToGeneralButtonMenuItemSkin,
+	#category : 'Toplo-Widget-Menu-Basic'
 }
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToMenuItemSkin >> disabledLookEvent: anEvent [
 
 	super disabledLookEvent: anEvent.
@@ -17,7 +15,7 @@ ToMenuItemSkin >> disabledLookEvent: anEvent [
 			lab textChanged ] ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToMenuItemSkin >> enabledLookEvent: anEvent [
 
 	super enabledLookEvent: anEvent.
@@ -28,7 +26,7 @@ ToMenuItemSkin >> enabledLookEvent: anEvent [
 			lab textChanged ] ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToMenuItemSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
@@ -39,7 +37,7 @@ ToMenuItemSkin >> hoveredLookEvent: anEvent [
 			lab textChanged ] ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToMenuItemSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
@@ -57,7 +55,7 @@ ToMenuItemSkin >> installLookEvent: anEvent [
 			lab textChanged ] ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToMenuItemSkin >> leavedLookEvent: anEvent [
 
 	super leavedLookEvent: anEvent.
@@ -68,7 +66,7 @@ ToMenuItemSkin >> leavedLookEvent: anEvent [
 			lab textChanged ] ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToMenuItemSkin >> pressedLookEvent: anEvent [
 
 	super pressedLookEvent: anEvent.

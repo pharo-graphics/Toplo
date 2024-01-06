@@ -1,33 +1,31 @@
 Class {
-	#name : 'ToChoiceItem',
-	#superclass : 'ToCheckMenuItem',
+	#name : #ToChoiceItem,
+	#superclass : #ToCheckMenuItem,
 	#instVars : [
 		'data'
 	],
-	#category : 'Toplo-Widget-Menu-Choice menu',
-	#package : 'Toplo-Widget-Menu',
-	#tag : 'Choice menu'
+	#category : 'Toplo-Widget-Menu-Choice menu'
 }
 
-{ #category : 'testing' }
+{ #category : #testing }
 ToChoiceItem >> closeOnMouseEvent [
 
 	^ true
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToChoiceItem >> data [
 
 	^ data
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToChoiceItem >> data: anObject [
 
 	data := anObject
 ]
 
-{ #category : 'skin' }
+{ #category : #skin }
 ToChoiceItem >> installRawStyle [ 
 
 	super installRawStyle.

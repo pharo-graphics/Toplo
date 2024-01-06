@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToRadioMenuItemSkin',
-	#superclass : 'ToCheckMenuItemSkin',
-	#category : 'Toplo-Widget-Menu-Basic',
-	#package : 'Toplo-Widget-Menu',
-	#tag : 'Basic'
+	#name : #ToRadioMenuItemSkin,
+	#superclass : #ToCheckMenuItemSkin,
+	#category : 'Toplo-Widget-Menu-Basic'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToRadioMenuItemSkin >> iconGeometryIn: aCheckbox [
 
 	^ BlCircleGeometry new

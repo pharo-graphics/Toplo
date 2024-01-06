@@ -1,14 +1,12 @@
 Class {
-	#name : 'ToCheckMenuItem',
-	#superclass : 'ToMenuItem',
+	#name : #ToCheckMenuItem,
+	#superclass : #ToMenuItem,
 	#traits : 'TToElementWithCheckable',
 	#classTraits : 'TToElementWithCheckable classTrait',
-	#category : 'Toplo-Widget-Menu-Basic',
-	#package : 'Toplo-Widget-Menu',
-	#tag : 'Basic'
+	#category : 'Toplo-Widget-Menu-Basic'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToCheckMenuItem >> button: aCheckbox [
 
 	super button: aCheckbox.
@@ -17,50 +15,50 @@ ToCheckMenuItem >> button: aCheckbox [
 			 do: [ :event | self dispatchEvent: event ])
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToCheckMenuItem >> buttonClass [
 
 	^ ToCheckbox
 ]
 
-{ #category : 't - checkable - accessing' }
+{ #category : #'t - checkable - accessing' }
 ToCheckMenuItem >> checkable [
 
 	^ self button
 ]
 
-{ #category : 't - checkable - accessing' }
+{ #category : #'t - checkable - accessing' }
 ToCheckMenuItem >> checked: aBooleanOrNil [
 	" change the checkable state. nil means indeterminate. "
 
 	self checkable checked: aBooleanOrNil
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ToCheckMenuItem >> closeOnMouseEvent [
 
 	^ false
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToCheckMenuItem >> indeterminateChild [
 
 	^ self button indeterminateChild
 ]
 
-{ #category : 'skin' }
+{ #category : #skin }
 ToCheckMenuItem >> newRawSkin [ 
 
 	^ ToCheckMenuItemSkin new
 ]
 
-{ #category : 't - element with checkable group' }
+{ #category : #'t - element with checkable group' }
 ToCheckMenuItem >> rawGroup [
 
 	^ self button rawGroup
 ]
 
-{ #category : 't - element with checkable group' }
+{ #category : #'t - element with checkable group' }
 ToCheckMenuItem >> rawGroup: aGroup [
 
 	self button rawGroup: aGroup

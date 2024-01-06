@@ -144,9 +144,9 @@ ToAlbum >> requestSave [
 		           yourself.
 
 	self dispatchEvent: request.
-	self edited: request validated not.
+	self edited: request accepted not.
 
-	answer := request validated
+	answer := request accepted
 		          ifTrue: [ ToAlbumSaveAcceptedEvent new ]
 		          ifFalse: [ ToAlbumSaveDeniedEvent new ].
 

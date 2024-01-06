@@ -1,37 +1,35 @@
 Class {
-	#name : 'ToContextMenuWindowManager',
-	#superclass : 'ToPopupWindowManager',
-	#category : 'Toplo-Widget-Menu-Context menu',
-	#package : 'Toplo-Widget-Menu',
-	#tag : 'Context menu'
+	#name : #ToContextMenuWindowManager,
+	#superclass : #ToPopupWindowManager,
+	#category : 'Toplo-Widget-Menu-Context menu'
 }
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToContextMenuWindowManager >> defaultPositionHook [
 
 	^ [ :window :theElement :event | window position: event position ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToContextMenuWindowManager >> elementEventHandlerClass [ 
 
 	^ ToElementWithContextMenuEventHandler
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToContextMenuWindowManager >> initialize [
 
 	super initialize.
 	self useSecondaryMouseButton
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToContextMenuWindowManager >> windowClass [
 
 	^ ToContextMenu 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToContextMenuWindowManager >> windowRequestClass [
 
 	^ ToContextMenuRequest 

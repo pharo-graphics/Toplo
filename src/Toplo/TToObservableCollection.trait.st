@@ -3,7 +3,7 @@ Trait {
 	#instVars : [
 		'list'
 	],
-	#category : 'Toplo-Core-Collection'
+	#category : #'Toplo-Core-Collection'
 }
 
 { #category : #'t - observable collection - copying' }
@@ -372,7 +372,7 @@ TToObservableCollection >> notifyAddChangeAround: aBlock candidates: aCollection
 				            interval: anInterval;
 				            candidates: aCollection;
 				            yourself).
-		request validated ifTrue: [
+		request accepted ifTrue: [
 			aBlock value.
 			self fireEvent: (ToCollectionAddEvent new interval: anInterval) ] ]
 ]
@@ -392,7 +392,7 @@ TToObservableCollection >> notifyFilterChangeAround: aBlock interval: anInterval
 	self notifyEmptinessChangeAfter: [
 		| request |
 		self fireEvent: (request := ToCollectionFilterRequest new interval: (1 to: self size)).
-		request validated ifTrue: [
+		request accepted ifTrue: [
 			aBlock value.
 			self fireEvent: (ToCollectionFilterEvent new interval: anInterval) ] ]
 ]
@@ -403,7 +403,7 @@ TToObservableCollection >> notifyRemoveChangeAround: aBlock removed: aCollection
 	self notifyEmptinessChangeAfter: [
 		| request |
 		self fireEvent: (request := ToCollectionRemoveRequest new interval: anInterval).
-		request validated ifTrue: [
+		request accepted ifTrue: [
 			aBlock value.
 			self fireEvent: (ToCollectionRemoveEvent new
 					 interval: anInterval;
@@ -416,7 +416,7 @@ TToObservableCollection >> notifyUpdateChangeAround: aBlock interval: anInterval
 
 	| request |
 	self fireEvent: (request := ToCollectionUpdateRequest new interval: anInterval).
-	request validated ifTrue: [
+	request accepted ifTrue: [
 		aBlock value.
 		self fireEvent: (ToCollectionUpdateEvent new interval: anInterval) ]
 ]

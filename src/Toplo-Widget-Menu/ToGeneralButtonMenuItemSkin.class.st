@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToGeneralButtonMenuItemSkin',
-	#superclass : 'ToRawSkin',
-	#category : 'Toplo-Widget-Menu-Basic',
-	#package : 'Toplo-Widget-Menu',
-	#tag : 'Basic'
+	#name : #ToGeneralButtonMenuItemSkin,
+	#superclass : #ToRawSkin,
+	#category : 'Toplo-Widget-Menu-Basic'
 }
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToGeneralButtonMenuItemSkin >> disabledLookEvent: anEvent [
 
 	super disabledLookEvent: anEvent.
@@ -16,7 +14,7 @@ ToGeneralButtonMenuItemSkin >> disabledLookEvent: anEvent [
 		e background: (e tokenValueNamed: #'color-bg-container-disabled') ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToGeneralButtonMenuItemSkin >> enabledLookEvent: anEvent [
 
 	super enabledLookEvent: anEvent.
@@ -25,7 +23,7 @@ ToGeneralButtonMenuItemSkin >> enabledLookEvent: anEvent [
 		e background: (e tokenValueNamed: #'color-bg-container') ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToGeneralButtonMenuItemSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
@@ -34,7 +32,7 @@ ToGeneralButtonMenuItemSkin >> hoveredLookEvent: anEvent [
 		e border: (BlBorder paint: (e tokenValueNamed: #'color-primary-hover') width: (e tokenValueNamed: #'line-width')) ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToGeneralButtonMenuItemSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
@@ -51,7 +49,7 @@ ToGeneralButtonMenuItemSkin >> installLookEvent: anEvent [
 				 right: (e tokenValueNamed: #'padding-XS')) ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToGeneralButtonMenuItemSkin >> leavedLookEvent: anEvent [
 
 	super leavedLookEvent: anEvent.
@@ -60,7 +58,7 @@ ToGeneralButtonMenuItemSkin >> leavedLookEvent: anEvent [
 		e background: (e tokenValueNamed: #'color-bg-container') ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToGeneralButtonMenuItemSkin >> pressedLookEvent: anEvent [
 
 	super pressedLookEvent: anEvent.

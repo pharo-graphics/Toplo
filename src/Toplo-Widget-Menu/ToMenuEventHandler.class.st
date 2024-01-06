@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToMenuEventHandler',
-	#superclass : 'ToElementWithPopupEventHandler',
-	#category : 'Toplo-Widget-Menu-Basic',
-	#package : 'Toplo-Widget-Menu',
-	#tag : 'Basic'
+	#name : #ToMenuEventHandler,
+	#superclass : #ToElementWithPopupEventHandler,
+	#category : 'Toplo-Widget-Menu-Basic'
 }
 
-{ #category : 'window handlers' }
+{ #category : #'window handlers' }
 ToMenuEventHandler >> windowClosedEvent: anEvent [
 	
 	super windowClosedEvent: anEvent.

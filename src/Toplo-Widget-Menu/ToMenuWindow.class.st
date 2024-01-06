@@ -1,28 +1,26 @@
 Class {
-	#name : 'ToMenuWindow',
-	#superclass : 'ToAnchoredWindow',
+	#name : #ToMenuWindow,
+	#superclass : #ToAnchoredWindow,
 	#instVars : [
 		'openedSubmenuWindow'
 	],
-	#category : 'Toplo-Widget-Menu-Basic',
-	#package : 'Toplo-Widget-Menu',
-	#tag : 'Basic'
+	#category : 'Toplo-Widget-Menu-Basic'
 }
 
-{ #category : 'api - displaying' }
+{ #category : #'api - displaying' }
 ToMenuWindow >> close [ 
 
 	openedSubmenuWindow ifNotNil: [ :w | w close ].
 	super close
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToMenuWindow >> defaultElevation [
 
 	^ BlRelativeElevation elevation: (SmallInteger maxVal - 400)
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ToMenuWindow >> includes: anElement [
 
 	self = anElement ifTrue: [ ^ true ].
@@ -31,7 +29,7 @@ ToMenuWindow >> includes: anElement [
 	^ false
 ]
 
-{ #category : 'skin' }
+{ #category : #skin }
 ToMenuWindow >> installRawStyle [
 
 	super installRawStyle.
@@ -40,31 +38,31 @@ ToMenuWindow >> installRawStyle [
 			 vertical: (self tokenValueNamed: #'padding-content-V'))
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToMenuWindow >> itemHolder [
 
 	^ self element
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToMenuWindow >> items [
 
 	^ self itemHolder ifNil: [ ^ #(  ) ] ifNotNil: [ :w | w items ]
 ]
 
-{ #category : 't - menu window model' }
+{ #category : #'t - menu window model' }
 ToMenuWindow >> menuWindow [
 
 	^ self
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToMenuWindow >> openedSubmenuWindow [
 
 	^ openedSubmenuWindow
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToMenuWindow >> openedSubmenuWindow: aWindow [
 
 	openedSubmenuWindow ifNotNil: [ openedSubmenuWindow close ].

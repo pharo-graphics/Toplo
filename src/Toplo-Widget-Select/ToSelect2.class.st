@@ -12,7 +12,8 @@ Class {
 		'selectTextField',
 		'selectFlow',
 		'fakeData',
-		'fakeNode'
+		'fakeNode',
+		'data'
 	],
 	#category : #'Toplo-Widget-Select'
 }
@@ -43,7 +44,7 @@ ToSelect2 >> addDataNode: aNode [
 { #category : #accessing }
 ToSelect2 >> data [
 
-	^ self listElement data
+	^ data
 ]
 
 { #category : #accessing }
@@ -110,6 +111,7 @@ ToSelect2 >> initialize [
 	super initialize.
 	self fitContent.
 	self layout beHorizontal.
+	data := ToObservableCollection new.
 	nodeClass := self defaultNodeClass.
 	nodeHolders := OrderedCollection new.
 	nodeBuilder := self defaultNodeBuilder.
@@ -131,6 +133,7 @@ ToSelect2 >> initialize [
 	selectTextField addEventHandler: sharedDistributor.
 	self addEventHandler: sharedDistributor.
 	self listElement addEventHandler: sharedDistributor.
+	self data addEventHandler: sharedDistributor.
 	selectFlow addChild: selectTextField.
 	contentElement addChild: selectFlow.
 

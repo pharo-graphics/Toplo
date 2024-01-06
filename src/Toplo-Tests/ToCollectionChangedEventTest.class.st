@@ -153,6 +153,44 @@ ToCollectionChangedEventTest >> testRemoveRequestRemoveEvent [
 ]
 
 { #category : #tests }
+ToCollectionChangedEventTest >> testUpdateAllRequestUpdateAllEvent [
+
+	| validate requestCount eventCount reqInterval eventInterval |
+	validate := true.
+	requestCount := 0.
+	eventCount := 0.
+	reqInterval := nil.
+	eventInterval := nil.
+	ocol addEventHandler: (BlEventHandler
+			 on: ToCollectionUpdateAllRequest
+			 do: [ :request |
+				 requestCount := requestCount + 1.
+				 reqInterval := request interval.
+				 request accepted: validate ]).
+	ocol addEventHandler: (BlEventHandler
+			 on: ToCollectionUpdateAllEvent
+			 do: [ :event |
+				 eventCount := eventCount + 1.
+				 eventInterval := event interval ]).
+	ocol addAll: (1 to: 100).
+	self assert: ocol size equals: 100.
+
+	ocol updateAllWith: (101 to: 200).
+	self assert: requestCount equals: 1.
+	self assert: eventCount equals: 1.
+	self assert: reqInterval equals: (1 to: 100).
+	self assert: eventInterval equals: (1 to: 100).
+	validate := false.
+	reqInterval := nil.
+	eventInterval := nil.
+	ocol updateAllWith: (201 to: 300).
+	self assert: requestCount equals: 2.
+	self assert: eventCount equals: 1.
+	self assert: reqInterval equals: (1 to: 100).
+	self assert: eventInterval isNil
+]
+
+{ #category : #tests }
 ToCollectionChangedEventTest >> testUpdateRequestUpdateEvent [
 
 	| validate requestCount eventCount reqInterval eventInterval |

@@ -1,11 +1,11 @@
 Class {
-	#name : #ToCollectionUpdateRequest,
+	#name : #ToCollectionUpdateAllRequest,
 	#superclass : #ToCollectionChangeRequest,
 	#category : #'Toplo-Core-Collection'
 }
 
 { #category : #sending }
-ToCollectionUpdateRequest >> sendTo: anObject [
+ToCollectionUpdateAllRequest >> sendTo: anObject [
 
 	anObject collectionUpdateAllRequest: self
 ]

@@ -16,7 +16,8 @@ ToSkinInstaller >> applyOn: anElement [
 			anElement skinToInstall ifNotNil: [ :found |
 				anElement skinManager installSkin: found in: anElement.
 				" apply style here directly to benefit from the installer recursion protection
-				because  requestNewSkin may be send during installation "
+				because  requestNewSkin may be sent during skin installation 
+				(in that case it it ignored) "
 				anElement skinManager applyEnqueuedStatesIn: anElement ] ].
 		anElement skinInstaller: nil ]
 ]

@@ -11,7 +11,7 @@ Class {
 		'delayBeforeFilter',
 		'filterResultTask'
 	],
-	#category : 'Toplo-Widget-List-Filter'
+	#category : #'Toplo-Widget-List-Filter'
 }
 
 { #category : #'filter events handling' }
@@ -22,6 +22,12 @@ ToListElementFilter >> collectionAddEvent: anEvent [
 
 { #category : #'filter events handling' }
 ToListElementFilter >> collectionRemoveEvent: anEvent [ 
+
+	self dataChangedIn: anEvent currentTarget
+]
+
+{ #category : #'filter events handling' }
+ToListElementFilter >> collectionUpdateAllEvent: anEvent [ 
 
 	self dataChangedIn: anEvent currentTarget
 ]

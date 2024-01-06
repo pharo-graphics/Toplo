@@ -412,6 +412,18 @@ TToObservableCollection >> notifyRemoveChangeAround: aBlock removed: aCollection
 ]
 
 { #category : #'t - observable collection - notifications' }
+TToObservableCollection >> notifyUpdateAllChangeAround: aBlock [
+
+	| request interval |
+	interval := 1 to: self size.
+	self fireEvent:
+		(request := ToCollectionUpdateAllRequest new interval: interval).
+	request accepted ifFalse: [ ^ self ].
+	aBlock value.
+	self fireEvent: (ToCollectionUpdateAllEvent new interval: interval)
+]
+
+{ #category : #'t - observable collection - notifications' }
 TToObservableCollection >> notifyUpdateChangeAround: aBlock interval: anInterval [
 
 	| request |
@@ -566,6 +578,14 @@ TToObservableCollection >> size [
 TToObservableCollection >> third [
 
 	^ list third
+]
+
+{ #category : #'t - observable collection - initialization' }
+TToObservableCollection >> updateAllWith: aCollection [
+
+	self notifyUpdateAllChangeAround: [
+		list removeAll.
+		list addAll: aCollection ]
 ]
 
 { #category : #'t - observable collection - event management' }

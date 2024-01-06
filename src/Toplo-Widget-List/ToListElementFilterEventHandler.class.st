@@ -5,7 +5,7 @@ Class {
 		'dataFilter',
 		'target'
 	],
-	#category : 'Toplo-Widget-List-Filter'
+	#category : #'Toplo-Widget-List-Filter'
 }
 
 { #category : #'data events handling' }
@@ -20,6 +20,13 @@ ToListElementFilterEventHandler >> collectionRemoveEvent: anEvent [
 
 	self dataFilter ifNil: [ ^ self ].
 	self dataFilter collectionRemoveEvent: anEvent
+]
+
+{ #category : #'data events handling' }
+ToListElementFilterEventHandler >> collectionUpdateAllEvent: anEvent [
+
+	self dataFilter ifNil: [ ^ self ].
+	self dataFilter collectionUpdateAllEvent: anEvent
 ]
 
 { #category : #'data events handling' }
@@ -61,6 +68,7 @@ ToListElementFilterEventHandler >> eventsToHandle [
 		  ToCollectionAddEvent.
 		  ToCollectionRemoveEvent.
 		  ToCollectionUpdateEvent.
+		  ToCollectionUpdateAllEvent.
 
 		  " data source events "
 		  ToDataFilterRequest }

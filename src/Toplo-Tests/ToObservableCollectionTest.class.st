@@ -4,7 +4,7 @@ A ToObservableListTest is a test class for testing the behavior of ToObservableL
 Class {
 	#name : #ToObservableCollectionTest,
 	#superclass : #TestCase,
-	#category : 'Toplo-Tests-Core-Collection'
+	#category : #'Toplo-Tests-Core-Collection'
 }
 
 { #category : #'tests - adding' }
@@ -492,4 +492,34 @@ ToObservableCollectionTest >> testReversed [
 	collection2 := collection1 reversed.
 	self assert: collection2 first equals: 'Andrew'.
 	self assert: collection2 last equals: 'Jim'
+]
+
+{ #category : #'tests - adding' }
+ToObservableCollectionTest >> testUpdateAllWith [
+
+	| l i |
+	l := ToObservableCollection new
+		     addAll: #( 1 2 3 4 );
+		     yourself.
+
+	l addEventHandler: (BlEventHandler
+			 on: ToCollectionUpdateAllEvent
+			 do: [ :ann | i := ann interval ]).
+
+	l updateAllWith: #(  ).
+
+	self assert: i notNil.
+	self assert: i equals: (1 to: 4).
+
+	self assert: l asOrderedCollection equals: #(  ) asOrderedCollection.
+
+	i := nil.
+
+	l updateAllWith: #( 5 6 7 8 9 ).
+
+	self
+		assert: l asOrderedCollection
+		equals: #( 5 6 7 8 9 ) asOrderedCollection.
+
+	self assert: i equals: (1 to: 0)
 ]

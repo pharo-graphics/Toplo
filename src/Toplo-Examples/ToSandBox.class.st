@@ -2332,7 +2332,7 @@ ToSandBox class >> example_selectWith5Nodes [
 ToSandBox class >> example_selectWithEditingMultiSelection [
 
 	| select innerWindow |
-	select := ToSelect new.
+	select := ToSelect2 new.
 	"select placeholderText: ('Select a state' asRopedText foreground: Color lightGray). "
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.

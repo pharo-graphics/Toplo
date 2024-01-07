@@ -3,7 +3,8 @@ Class {
 	#superclass : #ToPopupWindowManager,
 	#instVars : [
 		'listElement',
-		'maxHeight'
+		'maxHeight',
+		'mirrorUpdater'
 	],
 	#category : #'Toplo-Widget-Select'
 }
@@ -32,6 +33,15 @@ ToSelectWindowManager >> defaultSizeHook [
 
 	^ [ :theWindow :theElement :event |
 	  theWindow width: theElement measuredWidth - 8 ]
+]
+
+{ #category : #accessing }
+ToSelectWindowManager >> element: anElement [
+
+	super element: anElement.
+	mirrorUpdater := ToObservableCollectionMirrorUpdater new.
+	mirrorUpdater mirror: self listElement data.
+	anElement data addEventHandler: mirrorUpdater.
 ]
 
 { #category : #accessing }

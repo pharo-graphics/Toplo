@@ -78,26 +78,26 @@ ToListSelectionStrategy >> atLeastMonoSelectionDo: aBlock [
 ]
 
 { #category : #'mode changing' }
-ToListSelectionStrategy >> beMultipleSelectionIn: anInfiniteElement [ 
+ToListSelectionStrategy >> beMultipleSelection [
 
 	mode := #multiple.
-	anInfiniteElement onSelectionModeChange 
+	infiniteElement onSelectionModeChange 
 ]
 
 { #category : #'mode changing' }
-ToListSelectionStrategy >> beSingleSelectionIn: anInfiniteElement [ 
+ToListSelectionStrategy >> beSingleSelection [
 
 	self deselectAll.
 	mode := #single.
-	anInfiniteElement onSelectionModeChange 
+	infiniteElement onSelectionModeChange 
 ]
 
 { #category : #'mode changing' }
-ToListSelectionStrategy >> beWithoutSelectionIn: anInfiniteElement [ 
+ToListSelectionStrategy >> beWithoutSelection [
 
 	self deselectAll.
 	mode := #none.
-	anInfiniteElement onSelectionModeChange 
+	infiniteElement onSelectionModeChange 
 ]
 
 { #category : #'private - shortcuts' }

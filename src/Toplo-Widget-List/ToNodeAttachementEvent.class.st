@@ -1,5 +1,5 @@
 Class {
-	#name : #ToListNodeAttachementEvent,
+	#name : #ToNodeAttachementEvent,
 	#superclass : #BlEvent,
 	#instVars : [
 		'attached'
@@ -8,13 +8,13 @@ Class {
 }
 
 { #category : #accessing }
-ToListNodeAttachementEvent >> attached [
+ToNodeAttachementEvent >> attached [
 
 	^ attached
 ]
 
 { #category : #accessing }
-ToListNodeAttachementEvent >> attached: aBoolean [
+ToNodeAttachementEvent >> attached: aBoolean [
 
 	attached := aBoolean
 ]

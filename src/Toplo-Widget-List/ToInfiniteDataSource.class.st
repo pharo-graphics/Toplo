@@ -1,35 +1,35 @@
 Class {
-	#name : #ToListDataSource,
+	#name : #ToInfiniteDataSource,
 	#superclass : #BlInfiniteDataSource,
 	#category : #'Toplo-Widget-List-Infinite'
 }
 
 { #category : #accessing }
-ToListDataSource >> data [
+ToInfiniteDataSource >> data [
 
 	^ self subclassResponsibility 
 ]
 
 { #category : #accessing }
-ToListDataSource >> data: aCollection [
+ToInfiniteDataSource >> data: aCollection [
 
 	self subclassResponsibility 
 ]
 
 { #category : #accessing }
-ToListDataSource >> list [
+ToInfiniteDataSource >> list [
 
 	^ self subclassResponsibility 
 ]
 
 { #category : #accessing }
-ToListDataSource >> list: aCollection [
+ToInfiniteDataSource >> list: aCollection [
 
 	self subclassResponsibility 
 ]
 
 { #category : #'instance creation' }
-ToListDataSource >> onCreateHolder: anInfiniteElement [ 
+ToInfiniteDataSource >> onCreateHolder: anInfiniteElement [ 
 
 	^ anInfiniteElement newListNodeHolderFromDataSource: self
 ]

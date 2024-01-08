@@ -31,11 +31,11 @@ ToInfiniteElementEventHandler >> eventsToHandle [
 { #category : #'event handling' }
 ToInfiniteElementEventHandler >> infiniteElementAttachedEvent: anEvent [
 
-	anEvent element dispatchEvent: (ToListNodeAttachementEvent new attached: true)
+	anEvent element dispatchEvent: (ToNodeAttachementEvent new attached: true)
 ]
 
 { #category : #'event handling' }
 ToInfiniteElementEventHandler >> infiniteElementDetachedEvent: anEvent [
 
-	anEvent element dispatchEvent: (ToListNodeAttachementEvent new attached: false)
+	anEvent element dispatchEvent: (ToNodeAttachementEvent new attached: false)
 ]

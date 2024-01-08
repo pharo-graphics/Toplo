@@ -1,8 +1,9 @@
 Class {
 	#name : #ToStandardListNodeSelectionEventHandler,
-	#superclass : #BlCustomEventHandler,
+	#superclass : #ToListNodeSelectionEventHandler,
 	#instVars : [
-		'monitor'
+		'monitor',
+		'clickLauncher'
 	],
 	#category : #'Toplo-Widget-List-Selection'
 }
@@ -18,10 +19,22 @@ ToStandardListNodeSelectionEventHandler >> clickEvent: anEvent [
 	anEvent consumed: true
 ]
 
+{ #category : #'events handling' }
+ToStandardListNodeSelectionEventHandler >> clickLauncher: aProcessOrNil [
+
+	clickLauncher := aProcessOrNil
+]
+
 { #category : #'api - accessing' }
 ToStandardListNodeSelectionEventHandler >> eventsToHandle [ 
 
-	^ { BlPrimaryClickEvent }
+	^ { BlPrimaryClickEvent. ToListStrongSelectionEvent }
+]
+
+{ #category : #'events handling' }
+ToStandardListNodeSelectionEventHandler >> hasClickLauncher [
+
+	^ clickLauncher notNil
 ]
 
 { #category : #'events handling' }
@@ -42,21 +55,21 @@ ToStandardListNodeSelectionEventHandler >> launchClick: aBlock event: anEvent fo
 	(anElement holder isSelected not or: [
 		 anEvent modifiers isPrimaryModifier or: [
 			 anEvent modifiers isShift ] ]) ifTrue: [
-		infinite terminateClickLauncher.
+		self terminateClickLauncher.
 		^ aBlock value ].
 
 
 	" Already has a click launcher "
-	infinite hasClickLauncher ifTrue: [ ^ self ].
+	self hasClickLauncher ifTrue: [ ^ self ].
 
 	" no click launcher for only one selected node "
 	infinite primarySelectionIndexes size > 1 ifFalse: [ ^ aBlock value ].
 
 	monitor critical: [
-		infinite clickLauncher: ([
+		self clickLauncher: ([
 			 (Delay forMilliseconds: 250) wait.
 			 aBlock value.
-			 infinite clickLauncher: nil ]
+			 self clickLauncher: nil ]
 				 forkAt: Processor highIOPriority
 				 named: 'ToNodeDresser clickLauncher') ]
 ]
@@ -90,4 +103,17 @@ ToStandardListNodeSelectionEventHandler >> onUninstalledIn: anElement [
 	monitor := nil.
 	super onUninstalledIn: anElement.
 
+]
+
+{ #category : #'events handling' }
+ToStandardListNodeSelectionEventHandler >> strongSelectionEvent: anEvent [
+
+	self terminateClickLauncher
+]
+
+{ #category : #'events handling' }
+ToStandardListNodeSelectionEventHandler >> terminateClickLauncher [
+
+	clickLauncher ifNotNil: #terminate.
+	clickLauncher := nil.
 ]

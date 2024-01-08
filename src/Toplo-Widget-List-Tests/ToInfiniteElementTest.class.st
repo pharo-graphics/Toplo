@@ -1,14 +1,14 @@
 Class {
-	#name : #ToListInfiniteElementTest,
+	#name : #ToInfiniteElementTest,
 	#superclass : #ToInfiniteTest,
 	#category : #'Toplo-Widget-List-Tests-Infinite'
 }
 
 { #category : #tests }
-ToListInfiniteElementTest >> testEmptyInfinite [
+ToInfiniteElementTest >> testEmptyInfinite [
 
 	| l |
-	l := ToListInfiniteElement new.
+	l := ToInfiniteElement new.
 	l fitContent.
 	self assert: l data isEmpty.
 	l forceLayout.
@@ -18,10 +18,10 @@ ToListInfiniteElementTest >> testEmptyInfinite [
 ]
 
 { #category : #'test selection - select next/previous' }
-ToListInfiniteElementTest >> testEmptyListAddOrRemoveNextInSelection [
+ToInfiniteElementTest >> testEmptyListAddOrRemoveNextInSelection [
 
 	| l |
-	l := ToListInfiniteElement new.
+	l := ToInfiniteElement new.
 	l fitContent.
 	self assert: l data isEmpty.
 	l forceLayout.
@@ -31,10 +31,10 @@ ToListInfiniteElementTest >> testEmptyListAddOrRemoveNextInSelection [
 ]
 
 { #category : #'test selection - select next/previous' }
-ToListInfiniteElementTest >> testEmptyListAddOrRemovePreviousInSelection [
+ToInfiniteElementTest >> testEmptyListAddOrRemovePreviousInSelection [
 
 	| l |
-	l := ToListInfiniteElement new.
+	l := ToInfiniteElement new.
 	l fitContent.
 	self assert: l data isEmpty.
 	l forceLayout.
@@ -44,10 +44,10 @@ ToListInfiniteElementTest >> testEmptyListAddOrRemovePreviousInSelection [
 ]
 
 { #category : #'test selection - select next/previous' }
-ToListInfiniteElementTest >> testEmptyListSelectNextInSelection [
+ToInfiniteElementTest >> testEmptyListSelectNextInSelection [
 
 	| l |
-	l := ToListInfiniteElement new.
+	l := ToInfiniteElement new.
 	l fitContent.
 	self assert: l data isEmpty.
 	l forceLayout.
@@ -61,10 +61,10 @@ ToListInfiniteElementTest >> testEmptyListSelectNextInSelection [
 ]
 
 { #category : #'test selection - select next/previous' }
-ToListInfiniteElementTest >> testEmptyListSelectPreviousInSelection [
+ToInfiniteElementTest >> testEmptyListSelectPreviousInSelection [
 
 	| l |
-	l := ToListInfiniteElement new.
+	l := ToInfiniteElement new.
 	l fitContent.
 	self assert: l data isEmpty.
 	l forceLayout.
@@ -78,10 +78,10 @@ ToListInfiniteElementTest >> testEmptyListSelectPreviousInSelection [
 ]
 
 { #category : #tests }
-ToListInfiniteElementTest >> testInfiniteWithOneElement [
+ToInfiniteElementTest >> testInfiniteWithOneElement [
 
 	| l |
-	l := ToListInfiniteElement new.
+	l := ToInfiniteElement new.
 	self assert: l data isEmpty.
 	l data add: self statesOfAmerica first.
 	self assert: l children size equals: 0.
@@ -95,10 +95,10 @@ ToListInfiniteElementTest >> testInfiniteWithOneElement [
 ]
 
 { #category : #'test selection - mode' }
-ToListInfiniteElementTest >> testListWithFiveDefaultSelectionMode [
+ToInfiniteElementTest >> testListWithFiveDefaultSelectionMode [
 
 	| l |
-	l := ToListInfiniteElement new.
+	l := ToInfiniteElement new.
 	l fitContent.
 	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	self assert: l data size equals: 5.
@@ -107,10 +107,10 @@ ToListInfiniteElementTest >> testListWithFiveDefaultSelectionMode [
 ]
 
 { #category : #'test selection - select next/previous' }
-ToListInfiniteElementTest >> testListWithFiveElementAddNextInSelection [
+ToInfiniteElementTest >> testListWithFiveElementAddNextInSelection [
 
 	| l |
-	l := ToListInfiniteElement new.
+	l := ToInfiniteElement new.
 	l fitContent.
 	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	self assert: l data size equals: 5.
@@ -130,10 +130,10 @@ ToListInfiniteElementTest >> testListWithFiveElementAddNextInSelection [
 ]
 
 { #category : #'test selection - select next/previous' }
-ToListInfiniteElementTest >> testListWithFiveElementAddPreviousInSelection [
+ToInfiniteElementTest >> testListWithFiveElementAddPreviousInSelection [
 
 	| l |
-	l := ToListInfiniteElement new.
+	l := ToInfiniteElement new.
 	l fitContent.
 	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	self assert: l data size equals: 5.
@@ -154,10 +154,10 @@ ToListInfiniteElementTest >> testListWithFiveElementAddPreviousInSelection [
 ]
 
 { #category : #'test selection - select next/previous' }
-ToListInfiniteElementTest >> testListWithFiveElementCherryPick [
+ToInfiniteElementTest >> testListWithFiveElementCherryPick [
 
 	| l |
-	l := ToListInfiniteElement new.
+	l := ToInfiniteElement new.
 	l fitContent.
 	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	self assert: l data size equals: 5.
@@ -179,16 +179,16 @@ ToListInfiniteElementTest >> testListWithFiveElementCherryPick [
 ]
 
 { #category : #'test selection - mode' }
-ToListInfiniteElementTest >> testListWithFiveFromMultipleToSingleSelectionMode [
+ToInfiniteElementTest >> testListWithFiveFromMultipleToSingleSelectionMode [
 
 	| l |
-	l := ToListInfiniteElement new.
+	l := ToInfiniteElement new.
 	l fitContent.
 	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	self assert: l data size equals: 5.
 	l forceLayout.
 	self assert: l primarySelection isMultiple.
-	l primarySelection beSingleSelectionIn: l.
+	l primarySelection beSingleSelection.
 	self assert: l primarySelection isSingle.
 	self assert: l selectedIndexes isEmpty.
 	self should: [ l selectIndexes: #( 4 2 ) ] raise: Error.
@@ -202,10 +202,10 @@ ToListInfiniteElementTest >> testListWithFiveFromMultipleToSingleSelectionMode [
 ]
 
 { #category : #'test selection - mode' }
-ToListInfiniteElementTest >> testListWithFiveFromMultipleToSingleSelectionMode2 [
+ToInfiniteElementTest >> testListWithFiveFromMultipleToSingleSelectionMode2 [
 
 	| l |
-	l := ToListInfiniteElement new.
+	l := ToInfiniteElement new.
 	l fitContent.
 	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	self assert: l data size equals: 5.
@@ -216,7 +216,7 @@ ToListInfiniteElementTest >> testListWithFiveFromMultipleToSingleSelectionMode2 
 	l selectIndexes: #( 4 2 ).
 	self assert: l selectedIndexes asArray equals: #( 2 4 ).
 
-	l primarySelection beSingleSelectionIn: l.
+	l primarySelection beSingleSelection.
 	self assert: l primarySelection isSingle.
 	self assert: l selectedIndexes isEmpty.
 	self should: [ l selectIndexes: #( 4 2 ) ] raise: Error.
@@ -227,17 +227,17 @@ ToListInfiniteElementTest >> testListWithFiveFromMultipleToSingleSelectionMode2 
 ]
 
 { #category : #'test selection - mode' }
-ToListInfiniteElementTest >> testListWithFiveFromMultipleToWithoutSelectionMode [
+ToInfiniteElementTest >> testListWithFiveFromMultipleToWithoutSelectionMode [
 
 	| l |
-	l := ToListInfiniteElement new.
+	l := ToInfiniteElement new.
 	l fitContent.
 	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	self assert: l data size equals: 5.
 	l forceLayout.
 	self assert: l primarySelection isMultiple.
 
-	l primarySelection beWithoutSelectionIn: l.
+	l primarySelection beWithoutSelection.
 	self assert: l primarySelection isNone.
 	self assert: l selectedIndexes isEmpty.
 	self should: [ l selectIndexes: #( 4 2 ) ] raise: Error.
@@ -251,10 +251,10 @@ ToListInfiniteElementTest >> testListWithFiveFromMultipleToWithoutSelectionMode 
 ]
 
 { #category : #'test selection - select next/previous' }
-ToListInfiniteElementTest >> testListWithOneElementAddOrRemoveNextInSelection [
+ToInfiniteElementTest >> testListWithOneElementAddOrRemoveNextInSelection [
 
 	| l |
-	l := ToListInfiniteElement new.
+	l := ToInfiniteElement new.
 	l fitContent.
 	l data add: self statesOfAmerica first.
 	l forceLayout.
@@ -269,10 +269,10 @@ ToListInfiniteElementTest >> testListWithOneElementAddOrRemoveNextInSelection [
 ]
 
 { #category : #'test selection - select next/previous' }
-ToListInfiniteElementTest >> testListWithOneElementAddOrRemoveNextInSelection2 [
+ToInfiniteElementTest >> testListWithOneElementAddOrRemoveNextInSelection2 [
 
 	| l |
-	l := ToListInfiniteElement new.
+	l := ToInfiniteElement new.
 	l fitContent.
 	l data add: self statesOfAmerica first.
 	l forceLayout.
@@ -287,10 +287,10 @@ ToListInfiniteElementTest >> testListWithOneElementAddOrRemoveNextInSelection2 [
 ]
 
 { #category : #'test selection - select next/previous' }
-ToListInfiniteElementTest >> testListWithOneElementAddOrRemovePreviousInSelection [
+ToInfiniteElementTest >> testListWithOneElementAddOrRemovePreviousInSelection [
 
 	| l |
-	l := ToListInfiniteElement new.
+	l := ToInfiniteElement new.
 	l fitContent.
 	l data add: self statesOfAmerica first.
 	l forceLayout.
@@ -305,10 +305,10 @@ ToListInfiniteElementTest >> testListWithOneElementAddOrRemovePreviousInSelectio
 ]
 
 { #category : #'test selection - select next/previous' }
-ToListInfiniteElementTest >> testListWithOneElementAddOrRemovePreviousInSelection2 [
+ToInfiniteElementTest >> testListWithOneElementAddOrRemovePreviousInSelection2 [
 
 	| l |
-	l := ToListInfiniteElement new.
+	l := ToInfiniteElement new.
 	l fitContent.
 	l data add: self statesOfAmerica first.
 	l forceLayout.
@@ -323,10 +323,10 @@ ToListInfiniteElementTest >> testListWithOneElementAddOrRemovePreviousInSelectio
 ]
 
 { #category : #'test selection - select next/previous' }
-ToListInfiniteElementTest >> testListWithOneElementSelectNextInSelection [
+ToInfiniteElementTest >> testListWithOneElementSelectNextInSelection [
 
 	| l |
-	l := ToListInfiniteElement new.
+	l := ToInfiniteElement new.
 	l fitContent.
 	l data add: self statesOfAmerica first.
 	l forceLayout.
@@ -341,10 +341,10 @@ ToListInfiniteElementTest >> testListWithOneElementSelectNextInSelection [
 ]
 
 { #category : #'test selection - select next/previous' }
-ToListInfiniteElementTest >> testListWithOneElementSelectPreviousInSelection [
+ToInfiniteElementTest >> testListWithOneElementSelectPreviousInSelection [
 
 	| l |
-	l := ToListInfiniteElement new.
+	l := ToInfiniteElement new.
 	l fitContent.
 	l data add: self statesOfAmerica first.
 	l forceLayout.
@@ -358,10 +358,10 @@ ToListInfiniteElementTest >> testListWithOneElementSelectPreviousInSelection [
 ]
 
 { #category : #'test selection - select next/previous' }
-ToListInfiniteElementTest >> testListWithTwoElementAddNextInSelection [
+ToInfiniteElementTest >> testListWithTwoElementAddNextInSelection [
 
 	| l |
-	l := ToListInfiniteElement new.
+	l := ToInfiniteElement new.
 	l fitContent.
 	l data addAll: (self statesOfAmerica copyFrom: 1 to: 2).
 	self assert: l data size equals: 2.
@@ -380,10 +380,10 @@ ToListInfiniteElementTest >> testListWithTwoElementAddNextInSelection [
 ]
 
 { #category : #'test selection - select next/previous' }
-ToListInfiniteElementTest >> testListWithTwoElementAddPreviousInSelection [
+ToInfiniteElementTest >> testListWithTwoElementAddPreviousInSelection [
 
 	| l |
-	l := ToListInfiniteElement new.
+	l := ToInfiniteElement new.
 	l fitContent.
 	l data addAll: (self statesOfAmerica copyFrom: 1 to: 2).
 	self assert: l data size equals: 2.
@@ -402,10 +402,10 @@ ToListInfiniteElementTest >> testListWithTwoElementAddPreviousInSelection [
 ]
 
 { #category : #'test selection - select next/previous' }
-ToListInfiniteElementTest >> testListWithTwoElementRemovePreviousFromSelection [
+ToInfiniteElementTest >> testListWithTwoElementRemovePreviousFromSelection [
 
 	| l |
-	l := ToListInfiniteElement new.
+	l := ToInfiniteElement new.
 	l fitContent.
 	l data addAll: (self statesOfAmerica copyFrom: 1 to: 2).
 	self assert: l data size equals: 2.
@@ -424,10 +424,10 @@ ToListInfiniteElementTest >> testListWithTwoElementRemovePreviousFromSelection [
 ]
 
 { #category : #'test selection - select next/previous' }
-ToListInfiniteElementTest >> testListWithTwoElementSelectNextInSelection [
+ToInfiniteElementTest >> testListWithTwoElementSelectNextInSelection [
 
 	| l |
-	l := ToListInfiniteElement new.
+	l := ToInfiniteElement new.
 	l fitContent.
 	l data addAll: (self statesOfAmerica copyFrom: 1 to: 2).
 	self assert: l data size equals: 2.
@@ -446,10 +446,10 @@ ToListInfiniteElementTest >> testListWithTwoElementSelectNextInSelection [
 ]
 
 { #category : #'test selection - select next/previous' }
-ToListInfiniteElementTest >> testListWithTwoElementSelectPreviousInSelection [
+ToInfiniteElementTest >> testListWithTwoElementSelectPreviousInSelection [
 
 	| l |
-	l := ToListInfiniteElement new.
+	l := ToInfiniteElement new.
 	l fitContent.
 	l data addAll: (self statesOfAmerica copyFrom: 1 to: 2).
 	self assert: l data size equals: 2.
@@ -468,10 +468,10 @@ ToListInfiniteElementTest >> testListWithTwoElementSelectPreviousInSelection [
 ]
 
 { #category : #'test selection - adding/removing' }
-ToListInfiniteElementTest >> testRemoveAll [
+ToInfiniteElementTest >> testRemoveAll [
 
 	| l |
-	l := ToListInfiniteElement new.
+	l := ToInfiniteElement new.
 	l fitContent.
 	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	self assert: l data size equals: 5.
@@ -488,10 +488,10 @@ ToListInfiniteElementTest >> testRemoveAll [
 ]
 
 { #category : #'test selection - adding/removing' }
-ToListInfiniteElementTest >> testSelectionUpdatedAfterInsert [
+ToInfiniteElementTest >> testSelectionUpdatedAfterInsert [
 
 	| l sp |
-	l := ToListInfiniteElement new.
+	l := ToInfiniteElement new.
 	l fitContent.
 	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	self assert: l data size equals: 5.
@@ -509,10 +509,10 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterInsert [
 ]
 
 { #category : #'test selection - adding/removing' }
-ToListInfiniteElementTest >> testSelectionUpdatedAfterInsert1 [
+ToInfiniteElementTest >> testSelectionUpdatedAfterInsert1 [
 
 	| l sp |
-	l := ToListInfiniteElement new.
+	l := ToInfiniteElement new.
 	l fitContent.
 	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	self assert: l data size equals: 5.
@@ -534,10 +534,10 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterInsert1 [
 ]
 
 { #category : #'test selection - adding/removing' }
-ToListInfiniteElementTest >> testSelectionUpdatedAfterInsert2 [
+ToInfiniteElementTest >> testSelectionUpdatedAfterInsert2 [
 
 	| l sp |
-	l := ToListInfiniteElement new.
+	l := ToInfiniteElement new.
 	l fitContent.
 	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	self assert: l data size equals: 5.
@@ -552,10 +552,10 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterInsert2 [
 ]
 
 { #category : #'test selection - adding/removing' }
-ToListInfiniteElementTest >> testSelectionUpdatedAfterInsert3 [
+ToInfiniteElementTest >> testSelectionUpdatedAfterInsert3 [
 
 	| l sp |
-	l := ToListInfiniteElement new.
+	l := ToInfiniteElement new.
 	l fitContent.
 	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	self assert: l data size equals: 5.
@@ -574,10 +574,10 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterInsert3 [
 ]
 
 { #category : #'test selection - adding/removing' }
-ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove [
+ToInfiniteElementTest >> testSelectionUpdatedAfterRemove [
 
 	| l sp |
-	l := ToListInfiniteElement new.
+	l := ToInfiniteElement new.
 	l fitContent.
 	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	self assert: l data size equals: 5.
@@ -595,10 +595,10 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove [
 ]
 
 { #category : #'test selection - adding/removing' }
-ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove1 [
+ToInfiniteElementTest >> testSelectionUpdatedAfterRemove1 [
 
 	| l sp |
-	l := ToListInfiniteElement new.
+	l := ToInfiniteElement new.
 	l fitContent.
 	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	self assert: l data size equals: 5.
@@ -619,10 +619,10 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove1 [
 ]
 
 { #category : #'test selection - adding/removing' }
-ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove2 [
+ToInfiniteElementTest >> testSelectionUpdatedAfterRemove2 [
 
 	| l sp |
-	l := ToListInfiniteElement new.
+	l := ToInfiniteElement new.
 	l fitContent.
 	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	self assert: l data size equals: 5.
@@ -637,10 +637,10 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove2 [
 ]
 
 { #category : #'test selection - adding/removing' }
-ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove3 [
+ToInfiniteElementTest >> testSelectionUpdatedAfterRemove3 [
 
 	| l sp |
-	l := ToListInfiniteElement new.
+	l := ToInfiniteElement new.
 	l fitContent.
 	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	self assert: l data size equals: 5.
@@ -659,10 +659,10 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove3 [
 ]
 
 { #category : #'test selection - adding/removing' }
-ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove4 [
+ToInfiniteElementTest >> testSelectionUpdatedAfterRemove4 [
 
 	| l sp |
-	l := ToListInfiniteElement new.
+	l := ToInfiniteElement new.
 	l fitContent.
 	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	self assert: l data size equals: 5.

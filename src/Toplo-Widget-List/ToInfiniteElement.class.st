@@ -4,7 +4,6 @@ Class {
 	#traits : 'TBlLayoutResizable',
 	#classTraits : 'TBlLayoutResizable classTrait',
 	#instVars : [
-		'clickLauncher',
 		'nodeBuilder',
 		'preserveSelectionOnFocused',
 		'nodeClass',
@@ -14,36 +13,11 @@ Class {
 	#category : #'Toplo-Widget-List-Infinite'
 }
 
-{ #category : #'selection mode' }
-ToInfiniteElement >> beMultipleSelection [
-
-	self primarySelection beMultipleSelectionIn: self
-]
-
-{ #category : #'selection mode' }
-ToInfiniteElement >> beSingleSelection [
-
-	self primarySelection beSingleSelectionIn: self
-]
-
-{ #category : #'selection mode' }
-ToInfiniteElement >> beWithoutSelection [
-
-	self primarySelection beWithoutSelectionIn: self
-]
-
 { #category : #'selection events' }
 ToInfiniteElement >> cherryPickIndex: anIndex [
 
 	self dispatchSelectionChangedAfter: [
 		self primarySelection cherryPickIndex: anIndex ]
-]
-
-{ #category : #private }
-ToInfiniteElement >> clickLauncher: aProcessOrNil [
-
-	clickLauncher := aProcessOrNil
-
 ]
 
 { #category : #accessing }
@@ -61,7 +35,7 @@ ToInfiniteElement >> data [
 { #category : #initialization }
 ToInfiniteElement >> defaultDataSource [
 
-	^ self subclassResponsibility 
+	^ ToInfiniteObservableCollectionDataSource new
 ]
 
 { #category : #initialization }
@@ -87,7 +61,7 @@ ToInfiniteElement >> defaultNodeBuilder [
 { #category : #initialization }
 ToInfiniteElement >> defaultSelectionStrategy [
 
-	^ ToStandardListSelectionStrategy new 
+	^ ToStandardListSelectionStrategy new
 ]
 
 { #category : #'selection events' }
@@ -206,7 +180,6 @@ ToInfiniteElement >> dispatchShiftSelectionFrom: anIndex itemCount: aNumber [
 { #category : #'selection events' }
 ToInfiniteElement >> dispatchStrongSelectionChanged [
 
-	self terminateClickLauncher.
 	self dispatchEvent: (ToListStrongSelectionEvent indexes: self primarySelectionIndexes)
 ]
 
@@ -214,12 +187,6 @@ ToInfiniteElement >> dispatchStrongSelectionChanged [
 ToInfiniteElement >> enableScrolledEvent [
 
 	self eventDispatcher enableScrolledEvent 
-]
-
-{ #category : #private }
-ToInfiniteElement >> hasClickLauncher [
-
-	^ clickLauncher notNil
 ]
 
 { #category : #testing }
@@ -231,7 +198,7 @@ ToInfiniteElement >> hasSelection [
 { #category : #initialization }
 ToInfiniteElement >> holderClass [
 
-	^ self subclassResponsibility 
+	^ ToNodeHolder 
 ]
 
 { #category : #'t - infinite accessing' }
@@ -292,6 +259,12 @@ ToInfiniteElement >> newNode [
 	^ self nodeClass new
 ]
 
+{ #category : #skin }
+ToInfiniteElement >> newRawSkin [
+
+	^ ToInfiniteElementSkin new
+]
+
 { #category : #accessing }
 ToInfiniteElement >> nodeAt: anIndex [
 
@@ -319,7 +292,7 @@ ToInfiniteElement >> nodeBuilder: aValuable [
 { #category : #initialization }
 ToInfiniteElement >> nodeClass [
 
-	^ nodeClass ifNil: [ nodeClass := ToListNode ]
+	^ nodeClass ifNil: [ nodeClass := ToInfiniteNode ]
 ]
 
 { #category : #initialization }
@@ -363,21 +336,6 @@ ToInfiniteElement >> offsetPositionRecordsForRemove: aStartPosition itemCount: a
 			offsetPositionRecordsForRemove: aStartPosition
 			itemCount: anItemCount
 			applyToPreLayout: applyToPreLayout ]
-]
-
-{ #category : #'selection events' }
-ToInfiniteElement >> onClickOnNodeEvent: anEvent [
-
-	| target |
-	target := anEvent currentTarget.
-	self primarySelection multipleSelectionModeDo: [
-		anEvent modifiers isShift ifTrue: [
-			^ self selectToIndex: target holder position ].
-		anEvent modifiers isPrimaryModifier ifTrue: [
-			^ self cherryPickIndex: target holder position ] ].
-
-	self primarySelection atLeastMonoSelectionDo: [
-		self selectOnlyIndex: target holder position ]
 ]
 
 { #category : #'selection mode' }
@@ -537,13 +495,6 @@ ToInfiniteElement >> shiftSelectionAfterAddingAt: aStartPosition itemCount: anIt
 ToInfiniteElement >> shiftSelectionAfterRemovingAt: aStartPosition itemCount: anItemCount [ 
 
 	self primarySelection shiftAfterRemovingAt: aStartPosition itemCount: anItemCount
-]
-
-{ #category : #private }
-ToInfiniteElement >> terminateClickLauncher [
-
-	clickLauncher ifNotNil: #terminate.
-	clickLauncher := nil.
 ]
 
 { #category : #'shortcuts installation' }

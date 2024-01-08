@@ -6,24 +6,6 @@ Trait {
 	#category : #'Toplo-Widget-List-Core'
 }
 
-{ #category : #'t - selection mode changing' }
-TToListElementDecorator >> beMultipleSelection [
-
-	self next beMultipleSelection
-]
-
-{ #category : #'t - selection mode changing' }
-TToListElementDecorator >> beSingleSelection [
-
-	self next beSingleSelection
-]
-
-{ #category : #'t - selection mode changing' }
-TToListElementDecorator >> beWithoutSelection [
-
-	self next beWithoutSelection
-]
-
 { #category : #'t - infinite accessing' }
 TToListElementDecorator >> data [
 

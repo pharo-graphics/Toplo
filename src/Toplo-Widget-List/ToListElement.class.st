@@ -41,6 +41,12 @@ ToListElement >> dataSourceSharedEvents [
 ]
 
 { #category : #initialization }
+ToListElement >> defaultInfiniteElement [ 
+
+	^ ToInfiniteElement new
+]
+
+{ #category : #initialization }
 ToListElement >> defaultLayout [
 
 	^ BlFrameLayout new
@@ -77,7 +83,7 @@ ToListElement >> initialize [
 
 	selectionElements := #(  ).
 	self layout: self defaultLayout.
-	self next: ToListInfiniteElement new.
+	self next: self defaultInfiniteElement.
 	
 	self addEventHandler: ToListElementEventHandler new.
 	

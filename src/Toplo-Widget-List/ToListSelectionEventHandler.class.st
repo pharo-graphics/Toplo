@@ -104,8 +104,8 @@ ToListSelectionEventHandler >> listSelectionElementUpdatedEvent: anEvent [
 	" Ok, the state of the infinite has changed "
 	
 	nodesArray do: [ :node |
-		node dispatchEvent: (ToListNodeSelectionEvent new
-				 listElement: target;
+		node dispatchEvent: (ToNodeSelectionEvent new
+				 infiniteElement: target;
 				 selected: (selectedIndexes includes: node holder position)) ]
 ]
 

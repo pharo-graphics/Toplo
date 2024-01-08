@@ -1259,7 +1259,7 @@ ToSandBox class >> example_PicsumPhotosGallery [
 			                imageData: imageData;
 			                yourself.
 		node addEventHandler: (BlEventHandler
-				 on: ToListNodeAttachementEvent
+				 on: ToNodeAttachementEvent
 				 do: [ :event |
 					 event attached
 						 ifTrue: [ photoElement attached ]

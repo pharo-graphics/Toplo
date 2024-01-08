@@ -1,20 +1,20 @@
 Class {
-	#name : #ToListObservableCollectionDataSource,
-	#superclass : #ToListDataSource,
+	#name : #ToInfiniteObservableCollectionDataSource,
+	#superclass : #ToInfiniteDataSource,
 	#instVars : [
 		'data'
 	],
-	#category : 'Toplo-Widget-List-Infinite'
+	#category : #'Toplo-Widget-List-Infinite'
 }
 
 { #category : #accessing }
-ToListObservableCollectionDataSource >> data [
+ToInfiniteObservableCollectionDataSource >> data [
 
 	^ data
 ]
 
 { #category : #accessing }
-ToListObservableCollectionDataSource >> data: anObservableCollection [
+ToInfiniteObservableCollectionDataSource >> data: anObservableCollection [
 
 	data := anObservableCollection.
 	data whenAddChangeDo: [ :ann |
@@ -35,7 +35,7 @@ ToListObservableCollectionDataSource >> data: anObservableCollection [
 ]
 
 { #category : #accessing }
-ToListObservableCollectionDataSource >> itemCount [
+ToInfiniteObservableCollectionDataSource >> itemCount [
 	"Return the total number of items in the data set"
 	<return: #Number>
 
@@ -43,7 +43,7 @@ ToListObservableCollectionDataSource >> itemCount [
 ]
 
 { #category : #accessing }
-ToListObservableCollectionDataSource >> list [
+ToInfiniteObservableCollectionDataSource >> list [
 
 	self 
 		deprecated:  'Use #data instead' 
@@ -52,7 +52,7 @@ ToListObservableCollectionDataSource >> list [
 ]
 
 { #category : #accessing }
-ToListObservableCollectionDataSource >> list: anObservableCollection [
+ToInfiniteObservableCollectionDataSource >> list: anObservableCollection [
 
 	self
 		deprecated: 'Please use data: instead.'
@@ -63,7 +63,7 @@ ToListObservableCollectionDataSource >> list: anObservableCollection [
 ]
 
 { #category : #'instance creation' }
-ToListObservableCollectionDataSource >> onBindHolder: anElementHolder at: aPosition [
+ToInfiniteObservableCollectionDataSource >> onBindHolder: anElementHolder at: aPosition [
 
 	"Update holder's model"
 	anElementHolder data: (self data at: aPosition).

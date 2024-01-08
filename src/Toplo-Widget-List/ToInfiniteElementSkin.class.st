@@ -1,11 +1,11 @@
 Class {
-	#name : #ToListInfiniteElementSkin,
+	#name : #ToInfiniteElementSkin,
 	#superclass : #ToRawSkin,
-	#category : 'Toplo-Widget-List-Infinite'
+	#category : #'Toplo-Widget-List-Infinite'
 }
 
 { #category : #'event handling' }
-ToListInfiniteElementSkin >> focusedLookEvent: anEvent [
+ToInfiniteElementSkin >> focusedLookEvent: anEvent [
 
 	super focusedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -13,7 +13,7 @@ ToListInfiniteElementSkin >> focusedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToListInfiniteElementSkin >> installLookEvent: anEvent [
+ToInfiniteElementSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -25,7 +25,7 @@ ToListInfiniteElementSkin >> installLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToListInfiniteElementSkin >> unfocusedLookEvent: anEvent [
+ToInfiniteElementSkin >> unfocusedLookEvent: anEvent [
 
 	super unfocusedLookEvent: anEvent.
 	anEvent elementDo: [ :e |

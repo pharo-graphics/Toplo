@@ -4,7 +4,7 @@ A ToObservableCollectionDataSourceTest is a test class for testing the behavior 
 Class {
 	#name : #ToObservableCollectionDataSourceTest,
 	#superclass : #TestCase,
-	#category : 'Toplo-Tests-Core-Collection'
+	#category : #'Toplo-Tests-Core-Collection'
 }
 
 { #category : #accessing }
@@ -25,7 +25,7 @@ ToObservableCollectionDataSourceTest >> statesOfAmerica [
 ToObservableCollectionDataSourceTest >> testRangeChangedNotification [
 
 	| datasource rangeEvent |
-	datasource := ToListObservableCollectionDataSource new.
+	datasource := ToInfiniteObservableCollectionDataSource new.
 	datasource addEventHandler: (BlEventHandler
 			 on: BlInfiniteDataSourceItemRangeChanged
 			 do: [ :event | rangeEvent := event ]).
@@ -53,7 +53,7 @@ ToObservableCollectionDataSourceTest >> testRangeChangedNotification [
 ToObservableCollectionDataSourceTest >> testRangeInsertedNotification [
 
 	| datasource rangeEvent |
-	datasource := ToListObservableCollectionDataSource new.
+	datasource := ToInfiniteObservableCollectionDataSource new.
 	datasource addEventHandler: (BlEventHandler
 			 on: BlInfiniteDataSourceItemRangeInserted
 			 do: [ :event | rangeEvent := event ]).
@@ -72,7 +72,7 @@ ToObservableCollectionDataSourceTest >> testRangeInsertedNotification [
 ToObservableCollectionDataSourceTest >> testRangeRemovedNotification [
 
 	| datasource rangeEvent |
-	datasource := ToListObservableCollectionDataSource new.
+	datasource := ToInfiniteObservableCollectionDataSource new.
 	datasource addEventHandler: (BlEventHandler
 			 on: BlInfiniteDataSourceItemRangeRemoved
 			 do: [ :event | rangeEvent := event ]).
@@ -104,7 +104,7 @@ ToObservableCollectionDataSourceTest >> testRangeRemovedNotification [
 ToObservableCollectionDataSourceTest >> testWithData [
 
 	| datasource changedEvent |
-	datasource := ToListObservableCollectionDataSource new.
+	datasource := ToInfiniteObservableCollectionDataSource new.
 	datasource addEventHandler: (BlEventHandler
 			 on: BlInfiniteDataSourceChanged
 			 do: [ :event | changedEvent := event ]).
@@ -120,7 +120,7 @@ ToObservableCollectionDataSourceTest >> testWithData [
 ToObservableCollectionDataSourceTest >> testWithoutData [
 
 	| datasource |
-	datasource := ToListObservableCollectionDataSource new.
+	datasource := ToInfiniteObservableCollectionDataSource new.
 	self assert: datasource data isNil.
 	self assert: datasource itemCount equals: 0.
 	self assert: datasource hasStableIds not

@@ -1,17 +1,17 @@
 Class {
-	#name : #ToListNode,
+	#name : #ToInfiniteNode,
 	#superclass : #ToElement,
 	#category : #'Toplo-Widget-List-Node'
 }
 
 { #category : #initialization }
-ToListNode >> defaultLayout [ 
+ToInfiniteNode >> defaultLayout [ 
 
 	^ BlLinearLayout vertical
 ]
 
 { #category : #initialization }
-ToListNode >> initialize [
+ToInfiniteNode >> initialize [
 
 	super initialize.
 	self

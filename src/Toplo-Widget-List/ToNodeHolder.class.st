@@ -1,5 +1,5 @@
 Class {
-	#name : #ToListNodeHolder,
+	#name : #ToNodeHolder,
 	#superclass : #BlInfiniteHolder,
 	#instVars : [
 		'data',
@@ -9,32 +9,32 @@ Class {
 }
 
 { #category : #accessing }
-ToListNodeHolder >> data [
+ToNodeHolder >> data [
 
 	^ data
 ]
 
 { #category : #accessing }
-ToListNodeHolder >> data: aData [ 
+ToNodeHolder >> data: aData [ 
 
 	data := aData.
 	infiniteElement nodeHolderBuilder value: self
 ]
 
 { #category : #accessing }
-ToListNodeHolder >> isSelected [
+ToNodeHolder >> isSelected [
 
 	^ self infiniteElement isSelectedAtIndex: self position
 ]
 
 { #category : #accessing }
-ToListNodeHolder >> node [
+ToNodeHolder >> node [
 
 	^ self itemElement 
 ]
 
 { #category : #accessing }
-ToListNodeHolder >> node: aNode [
+ToNodeHolder >> node: aNode [
 
 	itemElement := aNode
 ]

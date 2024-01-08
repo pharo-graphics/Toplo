@@ -5,11 +5,11 @@ Class {
 	#classTraits : 'TBlLayoutResizable classTrait',
 	#instVars : [
 		'clickLauncher',
-		'shortcuts',
 		'nodeBuilder',
 		'preserveSelectionOnFocused',
 		'nodeClass',
-		'selectionStrategy'
+		'selectionStrategy',
+		'installedShortcuts'
 	],
 	#category : #'Toplo-Widget-List-Infinite'
 }
@@ -17,7 +17,7 @@ Class {
 { #category : #'selection mode' }
 ToInfiniteElement >> beMultipleSelection [
 
-	self selection beMultipleSelectionIn: self
+	self primarySelection beMultipleSelectionIn: self
 ]
 
 { #category : #'selection mode' }
@@ -81,13 +81,13 @@ ToInfiniteElement >> defaultMouseScrollEventHandler [
 { #category : #initialization }
 ToInfiniteElement >> defaultNodeBuilder [
 
-	^ self subclassResponsibility 
+	^ [ :node :holder | node addChild: ((ToLabel text: holder data asString) hMatchParent) ]
 ]
 
 { #category : #initialization }
 ToInfiniteElement >> defaultSelectionStrategy [
 
-	^ ToListSelectionStrategy new 
+	^ ToStandardListSelectionStrategy new 
 ]
 
 { #category : #'selection events' }
@@ -216,12 +216,6 @@ ToInfiniteElement >> enableScrolledEvent [
 	self eventDispatcher enableScrolledEvent 
 ]
 
-{ #category : #'selection events' }
-ToInfiniteElement >> ensureSelectIndex: anIndex [
-
-	self selectedIndex = anIndex ifFalse: [ self selectIndex: anIndex ]
-]
-
 { #category : #private }
 ToInfiniteElement >> hasClickLauncher [
 
@@ -251,6 +245,7 @@ ToInfiniteElement >> initialize [
 
 	super initialize.
 	self addEventHandler: ToSkinStateGenerator new.
+	self addEventHandler: ToInfiniteElementEventHandler new.
 	selectionStrategy := self defaultSelectionStrategy.
 	selectionStrategy onInstalledIn: self.
 	self privateData: ToObservableCollection new.
@@ -264,8 +259,19 @@ ToInfiniteElement >> initialize [
 { #category : #'shortcuts installation' }
 ToInfiniteElement >> installShortcuts [
 
-	shortcuts := self primarySelection shortcutsIn: self.
-	shortcuts do: [ :s | self addShortcut: s ]
+	self primarySelection installShortcutsInInfiniteElement
+]
+
+{ #category : #'shortcuts installation' }
+ToInfiniteElement >> installedShortcuts [
+
+	^ installedShortcuts 
+]
+
+{ #category : #'shortcuts installation' }
+ToInfiniteElement >> installedShortcuts: aCollectionOfShortcuts [
+
+	installedShortcuts := aCollectionOfShortcuts
 ]
 
 { #category : #'selection events' }
@@ -278,6 +284,12 @@ ToInfiniteElement >> isSelectedAtIndex: anIndex [
 ToInfiniteElement >> newListNodeHolderFromDataSource: aDataSource [
 
 	^ self holderClass new infiniteElement: self
+]
+
+{ #category : #initialization }
+ToInfiniteElement >> newNode [
+
+	^ self nodeClass new
 ]
 
 { #category : #accessing }
@@ -316,6 +328,17 @@ ToInfiniteElement >> nodeClass: aNodeClass [
 	nodeClass := aNodeClass
 ]
 
+{ #category : #accessing }
+ToInfiniteElement >> nodeHolderBuilder [
+
+	^ [ :theHolder |
+	  | newNode |
+	  newNode := self newNode.
+	  self selectionStrategy installEventHandlersInNewNode: newNode.
+	  theHolder node: newNode.
+	  self nodeBuilder value: theHolder node value: theHolder ]
+]
+
 { #category : #'private - commands' }
 ToInfiniteElement >> offsetPositionRecordsForInsert: aStartPosition itemCount: anItemCount [
 
@@ -345,17 +368,16 @@ ToInfiniteElement >> offsetPositionRecordsForRemove: aStartPosition itemCount: a
 { #category : #'selection events' }
 ToInfiniteElement >> onClickOnNodeEvent: anEvent [
 
-	| originalEvent |
-	originalEvent := anEvent event.
-
+	| target |
+	target := anEvent currentTarget.
 	self primarySelection multipleSelectionModeDo: [
-		originalEvent modifiers isShift ifTrue: [
-			^ self selectToIndex: anEvent holder layoutPosition ].
-		originalEvent modifiers isPrimaryModifier ifTrue: [
-			^ self cherryPickIndex: anEvent holder layoutPosition ] ].
+		anEvent modifiers isShift ifTrue: [
+			^ self selectToIndex: target holder position ].
+		anEvent modifiers isPrimaryModifier ifTrue: [
+			^ self cherryPickIndex: target holder position ] ].
 
 	self primarySelection atLeastMonoSelectionDo: [
-		self selectOnlyIndex: anEvent holder layoutPosition ]
+		self selectOnlyIndex: target holder position ]
 ]
 
 { #category : #'selection mode' }
@@ -386,7 +408,7 @@ ToInfiniteElement >> preserveSelectionOnFocusedByDefault [
 { #category : #accessing }
 ToInfiniteElement >> primarySelection [
 
-	^ self selection
+	^ self selectionStrategy 
 ]
 
 { #category : #accessing }
@@ -490,19 +512,13 @@ ToInfiniteElement >> selectToIndex: anIndex [
 { #category : #accessing }
 ToInfiniteElement >> selectedIndex [
 
-	^ self selection selectedIndex
+	^ self primarySelection selectedIndex
 ]
 
 { #category : #accessing }
 ToInfiniteElement >> selectedIndexes [
 
-	^ self selectionStrategy selectedIndexes
-]
-
-{ #category : #accessing }
-ToInfiniteElement >> selection [
-
-	^ self selectionStrategy
+	^ self primarySelection selectedIndexes
 ]
 
 { #category : #accessing }
@@ -514,13 +530,13 @@ ToInfiniteElement >> selectionStrategy [
 { #category : #'selection events' }
 ToInfiniteElement >> shiftSelectionAfterAddingAt: aStartPosition itemCount: anItemCount [
 
-	self selectionStrategy shiftAfterAddingAt: aStartPosition itemCount: anItemCount
+	self primarySelection shiftAfterAddingAt: aStartPosition itemCount: anItemCount
 ]
 
 { #category : #'selection events' }
 ToInfiniteElement >> shiftSelectionAfterRemovingAt: aStartPosition itemCount: anItemCount [ 
 
-	self selectionStrategy shiftAfterRemovingAt: aStartPosition itemCount: anItemCount
+	self primarySelection shiftAfterRemovingAt: aStartPosition itemCount: anItemCount
 ]
 
 { #category : #private }
@@ -533,22 +549,6 @@ ToInfiniteElement >> terminateClickLauncher [
 { #category : #'shortcuts installation' }
 ToInfiniteElement >> uninstallShortcuts [
 
-	shortcuts do: [ :s | self removeShortcut: s ].
-	shortcuts := nil
-]
-
-{ #category : #dispatching }
-ToInfiniteElement >> whenChildAttachedDo: aBlock [
-
-	self addEventHandler: (BlEventHandler
-			 on: BlInfiniteElementAttachedEvent
-			 do: aBlock)
-]
-
-{ #category : #dispatching }
-ToInfiniteElement >> whenChildDetachedDo: aBlock [
-
-	self addEventHandler: (BlEventHandler
-			 on: BlInfiniteElementDetachedEvent
-			 do: aBlock)
+	self installedShortcuts do: [ :s | self removeShortcut: s ].
+	installedShortcuts := nil
 ]

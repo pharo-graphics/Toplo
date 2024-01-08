@@ -115,23 +115,26 @@ ToSelect2 >> initialize [
 	nodeClass := self defaultNodeClass.
 	nodeHolders := OrderedCollection new.
 	nodeBuilder := self defaultNodeBuilder.
-	
+
 	" the element that holds the flow"
 	contentElement := self newContentElement.
 	" the flow element taht contains nodes + the text field "
 	selectFlow := self newSelectFlow.
 
-	windowManager := ToSelectWindowManager new element: self.
-	
 	" the text field for the select input "
 	selectTextField := self newSelectTextField.
 	selectTextField requestFocus.
 	sharedDistributor := BlSharedEventDistributor new.
 	sharedDistributor
 		adjustMousePosition: false;
-		shareEvents: { ToAlbumClientEvent. ToListSelectionChangedEvent. ToInfiniteSelectionDirtyEvent   }.
+		shareEvents: {
+				ToAlbumClientEvent.
+				ToListSelectionChangedEvent.
+				ToInfiniteSelectionDirtyEvent }.
 	selectTextField addEventHandler: sharedDistributor.
 	self addEventHandler: sharedDistributor.
+
+	windowManager := ToSelectWindowManager new element: self.
 	self listElement addEventHandler: sharedDistributor.
 	self data addEventHandler: sharedDistributor.
 	selectFlow addChild: selectTextField.
@@ -141,11 +144,8 @@ ToSelect2 >> initialize [
 	self addChildren: {
 			contentElement.
 			iconContainer }.
-			
-	self initializeFakeNode.
-	
-	
 
+	self initializeFakeNode
 ]
 
 { #category : #initialization }
@@ -302,20 +302,22 @@ ToSelect2 >> refreshNodes [
 	self dataNodesDo: [ :node | node removeFromParent ].
 	self nodeHolders reset.
 	nodes := self selectedIndexes collect: [ :idx |
-		| node holder |
+		| node holder selected |
 		node := self newNode.
 		holder := self newNodeHolder.
 		node selectHolder: holder.
 		self nodeHolders add: holder.
+		selected := self listElement data at: idx.
 		holder
 			node: node;
-			position: idx;
+			position: (self data indexOf: selected);
 			select: self;
-			data: (self data at: idx).
+			data: selected.
 		self nodeBuilder value: node value: holder.
 		node ].
 	self addAllDataNodes: nodes.
 	nodes ifEmpty: [ selectFlow addChild: fakeNode ].
+	self selectIndexes: (nodes collect: [:n | n selectHolder position] ).
 	self windowManager fitListHeightToContent
 ]
 

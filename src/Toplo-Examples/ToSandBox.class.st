@@ -1135,12 +1135,6 @@ ToSandBox class >> example_ListWithPanes [
 				                 padding: (BlInsets all: 1);
 				                 yourself.
 			        blContent := ToPaneNodeExample new.
-			        blContent addEventHandler: (BlEventHandler
-					         on: ToListNodeHolderSelectedEvent
-					         do: [ 'S' traceCr ]).
-			        blContent addEventHandler: (BlEventHandler
-					         on: ToListNodeHolderDeselectedEvent
-					         do: [ 'D' traceCr ]).
 			        blContent addChild: title at: 1.
 			        blContent margin: (BlInsets all: 4).
 			        blContent padding: (BlInsets all: 12).
@@ -1247,20 +1241,30 @@ ToSandBox class >> example_OpenSaveSaveAsCloseWithSubmenu [
 { #category : #list }
 ToSandBox class >> example_PicsumPhotosGallery [
 	" cool example adapted from the feenk Glamorous Toolkit version BlInfiniteExample>>exampleGallery"
+
 	" Images loaded from https://picsum.photos "
+
 	| space list vscrollBar |
 	list := ToListElement new
 		        matchParent;
 		        yourself.
 	list padding: (BlInsets all: 1).
-	list nodeBuilder: [ :node :holder | | imageData |
+	list nodeBuilder: [ :node :holder |
+		| imageData photoElement |
 		imageData := holder data.
-		node addChild: (ToPicsumPhotosGalleryImageElement new
-			hMatchParent;
-			vFitContent;
-			margin: (BlInsets all: 5);
-			imageData: imageData;
-			yourself) ].
+		photoElement := ToPicsumPhotosGalleryImageElement new
+			                hMatchParent;
+			                vFitContent;
+			                margin: (BlInsets all: 5);
+			                imageData: imageData;
+			                yourself.
+		node addEventHandler: (BlEventHandler
+				 on: ToListNodeAttachementEvent
+				 do: [ :event |
+					 event attached
+						 ifTrue: [ photoElement attached ]
+						 ifFalse: [ photoElement detached ] ]).
+		node addChild: photoElement ].
 
 	[
 	| images |
@@ -1271,9 +1275,6 @@ ToSandBox class >> example_PicsumPhotosGallery [
 				          aDictionary ].
 	images sort: [ :a :b | a id > b id ].
 	list data addAll: images ] fork.
-
-	list whenChildAttachedDo: [ :event | event element firstChild attached ].
-	list whenChildDetachedDo: [ :event | event element firstChild detached ].
 
 	vscrollBar := BlVerticalScrollbarElement new.
 	vscrollBar constraintsDo: [ :c |
@@ -2319,6 +2320,8 @@ ToSandBox class >> example_selectWith5Nodes [
 
 	| select innerWindow |
 	select := ToSelect2 new.
+	select listNodeBuilder: [ :node :holder | 
+		node addChild: ((ToLabel text: holder data asString) hMatchParent) ].
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
 	select width: 300.

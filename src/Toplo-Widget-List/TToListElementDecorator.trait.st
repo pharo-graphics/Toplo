@@ -60,12 +60,6 @@ TToListElementDecorator >> enableScrolledEvent [
 	self next enableScrolledEvent
 ]
 
-{ #category : #'t - accessing selection' }
-TToListElementDecorator >> ensureSelectIndex: anInteger [
-
-	self next ensureSelectIndex: anInteger
-]
-
 { #category : #'t - children - accessing' }
 TToListElementDecorator >> findElementHolderForDataSourcePosition: anInteger [
 
@@ -202,18 +196,6 @@ TToListElementDecorator >> shiftSelectionAfterAddingAt: aStartPosition itemCount
 TToListElementDecorator >> shiftSelectionAfterRemovingAt: aStartPosition itemCount: anItemCount [ 
 
 	self next shiftSelectionAfterRemovingAt: aStartPosition itemCount: anItemCount 
-]
-
-{ #category : #'t - infinite accessing' }
-TToListElementDecorator >> whenChildAttachedDo: aBlock [
-
-	self next whenChildAttachedDo: aBlock
-]
-
-{ #category : #'t - infinite accessing' }
-TToListElementDecorator >> whenChildDetachedDo: aBlock [
-
-	self next whenChildDetachedDo: aBlock
 ]
 
 { #category : #'t - infinite accessing' }

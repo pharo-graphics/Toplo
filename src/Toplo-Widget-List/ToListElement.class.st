@@ -56,6 +56,8 @@ ToListElement >> horizontal: aBoolean [
 ToListElement >> infiniteElementSharedEvents [
 
 	^ {
+		  BlInfiniteElementAttachedEvent.
+		  BlInfiniteElementDetachedEvent.
 		  ToListSelectionActionEvent.
 		  ToListStrongSelectionEvent.
 		  ToInfiniteSelectionDirtyEvent.

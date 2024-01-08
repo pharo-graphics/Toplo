@@ -5,7 +5,7 @@ Class {
 	#instVars : [
 		'selection'
 	],
-	#category : #'Toplo-Widget-List-Infinite'
+	#category : #'Toplo-Widget-List-Selection'
 }
 
 { #category : #printing }

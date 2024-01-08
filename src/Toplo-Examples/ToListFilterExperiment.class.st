@@ -6,7 +6,7 @@ Class {
 		'listElement',
 		'dataFilter'
 	],
-	#category : 'Toplo-Examples'
+	#category : #'Toplo-Examples'
 }
 
 { #category : #'instance creation' }
@@ -39,29 +39,32 @@ ToListFilterExperiment >> open [
 	pane addChild: filterField.
 
 	dataFilter := ToListElementFilter new.
-	listElement addEventHandler: (ToListElementFilterEventHandler new dataFilter: dataFilter; yourself).
-	filterField editorDo: [ :ed |
-		ed when: AlbTextEditedEvent do: [ self textUpdated ] ].
+	listElement addEventHandler: (ToListElementFilterEventHandler new
+			 dataFilter: dataFilter;
+			 yourself).
+	filterField 
+		addEventHandler: (BlEventHandler
+				 on: AlbTextEditedEvent
+				 do: [ self textUpdated ]).
 
 	self listElement data addAll:
 		((Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ])
 			 collect: [ :c | c name ]).
 
-	listElement
-		when: ToDataFilterResultEvent
-		do: [ :event | listElement data filterResult: event data ].
+	listElement addEventHandler: (BlEventHandler
+			 on: ToDataFilterResultEvent
+			 do: [ :event | listElement data filterResult: event data ]).
 
-	self listElement placeholderBuilder: [ :ph :e | | lab |
-		lab := ToLabel new text: ('No result' asRopedText foreground: Color lightGray; fontSize: 24; yourself).
+	self listElement placeholderBuilder: [ :ph :e |
+		| lab |
+		lab := ToAttributedLabel new text: ('No result' asRopedText
+				        foreground: Color lightGray;
+				        fontSize: 24;
+				        yourself).
 		lab matchParent.
-		lab layout alignCenter.
-		ph addChild: lab].
+		ph addChild: lab ].
 
-"	listElement data when: ToCollectionEmptinessEvent do: [ :event |
-		listElement data
-			ifEmpty: [ listElement showPlaceholder ]
-			ifNotEmpty: [ listElement hidePlaceholder ] ]."
-	pane openInInnerWindow 
+	pane openInInnerWindow
 ]
 
 { #category : #'see class side' }

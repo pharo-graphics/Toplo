@@ -1,11 +1,11 @@
 Class {
 	#name : #ToListNodeSelectionEvent,
-	#superclass : #ToListNodeEvent,
+	#superclass : #BlEvent,
 	#instVars : [
 		'listElement',
 		'selected'
 	],
-	#category : 'Toplo-Widget-List-Node'
+	#category : #'Toplo-Widget-List-Node'
 }
 
 { #category : #accessing }

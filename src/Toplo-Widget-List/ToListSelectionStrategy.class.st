@@ -10,7 +10,7 @@ Class {
 		'pivot',
 		'distance'
 	],
-	#category : #'Toplo-Widget-List-Infinite'
+	#category : #'Toplo-Widget-List-Selection'
 }
 
 { #category : #'private - selection managing' }
@@ -238,6 +238,22 @@ ToListSelectionStrategy >> initialize [
 	currentIndex := 0
 ]
 
+{ #category : #'selection and shortcuts handlers' }
+ToListSelectionStrategy >> installEventHandlersInNewNode: aNode [
+
+	self subclassResponsibility 
+]
+
+{ #category : #'selection and shortcuts handlers' }
+ToListSelectionStrategy >> installShortcutsInInfiniteElement [
+
+	| shortcuts |
+	shortcuts := self shortcuts.
+	shortcuts do: [ :s | infiniteElement addShortcut: s ].
+	infiniteElement installedShortcuts: shortcuts.
+
+]
+
 { #category : #'private - selection managing' }
 ToListSelectionStrategy >> invalidOperation [
 
@@ -367,16 +383,6 @@ ToListSelectionStrategy >> selectNext [
 	self goTowardNext ifTrue: [ self selectOnlyIndex: self currentIndex ]
 ]
 
-{ #category : #shortcuts }
-ToListSelectionStrategy >> selectNextIn: anElement event: aShortcutEvent [
-
-	aShortcutEvent modifiers isShift
-		ifTrue: [ self addOrRemoveNext ]
-		ifFalse: [ self selectNext ].
-	self isEmpty ifTrue: [ ^ self ].
-	anElement scrollToIndex: self currentIndex
-]
-
 { #category : #'selection managing' }
 ToListSelectionStrategy >> selectOnlyIndex: index [
 
@@ -391,16 +397,6 @@ ToListSelectionStrategy >> selectPrevious [
 
 	self goTowardPrevious ifTrue: [
 		self selectOnlyIndex: self currentIndex ]
-]
-
-{ #category : #shortcuts }
-ToListSelectionStrategy >> selectPreviousIn: anElement event: aShortcutEvent [
-
-	aShortcutEvent modifiers isShift
-		ifTrue: [ self addOrRemovePrevious ]
-		ifFalse: [ self selectPrevious ].
-	self isEmpty ifTrue: [ ^ self ].
-	anElement scrollToIndex: self currentIndex 
 ]
 
 { #category : #'selection managing' }
@@ -468,41 +464,10 @@ ToListSelectionStrategy >> shiftAfterRemovingAt: aStartPosition itemCount: anIte
 	afterIdx do: [ :i | selectionModel select: i - anItemCount ]
 ]
 
-{ #category : #shortcuts }
-ToListSelectionStrategy >> shortcutsIn: aList [
+{ #category : #'selection and shortcuts handlers' }
+ToListSelectionStrategy >> shortcuts [
 
-	| shortcuts |
-	shortcuts := {
-		             (BlShortcutWithAction new
-			              combination: BlKeyCombination builder arrowDown build;
-			              action: [ :aShortcutEvent :aShortcut |
-				              aList dispatchSelectionChangedAfter: [
-						              self selectNextIn: aList event: aShortcutEvent ] ]).
-		             (BlShortcutWithAction new
-			              combination: BlKeyCombination builder arrowUp build;
-			              action: [ :aShortcutEvent :aShortcut |
-				              aList dispatchSelectionChangedAfter: [
-						              self selectPreviousIn: aList event: aShortcutEvent ] ]) }.
-	self isMultiple ifTrue: [
-		shortcuts := shortcuts , {
-			             (BlShortcutWithAction new
-				              combination: BlKeyCombination primaryA;
-				              action: [ :aShortcutEvent :aShortcut |
-					              aList dispatchSelectionChangedAfter: [
-							              self selectAll ] ]).
-			             (BlShortcutWithAction new
-				              combination: BlKeyCombination shiftArrowDown;
-				              action: [ :aShortcutEvent :aShortcut |
-					              aList dispatchSelectionChangedAfter: [
-							              self selectNextIn: aList event: aShortcutEvent ] ]).
-			             (BlShortcutWithAction new
-				              combination: BlKeyCombination shiftArrowUp;
-				              action: [ :aShortcutEvent :aShortcut |
-					              aList dispatchSelectionChangedAfter: [
-							              self
-								              selectPreviousIn: aList
-								              event: aShortcutEvent ] ]) } ].
-	^ shortcuts
+	self subclassResponsibility 
 ]
 
 { #category : #accessing }

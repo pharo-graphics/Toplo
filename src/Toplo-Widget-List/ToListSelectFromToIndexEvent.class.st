@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'interval'
 	],
-	#category : #'Toplo-Widget-List-Infinite'
+	#category : #'Toplo-Widget-List-Selection'
 }
 
 { #category : #accessing }

@@ -106,7 +106,7 @@ ToListElementFilter >> filterDataIn: anElement [
 	(which leads to errors related to children adding and which are difficult to understand)"
 
 	filterResultTask ifNotNil: [ anElement dequeueTask: filterResultTask ].
-	filterResultTask := BlTaskAction new action: [ 
+	filterResultTask := BlTaskAction new action: [
 		anElement dispatchEvent: (ToDataFilterResultEvent new
 			 data: filtered;
 			 indexes: indexes;
@@ -150,7 +150,7 @@ ToListElementFilter >> onInstalledIn: anElement [
 
 	originalDataProvider ifNil: [ originalDataProvider := [ anElement data asArray ] ].
 	originalData :=  originalDataProvider value.
-	delayBeforeFilter := 150 milliSeconds.
+	delayBeforeFilter := 50 milliSeconds.
 	process := self filterProcessIn: anElement
 ]
 

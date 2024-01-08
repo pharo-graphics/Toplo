@@ -1,7 +1,7 @@
 Class {
 	#name : #ToListDataSource,
 	#superclass : #BlInfiniteDataSource,
-	#category : 'Toplo-Widget-List-Infinite'
+	#category : #'Toplo-Widget-List-Infinite'
 }
 
 { #category : #accessing }
@@ -32,18 +32,4 @@ ToListDataSource >> list: aCollection [
 ToListDataSource >> onCreateHolder: anInfiniteElement [ 
 
 	^ anInfiniteElement newListNodeHolderFromDataSource: self
-]
-
-{ #category : #'instance creation' }
-ToListDataSource >> onElementAttached: anElementHolder [
-
-	super onElementAttached: anElementHolder.
-	anElementHolder onAttachedFromDatasource: self
-]
-
-{ #category : #'instance creation' }
-ToListDataSource >> onElementDetached: anElementHolder [
-	
-	super onElementDetached: anElementHolder.
-	anElementHolder onDetachedFromDatasource: self
 ]

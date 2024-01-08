@@ -59,6 +59,7 @@ ToSelectNode >> endContainer [
 ToSelectNode >> initialize [
 
 	super initialize.
+	
 	self layout: BlLinearLayout horizontal.
 	
 	startContainer := ToElement new

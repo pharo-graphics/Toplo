@@ -1,9 +1,6 @@
 Class {
 	#name : #ToSelectEventHandler,
 	#superclass : #ToElementWithPopupEventHandler,
-	#instVars : [
-		'addingNode'
-	],
 	#category : #'Toplo-Widget-Select'
 }
 

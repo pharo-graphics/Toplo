@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'indexes'
 	],
-	#category : #'Toplo-Widget-List-Infinite'
+	#category : #'Toplo-Widget-List-Selection'
 }
 
 { #category : #accessing }

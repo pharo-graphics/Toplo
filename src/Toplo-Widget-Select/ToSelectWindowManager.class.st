@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'listElement',
 		'maxHeight',
-		'mirrorUpdater'
+		'mirrorUpdater',
+		'dataFilter'
 	],
 	#category : #'Toplo-Widget-Select'
 }
@@ -42,6 +43,24 @@ ToSelectWindowManager >> element: anElement [
 	mirrorUpdater := ToObservableCollectionMirrorUpdater new.
 	mirrorUpdater mirror: self listElement data.
 	anElement data addEventHandler: mirrorUpdater.
+	
+	dataFilter := ToListElementFilter new.
+	dataFilter originalDataProvider: [ anElement data ].
+	listElement addEventHandler: (ToListElementFilterEventHandler new
+			 dataFilter: dataFilter;
+			 yourself).
+			
+	anElement textField 
+		addEventHandler: (BlEventHandler
+				 on: AlbTextEditedEvent
+				 do: [ self textUpdated ]).
+	anElement textField 
+		addEventHandler: (BlEventHandler
+				 on: AlbTextReplacedEvent
+				 do: [ self textUpdated ]).
+	listElement addEventHandler: (BlEventHandler
+			 on: ToDataFilterResultEvent
+			 do: [ :event | listElement data filterResult: event data ]).
 ]
 
 { #category : #accessing }
@@ -110,4 +129,10 @@ ToSelectWindowManager >> onCloseRequest [
 	self element onListCloseRequest.
 
 
+]
+
+{ #category : #'instance creation' }
+ToSelectWindowManager >> textUpdated [
+
+	dataFilter dataFilterPattern: self element textField text asString
 ]

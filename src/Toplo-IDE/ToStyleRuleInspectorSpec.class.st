@@ -35,30 +35,7 @@ ToStyleRuleInspectorSpec >> initializePresenter [
 		                 icon: (self iconNamed: #smallInspectIt);
 		                 action: [ self styleRule inspect ];
 		                 yourself.
-	propertiesTable := SpTablePresenter new
-		                   beResizable;
-		                   addColumn:
-			                   ((SpStringTableColumn
-				                     title: 'Supplement'
-				                     evaluated: [ :each |
-					                     each isSupplement
-						                     ifTrue: [ 'True' ]
-						                     ifFalse: [ 'False' ] ]) width: 80);
-		                   addColumn: ((SpStringTableColumn
-				                     title: 'Look Event Class'
-				                     evaluated: [ :each | each eventClass name ])
-				                    width: 100);
-		                   addColumn: (SpStringTableColumn
-				                    title: 'Property'
-				                    evaluated: [ :each | each property name ]);
-		                   addColumn: (SpStringTableColumn
-				                    title: 'Value'
-				                    evaluated: [ :each | each value printString ]);
-		                   addColumn: ((SpStringTableColumn
-				                     title: 'Animation'
-				                     evaluated: [ :each |
-					                     each animation printString ]) width: 80);
-		                   yourself.
+	propertiesTable := ToLookEventListenersTableSpec new.
 ]
 
 { #category : #accessing }
@@ -96,10 +73,10 @@ ToStyleRuleInspectorSpec >> styleRule: aStyleRule [
 
 	| printer |
 	styleRule := aStyleRule.
-	
+
 	printer := ToSelectorPrinter new.
 	aStyleRule selector accept: printer.
-	
-	self propertiesTable items: aStyleRule lookEventListeners.
+
+	self propertiesTable lookEventListeners: aStyleRule lookEventListeners.
 	self selectorLabel label: printer contents
 ]

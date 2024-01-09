@@ -1,14 +1,13 @@
 Class {
-	#name : 'ToThemeExamples',
-	#superclass : 'Object',
+	#name : #ToThemeExamples,
+	#superclass : #Object,
 	#classInstVars : [
 		'primaryButton1'
 	],
-	#category : 'Toplo-Theme-Examples',
-	#package : 'Toplo-Theme-Examples'
+	#category : #'Toplo-Theme-Examples'
 }
 
-{ #category : 'private' }
+{ #category : #private }
 ToThemeExamples class >> createThemeMenuBar: aSpace [
 
 	| bar themeMenu inspectMenu beeMenu rawMenu |
@@ -62,7 +61,7 @@ ToThemeExamples class >> createThemeMenuBar: aSpace [
 	^ bar
 ]
 
-{ #category : 'private - actions' }
+{ #category : #'private - actions' }
 ToThemeExamples class >> displaySpaceCSSLikeStyleSheet: aSpace [
 
 	| presenter stream printer |
@@ -94,7 +93,7 @@ ToThemeExamples class >> displaySpaceCSSLikeStyleSheet: aSpace [
 	presenter withWindowDo: [ :w | w title: 'Toplo Style Sheet details' ]
 ]
 
-{ #category : 'private - actions' }
+{ #category : #'private - actions' }
 ToThemeExamples class >> displaySpaceStyleSheet: aSpace [
 
 	| presenter stream printer |
@@ -126,7 +125,7 @@ ToThemeExamples class >> displaySpaceStyleSheet: aSpace [
 	presenter withWindowDo: [ :w | w title: 'Toplo Style Sheet details' ]
 ]
 
-{ #category : 'private - get' }
+{ #category : #'private - get' }
 ToThemeExamples class >> elementSandBoxFor: aSpace [
 
 	| box |
@@ -139,7 +138,7 @@ ToThemeExamples class >> elementSandBoxFor: aSpace [
 	^ box
 ]
 
-{ #category : 'examples - labels' }
+{ #category : #'examples - labels' }
 ToThemeExamples class >> example_ToLabelWithHeadingSkin [
 
 	| typeArr headingArr listElement themeSwitcher space |
@@ -193,7 +192,7 @@ ToThemeExamples class >> example_ToLabelWithHeadingSkin [
 	space show
 ]
 
-{ #category : 'examples - buttons' }
+{ #category : #'examples - buttons' }
 ToThemeExamples class >> example_beeButtonsInRawPane [
 
 	| space primaryButton2 pane c chb disachb themeSelect themePane themeVariant variantGroup lightVariantChk darkVariantChk variantPane mainPane |
@@ -292,10 +291,11 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 	mainPane addChild: disachb.
 	mainPane addChild: pane.
 	space root addChild: mainPane.
-	space show
+	space show.
+	space inspect
 ]
 
-{ #category : 'examples - buttons' }
+{ #category : #'examples - buttons' }
 ToThemeExamples class >> example_buttons [
 
 	| space defaultButton box dashedButton textButton linkButton line1 line2 primaryButton |
@@ -381,7 +381,7 @@ ToThemeExamples class >> example_buttons [
 	line2 addChild: linkButton
 ]
 
-{ #category : 'examples - buttons' }
+{ #category : #'examples - buttons' }
 ToThemeExamples class >> example_oneButton [
 
 	| space defaultButton |
@@ -396,21 +396,21 @@ ToThemeExamples class >> example_oneButton [
 	defaultButton inspect
 ]
 
-{ #category : 'private - actions' }
+{ #category : #'private - actions' }
 ToThemeExamples class >> inspectSpace: aSpace [
 
 	aSpace ifNil:[ ^ self ].
 	aSpace inspect
 ]
 
-{ #category : 'private - actions' }
+{ #category : #'private - actions' }
 ToThemeExamples class >> inspectSpaceToTheme: aSpace [
 
 	aSpace ifNil:[ ^ self ].
 	aSpace toTheme inspect
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ToThemeExamples class >> openThemeExampleSpace [
 	"Prepare a space to display theme examples"
 
@@ -435,7 +435,7 @@ ToThemeExamples class >> openThemeExampleSpace [
 	^ space
 ]
 
-{ #category : 'private - actions' }
+{ #category : #'private - actions' }
 ToThemeExamples class >> randomizePrimaryColorFor: aSpace [
 
 	| c |
@@ -446,7 +446,7 @@ ToThemeExamples class >> randomizePrimaryColorFor: aSpace [
 	aSpace root setTokenNamed: #'color-primary-hover' value: c twiceLighter
 ]
 
-{ #category : 'private - actions' }
+{ #category : #'private - actions' }
 ToThemeExamples class >> switchTheme: aToTheme for: aSpace [
 
 	aSpace ifNil:[ ^ self ].
@@ -454,6 +454,6 @@ ToThemeExamples class >> switchTheme: aToTheme for: aSpace [
 	aSpace toTheme: aToTheme.
 ]
 
-{ #category : 'see class side' }
+{ #category : #'see class side' }
 ToThemeExamples >> seeClassSide [ 
 ]

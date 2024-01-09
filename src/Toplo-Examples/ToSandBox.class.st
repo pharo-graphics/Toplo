@@ -2344,7 +2344,7 @@ ToSandBox class >> example_selectWithEditingMultiSelection [
 	select windowManager anchorRoot: innerWindow root.
 	select hMatchParent.
 	"select data addAll: (self statesOfAmerica copyFrom: 1 to: 5)."
-	select data addAll: self statesOfAmerica.
+	select data updateAllWith: self statesOfAmerica.
 	select addEventHandler: (BlEventHandler
 			 on: ToAlbumSaveAcceptedEvent
 			 do: [ :event |
@@ -2365,7 +2365,8 @@ ToSandBox class >> example_selectWithEditingMultiSelection [
 					 target selectDataAt: idx ] ]).
 
 	innerWindow pane addChild: select.
-	innerWindow openInSpace
+	innerWindow openInSpace.
+	"select inspect."
 ]
 
 { #category : #space }

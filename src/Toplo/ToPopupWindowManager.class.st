@@ -79,8 +79,7 @@ ToPopupWindowManager >> popupEvent: anEvent [
 		currentWindow isOpened ifTrue: [ currentWindow close ].
 		^ self ].
 	self newWindowEvent: anEvent.
-	element enqueueTask:
-		(BlTaskAction new action: [ currentWindow popupEvent: anEvent ])
+	currentWindow popupEvent: anEvent
 ]
 
 { #category : #initialization }

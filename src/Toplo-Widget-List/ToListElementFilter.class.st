@@ -9,7 +9,8 @@ Class {
 		'originalDataProvider',
 		'originalData',
 		'delayBeforeFilter',
-		'filterResultTask'
+		'filterResultTask',
+		'dataIndexMap'
 	],
 	#category : #'Toplo-Widget-List-Filter'
 }
@@ -62,7 +63,7 @@ ToListElementFilter >> dataFilterRequest: anEvent [
 ToListElementFilter >> defaultFilter [
 
 	"^ [ :data :p | data includesSubstring: p caseSensitive: false ]"
-	^ [ :data :p | data asString beginsWith: p caseSensitive: false ]
+	^ [ :data :p | data asString beginsWith: p caseSensitive: true ]
 ]
 
 { #category : #accessing }
@@ -145,11 +146,20 @@ ToListElementFilter >> filterRequestEvent: anEvent in: anElement [
 	self semaphore signal
 ]
 
+{ #category : #'private filtering' }
+ToListElementFilter >> initializeOriginalData [
+
+	originalData :=  originalDataProvider value.
+	dataIndexMap := IdentityDictionary new.
+	originalData withIndexDo: [ :d :idx | dataIndexMap at: d put: idx ]
+
+]
+
 { #category : #'filter events handling' }
 ToListElementFilter >> onInstalledIn: anElement [
 
 	originalDataProvider ifNil: [ originalDataProvider := [ anElement data asArray ] ].
-	originalData :=  originalDataProvider value.
+	self initializeOriginalData.
 	delayBeforeFilter := 50 milliSeconds.
 	process := self filterProcessIn: anElement
 ]
@@ -167,7 +177,8 @@ ToListElementFilter >> onUninstalledIn: anElement [
 ToListElementFilter >> originalDataProvider: aBlock [
 
 	" returns an array "
-	originalDataProvider := aBlock
+	originalDataProvider := aBlock.
+	self initializeOriginalData 
 ]
 
 { #category : #accessing }

@@ -5,6 +5,12 @@ Class {
 }
 
 { #category : #'element handlers' }
+ToSelectEventHandler >> dataFilterResultEvent: anEvent [
+
+	anEvent currentTarget windowManager filterResult: anEvent
+]
+
+{ #category : #'element handlers' }
 ToSelectEventHandler >> elementExtentChangedEvent: anEvent [
 
 	windowManager currentWindow ifNil: [ ^ self ].
@@ -16,6 +22,7 @@ ToSelectEventHandler >> elementExtentChangedEvent: anEvent [
 ToSelectEventHandler >> eventsToHandle [
 
 	^ super eventsToHandle , {
+		  ToDataFilterResultEvent.
 		  BlElementExtentChangedEvent.
 		  ToSelectDataAddedEvent.
 		  ToListSelectionChangedEvent }

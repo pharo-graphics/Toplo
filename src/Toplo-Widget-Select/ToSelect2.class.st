@@ -13,7 +13,8 @@ Class {
 		'selectFlow',
 		'fakeData',
 		'fakeNode',
-		'data'
+		'data',
+		'selection'
 	],
 	#category : #'Toplo-Widget-Select'
 }
@@ -109,6 +110,7 @@ ToSelect2 >> initialize [
 
 	| sharedEventsDistributor |
 	super initialize.
+	selection := BlCompositeSelection new.
 	self fitContent.
 	self layout beHorizontal.
 	nodeClass := self defaultNodeClass.
@@ -127,15 +129,17 @@ ToSelect2 >> initialize [
 	sharedEventsDistributor
 		adjustMousePosition: false;
 		shareEvents: {
+				ToListUniqueIndexEvent.
 				ToAlbumClientEvent.
 				ToListSelectionChangedEvent.
 				ToInfiniteSelectionDirtyEvent }.
 	selectTextField addEventHandler: sharedEventsDistributor.
 	self addEventHandler: sharedEventsDistributor.
 
+	data := ToObservableCollection new.
 	windowManager := ToSelectWindowManager new element: self.
-	data := self listElement data.
 	self listElement addEventHandler: sharedEventsDistributor.
+	self listElement infinite addEventHandler: sharedEventsDistributor.
 	self data addEventHandler: sharedEventsDistributor.
 	selectFlow addChild: selectTextField.
 	contentElement addChild: selectFlow.
@@ -296,25 +300,25 @@ ToSelect2 >> onListCloseRequest [
 ]
 
 { #category : #'accessing list' }
-ToSelect2 >> refreshNodes [ 
+ToSelect2 >> refreshNodes [
 
 	| nodes |
 	self dataNodesDo: [ :node | node removeFromParent ].
 	self nodeHolders reset.
-	nodes := self selectedIndexes collect: [ :idx |
-		| node holder selected |
-		node := self newNode.
-		holder := self newNodeHolder.
-		node selectHolder: holder.
-		self nodeHolders add: holder.
-		selected := self listElement data at: idx.
-		holder
-			node: node;
-			position: (self data indexOf: selected);
-			select: self;
-			data: selected.
-		self nodeBuilder value: node value: holder.
-		node ].
+	nodes := self listElement selection selectedIndexes collect: [ :idx |
+		         | node holder selected |
+		         node := self newNode.
+		         holder := self newNodeHolder.
+		         node selectHolder: holder.
+		         self nodeHolders add: holder.
+		         selected := self listElement data at: idx.
+		         holder
+			         node: node;
+			         position: idx;
+			         select: self;
+			         data: selected.
+		         self nodeBuilder value: node value: holder.
+		         node ].
 	self addAllDataNodes: nodes.
 	nodes ifEmpty: [ selectFlow addChild: fakeNode ].
 	self windowManager reset
@@ -330,19 +334,27 @@ ToSelect2 >> selectDataAt: anIndex [
 { #category : #'accessing selection' }
 ToSelect2 >> selectIndex: anInteger [
 
+	self textField text: ''.
 	self listElement selection selectIndex: anInteger
 ]
 
 { #category : #'accessing selection' }
 ToSelect2 >> selectIndexes: aCollectionOfInteger [
 
+	self textField text: ''.
 	self listElement selection selectIndexes: aCollectionOfInteger
 ]
 
 { #category : #'accessing selection' }
 ToSelect2 >> selectedIndexes [
 
-	^ self listElement selection selectedIndexes
+	^ selection indices
+]
+
+{ #category : #'accessing selection' }
+ToSelect2 >> selectedIndexes: aCollection [
+
+	aCollection do: [ :idx | selection select: idx - 1 to: idx ]
 ]
 
 { #category : #accessing }

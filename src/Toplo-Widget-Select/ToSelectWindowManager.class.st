@@ -3,24 +3,13 @@ Class {
 	#superclass : #ToPopupWindowManager,
 	#instVars : [
 		'listElement',
-		'filteredListElement',
+		'filterListElement',
 		'maxHeight',
-		'dataFilter'
+		'dataFilter',
+		'currentIndexes'
 	],
 	#category : #'Toplo-Widget-Select'
 }
-
-{ #category : #accessing }
-ToSelectWindowManager >> currentListElement [
-
-	^ filteredListElement ifNil: [ listElement  ]
-]
-
-{ #category : #accessing }
-ToSelectWindowManager >> data [
-
-	^ self listElement data
-]
 
 { #category : #initialization }
 ToSelectWindowManager >> defaultMaxHeight [
@@ -46,14 +35,30 @@ ToSelectWindowManager >> defaultSizeHook [
 ToSelectWindowManager >> element: anElement [
 
 	super element: anElement.
-	anElement textField 
-		addEventHandler: (BlEventHandler
-				 on: AlbTextEditedEvent
-				 do: [ self textUpdated ]).
-	anElement textField 
-		addEventHandler: (BlEventHandler
-				 on: AlbTextReplacedEvent
-				 do: [ self textUpdated ])
+	dataFilter := ToListElementFilter new.
+	dataFilter onInstalledIn: anElement.
+	dataFilter originalDataProvider: [ anElement data ].
+	self element data addEventHandler: (BlEventHandler
+			 on: ToCollectionAfterChangeEvent
+			 do: [ self listElement data updateAllWith: self element data ]).
+	anElement textField addEventHandler: (BlEventHandler
+			 on: AlbTextEditedEvent
+			 do: [ :event | self textUpdated: event ]).
+	anElement textField addEventHandler: (BlEventHandler
+			 on: AlbTextReplacedEvent
+			 do: [ :event | self textUpdated: event ]).
+	filterListElement addEventHandler: (BlEventHandler
+			 on: ToListSelectionChangedEvent
+			 do: [ :event |
+				 self listElement infinite dispatchSelectionChangedAfter: [
+					 | filterIdx |
+					 filterIdx := 0.
+					 currentIndexes do: [ :idx |
+						 filterIdx := filterIdx + 1.
+						 (filterListElement selection includes: filterIdx)
+							 ifTrue: [ listElement selection doSelectIndex: idx ]
+							 ifFalse: [ listElement selection doDeselectIndex: idx ] ] ].
+				 anElement textField text: '' ])
 ]
 
 { #category : #accessing }
@@ -62,11 +67,32 @@ ToSelectWindowManager >> elementEventHandlerClass [
 	^ ToSelectEventHandler
 ]
 
+{ #category : #accessing }
+ToSelectWindowManager >> filterResult: aFilterResultEvent [
+
+	| selected cpt |
+	filterListElement data filterResult: aFilterResultEvent data.
+	currentIndexes := aFilterResultEvent indexes.
+	currentIndexes ifEmpty: [ ^ self ].
+	selected := OrderedCollection new.
+	cpt := 0.
+	aFilterResultEvent data asArray
+		with: aFilterResultEvent indexes
+		do: [ :d :i |
+			cpt := cpt + 1.
+			(self listElement selection includes: i)
+				ifTrue: [ filterListElement selection doSelectIndex: cpt ]
+				ifFalse: [ filterListElement selection doDeselectIndex: cpt ] ].
+	filterListElement hasParent ifTrue: [ ^ self ].
+	self currentWindow root removeChild: self listElement.
+	self currentWindow root addChild: filterListElement
+]
+
 { #category : #'window handling' }
 ToSelectWindowManager >> fitListHeightToContent [
 
 	| l |
-	l := self currentListElement.
+	l := self listElement.
 	l height < self maxHeight ifFalse: [ ^ self ].
 	l
 		vFitContent;
@@ -87,15 +113,22 @@ ToSelectWindowManager >> initialize [
 	listElement := ToListElement new
 		               vFitContent;
 		               hMatchParent.
+	filterListElement := ToListElement new
+		               vFitContent;
+		               hMatchParent.
 	listElement selection: ToCherryPickListSelectionStrategy new.
+	filterListElement selection: ToCherryPickListSelectionStrategy new.
 	listElement requestFocusOnMouseDown: false.
+	filterListElement requestFocusOnMouseDown: false.
 	listElement infinite maxHeight: self maxHeight.
+	filterListElement infinite maxHeight: self maxHeight.
 	listElement infinite vFitContent.
-
+	filterListElement infinite vFitContent.
+	currentIndexes := #().
 	self builder: [ :selectWin :request |
 		selectWin root hMatchParent.
 		selectWin root vFitContent.
-		selectWin root addChild: self currentListElement ]
+		selectWin root addChild: self listElement ]
 ]
 
 { #category : #accessing }
@@ -129,60 +162,20 @@ ToSelectWindowManager >> onCloseRequest [
 { #category : #'window handling' }
 ToSelectWindowManager >> reset [
 
-	filteredListElement ifNotNil: [
-		self currentWindowDo: [ :win |
-			win root removeChild: filteredListElement.
-			win root addChild: self listElement ].
-		filteredListElement := nil.
-		dataFilter := nil ].
-	self fitListHeightToContent.
-	'reset' traceCr
+	self fitListHeightToContent
 ]
 
 { #category : #'window handling' }
-ToSelectWindowManager >> textUpdated [
+ToSelectWindowManager >> textUpdated: anEvent [
 
-	(self element textField text isNotEmpty and: [ dataFilter isNil ])
-		ifTrue: [
-			filteredListElement := ToListElement new
-				                       vFitContent;
-				                       hMatchParent.
-			filteredListElement data addAll: self data.
-			filteredListElement selection:
-				ToCherryPickListSelectionStrategy new.
-			filteredListElement requestFocusOnMouseDown: false.
-			dataFilter := ToListElementFilter new.
-			dataFilter originalDataProvider: [ self data ].
-			filteredListElement addEventHandler:
-				(ToListElementFilterEventHandler new
-					 dataFilter: dataFilter;
-					 yourself).
-			filteredListElement addEventHandler: (BlEventHandler
-					 on: ToDataFilterResultEvent
-					 do: [ :event |
-					 filteredListElement data filterResult: event data ]).
-			filteredListElement
-				vFitContent;
-				in: [ :e | e infinite vFitContent ];
-				maxHeight: self maxHeight.
-			filteredListElement addEventHandler: (BlEventHandler
-					 on: ToListSelectionChangedEvent
-					 do: [ :event |
-						 | choice idx origIdx |
-						 idx := event currentIndexes anyOne.
-						 choice := event currentTarget data at: idx.
-						 origIdx := self listElement data indexOf: choice.
-						 self listElement selection selectIndex: origIdx.
-						 self element textField text: '' ]).
-			self currentWindow ifNil: [ self popupEvent: nil ].
-			"
-			self currentWindowDo: [ :win |
-				win root hMatchParent.
-				win root vFitContent.
-				win root removeChild: self listElement.
-				win root addChild: filteredListElement ]" ].
-
-	self element textField text ifNotEmpty: [
-		dataFilter dataFilterPattern: self element textField text asString ].
-	self fitListHeightToContent
+	| filter |
+	self currentWindow ifNil: [ self popupEvent: anEvent ].
+	filter := self element textField text asString.
+	filter
+		ifEmpty: [
+			self listElement hasParent ifFalse: [
+				self currentWindow root removeChild: filterListElement.
+				self currentWindow root addChild: self listElement ].
+			dataFilter dataFilterPattern: filter ]
+		ifNotEmpty: [ dataFilter dataFilterPattern: filter ]
 ]

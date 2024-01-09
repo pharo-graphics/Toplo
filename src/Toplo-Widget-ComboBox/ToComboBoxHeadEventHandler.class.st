@@ -1,11 +1,10 @@
 Class {
-	#name : 'ToComboBoxHeadEventHandler',
-	#superclass : 'ToSkinStateGenerator',
-	#category : 'Toplo-Widget-ComboBox',
-	#package : 'Toplo-Widget-ComboBox'
+	#name : #ToComboBoxHeadEventHandler,
+	#superclass : #ToSkinStateGenerator,
+	#category : 'Toplo-Widget-ComboBox'
 }
 
-{ #category : 'mouse handlers' }
+{ #category : #'mouse handlers' }
 ToComboBoxHeadEventHandler >> primaryMouseDownEvent: anEvent [
 
 	anEvent consumed: true.

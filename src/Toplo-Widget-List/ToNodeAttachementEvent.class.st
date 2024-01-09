@@ -18,3 +18,9 @@ ToNodeAttachementEvent >> attached: aBoolean [
 
 	attached := aBoolean
 ]
+
+{ #category : #sending }
+ToNodeAttachementEvent >> sendTo: anObject [
+
+	anObject nodeAttachementEvent: self
+]

@@ -1,5 +1,5 @@
 Class {
 	#name : #ToTabNode,
-	#superclass : #ToInfiniteNode,
+	#superclass : #ToNode,
 	#category : #'Toplo-Widget-TabPane'
 }

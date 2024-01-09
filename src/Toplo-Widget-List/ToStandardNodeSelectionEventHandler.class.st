@@ -1,6 +1,6 @@
 Class {
-	#name : #ToStandardListNodeSelectionEventHandler,
-	#superclass : #ToListNodeSelectionEventHandler,
+	#name : #ToStandardNodeSelectionEventHandler,
+	#superclass : #ToNodeSelectionEventHandler,
 	#instVars : [
 		'monitor',
 		'clickLauncher'
@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #'mouse handlers' }
-ToStandardListNodeSelectionEventHandler >> clickEvent: anEvent [
+ToStandardNodeSelectionEventHandler >> clickEvent: anEvent [
 
 	self
 		launchClick: [
@@ -20,34 +20,34 @@ ToStandardListNodeSelectionEventHandler >> clickEvent: anEvent [
 ]
 
 { #category : #'events handling' }
-ToStandardListNodeSelectionEventHandler >> clickLauncher: aProcessOrNil [
+ToStandardNodeSelectionEventHandler >> clickLauncher: aProcessOrNil [
 
 	clickLauncher := aProcessOrNil
 ]
 
 { #category : #'api - accessing' }
-ToStandardListNodeSelectionEventHandler >> eventsToHandle [ 
+ToStandardNodeSelectionEventHandler >> eventsToHandle [ 
 
-	^ { BlPrimaryClickEvent. ToListStrongSelectionEvent }
+	^ super eventsToHandle, { BlPrimaryClickEvent. ToStrongSelectionEvent }
 ]
 
 { #category : #'events handling' }
-ToStandardListNodeSelectionEventHandler >> hasClickLauncher [
+ToStandardNodeSelectionEventHandler >> hasClickLauncher [
 
 	^ clickLauncher notNil
 ]
 
 { #category : #'events handling' }
-ToStandardListNodeSelectionEventHandler >> launchClick: aBlock event: anEvent for: anElement [
+ToStandardNodeSelectionEventHandler >> launchClick: aBlock event: anEvent for: anElement [
 	" click launcher management to allow double click to work with several selected nodes "
 
 	| infinite |
-
 	infinite := anElement holder infiniteElement.
-		
+
 	infinite isFocused ifFalse: [
-		infinite hasSelection ifTrue: [
-			infinite preserveSelectionOnFocused ifTrue: [
+		infinite selection isNotEmpty ifTrue: [
+			(infinite preserveSelectionOnFocused and: [
+				 infinite requestFocusOnMouseDown ]) ifTrue: [
 				infinite requestFocus.
 				^ self ] ] ].
 
@@ -63,7 +63,8 @@ ToStandardListNodeSelectionEventHandler >> launchClick: aBlock event: anEvent fo
 	self hasClickLauncher ifTrue: [ ^ self ].
 
 	" no click launcher for only one selected node "
-	infinite primarySelectionIndexes size > 1 ifFalse: [ ^ aBlock value ].
+	infinite selection selectedIndexes size > 1 ifFalse: [
+		^ aBlock value ].
 
 	monitor critical: [
 		self clickLauncher: ([
@@ -75,30 +76,30 @@ ToStandardListNodeSelectionEventHandler >> launchClick: aBlock event: anEvent fo
 ]
 
 { #category : #'selection events' }
-ToStandardListNodeSelectionEventHandler >> onClickOnNodeEvent: anEvent [
+ToStandardNodeSelectionEventHandler >> onClickOnNodeEvent: anEvent [
 
 	| infiniteElement target |
 	target := anEvent currentTarget.
 	infiniteElement := target holder infiniteElement.
-	infiniteElement primarySelection multipleSelectionModeDo: [
+	infiniteElement selection multipleSelectionModeDo: [
 		anEvent modifiers isShift ifTrue: [
-			^ infiniteElement selectToIndex: target holder position ].
+			^ infiniteElement selection selectToIndex: target holder position ].
 		anEvent modifiers isPrimaryModifier ifTrue: [
-			^ infiniteElement cherryPickIndex: target holder position ] ].
+			^ infiniteElement selection cherryPickIndex: target holder position ] ].
 
-	infiniteElement primarySelection atLeastMonoSelectionDo: [
-		infiniteElement selectOnlyIndex: target holder position ]
+	infiniteElement selection atLeastMonoSelectionDo: [
+		infiniteElement selection selectOnlyIndex: target holder position ]
 ]
 
 { #category : #'api - hooks' }
-ToStandardListNodeSelectionEventHandler >> onInstalledIn: anElement [
+ToStandardNodeSelectionEventHandler >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	monitor := Monitor new
 ]
 
 { #category : #'api - hooks' }
-ToStandardListNodeSelectionEventHandler >> onUninstalledIn: anElement [
+ToStandardNodeSelectionEventHandler >> onUninstalledIn: anElement [
 
 	monitor := nil.
 	super onUninstalledIn: anElement.
@@ -106,13 +107,13 @@ ToStandardListNodeSelectionEventHandler >> onUninstalledIn: anElement [
 ]
 
 { #category : #'events handling' }
-ToStandardListNodeSelectionEventHandler >> strongSelectionEvent: anEvent [
+ToStandardNodeSelectionEventHandler >> strongSelectionEvent: anEvent [
 
 	self terminateClickLauncher
 ]
 
 { #category : #'events handling' }
-ToStandardListNodeSelectionEventHandler >> terminateClickLauncher [
+ToStandardNodeSelectionEventHandler >> terminateClickLauncher [
 
 	clickLauncher ifNotNil: #terminate.
 	clickLauncher := nil.

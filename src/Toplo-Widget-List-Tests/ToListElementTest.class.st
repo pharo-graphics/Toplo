@@ -25,8 +25,8 @@ ToListElementTest >> listWithRemoveRowButtons [
 				 do: [ :event |
 					 event consumed: true.
 					 holder infiniteElement data removeAt: holder position.
-					 holder infiniteElement
-						 shiftSelectionAfterRemovingAt: holder position
+					 holder infiniteElement selection
+						 shiftAfterRemovingAt: holder position
 						 itemCount: 1 ]).
 		filler := ToElement new
 			          matchParent;
@@ -67,123 +67,110 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved [
 	space root addChild: list.
 	self waitTestingSpaces.
 	self assert: list data size equals: 2.
-	remButtons := (list allChildrenBreadthFirstSelect: [:child | child id asString beginsWith: 'remove-button' ])
+	remButtons := (list allChildrenBreadthFirstSelect: [ :child |
+		               child id asString beginsWith: 'remove-button' ])
 		              asOrderedCollection.
-	fillers := (list selectChildrenWithId: #filler)
-		              asOrderedCollection.
+	fillers := (list selectChildrenWithId: #filler) asOrderedCollection.
 	BlSpace simulateMouseDownOn: fillers first.
 	BlSpace simulateMouseUpOn: fillers first.
 	self assert: list data size equals: 2.
-	self assert: list selectedIndexes equals: { 1 }.
+	self assert: list selection selectedIndexes equals: { 1 }.
 	self assert: list selectionElements size equals: 1.
 	but := remButtons at: 2.
 	BlSpace simulateMouseDownOn: but.
 	BlSpace simulateMouseUpOn: but.
 	self assert: list data size equals: 1.
-	self assert: list selectedIndexes equals: { 1 }.
-	self assert: list selectionElements size equals: 1.
-
-
+	self assert: list selection selectedIndexes equals: { 1 }.
+	self assert: list selectionElements size equals: 1
 ]
 
 { #category : #tests }
 ToListElementTest >> testNodeDeselectedWhenNodeRemoved2 [
 
-	| list fillers  but |
+	| list fillers but |
 	list := self listWithRemoveRowButtons.
 	list data addAll: (1 to: 2).
 	space root addChild: list.
 	space root forceLayout.
 	self waitTestingSpaces.
 	self assert: list data size equals: 2.
-	fillers := (list selectChildrenWithId: #filler)
-		              asOrderedCollection.
+	fillers := (list selectChildrenWithId: #filler) asOrderedCollection.
 	BlSpace simulateMouseDownOn: fillers first.
 	BlSpace simulateMouseUpOn: fillers first.
 	self waitTestingSpaces.
 	self assert: list data size equals: 2.
-	self assert: list selectedIndexes equals: { 1 }.
+	self assert: list selection selectedIndexes equals: { 1 }.
 	self assert: list selectionElements size equals: 1.
 	but := list childWithId: #'remove-button-1'.
 	BlSpace simulateMouseDownOn: but.
 	BlSpace simulateMouseUpOn: but.
 	self waitTestingSpaces.
 	self assert: list data size equals: 1.
-	self assert: list selectedIndexes isEmpty.
+	self assert: list selection selectedIndexes isEmpty.
 	self assert: list selectionElements isEmpty
-
-
 ]
 
 { #category : #tests }
 ToListElementTest >> testNodeDeselectedWhenNodeRemoved3 [
 
-	| list fillers  but |
+	| list fillers but |
 	list := self listWithRemoveRowButtons.
 	list data addAll: (1 to: 2).
 	space root addChild: list.
 	space root forceLayout.
 	self waitTestingSpaces.
 	self assert: list data size equals: 2.
-	fillers := (list selectChildrenWithId: #filler)
-		              asOrderedCollection.
+	fillers := (list selectChildrenWithId: #filler) asOrderedCollection.
 	BlSpace simulateMouseDownOn: fillers first.
 	BlSpace simulateMouseUpOn: fillers first.
 	self waitTestingSpaces.
 	self assert: list data size equals: 2.
-	self assert: list selectedIndexes equals: { 1 }.
+	self assert: list selection selectedIndexes equals: { 1 }.
 	self assert: list selectionElements size equals: 1.
 	but := list childWithId: #'remove-button-1'.
 	BlSpace simulateMouseDownOn: but.
 	BlSpace simulateMouseUpOn: but.
 	self waitTestingSpaces.
 	self assert: list data size equals: 1.
-	list shiftSelectionAfterRemovingAt: 1 itemCount: 1.
-	self assert: list selectedIndexes isEmpty.
+	list selection shiftAfterRemovingAt: 1 itemCount: 1.
+	self assert: list selection selectedIndexes isEmpty.
 	but := list childWithId: #'remove-button-2'.
 	BlSpace simulateMouseDownOn: but.
 	BlSpace simulateMouseUpOn: but.
 	self waitTestingSpaces.
 	self assert: list data size equals: 0.
-	self assert: list selectedIndexes isEmpty.
+	self assert: list selection selectedIndexes isEmpty.
 	self assert: list selectionElements isEmpty
-
-
-
 ]
 
 { #category : #tests }
 ToListElementTest >> testNodeDeselectedWhenNodeRemoved4 [
 
-	| list fillers  but |
+	| list fillers but |
 	list := self listWithRemoveRowButtons.
 	list data addAll: (1 to: 2).
 	space root addChild: list.
 	space root forceLayout.
 	self waitTestingSpaces.
 	self assert: list data size equals: 2.
-	fillers := (list selectChildrenWithId: #filler)
-		              asOrderedCollection.
+	fillers := (list selectChildrenWithId: #filler) asOrderedCollection.
 	BlSpace simulateMouseDownOn: fillers first.
 	BlSpace simulateMouseUpOn: fillers first.
 	self waitTestingSpaces.
 	self assert: list data size equals: 2.
-	self assert: list selectedIndexes equals: { 1 }.
+	self assert: list selection selectedIndexes equals: { 1 }.
 	but := list childWithId: #'remove-button-2'.
 	BlSpace simulateMouseDownOn: but.
 	BlSpace simulateMouseUpOn: but.
 	self waitTestingSpaces.
 	self assert: list data size equals: 1.
-	self assert: list selectedIndexes equals: { 1 }.
+	self assert: list selection selectedIndexes equals: { 1 }.
 	self assert: list selectionElements size equals: 1.
 	but := list childWithId: #'remove-button-1'.
 	BlSpace simulateMouseDownOn: but.
 	BlSpace simulateMouseUpOn: but.
 	self waitTestingSpaces.
 	self assert: list data size equals: 0.
-	self assert: list selectedIndexes isEmpty.
+	self assert: list selection selectedIndexes isEmpty.
 	self assert: list selectionElements isEmpty
-
-
-
 ]

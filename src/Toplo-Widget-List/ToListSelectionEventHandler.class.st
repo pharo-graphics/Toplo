@@ -6,7 +6,7 @@ Class {
 		'previousSelectedIndexes',
 		'wasFocused'
 	],
-	#category : #'Toplo-Widget-List-Selection'
+	#category : #'Toplo-Widget-List-Core'
 }
 
 { #category : #'selection managing' }
@@ -85,24 +85,24 @@ ToListSelectionEventHandler >> listSelectionElementUpdatedEvent: anEvent [
 	target := anEvent currentTarget.
 
 	nodesArray := target infinite children asArray.
-	selectedIndexes := target infinite selectedIndexes.
+	selectedIndexes := target infinite selection selectedIndexes.
 	focused := target infinite isFocused.
-	
+
 	" ** important note **
 	do not send unnecessary event here. 
 	If not then the consequence is an infinite layout request loop. 
 	(which would be normal since dispatching a node change event 
 	implies the skin application which implies a layout request somewhere... ) "
-	
+
 	(previousNodesArray = nodesArray and: [
 		 previousSelectedIndexes = selectedIndexes and: [
 			 wasFocused = focused ] ]) ifTrue: [ ^ self ].
 	wasFocused := focused.
 	previousNodesArray := nodesArray.
 	previousSelectedIndexes := selectedIndexes.
-	
+
 	" Ok, the state of the infinite has changed "
-	
+
 	nodesArray do: [ :node |
 		node dispatchEvent: (ToNodeSelectionEvent new
 				 infiniteElement: target;

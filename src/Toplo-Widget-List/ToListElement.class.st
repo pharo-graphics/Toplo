@@ -4,8 +4,7 @@ Class {
 	#traits : 'TToListElementDecorator + TToElementWithPlaceholder',
 	#classTraits : 'TToListElementDecorator classTrait + TToElementWithPlaceholder classTrait',
 	#instVars : [
-		'selectionElements',
-		'requestFocusOnMouseDown'
+		'selectionElements'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -52,6 +51,12 @@ ToListElement >> defaultLayout [
 	^ BlFrameLayout new
 ]
 
+{ #category : #initialization }
+ToListElement >> defaultSelectionStrategy [
+
+	^ ToStandardListSelectionStrategy new
+]
+
 { #category : #orientation }
 ToListElement >> horizontal: aBoolean [
 
@@ -65,7 +70,7 @@ ToListElement >> infiniteElementSharedEvents [
 		  BlInfiniteElementAttachedEvent.
 		  BlInfiniteElementDetachedEvent.
 		  ToListSelectionActionEvent.
-		  ToListStrongSelectionEvent.
+		  ToStrongSelectionEvent.
 		  ToInfiniteSelectionDirtyEvent.
 		  ToInfiniteSelectionChangedEvent.
 		  BlElementScrolledEvent.
@@ -79,7 +84,6 @@ ToListElement >> initialize [
 
 	| sharedDistributor |
 	super initialize.
-	requestFocusOnMouseDown := true.
 
 	selectionElements := #(  ).
 	self layout: self defaultLayout.
@@ -106,7 +110,8 @@ ToListElement >> initialize [
 	self contextMenuWindowManagerClass: ToListElementContextMenuWindowManager.
 	self addEventHandler: ToListSelectionEventHandler new.
 	self addEventHandler: ToListElementContextMenuSelectionEventHandler new.
-	self matchParent
+	self matchParent.
+	self infinite selection: self defaultSelectionStrategy
 ]
 
 { #category : #orientation }
@@ -143,18 +148,6 @@ ToListElement >> placeholderElevation [
 ToListElement >> requestFocus [
 
 	self infinite requestFocus
-]
-
-{ #category : #accessing }
-ToListElement >> requestFocusOnMouseDown [
-
-	^ requestFocusOnMouseDown 
-]
-
-{ #category : #accessing }
-ToListElement >> requestFocusOnMouseDown: aBoolean [
-
-	requestFocusOnMouseDown := aBoolean
 ]
 
 { #category : #accessing }

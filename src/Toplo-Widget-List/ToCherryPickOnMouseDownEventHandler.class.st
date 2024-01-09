@@ -1,13 +1,13 @@
 Class {
 	#name : #ToCherryPickOnMouseDownEventHandler,
-	#superclass : #ToListNodeSelectionEventHandler,
+	#superclass : #ToNodeSelectionEventHandler,
 	#category : #'Toplo-Widget-List-Selection'
 }
 
 { #category : #'api - accessing' }
 ToCherryPickOnMouseDownEventHandler >> eventsToHandle [
 
-	^ { BlPrimaryMouseDownEvent }
+	^ super eventsToHandle, { BlPrimaryMouseDownEvent }
 ]
 
 { #category : #'mouse handlers' }
@@ -26,6 +26,5 @@ ToCherryPickOnMouseDownEventHandler >> primaryMouseDownEvent: anEvent [
 	| infiniteElement target |
 	target := anEvent currentTarget.
 	infiniteElement := target holder infiniteElement.
-
-	^ infiniteElement cherryPickIndex: target holder position
+	^ infiniteElement selection cherryPickIndex: target holder position
 ]

@@ -1,56 +1,14 @@
 Class {
 	#name : #ToCherryPickListSelectionStrategy,
-	#superclass : #ToListSelectionStrategy,
+	#superclass : #ToInfiniteSelectionStrategy,
 	#category : #'Toplo-Widget-List-Selection'
 }
 
 { #category : #'selection and shortcuts handlers' }
-ToCherryPickListSelectionStrategy >> installEventHandlersInNewNode: aNode [
-
-	aNode addEventHandler: self newListNodeEventHandler 
-]
-
-{ #category : #'selection and shortcuts handlers' }
-ToCherryPickListSelectionStrategy >> newListNodeEventHandler [
-
-	^ ToCherryPickOnMouseDownEventHandler new
-]
-
-{ #category : #shortcuts }
-ToCherryPickListSelectionStrategy >> selectNextIn: anElement event: aShortcutEvent [
-
-	aShortcutEvent modifiers isShift
-		ifTrue: [ self addOrRemoveNext ]
-		ifFalse: [ self selectNext ].
-	self isEmpty ifTrue: [ ^ self ].
-	anElement scrollToIndex: self currentIndex
-]
-
-{ #category : #shortcuts }
-ToCherryPickListSelectionStrategy >> selectPreviousIn: anElement event: aShortcutEvent [
-
-	aShortcutEvent modifiers isShift
-		ifTrue: [ self addOrRemovePrevious ]
-		ifFalse: [ self selectPrevious ].
-	self isEmpty ifTrue: [ ^ self ].
-	anElement scrollToIndex: self currentIndex 
-]
-
-{ #category : #'selection and shortcuts handlers' }
-ToCherryPickListSelectionStrategy >> shortcuts [
+ToCherryPickListSelectionStrategy >> defaultShortcuts [
 
 	| shortcuts |
-	shortcuts := {
-		             (BlShortcutWithAction new
-			              combination: BlKeyCombination builder arrowDown build;
-			              action: [ :aShortcutEvent :aShortcut |
-				              infiniteElement dispatchSelectionChangedAfter: [
-						              self selectNextIn: infiniteElement event: aShortcutEvent ] ]).
-		             (BlShortcutWithAction new
-			              combination: BlKeyCombination builder arrowUp build;
-			              action: [ :aShortcutEvent :aShortcut |
-				              infiniteElement dispatchSelectionChangedAfter: [
-						              self selectPreviousIn: infiniteElement event: aShortcutEvent ] ]) }.
+	shortcuts := super defaultShortcuts.
 	self isMultiple ifTrue: [
 		shortcuts := shortcuts , {
 			             (BlShortcutWithAction new
@@ -62,7 +20,9 @@ ToCherryPickListSelectionStrategy >> shortcuts [
 				              combination: BlKeyCombination shiftArrowDown;
 				              action: [ :aShortcutEvent :aShortcut |
 					              infiniteElement dispatchSelectionChangedAfter: [
-							              self selectNextIn: infiniteElement event: aShortcutEvent ] ]).
+							              self
+								              selectNextIn: infiniteElement
+								              event: aShortcutEvent ] ]).
 			             (BlShortcutWithAction new
 				              combination: BlKeyCombination shiftArrowUp;
 				              action: [ :aShortcutEvent :aShortcut |
@@ -71,4 +31,16 @@ ToCherryPickListSelectionStrategy >> shortcuts [
 								              selectPreviousIn: infiniteElement
 								              event: aShortcutEvent ] ]) } ].
 	^ shortcuts
+]
+
+{ #category : #'selection and shortcuts handlers' }
+ToCherryPickListSelectionStrategy >> installEventHandlersInNewNode: aNode [
+
+	aNode addEventHandler: self newListNodeEventHandler 
+]
+
+{ #category : #'selection and shortcuts handlers' }
+ToCherryPickListSelectionStrategy >> newListNodeEventHandler [
+
+	^ ToCherryPickOnMouseDownEventHandler new
 ]

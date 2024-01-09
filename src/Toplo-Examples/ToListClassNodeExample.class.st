@@ -1,6 +1,6 @@
 Class {
 	#name : #ToListClassNodeExample,
-	#superclass : #ToInfiniteNode,
+	#superclass : #ToNode,
 	#instVars : [
 		'label'
 	],

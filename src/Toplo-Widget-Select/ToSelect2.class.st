@@ -343,7 +343,7 @@ ToSelect2 >> selectIndexes: aCollectionOfInteger [
 { #category : #'accessing selection' }
 ToSelect2 >> selectedIndexes [
 
-	^ self listElement selectedIndexes
+	^ self listElement selection selectedIndexes
 ]
 
 { #category : #accessing }

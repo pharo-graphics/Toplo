@@ -517,7 +517,7 @@ ToSandBox class >> example_EditableListWithAllClassesNames [
 		nodeClass: ToListClassNodeExample;
 		nodeBuilder: [ :node :holder | node forClassNameAssoc: holder data ];
 		addEventHandler: (BlEventHandler
-				 on: ToListStrongSelectionEvent
+				 on: ToStrongSelectionEvent
 				 do: [ :event |
 					 event indexes size == 1 ifTrue: [
 							 (l nodeAt: event indexes first) label addEditorEvent: event ] ]);
@@ -924,8 +924,7 @@ ToSandBox class >> example_ListWithAllClasses3 [
 ToSandBox class >> example_ListWithAllClasses4 [
 
 	| l |
-	l := ToListElement new
-		     beWithoutSelection;
+	l := ToListElement new		     
 		     nodeBuilder: [ :node :holder |
 			     node addChild: (ToCheckbox new
 						      labelText: holder data name;
@@ -1005,7 +1004,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 				 label: lab;
 				 hMatchParent) ].
 	l addEventHandler: (BlEventHandler
-			 on: ToListStrongSelectionEvent
+			 on: ToStrongSelectionEvent
 			 do: [ :event |
 				 | r |
 				 r := event indexes collect: [ :idx | idx asString , ':XXXXXX' ].
@@ -1062,7 +1061,9 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 					                target data
 						                add: idx asString , ':XXXXXX'
 						                beforeIndex: idx.
-					                target shiftSelectionAfterAddingAt: idx itemCount: 1 ];
+					                target selection
+						                shiftAfterAddingAt: idx
+						                itemCount: 1 ];
 				                yourself).
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Insert after';
@@ -1081,9 +1082,8 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 							                target data
 								                removeFrom: selectedIndexes first
 								                to: selectedIndexes last.
-							                target
-								                shiftSelectionAfterRemovingAt:
-									                selectedIndexes first
+							                target selection
+								                shiftAfterRemovingAt: selectedIndexes first
 								                itemCount:
 									                selectedIndexes last - selectedIndexes first
 									                + 1 ] ];
@@ -1175,7 +1175,7 @@ ToSandBox class >> example_ListWithSingleSelection [
 	| l |
 	l := ToListElement new.
 	l data addAll: Smalltalk globals allClasses.
-	l beSingleSelection.
+	l selection beSingleSelection.
 	l openInSpace
 ]
 
@@ -1185,7 +1185,7 @@ ToSandBox class >> example_ListWithoutSelection [
 	| l |
 	l := ToListElement new.
 	l data addAll: Smalltalk globals allClasses.
-	l beWithoutSelection.
+	l selection beWithoutSelection.
 	l openInSpace
 ]
 

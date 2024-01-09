@@ -6,9 +6,9 @@ Class {
 	#instVars : [
 		'nodeBuilder',
 		'preserveSelectionOnFocused',
+		'requestFocusOnMouseDown',
 		'nodeClass',
-		'selectionStrategy',
-		'installedShortcuts'
+		'selectionStrategy'
 	],
 	#category : #'Toplo-Widget-List-Infinite'
 }
@@ -16,8 +16,10 @@ Class {
 { #category : #'selection events' }
 ToInfiniteElement >> cherryPickIndex: anIndex [
 
-	self dispatchSelectionChangedAfter: [
-		self primarySelection cherryPickIndex: anIndex ]
+	self
+		deprecated: 'Use selection cherryPickIndex: instead'
+		transformWith: '`@receiver cherryPickIndex: `@arg' -> '`@receiver selection cherryPickIndex: `@arg'.
+	self selection cherryPickIndex: anIndex
 ]
 
 { #category : #accessing }
@@ -61,21 +63,26 @@ ToInfiniteElement >> defaultNodeBuilder [
 { #category : #initialization }
 ToInfiniteElement >> defaultSelectionStrategy [
 
-	^ ToStandardListSelectionStrategy new
+	^ ToInfiniteNullSelectionStrategy new
+	"^ ToStandardListSelectionStrategy new"
 ]
 
 { #category : #'selection events' }
 ToInfiniteElement >> deselectAll [
+	self
+		deprecated: 'Use selection deselectAll instead'
+		transformWith: '`@receiver deselectAll' -> '`@receiver selection deselectAll'.
 
-	self dispatchSelectionChangedAfter: [
-		self primarySelection deselectAll ]
+	self selection deselectAll
 ]
 
 { #category : #'selection events' }
 ToInfiniteElement >> deselectIndex: anIndex [
 
-	self dispatchSelectionChangedAfter: [
-		self primarySelection deselectIndex: anIndex ]
+	self
+		deprecated: 'Use selection deselectIndex: instead'
+		transformWith: '`@receiver deselectIndex: `@arg' -> '`@receiver selection deselectIndex: `@arg'.
+	self selection deselectIndex: anIndex
 ]
 
 { #category : #'scrolled event' }
@@ -149,11 +156,11 @@ ToInfiniteElement >> dispatchSelectOnlyIndex: anIndex [
 ToInfiniteElement >> dispatchSelectionChangedAfter: aBlock [
 
 	| prevIndexes currentIndexes event |
-	prevIndexes := self primarySelectionIndexes.
+	prevIndexes := self selection selectedIndexes.
 	
 	aBlock value.
 
-	currentIndexes := self primarySelectionIndexes.
+	currentIndexes := self selection selectedIndexes.
 	prevIndexes = currentIndexes ifTrue: [ ^ self ].
 	event := ToInfiniteSelectionChangedEvent
 		         previousIndexes: prevIndexes
@@ -180,7 +187,7 @@ ToInfiniteElement >> dispatchShiftSelectionFrom: anIndex itemCount: aNumber [
 { #category : #'selection events' }
 ToInfiniteElement >> dispatchStrongSelectionChanged [
 
-	self dispatchEvent: (ToListStrongSelectionEvent indexes: self primarySelectionIndexes)
+	self dispatchEvent: (ToStrongSelectionEvent indexes: self selection selectedIndexes)
 ]
 
 { #category : #'scrolled event' }
@@ -192,13 +199,10 @@ ToInfiniteElement >> enableScrolledEvent [
 { #category : #testing }
 ToInfiniteElement >> hasSelection [
 
-	^ self primarySelection isNotEmpty
-]
-
-{ #category : #initialization }
-ToInfiniteElement >> holderClass [
-
-	^ ToNodeHolder 
+	self
+		deprecated: 'Use selection isNotEmpty instead'
+		transformWith: '`@receiver hasSelection' -> '`@receiver selection isNotEmpty'.	
+	^ self selection isNotEmpty
 ]
 
 { #category : #'t - infinite accessing' }
@@ -211,52 +215,28 @@ ToInfiniteElement >> infinite [
 ToInfiniteElement >> initialize [
 
 	super initialize.
+	requestFocusOnMouseDown := true.
 	self addEventHandler: ToSkinStateGenerator new.
 	self addEventHandler: ToInfiniteElementEventHandler new.
 	selectionStrategy := self defaultSelectionStrategy.
 	selectionStrategy onInstalledIn: self.
 	self privateData: ToObservableCollection new.
-	self installShortcuts.
 	
 	self preserveSelectionOnFocused: self preserveSelectionOnFocusedByDefault.
 	self nodeBuilder: self defaultNodeBuilder.
 	self matchParent
 ]
 
-{ #category : #'shortcuts installation' }
-ToInfiniteElement >> installShortcuts [
-
-	self primarySelection installShortcutsInInfiniteElement
-]
-
-{ #category : #'shortcuts installation' }
-ToInfiniteElement >> installedShortcuts [
-
-	^ installedShortcuts 
-]
-
-{ #category : #'shortcuts installation' }
-ToInfiniteElement >> installedShortcuts: aCollectionOfShortcuts [
-
-	installedShortcuts := aCollectionOfShortcuts
-]
-
-{ #category : #'selection events' }
-ToInfiniteElement >> isSelectedAtIndex: anIndex [
-
-	^ self primarySelection includes: anIndex
-]
-
-{ #category : #'instance creation' }
-ToInfiniteElement >> newListNodeHolderFromDataSource: aDataSource [
-
-	^ self holderClass new infiniteElement: self
-]
-
 { #category : #initialization }
 ToInfiniteElement >> newNode [
 
 	^ self nodeClass new
+]
+
+{ #category : #'instance creation' }
+ToInfiniteElement >> newNodeHolderFromDataSource: aDataSource [
+
+	^ self nodeHolderClass new infiniteElement: self
 ]
 
 { #category : #skin }
@@ -292,7 +272,7 @@ ToInfiniteElement >> nodeBuilder: aValuable [
 { #category : #initialization }
 ToInfiniteElement >> nodeClass [
 
-	^ nodeClass ifNil: [ nodeClass := ToInfiniteNode ]
+	^ nodeClass ifNil: [ nodeClass := ToNode ]
 ]
 
 { #category : #initialization }
@@ -307,9 +287,15 @@ ToInfiniteElement >> nodeHolderBuilder [
 	^ [ :theHolder |
 	  | newNode |
 	  newNode := self newNode.
-	  self selectionStrategy installEventHandlersInNewNode: newNode.
+	  self selection onNewNode: newNode.
 	  theHolder node: newNode.
 	  self nodeBuilder value: theHolder node value: theHolder ]
+]
+
+{ #category : #initialization }
+ToInfiniteElement >> nodeHolderClass [
+
+	^ ToNodeHolder 
 ]
 
 { #category : #'private - commands' }
@@ -338,13 +324,6 @@ ToInfiniteElement >> offsetPositionRecordsForRemove: aStartPosition itemCount: a
 			applyToPreLayout: applyToPreLayout ]
 ]
 
-{ #category : #'selection mode' }
-ToInfiniteElement >> onSelectionModeChange [
-
-	self uninstallShortcuts.
-	self installShortcuts
-]
-
 { #category : #accessing }
 ToInfiniteElement >> preserveSelectionOnFocused [
 
@@ -366,20 +345,31 @@ ToInfiniteElement >> preserveSelectionOnFocusedByDefault [
 { #category : #accessing }
 ToInfiniteElement >> primarySelection [
 
+	self
+		deprecated: 'Use selection instead'
+		transformWith: '`@receiver primarySelection' -> '`@receiver selection'.
 	^ self selectionStrategy 
-]
-
-{ #category : #accessing }
-ToInfiniteElement >> primarySelectionIndexes [ 
-
-	^ self primarySelection selectedIndexes
 ]
 
 { #category : #'private - accessing' }
 ToInfiniteElement >> privateData: aCollection [
 
-	self primarySelection deselectAll.
+	dataSource addEventHandler: (BlEventHandler
+			 on: BlInfiniteDataSourceChanged
+			 do: [ self selection infiniteDataSourceChanged ]).
 	dataSource data: aCollection
+]
+
+{ #category : #accessing }
+ToInfiniteElement >> requestFocusOnMouseDown [
+
+	^ requestFocusOnMouseDown 
+]
+
+{ #category : #accessing }
+ToInfiniteElement >> requestFocusOnMouseDown: aBoolean [
+
+	requestFocusOnMouseDown := aBoolean
 ]
 
 { #category : #'t - resizeable' }
@@ -422,84 +412,105 @@ ToInfiniteElement >> scrollToIndexAtTop: anIndex [
 { #category : #'selection events' }
 ToInfiniteElement >> selectAll [
 
-	self dispatchSelectionChangedAfter: [
-		self primarySelection selectAll ]
-]
+	self
+		deprecated: 'Use selection selectAll instead'
+		transformWith: '`@receiver selectAll' -> '`@receiver selection selectAll'.
 
-{ #category : #'selection events' }
-ToInfiniteElement >> selectAndScrollTo: anIndex [
-
-	self selectIndex: anIndex.
-	self scrollToIndex: anIndex
+	self selection selectAll
 ]
 
 { #category : #'selection events' }
 ToInfiniteElement >> selectIndex: index [
 
-	self dispatchSelectionChangedAfter: [
-		self primarySelection selectIndex: index.
-		self scrollToIndex: index ]
+	self
+		deprecated: 'Use selection selectIndex: instead'
+		transformWith: '`@receiver selectIndex: `@arg' -> '`@receiver selection selectIndex: `@arg'.
+	self selection selectIndex: index
 ]
 
 { #category : #'selection events' }
 ToInfiniteElement >> selectIndexes: aCollection [
 
-	self dispatchSelectionChangedAfter: [
-		self primarySelection deselectAll.
-		aCollection ifNotEmpty: [
-			self scrollToIndexAtTop: aCollection first ].
-		self primarySelection selectIndexes: aCollection.
-		self requestLayout ]
+	self
+		deprecated: 'Use selection selectIndexes: instead'
+		transformWith: '`@receiver selectIndexes: `@arg' -> '`@receiver selection selectIndexes: `@arg'.
+	self selection selectIndexes: aCollection
 ]
 
 { #category : #'selection events' }
 ToInfiniteElement >> selectOnlyIndex: index [
 
-	self dispatchSelectionChangedAfter: [
-		self primarySelection selectOnlyIndex: index.
-		self scrollToIndex: index ]
+	self
+		deprecated: 'Use selection selectOnlyIndex: instead'
+		transformWith: '`@receiver selectOnlyIndex: `@arg' -> '`@receiver selection selectOnlyIndex: `@arg'.
+	self selection selectOnlyIndex: index
 ]
 
 { #category : #'selection events' }
 ToInfiniteElement >> selectToIndex: anIndex [
 
-	self dispatchSelectionChangedAfter: [
-		self primarySelection selectToIndex: anIndex ]
+	self
+		deprecated: 'Use selection selectToIndex: instead'
+		transformWith: '`@receiver selectToIndex: `@arg' -> '`@receiver selection selectToIndex: `@arg'.
+	self selection selectToIndex: anIndex
 ]
 
 { #category : #accessing }
 ToInfiniteElement >> selectedIndex [
 
-	^ self primarySelection selectedIndex
+	self
+		deprecated: 'Use selection selectedIndex instead'
+		transformWith: '`@receiver selectedIndex' -> '`@receiver selection selectedIndex'.
+	^ self selection selectedIndex
 ]
 
 { #category : #accessing }
 ToInfiniteElement >> selectedIndexes [
 
-	^ self primarySelection selectedIndexes
+	self
+		deprecated: 'Use selection selectedIndexes instead'
+		transformWith: '`@receiver selectedIndexes' -> '`@receiver selection selectedIndexes'.
+	^ self selection selectedIndexes
+]
+
+{ #category : #accessing }
+ToInfiniteElement >> selection [
+
+	^ selectionStrategy 
+]
+
+{ #category : #accessing }
+ToInfiniteElement >> selection: aSelectionStrategy [
+
+	selectionStrategy ifNotNil: [ :sstrat | sstrat onUninstalledIn: self ].
+	selectionStrategy := aSelectionStrategy.
+	selectionStrategy ifNotNil: [ :sstrat | sstrat onInstalledIn: self ].
+
 ]
 
 { #category : #accessing }
 ToInfiniteElement >> selectionStrategy [
 
+	self
+		deprecated: 'Use selection instead'
+		transformWith: '`@receiver selectionStrategy' -> '`@receiver selection'.
 	^ selectionStrategy
 ]
 
 { #category : #'selection events' }
 ToInfiniteElement >> shiftSelectionAfterAddingAt: aStartPosition itemCount: anItemCount [
 
-	self primarySelection shiftAfterAddingAt: aStartPosition itemCount: anItemCount
+	self
+		deprecated: 'Use selection shiftAfterAddingAt:itemCount: instead'
+		transformWith: '`@receiver shiftSelectionAfterAddingAt: `@arg1 itemCount: `@arg2' -> '`@receiver selection shiftAfterAddingAt: `@arg1 itemCount: `@arg2 '.
+	self selection shiftAfterAddingAt: aStartPosition itemCount: anItemCount
 ]
 
 { #category : #'selection events' }
 ToInfiniteElement >> shiftSelectionAfterRemovingAt: aStartPosition itemCount: anItemCount [ 
 
-	self primarySelection shiftAfterRemovingAt: aStartPosition itemCount: anItemCount
-]
-
-{ #category : #'shortcuts installation' }
-ToInfiniteElement >> uninstallShortcuts [
-
-	self installedShortcuts do: [ :s | self removeShortcut: s ].
-	installedShortcuts := nil
+	self
+		deprecated: 'Use selection shiftSelectionAfterRemovingAt:itemCount: instead'
+		transformWith: '`@receiver shiftSelectionAfterRemovingAt: `@arg1 itemCount: `@arg2' -> '`@receiver selection shiftAfterRemovingAt: `@arg1 itemCount: `@arg2 '.
+	self selection shiftAfterRemovingAt: aStartPosition itemCount: anItemCount
 ]

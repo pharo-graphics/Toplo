@@ -20,8 +20,7 @@ ToListElementEventHandler >> dataEmptinessChangeEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	target data ifEmpty: [ ^ target showPlaceholder ].
-	target hidePlaceholder
+	self showHidePlaceholderIn: target
 ]
 
 { #category : #'infinite element events handling' }
@@ -29,12 +28,7 @@ ToListElementEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	"target dispatchEvent: (ToListElementSelectionChangedEvent new
-			 newSelectedIndexes: target selectedIndexes;
-			 oldSelectedIndexes: target selectedIndexes;
-			 yourself)."
-	target data ifEmpty: [ ^ target showPlaceholder ].
-	target hidePlaceholder
+	self showHidePlaceholderIn: target
 ]
 
 { #category : #'api - accessing' }
@@ -70,4 +64,11 @@ ToListElementEventHandler >> mouseDownEvent: anEvent [
 	target := anEvent currentTarget.
 	target requestFocusOnMouseDown ifFalse: [ ^ self ].
 	target requestFocus
+]
+
+{ #category : #'data source events handling' }
+ToListElementEventHandler >> showHidePlaceholderIn: aListElement [
+
+	aListElement data ifEmpty: [ ^ aListElement showPlaceholder ].
+	aListElement hidePlaceholder
 ]

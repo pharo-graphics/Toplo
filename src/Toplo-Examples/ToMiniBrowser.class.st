@@ -37,7 +37,8 @@ ToMiniBrowser >> candidateProtocolsForClass: aClass [
 ToMiniBrowser >> changeCodeInEditor [
 
 	| selected cls sel codeText |
-	selected := selectors data at: selectors selectedIndexes anyOne.
+	selected := selectors data at:
+		            selectors selection selectedIndexes anyOne.
 	selected = selectedSelector ifTrue: [ ^ self ].
 	selectedSelector := selected.
 	cls := selectedSelector key.
@@ -51,7 +52,7 @@ ToMiniBrowser >> changeCodeInEditor [
 ToMiniBrowser >> classSelectionChangedEvent: aToSelectionChanged [
 
 	| selectedClasses allProtocols |
-	protocols deselectAll.
+	protocols selection deselectAll.
 	protocols data removeAll.
 	selectedClasses := aToSelectionChanged currentIndexes collect: [ :idx |
 		                   classes data at: idx ].
@@ -129,7 +130,7 @@ ToMiniBrowser >> initialize [
 						             yourself) ].
 
 	packages infinite addEventHandler: (BlEventHandler
-			 on: ToListStrongSelectionEvent
+			 on: ToStrongSelectionEvent
 			 do: [ :event | event traceCr ]).
 
 	packages margin: (BlInsets all: 2).
@@ -173,7 +174,7 @@ ToMiniBrowser >> initialize [
 			 do: [ :event |
 				 classes infinite dispatchSelectionChangedAfter: [
 					 classSide := event current.
-					 classes deselectAll ] ]).
+					 classes selection deselectAll ] ]).
 
 	protocols := ToListElement new
 		             id: #protocols;
@@ -242,7 +243,7 @@ ToMiniBrowser >> open [
 ToMiniBrowser >> packageSelectionChangedEvent: aToSelectionChanged [
 
 	| selectedPackages clsList |
-	classes deselectAll.
+	classes selection deselectAll.
 	classes data removeAll.
 	selectedPackages := aToSelectionChanged currentIndexes collect: [
 		                    :idx | packages data at: idx ].
@@ -257,7 +258,7 @@ ToMiniBrowser >> packageSelectionChangedEvent: aToSelectionChanged [
 ToMiniBrowser >> protocolSelectionChangedEvent: aToSelectionChanged [
 
 	| selectedProtocols |
-	selectors deselectAll.
+	selectors selection deselectAll.
 	selectors data removeAll.
 	selectedProtocols := aToSelectionChanged currentIndexes collect: [
 		                     :idx | protocols data at: idx ].

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToLabelInListSkin,
 	#superclass : #ToLabelSkin,
-	#category : #'Toplo-Widget-List-Node'
+	#category : #'Toplo-Widget-Album-Label'
 }
 
 { #category : #'event handling' }

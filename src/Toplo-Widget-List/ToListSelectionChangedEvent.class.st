@@ -5,7 +5,7 @@ Class {
 		'currentIndexes',
 		'previousIndexes'
 	],
-	#category : #'Toplo-Widget-List-Selection'
+	#category : #'Toplo-Widget-List-Core'
 }
 
 { #category : #accessing }

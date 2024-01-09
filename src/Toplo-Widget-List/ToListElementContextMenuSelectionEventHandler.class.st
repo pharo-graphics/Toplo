@@ -65,7 +65,7 @@ ToListElementContextMenuSelectionEventHandler >> eventsToHandle [
 ToListElementContextMenuSelectionEventHandler >> initialize [
 
 	super initialize.
-	contextMenuSelection := ToListSelectionModel new
+	contextMenuSelection := ToInfiniteSelectionModel new
 
 ]
 
@@ -86,8 +86,11 @@ ToListElementContextMenuSelectionEventHandler >> listElementContextMenuRequest: 
 	childNode := targetChildren last.
 
 	childNode holder isSelected
-		ifTrue: [ self contextMenuSelection selectIndexes: target selectedIndexes ]
-		ifFalse: [ self contextMenuSelection selectIndex: childNode holder position ].
+		ifTrue: [
+			self contextMenuSelection selectIndexes:
+				target selection selectedIndexes ]
+		ifFalse: [
+		self contextMenuSelection selectIndex: childNode holder position ].
 
 	anEvent selectedIndexes: self secondarySelectionIndexes.
 

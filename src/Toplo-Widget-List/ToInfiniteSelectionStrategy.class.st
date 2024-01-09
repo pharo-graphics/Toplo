@@ -198,8 +198,7 @@ ToInfiniteSelectionStrategy >> doCherryPickIndex: index [
 
 	(self includes: index)
 		ifTrue: [
-			infiniteElement dispatchDeselectIndex: index.
-			selectionModel deselectIndex: index ]
+			self doDeselectIndex: index ]
 		ifFalse: [
 			self isMultiple
 				ifTrue: [ self doSelectIndex: index ]
@@ -241,7 +240,7 @@ ToInfiniteSelectionStrategy >> doSelectIndex: index [
 	infiniteElement dispatchSelectIndex: index.
 	selectionModel select: index.
 	self markPointedPosition: index.
-	infiniteElement scrollToIndex: index
+	"infiniteElement scrollToIndex: index"
 ]
 
 { #category : #'selection managing' }
@@ -340,16 +339,17 @@ ToInfiniteSelectionStrategy >> initialize [
 ]
 
 { #category : #'selection and shortcuts handlers' }
-ToInfiniteSelectionStrategy >> installEventHandlersInNewNode: aNode [
-
-	self subclassResponsibility 
-]
-
-{ #category : #'selection and shortcuts handlers' }
 ToInfiniteSelectionStrategy >> installShortcutsInInfiniteElement [
 
 	installedShortcuts := self defaultShortcuts.
 	installedShortcuts do: [ :s | infiniteElement addShortcut: s ]
+]
+
+{ #category : #'api - hooks' }
+ToInfiniteSelectionStrategy >> installedHandlersInNode: aNode [
+
+	^ aNode eventDispatcher handlers select: [ :h |
+		  self nodeEventHandlerClasses anySatisfy: [ :cls | cls == h class ] ]
 ]
 
 { #category : #'private - selection managing' }
@@ -412,26 +412,45 @@ ToInfiniteSelectionStrategy >> multipleSelectionModeDo: aBlock [
 	aBlock value
 ]
 
-{ #category : #accessing }
+{ #category : #'selection and shortcuts handlers' }
+ToInfiniteSelectionStrategy >> nodeEventHandlerClasses [
+
+	^ {  }
+]
+
+{ #category : #'selection and shortcuts handlers' }
+ToInfiniteSelectionStrategy >> nodeEventHandlers [
+
+	^ self nodeEventHandlerClasses collect: [ :cls | cls new ]
+]
+
+{ #category : #'api - hooks' }
 ToInfiniteSelectionStrategy >> onInstalledIn: anInfiniteElement [
 
 	super onInstalledIn: anInfiniteElement.
 	infiniteElement := anInfiniteElement.
-	self installShortcutsInInfiniteElement
+	self installShortcutsInInfiniteElement.
+	anInfiniteElement childrenDo: [ :child | | handlersToInstall |
+		handlersToInstall  := self nodeEventHandlers.
+		handlersToInstall do: [ :h | child addEventHandler: h] ].
+
 ]
 
-{ #category : #'node handlers installing' }
+{ #category : #'selection and shortcuts handlers' }
 ToInfiniteSelectionStrategy >> onNewNode: aNode [
 
 	super onNewNode: aNode.
-	self installEventHandlersInNewNode: aNode.
+	self nodeEventHandlers do: [ :handler | aNode addEventHandler: handler ]
 ]
 
-{ #category : #accessing }
+{ #category : #'api - hooks' }
 ToInfiniteSelectionStrategy >> onUninstalledIn: anInfiniteElement [
 
 	super onUninstalledIn: anInfiniteElement.
 	self uninstallShortcutsFromInfiniteElement.
+	anInfiniteElement childrenDo: [ :child | | installedHandlers |
+		installedHandlers  := self installedHandlersInNode: child.
+		installedHandlers do: [ :h | child removeEventHandler: h] ].
 	infiniteElement := nil
 ]
 

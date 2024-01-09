@@ -1018,7 +1018,10 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 			                whenClickedDo: [ :event |
 				                target data addAll:
 						                ((1 to: 2000) collect: [ :p |
-								                 p asString , ' AAAAAAAAAAA' ]) ]).
+								                 p asString , ' AAAAAAAAAAA' ]) ]).	               
+						menu addItem: (ToMenuItem new
+			                labelText: 'Inspect list';
+			                whenClickedDo: [ :event | target inspect ]).
 	               target data ifNotEmpty: [
 		               menu addItem: (ToMenuItem new
 				                labelText: 'Select all';

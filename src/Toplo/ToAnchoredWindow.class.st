@@ -5,7 +5,7 @@ Class {
 		'popupTimestamp',
 		'windowManager'
 	],
-	#category : 'Toplo-Core-Window'
+	#category : #'Toplo-Core-Window'
 }
 
 { #category : #accessing }
@@ -107,7 +107,7 @@ ToAnchoredWindow >> hasAssociateElement [
 ToAnchoredWindow >> installRawStyle [
 
 	super installRawStyle.
-	(self tokenValueNamed: #'animation-window-opening') value: self.
+	"(self tokenValueNamed: #'animation-window-opening') value: self."
 	self effect: (self tokenValueNamed: #'effect-window')
 ]
 

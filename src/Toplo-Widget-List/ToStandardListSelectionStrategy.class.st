@@ -34,13 +34,7 @@ ToStandardListSelectionStrategy >> defaultShortcuts [
 ]
 
 { #category : #'selection and shortcuts handlers' }
-ToStandardListSelectionStrategy >> installEventHandlersInNewNode: aNode [
+ToStandardListSelectionStrategy >> nodeEventHandlerClasses [
 
-	aNode addEventHandler: self newListNodeEventHandler 
-]
-
-{ #category : #'selection and shortcuts handlers' }
-ToStandardListSelectionStrategy >> newListNodeEventHandler [
-
-	^ ToStandardNodeSelectionEventHandler new
+	^ { ToStandardNodeSelectionEventHandler }
 ]

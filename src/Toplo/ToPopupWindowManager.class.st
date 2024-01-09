@@ -72,6 +72,17 @@ ToPopupWindowManager >> mouseUpInElementEvent: anEvent [
 	delay > self autoCloseOnMouseUpDelay ifTrue: [ currentWindow close ]
 ]
 
+{ #category : #'mouse handlers' }
+ToPopupWindowManager >> popupEvent: anEvent [
+
+	currentWindow ifNotNil: [
+		currentWindow isOpened ifTrue: [ currentWindow close ].
+		^ self ].
+	self newWindowEvent: anEvent.
+	element enqueueTask:
+		(BlTaskAction new action: [ currentWindow popupEvent: anEvent ])
+]
+
 { #category : #initialization }
 ToPopupWindowManager >> usePrimaryMouseButton [
 

@@ -107,11 +107,10 @@ ToSelect2 >> iconContainer [
 { #category : #initialization }
 ToSelect2 >> initialize [
 
-	| sharedDistributor |
+	| sharedEventsDistributor |
 	super initialize.
 	self fitContent.
 	self layout beHorizontal.
-	data := ToObservableCollection new.
 	nodeClass := self defaultNodeClass.
 	nodeHolders := OrderedCollection new.
 	nodeBuilder := self defaultNodeBuilder.
@@ -124,19 +123,20 @@ ToSelect2 >> initialize [
 	" the text field for the select input "
 	selectTextField := self newSelectTextField.
 	selectTextField requestFocus.
-	sharedDistributor := BlSharedEventDistributor new.
-	sharedDistributor
+	sharedEventsDistributor := BlSharedEventDistributor new.
+	sharedEventsDistributor
 		adjustMousePosition: false;
 		shareEvents: {
 				ToAlbumClientEvent.
 				ToListSelectionChangedEvent.
 				ToInfiniteSelectionDirtyEvent }.
-	selectTextField addEventHandler: sharedDistributor.
-	self addEventHandler: sharedDistributor.
+	selectTextField addEventHandler: sharedEventsDistributor.
+	self addEventHandler: sharedEventsDistributor.
 
 	windowManager := ToSelectWindowManager new element: self.
-	self listElement addEventHandler: sharedDistributor.
-	self data addEventHandler: sharedDistributor.
+	data := self listElement data.
+	self listElement addEventHandler: sharedEventsDistributor.
+	self data addEventHandler: sharedEventsDistributor.
 	selectFlow addChild: selectTextField.
 	contentElement addChild: selectFlow.
 
@@ -317,8 +317,7 @@ ToSelect2 >> refreshNodes [
 		node ].
 	self addAllDataNodes: nodes.
 	nodes ifEmpty: [ selectFlow addChild: fakeNode ].
-	self selectIndexes: (nodes collect: [:n | n selectHolder position] ).
-	self windowManager fitListHeightToContent
+	self windowManager reset
 ]
 
 { #category : #accessing }
@@ -331,13 +330,13 @@ ToSelect2 >> selectDataAt: anIndex [
 { #category : #'accessing selection' }
 ToSelect2 >> selectIndex: anInteger [
 
-	self listElement selectIndex: anInteger
+	self listElement selection selectIndex: anInteger
 ]
 
 { #category : #'accessing selection' }
 ToSelect2 >> selectIndexes: aCollectionOfInteger [
 
-	self listElement selectIndexes: aCollectionOfInteger
+	self listElement selection selectIndexes: aCollectionOfInteger
 ]
 
 { #category : #'accessing selection' }

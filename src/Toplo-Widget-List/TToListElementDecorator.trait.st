@@ -197,6 +197,12 @@ TToListElementDecorator >> selection [
 ]
 
 { #category : #'t - accessing selection' }
+TToListElementDecorator >> selection: aSelectionStrategy [
+
+	^ self next selection: aSelectionStrategy
+]
+
+{ #category : #'t - accessing selection' }
 TToListElementDecorator >> shiftSelectionAfterAddingAt: aStartPosition itemCount: anItemCount [
 
 	self

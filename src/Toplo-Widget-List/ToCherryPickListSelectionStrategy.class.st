@@ -34,13 +34,7 @@ ToCherryPickListSelectionStrategy >> defaultShortcuts [
 ]
 
 { #category : #'selection and shortcuts handlers' }
-ToCherryPickListSelectionStrategy >> installEventHandlersInNewNode: aNode [
+ToCherryPickListSelectionStrategy >> nodeEventHandlerClasses [
 
-	aNode addEventHandler: self newListNodeEventHandler 
-]
-
-{ #category : #'selection and shortcuts handlers' }
-ToCherryPickListSelectionStrategy >> newListNodeEventHandler [
-
-	^ ToCherryPickOnMouseDownEventHandler new
+	^ { ToCherryPickOnMouseDownEventHandler }
 ]

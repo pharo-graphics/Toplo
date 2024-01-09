@@ -22,7 +22,7 @@ ToInfiniteAbstractSelectionStrategy >> infiniteDataSourceChanged [
 ToInfiniteAbstractSelectionStrategy >> onInstalledIn: anInfiniteElement [
 ]
 
-{ #category : #'node handlers installing' }
+{ #category : #'selection and shortcuts handlers' }
 ToInfiniteAbstractSelectionStrategy >> onNewNode: aNode [
 
 

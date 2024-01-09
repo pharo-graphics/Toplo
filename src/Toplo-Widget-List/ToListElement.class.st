@@ -111,7 +111,7 @@ ToListElement >> initialize [
 	self addEventHandler: ToListSelectionEventHandler new.
 	self addEventHandler: ToListElementContextMenuSelectionEventHandler new.
 	self matchParent.
-	self infinite selection: self defaultSelectionStrategy
+	self selection: self defaultSelectionStrategy
 ]
 
 { #category : #orientation }

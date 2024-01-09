@@ -2322,7 +2322,7 @@ ToSandBox class >> example_scaledImage [
 ToSandBox class >> example_selectWith5Nodes [
 
 	| select innerWindow |
-	select := ToSelect2 new.
+	select := ToSelect new.
 	select listNodeBuilder: [ :node :holder | 
 		node addChild: ((ToLabel text: holder data asString) hMatchParent) ].
 	innerWindow := ToInnerWindow new.
@@ -2338,7 +2338,7 @@ ToSandBox class >> example_selectWith5Nodes [
 ToSandBox class >> example_selectWithEditingMultiSelection [
 
 	| select innerWindow |
-	select := ToSelect2 new.
+	select := ToSelect new.
 	"select placeholderText: ('Select a state' asRopedText foreground: Color lightGray). "
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.

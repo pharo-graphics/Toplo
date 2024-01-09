@@ -12,7 +12,9 @@ Class {
 		'selectTextField',
 		'selectFlow',
 		'fakeData',
-		'fakeNode'
+		'fakeNode',
+		'data',
+		'selection'
 	],
 	#category : #'Toplo-Widget-Select'
 }
@@ -43,7 +45,7 @@ ToSelect >> addDataNode: aNode [
 { #category : #accessing }
 ToSelect >> data [
 
-	^ self listElement data
+	^ data
 ]
 
 { #category : #accessing }
@@ -106,31 +108,39 @@ ToSelect >> iconContainer [
 { #category : #initialization }
 ToSelect >> initialize [
 
-	| sharedDistributor |
+	| sharedEventsDistributor |
 	super initialize.
+	selection := BlCompositeSelection new.
 	self fitContent.
 	self layout beHorizontal.
 	nodeClass := self defaultNodeClass.
 	nodeHolders := OrderedCollection new.
 	nodeBuilder := self defaultNodeBuilder.
-	
+
 	" the element that holds the flow"
 	contentElement := self newContentElement.
 	" the flow element taht contains nodes + the text field "
 	selectFlow := self newSelectFlow.
 
-	windowManager := ToSelectWindowManager new element: self.
-	
 	" the text field for the select input "
 	selectTextField := self newSelectTextField.
 	selectTextField requestFocus.
-	sharedDistributor := BlSharedEventDistributor new.
-	sharedDistributor
+	sharedEventsDistributor := BlSharedEventDistributor new.
+	sharedEventsDistributor
 		adjustMousePosition: false;
-		shareEvents: { ToAlbumClientEvent. ToListSelectionChangedEvent. ToInfiniteSelectionDirtyEvent   }.
-	selectTextField addEventHandler: sharedDistributor.
-	self addEventHandler: sharedDistributor.
-	self listElement addEventHandler: sharedDistributor.
+		shareEvents: {
+				ToListUniqueIndexEvent.
+				ToAlbumClientEvent.
+				ToListSelectionChangedEvent.
+				ToInfiniteSelectionDirtyEvent }.
+	selectTextField addEventHandler: sharedEventsDistributor.
+	self addEventHandler: sharedEventsDistributor.
+
+	data := ToObservableCollection new.
+	windowManager := ToSelectWindowManager new element: self.
+	self listElement addEventHandler: sharedEventsDistributor.
+	self listElement infinite addEventHandler: sharedEventsDistributor.
+	self data addEventHandler: sharedEventsDistributor.
 	selectFlow addChild: selectTextField.
 	contentElement addChild: selectFlow.
 
@@ -138,11 +148,8 @@ ToSelect >> initialize [
 	self addChildren: {
 			contentElement.
 			iconContainer }.
-			
-	self initializeFakeNode.
-	
-	
 
+	self initializeFakeNode
 ]
 
 { #category : #initialization }
@@ -293,27 +300,28 @@ ToSelect >> onListCloseRequest [
 ]
 
 { #category : #'accessing list' }
-ToSelect >> refreshNodes [ 
+ToSelect >> refreshNodes [
 
 	| nodes |
 	self dataNodesDo: [ :node | node removeFromParent ].
 	self nodeHolders reset.
-	nodes := self selectedIndexes collect: [ :idx |
-		| node holder |
-		node := self newNode.
-		holder := self newNodeHolder.
-		node selectHolder: holder.
-		self nodeHolders add: holder.
-		holder
-			node: node;
-			position: idx;
-			select: self;
-			data: (self data at: idx).
-		self nodeBuilder value: node value: holder.
-		node ].
+	nodes := self listElement selection selectedIndexes collect: [ :idx |
+		         | node holder selected |
+		         node := self newNode.
+		         holder := self newNodeHolder.
+		         node selectHolder: holder.
+		         self nodeHolders add: holder.
+		         selected := self listElement data at: idx.
+		         holder
+			         node: node;
+			         position: idx;
+			         select: self;
+			         data: selected.
+		         self nodeBuilder value: node value: holder.
+		         node ].
 	self addAllDataNodes: nodes.
 	nodes ifEmpty: [ selectFlow addChild: fakeNode ].
-	self windowManager fitListHeightToContent
+	self windowManager reset
 ]
 
 { #category : #accessing }
@@ -326,19 +334,27 @@ ToSelect >> selectDataAt: anIndex [
 { #category : #'accessing selection' }
 ToSelect >> selectIndex: anInteger [
 
-	self listElement selectIndex: anInteger
+	self textField text: ''.
+	self listElement selection selectIndex: anInteger
 ]
 
 { #category : #'accessing selection' }
 ToSelect >> selectIndexes: aCollectionOfInteger [
 
-	self listElement selectIndexes: aCollectionOfInteger
+	self textField text: ''.
+	self listElement selection selectIndexes: aCollectionOfInteger
 ]
 
 { #category : #'accessing selection' }
 ToSelect >> selectedIndexes [
 
-	^ self listElement selection selectedIndexes
+	^ selection indices
+]
+
+{ #category : #'accessing selection' }
+ToSelect >> selectedIndexes: aCollection [
+
+	aCollection do: [ :idx | selection select: idx - 1 to: idx ]
 ]
 
 { #category : #accessing }

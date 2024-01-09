@@ -6,7 +6,7 @@ Class {
 		'filterListElement',
 		'maxHeight',
 		'dataFilter',
-		'currentIndexes'
+		'filterIndexes'
 	],
 	#category : #'Toplo-Widget-Select'
 }
@@ -53,7 +53,7 @@ ToSelectWindowManager >> element: anElement [
 				 self listElement infinite dispatchSelectionChangedAfter: [
 					 | filterIdx |
 					 filterIdx := 0.
-					 currentIndexes do: [ :idx |
+					 filterIndexes do: [ :idx |
 						 filterIdx := filterIdx + 1.
 						 (filterListElement selection includes: filterIdx)
 							 ifTrue: [ listElement selection doSelectIndex: idx ]
@@ -72,8 +72,8 @@ ToSelectWindowManager >> filterResult: aFilterResultEvent [
 
 	| selected cpt |
 	filterListElement data filterResult: aFilterResultEvent data.
-	currentIndexes := aFilterResultEvent indexes.
-	currentIndexes ifEmpty: [ ^ self ].
+	filterIndexes := aFilterResultEvent indexes.
+	filterIndexes ifEmpty: [ ^ self ].
 	selected := OrderedCollection new.
 	cpt := 0.
 	aFilterResultEvent data asArray
@@ -124,7 +124,7 @@ ToSelectWindowManager >> initialize [
 	filterListElement infinite maxHeight: self maxHeight.
 	listElement infinite vFitContent.
 	filterListElement infinite vFitContent.
-	currentIndexes := #().
+	filterIndexes := #().
 	self builder: [ :selectWin :request |
 		selectWin root hMatchParent.
 		selectWin root vFitContent.

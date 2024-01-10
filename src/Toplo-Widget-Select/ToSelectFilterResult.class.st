@@ -6,7 +6,7 @@ Class {
 		'indexes',
 		'listElement'
 	],
-	#category : #'Toplo-Widget-Select'
+	#category : #'Toplo-Widget-Select-Core'
 }
 
 { #category : #'list building' }

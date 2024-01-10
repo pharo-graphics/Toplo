@@ -7,7 +7,7 @@ Class {
 		'data',
 		'position'
 	],
-	#category : #'Toplo-Widget-Select'
+	#category : #'Toplo-Widget-Select-Node'
 }
 
 { #category : #accessing }

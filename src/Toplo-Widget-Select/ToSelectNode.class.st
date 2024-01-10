@@ -8,7 +8,7 @@ Class {
 		'endContainer',
 		'removable'
 	],
-	#category : #'Toplo-Widget-Select'
+	#category : #'Toplo-Widget-Select-Node'
 }
 
 { #category : #'private configurating' }

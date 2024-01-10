@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSelectSkin,
 	#superclass : #ToGeneralButtonSkin,
-	#category : #'Toplo-Widget-Select'
+	#category : #'Toplo-Widget-Select-Core'
 }
 
 { #category : #'event handling' }

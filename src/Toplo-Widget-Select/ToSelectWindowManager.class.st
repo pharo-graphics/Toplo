@@ -8,7 +8,7 @@ Class {
 		'filterResult',
 		'minHeight'
 	],
-	#category : #'Toplo-Widget-Select'
+	#category : #'Toplo-Widget-Select-Core'
 }
 
 { #category : #initialization }

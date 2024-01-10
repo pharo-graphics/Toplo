@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSelectEventHandler,
 	#superclass : #ToElementWithPopupEventHandler,
-	#category : #'Toplo-Widget-Select'
+	#category : #'Toplo-Widget-Select-Core'
 }
 
 { #category : #'element handlers' }
@@ -54,7 +54,6 @@ ToSelectEventHandler >> eventsToHandle [
 	^ super eventsToHandle , {
 		  ToDataFilterResultEvent.
 		  BlElementExtentChangedEvent.
-		  ToSelectDataAddedEvent.
 		  ToCollectionAfterChangeEvent }
 ]
 

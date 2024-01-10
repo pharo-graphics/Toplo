@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSelectTextFieldSkin,
 	#superclass : #ToAlbumSkin,
-	#category : #'Toplo-Widget-Select'
+	#category : #'Toplo-Widget-Select-Core'
 }
 
 { #category : #accessing }

@@ -18,7 +18,7 @@ Class {
 		'dataIndex',
 		'removedData'
 	],
-	#category : #'Toplo-Widget-Select'
+	#category : #'Toplo-Widget-Select-Core'
 }
 
 { #category : #'accessing nodes' }

@@ -1,12 +1,13 @@
 Class {
 	#name : #ToStyleRulesInspectorSpec,
-	#superclass : #SpPresenter,
+	#superclass : #ToSpaceThemeSkinForElementComplementSpec,
 	#instVars : [
 		'styleRuleTree',
 		'scrollSection',
-		'skin'
+		'skin',
+		'element'
 	],
-	#category : #'Toplo-IDE'
+	#category : #'Toplo-IDE-space-theme-inspector'
 }
 
 { #category : #accessing }
@@ -16,6 +17,17 @@ ToStyleRulesInspectorSpec >> defaultLayout [
 		  add: self styleRuleTree;
 		  add: self scrollSection;
 		  yourself
+]
+
+{ #category : #accessing }
+ToStyleRulesInspectorSpec >> element [
+	^ element
+]
+
+{ #category : #accessing }
+ToStyleRulesInspectorSpec >> element: aBlElement [
+
+	element:= aBlElement
 ]
 
 { #category : #'initialization - deprecated' }
@@ -58,11 +70,11 @@ ToStyleRulesInspectorSpec >> selectedItemInTreeChanged: aStyleRule [
 	arrayOfRules := self styleRuleTree pathItemOf: path.
 
 	arrayOfSpecRules := arrayOfRules collect: [ :each |
-		                    ToStyleRuleInspectorSpec
-			                                          new
-			                                          styleRule: each;
-			                                          yourself.
-		                    ].
+		                    ToStyleRuleInspectorSpec new
+			                    styleRule: each;
+			                    element: self element;
+			                    skin: self skin;
+			                    yourself ].
 	layoutForRules := SpBoxLayout newVertical.
 	arrayOfSpecRules reverseDo: [ :each |
 		layoutForRules
@@ -86,10 +98,15 @@ ToStyleRulesInspectorSpec >> shouldDisplayBoldFor: aStyleRule [
 { #category : #'as yet unclassified' }
 ToStyleRulesInspectorSpec >> shouldDisplayIconFor: aStyleRule [
 
-	self skin ifNil: [ ^ self iconNamed: #blank ].
-	(aStyleRule lookEventListeners includesAny: self skin lookEventListeners ) ifFalse: [
-		^ self iconNamed: #blank ].
-	^ self iconNamed: #smallOk
+	self skin ifNotNil: [
+		(aStyleRule lookEventListeners includesAny:
+			 self skin lookEventListeners) ifTrue: [
+			^ self iconNamed: #smallOk ] ].
+	self element ifNotNil: [
+		(ToSelectorInterpreter new
+			 check: aStyleRule selector
+			 on: self element) ifTrue: [ ^ self iconNamed: #protocolProtected ] ].
+	^ self iconNamed: #smallCancel
 ]
 
 { #category : #'as yet unclassified' }

@@ -11,5 +11,11 @@ ToSpaceThemeSkinForElementComplementSpec >> defaultLayout [
 ]
 
 { #category : #accessing }
+ToSpaceThemeSkinForElementComplementSpec >> element: aBlElement [
+
+	
+]
+
+{ #category : #accessing }
 ToSpaceThemeSkinForElementComplementSpec >> skin: aSkin [
 ]

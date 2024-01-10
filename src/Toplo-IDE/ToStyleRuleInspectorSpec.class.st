@@ -1,6 +1,6 @@
 Class {
 	#name : #ToStyleRuleInspectorSpec,
-	#superclass : #SpPresenter,
+	#superclass : #ToSpaceThemeSkinForElementComplementSpec,
 	#instVars : [
 		'selectorLabel',
 		'inspectButton',
@@ -8,7 +8,7 @@ Class {
 		'styleRule',
 		'model'
 	],
-	#category : #'Toplo-IDE'
+	#category : #'Toplo-IDE-space-theme-inspector'
 }
 
 { #category : #layout }
@@ -25,6 +25,12 @@ ToStyleRuleInspectorSpec >> defaultLayout [
 		  expand: false;
 		  add: self propertiesTable expand: true;
 		  yourself
+]
+
+{ #category : #accessing }
+ToStyleRuleInspectorSpec >> element: anObject [
+
+	self propertiesTable element: anObject
 ]
 
 { #category : #'initialization - deprecated' }
@@ -62,6 +68,12 @@ ToStyleRuleInspectorSpec >> selectorLabel [
 	^ selectorLabel
 ]
 
+{ #category : #accessing }
+ToStyleRuleInspectorSpec >> skin:  anObject [
+
+	self propertiesTable skin:  anObject
+]
+
 { #category : #'as yet unclassified' }
 ToStyleRuleInspectorSpec >> styleRule [
 
@@ -77,6 +89,5 @@ ToStyleRuleInspectorSpec >> styleRule: aStyleRule [
 	printer := ToSelectorPrinter new.
 	aStyleRule selector accept: printer.
 
-	self propertiesTable lookEventListeners: aStyleRule lookEventListeners.
-	self selectorLabel label: printer contents
+	self propertiesTable lookEventListeners:aStyleRule lookEventListeners.
 ]

@@ -47,10 +47,14 @@ ToSpaceThemeSkinForElementSpec >> defaultLayout [
 ToSpaceThemeSkinForElementSpec >> element: aBlElement [
 
 	aBlElement ifNil: [ ^ self noElementSelected ].
-	aBlElement userData 
+	aBlElement userData
 		at: #skinManager
-		ifPresent: [ :skinManager | skinManager installedSkin ifNil: [ self noInstalledSkin ] ifNotNil: [ :skin | self installedSkin: skin ] ]
-		ifAbsent: [ self noSkinManager ]
+		ifPresent: [ :skinManager |
+			skinManager installedSkin
+				ifNil: [ self noInstalledSkin ]
+				ifNotNil: [ :skin | self installedSkin: skin ] ]
+		ifAbsent: [ self noSkinManager ].
+	self complementView element: aBlElement
 ]
 
 { #category : #accessing }

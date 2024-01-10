@@ -2335,38 +2335,57 @@ ToSandBox class >> example_selectWith5Nodes [
 ]
 
 { #category : #select }
-ToSandBox class >> example_selectWithEditingMultiSelection [
+ToSandBox class >> example_selectWithEditingMultiSelectionWithAllClassNames [
 
 	| select innerWindow |
-	select := ToSelect new.
-	"select placeholderText: ('Select a state' asRopedText foreground: Color lightGray). "
+	select := self selectWithEditingMultiSelection.
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
 	select hMatchParent.
-	"select data addAll: (self statesOfAmerica copyFrom: 1 to: 5)."
-	select data updateAllWith: self statesOfAmerica.
-	select addEventHandler: (BlEventHandler
-			 on: ToAlbumSaveAcceptedEvent
-			 do: [ :event |
-				 | d |
-				 d := event client text asString asSymbol.
-				 event client text: ''.
-				 event currentTarget addData: d ]).
-
-	select addEventHandler: (BlEventHandler
-			 on: ToAlbumSaveRequestedEvent
-			 do: [ :event |
-				 | target idx |
-				 target := event currentTarget.
-				 idx := target data indexOf: event client text asString asSymbol.
-				 event accepted: idx isZero.
-				 idx > 0 ifTrue: [
-					 event client text: ''.
-					 target selectDataAt: idx ] ]).
+	select data updateAllWith: (Smalltalk globals allClasses collect: [ :cls | cls name ]).
 
 	innerWindow pane addChild: select.
-	innerWindow openInSpace.
-	"select inspect."
+	innerWindow openInSpace
+]
+
+{ #category : #select }
+ToSandBox class >> example_selectWithEditingMultiSelectionWithStatesOfAmerica [
+
+	| select innerWindow |
+	select := self selectWithEditingMultiSelection.
+	innerWindow := ToInnerWindow new.
+	select windowManager anchorRoot: innerWindow root.
+	select hMatchParent.
+	select data updateAllWith: self statesOfAmerica.
+
+	innerWindow pane addChild: select.
+	innerWindow openInSpace
+]
+
+{ #category : #select }
+ToSandBox class >> example_selectWithEditingMultiSelectionWith_175000_Items [
+
+	| select innerWindow data |
+	select := self selectWithEditingMultiSelection.
+	innerWindow := ToInnerWindow new.
+	select windowManager anchorRoot: innerWindow root.
+	select hMatchParent.
+	data := OrderedCollection new.
+	Character alphabet do: [ :c1 |
+		(Character alphabet ) do: [ :c2 |
+			(Character alphabet ) do: [ :c3 |
+				((48 to: 57) collect: [:n | n asCharacter]) do: [ :c4 |
+					data add: (String streamContents: [ :str |
+							 str nextPutAll: {
+									 c1.
+									 c2.
+									 c3.
+									 c4 } ]) ] ] ] ].
+	data size traceCr.
+	select data updateAllWith: data.
+
+	innerWindow pane addChild: select.
+	innerWindow openInSpace
 ]
 
 { #category : #space }
@@ -3550,6 +3569,32 @@ ToSandBox class >> labeledIconlWithIconAndText [
 { #category : #accessing }
 ToSandBox class >> methodText [
 	^ self  class sourceCodeAt: #example_CodeEditor
+]
+
+{ #category : #select }
+ToSandBox class >> selectWithEditingMultiSelection [
+
+	| select  |
+	select := ToSelect new.
+	select addEventHandler: (BlEventHandler
+			 on: ToAlbumSaveAcceptedEvent
+			 do: [ :event |
+				 | d |
+				 d := event client text asString asSymbol.
+				 event client text: ''.
+				 event currentTarget addData: d ]).
+
+	select addEventHandler: (BlEventHandler
+			 on: ToAlbumSaveRequestedEvent
+			 do: [ :event |
+				 | target idx |
+				 target := event currentTarget.
+				 idx := target data indexOf: event client text asString asSymbol.
+				 event accepted: idx isZero.
+				 idx > 0 ifTrue: [
+					 event client text: ''.
+					 target selectDataAt: idx ] ]).
+	^ select
 ]
 
 { #category : #combobox }

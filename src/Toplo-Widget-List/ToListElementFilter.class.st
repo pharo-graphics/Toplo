@@ -9,48 +9,15 @@ Class {
 		'originalDataProvider',
 		'originalData',
 		'delayBeforeFilter',
-		'filterResultTask',
-		'dataIndexMap'
+		'filterResultTask'
 	],
 	#category : #'Toplo-Widget-List-Filter'
 }
-
-{ #category : #'filter events handling' }
-ToListElementFilter >> collectionAddEvent: anEvent [
-
-	self dataChangedIn: anEvent currentTarget
-]
-
-{ #category : #'filter events handling' }
-ToListElementFilter >> collectionRemoveEvent: anEvent [ 
-
-	self dataChangedIn: anEvent currentTarget
-]
-
-{ #category : #'filter events handling' }
-ToListElementFilter >> collectionUpdateAllEvent: anEvent [ 
-
-	self dataChangedIn: anEvent currentTarget
-]
-
-{ #category : #'filter events handling' }
-ToListElementFilter >> collectionUpdateEvent: anEvent [ 
-
-	self dataChangedIn: anEvent currentTarget
-]
-
-{ #category : #'filter events handling' }
-ToListElementFilter >> dataChangedIn: anElement [
-
-	originalData := originalDataProvider value.
-	self filterDataIn: anElement
-]
 
 { #category : #'private filtering' }
 ToListElementFilter >> dataFilterPattern: aString [
 
 	pattern := aString asString trimBoth.
-
 	self semaphore signal
 ]
 
@@ -89,19 +56,19 @@ ToListElementFilter >> filter: aValuable [
 ToListElementFilter >> filterDataIn: anElement [
 
 	| filtered indexes |
-	self pattern ifNil: [ ^ self ].
-
+	originalData size traceCr.
 	self pattern
 		ifEmpty: [
-			filtered := #().
-			indexes := 1 to: 0 ]
+			filtered := originalData.
+			indexes := 1 to: originalData size ]
 		ifNotEmpty: [
 			filtered := Array streamContents: [ :filteredStream |
 				            indexes := Array streamContents: [ :indexesStream |
 					                       originalData withIndexDo: [ :d :idx |
-						                       (self filter value: d value: self pattern) ifTrue: [
-							                       filteredStream nextPut: d.
-							                       indexesStream nextPut: idx ] ] ] ] ].
+						                       (self filter value: d value: self pattern)
+							                       ifTrue: [
+								                       filteredStream nextPut: d.
+								                       indexesStream nextPut: idx ] ] ] ] ].
 
 	"A task must be used here because the filtering is runned asynchronously. The task allows to re-synchronise the element response.
 	As an example, it can avoid the children updating during layouting (because during layouting children are temporarily detached)
@@ -109,11 +76,13 @@ ToListElementFilter >> filterDataIn: anElement [
 
 	filterResultTask ifNotNil: [ anElement dequeueTask: filterResultTask ].
 	filterResultTask := BlTaskAction new action: [
-		anElement dispatchEvent: (ToDataFilterResultEvent new
-			 data: filtered;
-			 indexes: indexes;
-			 yourself).
-		filterResultTask := nil].
+		                    anElement dispatchEvent:
+			                    (ToDataFilterResultEvent new
+				                     pattern: self pattern;
+				                     data: filtered;
+				                     indexes: indexes;
+				                     yourself).
+		                    filterResultTask := nil ].
 	anElement enqueueTask: filterResultTask
 ]
 
@@ -126,7 +95,6 @@ ToListElementFilter >> filterProcessIn: anElement [
 	  [
 	  self semaphore wait.
 	  self delayBeforeFilter wait.
-	  "Pattern still the same? If not, just loop again and end up waiting for another x secs"
 	  self filterDataIn: anElement ] repeat ]
 		  forkAt: Processor userBackgroundPriority
 		  named: self class name , ' filter process'
@@ -142,10 +110,7 @@ ToListElementFilter >> filterRequestEvent: anEvent in: anElement [
 { #category : #'private filtering' }
 ToListElementFilter >> initializeOriginalData [
 
-	originalData :=  originalDataProvider value.
-	dataIndexMap := IdentityDictionary new.
-	originalData withIndexDo: [ :d :idx | dataIndexMap at: d put: idx ]
-
+	originalData :=  originalDataProvider value
 ]
 
 { #category : #'filter events handling' }
@@ -177,7 +142,7 @@ ToListElementFilter >> originalDataProvider: aBlock [
 { #category : #accessing }
 ToListElementFilter >> pattern [
 
-	^ pattern
+	^ pattern ifNil: [ pattern := '' ]
 ]
 
 { #category : #'private filtering' }

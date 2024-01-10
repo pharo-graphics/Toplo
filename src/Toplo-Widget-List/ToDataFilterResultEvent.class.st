@@ -2,10 +2,11 @@ Class {
 	#name : #ToDataFilterResultEvent,
 	#superclass : #BlEvent,
 	#instVars : [
+		'pattern',
 		'data',
 		'indexes'
 	],
-	#category : 'Toplo-Widget-List-Filter'
+	#category : #'Toplo-Widget-List-Filter'
 }
 
 { #category : #accessing }
@@ -30,6 +31,18 @@ ToDataFilterResultEvent >> indexes [
 ToDataFilterResultEvent >> indexes: aCollection [
 
 	indexes := aCollection
+]
+
+{ #category : #accessing }
+ToDataFilterResultEvent >> pattern [
+
+	^ pattern
+]
+
+{ #category : #accessing }
+ToDataFilterResultEvent >> pattern: anObject [
+
+	pattern := anObject
 ]
 
 { #category : #sending }

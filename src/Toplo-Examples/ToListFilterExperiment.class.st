@@ -27,7 +27,7 @@ ToListFilterExperiment >> listElement [
 { #category : #'instance creation' }
 ToListFilterExperiment >> open [
 
-	| pane |
+	| pane data |
 	pane := ToPane vertical
 		        matchParent;
 		        yourself.
@@ -37,20 +37,18 @@ ToListFilterExperiment >> open [
 	filterField margin: (BlInsets all: 2).
 	pane addChild: listElement.
 	pane addChild: filterField.
+	data := ((Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ])
+			 collect: [ :c | c name ]).
 
 	dataFilter := ToListElementFilter new.
-	listElement addEventHandler: (ToListElementFilterEventHandler new
-			 dataFilter: dataFilter;
-			 yourself).
+	dataFilter originalDataProvider: [ data	].
+	dataFilter onInstalledIn: listElement.
 	filterField 
 		addEventHandler: (BlEventHandler
 				 on: AlbTextEditedEvent
 				 do: [ self textUpdated ]).
 
-	self listElement data addAll:
-		((Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ])
-			 collect: [ :c | c name ]).
-
+	self listElement data addAll: data.
 	listElement addEventHandler: (BlEventHandler
 			 on: ToDataFilterResultEvent
 			 do: [ :event | listElement data filterResult: event data ]).
@@ -74,5 +72,7 @@ ToListFilterExperiment >> seeClassSide [
 { #category : #'instance creation' }
 ToListFilterExperiment >> textUpdated [
 
+	| filter |
+	filter := filterField text asString.
 	dataFilter dataFilterPattern: filterField text asString
 ]

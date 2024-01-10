@@ -34,9 +34,7 @@ ToListElement >> dataSharedEvents [
 { #category : #initialization }
 ToListElement >> dataSourceSharedEvents [
 
-	^ {
-		  ToDataEmptinessChangeEvent.
-		  ToDataFilterRequest }
+	^ { ToDataEmptinessChangeEvent }
 ]
 
 { #category : #initialization }

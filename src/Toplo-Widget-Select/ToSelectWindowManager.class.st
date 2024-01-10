@@ -55,12 +55,30 @@ ToSelectWindowManager >> elementEventHandlerClass [
 ]
 
 { #category : #accessing }
-ToSelectWindowManager >> filterResult: aFilterResultEvent [
+ToSelectWindowManager >> filterResultEvent: aFilterResultEvent [
 
+	aFilterResultEvent pattern = self filterString ifFalse: [ ^ self ].
 	filterResult := ToSelectFilterResult new.
 	filterResult indexes: aFilterResultEvent indexes.
 	filterResult selectedData: aFilterResultEvent data.
-	filterResult buildListFor: self.
+	filterResult applyOn: self.
+	
+	" now setup what to do when an item is chosen in the filter result list "
+	filterResult listElement addEventHandler: (BlEventHandler
+			 on: ToListSelectionChangedEvent
+			 do: [ :event |
+				 | le |
+				 le := self listElement.
+				 le dispatchSelectionChangedAfter: [
+					 | filterIdx |
+					 filterIdx := 0.
+					 filterResult indexes do: [ :idx |
+						 filterIdx := filterIdx + 1.
+						 (filterResult listElement selection includes: filterIdx)
+							 ifTrue: [ le selection doSelectIndex: idx ]
+							 ifFalse: [ le selection doDeselectIndex: idx ] ] ].
+				 self onFilterListRemoved ]).
+			
 	self fitListHeightToContent: filterResult listElement.
 	self currentWindow ifNil: [ self popupEvent: aFilterResultEvent ].
 	self currentWindow root removeChildren.
@@ -82,7 +100,6 @@ ToSelectWindowManager >> filterTextFieldUpdated: anEvent [
 			self listElement hasParent ifFalse: [
 				self currentWindow root removeChildren.
 				self currentWindow root addChild: self listElement ].
-			dataFilter resetDataFilterPattern.
 			filterResult := nil ]
 		ifNotEmpty: [ :filter | dataFilter dataFilterPattern: filter ]
 ]
@@ -98,7 +115,7 @@ ToSelectWindowManager >> fitListHeightToContent: aListElement [
 		'Have to use this workaround. Else, selection in the listElement don''t work correctly'.
 	aListElement hasParent ifFalse: [ ^ self ].
 	self currentWindowDo: [ :win |
-		win root removeChild: aListElement.
+		win root removeChildren.
 		win root addChild: aListElement ]
 ]
 
@@ -163,7 +180,6 @@ ToSelectWindowManager >> onCloseRequest [
 ToSelectWindowManager >> onFilterListRemoved [
 
 	self element textField text: ''.
-	dataFilter resetDataFilterPattern.
 	filterResult := nil
 ]
 

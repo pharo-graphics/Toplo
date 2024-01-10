@@ -24,8 +24,9 @@ ToSelectNode >> addRemoveButton [
 			 on: BlClickEvent
 			 do: [ :event |
 				 event consumed: true.
-				 self selectHolder listElement selection deselectIndex:
-					 self selectHolder position ]).
+				 self selectHolder select deselectIndex:
+					 self selectHolder position.
+				 self selectHolder select refreshNodes ]).
 	" consume mouseUp/mouseDown to avoid unwanted opening/closing of the popup list element"
 	but addEventHandler: (BlEventHandler
 			 on: BlMouseDownEvent

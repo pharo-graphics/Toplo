@@ -5,9 +5,39 @@ Class {
 }
 
 { #category : #'element handlers' }
+ToSelectEventHandler >> collectionAddEvent: anEvent [
+
+	anEvent currentTarget updateDataIndex
+]
+
+{ #category : #'element handlers' }
+ToSelectEventHandler >> collectionFilterEvent: anEvent [
+
+	" ignored "
+]
+
+{ #category : #'element handlers' }
+ToSelectEventHandler >> collectionRemoveEvent: anEvent [
+
+	anEvent currentTarget updateDataIndex
+]
+
+{ #category : #'element handlers' }
+ToSelectEventHandler >> collectionUpdateAllEvent: anEvent [
+
+	anEvent currentTarget updateDataIndex
+]
+
+{ #category : #'element handlers' }
+ToSelectEventHandler >> collectionUpdateEvent: anEvent [
+
+	anEvent currentTarget updateDataIndex
+]
+
+{ #category : #'element handlers' }
 ToSelectEventHandler >> dataFilterResultEvent: anEvent [
 
-	anEvent currentTarget windowManager filterResult: anEvent
+	anEvent currentTarget windowManager filterResultEvent: anEvent
 ]
 
 { #category : #'element handlers' }
@@ -25,13 +55,16 @@ ToSelectEventHandler >> eventsToHandle [
 		  ToDataFilterResultEvent.
 		  BlElementExtentChangedEvent.
 		  ToSelectDataAddedEvent.
-		  ToListSelectionChangedEvent }
+		  ToListSelectionChangedEvent.
+		  ToCollectionAfterChangeEvent }
 ]
 
 { #category : #'element handlers' }
 ToSelectEventHandler >> listSelectionChangedEvent: anEvent [
-
-	anEvent currentTarget refreshNodes
+anEvent currentIndexes traceCr.
+	anEvent currentTarget
+		selectIndexes: anEvent currentIndexes;
+		refreshNodes
 ]
 
 { #category : #'element handlers' }

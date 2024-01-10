@@ -239,8 +239,7 @@ ToInfiniteSelectionStrategy >> doSelectIndex: index [
 	self isNone ifTrue: [ self invalidOperation  ].
 	infiniteElement dispatchSelectIndex: index.
 	selectionModel select: index.
-	self markPointedPosition: index.
-	"infiniteElement scrollToIndex: index"
+	self markPointedPosition: index
 ]
 
 { #category : #'selection managing' }
@@ -248,8 +247,6 @@ ToInfiniteSelectionStrategy >> doSelectIndexes: indexes [
 
 	self isMultiple ifFalse: [ self invalidOperation ].
 	self doDeselectAll.
-	indexes ifNotEmpty: [
-			infiniteElement scrollToIndexAtTop: indexes first ].
 	infiniteElement dispatchSelectIndexes: indexes.
 	self addAllToSelection: indexes.
 	infiniteElement requestLayout

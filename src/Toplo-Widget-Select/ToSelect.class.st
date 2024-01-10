@@ -14,7 +14,9 @@ Class {
 		'fakeData',
 		'fakeNode',
 		'data',
-		'selection'
+		'selection',
+		'dataIndex',
+		'removedData'
 	],
 	#category : #'Toplo-Widget-Select'
 }
@@ -70,6 +72,12 @@ ToSelect >> defaultNodeClass [
 	^ ToSelectNode
 ]
 
+{ #category : #'accessing selection' }
+ToSelect >> deselectIndex: anIndex [
+
+	selection deselect: anIndex - 1 to: anIndex
+]
+
 { #category : #accessing }
 ToSelect >> fakeData [
 
@@ -111,6 +119,7 @@ ToSelect >> initialize [
 	| sharedEventsDistributor |
 	super initialize.
 	selection := BlCompositeSelection new.
+	removedData := IdentitySet new.
 	self fitContent.
 	self layout beHorizontal.
 	nodeClass := self defaultNodeClass.
@@ -129,6 +138,7 @@ ToSelect >> initialize [
 	sharedEventsDistributor
 		adjustMousePosition: false;
 		shareEvents: {
+				ToCollectionAfterChangeEvent.
 				ToListUniqueIndexEvent.
 				ToAlbumClientEvent.
 				ToListSelectionChangedEvent.
@@ -305,7 +315,7 @@ ToSelect >> refreshNodes [
 	| nodes |
 	self dataNodesDo: [ :node | node removeFromParent ].
 	self nodeHolders reset.
-	nodes := self listElement selection selectedIndexes collect: [ :idx |
+	nodes := selection indices collect: [ :idx |
 		         | node holder selected |
 		         node := self newNode.
 		         holder := self newNodeHolder.
@@ -321,6 +331,11 @@ ToSelect >> refreshNodes [
 		         node ].
 	self addAllDataNodes: nodes.
 	nodes ifEmpty: [ selectFlow addChild: fakeNode ].
+	"selection indices reverseDo: [ :idx |
+		removedData add: (self listElement data at: idx).
+		self listElement data removeAt: idx ].
+	self listElement selection doDeselectAll."
+	self listElement selection selectIndexes: selection indices.
 	self windowManager reset
 ]
 
@@ -332,17 +347,16 @@ ToSelect >> selectDataAt: anIndex [
 ]
 
 { #category : #'accessing selection' }
-ToSelect >> selectIndex: anInteger [
+ToSelect >> selectIndex: anIndex [
 
-	self textField text: ''.
-	self listElement selection selectIndex: anInteger
+	selection select: anIndex - 1 to: anIndex
 ]
 
 { #category : #'accessing selection' }
-ToSelect >> selectIndexes: aCollectionOfInteger [
+ToSelect >> selectIndexes: aCollection [
 
-	self textField text: ''.
-	self listElement selection selectIndexes: aCollectionOfInteger
+	selection := BlCompositeSelection new.
+	aCollection do: [ :idx | selection select: idx - 1 to: idx ]
 ]
 
 { #category : #'accessing selection' }
@@ -351,16 +365,23 @@ ToSelect >> selectedIndexes [
 	^ selection indices
 ]
 
-{ #category : #'accessing selection' }
-ToSelect >> selectedIndexes: aCollection [
+{ #category : #accessing }
+ToSelect >> selection [
 
-	aCollection do: [ :idx | selection select: idx - 1 to: idx ]
+	^ selection
 ]
 
 { #category : #accessing }
 ToSelect >> textField [
 
 	^ selectTextField 
+]
+
+{ #category : #'accessing list' }
+ToSelect >> updateDataIndex [
+
+	dataIndex := IdentityDictionary new.
+	self data withIndexDo: [ :d :i | dataIndex at: d put: i ]
 ]
 
 { #category : #accessing }

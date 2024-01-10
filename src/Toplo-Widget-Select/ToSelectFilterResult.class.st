@@ -10,7 +10,7 @@ Class {
 }
 
 { #category : #'list building' }
-ToSelectFilterResult >> buildListFor: aSelectWindowManager [
+ToSelectFilterResult >> applyOn: aSelectWindowManager [
 
 	| cpt |
 	listElement := aSelectWindowManager newListElement.
@@ -21,22 +21,7 @@ ToSelectFilterResult >> buildListFor: aSelectWindowManager [
 		cpt := cpt + 1.
 		(aSelectWindowManager listElement selection includes: i)
 			ifTrue: [ listElement selection doSelectIndex: cpt ]
-			ifFalse: [ listElement selection doDeselectIndex: cpt ] ].
-
-	listElement addEventHandler: (BlEventHandler
-			 on: ToListSelectionChangedEvent
-			 do: [ :event |
-				 | le |
-				 le := aSelectWindowManager listElement.
-				 le dispatchSelectionChangedAfter: [
-					 | filterIdx |
-					 filterIdx := 0.
-					 self indexes do: [ :idx |
-						 filterIdx := filterIdx + 1.
-						 (listElement selection includes: filterIdx)
-							 ifTrue: [ le selection doSelectIndex: idx ]
-							 ifFalse: [ le selection doDeselectIndex: idx ] ] ].
-				 aSelectWindowManager onFilterListRemoved ])
+			ifFalse: [ listElement selection doDeselectIndex: cpt ] ]
 ]
 
 { #category : #accessing }

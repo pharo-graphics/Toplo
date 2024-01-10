@@ -21,13 +21,13 @@ ToListElementFilter >> dataFilterPattern: aString [
 	self semaphore signal
 ]
 
-{ #category : #'private filtering' }
-ToListElementFilter >> dataFilterRequest: anEvent [
+{ #category : #'api - hooks' }
+ToListElementFilter >> defaultDelay [
 
-	self dataFilterPattern: anEvent pattern
+	^ 200 milliSeconds
 ]
 
-{ #category : #'filter events handling' }
+{ #category : #accessing }
 ToListElementFilter >> defaultFilter [
 
 	"^ [ :data :p | data includesSubstring: p caseSensitive: false ]"
@@ -49,15 +49,16 @@ ToListElementFilter >> filter [
 { #category : #accessing }
 ToListElementFilter >> filter: aValuable [
 	" filter takes a data and a pattern as argument "
+
 	filter := aValuable
 ]
 
 { #category : #'private filtering' }
-ToListElementFilter >> filterDataIn: anElement [
+ToListElementFilter >> filterDataIn: anElement withPattern: aPattern [
 
-	| filtered indexes |
-	originalData size traceCr.
-	self pattern
+	| filtered indexes event |
+
+	aPattern
 		ifEmpty: [
 			filtered := originalData.
 			indexes := 1 to: originalData size ]
@@ -65,7 +66,7 @@ ToListElementFilter >> filterDataIn: anElement [
 			filtered := Array streamContents: [ :filteredStream |
 				            indexes := Array streamContents: [ :indexesStream |
 					                       originalData withIndexDo: [ :d :idx |
-						                       (self filter value: d value: self pattern)
+						                       (self filter value: d value: aPattern)
 							                       ifTrue: [
 								                       filteredStream nextPut: d.
 								                       indexesStream nextPut: idx ] ] ] ] ].
@@ -75,14 +76,16 @@ ToListElementFilter >> filterDataIn: anElement [
 	(which leads to errors related to children adding and which are difficult to understand)"
 
 	filterResultTask ifNotNil: [ anElement dequeueTask: filterResultTask ].
-	filterResultTask := BlTaskAction new action: [
-		                    anElement dispatchEvent:
-			                    (ToDataFilterResultEvent new
-				                     pattern: self pattern;
-				                     data: filtered;
-				                     indexes: indexes;
-				                     yourself).
-		                    filterResultTask := nil ].
+	filterResultTask := BlTaskAction new.
+	filterResultTask action: [
+		event := ToDataFilterResultEvent new.
+		event
+			pattern: aPattern;
+			data: filtered;
+			indexes: indexes;
+			yourself.
+		anElement dispatchEvent: event.
+		filterResultTask := nil ].
 	anElement enqueueTask: filterResultTask
 ]
 
@@ -95,16 +98,9 @@ ToListElementFilter >> filterProcessIn: anElement [
 	  [
 	  self semaphore wait.
 	  self delayBeforeFilter wait.
-	  self filterDataIn: anElement ] repeat ]
+	  self filterDataIn: anElement withPattern: self pattern ] repeat ]
 		  forkAt: Processor userBackgroundPriority
 		  named: self class name , ' filter process'
-]
-
-{ #category : #'private filtering' }
-ToListElementFilter >> filterRequestEvent: anEvent in: anElement [
-
-	pattern := anEvent pattern asString trimBoth.
-	self semaphore signal
 ]
 
 { #category : #'private filtering' }
@@ -113,21 +109,21 @@ ToListElementFilter >> initializeOriginalData [
 	originalData :=  originalDataProvider value
 ]
 
-{ #category : #'filter events handling' }
+{ #category : #'api - hooks' }
 ToListElementFilter >> onInstalledIn: anElement [
 
-	originalDataProvider ifNil: [ originalDataProvider := [ anElement data asArray ] ].
+	originalDataProvider ifNil: [ originalDataProvider := [ anElement data ] ].
 	self initializeOriginalData.
-	delayBeforeFilter := 50 milliSeconds.
+	delayBeforeFilter := self defaultDelay.
 	process := self filterProcessIn: anElement
 ]
 
-{ #category : #'filter events handling' }
+{ #category : #'api - hooks' }
 ToListElementFilter >> onUninstalledIn: anElement [
 
 	process terminate.
 	originalData := nil.
-	pattern := nil.
+	pattern := ''.
 	semaphore := nil.
 ]
 
@@ -143,12 +139,6 @@ ToListElementFilter >> originalDataProvider: aBlock [
 ToListElementFilter >> pattern [
 
 	^ pattern ifNil: [ pattern := '' ]
-]
-
-{ #category : #'private filtering' }
-ToListElementFilter >> resetDataFilterPattern [
-
-	pattern := ''
 ]
 
 { #category : #accessing }

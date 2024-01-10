@@ -4,51 +4,6 @@ Class {
 	#category : #'Toplo-Examples'
 }
 
-{ #category : #combobox }
-ToSandBox class >> example_BasicComboBox [
-
-	| win combo |
-	win := ToInnerWindow new title: 'Combo box Example'.
-	combo := ToComboBox new.
-	combo data addAll:
-		(Smalltalk globals allClasses collect: [ :cls | cls name ]).
-	"combo inspect."
-	win root addChild: combo.
-	win openInSpace
-]
-
-{ #category : #combobox }
-ToSandBox class >> example_BasicComboBoxWith5Elements [
-
-	| win combo |
-	win := ToInnerWindow new title: 'Combo box Example'.
-	combo := ToComboBox new.
-	combo data addAll: ((1 to: 5) collect: [ :i | '#' , i asString ]).
-	combo selectIndex: 3.
-	win root addChild: combo.
-	"combo inspect."
-	win openInSpace
-]
-
-{ #category : #combobox }
-ToSandBox class >> example_BasicComboBoxWithStatesOfAmerica [
-
-	| win combo placeholder |
-	win := ToInnerWindow new title: 'Combo box Example'.
-	combo := ToComboBox new.
-	placeholder := ToLabel new
-		               text:
-			               ('Choose a state' asRopedText foreground:
-					                Color lightGray);
-		               hMatchParent.
-	combo headPlaceholder: placeholder.
-	combo data addAll: self statesOfAmerica.
-	win root addChild: combo.
-
-	"combo inspect."
-	win openInSpace
-]
-
 { #category : #'button-dep' }
 ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheet [
 
@@ -377,136 +332,6 @@ album inspect.
 
 ]
 
-{ #category : #combobox }
-ToSandBox class >> example_ComboBoxEmpty [
-
-	| win combo |
-	win := ToInnerWindow new title: 'Combo box Example'.
-	combo := ToComboBox new.
-	win root addChild: combo.
-	win openInSpace
-]
-
-{ #category : #combobox }
-ToSandBox class >> example_ComboBoxWithAllClasses [
-
-	| win combo |
-	win := ToInnerWindow new title: 'Pharo classes'.
-	combo := ToComboBox new.
-	combo nodeBuilder: [ :node :holder |
-		node addChild: (ToLabel new
-				 text: holder data name;
-				 hMatchParent) ].
-	combo data addAll: Smalltalk globals allClasses.
-	combo listElementSize: 200 @ 500.
-	win root addChild: combo.
-	win openInSpace
-]
-
-{ #category : #combobox }
-ToSandBox class >> example_ComboBoxWithColors [
-
-	| win combo |
-	win := ToInnerWindow new title: 'Combo box Example'.
-	combo := ToComboBox new.
-	combo nodeBuilder: [ :color |
-				(ToElement new
-					 height: 30;
-					 hMatchParent;
-					 background: color;
-					 yourself;
-			hMatchParent) ].
-	combo headElementFactory: [ :color |
-		ToElement new
-			margin: (BlInsets all: 4);
-			height: 25;
-			hMatchParent;
-			background: color;
-			yourself ].
-	combo data addAll: Color indexedColors.
-	combo selectIndex: (combo data size / 2) asInteger.
-	win root addChild: combo.
-	win openInSpace
-]
-
-{ #category : #combobox }
-ToSandBox class >> example_ComboBoxWithHeadPlaceholder [
-
-	| win combo but t |
-	win := ToInnerWindow new title: 'Combo box Example'.
-	combo := ToComboBox new.
-	t := '<Click to fetch data>' asRopedText foreground: Color red.
-	but := ToLabel new
-		       text: t;
-		       hMatchParent.
-	but when: BlClickEvent do: [
-		combo data addAll:
-			(Smalltalk globals allClasses collect: [ :cls | cls name ]).
-		combo headPlaceholder: (ToLabel new text: '<No selection>'; hMatchParent; yourself)].
-	combo headPlaceholder: but.
-	win root addChild: combo.
-	win openInSpace
-]
-
-{ #category : #combobox }
-ToSandBox class >> example_ComboBoxWithListPlaceholder [
-
-	| win combo placeholder lab but |
-	win := ToInnerWindow new title: 'Combo box Example'.
-	combo := ToComboBox new.
-	placeholder := ToElement new.
-	placeholder layout: BlLinearLayout vertical.
-	placeholder layout cellSpacing: 10.
-	placeholder margin: (BlInsets all: 20).
-	placeholder fitContent.
-	placeholder addChild: (lab := ToLabel new text:
-			        ('No element - click to get data' asRopedText foreground:
-				         Color red)).
-	placeholder addChild: (but := ToButton new labelText: 'Fetch data').
-	lab constraintsDo: [ :c | c linear horizontal alignCenter ].
-	but constraintsDo: [ :c | c linear horizontal alignCenter ].
-	but whenClickedDo: [
-		combo data addAll:
-			(Smalltalk globals allClasses collect: [ :cls | cls name ]) ].
-	combo listPlaceholder: placeholder.
-	combo inspect.
-	win root addChild: combo.
-	win openInSpace
-]
-
-{ #category : #combobox }
-ToSandBox class >> example_EditableComboBoxEmpty [
-
-	| win combo res |
-	res := true.
-	win := ToInnerWindow new title: 'Editable Combo box Example'.
-	combo := ToComboBox new.
-	combo beEditable; withSaveCapability.
- 	combo whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: res. res := res not ].
-	combo whenSaveAcceptedDo: [ :saveAccepted | saveAccepted traceCr ].
-	combo whenSaveDeniedDo: [ :saveDenied | saveDenied traceCr ].
-	combo whenCancelRequestedDo: [ :cancelRequested | cancelRequested client text: '' ].
-
-	win root addChild: combo.
-	win openInSpace
-]
-
-{ #category : #combobox }
-ToSandBox class >> example_EditableComboBoxWithStatesOfAmerica [
-
-	| win combo |
-	win := ToInnerWindow new title: 'Editable Combo box Example'.
-	combo := ToComboBox new.
-	combo data addAll: self statesOfAmerica.
-	combo beEditable; withSaveCapability.
- 	combo whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ].
-	combo whenSaveAcceptedDo: [ :saveAccepted |'saved' traceCr ].
-	combo whenCancelRequestedDo: [ :cancelRequested | cancelRequested client text: '' ].
-
-	win root addChild: combo.
-	win openInSpace
-]
-
 { #category : #list }
 ToSandBox class >> example_EditableListWithAllClassesNames [
 
@@ -802,62 +627,6 @@ ToSandBox class >> example_LabeledIconlWithIconAndText_vertical_interspace [
 	but := self example_LabeledIconlWithIconAndText_vertical.
 	but interspace: 20.
 	^ but
-]
-
-{ #category : #combobox }
-ToSandBox class >> example_ListAutocompleteComboBoxEmpty [
-
-	| win combo  |
-	win := ToInnerWindow new title: 'Inline autocomplete Combo box Example'.
-	combo := ToComboBox new beEditable; beListAutocomplete; yourself.
-	combo whenTextEditedDo: [ :textEditedEvent | textEditedEvent text traceCr ].
-	win root addChild: combo.
-	win openInSpace
-]
-
-{ #category : #combobox }
-ToSandBox class >> example_ListAutocompleteComboBoxWithAllClasses [
-
-	| win combo placeholder |
-	win := ToInnerWindow new title: 'Inline autocomplete Combo box Example'.
-	combo := ToComboBox new beEditable; beListAutocomplete.
-	placeholder := ToLabel new
-		               text: ('Choose a class' asRopedText foreground: Color lightGray);
-		               hMatchParent.
-	combo headPlaceholder: placeholder.
-	combo data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]).
-	combo selectIndex: 10.
-	win root addChild: combo.
-	win openInSpace
-]
-
-{ #category : #combobox }
-ToSandBox class >> example_ListAutocompleteComboBoxWithStatesOfAmerica [
-
-	| win combo placeholder |
-	win := ToInnerWindow new title:
-		       'Inline autocomplete Combo box Example'.
-	combo := ToComboBox new beEditable; beListAutocomplete; withSaveCapability.
-	placeholder := ToLabel new
-		               text:
-			               ('Choose a state' asRopedText foreground:
-					                Color lightGray);
-		               hMatchParent.
-	combo headPlaceholder: placeholder.
-	combo data addAll: self statesOfAmerica.
-	combo selectIndex: 10.
-	win root addChild: combo.
-	win openInSpace
-]
-
-{ #category : #combobox }
-ToSandBox class >> example_ListAutocompleteWithSaveInListComboBoxEmpty [
-
-	| win combo  |
-	win := ToInnerWindow new title: 'Inline autocomplete Combo box Example'.
-	combo := ToComboBox new beEditable; beListAutocomplete; yourself.
-	win root addChild: combo.
-	win openInSpace
 ]
 
 { #category : #list }
@@ -3597,7 +3366,7 @@ ToSandBox class >> selectWithEditingMultiSelection [
 	^ select
 ]
 
-{ #category : #combobox }
+{ #category : #accessing }
 ToSandBox class >> statesOfAmerica [
 
 	^ { #Alabama. #Alaska. #Arizona. #Arkansas. #California. #Colorado.

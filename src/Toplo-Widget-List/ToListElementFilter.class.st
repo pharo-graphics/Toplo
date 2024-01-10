@@ -50,6 +50,7 @@ ToListElementFilter >> dataChangedIn: anElement [
 ToListElementFilter >> dataFilterPattern: aString [
 
 	pattern := aString asString trimBoth.
+
 	self semaphore signal
 ]
 
@@ -92,7 +93,7 @@ ToListElementFilter >> filterDataIn: anElement [
 
 	self pattern
 		ifEmpty: [
-			filtered := originalData.
+			filtered := #().
 			indexes := 1 to: 0 ]
 		ifNotEmpty: [
 			filtered := Array streamContents: [ :filteredStream |
@@ -122,21 +123,13 @@ ToListElementFilter >> filterProcessIn: anElement [
 
 	semaphore := Semaphore new.
 	^ [
-	  | oldPattern |
-	  oldPattern := nil.
 	  [
 	  self semaphore wait.
-	  "If pattern has changed, see if we need to filter.
-	If not, it's probably an extraneous signal received while we were waiting for x seconds, 
-	and we discard then till we end up waiting for filterChangeSemaphore again"
-	  oldPattern ~= self pattern ifTrue: [
-		  oldPattern := self pattern.
-		  self delayBeforeFilter wait.
-		  "Pattern still the same? If not, just loop again and end up waiting for another x secs"
-		  oldPattern = self pattern ifTrue: [ self filterDataIn: anElement ] ] ]
-		  repeat ]
+	  self delayBeforeFilter wait.
+	  "Pattern still the same? If not, just loop again and end up waiting for another x secs"
+	  self filterDataIn: anElement ] repeat ]
 		  forkAt: Processor userBackgroundPriority
-		  named: self class name, ' filter process'
+		  named: self class name , ' filter process'
 ]
 
 { #category : #'private filtering' }
@@ -185,6 +178,12 @@ ToListElementFilter >> originalDataProvider: aBlock [
 ToListElementFilter >> pattern [
 
 	^ pattern
+]
+
+{ #category : #'private filtering' }
+ToListElementFilter >> resetDataFilterPattern [
+
+	pattern := ''
 ]
 
 { #category : #accessing }

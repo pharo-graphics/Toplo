@@ -58,7 +58,8 @@ ToSelectWindowManager >> element: anElement [
 						 (filterListElement selection includes: filterIdx)
 							 ifTrue: [ listElement selection doSelectIndex: idx ]
 							 ifFalse: [ listElement selection doDeselectIndex: idx ] ] ].
-				 anElement textField text: '' ])
+				 anElement textField text: ''.
+				 dataFilter resetDataFilterPattern ])
 ]
 
 { #category : #accessing }
@@ -70,11 +71,9 @@ ToSelectWindowManager >> elementEventHandlerClass [
 { #category : #accessing }
 ToSelectWindowManager >> filterResult: aFilterResultEvent [
 
-	| selected cpt |
+	| cpt |
 	filterListElement data filterResult: aFilterResultEvent data.
 	filterIndexes := aFilterResultEvent indexes.
-	filterIndexes ifEmpty: [ ^ self ].
-	selected := OrderedCollection new.
 	cpt := 0.
 	aFilterResultEvent data asArray
 		with: aFilterResultEvent indexes
@@ -83,26 +82,26 @@ ToSelectWindowManager >> filterResult: aFilterResultEvent [
 			(self listElement selection includes: i)
 				ifTrue: [ filterListElement selection doSelectIndex: cpt ]
 				ifFalse: [ filterListElement selection doDeselectIndex: cpt ] ].
+	self fitListHeightToContent: filterListElement.
 	filterListElement hasParent ifTrue: [ ^ self ].
-	self currentWindow root removeChild: self listElement.
+	self listElement hasParent ifTrue: [
+		self currentWindow root removeChild: self listElement ].
 	self currentWindow root addChild: filterListElement
 ]
 
 { #category : #'window handling' }
-ToSelectWindowManager >> fitListHeightToContent [
+ToSelectWindowManager >> fitListHeightToContent: aListElement [
 
-	| l |
-	l := self listElement.
-	l height < self maxHeight ifFalse: [ ^ self ].
-	l
-		vFitContent;
-		in: [ :e | e infinite vFitContent ];
-		maxHeight: self maxHeight.
+	aListElement height < self maxHeight ifFalse: [ ^ self ].
+	aListElement vFitContent.
+	aListElement infinite vFitContent.
+	aListElement maxHeight: self maxHeight.
 	self flag:
 		'Have to use this workaround. Else, selection in the listElement don''t work correctly'.
+	aListElement hasParent ifFalse: [ ^ self ].
 	self currentWindowDo: [ :win |
-		win root removeChild: l.
-		win root addChild: l ]
+		win root removeChild: aListElement.
+		win root addChild: aListElement ]
 ]
 
 { #category : #initialization }
@@ -114,8 +113,9 @@ ToSelectWindowManager >> initialize [
 		               vFitContent;
 		               hMatchParent.
 	filterListElement := ToListElement new
-		               vFitContent;
-		               hMatchParent.
+		                     vFitContent;
+		                     hMatchParent.
+	"filterListElement infinite background: (Color red alpha: 0.1)."
 	listElement selection: ToCherryPickListSelectionStrategy new.
 	filterListElement selection: ToCherryPickListSelectionStrategy new.
 	listElement requestFocusOnMouseDown: false.
@@ -124,11 +124,15 @@ ToSelectWindowManager >> initialize [
 	filterListElement infinite maxHeight: self maxHeight.
 	listElement infinite vFitContent.
 	filterListElement infinite vFitContent.
-	filterIndexes := #().
+	filterIndexes := #(  ).
 	self builder: [ :selectWin :request |
+		| filter |
 		selectWin root hMatchParent.
 		selectWin root vFitContent.
-		selectWin root addChild: self listElement ]
+		filter := self element textField text asString.
+		filter
+			ifEmpty: [ selectWin root addChild: self listElement ]
+			ifNotEmpty: [ selectWin root addChild: filterListElement ] ]
 ]
 
 { #category : #accessing }
@@ -162,7 +166,7 @@ ToSelectWindowManager >> onCloseRequest [
 { #category : #'window handling' }
 ToSelectWindowManager >> reset [
 
-	self fitListHeightToContent
+	self fitListHeightToContent: self listElement
 ]
 
 { #category : #'window handling' }
@@ -176,6 +180,8 @@ ToSelectWindowManager >> textUpdated: anEvent [
 			self listElement hasParent ifFalse: [
 				self currentWindow root removeChild: filterListElement.
 				self currentWindow root addChild: self listElement ].
-			dataFilter dataFilterPattern: filter ]
-		ifNotEmpty: [ dataFilter dataFilterPattern: filter ]
+			dataFilter resetDataFilterPattern ]
+		ifNotEmpty: [ dataFilter dataFilterPattern: filter ].
+	
+
 ]

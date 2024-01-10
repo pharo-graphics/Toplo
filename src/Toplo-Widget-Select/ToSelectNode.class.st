@@ -17,16 +17,18 @@ ToSelectNode >> addRemoveButton [
 	| but |
 	but := ToButton new.
 	but defaultRawSkin: ToSelectNodeInnerCloseButtonSkin new.
-	but icon:
-		(ToImage inner: (Smalltalk ui icons iconNamed: #windowClose)).
+	but icon: (ToImage inner: (self iconNamed: #windowClose)).
 	but constraintsDo: [ :c | c linear vertical alignCenter ].
+
 	but addEventHandler: (BlEventHandler
 			 on: BlClickEvent
 			 do: [ :event |
+				 | list |
 				 event consumed: true.
-				 self selectHolder select deselectIndex:
-					 self selectHolder position.
-				 self selectHolder select refreshNodes ]).
+				 " remove the button by deselecting the corresponding list node in the list "
+				 list := self selectHolder select listElement.
+				 list selection deselectIndex: self selectHolder position ]).
+
 	" consume mouseUp/mouseDown to avoid unwanted opening/closing of the popup list element"
 	but addEventHandler: (BlEventHandler
 			 on: BlMouseDownEvent
@@ -34,6 +36,7 @@ ToSelectNode >> addRemoveButton [
 	but addEventHandler: (BlEventHandler
 			 on: BlMouseUpEvent
 			 do: [ :event | event consumed: true ]).
+
 	but id: #removeButton.
 	self endContainer addChild: but
 ]

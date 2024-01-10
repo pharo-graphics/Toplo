@@ -1,6 +1,6 @@
 Class {
-	#name : 'ToInnerWindow',
-	#superclass : 'ToBasicWindowElement',
+	#name : #ToInnerWindow,
+	#superclass : #ToBasicWindowElement,
 	#traits : 'TToElementWithResizeGrips',
 	#classTraits : 'TToElementWithResizeGrips classTrait',
 	#instVars : [
@@ -12,17 +12,16 @@ Class {
 		'closeButton',
 		'expandButton'
 	],
-	#category : 'Toplo-Widget-InnerWindow',
-	#package : 'Toplo-Widget-InnerWindow'
+	#category : 'Toplo-Widget-InnerWindow'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToInnerWindow >> bar [
 
 	^ barElement 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToInnerWindow >> bar: anElement [
 
 	barElement ifNotNil: [
@@ -35,13 +34,13 @@ ToInnerWindow >> bar: anElement [
 		self root addChild: be at: 1 ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToInnerWindow >> closeButton [ 
 
 	^ closeButton 
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToInnerWindow >> defaultBarElement [
 
 	| b fill1 fill2 fill3 fill4 |
@@ -98,7 +97,7 @@ ToInnerWindow >> defaultBarElement [
 	^ b
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToInnerWindow >> defaultPaneElement [
 
 	^ ToInnerWindowPane new
@@ -107,38 +106,38 @@ ToInnerWindow >> defaultPaneElement [
 		  yourself
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToInnerWindow >> defaultPaneLayout [
 
 	^ BlBasicLayout uniqueInstance 
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToInnerWindow >> defaultRootElement [
 
 	^ super defaultRootElement
 		  matchParent
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToInnerWindow >> defaultSize [
 
 	^ 400@300
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToInnerWindow >> defaultTitle [
 
 	^ ''
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToInnerWindow >> expandButton [ 
 
 	^ expandButton 
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToInnerWindow >> initialize [ 
 
 	super initialize.
@@ -149,7 +148,7 @@ ToInnerWindow >> initialize [
 
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToInnerWindow >> initializeRootElement [
 
 	super initializeRootElement.
@@ -157,7 +156,7 @@ ToInnerWindow >> initializeRootElement [
 	self pane: self defaultPaneElement	
 ]
 
-{ #category : 'skin' }
+{ #category : #skin }
 ToInnerWindow >> installRawStyle [
 
 	super installRawStyle.
@@ -171,7 +170,7 @@ ToInnerWindow >> installRawStyle [
 
 ]
 
-{ #category : 'api - displaying' }
+{ #category : #'api - displaying' }
 ToInnerWindow >> maximize [
 
 	self
@@ -179,7 +178,7 @@ ToInnerWindow >> maximize [
 		size: self parent size
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToInnerWindow >> newBarPullHandler [
 
 	^ BlPullHandler new
@@ -187,13 +186,13 @@ ToInnerWindow >> newBarPullHandler [
 		  yourself
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToInnerWindow >> pane [
 
 	^ paneElement
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToInnerWindow >> pane: anElement [
 
 	paneElement ifNotNil: [ :pe | pe removeFromParent ].
@@ -204,13 +203,13 @@ ToInnerWindow >> pane: anElement [
 			ifNotNil: [ :b | self root addChild: pe after: b ] ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToInnerWindow >> title [
 
 	^ title ifNil: [ title := self defaultTitle ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToInnerWindow >> title: aString [
 
 	title := aString.

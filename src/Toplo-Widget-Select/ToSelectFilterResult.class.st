@@ -12,8 +12,20 @@ Class {
 { #category : #'list building' }
 ToSelectFilterResult >> applyOn: aSelectWindowManager [
 
-	| cpt |
+	| cpt phtext |
 	listElement := aSelectWindowManager newListElement.
+		phtext := ('No Data' asRopedText
+		           foreground: Color lightGray;
+		           yourself)
+		          fontSize: 24;
+		          yourself.
+
+	listElement placeholderBuilder: [ :placeholder :e |
+		| lab |
+		placeholder layout alignCenter.
+		lab := ToAttributedLabel text: phtext.
+		placeholder addChild: lab ].
+
 	listElement data updateAllWith: self selectedData.
 	cpt := 0.
 

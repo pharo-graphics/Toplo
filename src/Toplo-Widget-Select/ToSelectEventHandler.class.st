@@ -55,13 +55,12 @@ ToSelectEventHandler >> eventsToHandle [
 		  ToDataFilterResultEvent.
 		  BlElementExtentChangedEvent.
 		  ToSelectDataAddedEvent.
-		  ToListSelectionChangedEvent.
 		  ToCollectionAfterChangeEvent }
 ]
 
 { #category : #'element handlers' }
 ToSelectEventHandler >> listSelectionChangedEvent: anEvent [
-anEvent currentIndexes traceCr.
+
 	anEvent currentTarget
 		selectIndexes: anEvent currentIndexes;
 		refreshNodes

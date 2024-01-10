@@ -2092,7 +2092,7 @@ ToSandBox class >> example_selectWith5Nodes [
 
 	| select innerWindow |
 	select := ToSelect new.
-	select listNodeBuilder: [ :node :holder | 
+	select listElement nodeBuilder: [ :node :holder | 
 		node addChild: ((ToLabel text: holder data asString) hMatchParent) ].
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
@@ -2126,7 +2126,7 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWithStatesOfAmerica [
 	select windowManager anchorRoot: innerWindow root.
 	select hMatchParent.
 	select data updateAllWith: self statesOfAmerica.
-select inspect.
+
 	innerWindow pane addChild: select.
 	innerWindow openInSpace
 ]
@@ -3343,8 +3343,20 @@ ToSandBox class >> methodText [
 { #category : #select }
 ToSandBox class >> selectWithEditingMultiSelection [
 
-	| select  |
+	| select phtext |
 	select := ToSelect new.
+	phtext := ('No Data' asRopedText
+		           foreground: Color lightGray;
+		           yourself)
+		          fontSize: 24;
+		          yourself.
+
+	select listElement placeholderBuilder: [ :placeholder :e |
+		| lab |
+		placeholder layout alignCenter.
+		lab := ToAttributedLabel text: phtext.
+		placeholder addChild: lab ].
+	
 	select addEventHandler: (BlEventHandler
 			 on: ToAlbumSaveAcceptedEvent
 			 do: [ :event |
@@ -3362,7 +3374,7 @@ ToSandBox class >> selectWithEditingMultiSelection [
 				 event accepted: idx isZero.
 				 idx > 0 ifTrue: [
 					 event client text: ''.
-					 target selectDataAt: idx ] ]).
+					 target listElement selection selectIndex: idx ] ]).
 	^ select
 ]
 

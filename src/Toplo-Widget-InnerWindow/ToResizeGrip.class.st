@@ -1,6 +1,6 @@
 Class {
-	#name : 'ToResizeGrip',
-	#superclass : 'ToElement',
+	#name : #ToResizeGrip,
+	#superclass : #ToElement,
 	#instVars : [
 		'thickness',
 		'initialDragPosition',
@@ -9,95 +9,94 @@ Class {
 		'initialPosition',
 		'initialSize'
 	],
-	#category : 'Toplo-Widget-InnerWindow',
-	#package : 'Toplo-Widget-InnerWindow'
+	#category : 'Toplo-Widget-InnerWindow'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToResizeGrip >> cursorSelector [
 
 	^ self subclassResponsibility 
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToResizeGrip >> defaultBackground [ 
 
 	^ Color transparent
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToResizeGrip >> defaultBorder [
 
 	^ BlBorder empty
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToResizeGrip >> defaultGeometry [
 
 	^ BlRoundedRectangleGeometry cornerRadius: self defaultThickness 
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToResizeGrip >> defaultThickness [
 
 	^ 7
 ]
 
-{ #category : 'mouse processing' }
+{ #category : #'mouse processing' }
 ToResizeGrip >> drag: anElement by: deltaFromInitialPosition [
 
 	self subclassResponsibility 
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToResizeGrip >> hoveredBackground [
 
 	^ Color lightGray alpha: 0.1 
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToResizeGrip >> hoveredBorder [
 
 	^ BlBorder paint: (Color lightGray alpha: 0.2)
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToResizeGrip >> initialBackground [
 
 	^ initialBackground 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToResizeGrip >> initialBorder [
 
 	^ initialBorder 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToResizeGrip >> initialDragPosition [
 
 	^ initialDragPosition
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToResizeGrip >> initialDragPosition: aPoint [
 
 	initialDragPosition := aPoint
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToResizeGrip >> initialPosition: aPoint [
 
 	initialPosition := aPoint
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToResizeGrip >> initialSize: aPoint [
 
 	initialSize := aPoint
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToResizeGrip >> initialize [
 
 	super initialize.
@@ -114,32 +113,32 @@ ToResizeGrip >> initialize [
 
 ]
 
-{ #category : 'mouse processing' }
+{ #category : #'mouse processing' }
 ToResizeGrip >> layoutIn: anElement [
 
 	self subclassResponsibility 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToResizeGrip >> resizeCursor [
 
 	^ BlCursor perform: self cursorSelector
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToResizeGrip >> target: anElement [
 
 	self layoutIn: anElement.
 	self addEventHandler: (ToResizeGripEventHandler new gripTarget: anElement)
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToResizeGrip >> thickness [
 
 	^ thickness
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToResizeGrip >> thickness: aNumber [
 
 	thickness := aNumber

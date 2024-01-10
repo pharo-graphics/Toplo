@@ -5,7 +5,8 @@ Class {
 		'listElement',
 		'maxHeight',
 		'dataFilter',
-		'filterResult'
+		'filterResult',
+		'minHeight'
 	],
 	#category : #'Toplo-Widget-Select'
 }
@@ -14,6 +15,12 @@ Class {
 ToSelectWindowManager >> defaultMaxHeight [
 
 	^ 300
+]
+
+{ #category : #initialization }
+ToSelectWindowManager >> defaultMinHeight [
+
+	^ 50
 ]
 
 { #category : #initialization }
@@ -34,6 +41,9 @@ ToSelectWindowManager >> defaultSizeHook [
 ToSelectWindowManager >> element: anElement [
 
 	super element: anElement.
+	self listElement addEventHandler: (ToSelectListEventHandler new
+			 select: anElement;
+			 yourself).
 	dataFilter := ToListElementFilter new.
 	dataFilter onInstalledIn: anElement.
 	dataFilter originalDataProvider: [ anElement data ].
@@ -79,7 +89,7 @@ ToSelectWindowManager >> filterResultEvent: aFilterResultEvent [
 							 ifFalse: [ le selection doDeselectIndex: idx ] ] ].
 				 self onFilterListRemoved ]).
 			
-	self fitListHeightToContent: filterResult listElement.
+	"self fitListHeightToContent: filterResult listElement."
 	self currentWindow ifNil: [ self popupEvent: aFilterResultEvent ].
 	self currentWindow root removeChildren.
 	self currentWindow root addChild: filterResult listElement
@@ -104,26 +114,12 @@ ToSelectWindowManager >> filterTextFieldUpdated: anEvent [
 		ifNotEmpty: [ :filter | dataFilter dataFilterPattern: filter ]
 ]
 
-{ #category : #'window handling' }
-ToSelectWindowManager >> fitListHeightToContent: aListElement [
-
-	aListElement height < self maxHeight ifFalse: [ ^ self ].
-	aListElement vFitContent.
-	aListElement infinite vFitContent.
-	aListElement maxHeight: self maxHeight.
-	self flag:
-		'Have to use this workaround. Else, selection in the listElement don''t work correctly'.
-	aListElement hasParent ifFalse: [ ^ self ].
-	self currentWindowDo: [ :win |
-		win root removeChildren.
-		win root addChild: aListElement ]
-]
-
 { #category : #initialization }
 ToSelectWindowManager >> initialize [
 
 	super initialize.
 	maxHeight := self defaultMaxHeight.
+	minHeight := self defaultMinHeight.
 	listElement := self newListElement.
 	self builder: [ :selectWin :request |
 		selectWin root hMatchParent.
@@ -151,6 +147,18 @@ ToSelectWindowManager >> maxHeight: anInteger [
 	maxHeight := anInteger
 ]
 
+{ #category : #accessing }
+ToSelectWindowManager >> minHeight [
+
+	^ minHeight
+]
+
+{ #category : #accessing }
+ToSelectWindowManager >> minHeight: anInteger [
+
+	minHeight := anInteger
+]
+
 { #category : #initialization }
 ToSelectWindowManager >> newListElement [
 
@@ -161,6 +169,7 @@ ToSelectWindowManager >> newListElement [
 	newListElement selection: ToCherryPickListSelectionStrategy new.
 	newListElement requestFocusOnMouseDown: false.
 	newListElement infinite maxHeight: self maxHeight.
+	newListElement infinite minHeight: self minHeight.
 	newListElement infinite vFitContent.
 
 	^ newListElement
@@ -181,10 +190,4 @@ ToSelectWindowManager >> onFilterListRemoved [
 
 	self element textField text: ''.
 	filterResult := nil
-]
-
-{ #category : #'window handling' }
-ToSelectWindowManager >> reset [
-
-	self fitListHeightToContent: self listElement
 ]

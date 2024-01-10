@@ -1,27 +1,26 @@
 Class {
-	#name : 'ToResizeGripEventHandler',
-	#superclass : 'BlCustomEventHandler',
+	#name : #ToResizeGripEventHandler,
+	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'gripTarget'
 	],
-	#category : 'Toplo-Widget-InnerWindow',
-	#package : 'Toplo-Widget-InnerWindow'
+	#category : 'Toplo-Widget-InnerWindow'
 }
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToResizeGripEventHandler >> dragEndEvent: anEvent [
 
 	anEvent consumed: true.
 	anEvent currentTarget mouseCursor: BlCursor default
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToResizeGripEventHandler >> dragEvent: anEvent [
 
 	anEvent currentTarget drag: gripTarget by: anEvent position - anEvent currentTarget initialDragPosition
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToResizeGripEventHandler >> dragStartEvent: anEvent [
 
 
@@ -31,7 +30,7 @@ ToResizeGripEventHandler >> dragStartEvent: anEvent [
 	anEvent currentTarget initialSize: gripTarget size
 ]
 
-{ #category : 'api - accessing' }
+{ #category : #'api - accessing' }
 ToResizeGripEventHandler >> eventsToHandle [
 
 	^ {
@@ -43,19 +42,19 @@ ToResizeGripEventHandler >> eventsToHandle [
 		  BlMouseLeaveEvent }
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToResizeGripEventHandler >> gripTarget [
 
 	^ gripTarget
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToResizeGripEventHandler >> gripTarget: anElement [
 
 	gripTarget := anElement.
 ]
 
-{ #category : 'mouse handlers' }
+{ #category : #'mouse handlers' }
 ToResizeGripEventHandler >> hover: anElement [
 
 	anElement mouseCursor: anElement resizeCursor.
@@ -63,7 +62,7 @@ ToResizeGripEventHandler >> hover: anElement [
 	anElement background: anElement hoveredBackground
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToResizeGripEventHandler >> leave: anElement [
 
 	anElement border: anElement initialBorder.
@@ -72,7 +71,7 @@ ToResizeGripEventHandler >> leave: anElement [
 
 ]
 
-{ #category : 'mouse handlers' }
+{ #category : #'mouse handlers' }
 ToResizeGripEventHandler >> mouseDownEvent: anEvent [
 
 
@@ -80,7 +79,7 @@ ToResizeGripEventHandler >> mouseDownEvent: anEvent [
 	self hover: anEvent currentTarget
 ]
 
-{ #category : 'mouse handlers' }
+{ #category : #'mouse handlers' }
 ToResizeGripEventHandler >> mouseEnterEvent: anEvent [
 
 	anEvent consumed: true.
@@ -88,7 +87,7 @@ ToResizeGripEventHandler >> mouseEnterEvent: anEvent [
 		self hover: anEvent currentTarget ]
 ]
 
-{ #category : 'mouse handlers' }
+{ #category : #'mouse handlers' }
 ToResizeGripEventHandler >> mouseLeaveEvent: anEvent [
 
 	anEvent consumed: true.

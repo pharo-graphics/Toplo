@@ -21,24 +21,20 @@ Class {
 	#category : #'Toplo-Widget-Select'
 }
 
-{ #category : #accessing }
+{ #category : #'accessing nodes' }
 ToSelect >> addAllDataNodes: aNodeCollection [
 
 	aNodeCollection do: [ :n | self addDataNode: n ]
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing list' }
 ToSelect >> addData: aData [
 
-	| idx |
 	self data add: aData.
-	idx := self data size.
-	self dispatchEvent: (ToSelectDataAddedEvent new
-			 index: idx;
-			 yourself)
+	self listElement selection selectIndex: data size
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing nodes' }
 ToSelect >> addDataNode: aNode [
 
 	selectFlow addChild: aNode before: selectTextField
@@ -50,7 +46,7 @@ ToSelect >> data [
 	^ data
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing nodes' }
 ToSelect >> dataNodesDo: aBlock [
 
 	selectFlow childrenDo: [ :child |
@@ -78,13 +74,13 @@ ToSelect >> deselectIndex: anIndex [
 	selection deselect: anIndex - 1 to: anIndex
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 ToSelect >> fakeData [
 
 	^ fakeData ifNil: [ fakeData := '' ]
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 ToSelect >> fakeData: aData [
 
 	fakeData := aData.
@@ -187,12 +183,6 @@ ToSelect >> listElement [
 	^ self windowManager listElement
 ]
 
-{ #category : #'accessing list' }
-ToSelect >> listNodeBuilder: aNodeFactory [
-
-	self listElement nodeBuilder: aNodeFactory
-]
-
 { #category : #initialization }
 ToSelect >> newContentElement [
 
@@ -215,13 +205,13 @@ ToSelect >> newIconContainer [
 		  yourself
 ]
 
-{ #category : #'accessing selection' }
+{ #category : #'accessing nodes' }
 ToSelect >> newNode [
 
 	^ self nodeClass new
 ]
 
-{ #category : #'accessing selection' }
+{ #category : #'accessing nodes' }
 ToSelect >> newNodeHolder [
 
 	^ self nodeHolderClass new
@@ -291,13 +281,13 @@ ToSelect >> nodeClass: aNodeClass [
 	self initializeFakeNode
 ]
 
-{ #category : #'accessing selection' }
+{ #category : #'accessing nodes' }
 ToSelect >> nodeHolderClass [ 
 
 	^ ToSelectNodeHolder
 ]
 
-{ #category : #'accessing selection' }
+{ #category : #'accessing nodes' }
 ToSelect >> nodeHolders [
 
 	^ nodeHolders
@@ -309,41 +299,32 @@ ToSelect >> onListCloseRequest [
 	self textField requestFocus
 ]
 
-{ #category : #'accessing list' }
+{ #category : #'accessing nodes' }
 ToSelect >> refreshNodes [
 
 	| nodes |
+	" first remove all data nodes "
 	self dataNodesDo: [ :node | node removeFromParent ].
 	self nodeHolders reset.
+	" then rebuild current nodes according to current selection "
 	nodes := selection indices collect: [ :idx |
-		         | node holder selected |
+		         | node holder selectedData |
 		         node := self newNode.
 		         holder := self newNodeHolder.
 		         node selectHolder: holder.
 		         self nodeHolders add: holder.
-		         selected := self listElement data at: idx.
+		         selectedData := self listElement data at: idx.
 		         holder
 			         node: node;
 			         position: idx;
 			         select: self;
-			         data: selected.
+			         data: selectedData.
 		         self nodeBuilder value: node value: holder.
 		         node ].
 	self addAllDataNodes: nodes.
-	nodes ifEmpty: [ selectFlow addChild: fakeNode ].
-	"selection indices reverseDo: [ :idx |
-		removedData add: (self listElement data at: idx).
-		self listElement data removeAt: idx ].
-	self listElement selection doDeselectAll."
-	self listElement selection selectIndexes: selection indices.
-	self windowManager reset
-]
-
-{ #category : #accessing }
-ToSelect >> selectDataAt: anIndex [
-
-	self selectIndex: anIndex.
-	self refreshNodes
+	
+	" add the fake node if the selection is empty (to keep a constant minimum height )"
+	nodes ifEmpty: [ selectFlow addChild: fakeNode ]
 ]
 
 { #category : #'accessing selection' }
@@ -377,7 +358,7 @@ ToSelect >> textField [
 	^ selectTextField 
 ]
 
-{ #category : #'accessing list' }
+{ #category : #private }
 ToSelect >> updateDataIndex [
 
 	dataIndex := IdentityDictionary new.

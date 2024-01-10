@@ -120,7 +120,7 @@ BaselineOfToplo >> registerPackages: spec [
 		spec requires:
 			#( #Toplo #'Toplo-Widget-Album' 
 			   #'Toplo-Widget-Button' 
-			   #'Toplo-Widget-Select' #'Toplo-Widget-ComboBox'
+			   #'Toplo-Widget-Select'
 			   #'Toplo-Widget-Image' #'Toplo-Widget-InnerWindow'
 			   #'Toplo-Widget-List' #'Toplo-Widget-Menu' #'Toplo-Widget-Pane' ) ].		
 	

@@ -15,3 +15,11 @@ ToSelectTextFieldSkin >> focusBorderIn: anAlbum [
 
 	^ BlBorder empty
 ]
+
+{ #category : #'event handling' }
+ToSelectTextFieldSkin >> installLookEvent: anEvent [
+
+	super installLookEvent: anEvent.
+	anEvent elementDo: [ :e |
+		"e padding: BlInsets empty" ]
+]

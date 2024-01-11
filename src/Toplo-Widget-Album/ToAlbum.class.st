@@ -68,6 +68,7 @@ ToAlbum >> initialize [
 	super initialize.
 
 	self next: self defaultEditorElement.
+	self rootAlbumElement: self.
 	self next primarySelectionElementClass: ToAlbumPrimarySelectionElement.
 	self addChild: self next.
 	self matchParent.

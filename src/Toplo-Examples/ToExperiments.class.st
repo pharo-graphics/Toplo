@@ -1,7 +1,7 @@
 Class {
 	#name : #ToExperiments,
 	#superclass : #Object,
-	#category : 'Toplo-Examples'
+	#category : #'Toplo-Examples'
 }
 
 { #category : #accessing }
@@ -264,7 +264,7 @@ ToExperiments class >> example_FlowLayoutHorizontal [
 		         constraintsDo: [ :c | 
 			         c horizontal matchParent.
 			         c vertical fitContent ].
-	frame layout cellSpacing: 10.
+	"frame layout cellSpacing: 10."
 	left := BlElement new
 		        background: Color blue;
 		        width: 100;
@@ -273,7 +273,7 @@ ToExperiments class >> example_FlowLayoutHorizontal [
 	fill := BlElement new
 		        background: Color yellow;
 		        height: 20; width: 200;
-		        constraintsDo: [ :c | c minWidth: 50. c flow  newLine: false. c flow vertical alignCenter ].
+		        constraintsDo: [ :c | c minWidth: 50. c flow  newLine: false. c flow vertical alignCenter. c linear vertical alignCenter].
 			
 	right := BlElement new
 		         background: Color red;

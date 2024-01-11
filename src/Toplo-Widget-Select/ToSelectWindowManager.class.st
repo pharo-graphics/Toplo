@@ -64,6 +64,13 @@ ToSelectWindowManager >> elementEventHandlerClass [
 	^ ToSelectEventHandler
 ]
 
+{ #category : #enumerating }
+ToSelectWindowManager >> filterResultDo: aBlock [
+
+	filterResult ifNil: [ ^ self ].
+	aBlock value: filterResult 
+]
+
 { #category : #accessing }
 ToSelectWindowManager >> filterResultEvent: aFilterResultEvent [
 
@@ -89,7 +96,6 @@ ToSelectWindowManager >> filterResultEvent: aFilterResultEvent [
 							 ifFalse: [ le selection doDeselectIndex: idx ] ] ].
 				 self onFilterListRemoved ]).
 			
-	"self fitListHeightToContent: filterResult listElement."
 	self currentWindow ifNil: [ self popupEvent: aFilterResultEvent ].
 	self currentWindow root removeChildren.
 	self currentWindow root addChild: filterResult listElement

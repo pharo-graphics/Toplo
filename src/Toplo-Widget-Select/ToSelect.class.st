@@ -1,6 +1,6 @@
 Class {
 	#name : #ToSelect,
-	#superclass : #ToPane,
+	#superclass : #ToElement,
 	#instVars : [
 		'windowManager',
 		'icon',
@@ -10,13 +10,14 @@ Class {
 		'nodeHolders',
 		'iconContainer',
 		'selectTextField',
-		'selectFlow',
 		'fakeData',
 		'fakeNode',
 		'data',
 		'selection',
 		'dataIndex',
-		'removedData'
+		'removedData',
+		'nodeContainer',
+		'nodeWrapping'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -37,7 +38,7 @@ ToSelect >> addData: aData [
 { #category : #'accessing nodes' }
 ToSelect >> addDataNode: aNode [
 
-	selectFlow addChild: aNode before: selectTextField
+	nodeContainer addChild: aNode before: selectTextField
 ]
 
 { #category : #accessing }
@@ -49,7 +50,7 @@ ToSelect >> data [
 { #category : #'accessing nodes' }
 ToSelect >> dataNodesDo: aBlock [
 
-	selectFlow childrenDo: [ :child |
+	nodeContainer childrenDo: [ :child |
 		child ~= selectTextField ifTrue: [ aBlock value: child ] ].
 ]
 
@@ -66,6 +67,12 @@ ToSelect >> defaultNodeBuilder [
 ToSelect >> defaultNodeClass [ 
 
 	^ ToSelectNode
+]
+
+{ #category : #initialization }
+ToSelect >> defaultNodeWrapping [
+
+	^ true
 ]
 
 { #category : #'accessing selection' }
@@ -85,6 +92,12 @@ ToSelect >> fakeData: aData [
 
 	fakeData := aData.
 	self initializeFakeNode
+]
+
+{ #category : #'accessing selection' }
+ToSelect >> filterResultDo: aBlock [
+
+	windowManager filterResultDo: aBlock
 ]
 
 { #category : #accessing }
@@ -114,10 +127,11 @@ ToSelect >> initialize [
 
 	| sharedEventsDistributor |
 	super initialize.
+	nodeWrapping := self defaultNodeWrapping.
 	selection := BlCompositeSelection new.
 	removedData := IdentitySet new.
 	self fitContent.
-	self layout beHorizontal.
+	self layout: BlLinearLayout horizontal.
 	nodeClass := self defaultNodeClass.
 	nodeHolders := OrderedCollection new.
 	nodeBuilder := self defaultNodeBuilder.
@@ -125,7 +139,7 @@ ToSelect >> initialize [
 	" the element that holds the flow"
 	contentElement := self newContentElement.
 	" the flow element taht contains nodes + the text field "
-	selectFlow := self newSelectFlow.
+	nodeContainer := self newNodeContainer.
 
 	" the text field for the select input "
 	selectTextField := self newSelectTextField.
@@ -147,15 +161,14 @@ ToSelect >> initialize [
 	self listElement addEventHandler: sharedEventsDistributor.
 	self listElement infinite addEventHandler: sharedEventsDistributor.
 	self data addEventHandler: sharedEventsDistributor.
-	selectFlow addChild: selectTextField.
-	contentElement addChild: selectFlow.
+	nodeContainer addChild: selectTextField.
+	contentElement addChild: nodeContainer.
 
 	iconContainer := self newIconContainer.
 	self addChildren: {
 			contentElement.
 			iconContainer }.
-
-	self initializeFakeNode
+	self initializeFakeNode 
 ]
 
 { #category : #initialization }
@@ -166,7 +179,7 @@ ToSelect >> initializeFakeNode [
 
 	| fakeHolder |
 	fakeNode := self newNode.
-	fakeNode id: #'fake-node'.
+	fakeNode id: #'fakeNode'.
 	fakeHolder := self newNodeHolder.
 	fakeNode selectHolder: fakeHolder.
 	fakeHolder
@@ -174,6 +187,9 @@ ToSelect >> initializeFakeNode [
 		data: self fakeData.
 	self nodeBuilder value: fakeNode value: fakeHolder.
 	fakeNode width: 0.
+	fakeNode constraintsDo: [ :c |
+			  c flow vertical alignCenter.
+			  c linear vertical alignCenter ].
 	self refreshNodes
 ]
 
@@ -191,6 +207,7 @@ ToSelect >> newContentElement [
 		  hMatchParent;
 		  id: #contentElement;
 		  layout: BlLinearLayout horizontal;
+		  constraintsDo: [ :c | c linear vertical alignCenter ];
 		  yourself
 ]
 
@@ -211,6 +228,26 @@ ToSelect >> newNode [
 	^ self nodeClass new
 ]
 
+{ #category : #initialization }
+ToSelect >> newNodeContainer [
+
+	^ ToElement new
+		  vFitContent;
+		  hMatchParent;
+		  id: #'nodeContainer';
+		  layout: self newNodeContainerLayout;
+		  constraintsDo: [ :c | c linear vertical alignCenter ];
+		  yourself
+]
+
+{ #category : #private }
+ToSelect >> newNodeContainerLayout [
+
+	^ nodeWrapping
+		ifTrue: [ BlFlowLayout horizontal ]
+		ifFalse: [ BlLinearLayout horizontal ]
+]
+
 { #category : #'accessing nodes' }
 ToSelect >> newNodeHolder [
 
@@ -224,28 +261,11 @@ ToSelect >> newRawSkin [
 ]
 
 { #category : #initialization }
-ToSelect >> newSelectFlow [
-
-	^ ToElement new
-		  vFitContent;
-		  hMatchParent;
-		  id: #'select-content';
-		  layout: BlFlowLayout horizontal;
-		  constraintsDo: [ :c | c linear vertical alignCenter ];
-		  yourself
-]
-
-{ #category : #initialization }
 ToSelect >> newSelectTextField [
 
-	^ ToTextField new
-		  vMatchParent;
-		  hFitContent;
-		  id: #'select-content-textField';
-		  constraintsDo: [ :c | c flow vertical alignCenter ];
-		  withSaveCapability;
-		  withoutEditsFeedback;
-		  defaultRawSkin: ToSelectTextFieldSkin new;
+	^ ToSelectTextField new
+		  select: self;
+		  id: #textField;
 		  yourself
 ]
 
@@ -281,6 +301,12 @@ ToSelect >> nodeClass: aNodeClass [
 	self initializeFakeNode
 ]
 
+{ #category : #accessing }
+ToSelect >> nodeContainer [
+
+	^ nodeContainer
+]
+
 { #category : #'accessing nodes' }
 ToSelect >> nodeHolderClass [ 
 
@@ -293,10 +319,30 @@ ToSelect >> nodeHolders [
 	^ nodeHolders
 ]
 
+{ #category : #accessing }
+ToSelect >> nodeWrapping [
+
+	^ nodeWrapping 
+]
+
+{ #category : #accessing }
+ToSelect >> nodeWrapping: aBoolean [
+
+	nodeWrapping = aBoolean ifTrue: [ ^ self ].
+	nodeWrapping := aBoolean.
+	self onNodeWrappingChange.
+]
+
 { #category : #'accessing list' }
 ToSelect >> onListCloseRequest [
 
 	self textField requestFocus
+]
+
+{ #category : #private }
+ToSelect >> onNodeWrappingChange [
+
+	nodeContainer layout: self newNodeContainerLayout
 ]
 
 { #category : #'accessing nodes' }
@@ -324,7 +370,7 @@ ToSelect >> refreshNodes [
 	self addAllDataNodes: nodes.
 	
 	" add the fake node if the selection is empty (to keep a constant minimum height )"
-	nodes ifEmpty: [ selectFlow addChild: fakeNode ]
+	nodes ifEmpty: [ nodeContainer addChild: fakeNode ]
 ]
 
 { #category : #'accessing selection' }

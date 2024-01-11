@@ -26,8 +26,7 @@ ToSelectNode >> addRemoveButton [
 				 | list |
 				 event consumed: true.
 				 " remove the button by deselecting the corresponding list node in the list "
-				 list := self selectHolder select listElement.
-				 list selection deselectIndex: self selectHolder position ]).
+				 self removeFromSelect ]).
 
 	" consume mouseUp/mouseDown to avoid unwanted opening/closing of the popup list element"
 	but addEventHandler: (BlEventHandler
@@ -121,6 +120,15 @@ ToSelectNode >> removable: aBoolean [
 	removable := aBoolean.
 	removable ifTrue: [ self addRemoveButton ]
 	
+]
+
+{ #category : #'private configurating' }
+ToSelectNode >> removeFromSelect [
+	" remove the node by deselecting the corresponding list node in the list "
+
+	| list |
+	list := self selectHolder select listElement.
+	list selection deselectIndex: self selectHolder position
 ]
 
 { #category : #'private configurating' }

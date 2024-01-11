@@ -2297,6 +2297,7 @@ ToSandBox class >> example_textField0 [
 
 	| t |
 	t := ToTextField new text: 'AAAA'.
+	t inspect.
 	t background: Color yellow.
 	t openInSpace
 ]

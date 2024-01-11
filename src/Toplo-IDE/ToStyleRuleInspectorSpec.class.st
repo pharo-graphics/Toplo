@@ -1,22 +1,26 @@
 Class {
 	#name : #ToStyleRuleInspectorSpec,
-	#superclass : #SpPresenter,
+	#superclass : #ToStyleSheetThemeExtensionSpec,
 	#instVars : [
 		'selectorLabel',
 		'inspectButton',
 		'propertiesTable',
 		'styleRule',
-		'model'
+		'model',
+		'selectorIcon'
 	],
-	#category : #'Toplo-IDE'
+	#category : #'Toplo-IDE-space-theme-inspector'
 }
 
 { #category : #layout }
 ToStyleRuleInspectorSpec >> defaultLayout [
 
 	^ SpBoxLayout newVertical
-	spacing: 4;
+		  spacing: 4;
 		  add: (SpBoxLayout newHorizontal
+					add: self selectorIcon withConstraints: [ :c |
+					   c width: 20.
+					   c height: 20 ];
 				   add: self selectorLabel expand: true;
 				   add: self inspectButton withConstraints: [ :c |
 					   c width: 20.
@@ -35,30 +39,8 @@ ToStyleRuleInspectorSpec >> initializePresenter [
 		                 icon: (self iconNamed: #smallInspectIt);
 		                 action: [ self styleRule inspect ];
 		                 yourself.
-	propertiesTable := SpTablePresenter new
-		                   beResizable;
-		                   addColumn:
-			                   ((SpStringTableColumn
-				                     title: 'Supplement'
-				                     evaluated: [ :each |
-					                     each isSupplement
-						                     ifTrue: [ 'True' ]
-						                     ifFalse: [ 'False' ] ]) width: 80);
-		                   addColumn: ((SpStringTableColumn
-				                     title: 'Look Event Class'
-				                     evaluated: [ :each | each eventClass name ])
-				                    width: 100);
-		                   addColumn: (SpStringTableColumn
-				                    title: 'Property'
-				                    evaluated: [ :each | each property name ]);
-		                   addColumn: (SpStringTableColumn
-				                    title: 'Value'
-				                    evaluated: [ :each | each value printString ]);
-		                   addColumn: ((SpStringTableColumn
-				                     title: 'Animation'
-				                     evaluated: [ :each |
-					                     each animation printString ]) width: 80);
-		                   yourself.
+	propertiesTable := ToLookEventListenersTableSpec new.
+	selectorIcon := SpImagePresenter new image: (self iconNamed: #blank); yourself.
 ]
 
 { #category : #accessing }
@@ -80,9 +62,22 @@ ToStyleRuleInspectorSpec >> propertiesTable [
 ]
 
 { #category : #accessing }
+ToStyleRuleInspectorSpec >> selectorIcon [
+
+	^ selectorIcon
+]
+
+{ #category : #accessing }
 ToStyleRuleInspectorSpec >> selectorLabel [
 
 	^ selectorLabel
+]
+
+{ #category : #accessing }
+ToStyleRuleInspectorSpec >> skin: anObject [
+
+skin := anObject.
+	self propertiesTable skin: anObject
 ]
 
 { #category : #'as yet unclassified' }
@@ -96,10 +91,12 @@ ToStyleRuleInspectorSpec >> styleRule: aStyleRule [
 
 	| printer |
 	styleRule := aStyleRule.
-	
+
 	printer := ToSelectorPrinter new.
 	aStyleRule selector accept: printer.
-	
-	self propertiesTable items: aStyleRule lookEventListeners.
-	self selectorLabel label: printer contents
+	self selectorLabel label: printer contents.
+
+	self propertiesTable lookEventListeners:
+		aStyleRule lookEventListeners.
+	self selectorIcon image: (self iconForSelector: aStyleRule)
 ]

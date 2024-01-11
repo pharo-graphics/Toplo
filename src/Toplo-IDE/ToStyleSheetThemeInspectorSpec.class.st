@@ -1,15 +1,25 @@
 Class {
-	#name : #ToThemeInspectorSpec,
-	#superclass : #SpPresenter,
+	#name : #ToStyleSheetThemeInspectorSpec,
+	#superclass : #ToStyleSheetThemeExtensionSpec,
 	#instVars : [
 		'styleRuleTree',
 		'scrollSection'
 	],
-	#category : #'Toplo-IDE'
+	#category : #'Toplo-IDE-space-theme-inspector'
 }
 
+{ #category : #'as yet unclassified' }
+ToStyleSheetThemeInspectorSpec >> createStyleRuleSpecFor: aStyleRule [
+
+	^ ToStyleRuleInspectorSpec new
+		  element: self element;
+		  skin: self skin;
+		styleRule: aStyleRule;
+		  yourself
+]
+
 { #category : #accessing }
-ToThemeInspectorSpec >> defaultLayout [
+ToStyleSheetThemeInspectorSpec >> defaultLayout [
 
 	^ SpPanedLayout newHorizontal
 		  add: self styleRuleTree;
@@ -18,13 +28,16 @@ ToThemeInspectorSpec >> defaultLayout [
 ]
 
 { #category : #'initialization - deprecated' }
-ToThemeInspectorSpec >> initializePresenter [
+ToStyleSheetThemeInspectorSpec >> initializePresenter [
 
 	styleRuleTree := SpTreePresenter new
 		                 children: [ :aStyleRule | aStyleRule styleRules ];
 		                 whenSelectedItemChangedDo: [ :aStyleRule |
 			                 self selectedItemInTreeChanged: aStyleRule ];
-		displayBold: [ :aStyleRule | self shouldDisplayBoldFor: aStyleRule ];
+		                 displayBold: [ :aStyleRule |
+			                 self shouldDisplayBoldFor: aStyleRule ];
+		                 displayIcon: [ :aStyleRule |
+			                 self iconForSelector: aStyleRule ];
 		                 display: [ :aStyleRule |
 			                 | printer |
 			                 printer := ToSelectorPrinter new.
@@ -34,19 +47,19 @@ ToThemeInspectorSpec >> initializePresenter [
 		                 yourself.
 	scrollSection := SpScrollableLayout new
 		                 child: (SpLabelPresenter new
-				                  label: '???';
+				                  label: '<- Select a rule on the left panel.';
 				                  yourself);
 		                 yourself
 ]
 
 { #category : #accessing }
-ToThemeInspectorSpec >> scrollSection [
+ToStyleSheetThemeInspectorSpec >> scrollSection [
 
 	^ scrollSection
 ]
 
 { #category : #'as yet unclassified' }
-ToThemeInspectorSpec >> selectedItemInTreeChanged: aStyleRule [
+ToStyleSheetThemeInspectorSpec >> selectedItemInTreeChanged: aStyleRule [
 
 	| path arrayOfRules arrayOfSpecRules layoutForRules |
 	path := self styleRuleTree selection selectedPath.
@@ -54,23 +67,19 @@ ToThemeInspectorSpec >> selectedItemInTreeChanged: aStyleRule [
 	arrayOfRules := self styleRuleTree pathItemOf: path.
 
 	arrayOfSpecRules := arrayOfRules collect: [ :each |
-		                    ToStyleRuleInspectorSpec
-			                                          new
-			                                          styleRule: each;
-			                                          yourself.
-		                    ].
+		                    self createStyleRuleSpecFor: each ].
 	layoutForRules := SpBoxLayout newVertical.
 	arrayOfSpecRules reverseDo: [ :each |
 		layoutForRules
 			add: each
-			height: 60 + (each styleRule lookEventListeners size * 24) ].
+			height: 50 + (each styleRule lookEventListeners size * 20) ].
 	self scrollSection child: (SpPresenter new
 			 layout: layoutForRules;
 			 yourself)
 ]
 
 { #category : #'as yet unclassified' }
-ToThemeInspectorSpec >> shouldDisplayBoldFor: aStyleRule [
+ToStyleSheetThemeInspectorSpec >> shouldDisplayBoldFor: aStyleRule [
 
 	| path arrayOfRules |
 	path := self styleRuleTree selection selectedPath.
@@ -80,13 +89,27 @@ ToThemeInspectorSpec >> shouldDisplayBoldFor: aStyleRule [
 ]
 
 { #category : #accessing }
-ToThemeInspectorSpec >> styleRuleTree [
+ToStyleSheetThemeInspectorSpec >> skin: aSkin [
+
+	skin := aSkin.
+	self styleRuleTree refresh
+]
+
+{ #category : #accessing }
+ToStyleSheetThemeInspectorSpec >> styleRuleTree [
 
 	^ styleRuleTree.
 ]
 
-{ #category : #'t - style rules holder' }
-ToThemeInspectorSpec >> styleRules: aCollection [
+{ #category : #'as yet unclassified' }
+ToStyleSheetThemeInspectorSpec >> styleSheetTheme: aToStyleSheetTheme [
 
-	self styleRuleTree roots: aCollection
+	self styleRuleTree roots: aToStyleSheetTheme  styleSheet styleRules
+]
+
+{ #category : #initialization }
+ToStyleSheetThemeInspectorSpec >> updatePresenter [
+
+	super updatePresenter.
+	self selectedItemInTreeChanged: self styleRuleTree selectedItem
 ]

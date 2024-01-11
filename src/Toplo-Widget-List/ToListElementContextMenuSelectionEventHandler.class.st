@@ -2,7 +2,7 @@ Class {
 	#name : #ToListElementContextMenuSelectionEventHandler,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
-		'contextMenuSelection'
+		'selection'
 	],
 	#category : #'Toplo-Widget-List-Context-menu'
 }
@@ -24,19 +24,13 @@ ToListElementContextMenuSelectionEventHandler >> contextMenuClosedEvent: anEvent
 
 	| target |
 	target := anEvent currentTarget.
-	self contextMenuSelection deselectAll.
+	selection deselectAll.
 	target dispatchEvent:
 		(ToListElementContextMenuSelectionChangedEvent new
 			 selectedIndexes: #(  );
 			 sourceEvent: anEvent;
 			 yourself).
 	target enableScrolledEvent
-]
-
-{ #category : #accessing }
-ToListElementContextMenuSelectionEventHandler >> contextMenuSelection [
-
-	^ contextMenuSelection
 ]
 
 { #category : #'selection managing' }
@@ -65,7 +59,7 @@ ToListElementContextMenuSelectionEventHandler >> eventsToHandle [
 ToListElementContextMenuSelectionEventHandler >> initialize [
 
 	super initialize.
-	contextMenuSelection := ToInfiniteSelectionModel new
+	selection := BlCompositeSelection new
 
 ]
 
@@ -86,11 +80,8 @@ ToListElementContextMenuSelectionEventHandler >> listElementContextMenuRequest: 
 	childNode := targetChildren last.
 
 	childNode holder isSelected
-		ifTrue: [
-			self contextMenuSelection selectIndexes:
-				target selection selectedIndexes ]
-		ifFalse: [
-		self contextMenuSelection selectIndex: childNode holder position ].
+		ifTrue: [	 selection selectAllIndexes: target selection selectedIndexes ]
+		ifFalse: [ selection selectOnlyIndex: childNode holder position ].
 
 	anEvent selectedIndexes: self secondarySelectionIndexes.
 
@@ -146,5 +137,5 @@ ToListElementContextMenuSelectionEventHandler >> secondarySelectionElementClass 
 { #category : #accessing }
 ToListElementContextMenuSelectionEventHandler >> secondarySelectionIndexes [ 
 
-	^ self contextMenuSelection selectedIndexes
+	^ selection indices
 ]

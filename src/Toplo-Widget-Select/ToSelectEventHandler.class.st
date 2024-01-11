@@ -7,7 +7,7 @@ Class {
 { #category : #'element handlers' }
 ToSelectEventHandler >> collectionAddEvent: anEvent [
 
-	anEvent currentTarget updateDataIndex
+	anEvent currentTarget onDataUpdated
 ]
 
 { #category : #'element handlers' }
@@ -19,19 +19,19 @@ ToSelectEventHandler >> collectionFilterEvent: anEvent [
 { #category : #'element handlers' }
 ToSelectEventHandler >> collectionRemoveEvent: anEvent [
 
-	anEvent currentTarget updateDataIndex
+	anEvent currentTarget onDataUpdated
 ]
 
 { #category : #'element handlers' }
 ToSelectEventHandler >> collectionUpdateAllEvent: anEvent [
 
-	anEvent currentTarget updateDataIndex
+	anEvent currentTarget onDataUpdated
 ]
 
 { #category : #'element handlers' }
 ToSelectEventHandler >> collectionUpdateEvent: anEvent [
 
-	anEvent currentTarget updateDataIndex
+	anEvent currentTarget onDataUpdated
 ]
 
 { #category : #'element handlers' }

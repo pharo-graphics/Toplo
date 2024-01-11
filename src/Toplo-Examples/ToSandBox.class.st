@@ -437,18 +437,45 @@ ToSandBox class >> example_EditorWithoutSoftLine [
 { #category : #list }
 ToSandBox class >> example_FilterOnListWithAllClassesAndTraitsSorted [
 
-	| l pane filter |
+	| listElement pane filterField dataFilter data |
 	pane := ToPane new
 		        beVertical;
 		        matchParent.
-	filter := ToTextField new.
-	l := ToListElement new nodeBuilder: [  :node :holder | 
-			node addChild: (ToClassNameViewExample new class: holder data position: holder position; yourself) ].
-	l data addAll: (Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]).
-	l margin: (BlInsets all: 2).
-	filter margin: (BlInsets all: 2).
-	pane addChild: l.
-	pane addChild: filter.
+	filterField := ToTextField new.
+	listElement := ToListElement new nodeBuilder: [ :node :holder |
+		               node addChild: (ToClassNameViewExample new
+				                class: holder data position: holder position;
+				                yourself) ].
+	data := Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ].
+	listElement data addAll: data.
+	listElement margin: (BlInsets all: 2).
+	filterField margin: (BlInsets all: 2).
+
+	dataFilter := ToListElementFilter new.
+	dataFilter onInstalledIn: listElement.
+	filterField addEventHandler: (BlEventHandler
+			 on: AlbTextEditedEvent
+			 do: [
+				 | pattern |
+				 listElement selection deselectAll.
+				 pattern := filterField text asString.
+				 dataFilter dataFilterPattern: pattern ]).
+
+	listElement addEventHandler: (BlEventHandler
+			 on: ToDataFilterResultEvent
+			 do: [ :event | listElement data filterResult: event data ]).
+
+	listElement placeholderBuilder: [ :ph :e |
+		| lab |
+		lab := ToAttributedLabel new text: ('No Data' asRopedText
+				        foreground: Color lightGray;
+				        fontSize: 24;
+				        yourself).
+		lab matchParent.
+		ph addChild: lab ].
+
+	pane addChild: listElement.
+	pane addChild: filterField.
 	pane openInSpace
 ]
 

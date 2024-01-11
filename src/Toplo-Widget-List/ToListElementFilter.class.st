@@ -106,7 +106,7 @@ ToListElementFilter >> filterProcessIn: anElement [
 { #category : #'private filtering' }
 ToListElementFilter >> initializeOriginalData [
 
-	originalData :=  originalDataProvider value
+	originalData :=  originalDataProvider value asArray
 ]
 
 { #category : #'api - hooks' }
@@ -130,7 +130,6 @@ ToListElementFilter >> onUninstalledIn: anElement [
 { #category : #accessing }
 ToListElementFilter >> originalDataProvider: aBlock [
 
-	" returns an array "
 	originalDataProvider := aBlock.
 	self initializeOriginalData 
 ]

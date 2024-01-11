@@ -81,6 +81,12 @@ TToListElementDecorator >> maxHeight: aHeight [
 	self next maxHeight: aHeight
 ]
 
+{ #category : #'t - accessing constraints' }
+TToListElementDecorator >> minHeight: aHeight [
+
+	self next minHeight: aHeight
+]
+
 { #category : #'t - infinite accessing' }
 TToListElementDecorator >> next [
 

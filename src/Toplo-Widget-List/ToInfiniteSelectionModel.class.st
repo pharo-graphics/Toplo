@@ -8,6 +8,12 @@ Class {
 	#category : #'Toplo-Widget-List-Selection'
 }
 
+{ #category : #testing }
+ToInfiniteSelectionModel class >> isDeprecated [ 
+
+	^ true
+]
+
 { #category : #printing }
 ToInfiniteSelectionModel class >> modelName [
 	^ 'Selection'

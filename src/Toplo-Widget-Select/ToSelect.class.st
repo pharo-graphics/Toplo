@@ -3,20 +3,12 @@ Class {
 	#superclass : #ToElement,
 	#instVars : [
 		'windowManager',
-		'icon',
-		'contentElement',
 		'nodeClass',
 		'nodeBuilder',
 		'nodeHolders',
-		'iconContainer',
-		'selectTextField',
 		'fakeData',
-		'fakeNode',
 		'data',
 		'selection',
-		'dataIndex',
-		'removedData',
-		'nodeContainer',
 		'nodeWrapping'
 	],
 	#category : #'Toplo-Widget-Select-Core'
@@ -38,7 +30,7 @@ ToSelect >> addData: aData [
 { #category : #'accessing nodes' }
 ToSelect >> addDataNode: aNode [
 
-	nodeContainer addChild: aNode before: selectTextField
+	self nodeContainer addChild: aNode before: self textField
 ]
 
 { #category : #accessing }
@@ -50,8 +42,7 @@ ToSelect >> data [
 { #category : #'accessing nodes' }
 ToSelect >> dataNodesDo: aBlock [
 
-	nodeContainer childrenDo: [ :child |
-		child ~= selectTextField ifTrue: [ aBlock value: child ] ].
+	self nodeHolders do: [ :holder |	aBlock value: holder node ].
 ]
 
 { #category : #initialization }
@@ -94,6 +85,12 @@ ToSelect >> fakeData: aData [
 	self initializeFakeNode
 ]
 
+{ #category : #private }
+ToSelect >> fakeNode [
+
+	^ self childWithId: #fakeNode ifNone: [  ]
+]
+
 { #category : #'accessing selection' }
 ToSelect >> filterResultDo: aBlock [
 
@@ -103,7 +100,7 @@ ToSelect >> filterResultDo: aBlock [
 { #category : #accessing }
 ToSelect >> icon [
 
-	^ icon
+	^ self childWithId: #icon ifNone: [  ]
 ]
 
 { #category : #accessing }
@@ -111,25 +108,24 @@ ToSelect >> icon: anElement [
 
 	anElement = self icon ifTrue: [ ^ self ].
 	self icon ifNotNil: [ :s | self icon removeFromParent ].
-	icon := anElement.
 	anElement ifNil: [ ^ self ].
+	anElement id: #icon.
 	self iconContainer addChild: anElement
 ]
 
 { #category : #accessing }
 ToSelect >> iconContainer [
 
-	^ iconContainer
+	^ self childWithId: #iconContainer ifNone: [  ]
 ]
 
 { #category : #initialization }
 ToSelect >> initialize [
 
-	| sharedEventsDistributor |
+	| sharedEventsDistributor contentElement nodeContainer textField | 
 	super initialize.
 	nodeWrapping := self defaultNodeWrapping.
 	selection := BlCompositeSelection new.
-	removedData := IdentitySet new.
 	self fitContent.
 	self layout: BlLinearLayout horizontal.
 	nodeClass := self defaultNodeClass.
@@ -140,10 +136,12 @@ ToSelect >> initialize [
 	contentElement := self newContentElement.
 	" the flow element taht contains nodes + the text field "
 	nodeContainer := self newNodeContainer.
-
+	contentElement addChild: nodeContainer.
+	self addChild: contentElement.
+	 
 	" the text field for the select input "
-	selectTextField := self newSelectTextField.
-	selectTextField requestFocus.
+	textField := self newTextField.
+	textField requestFocus.
 	sharedEventsDistributor := BlSharedEventDistributor new.
 	sharedEventsDistributor
 		adjustMousePosition: false;
@@ -153,21 +151,17 @@ ToSelect >> initialize [
 				ToAlbumClientEvent.
 				ToListSelectionChangedEvent.
 				ToInfiniteSelectionDirtyEvent }.
-	selectTextField addEventHandler: sharedEventsDistributor.
+	textField addEventHandler: sharedEventsDistributor.
 	self addEventHandler: sharedEventsDistributor.
+	nodeContainer addChild: textField.
 
 	data := ToObservableCollection new.
 	windowManager := ToSelectWindowManager new element: self.
 	self listElement addEventHandler: sharedEventsDistributor.
 	self listElement infinite addEventHandler: sharedEventsDistributor.
 	self data addEventHandler: sharedEventsDistributor.
-	nodeContainer addChild: selectTextField.
-	contentElement addChild: nodeContainer.
-
-	iconContainer := self newIconContainer.
-	self addChildren: {
-			contentElement.
-			iconContainer }.
+	
+	self addChild: self newIconContainer.
 	self initializeFakeNode 
 ]
 
@@ -177,9 +171,9 @@ ToSelect >> initializeFakeNode [
 	suitable minimum height according to the node class, the node builder 
 	and the data kind."
 
-	| fakeHolder |
+	| fakeHolder fakeNode |
 	fakeNode := self newNode.
-	fakeNode id: #'fakeNode'.
+	fakeNode id: #fakeNode.
 	fakeHolder := self newNodeHolder.
 	fakeNode selectHolder: fakeHolder.
 	fakeHolder
@@ -190,7 +184,8 @@ ToSelect >> initializeFakeNode [
 	fakeNode constraintsDo: [ :c |
 			  c flow vertical alignCenter.
 			  c linear vertical alignCenter ].
-	self refreshNodes
+	" add the fake node if the selection is empty (to keep a constant minimum height )"
+	self nodeContainer addChild: fakeNode.
 ]
 
 { #category : #accessing }
@@ -261,7 +256,7 @@ ToSelect >> newRawSkin [
 ]
 
 { #category : #initialization }
-ToSelect >> newSelectTextField [
+ToSelect >> newTextField [
 
 	^ ToSelectTextField new
 		  select: self;
@@ -304,7 +299,7 @@ ToSelect >> nodeClass: aNodeClass [
 { #category : #accessing }
 ToSelect >> nodeContainer [
 
-	^ nodeContainer
+	^ self childWithId: #nodeContainer
 ]
 
 { #category : #'accessing nodes' }
@@ -333,6 +328,12 @@ ToSelect >> nodeWrapping: aBoolean [
 	self onNodeWrappingChange.
 ]
 
+{ #category : #private }
+ToSelect >> onDataUpdated [
+
+	windowManager onDataUpdatedInSelect
+]
+
 { #category : #'accessing list' }
 ToSelect >> onListCloseRequest [
 
@@ -342,7 +343,7 @@ ToSelect >> onListCloseRequest [
 { #category : #private }
 ToSelect >> onNodeWrappingChange [
 
-	nodeContainer layout: self newNodeContainerLayout
+	self nodeContainer layout: self newNodeContainerLayout
 ]
 
 { #category : #'accessing nodes' }
@@ -367,10 +368,7 @@ ToSelect >> refreshNodes [
 			         data: selectedData.
 		         self nodeBuilder value: node value: holder.
 		         node ].
-	self addAllDataNodes: nodes.
-	
-	" add the fake node if the selection is empty (to keep a constant minimum height )"
-	nodes ifEmpty: [ nodeContainer addChild: fakeNode ]
+	self addAllDataNodes: nodes
 ]
 
 { #category : #'accessing selection' }
@@ -401,14 +399,7 @@ ToSelect >> selection [
 { #category : #accessing }
 ToSelect >> textField [
 
-	^ selectTextField 
-]
-
-{ #category : #private }
-ToSelect >> updateDataIndex [
-
-	dataIndex := IdentityDictionary new.
-	self data withIndexDo: [ :d :i | dataIndex at: d put: i ]
+	^ self childWithId: #textField 
 ]
 
 { #category : #accessing }

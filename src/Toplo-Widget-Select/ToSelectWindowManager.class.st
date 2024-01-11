@@ -46,7 +46,6 @@ ToSelectWindowManager >> element: anElement [
 			 yourself).
 	dataFilter := ToListElementFilter new.
 	dataFilter onInstalledIn: anElement.
-	dataFilter originalDataProvider: [ anElement data ].
 	self element data addEventHandler: (BlEventHandler
 			 on: ToCollectionAfterChangeEvent
 			 do: [ self listElement data updateAllWith: self element data ]).
@@ -189,6 +188,12 @@ ToSelectWindowManager >> onCloseRequest [
 	self element onListCloseRequest.
 
 
+]
+
+{ #category : #private }
+ToSelectWindowManager >> onDataUpdatedInSelect [
+
+	dataFilter initializeOriginalData
 ]
 
 { #category : #'window handling' }

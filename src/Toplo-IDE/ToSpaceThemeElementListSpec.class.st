@@ -11,17 +11,31 @@ Class {
 { #category : #column }
 ToSpaceThemeElementListSpec class >> nameColumn [
 
-	^ (SpStringTableColumn
-		   title: 'Name'
-		   evaluated: [ :element | element printString ]) displayColor: [
-		  :element |
-		  element userData
-			  at: #skinManager
-			  ifPresent: [ :skinManager |
-				  skinManager installedSkin
-					  ifNil: [ Smalltalk ui theme dangerTextColor ]
-					  ifNotNil: [ skinManager installedSkin inspectorDisplayColor ] ]
-			  ifAbsent: [ Smalltalk ui theme dangerTextColor ] ]
+	| column |
+	column := SpStringTableColumn
+		          title: 'Name'
+		          evaluated: [ :element | element printString ].
+	column
+		displayColor: [ :element |
+			element userData
+				at: #skinManager
+				ifPresent: [ :skinManager |
+					skinManager installedSkin
+						ifNil: [ Smalltalk ui theme dangerTextColor ]
+						ifNotNil: [ skinManager installedSkin inspectorDisplayColor ] ]
+				ifAbsent: [ Smalltalk ui theme dangerTextColor ] ];
+		displayItalic: [ :element |
+			| result |
+			result := false.
+			element userData
+				at: #skinManager
+				ifPresent: [ :skinManager |
+					skinManager installedSkin ifNotNil: [
+							result := skinManager installedSkin isKindOf: ToStyleSheetSkin ] ]
+				ifAbsent: [ Smalltalk ui theme dangerTextColor ].
+			result not ].
+
+	^ column
 ]
 
 { #category : #column }

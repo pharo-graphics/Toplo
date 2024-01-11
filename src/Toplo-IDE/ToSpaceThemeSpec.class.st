@@ -114,10 +114,10 @@ ToSpaceThemeSpec >> updateSpace [
 	| strategy |
 	strategy := self space userData
 		            at: #toTheme
-		            ifPresent: [ :theme |
-			            theme spaceThemeStrategyFor: self ]
+		            ifPresent: [ :theme | theme spaceThemeStrategyFor: self ]
 		            ifAbsent: [ ToSpaceThemeNoThemeStrategy new ].
 
 	strategy applyOn: self.
-	self elementSelector root: self space root
+	self elementSelector root: self space root.
+	self elementSelector updatePresenter.
 ]

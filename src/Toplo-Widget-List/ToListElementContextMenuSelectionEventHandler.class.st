@@ -83,11 +83,11 @@ ToListElementContextMenuSelectionEventHandler >> listElementContextMenuRequest: 
 		ifTrue: [	 selection selectAllIndexes: target selection selectedIndexes ]
 		ifFalse: [ selection selectOnlyIndex: childNode holder position ].
 
-	anEvent selectedIndexes: self secondarySelectionIndexes.
+	anEvent selectedIndexes: selection indices.
 
 	target dispatchEvent:
 		(ToListElementContextMenuSelectionChangedEvent new
-			 selectedIndexes: self secondarySelectionIndexes;
+			 selectedIndexes: selection indices;
 			 sourceEvent: anEvent sourceEvent;
 			 yourself)
 ]
@@ -132,10 +132,4 @@ ToListElementContextMenuSelectionEventHandler >> removeContextMenuSelectionIn: a
 ToListElementContextMenuSelectionEventHandler >> secondarySelectionElementClass [
 
 	^ ToListContextMenuSelectionElement
-]
-
-{ #category : #accessing }
-ToListElementContextMenuSelectionEventHandler >> secondarySelectionIndexes [ 
-
-	^ selection indices
 ]

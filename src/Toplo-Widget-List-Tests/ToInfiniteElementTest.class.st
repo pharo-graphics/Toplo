@@ -131,8 +131,8 @@ ToInfiniteElementTest >> testListWithFiveElementAddNextInSelection [
 	self assert: l data size equals: 5.
 	l forceLayout.
 	self assert: l selection selectedIndexes isEmpty.
-	l selection addToSelection: 4.
-	l selection addToSelection: 2.
+	l selection doSelectIndex: 4.
+	l selection doSelectIndex: 2.
 	self assert: l selection currentIndex equals: 2.
 	self assert: l selection selectedIndexes asArray equals: #( 2 4 ).
 	l selection addOrRemoveNext.
@@ -157,7 +157,7 @@ ToInfiniteElementTest >> testListWithFiveElementAddPreviousInSelection [
 	self assert: l selection selectedIndexes isEmpty.
 	l selection selectNext.
 	l selection selectNext.
-	l selection addToSelection: 4.
+	l selection doSelectIndex: 4.
 	self assert: l selection currentIndex equals: 4.
 	self assert: l selection selectedIndexes asArray equals: #( 2 4 ).
 	l selection addOrRemovePrevious.

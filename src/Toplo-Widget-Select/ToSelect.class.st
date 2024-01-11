@@ -69,7 +69,7 @@ ToSelect >> defaultNodeWrapping [
 { #category : #'accessing selection' }
 ToSelect >> deselectIndex: anIndex [
 
-	selection deselect: anIndex - 1 to: anIndex
+	selection deselectIndex: anIndex
 ]
 
 { #category : #private }
@@ -374,14 +374,14 @@ ToSelect >> refreshNodes [
 { #category : #'accessing selection' }
 ToSelect >> selectIndex: anIndex [
 
-	selection select: anIndex - 1 to: anIndex
+	selection selectIndex: anIndex
 ]
 
 { #category : #'accessing selection' }
 ToSelect >> selectIndexes: aCollection [
 
 	selection := BlCompositeSelection new.
-	aCollection do: [ :idx | selection select: idx - 1 to: idx ]
+	selection selectIndexes: aCollection
 ]
 
 { #category : #'accessing selection' }

@@ -13,15 +13,6 @@ Class {
 	#category : #'Toplo-Widget-List-Selection'
 }
 
-{ #category : #'private - selection managing' }
-ToInfiniteSelectionStrategy >> addAllToSelection: aCollection [
-
-	self isMultiple ifFalse: [ self invalidOperation ].
-	aCollection ifEmpty: [ ^ self ].
-	selection selectAllIndexes: aCollection.
-	self markPointedPosition: aCollection first
-]
-
 { #category : #'private - shortcuts' }
 ToInfiniteSelectionStrategy >> addOrRemoveNext [
 
@@ -63,13 +54,6 @@ ToInfiniteSelectionStrategy >> addOrRemoveWithGap: aGap [
 			].
 
 	self currentIndex: nextIdx
-]
-
-{ #category : #'private - selection managing' }
-ToInfiniteSelectionStrategy >> addToSelection: anIndex [
-
-	selection selectIndex: anIndex.
-	self markPointedPosition: anIndex
 ]
 
 { #category : #'mode api' }
@@ -152,20 +136,6 @@ ToInfiniteSelectionStrategy >> defaultShortcuts [
 						   self selectPreviousIn: infiniteElement event: aShortcutEvent ] ]) }
 ]
 
-{ #category : #'private - selection managing' }
-ToInfiniteSelectionStrategy >> deselect: anIndex [
-
-	selection deselectIndex: anIndex.
-	self markPointedPosition: anIndex
-]
-
-{ #category : #'private - selection model accessing' }
-ToInfiniteSelectionStrategy >> deselect: aFromIndex to: aToIndex [
-	"Deselect items within a given interval"
-
-	selection deselect: aFromIndex - 1 to: aToIndex
-]
-
 { #category : #'selection managing' }
 ToInfiniteSelectionStrategy >> deselectAll [
 
@@ -238,7 +208,19 @@ ToInfiniteSelectionStrategy >> doSelectAll [
 
 	self dataSource itemCount > 0 ifFalse: [ ^ self ].
 	infiniteElement dispatchSelectAll.
-	self select: 1 to: self dataSource itemCount
+	selection select: 0 to: self dataSource itemCount
+]
+
+{ #category : #'selection managing' }
+ToInfiniteSelectionStrategy >> doSelectAllIndexes: indexes [
+
+	self isMultiple ifFalse: [ self invalidOperation ].
+	self doDeselectAll.
+	infiniteElement dispatchSelectIndexes: indexes.
+	indexes ifNotEmpty: [ 
+		selection selectAllIndexes: indexes.
+		self markPointedPosition: indexes first ].
+	infiniteElement requestLayout
 ]
 
 { #category : #'selection managing' }
@@ -251,32 +233,12 @@ ToInfiniteSelectionStrategy >> doSelectIndex: anIndex [
 ]
 
 { #category : #'selection managing' }
-ToInfiniteSelectionStrategy >> doSelectIndexes: indexes [
-
-	self isMultiple ifFalse: [ self invalidOperation ].
-	self doDeselectAll.
-	infiniteElement dispatchSelectIndexes: indexes.
-	self addAllToSelection: indexes.
-	infiniteElement requestLayout
-]
-
-{ #category : #'selection managing' }
 ToInfiniteSelectionStrategy >> doSelectOnlyIndex: anIndex [
 
-	| aSelectionCopy |
 	self isNone ifTrue: [ self invalidOperation ].
 	infiniteElement dispatchSelectOnlyIndex: anIndex.
 
-	aSelectionCopy := selection copy.
-	aSelectionCopy deselectIndex: anIndex.
-
-	aSelectionCopy do: [ :aMonotoneSelection |
-		selection
-			deselect: aMonotoneSelection from
-			to: aMonotoneSelection to ].
-
-	(selection containsIndex: anIndex) ifFalse: [
-		selection selectIndex: anIndex ].
+	selection selectOnlyIndex: anIndex.
 
 	self markPointedPosition: anIndex.
 	infiniteElement scrollToIndex: anIndex
@@ -293,8 +255,8 @@ ToInfiniteSelectionStrategy >> doSelectToIndex: index [
 	self pivot: curr.
 	self distance: index - curr.
 	curr < index
-		ifTrue: [ self select: curr to: index ]
-		ifFalse: [ self select: index to: curr ]
+		ifTrue: [ selection select: curr - 1 to: index ]
+		ifFalse: [ selection select: index - 1 to: curr ]
 ]
 
 { #category : #accessing }
@@ -483,23 +445,10 @@ ToInfiniteSelectionStrategy >> pivot: anIndex [
 	pivot := anIndex
 ]
 
-{ #category : #'private - selection managing' }
-ToInfiniteSelectionStrategy >> select: anIndex [
-
-	selection selectIndex: anIndex.
-	self markPointedPosition: anIndex
-]
-
-{ #category : #'private - selection managing' }
-ToInfiniteSelectionStrategy >> select: aFirstIndex to: aLastIndex [
-
-	self isMultiple ifFalse: [ self invalidOperation ].
-	selection select: aFirstIndex - 1 to: aLastIndex
-]
-
 { #category : #'selection managing' }
 ToInfiniteSelectionStrategy >> selectAll [
 
+	self isMultiple ifFalse: [ self invalidOperation ].
 	infiniteElement dispatchSelectionChangedAfter: [
 		self doSelectAll ]
 ]
@@ -515,7 +464,7 @@ ToInfiniteSelectionStrategy >> selectIndex: index [
 ToInfiniteSelectionStrategy >> selectIndexes: indexes [
 
 	infiniteElement dispatchSelectionChangedAfter: [
-		self doSelectIndexes: indexes ]
+		self doSelectAllIndexes: indexes ]
 ]
 
 { #category : #'private - selection managing' }

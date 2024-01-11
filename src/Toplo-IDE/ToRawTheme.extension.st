@@ -9,5 +9,5 @@ ToRawTheme >> inspectionTheme [
 { #category : #'*Toplo-IDE' }
 ToRawTheme >> inspectionThemeForElement [
 
-	^ ToSpaceThemeSkinForElementSpec new
+	^ ToSkinThemeSpec new
 ]

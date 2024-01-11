@@ -1,6 +1,6 @@
 Class {
 	#name : #ToLookEventListenersTableSpec,
-	#superclass : #ToSpaceThemeSkinForElementComplementSpec,
+	#superclass : #SpPresenter,
 	#instVars : [
 		'table',
 		'skin'
@@ -17,8 +17,11 @@ ToLookEventListenersTableSpec >> defaultLayout [
 ]
 
 { #category : #defaults }
-ToLookEventListenersTableSpec >> iconFor: anEventListener [
+ToLookEventListenersTableSpec >> iconForEventListener: anEventListener [
 
+	self skin ifNil: [ ^ self iconNamed: #blank ].
+	(self skin isKindOf: ToStyleSheetSkin)
+		ifFalse: [ ^ self iconNamed: #blank ].
 	^ (self skin lookEventListeners includes: anEventListener)
 		  ifTrue: [ ^ self iconNamed: #smallOk ]
 		  ifFalse: [ ^ self iconNamed: #smallCancel ]
@@ -31,10 +34,9 @@ ToLookEventListenersTableSpec >> initializePresenter [
 		         beResizable;
 		         sortingBlock: [ :a :b |
 			         a eventClass name < b eventClass name ];
-		         addColumn:
-			         ((SpStringTableColumn
+		         addColumn: ((SpStringTableColumn
 				           title: ''
-				           evaluated: [ :each | self iconFor: each ]) width: 20);
+				           evaluated: [ :each | self iconForEventListener: each ]) width: 20);
 		         addColumn:
 			         ((SpStringTableColumn
 				           title: 'Supplement'
@@ -44,8 +46,7 @@ ToLookEventListenersTableSpec >> initializePresenter [
 						           ifFalse: [ 'False' ] ]) width: 80);
 		         addColumn: ((SpStringTableColumn
 				           title: 'Look Event Class'
-				           evaluated: [ :each | each eventClass name ])
-				          width: 100);
+				           evaluated: [ :each | each eventClass name ]) width: 100);
 		         addColumn: (SpStringTableColumn
 				          title: 'Property'
 				          evaluated: [ :each | each property name ]);
@@ -54,8 +55,8 @@ ToLookEventListenersTableSpec >> initializePresenter [
 				          evaluated: [ :each | each value printString ]);
 		         addColumn: ((SpStringTableColumn
 				           title: 'Animation'
-				           evaluated: [ :each |
-					           each animation printString ]) width: 80);
+				           evaluated: [ :each | each animation printString ])
+				          width: 80);
 		         yourself
 ]
 
@@ -65,13 +66,13 @@ ToLookEventListenersTableSpec >> lookEventListeners: aCollection [
 	self table items: aCollection
 ]
 
-{ #category : #defaults }
+{ #category : #accessing }
 ToLookEventListenersTableSpec >> skin [
 
 	^ skin
 ]
 
-{ #category : #defaults }
+{ #category : #accessing }
 ToLookEventListenersTableSpec >> skin: aSkin [
 
 	skin := aSkin

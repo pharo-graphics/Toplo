@@ -1,5 +1,5 @@
 Class {
-	#name : #ToSpaceThemeInspectorSpec,
+	#name : #ToSpaceThemeSpec,
 	#superclass : #SpPresenter,
 	#instVars : [
 		'space',
@@ -13,13 +13,13 @@ Class {
 }
 
 { #category : #accessing }
-ToSpaceThemeInspectorSpec >> browseClassButton [
+ToSpaceThemeSpec >> browseClassButton [
 
 	^ browseClassButton
 ]
 
 { #category : #layout }
-ToSpaceThemeInspectorSpec >> defaultLayout [
+ToSpaceThemeSpec >> defaultLayout [
 
 	^ SpBoxLayout newVertical
 		  add: (SpBoxLayout newHorizontal
@@ -33,19 +33,19 @@ ToSpaceThemeInspectorSpec >> defaultLayout [
 ]
 
 { #category : #accessing }
-ToSpaceThemeInspectorSpec >> elementSelector [
+ToSpaceThemeSpec >> elementSelector [
 
 	^ elementSelector
 ]
 
 { #category : #'event handling' }
-ToSpaceThemeInspectorSpec >> elementView [
+ToSpaceThemeSpec >> elementView [
 
 	^ elementView
 ]
 
 { #category : #initialization }
-ToSpaceThemeInspectorSpec >> initialize [
+ToSpaceThemeSpec >> initialize [
 
 	super initialize.
 	themeChangedEventHandler := BlEventHandler
@@ -55,7 +55,7 @@ ToSpaceThemeInspectorSpec >> initialize [
 ]
 
 { #category : #initialization }
-ToSpaceThemeInspectorSpec >> initializePresenters [
+ToSpaceThemeSpec >> initializePresenters [
 
 	elementView := ToSpaceThemeElementInspector new.
 	elementSelector := ToSpaceThemeElementListSpec new
@@ -73,19 +73,19 @@ ToSpaceThemeInspectorSpec >> initializePresenters [
 ]
 
 { #category : #'event handling' }
-ToSpaceThemeInspectorSpec >> selectionChanged: aBlElement [
+ToSpaceThemeSpec >> selectionChanged: aBlElement [
 
 	self elementView element: aBlElement.
 ]
 
 { #category : #accessing }
-ToSpaceThemeInspectorSpec >> space [
+ToSpaceThemeSpec >> space [
 
 	^ space
 ]
 
 { #category : #accessing }
-ToSpaceThemeInspectorSpec >> space: aBlSpace [
+ToSpaceThemeSpec >> space: aBlSpace [
 
 	space ifNotNil: [
 		space root removeEventHandler: self themeChangedEventHandler ].
@@ -97,19 +97,19 @@ ToSpaceThemeInspectorSpec >> space: aBlSpace [
 ]
 
 { #category : #accessing }
-ToSpaceThemeInspectorSpec >> themeChangedEventHandler [
+ToSpaceThemeSpec >> themeChangedEventHandler [
 
 	^ themeChangedEventHandler
 ]
 
 { #category : #accessing }
-ToSpaceThemeInspectorSpec >> themeLabel [
+ToSpaceThemeSpec >> themeLabel [
 
 	^ themeLabel
 ]
 
 { #category : #accessing }
-ToSpaceThemeInspectorSpec >> updateSpace [
+ToSpaceThemeSpec >> updateSpace [
 
 	| strategy |
 	strategy := self space userData

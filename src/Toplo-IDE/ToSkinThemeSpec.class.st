@@ -1,5 +1,5 @@
 Class {
-	#name : #ToSpaceThemeSkinForElementSpec,
+	#name : #ToSkinThemeSpec,
 	#superclass : #SpPresenter,
 	#instVars : [
 		'label',
@@ -11,25 +11,25 @@ Class {
 }
 
 { #category : #accessing }
-ToSpaceThemeSkinForElementSpec >> browseSkinButton [
+ToSkinThemeSpec >> browseSkinButton [
 
 	^ browseSkinButton
 ]
 
 { #category : #accessing }
-ToSpaceThemeSkinForElementSpec >> complementView [
+ToSkinThemeSpec >> complementView [
 
 	^ complementView
 ]
 
 { #category : #accessing }
-ToSpaceThemeSkinForElementSpec >> complementView: aSpPresenter [
+ToSkinThemeSpec >> complementView: aSpPresenter [
 
 	complementView := aSpPresenter
 ]
 
 { #category : #layout }
-ToSpaceThemeSkinForElementSpec >> defaultLayout [
+ToSkinThemeSpec >> defaultLayout [
 
 	^ SpBoxLayout newVertical
 		  add: (SpBoxLayout newHorizontal
@@ -44,7 +44,7 @@ ToSpaceThemeSkinForElementSpec >> defaultLayout [
 ]
 
 { #category : #layout }
-ToSpaceThemeSkinForElementSpec >> element: aBlElement [
+ToSkinThemeSpec >> element: aBlElement [
 
 	aBlElement ifNil: [ ^ self noElementSelected ].
 	aBlElement userData
@@ -58,10 +58,10 @@ ToSpaceThemeSkinForElementSpec >> element: aBlElement [
 ]
 
 { #category : #accessing }
-ToSpaceThemeSkinForElementSpec >> initializePresenter [
+ToSkinThemeSpec >> initializePresenter [
 
 	label := SpLabelPresenter new.
-	complementView := ToSpaceThemeSkinForElementComplementSpec new.
+	complementView := ToDefaultThemeExtensionSpec new.
 	browseSkinButton := SpButtonPresenter new
 		                    icon: (self iconNamed: #nautilus);
 		                    label: 'Browse';
@@ -75,13 +75,13 @@ ToSpaceThemeSkinForElementSpec >> initializePresenter [
 ]
 
 { #category : #accessing }
-ToSpaceThemeSkinForElementSpec >> inspectSkinButton [
+ToSkinThemeSpec >> inspectSkinButton [
 
 	^ inspectSkinButton
 ]
 
 { #category : #'as yet unclassified' }
-ToSpaceThemeSkinForElementSpec >> installedSkin: aSkin [
+ToSkinThemeSpec >> installedSkin: aSkin [
 	
 	self label label: 'I have a ' , aSkin class name , '.'.
 	self browseSkinButton enabled: true.
@@ -93,13 +93,13 @@ ToSpaceThemeSkinForElementSpec >> installedSkin: aSkin [
 ]
 
 { #category : #accessing }
-ToSpaceThemeSkinForElementSpec >> label [
+ToSkinThemeSpec >> label [
 
 	^ label
 ]
 
 { #category : #'as yet unclassified' }
-ToSpaceThemeSkinForElementSpec >> noElementSelected [
+ToSkinThemeSpec >> noElementSelected [
 
 	self label label: 'No element selected.'.
 	self browseSkinButton enabled: false.
@@ -107,7 +107,7 @@ ToSpaceThemeSkinForElementSpec >> noElementSelected [
 ]
 
 { #category : #'as yet unclassified' }
-ToSpaceThemeSkinForElementSpec >> noInstalledSkin [
+ToSkinThemeSpec >> noInstalledSkin [
 
 	self label label: 'I have no installed skin.'.
 	self browseSkinButton enabled: false.
@@ -115,7 +115,7 @@ ToSpaceThemeSkinForElementSpec >> noInstalledSkin [
 ]
 
 { #category : #'as yet unclassified' }
-ToSpaceThemeSkinForElementSpec >> noSkinManager [
+ToSkinThemeSpec >> noSkinManager [
 
 	self label label: 'I have no skin manager, i cannot use any skin.'.
 	self browseSkinButton enabled: false.

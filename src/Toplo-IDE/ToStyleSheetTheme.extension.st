@@ -4,7 +4,8 @@ Extension { #name : #ToStyleSheetTheme }
 ToStyleSheetTheme >> inspectionStyleRules [
 
 	<inspectorPresentationOrder: 1 title: 'Style Rules'>
-	^ ToStyleRulesInspectorSpec new styleRules: self styleSheet styleRules
+	^ ToStyleSheetThemeInspectorSpec new styleSheetTheme:
+		  self
 ]
 
 { #category : #'*Toplo-IDE' }
@@ -16,7 +17,7 @@ ToStyleSheetTheme >> inspectionTheme [
 { #category : #'*Toplo-IDE' }
 ToStyleSheetTheme >> inspectionThemeForElement [
 
-	^ ToSpaceThemeSkinForElementSpec new
+	^ ToSkinThemeSpec new
 		  complementView: self inspectionStyleRules;
 		  yourself
 ]

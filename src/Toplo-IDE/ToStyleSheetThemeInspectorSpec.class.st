@@ -1,17 +1,25 @@
 Class {
-	#name : #ToStyleRulesInspectorSpec,
-	#superclass : #ToSpaceThemeSkinForElementComplementSpec,
+	#name : #ToStyleSheetThemeInspectorSpec,
+	#superclass : #ToStyleSheetThemeExtensionSpec,
 	#instVars : [
 		'styleRuleTree',
-		'scrollSection',
-		'skin',
-		'element'
+		'scrollSection'
 	],
 	#category : #'Toplo-IDE-space-theme-inspector'
 }
 
+{ #category : #'as yet unclassified' }
+ToStyleSheetThemeInspectorSpec >> createStyleRuleSpecFor: aStyleRule [
+
+	^ ToStyleRuleInspectorSpec new
+		  element: self element;
+		  skin: self skin;
+		styleRule: aStyleRule;
+		  yourself
+]
+
 { #category : #accessing }
-ToStyleRulesInspectorSpec >> defaultLayout [
+ToStyleSheetThemeInspectorSpec >> defaultLayout [
 
 	^ SpPanedLayout newHorizontal
 		  add: self styleRuleTree;
@@ -19,19 +27,8 @@ ToStyleRulesInspectorSpec >> defaultLayout [
 		  yourself
 ]
 
-{ #category : #accessing }
-ToStyleRulesInspectorSpec >> element [
-	^ element
-]
-
-{ #category : #accessing }
-ToStyleRulesInspectorSpec >> element: aBlElement [
-
-	element:= aBlElement
-]
-
 { #category : #'initialization - deprecated' }
-ToStyleRulesInspectorSpec >> initializePresenter [
+ToStyleSheetThemeInspectorSpec >> initializePresenter [
 
 	styleRuleTree := SpTreePresenter new
 		                 children: [ :aStyleRule | aStyleRule styleRules ];
@@ -40,7 +37,7 @@ ToStyleRulesInspectorSpec >> initializePresenter [
 		                 displayBold: [ :aStyleRule |
 			                 self shouldDisplayBoldFor: aStyleRule ];
 		                 displayIcon: [ :aStyleRule |
-			                 self shouldDisplayIconFor: aStyleRule ];
+			                 self iconForSelector: aStyleRule ];
 		                 display: [ :aStyleRule |
 			                 | printer |
 			                 printer := ToSelectorPrinter new.
@@ -50,19 +47,19 @@ ToStyleRulesInspectorSpec >> initializePresenter [
 		                 yourself.
 	scrollSection := SpScrollableLayout new
 		                 child: (SpLabelPresenter new
-				                  label: '???';
+				                  label: '<- Select a rule on the left panel.';
 				                  yourself);
 		                 yourself
 ]
 
 { #category : #accessing }
-ToStyleRulesInspectorSpec >> scrollSection [
+ToStyleSheetThemeInspectorSpec >> scrollSection [
 
 	^ scrollSection
 ]
 
 { #category : #'as yet unclassified' }
-ToStyleRulesInspectorSpec >> selectedItemInTreeChanged: aStyleRule [
+ToStyleSheetThemeInspectorSpec >> selectedItemInTreeChanged: aStyleRule [
 
 	| path arrayOfRules arrayOfSpecRules layoutForRules |
 	path := self styleRuleTree selection selectedPath.
@@ -70,23 +67,19 @@ ToStyleRulesInspectorSpec >> selectedItemInTreeChanged: aStyleRule [
 	arrayOfRules := self styleRuleTree pathItemOf: path.
 
 	arrayOfSpecRules := arrayOfRules collect: [ :each |
-		                    ToStyleRuleInspectorSpec new
-			                    styleRule: each;
-			                    element: self element;
-			                    skin: self skin;
-			                    yourself ].
+		                    self createStyleRuleSpecFor: each ].
 	layoutForRules := SpBoxLayout newVertical.
 	arrayOfSpecRules reverseDo: [ :each |
 		layoutForRules
 			add: each
-			height: 60 + (each styleRule lookEventListeners size * 24) ].
+			height: 50 + (each styleRule lookEventListeners size * 20) ].
 	self scrollSection child: (SpPresenter new
 			 layout: layoutForRules;
 			 yourself)
 ]
 
 { #category : #'as yet unclassified' }
-ToStyleRulesInspectorSpec >> shouldDisplayBoldFor: aStyleRule [
+ToStyleSheetThemeInspectorSpec >> shouldDisplayBoldFor: aStyleRule [
 
 	| path arrayOfRules |
 	path := self styleRuleTree selection selectedPath.
@@ -95,41 +88,28 @@ ToStyleRulesInspectorSpec >> shouldDisplayBoldFor: aStyleRule [
 	^ arrayOfRules includes: aStyleRule
 ]
 
-{ #category : #'as yet unclassified' }
-ToStyleRulesInspectorSpec >> shouldDisplayIconFor: aStyleRule [
-
-	self skin ifNotNil: [
-		(aStyleRule lookEventListeners includesAny:
-			 self skin lookEventListeners) ifTrue: [
-			^ self iconNamed: #smallOk ] ].
-	self element ifNotNil: [
-		(ToSelectorInterpreter new
-			 check: aStyleRule selector
-			 on: self element) ifTrue: [ ^ self iconNamed: #protocolProtected ] ].
-	^ self iconNamed: #smallCancel
-]
-
-{ #category : #'as yet unclassified' }
-ToStyleRulesInspectorSpec >> skin [
-	^ skin
-]
-
 { #category : #accessing }
-ToStyleRulesInspectorSpec >> skin: aSkin [
+ToStyleSheetThemeInspectorSpec >> skin: aSkin [
 
-	(aSkin isKindOf: ToStyleSheetSkin) ifFalse: [ ^ self ].
 	skin := aSkin.
 	self styleRuleTree refresh
 ]
 
 { #category : #accessing }
-ToStyleRulesInspectorSpec >> styleRuleTree [
+ToStyleSheetThemeInspectorSpec >> styleRuleTree [
 
 	^ styleRuleTree.
 ]
 
-{ #category : #'t - style rules holder' }
-ToStyleRulesInspectorSpec >> styleRules: aCollection [
+{ #category : #'as yet unclassified' }
+ToStyleSheetThemeInspectorSpec >> styleSheetTheme: aToStyleSheetTheme [
 
-	self styleRuleTree roots: aCollection
+	self styleRuleTree roots: aToStyleSheetTheme  styleSheet styleRules
+]
+
+{ #category : #initialization }
+ToStyleSheetThemeInspectorSpec >> updatePresenter [
+
+	super updatePresenter.
+	self selectedItemInTreeChanged: self styleRuleTree selectedItem
 ]

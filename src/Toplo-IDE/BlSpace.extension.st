@@ -4,11 +4,7 @@ Extension { #name : #BlSpace }
 BlSpace >> inspectionTheme [
 
 	<inspectorPresentationOrder: 1 title: 'Theme'>
-"	^ ToSpaceThemeViewerSpec new
-		  space: self;
-		  yourself"
-		^ ToSpaceThemeInspectorSpec new
+	^ ToSpaceThemeSpec new
 		  space: self;
 		  yourself
-		
 ]

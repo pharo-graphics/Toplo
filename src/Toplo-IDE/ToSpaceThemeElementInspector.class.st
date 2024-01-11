@@ -25,23 +25,21 @@ ToSpaceThemeElementInspector >> element: aBlElement [
 
 	| selectedPage |
 	selectedPage := self notebook selectedPage.
-
 	self notebook removeAll.
 	self skinPageProvider element: aBlElement.
 	self notebook addPage: self skinPage.
 	self notebook selectPage: self skinPage.
 	aBlElement ifNil: [ ^ self ].
-
 	aBlElement toStyleStore stampIndex size > 0 ifTrue: [
 		self stampsPage presenterProvider: [ aBlElement inspectionStamps ].
 		self notebook addPage: self stampsPage.
 		selectedPage = self stampsPage ifTrue: [
 			self notebook selectPage: self stampsPage ] ].
 	aBlElement toStyleStore tokenPropertyIndex size > 0 ifTrue: [
-		self tokensPage presenterProvider: [ aBlElement inspectionTokens ].
-		self notebook addPage: self tokensPage.
-		selectedPage = self tokensPage ifTrue: [
-			self notebook selectPage: self tokensPage ] ]
+	self tokensPage presenterProvider: [ aBlElement inspectionTokens ].
+	self notebook addPage: self tokensPage.
+	selectedPage = self tokensPage ifTrue: [
+		self notebook selectPage: self tokensPage ] ].
 ]
 
 { #category : #initialization }

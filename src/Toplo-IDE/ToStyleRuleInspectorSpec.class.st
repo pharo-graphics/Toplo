@@ -1,12 +1,13 @@
 Class {
 	#name : #ToStyleRuleInspectorSpec,
-	#superclass : #ToSpaceThemeSkinForElementComplementSpec,
+	#superclass : #ToStyleSheetThemeExtensionSpec,
 	#instVars : [
 		'selectorLabel',
 		'inspectButton',
 		'propertiesTable',
 		'styleRule',
-		'model'
+		'model',
+		'selectorIcon'
 	],
 	#category : #'Toplo-IDE-space-theme-inspector'
 }
@@ -15,8 +16,11 @@ Class {
 ToStyleRuleInspectorSpec >> defaultLayout [
 
 	^ SpBoxLayout newVertical
-	spacing: 4;
+		  spacing: 4;
 		  add: (SpBoxLayout newHorizontal
+					add: self selectorIcon withConstraints: [ :c |
+					   c width: 20.
+					   c height: 20 ];
 				   add: self selectorLabel expand: true;
 				   add: self inspectButton withConstraints: [ :c |
 					   c width: 20.
@@ -25,12 +29,6 @@ ToStyleRuleInspectorSpec >> defaultLayout [
 		  expand: false;
 		  add: self propertiesTable expand: true;
 		  yourself
-]
-
-{ #category : #accessing }
-ToStyleRuleInspectorSpec >> element: anObject [
-
-	self propertiesTable element: anObject
 ]
 
 { #category : #'initialization - deprecated' }
@@ -42,6 +40,7 @@ ToStyleRuleInspectorSpec >> initializePresenter [
 		                 action: [ self styleRule inspect ];
 		                 yourself.
 	propertiesTable := ToLookEventListenersTableSpec new.
+	selectorIcon := SpImagePresenter new image: (self iconNamed: #blank); yourself.
 ]
 
 { #category : #accessing }
@@ -63,15 +62,22 @@ ToStyleRuleInspectorSpec >> propertiesTable [
 ]
 
 { #category : #accessing }
+ToStyleRuleInspectorSpec >> selectorIcon [
+
+	^ selectorIcon
+]
+
+{ #category : #accessing }
 ToStyleRuleInspectorSpec >> selectorLabel [
 
 	^ selectorLabel
 ]
 
 { #category : #accessing }
-ToStyleRuleInspectorSpec >> skin:  anObject [
+ToStyleRuleInspectorSpec >> skin: anObject [
 
-	self propertiesTable skin:  anObject
+skin := anObject.
+	self propertiesTable skin: anObject
 ]
 
 { #category : #'as yet unclassified' }
@@ -88,6 +94,9 @@ ToStyleRuleInspectorSpec >> styleRule: aStyleRule [
 
 	printer := ToSelectorPrinter new.
 	aStyleRule selector accept: printer.
+	self selectorLabel label: printer contents.
 
-	self propertiesTable lookEventListeners:aStyleRule lookEventListeners.
+	self propertiesTable lookEventListeners:
+		aStyleRule lookEventListeners.
+	self selectorIcon image: (self iconForSelector: aStyleRule)
 ]

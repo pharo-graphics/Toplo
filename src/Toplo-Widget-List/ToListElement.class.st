@@ -124,12 +124,6 @@ ToListElement >> isVertical [
 	^ self infinite layout isVertical
 ]
 
-{ #category : #'t - element with placeholder' }
-ToListElement >> newPlaceholder [
-
-	^ self placeholderClass new
-]
-
 { #category : #skin }
 ToListElement >> newRawSkin [ 
 

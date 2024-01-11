@@ -58,14 +58,6 @@ ToSelectEventHandler >> eventsToHandle [
 ]
 
 { #category : #'element handlers' }
-ToSelectEventHandler >> listSelectionChangedEvent: anEvent [
-
-	anEvent currentTarget
-		selectIndexes: anEvent currentIndexes;
-		refreshNodes
-]
-
-{ #category : #'element handlers' }
 ToSelectEventHandler >> selectDataAddedEvent: anEvent [
 
 	anEvent currentTarget selectIndex: anEvent index.

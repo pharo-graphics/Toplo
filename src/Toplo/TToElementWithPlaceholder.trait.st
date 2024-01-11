@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToElementWithPlaceholder,
-	#category : 'Toplo-Core'
+	#category : #'Toplo-Core'
 }
 
 { #category : #'t - element with placeholder' }
@@ -38,7 +38,7 @@ TToElementWithPlaceholder >> isShowingPlaceholder: aBoolean [
 { #category : #'t - element with placeholder' }
 TToElementWithPlaceholder >> newPlaceholder [
 
-	^ self explicitRequirement 
+	^ self placeholderClass new
 ]
 
 { #category : #'t - element with placeholder' }

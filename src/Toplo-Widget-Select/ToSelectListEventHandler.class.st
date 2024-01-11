@@ -28,7 +28,8 @@ ToSelectListEventHandler >> listSelectIndexEvent: anEvent [
 
 	select
 		selectIndex: anEvent index;
-		refreshNodes
+		refreshNodes.
+	"select listElement data removeAt: anEvent index"
 ]
 
 { #category : #accessing }

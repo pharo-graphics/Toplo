@@ -11,7 +11,9 @@ Class {
 		'filterResultTask',
 		'indexedData',
 		'taskQueueHolder',
-		'previousPattern'
+		'previousPattern',
+		'dataAfterChangeHandler',
+		'originalIndexedData'
 	],
 	#category : #'Toplo-Widget-List-Filter'
 }
@@ -19,7 +21,7 @@ Class {
 { #category : #'private filtering' }
 ToListElementFilter >> buildOriginalIndexedData [
 
-	indexedData := originalData withIndexCollect: [ :d :i |
+	originalIndexedData := originalData withIndexCollect: [ :d :i |
 		               ToListElementFilteredData new
 			               data: d;
 			               dataSourcePos: i;
@@ -62,22 +64,22 @@ ToListElementFilter >> filter: aValuable [
 ToListElementFilter >> filterDataIn: anElement withPattern: aPattern [
 
 	| event taskTarget |
-
 	previousPattern = aPattern ifTrue: [ ^ self ].
 	previousPattern := aPattern.
+	anElement dispatchEvent: (ToFilteredListPatternChangedEvent new
+			 pattern: aPattern;
+			 yourself).
 
 	taskTarget := taskQueueHolder ifNil: [ anElement ].
+	originalIndexedData ifNil: [ self buildOriginalIndexedData ].
+	aPattern
+		ifEmpty: [ indexedData := originalIndexedData ]
+		ifNotEmpty: [
+			indexedData := Array streamContents: [ :str |
+				               originalIndexedData do: [ :d |
+					               (self filter value: d data value: aPattern)
+						               ifTrue: [ str nextPut: d ] ] ] ].
 
-	aPattern ifEmpty: [ self buildOriginalIndexedData ] ifNotEmpty: [
-		indexedData := Array streamContents: [ :str |
-			               originalData withIndexDo: [ :d :idx |
-				               (self filter value: d value: aPattern) ifTrue: [
-					               | filtered |
-					               filtered := ToListElementFilteredData new
-						                           data: d;
-						                           dataSourcePos: idx;
-						                           yourself.
-					               str nextPut: filtered ] ] ] ].
 
 	"A task must be used here because the filtering is runned asynchronously. The task allows to re-synchronise the element response.
 	As an example, it can avoid the children updating during layouting (because during layouting children are temporarily detached)
@@ -143,11 +145,15 @@ ToListElementFilter >> originalData [
 { #category : #accessing }
 ToListElementFilter >> originalData: anObservableCollection [
 
+	originalData = anObservableCollection ifTrue: [ ^ self ].
+	originalData ifNotNil: [
+		originalData removeEventHandler: dataAfterChangeHandler ].
 	originalData := anObservableCollection.
-	originalData addEventHandler: (BlEventHandler
-			 on: ToCollectionAfterChangeEvent
-			 do: [ self pattern: ''  ]).
-	self buildOriginalIndexedData
+	dataAfterChangeHandler := BlEventHandler
+		                          on: ToCollectionAfterChangeEvent
+		                          do: [ self pattern: '' ].
+	originalData addEventHandler: dataAfterChangeHandler.
+	"self buildOriginalIndexedData"
 ]
 
 { #category : #accessing }
@@ -159,6 +165,7 @@ ToListElementFilter >> pattern [
 { #category : #'private filtering' }
 ToListElementFilter >> pattern: aString [
 
+	pattern = aString ifTrue: [ ^ self ].
 	pattern := aString asString trimBoth.
 	self semaphore signal
 ]

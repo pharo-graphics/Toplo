@@ -205,13 +205,31 @@ TToListElementDecorator >> selectedIndexes [
 { #category : #'t - accessing selection' }
 TToListElementDecorator >> selection [
 
-	^ self next selection
+	self
+		deprecated: 'Use selectionStrategy instead'
+		transformWith: '`@receiver selection' -> '`@receiver selectionStrategy'.
+	^ self next selectionStrategy
 ]
 
 { #category : #'t - accessing selection' }
 TToListElementDecorator >> selection: aSelectionStrategy [
 
-	^ self next selection: aSelectionStrategy
+	self
+		deprecated: 'Use selectionStrategy: instead'
+		transformWith: '`@receiver selection: `@arg' -> '`@receiver selectionStrategy: `@arg'.
+	self next selectionStrategy: aSelectionStrategy
+]
+
+{ #category : #'t - accessing selection' }
+TToListElementDecorator >> selectionStrategy [
+
+	^ self next selectionStrategy
+]
+
+{ #category : #'t - accessing selection' }
+TToListElementDecorator >> selectionStrategy: aSelectionStrategy [
+
+	self next selectionStrategy: aSelectionStrategy
 ]
 
 { #category : #'t - accessing selection' }

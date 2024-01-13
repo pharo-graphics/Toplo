@@ -2213,15 +2213,17 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWith_175000_Items [
 	select hMatchParent.
 	data := OrderedCollection new.
 	Character alphabet do: [ :c1 |
-		(Character alphabet ) do: [ :c2 |
-			(Character alphabet ) do: [ :c3 |
-				((48 to: 57) collect: [:n | n asCharacter]) do: [ :c4 |
-					data add: (String streamContents: [ :str |
-							 str nextPutAll: {
-									 c1.
-									 c2.
-									 c3.
-									 c4 } ]) ] ] ] ].
+		Character alphabet do: [ :c2 |
+			Character alphabet do: [ :c3 |
+				((48 to: 57) collect: [ :n | n asCharacter ]) do: [ :c4 |
+					((48 to: 57) collect: [ :n | n asCharacter ]) do: [ :c5 |
+						data add: (String streamContents: [ :str |
+								 str nextPutAll: {
+										 c1.
+										 c2.
+										 c3.
+										 c4.
+										 c5 } ]) ] ] ] ] ].
 	data size traceCr.
 	select data updateAllWith: data.
 

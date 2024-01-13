@@ -85,7 +85,7 @@ ToListSelectionEventHandler >> listSelectionElementUpdatedEvent: anEvent [
 	target := anEvent currentTarget.
 
 	nodesArray := target infinite children asArray.
-	selectedIndexes := target infinite selection selectedIndexes.
+	selectedIndexes := target infinite selectionStrategy selectedIndexes.
 	focused := target infinite isFocused.
 
 	" ** important note **

@@ -48,7 +48,7 @@ ToSelectWindowManager >> element: anElement [
 		(ToFilteredListElementEventHandler new
 			 taskQueueHolder: anElement;
 			 originalData: anElement data;
-			 selection: anElement selection;
+			 selection: anElement selectionModel;
 			 yourself).
 	self listElement addEventHandler: (BlEventHandler
 			 on: ToListSelectionChangedEvent
@@ -128,7 +128,8 @@ ToSelectWindowManager >> newListElement [
 
 	| newListElement |
 	newListElement := ToListElement new.
-	newListElement selection: ToCherryPickListSelectionStrategy new.
+	newListElement selectionStrategy:
+		ToCherryPickListSelectionStrategy new.
 	newListElement requestFocusOnMouseDown: false.
 	newListElement maxHeight: self maxHeight.
 	newListElement minHeight: self minHeight.

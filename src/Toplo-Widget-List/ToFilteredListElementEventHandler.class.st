@@ -29,21 +29,19 @@ ToFilteredListElementEventHandler >> eventsToHandle [
 ToFilteredListElementEventHandler >> filteredListSelectionModelChangedEvent: anEvent [
 
 	| target selectedIndexes deselectedIndexes |
-
 	target := anEvent currentTarget.
 	selectedIndexes := OrderedCollection new.
 	deselectedIndexes := OrderedCollection new.
 	updatingSelection := true.
-	
+
 	filter indexedData withIndexDo: [ :idata :idx |
 		(self selection containsIndex: idata dataSourcePos)
 			ifTrue: [ selectedIndexes add: idx ]
 			ifFalse: [ deselectedIndexes add: idx ] ].
-		
-	target selection selectIndexes: selectedIndexes.
-	target selection deselectIndexes: deselectedIndexes.
-	updatingSelection := false.
 
+	target selectionStrategy selectIndexes: selectedIndexes.
+	target selectionStrategy deselectIndexes: deselectedIndexes.
+	updatingSelection := false
 ]
 
 { #category : #initialization }
@@ -69,7 +67,7 @@ ToFilteredListElementEventHandler >> listFilterResultEvent: anEvent [
 
 	| target selectedIndexes |
 	target := anEvent currentTarget.
-	target selection renewSelectionModel.
+	target selectionStrategy renewSelectionModel.
 	updatingSelection := true.
 	target data filterResult:
 		(anEvent indexedData collect: [ :id | id data ]).
@@ -77,22 +75,26 @@ ToFilteredListElementEventHandler >> listFilterResultEvent: anEvent [
 	anEvent indexedData withIndexDo: [ :id :idx |
 		(self selection containsIndex: id dataSourcePos) ifTrue: [
 			selectedIndexes add: idx ] ].
-	target selection doSelectAllIndexes: selectedIndexes.
+	target selectionStrategy doSelectAllIndexes: selectedIndexes.
 	updatingSelection := false
 ]
 
 { #category : #'event handlers' }
 ToFilteredListElementEventHandler >> listSelectionChangedEvent: anEvent [
+	" launched when the list element is clicked. 
+	invoked from the list element selection strategy "
 
 	| target |
 	updatingSelection ifTrue: [ ^ self ].
 	filter indexedData ifNil: [ ^ self ].
+
 	target := anEvent currentTarget.
+	" the target is the filtered listElement "
 
 	1 to: target data size do: [ :pos |
 		| dataWithIndex |
 		dataWithIndex := filter indexedData at: pos.
-		(target selection includes: pos)
+		(target selectionStrategy includes: pos)
 			ifTrue: [ self selection selectIndex: dataWithIndex dataSourcePos ]
 			ifFalse: [
 			self selection deselectIndex: dataWithIndex dataSourcePos ] ].

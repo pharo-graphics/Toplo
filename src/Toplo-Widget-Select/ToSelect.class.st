@@ -72,7 +72,7 @@ ToSelect >> deselectIndex: anIndex [
 	selectionModel deselectIndex: anIndex.
 	self listElement dispatchEvent:
 		(ToFilteredListSelectionModelChangedEvent new
-			 selection: self selection;
+			 selection: self selectionModel;
 			 yourself)
 ]
 
@@ -366,7 +366,7 @@ ToSelect >> selectIndex: anIndex [
 	selectionModel selectIndex: anIndex.
 	self listElement dispatchEvent:
 		(ToFilteredListSelectionModelChangedEvent new
-			 selection: self selection;
+			 selection: self selectionModel;
 			 yourself)
 ]
 
@@ -376,7 +376,7 @@ ToSelect >> selectIndexes: aCollection [
 	selectionModel selectIndexes: aCollection.
 	self listElement dispatchEvent:
 		(ToFilteredListSelectionModelChangedEvent new
-			 selection: self selection;
+			 selection: self selectionModel;
 			 yourself)
 ]
 
@@ -388,6 +388,15 @@ ToSelect >> selectedIndexes [
 
 { #category : #accessing }
 ToSelect >> selection [
+
+	self
+		deprecated: 'Use selectionModel instead'
+		transformWith: '`@receiver selection' -> '`@receiver selectionModel'.
+	^ selectionModel
+]
+
+{ #category : #accessing }
+ToSelect >> selectionModel [
 
 	^ selectionModel
 ]

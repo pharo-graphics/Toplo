@@ -24,7 +24,7 @@ ToNodeHolder >> data: aData [
 { #category : #accessing }
 ToNodeHolder >> isSelected [
 
-	^ self infiniteElement selection includes: self position
+	^ self infiniteElement selectionStrategy includes: self position
 ]
 
 { #category : #accessing }

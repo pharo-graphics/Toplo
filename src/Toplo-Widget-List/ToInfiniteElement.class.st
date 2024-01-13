@@ -164,11 +164,11 @@ ToInfiniteElement >> dispatchSelectOnlyIndex: anIndex [
 ToInfiniteElement >> dispatchSelectionChangedAfter: aBlock [
 
 	| prevIndexes currentIndexes event |
-	prevIndexes := self selection selectedIndexes.
-	
+	prevIndexes := self selectionStrategy selectedIndexes.
+
 	aBlock value.
 
-	currentIndexes := self selection selectedIndexes.
+	currentIndexes := self selectionStrategy selectedIndexes.
 	prevIndexes = currentIndexes ifTrue: [ ^ self ].
 	event := ToInfiniteSelectionChangedEvent
 		         previousIndexes: prevIndexes
@@ -295,7 +295,7 @@ ToInfiniteElement >> nodeHolderBuilder [
 	^ [ :theHolder |
 	  | newNode |
 	  newNode := self newNode.
-	  self selection onNewNode: newNode.
+	  self selectionStrategy onNewNode: newNode.
 	  theHolder node: newNode.
 	  self nodeBuilder value: theHolder node value: theHolder ]
 ]
@@ -364,7 +364,7 @@ ToInfiniteElement >> privateData: aCollection [
 
 	dataSource addEventHandler: (BlEventHandler
 			 on: BlInfiniteDataSourceChanged
-			 do: [ self selection infiniteDataSourceChanged ]).
+			 do: [ self selectionStrategy infiniteDataSourceChanged ]).
 	dataSource data: aCollection
 ]
 
@@ -484,25 +484,35 @@ ToInfiniteElement >> selectedIndexes [
 { #category : #accessing }
 ToInfiniteElement >> selection [
 
-	^ selectionStrategy 
+	self
+		deprecated: 'Use selectionStrategy instead'
+		transformWith: '`@receiver selection' -> '`@receiver selectionStrategy'.
+
+	^ self selectionStrategy 
 ]
 
 { #category : #accessing }
 ToInfiniteElement >> selection: aSelectionStrategy [
 
-	selectionStrategy ifNotNil: [ :sstrat | sstrat onUninstalledIn: self ].
-	selectionStrategy := aSelectionStrategy.
-	selectionStrategy ifNotNil: [ :sstrat | sstrat onInstalledIn: self ].
-
+	self
+		deprecated: 'Use selectionStrategy: instead'
+		transformWith: '`@receiver selection: `@arg' -> '`@receiver selectionStrategy: `@arg'.
+	self selectionStrategy: aSelectionStrategy
 ]
 
 { #category : #accessing }
 ToInfiniteElement >> selectionStrategy [
 
-	self
-		deprecated: 'Use selection instead'
-		transformWith: '`@receiver selectionStrategy' -> '`@receiver selection'.
 	^ selectionStrategy
+]
+
+{ #category : #accessing }
+ToInfiniteElement >> selectionStrategy: aSelectionStrategy [
+
+	selectionStrategy ifNotNil: [ :sstrat | sstrat onUninstalledIn: self ].
+	selectionStrategy := aSelectionStrategy.
+	selectionStrategy ifNotNil: [ :sstrat | sstrat onInstalledIn: self ].
+
 ]
 
 { #category : #'selection events' }

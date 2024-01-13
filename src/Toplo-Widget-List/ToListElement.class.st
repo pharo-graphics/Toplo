@@ -86,18 +86,17 @@ ToListElement >> initialize [
 	selectionElements := #(  ).
 	self layout: self defaultLayout.
 	self next: self defaultInfiniteElement.
-	
+
 	self addEventHandler: ToListElementEventHandler new.
-	
+
 	"Also installs shared event distributors between the list element, 
 	the infinite, the data and the data source. 
 	This gives the possibility to directly add event handlers on shared events :
 		self when: ToInfiniteSelectionChangedEvent do: [ bla bla ] 
 		instead of 
 		self infinite when: ToInfiniteSelectionChangedEvent do: [ bla bla ] "
-	sharedDistributor := BlSharedEventDistributor new
-		                     shareEvents: self sharedEvents
-		                     yourself.
+	sharedDistributor := BlSharedEventDistributor new shareEvents:
+		                     self sharedEvents yourself.
 	self addEventHandler: sharedDistributor.
 	self data addEventHandler: sharedDistributor.
 	self dataSource addEventHandler: sharedDistributor.
@@ -105,11 +104,13 @@ ToListElement >> initialize [
 
 	self addChild: self next.
 	self infinite elevation: (BlRelativeElevation elevation: 10).
-	self contextMenuWindowManagerClass: ToListElementContextMenuWindowManager.
+	self contextMenuWindowManagerClass:
+		ToListElementContextMenuWindowManager.
 	self addEventHandler: ToListSelectionEventHandler new.
-	self addEventHandler: ToListElementContextMenuSelectionEventHandler new.
+	self addEventHandler:
+		ToListElementContextMenuSelectionEventHandler new.
 	self matchParent.
-	self selection: self defaultSelectionStrategy
+	self selectionStrategy: self defaultSelectionStrategy
 ]
 
 { #category : #orientation }

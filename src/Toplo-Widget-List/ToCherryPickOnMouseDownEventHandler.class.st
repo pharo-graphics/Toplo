@@ -26,5 +26,6 @@ ToCherryPickOnMouseDownEventHandler >> primaryMouseDownEvent: anEvent [
 	| infiniteElement target |
 	target := anEvent currentTarget.
 	infiniteElement := target holder infiniteElement.
-	infiniteElement selection cherryPickIndex: target holder position
+	infiniteElement selectionStrategy cherryPickIndex:
+		target holder position
 ]

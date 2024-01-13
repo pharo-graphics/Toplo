@@ -12,7 +12,7 @@ Class {
 { #category : #initialization }
 ToSelectWindowManager >> defaultMaxHeight [
 
-	^ 300
+	^ 200
 ]
 
 { #category : #initialization }
@@ -25,7 +25,7 @@ ToSelectWindowManager >> defaultMinHeight [
 ToSelectWindowManager >> defaultPositionHook [
 
 	^ [ :window :theElement :event |
-	  window position: (theElement bounds inParent: self anchorRoot) bounds bottomLeft + (4 @ 2) ]
+	  window position: (theElement bounds inParent: self anchorRoot) bounds bottomLeft + (4 @ 1) ]
 ]
 
 { #category : #initialization }
@@ -128,13 +128,13 @@ ToSelectWindowManager >> newListElement [
 
 	| newListElement |
 	newListElement := ToListElement new.
-	newListElement vFitContent.
-	newListElement hMatchParent.
 	newListElement selection: ToCherryPickListSelectionStrategy new.
 	newListElement requestFocusOnMouseDown: false.
-	newListElement infinite maxHeight: self maxHeight.
-	newListElement infinite minHeight: self minHeight.
+	newListElement maxHeight: self maxHeight.
+	newListElement minHeight: self minHeight.
 	newListElement infinite vFitContent.
+	newListElement vFitContent.
+	newListElement hMatchParent.
 
 	^ newListElement
 ]

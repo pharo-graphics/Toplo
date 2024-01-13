@@ -103,14 +103,6 @@ ToAnchoredWindow >> hasAssociateElement [
 	^ self element notNil
 ]
 
-{ #category : #skin }
-ToAnchoredWindow >> installRawStyle [
-
-	super installRawStyle.
-	"(self tokenValueNamed: #'animation-window-opening') value: self."
-	self effect: (self tokenValueNamed: #'effect-window')
-]
-
 { #category : #accessing }
 ToAnchoredWindow >> manager [
 
@@ -140,18 +132,20 @@ ToAnchoredWindow >> popupEvent: anEvent [
 	" I have to set the position here "
 
 	self manager ifNil: [
-		Error signal: 'Can''t popup an anchored window without window manager' ].
+		Error signal:
+			'Can''t popup an anchored window without window manager' ].
 	self hasAssociateElement ifFalse: [
-		Error signal: 'Can''t popup an anchored window without associate element' ].
+		Error signal:
+			'Can''t popup an anchored window without associate element' ].
 	self element isAttachedToSceneGraph ifFalse: [
-		Error signal: 'Can''t popup an anchored window if the element is not attached to a space' ].
-	self visibility: BlVisibility hidden. 
+		Error signal:
+			'Can''t popup an anchored window if the element is not attached to a space' ].
+	"self visibility: BlVisibility hidden. "
 	self anchorRoot addChild: self.
-	self checkBeforePopupEvent: anEvent.
-	self requestLayout.
 	popupTimestamp := DateAndTime now.
 	self toFront.
-	self visibility: BlVisibility visible. 
+	self checkBeforePopupEvent: anEvent.
+	"self visibility: BlVisibility visible. "
 	self dispatchOpenedEvent: anEvent
 ]
 

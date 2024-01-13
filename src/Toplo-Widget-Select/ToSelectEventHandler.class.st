@@ -5,42 +5,6 @@ Class {
 }
 
 { #category : #'element handlers' }
-ToSelectEventHandler >> collectionAddEvent: anEvent [
-
-	anEvent currentTarget onDataUpdated
-]
-
-{ #category : #'element handlers' }
-ToSelectEventHandler >> collectionFilterEvent: anEvent [
-
-	" ignored "
-]
-
-{ #category : #'element handlers' }
-ToSelectEventHandler >> collectionRemoveEvent: anEvent [
-
-	anEvent currentTarget onDataUpdated
-]
-
-{ #category : #'element handlers' }
-ToSelectEventHandler >> collectionUpdateAllEvent: anEvent [
-
-	anEvent currentTarget onDataUpdated
-]
-
-{ #category : #'element handlers' }
-ToSelectEventHandler >> collectionUpdateEvent: anEvent [
-
-	anEvent currentTarget onDataUpdated
-]
-
-{ #category : #'element handlers' }
-ToSelectEventHandler >> dataFilterResultEvent: anEvent [
-
-	anEvent currentTarget windowManager filterResultEvent: anEvent
-]
-
-{ #category : #'element handlers' }
 ToSelectEventHandler >> elementExtentChangedEvent: anEvent [
 
 	windowManager currentWindow ifNil: [ ^ self ].
@@ -51,15 +15,5 @@ ToSelectEventHandler >> elementExtentChangedEvent: anEvent [
 { #category : #'api - accessing' }
 ToSelectEventHandler >> eventsToHandle [
 
-	^ super eventsToHandle , {
-		  ToDataFilterResultEvent.
-		  BlElementExtentChangedEvent.
-		  ToCollectionAfterChangeEvent }
-]
-
-{ #category : #'element handlers' }
-ToSelectEventHandler >> selectDataAddedEvent: anEvent [
-
-	anEvent currentTarget selectIndex: anEvent index.
-	anEvent currentTarget refreshNodes
+	^ super eventsToHandle , { BlElementExtentChangedEvent }
 ]

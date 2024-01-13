@@ -8,8 +8,8 @@ Class {
 		'nodeHolders',
 		'fakeData',
 		'data',
-		'selection',
-		'nodeWrapping'
+		'nodeWrapping',
+		'selectionModel'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -69,7 +69,11 @@ ToSelect >> defaultNodeWrapping [
 { #category : #'accessing selection' }
 ToSelect >> deselectIndex: anIndex [
 
-	selection deselectIndex: anIndex
+	selectionModel deselectIndex: anIndex.
+	self listElement dispatchEvent:
+		(ToFilteredListSelectionModelChangedEvent new
+			 selection: self selection;
+			 yourself)
 ]
 
 { #category : #private }
@@ -89,12 +93,6 @@ ToSelect >> fakeData: aData [
 ToSelect >> fakeNode [
 
 	^ self childWithId: #fakeNode ifNone: [  ]
-]
-
-{ #category : #'accessing selection' }
-ToSelect >> filterResultDo: aBlock [
-
-	windowManager filterResultDo: aBlock
 ]
 
 { #category : #accessing }
@@ -122,10 +120,10 @@ ToSelect >> iconContainer [
 { #category : #initialization }
 ToSelect >> initialize [
 
-	| sharedEventsDistributor contentElement nodeContainer textField | 
+	| sharedEventsDistributor contentElement nodeContainer textField |
 	super initialize.
 	nodeWrapping := self defaultNodeWrapping.
-	selection := BlCompositeSelection new.
+	selectionModel := BlCompositeSelection new.
 	self fitContent.
 	self layout: BlLinearLayout horizontal.
 	nodeClass := self defaultNodeClass.
@@ -138,31 +136,28 @@ ToSelect >> initialize [
 	nodeContainer := self newNodeContainer.
 	contentElement addChild: nodeContainer.
 	self addChild: contentElement.
-	 
+
 	" the text field for the select input "
 	textField := self newTextField.
 	textField requestFocus.
-	sharedEventsDistributor := BlSharedEventDistributor new.
-	sharedEventsDistributor
-		adjustMousePosition: false;
-		shareEvents: {
-				ToCollectionAfterChangeEvent.
-				ToListUniqueIndexEvent.
-				ToAlbumClientEvent.
-				ToListSelectionChangedEvent.
-				ToInfiniteSelectionDirtyEvent }.
-	textField addEventHandler: sharedEventsDistributor.
-	self addEventHandler: sharedEventsDistributor.
 	nodeContainer addChild: textField.
 
 	data := ToObservableCollection new.
 	windowManager := ToSelectWindowManager new element: self.
+
+	sharedEventsDistributor := BlSharedEventDistributor new.
+	sharedEventsDistributor
+		adjustMousePosition: false;
+		shareEvents: {
+				ToListUniqueIndexEvent.
+				ToAlbumClientEvent }.
+
+	self textField addEventHandler: sharedEventsDistributor.
+	self addEventHandler: sharedEventsDistributor.
 	self listElement addEventHandler: sharedEventsDistributor.
-	self listElement infinite addEventHandler: sharedEventsDistributor.
-	self data addEventHandler: sharedEventsDistributor.
-	
+
 	self addChild: self newIconContainer.
-	self initializeFakeNode 
+	self initializeFakeNode
 ]
 
 { #category : #initialization }
@@ -328,12 +323,6 @@ ToSelect >> nodeWrapping: aBoolean [
 	self onNodeWrappingChange.
 ]
 
-{ #category : #private }
-ToSelect >> onDataUpdated [
-
-	windowManager onDataUpdatedInSelect
-]
-
 { #category : #'accessing list' }
 ToSelect >> onListCloseRequest [
 
@@ -354,13 +343,13 @@ ToSelect >> refreshNodes [
 	self dataNodesDo: [ :node | node removeFromParent ].
 	self nodeHolders reset.
 	" then rebuild current nodes according to current selection "
-	nodes := selection indices collect: [ :idx |
+	nodes := selectionModel indices collect: [ :idx |
 		         | node holder selectedData |
 		         node := self newNode.
 		         holder := self newNodeHolder.
 		         node selectHolder: holder.
 		         self nodeHolders add: holder.
-		         selectedData := self listElement data at: idx.
+		         selectedData := self data at: idx.
 		         holder
 			         node: node;
 			         position: idx;
@@ -374,26 +363,33 @@ ToSelect >> refreshNodes [
 { #category : #'accessing selection' }
 ToSelect >> selectIndex: anIndex [
 
-	selection selectIndex: anIndex
+	selectionModel selectIndex: anIndex.
+	self listElement dispatchEvent:
+		(ToFilteredListSelectionModelChangedEvent new
+			 selection: self selection;
+			 yourself)
 ]
 
 { #category : #'accessing selection' }
 ToSelect >> selectIndexes: aCollection [
 
-	selection := BlCompositeSelection new.
-	selection selectIndexes: aCollection
+	selectionModel selectIndexes: aCollection.
+	self listElement dispatchEvent:
+		(ToFilteredListSelectionModelChangedEvent new
+			 selection: self selection;
+			 yourself)
 ]
 
 { #category : #'accessing selection' }
 ToSelect >> selectedIndexes [
 
-	^ selection indices
+	^ selectionModel indices
 ]
 
 { #category : #accessing }
 ToSelect >> selection [
 
-	^ selection
+	^ selectionModel
 ]
 
 { #category : #accessing }

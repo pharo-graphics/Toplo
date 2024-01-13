@@ -41,7 +41,7 @@ ToInfiniteSelectionChangedEvent >> currentIndexes [
 { #category : #accessing }
 ToInfiniteSelectionChangedEvent >> currentIndexes: currentSelectedIndexes [
 
-	currentIndexes := currentSelectedIndexes copy
+	currentIndexes := currentSelectedIndexes asSet
 ]
 
 { #category : #accessing }
@@ -101,7 +101,7 @@ ToInfiniteSelectionChangedEvent >> previousIndexes [
 { #category : #accessing }
 ToInfiniteSelectionChangedEvent >> previousIndexes: previousSelectedIndexes [
 
-	previousIndexes := previousSelectedIndexes copy
+	previousIndexes := previousSelectedIndexes asSet
 ]
 
 { #category : #sending }

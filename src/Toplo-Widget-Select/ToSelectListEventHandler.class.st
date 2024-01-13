@@ -10,26 +10,25 @@ Class {
 { #category : #'api - accessing' }
 ToSelectListEventHandler >> eventsToHandle [
 
-	^ {
-		  ToListDeselectIndexEvent.
-		  ToListSelectIndexEvent }
+	^ { ToFilteredListSelectionChangedEvent }
+]
+
+{ #category : #'element handlers' }
+ToSelectListEventHandler >> filteredListSelectionChangedEvent: anEvent [
+
+	select refreshNodes
 ]
 
 { #category : #'element handlers' }
 ToSelectListEventHandler >> listDeselectIndexEvent: anEvent [
 
-	select
-		deselectIndex: anEvent index;
-		refreshNodes
+	select refreshNodes
 ]
 
 { #category : #'element handlers' }
 ToSelectListEventHandler >> listSelectIndexEvent: anEvent [
 
-	select
-		selectIndex: anEvent index;
-		refreshNodes.
-	"select listElement data removeAt: anEvent index"
+	select refreshNodes.
 ]
 
 { #category : #accessing }

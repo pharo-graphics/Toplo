@@ -32,8 +32,22 @@ ToInfiniteAbstractSelectionStrategy >> onNewNode: aNode [
 ToInfiniteAbstractSelectionStrategy >> onUninstalledIn: anInfiniteElement [
 ]
 
+{ #category : #initialization }
+ToInfiniteAbstractSelectionStrategy >> renewSelectionModel [
+]
+
 { #category : #'selection accessing' }
 ToInfiniteAbstractSelectionStrategy >> selectedIndexes [
 
 	^ { }
+]
+
+{ #category : #accessing }
+ToInfiniteAbstractSelectionStrategy >> selectionModel [
+
+	^ nil
+]
+
+{ #category : #accessing }
+ToInfiniteAbstractSelectionStrategy >> selectionModel: aSelection [
 ]

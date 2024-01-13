@@ -6,22 +6,27 @@ Class {
 		'semaphore',
 		'process',
 		'filter',
-		'originalDataProvider',
 		'originalData',
 		'delayBeforeFilter',
-		'filterResultTask'
+		'filterResultTask',
+		'indexedData',
+		'taskQueueHolder',
+		'previousPattern'
 	],
 	#category : #'Toplo-Widget-List-Filter'
 }
 
 { #category : #'private filtering' }
-ToListElementFilter >> dataFilterPattern: aString [
+ToListElementFilter >> buildOriginalIndexedData [
 
-	pattern := aString asString trimBoth.
-	self semaphore signal
+	indexedData := originalData withIndexCollect: [ :d :i |
+		               ToListElementFilteredData new
+			               data: d;
+			               dataSourcePos: i;
+			               yourself ]
 ]
 
-{ #category : #'api - hooks' }
+{ #category : #accessing }
 ToListElementFilter >> defaultDelay [
 
 	^ 200 milliSeconds
@@ -31,7 +36,7 @@ ToListElementFilter >> defaultDelay [
 ToListElementFilter >> defaultFilter [
 
 	"^ [ :data :p | data includesSubstring: p caseSensitive: false ]"
-	^ [ :data :p | data asString beginsWith: p caseSensitive: true ]
+	^ [ :data :p | data asString beginsWith: p asString caseSensitive: true ]
 ]
 
 { #category : #accessing }
@@ -56,37 +61,39 @@ ToListElementFilter >> filter: aValuable [
 { #category : #'private filtering' }
 ToListElementFilter >> filterDataIn: anElement withPattern: aPattern [
 
-	| filtered indexes event |
+	| event taskTarget |
 
-	aPattern
-		ifEmpty: [
-			filtered := originalData.
-			indexes := 1 to: originalData size ]
-		ifNotEmpty: [
-			filtered := Array streamContents: [ :filteredStream |
-				            indexes := Array streamContents: [ :indexesStream |
-					                       originalData withIndexDo: [ :d :idx |
-						                       (self filter value: d value: aPattern)
-							                       ifTrue: [
-								                       filteredStream nextPut: d.
-								                       indexesStream nextPut: idx ] ] ] ] ].
+	previousPattern = aPattern ifTrue: [ ^ self ].
+	previousPattern := aPattern.
+
+	taskTarget := taskQueueHolder ifNil: [ anElement ].
+
+	aPattern ifEmpty: [ self buildOriginalIndexedData ] ifNotEmpty: [
+		indexedData := Array streamContents: [ :str |
+			               originalData withIndexDo: [ :d :idx |
+				               (self filter value: d value: aPattern) ifTrue: [
+					               | filtered |
+					               filtered := ToListElementFilteredData new
+						                           data: d;
+						                           dataSourcePos: idx;
+						                           yourself.
+					               str nextPut: filtered ] ] ] ].
 
 	"A task must be used here because the filtering is runned asynchronously. The task allows to re-synchronise the element response.
 	As an example, it can avoid the children updating during layouting (because during layouting children are temporarily detached)
 	(which leads to errors related to children adding and which are difficult to understand)"
 
-	filterResultTask ifNotNil: [ anElement dequeueTask: filterResultTask ].
+	filterResultTask ifNotNil: [
+		taskTarget dequeueTask: filterResultTask ].
 	filterResultTask := BlTaskAction new.
 	filterResultTask action: [
-		event := ToDataFilterResultEvent new.
+		event := ToListFilterResultEvent new.
 		event
 			pattern: aPattern;
-			data: filtered;
-			indexes: indexes;
-			yourself.
+			indexedData: indexedData.
 		anElement dispatchEvent: event.
 		filterResultTask := nil ].
-	anElement enqueueTask: filterResultTask
+	taskTarget enqueueTask: filterResultTask
 ]
 
 { #category : #'private filtering' }
@@ -103,19 +110,19 @@ ToListElementFilter >> filterProcessIn: anElement [
 		  named: self class name , ' filter process'
 ]
 
-{ #category : #'private filtering' }
-ToListElementFilter >> initializeOriginalData [
+{ #category : #accessing }
+ToListElementFilter >> indexedData [
 
-	originalData :=  originalDataProvider value asArray
+	^ indexedData
 ]
 
 { #category : #'api - hooks' }
-ToListElementFilter >> onInstalledIn: anElement [
+ToListElementFilter >> onInstalledIn: aListElement [
 
-	originalDataProvider ifNil: [ originalDataProvider := [ anElement data ] ].
-	self initializeOriginalData.
 	delayBeforeFilter := self defaultDelay.
-	process := self filterProcessIn: anElement
+	process := self filterProcessIn: aListElement.
+	originalData ifNil: [ ^ self ].
+	aListElement data updateAllWith: originalData
 ]
 
 { #category : #'api - hooks' }
@@ -128,10 +135,19 @@ ToListElementFilter >> onUninstalledIn: anElement [
 ]
 
 { #category : #accessing }
-ToListElementFilter >> originalDataProvider: aBlock [
+ToListElementFilter >> originalData [
 
-	originalDataProvider := aBlock.
-	self initializeOriginalData 
+	^ originalData
+]
+
+{ #category : #accessing }
+ToListElementFilter >> originalData: anObservableCollection [
+
+	originalData := anObservableCollection.
+	originalData addEventHandler: (BlEventHandler
+			 on: ToCollectionAfterChangeEvent
+			 do: [ self pattern: ''  ]).
+	self buildOriginalIndexedData
 ]
 
 { #category : #accessing }
@@ -140,8 +156,21 @@ ToListElementFilter >> pattern [
 	^ pattern ifNil: [ pattern := '' ]
 ]
 
+{ #category : #'private filtering' }
+ToListElementFilter >> pattern: aString [
+
+	pattern := aString asString trimBoth.
+	self semaphore signal
+]
+
 { #category : #accessing }
 ToListElementFilter >> semaphore [
 
 	^ semaphore 
+]
+
+{ #category : #accessing }
+ToListElementFilter >> taskQueueHolder: aTaskQueueHolder [
+
+	taskQueueHolder := aTaskQueueHolder
 ]

@@ -8,7 +8,7 @@ Class {
 		'pivot',
 		'distance',
 		'installedShortcuts',
-		'selection'
+		'selectionModel'
 	],
 	#category : #'Toplo-Widget-List-Selection'
 }
@@ -42,11 +42,11 @@ ToInfiniteSelectionStrategy >> addOrRemoveWithGap: aGap [
 		ifTrue: [ | idx |
 			idx := nextIdx - aGap.
 			infiniteElement dispatchDeselectIndex: idx.
-			selection deselectIndex: idx ]
+			selectionModel deselectIndex: idx ]
 		ifFalse: [			
 			[
 			infiniteElement dispatchSelectIndex: nextIdx.
-			selection selectIndex: nextIdx.
+			selectionModel selectIndex: nextIdx.
 			nextIdx < self dataSource itemCount and: [
 				nextIdx > 1 and: [ self includes: nextIdx + aGap ] ] ] whileTrue: [
 				nextIdx := nextIdx + aGap.
@@ -150,6 +150,13 @@ ToInfiniteSelectionStrategy >> deselectIndex: index [
 		self doDeselectIndex: index ]
 ]
 
+{ #category : #'selection managing' }
+ToInfiniteSelectionStrategy >> deselectIndexes: indexes [
+
+	infiniteElement dispatchSelectionChangedAfter: [
+		self doDeselectAllIndexes: indexes ]
+]
+
 { #category : #'event management' }
 ToInfiniteSelectionStrategy >> dispatchStrongSelectionChanged [
 
@@ -189,9 +196,20 @@ ToInfiniteSelectionStrategy >> doDeselectAll [
 
 	self isMultiple ifFalse: [ self invalidOperation ].
 	infiniteElement dispatchDeselectAll.
-	selection deselectAll.
+	selectionModel deselectAll.
 	self markPointedPosition: 0.
 
+]
+
+{ #category : #'selection managing' }
+ToInfiniteSelectionStrategy >> doDeselectAllIndexes: indexes [
+
+	self isMultiple ifFalse: [ self invalidOperation ].
+	infiniteElement dispatchDeselectIndexes: indexes.
+	indexes ifNotEmpty: [ 
+		selectionModel deselectAllIndexes: indexes.
+		self markPointedPosition: indexes first ].
+	infiniteElement requestLayout
 ]
 
 { #category : #'selection managing' }
@@ -199,7 +217,7 @@ ToInfiniteSelectionStrategy >> doDeselectIndex: index [
 
 	self isNone ifTrue: [ self invalidOperation ].
 	infiniteElement dispatchDeselectIndex: index.
-	selection deselectIndex: index.
+	selectionModel deselectIndex: index.
 	self markPointedPosition: index
 ]
 
@@ -208,17 +226,16 @@ ToInfiniteSelectionStrategy >> doSelectAll [
 
 	self dataSource itemCount > 0 ifFalse: [ ^ self ].
 	infiniteElement dispatchSelectAll.
-	selection select: 0 to: self dataSource itemCount
+	selectionModel select: 0 to: self dataSource itemCount
 ]
 
 { #category : #'selection managing' }
 ToInfiniteSelectionStrategy >> doSelectAllIndexes: indexes [
 
 	self isMultiple ifFalse: [ self invalidOperation ].
-	self doDeselectAll.
 	infiniteElement dispatchSelectIndexes: indexes.
 	indexes ifNotEmpty: [ 
-		selection selectAllIndexes: indexes.
+		selectionModel selectAllIndexes: indexes.
 		self markPointedPosition: indexes first ].
 	infiniteElement requestLayout
 ]
@@ -228,7 +245,7 @@ ToInfiniteSelectionStrategy >> doSelectIndex: anIndex [
 
 	self isNone ifTrue: [ self invalidOperation  ].
 	infiniteElement dispatchSelectIndex: anIndex.
-	selection selectIndex: anIndex.
+	selectionModel selectIndex: anIndex.
 	self markPointedPosition: anIndex
 ]
 
@@ -238,7 +255,7 @@ ToInfiniteSelectionStrategy >> doSelectOnlyIndex: anIndex [
 	self isNone ifTrue: [ self invalidOperation ].
 	infiniteElement dispatchSelectOnlyIndex: anIndex.
 
-	selection selectOnlyIndex: anIndex.
+	selectionModel selectOnlyIndex: anIndex.
 
 	self markPointedPosition: anIndex.
 	infiniteElement scrollToIndex: anIndex
@@ -255,14 +272,14 @@ ToInfiniteSelectionStrategy >> doSelectToIndex: index [
 	self pivot: curr.
 	self distance: index - curr.
 	curr < index
-		ifTrue: [ selection select: curr - 1 to: index ]
-		ifFalse: [ selection select: index - 1 to: curr ]
+		ifTrue: [ selectionModel select: curr - 1 to: index ]
+		ifFalse: [ selectionModel select: index - 1 to: curr ]
 ]
 
 { #category : #accessing }
 ToInfiniteSelectionStrategy >> first [
 
-	^ selection indices first
+	^ selectionModel indices first
 ]
 
 { #category : #'private - selection managing' }
@@ -298,7 +315,7 @@ ToInfiniteSelectionStrategy >> goTowardPrevious [
 { #category : #'selection accessing' }
 ToInfiniteSelectionStrategy >> includes: anIndex [
 
-	^ selection containsIndex: anIndex
+	^ selectionModel containsIndex: anIndex
 ]
 
 { #category : #'data source change' }
@@ -312,7 +329,7 @@ ToInfiniteSelectionStrategy >> infiniteDataSourceChanged [
 ToInfiniteSelectionStrategy >> initialize [
 
 	super initialize.
-	selection := BlCompositeSelection new.
+	selectionModel := BlCompositeSelection new.
 	mode := #multiple.
 	currentIndex := 0
 ]
@@ -340,7 +357,7 @@ ToInfiniteSelectionStrategy >> invalidOperation [
 { #category : #'selection accessing' }
 ToInfiniteSelectionStrategy >> isEmpty [
 
-	^ selection isEmpty
+	^ selectionModel isEmpty
 ]
 
 { #category : #'mode testing' }
@@ -358,7 +375,7 @@ ToInfiniteSelectionStrategy >> isNone [
 { #category : #'selection accessing' }
 ToInfiniteSelectionStrategy >> isNotEmpty [
 
-	^ selection isNotEmpty
+	^ selectionModel isNotEmpty
 ]
 
 { #category : #'mode testing' }
@@ -370,7 +387,7 @@ ToInfiniteSelectionStrategy >> isSingle [
 { #category : #accessing }
 ToInfiniteSelectionStrategy >> last [
 
-	^ selection indices last
+	^ selectionModel indices last
 ]
 
 { #category : #'private - accessing' }
@@ -389,6 +406,12 @@ ToInfiniteSelectionStrategy >> multipleSelectionModeDo: aBlock [
 
 	self isMultiple ifFalse: [ ^ self ].
 	aBlock value
+]
+
+{ #category : #initialization }
+ToInfiniteSelectionStrategy >> newSelectionModel [
+
+	^ BlCompositeSelection new
 ]
 
 { #category : #'selection and shortcuts handlers' }
@@ -443,6 +466,12 @@ ToInfiniteSelectionStrategy >> pivot [
 ToInfiniteSelectionStrategy >> pivot: anIndex [
 
 	pivot := anIndex
+]
+
+{ #category : #initialization }
+ToInfiniteSelectionStrategy >> renewSelectionModel [
+
+	selectionModel := self newSelectionModel
 ]
 
 { #category : #'selection managing' }
@@ -524,7 +553,19 @@ ToInfiniteSelectionStrategy >> selectedIndex [
 { #category : #'selection accessing' }
 ToInfiniteSelectionStrategy >> selectedIndexes [
 
-	^ selection indices
+	^ selectionModel indices
+]
+
+{ #category : #accessing }
+ToInfiniteSelectionStrategy >> selectionModel [
+
+	^ selectionModel
+]
+
+{ #category : #accessing }
+ToInfiniteSelectionStrategy >> selectionModel: aSelection [
+
+	selectionModel := aSelection
 ]
 
 { #category : #'data source change' }
@@ -536,11 +577,11 @@ ToInfiniteSelectionStrategy >> shiftAfterAddingAt: aStartPosition itemCount: anI
 		itemCount: anItemCount.
 	selectedAfter := self selectedIndexes select: [ :idx |
 		                 idx >= (aStartPosition - anItemCount + 1) ].
-	selectedAfter do: [ :idx | selection deselectIndex: idx ].
+	selectedAfter do: [ :idx | selectionModel deselectIndex: idx ].
 	selectedAfter reverseDo: [ :idx |
 		| aToIndex |
 		aToIndex := idx + anItemCount.
-		selection selectIndex: aToIndex ].
+		selectionModel selectIndex: aToIndex ].
 	self markPointedPosition: currentIndex + anItemCount
 ]
 
@@ -560,15 +601,15 @@ ToInfiniteSelectionStrategy >> shiftAfterRemovingAt: aStartPosition itemCount: a
 		            i > (aStartPosition + anItemCount - 1) ].
 	removedIdx do: [ :i |
 		self currentIndex = i ifTrue: [ self currentIndex: 0 ].
-		selection deselectIndex: i ].
+		selectionModel deselectIndex: i ].
 	afterIdx do: [ :i |
 		self currentIndex = i ifTrue: [
 			self currentIndex: self currentIndex - anItemCount ].
-		selection deselectIndex: i ].
+		selectionModel deselectIndex: i ].
 	afterIdx do: [ :i |
 		| aToIndex |
 		aToIndex := i - anItemCount.
-		selection selectIndex: aToIndex ]
+		selectionModel selectIndex: aToIndex ]
 ]
 
 { #category : #accessing }

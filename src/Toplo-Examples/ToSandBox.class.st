@@ -437,7 +437,7 @@ ToSandBox class >> example_EditorWithoutSoftLine [
 { #category : #list }
 ToSandBox class >> example_FilterOnListWithAllClassesAndTraitsSorted [
 
-	| listElement pane filterField dataFilter data |
+	| listElement pane filterField data |
 	pane := ToPane new
 		        beVertical;
 		        matchParent.
@@ -446,24 +446,23 @@ ToSandBox class >> example_FilterOnListWithAllClassesAndTraitsSorted [
 		               node addChild: (ToClassNameViewExample new
 				                class: holder data position: holder position;
 				                yourself) ].
-	data := Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ].
-	listElement data addAll: data.
+	data := ToObservableCollection new.
+	data addAll: (Smalltalk allClassesAndTraits sorted: [ :a :b |
+		        a name < b name ]).
 	listElement margin: (BlInsets all: 2).
 	filterField margin: (BlInsets all: 2).
+	listElement addEventHandler: 
+			(ToFilteredListElementEventHandler new
+			 taskQueueHolder: listElement;
+			 originalData: data;
+			 yourself).
 
-	dataFilter := ToListElementFilter new.
-	dataFilter onInstalledIn: listElement.
 	filterField addEventHandler: (BlEventHandler
 			 on: AlbTextEditedEvent
 			 do: [
 				 | pattern |
-				 listElement selection deselectAll.
 				 pattern := filterField text asString.
-				 dataFilter dataFilterPattern: pattern ]).
-
-	listElement addEventHandler: (BlEventHandler
-			 on: ToDataFilterResultEvent
-			 do: [ :event | listElement data filterResult: event data ]).
+				 listElement dispatchEvent: (ToListFilterRequest new pattern: pattern) ]).
 
 	listElement placeholderBuilder: [ :ph :e |
 		| lab |
@@ -474,6 +473,51 @@ ToSandBox class >> example_FilterOnListWithAllClassesAndTraitsSorted [
 		lab matchParent.
 		ph addChild: lab ].
 
+	pane addChild: listElement.
+	pane addChild: filterField.
+	pane openInSpace
+]
+
+{ #category : #list }
+ToSandBox class >> example_FilterOnListWith_175000_Items [
+
+	| listElement pane filterField data handler |
+	pane := ToPane new
+		        beVertical;
+		        matchParent.
+	filterField := ToTextField new.
+	listElement := ToListElement new.
+	data := ToObservableCollection new.
+	Character alphabet do: [ :c1 |
+		(Character alphabet ) do: [ :c2 |
+			(Character alphabet ) do: [ :c3 |
+				((48 to: 57) collect: [:n | n asCharacter]) do: [ :c4 |
+					data add: (String streamContents: [ :str |
+							 str nextPutAll: {
+									 c1.
+									 c2.
+									 c3.
+									 c4 } ]) ] ] ] ].
+
+	listElement margin: (BlInsets all: 2).
+	filterField margin: (BlInsets all: 2).
+	listElement addEventHandler: (handler := (ToFilteredListElementEventHandler new originalData: data)).
+	filterField addEventHandler: (BlEventHandler
+			 on: AlbTextEditedEvent
+			 do: [
+				 | pattern |
+				 pattern := filterField text asString.
+				 listElement dispatchEvent: (ToListFilterRequest new pattern: pattern) ]).
+
+	listElement placeholderBuilder: [ :ph :e |
+		| lab |
+		lab := ToAttributedLabel new text: ('No Data' asRopedText
+				        foreground: Color lightGray;
+				        fontSize: 24;
+				        yourself).
+		lab matchParent.
+		ph addChild: lab ].
+	"handler inspect."
 	pane addChild: listElement.
 	pane addChild: filterField.
 	pane openInSpace
@@ -2153,8 +2197,8 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWithStatesOfAmerica [
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
 	select hMatchParent.
-	select data updateAllWith: self statesOfAmerica.
-
+	select data addAll: self statesOfAmerica.
+select inspect.
 	innerWindow pane addChild: select.
 	innerWindow openInSpace
 ]

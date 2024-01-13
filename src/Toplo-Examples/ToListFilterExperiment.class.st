@@ -50,7 +50,7 @@ ToListFilterExperiment >> open [
 
 	self listElement data addAll: data.
 	listElement addEventHandler: (BlEventHandler
-			 on: ToDataFilterResultEvent
+			 on: ToListFilterResultEvent
 			 do: [ :event | listElement data filterResult: event data ]).
 
 	self listElement placeholderBuilder: [ :ph :e |
@@ -74,5 +74,5 @@ ToListFilterExperiment >> textUpdated [
 
 	| filter |
 	filter := filterField text asString.
-	dataFilter dataFilterPattern: filterField text asString
+	dataFilter pattern: filterField text asString
 ]

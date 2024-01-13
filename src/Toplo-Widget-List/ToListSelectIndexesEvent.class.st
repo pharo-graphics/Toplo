@@ -1,31 +1,8 @@
 Class {
 	#name : #ToListSelectIndexesEvent,
-	#superclass : #ToListSelectionActionEvent,
-	#instVars : [
-		'indexes'
-	],
+	#superclass : #ToListMultipleIndexesEvent,
 	#category : #'Toplo-Widget-List-Selection'
 }
-
-{ #category : #accessing }
-ToListSelectIndexesEvent >> indexes [
-
-	^ indexes
-]
-
-{ #category : #accessing }
-ToListSelectIndexesEvent >> indexes: aCollectionOfIndexes [
-
-	indexes := aCollectionOfIndexes
-]
-
-{ #category : #printing }
-ToListSelectIndexesEvent >> printOn: aStream [
-
-	super printOn: aStream.
-	aStream nextPutAll: ' indexes: '.
-	self indexes printOn: aStream
-]
 
 { #category : #sending }
 ToListSelectIndexesEvent >> sendTo: anObject [

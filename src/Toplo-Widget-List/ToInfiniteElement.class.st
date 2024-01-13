@@ -106,6 +106,14 @@ ToInfiniteElement >> dispatchDeselectIndex: anIndex [
 ]
 
 { #category : #'selection action dispatching' }
+ToInfiniteElement >> dispatchDeselectIndexes: aCollection [
+
+	self dispatchEvent: (ToListDeselectIndexesEvent new
+			 indexes: aCollection;
+			 yourself)
+]
+
+{ #category : #'selection action dispatching' }
 ToInfiniteElement >> dispatchRemoveSelectedIndexesFrom: anIndex itemCount: aNumber [
 
 	self dispatchEvent: (ToListRemoveSelectedIndexesEvent new

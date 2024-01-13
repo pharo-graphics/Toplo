@@ -126,9 +126,8 @@ ToSelectNode >> removable: aBoolean [
 ToSelectNode >> removeFromSelect [
 	" remove the node by deselecting the corresponding list node in the list "
 
-	| list |
-	list := self selectHolder select listElement.
-	list selection deselectIndex: self selectHolder position
+	self selectHolder select deselectIndex: self selectHolder position.
+	self selectHolder select refreshNodes
 ]
 
 { #category : #'private configurating' }

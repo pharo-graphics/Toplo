@@ -653,6 +653,15 @@ TToObservableCollection >> whenUpdateChangeDo: aBlock [
 ]
 
 { #category : #'t - observable collection - enumerating' }
+TToObservableCollection >> withIndexCollect: elementAndIndexBlock [
+	"Just like with:collect: except that the iteration index supplies the second argument to the block."
+
+	"(#(10 20 30) withIndexCollect: [:each :index | each + (index * 2)]) >>> #(12 24 36)"
+
+	^ list withIndexCollect: elementAndIndexBlock
+]
+
+{ #category : #'t - observable collection - enumerating' }
 TToObservableCollection >> withIndexDo: elementAndIndexBlock [
 	"Just like do: except that the iteration index supplies the second argument to the block"
 	"Support collection enumeration with a counter, even though not ordered"

@@ -63,7 +63,7 @@ ToStandardNodeSelectionEventHandler >> launchClick: aBlock event: anEvent for: a
 	self hasClickLauncher ifTrue: [ ^ self ].
 
 	" no click launcher for only one selected node "
-	infinite selection selectedIndexes size > 1 ifFalse: [
+	infinite selectionStrategy selectedIndexes size > 1 ifFalse: [
 		^ aBlock value ].
 
 	monitor critical: [
@@ -81,14 +81,17 @@ ToStandardNodeSelectionEventHandler >> onClickOnNodeEvent: anEvent [
 	| infiniteElement target |
 	target := anEvent currentTarget.
 	infiniteElement := target holder infiniteElement.
-	infiniteElement selection multipleSelectionModeDo: [
+	infiniteElement selectionStrategy multipleSelectionModeDo: [
 		anEvent modifiers isShift ifTrue: [
-			^ infiniteElement selection selectToIndex: target holder position ].
+			^ infiniteElement selectionStrategy selectToIndex:
+				  target holder position ].
 		anEvent modifiers isPrimaryModifier ifTrue: [
-			^ infiniteElement selection cherryPickIndex: target holder position ] ].
+			^ infiniteElement selectionStrategy cherryPickIndex:
+				  target holder position ] ].
 
-	infiniteElement selection atLeastMonoSelectionDo: [
-		infiniteElement selection selectOnlyIndex: target holder position ]
+	infiniteElement selectionStrategy atLeastMonoSelectionDo: [
+		infiniteElement selectionStrategy selectOnlyIndex:
+			target holder position ]
 ]
 
 { #category : #'api - hooks' }

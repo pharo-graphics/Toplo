@@ -4,25 +4,25 @@ Class {
 	#instVars : [
 		'filter',
 		'updatingSelection',
-		'selection'
+		'selectionModel'
 	],
 	#category : #'Toplo-Widget-List-Filter'
 }
-
-{ #category : #'event handlers' }
-ToFilteredListElementEventHandler >> collectionUpdateAllRequest: anEvent [
-
-]
 
 { #category : #'api - accessing' }
 ToFilteredListElementEventHandler >> eventsToHandle [
 
 	^ {
-		  ToCollectionUpdateAllRequest.
 		  ToListFilterRequest.
 		  ToListFilterResultEvent.
 		  ToListSelectionChangedEvent.
 		  ToFilteredListSelectionModelChangedEvent }
+]
+
+{ #category : #accessing }
+ToFilteredListElementEventHandler >> filter: aListElementFilter [
+
+	filter := aListElementFilter
 ]
 
 { #category : #'event handlers' }
@@ -35,12 +35,14 @@ ToFilteredListElementEventHandler >> filteredListSelectionModelChangedEvent: anE
 	updatingSelection := true.
 
 	filter indexedData withIndexDo: [ :idata :idx |
-		(self selection containsIndex: idata dataSourcePos)
+		(self selectionModel containsIndex: idata dataSourcePos)
 			ifTrue: [ selectedIndexes add: idx ]
 			ifFalse: [ deselectedIndexes add: idx ] ].
 
+	target selectionStrategy deselectAll.
 	target selectionStrategy selectIndexes: selectedIndexes.
-	target selectionStrategy deselectIndexes: deselectedIndexes.
+	self flag: 'TODO: check with <target selectionStrategy deselectIndexes: deselectedIndexes.>. I''m not sure it works ( and it must work ) but now its time to go to sleep... '.
+	
 	updatingSelection := false
 ]
 
@@ -48,9 +50,7 @@ ToFilteredListElementEventHandler >> filteredListSelectionModelChangedEvent: anE
 ToFilteredListElementEventHandler >> initialize [
 
 	super initialize.
-	updatingSelection := false.
-	filter := ToListElementFilter new
-	
+	updatingSelection := false
 ]
 
 { #category : #'event handlers' }
@@ -73,7 +73,7 @@ ToFilteredListElementEventHandler >> listFilterResultEvent: anEvent [
 		(anEvent indexedData collect: [ :id | id data ]).
 	selectedIndexes := OrderedCollection new.
 	anEvent indexedData withIndexDo: [ :id :idx |
-		(self selection containsIndex: id dataSourcePos) ifTrue: [
+		(self selectionModel containsIndex: id dataSourcePos) ifTrue: [
 			selectedIndexes add: idx ] ].
 	target selectionStrategy doSelectAllIndexes: selectedIndexes.
 	updatingSelection := false
@@ -87,7 +87,6 @@ ToFilteredListElementEventHandler >> listSelectionChangedEvent: anEvent [
 	| target |
 	updatingSelection ifTrue: [ ^ self ].
 	filter indexedData ifNil: [ ^ self ].
-
 	target := anEvent currentTarget.
 	" the target is the filtered listElement "
 
@@ -95,60 +94,31 @@ ToFilteredListElementEventHandler >> listSelectionChangedEvent: anEvent [
 		| dataWithIndex |
 		dataWithIndex := filter indexedData at: pos.
 		(target selectionStrategy includes: pos)
-			ifTrue: [ self selection selectIndex: dataWithIndex dataSourcePos ]
-			ifFalse: [
-			self selection deselectIndex: dataWithIndex dataSourcePos ] ].
+			ifTrue: [ self selectionModel selectIndex: dataWithIndex dataSourcePos ]
+			ifFalse: [ self selectionModel deselectIndex: dataWithIndex dataSourcePos ] ].
 
 	target dispatchEvent: (ToFilteredListSelectionChangedEvent new
-			 selection: self selection;
+			 selection: self selectionModel;
 			 yourself)
-]
-
-{ #category : #'api - hooks' }
-ToFilteredListElementEventHandler >> onInstalledIn: anElement [
-
-	super onInstalledIn: anElement.
-	filter onInstalledIn: anElement
 ]
 
 { #category : #'api - hooks' }
 ToFilteredListElementEventHandler >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
-	filter onUninstalledIn: anElement.
 	filter := nil.
-	selection := nil
+	selectionModel := nil
 
 ]
 
 { #category : #accessing }
-ToFilteredListElementEventHandler >> originalData [
+ToFilteredListElementEventHandler >> selectionModel [
 
-	
-	^ filter originalData
+	^ selectionModel 
 ]
 
 { #category : #accessing }
-ToFilteredListElementEventHandler >> originalData: anObservableCollection [
+ToFilteredListElementEventHandler >> selectionModel: aSelectionModel [
 
-	filter originalData: anObservableCollection  
-]
-
-{ #category : #accessing }
-ToFilteredListElementEventHandler >> selection [
-
-	^ selection ifNil: [ selection := BlCompositeSelection new ]
-]
-
-{ #category : #accessing }
-ToFilteredListElementEventHandler >> selection: aSelectionModel [
-
-	selection := aSelectionModel
-]
-
-{ #category : #accessing }
-ToFilteredListElementEventHandler >> taskQueueHolder: aTaskQueueHolder [
-
-	filter taskQueueHolder: aTaskQueueHolder
-
+	selectionModel := aSelectionModel
 ]

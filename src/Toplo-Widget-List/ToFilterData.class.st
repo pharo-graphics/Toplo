@@ -1,5 +1,5 @@
 Class {
-	#name : #ToListElementFilteredData,
+	#name : #ToFilterData,
 	#superclass : #Object,
 	#instVars : [
 		'data',
@@ -9,25 +9,25 @@ Class {
 }
 
 { #category : #accessing }
-ToListElementFilteredData >> data [
+ToFilterData >> data [
 
 	^ data
 ]
 
 { #category : #accessing }
-ToListElementFilteredData >> data: anObject [
+ToFilterData >> data: anObject [
 
 	data := anObject
 ]
 
 { #category : #accessing }
-ToListElementFilteredData >> dataSourcePos [
+ToFilterData >> dataSourcePos [
 
 	^ dataSourcePos
 ]
 
 { #category : #accessing }
-ToListElementFilteredData >> dataSourcePos: anInteger [
+ToFilterData >> dataSourcePos: anInteger [
 
 	dataSourcePos := anInteger
 ]

@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'listElement',
 		'maxHeight',
-		'minHeight'
+		'minHeight',
+		'filter'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -43,13 +44,13 @@ ToSelectWindowManager >> element: anElement [
 	self listElement addEventHandler: (ToSelectListEventHandler new
 			 select: anElement;
 			 yourself).
+			
+	filter := ToListElementFilter new.
+	filter taskQueueHolder: anElement.
+	filter originalData: anElement data.
+	filter selectionModel: anElement selectionModel.
+	filter onInstalledIn: self listElement.
 
-	self listElement addEventHandler:
-		(ToFilteredListElementEventHandler new
-			 taskQueueHolder: anElement;
-			 originalData: anElement data;
-			 selection: anElement selectionModel;
-			 yourself).
 	self listElement addEventHandler: (BlEventHandler
 			 on: ToListSelectionChangedEvent
 			 do: [ :event | anElement refreshNodes ]).

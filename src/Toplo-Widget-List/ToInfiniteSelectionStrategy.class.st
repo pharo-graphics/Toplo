@@ -76,7 +76,7 @@ ToInfiniteSelectionStrategy >> beSingleSelection [
 
 	self doDeselectAll.
 	mode := #single.
-	infiniteElement selection: self
+	infiniteElement selectionStrategy: self
 ]
 
 { #category : #'mode changing' }
@@ -84,7 +84,7 @@ ToInfiniteSelectionStrategy >> beWithoutSelection [
 
 	self doDeselectAll.
 	mode := #none.
-	infiniteElement selection: self
+	infiniteElement selectionStrategy: self
 ]
 
 { #category : #'private - shortcuts' }

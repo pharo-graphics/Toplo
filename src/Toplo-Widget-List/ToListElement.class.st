@@ -95,8 +95,9 @@ ToListElement >> initialize [
 		self when: ToInfiniteSelectionChangedEvent do: [ bla bla ] 
 		instead of 
 		self infinite when: ToInfiniteSelectionChangedEvent do: [ bla bla ] "
-	sharedDistributor := BlSharedEventDistributor new shareEvents:
-		                     self sharedEvents yourself.
+	sharedDistributor := BlSharedEventDistributor new
+		                     shareEvents: self sharedEvents;
+		                     yourself.
 	self addEventHandler: sharedDistributor.
 	self data addEventHandler: sharedDistributor.
 	self dataSource addEventHandler: sharedDistributor.

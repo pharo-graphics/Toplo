@@ -437,7 +437,7 @@ ToSandBox class >> example_EditorWithoutSoftLine [
 { #category : #list }
 ToSandBox class >> example_FilterOnListWithAllClassesAndTraitsSorted [
 
-	| listElement pane filterField data |
+	| listElement pane filterField filter |
 	pane := ToPane new
 		        beVertical;
 		        matchParent.
@@ -446,23 +446,24 @@ ToSandBox class >> example_FilterOnListWithAllClassesAndTraitsSorted [
 		               node addChild: (ToClassNameViewExample new
 				                class: holder data position: holder position;
 				                yourself) ].
-	data := ToObservableCollection new.
-	data addAll: (Smalltalk allClassesAndTraits sorted: [ :a :b |
-		        a name < b name ]).
 	listElement margin: (BlInsets all: 2).
 	filterField margin: (BlInsets all: 2).
-	listElement addEventHandler: 
-			(ToFilteredListElementEventHandler new
-			 taskQueueHolder: listElement;
-			 originalData: data;
-			 yourself).
+
+	filter := ToListElementFilter new
+		          originalData: listElement data newMirror;
+		          yourself.
+	filter onInstalledIn: listElement.
+
+	listElement data addAll:
+		(Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]).
 
 	filterField addEventHandler: (BlEventHandler
 			 on: AlbTextEditedEvent
 			 do: [
 				 | pattern |
 				 pattern := filterField text asString.
-				 listElement dispatchEvent: (ToListFilterRequest new pattern: pattern) ]).
+				 listElement dispatchEvent:
+					 (ToListFilterRequest new pattern: pattern) ]).
 
 	listElement placeholderBuilder: [ :ph :e |
 		| lab |
@@ -481,13 +482,13 @@ ToSandBox class >> example_FilterOnListWithAllClassesAndTraitsSorted [
 { #category : #list }
 ToSandBox class >> example_FilterOnListWith_175000_Items [
 
-	| listElement pane filterField data handler |
+	| listElement pane filterField data filter mirror |
 	pane := ToPane new
 		        beVertical;
 		        matchParent.
 	filterField := ToTextField new.
 	listElement := ToListElement new.
-	data := ToObservableCollection new.
+	data := OrderedCollection new.
 	Character alphabet do: [ :c1 |
 		(Character alphabet ) do: [ :c2 |
 			(Character alphabet ) do: [ :c3 |
@@ -501,7 +502,11 @@ ToSandBox class >> example_FilterOnListWith_175000_Items [
 
 	listElement margin: (BlInsets all: 2).
 	filterField margin: (BlInsets all: 2).
-	listElement addEventHandler: (handler := (ToFilteredListElementEventHandler new originalData: data)).
+	
+	filter := ToListElementFilter new originalData: listElement data newMirror; yourself.
+	filter onInstalledIn: listElement.
+	listElement data addAll: data.
+	
 	filterField addEventHandler: (BlEventHandler
 			 on: AlbTextEditedEvent
 			 do: [
@@ -2216,14 +2221,12 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWith_175000_Items [
 		Character alphabet do: [ :c2 |
 			Character alphabet do: [ :c3 |
 				((48 to: 57) collect: [ :n | n asCharacter ]) do: [ :c4 |
-					((48 to: 57) collect: [ :n | n asCharacter ]) do: [ :c5 |
-						data add: (String streamContents: [ :str |
-								 str nextPutAll: {
-										 c1.
-										 c2.
-										 c3.
-										 c4.
-										 c5 } ]) ] ] ] ] ].
+					data add: (String streamContents: [ :str |
+							 str nextPutAll: {
+									 c1.
+									 c2.
+									 c3.
+									 c4 } ]) ] ] ] ].
 	data size traceCr.
 	select data updateAllWith: data.
 

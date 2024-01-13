@@ -5,15 +5,16 @@ Class {
 		'pattern',
 		'semaphore',
 		'process',
-		'filter',
 		'originalData',
 		'delayBeforeFilter',
 		'filterResultTask',
 		'indexedData',
 		'taskQueueHolder',
 		'previousPattern',
-		'dataAfterChangeHandler',
-		'originalIndexedData'
+		'originalIndexedData',
+		'dataFilter',
+		'filterListElementHandler',
+		'selectionModel'
 	],
 	#category : #'Toplo-Widget-List-Filter'
 }
@@ -22,10 +23,23 @@ Class {
 ToListElementFilter >> buildOriginalIndexedData [
 
 	originalIndexedData := originalData withIndexCollect: [ :d :i |
-		               ToListElementFilteredData new
+		               ToFilterData new
 			               data: d;
 			               dataSourcePos: i;
 			               yourself ]
+]
+
+{ #category : #accessing }
+ToListElementFilter >> dataFilter [
+
+	^ dataFilter ifNil: [ dataFilter := self defaultFilter ]
+]
+
+{ #category : #accessing }
+ToListElementFilter >> dataFilter: aValuable [
+	" filter takes a data and a pattern as argument "
+
+	dataFilter := aValuable
 ]
 
 { #category : #accessing }
@@ -47,19 +61,6 @@ ToListElementFilter >> delayBeforeFilter [
 	^ delayBeforeFilter
 ]
 
-{ #category : #accessing }
-ToListElementFilter >> filter [
-
-	^ filter ifNil: [ filter := self defaultFilter ]
-]
-
-{ #category : #accessing }
-ToListElementFilter >> filter: aValuable [
-	" filter takes a data and a pattern as argument "
-
-	filter := aValuable
-]
-
 { #category : #'private filtering' }
 ToListElementFilter >> filterDataIn: anElement withPattern: aPattern [
 
@@ -77,7 +78,7 @@ ToListElementFilter >> filterDataIn: anElement withPattern: aPattern [
 		ifNotEmpty: [
 			indexedData := Array streamContents: [ :str |
 				               originalIndexedData do: [ :d |
-					               (self filter value: d data value: aPattern)
+					               (self dataFilter value: d data value: aPattern)
 						               ifTrue: [ str nextPut: d ] ] ] ].
 
 
@@ -121,16 +122,23 @@ ToListElementFilter >> indexedData [
 { #category : #'api - hooks' }
 ToListElementFilter >> onInstalledIn: aListElement [
 
+	originalData ifNil: [	^ Error signal: 'A filter must have an initialData before it''s installation on a List element' ].
 	delayBeforeFilter := self defaultDelay.
+
+	filterListElementHandler := ToFilteredListElementEventHandler new
+		                            selectionModel: self selectionModel;
+		                            filter: self;
+		                            yourself.
+	aListElement addEventHandler: filterListElementHandler.
 	process := self filterProcessIn: aListElement.
-	originalData ifNil: [ ^ self ].
-	aListElement data updateAllWith: originalData
+	self pattern: ''
 ]
 
 { #category : #'api - hooks' }
-ToListElementFilter >> onUninstalledIn: anElement [
+ToListElementFilter >> onUninstalledIn: aListElement [
 
 	process terminate.
+	aListElement removeEventHandler: filterListElementHandler.
 	originalData := nil.
 	pattern := ''.
 	semaphore := nil.
@@ -145,15 +153,7 @@ ToListElementFilter >> originalData [
 { #category : #accessing }
 ToListElementFilter >> originalData: anObservableCollection [
 
-	originalData = anObservableCollection ifTrue: [ ^ self ].
-	originalData ifNotNil: [
-		originalData removeEventHandler: dataAfterChangeHandler ].
-	originalData := anObservableCollection.
-	dataAfterChangeHandler := BlEventHandler
-		                          on: ToCollectionAfterChangeEvent
-		                          do: [ self pattern: '' ].
-	originalData addEventHandler: dataAfterChangeHandler.
-	"self buildOriginalIndexedData"
+	originalData := anObservableCollection
 ]
 
 { #category : #accessing }
@@ -171,9 +171,27 @@ ToListElementFilter >> pattern: aString [
 ]
 
 { #category : #accessing }
+ToListElementFilter >> selectionModel [
+
+	^ selectionModel ifNil: [ selectionModel := BlCompositeSelection new ]
+]
+
+{ #category : #accessing }
+ToListElementFilter >> selectionModel: aSelectionModel [
+
+	selectionModel := aSelectionModel
+]
+
+{ #category : #accessing }
 ToListElementFilter >> semaphore [
 
 	^ semaphore 
+]
+
+{ #category : #accessing }
+ToListElementFilter >> taskQueueHolder [
+
+	^ taskQueueHolder 
 ]
 
 { #category : #accessing }

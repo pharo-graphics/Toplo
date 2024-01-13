@@ -35,6 +35,14 @@ ToObservableCollection >> initialize [
 	self initializeObservableCollection 
 ]
 
+{ #category : #'instance creation' }
+ToObservableCollection >> newMirror [
+
+	^ ToCollectionMirror new
+		  mirrored: self;
+		  yourself
+]
+
 { #category : #'t - observable collection - enumerating' }
 ToObservableCollection >> with: aCollection do: aBlock [
 	"aCollection must support #at:at: and be at least as large as the receiver."

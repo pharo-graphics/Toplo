@@ -34,7 +34,7 @@ ToFilteredListElementEventHandler >> filteredListSelectionModelChangedEvent: anE
 	deselectedIndexes := OrderedCollection new.
 	updatingSelection := true.
 
-	filter indexedData withIndexDo: [ :idata :idx |
+	filter currentIndexedData withIndexDo: [ :idata :idx |
 		(self selectionModel containsIndex: idata dataSourcePos)
 			ifTrue: [ selectedIndexes add: idx ]
 			ifFalse: [ deselectedIndexes add: idx ] ].
@@ -65,16 +65,17 @@ ToFilteredListElementEventHandler >> listFilterRequest: anEvent [
 { #category : #'event handlers' }
 ToFilteredListElementEventHandler >> listFilterResultEvent: anEvent [
 
-	| target selectedIndexes |
+	| target selectedIndexes result |
 	target := anEvent currentTarget.
 	target selectionStrategy renewSelectionModel.
 	updatingSelection := true.
-	target data filterResult:
-		(anEvent indexedData collect: [ :id | id data ]).
+	result := OrderedCollection new.
 	selectedIndexes := OrderedCollection new.
 	anEvent indexedData withIndexDo: [ :id :idx |
+		result add: id data.
 		(self selectionModel containsIndex: id dataSourcePos) ifTrue: [
 			selectedIndexes add: idx ] ].
+	target data filterResult: result.
 	target selectionStrategy doSelectAllIndexes: selectedIndexes.
 	updatingSelection := false
 ]
@@ -86,13 +87,12 @@ ToFilteredListElementEventHandler >> listSelectionChangedEvent: anEvent [
 
 	| target |
 	updatingSelection ifTrue: [ ^ self ].
-	filter indexedData ifNil: [ ^ self ].
+	filter currentIndexedData ifNil: [ ^ self ].
 	target := anEvent currentTarget.
 	" the target is the filtered listElement "
-
 	1 to: target data size do: [ :pos |
 		| dataWithIndex |
-		dataWithIndex := filter indexedData at: pos.
+		dataWithIndex := filter currentIndexedData at: pos.
 		(target selectionStrategy includes: pos)
 			ifTrue: [ self selectionModel selectIndex: dataWithIndex dataSourcePos ]
 			ifFalse: [ self selectionModel deselectIndex: dataWithIndex dataSourcePos ] ].

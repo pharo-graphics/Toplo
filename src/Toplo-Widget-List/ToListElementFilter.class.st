@@ -8,13 +8,13 @@ Class {
 		'originalData',
 		'delayBeforeFilter',
 		'filterResultTask',
-		'indexedData',
 		'taskQueueHolder',
 		'previousPattern',
 		'originalIndexedData',
 		'dataFilter',
 		'filterListElementHandler',
-		'selectionModel'
+		'selectionModel',
+		'currentIndexedData'
 	],
 	#category : #'Toplo-Widget-List-Filter'
 }
@@ -22,11 +22,18 @@ Class {
 { #category : #'private filtering' }
 ToListElementFilter >> buildOriginalIndexedData [
 
-	originalIndexedData := originalData withIndexCollect: [ :d :i |
-		               ToFilterData new
-			               data: d;
-			               dataSourcePos: i;
-			               yourself ]
+	originalIndexedData := Array streamContents: [ :str |
+		                       originalData withIndexDo: [ :d :i |
+			                       str nextPut: (ToFilterData new
+					                        data: d;
+					                        dataSourcePos: i;
+					                        yourself) ] ]
+]
+
+{ #category : #accessing }
+ToListElementFilter >> currentIndexedData [
+
+	^ currentIndexedData
 ]
 
 { #category : #accessing }
@@ -62,23 +69,21 @@ ToListElementFilter >> delayBeforeFilter [
 ]
 
 { #category : #'private filtering' }
-ToListElementFilter >> filterDataIn: anElement withPattern: aPattern [
+ToListElementFilter >> filterDataIn: anElement [
 
 	| event taskTarget |
-	previousPattern = aPattern ifTrue: [ ^ self ].
-	previousPattern := aPattern.
+	
 	anElement dispatchEvent: (ToFilteredListPatternChangedEvent new
-			 pattern: aPattern;
-			 yourself).
+			 pattern: self pattern;
+			 yourself).	
 
 	taskTarget := taskQueueHolder ifNil: [ anElement ].
-	originalIndexedData ifNil: [ self buildOriginalIndexedData ].
-	aPattern
-		ifEmpty: [ indexedData := originalIndexedData ]
+	self pattern
+		ifEmpty: [ currentIndexedData := originalIndexedData ]
 		ifNotEmpty: [
-			indexedData := Array streamContents: [ :str |
+			currentIndexedData := Array streamContents: [ :str |
 				               originalIndexedData do: [ :d |
-					               (self dataFilter value: d data value: aPattern)
+					               (self dataFilter value: d data value: self pattern)
 						               ifTrue: [ str nextPut: d ] ] ] ].
 
 
@@ -92,15 +97,15 @@ ToListElementFilter >> filterDataIn: anElement withPattern: aPattern [
 	filterResultTask action: [
 		event := ToListFilterResultEvent new.
 		event
-			pattern: aPattern;
-			indexedData: indexedData.
+			pattern: self pattern;
+			indexedData: currentIndexedData.
 		anElement dispatchEvent: event.
 		filterResultTask := nil ].
 	taskTarget enqueueTask: filterResultTask
 ]
 
 { #category : #'private filtering' }
-ToListElementFilter >> filterProcessIn: anElement [
+ToListElementFilter >> newProcessIn: anElement [
 	"Runs in background, thank to Henrik Johansen for this"
 
 	semaphore := Semaphore new.
@@ -108,15 +113,9 @@ ToListElementFilter >> filterProcessIn: anElement [
 	  [
 	  self semaphore wait.
 	  self delayBeforeFilter wait.
-	  self filterDataIn: anElement withPattern: self pattern ] repeat ]
+	  self filterDataIn: anElement ] repeat ]
 		  forkAt: Processor userBackgroundPriority
 		  named: self class name , ' filter process'
-]
-
-{ #category : #accessing }
-ToListElementFilter >> indexedData [
-
-	^ indexedData
 ]
 
 { #category : #'api - hooks' }
@@ -130,8 +129,9 @@ ToListElementFilter >> onInstalledIn: aListElement [
 		                            filter: self;
 		                            yourself.
 	aListElement addEventHandler: filterListElementHandler.
-	process := self filterProcessIn: aListElement.
-	self pattern: ''
+	self buildOriginalIndexedData.
+	process := self newProcessIn: aListElement.
+	semaphore signal
 ]
 
 { #category : #'api - hooks' }
@@ -153,7 +153,12 @@ ToListElementFilter >> originalData [
 { #category : #accessing }
 ToListElementFilter >> originalData: anObservableCollection [
 
-	originalData := anObservableCollection
+	originalData = anObservableCollection ifTrue: [ ^ self ].
+	originalData ifNotNil: [ ^ (BlImmutableObjectChangeError object: self) signal ].
+	originalData := anObservableCollection.
+	originalData addEventHandler: (BlEventHandler
+			 on: ToCollectionAfterChangeEvent
+			 do: [ self buildOriginalIndexedData ]).
 ]
 
 { #category : #accessing }
@@ -167,6 +172,8 @@ ToListElementFilter >> pattern: aString [
 
 	pattern = aString ifTrue: [ ^ self ].
 	pattern := aString asString trimBoth.
+	previousPattern = pattern ifTrue: [ ^ self ].
+	previousPattern := pattern.
 	self semaphore signal
 ]
 

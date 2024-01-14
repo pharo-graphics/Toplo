@@ -79,7 +79,7 @@ ToCollectionChangedEventTest >> testFilterRequestFilterEvent [
 				 reqInterval := request interval.
 				 request accepted: validate ]).
 	ocol addEventHandler: (BlEventHandler
-			 on: ToCollectionFilterEvent
+			 on: ToCollectionFilteredEvent
 			 do: [ :event |
 				 eventCount := eventCount + 1.
 				 eventInterval := event interval ]).

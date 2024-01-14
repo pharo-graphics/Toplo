@@ -30,7 +30,7 @@ ToSelectTextField >> newRawSkin [
 ToSelectTextField >> nodeBefore [
 
 	| holders |
-	holders := self select nodeHolders.
+	holders := self select strategy nodeHolders.
 	holders size > 0 ifTrue: [
 		^ holders last node ].
 	^ nil

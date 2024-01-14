@@ -4,7 +4,7 @@ A ToOverlayedEventHandlerTest is a test class for testing the behavior of ToOver
 Class {
 	#name : #ToOverlayedEventHandlerTest,
 	#superclass : #ToParameterizedHostTest,
-	#category : 'Toplo-Tests-Core-Window'
+	#category : #'Toplo-Tests-Core-Window'
 }
 
 { #category : #tests }
@@ -16,7 +16,7 @@ ToOverlayedEventHandlerTest >> testElementExtentChangedEvent [
 	e position: 10 asPoint.
 	e size: 10 asPoint.
 	windowManager := ToOverlayWindowManager new.
-	windowManager element: e.
+	windowManager onInstalledIn: e.
 	self assert: (windowManager defaultSizeHook isKindOf: BlockClosure).
 	win := windowManager newWindowEvent: nil.
 	win popup.
@@ -24,7 +24,5 @@ ToOverlayedEventHandlerTest >> testElementExtentChangedEvent [
 	self assert: win bounds inSpace extent equals: 10 asPoint.
 	e size: 100 asPoint.
 	self waitTestingSpaces.
-	self assert: win bounds inSpace extent equals: 100 asPoint.
-
-	
+	self assert: win bounds inSpace extent equals: 100 asPoint
 ]

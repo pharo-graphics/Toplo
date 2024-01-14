@@ -10,7 +10,7 @@ Class {
 		'positionHook',
 		'sizeHook'
 	],
-	#category : 'Toplo-Core-Window'
+	#category : #'Toplo-Core-Window'
 }
 
 { #category : #accessing }
@@ -109,12 +109,12 @@ ToAnchoredWindowManager >> element [
 { #category : #accessing }
 ToAnchoredWindowManager >> element: anElement [
 
-	element ifNotNil: [
-		element removeEventHandler: elementEventHandler.
-		elementEventHandler := nil ].
-	element := anElement.
-	element ifNotNil: [
-		element addEventHandler: self newElementEventHandler ]
+	anElement ifNil: [ self halt ] ifNotNil: [
+		self
+			deprecated: 'Use selection onInstalledIn: instead'
+			transformWith:
+			'`@receiver element: `@arg' -> '`@receiver onInstalledIn: `@arg'.
+		self onInstalledIn: anElement ]
 ]
 
 { #category : #accessing }
@@ -177,6 +177,22 @@ ToAnchoredWindowManager >> newWindowEvent: anEvent [
 ToAnchoredWindowManager >> onCloseRequest [
 
 	
+]
+
+{ #category : #accessing }
+ToAnchoredWindowManager >> onInstalledIn: anElement [
+
+	element := anElement.
+	element ifNotNil: [
+		element addEventHandler: self newElementEventHandler ]
+]
+
+{ #category : #accessing }
+ToAnchoredWindowManager >> onUninstalledIn: anElement [
+
+	element removeEventHandler: elementEventHandler.
+	elementEventHandler := nil.
+	element := nil
 ]
 
 { #category : #'window handling' }

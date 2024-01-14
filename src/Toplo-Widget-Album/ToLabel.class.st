@@ -180,7 +180,7 @@ ToLabel >> initializeEditorFrameBuilder [
 	self isEditable
 		ifTrue: [
 			frameManager := ToLabelEditorWindowManager new.
-			frameManager element: self]
+			frameManager onInstalledIn: self ]
 		ifFalse: [
 			frameManager ifNil: [ ^ self ].
 			frameManager element: nil.

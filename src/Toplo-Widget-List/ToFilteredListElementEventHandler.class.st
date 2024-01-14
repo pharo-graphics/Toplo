@@ -89,6 +89,7 @@ ToFilteredListElementEventHandler >> listSelectionChangedEvent: anEvent [
 	updatingSelection ifTrue: [ ^ self ].
 	filter currentIndexedData ifNil: [ ^ self ].
 	target := anEvent currentTarget.
+
 	" the target is the filtered listElement "
 	1 to: target data size do: [ :pos |
 		| dataWithIndex |

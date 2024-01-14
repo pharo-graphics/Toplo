@@ -394,7 +394,7 @@ TToObservableCollection >> notifyFilterChangeAround: aBlock interval: anInterval
 		self fireEvent: (request := ToCollectionFilterRequest new interval: (1 to: self size)).
 		request accepted ifTrue: [
 			aBlock value.
-			self fireEvent: (ToCollectionFilterEvent new interval: anInterval) ] ]
+			self fireEvent: (ToCollectionFilteredEvent new interval: anInterval) ] ]
 ]
 
 { #category : #'t - observable collection - notifications' }
@@ -632,7 +632,7 @@ TToObservableCollection >> whenBeforeUpdateChangeDo: aBlock [
 TToObservableCollection >> whenFilterChangeDo: aBlock [
 
 	self addEventHandler: (BlEventHandler
-			 on: ToCollectionFilterEvent
+			 on: ToCollectionFilteredEvent
 			 do: [ :event | aBlock cull: event ])
 ]
 

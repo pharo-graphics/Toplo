@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToElementWithContextMenu,
-	#category : 'Toplo-Core'
+	#category : #'Toplo-Core'
 }
 
 { #category : #'t - element with context menu' }
@@ -44,7 +44,7 @@ TToElementWithContextMenu >> contextMenuWindowManager [
 		  | handler |
 		  handler := self contextMenuWindowManagerClass new.
 		  handler
-			  element: self;
+			  onInstalledIn: self;
 			  yourself ]
 ]
 
@@ -55,7 +55,7 @@ TToElementWithContextMenu >> contextMenuWindowManager: aWindowHandler [
 	self removeContextMenuWindowManager.
 	aWindowHandler ifNil: [ ^ self ].
 	self userData at: #contextMenuWindowManager put: (aWindowHandler
-			 element: self;
+			 onInstalledIn: self;
 			 yourself)
 ]
 
@@ -123,6 +123,6 @@ TToElementWithContextMenu >> removeContextMenuWindowManager [
 	manager := self rawContextMenuWindowManager.
 	manager ifNil: [ ^ self ].
 	manager hasWindow ifTrue: [ manager currentWindow close ].
-	manager element: nil.
+	manager onUninstalledIn: self.
 	self userData removeKey: #contextMenuWindowManager
 ]

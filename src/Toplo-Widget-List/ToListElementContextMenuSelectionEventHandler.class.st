@@ -80,7 +80,9 @@ ToListElementContextMenuSelectionEventHandler >> listElementContextMenuRequest: 
 	childNode := targetChildren last.
 
 	childNode holder isSelected
-		ifTrue: [	 selection selectAllIndexes: target selection selectedIndexes ]
+		ifTrue: [
+			selection selectAllIndexes:
+				target selectionStrategy selectedIndexes ]
 		ifFalse: [ selection selectOnlyIndex: childNode holder position ].
 
 	anEvent selectedIndexes: selection indices.

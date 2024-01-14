@@ -127,7 +127,7 @@ ToSelectNode >> removeFromSelect [
 	" remove the node by deselecting the corresponding list node in the list "
 
 	self selectHolder select deselectIndex: self selectHolder position.
-	self selectHolder select refreshNodes
+	self selectHolder select strategy refreshNodeContainer
 ]
 
 { #category : #'private configurating' }

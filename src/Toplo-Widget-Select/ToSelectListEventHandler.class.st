@@ -7,28 +7,36 @@ Class {
 	#category : #'Toplo-Widget-Select-Core'
 }
 
+{ #category : #'element handlers' }
+ToSelectListEventHandler >> collectionFilteredEvent: anEvent [
+
+	select currentWindow ifNil: [
+		select mode filterString ifNotEmpty: [
+			select popupEvent: anEvent ] ]
+]
+
 { #category : #'api - accessing' }
 ToSelectListEventHandler >> eventsToHandle [
 
-	^ { ToFilteredListSelectionChangedEvent }
+	^ { ToFilteredListSelectionChangedEvent. ToCollectionFilteredEvent }
 ]
 
 { #category : #'element handlers' }
 ToSelectListEventHandler >> filteredListSelectionChangedEvent: anEvent [
 
-	select refreshNodes
+	select strategy refreshNodeContainer
 ]
 
 { #category : #'element handlers' }
 ToSelectListEventHandler >> listDeselectIndexEvent: anEvent [
 
-	select refreshNodes
+	select strategy refreshNodeContainer
 ]
 
 { #category : #'element handlers' }
 ToSelectListEventHandler >> listSelectIndexEvent: anEvent [
 
-	select refreshNodes.
+	select strategy refreshNodeContainer
 ]
 
 { #category : #accessing }

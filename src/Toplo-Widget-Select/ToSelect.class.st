@@ -3,22 +3,14 @@ Class {
 	#superclass : #ToElement,
 	#instVars : [
 		'windowManager',
-		'nodeClass',
-		'nodeBuilder',
-		'nodeHolders',
 		'fakeData',
 		'data',
-		'nodeWrapping',
-		'selectionModel'
+		'selectionModel',
+		'strategy',
+		'mode'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
-
-{ #category : #'accessing nodes' }
-ToSelect >> addAllDataNodes: aNodeCollection [
-
-	aNodeCollection do: [ :n | self addDataNode: n ]
-]
 
 { #category : #'accessing list' }
 ToSelect >> addData: aData [
@@ -27,10 +19,10 @@ ToSelect >> addData: aData [
 	self listElement selection selectIndex: data size
 ]
 
-{ #category : #'accessing nodes' }
-ToSelect >> addDataNode: aNode [
+{ #category : #'accessing window' }
+ToSelect >> currentWindow [ 
 
-	self nodeContainer addChild: aNode before: self textField
+	^ self windowManager currentWindow
 ]
 
 { #category : #accessing }
@@ -39,41 +31,40 @@ ToSelect >> data [
 	^ data
 ]
 
-{ #category : #'accessing nodes' }
-ToSelect >> dataNodesDo: aBlock [
+{ #category : #accessing }
+ToSelect >> data: anObservableCollection [
 
-	self nodeHolders do: [ :holder |	aBlock value: holder node ].
+	data := anObservableCollection
 ]
 
 { #category : #initialization }
-ToSelect >> defaultNodeBuilder [
-
-	^ [ :aSelectNode :aNodeHolder |
-	  aSelectNode beRemovable.
-	  aSelectNode middleContainer addChild:
-		  (ToLabel text: aNodeHolder data asString) ]
-]
-
-{ #category : #initialization }
-ToSelect >> defaultNodeClass [ 
-
-	^ ToSelectNode
-]
-
-{ #category : #initialization }
-ToSelect >> defaultNodeWrapping [
+ToSelect >> defaultEditable [
 
 	^ true
+]
+
+{ #category : #initialization }
+ToSelect >> defaultStrategy [
+
+	^ ToMultiSelectStrategy new
 ]
 
 { #category : #'accessing selection' }
 ToSelect >> deselectIndex: anIndex [
 
-	selectionModel deselectIndex: anIndex.
-	self listElement dispatchEvent:
-		(ToFilteredListSelectionModelChangedEvent new
-			 selection: self selectionModel;
-			 yourself)
+	self mode deselectIndex: anIndex
+]
+
+{ #category : #accessing }
+ToSelect >> editable: aBoolean [
+
+	(self mode notNil and: [ aBoolean = self isEditable ]) ifTrue: [
+		^ self ].
+	self mode ifNotNil: [ self mode onUninstalledIn: self ].
+	mode := aBoolean
+		        ifTrue: [ ToSelectEditableMode new ]
+		        ifFalse: [ ToSelectReadOnlyMode new ].
+	mode onInstalledIn: self
 ]
 
 { #category : #private }
@@ -120,73 +111,58 @@ ToSelect >> iconContainer [
 { #category : #initialization }
 ToSelect >> initialize [
 
-	| sharedEventsDistributor contentElement nodeContainer textField |
+	| sharedEventsDistributor contentElement nodeContainer |
 	super initialize.
-	nodeWrapping := self defaultNodeWrapping.
+	windowManager := ToSelectWindowManager new.
+
+	self editable: self defaultEditable.
+	strategy := self defaultStrategy.
+	strategy onInstalledIn: self.
 	selectionModel := BlCompositeSelection new.
 	self fitContent.
 	self layout: BlLinearLayout horizontal.
-	nodeClass := self defaultNodeClass.
-	nodeHolders := OrderedCollection new.
-	nodeBuilder := self defaultNodeBuilder.
 
 	" the element that holds the flow"
 	contentElement := self newContentElement.
 	" the flow element taht contains nodes + the text field "
-	nodeContainer := self newNodeContainer.
+	nodeContainer := self strategy newNodeContainer.
 	contentElement addChild: nodeContainer.
 	self addChild: contentElement.
-
-	" the text field for the select input "
-	textField := self newTextField.
-	textField requestFocus.
-	nodeContainer addChild: textField.
-
 	data := ToObservableCollection new.
-	windowManager := ToSelectWindowManager new element: self.
+
+	windowManager onInstalledIn: self.
 
 	sharedEventsDistributor := BlSharedEventDistributor new.
 	sharedEventsDistributor
 		adjustMousePosition: false;
 		shareEvents: {
-				ToListUniqueIndexEvent.
-				ToAlbumClientEvent }.
+				ToCollectionFilteredEvent.
+				ToListUniqueIndexEvent }.
 
-	self textField addEventHandler: sharedEventsDistributor.
+	self listElement data addEventHandler: sharedEventsDistributor.
 	self addEventHandler: sharedEventsDistributor.
 	self listElement addEventHandler: sharedEventsDistributor.
 
 	self addChild: self newIconContainer.
-	self initializeFakeNode
+	self strategy initializeFakeNode
 ]
 
-{ #category : #initialization }
-ToSelect >> initializeFakeNode [
-	" the fake node is added when no data is selected to ensure a 
-	suitable minimum height according to the node class, the node builder 
-	and the data kind."
+{ #category : #testing }
+ToSelect >> isEditable [ 
 
-	| fakeHolder fakeNode |
-	fakeNode := self newNode.
-	fakeNode id: #fakeNode.
-	fakeHolder := self newNodeHolder.
-	fakeNode selectHolder: fakeHolder.
-	fakeHolder
-		node: fakeNode;
-		data: self fakeData.
-	self nodeBuilder value: fakeNode value: fakeHolder.
-	fakeNode width: 0.
-	fakeNode constraintsDo: [ :c |
-			  c flow vertical alignCenter.
-			  c linear vertical alignCenter ].
-	" add the fake node if the selection is empty (to keep a constant minimum height )"
-	self nodeContainer addChild: fakeNode.
+	^ self mode isEditableMode 
 ]
 
 { #category : #accessing }
 ToSelect >> listElement [
 
 	^ self windowManager listElement
+]
+
+{ #category : #accessing }
+ToSelect >> mode [
+
+	^ mode
 ]
 
 { #category : #initialization }
@@ -212,38 +188,6 @@ ToSelect >> newIconContainer [
 		  yourself
 ]
 
-{ #category : #'accessing nodes' }
-ToSelect >> newNode [
-
-	^ self nodeClass new
-]
-
-{ #category : #initialization }
-ToSelect >> newNodeContainer [
-
-	^ ToElement new
-		  vFitContent;
-		  hMatchParent;
-		  id: #'nodeContainer';
-		  layout: self newNodeContainerLayout;
-		  constraintsDo: [ :c | c linear vertical alignCenter ];
-		  yourself
-]
-
-{ #category : #private }
-ToSelect >> newNodeContainerLayout [
-
-	^ nodeWrapping
-		ifTrue: [ BlFlowLayout horizontal ]
-		ifFalse: [ BlLinearLayout horizontal ]
-]
-
-{ #category : #'accessing nodes' }
-ToSelect >> newNodeHolder [
-
-	^ self nodeHolderClass new
-]
-
 { #category : #skin }
 ToSelect >> newRawSkin [ 
 
@@ -253,42 +197,18 @@ ToSelect >> newRawSkin [
 { #category : #initialization }
 ToSelect >> newTextField [
 
-	^ ToSelectTextField new
-		  select: self;
-		  id: #textField;
-		  yourself
-]
-
-{ #category : #accessing }
-ToSelect >> nodeBuilder [
-
-	" see the mutator method  "
-	
-	^ nodeBuilder
-]
-
-{ #category : #accessing }
-ToSelect >> nodeBuilder: aValuable [
-
-	" builds a select node element from list data. 
-	aValuable take the select node element to build as first argument 
-	and the select node holder as second argument"
-	
-	nodeBuilder := aValuable.
-	self initializeFakeNode
-]
-
-{ #category : #accessing }
-ToSelect >> nodeClass [ 
-
-	^ nodeClass 
-]
-
-{ #category : #accessing }
-ToSelect >> nodeClass: aNodeClass [
-
-	nodeClass := aNodeClass.
-	self initializeFakeNode
+	| textField |
+	textField := ToSelectTextField new
+		             select: self;
+		             id: #textField;
+		             yourself.
+	textField addEventHandler: (BlEventHandler
+			 on: AlbTextEditedEvent
+			 do: [ :event | self mode filterTextFieldUpdated: event ]).
+	textField addEventHandler: (BlEventHandler
+			 on: AlbTextReplacedEvent
+			 do: [ :event | self mode filterTextFieldUpdated: event ]).
+	^ textField
 ]
 
 { #category : #accessing }
@@ -297,87 +217,65 @@ ToSelect >> nodeContainer [
 	^ self childWithId: #nodeContainer
 ]
 
-{ #category : #'accessing nodes' }
-ToSelect >> nodeHolderClass [ 
-
-	^ ToSelectNodeHolder
-]
-
-{ #category : #'accessing nodes' }
-ToSelect >> nodeHolders [
-
-	^ nodeHolders
-]
-
-{ #category : #accessing }
-ToSelect >> nodeWrapping [
-
-	^ nodeWrapping 
-]
-
-{ #category : #accessing }
-ToSelect >> nodeWrapping: aBoolean [
-
-	nodeWrapping = aBoolean ifTrue: [ ^ self ].
-	nodeWrapping := aBoolean.
-	self onNodeWrappingChange.
-]
-
 { #category : #'accessing list' }
 ToSelect >> onListCloseRequest [
 
+	self isEditable ifFalse: [ ^ self ].
 	self textField requestFocus
 ]
 
-{ #category : #private }
-ToSelect >> onNodeWrappingChange [
+{ #category : #'accessing window' }
+ToSelect >> popupEvent: anEvent [ 
 
-	self nodeContainer layout: self newNodeContainerLayout
+	^ self windowManager popupEvent: anEvent 
 ]
 
-{ #category : #'accessing nodes' }
-ToSelect >> refreshNodes [
+{ #category : #'accessing list' }
+ToSelect >> popupMaxHeight [
 
-	| nodes |
-	" first remove all data nodes "
-	self dataNodesDo: [ :node | node removeFromParent ].
-	self nodeHolders reset.
-	" then rebuild current nodes according to current selection "
-	nodes := selectionModel indices collect: [ :idx |
-		         | node holder selectedData |
-		         node := self newNode.
-		         holder := self newNodeHolder.
-		         node selectHolder: holder.
-		         self nodeHolders add: holder.
-		         selectedData := self data at: idx.
-		         holder
-			         node: node;
-			         position: idx;
-			         select: self;
-			         data: selectedData.
-		         self nodeBuilder value: node value: holder.
-		         node ].
-	self addAllDataNodes: nodes
+	^ self windowManager maxHeight
+]
+
+{ #category : #'accessing list' }
+ToSelect >> popupMaxHeight: aNumber [
+
+	self windowManager maxHeight: aNumber
+]
+
+{ #category : #'accessing list' }
+ToSelect >> popupMinHeight [
+
+	^ self windowManager minHeight
+]
+
+{ #category : #'accessing list' }
+ToSelect >> popupMinHeight: aNumber [
+
+	self windowManager minHeight: aNumber
+]
+
+{ #category : #'accessing list' }
+ToSelect >> popupPositionHook: aValuable [
+
+	self windowManager positionHook: aValuable
+]
+
+{ #category : #'accessing list' }
+ToSelect >> popupSizeHook: aValuable [
+
+	self windowManager sizeHook: aValuable
 ]
 
 { #category : #'accessing selection' }
 ToSelect >> selectIndex: anIndex [
 
-	selectionModel selectIndex: anIndex.
-	self listElement dispatchEvent:
-		(ToFilteredListSelectionModelChangedEvent new
-			 selection: self selectionModel;
-			 yourself)
+	self mode selectIndex: anIndex
 ]
 
 { #category : #'accessing selection' }
 ToSelect >> selectIndexes: aCollection [
 
-	selectionModel selectIndexes: aCollection.
-	self listElement dispatchEvent:
-		(ToFilteredListSelectionModelChangedEvent new
-			 selection: self selectionModel;
-			 yourself)
+	self mode selectIndexes: aCollection
 ]
 
 { #category : #'accessing selection' }
@@ -387,18 +285,21 @@ ToSelect >> selectedIndexes [
 ]
 
 { #category : #accessing }
-ToSelect >> selection [
+ToSelect >> selectionModel [
 
-	self
-		deprecated: 'Use selectionModel instead'
-		transformWith: '`@receiver selection' -> '`@receiver selectionModel'.
 	^ selectionModel
 ]
 
 { #category : #accessing }
-ToSelect >> selectionModel [
+ToSelect >> selectionModel: aSelectionModel [
 
-	^ selectionModel
+	selectionModel := aSelectionModel
+]
+
+{ #category : #accessing }
+ToSelect >> strategy [ 
+
+	^ strategy
 ]
 
 { #category : #accessing }

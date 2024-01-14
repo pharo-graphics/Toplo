@@ -129,9 +129,8 @@ ToListElementFilter >> onInstalledIn: aListElement [
 		                            filter: self;
 		                            yourself.
 	aListElement addEventHandler: filterListElementHandler.
-	self buildOriginalIndexedData.
 	process := self newProcessIn: aListElement.
-	semaphore signal
+	aListElement data updateAllWith: originalData.
 ]
 
 { #category : #'api - hooks' }
@@ -159,6 +158,7 @@ ToListElementFilter >> originalData: anObservableCollection [
 	originalData addEventHandler: (BlEventHandler
 			 on: ToCollectionAfterChangeEvent
 			 do: [ self buildOriginalIndexedData ]).
+	self buildOriginalIndexedData
 ]
 
 { #category : #accessing }

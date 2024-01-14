@@ -8,7 +8,7 @@ Class {
 		'isSubmenu',
 		'windowManager'
 	],
-	#category : 'Toplo-Widget-Menu-Basic'
+	#category : #'Toplo-Widget-Menu-Basic'
 }
 
 { #category : #'adding-removing' }
@@ -48,10 +48,9 @@ ToMenu >> initialize [
 	super initialize.
 	isSubmenu := false.
 	self initializeWithMenuConstraints.
-	windowManager := ToMenuWindowManager new element: self.
+	windowManager := ToMenuWindowManager new onInstalledIn: self.
 	windowManager builder: [ :menWin :request |
-		request currentTarget items do: [ :it |
-			menWin root addChild: it] ]
+		request currentTarget items do: [ :it | menWin root addChild: it ] ]
 ]
 
 { #category : #initialization }

@@ -4,7 +4,7 @@ A ToOverlayWindowManagerTest is a test class for testing the behavior of ToOverl
 Class {
 	#name : #ToOverlayWindowManagerTest,
 	#superclass : #ToParameterizedHostTest,
-	#category : 'Toplo-Tests-Core-Window'
+	#category : #'Toplo-Tests-Core-Window'
 }
 
 { #category : #tests }
@@ -16,24 +16,28 @@ ToOverlayWindowManagerTest >> testDefaultSizeHook [
 	e position: 10 asPoint.
 	e size: 10 asPoint.
 	windowManager := ToOverlayWindowManager new.
-	windowManager element: e.
+	windowManager onInstalledIn: e.
 	self assert: (windowManager defaultSizeHook isKindOf: BlockClosure).
 	win := windowManager newWindowEvent: nil.
 	win popup.
 	self waitTestingSpaces.
-	self assert: win bounds inSpace extent equals: e bounds inSpace extent
+	self
+		assert: win bounds inSpace extent
+		equals: e bounds inSpace extent
 ]
 
 { #category : #tests }
 ToOverlayWindowManagerTest >> testElementEventHandlerClass [
 
-	| win e  windowManager |
+	| win e windowManager |
 	e := ToElement new.
 	space root addChild: e.
 	self waitTestingSpaces.
 
-	windowManager := ToOverlayWindowManager new builder: [ :anchWin :element |  ].
-	windowManager element: e.
+	windowManager := ToOverlayWindowManager new builder: [
+		                 :anchWin
+		                 :element |  ].
+	windowManager onInstalledIn: e.
 	win := windowManager newWindowEvent: nil.
 	win popup.
 	self assert: win element equals: e.

@@ -16,7 +16,7 @@ ToObservableCollectionMirrorUpdater >> collectionAddEvent: anEvent [
 ]
 
 { #category : #'data events handling' }
-ToObservableCollectionMirrorUpdater >> collectionFilterEvent: anEvent [
+ToObservableCollectionMirrorUpdater >> collectionFilteredEvent: anEvent [
 	" nothing to do "
 ]
 

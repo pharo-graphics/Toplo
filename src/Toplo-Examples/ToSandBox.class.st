@@ -453,9 +453,9 @@ ToSandBox class >> example_FilterOnListWithAllClassesAndTraitsSorted [
 		          originalData: listElement data newMirror;
 		          yourself.
 	filter onInstalledIn: listElement.
-
 	listElement data addAll:
 		(Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]).
+
 
 	filterField addEventHandler: (BlEventHandler
 			 on: AlbTextEditedEvent
@@ -871,7 +871,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 		               menu addItem: (ToMenuItem new
 				                labelText: 'Select all';
 				                whenClickedDo: [ :event |
-					                target selection selectAll ]).
+					                target selectionStrategy selectAll ]).
 		               menu addItem: (ToMenuItem new
 				                labelText: 'Remove all';
 				                whenClickedDo: [ :event | target data removeAll ];
@@ -910,7 +910,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 					                target data
 						                add: idx asString , ':XXXXXX'
 						                beforeIndex: idx.
-					                target selection
+					                target selectionStrategy
 						                shiftAfterAddingAt: idx
 						                itemCount: 1 ];
 				                yourself).
@@ -931,7 +931,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 							                target data
 								                removeFrom: selectedIndexes first
 								                to: selectedIndexes last.
-							                target selection
+							                target selectionStrategy
 								                shiftAfterRemovingAt: selectedIndexes first
 								                itemCount:
 									                selectedIndexes last - selectedIndexes first
@@ -2203,7 +2203,7 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWithStatesOfAmerica [
 	select windowManager anchorRoot: innerWindow root.
 	select hMatchParent.
 	select data addAll: self statesOfAmerica.
-select inspect.
+
 	innerWindow pane addChild: select.
 	innerWindow openInSpace
 ]
@@ -2441,8 +2441,10 @@ ToSandBox class >> example_textFieldWithPlaceholder2 [
 				 text: 'Enter text';
 				 yourself) ].
 	t whenSaveRequestedDo: [ :saveRequested |
-		saveRequested client saveResult: true.
+		saveRequested accepted: true.
 		text := saveRequested client text copy ].
+	t whenSaveAcceptedDo: [ :saveAccepted |
+		text := saveAccepted client text copy ].
 	t whenCancelRequestedDo: [ :cancelRequested |
 		cancelRequested client text: text copy ].
 	t showPlaceholder.

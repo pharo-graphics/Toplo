@@ -24,9 +24,12 @@ ToAlbumEditsFeedbackLayer >> attachTo: anEditorElement [
 			 on: ToAlbumSaveRequestedEvent
 			 do: [ :event | event unacceptedEdits ifFalse: [ self flash ] ]).
 
-	" hide edit feedback when save is accepted "
+	" hide edit feedback when save is accepted or cancelled "
 	anEditorElement addEventHandler: (BlEventHandler
 			 on: ToAlbumSaveAcceptedEvent
+			 do: [ :event | self hideEditsFeedback ]).
+	anEditorElement addEventHandler: (BlEventHandler
+			 on: ToAlbumCancelRequestedEvent
 			 do: [ :event | self hideEditsFeedback ]).
 
 	" show edit feedback when text is edited "

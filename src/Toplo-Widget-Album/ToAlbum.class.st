@@ -229,7 +229,9 @@ ToAlbum >> whenCancelRequestedDo: aBlock [
 { #category : #'transaction hook' }
 ToAlbum >> whenSaveAcceptedDo: aBlock [
 
-	self when: ToAlbumSaveAcceptedEvent do: aBlock
+	self addEventHandler: (BlEventHandler
+			 on: ToAlbumSaveAcceptedEvent
+			 do: aBlock)
 ]
 
 { #category : #'transaction hook' }

@@ -195,7 +195,8 @@ ToInfiniteElement >> dispatchShiftSelectionFrom: anIndex itemCount: aNumber [
 { #category : #'selection events' }
 ToInfiniteElement >> dispatchStrongSelectionChanged [
 
-	self dispatchEvent: (ToStrongSelectionEvent indexes: self selection selectedIndexes)
+	self dispatchEvent: (ToStrongSelectionEvent indexes:
+			 self selectionStrategy selectedIndexes)
 ]
 
 { #category : #'scrolled event' }

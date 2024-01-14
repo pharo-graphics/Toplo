@@ -37,48 +37,9 @@ ToSelectWindowManager >> defaultSizeHook [
 ]
 
 { #category : #accessing }
-ToSelectWindowManager >> element: anElement [
-
-	super element: anElement.
-
-	self listElement addEventHandler: (ToSelectListEventHandler new
-			 select: anElement;
-			 yourself).
-			
-	filter := ToListElementFilter new.
-	filter taskQueueHolder: anElement.
-	filter originalData: anElement data.
-	filter selectionModel: anElement selectionModel.
-	filter onInstalledIn: self listElement.
-
-	self listElement addEventHandler: (BlEventHandler
-			 on: ToListSelectionChangedEvent
-			 do: [ :event | anElement refreshNodes ]).
-	anElement textField addEventHandler: (BlEventHandler
-			 on: AlbTextEditedEvent
-			 do: [ :event | self filterTextFieldUpdated: event ]).
-	anElement textField addEventHandler: (BlEventHandler
-			 on: AlbTextReplacedEvent
-			 do: [ :event | self filterTextFieldUpdated: event ])
-]
-
-{ #category : #accessing }
 ToSelectWindowManager >> elementEventHandlerClass [ 
 
 	^ ToSelectEventHandler
-]
-
-{ #category : #initialization }
-ToSelectWindowManager >> filterString [
-
-	^ self element textField text asString
-]
-
-{ #category : #'window handling' }
-ToSelectWindowManager >> filterTextFieldUpdated: anEvent [
-
-	self currentWindow ifNil: [ self popupEvent: anEvent ].
-	self listElement dispatchEvent: (ToListFilterRequest new pattern: self filterString)
 ]
 
 { #category : #initialization }
@@ -88,6 +49,7 @@ ToSelectWindowManager >> initialize [
 	maxHeight := self defaultMaxHeight.
 	minHeight := self defaultMinHeight.
 	listElement := self newListElement.
+	
 	self builder: [ :selectWin :request |
 		selectWin root hMatchParent.
 		selectWin root vFitContent.
@@ -148,5 +110,42 @@ ToSelectWindowManager >> onCloseRequest [
 	" if case one of my children has focus "
 	self element onListCloseRequest.
 
+
+]
+
+{ #category : #accessing }
+ToSelectWindowManager >> onInstalledIn: anElement [
+
+	super onInstalledIn: anElement.
+
+	self listElement addEventHandler: (ToSelectListEventHandler new
+			 select: anElement;
+			 yourself).
+	self listElement addEventHandler: (BlEventHandler
+			 on: ToListSelectionChangedEvent
+			 do: [ :event | anElement strategy refreshNodeContainer ]).
+
+	anElement isEditable ifFalse: [
+		anElement data: self listElement data.
+		anElement selectionModel: self listElement selectionStrategy selectionModel.
+		^ self ].
+
+	anElement data addEventHandler: (BlEventHandler
+				 on: ToCollectionAfterChangeEvent
+				 do: [ self listElement data updateAllWith: anElement data ]).
+
+	filter := ToListElementFilter new.
+	filter taskQueueHolder: anElement.
+	filter originalData: anElement data.
+	filter selectionModel: anElement selectionModel.
+	filter onInstalledIn: self listElement
+]
+
+{ #category : #accessing }
+ToSelectWindowManager >> onUninstalledIn: anElement [
+
+	super onUninstalledIn: anElement.
+	filter onUninstalledIn: self listElement.
+	listElement := nil.
 
 ]

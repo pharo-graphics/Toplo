@@ -4,10 +4,22 @@ Class {
 	#category : #'Toplo-Widget-Select-Core'
 }
 
-{ #category : #adding }
-ToSelectReadOnlyMode >> addDataNode: aNode [
+{ #category : #initialization }
+ToSelectReadOnlyMode >> configureMultiSelectNodeContainer: anElement [
 
-	select nodeContainer addChild: aNode before: select fakeNode
+	super configureMultiSelectNodeContainer: anElement.
+	select textField beReadonlyWithoutSelection
+]
+
+{ #category : #initialization }
+ToSelectReadOnlyMode >> configureSelect [
+
+	select listElement addEventHandler: (BlEventHandler
+			 on: ToListSelectionChangedEvent
+			 do: [ :event | select strategy refreshNodeContainer ]).
+	select data: select listElement data.
+	select selectionModel:
+		select listElement selectionStrategy selectionModel
 ]
 
 { #category : #'accessing selection' }

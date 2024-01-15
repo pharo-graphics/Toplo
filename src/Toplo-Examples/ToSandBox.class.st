@@ -482,7 +482,7 @@ ToSandBox class >> example_FilterOnListWithAllClassesAndTraitsSorted [
 { #category : #list }
 ToSandBox class >> example_FilterOnListWith_175000_Items [
 
-	| listElement pane filterField data filter mirror |
+	| listElement pane filterField data filter  |
 	pane := ToPane new
 		        beVertical;
 		        matchParent.
@@ -513,6 +513,47 @@ ToSandBox class >> example_FilterOnListWith_175000_Items [
 				 | pattern |
 				 pattern := filterField text asString.
 				 listElement dispatchEvent: (ToListFilterRequest new pattern: pattern) ]).
+
+	listElement placeholderBuilder: [ :ph :e |
+		| lab |
+		lab := ToAttributedLabel new text: ('No Data' asRopedText
+				        foreground: Color lightGray;
+				        fontSize: 24;
+				        yourself).
+		lab matchParent.
+		ph addChild: lab ].
+	"handler inspect."
+	pane addChild: listElement.
+	pane addChild: filterField.
+	pane openInSpace
+]
+
+{ #category : #list }
+ToSandBox class >> example_FilterOnListWith_AllMethods [
+
+	| listElement pane filterField data filter |
+	pane := ToPane new
+		        beVertical;
+		        matchParent.
+	filterField := ToTextField new.
+	listElement := ToListElement new.
+	data := SystemNavigation default allMethods.
+	filter := ToListElementFilter new
+		          originalData: listElement data newMirror;
+		          yourself.
+	filter onInstalledIn: listElement.
+	listElement data addAll: data.
+	listElement nodeBuilder: [ :node :holder |
+		node addChild: (ToLabel new text: holder data printString) ].
+	filter dataFilter: [ :aCompiledMethod :aPattern |
+		aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
+	filterField addEventHandler: (BlEventHandler
+			 on: AlbTextEditedEvent
+			 do: [
+				 | pattern |
+				 pattern := filterField text asString.
+				 listElement dispatchEvent:
+					 (ToListFilterRequest new pattern: pattern) ]).
 
 	listElement placeholderBuilder: [ :ph :e |
 		| lab |
@@ -2230,6 +2271,28 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWith_175000_Items [
 	data size traceCr.
 	select data updateAllWith: data.
 
+	innerWindow pane addChild: select.
+	innerWindow openInSpace
+]
+
+{ #category : #select }
+ToSandBox class >> example_selectWithEditingMultiSelectionWith_AllMethods [
+
+	| select innerWindow data |
+	select := self selectWithEditingMultiSelection.
+	innerWindow := ToInnerWindow new.
+	select windowManager anchorRoot: innerWindow root.
+	select hMatchParent.
+	data := SystemNavigation default allMethods.
+	data size traceCr.
+	select data updateAllWith: data.
+	select listNodeBuilder: [ :aCompiledMethod :aSelectHolder |
+		     aCompiledMethod addChild: (ToLabel new text: aSelectHolder data printString ) ].
+	select nodeBuilder: [ :aSelectNode :aNodeHolder |
+	  aSelectNode beRemovable.
+	  aSelectNode middleContainer addChild:
+		  (ToLabel text: aNodeHolder data printString) ].
+	select dataFilter: [ :aCompiledMethod :aPattern | aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
 	innerWindow pane addChild: select.
 	innerWindow openInSpace
 ]

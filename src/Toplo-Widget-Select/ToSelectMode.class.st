@@ -7,20 +7,15 @@ Class {
 	#category : #'Toplo-Widget-Select-Core'
 }
 
-{ #category : #adding }
-ToSelectMode >> addDataNode: aNode [
+{ #category : #initialization }
+ToSelectMode >> configureMultiSelectNodeContainer: anElement [
 
-	self subclassResponsibility 
 ]
 
 { #category : #'accessing selection' }
 ToSelectMode >> deselectIndex: anIndex [
 
 	self subclassResponsibility 
-]
-
-{ #category : #initialization }
-ToSelectMode >> initializeMultiSelectNodeContainer: anElement [
 ]
 
 { #category : #testing }

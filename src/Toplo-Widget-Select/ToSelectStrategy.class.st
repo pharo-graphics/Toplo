@@ -38,6 +38,7 @@ ToSelectStrategy >> initializeFakeNode [
 	and the data kind."
 
 	| fakeHolder fakeNode |
+	select fakeNode ifNotNil: [ :fn | fn removeFromParent ].
 	fakeNode := self newNode.
 	fakeNode id: #fakeNode.
 	fakeHolder := self newNodeHolder.
@@ -48,10 +49,10 @@ ToSelectStrategy >> initializeFakeNode [
 	self nodeBuilder value: fakeNode value: fakeHolder.
 	fakeNode width: 0.
 	fakeNode constraintsDo: [ :c |
-			  c flow vertical alignCenter.
-			  c linear vertical alignCenter ].
+		c flow vertical alignCenter.
+		c linear vertical alignCenter ].
 	" add the fake node if the selection is empty (to keep a constant minimum height )"
-	select nodeContainer addChild: fakeNode.
+	select nodeContainer addChild: fakeNode
 ]
 
 { #category : #initialization }
@@ -62,6 +63,13 @@ ToSelectStrategy >> newNode [
 
 { #category : #initialization }
 ToSelectStrategy >> newNodeContainer [
+
+	^ ToElement new  id: #nodeContainer;
+		             layout: self newNodeContainerLayout; yourself
+]
+
+{ #category : #'instance creation' }
+ToSelectStrategy >> newNodeContainerLayout [
 
 	^ self subclassResponsibility 
 ]

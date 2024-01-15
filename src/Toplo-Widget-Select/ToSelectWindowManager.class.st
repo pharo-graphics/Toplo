@@ -4,11 +4,16 @@ Class {
 	#instVars : [
 		'listElement',
 		'maxHeight',
-		'minHeight',
-		'filter'
+		'minHeight'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
+
+{ #category : #accessing }
+ToSelectWindowManager >> dataFilter: aValuable [
+
+	self element mode dataFilter: aValuable
+]
 
 { #category : #initialization }
 ToSelectWindowManager >> defaultMaxHeight [
@@ -117,36 +122,13 @@ ToSelectWindowManager >> onCloseRequest [
 ToSelectWindowManager >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-
-	anElement isEditable ifFalse: [
-		self listElement addEventHandler: (BlEventHandler
-				 on: ToListSelectionChangedEvent
-				 do: [ :event | anElement strategy refreshNodeContainer ]).
-		anElement data: self listElement data.
-		anElement selectionModel:
-			self listElement selectionStrategy selectionModel.
-		^ self ].
-
-	self listElement addEventHandler: (ToSelectListEventHandler new
-			 select: anElement;
-			 yourself).
-
-	anElement data addEventHandler: (BlEventHandler
-			 on: ToCollectionAfterChangeEvent
-			 do: [ self listElement data updateAllWith: anElement data ]).
-
-	filter := ToListElementFilter new.
-	filter taskQueueHolder: anElement.
-	filter originalData: anElement data.
-	filter selectionModel: anElement selectionModel.
-	filter onInstalledIn: self listElement
+	anElement mode configureSelect
 ]
 
 { #category : #accessing }
 ToSelectWindowManager >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
-	filter onUninstalledIn: self listElement.
 	listElement := nil.
 
 ]

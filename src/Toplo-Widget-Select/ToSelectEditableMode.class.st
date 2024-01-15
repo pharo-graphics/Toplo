@@ -1,13 +1,41 @@
 Class {
 	#name : #ToSelectEditableMode,
 	#superclass : #ToSelectMode,
+	#instVars : [
+		'filter'
+	],
 	#category : #'Toplo-Widget-Select-Core'
 }
 
-{ #category : #adding }
-ToSelectEditableMode >> addDataNode: aNode [
+{ #category : #initialization }
+ToSelectEditableMode >> configureMultiSelectNodeContainer: anElement [
 
-	select nodeContainer addChild: aNode before: select textField
+	super configureMultiSelectNodeContainer: anElement.
+	select textField requestFocus
+]
+
+{ #category : #initialization }
+ToSelectEditableMode >> configureSelect [
+
+	select listElement addEventHandler: (ToSelectListEventHandler new
+			 select: select;
+			 yourself).
+
+	select data addEventHandler: (BlEventHandler
+			 on: ToCollectionAfterChangeEvent
+			 do: [ select listElement data updateAllWith: select data ]).
+
+	filter := ToListElementFilter new.
+	filter taskQueueHolder: select.
+	filter originalData: select data.
+	filter selectionModel: select selectionModel.
+	filter onInstalledIn: select listElement
+]
+
+{ #category : #accessing }
+ToSelectEditableMode >> dataFilter: aValuable [
+
+	filter dataFilter: aValuable
 ]
 
 { #category : #'accessing selection' }
@@ -33,20 +61,18 @@ ToSelectEditableMode >> filterTextFieldUpdated: anEvent [
 		(ToListFilterRequest new pattern: self filterString)
 ]
 
-{ #category : #initialization }
-ToSelectEditableMode >> initializeMultiSelectNodeContainer: anElement [
-
-	| textField |
-	super initializeMultiSelectNodeContainer: anElement.
-	textField := select newTextField.
-	textField requestFocus.
-	anElement addChild: textField
-]
-
 { #category : #testing }
 ToSelectEditableMode >> isEditableMode [
 
 	^ true
+]
+
+{ #category : #'api - hooks' }
+ToSelectEditableMode >> onUninstalledIn: aSelect [
+
+	filter onUninstalledIn: select  listElement.
+	filter := nil.
+	super onUninstalledIn: aSelect.
 ]
 
 { #category : #'accessing selection' }

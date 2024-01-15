@@ -37,6 +37,12 @@ ToSelect >> data: anObservableCollection [
 	data := anObservableCollection
 ]
 
+{ #category : #accessing }
+ToSelect >> dataFilter: aValuable [
+
+	self windowManager dataFilter: aValuable
+]
+
 { #category : #initialization }
 ToSelect >> defaultEditable [
 
@@ -128,6 +134,9 @@ ToSelect >> initialize [
 	nodeContainer := self strategy newNodeContainer.
 	contentElement addChild: nodeContainer.
 	self addChild: contentElement.
+	
+	self strategy buildNodeContainer: nodeContainer.
+	
 	data := ToObservableCollection new.
 
 	windowManager onInstalledIn: self.
@@ -157,6 +166,12 @@ ToSelect >> isEditable [
 ToSelect >> listElement [
 
 	^ self windowManager listElement
+]
+
+{ #category : #'t - infinite accessing' }
+ToSelect >> listNodeBuilder: aValuable [
+
+	self listElement nodeBuilder: aValuable
 ]
 
 { #category : #accessing }
@@ -209,6 +224,12 @@ ToSelect >> newTextField [
 			 on: AlbTextReplacedEvent
 			 do: [ :event | self mode filterTextFieldUpdated: event ]).
 	^ textField
+]
+
+{ #category : #accessing }
+ToSelect >> nodeBuilder: aValuable [
+
+	self strategy nodeBuilder: aValuable
 ]
 
 { #category : #accessing }

@@ -17,7 +17,22 @@ ToMultiSelectStrategy >> addAllDataNodes: aNodeCollection [
 { #category : #'accessing nodes' }
 ToMultiSelectStrategy >> addDataNode: aNode [
 
-	select mode addDataNode: aNode
+	select nodeContainer addChild: aNode before: select textField
+]
+
+{ #category : #initialization }
+ToMultiSelectStrategy >> buildNodeContainer: anElement [
+
+	| textField |
+	anElement
+		vFitContent;
+		hMatchParent;
+		constraintsDo: [ :c | c linear vertical alignCenter ].
+	" for the text field for the select input (whatever the mode for simplification) "
+	textField := select newTextField.
+	anElement addChild: textField.
+	" In case of read-only mode, the textfield is set as read-only by the mode "
+	select mode configureMultiSelectNodeContainer: anElement
 ]
 
 { #category : #'accessing nodes' }
@@ -55,22 +70,6 @@ ToMultiSelectStrategy >> initialize [
 ToMultiSelectStrategy >> newNode [
 
 	^ self nodeClass new
-]
-
-{ #category : #initialization }
-ToMultiSelectStrategy >> newNodeContainer [
-
-	| container |
-	container := ToElement new
-		             vFitContent;
-		             hMatchParent;
-		             id: #nodeContainer;
-		             layout: self newNodeContainerLayout;
-		             constraintsDo: [ :c | c linear vertical alignCenter ];
-		             yourself.
-	" for the text field for the select input "
-	select mode initializeMultiSelectNodeContainer: container.
-	^ container
 ]
 
 { #category : #private }

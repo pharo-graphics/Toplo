@@ -59,7 +59,7 @@ ToListElementFilter >> defaultDelay [
 ToListElementFilter >> defaultFilter [
 
 	"^ [ :data :p | data includesSubstring: p caseSensitive: false ]"
-	^ [ :data :p | data asString beginsWith: p asString caseSensitive: true ]
+	^ [ :aData :aPattern | aData asString beginsWith: aPattern caseSensitive: true ]
 ]
 
 { #category : #accessing }

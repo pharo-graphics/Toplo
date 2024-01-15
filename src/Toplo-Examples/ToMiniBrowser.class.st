@@ -38,7 +38,7 @@ ToMiniBrowser >> changeCodeInEditor [
 
 	| selected cls sel codeText |
 	selected := selectors data at:
-		            selectors selection selectedIndexes anyOne.
+		            selectors selectionStrategy selectedIndexes anyOne.
 	selected = selectedSelector ifTrue: [ ^ self ].
 	selectedSelector := selected.
 	cls := selectedSelector key.
@@ -52,7 +52,7 @@ ToMiniBrowser >> changeCodeInEditor [
 ToMiniBrowser >> classSelectionChangedEvent: aToSelectionChanged [
 
 	| selectedClasses allProtocols |
-	protocols selection deselectAll.
+	protocols selectionStrategy deselectAll.
 	protocols data removeAll.
 	selectedClasses := aToSelectionChanged currentIndexes collect: [ :idx |
 		                   classes data at: idx ].
@@ -243,7 +243,7 @@ ToMiniBrowser >> open [
 ToMiniBrowser >> packageSelectionChangedEvent: aToSelectionChanged [
 
 	| selectedPackages clsList |
-	classes selection deselectAll.
+	classes selectionStrategy deselectAll.
 	classes data removeAll.
 	selectedPackages := aToSelectionChanged currentIndexes collect: [
 		                    :idx | packages data at: idx ].
@@ -258,7 +258,7 @@ ToMiniBrowser >> packageSelectionChangedEvent: aToSelectionChanged [
 ToMiniBrowser >> protocolSelectionChangedEvent: aToSelectionChanged [
 
 	| selectedProtocols |
-	selectors selection deselectAll.
+	selectors selectionStrategy deselectAll.
 	selectors data removeAll.
 	selectedProtocols := aToSelectionChanged currentIndexes collect: [
 		                     :idx | protocols data at: idx ].

@@ -14,26 +14,6 @@ ToSelectEditableMode >> configureMultiSelectNodeContainer: anElement [
 	select textField requestFocus
 ]
 
-{ #category : #initialization }
-ToSelectEditableMode >> configureSelect [
-
-	select listElement addEventHandler: (ToSelectListEventHandler new
-			 select: select;
-			 yourself).
-
-	select data addEventHandler: (BlEventHandler
-			 on: ToCollectionAfterChangeEvent
-			 do: [ select listElement data updateAllWith: select data ]).
-
-	select selectionModel: BlCompositeSelection new.
-
-	filter := ToListElementFilter new.
-	filter taskQueueHolder: select.
-	filter originalData: select data.
-	filter selectionModel: select selectionModel.
-	filter onInstalledIn: select listElement
-]
-
 { #category : #accessing }
 ToSelectEditableMode >> dataFilter: aValuable [
 
@@ -67,6 +47,27 @@ ToSelectEditableMode >> filterTextFieldUpdated: anEvent [
 ToSelectEditableMode >> isEditableMode [
 
 	^ true
+]
+
+{ #category : #'api - hooks' }
+ToSelectEditableMode >> onInstalledIn: aSelect [
+
+	super onInstalledIn: aSelect.
+	select listElement addEventHandler: (ToSelectListEventHandler new
+			 select: select;
+			 yourself).
+
+	select data addEventHandler: (BlEventHandler
+			 on: ToCollectionAfterChangeEvent
+			 do: [ select listElement data updateAllWith: select data ]).
+
+	select selectionModel: BlCompositeSelection new.
+
+	filter := ToListElementFilter new.
+	filter taskQueueHolder: select.
+	filter originalData: select data.
+	filter selectionModel: select selectionModel.
+	filter onInstalledIn: select listElement
 ]
 
 { #category : #'api - hooks' }

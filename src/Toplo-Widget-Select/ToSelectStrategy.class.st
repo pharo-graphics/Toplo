@@ -16,13 +16,6 @@ ToSelectStrategy >> buildNodeContainer: anElement [
 ]
 
 { #category : #initialization }
-ToSelectStrategy >> configureSelect [ 
-
-	self buildNodeContainer: select nodeContainer.
-	select mode configureSelect
-]
-
-{ #category : #initialization }
 ToSelectStrategy >> defaultNodeBuilder [
 
 	self subclassResponsibility 
@@ -142,8 +135,13 @@ ToSelectStrategy >> nodeHolderClass [
 { #category : #'api - hooks' }
 ToSelectStrategy >> onInstalledIn: aSelect [
 
+	| nodeContainer |
 	select := aSelect.
-	self configureSelect
+	" the element that contains nodes + the text field "
+	nodeContainer := self newNodeContainer.
+	select contentElement addChild: nodeContainer.
+	self buildNodeContainer: nodeContainer.
+	self initializeFakeNode.
 ]
 
 { #category : #'api - hooks' }

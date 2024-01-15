@@ -11,20 +11,21 @@ ToSelectReadOnlyMode >> configureMultiSelectNodeContainer: anElement [
 	select textField beReadonlyWithoutSelection
 ]
 
-{ #category : #initialization }
-ToSelectReadOnlyMode >> configureSelect [
+{ #category : #'accessing selection' }
+ToSelectReadOnlyMode >> deselectIndex: anIndex [
 
+	select listElement selectionStrategy deselectIndex: anIndex.
+]
+
+{ #category : #'api - hooks' }
+ToSelectReadOnlyMode >> onInstalledIn: aSelect [
+
+	super onInstalledIn: aSelect.
 	select listElement addEventHandler: (BlEventHandler
 			 on: ToListSelectionChangedEvent
 			 do: [ :event | select strategy refreshNodeContainer ]).
 	select data: select listElement data.
 	select selectionModel: select listElement selectionStrategy selectionModel
-]
-
-{ #category : #'accessing selection' }
-ToSelectReadOnlyMode >> deselectIndex: anIndex [
-
-	select listElement selectionStrategy deselectIndex: anIndex.
 ]
 
 { #category : #'accessing selection' }

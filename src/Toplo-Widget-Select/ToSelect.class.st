@@ -95,7 +95,7 @@ ToSelect >> fakeData [
 ToSelect >> fakeData: aData [
 
 	fakeData := aData.
-	self initializeFakeNode
+	self strategy initializeFakeNode
 ]
 
 { #category : #private }
@@ -129,22 +129,22 @@ ToSelect >> iconContainer [
 { #category : #initialization }
 ToSelect >> initialize [
 
-	| sharedEventsDistributor contentElement nodeContainer |
+	| sharedEventsDistributor contentElement |
 	super initialize.
 	data := ToObservableCollection new.
-	windowManager := ToSelectWindowManager new.
-	windowManager onInstalledIn: self.
+	" for the popup "
+	windowManager := self newWindowManager.
 
 	" the element that holds the node container"
 	contentElement := self newContentElement.
-	" the element that contains nodes + the text field "
-	nodeContainer := self strategy newNodeContainer.
-	
-	contentElement addChild: nodeContainer.
 	self addChild: contentElement.
-
+	self addChild: self newIconContainer.
+	
+	" initialize the mode *** before *** the strategy (the strategy need an installed mode) "
 	self editable: self defaultEditable.
+	" initialize the default strategy "
 	self multiSelection: self defaultMultiSelection.
+	
 	self layout: BlLinearLayout horizontal.
 	self fitContent.
 
@@ -159,8 +159,6 @@ ToSelect >> initialize [
 	self addEventHandler: sharedEventsDistributor.
 	self listElement addEventHandler: sharedEventsDistributor.
 
-	self addChild: self newIconContainer.
-	self strategy initializeFakeNode
 ]
 
 { #category : #testing }
@@ -249,6 +247,15 @@ ToSelect >> newTextField [
 			 on: AlbTextReplacedEvent
 			 do: [ :event | self mode filterTextFieldUpdated: event ]).
 	^ textField
+]
+
+{ #category : #initialization }
+ToSelect >> newWindowManager [
+
+	| wm |
+	wm := ToSelectWindowManager new.
+	wm onInstalledIn: self.
+	^ wm
 ]
 
 { #category : #accessing }

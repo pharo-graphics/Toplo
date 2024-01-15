@@ -27,7 +27,8 @@ ToSelectMode >> isEditableMode [
 { #category : #'api - hooks' }
 ToSelectMode >> onInstalledIn: aSelect [
 
-	select := aSelect
+	select := aSelect.
+
 ]
 
 { #category : #'api - hooks' }

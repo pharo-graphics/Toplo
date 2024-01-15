@@ -33,6 +33,7 @@ ToMultiSelectStrategy >> buildNodeContainer: anElement [
 	anElement addChild: textField.
 	" In case of read-only mode, the textfield is set as read-only by the mode "
 	select mode configureMultiSelectNodeContainer: anElement
+
 ]
 
 { #category : #'accessing nodes' }
@@ -109,7 +110,9 @@ ToMultiSelectStrategy >> nodeWrapping: aBoolean [
 { #category : #'api - hooks' }
 ToMultiSelectStrategy >> onInstalledIn: aSelect [
 
-	super onInstalledIn: aSelect
+
+	super onInstalledIn: aSelect.
+
 ]
 
 { #category : #private }

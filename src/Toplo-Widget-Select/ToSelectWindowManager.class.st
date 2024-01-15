@@ -16,6 +16,12 @@ ToSelectWindowManager >> dataFilter: aValuable [
 ]
 
 { #category : #initialization }
+ToSelectWindowManager >> defaultAutoClosePickOutsideEventClass [
+
+	^ BlMouseDownOutsideEvent
+]
+
+{ #category : #initialization }
 ToSelectWindowManager >> defaultMaxHeight [
 
 	^ 200

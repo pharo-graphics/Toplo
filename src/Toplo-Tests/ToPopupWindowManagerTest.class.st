@@ -22,6 +22,132 @@ ToPopupWindowManagerTest >> testAutoCloseOnMouseUpDelay [
 ]
 
 { #category : #tests }
+ToPopupWindowManagerTest >> testAutoClosePickOutsideEventClass [
+
+	| e windowManager closed event |
+	e := ToElement new.
+	e size: 100 asPoint.
+	space root addChild: e.
+	self waitTestingSpaces.
+
+	windowManager := ToPopupWindowManager new.
+	self assert: windowManager autoClosePickOutsideEventClass identicalTo: windowManager defaultAutoClosePickOutsideEventClass.
+
+	windowManager onInstalledIn: e.
+	BlSpace simulateMouseDownOn: e.
+	self assert: windowManager currentWindow notNil.
+	self assert: windowManager currentWindow isOpened.
+	closed := false.
+	windowManager currentWindow addEventHandler: (BlEventHandler
+			 on: ToWindowClosedEvent
+			 do: [ :anEvent | closed := true ]).
+	event := BlMouseUpEvent primary position: 0 @ 0.
+	e dispatchEvent: event asMouseOutsideEvent.
+
+	" window is closed on mouse-up-outside"
+	self assert: windowManager currentWindow isNil.
+	self assert: closed
+]
+
+{ #category : #tests }
+ToPopupWindowManagerTest >> testAutoClosePickOutsideEventClass2 [
+
+	| e windowManager closed event |
+	e := ToElement new.
+	e size: 100 asPoint.
+	space root addChild: e.
+	self waitTestingSpaces.
+
+	windowManager := ToPopupWindowManager new.
+	windowManager autoClosePickOutsideEventClass: BlMouseDownOutsideEvent.
+	self deny: windowManager autoClosePickOutsideEventClass identicalTo: windowManager defaultAutoClosePickOutsideEventClass.
+
+	windowManager onInstalledIn: e.
+	BlSpace simulateMouseDownOn: e.
+	self assert: windowManager currentWindow notNil.
+	self assert: windowManager currentWindow isOpened.
+	closed := false.
+	windowManager currentWindow addEventHandler: (BlEventHandler
+			 on: ToWindowClosedEvent
+			 do: [ :anEvent | closed := true ]).
+	event := BlMouseDownEvent primary position: 0 @ 0.
+	e dispatchEvent: event asMouseOutsideEvent.
+
+	" window is closed on mouse-up-outside"
+	self assert: windowManager currentWindow isNil.
+	self assert: closed
+]
+
+{ #category : #tests }
+ToPopupWindowManagerTest >> testAutoClosePickOutsideEventClass3 [
+
+	| e windowManager closed event |
+	e := ToElement new.
+	e size: 100 asPoint.
+	space root addChild: e.
+	self waitTestingSpaces.
+
+	windowManager := ToPopupWindowManager new.
+	windowManager autoClosePickOutsideEventClass: BlMouseDownOutsideEvent.
+	self deny: windowManager autoClosePickOutsideEventClass identicalTo: windowManager defaultAutoClosePickOutsideEventClass.
+
+	windowManager onInstalledIn: e.
+	BlSpace simulateMouseDownOn: e.
+	self assert: windowManager currentWindow notNil.
+	self assert: windowManager currentWindow isOpened.
+	closed := false.
+	windowManager currentWindow addEventHandler: (BlEventHandler
+			 on: ToWindowClosedEvent
+			 do: [ :anEvent | closed := true ]).
+	event := BlMouseUpEvent primary position: 0 @ 0.
+	e dispatchEvent: event asMouseOutsideEvent.
+
+	" window is not closed on mouse-up-outside"
+	self deny: windowManager currentWindow isNil.
+	self deny: closed
+]
+
+{ #category : #tests }
+ToPopupWindowManagerTest >> testAutoClosePickOutsideEventClass4 [
+
+	| e windowManager closed event |
+	e := ToElement new.
+	e size: 100 asPoint.
+	space root addChild: e.
+	self waitTestingSpaces.
+
+	windowManager := ToPopupWindowManager new.
+	windowManager autoClosePickOutsideEventClass: BlMouseUpOutsideEvent.
+	self assert: windowManager autoClosePickOutsideEventClass identicalTo: windowManager defaultAutoClosePickOutsideEventClass.
+
+	windowManager onInstalledIn: e.
+	BlSpace simulateMouseDownOn: e.
+	self assert: windowManager currentWindow notNil.
+	self assert: windowManager currentWindow isOpened.
+	closed := false.
+	windowManager currentWindow addEventHandler: (BlEventHandler
+			 on: ToWindowClosedEvent
+			 do: [ :anEvent | closed := true ]).
+	event := BlMouseDownEvent primary position: 0 @ 0.
+	e dispatchEvent: event asMouseOutsideEvent.
+
+	" window is not closed on mouse-down-outside"
+	self deny: windowManager currentWindow isNil.
+	self deny: closed
+]
+
+{ #category : #tests }
+ToPopupWindowManagerTest >> testDefaultAutoClosePickOutsideEventClass [
+
+	| windowManager |
+	windowManager := ToPopupWindowManager new.
+	self assert: windowManager autoClosePickOutsideEventClass identicalTo: windowManager defaultAutoClosePickOutsideEventClass.
+	windowManager autoClosePickOutsideEventClass: BlMouseDownOutsideEvent.
+	self deny: windowManager autoClosePickOutsideEventClass identicalTo: windowManager defaultAutoClosePickOutsideEventClass.
+
+]
+
+{ #category : #tests }
 ToPopupWindowManagerTest >> testElementEventHandlerClass [
 
 	| win e windowManager |

@@ -3,6 +3,7 @@ Class {
 	#superclass : #ToAnchoredWindowManager,
 	#instVars : [
 		'autoCloseOnMouseUpDelay',
+		'autoClosePickOutsideEventClass',
 		'mouseButton'
 	],
 	#category : #'Toplo-Core-Window'
@@ -21,9 +22,27 @@ ToPopupWindowManager >> autoCloseOnMouseUpDelay: aDelay [
 ]
 
 { #category : #accessing }
+ToPopupWindowManager >> autoClosePickOutsideEventClass [
+
+	^ autoClosePickOutsideEventClass
+]
+
+{ #category : #accessing }
+ToPopupWindowManager >> autoClosePickOutsideEventClass: anEventClass [
+
+	autoClosePickOutsideEventClass := anEventClass
+]
+
+{ #category : #initialization }
 ToPopupWindowManager >> defaultAutoCloseOnMouseUpDelay [
 
 	^ 300 milliSeconds
+]
+
+{ #category : #initialization }
+ToPopupWindowManager >> defaultAutoClosePickOutsideEventClass [
+
+	^ BlMouseUpOutsideEvent
 ]
 
 { #category : #initialization }
@@ -43,7 +62,8 @@ ToPopupWindowManager >> elementEventHandlerClass [
 ToPopupWindowManager >> initialize [ 
 
 	super initialize.
-	self usePrimaryMouseButton 
+	self usePrimaryMouseButton .
+	self autoClosePickOutsideEventClass: self defaultAutoClosePickOutsideEventClass 
 ]
 
 { #category : #'mouse handlers' }

@@ -49,6 +49,70 @@ ToElementWithPopupEventHandlerTest >> testMouseDownEvent [
 ]
 
 { #category : #tests }
+ToElementWithPopupEventHandlerTest >> testMouseDownOutsideEvent [
+
+	| e windowManager closed event |
+	e := ToElement new.
+	e size: 100 asPoint.
+	e position: 100 asPoint.
+	space root addChild: e.
+	self waitTestingSpaces.
+
+	windowManager := ToPopupWindowManager new.
+	windowManager autoClosePickOutsideEventClass: BlMouseDownOutsideEvent.
+
+	windowManager onInstalledIn: e.
+	BlSpace simulateMouseDownOn: e.
+	self assert: windowManager currentWindow notNil.
+	self assert: windowManager currentWindow isOpened.
+	closed := false.
+	windowManager currentWindow addEventHandler: (BlEventHandler
+			 on: ToWindowClosedEvent
+			 do: [ closed := true ]).
+	(windowManager autoCloseOnMouseUpDelay + 1 milliSecond) wait.
+	event := BlMouseDownEvent primary position: 0 @ 0.
+	e dispatchEvent: event asMouseOutsideEvent.
+	self assert: windowManager autoClosePickOutsideEventClass identicalTo: BlMouseDownOutsideEvent.
+	self waitTestingSpaces.
+
+	" window is closed on mouse-up "
+	self assert: windowManager currentWindow isNil.
+	self assert: closed
+]
+
+{ #category : #tests }
+ToElementWithPopupEventHandlerTest >> testMouseDownOutsideEventWithAutoCloseWithUpOutside [
+
+	| e windowManager closed event |
+	e := ToElement new.
+	e size: 100 asPoint.
+	e position: 100 asPoint.
+	space root addChild: e.
+	self waitTestingSpaces.
+
+	windowManager := ToPopupWindowManager new.
+	windowManager autoClosePickOutsideEventClass: BlMouseUpOutsideEvent.
+
+	windowManager onInstalledIn: e.
+	BlSpace simulateMouseDownOn: e.
+	self assert: windowManager currentWindow notNil.
+	self assert: windowManager currentWindow isOpened.
+	closed := false.
+	windowManager currentWindow addEventHandler: (BlEventHandler
+			 on: ToWindowClosedEvent
+			 do: [ closed := true ]).
+	(windowManager autoCloseOnMouseUpDelay + 1 milliSecond) wait.
+	event := BlMouseDownEvent primary position: 0 @ 0.
+	e dispatchEvent: event asMouseOutsideEvent.
+	self assert: windowManager autoClosePickOutsideEventClass identicalTo: BlMouseUpOutsideEvent.
+	self waitTestingSpaces.
+
+	" window is not closed on mouse-down outside here because autoClosePickOutsideEventClass is for mouse-up"
+	self assert: windowManager currentWindow notNil.
+	self assert: closed not
+]
+
+{ #category : #tests }
 ToElementWithPopupEventHandlerTest >> testMouseUpEvent [
 
 	| e windowManager closed position event |
@@ -101,11 +165,44 @@ ToElementWithPopupEventHandlerTest >> testMouseUpOutsideEvent [
 	(windowManager autoCloseOnMouseUpDelay + 1 milliSecond) wait.
 	event := BlMouseUpEvent primary position: 0 @ 0.
 	e dispatchEvent: event asMouseOutsideEvent.
+	self assert: windowManager autoClosePickOutsideEventClass identicalTo: BlMouseUpOutsideEvent.
 	self waitTestingSpaces.
 
 	" window is closed on mouse-up "
 	self assert: windowManager currentWindow isNil.
 	self assert: closed
+]
+
+{ #category : #tests }
+ToElementWithPopupEventHandlerTest >> testMouseUpOutsideEventWithAutoCloseWithDownOutside [
+
+	| e windowManager closed event |
+	e := ToElement new.
+	e size: 100 asPoint.
+	e position: 100 asPoint.
+	space root addChild: e.
+	self waitTestingSpaces.
+
+	windowManager := ToPopupWindowManager new.
+	windowManager autoClosePickOutsideEventClass: BlMouseDownOutsideEvent.
+
+	windowManager onInstalledIn: e.
+	BlSpace simulateMouseDownOn: e.
+	self assert: windowManager currentWindow notNil.
+	self assert: windowManager currentWindow isOpened.
+	closed := false.
+	windowManager currentWindow addEventHandler: (BlEventHandler
+			 on: ToWindowClosedEvent
+			 do: [ closed := true ]).
+	(windowManager autoCloseOnMouseUpDelay + 1 milliSecond) wait.
+	event := BlMouseUpEvent primary position: 0 @ 0.
+	e dispatchEvent: event asMouseOutsideEvent.
+	self assert: windowManager autoClosePickOutsideEventClass identicalTo: BlMouseDownOutsideEvent.
+	self waitTestingSpaces.
+
+	" window is not closed on mouse-up outside here because autoClosePickOutsideEventClass is for mouse-down"
+	self assert: windowManager currentWindow notNil.
+	self assert: closed not
 ]
 
 { #category : #tests }

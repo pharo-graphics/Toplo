@@ -62,9 +62,15 @@ ToSelectNode >> endContainer [
 ToSelectNode >> initialize [
 
 	super initialize.
-	
+
 	self layout: BlLinearLayout horizontal.
-	
+
+	" to avoid unwanted window closing (because of the flow 
+	layout that can enlarge the select height when a node is added)"
+	self addEventHandler: (BlEventHandler
+			 on: BlMouseUpEvent
+			 do: [ :event | event consumed: true ]).
+
 	startContainer := ToElement new
 		                  fitContent;
 		                  layout: BlLinearLayout horizontal;
@@ -84,7 +90,7 @@ ToSelectNode >> initialize [
 			endContainer }.
 	self childrenDo: [ :child |
 		child constraintsDo: [ :c | c linear vertical alignCenter ] ].
-	
+
 	removable := false.
 	middleContainer padding: (BlInsets left: 3 right: 3).
 	self padding: (BlInsets horizontal: 2 vertical: 4).

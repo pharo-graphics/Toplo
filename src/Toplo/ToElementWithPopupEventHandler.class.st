@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'target'
 	],
-	#category : 'Toplo-Core-Window'
+	#category : #'Toplo-Core-Window'
 }
 
 { #category : #'api - accessing' }
@@ -13,7 +13,7 @@ ToElementWithPopupEventHandler >> eventsToHandle [
 	^ super eventsToHandle , {
 		  BlMouseUpEvent.
 		  BlMouseDownEvent.
-		  BlMouseUpOutsideEvent.
+		  windowManager autoClosePickOutsideEventClass.
 		  BlElementRemovedFromParentEvent }
 ]
 
@@ -21,6 +21,12 @@ ToElementWithPopupEventHandler >> eventsToHandle [
 ToElementWithPopupEventHandler >> mouseDownEvent: anEvent [
 
 	windowManager mouseDownInElementEvent: anEvent 
+]
+
+{ #category : #'mouse handlers' }
+ToElementWithPopupEventHandler >> mouseDownOutsideEvent: anEvent [
+
+	self pickOutsideEvent: anEvent
 ]
 
 { #category : #'mouse handlers' }
@@ -32,18 +38,7 @@ ToElementWithPopupEventHandler >> mouseUpEvent: anEvent [
 { #category : #'mouse handlers' }
 ToElementWithPopupEventHandler >> mouseUpOutsideEvent: anEvent [
 
-	" 
-	if the original event target is the element with popup or
-	if the original event target is the popup window then do nothing
-	"
-
-	anEvent originalEvent target ifNotNil: [ :originalTarget |
-		(originalTarget hasInParentChain: self target) ifTrue: [ ^ self  ].
-		(originalTarget hasInParentChain: windowManager currentWindow) ifTrue: [ ^ self ] ].
-	
-	" ok, mouseUp outside the element and outside of the popup window "
-	anEvent consumed: true.
-	windowManager currentWindowDo: [:w | w close ]
+	self pickOutsideEvent: anEvent
 ]
 
 { #category : #'api - hooks' }
@@ -60,6 +55,23 @@ ToElementWithPopupEventHandler >> onUninstalledIn: anElement [
 	target := nil.
 	super onUninstalledIn: anElement.
 
+]
+
+{ #category : #'mouse handlers' }
+ToElementWithPopupEventHandler >> pickOutsideEvent: anEvent [
+
+	" 
+	if the original event target is the element with popup or
+	if the original event target is the popup window then do nothing
+	"
+
+	anEvent originalEvent target ifNotNil: [ :originalTarget |
+		(originalTarget hasInParentChain: self target) ifTrue: [ ^ self  ].
+		(originalTarget hasInParentChain: windowManager currentWindow) ifTrue: [ ^ self ] ].
+	
+	" ok, mouseUp outside the element and outside of the popup window "
+	anEvent consumed: true.
+	windowManager currentWindowDo: [:w | w close ]
 ]
 
 { #category : #accessing }

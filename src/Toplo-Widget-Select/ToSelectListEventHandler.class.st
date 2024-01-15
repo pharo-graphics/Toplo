@@ -27,18 +27,6 @@ ToSelectListEventHandler >> filteredListSelectionChangedEvent: anEvent [
 	select strategy refreshNodeContainer
 ]
 
-{ #category : #'element handlers' }
-ToSelectListEventHandler >> listDeselectIndexEvent: anEvent [
-
-	select strategy refreshNodeContainer
-]
-
-{ #category : #'element handlers' }
-ToSelectListEventHandler >> listSelectIndexEvent: anEvent [
-
-	select strategy refreshNodeContainer
-]
-
 { #category : #accessing }
 ToSelectListEventHandler >> select: aSelect [
 

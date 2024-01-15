@@ -118,21 +118,22 @@ ToSelectWindowManager >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 
+	anElement isEditable ifFalse: [
+		self listElement addEventHandler: (BlEventHandler
+				 on: ToListSelectionChangedEvent
+				 do: [ :event | anElement strategy refreshNodeContainer ]).
+		anElement data: self listElement data.
+		anElement selectionModel:
+			self listElement selectionStrategy selectionModel.
+		^ self ].
+
 	self listElement addEventHandler: (ToSelectListEventHandler new
 			 select: anElement;
 			 yourself).
-	self listElement addEventHandler: (BlEventHandler
-			 on: ToListSelectionChangedEvent
-			 do: [ :event | anElement strategy refreshNodeContainer ]).
-
-	anElement isEditable ifFalse: [
-		anElement data: self listElement data.
-		anElement selectionModel: self listElement selectionStrategy selectionModel.
-		^ self ].
 
 	anElement data addEventHandler: (BlEventHandler
-				 on: ToCollectionAfterChangeEvent
-				 do: [ self listElement data updateAllWith: anElement data ]).
+			 on: ToCollectionAfterChangeEvent
+			 do: [ self listElement data updateAllWith: anElement data ]).
 
 	filter := ToListElementFilter new.
 	filter taskQueueHolder: anElement.

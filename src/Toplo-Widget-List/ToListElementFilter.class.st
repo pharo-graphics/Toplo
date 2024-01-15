@@ -33,7 +33,7 @@ ToListElementFilter >> buildOriginalIndexedData [
 { #category : #accessing }
 ToListElementFilter >> currentIndexedData [
 
-	^ currentIndexedData
+	^ currentIndexedData ifNil: [ originalIndexedData ]
 ]
 
 { #category : #accessing }

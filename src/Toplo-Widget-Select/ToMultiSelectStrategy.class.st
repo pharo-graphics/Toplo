@@ -123,6 +123,7 @@ ToMultiSelectStrategy >> onUninstalledIn: aSelect [
 ToMultiSelectStrategy >> refreshNodeContainer [
 
 	| nodes |
+
 	" first remove all data nodes "
 	self dataNodesDo: [ :node | node removeFromParent ].
 	self nodeHolders reset.

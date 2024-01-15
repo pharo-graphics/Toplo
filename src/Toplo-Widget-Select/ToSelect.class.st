@@ -19,6 +19,12 @@ ToSelect >> addData: aData [
 	self listElement selection selectIndex: data size
 ]
 
+{ #category : #accessing }
+ToSelect >> contentElement [
+
+	^ self childWithId: #contentElement 
+]
+
 { #category : #'accessing window' }
 ToSelect >> currentWindow [ 
 
@@ -45,6 +51,12 @@ ToSelect >> dataFilter: aValuable [
 
 { #category : #initialization }
 ToSelect >> defaultEditable [
+
+	^ true
+]
+
+{ #category : #initialization }
+ToSelect >> defaultMultiSelection [
 
 	^ true
 ]
@@ -119,27 +131,22 @@ ToSelect >> initialize [
 
 	| sharedEventsDistributor contentElement nodeContainer |
 	super initialize.
+	data := ToObservableCollection new.
 	windowManager := ToSelectWindowManager new.
+	windowManager onInstalledIn: self.
 
-	self editable: self defaultEditable.
-	strategy := self defaultStrategy.
-	strategy onInstalledIn: self.
-	selectionModel := BlCompositeSelection new.
-	self fitContent.
-	self layout: BlLinearLayout horizontal.
-
-	" the element that holds the flow"
+	" the element that holds the node container"
 	contentElement := self newContentElement.
-	" the flow element taht contains nodes + the text field "
+	" the element that contains nodes + the text field "
 	nodeContainer := self strategy newNodeContainer.
+	
 	contentElement addChild: nodeContainer.
 	self addChild: contentElement.
-	
-	self strategy buildNodeContainer: nodeContainer.
-	
-	data := ToObservableCollection new.
 
-	windowManager onInstalledIn: self.
+	self editable: self defaultEditable.
+	self multiSelection: self defaultMultiSelection.
+	self layout: BlLinearLayout horizontal.
+	self fitContent.
 
 	sharedEventsDistributor := BlSharedEventDistributor new.
 	sharedEventsDistributor
@@ -162,6 +169,12 @@ ToSelect >> isEditable [
 	^ self mode isEditableMode 
 ]
 
+{ #category : #testing }
+ToSelect >> isMultiSelection [ 
+
+	^ self strategy isMultiSelection 
+]
+
 { #category : #accessing }
 ToSelect >> listElement [
 
@@ -178,6 +191,18 @@ ToSelect >> listNodeBuilder: aValuable [
 ToSelect >> mode [
 
 	^ mode
+]
+
+{ #category : #accessing }
+ToSelect >> multiSelection: aBoolean [
+
+	(strategy notNil and: [ aBoolean = self isMultiSelection ]) ifTrue: [
+		^ self ].
+	strategy ifNotNil: [ self strategy onUninstalledIn: self ].
+	strategy := aBoolean
+		        ifTrue: [ ToMultiSelectStrategy new ]
+		        ifFalse: [ ToMonoSelectStrategy new ].
+	strategy onInstalledIn: self
 ]
 
 { #category : #initialization }

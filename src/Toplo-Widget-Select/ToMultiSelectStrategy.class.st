@@ -66,6 +66,12 @@ ToMultiSelectStrategy >> initialize [
 	
 ]
 
+{ #category : #testing }
+ToMultiSelectStrategy >> isMultiSelection [
+
+	^ true
+]
+
 { #category : #'accessing nodes' }
 ToMultiSelectStrategy >> newNode [
 
@@ -73,7 +79,7 @@ ToMultiSelectStrategy >> newNode [
 ]
 
 { #category : #private }
-ToMultiSelectStrategy >> newNodeContainerLayout [
+ToMultiSelectStrategy >> nodeContainerLayout [
 
 	^ nodeWrapping
 		ifTrue: [ BlFlowLayout horizontal ]
@@ -109,7 +115,7 @@ ToMultiSelectStrategy >> onInstalledIn: aSelect [
 { #category : #private }
 ToMultiSelectStrategy >> onNodeWrappingChange [
 
-	select nodeContainer layout: self newNodeContainerLayout
+	select nodeContainer layout: self nodeContainerLayout
 ]
 
 { #category : #'api - hooks' }

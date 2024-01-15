@@ -18,8 +18,7 @@ ToSelectReadOnlyMode >> configureSelect [
 			 on: ToListSelectionChangedEvent
 			 do: [ :event | select strategy refreshNodeContainer ]).
 	select data: select listElement data.
-	select selectionModel:
-		select listElement selectionStrategy selectionModel
+	select selectionModel: select listElement selectionStrategy selectionModel
 ]
 
 { #category : #'accessing selection' }

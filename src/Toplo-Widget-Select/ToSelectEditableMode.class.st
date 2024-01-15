@@ -25,6 +25,8 @@ ToSelectEditableMode >> configureSelect [
 			 on: ToCollectionAfterChangeEvent
 			 do: [ select listElement data updateAllWith: select data ]).
 
+	select selectionModel: BlCompositeSelection new.
+
 	filter := ToListElementFilter new.
 	filter taskQueueHolder: select.
 	filter originalData: select data.

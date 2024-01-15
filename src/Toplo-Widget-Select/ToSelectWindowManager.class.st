@@ -47,20 +47,6 @@ ToSelectWindowManager >> elementEventHandlerClass [
 	^ ToSelectEventHandler
 ]
 
-{ #category : #initialization }
-ToSelectWindowManager >> initialize [
-
-	super initialize.
-	maxHeight := self defaultMaxHeight.
-	minHeight := self defaultMinHeight.
-	listElement := self newListElement.
-	
-	self builder: [ :selectWin :request |
-		selectWin root hMatchParent.
-		selectWin root vFitContent.
-		selectWin root addChild: self listElement ]
-]
-
 { #category : #accessing }
 ToSelectWindowManager >> listElement [
 
@@ -122,7 +108,13 @@ ToSelectWindowManager >> onCloseRequest [
 ToSelectWindowManager >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	anElement mode configureSelect
+	maxHeight := self defaultMaxHeight.
+	minHeight := self defaultMinHeight.
+	listElement := self newListElement.
+	self builder: [ :selectWin :request |
+		selectWin root hMatchParent.
+		selectWin root vFitContent.
+		selectWin root addChild: self listElement ]
 ]
 
 { #category : #accessing }

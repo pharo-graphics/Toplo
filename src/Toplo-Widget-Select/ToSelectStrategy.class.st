@@ -10,6 +10,19 @@ Class {
 }
 
 { #category : #initialization }
+ToSelectStrategy >> buildNodeContainer: anElement [
+
+	self subclassResponsibility 
+]
+
+{ #category : #initialization }
+ToSelectStrategy >> configureSelect [ 
+
+	self buildNodeContainer: select nodeContainer.
+	select mode configureSelect
+]
+
+{ #category : #initialization }
 ToSelectStrategy >> defaultNodeBuilder [
 
 	self subclassResponsibility 
@@ -55,6 +68,12 @@ ToSelectStrategy >> initializeFakeNode [
 	select nodeContainer addChild: fakeNode
 ]
 
+{ #category : #testing }
+ToSelectStrategy >> isMultiSelection [
+
+	^ false
+]
+
 { #category : #initialization }
 ToSelectStrategy >> newNode [ 
 
@@ -64,14 +83,10 @@ ToSelectStrategy >> newNode [
 { #category : #initialization }
 ToSelectStrategy >> newNodeContainer [
 
-	^ ToElement new  id: #nodeContainer;
-		             layout: self newNodeContainerLayout; yourself
-]
-
-{ #category : #'instance creation' }
-ToSelectStrategy >> newNodeContainerLayout [
-
-	^ self subclassResponsibility 
+	^ ToElement new
+		  id: #nodeContainer;
+		  layout: self nodeContainerLayout;
+		  yourself
 ]
 
 { #category : #'accessing nodes' }
@@ -112,6 +127,12 @@ ToSelectStrategy >> nodeClass: aNodeClass [
 	self initializeFakeNode
 ]
 
+{ #category : #'instance creation' }
+ToSelectStrategy >> nodeContainerLayout [
+
+	^ self subclassResponsibility 
+]
+
 { #category : #'accessing nodes' }
 ToSelectStrategy >> nodeHolderClass [ 
 
@@ -121,7 +142,8 @@ ToSelectStrategy >> nodeHolderClass [
 { #category : #'api - hooks' }
 ToSelectStrategy >> onInstalledIn: aSelect [
 
-	select := aSelect
+	select := aSelect.
+	self configureSelect
 ]
 
 { #category : #'api - hooks' }

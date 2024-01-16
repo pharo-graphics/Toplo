@@ -50,7 +50,7 @@ ToSelect >> dataFilter: aValuable [
 ]
 
 { #category : #initialization }
-ToSelect >> defaultEditable [
+ToSelect >> defaultFiltrable [
 
 	^ true
 ]
@@ -73,18 +73,6 @@ ToSelect >> deselectIndex: anIndex [
 	self mode deselectIndex: anIndex
 ]
 
-{ #category : #accessing }
-ToSelect >> editable: aBoolean [
-
-	(self mode notNil and: [ aBoolean = self isEditable ]) ifTrue: [
-		^ self ].
-	self mode ifNotNil: [ self mode onUninstalledIn: self ].
-	mode := aBoolean
-		        ifTrue: [ ToSelectEditableMode new ]
-		        ifFalse: [ ToSelectReadOnlyMode new ].
-	mode onInstalledIn: self
-]
-
 { #category : #private }
 ToSelect >> fakeData [
 
@@ -102,6 +90,18 @@ ToSelect >> fakeData: aData [
 ToSelect >> fakeNode [
 
 	^ self childWithId: #fakeNode ifNone: [  ]
+]
+
+{ #category : #accessing }
+ToSelect >> filtrable: aBoolean [
+
+	(self mode notNil and: [ aBoolean = self isFiltrable ]) ifTrue: [
+		^ self ].
+	self mode ifNotNil: [ self mode onUninstalledIn: self ].
+	mode := aBoolean
+		        ifTrue: [ ToSelectFiltrableMode new ]
+		        ifFalse: [ ToSelectReadOnlyMode new ].
+	mode onInstalledIn: self
 ]
 
 { #category : #accessing }
@@ -141,7 +141,7 @@ ToSelect >> initialize [
 	self addChild: self newIconContainer.
 	
 	" initialize the mode *** before *** the strategy (the strategy need an installed mode) "
-	self editable: self defaultEditable.
+	self filtrable: self defaultFiltrable.
 	" initialize the default strategy "
 	self multiSelection: self defaultMultiSelection.
 	
@@ -162,9 +162,9 @@ ToSelect >> initialize [
 ]
 
 { #category : #testing }
-ToSelect >> isEditable [ 
+ToSelect >> isFiltrable [
 
-	^ self mode isEditableMode 
+	^ self mode isFiltrableMode 
 ]
 
 { #category : #testing }
@@ -273,7 +273,7 @@ ToSelect >> nodeContainer [
 { #category : #'accessing list' }
 ToSelect >> onListCloseRequest [
 
-	self isEditable ifFalse: [ ^ self ].
+	self isFiltrable ifFalse: [ ^ self ].
 	self textField requestFocus
 ]
 

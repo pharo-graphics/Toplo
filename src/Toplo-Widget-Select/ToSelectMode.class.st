@@ -19,7 +19,7 @@ ToSelectMode >> deselectIndex: anIndex [
 ]
 
 { #category : #testing }
-ToSelectMode >> isEditableMode [
+ToSelectMode >> isFiltrableMode [
 
 	^ false
 ]
@@ -39,12 +39,6 @@ ToSelectMode >> onUninstalledIn: aSelect [
 
 { #category : #'accessing selection' }
 ToSelectMode >> selectIndex: anIndex [
-
-	self subclassResponsibility 
-]
-
-{ #category : #'accessing selection' }
-ToSelectMode >> selectIndexes: aCollection [
 
 	self subclassResponsibility 
 ]

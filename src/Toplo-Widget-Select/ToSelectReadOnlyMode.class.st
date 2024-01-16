@@ -33,9 +33,3 @@ ToSelectReadOnlyMode >> selectIndex: anIndex [
 
 	select listElement selectionStrategy selectIndex: anIndex
 ]
-
-{ #category : #'accessing selection' }
-ToSelectReadOnlyMode >> selectIndexes: aCollection [
-
-	select listElement selectionStrategy selectIndexes: aCollection
-]

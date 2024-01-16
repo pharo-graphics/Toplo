@@ -67,6 +67,18 @@ ToSelectStrategy >> isMultiSelection [
 	^ false
 ]
 
+{ #category : #accessing }
+ToSelectStrategy >> maxCount [ 
+
+	^ Error signal: 'Not applicable feature'
+]
+
+{ #category : #accessing }
+ToSelectStrategy >> maxCount: aNumber [
+
+	^ Error signal: 'Not applicable feature'
+]
+
 { #category : #initialization }
 ToSelectStrategy >> newNode [ 
 

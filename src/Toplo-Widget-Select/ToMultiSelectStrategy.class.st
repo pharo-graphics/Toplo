@@ -3,7 +3,8 @@ Class {
 	#superclass : #ToSelectStrategy,
 	#instVars : [
 		'nodeWrapping',
-		'nodeHolders'
+		'nodeHolders',
+		'maxCount'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -61,6 +62,7 @@ ToMultiSelectStrategy >> defaultNodeWrapping [
 ToMultiSelectStrategy >> initialize [
 
 	super initialize.
+	maxCount := SmallInteger maxVal.
 	nodeHolders := OrderedCollection new.
 	nodeWrapping := self defaultNodeWrapping.
 
@@ -71,6 +73,18 @@ ToMultiSelectStrategy >> initialize [
 ToMultiSelectStrategy >> isMultiSelection [
 
 	^ true
+]
+
+{ #category : #accessing }
+ToMultiSelectStrategy >> maxCount [
+
+	^ maxCount
+]
+
+{ #category : #accessing }
+ToMultiSelectStrategy >> maxCount: aNumber [
+
+	maxCount := aNumber
 ]
 
 { #category : #'accessing nodes' }

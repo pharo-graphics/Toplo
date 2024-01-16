@@ -1,5 +1,5 @@
 Class {
-	#name : #ToSelectEditableMode,
+	#name : #ToSelectFiltrableMode,
 	#superclass : #ToSelectMode,
 	#instVars : [
 		'filter'
@@ -8,20 +8,20 @@ Class {
 }
 
 { #category : #initialization }
-ToSelectEditableMode >> configureMultiSelectNodeContainer: anElement [
+ToSelectFiltrableMode >> configureMultiSelectNodeContainer: anElement [
 
 	super configureMultiSelectNodeContainer: anElement.
 	select textField requestFocus
 ]
 
 { #category : #accessing }
-ToSelectEditableMode >> dataFilter: aValuable [
+ToSelectFiltrableMode >> dataFilter: aValuable [
 
 	filter dataFilter: aValuable
 ]
 
 { #category : #'accessing selection' }
-ToSelectEditableMode >> deselectIndex: anIndex [
+ToSelectFiltrableMode >> deselectIndex: anIndex [
 
 	select selectionModel deselectIndex: anIndex.
 	select listElement dispatchEvent:
@@ -31,26 +31,26 @@ ToSelectEditableMode >> deselectIndex: anIndex [
 ]
 
 { #category : #private }
-ToSelectEditableMode >> filterString [
+ToSelectFiltrableMode >> filterString [
 
 	^ select textField text asString
 ]
 
 { #category : #private }
-ToSelectEditableMode >> filterTextFieldUpdated: anEvent [
+ToSelectFiltrableMode >> filterTextFieldUpdated: anEvent [
 
 	select listElement dispatchEvent:
 		(ToListFilterRequest new pattern: self filterString)
 ]
 
 { #category : #testing }
-ToSelectEditableMode >> isEditableMode [
+ToSelectFiltrableMode >> isFiltrableMode [
 
 	^ true
 ]
 
 { #category : #'api - hooks' }
-ToSelectEditableMode >> onInstalledIn: aSelect [
+ToSelectFiltrableMode >> onInstalledIn: aSelect [
 
 	super onInstalledIn: aSelect.
 	select listElement addEventHandler: (ToSelectListEventHandler new
@@ -62,7 +62,6 @@ ToSelectEditableMode >> onInstalledIn: aSelect [
 			 do: [ select listElement data updateAllWith: select data ]).
 
 	select selectionModel: BlCompositeSelection new.
-
 	filter := ToListElementFilter new.
 	filter taskQueueHolder: select.
 	filter originalData: select data.
@@ -71,7 +70,7 @@ ToSelectEditableMode >> onInstalledIn: aSelect [
 ]
 
 { #category : #'api - hooks' }
-ToSelectEditableMode >> onUninstalledIn: aSelect [
+ToSelectFiltrableMode >> onUninstalledIn: aSelect [
 
 	filter onUninstalledIn: select  listElement.
 	filter := nil.
@@ -79,19 +78,9 @@ ToSelectEditableMode >> onUninstalledIn: aSelect [
 ]
 
 { #category : #'accessing selection' }
-ToSelectEditableMode >> selectIndex: anIndex [
+ToSelectFiltrableMode >> selectIndex: anIndex [
 
 	select selectionModel selectIndex: anIndex.
-	select listElement dispatchEvent:
-		(ToFilteredListSelectionModelChangedEvent new
-			 selection: select selectionModel;
-			 yourself)
-]
-
-{ #category : #'accessing selection' }
-ToSelectEditableMode >> selectIndexes: aCollection [
-
-	select selectionModel selectIndexes: aCollection.
 	select listElement dispatchEvent:
 		(ToFilteredListSelectionModelChangedEvent new
 			 selection: select selectionModel;

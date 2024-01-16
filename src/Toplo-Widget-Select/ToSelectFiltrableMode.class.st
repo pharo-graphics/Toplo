@@ -8,6 +8,13 @@ Class {
 }
 
 { #category : #initialization }
+ToSelectFiltrableMode >> configureMonoSelectNodeContainer: anElement [
+
+	super configureMonoSelectNodeContainer: anElement.
+
+]
+
+{ #category : #initialization }
 ToSelectFiltrableMode >> configureMultiSelectNodeContainer: anElement [
 
 	super configureMultiSelectNodeContainer: anElement.
@@ -33,7 +40,7 @@ ToSelectFiltrableMode >> deselectIndex: anIndex [
 { #category : #private }
 ToSelectFiltrableMode >> filterString [
 
-	^ select textField text asString
+	^ select textField ifNil: [''] ifNotNil: [:txtf | txtf text asString ]
 ]
 
 { #category : #private }
@@ -47,6 +54,21 @@ ToSelectFiltrableMode >> filterTextFieldUpdated: anEvent [
 ToSelectFiltrableMode >> isFiltrableMode [
 
 	^ true
+]
+
+{ #category : #'instance creation' }
+ToSelectFiltrableMode >> newTextField [ 
+
+	| textField |
+	textField := super newTextField.
+	textField addEditorShortcut: ToSelectTextFieldBackspaceShortcut new.
+	textField addEventHandler: (BlEventHandler
+			 on: AlbTextEditedEvent
+			 do: [ :event | self filterTextFieldUpdated: event ]).
+	textField addEventHandler: (BlEventHandler
+			 on: AlbTextReplacedEvent
+			 do: [ :event | self filterTextFieldUpdated: event ]).
+	^ textField
 ]
 
 { #category : #'api - hooks' }
@@ -80,6 +102,7 @@ ToSelectFiltrableMode >> onUninstalledIn: aSelect [
 { #category : #'accessing selection' }
 ToSelectFiltrableMode >> selectIndex: anIndex [
 
+	select selectionModel deselectAll.
 	select selectionModel selectIndex: anIndex.
 	select listElement dispatchEvent:
 		(ToFilteredListSelectionModelChangedEvent new

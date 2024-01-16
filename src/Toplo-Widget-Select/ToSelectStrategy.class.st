@@ -4,6 +4,7 @@ Class {
 	#instVars : [
 		'nodeClass',
 		'select',
+		'nodeHolders',
 		'nodeBuilder'
 	],
 	#category : #'Toplo-Widget-Select-Core'
@@ -15,16 +16,22 @@ ToSelectStrategy >> buildNodeContainer: anElement [
 	self subclassResponsibility 
 ]
 
-{ #category : #initialization }
-ToSelectStrategy >> defaultNodeBuilder [
+{ #category : #'accessing nodes' }
+ToSelectStrategy >> dataNodesDo: aBlock [
 
-	self subclassResponsibility 
+	self nodeHolders do: [ :holder |	aBlock value: holder node ].
+]
+
+{ #category : #initialization }
+ToSelectStrategy >> defaultNodeBuilder [ 
+
+	^ self subclassResponsibility 
 ]
 
 { #category : #initialization }
 ToSelectStrategy >> defaultNodeClass [ 
 
-	^ ToSelectNode
+	self subclassResponsibility 
 ]
 
 { #category : #initialization }
@@ -32,6 +39,7 @@ ToSelectStrategy >> initialize [
 
 	super initialize.
 	nodeClass := self defaultNodeClass.
+	nodeHolders := OrderedCollection new.
 	nodeBuilder := self defaultNodeBuilder.
 
 
@@ -79,10 +87,10 @@ ToSelectStrategy >> maxCount: aNumber [
 	^ Error signal: 'Not applicable feature'
 ]
 
-{ #category : #initialization }
-ToSelectStrategy >> newNode [ 
+{ #category : #'accessing nodes' }
+ToSelectStrategy >> newNode [
 
-	^ self subclassResponsibility 
+	^ self nodeClass new
 ]
 
 { #category : #initialization }
@@ -144,6 +152,12 @@ ToSelectStrategy >> nodeHolderClass [
 	^ ToSelectNodeHolder
 ]
 
+{ #category : #'accessing nodes' }
+ToSelectStrategy >> nodeHolders [
+
+	^ nodeHolders
+]
+
 { #category : #'api - hooks' }
 ToSelectStrategy >> onInstalledIn: aSelect [
 
@@ -160,6 +174,12 @@ ToSelectStrategy >> onInstalledIn: aSelect [
 ToSelectStrategy >> onUninstalledIn: aSelect [
 
 	select := nil
+]
+
+{ #category : #enumerating }
+ToSelectStrategy >> refreshNodeContainer [
+
+	self subclassResponsibility 
 ]
 
 { #category : #accessing }

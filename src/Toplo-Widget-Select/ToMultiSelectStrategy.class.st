@@ -3,7 +3,6 @@ Class {
 	#superclass : #ToSelectStrategy,
 	#instVars : [
 		'nodeWrapping',
-		'nodeHolders',
 		'maxCount'
 	],
 	#category : #'Toplo-Widget-Select-Core'
@@ -24,23 +23,12 @@ ToMultiSelectStrategy >> addDataNode: aNode [
 { #category : #initialization }
 ToMultiSelectStrategy >> buildNodeContainer: anElement [
 
-	| textField |
 	anElement
 		vFitContent;
 		hMatchParent;
 		constraintsDo: [ :c | c linear vertical alignCenter ].
-	" for the text field for the select input (whatever the mode for simplification) "
-	textField := select newTextField.
-	anElement addChild: textField.
-	" In case of read-only mode, the textfield is set as read-only by the mode "
 	select mode configureMultiSelectNodeContainer: anElement
 
-]
-
-{ #category : #'accessing nodes' }
-ToMultiSelectStrategy >> dataNodesDo: aBlock [
-
-	self nodeHolders do: [ :holder |	aBlock value: holder node ].
 ]
 
 { #category : #initialization }
@@ -50,6 +38,12 @@ ToMultiSelectStrategy >> defaultNodeBuilder [
 	  aSelectNode beRemovable.
 	  aSelectNode middleContainer addChild:
 		  (ToLabel text: aNodeHolder data asString) ]
+]
+
+{ #category : #initialization }
+ToMultiSelectStrategy >> defaultNodeClass [ 
+
+	^ ToMultiSelectNode
 ]
 
 { #category : #initialization }
@@ -63,7 +57,6 @@ ToMultiSelectStrategy >> initialize [
 
 	super initialize.
 	maxCount := SmallInteger maxVal.
-	nodeHolders := OrderedCollection new.
 	nodeWrapping := self defaultNodeWrapping.
 
 	
@@ -87,24 +80,12 @@ ToMultiSelectStrategy >> maxCount: aNumber [
 	maxCount := aNumber
 ]
 
-{ #category : #'accessing nodes' }
-ToMultiSelectStrategy >> newNode [
-
-	^ self nodeClass new
-]
-
 { #category : #private }
 ToMultiSelectStrategy >> nodeContainerLayout [
 
 	^ nodeWrapping
 		ifTrue: [ BlFlowLayout horizontal ]
 		ifFalse: [ BlLinearLayout horizontal ]
-]
-
-{ #category : #'accessing nodes' }
-ToMultiSelectStrategy >> nodeHolders [
-
-	^ nodeHolders
 ]
 
 { #category : #accessing }
@@ -124,21 +105,14 @@ ToMultiSelectStrategy >> nodeWrapping: aBoolean [
 { #category : #'api - hooks' }
 ToMultiSelectStrategy >> onInstalledIn: aSelect [
 
-
 	super onInstalledIn: aSelect.
-
+	aSelect listElement selectionStrategy beMultipleSelection
 ]
 
 { #category : #private }
 ToMultiSelectStrategy >> onNodeWrappingChange [
 
 	select nodeContainer layout: self nodeContainerLayout
-]
-
-{ #category : #'api - hooks' }
-ToMultiSelectStrategy >> onUninstalledIn: aSelect [
-
-	super onUninstalledIn: aSelect
 ]
 
 { #category : #enumerating }

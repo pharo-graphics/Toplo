@@ -16,8 +16,7 @@ ToSelectTextField >> initialize [
 	self withoutEditsFeedback.
 	self constraintsDo: [ :c |
 		c flow vertical alignCenter.
-		c linear vertical alignCenter ].
-	self addEditorShortcut: ToSelectTextFieldBackspaceShortcut new
+		c linear vertical alignCenter ]
 ]
 
 { #category : #skin }

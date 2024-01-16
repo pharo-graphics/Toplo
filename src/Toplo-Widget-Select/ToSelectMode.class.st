@@ -8,7 +8,19 @@ Class {
 }
 
 { #category : #initialization }
+ToSelectMode >> configureMonoSelectNodeContainer: anElement [
+
+
+]
+
+{ #category : #initialization }
 ToSelectMode >> configureMultiSelectNodeContainer: anElement [
+
+	| textField |
+	" The textField is added whatever the mode to simplify node adding.
+	In case of read-only mode, the textfield is set as read-only by the mode "
+	textField := self newTextField.
+	anElement addChild: textField.
 
 ]
 
@@ -22,6 +34,17 @@ ToSelectMode >> deselectIndex: anIndex [
 ToSelectMode >> isFiltrableMode [
 
 	^ false
+]
+
+{ #category : #'instance creation' }
+ToSelectMode >> newTextField [ 
+
+	| textField |
+	textField := ToSelectTextField new
+		             select: select;
+		             id: #textField;
+		             yourself.
+	^ textField
 ]
 
 { #category : #'api - hooks' }

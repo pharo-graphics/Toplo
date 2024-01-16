@@ -68,7 +68,7 @@ ToInfiniteSelectionStrategy >> beMultipleSelection [
 
 	mode := #multiple.
 	self doDeselectAll.
-	infiniteElement selection: self
+	infiniteElement selectionStrategy: self
 ]
 
 { #category : #'mode changing' }
@@ -194,19 +194,23 @@ ToInfiniteSelectionStrategy >> doCherryPickIndex: index [
 { #category : #'selection managing' }
 ToInfiniteSelectionStrategy >> doDeselectAll [
 
-	self isMultiple ifFalse: [ self invalidOperation ].
+	self isMultiple
+		ifFalse: [
+			self doDeselectIndex: self selectedIndex.
+			^ self ].
+	selectionModel deselectAll.
 	infiniteElement dispatchDeselectAll.
 	selectionModel deselectAll.
-	self markPointedPosition: 0.
-
+	self markPointedPosition: 0
 ]
 
 { #category : #'selection managing' }
 ToInfiniteSelectionStrategy >> doDeselectAllIndexes: indexes [
 
-	self isMultiple ifFalse: [ self invalidOperation ].
+	self isMultiple ifFalse: [
+		indexes size > 1 ifTrue: [ self invalidOperation ] ].
 	infiniteElement dispatchDeselectIndexes: indexes.
-	indexes ifNotEmpty: [ 
+	indexes ifNotEmpty: [
 		selectionModel deselectAllIndexes: indexes.
 		self markPointedPosition: indexes first ].
 	infiniteElement requestLayout
@@ -232,9 +236,10 @@ ToInfiniteSelectionStrategy >> doSelectAll [
 { #category : #'selection managing' }
 ToInfiniteSelectionStrategy >> doSelectAllIndexes: indexes [
 
-	self isMultiple ifFalse: [ self invalidOperation ].
+	self isMultiple ifFalse: [
+		indexes size > 1 ifTrue: [ self invalidOperation ] ].
 	infiniteElement dispatchSelectIndexes: indexes.
-	indexes ifNotEmpty: [ 
+	indexes ifNotEmpty: [
 		selectionModel selectAllIndexes: indexes.
 		self markPointedPosition: indexes first ].
 	infiniteElement requestLayout
@@ -254,11 +259,8 @@ ToInfiniteSelectionStrategy >> doSelectOnlyIndex: anIndex [
 
 	self isNone ifTrue: [ self invalidOperation ].
 	infiniteElement dispatchSelectOnlyIndex: anIndex.
-
 	selectionModel selectOnlyIndex: anIndex.
-
-	self markPointedPosition: anIndex.
-	infiniteElement scrollToIndex: anIndex
+	self markPointedPosition: anIndex
 ]
 
 { #category : #'selection managing' }

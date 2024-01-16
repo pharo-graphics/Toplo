@@ -17,6 +17,15 @@ ToSelectReadOnlyMode >> deselectIndex: anIndex [
 	select listElement selectionStrategy deselectIndex: anIndex.
 ]
 
+{ #category : #'instance creation' }
+ToSelectReadOnlyMode >> newTextField [ 
+
+	| textField |
+	textField := super newTextField.
+	textField beReadonlyWithoutSelection.
+	^ textField
+]
+
 { #category : #'api - hooks' }
 ToSelectReadOnlyMode >> onInstalledIn: aSelect [
 
@@ -31,5 +40,6 @@ ToSelectReadOnlyMode >> onInstalledIn: aSelect [
 { #category : #'accessing selection' }
 ToSelectReadOnlyMode >> selectIndex: anIndex [
 
+	select isMultipleSelection ifTrue: [ select listElement selectionStrategy deselectAll ].
 	select listElement selectionStrategy selectIndex: anIndex
 ]

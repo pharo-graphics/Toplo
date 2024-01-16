@@ -61,12 +61,6 @@ ToSelect >> defaultMultiSelection [
 	^ true
 ]
 
-{ #category : #initialization }
-ToSelect >> defaultStrategy [
-
-	^ ToMultiSelectStrategy new
-]
-
 { #category : #'accessing selection' }
 ToSelect >> deselectIndex: anIndex [
 
@@ -233,23 +227,6 @@ ToSelect >> newRawSkin [
 ]
 
 { #category : #initialization }
-ToSelect >> newTextField [
-
-	| textField |
-	textField := ToSelectTextField new
-		             select: self;
-		             id: #textField;
-		             yourself.
-	textField addEventHandler: (BlEventHandler
-			 on: AlbTextEditedEvent
-			 do: [ :event | self mode filterTextFieldUpdated: event ]).
-	textField addEventHandler: (BlEventHandler
-			 on: AlbTextReplacedEvent
-			 do: [ :event | self mode filterTextFieldUpdated: event ]).
-	^ textField
-]
-
-{ #category : #initialization }
 ToSelect >> newWindowManager [
 
 	| wm |
@@ -326,12 +303,6 @@ ToSelect >> selectIndex: anIndex [
 ]
 
 { #category : #'accessing selection' }
-ToSelect >> selectIndexes: aCollection [
-
-	self mode selectIndexes: aCollection
-]
-
-{ #category : #'accessing selection' }
 ToSelect >> selectedIndexes [
 
 	^ selectionModel indices
@@ -358,7 +329,7 @@ ToSelect >> strategy [
 { #category : #accessing }
 ToSelect >> textField [
 
-	^ self childWithId: #textField 
+	^ self childWithId: #textField ifNone: [  ]
 ]
 
 { #category : #accessing }

@@ -52,7 +52,7 @@ ToListElementFilter >> dataFilter: aValuable [
 { #category : #accessing }
 ToListElementFilter >> defaultDelay [
 
-	^ 200 milliSeconds
+	^ 250 milliSeconds
 ]
 
 { #category : #accessing }
@@ -86,8 +86,8 @@ ToListElementFilter >> filterDataIn: anElement [
 					               (self dataFilter value: d data value: self pattern)
 						               ifTrue: [ str nextPut: d ] ] ] ].
 
-
-	"A task must be used here because the filtering is runned asynchronously. The task allows to re-synchronise the element response.
+	"A task must be used here because the filtering is runned asynchronously. The task allows to re-synchronise the element response 
+	( and then to be runned in the UI thread ).
 	As an example, it can avoid the children updating during layouting (because during layouting children are temporarily detached)
 	(which leads to errors related to children adding and which are difficult to understand)"
 
@@ -106,14 +106,19 @@ ToListElementFilter >> filterDataIn: anElement [
 
 { #category : #'private filtering' }
 ToListElementFilter >> newProcessIn: anElement [
-	"Runs in background, thank to Henrik Johansen for this"
+	"Used the solution implemented in FastTable. see FTFieldFunction>>#spawnFilterUpdateThread.
+	Runs in background, thank to Henrik Johansen for this"
 
 	semaphore := Semaphore new.
 	^ [
 	  [
 	  self semaphore wait.
+
 	  self delayBeforeFilter wait.
-	  self filterDataIn: anElement ] repeat ]
+	
+	  previousPattern = pattern ifFalse: [
+		  previousPattern := pattern.
+		  self filterDataIn: anElement ] ] repeat ]
 		  forkAt: Processor userBackgroundPriority
 		  named: self class name , ' filter process'
 ]
@@ -173,7 +178,6 @@ ToListElementFilter >> pattern: aString [
 	pattern = aString ifTrue: [ ^ self ].
 	pattern := aString asString trimBoth.
 	previousPattern = pattern ifTrue: [ ^ self ].
-	previousPattern := pattern.
 	self semaphore signal
 ]
 

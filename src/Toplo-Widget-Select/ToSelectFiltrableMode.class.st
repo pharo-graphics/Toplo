@@ -102,6 +102,12 @@ ToSelectFiltrableMode >> onInstalledIn: aSelect [
 	filter onInstalledIn: select listElement
 ]
 
+{ #category : #'accessing list' }
+ToSelectFiltrableMode >> onListClosed [
+
+	select inputTextField requestFocus
+]
+
 { #category : #'api - hooks' }
 ToSelectFiltrableMode >> onUninstalledIn: aSelect [
 

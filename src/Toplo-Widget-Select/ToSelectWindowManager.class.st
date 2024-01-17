@@ -101,16 +101,6 @@ ToSelectWindowManager >> newListElement [
 	^ newListElement
 ]
 
-{ #category : #'window handling' }
-ToSelectWindowManager >> onCloseRequest [
-
-	super onCloseRequest.
-	" if case one of my children has focus "
-	self element onListCloseRequest.
-
-
-]
-
 { #category : #accessing }
 ToSelectWindowManager >> onInstalledIn: anElement [
 
@@ -129,5 +119,25 @@ ToSelectWindowManager >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
 	listElement := nil.
+
+]
+
+{ #category : #'window handling' }
+ToSelectWindowManager >> onWindowClosed [
+
+	super onWindowClosed.
+	" if case one of my children has focus "
+	self element strategy onListClosed.
+
+
+]
+
+{ #category : #'window handling' }
+ToSelectWindowManager >> onWindowOpened [
+
+	super onWindowOpened.
+	" if case one of my children has focus "
+	self element strategy onListOpened
+
 
 ]

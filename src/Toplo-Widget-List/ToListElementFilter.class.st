@@ -114,8 +114,8 @@ ToListElementFilter >> newProcessIn: anElement [
 	  [
 	  self semaphore wait.
 
-	  self delayBeforeFilter wait.
-	
+	  pattern ifNotEmpty: [ self delayBeforeFilter wait ].
+
 	  previousPattern = pattern ifFalse: [
 		  previousPattern := pattern.
 		  self filterDataIn: anElement ] ] repeat ]

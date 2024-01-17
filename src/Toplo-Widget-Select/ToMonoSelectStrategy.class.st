@@ -74,20 +74,34 @@ ToMonoSelectStrategy >> onInstalledIn: aSelect [
 ]
 
 { #category : #enumerating }
+ToMonoSelectStrategy >> onListClosed [
+
+	super onListOpened.
+	self selectedDataTextField text foreground: Color black.
+]
+
+{ #category : #enumerating }
+ToMonoSelectStrategy >> onListOpened [
+
+	super onListOpened.
+	self selectedDataTextField text foreground: Color lightGray.
+]
+
+{ #category : #enumerating }
 ToMonoSelectStrategy >> refreshNodeContainer [
 
 	| node holder idx selectedData |
 	node := select nodeContainer firstChild.
 	holder := node selectHolder.
 
-	holder position isZero ifFalse: [ 
-		" directly deselection in the selection model works.
+	holder position isZero ifFalse: [ " directly deselection in the selection model works.
 		using the listElement selectionStrategy do not works because of the shared event distributor.
-		Indeed, this method is invoked from the event handler added in ToSelectReadOnlyMode>>onInstalledIn: ".
-		self flag: 'used case to fix ToListElement event handling'. 
-		select selectionModel deselectIndex: holder position.
-		select listElement dispatchEvent: ToInfiniteSelectionDirtyEvent new 
-		"select listElement selectionStrategy deselectIndex: holder position" ].
+		Indeed, this method is invoked from the event handler added in ToSelectReadOnlyMode>>onInstalledIn: "
+		self flag: 'used case to fix ToListElement event handling'.
+		select isFiltrable
+			ifTrue: [ select mode deselectIndex: holder position ]
+			ifFalse: [ select selectionModel deselectIndex: holder position ].
+		select listElement dispatchEvent: ToInfiniteSelectionDirtyEvent new ].
 
 	select selectionModel indices
 		ifEmpty: [

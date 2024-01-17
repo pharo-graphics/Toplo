@@ -164,6 +164,18 @@ ToSelectStrategy >> onInstalledIn: aSelect [
 	self initializeFakeNode.
 ]
 
+{ #category : #'accessing list' }
+ToSelectStrategy >> onListClosed [
+
+	select mode onListClosed
+]
+
+{ #category : #'accessing list' }
+ToSelectStrategy >> onListOpened [
+
+	select mode onListOpened
+]
+
 { #category : #'api - hooks' }
 ToSelectStrategy >> onUninstalledIn: aSelect [
 

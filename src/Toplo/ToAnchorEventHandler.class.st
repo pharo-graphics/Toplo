@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'windowManager'
 	],
-	#category : 'Toplo-Core-Window'
+	#category : #'Toplo-Core-Window'
 }
 
 { #category : #'event handling' }
@@ -31,8 +31,8 @@ ToAnchorEventHandler >> elementRemovedFromSceneGraphEvent: anEvent [
 ToAnchorEventHandler >> eventsToHandle [
 
 	^ {
-		  ToWindowCloseRequest.
 		  ToWindowClosedEvent.
+		  ToWindowOpenedEvent.
 		  BlElementRemovedFromParentEvent.
 		  BlElementRemovedFromSceneGraphEvent.
 		  BlElementPositionInSpaceChangedEvent }
@@ -54,4 +54,10 @@ ToAnchorEventHandler >> windowClosedEvent: anEvent [
 ToAnchorEventHandler >> windowManager: aWindowManager [
 
 	windowManager := aWindowManager
+]
+
+{ #category : #'event handling' }
+ToAnchorEventHandler >> windowOpenedEvent: anEvent [
+
+	windowManager onWindowOpened
 ]

@@ -58,7 +58,7 @@ ToSelect >> defaultFiltrable [
 { #category : #initialization }
 ToSelect >> defaultMultiSelection [
 
-	^ true
+	^ false
 ]
 
 { #category : #'accessing selection' }
@@ -251,13 +251,6 @@ ToSelect >> nodeBuilder: aValuable [
 ToSelect >> nodeContainer [
 
 	^ self childWithId: #nodeContainer
-]
-
-{ #category : #'accessing list' }
-ToSelect >> onListCloseRequest [
-
-	self isFiltrable ifFalse: [ ^ self ].
-	self inputTextField requestFocus
 ]
 
 { #category : #'accessing window' }

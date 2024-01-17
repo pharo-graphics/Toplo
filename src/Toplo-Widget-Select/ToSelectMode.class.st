@@ -63,6 +63,17 @@ ToSelectMode >> onInstalledIn: aSelect [
 
 ]
 
+{ #category : #'accessing list' }
+ToSelectMode >> onListClosed [
+
+]
+
+{ #category : #'accessing list' }
+ToSelectMode >> onListOpened [
+
+
+]
+
 { #category : #'api - hooks' }
 ToSelectMode >> onUninstalledIn: aSelect [
 

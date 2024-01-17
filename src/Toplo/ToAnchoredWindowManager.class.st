@@ -202,6 +202,12 @@ ToAnchoredWindowManager >> onWindowClosed [
 ]
 
 { #category : #'window handling' }
+ToAnchoredWindowManager >> onWindowOpened [
+
+
+]
+
+{ #category : #'window handling' }
 ToAnchoredWindowManager >> onWindowRemoved [
 
 	self currentWindow root removeChildren.

@@ -13,25 +13,40 @@ ToMonoSelectStrategy >> addDataNode: aNode [
 { #category : #initialization }
 ToMonoSelectStrategy >> buildNodeContainer: anElement [
 
+	| node holder |
 	anElement
 		vFitContent;
 		hMatchParent;
 		constraintsDo: [ :c | c linear vertical alignCenter ].
-	select mode configureMonoSelectNodeContainer: anElement
-
+	select mode configureMonoSelectNodeContainer: anElement.
+	node := self newNode.
+	holder := self newNodeHolder.
+	node selectHolder: holder.
+	self nodeHolders add: holder.
+	holder
+		node: node;
+		position: 0;
+		select: select;
+		data: nil.
+	self nodeBuilder value: node value: holder.
+	self addDataNode: node
 ]
 
 { #category : #initialization }
 ToMonoSelectStrategy >> defaultNodeBuilder [
 
 	^ [ :aSelectNode :aNodeHolder |
-	  | textField |
+	  | inputTextField selectedDataTextField |
 	  aSelectNode beUnremovable.
 	  aSelectNode hMatchParent.
-	  textField := select mode newTextField.
-	  textField text: aNodeHolder data asString.
-	  textField withoutLineWrapping.
-	  aSelectNode middleContainer addChild: textField ]
+	  selectedDataTextField := select mode newSelectedDataTextField.
+	  selectedDataTextField beReadonlyWithSelection.
+	  inputTextField := select mode newInputTextField.
+	  aNodeHolder data ifNotNil: [
+		  selectedDataTextField text: aNodeHolder data asString ].
+	  inputTextField withoutLineWrapping.
+	  aSelectNode middleContainer addChild: selectedDataTextField.
+	  aSelectNode middleContainer addChild: inputTextField ]
 ]
 
 { #category : #initialization }
@@ -56,26 +71,23 @@ ToMonoSelectStrategy >> onInstalledIn: aSelect [
 { #category : #enumerating }
 ToMonoSelectStrategy >> refreshNodeContainer [
 
-	| nodes |
+	| node holder idx selectedData |
+	" first remove all data nodes "" then rebuild current nodes according to current selection "
+	select selectionModel indices
+		ifEmpty: [
+			idx := 0.
+			selectedData := nil ]
+		ifNotEmpty: [ :idxes |
+			idx := idxes first.
+			selectedData := select data at: idx ].
 
-	" first remove all data nodes "
-	self dataNodesDo: [ :node | node removeFromParent ].
-	self nodeHolders reset.
-	" then rebuild current nodes according to current selection "
-	nodes := select selectionModel indices collect: [ :idx |
-		         | node holder selectedData |
-		         node := self newNode.
-		         holder := self newNodeHolder.
-		         node selectHolder: holder.
-		         self nodeHolders add: holder.
-		         selectedData := select data at: idx.
-		         holder
-			         node: node;
-			         position: idx;
-			         select: select;
-			         data: selectedData.
-		         self nodeBuilder value: node value: holder.
-		         node ].
-	nodes ifEmpty: [ ^ self ].
-	self addDataNode: nodes first
+	node := select nodeContainer firstChild.
+	holder := node selectHolder.
+	holder
+		position: idx;
+		data: selectedData.
+	select inputTextField text: ''.
+	selectedData
+		ifNil: [ select inputTextField text: '' ]
+		ifNotNil: [ select inputTextField text: selectedData asString ]
 ]

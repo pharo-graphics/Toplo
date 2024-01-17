@@ -17,7 +17,7 @@ ToMultiSelectStrategy >> addAllDataNodes: aNodeCollection [
 { #category : #'accessing nodes' }
 ToMultiSelectStrategy >> addDataNode: aNode [
 
-	select nodeContainer addChild: aNode before: select textField
+	select nodeContainer addChild: aNode before: select inputTextField
 ]
 
 { #category : #initialization }
@@ -29,6 +29,12 @@ ToMultiSelectStrategy >> buildNodeContainer: anElement [
 		constraintsDo: [ :c | c linear vertical alignCenter ].
 	select mode configureMultiSelectNodeContainer: anElement
 
+]
+
+{ #category : #'accessing nodes' }
+ToMultiSelectStrategy >> dataNodesDo: aBlock [
+
+	self nodeHolders do: [ :holder |	aBlock value: holder node ].
 ]
 
 { #category : #initialization }

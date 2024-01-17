@@ -8,7 +8,7 @@ Class {
 ToSelectReadOnlyMode >> configureMultiSelectNodeContainer: anElement [
 
 	super configureMultiSelectNodeContainer: anElement.
-	select textField beReadonlyWithoutSelection
+	select inputTextField beReadonlyWithoutSelection
 ]
 
 { #category : #'accessing selection' }
@@ -18,12 +18,12 @@ ToSelectReadOnlyMode >> deselectIndex: anIndex [
 ]
 
 { #category : #'instance creation' }
-ToSelectReadOnlyMode >> newTextField [ 
+ToSelectReadOnlyMode >> newInputTextField [ 
 
-	| textField |
-	textField := super newTextField.
-	textField beReadonlyWithoutSelection.
-	^ textField
+	| inputTextField |
+	inputTextField := super newInputTextField.
+	inputTextField beReadonlyWithoutSelection.
+	^ inputTextField
 ]
 
 { #category : #'api - hooks' }

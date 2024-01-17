@@ -58,7 +58,7 @@ ToSelect >> defaultFiltrable [
 { #category : #initialization }
 ToSelect >> defaultMultiSelection [
 
-	^ true
+	^ false
 ]
 
 { #category : #'accessing selection' }
@@ -153,6 +153,12 @@ ToSelect >> initialize [
 	self addEventHandler: sharedEventsDistributor.
 	self listElement addEventHandler: sharedEventsDistributor.
 
+]
+
+{ #category : #accessing }
+ToSelect >> inputTextField [
+
+	^ self childWithId: #inputTextField ifNone: [  ]
 ]
 
 { #category : #testing }
@@ -251,7 +257,7 @@ ToSelect >> nodeContainer [
 ToSelect >> onListCloseRequest [
 
 	self isFiltrable ifFalse: [ ^ self ].
-	self textField requestFocus
+	self inputTextField requestFocus
 ]
 
 { #category : #'accessing window' }
@@ -324,12 +330,6 @@ ToSelect >> selectionModel: aSelectionModel [
 ToSelect >> strategy [ 
 
 	^ strategy
-]
-
-{ #category : #accessing }
-ToSelect >> textField [
-
-	^ self childWithId: #textField ifNone: [  ]
 ]
 
 { #category : #accessing }

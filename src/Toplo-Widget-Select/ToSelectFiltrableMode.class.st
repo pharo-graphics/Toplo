@@ -18,7 +18,7 @@ ToSelectFiltrableMode >> configureMonoSelectNodeContainer: anElement [
 ToSelectFiltrableMode >> configureMultiSelectNodeContainer: anElement [
 
 	super configureMultiSelectNodeContainer: anElement.
-	select textField requestFocus
+	select inputTextField requestFocus
 ]
 
 { #category : #accessing }
@@ -40,7 +40,7 @@ ToSelectFiltrableMode >> deselectIndex: anIndex [
 { #category : #private }
 ToSelectFiltrableMode >> filterString [
 
-	^ select textField ifNil: [''] ifNotNil: [:txtf | txtf text asString ]
+	^ select inputTextField text asString
 ]
 
 { #category : #private }
@@ -57,17 +57,30 @@ ToSelectFiltrableMode >> isFiltrableMode [
 ]
 
 { #category : #'instance creation' }
-ToSelectFiltrableMode >> newTextField [ 
+ToSelectFiltrableMode >> newInputTextField [
 
-	| textField |
-	textField := super newTextField.
-	textField addEditorShortcut: ToSelectTextFieldBackspaceShortcut new.
-	textField addEventHandler: (BlEventHandler
+	| inputTextField |
+	inputTextField := super newInputTextField.
+	inputTextField addEditorShortcut:
+		ToSelectTextFieldBackspaceShortcut new.
+	inputTextField addEventHandler: (BlEventHandler
 			 on: AlbTextEditedEvent
 			 do: [ :event | self filterTextFieldUpdated: event ]).
-	textField addEventHandler: (BlEventHandler
+	inputTextField addEventHandler: (BlEventHandler
 			 on: AlbTextReplacedEvent
-			 do: [ :event | self filterTextFieldUpdated: event ]).
+			 do: [ :event |
+				 select inputTextField ifNotNil: [
+					 self filterTextFieldUpdated: event ] ]).
+	^ inputTextField
+]
+
+{ #category : #'instance creation' }
+ToSelectFiltrableMode >> newSelectedDataTextField [
+	" used for mono selection strategy only "
+
+	| textField |
+	textField := self newTextField.
+	textField id: #selectedDatTextField.
 	^ textField
 ]
 

@@ -16,12 +16,6 @@ ToSelectStrategy >> buildNodeContainer: anElement [
 	self subclassResponsibility 
 ]
 
-{ #category : #'accessing nodes' }
-ToSelectStrategy >> dataNodesDo: aBlock [
-
-	self nodeHolders do: [ :holder |	aBlock value: holder node ].
-]
-
 { #category : #initialization }
 ToSelectStrategy >> defaultNodeBuilder [ 
 

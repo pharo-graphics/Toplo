@@ -2,39 +2,89 @@ Class {
 	#name : #ToSelectStrategy,
 	#superclass : #Object,
 	#instVars : [
-		'nodeClass',
 		'select',
-		'nodeHolders',
-		'nodeBuilder'
+		'headerNodeBuilder',
+		'headerNodeClass',
+		'headerNodeHolders'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
 
 { #category : #initialization }
-ToSelectStrategy >> buildNodeContainer: anElement [
+ToSelectStrategy >> buildHeaderNodeContainer: anElement [
 
 	self subclassResponsibility 
 ]
 
 { #category : #initialization }
-ToSelectStrategy >> defaultNodeBuilder [ 
+ToSelectStrategy >> defaultHeaderNodeBuilder [ 
 
 	^ self subclassResponsibility 
 ]
 
 { #category : #initialization }
-ToSelectStrategy >> defaultNodeClass [ 
+ToSelectStrategy >> defaultHeaderNodeClass [ 
 
 	self subclassResponsibility 
+]
+
+{ #category : #accessing }
+ToSelectStrategy >> headerNodeBuilder [
+
+	" see the mutator method  "
+	
+	^ headerNodeBuilder 
+]
+
+{ #category : #accessing }
+ToSelectStrategy >> headerNodeBuilder: aValuable [
+
+	" builds a select node element from list data. 
+	aValuable take the select node element to build as first argument 
+	and the select node holder as second argument"
+	
+	headerNodeBuilder := aValuable.
+	self initializeFakeNode
+]
+
+{ #category : #accessing }
+ToSelectStrategy >> headerNodeClass [ 
+
+	^ headerNodeClass 
+]
+
+{ #category : #accessing }
+ToSelectStrategy >> headerNodeClass: aNodeClass [
+
+	headerNodeClass := aNodeClass.
+	self initializeFakeNode
+]
+
+{ #category : #'instance creation' }
+ToSelectStrategy >> headerNodeContainerLayout [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #'accessing nodes' }
+ToSelectStrategy >> headerNodeHolderClass [ 
+
+	^ ToSelectHeaderNodeHolder
+]
+
+{ #category : #'accessing nodes' }
+ToSelectStrategy >> headerNodeHolders [
+
+	^ headerNodeHolders
 ]
 
 { #category : #initialization }
 ToSelectStrategy >> initialize [ 
 
 	super initialize.
-	nodeClass := self defaultNodeClass.
-	nodeHolders := OrderedCollection new.
-	nodeBuilder := self defaultNodeBuilder.
+	headerNodeClass := self defaultHeaderNodeClass.
+	headerNodeHolders := OrderedCollection new.
+	headerNodeBuilder := self defaultHeaderNodeBuilder.
 
 
 ]
@@ -47,14 +97,14 @@ ToSelectStrategy >> initializeFakeNode [
 
 	| fakeHolder fakeNode |
 	select fakeNode ifNotNil: [ :fn | fn removeFromParent ].
-	fakeNode := self newNode.
+	fakeNode := self newHeaderNode.
 	fakeNode id: #fakeNode.
-	fakeHolder := self newNodeHolder.
+	fakeHolder := self newHeaderNodeHolder.
 	fakeNode selectHolder: fakeHolder.
 	fakeHolder
 		node: fakeNode;
 		data: select fakeData.
-	self nodeBuilder value: fakeNode value: fakeHolder.
+	self headerNodeBuilder value: fakeNode value: fakeHolder.
 	fakeNode width: 0.
 	fakeNode constraintsDo: [ :c |
 		c flow vertical alignCenter.
@@ -82,74 +132,24 @@ ToSelectStrategy >> maxCount: aNumber [
 ]
 
 { #category : #'accessing nodes' }
-ToSelectStrategy >> newNode [
+ToSelectStrategy >> newHeaderNode [
 
-	^ self nodeClass new
+	^ self headerNodeClass new
 ]
 
 { #category : #initialization }
-ToSelectStrategy >> newNodeContainer [
+ToSelectStrategy >> newHeaderNodeContainer [
 
 	^ ToElement new
 		  id: #nodeContainer;
-		  layout: self nodeContainerLayout;
+		  layout: self headerNodeContainerLayout;
 		  yourself
 ]
 
 { #category : #'accessing nodes' }
-ToSelectStrategy >> newNodeHolder [
+ToSelectStrategy >> newHeaderNodeHolder [
 
-	^ self nodeHolderClass new
-]
-
-{ #category : #accessing }
-ToSelectStrategy >> nodeBuilder [
-
-	" see the mutator method  "
-	
-	^ nodeBuilder 
-]
-
-{ #category : #accessing }
-ToSelectStrategy >> nodeBuilder: aValuable [
-
-	" builds a select node element from list data. 
-	aValuable take the select node element to build as first argument 
-	and the select node holder as second argument"
-	
-	nodeBuilder := aValuable.
-	self initializeFakeNode
-]
-
-{ #category : #accessing }
-ToSelectStrategy >> nodeClass [ 
-
-	^ nodeClass 
-]
-
-{ #category : #accessing }
-ToSelectStrategy >> nodeClass: aNodeClass [
-
-	nodeClass := aNodeClass.
-	self initializeFakeNode
-]
-
-{ #category : #'instance creation' }
-ToSelectStrategy >> nodeContainerLayout [
-
-	^ self subclassResponsibility 
-]
-
-{ #category : #'accessing nodes' }
-ToSelectStrategy >> nodeHolderClass [ 
-
-	^ ToSelectNodeHolder
-]
-
-{ #category : #'accessing nodes' }
-ToSelectStrategy >> nodeHolders [
-
-	^ nodeHolders
+	^ self headerNodeHolderClass new
 ]
 
 { #category : #'api - hooks' }
@@ -158,9 +158,9 @@ ToSelectStrategy >> onInstalledIn: aSelect [
 	| nodeContainer |
 	select := aSelect.
 	" the element that contains nodes + the text field "
-	nodeContainer := self newNodeContainer.
-	select contentElement addChild: nodeContainer.
-	self buildNodeContainer: nodeContainer.
+	nodeContainer := self newHeaderNodeContainer.
+	select headerElement addChild: nodeContainer.
+	self buildHeaderNodeContainer: nodeContainer.
 	self initializeFakeNode.
 ]
 
@@ -183,7 +183,7 @@ ToSelectStrategy >> onUninstalledIn: aSelect [
 ]
 
 { #category : #enumerating }
-ToSelectStrategy >> refreshNodeContainer [
+ToSelectStrategy >> refreshHeaderNodeContainer [
 
 	self subclassResponsibility 
 ]

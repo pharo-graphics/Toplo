@@ -1,5 +1,5 @@
 Class {
-	#name : #ToSelectNode,
+	#name : #ToSelectHeaderNode,
 	#superclass : #ToElement,
 	#instVars : [
 		'selectHolder',
@@ -12,11 +12,11 @@ Class {
 }
 
 { #category : #'private configurating' }
-ToSelectNode >> addRemoveButton [
+ToSelectHeaderNode >> addRemoveButton [
 
 	| but |
 	but := ToButton new.
-	but defaultRawSkin: ToSelectNodeInnerCloseButtonSkin new.
+	but defaultRawSkin: ToSelectHeaderNodeInnerCloseButtonSkin new.
 	but icon: (ToImage inner: (self iconNamed: #windowClose)).
 	but constraintsDo: [ :c | c linear vertical alignCenter ].
 
@@ -41,25 +41,25 @@ ToSelectNode >> addRemoveButton [
 ]
 
 { #category : #configurating }
-ToSelectNode >> beRemovable [
+ToSelectHeaderNode >> beRemovable [
 
 	self removable: true
 ]
 
 { #category : #configurating }
-ToSelectNode >> beUnremovable [
+ToSelectHeaderNode >> beUnremovable [
 
 	self removable: false
 ]
 
 { #category : #accessing }
-ToSelectNode >> endContainer [
+ToSelectHeaderNode >> endContainer [
 
 	^ endContainer
 ]
 
 { #category : #initialization }
-ToSelectNode >> initialize [
+ToSelectHeaderNode >> initialize [
 
 	super initialize.
 
@@ -97,25 +97,25 @@ ToSelectNode >> initialize [
 ]
 
 { #category : #testing }
-ToSelectNode >> isRemovable [
+ToSelectHeaderNode >> isRemovable [
 
 	^ removable
 ]
 
 { #category : #accessing }
-ToSelectNode >> middleContainer [
+ToSelectHeaderNode >> middleContainer [
 
 	^ middleContainer
 ]
 
 { #category : #accessing }
-ToSelectNode >> removable [
+ToSelectHeaderNode >> removable [
 
 	^ removable 
 ]
 
 { #category : #accessing }
-ToSelectNode >> removable: aBoolean [
+ToSelectHeaderNode >> removable: aBoolean [
 
 	removable = aBoolean ifTrue: [ ^ self ].
 	removable ifTrue: [ self removeRemoveButton ].
@@ -125,15 +125,15 @@ ToSelectNode >> removable: aBoolean [
 ]
 
 { #category : #'private configurating' }
-ToSelectNode >> removeFromSelect [
+ToSelectHeaderNode >> removeFromSelect [
 	" remove the node by deselecting the corresponding list node in the list "
 
 	self selectHolder select deselectIndex: self selectHolder position.
-	self selectHolder select strategy refreshNodeContainer
+	self selectHolder select strategy refreshHeaderNodeContainer
 ]
 
 { #category : #'private configurating' }
-ToSelectNode >> removeRemoveButton [
+ToSelectHeaderNode >> removeRemoveButton [
 
 	| but |
 	but := self endContainer childWithId: #removeButton.
@@ -141,19 +141,19 @@ ToSelectNode >> removeRemoveButton [
 ]
 
 { #category : #accessing }
-ToSelectNode >> selectHolder [
+ToSelectHeaderNode >> selectHolder [
 
 	^ selectHolder 
 ]
 
 { #category : #accessing }
-ToSelectNode >> selectHolder: aSelectNodeHolder [
+ToSelectHeaderNode >> selectHolder: aSelectNodeHolder [
 
 	selectHolder := aSelectNodeHolder
 ]
 
 { #category : #accessing }
-ToSelectNode >> startContainer [
+ToSelectHeaderNode >> startContainer [
 
 	^ startContainer
 ]

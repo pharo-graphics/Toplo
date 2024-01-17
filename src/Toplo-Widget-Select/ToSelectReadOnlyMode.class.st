@@ -32,7 +32,7 @@ ToSelectReadOnlyMode >> onInstalledIn: aSelect [
 	super onInstalledIn: aSelect.
 	select listElement addEventHandler: (BlEventHandler
 			 on: ToListSelectionChangedEvent
-			 do: [ :event | select strategy refreshNodeContainer ]).
+			 do: [ :event | select strategy refreshHeaderNodeContainer ]).
 	select data: select listElement data.
 	select selectionModel: select listElement selectionStrategy selectionModel
 ]

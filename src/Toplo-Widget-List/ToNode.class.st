@@ -14,6 +14,7 @@ ToNode >> defaultLayout [
 ToNode >> initialize [
 
 	super initialize.
+	self applySkinInstallerOnFirstRequest: true.
 	self
 		hMatchParent;
 		vFitContent

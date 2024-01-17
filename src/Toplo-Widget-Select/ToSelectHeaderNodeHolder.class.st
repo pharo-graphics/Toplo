@@ -1,5 +1,5 @@
 Class {
-	#name : #ToSelectNodeHolder,
+	#name : #ToSelectHeaderNodeHolder,
 	#superclass : #Object,
 	#instVars : [
 		'select',
@@ -11,55 +11,55 @@ Class {
 }
 
 { #category : #accessing }
-ToSelectNodeHolder >> data [
+ToSelectHeaderNodeHolder >> data [
 
 	^ data
 ]
 
 { #category : #accessing }
-ToSelectNodeHolder >> data: anObject [
+ToSelectHeaderNodeHolder >> data: anObject [
 
 	data := anObject
 ]
 
 { #category : #accessing }
-ToSelectNodeHolder >> listElement [
+ToSelectHeaderNodeHolder >> listElement [
 
 	^ select listElement
 ]
 
 { #category : #accessing }
-ToSelectNodeHolder >> node [
+ToSelectHeaderNodeHolder >> node [
 
 	^ node
 ]
 
 { #category : #accessing }
-ToSelectNodeHolder >> node: aSelectNode [
+ToSelectHeaderNodeHolder >> node: aSelectNode [
 
 	node := aSelectNode
 ]
 
 { #category : #accessing }
-ToSelectNodeHolder >> position [
+ToSelectHeaderNodeHolder >> position [
 
 	^ position
 ]
 
 { #category : #accessing }
-ToSelectNodeHolder >> position: anInteger [
+ToSelectHeaderNodeHolder >> position: anInteger [
 
 	position := anInteger
 ]
 
 { #category : #accessing }
-ToSelectNodeHolder >> select [
+ToSelectHeaderNodeHolder >> select [
 
 	^ select
 ]
 
 { #category : #accessing }
-ToSelectNodeHolder >> select: aSelect [
+ToSelectHeaderNodeHolder >> select: aSelect [
 
 	select := aSelect
 ]

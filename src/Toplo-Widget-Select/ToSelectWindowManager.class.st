@@ -24,7 +24,7 @@ ToSelectWindowManager >> defaultAutoClosePickOutsideEventClass [
 { #category : #initialization }
 ToSelectWindowManager >> defaultMaxHeight [
 
-	^ 200
+	^ 300
 ]
 
 { #category : #initialization }
@@ -37,14 +37,14 @@ ToSelectWindowManager >> defaultMinHeight [
 ToSelectWindowManager >> defaultPositionHook [
 
 	^ [ :window :theElement :event |
-	  window position: (theElement bounds inParent: self anchorRoot) bounds bottomLeft + (4 @ 1) ]
+	  window position: (theElement bounds inParent: self anchorRoot) bounds bottomLeft ]
 ]
 
 { #category : #initialization }
 ToSelectWindowManager >> defaultSizeHook [
 
 	^ [ :theWindow :theElement :event |
-	  theWindow width: theElement measuredWidth - 8 ]
+	  theWindow width: theElement measuredWidth]
 ]
 
 { #category : #accessing }
@@ -88,6 +88,7 @@ ToSelectWindowManager >> newListElement [
 
 	| newListElement |
 	newListElement := ToListElement new.
+	newListElement nodeClass: ToSelectListNode.
 	newListElement selectionStrategy: ToSelectListSelectionStrategy new.
 	" the list must be multiple even with mono select "
 	newListElement selectionStrategy beMultipleSelection.
@@ -140,4 +141,10 @@ ToSelectWindowManager >> onWindowOpened [
 	self element strategy onListOpened
 
 
+]
+
+{ #category : #accessing }
+ToSelectWindowManager >> windowClass [
+
+	^ ToSelectWindow 
 ]

@@ -24,7 +24,7 @@ ToSelectFiltrableListEventHandler >> eventsToHandle [
 { #category : #'element handlers' }
 ToSelectFiltrableListEventHandler >> filteredListSelectionChangedEvent: anEvent [
 
-	select strategy refreshNodeContainer
+	select strategy refreshHeaderNodeContainer
 ]
 
 { #category : #accessing }

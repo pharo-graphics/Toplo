@@ -1,11 +1,11 @@
 Class {
-	#name : #ToMonoSelectNode,
-	#superclass : #ToSelectNode,
+	#name : #ToMonoSelectHeaderNode,
+	#superclass : #ToSelectHeaderNode,
 	#category : #'Toplo-Widget-Select-Node'
 }
 
 { #category : #initialization }
-ToMonoSelectNode >> initialize [ 
+ToMonoSelectHeaderNode >> initialize [ 
 
 	super initialize.
 	middleContainer layout: BlFrameLayout new.

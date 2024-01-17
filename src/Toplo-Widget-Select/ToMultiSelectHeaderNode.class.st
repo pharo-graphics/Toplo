@@ -1,11 +1,11 @@
 Class {
-	#name : #ToMultiSelectNode,
-	#superclass : #ToSelectNode,
+	#name : #ToMultiSelectHeaderNode,
+	#superclass : #ToSelectHeaderNode,
 	#category : #'Toplo-Widget-Select-Node'
 }
 
 { #category : #initialization }
-ToMultiSelectNode >> initialize [ 
+ToMultiSelectHeaderNode >> initialize [ 
 
 	super initialize.
 	middleContainer padding: (BlInsets left: 3 right: 3).

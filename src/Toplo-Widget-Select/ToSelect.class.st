@@ -19,12 +19,6 @@ ToSelect >> addData: aData [
 	self listElement selection selectIndex: data size
 ]
 
-{ #category : #accessing }
-ToSelect >> contentElement [
-
-	^ self childWithId: #contentElement 
-]
-
 { #category : #'accessing window' }
 ToSelect >> currentWindow [ 
 
@@ -58,7 +52,7 @@ ToSelect >> defaultFiltrable [
 { #category : #initialization }
 ToSelect >> defaultMultiSelection [
 
-	^ false
+	^ true
 ]
 
 { #category : #'accessing selection' }
@@ -99,6 +93,18 @@ ToSelect >> filtrable: aBoolean [
 ]
 
 { #category : #accessing }
+ToSelect >> headerElement [
+
+	^ self childWithId: #headerElement 
+]
+
+{ #category : #accessing }
+ToSelect >> headerNodeBuilder: aValuable [
+
+	self strategy headerNodeBuilder: aValuable
+]
+
+{ #category : #accessing }
 ToSelect >> icon [
 
 	^ self childWithId: #icon ifNone: [  ]
@@ -123,15 +129,15 @@ ToSelect >> iconContainer [
 { #category : #initialization }
 ToSelect >> initialize [
 
-	| sharedEventsDistributor contentElement |
+	| sharedEventsDistributor headerElement |
 	super initialize.
 	data := ToObservableCollection new.
 	" for the popup "
 	windowManager := self newWindowManager.
 
 	" the element that holds the node container"
-	contentElement := self newContentElement.
-	self addChild: contentElement.
+	headerElement := self newHeaderElement.
+	self addChild: headerElement.
 	self addChild: self newIconContainer.
 	
 	" initialize the mode *** before *** the strategy (the strategy need an installed mode) "
@@ -204,12 +210,12 @@ ToSelect >> multiSelection: aBoolean [
 ]
 
 { #category : #initialization }
-ToSelect >> newContentElement [
+ToSelect >> newHeaderElement [
 
 	^ ToElement new
 		  vFitContent;
 		  hMatchParent;
-		  id: #contentElement;
+		  id: #headerElement;
 		  layout: BlLinearLayout horizontal;
 		  constraintsDo: [ :c | c linear vertical alignCenter ];
 		  yourself
@@ -239,12 +245,6 @@ ToSelect >> newWindowManager [
 	wm := ToSelectWindowManager new.
 	wm onInstalledIn: self.
 	^ wm
-]
-
-{ #category : #accessing }
-ToSelect >> nodeBuilder: aValuable [
-
-	self strategy nodeBuilder: aValuable
 ]
 
 { #category : #accessing }

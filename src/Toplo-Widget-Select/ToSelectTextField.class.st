@@ -7,6 +7,16 @@ Class {
 	#category : #'Toplo-Widget-Select-Core'
 }
 
+{ #category : #accessing }
+ToSelectTextField >> headerNodeBefore [
+
+	| holders |
+	holders := self select strategy headerNodeHolders.
+	holders size > 0 ifTrue: [
+		^ holders last node ].
+	^ nil
+]
+
 { #category : #initialization }
 ToSelectTextField >> initialize [
 
@@ -27,19 +37,9 @@ ToSelectTextField >> newRawSkin [
 ]
 
 { #category : #accessing }
-ToSelectTextField >> nodeBefore [
-
-	| holders |
-	holders := self select strategy nodeHolders.
-	holders size > 0 ifTrue: [
-		^ holders last node ].
-	^ nil
-]
-
-{ #category : #accessing }
 ToSelectTextField >> nodeBeforeDo: aBlock [
 
-	self nodeBefore ifNotNil: [ :n | aBlock value: n ]
+	self headerNodeBefore ifNotNil: [ :n | aBlock value: n ]
 ]
 
 { #category : #accessing }

@@ -21,7 +21,7 @@ ToMultiSelectStrategy >> addDataNode: aNode [
 ]
 
 { #category : #initialization }
-ToMultiSelectStrategy >> buildNodeContainer: anElement [
+ToMultiSelectStrategy >> buildHeaderNodeContainer: anElement [
 
 	anElement
 		vFitContent;
@@ -31,14 +31,8 @@ ToMultiSelectStrategy >> buildNodeContainer: anElement [
 
 ]
 
-{ #category : #'accessing nodes' }
-ToMultiSelectStrategy >> dataNodesDo: aBlock [
-
-	self nodeHolders do: [ :holder |	aBlock value: holder node ].
-]
-
 { #category : #initialization }
-ToMultiSelectStrategy >> defaultNodeBuilder [
+ToMultiSelectStrategy >> defaultHeaderNodeBuilder [
 
 	^ [ :aSelectNode :aNodeHolder |
 	  aSelectNode beRemovable.
@@ -47,15 +41,29 @@ ToMultiSelectStrategy >> defaultNodeBuilder [
 ]
 
 { #category : #initialization }
-ToMultiSelectStrategy >> defaultNodeClass [ 
+ToMultiSelectStrategy >> defaultHeaderNodeClass [ 
 
-	^ ToMultiSelectNode
+	^ ToMultiSelectHeaderNode
 ]
 
 { #category : #initialization }
 ToMultiSelectStrategy >> defaultNodeWrapping [
 
 	^ true
+]
+
+{ #category : #'accessing nodes' }
+ToMultiSelectStrategy >> headerDataNodesDo: aBlock [
+
+	self headerNodeHolders do: [ :holder |	aBlock value: holder node ].
+]
+
+{ #category : #private }
+ToMultiSelectStrategy >> headerNodeContainerLayout [
+
+	^ nodeWrapping
+		ifTrue: [ BlFlowLayout horizontal ]
+		ifFalse: [ BlLinearLayout horizontal ]
 ]
 
 { #category : #initialization }
@@ -86,14 +94,6 @@ ToMultiSelectStrategy >> maxCount: aNumber [
 	maxCount := aNumber
 ]
 
-{ #category : #private }
-ToMultiSelectStrategy >> nodeContainerLayout [
-
-	^ nodeWrapping
-		ifTrue: [ BlFlowLayout horizontal ]
-		ifFalse: [ BlLinearLayout horizontal ]
-]
-
 { #category : #accessing }
 ToMultiSelectStrategy >> nodeWrapping [
 
@@ -118,31 +118,31 @@ ToMultiSelectStrategy >> onInstalledIn: aSelect [
 { #category : #private }
 ToMultiSelectStrategy >> onNodeWrappingChange [
 
-	select nodeContainer layout: self nodeContainerLayout
+	select nodeContainer layout: self headerNodeContainerLayout
 ]
 
 { #category : #enumerating }
-ToMultiSelectStrategy >> refreshNodeContainer [
+ToMultiSelectStrategy >> refreshHeaderNodeContainer [
 
 	| nodes |
 
 	" first remove all data nodes "
-	self dataNodesDo: [ :node | node removeFromParent ].
-	self nodeHolders reset.
+	self headerDataNodesDo: [ :node | node removeFromParent ].
+	self headerNodeHolders reset.
 	" then rebuild current nodes according to current selection "
 	nodes := select selectionModel indices collect: [ :idx |
 		         | node holder selectedData |
-		         node := self newNode.
-		         holder := self newNodeHolder.
+		         node := self newHeaderNode.
+		         holder := self newHeaderNodeHolder.
 		         node selectHolder: holder.
-		         self nodeHolders add: holder.
+		         self headerNodeHolders add: holder.
 		         selectedData := select data at: idx.
 		         holder
 			         node: node;
 			         position: idx;
 			         select: select;
 			         data: selectedData.
-		         self nodeBuilder value: node value: holder.
+		         self headerNodeBuilder value: node value: holder.
 		         node ].
 	self addAllDataNodes: nodes
 ]

@@ -11,7 +11,7 @@ ToMonoSelectStrategy >> addDataNode: aNode [
 ]
 
 { #category : #initialization }
-ToMonoSelectStrategy >> buildNodeContainer: anElement [
+ToMonoSelectStrategy >> buildHeaderNodeContainer: anElement [
 
 	| node holder |
 	anElement
@@ -19,21 +19,21 @@ ToMonoSelectStrategy >> buildNodeContainer: anElement [
 		hMatchParent;
 		constraintsDo: [ :c | c linear vertical alignCenter ].
 	select mode configureMonoSelectNodeContainer: anElement.
-	node := self newNode.
-	holder := self newNodeHolder.
+	node := self newHeaderNode.
+	holder := self newHeaderNodeHolder.
 	node selectHolder: holder.
-	self nodeHolders add: holder.
+	self headerNodeHolders add: holder.
 	holder
 		node: node;
 		position: 0;
 		select: select;
 		data: nil.
-	self nodeBuilder value: node value: holder.
+	self headerNodeBuilder value: node value: holder.
 	self addDataNode: node
 ]
 
 { #category : #initialization }
-ToMonoSelectStrategy >> defaultNodeBuilder [
+ToMonoSelectStrategy >> defaultHeaderNodeBuilder [
 
 	^ [ :aSelectNode :aNodeHolder |
 	  | inputTextField selectedDataTextField |
@@ -55,13 +55,13 @@ ToMonoSelectStrategy >> defaultNodeBuilder [
 ]
 
 { #category : #initialization }
-ToMonoSelectStrategy >> defaultNodeClass [ 
+ToMonoSelectStrategy >> defaultHeaderNodeClass [ 
 
-	^ ToMonoSelectNode
+	^ ToMonoSelectHeaderNode
 ]
 
 { #category : #'instance creation' }
-ToMonoSelectStrategy >> nodeContainerLayout [
+ToMonoSelectStrategy >> headerNodeContainerLayout [
 
 	^ BlFrameLayout new
 ]
@@ -88,7 +88,7 @@ ToMonoSelectStrategy >> onListOpened [
 ]
 
 { #category : #enumerating }
-ToMonoSelectStrategy >> refreshNodeContainer [
+ToMonoSelectStrategy >> refreshHeaderNodeContainer [
 
 	| node holder idx selectedData |
 	node := select nodeContainer firstChild.

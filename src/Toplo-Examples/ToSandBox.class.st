@@ -2288,7 +2288,7 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWith_AllMethods [
 	select data updateAllWith: data.
 	select listNodeBuilder: [ :aCompiledMethod :aSelectHolder |
 		     aCompiledMethod addChild: (ToLabel new text: aSelectHolder data printString ) ].
-	select nodeBuilder: [ :aSelectNode :aNodeHolder |
+	select headerNodeBuilder: [ :aSelectNode :aNodeHolder |
 	  aSelectNode beRemovable.
 	  aSelectNode middleContainer addChild:
 		  (ToLabel text: aNodeHolder data printString) ].

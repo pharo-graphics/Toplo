@@ -69,9 +69,9 @@ ToTheme class >> defaultTokenProperties [
 			   name: #'effect-window'
 			   value:
 			   (BlGaussianShadowEffect
-				    color: Color gray
+				    color: (Color veryLightGray alpha: 0.5)
 				    width: 20
-				    offset: 0 asPoint)).
+				    offset: 0@4)).
 	
 		  (ToTokenProperty
 			   name: #'effect-window-menu'

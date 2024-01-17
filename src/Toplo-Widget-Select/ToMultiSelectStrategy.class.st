@@ -112,7 +112,7 @@ ToMultiSelectStrategy >> nodeWrapping: aBoolean [
 ToMultiSelectStrategy >> onInstalledIn: aSelect [
 
 	super onInstalledIn: aSelect.
-	aSelect listElement selectionStrategy beMultipleSelection
+
 ]
 
 { #category : #private }

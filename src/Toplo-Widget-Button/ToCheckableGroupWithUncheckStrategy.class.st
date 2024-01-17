@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToCheckableGroupWithUncheckStrategy',
-	#superclass : 'ToCheckableGroupCheckingStrategy',
-	#category : 'Toplo-Widget-Button-Checkable',
-	#package : 'Toplo-Widget-Button',
-	#tag : 'Checkable'
+	#name : #ToCheckableGroupWithUncheckStrategy,
+	#superclass : #ToCheckableGroupCheckingStrategy,
+	#category : 'Toplo-Widget-Button-Checkable'
 }
 
-{ #category : 'testing' }
+{ #category : #testing }
 ToCheckableGroupWithUncheckStrategy >> checkRequestEvent: aCheckRequest in: aGroup [
 
 	aCheckRequest checked ifTrue: [ 

@@ -86,7 +86,7 @@ ToSelectFiltrableMode >> newSelectedDataTextField [
 ToSelectFiltrableMode >> onInstalledIn: aSelect [
 
 	super onInstalledIn: aSelect.
-	select listElement addEventHandler: (ToSelectListEventHandler new
+	select listElement addEventHandler: (ToSelectFiltrableListEventHandler new
 			 select: select;
 			 yourself).
 
@@ -113,8 +113,8 @@ ToSelectFiltrableMode >> onUninstalledIn: aSelect [
 { #category : #'accessing selection' }
 ToSelectFiltrableMode >> selectIndex: anIndex [
 
-	select selectionModel deselectAll.
-	select selectionModel selectIndex: anIndex.
+	select isMultipleSelection ifTrue: [ select selectionModel deselectAll ].
+	select selectionStrategy selectIndex: anIndex.
 	select listElement dispatchEvent:
 		(ToFilteredListSelectionModelChangedEvent new
 			 selection: select selectionModel;

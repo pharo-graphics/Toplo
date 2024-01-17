@@ -9,7 +9,7 @@ Class {
 		'initialPosition',
 		'initialSize'
 	],
-	#category : 'Toplo-Widget-InnerWindow'
+	#category : #'Toplo-Widget-InnerWindow'
 }
 
 { #category : #accessing }
@@ -122,7 +122,7 @@ ToResizeGrip >> layoutIn: anElement [
 { #category : #accessing }
 ToResizeGrip >> resizeCursor [
 
-	^ BlCursor perform: self cursorSelector
+	^ Cursor perform: self cursorSelector
 ]
 
 { #category : #initialization }

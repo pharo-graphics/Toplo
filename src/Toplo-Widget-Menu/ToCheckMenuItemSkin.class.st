@@ -1,7 +1,7 @@
 Class {
 	#name : #ToCheckMenuItemSkin,
 	#superclass : #ToMenuItemSkin,
-	#category : 'Toplo-Widget-Menu-Basic'
+	#category : #'Toplo-Widget-Menu-Basic'
 }
 
 { #category : #'event handling' }
@@ -41,7 +41,7 @@ ToCheckMenuItemSkin >> hoveredLookEvent: anEvent [
 	super hoveredLookEvent: anEvent.
 	anEvent elementDo: [ :e | 
 		e border: (BlBorder empty).		
-		e mouseCursor: BlCursor hand.
+		e mouseCursor: Cursor webLink.
 		e icon border: (BlBorder paint: (e tokenValueNamed: #'color-primary') width: 1) ]
 ]
 

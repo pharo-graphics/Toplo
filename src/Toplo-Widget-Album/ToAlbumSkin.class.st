@@ -33,8 +33,8 @@ ToAlbumSkin >> hoveredLookEvent: anEvent [
 	super hoveredLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e isEditable
-			ifTrue: [ e mouseCursor: BlCursor overEditableText ]
-			ifFalse: [ e mouseCursor: BlCursor default ] ]
+			ifTrue: [ e mouseCursor: Cursor overEditableText ]
+			ifFalse: [ e mouseCursor: Cursor normal ] ]
 ]
 
 { #category : #'event handling' }
@@ -57,7 +57,7 @@ ToAlbumSkin >> installLookEvent: anEvent [
 ToAlbumSkin >> leavedLookEvent: anEvent [
 
 	super leavedLookEvent: anEvent.
-	anEvent elementDo: [ :e | e mouseCursor: BlCursor default ]
+	anEvent elementDo: [ :e | e mouseCursor: Cursor normal ]
 ]
 
 { #category : #'event handling' }

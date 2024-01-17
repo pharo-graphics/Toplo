@@ -1,11 +1,11 @@
 Class {
-	#name : #ToCherryPickListSelectionStrategy,
+	#name : #ToSelectListSelectionStrategy,
 	#superclass : #ToInfiniteSelectionStrategy,
-	#category : #'Toplo-Widget-List-Selection'
+	#category : #'Toplo-Widget-Select-Core'
 }
 
 { #category : #'selection and shortcuts handlers' }
-ToCherryPickListSelectionStrategy >> defaultShortcuts [
+ToSelectListSelectionStrategy >> defaultShortcuts [
 
 	| shortcuts |
 	shortcuts := super defaultShortcuts.
@@ -34,7 +34,7 @@ ToCherryPickListSelectionStrategy >> defaultShortcuts [
 ]
 
 { #category : #'selection and shortcuts handlers' }
-ToCherryPickListSelectionStrategy >> nodeEventHandlerClasses [
+ToSelectListSelectionStrategy >> nodeEventHandlerClasses [
 
-	^ { ToCherryPickOnMouseDownEventHandler }
+	^ { ToSelectListNodeEventHandler }
 ]

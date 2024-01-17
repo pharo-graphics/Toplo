@@ -198,8 +198,10 @@ TToListElementDecorator >> selectedIndexes [
 
 	self
 		deprecated: 'Use selection selectedIndexes instead'
-		transformWith: '`@receiver selectedIndexes' -> '`@receiver selection selectedIndexes'.
-	^ self selection selectedIndexes
+		transformWith:
+		'`@receiver selectedIndexes'
+		-> '`@receiver selection selectedIndexes'.
+	^ self selectionStrategy selectedIndexes
 ]
 
 { #category : #'t - accessing selection' }

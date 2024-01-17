@@ -51,7 +51,7 @@ paddingXS	Control the extra small padding of the element.	number	8
 Class {
 	#name : #ToBeeTheme,
 	#superclass : #ToStyleSheetTheme,
-	#category : 'Toplo-Theme-Bee'
+	#category : #'Toplo-Theme-Bee'
 }
 
 { #category : #testing }
@@ -96,7 +96,7 @@ ToBeeTheme >> declareCommonButtonRules [
 			write: (self property: #mouseCursor)
 			with: [ :e |
 				e isEnabled
-					ifTrue: [ BlCursor hand ]
+					ifTrue: [ Cursor webLink ]
 					ifFalse: [  ] ].
 		self
 			when: ToLeavedLookEvent

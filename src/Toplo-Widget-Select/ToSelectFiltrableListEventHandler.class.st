@@ -1,5 +1,5 @@
 Class {
-	#name : #ToSelectListEventHandler,
+	#name : #ToSelectFiltrableListEventHandler,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'select'
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #'element handlers' }
-ToSelectListEventHandler >> collectionFilteredEvent: anEvent [
+ToSelectFiltrableListEventHandler >> collectionFilteredEvent: anEvent [
 
 	select currentWindow ifNil: [
 		select mode filterString ifNotEmpty: [
@@ -16,19 +16,19 @@ ToSelectListEventHandler >> collectionFilteredEvent: anEvent [
 ]
 
 { #category : #'api - accessing' }
-ToSelectListEventHandler >> eventsToHandle [
+ToSelectFiltrableListEventHandler >> eventsToHandle [
 
 	^ { ToFilteredListSelectionChangedEvent. ToCollectionFilteredEvent }
 ]
 
 { #category : #'element handlers' }
-ToSelectListEventHandler >> filteredListSelectionChangedEvent: anEvent [
+ToSelectFiltrableListEventHandler >> filteredListSelectionChangedEvent: anEvent [
 
 	select strategy refreshNodeContainer
 ]
 
 { #category : #accessing }
-ToSelectListEventHandler >> select: aSelect [
+ToSelectFiltrableListEventHandler >> select: aSelect [
 
 	select := aSelect
 ]

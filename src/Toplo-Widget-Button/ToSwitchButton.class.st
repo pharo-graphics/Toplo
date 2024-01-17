@@ -1,30 +1,28 @@
 Class {
-	#name : 'ToSwitchButton',
-	#superclass : 'ToButton',
+	#name : #ToSwitchButton,
+	#superclass : #ToButton,
 	#traits : 'TToCheckable',
 	#classTraits : 'TToCheckable classTrait',
 	#instVars : [
 		'group',
 		'checked'
 	],
-	#category : 'Toplo-Widget-Button-Switch',
-	#package : 'Toplo-Widget-Button',
-	#tag : 'Switch'
+	#category : 'Toplo-Widget-Button-Switch'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSwitchButton >> checkedContainer [ 
 
 	^ self icon checkedContainer
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSwitchButton >> handleCheckedBuilder: aValuable [
 
 	self icon handleCheckedBuilder: aValuable
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToSwitchButton >> initialize [
 
 	| handler |
@@ -37,49 +35,49 @@ ToSwitchButton >> initialize [
 	self checked: false
 ]
 
-{ #category : 'skin' }
+{ #category : #skin }
 ToSwitchButton >> newRawSkin [ 
 
 	^ ToSwitchButtonSkin new
 ]
 
-{ #category : 't - checkable - accessing' }
+{ #category : #'t - checkable - accessing' }
 ToSwitchButton >> rawChecked [
 
 	^ checked
 ]
 
-{ #category : 't - checkable - accessing' }
+{ #category : #'t - checkable - accessing' }
 ToSwitchButton >> rawChecked: aBoolean [
 
 	checked := aBoolean
 ]
 
-{ #category : 't - checkable - group' }
+{ #category : #'t - checkable - group' }
 ToSwitchButton >> rawGroup [
 
 	^ group
 ]
 
-{ #category : 't - checkable - group' }
+{ #category : #'t - checkable - group' }
 ToSwitchButton >> rawGroup: aGroup [
 
 	group := aGroup
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSwitchButton >> uncheckedContainer [ 
 
 	^ self icon uncheckedContainer
 ]
 
-{ #category : 't - checkable  - protocol' }
+{ #category : #'t - checkable  - protocol' }
 ToSwitchButton >> withIndeterminate [
 
 	^ false
 ]
 
-{ #category : 't - checkable  - protocol' }
+{ #category : #'t - checkable  - protocol' }
 ToSwitchButton >> withIndeterminate: aBoolean [
 
 	self shouldNotImplement 

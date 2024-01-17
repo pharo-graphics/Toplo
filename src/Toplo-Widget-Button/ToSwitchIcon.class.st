@@ -1,6 +1,6 @@
 Class {
-	#name : 'ToSwitchIcon',
-	#superclass : 'ToGeneralButton',
+	#name : #ToSwitchIcon,
+	#superclass : #ToGeneralButton,
 	#classTraits : 'TToCheckable classTrait',
 	#instVars : [
 		'track',
@@ -15,12 +15,10 @@ Class {
 		'uncheckedSide',
 		'handleDisabledBuilder'
 	],
-	#category : 'Toplo-Widget-Button-Switch',
-	#package : 'Toplo-Widget-Button',
-	#tag : 'Switch'
+	#category : 'Toplo-Widget-Button-Switch'
 }
 
-{ #category : 'layout' }
+{ #category : #layout }
 ToSwitchIcon >> applySize: aPoint [
 	" given my expected size, adapt the size of my handle and of onSide and offSide "
 
@@ -30,13 +28,13 @@ ToSwitchIcon >> applySize: aPoint [
 	self handle size: handleWidth asPoint
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSwitchIcon >> checked [
 
 	^ checked 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSwitchIcon >> checked: aBoolean [
 
 	checked = aBoolean ifTrue: [ ^ self ].
@@ -44,31 +42,31 @@ ToSwitchIcon >> checked: aBoolean [
 	self dispatchEvent: (ToCheckableCheckEvent current: checked previous: checked not)
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSwitchIcon >> checkedContainer [
 
 	^ checkedContainer
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToSwitchIcon >> defaultHandleMarginWidth [
 
 	^ 2
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToSwitchIcon >> defaultSize [
 
 	^ 35@20.0
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSwitchIcon >> handle [
 
 	^ handle
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSwitchIcon >> handleCheckedBuilder [
 
 	^ handleCheckedBuilder
@@ -76,7 +74,7 @@ ToSwitchIcon >> handleCheckedBuilder [
 	
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSwitchIcon >> handleCheckedBuilder: aValuable [
 
 	handleCheckedBuilder := aValuable
@@ -84,7 +82,7 @@ ToSwitchIcon >> handleCheckedBuilder: aValuable [
 	
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSwitchIcon >> handleDisabledBuilder [
 
 	^ handleDisabledBuilder
@@ -92,7 +90,7 @@ ToSwitchIcon >> handleDisabledBuilder [
 	
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSwitchIcon >> handleDisabledBuilder: aValuable [
 
 	handleDisabledBuilder := aValuable
@@ -100,7 +98,7 @@ ToSwitchIcon >> handleDisabledBuilder: aValuable [
 	
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSwitchIcon >> handleUncheckedBuilder [
 
 	^ handleUncheckedBuilder 
@@ -108,7 +106,7 @@ ToSwitchIcon >> handleUncheckedBuilder [
 	
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSwitchIcon >> handleUncheckedBuilder: aValuable [
 
 	handleUncheckedBuilder := aValuable
@@ -116,7 +114,7 @@ ToSwitchIcon >> handleUncheckedBuilder: aValuable [
 	
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToSwitchIcon >> initialize [
 
 	super initialize.
@@ -157,13 +155,13 @@ ToSwitchIcon >> initialize [
 	self checked: false
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ToSwitchIcon >> isChecked [ 
 
 	^ self checked
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToSwitchIcon >> newHandle [
 
 	^ ToElement new
@@ -175,13 +173,13 @@ ToSwitchIcon >> newHandle [
 		  yourself
 ]
 
-{ #category : 'skin' }
+{ #category : #skin }
 ToSwitchIcon >> newRawSkin [ 
 
 	^ ToSwitchIconSkin new
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToSwitchIcon >> newTrack [
 
 	^ ToElement new
@@ -191,13 +189,13 @@ ToSwitchIcon >> newTrack [
 		  yourself
 ]
 
-{ #category : 'private - layout' }
+{ #category : #'private - layout' }
 ToSwitchIcon >> onChildAddedInSideContainer [
 
 
 ]
 
-{ #category : 'layout' }
+{ #category : #layout }
 ToSwitchIcon >> onMeasure: anExtentMeasurementSpec [
 
 	| expectedSize sideContainerSize |
@@ -217,7 +215,7 @@ ToSwitchIcon >> onMeasure: anExtentMeasurementSpec [
 	super onMeasure: anExtentMeasurementSpec
 ]
 
-{ #category : 'layout' }
+{ #category : #layout }
 ToSwitchIcon >> switch: aBoolean [
 
 	aBoolean
@@ -225,44 +223,44 @@ ToSwitchIcon >> switch: aBoolean [
 		ifFalse: [ self switchUnchecked ]
 ]
 
-{ #category : 'layout' }
+{ #category : #layout }
 ToSwitchIcon >> switchChecked [
 
 	self track position: self trackOnExpectedPosition 
 ]
 
-{ #category : 'layout' }
+{ #category : #layout }
 ToSwitchIcon >> switchUnchecked [
 
 	self track position: self trackOffExpectedPosition 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSwitchIcon >> track [
 
 	^ track
 ]
 
-{ #category : 'layout' }
+{ #category : #layout }
 ToSwitchIcon >> trackOffExpectedPosition [
 
 	^ checkedSide measuredWidth negated  @ 0
 ]
 
-{ #category : 'layout' }
+{ #category : #layout }
 ToSwitchIcon >> trackOnExpectedPosition [
 
 	^ self measuredWidth - self handle measuredWidth
 	  - checkedSide measuredWidth - (self defaultHandleMarginWidth * 2) @ 0
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSwitchIcon >> uncheckedContainer [
 
 	^ uncheckedContainer
 ]
 
-{ #category : 'skin' }
+{ #category : #skin }
 ToSwitchIcon >> updateHandleContent [
 
 	self handle childrenDo: [ :child | child removeFromParent ].

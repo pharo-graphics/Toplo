@@ -1,7 +1,7 @@
 Class {
 	#name : #ToGeneralButtonMenuItemSkin,
 	#superclass : #ToRawSkin,
-	#category : 'Toplo-Widget-Menu-Basic'
+	#category : #'Toplo-Widget-Menu-Basic'
 }
 
 { #category : #'event handling' }
@@ -9,7 +9,7 @@ ToGeneralButtonMenuItemSkin >> disabledLookEvent: anEvent [
 
 	super disabledLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e mouseCursor: BlCursor default.
+		e mouseCursor: Cursor normal.
 		e border: (BlBorder paint: (e tokenValueNamed: #'color-border-disabled') width: (e tokenValueNamed: #'line-width')).
 		e background: (e tokenValueNamed: #'color-bg-container-disabled') ]
 ]
@@ -28,7 +28,7 @@ ToGeneralButtonMenuItemSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e mouseCursor: BlCursor hand.
+		e mouseCursor: Cursor webLink.
 		e border: (BlBorder paint: (e tokenValueNamed: #'color-primary-hover') width: (e tokenValueNamed: #'line-width')) ]
 ]
 
@@ -38,7 +38,7 @@ ToGeneralButtonMenuItemSkin >> installLookEvent: anEvent [
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e vFitContent.
-		e mouseCursor: BlCursor default.
+		e mouseCursor: Cursor normal.
 		e background: (e tokenValueNamed: #'color-bg-container').
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:
 				 (e tokenValueNamed: 'border-radius')).

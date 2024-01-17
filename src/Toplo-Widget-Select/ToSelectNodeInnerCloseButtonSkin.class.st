@@ -9,7 +9,7 @@ ToSelectNodeInnerCloseButtonSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
 	anEvent elementDo: [ :e | 
-		e mouseCursor: BlCursor hand.
+		e mouseCursor: Cursor webLink.
 		e border: (Color red alpha: 0.5) ]
 ]
 
@@ -29,6 +29,6 @@ ToSelectNodeInnerCloseButtonSkin >> leavedLookEvent: anEvent [
 
 	super leavedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e mouseCursor: BlCursor default.
+		e mouseCursor: Cursor normal.
 		e border: BlBorder empty ]
 ]

@@ -1,21 +1,19 @@
 Class {
-	#name : 'ToSwitchButtonSkin',
-	#superclass : 'ToRawSkin',
-	#category : 'Toplo-Widget-Button-Switch',
-	#package : 'Toplo-Widget-Button',
-	#tag : 'Switch'
+	#name : #ToSwitchButtonSkin,
+	#superclass : #ToRawSkin,
+	#category : #'Toplo-Widget-Button-Switch'
 }
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToSwitchButtonSkin >> disabledLookEvent: anEvent [
 
 	super disabledLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e mouseCursor: BlCursor default.
+		e mouseCursor: Cursor normal.
 		e background: (e tokenValueNamed: #'color-bg-container-disabled') ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToSwitchButtonSkin >> enabledLookEvent: anEvent [
 
 	super enabledLookEvent: anEvent.
@@ -23,21 +21,21 @@ ToSwitchButtonSkin >> enabledLookEvent: anEvent [
 		e background: Color transparent ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToSwitchButtonSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e mouseCursor: BlCursor hand]
+		e mouseCursor: Cursor webLink ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToSwitchButtonSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e vFitContent.
-		e mouseCursor: BlCursor default.
+		e mouseCursor: Cursor normal.
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:
 				 (e tokenValueNamed: 'border-radius')).
 		e border: BlBorder empty.
@@ -48,15 +46,15 @@ ToSwitchButtonSkin >> installLookEvent: anEvent [
 				 right: (e tokenValueNamed: #'padding-content-H')) ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToSwitchButtonSkin >> leavedLookEvent: anEvent [
 
 	super leavedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e mouseCursor: BlCursor default ]
+		e mouseCursor: Cursor normal ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToSwitchButtonSkin >> pressedLookEvent: anEvent [
 
 	super pressedLookEvent: anEvent.

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToBeeStyleSheet,
 	#superclass : #ToStyleSheet,
-	#category : 'Toplo-Theme-Bee'
+	#category : #'Toplo-Theme-Bee'
 }
 
 { #category : #testing }
@@ -347,8 +347,8 @@ ToBeeStyleSheet >> commonButtonRules [
 				   write: (self property: #mouseCursor)
 				   with: [ :e |
 					   e isEnabled
-						   ifTrue: [ BlCursor hand ]
-						   ifFalse: [ BlCursor notAllowed ] ].
+						   ifTrue: [ Cursor webLink ]
+						   ifFalse: [ Cursor crossHair ] ].
 			   sr
 				   when: ToLeavedLookEvent
 				   write: (self property: #mouseCursor)
@@ -399,7 +399,7 @@ ToBeeStyleSheet >> commonButtonRulesNew [
 				   write: (self property: #mouseCursor)
 				   with: [ :e |
 					   e isEnabled
-						   ifTrue: [ BlCursor hand ]
+						   ifTrue: [ Cursor webLink ]
 						   ifFalse: [  ] ].
 			   sr
 				   when: ToLeavedLookEvent
@@ -500,7 +500,7 @@ ToBeeStyleSheet >> commonButtonRulesOld [
 				   write: (self property: #mouseCursor)
 				   with: [ :e |
 					   e isEnabled
-						   ifTrue: [ BlCursor hand ]
+						   ifTrue: [ Cursor webLink ]
 						   ifFalse: [  ] ].
 			   sr
 				   when: ToLeavedLookEvent
@@ -1630,7 +1630,7 @@ ToBeeStyleSheet >> toggleButtonRules [
 { #category : #'accessing rules  -button' }
 ToBeeStyleSheet >> verticalButtonRules [
 	"  
-	'button:hover' rule: [ :e | e mouseCursor: BlCursor hand. e background: Color gray. e font-size: 18 ].
+	'button:hover' rule: [ :e | e mouseCursor: Cursor hand. e background: Color gray. e font-size: 18 ].
 	'button:leave' rule: [ :e | e mouseCursor: nil ].
 
 	'button' rule: [ :e | e background: Color white ].

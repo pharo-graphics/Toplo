@@ -1,7 +1,7 @@
 Class {
 	#name : #ToTabSkin,
 	#superclass : #ToRawSkin,
-	#category : 'Toplo-Widget-TabPane'
+	#category : #'Toplo-Widget-TabPane'
 }
 
 { #category : #'event handling' }
@@ -17,7 +17,7 @@ ToTabSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e mouseCursor: BlCursor hand.
+		e mouseCursor: Cursor webLink.
 		e border: (BlBorder paint: (e tokenValueNamed: #'color-primary-hover') width: (e tokenValueNamed: #'line-width')).
 		e isChecked
 			ifTrue: [ e background: e selectedBackground ]

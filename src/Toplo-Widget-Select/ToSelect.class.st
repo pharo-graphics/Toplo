@@ -58,7 +58,7 @@ ToSelect >> defaultFiltrable [
 { #category : #initialization }
 ToSelect >> defaultMultiSelection [
 
-	^ false
+	^ true
 ]
 
 { #category : #'accessing selection' }

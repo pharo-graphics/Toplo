@@ -1,7 +1,7 @@
 Class {
 	#name : #ToChoiceMenuSkin,
 	#superclass : #ToMenuSkin,
-	#category : 'Toplo-Widget-Menu-Choice menu'
+	#category : #'Toplo-Widget-Menu-Choice menu'
 }
 
 { #category : #'as yet unclassified' }
@@ -29,6 +29,7 @@ ToChoiceMenuSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
 	anEvent elementDo: [ :e |
+		e mouseCursor: Cursor webLink.
 		e border: (BlBorder
 				 paint: (e tokenValueNamed: #'color-primary-hover')
 				 width: (e tokenValueNamed: #'line-width')) ]

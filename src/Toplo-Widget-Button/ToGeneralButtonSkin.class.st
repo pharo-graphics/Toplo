@@ -1,24 +1,22 @@
 Class {
-	#name : 'ToGeneralButtonSkin',
-	#superclass : 'ToRawSkin',
-	#category : 'Toplo-Widget-Button-Core',
-	#package : 'Toplo-Widget-Button',
-	#tag : 'Core'
+	#name : #ToGeneralButtonSkin,
+	#superclass : #ToRawSkin,
+	#category : #'Toplo-Widget-Button-Core'
 }
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToGeneralButtonSkin >> disabledLookEvent: anEvent [
 
 	super disabledLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e mouseCursor: BlCursor default.
+		e mouseCursor: Cursor normal.
 		e border: (BlBorder
 				 paint: (e tokenValueNamed: #'color-border-disabled')
 				 width: (e tokenValueNamed: #'line-width')).
 		e background: (e tokenValueNamed: #'color-bg-container-disabled') ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToGeneralButtonSkin >> enabledLookEvent: anEvent [
 
 	super enabledLookEvent: anEvent.
@@ -29,23 +27,23 @@ ToGeneralButtonSkin >> enabledLookEvent: anEvent [
 		e background: (e tokenValueNamed: #'color-bg-container') ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToGeneralButtonSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e mouseCursor: BlCursor hand.
+		e mouseCursor: Cursor webLink.
 		e border: (BlBorder
 				 paint: (e tokenValueNamed: #'color-primary-hover')
 				 width: (e tokenValueNamed: #'line-width')) ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToGeneralButtonSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e mouseCursor: BlCursor default.
+		e mouseCursor: Cursor normal.
 		e background: (e tokenValueNamed: #'color-bg-container').
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:
 				 (e tokenValueNamed: 'border-radius')).
@@ -59,7 +57,7 @@ ToGeneralButtonSkin >> installLookEvent: anEvent [
 				 right: (e tokenValueNamed: #'padding-XS')) ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToGeneralButtonSkin >> leavedLookEvent: anEvent [
 
 	super leavedLookEvent: anEvent.
@@ -70,7 +68,7 @@ ToGeneralButtonSkin >> leavedLookEvent: anEvent [
 		e background: (e tokenValueNamed: #'color-bg-container') ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToGeneralButtonSkin >> pressedLookEvent: anEvent [
 
 	super pressedLookEvent: anEvent.

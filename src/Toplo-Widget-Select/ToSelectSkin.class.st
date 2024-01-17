@@ -9,7 +9,7 @@ ToSelectSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e mouseCursor: BlCursor default ]
+		e mouseCursor: Cursor normal ]
 ]
 
 { #category : #'event handling' }

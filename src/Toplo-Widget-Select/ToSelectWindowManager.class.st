@@ -88,8 +88,9 @@ ToSelectWindowManager >> newListElement [
 
 	| newListElement |
 	newListElement := ToListElement new.
-	newListElement selectionStrategy:
-		ToCherryPickListSelectionStrategy new.
+	newListElement selectionStrategy: ToSelectListSelectionStrategy new.
+	" the list must be multiple even with mono select "
+	newListElement selectionStrategy beMultipleSelection.
 	newListElement requestFocusOnMouseDown: false.
 	newListElement maxHeight: self maxHeight.
 	newListElement minHeight: self minHeight.

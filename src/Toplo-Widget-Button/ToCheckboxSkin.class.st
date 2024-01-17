@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToCheckboxSkin',
-	#superclass : 'ToButtonSkin',
-	#category : 'Toplo-Widget-Button-Checkable',
-	#package : 'Toplo-Widget-Button',
-	#tag : 'Checkable'
+	#name : #ToCheckboxSkin,
+	#superclass : #ToButtonSkin,
+	#category : #'Toplo-Widget-Button-Checkable'
 }
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToCheckboxSkin >> checkedLookEvent: anEvent [
 
 	super checkedLookEvent: anEvent.
@@ -15,7 +13,7 @@ ToCheckboxSkin >> checkedLookEvent: anEvent [
 		e indeterminateChild background: Color transparent ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToCheckboxSkin >> disabledLookEvent: anEvent [
 
 	super disabledLookEvent: anEvent.
@@ -27,7 +25,7 @@ ToCheckboxSkin >> disabledLookEvent: anEvent [
 		e indeterminateChild background: Color transparent ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToCheckboxSkin >> enabledLookEvent: anEvent [
 
 	super enabledLookEvent: anEvent.
@@ -37,23 +35,22 @@ ToCheckboxSkin >> enabledLookEvent: anEvent [
 		e icon border: (e tokenValueNamed: #'color-border') ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToCheckboxSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
 	anEvent elementDo: [ :e | 
 		e border: (BlBorder empty).		
-		e mouseCursor: BlCursor hand.
 		e icon border: (BlBorder paint: (e tokenValueNamed: #'color-primary') width: 1) ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToCheckboxSkin >> iconGeometryIn: aCheckbox [
 
 	^ BlRoundedRectangleGeometry cornerRadius: 4
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToCheckboxSkin >> indeterminateLookEvent: anEvent [
 
 	super indeterminateLookEvent: anEvent.
@@ -62,7 +59,7 @@ ToCheckboxSkin >> indeterminateLookEvent: anEvent [
 		e indeterminateChild background: (e tokenValueNamed: #'color-primary')]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToCheckboxSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
@@ -76,7 +73,7 @@ ToCheckboxSkin >> installLookEvent: anEvent [
 	
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToCheckboxSkin >> leavedLookEvent: anEvent [
 
 	super leavedLookEvent: anEvent.
@@ -85,7 +82,7 @@ ToCheckboxSkin >> leavedLookEvent: anEvent [
 		e icon border: (e tokenValueNamed: #'color-border') ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToCheckboxSkin >> pressedLookEvent: anEvent [
 
 	super pressedLookEvent: anEvent.
@@ -93,7 +90,7 @@ ToCheckboxSkin >> pressedLookEvent: anEvent [
 		e border: BlBorder empty ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToCheckboxSkin >> uncheckedLookEvent: anEvent [
 
 	super uncheckedLookEvent: anEvent.

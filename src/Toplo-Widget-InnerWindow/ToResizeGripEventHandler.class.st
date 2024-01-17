@@ -4,14 +4,14 @@ Class {
 	#instVars : [
 		'gripTarget'
 	],
-	#category : 'Toplo-Widget-InnerWindow'
+	#category : #'Toplo-Widget-InnerWindow'
 }
 
 { #category : #'event handling' }
 ToResizeGripEventHandler >> dragEndEvent: anEvent [
 
 	anEvent consumed: true.
-	anEvent currentTarget mouseCursor: BlCursor default
+	anEvent currentTarget mouseCursor: Cursor normal
 ]
 
 { #category : #'event handling' }

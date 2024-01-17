@@ -1,15 +1,13 @@
 Class {
-	#name : 'ToSwitchIconSkin',
-	#superclass : 'ToRawSkin',
+	#name : #ToSwitchIconSkin,
+	#superclass : #ToRawSkin,
 	#instVars : [
 		'justInstalled'
 	],
-	#category : 'Toplo-Widget-Button-Switch',
-	#package : 'Toplo-Widget-Button',
-	#tag : 'Switch'
+	#category : #'Toplo-Widget-Button-Switch'
 }
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToSwitchIconSkin >> checkedLookEvent: anEvent [
 
 	super checkedLookEvent: anEvent.
@@ -18,7 +16,7 @@ ToSwitchIconSkin >> checkedLookEvent: anEvent [
 		self switch: true withAnimationIn: e ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToSwitchIconSkin >> disabledLookEvent: anEvent [
 
 	super disabledLookEvent: anEvent.
@@ -28,7 +26,7 @@ ToSwitchIconSkin >> disabledLookEvent: anEvent [
 		e handle background: (e tokenValueNamed: #'switch-handle-disabled-background') ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToSwitchIconSkin >> enabledLookEvent: anEvent [
 
 	super enabledLookEvent: anEvent.
@@ -36,15 +34,14 @@ ToSwitchIconSkin >> enabledLookEvent: anEvent [
 		e handle background: (e tokenValueNamed: #'switch-handle-enabled-background') ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToSwitchIconSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
-	anEvent elementDo: [ :e |
-		]
+	anEvent elementDo: [ :e |  ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToSwitchIconSkin >> installLookEvent: anEvent [
 
 	justInstalled := true.
@@ -53,7 +50,7 @@ ToSwitchIconSkin >> installLookEvent: anEvent [
 		e switch: e isChecked ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToSwitchIconSkin >> leavedLookEvent: anEvent [
 
 	super leavedLookEvent: anEvent.
@@ -61,7 +58,7 @@ ToSwitchIconSkin >> leavedLookEvent: anEvent [
 		 ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToSwitchIconSkin >> switch: aBoolean withAnimationIn: aSwitchButton [
 
 	| anim posAnim colorAnim color background toPos |
@@ -94,7 +91,7 @@ ToSwitchIconSkin >> switch: aBoolean withAnimationIn: aSwitchButton [
 	aSwitchButton addAnimation: anim
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToSwitchIconSkin >> uncheckedLookEvent: anEvent [
 
 	super uncheckedLookEvent: anEvent.

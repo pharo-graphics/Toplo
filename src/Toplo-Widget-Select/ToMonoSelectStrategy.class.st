@@ -41,11 +41,14 @@ ToMonoSelectStrategy >> defaultNodeBuilder [
 	  aSelectNode hMatchParent.
 	  selectedDataTextField := select mode newTextField.
 	  selectedDataTextField beReadonlyWithSelection.
+	  selectedDataTextField withLineWrapping.
+	  selectedDataTextField hMatchParent.
 	  inputTextField := select mode newInputTextField.
 	  aNodeHolder data ifNotNil: [
 		  selectedDataTextField text: aNodeHolder data asString ].
-	  inputTextField withoutLineWrapping.
-		" the id is set here to avoid that a fake node with a text field with the same id "
+	  inputTextField withLineWrapping.
+	  inputTextField hMatchParent.
+	  " the id is set here to avoid that a fake node with a text field with the same id "
 	  selectedDataTextField id: #selectedDataTextField.
 	  aSelectNode middleContainer addChild: selectedDataTextField.
 	  aSelectNode middleContainer addChild: inputTextField ]
@@ -67,14 +70,25 @@ ToMonoSelectStrategy >> nodeContainerLayout [
 ToMonoSelectStrategy >> onInstalledIn: aSelect [
 
 	super onInstalledIn: aSelect.
-	aSelect listElement selectionStrategy beSingleSelection
+
 ]
 
 { #category : #enumerating }
 ToMonoSelectStrategy >> refreshNodeContainer [
 
 	| node holder idx selectedData |
-	" first remove all data nodes "" then rebuild current nodes according to current selection "
+	node := select nodeContainer firstChild.
+	holder := node selectHolder.
+
+	holder position isZero ifFalse: [ 
+		" directly deselection in the selection model works.
+		using the listElement selectionStrategy do not works because of the shared event distributor.
+		Indeed, this method is invoked from the event handler added in ToSelectReadOnlyMode>>onInstalledIn: ".
+		self flag: 'used case to fix ToListElement event handling'. 
+		select selectionModel deselectIndex: holder position.
+		select listElement dispatchEvent: ToInfiniteSelectionDirtyEvent new 
+		"select listElement selectionStrategy deselectIndex: holder position" ].
+
 	select selectionModel indices
 		ifEmpty: [
 			idx := 0.
@@ -83,8 +97,6 @@ ToMonoSelectStrategy >> refreshNodeContainer [
 			idx := idxes first.
 			selectedData := select data at: idx ].
 
-	node := select nodeContainer firstChild.
-	holder := node selectHolder.
 	holder
 		position: idx;
 		data: selectedData.

@@ -2244,7 +2244,7 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWithStatesOfAmerica [
 	select windowManager anchorRoot: innerWindow root.
 	select hMatchParent.
 	select data addAll: self statesOfAmerica.
-select inspect.
+	"select inspect."
 	innerWindow pane addChild: select.
 	innerWindow openInSpace
 ]

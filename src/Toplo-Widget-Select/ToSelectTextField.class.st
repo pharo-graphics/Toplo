@@ -15,6 +15,7 @@ ToSelectTextField >> initialize [
 	self withSaveCapability.
 	self withoutEditsFeedback.
 	self constraintsDo: [ :c |
+		c frame vertical alignCenter.
 		c flow vertical alignCenter.
 		c linear vertical alignCenter ]
 ]

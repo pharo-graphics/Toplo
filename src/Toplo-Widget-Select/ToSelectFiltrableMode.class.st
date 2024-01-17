@@ -10,8 +10,7 @@ Class {
 { #category : #initialization }
 ToSelectFiltrableMode >> configureMonoSelectNodeContainer: anElement [
 
-	super configureMonoSelectNodeContainer: anElement.
-
+	super configureMonoSelectNodeContainer: anElement
 ]
 
 { #category : #initialization }
@@ -80,7 +79,6 @@ ToSelectFiltrableMode >> newSelectedDataTextField [
 
 	| textField |
 	textField := self newTextField.
-	textField id: #selectedDatTextField.
 	^ textField
 ]
 

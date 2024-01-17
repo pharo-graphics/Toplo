@@ -21,5 +21,5 @@ ToSelectTextFieldSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		"e padding: BlInsets empty" ]
+		e background: BlBackground transparent ]
 ]

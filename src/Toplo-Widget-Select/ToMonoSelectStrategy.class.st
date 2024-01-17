@@ -39,12 +39,14 @@ ToMonoSelectStrategy >> defaultNodeBuilder [
 	  | inputTextField selectedDataTextField |
 	  aSelectNode beUnremovable.
 	  aSelectNode hMatchParent.
-	  selectedDataTextField := select mode newSelectedDataTextField.
+	  selectedDataTextField := select mode newTextField.
 	  selectedDataTextField beReadonlyWithSelection.
 	  inputTextField := select mode newInputTextField.
 	  aNodeHolder data ifNotNil: [
 		  selectedDataTextField text: aNodeHolder data asString ].
 	  inputTextField withoutLineWrapping.
+		" the id is set here to avoid that a fake node with a text field with the same id "
+	  selectedDataTextField id: #selectedDataTextField.
 	  aSelectNode middleContainer addChild: selectedDataTextField.
 	  aSelectNode middleContainer addChild: inputTextField ]
 ]
@@ -88,6 +90,12 @@ ToMonoSelectStrategy >> refreshNodeContainer [
 		data: selectedData.
 	select inputTextField text: ''.
 	selectedData
-		ifNil: [ select inputTextField text: '' ]
-		ifNotNil: [ select inputTextField text: selectedData asString ]
+		ifNil: [ self selectedDataTextField text: '' ]
+		ifNotNil: [ self selectedDataTextField text: selectedData asString ]
+]
+
+{ #category : #accessing }
+ToMonoSelectStrategy >> selectedDataTextField [
+
+	^ select nodeContainer childWithId: #selectedDataTextField 
 ]

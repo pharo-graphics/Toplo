@@ -1,11 +1,11 @@
 Class {
 	#name : #ToContextMenuOpenedEvent,
 	#superclass : #ToWindowOpenedEvent,
-	#category : 'Toplo-Widget-Menu-Context menu'
+	#category : #'Toplo-Widget-Menu-Context menu'
 }
 
 { #category : #sending }
-ToContextMenuOpenedEvent >> sendTo: anEvent [
+ToContextMenuOpenedEvent >> sendTo: anObject [
 
-	anEvent contextMenuOpenedEvent: self
+	anObject contextMenuOpenedEvent: self
 ]

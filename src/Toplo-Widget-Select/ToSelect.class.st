@@ -54,7 +54,7 @@ ToSelect >> dataFilter: aValuable [
 { #category : #initialization }
 ToSelect >> defaultFiltrable [
 
-	^ true
+	^ false
 ]
 
 { #category : #initialization }

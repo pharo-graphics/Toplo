@@ -24,6 +24,12 @@ ToSelectMode >> configureMultiSelectNodeContainer: anElement [
 
 ]
 
+{ #category : #initialization }
+ToSelectMode >> defaultMonoSelectHeaderNodeClass [
+
+	^ ToMonoSelectHeaderNode
+]
+
 { #category : #'accessing selection' }
 ToSelectMode >> deselectIndex: anIndex [
 

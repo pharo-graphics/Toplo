@@ -8,12 +8,6 @@ Class {
 }
 
 { #category : #initialization }
-ToSelectFiltrableMode >> configureMonoSelectNodeContainer: anElement [
-
-	super configureMonoSelectNodeContainer: anElement
-]
-
-{ #category : #initialization }
 ToSelectFiltrableMode >> configureMultiSelectNodeContainer: anElement [
 
 	super configureMultiSelectNodeContainer: anElement.
@@ -24,6 +18,12 @@ ToSelectFiltrableMode >> configureMultiSelectNodeContainer: anElement [
 ToSelectFiltrableMode >> dataFilter: aValuable [
 
 	filter dataFilter: aValuable
+]
+
+{ #category : #initialization }
+ToSelectFiltrableMode >> defaultMonoSelectHeaderNodeClass [
+
+	^ ToFiltrableSelectHeaderNode
 ]
 
 { #category : #'accessing selection' }

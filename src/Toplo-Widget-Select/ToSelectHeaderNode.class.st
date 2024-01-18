@@ -108,6 +108,18 @@ ToSelectHeaderNode >> middleContainer [
 	^ middleContainer
 ]
 
+{ #category : #'api - hooks' }
+ToSelectHeaderNode >> onInstalledIn: aSelectHeaderNodeContainer [
+
+
+]
+
+{ #category : #'api - hooks' }
+ToSelectHeaderNode >> onUninstalledIn: aSelectHeaderNodeContainer [
+
+
+]
+
 { #category : #accessing }
 ToSelectHeaderNode >> removable [
 

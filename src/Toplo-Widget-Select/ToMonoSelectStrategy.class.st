@@ -7,7 +7,8 @@ Class {
 { #category : #adding }
 ToMonoSelectStrategy >> addDataNode: aNode [
 
-	select headerNodeContainer addChild: aNode 
+	select headerNodeContainer addChild: aNode.
+	aNode onInstalledIn: select headerNodeContainer
 ]
 
 { #category : #initialization }
@@ -35,29 +36,15 @@ ToMonoSelectStrategy >> buildHeaderNodeContainer: anElement [
 { #category : #initialization }
 ToMonoSelectStrategy >> defaultHeaderNodeBuilder [
 
-	^ [ :aSelectNode :aNodeHolder |
-	  | inputTextField selectedDataTextField |
-	  aSelectNode beUnremovable.
-	  aSelectNode hMatchParent.
-	  selectedDataTextField := select mode newTextField.
-	  selectedDataTextField beReadonlyWithSelection.
-	  selectedDataTextField withLineWrapping.
-	  selectedDataTextField hMatchParent.
-	  inputTextField := select mode newInputTextField.
+	^ [ :aSelectNode :aNodeHolder |	  
 	  aNodeHolder data ifNotNil: [
-		  selectedDataTextField text: aNodeHolder data asString ].
-	  inputTextField withLineWrapping.
-	  inputTextField hMatchParent.
-	  " the id is set here to avoid that a fake node with a text field with the same id "
-	  selectedDataTextField id: #selectedDataTextField.
-	  aSelectNode middleContainer addChild: selectedDataTextField.
-	  aSelectNode middleContainer addChild: inputTextField ]
+		  aSelectNode selectedDataTextField text: aNodeHolder data asString ] ]
 ]
 
 { #category : #initialization }
 ToMonoSelectStrategy >> defaultHeaderNodeClass [ 
 
-	^ ToMonoSelectHeaderNode
+	^ select mode defaultMonoSelectHeaderNodeClass
 ]
 
 { #category : #private }

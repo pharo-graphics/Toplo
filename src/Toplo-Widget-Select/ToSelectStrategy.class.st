@@ -55,7 +55,8 @@ ToSelectStrategy >> headerNodeBuilder: aValuable [
 { #category : #accessing }
 ToSelectStrategy >> headerNodeClass [ 
 
-	^ headerNodeClass 
+	" lazy because asking for it may require the mode to be set "
+	^ headerNodeClass ifNil: [ 	headerNodeClass := self defaultHeaderNodeClass ]
 ]
 
 { #category : #accessing }
@@ -87,7 +88,6 @@ ToSelectStrategy >> headerNodeHolders [
 ToSelectStrategy >> initialize [ 
 
 	super initialize.
-	headerNodeClass := self defaultHeaderNodeClass.
 	headerNodeHolders := OrderedCollection new.
 	headerNodeBuilder := self defaultHeaderNodeBuilder.
 
@@ -106,6 +106,7 @@ ToSelectStrategy >> initializeFakeNode [
 	fakeNode id: #fakeNode.
 	fakeHolder := self newHeaderNodeHolder.
 	fakeNode selectHolder: fakeHolder.
+	fakeNode onInstalledIn: select headerNodeContainer.
 	fakeHolder
 		node: fakeNode;
 		data: select fakeData.

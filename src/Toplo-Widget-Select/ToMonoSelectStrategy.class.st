@@ -64,13 +64,6 @@ ToMonoSelectStrategy >> headerNodeContainerLayout [
 	^ BlFrameLayout new
 ]
 
-{ #category : #'api - hooks' }
-ToMonoSelectStrategy >> onInstalledIn: aSelect [
-
-	super onInstalledIn: aSelect.
-
-]
-
 { #category : #'accessing list' }
 ToMonoSelectStrategy >> onListClosed [
 

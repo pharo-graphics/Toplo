@@ -101,7 +101,9 @@ ToSelectStrategy >> initializeFakeNode [
 	and the data kind."
 
 	| fakeHolder fakeNode |
-	select fakeNode ifNotNil: [ :fn | fn removeFromParent ].
+	select fakeNode ifNotNil: [ :fn |
+		fn onUninstalledIn: select headerNodeContainer.
+		fn removeFromParent ].
 	fakeNode := self newHeaderNode.
 	fakeNode id: #fakeNode.
 	fakeHolder := self newHeaderNodeHolder.
@@ -155,7 +157,7 @@ ToSelectStrategy >> newHeaderNodeContainer [
 { #category : #'accessing nodes' }
 ToSelectStrategy >> newHeaderNodeHolder [
 
-	^ self headerNodeHolderClass new
+	^ self headerNodeHolderClass new select: select; yourself
 ]
 
 { #category : #'api - hooks' }
@@ -185,6 +187,8 @@ ToSelectStrategy >> onListOpened [
 { #category : #'api - hooks' }
 ToSelectStrategy >> onUninstalledIn: aSelect [
 
+
+	select headerElement removeChild: select headerNodeContainer.
 	select := nil
 ]
 

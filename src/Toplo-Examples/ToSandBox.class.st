@@ -1079,6 +1079,40 @@ ToSandBox class >> example_ListWithoutSelection [
 	l openInSpace
 ]
 
+{ #category : #select }
+ToSandBox class >> example_MonoFiltrable [
+
+	| select innerWindow |
+	select := ToSelect new.
+	select filtrable: true.
+	select multiSelection: false.
+	innerWindow := ToInnerWindow new.
+	select windowManager anchorRoot: innerWindow root.
+	select width: 300.
+	select position: 50 @ 50.
+	select data addAll: self statesOfAmerica.
+	innerWindow pane addChild: select.
+	innerWindow openInSpace
+]
+
+{ #category : #select }
+ToSandBox class >> example_MonoNotFiltrable [
+
+	| select innerWindow |
+	select := ToSelect new.
+	select multiSelection: false.
+	select filtrable: false.
+	select listElement nodeBuilder: [ :node :holder |
+		node addChild: (ToLabel text: holder data asString) hMatchParent ].
+	innerWindow := ToInnerWindow new.
+	select windowManager anchorRoot: innerWindow root.
+	select width: 300.
+	select position: 50 @ 50.
+	select data addAll: self statesOfAmerica.
+	innerWindow pane addChild: select.
+	innerWindow openInSpace
+]
+
 { #category : #menu }
 ToSandBox class >> example_OpenSaveSaveAsCloseWithSubmenu [
 

@@ -108,13 +108,6 @@ ToMultiSelectStrategy >> nodeWrapping: aBoolean [
 	self onNodeWrappingChange.
 ]
 
-{ #category : #'api - hooks' }
-ToMultiSelectStrategy >> onInstalledIn: aSelect [
-
-	super onInstalledIn: aSelect.
-
-]
-
 { #category : #private }
 ToMultiSelectStrategy >> onNodeWrappingChange [
 

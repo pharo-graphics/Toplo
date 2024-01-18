@@ -2,7 +2,9 @@ Class {
 	#name : #ToSelectFiltrableMode,
 	#superclass : #ToSelectMode,
 	#instVars : [
-		'filter'
+		'filter',
+		'filtrableListEventHandler',
+		'dataCollectionAfterChangeEventHandler'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -87,13 +89,16 @@ ToSelectFiltrableMode >> newSelectedDataTextField [
 ToSelectFiltrableMode >> onInstalledIn: aSelect [
 
 	super onInstalledIn: aSelect.
-	select listElement addEventHandler: (ToSelectFiltrableListEventHandler new
+	filtrableListEventHandler := ToSelectFiltrableListEventHandler new
 			 select: select;
-			 yourself).
+			 yourself.
 
-	select data addEventHandler: (BlEventHandler
+	dataCollectionAfterChangeEventHandler := BlEventHandler
 			 on: ToCollectionAfterChangeEvent
-			 do: [ select listElement data updateAllWith: select data ]).
+			 do: [ select listElement data updateAllWith: select data ].
+	
+	select listElement addEventHandler: filtrableListEventHandler.
+	select data addEventHandler: dataCollectionAfterChangeEventHandler.
 
 	select selectionModel: BlCompositeSelection new.
 	filter := ToListElementFilter new.
@@ -119,7 +124,14 @@ ToSelectFiltrableMode >> onListOpened [
 ToSelectFiltrableMode >> onUninstalledIn: aSelect [
 
 	filter onUninstalledIn: select  listElement.
+	select listElement removeEventHandler: filtrableListEventHandler.
+	select data removeEventHandler: dataCollectionAfterChangeEventHandler.
+	select selectionModel: nil.
+
+	filtrableListEventHandler := nil.
+	dataCollectionAfterChangeEventHandler := nil.
 	filter := nil.
+
 	super onUninstalledIn: aSelect.
 ]
 

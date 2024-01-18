@@ -1,6 +1,9 @@
 Class {
 	#name : #ToSelectReadOnlyMode,
 	#superclass : #ToSelectMode,
+	#instVars : [
+		'listSelectionChangedEventHandler'
+	],
 	#category : #'Toplo-Widget-Select-Core'
 }
 
@@ -30,11 +33,24 @@ ToSelectReadOnlyMode >> newInputTextField [
 ToSelectReadOnlyMode >> onInstalledIn: aSelect [
 
 	super onInstalledIn: aSelect.
-	select listElement addEventHandler: (BlEventHandler
+	
+	listSelectionChangedEventHandler := BlEventHandler
 			 on: ToListSelectionChangedEvent
-			 do: [ :event | select strategy refreshHeaderNodeContainer ]).
+			 do: [ :event | select strategy refreshHeaderNodeContainer ].
+	select listElement addEventHandler: listSelectionChangedEventHandler.
 	select data: select listElement data.
 	select selectionModel: select listElement selectionStrategy selectionModel
+]
+
+{ #category : #'api - hooks' }
+ToSelectReadOnlyMode >> onUninstalledIn: aSelect [
+
+	select listElement removeEventHandler: listSelectionChangedEventHandler.
+	listSelectionChangedEventHandler := nil.
+	select data: nil.
+	select selectionModel: nil.
+	super onUninstalledIn: aSelect.
+
 ]
 
 { #category : #'accessing selection' }

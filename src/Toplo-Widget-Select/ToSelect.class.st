@@ -36,7 +36,7 @@ ToSelect >> currentWindow [
 { #category : #accessing }
 ToSelect >> data [
 
-	^ data
+	^ data ifNil: [ data := ToObservableCollection new ]
 ]
 
 { #category : #accessing }
@@ -91,8 +91,6 @@ ToSelect >> fakeNode [
 { #category : #accessing }
 ToSelect >> filtrable: aBoolean [
 
-	(self mode notNil and: [ aBoolean = self isFiltrable ]) ifTrue: [
-		^ self ].
 	self mode ifNotNil: [ self mode onUninstalledIn: self ].
 	mode := aBoolean
 		        ifTrue: [ ToSelectFiltrableMode new ]
@@ -145,7 +143,6 @@ ToSelect >> initialize [
 
 	| sharedEventsDistributor headerElement |
 	super initialize.
-	data := ToObservableCollection new.
 	" for the popup "
 	windowManager := self newWindowManager.
 
@@ -214,8 +211,6 @@ ToSelect >> mode [
 { #category : #accessing }
 ToSelect >> multiSelection: aBoolean [
 
-	(strategy notNil and: [ aBoolean = self isMultiSelection ]) ifTrue: [
-		^ self ].
 	strategy ifNotNil: [ self strategy onUninstalledIn: self ].
 	strategy := aBoolean
 		        ifTrue: [ ToMultiSelectStrategy new ]

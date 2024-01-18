@@ -46,7 +46,8 @@ ToSelectFiltrableMode >> filterString [
 ToSelectFiltrableMode >> filterTextFieldUpdated: anEvent [
 
 	select listElement dispatchEvent:
-		(ToListFilterRequest new pattern: self filterString)
+		(ToListFilterRequest new pattern: self filterString).
+	select strategy filterTextFieldUpdated: anEvent
 ]
 
 { #category : #testing }
@@ -105,7 +106,13 @@ ToSelectFiltrableMode >> onInstalledIn: aSelect [
 { #category : #'accessing list' }
 ToSelectFiltrableMode >> onListClosed [
 
-	select inputTextField requestFocus
+	select inputTextField requestFocus.
+]
+
+{ #category : #'accessing list' }
+ToSelectFiltrableMode >> onListOpened [
+
+	select inputTextField requestFocus.
 ]
 
 { #category : #'api - hooks' }

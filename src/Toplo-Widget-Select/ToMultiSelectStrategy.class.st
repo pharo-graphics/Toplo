@@ -17,7 +17,7 @@ ToMultiSelectStrategy >> addAllDataNodes: aNodeCollection [
 { #category : #'accessing nodes' }
 ToMultiSelectStrategy >> addDataNode: aNode [
 
-	select nodeContainer addChild: aNode before: select inputTextField
+	select headerNodeContainer addChild: aNode before: select inputTextField
 ]
 
 { #category : #initialization }
@@ -118,7 +118,7 @@ ToMultiSelectStrategy >> onInstalledIn: aSelect [
 { #category : #private }
 ToMultiSelectStrategy >> onNodeWrappingChange [
 
-	select nodeContainer layout: self headerNodeContainerLayout
+	select headerNodeContainer layout: self headerNodeContainerLayout
 ]
 
 { #category : #enumerating }

@@ -28,6 +28,11 @@ ToSelectStrategy >> defaultHeaderNodeClass [
 	self subclassResponsibility 
 ]
 
+{ #category : #private }
+ToSelectStrategy >> filterTextFieldUpdated: anEvent [
+
+]
+
 { #category : #accessing }
 ToSelectStrategy >> headerNodeBuilder [
 
@@ -110,7 +115,7 @@ ToSelectStrategy >> initializeFakeNode [
 		c flow vertical alignCenter.
 		c linear vertical alignCenter ].
 	" add the fake node if the selection is empty (to keep a constant minimum height )"
-	select nodeContainer addChild: fakeNode
+	select headerNodeContainer addChild: fakeNode
 ]
 
 { #category : #testing }
@@ -141,7 +146,7 @@ ToSelectStrategy >> newHeaderNode [
 ToSelectStrategy >> newHeaderNodeContainer [
 
 	^ ToElement new
-		  id: #nodeContainer;
+		  id: #headerNodeContainer;
 		  layout: self headerNodeContainerLayout;
 		  yourself
 ]

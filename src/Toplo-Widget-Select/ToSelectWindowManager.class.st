@@ -9,12 +9,6 @@ Class {
 	#category : #'Toplo-Widget-Select-Core'
 }
 
-{ #category : #accessing }
-ToSelectWindowManager >> dataFilter: aValuable [
-
-	self element mode dataFilter: aValuable
-]
-
 { #category : #initialization }
 ToSelectWindowManager >> defaultAutoClosePickOutsideEventClass [
 
@@ -137,7 +131,6 @@ ToSelectWindowManager >> onWindowClosed [
 ToSelectWindowManager >> onWindowOpened [
 
 	super onWindowOpened.
-	" if case one of my children has focus "
 	self element strategy onListOpened
 
 

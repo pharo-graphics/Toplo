@@ -1,6 +1,8 @@
 Class {
 	#name : #ToSelect,
 	#superclass : #ToElement,
+	#traits : 'TToElementWithPlaceholder',
+	#classTraits : 'TToElementWithPlaceholder classTrait',
 	#instVars : [
 		'windowManager',
 		'fakeData',
@@ -17,6 +19,12 @@ ToSelect >> addData: aData [
 
 	self data add: aData.
 	self listElement selection selectIndex: data size
+]
+
+{ #category : #'accessing window' }
+ToSelect >> closeWindow [
+
+	^ self windowManager closeWindow
 ]
 
 { #category : #'accessing window' }
@@ -40,7 +48,7 @@ ToSelect >> data: anObservableCollection [
 { #category : #accessing }
 ToSelect >> dataFilter: aValuable [
 
-	self windowManager dataFilter: aValuable
+	self mode dataFilter: aValuable
 ]
 
 { #category : #initialization }
@@ -52,7 +60,7 @@ ToSelect >> defaultFiltrable [
 { #category : #initialization }
 ToSelect >> defaultMultiSelection [
 
-	^ true
+	^ false
 ]
 
 { #category : #'accessing selection' }
@@ -102,6 +110,12 @@ ToSelect >> headerElement [
 ToSelect >> headerNodeBuilder: aValuable [
 
 	self strategy headerNodeBuilder: aValuable
+]
+
+{ #category : #accessing }
+ToSelect >> headerNodeContainer [
+
+	^ self childWithId: #headerNodeContainer
 ]
 
 { #category : #accessing }
@@ -185,7 +199,7 @@ ToSelect >> listElement [
 	^ self windowManager listElement
 ]
 
-{ #category : #'t - infinite accessing' }
+{ #category : #'accessing list' }
 ToSelect >> listNodeBuilder: aValuable [
 
 	self listElement nodeBuilder: aValuable
@@ -216,7 +230,7 @@ ToSelect >> newHeaderElement [
 		  vFitContent;
 		  hMatchParent;
 		  id: #headerElement;
-		  layout: BlLinearLayout horizontal;
+		  layout: BlFrameLayout new;
 		  constraintsDo: [ :c | c linear vertical alignCenter ];
 		  yourself
 ]
@@ -247,16 +261,10 @@ ToSelect >> newWindowManager [
 	^ wm
 ]
 
-{ #category : #accessing }
-ToSelect >> nodeContainer [
-
-	^ self childWithId: #nodeContainer
-]
-
 { #category : #'accessing window' }
 ToSelect >> popupEvent: anEvent [ 
 
-	^ self windowManager popupEvent: anEvent 
+	^ self windowManager popupWindowEvent: anEvent 
 ]
 
 { #category : #'accessing list' }

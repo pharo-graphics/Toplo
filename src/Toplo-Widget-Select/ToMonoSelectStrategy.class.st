@@ -7,7 +7,7 @@ Class {
 { #category : #adding }
 ToMonoSelectStrategy >> addDataNode: aNode [
 
-	select nodeContainer addChild: aNode 
+	select headerNodeContainer addChild: aNode 
 ]
 
 { #category : #initialization }
@@ -60,6 +60,17 @@ ToMonoSelectStrategy >> defaultHeaderNodeClass [
 	^ ToMonoSelectHeaderNode
 ]
 
+{ #category : #private }
+ToMonoSelectStrategy >> filterTextFieldUpdated: anEvent [
+
+	super filterTextFieldUpdated: anEvent.
+	select inputTextField text
+		ifEmpty: [
+		self selectedDataTextField text foreground: Color lightGray ]
+		ifNotEmpty: [
+		self selectedDataTextField visibility: BlVisibility hidden ]
+]
+
 { #category : #'instance creation' }
 ToMonoSelectStrategy >> headerNodeContainerLayout [
 
@@ -73,31 +84,31 @@ ToMonoSelectStrategy >> onInstalledIn: aSelect [
 
 ]
 
-{ #category : #enumerating }
+{ #category : #'accessing list' }
 ToMonoSelectStrategy >> onListClosed [
 
 	super onListOpened.
-	self selectedDataTextField text foreground: Color black.
+	self selectedDataTextField text foreground: Color black
 ]
 
-{ #category : #enumerating }
+{ #category : #'accessing list' }
 ToMonoSelectStrategy >> onListOpened [
 
 	super onListOpened.
-	self selectedDataTextField text foreground: Color lightGray.
+	self selectedDataTextField text foreground: Color lightGray
 ]
 
 { #category : #enumerating }
 ToMonoSelectStrategy >> refreshHeaderNodeContainer [
 
 	| node holder idx selectedData |
-	node := select nodeContainer firstChild.
+	node := select headerNodeContainer firstChild.
 	holder := node selectHolder.
 
 	holder position isZero ifFalse: [ " directly deselection in the selection model works.
 		using the listElement selectionStrategy do not works because of the shared event distributor.
 		Indeed, this method is invoked from the event handler added in ToSelectReadOnlyMode>>onInstalledIn: "
-		self flag: 'used case to fix ToListElement event handling'.
+		self flag: 'use-case to fix ToListElement event handling'.
 		select isFiltrable
 			ifTrue: [ select mode deselectIndex: holder position ]
 			ifFalse: [ select selectionModel deselectIndex: holder position ].
@@ -114,6 +125,8 @@ ToMonoSelectStrategy >> refreshHeaderNodeContainer [
 	holder
 		position: idx;
 		data: selectedData.
+	select closeWindow.
+	self selectedDataTextField visibility: BlVisibility visible.
 	select inputTextField text: ''.
 	selectedData
 		ifNil: [ self selectedDataTextField text: '' ]
@@ -123,5 +136,5 @@ ToMonoSelectStrategy >> refreshHeaderNodeContainer [
 { #category : #accessing }
 ToMonoSelectStrategy >> selectedDataTextField [
 
-	^ select nodeContainer childWithId: #selectedDataTextField 
+	^ select headerNodeContainer childWithId: #selectedDataTextField 
 ]

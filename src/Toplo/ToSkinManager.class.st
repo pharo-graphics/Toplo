@@ -226,6 +226,7 @@ ToSkinManager >> requestInstallSkinIn: anElement [
 	self setSkinInstaller: ToSkinInstaller new in: anElement.
 	skinInstallRequestCount > 1 ifTrue: [ ^ self ].
 	self applySkinInstallerOnFirstRequest ifFalse: [ ^ self ].
+	self skinUninstaller ifNotNil: [ :su | su applyOn: anElement ].
 	self skinInstaller applyOn: anElement
 ]
 

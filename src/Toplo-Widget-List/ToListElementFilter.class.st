@@ -14,7 +14,8 @@ Class {
 		'dataFilter',
 		'filterListElementHandler',
 		'selectionModel',
-		'currentIndexedData'
+		'currentIndexedData',
+		'collectionAfterChangeEventHandler'
 	],
 	#category : #'Toplo-Widget-List-Filter'
 }
@@ -126,7 +127,9 @@ ToListElementFilter >> newProcessIn: anElement [
 { #category : #'api - hooks' }
 ToListElementFilter >> onInstalledIn: aListElement [
 
-	originalData ifNil: [	^ Error signal: 'A filter must have an initialData before it''s installation on a List element' ].
+	originalData ifNil: [
+		^ Error signal:
+			  'A filter must have an initialData before it''s installation on a List element' ].
 	delayBeforeFilter := self defaultDelay.
 
 	filterListElementHandler := ToFilteredListElementEventHandler new
@@ -135,7 +138,7 @@ ToListElementFilter >> onInstalledIn: aListElement [
 		                            yourself.
 	aListElement addEventHandler: filterListElementHandler.
 	process := self newProcessIn: aListElement.
-	aListElement data updateAllWith: originalData.
+	aListElement data updateAllWith: originalData
 ]
 
 { #category : #'api - hooks' }
@@ -143,9 +146,11 @@ ToListElementFilter >> onUninstalledIn: aListElement [
 
 	process terminate.
 	aListElement removeEventHandler: filterListElementHandler.
+	originalData ifNotNil: [
+		originalData removeEventHandler: collectionAfterChangeEventHandler ].
 	originalData := nil.
 	pattern := ''.
-	semaphore := nil.
+	semaphore := nil
 ]
 
 { #category : #accessing }
@@ -160,9 +165,10 @@ ToListElementFilter >> originalData: anObservableCollection [
 	originalData = anObservableCollection ifTrue: [ ^ self ].
 	originalData ifNotNil: [ ^ (BlImmutableObjectChangeError object: self) signal ].
 	originalData := anObservableCollection.
-	originalData addEventHandler: (BlEventHandler
+	collectionAfterChangeEventHandler := BlEventHandler
 			 on: ToCollectionAfterChangeEvent
-			 do: [ self buildOriginalIndexedData ]).
+			 do: [ self buildOriginalIndexedData ].
+	originalData addEventHandler: collectionAfterChangeEventHandler.
 	self buildOriginalIndexedData
 ]
 

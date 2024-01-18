@@ -47,7 +47,6 @@ ToSelectReadOnlyMode >> onUninstalledIn: aSelect [
 
 	select listElement removeEventHandler: listSelectionChangedEventHandler.
 	listSelectionChangedEventHandler := nil.
-	select data: nil.
 	select selectionModel: nil.
 	super onUninstalledIn: aSelect.
 

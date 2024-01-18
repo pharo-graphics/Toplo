@@ -2366,14 +2366,16 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWith_AllMethods [
 
 	| select innerWindow data |
 	select := self selectWithEditingMultiSelection.
+
 	select mode: ToSelectFiltrableMode new.
 	select strategy: ToMultiSelectStrategy new.
+	
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
 	select hMatchParent.
 	data := SystemNavigation default allMethods.
 	data size traceCr.
-	select data updateAllWith: data.
+	select data addAll: data.
 	select listNodeBuilder: [ :aCompiledMethod :aSelectHolder |
 		     aCompiledMethod addChild: (ToLabel new text: aSelectHolder data printString ) ].
 	select headerNodeBuilder: [ :aSelectNode :aNodeHolder |

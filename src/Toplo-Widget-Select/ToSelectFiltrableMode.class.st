@@ -65,6 +65,8 @@ ToSelectFiltrableMode >> newInputTextField [
 	inputTextField := super newInputTextField.
 	inputTextField addEditorShortcut:
 		ToSelectTextFieldBackspaceShortcut new.
+	inputTextField addEditorShortcut:
+		ToSelectTextFieldCarriageReturnShortcut new.
 	inputTextField addEventHandler: (BlEventHandler
 			 on: AlbTextEditedEvent
 			 do: [ :event | self filterTextFieldUpdated: event ]).
@@ -137,8 +139,7 @@ ToSelectFiltrableMode >> onUninstalledIn: aSelect [
 { #category : #'accessing selection' }
 ToSelectFiltrableMode >> selectIndex: anIndex [
 
-	select isMultipleSelection ifTrue: [ select selectionModel deselectAll ].
-	select selectionStrategy selectIndex: anIndex.
+	select listElement selectionStrategy selectIndex: anIndex.
 	select listElement dispatchEvent:
 		(ToFilteredListSelectionModelChangedEvent new
 			 selection: select selectionModel;

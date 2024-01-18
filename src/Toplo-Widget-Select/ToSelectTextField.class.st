@@ -27,7 +27,10 @@ ToSelectTextField >> initialize [
 	self constraintsDo: [ :c |
 		c frame vertical alignCenter.
 		c flow vertical alignCenter.
-		c linear vertical alignCenter ]
+		c linear vertical alignCenter ].
+	self infinite addEventHandler: (BlEventHandler
+			 on: BlMouseDownEvent
+			 do: [ :event | self select windowManager popupWindowEvent: event ])
 ]
 
 { #category : #skin }

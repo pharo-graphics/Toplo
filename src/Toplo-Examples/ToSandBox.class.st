@@ -2260,6 +2260,8 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWithAllClassNames [
 
 	| select innerWindow |
 	select := self selectWithEditingMultiSelection.
+	select filtrable: true.
+	select multiSelection: true.
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
 	select hMatchParent.
@@ -2274,6 +2276,8 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWithStatesOfAmerica [
 
 	| select innerWindow |
 	select := self selectWithEditingMultiSelection.
+	select filtrable: true.
+	select multiSelection: true.
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
 	select hMatchParent.
@@ -2288,6 +2292,8 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWith_175000_Items [
 
 	| select innerWindow data |
 	select := self selectWithEditingMultiSelection.
+	select filtrable: true.
+	select multiSelection: true.
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
 	select hMatchParent.
@@ -2314,6 +2320,8 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWith_AllMethods [
 
 	| select innerWindow data |
 	select := self selectWithEditingMultiSelection.
+	select filtrable: true.
+	select multiSelection: true.
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
 	select hMatchParent.

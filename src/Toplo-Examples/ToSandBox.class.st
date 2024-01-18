@@ -1084,13 +1084,15 @@ ToSandBox class >> example_MonoFiltrable [
 
 	| select innerWindow |
 	select := ToSelect new.
-	select filtrable: true.
-	select multiSelection: false.
+	select data addAll: self statesOfAmerica.
+	
+	select strategy: ToMonoSelectStrategy new.
+	select mode: ToSelectFiltrableMode new.
+
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
 	select width: 300.
 	select position: 50 @ 50.
-	select data addAll: self statesOfAmerica.
 	innerWindow pane addChild: select.
 	innerWindow openInSpace
 ]
@@ -1100,15 +1102,58 @@ ToSandBox class >> example_MonoNotFiltrable [
 
 	| select innerWindow |
 	select := ToSelect new.
-	select multiSelection: false.
-	select filtrable: false.
+	select data addAll: self statesOfAmerica.
+	
+	select strategy: ToMonoSelectStrategy new.
+	select mode: ToSelectReadOnlyMode new.
+
 	select listElement nodeBuilder: [ :node :holder |
 		node addChild: (ToLabel text: holder data asString) hMatchParent ].
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
 	select width: 300.
 	select position: 50 @ 50.
+	innerWindow pane addChild: select.
+	innerWindow openInSpace
+]
+
+{ #category : #select }
+ToSandBox class >> example_MultiFiltrable [
+
+	| select innerWindow |
+	select := ToSelect new.
 	select data addAll: self statesOfAmerica.
+	
+	select mode: ToSelectFiltrableMode new.
+	select strategy: ToMultiSelectStrategy new.
+
+	select listElement nodeBuilder: [ :node :holder |
+		node addChild: (ToLabel text: holder data asString) hMatchParent ].
+	innerWindow := ToInnerWindow new.
+	select windowManager anchorRoot: innerWindow root.
+	select width: 300.
+	select position: 50 @ 50.
+	innerWindow pane addChild: select.
+	innerWindow openInSpace
+]
+
+{ #category : #select }
+ToSandBox class >> example_MultiNotFiltrable [
+
+	| select innerWindow |
+	select := ToSelect new.
+	select data addAll: self statesOfAmerica.
+	
+	select mode: ToSelectReadOnlyMode new.
+	select strategy: ToMultiSelectStrategy new.
+
+	select listElement nodeBuilder: [ :node :holder |
+		node addChild: (ToLabel text: holder data asString) hMatchParent ].
+	innerWindow := ToInnerWindow new.
+	select windowManager anchorRoot: innerWindow root.
+	select width: 300.
+	select position: 50 @ 50.
+	
 	innerWindow pane addChild: select.
 	innerWindow openInSpace
 ]
@@ -2260,8 +2305,9 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWithAllClassNames [
 
 	| select innerWindow |
 	select := self selectWithEditingMultiSelection.
-	select filtrable: true.
-	select multiSelection: true.
+	select mode: ToSelectFiltrableMode new.
+	select strategy: ToMultiSelectStrategy new.
+	
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
 	select hMatchParent.
@@ -2276,8 +2322,8 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWithStatesOfAmerica [
 
 	| select innerWindow |
 	select := self selectWithEditingMultiSelection.
-	select filtrable: true.
-	select multiSelection: true.
+	select mode: ToSelectFiltrableMode new.
+	select strategy: ToMultiSelectStrategy new.
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
 	select hMatchParent.
@@ -2292,8 +2338,8 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWith_175000_Items [
 
 	| select innerWindow data |
 	select := self selectWithEditingMultiSelection.
-	select filtrable: true.
-	select multiSelection: true.
+	select mode: ToSelectFiltrableMode new.
+	select strategy: ToMultiSelectStrategy new.
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
 	select hMatchParent.
@@ -2320,8 +2366,8 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWith_AllMethods [
 
 	| select innerWindow data |
 	select := self selectWithEditingMultiSelection.
-	select filtrable: true.
-	select multiSelection: true.
+	select mode: ToSelectFiltrableMode new.
+	select strategy: ToMultiSelectStrategy new.
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
 	select hMatchParent.

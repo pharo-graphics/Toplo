@@ -58,9 +58,21 @@ ToSelect >> defaultFiltrable [
 ]
 
 { #category : #initialization }
+ToSelect >> defaultMode [
+
+	^ ToSelectFiltrableMode new
+]
+
+{ #category : #initialization }
 ToSelect >> defaultMultiSelection [
 
 	^ false
+]
+
+{ #category : #initialization }
+ToSelect >> defaultStrategy [
+
+	^ ToMonoSelectStrategy new
 ]
 
 { #category : #'accessing selection' }
@@ -152,9 +164,9 @@ ToSelect >> initialize [
 	self addChild: self newIconContainer.
 	
 	" initialize the mode *** before *** the strategy (the strategy need an installed mode) "
-	self filtrable: self defaultFiltrable.
+	self mode: self defaultMode.
 	" initialize the default strategy "
-	self multiSelection: self defaultMultiSelection.
+	self strategy: self defaultStrategy.
 	
 	self layout: BlLinearLayout horizontal.
 	self fitContent.
@@ -206,6 +218,15 @@ ToSelect >> listNodeBuilder: aValuable [
 ToSelect >> mode [
 
 	^ mode
+]
+
+{ #category : #accessing }
+ToSelect >> mode: aToSelectMode [ 
+
+	self mode ifNotNil: [ self mode onUninstalledIn: self ].
+	mode := aToSelectMode.
+	mode onInstalledIn: self.
+	self strategy ifNotNil: [self strategy reInstall ]
 ]
 
 { #category : #accessing }
@@ -326,6 +347,14 @@ ToSelect >> selectionModel: aSelectionModel [
 ToSelect >> strategy [ 
 
 	^ strategy
+]
+
+{ #category : #accessing }
+ToSelect >> strategy: aToSelectStrategy [
+
+	self strategy ifNotNil: [ self strategy onUninstalledIn: self ].
+	strategy := aToSelectStrategy.
+	strategy onInstalledIn: self
 ]
 
 { #category : #accessing }

@@ -86,6 +86,15 @@ ToSelectMode >> onUninstalledIn: aSelect [
 	select := nil
 ]
 
+{ #category : #'api - hooks' }
+ToSelectMode >> reInstall [
+
+	| s |
+	s := select.
+	self onUninstalledIn: s.
+	self onInstalledIn: s
+]
+
 { #category : #'accessing selection' }
 ToSelectMode >> selectIndex: anIndex [
 

@@ -127,7 +127,6 @@ ToSelectFiltrableMode >> onUninstalledIn: aSelect [
 	select listElement removeEventHandler: filtrableListEventHandler.
 	select data removeEventHandler: dataCollectionAfterChangeEventHandler.
 	select selectionModel: nil.
-
 	filtrableListEventHandler := nil.
 	dataCollectionAfterChangeEventHandler := nil.
 	filter := nil.

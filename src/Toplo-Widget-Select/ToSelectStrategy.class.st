@@ -170,6 +170,7 @@ ToSelectStrategy >> onInstalledIn: aSelect [
 	select headerElement addChild: nodeContainer.
 	self buildHeaderNodeContainer: nodeContainer.
 	self initializeFakeNode.
+	self refreshHeaderNodeContainer 
 ]
 
 { #category : #'accessing list' }
@@ -190,6 +191,15 @@ ToSelectStrategy >> onUninstalledIn: aSelect [
 
 	select headerElement removeChild: select headerNodeContainer.
 	select := nil
+]
+
+{ #category : #'api - hooks' }
+ToSelectStrategy >> reInstall [
+
+	| s |
+	s := select.
+	self onUninstalledIn: s.
+	self onInstalledIn: s
 ]
 
 { #category : #enumerating }

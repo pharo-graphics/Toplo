@@ -108,7 +108,7 @@ ToSelectStrategy >> initializeFakeNode [
 	fakeNode id: #fakeNode.
 	fakeHolder := self newHeaderNodeHolder.
 	fakeNode selectHolder: fakeHolder.
-	fakeNode onInstalledIn: select headerNodeContainer.
+	fakeNode onInstalledIn: select.
 	fakeHolder
 		node: fakeNode;
 		data: select fakeData.

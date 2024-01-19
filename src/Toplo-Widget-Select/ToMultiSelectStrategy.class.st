@@ -17,17 +17,17 @@ ToMultiSelectStrategy >> addAllDataNodes: aNodeCollection [
 { #category : #'accessing nodes' }
 ToMultiSelectStrategy >> addDataNode: aNode [
 
-	select headerNodeContainer addChild: aNode before: select inputTextField
+	select headerNodeContainer addChild: aNode before: select textInput
 ]
 
 { #category : #initialization }
-ToMultiSelectStrategy >> buildHeaderNodeContainer: anElement [
+ToMultiSelectStrategy >> buildHeaderNodeContainer: aSelectHeaderNodeContainer [
 
-	anElement
+	aSelectHeaderNodeContainer
 		vFitContent;
 		hMatchParent;
 		constraintsDo: [ :c | c linear vertical alignCenter ].
-	select mode configureMultiSelectNodeContainer: anElement
+	select mode configureMultiSelectNodeContainer: aSelectHeaderNodeContainer
 
 ]
 

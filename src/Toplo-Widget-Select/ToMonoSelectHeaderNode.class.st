@@ -3,7 +3,8 @@ Class {
 	#superclass : #ToSelectHeaderNode,
 	#instVars : [
 		'selectedDataTextField',
-		'inputTextField'
+		'inputTextField',
+		'textInput'
 	],
 	#category : #'Toplo-Widget-Select-Node'
 }
@@ -20,34 +21,23 @@ ToMonoSelectHeaderNode >> initialize [
 { #category : #accessing }
 ToMonoSelectHeaderNode >> inputTextField [ 
 
-	^ inputTextField
+	^ textInput inputTextField
 ]
 
 { #category : #'api - hooks' }
-ToMonoSelectHeaderNode >> onInstalledIn: aSelectHeaderNodeContainer [
+ToMonoSelectHeaderNode >> onInstalledIn: aSelect [
 
-	|  select |
 	
-	super onInstalledIn: aSelectHeaderNodeContainer.
-	select := self selectHolder select.
+	super onInstalledIn: aSelect.
 	self beUnremovable.
 	self hMatchParent.
-	selectedDataTextField := select mode newTextField.
-	selectedDataTextField text: select placeholderText.
-	selectedDataTextField beReadonlyWithSelection.
-	selectedDataTextField withLineWrapping.
-	selectedDataTextField hMatchParent.
-	inputTextField := select mode newInputTextField.
-	inputTextField withLineWrapping.
-	inputTextField hMatchParent.
-	" the id is set here to avoid that a fake node with a text field with the same id "
-	selectedDataTextField id: #selectedDataTextField.
-	self middleContainer addChild: selectedDataTextField.
-	self middleContainer addChild: inputTextField
+	textInput := ToSelectTextInput new.
+	textInput onInstalledIn: aSelect.
+	self middleContainer addChild: textInput
 ]
 
 { #category : #accessing }
 ToMonoSelectHeaderNode >> selectedDataTextField [ 
 
-	^ selectedDataTextField
+	^ textInput selectedDataTextField
 ]

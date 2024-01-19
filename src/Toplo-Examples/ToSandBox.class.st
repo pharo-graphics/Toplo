@@ -1085,11 +1085,11 @@ ToSandBox class >> example_MonoFiltrable [
 	| select innerWindow |
 	select := ToSelect new.
 	select data addAll: self statesOfAmerica.
-	
+	select inspect.
 	select strategy: ToMonoSelectStrategy new.
 	select mode: ToSelectFiltrableMode new.
 
-	select placeholderText: ('Select a state' asRopedText foreground: Color veryLightGray).
+	select placeholderText: ('Select a state' asRopedText foreground: Color red).
 
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
@@ -1125,7 +1125,7 @@ ToSandBox class >> example_MultiFiltrable [
 	| select innerWindow |
 	select := ToSelect new.
 	select data addAll: self statesOfAmerica.
-	
+	select inspect.
 	select mode: ToSelectFiltrableMode new.
 	select strategy: ToMultiSelectStrategy new.
 	select placeholderText: 'Select a state'.

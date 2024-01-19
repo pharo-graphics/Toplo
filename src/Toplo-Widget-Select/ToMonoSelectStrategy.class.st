@@ -8,7 +8,7 @@ Class {
 ToMonoSelectStrategy >> addDataNode: aNode [
 
 	select headerNodeContainer addChild: aNode.
-	aNode onInstalledIn: select headerNodeContainer
+	aNode onInstalledIn: select
 ]
 
 { #category : #initialization }
@@ -19,7 +19,6 @@ ToMonoSelectStrategy >> buildHeaderNodeContainer: anElement [
 		vFitContent;
 		hMatchParent;
 		constraintsDo: [ :c | c linear vertical alignCenter ].
-	select mode configureMonoSelectNodeContainer: anElement.
 	node := self newHeaderNode.
 	holder := self newHeaderNodeHolder.
 	node selectHolder: holder.

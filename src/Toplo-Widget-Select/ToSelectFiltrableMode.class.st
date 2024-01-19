@@ -10,9 +10,9 @@ Class {
 }
 
 { #category : #initialization }
-ToSelectFiltrableMode >> configureMultiSelectNodeContainer: anElement [
+ToSelectFiltrableMode >> configureMultiSelectNodeContainer: aSelectHeaderNodeContainer [
 
-	super configureMultiSelectNodeContainer: anElement.
+	super configureMultiSelectNodeContainer: aSelectHeaderNodeContainer.
 	select inputTextField requestFocus
 ]
 

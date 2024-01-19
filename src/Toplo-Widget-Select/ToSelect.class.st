@@ -378,6 +378,12 @@ ToSelect >> strategy: aToSelectStrategy [
 ]
 
 { #category : #accessing }
+ToSelect >> textInput [
+
+	^ self childWithId: #textInput ifNone: [  ]
+]
+
+{ #category : #accessing }
 ToSelect >> windowManager [
 
 	^ windowManager 

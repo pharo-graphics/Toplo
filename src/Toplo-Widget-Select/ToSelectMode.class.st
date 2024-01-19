@@ -8,19 +8,15 @@ Class {
 }
 
 { #category : #initialization }
-ToSelectMode >> configureMonoSelectNodeContainer: anElement [
-
-
-]
-
-{ #category : #initialization }
 ToSelectMode >> configureMultiSelectNodeContainer: anElement [
 
-	| inputTextField |
+	| textInput |
 	" The textField is added whatever the mode to simplify node adding.
 	In case of read-only mode, the textfield is set as read-only by the mode "
-	inputTextField := self newInputTextField.
-	anElement addChild: inputTextField.
+	textInput := ToSelectTextInput new.
+	textInput onInstalledIn: select.
+	textInput hFitContent.
+	anElement addChild: textInput.
 
 ]
 

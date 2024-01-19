@@ -104,7 +104,7 @@ ToSelectHeaderNode >> middleContainer [
 ]
 
 { #category : #'api - hooks' }
-ToSelectHeaderNode >> onInstalledIn: aSelectHeaderNodeContainer [
+ToSelectHeaderNode >> onInstalledIn: aSelect [
 
 	" to avoid unwanted window closing (because of the flow 
 	layout that can enlarge the select height when a node is added)"

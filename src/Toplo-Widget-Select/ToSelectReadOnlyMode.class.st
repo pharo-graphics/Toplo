@@ -8,9 +8,9 @@ Class {
 }
 
 { #category : #initialization }
-ToSelectReadOnlyMode >> configureMultiSelectNodeContainer: anElement [
+ToSelectReadOnlyMode >> configureMultiSelectNodeContainer: aSelectHeaderNodeContainer [
 
-	super configureMultiSelectNodeContainer: anElement.
+	super configureMultiSelectNodeContainer: aSelectHeaderNodeContainer.
 	select inputTextField beReadonlyWithoutSelection
 ]
 

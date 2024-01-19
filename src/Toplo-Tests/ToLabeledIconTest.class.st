@@ -450,10 +450,16 @@ ToLabeledIconTest >> testLabelText [
 	li forceLayout.
 	self assert: li label text asString equals: 'A'.
 	self assert: li size equals: li labelContainer size.
+	self assert: li labelText equals: 'A'.
 	li labelText: 'X'.
 	li forceLayout.
 	self assert: li label text asString equals: 'X'.
 	self assert: li size equals: li labelContainer size.
+	self assert: li labelText equals: 'X'.
+	li labelText: nil.
+	li forceLayout.
+	self deny: li hasLabel.
+	self assert: li size equals: 0 asPoint.
 	^ li
 ]
 

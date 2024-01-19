@@ -264,9 +264,19 @@ ToLabeledIcon >> labelFirst: aBoolean [
 ]
 
 { #category : #accessing }
+ToLabeledIcon >> labelText [
+
+	self hasLabel ifFalse: [ ^ nil ].
+	^ self label text asString
+]
+
+{ #category : #accessing }
 ToLabeledIcon >> labelText: aText [
 
-	self label: (ToLabel text: aText asRopedText)
+	aText ifNil: [
+		self label: nil.
+		^ self ].
+	self label: (ToLabel text: aText asRopedText).
 ]
 
 { #category : #'t - orientable - accessing' }

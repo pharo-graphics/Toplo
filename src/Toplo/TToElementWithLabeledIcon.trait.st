@@ -221,6 +221,7 @@ TToElementWithLabeledIcon >> labelText [
 { #category : #'t - element with labeled icon - accessing' }
 TToElementWithLabeledIcon >> labelText: aText [
 
+	aText ifNil: [ self label: nil ].
 	self label: (ToLabel text: aText asRopedText)
 ]
 

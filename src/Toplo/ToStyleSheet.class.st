@@ -8,7 +8,7 @@ Class {
 		'inherits',
 		'writablePropertyIndex'
 	],
-	#category : 'Toplo-Core-StyleSheet'
+	#category : #'Toplo-Core-StyleSheet'
 }
 
 { #category : #'class initialization' }
@@ -144,7 +144,7 @@ ToStyleSheet >> onInstalledIn: anElement [
 ]
 
 { #category : #initialization }
-ToStyleSheet >> onUnInstalledIn: anElement [
+ToStyleSheet >> onUninstalledIn: anElement [
 
 	anElement requestUninstallSkinRecursively
 

@@ -33,6 +33,7 @@ ToMonoSelectHeaderNode >> onInstalledIn: aSelectHeaderNodeContainer [
 	self beUnremovable.
 	self hMatchParent.
 	selectedDataTextField := select mode newTextField.
+	selectedDataTextField text: select placeholderText.
 	selectedDataTextField beReadonlyWithSelection.
 	selectedDataTextField withLineWrapping.
 	selectedDataTextField hMatchParent.

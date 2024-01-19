@@ -78,6 +78,14 @@ ToMonoSelectStrategy >> onListOpened [
 	self selectedDataTextField text foreground: Color lightGray
 ]
 
+{ #category : #private }
+ToMonoSelectStrategy >> onSelectPlaceholderTextChanged [
+
+	(self selectedDataTextField notNil and: [
+		 select selectedData isEmpty ]) ifTrue: [
+		self selectedDataTextField text: select placeholderText ]
+]
+
 { #category : #enumerating }
 ToMonoSelectStrategy >> refreshHeaderNodeContainer [
 
@@ -109,7 +117,7 @@ ToMonoSelectStrategy >> refreshHeaderNodeContainer [
 	self selectedDataTextField visibility: BlVisibility visible.
 	select inputTextField text: ''.
 	selectedData
-		ifNil: [ self selectedDataTextField text: '' ]
+		ifNil: [ self selectedDataTextField text: select placeholderText ]
 		ifNotNil: [ self selectedDataTextField text: selectedData asString ]
 ]
 

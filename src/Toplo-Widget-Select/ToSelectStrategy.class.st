@@ -185,6 +185,12 @@ ToSelectStrategy >> onListOpened [
 	select mode onListOpened
 ]
 
+{ #category : #private }
+ToSelectStrategy >> onSelectPlaceholderTextChanged [
+
+	self subclassResponsibility 
+]
+
 { #category : #'api - hooks' }
 ToSelectStrategy >> onUninstalledIn: aSelect [
 

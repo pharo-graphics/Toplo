@@ -1089,6 +1089,8 @@ ToSandBox class >> example_MonoFiltrable [
 	select strategy: ToMonoSelectStrategy new.
 	select mode: ToSelectFiltrableMode new.
 
+	select placeholderText: ('Select a state' asRopedText foreground: Color veryLightGray).
+
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
 	select width: 300.
@@ -1126,7 +1128,7 @@ ToSandBox class >> example_MultiFiltrable [
 	
 	select mode: ToSelectFiltrableMode new.
 	select strategy: ToMultiSelectStrategy new.
-
+	select placeholderText: 'Select a state'.
 	select listElement nodeBuilder: [ :node :holder |
 		node addChild: (ToLabel text: holder data asString) hMatchParent ].
 	innerWindow := ToInnerWindow new.

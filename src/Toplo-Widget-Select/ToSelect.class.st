@@ -1,15 +1,14 @@
 Class {
 	#name : #ToSelect,
 	#superclass : #ToElement,
-	#traits : 'TToElementWithPlaceholder',
-	#classTraits : 'TToElementWithPlaceholder classTrait',
 	#instVars : [
 		'windowManager',
 		'fakeData',
 		'data',
 		'selectionModel',
 		'strategy',
-		'mode'
+		'mode',
+		'placeholderText'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -277,6 +276,21 @@ ToSelect >> newWindowManager [
 	^ wm
 ]
 
+{ #category : #'t - element with placeholder' }
+ToSelect >> placeholderText [
+	"The text to be shown when no data is selected "
+
+	^ placeholderText ifNil: [ placeholderText := '' asRopedText ]
+]
+
+{ #category : #'t - element with placeholder' }
+ToSelect >> placeholderText: aText [
+	"The text to be shown when no data is selected "
+
+	placeholderText := aText.
+	self strategy onSelectPlaceholderTextChanged
+]
+
 { #category : #'accessing window' }
 ToSelect >> popupEvent: anEvent [ 
 
@@ -323,6 +337,12 @@ ToSelect >> popupSizeHook: aValuable [
 ToSelect >> selectIndex: anIndex [
 
 	self mode selectIndex: anIndex
+]
+
+{ #category : #'accessing selection' }
+ToSelect >> selectedData [
+
+	^ self selectedIndexes collect: [ :idx | self data at: idx ]
 ]
 
 { #category : #'accessing selection' }

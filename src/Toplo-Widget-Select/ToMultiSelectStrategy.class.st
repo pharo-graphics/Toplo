@@ -114,13 +114,30 @@ ToMultiSelectStrategy >> onNodeWrappingChange [
 	select headerNodeContainer layout: self headerNodeContainerLayout
 ]
 
+{ #category : #private }
+ToMultiSelectStrategy >> onSelectPlaceholderTextChanged [
+
+	
+]
+
+{ #category : #'api - hooks' }
+ToMultiSelectStrategy >> onUninstalledIn: aSelect [
+
+	self headerDataNodesDo: [ :node |
+		node onUninstalledIn: select.
+		node removeFromParent ].
+	self headerNodeHolders reset.
+	super onUninstalledIn: select
+]
+
 { #category : #enumerating }
 ToMultiSelectStrategy >> refreshHeaderNodeContainer [
 
 	| nodes |
-
 	" first remove all data nodes "
-	self headerDataNodesDo: [ :node | node removeFromParent ].
+	self headerDataNodesDo: [ :node |
+		node onUninstalledIn: select.
+		node removeFromParent ].
 	self headerNodeHolders reset.
 	" then rebuild current nodes according to current selection "
 	nodes := select selectionModel indices collect: [ :idx |

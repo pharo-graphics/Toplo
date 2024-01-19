@@ -283,7 +283,7 @@ ToSkinManager >> setSkinUninstaller: aSkinUninstaller in: anElement [
 { #category : #'accessing - stylesheet' }
 ToSkinManager >> setStyleSheet: aStyleSheet in: anElement [
 
-	self styleSheet ifNotNil: [ :prev | prev onUnInstalledIn: anElement ].
+	self styleSheet ifNotNil: [ :prev | prev onUninstalledIn: anElement ].
 	styleSheet := aStyleSheet.
 	self styleSheet ifNotNil: [ :curr | curr onInstalledIn: anElement ]
 ]

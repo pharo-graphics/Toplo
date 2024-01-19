@@ -6,7 +6,8 @@ Class {
 		'startContainer',
 		'middleContainer',
 		'endContainer',
-		'removable'
+		'removable',
+		'mouseUpHandler'
 	],
 	#category : #'Toplo-Widget-Select-Node'
 }
@@ -65,12 +66,6 @@ ToSelectHeaderNode >> initialize [
 
 	self layout: BlLinearLayout horizontal.
 
-	" to avoid unwanted window closing (because of the flow 
-	layout that can enlarge the select height when a node is added)"
-	self addEventHandler: (BlEventHandler
-			 on: BlMouseUpEvent
-			 do: [ :event | event consumed: true ]).
-
 	startContainer := ToElement new
 		                  fitContent;
 		                  layout: BlLinearLayout horizontal;
@@ -111,11 +106,19 @@ ToSelectHeaderNode >> middleContainer [
 { #category : #'api - hooks' }
 ToSelectHeaderNode >> onInstalledIn: aSelectHeaderNodeContainer [
 
-
+	" to avoid unwanted window closing (because of the flow 
+	layout that can enlarge the select height when a node is added)"
+	mouseUpHandler := BlEventHandler
+			 on: BlMouseUpEvent
+			 do: [ :event | event consumed: true ].
+	self addEventHandler: mouseUpHandler
 ]
 
 { #category : #'api - hooks' }
 ToSelectHeaderNode >> onUninstalledIn: aSelectHeaderNodeContainer [
+
+	self removeEventHandler: mouseUpHandler.
+	mouseUpHandler := nil
 
 
 ]

@@ -2543,6 +2543,18 @@ ToSandBox class >> example_textFieldOnlyDigits [
 ]
 
 { #category : #'text field' }
+ToSandBox class >> example_textFieldWithCRAction [
+
+	| t  |
+	t := ToTextField new tooltipString: 'Return to do the action'; withoutLineBreak.
+	t addEditorShortcut: (BlShortcutWithAction new
+			 combination: BlKeyCombination return;
+			 action: [ :event | self inform: event currentTarget text asString ]
+			 yourself).
+	t openInInnerWindow 
+]
+
+{ #category : #'text field' }
 ToSandBox class >> example_textFieldWithLineWrapping [
 
 	| t |

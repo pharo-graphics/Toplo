@@ -569,6 +569,47 @@ ToSandBox class >> example_FilterOnListWith_AllMethods [
 	pane openInSpace
 ]
 
+{ #category : #list }
+ToSandBox class >> example_FilterOnListWith_AllMethodsOnCr [
+
+	| listElement pane filterField data filter |
+	pane := ToPane new
+		        beVertical;
+		        matchParent.
+	filterField := ToTextField new withoutLineBreak.
+	listElement := ToListElement new.
+	data := SystemNavigation default allMethods.
+	filter := ToListElementFilter new
+		          originalData: listElement data newMirror;
+		          yourself.
+	filter onInstalledIn: listElement.
+	listElement data addAll: data.
+	listElement nodeBuilder: [ :node :holder |
+		node addChild: (ToLabel new text: holder data printString) ].
+	filter dataFilter: [ :aCompiledMethod :aPattern |
+		aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
+	filterField addEditorShortcut: (BlShortcutWithAction new
+			 combination: BlKeyCombination return;
+			 action: [ :event |
+				 | pattern |
+				 pattern := event currentTarget text asString.
+				 self inform: pattern.
+				 listElement dispatchEvent:
+						 (ToListFilterRequest new pattern: pattern) ] yourself).
+	listElement placeholderBuilder: [ :ph :e |
+		| lab |
+		lab := ToAttributedLabel new text: ('No Data' asRopedText
+				        foreground: Color lightGray;
+				        fontSize: 24;
+				        yourself).
+		lab matchParent.
+		ph addChild: lab ].
+	"handler inspect."
+	pane addChild: listElement.
+	pane addChild: filterField.
+	pane openInSpace
+]
+
 { #category : #'general button' }
 ToSandBox class >> example_GeneralButtonWithIconAndLabel [
 

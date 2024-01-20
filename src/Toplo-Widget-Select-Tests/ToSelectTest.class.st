@@ -27,9 +27,9 @@ ToSelectTest >> testMonoFiltrable [
 	| select |
 	select := ToSelect new.
 	select mode: ToSelectFiltrableMode new.
-	select strategy: ToMonoSelectStrategy new.
+	select strategy: ToSingleSelectStrategy new.
 	self assert: select isFiltrable.
-	self deny: select isMultiSelection
+	self deny: select isMultipleSelection
 ]
 
 { #category : #tests }
@@ -38,9 +38,9 @@ ToSelectTest >> testMonoNotFiltrable [
 	| select |
 	select := ToSelect new.
 	select mode: ToSelectReadOnlyMode new.
-	select strategy: ToMonoSelectStrategy new.
+	select strategy: ToSingleSelectStrategy new.
 	self deny: select isFiltrable.
-	self deny: select isMultiSelection
+	self deny: select isMultipleSelection
 ]
 
 { #category : #tests }
@@ -49,9 +49,9 @@ ToSelectTest >> testMultiFiltrable [
 	| select |
 	select := ToSelect new.
 	select mode: ToSelectFiltrableMode new.
-	select strategy: ToMultiSelectStrategy new.
+	select strategy: ToMultipleSelectStrategy new.
 	self assert: select isFiltrable.
-	self assert: select isMultiSelection
+	self assert: select isMultipleSelection
 ]
 
 { #category : #tests }
@@ -60,7 +60,7 @@ ToSelectTest >> testMultiNotFiltrable [
 	| select |
 	select := ToSelect new.
 	select mode: ToSelectReadOnlyMode new.
-	select strategy: ToMultiSelectStrategy new.
+	select strategy: ToMultipleSelectStrategy new.
 	self deny: select isFiltrable.
-	self assert: select isMultiSelection
+	self assert: select isMultipleSelection
 ]

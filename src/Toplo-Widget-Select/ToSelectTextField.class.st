@@ -11,6 +11,7 @@ Class {
 ToSelectTextField >> headerNodeBefore [
 
 	| holders |
+	" the strategy must be a multiple one "
 	holders := self select strategy headerNodeHolders.
 	holders size > 0 ifTrue: [
 		^ holders last node ].

@@ -1,38 +1,44 @@
 Class {
-	#name : #ToMultiSelectStrategy,
+	#name : #ToMultipleSelectStrategy,
 	#superclass : #ToSelectStrategy,
 	#instVars : [
 		'nodeWrapping',
-		'maxCount'
+		'maxCount',
+		'headerNodeHolders',
+		'textInputElement'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
 
 { #category : #'accessing nodes' }
-ToMultiSelectStrategy >> addAllDataNodes: aNodeCollection [
+ToMultipleSelectStrategy >> addAllDataNodes: aNodeCollection [
 
 	aNodeCollection do: [ :n | self addDataNode: n ]
 ]
 
 { #category : #'accessing nodes' }
-ToMultiSelectStrategy >> addDataNode: aNode [
+ToMultipleSelectStrategy >> addDataNode: aNode [
 
-	select headerNodeContainer addChild: aNode before: select textInput
+	select headerNodeContainer addChild: aNode before: self textInputElement
 ]
 
 { #category : #initialization }
-ToMultiSelectStrategy >> buildHeaderNodeContainer: aSelectHeaderNodeContainer [
+ToMultipleSelectStrategy >> buildHeaderNodeContainer: aSelectHeaderNodeContainer [
 
 	aSelectHeaderNodeContainer
 		vFitContent;
 		hMatchParent;
 		constraintsDo: [ :c | c linear vertical alignCenter ].
-	select mode configureMultiSelectNodeContainer: aSelectHeaderNodeContainer
-
+	" The textField is added whatever the mode to simplify node adding.
+	In case of read-only mode, the textfield is set as read-only by the mode "
+	textInputElement := ToSelectTextInputElement new.
+	textInputElement onInstalledIn: select.
+	textInputElement hFitContent.
+	aSelectHeaderNodeContainer addChild: textInputElement
 ]
 
 { #category : #initialization }
-ToMultiSelectStrategy >> defaultHeaderNodeBuilder [
+ToMultipleSelectStrategy >> defaultHeaderNodeBuilder [
 
 	^ [ :aSelectNode :aNodeHolder |
 	  aSelectNode beRemovable.
@@ -41,35 +47,42 @@ ToMultiSelectStrategy >> defaultHeaderNodeBuilder [
 ]
 
 { #category : #initialization }
-ToMultiSelectStrategy >> defaultHeaderNodeClass [ 
+ToMultipleSelectStrategy >> defaultHeaderNodeClass [ 
 
-	^ ToMultiSelectHeaderNode
+	^ ToMultipleSelectHeaderNode
 ]
 
 { #category : #initialization }
-ToMultiSelectStrategy >> defaultNodeWrapping [
+ToMultipleSelectStrategy >> defaultNodeWrapping [
 
 	^ true
 ]
 
 { #category : #'accessing nodes' }
-ToMultiSelectStrategy >> headerDataNodesDo: aBlock [
+ToMultipleSelectStrategy >> headerDataNodesDo: aBlock [
 
 	self headerNodeHolders do: [ :holder |	aBlock value: holder node ].
 ]
 
 { #category : #private }
-ToMultiSelectStrategy >> headerNodeContainerLayout [
+ToMultipleSelectStrategy >> headerNodeContainerLayout [
 
 	^ nodeWrapping
 		ifTrue: [ BlFlowLayout horizontal ]
 		ifFalse: [ BlLinearLayout horizontal ]
 ]
 
+{ #category : #'accessing nodes' }
+ToMultipleSelectStrategy >> headerNodeHolders [
+
+	^ headerNodeHolders
+]
+
 { #category : #initialization }
-ToMultiSelectStrategy >> initialize [
+ToMultipleSelectStrategy >> initialize [
 
 	super initialize.
+	headerNodeHolders := OrderedCollection new.
 	maxCount := SmallInteger maxVal.
 	nodeWrapping := self defaultNodeWrapping.
 
@@ -77,31 +90,31 @@ ToMultiSelectStrategy >> initialize [
 ]
 
 { #category : #testing }
-ToMultiSelectStrategy >> isMultiSelection [
+ToMultipleSelectStrategy >> isMultipleSelection [
 
 	^ true
 ]
 
 { #category : #accessing }
-ToMultiSelectStrategy >> maxCount [
+ToMultipleSelectStrategy >> maxCount [
 
 	^ maxCount
 ]
 
 { #category : #accessing }
-ToMultiSelectStrategy >> maxCount: aNumber [
+ToMultipleSelectStrategy >> maxCount: aNumber [
 
 	maxCount := aNumber
 ]
 
 { #category : #accessing }
-ToMultiSelectStrategy >> nodeWrapping [
+ToMultipleSelectStrategy >> nodeWrapping [
 
 	^ nodeWrapping 
 ]
 
 { #category : #accessing }
-ToMultiSelectStrategy >> nodeWrapping: aBoolean [
+ToMultipleSelectStrategy >> nodeWrapping: aBoolean [
 
 	nodeWrapping = aBoolean ifTrue: [ ^ self ].
 	nodeWrapping := aBoolean.
@@ -109,29 +122,24 @@ ToMultiSelectStrategy >> nodeWrapping: aBoolean [
 ]
 
 { #category : #private }
-ToMultiSelectStrategy >> onNodeWrappingChange [
+ToMultipleSelectStrategy >> onNodeWrappingChange [
 
 	select headerNodeContainer layout: self headerNodeContainerLayout
 ]
 
-{ #category : #private }
-ToMultiSelectStrategy >> onSelectPlaceholderTextChanged [
-
-	
-]
-
 { #category : #'api - hooks' }
-ToMultiSelectStrategy >> onUninstalledIn: aSelect [
+ToMultipleSelectStrategy >> onUninstalledIn: aSelect [
 
 	self headerDataNodesDo: [ :node |
 		node onUninstalledIn: select.
 		node removeFromParent ].
 	self headerNodeHolders reset.
+	textInputElement := nil.
 	super onUninstalledIn: select
 ]
 
-{ #category : #enumerating }
-ToMultiSelectStrategy >> refreshHeaderNodeContainer [
+{ #category : #private }
+ToMultipleSelectStrategy >> refreshHeaderNodeContainer [
 
 	| nodes |
 	" first remove all data nodes "
@@ -141,18 +149,21 @@ ToMultiSelectStrategy >> refreshHeaderNodeContainer [
 	self headerNodeHolders reset.
 	" then rebuild current nodes according to current selection "
 	nodes := select selectionModel indices collect: [ :idx |
-		         | node holder selectedData |
+		         | node selectedData |
 		         node := self newHeaderNode.
-		         holder := self newHeaderNodeHolder.
-		         node selectHolder: holder.
-		         self headerNodeHolders add: holder.
+		         self headerNodeHolders add: node selectHolder.
 		         selectedData := select data at: idx.
-		         holder
-			         node: node;
+		         node selectHolder
 			         position: idx;
-			         select: select;
 			         data: selectedData.
-		         self headerNodeBuilder value: node value: holder.
+		         self headerNodeBuilder value: node value: node selectHolder.
 		         node ].
-	self addAllDataNodes: nodes
+	self addAllDataNodes: nodes.
+	self textInputElement onMultipleSelectDataNodeListChanged
+]
+
+{ #category : #accessing }
+ToMultipleSelectStrategy >> textInputElement [
+
+	^ textInputElement 
 ]

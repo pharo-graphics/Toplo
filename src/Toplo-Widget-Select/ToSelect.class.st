@@ -13,13 +13,6 @@ Class {
 	#category : #'Toplo-Widget-Select-Core'
 }
 
-{ #category : #'accessing list' }
-ToSelect >> addData: aData [
-
-	self data add: aData.
-	self listElement selection selectIndex: data size
-]
-
 { #category : #'accessing window' }
 ToSelect >> closeWindow [
 
@@ -51,27 +44,15 @@ ToSelect >> dataFilter: aValuable [
 ]
 
 { #category : #initialization }
-ToSelect >> defaultFiltrable [
-
-	^ false
-]
-
-{ #category : #initialization }
 ToSelect >> defaultMode [
 
 	^ ToSelectFiltrableMode new
 ]
 
 { #category : #initialization }
-ToSelect >> defaultMultiSelection [
-
-	^ false
-]
-
-{ #category : #initialization }
 ToSelect >> defaultStrategy [
 
-	^ ToMonoSelectStrategy new
+	^ ToSingleSelectStrategy new
 ]
 
 { #category : #'accessing selection' }
@@ -183,12 +164,6 @@ ToSelect >> initialize [
 
 ]
 
-{ #category : #accessing }
-ToSelect >> inputTextField [
-
-	^ self childWithId: #inputTextField ifNone: [  ]
-]
-
 { #category : #testing }
 ToSelect >> isFiltrable [
 
@@ -196,9 +171,15 @@ ToSelect >> isFiltrable [
 ]
 
 { #category : #testing }
-ToSelect >> isMultiSelection [ 
+ToSelect >> isMultipleSelection [ 
 
-	^ self strategy isMultiSelection 
+	^ self strategy isMultipleSelection 
+]
+
+{ #category : #testing }
+ToSelect >> isSingleSelection [ 
+
+	^ self isMultipleSelection not
 ]
 
 { #category : #accessing }
@@ -233,8 +214,8 @@ ToSelect >> multiSelection: aBoolean [
 
 	strategy ifNotNil: [ self strategy onUninstalledIn: self ].
 	strategy := aBoolean
-		        ifTrue: [ ToMultiSelectStrategy new ]
-		        ifFalse: [ ToMonoSelectStrategy new ].
+		        ifTrue: [ ToMultipleSelectStrategy new ]
+		        ifFalse: [ ToSingleSelectStrategy new ].
 	strategy onInstalledIn: self
 ]
 
@@ -288,13 +269,7 @@ ToSelect >> placeholderText: aText [
 	"The text to be shown when no data is selected "
 
 	placeholderText := aText.
-	self strategy onSelectPlaceholderTextChanged
-]
-
-{ #category : #'accessing window' }
-ToSelect >> popupEvent: anEvent [ 
-
-	^ self windowManager popupWindowEvent: anEvent 
+	self strategy textInputElement onSelectPlaceholderTextChanged
 ]
 
 { #category : #'accessing list' }
@@ -331,6 +306,12 @@ ToSelect >> popupPositionHook: aValuable [
 ToSelect >> popupSizeHook: aValuable [
 
 	self windowManager sizeHook: aValuable
+]
+
+{ #category : #'accessing window' }
+ToSelect >> popupWindowEvent: anEvent [ 
+
+	^ self windowManager popupWindowEvent: anEvent 
 ]
 
 { #category : #'accessing selection' }
@@ -375,12 +356,6 @@ ToSelect >> strategy: aToSelectStrategy [
 	self strategy ifNotNil: [ self strategy onUninstalledIn: self ].
 	strategy := aToSelectStrategy.
 	strategy onInstalledIn: self
-]
-
-{ #category : #accessing }
-ToSelect >> textInput [
-
-	^ self childWithId: #textInput ifNone: [  ]
 ]
 
 { #category : #accessing }

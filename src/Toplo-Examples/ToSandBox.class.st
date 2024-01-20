@@ -1085,8 +1085,8 @@ ToSandBox class >> example_MonoFiltrable [
 	| select innerWindow |
 	select := ToSelect new.
 	select data addAll: self statesOfAmerica.
-	select inspect.
-	select strategy: ToMonoSelectStrategy new.
+
+	select strategy: ToSingleSelectStrategy new.
 	select mode: ToSelectFiltrableMode new.
 
 	select placeholderText: ('Select a state' asRopedText foreground: Color red).
@@ -1106,7 +1106,7 @@ ToSandBox class >> example_MonoNotFiltrable [
 	select := ToSelect new.
 	select data addAll: self statesOfAmerica.
 	
-	select strategy: ToMonoSelectStrategy new.
+	select strategy: ToSingleSelectStrategy new.
 	select mode: ToSelectReadOnlyMode new.
 
 	select listElement nodeBuilder: [ :node :holder |
@@ -1125,10 +1125,9 @@ ToSandBox class >> example_MultiFiltrable [
 	| select innerWindow |
 	select := ToSelect new.
 	select data addAll: self statesOfAmerica.
-	select inspect.
 	select mode: ToSelectFiltrableMode new.
-	select strategy: ToMultiSelectStrategy new.
-	select placeholderText: 'Select a state'.
+	select strategy: ToMultipleSelectStrategy new.
+	select placeholderText: ('Select states' asRopedText foreground: Color red).
 	select listElement nodeBuilder: [ :node :holder |
 		node addChild: (ToLabel text: holder data asString) hMatchParent ].
 	innerWindow := ToInnerWindow new.
@@ -1147,7 +1146,7 @@ ToSandBox class >> example_MultiNotFiltrable [
 	select data addAll: self statesOfAmerica.
 	
 	select mode: ToSelectReadOnlyMode new.
-	select strategy: ToMultiSelectStrategy new.
+	select strategy: ToMultipleSelectStrategy new.
 
 	select listElement nodeBuilder: [ :node :holder |
 		node addChild: (ToLabel text: holder data asString) hMatchParent ].
@@ -2308,7 +2307,7 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWithAllClassNames [
 	| select innerWindow |
 	select := self selectWithEditingMultiSelection.
 	select mode: ToSelectFiltrableMode new.
-	select strategy: ToMultiSelectStrategy new.
+	select strategy: ToMultipleSelectStrategy new.
 	
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
@@ -2325,7 +2324,7 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWithStatesOfAmerica [
 	| select innerWindow |
 	select := self selectWithEditingMultiSelection.
 	select mode: ToSelectFiltrableMode new.
-	select strategy: ToMultiSelectStrategy new.
+	select strategy: ToMultipleSelectStrategy new.
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
 	select hMatchParent.
@@ -2341,7 +2340,7 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWith_175000_Items [
 	| select innerWindow data |
 	select := self selectWithEditingMultiSelection.
 	select mode: ToSelectFiltrableMode new.
-	select strategy: ToMultiSelectStrategy new.
+	select strategy: ToMultipleSelectStrategy new.
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
 	select hMatchParent.
@@ -2370,7 +2369,7 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWith_AllMethods [
 	select := self selectWithEditingMultiSelection.
 
 	select mode: ToSelectFiltrableMode new.
-	select strategy: ToMultiSelectStrategy new.
+	select strategy: ToMultipleSelectStrategy new.
 	
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
@@ -3598,7 +3597,8 @@ ToSandBox class >> selectWithEditingMultiSelection [
 				 | d |
 				 d := event client text asString asSymbol.
 				 event client text: ''.
-				 event currentTarget addData: d ]).
+				event currentTarget data add: d.
+				event currentTarget mode selectIndex: event currentTarget data size ]).
 
 	select addEventHandler: (BlEventHandler
 			 on: ToAlbumSaveRequestedEvent

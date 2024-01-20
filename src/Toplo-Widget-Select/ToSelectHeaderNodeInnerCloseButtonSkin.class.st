@@ -18,6 +18,7 @@ ToSelectHeaderNodeInnerCloseButtonSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
+		e icon formColor: Color lightGray.
 		e vFitContent.
 		e geometry: BlCircleGeometry new.
 		e border: BlBorder empty.

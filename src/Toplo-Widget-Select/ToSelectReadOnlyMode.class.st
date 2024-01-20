@@ -7,26 +7,10 @@ Class {
 	#category : #'Toplo-Widget-Select-Core'
 }
 
-{ #category : #initialization }
-ToSelectReadOnlyMode >> configureMultiSelectNodeContainer: aSelectHeaderNodeContainer [
-
-	super configureMultiSelectNodeContainer: aSelectHeaderNodeContainer.
-	select inputTextField beReadonlyWithoutSelection
-]
-
 { #category : #'accessing selection' }
 ToSelectReadOnlyMode >> deselectIndex: anIndex [
 
 	select listElement selectionStrategy deselectIndex: anIndex.
-]
-
-{ #category : #'instance creation' }
-ToSelectReadOnlyMode >> newInputTextField [ 
-
-	| inputTextField |
-	inputTextField := super newInputTextField.
-	inputTextField beReadonlyWithoutSelection.
-	^ inputTextField
 ]
 
 { #category : #'api - hooks' }

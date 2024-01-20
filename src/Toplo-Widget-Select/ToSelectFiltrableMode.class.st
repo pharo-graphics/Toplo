@@ -9,23 +9,10 @@ Class {
 	#category : #'Toplo-Widget-Select-Core'
 }
 
-{ #category : #initialization }
-ToSelectFiltrableMode >> configureMultiSelectNodeContainer: aSelectHeaderNodeContainer [
-
-	super configureMultiSelectNodeContainer: aSelectHeaderNodeContainer.
-	select inputTextField requestFocus
-]
-
 { #category : #accessing }
 ToSelectFiltrableMode >> dataFilter: aValuable [
 
 	filter dataFilter: aValuable
-]
-
-{ #category : #initialization }
-ToSelectFiltrableMode >> defaultMonoSelectHeaderNodeClass [
-
-	^ ToFiltrableSelectHeaderNode
 ]
 
 { #category : #'accessing selection' }
@@ -38,53 +25,10 @@ ToSelectFiltrableMode >> deselectIndex: anIndex [
 			 yourself)
 ]
 
-{ #category : #private }
-ToSelectFiltrableMode >> filterString [
-
-	^ select inputTextField text asString
-]
-
-{ #category : #private }
-ToSelectFiltrableMode >> filterTextFieldUpdated: anEvent [
-
-	select listElement dispatchEvent:
-		(ToListFilterRequest new pattern: self filterString).
-	select strategy filterTextFieldUpdated: anEvent
-]
-
 { #category : #testing }
 ToSelectFiltrableMode >> isFiltrableMode [
 
 	^ true
-]
-
-{ #category : #'instance creation' }
-ToSelectFiltrableMode >> newInputTextField [
-
-	| inputTextField |
-	inputTextField := super newInputTextField.
-	inputTextField addEditorShortcut:
-		ToSelectTextFieldBackspaceShortcut new.
-	inputTextField addEditorShortcut:
-		ToSelectTextFieldCarriageReturnShortcut new.
-	inputTextField addEventHandler: (BlEventHandler
-			 on: AlbTextEditedEvent
-			 do: [ :event | self filterTextFieldUpdated: event ]).
-	inputTextField addEventHandler: (BlEventHandler
-			 on: AlbTextReplacedEvent
-			 do: [ :event |
-				 select inputTextField ifNotNil: [
-					 self filterTextFieldUpdated: event ] ]).
-	^ inputTextField
-]
-
-{ #category : #'instance creation' }
-ToSelectFiltrableMode >> newSelectedDataTextField [
-	" used for mono selection strategy only "
-
-	| textField |
-	textField := self newTextField.
-	^ textField
 ]
 
 { #category : #'api - hooks' }
@@ -108,18 +52,6 @@ ToSelectFiltrableMode >> onInstalledIn: aSelect [
 	filter originalData: select data.
 	filter selectionModel: select selectionModel.
 	filter onInstalledIn: select listElement
-]
-
-{ #category : #'accessing list' }
-ToSelectFiltrableMode >> onListClosed [
-
-	select inputTextField requestFocus.
-]
-
-{ #category : #'accessing list' }
-ToSelectFiltrableMode >> onListOpened [
-
-	select inputTextField requestFocus.
 ]
 
 { #category : #'api - hooks' }

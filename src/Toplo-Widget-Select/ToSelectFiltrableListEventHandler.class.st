@@ -11,8 +11,8 @@ Class {
 ToSelectFiltrableListEventHandler >> collectionFilteredEvent: anEvent [
 
 	select currentWindow ifNil: [
-		select mode filterString ifNotEmpty: [
-			select popupEvent: anEvent ] ]
+		select strategy textInputElement filterString ifNotEmpty: [
+			select popupWindowEvent: anEvent ] ]
 ]
 
 { #category : #'api - accessing' }

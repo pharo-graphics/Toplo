@@ -122,7 +122,7 @@ ToSelectWindowManager >> onWindowClosed [
 
 	super onWindowClosed.
 	" if case one of my children has focus "
-	self element strategy onListClosed.
+	self element strategy onWindowClosed.
 
 
 ]
@@ -131,7 +131,7 @@ ToSelectWindowManager >> onWindowClosed [
 ToSelectWindowManager >> onWindowOpened [
 
 	super onWindowOpened.
-	self element strategy onListOpened
+	self element strategy onWindowOpened
 
 
 ]

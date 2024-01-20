@@ -4,8 +4,7 @@ Class {
 	#instVars : [
 		'select',
 		'headerNodeBuilder',
-		'headerNodeClass',
-		'headerNodeHolders'
+		'headerNodeClass'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -26,11 +25,6 @@ ToSelectStrategy >> defaultHeaderNodeBuilder [
 ToSelectStrategy >> defaultHeaderNodeClass [ 
 
 	self subclassResponsibility 
-]
-
-{ #category : #private }
-ToSelectStrategy >> filterTextFieldUpdated: anEvent [
-
 ]
 
 { #category : #accessing }
@@ -66,7 +60,7 @@ ToSelectStrategy >> headerNodeClass: aNodeClass [
 	self initializeFakeNode
 ]
 
-{ #category : #'instance creation' }
+{ #category : #private }
 ToSelectStrategy >> headerNodeContainerLayout [
 
 	^ self subclassResponsibility 
@@ -78,17 +72,10 @@ ToSelectStrategy >> headerNodeHolderClass [
 	^ ToSelectHeaderNodeHolder
 ]
 
-{ #category : #'accessing nodes' }
-ToSelectStrategy >> headerNodeHolders [
-
-	^ headerNodeHolders
-]
-
 { #category : #initialization }
 ToSelectStrategy >> initialize [ 
 
 	super initialize.
-	headerNodeHolders := OrderedCollection new.
 	headerNodeBuilder := self defaultHeaderNodeBuilder.
 
 
@@ -122,7 +109,7 @@ ToSelectStrategy >> initializeFakeNode [
 ]
 
 { #category : #testing }
-ToSelectStrategy >> isMultiSelection [
+ToSelectStrategy >> isMultipleSelection [
 
 	^ false
 ]
@@ -142,7 +129,17 @@ ToSelectStrategy >> maxCount: aNumber [
 { #category : #'accessing nodes' }
 ToSelectStrategy >> newHeaderNode [
 
-	^ self headerNodeClass new
+	| node holder |
+	node := self headerNodeClass new.
+	holder := self newHeaderNodeHolder.
+	node selectHolder: holder.
+	holder
+		node: node;
+		position: 0;
+		select: select;
+		data: nil.
+		
+	^ node
 ]
 
 { #category : #initialization }
@@ -173,30 +170,24 @@ ToSelectStrategy >> onInstalledIn: aSelect [
 	self refreshHeaderNodeContainer 
 ]
 
-{ #category : #'accessing list' }
-ToSelectStrategy >> onListClosed [
-
-	select mode onListClosed
-]
-
-{ #category : #'accessing list' }
-ToSelectStrategy >> onListOpened [
-
-	select mode onListOpened
-]
-
-{ #category : #private }
-ToSelectStrategy >> onSelectPlaceholderTextChanged [
-
-	self subclassResponsibility 
-]
-
 { #category : #'api - hooks' }
 ToSelectStrategy >> onUninstalledIn: aSelect [
 
 
 	select headerElement removeChild: select headerNodeContainer.
 	select := nil
+]
+
+{ #category : #window }
+ToSelectStrategy >> onWindowClosed [
+
+	self textInputElement onWindowClosed
+]
+
+{ #category : #window }
+ToSelectStrategy >> onWindowOpened [
+
+	self textInputElement onWindowOpened
 ]
 
 { #category : #'api - hooks' }
@@ -208,7 +199,7 @@ ToSelectStrategy >> reInstall [
 	self onInstalledIn: s
 ]
 
-{ #category : #enumerating }
+{ #category : #private }
 ToSelectStrategy >> refreshHeaderNodeContainer [
 
 	self subclassResponsibility 
@@ -218,4 +209,10 @@ ToSelectStrategy >> refreshHeaderNodeContainer [
 ToSelectStrategy >> select: aSelect [
 
 	select := aSelect
+]
+
+{ #category : #accessing }
+ToSelectStrategy >> textInputElement [
+
+	^ self subclassResponsibility 
 ]

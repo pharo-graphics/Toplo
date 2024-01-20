@@ -67,12 +67,19 @@ ToFilteredListElementEventHandler >> listFilterResultEvent: anEvent [
 
 	| target selectedIndexes result |
 	target := anEvent currentTarget.
+	" target is the filtered listElement (pattern dependent) "
+	" selectionModel is the original (global, pattern independent) selection model "
+	target data asArray traceCr.
 	target selectionStrategy renewSelectionModel.
 	updatingSelection := true.
+	" result is the filter result data list (pattern dependent)"
 	result := OrderedCollection new.
+	"  selected indexes is for the filtered list (pattern dependent) "
 	selectedIndexes := OrderedCollection new.
+	" anEvent indexedData : list of ToFilterData, (pattern dependent"
 	anEvent indexedData withIndexDo: [ :id :idx |
 		result add: id data.
+		"dataSourcePos is the original data index (pattern independent)"
 		(self selectionModel containsIndex: id dataSourcePos) ifTrue: [
 			selectedIndexes add: idx ] ].
 	target data filterResult: result.

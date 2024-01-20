@@ -541,6 +541,7 @@ ToSandBox class >> example_FilterOnListWith_AllMethods [
 	filter := ToListElementFilter new
 		          originalData: listElement data newMirror;
 		          yourself.
+
 	filter onInstalledIn: listElement.
 	listElement data addAll: data.
 	listElement nodeBuilder: [ :node :holder |

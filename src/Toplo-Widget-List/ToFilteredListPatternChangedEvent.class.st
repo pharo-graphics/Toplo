@@ -1,20 +1,11 @@
 Class {
 	#name : #ToFilteredListPatternChangedEvent,
-	#superclass : #BlEvent,
-	#instVars : [
-		'pattern'
-	],
+	#superclass : #ToSelectedListPatternChangedEvent,
 	#category : #'Toplo-Widget-List-Filter'
 }
 
-{ #category : #accessing }
-ToFilteredListPatternChangedEvent >> pattern [
+{ #category : #sending }
+ToFilteredListPatternChangedEvent >> sendTo: anObject [
 
-	^ pattern
-]
-
-{ #category : #accessing }
-ToFilteredListPatternChangedEvent >> pattern: anObject [
-
-	pattern := anObject
+	anObject filteredListPatternChangedEvent: self
 ]

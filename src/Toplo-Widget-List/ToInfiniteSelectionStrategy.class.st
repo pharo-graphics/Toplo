@@ -320,13 +320,6 @@ ToInfiniteSelectionStrategy >> includes: anIndex [
 	^ selectionModel containsIndex: anIndex
 ]
 
-{ #category : #'data source change' }
-ToInfiniteSelectionStrategy >> infiniteDataSourceChanged [
-
-	super infiniteDataSourceChanged.
-	self deselectAll 
-]
-
 { #category : #initialization }
 ToInfiniteSelectionStrategy >> initialize [
 
@@ -426,6 +419,13 @@ ToInfiniteSelectionStrategy >> nodeEventHandlerClasses [
 ToInfiniteSelectionStrategy >> nodeEventHandlers [
 
 	^ self nodeEventHandlerClasses collect: [ :cls | cls new ]
+]
+
+{ #category : #'data source change' }
+ToInfiniteSelectionStrategy >> onInfiniteDataSourceChanged [
+
+	super onInfiniteDataSourceChanged.
+	self deselectAll 
 ]
 
 { #category : #'api - hooks' }

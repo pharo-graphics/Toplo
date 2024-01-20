@@ -18,8 +18,8 @@ ToInfiniteElement >> cherryPickIndex: anIndex [
 
 	self
 		deprecated: 'Use selection cherryPickIndex: instead'
-		transformWith: '`@receiver cherryPickIndex: `@arg' -> '`@receiver selection cherryPickIndex: `@arg'.
-	self selection cherryPickIndex: anIndex
+		transformWith: '`@receiver cherryPickIndex: `@arg' -> '`@receiver selectionStrategy cherryPickIndex: `@arg'.
+	self selectionStrategy cherryPickIndex: anIndex
 ]
 
 { #category : #accessing }
@@ -71,9 +71,9 @@ ToInfiniteElement >> defaultSelectionStrategy [
 ToInfiniteElement >> deselectAll [
 	self
 		deprecated: 'Use selection deselectAll instead'
-		transformWith: '`@receiver deselectAll' -> '`@receiver selection deselectAll'.
+		transformWith: '`@receiver deselectAll' -> '`@receiver selectionStrategy deselectAll'.
 
-	self selection deselectAll
+	self selectionStrategy deselectAll
 ]
 
 { #category : #'selection events' }
@@ -81,8 +81,8 @@ ToInfiniteElement >> deselectIndex: anIndex [
 
 	self
 		deprecated: 'Use selection deselectIndex: instead'
-		transformWith: '`@receiver deselectIndex: `@arg' -> '`@receiver selection deselectIndex: `@arg'.
-	self selection deselectIndex: anIndex
+		transformWith: '`@receiver deselectIndex: `@arg' -> '`@receiver selectionStrategy deselectIndex: `@arg'.
+	self selectionStrategy deselectIndex: anIndex
 ]
 
 { #category : #'scrolled event' }
@@ -210,8 +210,8 @@ ToInfiniteElement >> hasSelection [
 
 	self
 		deprecated: 'Use selection isNotEmpty instead'
-		transformWith: '`@receiver hasSelection' -> '`@receiver selection isNotEmpty'.	
-	^ self selection isNotEmpty
+		transformWith: '`@receiver hasSelection' -> '`@receiver selectionStrategy isNotEmpty'.	
+	^ self selectionStrategy isNotEmpty
 ]
 
 { #category : #'t - infinite accessing' }
@@ -356,7 +356,7 @@ ToInfiniteElement >> primarySelection [
 
 	self
 		deprecated: 'Use selection instead'
-		transformWith: '`@receiver primarySelection' -> '`@receiver selection'.
+		transformWith: '`@receiver primarySelection' -> '`@receiver selectionStrategy'.
 	^ self selectionStrategy 
 ]
 
@@ -365,7 +365,7 @@ ToInfiniteElement >> privateData: aCollection [
 
 	dataSource addEventHandler: (BlEventHandler
 			 on: BlInfiniteDataSourceChanged
-			 do: [ self selectionStrategy infiniteDataSourceChanged ]).
+			 do: [ self selectionStrategy onInfiniteDataSourceChanged ]).
 	dataSource data: aCollection
 ]
 
@@ -423,9 +423,9 @@ ToInfiniteElement >> selectAll [
 
 	self
 		deprecated: 'Use selection selectAll instead'
-		transformWith: '`@receiver selectAll' -> '`@receiver selection selectAll'.
+		transformWith: '`@receiver selectAll' -> '`@receiver selectionStrategy selectAll'.
 
-	self selection selectAll
+	self selectionStrategy selectAll
 ]
 
 { #category : #'selection events' }
@@ -433,8 +433,8 @@ ToInfiniteElement >> selectIndex: index [
 
 	self
 		deprecated: 'Use selection selectIndex: instead'
-		transformWith: '`@receiver selectIndex: `@arg' -> '`@receiver selection selectIndex: `@arg'.
-	self selection selectIndex: index
+		transformWith: '`@receiver selectIndex: `@arg' -> '`@receiver selectionStrategy selectIndex: `@arg'.
+	self selectionStrategy selectIndex: index
 ]
 
 { #category : #'selection events' }
@@ -442,8 +442,8 @@ ToInfiniteElement >> selectIndexes: aCollection [
 
 	self
 		deprecated: 'Use selection selectIndexes: instead'
-		transformWith: '`@receiver selectIndexes: `@arg' -> '`@receiver selection selectIndexes: `@arg'.
-	self selection selectIndexes: aCollection
+		transformWith: '`@receiver selectIndexes: `@arg' -> '`@receiver selectionStrategy selectIndexes: `@arg'.
+	self selectionStrategy selectIndexes: aCollection
 ]
 
 { #category : #'selection events' }
@@ -451,8 +451,8 @@ ToInfiniteElement >> selectOnlyIndex: index [
 
 	self
 		deprecated: 'Use selection selectOnlyIndex: instead'
-		transformWith: '`@receiver selectOnlyIndex: `@arg' -> '`@receiver selection selectOnlyIndex: `@arg'.
-	self selection selectOnlyIndex: index
+		transformWith: '`@receiver selectOnlyIndex: `@arg' -> '`@receiver selectionStrategy selectOnlyIndex: `@arg'.
+	self selectionStrategy selectOnlyIndex: index
 ]
 
 { #category : #'selection events' }
@@ -460,8 +460,8 @@ ToInfiniteElement >> selectToIndex: anIndex [
 
 	self
 		deprecated: 'Use selection selectToIndex: instead'
-		transformWith: '`@receiver selectToIndex: `@arg' -> '`@receiver selection selectToIndex: `@arg'.
-	self selection selectToIndex: anIndex
+		transformWith: '`@receiver selectToIndex: `@arg' -> '`@receiver selectionStrategy selectToIndex: `@arg'.
+	self selectionStrategy selectToIndex: anIndex
 ]
 
 { #category : #accessing }
@@ -469,8 +469,8 @@ ToInfiniteElement >> selectedIndex [
 
 	self
 		deprecated: 'Use selection selectedIndex instead'
-		transformWith: '`@receiver selectedIndex' -> '`@receiver selection selectedIndex'.
-	^ self selection selectedIndex
+		transformWith: '`@receiver selectedIndex' -> '`@receiver selectionStrategy selectedIndex'.
+	^ self selectionStrategy selectedIndex
 ]
 
 { #category : #accessing }
@@ -478,8 +478,8 @@ ToInfiniteElement >> selectedIndexes [
 
 	self
 		deprecated: 'Use selection selectedIndexes instead'
-		transformWith: '`@receiver selectedIndexes' -> '`@receiver selection selectedIndexes'.
-	^ self selection selectedIndexes
+		transformWith: '`@receiver selectedIndexes' -> '`@receiver selectionStrategy selectedIndexes'.
+	^ self selectionStrategy selectedIndexes
 ]
 
 { #category : #accessing }
@@ -521,15 +521,21 @@ ToInfiniteElement >> shiftSelectionAfterAddingAt: aStartPosition itemCount: anIt
 
 	self
 		deprecated: 'Use selection shiftAfterAddingAt:itemCount: instead'
-		transformWith: '`@receiver shiftSelectionAfterAddingAt: `@arg1 itemCount: `@arg2' -> '`@receiver selection shiftAfterAddingAt: `@arg1 itemCount: `@arg2 '.
-	self selection shiftAfterAddingAt: aStartPosition itemCount: anItemCount
+		transformWith: '`@receiver shiftSelectionAfterAddingAt: `@arg1 itemCount: `@arg2' -> '`@receiver selectionStrategy shiftAfterAddingAt: `@arg1 itemCount: `@arg2 '.
+	self selectionStrategy shiftAfterAddingAt: aStartPosition itemCount: anItemCount
 ]
 
 { #category : #'selection events' }
-ToInfiniteElement >> shiftSelectionAfterRemovingAt: aStartPosition itemCount: anItemCount [ 
+ToInfiniteElement >> shiftSelectionAfterRemovingAt: aStartPosition itemCount: anItemCount [
 
 	self
-		deprecated: 'Use selection shiftSelectionAfterRemovingAt:itemCount: instead'
-		transformWith: '`@receiver shiftSelectionAfterRemovingAt: `@arg1 itemCount: `@arg2' -> '`@receiver selection shiftAfterRemovingAt: `@arg1 itemCount: `@arg2 '.
-	self selection shiftAfterRemovingAt: aStartPosition itemCount: anItemCount
+		deprecated:
+		'Use selection shiftSelectionAfterRemovingAt:itemCount: instead'
+		transformWith:
+			'`@receiver shiftSelectionAfterRemovingAt: `@arg1 itemCount: `@arg2'
+			->
+			'`@receiver selectionStrategy shiftAfterRemovingAt: `@arg1 itemCount: `@arg2 '.
+	self selectionStrategy
+		shiftAfterRemovingAt: aStartPosition
+		itemCount: anItemCount
 ]

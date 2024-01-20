@@ -17,7 +17,7 @@ ToPopupWindowManagerTest >> testAutoCloseOnMouseUpDelay [
 	windowManager autoCloseOnMouseUpDelay: 1 second.
 	self assert: windowManager autoCloseOnMouseUpDelay equals: 1 second.
 	windowManager autoCloseOnMouseUpDelay: nil.
-	self assert: windowManager autoCloseOnMouseUpDelay equals: windowManager defaultAutoCloseOnMouseUpDelay.
+	self assert: windowManager autoCloseOnMouseUpDelay isNil
 
 ]
 
@@ -237,6 +237,36 @@ ToPopupWindowManagerTest >> testMouseUpInElementEventAfterLongDelayShouldCloseWi
 	" window is closed on mouse-up "
 	self assert: windowManager currentWindow isNil.
 	self assert: closed
+]
+
+{ #category : #tests }
+ToPopupWindowManagerTest >> testNoAutoCloseEvenAfterLongDelay [
+
+	| e windowManager closed |
+	e := ToElement new.
+	e size: 100 asPoint.
+	space root addChild: e.
+	self waitTestingSpaces.
+
+	windowManager := ToPopupWindowManager new.
+
+	windowManager onInstalledIn: e.
+	BlSpace simulateMouseDownOn: e.
+	self assert: windowManager currentWindow notNil.
+	self assert: windowManager currentWindow isOpened.
+	closed := false.
+	" should avoid auto-close"
+	windowManager autoCloseOnMouseUpDelay: nil.
+	self assert: windowManager autoCloseOnMouseUpDelay isNil.
+	windowManager currentWindow addEventHandler: (BlEventHandler
+			 on: ToWindowClosedEvent
+			 do: [ :event | closed := true ]).
+	" use an huge waiting time "
+	(5000 milliSecond) wait.
+	BlSpace simulateMouseUpOn: e.
+	" window is not closed on mouse-up "
+	self deny: windowManager currentWindow isNil.
+	self deny: closed
 ]
 
 { #category : #tests }

@@ -15,7 +15,7 @@ ToInfiniteAbstractSelectionStrategy >> includes: anIndex [
 ]
 
 { #category : #'data source changed' }
-ToInfiniteAbstractSelectionStrategy >> infiniteDataSourceChanged [
+ToInfiniteAbstractSelectionStrategy >> onInfiniteDataSourceChanged [
 ]
 
 { #category : #'api - hooks' }
@@ -36,6 +36,10 @@ ToInfiniteAbstractSelectionStrategy >> onUninstalledIn: anInfiniteElement [
 ToInfiniteAbstractSelectionStrategy >> renewSelectionModel [
 ]
 
+{ #category : #'api - selection' }
+ToInfiniteAbstractSelectionStrategy >> selectAll [
+]
+
 { #category : #'selection accessing' }
 ToInfiniteAbstractSelectionStrategy >> selectedIndexes [
 
@@ -50,4 +54,13 @@ ToInfiniteAbstractSelectionStrategy >> selectionModel [
 
 { #category : #accessing }
 ToInfiniteAbstractSelectionStrategy >> selectionModel: aSelection [
+]
+
+{ #category : #accessing }
+ToInfiniteAbstractSelectionStrategy >> shiftAfterAddingAt: aStartPosition itemCount: anItemCount [
+
+]
+
+{ #category : #accessing }
+ToInfiniteAbstractSelectionStrategy >> shiftAfterRemovingAt: aStartPosition itemCount: anItemCount [
 ]

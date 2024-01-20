@@ -10,6 +10,12 @@ Class {
 }
 
 { #category : #initialization }
+ToSelectWindowManager >> defaultAutoCloseOnMouseUpDelay [
+
+	^ nil
+]
+
+{ #category : #initialization }
 ToSelectWindowManager >> defaultAutoClosePickOutsideEventClass [
 
 	^ BlMouseDownOutsideEvent

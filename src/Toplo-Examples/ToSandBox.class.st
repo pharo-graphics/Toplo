@@ -1108,7 +1108,7 @@ ToSandBox class >> example_MonoNotFiltrable [
 	
 	select strategy: ToSingleSelectStrategy new.
 	select mode: ToSelectReadOnlyMode new.
-
+	select placeholderText: ('Select a state' asRopedText foreground: Color red).
 	select listElement nodeBuilder: [ :node :holder |
 		node addChild: (ToLabel text: holder data asString) hMatchParent ].
 	innerWindow := ToInnerWindow new.
@@ -1147,6 +1147,7 @@ ToSandBox class >> example_MultiNotFiltrable [
 	
 	select mode: ToSelectReadOnlyMode new.
 	select strategy: ToMultipleSelectStrategy new.
+	select placeholderText: ('Select states' asRopedText foreground: Color red).
 
 	select listElement nodeBuilder: [ :node :holder |
 		node addChild: (ToLabel text: holder data asString) hMatchParent ].
@@ -1956,8 +1957,8 @@ ToSandBox class >> example_contactList [
 				 do: [ :event |
 					 event consumed: true.
 					 holder infiniteElement data removeAt: holder position.
-					 holder infiniteElement
-						 shiftSelectionAfterRemovingAt: holder position
+					 holder infiniteElement selectionStrategy
+						 shiftAfterRemovingAt: holder position
 						 itemCount: 1 ]).
 		line addChild: remBut.
 		node addChild: line ].

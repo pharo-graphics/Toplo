@@ -161,7 +161,7 @@ ToSelectTextInputElement >> onSingleSelectDataChanged [
 
 { #category : #'api - hooks' }
 ToSelectTextInputElement >> onUninstalledIn: aSelect [
-	
+
 	select := nil.
 	self removeChildren 
 ]

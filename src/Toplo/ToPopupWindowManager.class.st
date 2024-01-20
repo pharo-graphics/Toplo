@@ -12,7 +12,7 @@ Class {
 { #category : #accessing }
 ToPopupWindowManager >> autoCloseOnMouseUpDelay [
 
-	^ autoCloseOnMouseUpDelay ifNil: [ autoCloseOnMouseUpDelay := self defaultAutoCloseOnMouseUpDelay ]
+	^ autoCloseOnMouseUpDelay
 ]
 
 { #category : #accessing }
@@ -71,7 +71,8 @@ ToPopupWindowManager >> initialize [
 
 	super initialize.
 	self usePrimaryMouseButton .
-	self autoClosePickOutsideEventClass: self defaultAutoClosePickOutsideEventClass 
+	self autoClosePickOutsideEventClass: self defaultAutoClosePickOutsideEventClass.
+ 	autoCloseOnMouseUpDelay := self defaultAutoCloseOnMouseUpDelay 
 ]
 
 { #category : #'mouse handlers' }
@@ -90,14 +91,17 @@ ToPopupWindowManager >> mouseDownInElementEvent: anEvent [
 { #category : #'mouse handlers' }
 ToPopupWindowManager >> mouseUpInElementEvent: anEvent [
 
-	| delay |
+	| delay maxDelay |
 	currentWindow ifNil: [ ^ self ].
 	currentWindow popupTimestamp ifNil: [ ^ self ].
+	maxDelay := self autoCloseOnMouseUpDelay.
+	" maxDelay if nil -> no auto closing here "
+	maxDelay ifNil: [ ^ self ].
 	" check a minimal delay between opening and closing.
 		The mouse up can occur immediately after the window opening -> don't close the popup window.
 		After a given delay between down and up, the popup window is closed "
 	delay := anEvent timestamp - currentWindow popupTimestamp.
-	delay > self autoCloseOnMouseUpDelay ifTrue: [ currentWindow close ]
+	delay > maxDelay ifTrue: [ currentWindow close ]
 ]
 
 { #category : #'mouse handlers' }

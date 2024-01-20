@@ -29,7 +29,7 @@ ToMultipleSelectStrategy >> buildHeaderNodeContainer: aSelectHeaderNodeContainer
 		vFitContent;
 		hMatchParent;
 		constraintsDo: [ :c | c linear vertical alignCenter ].
-	" The textField is added whatever the mode to simplify node adding.
+	" The textField is added whatever the mode to draw the placeholder text if any.
 	In case of read-only mode, the textfield is set as read-only by the mode "
 	textInputElement := ToSelectTextInputElement new.
 	textInputElement onInstalledIn: select.

@@ -69,7 +69,6 @@ ToFilteredListElementEventHandler >> listFilterResultEvent: anEvent [
 	target := anEvent currentTarget.
 	" target is the filtered listElement (pattern dependent) "
 	" selectionModel is the original (global, pattern independent) selection model "
-	target data asArray traceCr.
 	target selectionStrategy renewSelectionModel.
 	updatingSelection := true.
 	" result is the filter result data list (pattern dependent)"

@@ -49,7 +49,6 @@ ToSelectFiltrableMode >> onInstalledIn: aSelect [
 	select selectionModel: BlCompositeSelection new.
 	filter := ToListElementFilter new.
 	filter taskQueueHolder: select.
-	filter originalData: select data.
 	filter selectionModel: select selectionModel.
 	filter onInstalledIn: select listElement
 ]

@@ -4,7 +4,7 @@ Class {
 	#traits : 'TBlEventTarget + TToObservableCollection',
 	#classTraits : 'TBlEventTarget classTrait + TToObservableCollection classTrait',
 	#instVars : [
-		'list',
+		'collection',
 		'eventDispatcher'
 	],
 	#category : #'Toplo-Core-Collection'
@@ -17,6 +17,20 @@ ToObservableCollection class >> newFrom: aCollection [
 	l := self new.
 	l addAll: aCollection.
 	^ l
+]
+
+{ #category : #'t - observable collection - accessing' }
+ToObservableCollection >> collection [
+
+	^ collection
+
+]
+
+{ #category : #'t - observable collection - accessing' }
+ToObservableCollection >> collection: aCollection [
+
+	collection := aCollection
+
 ]
 
 { #category : #'event management accessing' }
@@ -32,7 +46,7 @@ ToObservableCollection >> initialize [
 
 	super initialize.
 	eventDispatcher := BlDirectEventDispatcher on: self.
-	self initializeObservableCollection 
+	self collection: OrderedCollection new
 ]
 
 { #category : #'instance creation' }
@@ -41,11 +55,4 @@ ToObservableCollection >> newMirror [
 	^ ToCollectionMirror new
 		  mirrored: self;
 		  yourself
-]
-
-{ #category : #'t - observable collection - enumerating' }
-ToObservableCollection >> with: aCollection do: aBlock [
-	"aCollection must support #at:at: and be at least as large as the receiver."
-
-	list with: aCollection do: aBlock
 ]

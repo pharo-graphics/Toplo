@@ -15,7 +15,8 @@ Class {
 		'filterListElementHandler',
 		'selectionModel',
 		'currentIndexedData',
-		'collectionAfterChangeEventHandler'
+		'collectionAfterChangeEventHandler',
+		'filteredListElement'
 	],
 	#category : #'Toplo-Widget-List-Filter'
 }
@@ -25,7 +26,7 @@ ToListElementFilter >> buildOriginalIndexedData [
 
 	originalIndexedData := Array streamContents: [ :str |
 		                       originalData withIndexDo: [ :d :i |
-			                       str nextPut: (ToFilterData new
+			                       str nextPut: (ToDataWithPosition new
 					                        data: d;
 					                        dataSourcePos: i;
 					                        yourself) ] ]
@@ -105,6 +106,12 @@ ToListElementFilter >> filterDataIn: anElement [
 	taskTarget enqueueTask: filterResultTask
 ]
 
+{ #category : #accessing }
+ToListElementFilter >> filteredListElement [
+
+	^ filteredListElement 
+]
+
 { #category : #'private filtering' }
 ToListElementFilter >> newProcessIn: anElement [
 	"Used the solution implemented in FastTable. see FTFieldFunction>>#spawnFilterUpdateThread.
@@ -127,9 +134,8 @@ ToListElementFilter >> newProcessIn: anElement [
 { #category : #'api - hooks' }
 ToListElementFilter >> onInstalledIn: aListElement [
 
-	originalData ifNil: [
-		^ Error signal:
-			  'A filter must have an initialData before it''s installation on a List element' ].
+	filteredListElement := aListElement.
+	self originalData: aListElement data newMirror.
 	delayBeforeFilter := self defaultDelay.
 
 	filterListElementHandler := ToFilteredListElementEventHandler new

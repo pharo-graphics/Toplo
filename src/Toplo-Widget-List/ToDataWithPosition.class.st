@@ -1,5 +1,5 @@
 Class {
-	#name : #ToFilterData,
+	#name : #ToDataWithPosition,
 	#superclass : #Object,
 	#instVars : [
 		'data',
@@ -9,25 +9,25 @@ Class {
 }
 
 { #category : #accessing }
-ToFilterData >> data [
+ToDataWithPosition >> data [
 
 	^ data
 ]
 
 { #category : #accessing }
-ToFilterData >> data: anObject [
+ToDataWithPosition >> data: anObject [
 
 	data := anObject
 ]
 
 { #category : #accessing }
-ToFilterData >> dataSourcePos [
+ToDataWithPosition >> dataSourcePos [
 
 	^ dataSourcePos
 ]
 
 { #category : #accessing }
-ToFilterData >> dataSourcePos: anInteger [
+ToDataWithPosition >> dataSourcePos: anInteger [
 
 	dataSourcePos := anInteger
 ]

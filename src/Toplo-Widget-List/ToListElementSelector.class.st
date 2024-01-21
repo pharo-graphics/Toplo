@@ -11,7 +11,8 @@ Class {
 		'previousPattern',
 		'dataFilter',
 		'selectionModel',
-		'originalData'
+		'originalData',
+		'originalListElement'
 	],
 	#category : #'Toplo-Widget-List-Filter'
 }

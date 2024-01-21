@@ -1,8 +1,5 @@
 Trait {
 	#name : #TToObservableCollection,
-	#instVars : [
-		'list'
-	],
 	#category : #'Toplo-Core-Collection'
 }
 
@@ -29,7 +26,7 @@ TToObservableCollection >> add: newObject after: oldObject [
 	Raises an error if oldObject is not found"
 
 	| idx |
-	idx := list indexOf: oldObject.
+	idx := self collection indexOf: oldObject.
 	self add: newObject afterIndex: idx
 ]
 
@@ -39,7 +36,7 @@ TToObservableCollection >> add: newObject afterIndex: index [
 	the sequence just after index. Answer newObject."
 
 	self
-		notifyAddChangeAround: [ list add: newObject afterIndex: index ]
+		notifyAddChangeAround: [ self collection add: newObject afterIndex: index ]
 		candidates: (Array with: newObject)
 		interval: (index + 1 to: index + 1)
 ]
@@ -60,7 +57,7 @@ TToObservableCollection >> add: newObject beforeIndex: index [
 	the sequence just before index. Answer newObject."
 
 	self
-		notifyAddChangeAround: [ list add: newObject beforeIndex: index ]
+		notifyAddChangeAround: [ self collection add: newObject beforeIndex: index ]
 		candidates: (Array with: newObject)
 		interval: (index to: index)
 ]
@@ -77,7 +74,7 @@ TToObservableCollection >> addAllFirst: aCollection [
 
 	aCollection ifEmpty: [ ^ self ].
 	self
-		notifyAddChangeAround: [ list addAllFirst: aCollection ]
+		notifyAddChangeAround: [ self collection addAllFirst: aCollection ]
 		candidates: aCollection
 		interval: (1 to: aCollection size)
 ]
@@ -87,9 +84,9 @@ TToObservableCollection >> addAllLast: aCollection [
 
 	| idx |
 	aCollection ifEmpty: [ ^ self ].
-	idx := list size.
+	idx := self collection size.
 	self
-		notifyAddChangeAround: [ list addAllLast: aCollection ]
+		notifyAddChangeAround: [ self collection addAllLast: aCollection ]
 		candidates: aCollection
 		interval: (idx + 1 to: idx + aCollection size)
 ]
@@ -99,7 +96,7 @@ TToObservableCollection >> addFirst: newObject [
 
 	"Add newObject to the end of the receiver. Answer newObject."
 	self
-		notifyAddChangeAround: [ list addFirst: newObject ]
+		notifyAddChangeAround: [ self collection addFirst: newObject ]
 		candidates: (Array with: newObject)
 		interval: (1 to: 1)
 ]
@@ -109,7 +106,7 @@ TToObservableCollection >> addLast: newObject [
 
 	"Add newObject to the end of the receiver. Answer newObject."
 	self
-		notifyAddChangeAround: [ list addLast: newObject ]
+		notifyAddChangeAround: [ self collection addLast: newObject ]
 		candidates: (Array with: newObject)
 		interval: (self size + 1 to: self size + 1)
 ]
@@ -117,39 +114,52 @@ TToObservableCollection >> addLast: newObject [
 { #category : #'t - observable collection - enumerating' }
 TToObservableCollection >> allSatisfy: aBlock [
 
-	^ list allSatisfy: aBlock
+	^ self collection allSatisfy: aBlock
 ]
 
 { #category : #'t - observable collection - converting' }
 TToObservableCollection >> asArray [
 
-	^ list asArray
+	^ self collection asArray
 ]
 
 { #category : #'t - observable collection - converting' }
 TToObservableCollection >> asOrderedCollection [
 
-	^ OrderedCollection newFrom: list
+	^ OrderedCollection newFrom: self collection
 ]
 
 { #category : #'t - observable collection - accessing' }
 TToObservableCollection >> at: anInteger [ 
 
-	^ list at: anInteger
+	^ self collection at: anInteger
 ]
 
 { #category : #'t - observable collection - accessing' }
 TToObservableCollection >> at: anInteger put: anObject [
 
 	self
-		notifyUpdateChangeAround: [ list at: anInteger put: anObject ]
+		notifyUpdateChangeAround: [ self collection at: anInteger put: anObject ]
 		interval: (anInteger to: anInteger)
 ]
 
 { #category : #'t - observable collection - enumerating' }
 TToObservableCollection >> collect: aBlock [
 
-	^ list collect: aBlock
+	^ self collection collect: aBlock
+]
+
+{ #category : #'t - observable collection - accessing' }
+TToObservableCollection >> collection [
+
+	^ self explicitRequirement
+
+]
+
+{ #category : #'t - observable collection - accessing' }
+TToObservableCollection >> collection: aCollection [
+
+	self explicitRequirement 
 ]
 
 { #category : #'t - observable collection - copying' }
@@ -158,7 +168,7 @@ TToObservableCollection >> copyFrom: startIndex to: endIndex [
 	startIndex to endIndex."
 
 	| l |
-	l := list copyFrom: startIndex to: endIndex.
+	l := self collection copyFrom: startIndex to: endIndex.
 	^ self species newFrom: l
 ]
 
@@ -168,7 +178,7 @@ TToObservableCollection >> copyReplaceFrom: start to: stop with: replacementColl
 	"Concatenate two Strings or Collections."
 
 	| l n |
-	l := list copyReplaceFrom: start to: stop with: replacementCollection.
+	l := self collection copyReplaceFrom: start to: stop with: replacementCollection.
 	n := self species newFrom: l.
 	^ n
 ]
@@ -179,7 +189,7 @@ TToObservableCollection >> detect: aBlock ifNone: exceptionBlock [
 	Answer the first element for which aBlock evaluates to true. If none
 	evaluate to true, then evaluate the argument, exceptionBlock."
 	
-	^ list detect: aBlock ifNone: exceptionBlock
+	^ self collection detect: aBlock ifNone: exceptionBlock
 ]
 
 { #category : #'t - observable collection - enumerating' }
@@ -188,7 +198,7 @@ TToObservableCollection >> detectIndex: aBlock [
 	"Return index of first element that satisfies aBlock.
 	If no matching element is found, raise an error."
 	
-	^ list detectIndex: aBlock 
+	^ self collection detectIndex: aBlock 
 ]
 
 { #category : #'t - observable collection - enumerating' }
@@ -200,19 +210,19 @@ TToObservableCollection >> detectIndex: aBlock ifNone: exceptionBlock [
 	"(#(1 5 10) detectIndex: [ :each | each > 3 ] ifNone: ['Not found']) >>> 2"
 	"(#(1 5 10) detectIndex: [ :each | each > 15 ] ifNone: ['Not found']) >>> 'Not found'"
 	
-	^ list detectIndex: aBlock ifNone: exceptionBlock
+	^ self collection detectIndex: aBlock ifNone: exceptionBlock
 ]
 
 { #category : #'t - observable collection - enumerating' }
 TToObservableCollection >> do: aBlock [
 
-	list do: aBlock
+	self collection do: aBlock
 ]
 
 { #category : #'t - observable collection - accessing' }
 TToObservableCollection >> fifth [
 
-	^ list fifth
+	^ self collection fifth
 ]
 
 { #category : #'t - observable collection - removing' }
@@ -220,15 +230,15 @@ TToObservableCollection >> filterResult: aCollection [
 
 	self
 		notifyFilterChangeAround: [
-			list removeAll.
-			list addAll: aCollection ]
+			self collection removeAll.
+			self collection addAll: aCollection ]
 		interval: (1 to: aCollection size)
 ]
 
 { #category : #'t - observable collection - accessing' }
 TToObservableCollection >> first [
 
-	^ list first
+	^ self collection first
 ]
 
 { #category : #'t - observable collection - copying' }
@@ -242,7 +252,7 @@ TToObservableCollection >> first: n [
 { #category : #'t - observable collection - accessing' }
 TToObservableCollection >> fourth [
 
-	^ list fourth
+	^ self collection fourth
 ]
 
 { #category : #'t - observable collection - testing' }
@@ -288,7 +298,7 @@ TToObservableCollection >> ifNotEmpty: notEmptyBlock ifEmpty: emptyBlock [
 { #category : #'t - observable collection - testing' }
 TToObservableCollection >> includes: anObject [
 
-	^ list includes: anObject 
+	^ self collection includes: anObject 
 ]
 
 { #category : #'t - observable collection - accessing' }
@@ -320,19 +330,13 @@ TToObservableCollection >> indexOf: anElement startingAt: start ifAbsent: except
 	"(#(a b c d e) indexOf: #c startingAt: 2 ifAbsent: 7) >>> 3"
 	"(#(a b c d e) indexOf: #c startingAt: 4 ifAbsent: 7) >>> 7"
 
-	^ list indexOf: anElement startingAt: start ifAbsent: exceptionBlock
-]
-
-{ #category : #'t - observable collection - initialization' }
-TToObservableCollection >> initializeObservableCollection [
-
-	list := OrderedCollection new
+	^ self collection indexOf: anElement startingAt: start ifAbsent: exceptionBlock
 ]
 
 { #category : #'t - observable collection - testing' }
 TToObservableCollection >> isEmpty [
 
-	^ list isEmpty 
+	^ self collection isEmpty 
 ]
 
 { #category : #'t - observable collection - testing' }
@@ -344,7 +348,7 @@ TToObservableCollection >> isNotEmpty [
 { #category : #'t - observable collection - accessing' }
 TToObservableCollection >> last [
 
-	^ list last
+	^ self collection last
 ]
 
 { #category : #'t - observable collection - accessing' }
@@ -360,7 +364,7 @@ TToObservableCollection >> last: n [
 { #category : #'t - observable collection - enumerating' }
 TToObservableCollection >> noneSatisfy: aBlock [
 
-	^ list noneSatisfy: aBlock
+	^ self collection noneSatisfy: aBlock
 ]
 
 { #category : #'t - observable collection - notifications' }
@@ -381,9 +385,9 @@ TToObservableCollection >> notifyAddChangeAround: aBlock candidates: aCollection
 TToObservableCollection >> notifyEmptinessChangeAfter: aBlock [ 
 
 	| wasEmpty |
-	wasEmpty := list isEmpty.
+	wasEmpty := self collection isEmpty.
 	aBlock value.
-	wasEmpty = list isEmpty ifFalse: [ self fireEvent: ToCollectionEmptinessEvent new ]
+	wasEmpty = self collection isEmpty ifFalse: [ self fireEvent: ToCollectionEmptinessEvent new ]
 ]
 
 { #category : #'t - observable collection - notifications' }
@@ -435,13 +439,13 @@ TToObservableCollection >> notifyUpdateChangeAround: aBlock interval: anInterval
 
 { #category : #'t - observable collection - copying' }
 TToObservableCollection >> postCopy [
-	list := list copy
+	self collection: self collection copy
 ]
 
 { #category : #'t - observable collection - enumerating' }
 TToObservableCollection >> reject: aBlock [
 
-	^ list reject: aBlock
+	^ self collection reject: aBlock
 ]
 
 { #category : #'t - observable collection - removing' }
@@ -458,17 +462,17 @@ TToObservableCollection >> remove: anObject [
 TToObservableCollection >> removeAll [
 
 	| s |
-	s := list size.
+	s := self  collection size.
 	s isZero ifTrue: [ ^ self ].
-	self notifyRemoveChangeAround: [ list removeAll ] removed: list interval: (1 to: s)
+	self notifyRemoveChangeAround: [ self collection removeAll ] removed: self collection interval: (1 to: s)
 ]
 
 { #category : #'t - observable collection - removing' }
 TToObservableCollection >> removeAt: removedIndex [
 
 	self
-		notifyRemoveChangeAround: [ list removeAt: removedIndex ]
-		removed: (Array with: (list at: removedIndex)) 
+		notifyRemoveChangeAround: [ self collection removeAt: removedIndex ]
+		removed: (Array with: (self collection at: removedIndex)) 
 		interval: (removedIndex to: removedIndex)
 ]
 
@@ -476,8 +480,8 @@ TToObservableCollection >> removeAt: removedIndex [
 TToObservableCollection >> removeFirst [
 
 	self
-		notifyRemoveChangeAround: [ list removeFirst ]
-		removed: (Array with: list first)
+		notifyRemoveChangeAround: [ self collection removeFirst ]
+		removed: (Array with: self collection first)
 		interval: (1 to: 1)
 ]
 
@@ -485,8 +489,8 @@ TToObservableCollection >> removeFirst [
 TToObservableCollection >> removeFirst: n [ 
 
 	self 
-		notifyRemoveChangeAround: [ list removeFirst: n ] 		
-		removed: (Array withAll: (list copyFrom: 1 to: n))
+		notifyRemoveChangeAround: [ self collection removeFirst: n ] 		
+		removed: (Array withAll: (self collection copyFrom: 1 to: n))
 		interval: (1 to: n)
 ]
 
@@ -498,9 +502,9 @@ TToObservableCollection >> removeFrom: start to: stop [
 			| idx |
 			idx := start.
 			[ idx > stop ] whileFalse: [
-				list removeAt: start.
+				self collection removeAt: start.
 				idx := idx + 1 ] ]
-		removed: (Array withAll: (list copyFrom: start to: stop))
+		removed: (Array withAll: (self collection copyFrom: start to: stop))
 		interval: (start to: stop)
 ]
 
@@ -508,8 +512,8 @@ TToObservableCollection >> removeFrom: start to: stop [
 TToObservableCollection >> removeLast [
 
 	self
-		notifyRemoveChangeAround: [ list removeLast ]
-		removed: (Array with: list last)
+		notifyRemoveChangeAround: [ self collection removeLast ]
+		removed: (Array with: self collection last)
 		interval: (self size + 1 to: self size + 1)
 ]
 
@@ -520,8 +524,8 @@ TToObservableCollection >> removeLast: n [
 	s := self size.
 	s isZero ifTrue: [ ^ self ].
 	self
-		notifyRemoveChangeAround: [ list removeLast: n ]
-		removed: (Array withAll: (list copyFrom: (s - n + 1) to: s))
+		notifyRemoveChangeAround: [ self collection removeLast: n ]
+		removed: (Array withAll: (self collection copyFrom: (s - n + 1) to: s))
 		interval: (s - n + 1 to: s)
 ]
 
@@ -538,14 +542,14 @@ TToObservableCollection >> replaceFrom: start to: stop with: replacement startin
 		ifFalse: [self error: 'Size of replacement doesnt match'].
 
 	self
-		notifyUpdateChangeAround: [ list replaceFrom: start to: stop with: replacement startingAt: repStart ]
+		notifyUpdateChangeAround: [ self collection replaceFrom: start to: stop with: replacement startingAt: repStart ]
 		interval: (start to: stop)
 ]
 
 { #category : #'t - observable collection - enumerating' }
 TToObservableCollection >> reverseDo: aBlock [
 
-	list reverseDo: aBlock
+	self collection reverseDo: aBlock
 ]
 
 { #category : #'t - observable collection - copying' }
@@ -553,39 +557,39 @@ TToObservableCollection >> reversed [
 
 	"Answer a copy of the receiver with element order reversed.  "
 
-	^ self species newFrom: list reversed
+	^ self species newFrom: self collection reversed
 ]
 
 { #category : #'t - observable collection - accessing' }
 TToObservableCollection >> second [
 
-	^ list second
+	^ self collection second
 ]
 
 { #category : #'t - observable collection - enumerating' }
 TToObservableCollection >> select: aBlock [
 
-	^ list select: aBlock
+	^ self collection select: aBlock
 ]
 
 { #category : #'t - observable collection - accessing' }
 TToObservableCollection >> size [
 
-	^ list size
+	^ self collection size
 ]
 
 { #category : #'t - observable collection - accessing' }
 TToObservableCollection >> third [
 
-	^ list third
+	^ self collection third
 ]
 
 { #category : #'t - observable collection - initialization' }
 TToObservableCollection >> updateAllWith: aCollection [
 
 	self notifyUpdateAllChangeAround: [
-		list removeAll.
-		list addAll: aCollection ]
+		self collection removeAll.
+		self collection addAll: aCollection ]
 ]
 
 { #category : #'t - observable collection - event management' }
@@ -653,12 +657,19 @@ TToObservableCollection >> whenUpdateChangeDo: aBlock [
 ]
 
 { #category : #'t - observable collection - enumerating' }
+TToObservableCollection >> with: aCollection do: aBlock [
+	"aCollection must support #at:at: and be at least as large as the receiver."
+
+	self collection with: aCollection do: aBlock
+]
+
+{ #category : #'t - observable collection - enumerating' }
 TToObservableCollection >> withIndexCollect: elementAndIndexBlock [
 	"Just like with:collect: except that the iteration index supplies the second argument to the block."
 
 	"(#(10 20 30) withIndexCollect: [:each :index | each + (index * 2)]) >>> #(12 24 36)"
 
-	^ list withIndexCollect: elementAndIndexBlock
+	^ self collection withIndexCollect: elementAndIndexBlock
 ]
 
 { #category : #'t - observable collection - enumerating' }
@@ -670,5 +681,5 @@ TToObservableCollection >> withIndexDo: elementAndIndexBlock [
 
 	"|a|a:= Array new: 3. #(10 20 30) withIndexDo: [:e :i| a at: 4-i put: e+1]. a >>> #(31 21 11)"
 
-	list withIndexDo: elementAndIndexBlock
+	self collection withIndexDo: elementAndIndexBlock
 ]

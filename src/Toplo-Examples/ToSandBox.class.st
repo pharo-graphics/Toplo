@@ -449,9 +449,7 @@ ToSandBox class >> example_FilterOnListWithAllClassesAndTraitsSorted [
 	listElement margin: (BlInsets all: 2).
 	filterField margin: (BlInsets all: 2).
 
-	filter := ToListElementFilter new
-		          originalData: listElement data newMirror;
-		          yourself.
+	filter := ToListElementFilter new.
 	filter onInstalledIn: listElement.
 	listElement data addAll:
 		(Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]).
@@ -503,7 +501,7 @@ ToSandBox class >> example_FilterOnListWith_175000_Items [
 	listElement margin: (BlInsets all: 2).
 	filterField margin: (BlInsets all: 2).
 	
-	filter := ToListElementFilter new originalData: listElement data newMirror; yourself.
+	filter := ToListElementFilter new.
 	filter onInstalledIn: listElement.
 	listElement data addAll: data.
 	
@@ -538,10 +536,7 @@ ToSandBox class >> example_FilterOnListWith_AllMethods [
 	filterField := ToTextField new.
 	listElement := ToListElement new.
 	data := SystemNavigation default allMethods.
-	filter := ToListElementFilter new
-		          originalData: listElement data newMirror;
-		          yourself.
-
+	filter := ToListElementFilter new.
 	filter onInstalledIn: listElement.
 	listElement data addAll: data.
 	listElement nodeBuilder: [ :node :holder |
@@ -580,9 +575,7 @@ ToSandBox class >> example_FilterOnListWith_AllMethodsOnCr [
 	filterField := ToTextField new withoutLineBreak.
 	listElement := ToListElement new.
 	data := SystemNavigation default allMethods.
-	filter := ToListElementFilter new
-		          originalData: listElement data newMirror;
-		          yourself.
+	filter := ToListElementFilter new.
 	filter onInstalledIn: listElement.
 	listElement data addAll: data.
 	listElement nodeBuilder: [ :node :holder |

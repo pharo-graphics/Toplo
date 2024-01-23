@@ -186,10 +186,6 @@ BlElement >> holder [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> initialRawStyle [
-]
-
-{ #category : #'*Toplo' }
 BlElement >> installNewSkinNow [
 
 	" useful for testing purpose. Except this case, do not use this feature that bypass the normal skinRequest/skinInstallation scheme"

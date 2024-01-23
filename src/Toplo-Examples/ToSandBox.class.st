@@ -1509,6 +1509,7 @@ ToSandBox class >> example_SieveOnListWith_AllMethods [
 	data := SystemNavigation default allMethods.
 	listElement withRowNumbers.
 	filterField margin: (BlInsets all: 2).
+	filterField placeholderText: (' Method name filter' asRopedText foreground: Color lightGray).
 
 	sieve := ToListElementSieve new.
 	sieve onInstalledIn: listElement.

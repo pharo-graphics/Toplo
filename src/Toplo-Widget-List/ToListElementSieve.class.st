@@ -11,16 +11,11 @@ Class {
 		'originalIndexedData',
 		'queryResultHandler',
 		'selectionChangedHandler',
-		'actualSelection'
+		'actualSelection',
+		'currentSelectedIndexes'
 	],
 	#category : #'Toplo-Widget-List-Sieve'
 }
-
-{ #category : #accessing }
-ToListElementSieve >> actualSelectedIndexes [
-
-	^ actualSelection indices
-]
 
 { #category : #private }
 ToListElementSieve >> buildOriginalIndexedData [
@@ -35,6 +30,12 @@ ToListElementSieve >> buildOriginalIndexedData [
 ToListElementSieve >> currentResults [
 
 	^ currentResults
+]
+
+{ #category : #accessing }
+ToListElementSieve >> currentSelectedIndexes [
+
+	^ currentSelectedIndexes
 ]
 
 { #category : #accessing }
@@ -72,12 +73,10 @@ ToListElementSieve >> onInstalledIn: aListElement [
 	originalData addEventHandler: originalDataUpdater.
 	self buildOriginalIndexedData.
 
-	" original selection maintains the original data selection up-to-date even with a filtered contents 
-	BlCompositeSelection is slow on adding but very fast on searching (binary search) this is why 
-	a BlCompositeSelection is used instead of a standard collection "
-	actualSelection := BlCompositeSelection new.
-	actualSelection selectAllIndexes: aListElement selectionStrategy selectedIndexes.
-
+	" original selection maintains the original data selection up-to-date even with a filtered contents "
+	currentSelectedIndexes := Set new.
+	currentSelectedIndexes addAll: aListElement selectionStrategy selectedIndexes.
+	
 	" the query runner will run the query in background on the originalIndexedData collection "
 	queryRunner := ToObservableCollectionQueryRunner new.
 	queryRunner onInstalledIn: originalIndexedData.
@@ -103,15 +102,10 @@ ToListElementSieve >> onInstalledIn: aListElement [
 { #category : #'event handling' }
 ToListElementSieve >> onListSelectionChangedEvent: anEvent [
 
-	| actualSelectedIndexes actualDeselectedIndexes |
-	actualDeselectedIndexes := OrderedCollection new.
-	actualSelectedIndexes := OrderedCollection new.
 	currentResults withIndexDo: [ :assoc :idx |
 		(anEvent currentIndexes includes: idx)
-			ifTrue: [ actualSelectedIndexes add: assoc value ]
-			ifFalse: [ actualDeselectedIndexes add: assoc value ] ].
-	actualSelection deselectAllIndexes: actualDeselectedIndexes.
-	actualSelection selectAllIndexes: actualSelectedIndexes
+			ifTrue: [ currentSelectedIndexes add: assoc value ]
+			ifFalse: [ currentSelectedIndexes remove: assoc value ifAbsent: [  ] ] ]
 ]
 
 { #category : #'event handling' }
@@ -125,11 +119,11 @@ ToListElementSieve >> onObservableCollectionQueryResultEvent: anEvent [
 
 	currentResults := self results.
 	queryRunner pattern
-		ifEmpty: [ selectedIndexes := actualSelection indices ]
+		ifEmpty: [ selectedIndexes := currentSelectedIndexes asArray ]
 		ifNotEmpty: [
 			selectedIndexes := Array streamContents: [ :stream |
 				                   currentResults withIndexDo: [ :assoc :idx |
-					                   (actualSelection containsIndex: assoc value)
+					                   (currentSelectedIndexes includes: assoc value)
 						                   ifTrue: [ stream nextPut: idx ] ] ] ].
 
 	"If the list element is attached, then,  task must be used here because the 
@@ -163,7 +157,6 @@ ToListElementSieve >> onUninstalledIn: aListElement [
 	originalIndexedData := nil.
 	listElement := nil.
 	originalData := nil.
-	actualSelection := nil.
 	currentResults := nil.
 	queryRunner := nil.
 	filterResultTask := nil.

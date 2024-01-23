@@ -6,7 +6,7 @@ Class {
 		'allowSkinPhases',
 		'spaceShownEventHandler',
 		'needSkinInstallPass',
-		'skinStateGenerator'
+		'stateGenerationHolder'
 	],
 	#category : #'Toplo-Core-SpaceFrame'
 }
@@ -14,13 +14,13 @@ Class {
 { #category : #adding }
 ToSpaceSkinPhasesManager >> addDraggedSkinStateGeneration: aValuable [
 
-	self skinStateGenerator addDraggedSkinStateGeneration: aValuable
+	self stateGenerationHolder addDraggedSkinStateGeneration: aValuable
 ]
 
 { #category : #adding }
 ToSpaceSkinPhasesManager >> addSkinStateGeneration: aValuable [
 
-	self skinStateGenerator addGeneration: aValuable
+	self stateGenerationHolder addGeneration: aValuable
 ]
 
 { #category : #accessing }
@@ -75,7 +75,7 @@ ToSpaceSkinPhasesManager >> initialize [
 	skinPhasesInstalled := false.
 	allowSkinPhases := true.
 	needSkinInstallPass := true.
-	skinStateGenerator := ToSpaceSkinStateGenerator new
+	stateGenerationHolder := ToSpaceStateGenerationHolder new
 ]
 
 { #category : #'phases installation' }
@@ -164,7 +164,7 @@ ToSpaceSkinPhasesManager >> postponeStartSkinPhasesIn: aSpace [
 { #category : #'phases application' }
 ToSpaceSkinPhasesManager >> runStatesGeneration [
 
-	self skinStateGenerator run
+	self stateGenerationHolder run
 ]
 
 { #category : #accessing }
@@ -177,12 +177,6 @@ ToSpaceSkinPhasesManager >> skinPhasesInstalled [
 ToSpaceSkinPhasesManager >> skinPhasesInstalled: aBoolean [
 
 	skinPhasesInstalled := aBoolean
-]
-
-{ #category : #accessing }
-ToSpaceSkinPhasesManager >> skinStateGenerator [
-
-	^ skinStateGenerator
 ]
 
 { #category : #'phases installation' }
@@ -230,6 +224,12 @@ ToSpaceSkinPhasesManager >> startSkinStateApplicationPhaseIn: aSpace [
 	" The skin phase must be inserted before the layout phase (that must be present) "
 	phaseAfter := aSpace frame detectPhase: [ :f | f class = BlSpaceFrameLayoutPhase ].
 	aSpace frame addPhase: ToSpaceSkinStateApplicationPhase new before: phaseAfter
+]
+
+{ #category : #accessing }
+ToSpaceSkinPhasesManager >> stateGenerationHolder [
+
+	^ stateGenerationHolder
 ]
 
 { #category : #'phases installation' }

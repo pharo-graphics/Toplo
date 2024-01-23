@@ -1,5 +1,5 @@
 Class {
-	#name : #ToSpaceSkinStateGenerator,
+	#name : #ToSpaceStateGenerationHolder,
 	#superclass : #Object,
 	#instVars : [
 		'generations',
@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #adding }
-ToSpaceSkinStateGenerator >> addDraggedSkinStateGeneration: aValuable [ 
+ToSpaceStateGenerationHolder >> addDraggedSkinStateGeneration: aValuable [ 
 
 	hasDraggedState ifTrue: [ ^ self ].
 	hasDraggedState := true.
@@ -17,19 +17,19 @@ ToSpaceSkinStateGenerator >> addDraggedSkinStateGeneration: aValuable [
 ]
 
 { #category : #adding }
-ToSpaceSkinStateGenerator >> addGeneration: aValuable [
+ToSpaceStateGenerationHolder >> addGeneration: aValuable [
 
 	self generations add: aValuable
 ]
 
 { #category : #accessing }
-ToSpaceSkinStateGenerator >> generations [
+ToSpaceStateGenerationHolder >> generations [
 
 	^ generations
 ]
 
 { #category : #initialization }
-ToSpaceSkinStateGenerator >> initialize [ 
+ToSpaceStateGenerationHolder >> initialize [ 
 
 	super initialize.
 	hasDraggedState := false.
@@ -37,7 +37,7 @@ ToSpaceSkinStateGenerator >> initialize [
 ]
 
 { #category : #running }
-ToSpaceSkinStateGenerator >> run [
+ToSpaceStateGenerationHolder >> run [
 
 	self generations do: [:g | g value].
 	self generations reset.

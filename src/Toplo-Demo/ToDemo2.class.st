@@ -24,5 +24,5 @@ ToDemo2 >> installRawStyle [
 { #category : #skin }
 ToDemo2 >> newRawSkin [ 
 
-	^ ToDemo2Skin new
+	^ ToDemoSkin1 new
 ]

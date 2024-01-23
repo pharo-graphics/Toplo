@@ -34,7 +34,7 @@ ToDemo1 class >> example1 [
 	ToDemo1>>installRawStyle then 
 	ToDemo1Skin>>installLookEvent:
 	"
-	dem defaultRawSkin: ToDemo1Skin new.
+	dem defaultRawSkin: ToDemoSkin1 new.
 	dem openInSpace
 ]
 

@@ -5,13 +5,13 @@ If a particular skin implements a #installLookEvent: method, then, it is runned 
 To set the skin of an element, one use the #defaultRawSkin: method (theme dependent)
 "
 Class {
-	#name : #ToDemo1Skin,
+	#name : #ToDemoSkin1,
 	#superclass : #ToRawSkin,
 	#category : #'Toplo-Demo-1-Basic'
 }
 
 { #category : #'event handling' }
-ToDemo1Skin >> installLookEvent: anEvent [
+ToDemoSkin1 >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e | 

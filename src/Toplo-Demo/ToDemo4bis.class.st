@@ -15,5 +15,5 @@ ToDemo4bis class >> example0 [
 { #category : #skin }
 ToDemo4bis >> newRawSkin [ 
 
-	^ ToDemo4Skin new
+	^ ToDemoSkin2 new
 ]

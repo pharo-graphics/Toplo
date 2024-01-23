@@ -22,7 +22,7 @@ ToDemo4 >> initialize [
 { #category : #skin }
 ToDemo4 >> newRawSkin [ 
 
-	^ ToDemo4Skin new
+	^ ToDemoSkin2 new
 ]
 
 { #category : #'hooks - children' }

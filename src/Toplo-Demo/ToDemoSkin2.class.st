@@ -1,11 +1,11 @@
 Class {
-	#name : #ToDemo4Skin,
+	#name : #ToDemoSkin2,
 	#superclass : #ToRawSkin,
 	#category : #'Toplo-Demo-1-Basic'
 }
 
 { #category : #'event handling' }
-ToDemo4Skin >> hoveredLookEvent: anEvent [
+ToDemoSkin2 >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -14,7 +14,7 @@ ToDemo4Skin >> hoveredLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToDemo4Skin >> installLookEvent: anEvent [
+ToDemoSkin2 >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -23,7 +23,7 @@ ToDemo4Skin >> installLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToDemo4Skin >> leavedLookEvent: anEvent [
+ToDemoSkin2 >> leavedLookEvent: anEvent [
 
 	super leavedLookEvent: anEvent.
 	anEvent elementDo: [ :e |

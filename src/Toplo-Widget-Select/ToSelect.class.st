@@ -143,6 +143,7 @@ ToSelect >> initialize [
 	self addChild: headerElement.
 	self addChild: self newIconContainer.
 	
+	selectionModel := BlCompositeSelection new.
 	" initialize the mode *** before *** the strategy (the strategy need an installed mode) "
 	self mode: self defaultMode.
 	" initialize the default strategy "
@@ -335,7 +336,7 @@ ToSelect >> selectedIndexes [
 { #category : #accessing }
 ToSelect >> selectionModel [
 
-	^ selectionModel
+	^ selectionModel ifNil: [ selectionModel := BlCompositeSelection new ]
 ]
 
 { #category : #accessing }

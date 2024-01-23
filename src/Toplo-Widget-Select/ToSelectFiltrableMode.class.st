@@ -46,7 +46,6 @@ ToSelectFiltrableMode >> onInstalledIn: aSelect [
 	select listElement addEventHandler: filtrableListEventHandler.
 	select data addEventHandler: dataCollectionAfterChangeEventHandler.
 
-	select selectionModel: BlCompositeSelection new.
 	filter := ToListElementFilter new.
 	filter taskQueueHolder: select.
 	filter selectionModel: select selectionModel.

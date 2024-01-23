@@ -11,7 +11,6 @@ Class {
 		'originalIndexedData',
 		'queryResultHandler',
 		'selectionChangedHandler',
-		'actualSelection',
 		'currentSelectedIndexes'
 	],
 	#category : #'Toplo-Widget-List-Sieve'
@@ -57,7 +56,6 @@ ToListElementSieve >> onInstalledIn: aListElement [
 	" install the sieve on the listElement "
 
 	listElement := aListElement.
-	" Remember each original data position to manage correctly the selection "
 
 	originalData ifNotNil: [
 		^ (BlImmutableObjectChangeError object: self) signal ].
@@ -105,7 +103,12 @@ ToListElementSieve >> onListSelectionChangedEvent: anEvent [
 	currentResults withIndexDo: [ :assoc :idx |
 		(anEvent currentIndexes includes: idx)
 			ifTrue: [ currentSelectedIndexes add: assoc value ]
-			ifFalse: [ currentSelectedIndexes remove: assoc value ifAbsent: [  ] ] ]
+			ifFalse: [
+			currentSelectedIndexes remove: assoc value ifAbsent: [  ] ] ].
+	listElement dispatchEvent:
+		(ToListElementSieveSelectionChangedEvent new
+			 sieve: self;
+			 yourself)
 ]
 
 { #category : #'event handling' }
@@ -119,12 +122,12 @@ ToListElementSieve >> onObservableCollectionQueryResultEvent: anEvent [
 
 	currentResults := self results.
 	queryRunner pattern
-		ifEmpty: [ selectedIndexes := currentSelectedIndexes asArray ]
+		ifEmpty: [ selectedIndexes := currentSelectedIndexes ]
 		ifNotEmpty: [
-			selectedIndexes := Array streamContents: [ :stream |
+			selectedIndexes := (Array streamContents: [ :stream |
 				                   currentResults withIndexDo: [ :assoc :idx |
 					                   (currentSelectedIndexes includes: assoc value)
-						                   ifTrue: [ stream nextPut: idx ] ] ] ].
+						                   ifTrue: [ stream nextPut: idx ] ] ]) asSet ].
 
 	"If the list element is attached, then,  task must be used here because the 
 	filtering is runned asynchronously. The task allows to re-synchronise the element response 
@@ -182,7 +185,10 @@ ToListElementSieve >> results [
 { #category : #'event handling' }
 ToListElementSieve >> updateListElementWithSelectedIndexes: aCollectionOfIndexes [
 
-	listElement data filterResult:
-		(currentResults collect: [ :assoc | assoc key ]).
-	listElement selectionStrategy selectOnlyIndexes: aCollectionOfIndexes
+	listElement data filterResult: (currentResults collect: [ :assoc | assoc key ]).
+	listElement selectionStrategy selectOnlyIndexes: aCollectionOfIndexes.
+	listElement dispatchEvent:
+		(ToListElementSieveFilterAppliedEvent new
+			 sieve: self;
+			 yourself)
 ]

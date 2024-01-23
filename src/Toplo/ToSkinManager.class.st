@@ -15,7 +15,8 @@ Class {
 		'skinInstallRequestCount',
 		'applySkinInstallerOnFirstRequest',
 		'registeredThemeClasses',
-		'defaultRawSkin'
+		'defaultRawSkin',
+		'userData'
 	],
 	#category : #'Toplo-Core-Skin'
 }
@@ -138,7 +139,8 @@ ToSkinManager >> initialize [
 
 	super initialize.
 	skinInstallRequestCount := 0.
-	applySkinInstallerOnFirstRequest := false
+	applySkinInstallerOnFirstRequest := false.
+	userData := IdentityDictionary new
 ]
 
 { #category : #'skin - installing / uninstalling' }
@@ -356,4 +358,10 @@ ToSkinManager >> uninstallSkinNow: aSkin in: anElement [
 	" do not wait the next pulse to ensure the uninstallation is done here "
 	self skinStateQueue applyEnqueuedStatesIn: anElement.
 	anElement removeEventHandler: aSkin
+]
+
+{ #category : #accessing }
+ToSkinManager >> userData [ 
+
+	^ userData
 ]

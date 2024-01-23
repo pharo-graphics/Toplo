@@ -107,6 +107,12 @@ BlElement >> borderBuilder [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> defaultButterflySkin [
+
+	^ self skinManager defaultButterflySkin
+]
+
+{ #category : #'*Toplo' }
 BlElement >> defaultRawSkin [
 
 	^ self skinManager defaultRawSkin

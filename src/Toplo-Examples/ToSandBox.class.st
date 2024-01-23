@@ -295,15 +295,6 @@ ToSandBox class >> example_CheckboxWithIndeterminate [
 { #category : #album }
 ToSandBox class >> example_CodeEditor [
 
-"
-The Client is a defined by user class. 
-ToAlbumBasicClient implement typical Album user with a styler.
-It is a kind of model but without any association from the widget to the client (no reference to the client is stored in widget).
-It can be used and subclassed to support comment and code editing, workspace implementation...
-All the different kind of Album using should use the available basic client class or subclass it for specific purpose.
-Here an example of a client for a method.
-"
-
 	| text album menuBuilder |
 	text := self methodText asRopedText fontName: 'Source Code Pro'.
 	album := ToAlbum new.
@@ -1332,6 +1323,52 @@ ToSandBox class >> example_Popup1 [
 	container openInSpace
 ]
 
+{ #category : #list }
+ToSandBox class >> example_QueryOnListWithStatesOfAmerica [
+
+	| listElement pane filterField data selector |
+	pane := ToPane new
+		        beVertical;
+		        matchParent.
+	filterField := ToTextField new.
+	listElement := ToListElement new.
+	data := self statesOfAmerica.
+
+	listElement margin: (BlInsets all: 2).
+	filterField margin: (BlInsets all: 2).
+
+	selector := ToObservableCollectionQueryRunner new.
+	listElement data addAll: data.
+	selector onInstalledIn: listElement data.
+
+	filterField addEventHandler: (BlEventHandler
+			 on: AlbTextEditedEvent
+			 do: [
+				 | pattern |
+				 pattern := filterField text asString.
+				 selector pattern: pattern ]).
+
+	listElement data addEventHandler: (BlEventHandler
+			 on: ToObservableCollectionQueryResultEvent
+			 do: [ :event |
+				 listElement selectionStrategy selectOnlyIndexes:
+					 event selector selectedIndexes ]).
+
+	listElement placeholderBuilder: [ :ph :e |
+		| lab |
+		lab := ToAttributedLabel new text: ('No Data' asRopedText
+				        foreground: Color lightGray;
+				        fontSize: 24;
+				        yourself).
+		lab matchParent.
+		ph addChild: lab ].
+
+	"handler inspect."
+	pane addChild: listElement.
+	pane addChild: filterField.
+	pane openInSpace
+]
+
 { #category : #checkbox }
 ToSandBox class >> example_RadioButtonChecked [
 
@@ -1364,6 +1401,196 @@ ToSandBox class >> example_RadioButtonWithIndeterminate [
 	but labelText: 'Radio'.
 	but inspect.
 	but openInSpace
+]
+
+{ #category : #list }
+ToSandBox class >> example_SieveOnListWithStatesOfAmerica [
+
+	| listElement pane filterField data sieve |
+	pane := ToPane new
+		        beVertical;
+		        matchParent.
+	filterField := ToTextField new.
+	listElement := ToListElement new.
+	data := self statesOfAmerica.
+
+	listElement margin: (BlInsets all: 2).
+	listElement withRowNumbers.
+	filterField margin: (BlInsets all: 2).
+
+	sieve := ToListElementSieve new.
+	sieve onInstalledIn: listElement.
+	listElement data addAll: data.
+
+	filterField addEventHandler: (BlEventHandler
+			 on: AlbTextEditedEvent
+			 do: [
+				 | pattern |
+				 pattern := filterField text asString.
+				 sieve pattern: pattern ]).
+
+	listElement placeholderBuilder: [ :ph :e |
+		| lab |
+		lab := ToAttributedLabel new text: ('No Data' asRopedText
+				        foreground: Color lightGray;
+				        fontSize: 24;
+				        yourself).
+		lab matchParent.
+		ph addChild: lab ].
+
+	"handler inspect."
+	pane addChild: listElement.
+	pane addChild: filterField.
+	pane openInSpace
+]
+
+{ #category : #list }
+ToSandBox class >> example_SieveOnListWith_350000_Items [
+
+	| listElement pane filterField data sieve |
+	pane := ToPane new
+		        beVertical;
+		        matchParent.
+	filterField := ToTextField new.
+	listElement := ToListElement new.
+	data := OrderedCollection new.
+	Character alphabet do: [ :c1 |
+		(Character alphabet ) do: [ :c2 |
+			(Character alphabet ) do: [ :c3 |
+				((48 to: 57) collect: [:n | n asCharacter]) do: [ :c4 |
+					data add: (String streamContents: [ :str |
+							 str nextPutAll: {
+									 c1.
+									 c2.
+									 c3.
+									 c4 } ]) ] ] ] ].
+				
+	listElement margin: (BlInsets all: 2).
+	listElement withRowNumbers.
+	filterField margin: (BlInsets all: 2).
+	listElement data addAll: data.
+
+	sieve := ToListElementSieve new.
+	sieve onInstalledIn: listElement.
+	listElement data addAll: data.
+	listElement data size traceCr.
+	filterField addEventHandler: (BlEventHandler
+			 on: AlbTextEditedEvent
+			 do: [
+				 | pattern |
+				 pattern := filterField text asString.
+				 sieve pattern: pattern ]).
+
+	listElement placeholderBuilder: [ :ph :e |
+		| lab |
+		lab := ToAttributedLabel new text: ('No Data' asRopedText
+				        foreground: Color lightGray;
+				        fontSize: 24;
+				        yourself).
+		lab matchParent.
+		ph addChild: lab ].
+
+	"handler inspect."
+	pane addChild: listElement.
+	pane addChild: filterField.
+	pane openInSpace
+]
+
+{ #category : #list }
+ToSandBox class >> example_SieveOnListWith_AllMethods [
+
+	| listElement pane filterField data sieve |
+	pane := ToPane new
+		        beVertical;
+		        matchParent.
+		
+	filterField := ToTextField new.
+	listElement := ToListElement new.
+	data := SystemNavigation default allMethods.
+	listElement withRowNumbers.
+	filterField margin: (BlInsets all: 2).
+
+	sieve := ToListElementSieve new.
+	sieve onInstalledIn: listElement.
+	listElement data addAll: data.
+	
+	sieve dataFilter: [ :aCompiledMethod :aPattern |
+		aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
+	
+
+	listElement nodeBuilder: [ :node :holder |
+		node addChild: (ToLabel new text: holder data printString) ].
+	
+	sieve dataFilter: [ :aCompiledMethod :aPattern |
+		aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
+	filterField addEventHandler: (BlEventHandler
+			 on: AlbTextEditedEvent
+			 do: [
+				 | pattern |
+				 pattern := filterField text asString.
+				 sieve pattern: pattern ]).
+
+	listElement placeholderBuilder: [ :ph :e |
+		| lab |
+		lab := ToAttributedLabel new text: ('No Data' asRopedText
+				        foreground: Color lightGray;
+				        fontSize: 24;
+				        yourself).
+		lab matchParent.
+		ph addChild: lab ].
+	"handler inspect."
+	pane addChild: listElement.
+	pane addChild: filterField.
+	pane openInSpace
+]
+
+{ #category : #list }
+ToSandBox class >> example_SieveOnListWith_AllMethods_OnCR [
+
+	| listElement pane filterField data sieve |
+	pane := ToPane new
+		        beVertical;
+		        matchParent.
+		
+	filterField := ToTextField new.
+	listElement := ToListElement new.
+	data := SystemNavigation default allMethods.
+	listElement withRowNumbers.
+	filterField margin: (BlInsets all: 2).
+
+	sieve := ToListElementSieve new.
+	sieve onInstalledIn: listElement.
+	listElement data addAll: data.
+	
+	sieve dataFilter: [ :aCompiledMethod :aPattern |
+		aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
+	
+
+	listElement nodeBuilder: [ :node :holder |
+		node addChild: (ToLabel new text: holder data printString) ].
+	
+	sieve dataFilter: [ :aCompiledMethod :aPattern |
+		aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
+	filterField addEditorShortcut: (BlShortcutWithAction new
+			 combination: BlKeyCombination return;
+			 action: [ :event |
+				 | pattern |
+				 pattern := event currentTarget text asString.
+				 self inform: pattern.
+				 sieve pattern: pattern  ] yourself).
+
+	listElement placeholderBuilder: [ :ph :e |
+		| lab |
+		lab := ToAttributedLabel new text: ('No Data' asRopedText
+				        foreground: Color lightGray;
+				        fontSize: 24;
+				        yourself).
+		lab matchParent.
+		ph addChild: lab ].
+	"handler inspect."
+	pane addChild: listElement.
+	pane addChild: filterField.
+	pane openInSpace
 ]
 
 { #category : #menu }

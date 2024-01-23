@@ -683,3 +683,12 @@ TToObservableCollection >> withIndexDo: elementAndIndexBlock [
 
 	self collection withIndexDo: elementAndIndexBlock
 ]
+
+{ #category : #'t - observable collection - enumerating' }
+TToObservableCollection >> withIndexSelect: elementAndIndexBlock [
+	"select elements from the receiver that the block evaluates true with the element and its index."
+
+	"(#('We' 'love' 'pharo!') withIndexSelect: [:value :index | value size - 1 <= index]) >>> #('We')"
+	
+	^ self collection withIndexSelect: elementAndIndexBlock
+]

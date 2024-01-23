@@ -264,6 +264,20 @@ ToInfiniteSelectionStrategy >> doSelectOnlyIndex: anIndex [
 ]
 
 { #category : #'selection managing' }
+ToInfiniteSelectionStrategy >> doSelectOnlyIndexes: indexes [
+
+	self isMultiple ifFalse: [
+		indexes size > 1 ifTrue: [ self invalidOperation ] ].
+	(selectionModel isEmpty and: [ indexes isEmpty ]) ifTrue: [ ^ self ].
+	infiniteElement dispatchSelectIndexes: indexes.
+	selectionModel deselectAll.
+	indexes ifEmpty: [ ^ self ].
+	selectionModel selectAllIndexes: indexes.
+	self markPointedPosition: indexes first.
+	infiniteElement requestLayout
+]
+
+{ #category : #'selection managing' }
 ToInfiniteSelectionStrategy >> doSelectToIndex: index [
 
 	| curr |
@@ -520,6 +534,13 @@ ToInfiniteSelectionStrategy >> selectOnlyIndex: index [
 
 	infiniteElement dispatchSelectionChangedAfter: [
 		self doSelectOnlyIndex: index ]
+]
+
+{ #category : #'selection managing' }
+ToInfiniteSelectionStrategy >> selectOnlyIndexes: indexes [
+
+	infiniteElement dispatchSelectionChangedAfter: [
+		self doSelectOnlyIndexes: indexes ]
 ]
 
 { #category : #'private - selection managing' }

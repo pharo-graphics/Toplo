@@ -13,7 +13,7 @@ ToButterflyTheme class >> canBeDefault [
 { #category : #accessing }
 ToButterflyTheme class >> label [
 
-	^'Raw'
+	^'Butterfly'
 ]
 
 { #category : #testing }

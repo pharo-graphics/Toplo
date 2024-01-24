@@ -23,8 +23,6 @@ ToDemo4 >> onAddedToSceneGraph [
 
 	super onAddedToSceneGraph.
 	self requestInstallSkin.
-	(self eventDispatcher hasEventHandlerSuchThat: [ :eh |
-		 eh isKindOf: ToSkinStateGenerator ]) ifTrue: [ ^ self ].
 	self addEventHandler: ToSkinStateGenerator new.
 
 ]

@@ -16,9 +16,6 @@ ToDemo1 class >> example0 [
 
 	| dem |
 	dem := ToDemo1 new.
-	" ask to install a ToRawSkin -> 
-	then run:
-	ToDemo1>>installRawStyle "
 	dem requestInstallSkin.
 	dem openInSpace
 ]

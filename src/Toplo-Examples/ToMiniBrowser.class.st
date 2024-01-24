@@ -108,7 +108,7 @@ ToMiniBrowser >> finalProtocolsFrom: aListOfProtocols forClass: aClass [
 { #category : #initialization }
 ToMiniBrowser >> initialize [
 
-	| classesPane classesButtonPane sideToggle |
+	| classesPane packagesPane classesButtonPane sideToggle pkgFilterField pkgSieve|
 	super initialize.
 
 	listsPane := ToPane new
@@ -120,6 +120,13 @@ ToMiniBrowser >> initialize [
 	mainPane := ToPane new beVertical.
 	mainPane matchParent.
 
+	packagesPane := ToPane new
+		               id: #packagesPane;
+		               beVertical;
+		               matchParent.
+
+	pkgFilterField := ToTextField new.
+	pkgFilterField placeholderText: ('Packages filter' asRopedText foreground: Color lightGray).
 	packages := ToListElement new
 		            id: #packages;
 		            nodeBuilder: [ :node :holder |
@@ -128,15 +135,29 @@ ToMiniBrowser >> initialize [
 						             defaultRawSkin: ToLabelInListSkin new;
 						             hMatchParent;
 						             yourself) ].
+	pkgSieve := ToListElementSieve new.
+	pkgSieve onInstalledIn: packages.
+	
+	pkgSieve dataFilter: [ :aPackage :aPattern |
+		aPackage name includesSubstring: aPattern asString caseSensitive: false ].
+	
+	pkgFilterField addEventHandler: (BlEventHandler
+			 on: AlbTextEditedEvent
+			 do: [
+				 | pattern |
+				 pattern := pkgFilterField text asString.
+				 pkgSieve pattern: pattern ]).
 
 	packages infinite addEventHandler: (BlEventHandler
 			 on: ToStrongSelectionEvent
 			 do: [ :event | event traceCr ]).
 
-	packages margin: (BlInsets all: 2).
-
-	packages infinite addEventHandler: (BlEventHandler
-			 on: ToInfiniteSelectionChangedEvent
+	packagesPane margin: (BlInsets all: 2).
+	packagesPane addChild: packages.
+	packagesPane addChild: pkgFilterField.
+	
+	packages addEventHandler: (BlEventHandler
+			 on: ToListSelectionChangedEvent
 			 do: [ :event | self packageSelectionChangedEvent: event ]).
 	packages data addAll:
 		(RPackage organizer packages asSortedCollection: [ :p1 :p2 |
@@ -222,7 +243,7 @@ ToMiniBrowser >> initialize [
 	protocols withRowNumbers.
 	selectors withRowNumbers."
 
-	listsPane addChild: packages.
+	listsPane addChild: packagesPane.
 	listsPane addChild: classesPane.
 	listsPane addChild: protocols.
 	listsPane addChild: selectors.

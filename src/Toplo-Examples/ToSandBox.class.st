@@ -142,9 +142,11 @@ ToSandBox class >> example_CheckboxGroupAndNoneStrategy [
 		buttons add: chb ].
 	buttons second checked: true.
 	group addAll: buttons.
-	group when: ToCheckableGroupChangedEvent do: [ :event |
-		('checked: ' , event checkedButtons asString , ' unchecked: '
-		 , event uncheckedButtons asString) traceCr ].
+	group addEventHandler: (BlEventHandler
+			 on: ToCheckableGroupChangedEvent
+			 do: [ :event |
+				 ('checked: ' , event checkedButtons asString , ' unchecked: '
+				  , event uncheckedButtons asString) traceCr ]).
 
 	container := ToElement new.
 	container constraintsDo: [ :c |
@@ -207,9 +209,11 @@ ToSandBox class >> example_CheckboxGroupAndUnckekingStrategy [
 		buttons add: chb ].
 	buttons second checked: true.
 	group addAll: buttons.
-	group when: ToCheckableGroupChangedEvent do: [ :event |
-		('checked: ' , event checkedButtons asString , ' unchecked: '
-		 , event uncheckedButtons asString) traceCr ].
+	group addEventHandler: (BlEventHandler
+			 on: ToCheckableGroupChangedEvent
+			 do: [ :event |
+				 ('checked: ' , event checkedButtons asString , ' unchecked: '
+				  , event uncheckedButtons asString) traceCr ]).
 
 	container := ToElement new.
 	container constraintsDo: [ :c |
@@ -1317,9 +1321,11 @@ ToSandBox class >> example_Popup1 [
 		popup border: Color black.
 		item := ToElement new size: 50 @ 90.
 		item background: Color yellow.
-		item when: BlPrimaryClickEvent do: [ self inform: 'Click' ].
+		item addEventHandler: (BlEventHandler
+				 on: BlPrimaryClickEvent
+				 do: [ self inform: 'Click' ]).
 		popup root addChild: item ].
-	popupWindowHandler element: menu.
+	popupWindowHandler onInstalledIn: menu.
 	container pane addChild: menu.
 	container openInSpace
 ]
@@ -2382,7 +2388,7 @@ ToSandBox class >> example_overlayWindow1 [
 		     background: Color yellow;
 		     border: (BlBorder paint: Color red).
 	windowHandler := ToOverlayWindowManager new.
-	windowHandler element: e.
+	windowHandler onInstalledIn: e.
 	windowHandler builder: [ :anchWin :element |
 		anchWin background: (Color gray alpha: 0.2).
 		anchWin border: (BlBorder paint: Color black width: 2) ].
@@ -2398,9 +2404,13 @@ ToSandBox class >> example_overlayWindow2 [
 		     size: 100 @ 100;
 		     position: 50 @ 50.
 	windowHandler := ToOverlayWindowManager new.
-	windowHandler positionHook: [ :theWindow :theElement :event | theWindow position: theElement bounds inSpace bounds topLeft + (20 @ 40) ].
-	windowHandler sizeHook: [ :theWindow :theElement :event | theWindow size: (theElement measuredWidth - 40) @ (theElement measuredHeight - 60)].
-	windowHandler element: e.
+	windowHandler positionHook: [ :theWindow :theElement :event |
+		theWindow position:
+			theElement bounds inSpace bounds topLeft + (20 @ 40) ].
+	windowHandler sizeHook: [ :theWindow :theElement :event |
+		theWindow size:
+			theElement measuredWidth - 40 @ (theElement measuredHeight - 60) ].
+	windowHandler onInstalledIn: e.
 	windowHandler builder: [ :anchWin :element |
 		anchWin background: (Color gray alpha: 0.2).
 		anchWin border: (BlBorder paint: Color black width: 2) ].
@@ -2837,7 +2847,7 @@ ToSandBox class >> example_textFieldWithLineWrappingWithSaveCapability [
 		     withLineWrapping;
 		     withSaveCapability.
 	t whenSaveRequestedDo: [ :saveRequested |
-		saveRequested client saveResult: true.
+		saveRequested accepted: true.
 		text := saveRequested client text copy ].
 	t whenCancelRequestedDo: [ :cancelRequested |
 		cancelRequested client text: text copy ].
@@ -2892,7 +2902,7 @@ ToSandBox class >> example_textFieldWithSaveCapability [
 	text := ''.
 	t text: text copy.
 	t whenSaveRequestedDo: [ :saveRequested | 
-		saveRequested client saveResult: true.
+		saveRequested accepted: true.
 		text := saveRequested client text copy].
 	t whenCancelRequestedDo: [ :cancelRequested | 
 		cancelRequested client text: text copy ].

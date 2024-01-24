@@ -273,7 +273,7 @@ ToInfiniteSelectionStrategy >> doSelectOnlyIndexes: indexes [
 	selectionModel deselectAll.
 	indexes ifEmpty: [ ^ self ].
 	selectionModel selectAllIndexes: indexes.
-	self markPointedPosition: indexes first.
+	"self markPointedPosition: indexes first."
 	infiniteElement requestLayout
 ]
 

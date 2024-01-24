@@ -300,10 +300,10 @@ ToSandBox class >> example_CodeEditor [
 	album := ToAlbum new.
 album inspect.
 	album styler: (BlRBTextStyler new classOrMetaClass: self class).
-	album text: (text copy fontName: 'Source Code Pro').
+	album text: text copy.
 	album withSaveCapability.
 	album withRowNumbers.
-	album whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ].
+	album whenSaveRequestedDo: [ :saveRequested | saveRequested accepted: true ].
 	album whenCancelRequestedDo: [ :cancelRequested | cancelRequested client text: text copy ].
 	
 	menuBuilder := [ :menu :request | | element |

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToThemeVariant,
 	#superclass : #Object,
-	#category : 'Toplo-Core-Theme'
+	#category : #'Toplo-Core-Theme'
 }
 
 { #category : #'space configurating' }
@@ -17,7 +17,14 @@ ToThemeVariant >> changedTokenProperties [
 ]
 
 { #category : #'api - hooks' }
-ToThemeVariant >> onInstalledIn: aSpace [
+ToThemeVariant >> onInstalledIn: anElement [
 
-	aSpace root addAllTokenProperties: self changedTokenProperties
+	anElement addAllTokenProperties: self changedTokenProperties
+]
+
+{ #category : #'api - hooks' }
+ToThemeVariant >> onUninstalledIn: anElement [
+
+	anElement removeAllTokenPropertiesFromNames: (self changedTokenProperties collect: [:tp | tp name]).
+
 ]

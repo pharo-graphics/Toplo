@@ -154,3 +154,9 @@ ToAnchoredWindow >> popupTimestamp [
 
 	^ popupTimestamp 
 ]
+
+{ #category : #accessing }
+ToAnchoredWindow >> toTheme [
+
+	^ windowManager element toTheme
+]

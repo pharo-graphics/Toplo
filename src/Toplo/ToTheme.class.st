@@ -327,10 +327,19 @@ ToTheme >> newSkinInstanceFor: anElement [
 ]
 
 { #category : #'space configurating' }
-ToTheme >> onInstalledIn: aSpace [
+ToTheme >> onInstalledIn: anElement [
 
-	aSpace root addAllTokenProperties: self defaultTokenProperties.
-	self variant onInstalledIn: aSpace
+	anElement addAllTokenProperties: self defaultTokenProperties.
+	self variant onInstalledIn: anElement.
+	anElement toThemeChanged
+]
+
+{ #category : #'space configurating' }
+ToTheme >> onUninstalledIn: anElement [
+
+	anElement removeAllTokenPropertiesFromNames: (self defaultTokenProperties collect: [:tp | tp name]).
+	self variant onUninstalledIn: anElement.
+	anElement toThemeChanged
 ]
 
 { #category : #printing }

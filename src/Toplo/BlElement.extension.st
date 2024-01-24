@@ -258,6 +258,12 @@ BlElement >> removeAllStamps [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> removeAllTokenPropertiesFromNames: aCollection [
+
+	self toStyleStore removeAllTokenPropertiesFromNames: aCollection
+]
+
+{ #category : #'*Toplo' }
 BlElement >> removeStamp: aSymbol [
 
 	self toStyleStore removeStamp: aSymbol
@@ -430,12 +436,22 @@ BlElement >> toStyleStore [
 	^ self userData at: #toStyleStore ifAbsentPut: [ ToStyleStore new onInstalledIn: self; yourself]
 ]
 
-{ #category : #'*Toplo-LookAndFeel' }
+{ #category : #'*Toplo' }
 BlElement >> toTheme [
 
-	self isAttachedToSceneGraph ifFalse: [
-		Error signal: 'A not attached element should not ask for its theme' ].
-	^ self space toTheme
+	^ self userData at: #toTheme ifAbsent: [
+		  self parent
+			  ifNil: [ self space toTheme ]
+			  ifNotNil: [ :p | p toTheme ] ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> toTheme: aTheme [
+
+	self userData at: #toTheme ifPresent: [ :th | th onUninstalledIn: self ].
+	self userData at: #toTheme put: aTheme.
+	aTheme ifNil: [ ^ self ].
+	aTheme onInstalledIn: self 
 ]
 
 { #category : #'*Toplo-LookAndFeel' }

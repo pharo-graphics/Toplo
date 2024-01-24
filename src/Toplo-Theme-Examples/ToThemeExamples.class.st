@@ -200,17 +200,23 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 	space root layout: BlLinearLayout vertical.
 
 	themePane := ToPane horizontal.
+	themePane toTheme: ToRawTheme light.
+	themePane geometry: (BlRoundedRectangleGeometry cornerRadius: 6).
+	themePane padding: (BlInsets all: 5).
 	variantPane := ToPane vertical.
 	variantPane fitContent.
 	variantPane padding: (BlInsets horizontal: 10).
 	pane := ToPane vertical.
 
 	pane layout cellSpacing: 5.
+	pane padding: (BlInsets all: 5).
+
 
 	themeVariant := #light.
 
 	themeSelect := ToChoiceMenu new.
 	themeSelect dataToTextConverter: [ :assoc | assoc key ].
+	themeSelect withStrictCheckingStrategy.
 	themeSelect data addAll: {
 			('Bee Theme' -> ToBeeTheme).
 			('Raw Theme' -> ToRawTheme) }.
@@ -243,6 +249,8 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 
 	disachb := ToCheckbox new label:
 		           (ToLabel text: 'Disable all buttons').
+	pane addChild: disachb.
+
 	disachb defaultSkin: ToCheckboxSkin new.
 
 	chb := ToCheckbox new label: (ToLabel text: 'Swith primary').
@@ -276,8 +284,8 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 			 on: ToCheckableCheckEvent
 			 do: [ :evt |
 				 evt current
-					 ifTrue: [ pane childrenDo: [ :child | child disable ] ]
-					 ifFalse: [ pane childrenDo: [ :child | child enable ] ] ]).
+					 ifTrue: [ pane childrenDo: [ :child | child ~= disachb ifTrue: [child disable ] ] ]
+					 ifFalse: [ pane childrenDo: [ :child | child ~= disachb ifTrue: [child enable ] ] ] ]).
 
 	pane addChild: primaryButton1.
 	pane addChild: chb.
@@ -288,11 +296,9 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 	mainPane := ToPane vertical.
 	mainPane padding: (BlInsets all: 10).
 	mainPane addChild: themePane.
-	mainPane addChild: disachb.
 	mainPane addChild: pane.
 	space root addChild: mainPane.
-	space show.
-	space inspect
+	space show
 ]
 
 { #category : #'examples - buttons' }

@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToTokenPropertyIndexHolder,
-	#category : 'Toplo-Core-Theme'
+	#category : #'Toplo-Core-Theme'
 }
 
 { #category : #'t - token property index holder' }
@@ -60,6 +60,12 @@ TToTokenPropertyIndexHolder >> rawTokenPropertyIndex [
 TToTokenPropertyIndexHolder >> rawTokenPropertyIndex: aPropertyIndex [
 
 	^ self explicitRequirement 
+]
+
+{ #category : #'t - token property index holder' }
+TToTokenPropertyIndexHolder >> removeAllTokenPropertiesFromNames: aCollection [
+
+	self tokenPropertyIndex removeAllPropertyFromNames: aCollection
 ]
 
 { #category : #'t - token property index holder' }

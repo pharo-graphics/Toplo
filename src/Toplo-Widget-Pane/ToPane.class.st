@@ -3,7 +3,7 @@ Class {
 	#superclass : #ToElement,
 	#traits : 'TToOrientable + TToPasteUpPane + TToElementWithPlaceholder',
 	#classTraits : 'TToOrientable classTrait + TToPasteUpPane classTrait + TToElementWithPlaceholder classTrait',
-	#category : 'Toplo-Widget-Pane'
+	#category : #'Toplo-Widget-Pane'
 }
 
 { #category : #factory }
@@ -48,6 +48,20 @@ ToPane >> addDividers [
 ToPane >> defaultLayout [
 
 	^ BlLinearLayout new 
+]
+
+{ #category : #skin }
+ToPane >> installBeeStyle [ 
+
+	super installBeeStyle.
+	self background: (self tokenValueNamed: #'background-color')
+]
+
+{ #category : #skin }
+ToPane >> installRawStyle [ 
+
+	super installRawStyle.
+	self background: (self tokenValueNamed: #'background-color')
 ]
 
 { #category : #'t - orientable - accessing' }

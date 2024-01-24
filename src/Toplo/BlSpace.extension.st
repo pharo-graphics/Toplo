@@ -96,15 +96,16 @@ BlSpace >> stopSkinPhases [
 { #category : #'*Toplo-LookAndFeel' }
 BlSpace >> toTheme [
 
-	^ self userData at: #toTheme ifAbsent: [  self toTheme: Toplo newDefaultThemeInstance. self toTheme ]
+	^ self userData at: #toTheme ifAbsent: [
+		  self toTheme: Toplo newDefaultThemeInstance.
+		  self userData at: #toTheme ]
 ]
 
 { #category : #'*Toplo-LookAndFeel' }
 BlSpace >> toTheme: aTheme [
 
 	self userData at: #toTheme put: aTheme.
-	aTheme onInstalledIn:  self.
-	self root toThemeChanged
+	self root toTheme: aTheme
 ]
 
 { #category : #'*Toplo' }

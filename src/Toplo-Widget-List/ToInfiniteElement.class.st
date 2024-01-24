@@ -1,8 +1,8 @@
 Class {
 	#name : #ToInfiniteElement,
 	#superclass : #BlInfiniteElement,
-	#traits : 'TBlLayoutResizable',
-	#classTraits : 'TBlLayoutResizable classTrait',
+	#traits : 'TToElement + TBlLayoutResizable',
+	#classTraits : 'TToElement classTrait + TBlLayoutResizable classTrait',
 	#instVars : [
 		'nodeBuilder',
 		'preserveSelectionOnFocused',
@@ -224,8 +224,8 @@ ToInfiniteElement >> infinite [
 ToInfiniteElement >> initialize [
 
 	super initialize.
+	self initializeForToplo.
 	requestFocusOnMouseDown := true.
-	self addEventHandler: ToSkinStateGenerator new.
 	self addEventHandler: ToInfiniteElementEventHandler new.
 	selectionStrategy := self defaultSelectionStrategy.
 	selectionStrategy onInstalledIn: self.

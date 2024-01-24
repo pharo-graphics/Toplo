@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToCheckable,
-	#category : 'Toplo-Widget-Button-Core'
+	#category : #'Toplo-Widget-Button-Core'
 }
 
 { #category : #'t - checkable - group private' }
@@ -107,6 +107,13 @@ TToCheckable >> nextCheckValue [
 		self isChecked ifTrue: [ ^ false ].
 		^ #indeterminate ].
 	^ self checked not
+]
+
+{ #category : #'t - checkable - state generator' }
+TToCheckable >> onSkinStateGeneratorAdded: aSkinStateGenerator [
+
+	super onSkinStateGeneratorAdded: aSkinStateGenerator.
+	self dispatchEvent: (ToCheckableCheckEvent current: self isChecked previous: nil)
 ]
 
 { #category : #'t - checkable - private protocol' }

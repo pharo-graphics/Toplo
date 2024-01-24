@@ -12,6 +12,7 @@ ToElementTest >> testAddEventFilter [
 
 	| e  |
 	e := ToElement new.
+	" can't add a ToSkinStateGenerator if not attached "
 	self
 		should: [ e addEventFilter: ToSkinStateGenerator new ]
 		raise: Error
@@ -22,6 +23,7 @@ ToElementTest >> testAddEventHandler [
 
 	| e  |
 	e := ToElement new.
+	" can't add a ToSkinStateGenerator if not attached "
 	self
 		should: [ e addEventHandler: ToSkinStateGenerator new ]
 		raise: Error
@@ -113,10 +115,7 @@ ToElementTest >> testCheckEventHandler [
 
 	| e |
 	e := ToElement new.
-	self
-		should: [ e checkEventHandler: ToSkinStateGenerator new ]
-		raise: Error.
-
+	e checkEventHandler: ToSkinStateGenerator new
 ]
 
 { #category : #'test initialize' }

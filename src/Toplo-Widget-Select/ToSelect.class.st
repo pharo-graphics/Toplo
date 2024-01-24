@@ -165,6 +165,12 @@ ToSelect >> initialize [
 
 ]
 
+{ #category : #accessing }
+ToSelect >> inputTextField [ 
+
+	^ self strategy textInputElement inputTextField
+]
+
 { #category : #testing }
 ToSelect >> isFiltrable [
 

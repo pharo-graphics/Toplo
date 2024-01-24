@@ -1,8 +1,8 @@
 Class {
 	#name : #ToElement,
 	#superclass : #BlElement,
-	#traits : 'TBlLayoutResizable + TToEnableable + TToElementWithTooltip + TToElementWithContextMenu',
-	#classTraits : 'TBlLayoutResizable classTrait + TToEnableable classTrait + TToElementWithTooltip classTrait + TToElementWithContextMenu classTrait',
+	#traits : 'TBlLayoutResizable + TToElement + TToEnableable + TToElementWithTooltip + TToElementWithContextMenu',
+	#classTraits : 'TBlLayoutResizable classTrait + TToElement classTrait + TToEnableable classTrait + TToElementWithTooltip classTrait + TToElementWithContextMenu classTrait',
 	#category : #'Toplo-Core'
 }
 
@@ -68,23 +68,7 @@ ToElement >> inVerticalPane [
 ToElement >> initialize [
 
 	super initialize.
-	self layout: self defaultLayout.
-	self addEventHandler: ToSkinStateGenerator new
-]
-
-{ #category : #'hooks - children' }
-ToElement >> onAddedToParent [
-
-	super onAddedToParent.
-	self hasEnablementFlag ifFalse: [
-		self enabled: self parent isEnabled ]
-]
-
-{ #category : #'hooks - children' }
-ToElement >> onAddedToSceneGraph [
-
-	super onAddedToSceneGraph.
-	self requestInstallSkin
+	self initializeForToplo 
 ]
 
 { #category : #'t  - layout resizeable' }

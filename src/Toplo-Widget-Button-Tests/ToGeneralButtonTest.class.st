@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToGeneralButtonTest',
-	#superclass : 'TestCase',
-	#category : 'Toplo-Widget-Button-Tests-Core',
-	#package : 'Toplo-Widget-Button-Tests',
-	#tag : 'Core'
+	#name : #ToGeneralButtonTest,
+	#superclass : #TestCase,
+	#category : 'Toplo-Widget-Button-Tests-Core'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToGeneralButtonTest >> testGeneralButton [
 	"Test default values of a new general button"
 
@@ -19,7 +17,7 @@ ToGeneralButtonTest >> testGeneralButton [
 	self assert: button currentTooltipWindow isNil
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToGeneralButtonTest >> testGeneralButtonTooltip [
 	"Test default values of a new general button"
 

@@ -248,10 +248,10 @@ ToMiniBrowser >> initialize [
 	codePane contextMenuBuilder: [ :codeMenu :element |
 		codeMenu addItem: (ToMenuItem new labelText: 'Accept') ].
 
-	"packages withRowNumbers.
+	packages withRowNumbers.
 	classes withRowNumbers.
 	protocols withRowNumbers.
-	selectors withRowNumbers."
+	selectors withRowNumbers.
 
 	listsPane addChild: packagesPane.
 	listsPane addChild: classesPane.

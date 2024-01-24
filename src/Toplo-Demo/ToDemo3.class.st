@@ -10,7 +10,6 @@ ToDemo3 class >> example0 [
 	| dem |
 	dem := ToDemo3 new.
 	dem requestInstallSkin.
-	dem addEventHandler: ToSkinStateGenerator new.
 	dem openInSpace
 ]
 

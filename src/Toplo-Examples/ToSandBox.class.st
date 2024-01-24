@@ -1121,6 +1121,7 @@ ToSandBox class >> example_MonoFiltrable [
 	select windowManager anchorRoot: innerWindow root.
 	select width: 300.
 	select position: 50 @ 50.
+	select inputTextField requestFocus.
 	innerWindow pane addChild: select.
 	innerWindow openInSpace
 ]
@@ -2731,8 +2732,6 @@ ToSandBox class >> example_switchButton [
 	| th  |
 	th := ToSwitchButton new.
 	th checked: true.
-
-
 	th openInSpace
 ]
 
@@ -2802,6 +2801,7 @@ ToSandBox class >> example_textFieldOnlyDigits [
 
 	| t |
 	t := ToTextField new inputFilter: AlbTextEditorDigitInputFilter new.
+	t requestFocus.
 	t openInSpace
 ]
 
@@ -3019,7 +3019,6 @@ ToSandBox class >> example_toBasicButton2 [
 			        fontSize: 40;
 			        yourself).
 	but := ToGeneralButton new.
-	but addEventHandler: (ToSkinStateGenerator new target: but).
 	but matchParent.
 	but addChild: lab.
 	but layout alignCenter.

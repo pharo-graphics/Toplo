@@ -224,9 +224,10 @@ ToSkinManagerTest >> testHasPostponedRequestInstallSkin [
 	" the postpone action is runned when BlElementAddedToSceneGraph is sent "	
 	space root addChild: e.
 	self assert: e skinManager hasPostponedRequestInstallSkin not.
+	" should have 2 more event handlers (the skinStateGenerator + the one for postponedRequestInstallSkin)"
 	self
 		assert: e eventDispatcher handlers size
-		equals: handlersNb.
+		equals: handlersNb + 1.
 	self assert: e skinManager skinInstaller notNil
 
 	
@@ -379,9 +380,10 @@ ToSkinManagerTest >> testPostponeRequestSkinIn [
 	" the postpone action is runned when BlElementAddedToSceneGraph is sent "	
 	space root addChild: e.
 	self assert: e skinManager hasPostponedRequestInstallSkin not.
+	" should have 2 more event handlers (the skinStateGenerator + the one for postponedRequestInstallSkin)"
 	self
 		assert: e eventDispatcher handlers size
-		equals: handlersNb.
+		equals: handlersNb + 1.
 	self assert: e skinManager skinInstaller notNil
 
 	

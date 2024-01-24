@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToCheckboxTest',
-	#superclass : 'ToTestCaseWithSpace',
-	#category : 'Toplo-Widget-Button-Tests-Checkable',
-	#package : 'Toplo-Widget-Button-Tests',
-	#tag : 'Checkable'
+	#name : #ToCheckboxTest,
+	#superclass : #ToTestCaseWithSpace,
+	#category : #'Toplo-Widget-Button-Tests-Checkable'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToCheckboxTest >> testCheckUncheckStates [
 
 	| cb |
@@ -16,7 +14,7 @@ ToCheckboxTest >> testCheckUncheckStates [
 	self assert: cb checked
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToCheckboxTest >> testChecked [
 
 	| cb  |
@@ -29,7 +27,7 @@ ToCheckboxTest >> testChecked [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToCheckboxTest >> testCheckedWhenDisabled [
 
 	| cb  checked |
@@ -45,7 +43,7 @@ ToCheckboxTest >> testCheckedWhenDisabled [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToCheckboxTest >> testIndeterminateState [
 
 	| cb |
@@ -55,26 +53,26 @@ ToCheckboxTest >> testIndeterminateState [
 	self assert: cb isUnchecked 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToCheckboxTest >> testStartChecked [
 
-	| cb space |
+	| cb |
 	cb := ToCheckbox new.
 	cb checked: true.
-	space := cb openInSpace.
+	space root addChild: cb.
 	self assert: cb checked.
 	cb addEventHandler: (BlEventHandler
 			 on: BlElementAddedToSceneGraphEvent
 			 do: [ space close ])
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToCheckboxTest >> testStartCheckedThenDisabled [
 
-	| cb space |
+	| cb |
 	cb := ToCheckbox new.
 	cb checked: true.
-	space := cb openInSpace.
+	space root addChild: cb.
 	self assert: cb checked.
 	cb disable.
 	self assert: cb checked.
@@ -83,13 +81,13 @@ ToCheckboxTest >> testStartCheckedThenDisabled [
 			 do: [ space close ])
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToCheckboxTest >> testStartUnchecked [
 
-	| cb space |
+	| cb |
 	cb := ToCheckbox new.
 	cb checked: false.
-	space := cb openInSpace.
+	space root addChild: cb.
 	self assert: cb checked not.
 	cb addEventHandler: (BlEventHandler
 			 on: BlElementAddedToSceneGraphEvent

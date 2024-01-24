@@ -1,6 +1,8 @@
 Class {
 	#name : #ToAlbumPrimarySelectionElement,
 	#superclass : #AlbPrimarySelectionElement,
+	#traits : 'TToElement',
+	#classTraits : 'TToElement classTrait',
 	#category : #'Toplo-Widget-Album-TextPane'
 }
 
@@ -8,7 +10,7 @@ Class {
 ToAlbumPrimarySelectionElement >> initialize [ 
 
 	super initialize.
-	self addEventHandler: ToSkinStateGenerator new.
+	self initializeForToplo.
 	self addEventHandler: ToAlbumPrimarySelectionElementEventHandler new
 ]
 
@@ -16,11 +18,4 @@ ToAlbumPrimarySelectionElement >> initialize [
 ToAlbumPrimarySelectionElement >> newRawSkin [ 
 
 	^ ToAlbumPrimarySelectionElementSkin new
-]
-
-{ #category : #'hooks - children' }
-ToAlbumPrimarySelectionElement >> onAddedToSceneGraph [
-
-	super onAddedToSceneGraph.
-	self requestInstallSkin
 ]

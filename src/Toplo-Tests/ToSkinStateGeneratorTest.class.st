@@ -17,6 +17,7 @@ ToSkinStateGeneratorTest >> newElementInSpace [
 	self assert: e skinInstaller notNil.
 	" to install the element skin  "
 	space applyAllSkinInstallers.
+	space runStatesGeneration.
 
 	^ e
 ]
@@ -75,17 +76,17 @@ ToSkinStateGeneratorTest >> testGenerateCheckStateFromEvent [
 { #category : #tests }
 ToSkinStateGeneratorTest >> testGenerateClickedStateFromEvent [
 
-	| e evt nextStates  |
+	| e evt nextStates  nextStatesSize |
 	e := self newElementInSpace.
 
 	evt := BlMouseButton primary clickEventClass new button: BlMouseButton primary.
 
 	nextStates := e skinStateQueue nextStates.
+	nextStatesSize := nextStates size.
 
-	self assert: nextStates size equals: 0.
 	e dispatchEvent: evt.
 	e space runStatesGeneration.
-	self assert: nextStates size equals: 1.
+	self assert: nextStates size equals: nextStatesSize + 1.
 
 
 	evt := BlMouseButton primary clickEventClass new button:
@@ -93,36 +94,36 @@ ToSkinStateGeneratorTest >> testGenerateClickedStateFromEvent [
 
 	e dispatchEvent: evt.
 	e space runStatesGeneration.
-	self assert: nextStates size equals: 2
+	self assert: nextStates size equals: nextStatesSize + 2
 ]
 
 { #category : #tests }
 ToSkinStateGeneratorTest >> testGenerateHoveredStateFromEvent [
 
-	| e evt nextStates  |
+	| e evt nextStates  nextStatesSize |
 	e := self newElementInSpace.
 
 	evt := BlMouseEnterEvent new.
 
 	nextStates := e skinStateQueue nextStates.
+	nextStatesSize := nextStates size.
 
-	self assert: nextStates size equals: 0.
 	e dispatchEvent: evt.
 	e space runStatesGeneration.
-	self assert: nextStates size equals: 1.
+	self assert: nextStates size equals: nextStatesSize + 1.
 
 	evt := BlMouseEnterEvent new.
 
 	e dispatchEvent: evt.
 	e space runStatesGeneration.
-	self assert: nextStates size equals: 2.
+	self assert: nextStates size equals: nextStatesSize + 2.
 
 	evt := BlMouseLeaveEvent new.
 
 	e dispatchEvent: evt.
 	e space runStatesGeneration.
 
-	self assert: nextStates size equals: 3
+	self assert: nextStates size equals: nextStatesSize + 3
 ]
 
 { #category : #tests }
@@ -130,6 +131,8 @@ ToSkinStateGeneratorTest >> testOnInstalledIn [
 
 	| e h |
 	e := ToElement new.
+	space root addChild: e.
+	" e is attached, it should already have a ToSkinStateGenerator "
 	h := ToSkinStateGenerator new.
 	self should: [e addEventHandler: h] raise: Error.
 
@@ -147,7 +150,12 @@ ToSkinStateGeneratorTest >> testTarget [
 	| e gen |
 	e := ToElement new.
 	gen := e eventDispatcher handlers detect: [ :h |
+		       h isKindOf: ToSkinStateGenerator ] ifNone: [].
+	self assert: gen isNil.
+	space root addChild: e.
+	gen := e eventDispatcher handlers detect: [ :h |
 		       h isKindOf: ToSkinStateGenerator ].
+	self assert: gen notNil.
 	self assert: gen target identicalTo: e
 ]
 
@@ -156,6 +164,7 @@ ToSkinStateGeneratorTest >> testWantsEvent [
 
 	| e gen  |
 	e := ToElement new.
+	space root addChild: e.
 	self assert: e isEnabled.
 	gen := e eventDispatcher handlers detect: [ :h |
 		       h isKindOf: ToSkinStateGenerator ].

@@ -12,13 +12,6 @@ ToDemo4 class >> example0 [
 	dem openInSpace
 ]
 
-{ #category : #initialization }
-ToDemo4 >> initialize [ 
-
-	super initialize.
-	self addEventHandler: ToSkinStateGenerator new
-]
-
 { #category : #skin }
 ToDemo4 >> newRawSkin [ 
 
@@ -29,5 +22,9 @@ ToDemo4 >> newRawSkin [
 ToDemo4 >> onAddedToSceneGraph [
 
 	super onAddedToSceneGraph.
-	self requestInstallSkin
+	self requestInstallSkin.
+	(self eventDispatcher hasEventHandlerSuchThat: [ :eh |
+		 eh isKindOf: ToSkinStateGenerator ]) ifTrue: [ ^ self ].
+	self addEventHandler: ToSkinStateGenerator new.
+
 ]

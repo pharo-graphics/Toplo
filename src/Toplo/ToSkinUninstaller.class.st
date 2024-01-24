@@ -13,13 +13,3 @@ ToSkinUninstaller >> applyOn: anElement [
 	anElement skinUninstaller: nil.
 
 ]
-
-{ #category : #hook }
-ToSkinUninstaller >> uninstallSkinIn: anElement [
-
-	self
-		deprecated: 'Use #applyOn:'
-		transformWith: '`@receiver uninstallSkinIn: `@arg' -> '`@receiver applyOn: `@arg'.
-
-	self applyOn: anElement
-]

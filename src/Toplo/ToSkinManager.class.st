@@ -147,6 +147,7 @@ ToSkinManager >> initialize [
 ToSkinManager >> installSkin: aSkin in: anElement [
 
 	anElement dispatchEvent: (ToSkinInstallStateRequest new skin: aSkin; yourself)
+	"self installSkinNow: aSkin in: anElement"
 ]
 
 { #category : #'skin - installing / uninstalling' }

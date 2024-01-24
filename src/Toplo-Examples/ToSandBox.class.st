@@ -2195,7 +2195,9 @@ ToSandBox class >> example_contactList [
 	contacts add: contact.
 	list nodeBuilder: [ :node :holder |
 		| line remBut |
-		line := ToPane horizontal.
+		line := ToElement new
+			        layout: BlLinearLayout horizontal;
+			        matchParent.
 		line addChild: (ToLabel new
 				 text: holder data name;
 				 defaultRawSkin: ToLabelInListSkin new;

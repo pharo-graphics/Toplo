@@ -228,8 +228,6 @@ ToTheme class >> defaultTokenProperties [
 		
 		  (ToTokenProperty name: #'text-editor-padding-H' value: 3).
 		  (ToTokenProperty name: #'text-editor-padding-V' value: 2).
-		
-		
 
 		  (ToTokenProperty
 			   name: #'checkbox-image-builder'

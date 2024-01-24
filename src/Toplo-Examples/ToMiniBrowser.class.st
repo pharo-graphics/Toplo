@@ -174,7 +174,7 @@ ToMiniBrowser >> initialize [
 			 do: [ :event |
 				 classes infinite dispatchSelectionChangedAfter: [
 					 classSide := event current.
-					 classes selection deselectAll ] ]).
+					 classes selectionStrategy deselectAll ] ]).
 
 	protocols := ToListElement new
 		             id: #protocols;

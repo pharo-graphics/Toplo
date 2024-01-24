@@ -108,7 +108,7 @@ ToMiniBrowser >> finalProtocolsFrom: aListOfProtocols forClass: aClass [
 { #category : #initialization }
 ToMiniBrowser >> initialize [
 
-	| classesPane packagesPane classesButtonPane sideToggle pkgFilterField pkgSieve|
+	| classesPane packagesPane classesButtonPane sideToggle pkgFilterField pkgSieve packageBottomPane |
 	super initialize.
 
 	listsPane := ToPane new
@@ -121,12 +121,13 @@ ToMiniBrowser >> initialize [
 	mainPane matchParent.
 
 	packagesPane := ToPane new
-		               id: #packagesPane;
-		               beVertical;
-		               matchParent.
+		                id: #packagesPane;
+		                beVertical;
+		                matchParent.
 
 	pkgFilterField := ToTextField new.
-	pkgFilterField placeholderText: ('Packages filter' asRopedText foreground: Color lightGray).
+	pkgFilterField placeholderText:
+		('Packages filter' asRopedText foreground: Color lightGray).
 	packages := ToListElement new
 		            id: #packages;
 		            nodeBuilder: [ :node :holder |
@@ -137,16 +138,25 @@ ToMiniBrowser >> initialize [
 						             yourself) ].
 	pkgSieve := ToListElementSieve new.
 	pkgSieve onInstalledIn: packages.
-	
+
 	pkgSieve dataFilter: [ :aPackage :aPattern |
-		aPackage name includesSubstring: aPattern asString caseSensitive: false ].
-	
+		aPackage name
+			includesSubstring: aPattern asString
+			caseSensitive: false ].
+
 	pkgFilterField addEventHandler: (BlEventHandler
 			 on: AlbTextEditedEvent
 			 do: [
 				 | pattern |
 				 pattern := pkgFilterField text asString.
 				 pkgSieve pattern: pattern ]).
+			
+	packageBottomPane := ToPane new
+		                     hMatchParent;
+		                     vFitContent.
+	packageBottomPane addChild: pkgFilterField;
+			               margin: (BlInsets top: 5);
+			               padding: (BlInsets all: 0).
 
 	packages infinite addEventHandler: (BlEventHandler
 			 on: ToStrongSelectionEvent
@@ -154,8 +164,8 @@ ToMiniBrowser >> initialize [
 
 	packagesPane margin: (BlInsets all: 2).
 	packagesPane addChild: packages.
-	packagesPane addChild: pkgFilterField.
-	
+	packagesPane addChild: packageBottomPane.
+
 	packages addEventHandler: (BlEventHandler
 			 on: ToListSelectionChangedEvent
 			 do: [ :event | self packageSelectionChangedEvent: event ]).

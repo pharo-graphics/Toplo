@@ -32,7 +32,7 @@ BaselineOfToplo >> dependencies: spec [
 
 	spec
 		baseline: 'Album'
-		with: [ spec repository: 'github://plantec/Album/src' ]
+		with: [ spec repository: 'github://pharo-graphics/Album/src' ]
 ]
 
 { #category : #baselines }

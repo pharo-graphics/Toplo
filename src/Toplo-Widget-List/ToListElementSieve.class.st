@@ -11,7 +11,7 @@ Class {
 		'originalIndexedData',
 		'queryResultHandler',
 		'selectionChangedHandler',
-		'currentSelectedIndexes'
+		'currentSelectionModel'
 	],
 	#category : #'Toplo-Widget-List-Sieve'
 }
@@ -34,7 +34,7 @@ ToListElementSieve >> currentResults [
 { #category : #accessing }
 ToListElementSieve >> currentSelectedIndexes [
 
-	^ currentSelectedIndexes
+	^ currentSelectionModel indices
 ]
 
 { #category : #accessing }
@@ -72,8 +72,8 @@ ToListElementSieve >> onInstalledIn: aListElement [
 	self buildOriginalIndexedData.
 
 	" original selection maintains the original data selection up-to-date even with a filtered contents "
-	currentSelectedIndexes := Set new.
-	currentSelectedIndexes addAll: aListElement selectionStrategy selectedIndexes.
+	currentSelectionModel := aListElement selectionStrategy newSelectionModel.
+	currentSelectionModel selectAllIndexes: aListElement selectionStrategy selectedIndexes.
 	
 	" the query runner will run the query in background on the originalIndexedData collection "
 	queryRunner := ToObservableCollectionQueryRunner new.
@@ -102,9 +102,8 @@ ToListElementSieve >> onListSelectionChangedEvent: anEvent [
 
 	currentResults withIndexDo: [ :assoc :idx |
 		(anEvent currentIndexes includes: idx)
-			ifTrue: [ currentSelectedIndexes add: assoc value ]
-			ifFalse: [
-			currentSelectedIndexes remove: assoc value ifAbsent: [  ] ] ].
+			ifTrue: [ currentSelectionModel selectIndex: assoc value ]
+			ifFalse: [ currentSelectionModel deselectIndex: assoc value ] ].
 	listElement dispatchEvent:
 		(ToListElementSieveSelectionChangedEvent new
 			 sieve: self;
@@ -122,12 +121,12 @@ ToListElementSieve >> onObservableCollectionQueryResultEvent: anEvent [
 
 	currentResults := self results.
 	queryRunner pattern
-		ifEmpty: [ selectedIndexes := currentSelectedIndexes ]
+		ifEmpty: [ selectedIndexes := currentSelectionModel indices]
 		ifNotEmpty: [
-			selectedIndexes := (Array streamContents: [ :stream |
+			selectedIndexes := Array streamContents: [ :stream |
 				                   currentResults withIndexDo: [ :assoc :idx |
-					                   (currentSelectedIndexes includes: assoc value)
-						                   ifTrue: [ stream nextPut: idx ] ] ]) asSet ].
+					                   (currentSelectionModel containsIndex: assoc value)
+						                   ifTrue: [ stream nextPut: idx ] ] ]  ].
 
 	"If the list element is attached, then,  task must be used here because the 
 	filtering is runned asynchronously. The task allows to re-synchronise the element response 
@@ -165,6 +164,12 @@ ToListElementSieve >> onUninstalledIn: aListElement [
 	filterResultTask := nil.
 	originalDataUpdater := nil.
 	originalIndexedData := nil
+]
+
+{ #category : #accessing }
+ToListElementSieve >> pattern [
+
+	^ queryRunner pattern
 ]
 
 { #category : #accessing }

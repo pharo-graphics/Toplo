@@ -338,7 +338,7 @@ ToInfiniteSelectionStrategy >> includes: anIndex [
 ToInfiniteSelectionStrategy >> initialize [
 
 	super initialize.
-	selectionModel := BlCompositeSelection new.
+	selectionModel := self newSelectionModel.
 	mode := #multiple.
 	currentIndex := 0
 ]

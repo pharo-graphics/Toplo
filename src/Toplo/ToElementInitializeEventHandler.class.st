@@ -17,10 +17,7 @@ ToElementInitializeEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	target requestInstallSkin.
-	(target eventDispatcher hasEventHandlerSuchThat: [ :eh |
-		 eh isKindOf: ToSkinStateGenerator ]) ifFalse: [
-		target addEventHandler: ToSkinStateGenerator new ]
+	target requestInstallSkin
 ]
 
 { #category : #'api - accessing' }

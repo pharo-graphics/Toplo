@@ -123,6 +123,7 @@ ToSkinManager >> defaultSkin [
 { #category : #'accessing - default skin' }
 ToSkinManager >> forceDefaultSkin: aSkin in: anElement [
 
+	skinInstallRequestCount := 0.
 	defaultSkin := aSkin.
 	anElement requestNewSkin
 ]
@@ -262,9 +263,7 @@ ToSkinManager >> setDefaultRawSkin: aSkin in: anElement [
 ToSkinManager >> setDefaultSkin: aSkin in: anElement [
 
 	defaultSkin = aSkin ifTrue: [ ^ self ].
-	skinInstallRequestCount := 0.
-	defaultSkin := aSkin.
-	anElement requestNewSkin
+	self forceDefaultSkin: aSkin in: anElement
 ]
 
 { #category : #accessing }

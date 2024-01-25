@@ -243,17 +243,6 @@ BlElement >> newRawSkin [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> onSkinStateGeneratorAdded: aSkinStateGenerator [
-
-	| event |
-
-	event := self hasFocus
-		         ifTrue: [ self space focusProcessor newFocusEvent ]
-		         ifFalse: [ self space focusProcessor newBlurEvent ].
-	self dispatchEvent: event
-]
-
-{ #category : #'*Toplo' }
 BlElement >> openInInnerWindow [
 
 	| frame |

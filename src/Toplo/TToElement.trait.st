@@ -6,5 +6,6 @@ Trait {
 { #category : #'t - toElement' }
 TToElement >> initializeForToplo [
 
+	self addEventHandler: ToSkinStateGenerator new.
 	self addEventHandler: ToElementInitializeEventHandler new
 ]

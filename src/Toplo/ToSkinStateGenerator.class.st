@@ -438,8 +438,7 @@ ToSkinStateGenerator >> onInstalledIn: anElement [
 	dragged := false.
 	pressed := false.
 	" need to store the element for mouse outside event interpreting "
-	target := anElement.
-	anElement onSkinStateGeneratorAdded: self
+	target := anElement
 ]
 
 { #category : #'api - hooks' }

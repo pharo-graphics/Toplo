@@ -109,13 +109,6 @@ TToCheckable >> nextCheckValue [
 	^ self checked not
 ]
 
-{ #category : #'t - checkable - state generator' }
-TToCheckable >> onSkinStateGeneratorAdded: aSkinStateGenerator [
-
-	super onSkinStateGeneratorAdded: aSkinStateGenerator.
-	self dispatchEvent: (ToCheckableCheckEvent current: self isChecked previous: nil)
-]
-
 { #category : #'t - checkable - private protocol' }
 TToCheckable >> privateChecked: aBooleanOrIndeterminate [
 

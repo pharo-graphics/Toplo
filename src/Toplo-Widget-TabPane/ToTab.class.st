@@ -240,6 +240,7 @@ ToTab >> rawGroup: aGroup [
 { #category : #'hooks - children' }
 ToTab >> removeInnerPaneFromBody [
 
+	innerPane ifNil: [ ^ self ].
 	innerPane removeFromParent
 ]
 

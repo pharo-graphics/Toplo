@@ -1,7 +1,7 @@
 Class {
 	#name : #ToDemoSkin2,
 	#superclass : #ToRawSkin,
-	#category : #'Toplo-Demo-1-Basic'
+	#category : #'Toplo-Demo-1 - Basic'
 }
 
 { #category : #'event handling' }

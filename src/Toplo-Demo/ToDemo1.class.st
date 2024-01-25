@@ -8,7 +8,7 @@ The method #requestInstallSkin must be runned to ask for the installation of the
 Class {
 	#name : #ToDemo1,
 	#superclass : #BlElement,
-	#category : #'Toplo-Demo-1-Basic'
+	#category : #'Toplo-Demo-1 - Basic'
 }
 
 { #category : #examples }

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToButterflySkin,
 	#superclass : #ToBasicSkin,
-	#category : #'Toplo-Demo-2-ButterflyTheme'
+	#category : #'Toplo-Demo-2 - ButterflyTheme'
 }
 
 { #category : #'api - hooks' }

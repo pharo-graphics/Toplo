@@ -1,7 +1,7 @@
 Class {
 	#name : #ToDemo5,
 	#superclass : #ToElement,
-	#category : #'Toplo-Demo-2-ButterflyTheme'
+	#category : #'Toplo-Demo-2 - ButterflyTheme'
 }
 
 { #category : #examples }

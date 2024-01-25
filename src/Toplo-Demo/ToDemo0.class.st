@@ -5,7 +5,7 @@ A toplo element is basically a BlElement.
 Class {
 	#name : #ToDemo0,
 	#superclass : #BlElement,
-	#category : #'Toplo-Demo-1-Basic'
+	#category : #'Toplo-Demo-1 - Basic'
 }
 
 { #category : #examples }

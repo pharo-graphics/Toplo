@@ -1,7 +1,7 @@
 Class {
 	#name : #ToDemo4,
 	#superclass : #BlElement,
-	#category : #'Toplo-Demo-1-Basic'
+	#category : #'Toplo-Demo-1 - Basic'
 }
 
 { #category : #examples }

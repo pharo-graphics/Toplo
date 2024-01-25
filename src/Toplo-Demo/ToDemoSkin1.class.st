@@ -7,7 +7,7 @@ To set the skin of an element, one use the #defaultRawSkin: method (theme depend
 Class {
 	#name : #ToDemoSkin1,
 	#superclass : #ToRawSkin,
-	#category : #'Toplo-Demo-1-Basic'
+	#category : #'Toplo-Demo-1 - Basic'
 }
 
 { #category : #'event handling' }

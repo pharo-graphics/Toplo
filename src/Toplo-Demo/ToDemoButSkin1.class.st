@@ -1,7 +1,7 @@
 Class {
 	#name : #ToDemoButSkin1,
 	#superclass : #ToButterflySkin,
-	#category : #'Toplo-Demo-2-ButterflyTheme'
+	#category : #'Toplo-Demo-2 - ButterflyTheme'
 }
 
 { #category : #'event handling' }

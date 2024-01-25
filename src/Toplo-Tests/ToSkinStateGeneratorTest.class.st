@@ -151,7 +151,7 @@ ToSkinStateGeneratorTest >> testTarget [
 	e := ToElement new.
 	gen := e eventDispatcher handlers detect: [ :h |
 		       h isKindOf: ToSkinStateGenerator ] ifNone: [].
-	self assert: gen isNil.
+	self assert: gen notNil.
 	space root addChild: e.
 	gen := e eventDispatcher handlers detect: [ :h |
 		       h isKindOf: ToSkinStateGenerator ].

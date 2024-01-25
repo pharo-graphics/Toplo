@@ -227,7 +227,7 @@ ToSkinManagerTest >> testHasPostponedRequestInstallSkin [
 	" should have 2 more event handlers (the skinStateGenerator + the one for postponedRequestInstallSkin)"
 	self
 		assert: e eventDispatcher handlers size
-		equals: handlersNb + 1.
+		equals: handlersNb.
 	self assert: e skinManager skinInstaller notNil
 
 	
@@ -383,7 +383,7 @@ ToSkinManagerTest >> testPostponeRequestSkinIn [
 	" should have 2 more event handlers (the skinStateGenerator + the one for postponedRequestInstallSkin)"
 	self
 		assert: e eventDispatcher handlers size
-		equals: handlersNb + 1.
+		equals: handlersNb.
 	self assert: e skinManager skinInstaller notNil
 
 	

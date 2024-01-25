@@ -115,7 +115,7 @@ ToElementTest >> testCheckEventHandler [
 
 	| e |
 	e := ToElement new.
-	e checkEventHandler: ToSkinStateGenerator new
+	self should: [ e checkEventHandler: ToSkinStateGenerator new ] raise: Error
 ]
 
 { #category : #'test initialize' }

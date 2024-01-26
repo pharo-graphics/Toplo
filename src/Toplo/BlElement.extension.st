@@ -3,13 +3,13 @@ Extension { #name : #BlElement }
 { #category : #'*Toplo' }
 BlElement >> addAllStamps: aCollectionOfSymbol [
 
-	self toStyleStore addAllStamps: aCollectionOfSymbol
+	self ensuredToStyleStore addAllStamps: aCollectionOfSymbol
 ]
 
 { #category : #'*Toplo' }
 BlElement >> addAllTokenProperties: aTokenPropertyCollection [
 
-	self toStyleStore addAllTokenProperties: aTokenPropertyCollection
+	self ensuredToStyleStore addAllTokenProperties: aTokenPropertyCollection
 ]
 
 { #category : #'*Toplo' }
@@ -28,20 +28,22 @@ BlElement >> addSkinStateGeneration: aValuable [
 BlElement >> addStamp: aSymbol [
 
 
-	self toStyleStore addStamp: aSymbol
+	self ensuredToStyleStore addStamp: aSymbol
 ]
 
 { #category : #'*Toplo' }
 BlElement >> addStamp: aSymbol value: anObject [
 
 
-	self toStyleStore addStamp: aSymbol value: anObject
+	self ensuredToStyleStore addStamp: aSymbol value: anObject
 ]
 
 { #category : #'*Toplo' }
 BlElement >> allStamps [
 
-	^ self toStyleStore allStamps
+	^ self toStyleStore
+		  ifNil: [ #(  ) ]
+		  ifNotNil: [ :tst | tst allStamps ]
 ]
 
 { #category : #'*Toplo' }
@@ -155,6 +157,12 @@ BlElement >> enqueueSkinState: aSkinState [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> ensuredToStyleStore [
+
+	^ self userData at: #toStyleStore ifAbsentPut: [ ToStyleStore new onInstalledIn: self; yourself]
+]
+
+{ #category : #'*Toplo' }
 BlElement >> flagAsDisabled [
 
 	self userData at: #enabled put: false
@@ -181,8 +189,9 @@ BlElement >> hasEnablementFlag [
 { #category : #'*Toplo' }
 BlElement >> hasStamp: aSymbol [
 
-
-	^ self toStyleStore hasStamp: aSymbol
+	^ self toStyleStore
+		  ifNil: [ false ]
+		  ifNotNil: [ :tst | tst hasStamp: aSymbol ]
 ]
 
 { #category : #'*Toplo' }
@@ -254,25 +263,26 @@ BlElement >> openInInnerWindow [
 { #category : #'*Toplo' }
 BlElement >> removeAllStamps [
 
-	self toStyleStore removeAllStamps
+	self toStyleStoreDo: [ :tst | tst removeAllStamps ]
 ]
 
 { #category : #'*Toplo' }
 BlElement >> removeAllTokenPropertiesFromNames: aCollection [
 
-	self toStyleStore removeAllTokenPropertiesFromNames: aCollection
+	self toStyleStoreDo: [ :tst |
+		tst removeAllTokenPropertiesFromNames: aCollection ]
 ]
 
 { #category : #'*Toplo' }
 BlElement >> removeStamp: aSymbol [
 
-	self toStyleStore removeStamp: aSymbol
+	self toStyleStoreDo: [ :tst | tst removeStamp: aSymbol ]
 ]
 
 { #category : #'*Toplo' }
 BlElement >> removeTokenNamed: aSymbol [
 
-	self toStyleStore removeTokenPropertyNamed: aSymbol
+	self toStyleStoreDo: [ :tst | tst removeTokenPropertyNamed: aSymbol ]
 ]
 
 { #category : #'*Toplo' }
@@ -313,19 +323,19 @@ BlElement >> requestUninstallSkinRecursively [
 { #category : #'*Toplo' }
 BlElement >> setStamp: aSymbol value: anObject [
 
-	self toStyleStore addStamp: aSymbol value: anObject
+	self ensuredToStyleStore addStamp: aSymbol value: anObject
 ]
 
 { #category : #'*Toplo' }
 BlElement >> setToken: aTokenProperty [
 
-	self toStyleStore addTokenProperty: aTokenProperty asTokenProperty 
+	self ensuredToStyleStore addTokenProperty: aTokenProperty asTokenProperty 
 ]
 
 { #category : #'*Toplo' }
 BlElement >> setTokenNamed: aSymbol value: anObject [
 
-	self toStyleStore addTokenProperty: (aSymbol -> anObject) asTokenProperty 
+	self ensuredToStyleStore addTokenProperty: (aSymbol -> anObject) asTokenProperty 
 ]
 
 { #category : #'*Toplo' }
@@ -379,7 +389,10 @@ BlElement >> skinUninstaller: aSkinUninstaller [
 { #category : #'*Toplo' }
 BlElement >> stampValueNamed: aSymbol [
 
-	^ self toStyleStore stampValue: aSymbol
+	^ self toStyleStore
+		  ifNil: [
+		  Error signal: 'Trying to get an undeclared stamp property' ]
+		  ifNotNil: [ :tst | tst stampValue: aSymbol ]
 ]
 
 { #category : #'*Toplo' }
@@ -433,7 +446,13 @@ BlElement >> textAttributesBuilder [
 { #category : #'*Toplo' }
 BlElement >> toStyleStore [
 
-	^ self userData at: #toStyleStore ifAbsentPut: [ ToStyleStore new onInstalledIn: self; yourself]
+	^ self userData at: #toStyleStore ifAbsent: [ ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> toStyleStoreDo: aBlock [
+
+	self toStyleStore ifNotNil: aBlock
 ]
 
 { #category : #'*Toplo' }
@@ -469,13 +488,18 @@ BlElement >> toThemeChanged [
 { #category : #'*Toplo' }
 BlElement >> tokenPropertyNamed: aSymbol [
 
-	^ self toStyleStore tokenPropertyNamed: aSymbol from: self
+	^ self toStyleStore ifNotNil: [ :tst |
+		  tst tokenPropertyNamed: aSymbol from: self ]
 ]
 
 { #category : #'*Toplo' }
 BlElement >> tokenValueNamed: aSymbol [
 
-	^ self toStyleStore tokenPropertyValue: aSymbol from: self
+	| found |
+	found := self skinManager ifNotNil: [ :sm |
+		         sm tokenPropertyValue: aSymbol from: self ].
+	found ifNil: [ (ToElementPropertyNotFound name: aSymbol) signal ].
+	^ found
 ]
 
 { #category : #'*Toplo' }

@@ -4,7 +4,7 @@ A ToStyleSheetManagerTest is a test class for testing the behavior of ToStyleShe
 Class {
 	#name : #ToStyleStoreTest,
 	#superclass : #TestCase,
-	#category : 'Toplo-Tests-Core-Theme'
+	#category : #'Toplo-Tests-Core-Theme'
 }
 
 { #category : #stamps }
@@ -12,7 +12,7 @@ ToStyleStoreTest >> testAddAllStamps [
 
 	| e |
 	e := BlElement new.
-	e toStyleStore addAllStamps: {  }.
+	e addAllStamps: {  }.
 	self assert: e toStyleStore allStamps isEmpty.
 	e toStyleStore addAllStamps: { #color. #background }.
 	self assert: e toStyleStore allStamps size equals: 2.
@@ -32,7 +32,7 @@ ToStyleStoreTest >> testAddAllTokenProperties [
 
 	| e s |
 	e := BlElement new.
-	e toStyleStore addAllTokenProperties: {
+	e addAllTokenProperties: {
 			(#color1 -> Color blue) asTokenProperty.
 			(#color2 -> Color red) asTokenProperty }.
 	self assert:
@@ -74,7 +74,7 @@ ToStyleStoreTest >> testAddTokenProperty [
 
 	| e s s2 |
 	e := BlElement new.
-	e toStyleStore addTokenProperty: (#color -> Color blue) asTokenProperty.
+	e ensuredToStyleStore addTokenProperty: (#color -> Color blue) asTokenProperty.
 	self assert: (s := e toStyleStore localTokenPropertyNamed: #color) notNil.
 	self assert: (s isKindOf: ToTokenProperty).
 	self assert: s name equals: #color.
@@ -93,7 +93,7 @@ ToStyleStoreTest >> testAllStamps [
 
 	| e |
 	e := BlElement new.
-	e toStyleStore addAllStamps: {  }.
+	e addAllStamps: {  }.
 	self assert: e toStyleStore allStamps isEmpty.
 	e toStyleStore addAllStamps: { #color. #background }.
 	self assert: e toStyleStore allStamps size equals: 2.
@@ -101,12 +101,23 @@ ToStyleStoreTest >> testAllStamps [
 	self assert: (e toStyleStore hasStamp: #background)
 ]
 
+{ #category : #'token properties' }
+ToStyleStoreTest >> testEnsuredToStyleStore [
+
+	| e tst |
+	e := BlElement new.
+	self assert: e toStyleStore  isNil.
+	tst := e ensuredToStyleStore.
+	self assert: tst notNil.
+	self assert: tst identicalTo: e toStyleStore
+]
+
 { #category : #stamps }
 ToStyleStoreTest >> testHasAllStamps [
 
 	| e |
 	e := BlElement new.
-	e toStyleStore addAllStamps: {  }.
+	e addAllStamps: {  }.
 	self assert: e toStyleStore allStamps isEmpty.
 	e toStyleStore addAllStamps: { #color. #background }.
 	self assert: (e toStyleStore hasAllStamps: { #color. #background }).	
@@ -119,7 +130,7 @@ ToStyleStoreTest >> testHasStamp [
 
 	| e |
 	e := BlElement new.
-	e toStyleStore addAllStamps: {  }.
+	e addAllStamps: {  }.
 	self assert: e toStyleStore allStamps isEmpty.
 	e toStyleStore addAllStamps: { #color. #background }.
 	self assert: (e toStyleStore hasStamp: #color ).	
@@ -132,7 +143,7 @@ ToStyleStoreTest >> testHasTokenPropertyNamed [
 
 	| e |
 	e := BlElement new.
-	self deny: (e toStyleStore hasTokenPropertyNamed: #color).
+	self deny: (e ensuredToStyleStore hasTokenPropertyNamed: #color).
 	e toStyleStore addTokenProperty: (#color -> Color blue) asTokenProperty.
 	self assert: (e toStyleStore hasTokenPropertyNamed: #color).
 	e toStyleStore addTokenProperty: (#background -> Color blue) asTokenProperty.
@@ -147,7 +158,7 @@ ToStyleStoreTest >> testLocalTokenPropertyNamed [
 
 	| e s |
 	e := BlElement new.
-	self assert: (e toStyleStore localTokenPropertyNamed: #color) isNil.
+	self assert: (e ensuredToStyleStore localTokenPropertyNamed: #color) isNil.
 	(e toStyleStore tokenPropertyIndex)
 		addProperty: #color asTokenProperty.
 	s := e toStyleStore localTokenPropertyNamed: #color.
@@ -163,14 +174,14 @@ ToStyleStoreTest >> testLookUpTokenPropertyNamedFrom [
 	| e child |
 	e := BlElement new.
 	child := BlElement new.
-	e toStyleStore addTokenProperty: (#color -> Color blue) asTokenProperty.
+	e ensuredToStyleStore addTokenProperty: (#color -> Color blue) asTokenProperty.
 	self assert: e toStyleStore tokenPropertyIndex size equals: 1.
 	self
 		assert: (e toStyleStore lookUpTokenPropertyNamed: #color from: e)
 		identicalTo: (e toStyleStore localTokenPropertyNamed: #color).
 	e addChild: child.
 	self
-		assert: (child toStyleStore lookUpTokenPropertyNamed: #color from: child)
+		assert: (child ensuredToStyleStore  lookUpTokenPropertyNamed: #color from: child)
 		identicalTo: (e toStyleStore localTokenPropertyNamed: #color).
 	child toStyleStore addTokenProperty: (#color -> Color red) asTokenProperty.
 	self
@@ -185,7 +196,7 @@ ToStyleStoreTest >> testRemoveAllStamps [
 
 	| e |
 	e := BlElement new.
-	e toStyleStore addStamp: (#color1).
+	e addStamp: (#color1).
 	e toStyleStore addStamp: (#color2 ).
 	self assert: e toStyleStore allStamps size equals: 2.
 	e toStyleStore removeAllStamps.
@@ -199,7 +210,7 @@ ToStyleStoreTest >> testRemoveAllStamps2 [
 
 	| e |
 	e := BlElement new.
-	e toStyleStore addStamp: (#color1).
+	e addStamp: (#color1).
 	e toStyleStore addStamp: (#color2 ).
 	e toStyleStore addStamp: (#color3).
 	e toStyleStore addStamp: (#color4 ).
@@ -213,7 +224,7 @@ ToStyleStoreTest >> testRemoveStamp [
 
 	| e |
 	e := BlElement new.
-	e toStyleStore addAllStamps: {  }.
+	e addAllStamps: {  }.
 	e toStyleStore addStamp: #color.
 	e toStyleStore addStamp: #background.
 	self assert: e toStyleStore allStamps size equals: 2.
@@ -231,7 +242,7 @@ ToStyleStoreTest >> testRemoveTokenPropertyNamed [
 
 	| e |
 	e := BlElement new.
-	e toStyleStore addTokenProperty: (#color1 -> Color blue) asTokenProperty.
+	e ensuredToStyleStore addTokenProperty: (#color1 -> Color blue) asTokenProperty.
 	e toStyleStore addTokenProperty: (#color2 -> Color blue) asTokenProperty.
 	self assert: e toStyleStore tokenPropertyIndex size equals: 2.
 	e toStyleStore removeTokenPropertyNamed: #color1.
@@ -245,7 +256,7 @@ ToStyleStoreTest >> testRemoveTokenPropertyNamed2 [
 
 	| e |
 	e := BlElement new.
-	e toStyleStore addTokenProperty: (#color -> Color blue) asTokenProperty.
+	e ensuredToStyleStore addTokenProperty: (#color -> Color blue) asTokenProperty.
 	self assert: e toStyleStore tokenPropertyIndex size equals: 1.
 	e toStyleStore removeTokenPropertyNamed: #color.
 	self assert: e toStyleStore tokenPropertyIndex isEmpty.
@@ -258,7 +269,7 @@ ToStyleStoreTest >> testRemoveTokenPropertyNamed4 [
 
 	| e |
 	e := BlElement new.
-	e toStyleStore addTokenProperty: (#color -> Color blue) asTokenProperty.
+	e ensuredToStyleStore addTokenProperty: (#color -> Color blue) asTokenProperty.
 	self assert: e toStyleStore tokenPropertyIndex size equals: 1.
 	e toStyleStore removeTokenPropertyNamed: #color.
 	self assert: e toStyleStore tokenPropertyIndex isEmpty.
@@ -278,7 +289,7 @@ ToStyleStoreTest >> testStampPropertyNamed [
 
 	| e |
 	e := BlElement new.
-	e toStyleStore addStamp: #color.
+	e addStamp: #color.
 	e toStyleStore addStamp: #background.
 	self assert: ((e toStyleStore stampPropertyNamed: #color) isKindOf: ToStampProperty).
 	self should: [ e e toStyleStore stampPropertyNamed: #something ] raise: Error
@@ -289,7 +300,7 @@ ToStyleStoreTest >> testStampValue [
 
 	| e |
 	e := BlElement new.
-	e toStyleStore addStamp: #color value: Color blue.
+	e addStamp: #color value: Color blue.
 	e toStyleStore addStamp: #background value: Color red.
 	e toStyleStore addStamp: #primary.
 	self assert: (e toStyleStore stampValue: #color) equals: Color blue.
@@ -299,11 +310,19 @@ ToStyleStoreTest >> testStampValue [
 ]
 
 { #category : #'token properties' }
+ToStyleStoreTest >> testToStyleStore [
+
+	| e |
+	e := BlElement new.
+	self assert: e toStyleStore  isNil
+]
+
+{ #category : #'token properties' }
 ToStyleStoreTest >> testTokenPropertyIndex [
 
 	| e dict |
 	e := BlElement new.
-	dict := e toStyleStore tokenPropertyIndex.
+	dict := e ensuredToStyleStore tokenPropertyIndex.
 	self assert: dict notNil.
 
 ]
@@ -313,8 +332,8 @@ ToStyleStoreTest >> testTokenPropertyNamed [
 
 	| e p |
 	e := BlElement new.
-	self assert: (e toStyleStore tokenPropertyNamed: #color) isNil.
-	e toStyleStore addTokenProperty: (p := (#color -> Color blue) asTokenProperty).
+	self assert: (e tokenPropertyNamed: #color) isNil.
+	e ensuredToStyleStore addTokenProperty: (p := (#color -> Color blue) asTokenProperty).
 	self assert: (e toStyleStore tokenPropertyNamed: #color) equals: p.
 	e toStyleStore addTokenProperty: (#background -> Color blue) asTokenProperty.
 	e toStyleStore addTokenProperty: (#layout -> BlLinearLayout horizontal) asTokenProperty.
@@ -329,10 +348,10 @@ ToStyleStoreTest >> testTokenPropertyNamedFrom [
 	| e child space |
 	e := BlElement new.
 	child := BlElement new.
-	e toStyleStore addTokenProperty: (#color -> Color blue) asTokenProperty.
+	e ensuredToStyleStore addTokenProperty: (#color -> Color blue) asTokenProperty.
 	e addChild: child.
 	self
-		assert: (child toStyleStore tokenPropertyNamed: #color from: child)
+		assert: (child ensuredToStyleStore tokenPropertyNamed: #color from: child)
 		identicalTo: (e toStyleStore localTokenPropertyNamed: #color).
 	child toStyleStore addTokenProperty: (#color -> Color red) asTokenProperty.
 	self
@@ -412,7 +431,7 @@ ToStyleStoreTest >> testTokenPropertyValueFrom [
 
 	| e p |
 	e := BlElement new.
-	self assert: (e toStyleStore localTokenPropertyNamed: #color) isNil.
+	self assert: (e ensuredToStyleStore localTokenPropertyNamed: #color) isNil.
 	e toStyleStore addTokenProperty: (p := (#color -> Color blue) asTokenProperty).
 	self assert: (e toStyleStore tokenPropertyValue: #color from: e) equals: p value.
 	self assert: (e toStyleStore tokenPropertyValue: #color from: e) equals: Color blue.

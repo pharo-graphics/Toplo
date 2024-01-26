@@ -34,7 +34,9 @@ TToTokenPropertyIndexHolder >> lookUpTokenPropertyNamed: aSymbol from: anElement
 	"
 
 	anElement withAllParentsDo: [ :p |
-		(p toStyleStore localTokenPropertyNamed: aSymbol) ifNotNil: [ :t | ^ t ] ].
+		p toStyleStore ifNotNil: [ :tst |
+			(tst localTokenPropertyNamed: aSymbol) ifNotNil: [ :t |
+				^ t ] ] ].
 	" I'm in the space root. reaching here can mean that the theme is not installed. "
 	anElement space ifNotNil: [ :sp | "reading the space toTheme should install the default raw theme"
 		sp toTheme.

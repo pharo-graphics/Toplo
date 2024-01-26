@@ -342,6 +342,17 @@ ToSkinManager >> textAttributesBuilder [
 		  textAttributesBuilder := BlTextDelegatedAttributesBuilder new ]
 ]
 
+{ #category : #'accessing token property' }
+ToSkinManager >> tokenPropertyValue: aSymbol from: anElement [
+	" look-up following child-parent association 
+	for each element, try first to get the property from the local styleStampIndex 
+	"
+
+	anElement withAllParentsDo: [ :p |
+		p toStyleStore ifNotNil: [ :tst | ^ tst tokenPropertyValue: aSymbol from: p ] ].
+	^ nil
+]
+
 { #category : #'skin - installing / uninstalling' }
 ToSkinManager >> uninstallSkin: aSkin in: anElement [
 	" uninstall the skin "

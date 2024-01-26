@@ -15,5 +15,19 @@ ToDemo0 class >> example [
 	dem := ToDemo0 new.
 	dem background: Color red.
 	dem border: Color black.
+	dem inspect.
 	dem openInSpace
+]
+
+{ #category : #examples }
+ToDemo0 class >> example2 [
+
+	| dem pane |
+	pane := ToPane vertical.
+	dem := ToDemo0 new.
+	dem background: Color red.
+	dem border: Color black.
+	dem inspect.
+	pane addChild: dem.
+	pane openInSpace
 ]

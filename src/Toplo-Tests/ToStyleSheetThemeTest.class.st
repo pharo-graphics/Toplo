@@ -4,14 +4,14 @@ A ToStyleSheetThemeTest is a test class for testing the behavior of ToStyleSheet
 Class {
 	#name : #ToStyleSheetThemeTest,
 	#superclass : #TestCase,
-	#category : 'Toplo-Tests-Core-Theme'
+	#category : #'Toplo-Tests-Core-Theme'
 }
 
 { #category : #tests }
 ToStyleSheetThemeTest >> testApplicableListenersFor [
 
 	| e space theme |
-	e := BlElement new.
+	e := ToElement new.
 	space := BlSpace new.
 	theme := ToStyleSheetThemeForTest light.
 	space toTheme: theme.
@@ -25,7 +25,7 @@ ToStyleSheetThemeTest >> testApplicableListenersFor [
 ToStyleSheetThemeTest >> testApplicableRulesFor [
 
 	| e space theme |
-	e := BlElement new.
+	e := ToElement new.
 	space := BlSpace new.
 	theme := ToStyleSheetThemeForTest light.
 	space toTheme: theme.
@@ -99,7 +99,7 @@ ToStyleSheetThemeTest >> testSkinClassFor [
 ToStyleSheetThemeTest >> testUnsortedApplicableListenersFor [
 
 	| e space theme |
-	e := BlElement new.
+	e := ToElement new.
 	space := BlSpace new.
 	theme := ToStyleSheetThemeForTest light.
 	space toTheme: theme.

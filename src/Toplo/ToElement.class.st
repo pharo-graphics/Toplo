@@ -6,40 +6,6 @@ Class {
 	#category : #'Toplo-Core'
 }
 
-{ #category : #'event management' }
-ToElement >> addEventFilter: anEventHandler [
-
-	self checkEventHandler: anEventHandler.
-	self checkEventFilter: anEventHandler.
-	super addEventFilter: anEventHandler
-]
-
-{ #category : #'event management' }
-ToElement >> addEventHandler: anEventHandler [
-
-	self checkEventHandler: anEventHandler.
-	self checkEventFilter: anEventHandler.
-	super addEventHandler: anEventHandler
-]
-
-{ #category : #'event management' }
-ToElement >> checkEventFilter: anEventHandler [
-
-	(anEventHandler isKindOf: ToSkinStateGenerator) ifTrue: [
-		(self eventDispatcher hasEventFilterSuchThat: [ :eh |
-			 eh isKindOf: ToSkinStateGenerator ]) ifTrue: [
-			Error signal: 'Only one ' , ToSkinStateGenerator name , ' is allowed' ] ]
-]
-
-{ #category : #'event management' }
-ToElement >> checkEventHandler: anEventHandler [
-
-	(anEventHandler isKindOf: ToSkinStateGenerator) ifTrue: [
-		(self eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 eh isKindOf: ToSkinStateGenerator ]) ifTrue: [
-			Error signal: 'Only one ' , ToSkinStateGenerator name , ' is allowed' ] ]
-]
-
 { #category : #initialization }
 ToElement >> defaultLayout [ 
 

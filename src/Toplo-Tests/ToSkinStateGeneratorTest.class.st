@@ -131,11 +131,12 @@ ToSkinStateGeneratorTest >> testOnInstalledIn [
 
 	| e h |
 	e := ToElement new.
-	space root addChild: e.
-	" e is attached, it should already have a ToSkinStateGenerator "
-	h := ToSkinStateGenerator new.
-	self should: [e addEventHandler: h] raise: Error.
-
+	h := e eventDispatcher handlers
+		     detect: [ :handler | handler isKindOf: ToSkinStateGenerator ]
+		     ifNone: [  ].
+	self assert: h notNil.
+	self assert: h target identicalTo: e.
+	space root addChild: e
 ]
 
 { #category : #tests }

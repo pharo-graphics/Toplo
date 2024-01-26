@@ -156,15 +156,16 @@ BlElement >> enable [
 { #category : #'*Toplo' }
 BlElement >> enqueueSkinState: aSkinState [
 
-	self ensureHaveSkinManager.
-	aSkinState
-		requestEnqueueFromElement: self
-		inQueue: self skinStateQueue
+	self skinManagerDo: [ :sm |
+		aSkinState
+			requestEnqueueFromElement: self
+			inQueue: self skinStateQueue ]
 ]
 
 { #category : #'*Toplo' }
 BlElement >> ensureHaveSkinManager [
 
+	
 	self userData at: #skinManager ifAbsentPut:  [ ToSkinManager new onInstalledIn: self; yourself]
 ]
 
@@ -315,9 +316,10 @@ BlElement >> requestInstallSkin [
 { #category : #'*Toplo' }
 BlElement >> requestNewSkin [
 
-	self requestUninstallSkin.
-	self requestInstallSkin.
-	self spaceDo: [ :sp | sp requestNextPulse ]
+	self skinManagerDo: [ :sm |
+		self requestUninstallSkin.
+		self requestInstallSkin.
+		self spaceDo: [ :sp | sp requestNextPulse ] ]
 ]
 
 { #category : #'*Toplo' }
@@ -434,6 +436,7 @@ BlElement >> stillHoveredStartDelay [
 { #category : #'*Toplo' }
 BlElement >> stillHoveredStartDelay: aDuration [
 
+	" must have a skin state generator "
 	self userData at: #stillHoveredStartDelay put: aDuration asDuration
 ]
 
@@ -446,6 +449,7 @@ BlElement >> stillPressedStartDelay [
 { #category : #'*Toplo' }
 BlElement >> stillPressedStartDelay: aDuration [
 
+	" must have a skin state generator "
 	self userData at: #stillPressedStartDelay put: aDuration asDuration
 ]
 

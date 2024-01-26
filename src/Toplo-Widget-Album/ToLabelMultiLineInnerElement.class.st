@@ -1,6 +1,6 @@
 Class {
 	#name : #ToLabelMultiLineInnerElement,
-	#superclass : #ToElement,
+	#superclass : #BlElement,
 	#traits : 'TToLabelInnerElement',
 	#classTraits : 'TToLabelInnerElement classTrait',
 	#instVars : [
@@ -34,12 +34,14 @@ ToLabelMultiLineInnerElement >> editorShortcutsIn: aLabel [
 ToLabelMultiLineInnerElement >> initialize [
 
 	super initialize.
-	
+
 	lines := OrderedCollection new.
-	self fitContent.
+	self constraintsDo: [ :c |
+		c vertical fitContent.
+		c horizontal fitContent ].
 	self layout: BlLinearLayout vertical.
 	self preventMouseEvents.
-	self withoutSkin.
+	self withoutSkin
 ]
 
 { #category : #'api - editor' }

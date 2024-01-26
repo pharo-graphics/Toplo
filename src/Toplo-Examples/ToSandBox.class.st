@@ -302,7 +302,7 @@ ToSandBox class >> example_CodeEditor [
 	| text album menuBuilder |
 	text := self methodText asRopedText fontName: 'Source Code Pro'.
 	album := ToAlbum new.
-album inspect.
+	album inspect.
 	album styler: (BlRBTextStyler new classOrMetaClass: self class).
 	album text: text copy.
 	album withSaveCapability.
@@ -358,7 +358,8 @@ ToSandBox class >> example_EditableListWithAllClassesNames [
 	innerWin pane addChild: vscrollBar.
 	space := BlSpace new.
 	space root addChild: innerWin.
-	space show
+	space show.
+	space inspect
 ]
 
 { #category : #album }
@@ -832,6 +833,7 @@ ToSandBox class >> example_ListWithAllClasses3 [
 
 	l data addAll: Smalltalk globals allClasses.
 	l withRowNumbers.
+	l inspect.
 	l infinite requestFocus.
 	l openInInnerWindow
 ]

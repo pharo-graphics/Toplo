@@ -61,10 +61,10 @@ ToLabeledIcon >> flexible: aBoolean [
 	aBoolean
 		ifTrue: [
 			self addStamp: #flexible.
-			self filler matchParent ]
+			self filler constraintsDo:  [ :c | c vertical matchParent. c horizontal matchParent ] ]
 		ifFalse: [
 			self removeStamp: #flexible.
-			self filler fitContent ]
+			self filler constraintsDo:  [ :c | c vertical fitContent. c horizontal fitContent ] ]
 ]
 
 { #category : #testing }
@@ -150,26 +150,28 @@ ToLabeledIcon >> initialize [
 
 	super initialize.
 
-	filler := ToElement new
+	filler := BlElement new
 		          size: 0 @ 0;
 		          id: #filler;
 		          layout: BlFrameLayout new;
-		          fitContent;
+		          constraintsDo: [ :c |
+			          c horizontal fitContent.
+			          c vertical fitContent ];
 		          yourself.
-	iconContainer := ToElement new
-		              fitContent;
-		              id: #iconContainer;
-		              layout: BlFrameLayout new;
-		              yourself.
-	labelContainer := ToElement new
-		               fitContent;
-		               id: #labelContainer;
-		               layout: BlFrameLayout new;
-		               yourself.
-	iconContainer withoutSkin.
-	filler withoutSkin.
-	labelContainer withoutSkin.
-
+	iconContainer := BlElement new
+		                 constraintsDo: [ :c |
+			                 c horizontal fitContent.
+			                 c vertical fitContent ];
+		                 id: #iconContainer;
+		                 layout: BlFrameLayout new;
+		                 yourself.
+	labelContainer := BlElement new
+		                  constraintsDo: [ :c |
+			                  c horizontal fitContent.
+			                  c vertical fitContent ];
+		                  id: #labelContainer;
+		                  layout: BlFrameLayout new;
+		                  yourself.
 	self addChild: iconContainer.
 	self addChild: filler.
 	self addChild: labelContainer.

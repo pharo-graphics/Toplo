@@ -1,6 +1,8 @@
 Class {
 	#name : #ToListClassNodeExample,
 	#superclass : #ToNode,
+	#traits : 'TToElement',
+	#classTraits : 'TToElement classTrait',
 	#instVars : [
 		'label'
 	],
@@ -21,8 +23,6 @@ ToListClassNodeExample >> forClassNameAssoc: aClassNameAssoc [
 	label defaultRawSkin: ToLabelInListSkin new.
 	label
 		text: aClassNameAssoc value;
-		margin: (BlInsets all: 1);
-		padding: (BlInsets all: 1);
 		beEditable.
 	self
 		stillPressedStartDelay: 400 milliSeconds;
@@ -40,6 +40,14 @@ ToListClassNodeExample >> forClassNameAssoc: aClassNameAssoc [
 			 iconImage: icon;
 			 interspace: 10;
 			 hMatchParent)
+]
+
+{ #category : #initialization }
+ToListClassNodeExample >> initialize [ 
+
+	super initialize.
+	" to have editable node on mouse stille pressed one need toplo state generator "
+	self initializeForToplo 
 ]
 
 { #category : #accessing }

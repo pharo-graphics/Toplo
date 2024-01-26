@@ -5,6 +5,22 @@ Class {
 }
 
 { #category : #tests }
+ToBlElementTest >> testApplicableListenersFor [
+
+	| e theme |
+	e := BlElement new.
+	space := BlSpace new.
+	theme := ToStyleSheetThemeForTest light.
+	space toTheme: theme.
+	
+	space root addChild: e.
+	self applyAllEnqueuedStates.
+	self waitTestingSpaces.
+	self assert: (theme applicableListenersFor: e) size equals: 0
+	
+]
+
+{ #category : #tests }
 ToBlElementTest >> testBlElementShouldNotHaveSkinManager [
 
 	| dem |
@@ -42,4 +58,38 @@ ToBlElementTest >> testBlElementShouldNotHaveSkinManagerEvenAsChildOfAToElement 
 
 
 
+]
+
+{ #category : #tests }
+ToBlElementTest >> testElementRemovedFromSceneGraph [
+	" test that a requestUninstallSkin is sent to an element when it is removed from a space. "
+	" this ensures that the skin is removed if the element is added back as a child."
+
+	| e |
+	e := BlElement new.
+	space := BlSpace new.
+	space root addChild: e.
+	self assert: e skinUninstaller isNil.
+	space root removeChild: e.
+	self applyAllEnqueuedStates.
+	self waitTestingSpaces.
+	self assert: e skinUninstaller isNil.
+
+	
+	
+]
+
+{ #category : #tests }
+ToBlElementTest >> testUnsortedApplicableListenersFor [
+
+	| e theme |
+	e := ToElement new.
+	space := BlSpace new.
+	theme := ToStyleSheetThemeForTest light.
+	space toTheme: theme.
+	
+	space root addChild: e.
+	self applyAllEnqueuedStates.
+	self waitTestingSpaces.
+	self assert: (theme unsortedApplicableListenersFor: e) size equals: 5
 ]

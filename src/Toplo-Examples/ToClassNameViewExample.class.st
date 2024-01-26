@@ -1,6 +1,6 @@
 Class {
 	#name : #ToClassNameViewExample,
-	#superclass : #ToElement,
+	#superclass : #ToNode,
 	#category : #'Toplo-Examples'
 }
 
@@ -10,11 +10,14 @@ ToClassNameViewExample >> class: aClass position: anInteger [
 	self addChild: (ToLabeledIcon new
 			 beIconFirst;
 			 hMatchParent;
-			vFitContent;
+			 vFitContent;
 			 interspace: 10;
 			 background: (self colorFor: anInteger);
 			 icon: (self iconFor: aClass);
-			 label: (ToLabel new text: aClass name; defaultRawSkin: ToLabelInListSkin new; yourself);
+			 label: (ToLabel new
+					  text: aClass name;
+					  defaultRawSkin: ToLabelInListSkin new;
+					  yourself);
 			 yourself)
 ]
 
@@ -46,10 +49,10 @@ ToClassNameViewExample >> iconImageFor: aClass [
 ]
 
 { #category : #initialization }
-ToClassNameViewExample >> initialize [ 
+ToClassNameViewExample >> initialize [
 
 	super initialize.
-	self hMatchParent.
-	self vFitContent.
-	self withoutSkin
+	self constraintsDo: [ :c |
+		c vertical fitContent.
+		c horizontal matchParent ]
 ]

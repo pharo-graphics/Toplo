@@ -7,28 +7,6 @@ Class {
 	#category : #'Toplo-Tests-Core'
 }
 
-{ #category : #tests }
-ToElementTest >> testAddEventFilter [
-
-	| e  |
-	e := ToElement new.
-	" can't add a ToSkinStateGenerator if not attached "
-	self
-		should: [ e addEventFilter: ToSkinStateGenerator new ]
-		raise: Error
-]
-
-{ #category : #tests }
-ToElementTest >> testAddEventHandler [
-
-	| e  |
-	e := ToElement new.
-	" can't add a ToSkinStateGenerator if not attached "
-	self
-		should: [ e addEventHandler: ToSkinStateGenerator new ]
-		raise: Error
-]
-
 { #category : #'test initialize' }
 ToElementTest >> testApplySkinInstallerOnFirstRequest [
 
@@ -100,14 +78,6 @@ ToElementTest >> testApplySkinInstallerOnFirstRequestWithPostponedRequest [
 	" now all is in normal state "
 	self assert: e skinInstaller isNil.
 	self assert: e installedSkin notNil
-]
-
-{ #category : #tests }
-ToElementTest >> testCheckEventFilter [
-
-	| e |
-	e := ToElement new.
-	e checkEventFilter: ToSkinStateGenerator new
 ]
 
 { #category : #tests }

@@ -13,7 +13,7 @@ ToSkinTest >> testElementRemovedFromSceneGraph [
 	" this ensures that the skin is removed if the element is added back as a child."
 
 	| skin e space |
-	e := BlElement new.
+	e := ToElement new.
 	space := BlSpace new.
 	space root addChild: e.
 	skin := ToSkin new.

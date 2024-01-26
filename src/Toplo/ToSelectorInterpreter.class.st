@@ -6,7 +6,7 @@ Class {
 		'targetStack',
 		'result'
 	],
-	#category : 'Toplo-Core-Selectors'
+	#category : #'Toplo-Core-Selectors'
 }
 
 { #category : #operating }
@@ -35,7 +35,8 @@ ToSelectorInterpreter >> pop [
 { #category : #accessing }
 ToSelectorInterpreter >> push: anElement [
 
-	self themeDo: [ :th | anElement setUpForTheme: th ].
+	self themeDo: [ :th |
+		anElement skinManagerDo: [ :sm | sm setUpForTheme: th in: anElement ] ].
 	targetStack push: anElement
 ]
 

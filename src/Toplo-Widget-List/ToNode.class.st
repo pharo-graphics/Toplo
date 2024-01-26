@@ -1,6 +1,6 @@
 Class {
 	#name : #ToNode,
-	#superclass : #ToElement,
+	#superclass : #BlElement,
 	#category : #'Toplo-Widget-List-Node'
 }
 
@@ -14,8 +14,8 @@ ToNode >> defaultLayout [
 ToNode >> initialize [
 
 	super initialize.
-	self applySkinInstallerOnFirstRequest: true.
-	self
-		hMatchParent;
-		vFitContent
+	self layout: self defaultLayout.
+	self constraintsDo: [ :c |
+		c horizontal matchParent.
+		c vertical fitContent ]
 ]

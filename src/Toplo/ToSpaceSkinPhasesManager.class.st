@@ -6,7 +6,8 @@ Class {
 		'allowSkinPhases',
 		'spaceShownEventHandler',
 		'needSkinInstallPass',
-		'stateGenerationHolder'
+		'stateGenerationHolder',
+		'needSkinStateApplicationPass'
 	],
 	#category : #'Toplo-Core-SpaceFrame'
 }
@@ -41,7 +42,9 @@ ToSpaceSkinPhasesManager >> allowSkinPhases: aBoolean [
 ToSpaceSkinPhasesManager >> applyAllEnqueuedStatesIn: aSpace [
 
 	self runStatesGeneration.
-	aSpace root applyEnqueuedStatesRecursively
+	self needSkinStateApplicationPass ifTrue: [
+		aSpace root applyEnqueuedStatesRecursively ].
+	self needSkinStateApplicationPass: false
 ]
 
 { #category : #'phases application' }
@@ -75,6 +78,7 @@ ToSpaceSkinPhasesManager >> initialize [
 	skinPhasesInstalled := false.
 	allowSkinPhases := true.
 	needSkinInstallPass := true.
+	needSkinStateApplicationPass := true.
 	stateGenerationHolder := ToSpaceStateGenerationHolder new
 ]
 
@@ -122,6 +126,18 @@ ToSpaceSkinPhasesManager >> needSkinInstallPass [
 ToSpaceSkinPhasesManager >> needSkinInstallPass: aBoolean [
 
 	needSkinInstallPass := aBoolean
+]
+
+{ #category : #accessing }
+ToSpaceSkinPhasesManager >> needSkinStateApplicationPass [
+
+	^ needSkinStateApplicationPass
+]
+
+{ #category : #accessing }
+ToSpaceSkinPhasesManager >> needSkinStateApplicationPass: aBoolean [
+
+	needSkinStateApplicationPass := aBoolean
 ]
 
 { #category : #'phases installation' }

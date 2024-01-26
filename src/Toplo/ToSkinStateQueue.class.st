@@ -6,7 +6,7 @@ Class {
 		'previousInstallState',
 		'intrinsicStateIndex'
 	],
-	#category : 'Toplo-Core-States'
+	#category : #'Toplo-Core-States'
 }
 
 { #category : #hook }
@@ -48,10 +48,12 @@ ToSkinStateQueue >> enqueueInstallStateForElement: anElement [
 
 { #category : #adding }
 ToSkinStateQueue >> enqueueState: aState for: anElement [
-
 	" all states kinds are enqueued here "
+
 	self nextStates nextPut: aState.
-	anElement spaceDo: [:sp | sp requestNextPulse ]
+	anElement spaceDo: [ :sp |
+		sp needSkinStateApplicationPass: true.
+		sp requestNextPulse ]
 ]
 
 { #category : #adding }

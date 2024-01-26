@@ -46,7 +46,7 @@ ToListClassNodeExample >> forClassNameAssoc: aClassNameAssoc [
 ToListClassNodeExample >> initialize [ 
 
 	super initialize.
-	" to have editable node on mouse stille pressed one need toplo state generator "
+	" to have editable node on mouse still pressed one need toplo state generator "
 	self initializeForToplo 
 ]
 

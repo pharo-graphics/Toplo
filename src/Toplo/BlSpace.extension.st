@@ -58,6 +58,18 @@ BlSpace >> needSkinInstallPass: aBoolean [
 ]
 
 { #category : #'*Toplo' }
+BlSpace >> needSkinStateApplicationPass [
+
+	^ self skinPhasesManager needSkinStateApplicationPass
+]
+
+{ #category : #'*Toplo' }
+BlSpace >> needSkinStateApplicationPass: aBoolean [
+
+	self skinPhasesManager needSkinStateApplicationPass: aBoolean
+]
+
+{ #category : #'*Toplo' }
 BlSpace >> renewRootStyleSheet [
 
 	self root styleSheet: self toTheme styleSheet

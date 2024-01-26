@@ -165,8 +165,10 @@ BlElement >> enqueueSkinState: aSkinState [
 { #category : #'*Toplo' }
 BlElement >> ensureHaveSkinManager [
 
-	
-	self userData at: #skinManager ifAbsentPut:  [ ToSkinManager new onInstalledIn: self; yourself]
+	self userData at: #skinManager ifAbsentPut: [
+		ToSkinManager new
+			onInstalledIn: self;
+			yourself ]
 ]
 
 { #category : #'*Toplo' }

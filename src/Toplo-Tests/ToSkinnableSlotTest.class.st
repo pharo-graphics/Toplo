@@ -4,7 +4,7 @@ A ToSkinnableSlotTest is a test class for testing the behavior of ToSkinnableSlo
 Class {
 	#name : #ToSkinnableSlotTest,
 	#superclass : #ToTestCaseWithSpace,
-	#category : 'Toplo-Tests-Core-Slots'
+	#category : #'Toplo-Tests-Core-Slots'
 }
 
 { #category : #tests }
@@ -155,7 +155,8 @@ ToSkinnableSlotTest >> testWriteTo4 [
 
 	self assert: e skinInstaller isNil.
 	self assert: e skinRequestCount equals: 9.
-	self assert: e skinStatesApplied equals: 4.
+	" no new state enqueued "
+	self assert: e skinStatesApplied equals: 3.
 	self assert: e skinInstallStateCount equals: 3.
 
 

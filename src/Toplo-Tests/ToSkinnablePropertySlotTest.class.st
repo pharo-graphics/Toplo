@@ -4,7 +4,7 @@ A ToSkinnablePropertySlotTest is a test class for testing the behavior of ToSkin
 Class {
 	#name : #ToSkinnablePropertySlotTest,
 	#superclass : #ToTestCaseWithSpace,
-	#category : 'Toplo-Tests-Core-Slots'
+	#category : #'Toplo-Tests-Core-Slots'
 }
 
 { #category : #running }
@@ -134,7 +134,8 @@ ToSkinnablePropertySlotTest >> testWriteTo4 [
 	self assert: e skinInstaller isNil.
 	self assert: e newSkinInstallerCount equals: 2.
 	self assert: e skinRequestCount equals: requestCpt + 5.
-	self assert: e skinStatesApplied equals: 3.
+	" no new state "
+	self assert: e skinStatesApplied equals: 2.
 	self assert: e skinInstallStateCount equals: 2
 ]
 

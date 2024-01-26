@@ -151,6 +151,39 @@ ToSpaceSkinPhasesManagerTest >> testNeedSkinInstallPass [
 ]
 
 { #category : #tests }
+ToSpaceSkinPhasesManagerTest >> testNeedSkinStateApplicationPass [
+
+	| e |
+	e := ToElement new.
+	space applyAllSkinInstallers.
+	self deny: space needSkinInstallPass.
+	self assert: space needSkinStateApplicationPass.
+	space applyAllEnqueuedStates.
+	self deny: space needSkinStateApplicationPass.
+	space root addChild: e.
+	self assert: space needSkinInstallPass.
+	self deny: space needSkinStateApplicationPass.
+	space applyAllSkinInstallers.
+	self assert: space needSkinStateApplicationPass.
+	space applyAllEnqueuedStates.
+	" because of the theme installation with theme token properties installed on root "
+	self assert: space needSkinInstallPass.
+	self deny: space needSkinStateApplicationPass.
+
+	space applyAllSkinInstallers.
+	self deny: space needSkinStateApplicationPass.
+	self deny: space needSkinInstallPass.
+	e addStamp: #stamp.
+	self assert: space needSkinInstallPass.
+	self deny: space needSkinStateApplicationPass.
+
+
+
+
+	
+]
+
+{ #category : #tests }
 ToSpaceSkinPhasesManagerTest >> testOnInstalledIn [
 
 	space checkSkinPhases.

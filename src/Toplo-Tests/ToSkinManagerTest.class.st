@@ -74,7 +74,7 @@ ToSkinManagerTest >> testApplyStylesIn [
 ToSkinManagerTest >> testBorderBuilder [
 
 	| e  |
-	e := BlElement new.
+	e := ToElement new.
 	self assert: (e skinManager borderBuilder ) notNil
 ]
 
@@ -82,10 +82,10 @@ ToSkinManagerTest >> testBorderBuilder [
 ToSkinManagerTest >> testComputeStyleSheetChainIn [
 
 	| e child childchild childchildchild |
-	e := BlElement new.
-	child := BlElement new.
-	childchild := BlElement new.
-	childchildchild := BlElement new.
+	e := ToElement new.
+	child := ToElement new.
+	childchild := ToElement new.
+	childchildchild := ToElement new.
 	e addChild: child.
 	child addChild: childchild.
 	childchild addChild: childchildchild.
@@ -337,7 +337,7 @@ ToSkinManagerTest >> testIsRequestSkinPostponed2 [
 ToSkinManagerTest >> testIsSetUpForTheme [
 
 	| e theme skin |
-	e := BlElement new.
+	e := ToElement new.
 	space := BlSpace new.
 	theme := ToRawTheme light.
 	self deny: (e skinManager isSetUpForTheme: theme).
@@ -353,7 +353,7 @@ ToSkinManagerTest >> testIsSetUpForTheme [
 ToSkinManagerTest >> testOnInstalledIn [
 
 	| e |
-	e := BlElement new.
+	e := ToElement new.
 	self assert: e skinManager registeredThemeClasses notNil.
 	self assert: e skinManager registeredThemeClasses isEmpty.
 	self deny: e skinManager hasPostponedRequestInstallSkin.
@@ -394,7 +394,7 @@ ToSkinManagerTest >> testPostponeRequestSkinIn [
 ToSkinManagerTest >> testRegisterTheme [
 
 	| e |
-	e := BlElement new.
+	e := ToElement new.
 	self assert: e skinManager registeredThemeClasses notNil.
 	self assert: e skinManager registeredThemeClasses isEmpty.
 	e skinManager registerTheme: ToRawTheme light.
@@ -651,7 +651,7 @@ ToSkinManagerTest >> testSetDefaultSkinIn [
 ToSkinManagerTest >> testSetStyleSheetIn [
 
 	| e |
-	e := BlElement new.
+	e := ToElement new.
 	e skinManager setStyleSheet: ToStyleSheet new in: e.
 	self assert: e skinManager styleSheet notNil
 ]
@@ -797,7 +797,7 @@ ToSkinManagerTest >> testStyleSheet [
 ToSkinManagerTest >> testTextAttributesBuilder [
 
 	| e  |
-	e := BlElement new.
+	e := ToElement new.
 	self assert: (e skinManager textAttributesBuilder ) notNil
 ]
 

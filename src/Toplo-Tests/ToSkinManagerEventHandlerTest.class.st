@@ -25,7 +25,7 @@ ToSkinManagerEventHandlerTest >> testSkinInstallStateRequest [
 				 h isKindOf: ToSkinManagerEventHandler ]) size
 		equals: 0.
 	" skinManager install on e will add a skin management event handler "
-	e skinManager.
+	e ensureHaveSkinManager.
 	self
 		assert: (e eventDispatcher handlers select: [ :h |
 				 h isKindOf: ToSkinManagerEventHandler ]) size
@@ -45,7 +45,7 @@ ToSkinManagerEventHandlerTest >> testSkinUninstallStateRequest [
 
 	| e nk |
 	e := BlElement new.
-	e skinManager.
+	e ensureHaveSkinManager.
 	nk := ToNullSkin new.
 	e dispatchEvent: (ToSkinInstallStateRequest new skin: nk).
 	self assert: e installedSkin identicalTo: nk.

@@ -102,9 +102,10 @@ ToSkinManager >> computeStyleSheetChainIn: anElement [
 		  current := anElement.
 		  inherits := true.
 		  [ current notNil and: [ inherits ] ] whileTrue: [
-			  current skinManager styleSheet ifNotNil: [ :ss |
-				  str nextPut: ss.
-				  inherits := ss inherits ].
+			  current skinManagerDo: [ :sm |
+				  sm styleSheet ifNotNil: [ :ss |
+					  str nextPut: ss.
+					  inherits := ss inherits ] ].
 			  current := current parent ] ]
 ]
 

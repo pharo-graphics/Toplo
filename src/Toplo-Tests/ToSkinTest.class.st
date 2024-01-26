@@ -4,7 +4,7 @@ A ToSkinTest is a test class for testing the behavior of ToSkin
 Class {
 	#name : #ToSkinTest,
 	#superclass : #TestCase,
-	#category : 'Toplo-Tests-Core-Theme'
+	#category : #'Toplo-Tests-Core-Theme'
 }
 
 { #category : #tests }
@@ -45,20 +45,31 @@ ToSkinTest >> testIsNullSkin [
 ]
 
 { #category : #tests }
-ToSkinTest >> testOnInstalledIn [ 
+ToSkinTest >> testOnInstalledIn [
 
 	| skin e eventHandlerCount |
 	e := BlElement new.
 	eventHandlerCount := e eventDispatcher handlers size.
+	e ensureHaveSkinManager.
 	self assert: e skinManager notNil.
-	self assert: e eventDispatcher handlers size equals: eventHandlerCount + 1.
+	self
+		assert: e eventDispatcher handlers size
+		equals: eventHandlerCount + 1.
+	self assert: (e eventDispatcher handlers
+			 detect: [ :h | h isKindOf: ToSkinManagerEventHandler ]
+			 ifNone: [  ]) notNil.
 	skin := ToSkin new.
 	skin onInstalledIn: e.
 	self assert: e skinManager notNil.
+	self assert: (e eventDispatcher handlers
+			 detect: [ :h |
+				 (h isKindOf: BlEventHandler) and: [
+					 h eventClass = BlElementRemovedFromSceneGraphEvent ] ]
+			 ifNone: [  ]) notNil.
 	self assert: e skinManager installedSkin identicalTo: skin.
-	self assert: e eventDispatcher handlers size equals: eventHandlerCount + 2
-	
-	
+	self
+		assert: e eventDispatcher handlers size
+		equals: eventHandlerCount + 2
 ]
 
 { #category : #tests }
@@ -67,6 +78,7 @@ ToSkinTest >> testOnUninstalledIn [
 	| skin e eventHandlerCount |
 	e := BlElement new.
 	eventHandlerCount := e eventDispatcher handlers size.
+	e ensureHaveSkinManager.
 	self assert: e skinManager notNil.
 	self assert: e eventDispatcher handlers size equals: eventHandlerCount + 1.
 	skin := ToSkin new.
@@ -76,7 +88,9 @@ ToSkinTest >> testOnUninstalledIn [
 	self assert: e eventDispatcher handlers size equals: eventHandlerCount + 2.
 	skin onUninstalledIn: e.
 	self assert: e eventDispatcher handlers size equals: eventHandlerCount + 1.
-	self assert: e skinManager notNil.
+	self assert: (e eventDispatcher handlers
+			 detect: [ :h | h isKindOf: ToSkinManagerEventHandler ]
+			 ifNone: [  ]) notNil.	self assert: e skinManager notNil.
 	self assert: e skinManager installedSkin identicalTo: nil.
 
 

@@ -3,7 +3,7 @@ Extension { #name : #BlElement }
 { #category : #'*Toplo-Demo' }
 BlElement >> defaultButterflySkin: aSkin [
 
-	self skinManager setDefaultButterflySkin: aSkin in: self 
+	self ensuredSkinManager setDefaultButterflySkin: aSkin in: self 
 ]
 
 { #category : #'*Toplo-Demo' }

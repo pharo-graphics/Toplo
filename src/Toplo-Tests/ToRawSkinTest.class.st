@@ -4,7 +4,7 @@ A ToRawSkinTest is a test class for testing the behavior of ToRawSkin
 Class {
 	#name : #ToRawSkinTest,
 	#superclass : #TestCase,
-	#category : 'Toplo-Tests-Core-Theme'
+	#category : #'Toplo-Tests-Core-Theme'
 }
 
 { #category : #tests }
@@ -41,7 +41,7 @@ ToRawSkinTest >> testHasAllNecessaryLookEventHandlingMethods [
 ToRawSkinTest >> testIsAbleToHandleAnyLookEvent [
 
 	| e skin instanciableLookEventClasses |
-	e := BlElement new.
+	e := ToElement new.
 	skin := ToRawSkinForTest new.
 	e addEventHandler: skin.
 	instanciableLookEventClasses := self instanciableLookEventClasses.
@@ -54,7 +54,7 @@ ToRawSkinTest >> testIsAbleToHandleAnyLookEvent [
 ToRawSkinTest >> testOnInstalledIn [ 
 
 	| skin e  |
-	e := BlElement new.
+	e := ToElement new.
 	skin := ToRawSkin new.
 	skin onInstalledIn: e
 ]
@@ -74,7 +74,7 @@ ToRawSkinTest >> testOnInstalledInSendsInstallRawStyle [
 ToRawSkinTest >> testOnUninstalledIn [ 
 
 	| skin e  |
-	e := BlElement new.
+	e := ToElement new.
 	skin := ToRawSkin new.
 	skin onUninstalledIn: e.
 ]

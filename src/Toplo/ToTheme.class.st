@@ -304,7 +304,7 @@ ToTheme >> defaultTokenProperties [
 { #category : #accessing }
 ToTheme >> expectedSkinFor: anElement [
 
-	^ anElement skinManager defaultSkin
+	^ anElement skinManager ifNotNil: [:sm | sm defaultSkin ]
 ]
 
 { #category : #accessing }

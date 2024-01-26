@@ -15,13 +15,13 @@ BlElement >> addAllTokenProperties: aTokenPropertyCollection [
 { #category : #'*Toplo' }
 BlElement >> addDraggedSkinStateGeneration: aValuable [
 
-	self skinManager addDraggedSkinStateGeneration: aValuable for: self
+	self ensuredSkinManager addDraggedSkinStateGeneration: aValuable for: self
 ]
 
 { #category : #'*Toplo' }
 BlElement >> addSkinStateGeneration: aValuable [
 
-	self skinManager addSkinStateGeneration: aValuable for: self
+	self ensuredSkinManager addSkinStateGeneration: aValuable for: self
 ]
 
 { #category : #'*Toplo' }
@@ -49,7 +49,7 @@ BlElement >> allStamps [
 { #category : #'*Toplo' }
 BlElement >> applyEnqueuedStates [
 
-	self skinManager applyEnqueuedStatesIn: self
+	self skinManagerDo: [ :sm | sm  applyEnqueuedStatesIn: self ]
 ]
 
 { #category : #'*Toplo' }
@@ -62,14 +62,14 @@ BlElement >> applyEnqueuedStatesRecursively [
 { #category : #'*Toplo' }
 BlElement >> applySkinInstaller [
 
-	self skinManager applySkinUninstallerIn: self.
-	self skinManager applySkinInstallerIn: self
+	self skinManagerDo: [ :sm | sm  applySkinUninstallerIn: self ].
+	self skinManagerDo: [ :sm | sm  applySkinInstallerIn: self ]
 ]
 
 { #category : #'*Toplo' }
 BlElement >> applySkinInstallerOnFirstRequest: aBoolean [
 
-	self skinManager applySkinInstallerOnFirstRequest: aBoolean
+	self skinManagerDo: [ :sm | sm  applySkinInstallerOnFirstRequest: aBoolean ]
 ]
 
 { #category : #'*Toplo' }
@@ -105,31 +105,34 @@ BlElement >> applyStylesRecursively [
 { #category : #'*Toplo' }
 BlElement >> borderBuilder [
 
-	^ self skinManager borderBuilder
+	self skinManagerDo: [ :sm | ^ sm  borderBuilder ].
+	^ nil
 ]
 
 { #category : #'*Toplo' }
 BlElement >> defaultButterflySkin [
 
-	^ self skinManager defaultButterflySkin
+	self skinManagerDo: [ :sm | ^ sm  defaultButterflySkin ].
+	^ nil
 ]
 
 { #category : #'*Toplo' }
 BlElement >> defaultRawSkin [
 
-	^ self skinManager defaultRawSkin
+	self skinManagerDo: [ :sm | ^ sm  defaultRawSkin ].
+	^ nil
 ]
 
 { #category : #'*Toplo' }
 BlElement >> defaultRawSkin: aSkin [
 
-	self skinManager setDefaultRawSkin: aSkin in: self
+	self ensuredSkinManager setDefaultRawSkin: aSkin in: self
 ]
 
 { #category : #'*Toplo' }
 BlElement >> defaultSkin: aSkin [
 
-	self skinManager setDefaultSkin: aSkin in: self
+	self ensuredSkinManager setDefaultSkin: aSkin in: self
 ]
 
 { #category : #'*Toplo' }
@@ -153,7 +156,23 @@ BlElement >> enable [
 { #category : #'*Toplo' }
 BlElement >> enqueueSkinState: aSkinState [
 
-	aSkinState requestEnqueueFromElement: self inQueue:self skinStateQueue
+	self ensureHaveSkinManager.
+	aSkinState
+		requestEnqueueFromElement: self
+		inQueue: self skinStateQueue
+]
+
+{ #category : #'*Toplo' }
+BlElement >> ensureHaveSkinManager [
+
+	self userData at: #skinManager ifAbsentPut:  [ ToSkinManager new onInstalledIn: self; yourself]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> ensuredSkinManager [
+
+	self ensureHaveSkinManager.
+	^ self userData at: #skinManager
 ]
 
 { #category : #'*Toplo' }
@@ -177,7 +196,7 @@ BlElement >> flagAsEnabled [
 { #category : #'*Toplo' }
 BlElement >> forceDefaultSkin: aSkin [
 
-	self skinManager forceDefaultSkin: aSkin in: self
+	self ensuredSkinManager forceDefaultSkin: aSkin in: self
 ]
 
 { #category : #'*Toplo' }
@@ -224,13 +243,14 @@ BlElement >> installRawStyle [
 { #category : #'*Toplo' }
 BlElement >> installedSkin [
 
-	^ self skinManager installedSkin
+	self skinManagerDo: [ :sm | ^ sm installedSkin ].
+	^ nil
 ]
 
 { #category : #'*Toplo' }
 BlElement >> installedSkinDo: aBlock [
 
-	self skinManager installedSkinDo: aBlock
+	self 	skinManagerDo: [ :sm | sm installedSkinDo: aBlock ]
 ]
 
 { #category : #'*Toplo' }
@@ -289,7 +309,7 @@ BlElement >> removeTokenNamed: aSymbol [
 BlElement >> requestInstallSkin [
 
 	" first check for the space phases "
-	self skinManager requestInstallSkinIn: self 
+	self ensuredSkinManager requestInstallSkinIn: self 
 ]
 
 { #category : #'*Toplo' }
@@ -310,7 +330,7 @@ BlElement >> requestNewSkinRecursively [
 { #category : #'*Toplo' }
 BlElement >> requestUninstallSkin [
 
-	self skinManager requestUninstallSkinIn: self 
+	self skinManagerDo: [ :sm | sm requestUninstallSkinIn: self ]
 ]
 
 { #category : #'*Toplo' }
@@ -341,49 +361,59 @@ BlElement >> setTokenNamed: aSymbol value: anObject [
 { #category : #'*Toplo' }
 BlElement >> setUpForTheme: aTheme [
 
-	self skinManager setUpForTheme: aTheme in: self
+	self ensuredSkinManager setUpForTheme: aTheme in: self
 ]
 
 { #category : #'*Toplo' }
 BlElement >> skinInstaller [
 
-	^ self skinManager skinInstaller 
+	self skinManagerDo: [ :sm | ^ sm skinInstaller ].
+	^ nil
 ]
 
 { #category : #'*Toplo' }
 BlElement >> skinInstaller: aSkinInstaller [
 
-	self skinManager setSkinInstaller: aSkinInstaller in: self
+	self ensuredSkinManager setSkinInstaller: aSkinInstaller in: self
 ]
 
 { #category : #'*Toplo' }
 BlElement >> skinManager [
 
-	^ self userData at: #skinManager ifAbsentPut:  [ ToSkinManager new onInstalledIn: self; yourself]
+	^ self userData at: #skinManager ifAbsent: [  ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> skinManagerDo: aBlock [
+
+	self skinManager ifNotNil: [ :sm | aBlock value: sm ]
 ]
 
 { #category : #'*Toplo' }
 BlElement >> skinStateQueue [
 
-	^ self skinManager skinStateQueue
+	self skinManagerDo: [ :sm | ^ sm skinStateQueue ].
+	^ nil
 ]
 
 { #category : #'*Toplo' }
 BlElement >> skinToInstall [
 
-	^ self skinManager skinToInstallIn: self
+	self skinManagerDo: [ :sm | ^ sm skinToInstallIn: self ].
+	^ nil
 ]
 
 { #category : #'*Toplo' }
 BlElement >> skinUninstaller [
 
-	^ self skinManager skinUninstaller 
+	self skinManagerDo: [ :sm | ^ sm skinUninstaller ].
+	^ nil
 ]
 
 { #category : #'*Toplo' }
 BlElement >> skinUninstaller: aSkinUninstaller [
 
-	self skinManager setSkinUninstaller: aSkinUninstaller in: self
+	self skinManagerDo: [ :sm | sm setSkinUninstaller: aSkinUninstaller in: self ]
 ]
 
 { #category : #'*Toplo' }
@@ -422,13 +452,15 @@ BlElement >> stillPressedStartDelay: aDuration [
 { #category : #'*Toplo-LookAndFeel' }
 BlElement >> styleSheet: aStyleSheet [
 
-	self skinManager setStyleSheet: aStyleSheet in: self
+	self ensuredSkinManager setStyleSheet: aStyleSheet in: self
 ]
 
 { #category : #'*Toplo-LookAndFeel' }
 BlElement >> styleSheetChain [
 	" return an array with all my inherited stylesheets "
-	^ self skinManager computeStyleSheetChainIn: self
+	self withAllParentsDo: [ :p |
+		p skinManagerDo: [ :sm | ^ sm computeStyleSheetChainIn: p ] ].
+	^ #(  )
 ]
 
 { #category : #'*Toplo' }
@@ -440,7 +472,8 @@ BlElement >> switchToNextCheckStateOnClick [
 { #category : #'*Toplo' }
 BlElement >> textAttributesBuilder [
 
-	^ self skinManager textAttributesBuilder
+	self skinManagerDo: [ :sm | ^ sm textAttributesBuilder ].
+	^ nil
 ]
 
 { #category : #'*Toplo' }
@@ -452,7 +485,7 @@ BlElement >> toStyleStore [
 { #category : #'*Toplo' }
 BlElement >> toStyleStoreDo: aBlock [
 
-	self toStyleStore ifNotNil: aBlock
+	self toStyleStore ifNotNil: [ :tst | aBlock value: tst ]
 ]
 
 { #category : #'*Toplo' }
@@ -496,8 +529,8 @@ BlElement >> tokenPropertyNamed: aSymbol [
 BlElement >> tokenValueNamed: aSymbol [
 
 	| found |
-	found := self skinManager ifNotNil: [ :sm |
-		         sm tokenPropertyValue: aSymbol from: self ].
+	self skinManagerDo: [ :sm |
+		found := sm tokenPropertyValue: aSymbol from: self ].
 	found ifNil: [ (ToElementPropertyNotFound name: aSymbol) signal ].
 	^ found
 ]
@@ -510,5 +543,5 @@ BlElement >> uninstallRawStyle [
 { #category : #'*Toplo' }
 BlElement >> withoutSkin [
 
-	self skinManager setDefaultSkin: ToNullSkin new in: self
+	self ensuredSkinManager setDefaultSkin: ToNullSkin new in: self
 ]

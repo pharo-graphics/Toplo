@@ -31,7 +31,7 @@ ToSkinManagerEventHandlerTest >> testSkinInstallStateRequest [
 				 h isKindOf: ToSkinManagerEventHandler ]) size
 		equals: 1.
 	nk := ToNullSkin new.
-	e dispatchEvent: (ToSkinInstallStateRequest new skin: nk).
+	e dispatchEvent: (ToInstallSkinEvent new skin: nk).
 	self assert: e installedSkin identicalTo: nk.
 	nextInQueue := e skinManager skinStateQueue nextStates nextOrNil.
 	self assert: (nextInQueue isKindOf: ToInstallState).
@@ -47,9 +47,9 @@ ToSkinManagerEventHandlerTest >> testSkinUninstallStateRequest [
 	e := BlElement new.
 	e ensureHaveSkinManager.
 	nk := ToNullSkin new.
-	e dispatchEvent: (ToSkinInstallStateRequest new skin: nk).
+	e dispatchEvent: (ToInstallSkinEvent new skin: nk).
 	self assert: e installedSkin identicalTo: nk.
-	e dispatchEvent: (ToSkinUninstallStateRequest new skin: nk).
+	e dispatchEvent: (ToUninstallSkinEvent new skin: nk).
 	self assert: e installedSkin isNil.
 	" uninstallState is applied directly so the queue should be empty"
 	self assert: e skinManager skinStateQueue nextStates size equals: 0

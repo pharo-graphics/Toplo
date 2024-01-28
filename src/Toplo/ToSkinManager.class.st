@@ -3,25 +3,16 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'skinInstaller',
-		'installedSkin',
 		'skinStateQueue',
 		'skinUninstaller',
-		'defaultSkin',
-		'postponedRequestInstallSkin',
 		'styleSheet',
-		'borderBuilder',
-		'textAttributesBuilder',
-		'skinManagementEventHandler',
-		'skinInstallRequestCount',
-		'applySkinInstallerOnFirstRequest',
-		'registeredThemeClasses',
-		'defaultRawSkin',
-		'userData'
+		'userData',
+		'skinRequestCount'
 	],
 	#category : #'Toplo-Core-Skin'
 }
 
-{ #category : #adding }
+{ #category : #'skin state generation' }
 ToSkinManager >> addDraggedSkinStateGeneration: aValuable for: anElement [
 
 	" add a skin generation action to be evaluated by the states application phase "
@@ -30,7 +21,7 @@ ToSkinManager >> addDraggedSkinStateGeneration: aValuable for: anElement [
 		ifNil: [ aValuable value ]
 ]
 
-{ #category : #adding }
+{ #category : #'skin state generation' }
 ToSkinManager >> addSkinStateGeneration: aValuable for: anElement [
 
 	" add a skin generation action to be evaluated by the states application phase "
@@ -53,20 +44,20 @@ ToSkinManager >> applySkinInstallerIn: anElement [
 	self skinInstaller ifNotNil: [ :si | si applyOn: anElement ].
 	self installedSkin ifNil: [
 		" no installed skin and nothing to install it, hum, smell bad "
-		((anElement isKindOf: ToElement) and: [postponedRequestInstallSkin isNil and: [skinInstaller isNil ] ]) ifTrue: [
+		((anElement isKindOf: ToElement) and: [self postponedInstallSkinHandler isNil and: [skinInstaller isNil ] ]) ifTrue: [
 			Error signal: 'A ToSkinManager has an invalid state' ] ]
 ]
 
 { #category : #'skin - installing / uninstalling' }
 ToSkinManager >> applySkinInstallerOnFirstRequest [
 
-	^ applySkinInstallerOnFirstRequest
+	^ self userData at: #applySkinInstallerOnFirstRequest 
 ]
 
 { #category : #'skin - installing / uninstalling' }
 ToSkinManager >> applySkinInstallerOnFirstRequest: aBoolean [
 
-	applySkinInstallerOnFirstRequest := aBoolean
+	self userData at: #applySkinInstallerOnFirstRequest put: aBoolean
 ]
 
 { #category : #'skin - installing / uninstalling' }
@@ -76,25 +67,14 @@ ToSkinManager >> applySkinUninstallerIn: anElement [
 	self skinUninstaller ifNotNil: [ :su | su applyOn: anElement ]
 ]
 
-{ #category : #'skin - installing / uninstalling' }
-ToSkinManager >> applyStylesIn: anElement [
-
-	self
-		deprecated: 'Use applyEnqueuedStatesIn: instead'
-		transformWith: '`@receiver applyStylesIn: `@argument'
-			-> '`@receiver applyEnqueuedStatesIn: `@argument'.
-			
-	self installedSkinDo: [ :s | s applyEnqueuedStatesIn: anElement ]
-]
-
 { #category : #'accessing - builders' }
 ToSkinManager >> borderBuilder [
 
-	^ borderBuilder ifNil: [ borderBuilder := BlBorderBuilder new ] 
+	^ self userData at: #borderBuilder ifAbsentPut: [ BlBorderBuilder new ] 
 ]
 
 { #category : #accessing }
-ToSkinManager >> computeStyleSheetChainIn: anElement [
+ToSkinManager >> computedStyleSheetChainIn: anElement [
 	" return an array with all my inherited stylesheets "
 
 	^ Array new: 20 streamContents: [ :str |
@@ -112,48 +92,45 @@ ToSkinManager >> computeStyleSheetChainIn: anElement [
 { #category : #'accessing - raw skin' }
 ToSkinManager >> defaultRawSkin [
 
-	^ defaultRawSkin
+	^ self userData at: #defaultRawSkin ifAbsent: [  ]
+]
+
+{ #category : #'accessing - raw skin' }
+ToSkinManager >> defaultRawSkin: aSkin [
+
+	self userData at: #defaultRawSkin put: aSkin
 ]
 
 { #category : #'accessing - default skin' }
 ToSkinManager >> defaultSkin [
 
-	^ defaultSkin
+	^ self userData at: #defaultSkin ifAbsent: [  ]
 ]
 
 { #category : #'accessing - default skin' }
-ToSkinManager >> forceDefaultSkin: aSkin in: anElement [
+ToSkinManager >> defaultSkin: aSkin [
 
-	skinInstallRequestCount := 0.
-	defaultSkin := aSkin.
-	anElement requestNewSkin
+	self userData at: #defaultSkin put: aSkin
 ]
 
 { #category : #testing }
-ToSkinManager >> hasPostponedRequestInstallSkin [
+ToSkinManager >> hasPostponedInstallSkinHandler [
 
 	
-	^ postponedRequestInstallSkin notNil
+	^ self postponedInstallSkinHandler notNil
 ]
 
 { #category : #initialization }
 ToSkinManager >> initialize [ 
 
 	super initialize.
-	skinInstallRequestCount := 0.
-	applySkinInstallerOnFirstRequest := false.
-	userData := IdentityDictionary new
+	userData := IdentityDictionary new.
+	skinRequestCount := 0.
+	self applySkinInstallerOnFirstRequest: false
 ]
 
 { #category : #'skin - installing / uninstalling' }
 ToSkinManager >> installSkin: aSkin in: anElement [
-
-	anElement dispatchEvent: (ToSkinInstallStateRequest new skin: aSkin; yourself)
-	"self installSkinNow: aSkin in: anElement"
-]
-
-{ #category : #'skin - installing / uninstalling' }
-ToSkinManager >> installSkinNow: aSkin in: anElement [
 
 	anElement addEventHandler: aSkin.
 	self skinStateQueue enqueueInstallStateForElement: anElement
@@ -163,14 +140,14 @@ ToSkinManager >> installSkinNow: aSkin in: anElement [
 ToSkinManager >> installedSkin [
 
 	" set from the ToSkin>>onInstalledIn: and ToSkin>>onUninstalledIn: "
-	^ installedSkin
+	^ self userData at: #installedSkin ifAbsent: [  ]
 ]
 
 { #category : #'accessing - installed skin' }
 ToSkinManager >> installedSkin: aSkin [
 
 	" send from the ToSkin>>onInstalledIn: and ToSkin>>onUninstalledIn: "
-	installedSkin := aSkin
+	self userData at: #installedSkin put: aSkin
 ]
 
 { #category : #'accessing - installed skin' }
@@ -186,25 +163,52 @@ ToSkinManager >> isSetUpForTheme: aTheme [
 	^ self registeredThemeClasses includes: aTheme class
 ]
 
-{ #category : #'skin - installing / uninstalling' }
+{ #category : #'api - hooks' }
 ToSkinManager >> onInstalledIn: anElement [
 
-	registeredThemeClasses := IdentitySet new.
-	skinManagementEventHandler := ToSkinManagerEventHandler new.
-	anElement addEventHandler: skinManagementEventHandler
+	self skinManagementEventHandler: ToSkinManagerEventHandler new.
+	anElement addEventHandler: self skinManagementEventHandler
+]
+
+{ #category : #private }
+ToSkinManager >> onSkinChangedIn: anElement [
+
+	skinRequestCount := 0.
+	anElement requestNewSkin
+]
+
+{ #category : #'api - hooks' }
+ToSkinManager >> onUninstalledIn: anElement [
+
+	anElement removeEventHandler: self skinManagementEventHandler.
+	self skinManagementEventHandler: nil
 ]
 
 { #category : #'skin - installing / uninstalling' }
 ToSkinManager >> postponeRequestSkinIn: anElement [
 
-	self hasPostponedRequestInstallSkin ifTrue: [ ^ self ].
-	postponedRequestInstallSkin := BlEventHandler new.
-	postponedRequestInstallSkin eventClass: BlElementAddedToSceneGraphEvent.
-	postponedRequestInstallSkin action: [ :evt |
-		evt target removeEventHandler: postponedRequestInstallSkin.
-		postponedRequestInstallSkin := nil.
+	| handler |
+	self hasPostponedInstallSkinHandler ifTrue: [ ^ self ].
+	handler := BlEventHandler new.
+	handler eventClass: BlElementAddedToSceneGraphEvent.
+	handler action: [ :evt |
+		evt target removeEventHandler: self postponedInstallSkinHandler.
+		self postponedInstallSkinHandler: nil.
 		evt target requestInstallSkin ].
-	anElement addEventHandler: postponedRequestInstallSkin
+	self postponedInstallSkinHandler: handler.
+	anElement addEventHandler: handler
+]
+
+{ #category : #'skin - installing / uninstalling' }
+ToSkinManager >> postponedInstallSkinHandler [
+
+	^ self userData at: #postponedInstallSkinHandler ifAbsent: [  ]
+]
+
+{ #category : #'skin - installing / uninstalling' }
+ToSkinManager >> postponedInstallSkinHandler: anHandler [
+
+	self userData at: #postponedInstallSkinHandler put: anHandler
 ]
 
 { #category : #'skin - installing / uninstalling' }
@@ -213,25 +217,32 @@ ToSkinManager >> registerTheme: aTheme [
 	self registeredThemeClasses add: aTheme class
 ]
 
-{ #category : #'skin - installing / uninstalling' }
+{ #category : #accessing }
 ToSkinManager >> registeredThemeClasses [
 
-	^ registeredThemeClasses
+	^ self userData at: #registeredThemeClasses ifAbsentPut: [ IdentitySet new ]
 ]
 
 { #category : #'skin - installing / uninstalling' }
 ToSkinManager >> requestInstallSkinIn: anElement [
 
 	anElement space ifNil: [ ^ self postponeRequestSkinIn: anElement ].
-	skinInstallRequestCount := skinInstallRequestCount + 1.
-	(skinInstallRequestCount > 1 and: [ self skinInstaller notNil ])
+	skinRequestCount := skinRequestCount + 1.
+	(skinRequestCount > 1 and: [ self skinInstaller notNil ])
 		ifTrue: [ ^ self ].
 	" check that the skin related space phases are installed "
 	anElement space checkSkinPhases.
 	self setSkinInstaller: ToSkinInstaller new in: anElement.
-	skinInstallRequestCount > 1 ifTrue: [ ^ self ].
-	self applySkinInstallerOnFirstRequest ifFalse: [ ^ self ].
+	" *** Important point: a skin can be installed instantly.
+	This is used to avoid visual flashing effects in differents situations: (selection or labels updating in lists). 
+	but but but it is possible only at the first request. Why ?
+	Because requestInstallSkin can be sent many times (as an example during a theme installation). Thus, applying 
+	each request instantly would increase time consuming and can lead to unpredictable results **** "
+	(self applySkinInstallerOnFirstRequest and: [
+		 skinRequestCount = 1 ]) ifFalse: [ ^ self ].
+	" If an uninstaller is present, apply it "
 	self skinUninstaller ifNotNil: [ :su | su applyOn: anElement ].
+	" then apply the installer now "
 	self skinInstaller applyOn: anElement
 ]
 
@@ -241,7 +252,7 @@ ToSkinManager >> requestUninstallSkinIn: anElement [
 	is already installing a skin.
 	and a #requestNewSkin can be sent during a skin installation.
 	Thus, to avoid infinite recurssion, do nothing if a skin installer is 
-	already installing"
+	being installing"
 
 	| installer |
 	anElement installedSkin ifNil: [ ^ self ].
@@ -254,17 +265,17 @@ ToSkinManager >> requestUninstallSkinIn: anElement [
 { #category : #'accessing - raw skin' }
 ToSkinManager >> setDefaultRawSkin: aSkin in: anElement [
 
-	defaultRawSkin = aSkin ifTrue: [ ^ self ].
-	skinInstallRequestCount := 0.
-	defaultRawSkin := aSkin.
-	anElement requestNewSkin
+	self defaultRawSkin = aSkin ifTrue: [ ^ self ].
+	self defaultRawSkin: aSkin.
+	self onSkinChangedIn: anElement
 ]
 
 { #category : #'accessing - default skin' }
 ToSkinManager >> setDefaultSkin: aSkin in: anElement [
 
-	defaultSkin = aSkin ifTrue: [ ^ self ].
-	self forceDefaultSkin: aSkin in: anElement
+	self defaultSkin = aSkin ifTrue: [ ^ self ].
+	self defaultSkin: aSkin.
+	self onSkinChangedIn: anElement
 ]
 
 { #category : #accessing }
@@ -299,16 +310,28 @@ ToSkinManager >> setUpForTheme: aTheme in: anElement [
 	aTheme setUpElement: anElement
 ]
 
-{ #category : #'skin - installing / uninstalling' }
-ToSkinManager >> skinInstallRequestCount [ 
-
-	^ skinInstallRequestCount
-]
-
 { #category : #accessing }
 ToSkinManager >> skinInstaller [ 
 
 	^ skinInstaller 
+]
+
+{ #category : #accessing }
+ToSkinManager >> skinManagementEventHandler [
+
+	^ self userData at: #skinManagementEventHandler ifAbsent: [  ]
+]
+
+{ #category : #'api - hooks' }
+ToSkinManager >> skinManagementEventHandler: aHandler [
+
+	self userData at: #skinManagementEventHandler put: aHandler
+]
+
+{ #category : #'skin - installing / uninstalling' }
+ToSkinManager >> skinRequestCount [ 
+
+	^ skinRequestCount
 ]
 
 { #category : #accessing }
@@ -339,8 +362,9 @@ ToSkinManager >> styleSheet [
 { #category : #'accessing - builders' }
 ToSkinManager >> textAttributesBuilder [
 
-	^ textAttributesBuilder ifNil: [
-		  textAttributesBuilder := BlTextDelegatedAttributesBuilder new ]
+	^ self userData
+		  at: #textAttributesBuilder
+		  ifAbsentPut: [ BlTextDelegatedAttributesBuilder new ]
 ]
 
 { #category : #'accessing token property' }
@@ -358,18 +382,12 @@ ToSkinManager >> tokenPropertyValue: aSymbol from: anElement [
 ToSkinManager >> uninstallSkin: aSkin in: anElement [
 	" uninstall the skin "
 
-	anElement dispatchEvent: (ToSkinUninstallStateRequest new skin: aSkin; yourself).
-
-]
-
-{ #category : #'skin - installing / uninstalling' }
-ToSkinManager >> uninstallSkinNow: aSkin in: anElement [
-
 	aSkin ifNil: [ ^ self ].
 	self skinStateQueue enqueueUninstallStateForElement: anElement.
 	" do not wait the next pulse to ensure the uninstallation is done here "
 	self skinStateQueue applyEnqueuedStatesIn: anElement.
 	anElement removeEventHandler: aSkin
+
 ]
 
 { #category : #accessing }

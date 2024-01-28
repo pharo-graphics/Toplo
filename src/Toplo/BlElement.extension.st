@@ -197,12 +197,6 @@ BlElement >> flagAsEnabled [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> forceDefaultSkin: aSkin [
-
-	self ensuredSkinManager forceDefaultSkin: aSkin in: self
-]
-
-{ #category : #'*Toplo' }
 BlElement >> hasEnablementFlag [
 
 	^ self userData includesKey: #enabled
@@ -465,7 +459,7 @@ BlElement >> styleSheet: aStyleSheet [
 BlElement >> styleSheetChain [
 	" return an array with all my inherited stylesheets "
 	self withAllParentsDo: [ :p |
-		p skinManagerDo: [ :sm | ^ sm computeStyleSheetChainIn: p ] ].
+		p skinManagerDo: [ :sm | ^ sm computedStyleSheetChainIn: p ] ].
 	^ #(  )
 ]
 

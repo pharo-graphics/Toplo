@@ -12,7 +12,7 @@ Class {
 		'#prevSkinInstaller',
 		'#newSkinInstallerCount'
 	],
-	#category : 'Toplo-Tests-Core-Slots'
+	#category : #'Toplo-Tests-Core-Slots'
 }
 
 { #category : #'instance creation' }
@@ -75,7 +75,7 @@ ToElementWithSkinnablePropertiesForTest >> initialize [
 	skinStatesApplied := 0.
 
 	self addEventHandler: (BlEventHandler
-			 on: ToSkinInstallStateRequest
+			 on: ToInstallSkinEvent
 			 do: [ skinInstallStateCount := skinInstallStateCount + 1 ])
 ]
 

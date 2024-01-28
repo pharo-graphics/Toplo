@@ -21,17 +21,17 @@ ToSkinManagerEventHandler >> eventsToHandle [
 ]
 
 { #category : #'event handling' }
-ToSkinManagerEventHandler >> skinInstallStateRequest: anEvent [
+ToSkinManagerEventHandler >> installSkinEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	target skinManager installSkinNow: anEvent skin in: target
+	target skinManager installSkin: anEvent skin in: target
 ]
 
 { #category : #'event handling' }
-ToSkinManagerEventHandler >> skinUninstallStateRequest: anEvent [
+ToSkinManagerEventHandler >> uninstallSkinEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	target skinManager uninstallSkinNow: anEvent skin in: target
+	target skinManager uninstallSkin: anEvent skin in: target
 ]

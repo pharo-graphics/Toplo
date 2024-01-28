@@ -42,7 +42,7 @@ ToElementTest >> testApplySkinInstallerOnFirstRequestButWithNoEffect [
 	" asking to apply the skin installer on first request after it has been already requested has no effect.
 	Indeed, the better place for a send applySkinInstallerOnFirstRequest: is in the initialize method
 	to be sure it will have an effect on the first requestInstallSkin "
-	self assert: e skinManager skinInstallRequestCount equals: 1.
+	self assert: e skinManager skinRequestCount equals: 1.
 	e applySkinInstallerOnFirstRequest: true.
 	" have a skin installer"
 	self assert: e skinInstaller notNil.
@@ -62,12 +62,12 @@ ToElementTest >> testApplySkinInstallerOnFirstRequestWithPostponedRequest [
 	e applySkinInstallerOnFirstRequest: true.
 	e requestInstallSkin.
 	" request install skin should be posponed here "
-	self assert: e skinManager hasPostponedRequestInstallSkin.
-	self assert: e skinManager skinInstallRequestCount equals: 0.
+	self assert: e skinManager hasPostponedInstallSkinHandler.
+	self assert: e skinManager skinRequestCount equals: 0.
 	self assert: e skinInstaller isNil.
 	self assert: e installedSkin isNil.
 	space root addChild: e.
-	self assert: e skinManager skinInstallRequestCount > 1.
+	self assert: e skinManager skinRequestCount > 1.
 	" the skin is installed "
 	self assert: e installedSkin notNil.
 	" but other install have been requested after the first installation :
@@ -225,9 +225,9 @@ ToElementTest >> testPostponeRequestSkin [
 	e := ToElement new.
 	e requestInstallSkin.
 	self assert: e skinInstaller isNil.
-	self assert: e skinManager hasPostponedRequestInstallSkin.
+	self assert: e skinManager hasPostponedInstallSkinHandler.
 	space root addChild: e.
-	self deny: e skinManager hasPostponedRequestInstallSkin.
+	self deny: e skinManager hasPostponedInstallSkinHandler.
 	self assert: e skinInstaller notNil
 ]
 
@@ -278,7 +278,7 @@ ToElementTest >> testSetSkin [
 		equals: 1.
 
 	" force uninstall->install->initial states "
-	e forceDefaultSkin: sk.
+	e skinManager setDefaultSkin: sk in: e.
 	e applySkinInstaller.
 	self assert: (sk receivedCountForClass: ToUninstallLookEvent) equals: 1.
 	self assert: (sk receivedCountForClass: ToInstallLookEvent) equals: 2.
@@ -309,13 +309,13 @@ ToElementTest >> testSkinInstallRequestCount [
 
 	| e |
 	e := ToElement new.
-	self assert: e skinManager skinInstallRequestCount equals: 0.
+	self assert: e skinManager skinRequestCount equals: 0.
 	e requestInstallSkin.
 	" request install skin should be posponed here "
-	self assert: e skinManager hasPostponedRequestInstallSkin.
-	self assert: e skinManager skinInstallRequestCount equals: 0.
+	self assert: e skinManager hasPostponedInstallSkinHandler.
+	self assert: e skinManager skinRequestCount equals: 0.
 	space root addChild: e.
-	self assert: e skinManager skinInstallRequestCount > 1
+	self assert: e skinManager skinRequestCount > 1
 	" several install may be requested after the first installation :
 	- by the postponed request
 	- by the theme installation "

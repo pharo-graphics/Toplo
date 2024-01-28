@@ -13,8 +13,8 @@ ToSkinInstaller >> applyOn: anElement [
 
 	self installingWhile: [
 		anElement installedSkin ifNil: [
-			anElement skinToInstall ifNotNil: [ :found |
-				anElement skinManager installSkin: found in: anElement.
+			anElement skinToInstall ifNotNil: [ :skin |
+				anElement dispatchEvent: (ToInstallSkinEvent new skin: skin; yourself).
 				" apply style here directly to benefit from the installer recursion protection
 				because  requestNewSkin may be sent during skin installation 
 				(in that case it it ignored) "

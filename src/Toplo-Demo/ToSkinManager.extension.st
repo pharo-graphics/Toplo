@@ -16,7 +16,7 @@ ToSkinManager >> defaultButterflySkin: aSkin [
 ToSkinManager >> setDefaultButterflySkin: aSkin in: anElement [
 
 	self defaultButterflySkin = aSkin ifTrue: [ ^ self ].
-	skinInstallRequestCount := 0.
+	skinRequestCount := 0.
 	self defaultButterflySkin: aSkin.
 	anElement requestNewSkin
 ]

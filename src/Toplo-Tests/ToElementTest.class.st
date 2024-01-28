@@ -278,10 +278,10 @@ ToElementTest >> testSetSkin [
 		equals: 1.
 
 	" force uninstall->install->initial states "
-	e skinManager setDefaultSkin: sk in: e.
+	e skinManager setDefaultSkin: (sk := ToRawSkinForTest new) in: e.
 	e applySkinInstaller.
-	self assert: (sk receivedCountForClass: ToUninstallLookEvent) equals: 1.
-	self assert: (sk receivedCountForClass: ToInstallLookEvent) equals: 2.
+	self assert: (sk receivedCountForClass: ToUninstallLookEvent) equals: 0.
+	self assert: (sk receivedCountForClass: ToInstallLookEvent) equals: 1.
 
 	self
 		assert:
@@ -298,8 +298,8 @@ ToElementTest >> testSetSkin [
 			size
 		equals: 1.
 
-	self assert: (sk receivedCountForClass: ToInstallLookEvent) equals: 2.
-	self assert: (sk receivedCountForClass: ToUninstallLookEvent) equals: 2.
+	self assert: (sk receivedCountForClass: ToInstallLookEvent) equals: 1.
+	self assert: (sk receivedCountForClass: ToUninstallLookEvent) equals: 1.
 	self assert: (sk2 receivedCountForClass: ToInstallLookEvent) equals: 1.
 	self assert: (sk2 receivedCountForClass: ToUninstallLookEvent) equals: 0
 ]

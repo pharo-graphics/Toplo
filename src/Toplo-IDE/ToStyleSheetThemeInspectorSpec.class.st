@@ -22,7 +22,11 @@ ToStyleSheetThemeInspectorSpec >> createStyleRuleSpecFor: aStyleRule [
 ToStyleSheetThemeInspectorSpec >> defaultLayout [
 
 	^ SpPanedLayout newHorizontal
-		  add: self styleRuleTree;
+		  add: (SpBoxLayout newVertical
+				   spacing: 4;
+				   add: self styleRuleTree expand: true;
+				   add: self makeHelpLegend expand: false;
+				   yourself);
 		  add: self scrollSection;
 		  yourself
 ]
@@ -50,6 +54,27 @@ ToStyleSheetThemeInspectorSpec >> initializePresenter [
 				                  label: '<- Select a rule on the left panel.';
 				                  yourself);
 		                 yourself
+]
+
+{ #category : #'as yet unclassified' }
+ToStyleSheetThemeInspectorSpec >> makeHelpLegend [
+
+	| iconSet |
+	iconSet := ToStyleSheetThemeExtensionSpec new.
+	^ SpBoxLayout newVertical
+		  add: (SpBoxLayout newHorizontal
+				   add: iconSet skinAndStyleRuleIcon expand: false;
+				   add: 'Selector is ok and rule is applied.';
+				   yourself);
+		  add: (SpBoxLayout newHorizontal
+				   add: iconSet selectorOkButNotSkin expand: false;
+				   add: 'Selector is ok but rule is not applied.';
+				   yourself);
+		  add: (SpBoxLayout newHorizontal
+				   add: iconSet selectorKo expand: false;
+				   add: 'Selector is ko.';
+				   yourself);
+		  yourself
 ]
 
 { #category : #accessing }

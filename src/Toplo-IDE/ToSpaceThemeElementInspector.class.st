@@ -17,7 +17,6 @@ ToSpaceThemeElementInspector >> defaultLayout [
 
 	^ SpBoxLayout newVertical
 		  add: notebook expand: true;
-		  add: self makeHelpLegend expand: false;
 		  yourself
 ]
 
@@ -57,27 +56,6 @@ ToSpaceThemeElementInspector >> initializePresenters [
 	tokensPage := SpNotebookPage
 		              title: 'Tokens'
 		              provider: [ SpNullPresenter new ]
-]
-
-{ #category : #'as yet unclassified' }
-ToSpaceThemeElementInspector >> makeHelpLegend [
-
-	| iconSet |
-	iconSet := ToStyleSheetThemeExtensionSpec new.
-	^ SpBoxLayout newVertical
-		  add: (SpBoxLayout newHorizontal
-				   add: iconSet skinAndStyleRuleIcon expand: false;
-				   add: 'Selector is ok and rule is applied.';
-				   yourself);
-		  add: (SpBoxLayout newHorizontal
-				   add: iconSet selectorOkButNotSkin expand: false;
-				   add: 'Selector is ok but rule is not applied.';
-				   yourself);
-		  add: (SpBoxLayout newHorizontal
-				   add: iconSet selectorKo expand: false;
-				   add: 'Selector is ko.';
-				   yourself);
-		  yourself
 ]
 
 { #category : #accessing }

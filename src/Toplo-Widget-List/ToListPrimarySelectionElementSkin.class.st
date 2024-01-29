@@ -5,6 +5,15 @@ Class {
 }
 
 { #category : #'event handling' }
+ToListPrimarySelectionElementSkin >> focusedLookEvent: anEvent [
+
+	super focusedLookEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e background:
+			(e valueOfTokenNamed: #'color-primary-selection-focused') ]
+]
+
+{ #category : #'event handling' }
 ToListPrimarySelectionElementSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
@@ -24,4 +33,13 @@ ToListPrimarySelectionElementSkin >> installLookEvent: anEvent [
 		e padding: (BlInsets
 				 horizontal: (e valueOfTokenNamed: #'list-padding-H')
 				 vertical: (e valueOfTokenNamed: #'list-padding-V')) ]
+]
+
+{ #category : #'event handling' }
+ToListPrimarySelectionElementSkin >> unfocusedLookEvent: anEvent [
+
+	super unfocusedLookEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e background:
+			(e valueOfTokenNamed: #'color-primary-selection-unfocused') ]
 ]

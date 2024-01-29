@@ -228,14 +228,15 @@ ToSkinStateGenerator >> generateDroppedStateFromEvent: anEvent [
 { #category : #'state generating' }
 ToSkinStateGenerator >> generateFocusStateFromEvent: anEvent [
 
-	target skinManagerDo: [ :sm |
-		sm
-			addSkinStateGeneration: [
-				sm
-					enqueueSkinState:
-					(ToFocusState new focused: target hasFocus yourself)
-					in: target ]
-			in: target ]
+	target skinManager
+		addSkinStateGeneration: [
+			target withAllChildrenBreadthFirstDo: [ :child |
+				child skinManagerDo: [ :sm |
+					sm
+						enqueueSkinState:
+						(ToFocusState new focused: target hasFocus yourself)
+						in: target ] ] ]
+		in: target
 ]
 
 { #category : #'state generating' }

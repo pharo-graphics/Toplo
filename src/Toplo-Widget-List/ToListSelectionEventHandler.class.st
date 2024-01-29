@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'previousNodesArray',
 		'previousSelectedIndexes',
-		'wasFocused'
+		'wasFocused',
+		'previousAdjacentNodeGroups'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -13,17 +14,30 @@ Class {
 ToListSelectionEventHandler >> adjacentSelectedNodesGroupsIn: aListElement [
 	" return an array of collection. Each collection contains a list of adjacent selected nodes "
 
-	^ Array streamContents: [ :stream |
-		  | g |
-		  g := OrderedCollection new.
-		  aListElement infinite childrenDo: [ :node |
-			  (node holder isSelected)
-				  ifTrue: [ g add: node ]
-				  ifFalse: [
-					  g ifNotEmpty: [
-						  stream nextPut: g.
-						  g := OrderedCollection new ] ] ].
-		  g ifNotEmpty: [ stream nextPut: g ] ]
+	| computed |
+	computed := Array streamContents: [ :stream |
+		            | g |
+		            g := OrderedCollection new.
+		            aListElement infinite childrenDo: [ :node |
+			            node holder isSelected
+				            ifTrue: [ g add: node ]
+				            ifFalse: [
+					            g ifNotEmpty: [
+						            stream nextPut: g.
+						            g := OrderedCollection new ] ] ].
+		            g ifNotEmpty: [ stream nextPut: g ] ].
+
+	" compare with the previous result. 
+		if different, then return the new one (computed). 
+		If equals, then return the previous one"
+
+	(previousAdjacentNodeGroups notNil and: [
+		 previousAdjacentNodeGroups size = computed ]) ifFalse: [
+		^ computed ].
+	previousAdjacentNodeGroups with: computed do: [ :pg :g |
+		pg size = g size ifFalse: [ ^ computed ].
+		pg with: g do: [ :pn :n | pn = n ifFalse: [ ^ computed ] ] ].
+	^ previousAdjacentNodeGroups
 ]
 
 { #category : #'element handlers' }
@@ -113,24 +127,32 @@ ToListSelectionEventHandler >> listSelectionElementUpdatedEvent: anEvent [
 ToListSelectionEventHandler >> newPrimarySelectionElementsFromEvent: anEvent [
 	" return a collection with instances of ListSelectionDecorationElement "
 
-	^ (self adjacentSelectedNodesGroupsIn: anEvent currentTarget)
-		  collect: [ :g |
-			  ToListPrimarySelectionElement new
-				  listElement: anEvent currentTarget;
-				  nodes: g;
-				  yourself ]
+	| adjacentNodeGroups target |
+	target := anEvent currentTarget.
+	adjacentNodeGroups := self adjacentSelectedNodesGroupsIn: target.
+	adjacentNodeGroups = previousAdjacentNodeGroups ifTrue: [
+		^ nil ].
+	previousAdjacentNodeGroups := adjacentNodeGroups.
+	^ adjacentNodeGroups collect: [ :g |
+		  ToListPrimarySelectionElement new
+			  listElement: anEvent currentTarget;
+			  nodes: g;
+			  yourself ]
 ]
 
 { #category : #'selection managing' }
 ToListSelectionEventHandler >> updatePrimarySelectionFromEvent: anEvent [
 	"add a ListDecorationElement for each group of adjacent selected nodes "
 
-	| newSelectionElements target |
+	| newSelElements target previous |
 	target := anEvent currentTarget.
-	target selectionElements do: [ :s |
-		s removeFromParent ].
-	newSelectionElements := self newPrimarySelectionElementsFromEvent: anEvent.
-	target addChildren: newSelectionElements.
-	target selectionElements: newSelectionElements.
+	previous := target selectionElements copy.
+	newSelElements := self newPrimarySelectionElementsFromEvent: anEvent.
+	newSelElements
+		ifNil: [ previous do: [ :s | s computeBounds ] ]
+		ifNotNil: [
+			previous do: [ :s | s removeFromParent ].
+			target addChildren: newSelElements.
+			target selectionElements: newSelElements ].
 	target dispatchEvent: ToListSelectionElementUpdatedEvent new
 ]

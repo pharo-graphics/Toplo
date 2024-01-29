@@ -43,7 +43,7 @@ ToSpaceSkinPhasesManager >> applyAllEnqueuedStatesIn: aSpace [
 
 	self runStatesGeneration.
 	self needSkinStateApplicationPass ifTrue: [
-		aSpace root withAllChildrenDo: [ :child |
+		aSpace root withAllChildrenDepthFirstDo: [ :child |
 			child skinManagerDo: [ :sm | sm applyEnqueuedStatesIn: child ] ] ].
 	self needSkinStateApplicationPass: false
 ]

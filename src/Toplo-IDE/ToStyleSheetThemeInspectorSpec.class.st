@@ -22,27 +22,6 @@ ToStyleSheetThemeInspectorSpec >> createStyleRuleSpecFor: aStyleRule [
 { #category : #accessing }
 ToStyleSheetThemeInspectorSpec >> defaultLayout [
 
-	self withLegend
-		ifTrue: [ ^ self defaultLayoutWithLegend ]
-		ifFalse: [ ^ self defaultLayoutWithoutLegend ].
-	
-]
-
-{ #category : #accessing }
-ToStyleSheetThemeInspectorSpec >> defaultLayoutWithLegend [
-
-	^ SpPanedLayout newHorizontal
-		  add: (SpBoxLayout newVertical
-				   spacing: 4;
-				   add: self styleRuleTree expand: true;
-				   add: self makeHelpLegend expand: false;
-				   yourself);
-		  add: self scrollSection;
-		  yourself
-]
-
-{ #category : #accessing }
-ToStyleSheetThemeInspectorSpec >> defaultLayoutWithoutLegend [
 	^ SpPanedLayout newHorizontal
 		  add: self styleRuleTree;
 		  add: self scrollSection;
@@ -68,6 +47,9 @@ ToStyleSheetThemeInspectorSpec >> initializePresenter [
 			                 printer contents ];
 		                 expandAll;
 		                 yourself.
+
+	styleRuleTree contextMenu: (SpMenuPresenter new addItem: [:item | item name: 'Inspect the rule'; icon: (self iconNamed: #smallInspectIt); action: [ self styleRuleTree selectedItem inspect]]).
+
 	scrollSection := SpScrollableLayout new
 		                 child: (SpLabelPresenter new
 				                  label: '<- Select a rule on the left panel.';
@@ -163,16 +145,4 @@ ToStyleSheetThemeInspectorSpec >> theme: aTheme [
 ToStyleSheetThemeInspectorSpec >> updatePresenter [
 
 	self layout: self defaultLayout
-]
-
-{ #category : #accessing }
-ToStyleSheetThemeInspectorSpec >> withLegend [
-
-	^ withLegend
-]
-
-{ #category : #accessing }
-ToStyleSheetThemeInspectorSpec >> withLegend: aBoolean [
-
-	withLegend := aBoolean
 ]

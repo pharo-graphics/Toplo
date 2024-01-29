@@ -17,7 +17,8 @@ BlElement >> inspectionSkin [
 BlElement >> inspectionStamps [
 
 	<inspectorPresentationOrder: 30 title: 'Stamps'>
-	^ SpTablePresenter new
+	| table |
+	table := SpTablePresenter new
 		  items: (self toStyleStore
 				   ifNil: [ #(  ) ]
 				   ifNotNil: [ :tst | tst stampIndex allProperties ]);
@@ -25,19 +26,32 @@ BlElement >> inspectionStamps [
 		  addColumn:
 			  (SpStringTableColumn
 				   title: 'Name'
-				   evaluated: [ :each | each value key ]);
-		  addColumn:
-			  (SpStringTableColumn
+				   evaluated: [ :each | each key ]);
+		  addColumn: (SpStringTableColumn
 				   title: 'Value'
 				   evaluated: [ :each | each value value ]);
-		  yourself
+		  yourself.
+	table contextMenu: (SpMenuPresenter new
+			 addItem: [ :item |
+				 item
+					 icon: (self iconNamed: #smallInspectIt);
+					 name: 'Inspect the stamp';
+					 action: [ table selectedItem inspect ] ];
+			 addItem: [ :item |
+				 item
+					 icon: (self iconNamed: #smallInspectIt);
+					 name: 'Inspect the stamp value';
+					 action: [ table selectedItem value value inspect ] ]).
+
+	^ table
 ]
 
 { #category : #'*Toplo-IDE' }
 BlElement >> inspectionTokens [
 
 	<inspectorPresentationOrder: 31 title: 'Tokens'>
-	^ SpTablePresenter new
+	| table |
+	table := SpTablePresenter new
 		  items: (self toStyleStore
 				   ifNil: [ #(  ) ]
 				   ifNotNil: [ :tst | tst tokenPropertyIndex allProperties ]);
@@ -45,12 +59,24 @@ BlElement >> inspectionTokens [
 		  addColumn:
 			  (SpStringTableColumn
 				   title: 'Name'
-				   evaluated: [ :each | each value key ]);
-		  addColumn:
-			  (SpStringTableColumn
+				   evaluated: [ :each | each key ]);
+		  addColumn: (SpStringTableColumn
 				   title: 'Value'
 				   evaluated: [ :each | each value value ]);
-		  yourself
+		  yourself.
+	
+table contextMenu: (SpMenuPresenter new
+			 addItem: [ :item |
+				 item
+					 icon: (self iconNamed: #smallInspectIt);
+					 name: 'Inspect the token';
+					 action: [ table selectedItem inspect ] ];
+			 addItem: [ :item |
+				 item
+					 icon: (self iconNamed: #smallInspectIt);
+					 name: 'Inspect the token value';
+					 action: [ table selectedItem value value inspect ] ]).
+	^ table
 ]
 
 { #category : #'*Toplo-IDE' }

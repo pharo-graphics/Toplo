@@ -19,3 +19,9 @@ ToSkinThemeExtensionSpec >> skin: aToSkin [
 
 	
 ]
+
+{ #category : #accessing }
+ToSkinThemeExtensionSpec >> theme: aTheme [
+
+	
+]

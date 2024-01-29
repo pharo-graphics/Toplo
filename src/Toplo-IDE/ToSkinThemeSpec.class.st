@@ -2,10 +2,13 @@ Class {
 	#name : #ToSkinThemeSpec,
 	#superclass : #SpPresenter,
 	#instVars : [
-		'label',
+		'labelSkin',
 		'browseSkinButton',
 		'inspectSkinButton',
-		'complementView'
+		'complementView',
+		'labelTheme',
+		'browseThemeButton',
+		'inspectThemeButton'
 	],
 	#category : #'Toplo-IDE-space-theme-inspector'
 }
@@ -14,6 +17,12 @@ Class {
 ToSkinThemeSpec >> browseSkinButton [
 
 	^ browseSkinButton
+]
+
+{ #category : #'as yet unclassified' }
+ToSkinThemeSpec >> browseThemeButton [
+
+	^ browseThemeButton
 ]
 
 { #category : #accessing }
@@ -32,12 +41,17 @@ ToSkinThemeSpec >> complementView: aSpPresenter [
 ToSkinThemeSpec >> defaultLayout [
 
 	^ SpBoxLayout newVertical
-		  add: (SpBoxLayout newHorizontal
+		  add: (SpBoxLayout newHorizontal spacing: 4; add:(SpBoxLayout newHorizontal
 				   spacing: 4;
-				   add: self label;
+				   add: self labelTheme;
+				   add: self browseThemeButton expand: false;
+				   add: self inspectThemeButton expand: false;
+				   yourself); add: (SpBoxLayout newHorizontal
+				   spacing: 4;
+				   add: self labelSkin;
 				   add: self browseSkinButton expand: false;
 				   add: self inspectSkinButton expand: false;
-				   yourself)
+				   yourself))
 		  expand: false;
 		  add: self complementView expand: true;
 		  yourself
@@ -54,24 +68,36 @@ ToSkinThemeSpec >> element: aBlElement [
 				ifNil: [ self noInstalledSkin ]
 				ifNotNil: [ :skin | self installedSkin: skin ] ]
 		ifAbsent: [ self noSkinManager ].
+	self installedTheme: aBlElement toTheme.
 	self complementView element: aBlElement
 ]
 
 { #category : #accessing }
 ToSkinThemeSpec >> initializePresenter [
 
-	label := SpLabelPresenter new.
+	labelSkin := SpLabelPresenter new.
+	labelTheme := SpLabelPresenter new.
 	complementView := ToDefaultThemeExtensionSpec new.
 	browseSkinButton := SpButtonPresenter new
 		                    icon: (self iconNamed: #nautilus);
 		                    label: 'Browse';
 		                    help: 'Browse the skin';
 		                    yourself.
+	browseThemeButton := SpButtonPresenter new
+		                     icon: (self iconNamed: #nautilus);
+		                     label: 'Browse';
+		                     help: 'Browse the skin';
+		                     yourself.
 	inspectSkinButton := SpButtonPresenter new
 		                     icon: (self iconNamed: #smallInspectIt);
 		                     label: 'Inspect';
 		                     help: 'inspect the skin';
-		                     yourself
+		                     yourself.
+	inspectThemeButton := SpButtonPresenter new
+		                      icon: (self iconNamed: #smallInspectIt);
+		                      label: 'Inspect';
+		                      help: 'inspect the skin';
+		                      yourself
 ]
 
 { #category : #accessing }
@@ -81,29 +107,55 @@ ToSkinThemeSpec >> inspectSkinButton [
 ]
 
 { #category : #'as yet unclassified' }
+ToSkinThemeSpec >> inspectThemeButton [
+^ inspectThemeButton
+]
+
+{ #category : #'as yet unclassified' }
 ToSkinThemeSpec >> installedSkin: aSkin [
-	
-	self label label: 'I have a ' , aSkin class name , '.'.
+
+	self labelSkin label: 'I have a ' , aSkin class name , '.'.
 	self browseSkinButton enabled: true.
 	self browseSkinButton action: [ aSkin browse ].
 	self inspectSkinButton enabled: true.
 	self inspectSkinButton action: [ aSkin inspect ].
-	
-	self complementView skin: aSkin.
+
+	self complementView skin: aSkin
+]
+
+{ #category : #'as yet unclassified' }
+ToSkinThemeSpec >> installedTheme: aTheme [
+
+	self labelTheme label: 'I have a ' , aTheme printString , '.'.
+	self browseThemeButton enabled: true.
+	self browseThemeButton action: [ aTheme browse ].
+	self inspectThemeButton enabled: true.
+	self inspectThemeButton action: [ aTheme inspect ].
+
+	self complementView theme: aTheme
 ]
 
 { #category : #accessing }
-ToSkinThemeSpec >> label [
+ToSkinThemeSpec >> labelSkin [
 
-	^ label
+	^ labelSkin
+]
+
+{ #category : #accessing }
+ToSkinThemeSpec >> labelTheme [
+
+	^ labelTheme
 ]
 
 { #category : #'as yet unclassified' }
 ToSkinThemeSpec >> noElementSelected [
 
-	self label label: 'No element selected.'.
+	self labelSkin label: 'No element selected.'.
+	self labelTheme label: 'No element selected.'.
 	self browseSkinButton enabled: false.
-	self inspectSkinButton enabled: false
+	self inspectSkinButton enabled: false.
+	self browseThemeButton enabled: false.
+	self inspectThemeButton enabled: false
 ]
 
 { #category : #'as yet unclassified' }
@@ -117,7 +169,7 @@ ToSkinThemeSpec >> noInstalledSkin [
 { #category : #'as yet unclassified' }
 ToSkinThemeSpec >> noSkinManager [
 
-	self label label: 'I have no skin manager, i cannot use any skin.'.
+	self labelSkin label: 'I have no skin manager, i cannot use any skin.'.
 	self browseSkinButton enabled: false.
 	self inspectSkinButton enabled: false
 ]

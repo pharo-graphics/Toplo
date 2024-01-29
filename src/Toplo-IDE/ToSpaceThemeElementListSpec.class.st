@@ -105,6 +105,14 @@ ToSpaceThemeElementListSpec >> initializePresenters [
 
 	elementsTree := SpTreeTablePresenter new
 		                children: [ :element | element children ];
+		                contextMenu: (SpMenuPresenter new
+				                 addItem: [ :item |
+					                 item
+						                 icon: (self iconNamed: #smallInspectIt);
+						                 name: 'Inspect selected element';
+						                 action: [ self elementsTree selectedItem inspect ];
+						                 yourself ];
+				                 yourself);
 		                yourself
 ]
 

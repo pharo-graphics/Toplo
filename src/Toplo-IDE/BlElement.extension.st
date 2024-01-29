@@ -19,7 +19,7 @@ BlElement >> inspectionStamps [
 		  addColumn:
 			  (SpStringTableColumn
 				   title: 'Value'
-				   evaluated: [ :each | each value ]);
+				   evaluated: [ :each | each value value ]);
 		  yourself
 ]
 
@@ -28,8 +28,11 @@ BlElement >> inspectionTokens [
 
 	<inspectorPresentationOrder: 31 title: 'Tokens'>
 	| items |
-	items := self toStyleStore ifNotNil: [ :store | store stampIndex allProperties ] ifNil: [ {  } ].
-	
+	items := self toStyleStore
+		         ifNotNil: [ :store |
+		         store tokenPropertyIndex allProperties ]
+		         ifNil: [ {  } ].
+
 	^ SpTablePresenter new
 		  items: items;
 		  sortingBlock: [ :a :b | a key < b key ];
@@ -40,7 +43,7 @@ BlElement >> inspectionTokens [
 		  addColumn:
 			  (SpStringTableColumn
 				   title: 'Value'
-				   evaluated: [ :each | each value ]);
+				   evaluated: [ :each | each value value ]);
 		  yourself
 ]
 

@@ -32,12 +32,13 @@ ToSkinManagerEventHandlerTest >> testSkinInstallStateRequest [
 		equals: 1.
 	nk := ToNullSkin new.
 	e dispatchEvent: (ToInstallSkinEvent new skin: nk).
-	self assert: e installedSkin identicalTo: nk.
+	self
+		assert: (e skinManager installedSkin)
+		identicalTo: nk.
 	nextInQueue := e skinManager skinStateQueue nextStates nextOrNil.
 	self assert: (nextInQueue isKindOf: ToInstallState).
 	nextInQueue := e skinManager skinStateQueue nextStates nextOrNil.
-	self assert: (nextInQueue isKindOf: ToEnablementState).
-
+	self assert: (nextInQueue isKindOf: ToEnablementState)
 ]
 
 { #category : #tests }
@@ -48,10 +49,12 @@ ToSkinManagerEventHandlerTest >> testSkinUninstallStateRequest [
 	e ensureHaveSkinManager.
 	nk := ToNullSkin new.
 	e dispatchEvent: (ToInstallSkinEvent new skin: nk).
-	self assert: e installedSkin identicalTo: nk.
+	self
+		assert: (e skinManager installedSkin)
+		identicalTo: nk.
 	e dispatchEvent: (ToUninstallSkinEvent new skin: nk).
-	self assert: e installedSkin isNil.
+	self assert:
+		(e skinManager installedSkin) isNil.
 	" uninstallState is applied directly so the queue should be empty"
 	self assert: e skinManager skinStateQueue nextStates size equals: 0
-	
 ]

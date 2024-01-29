@@ -9,7 +9,7 @@ ToLabelInListSkin >> deselectedLookEvent: anEvent [
 
 	super deselectedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e textAttributesBuilder foreground: (e tokenValueNamed: #'label-in-list-foreground-deselected').
+		e textAttributesBuilder foreground: (e valueOfTokenNamed: #'label-in-list-foreground-deselected').
 		e applyAttributesBuilder.
 		e textChanged ]
 ]
@@ -23,7 +23,7 @@ ToLabelInListSkin >> selectedLookEvent: anEvent [
 		tokname := anEvent focused
 			           ifTrue: [ #'label-in-list-foreground-selected-focused' ]
 			           ifFalse: [ #'label-in-list-foreground-selected-unfocused' ].
-		e textAttributesBuilder foreground: (e tokenValueNamed: tokname).
+		e textAttributesBuilder foreground: (e valueOfTokenNamed: tokname).
 		e applyAttributesBuilder.
 		e textChanged ]
 ]

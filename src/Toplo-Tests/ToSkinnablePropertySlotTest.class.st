@@ -72,7 +72,7 @@ ToSkinnablePropertySlotTest >> testWriteTo4 [
 	| e requestCpt |
 	e := ToElementWithSkinnablePropertiesForTest new.
 
-	self assert: e skinInstaller isNil.
+	self assert: e skinManager skinInstaller isNil.
 	self deny: e skinManager hasPostponedInstallSkinHandler.
 	" + 1 requestSkin "
 	e backgroundValue: Color blue.
@@ -94,40 +94,40 @@ ToSkinnablePropertySlotTest >> testWriteTo4 [
 
 	space applyAllSkinInstallers.
 	self assert: e skinInstallStateCount equals: 1.
-	space applyAllEnqueuedStates.
 
 	self assert: e skinRequestCount equals: requestCpt.
 	self assert: e skinInstallStateCount equals: 1.
 	self assert: e skinStatesApplied equals: 1.
-	self assert: e skinInstaller isNil.
+	self assert: e skinManager skinInstaller isNil.
 
 	e backgroundValue: Color blue.
-	
+
 	" background change -> new skin installer"
 	self assert: e skinRequestCount equals: 2.
-	
+
 	e borderValue: Color red.
 	" border change -> but no new skin installer because there is already one"
-	self assert: e skinInstaller notNil.
+	self assert: e skinManager skinInstaller notNil.
 	self assert: e skinRequestCount equals: 2.
 	self assert: e skinStatesApplied equals: 1.
 	space applyAllSkinInstallers.
-	self assert: e skinStatesApplied equals: 1.
+	" here states queue is applied two times: 1 for unsinstalling and 2 for installing "
+	self assert: e skinStatesApplied equals: 3.
 
 	space applyAllEnqueuedStates.
 
 	self assert: e skinRequestCount equals: requestCpt + 1.
 	self assert: e skinInstallStateCount equals: 2.
-	self assert: e skinStatesApplied equals: 2.
-	self assert: e skinInstaller isNil.
+	self assert: e skinStatesApplied equals: 3.
+	self assert: e skinManager skinInstaller isNil.
 
 	space applyAllSkinInstallers.
 	space applyAllEnqueuedStates.
 
-	self assert: e skinInstaller isNil.
+	self assert: e skinManager skinInstaller isNil.
 	self assert: e skinRequestCount equals: requestCpt + 1.
 	" no new state "
-	self assert: e skinStatesApplied equals: 2.
+	self assert: e skinStatesApplied equals: 3.
 	self assert: e skinInstallStateCount equals: 2
 ]
 
@@ -143,10 +143,8 @@ ToSkinnablePropertySlotTest >> testWriteToWithSpaceAddChildBefore [
 	space applyAllSkinInstallers.
 	space applyAllEnqueuedStates.
 
-	self assert: e skinInstaller isNil.
+	self assert: e skinManager skinInstaller isNil.
 	self assert: e skinRequestCount equals: 1.
 	self assert: e skinInstallStateCount equals: 1.
-	self assert: e skinStatesApplied equals: 1.
-
-	
+	self assert: e skinStatesApplied equals: 1
 ]

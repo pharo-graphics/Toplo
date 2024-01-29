@@ -16,7 +16,7 @@ ToDemo1 class >> example0 [
 
 	| dem |
 	dem := ToDemo1 new.
-	dem requestInstallSkin.
+	dem ensuredSkinManager requestInstallSkinIn: self.
 	dem openInSpace
 ]
 

@@ -11,13 +11,6 @@ Class {
 	#category : #'Toplo-Tests-Core-Slots'
 }
 
-{ #category : #skin }
-ToElementWithSkinnableSlotsForTest >> applyEnqueuedStates [
-
-	skinStatesApplied := skinStatesApplied + 1.
-	super applyEnqueuedStates
-]
-
 { #category : #accessing }
 ToElementWithSkinnableSlotsForTest >> child1 [
 
@@ -56,6 +49,10 @@ ToElementWithSkinnableSlotsForTest >> initialize [
 	self addEventHandler: (BlEventHandler
 			 on: ToInstallSkinRequest
 			 do: [ skinRequestCount := skinRequestCount + 1 ]).
+
+	self addEventHandler: (BlEventHandler
+			 on: ToSkinStateQueueAppliedEvent 
+			 do: [ skinStatesApplied := skinStatesApplied + 1 ]).
 
 	self addEventHandler: (BlEventHandler
 			 on: ToInstallSkinEvent

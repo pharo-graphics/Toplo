@@ -15,15 +15,19 @@ BlElement >> addAllTokenProperties: aTokenPropertyCollection [
 { #category : #'*Toplo' }
 BlElement >> addStamp: aSymbol [
 
-
 	self ensuredToStyleStore addStamp: aSymbol
 ]
 
 { #category : #'*Toplo' }
-BlElement >> addStamp: aSymbol value: anObject [
+BlElement >> addStamp: aSymbol withValue: anObject [
 
+	self ensuredToStyleStore addStamp: aSymbol withValue: anObject
+]
 
-	self ensuredToStyleStore addStamp: aSymbol value: anObject
+{ #category : #'*Toplo' }
+BlElement >> addTokenNamed: aSymbol withValue: anObject [
+
+	self ensuredToStyleStore addTokenProperty: (aSymbol -> anObject) asTokenProperty 
 ]
 
 { #category : #'*Toplo' }
@@ -35,73 +39,21 @@ BlElement >> allStamps [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> applyEnqueuedStates [
-
-	self skinManagerDo: [ :sm | sm  applyEnqueuedStatesIn: self ]
-]
-
-{ #category : #'*Toplo' }
-BlElement >> applyEnqueuedStatesRecursively [
-
-	self childrenDo: [ :child | child applyEnqueuedStatesRecursively ].
-	self applyEnqueuedStates
-]
-
-{ #category : #'*Toplo' }
-BlElement >> applySkinInstaller [
-
-	self skinManagerDo: [ :sm |
-		sm applySkinUninstallerIn: self.
-		sm applySkinInstallerIn: self ]
-]
-
-{ #category : #'*Toplo' }
 BlElement >> applySkinInstallerOnFirstRequest: aBoolean [
 
 	self skinManagerDo: [ :sm | sm  applySkinInstallerOnFirstRequest: aBoolean ]
 ]
 
 { #category : #'*Toplo' }
-BlElement >> applySkinInstallerRecursively [
-
-	self childrenDo: [ :child | child applySkinInstallerRecursively ].
-	self applySkinInstaller.
-
-
-]
-
-{ #category : #'*Toplo' }
 BlElement >> borderBuilder [
 
-	self skinManagerDo: [ :sm | ^ sm  borderBuilder ].
-	^ nil
-]
-
-{ #category : #'*Toplo' }
-BlElement >> defaultButterflySkin [
-
-	self skinManagerDo: [ :sm | ^ sm  defaultButterflySkin ].
-	^ nil
-]
-
-{ #category : #'*Toplo' }
-BlElement >> defaultRawSkin [
-
-	self skinManagerDo: [ :sm | ^ sm  defaultRawSkin ].
-	^ nil
+	^ self skinManager borderBuilder
 ]
 
 { #category : #'*Toplo' }
 BlElement >> defaultRawSkin: aSkin [
 
 	self ensuredSkinManager setDefaultRawSkin: aSkin in: self
-]
-
-{ #category : #'*Toplo' }
-BlElement >> defaultSkin [
-
-	self skinManagerDo: [ :sm | ^ sm  defaultSkin ].
-	^ nil
 ]
 
 { #category : #'*Toplo' }
@@ -199,14 +151,11 @@ BlElement >> installRawStyle [
 { #category : #'*Toplo' }
 BlElement >> installedSkin [
 
-	self skinManagerDo: [ :sm | ^ sm installedSkin ].
-	^ nil
-]
+	self
+		deprecated: 'Please delegate to the skinManager instead'
+		transformWith: '`@receiver installedSkin' -> '`@receiver skinManager installedSkin'.
 
-{ #category : #'*Toplo' }
-BlElement >> installedSkinDo: aBlock [
-
-	self 	skinManagerDo: [ :sm | sm installedSkinDo: aBlock ]
+	^ self skinManager installedSkin
 ]
 
 { #category : #'*Toplo' }
@@ -262,26 +211,9 @@ BlElement >> removeTokenNamed: aSymbol [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> requestInstallSkin [
-
-	self
-		deprecated: 'Please delegate to the skinManager instead'
-		transformWith: '`@receiver requestInstallSkin' -> '`@receiver ensuredSkinManager requestInstallSkinIn: self'.
-
-	self ensuredSkinManager requestInstallSkinIn: self 
-]
-
-{ #category : #'*Toplo' }
 BlElement >> requestNewSkin [
 
 	self skinManagerDo: [ :sm | sm requestNewSkinIn: self ]
-]
-
-{ #category : #'*Toplo' }
-BlElement >> requestNewSkinRecursively [
-
-	self childrenDo: [ :child | child requestNewSkinRecursively ].
-	self requestNewSkin
 ]
 
 { #category : #'*Toplo' }
@@ -295,32 +227,21 @@ BlElement >> requestUninstallSkin [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> requestUninstallSkinRecursively [
-
-	self childrenDo: [ :child | child requestUninstallSkinRecursively ].
-	self requestUninstallSkin
-]
-
-{ #category : #'*Toplo' }
-BlElement >> setStamp: aSymbol value: anObject [
-
-	self ensuredToStyleStore addStamp: aSymbol value: anObject
-]
-
-{ #category : #'*Toplo' }
-BlElement >> setTokenNamed: aSymbol value: anObject [
-
-	self ensuredToStyleStore addTokenProperty: (aSymbol -> anObject) asTokenProperty 
-]
-
-{ #category : #'*Toplo' }
 BlElement >> skinInstaller [
 
-	^ self skinManager ifNotNil: [ :sm | sm skinInstaller ]
+	self
+		deprecated: 'Please delegate to the skinManager instead'
+		transformWith: '`@receiver skinInstaller' -> '`@receiver skinManager skinInstaller'.
+
+	^ self skinManager skinInstaller
 ]
 
 { #category : #'*Toplo' }
 BlElement >> skinInstaller: aSkinInstaller [
+
+	self
+		deprecated: 'Please delegate to the skinManager instead'
+		transformWith: '`@receiver skinInstaller: `@arg' -> '`@receiver skinManager setSkinInstaller: `@arg in: `@receiver'.
 
 	self ensuredSkinManager setSkinInstaller: aSkinInstaller in: self
 ]
@@ -340,37 +261,41 @@ BlElement >> skinManagerDo: aBlock [
 { #category : #'*Toplo' }
 BlElement >> skinStateQueue [
 
-	self skinManagerDo: [ :sm | ^ sm skinStateQueue ].
-	^ nil
+	self
+		deprecated: 'Please delegate to the skinManager instead'
+		transformWith: '`@receiver skinStateQueue' -> '`@receiver skinManager skinStateQueue'.
+
+	^ self skinManager skinStateQueue
 ]
 
 { #category : #'*Toplo' }
 BlElement >> skinToInstall [
 
-	self skinManagerDo: [ :sm | ^ sm skinToInstallIn: self ].
-	^ nil
+	self
+		deprecated: 'Please delegate to the skinManager instead'
+		transformWith: '`@receiver skinToInstall' -> '`@receiver skinManager skinToInstallIn: `@receiver'.
+
+	^ self skinManager skinToInstallIn: self
+
 ]
 
 { #category : #'*Toplo' }
 BlElement >> skinUninstaller [
 
-	self skinManagerDo: [ :sm | ^ sm skinUninstaller ].
-	^ nil
+	self
+		deprecated: 'Please delegate to the skinManager instead'
+		transformWith: '`@receiver skinUninstaller' -> '`@receiver skinManager skinUninstaller'.
+		
+	^ self skinManager skinUninstaller
 ]
 
 { #category : #'*Toplo' }
 BlElement >> skinUninstaller: aSkinUninstaller [
 
-	self skinManagerDo: [ :sm | sm setSkinUninstaller: aSkinUninstaller in: self ]
-]
-
-{ #category : #'*Toplo' }
-BlElement >> stampValueNamed: aSymbol [
-
-	^ self toStyleStore
-		  ifNil: [
-		  Error signal: 'Trying to get an undeclared stamp property' ]
-		  ifNotNil: [ :tst | tst stampValue: aSymbol ]
+	self
+		deprecated: 'Please delegate to the skinManager instead'
+		transformWith: '`@receiver skinUninstaller: `@arg' -> '`@receiver skinManager setSkinUninstaller: `@arg in: `@receiver'.
+	self skinManager setSkinUninstaller: aSkinUninstaller in: self
 ]
 
 { #category : #'*Toplo' }
@@ -422,8 +347,7 @@ BlElement >> switchToNextCheckStateOnClick [
 { #category : #'*Toplo' }
 BlElement >> textAttributesBuilder [
 
-	self skinManagerDo: [ :sm | ^ sm textAttributesBuilder ].
-	^ nil
+	^ self skinManager textAttributesBuilder
 ]
 
 { #category : #'*Toplo' }
@@ -469,25 +393,37 @@ BlElement >> toThemeChanged [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> tokenPropertyNamed: aSymbol [
+BlElement >> tokenValueNamed: aSymbol [
 
-	^ self toStyleStore ifNotNil: [ :tst |
-		  tst tokenPropertyNamed: aSymbol from: self ]
+	self
+		deprecated: 'Please use valueOfTokenNamed: instead'
+		transformWith: '`@receiver tokenValueNamed: `@arg' -> '`@receiver valueOfTokenNamed: `@arg'.
+
+	^ self valueOfTokenNamed: aSymbol
 ]
 
 { #category : #'*Toplo' }
-BlElement >> tokenValueNamed: aSymbol [
+BlElement >> uninstallRawStyle [
+
+]
+
+{ #category : #'*Toplo' }
+BlElement >> valueOfStamp: aSymbol [
+
+	^ self toStyleStore
+		  ifNil: [
+		  Error signal: 'Trying to get an undeclared stamp property' ]
+		  ifNotNil: [ :tst | tst stampValue: aSymbol ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> valueOfTokenNamed: aSymbol [
 
 	| found |
 	self skinManagerDo: [ :sm |
 		found := sm tokenPropertyValue: aSymbol from: self ].
 	found ifNil: [ (ToElementPropertyNotFound name: aSymbol) signal ].
 	^ found
-]
-
-{ #category : #'*Toplo' }
-BlElement >> uninstallRawStyle [
-
 ]
 
 { #category : #'*Toplo' }

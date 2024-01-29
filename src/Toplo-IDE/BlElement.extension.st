@@ -5,7 +5,7 @@ BlElement >> inspectionStamps [
 
 	<inspectorPresentationOrder: 30 title: 'Stamps'>
 	^ SpTablePresenter new
-		  items: self toStyleStore stampIndex allProperties;
+		  items: (self toStyleStore ifNil: [#()] ifNotNil: [:tst | tst stampIndex allProperties]);
 		  sortingBlock: [ :a :b | a key < b key ];
 		  addColumn:
 			  (SpStringTableColumn
@@ -24,7 +24,7 @@ BlElement >> inspectionTokens [
 	<inspectorPresentationOrder: 31 title: 'Tokens'>
 
 	^ SpTablePresenter new
-		  items:(self toStyleStore tokenPropertyIndex allProperties);
+		  items:(self toStyleStore ifNil: [ #(  ) ] ifNotNil: [:tst | tst tokenPropertyIndex allProperties ]);
 		  sortingBlock: [ :a :b | a key < b key ];
 		  addColumn:
 			  (SpStringTableColumn
@@ -40,8 +40,8 @@ BlElement >> inspectionTokens [
 { #category : #'*Toplo-IDE' }
 BlElement >> styleSheetRulesCount [
 
-	(self userData at: #skinManager) ifNotNil: [ :skinManager |
+	self skinManagerDo: [ :skinManager |
 		skinManager installedSkinDo: [ :skin |
-			^ skinManager installedSkin styleSheetRulesCount ] ].
+			^ skin styleSheetRulesCount ] ].
 	^ 0
 ]

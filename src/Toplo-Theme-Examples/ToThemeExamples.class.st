@@ -266,13 +266,13 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 	primaryButton2 := (ToButton id: #buttonA) labelText: 'Button 2'.
 	primaryButton1 whenClickedDo: [
 		c := Color random.
-		primaryButton2 setTokenNamed: #'color-primary' value: c.
+		primaryButton2 addTokenNamed: #'color-primary' withValue: c.
 		primaryButton2
-			setTokenNamed: #'color-primary-pressed'
-			value: c twiceDarker.
+			addTokenNamed: #'color-primary-pressed'
+			withValue: c twiceDarker.
 		primaryButton2
-			setTokenNamed: #'color-primary-hover'
-			value: c twiceLighter ].
+			addTokenNamed: #'color-primary-hover'
+			withValue: c twiceLighter ].
 	chb addEventHandler: (BlEventHandler
 			 on: ToCheckableCheckEvent
 			 do: [ :evt |
@@ -447,9 +447,9 @@ ToThemeExamples class >> randomizePrimaryColorFor: aSpace [
 	| c |
 	aSpace ifNil:[ ^ self ].
 	c := Color random.
-	aSpace root setTokenNamed: #'color-primary' value: c.
-	aSpace root setTokenNamed: #'color-primary-pressed' value: c twiceDarker .
-	aSpace root setTokenNamed: #'color-primary-hover' value: c twiceLighter
+	aSpace root addTokenNamed: #'color-primary' withValue: c.
+	aSpace root addTokenNamed: #'color-primary-pressed' withValue: c twiceDarker .
+	aSpace root addTokenNamed: #'color-primary-hover' withValue: c twiceLighter
 ]
 
 { #category : #'private - actions' }

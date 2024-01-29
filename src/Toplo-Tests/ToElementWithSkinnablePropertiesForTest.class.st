@@ -27,13 +27,6 @@ ToElementWithSkinnablePropertiesForTest class >> newPropertyIndex [
 				   writer: [ :e :v | e border: v ])) }
 ]
 
-{ #category : #skin }
-ToElementWithSkinnablePropertiesForTest >> applyEnqueuedStates [
-
-	skinStatesApplied := skinStatesApplied + 1.
-	super applyEnqueuedStates
-]
-
 { #category : #accessing }
 ToElementWithSkinnablePropertiesForTest >> backgroundValue [
 
@@ -73,6 +66,10 @@ ToElementWithSkinnablePropertiesForTest >> initialize [
 	self addEventHandler: (BlEventHandler
 			 on: ToInstallSkinRequest
 			 do: [ skinRequestCount := skinRequestCount + 1 ]).
+			
+	self addEventHandler: (BlEventHandler
+			 on: ToSkinStateQueueAppliedEvent 
+			 do: [ skinStatesApplied := skinStatesApplied + 1 ]).
 
 	self addEventHandler: (BlEventHandler
 			 on: ToInstallSkinEvent

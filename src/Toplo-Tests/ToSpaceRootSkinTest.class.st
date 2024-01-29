@@ -4,7 +4,7 @@ A ToSpaceRootSkinTest is a test class for testing the behavior of ToSpaceRootSki
 Class {
 	#name : #ToSpaceRootSkinTest,
 	#superclass : #ToTestCaseWithSpace,
-	#category : 'Toplo-Tests-Core-Theme'
+	#category : #'Toplo-Tests-Core-Theme'
 }
 
 { #category : #tests }
@@ -22,7 +22,7 @@ ToSpaceRootSkinTest >> testInstallLookEvent [
 			 on: ToSpaceSkinPhasesStarted
 			 do: [
 				 goneHere := true.
-				 e applySkinInstaller.
+				 e skinManager applySkinReinstallIn: e.
 				 self deny: e background isTransparent ]).
 	space startSkinPhases.
 	self assert: goneHere

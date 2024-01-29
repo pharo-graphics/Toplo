@@ -52,9 +52,9 @@ ToSpaceThemeElementListSpec class >> rulesCountColumn [
 ToSpaceThemeElementListSpec class >> stampsCountColumn [
 
 	^ (SpStringTableColumn title: 'Stamps' evaluated: [ :element |
-		   element toStyleStore allStamps size = 0
+		   element allStamps size = 0
 			   ifTrue: [ '' ]
-			   ifFalse: [ element toStyleStore allStamps size ] ]) width: 50
+			   ifFalse: [ element allStamps size ] ]) width: 50
 ]
 
 { #category : #column }
@@ -64,7 +64,7 @@ ToSpaceThemeElementListSpec class >> tokenIconColumn [
 	aToSpaceThemeElementListSpec := self new.
 
 	^ (SpImageTableColumn title: 'Token' evaluated: [ :element |
-		   element toStyleStore tokenPropertyIndex size = 0
+		   (element toStyleStore isNil or: [ element toStyleStore tokenPropertyIndex size = 0 ])
 			   ifTrue: [ aToSpaceThemeElementListSpec iconNamed: #blank ]
 			   ifFalse: [ aToSpaceThemeElementListSpec iconNamed: #smallOk ] ])
 		  width: 50

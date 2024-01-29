@@ -25,10 +25,10 @@ ToSkinnablePropertyTest >> testRead [
 { #category : #tests }
 ToSkinnablePropertyTest >> testWriteTo [
 
-	| w prop  writer reader |
+	| w prop writer reader |
 	w := ToElement new.
 	BlSpace new root addChild: w.
-	self assert: w skinInstaller notNil.
+	self assert: w skinManager skinInstaller notNil.
 	prop := ToSkinnableProperty new.
 	writer := [ :e :v | e background: v ].
 	reader := [ :e | e background ].
@@ -39,7 +39,7 @@ ToSkinnablePropertyTest >> testWriteTo [
 	self assert: prop reader equals: reader.
 	self assert: prop name equals: #background.
 	prop write: Color blue to: w.
-	self deny: w skinInstaller isNil.
+	self deny: w skinManager skinInstaller isNil.
 
 	self assert: (w background isKindOf: BlPaintBackground).
 	self assert: w background paint color equals: Color blue.
@@ -60,22 +60,22 @@ ToSkinnablePropertyTest >> testWriteToWithDelegation [
 	prop reader: reader.
 	prop name: #'label-text'.
 	w ensuredSkinManager requestInstallSkinIn: w.
-	w applySkinInstaller.
-	self assert: w skinInstaller isNil.
+	w skinManager applySkinReinstallIn: w.
+	self assert: w skinManager skinInstaller isNil.
 	prop write: 'Hello' asRopedText to: w.
 	self assert: (w label text equals: 'Hello' asRopedText).
 	self
 		assert: (prop read: w) asString
 		equals: 'Hello' asRopedText asString.
-	self assert: w skinInstaller isNil.
+	self assert: w skinManager skinInstaller isNil.
 	BlSpace new root addChild: w.
-	self deny: w skinInstaller isNil
+	self deny: w skinManager skinInstaller isNil
 ]
 
 { #category : #tests }
 ToSkinnablePropertyTest >> testWrongDefinition [
 
-	| w prop  writer reader |
+	| w prop writer reader |
 	w := ToElement new.
 	prop := ToSkinnableProperty new.
 	writer := [ :e :v | e perform: #unknownFeature: with: v ].
@@ -83,10 +83,12 @@ ToSkinnablePropertyTest >> testWrongDefinition [
 	prop writer: writer.
 	prop reader: reader.
 	prop name: #unknownFeature.
-	self assert: w skinInstaller isNil.
-	self should: [ w  perform: #unknownFeature ] raise: Error.
-	self should: [ w  perform: #unknownFeature: with: Color red ] raise: Error.
-	self should: [prop read: w ] raise: Error.
-	self should: [prop write: Color blue to: w ] raise: Error.
-	self assert: w skinInstaller isNil.
+	self assert: w skinManager skinInstaller isNil.
+	self should: [ w perform: #unknownFeature ] raise: Error.
+	self
+		should: [ w perform: #unknownFeature: with: Color red ]
+		raise: Error.
+	self should: [ prop read: w ] raise: Error.
+	self should: [ prop write: Color blue to: w ] raise: Error.
+	self assert: w skinManager skinInstaller isNil
 ]

@@ -12,9 +12,13 @@ Class {
 { #category : #hook }
 ToSkinStateQueue >> applyEnqueuedStatesIn: anElement [
 
-	| nextInQueue |
+	| nextInQueue atLeastOne |
+	atLeastOne := false.
 	[ (nextInQueue := self nextStates nextOrNil) isNotNil ] whileTrue: [
-		nextInQueue applyOn: anElement ]
+		atLeastOne := true.
+		nextInQueue applyOn: anElement ].
+	atLeastOne ifTrue: [
+		anElement dispatchEvent: ToSkinStateQueueAppliedEvent new ]
 ]
 
 { #category : #hook }

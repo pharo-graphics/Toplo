@@ -9,7 +9,7 @@ ToCheckMenuItemSkin >> checkedLookEvent: anEvent [
 
 	super checkedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e icon innerImage border: (BlBorder paint: (e tokenValueNamed: #'color-primary') width: 6).
+		e icon innerImage border: (BlBorder paint: (e valueOfTokenNamed: #'color-primary') width: 6).
 		e indeterminateChild background: Color transparent ]
 ]
 
@@ -20,8 +20,8 @@ ToCheckMenuItemSkin >> disabledLookEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e background: Color transparent.
 		e border: BlBorder empty.		
-		e icon innerImage border: (e tokenValueNamed: #'color-border-disabled').
-		e icon border: (e tokenValueNamed: #'color-border-disabled').
+		e icon innerImage border: (e valueOfTokenNamed: #'color-border-disabled').
+		e icon border: (e valueOfTokenNamed: #'color-border-disabled').
 		e indeterminateChild background: Color transparent ]
 ]
 
@@ -32,7 +32,7 @@ ToCheckMenuItemSkin >> enabledLookEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e border: (BlBorder empty).
 		e background: e defaultBackground.
-		e icon border: (e tokenValueNamed: #'color-border') ]
+		e icon border: (e valueOfTokenNamed: #'color-border') ]
 ]
 
 { #category : #'event handling' }
@@ -42,7 +42,7 @@ ToCheckMenuItemSkin >> hoveredLookEvent: anEvent [
 	anEvent elementDo: [ :e | 
 		e border: (BlBorder empty).		
 		e mouseCursor: Cursor webLink.
-		e icon border: (BlBorder paint: (e tokenValueNamed: #'color-primary') width: 1) ]
+		e icon border: (BlBorder paint: (e valueOfTokenNamed: #'color-primary') width: 1) ]
 ]
 
 { #category : #accessing }
@@ -56,8 +56,8 @@ ToCheckMenuItemSkin >> indeterminateLookEvent: anEvent [
 
 	super indeterminateLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e icon innerImage border: (BlBorder paint: (e tokenValueNamed: #'color-primary') width: 0).
-		e indeterminateChild background: (e tokenValueNamed: #'color-primary')]
+		e icon innerImage border: (BlBorder paint: (e valueOfTokenNamed: #'color-primary') width: 0).
+		e indeterminateChild background: (e valueOfTokenNamed: #'color-primary')]
 ]
 
 { #category : #'event handling' }
@@ -65,10 +65,10 @@ ToCheckMenuItemSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e | 
-		e iconImage: ((e tokenValueNamed: #'checkbox-image-builder') value).
+		e iconImage: ((e valueOfTokenNamed: #'checkbox-image-builder') value).
 		e icon geometry: (self iconGeometryIn: e).
-		e border: (e tokenValueNamed: #'color-border-checkable').		
-		e icon border: (e tokenValueNamed: #'color-border') ]
+		e border: (e valueOfTokenNamed: #'color-border-checkable').		
+		e icon border: (e valueOfTokenNamed: #'color-border') ]
 	
 ]
 
@@ -78,7 +78,7 @@ ToCheckMenuItemSkin >> leavedLookEvent: anEvent [
 	super leavedLookEvent: anEvent.
 	anEvent elementDo: [ :e | 
 		e border: (BlBorder empty).		
-		e icon border: (e tokenValueNamed: #'color-border') ]
+		e icon border: (e valueOfTokenNamed: #'color-border') ]
 ]
 
 { #category : #'event handling' }
@@ -94,6 +94,6 @@ ToCheckMenuItemSkin >> uncheckedLookEvent: anEvent [
 
 	super uncheckedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e icon innerImage border: (BlBorder paint: (e tokenValueNamed: #'color-primary') width: 0).
+		e icon innerImage border: (BlBorder paint: (e valueOfTokenNamed: #'color-primary') width: 0).
 		e indeterminateChild background: Color transparent ]
 ]

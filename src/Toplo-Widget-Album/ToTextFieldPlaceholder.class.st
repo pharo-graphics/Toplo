@@ -16,6 +16,6 @@ ToTextFieldPlaceholder >> installRawStyle [
 
 	super installRawStyle.
 	self padding: (BlInsets
-				 horizontal: (self tokenValueNamed: #'text-editor-padding-H')
-				 vertical: (self tokenValueNamed: #'text-editor-padding-V'))
+				 horizontal: (self valueOfTokenNamed: #'text-editor-padding-H')
+				 vertical: (self valueOfTokenNamed: #'text-editor-padding-V'))
 ]

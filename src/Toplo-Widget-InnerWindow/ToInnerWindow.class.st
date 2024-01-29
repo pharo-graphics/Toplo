@@ -164,7 +164,7 @@ ToInnerWindow >> installRawStyle [
 	self bar
 		padding: (BlInsets top: 2 bottom: 1);
 		outskirts: BlOutskirts inside;
-		border: (	self tokenValueNamed: #'color-border').
+		border: (	self valueOfTokenNamed: #'color-border').
 	self closeButton icon: (ToImage inner: (self iconNamed: #windowCloseForm)).
 	self expandButton icon: (ToImage inner: (self iconNamed: #windowMaximizeForm)).
 

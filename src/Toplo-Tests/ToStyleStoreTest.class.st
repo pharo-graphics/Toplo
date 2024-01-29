@@ -300,8 +300,8 @@ ToStyleStoreTest >> testStampValue [
 
 	| e |
 	e := BlElement new.
-	e addStamp: #color value: Color blue.
-	e toStyleStore addStamp: #background value: Color red.
+	e addStamp: #color withValue: Color blue.
+	e toStyleStore addStamp: #background withValue: Color red.
 	e toStyleStore addStamp: #primary.
 	self assert: (e toStyleStore stampValue: #color) equals: Color blue.
 	self assert: (e toStyleStore stampValue: #background) equals: Color red.
@@ -332,7 +332,7 @@ ToStyleStoreTest >> testTokenPropertyNamed [
 
 	| e p |
 	e := BlElement new.
-	self assert: (e tokenPropertyNamed: #color) isNil.
+	self assert: (e toStyleStore) isNil.
 	e ensuredToStyleStore addTokenProperty: (p := (#color -> Color blue) asTokenProperty).
 	self assert: (e toStyleStore tokenPropertyNamed: #color) equals: p.
 	e toStyleStore addTokenProperty: (#background -> Color blue) asTokenProperty.
@@ -375,7 +375,7 @@ ToStyleStoreTest >> testTokenPropertyNamedFromBeforeSpaceShownRaiseError [
 	space := BlSpace new.
 	e := ToElement new.
 	space root addChild: e.
-	self should: [e tokenValueNamed: #'background-color'] raise: ToElementPropertyNotFound
+	self should: [e valueOfTokenNamed: #'background-color'] raise: ToElementPropertyNotFound
 ]
 
 { #category : #'token properties' }
@@ -397,10 +397,11 @@ ToStyleStoreTest >> testTokenPropertyNamedFromBeforeSpaceShownRaiseError2 [
 			 on: ToSpaceSkinPhasesStarted
 			 do: [
 				 goneHere := true.
-				 self assert: e installedSkin isNil.
-				 self assert: e skinInstaller notNil.
-				 self assert: (e tokenValueNamed: #'background-color') notNil.
-				 e applySkinInstaller.
+				 self assert:
+					 (e skinManager ifNotNil: [ :sm | sm installedSkin ]) isNil.
+				 self assert: e skinManager skinInstaller notNil.
+				 self assert: (e valueOfTokenNamed: #'background-color') notNil.
+				 e skinManager applySkinReinstallIn: e.
 				 self deny: e background isTransparent ]).
 	space startSkinPhases.
 	self assert: goneHere
@@ -420,7 +421,7 @@ ToStyleStoreTest >> testTokenPropertyNamedRequiresSpaceSkinPhasesStarted [
 			 on: ToSpaceSkinPhasesStarted
 			 do: [
 				 goneHere := true.
-				 e applySkinInstaller.
+				 e skinManager applySkinReinstallIn: e.
 				 self deny: e background isTransparent ]).
 	space startSkinPhases.
 	self assert: goneHere

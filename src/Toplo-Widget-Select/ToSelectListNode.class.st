@@ -9,6 +9,6 @@ ToSelectListNode >> installRawStyle [
 
 	super installRawStyle.
 	self padding: (BlInsets
-			 horizontal: (self tokenValueNamed: #'padding-content-H')
-			 vertical: (self tokenValueNamed: #'padding-content-V'))
+			 horizontal: (self valueOfTokenNamed: #'padding-content-H')
+			 vertical: (self valueOfTokenNamed: #'padding-content-V'))
 ]

@@ -12,14 +12,17 @@ ToSkinInstaller >> applyOn: anElement [
 	" if there is an installed skin -> nothing to do "
 
 	self installingWhile: [
-		anElement installedSkin ifNil: [
-			anElement skinToInstall ifNotNil: [ :skin |
-				anElement dispatchEvent: (ToInstallSkinEvent new skin: skin; yourself).
-				" apply style here directly to benefit from the installer recursion protection
-				because  requestNewSkin may be sent during skin installation 
-				(in that case it it ignored) "
-				anElement skinManager applyEnqueuedStatesIn: anElement ] ].
-		anElement skinInstaller: nil ]
+		anElement skinManagerDo: [ :sm |
+			sm installedSkin ifNil: [
+				(sm skinToInstallIn: anElement) ifNotNil: [ :skin |
+					anElement dispatchEvent: (ToInstallSkinEvent new
+							 skin: skin;
+							 yourself).
+					" apply style here directly to benefit from the installer recursion protection
+					because  requestNewSkin may be sent during skin installation 
+					(in that case it it ignored) "
+					sm applyEnqueuedStatesIn: anElement ] ].
+			sm setSkinInstaller: nil in: anElement ] ]
 ]
 
 { #category : #initialization }

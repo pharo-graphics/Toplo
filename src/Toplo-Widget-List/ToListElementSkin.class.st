@@ -9,9 +9,9 @@ ToListElementSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e border: (e tokenValueNamed: #'color-border').
-		e background: (e tokenValueNamed: #'color-bg-container').
+		e border: (e valueOfTokenNamed: #'color-border').
+		e background: (e valueOfTokenNamed: #'color-bg-container').
 		e padding: (BlInsets
-				 horizontal: (e tokenValueNamed: #'list-padding-H')
-				 vertical: (e tokenValueNamed: #'list-padding-V')) ]
+				 horizontal: (e valueOfTokenNamed: #'list-padding-H')
+				 vertical: (e valueOfTokenNamed: #'list-padding-V')) ]
 ]

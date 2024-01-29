@@ -139,8 +139,8 @@ ToStyleSheet >> lookEventListenerHolder [
 { #category : #initialization }
 ToStyleSheet >> onInstalledIn: anElement [
 
-	anElement requestNewSkinRecursively
-
+	anElement withAllChildrenBreadthFirstDo: [ :child |
+		child requestNewSkin ]
 ]
 
 { #category : #initialization }

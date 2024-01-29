@@ -61,6 +61,13 @@ ToSkinManager >> applySkinInstallerOnFirstRequest: aBoolean [
 ]
 
 { #category : #'skin - installing / uninstalling' }
+ToSkinManager >> applySkinReinstallIn: anElement [
+
+	self applySkinUninstallerIn: anElement.
+	self applySkinInstallerIn: anElement
+]
+
+{ #category : #'skin - installing / uninstalling' }
 ToSkinManager >> applySkinUninstallerIn: anElement [
 
 	" ask the skin uninstaller (if any) to actually uninstall the skin "
@@ -273,7 +280,8 @@ ToSkinManager >> requestUninstallSkinIn: anElement [
 	being installing"
 
 	| installer |
-	anElement installedSkin ifNil: [ ^ self ].
+	(self installedSkin) ifNil: [
+		^ self ].
 	installer := self skinInstaller.
 	(installer notNil and: [ installer isInstalling ]) ifTrue: [ ^ self ].
 	self skinUninstaller ifNotNil: [ ^ self ].
@@ -284,9 +292,8 @@ ToSkinManager >> requestUninstallSkinIn: anElement [
 { #category : #'skin - installing / uninstalling' }
 ToSkinManager >> requestUninstallSkinRecursivelyIn: anElement [
 
-	anElement allChildrenBreadthFirstDo: [ :child | 	
-			child skinManagerDo: [ :sm | sm requestUninstallSkinIn: child ] ].
-	self requestUninstallSkinIn: anElement
+	anElement withAllChildrenBreadthFirstDo: [ :child |
+		child skinManagerDo: [ :sm | sm requestUninstallSkinIn: child ] ]
 ]
 
 { #category : #'accessing - raw skin' }

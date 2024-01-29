@@ -10,11 +10,11 @@ ToLabelInTooltipSkin >> installLookEvent: anEvent [
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e textAttributesBuilder 
-			weight: (e tokenValueNamed: #'font-weight-strong');
-			defaultFontName: (e tokenValueNamed: #'font-family-code');
-			defaultFontSize: (e tokenValueNamed: #'font-size-in-tooltip');
-			lineSpacing: (e tokenValueNamed: #'line-height');
-			foreground: (e tokenValueNamed: #'text-foreground-in-tooltip').
+			weight: (e valueOfTokenNamed: #'font-weight-strong');
+			defaultFontName: (e valueOfTokenNamed: #'font-family-code');
+			defaultFontSize: (e valueOfTokenNamed: #'font-size-in-tooltip');
+			lineSpacing: (e valueOfTokenNamed: #'line-height');
+			foreground: (e valueOfTokenNamed: #'text-foreground-in-tooltip').
 		e hasText ifFalse: [ ^ self ].
 		e applyAttributesBuilder.
 		e textChanged ]

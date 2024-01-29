@@ -12,11 +12,13 @@ Class {
 
 { #category : #'api - hooks' }
 ToStyleStore >> onInstalledIn: anElement [
-
 	" changing a token property may require a install state and an initial state.
 	This is done after installing a new skin "
-	self tokenPropertyIndex changedAction: [ anElement requestNewSkinRecursively ].
-	self stampIndex changedAction: [ anElement requestNewSkinRecursively ]
+
+	self tokenPropertyIndex changedAction: [
+		self requestNewSkinRecursivelyFrom: anElement ].
+	self stampIndex changedAction: [
+		self requestNewSkinRecursivelyFrom: anElement ]
 ]
 
 { #category : #'t - stamps holder' }
@@ -43,4 +45,11 @@ ToStyleStore >> rawTokenPropertyIndex [
 ToStyleStore >> rawTokenPropertyIndex: aPropertyIndex [
 
 	^ tokenPropertyIndex := aPropertyIndex
+]
+
+{ #category : #'api - hooks' }
+ToStyleStore >> requestNewSkinRecursivelyFrom: anElement [
+
+	anElement withAllChildrenBreadthFirstDo: [ :child |
+		child requestNewSkin ]
 ]

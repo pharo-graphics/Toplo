@@ -4,7 +4,7 @@ A ToNullSkinTest is a test class for testing the behavior of ToNullSkin
 Class {
 	#name : #ToNullSkinTest,
 	#superclass : #TestCase,
-	#category : 'Toplo-Tests-Core-Theme'
+	#category : #'Toplo-Tests-Core-Theme'
 }
 
 { #category : #tests }
@@ -44,8 +44,10 @@ ToNullSkinTest >> testWithASkinInstalledBefore [
 	w applySkinInstaller.
 	self assert: w installedSkin identicalTo: nsk.
 	self assert: w skinStateQueue nextStates isEmpty.
-	w enqueueSkinState:
-		(ToTransientState lookEvent: ToHoveredLookEvent new).
+	w skinManager
+		enqueueSkinState:
+		(ToTransientState lookEvent: ToHoveredLookEvent new)
+		in: w.
 	w applyEnqueuedStates.
 	self assert: w skinStateQueue nextStates isEmpty
 ]

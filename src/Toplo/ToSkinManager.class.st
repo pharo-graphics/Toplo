@@ -22,7 +22,7 @@ ToSkinManager >> addDraggedSkinStateGeneration: aValuable for: anElement [
 ]
 
 { #category : #'skin state generation' }
-ToSkinManager >> addSkinStateGeneration: aValuable for: anElement [
+ToSkinManager >> addSkinStateGeneration: aValuable in: anElement [
 
 	" add a skin generation action to be evaluated by the states application phase "
 	anElement space
@@ -111,6 +111,14 @@ ToSkinManager >> defaultSkin [
 ToSkinManager >> defaultSkin: aSkin [
 
 	self userData at: #defaultSkin put: aSkin
+]
+
+{ #category : #'skin state generation' }
+ToSkinManager >> enqueueSkinState: aSkinState in: anElement [
+
+	aSkinState
+		requestEnqueueFromElement: anElement
+		inQueue: self skinStateQueue
 ]
 
 { #category : #testing }
@@ -322,7 +330,7 @@ ToSkinManager >> skinManagementEventHandler [
 	^ self userData at: #skinManagementEventHandler ifAbsent: [  ]
 ]
 
-{ #category : #'api - hooks' }
+{ #category : #accessing }
 ToSkinManager >> skinManagementEventHandler: aHandler [
 
 	self userData at: #skinManagementEventHandler put: aHandler

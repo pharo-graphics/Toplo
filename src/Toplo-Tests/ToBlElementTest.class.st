@@ -9,7 +9,6 @@ ToBlElementTest >> testApplicableListenersFor [
 
 	| e theme |
 	e := BlElement new.
-	space := BlSpace new.
 	theme := ToStyleSheetThemeForTest light.
 	space toTheme: theme.
 	
@@ -67,7 +66,6 @@ ToBlElementTest >> testElementRemovedFromSceneGraph [
 
 	| e |
 	e := BlElement new.
-	space := BlSpace new.
 	space root addChild: e.
 	self assert: e skinUninstaller isNil.
 	space root removeChild: e.
@@ -80,16 +78,36 @@ ToBlElementTest >> testElementRemovedFromSceneGraph [
 ]
 
 { #category : #tests }
+ToBlElementTest >> testEnsureCanManageSkin [
+
+	| e  |
+	e := BlElement new.
+	e ensureCanManageSkin.
+	space root addChild: e.
+	self applyAllEnqueuedStates.
+	self waitTestingSpaces.
+	self assert: e installedSkin notNil
+]
+
+{ #category : #tests }
 ToBlElementTest >> testUnsortedApplicableListenersFor [
 
 	| e theme |
-	e := ToElement new.
-	space := BlSpace new.
+	e := BlElement new.
 	theme := ToStyleSheetThemeForTest light.
 	space toTheme: theme.
 	
 	space root addChild: e.
 	self applyAllEnqueuedStates.
 	self waitTestingSpaces.
-	self assert: (theme unsortedApplicableListenersFor: e) size equals: 5
+	self assert: (theme unsortedApplicableListenersFor: e) size equals: 0.
+	self assert: e toStyleStore isNil.
+	e addStamp: #element.
+	self assert: e toStyleStore notNil.
+	self assert: e skinManager isNil.
+	self applyAllEnqueuedStates.
+	self waitTestingSpaces.
+	self assert: (theme unsortedApplicableListenersFor: e) size equals: 5.
+
+	
 ]

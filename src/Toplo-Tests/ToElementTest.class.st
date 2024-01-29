@@ -162,7 +162,7 @@ ToElementTest >> testInstallNewSkinNow [
 	" but the installation has no effect because there is already one skin installed "
 	self assert: e installedSkin identicalTo: skin.
 	" now force a new skin installation "
-	e installNewSkinNow.
+	self installNewSkinNowIn: e.
 	self deny: e installedSkin identicalTo: skin.
 	self assert: e skinInstaller isNil.
 	self assert: e skinUninstaller isNil
@@ -175,7 +175,7 @@ ToElementTest >> testInstallNewSkinNowForANonAttachedElementShouldRaiseError [
 	e := ToElement new.
 	" now try to force a new skin installation -> error 
 	because the element is not attached "
-	self should: [ e installNewSkinNow ] raise: Error.
+	self should: [ self installNewSkinNowIn: e ] raise: Error.
 
 ]
 

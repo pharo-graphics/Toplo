@@ -291,7 +291,7 @@ ToTheme class >> variant: aThemeVariant [
 { #category : #accessing }
 ToTheme >> defaultSkinFor: anElement [
 
-	anElement setUpForTheme: self.
+	anElement skinManager setUpForTheme: self in: anElement.
 	^ self expectedSkinFor: anElement
 ]
 
@@ -316,7 +316,7 @@ ToTheme >> name [
 { #category : #accessing }
 ToTheme >> newSkinFor: anElement [
 
-	anElement setUpForTheme: self.
+	anElement ensuredSkinManager setUpForTheme: self in: anElement.
 	^ self newSkinInstanceFor: anElement
 ]
 

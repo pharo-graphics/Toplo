@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'writeablePropertyIndex'
 	],
-	#category : 'Toplo-Tests-Core-StyleSheet'
+	#category : #'Toplo-Tests-Core-StyleSheet'
 }
 
 { #category : #running }
@@ -213,13 +213,17 @@ ToStyleSheetSkinTest >> testWithAnimationOn2EventClasses [
 
 	self assert: w background paint color equals: Color white.
 
-	w enqueueSkinState:
-		(ToTransientState lookEvent: ToHoveredLookEvent new).
+	w skinManager
+		enqueueSkinState:
+		(ToTransientState lookEvent: ToHoveredLookEvent new)
+		in: w.
 	animation onFinishedDo: [ :x |
 		self assert: w background paint color equals: Color black.
 
-		w enqueueSkinState:
-			(ToTransientState lookEvent: ToLeavedLookEvent new).
+		w skinManager
+			enqueueSkinState:
+			(ToTransientState lookEvent: ToLeavedLookEvent new)
+			in: w.
 		animation onFinishedDo: [ :xx |
 			self assert: w background paint color equals: Color white ] ]
 ]

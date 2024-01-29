@@ -13,18 +13,6 @@ BlElement >> addAllTokenProperties: aTokenPropertyCollection [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> addDraggedSkinStateGeneration: aValuable [
-
-	self ensuredSkinManager addDraggedSkinStateGeneration: aValuable for: self
-]
-
-{ #category : #'*Toplo' }
-BlElement >> addSkinStateGeneration: aValuable [
-
-	self ensuredSkinManager addSkinStateGeneration: aValuable for: self
-]
-
-{ #category : #'*Toplo' }
 BlElement >> addStamp: aSymbol [
 
 
@@ -62,8 +50,9 @@ BlElement >> applyEnqueuedStatesRecursively [
 { #category : #'*Toplo' }
 BlElement >> applySkinInstaller [
 
-	self skinManagerDo: [ :sm | sm  applySkinUninstallerIn: self ].
-	self skinManagerDo: [ :sm | sm  applySkinInstallerIn: self ]
+	self skinManagerDo: [ :sm |
+		sm applySkinUninstallerIn: self.
+		sm applySkinInstallerIn: self ]
 ]
 
 { #category : #'*Toplo' }
@@ -79,27 +68,6 @@ BlElement >> applySkinInstallerRecursively [
 	self applySkinInstaller.
 
 
-]
-
-{ #category : #'*Toplo' }
-BlElement >> applyStyles [
-
-	self
-		deprecated: 'Use applyEnqueuedStates instead'
-		transformWith:
-		'`@receiver applyStyles' -> '`@receiver applyEnqueuedStates'.
-	self skinManager applyEnqueuedStatesIn: self
-]
-
-{ #category : #'*Toplo' }
-BlElement >> applyStylesRecursively [
-
-	self
-		deprecated: 'Use applyEnqueuedStatesRecursively instead'
-		transformWith: '`@receiver applyStylesRecursively'
-			-> '`@receiver applyEnqueuedStatesRecursively'.
-			
-	self applyEnqueuedStatesRecursively
 ]
 
 { #category : #'*Toplo' }
@@ -130,6 +98,13 @@ BlElement >> defaultRawSkin: aSkin [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> defaultSkin [
+
+	self skinManagerDo: [ :sm | ^ sm  defaultSkin ].
+	^ nil
+]
+
+{ #category : #'*Toplo' }
 BlElement >> defaultSkin: aSkin [
 
 	self ensuredSkinManager setDefaultSkin: aSkin in: self
@@ -154,12 +129,11 @@ BlElement >> enable [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> enqueueSkinState: aSkinState [
+BlElement >> ensureCanManageSkin [
 
-	self skinManagerDo: [ :sm |
-		aSkinState
-			requestEnqueueFromElement: self
-			inQueue: self skinStateQueue ]
+	self ensureHaveSkinManager.
+	self addEventHandler: ToSkinStateGenerator new.
+	self addEventHandler: ToElementInitializeEventHandler new
 ]
 
 { #category : #'*Toplo' }
@@ -214,21 +188,6 @@ BlElement >> hasStamp: aSymbol [
 BlElement >> holder [
 
 	^ self constraints infinite holder
-]
-
-{ #category : #'*Toplo' }
-BlElement >> installNewSkinNow [
-
-	" useful for testing purpose. Except this case, do not use this feature that bypass the normal skinRequest/skinInstallation scheme"
-
-	self space ifNil: [
-		Error signal:
-			'A non attached element can''t ask for an immediate skin change ' ].
-	self requestUninstallSkin.
-	self skinUninstaller ifNotNil: [:su | su applyOn: self].
-	self requestInstallSkin.
-	self skinInstaller ifNotNil: [:si | si applyOn: self].
-	self spaceDo: [ :sp | sp requestNextPulse ]
 ]
 
 { #category : #'*Toplo' }
@@ -345,28 +304,15 @@ BlElement >> setStamp: aSymbol value: anObject [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> setToken: aTokenProperty [
-
-	self ensuredToStyleStore addTokenProperty: aTokenProperty asTokenProperty 
-]
-
-{ #category : #'*Toplo' }
 BlElement >> setTokenNamed: aSymbol value: anObject [
 
 	self ensuredToStyleStore addTokenProperty: (aSymbol -> anObject) asTokenProperty 
 ]
 
 { #category : #'*Toplo' }
-BlElement >> setUpForTheme: aTheme [
-
-	self ensuredSkinManager setUpForTheme: aTheme in: self
-]
-
-{ #category : #'*Toplo' }
 BlElement >> skinInstaller [
 
-	self skinManagerDo: [ :sm | ^ sm skinInstaller ].
-	^ nil
+	^ self skinManager ifNotNil: [ :sm | sm skinInstaller ]
 ]
 
 { #category : #'*Toplo' }
@@ -466,7 +412,7 @@ BlElement >> styleSheetChain [
 { #category : #'*Toplo' }
 BlElement >> switchToNextCheckStateOnClick [
 
-	" introduced here to avoid questionable condition in SinnableEventHandler for the management of the click event "
+	" introduced here to avoid questionable condition for the management of the click event "
 ]
 
 { #category : #'*Toplo' }

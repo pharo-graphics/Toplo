@@ -266,7 +266,7 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 	primaryButton2 := (ToButton id: #buttonA) labelText: 'Button 2'.
 	primaryButton1 whenClickedDo: [
 		c := Color random.
-		primaryButton2 setToken: #'color-primary' -> c.
+		primaryButton2 setTokenNamed: #'color-primary' value: c.
 		primaryButton2
 			setTokenNamed: #'color-primary-pressed'
 			value: c twiceDarker.

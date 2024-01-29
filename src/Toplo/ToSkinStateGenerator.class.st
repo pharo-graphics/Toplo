@@ -64,15 +64,17 @@ ToSkinStateGenerator >> doubleClickEvent: anEvent [
 { #category : #'dnd handlers' }
 ToSkinStateGenerator >> dragEndEvent: anEvent [
 
-	target addSkinStateGeneration: [
-		self dragged: false.
-		self enqueueTransientStateFromLookEvent:
-			(ToReleasedLookEvent sourceEvent: anEvent).
-		self leaved ifFalse: [
-			self leaved: true.
-			target isEnabled ifTrue: [
-				self enqueueTransientStateFromLookEvent:
-					(ToLeavedLookEvent sourceEvent: anEvent) ] ] ]
+	target skinManager
+		addSkinStateGeneration: [
+			self dragged: false.
+			self enqueueTransientStateFromLookEvent:
+				(ToReleasedLookEvent sourceEvent: anEvent).
+			self leaved ifFalse: [
+				self leaved: true.
+				target isEnabled ifTrue: [
+					self enqueueTransientStateFromLookEvent:
+						(ToLeavedLookEvent sourceEvent: anEvent) ] ] ]
+		in: target
 ]
 
 { #category : #'dnd handlers' }
@@ -120,9 +122,12 @@ ToSkinStateGenerator >> dropEvent: anEvent [
 { #category : #'state generating' }
 ToSkinStateGenerator >> enqueueTransientStateFromLookEvent: aLookEvent [
 
-	target enqueueSkinState: (ToTransientState new
-			 lookEvent: aLookEvent;
-			 yourself)
+	target skinManagerDo: [ :sm |
+		sm
+			enqueueSkinState: (ToTransientState new
+					 lookEvent: aLookEvent;
+					 yourself)
+			in: target ]
 ]
 
 { #category : #'api - accessing' }
@@ -156,137 +161,178 @@ ToSkinStateGenerator >> focusEvent: anEvent [
 { #category : #'state generating' }
 ToSkinStateGenerator >> generateCheckStateFromEvent: anEvent [
 
-	target addSkinStateGeneration: [
-		target withAllChildrenBreadthFirstDo: [ :child |
-			child enqueueSkinState: (ToCheckState new checked: anEvent current yourself) ] ]
+	target skinManagerDo: [ :sm |
+		sm
+			addSkinStateGeneration: [
+				target withAllChildrenBreadthFirstDo: [ :child |
+					child skinManagerDo: [ :csm |
+						csm
+							enqueueSkinState:
+							(ToCheckState new checked: anEvent current yourself)
+							in: child ] ] ]
+			in: target ]
 ]
 
 { #category : #'state generating' }
 ToSkinStateGenerator >> generateClickedStateFromEvent: anEvent [
 
-	target addSkinStateGeneration: [
-		self enqueueTransientStateFromLookEvent:
-			(ToClickedLookEvent sourceEvent: anEvent) ]
+	target skinManager
+		addSkinStateGeneration: [
+			self enqueueTransientStateFromLookEvent:
+				(ToClickedLookEvent sourceEvent: anEvent) ]
+		in: target
 ]
 
 { #category : #'state generating' }
 ToSkinStateGenerator >> generateClosedStateFromEvent: anEvent [
 
-	target addSkinStateGeneration: [
-		self enqueueTransientStateFromLookEvent:
-			(ToClosedLookEvent sourceEvent: anEvent) ]
+	target skinManager
+		addSkinStateGeneration: [
+			self enqueueTransientStateFromLookEvent:
+				(ToClosedLookEvent sourceEvent: anEvent) ]
+		in: target
 ]
 
 { #category : #'state generating' }
 ToSkinStateGenerator >> generateDragStartedStateFromEvent: anEvent [
 
-	target addSkinStateGeneration: [
-		self dragged: true.
-		self enqueueTransientStateFromLookEvent:
-			(ToDragStartedLookEvent sourceEvent: anEvent) ]
+	target skinManager
+		addSkinStateGeneration: [
+			self dragged: true.
+			self enqueueTransientStateFromLookEvent:
+				(ToDragStartedLookEvent sourceEvent: anEvent) ]
+		in: target
 ]
 
 { #category : #'state generating' }
 ToSkinStateGenerator >> generateDraggedStateFromEvent: anEvent [
 
-	target addDraggedSkinStateGeneration: [
-		self dragged ifTrue: [
-			self enqueueTransientStateFromLookEvent:
-				(ToDraggedLookEvent sourceEvent: anEvent) ] ]
+	target skinManager
+		addDraggedSkinStateGeneration: [
+			self dragged ifTrue: [
+				self enqueueTransientStateFromLookEvent:
+					(ToDraggedLookEvent sourceEvent: anEvent) ] ]
+		for: target
 ]
 
 { #category : #'state generating' }
 ToSkinStateGenerator >> generateDroppedStateFromEvent: anEvent [
 
-	target addSkinStateGeneration: [
-		self enqueueTransientStateFromLookEvent:
-			(ToDroppedLookEvent sourceEvent: anEvent) ]
+	target skinManager
+		addSkinStateGeneration: [
+			self enqueueTransientStateFromLookEvent:
+				(ToDroppedLookEvent sourceEvent: anEvent) ]
+		in: target
 ]
 
 { #category : #'state generating' }
 ToSkinStateGenerator >> generateFocusStateFromEvent: anEvent [
 
-	target addSkinStateGeneration: [
-		target enqueueSkinState:
-			(ToFocusState new focused: target hasFocus yourself) ]
+	target skinManagerDo: [ :sm |
+		sm
+			addSkinStateGeneration: [
+				sm
+					enqueueSkinState:
+					(ToFocusState new focused: target hasFocus yourself)
+					in: target ]
+			in: target ]
 ]
 
 { #category : #'state generating' }
 ToSkinStateGenerator >> generateHoveredStateFromEvent: anEvent [
 
-	target addSkinStateGeneration: [
-		self leaved: false.
-		self dragged ifFalse: [
-			self startStillHoveredEvent: anEvent.
-			target isEnabled ifTrue: [
-				self enqueueTransientStateFromLookEvent:
-					(ToHoveredLookEvent sourceEvent: anEvent) ] ] ]
+	target skinManager
+		addSkinStateGeneration: [
+			self leaved: false.
+			self dragged ifFalse: [
+				self startStillHoveredEvent: anEvent.
+				target isEnabled ifTrue: [
+					self enqueueTransientStateFromLookEvent:
+						(ToHoveredLookEvent sourceEvent: anEvent) ] ] ]
+		in: target
 ]
 
 { #category : #'state generating' }
 ToSkinStateGenerator >> generateLeavedStateFromEvent: anEvent [
 
-	target addSkinStateGeneration: [
-		self dragged ifFalse: [
-			self leaved ifFalse: [
-				self leaved: true.
-				target isEnabled ifTrue: [
-					self enqueueTransientStateFromLookEvent:
-						(ToLeavedLookEvent sourceEvent: anEvent) ] ] ] ]
+	target skinManager
+		addSkinStateGeneration: [
+			self dragged ifFalse: [
+				self leaved ifFalse: [
+					self leaved: true.
+					target isEnabled ifTrue: [
+						self enqueueTransientStateFromLookEvent:
+							(ToLeavedLookEvent sourceEvent: anEvent) ] ] ] ]
+		in: target
 ]
 
 { #category : #'state generating' }
 ToSkinStateGenerator >> generateOpenedStateFromEvent: anEvent [
 
-	target addSkinStateGeneration: [
-		self enqueueTransientStateFromLookEvent:
-			(ToOpenedLookEvent sourceEvent: anEvent) ]
+	target skinManager
+		addSkinStateGeneration: [
+			self enqueueTransientStateFromLookEvent:
+				(ToOpenedLookEvent sourceEvent: anEvent) ]
+		in: target
 ]
 
 { #category : #'state generating' }
 ToSkinStateGenerator >> generatePressedStateFromEvent: anEvent [
 
-	target addSkinStateGeneration: [
-		self pressed: true.
-		self enqueueTransientStateFromLookEvent:
-			(ToPressedLookEvent sourceEvent: anEvent).
-		self startStillPressedEvent: anEvent ]
+	target skinManager
+		addSkinStateGeneration: [
+			self pressed: true.
+			self enqueueTransientStateFromLookEvent:
+				(ToPressedLookEvent sourceEvent: anEvent).
+			self startStillPressedEvent: anEvent ]
+		in: target
 ]
 
 { #category : #'state generating' }
 ToSkinStateGenerator >> generateReleasedStateFromEvent: anEvent [
 
-	target addSkinStateGeneration: [
-		self dragged: false.
-		self enqueueTransientStateFromLookEvent:
-			(ToReleasedLookEvent sourceEvent: anEvent) ]
+	target skinManager
+		addSkinStateGeneration: [
+			self dragged: false.
+			self enqueueTransientStateFromLookEvent:
+				(ToReleasedLookEvent sourceEvent: anEvent) ]
+		in: target
 ]
 
 { #category : #'state generating' }
 ToSkinStateGenerator >> generateSelectionStateFromEvent: anEvent [
 
-	target addSkinStateGeneration: [
-		target withAllChildrenBreadthFirstDo: [ :child |
-			child enqueueSkinState: (ToSelectionState new
-					 selected: anEvent selected;
-					 focused: anEvent infiniteElement hasFocus;
-					 yourself) ] ]
+	target skinManager
+		addSkinStateGeneration: [
+			target withAllChildrenBreadthFirstDo: [ :child |
+				child skinManagerDo: [ :sm |
+					sm
+						enqueueSkinState: (ToSelectionState new
+								 selected: anEvent selected;
+								 focused: anEvent infiniteElement hasFocus;
+								 yourself)
+						in: child ] ] ]
+		in: target
 ]
 
 { #category : #'state generating' }
 ToSkinStateGenerator >> generateStillHoveredStateFromEvent: anEvent [
 
-	target addSkinStateGeneration: [
-		self enqueueTransientStateFromLookEvent:
-			(ToStillHoveredLookEvent sourceEvent: anEvent) ]
+	target skinManager
+		addSkinStateGeneration: [
+			self enqueueTransientStateFromLookEvent:
+				(ToStillHoveredLookEvent sourceEvent: anEvent) ]
+		in: target
 ]
 
 { #category : #'state generating' }
 ToSkinStateGenerator >> generateStillPressedStateFromEvent: anEvent [
 
-	target addSkinStateGeneration: [
-		self enqueueTransientStateFromLookEvent:
-			(ToStillPressedLookEvent sourceEvent: anEvent) ]
+	target skinManager
+		addSkinStateGeneration: [
+			self enqueueTransientStateFromLookEvent:
+				(ToStillPressedLookEvent sourceEvent: anEvent) ]
+		in: target
 ]
 
 { #category : #'api - event managing' }
@@ -408,22 +454,25 @@ ToSkinStateGenerator >> mouseUpOutsideEvent: anEvent [
 	"Outside event can have a button label or icon as target. 
 	In that case, no action is triggered "
 
-	target addSkinStateGeneration: [
-		| wasPressed |
-		wasPressed := self pressed.
-		self pressed: false.
-		(anEvent originalEvent target notNil and: [
-			 anEvent originalEvent target hasInParentChain: target ]) ifFalse: [
-			self dragged: false.
-			wasPressed ifTrue: [
-				self enqueueTransientStateFromLookEvent:
-					(ToReleasedLookEvent sourceEvent: anEvent) ].
+	target skinManager
+		addSkinStateGeneration: [
+			| wasPressed |
+			wasPressed := self pressed.
+			self pressed: false.
+			(anEvent originalEvent target notNil and: [
+				 anEvent originalEvent target hasInParentChain: target ])
+				ifFalse: [
+					self dragged: false.
+					wasPressed ifTrue: [
+						self enqueueTransientStateFromLookEvent:
+							(ToReleasedLookEvent sourceEvent: anEvent) ].
 
-			self leaved ifFalse: [
-				self leaved: true.
-				target isEnabled ifTrue: [
-					self enqueueTransientStateFromLookEvent:
-						(ToLeavedLookEvent sourceEvent: anEvent) ] ] ] ]
+					self leaved ifFalse: [
+						self leaved: true.
+						target isEnabled ifTrue: [
+							self enqueueTransientStateFromLookEvent:
+								(ToLeavedLookEvent sourceEvent: anEvent) ] ] ] ]
+		in: target
 ]
 
 { #category : #'mouse handlers' }
@@ -488,14 +537,14 @@ ToSkinStateGenerator >> primaryMouseDownEvent: anEvent [
 { #category : #'mouse handlers' }
 ToSkinStateGenerator >> primaryMouseUpEvent: anEvent [
 
-	target addSkinStateGeneration: [
+	target skinManager addSkinStateGeneration: [
 		self dragged: false.
 		self leaved: false.
 		self enqueueTransientStateFromLookEvent: (ToReleasedLookEvent sourceEvent: anEvent).
 		target isEnabled ifTrue: [
 			self startStillHoveredEvent: anEvent.
 			self enqueueTransientStateFromLookEvent:
-				(ToHoveredLookEvent sourceEvent: anEvent) ] ]
+				(ToHoveredLookEvent sourceEvent: anEvent) ] ] in: target
 ]
 
 { #category : #'mouse handlers' }

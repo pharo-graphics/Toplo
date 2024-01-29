@@ -90,16 +90,56 @@ ToBlElementTest >> testEnsureCanManageSkin [
 ]
 
 { #category : #tests }
+ToBlElementTest >> testRequestSkin [
+
+	| e |
+	e := BlElement new.
+	self assert: e skinInstaller isNil.
+	self assert: e installedSkin isNil.
+	self assert: e skinManager isNil.
+	e ensuredSkinManager requestInstallSkinIn: e.
+	self assert: e skinInstaller isNil.
+	self assert: e installedSkin isNil.
+	space root addChild: e.
+	self assert: e skinInstaller notNil.
+	self assert: e installedSkin isNil.
+	space applyAllSkinInstallers.
+	self assert: e skinInstaller isNil.
+	self assert: e installedSkin notNil
+]
+
+{ #category : #tests }
+ToBlElementTest >> testRequestSkin2 [
+
+	| e |
+	e := BlElement new.
+	self assert: e skinInstaller isNil.
+	self assert: e installedSkin isNil.
+	self assert: e skinManager isNil.
+	space root addChild: e.
+	self assert: e skinManager isNil.
+	e ensuredSkinManager requestInstallSkinIn: e.
+	self assert: e skinManager notNil.
+	self assert: e skinInstaller notNil.
+	self assert: e installedSkin isNil.
+	space applyAllSkinInstallers.
+	self assert: e skinInstaller isNil.
+	self assert: e installedSkin notNil
+]
+
+{ #category : #tests }
 ToBlElementTest >> testUnsortedApplicableListenersFor [
 
 	| e theme |
 	e := BlElement new.
 	theme := ToStyleSheetThemeForTest light.
 	space toTheme: theme.
-	
 	space root addChild: e.
+	self assert: e toStyleStore isNil.
 	self applyAllEnqueuedStates.
+	self assert: e toStyleStore isNil.
 	self waitTestingSpaces.
+	self assert: e toStyleStore isNil.
 	self assert: (theme unsortedApplicableListenersFor: e) size equals: 0.
 	self assert: e toStyleStore isNil.
 	e addStamp: #element.
@@ -107,6 +147,8 @@ ToBlElementTest >> testUnsortedApplicableListenersFor [
 	self assert: e skinManager isNil.
 	self applyAllEnqueuedStates.
 	self waitTestingSpaces.
+	self assert: e skinManager isNil.
+
 	self assert: (theme unsortedApplicableListenersFor: e) size equals: 5.
 
 	

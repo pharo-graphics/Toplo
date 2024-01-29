@@ -119,7 +119,7 @@ ToStyleSheetSkinTest >> testPropertyWriterOrderMatter [
 	" Since checkSkinInstallation will switch to ToInstallState "
 	" the installation will fail because the widget layout (not a BlLinearLayout) does not understand #direction:"
 	w defaultSkin: skin.
-	w requestInstallSkin.
+	w ensuredSkinManager requestInstallSkinIn: w.
 	" since applySkinInstaller will applyStyles "
 	self should: [ w applySkinInstaller ] raise: MessageNotUnderstood.
 
@@ -208,7 +208,7 @@ ToStyleSheetSkinTest >> testWithAnimationOn2EventClasses [
 				 yourself) }.
 
 	w defaultSkin: skin.
-	w requestInstallSkin.
+	w ensuredSkinManager requestInstallSkinIn: w.
 	w applySkinInstaller.
 
 	self assert: w background paint color equals: Color white.

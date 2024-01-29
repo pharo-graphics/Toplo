@@ -24,7 +24,7 @@ ToTheme class >> defaultCheckboxBlankImage [
 
 	| bar im |
 	bar := ToElement new id: #bar.
-	bar withoutSkin.
+	bar withNullSkin.
 	bar constraintsDo: [ :c |
 		c horizontal matchParent.
 		c vertical exact: 3.
@@ -36,7 +36,7 @@ ToTheme class >> defaultCheckboxBlankImage [
 	im layout: BlFrameLayout new.
 	im size: 16 asPoint.
 	im addChild: bar.
-	im withoutSkin.
+	im withNullSkin.
 	bar addAllStamps: #( #bar ).
 	im addAllStamps: #( #'inner-image' #unchecked ).
 	^ im

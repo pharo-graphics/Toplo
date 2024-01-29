@@ -264,28 +264,32 @@ BlElement >> removeTokenNamed: aSymbol [
 { #category : #'*Toplo' }
 BlElement >> requestInstallSkin [
 
-	" first check for the space phases "
+	self
+		deprecated: 'Please delegate to the skinManager instead'
+		transformWith: '`@receiver requestInstallSkin' -> '`@receiver ensuredSkinManager requestInstallSkinIn: self'.
+
 	self ensuredSkinManager requestInstallSkinIn: self 
 ]
 
 { #category : #'*Toplo' }
 BlElement >> requestNewSkin [
 
-	self skinManagerDo: [ :sm |
-		self requestUninstallSkin.
-		self requestInstallSkin.
-		self spaceDo: [ :sp | sp requestNextPulse ] ]
+	self skinManagerDo: [ :sm | sm requestNewSkinIn: self ]
 ]
 
 { #category : #'*Toplo' }
 BlElement >> requestNewSkinRecursively [
 
 	self childrenDo: [ :child | child requestNewSkinRecursively ].
-	self requestNewSkin 
+	self requestNewSkin
 ]
 
 { #category : #'*Toplo' }
 BlElement >> requestUninstallSkin [
+
+	self
+		deprecated: 'Please delegate to the skinManager instead'
+		transformWith: '`@receiver requestUninstallSkin' -> '`@receiver skinManagerDo: [ :sm | sm requestUninstallSkinIn: `@receiver ]'.
 
 	self skinManagerDo: [ :sm | sm requestUninstallSkinIn: self ]
 ]
@@ -487,7 +491,7 @@ BlElement >> uninstallRawStyle [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> withoutSkin [
+BlElement >> withNullSkin [
 
 	self ensuredSkinManager setDefaultSkin: ToNullSkin new in: self
 ]

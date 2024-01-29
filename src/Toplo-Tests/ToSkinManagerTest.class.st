@@ -30,13 +30,9 @@ ToSkinManagerTest >> testApplySkinInstallerIn2 [
 	| e |
 	e := ToElement new.
 	" no skinInstaller -> error "
-	self should: [e skinManager applySkinInstallerIn: e ] raise: Error.
-	e requestNewSkin.
-	self assert: e skinManager hasPostponedInstallSkinHandler.
-
-	
-	
-
+	self should: [ e skinManager applySkinInstallerIn: e ] raise: Error.
+	e skinManager requestNewSkinIn: e.
+	self assert: e skinManager hasPostponedInstallSkinHandler
 ]
 
 { #category : #tests }
@@ -558,16 +554,13 @@ ToSkinManagerTest >> testRequestUninstallSkinInWithChildrenWithInstalledSkin [
 	" but no effect on children "
 	self assert: child skinManager installedSkin notNil.
 	self assert: childchild skinManager installedSkin notNil.
-	
-	self should: [e skinManager applySkinInstallerIn: e] raise: Error.
-	e requestInstallSkin.
+
+	self should: [ e skinManager applySkinInstallerIn: e ] raise: Error.
+	e ensuredSkinManager requestInstallSkinIn: e.
 	e skinManager applySkinInstallerIn: e.
 	self assert: e skinManager installedSkin notNil.
 	self assert: e skinManager skinUninstaller isNil.
-	self assert: e skinManager skinInstaller isNil.
-
-	
-
+	self assert: e skinManager skinInstaller isNil
 ]
 
 { #category : #tests }
@@ -747,15 +740,14 @@ ToSkinManagerTest >> testSkinInstaller2 [
 	childchild := ToElement new.
 	e addChild: child.
 	child addChild: childchild.
-	
+
 	self assert: e skinInstaller isNil.
 	self assert: child skinInstaller isNil.
 	self assert: childchild skinInstaller isNil.
-	
-	e requestInstallSkin.
-	self assert: e skinInstaller isNil.
-	self assert: e skinManager hasPostponedInstallSkinHandler.
 
+	e ensuredSkinManager requestInstallSkinIn: e.
+	self assert: e skinInstaller isNil.
+	self assert: e skinManager hasPostponedInstallSkinHandler
 ]
 
 { #category : #tests }

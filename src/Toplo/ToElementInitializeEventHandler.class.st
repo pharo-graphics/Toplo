@@ -17,7 +17,7 @@ ToElementInitializeEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	target requestInstallSkin
+	target ensuredSkinManager requestInstallSkinIn: target
 ]
 
 { #category : #'api - accessing' }

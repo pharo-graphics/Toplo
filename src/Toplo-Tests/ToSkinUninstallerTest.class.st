@@ -50,7 +50,7 @@ ToSkinUninstallerTest >> testApplyOnWithRawSkin [
 ]
 
 { #category : #tests }
-ToSkinUninstallerTest >> testWithSetSkin [
+ToSkinUninstallerTest >> testWithNullSkin [
 
 	| e |
 	e := ToElement new.
@@ -58,7 +58,7 @@ ToSkinUninstallerTest >> testWithSetSkin [
 	self assert: e skinInstaller notNil.
 	e applySkinInstaller.
 	self assert: e installedSkin notNil.
-	e defaultSkin: ToNullSkin new.
+	e withNullSkin.
 	e skinManager applySkinUninstallerIn: e.
 	self assert: e installedSkin isNil.
 	self assert: e skinInstaller notNil.
@@ -69,7 +69,7 @@ ToSkinUninstallerTest >> testWithSetSkin [
 ]
 
 { #category : #tests }
-ToSkinUninstallerTest >> testWithoutSkin [
+ToSkinUninstallerTest >> testWithSetSkin [
 
 	| e |
 	e := ToElement new.
@@ -77,7 +77,7 @@ ToSkinUninstallerTest >> testWithoutSkin [
 	self assert: e skinInstaller notNil.
 	e applySkinInstaller.
 	self assert: e installedSkin notNil.
-	e withoutSkin.
+	e defaultSkin: ToNullSkin new.
 	e skinManager applySkinUninstallerIn: e.
 	self assert: e installedSkin isNil.
 	self assert: e skinInstaller notNil.

@@ -4,7 +4,7 @@ A ToSinnablePropertyTest is a test class for testing the behavior of ToSinnableP
 Class {
 	#name : #ToSkinnablePropertyTest,
 	#superclass : #ToTestCaseWithSpace,
-	#category : 'Toplo-Tests-Core-Properties'
+	#category : #'Toplo-Tests-Core-Properties'
 }
 
 { #category : #tests }
@@ -49,7 +49,7 @@ ToSkinnablePropertyTest >> testWriteTo [
 { #category : #tests }
 ToSkinnablePropertyTest >> testWriteToWithDelegation [
 
-	| w prop  writer reader |
+	| w prop writer reader |
 	w := ToLabeledIcon new.
 	w label: (ToLabel text: '').
 	self assert: w label text asString equals: '' asRopedText asString.
@@ -59,16 +59,17 @@ ToSkinnablePropertyTest >> testWriteToWithDelegation [
 	prop writer: writer.
 	prop reader: reader.
 	prop name: #'label-text'.
-	w requestInstallSkin.
+	w ensuredSkinManager requestInstallSkinIn: w.
 	w applySkinInstaller.
 	self assert: w skinInstaller isNil.
 	prop write: 'Hello' asRopedText to: w.
 	self assert: (w label text equals: 'Hello' asRopedText).
-	self assert: (prop read: w) asString equals:'Hello' asRopedText asString.
+	self
+		assert: (prop read: w) asString
+		equals: 'Hello' asRopedText asString.
 	self assert: w skinInstaller isNil.
 	BlSpace new root addChild: w.
-	self deny: w skinInstaller isNil.
-
+	self deny: w skinInstaller isNil
 ]
 
 { #category : #tests }

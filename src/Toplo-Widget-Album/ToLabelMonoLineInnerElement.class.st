@@ -31,7 +31,7 @@ ToLabelMonoLineInnerElement >> initialize [
 	" Need Label measurement to ensure right vertical alignement with labels/menus "
 	self labelMeasurement.
 	self preventMouseEvents.
-	self withoutSkin.
+	self withNullSkin.
 ]
 
 { #category : #'api - editor' }

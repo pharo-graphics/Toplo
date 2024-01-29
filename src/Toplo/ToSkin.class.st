@@ -26,8 +26,13 @@ ToSkin >> onInstalledIn: anElement [
 	anElement ensuredSkinManager installedSkin: self.
 	" install the event handler that will ask for a skin uninstaller when element is removed from space"
 	removeFromSceneGraphHandler := BlEventHandler
-		                               on: BlElementRemovedFromSceneGraphEvent
-		                               do: [ :evt | evt currentTarget requestUninstallSkin ].
+		                               on:
+		                               BlElementRemovedFromSceneGraphEvent
+		                               do: [ :evt |
+			                               evt currentTarget skinManagerDo: [
+				                               :sm |
+				                               sm requestUninstallSkinIn:
+					                               evt currentTarget ] ].
 	anElement addEventHandler: removeFromSceneGraphHandler
 ]
 

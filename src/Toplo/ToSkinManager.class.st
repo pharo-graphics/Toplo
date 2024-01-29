@@ -182,7 +182,7 @@ ToSkinManager >> onInstalledIn: anElement [
 ToSkinManager >> onSkinChangedIn: anElement [
 
 	skinRequestCount := 0.
-	anElement requestNewSkin
+	self requestNewSkinIn: anElement
 ]
 
 { #category : #'api - hooks' }
@@ -202,7 +202,7 @@ ToSkinManager >> postponeRequestSkinIn: anElement [
 	handler action: [ :evt |
 		evt target removeEventHandler: self postponedInstallSkinHandler.
 		self postponedInstallSkinHandler: nil.
-		evt target requestInstallSkin ].
+		self requestInstallSkinIn: evt target ].
 	self postponedInstallSkinHandler: handler.
 	anElement addEventHandler: handler
 ]
@@ -234,12 +234,15 @@ ToSkinManager >> registeredThemeClasses [
 { #category : #'skin - installing / uninstalling' }
 ToSkinManager >> requestInstallSkinIn: anElement [
 
+	| request |
 	anElement space ifNil: [ ^ self postponeRequestSkinIn: anElement ].
 	skinRequestCount := skinRequestCount + 1.
 	(skinRequestCount > 1 and: [ self skinInstaller notNil ])
 		ifTrue: [ ^ self ].
 	" check that the skin related space phases are installed "
 	anElement space checkSkinPhases.
+	anElement dispatchEvent: (request := ToInstallSkinRequest new).
+	request accepted ifFalse: [ ^ self ].
 	self setSkinInstaller: ToSkinInstaller new in: anElement.
 	" *** Important point: a skin can be installed instantly.
 	This is used to avoid visual flashing effects in differents situations: (selection or labels updating in lists). 
@@ -255,6 +258,13 @@ ToSkinManager >> requestInstallSkinIn: anElement [
 ]
 
 { #category : #'skin - installing / uninstalling' }
+ToSkinManager >> requestNewSkinIn: anElement [
+
+	self requestUninstallSkinIn: anElement.
+	self requestInstallSkinIn: anElement
+]
+
+{ #category : #'skin - installing / uninstalling' }
 ToSkinManager >> requestUninstallSkinIn: anElement [
 	" having an installer which responds true to isInstalling means that the element 
 	is already installing a skin.
@@ -267,7 +277,16 @@ ToSkinManager >> requestUninstallSkinIn: anElement [
 	installer := self skinInstaller.
 	(installer notNil and: [ installer isInstalling ]) ifTrue: [ ^ self ].
 	self skinUninstaller ifNotNil: [ ^ self ].
+	anElement dispatchEvent: ToUninstallSkinRequest new.
 	self setSkinUninstaller: ToSkinUninstaller new in: anElement
+]
+
+{ #category : #'skin - installing / uninstalling' }
+ToSkinManager >> requestUninstallSkinRecursivelyIn: anElement [
+
+	anElement allChildrenBreadthFirstDo: [ :child | 	
+			child skinManagerDo: [ :sm | sm requestUninstallSkinIn: child ] ].
+	self requestUninstallSkinIn: anElement
 ]
 
 { #category : #'accessing - raw skin' }
@@ -289,9 +308,10 @@ ToSkinManager >> setDefaultSkin: aSkin in: anElement [
 { #category : #accessing }
 ToSkinManager >> setSkinInstaller: aSkinInstaller in: anElement [
 
-	skinInstaller := aSkinInstaller.
+	aSkinInstaller ifNotNil: [ anElement spaceDo: [ :sp | sp needSkinInstallPass: true ] ].
+	skinInstaller  := aSkinInstaller.
 	aSkinInstaller ifNil: [ ^ self ].
-	anElement spaceDo: [ :sp | sp needSkinInstallPass: true ]
+	
 ]
 
 { #category : #accessing }

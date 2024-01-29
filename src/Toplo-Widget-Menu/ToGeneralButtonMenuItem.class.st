@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'button'
 	],
-	#category : 'Toplo-Widget-Menu-Basic'
+	#category : #'Toplo-Widget-Menu-Basic'
 }
 
 { #category : #accessing }
@@ -47,7 +47,7 @@ ToGeneralButtonMenuItem >> initialize [
 
 	super initialize.
 	self button: self buttonClass new.
-	self button withoutSkin.
+	self button withNullSkin.
 	self button clickEventClass: BlMouseUpEvent.
 	self layout: self defaultLayout
 ]

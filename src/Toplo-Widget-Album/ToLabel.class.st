@@ -329,7 +329,6 @@ ToLabel >> text: aBlTextOrString [
 	self privateText: newText.
 	self requestNewSkin.
 	self dispatchEvent: (ToLabelTextReplacedEvent new text: self text)
-
 ]
 
 { #category : #'event handling' }

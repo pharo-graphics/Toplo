@@ -81,6 +81,8 @@ ToSpaceThemeElementListSpec class >> themeColumn [
 	columnMain addColumn: columnInherits.
 	columnMain addColumn: columnTheme.
 	columnMain width: 150.
+	
+	columnTheme displayBold: [ :element | element userData includesKey: #toTheme ].
 
 	^ columnMain
 ]

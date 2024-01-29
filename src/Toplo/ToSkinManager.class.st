@@ -226,7 +226,7 @@ ToSkinManager >> postponedInstallSkinHandler: anHandler [
 	self userData at: #postponedInstallSkinHandler put: anHandler
 ]
 
-{ #category : #'skin - installing / uninstalling' }
+{ #category : #'element setup' }
 ToSkinManager >> registerTheme: aTheme [
 
 	self registeredThemeClasses add: aTheme class
@@ -338,7 +338,7 @@ ToSkinManager >> setStyleSheet: aStyleSheet in: anElement [
 ]
 
 { #category : #'element setup' }
-ToSkinManager >> setUpForTheme: aTheme in: anElement [
+ToSkinManager >> setUp: anElement forTheme: aTheme [ 
 
 	(self isSetUpForTheme: aTheme) ifTrue: [ ^ self ].
 	self registerTheme: aTheme.

@@ -36,7 +36,7 @@ ToSelectorInterpreter >> pop [
 ToSelectorInterpreter >> push: anElement [
 
 	self themeDo: [ :th |
-		anElement skinManagerDo: [ :sm | sm setUpForTheme: th in: anElement ] ].
+		anElement skinManagerDo: [ :sm | sm setUp: anElement forTheme: th ] ].
 	targetStack push: anElement
 ]
 

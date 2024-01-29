@@ -2065,7 +2065,7 @@ ToSandBox class >> example_choiceButtonWithPlaceholder [
 	choice defaultLabel:
 		(ToAttributedLabel text: ('Invalid choice' asRopedText
 				  foreground: Color red;
-				  yourself)) withoutSkin.
+				  yourself)) withNullSkin.
 	win pane addChild: choice.
 	win openInSpace
 ]
@@ -2223,7 +2223,7 @@ ToSandBox class >> example_contactList [
 				 margin: (BlInsets right: 10)).
 		line addChild: ToElement new matchParent.
 		remBut := ToButton new.
-		remBut withoutSkin.
+		remBut withNullSkin.
 		remBut icon: (ToImage inner: (self iconNamed: #windowClose)).
 		remBut constraintsDo: [ :c | c linear vertical alignCenter ].
 		remBut addEventHandler: (BlEventHandler
@@ -3411,7 +3411,7 @@ ToSandBox class >> example_toLabel3 [
 			        bold;
 			        foreground: Color gray;
 			        yourself).
-	lab withoutSkin.
+	lab withNullSkin.
 	lab background: Color lightBlue.
 	lab hMatchParent.
 	lab isEditable: true.

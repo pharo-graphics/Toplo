@@ -9,7 +9,7 @@ ToCheckboxSkin >> checkedLookEvent: anEvent [
 
 	super checkedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e icon innerImage border: (BlBorder paint: (e tokenValueNamed: #'color-primary') width: 6).
+		e icon innerImage border: (BlBorder paint: (e valueOfTokenNamed: #'color-primary') width: 6).
 		e indeterminateChild background: Color transparent ]
 ]
 
@@ -20,8 +20,8 @@ ToCheckboxSkin >> disabledLookEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e background: Color transparent.
 		e border: BlBorder empty.		
-		e icon innerImage border: (e tokenValueNamed: #'color-border-disabled').
-		e icon border: (e tokenValueNamed: #'color-border-disabled').
+		e icon innerImage border: (e valueOfTokenNamed: #'color-border-disabled').
+		e icon border: (e valueOfTokenNamed: #'color-border-disabled').
 		e indeterminateChild background: Color transparent ]
 ]
 
@@ -32,7 +32,7 @@ ToCheckboxSkin >> enabledLookEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e border: (BlBorder empty).
 		e background: e defaultBackground.
-		e icon border: (e tokenValueNamed: #'color-border') ]
+		e icon border: (e valueOfTokenNamed: #'color-border') ]
 ]
 
 { #category : #'event handling' }
@@ -41,7 +41,7 @@ ToCheckboxSkin >> hoveredLookEvent: anEvent [
 	super hoveredLookEvent: anEvent.
 	anEvent elementDo: [ :e | 
 		e border: (BlBorder empty).		
-		e icon border: (BlBorder paint: (e tokenValueNamed: #'color-primary') width: 1) ]
+		e icon border: (BlBorder paint: (e valueOfTokenNamed: #'color-primary') width: 1) ]
 ]
 
 { #category : #accessing }
@@ -55,8 +55,8 @@ ToCheckboxSkin >> indeterminateLookEvent: anEvent [
 
 	super indeterminateLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e icon innerImage border: (BlBorder paint: (e tokenValueNamed: #'color-primary') width: 0).
-		e indeterminateChild background: (e tokenValueNamed: #'color-primary')]
+		e icon innerImage border: (BlBorder paint: (e valueOfTokenNamed: #'color-primary') width: 0).
+		e indeterminateChild background: (e valueOfTokenNamed: #'color-primary')]
 ]
 
 { #category : #'event handling' }
@@ -65,11 +65,11 @@ ToCheckboxSkin >> installLookEvent: anEvent [
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e | 
 		e interspace: 10.
-		e iconImage: ((e tokenValueNamed: #'checkbox-image-builder') value).
+		e iconImage: ((e valueOfTokenNamed: #'checkbox-image-builder') value).
 		e icon geometry: (self iconGeometryIn: e).
-		e border: (e tokenValueNamed: #'color-border-checkable').		
-		e icon border: (e tokenValueNamed: #'color-border').
-		e padding: (BlInsets vertical: (e tokenValueNamed: #'padding-content-V-S')) ]
+		e border: (e valueOfTokenNamed: #'color-border-checkable').		
+		e icon border: (e valueOfTokenNamed: #'color-border').
+		e padding: (BlInsets vertical: (e valueOfTokenNamed: #'padding-content-V-S')) ]
 	
 ]
 
@@ -79,7 +79,7 @@ ToCheckboxSkin >> leavedLookEvent: anEvent [
 	super leavedLookEvent: anEvent.
 	anEvent elementDo: [ :e | 
 		e border: (BlBorder empty).		
-		e icon border: (e tokenValueNamed: #'color-border') ]
+		e icon border: (e valueOfTokenNamed: #'color-border') ]
 ]
 
 { #category : #'event handling' }
@@ -95,6 +95,6 @@ ToCheckboxSkin >> uncheckedLookEvent: anEvent [
 
 	super uncheckedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e icon innerImage border: (BlBorder paint: (e tokenValueNamed: #'color-primary') width: 0).
+		e icon innerImage border: (BlBorder paint: (e valueOfTokenNamed: #'color-primary') width: 0).
 		e indeterminateChild background: Color transparent ]
 ]

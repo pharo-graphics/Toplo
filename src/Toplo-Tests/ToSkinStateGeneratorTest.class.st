@@ -12,9 +12,9 @@ ToSkinStateGeneratorTest >> newElementInSpace [
 
 	| e |
 	e := ToElement new.
-	self assert: e skinInstaller isNil.
+	self assert: e skinManager skinInstaller isNil.
 	space root addChild: e.
-	self assert: e skinInstaller notNil.
+	self assert: e skinManager skinInstaller notNil.
 	" to install the element skin  "
 	space applyAllSkinInstallers.
 	space runStatesGeneration.
@@ -31,11 +31,11 @@ ToSkinStateGeneratorTest >> testCheckableCheckedEvent [
 { #category : #tests }
 ToSkinStateGeneratorTest >> testGenerateCheckStateFromEvent [
 
-	| e evt nextStates  nextStatesSize  |
+	| e evt nextStates nextStatesSize |
 	e := self newElementInSpace.
-		
-	nextStates := e skinStateQueue nextStates.
-	
+
+	nextStates := e skinManager skinStateQueue nextStates.
+
 	nextStatesSize := nextStates size.
 
 	evt := ToCheckableCheckEvent new
@@ -58,30 +58,29 @@ ToSkinStateGeneratorTest >> testGenerateCheckStateFromEvent [
 		       yourself.
 	e dispatchEvent: evt.
 	e space runStatesGeneration.
-	
+
 	" no changed since the element is in the same state (2 successives uncheck) "
 	self assert: nextStates size equals: nextStatesSize + 1.
-	
+
 	evt := ToCheckableCheckEvent new
 		       current: true;
 		       previous: false;
 		       yourself.
 	e dispatchEvent: evt.
 	e space runStatesGeneration.
-	self assert: nextStates size equals: nextStatesSize + 2.
-
-
+	self assert: nextStates size equals: nextStatesSize + 2
 ]
 
 { #category : #tests }
 ToSkinStateGeneratorTest >> testGenerateClickedStateFromEvent [
 
-	| e evt nextStates  nextStatesSize |
+	| e evt nextStates nextStatesSize |
 	e := self newElementInSpace.
 
-	evt := BlMouseButton primary clickEventClass new button: BlMouseButton primary.
+	evt := BlMouseButton primary clickEventClass new button:
+		       BlMouseButton primary.
 
-	nextStates := e skinStateQueue nextStates.
+	nextStates := e skinManager skinStateQueue nextStates.
 	nextStatesSize := nextStates size.
 
 	e dispatchEvent: evt.
@@ -100,12 +99,12 @@ ToSkinStateGeneratorTest >> testGenerateClickedStateFromEvent [
 { #category : #tests }
 ToSkinStateGeneratorTest >> testGenerateHoveredStateFromEvent [
 
-	| e evt nextStates  nextStatesSize |
+	| e evt nextStates nextStatesSize |
 	e := self newElementInSpace.
 
 	evt := BlMouseEnterEvent new.
 
-	nextStates := e skinStateQueue nextStates.
+	nextStates := e skinManager skinStateQueue nextStates.
 	nextStatesSize := nextStates size.
 
 	e dispatchEvent: evt.

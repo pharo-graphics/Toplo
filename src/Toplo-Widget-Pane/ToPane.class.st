@@ -54,14 +54,14 @@ ToPane >> defaultLayout [
 ToPane >> installBeeStyle [ 
 
 	super installBeeStyle.
-	self background: (self tokenValueNamed: #'background-color')
+	self background: (self valueOfTokenNamed: #'background-color')
 ]
 
 { #category : #skin }
 ToPane >> installRawStyle [ 
 
 	super installRawStyle.
-	self background: (self tokenValueNamed: #'background-color')
+	self background: (self valueOfTokenNamed: #'background-color')
 ]
 
 { #category : #'t - orientable - accessing' }

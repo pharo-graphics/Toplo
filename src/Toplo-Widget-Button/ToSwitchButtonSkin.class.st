@@ -10,7 +10,7 @@ ToSwitchButtonSkin >> disabledLookEvent: anEvent [
 	super disabledLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor normal.
-		e background: (e tokenValueNamed: #'color-bg-container-disabled') ]
+		e background: (e valueOfTokenNamed: #'color-bg-container-disabled') ]
 ]
 
 { #category : #'event handling' }
@@ -37,13 +37,13 @@ ToSwitchButtonSkin >> installLookEvent: anEvent [
 		e vFitContent.
 		e mouseCursor: Cursor normal.
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:
-				 (e tokenValueNamed: 'border-radius')).
+				 (e valueOfTokenNamed: 'border-radius')).
 		e border: BlBorder empty.
 		e padding: (BlInsets
-				 top: (e tokenValueNamed: #'padding-content-V')
-				 left: (e tokenValueNamed: #'padding-content-H')
-				 bottom: (e tokenValueNamed: #'padding-content-V')
-				 right: (e tokenValueNamed: #'padding-content-H')) ]
+				 top: (e valueOfTokenNamed: #'padding-content-V')
+				 left: (e valueOfTokenNamed: #'padding-content-H')
+				 bottom: (e valueOfTokenNamed: #'padding-content-V')
+				 right: (e valueOfTokenNamed: #'padding-content-H')) ]
 ]
 
 { #category : #'event handling' }

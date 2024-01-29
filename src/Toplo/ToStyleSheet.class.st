@@ -139,15 +139,15 @@ ToStyleSheet >> lookEventListenerHolder [
 { #category : #initialization }
 ToStyleSheet >> onInstalledIn: anElement [
 
-	anElement requestNewSkinRecursively
-
+	anElement withAllChildrenBreadthFirstDo: [ :child |
+		child requestNewSkin ]
 ]
 
 { #category : #initialization }
 ToStyleSheet >> onUninstalledIn: anElement [
 
-	anElement requestUninstallSkinRecursively
-
+	anElement skinManagerDo: [ :sm |
+		sm requestUninstallSkinRecursivelyIn: anElement ]
 ]
 
 { #category : #'accessing - writable properties' }

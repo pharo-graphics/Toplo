@@ -448,9 +448,9 @@ ToThemeExamples class >> randomizePrimaryColorFor: aSpace [
 	| c |
 	aSpace ifNil:[ ^ self ].
 	c := Color random.
-	aSpace root setTokenNamed: #'color-primary' value: c.
-	aSpace root setTokenNamed: #'color-primary-pressed' value: c twiceDarker .
-	aSpace root setTokenNamed: #'color-primary-hover' value: c twiceLighter
+	aSpace root addTokenNamed: #'color-primary' withValue: c.
+	aSpace root addTokenNamed: #'color-primary-pressed' withValue: c twiceDarker .
+	aSpace root addTokenNamed: #'color-primary-hover' withValue: c twiceLighter
 ]
 
 { #category : #'private - actions' }

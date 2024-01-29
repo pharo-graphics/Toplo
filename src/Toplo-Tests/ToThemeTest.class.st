@@ -72,20 +72,21 @@ ToThemeTest >> testThemeChangedWithStyleSheetTheme3 [
 	e applySkinInstallerOnFirstRequest: false.
 	space toTheme: ToBeeTheme dark.
 	space root addChild: e.
-	e addStamp: #'primary'.
+	e addStamp: #primary.
 	e labelText: 'Default button'.
-	self assert: e installedSkin isNil.
+	self assert:
+		(e skinManager installedSkin) isNil.
 	" because of the token properties installation -> have a skin installer/uninstaller "
 	self assert: e skinManager skinInstaller notNil.
 	"self assert: e skinManager skinUninstaller notNil."
 	self applyAllEnqueuedStates.
 	self waitTestingSpaces.
 	self assert: e skinManager skinInstaller isNil.
-	self assert: e installedSkin notNil.
+	self assert:
+		(e skinManager installedSkin) notNil.
 	"self assert: e skinManager skinUninstaller isNil."
 	self applyAllEnqueuedStates.
 	self waitTestingSpaces.
 	self assert: e skinManager skinUninstaller isNil.
-	self assert: e skinManager skinInstaller isNil.
-
+	self assert: e skinManager skinInstaller isNil
 ]

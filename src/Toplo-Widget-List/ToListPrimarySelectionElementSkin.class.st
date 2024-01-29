@@ -1,7 +1,7 @@
 Class {
 	#name : #ToListPrimarySelectionElementSkin,
 	#superclass : #ToRawSkin,
-	#category : 'Toplo-Widget-List-Selection'
+	#category : #'Toplo-Widget-List-Selection'
 }
 
 { #category : #'event handling' }
@@ -10,18 +10,18 @@ ToListPrimarySelectionElementSkin >> installLookEvent: anEvent [
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e geometry:
-			((e tokenValueNamed: #'primary-selection-geometry-class')
-				 cornerRadius: (e tokenValueNamed: #'border-radius-SM')).
+			((e valueOfTokenNamed: #'primary-selection-geometry-class')
+				 cornerRadius: (e valueOfTokenNamed: #'border-radius-SM')).
 		e border: (BlBorder
-				 paint: (e tokenValueNamed: #'border-color-primary-selection')
-				 width: (e tokenValueNamed: #'border-width-primary-selection')).
+				 paint: (e valueOfTokenNamed: #'border-color-primary-selection')
+				 width: (e valueOfTokenNamed: #'border-width-primary-selection')).
 		" I must take into account the focused state of the infinite element to start with the right background "
 		e listElement infinite focused
 			ifTrue: [ 
-				e background: (e tokenValueNamed: #'color-primary-selection-focused') ]
+				e background: (e valueOfTokenNamed: #'color-primary-selection-focused') ]
 			ifFalse: [
-				e background: (e tokenValueNamed: #'color-primary-selection-unfocused') ].
+				e background: (e valueOfTokenNamed: #'color-primary-selection-unfocused') ].
 		e padding: (BlInsets
-				 horizontal: (e tokenValueNamed: #'list-padding-H')
-				 vertical: (e tokenValueNamed: #'list-padding-V')) ]
+				 horizontal: (e valueOfTokenNamed: #'list-padding-H')
+				 vertical: (e valueOfTokenNamed: #'list-padding-V')) ]
 ]

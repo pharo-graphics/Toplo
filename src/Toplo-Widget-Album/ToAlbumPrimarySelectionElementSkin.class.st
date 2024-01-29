@@ -9,7 +9,7 @@ ToAlbumPrimarySelectionElementSkin >> focusedLookEvent: anEvent [
 
 	super focusedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e background: (e tokenValueNamed: #'color-primary-selection-focused') ]
+		e background: (e valueOfTokenNamed: #'color-primary-selection-focused') ]
 ]
 
 { #category : #'event handling' }
@@ -17,7 +17,7 @@ ToAlbumPrimarySelectionElementSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		 e border: (e tokenValueNamed: #'color-primary-selection-focused') ]
+		 e border: (e valueOfTokenNamed: #'color-primary-selection-focused') ]
 ]
 
 { #category : #'event handling' }
@@ -40,5 +40,5 @@ ToAlbumPrimarySelectionElementSkin >> unfocusedLookEvent: anEvent [
 
 	super unfocusedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e background: (e tokenValueNamed: #'color-primary-selection-unfocused') ]
+		e background: (e valueOfTokenNamed: #'color-primary-selection-unfocused') ]
 ]

@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToStampsHolder,
-	#category : 'Toplo-Core-Theme'
+	#category : #'Toplo-Core-Theme'
 }
 
 { #category : #'t - stamps holder' }
@@ -16,7 +16,7 @@ TToStampsHolder >> addStamp: aSymbol [
 ]
 
 { #category : #'t - stamps holder' }
-TToStampsHolder >> addStamp: aSymbol value: anObject [
+TToStampsHolder >> addStamp: aSymbol withValue: anObject [
 
 	self stampIndex addProperty: (aSymbol -> anObject) asStampProperty
 ]

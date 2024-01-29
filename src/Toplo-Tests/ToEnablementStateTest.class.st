@@ -1,7 +1,7 @@
 Class {
 	#name : #ToEnablementStateTest,
 	#superclass : #ToTestCaseWithSpace,
-	#category : 'Toplo-Tests-Core-States'
+	#category : #'Toplo-Tests-Core-States'
 }
 
 { #category : #running }
@@ -16,7 +16,7 @@ ToEnablementStateTest >> testApplyOn [
 	e addEventHandler: (BlEventHandler
 			 on: ToDisabledLookEvent
 			 do: [ :event | receivedDisabledEvt := event ]).
-	e applySkinInstaller.
+	e skinManager applySkinReinstallIn: e.
 	self assert: (receivedEnabledEvt isKindOf: ToEnabledLookEvent)
 ]
 
@@ -33,7 +33,7 @@ ToEnablementStateTest >> testApplyOn2 [
 	e addEventHandler: (BlEventHandler
 			 on: ToDisabledLookEvent
 			 do: [ :event | receivedDisabledEvt := event ]).
-	e applySkinInstaller.
+	e skinManager applySkinReinstallIn: e.
 	self assert: (receivedEnabledEvt isKindOf: ToEnabledLookEvent)
 ]
 
@@ -50,7 +50,7 @@ ToEnablementStateTest >> testApplyOn3 [
 	e addEventHandler: (BlEventHandler
 			 on: ToDisabledLookEvent
 			 do: [ :event | receivedDisabledEvt := event ]).
-	e applySkinInstaller.
+	e skinManager applySkinReinstallIn: e.
 	self assert: (receivedEnabledEvt isKindOf: ToEnabledLookEvent)
 ]
 
@@ -67,7 +67,7 @@ ToEnablementStateTest >> testApplyOnWhenDisabled [
 	e addEventHandler: (BlEventHandler
 			 on: ToDisabledLookEvent
 			 do: [ :event | receivedDisabledEvt := event ]).
-	e applySkinInstaller.
+	e skinManager applySkinReinstallIn: e.
 	self assert: (receivedDisabledEvt isKindOf: ToDisabledLookEvent)
 ]
 
@@ -84,7 +84,7 @@ ToEnablementStateTest >> testApplyOnWhenDisabled2 [
 	e addEventHandler: (BlEventHandler
 			 on: ToDisabledLookEvent
 			 do: [ :event | receivedDisabledEvt := event ]).
-	e applySkinInstaller.
+	e skinManager applySkinReinstallIn: e.
 	self assert: (receivedDisabledEvt isKindOf: ToDisabledLookEvent)
 ]
 
@@ -95,7 +95,12 @@ ToEnablementStateTest >> testCanBeEnqueuedFromElementInQueue [
 	e := ToElement new.
 	state := ToEnablementState new enabled: true.
 	" An element is not allowed to enqueue a management state"
-	self should: [state canBeEnqueuedFromElement: e inQueue: e skinStateQueue] raise: Error
+	self
+		should: [
+			state
+				canBeEnqueuedFromElement: e
+				inQueue: e skinManager skinStateQueue ]
+		raise: Error
 ]
 
 { #category : #running }
@@ -116,5 +121,10 @@ ToEnablementStateTest >> testRequestEnqueueFromElementInQueue [
 	| e state |
 	e := ToElement new.
 	state := ToEnablementState new enabled: true.
-	self should: [state requestEnqueueFromElement: e inQueue: e skinStateQueue ] raise: Error
+	self
+		should: [
+			state
+				requestEnqueueFromElement: e
+				inQueue: e skinManager skinStateQueue ]
+		raise: Error
 ]

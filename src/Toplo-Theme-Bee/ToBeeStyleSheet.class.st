@@ -46,11 +46,11 @@ ToBeeStyleSheet >> checkableButtonRules [
 				   sr write: (self property: #'border-with-builder') with: [ :e |
 					   e borderBuilder
 						   width: 1;
-						   paint: (e tokenValueNamed: #'color-border-checkable');
+						   paint: (e valueOfTokenNamed: #'color-border-checkable');
 						   yourself ].
 				   sr
 					   write: (self property: #iconImage)
-					   with: [ :e | (e tokenValueNamed: #'checkbox-image-builder') value ] ] ]).
+					   with: [ :e | (e valueOfTokenNamed: #'checkbox-image-builder') value ] ] ]).
 
 		  " checkbox icon geometry "
 		  ((#image asStampSelector
@@ -75,28 +75,28 @@ ToBeeStyleSheet >> checkableButtonRules [
 					   write: (self property: #'border-with-builder')
 					   with: [ :e |
 						   e borderBuilder
-							   paint: (e tokenValueNamed: #'color-border');
+							   paint: (e valueOfTokenNamed: #'color-border');
 							   yourself ].
 				   sr
 					   when: ToDisabledLookEvent
 					   write: (self property: #'border-with-builder')
 					   with: [ :e |
 						   e borderBuilder
-							   paint: (e tokenValueNamed: #'color-border-disabled');
+							   paint: (e valueOfTokenNamed: #'color-border-disabled');
 							   yourself ].
 				   sr
 					   when: ToHoveredLookEvent
 					   write: (self property: #'border-with-builder')
 					   with: [ :e |
 						   e borderBuilder
-							   paint: (e tokenValueNamed: #'color-primary-hover');
+							   paint: (e valueOfTokenNamed: #'color-primary-hover');
 							   yourself ].
 				   sr
 					   when: ToPressedLookEvent
 					   write: (self property: #'border-with-builder')
 					   with: [ :e |
 						   e borderBuilder
-							   paint: (e tokenValueNamed: #'color-primary-pressed');
+							   paint: (e valueOfTokenNamed: #'color-primary-pressed');
 							   yourself ] ]).
 
 		  ((#image asStampSelector
@@ -107,21 +107,21 @@ ToBeeStyleSheet >> checkableButtonRules [
 				   write: (self property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
-						   paint: (e tokenValueNamed: #'color-error');
+						   paint: (e valueOfTokenNamed: #'color-error');
 						   yourself ].
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
-						   paint: (e tokenValueNamed: #'color-error-hover');
+						   paint: (e valueOfTokenNamed: #'color-error-hover');
 						   yourself ].
 			   sr
 				   when: ToPressedLookEvent
 				   write: (self property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
-						   paint: (e tokenValueNamed: #'color-error-pressed');
+						   paint: (e valueOfTokenNamed: #'color-error-pressed');
 						   yourself ] ]).
 
 		  (((#filler asStampSelector
@@ -133,16 +133,16 @@ ToBeeStyleSheet >> checkableButtonRules [
 
 			   sr write: (self property: #'layout-constraints') with: [ :e |
 				   [ :c |
-				   c horizontal exact: (e tokenValueNamed: #'padding-content-H') / 3.
-				   c vertical exact: (e tokenValueNamed: #'padding-content-H') / 3 ] ].
+				   c horizontal exact: (e valueOfTokenNamed: #'padding-content-H') / 3.
+				   c vertical exact: (e valueOfTokenNamed: #'padding-content-H') / 3 ] ].
 
 			   sr select: (sr parent: #justified depth: 2) style: [
 				   sr write: (self property: #'layout-constraints') with: [ :e |
 					   [ :c |
 					   c horizontal matchParent.
 					   c vertical matchParent.
-					   c minWidth: (e tokenValueNamed: #'padding-content-H') / 3.
-					   c minHeight: (e tokenValueNamed: #'padding-content-H') / 3 ] ] ].
+					   c minWidth: (e valueOfTokenNamed: #'padding-content-H') / 3.
+					   c minHeight: (e valueOfTokenNamed: #'padding-content-H') / 3 ] ] ].
 
 			   sr
 				   select:
@@ -152,7 +152,7 @@ ToBeeStyleSheet >> checkableButtonRules [
 				   style: [
 					   sr write: (self property: #'layout-constraints') with: [ :e |
 						   [ :c |
-						   c horizontal exact: (e tokenValueNamed: #'interspace-1') value.
+						   c horizontal exact: (e valueOfTokenNamed: #'interspace-1') value.
 						   c vertical matchParent ] ] ].
 
 			   sr
@@ -163,7 +163,7 @@ ToBeeStyleSheet >> checkableButtonRules [
 				   style: [
 					   sr write: (self property: #'layout-constraints') with: [ :e |
 						   [ :c |
-						   c vertical exact: (e tokenValueNamed: #'interspace-1') value.
+						   c vertical exact: (e valueOfTokenNamed: #'interspace-1') value.
 						   c horizontal matchParent ] ] ] ]) }
 ]
 
@@ -181,7 +181,7 @@ ToBeeStyleSheet >> checkableInnerImageRules [
 				   with: [ :e | BlFrameLayout new ].
 			   sr
 				   write: (self property: #size)
-				   with: [ :e | ((e tokenValueNamed: #'control-height') / 2) asPoint ].
+				   with: [ :e | ((e valueOfTokenNamed: #'control-height') / 2) asPoint ].
 
 			   sr write: (self property: #'border-with-builder') with: [ :e |
 				   | width btn |
@@ -191,7 +191,7 @@ ToBeeStyleSheet >> checkableInnerImageRules [
 						            ifTrue: [ 6 ]
 						            ifFalse: [ 0 ] ].
 				   e borderBuilder
-					   paint: (e tokenValueNamed: #'color-primary');
+					   paint: (e valueOfTokenNamed: #'color-primary');
 					   width: width;
 					   yourself ].
 
@@ -200,7 +200,7 @@ ToBeeStyleSheet >> checkableInnerImageRules [
 				   supplement: (self property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
-						   paint: (e tokenValueNamed: #'color-border-disabled');
+						   paint: (e valueOfTokenNamed: #'color-border-disabled');
 						   yourself ].
 			   sr
 				   when: ToCheckedLookEvent
@@ -231,14 +231,14 @@ ToBeeStyleSheet >> checkableInnerImageRules [
 				   supplement: (self property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
-						   paint: (e tokenValueNamed: #'color-error');
+						   paint: (e valueOfTokenNamed: #'color-error');
 						   yourself ].
 			   sr
 				   when: ToDisabledLookEvent
 				   supplement: (self property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
-						   paint: (e tokenValueNamed: #'color-border-disabled');
+						   paint: (e valueOfTokenNamed: #'color-border-disabled');
 						   yourself ] ]).
 
 		  ((#bar asStampSelector
@@ -259,11 +259,11 @@ ToBeeStyleSheet >> checkableInnerImageRules [
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #background)
-				   with: [ :e | e tokenValueNamed: #'color-bg-container-disabled' ].
+				   with: [ :e | e valueOfTokenNamed: #'color-bg-container-disabled' ].
 			   sr
 				   when: ToIndeterminateLookEvent
 				   write: (self property: #background)
-				   with: [ :e | e tokenValueNamed: #'color-primary' ].
+				   with: [ :e | e valueOfTokenNamed: #'color-primary' ].
 			   sr
 				   when: ToCheckedLookEvent
 				   write: (self property: #background)
@@ -281,7 +281,7 @@ ToBeeStyleSheet >> checkableInnerImageRules [
 			   sr
 				   when: ToIndeterminateLookEvent
 				   write: (self property: #background)
-				   with: [ :e | e tokenValueNamed: #'color-error' ] ]) }
+				   with: [ :e | e valueOfTokenNamed: #'color-error' ] ]) }
 ]
 
 { #category : #'accessing rules  -button' }
@@ -303,28 +303,28 @@ ToBeeStyleSheet >> circleButtonRules [
 		(#(#button #circle) asStampSelector - self haveExactHeight style: [ :sr |
 			   sr
 				   write: (self property: #height)
-				   with: [ :e | (e tokenValueNamed: #'control-height') ].
+				   with: [ :e | (e valueOfTokenNamed: #'control-height') ].
 				sr
 				   write: (self property: #width)
-				   with: [ :e | (e tokenValueNamed: #'control-height') ]]).
+				   with: [ :e | (e valueOfTokenNamed: #'control-height') ]]).
 			
 		(#(#button #circle) asStampSelector + #'small-sizing' style: [
 			   :sr |
 			   sr
 				   write: (self property: #height)
-				   with: [ :e | (e tokenValueNamed: #'control-height-SM') ].
+				   with: [ :e | (e valueOfTokenNamed: #'control-height-SM') ].
 				sr
 				   write: (self property: #width)
-				   with: [ :e | (e tokenValueNamed: #'control-height-SM') ] ]).
+				   with: [ :e | (e valueOfTokenNamed: #'control-height-SM') ] ]).
 
 		(#(#button #circle) asStampSelector + #'large-sizing' style: [
 			   :sr |
 			   sr
 				   write: (self property: #height)
-				   with: [ :e | (e tokenValueNamed: #'control-height-LG') ].
+				   with: [ :e | (e valueOfTokenNamed: #'control-height-LG') ].
 				sr
 				   write: (self property: #width)
-				   with: [ :e | (e tokenValueNamed: #'control-height-LG') ] ]).
+				   with: [ :e | (e valueOfTokenNamed: #'control-height-LG') ] ]).
 			
 		((#'inner-element' asStampSelector parent: #( #button #circle ))
 			   style: [ :sr |
@@ -357,19 +357,19 @@ ToBeeStyleSheet >> commonButtonRules [
 			   "Geometry management"
 			   sr write: (self property: #geometry) with: [ :e |
 				   BlRoundedRectangleGeometry cornerRadius:
-					   (e tokenValueNamed: 'border-radius') ].
+					   (e valueOfTokenNamed: 'border-radius') ].
 
 			   "Size management"
 			   sr write: (self property: #padding) with: [ :e |
 				   BlInsets
-					   top: (e tokenValueNamed: #'padding-content-V')
-					   left: (e tokenValueNamed: #'padding-content-H')
-					   bottom: (e tokenValueNamed: #'padding-content-V')
-					   right: (e tokenValueNamed: #'padding-content-H') ].
+					   top: (e valueOfTokenNamed: #'padding-content-V')
+					   left: (e valueOfTokenNamed: #'padding-content-H')
+					   bottom: (e valueOfTokenNamed: #'padding-content-V')
+					   right: (e valueOfTokenNamed: #'padding-content-H') ].
 			   sr select: self haveExactHeight not style: [
 				   sr
 					   write: (self property: #height)
-					   with: [ :e | e tokenValueNamed: #'control-height' ] ] ]).
+					   with: [ :e | e valueOfTokenNamed: #'control-height' ] ] ]).
 			
 		  (((#'labeled-icon' asStampSelector) withParent: #button atDepth: 1) style: [
 			   :sr |
@@ -409,31 +409,31 @@ ToBeeStyleSheet >> commonButtonRulesNew [
 			   sr select: #vertical asStampSelector not style: [
 				   sr write: (self property: #padding) with: [ :e |
 					   BlInsets
-						   top: (e tokenValueNamed: #'padding-XS') / 2
-						   left: (e tokenValueNamed: #'padding-content-H') / 2
-						   bottom: (e tokenValueNamed: #'padding-XS') / 2
-						   right: (e tokenValueNamed: #'padding-content-H') / 2 ].
+						   top: (e valueOfTokenNamed: #'padding-XS') / 2
+						   left: (e valueOfTokenNamed: #'padding-content-H') / 2
+						   bottom: (e valueOfTokenNamed: #'padding-XS') / 2
+						   right: (e valueOfTokenNamed: #'padding-content-H') / 2 ].
 
 				   sr select: self haveExactHeight not style: [
 					   sr
 						   write: (self property: #height)
-						   with: [ :e | e tokenValueNamed: #'control-height' ] ].
+						   with: [ :e | e valueOfTokenNamed: #'control-height' ] ].
 
 				   sr select: #'large-sizing' style: [
 					   sr
 						   write: (self property: #height)
-						   with: [ :e | e tokenValueNamed: #'control-height-LG' ] ].
+						   with: [ :e | e valueOfTokenNamed: #'control-height-LG' ] ].
 
 				   sr select: #'small-sizing' style: [
 					   sr
 						   write: (self property: #height)
-						   with: [ :e | e tokenValueNamed: #'control-height-SM' ] ] ].
+						   with: [ :e | e valueOfTokenNamed: #'control-height-SM' ] ] ].
 
 			   " non circular button corner radius"
 			   sr select: #circle asStampSelector not style: [
 				   sr write: (self property: #geometry) with: [ :e |
 					   BlRoundedRectangleGeometry cornerRadius:
-						   (e tokenValueNamed: 'border-radius') ].
+						   (e valueOfTokenNamed: 'border-radius') ].
 
 				   sr select: #round asStampSelector style: [
 					   sr
@@ -510,31 +510,31 @@ ToBeeStyleSheet >> commonButtonRulesOld [
 			   sr select: #vertical asStampSelector not style: [
 				   sr write: (self property: #padding) with: [ :e |
 					   BlInsets
-						   top: (e tokenValueNamed: #'padding-XS') / 2
-						   left: (e tokenValueNamed: #'padding-content-H') / 2
-						   bottom: (e tokenValueNamed: #'padding-XS') / 2
-						   right: (e tokenValueNamed: #'padding-content-H') / 2 ].
+						   top: (e valueOfTokenNamed: #'padding-XS') / 2
+						   left: (e valueOfTokenNamed: #'padding-content-H') / 2
+						   bottom: (e valueOfTokenNamed: #'padding-XS') / 2
+						   right: (e valueOfTokenNamed: #'padding-content-H') / 2 ].
 
 				   sr select: self haveExactHeight not style: [
 					   sr
 						   write: (self property: #height)
-						   with: [ :e | e tokenValueNamed: #'control-height' ] ].
+						   with: [ :e | e valueOfTokenNamed: #'control-height' ] ].
 
 				   sr select: #'large-sizing' style: [
 					   sr
 						   write: (self property: #height)
-						   with: [ :e | e tokenValueNamed: #'control-height-LG' ] ].
+						   with: [ :e | e valueOfTokenNamed: #'control-height-LG' ] ].
 
 				   sr select: #'small-sizing' style: [
 					   sr
 						   write: (self property: #height)
-						   with: [ :e | e tokenValueNamed: #'control-height-SM' ] ] ].
+						   with: [ :e | e valueOfTokenNamed: #'control-height-SM' ] ] ].
 
 			   " non circular button corner radius"
 			   sr select: #circle asStampSelector not style: [
 				   sr write: (self property: #geometry) with: [ :e |
 					   BlRoundedRectangleGeometry cornerRadius:
-						   (e tokenValueNamed: 'border-radius') ].
+						   (e valueOfTokenNamed: 'border-radius') ].
 
 				   sr select: #round asStampSelector style: [
 					   sr
@@ -596,8 +596,8 @@ ToBeeStyleSheet >> commonButtonRulesOld [
 			   sr write: (self property: #'layout-constraints') with: [ :e |
 				   [ :c |
 				   c horizontal exact:
-					   (e tokenValueNamed: #'padding-content-H') / 3.
-				   c vertical exact: (e tokenValueNamed: #'padding-content-H') / 3 ] ].
+					   (e valueOfTokenNamed: #'padding-content-H') / 3.
+				   c vertical exact: (e valueOfTokenNamed: #'padding-content-H') / 3 ] ].
 
 
 			   sr select: (sr withParent: #justified atDepth: 2) style: [
@@ -605,8 +605,8 @@ ToBeeStyleSheet >> commonButtonRulesOld [
 					   [ :c |
 					   c horizontal matchParent.
 					   c vertical matchParent.
-					   c minWidth: (e tokenValueNamed: #'padding-content-H') / 3.
-					   c minHeight: (e tokenValueNamed: #'padding-content-H') / 3 ] ] ].
+					   c minWidth: (e valueOfTokenNamed: #'padding-content-H') / 3.
+					   c minHeight: (e valueOfTokenNamed: #'padding-content-H') / 3 ] ] ].
 
 			   sr
 				   select: (sr
@@ -616,7 +616,7 @@ ToBeeStyleSheet >> commonButtonRulesOld [
 					   sr write: (self property: #'layout-constraints') with: [ :e |
 						   [ :c |
 						   c horizontal exact:
-							   (e tokenValueNamed: #'interspace-1') value.
+							   (e valueOfTokenNamed: #'interspace-1') value.
 						   c vertical matchParent ] ] ].
 
 			   sr
@@ -626,7 +626,7 @@ ToBeeStyleSheet >> commonButtonRulesOld [
 				   style: [
 					   sr write: (self property: #'layout-constraints') with: [ :e |
 						   [ :c |
-						   c vertical exact: (e tokenValueNamed: #'interspace-1') value.
+						   c vertical exact: (e valueOfTokenNamed: #'interspace-1') value.
 						   c horizontal matchParent ] ] ] ]).
 
 		  ((self any - #filler withParent: #( #button ) atDepth: 2) style: [
@@ -655,69 +655,69 @@ ToBeeStyleSheet >> defaultButtonRules [
 				sr
 				   when: ToInstallLookEvent
 				   write: (self property: #'background-color')
-				   with: [ :e | e tokenValueNamed: #'color-bg-container' ].
+				   with: [ :e | e valueOfTokenNamed: #'color-bg-container' ].
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'background-color')
-				   with: [ :e | e tokenValueNamed: #'color-bg-container-disabled' ].
+				   with: [ :e | e valueOfTokenNamed: #'color-bg-container-disabled' ].
 				
 				"Border"
 				sr select: #primary asStampSelector not style: [ 
 				   
 					sr when: ToInstallLookEvent
 				 		write: (self property: #border)
-						with: [ :e | BlBorder paint: (e tokenValueNamed: #'color-border') width: (e tokenValueNamed: #'line-width') ].
+						with: [ :e | BlBorder paint: (e valueOfTokenNamed: #'color-border') width: (e valueOfTokenNamed: #'line-width') ].
 					sr
 				   		when: ToLeavedLookEvent
 						write: (self property: #border)
-				 	  	with: [ :e | BlBorder paint: (e tokenValueNamed: #'color-border') width: (e tokenValueNamed: #'line-width') ]
+				 	  	with: [ :e | BlBorder paint: (e valueOfTokenNamed: #'color-border') width: (e valueOfTokenNamed: #'line-width') ]
 						animation: borderColorAnim.
 					sr
 				  		when: ToDisabledLookEvent
 				   		write: (self property: #border)
-				   		with: [ :e | BlBorder paint: (e tokenValueNamed: #'color-border-disabled') width: (e tokenValueNamed: #'line-width') ].
+				   		with: [ :e | BlBorder paint: (e valueOfTokenNamed: #'color-border-disabled') width: (e valueOfTokenNamed: #'line-width') ].
 					sr
 				   		when: ToHoveredLookEvent
 				   		write: (self property: #border)
-				   		with: [ :e | BlBorder paint: (e tokenValueNamed: #'color-primary-hover') width: (e tokenValueNamed: #'line-width') ]
+				   		with: [ :e | BlBorder paint: (e valueOfTokenNamed: #'color-primary-hover') width: (e valueOfTokenNamed: #'line-width') ]
 						animation: borderColorAnim.
 					sr
 				  		when: ToClickedLookEvent 
 				   		write: (self property: #border)
-				   		with: [ :e | BlBorder paint: (e tokenValueNamed: #'color-primary-hover') width: (e tokenValueNamed: #'line-width') ]
+				   		with: [ :e | BlBorder paint: (e valueOfTokenNamed: #'color-primary-hover') width: (e valueOfTokenNamed: #'line-width') ]
 				   		animation: borderEffectAnim.
 			   		sr
 				  		when: ToPressedLookEvent
 				   		write: (self property: #border)
-				   		with: [ :e | BlBorder paint: (e tokenValueNamed: #'color-primary-pressed') width: (e tokenValueNamed: #'line-width') ]] .
+				   		with: [ :e | BlBorder paint: (e valueOfTokenNamed: #'color-primary-pressed') width: (e valueOfTokenNamed: #'line-width') ]] .
 					
 				"Label"
 				sr
 				   when: ToInstallLookEvent
 				   write: (self property: #'button-label-text-foreground')
-				   with: [ :e | e tokenValueNamed: #'color-text' ].
+				   with: [ :e | e valueOfTokenNamed: #'color-text' ].
 				sr
 				   when: ToLeavedLookEvent
 				   write: (self property: #'button-label-text-foreground')
-				   with: [ :e | e tokenValueNamed: #'color-text' ]. 
+				   with: [ :e | e valueOfTokenNamed: #'color-text' ]. 
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'button-label-text-foreground')
-				   with: [ :e | e tokenValueNamed: #'color-text-disabled' ].
+				   with: [ :e | e valueOfTokenNamed: #'color-text-disabled' ].
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #'button-label-text-foreground')
-				   with: [ :e | (e tokenValueNamed: #'color-primary') ]. 
+				   with: [ :e | (e valueOfTokenNamed: #'color-primary') ]. 
 			   sr
 				   when: ToPressedLookEvent
 				   write: (self property: #'button-label-text-foreground')
-				   with: [ :e | (e tokenValueNamed: #'color-primary-pressed') ].
+				   with: [ :e | (e valueOfTokenNamed: #'color-primary-pressed') ].
 			
 		  sr select: #( #dashed ) style: [ 
 			   sr
 				   when: ToInstallLookEvent
 				   supplement: (self property: #'border-with-builder')
-				   with: [ :e | e borderBuilder dashArray: (e tokenValueNamed: #'dash-array') ] ] ]
+				   with: [ :e | e borderBuilder dashArray: (e valueOfTokenNamed: #'dash-array') ] ] ]
 	} 
 ]
 
@@ -739,7 +739,7 @@ ToBeeStyleSheet >> defaultButtonRulesNew [
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #background)
-				   with: [ :e | e tokenValueNamed: #'color-bg-container-disabled' ] ]).
+				   with: [ :e | e valueOfTokenNamed: #'color-bg-container-disabled' ] ]).
 
 		  (#button asStampSelector - #checkable style: [ :sr |
 			   sr
@@ -747,28 +747,28 @@ ToBeeStyleSheet >> defaultButtonRulesNew [
 				   write: (self property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
-						   paint: (e tokenValueNamed: #'color-border');
+						   paint: (e valueOfTokenNamed: #'color-border');
 						   yourself ].
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
-						   paint: (e tokenValueNamed: #'color-border-disabled');
+						   paint: (e valueOfTokenNamed: #'color-border-disabled');
 						   yourself ].
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
-						   paint: (e tokenValueNamed: #'color-primary-hover');
+						   paint: (e valueOfTokenNamed: #'color-primary-hover');
 						   yourself ].
 			   sr
 				   when: ToPressedLookEvent
 				   write: (self property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
-						   paint: (e tokenValueNamed: #'color-primary-pressed');
+						   paint: (e valueOfTokenNamed: #'color-primary-pressed');
 						   yourself ] ]).
 
 		  " default button form icon "
@@ -776,59 +776,59 @@ ToBeeStyleSheet >> defaultButtonRulesNew [
 			   sr
 				   when: ToInstallLookEvent
 				   write: (self property: #'image-inner-form-color')
-				   with: [ :e | e tokenValueNamed: #'color-text' ].
+				   with: [ :e | e valueOfTokenNamed: #'color-text' ].
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'image-inner-form-color')
-				   with: [ :e | e tokenValueNamed: #'color-bg-container-disabled' ].
+				   with: [ :e | e valueOfTokenNamed: #'color-bg-container-disabled' ].
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #'image-inner-form-color')
-				   with: [ :e | (e tokenValueNamed: #'color-primary') ].
+				   with: [ :e | (e valueOfTokenNamed: #'color-primary') ].
 			   sr
 				   when: ToPressedLookEvent
 				   write: (self property: #'image-inner-form-color')
-				   with: [ :e | (e tokenValueNamed: #'color-primary-pressed') ] ]).
+				   with: [ :e | (e valueOfTokenNamed: #'color-primary-pressed') ] ]).
 
 		  " default button label "
 		  ((#label asStampSelector withParent: #button atDepth: 3) style: [ :sr |
 			   sr
 				   when: ToInstallLookEvent
 				   write: (self property: #'label-text-foreground')
-				   with: [ :e | e tokenValueNamed: #'color-text' ].
+				   with: [ :e | e valueOfTokenNamed: #'color-text' ].
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'label-text-foreground')
-				   with: [ :e | e tokenValueNamed: #'color-text-disabled' ].
+				   with: [ :e | e valueOfTokenNamed: #'color-text-disabled' ].
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #'label-text-foreground')
-				   with: [ :e | (e tokenValueNamed: #'color-primary') ].
+				   with: [ :e | (e valueOfTokenNamed: #'color-primary') ].
 			   sr
 				   when: ToPressedLookEvent
 				   write: (self property: #'label-text-foreground')
-				   with: [ :e | (e tokenValueNamed: #'color-primary-pressed') ] ]).
+				   with: [ :e | (e valueOfTokenNamed: #'color-primary-pressed') ] ]).
 
 		  " ToButton default danger"
 		  (#( #button #danger ) asStampSelector - #checkable style: [ :sr |
 			   sr
 				   when: ToInstallLookEvent
 				   write: (self property: #'border-with-builder')
-				   with: [ :e | e borderBuilder paint: (e tokenValueNamed: #'color-error') ].
+				   with: [ :e | e borderBuilder paint: (e valueOfTokenNamed: #'color-error') ].
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'border-with-builder')
 				   with: [ :e |
-				   e borderBuilder paint: (e tokenValueNamed: #'color-border-disabled') ].
+				   e borderBuilder paint: (e valueOfTokenNamed: #'color-border-disabled') ].
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #'border-with-builder')
-				   with: [ :e | e borderBuilder paint: (e tokenValueNamed: #'color-error-hover') ].
+				   with: [ :e | e borderBuilder paint: (e valueOfTokenNamed: #'color-error-hover') ].
 			   sr
 				   when: ToPressedLookEvent
 				   write: (self property: #'border-with-builder')
 				   with: [ :e |
-				   e borderBuilder paint: (e tokenValueNamed: #'color-error-pressed') ] ]).
+				   e borderBuilder paint: (e valueOfTokenNamed: #'color-error-pressed') ] ]).
 
 		  " danger button form icon "
 		  ((#image asStampSelector withParent: #( #button #danger ) atDepth: 3)
@@ -836,19 +836,19 @@ ToBeeStyleSheet >> defaultButtonRulesNew [
 				   sr
 					   when: ToInstallLookEvent
 					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | (e tokenValueNamed: #'color-error') ].
+					   with: [ :e | (e valueOfTokenNamed: #'color-error') ].
 				   sr
 					   when: ToDisabledLookEvent
 					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | (e tokenValueNamed: #'color-image-disabled') ].
+					   with: [ :e | (e valueOfTokenNamed: #'color-image-disabled') ].
 				   sr
 					   when: ToHoveredLookEvent
 					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | (e tokenValueNamed: #'color-error-hover') ].
+					   with: [ :e | (e valueOfTokenNamed: #'color-error-hover') ].
 				   sr
 					   when: ToPressedLookEvent
 					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | (e tokenValueNamed: #'color-error-pressed') ] ]).
+					   with: [ :e | (e valueOfTokenNamed: #'color-error-pressed') ] ]).
 
 		  " danger button label "
 		  ((#label asStampSelector withParent: #( #button #danger ) atDepth: 3)
@@ -856,26 +856,26 @@ ToBeeStyleSheet >> defaultButtonRulesNew [
 				   sr
 					   when: ToInstallLookEvent
 					   write: (self property: #'label-text-foreground')
-					   with: [ :e | (e tokenValueNamed: #'color-error') ].
+					   with: [ :e | (e valueOfTokenNamed: #'color-error') ].
 				   sr
 					   when: ToDisabledLookEvent
 					   write: (self property: #'label-text-foreground')
-					   with: [ :e | e tokenValueNamed: #'color-text-disabled' ].
+					   with: [ :e | e valueOfTokenNamed: #'color-text-disabled' ].
 				   sr
 					   when: ToHoveredLookEvent
 					   write: (self property: #'label-text-foreground')
-					   with: [ :e | (e tokenValueNamed: #'color-error-hover') ].
+					   with: [ :e | (e valueOfTokenNamed: #'color-error-hover') ].
 				   sr
 					   when: ToPressedLookEvent
 					   write: (self property: #'label-text-foreground')
-					   with: [ :e | (e tokenValueNamed: #'color-error-pressed') ] ]).
+					   with: [ :e | (e valueOfTokenNamed: #'color-error-pressed') ] ]).
 
 		  " default button dashed "
 		  (#( #dashed ) asStampSelector style: [ :sr |
 			   sr
 				   when: ToInstallLookEvent
 				   supplement: (self property: #'border-with-builder')
-				   with: [ :e | e borderBuilder dashArray: (e tokenValueNamed: #'dash-array') ] ]) } 
+				   with: [ :e | e borderBuilder dashArray: (e valueOfTokenNamed: #'dash-array') ] ]) } 
 ]
 
 { #category : #'accessing rules  -button' }
@@ -895,7 +895,7 @@ ToBeeStyleSheet >> defaultButtonRulesOld [
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #background)
-				   with: [ :e | e tokenValueNamed: #'color-bg-container-disabled' ] ]).
+				   with: [ :e | e valueOfTokenNamed: #'color-bg-container-disabled' ] ]).
 
 		  (#button asStampSelector - #checkable style: [ :sr |
 			   sr
@@ -903,28 +903,28 @@ ToBeeStyleSheet >> defaultButtonRulesOld [
 				   write: (self property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
-						   paint: (e tokenValueNamed: #'color-border');
+						   paint: (e valueOfTokenNamed: #'color-border');
 						   yourself ].
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
-						   paint: (e tokenValueNamed: #'color-border-disabled');
+						   paint: (e valueOfTokenNamed: #'color-border-disabled');
 						   yourself ].
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
-						   paint: (e tokenValueNamed: #'color-primary-hover');
+						   paint: (e valueOfTokenNamed: #'color-primary-hover');
 						   yourself ].
 			   sr
 				   when: ToPressedLookEvent
 				   write: (self property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
-						   paint: (e tokenValueNamed: #'color-primary-pressed');
+						   paint: (e valueOfTokenNamed: #'color-primary-pressed');
 						   yourself ] ]).
 
 		  " default button form icon "
@@ -932,59 +932,59 @@ ToBeeStyleSheet >> defaultButtonRulesOld [
 			   sr
 				   when: ToInstallLookEvent
 				   write: (self property: #'image-inner-form-color')
-				   with: [ :e | e tokenValueNamed: #'color-text' ].
+				   with: [ :e | e valueOfTokenNamed: #'color-text' ].
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'image-inner-form-color')
-				   with: [ :e | e tokenValueNamed: #'color-bg-container-disabled' ].
+				   with: [ :e | e valueOfTokenNamed: #'color-bg-container-disabled' ].
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #'image-inner-form-color')
-				   with: [ :e | (e tokenValueNamed: #'color-primary') ].
+				   with: [ :e | (e valueOfTokenNamed: #'color-primary') ].
 			   sr
 				   when: ToPressedLookEvent
 				   write: (self property: #'image-inner-form-color')
-				   with: [ :e | (e tokenValueNamed: #'color-primary-pressed') ] ]).
+				   with: [ :e | (e valueOfTokenNamed: #'color-primary-pressed') ] ]).
 
 		  " default button label "
 		  ((#label asStampSelector parent: #button depth: 2) style: [ :sr |
 			   sr
 				   when: ToInstallLookEvent
 				   write: (self property: #'label-text-foreground')
-				   with: [ :e | e tokenValueNamed: #'color-text' ].
+				   with: [ :e | e valueOfTokenNamed: #'color-text' ].
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'label-text-foreground')
-				   with: [ :e | e tokenValueNamed: #'color-text-disabled' ].
+				   with: [ :e | e valueOfTokenNamed: #'color-text-disabled' ].
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #'label-text-foreground')
-				   with: [ :e | (e tokenValueNamed: #'color-primary') ].
+				   with: [ :e | (e valueOfTokenNamed: #'color-primary') ].
 			   sr
 				   when: ToPressedLookEvent
 				   write: (self property: #'label-text-foreground')
-				   with: [ :e | (e tokenValueNamed: #'color-primary-pressed') ] ]).
+				   with: [ :e | (e valueOfTokenNamed: #'color-primary-pressed') ] ]).
 
 		  " ToButton default danger"
 		  (#( #button #danger ) asStampSelector - #checkable style: [ :sr |
 			   sr
 				   when: ToInstallLookEvent
 				   write: (self property: #'border-with-builder')
-				   with: [ :e | e borderBuilder paint: (e tokenValueNamed: #'color-error') ].
+				   with: [ :e | e borderBuilder paint: (e valueOfTokenNamed: #'color-error') ].
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'border-with-builder')
 				   with: [ :e |
-				   e borderBuilder paint: (e tokenValueNamed: #'color-border-disabled') ].
+				   e borderBuilder paint: (e valueOfTokenNamed: #'color-border-disabled') ].
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #'border-with-builder')
-				   with: [ :e | e borderBuilder paint: (e tokenValueNamed: #'color-error-hover') ].
+				   with: [ :e | e borderBuilder paint: (e valueOfTokenNamed: #'color-error-hover') ].
 			   sr
 				   when: ToPressedLookEvent
 				   write: (self property: #'border-with-builder')
 				   with: [ :e |
-				   e borderBuilder paint: (e tokenValueNamed: #'color-error-pressed') ] ]).
+				   e borderBuilder paint: (e valueOfTokenNamed: #'color-error-pressed') ] ]).
 
 		  " danger button form icon "
 		  ((#image asStampSelector parent: #( #button #danger ) depth: 2)
@@ -992,19 +992,19 @@ ToBeeStyleSheet >> defaultButtonRulesOld [
 				   sr
 					   when: ToInstallLookEvent
 					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | (e tokenValueNamed: #'color-error') ].
+					   with: [ :e | (e valueOfTokenNamed: #'color-error') ].
 				   sr
 					   when: ToDisabledLookEvent
 					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | (e tokenValueNamed: #'color-image-disabled') ].
+					   with: [ :e | (e valueOfTokenNamed: #'color-image-disabled') ].
 				   sr
 					   when: ToHoveredLookEvent
 					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | (e tokenValueNamed: #'color-error-hover') ].
+					   with: [ :e | (e valueOfTokenNamed: #'color-error-hover') ].
 				   sr
 					   when: ToPressedLookEvent
 					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | (e tokenValueNamed: #'color-error-pressed') ] ]).
+					   with: [ :e | (e valueOfTokenNamed: #'color-error-pressed') ] ]).
 
 		  " danger button label "
 		  ((#label asStampSelector parent: #( #button #danger ) depth: 2)
@@ -1012,26 +1012,26 @@ ToBeeStyleSheet >> defaultButtonRulesOld [
 				   sr
 					   when: ToInstallLookEvent
 					   write: (self property: #'label-text-foreground')
-					   with: [ :e | (e tokenValueNamed: #'color-error') ].
+					   with: [ :e | (e valueOfTokenNamed: #'color-error') ].
 				   sr
 					   when: ToDisabledLookEvent
 					   write: (self property: #'label-text-foreground')
-					   with: [ :e | e tokenValueNamed: #'color-text-disabled' ].
+					   with: [ :e | e valueOfTokenNamed: #'color-text-disabled' ].
 				   sr
 					   when: ToHoveredLookEvent
 					   write: (self property: #'label-text-foreground')
-					   with: [ :e | (e tokenValueNamed: #'color-error-hover') ].
+					   with: [ :e | (e valueOfTokenNamed: #'color-error-hover') ].
 				   sr
 					   when: ToPressedLookEvent
 					   write: (self property: #'label-text-foreground')
-					   with: [ :e | (e tokenValueNamed: #'color-error-pressed') ] ]).
+					   with: [ :e | (e valueOfTokenNamed: #'color-error-pressed') ] ]).
 
 		  " default button dashed "
 		  (#( #dashed ) asStampSelector style: [ :sr |
 			   sr
 				   when: ToInstallLookEvent
 				   supplement: (self property: #'border-with-builder')
-				   with: [ :e | e borderBuilder dashArray: (e tokenValueNamed: #'dash-array') ] ]) } 
+				   with: [ :e | e borderBuilder dashArray: (e valueOfTokenNamed: #'dash-array') ] ]) } 
 ]
 
 { #category : #'accessing rules  - label' }
@@ -1044,10 +1044,10 @@ ToBeeStyleSheet >> labelRules [
 				   write: (self property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
-						   weight: (e tokenValueNamed: #'font-weight-strong');
-						   defaultFontName: (e tokenValueNamed: #'font-family-code');
-						   defaultFontSize: (e tokenValueNamed: #'font-size');
-						   lineSpacing: (e tokenValueNamed: #'line-height');
+						   weight: (e valueOfTokenNamed: #'font-weight-strong');
+						   defaultFontName: (e valueOfTokenNamed: #'font-family-code');
+						   defaultFontSize: (e valueOfTokenNamed: #'font-size');
+						   lineSpacing: (e valueOfTokenNamed: #'line-height');
 						   yourself ] ].
 
 		   sr
@@ -1055,15 +1055,15 @@ ToBeeStyleSheet >> labelRules [
 			   write: (self property: #'text-attributes-with-builder')
 			   with: [ :e |
 				   e textAttributesBuilder foreground:
-					   (e tokenValueNamed: #'color-text-disabled') ].
+					   (e valueOfTokenNamed: #'color-text-disabled') ].
 
 		   sr select: #H1 style: [
 			   sr
 				   supplement: (self property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
-						   defaultFontSize: (e tokenValueNamed: #'font-size-H1');
-						   lineSpacing: (e tokenValueNamed: #'line-height-H1');
+						   defaultFontSize: (e valueOfTokenNamed: #'font-size-H1');
+						   lineSpacing: (e valueOfTokenNamed: #'line-height-H1');
 						   yourself ] ].
 
 		   sr select: #H2 style: [
@@ -1071,8 +1071,8 @@ ToBeeStyleSheet >> labelRules [
 				   supplement: (self property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
-						   defaultFontSize: (e tokenValueNamed: #'font-size-H2');
-						   lineSpacing: (e tokenValueNamed: #'line-height-H2');
+						   defaultFontSize: (e valueOfTokenNamed: #'font-size-H2');
+						   lineSpacing: (e valueOfTokenNamed: #'line-height-H2');
 						   yourself ] ].
 
 		   sr select: #H3 style: [
@@ -1080,8 +1080,8 @@ ToBeeStyleSheet >> labelRules [
 				   supplement: (self property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
-						   defaultFontSize: (e tokenValueNamed: #'font-size-H3');
-						   lineSpacing: (e tokenValueNamed: #'line-height-H3');
+						   defaultFontSize: (e valueOfTokenNamed: #'font-size-H3');
+						   lineSpacing: (e valueOfTokenNamed: #'line-height-H3');
 						   yourself ] ].
 
 		   sr select: #H4 style: [
@@ -1089,8 +1089,8 @@ ToBeeStyleSheet >> labelRules [
 				   supplement: (self property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
-						   defaultFontSize: (e tokenValueNamed: #'font-size-H4');
-						   lineSpacing: (e tokenValueNamed: #'line-height-H4');
+						   defaultFontSize: (e valueOfTokenNamed: #'font-size-H4');
+						   lineSpacing: (e valueOfTokenNamed: #'line-height-H4');
 						   yourself ] ].
 
 		   sr select: #H5 style: [
@@ -1098,8 +1098,8 @@ ToBeeStyleSheet >> labelRules [
 				   supplement: (self property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
-						   defaultFontSize: (e tokenValueNamed: #'font-size-H5');
-						   lineSpacing: (e tokenValueNamed: #'line-height-H5');
+						   defaultFontSize: (e valueOfTokenNamed: #'font-size-H5');
+						   lineSpacing: (e valueOfTokenNamed: #'line-height-H5');
 						   yourself ] ].
 
 		   sr select: #default style: [
@@ -1107,7 +1107,7 @@ ToBeeStyleSheet >> labelRules [
 				   supplement: (self property: #'text-attributes-with-builder')
 				   with: [ :e | 
 					   e textAttributesBuilder
-						   foreground: (e tokenValueNamed: #'color-text');
+						   foreground: (e valueOfTokenNamed: #'color-text');
 						   yourself ] ].
 
 		   sr select: #danger style: [
@@ -1115,7 +1115,7 @@ ToBeeStyleSheet >> labelRules [
 				   supplement: (self property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
-						   foreground: (e tokenValueNamed: #'color-error');
+						   foreground: (e valueOfTokenNamed: #'color-error');
 						   yourself ] ].
 
 		   sr select: #link style: [
@@ -1123,7 +1123,7 @@ ToBeeStyleSheet >> labelRules [
 				   supplement: (self property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
-						   foreground: (e tokenValueNamed: #'color-link');
+						   foreground: (e valueOfTokenNamed: #'color-link');
 						   yourself ] ].
 
 		   sr select: #primary style: [
@@ -1131,7 +1131,7 @@ ToBeeStyleSheet >> labelRules [
 				   supplement: (self property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
-						   foreground: (e tokenValueNamed: #'color-text-light-solid');
+						   foreground: (e valueOfTokenNamed: #'color-text-light-solid');
 						   yourself ] ].
 
 		   sr select: #secondary style: [
@@ -1139,7 +1139,7 @@ ToBeeStyleSheet >> labelRules [
 				   supplement: (self property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
-						   foreground: (e tokenValueNamed: #'color-text-secondary');
+						   foreground: (e valueOfTokenNamed: #'color-text-secondary');
 						   yourself ] ].
 
 		   sr select: #success style: [
@@ -1147,7 +1147,7 @@ ToBeeStyleSheet >> labelRules [
 				   supplement: (self property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
-						   foreground: (e tokenValueNamed: #'color-success');
+						   foreground: (e valueOfTokenNamed: #'color-success');
 						   yourself ] ].
 
 		   sr select: #warning style: [
@@ -1155,7 +1155,7 @@ ToBeeStyleSheet >> labelRules [
 				   supplement: (self property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
-						   foreground: (e tokenValueNamed: #'color-warning');
+						   foreground: (e valueOfTokenNamed: #'color-warning');
 						   yourself ] ] ]) }
 ]
 
@@ -1203,19 +1203,19 @@ ToBeeStyleSheet >> linkButtonRules [
 				   sr
 					   when: ToInstallLookEvent
 					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | (e tokenValueNamed: #'color-link') ].
+					   with: [ :e | (e valueOfTokenNamed: #'color-link') ].
 				   sr
 					   when: ToDisabledLookEvent
 					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | e tokenValueNamed: #'color-text-disabled' ].
+					   with: [ :e | e valueOfTokenNamed: #'color-text-disabled' ].
 				   sr
 					   when: ToHoveredLookEvent
 					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | e tokenValueNamed: #'color-link-hover'  ].
+					   with: [ :e | e valueOfTokenNamed: #'color-link-hover'  ].
 				   sr
 					   when: ToPressedLookEvent
 					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | (e tokenValueNamed: #'color-primary-pressed') ] ]).
+					   with: [ :e | (e valueOfTokenNamed: #'color-primary-pressed') ] ]).
 
 		  " button link label "
 		  ((#label asStampSelector parent: #( #button #link ) depth: 2)
@@ -1223,19 +1223,19 @@ ToBeeStyleSheet >> linkButtonRules [
 				   sr
 					   when: ToInstallLookEvent
 					   write: (self property: #'label-text-foreground')
-					   with: [ :e | (e tokenValueNamed: #'color-link') ].
+					   with: [ :e | (e valueOfTokenNamed: #'color-link') ].
 				   sr
 					   when: ToDisabledLookEvent
 					   write: (self property: #'label-text-foreground')
-					   with: [ :e | e tokenValueNamed: #'color-text-disabled' ].
+					   with: [ :e | e valueOfTokenNamed: #'color-text-disabled' ].
 				   sr
 					   when: ToHoveredLookEvent
 					   write: (self property: #'label-text-foreground')
-					   with: [ :e | (e tokenValueNamed: #'color-link-hover') ].
+					   with: [ :e | (e valueOfTokenNamed: #'color-link-hover') ].
 				   sr
 					   when: ToPressedLookEvent
 					   write: (self property: #'label-text-foreground')
-					   with: [ :e | (e tokenValueNamed: #'color-primary-pressed') ] ]).
+					   with: [ :e | (e valueOfTokenNamed: #'color-primary-pressed') ] ]).
 
 		  " button link danger form icon "
 		  ((#image asStampSelector
@@ -1244,19 +1244,19 @@ ToBeeStyleSheet >> linkButtonRules [
 			   sr
 				   when: ToInstallLookEvent
 				   write: (self property: #'image-inner-form-color')
-				   with: [ :e | (e tokenValueNamed: #'color-error') ].
+				   with: [ :e | (e valueOfTokenNamed: #'color-error') ].
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'image-inner-form-color')
-				   with: [ :e | e tokenValueNamed: #'color-text-disabled' ].
+				   with: [ :e | e valueOfTokenNamed: #'color-text-disabled' ].
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #'image-inner-form-color')
-				   with: [ :e | (e tokenValueNamed: #'color-error-hover') ].
+				   with: [ :e | (e valueOfTokenNamed: #'color-error-hover') ].
 			   sr
 				   when: ToPressedLookEvent
 				   write: (self property: #'image-inner-form-color')
-				   with: [ :e | (e tokenValueNamed: #'color-error-pressed') ] ]).
+				   with: [ :e | (e valueOfTokenNamed: #'color-error-pressed') ] ]).
 
 		  " button link danger label "
 		  ((#label asStampSelector
@@ -1265,19 +1265,19 @@ ToBeeStyleSheet >> linkButtonRules [
 			   sr
 				   when: ToInstallLookEvent
 				   write: (self property: #'label-text-foreground')
-				   with: [ :e | (e tokenValueNamed: #'color-error') ].
+				   with: [ :e | (e valueOfTokenNamed: #'color-error') ].
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'label-text-foreground')
-				   with: [ :e | e tokenValueNamed: #'color-text-disabled' ].
+				   with: [ :e | e valueOfTokenNamed: #'color-text-disabled' ].
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #'label-text-foreground')
-				   with: [ :e | (e tokenValueNamed: #'color-error-hover') ].
+				   with: [ :e | (e valueOfTokenNamed: #'color-error-hover') ].
 			   sr
 				   when: ToPressedLookEvent
 				   write: (self property: #'label-text-foreground')
-				   with: [ :e | (e tokenValueNamed: #'color-error-pressed') ] ]) }
+				   with: [ :e | (e valueOfTokenNamed: #'color-error-pressed') ] ]) }
 ]
 
 { #category : #'accessing rules  -button' }
@@ -1297,63 +1297,63 @@ ToBeeStyleSheet >> primaryButtonRules [
 				sr
 				   when: ToInstallLookEvent
 				   write: (self property: #'background-color')
-				   with: [ :e | (e tokenValueNamed: #'color-primary') ].
+				   with: [ :e | (e valueOfTokenNamed: #'color-primary') ].
 				 sr
 				   when: ToLeavedLookEvent
 				   write: (self property: #'background-color')
-				   with: [ :e | (e tokenValueNamed: #'color-primary') ]
+				   with: [ :e | (e valueOfTokenNamed: #'color-primary') ]
 				   animation: backgroundColorAnim.
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'background-color')
-				   with: [ :e | e tokenValueNamed: #'color-bg-container-disabled' ].
+				   with: [ :e | e valueOfTokenNamed: #'color-bg-container-disabled' ].
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #'background-color')
-				   with: [ :e | (e tokenValueNamed: #'color-primary-hover') ]
+				   with: [ :e | (e valueOfTokenNamed: #'color-primary-hover') ]
 				   animation: backgroundColorAnim.
 			   sr
 				   when: ToPressedLookEvent
 				   write: (self property: #'background-color')
-				   with: [ :e | (e tokenValueNamed: #'color-primary-pressed') ]
+				   with: [ :e | (e valueOfTokenNamed: #'color-primary-pressed') ]
 					animation: backgroundColorAnim.
 
 				"Border"
 			   sr
 				   when: ToInstallLookEvent
 				   write: (self property: #'border-with-builder')
-				   with: [ :e | e borderBuilder paint: (Color transparent); width: (e tokenValueNamed: #'line-width') ].
+				   with: [ :e | e borderBuilder paint: (Color transparent); width: (e valueOfTokenNamed: #'line-width') ].
 				sr
 				   when: ToLeavedLookEvent
 				   write: (self property: #'border-with-builder')
-				   with: [ :e | e borderBuilder paint: (Color transparent); width: (e tokenValueNamed: #'line-width') ].
+				   with: [ :e | e borderBuilder paint: (Color transparent); width: (e valueOfTokenNamed: #'line-width') ].
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'border-with-builder')
-				   with: [ :e | e borderBuilder paint: (e tokenValueNamed: #'color-border-disabled'); width: (e tokenValueNamed: #'line-width') ].
+				   with: [ :e | e borderBuilder paint: (e valueOfTokenNamed: #'color-border-disabled'); width: (e valueOfTokenNamed: #'line-width') ].
 				self flag:'pla: make a border-color shortcut'.
 				
 				"Label"
 				sr
 				   when: ToInstallLookEvent
 				   write: (self property: #'button-label-text-foreground')
-				   with: [ :e | (e tokenValueNamed: #'color-text-light-solid') ].
+				   with: [ :e | (e valueOfTokenNamed: #'color-text-light-solid') ].
 				sr
 				   when: ToLeavedLookEvent
 				   write: (self property: #'button-label-text-foreground')
-				   with: [ :e | (e tokenValueNamed: #'color-text-light-solid') ].
+				   with: [ :e | (e valueOfTokenNamed: #'color-text-light-solid') ].
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'button-label-text-foreground')
-				   with: [ :e | e tokenValueNamed: #'color-text-disabled' ].
+				   with: [ :e | e valueOfTokenNamed: #'color-text-disabled' ].
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #'button-label-text-foreground')
-				   with: [ :e | (e tokenValueNamed: #'color-text-light-solid') ].
+				   with: [ :e | (e valueOfTokenNamed: #'color-text-light-solid') ].
 			   sr
 				   when: ToPressedLookEvent
 				   write: (self property: #'button-label-text-foreground')
-				   with: [ :e | (e tokenValueNamed: #'color-text-light-solid') ].
+				   with: [ :e | (e valueOfTokenNamed: #'color-text-light-solid') ].
 			]
 		).
 	}
@@ -1369,25 +1369,25 @@ ToBeeStyleSheet >> primaryButtonRulesOld [
 			   sr
 				   when: ToInstallLookEvent
 				   write: (self property: #background)
-				   with: [ :e | (e tokenValueNamed: #'color-primary') ].
+				   with: [ :e | (e valueOfTokenNamed: #'color-primary') ].
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #background)
-				   with: [ :e | e tokenValueNamed: #'color-bg-container-disabled' ].
+				   with: [ :e | e valueOfTokenNamed: #'color-bg-container-disabled' ].
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #'background-color')
-				   with: [ :e | (e tokenValueNamed: #'color-primary-hover') ]
+				   with: [ :e | (e valueOfTokenNamed: #'color-primary-hover') ]
 				   animation: ToPropertyColorTransitionAnimation new.
 			   sr
 				   when: ToLeavedLookEvent
 				   write: (self property: #'background-color')
-				   with: [ :e | (e tokenValueNamed: #'color-primary') ]
+				   with: [ :e | (e valueOfTokenNamed: #'color-primary') ]
 				   animation: ToPropertyColorTransitionAnimation new.
 			   sr
 				   when: ToPressedLookEvent
 				   write: (self property: #background)
-				   with: [ :e | (e tokenValueNamed: #'color-primary-pressed') ].
+				   with: [ :e | (e valueOfTokenNamed: #'color-primary-pressed') ].
 
 			   sr
 				   when: ToInstallLookEvent
@@ -1397,32 +1397,32 @@ ToBeeStyleSheet >> primaryButtonRulesOld [
 				   when: ToDisabledLookEvent
 				   write: (self property: #'border-with-builder')
 				   with: [ :e |
-				   e borderBuilder paint: (e tokenValueNamed: #'color-border-disabled') ].
+				   e borderBuilder paint: (e valueOfTokenNamed: #'color-border-disabled') ].
 
 
 			   sr select: #danger style: [
 				   sr
 					   when: ToInstallLookEvent
 					   write: (self property: #background)
-					   with: [ :e | (e tokenValueNamed: #'color-error') ].
+					   with: [ :e | (e valueOfTokenNamed: #'color-error') ].
 				   sr
 					   when: ToDisabledLookEvent
 					   write: (self property: #background)
-					   with: [ :e | e tokenValueNamed: #'color-bg-container-disabled' ].
+					   with: [ :e | e valueOfTokenNamed: #'color-bg-container-disabled' ].
 				   sr
 					   when: ToHoveredLookEvent
 					   write: (self property: #'background-color')
-					   with: [ :e | (e tokenValueNamed: #'color-error-hover') ]
+					   with: [ :e | (e valueOfTokenNamed: #'color-error-hover') ]
 					   animation: ToPropertyColorTransitionAnimation new.
 				   sr
 					   when: ToLeavedLookEvent
 					   write: (self property: #'background-color')
-					   with: [ :e | (e tokenValueNamed: #'color-error') ]
+					   with: [ :e | (e valueOfTokenNamed: #'color-error') ]
 					   animation: ToPropertyColorTransitionAnimation new.
 				   sr
 					   when: ToPressedLookEvent
 					   write: (self property: #background)
-					   with: [ :e | e tokenValueNamed: #'color-error-pressed' ].
+					   with: [ :e | e valueOfTokenNamed: #'color-error-pressed' ].
 
 				   sr
 					   when: ToInstallLookEvent
@@ -1432,7 +1432,7 @@ ToBeeStyleSheet >> primaryButtonRulesOld [
 					   when: ToDisabledLookEvent
 					   write: (self property: #'border-with-builder')
 					   with: [ :e |
-					   e borderBuilder paint: (e tokenValueNamed: #'color-border-disabled') ] ] ]).
+					   e borderBuilder paint: (e valueOfTokenNamed: #'color-border-disabled') ] ] ]).
 
 		  " primary button form icon "
 
@@ -1442,19 +1442,19 @@ ToBeeStyleSheet >> primaryButtonRulesOld [
 			   sr
 				   when: ToInstallLookEvent
 				   write: (self property: #'image-inner-form-color')
-				   with: [ :e | (e tokenValueNamed: #'color-image-light-solid') ].
+				   with: [ :e | (e valueOfTokenNamed: #'color-image-light-solid') ].
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'image-inner-form-color')
-				   with: [ :e | (e tokenValueNamed: #'color-image-disabled') ].
+				   with: [ :e | (e valueOfTokenNamed: #'color-image-disabled') ].
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #'image-inner-form-color')
-				   with: [ :e | (e tokenValueNamed: #'color-image-light-solid') ].
+				   with: [ :e | (e valueOfTokenNamed: #'color-image-light-solid') ].
 			   sr
 				   when: ToPressedLookEvent
 				   write: (self property: #'image-inner-form-color')
-				   with: [ :e | (e tokenValueNamed: #'color-image-light-solid') ] ]).
+				   with: [ :e | (e valueOfTokenNamed: #'color-image-light-solid') ] ]).
 
 		  " primary button label "
 
@@ -1464,19 +1464,19 @@ ToBeeStyleSheet >> primaryButtonRulesOld [
 			   sr
 				   when: ToInstallLookEvent
 				   write: (self property: #'label-text-foreground')
-				   with: [ :e | (e tokenValueNamed: #'color-text-light-solid') ].
+				   with: [ :e | (e valueOfTokenNamed: #'color-text-light-solid') ].
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'label-text-foreground')
-				   with: [ :e | e tokenValueNamed: #'color-bg-container-disabled' ].
+				   with: [ :e | e valueOfTokenNamed: #'color-bg-container-disabled' ].
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #'label-text-foreground')
-				   with: [ :e | (e tokenValueNamed: #'color-text-light-solid') ].
+				   with: [ :e | (e valueOfTokenNamed: #'color-text-light-solid') ].
 			   sr
 				   when: ToPressedLookEvent
 				   write: (self property: #'label-text-foreground')
-				   with: [ :e | (e tokenValueNamed: #'color-text-light-solid') ] ]) }
+				   with: [ :e | (e valueOfTokenNamed: #'color-text-light-solid') ] ]) }
 ]
 
 { #category : #'accessing rules  - pane' }
@@ -1486,7 +1486,7 @@ ToBeeStyleSheet >> rootPaneRules [
 	^ { ((self id: #'Space root') style: [ :sr |
 		   sr
 			   write: (self property: #background)
-			   with: [ :e | e tokenValueNamed: #'background-color' ] ]) }
+			   with: [ :e | e valueOfTokenNamed: #'background-color' ] ]) }
 ]
 
 { #category : #'accessing rules  -button' }
@@ -1503,15 +1503,15 @@ ToBeeStyleSheet >> textButtonRules [
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #background)
-				   with: [ :e | e tokenValueNamed: #'color-bg-container-disabled' ].
+				   with: [ :e | e valueOfTokenNamed: #'color-bg-container-disabled' ].
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #background)
-				   with: [ :e | e tokenValueNamed: #'color-bg-text-hover' ].
+				   with: [ :e | e valueOfTokenNamed: #'color-bg-text-hover' ].
 			   sr
 				   when: ToPressedLookEvent
 				   write: (self property: #background)
-				   with: [ :e | e tokenValueNamed: #'color-bg-text-active' ].
+				   with: [ :e | e valueOfTokenNamed: #'color-bg-text-active' ].
 
 			   sr
 				   when: ToInstallLookEvent
@@ -1531,15 +1531,15 @@ ToBeeStyleSheet >> textButtonRules [
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #background)
-				   with: [ :e | e tokenValueNamed: #'color-bg-container-disabled' ].
+				   with: [ :e | e valueOfTokenNamed: #'color-bg-container-disabled' ].
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #background)
-				   with: [ :e | e tokenValueNamed: #'color-error-bg' ].
+				   with: [ :e | e valueOfTokenNamed: #'color-error-bg' ].
 			   sr
 				   when: ToPressedLookEvent
 				   write: (self property: #background)
-				   with: [ :e | e tokenValueNamed: #'color-error-bg' ].
+				   with: [ :e | e valueOfTokenNamed: #'color-error-bg' ].
 
 			   sr
 				   when: ToInstallLookEvent
@@ -1556,11 +1556,11 @@ ToBeeStyleSheet >> textButtonRules [
 				   sr
 					   when: ToInstallLookEvent
 					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | e tokenValueNamed: #'color-text' ].
+					   with: [ :e | e valueOfTokenNamed: #'color-text' ].
 				   sr
 					   when: ToDisabledLookEvent
 					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | e tokenValueNamed: #'color-bg-container-disabled' ] ]).
+					   with: [ :e | e valueOfTokenNamed: #'color-bg-container-disabled' ] ]).
 
 		  " button test label "
 
@@ -1569,11 +1569,11 @@ ToBeeStyleSheet >> textButtonRules [
 				   sr
 					   when: ToInstallLookEvent
 					   write: (self property: #'label-text-foreground')
-					   with: [ :e | e tokenValueNamed: #'color-text' ].
+					   with: [ :e | e valueOfTokenNamed: #'color-text' ].
 				   sr
 					   when: ToDisabledLookEvent
 					   write: (self property: #'label-text-foreground')
-					   with: [ :e | e tokenValueNamed: #'color-bg-container-disabled' ] ]).
+					   with: [ :e | e valueOfTokenNamed: #'color-bg-container-disabled' ] ]).
 
 		  " button text danger form icon "
 
@@ -1583,11 +1583,11 @@ ToBeeStyleSheet >> textButtonRules [
 			   sr
 				   when: ToInstallLookEvent
 				   write: (self property: #'image-inner-form-color')
-				   with: [ :e | (e tokenValueNamed: #'color-error') ].
+				   with: [ :e | (e valueOfTokenNamed: #'color-error') ].
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'image-inner-form-color')
-				   with: [ :e | e tokenValueNamed: #'color-bg-container-disabled' ] ]).
+				   with: [ :e | e valueOfTokenNamed: #'color-bg-container-disabled' ] ]).
 
 		  " button test danger label "
 
@@ -1597,11 +1597,11 @@ ToBeeStyleSheet >> textButtonRules [
 			   sr
 				   when: ToInstallLookEvent
 				   write: (self property: #'label-text-foreground')
-				   with: [ :e | (e tokenValueNamed: #'color-error') ].
+				   with: [ :e | (e valueOfTokenNamed: #'color-error') ].
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'label-text-foreground')
-				   with: [ :e | e tokenValueNamed: #'color-bg-container-disabled' ] ]) }
+				   with: [ :e | e valueOfTokenNamed: #'color-bg-container-disabled' ] ]) }
 ]
 
 { #category : #'accessing rules  -button' }
@@ -1645,10 +1645,10 @@ ToBeeStyleSheet >> verticalButtonRules [
 		  (#( #button #vertical ) asStampSelector style: [ :sr |
 			   sr write: (self property: #padding) with: [ :e |
 				   BlInsets
-					   top: (e tokenValueNamed: #'padding-content-H') / 2
-					   left: (e tokenValueNamed: #'padding-XS') / 2
-					   bottom: (e tokenValueNamed: #'padding-content-H') / 2
-					   right: (e tokenValueNamed: #'padding-XS') / 2 ].
+					   top: (e valueOfTokenNamed: #'padding-content-H') / 2
+					   left: (e valueOfTokenNamed: #'padding-XS') / 2
+					   bottom: (e valueOfTokenNamed: #'padding-content-H') / 2
+					   right: (e valueOfTokenNamed: #'padding-XS') / 2 ].
 
 			   sr write: (self property: #'layout-constraints') with: [ :e |
 				   [ :c |

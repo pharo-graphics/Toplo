@@ -1,7 +1,7 @@
 Class {
 	#name : #ToIntrinsicStateTest,
 	#superclass : #ToTestCaseWithSpace,
-	#category : 'Toplo-Tests-Core-States'
+	#category : #'Toplo-Tests-Core-States'
 }
 
 { #category : #running }
@@ -19,19 +19,23 @@ ToIntrinsicStateTest >> testApplyOnEnqueueFromElementInQueue [
 	| e nextInQueue firstValState secondValState |
 	e := ToElement new.
 	firstValState := ToIntrinsicStateForTest new val: #firstVal.
-	firstValState requestEnqueueFromElement: e inQueue: e skinStateQueue.
+	firstValState
+		requestEnqueueFromElement: e
+		inQueue: e skinManager skinStateQueue.
 	" no, the state is not enqueued since a ToInstallState has not been enqueued before "
 	self deny: firstValState canBeEnqueued.
-	self assert: e skinStateQueue nextStates isEmpty.
+	self assert: e skinManager skinStateQueue nextStates isEmpty.
 	secondValState := ToIntrinsicStateForTest new val: #secondVal.
-	e skinStateQueue enqueueInstallStateForElement: e.
-	secondValState requestEnqueueFromElement: e inQueue: e skinStateQueue.
+	e skinManager skinStateQueue enqueueInstallStateForElement: e.
+	secondValState
+		requestEnqueueFromElement: e
+		inQueue: e skinManager skinStateQueue.
 	self assert: secondValState canBeEnqueued.
-	e skinStateQueue applyEnqueuedStatesIn: e.
+	e skinManager skinStateQueue applyEnqueuedStatesIn: e.
 
 	self assert: firstValState applyCount equals: 1.
 	self assert: secondValState applyCount equals: 1.
-	nextInQueue := e skinStateQueue nextStates nextOrNil.
+	nextInQueue := e skinManager skinStateQueue nextStates nextOrNil.
 	self assert: nextInQueue isNil
 ]
 
@@ -92,28 +96,32 @@ ToIntrinsicStateTest >> testRequestEnqueueFromElementInQueue [
 	| e state nextInQueue firstValState secondValState |
 	e := ToElement new.
 	state := ToIntrinsicStateForTest new val: #firstVal.
-	state requestEnqueueFromElement: e inQueue: e skinStateQueue.
+	state
+		requestEnqueueFromElement: e
+		inQueue: e skinManager skinStateQueue.
 	" no, the state is not enqueued since a ToInstallState has not been enqueued before "
 	self deny: state canBeEnqueued.
-	self assert: e skinStateQueue nextStates isEmpty.
+	self assert: e skinManager skinStateQueue nextStates isEmpty.
 	state := ToIntrinsicStateForTest new val: #secondVal.
-	e skinStateQueue enqueueInstallStateForElement: e.
-	state requestEnqueueFromElement: e inQueue: e skinStateQueue.
+	e skinManager skinStateQueue enqueueInstallStateForElement: e.
+	state
+		requestEnqueueFromElement: e
+		inQueue: e skinManager skinStateQueue.
 	self assert: state canBeEnqueued.
-	nextInQueue := e skinStateQueue nextStates nextOrNil.
+	nextInQueue := e skinManager skinStateQueue nextStates nextOrNil.
 	self assert: (nextInQueue isKindOf: ToInstallState).
-	nextInQueue := e skinStateQueue nextStates nextOrNil.
+	nextInQueue := e skinManager skinStateQueue nextStates nextOrNil.
 	self assert: (nextInQueue isKindOf: ToIntrinsicStateForTest).
 	" the previously enqueued state was for #firstVal "
 	firstValState := nextInQueue.
 	self assert: nextInQueue val equals: #firstVal.
-	nextInQueue := e skinStateQueue nextStates nextOrNil.
+	nextInQueue := e skinManager skinStateQueue nextStates nextOrNil.
 	self assert: (nextInQueue isKindOf: ToEnablementState).
-	nextInQueue := e skinStateQueue nextStates nextOrNil.
+	nextInQueue := e skinManager skinStateQueue nextStates nextOrNil.
 	self assert: (nextInQueue isKindOf: ToIntrinsicStateForTest).
 	" the last enqueued state is for #secondVal "
 	secondValState := nextInQueue.
 	self assert: nextInQueue val equals: #secondVal.
-	nextInQueue := e skinStateQueue nextStates nextOrNil.
+	nextInQueue := e skinManager skinStateQueue nextStates nextOrNil.
 	self assert: nextInQueue isNil
 ]

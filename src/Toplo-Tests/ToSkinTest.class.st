@@ -10,6 +10,7 @@ Class {
 { #category : #tests }
 ToSkinTest >> testElementRemovedFromSceneGraph [
 	" test that a requestUninstallSkin is sent to an element when it is removed from a space. "
+
 	" this ensures that the skin is removed if the element is added back as a child."
 
 	| skin e space |
@@ -18,12 +19,9 @@ ToSkinTest >> testElementRemovedFromSceneGraph [
 	space root addChild: e.
 	skin := ToSkin new.
 	skin onInstalledIn: e.
-	self assert: e skinUninstaller isNil.
+	self assert: e skinManager skinUninstaller isNil.
 	space root removeChild: e.
-	self assert: e skinUninstaller notNil.
-
-	
-	
+	self assert: e skinManager skinUninstaller notNil
 ]
 
 { #category : #tests }

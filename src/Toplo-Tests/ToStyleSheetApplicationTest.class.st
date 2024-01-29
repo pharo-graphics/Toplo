@@ -4,13 +4,13 @@ A ToStyleSheetTest is a test class for testing the behavior of ToStyleSheet
 Class {
 	#name : #ToStyleSheetApplicationTest,
 	#superclass : #ToTestCaseWithSpace,
-	#category : 'Toplo-Tests-Core-StyleSheet'
+	#category : #'Toplo-Tests-Core-StyleSheet'
 }
 
 { #category : #tests }
 ToStyleSheetApplicationTest >> testButtonLabelSkin0 [
 
-	|  styleSheet button labelSkin attributes foregroundAttr prop writers label theme |
+	| styleSheet button labelSkin attributes foregroundAttr prop writers label theme |
 	" declare a local only stylesheet "
 	styleSheet := ToStyleSheet new
 		              inherits: false;
@@ -23,29 +23,30 @@ ToStyleSheetApplicationTest >> testButtonLabelSkin0 [
 		e textChanged ].
 
 
-	styleSheet select: ((ToStampSelector new addStamp: #'button-label')
-			  withParent:
-			  (ToStampSelector new addAllStamps: #( #button #danger ))
-			  atDepth: 3)
-			style: [ :sr |
-			 sr write: prop with: [ :e | e tokenValueNamed: #'color-error' ].
-			 sr
-				 when: ToDisabledLookEvent
-				 write: prop
-				 with: [ :e | e tokenValueNamed: #'color-text-disabled' ].
-			 sr
-				 when: ToInstallLookEvent
-				 write: prop
-				 with: [ :e | e tokenValueNamed: #'color-error' ].
-			 sr
-				 when: ToHoveredLookEvent
-				 write: prop
-				 with: [ :e | e tokenValueNamed: #'color-error-hover' ].
-			 sr
-				 when: ToPressedLookEvent
-				 write: prop
-				 with: [ :e | e tokenValueNamed: #'color-error-pressed' ] ].
-			
+	styleSheet
+		select: ((ToStampSelector new addStamp: #'button-label')
+				 withParent:
+				 (ToStampSelector new addAllStamps: #( #button #danger ))
+				 atDepth: 3)
+		style: [ :sr |
+			sr write: prop with: [ :e | e valueOfTokenNamed: #'color-error' ].
+			sr
+				when: ToDisabledLookEvent
+				write: prop
+				with: [ :e | e valueOfTokenNamed: #'color-text-disabled' ].
+			sr
+				when: ToInstallLookEvent
+				write: prop
+				with: [ :e | e valueOfTokenNamed: #'color-error' ].
+			sr
+				when: ToHoveredLookEvent
+				write: prop
+				with: [ :e | e valueOfTokenNamed: #'color-error-hover' ].
+			sr
+				when: ToPressedLookEvent
+				write: prop
+				with: [ :e | e valueOfTokenNamed: #'color-error-pressed' ] ].
+
 	button := ToButton new.
 	space toTheme: theme.
 	space root addChild: button.
@@ -66,7 +67,7 @@ ToStyleSheetApplicationTest >> testButtonLabelSkin0 [
 
 	labelSkin lookEventListeners: writers.
 	button label defaultSkin: labelSkin.
-	button label applySkinInstaller.
+	button label skinManager applySkinReinstallIn: button label.
 	attributes := button label text attributesAt: 1.
 	self assert: attributes notEmpty.
 	foregroundAttr := attributes
@@ -77,20 +78,20 @@ ToStyleSheetApplicationTest >> testButtonLabelSkin0 [
 				                  'should have a foreground attribute (toTheme colorError)' ].
 	self
 		assert: foregroundAttr paint
-		equals: (button tokenValueNamed: #'color-error')
+		equals: (button valueOfTokenNamed: #'color-error')
 ]
 
 { #category : #tests }
 ToStyleSheetApplicationTest >> testButtonSkin0 [
 
-	| styleSheet button skin labelSkin attributes foregroundAttr writers label theme nb  |
+	| styleSheet button skin labelSkin attributes foregroundAttr writers label theme nb |
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
 	theme := ToStyleSheetTheme light.
 
 	" default button rule "
-	styleSheet 
+	styleSheet
 		select: (ToStampSelector new addStamp: #button)
 		style: [ :sr |
 			| p |
@@ -98,26 +99,26 @@ ToStyleSheetApplicationTest >> testButtonSkin0 [
 			sr
 				when: ToDisabledLookEvent
 				write: p
-				with: [ :e | e tokenValueNamed: #'color-bg-container-disabled' ].
+				with: [ :e | e valueOfTokenNamed: #'color-bg-container-disabled' ].
 
 			p := ToFeatureProperty new name: #border.
 
 			sr
 				when: ToDisabledLookEvent
 				write: p
-				with: [ :e | e tokenValueNamed: #'color-border-disabled' ].
+				with: [ :e | e valueOfTokenNamed: #'color-border-disabled' ].
 			sr
 				when: ToInstallLookEvent
 				write: p
-				with: [ :e | e tokenValueNamed: #'color-border' ].
+				with: [ :e | e valueOfTokenNamed: #'color-border' ].
 			sr
 				when: ToHoveredLookEvent
 				write: p
-				with: [ :e | e tokenValueNamed: #'color-primary-hover' ].
+				with: [ :e | e valueOfTokenNamed: #'color-primary-hover' ].
 			sr
 				when: ToPressedLookEvent
 				write: p
-				with: [ :e | e tokenValueNamed: #'color-primary-pressed' ] ].
+				with: [ :e | e valueOfTokenNamed: #'color-primary-pressed' ] ].
 
 	styleSheet script
 		select: ((ToStampSelector new addStamp: #'button-label')
@@ -135,19 +136,19 @@ ToStyleSheetApplicationTest >> testButtonSkin0 [
 			sr
 				when: ToDisabledLookEvent
 				write: tp
-				with: [ :e | e tokenValueNamed: #'color-text-disabled' ].
+				with: [ :e | e valueOfTokenNamed: #'color-text-disabled' ].
 			sr
 				when: ToInstallLookEvent
 				write: tp
-				with: [ :e | e tokenValueNamed: #'color-error' ].
+				with: [ :e | e valueOfTokenNamed: #'color-error' ].
 			sr
 				when: ToHoveredLookEvent
 				write: tp
-				with: [ :e | e tokenValueNamed: #'color-error-hover' ].
+				with: [ :e | e valueOfTokenNamed: #'color-error-hover' ].
 			sr
 				when: ToPressedLookEvent
 				write: tp
-				with: [ :e | e tokenValueNamed: #'color-error-pressed' ] ].
+				with: [ :e | e valueOfTokenNamed: #'color-error-pressed' ] ].
 
 	button := ToButton new.
 	space toTheme: theme.
@@ -159,14 +160,14 @@ ToStyleSheetApplicationTest >> testButtonSkin0 [
 	skin := ToBeeSkin new.
 	skin lookEventListeners: writers.
 	button defaultSkin: nil.
-	self assert: button installedSkin isNil.
+	self assert: button skinManager installedSkin isNil.
 	button defaultSkin: skin.
-	button applySkinInstaller.
+	button skinManager applySkinReinstallIn: button.
 	self assert: button border width equals: 1.
 	self assert: button border paint isColorPaint.
 	self
 		assert: button border paint color
-		equals: (button tokenValueNamed: #'color-border').
+		equals: (button valueOfTokenNamed: #'color-border').
 
 	label := ToLabel text: 'Default'.
 	label defaultSkin: nil.
@@ -185,7 +186,7 @@ ToStyleSheetApplicationTest >> testButtonSkin0 [
 
 	labelSkin lookEventListeners: writers.
 	label defaultSkin: labelSkin.
-	label applySkinInstaller.
+	label skinManager applySkinReinstallIn: label.
 	attributes := button label text attributesAt: 1.
 	self assert: attributes notEmpty.
 	foregroundAttr := attributes
@@ -196,13 +197,13 @@ ToStyleSheetApplicationTest >> testButtonSkin0 [
 				                  'should have a foreground attribute (toTheme colorError)' ].
 	self
 		assert: foregroundAttr paint
-		equals: (button label tokenValueNamed: #'color-error')
+		equals: (button label valueOfTokenNamed: #'color-error')
 ]
 
 { #category : #tests }
 ToStyleSheetApplicationTest >> testButtonSkinWithInterspace [
 
-	| elem writers skin interspaceProp layoutProp theme styleSheet  |
+	| elem writers skin interspaceProp layoutProp theme styleSheet |
 	theme := ToStyleSheetTheme light.
 	interspaceProp := ToPseudoProperty
 		                  name: #'layout-interspace'
@@ -214,13 +215,13 @@ ToStyleSheetApplicationTest >> testButtonSkinWithInterspace [
 		              inherits: false;
 		              yourself.
 
-	styleSheet 
+	styleSheet
 		select: (ToStampSelector new addStamp: #button)
 			|| (ToStampSelector new addAllStamps: #( #button #horizontal ))
 		style: [ :sr |
 			sr write: layoutProp with: BlLinearLayout horizontal.
 			sr write: interspaceProp with: 10 ].
-		
+
 	elem := ToElement new.
 	space root addChild: elem.
 	elem styleSheet: styleSheet.
@@ -232,7 +233,7 @@ ToStyleSheetApplicationTest >> testButtonSkinWithInterspace [
 	skin := ToStyleSheetSkin new.
 	skin lookEventListeners: writers.
 	elem defaultSkin: skin.
-	elem applySkinInstaller.
+	elem skinManager applySkinReinstallIn: elem.
 	self assert: (elem layout isKindOf: BlLinearLayout).
 	self assert: elem layout interspace equals: 10
 ]
@@ -249,7 +250,7 @@ ToStyleSheetApplicationTest >> testEmptyStyleSheet [
 { #category : #tests }
 ToStyleSheetApplicationTest >> testSkinWith2LookEventActionOnSameLookEventEvent [
 
-	| elem listeners skin styleSheet theme  |
+	| elem listeners skin styleSheet theme |
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
@@ -257,9 +258,13 @@ ToStyleSheetApplicationTest >> testSkinWith2LookEventActionOnSameLookEventEvent 
 	theme := ToStyleSheetTheme light.
 
 	" here the border should be blue because only the last one is applied (for the same event) "
-	styleSheet  select: (ToIdSelector new id: #a) style: [ :sr |
-		sr when: ToInstallLookEvent do: [ :e | e border: (BlBorder paint: Color red width: 3) ].
-		sr when: ToInstallLookEvent do: [ :e | e border: (BlBorder paint: Color blue width: 1) ] ].
+	styleSheet select: (ToIdSelector new id: #a) style: [ :sr |
+		sr
+			when: ToInstallLookEvent
+			do: [ :e | e border: (BlBorder paint: Color red width: 3) ].
+		sr
+			when: ToInstallLookEvent
+			do: [ :e | e border: (BlBorder paint: Color blue width: 1) ] ].
 
 	elem := ToElement new.
 	space root addChild: elem.
@@ -270,7 +275,7 @@ ToStyleSheetApplicationTest >> testSkinWith2LookEventActionOnSameLookEventEvent 
 	skin := ToStyleSheetSkin new.
 	skin lookEventListeners: listeners.
 	elem defaultSkin: skin.
-	elem applySkinInstaller.
+	elem skinManager applySkinReinstallIn: elem.
 	self assert: elem border width equals: 1.
 	self assert: elem border paint isColorPaint.
 	self assert: elem border paint color equals: Color blue
@@ -279,7 +284,7 @@ ToStyleSheetApplicationTest >> testSkinWith2LookEventActionOnSameLookEventEvent 
 { #category : #tests }
 ToStyleSheetApplicationTest >> testSkinWithAnUniversalRule [
 
-	| styleSheet elem skin writers theme  |
+	| styleSheet elem skin writers theme |
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
@@ -298,7 +303,7 @@ ToStyleSheetApplicationTest >> testSkinWithAnUniversalRule [
 	skin := ToStyleSheetSkin new.
 	skin lookEventListeners: writers.
 	elem defaultSkin: skin.
-	elem applySkinInstaller.
+	elem skinManager applySkinReinstallIn: elem.
 	self assert: elem background paint color equals: Color red
 ]
 
@@ -306,14 +311,14 @@ ToStyleSheetApplicationTest >> testSkinWithAnUniversalRule [
 ToStyleSheetApplicationTest >> testSkinWithChildRule [
 	" with a direct child "
 
-	| skin parent child writers theme styleSheet  |
+	| skin parent child writers theme styleSheet |
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
 
 	theme := ToStyleSheetTheme light.
 
-	styleSheet 
+	styleSheet
 		select: ((ToIdSelector new id: #child) withParent:
 				 (ToStampSelector new addStamp: #parent))
 		style: [ :sr |
@@ -336,8 +341,8 @@ ToStyleSheetApplicationTest >> testSkinWithChildRule [
 	skin := ToStyleSheetSkin new.
 	skin lookEventListeners: writers.
 	child defaultSkin: skin.
-	parent applySkinInstaller.
-	child applySkinInstaller.
+	parent skinManager applySkinReinstallIn: parent.
+	child skinManager applySkinReinstallIn: child.
 
 	self assert: child border width equals: 3.
 	self assert: child border paint isColorPaint.
@@ -348,14 +353,14 @@ ToStyleSheetApplicationTest >> testSkinWithChildRule [
 ToStyleSheetApplicationTest >> testSkinWithChildRule2 [
 	" with a direct child "
 
-	| skin parent child writers subParent styleSheet theme  |
+	| skin parent child writers subParent styleSheet theme |
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
 
 	theme := ToStyleSheetTheme light.
 
-	styleSheet 
+	styleSheet
 		select: ((ToIdSelector new id: #child)
 				 withParent: (ToStampSelector new addStamp: #parent)
 				 atDepth: 2)
@@ -380,8 +385,8 @@ ToStyleSheetApplicationTest >> testSkinWithChildRule2 [
 	skin := ToStyleSheetSkin new.
 	skin lookEventListeners: writers.
 	child defaultSkin: skin.
-	parent applySkinInstaller.
-	child applySkinInstaller.
+	parent skinManager applySkinReinstallIn: parent.
+	child skinManager applySkinReinstallIn: child.
 	self assert: child border width equals: 3.
 	self assert: child border paint isColorPaint.
 	self assert: child border paint color equals: Color red
@@ -390,14 +395,14 @@ ToStyleSheetApplicationTest >> testSkinWithChildRule2 [
 { #category : #tests }
 ToStyleSheetApplicationTest >> testSkinWithIdRule [
 
-	| elem writers skin styleSheet theme  |
+	| elem writers skin styleSheet theme |
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
 
 	theme := ToStyleSheetTheme light.
 
-	styleSheet  select: (ToIdSelector new id: #a) style: [ :sr |
+	styleSheet select: (ToIdSelector new id: #a) style: [ :sr |
 		sr
 			write: (ToFeatureProperty new name: #border)
 			with: (BlBorder paint: Color red width: 3) ].
@@ -413,7 +418,7 @@ ToStyleSheetApplicationTest >> testSkinWithIdRule [
 	skin := ToStyleSheetSkin new.
 	skin lookEventListeners: writers.
 	elem defaultSkin: skin.
-	elem applySkinInstaller.
+	elem skinManager applySkinReinstallIn: elem.
 	self assert: elem border width equals: 3.
 	self assert: elem border paint isColorPaint.
 	self assert: elem border paint color equals: Color red
@@ -422,14 +427,14 @@ ToStyleSheetApplicationTest >> testSkinWithIdRule [
 { #category : #tests }
 ToStyleSheetApplicationTest >> testSkinWithLookEventAction [
 
-	| elem listeners skin styleSheet theme  |
+	| elem listeners skin styleSheet theme |
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
 
 	theme := ToStyleSheetTheme light.
 
-	styleSheet  select: (ToIdSelector new id: #a) style: [ :sr |
+	styleSheet select: (ToIdSelector new id: #a) style: [ :sr |
 		sr do: [ :e | e border: (BlBorder paint: Color red width: 3) ] ].
 
 	elem := ToElement new.
@@ -443,7 +448,7 @@ ToStyleSheetApplicationTest >> testSkinWithLookEventAction [
 	skin := ToStyleSheetSkin new.
 	skin lookEventListeners: listeners.
 	elem defaultSkin: skin.
-	elem applySkinInstaller.
+	elem skinManager applySkinReinstallIn: elem.
 	self assert: elem border width equals: 3.
 	self assert: elem border paint isColorPaint.
 	self assert: elem border paint color equals: Color red
@@ -452,15 +457,17 @@ ToStyleSheetApplicationTest >> testSkinWithLookEventAction [
 { #category : #tests }
 ToStyleSheetApplicationTest >> testSkinWithLookEventAction2 [
 
-	| elem listeners skin styleSheet theme  |
+	| elem listeners skin styleSheet theme |
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
 
 	theme := ToStyleSheetTheme light.
 
-	styleSheet  select: (ToIdSelector new id: #a) style: [ :sr |
-		sr when: ToInstallLookEvent do: [ :e | e border: (BlBorder paint: Color red width: 3) ] ].
+	styleSheet select: (ToIdSelector new id: #a) style: [ :sr |
+		sr
+			when: ToInstallLookEvent
+			do: [ :e | e border: (BlBorder paint: Color red width: 3) ] ].
 
 	elem := ToElement new.
 	space root addChild: elem.
@@ -473,7 +480,7 @@ ToStyleSheetApplicationTest >> testSkinWithLookEventAction2 [
 	skin := ToStyleSheetSkin new.
 	skin lookEventListeners: listeners.
 	elem defaultSkin: skin.
-	elem applySkinInstaller.
+	elem skinManager applySkinReinstallIn: elem.
 	self assert: elem border width equals: 3.
 	self assert: elem border paint isColorPaint.
 	self assert: elem border paint color equals: Color red
@@ -482,7 +489,7 @@ ToStyleSheetApplicationTest >> testSkinWithLookEventAction2 [
 { #category : #tests }
 ToStyleSheetApplicationTest >> testSkinWithLookEventActionMixedWithWriter [
 
-	| elem listeners skin styleSheet theme  |
+	| elem listeners skin styleSheet theme |
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
@@ -490,11 +497,13 @@ ToStyleSheetApplicationTest >> testSkinWithLookEventActionMixedWithWriter [
 	theme := ToStyleSheetTheme light.
 
 	" here the border should be blue even the lookEventAction is added after "
-	styleSheet  select: (ToIdSelector new id: #a) style: [ :sr |
+	styleSheet select: (ToIdSelector new id: #a) style: [ :sr |
 		sr
 			write: (ToFeatureProperty new name: #border)
 			with: (BlBorder paint: Color blue width: 1).
-		sr when: ToInstallLookEvent do: [ :e | e border: (BlBorder paint: Color red width: 3) ] ].
+		sr
+			when: ToInstallLookEvent
+			do: [ :e | e border: (BlBorder paint: Color red width: 3) ] ].
 
 	elem := ToElement new.
 	space root addChild: elem.
@@ -507,7 +516,7 @@ ToStyleSheetApplicationTest >> testSkinWithLookEventActionMixedWithWriter [
 	skin := ToStyleSheetSkin new.
 	skin lookEventListeners: listeners.
 	elem defaultSkin: skin.
-	elem applySkinInstaller.
+	elem skinManager applySkinReinstallIn: elem.
 	self assert: elem border width equals: 1.
 	self assert: elem border paint isColorPaint.
 	self assert: elem border paint color equals: Color blue
@@ -532,7 +541,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyle0 [
 		sr
 			when: ToDisabledLookEvent
 			write: (styleSheet property: #background)
-			with: [ :e | e tokenValueNamed: #'color-bg-container-disabled' ] ].
+			with: [ :e | e valueOfTokenNamed: #'color-bg-container-disabled' ] ].
 
 	button := ToElement new.
 	button styleSheet: styleSheet.
@@ -544,7 +553,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyle0 [
 	skin := ToStyleSheetSkin new.
 	skin lookEventListeners: writers.
 	button defaultSkin: skin.
-	button applySkinInstaller.
+	button skinManager applySkinReinstallIn: button.
 	self assert: button background paint isColorPaint.
 	self assert: button background paint color equals: Color black
 ]
@@ -552,7 +561,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyle0 [
 { #category : #'tests - style sheet style' }
 ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules0 [
 
-	| button skin writers styleSheet theme  |
+	| button skin writers styleSheet theme |
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
@@ -586,7 +595,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules0 [
 	skin := ToStyleSheetSkin new.
 	skin lookEventListeners: writers.
 	button defaultSkin: skin.
-	button applySkinInstaller.
+	button skinManager applySkinReinstallIn: button.
 	self assert: button background paint isColorPaint.
 	self assert: button background paint color equals: Color black.
 
@@ -595,13 +604,13 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules0 [
 	skin := ToStyleSheetSkin new.
 	skin lookEventListeners: writers.
 	button defaultSkin: skin.
-	button applySkinInstaller.
+	button skinManager applySkinReinstallIn: button.
 
 	self assert: button background paint isColorPaint.
 	self assert: button background paint color equals: Color red.
 
 	button disabled: true.
-	button applySkinInstaller.
+	button skinManager applySkinReinstallIn: button.
 	self assert: button background paint isColorPaint.
 	self
 		assert: button background paint color
@@ -611,7 +620,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules0 [
 { #category : #'tests - style sheet style' }
 ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules1 [
 
-	| elem child childchild1 childchild2 skin writers  styleSheet theme  |
+	| elem child childchild1 childchild2 skin writers styleSheet theme |
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
@@ -648,7 +657,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules1 [
 	skin := ToStyleSheetSkin new.
 	skin lookEventListeners: writers.
 	child defaultSkin: skin.
-	child applySkinInstaller.
+	child skinManager applySkinReinstallIn: child.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
 ]
@@ -656,7 +665,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules1 [
 { #category : #'tests - style sheet style' }
 ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules2 [
 
-	| elem child childchild1 childchild2 skin writers styleSheet theme  |
+	| elem child childchild1 childchild2 skin writers styleSheet theme |
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
@@ -676,7 +685,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules2 [
 
 
 	" default button rule "
-	styleSheet 
+	styleSheet
 		select: (#child asStampSelector withParent: #elem asStampSelector)
 		style: [ :sr |
 			sr select: sr any style: [
@@ -698,7 +707,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules2 [
 	skin lookEventListeners: writers.
 	child defaultSkin: skin.
 
-	child applySkinInstaller.
+	child skinManager applySkinReinstallIn: child.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
 ]
@@ -706,7 +715,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules2 [
 { #category : #'tests - style sheet style' }
 ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules22 [
 
-	| elem child childchild1 childchild2 skin writers styleSheet theme  |
+	| elem child childchild1 childchild2 skin writers styleSheet theme |
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
@@ -726,7 +735,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules22 [
 
 
 	" default button rule "
-	styleSheet 
+	styleSheet
 		select: (#child asStampSelector withParent: #elem asStampSelector)
 		style: [ :sr |
 			sr select: (sr withParent: #red asStampSelector) style: [
@@ -747,7 +756,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules22 [
 	skin := ToStyleSheetSkin new.
 	skin lookEventListeners: writers.
 	child defaultSkin: skin.
-	child applySkinInstaller.
+	child skinManager applySkinReinstallIn: child.
 
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
@@ -756,7 +765,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules22 [
 { #category : #'tests - style sheet style' }
 ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules3 [
 
-	| elem child childchild1 childchild2 skin writers  styleSheet theme  |
+	| elem child childchild1 childchild2 skin writers styleSheet theme |
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
@@ -775,8 +784,9 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules3 [
 	child addChild: childchild2.
 
 	" default button rule "
-	styleSheet 
-		select: (#child asStampSelector withParent:
+	styleSheet
+		select:
+			(#child asStampSelector withParent:
 				 ((#( #elem #red ) asStampSelector
 					   withChild: #childchild1 asStampSelector
 					   atDepth: 2) withChild: #childchild2 asStampSelector atDepth: 2))
@@ -798,7 +808,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules3 [
 	skin lookEventListeners: writers.
 	child defaultSkin: skin.
 
-	child applySkinInstaller.
+	child skinManager applySkinReinstallIn: child.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
 ]
@@ -806,7 +816,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules3 [
 { #category : #'tests - style sheet style' }
 ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules32 [
 
-	| elem child childchild1 childchild2 skin writers styleSheet theme  |
+	| elem child childchild1 childchild2 skin writers styleSheet theme |
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
@@ -823,18 +833,18 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules32 [
 	elem addChild: child.
 	child addChild: childchild1.
 	child addChild: childchild2.
-	
-	styleSheet 
-		select: (#child asStampSelector withParent: #elem asStampSelector) style: [ :sr |
-		          sr
-			          select:
-				          (((sr withParent: #red asStampSelector)
-					            withChild: #childchild1 asStampSelector
-					            atDepth: 1) withChild: #childchild2 asStampSelector atDepth: 1)
-			          style: [
-			          sr
-				          write: (styleSheet property: #background)
-				          with: [ :e | Color red ] ] ].
+
+	styleSheet
+		select: (#child asStampSelector withParent: #elem asStampSelector)
+		style: [ :sr |
+			sr
+				select: (((sr withParent: #red asStampSelector)
+						  withChild: #childchild1 asStampSelector
+						  atDepth: 1) withChild: #childchild2 asStampSelector atDepth: 1)
+				style: [
+					sr
+						write: (styleSheet property: #background)
+						with: [ :e | Color red ] ] ].
 
 	writers := theme applicableListenersFor: elem.
 	self assert: writers size equals: 0.
@@ -849,7 +859,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules32 [
 	skin lookEventListeners: writers.
 	child defaultSkin: skin.
 
-	child applySkinInstaller.
+	child skinManager applySkinReinstallIn: child.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
 ]
@@ -857,7 +867,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules32 [
 { #category : #'tests - style sheet style' }
 ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules33 [
 
-	| elem child childchild1 childchild2 skin writers styleSheet theme  |
+	| elem child childchild1 childchild2 skin writers styleSheet theme |
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
@@ -875,16 +885,20 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules33 [
 	child addChild: childchild1.
 	child addChild: childchild2.
 
-	styleSheet 
+	styleSheet
 		select: (#child asStampSelector withParent: #elem asStampSelector)
 		style: [ :sr |
 			sr
-				select: ((sr withParent: #red asStampSelector) withChild: #childchild1 asStampSelector atDepth: 1)
+				select: ((sr withParent: #red asStampSelector)
+						 withChild: #childchild1 asStampSelector
+						 atDepth: 1)
 				style: [
-					sr select: (sr withChild: #childchild2 asStampSelector atDepth: 1) style: [
-						sr
-							write: (styleSheet property: #background)
-							with: [ :e | Color red ] ] ] ].
+					sr
+						select: (sr withChild: #childchild2 asStampSelector atDepth: 1)
+						style: [
+							sr
+								write: (styleSheet property: #background)
+								with: [ :e | Color red ] ] ] ].
 
 	writers := theme applicableListenersFor: elem.
 	self assert: writers size equals: 0.
@@ -899,7 +913,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules33 [
 	skin lookEventListeners: writers.
 	child defaultSkin: skin.
 
-	child applySkinInstaller.
+	child skinManager applySkinReinstallIn: child.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
 ]
@@ -907,7 +921,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules33 [
 { #category : #'tests - style sheet style' }
 ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules1 [
 
-	| elem child childchild1 childchild2 skin writers styleSheet theme  |
+	| elem child childchild1 childchild2 skin writers styleSheet theme |
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
@@ -926,7 +940,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules1 [
 	child addChild: childchild2.
 
 	" default button rule "
-	styleSheet  select: #child asStampSelector style: [ :sr |
+	styleSheet select: #child asStampSelector style: [ :sr |
 		sr
 			write: (styleSheet property: #background)
 			with: [ :e | Color red ] ].
@@ -937,7 +951,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules1 [
 	skin lookEventListeners: writers.
 	child defaultSkin: skin.
 
-	child applySkinInstaller.
+	child skinManager applySkinReinstallIn: child.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
 ]
@@ -945,7 +959,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules1 [
 { #category : #'tests - style sheet style' }
 ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules2 [
 
-	| elem child childchild1 childchild2 skin writers styleSheet theme  |
+	| elem child childchild1 childchild2 skin writers styleSheet theme |
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
@@ -964,10 +978,12 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules2 [
 	child addChild: childchild2.
 
 	" default button rule "
-	styleSheet  select: (#child asStampSelector withParent: #elem asStampSelector) style: [ :sr |
-		          sr
-			          write: (styleSheet property: #background)
-			          with: [ :e | Color red ] ].
+	styleSheet
+		select: (#child asStampSelector withParent: #elem asStampSelector)
+		style: [ :sr |
+			sr
+				write: (styleSheet property: #background)
+				with: [ :e | Color red ] ].
 
 
 	writers := theme applicableListenersFor: child.
@@ -976,7 +992,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules2 [
 	skin lookEventListeners: writers.
 	child defaultSkin: skin.
 
-	child applySkinInstaller.
+	child skinManager applySkinReinstallIn: child.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
 ]
@@ -984,7 +1000,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules2 [
 { #category : #'tests - style sheet style' }
 ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules3 [
 
-	| elem child childchild1 childchild2 skin writers styleSheet theme  |
+	| elem child childchild1 childchild2 skin writers styleSheet theme |
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
@@ -1003,8 +1019,9 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules3 [
 	child addChild: childchild2.
 
 	" default button rule "
-	styleSheet 
-		select: (#child asStampSelector withParent:
+	styleSheet
+		select:
+			(#child asStampSelector withParent:
 				 ((#( #elem #red ) asStampSelector
 					   withChild: #childchild1 asStampSelector
 					   atDepth: 2) withChild: #childchild2 asStampSelector atDepth: 2))
@@ -1020,7 +1037,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules3 [
 	skin lookEventListeners: writers.
 	child defaultSkin: skin.
 
-	child applySkinInstaller.
+	child skinManager applySkinReinstallIn: child.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
 ]
@@ -1028,7 +1045,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules3 [
 { #category : #'tests - style sheet style' }
 ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules4 [
 
-	| elem child childchild1 childchild2 writers skin styleSheet theme  |
+	| elem child childchild1 childchild2 writers skin styleSheet theme |
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
@@ -1046,8 +1063,9 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules4 [
 	child addChild: childchild1.
 	child addChild: childchild2.
 
-	styleSheet 
-		select: (#child asStampSelector withParent:
+	styleSheet
+		select:
+			(#child asStampSelector withParent:
 				 ((#( #elem #red ) asStampSelector
 					   withChild: #childchild1 asStampSelector
 					   atDepth: 2) withChild: #childchild2 asStampSelector atDepth: 2))
@@ -1073,7 +1091,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules4 [
 	skin lookEventListeners: writers.
 	child defaultSkin: skin.
 
-	child applySkinInstaller.
+	child skinManager applySkinReinstallIn: child.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red.
 
@@ -1084,7 +1102,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules4 [
 	skin := ToStyleSheetSkin new.
 	skin lookEventListeners: writers.
 	child defaultSkin: skin.
-	child applySkinInstaller.
+	child skinManager applySkinReinstallIn: child.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color blue
 ]

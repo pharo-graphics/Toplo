@@ -1,7 +1,7 @@
 Class {
 	#name : #ToMenuItemSkin,
 	#superclass : #ToGeneralButtonMenuItemSkin,
-	#category : 'Toplo-Widget-Menu-Basic'
+	#category : #'Toplo-Widget-Menu-Basic'
 }
 
 { #category : #'event handling' }
@@ -9,9 +9,9 @@ ToMenuItemSkin >> disabledLookEvent: anEvent [
 
 	super disabledLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e iconDo: [ :ic | ic formColor: (e tokenValueNamed: #'color-text-disabled') ].
+		e iconDo: [ :ic | ic formColor: (e valueOfTokenNamed: #'color-text-disabled') ].
 		e labelDo: [ :lab |
-			lab text attributes: { (BlTextForegroundAttribute paint: (e tokenValueNamed: #'color-text-disabled')) }.
+			lab text attributes: { (BlTextForegroundAttribute paint: (e valueOfTokenNamed: #'color-text-disabled')) }.
 			lab textChanged ] ]
 ]
 
@@ -20,9 +20,9 @@ ToMenuItemSkin >> enabledLookEvent: anEvent [
 
 	super enabledLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e iconDo: [ :ic | ic formColor: (e tokenValueNamed: #'color-text') ].
+		e iconDo: [ :ic | ic formColor: (e valueOfTokenNamed: #'color-text') ].
 		e labelDo: [ :lab |
-			lab text attributes: { (BlTextForegroundAttribute paint: (e tokenValueNamed: #'color-text')) }.
+			lab text attributes: { (BlTextForegroundAttribute paint: (e valueOfTokenNamed: #'color-text')) }.
 			lab textChanged ] ]
 ]
 
@@ -31,9 +31,9 @@ ToMenuItemSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e iconDo: [ :ic | ic formColor: (e tokenValueNamed: #'color-primary') ].
+		e iconDo: [ :ic | ic formColor: (e valueOfTokenNamed: #'color-primary') ].
 		e labelDo: [ :lab |
-			lab text attributes: { (BlTextForegroundAttribute paint: (e tokenValueNamed: #'color-primary')) }.
+			lab text attributes: { (BlTextForegroundAttribute paint: (e valueOfTokenNamed: #'color-primary')) }.
 			lab textChanged ] ]
 ]
 
@@ -47,11 +47,11 @@ ToMenuItemSkin >> installLookEvent: anEvent [
 			e parentMenuDo: [ :pm |
 				(pm items anySatisfy: [ :mi | mi hasIcon ]) ifTrue: [
 					e button rightLabelAlignment: 25 ] ] ].
-		e iconDo: [ :ic | ic formColor: (e tokenValueNamed: #'color-text') ].
+		e iconDo: [ :ic | ic formColor: (e valueOfTokenNamed: #'color-text') ].
 		e labelDo: [ :lab |
 			lab text attributes:
 				{ (BlTextForegroundAttribute paint:
-					 (e tokenValueNamed: #'color-text')) }.
+					 (e valueOfTokenNamed: #'color-text')) }.
 			lab textChanged ] ]
 ]
 
@@ -60,9 +60,9 @@ ToMenuItemSkin >> leavedLookEvent: anEvent [
 
 	super leavedLookEvent: anEvent.
 	anEvent elementDo: [ :e |	
-		e iconDo: [ :ic | ic formColor: (e tokenValueNamed: #'color-text') ].
+		e iconDo: [ :ic | ic formColor: (e valueOfTokenNamed: #'color-text') ].
 		e labelDo: [ :lab |
-			lab text attributes: { (BlTextForegroundAttribute paint: (e tokenValueNamed: #'color-text')) }.
+			lab text attributes: { (BlTextForegroundAttribute paint: (e valueOfTokenNamed: #'color-text')) }.
 			lab textChanged ] ]
 ]
 
@@ -71,8 +71,8 @@ ToMenuItemSkin >> pressedLookEvent: anEvent [
 
 	super pressedLookEvent: anEvent.
 	anEvent elementDo: [ :e | 	
-		e iconDo: [ :ic | ic formColor: (e tokenValueNamed: #'color-primary-pressed') ].
+		e iconDo: [ :ic | ic formColor: (e valueOfTokenNamed: #'color-primary-pressed') ].
 		e labelDo: [ :lab |
-			lab text attributes: { (BlTextForegroundAttribute paint: (e tokenValueNamed: #'color-primary-pressed')) }.
+			lab text attributes: { (BlTextForegroundAttribute paint: (e valueOfTokenNamed: #'color-primary-pressed')) }.
 			lab textChanged ] ]
 ]

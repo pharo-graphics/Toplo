@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'rootElement'
 	],
-	#category : 'Toplo-Core-Window'
+	#category : #'Toplo-Core-Window'
 }
 
 { #category : #'api - displaying' }
@@ -73,9 +73,9 @@ ToBasicWindowElement >> installRawStyle [
 
 	super installRawStyle.
 	self geometry: (BlRoundedRectangleGeometry cornerRadius:
-			 (self tokenValueNamed: #'border-radius-SM')).
-	self border: (self tokenValueNamed: #'color-border').
-	self background: (self tokenValueNamed: #'color-bg-container').
+			 (self valueOfTokenNamed: #'border-radius-SM')).
+	self border: (self valueOfTokenNamed: #'color-border').
+	self background: (self valueOfTokenNamed: #'color-bg-container').
 	self outskirts: BlOutskirts outside 
 ]
 

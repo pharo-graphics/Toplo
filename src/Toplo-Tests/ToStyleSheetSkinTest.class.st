@@ -31,13 +31,13 @@ ToStyleSheetSkinTest >> testLookEventAction [
 	w := ToElement new.
 	space root addChild: w.
 	skin := ToStyleSheetSkin new.
-	action := ToLookEventAction new
-		              action: [ :e | e background: Color blue ].
+	action := ToLookEventAction new action: [ :e |
+		          e background: Color blue ].
 	skin lookEventListeners: { action }.
 	self assert: skin lookEventListeners size equals: 1.
 	self assert: skin lookEventListeners first identicalTo: action.
 	w defaultSkin: skin.
-	w applySkinInstaller.
+	w skinManager applySkinReinstallIn: w.
 
 	self assert: w background paint color equals: Color blue
 ]
@@ -65,7 +65,7 @@ ToStyleSheetSkinTest >> testLookEventActionMixedWithWriter [
 	self assert: skin lookEventListeners first identicalTo: action.
 	self assert: skin lookEventListeners second identicalTo: propWriter.
 	w defaultSkin: skin.
-	w applySkinInstaller.
+	w skinManager applySkinReinstallIn: w.
 	self assert: w background paint color equals: Color blue
 ]
 
@@ -85,7 +85,7 @@ ToStyleSheetSkinTest >> testLookEventListeners [
 	self assert: skin lookEventListeners size equals: 1.
 	self assert: skin lookEventListeners first identicalTo: propWriter.
 	w defaultSkin: skin.
-	w applySkinInstaller.
+	w skinManager applySkinReinstallIn: w.
 
 	self assert: w background paint color equals: Color blue
 ]
@@ -119,17 +119,19 @@ ToStyleSheetSkinTest >> testPropertyWriterOrderMatter [
 	" Since checkSkinInstallation will switch to ToInstallState "
 	" the installation will fail because the widget layout (not a BlLinearLayout) does not understand #direction:"
 	w defaultSkin: skin.
-	w requestInstallSkin.
+	w ensuredSkinManager requestInstallSkinIn: w.
 	" since applySkinInstaller will applyStyles "
-	self should: [ w applySkinInstaller ] raise: MessageNotUnderstood.
+	self
+		should: [ w skinManager applySkinReinstallIn: w ]
+		raise: MessageNotUnderstood.
 
 	" Now change writers order and it should be ok "
 	skin lookEventListeners: {
 			layoutWriter.
 			directionWriter }.
 
-	w skinStateQueue enqueueInstallStateForElement: w.
-	w applyEnqueuedStates.
+	w skinManager skinStateQueue enqueueInstallStateForElement: w.
+	w skinManagerDo: [ :sm | sm applyEnqueuedStatesIn: w ].
 	self assert: (w layout isKindOf: BlLinearLayout).
 	self assert: w layout direction isRightToLeft
 ]
@@ -172,7 +174,7 @@ ToStyleSheetSkinTest >> testSupplementWriter [
 						 dashArray: #( 4 5 );
 						 build ] yourself) }.
 	w defaultSkin: skin.
-	w applySkinInstaller.
+	w skinManager applySkinReinstallIn: w.
 	self assert: w background paint color equals: Color blue.
 	self assert: w border paint color equals: Color black.
 	self assert: w border style dashArray equals: #( 4 5 )
@@ -208,8 +210,8 @@ ToStyleSheetSkinTest >> testWithAnimationOn2EventClasses [
 				 yourself) }.
 
 	w defaultSkin: skin.
-	w requestInstallSkin.
-	w applySkinInstaller.
+	w ensuredSkinManager requestInstallSkinIn: w.
+	w skinManager applySkinReinstallIn: w.
 
 	self assert: w background paint color equals: Color white.
 
@@ -237,7 +239,7 @@ ToStyleSheetSkinTest >> testWithNoWriter [
 	skin := ToStyleSheetSkin new.
 	w defaultSkin: skin.
 	paint := w background paint.
-	w applySkinInstaller.
+	w skinManager applySkinReinstallIn: w.
 
 	self assert: w background paint equals: paint
 ]
@@ -262,7 +264,7 @@ ToStyleSheetSkinTest >> testWithTwoWriters [
 				 value: Color yellow;
 				 yourself) }.
 	w defaultSkin: skin.
-	w applySkinInstaller.
+	w skinManager applySkinReinstallIn: w.
 
 	self assert: w background paint color equals: Color blue.
 	self assert: w border paint color equals: Color yellow
@@ -294,7 +296,7 @@ ToStyleSheetSkinTest >> testWithTwoWritersTwoEventClasses [
 				 value: Color red;
 				 yourself) }.
 	w defaultSkin: skin.
-	w applySkinInstaller.
+	w skinManager applySkinReinstallIn: w.
 
 	self assert: w background paint color equals: Color blue.
 	self assert: w border paint color equals: Color red

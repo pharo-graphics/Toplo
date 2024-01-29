@@ -22,8 +22,8 @@ ToSwitchIconSkin >> disabledLookEvent: anEvent [
 	super disabledLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e updateHandleContent.
-		e background: (e tokenValueNamed: #'switch-disabled-background').
-		e handle background: (e tokenValueNamed: #'switch-handle-disabled-background') ]
+		e background: (e valueOfTokenNamed: #'switch-disabled-background').
+		e handle background: (e valueOfTokenNamed: #'switch-handle-disabled-background') ]
 ]
 
 { #category : #'event handling' }
@@ -31,7 +31,7 @@ ToSwitchIconSkin >> enabledLookEvent: anEvent [
 
 	super enabledLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e handle background: (e tokenValueNamed: #'switch-handle-enabled-background') ]
+		e handle background: (e valueOfTokenNamed: #'switch-handle-enabled-background') ]
 ]
 
 { #category : #'event handling' }
@@ -63,8 +63,8 @@ ToSwitchIconSkin >> switch: aBoolean withAnimationIn: aSwitchButton [
 
 	| anim posAnim colorAnim color background toPos |
 	background := (aBoolean
-		ifTrue: [ aSwitchButton tokenValueNamed: #'switch-checked-background' ]
-		ifFalse: [ aSwitchButton tokenValueNamed: #'switch-unchecked-background' ]) asBlBackground.
+		ifTrue: [ aSwitchButton valueOfTokenNamed: #'switch-checked-background' ]
+		ifFalse: [ aSwitchButton valueOfTokenNamed: #'switch-unchecked-background' ]) asBlBackground.
 	justInstalled ifTrue: [ 
 		justInstalled := false.
 		aSwitchButton background: background.

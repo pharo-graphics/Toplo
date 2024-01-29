@@ -11,9 +11,9 @@ ToGeneralButtonSkin >> disabledLookEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor normal.
 		e border: (BlBorder
-				 paint: (e tokenValueNamed: #'color-border-disabled')
-				 width: (e tokenValueNamed: #'line-width')).
-		e background: (e tokenValueNamed: #'color-bg-container-disabled') ]
+				 paint: (e valueOfTokenNamed: #'color-border-disabled')
+				 width: (e valueOfTokenNamed: #'line-width')).
+		e background: (e valueOfTokenNamed: #'color-bg-container-disabled') ]
 ]
 
 { #category : #'event handling' }
@@ -22,9 +22,9 @@ ToGeneralButtonSkin >> enabledLookEvent: anEvent [
 	super enabledLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: (BlBorder
-				 paint: (e tokenValueNamed: #'color-border')
-				 width: (e tokenValueNamed: #'line-width')).
-		e background: (e tokenValueNamed: #'color-bg-container') ]
+				 paint: (e valueOfTokenNamed: #'color-border')
+				 width: (e valueOfTokenNamed: #'line-width')).
+		e background: (e valueOfTokenNamed: #'color-bg-container') ]
 ]
 
 { #category : #'event handling' }
@@ -34,8 +34,8 @@ ToGeneralButtonSkin >> hoveredLookEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor webLink.
 		e border: (BlBorder
-				 paint: (e tokenValueNamed: #'color-primary-hover')
-				 width: (e tokenValueNamed: #'line-width')) ]
+				 paint: (e valueOfTokenNamed: #'color-primary-hover')
+				 width: (e valueOfTokenNamed: #'line-width')) ]
 ]
 
 { #category : #'event handling' }
@@ -44,17 +44,17 @@ ToGeneralButtonSkin >> installLookEvent: anEvent [
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor normal.
-		e background: (e tokenValueNamed: #'color-bg-container').
+		e background: (e valueOfTokenNamed: #'color-bg-container').
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:
-				 (e tokenValueNamed: 'border-radius')).
+				 (e valueOfTokenNamed: 'border-radius')).
 		e border: (BlBorder
-				 paint: (e tokenValueNamed: #'color-border')
-				 width: (e tokenValueNamed: #'line-width')).
+				 paint: (e valueOfTokenNamed: #'color-border')
+				 width: (e valueOfTokenNamed: #'line-width')).
 		e padding: (BlInsets
-				 top: (e tokenValueNamed: #'padding-content-V')
-				 left: (e tokenValueNamed: #'padding-XS')
-				 bottom: (e tokenValueNamed: #'padding-content-V')
-				 right: (e tokenValueNamed: #'padding-XS')) ]
+				 top: (e valueOfTokenNamed: #'padding-content-V')
+				 left: (e valueOfTokenNamed: #'padding-XS')
+				 bottom: (e valueOfTokenNamed: #'padding-content-V')
+				 right: (e valueOfTokenNamed: #'padding-XS')) ]
 ]
 
 { #category : #'event handling' }
@@ -63,9 +63,9 @@ ToGeneralButtonSkin >> leavedLookEvent: anEvent [
 	super leavedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: (BlBorder
-				 paint: (e tokenValueNamed: #'color-border')
-				 width: (e tokenValueNamed: #'line-width')).
-		e background: (e tokenValueNamed: #'color-bg-container') ]
+				 paint: (e valueOfTokenNamed: #'color-border')
+				 width: (e valueOfTokenNamed: #'line-width')).
+		e background: (e valueOfTokenNamed: #'color-bg-container') ]
 ]
 
 { #category : #'event handling' }
@@ -74,6 +74,6 @@ ToGeneralButtonSkin >> pressedLookEvent: anEvent [
 	super pressedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: (BlBorder
-				 paint: (e tokenValueNamed: #'color-primary-pressed')
-				 width: (e tokenValueNamed: #'line-width')) ]
+				 paint: (e valueOfTokenNamed: #'color-primary-pressed')
+				 width: (e valueOfTokenNamed: #'line-width')) ]
 ]

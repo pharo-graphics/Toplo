@@ -2,20 +2,19 @@
 A ToBeeThemeTest is a test class for testing the behavior of ToBeeTheme
 "
 Class {
-	#name : 'ToBeeThemeTest',
-	#superclass : 'ToTestCaseWithSpace',
-	#category : 'Toplo-Theme-Bee-Tests',
-	#package : 'Toplo-Theme-Bee-Tests'
+	#name : #ToBeeThemeTest,
+	#superclass : #ToTestCaseWithSpace,
+	#category : #'Toplo-Theme-Bee-Tests'
 }
 
-{ #category : 'running' }
+{ #category : #running }
 ToBeeThemeTest >> setUp [ 
 
 	super setUp.
 	space toTheme: ToBeeTheme light.
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToBeeThemeTest >> testDefaultButtonSkin [
 
 	| button |
@@ -24,12 +23,12 @@ ToBeeThemeTest >> testDefaultButtonSkin [
 	space applyAllSkinInstallers.
 	space applyAllEnqueuedStates.
 
-	self assert: button border width equals: (button tokenValueNamed: #'line-width').
+	self assert: button border width equals: (button valueOfTokenNamed: #'line-width').
 	self assert: button border paint isColorPaint.
-	self assert: button border paint color equals: (button tokenValueNamed: #'color-border').
+	self assert: button border paint color equals: (button valueOfTokenNamed: #'color-border').
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToBeeThemeTest >> testSpaceRoot [
 
 	| theme e |
@@ -43,18 +42,18 @@ ToBeeThemeTest >> testSpaceRoot [
 	space root addChild: e.
 	space applyAllSkinInstallers.
 	space applyAllEnqueuedStates.
-	self assert: space root background paint color equals: (space root tokenValueNamed: 'background-color').
+	self assert: space root background paint color equals: (space root valueOfTokenNamed: 'background-color').
 	theme := ToBeeTheme dark.
 	space toTheme: theme.
 	space applyAllSkinInstallers.
 	space applyAllEnqueuedStates.
-	self assert: space root background paint color equals: (space root tokenValueNamed: 'background-color').
+	self assert: space root background paint color equals: (space root valueOfTokenNamed: 'background-color').
 
 
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToBeeThemeTest >> testWriteablePropertyList [
 
 	| index count  |

@@ -4,7 +4,7 @@ A ToTransientStateTest is a test class for testing the behavior of ToTransientSt
 Class {
 	#name : #ToTransientStateTest,
 	#superclass : #ToTestCaseWithSpace,
-	#category : 'Toplo-Tests-Core-States'
+	#category : #'Toplo-Tests-Core-States'
 }
 
 { #category : #tests }
@@ -27,12 +27,18 @@ ToTransientStateTest >> testCanBeEnqueuedFromElementInQueue [
 
 	| e stateEvt state |
 	e := ToElement new.
-	state := ToTransientStateForTest lookEvent: (stateEvt := ToHoveredLookEvent new).
+	state := ToTransientStateForTest lookEvent:
+		         (stateEvt := ToHoveredLookEvent new).
 	" no, the state is not enqueued since a ToInstallState has not been enqueued before "
-	self deny: (state canBeEnqueuedFromElement: e inQueue: e skinStateQueue).
-	state := ToTransientStateForTest lookEvent: (stateEvt := ToHoveredLookEvent new).
-	e skinStateQueue enqueueInstallStateForElement: e.
-	self assert: (state canBeEnqueuedFromElement: e inQueue: e skinStateQueue)
+	self deny: (state
+			 canBeEnqueuedFromElement: e
+			 inQueue: e skinManager skinStateQueue).
+	state := ToTransientStateForTest lookEvent:
+		         (stateEvt := ToHoveredLookEvent new).
+	e skinManager skinStateQueue enqueueInstallStateForElement: e.
+	self assert: (state
+			 canBeEnqueuedFromElement: e
+			 inQueue: e skinManager skinStateQueue)
 ]
 
 { #category : #tests }
@@ -63,20 +69,31 @@ ToTransientStateTest >> testRequestEnqueueFromElementInQueue [
 
 	| e stateEvt state |
 	e := ToElement new.
-	state := ToTransientStateForTest lookEvent: (stateEvt := ToHoveredLookEvent new).
-	state requestEnqueueFromElement: e inQueue: e skinStateQueue.
+	state := ToTransientStateForTest lookEvent:
+		         (stateEvt := ToHoveredLookEvent new).
+	state
+		requestEnqueueFromElement: e
+		inQueue: e skinManager skinStateQueue.
 	" no, the state is not enqueued since a ToInstallState has not been enqueued before "
 	self deny: state canBeEnqueued.
-	self assert: e skinStateQueue nextStates isEmpty.
-	state := ToTransientStateForTest lookEvent: (stateEvt := ToHoveredLookEvent new).
-	e skinStateQueue enqueueInstallStateForElement: e.
-	state requestEnqueueFromElement: e inQueue: e skinStateQueue.
+	self assert: e skinManager skinStateQueue nextStates isEmpty.
+	state := ToTransientStateForTest lookEvent:
+		         (stateEvt := ToHoveredLookEvent new).
+	e skinManager skinStateQueue enqueueInstallStateForElement: e.
+	state
+		requestEnqueueFromElement: e
+		inQueue: e skinManager skinStateQueue.
 	self assert: state canBeEnqueued.
-	self assert: e skinStateQueue nextStates size equals: 3.
-	self assert: (e skinStateQueue nextStates nextOrNil isKindOf: ToInstallState).
-	self assert: (e skinStateQueue nextStates nextOrNil isKindOf: ToEnablementState).
-	self assert: (e skinStateQueue nextStates nextOrNil isKindOf: ToTransientState).
-	
+	self assert: e skinManager skinStateQueue nextStates size equals: 3.
+	self assert:
+		(e skinManager skinStateQueue nextStates nextOrNil isKindOf:
+			 ToInstallState).
+	self assert:
+		(e skinManager skinStateQueue nextStates nextOrNil isKindOf:
+			 ToEnablementState).
+	self assert:
+		(e skinManager skinStateQueue nextStates nextOrNil isKindOf:
+			 ToTransientState)
 ]
 
 { #category : #tests }

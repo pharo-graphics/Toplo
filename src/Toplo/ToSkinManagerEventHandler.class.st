@@ -29,9 +29,21 @@ ToSkinManagerEventHandler >> installSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
+ToSkinManagerEventHandler >> installSkinRequest: anEvent [
+
+
+]
+
+{ #category : #'event handling' }
 ToSkinManagerEventHandler >> uninstallSkinEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
 	target skinManager uninstallSkin: anEvent skin in: target
+]
+
+{ #category : #'event handling' }
+ToSkinManagerEventHandler >> uninstallSkinRequest: anEvent [
+
+
 ]

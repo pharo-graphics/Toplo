@@ -8,7 +8,7 @@ Class {
 ToAttributedLabel >> initialize [
 
 	super initialize.
-	self withoutSkin
+	self withNullSkin
 ]
 
 { #category : #skin }

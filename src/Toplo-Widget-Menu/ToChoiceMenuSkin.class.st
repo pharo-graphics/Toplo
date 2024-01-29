@@ -10,8 +10,8 @@ ToChoiceMenuSkin >> disabledLookEvent: anEvent [
 	super disabledLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: (BlBorder
-				 paint: (e tokenValueNamed: #'color-border-disabled')
-				 width: (e tokenValueNamed: #'line-width')) ]
+				 paint: (e valueOfTokenNamed: #'color-border-disabled')
+				 width: (e valueOfTokenNamed: #'line-width')) ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -20,8 +20,8 @@ ToChoiceMenuSkin >> enabledLookEvent: anEvent [
 	super enabledLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: (BlBorder
-				 paint: (e tokenValueNamed: #'color-border')
-				 width: (e tokenValueNamed: #'line-width')) ]
+				 paint: (e valueOfTokenNamed: #'color-border')
+				 width: (e valueOfTokenNamed: #'line-width')) ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -31,8 +31,8 @@ ToChoiceMenuSkin >> hoveredLookEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor webLink.
 		e border: (BlBorder
-				 paint: (e tokenValueNamed: #'color-primary-hover')
-				 width: (e tokenValueNamed: #'line-width')) ]
+				 paint: (e valueOfTokenNamed: #'color-primary-hover')
+				 width: (e valueOfTokenNamed: #'line-width')) ]
 ]
 
 { #category : #'event handling' }
@@ -52,8 +52,8 @@ ToChoiceMenuSkin >> leavedLookEvent: anEvent [
 	super leavedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: (BlBorder
-				 paint: (e tokenValueNamed: #'color-border')
-				 width: (e tokenValueNamed: #'line-width')) ]
+				 paint: (e valueOfTokenNamed: #'color-border')
+				 width: (e valueOfTokenNamed: #'line-width')) ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -62,6 +62,6 @@ ToChoiceMenuSkin >> pressedLookEvent: anEvent [
 	super pressedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: (BlBorder
-				 paint: (e tokenValueNamed: #'color-primary-pressed')
-				 width: (e tokenValueNamed: #'line-width')) ]
+				 paint: (e valueOfTokenNamed: #'color-primary-pressed')
+				 width: (e valueOfTokenNamed: #'line-width')) ]
 ]

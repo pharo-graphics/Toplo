@@ -9,7 +9,7 @@ ToRawSkinForThemeTest >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e background: (e tokenValueNamed: #'color-primary') ]
+		e background: (e valueOfTokenNamed: #'color-primary') ]
 ]
 
 { #category : #'event handling' }

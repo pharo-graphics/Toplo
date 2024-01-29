@@ -7,7 +7,7 @@ Class {
 		'filler',
 		'rightHandSide'
 	],
-	#category : 'Toplo-Widget-Menu-Basic'
+	#category : #'Toplo-Widget-Menu-Basic'
 }
 
 { #category : #initialization }
@@ -35,8 +35,8 @@ ToMenuItem >> initialize [
 	self addStamp: #'menu-item'.
 	filler := self newFiller.
 	rightHandSide := self newRightHandSide.
-	filler withoutSkin.
-	rightHandSide withoutSkin.
+	filler withNullSkin.
+	rightHandSide withNullSkin.
 	self button addChild: filler.
 	self button addChild: rightHandSide
 ]

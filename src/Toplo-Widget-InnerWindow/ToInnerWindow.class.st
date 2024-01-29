@@ -12,7 +12,7 @@ Class {
 		'closeButton',
 		'expandButton'
 	],
-	#category : 'Toplo-Widget-InnerWindow'
+	#category : #'Toplo-Widget-InnerWindow'
 }
 
 { #category : #accessing }
@@ -57,13 +57,13 @@ ToInnerWindow >> defaultBarElement [
 		               id: #'close-button';
 		               yourself.
 	closeButton whenClickedDo: [ self close ].
-	closeButton withoutSkin.
+	closeButton withNullSkin.
 	closeButton border: (Color red alpha: 0.3).
 	expandButton := ToButton new
 		                id: #'expand-button';
 		                yourself.
 	expandButton whenClickedDo: [ self maximize ].
-	expandButton withoutSkin.
+	expandButton withNullSkin.
 
 	fill1 := BlElement new
 		         constraintsDo: [ :c |
@@ -164,7 +164,7 @@ ToInnerWindow >> installRawStyle [
 	self bar
 		padding: (BlInsets top: 2 bottom: 1);
 		outskirts: BlOutskirts inside;
-		border: (	self tokenValueNamed: #'color-border').
+		border: (	self valueOfTokenNamed: #'color-border').
 	self closeButton icon: (ToImage inner: (self iconNamed: #windowCloseForm)).
 	self expandButton icon: (ToImage inner: (self iconNamed: #windowMaximizeForm)).
 

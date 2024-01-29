@@ -185,7 +185,7 @@ TToElementWithLabeledIcon >> label: anElement [
 
 	self label = anElement ifTrue: [ ^ self ].
 	self labeledIcon label: anElement.
-	self requestNewSkin 
+	self requestNewSkin
 ]
 
 { #category : #'t - element with labeled icon - accessing' }

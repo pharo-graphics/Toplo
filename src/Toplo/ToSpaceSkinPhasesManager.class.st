@@ -43,7 +43,8 @@ ToSpaceSkinPhasesManager >> applyAllEnqueuedStatesIn: aSpace [
 
 	self runStatesGeneration.
 	self needSkinStateApplicationPass ifTrue: [
-		aSpace root applyEnqueuedStatesRecursively ].
+		aSpace root withAllChildrenDo: [ :child |
+			child skinManagerDo: [ :sm | sm applyEnqueuedStatesIn: child ] ] ].
 	self needSkinStateApplicationPass: false
 ]
 
@@ -59,7 +60,10 @@ ToSpaceSkinPhasesManager >> applyAllSkinInstallersIn: aSpace [
 		dispatchTimeEvent: BlSpaceLayoutEndEvent
 		during: [ :theSpace | theSpace doLayout ].
 	" Then install the skin "
-	aSpace root applySkinInstallerRecursively
+	aSpace root withAllChildrenDepthFirstDo: [ :child |
+		child skinManagerDo: [ :sm |
+			sm applySkinUninstallerIn: child.
+			sm applySkinInstallerIn: child ] ]
 ]
 
 { #category : #'phases installation' }

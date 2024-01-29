@@ -9,7 +9,7 @@ ToDemoButSkin2 >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e background: (e tokenValueNamed: #'color-success') ]
+		e background: (e valueOfTokenNamed: #'color-success') ]
 ]
 
 { #category : #'event handling' }
@@ -25,9 +25,9 @@ ToDemoButSkin2 >> installLookEvent: anEvent [
 			c frame vertical alignCenter ].
 		e addChild: im.
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:
-				 (e tokenValueNamed: #'border-radius-LG')).
-		e background: (e tokenValueNamed: #'color-primary').
-		e border: (e tokenValueNamed: #'color-primary') ]
+				 (e valueOfTokenNamed: #'border-radius-LG')).
+		e background: (e valueOfTokenNamed: #'color-primary').
+		e border: (e valueOfTokenNamed: #'color-primary') ]
 ]
 
 { #category : #'event handling' }
@@ -35,7 +35,7 @@ ToDemoButSkin2 >> leavedLookEvent: anEvent [
 
 	super leavedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e background: (e tokenValueNamed: #'color-primary') ]
+		e background: (e valueOfTokenNamed: #'color-primary') ]
 ]
 
 { #category : #'event handling' }

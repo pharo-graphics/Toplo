@@ -40,7 +40,7 @@ BlElement >> inspectionTokens [
 { #category : #'*Toplo-IDE' }
 BlElement >> styleSheetRulesCount [
 
-	(self userData at: #skinManager) ifNotNil: [ :skinManager |
+	(self userData at: #skinManager ifAbsent: []) ifNotNil: [ :skinManager |
 		skinManager installedSkinDo: [ :skin |
 			^ skinManager installedSkin styleSheetRulesCount ] ].
 	^ 0

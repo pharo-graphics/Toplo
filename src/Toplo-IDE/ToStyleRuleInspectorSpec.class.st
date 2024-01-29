@@ -18,7 +18,7 @@ ToStyleRuleInspectorSpec >> defaultLayout [
 	^ SpBoxLayout newVertical
 		  spacing: 4;
 		  add: (SpBoxLayout newHorizontal
-					add: self selectorIcon withConstraints: [ :c |
+				   add: self selectorIcon withConstraints: [ :c |
 					   c width: 20.
 					   c height: 20 ];
 				   add: self selectorLabel expand: true;

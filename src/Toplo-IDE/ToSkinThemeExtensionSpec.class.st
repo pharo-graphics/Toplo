@@ -19,3 +19,13 @@ ToSkinThemeExtensionSpec >> skin: aToSkin [
 
 	
 ]
+
+{ #category : #accessing }
+ToSkinThemeExtensionSpec >> theme: aTheme [
+
+	
+]
+
+{ #category : #accessing }
+ToSkinThemeExtensionSpec >> withLegend: aBoolean [
+]

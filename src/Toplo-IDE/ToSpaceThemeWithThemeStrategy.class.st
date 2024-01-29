@@ -29,11 +29,12 @@ ToSpaceThemeWithThemeStrategy >> globalLabel [
 ToSpaceThemeWithThemeStrategy >> selectorColumns [
 
 	^ {
-		  ToSpaceThemeElementListSpec  nameColumn.
+		  ToSpaceThemeElementListSpec nameColumn.
 		  ToSpaceThemeElementListSpec tokenIconColumn.
 		  ToSpaceThemeElementListSpec rulesCountColumn.
 		  ToSpaceThemeElementListSpec stampsCountColumn.
-		  ToSpaceThemeElementListSpec visibilityColumn }
+		  ToSpaceThemeElementListSpec visibilityColumn.
+		  ToSpaceThemeElementListSpec themeColumn }
 ]
 
 { #category : #'as yet unclassified' }

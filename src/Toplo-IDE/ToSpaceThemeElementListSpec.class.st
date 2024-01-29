@@ -11,11 +11,13 @@ Class {
 { #category : #column }
 ToSpaceThemeElementListSpec class >> nameColumn [
 
-	| column |
-	column := SpStringTableColumn
-		          title: 'Name'
-		          evaluated: [ :element | element printString ].
-	column
+	| columnName  |
+	columnName := SpStringTableColumn
+		              title: 'Name'
+		              evaluated: [ :element | element printString ].
+
+
+	columnName
 		displayColor: [ :element |
 			element userData
 				at: #skinManager
@@ -35,7 +37,7 @@ ToSpaceThemeElementListSpec class >> nameColumn [
 				ifAbsent: [ Smalltalk ui theme dangerTextColor ].
 			result not ].
 
-	^ column
+	^ columnName
 ]
 
 { #category : #column }
@@ -56,6 +58,31 @@ ToSpaceThemeElementListSpec class >> stampsCountColumn [
 		   element toStyleStore allStamps size = 0
 			   ifTrue: [ '' ]
 			   ifFalse: [ element toStyleStore allStamps size ] ]]) width: 50
+]
+
+{ #category : #column }
+ToSpaceThemeElementListSpec class >> themeColumn [
+
+	| columnMain columnTheme columnInherits |
+	columnMain := SpCompositeTableColumn new
+		              title: 'Theme';
+		              yourself.
+	columnTheme := SpStringTableColumn
+		               title: 'Theme'
+		               evaluated: [ :element |
+		               '[' , element toTheme name , '] ' ].
+	columnInherits := SpImageTableColumn
+		                  title: 'Inherits theme'
+		                  evaluated: [ :element |
+			                  element userData
+				                  at: #toTheme
+				                  ifPresent: [ nil ]
+				                  ifAbsent: [ self iconNamed: #arrowUp ] ].
+	columnMain addColumn: columnInherits.
+	columnMain addColumn: columnTheme.
+	columnMain width: 150.
+
+	^ columnMain
 ]
 
 { #category : #column }

@@ -36,7 +36,8 @@ ToLookEventListenersTableSpec >> initializePresenter [
 			         a eventClass name < b eventClass name ];
 		         addColumn: ((SpStringTableColumn
 				           title: ''
-				           evaluated: [ :each | self iconForEventListener: each ]) width: 20);
+				           evaluated: [ :each | self iconForEventListener: each ])
+				          width: 20);
 		         addColumn:
 			         ((SpStringTableColumn
 				           title: 'Supplement'
@@ -57,7 +58,12 @@ ToLookEventListenersTableSpec >> initializePresenter [
 				           title: 'Animation'
 				           evaluated: [ :each | each animation printString ])
 				          width: 80);
-		         yourself
+		         yourself.
+	table contextMenu: (SpMenuPresenter new addItem: [ :item |
+			 item
+				 name: 'Inspect the look event listener';
+				 icon: (self iconNamed: #smallInspectIt);
+				 action: [ self table selectedItem inspect ] ])
 ]
 
 { #category : #accessing }

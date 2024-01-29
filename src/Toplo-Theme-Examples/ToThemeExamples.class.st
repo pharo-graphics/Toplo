@@ -266,13 +266,13 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 	primaryButton2 := (ToButton id: #buttonA) labelText: 'Button 2'.
 	primaryButton1 whenClickedDo: [
 		c := Color random.
-		primaryButton2 addTokenNamed: #'color-primary' withValue: c.
+		primaryButton2 setTokenNamed: #'color-primary' value: c.
 		primaryButton2
-			addTokenNamed: #'color-primary-pressed'
-			withValue: c twiceDarker.
+			setTokenNamed: #'color-primary-pressed'
+			value: c twiceDarker.
 		primaryButton2
-			addTokenNamed: #'color-primary-hover'
-			withValue: c twiceLighter ].
+			setTokenNamed: #'color-primary-hover'
+			value: c twiceLighter ].
 	chb addEventHandler: (BlEventHandler
 			 on: ToCheckableCheckEvent
 			 do: [ :evt |
@@ -298,7 +298,8 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 	mainPane addChild: themePane.
 	mainPane addChild: pane.
 	space root addChild: mainPane.
-	space show
+	space show.
+	space inspect.
 ]
 
 { #category : #'examples - buttons' }

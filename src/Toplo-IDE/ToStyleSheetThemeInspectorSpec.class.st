@@ -3,7 +3,8 @@ Class {
 	#superclass : #ToStyleSheetThemeExtensionSpec,
 	#instVars : [
 		'styleRuleTree',
-		'scrollSection'
+		'scrollSection',
+		'withLegend'
 	],
 	#category : #'Toplo-IDE-space-theme-inspector'
 }
@@ -30,6 +31,7 @@ ToStyleSheetThemeInspectorSpec >> defaultLayout [
 { #category : #'initialization - deprecated' }
 ToStyleSheetThemeInspectorSpec >> initializePresenter [
 
+	withLegend := false.
 	styleRuleTree := SpTreePresenter new
 		                 children: [ :aStyleRule | aStyleRule styleRules ];
 		                 whenSelectedItemChangedDo: [ :aStyleRule |
@@ -45,11 +47,35 @@ ToStyleSheetThemeInspectorSpec >> initializePresenter [
 			                 printer contents ];
 		                 expandAll;
 		                 yourself.
+
+	styleRuleTree contextMenu: (SpMenuPresenter new addItem: [:item | item name: 'Inspect the rule'; icon: (self iconNamed: #smallInspectIt); action: [ self styleRuleTree selectedItem inspect]]).
+
 	scrollSection := SpScrollableLayout new
 		                 child: (SpLabelPresenter new
 				                  label: '<- Select a rule on the left panel.';
 				                  yourself);
 		                 yourself
+]
+
+{ #category : #'as yet unclassified' }
+ToStyleSheetThemeInspectorSpec >> makeHelpLegend [
+
+	| iconSet |
+	iconSet := ToStyleSheetThemeExtensionSpec new.
+	^ SpBoxLayout newVertical
+		  add: (SpBoxLayout newHorizontal
+				   add: iconSet skinAndStyleRuleIcon expand: false;
+				   add: 'Selector is ok and rule is applied.';
+				   yourself);
+		  add: (SpBoxLayout newHorizontal
+				   add: iconSet selectorOkButNotSkin expand: false;
+				   add: 'Selector is ok but rule is not applied.';
+				   yourself);
+		  add: (SpBoxLayout newHorizontal
+				   add: iconSet selectorKo expand: false;
+				   add: 'Selector is ko.';
+				   yourself);
+		  yourself
 ]
 
 { #category : #accessing }
@@ -92,7 +118,7 @@ ToStyleSheetThemeInspectorSpec >> shouldDisplayBoldFor: aStyleRule [
 ToStyleSheetThemeInspectorSpec >> skin: aSkin [
 
 	skin := aSkin.
-	self styleRuleTree refresh
+	self styleRuleTree refresh.
 ]
 
 { #category : #accessing }
@@ -104,12 +130,19 @@ ToStyleSheetThemeInspectorSpec >> styleRuleTree [
 { #category : #'as yet unclassified' }
 ToStyleSheetThemeInspectorSpec >> styleSheetTheme: aToStyleSheetTheme [
 
-	self styleRuleTree roots: aToStyleSheetTheme  styleSheet styleRules
+	self styleRuleTree roots: aToStyleSheetTheme styleSheet styleRules.
+	self styleRuleTree expandRoots
 ]
 
-{ #category : #initialization }
+{ #category : #accessing }
+ToStyleSheetThemeInspectorSpec >> theme: aTheme [
+
+	(aTheme isKindOf: ToStyleSheetTheme) ifTrue: [
+		self styleSheetTheme: aTheme ] ifFalse: [ self styleRuleTree roots: {  } ]
+]
+
+{ #category : #accessing }
 ToStyleSheetThemeInspectorSpec >> updatePresenter [
 
-	super updatePresenter.
-	self selectedItemInTreeChanged: self styleRuleTree selectedItem
+	self layout: self defaultLayout
 ]

@@ -35,8 +35,6 @@ ToMenuItem >> initialize [
 	self addStamp: #'menu-item'.
 	filler := self newFiller.
 	rightHandSide := self newRightHandSide.
-	filler withNullSkin.
-	rightHandSide withNullSkin.
 	self button addChild: filler.
 	self button addChild: rightHandSide
 ]
@@ -50,10 +48,11 @@ ToMenuItem >> labeledIcon [
 { #category : #initialization }
 ToMenuItem >> newFiller [
 
-	^ ToElement new
-		  hExact: 0;
-		  vMatchParent;
-		  id: #'menu-item-filler';
+	^ BlElement new
+		  constraintsDo: [ :c |
+			  c horizontal exact: 0.
+			  c vertical matchParent ];
+		  id: #filler;
 		  yourself
 ]
 
@@ -67,12 +66,13 @@ ToMenuItem >> newRawSkin [
 ToMenuItem >> newRightHandSide [
 
 	| rhs |
-	rhs := ToElement new layout: BlLinearLayout horizontal.
+	rhs := BlElement new layout: BlLinearLayout horizontal.
 	rhs id: #'right-hand-side'.
 	rhs constraintsDo: [ :c |
-						 c linear vertical alignCenter.
-						 c linear horizontal alignCenter ].
-	rhs fitContent.
+		c vertical fitContent.
+		c horizontal fitContent.
+		c linear vertical alignCenter.
+		c linear horizontal alignCenter ].
 	^ rhs
 ]
 

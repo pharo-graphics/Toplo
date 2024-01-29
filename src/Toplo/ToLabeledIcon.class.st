@@ -162,14 +162,14 @@ ToLabeledIcon >> initialize [
 		                 constraintsDo: [ :c |
 			                 c horizontal fitContent.
 			                 c vertical fitContent ];
-		                 id: #iconContainer;
+		                 id: #'icon-container';
 		                 layout: BlFrameLayout new;
 		                 yourself.
 	labelContainer := BlElement new
 		                  constraintsDo: [ :c |
 			                  c horizontal fitContent.
 			                  c vertical fitContent ];
-		                  id: #labelContainer;
+		                  id: #'label-container';
 		                  layout: BlFrameLayout new;
 		                  yourself.
 	self addChild: iconContainer.

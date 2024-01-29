@@ -334,25 +334,26 @@ ToTabExamples class >> example_tabsWith2Pages [
 
 { #category : #tabs }
 ToTabExamples class >> example_twoTabsWithListElement [
-|tabsPanel list1 list2 tab1 tab2|
-list1 := ToListElement new.
-list1 constraints vertical matchParent.
-list1 constraints horizontal matchParent.
-1 to: 10 do: [ :i | list1 data add: 'Hello ' , i asString ].
-list2 := ToListElement new.
-list2 constraints vertical matchParent.
-list2 constraints horizontal matchParent.
-11 to: 20 do: [ :i | list2 data add: 'Goodbye ' , i asString ].
-tabsPanel := ToTabPane new.
-tab1 := ToTab new.
-tab1 labelText: 'Hello'.
-tab1 paneBuilder: [ :pane :theTabPane | pane addChild: list1 ].
-tab2 := ToTab new.
-tab2 labelText: 'Goodbye'.
-tab2 paneBuilder: [ :pane :theTabPane | pane addChild: list2 ].
-tabsPanel addTab: tab1.
-tabsPanel addTab: tab2.
-tabsPanel openInSpace
+
+	| tabsPanel list1 list2 tab1 tab2 |
+	list1 := ToListElement new.
+	list1 constraints vertical matchParent.
+	list1 constraints horizontal matchParent.
+	1 to: 10 do: [ :i | list1 data add: 'Hello ' , i asString ].
+	list2 := ToListElement new.
+	list2 constraints vertical matchParent.
+	list2 constraints horizontal matchParent.
+	11 to: 20 do: [ :i | list2 data add: 'Goodbye ' , i asString ].
+	tabsPanel := ToTabPane new.
+	tab1 := ToTab new.
+	tab1 labelText: 'Hello'.
+	tab1 paneBuilder: [ :pane :theTabPane | pane addChild: list1 ].
+	tab2 := ToTab new.
+	tab2 labelText: 'Goodbye'.
+	tab2 paneBuilder: [ :pane :theTabPane | pane addChild: list2 ].
+	tabsPanel addTab: tab1.
+	tabsPanel addTab: tab2.
+	tabsPanel openInSpace
 ]
 
 { #category : #'composing tabs' }

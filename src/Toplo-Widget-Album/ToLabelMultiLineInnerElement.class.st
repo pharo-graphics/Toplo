@@ -40,8 +40,7 @@ ToLabelMultiLineInnerElement >> initialize [
 		c vertical fitContent.
 		c horizontal fitContent ].
 	self layout: BlLinearLayout vertical.
-	self preventMouseEvents.
-	self withNullSkin
+	self preventMouseEvents
 ]
 
 { #category : #'api - editor' }

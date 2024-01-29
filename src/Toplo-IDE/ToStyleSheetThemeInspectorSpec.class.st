@@ -3,7 +3,8 @@ Class {
 	#superclass : #ToStyleSheetThemeExtensionSpec,
 	#instVars : [
 		'styleRuleTree',
-		'scrollSection'
+		'scrollSection',
+		'withLegend'
 	],
 	#category : #'Toplo-IDE-space-theme-inspector'
 }
@@ -21,6 +22,15 @@ ToStyleSheetThemeInspectorSpec >> createStyleRuleSpecFor: aStyleRule [
 { #category : #accessing }
 ToStyleSheetThemeInspectorSpec >> defaultLayout [
 
+	self withLegend
+		ifTrue: [ ^ self defaultLayoutWithLegend ]
+		ifFalse: [ ^ self defaultLayoutWithoutLegend ].
+	
+]
+
+{ #category : #accessing }
+ToStyleSheetThemeInspectorSpec >> defaultLayoutWithLegend [
+
 	^ SpPanedLayout newHorizontal
 		  add: (SpBoxLayout newVertical
 				   spacing: 4;
@@ -31,9 +41,18 @@ ToStyleSheetThemeInspectorSpec >> defaultLayout [
 		  yourself
 ]
 
+{ #category : #accessing }
+ToStyleSheetThemeInspectorSpec >> defaultLayoutWithoutLegend [
+	^ SpPanedLayout newHorizontal
+		  add: self styleRuleTree;
+		  add: self scrollSection;
+		  yourself
+]
+
 { #category : #'initialization - deprecated' }
 ToStyleSheetThemeInspectorSpec >> initializePresenter [
 
+	withLegend := false.
 	styleRuleTree := SpTreePresenter new
 		                 children: [ :aStyleRule | aStyleRule styleRules ];
 		                 whenSelectedItemChangedDo: [ :aStyleRule |
@@ -117,7 +136,7 @@ ToStyleSheetThemeInspectorSpec >> shouldDisplayBoldFor: aStyleRule [
 ToStyleSheetThemeInspectorSpec >> skin: aSkin [
 
 	skin := aSkin.
-	self styleRuleTree refresh
+	self styleRuleTree refresh.
 ]
 
 { #category : #accessing }
@@ -129,12 +148,31 @@ ToStyleSheetThemeInspectorSpec >> styleRuleTree [
 { #category : #'as yet unclassified' }
 ToStyleSheetThemeInspectorSpec >> styleSheetTheme: aToStyleSheetTheme [
 
-	self styleRuleTree roots: aToStyleSheetTheme  styleSheet styleRules
+	self styleRuleTree roots: aToStyleSheetTheme styleSheet styleRules.
+	self styleRuleTree expandRoots
 ]
 
-{ #category : #initialization }
+{ #category : #accessing }
+ToStyleSheetThemeInspectorSpec >> theme: aTheme [
+
+	(aTheme isKindOf: ToStyleSheetTheme) ifTrue: [
+		self styleSheetTheme: aTheme ] ifFalse: [ self styleRuleTree roots: {  } ]
+]
+
+{ #category : #accessing }
 ToStyleSheetThemeInspectorSpec >> updatePresenter [
 
-	super updatePresenter.
-	self selectedItemInTreeChanged: self styleRuleTree selectedItem
+	self layout: self defaultLayout
+]
+
+{ #category : #accessing }
+ToStyleSheetThemeInspectorSpec >> withLegend [
+
+	^ withLegend
+]
+
+{ #category : #accessing }
+ToStyleSheetThemeInspectorSpec >> withLegend: aBoolean [
+
+	withLegend := aBoolean
 ]

@@ -9,23 +9,9 @@ ToStyleSheetTheme >> inspectionStyleRules [
 ]
 
 { #category : #'*Toplo-IDE' }
-ToStyleSheetTheme >> inspectionTheme [
-	^ ToStyleSheetThemeSpec new toTheme: self
-	
-]
-
-{ #category : #'*Toplo-IDE' }
 ToStyleSheetTheme >> inspectionThemeForElement [
 
-	^ ToSkinThemeSpec new
-		  complementView: self inspectionStyleRules;
-		  yourself
-]
-
-{ #category : #'*Toplo-IDE' }
-ToStyleSheetTheme >> inspectionThemeWithSkin [
-
-	^ ToStyleSheetThemeSpecWithSkin new toTheme: self
+	^ ToSkinThemeSpec new styleSheetTheme: self; yourself
 ]
 
 { #category : #'*Toplo-IDE' }

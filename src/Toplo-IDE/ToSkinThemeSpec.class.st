@@ -5,10 +5,10 @@ Class {
 		'labelSkin',
 		'browseSkinButton',
 		'inspectSkinButton',
-		'complementView',
 		'labelTheme',
 		'browseThemeButton',
-		'inspectThemeButton'
+		'inspectThemeButton',
+		'complementView'
 	],
 	#category : #'Toplo-IDE-space-theme-inspector'
 }
@@ -31,27 +31,24 @@ ToSkinThemeSpec >> complementView [
 	^ complementView
 ]
 
-{ #category : #accessing }
-ToSkinThemeSpec >> complementView: aSpPresenter [
-
-	complementView := aSpPresenter
-]
-
 { #category : #layout }
 ToSkinThemeSpec >> defaultLayout [
 
 	^ SpBoxLayout newVertical
-		  add: (SpBoxLayout newHorizontal spacing: 4; add:(SpBoxLayout newHorizontal
+		  add: (SpBoxLayout newHorizontal
 				   spacing: 4;
-				   add: self labelTheme;
-				   add: self browseThemeButton expand: false;
-				   add: self inspectThemeButton expand: false;
-				   yourself); add: (SpBoxLayout newHorizontal
-				   spacing: 4;
-				   add: self labelSkin;
-				   add: self browseSkinButton expand: false;
-				   add: self inspectSkinButton expand: false;
-				   yourself))
+				   add: (SpBoxLayout newHorizontal
+						    spacing: 4;
+						    add: self labelTheme;
+						    add: self browseThemeButton withConstraints: [ :c | c width: 24 ];
+						    add: self inspectThemeButton withConstraints: [ :c | c width: 24 ];
+						    yourself);
+				   add: (SpBoxLayout newHorizontal
+						    spacing: 4;
+						    add: self labelSkin;
+						    add: self browseSkinButton withConstraints: [ :c | c width: 24 ];
+						    add: self inspectSkinButton withConstraints: [ :c | c width: 24 ];
+						    yourself))
 		  expand: false;
 		  add: self complementView expand: true;
 		  yourself
@@ -68,8 +65,7 @@ ToSkinThemeSpec >> element: aBlElement [
 				ifNil: [ self noInstalledSkin ]
 				ifNotNil: [ :skin | self installedSkin: skin ] ]
 		ifAbsent: [ self noSkinManager ].
-	self installedTheme: aBlElement toTheme.
-	self complementView element: aBlElement
+	self installedTheme: aBlElement toTheme
 ]
 
 { #category : #accessing }
@@ -77,26 +73,22 @@ ToSkinThemeSpec >> initializePresenter [
 
 	labelSkin := SpLabelPresenter new.
 	labelTheme := SpLabelPresenter new.
-	complementView := ToDefaultThemeExtensionSpec new.
+	complementView := ToStyleSheetThemeInspectorSpec new.
 	browseSkinButton := SpButtonPresenter new
 		                    icon: (self iconNamed: #nautilus);
-		                    label: 'Browse';
 		                    help: 'Browse the skin';
 		                    yourself.
 	browseThemeButton := SpButtonPresenter new
 		                     icon: (self iconNamed: #nautilus);
-		                     label: 'Browse';
-		                     help: 'Browse the skin';
+		                     help: 'Browse the theme';
 		                     yourself.
 	inspectSkinButton := SpButtonPresenter new
 		                     icon: (self iconNamed: #smallInspectIt);
-		                     label: 'Inspect';
 		                     help: 'inspect the skin';
 		                     yourself.
 	inspectThemeButton := SpButtonPresenter new
 		                      icon: (self iconNamed: #smallInspectIt);
-		                      label: 'Inspect';
-		                      help: 'inspect the skin';
+		                      help: 'inspect the theme';
 		                      yourself
 ]
 
@@ -161,7 +153,7 @@ ToSkinThemeSpec >> noElementSelected [
 { #category : #'as yet unclassified' }
 ToSkinThemeSpec >> noInstalledSkin [
 
-	self label label: 'I have no installed skin.'.
+	self labelSkin label: 'I have no installed skin.'.
 	self browseSkinButton enabled: false.
 	self inspectSkinButton enabled: false
 ]

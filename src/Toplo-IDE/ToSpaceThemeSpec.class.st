@@ -57,10 +57,22 @@ ToSpaceThemeSpec >> initialize [
 { #category : #initialization }
 ToSpaceThemeSpec >> initializePresenters [
 
-	elementView := ToSpaceThemeElementInspector new.
-	elementSelector := ToSpaceThemeElementListSpec new
+	elementView := ToSpaceThemeElementViewPresenter new.
+	elementSelector := ToSpaceThemeElementSelectorPresenter new
 		                   whenSelectionChangedDo: [ :element |
 			                   self selectionChanged: element ];
+		                   columns: {
+				                   ToSpaceThemeElementSelectorPresenter nameColumn.
+				                   ToSpaceThemeElementSelectorPresenter
+					                   tokenIconColumn.
+				                   ToSpaceThemeElementSelectorPresenter
+					                   rulesCountColumn.
+				                   ToSpaceThemeElementSelectorPresenter
+					                   stampsCountColumn.
+				                   ToSpaceThemeElementSelectorPresenter
+					                   visibilityColumn.
+				                   ToSpaceThemeElementSelectorPresenter
+					                   themeColumn };
 		                   yourself.
 	themeLabel := SpLabelPresenter new
 		              label: 'I need a space to display informations.';
@@ -90,9 +102,8 @@ ToSpaceThemeSpec >> space: aBlSpace [
 	space ifNotNil: [
 		space root removeEventHandler: self themeChangedEventHandler ].
 	space := aBlSpace.
-
 	aBlSpace root addEventHandler: self themeChangedEventHandler.
-
+	self elementSelector root: self space root.
 	self updateSpace
 ]
 
@@ -109,15 +120,18 @@ ToSpaceThemeSpec >> themeLabel [
 ]
 
 { #category : #accessing }
+ToSpaceThemeSpec >> updatePresenter [
+
+	self elementSelector updatePresenter.
+	self elementView updatePresenter.
+]
+
+{ #category : #accessing }
 ToSpaceThemeSpec >> updateSpace [
 
-	| strategy |
-	strategy := self space userData
-		            at: #toTheme
-		            ifPresent: [ :theme | theme spaceThemeStrategyFor: self ]
-		            ifAbsent: [ ToSpaceThemeNoThemeStrategy new ].
-
-	strategy applyOn: self.
-	self elementSelector root: self space root.
-	self elementSelector updatePresenter.
+	self space userData at: #toTheme ifPresent: [ :theme |
+		self themeLabel label: 'I have a ' , theme name , ' installed.'.
+		self browseClassButton enabled: true.
+		self browseClassButton action: [ theme browse ].
+		self updatePresenter ]
 ]

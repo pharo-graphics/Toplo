@@ -1,6 +1,19 @@
 Extension { #name : #BlElement }
 
 { #category : #'*Toplo-IDE' }
+BlElement >> inspectionSkin [
+
+	<inspectorPresentationOrder: 30 title: 'Skin'>
+	self skinManager ifNil: [
+		^ ToSkinNoSkinManagerPresenter new
+			  element: self;
+			  yourself ].
+	^ ToSkinWithSkinManagerPresenter new
+		  element: self;
+		  yourself
+]
+
+{ #category : #'*Toplo-IDE' }
 BlElement >> inspectionStamps [
 
 	<inspectorPresentationOrder: 30 title: 'Stamps'>

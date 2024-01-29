@@ -1,5 +1,5 @@
 Class {
-	#name : #ToSpaceThemeElementListSpec,
+	#name : #ToSpaceThemeElementSelectorPresenter,
 	#superclass : #SpPresenter,
 	#instVars : [
 		'tree',
@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #column }
-ToSpaceThemeElementListSpec class >> nameColumn [
+ToSpaceThemeElementSelectorPresenter class >> nameColumn [
 
 	| columnName  |
 	columnName := SpStringTableColumn
@@ -41,7 +41,7 @@ ToSpaceThemeElementListSpec class >> nameColumn [
 ]
 
 { #category : #column }
-ToSpaceThemeElementListSpec class >> rulesCountColumn [
+ToSpaceThemeElementSelectorPresenter class >> rulesCountColumn [
 
 	^ (SpStringTableColumn title: 'Rules' evaluated: [ :element |
 		   element styleSheetRulesCount = 0
@@ -51,7 +51,7 @@ ToSpaceThemeElementListSpec class >> rulesCountColumn [
 ]
 
 { #category : #column }
-ToSpaceThemeElementListSpec class >> stampsCountColumn [
+ToSpaceThemeElementSelectorPresenter class >> stampsCountColumn [
 
 	^ (SpStringTableColumn title: 'Stamps' evaluated: [ :element |
 		 element toStyleStore ifNil: [ '' ] ifNotNil: [  
@@ -61,7 +61,7 @@ ToSpaceThemeElementListSpec class >> stampsCountColumn [
 ]
 
 { #category : #column }
-ToSpaceThemeElementListSpec class >> themeColumn [
+ToSpaceThemeElementSelectorPresenter class >> themeColumn [
 
 	| columnMain columnTheme columnInherits |
 	columnMain := SpCompositeTableColumn new
@@ -88,7 +88,7 @@ ToSpaceThemeElementListSpec class >> themeColumn [
 ]
 
 { #category : #column }
-ToSpaceThemeElementListSpec class >> tokenIconColumn [
+ToSpaceThemeElementSelectorPresenter class >> tokenIconColumn [
 
 	| aToSpaceThemeElementListSpec |
 	aToSpaceThemeElementListSpec := self new.
@@ -102,7 +102,7 @@ ToSpaceThemeElementListSpec class >> tokenIconColumn [
 ]
 
 { #category : #column }
-ToSpaceThemeElementListSpec class >> visibilityColumn [
+ToSpaceThemeElementSelectorPresenter class >> visibilityColumn [
 
 	| aToSpaceThemeElementListSpec |
 	aToSpaceThemeElementListSpec := self new.
@@ -114,8 +114,14 @@ ToSpaceThemeElementListSpec class >> visibilityColumn [
 		  width: 50
 ]
 
+{ #category : #api }
+ToSpaceThemeElementSelectorPresenter >> columns: aCollection [
+
+	self elementsTree columns: aCollection
+]
+
 { #category : #layout }
-ToSpaceThemeElementListSpec >> defaultLayout [
+ToSpaceThemeElementSelectorPresenter >> defaultLayout [
 
 	^ SpBoxLayout newVertical
 		  add: 'Elements in the space' expand: false;
@@ -124,13 +130,13 @@ ToSpaceThemeElementListSpec >> defaultLayout [
 ]
 
 { #category : #accessing }
-ToSpaceThemeElementListSpec >> elementsTree [
+ToSpaceThemeElementSelectorPresenter >> elementsTree [
 
 	^ elementsTree
 ]
 
 { #category : #initialization }
-ToSpaceThemeElementListSpec >> initializePresenters [
+ToSpaceThemeElementSelectorPresenter >> initializePresenters [
 
 	elementsTree := SpTreeTablePresenter new
 		                children: [ :element | element children ];
@@ -146,13 +152,19 @@ ToSpaceThemeElementListSpec >> initializePresenters [
 ]
 
 { #category : #accessing }
-ToSpaceThemeElementListSpec >> root: aBlElement [
+ToSpaceThemeElementSelectorPresenter >> root: aBlElement [
 
 	self elementsTree roots: { aBlElement }
 ]
 
+{ #category : #initialization }
+ToSpaceThemeElementSelectorPresenter >> updatePresenter [
+
+	self elementsTree refresh
+]
+
 { #category : #enumerating }
-ToSpaceThemeElementListSpec >> whenSelectionChangedDo: aBlock [
+ToSpaceThemeElementSelectorPresenter >> whenSelectionChangedDo: aBlock [
 
 	self elementsTree whenSelectedItemChangedDo: aBlock
 ]

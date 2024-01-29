@@ -136,7 +136,7 @@ ToLabeledIcon >> iconFirst: aBoolean [
 { #category : #accessing }
 ToLabeledIcon >> iconImage [
 
-	^ self icon innerImage
+	^ self icon ifNotNil: [:ic | ic innerImage ]
 ]
 
 { #category : #accessing }

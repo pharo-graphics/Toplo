@@ -8,13 +8,13 @@ Class {
 		'checked',
 		'withIndeterminate'
 	],
-	#category : 'Toplo-Widget-Button-Checkable'
+	#category : #'Toplo-Widget-Button-Checkable'
 }
 
 { #category : #skin }
-ToCheckbox >> indeterminateChild [
+ToCheckbox >> indeterminateBar [
 
-	^ self iconImage childWithId: #bar
+	^ self childWithId: #'indeterminate-bar' ifNone: [  ]
 ]
 
 { #category : #skin }

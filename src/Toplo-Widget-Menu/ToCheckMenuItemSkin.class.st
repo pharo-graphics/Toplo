@@ -10,7 +10,7 @@ ToCheckMenuItemSkin >> checkedLookEvent: anEvent [
 	super checkedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e icon innerImage border: (BlBorder paint: (e valueOfTokenNamed: #'color-primary') width: 6).
-		e indeterminateChild background: Color transparent ]
+		e indeterminateBar background: Color transparent ]
 ]
 
 { #category : #'event handling' }
@@ -22,7 +22,7 @@ ToCheckMenuItemSkin >> disabledLookEvent: anEvent [
 		e border: BlBorder empty.		
 		e icon innerImage border: (e valueOfTokenNamed: #'color-border-disabled').
 		e icon border: (e valueOfTokenNamed: #'color-border-disabled').
-		e indeterminateChild background: Color transparent ]
+		e indeterminateBar background: Color transparent ]
 ]
 
 { #category : #'event handling' }
@@ -57,7 +57,7 @@ ToCheckMenuItemSkin >> indeterminateLookEvent: anEvent [
 	super indeterminateLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e icon innerImage border: (BlBorder paint: (e valueOfTokenNamed: #'color-primary') width: 0).
-		e indeterminateChild background: (e valueOfTokenNamed: #'color-primary')]
+		e indeterminateBar background: (e valueOfTokenNamed: #'color-primary')]
 ]
 
 { #category : #'event handling' }
@@ -95,5 +95,5 @@ ToCheckMenuItemSkin >> uncheckedLookEvent: anEvent [
 	super uncheckedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e icon innerImage border: (BlBorder paint: (e valueOfTokenNamed: #'color-primary') width: 0).
-		e indeterminateChild background: Color transparent ]
+		e indeterminateBar background: Color transparent ]
 ]

@@ -3,7 +3,7 @@ Class {
 	#superclass : #ToMenuItem,
 	#traits : 'TToElementWithCheckable',
 	#classTraits : 'TToElementWithCheckable classTrait',
-	#category : 'Toplo-Widget-Menu-Basic'
+	#category : #'Toplo-Widget-Menu-Basic'
 }
 
 { #category : #accessing }
@@ -41,9 +41,9 @@ ToCheckMenuItem >> closeOnMouseEvent [
 ]
 
 { #category : #accessing }
-ToCheckMenuItem >> indeterminateChild [
+ToCheckMenuItem >> indeterminateBar [
 
-	^ self button indeterminateChild
+	^ self button indeterminateBar
 ]
 
 { #category : #skin }

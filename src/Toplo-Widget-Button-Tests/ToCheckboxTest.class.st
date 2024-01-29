@@ -44,6 +44,18 @@ ToCheckboxTest >> testCheckedWhenDisabled [
 ]
 
 { #category : #tests }
+ToCheckboxTest >> testIndeterminateBar [
+
+	| cb  |
+	cb := ToCheckbox new.
+	self assert: cb indeterminateBar isNil.
+	space root addChild: cb.
+	space applyAllSkinInstallers.
+	self assert: cb indeterminateBar notNil
+	
+]
+
+{ #category : #tests }
 ToCheckboxTest >> testIndeterminateState [
 
 	| cb |

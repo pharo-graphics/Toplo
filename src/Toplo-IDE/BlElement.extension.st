@@ -4,8 +4,13 @@ Extension { #name : #BlElement }
 BlElement >> inspectionStamps [
 
 	<inspectorPresentationOrder: 30 title: 'Stamps'>
+	| items |
+	items := self toStyleStore
+		         ifNotNil: [ :store | store stampIndex allProperties ]
+		         ifNil: [ {  } ].
+
 	^ SpTablePresenter new
-		  items: self toStyleStore stampIndex allProperties;
+		  items: items;
 		  sortingBlock: [ :a :b | a key < b key ];
 		  addColumn:
 			  (SpStringTableColumn
@@ -22,9 +27,11 @@ BlElement >> inspectionStamps [
 BlElement >> inspectionTokens [
 
 	<inspectorPresentationOrder: 31 title: 'Tokens'>
-
+	| items |
+	items := self toStyleStore ifNotNil: [ :store | store stampIndex allProperties ] ifNil: [ {  } ].
+	
 	^ SpTablePresenter new
-		  items:(self toStyleStore tokenPropertyIndex allProperties);
+		  items: items;
 		  sortingBlock: [ :a :b | a key < b key ];
 		  addColumn:
 			  (SpStringTableColumn

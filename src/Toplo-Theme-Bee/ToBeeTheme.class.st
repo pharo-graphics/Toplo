@@ -78,19 +78,105 @@ ToBeeTheme >> buttonSelector [
 	^ ToButton asTypeSelector
 ]
 
+{ #category : #'rules declaring - button - private' }
+ToBeeTheme >> declareBackgroundStyleWithTokenDefault: aDefaultColorToken tokenHover: aHoverColorToken tokenPressed: aPressedColorToken [
+
+	| backgroundColorAnim |
+	" the animation must be shared by all writers which are using it to stop it correctly "
+	backgroundColorAnim := ToPropertyColorTransitionAnimation new
+		                       duration: 150 milliSeconds.
+
+	self
+		when: ToInstallLookEvent
+		write: (self property: #'background-color')
+		with: [ :e | e valueOfTokenNamed: aDefaultColorToken ].
+	self
+		when: ToLeavedLookEvent
+		write: (self property: #'background-color')
+		with: [ :e | e valueOfTokenNamed: aDefaultColorToken ]
+		animation: backgroundColorAnim.
+	self
+		when: ToHoveredLookEvent
+		write: (self property: #'background-color')
+		with: [ :e | e valueOfTokenNamed: aHoverColorToken ]
+		animation: backgroundColorAnim.
+	self
+		when: ToPressedLookEvent
+		write: (self property: #'background-color')
+		with: [ :e | e valueOfTokenNamed: aPressedColorToken ]
+		animation: backgroundColorAnim
+]
+
+{ #category : #'rules declaring - button - private' }
+ToBeeTheme >> declareBorderStyleWithTokenDefault: aDefaultColorToken tokenHover: aHoverColorToken tokenPressed: aPressedColorToken [
+
+	| borderColorAnim borderEffectAnim |
+	borderColorAnim := ToPropertyBorderColorTransitionAnimation new
+		                   duration: 500 milliSeconds.
+	borderEffectAnim := ToPropertyBorderEffectTransitionAnimation new
+		                    duration: 350 milliSeconds.
+	self
+		when: ToInstallLookEvent
+		write: (self property: #border)
+		with: [ :e |
+			BlBorderBuilder new
+				paint: (e valueOfTokenNamed: aDefaultColorToken);
+				width: (e valueOfTokenNamed: #'line-width');
+				build ].
+	self
+		when: ToLeavedLookEvent
+		write: (self property: #border)
+		with: [ :e |
+			BlBorderBuilder new
+				paint: (e valueOfTokenNamed: aDefaultColorToken);
+				width: (e valueOfTokenNamed: #'line-width');
+				build ]
+		animation: borderColorAnim.
+	self
+		when: ToHoveredLookEvent
+		write: (self property: #border)
+		with: [ :e |
+			BlBorderBuilder new
+				paint: (e valueOfTokenNamed: aHoverColorToken);
+				width: (e valueOfTokenNamed: #'line-width');
+				build ]
+		animation: borderColorAnim.
+	self
+		when: ToClickedLookEvent
+		write: (self property: #border)
+		with: [ :e |
+			BlBorderBuilder new
+				paint: (e valueOfTokenNamed: aPressedColorToken);
+				width: (e valueOfTokenNamed: #'line-width');
+				build ]
+		animation: borderEffectAnim.
+	self
+		when: ToPressedLookEvent
+		write: (self property: #border)
+		with: [ :e |
+			BlBorderBuilder new
+				paint: (e valueOfTokenNamed: aPressedColorToken);
+				width: (e valueOfTokenNamed: #'line-width');
+				build ]
+]
+
 { #category : #'rules declaring - button' }
 ToBeeTheme >> declareButtonRules [
 
 	self declareLabeledIconInButtonRules.
-	self declareCommonButtonRules.
-	self declareDefaultButtonRules.
-	self declarePrimaryButtonRules
+
+	self select: self buttonSelector style: [
+		self declareCommonButtonRules.
+		self declareDefaultButtonRules.
+		self declareDashedButtonRules.
+		self declareTextButtonRules.
+		self declareLinkButtonRules.
+		self declarePrimaryButtonRules ]
 ]
 
 { #category : #'rules declaring - button' }
 ToBeeTheme >> declareCommonButtonRules [
 
-	self select: self buttonSelector style: [
 		self
 			when: ToHoveredLookEvent
 			write: (self property: #mouseCursor)
@@ -136,7 +222,90 @@ ToBeeTheme >> declareCommonButtonRules [
 				self
 					write: (self property: #geometry)
 					with: [ :e |
-					BlRoundedRectangleGeometry cornerRadius: e requestedHeight ] ] ] ]
+					BlRoundedRectangleGeometry cornerRadius: e requestedHeight ] ] ]
+]
+
+{ #category : #'rules declaring - button - private' }
+ToBeeTheme >> declareDashedBorderStyleWithTokenDefault: aDefaultColorToken tokenHover: aHoverColorToken tokenPressed: aPressedColorToken [
+
+	| borderColorAnim borderEffectAnim |
+	borderColorAnim := ToPropertyBorderColorTransitionAnimation new
+		                   duration: 500 milliSeconds.
+	borderEffectAnim := ToPropertyBorderEffectTransitionAnimation new
+		                    duration: 350 milliSeconds.
+	self
+		when: ToInstallLookEvent
+		write: (self property: #border)
+		with: [ :e |
+			BlBorderBuilder new
+				paint: (e valueOfTokenNamed: aDefaultColorToken);
+				width: (e valueOfTokenNamed: #'line-width');
+				dashArray: (e valueOfTokenNamed: #'dash-array');
+				build ].
+	self
+		when: ToLeavedLookEvent
+		write: (self property: #border)
+		with: [ :e |
+			BlBorderBuilder new
+				paint: (e valueOfTokenNamed: aDefaultColorToken);
+				width: (e valueOfTokenNamed: #'line-width');
+				dashArray: (e valueOfTokenNamed: #'dash-array');
+				build ]
+		animation: borderColorAnim.
+	self
+		when: ToHoveredLookEvent
+		write: (self property: #border)
+		with: [ :e |
+			BlBorderBuilder new
+				paint: (e valueOfTokenNamed: aHoverColorToken);
+				width: (e valueOfTokenNamed: #'line-width');
+				dashArray: (e valueOfTokenNamed: #'dash-array');
+				build ]
+		animation: borderColorAnim.
+	self
+		when: ToClickedLookEvent
+		write: (self property: #border)
+		with: [ :e |
+			BlBorderBuilder new
+				paint: (e valueOfTokenNamed: aPressedColorToken);
+				width: (e valueOfTokenNamed: #'line-width');
+				dashArray: (e valueOfTokenNamed: #'dash-array');
+				build ]
+		animation: borderEffectAnim.
+	self
+		when: ToPressedLookEvent
+		write: (self property: #border)
+		with: [ :e |
+			BlBorderBuilder new
+				paint: (e valueOfTokenNamed: aPressedColorToken);
+				width: (e valueOfTokenNamed: #'line-width');
+				dashArray: (e valueOfTokenNamed: #'dash-array');
+				build ]
+]
+
+{ #category : #'rules declaring - button' }
+ToBeeTheme >> declareDashedButtonRules [
+
+	self select: #( #dashed ) asStampSelector style: [
+		self
+			when: ToDisabledLookEvent
+			write: (self property: #border)
+			with: [ :e |
+				BlBorderBuilder new
+					paint: (e valueOfTokenNamed: #'color-border-disabled');
+					width: (e valueOfTokenNamed: #'line-width');
+					dashArray: (e valueOfTokenNamed: #'dash-array');
+					build ].
+		self select: #danger asStampSelector not style: [
+			self
+				declareDashedBorderStyleWithTokenDefault: #'color-border'
+				tokenHover: #'color-primary-hover'
+				tokenPressed: #'color-primary-pressed' ].
+		self select: #danger asStampSelector style: [
+			self
+				declareDashedBorderStyleWithTokenDefault: #'color-error'
+				tokenHover: #'color-error-hover'
+				tokenPressed: #'color-error-pressed' ] ]
 ]
 
 { #category : #'rules declaring - button' }
@@ -149,33 +318,21 @@ ToBeeTheme >> declareDefaultButtonRules [
 		                    duration: 350 milliSeconds.
 
 	"Button background and border"
-	self select: self buttonSelector style: [ "Background"
-		self
-			when: ToInstallLookEvent
-			write: (self property: #'background-color')
-			with: [ :e | e valueOfTokenNamed: #'color-bg-container' ].
-		self
-			when: ToDisabledLookEvent
-			write: (self property: #'background-color')
-			with: [ :e | e valueOfTokenNamed: #'color-bg-container-disabled' ].
+	"Background"
+	self
+		when: ToDisabledLookEvent
+		write: (self property: #'background-color')
+		with: [ :e | e valueOfTokenNamed: #'color-bg-container-disabled' ].
+	self
+		when: ToInstallLookEvent
+		write: (self property: #'background-color')
+		with: [ :e | e valueOfTokenNamed: #'color-bg-container' ].
 
-		"Border"
-		self select: #primary asStampSelector not style: [
-			self
-				when: ToInstallLookEvent
-				write: (self property: #border)
-				with: [ :e |
-					BlBorder
-						paint: (e valueOfTokenNamed: #'color-border')
-						width: (e valueOfTokenNamed: #'line-width') ].
-			self
-				when: ToLeavedLookEvent
-				write: (self property: #border)
-				with: [ :e |
-					BlBorder
-						paint: (e valueOfTokenNamed: #'color-border')
-						width: (e valueOfTokenNamed: #'line-width') ]
-				animation: borderColorAnim.
+	"Border"
+	self
+		select: (#dashed asStampSelector
+			 || #text asStampSelector || #link asStampSelector) not
+		style: [
 			self
 				when: ToDisabledLookEvent
 				write: (self property: #border)
@@ -183,58 +340,33 @@ ToBeeTheme >> declareDefaultButtonRules [
 					BlBorder
 						paint: (e valueOfTokenNamed: #'color-border-disabled')
 						width: (e valueOfTokenNamed: #'line-width') ].
-			self
-				when: ToHoveredLookEvent
-				write: (self property: #border)
-				with: [ :e |
-					BlBorder
-						paint: (e valueOfTokenNamed: #'color-primary-hover')
-						width: (e valueOfTokenNamed: #'line-width') ]
-				animation: borderColorAnim.
-			self
-				when: ToClickedLookEvent
-				write: (self property: #border)
-				with: [ :e |
-					BlBorder
-						paint: (e valueOfTokenNamed: #'color-primary-hover')
-						width: (e valueOfTokenNamed: #'line-width') ]
-				animation: borderEffectAnim.
-			self
-				when: ToPressedLookEvent
-				write: (self property: #border)
-				with: [ :e |
-					BlBorder
-						paint: (e valueOfTokenNamed: #'color-primary-pressed')
-						width: (e valueOfTokenNamed: #'line-width') ] ].
+			self select: #danger asStampSelector not style: [
+				self
+					declareBorderStyleWithTokenDefault: 'color-border'
+					tokenHover: 'color-primary-hover'
+					tokenPressed: 'color-primary-pressed' ].
+			self select: #danger asStampSelector style: [
+				self
+					declareBorderStyleWithTokenDefault: #'color-error'
+					tokenHover: #'color-error-hover'
+					tokenPressed: #'color-error-pressed' ] ].
 
-		"Label"
-		self
-			when: ToInstallLookEvent
-			write: (self property: #'button-label-text-foreground')
-			with: [ :e | e valueOfTokenNamed: #'color-text' ].
-		self
-			when: ToLeavedLookEvent
-			write: (self property: #'button-label-text-foreground')
-			with: [ :e | e valueOfTokenNamed: #'color-text' ].
+	"Label"
+	self select: #link asStampSelector not style: [
 		self
 			when: ToDisabledLookEvent
 			write: (self property: #'button-label-text-foreground')
 			with: [ :e | e valueOfTokenNamed: #'color-text-disabled' ].
-		self
-			when: ToHoveredLookEvent
-			write: (self property: #'button-label-text-foreground')
-			with: [ :e | e valueOfTokenNamed: #'color-primary' ].
-		self
-			when: ToPressedLookEvent
-			write: (self property: #'button-label-text-foreground')
-			with: [ :e | e valueOfTokenNamed: #'color-primary-pressed' ].
-
-		self select: #( #dashed ) asStampSelector style: [
+		self select: #danger asStampSelector not style: [
 			self
-				when: ToInstallLookEvent
-				supplement: (self property: #'border-with-builder')
-				with: [ :e |
-				e borderBuilder dashArray: (e valueOfTokenNamed: #'dash-array') ] ] ]
+				declareLabelStyleWithTokenDefault: #'color-text'
+				tokenHover: #'color-primary'
+				tokenPressed: #'color-primary-pressed' ].
+		self select: #danger asStampSelector style: [
+			self
+				declareLabelStyleWithTokenDefault: #'color-error'
+				tokenHover: #'color-error-hover'
+				tokenPressed: #'color-error-pressed' ] ]
 ]
 
 { #category : #'rules declaring - label' }
@@ -361,6 +493,31 @@ ToBeeTheme >> declareLabelRules [
 						yourself ] ] ]
 ]
 
+{ #category : #'rules declaring - button - private' }
+ToBeeTheme >> declareLabelStyleWithTokenDefault: aDefaultColorToken tokenHover: aHoverColorToken tokenPressed: aTokenColorToken [
+
+		self
+			when: ToDisabledLookEvent
+			write: (self property: #'button-label-text-foreground')
+			with: [ :e | e valueOfTokenNamed: #'color-text-disabled' ].
+	self
+		when: ToInstallLookEvent
+		write: (self property: #'button-label-text-foreground')
+		with: [ :e | e valueOfTokenNamed: aDefaultColorToken ].
+	self
+		when: ToLeavedLookEvent
+		write: (self property: #'button-label-text-foreground')
+		with: [ :e | e valueOfTokenNamed: aDefaultColorToken ].
+	self
+		when: ToHoveredLookEvent
+		write: (self property: #'button-label-text-foreground')
+		with: [ :e | e valueOfTokenNamed: aHoverColorToken ].
+	self
+		when: ToPressedLookEvent
+		write: (self property: #'button-label-text-foreground')
+		with: [ :e | e valueOfTokenNamed: aTokenColorToken ]
+]
+
 { #category : #'rules declaring - button' }
 ToBeeTheme >> declareLabeledIconInButtonRules [
 
@@ -419,85 +576,89 @@ ToBeeTheme >> declareLabeledIconInButtonRules [
 ]
 
 { #category : #'rules declaring - button' }
+ToBeeTheme >> declareLinkButtonRules [
+
+	self select: #link asStampSelector style: [ "Border"
+		self declareNoBorder.
+		self
+			when: ToDisabledLookEvent
+			write: (self property: #'background-color')
+			with: [ :e | Color transparent ].
+
+		"Label"
+		self select: #danger asStampSelector not style: [
+			self
+				declareLabelStyleWithTokenDefault: #'color-link'
+				tokenHover: #'color-link-hover'
+				tokenPressed: #'color-link-active' ].
+		self select: #danger asStampSelector style: [
+			self
+				declareLabelStyleWithTokenDefault: #'color-error'
+				tokenHover: #'color-error-hover'
+				tokenPressed: #'color-error-pressed' ] ]
+]
+
+{ #category : #'rules declaring - button - private' }
+ToBeeTheme >> declareNoBorder [
+
+	self
+		when: ToInstallLookEvent
+		write: (self property: #'border')
+		with: [ :e |
+			BlBorder
+				paint: Color transparent
+				width: (e valueOfTokenNamed: #'line-width') ].
+	self
+		when: ToLeavedLookEvent
+		write: (self property: #'border')
+		with: [ :e |
+			BlBorder
+				paint: Color transparent
+				width: (e valueOfTokenNamed: #'line-width') ].
+	self
+		when: ToDisabledLookEvent
+		write: (self property: #'border')
+		with: [ :e |
+			BlBorder
+				paint: Color transparent
+				width: (e valueOfTokenNamed: #'line-width') ]
+]
+
+{ #category : #'rules declaring - button' }
 ToBeeTheme >> declarePrimaryButtonRules [
 
-	| backgroundColorAnim |
-	" the animation must be shared by all writers which are using it to stop it correctly "
-	backgroundColorAnim := ToPropertyColorTransitionAnimation new
-		                       duration: 150 milliSeconds.
-
-	"Button background and border"
 	self
-		select: self buttonSelector && #primary asStampSelector
-		style: [ "Background"
-			self
-				when: ToInstallLookEvent
-				write: (self property: #'background-color')
-				with: [ :e | e valueOfTokenNamed: #'color-primary' ].
-			self
-				when: ToLeavedLookEvent
-				write: (self property: #'background-color')
-				with: [ :e | e valueOfTokenNamed: #'color-primary' ]
-				animation: backgroundColorAnim.
+		select: #primary asStampSelector
+		style: [ "Background and border"
 			self
 				when: ToDisabledLookEvent
 				write: (self property: #'background-color')
 				with: [ :e | e valueOfTokenNamed: #'color-bg-container-disabled' ].
-			self
-				when: ToHoveredLookEvent
-				write: (self property: #'background-color')
-				with: [ :e | e valueOfTokenNamed: #'color-primary-hover' ]
-				animation: backgroundColorAnim.
-			self
-				when: ToPressedLookEvent
-				write: (self property: #'background-color')
-				with: [ :e | e valueOfTokenNamed: #'color-primary-pressed' ]
-				animation: backgroundColorAnim.
 
-			"Border"
-			self
-				when: ToInstallLookEvent
-				write: (self property: #'border-with-builder')
-				with: [ :e |
-					e borderBuilder
-						paint: Color transparent;
-						width: (e valueOfTokenNamed: #'line-width') ].
-			self
-				when: ToLeavedLookEvent
-				write: (self property: #'border-with-builder')
-				with: [ :e |
-					e borderBuilder
-						paint: Color transparent;
-						width: (e valueOfTokenNamed: #'line-width') ].
-			self
-				when: ToDisabledLookEvent
-				write: (self property: #'border-with-builder')
-				with: [ :e |
-					e borderBuilder
-						paint: (e valueOfTokenNamed: #'color-border-disabled');
-						width: (e valueOfTokenNamed: #'line-width') ].
+			self select: #danger asStampSelector not style: [
+				self
+					declareBackgroundStyleWithTokenDefault: #'color-primary'
+					tokenHover: #'color-primary-hover'
+					tokenPressed: #'color-primary-pressed'.
+				self
+					declareBorderStyleWithTokenDefault: #'color-primary'
+					tokenHover: #'color-primary-hover'
+					tokenPressed: #'color-primary-pressed' ].
+			self select: #danger asStampSelector style: [
+				self
+					declareBackgroundStyleWithTokenDefault: #'color-error'
+					tokenHover:  #'color-error-hover'
+					tokenPressed: #'color-error-pressed'.
+				self
+					declareBorderStyleWithTokenDefault:  #'color-error'
+					tokenHover:  #'color-error-hover'
+					tokenPressed: #'color-error-pressed' ].
 
 			"Label"
 			self
-				when: ToInstallLookEvent
-				write: (self property: #'button-label-text-foreground')
-				with: [ :e | e valueOfTokenNamed: #'color-text-light-solid' ].
-			self
-				when: ToLeavedLookEvent
-				write: (self property: #'button-label-text-foreground')
-				with: [ :e | e valueOfTokenNamed: #'color-text-light-solid' ].
-			self
-				when: ToDisabledLookEvent
-				write: (self property: #'button-label-text-foreground')
-				with: [ :e | e valueOfTokenNamed: #'color-text-disabled' ].
-			self
-				when: ToHoveredLookEvent
-				write: (self property: #'button-label-text-foreground')
-				with: [ :e | e valueOfTokenNamed: #'color-text-light-solid' ].
-			self
-				when: ToPressedLookEvent
-				write: (self property: #'button-label-text-foreground')
-				with: [ :e | e valueOfTokenNamed: #'color-text-light-solid' ] ]
+				declareLabelStyleWithTokenDefault: #'color-text-light-solid'
+				tokenHover: #'color-text-light-solid'
+				tokenPressed: #'color-text-light-solid' ]
 ]
 
 { #category : #'rules declaring - pane' }
@@ -507,6 +668,42 @@ ToBeeTheme >> declareRootPaneRules [
 		self
 			write: (self property: #background)
 			with: [ :e | e valueOfTokenNamed: #'background-color' ] ]
+]
+
+{ #category : #'rules declaring - button' }
+ToBeeTheme >> declareTextButtonRules [
+
+	self select: #text asStampSelector style: [ "Border"
+		self declareNoBorder.
+		self
+		when: ToDisabledLookEvent
+		write: (self property: #'background-color')
+		with: [ :e | Color transparent ].
+
+		"Background"
+		self select: #danger asStampSelector not style: [
+			self
+				declareBackgroundStyleWithTokenDefault: #'color-bg-container'
+				tokenHover: #'color-border'
+				tokenPressed: #'border-paint' ].
+		self select: #danger asStampSelector style: [
+			self
+				declareBackgroundStyleWithTokenDefault: #'color-bg-container'
+				tokenHover: #'color-error-bg'
+				tokenPressed: #'color-error-bg' ].
+
+
+		"Label"
+		self select: #danger asStampSelector not style: [
+			self
+				declareLabelStyleWithTokenDefault: #'color-text'
+				tokenHover: #'color-text'
+				tokenPressed: #'color-text' ].
+		self select: #danger asStampSelector style: [
+			self
+				declareLabelStyleWithTokenDefault: #'color-error'
+				tokenHover: #'color-error-hover'
+				tokenPressed: #'color-error-pressed' ] ]
 ]
 
 { #category : #initialization }

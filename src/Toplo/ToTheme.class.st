@@ -56,27 +56,27 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'border-radius-LG' value: 8).
 		  (ToTokenProperty name: #'border-radius-SM' value: 4).
 
-		  (ToTokenProperty name: #'animation-window-opening' value: [ :win |
-			   win opacity: 0.3.
-			   win addAnimation:
-				   ((BlOpacityAnimation new opacity: 1.8) duration:
-					    600 milliSeconds) ]).
+		  (ToTokenProperty
+			   name: #'animation-window-opening'
+			   value: [ :win |
+				   win opacity: 0.3.
+				   win addAnimation:
+					   ((BlOpacityAnimation new opacity: 1.8) duration:
+						    600 milliSeconds) ]).
 
 		  (ToTokenProperty
 			   name: #'effect-window'
-			   value:
-			   (BlGaussianShadowEffect
-				    color: (Color veryLightGray alpha: 0.5)
-				    width: 20
-				    offset: 0@4)).
-	
+			   value: (BlGaussianShadowEffect
+					    color: (Color veryLightGray alpha: 0.5)
+					    width: 20
+					    offset: 0 @ 4)).
+
 		  (ToTokenProperty
 			   name: #'effect-window-menu'
-			   value:
-			   (BlGaussianShadowEffect
-				    color: Color lightGray
-				    width: 15
-				    offset: 0 asPoint)).
+			   value: (BlGaussianShadowEffect
+					    color: Color lightGray
+					    width: 15
+					    offset: 0 asPoint)).
 
 		  (ToTokenProperty
 			   name: #'color-bg-container'
@@ -137,7 +137,8 @@ ToTheme class >> defaultTokenProperties [
 			   value: self defaultColorPrimary darker darker).
 		  (ToTokenProperty
 			   name: #'color-primary-hover'
-			   value: self defaultColorPrimary lighter lighter).
+			   value:
+			   (self defaultColorPrimary lighter lighter)).
 
 		  (ToTokenProperty
 			   name: #'color-success'
@@ -162,15 +163,15 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty
 			   name: #'color-text-secondary'
 			   value: (Color black alpha: 0.45)).
-		(ToTokenProperty
+		  (ToTokenProperty
 			   name: #'label-in-list-foreground-selected-focused'
-			   value: (Color white)).
-		(ToTokenProperty
+			   value: Color white).
+		  (ToTokenProperty
 			   name: #'label-in-list-foreground-selected-unfocused'
-			   value: (self defaultColorPrimary)).
-		(ToTokenProperty
+			   value: self defaultColorPrimary).
+		  (ToTokenProperty
 			   name: #'label-in-list-foreground-deselected'
-			   value: (Color black)).
+			   value: Color black).
 		  (ToTokenProperty
 			   name: #'text-foreground-in-tooltip'
 			   value: (Color fromHexString: '#313339')).
@@ -198,9 +199,11 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'line-type' value: #solid).
 		  (ToTokenProperty name: #'line-width' value: 1).
 		  (ToTokenProperty name: #'focus-border-width' value: 2).
-		  (ToTokenProperty name: #'focus-border-paint' value: self defaultColorPrimary ).
+		  (ToTokenProperty
+			   name: #'focus-border-paint'
+			   value: self defaultColorPrimary).
 		  (ToTokenProperty name: #'border-width' value: 1).
-		  (ToTokenProperty name: #'border-paint' value: Color lightGray ).
+		  (ToTokenProperty name: #'border-paint' value: Color lightGray).
 
 		  "Size, margin and padding"
 		  (ToTokenProperty name: #'control-height' value: 32).
@@ -222,7 +225,7 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'list-padding-V' value: 1).
 		  (ToTokenProperty name: #'list-node-padding-H' value: 2).
 		  (ToTokenProperty name: #'list-node-padding-V' value: 1).
-		
+
 		  (ToTokenProperty name: #'text-editor-padding-H' value: 3).
 		  (ToTokenProperty name: #'text-editor-padding-V' value: 2).
 
@@ -250,7 +253,7 @@ ToTheme class >> defaultTokenProperties [
 			   value: BlRoundedRectangleGeometry).
 		  (ToTokenProperty
 			   name: #'color-primary-selection-focused'
-			   value: (self defaultColorPrimary alpha: 0.6) ).
+			   value: (self defaultColorPrimary alpha: 0.6)).
 		  (ToTokenProperty
 			   name: #'color-primary-selection-unfocused'
 			   value: (self defaultColorPrimary alpha: 0.1)).

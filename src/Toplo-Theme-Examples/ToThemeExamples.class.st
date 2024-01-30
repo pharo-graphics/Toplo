@@ -305,10 +305,11 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 { #category : #'examples - buttons' }
 ToThemeExamples class >> example_buttons [
 
-	| space defaultButton box dashedButton textButton linkButton line1 line2 primaryButton |
+	| space box line1 line2 line3 buttons |
 	space := self openThemeExampleSpace.
 	box := self elementSandBoxFor: space.
 
+	"Line 1 : -"
 	line1 := BlElement new
 		         layout: (BlLinearLayout horizontal cellSpacing: 5);
 		         padding: (BlInsets all: 5);
@@ -316,37 +317,10 @@ ToThemeExamples class >> example_buttons [
 			         c vertical fitContent.
 			         c horizontal fitContent ].
 	box addChild: line1.
+	buttons := self makeStandardButtons.
+	buttons do: [ :each | line1 addChild: each ].
 
-	"Create some buttons with available skins"
-	primaryButton1 := (ToButton id: #buttonA)
-		                 labelText: 'Primary Button';
-		                 tooltipText: 'I''m a button'.
-	primaryButton1 addStamp: #primary.
-	line1 addChild: primaryButton1.
-
-	defaultButton := (ToButton id: #buttonB)
-		                 labelText: 'Default Button';
-		                 tooltipText: 'I''m a button'.
-	line1 addChild: defaultButton.
-
-	dashedButton := (ToButton id: #buttonC)
-		                labelText: 'Dashed Button';
-		                tooltipText: 'I''m a button'.
-	dashedButton addStamp: #dashed.
-	line1 addChild: dashedButton.
-
-	textButton := (ToButton id: #buttonD)
-		              labelText: 'Text Button';
-		              tooltipText: 'I''m a button'.
-	textButton addStamp: #text.
-	line1 addChild: textButton.
-
-	linkButton := (ToButton id: #buttonE)
-		              labelText: 'Link Button';
-		              tooltipText: 'I''m a button'.
-	linkButton addStamp: #link.
-	line1 addChild: linkButton.
-
+	"Line 2 : buttons disabled"
 	line2 := BlElement new
 		         layout: (BlLinearLayout horizontal cellSpacing: 5);
 		         padding: (BlInsets all: 5);
@@ -354,38 +328,23 @@ ToThemeExamples class >> example_buttons [
 			         c vertical fitContent.
 			         c horizontal fitContent ].
 	box addChild: line2.
+	buttons := self makeStandardButtons.
+	buttons do: [ :each |
+		each disable.
+		line2 addChild: each ].
 
-	"Create some buttons with available skins - disable"
-	primaryButton := (ToButton id: #buttonA)
-		                 labelText: 'Primary Button';
-		                 tooltipText: 'I''m a button';
-		                 disable.
-	primaryButton addStamp: #primary.
-	line2 addChild: primaryButton.
-
-	defaultButton := (ToButton id: #buttonB)
-		                 labelText: 'Default Button';
-		                 tooltipText: 'I''m a button';
-		                 disable.
-	line2 addChild: defaultButton.
-
-	dashedButton := (ToButton id: #buttonC)
-		                labelText: 'Dashed Button';
-		                tooltipText: 'I''m a button';
-		                disable.
-	line2 addChild: dashedButton.
-
-	textButton := (ToButton id: #buttonD)
-		              labelText: 'Text Button';
-		              tooltipText: 'I''m a button';
-		              disable.
-	line2 addChild: textButton.
-
-	linkButton := (ToButton id: #buttonE)
-		              labelText: 'Link Button';
-		              tooltipText: 'I''m a button';
-		              disable.
-	line2 addChild: linkButton
+	"Line 3 : buttons danger"
+	line3 := BlElement new
+		         layout: (BlLinearLayout horizontal cellSpacing: 5);
+		         padding: (BlInsets all: 5);
+		         constraintsDo: [ :c |
+			         c vertical fitContent.
+			         c horizontal fitContent ].
+	box addChild: line3.
+	buttons := self makeStandardButtons.
+	buttons do: [ :each |
+		each addStamp: #danger.
+		line3 addChild: each ]
 ]
 
 { #category : #'examples - buttons' }
@@ -415,6 +374,37 @@ ToThemeExamples class >> inspectSpaceToTheme: aSpace [
 
 	aSpace ifNil:[ ^ self ].
 	aSpace toTheme inspect
+]
+
+{ #category : #'as yet unclassified' }
+ToThemeExamples class >> makeStandardButtons [
+
+	|primaryButton defaultButton dashedButton textButton linkButton |
+
+		primaryButton := (ToButton id: #buttonA)
+		                  labelText: 'Primary Button';
+		                  tooltipText: 'I''m a button'.
+	primaryButton addStamp: #primary.
+
+	defaultButton := (ToButton id: #buttonB)
+		                 labelText: 'Default Button';
+		                 tooltipText: 'I''m a button'.
+
+	dashedButton := (ToButton id: #buttonC)
+		                labelText: 'Dashed Button';
+		                tooltipText: 'I''m a button'.
+	dashedButton addStamp: #dashed.
+
+	textButton := (ToButton id: #buttonD)
+		              labelText: 'Text Button';
+		              tooltipText: 'I''m a button'.
+	textButton addStamp: #text.
+
+	linkButton := (ToButton id: #buttonE)
+		              labelText: 'Link Button';
+		              tooltipText: 'I''m a button'.
+	linkButton addStamp: #link.
+	^ { primaryButton .defaultButton .dashedButton .textButton .linkButton }
 ]
 
 { #category : #private }

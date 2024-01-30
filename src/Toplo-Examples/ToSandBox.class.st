@@ -1084,7 +1084,7 @@ ToSandBox class >> example_ListWithSelectionHistory [
 		(ToListSelectionHistoryEventHandlerExample new historyList:
 			 historyList).
 	statesList addEventHandler: (BlEventHandler
-			 on: ToListSelectionActionEvent
+			 on: ToListSelectionActionEventDep
 			 do: [ :event | event traceCr ]).
 
 	pane matchParent; addDividers.

@@ -1,11 +1,17 @@
 Class {
 	#name : #ToListMultipleIndexesEvent,
-	#superclass : #ToListSelectionActionEvent,
+	#superclass : #ToListSelectionActionEventDep,
 	#instVars : [
 		'indexes'
 	],
-	#category : #'Toplo-Widget-List-Selection'
+	#category : #'Toplo-Widget-List-Selection-Deprecated'
 }
+
+{ #category : #testing }
+ToListMultipleIndexesEvent class >> isDeprecated [
+
+	^ true
+]
 
 { #category : #accessing }
 ToListMultipleIndexesEvent >> indexes [

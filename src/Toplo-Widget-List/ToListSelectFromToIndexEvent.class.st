@@ -1,11 +1,17 @@
 Class {
 	#name : #ToListSelectFromToIndexEvent,
-	#superclass : #ToListSelectionActionEvent,
+	#superclass : #ToListSelectionActionEventDep,
 	#instVars : [
 		'interval'
 	],
-	#category : #'Toplo-Widget-List-Selection'
+	#category : #'Toplo-Widget-List-Selection-Deprecated'
 }
+
+{ #category : #testing }
+ToListSelectFromToIndexEvent class >> isDeprecated [
+
+	^ true
+]
 
 { #category : #accessing }
 ToListSelectFromToIndexEvent >> interval [

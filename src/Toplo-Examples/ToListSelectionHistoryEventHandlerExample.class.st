@@ -10,7 +10,7 @@ Class {
 { #category : #'api - accessing' }
 ToListSelectionHistoryEventHandlerExample >> eventsToHandle [
 
-	^ { ToListSelectionActionEvent }
+	^ { ToListSelectionActionEventDep }
 ]
 
 { #category : #accessing }

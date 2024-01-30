@@ -1,11 +1,17 @@
 Class {
 	#name : #ToListUniqueIndexEvent,
-	#superclass : #ToListSelectionActionEvent,
+	#superclass : #ToListSelectionActionEventDep,
 	#instVars : [
 		'index'
 	],
-	#category : #'Toplo-Widget-List-Selection'
+	#category : #'Toplo-Widget-List-Selection-Deprecated'
 }
+
+{ #category : #testing }
+ToListUniqueIndexEvent class >> isDeprecated [
+
+	^ true
+]
 
 { #category : #accessing }
 ToListUniqueIndexEvent >> index [

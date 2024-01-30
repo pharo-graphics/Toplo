@@ -171,6 +171,18 @@ BlElement >> isEnabled [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> localTheme [
+
+	^ self userData at: #toTheme ifAbsent: [ ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> localTheme: aTheme [
+
+	self userData at: #toTheme put: aTheme
+]
+
+{ #category : #'*Toplo' }
 BlElement >> newRawSkin [
 
 	^  ToRawSkin new
@@ -365,7 +377,7 @@ BlElement >> toStyleStoreDo: aBlock [
 { #category : #'*Toplo' }
 BlElement >> toTheme [
 
-	^ self userData at: #toTheme ifAbsent: [
+	^ self localTheme ifNil: [
 		  self parent
 			  ifNil: [ self space toTheme ]
 			  ifNotNil: [ :p | p toTheme ] ]
@@ -374,10 +386,9 @@ BlElement >> toTheme [
 { #category : #'*Toplo' }
 BlElement >> toTheme: aTheme [
 
-	self userData at: #toTheme ifPresent: [ :th | th onUninstalledIn: self ].
-	self userData at: #toTheme put: aTheme.
-	aTheme ifNil: [ ^ self ].
-	aTheme onInstalledIn: self 
+	self localTheme ifNotNil: [ :th | th onUninstalledIn: self ].
+	self localTheme: aTheme.
+	self localTheme ifNotNil: [ :th | th onInstalledIn: self ]
 ]
 
 { #category : #'*Toplo-LookAndFeel' }

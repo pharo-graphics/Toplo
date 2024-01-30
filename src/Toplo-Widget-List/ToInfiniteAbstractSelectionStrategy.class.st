@@ -14,7 +14,7 @@ ToInfiniteAbstractSelectionStrategy >> includes: anIndex [
 	^ false
 ]
 
-{ #category : #'data source changed' }
+{ #category : #'data source change' }
 ToInfiniteAbstractSelectionStrategy >> onInfiniteDataSourceChanged [
 ]
 
@@ -56,11 +56,11 @@ ToInfiniteAbstractSelectionStrategy >> selectionModel [
 ToInfiniteAbstractSelectionStrategy >> selectionModel: aSelection [
 ]
 
-{ #category : #accessing }
+{ #category : #'data source change' }
 ToInfiniteAbstractSelectionStrategy >> shiftAfterAddingAt: aStartPosition itemCount: anItemCount [
 
 ]
 
-{ #category : #accessing }
+{ #category : #'data source change' }
 ToInfiniteAbstractSelectionStrategy >> shiftAfterRemovingAt: aStartPosition itemCount: anItemCount [
 ]

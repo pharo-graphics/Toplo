@@ -1,6 +1,8 @@
 Class {
 	#name : #ToInfiniteSelectionStrategy,
 	#superclass : #ToInfiniteAbstractSelectionStrategy,
+	#traits : 'TBlEventTarget',
+	#classTraits : 'TBlEventTarget classTrait',
 	#instVars : [
 		'infiniteElement',
 		'mode',
@@ -8,7 +10,8 @@ Class {
 		'pivot',
 		'distance',
 		'installedShortcuts',
-		'selectionModel'
+		'selectionModel',
+		'eventDispatcher'
 	],
 	#category : #'Toplo-Widget-List-Selection'
 }
@@ -292,6 +295,14 @@ ToInfiniteSelectionStrategy >> doSelectToIndex: index [
 		ifFalse: [ selectionModel select: index - 1 to: curr ]
 ]
 
+{ #category : #'event management accessing' }
+ToInfiniteSelectionStrategy >> eventDispatcher [
+	"Return an object responsible for event dispatching"
+	<return: #BlDirectEventDispatcher>
+
+	^ eventDispatcher
+]
+
 { #category : #accessing }
 ToInfiniteSelectionStrategy >> first [
 
@@ -338,6 +349,7 @@ ToInfiniteSelectionStrategy >> includes: anIndex [
 ToInfiniteSelectionStrategy >> initialize [
 
 	super initialize.
+	eventDispatcher := BlDirectEventDispatcher on: self.
 	selectionModel := self newSelectionModel.
 	mode := #multiple.
 	currentIndex := 0

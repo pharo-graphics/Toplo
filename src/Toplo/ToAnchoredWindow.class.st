@@ -141,6 +141,8 @@ ToAnchoredWindow >> popupEvent: anEvent [
 		Error signal:
 			'Can''t popup an anchored window if the element is not attached to a space' ].
 	"self visibility: BlVisibility hidden. "
+	self localTheme ifNil: [
+		self localTheme: self element toTheme ].
 	self anchorRoot addChild: self.
 	popupTimestamp := DateAndTime now.
 	self toFront.
@@ -153,10 +155,4 @@ ToAnchoredWindow >> popupEvent: anEvent [
 ToAnchoredWindow >> popupTimestamp [
 
 	^ popupTimestamp 
-]
-
-{ #category : #accessing }
-ToAnchoredWindow >> toTheme [
-
-	^ windowManager element toTheme
 ]

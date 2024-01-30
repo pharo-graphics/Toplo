@@ -160,8 +160,10 @@ ToAnchoredWindowManager >> newWindowEvent: anEvent [
 	| request |
 	self currentWindow ifNotNil: [
 		^ Error signal: 'Asking for a window building twice' ].
-	self element ifNil: [ ^ Error signal: 'An element is required for building a window' ].
-	self builder ifNil: [ ^ Error signal: 'A window builder is required for building a window' ].
+	self element ifNil: [
+		^ Error signal: 'An element is required for building a window' ].
+	self builder ifNil: [
+		^ Error signal: 'A window builder is required for building a window' ].
 	request := self windowRequestClass new
 		           sourceEvent: anEvent;
 		           yourself.

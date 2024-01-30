@@ -67,7 +67,7 @@ ToListElement >> infiniteElementSharedEvents [
 	^ {
 		  BlInfiniteElementAttachedEvent.
 		  BlInfiniteElementDetachedEvent.
-		  ToListSelectionActionEvent.
+		  ToListSelectionActionEventDep.
 		  ToStrongSelectionEvent.
 		  ToInfiniteSelectionDirtyEvent.
 		  ToInfiniteSelectionChangedEvent.

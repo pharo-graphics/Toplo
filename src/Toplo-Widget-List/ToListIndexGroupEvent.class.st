@@ -1,12 +1,18 @@
 Class {
 	#name : #ToListIndexGroupEvent,
-	#superclass : #ToListSelectionActionEvent,
+	#superclass : #ToListSelectionActionEventDep,
 	#instVars : [
 		'startIndex',
 		'itemCount'
 	],
-	#category : #'Toplo-Widget-List-Selection'
+	#category : #'Toplo-Widget-List-Selection-Deprecated'
 }
+
+{ #category : #testing }
+ToListIndexGroupEvent class >> isDeprecated [
+
+	^ true
+]
 
 { #category : #accessing }
 ToListIndexGroupEvent >> itemCount [

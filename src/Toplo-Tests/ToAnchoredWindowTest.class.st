@@ -158,6 +158,50 @@ ToAnchoredWindowTest >> testHasAssociateElement [
 ]
 
 { #category : #tests }
+ToAnchoredWindowTest >> testLocalThemeSetOnPopupEvent [
+
+	| win e windowHandler |
+	e := ToElement new.
+	space root addChild: e.
+	self waitTestingSpaces.
+	self applyAllEnqueuedStates.
+
+	windowHandler := ToAnchoredWindowManager new.
+	windowHandler onInstalledIn: e.
+	win := windowHandler newWindowEvent: nil.
+	self assert: win localTheme isNil.
+	win popupEvent: nil.
+	self waitTestingSpaces.
+	self assert: win localTheme identicalTo: e toTheme.
+	win close.
+	self waitTestingSpaces.
+	self assert: win localTheme identicalTo: e toTheme.
+]
+
+{ #category : #tests }
+ToAnchoredWindowTest >> testLocalThemeSetOnPopupEvent2 [
+
+	| win e windowHandler localTheme |
+	e := ToElement new.
+	space root addChild: e.
+	self waitTestingSpaces.
+	self applyAllEnqueuedStates.
+
+	windowHandler := ToAnchoredWindowManager new.
+	windowHandler onInstalledIn: e.
+	win := windowHandler newWindowEvent: nil.
+	self assert: win localTheme isNil.
+	localTheme := ToRawTheme dark.
+	win localTheme: localTheme.
+	win popupEvent: nil.
+	self waitTestingSpaces.
+	self assert: win localTheme identicalTo: localTheme.
+	win close.
+	self waitTestingSpaces.
+	self assert: win localTheme identicalTo: localTheme.
+]
+
+{ #category : #tests }
 ToAnchoredWindowTest >> testManager [
 
 	| win e windowManager |

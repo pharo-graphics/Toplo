@@ -129,5 +129,6 @@ ToListSelectionHistoryEventHandlerExample >> listWholeDataSelectionAction: aSele
 	aSelectionAction isDeselection ifTrue: [
 		historyList data removeAll.
 		^ self ].
+	(historyList data includes: currentTarget data last) ifTrue: [ ^ self ].
 	historyList data add: currentTarget data last
 ]

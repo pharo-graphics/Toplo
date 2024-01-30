@@ -1483,7 +1483,7 @@ ToBeeStyleSheet >> primaryButtonRulesOld [
 ToBeeStyleSheet >> rootPaneRules [
 	self deprecated: 'Not used anymore. see #initializeStyleRules'.
 
-	^ { ((self id: #'Space root') style: [ :sr |
+	^ { ((self id: #'space-root') style: [ :sr |
 		   sr
 			   write: (self property: #background)
 			   with: [ :e | e valueOfTokenNamed: #'background-color' ] ]) }

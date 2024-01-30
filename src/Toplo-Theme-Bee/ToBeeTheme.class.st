@@ -496,10 +496,10 @@ ToBeeTheme >> declareLabelRules [
 { #category : #'rules declaring - button - private' }
 ToBeeTheme >> declareLabelStyleWithTokenDefault: aDefaultColorToken tokenHover: aHoverColorToken tokenPressed: aTokenColorToken [
 
-		self
-			when: ToDisabledLookEvent
-			write: (self property: #'button-label-text-foreground')
-			with: [ :e | e valueOfTokenNamed: #'color-text-disabled' ].
+	self
+		when: ToDisabledLookEvent
+		write: (self property: #'button-label-text-foreground')
+		with: [ :e | e valueOfTokenNamed: #'color-text-disabled' ].
 	self
 		when: ToInstallLookEvent
 		write: (self property: #'button-label-text-foreground')
@@ -664,7 +664,7 @@ ToBeeTheme >> declarePrimaryButtonRules [
 { #category : #'rules declaring - pane' }
 ToBeeTheme >> declareRootPaneRules [
 
-	self select: (self id: #'Space root') style: [
+	self select: (self id: #'space-root') style: [
 		self
 			write: (self property: #background)
 			with: [ :e | e valueOfTokenNamed: #'background-color' ] ]

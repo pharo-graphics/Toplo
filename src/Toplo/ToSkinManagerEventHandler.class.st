@@ -39,7 +39,7 @@ ToSkinManagerEventHandler >> uninstallSkinEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	target skinManager uninstallSkin: anEvent skin in: target
+	target skinManager uninstallSkinIn: target
 ]
 
 { #category : #'event handling' }

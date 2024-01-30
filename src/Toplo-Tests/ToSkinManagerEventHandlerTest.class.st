@@ -53,8 +53,7 @@ ToSkinManagerEventHandlerTest >> testSkinUninstallStateRequest [
 		assert: (e skinManager installedSkin)
 		identicalTo: nk.
 	e dispatchEvent: (ToUninstallSkinEvent new skin: nk).
-	self assert:
-		(e skinManager installedSkin) isNil.
-	" uninstallState is applied directly so the queue should be empty"
-	self assert: e skinManager skinStateQueue nextStates size equals: 0
+	self assert: (e skinManager installedSkin) isNil.
+	" uninstallState is applied directly so the skinContext should be nil "
+	self assert: e skinManager skinContext isNil
 ]

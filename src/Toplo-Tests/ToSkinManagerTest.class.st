@@ -71,6 +71,7 @@ ToSkinManagerTest >> testBorderBuilder [
 
 	| e  |
 	e := ToElement new.
+	e skinManagerDo: [ :skm | skm ensureHaveSkinContext ].
 	self assert: (e skinManager borderBuilder ) notNil
 ]
 
@@ -164,6 +165,47 @@ ToSkinManagerTest >> testDefaultSkin [
 			(e eventDispatcher handlers select: [ :h | h isKindOf: ToRawSkin ])
 				size
 		equals: 0
+]
+
+{ #category : #tests }
+ToSkinManagerTest >> testEnqueueSkinStateIn [
+
+	| w |
+	w := ToElement new.
+	self assert: w skinManager skinStateQueue nextStates size equals: 0.
+	w skinManager skinStateQueue enqueueInstallStateForElement: w.
+	" Have a ToInstallState + a ToEnablementState "
+	self assert: w skinManager skinStateQueue nextStates size equals: 2.
+	w skinManager
+		enqueueSkinState:
+		(ToTransientState lookEvent: ToHoveredLookEvent new)
+		in: w.
+	self assert: w skinManager skinStateQueue nextStates size equals: 3
+]
+
+{ #category : #tests }
+ToSkinManagerTest >> testEnqueueSkinStateInUnauthorized [
+
+	| w |
+	w := ToElement new.
+	self assert: w skinManager skinStateQueue nextStates size equals: 0.
+	w skinManager
+		enqueueSkinState:
+		(ToTransientState lookEvent: ToHoveredLookEvent new)
+		in: w.
+	" a transient state can't be enqueued if an install state has not be enqueued before "
+	self assert: w skinManager skinStateQueue nextStates size equals: 0
+]
+
+{ #category : #tests }
+ToSkinManagerTest >> testEnsureHaveSkinContext [
+
+	| e |
+	e := ToElement new.
+	self assert: e skinManager skinContext isNil.
+	e skinManager ensureHaveSkinContext.
+	self assert: e skinManager skinContext notNil.
+
 ]
 
 { #category : #tests }
@@ -273,7 +315,7 @@ ToSkinManagerTest >> testInstalledSkin [
 	self assert:
 		(e skinManager installedSkin) isNil.
 	self assert: e skinManager installedSkin isNil.
-	e addEventHandler: sk.
+	e skinManager installSkin: sk in: e.
 	self assert: (e skinManager installedSkin) identicalTo: sk.
 	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
 	self assert: e skinManager installedSkin identicalTo: sk.
@@ -282,7 +324,7 @@ ToSkinManagerTest >> testInstalledSkin [
 			(e eventDispatcher handlers select: [ :h | h isKindOf: ToRawSkin ])
 				size
 		equals: 1.
-	e removeEventHandler: sk.
+	e skinManager uninstallSkinIn: e.
 	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
 	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
 	self assert: e skinManager installedSkin isNil.
@@ -302,10 +344,10 @@ ToSkinManagerTest >> testInstalledSkinDo [
 	e defaultSkin: (sk := ToRawSkin new).
 	e skinManager installedSkinDo: [ :s | cpt := cpt + 1 ].
 	self assert: cpt isZero.
-	e addEventHandler: sk.
+	e skinManager installSkin: sk in: e.
 	e skinManager installedSkinDo: [ :s | cpt := cpt + 1 ].
 	self assert: cpt equals: 1.
-	e removeEventHandler: sk.
+	e skinManager uninstallSkinIn: e.
 	e skinManager installedSkinDo: [ :s | cpt := cpt + 1 ].
 	self assert: cpt equals: 1.
 
@@ -717,6 +759,16 @@ ToSkinManagerTest >> testSetUpForThemeIn2 [
 ]
 
 { #category : #tests }
+ToSkinManagerTest >> testSkinContext [
+
+	| e |
+	e := ToElement new.
+	self assert: e skinManager skinContext isNil.
+	e skinManagerDo: [ :skm | skm ensureHaveSkinContext ].
+	self assert: e skinManager skinContext notNil
+]
+
+{ #category : #tests }
 ToSkinManagerTest >> testSkinInstaller [
 
 	| e child childchild |
@@ -822,9 +874,10 @@ ToSkinManagerTest >> testStyleSheet [
 { #category : #tests }
 ToSkinManagerTest >> testTextAttributesBuilder [
 
-	| e  |
+	| e |
 	e := ToElement new.
-	self assert: (e skinManager textAttributesBuilder ) notNil
+	e skinManagerDo: [ :skm | skm ensureHaveSkinContext ].
+	self assert: e skinManager textAttributesBuilder notNil
 ]
 
 { #category : #tests }
@@ -835,6 +888,6 @@ ToSkinManagerTest >> testUninstallSkinIn [
 	skin := ToRawSkin new.
 	e skinManager installSkin: skin in: e.
 	self assert: e skinManager installedSkin notNil.
-	e skinManager uninstallSkin: skin in: e.
+	e skinManager uninstallSkinIn: e.
 	self assert: e skinManager installedSkin isNil
 ]

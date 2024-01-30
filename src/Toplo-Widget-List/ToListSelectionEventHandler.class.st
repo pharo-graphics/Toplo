@@ -69,7 +69,7 @@ ToListSelectionEventHandler >> eventsToHandle [
 		  BlBlurEvent.
 		  BlElementExtentChangedEvent.
 		  BlElementScrolledEvent.
-		  ToInfiniteSelectionDirtyEvent.
+		  ToListSelectionDirtyEvent.
 		  ToListSelectionChangedEvent.
 		  ToListSelectionElementUpdatedEvent }
 ]
@@ -81,13 +81,13 @@ ToListSelectionEventHandler >> focusEvent: anEvent [
 ]
 
 { #category : #'element handlers' }
-ToListSelectionEventHandler >> infiniteSelectionDirtyEvent: anEvent [
+ToListSelectionEventHandler >> listSelectionChangedEvent: anEvent [
 
 	self updatePrimarySelectionFromEvent: anEvent
 ]
 
 { #category : #'element handlers' }
-ToListSelectionEventHandler >> listSelectionChangedEvent: anEvent [
+ToListSelectionEventHandler >> listSelectionDirtyEvent: anEvent [
 
 	self updatePrimarySelectionFromEvent: anEvent
 ]

@@ -1,5 +1,5 @@
 Class {
-	#name : #ToStrongSelectionEvent,
+	#name : #ToListStrongSelectionEvent,
 	#superclass : #BlEvent,
 	#instVars : [
 		'indexes'
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #accessing }
-ToStrongSelectionEvent class >> indexes: aCollection [ 
+ToListStrongSelectionEvent class >> indexes: aCollection [ 
 
 	^ self new
 		  indexes: aCollection;
@@ -16,21 +16,21 @@ ToStrongSelectionEvent class >> indexes: aCollection [
 ]
 
 { #category : #accessing }
-ToStrongSelectionEvent >> indexes [
+ToListStrongSelectionEvent >> indexes [
 
 	^ indexes
 ]
 
 { #category : #accessing }
-ToStrongSelectionEvent >> indexes: aListOnInteger [
+ToListStrongSelectionEvent >> indexes: aListOnInteger [
 
 	indexes := aListOnInteger
 ]
 
 { #category : #accessing }
-ToStrongSelectionEvent >> sendTo: anObject [
+ToListStrongSelectionEvent >> sendTo: anObject [
 
-	anObject strongSelectionEvent: self 
+	anObject listStrongSelectionEvent: self 
 
 
 ]

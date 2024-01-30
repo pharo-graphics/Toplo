@@ -2,7 +2,6 @@ Class {
 	#name : #ToMiniBrowser,
 	#superclass : #Object,
 	#instVars : [
-		'listsPane',
 		'mainPane',
 		'packages',
 		'classes',
@@ -108,7 +107,7 @@ ToMiniBrowser >> finalProtocolsFrom: aListOfProtocols forClass: aClass [
 { #category : #initialization }
 ToMiniBrowser >> initialize [
 
-	| classesPane packagesPane classesButtonPane sideToggle pkgFilterField pkgSieve packageBottomPane |
+	| classesPane packagesPane classesButtonPane sideToggle pkgFilterField pkgSieve packageBottomPane listsPane |
 	super initialize.
 
 	listsPane := ToPane new
@@ -158,8 +157,8 @@ ToMiniBrowser >> initialize [
 			               margin: (BlInsets top: 5);
 			               padding: (BlInsets all: 0).
 
-	packages infinite addEventHandler: (BlEventHandler
-			 on: ToStrongSelectionEvent
+	packages addEventHandler: (BlEventHandler
+			 on: ToListStrongSelectionEvent
 			 do: [ :event | event traceCr ]).
 
 	packagesPane margin: (BlInsets all: 2).
@@ -180,8 +179,8 @@ ToMiniBrowser >> initialize [
 						            class: holder data position: holder position;
 						            yourself) ].
 
-	classes infinite addEventHandler: (BlEventHandler
-			 on: ToInfiniteSelectionChangedEvent
+	classes addEventHandler: (BlEventHandler
+			 on: ToListSelectionChangedEvent
 			 do: [ :event | self classSelectionChangedEvent: event ]).
 	classes data whenRemoveChangeDo: [ protocols data removeAll ].
 	classesPane := ToPane new
@@ -203,7 +202,7 @@ ToMiniBrowser >> initialize [
 	sideToggle addEventHandler: (BlEventHandler
 			 on: ToCheckableCheckEvent
 			 do: [ :event |
-				 classes infinite dispatchSelectionChangedAfter: [
+				 classes selectionStrategy dispatchSelectionChangedAfter: [
 					 classSide := event current.
 					 classes selectionStrategy deselectAll ] ]).
 
@@ -216,8 +215,8 @@ ToMiniBrowser >> initialize [
 						              hMatchParent) ].
 	protocols margin: (BlInsets all: 2).
 
-	protocols infinite addEventHandler: (BlEventHandler
-			 on: ToInfiniteSelectionChangedEvent
+	protocols addEventHandler: (BlEventHandler
+			 on: ToListSelectionChangedEvent
 			 do: [ :event | self protocolSelectionChangedEvent: event ]).
 	protocols data whenRemoveChangeDo: [ selectors data removeAll ].
 
@@ -230,8 +229,8 @@ ToMiniBrowser >> initialize [
 						              hMatchParent) ].
 
 	selectors margin: (BlInsets all: 2).
-	selectors infinite addEventHandler: (BlEventHandler
-			 on: ToInfiniteSelectionChangedEvent
+	selectors addEventHandler: (BlEventHandler
+			 on: ToListSelectionChangedEvent
 			 do: [ :event | self selectorSelectionChangedEvent: event ]).
 	selectors data whenRemoveChangeDo: [ self clearCodeInEditor ].
 

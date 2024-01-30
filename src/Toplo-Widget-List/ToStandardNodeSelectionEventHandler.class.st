@@ -28,7 +28,7 @@ ToStandardNodeSelectionEventHandler >> clickLauncher: aProcessOrNil [
 { #category : #'api - accessing' }
 ToStandardNodeSelectionEventHandler >> eventsToHandle [ 
 
-	^ super eventsToHandle, { BlPrimaryClickEvent. ToStrongSelectionEvent }
+	^ super eventsToHandle, { BlPrimaryClickEvent. ToListStrongSelectionEvent }
 ]
 
 { #category : #'events handling' }
@@ -45,7 +45,7 @@ ToStandardNodeSelectionEventHandler >> launchClick: aBlock event: anEvent for: a
 	infinite := anElement holder infiniteElement.
 
 	infinite isFocused ifFalse: [
-		infinite selection isNotEmpty ifTrue: [
+		infinite selectionStrategy isNotEmpty ifTrue: [
 			(infinite preserveSelectionOnFocused and: [
 				 infinite requestFocusOnMouseDown ]) ifTrue: [
 				infinite requestFocus.
@@ -73,6 +73,12 @@ ToStandardNodeSelectionEventHandler >> launchClick: aBlock event: anEvent for: a
 			 self clickLauncher: nil ]
 				 forkAt: Processor highIOPriority
 				 named: 'ToNodeDresser clickLauncher') ]
+]
+
+{ #category : #'events handling' }
+ToStandardNodeSelectionEventHandler >> listStrongSelectionEvent: anEvent [
+
+	self terminateClickLauncher
 ]
 
 { #category : #'selection events' }
@@ -107,12 +113,6 @@ ToStandardNodeSelectionEventHandler >> onUninstalledIn: anElement [
 	monitor := nil.
 	super onUninstalledIn: anElement.
 
-]
-
-{ #category : #'events handling' }
-ToStandardNodeSelectionEventHandler >> strongSelectionEvent: anEvent [
-
-	self terminateClickLauncher
 ]
 
 { #category : #'events handling' }

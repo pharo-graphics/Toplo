@@ -15,7 +15,9 @@ ToSharedEventDistributor >> dispatch: aBlEvent on: anElement [
 		self adjustPosition: aNewEvent from: aBlEvent ].
 
 	shouldHandle := false.
-	[ anElement dispatchEvent: aNewEvent ] ensure: [
+	[ 
+	"anElement trace. ' dispatch: ' trace. aNewEvent class name traceCr."
+	anElement dispatchEvent: aNewEvent ] ensure: [
 		shouldHandle := true ].
 
 	"Update the original event from the copy .
@@ -27,10 +29,8 @@ ToSharedEventDistributor >> dispatch: aBlEvent on: anElement [
 { #category : #'api - event managing' }
 ToSharedEventDistributor >> handleEvent: anEvent [
 
-	shouldHandle
-		ifFalse: [ ^ self ].
-"anEvent class = ToInfiniteSelectionChangedEvent ifTrue: [ self haltOnce ]."
-	elements do: [ :eachElement | 
-		anEvent currentTarget = eachElement
-			ifFalse: [ self dispatch: anEvent on: eachElement ] ]
+	shouldHandle ifFalse: [ ^ self ].
+	elements do: [ :eachElement |
+		anEvent currentTarget = eachElement ifFalse: [
+			self dispatch: anEvent on: eachElement ] ]
 ]

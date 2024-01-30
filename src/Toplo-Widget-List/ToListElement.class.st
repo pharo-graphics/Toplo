@@ -4,7 +4,8 @@ Class {
 	#traits : 'TToListElementDecorator + TToElementWithPlaceholder',
 	#classTraits : 'TToListElementDecorator classTrait + TToElementWithPlaceholder classTrait',
 	#instVars : [
-		'selectionElements'
+		'selectionElements',
+		'sharedDistributor'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -24,17 +25,7 @@ ToListElement >> beVertical [
 { #category : #initialization }
 ToListElement >> dataSharedEvents [
 
-	^ {
-		  ToCollectionAddEvent.
-		  ToCollectionRemoveRequest.
-		  ToCollectionRemoveEvent.
-		  ToCollectionUpdateEvent }
-]
-
-{ #category : #initialization }
-ToListElement >> dataSourceSharedEvents [
-
-	^ { ToDataEmptinessChangeEvent }
+	^ { ToCollectionEmptinessEvent }
 ]
 
 { #category : #initialization }
@@ -65,12 +56,6 @@ ToListElement >> horizontal: aBoolean [
 ToListElement >> infiniteElementSharedEvents [
 
 	^ {
-		  BlInfiniteElementAttachedEvent.
-		  BlInfiniteElementDetachedEvent.
-		  ToListSelectionActionEventDep.
-		  ToStrongSelectionEvent.
-		  ToInfiniteSelectionDirtyEvent.
-		  ToInfiniteSelectionChangedEvent.
 		  BlElementScrolledEvent.
 		  BlElementExtentChangedEvent.
 		  BlBlurEvent.
@@ -80,7 +65,6 @@ ToListElement >> infiniteElementSharedEvents [
 { #category : #initialization }
 ToListElement >> initialize [
 
-	| sharedDistributor |
 	super initialize.
 
 	selectionElements := #(  ).
@@ -89,19 +73,7 @@ ToListElement >> initialize [
 
 	self addEventHandler: ToListElementEventHandler new.
 
-	"Also installs shared event distributors between the list element, 
-	the infinite, the data and the data source. 
-	This gives the possibility to directly add event handlers on shared events :
-		self when: ToInfiniteSelectionChangedEvent do: [ bla bla ] 
-		instead of 
-		self infinite when: ToInfiniteSelectionChangedEvent do: [ bla bla ] "
-	sharedDistributor := ToSharedEventDistributor new
-		                     shareEvents: self sharedEvents;
-		                     yourself.
-	self addEventHandler: sharedDistributor.
-	self data addEventHandler: sharedDistributor.
-	self dataSource addEventHandler: sharedDistributor.
-	self infinite addEventHandler: sharedDistributor.
+	self installSharedEventDistributor.
 
 	self addChild: self next.
 	self infinite elevation: (BlRelativeElevation elevation: 10).
@@ -112,6 +84,24 @@ ToListElement >> initialize [
 		ToListElementContextMenuSelectionEventHandler new.
 	self matchParent.
 	self selectionStrategy: self defaultSelectionStrategy
+]
+
+{ #category : #initialization }
+ToListElement >> installSharedEventDistributor [
+	"installs shared event distributors between the list element, the selection strategy,
+	the infinite, the data and the data source. 
+	This gives the possibility to directly add event handlers on shared events :
+		self when: ToInfiniteSelectionChangedEvent do: [ bla bla ] 
+		instead of 
+		self infinite when: ToInfiniteSelectionChangedEvent do: [ bla bla ] "
+
+	sharedDistributor := ToSharedEventDistributor new
+		                     shareEvents: self sharedEvents;
+		                     yourself.
+	self addEventHandler: sharedDistributor.
+	self data addEventHandler: sharedDistributor.
+	self infinite addEventHandler: sharedDistributor.
+	self selectionStrategy addEventHandler: sharedDistributor
 ]
 
 { #category : #orientation }
@@ -156,10 +146,43 @@ ToListElement >> selectionElements: aListElementSelectionCollection [
 	selectionElements := aListElementSelectionCollection
 ]
 
+{ #category : #accessing }
+ToListElement >> selectionStrategy: aSelectionStrategy [
+
+	self uninstallSharedEventDistributor.
+	self next selectionStrategy: aSelectionStrategy.
+	self installSharedEventDistributor 
+]
+
+{ #category : #initialization }
+ToListElement >> selectionStrategySharedEvents [
+
+	^ {
+		  ToListSelectionActionEvent.
+		  ToListSelectionDirtyEvent.
+		  ToListSelectionChangedEvent.
+		  ToListStrongSelectionEvent }
+]
+
 { #category : #initialization }
 ToListElement >> sharedEvents [
 
-	^ self dataSourceSharedEvents , self dataSharedEvents , self infiniteElementSharedEvents
+	^ Array streamContents: [ :stream |
+		  stream nextPutAll: self dataSharedEvents.
+		  stream nextPutAll: self infiniteElementSharedEvents.
+		  stream nextPutAll: self selectionStrategySharedEvents ]
+]
+
+{ #category : #initialization }
+ToListElement >> uninstallSharedEventDistributor [
+	" see uninstallSharedEventDistributor "
+
+	sharedDistributor ifNil: [ ^ self ].
+	self removeEventHandler: sharedDistributor.
+	self data removeEventHandler: sharedDistributor.
+	self infinite removeEventHandler: sharedDistributor.
+	self selectionStrategy removeEventHandler: sharedDistributor.
+	sharedDistributor := nil
 ]
 
 { #category : #orientation }

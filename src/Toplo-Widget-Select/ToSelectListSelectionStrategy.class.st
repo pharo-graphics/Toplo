@@ -14,19 +14,19 @@ ToSelectListSelectionStrategy >> defaultShortcuts [
 			             (BlShortcutWithAction new
 				              combination: BlKeyCombination primaryA;
 				              action: [ :aShortcutEvent :aShortcut |
-					              infiniteElement dispatchSelectionChangedAfter: [
+					              self dispatchSelectionChangedAfter: [
 							              self selectAll ] ]).
 			             (BlShortcutWithAction new
 				              combination: BlKeyCombination shiftArrowDown;
 				              action: [ :aShortcutEvent :aShortcut |
-					              infiniteElement dispatchSelectionChangedAfter: [
+					              self dispatchSelectionChangedAfter: [
 							              self
 								              selectNextIn: infiniteElement
 								              event: aShortcutEvent ] ]).
 			             (BlShortcutWithAction new
 				              combination: BlKeyCombination shiftArrowUp;
 				              action: [ :aShortcutEvent :aShortcut |
-					              infiniteElement dispatchSelectionChangedAfter: [
+					              self dispatchSelectionChangedAfter: [
 							              self
 								              selectPreviousIn: infiniteElement
 								              event: aShortcutEvent ] ]) } ].

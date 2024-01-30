@@ -13,7 +13,7 @@ Class {
 	#category : #'Toplo-Widget-List-Infinite'
 }
 
-{ #category : #'selection events' }
+{ #category : #'selection events deprecated' }
 ToInfiniteElement >> cherryPickIndex: anIndex [
 
 	self
@@ -67,7 +67,7 @@ ToInfiniteElement >> defaultSelectionStrategy [
 	"^ ToStandardListSelectionStrategy new"
 ]
 
-{ #category : #'selection events' }
+{ #category : #'selection events deprecated' }
 ToInfiniteElement >> deselectAll [
 	self
 		deprecated: 'Use selection deselectAll instead'
@@ -76,7 +76,7 @@ ToInfiniteElement >> deselectAll [
 	self selectionStrategy deselectAll
 ]
 
-{ #category : #'selection events' }
+{ #category : #'selection events deprecated' }
 ToInfiniteElement >> deselectIndex: anIndex [
 
 	self
@@ -91,13 +91,13 @@ ToInfiniteElement >> disableScrolledEvent [
 	self eventDispatcher disableScrolledEvent 
 ]
 
-{ #category : #'selection action dispatching' }
+{ #category : #'selection action dispatching deprecated' }
 ToInfiniteElement >> dispatchDeselectAll [
 
 	self dispatchEvent: ToListDeselectAllEvent new
 ]
 
-{ #category : #'selection action dispatching' }
+{ #category : #'selection action dispatching deprecated' }
 ToInfiniteElement >> dispatchDeselectIndex: anIndex [
 
 	self dispatchEvent: (ToListDeselectIndexEvent new
@@ -105,7 +105,7 @@ ToInfiniteElement >> dispatchDeselectIndex: anIndex [
 			 yourself)
 ]
 
-{ #category : #'selection action dispatching' }
+{ #category : #'selection action dispatching deprecated' }
 ToInfiniteElement >> dispatchDeselectIndexes: aCollection [
 
 	self dispatchEvent: (ToListDeselectIndexesEvent new
@@ -113,7 +113,7 @@ ToInfiniteElement >> dispatchDeselectIndexes: aCollection [
 			 yourself)
 ]
 
-{ #category : #'selection action dispatching' }
+{ #category : #'selection action dispatching deprecated' }
 ToInfiniteElement >> dispatchRemoveSelectedIndexesFrom: anIndex itemCount: aNumber [
 
 	self dispatchEvent: (ToListRemoveSelectedIndexesEvent new
@@ -122,13 +122,13 @@ ToInfiniteElement >> dispatchRemoveSelectedIndexesFrom: anIndex itemCount: aNumb
 			 yourself)
 ]
 
-{ #category : #'selection action dispatching' }
+{ #category : #'selection action dispatching deprecated' }
 ToInfiniteElement >> dispatchSelectAll [
 
 	self dispatchEvent: ToListSelectAllEvent new
 ]
 
-{ #category : #'selection action dispatching' }
+{ #category : #'selection action dispatching deprecated' }
 ToInfiniteElement >> dispatchSelectFrom: aStartIndex toIndex: anEndIndex [
 
 	self dispatchEvent: (ToListSelectFromToIndexEvent new
@@ -136,7 +136,7 @@ ToInfiniteElement >> dispatchSelectFrom: aStartIndex toIndex: anEndIndex [
 			 yourself)
 ]
 
-{ #category : #'selection action dispatching' }
+{ #category : #'selection action dispatching deprecated' }
 ToInfiniteElement >> dispatchSelectIndex: anIndex [
 
 	self dispatchEvent: (ToListSelectIndexEvent new
@@ -144,7 +144,7 @@ ToInfiniteElement >> dispatchSelectIndex: anIndex [
 			 yourself)
 ]
 
-{ #category : #'selection action dispatching' }
+{ #category : #'selection action dispatching deprecated' }
 ToInfiniteElement >> dispatchSelectIndexes: aCollection [
 
 	self dispatchEvent: (ToListSelectIndexesEvent new
@@ -152,7 +152,7 @@ ToInfiniteElement >> dispatchSelectIndexes: aCollection [
 			 yourself)
 ]
 
-{ #category : #'selection action dispatching' }
+{ #category : #'selection action dispatching deprecated' }
 ToInfiniteElement >> dispatchSelectOnlyIndex: anIndex [
 
 	self dispatchEvent: (ToListSelectIndexOnlyEvent new
@@ -160,10 +160,13 @@ ToInfiniteElement >> dispatchSelectOnlyIndex: anIndex [
 			 yourself)
 ]
 
-{ #category : #'selection events' }
+{ #category : #'selection events deprecated' }
 ToInfiniteElement >> dispatchSelectionChangedAfter: aBlock [
 
 	| prevIndexes currentIndexes event |
+	
+	self deprecated: 'Delegate to selection strategy instead'.
+	
 	prevIndexes := self selectionStrategy selectedIndexes.
 
 	aBlock value.
@@ -176,27 +179,13 @@ ToInfiniteElement >> dispatchSelectionChangedAfter: aBlock [
 	self dispatchEvent: event
 ]
 
-{ #category : #'selection events' }
-ToInfiniteElement >> dispatchSelectionDirtyAfter: aBlock [
-
-	aBlock value.
-	self dispatchEvent: ToInfiniteSelectionDirtyEvent new
-]
-
-{ #category : #'selection action dispatching' }
+{ #category : #'selection action dispatching deprecated' }
 ToInfiniteElement >> dispatchShiftSelectionFrom: anIndex itemCount: aNumber [
 
 	self dispatchEvent: (ToListShiftSelectionEvent new
 			 startIndex: anIndex;
 			 itemCount: aNumber;
 			 yourself)
-]
-
-{ #category : #'selection events' }
-ToInfiniteElement >> dispatchStrongSelectionChanged [
-
-	self dispatchEvent: (ToStrongSelectionEvent indexes:
-			 self selectionStrategy selectedIndexes)
 ]
 
 { #category : #'scrolled event' }
@@ -310,7 +299,7 @@ ToInfiniteElement >> nodeHolderClass [
 { #category : #'private - commands' }
 ToInfiniteElement >> offsetPositionRecordsForInsert: aStartPosition itemCount: anItemCount [
 
-	self dispatchSelectionDirtyAfter: [
+	self selectionStrategy dispatchSelectionDirtyAfter: [
 		super
 			offsetPositionRecordsForInsert: aStartPosition
 			itemCount: anItemCount ]
@@ -319,14 +308,14 @@ ToInfiniteElement >> offsetPositionRecordsForInsert: aStartPosition itemCount: a
 { #category : #'private - commands' }
 ToInfiniteElement >> offsetPositionRecordsForMove: aFromPosition to: aToPosition [
 
-	self dispatchSelectionDirtyAfter: [
+	self selectionStrategy dispatchSelectionDirtyAfter: [
 		super offsetPositionRecordsForMove: aFromPosition to: aToPosition ]
 ]
 
 { #category : #'private - commands' }
 ToInfiniteElement >> offsetPositionRecordsForRemove: aStartPosition itemCount: anItemCount applyToPreLayout: applyToPreLayout [
 
-	self dispatchSelectionDirtyAfter: [
+	self selectionStrategy dispatchSelectionDirtyAfter: [
 		super
 			offsetPositionRecordsForRemove: aStartPosition
 			itemCount: anItemCount
@@ -418,7 +407,7 @@ ToInfiniteElement >> scrollToIndexAtTop: anIndex [
 	self scrollToPosition: anIndex offset: self layout computeExtraLayoutSpace y.
 ]
 
-{ #category : #'selection events' }
+{ #category : #'selection events deprecated' }
 ToInfiniteElement >> selectAll [
 
 	self
@@ -428,7 +417,7 @@ ToInfiniteElement >> selectAll [
 	self selectionStrategy selectAll
 ]
 
-{ #category : #'selection events' }
+{ #category : #'selection events deprecated' }
 ToInfiniteElement >> selectIndex: index [
 
 	self
@@ -437,7 +426,7 @@ ToInfiniteElement >> selectIndex: index [
 	self selectionStrategy selectIndex: index
 ]
 
-{ #category : #'selection events' }
+{ #category : #'selection events deprecated' }
 ToInfiniteElement >> selectIndexes: aCollection [
 
 	self
@@ -446,7 +435,7 @@ ToInfiniteElement >> selectIndexes: aCollection [
 	self selectionStrategy selectIndexes: aCollection
 ]
 
-{ #category : #'selection events' }
+{ #category : #'selection events deprecated' }
 ToInfiniteElement >> selectOnlyIndex: index [
 
 	self
@@ -455,7 +444,7 @@ ToInfiniteElement >> selectOnlyIndex: index [
 	self selectionStrategy selectOnlyIndex: index
 ]
 
-{ #category : #'selection events' }
+{ #category : #'selection events deprecated' }
 ToInfiniteElement >> selectToIndex: anIndex [
 
 	self
@@ -516,7 +505,7 @@ ToInfiniteElement >> selectionStrategy: aSelectionStrategy [
 
 ]
 
-{ #category : #'selection events' }
+{ #category : #'selection events deprecated' }
 ToInfiniteElement >> shiftSelectionAfterAddingAt: aStartPosition itemCount: anItemCount [
 
 	self
@@ -525,7 +514,7 @@ ToInfiniteElement >> shiftSelectionAfterAddingAt: aStartPosition itemCount: anIt
 	self selectionStrategy shiftAfterAddingAt: aStartPosition itemCount: anItemCount
 ]
 
-{ #category : #'selection events' }
+{ #category : #'selection events deprecated' }
 ToInfiniteElement >> shiftSelectionAfterRemovingAt: aStartPosition itemCount: anItemCount [
 
 	self

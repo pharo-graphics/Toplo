@@ -337,7 +337,7 @@ ToSandBox class >> example_EditableListWithAllClassesNames [
 		nodeClass: ToListClassNodeExample;
 		nodeBuilder: [ :node :holder | node forClassNameAssoc: holder data ];
 		addEventHandler: (BlEventHandler
-				 on: ToStrongSelectionEvent
+				 on: ToListStrongSelectionEvent
 				 do: [ :event |
 					 event indexes size == 1 ifTrue: [
 							 (l nodeAt: event indexes first) label addEditorEvent: event ] ]);
@@ -787,6 +787,7 @@ ToSandBox class >> example_ListOneClass [
 				      interspace: 10;
 				      hMatchParent) ].
 	l data addAll: { Smalltalk globals allClasses first }.
+	l inspect.
 	l openInSpace
 ]
 
@@ -795,8 +796,8 @@ ToSandBox class >> example_ListWith6Elements [
 
 	| l |
 	l := ToListElement new.
-	l data addAll: ((1 to: 6) collect: [:i | i asString]).
-	l selectIndex: 4.
+	l data addAll: ((1 to: 6) collect: [ :i | i asString ]).
+	l selectionStrategy selectIndex: 4.
 	l openInInnerWindow
 ]
 
@@ -922,9 +923,13 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 				 label: lab;
 				 hMatchParent) ].
 	l addEventHandler: (BlEventHandler
-			 on: ToStrongSelectionEvent
+			 on: ToListSelectionChangedEvent
+			 do: [ :event | self class name trace. ' list selection changed' traceCr ]).
+	l addEventHandler: (BlEventHandler
+			 on: ToListStrongSelectionEvent
 			 do: [ :event |
 				 | r |
+				self class name trace. ' double click' traceCr.
 				 r := event indexes collect: [ :idx | idx asString , ':XXXXXX' ].
 				 r do: [ :e | l data addFirst: e ] ]).
 	menuFactory := [ :menu :request |
@@ -1084,7 +1089,7 @@ ToSandBox class >> example_ListWithSelectionHistory [
 		(ToListSelectionHistoryEventHandlerExample new historyList:
 			 historyList).
 	statesList addEventHandler: (BlEventHandler
-			 on: ToListSelectionActionEventDep
+			 on: ToListSelectionActionEvent
 			 do: [ :event | event traceCr ]).
 
 	pane matchParent; addDividers.

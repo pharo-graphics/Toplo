@@ -100,10 +100,19 @@ ToListElementSieve >> onInstalledIn: aListElement [
 { #category : #'event handling' }
 ToListElementSieve >> onListSelectionChangedEvent: anEvent [
 
-	currentResults withIndexDo: [ :assoc :idx |
-		(anEvent currentIndexes includes: idx)
-			ifTrue: [ currentSelectionModel selectIndex: assoc value ]
-			ifFalse: [ currentSelectionModel deselectIndex: assoc value ] ].
+	| currentIndexes |
+	currentIndexes := anEvent currentIndexes asSet.
+	self pattern
+		ifEmpty: [
+			currentSelectionModel deselectAll.
+			currentResults withIndexDo: [ :assoc :idx |
+				(currentIndexes includes: idx) ifTrue: [
+					currentSelectionModel selectIndex: assoc value ] ] ]
+		ifNotEmpty: [
+			currentResults withIndexDo: [ :assoc :idx |
+				(currentIndexes includes: idx)
+					ifTrue: [ currentSelectionModel selectIndex: assoc value ]
+					ifFalse: [ currentSelectionModel deselectIndex: assoc value ] ] ].
 	listElement dispatchEvent:
 		(ToListElementSieveSelectionChangedEvent new
 			 sieve: self;

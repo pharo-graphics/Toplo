@@ -64,7 +64,7 @@ ToSingleSelectStrategy >> refreshHeaderNodeContainer [
 		select isFiltrable
 			ifTrue: [ select mode deselectIndex: holder position ]
 			ifFalse: [ select selectionModel deselectIndex: holder position ].
-		select listElement dispatchEvent: ToInfiniteSelectionDirtyEvent new ].
+		select listElement dispatchEvent: ToListSelectionDirtyEvent new ].
 
 	select selectionModel indices
 		ifEmpty: [

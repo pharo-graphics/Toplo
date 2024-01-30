@@ -23,6 +23,12 @@ ToInfiniteSelectionChangedEvent class >> from: previousSelectedIndexes to: curre
 		  yourself
 ]
 
+{ #category : #testing }
+ToInfiniteSelectionChangedEvent class >> isDeprecated [ 
+
+	^ true
+]
+
 { #category : #'instance creation' }
 ToInfiniteSelectionChangedEvent class >> previousIndexes: previousSelectedIndexes currentIndexes: currentSelectedIndexes [
 
@@ -41,7 +47,7 @@ ToInfiniteSelectionChangedEvent >> currentIndexes [
 { #category : #accessing }
 ToInfiniteSelectionChangedEvent >> currentIndexes: currentSelectedIndexes [
 
-	currentIndexes := currentSelectedIndexes asSet
+	currentIndexes := currentSelectedIndexes "asSet"
 ]
 
 { #category : #accessing }
@@ -101,7 +107,7 @@ ToInfiniteSelectionChangedEvent >> previousIndexes [
 { #category : #accessing }
 ToInfiniteSelectionChangedEvent >> previousIndexes: previousSelectedIndexes [
 
-	previousIndexes := previousSelectedIndexes asSet
+	previousIndexes := previousSelectedIndexes "asSet"
 ]
 
 { #category : #sending }

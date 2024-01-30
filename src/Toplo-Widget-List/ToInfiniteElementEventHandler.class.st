@@ -9,7 +9,7 @@ ToInfiniteElementEventHandler >> doubleClickEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	target dispatchStrongSelectionChanged
+	target selectionStrategy dispatchStrongSelectionChanged
 ]
 
 { #category : #'event handling' }

@@ -27,9 +27,6 @@ ToInfiniteObservableCollectionDataSource >> data: anObservableCollection [
 		self notifyItemsRemoved: ann interval ].
 	data whenFilterChangeDo: [ :ann |
 		self notifyItemsInserted: ann interval ].
-	data addEventHandler: (BlEventHandler
-			 on: ToCollectionEmptinessEvent
-			 do: [ self dispatchEvent: ToDataEmptinessChangeEvent new ]).
 
 	self notifyChanged
 ]

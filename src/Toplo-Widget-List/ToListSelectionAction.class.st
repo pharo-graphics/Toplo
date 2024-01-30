@@ -2,10 +2,53 @@ Class {
 	#name : #ToListSelectionAction,
 	#superclass : #Object,
 	#instVars : [
-		'operation'
+		'operation',
+		'next'
 	],
 	#category : #'Toplo-Widget-List-SelectionAction'
 }
+
+{ #category : #hook }
+ToListSelectionAction >> applyOn: anObject [
+
+	self next ifNotNil: [ :n | n applyOn: anObject ]
+]
+
+{ #category : #testing }
+ToListSelectionAction >> isDeselection [
+
+	^ self operation = #deselection
+
+
+]
+
+{ #category : #testing }
+ToListSelectionAction >> isSelection [
+
+	^ self operation = #selection
+
+
+]
+
+{ #category : #testing }
+ToListSelectionAction >> isShift [
+
+	^ self operation = #shift
+
+
+]
+
+{ #category : #accessing }
+ToListSelectionAction >> next [
+
+	^ next
+]
+
+{ #category : #accessing }
+ToListSelectionAction >> next: aListSelectionAction [
+
+	next := aListSelectionAction
+]
 
 { #category : #accessing }
 ToListSelectionAction >> operation [
@@ -16,6 +59,6 @@ ToListSelectionAction >> operation [
 { #category : #accessing }
 ToListSelectionAction >> operation: aSymbol [
 
-	" aSymbol is one of (#add, #remove) "
+	" aSymbol is one of (#selection, #deselection, #shift) "
 	operation := aSymbol
 ]

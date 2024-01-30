@@ -162,8 +162,9 @@ TToListElementDecorator >> selectIndex: anIndex [
 
 	self
 		deprecated: 'Use selection selectIndex: instead'
-		transformWith: '`@receiver selectIndex: `@arg' -> '`@receiver selection selectIndex: `@arg'.
-	self selection selectIndex: anIndex
+		transformWith: '`@receiver selectIndex: `@arg'
+			-> '`@receiver selection selectIndex: `@arg'.
+	self selectionStrategy selectIndex: anIndex
 ]
 
 { #category : #'t - accessing selection' }
@@ -226,12 +227,6 @@ TToListElementDecorator >> selection: aSelectionStrategy [
 TToListElementDecorator >> selectionStrategy [
 
 	^ self next selectionStrategy
-]
-
-{ #category : #'t - accessing selection' }
-TToListElementDecorator >> selectionStrategy: aSelectionStrategy [
-
-	self next selectionStrategy: aSelectionStrategy
 ]
 
 { #category : #'t - accessing selection' }

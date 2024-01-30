@@ -4,26 +4,15 @@ Class {
 	#category : #'Toplo-Widget-List-Core'
 }
 
-{ #category : #'mouse handlers' }
-ToListElementEventHandler >> collectionRemoveRequest: anEvent [
-
-	| target interval |
-	self flag: 'Needed ? check the issue flagged in #example_contactList'.
-	target := anEvent currentTarget.
-	interval := anEvent interval.
-	interval first to: interval last do: [ :idx |
-	"target deselectIndex: idx" ]
-]
-
-{ #category : #'data source events handling' }
-ToListElementEventHandler >> dataEmptinessChangeEvent: anEvent [
+{ #category : #'data events handling' }
+ToListElementEventHandler >> collectionEmptinessEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
 	self showHidePlaceholderIn: target
 ]
 
-{ #category : #'infinite element events handling' }
+{ #category : #'element events handling' }
 ToListElementEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 
 	| target |
@@ -38,24 +27,7 @@ ToListElementEventHandler >> eventsToHandle [
 		  BlElementAddedToSceneGraphEvent.
 		  BlMouseDownEvent.
 		  " data events "
-		  ToCollectionRemoveRequest.
-
-		  " data source events "
-		  ToDataEmptinessChangeEvent.
-		  " infinite events "
-		  ToInfiniteSelectionChangedEvent }
-]
-
-{ #category : #'infinite element events handling' }
-ToListElementEventHandler >> infiniteSelectionChangedEvent: anEvent [
-
-	| target |
-
-	target := anEvent currentTarget.
-	target dispatchEvent: (ToListSelectionChangedEvent new
-			 currentIndexes: anEvent currentIndexes;
-			 previousIndexes: anEvent previousIndexes;
-			 yourself)
+		  ToCollectionEmptinessEvent  }
 ]
 
 { #category : #'mouse handlers' }
@@ -64,10 +36,12 @@ ToListElementEventHandler >> mouseDownEvent: anEvent [
 	| target |
 	target := anEvent currentTarget.
 	target requestFocusOnMouseDown ifFalse: [ ^ self ].
-	target requestFocus
+	target hasFocus ifTrue: [ ^ self ].
+	target requestFocus.
+	anEvent consumed: true
 ]
 
-{ #category : #'data source events handling' }
+{ #category : #'data events handling' }
 ToListElementEventHandler >> showHidePlaceholderIn: aListElement [
 
 	aListElement data ifEmpty: [ ^ aListElement showPlaceholder ].

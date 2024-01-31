@@ -1,11 +1,11 @@
 Class {
 	#name : #ToListSelectionChangedEvent,
-	#superclass : #BlEvent,
+	#superclass : #ToListSelectionEvent,
 	#instVars : [
 		'currentIndexes',
 		'previousIndexes'
 	],
-	#category : #'Toplo-Widget-List-Core'
+	#category : #'Toplo-Widget-List-Selection-Strategy'
 }
 
 { #category : #accessing }

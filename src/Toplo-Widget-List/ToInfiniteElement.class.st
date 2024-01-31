@@ -5,15 +5,13 @@ Class {
 	#classTraits : 'TToElement classTrait + TBlLayoutResizable classTrait',
 	#instVars : [
 		'nodeBuilder',
-		'preserveSelectionOnFocused',
-		'requestFocusOnMouseDown',
 		'nodeClass',
 		'selectionStrategy'
 	],
 	#category : #'Toplo-Widget-List-Infinite'
 }
 
-{ #category : #'selection events deprecated' }
+{ #category : #deprecated }
 ToInfiniteElement >> cherryPickIndex: anIndex [
 
 	self
@@ -61,13 +59,19 @@ ToInfiniteElement >> defaultNodeBuilder [
 ]
 
 { #category : #initialization }
+ToInfiniteElement >> defaultPeserveSelectionOnFocused [
+
+	^ true
+]
+
+{ #category : #initialization }
 ToInfiniteElement >> defaultSelectionStrategy [
 
-	^ ToInfiniteNullSelectionStrategy new
+	^ ToListNullSelectionStrategy new
 	"^ ToStandardListSelectionStrategy new"
 ]
 
-{ #category : #'selection events deprecated' }
+{ #category : #deprecated }
 ToInfiniteElement >> deselectAll [
 	self
 		deprecated: 'Use selection deselectAll instead'
@@ -76,7 +80,7 @@ ToInfiniteElement >> deselectAll [
 	self selectionStrategy deselectAll
 ]
 
-{ #category : #'selection events deprecated' }
+{ #category : #deprecated }
 ToInfiniteElement >> deselectIndex: anIndex [
 
 	self
@@ -91,76 +95,7 @@ ToInfiniteElement >> disableScrolledEvent [
 	self eventDispatcher disableScrolledEvent 
 ]
 
-{ #category : #'selection action dispatching deprecated' }
-ToInfiniteElement >> dispatchDeselectAll [
-
-	self dispatchEvent: ToListDeselectAllEvent new
-]
-
-{ #category : #'selection action dispatching deprecated' }
-ToInfiniteElement >> dispatchDeselectIndex: anIndex [
-
-	self dispatchEvent: (ToListDeselectIndexEvent new
-			 index: anIndex;
-			 yourself)
-]
-
-{ #category : #'selection action dispatching deprecated' }
-ToInfiniteElement >> dispatchDeselectIndexes: aCollection [
-
-	self dispatchEvent: (ToListDeselectIndexesEvent new
-			 indexes: aCollection;
-			 yourself)
-]
-
-{ #category : #'selection action dispatching deprecated' }
-ToInfiniteElement >> dispatchRemoveSelectedIndexesFrom: anIndex itemCount: aNumber [
-
-	self dispatchEvent: (ToListRemoveSelectedIndexesEvent new
-			 startIndex: anIndex;
-			 itemCount: aNumber;
-			 yourself)
-]
-
-{ #category : #'selection action dispatching deprecated' }
-ToInfiniteElement >> dispatchSelectAll [
-
-	self dispatchEvent: ToListSelectAllEvent new
-]
-
-{ #category : #'selection action dispatching deprecated' }
-ToInfiniteElement >> dispatchSelectFrom: aStartIndex toIndex: anEndIndex [
-
-	self dispatchEvent: (ToListSelectFromToIndexEvent new
-			 interval: (aStartIndex to: anEndIndex);
-			 yourself)
-]
-
-{ #category : #'selection action dispatching deprecated' }
-ToInfiniteElement >> dispatchSelectIndex: anIndex [
-
-	self dispatchEvent: (ToListSelectIndexEvent new
-			 index: anIndex;
-			 yourself)
-]
-
-{ #category : #'selection action dispatching deprecated' }
-ToInfiniteElement >> dispatchSelectIndexes: aCollection [
-
-	self dispatchEvent: (ToListSelectIndexesEvent new
-			 indexes: aCollection;
-			 yourself)
-]
-
-{ #category : #'selection action dispatching deprecated' }
-ToInfiniteElement >> dispatchSelectOnlyIndex: anIndex [
-
-	self dispatchEvent: (ToListSelectIndexOnlyEvent new
-			 index: anIndex;
-			 yourself)
-]
-
-{ #category : #'selection events deprecated' }
+{ #category : #deprecated }
 ToInfiniteElement >> dispatchSelectionChangedAfter: aBlock [
 
 	| prevIndexes currentIndexes event |
@@ -177,15 +112,6 @@ ToInfiniteElement >> dispatchSelectionChangedAfter: aBlock [
 		         previousIndexes: prevIndexes
 		         currentIndexes: currentIndexes.
 	self dispatchEvent: event
-]
-
-{ #category : #'selection action dispatching deprecated' }
-ToInfiniteElement >> dispatchShiftSelectionFrom: anIndex itemCount: aNumber [
-
-	self dispatchEvent: (ToListShiftSelectionEvent new
-			 startIndex: anIndex;
-			 itemCount: aNumber;
-			 yourself)
 ]
 
 { #category : #'scrolled event' }
@@ -214,13 +140,9 @@ ToInfiniteElement >> initialize [
 
 	super initialize.
 	self initializeForToplo.
-	requestFocusOnMouseDown := true.
-	self addEventHandler: ToInfiniteElementEventHandler new.
 	selectionStrategy := self defaultSelectionStrategy.
 	selectionStrategy onInstalledIn: self.
 	self privateData: ToObservableCollection new.
-	
-	self preserveSelectionOnFocused: self preserveSelectionOnFocusedByDefault.
 	self nodeBuilder: self defaultNodeBuilder.
 	self matchParent
 ]
@@ -279,13 +201,20 @@ ToInfiniteElement >> nodeClass: aNodeClass [
 	nodeClass := aNodeClass
 ]
 
+{ #category : #'accessing - children' }
+ToInfiniteElement >> nodeContainingGlobalPosition: aPoint [
+
+	self childrenDo: [ :node |
+		(node containsGlobalPoint: aPoint) ifTrue: [ ^ node ] ].
+	^ nil
+]
+
 { #category : #accessing }
 ToInfiniteElement >> nodeHolderBuilder [
 
 	^ [ :theHolder |
 	  | newNode |
 	  newNode := self newNode.
-	  self selectionStrategy onNewNode: newNode.
 	  theHolder node: newNode.
 	  self nodeBuilder value: theHolder node value: theHolder ]
 ]
@@ -322,25 +251,7 @@ ToInfiniteElement >> offsetPositionRecordsForRemove: aStartPosition itemCount: a
 			applyToPreLayout: applyToPreLayout ]
 ]
 
-{ #category : #accessing }
-ToInfiniteElement >> preserveSelectionOnFocused [
-
-	^ preserveSelectionOnFocused
-]
-
-{ #category : #accessing }
-ToInfiniteElement >> preserveSelectionOnFocused: aBoolean [
-
-	preserveSelectionOnFocused := aBoolean
-]
-
-{ #category : #initialization }
-ToInfiniteElement >> preserveSelectionOnFocusedByDefault [
-
-	^ true
-]
-
-{ #category : #accessing }
+{ #category : #deprecated }
 ToInfiniteElement >> primarySelection [
 
 	self
@@ -358,18 +269,6 @@ ToInfiniteElement >> privateData: aCollection [
 	dataSource data: aCollection
 ]
 
-{ #category : #accessing }
-ToInfiniteElement >> requestFocusOnMouseDown [
-
-	^ requestFocusOnMouseDown 
-]
-
-{ #category : #accessing }
-ToInfiniteElement >> requestFocusOnMouseDown: aBoolean [
-
-	requestFocusOnMouseDown := aBoolean
-]
-
 { #category : #'t - resizeable' }
 ToInfiniteElement >> resizableConstraintsDo: aBlock [
 	"Perform aBlock with my constraints as argument.
@@ -384,6 +283,18 @@ ToInfiniteElement >> resizableConstraintsDo: aBlock [
 	
 	"
 	self constraintsDo: aBlock
+]
+
+{ #category : #private }
+ToInfiniteElement >> scrollToDataSourcePosition: anIndex [
+	"Request a scrollable widget to scroll to an item (logical or physical) at a given index,
+	which can, for example, be a data source position or child index"
+
+	self scrollToPosition: anIndex.
+
+	"aWish smooth
+		ifTrue: [ self listElement smoothScrollToPosition: aWish index ]
+		ifFalse: [ self listElement scrollToPosition: aWish index ]"
 ]
 
 { #category : #private }
@@ -407,7 +318,7 @@ ToInfiniteElement >> scrollToIndexAtTop: anIndex [
 	self scrollToPosition: anIndex offset: self layout computeExtraLayoutSpace y.
 ]
 
-{ #category : #'selection events deprecated' }
+{ #category : #deprecated }
 ToInfiniteElement >> selectAll [
 
 	self
@@ -417,7 +328,7 @@ ToInfiniteElement >> selectAll [
 	self selectionStrategy selectAll
 ]
 
-{ #category : #'selection events deprecated' }
+{ #category : #deprecated }
 ToInfiniteElement >> selectIndex: index [
 
 	self
@@ -426,7 +337,7 @@ ToInfiniteElement >> selectIndex: index [
 	self selectionStrategy selectIndex: index
 ]
 
-{ #category : #'selection events deprecated' }
+{ #category : #deprecated }
 ToInfiniteElement >> selectIndexes: aCollection [
 
 	self
@@ -435,7 +346,7 @@ ToInfiniteElement >> selectIndexes: aCollection [
 	self selectionStrategy selectIndexes: aCollection
 ]
 
-{ #category : #'selection events deprecated' }
+{ #category : #deprecated }
 ToInfiniteElement >> selectOnlyIndex: index [
 
 	self
@@ -444,7 +355,7 @@ ToInfiniteElement >> selectOnlyIndex: index [
 	self selectionStrategy selectOnlyIndex: index
 ]
 
-{ #category : #'selection events deprecated' }
+{ #category : #deprecated }
 ToInfiniteElement >> selectToIndex: anIndex [
 
 	self
@@ -453,7 +364,7 @@ ToInfiniteElement >> selectToIndex: anIndex [
 	self selectionStrategy selectToIndex: anIndex
 ]
 
-{ #category : #accessing }
+{ #category : #deprecated }
 ToInfiniteElement >> selectedIndex [
 
 	self
@@ -462,7 +373,7 @@ ToInfiniteElement >> selectedIndex [
 	^ self selectionStrategy selectedIndex
 ]
 
-{ #category : #accessing }
+{ #category : #deprecated }
 ToInfiniteElement >> selectedIndexes [
 
 	self
@@ -471,7 +382,7 @@ ToInfiniteElement >> selectedIndexes [
 	^ self selectionStrategy selectedIndexes
 ]
 
-{ #category : #accessing }
+{ #category : #deprecated }
 ToInfiniteElement >> selection [
 
 	self
@@ -481,7 +392,7 @@ ToInfiniteElement >> selection [
 	^ self selectionStrategy 
 ]
 
-{ #category : #accessing }
+{ #category : #deprecated }
 ToInfiniteElement >> selection: aSelectionStrategy [
 
 	self
@@ -505,7 +416,7 @@ ToInfiniteElement >> selectionStrategy: aSelectionStrategy [
 
 ]
 
-{ #category : #'selection events deprecated' }
+{ #category : #deprecated }
 ToInfiniteElement >> shiftSelectionAfterAddingAt: aStartPosition itemCount: anItemCount [
 
 	self
@@ -514,7 +425,7 @@ ToInfiniteElement >> shiftSelectionAfterAddingAt: aStartPosition itemCount: anIt
 	self selectionStrategy shiftAfterAddingAt: aStartPosition itemCount: anItemCount
 ]
 
-{ #category : #'selection events deprecated' }
+{ #category : #deprecated }
 ToInfiniteElement >> shiftSelectionAfterRemovingAt: aStartPosition itemCount: anItemCount [
 
 	self

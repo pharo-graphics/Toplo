@@ -29,7 +29,7 @@ ToSharedEventDistributor >> dispatch: aBlEvent on: anElement [
 { #category : #'api - event managing' }
 ToSharedEventDistributor >> handleEvent: anEvent [
 
-	shouldHandle ifFalse: [ ^ self ].
+	shouldHandle ifFalse: [ 'should not handle: ' trace.  anEvent traceCr. ^ self ].
 	elements do: [ :eachElement |
 		anEvent currentTarget = eachElement ifFalse: [
 			self dispatch: anEvent on: eachElement ] ]

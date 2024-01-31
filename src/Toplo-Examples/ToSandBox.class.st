@@ -358,8 +358,7 @@ ToSandBox class >> example_EditableListWithAllClassesNames [
 	innerWin pane addChild: vscrollBar.
 	space := BlSpace new.
 	space root addChild: innerWin.
-	space show.
-	space inspect
+	space show
 ]
 
 { #category : #album }
@@ -1268,11 +1267,11 @@ ToSandBox class >> example_PicsumPhotosGallery [
 			                imageData: imageData;
 			                yourself.
 		node addEventHandler: (BlEventHandler
-				 on: ToNodeAttachementEvent
-				 do: [ :event |
-					 event attached
-						 ifTrue: [ photoElement attached ]
-						 ifFalse: [ photoElement detached ] ]).
+				 on: BlInfiniteElementAttachedEvent
+				 do: [ :event | photoElement attached ]).
+		node addEventHandler: (BlEventHandler
+				 on: BlInfiniteElementDetachedEvent
+				 do: [ :event | photoElement detached ]).
 		node addChild: photoElement ].
 
 	[

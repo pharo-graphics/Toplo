@@ -156,8 +156,7 @@ ToSelect >> initialize [
 	sharedEventsDistributor
 		adjustMousePosition: false;
 		shareEvents: {
-				ToCollectionFilteredEvent.
-				ToListUniqueIndexEvent }.
+				ToCollectionFilteredEvent}.
 
 	self listElement data addEventHandler: sharedEventsDistributor.
 	self addEventHandler: sharedEventsDistributor.

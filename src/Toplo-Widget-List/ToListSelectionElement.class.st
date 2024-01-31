@@ -5,7 +5,7 @@ Class {
 		'listElement',
 		'nodes'
 	],
-	#category : 'Toplo-Widget-List-Core'
+	#category : #'Toplo-Widget-List-Selection-Element'
 }
 
 { #category : #private }

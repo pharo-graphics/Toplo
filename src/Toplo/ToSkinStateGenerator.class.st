@@ -149,7 +149,7 @@ ToSkinStateGenerator >> eventsToHandle [
 		  BlMouseLeaveEvent.
 		  ToWindowOpenedEvent.
 		  ToWindowClosedEvent.
-		  ToNodeSelectionEvent }
+		  ToListNodeSelectionEvent }
 ]
 
 { #category : #'focus events handling' }

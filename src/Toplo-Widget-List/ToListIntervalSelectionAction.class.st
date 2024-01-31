@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'interval'
 	],
-	#category : #'Toplo-Widget-List-SelectionAction'
+	#category : #'Toplo-Widget-List-Selection-Action'
 }
 
 { #category : #hook }

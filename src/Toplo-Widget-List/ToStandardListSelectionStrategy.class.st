@@ -1,7 +1,7 @@
 Class {
 	#name : #ToStandardListSelectionStrategy,
 	#superclass : #ToInfiniteSelectionStrategy,
-	#category : #'Toplo-Widget-List-Selection'
+	#category : #'Toplo-Widget-List-Selection-Strategy'
 }
 
 { #category : #'selection and shortcuts handlers' }
@@ -36,5 +36,5 @@ ToStandardListSelectionStrategy >> defaultShortcuts [
 { #category : #'selection and shortcuts handlers' }
 ToStandardListSelectionStrategy >> nodeEventHandlerClasses [
 
-	^ { ToStandardNodeSelectionEventHandler }
+	^ { ToStandardListNodeSelectionEventHandler }
 ]

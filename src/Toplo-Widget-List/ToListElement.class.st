@@ -5,7 +5,9 @@ Class {
 	#classTraits : 'TToListElementDecorator classTrait + TToElementWithPlaceholder classTrait',
 	#instVars : [
 		'selectionElements',
-		'sharedDistributor'
+		'sharedDistributor',
+		'preserveSelectionOnFocused',
+		'requestFocusOnMouseDown'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -41,6 +43,12 @@ ToListElement >> defaultLayout [
 ]
 
 { #category : #initialization }
+ToListElement >> defaultPeserveSelectionOnFocused [
+
+	^ true
+]
+
+{ #category : #initialization }
 ToListElement >> defaultSelectionStrategy [
 
 	^ ToStandardListSelectionStrategy new
@@ -56,6 +64,8 @@ ToListElement >> horizontal: aBoolean [
 ToListElement >> infiniteElementSharedEvents [
 
 	^ {
+		  BlInfiniteElementAttachedEvent.
+		  BlInfiniteElementDetachedEvent.
 		  BlElementScrolledEvent.
 		  BlElementExtentChangedEvent.
 		  BlBlurEvent.
@@ -68,6 +78,8 @@ ToListElement >> initialize [
 	super initialize.
 
 	selectionElements := #(  ).
+	requestFocusOnMouseDown := true.
+	self preserveSelectionOnFocused: self defaultPeserveSelectionOnFocused.
 	self layout: self defaultLayout.
 	self next: self defaultInfiniteElement.
 
@@ -79,7 +91,7 @@ ToListElement >> initialize [
 	self infinite elevation: (BlRelativeElevation elevation: 10).
 	self contextMenuWindowManagerClass:
 		ToListElementContextMenuWindowManager.
-	self addEventHandler: ToListSelectionEventHandler new.
+	self addEventHandler: ToListSelectionElementEventHandler new.
 	self addEventHandler:
 		ToListElementContextMenuSelectionEventHandler new.
 	self matchParent.
@@ -128,10 +140,34 @@ ToListElement >> placeholderElevation [
 	^ self infinite elevation
 ]
 
+{ #category : #accessing }
+ToListElement >> preserveSelectionOnFocused [
+
+	^ preserveSelectionOnFocused
+]
+
+{ #category : #accessing }
+ToListElement >> preserveSelectionOnFocused: aBoolean [
+
+	preserveSelectionOnFocused := aBoolean
+]
+
 { #category : #'focus requesting' }
 ToListElement >> requestFocus [
 
 	self infinite requestFocus
+]
+
+{ #category : #accessing }
+ToListElement >> requestFocusOnMouseDown [
+
+	^ requestFocusOnMouseDown 
+]
+
+{ #category : #accessing }
+ToListElement >> requestFocusOnMouseDown: aBoolean [
+
+	requestFocusOnMouseDown := aBoolean
 ]
 
 { #category : #accessing }
@@ -158,10 +194,12 @@ ToListElement >> selectionStrategy: aSelectionStrategy [
 ToListElement >> selectionStrategySharedEvents [
 
 	^ {
+		  ToListClickOnNodeEvent.
 		  ToListSelectionActionEvent.
 		  ToListSelectionDirtyEvent.
 		  ToListSelectionChangedEvent.
-		  ToListStrongSelectionEvent }
+		  ToListStrongSelectionEvent.
+		  ToListSelectionModeChangedEvent }
 ]
 
 { #category : #initialization }

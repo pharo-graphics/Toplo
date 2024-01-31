@@ -49,7 +49,7 @@ ToListElementContextMenuSelectionEventHandler >> contextMenuSelectionOverPrimary
 ToListElementContextMenuSelectionEventHandler >> eventsToHandle [
 
 	^ {
-		  ToListSelectionElementUpdatedEvent.
+		  ToListSelectionChangedEvent.
 		  ToListElementContextMenuRequest.
 		  ToContextMenuClosedEvent.
 		  ToListElementContextMenuSelectionChangedEvent }
@@ -113,7 +113,7 @@ ToListElementContextMenuSelectionEventHandler >> listElementContextMenuSelection
 ]
 
 { #category : #'element handlers' }
-ToListElementContextMenuSelectionEventHandler >> listSelectionElementUpdatedEvent: anEvent [
+ToListElementContextMenuSelectionEventHandler >> listSelectionChangedEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.

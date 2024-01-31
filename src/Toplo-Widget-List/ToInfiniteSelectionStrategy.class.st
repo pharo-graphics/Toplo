@@ -1,6 +1,6 @@
 Class {
 	#name : #ToInfiniteSelectionStrategy,
-	#superclass : #ToInfiniteAbstractSelectionStrategy,
+	#superclass : #ToListSelectionStrategy,
 	#classTraits : 'TBlEventTarget classTrait',
 	#instVars : [
 		'infiniteElement',
@@ -9,9 +9,10 @@ Class {
 		'pivot',
 		'distance',
 		'installedShortcuts',
-		'selectionModel'
+		'selectionModel',
+		'commandEventHandler'
 	],
-	#category : #'Toplo-Widget-List-Selection'
+	#category : #'Toplo-Widget-List-Selection-Strategy'
 }
 
 { #category : #'private - shortcuts' }
@@ -43,7 +44,6 @@ ToInfiniteSelectionStrategy >> addOrRemoveWithGap: aGap [
 		ifTrue: [
 			| idx |
 			idx := nextIdx - aGap.
-			infiniteElement dispatchDeselectIndex: idx.
 			self dispatchEvent: (ToListSelectionActionEvent new
 					 action: (self
 							  intervalSelectionActionWith: (idx to: idx)
@@ -52,7 +52,6 @@ ToInfiniteSelectionStrategy >> addOrRemoveWithGap: aGap [
 			selectionModel deselectIndex: idx ]
 		ifFalse: [
 			[
-			infiniteElement dispatchSelectIndex: nextIdx.
 			self dispatchEvent: (ToListSelectionActionEvent new
 					 action: (self
 							  intervalSelectionActionWith: (nextIdx to: nextIdx)
@@ -183,6 +182,7 @@ ToInfiniteSelectionStrategy >> dispatchSelectionChangedAfter: aBlock [
 		         previousIndexes: prevIndexes;
 		         currentIndexes: currentIndexes;
 		         yourself.
+
 	self dispatchEvent: event
 ]
 
@@ -194,6 +194,12 @@ ToInfiniteSelectionStrategy >> dispatchSelectionDirtyAfter: aBlock [
 	self isNone ifTrue: [ ^ self ].
 	self dispatchEvent: ToListSelectionDirtyEvent new
 
+]
+
+{ #category : #'selection event dispatching' }
+ToInfiniteSelectionStrategy >> dispatchSelectionModeChanged [
+
+	self dispatchEvent: ToListSelectionModeChangedEvent new
 ]
 
 { #category : #'selection event dispatching' }
@@ -238,7 +244,6 @@ ToInfiniteSelectionStrategy >> doDeselectAll [
 		self doDeselectIndex: self selectedIndex.
 		^ self ].
 	selectionModel deselectAll.
-	infiniteElement dispatchDeselectAll.
 	self dispatchEvent: (ToListSelectionActionEvent new
 			 action: (self wholeSelectionActionForOperation: #deselection);
 			 yourself).
@@ -251,7 +256,6 @@ ToInfiniteSelectionStrategy >> doDeselectAllIndexes: indexes [
 
 	self isMultiple ifFalse: [
 		indexes size > 1 ifTrue: [ self invalidOperation ] ].
-	infiniteElement dispatchDeselectIndexes: indexes.
 	self dispatchEvent: (ToListSelectionActionEvent new
 			 action: (self
 					  explicitSelectionActionWith: indexes asArray
@@ -267,7 +271,6 @@ ToInfiniteSelectionStrategy >> doDeselectAllIndexes: indexes [
 ToInfiniteSelectionStrategy >> doDeselectIndex: index [
 
 	self isNone ifTrue: [ self invalidOperation ].
-	infiniteElement dispatchDeselectIndex: index.
 	self dispatchEvent: (ToListSelectionActionEvent new
 			 action: (self
 					  intervalSelectionActionWith: (index to: index)
@@ -282,7 +285,6 @@ ToInfiniteSelectionStrategy >> doDeselectIndex: index [
 ToInfiniteSelectionStrategy >> doSelectAll [
 
 	self dataSource itemCount > 0 ifFalse: [ ^ self ].
-	infiniteElement dispatchSelectAll.
 	self dispatchEvent: (ToListSelectionActionEvent new
 			 action: (self wholeSelectionActionForOperation: #selection);
 			 yourself).
@@ -295,7 +297,6 @@ ToInfiniteSelectionStrategy >> doSelectAllIndexes: indexes [
 
 	self isMultiple ifFalse: [
 		indexes size > 1 ifTrue: [ self invalidOperation ] ].
-	infiniteElement dispatchSelectIndexes: indexes.
 	self dispatchEvent: (ToListSelectionActionEvent new
 			 action: (self
 					  explicitSelectionActionWith: indexes asArray
@@ -311,7 +312,6 @@ ToInfiniteSelectionStrategy >> doSelectAllIndexes: indexes [
 ToInfiniteSelectionStrategy >> doSelectIndex: anIndex [
 
 	self isNone ifTrue: [ self invalidOperation ].
-	infiniteElement dispatchSelectIndex: anIndex.
 	self dispatchEvent: (ToListSelectionActionEvent new
 			 action: (self
 					  intervalSelectionActionWith: (anIndex to: anIndex)
@@ -325,7 +325,6 @@ ToInfiniteSelectionStrategy >> doSelectIndex: anIndex [
 ToInfiniteSelectionStrategy >> doSelectOnlyIndex: anIndex [
 
 	self isNone ifTrue: [ self invalidOperation ].
-	infiniteElement dispatchSelectOnlyIndex: anIndex.
 	self dispatchEvent: (ToListSelectionActionEvent new
 			 action:
 				 ((self wholeSelectionActionForOperation: #deselection) next:
@@ -350,7 +349,6 @@ ToInfiniteSelectionStrategy >> doSelectOnlyIndexes: indexes [
 							   explicitSelectionActionWith: indexes asArray
 							   forOperation: #selection));
 			 yourself).
-	infiniteElement dispatchSelectIndexes: indexes.
 	selectionModel deselectAll.
 	indexes ifEmpty: [ ^ self ].
 	selectionModel selectAllIndexes: indexes.
@@ -364,7 +362,6 @@ ToInfiniteSelectionStrategy >> doSelectToIndex: index [
 	| curr |
 	self isNone ifTrue: [ self invalidOperation ].
 	curr := self currentIndex.
-	infiniteElement dispatchSelectFrom: curr toIndex: index.
 	self dispatchEvent: (ToListSelectionActionEvent new
 			 action: (self
 					  intervalSelectionActionWith: (curr to: index)
@@ -539,6 +536,13 @@ ToInfiniteSelectionStrategy >> nodeEventHandlers [
 	^ self nodeEventHandlerClasses collect: [ :cls | cls new ]
 ]
 
+{ #category : #'selection and shortcuts handlers' }
+ToInfiniteSelectionStrategy >> onAddedNode: aNode [
+
+	super onAddedNode: aNode.
+	self nodeEventHandlers do: [ :handler | aNode addEventHandler: handler ]
+]
+
 { #category : #'data source change' }
 ToInfiniteSelectionStrategy >> onInfiniteDataSourceChanged [
 
@@ -552,6 +556,8 @@ ToInfiniteSelectionStrategy >> onInstalledIn: anInfiniteElement [
 	super onInstalledIn: anInfiniteElement.
 	infiniteElement := anInfiniteElement.
 	self installShortcutsInInfiniteElement.
+	commandEventHandler := ToListSelectionCommandEventHandler new.
+	self addEventHandler: commandEventHandler.
 	anInfiniteElement childrenDo: [ :child | | handlersToInstall |
 		handlersToInstall  := self nodeEventHandlers.
 		handlersToInstall do: [ :h | child addEventHandler: h] ].
@@ -559,10 +565,12 @@ ToInfiniteSelectionStrategy >> onInstalledIn: anInfiniteElement [
 ]
 
 { #category : #'selection and shortcuts handlers' }
-ToInfiniteSelectionStrategy >> onNewNode: aNode [
+ToInfiniteSelectionStrategy >> onRemovedNode: aNode [
 
-	super onNewNode: aNode.
-	self nodeEventHandlers do: [ :handler | aNode addEventHandler: handler ]
+	| installedHandlers |
+	super onRemovedNode: aNode.
+	installedHandlers  := self installedHandlersInNode: aNode.
+	installedHandlers do: [ :h | aNode removeEventHandler: h]
 ]
 
 { #category : #'api - hooks' }
@@ -570,6 +578,8 @@ ToInfiniteSelectionStrategy >> onUninstalledIn: anInfiniteElement [
 
 	super onUninstalledIn: anInfiniteElement.
 	self uninstallShortcutsFromInfiniteElement.
+	self removeEventHandler: commandEventHandler.
+	commandEventHandler := nil.
 	anInfiniteElement childrenDo: [ :child | | installedHandlers |
 		installedHandlers  := self installedHandlersInNode: child.
 		installedHandlers do: [ :h | child removeEventHandler: h] ].
@@ -724,9 +734,6 @@ ToInfiniteSelectionStrategy >> shiftAfterRemovingAt: aStartPosition itemCount: a
 					  shiftSelectionActionFrom: aStartPosition
 					  withGap: anItemCount negated);
 			 yourself).
-	infiniteElement
-		dispatchRemoveSelectedIndexesFrom: aStartPosition
-		itemCount: anItemCount.
 	removedIdx := idxs select: [ :i |
 		              i
 			              between: aStartPosition

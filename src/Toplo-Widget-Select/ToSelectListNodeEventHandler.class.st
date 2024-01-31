@@ -1,6 +1,6 @@
 Class {
 	#name : #ToSelectListNodeEventHandler,
-	#superclass : #ToNodeSelectionEventHandler,
+	#superclass : #ToListNodeSelectionEventHandler,
 	#instVars : [
 		'select'
 	],
@@ -29,8 +29,7 @@ ToSelectListNodeEventHandler >> primaryMouseDownEvent: anEvent [
 	| infiniteElement target |
 	target := anEvent currentTarget.
 	infiniteElement := target holder infiniteElement.
-	infiniteElement selectionStrategy cherryPickIndex:
-		target holder position
+	infiniteElement selectionStrategy cherryPickIndex: target holder position
 ]
 
 { #category : #accessing }

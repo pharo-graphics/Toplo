@@ -1,7 +1,7 @@
 Class {
 	#name : #ToListWholeDataSelectionAction,
 	#superclass : #ToListSelectionAction,
-	#category : #'Toplo-Widget-List-SelectionAction'
+	#category : #'Toplo-Widget-List-Selection-Action'
 }
 
 { #category : #hook }

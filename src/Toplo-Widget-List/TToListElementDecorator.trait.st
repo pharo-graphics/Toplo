@@ -117,22 +117,10 @@ TToListElementDecorator >> nodeClass: aNodeClass [
 	self next nodeClass: aNodeClass
 ]
 
-{ #category : #'t - accessing selection' }
-TToListElementDecorator >> preserveSelectionOnFocused: aBoolean [
-
-	self next preserveSelectionOnFocused: aBoolean
-]
-
 { #category : #'t - infinite accessing' }
-TToListElementDecorator >> requestFocusOnMouseDown [
+TToListElementDecorator >> scrollToDataSourcePosition: anIndex [
 
-	^ self next requestFocusOnMouseDown
-]
-
-{ #category : #'t - infinite accessing' }
-TToListElementDecorator >> requestFocusOnMouseDown: aBoolean [
-
-	self next requestFocusOnMouseDown: aBoolean
+	self next scrollToDataSourcePosition: anIndex
 ]
 
 { #category : #'t - infinite accessing' }

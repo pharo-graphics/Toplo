@@ -1,10 +1,10 @@
 Class {
 	#name : #ToListSelectionActionEvent,
-	#superclass : #BlEvent,
+	#superclass : #ToListSelectionEvent,
 	#instVars : [
 		'action'
 	],
-	#category : #'Toplo-Widget-List-SelectionAction'
+	#category : #'Toplo-Widget-List-Selection-Strategy'
 }
 
 { #category : #accessing }

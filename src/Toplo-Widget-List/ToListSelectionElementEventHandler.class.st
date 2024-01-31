@@ -1,5 +1,5 @@
 Class {
-	#name : #ToListSelectionEventHandler,
+	#name : #ToListSelectionElementEventHandler,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'previousNodesArray',
@@ -7,11 +7,11 @@ Class {
 		'wasFocused',
 		'previousAdjacentNodeGroups'
 	],
-	#category : #'Toplo-Widget-List-Core'
+	#category : #'Toplo-Widget-List-Selection-Element'
 }
 
 { #category : #'selection managing' }
-ToListSelectionEventHandler >> adjacentSelectedNodesGroupsIn: aListElement [
+ToListSelectionElementEventHandler >> adjacentSelectedNodesGroupsIn: aListElement [
 	" return an array of collection. Each collection contains a list of adjacent selected nodes "
 
 	| computed |
@@ -41,7 +41,7 @@ ToListSelectionEventHandler >> adjacentSelectedNodesGroupsIn: aListElement [
 ]
 
 { #category : #'element handlers' }
-ToListSelectionEventHandler >> blurEvent: anEvent [
+ToListSelectionElementEventHandler >> blurEvent: anEvent [
 
 	" Don't update the selection when the element is removed from the scene 
 	This is the case if the event reason is for element removal "
@@ -50,19 +50,19 @@ ToListSelectionEventHandler >> blurEvent: anEvent [
 ]
 
 { #category : #'element handlers' }
-ToListSelectionEventHandler >> elementExtentChangedEvent: anEvent [
+ToListSelectionElementEventHandler >> elementExtentChangedEvent: anEvent [
 
 	self updatePrimarySelectionFromEvent: anEvent
 ]
 
 { #category : #'element handlers' }
-ToListSelectionEventHandler >> elementScrolledEvent: anEvent [
+ToListSelectionElementEventHandler >> elementScrolledEvent: anEvent [
 
 	self updatePrimarySelectionFromEvent: anEvent
 ]
 
 { #category : #'api - accessing' }
-ToListSelectionEventHandler >> eventsToHandle [
+ToListSelectionElementEventHandler >> eventsToHandle [
 
 	^ {
 		  BlFocusEvent.
@@ -70,30 +70,46 @@ ToListSelectionEventHandler >> eventsToHandle [
 		  BlElementExtentChangedEvent.
 		  BlElementScrolledEvent.
 		  ToListSelectionDirtyEvent.
-		  ToListSelectionChangedEvent.
-		  ToListSelectionElementUpdatedEvent }
+		  ToListSelectionChangedEvent}
 ]
 
 { #category : #'element handlers' }
-ToListSelectionEventHandler >> focusEvent: anEvent [
+ToListSelectionElementEventHandler >> focusEvent: anEvent [
 
 	self updatePrimarySelectionFromEvent: anEvent
 ]
 
 { #category : #'element handlers' }
-ToListSelectionEventHandler >> listSelectionChangedEvent: anEvent [
+ToListSelectionElementEventHandler >> listSelectionChangedEvent: anEvent [
 
 	self updatePrimarySelectionFromEvent: anEvent
 ]
 
 { #category : #'element handlers' }
-ToListSelectionEventHandler >> listSelectionDirtyEvent: anEvent [
+ToListSelectionElementEventHandler >> listSelectionDirtyEvent: anEvent [
 
 	self updatePrimarySelectionFromEvent: anEvent
 ]
 
+{ #category : #'selection managing' }
+ToListSelectionElementEventHandler >> newPrimarySelectionElementsFromEvent: anEvent [
+	" return a collection with instances of ListSelectionDecorationElement "
+
+	| adjacentNodeGroups target |
+	target := anEvent currentTarget.
+	adjacentNodeGroups := self adjacentSelectedNodesGroupsIn: target.
+	adjacentNodeGroups = previousAdjacentNodeGroups ifTrue: [
+		^ nil ].
+	previousAdjacentNodeGroups := adjacentNodeGroups.
+	^ adjacentNodeGroups collect: [ :g |
+		  ToListPrimarySelectionElement new
+			  listElement: anEvent currentTarget;
+			  nodes: g;
+			  yourself ]
+]
+
 { #category : #'element handlers' }
-ToListSelectionEventHandler >> listSelectionElementUpdatedEvent: anEvent [
+ToListSelectionElementEventHandler >> onListSelectionElementUpdatedFromEvent: anEvent [
 
 	| target nodesArray selectedIndexes focused |
 	target := anEvent currentTarget.
@@ -118,30 +134,14 @@ ToListSelectionEventHandler >> listSelectionElementUpdatedEvent: anEvent [
 	" Ok, the state of the infinite has changed "
 
 	nodesArray do: [ :node |
-		node dispatchEvent: (ToNodeSelectionEvent new
+		node dispatchEvent: (ToListNodeSelectionEvent new
+				 node: node;
 				 infiniteElement: target;
 				 selected: (selectedIndexes includes: node holder position)) ]
 ]
 
 { #category : #'selection managing' }
-ToListSelectionEventHandler >> newPrimarySelectionElementsFromEvent: anEvent [
-	" return a collection with instances of ListSelectionDecorationElement "
-
-	| adjacentNodeGroups target |
-	target := anEvent currentTarget.
-	adjacentNodeGroups := self adjacentSelectedNodesGroupsIn: target.
-	adjacentNodeGroups = previousAdjacentNodeGroups ifTrue: [
-		^ nil ].
-	previousAdjacentNodeGroups := adjacentNodeGroups.
-	^ adjacentNodeGroups collect: [ :g |
-		  ToListPrimarySelectionElement new
-			  listElement: anEvent currentTarget;
-			  nodes: g;
-			  yourself ]
-]
-
-{ #category : #'selection managing' }
-ToListSelectionEventHandler >> updatePrimarySelectionFromEvent: anEvent [
+ToListSelectionElementEventHandler >> updatePrimarySelectionFromEvent: anEvent [
 	"add a ListDecorationElement for each group of adjacent selected nodes "
 
 	| newSelElements target previous |
@@ -154,5 +154,5 @@ ToListSelectionEventHandler >> updatePrimarySelectionFromEvent: anEvent [
 			previous do: [ :s | s removeFromParent ].
 			target addChildren: newSelElements.
 			target selectionElements: newSelElements ].
-	target dispatchEvent: ToListSelectionElementUpdatedEvent new
+	self onListSelectionElementUpdatedFromEvent: anEvent
 ]

@@ -1553,6 +1553,7 @@ ToSandBox class >> example_SieveOnListWith_AllMethods [
 		lab matchParent.
 		ph addChild: lab ].
 	"handler inspect."
+	"listElement inspect."
 	pane addChild: listElement.
 	pane addChild: filterField.
 	pane openInSpace

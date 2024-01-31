@@ -50,26 +50,7 @@ ToMiniBrowser >> changeCodeInEditor [
 { #category : #'class selection' }
 ToMiniBrowser >> classSelectionChangedEvent: aToSelectionChanged [
 
-	| selectedClasses allProtocols |
-	protocols selectionStrategy deselectAll.
-	protocols data removeAll.
-	selectedClasses := aToSelectionChanged currentIndexes collect: [ :idx |
-		                   classes data at: idx ].
-	allProtocols := Array streamContents: [ :stream |
-		                selectedClasses do: [ :cls |
-			                | side prots |
-			                side := classSide
-				                        ifTrue: [ cls classSide ]
-				                        ifFalse: [ cls instanceSide ].
-			                prots := self candidateProtocolsForClass: side.
-			                prots := self
-				                         finalProtocolsFrom: prots
-				                         forClass: side.
-			                stream nextPutAll: prots ] ].
-
-	selectedClasses size > 1 ifTrue: [
-		allProtocols := self filteredProtocolsFrom: allProtocols ].
-	protocols data addAll: allProtocols
+	self refreshClassSelectionWithSelectedIndexes: aToSelectionChanged currentIndexes
 ]
 
 { #category : #accessing }
@@ -149,13 +130,14 @@ ToMiniBrowser >> initialize [
 				 | pattern |
 				 pattern := pkgFilterField text asString.
 				 pkgSieve pattern: pattern ]).
-			
+
 	packageBottomPane := ToPane new
 		                     hMatchParent;
 		                     vFitContent.
-	packageBottomPane addChild: pkgFilterField;
-			               margin: (BlInsets top: 5);
-			               padding: (BlInsets all: 0).
+	packageBottomPane
+		addChild: pkgFilterField;
+		margin: (BlInsets top: 5);
+		padding: (BlInsets all: 0).
 
 	packages addEventHandler: (BlEventHandler
 			 on: ToListStrongSelectionEvent
@@ -201,10 +183,9 @@ ToMiniBrowser >> initialize [
 	sideToggle checked: self classSide.
 	sideToggle addEventHandler: (BlEventHandler
 			 on: ToCheckableCheckEvent
-			 do: [ :event |
-				 classes selectionStrategy dispatchSelectionChangedAfter: [
-					 classSide := event current.
-					 classes selectionStrategy deselectAll ] ]).
+			 do: [ :event | classSide := event current.
+				 self refreshClassSelectionWithSelectedIndexes:
+					 classes selectionStrategy selectedIndexes ]).
 
 	protocols := ToListElement new
 		             id: #protocols;
@@ -296,6 +277,31 @@ ToMiniBrowser >> protocolSelectionChangedEvent: aToSelectionChanged [
 		selectors data addAll:
 			(assoc value methodSelectors asSortedCollection collect: [ :sel |
 				 assoc key -> sel ]) ]
+]
+
+{ #category : #'class selection' }
+ToMiniBrowser >> refreshClassSelectionWithSelectedIndexes: aCollection [
+
+	| selectedClasses allProtocols |
+	protocols selectionStrategy deselectAll.
+	protocols data removeAll.
+	selectedClasses := aCollection collect: [ :idx |
+		                   classes data at: idx ].
+	allProtocols := Array streamContents: [ :stream |
+		                selectedClasses do: [ :cls |
+			                | side prots |
+			                side := classSide
+				                        ifTrue: [ cls classSide ]
+				                        ifFalse: [ cls instanceSide ].
+			                prots := self candidateProtocolsForClass: side.
+			                prots := self
+				                         finalProtocolsFrom: prots
+				                         forClass: side.
+			                stream nextPutAll: prots ] ].
+
+	selectedClasses size > 1 ifTrue: [
+		allProtocols := self filteredProtocolsFrom: allProtocols ].
+	protocols data addAll: allProtocols
 ]
 
 { #category : #initialization }

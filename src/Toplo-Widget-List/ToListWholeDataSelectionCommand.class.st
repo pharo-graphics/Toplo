@@ -1,5 +1,5 @@
 Class {
 	#name : #ToListWholeDataSelectionCommand,
-	#superclass : #ToListSelectionAbstractCommand,
+	#superclass : #ToListSelectionCommand,
 	#category : #'Toplo-Widget-List-Selection-Action'
 }

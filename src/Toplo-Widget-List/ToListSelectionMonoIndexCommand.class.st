@@ -1,6 +1,6 @@
 Class {
 	#name : #ToListSelectionMonoIndexCommand,
-	#superclass : #ToListSelectionAbstractCommand,
+	#superclass : #ToListSelectionCommand,
 	#instVars : [
 		'index'
 	],

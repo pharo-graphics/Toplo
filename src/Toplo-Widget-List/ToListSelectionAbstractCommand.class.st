@@ -1,5 +1,5 @@
 Class {
-	#name : #ToListSelectionCommand,
+	#name : #ToListSelectionAbstractCommand,
 	#superclass : #Object,
 	#instVars : [
 		'next'
@@ -8,19 +8,19 @@ Class {
 }
 
 { #category : #hook }
-ToListSelectionCommand >> applyOn: anObject [
+ToListSelectionAbstractCommand >> applyOn: anObject [
 
 	self next ifNotNil: [ :n | n applyOn: anObject ]
 ]
 
 { #category : #accessing }
-ToListSelectionCommand >> next [
+ToListSelectionAbstractCommand >> next [
 
 	^ next
 ]
 
 { #category : #accessing }
-ToListSelectionCommand >> next: aListSelectionAction [
+ToListSelectionAbstractCommand >> next: aListSelectionAction [
 
 	next := aListSelectionAction
 ]

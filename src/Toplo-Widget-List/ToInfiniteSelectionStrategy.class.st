@@ -9,8 +9,7 @@ Class {
 		'pivot',
 		'distance',
 		'installedShortcuts',
-		'selectionModel',
-		'commandEventHandler'
+		'selectionModel'
 	],
 	#category : #'Toplo-Widget-List-Selection-Strategy'
 }
@@ -556,8 +555,6 @@ ToInfiniteSelectionStrategy >> onInstalledIn: anInfiniteElement [
 	super onInstalledIn: anInfiniteElement.
 	infiniteElement := anInfiniteElement.
 	self installShortcutsInInfiniteElement.
-	commandEventHandler := ToListSelectionCommandEventHandler new.
-	self addEventHandler: commandEventHandler.
 	anInfiniteElement childrenDo: [ :child | | handlersToInstall |
 		handlersToInstall  := self nodeEventHandlers.
 		handlersToInstall do: [ :h | child addEventHandler: h] ].
@@ -578,8 +575,6 @@ ToInfiniteSelectionStrategy >> onUninstalledIn: anInfiniteElement [
 
 	super onUninstalledIn: anInfiniteElement.
 	self uninstallShortcutsFromInfiniteElement.
-	self removeEventHandler: commandEventHandler.
-	commandEventHandler := nil.
 	anInfiniteElement childrenDo: [ :child | | installedHandlers |
 		installedHandlers  := self installedHandlersInNode: child.
 		installedHandlers do: [ :h | child removeEventHandler: h] ].

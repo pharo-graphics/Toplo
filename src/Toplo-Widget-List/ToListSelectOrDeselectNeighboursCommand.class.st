@@ -1,6 +1,6 @@
 Class {
 	#name : #ToListSelectOrDeselectNeighboursCommand,
-	#superclass : #ToListSelectionCommand,
+	#superclass : #ToListSelectionAbstractCommand,
 	#instVars : [
 		'number'
 	],

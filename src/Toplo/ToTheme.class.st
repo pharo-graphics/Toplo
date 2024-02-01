@@ -288,6 +288,13 @@ ToTheme class >> variant: aThemeVariant [
 	^ self basicNew initialize variant: aThemeVariant
 ]
 
+{ #category : #comparing }
+ToTheme >> = anObject [
+
+	self class == anObject class ifFalse: [ ^ false ].
+	^ self variant class == anObject variant class
+]
+
 { #category : #accessing }
 ToTheme >> defaultSkinFor: anElement [
 
@@ -305,6 +312,12 @@ ToTheme >> defaultTokenProperties [
 ToTheme >> expectedSkinFor: anElement [
 
 	^ anElement skinManager ifNotNil: [:sm | sm defaultSkin ]
+]
+
+{ #category : #comparing }
+ToTheme >> hash [
+
+	^ self class hash bitXor: self variant class hash
 ]
 
 { #category : #accessing }

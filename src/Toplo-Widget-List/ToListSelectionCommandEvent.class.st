@@ -1,5 +1,5 @@
 Class {
-	#name : #ToListSelectionCommandEventDep,
+	#name : #ToListSelectionCommandEvent,
 	#superclass : #ToListSelectionEvent,
 	#instVars : [
 		'command'
@@ -8,19 +8,19 @@ Class {
 }
 
 { #category : #accessing }
-ToListSelectionCommandEventDep >> command [
+ToListSelectionCommandEvent >> command [
 
 	^ command
 ]
 
 { #category : #accessing }
-ToListSelectionCommandEventDep >> command: aListSelectionCommand [
+ToListSelectionCommandEvent >> command: aListSelectionCommand [
 
 	command := aListSelectionCommand
 ]
 
 { #category : #sending }
-ToListSelectionCommandEventDep >> sendTo: anObject [
+ToListSelectionCommandEvent >> sendTo: anObject [
 
 	anObject listSelectionCommandEvent: self
 ]

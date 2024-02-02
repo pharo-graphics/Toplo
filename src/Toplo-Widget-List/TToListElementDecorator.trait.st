@@ -42,12 +42,6 @@ TToListElementDecorator >> disableScrolledEvent [
 	self next disableScrolledEvent
 ]
 
-{ #category : #'t - accessing selection' }
-TToListElementDecorator >> dispatchSelectionChangedAfter: aBlock [
-
-	self next dispatchSelectionChangedAfter: aBlock
-]
-
 { #category : #'t - infinite scrolled event' }
 TToListElementDecorator >> enableScrolledEvent [
 

@@ -18,9 +18,3 @@ ToSelectionCommandEvent >> command: aSelectionCommand [
 
 	command := aSelectionCommand
 ]
-
-{ #category : #sending }
-ToSelectionCommandEvent >> sendTo: anObject [
-
-	anObject selectionCommandEvent: self
-]

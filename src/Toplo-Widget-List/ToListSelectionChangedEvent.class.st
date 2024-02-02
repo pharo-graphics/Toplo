@@ -2,6 +2,7 @@ Class {
 	#name : #ToListSelectionChangedEvent,
 	#superclass : #ToListSelectionEvent,
 	#instVars : [
+		'selectionModel',
 		'currentIndexes',
 		'previousIndexes'
 	],
@@ -78,6 +79,18 @@ ToListSelectionChangedEvent >> previousIndexes [
 ToListSelectionChangedEvent >> previousIndexes: previousSelectedIndexes [
 
 	previousIndexes := previousSelectedIndexes copy
+]
+
+{ #category : #accessing }
+ToListSelectionChangedEvent >> selectionModel [
+
+	^ selectionModel
+]
+
+{ #category : #accessing }
+ToListSelectionChangedEvent >> selectionModel: aSelectionModel [
+
+	selectionModel := aSelectionModel
 ]
 
 { #category : #sending }

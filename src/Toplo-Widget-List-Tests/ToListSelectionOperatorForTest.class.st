@@ -6,7 +6,8 @@ Class {
 	#instVars : [
 		'selectionModel',
 		'eventDispatcher',
-		'selectionStrategy'
+		'selectionStrategy',
+		'successfulCommand'
 	],
 	#category : #'Toplo-Widget-List-Tests-Selection-Command'
 }
@@ -41,6 +42,18 @@ ToListSelectionOperatorForTest >> initialize [
 	selectionModel := BlCompositeSelection new.
 ]
 
+{ #category : #'t - list selection operator - event dispatching' }
+ToListSelectionOperatorForTest >> onSelectionRequestSuccess: aSelectionRequestEvent [
+
+	self successfulCommand: aSelectionRequestEvent command
+]
+
+{ #category : #accessing }
+ToListSelectionOperatorForTest >> selectionHasChanged [
+
+	^ selectionStrategy selectionHasChanged
+]
+
 { #category : #'t - list selection operator - accessing' }
 ToListSelectionOperatorForTest >> selectionModel [
 
@@ -60,4 +73,16 @@ ToListSelectionOperatorForTest >> selectionStrategy: aToListSelectionStrategy [
 	selectionStrategy := aToListSelectionStrategy.
 	selectionStrategy ifNotNil: [ self installStrategy: selectionStrategy ].
 
+]
+
+{ #category : #'t - list selection operator - event dispatching' }
+ToListSelectionOperatorForTest >> successfulCommand [
+
+	^ successfulCommand
+]
+
+{ #category : #'t - list selection operator - event dispatching' }
+ToListSelectionOperatorForTest >> successfulCommand: anObject [
+
+	successfulCommand := anObject
 ]

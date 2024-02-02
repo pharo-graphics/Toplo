@@ -5,7 +5,8 @@ Class {
 	#instVars : [
 		'mode',
 		'selectionModel',
-		'dataSource'
+		'dataSource',
+		'selectionChanged'
 	],
 	#category : #'Toplo-Widget-List-Selection-Command'
 }
@@ -13,7 +14,8 @@ Class {
 { #category : #'command handling' }
 ToListSelectionStrategy >> addIndexesSelectionCommand: aCommand [
 
-	self selectionModel selectAllIndexes: aCommand indexes
+	aCommand indexes do: [ :idx |
+			self selectionModel selectIndex: idx ]
 ]
 
 { #category : #'command handling' }
@@ -27,9 +29,7 @@ ToListSelectionStrategy >> addIntervalSelectionCommand: aCommand [
 { #category : #'command handling' }
 ToListSelectionStrategy >> addWholeSelectionCommand: aCommand [
 
-	self selectionModel
-		select: 0
-		to: self dataSource size
+	self selectionModel select: 0 to: self dataSource size
 ]
 
 { #category : #accessing }
@@ -47,7 +47,7 @@ ToListSelectionStrategy >> dataSource: aDataSource [
 { #category : #'api - accessing' }
 ToListSelectionStrategy >> eventsToHandle [
 
-	^ { ToSelectionCommandEvent }
+	^ { ToSelectionRequestEvent }
 ]
 
 { #category : #accessing }
@@ -62,10 +62,17 @@ ToListSelectionStrategy >> mode: aListSelectionMode [
 	mode := aListSelectionMode
 ]
 
+{ #category : #'api - hooks' }
+ToListSelectionStrategy >> onInstalledIn: anElement [
+
+	super onInstalledIn: anElement.
+	selectionChanged := false
+]
+
 { #category : #'command handling' }
 ToListSelectionStrategy >> removeIndexesSelectionCommand: aCommand [
 
-	self selectionModel deselectAllIndexes: aCommand indexes
+	aCommand indexes do: [ :idx | self selectionModel deselectIndex: idx ]
 ]
 
 { #category : #'command handling' }
@@ -79,21 +86,16 @@ ToListSelectionStrategy >> removeIntervalSelectionCommand: aCommand [
 { #category : #'command handling' }
 ToListSelectionStrategy >> removeWholeSelectionCommand: aCommand [
 
+	self selectionModel isEmpty ifTrue: [ ^ self ].
 	self selectionModel
 		deselect: 0
 		to: self dataSource size
 ]
 
-{ #category : #'event handling' }
-ToListSelectionStrategy >> selectionCommandEvent: aSelectionEvent [
+{ #category : #accessing }
+ToListSelectionStrategy >> selectionHasChanged [
 
-	self selectionModel: aSelectionEvent currentTarget selectionModel.
-	self dataSource: aSelectionEvent currentTarget dataSource.
-	aSelectionEvent command
-		applyOn: self mode;
-		applyOn: self.
-	self selectionModel: nil.
-	self dataSource: nil
+	^ selectionChanged
 ]
 
 { #category : #accessing }
@@ -106,4 +108,22 @@ ToListSelectionStrategy >> selectionModel [
 ToListSelectionStrategy >> selectionModel: aSelectionModel [
 
 	selectionModel := aSelectionModel
+]
+
+{ #category : #'event handling' }
+ToListSelectionStrategy >> selectionRequestEvent: aSelectionEvent [
+
+	| previousModel |
+	self selectionModel: aSelectionEvent currentTarget selectionModel.
+	self dataSource: aSelectionEvent currentTarget dataSource.
+	previousModel := self selectionModel copy.
+	aSelectionEvent command
+		applyOn: self mode;
+		applyOn: self.
+	selectionChanged := previousModel ~= self selectionModel.
+	aSelectionEvent selectionChanged: selectionChanged.
+	previousModel := nil.
+	self selectionModel: nil.
+	self dataSource: nil.
+
 ]

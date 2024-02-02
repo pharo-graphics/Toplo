@@ -36,9 +36,8 @@ ToListSelectionOperatorForTest >> initialize [
 
 	super initialize.
 	eventDispatcher := BlDirectEventDispatcher on: self.
-	selectionStrategy := ToListSelectionStrategy new.
-	selectionStrategy mode: ToListMultiSelectionMode new.
-	self installStrategy: selectionStrategy.
+	self selectionStrategy: ToListSelectionStrategy new.
+	self selectionStrategy mode: ToListMultiSelectionMode new.
 	selectionModel := BlCompositeSelection new.
 ]
 
@@ -46,4 +45,19 @@ ToListSelectionOperatorForTest >> initialize [
 ToListSelectionOperatorForTest >> selectionModel [
 
 	^ selectionModel 
+]
+
+{ #category : #accessing }
+ToListSelectionOperatorForTest >> selectionStrategy [
+
+	^ selectionStrategy
+]
+
+{ #category : #accessing }
+ToListSelectionOperatorForTest >> selectionStrategy: aToListSelectionStrategy [
+
+	selectionStrategy ifNotNil: [ self uninstallStrategy: selectionStrategy ].
+	selectionStrategy := aToListSelectionStrategy.
+	selectionStrategy ifNotNil: [ self installStrategy: selectionStrategy ].
+
 ]

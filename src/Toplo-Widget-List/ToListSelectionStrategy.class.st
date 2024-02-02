@@ -87,16 +87,13 @@ ToListSelectionStrategy >> removeWholeSelectionCommand: aCommand [
 { #category : #'event handling' }
 ToListSelectionStrategy >> selectionCommandEvent: aSelectionEvent [
 
-	[
 	self selectionModel: aSelectionEvent currentTarget selectionModel.
 	self dataSource: aSelectionEvent currentTarget dataSource.
 	aSelectionEvent command
 		applyOn: self mode;
 		applyOn: self.
 	self selectionModel: nil.
-	self dataSource: nil. ]
-		on: ToIncompatibleMode
-		do: [ :err | aSelectionEvent error: err ]
+	self dataSource: nil
 ]
 
 { #category : #accessing }

@@ -2,8 +2,7 @@ Class {
 	#name : #ToSelectionCommandEvent,
 	#superclass : #BlEvent,
 	#instVars : [
-		'command',
-		'selectionModel'
+		'command'
 	],
 	#category : #'Toplo-Widget-List-Selection-Command'
 }

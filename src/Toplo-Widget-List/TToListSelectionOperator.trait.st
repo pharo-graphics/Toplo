@@ -41,7 +41,7 @@ TToListSelectionOperator >> eventTarget [
 	^ self explicitRequirement 
 ]
 
-{ #category : #'t - list selection operator - hook' }
+{ #category : #'t - list selection operator - private' }
 TToListSelectionOperator >> installStrategy: aSelectionStrategy [
 
 	self eventTarget addEventHandler: aSelectionStrategy
@@ -73,13 +73,35 @@ TToListSelectionOperator >> selectIndex: anIndex [
 					  operation: ToAddSelectionOperation new))
 ]
 
+{ #category : #'t - list selection operator - commands' }
+TToListSelectionOperator >> selectOnlyIndex: anIndex [
+
+	self dispatchEvent: (ToSelectionCommandEvent new command:
+			 ((ToWholeSelectionCommand new operation:
+				   ToRemoveSelectionOperation new) next:
+				  (ToIntervalSelectionCommand new
+					   interval: (anIndex to: anIndex);
+					   operation: ToAddSelectionOperation new)))
+]
+
+{ #category : #'t - list selection operator - commands' }
+TToListSelectionOperator >> selectOnlyIndexes: anArray [
+
+	self dispatchEvent: (ToSelectionCommandEvent new command:
+			 ((ToWholeSelectionCommand new operation:
+				   ToRemoveSelectionOperation new) next:
+				  (ToIndexesSelectionCommand new
+					   indexes: anArray;
+					   operation: ToAddSelectionOperation new)))
+]
+
 { #category : #'t - list selection operator - accessing' }
 TToListSelectionOperator >> selectionModel [
 
 	^ self explicitRequirement 
 ]
 
-{ #category : #'t - list selection operator - hook' }
+{ #category : #'t - list selection operator - private' }
 TToListSelectionOperator >> uninstallStrategy: aSelectionStrategy [
 
 	self eventTarget removeEventHandler: aSelectionStrategy

@@ -6,7 +6,8 @@ Class {
 	#instVars : [
 		'nodeBuilder',
 		'nodeClass',
-		'selectionStrategy'
+		'selectionStrategy',
+		'selectionMode'
 	],
 	#category : #'Toplo-Widget-List-Infinite'
 }
@@ -62,6 +63,12 @@ ToInfiniteElement >> defaultNodeBuilder [
 ToInfiniteElement >> defaultPeserveSelectionOnFocused [
 
 	^ true
+]
+
+{ #category : #initialization }
+ToInfiniteElement >> defaultSelectionMode [
+
+	^ ToListMultiSelectionMode new
 ]
 
 { #category : #initialization }
@@ -144,6 +151,7 @@ ToInfiniteElement >> initialize [
 	selectionStrategy onInstalledIn: self.
 	self privateData: ToObservableCollection new.
 	self nodeBuilder: self defaultNodeBuilder.
+	self selectionMode: self defaultSelectionMode.
 	self matchParent
 ]
 
@@ -399,6 +407,18 @@ ToInfiniteElement >> selection: aSelectionStrategy [
 		deprecated: 'Use selectionStrategy: instead'
 		transformWith: '`@receiver selection: `@arg' -> '`@receiver selectionStrategy: `@arg'.
 	self selectionStrategy: aSelectionStrategy
+]
+
+{ #category : #accessing }
+ToInfiniteElement >> selectionMode [
+
+	^ selectionMode 
+]
+
+{ #category : #accessing }
+ToInfiniteElement >> selectionMode: aSelectionMode [
+
+	selectionMode := aSelectionMode
 ]
 
 { #category : #accessing }

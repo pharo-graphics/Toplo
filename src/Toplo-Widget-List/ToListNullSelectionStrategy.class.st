@@ -1,5 +1,5 @@
 Class {
 	#name : #ToListNullSelectionStrategy,
-	#superclass : #ToListSelectionStrategy,
+	#superclass : #ToListSelectionStrategyDep,
 	#category : #'Toplo-Widget-List-Selection-Strategy'
 }

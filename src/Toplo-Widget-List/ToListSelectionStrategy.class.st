@@ -1,109 +1,112 @@
 Class {
 	#name : #ToListSelectionStrategy,
-	#superclass : #Object,
-	#traits : 'TBlEventTarget',
+	#superclass : #BlCustomEventHandler,
 	#classTraits : 'TBlEventTarget classTrait',
 	#instVars : [
-		'eventDispatcher'
+		'mode',
+		'selectionModel',
+		'dataSource'
 	],
-	#category : #'Toplo-Widget-List-Selection-Strategy'
+	#category : #'Toplo-Widget-List-Selection-Command'
 }
 
-{ #category : #'mode changing' }
-ToListSelectionStrategy >> beWithoutSelection [
+{ #category : #'command handling' }
+ToListSelectionStrategy >> addIndexesSelectionCommand: aCommand [
+
+	self selectionModel selectAllIndexes: aCommand indexes
 ]
 
-{ #category : #'selection event dispatching' }
-ToListSelectionStrategy >> dispatchSelectionChangedAfter: aBlock [
+{ #category : #'command handling' }
+ToListSelectionStrategy >> addIntervalSelectionCommand: aCommand [
+
+	self selectionModel
+		select: aCommand interval first - 1
+		to: aCommand interval last
 ]
 
-{ #category : #'selection event dispatching' }
-ToListSelectionStrategy >> dispatchSelectionDirtyAfter: aBlock [
+{ #category : #'command handling' }
+ToListSelectionStrategy >> addWholeSelectionCommand: aCommand [
 
-
+	self selectionModel
+		select: 0
+		to: self dataSource size
 ]
 
-{ #category : #'selection event dispatching' }
-ToListSelectionStrategy >> dispatchStrongSelectionChanged [
+{ #category : #accessing }
+ToListSelectionStrategy >> dataSource [
 
-
+	^ dataSource
 ]
 
-{ #category : #'event management accessing' }
-ToListSelectionStrategy >> eventDispatcher [
-	"Return an object responsible for event dispatching"
-	<return: #BlDirectEventDispatcher>
+{ #category : #accessing }
+ToListSelectionStrategy >> dataSource: aDataSource [
 
-	^ eventDispatcher
+	dataSource := aDataSource
 ]
 
-{ #category : #'selection accessing' }
-ToListSelectionStrategy >> includes: anIndex [
+{ #category : #'api - accessing' }
+ToListSelectionStrategy >> eventsToHandle [
 
-	^ false
+	^ { ToSelectionCommandEvent }
 ]
 
-{ #category : #initialization }
-ToListSelectionStrategy >> initialize [ 
+{ #category : #accessing }
+ToListSelectionStrategy >> mode [
 
-	super initialize.
-	eventDispatcher := BlDirectEventDispatcher on: self.
-
+	^ mode ifNil: [ mode := ToListMultiSelectionMode new ]
 ]
 
-{ #category : #'selection and shortcuts handlers' }
-ToListSelectionStrategy >> onAddedNode: aNode [
+{ #category : #accessing }
+ToListSelectionStrategy >> mode: aListSelectionMode [
 
-
+	mode := aListSelectionMode
 ]
 
-{ #category : #'data source change' }
-ToListSelectionStrategy >> onInfiniteDataSourceChanged [
+{ #category : #'command handling' }
+ToListSelectionStrategy >> removeIndexesSelectionCommand: aCommand [
+
+	self selectionModel deselectAllIndexes: aCommand indexes
 ]
 
-{ #category : #'api - hooks' }
-ToListSelectionStrategy >> onInstalledIn: anInfiniteElement [
+{ #category : #'command handling' }
+ToListSelectionStrategy >> removeIntervalSelectionCommand: aCommand [
+
+	self selectionModel
+		deselect: aCommand interval first - 1
+		to: aCommand interval last
 ]
 
-{ #category : #'selection and shortcuts handlers' }
-ToListSelectionStrategy >> onRemovedNode: aNode [
+{ #category : #'command handling' }
+ToListSelectionStrategy >> removeWholeSelectionCommand: aCommand [
 
-
+	self selectionModel
+		deselect: 0
+		to: self dataSource size
 ]
 
-{ #category : #'api - hooks' }
-ToListSelectionStrategy >> onUninstalledIn: anInfiniteElement [
-]
+{ #category : #'event handling' }
+ToListSelectionStrategy >> selectionCommandEvent: aSelectionEvent [
 
-{ #category : #initialization }
-ToListSelectionStrategy >> renewSelectionModel [
-]
-
-{ #category : #'api - selection' }
-ToListSelectionStrategy >> selectAll [
-]
-
-{ #category : #'selection accessing' }
-ToListSelectionStrategy >> selectedIndexes [
-
-	^ { }
+	[
+	self selectionModel: aSelectionEvent currentTarget selectionModel.
+	self dataSource: aSelectionEvent currentTarget dataSource.
+	aSelectionEvent command
+		applyOn: self mode;
+		applyOn: self.
+	self selectionModel: nil.
+	self dataSource: nil. ]
+		on: ToIncompatibleMode
+		do: [ :err | aSelectionEvent error: err ]
 ]
 
 { #category : #accessing }
 ToListSelectionStrategy >> selectionModel [
 
-	^ nil
+	^ selectionModel
 ]
 
 { #category : #accessing }
-ToListSelectionStrategy >> selectionModel: aSelection [
-]
+ToListSelectionStrategy >> selectionModel: aSelectionModel [
 
-{ #category : #'data source change' }
-ToListSelectionStrategy >> shiftAfterAddingAt: aStartPosition itemCount: anItemCount [
-
-]
-
-{ #category : #'data source change' }
-ToListSelectionStrategy >> shiftAfterRemovingAt: aStartPosition itemCount: anItemCount [
+	selectionModel := aSelectionModel
 ]

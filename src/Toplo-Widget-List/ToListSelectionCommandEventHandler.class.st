@@ -10,7 +10,7 @@ Class {
 { #category : #'api - accessing' }
 ToListSelectionCommandEventHandler >> eventsToHandle [
 
-	^ { ToListSelectionCommandEvent }
+	^ { ToSelectionCommandEvent }
 ]
 
 { #category : #'api - accessing' }

@@ -5,6 +5,39 @@ Class {
 }
 
 { #category : #tests }
+ToThemeTest >> testEqual [
+
+	| theme1 theme2 theme3 theme4 |
+	theme1 := ToRawTheme light.
+	theme2 := ToRawTheme light.
+	theme3 := ToRawTheme dark.
+	theme4 := ToRawTheme dark.
+	self assert: theme1 = theme1.
+	self assert: theme1 = theme2.
+	self assert: theme3 = theme3.
+	self assert: theme3 = theme4.
+	self deny: theme1 = theme3.
+	self deny: theme4 = theme2.
+]
+
+{ #category : #tests }
+ToThemeTest >> testHash [
+
+	| theme1 theme2 theme3 theme4 |
+	theme1 := ToRawTheme light.
+	theme2 := ToRawTheme light.
+	theme3 := ToRawTheme dark.
+	theme4 := ToRawTheme dark.
+	self assert: { theme1 . theme3 } asSet size equals: 2.
+	self assert: { theme1 . theme2 } asSet size equals: 1.
+	self assert: { theme2 . theme4 } asSet size equals: 2.
+	self assert: { theme3 . theme4 } asSet size equals: 1.
+	self assert: { theme1 . theme2 . theme3 . theme4 } asSet size equals: 2.
+	self assert: ({ theme1 . theme2 . theme3 . theme4 } asSet includes: ToRawTheme light).
+	self assert: ({ theme1 . theme2 . theme3 . theme4 } asSet includes: ToRawTheme dark).
+]
+
+{ #category : #tests }
 ToThemeTest >> testThemeChanged [
 
 	| e |

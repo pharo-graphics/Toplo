@@ -7,7 +7,8 @@ Class {
 		'nodeBuilder',
 		'nodeClass',
 		'selectionStrategy',
-		'selectionMode'
+		'selectionMode',
+		'dataSourceChangedHandler'
 	],
 	#category : #'Toplo-Widget-List-Infinite'
 }
@@ -31,6 +32,26 @@ ToInfiniteElement >> client [
 ToInfiniteElement >> data [
 
 	^ dataSource data
+]
+
+{ #category : #accessing }
+ToInfiniteElement >> dataSource: aDataSource [
+
+	dataSource ifNotNil: [
+		dataSource removeEventHandler: dataSourceChangedHandler.
+		self dispatchEvent: ToDataSourceDetachedEvent new ].
+	
+	super dataSource: aDataSource.
+
+	dataSourceChangedHandler := BlEventHandler
+		                            on: BlInfiniteDataSourceChanged
+		                            do: [
+		                            self selectionStrategy
+			                            onInfiniteDataSourceChanged ].
+	
+	dataSource ifNotNil: [
+		dataSource addEventHandler: dataSourceChangedHandler ].
+	self dispatchEvent: ToDataSourceAttachedEvent new
 ]
 
 { #category : #initialization }
@@ -271,9 +292,6 @@ ToInfiniteElement >> primarySelection [
 { #category : #'private - accessing' }
 ToInfiniteElement >> privateData: aCollection [
 
-	dataSource addEventHandler: (BlEventHandler
-			 on: BlInfiniteDataSourceChanged
-			 do: [ self selectionStrategy onInfiniteDataSourceChanged ]).
 	dataSource data: aCollection
 ]
 

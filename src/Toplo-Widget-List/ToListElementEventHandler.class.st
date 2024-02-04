@@ -63,6 +63,8 @@ ToListElementEventHandler >> eventsToHandle [
 		  BlElementScrolledEvent.
 		  BlInfiniteElementAttachedEvent.
 		  BlInfiniteElementDetachedEvent.
+		  ToDataSourceAttachedEvent.
+		  ToDataSourceDetachedEvent.
 
 		  BlMouseDownEvent.
 		  BlPrimaryClickEvent.
@@ -76,6 +78,18 @@ ToListElementEventHandler >> eventsToHandle [
 ToListElementEventHandler >> infiniteElementAttachedEvent: anEvent [
 
 	anEvent currentTarget selectionStrategy onAddedNode: anEvent element
+]
+
+{ #category : #'event handling' }
+ToListElementEventHandler >> infiniteElementDataSourceAttachedEvent: anEvent [
+
+
+]
+
+{ #category : #'event handling' }
+ToListElementEventHandler >> infiniteElementDataSourceDetachedEvent: anEvent [
+
+
 ]
 
 { #category : #'event handling' }

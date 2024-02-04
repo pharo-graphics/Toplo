@@ -66,6 +66,8 @@ ToListElement >> infiniteElementSharedEvents [
 	^ {
 		  BlInfiniteElementAttachedEvent.
 		  BlInfiniteElementDetachedEvent.
+		  ToDataSourceAttachedEvent.
+		  ToDataSourceDetachedEvent.
 		  BlElementScrolledEvent.
 		  BlElementExtentChangedEvent.
 		  BlBlurEvent.

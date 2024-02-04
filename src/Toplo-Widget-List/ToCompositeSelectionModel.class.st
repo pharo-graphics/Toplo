@@ -1,0 +1,84 @@
+Class {
+	#name : #ToCompositeSelectionModel,
+	#superclass : #ToUnderlyingSelectionModel,
+	#instVars : [
+		'selection'
+	],
+	#category : #'Toplo-Widget-List-Selection-Model'
+}
+
+{ #category : #comparing }
+ToCompositeSelectionModel >> = anObject [
+
+	self == anObject ifTrue: [ ^ true ].
+	self class = anObject class ifFalse: [ ^ false ].
+
+	^ self selection = anObject selection
+]
+
+{ #category : #'accessing selection' }
+ToCompositeSelectionModel >> deselect: aFromTextIndex to: aToTextIndex [
+
+	selection deselect: aFromTextIndex to: aToTextIndex
+]
+
+{ #category : #'accessing selection' }
+ToCompositeSelectionModel >> deselectIndex: anIndex [
+
+	selection deselectIndex: anIndex
+]
+
+{ #category : #comparing }
+ToCompositeSelectionModel >> hash [
+
+	^ self class hash bitXor: self selection hash
+]
+
+{ #category : #accessing }
+ToCompositeSelectionModel >> indices [
+
+	^ selection indices
+]
+
+{ #category : #initialization }
+ToCompositeSelectionModel >> initialize [ 
+
+	super initialize.
+	selection := BlCompositeSelection new
+]
+
+{ #category : #testing }
+ToCompositeSelectionModel >> isComposite [ 
+
+	^ true
+]
+
+{ #category : #testing }
+ToCompositeSelectionModel >> isEmpty [
+
+	^ selection isEmpty
+]
+
+{ #category : #'accessing selection' }
+ToCompositeSelectionModel >> select: fromIndex to: toIndex [
+
+	selection select: fromIndex to: toIndex
+]
+
+{ #category : #'accessing selection' }
+ToCompositeSelectionModel >> selectIndex: anIndex [
+
+	selection selectIndex: anIndex
+]
+
+{ #category : #accessing }
+ToCompositeSelectionModel >> selection [
+
+	^ selection
+]
+
+{ #category : #accessing }
+ToCompositeSelectionModel >> selection: aSelection [
+
+	selection := aSelection
+]

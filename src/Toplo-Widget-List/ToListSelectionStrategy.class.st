@@ -5,44 +5,10 @@ Class {
 	#instVars : [
 		'mode',
 		'selectionModel',
-		'dataSource',
 		'selectionChanged'
 	],
-	#category : #'Toplo-Widget-List-Selection-Command'
+	#category : #'Toplo-Widget-List-Selection-Model'
 }
-
-{ #category : #'command handling' }
-ToListSelectionStrategy >> addIndexesSelectionCommand: aCommand [
-
-	aCommand indexes do: [ :idx |
-			self selectionModel selectIndex: idx ]
-]
-
-{ #category : #'command handling' }
-ToListSelectionStrategy >> addIntervalSelectionCommand: aCommand [
-
-	self selectionModel
-		select: aCommand interval first - 1
-		to: aCommand interval last
-]
-
-{ #category : #'command handling' }
-ToListSelectionStrategy >> addWholeSelectionCommand: aCommand [
-
-	self selectionModel select: 0 to: self dataSource size
-]
-
-{ #category : #accessing }
-ToListSelectionStrategy >> dataSource [
-
-	^ dataSource
-]
-
-{ #category : #accessing }
-ToListSelectionStrategy >> dataSource: aDataSource [
-
-	dataSource := aDataSource
-]
 
 { #category : #'api - accessing' }
 ToListSelectionStrategy >> eventsToHandle [
@@ -69,29 +35,6 @@ ToListSelectionStrategy >> onInstalledIn: anElement [
 	selectionChanged := false
 ]
 
-{ #category : #'command handling' }
-ToListSelectionStrategy >> removeIndexesSelectionCommand: aCommand [
-
-	aCommand indexes do: [ :idx | self selectionModel deselectIndex: idx ]
-]
-
-{ #category : #'command handling' }
-ToListSelectionStrategy >> removeIntervalSelectionCommand: aCommand [
-
-	self selectionModel
-		deselect: aCommand interval first - 1
-		to: aCommand interval last
-]
-
-{ #category : #'command handling' }
-ToListSelectionStrategy >> removeWholeSelectionCommand: aCommand [
-
-	self selectionModel isEmpty ifTrue: [ ^ self ].
-	self selectionModel
-		deselect: 0
-		to: self dataSource size
-]
-
 { #category : #accessing }
 ToListSelectionStrategy >> selectionHasChanged [
 
@@ -114,16 +57,12 @@ ToListSelectionStrategy >> selectionModel: aSelectionModel [
 ToListSelectionStrategy >> selectionRequestEvent: aSelectionEvent [
 
 	| previousModel |
-	self selectionModel: aSelectionEvent currentTarget selectionModel.
-	self dataSource: aSelectionEvent currentTarget dataSource.
+	self selectionModel: aSelectionEvent selectionModel.
 	previousModel := self selectionModel copy.
 	aSelectionEvent command
 		applyOn: self mode;
-		applyOn: self.
+		applyOn: self selectionModel.
 	selectionChanged := previousModel ~= self selectionModel.
 	aSelectionEvent selectionChanged: selectionChanged.
-	previousModel := nil.
-	self selectionModel: nil.
-	self dataSource: nil.
-
+	self selectionModel: nil
 ]

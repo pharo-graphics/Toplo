@@ -2,7 +2,8 @@ Class {
 	#name : #ToSelectionCommandEvent,
 	#superclass : #BlEvent,
 	#instVars : [
-		'command'
+		'command',
+		'selectionModel'
 	],
 	#category : #'Toplo-Widget-List-Selection-Command'
 }
@@ -17,4 +18,16 @@ ToSelectionCommandEvent >> command [
 ToSelectionCommandEvent >> command: aSelectionCommand [
 
 	command := aSelectionCommand
+]
+
+{ #category : #accessing }
+ToSelectionCommandEvent >> selectionModel [
+
+	^ selectionModel
+]
+
+{ #category : #accessing }
+ToSelectionCommandEvent >> selectionModel: aSelectionModel [
+
+	selectionModel := aSelectionModel
 ]

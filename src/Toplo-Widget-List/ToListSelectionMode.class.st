@@ -1,7 +1,7 @@
 Class {
 	#name : #ToListSelectionMode,
 	#superclass : #Object,
-	#category : #'Toplo-Widget-List-Selection-Command'
+	#category : #'Toplo-Widget-List-Selection-Model'
 }
 
 { #category : #'command checking' }

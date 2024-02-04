@@ -7,6 +7,13 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Command'
 }
 
+{ #category : #copying }
+ToSelectionRequestEvent >> copySharedStatesFrom: anEvent [
+
+	super copySharedStatesFrom: anEvent.
+	self selectionChanged: anEvent selectionChanged 
+]
+
 { #category : #accessing }
 ToSelectionRequestEvent >> selectionChanged [
 

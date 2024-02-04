@@ -1,6 +1,9 @@
 Class {
 	#name : #ToWholeSelectionCommand,
 	#superclass : #ToSelectionCommand,
+	#instVars : [
+		'maxIndex'
+	],
 	#category : #'Toplo-Widget-List-Selection-Command'
 }
 
@@ -9,4 +12,16 @@ ToWholeSelectionCommand >> applyOn: anObject [
 
 	self operation applyWholeSelection: self on: anObject.
 	super applyOn: anObject	
+]
+
+{ #category : #accessing }
+ToWholeSelectionCommand >> maxIndex [
+
+	^ maxIndex
+]
+
+{ #category : #accessing }
+ToWholeSelectionCommand >> maxIndex: anIndex [
+
+	maxIndex := anIndex
 ]

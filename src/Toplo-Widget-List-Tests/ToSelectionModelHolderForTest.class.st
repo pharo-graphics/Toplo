@@ -6,9 +6,9 @@ Class {
 	#instVars : [
 		'selectionModel',
 		'eventDispatcher',
-		'selectionStrategy',
 		'dataSource',
-		'successfulCommand'
+		'successfulCommand',
+		'selectionMode'
 	],
 	#category : #'Toplo-Widget-List-Tests-Selection-Command'
 }
@@ -44,9 +44,8 @@ ToSelectionModelHolderForTest >> initialize [
 
 	super initialize.
 	eventDispatcher := BlDirectEventDispatcher on: self.
-	self selectionStrategy: ToListSelectionStrategy new.
-	self selectionStrategy mode: ToListMultiSelectionMode new.
-	self addEventHandler: selectionStrategy.
+	self selectionMode: ToListMultiSelectionMode new.
+	self addEventHandler: ToSelectionRequestEventHandler new.
 	self addEventHandler: (BlEventHandler
 			 on: ToSelectionResultEvent
 			 do: [ :event | self successfulCommand: true ]).
@@ -61,27 +60,21 @@ ToSelectionModelHolderForTest >> selecter [
 ]
 
 { #category : #accessing }
-ToSelectionModelHolderForTest >> selectionHasChanged [
+ToSelectionModelHolderForTest >> selectionMode [
 
-	^ selectionStrategy selectionHasChanged
+	^ selectionMode
+]
+
+{ #category : #accessing }
+ToSelectionModelHolderForTest >> selectionMode: aSelectionMode [
+
+	selectionMode := aSelectionMode
 ]
 
 { #category : #accessing }
 ToSelectionModelHolderForTest >> selectionModel [
 
 	^ selectionModel 
-]
-
-{ #category : #accessing }
-ToSelectionModelHolderForTest >> selectionStrategy [
-
-	^ selectionStrategy
-]
-
-{ #category : #accessing }
-ToSelectionModelHolderForTest >> selectionStrategy: aToListSelectionStrategy [
-
-	selectionStrategy := aToListSelectionStrategy
 ]
 
 { #category : #accessing }

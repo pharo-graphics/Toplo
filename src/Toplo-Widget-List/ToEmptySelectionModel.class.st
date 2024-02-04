@@ -39,6 +39,12 @@ ToEmptySelectionModel >> isEmpty [
 	^ true
 ]
 
+{ #category : #testing }
+ToEmptySelectionModel >> isEmptySelectionModel [
+
+	^ true
+]
+
 { #category : #'accessing selection' }
 ToEmptySelectionModel >> select: aFromTextIndex to: aToTextIndex [
 

@@ -47,7 +47,7 @@ ToUnderlyingSelectionModel >> indices [
 ]
 
 { #category : #testing }
-ToUnderlyingSelectionModel >> isComposite [
+ToUnderlyingSelectionModel >> isCompositeSelectionModel [
 
 	^ false
 ]
@@ -59,7 +59,13 @@ ToUnderlyingSelectionModel >> isEmpty [
 ]
 
 { #category : #testing }
-ToUnderlyingSelectionModel >> isWhole [
+ToUnderlyingSelectionModel >> isEmptySelectionModel [
+
+	^ false
+]
+
+{ #category : #testing }
+ToUnderlyingSelectionModel >> isWholeSelectionModel [
 
 	^ false
 ]

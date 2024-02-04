@@ -51,7 +51,6 @@ ToSelectionModelOperator >> dispatchEventForCommand: aCommand [
 	[
 	self eventTarget dispatchEvent:
 		(request := ToSelectionRequestEvent new
-							selectionModel: self selectionModel;
 			            command: aCommand;
 			            yourself) ]
 		on: ToIncompatibleMode

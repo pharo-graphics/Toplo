@@ -17,7 +17,7 @@ ToSelectionRequestEvent >> copySharedStatesFrom: anEvent [
 { #category : #accessing }
 ToSelectionRequestEvent >> selectionChanged [
 
-	^ selectionChanged
+	^ selectionChanged ifNil: [ selectionChanged := false ]
 ]
 
 { #category : #accessing }

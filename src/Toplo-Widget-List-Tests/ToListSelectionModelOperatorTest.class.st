@@ -47,7 +47,7 @@ ToListSelectionModelOperatorTest >> testSelectAll [
 	self assert: selecter selectionModel currentIndex equals: 0.
 	self assert: selecter selectionModel pivot isNil.
 	self assert: selecter selectionModel distance isNil.
-	self assert: selecter selectionModel isWhole
+	self assert: selecter selectionModel isWholeSelectionModel
 ]
 
 { #category : #tests }

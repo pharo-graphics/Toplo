@@ -20,7 +20,7 @@ ToSelectionModel >> = anObject [
 ToSelectionModel >> addIndexesSelectionCommand: aCommand [
 
 	aCommand indexes ifEmpty: [ ^ self ].
-	self ensureCompositeModel.
+	self ensureCompositeSelectionModel.
 	aCommand indexes do: [ :idx |
 			self underlyingModel selectIndex: idx ]
 ]
@@ -28,7 +28,8 @@ ToSelectionModel >> addIndexesSelectionCommand: aCommand [
 { #category : #'command handling' }
 ToSelectionModel >> addIntervalSelectionCommand: aCommand [
 
-	self ensureCompositeModel.
+	aCommand interval ifEmpty: [ ^ self ].
+	self ensureCompositeSelectionModel.
 	self underlyingModel 
 		select: aCommand interval first - 1
 		to: aCommand interval last
@@ -37,14 +38,14 @@ ToSelectionModel >> addIntervalSelectionCommand: aCommand [
 { #category : #'command handling' }
 ToSelectionModel >> addWholeSelectionCommand: aCommand [
 
-	self underlyingModel: ToUnderlyingSelectionModel whole
+	self ensureWholeSelectionModel 
 ]
 
 { #category : #'command handling' }
 ToSelectionModel >> checkEmptiness [
 
 	self underlyingModel isEmpty ifTrue: [
-		self underlyingModel: ToUnderlyingSelectionModel empty ].
+		self ensureEmptySelectionModel ].
 ]
 
 { #category : #'api - testing' }
@@ -54,10 +55,24 @@ ToSelectionModel >> containsIndex: anIndex [
 ]
 
 { #category : #private }
-ToSelectionModel >> ensureCompositeModel [
+ToSelectionModel >> ensureCompositeSelectionModel [
 
-	self underlyingModel isComposite ifTrue: [ ^ self ].
+	self isCompositeSelectionModel ifTrue: [ ^ self ].
 	self underlyingModel: ToUnderlyingSelectionModel composite
+]
+
+{ #category : #private }
+ToSelectionModel >> ensureEmptySelectionModel [
+
+	self isEmptySelectionModel ifTrue: [ ^ self ].
+	self underlyingModel: ToUnderlyingSelectionModel empty
+]
+
+{ #category : #private }
+ToSelectionModel >> ensureWholeSelectionModel [
+
+	self isWholeSelectionModel ifTrue: [ ^ self ].
+	self underlyingModel: ToUnderlyingSelectionModel whole
 ]
 
 { #category : #comparing }
@@ -80,9 +95,21 @@ ToSelectionModel >> initialize [
 ]
 
 { #category : #testing }
+ToSelectionModel >> isCompositeSelectionModel [
+
+	^ self underlyingModel isCompositeSelectionModel
+]
+
+{ #category : #testing }
 ToSelectionModel >> isEmpty [
 
 	^ self underlyingModel isEmpty
+]
+
+{ #category : #testing }
+ToSelectionModel >> isEmptySelectionModel [
+
+	^ self underlyingModel isEmptySelectionModel
 ]
 
 { #category : #testing }
@@ -92,9 +119,9 @@ ToSelectionModel >> isNotEmpty [
 ]
 
 { #category : #testing }
-ToSelectionModel >> isWhole [
+ToSelectionModel >> isWholeSelectionModel [
 
-	^ self underlyingModel isWhole
+	^ self underlyingModel isWholeSelectionModel
 ]
 
 { #category : #'instance creation' }

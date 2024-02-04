@@ -27,6 +27,12 @@ ToSelectionCommandTest >> addIntervalSelectionCommand: aCommand [
 	addedInterval := aCommand interval
 ]
 
+{ #category : #tests }
+ToSelectionCommandTest >> addWholeSelectionCommand: aCommand [
+
+	wholeSelection := true
+]
+
 { #category : #accessing }
 ToSelectionCommandTest >> addedIndexes [
 
@@ -49,6 +55,12 @@ ToSelectionCommandTest >> removeIndexesSelectionCommand: aCommand [
 ToSelectionCommandTest >> removeIntervalSelectionCommand: aCommand [
 
 	removedInterval := aCommand interval
+]
+
+{ #category : #tests }
+ToSelectionCommandTest >> removeWholeSelectionCommand: aCommand [
+
+	noSelection := true
 ]
 
 { #category : #accessing }
@@ -76,7 +88,7 @@ ToSelectionCommandTest >> setUp [
 ]
 
 { #category : #tests }
-ToSelectionCommandTest >> testIndexesAddSelectionCommand [
+ToSelectionCommandTest >> testAddIndexesSelectionCommand [
 
 	| cmd |
 	cmd := ToIndexesSelectionCommand new.
@@ -87,18 +99,7 @@ ToSelectionCommandTest >> testIndexesAddSelectionCommand [
 ]
 
 { #category : #tests }
-ToSelectionCommandTest >> testIndexesRemoveSelectionCommand [
-
-	| cmd |
-	cmd := ToIndexesSelectionCommand new.
-	cmd indexes: #(1).
-	cmd operation: ToRemoveSelectionOperation new.
-	cmd applyOn: self.
-	self assert: self removedIndexes equals: #(1)
-]
-
-{ #category : #tests }
-ToSelectionCommandTest >> testIntervalAddSelectionCommand [
+ToSelectionCommandTest >> testAddIntervalSelectionCommand [
 
 	| cmd |
 	cmd := ToIntervalSelectionCommand new.
@@ -109,7 +110,28 @@ ToSelectionCommandTest >> testIntervalAddSelectionCommand [
 ]
 
 { #category : #tests }
-ToSelectionCommandTest >> testIntervalRemoveSelectionCommand [
+ToSelectionCommandTest >> testAddWholeSelectionCommand [
+
+	| cmd |
+	cmd := ToWholeSelectionCommand new.
+	cmd operation: ToAddSelectionOperation new.
+	cmd applyOn: self.
+	self assert: wholeSelection 
+]
+
+{ #category : #tests }
+ToSelectionCommandTest >> testRemoveIndexesSelectionCommand [
+
+	| cmd |
+	cmd := ToIndexesSelectionCommand new.
+	cmd indexes: #(1).
+	cmd operation: ToRemoveSelectionOperation new.
+	cmd applyOn: self.
+	self assert: self removedIndexes equals: #(1)
+]
+
+{ #category : #tests }
+ToSelectionCommandTest >> testRemoveIntervalSelectionCommand [
 
 	| cmd |
 	cmd := ToIntervalSelectionCommand new.
@@ -117,4 +139,14 @@ ToSelectionCommandTest >> testIntervalRemoveSelectionCommand [
 	cmd operation: ToRemoveSelectionOperation new.
 	cmd applyOn: self.
 	self assert: self removedInterval equals: ( 1 to: 2)
+]
+
+{ #category : #tests }
+ToSelectionCommandTest >> testRemoveWholeSelectionCommand [
+
+	| cmd |
+	cmd := ToWholeSelectionCommand new.
+	cmd operation: ToRemoveSelectionOperation new.
+	cmd applyOn: self.
+	self assert: noSelection 
 ]

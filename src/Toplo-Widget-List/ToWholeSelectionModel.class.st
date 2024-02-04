@@ -20,7 +20,7 @@ ToWholeSelectionModel >> containsIndex: anIndex [
 ]
 
 { #category : #testing }
-ToWholeSelectionModel >> isWhole [
+ToWholeSelectionModel >> isWholeSelectionModel [
 
 	^ true
 ]

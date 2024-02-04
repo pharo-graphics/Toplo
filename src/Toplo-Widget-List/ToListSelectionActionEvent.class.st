@@ -7,6 +7,12 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Strategy'
 }
 
+{ #category : #testing }
+ToListSelectionActionEvent class >> isDeprecated [ 
+
+	^ true
+]
+
 { #category : #accessing }
 ToListSelectionActionEvent >> action [
 

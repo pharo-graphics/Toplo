@@ -3,23 +3,27 @@ Class {
 	#superclass : #TestCase,
 	#instVars : [
 		'holder',
-		'selecter'
+		'selecter',
+		'selectionChanged'
 	],
 	#category : #'Toplo-Widget-List-Tests-Selection-Command'
 }
 
 { #category : #running }
-ToSelectionModelOperatorTest >> setUp [ 
+ToSelectionModelOperatorTest >> setUp [
 
-	super setUp. 
+	super setUp.
+	selectionChanged := false.
 	holder := ToSelectionModelHolderForTest new.
-	selecter := holder selecter.
+	holder addEventHandler: (BlEventHandler
+			 on: ToListSelectionChangedEvent
+			 do: [ :event | selectionChanged := true ]).
+	selecter := holder selecter
 ]
 
 { #category : #tests }
 ToSelectionModelOperatorTest >> testDeselectAll [
 
-	self deny: holder selectionHasChanged. 
 	selecter selectAllIndexes: {2. 6. 9}.
 	selecter deselectAll.
 	self assert: holder selectionModel isEmpty
@@ -28,7 +32,6 @@ ToSelectionModelOperatorTest >> testDeselectAll [
 { #category : #tests }
 ToSelectionModelOperatorTest >> testDeselectAllIndexes [
 
-	self deny: holder selectionHasChanged. 
 	selecter selectAllIndexes: {2. 6. 9}.
 	self assert: holder selectionModel indices size equals: 3.
 	self assert: holder selectionModel indices asSet equals: {2. 6. 9} asSet.	
@@ -85,7 +88,7 @@ ToSelectionModelOperatorTest >> testDispatchSelectionChanged [
 	self assert: selChangedEvent isNil.
 
 	" incompatible mode "
-	holder selectionStrategy mode: ToListNoneSelectionMode new.
+	holder selectionMode: ToListNoneSelectionMode new.
 	self
 		should: [ selecter selectAllIndexes: { 2. 6. 9 } ]
 		raise: ToIncompatibleMode.
@@ -95,7 +98,7 @@ ToSelectionModelOperatorTest >> testDispatchSelectionChanged [
 { #category : #tests }
 ToSelectionModelOperatorTest >> testIncompatibleMode [
 
-	holder selectionStrategy mode: ToListNoneSelectionMode new.
+	holder selectionMode: ToListNoneSelectionMode new.
 	self should: [selecter selectAllIndexes: {2. 6. 9} ] raise: ToIncompatibleMode.
 	self should: [selecter deselectAllIndexes: {2. 6. 9} ] raise: ToIncompatibleMode.
 	self should: [selecter selectIndex: 2 ] raise: ToIncompatibleMode.
@@ -107,7 +110,7 @@ ToSelectionModelOperatorTest >> testIncompatibleMode [
 { #category : #tests }
 ToSelectionModelOperatorTest >> testIncompatibleMode2 [
 
-	holder selectionStrategy mode: ToListSingleSelectionMode new.
+	holder selectionMode: ToListSingleSelectionMode new.
 	self should: [selecter selectAllIndexes: {2. 6. 9} ] raise: ToIncompatibleMode.
 	self should: [selecter deselectAllIndexes: {2. 6. 9} ] raise: ToIncompatibleMode.
 	selecter selectIndex: 2.
@@ -119,7 +122,7 @@ ToSelectionModelOperatorTest >> testIncompatibleMode2 [
 { #category : #tests }
 ToSelectionModelOperatorTest >> testOnSelectionRequestError [
 
-	holder selectionStrategy mode: ToListSingleSelectionMode new.
+	holder selectionMode: ToListSingleSelectionMode new.
 	self should: [selecter selectAllIndexes: {2. 6. 9} ] raise: ToIncompatibleMode
 ]
 
@@ -133,7 +136,7 @@ ToSelectionModelOperatorTest >> testOnSelectionRequestSuccess [
 	selecter selectAllIndexes: { 2. 6. 9 }.
 	self assert: holder successfulCommand isNil.
 	
-	holder selectionStrategy mode: ToListNoneSelectionMode new.
+	holder selectionMode: ToListNoneSelectionMode new.
 	holder successfulCommand: nil.
 	self
 		should: [ selecter selectAllIndexes: { 2. 6. 9 } ]
@@ -149,13 +152,12 @@ ToSelectionModelOperatorTest >> testSelectAll [
 	self assert: holder selectionModel isNotEmpty.
 	selecter selectAll.
 	self
-		assert: holder selectionModel isWhole
+		assert: holder selectionModel isWholeSelectionModel
 ]
 
 { #category : #tests }
 ToSelectionModelOperatorTest >> testSelectAllIndexes [
 
-	self deny: holder selectionHasChanged. 
 	selecter selectAllIndexes: {2. 6. 9}.
 	self assert: holder selectionModel indices size equals: 3.
 	self assert: holder selectionModel indices asSet equals: {2. 6. 9} asSet
@@ -199,34 +201,36 @@ ToSelectionModelOperatorTest >> testSelectOnlyIndexes [
 { #category : #tests }
 ToSelectionModelOperatorTest >> testSelectionChanged [
 
-	self deny: holder selectionHasChanged. 
 	selecter selectAllIndexes: {2. 6. 9}.
-	self assert: holder selectionHasChanged. 
+	self assert: selectionChanged. 
 
 ]
 
 { #category : #tests }
 ToSelectionModelOperatorTest >> testSelectionChangedOnDeselectAll [
 
-	self deny: holder selectionHasChanged. 
 	selecter selectAllIndexes: {2. 6. 9}.
-	self assert: holder selectionHasChanged. 
+	self assert: selectionChanged. 
+	selectionChanged := false.
 	selecter deselectAll.
-	self assert: holder selectionHasChanged.
+	self assert: selectionChanged.
+	selectionChanged := false.
 	selecter deselectAll.
-	self deny: holder selectionHasChanged
+	self deny: selectionChanged
 ]
 
 { #category : #tests }
 ToSelectionModelOperatorTest >> testSelectionChangedOnDeselectAllIndexes [
 
-	self deny: holder selectionHasChanged. 
+	self deny: selectionChanged. 
 	selecter selectAllIndexes: {2. 6. 9}.
-	self assert: holder selectionHasChanged. 
+	self assert: selectionChanged. 
+	selectionChanged := false.
 	selecter deselectAllIndexes: {2. 6. 9}.
-	self assert: holder selectionHasChanged. 
+	self assert: selectionChanged. 
+	selectionChanged := false.
 	selecter deselectAllIndexes: {2. 6. 9}.
-	self deny: holder selectionHasChanged. 
+	self deny: selectionChanged. 
 
 ]
 
@@ -234,44 +238,49 @@ ToSelectionModelOperatorTest >> testSelectionChangedOnDeselectAllIndexes [
 ToSelectionModelOperatorTest >> testSelectionChangedOnDeselectIndex [
 
 	selecter selectIndex: 2.
-	self assert: holder selectionHasChanged. 
+	self assert: selectionChanged. 
+	selectionChanged := false.
 	selecter deselectIndex: 2.
-	self assert: holder selectionHasChanged. 
+	self assert: selectionChanged. 
+	selectionChanged := false.
 	selecter deselectIndex: 2.
-	self deny: holder selectionHasChanged. 
+	self deny: selectionChanged. 
 
 ]
 
 { #category : #tests }
 ToSelectionModelOperatorTest >> testSelectionChangedOnSelectAll [
 
-	self deny: holder selectionHasChanged. 
+	self deny: selectionChanged. 
 	selecter selectAll.
-	self assert: holder selectionHasChanged. 
+	self assert: selectionChanged. 
+	selectionChanged := false.
 	selecter selectAll.
-	self deny: holder selectionHasChanged. 
+	self deny: selectionChanged. 
 
 ]
 
 { #category : #tests }
 ToSelectionModelOperatorTest >> testSelectionChangedOnSelectAllIndexes [
 
-	self deny: holder selectionHasChanged. 
+	self deny: selectionChanged. 
 	selecter selectAllIndexes: {2. 6. 9}.
-	self assert: holder selectionHasChanged. 
+	self assert: selectionChanged. 
+	selectionChanged := false.
 	selecter selectAllIndexes: {2. 6. 9}.
-	self deny: holder selectionHasChanged. 
+	self deny: selectionChanged. 
 
 ]
 
 { #category : #tests }
 ToSelectionModelOperatorTest >> testSelectionChangedOnSelectIndex [
 
-	self deny: holder selectionHasChanged. 
+	self deny: selectionChanged. 
 	selecter selectIndex: 2.
-	self assert: holder selectionHasChanged. 
+	self assert: selectionChanged. 
+	selectionChanged := false.
 	selecter selectIndex: 2.
-	self deny: holder selectionHasChanged. 
+	self deny: selectionChanged. 
 
 
 ]
@@ -279,27 +288,32 @@ ToSelectionModelOperatorTest >> testSelectionChangedOnSelectIndex [
 { #category : #tests }
 ToSelectionModelOperatorTest >> testSelectionChangedOnSelectOnlyIndex [
 
-	self deny: holder selectionHasChanged. 
+	self deny: selectionChanged. 
 	selecter deselectAll.
-	self deny: holder selectionHasChanged. 
+	self deny: selectionChanged. 
+	selectionChanged := false.
 	selecter selectAllIndexes: {2. 6. 9}.
-	self assert: holder selectionHasChanged. 
+	self assert: selectionChanged. 
+	selectionChanged := false.
 	selecter selectOnlyIndex: 10.
-	self assert: holder selectionHasChanged. 
+	self assert: selectionChanged. 
+	selectionChanged := false.
 	selecter selectOnlyIndex: 10.
-	self deny: holder selectionHasChanged. 
+	self deny: selectionChanged. 
 
 ]
 
 { #category : #tests }
 ToSelectionModelOperatorTest >> testSelectionChangedOnSelectOnlyIndexes [
 
-	self deny: holder selectionHasChanged. 
+	self deny: selectionChanged. 
 	selecter selectAllIndexes: {2. 6. 9}.
-	self assert: holder selectionHasChanged. 
+	self assert: selectionChanged. 
+	selectionChanged := false.
 	selecter selectOnlyIndexes: {10. 6. 20}.
-	self assert: holder selectionHasChanged. 
+	self assert: selectionChanged. 
+	selectionChanged := false.
 	selecter selectOnlyIndexes: {10. 6. 20}.
-	self deny: holder selectionHasChanged. 
+	self deny: selectionChanged 
 
 ]

@@ -54,7 +54,7 @@ ToCompositeSelectionModel >> initialize [
 ]
 
 { #category : #testing }
-ToCompositeSelectionModel >> isComposite [ 
+ToCompositeSelectionModel >> isCompositeSelectionModel [ 
 
 	^ true
 ]

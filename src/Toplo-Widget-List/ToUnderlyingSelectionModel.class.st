@@ -22,6 +22,12 @@ ToUnderlyingSelectionModel class >> whole [
 	^ ToWholeSelectionModel uniqueInstance 
 ]
 
+{ #category : #'api - testing' }
+ToUnderlyingSelectionModel >> containsIndex: anIndex [
+
+	^ self subclassResponsibility 
+]
+
 { #category : #'accessing selection' }
 ToUnderlyingSelectionModel >> deselect: aFromTextIndex to: aToTextIndex [
 

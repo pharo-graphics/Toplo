@@ -16,7 +16,9 @@ ToListSingleSelectionMode >> addIndexesSelectionCommand: aCommand [
 ToListSingleSelectionMode >> addIntervalSelectionCommand: aCommand [
 
 	aCommand interval size = 1 ifTrue: [ ^ self ].
-	aCommand interval ifEmpty: [ ^ ToInvalidCommand new messageText: 'The interval should not be empty' ].
+	aCommand interval ifEmpty: [
+		^ ToInvalidCommand new messageText:
+			  'The interval should not be empty' ].
 	ToIncompatibleMode new signal
 ]
 

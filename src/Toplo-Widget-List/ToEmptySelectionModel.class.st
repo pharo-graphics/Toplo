@@ -13,6 +13,12 @@ ToEmptySelectionModel class >> uniqueInstance [
 	^ UniqueInstance ifNil: [ UniqueInstance := self new ]
 ]
 
+{ #category : #'api - testing' }
+ToEmptySelectionModel >> containsIndex: anIndex [
+
+	^ false
+]
+
 { #category : #'accessing selection' }
 ToEmptySelectionModel >> deselect: aFromTextIndex to: aToTextIndex [
 ]

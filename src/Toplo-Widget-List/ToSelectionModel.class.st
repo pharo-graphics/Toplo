@@ -2,8 +2,7 @@ Class {
 	#name : #ToSelectionModel,
 	#superclass : #Object,
 	#instVars : [
-		'underlyingModel',
-		'dataSource'
+		'underlyingModel'
 	],
 	#category : #'Toplo-Widget-List-Selection-Model'
 }
@@ -48,16 +47,10 @@ ToSelectionModel >> checkEmptiness [
 		self underlyingModel: ToUnderlyingSelectionModel empty ].
 ]
 
-{ #category : #accessing }
-ToSelectionModel >> dataSource [
+{ #category : #'api - testing' }
+ToSelectionModel >> containsIndex: anIndex [
 
-	^ dataSource 
-]
-
-{ #category : #accessing }
-ToSelectionModel >> dataSource: aDataSource [
-
-	dataSource := aDataSource
+	^ self underlyingModel containsIndex: anIndex
 ]
 
 { #category : #private }
@@ -102,12 +95,6 @@ ToSelectionModel >> isNotEmpty [
 ToSelectionModel >> isWhole [
 
 	^ self underlyingModel isWhole
-]
-
-{ #category : #accessing }
-ToSelectionModel >> itemCount [
-
-	^ self dataSource itemCount
 ]
 
 { #category : #'instance creation' }

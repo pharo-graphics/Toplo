@@ -16,6 +16,12 @@ ToCompositeSelectionModel >> = anObject [
 	^ self selection = anObject selection
 ]
 
+{ #category : #'api - testing' }
+ToCompositeSelectionModel >> containsIndex: anIndex [
+
+	^ selection containsIndex: anIndex
+]
+
 { #category : #'accessing selection' }
 ToCompositeSelectionModel >> deselect: aFromTextIndex to: aToTextIndex [
 

@@ -7,7 +7,7 @@ Class {
 { #category : #testing }
 ToElementLookEvent class >> isAbstract [
 
-	^ self class == ToElementLookEvent
+	^ self == ToElementLookEvent
 ]
 
 { #category : #accessing }

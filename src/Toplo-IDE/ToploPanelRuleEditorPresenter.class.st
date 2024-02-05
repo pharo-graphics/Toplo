@@ -44,7 +44,9 @@ ToploPanelRuleEditorPresenter >> informErrorWithCode [
 ToploPanelRuleEditorPresenter >> initializePresenters [
 
 	super initializePresenters.
-	codeInput := SpCodePresenter new beForScripting; yourself.
+	codeInput := SpCodePresenter new
+		             beForScripting;
+		             yourself.
 	buttonApplyToRule := SpButtonPresenter new
 		                     label: 'Apply to selected rule.';
 		                     action: [ self applyToRule ];
@@ -54,7 +56,8 @@ ToploPanelRuleEditorPresenter >> initializePresenters [
 		                add: 'Selector' expand: false;
 		                add: buttonApplyToRule expand: false;
 		                add: codeInput height: 100;
-		                yourself
+		                yourself.
+		self enabled: false.
 ]
 
 { #category : #'as yet unclassified' }
@@ -87,10 +90,11 @@ ToploPanelRuleEditorPresenter >> theme: aToTheme [
 ToploPanelRuleEditorPresenter >> updatePresenter [
 
 	| interpreter |
+	self enabled: self styleRule isNotNil.
 	self styleRule ifNil: [
 		self codeInput text: '"Select a rule on the left."'.
 		^ self ].
 	interpreter := ToSelectorPrinterAsSource new.
 	self styleRule selector accept: interpreter.
-	self codeInput text: interpreter contents
+	self codeInput text: interpreter contents.
 ]

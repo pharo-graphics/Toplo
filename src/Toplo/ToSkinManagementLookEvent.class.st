@@ -7,5 +7,5 @@ Class {
 { #category : #testing }
 ToSkinManagementLookEvent class >> isAbstract [
 
-	^ self class == ToSkinManagementLookEvent
+	^ self == ToSkinManagementLookEvent
 ]

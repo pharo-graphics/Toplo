@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToLookEventListenerRegistry,
-	#category : 'Toplo-Core-StyleSheet'
+	#category : #'Toplo-Core-StyleSheet'
 }
 
 { #category : #'t - look event listener registry' }
@@ -55,7 +55,7 @@ TToLookEventListenerRegistry >> removeAllLookEventListeners: aListenerCollection
 ]
 
 { #category : #'t - look event listener registry' }
-TToLookEventListenerRegistry >> removeLookEventListener: aLookEventListener [
+TToLookEventListenerRegistry >> removeLookEventListener: aListener [
 
-	self lookEventListeners remove: aLookEventListener
+	self lookEventListeners remove: aListener
 ]

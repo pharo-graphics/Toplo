@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'styleSheet'
 	],
-	#category : 'Toplo-Core-Theme'
+	#category : #'Toplo-Core-Theme'
 }
 
 { #category : #testing }
@@ -137,6 +137,12 @@ ToStyleSheetTheme >> setUpElement: anElement [
 ToStyleSheetTheme >> skinClassFor: anElement [
 
 	^ ToStyleSheetSkin
+]
+
+{ #category : #accessing }
+ToStyleSheetTheme >> styleRules [
+
+	^ self styleSheet styleRules
 ]
 
 { #category : #accessing }

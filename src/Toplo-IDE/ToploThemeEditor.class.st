@@ -23,6 +23,15 @@ ToploThemeEditor class >> with: aToStyleSheetTheme [
 	^ self new theme: aToStyleSheetTheme; yourself
 ]
 
+{ #category : #initialization }
+ToploThemeEditor >> changeListener: newListener with: oldListener in: styleRule [
+
+	styleRule removeLookEventListener: oldListener.
+	styleRule addLookEventListener: newListener.
+	self panelEventsSelector updatePresenterOn: newListener.
+	self panelEventEditor eventListener: newListener.
+]
+
 { #category : #'as yet unclassified' }
 ToploThemeEditor >> connectPanelEventsSelector [
 
@@ -37,21 +46,28 @@ ToploThemeEditor >> connectPanelRulesSelector [
 
 	self panelRulesSelector panelContent whenSelectedItemChangedDo: [
 		:newStyleRule |
-		self panelRuleEditor styleRule: newStyleRule.
-		newStyleRule
-			ifNil: [ self panelEventsSelector panelContent items: {  } ]
-			ifNotNil: [
-				self panelEventsSelector panelContent items:
-					newStyleRule lookEventListeners.
-					newStyleRule lookEventListeners ifNotEmpty: [ self panelEventsSelector panelContent selectIndex: 1 ]
-					 ] ]
+		newStyleRule class = ToStyleRule
+			ifTrue: [
+				self panelRuleEditor styleRule: newStyleRule.
+				self panelEventsSelector styleRule: newStyleRule ]
+			ifFalse: [
+				self panelRuleEditor styleRule: nil.
+				self panelEventsSelector styleRule: nil ] ]
 ]
 
 { #category : #initialization }
 ToploThemeEditor >> connectPresenters [
 
 	self connectPanelRulesSelector.
-	self connectPanelEventsSelector
+	self connectPanelEventsSelector.
+
+	self panelEventEditor whenListenerChangedDo: [
+		:newListener
+		:oldListener |
+		self
+			changeListener: newListener
+			with: oldListener
+			in: self panelRuleEditor styleRule ]
 ]
 
 { #category : #layout }

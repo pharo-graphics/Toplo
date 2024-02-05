@@ -7,5 +7,5 @@ Class {
 { #category : #testing }
 ToIntrasicStateLookEvent class >> isAbstract [
 
-	^ self class == ToIntrasicStateLookEvent
+	^ self == ToIntrasicStateLookEvent
 ]

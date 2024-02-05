@@ -1,13 +1,13 @@
 Class {
 	#name : #ToploPanelInsideEventEditorForPropertyWriter,
-	#superclass : #ToploPanelInsideEventEditorForNotNil,
+	#superclass : #ToploPanelInsideEventEditorAbstract,
 	#category : #'Toplo-IDE-theme-editor'
 }
 
 { #category : #layout }
 ToploPanelInsideEventEditorForPropertyWriter >> defaultLayout [
 
-	^ super defaultLayout
+	^ SpBoxLayout newVertical spacing: 4;
 		  add: 'ToploPanelInsideEventEditorForPropertyWriter.';
 		  yourself
 ]

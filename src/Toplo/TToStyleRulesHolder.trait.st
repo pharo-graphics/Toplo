@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToStyleRulesHolder,
-	#category : 'Toplo-Core-StyleSheet'
+	#category : #'Toplo-Core-StyleSheet'
 }
 
 { #category : #'t - style rules holder' }
@@ -25,6 +25,12 @@ TToStyleRulesHolder >> rawStyleRules [
 TToStyleRulesHolder >> rawStyleRules: aStyleRuleCollection [
 
 	self explicitRequirement
+]
+
+{ #category : #'t - style rules holder' }
+TToStyleRulesHolder >> removeStyleRule: aStyleRule [
+
+	self rawStyleRules: (self rawStyleRules copyWithout: aStyleRule)
 ]
 
 { #category : #'t - style rules holder' }

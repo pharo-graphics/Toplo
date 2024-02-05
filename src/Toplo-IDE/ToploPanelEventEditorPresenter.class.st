@@ -2,7 +2,8 @@ Class {
 	#name : #ToploPanelEventEditorPresenter,
 	#superclass : #ToploPanelPresenter,
 	#instVars : [
-		'eventListener'
+		'eventListener',
+		'whenListenerChangedDo'
 	],
 	#category : #'Toplo-IDE-theme-editor'
 }
@@ -14,9 +15,17 @@ ToploPanelEventEditorPresenter >> eventListener [
 ]
 
 { #category : #accessing }
-ToploPanelEventEditorPresenter >> eventListener: aLookEventListnerOrNil [ 
+ToploPanelEventEditorPresenter >> eventListener: aLookEventListnerOrNil [
+
 	eventListener := aLookEventListnerOrNil.
 	self updatePresenter.
+]
+
+{ #category : #accessing }
+ToploPanelEventEditorPresenter >> initializePresenters [
+
+	super initializePresenters.
+	whenListenerChangedDo := [ :new :old |  ].
 ]
 
 { #category : #accessing }
@@ -43,13 +52,26 @@ ToploPanelEventEditorPresenter >> updatePresenter [
 
 	| inside |
 	inside := self eventListener
-		          ifNil: [ ToploPanelInsideEventEditorForNil new ]
+		          ifNil: [ SpNullPresenter new ]
 		          ifNotNil: [
-			          self eventListener isAction
-				          ifTrue: [ ToploPanelInsideEventEditorForAction new ]
-				          ifFalse: [
-				          ToploPanelInsideEventEditorForPropertyWriter new ] ].
-	inside eventListener: self eventListener.
+			          ToploPanelEventListenerEditor new
+				          eventListener: self eventListener;
+				          whenListenerChangedDo: [ :newListener :oldListener |
+					          self whenListenerChangedDo
+						          value: newListener
+						          value: oldListener ] ;yourself ].
 	self panelContent: inside.
 	self layout: self defaultLayout
+]
+
+{ #category : #accessing }
+ToploPanelEventEditorPresenter >> whenListenerChangedDo [
+
+	^ whenListenerChangedDo
+]
+
+{ #category : #accessing }
+ToploPanelEventEditorPresenter >> whenListenerChangedDo: anObject [
+
+	whenListenerChangedDo := anObject
 ]

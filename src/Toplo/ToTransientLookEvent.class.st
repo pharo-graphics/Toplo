@@ -10,7 +10,7 @@ Class {
 { #category : #testing }
 ToTransientLookEvent class >> isAbstract [
 
-	^ self class == ToTransientLookEvent
+	^ self == ToTransientLookEvent
 ]
 
 { #category : #accessing }

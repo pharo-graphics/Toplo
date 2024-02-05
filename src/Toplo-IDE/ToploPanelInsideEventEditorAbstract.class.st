@@ -19,3 +19,7 @@ ToploPanelInsideEventEditorAbstract >> eventListener: anEventListener [
 	eventListener := anEventListener.
 	self updatePresenter
 ]
+
+{ #category : #'as yet unclassified' }
+ToploPanelInsideEventEditorAbstract >> makeNewListener [
+]

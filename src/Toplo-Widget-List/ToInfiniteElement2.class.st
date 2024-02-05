@@ -5,7 +5,8 @@ Class {
 	#classTraits : 'TBlLayoutResizable classTrait',
 	#instVars : [
 		'nodeBuilder',
-		'nodeClass'
+		'nodeClass',
+		'selectionModel'
 	],
 	#category : #'Toplo-Widget-List-Infinite'
 }
@@ -380,6 +381,18 @@ ToInfiniteElement2 >> selection: aSelectionStrategy [
 		deprecated: 'Use selectionStrategy: instead'
 		transformWith: '`@receiver selection: `@arg' -> '`@receiver selectionStrategy: `@arg'.
 	self selectionStrategy: aSelectionStrategy
+]
+
+{ #category : #accessing }
+ToInfiniteElement2 >> selectionModel [
+
+	^ selectionModel
+]
+
+{ #category : #accessing }
+ToInfiniteElement2 >> selectionModel: aSelectionModel [
+
+	selectionModel := aSelectionModel
 ]
 
 { #category : #deprecated }

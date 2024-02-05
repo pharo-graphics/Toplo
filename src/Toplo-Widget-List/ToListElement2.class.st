@@ -6,6 +6,7 @@ Class {
 	#instVars : [
 		'selectionElements',
 		'sharedDistributor',
+		'selectionModel',
 		'selectionManager'
 	],
 	#category : #'Toplo-Widget-List-Core'
@@ -42,13 +43,13 @@ ToListElement2 >> defaultLayout [
 ]
 
 { #category : #initialization }
-ToListElement2 >> defaultSelectionMode [
+ToListElement2 >> defaultSelectionManager [
 
-	^ ToListMultiSelectionMode new
+	^ ToListMultiSelectionManager new.
 ]
 
 { #category : #initialization }
-ToListElement2 >> defaultSelectionModel [
+ToListElement2 >> defaultSelectionModel [ 
 
 	^ ToListSelectionModel new
 ]
@@ -78,16 +79,15 @@ ToListElement2 >> initialize [
 
 	super initialize.
 
-	selectionElements := #(  ).
-
-	self layout: self defaultLayout.
+	selectionModel := self defaultSelectionModel.
 	self next: self defaultInfiniteElement.
-
-	selectionManager := ToListSelectionManager new.
+	self next selectionModel: self selectionModel.
+	
+	selectionElements := #(  ).
+	self layout: self defaultLayout.
+	
+	self selectionManager: self defaultSelectionManager.	
 	self addEventHandler: ToListElementEventHandler2 new.
-	self selectionMode: self defaultSelectionMode.
-	self selectionModel: self defaultSelectionModel.
-	self addEventHandler: ToSelectionRequestEventHandler new.
 
 	self installSharedEventDistributor.
 
@@ -143,6 +143,12 @@ ToListElement2 >> placeholderElevation [
 ]
 
 { #category : #accessing }
+ToListElement2 >> selecter [ 
+
+	^ self selectionManager selecter
+]
+
+{ #category : #accessing }
 ToListElement2 >> selectionElements [
 
 	^ selectionElements
@@ -161,34 +167,30 @@ ToListElement2 >> selectionManager [
 ]
 
 { #category : #accessing }
+ToListElement2 >> selectionManager: aSelectionManager [
+
+	selectionManager ifNotNil: [ selectionManager onUninstalledIn: self ].
+	selectionManager := aSelectionManager.
+	selectionManager ifNotNil: [ selectionManager onInstalledIn: self ].
+
+]
+
+{ #category : #accessing }
 ToListElement2 >> selectionMode [
 
 	^ self selectionManager selectionMode
 ]
 
 { #category : #accessing }
-ToListElement2 >> selectionMode: aSelectionMode [
-
-	self selectionManager mode: aSelectionMode
-]
-
-{ #category : #accessing }
 ToListElement2 >> selectionModel [
 
-	^ self selectionManager selectionModel
-]
-
-{ #category : #accessing }
-ToListElement2 >> selectionModel: aSelectionModel [
-
-	self selectionManager selectionModel: aSelectionModel
+	^ selectionModel
 ]
 
 { #category : #initialization }
 ToListElement2 >> selectionStrategySharedEvents [
 
 	^ {
-		  ToListClickOnNodeEvent.
 		  ToListSelectionActionEvent.
 		  ToListSelectionDirtyEvent.
 		  ToListSelectionChangedEvent.

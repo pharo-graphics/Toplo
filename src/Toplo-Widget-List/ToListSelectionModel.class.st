@@ -96,7 +96,7 @@ ToListSelectionModel >> removeIntervalSelectionCommand: aCommand [
 	self markPointedPosition: aCommand interval first
 ]
 
-{ #category : #'private - command handling' }
+{ #category : #'command handling' }
 ToListSelectionModel >> removeWholeSelectionCommand: aCommand [
 
 	super removeWholeSelectionCommand: aCommand.

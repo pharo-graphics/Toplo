@@ -56,6 +56,10 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'border-radius-LG' value: 8).
 		  (ToTokenProperty name: #'border-radius-SM' value: 4).
 
+		(ToTokenProperty
+			   name: #'double-click-delay'
+			   value: 250 milliSeconds).
+
 		  (ToTokenProperty
 			   name: #'animation-window-opening'
 			   value: [ :win |

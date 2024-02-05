@@ -108,12 +108,13 @@ ToListSelectionModelOperatorTest >> testSelectOrDeselectNext [
 	self assert: selecter selectionModel indices equals: #( 2 3 ).
 	self assert: selecter selectionModel currentIndex equals: 3.
 	self assert: selecter selectionModel pivot isNil.
-	self assert: selecter selectionModel distance isNil.
+	self flag: 'The distance computation has to be more precisely tested'.
+	self assert: selecter selectionModel distance notNil.
 	selecter selectOrDeselectNext.
 	self assert: selecter selectionModel indices equals: #( 2 3 4 ).
 	self assert: selecter selectionModel currentIndex equals: 4.
 	self assert: selecter selectionModel pivot isNil.
-	self assert: selecter selectionModel distance isNil.
+	self assert: selecter selectionModel distance notNil.
 
 ]
 
@@ -126,12 +127,12 @@ ToListSelectionModelOperatorTest >> testSelectOrDeselectPrevious [
 	self assert: selecter selectionModel indices equals: #( 1 2 ).
 	self assert: selecter selectionModel currentIndex equals: 1.
 	self assert: selecter selectionModel pivot isNil.
-	self assert: selecter selectionModel distance isNil.
+	self assert: selecter selectionModel distance equals: 1.
 	selecter selectOrDeselectPrevious.
 	self assert: selecter selectionModel indices equals: #( 1 2 ).
 	self assert: selecter selectionModel currentIndex equals: 1.
 	self assert: selecter selectionModel pivot isNil.
-	self assert: selecter selectionModel distance isNil.
+	self assert: selecter selectionModel distance equals: 1.
 
 ]
 

@@ -81,3 +81,9 @@ ToUnderlyingSelectionModel >> selectIndex: anIndex [
 
 	^ ToInvalidCommand signal
 ]
+
+{ #category : #accessing }
+ToUnderlyingSelectionModel >> sizeOrMax: anInteger [
+
+	^ self subclassResponsibility 
+]

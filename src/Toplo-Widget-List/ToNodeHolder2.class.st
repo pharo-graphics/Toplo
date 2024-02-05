@@ -2,9 +2,7 @@ Class {
 	#name : #ToNodeHolder2,
 	#superclass : #BlInfiniteHolder,
 	#instVars : [
-		'data',
-		'eventDispatcher',
-		'selected'
+		'data'
 	],
 	#category : #'Toplo-Widget-List-Node'
 }
@@ -22,19 +20,10 @@ ToNodeHolder2 >> data: aData [
 	infiniteElement nodeHolderBuilder value: self
 ]
 
-{ #category : #initialization }
-ToNodeHolder2 >> initialize [ 
-
-	super initialize.
-	selected := false
-]
-
 { #category : #accessing }
 ToNodeHolder2 >> isSelected [
 
-	self flag: ' has to update selected when a node is added'.
-
-	^ selected
+	^ self infiniteElement selectionModel containsIndex: self position
 ]
 
 { #category : #accessing }
@@ -47,10 +36,4 @@ ToNodeHolder2 >> node [
 ToNodeHolder2 >> node: aNode [
 
 	itemElement := aNode
-]
-
-{ #category : #accessing }
-ToNodeHolder2 >> selected: aBoolean [
-
-	selected := aBoolean
 ]

@@ -19,6 +19,12 @@ ToEmptySelectionModel >> containsIndex: anIndex [
 	^ false
 ]
 
+{ #category : #copying }
+ToEmptySelectionModel >> copy [ 
+
+	^ self
+]
+
 { #category : #'accessing selection' }
 ToEmptySelectionModel >> deselect: aFromTextIndex to: aToTextIndex [
 ]
@@ -49,4 +55,10 @@ ToEmptySelectionModel >> isEmptySelectionModel [
 ToEmptySelectionModel >> select: aFromTextIndex to: aToTextIndex [
 
 	^ ToInvalidCommand signal
+]
+
+{ #category : #accessing }
+ToEmptySelectionModel >> sizeOrMax: anInteger [
+
+	^ 0
 ]

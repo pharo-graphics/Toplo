@@ -8,6 +8,14 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Model'
 }
 
+{ #category : #operations }
+ToSelectionModelOperator >> cherryPickIndex: anIndex [
+
+	(self selectionModel containsIndex: anIndex)
+		ifTrue: [ self deselectIndex: anIndex ]
+		ifFalse: [ self selectIndex: anIndex ]
+]
+
 { #category : #accessing }
 ToSelectionModelOperator >> dataSource [
 
@@ -72,6 +80,12 @@ ToSelectionModelOperator >> dispatchSelectionChanged [
 ToSelectionModelOperator >> eventTarget [ 
 
 	^ eventTarget
+]
+
+{ #category : #accessing }
+ToSelectionModelOperator >> eventTarget: anEventTarget [
+
+	eventTarget := anEventTarget
 ]
 
 { #category : #initialization }

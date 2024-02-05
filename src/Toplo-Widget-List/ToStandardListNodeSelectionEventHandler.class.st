@@ -69,8 +69,7 @@ ToStandardListNodeSelectionEventHandler >> listClickOnNodeEvent: anEvent [
 
 	infiniteElement selectionStrategy dispatchEvent: (ToListClickOnNodeEvent new
 			 sourceEvent: anEvent;
-			 node: target;
-			 infiniteElement: infiniteElement;
+			 listElement: infiniteElement;
 			 yourself).
 	self
 		launchClick: [ self onClickOnNodeEvent: anEvent ]

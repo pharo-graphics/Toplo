@@ -65,6 +65,13 @@ ToCompositeSelectionModel >> isEmpty [
 	^ selection isEmpty
 ]
 
+{ #category : #copying }
+ToCompositeSelectionModel >> postCopy [ 
+
+	super postCopy.
+	selection := selection copy
+]
+
 { #category : #'accessing selection' }
 ToCompositeSelectionModel >> select: fromIndex to: toIndex [
 
@@ -87,4 +94,13 @@ ToCompositeSelectionModel >> selection [
 ToCompositeSelectionModel >> selection: aSelection [
 
 	selection := aSelection
+]
+
+{ #category : #accessing }
+ToCompositeSelectionModel >> sizeOrMax: anInteger [
+
+	| count |
+	count := 0.
+	selection do: [ :s | count := count + s interval size - 1 ].
+	^ count
 ]

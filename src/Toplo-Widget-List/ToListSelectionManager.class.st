@@ -1,64 +1,40 @@
 Class {
 	#name : #ToListSelectionManager,
-	#superclass : #Object,
+	#superclass : #ToListAbstractSelectionManager,
 	#instVars : [
-		'listElement',
-		'mode',
-		'selectionModel',
 		'preserveSelectionOnFocused',
-		'requestFocusOnMouseDown'
+		'selectionRequestEventHandler',
+		'installedShortcuts'
 	],
 	#category : #'Toplo-Widget-List-Selection-Model'
 }
-
-{ #category : #accessing }
-ToListSelectionManager >> hasSelectionAt: anIndex [
-
-	^ self selectionModel containsIndex: anIndex
-]
 
 { #category : #initialization }
 ToListSelectionManager >> initialize [ 
 
 	super initialize.
-	requestFocusOnMouseDown := true.
 	preserveSelectionOnFocused := true
 ]
 
-{ #category : #accessing }
-ToListSelectionManager >> listElement [
+{ #category : #'api - hooks' }
+ToListSelectionManager >> onInstalledIn: anElement [
 
-	^ listElement
+	super onInstalledIn: anElement. 
+	selectionRequestEventHandler := ToSelectionRequestEventHandler new.
+	anElement addEventHandler: selectionRequestEventHandler.
+	installedShortcuts := self shortcutsIn: anElement.
+	installedShortcuts do: [ :s | anElement addShortcut: s ]
 ]
 
-{ #category : #accessing }
-ToListSelectionManager >> listElement: aListElement [
+{ #category : #'api - hooks' }
+ToListSelectionManager >> onUninstalledIn: anElement [
 
-	listElement := aListElement
-]
+	installedShortcuts do: [ :s | anElement removeShortcut: s ].
+	installedShortcuts := nil.
+	anElement removeEventHandler: selectionRequestEventHandler.
+	selectionRequestEventHandler := nil.
+	super onUninstalledIn: anElement. 
 
-{ #category : #accessing }
-ToListSelectionManager >> mode [
-
-	^ mode
-]
-
-{ #category : #accessing }
-ToListSelectionManager >> mode: aSelectionMode [
-
-	mode := aSelectionMode
-]
-
-{ #category : #accessing }
-ToListSelectionManager >> onAddedNode: aToNode [
-
-	self flag: 'to do'
-]
-
-{ #category : #accessing }
-ToListSelectionManager >> onRemovedNode: aToNode [
-
-	self flag: 'to do'
 ]
 
 { #category : #accessing }
@@ -73,33 +49,32 @@ ToListSelectionManager >> preserveSelectionOnFocused: aBoolean [
 	preserveSelectionOnFocused := aBoolean
 ]
 
-{ #category : #accessing }
-ToListSelectionManager >> requestFocusOnMouseDown [
+{ #category : #shortcuts }
+ToListSelectionManager >> selectNextIn: anElement event: aShortcutEvent [
 
-	^ requestFocusOnMouseDown
+	self selecter selectNext.
+	self selectionModel isEmpty ifTrue: [ ^ self ].
+	anElement scrollToIndex: self selectionModel currentIndex
 ]
 
-{ #category : #accessing }
-ToListSelectionManager >> requestFocusOnMouseDown: aBoolean [
+{ #category : #shortcuts }
+ToListSelectionManager >> selectPreviousIn: anElement event: aShortcutEvent [
 
-	requestFocusOnMouseDown := aBoolean
+	self selecter selectPrevious.
+	self selectionModel isEmpty ifTrue: [ ^ self ].
+	anElement scrollToIndex: self selectionModel currentIndex 
 ]
 
-{ #category : #'accessing - operator' }
-ToListSelectionManager >> selecter [ 
+{ #category : #shortcuts }
+ToListSelectionManager >> shortcutsIn: anElement [
 
-	^  self selectionModel newSelecter on: self listElement.
-
-]
-
-{ #category : #accessing }
-ToListSelectionManager >> selectionModel [
-
-	^ selectionModel
-]
-
-{ #category : #accessing }
-ToListSelectionManager >> selectionModel: aSelectionModel [
-
-	selectionModel := aSelectionModel
+	^ {
+		  (BlShortcutWithAction new
+			   combination: BlKeyCombination builder arrowDown build;
+			   action: [ :aShortcutEvent :aShortcut |
+				   self selectNextIn: anElement event: aShortcutEvent ]).
+		  (BlShortcutWithAction new
+			   combination: BlKeyCombination builder arrowUp build;
+			   action: [ :aShortcutEvent :aShortcut |
+				   self selectPreviousIn: anElement event: aShortcutEvent ]) }
 ]

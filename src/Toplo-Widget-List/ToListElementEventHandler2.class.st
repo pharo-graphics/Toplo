@@ -17,6 +17,7 @@ ToListElementEventHandler2 >> clickEvent: anEvent [
 		target requestFocus.
 		^ self ].
 	lastClickedNode dispatchEvent: (ToListClickOnNodeEvent new
+			 listElement: target;
 			 sourceEvent: anEvent;
 			 yourself)
 ]
@@ -36,6 +37,7 @@ ToListElementEventHandler2 >> doubleClickEvent: anEvent [
 	target := anEvent currentTarget.
 	lastClickedNode ifNotNil: [
 		lastClickedNode dispatchEvent: (ToListDoubleClickOnNodeEvent new
+				 listElement: target;
 				 sourceEvent: anEvent;
 				 yourself) ].
 	anEvent consumed: true
@@ -105,7 +107,6 @@ ToListElementEventHandler2 >> mouseDownEvent: anEvent [
 	target := anEvent currentTarget.
 	target selectionManager requestFocusOnMouseDown ifFalse: [ ^ self ].
 	target hasFocus ifTrue: [ ^ self ].
-	self halt.
 	target requestFocus.
 	anEvent consumed: true
 ]

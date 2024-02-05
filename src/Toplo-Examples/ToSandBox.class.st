@@ -777,10 +777,30 @@ ToSandBox class >> example_LabeledIconlWithIconAndText_vertical_interspace [
 ]
 
 { #category : #'list 2' }
-ToSandBox class >> example_List2WithAllClasses [
+ToSandBox class >> example_List2WithAllClassesMono [
 
 	| l |
 	l := ToListElement2 new.
+	l selectionManager: ToListSingleSelectionManager new.
+	l data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]).
+	l openInSpace
+]
+
+{ #category : #'list 2' }
+ToSandBox class >> example_List2WithAllClassesMulti [
+
+	| l |
+	l := ToListElement2 new.
+	l data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]).
+	l openInSpace
+]
+
+{ #category : #'list 2' }
+ToSandBox class >> example_List2WithAllClassesNone [
+
+	| l |
+	l := ToListElement2 new.
+	l selectionManager: ToListNoneSelectionManager new.
 	l data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]).
 	l openInSpace
 ]
@@ -1122,7 +1142,7 @@ ToSandBox class >> example_ListWithoutSelection [
 	| l |
 	l := ToListElement new.
 	l data addAll: Smalltalk globals allClasses.
-	l selection beWithoutSelection.
+	l selectionStrategy beWithoutSelection.
 	l openInSpace
 ]
 

@@ -19,8 +19,20 @@ ToWholeSelectionModel >> containsIndex: anIndex [
 	^ true
 ]
 
+{ #category : #copying }
+ToWholeSelectionModel >> copy [ 
+
+	^ self
+]
+
 { #category : #testing }
 ToWholeSelectionModel >> isWholeSelectionModel [
 
 	^ true
+]
+
+{ #category : #accessing }
+ToWholeSelectionModel >> sizeOrMax: anInteger [
+
+	^ anInteger
 ]

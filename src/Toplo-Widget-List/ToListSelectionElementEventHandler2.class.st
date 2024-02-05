@@ -135,8 +135,7 @@ ToListSelectionElementEventHandler2 >> onListSelectionElementUpdatedFromEvent: a
 
 	nodesArray do: [ :node |
 		node dispatchEvent: (ToListNodeSelectionEvent new
-				 node: node;
-				 infiniteElement: target;
+				 listElement: target;
 				 selected: (selectionModel containsIndex: node holder position)) ]
 ]
 

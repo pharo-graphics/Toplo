@@ -48,6 +48,6 @@ ToListSingleSelectionMode >> removeIntervalSelectionCommand: aCommand [
 { #category : #'command checking' }
 ToListSingleSelectionMode >> removeWholeSelectionCommand: aCommand [
 
-	ToIncompatibleMode new signal
+	" ok lets do it "
 
 ]

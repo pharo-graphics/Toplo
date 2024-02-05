@@ -130,6 +130,13 @@ ToSelectionModel >> newSelecter [
 	^ ToSelectionModelOperator new 
 ]
 
+{ #category : #copying }
+ToSelectionModel >> postCopy [ 
+
+	super postCopy.
+	underlyingModel := underlyingModel copy
+]
+
 { #category : #'command handling' }
 ToSelectionModel >> removeIndexesSelectionCommand: aCommand [
 
@@ -151,6 +158,12 @@ ToSelectionModel >> removeIntervalSelectionCommand: aCommand [
 ToSelectionModel >> removeWholeSelectionCommand: aCommand [
 
 	self underlyingModel: ToUnderlyingSelectionModel empty
+]
+
+{ #category : #accessing }
+ToSelectionModel >> sizeOrMax: anInteger [
+
+	^ self underlyingModel sizeOrMax: anInteger
 ]
 
 { #category : #accessing }

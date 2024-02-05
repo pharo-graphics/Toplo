@@ -1,11 +1,23 @@
 Class {
 	#name : #ToListNodeSelectionEventHandler,
 	#superclass : #BlCustomEventHandler,
-	#category : #'Toplo-Widget-List-Node'
+	#category : #'Toplo-Widget-List-Selection-Model'
 }
 
 { #category : #'api - accessing' }
 ToListNodeSelectionEventHandler >> eventsToHandle [
 
-	^ {  }
+	^ { ToListClickOnNodeEvent. ToListDoubleClickOnNodeEvent }
+]
+
+{ #category : #'mouse handlers' }
+ToListNodeSelectionEventHandler >> listClickOnNodeEvent: anEvent [
+
+	self subclassResponsibility
+]
+
+{ #category : #'mouse handlers' }
+ToListNodeSelectionEventHandler >> listDoubleClickOnNodeEvent: anEvent [
+
+	anEvent listElement dispatchEvent: ToListStrongSelectionEvent new
 ]

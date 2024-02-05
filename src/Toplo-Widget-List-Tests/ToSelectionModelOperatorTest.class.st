@@ -116,7 +116,7 @@ ToSelectionModelOperatorTest >> testIncompatibleMode2 [
 	selecter selectIndex: 2.
 	selecter deselectIndex: 2.
 	self should: [selecter selectAll ] raise: ToIncompatibleMode.
-	self should: [selecter deselectAll ] raise: ToIncompatibleMode
+	selecter deselectAll.
 ]
 
 { #category : #tests }

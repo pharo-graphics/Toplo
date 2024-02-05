@@ -310,7 +310,7 @@ ToSkinStateGenerator >> generateSelectionStateFromEvent: anEvent [
 					sm
 						enqueueSkinState: (ToSelectionState new
 								 selected: anEvent selected;
-								 focused: anEvent infiniteElement hasFocus;
+								 focused: anEvent listElement hasFocus;
 								 yourself)
 						in: child ] ] ]
 		in: target

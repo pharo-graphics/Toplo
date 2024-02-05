@@ -113,7 +113,7 @@ ToListSelectionModelOperator >> selectOrDeselectPrevious [
 { #category : #'private - operations' }
 ToListSelectionModelOperator >> selectOrDeselectWithGap: aGap [
 
-	| nextIdx prevDistance deselect |
+	| nextIdx prevDistance deselect currDistance |
 	self checkPivot.
 
 	prevDistance := self distance.
@@ -125,10 +125,14 @@ ToListSelectionModelOperator >> selectOrDeselectWithGap: aGap [
 		ifTrue: [
 			| idx |
 			idx := nextIdx - aGap.
-			self deselectIndex: idx ]
+			currDistance := self distance.
+			self deselectIndex: idx.
+			self distance: currDistance ]
 		ifFalse: [
 			[
+			currDistance := self distance.
 			self selectIndex: nextIdx.
+			self distance: currDistance.
 			nextIdx < self itemCount and: [
 				nextIdx > 1 and: [ self selectionModel containsIndex: nextIdx + aGap ] ] ] whileTrue: [
 				nextIdx := nextIdx + aGap.

@@ -21,6 +21,38 @@ ToSelectionModelTest >> testContainsIndex [
 ]
 
 { #category : #tests }
+ToSelectionModelTest >> testCopyCompositeModel [
+
+	| s c |
+	s := ToSelectionModel new.
+	s ensureCompositeSelectionModel.
+	c := s copy.
+	self deny: s underlyingModel identicalTo: c underlyingModel.
+	self assert: c equals: s
+]
+
+{ #category : #tests }
+ToSelectionModelTest >> testCopyEmptyModel [
+
+	| s c |
+	s := ToSelectionModel new.
+	c := s copy.
+	self assert: s underlyingModel identicalTo: c underlyingModel.
+	self assert: c equals: s
+]
+
+{ #category : #tests }
+ToSelectionModelTest >> testCopyWholeModel [
+
+	| s c |
+	s := ToSelectionModel new.
+	s ensureWholeSelectionModel.
+	c := s copy.
+	self assert: s underlyingModel identicalTo: c underlyingModel.
+	self assert: c equals: s
+]
+
+{ #category : #tests }
 ToSelectionModelTest >> testEquals [
 
 	| s |

@@ -7,7 +7,7 @@ Class {
 		'animation',
 		'supplement'
 	],
-	#category : 'Toplo-Core-StyleSheet'
+	#category : #'Toplo-Core-StyleSheet'
 }
 
 { #category : #accessing }
@@ -26,6 +26,12 @@ ToPropertyWriter >> animation: aPropertyAnimation [
 ToPropertyWriter >> applyOn: anObject [
 
 	self writeTo: anObject
+]
+
+{ #category : #testing }
+ToPropertyWriter >> isPropertyWriter [
+
+	^ true
 ]
 
 { #category : #testing }

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'action'
 	],
-	#category : 'Toplo-Core-StyleSheet'
+	#category : #'Toplo-Core-StyleSheet'
 }
 
 { #category : #accessing }
@@ -24,6 +24,12 @@ ToLookEventAction >> action: aValuable [
 ToLookEventAction >> applyOn: anObject [
 
 	self action value: anObject
+]
+
+{ #category : #testing }
+ToLookEventAction >> isAction [
+
+	^ true
 ]
 
 { #category : #testing }

@@ -5,13 +5,22 @@ Class {
 		'type',
 		'exact'
 	],
-	#category : 'Toplo-Core-Selectors'
+	#category : #'Toplo-Core-Selectors'
 }
 
 { #category : #visiting }
 ToTypeSelector >> accept: aVisitor [
 
 	aVisitor visitTypeSelector: self
+]
+
+{ #category : #converting }
+ToTypeSelector >> asSourceCode [
+
+	self exact ifTrue: [
+		^ self type printString , ' asTypeSelector' ].
+	^ '( ' , self type printString
+	  , ' asTypeSelector ) exact: false; yourself'
 ]
 
 { #category : #converting }

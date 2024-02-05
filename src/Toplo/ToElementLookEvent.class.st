@@ -1,8 +1,14 @@
 Class {
 	#name : #ToElementLookEvent,
 	#superclass : #BlEvent,
-	#category : 'Toplo-Core-LookEvents'
+	#category : #'Toplo-Core-LookEvents'
 }
+
+{ #category : #testing }
+ToElementLookEvent class >> isAbstract [
+
+	^ self class == ToElementLookEvent
+]
 
 { #category : #accessing }
 ToElementLookEvent >> elementDo: aBlock [

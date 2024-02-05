@@ -4,13 +4,23 @@ Class {
 	#instVars : [
 		'depth'
 	],
-	#category : 'Toplo-Core-Selectors'
+	#category : #'Toplo-Core-Selectors'
 }
 
 { #category : #visiting }
 ToChildSelector >> accept: aVisitor [
 
 	aVisitor visitChildSelector: self
+]
+
+{ #category : #converting }
+ToChildSelector >> asSourceCode [
+
+	(self depth isNil or: [ self depth = 1 ]) ifTrue: [
+		^ '(' , self left asSourceCode , ') withChild: ('
+		  , self right asSourceCode , ')' ].
+	^ '(' , self left asSourceCode , ') withChild: ('
+	  , self right asSourceCode , ') atDepth:' , self depth printString
 ]
 
 { #category : #accessing }

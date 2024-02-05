@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'action'
 	],
-	#category : 'Toplo-Core-Selectors'
+	#category : #'Toplo-Core-Selectors'
 }
 
 { #category : #visiting }
@@ -29,4 +29,10 @@ ToActionSelector >> action: aValuable [
 ToActionSelector >> asActionSelector [
 
 	^ self
+]
+
+{ #category : #converting }
+ToActionSelector >> asSourceCode [
+
+	^ self action printString , ' asActionSelector'
 ]

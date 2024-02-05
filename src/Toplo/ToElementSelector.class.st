@@ -1,7 +1,7 @@
 Class {
 	#name : #ToElementSelector,
 	#superclass : #Object,
-	#category : 'Toplo-Core-Selectors'
+	#category : #'Toplo-Core-Selectors'
 }
 
 { #category : #'logical operator' }
@@ -67,6 +67,12 @@ ToElementSelector >> asActionSelector [
 ToElementSelector >> asIdelector [ 
 
 	Error signal: 'Can''t convert an abstract selector'
+]
+
+{ #category : #converting }
+ToElementSelector >> asSourceCode [
+
+	^ self shouldBeImplemented
 ]
 
 { #category : #converting }

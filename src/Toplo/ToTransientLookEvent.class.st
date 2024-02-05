@@ -4,8 +4,14 @@ Class {
 	#instVars : [
 		'sourceEvent'
 	],
-	#category : 'Toplo-Core-LookEvents'
+	#category : #'Toplo-Core-LookEvents'
 }
+
+{ #category : #testing }
+ToTransientLookEvent class >> isAbstract [
+
+	^ self class == ToTransientLookEvent
+]
 
 { #category : #accessing }
 ToTransientLookEvent class >> sourceEvent: anEvent [

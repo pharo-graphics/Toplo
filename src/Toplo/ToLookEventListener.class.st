@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'eventClass'
 	],
-	#category : 'Toplo-Core-StyleSheet'
+	#category : #'Toplo-Core-StyleSheet'
 }
 
 { #category : #'look event handling' }
@@ -29,6 +29,18 @@ ToLookEventListener >> eventClass [
 ToLookEventListener >> eventClass: aLookEventClass [
 
 	eventClass := aLookEventClass
+]
+
+{ #category : #testing }
+ToLookEventListener >> isAction [
+
+	^ false
+]
+
+{ #category : #testing }
+ToLookEventListener >> isPropertyWriter [
+
+	^ false
 ]
 
 { #category : #testing }

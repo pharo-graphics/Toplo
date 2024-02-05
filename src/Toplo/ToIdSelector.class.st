@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'id'
 	],
-	#category : 'Toplo-Core-Selectors'
+	#category : #'Toplo-Core-Selectors'
 }
 
 { #category : #visiting }
@@ -17,6 +17,12 @@ ToIdSelector >> accept: aVisitor [
 ToIdSelector >> asIdSelector [
 
 	^ self
+]
+
+{ #category : #converting }
+ToIdSelector >> asSourceCode [
+
+	^ self id printString , ' asIdSelector'
 ]
 
 { #category : #accessing }

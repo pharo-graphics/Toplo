@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'stamps'
 	],
-	#category : 'Toplo-Core-Selectors'
+	#category : #'Toplo-Core-Selectors'
 }
 
 { #category : #visiting }
@@ -30,6 +30,13 @@ ToStampSelector >> addStamp: aSymbol [
 ToStampSelector >> allStamps [
 
 	^ stamps 
+]
+
+{ #category : #converting }
+ToStampSelector >> asSourceCode [
+
+	self allStamps size = 1 ifTrue: [ ^ self allStamps first printString , ' asStampSelector' ].
+	^ self allStamps printString , ' asStampSelector'
 ]
 
 { #category : #converting }

@@ -5,8 +5,15 @@ Class {
 		'left',
 		'right'
 	],
-	#category : 'Toplo-Core-Selectors'
+	#category : #'Toplo-Core-Selectors'
 }
+
+{ #category : #converting }
+ToBinarySelector >> asSourceCode [
+
+	^ '(' , self left asSourceCode , ') && ('
+	  , self right asSourceCode , ')'
+]
 
 { #category : #accessing }
 ToBinarySelector >> left [

@@ -11,6 +11,18 @@ Class {
 	#category : #'Toplo-IDE-theme-editor'
 }
 
+{ #category : #'instance creation' }
+ToploThemeEditor class >> openOn: aToStyleSheetTheme [
+
+	^ (self with: aToStyleSheetTheme) open
+]
+
+{ #category : #'instance creation' }
+ToploThemeEditor class >> with: aToStyleSheetTheme [
+
+	^ self new theme: aToStyleSheetTheme; yourself
+]
+
 { #category : #'as yet unclassified' }
 ToploThemeEditor >> connectPanelEventsSelector [
 

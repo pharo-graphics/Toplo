@@ -50,11 +50,9 @@ ToploPanelWithButtonPresenter >> defaultLayout [
 	^ super defaultLayout
 		  add: (SpBoxLayout newHorizontal
 				   spacing: 4;
+				   add: self buttonAdd expand: false;
 				   add: SpNullPresenter new;
-				   add: self buttonAdd;
-				add: SpNullPresenter new;
-				   add: self buttonRemove;
-				add: SpNullPresenter new;
+				   add: self buttonRemove expand: false;
 				   yourself)
 		  expand: false;
 		  yourself

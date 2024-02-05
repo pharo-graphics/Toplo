@@ -7,6 +7,13 @@ Class {
 	#category : #'Toplo-Core-Selectors'
 }
 
+{ #category : #'as yet unclassified' }
+ToParentSelector >> = anObject [
+
+	super = anObject ifFalse: [ ^ false ].
+	^ self depth = anObject depth
+]
+
 { #category : #visiting }
 ToParentSelector >> accept: aVisitor [
 

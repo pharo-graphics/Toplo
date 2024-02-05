@@ -9,6 +9,13 @@ Class {
 }
 
 { #category : #converting }
+ToBinarySelector >> = anObject [
+
+	super = anObject ifFalse: [ ^ false ].
+	^ self left = anObject left and: [ self right = anObject right ]
+]
+
+{ #category : #converting }
 ToBinarySelector >> asSourceCode [
 
 	^ '(' , self left asSourceCode , ') && ('

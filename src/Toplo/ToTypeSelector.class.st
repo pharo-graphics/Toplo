@@ -22,15 +22,6 @@ ToTypeSelector >> accept: aVisitor [
 ]
 
 { #category : #converting }
-ToTypeSelector >> asSourceCode [
-
-	self exact ifTrue: [
-		^ self type printString , ' asTypeSelector' ].
-	^ '( ' , self type printString
-	  , ' asTypeSelector ) exact: false; yourself'
-]
-
-{ #category : #converting }
 ToTypeSelector >> asTypeSelector [
 
 	^ self

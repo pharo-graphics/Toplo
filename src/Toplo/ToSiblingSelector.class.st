@@ -10,13 +10,6 @@ ToSiblingSelector >> accept: aVisitor [
 	aVisitor visitSiblingSelector: self
 ]
 
-{ #category : #converting }
-ToSiblingSelector >> asSourceCode [
-
-	^ '(' , self left asSourceCode , ') withSibling: (' , self right asSourceCode
-	  , ')'
-]
-
 { #category : #initialization }
 ToSiblingSelector >> initialize [ 
 

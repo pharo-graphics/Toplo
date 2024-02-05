@@ -9,9 +9,3 @@ ToNotSelector >> accept: aVisitor [
 
 	aVisitor visitNotSelector: self
 ]
-
-{ #category : #converting }
-ToNotSelector >> asSourceCode [
-
-	^ '(' , self left asSourceCode , ') not'
-]

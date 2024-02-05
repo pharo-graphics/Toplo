@@ -15,13 +15,6 @@ ToBinarySelector >> = anObject [
 	^ self left = anObject left and: [ self right = anObject right ]
 ]
 
-{ #category : #converting }
-ToBinarySelector >> asSourceCode [
-
-	^ '(' , self left asSourceCode , ') && ('
-	  , self right asSourceCode , ')'
-]
-
 { #category : #accessing }
 ToBinarySelector >> left [
 

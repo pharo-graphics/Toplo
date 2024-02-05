@@ -40,13 +40,6 @@ ToStampSelector >> allStamps [
 ]
 
 { #category : #converting }
-ToStampSelector >> asSourceCode [
-
-	self allStamps size = 1 ifTrue: [ ^ self allStamps first printString , ' asStampSelector' ].
-	^ self allStamps printString , ' asStampSelector'
-]
-
-{ #category : #converting }
 ToStampSelector >> asStampSelector [
 
 	^ self

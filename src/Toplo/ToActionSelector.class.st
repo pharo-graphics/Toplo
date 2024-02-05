@@ -37,9 +37,3 @@ ToActionSelector >> asActionSelector [
 
 	^ self
 ]
-
-{ #category : #converting }
-ToActionSelector >> asSourceCode [
-
-	^ self action printString , ' asActionSelector'
-]

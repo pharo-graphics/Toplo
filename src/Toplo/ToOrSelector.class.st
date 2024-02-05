@@ -9,10 +9,3 @@ ToOrSelector >> accept: aVisitor [
 
 	aVisitor visitOrSelector: self
 ]
-
-{ #category : #converting }
-ToOrSelector >> asSourceCode [
-
-	^ '(' , self left asSourceCode , ') || (' , self right asSourceCode
-	  , ')'
-]

@@ -26,12 +26,6 @@ ToIdSelector >> asIdSelector [
 	^ self
 ]
 
-{ #category : #converting }
-ToIdSelector >> asSourceCode [
-
-	^ self id printString , ' asIdSelector'
-]
-
 { #category : #accessing }
 ToIdSelector >> id [
 

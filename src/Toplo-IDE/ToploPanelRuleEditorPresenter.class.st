@@ -85,8 +85,12 @@ ToploPanelRuleEditorPresenter >> theme: aToTheme [
 
 { #category : #'as yet unclassified' }
 ToploPanelRuleEditorPresenter >> updatePresenter [
+
+	| interpreter |
 	self styleRule ifNil: [
 		self codeInput text: '"Select a rule on the left."'.
 		^ self ].
-	self codeInput text: self styleRule selector asSourceCode
+	interpreter := ToSelectorPrinterAsSource new.
+	self styleRule selector accept: interpreter.
+	self codeInput text: interpreter contents
 ]

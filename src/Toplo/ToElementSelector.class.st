@@ -77,12 +77,6 @@ ToElementSelector >> asIdelector [
 ]
 
 { #category : #converting }
-ToElementSelector >> asSourceCode [
-
-	^ self shouldBeImplemented
-]
-
-{ #category : #converting }
 ToElementSelector >> asStampSelector [ 
 
 	Error signal: 'Can''t convert an abstract selector'

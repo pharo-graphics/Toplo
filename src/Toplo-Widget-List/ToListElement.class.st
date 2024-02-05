@@ -154,12 +154,6 @@ ToListElement >> preserveSelectionOnFocused: aBoolean [
 	preserveSelectionOnFocused := aBoolean
 ]
 
-{ #category : #'focus requesting' }
-ToListElement >> requestFocus [
-
-	self infinite requestFocus
-]
-
 { #category : #accessing }
 ToListElement >> requestFocusOnMouseDown [
 

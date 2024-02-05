@@ -1277,13 +1277,14 @@ ToSandBox class >> example_PicsumPhotosGallery [
 			                margin: (BlInsets all: 5);
 			                imageData: imageData;
 			                yourself.
-		node addEventHandler: (BlEventHandler
-				 on: BlInfiniteElementAttachedEvent
-				 do: [ :event | photoElement attached ]).
-		node addEventHandler: (BlEventHandler
-				 on: BlInfiniteElementDetachedEvent
-				 do: [ :event | photoElement detached ]).
 		node addChild: photoElement ].
+	
+	list addEventHandler: (BlEventHandler
+				 on: BlInfiniteElementAttachedEvent
+				 do: [ :event | event element firstChild attached ]).
+	list addEventHandler: (BlEventHandler
+				 on: BlInfiniteElementDetachedEvent
+				 do: [ :event | event element firstChild detached ]).
 
 	[
 	| images |

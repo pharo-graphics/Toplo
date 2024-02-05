@@ -10,7 +10,7 @@ Class {
 { #category : #'mouse handlers' }
 ToListElementEventHandler2 >> clickEvent: anEvent [
 
-	| infiniteElement target |
+	| target |
 	target := anEvent currentTarget.
 	lastClickedNode := target infinite nodeContainingGlobalPosition: anEvent position.
 	lastClickedNode ifNil: [
@@ -105,6 +105,7 @@ ToListElementEventHandler2 >> mouseDownEvent: anEvent [
 	target := anEvent currentTarget.
 	target selectionManager requestFocusOnMouseDown ifFalse: [ ^ self ].
 	target hasFocus ifTrue: [ ^ self ].
+	self halt.
 	target requestFocus.
 	anEvent consumed: true
 ]

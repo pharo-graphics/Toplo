@@ -32,6 +32,8 @@ ToNodeHolder2 >> initialize [
 { #category : #accessing }
 ToNodeHolder2 >> isSelected [
 
+	self flag: ' has to update selected when a node is added'.
+
 	^ selected
 ]
 

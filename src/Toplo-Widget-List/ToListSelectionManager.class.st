@@ -11,18 +11,18 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Model'
 }
 
+{ #category : #accessing }
+ToListSelectionManager >> hasSelectionAt: anIndex [
+
+	^ self selectionModel containsIndex: anIndex
+]
+
 { #category : #initialization }
 ToListSelectionManager >> initialize [ 
 
 	super initialize.
 	requestFocusOnMouseDown := true.
 	preserveSelectionOnFocused := true
-]
-
-{ #category : #accessing }
-ToListSelectionManager >> isSelectedAt: anIndex [
-
-	^ self selectionModel containsIndex: anIndex
 ]
 
 { #category : #accessing }
@@ -52,13 +52,13 @@ ToListSelectionManager >> mode: aSelectionMode [
 { #category : #accessing }
 ToListSelectionManager >> onAddedNode: aToNode [
 
-
+	self flag: 'to do'
 ]
 
 { #category : #accessing }
 ToListSelectionManager >> onRemovedNode: aToNode [
 
-
+	self flag: 'to do'
 ]
 
 { #category : #accessing }

@@ -136,7 +136,7 @@ TToListElementDecorator >> selectAll [
 		deprecated: 'Use selection selectAll instead'
 		transformWith: '`@receiver selectAll' -> '`@receiver selection selectAll'.
 
-	self selection selectAll
+	self selectionStrategy selectAll
 ]
 
 { #category : #'t - accessing selection' }

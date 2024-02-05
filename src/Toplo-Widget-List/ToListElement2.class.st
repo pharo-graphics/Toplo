@@ -142,12 +142,6 @@ ToListElement2 >> placeholderElevation [
 	^ self infinite elevation
 ]
 
-{ #category : #'focus requesting' }
-ToListElement2 >> requestFocus [
-
-	self infinite requestFocus
-]
-
 { #category : #accessing }
 ToListElement2 >> selectionElements [
 

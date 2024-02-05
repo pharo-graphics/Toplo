@@ -16,18 +16,6 @@ ToInfiniteDataSource >> data: aCollection [
 	self subclassResponsibility 
 ]
 
-{ #category : #accessing }
-ToInfiniteDataSource >> list [
-
-	^ self subclassResponsibility 
-]
-
-{ #category : #accessing }
-ToInfiniteDataSource >> list: aCollection [
-
-	self subclassResponsibility 
-]
-
 { #category : #hooks }
 ToInfiniteDataSource >> onAttached: anInfiniteElement [
 

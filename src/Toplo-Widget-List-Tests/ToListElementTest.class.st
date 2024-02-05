@@ -65,6 +65,7 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved [
 	list := self listWithRemoveRowButtons.
 	list data addAll: (1 to: 2).
 	space root addChild: list.
+	space applyAllSkinInstallers.
 	self waitTestingSpaces.
 	self assert: list data size equals: 2.
 	remButtons := (list allChildrenBreadthFirstSelect: [ :child |
@@ -91,6 +92,7 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved2 [
 	list := self listWithRemoveRowButtons.
 	list data addAll: (1 to: 2).
 	space root addChild: list.
+	space applyAllSkinInstallers.
 	space root forceLayout.
 	self waitTestingSpaces.
 	self assert: list data size equals: 2.
@@ -117,6 +119,7 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved3 [
 	list := self listWithRemoveRowButtons.
 	list data addAll: (1 to: 2).
 	space root addChild: list.
+	space applyAllSkinInstallers.
 	space root forceLayout.
 	self waitTestingSpaces.
 	self assert: list data size equals: 2.
@@ -150,6 +153,7 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved4 [
 	list := self listWithRemoveRowButtons.
 	list data addAll: (1 to: 2).
 	space root addChild: list.
+	space applyAllSkinInstallers.
 	space root forceLayout.
 	self waitTestingSpaces.
 	self assert: list data size equals: 2.

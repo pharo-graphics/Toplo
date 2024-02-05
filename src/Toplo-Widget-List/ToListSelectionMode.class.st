@@ -27,3 +27,9 @@ ToListSelectionMode >> removeIntervalSelectionCommand: aCommand [
 
 	self subclassResponsibility 
 ]
+
+{ #category : #'command checking' }
+ToListSelectionMode >> removeWholeSelectionCommand: aCommand [
+
+	^ self subclassResponsibility
+]

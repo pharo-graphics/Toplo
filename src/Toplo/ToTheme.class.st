@@ -218,11 +218,8 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'padding-content-V-XS' value: 0).
 		  (ToTokenProperty name: #'padding-XS' value: 8).
 
-		  (ToTokenProperty name: #'list-infinite-padding-H' value: 4).
-		  (ToTokenProperty name: #'list-infinite-padding-V' value: 1).
-
-		  (ToTokenProperty name: #'list-padding-H' value: 1).
-		  (ToTokenProperty name: #'list-padding-V' value: 1).
+		  (ToTokenProperty name: #'list-padding-H' value: 6).
+		  (ToTokenProperty name: #'list-padding-V' value: 6).
 		  (ToTokenProperty name: #'list-node-padding-H' value: 2).
 		  (ToTokenProperty name: #'list-node-padding-V' value: 1).
 
@@ -261,7 +258,10 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'border-width-primary-selection' value: 1).
 		  (ToTokenProperty
 			   name: #'border-color-primary-selection'
-			   value: self defaultColorPrimary) }
+			   value: self defaultColorPrimary).
+			(ToTokenProperty
+			   name: #'list-context-menu-selection-border-gap'
+			   value: 1.0) }
 ]
 
 { #category : #accessing }

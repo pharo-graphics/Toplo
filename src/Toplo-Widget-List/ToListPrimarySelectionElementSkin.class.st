@@ -25,14 +25,14 @@ ToListPrimarySelectionElementSkin >> installLookEvent: anEvent [
 				 paint: (e valueOfTokenNamed: #'border-color-primary-selection')
 				 width: (e valueOfTokenNamed: #'border-width-primary-selection')).
 		" I must take into account the focused state of the infinite element to start with the right background "
-		e listElement infinite focused
+		e listElement hasFocus
 			ifTrue: [ 
 				e background: (e valueOfTokenNamed: #'color-primary-selection-focused') ]
 			ifFalse: [
 				e background: (e valueOfTokenNamed: #'color-primary-selection-unfocused') ].
-		e padding: (BlInsets
+		"e padding: (BlInsets
 				 horizontal: (e valueOfTokenNamed: #'list-padding-H')
-				 vertical: (e valueOfTokenNamed: #'list-padding-V')) ]
+				 vertical: (e valueOfTokenNamed: #'list-padding-V'))" ]
 ]
 
 { #category : #'event handling' }

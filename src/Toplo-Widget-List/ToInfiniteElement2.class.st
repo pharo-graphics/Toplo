@@ -1,19 +1,17 @@
 Class {
-	#name : #ToInfiniteElement,
+	#name : #ToInfiniteElement2,
 	#superclass : #BlInfiniteElement,
 	#traits : 'TBlLayoutResizable',
 	#classTraits : 'TBlLayoutResizable classTrait',
 	#instVars : [
 		'nodeBuilder',
-		'nodeClass',
-		'selectionStrategy',
-		'dataSourceChangedHandler'
+		'nodeClass'
 	],
 	#category : #'Toplo-Widget-List-Infinite'
 }
 
 { #category : #deprecated }
-ToInfiniteElement >> cherryPickIndex: anIndex [
+ToInfiniteElement2 >> cherryPickIndex: anIndex [
 
 	self
 		deprecated: 'Use selection cherryPickIndex: instead'
@@ -22,51 +20,38 @@ ToInfiniteElement >> cherryPickIndex: anIndex [
 ]
 
 { #category : #accessing }
-ToInfiniteElement >> client [
+ToInfiniteElement2 >> client [
 
 	^ self
 ]
 
 { #category : #accessing }
-ToInfiniteElement >> data [
+ToInfiniteElement2 >> data [
 
 	^ dataSource data
 ]
 
 { #category : #accessing }
-ToInfiniteElement >> dataSource: aDataSource [
+ToInfiniteElement2 >> dataSource: aDataSource [
 
-	dataSource ifNotNil: [
-		dataSource removeEventHandler: dataSourceChangedHandler.
-		self dispatchEvent: ToDataSourceDetachedEvent new ].
-	
 	super dataSource: aDataSource.
-
-	dataSourceChangedHandler := BlEventHandler
-		                            on: BlInfiniteDataSourceChanged
-		                            do: [
-		                            self selectionStrategy
-			                            onInfiniteDataSourceChanged ].
-	
-	dataSource ifNotNil: [
-		dataSource addEventHandler: dataSourceChangedHandler ].
 	self dispatchEvent: ToDataSourceAttachedEvent new
 ]
 
 { #category : #initialization }
-ToInfiniteElement >> defaultDataSource [
+ToInfiniteElement2 >> defaultDataSource [
 
 	^ ToInfiniteObservableCollectionDataSource new
 ]
 
 { #category : #initialization }
-ToInfiniteElement >> defaultLayout [
+ToInfiniteElement2 >> defaultLayout [
 
 	^ BlInfiniteLinearLayout new
 ]
 
 { #category : #initialization }
-ToInfiniteElement >> defaultMouseScrollEventHandler [
+ToInfiniteElement2 >> defaultMouseScrollEventHandler [
 
 	^ BlInfiniteMouseScrollListener new
 		  restrictedByOrientation: true;
@@ -74,32 +59,13 @@ ToInfiniteElement >> defaultMouseScrollEventHandler [
 ]
 
 { #category : #initialization }
-ToInfiniteElement >> defaultNodeBuilder [
+ToInfiniteElement2 >> defaultNodeBuilder [
 
 	^ [ :node :holder | node addChild: ((ToLabel text: holder data asString) hMatchParent) ]
 ]
 
-{ #category : #initialization }
-ToInfiniteElement >> defaultPeserveSelectionOnFocused [
-
-	^ true
-]
-
-{ #category : #initialization }
-ToInfiniteElement >> defaultSelectionMode [
-
-	^ ToListMultiSelectionMode new
-]
-
-{ #category : #initialization }
-ToInfiniteElement >> defaultSelectionStrategy [
-
-	^ ToListNullSelectionStrategy new
-	"^ ToStandardListSelectionStrategy new"
-]
-
 { #category : #deprecated }
-ToInfiniteElement >> deselectAll [
+ToInfiniteElement2 >> deselectAll [
 	self
 		deprecated: 'Use selection deselectAll instead'
 		transformWith: '`@receiver deselectAll' -> '`@receiver selectionStrategy deselectAll'.
@@ -108,7 +74,7 @@ ToInfiniteElement >> deselectAll [
 ]
 
 { #category : #deprecated }
-ToInfiniteElement >> deselectIndex: anIndex [
+ToInfiniteElement2 >> deselectIndex: anIndex [
 
 	self
 		deprecated: 'Use selection deselectIndex: instead'
@@ -117,13 +83,13 @@ ToInfiniteElement >> deselectIndex: anIndex [
 ]
 
 { #category : #'scrolled event' }
-ToInfiniteElement >> disableScrolledEvent [
+ToInfiniteElement2 >> disableScrolledEvent [
 
 	self eventDispatcher disableScrolledEvent 
 ]
 
 { #category : #deprecated }
-ToInfiniteElement >> dispatchSelectionChangedAfter: aBlock [
+ToInfiniteElement2 >> dispatchSelectionChangedAfter: aBlock [
 
 	| prevIndexes currentIndexes event |
 	
@@ -142,13 +108,13 @@ ToInfiniteElement >> dispatchSelectionChangedAfter: aBlock [
 ]
 
 { #category : #'scrolled event' }
-ToInfiniteElement >> enableScrolledEvent [
+ToInfiniteElement2 >> enableScrolledEvent [
 
 	self eventDispatcher enableScrolledEvent 
 ]
 
 { #category : #testing }
-ToInfiniteElement >> hasSelection [
+ToInfiniteElement2 >> hasSelection [
 
 	self
 		deprecated: 'Use selection isNotEmpty instead'
@@ -157,36 +123,34 @@ ToInfiniteElement >> hasSelection [
 ]
 
 { #category : #'t - infinite accessing' }
-ToInfiniteElement >> infinite [ 
+ToInfiniteElement2 >> infinite [ 
 
 	^ self
 ]
 
 { #category : #initialization }
-ToInfiniteElement >> initialize [
+ToInfiniteElement2 >> initialize [
 
 	super initialize.
-	selectionStrategy := self defaultSelectionStrategy.
-	selectionStrategy onInstalledIn: self.
 	self privateData: ToObservableCollection new.
 	self nodeBuilder: self defaultNodeBuilder.
 	self matchParent
 ]
 
 { #category : #initialization }
-ToInfiniteElement >> newNode [
+ToInfiniteElement2 >> newNode [
 
 	^ self nodeClass new
 ]
 
 { #category : #'instance creation' }
-ToInfiniteElement >> newNodeHolderFromDataSource: aDataSource [
+ToInfiniteElement2 >> newNodeHolderFromDataSource: aDataSource [
 
 	^ self nodeHolderClass new infiniteElement: self
 ]
 
 { #category : #accessing }
-ToInfiniteElement >> nodeAt: anIndex [
+ToInfiniteElement2 >> nodeAt: anIndex [
 
 	" return the holder for the data at anIndex according to currently viewed data range. 
 	Returns nil if anIndex is not currently viewed in the infinite element"
@@ -196,33 +160,33 @@ ToInfiniteElement >> nodeAt: anIndex [
 ]
 
 { #category : #accessing }
-ToInfiniteElement >> nodeBuilder [
+ToInfiniteElement2 >> nodeBuilder [
 
 	"aValuable takes 2 args: first, the ToNode to build and second, the data"
 	^ nodeBuilder 
 ]
 
 { #category : #accessing }
-ToInfiniteElement >> nodeBuilder: aValuable [
+ToInfiniteElement2 >> nodeBuilder: aValuable [
 
 	"aValuable takes 2 args: first, the ToNode to build and second, its holder in the list element "
 	nodeBuilder := aValuable
 ]
 
 { #category : #initialization }
-ToInfiniteElement >> nodeClass [
+ToInfiniteElement2 >> nodeClass [
 
 	^ nodeClass ifNil: [ nodeClass := ToNode ]
 ]
 
 { #category : #initialization }
-ToInfiniteElement >> nodeClass: aNodeClass [
+ToInfiniteElement2 >> nodeClass: aNodeClass [
 
 	nodeClass := aNodeClass
 ]
 
 { #category : #'accessing - children' }
-ToInfiniteElement >> nodeContainingGlobalPosition: aPoint [
+ToInfiniteElement2 >> nodeContainingGlobalPosition: aPoint [
 
 	self childrenDo: [ :node |
 		(node containsGlobalPoint: aPoint) ifTrue: [ ^ node ] ].
@@ -230,7 +194,7 @@ ToInfiniteElement >> nodeContainingGlobalPosition: aPoint [
 ]
 
 { #category : #accessing }
-ToInfiniteElement >> nodeHolderBuilder [
+ToInfiniteElement2 >> nodeHolderBuilder [
 
 	^ [ :theHolder |
 	  | newNode |
@@ -240,13 +204,13 @@ ToInfiniteElement >> nodeHolderBuilder [
 ]
 
 { #category : #initialization }
-ToInfiniteElement >> nodeHolderClass [
+ToInfiniteElement2 >> nodeHolderClass [
 
-	^ ToNodeHolder 
+	^ ToNodeHolder2
 ]
 
 { #category : #'private - commands' }
-ToInfiniteElement >> offsetPositionRecordsForInsert: aStartPosition itemCount: anItemCount [
+ToInfiniteElement2 >> offsetPositionRecordsForInsert: aStartPosition itemCount: anItemCount [
 
 	self selectionStrategy dispatchSelectionDirtyAfter: [
 		super
@@ -255,14 +219,14 @@ ToInfiniteElement >> offsetPositionRecordsForInsert: aStartPosition itemCount: a
 ]
 
 { #category : #'private - commands' }
-ToInfiniteElement >> offsetPositionRecordsForMove: aFromPosition to: aToPosition [
+ToInfiniteElement2 >> offsetPositionRecordsForMove: aFromPosition to: aToPosition [
 
 	self selectionStrategy dispatchSelectionDirtyAfter: [
 		super offsetPositionRecordsForMove: aFromPosition to: aToPosition ]
 ]
 
 { #category : #'private - commands' }
-ToInfiniteElement >> offsetPositionRecordsForRemove: aStartPosition itemCount: anItemCount applyToPreLayout: applyToPreLayout [
+ToInfiniteElement2 >> offsetPositionRecordsForRemove: aStartPosition itemCount: anItemCount applyToPreLayout: applyToPreLayout [
 
 	self selectionStrategy dispatchSelectionDirtyAfter: [
 		super
@@ -272,7 +236,7 @@ ToInfiniteElement >> offsetPositionRecordsForRemove: aStartPosition itemCount: a
 ]
 
 { #category : #deprecated }
-ToInfiniteElement >> primarySelection [
+ToInfiniteElement2 >> primarySelection [
 
 	self
 		deprecated: 'Use selection instead'
@@ -281,13 +245,13 @@ ToInfiniteElement >> primarySelection [
 ]
 
 { #category : #'private - accessing' }
-ToInfiniteElement >> privateData: aCollection [
+ToInfiniteElement2 >> privateData: aCollection [
 
 	dataSource data: aCollection
 ]
 
 { #category : #'t - resizeable' }
-ToInfiniteElement >> resizableConstraintsDo: aBlock [
+ToInfiniteElement2 >> resizableConstraintsDo: aBlock [
 	"Perform aBlock with my constraints as argument.
 	Note: After evaluation I request a layout update!
 	aBlock must not be nil.
@@ -303,7 +267,7 @@ ToInfiniteElement >> resizableConstraintsDo: aBlock [
 ]
 
 { #category : #private }
-ToInfiniteElement >> scrollToDataSourcePosition: anIndex [
+ToInfiniteElement2 >> scrollToDataSourcePosition: anIndex [
 	"Request a scrollable widget to scroll to an item (logical or physical) at a given index,
 	which can, for example, be a data source position or child index"
 
@@ -315,7 +279,7 @@ ToInfiniteElement >> scrollToDataSourcePosition: anIndex [
 ]
 
 { #category : #private }
-ToInfiniteElement >> scrollToIndex: anIndex [
+ToInfiniteElement2 >> scrollToIndex: anIndex [
 	"Request a scrollable widget to scroll to an item (logical or physical) at a given index,
 	which can, for example, be a data source position or child index"
 
@@ -327,7 +291,7 @@ ToInfiniteElement >> scrollToIndex: anIndex [
 ]
 
 { #category : #private }
-ToInfiniteElement >> scrollToIndexAtTop: anIndex [
+ToInfiniteElement2 >> scrollToIndexAtTop: anIndex [
 	"Request a scrollable widget to scroll to an item (logical or physical) at a given index,
 	which can, for example, be a data source position or child index"
 	"As a result, item at anIndex is positionned at the top of the listElement"
@@ -336,7 +300,7 @@ ToInfiniteElement >> scrollToIndexAtTop: anIndex [
 ]
 
 { #category : #deprecated }
-ToInfiniteElement >> selectAll [
+ToInfiniteElement2 >> selectAll [
 
 	self
 		deprecated: 'Use selection selectAll instead'
@@ -346,7 +310,7 @@ ToInfiniteElement >> selectAll [
 ]
 
 { #category : #deprecated }
-ToInfiniteElement >> selectIndex: index [
+ToInfiniteElement2 >> selectIndex: index [
 
 	self
 		deprecated: 'Use selection selectIndex: instead'
@@ -355,7 +319,7 @@ ToInfiniteElement >> selectIndex: index [
 ]
 
 { #category : #deprecated }
-ToInfiniteElement >> selectIndexes: aCollection [
+ToInfiniteElement2 >> selectIndexes: aCollection [
 
 	self
 		deprecated: 'Use selection selectIndexes: instead'
@@ -364,7 +328,7 @@ ToInfiniteElement >> selectIndexes: aCollection [
 ]
 
 { #category : #deprecated }
-ToInfiniteElement >> selectOnlyIndex: index [
+ToInfiniteElement2 >> selectOnlyIndex: index [
 
 	self
 		deprecated: 'Use selection selectOnlyIndex: instead'
@@ -373,7 +337,7 @@ ToInfiniteElement >> selectOnlyIndex: index [
 ]
 
 { #category : #deprecated }
-ToInfiniteElement >> selectToIndex: anIndex [
+ToInfiniteElement2 >> selectToIndex: anIndex [
 
 	self
 		deprecated: 'Use selection selectToIndex: instead'
@@ -382,7 +346,7 @@ ToInfiniteElement >> selectToIndex: anIndex [
 ]
 
 { #category : #deprecated }
-ToInfiniteElement >> selectedIndex [
+ToInfiniteElement2 >> selectedIndex [
 
 	self
 		deprecated: 'Use selection selectedIndex instead'
@@ -391,7 +355,7 @@ ToInfiniteElement >> selectedIndex [
 ]
 
 { #category : #deprecated }
-ToInfiniteElement >> selectedIndexes [
+ToInfiniteElement2 >> selectedIndexes [
 
 	self
 		deprecated: 'Use selection selectedIndexes instead'
@@ -400,7 +364,7 @@ ToInfiniteElement >> selectedIndexes [
 ]
 
 { #category : #deprecated }
-ToInfiniteElement >> selection [
+ToInfiniteElement2 >> selection [
 
 	self
 		deprecated: 'Use selectionStrategy instead'
@@ -410,7 +374,7 @@ ToInfiniteElement >> selection [
 ]
 
 { #category : #deprecated }
-ToInfiniteElement >> selection: aSelectionStrategy [
+ToInfiniteElement2 >> selection: aSelectionStrategy [
 
 	self
 		deprecated: 'Use selectionStrategy: instead'
@@ -418,23 +382,8 @@ ToInfiniteElement >> selection: aSelectionStrategy [
 	self selectionStrategy: aSelectionStrategy
 ]
 
-{ #category : #accessing }
-ToInfiniteElement >> selectionStrategy [
-
-	^ selectionStrategy
-]
-
-{ #category : #accessing }
-ToInfiniteElement >> selectionStrategy: aSelectionStrategy [
-
-	selectionStrategy ifNotNil: [ :sstrat | sstrat onUninstalledIn: self ].
-	selectionStrategy := aSelectionStrategy.
-	selectionStrategy ifNotNil: [ :sstrat | sstrat onInstalledIn: self ].
-
-]
-
 { #category : #deprecated }
-ToInfiniteElement >> shiftSelectionAfterAddingAt: aStartPosition itemCount: anItemCount [
+ToInfiniteElement2 >> shiftSelectionAfterAddingAt: aStartPosition itemCount: anItemCount [
 
 	self
 		deprecated: 'Use selection shiftAfterAddingAt:itemCount: instead'
@@ -443,7 +392,7 @@ ToInfiniteElement >> shiftSelectionAfterAddingAt: aStartPosition itemCount: anIt
 ]
 
 { #category : #deprecated }
-ToInfiniteElement >> shiftSelectionAfterRemovingAt: aStartPosition itemCount: anItemCount [
+ToInfiniteElement2 >> shiftSelectionAfterRemovingAt: aStartPosition itemCount: anItemCount [
 
 	self
 		deprecated:

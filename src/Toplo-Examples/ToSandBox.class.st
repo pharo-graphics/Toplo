@@ -776,6 +776,15 @@ ToSandBox class >> example_LabeledIconlWithIconAndText_vertical_interspace [
 	^ but
 ]
 
+{ #category : #'list 2' }
+ToSandBox class >> example_List2WithAllClasses [
+
+	| l |
+	l := ToListElement2 new.
+	l data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]).
+	l openInSpace
+]
+
 { #category : #list }
 ToSandBox class >> example_ListOneClass [
 
@@ -1091,7 +1100,9 @@ ToSandBox class >> example_ListWithSelectionHistory [
 			 on: ToListSelectionActionEvent
 			 do: [ :event | event traceCr ]).
 
-	pane matchParent; addDividers.
+	pane
+		matchParent;
+		addDividers.
 	pane openInInnerWindow
 ]
 
@@ -2867,6 +2878,7 @@ ToSandBox class >> example_textFieldWithPlaceholder [
 
 	| t text |
 	t := ToTextField new withSaveCapability.
+	t inspect.
 	text := ''.
 	t placeholderBuilder: [:thePlaceholder :myself | thePlaceholder addChild: (ToAttributedLabel text: (('Enter to accept' asRopedText) foreground: Color lightGray)) ].
 	t whenSaveRequestedDo: [ :saveRequested |

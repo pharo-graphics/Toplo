@@ -18,10 +18,10 @@ TToThemeEditorPresenterWithRemoveButton >> buttonRemove [
 
 	buttonRemove ifNil: [
 		buttonRemove := SpButtonPresenter new
-			                label: self addLabel;
-			                icon: (self iconNamed: #add);
+			                label: self removeLabel;
+			                icon: (self iconNamed: #remove);
 			                action: [ self actionRemoveButton ];
-			                help: self addHelp;
+			                help: self removeHelp;
 			                yourself ].
 	^ buttonRemove
 ]

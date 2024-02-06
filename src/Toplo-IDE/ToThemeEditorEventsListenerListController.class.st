@@ -1,8 +1,8 @@
 Class {
 	#name : #ToThemeEditorEventsListenerListController,
 	#superclass : #Object,
-	#traits : 'TToThemeEditorControllerWithButtons + TToThemeEditorRulesTreeObserver + TToThemeEditorControllerObservable',
-	#classTraits : 'TToThemeEditorControllerWithButtons classTrait + TToThemeEditorRulesTreeObserver classTrait + TToThemeEditorControllerObservable classTrait',
+	#traits : 'TToThemeEditorControllerWithButtons + TToThemeEditorRulesTreeObserver + TToThemeEditorObservable + TToThemeEditorEventListenerEditorObserver',
+	#classTraits : 'TToThemeEditorControllerWithButtons classTrait + TToThemeEditorRulesTreeObserver classTrait + TToThemeEditorObservable classTrait + TToThemeEditorEventListenerEditorObserver classTrait',
 	#instVars : [
 		'styleRule',
 		'isTriggerSelectedRuleChanged'

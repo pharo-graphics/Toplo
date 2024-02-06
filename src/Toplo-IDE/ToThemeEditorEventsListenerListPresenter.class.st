@@ -71,7 +71,21 @@ ToThemeEditorEventsListenerListPresenter >> initializePresenters [
 			                      self selectedEventListenerChanged:
 					                      anEventListener ];
 		                      contextMenu: self eventListenerMenu;
-		                      yourself
+		                      yourself.
+	eventListenersList addColumn:
+		((SpStringTableColumn title: 'Event' evaluated: [ :eventListner |
+			  (eventListner eventClass printString allButFirst: 2) allButLast:
+				  9 ]) width: 70).
+	eventListenersList addColumn:
+		((SpStringTableColumn title: 'Type' evaluated: [ :eventListner |
+			  eventListner isAction
+				  ifTrue: [ 'Action' ]
+				  ifFalse: [ 'Property' ] ]) width: 70).
+	eventListenersList addColumn:
+		(SpStringTableColumn title: 'Property' evaluated: [ :eventListner |
+			 eventListner isAction
+				 ifTrue: [ '' ]
+				 ifFalse: [ eventListner property name ] ])
 ]
 
 { #category : #accessing }

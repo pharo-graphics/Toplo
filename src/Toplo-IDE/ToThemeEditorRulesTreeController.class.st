@@ -1,8 +1,8 @@
 Class {
 	#name : #ToThemeEditorRulesTreeController,
 	#superclass : #Object,
-	#traits : 'TToThemeEditorControllerWithButtons + TToThemeEditorControllerObservable',
-	#classTraits : 'TToThemeEditorControllerWithButtons classTrait + TToThemeEditorControllerObservable classTrait',
+	#traits : 'TToThemeEditorControllerWithButtons + TToThemeEditorObservable + TToThemeEditorRuleUpdatedObserver',
+	#classTraits : 'TToThemeEditorControllerWithButtons classTrait + TToThemeEditorObservable classTrait + TToThemeEditorRuleUpdatedObserver classTrait',
 	#instVars : [
 		'isTriggerSelectedRuleChanged'
 	],
@@ -90,9 +90,19 @@ self removeWithBlock:okAction
 { #category : #adding }
 ToThemeEditorRulesTreeController >> selectedRuleChanged: aToStyleRule [
 
+	| ruleToSend |
 	self presenter updatePresenterOnlyButtons.
 	self isTriggerSelectedRuleChanged ifFalse: [ ^ self ].
-	self observers do: [ :each | each selectedRuleChanged: aToStyleRule ]
+	self presenter rulesTree roots ifEmpty: [ ^ self ].
+	ruleToSend := aToStyleRule.
+	self presenter rulesTree roots first = aToStyleRule ifTrue: [ ruleToSend := nil ].
+	self observers do: [ :each | each selectedRuleChanged: ruleToSend ]
+]
+
+{ #category : #'as yet unclassified' }
+ToThemeEditorRulesTreeController >> styleRuleUpdated: aToStyleRule [
+
+	self presenter rulesTree refresh
 ]
 
 { #category : #adding }

@@ -8,7 +8,7 @@ Class {
 		'panelTokens',
 		'panelStamps'
 	],
-	#category : #'Toplo-IDE-theme-editor'
+	#category : #'Toplo-IDE-theme-editor-deprecated'
 }
 
 { #category : #accessing }

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'styleRule'
 	],
-	#category : #'Toplo-IDE-theme-editor'
+	#category : #'Toplo-IDE-theme-editor-deprecated'
 }
 
 { #category : #'as yet unclassified' }

@@ -3,9 +3,10 @@ Class {
 	#superclass : #ToploPanelPresenter,
 	#instVars : [
 		'eventListener',
-		'whenListenerChangedDo'
+		'whenListenerChangedDo',
+		'theme'
 	],
-	#category : #'Toplo-IDE-theme-editor'
+	#category : #'Toplo-IDE-theme-editor-deprecated'
 }
 
 { #category : #accessing }
@@ -42,9 +43,16 @@ ToploPanelEventEditorPresenter >> panelName [
 ]
 
 { #category : #accessing }
-ToploPanelEventEditorPresenter >> theme: aToTheme [
+ToploPanelEventEditorPresenter >> theme [
 
-	"Do nothing"
+	^ theme
+]
+
+{ #category : #accessing }
+ToploPanelEventEditorPresenter >> theme: aToTheme [
+theme:= aToTheme
+
+	
 ]
 
 { #category : #accessing }
@@ -55,11 +63,13 @@ ToploPanelEventEditorPresenter >> updatePresenter [
 		          ifNil: [ SpNullPresenter new ]
 		          ifNotNil: [
 			          ToploPanelEventListenerEditor new
+			theme: self theme;
 				          eventListener: self eventListener;
 				          whenListenerChangedDo: [ :newListener :oldListener |
 					          self whenListenerChangedDo
 						          value: newListener
-						          value: oldListener ] ;yourself ].
+						          value: oldListener ];
+				          yourself ].
 	self panelContent: inside.
 	self layout: self defaultLayout
 ]

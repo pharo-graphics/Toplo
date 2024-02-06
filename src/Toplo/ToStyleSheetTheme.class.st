@@ -1,8 +1,8 @@
 Class {
 	#name : #ToStyleSheetTheme,
 	#superclass : #ToTheme,
-	#traits : 'TToStyleRuleScripter',
-	#classTraits : 'TToStyleRuleScripter classTrait',
+	#traits : 'TToStyleRuleScripter + TToStyleRulesHolder',
+	#classTraits : 'TToStyleRuleScripter classTrait + TToStyleRulesHolder classTrait',
 	#instVars : [
 		'styleSheet'
 	],
@@ -118,6 +118,18 @@ ToStyleSheetTheme >> property: aSymbol [
 	^ self styleSheet writablePropertyNamed: aSymbol
 ]
 
+{ #category : #accessing }
+ToStyleSheetTheme >> rawStyleRules [
+
+	^ self styleSheet styleRules
+]
+
+{ #category : #accessing }
+ToStyleSheetTheme >> rawStyleRules: aStyleRuleCollection [
+
+	self styleSheet script styleRules: aStyleRuleCollection
+]
+
 { #category : #styling }
 ToStyleSheetTheme >> rootRulesFor: anElement [
 
@@ -137,12 +149,6 @@ ToStyleSheetTheme >> setUpElement: anElement [
 ToStyleSheetTheme >> skinClassFor: anElement [
 
 	^ ToStyleSheetSkin
-]
-
-{ #category : #accessing }
-ToStyleSheetTheme >> styleRules [
-
-	^ self styleSheet styleRules
 ]
 
 { #category : #accessing }

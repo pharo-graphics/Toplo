@@ -8,7 +8,7 @@ Class {
 		'panelEventsSelector',
 		'panelEventEditor'
 	],
-	#category : #'Toplo-IDE-theme-editor'
+	#category : #'Toplo-IDE-theme-editor-deprecated'
 }
 
 { #category : #'instance creation' }
@@ -94,11 +94,10 @@ ToploThemeEditor >> defaultLayout [
 ToploThemeEditor >> initializePresenters [
 
 	panelEventsSelector := ToploPanelEventsSelectorPresenter new.
-	panelEventEditor := ToploPanelEventEditorPresenter new.
+	panelEventEditor := ToploPanelEventEditorPresenter new theme: self; yourself.
 	panelRulesSelector := ToploPanelRulesSelectorPresenter new.
 	panelRuleEditor := ToploPanelRuleEditorPresenter new.
-	panelTheme := ToploPanelThemePresenter new.
-	
+	panelTheme := ToploPanelThemePresenter new
 ]
 
 { #category : #accessing }

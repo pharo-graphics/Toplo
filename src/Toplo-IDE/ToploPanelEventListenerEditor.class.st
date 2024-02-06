@@ -11,7 +11,7 @@ Class {
 		'buttonApply',
 		'whenListenerChangedDo'
 	],
-	#category : #'Toplo-IDE-theme-editor'
+	#category : #'Toplo-IDE-theme-editor-deprecated'
 }
 
 { #category : #initialization }
@@ -134,6 +134,12 @@ ToploPanelEventListenerEditor >> propertyPresenter [
 ToploPanelEventListenerEditor >> propertyRadio [
 
 	^ propertyRadio
+]
+
+{ #category : #accessing }
+ToploPanelEventListenerEditor >> theme: aToTheme [
+
+	self propertyPresenter theme: aToTheme
 ]
 
 { #category : #initialization }

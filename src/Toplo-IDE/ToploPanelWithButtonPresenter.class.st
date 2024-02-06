@@ -5,7 +5,7 @@ Class {
 		'buttonAdd',
 		'buttonRemove'
 	],
-	#category : #'Toplo-IDE-theme-editor'
+	#category : #'Toplo-IDE-theme-editor-deprecated'
 }
 
 { #category : #adding }

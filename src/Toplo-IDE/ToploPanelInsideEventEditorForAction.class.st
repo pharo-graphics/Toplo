@@ -5,7 +5,7 @@ Class {
 		'codeInput',
 		'styleRule'
 	],
-	#category : #'Toplo-IDE-theme-editor'
+	#category : #'Toplo-IDE-theme-editor-deprecated'
 }
 
 { #category : #accessing }

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToploPanelStampsSelectorPresenter,
 	#superclass : #ToploPanelPresenter,
-	#category : #'Toplo-IDE-theme-editor'
+	#category : #'Toplo-IDE-theme-editor-deprecated'
 }
 
 { #category : #initialization }

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'eventListener'
 	],
-	#category : #'Toplo-IDE-theme-editor'
+	#category : #'Toplo-IDE-theme-editor-deprecated'
 }
 
 { #category : #accessing }
@@ -22,4 +22,12 @@ ToploPanelInsideEventEditorAbstract >> eventListener: anEventListener [
 
 { #category : #'as yet unclassified' }
 ToploPanelInsideEventEditorAbstract >> makeNewListener [
+
+	^ self shouldBeImplemented
+]
+
+{ #category : #accessing }
+ToploPanelInsideEventEditorAbstract >> theme: aToTheme [
+
+	"Do nothing"
 ]

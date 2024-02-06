@@ -5,8 +5,7 @@ Class {
 		'selectionModel',
 		'selectionMode',
 		'selecter',
-		'requestFocusOnMouseDown',
-		'itemCountGetter'
+		'requestFocusOnMouseDown'
 	],
 	#category : #'Toplo-Widget-List-Selection-Model'
 }
@@ -40,7 +39,7 @@ ToListAbstractSelectionManager >> initialize [
 { #category : #accessing }
 ToListAbstractSelectionManager >> itemCount [
 
-	^ itemCountGetter value
+	^ self selectionModel itemCount
 ]
 
 { #category : #accessing }
@@ -67,8 +66,7 @@ ToListAbstractSelectionManager >> onInstalledIn: anElement [
 
 	self selectionMode: self defaultSelectionMode.
 	self selectionModel: anElement selectionModel.
-	selecter := self selectionModel newSelecter on: anElement.
-	itemCountGetter := [ anElement dataSource itemCount ]
+	selecter := self selectionModel newSelecter on: anElement
 ]
 
 { #category : #accessing }
@@ -86,8 +84,7 @@ ToListAbstractSelectionManager >> onUninstalledIn: anElement [
 	selecter eventTarget: nil.
 	selecter := nil.
 	self selectionModel: nil.
-	self selectionMode: nil.
-	itemCountGetter := nil
+	self selectionMode: nil
 ]
 
 { #category : #accessing }
@@ -106,6 +103,12 @@ ToListAbstractSelectionManager >> requestFocusOnMouseDown: aBoolean [
 ToListAbstractSelectionManager >> selectedIndexes [
 
 	^ self selectionModel indices
+]
+
+{ #category : #accessing }
+ToListAbstractSelectionManager >> selectedIndexesCount [
+
+	^ self selectionModel selectedItemCount
 ]
 
 { #category : #'accessing - operator' }
@@ -136,10 +139,4 @@ ToListAbstractSelectionManager >> selectionModel [
 ToListAbstractSelectionManager >> selectionModel: aSelectionModel [
 
 	selectionModel := aSelectionModel
-]
-
-{ #category : #accessing }
-ToListAbstractSelectionManager >> selectionSize [
-
-	^ self selectionModel sizeOrMax: self itemCount
 ]

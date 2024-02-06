@@ -32,7 +32,7 @@ ToWholeSelectionModel >> isWholeSelectionModel [
 ]
 
 { #category : #accessing }
-ToWholeSelectionModel >> sizeOrMax: anInteger [
+ToWholeSelectionModel >> selectedItemCountAmong: anInteger [
 
 	^ anInteger
 ]

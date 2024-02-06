@@ -11,13 +11,9 @@ Class {
 { #category : #running }
 ToListSelectionModelOperatorTest >> setUp [ 
 
-	| data |
 	super setUp.
-	data := ToObservableCollection new.
 	holder := ToListSelectionModelHolderForTest new.
-	holder dataSource: ToInfiniteObservableCollectionDataSource new.
-	holder dataSource data: data.
-	data addAll: (1 to: 1000).
+	holder data addAll: (1 to: 1000).
 	selecter := holder selecter
 ]
 

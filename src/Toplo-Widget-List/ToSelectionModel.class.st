@@ -2,7 +2,8 @@ Class {
 	#name : #ToSelectionModel,
 	#superclass : #Object,
 	#instVars : [
-		'underlyingModel'
+		'underlyingModel',
+		'itemCountGetter'
 	],
 	#category : #'Toplo-Widget-List-Selection-Model'
 }
@@ -28,11 +29,13 @@ ToSelectionModel >> addIndexesSelectionCommand: aCommand [
 { #category : #'command handling' }
 ToSelectionModel >> addIntervalSelectionCommand: aCommand [
 
-	aCommand interval ifEmpty: [ ^ self ].
+	| interval |
+	interval := aCommand computedInterval.
+	interval ifEmpty: [ ^ self ].
 	self ensureCompositeSelectionModel.
 	self underlyingModel 
-		select: aCommand interval first - 1
-		to: aCommand interval last
+		select: interval first - 1
+		to: interval last
 ]
 
 { #category : #'command handling' }
@@ -57,7 +60,7 @@ ToSelectionModel >> containsIndex: anIndex [
 { #category : #private }
 ToSelectionModel >> ensureCompositeSelectionModel [
 
-	self isCompositeSelectionModel ifTrue: [ ^ self ].
+	self underlyingModel isCompositeSelectionModel ifTrue: [ ^ self ].
 	self underlyingModel: ToUnderlyingSelectionModel composite
 ]
 
@@ -124,10 +127,34 @@ ToSelectionModel >> isWholeSelectionModel [
 	^ self underlyingModel isWholeSelectionModel
 ]
 
+{ #category : #accessing }
+ToSelectionModel >> itemCount [
+
+	^ itemCountGetter value
+]
+
+{ #category : #private }
+ToSelectionModel >> itemCountGetter [
+
+	^ itemCountGetter 
+]
+
 { #category : #'instance creation' }
 ToSelectionModel >> newSelecter [
 
 	^ ToSelectionModelOperator new 
+]
+
+{ #category : #'api - hooks' }
+ToSelectionModel >> onInstalledIn: anElement [
+
+	itemCountGetter := [ anElement itemCount ]
+]
+
+{ #category : #'api - hooks' }
+ToSelectionModel >> onUninstalledIn: anElement [
+
+	itemCountGetter := nil
 ]
 
 { #category : #copying }
@@ -140,6 +167,10 @@ ToSelectionModel >> postCopy [
 { #category : #'command handling' }
 ToSelectionModel >> removeIndexesSelectionCommand: aCommand [
 
+	| wasWhole |
+	wasWhole := self isWholeSelectionModel.
+	self ensureCompositeSelectionModel.
+	wasWhole ifTrue: [ self underlyingModel select: 0 to: self itemCount ].
 	aCommand indexes do: [ :idx |
 		self underlyingModel deselectIndex: idx ].
 	self checkEmptiness
@@ -147,10 +178,14 @@ ToSelectionModel >> removeIndexesSelectionCommand: aCommand [
 
 { #category : #'command handling' }
 ToSelectionModel >> removeIntervalSelectionCommand: aCommand [
-	
-	self underlyingModel
-		deselect: aCommand interval first - 1
-		to: aCommand interval last.
+
+	| interval wasWhole |
+	wasWhole := self isWholeSelectionModel.
+	self ensureCompositeSelectionModel.
+	wasWhole ifTrue: [
+		self underlyingModel select: 0 to: self itemCount ].
+	interval := aCommand computedInterval.
+	self underlyingModel deselect: interval first - 1 to: interval last.
 	self checkEmptiness
 ]
 
@@ -161,9 +196,9 @@ ToSelectionModel >> removeWholeSelectionCommand: aCommand [
 ]
 
 { #category : #accessing }
-ToSelectionModel >> sizeOrMax: anInteger [
+ToSelectionModel >> selectedItemCount [
 
-	^ self underlyingModel sizeOrMax: anInteger
+	^ self underlyingModel selectedItemCountAmong: self itemCount
 ]
 
 { #category : #accessing }

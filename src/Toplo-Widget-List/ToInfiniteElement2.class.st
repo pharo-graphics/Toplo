@@ -213,27 +213,27 @@ ToInfiniteElement2 >> nodeHolderClass [
 { #category : #'private - commands' }
 ToInfiniteElement2 >> offsetPositionRecordsForInsert: aStartPosition itemCount: anItemCount [
 
-	self selectionStrategy dispatchSelectionDirtyAfter: [
-		super
-			offsetPositionRecordsForInsert: aStartPosition
-			itemCount: anItemCount ]
+	super
+		offsetPositionRecordsForInsert: aStartPosition
+		itemCount: anItemCount.
+	self dispatchEvent: ToListSelectionDirtyEvent new
 ]
 
 { #category : #'private - commands' }
 ToInfiniteElement2 >> offsetPositionRecordsForMove: aFromPosition to: aToPosition [
 
-	self selectionStrategy dispatchSelectionDirtyAfter: [
-		super offsetPositionRecordsForMove: aFromPosition to: aToPosition ]
+	super offsetPositionRecordsForMove: aFromPosition to: aToPosition.
+	self dispatchEvent: ToListSelectionDirtyEvent new
 ]
 
 { #category : #'private - commands' }
 ToInfiniteElement2 >> offsetPositionRecordsForRemove: aStartPosition itemCount: anItemCount applyToPreLayout: applyToPreLayout [
 
-	self selectionStrategy dispatchSelectionDirtyAfter: [
-		super
-			offsetPositionRecordsForRemove: aStartPosition
-			itemCount: anItemCount
-			applyToPreLayout: applyToPreLayout ]
+	super
+		offsetPositionRecordsForRemove: aStartPosition
+		itemCount: anItemCount
+		applyToPreLayout: applyToPreLayout.
+	self dispatchEvent: ToListSelectionDirtyEvent new
 ]
 
 { #category : #deprecated }

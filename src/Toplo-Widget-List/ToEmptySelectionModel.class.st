@@ -58,7 +58,7 @@ ToEmptySelectionModel >> select: aFromTextIndex to: aToTextIndex [
 ]
 
 { #category : #accessing }
-ToEmptySelectionModel >> sizeOrMax: anInteger [
+ToEmptySelectionModel >> selectedItemCountAmong: anInteger [
 
 	^ 0
 ]

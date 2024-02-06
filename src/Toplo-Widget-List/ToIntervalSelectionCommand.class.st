@@ -2,7 +2,8 @@ Class {
 	#name : #ToIntervalSelectionCommand,
 	#superclass : #ToSelectionCommand,
 	#instVars : [
-		'interval'
+		'from',
+		'to'
 	],
 	#category : #'Toplo-Widget-List-Selection-Command'
 }
@@ -15,13 +16,38 @@ ToIntervalSelectionCommand >> applyOn: anObject [
 ]
 
 { #category : #accessing }
-ToIntervalSelectionCommand >> interval [
+ToIntervalSelectionCommand >> computedInterval [
 
-	^ interval
+	^ (self from min: self to) to: (self from max: self to)
 ]
 
 { #category : #accessing }
-ToIntervalSelectionCommand >> interval: anInterval [
+ToIntervalSelectionCommand >> from [
 
-	interval := anInterval
+	^ from
+]
+
+{ #category : #accessing }
+ToIntervalSelectionCommand >> from: anIndex [
+
+	from := anIndex
+]
+
+{ #category : #accessing }
+ToIntervalSelectionCommand >> from: aFromIndex to: aToIndex [
+
+	self from: aFromIndex.
+	self to: aToIndex
+]
+
+{ #category : #accessing }
+ToIntervalSelectionCommand >> to [
+
+	^ to
+]
+
+{ #category : #accessing }
+ToIntervalSelectionCommand >> to: anIndex [
+
+	to := anIndex
 ]

@@ -153,9 +153,7 @@ ToListSelectionModelOperator >> selectToIndex: index [
 
 	| curr |
 	curr := self currentIndex.
-	curr < index
-		ifTrue: [ self selectIndex: curr to: index ]
-		ifFalse: [ self selectIndex: index to: curr ].
+	self selectIndex: curr to: index.
 	self markPointedPosition: index.
 	self pivot: curr.
 	self distance: index - curr.

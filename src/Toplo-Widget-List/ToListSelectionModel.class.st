@@ -9,21 +9,21 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Model'
 }
 
-{ #category : #'private - command handling' }
+{ #category : #'command handling' }
 ToListSelectionModel >> addIndexesSelectionCommand: aCommand [
 
 	super addIndexesSelectionCommand: aCommand.
 	self markPointedPosition: aCommand indexes first
 ]
 
-{ #category : #'private - command handling' }
+{ #category : #'command handling' }
 ToListSelectionModel >> addIntervalSelectionCommand: aCommand [
 
 	super addIntervalSelectionCommand: aCommand.
-	self markPointedPosition: aCommand interval last
+	self markPointedPosition: aCommand to
 ]
 
-{ #category : #'private - command handling' }
+{ #category : #'command handling' }
 ToListSelectionModel >> addWholeSelectionCommand: aCommand [
 
 	super addWholeSelectionCommand: aCommand.
@@ -82,18 +82,18 @@ ToListSelectionModel >> pivot: anInteger [
 	pivot := anInteger
 ]
 
-{ #category : #'private - command handling' }
+{ #category : #'command handling' }
 ToListSelectionModel >> removeIndexesSelectionCommand: aCommand [
 
 	super removeIndexesSelectionCommand: aCommand.
 	self markPointedPosition: aCommand indexes first
 ]
 
-{ #category : #'private - command handling' }
+{ #category : #'command handling' }
 ToListSelectionModel >> removeIntervalSelectionCommand: aCommand [
 
 	super removeIntervalSelectionCommand: aCommand.
-	self markPointedPosition: aCommand interval first
+	self markPointedPosition: aCommand from
 ]
 
 { #category : #'command handling' }

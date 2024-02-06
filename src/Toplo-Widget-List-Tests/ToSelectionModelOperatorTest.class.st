@@ -15,6 +15,7 @@ ToSelectionModelOperatorTest >> setUp [
 	super setUp.
 	selectionChanged := false.
 	holder := ToSelectionModelHolderForTest new.
+	holder data addAll: (1 to: 1000).
 	holder addEventHandler: (BlEventHandler
 			 on: ToListSelectionChangedEvent
 			 do: [ :event | selectionChanged := true ]).
@@ -37,6 +38,26 @@ ToSelectionModelOperatorTest >> testDeselectAllIndexes [
 	self assert: holder selectionModel indices asSet equals: {2. 6. 9} asSet.	
 	selecter deselectAllIndexes: {2. 6. 9}.
 	self assert: holder selectionModel isEmpty 
+]
+
+{ #category : #tests }
+ToSelectionModelOperatorTest >> testDeselectAllThenSelectAllIndexes [
+
+	selecter deselectAll.
+	self assert: holder selectionModel isEmptySelectionModel.
+	selecter selectAllIndexes: #(3 5 6).
+	self assert: holder selectionModel indices asSet equals: #(3 5 6) asSet
+
+]
+
+{ #category : #tests }
+ToSelectionModelOperatorTest >> testDeselectAllThenSelectIndexTo [
+
+	selecter deselectAll.
+	self assert: holder selectionModel isEmptySelectionModel.
+	selecter selectIndex: 2 to: 10.
+	self assert: selecter selectionModel indices size equals: 9.
+	self assert: selecter selectionModel indices asSet equals: (2 to: 10) asSet
 ]
 
 { #category : #tests }
@@ -161,6 +182,70 @@ ToSelectionModelOperatorTest >> testSelectAllIndexes [
 	selecter selectAllIndexes: {2. 6. 9}.
 	self assert: holder selectionModel indices size equals: 3.
 	self assert: holder selectionModel indices asSet equals: {2. 6. 9} asSet
+]
+
+{ #category : #tests }
+ToSelectionModelOperatorTest >> testSelectAllThenDeselectAllIndexes [
+
+	selecter selectAll.
+	self assert: holder selectionModel isWholeSelectionModel.
+	selecter deselectAllIndexes: #(3 5 6).
+	self assert: holder selectionModel isCompositeSelectionModel.
+	self assert: holder selectionModel selectedItemCount equals: holder selectionModel itemCount - 3.
+]
+
+{ #category : #tests }
+ToSelectionModelOperatorTest >> testSelectAllThenDeselectAllIndexes2 [
+
+	selecter selectAll.
+	self assert: holder selectionModel isWholeSelectionModel.
+	selecter deselectAll.
+	self assert: holder selectionModel isEmptySelectionModel.
+
+]
+
+{ #category : #tests }
+ToSelectionModelOperatorTest >> testSelectAllThenDeselectIndex [
+
+	selecter selectAll.
+	self assert: holder selectionModel isWholeSelectionModel.
+	selecter deselectIndex:  10.
+	self assert: holder selectionModel isCompositeSelectionModel.
+	self assert: holder selectionModel selectedItemCount equals: holder selectionModel itemCount - 1.
+]
+
+{ #category : #tests }
+ToSelectionModelOperatorTest >> testSelectAllThenSelectAllIndexes [
+
+	selecter selectAll.
+	self
+		assert: holder selectionModel isWholeSelectionModel.
+	selecter selectAllIndexes: #(3 5 6).
+	self assert: holder selectionModel indices asSet equals: #(3 5 6) asSet
+
+]
+
+{ #category : #tests }
+ToSelectionModelOperatorTest >> testSelectAllThenSelectAllIndexes2 [
+
+	selecter selectAll.
+	self
+		assert: holder selectionModel isWholeSelectionModel.
+	selecter selectAllIndexes: #(3 5 6).
+	self assert: holder selectionModel indices asSet equals: #(3 5 6) asSet
+
+]
+
+{ #category : #tests }
+ToSelectionModelOperatorTest >> testSelectAllThenSelectIndexTo [
+
+	selecter selectAll.
+	self assert: holder selectionModel isWholeSelectionModel.
+	selecter selectIndex: 2 to: 10.
+	self assert: selecter selectionModel indices size equals: 9.
+	self
+		assert: selecter selectionModel indices asSet
+		equals: (2 to: 10) asSet
 ]
 
 { #category : #tests }

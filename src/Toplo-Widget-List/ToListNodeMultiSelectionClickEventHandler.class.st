@@ -30,7 +30,7 @@ ToListNodeMultiSelectionClickEventHandler >> launchClick: aBlock event: anEvent 
 	listElement hasFocus ifFalse: [
 		listElement requestFocus.
 		" Avoid selection size computation if all is selected "
-		(manager hasWholeSelection or: [ manager selectionSize > 1 ])
+		(manager hasWholeSelection or: [ manager selectedIndexesCount > 1 ])
 			ifTrue: [ anEvent listElement preserveSelectionOnFocused ifTrue: [ ^ self ] ] ].
 
 	" do not try double click if ctrl or Cmd or shift is pressed "
@@ -45,7 +45,7 @@ ToListNodeMultiSelectionClickEventHandler >> launchClick: aBlock event: anEvent 
 
 	" no click launcher for only one selected node "
 	" Avoid selection size computation if all is selected "
-	(manager hasWholeSelection or: [ manager selectionSize > 0 ])
+	(manager hasWholeSelection or: [ manager selectedIndexesCount > 0 ])
 		ifFalse: [ ^ aBlock value ].
 
 	self clickLauncher: ([

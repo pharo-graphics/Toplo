@@ -124,6 +124,8 @@ ToListSelectionElementEventHandler2 >> onListSelectionElementUpdatedFromEvent: a
 	(which would be normal since dispatching a node change event 
 	implies the skin application which implies a layout request somewhere... ) "
 
+	self flag: 'Check if this crappy stuff is still necessary'.
+
 	(previousNodesArray = nodesArray and: [
 		 previousSelectionModel = selectionModel and: [
 			 wasFocused = focused ] ]) ifTrue: [ ^ self ].
@@ -131,8 +133,8 @@ ToListSelectionElementEventHandler2 >> onListSelectionElementUpdatedFromEvent: a
 	previousNodesArray := nodesArray.
 	previousSelectionModel := selectionModel copy.
 
-	" Ok, the state of the infinite has changed "
-
+	" Ok, the state of the infinite has changed, le's dispatch the event 
+	that is used by the skin state generator to generate the selection state "
 	nodesArray do: [ :node |
 		node dispatchEvent: (ToListNodeSelectionEvent new
 				 listElement: target;

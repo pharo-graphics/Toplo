@@ -79,26 +79,40 @@ ToListElement2 >> initialize [
 
 	super initialize.
 
-	selectionModel := self defaultSelectionModel.
 	self next: self defaultInfiniteElement.
-	self next selectionModel: self selectionModel.
+	self next elevation: (BlRelativeElevation elevation: 10).
+	self installSelectionModel: self defaultSelectionModel.
 	
 	selectionElements := #(  ).
 	self layout: self defaultLayout.
 	
-	self selectionManager: self defaultSelectionManager.	
+	self installSelectionManager: self defaultSelectionManager.
 	self addEventHandler: ToListElementEventHandler2 new.
-
 	self installSharedEventDistributor.
 
 	self addChild: self next.
-	self infinite elevation: (BlRelativeElevation elevation: 10).
-	self contextMenuWindowManagerClass:
-		ToListElementContextMenuWindowManager.
+	self contextMenuWindowManagerClass: ToListElementContextMenuWindowManager.
 	self addEventHandler: ToListSelectionElementEventHandler2 new.
-	self addEventHandler:
-		ToListElementContextMenuSelectionEventHandler new.
+	self addEventHandler: ToListElementContextMenuSelectionEventHandler new.
 	self matchParent
+]
+
+{ #category : #accessing }
+ToListElement2 >> installSelectionManager: aSelectionManager [
+
+	selectionManager ifNotNil: [ selectionManager onUninstalledIn: self ].
+	selectionManager := aSelectionManager.
+	selectionManager ifNotNil: [ selectionManager onInstalledIn: self ]
+
+]
+
+{ #category : #'accessing - selection model' }
+ToListElement2 >> installSelectionModel: aSelectionModel [
+
+	selectionModel ifNotNil: [ selectionModel onUninstalledIn: self ].
+	selectionModel := aSelectionModel.
+	selectionModel ifNotNil: [selectionModel onInstalledIn: self ].
+	self infinite selectionModel: selectionModel.
 ]
 
 { #category : #initialization }
@@ -128,6 +142,12 @@ ToListElement2 >> isHorizontal [
 ToListElement2 >> isVertical [
 
 	^ self infinite layout isVertical
+]
+
+{ #category : #accessing }
+ToListElement2 >> itemCount [
+
+	^ self dataSource itemCount
 ]
 
 { #category : #skin }
@@ -164,15 +184,6 @@ ToListElement2 >> selectionElements: aListElementSelectionCollection [
 ToListElement2 >> selectionManager [
 
 	^ selectionManager
-]
-
-{ #category : #accessing }
-ToListElement2 >> selectionManager: aSelectionManager [
-
-	selectionManager ifNotNil: [ selectionManager onUninstalledIn: self ].
-	selectionManager := aSelectionManager.
-	selectionManager ifNotNil: [ selectionManager onInstalledIn: self ].
-
 ]
 
 { #category : #accessing }

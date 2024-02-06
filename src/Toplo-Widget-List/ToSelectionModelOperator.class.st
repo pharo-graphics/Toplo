@@ -42,7 +42,7 @@ ToSelectionModelOperator >> deselectAllIndexes: anArray [
 ToSelectionModelOperator >> deselectIndex: anIndex [
 
 	self dispatchEventForCommand: (ToIntervalSelectionCommand new
-			 interval: (anIndex to: anIndex);
+			 from: anIndex to: anIndex;
 			 operation: ToRemoveSelectionOperation new)
 ]
 
@@ -126,7 +126,7 @@ ToSelectionModelOperator >> selectAllIndexes: anArray [
 ToSelectionModelOperator >> selectIndex: anIndex [
 
 	self dispatchEventForCommand: (ToIntervalSelectionCommand new
-			 interval: (anIndex to: anIndex);
+			 from: anIndex to: anIndex;
 			 operation: ToAddSelectionOperation new)
 ]
 
@@ -134,7 +134,7 @@ ToSelectionModelOperator >> selectIndex: anIndex [
 ToSelectionModelOperator >> selectIndex: aStartIndex to: anEndIndex [
 
 	self dispatchEventForCommand: (ToIntervalSelectionCommand new
-			 interval: (aStartIndex to: anEndIndex);
+			 from: aStartIndex to: anEndIndex;
 			 operation: ToAddSelectionOperation new)
 ]
 
@@ -145,7 +145,7 @@ ToSelectionModelOperator >> selectOnlyIndex: anIndex [
 		((ToWholeSelectionCommand new operation:
 			  ToRemoveSelectionOperation new) next:
 			 (ToIntervalSelectionCommand new
-				  interval: (anIndex to: anIndex);
+				  from: anIndex to: anIndex;
 				  operation: ToAddSelectionOperation new))
 ]
 

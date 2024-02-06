@@ -83,7 +83,7 @@ ToUnderlyingSelectionModel >> selectIndex: anIndex [
 ]
 
 { #category : #accessing }
-ToUnderlyingSelectionModel >> sizeOrMax: anInteger [
+ToUnderlyingSelectionModel >> selectedItemCountAmong: anInteger [
 
 	^ self subclassResponsibility 
 ]

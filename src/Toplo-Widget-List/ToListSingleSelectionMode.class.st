@@ -15,8 +15,8 @@ ToListSingleSelectionMode >> addIndexesSelectionCommand: aCommand [
 { #category : #'command checking' }
 ToListSingleSelectionMode >> addIntervalSelectionCommand: aCommand [
 
-	aCommand interval size = 1 ifTrue: [ ^ self ].
-	aCommand interval ifEmpty: [
+	(aCommand from = aCommand to and: [aCommand from > 0]) ifTrue: [ ^ self ].
+	(aCommand from - aCommand to) abs > 0 ifFalse: [
 		^ ToInvalidCommand new messageText:
 			  'The interval should not be empty' ].
 	ToIncompatibleMode new signal
@@ -40,8 +40,10 @@ ToListSingleSelectionMode >> removeIndexesSelectionCommand: aCommand [
 { #category : #'command checking' }
 ToListSingleSelectionMode >> removeIntervalSelectionCommand: aCommand [
 
-	aCommand interval size = 1 ifTrue: [ ^ self ].
-	aCommand interval ifEmpty: [ ^ ToInvalidCommand new messageText: 'The interval should not be empty' ].
+	| interval |
+	interval := aCommand computedInterval.
+	interval size = 1 ifTrue: [ ^ self ].
+	interval ifEmpty: [ ^ ToInvalidCommand new messageText: 'The interval should not be empty' ].
 	ToIncompatibleMode new signal
 ]
 

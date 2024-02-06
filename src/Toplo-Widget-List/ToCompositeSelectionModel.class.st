@@ -85,6 +85,15 @@ ToCompositeSelectionModel >> selectIndex: anIndex [
 ]
 
 { #category : #accessing }
+ToCompositeSelectionModel >> selectedItemCountAmong: anInteger [
+
+	| count |
+	count := 0.
+	selection do: [ :s | count := count + s interval size - 1 ].
+	^ count
+]
+
+{ #category : #accessing }
 ToCompositeSelectionModel >> selection [
 
 	^ selection
@@ -94,13 +103,4 @@ ToCompositeSelectionModel >> selection [
 ToCompositeSelectionModel >> selection: aSelection [
 
 	selection := aSelection
-]
-
-{ #category : #accessing }
-ToCompositeSelectionModel >> sizeOrMax: anInteger [
-
-	| count |
-	count := 0.
-	selection do: [ :s | count := count + s interval size - 1 ].
-	^ count
 ]

@@ -39,6 +39,7 @@ ToThemeEditorEventsListenerListPresenter >> defaultLayout [
 
 	^ SpBoxLayout newVertical
 		  spacing: 4;
+		  add: (SpLabelPresenter new label: 'Event Listeners'; displayBold: [:t | true]; yourself) expand: false;
 		  add: self eventListenersList expand: true;
 		  add: self buttonsLayout expand: false;
 		  yourself

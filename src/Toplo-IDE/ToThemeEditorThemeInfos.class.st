@@ -45,12 +45,14 @@ ToThemeEditorThemeInfos >> initializePresenters [
 
 	saveButton := SpButtonPresenter new
 		              label: 'Save Changement';
+		icon: (self iconNamed: #smallSave);
 		              action: [ self saveCurrentTheme ];
 		              yourself.
 	inspectButton := SpButtonPresenter new
-		              label: 'Inspect Theme';
-		              action: [ self theme inspect ];
-		              yourself.
+		                 label: 'Inspect Theme';
+		icon: (self iconNamed: #smallInspectIt);
+		                 action: [ self theme inspect ];
+		                 yourself.
 	themeClassInput := SpTextInputFieldPresenter new.
 	notebook := SpNotebookPresenter new
 ]

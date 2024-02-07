@@ -27,18 +27,21 @@ ToThemeEditorPresenter >> connectPresenters [
 { #category : #layout }
 ToThemeEditorPresenter >> defaultLayout [
 
-	^ SpPanedLayout newHorizontal positionOfSlider: 4/5;add: 
-	(SpPanedLayout newHorizontal
+	^ SpPanedLayout newHorizontal
+		  positionOfSlider: 4 / 5;
 		  add: (SpPanedLayout newHorizontal
-				   add: self rulesTree;
-				   add: self eventListenersList;
+				   add: (SpPanedLayout newHorizontal
+						    add: self rulesTree;
+						    add: self eventListenersList;
+						    yourself);
+				   add: (SpBoxLayout newVertical
+						    spacing: 4;
+						    add: self selectorEditor expand: false;
+						    add: self eventListenerEditor;
+						    yourself);
 				   yourself);
-		  add: (SpBoxLayout newVertical
-				   spacing: 4;
-				   add: self selectorEditor expand: false;
-				   add: self eventListenerEditor;
-				   yourself);
-		  yourself); add: self themeInfos; yourself
+		  add: self themeInfos;
+		  yourself
 ]
 
 { #category : #layout }

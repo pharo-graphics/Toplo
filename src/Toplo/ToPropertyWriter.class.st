@@ -10,6 +10,12 @@ Class {
 	#category : #'Toplo-Core-StyleSheet'
 }
 
+{ #category : #visiting }
+ToPropertyWriter >> accept: aVisitor [
+
+	aVisitor visitPropertyWriter: self.
+]
+
 { #category : #accessing }
 ToPropertyWriter >> animation [
 

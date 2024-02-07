@@ -15,6 +15,12 @@ ToStyleSheetTheme class >> canBeDefault [
 	^ false
 ]
 
+{ #category : #visiting }
+ToStyleSheetTheme >> accept: aVisitor [
+
+	aVisitor visitStyleSheetTheme: self.
+]
+
 { #category : #styling }
 ToStyleSheetTheme >> applicableListenersFor: anElement [
 	" for an element, several writers can be found. These writers 

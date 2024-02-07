@@ -1,8 +1,13 @@
 Class {
 	#name : #ToPropertyBorderEffectTransitionAnimation,
 	#superclass : #ToPropertyAnimation,
-	#category : 'Toplo-Core-StyleSheet'
+	#category : #'Toplo-Core-StyleSheet'
 }
+
+{ #category : #visiting }
+ToPropertyBorderEffectTransitionAnimation >> accept: aToThemeToSourceCodeVisitor [ 
+	aToThemeToSourceCodeVisitor visitPropertyBorderEffectTransitionAnimation: self
+]
 
 { #category : #'instance creation' }
 ToPropertyBorderEffectTransitionAnimation >> newRawAnimationFor: anElement to: aStopBorder [

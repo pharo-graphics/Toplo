@@ -38,9 +38,13 @@ ToThemeEditorRulesTreePresenter >> defaultLayout [
 
 	^ SpBoxLayout newVertical
 		  spacing: 4;
-		  add: self rulesTree expand: true;
-		  add: self buttonsLayout
+		  add: (SpLabelPresenter new
+				   label: 'Style Rules';
+				   displayBold: [ :t | true ];
+				   yourself)
 		  expand: false;
+		  add: self rulesTree expand: true;
+		  add: self buttonsLayout expand: false;
 		  yourself
 ]
 

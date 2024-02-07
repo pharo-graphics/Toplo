@@ -11,7 +11,7 @@ Trait {
 { #category : #accessing }
 TToThemeEditorControllerWithButtons >> askBeforeRemove [
 
-	^ askBeforeRemove
+	^ askBeforeRemove ifNil: [ askBeforeRemove := true ].
 ]
 
 { #category : #accessing }

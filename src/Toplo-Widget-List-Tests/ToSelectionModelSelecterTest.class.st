@@ -100,6 +100,15 @@ ToSelectionModelSelecterTest >> testSelectAll [
 ]
 
 { #category : #tests }
+ToSelectionModelSelecterTest >> testSelectAll2 [
+
+	selecter selectAll.
+	selecter apply.
+	self assert: selecter currentIndex equals: 0.
+	self assert: holder selectionModel isWholeSelectionModel
+]
+
+{ #category : #tests }
 ToSelectionModelSelecterTest >> testSelectAllIndexes [
 
 	selecter selectAllIndexes: {2. 6. 9}.
@@ -118,12 +127,58 @@ ToSelectionModelSelecterTest >> testSelectIndex [
 ]
 
 { #category : #tests }
+ToSelectionModelSelecterTest >> testSelectIndex2 [
+
+	selecter selectIndex: 2.
+	selecter apply.
+	self assert: holder selectionModel selectedIndexes first equals: 2.
+	self assert: selecter currentIndex equals: 2
+]
+
+{ #category : #tests }
 ToSelectionModelSelecterTest >> testSelectIndexTo [
 
 	selecter selectIndex: 2 to: 10.
 	selecter apply.
 	self assert: holder selectionModel selectedIndexes size equals: 9.
 	self assert: holder selectionModel selectedIndexes asSet equals: (2 to: 10) asSet
+]
+
+{ #category : #tests }
+ToSelectionModelSelecterTest >> testSelectIndexTo2 [
+
+	selecter selectIndex: 2 to: 10.
+	selecter apply.
+	self assert: selecter currentIndex equals: 10
+]
+
+{ #category : #tests }
+ToSelectionModelSelecterTest >> testSelectNext [
+
+	selecter selectIndex: 2.
+	selecter apply.
+	self assert: selecter currentIndex equals: 2.
+	selecter selectNext.
+	selecter apply.
+	self assert: holder selectionModel selectedIndexes asSet equals: #(3) asSet.
+	self assert: selecter currentIndex equals: 3
+
+]
+
+{ #category : #tests }
+ToSelectionModelSelecterTest >> testSelectNextOnLastIndex [
+
+	selecter selectIndex: holder dataSource itemCount.
+	selecter apply.
+	self assert: selecter currentIndex equals: holder dataSource itemCount.
+	selecter selectNext.
+	selecter apply.
+	self
+		assert: holder selectionModel selectedIndexes asSet
+		equals: { 1 } asSet.
+	self
+		assert: selecter currentIndex
+		equals: 1
 ]
 
 { #category : #tests }
@@ -143,6 +198,86 @@ ToSelectionModelSelecterTest >> testSelectOnlyIndexes [
 	selecter selectOnlyIndexes: {10. 6. 20}.
 	selecter apply.
 	self assert: holder selectionModel selectedIndexes asSet equals: {10. 6. 20} asSet.
+]
+
+{ #category : #tests }
+ToSelectionModelSelecterTest >> testSelectOrDeselectNext [
+
+	selecter deselectAll.
+	selecter selectIndex: 2.
+	selecter apply.
+	selecter selectOrDeselectNext.
+	selecter apply.
+	self assert: holder selectionModel selectedIndexes equals: #( 2 3 ).
+	self assert: selecter currentIndex equals: 3.
+	selecter selectOrDeselectNext.
+	selecter apply.
+	self assert: holder selectionModel selectedIndexes equals: #( 2 3 4 ).
+	self assert: selecter currentIndex equals: 4.
+
+]
+
+{ #category : #tests }
+ToSelectionModelSelecterTest >> testSelectOrDeselectPrevious [
+
+	selecter deselectAll.
+	selecter selectIndex: 2.
+	selecter selectOrDeselectPrevious.
+	selecter apply.
+	self assert: holder selectionModel selectedIndexes equals: #( 1 2 ).
+	self assert: selecter currentIndex equals: 1.
+	selecter selectOrDeselectPrevious.
+	selecter apply.
+	self assert: holder selectionModel selectedIndexes equals: #( 1 2 ).
+	self assert: selecter currentIndex equals: 1
+]
+
+{ #category : #tests }
+ToSelectionModelSelecterTest >> testSelectPrevious [
+
+	selecter selectIndex: 2.
+	selecter apply.
+	self assert: selecter currentIndex equals: 2.
+	selecter selectPrevious.
+	selecter apply.
+	self assert: holder selectionModel selectedIndexes asSet equals: #(1) asSet.
+	self assert: selecter currentIndex equals: 1
+]
+
+{ #category : #tests }
+ToSelectionModelSelecterTest >> testSelectPreviousOnFirstIndex [
+
+	selecter selectIndex: 1.
+	selecter apply.
+	self assert: selecter currentIndex equals: 1.
+	selecter selectPrevious.
+	selecter apply.
+	self
+		assert: holder selectionModel selectedIndexes asSet
+		equals: { holder dataSource itemCount } asSet.
+	self
+		assert: selecter currentIndex
+		equals: holder dataSource itemCount
+]
+
+{ #category : #tests }
+ToSelectionModelSelecterTest >> testSelectToIndex [
+
+	selecter selectIndex: 2.
+	selecter apply.
+	self assert: holder selectionModel selectedIndexes first equals: 2.
+	self assert: selecter currentIndex equals: 2.
+	selecter selectToIndex: 12.
+	selecter apply.
+	self assert: holder selectionModel selectedIndexes first equals: 2.
+	self assert: holder selectionModel selectedIndexes last equals: 12.
+	self assert: selecter currentIndex equals: 12.
+	selecter selectToIndex: 2.
+	selecter apply.
+	self assert: holder selectionModel selectedIndexes first equals: 2.
+	self assert: holder selectionModel selectedIndexes last equals: 12.
+	self assert: selecter currentIndex equals: 2
+
 ]
 
 { #category : #tests }

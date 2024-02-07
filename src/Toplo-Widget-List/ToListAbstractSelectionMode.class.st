@@ -9,12 +9,6 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
-{ #category : #initialization }
-ToListAbstractSelectionMode >> defaultSelectionCommandChecker [
-
-	^ self subclassResponsibility 
-]
-
 { #category : #testing }
 ToListAbstractSelectionMode >> hasSelectionAt: anIndex [
 
@@ -65,9 +59,7 @@ ToListAbstractSelectionMode >> onInstalledIn: anElement [
 
 	self selectionModel: anElement selectionModel.
 	selecter := ToSelectionModelSelecter new.
-	selecter onInstalledIn: anElement.
-	selecter checker: self defaultSelectionCommandChecker.
-
+	selecter onInstalledIn: anElement
 ]
 
 { #category : #accessing }

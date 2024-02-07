@@ -4,12 +4,6 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
-{ #category : #initialization }
-ToListMultiSelectionMode >> defaultSelectionCommandChecker [
-
-	^ ToListMultiSelectionCommandChecker new
-]
-
 { #category : #accessing }
 ToListMultiSelectionMode >> nodeEventHandlerClasses [ 
 

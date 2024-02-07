@@ -32,6 +32,21 @@ ToSelectionModelOperatorTest >> testDeselectAll [
 ]
 
 { #category : #tests }
+ToSelectionModelOperatorTest >> testDeselectAll2 [
+
+	operator selectIndex: 2.
+	operator deselectAll.
+	operator applyOn: holder.
+	self assert: holder selectionModel isEmpty.
+	operator selectAll.
+	operator deselectAll.
+	operator applyOn: holder.
+	self assert: holder selectionModel isEmpty.
+
+
+]
+
+{ #category : #tests }
 ToSelectionModelOperatorTest >> testDeselectAllIndexes [
 
 	operator selectAllIndexes: {2. 6. 9}.
@@ -117,6 +132,39 @@ ToSelectionModelOperatorTest >> testDispatchSelectionChanged [
 	operator selectAllIndexes: { 2. 6. 9 }.
 	operator applyOn: holder.
 	self assert: selChangedEvent isNil
+]
+
+{ #category : #tests }
+ToSelectionModelOperatorTest >> testDispatchSelectionChanged2 [
+
+	| selChangedEvent |
+	holder addEventHandler: (BlEventHandler
+			 on: ToListSelectionChangedEvent
+			 do: [ :event | selChangedEvent := event ]).
+
+	operator selectAllIndexes: { 2. 6. 9 }.
+	operator applyOn: holder.
+	self assert: selChangedEvent notNil.
+	self assert: holder selectionModel equals: holder selectionModel.
+
+	selChangedEvent := nil.
+	" no change "
+	operator selectAllIndexes: { 2. 6. 9 }.
+	operator applyOn: holder.
+	self assert: selChangedEvent isNil
+]
+
+{ #category : #tests }
+ToSelectionModelOperatorTest >> testOnSelectionRequestSuccess [
+
+	operator selectAllIndexes: { 2. 6. 9 }.
+	operator applyOn: holder.
+	self assert: holder successfulCommand notNil.
+	holder successfulCommand: nil.
+	" no change "
+	operator selectAllIndexes: { 2. 6. 9 }.
+	operator applyOn: holder.
+	self assert: holder successfulCommand isNil
 ]
 
 { #category : #tests }

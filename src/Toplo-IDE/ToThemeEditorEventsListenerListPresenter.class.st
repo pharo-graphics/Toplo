@@ -74,8 +74,7 @@ ToThemeEditorEventsListenerListPresenter >> initializePresenters [
 		                      yourself.
 	eventListenersList addColumn:
 		((SpStringTableColumn title: 'Event' evaluated: [ :eventListner |
-			  (eventListner eventClass printString allButFirst: 2) allButLast:
-				  9 ]) width: 70).
+			  (eventListner eventClass eventName) ])).
 	eventListenersList addColumn:
 		((SpStringTableColumn title: 'Type' evaluated: [ :eventListner |
 			  eventListner isAction

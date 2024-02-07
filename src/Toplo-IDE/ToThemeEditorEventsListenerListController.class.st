@@ -81,6 +81,14 @@ ToThemeEditorEventsListenerListController >> removeEventListener: anEventListene
 	self styleRule: self styleRule
 ]
 
+{ #category : #'as yet unclassified' }
+ToThemeEditorEventsListenerListController >> replaceEventListener: anOldEventListener with: aNewEventListener [
+
+	self styleRule removeLookEventListener: anOldEventListener.
+	self styleRule addLookEventListener: aNewEventListener.
+	self updatePresenterOn: aNewEventListener
+]
+
 { #category : #initialization }
 ToThemeEditorEventsListenerListController >> selectedEventListenerChanged: anEventListener [
 

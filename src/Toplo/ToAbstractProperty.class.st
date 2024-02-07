@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'name'
 	],
-	#category : 'Toplo-Core-Properties'
+	#category : #'Toplo-Core-Properties'
 }
 
 { #category : #accessing }
@@ -17,6 +17,16 @@ ToAbstractProperty >> name [
 ToAbstractProperty >> name: anObject [
 
 	name := anObject asSymbol
+]
+
+{ #category : #printing }
+ToAbstractProperty >> printOn: aStream [
+
+	super printOn: aStream.
+	aStream << ' [' << self name << ']'
+	
+
+
 ]
 
 { #category : #operating }

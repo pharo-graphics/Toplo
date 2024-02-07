@@ -49,6 +49,24 @@ ToThemeEditorEventListenerSpecializedActionPresenter >> initializePresenters [
 	codeInput := SpCodePresenter new beForScripting; yourself
 ]
 
+{ #category : #'as yet unclassified' }
+ToThemeEditorEventListenerSpecializedActionPresenter >> makeNewEventListener [
+
+	| action |
+	action := self codeInput
+		          evaluate: codeInput text
+		          onCompileError: [ :err | ^ err pass ]
+		          onError: [ :err | ^ err pass ].
+	(action isKindOf: BlockClosure) ifFalse: [
+		ToThemeEditorWrongObjectError new signal: 'Expected a BlockClosure.' ].
+	action argumentCount = 1 ifFalse: [
+		ToThemeEditorWrongObjectError new signal:
+			'Expected a block closure with 1 argument.' ].
+	^ ToLookEventAction new
+		  action: action;
+		  yourself
+]
+
 { #category : #accessing }
 ToThemeEditorEventListenerSpecializedActionPresenter >> updatePresenter [
 

@@ -35,16 +35,21 @@ ToThemeEditorEventListenerEditorController >> eventListener [
 ToThemeEditorEventListenerEditorController >> eventListener: anObject [
 
 	eventListener := anObject.
+	self presenter updatePresenter.
+	
+	
 	self actionPresenter eventListener: anObject.
 	self propertyPresenter eventListener: anObject.
-	self presenter updatePresenter.
+	
 	eventListener ifNil: [ ^ self ].
-	
-	self presenter eventClassDropList selectItem: eventListener eventClass.
-	
 	eventListener isAction ifTrue: [ self presenter actionRadio click ].
 	eventListener isPropertyWriter ifTrue: [
-		self presenter propertyRadio click ]
+		self presenter propertyRadio click ].
+	self presenter eventClassDropList selectItem:
+		eventListener eventClass.
+
+
+	
 ]
 
 { #category : #initialization }
@@ -86,12 +91,13 @@ ToThemeEditorEventListenerEditorController >> replaceEventListener [
 
 	| newEvent oldEvent |
 	oldEvent := self eventListener.
+	[
 	newEvent := self isAction
 		            ifTrue: [ self actionPresenter makeNewEventListener ]
 		            ifFalse: [ self propertyPresenter makeNewEventListener ].
 	newEvent eventClass: self presenter eventClassDropList selectedItem.
 	self observers do: [ :each |
-		each replaceEventListener: oldEvent with: newEvent ]
+		each replaceEventListener: oldEvent with: newEvent ] ] on: Error do: [ :err | err pass ]
 ]
 
 { #category : #initialization }

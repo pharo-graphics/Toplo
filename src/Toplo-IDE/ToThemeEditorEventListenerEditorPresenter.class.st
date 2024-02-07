@@ -58,9 +58,8 @@ ToThemeEditorEventListenerEditorPresenter >> initializePresenters [
 		               yourself.
 	actionRadio associatedRadioButtons: { propertyRadio }.
 	actionRadio state: true.
-	actionRadio whenChangedDo: [ :s |
-		self updatePresenter ].
-	eventClassDropList := SpDropListPresenter new.
+	actionRadio whenChangedDo: [ :s | self updatePresenter ].
+	eventClassDropList := SpDropListPresenter new display: [:eventClass | eventClass eventName]; yourself.
 	self controller populateEventClassDropList: eventClassDropList
 ]
 

@@ -23,7 +23,7 @@ ToThemeEditorEventListenerSpecializedActionPresenter >> defaultLayout [
 				   label: 'Action';
 				   yourself)
 		  expand: false;
-		  add: self codeInput expand: true;
+		  add: self actionInput expand: true;
 		  yourself
 ]
 

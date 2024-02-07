@@ -5,7 +5,9 @@ Class {
 		'rulesTree',
 		'eventListenersList',
 		'selectorEditor',
-		'eventListenerEditor'
+		'eventListenerEditor',
+		'themeInfos',
+		'tokensList'
 	],
 	#category : #'Toplo-IDE-theme-editor-presenter-main'
 }
@@ -25,7 +27,8 @@ ToThemeEditorPresenter >> connectPresenters [
 { #category : #layout }
 ToThemeEditorPresenter >> defaultLayout [
 
-	^ SpPanedLayout newHorizontal
+	^ SpPanedLayout newHorizontal positionOfSlider: 4/5;add: 
+	(SpPanedLayout newHorizontal
 		  add: (SpPanedLayout newHorizontal
 				   add: self rulesTree;
 				   add: self eventListenersList;
@@ -35,7 +38,7 @@ ToThemeEditorPresenter >> defaultLayout [
 				   add: self selectorEditor expand: false;
 				   add: self eventListenerEditor;
 				   yourself);
-		  yourself
+		  yourself); add: self themeInfos; yourself
 ]
 
 { #category : #layout }
@@ -56,7 +59,11 @@ ToThemeEditorPresenter >> initializePresenters [
 	rulesTree := ToThemeEditorRulesTreePresenter new.
 	eventListenersList := ToThemeEditorEventsListenerListPresenter new.
 	selectorEditor := ToThemeEditorRuleSelectorEditor new.
-	eventListenerEditor := ToThemeEditorEventListenerEditorPresenter new
+	eventListenerEditor := ToThemeEditorEventListenerEditorPresenter new.
+	themeInfos := ToThemeEditorThemeInfos new.
+	tokensList := ToThemeEditorTokensListPresenter new.
+
+	themeInfos add: tokensList asNotebookPageNamed: 'Tokens'
 ]
 
 { #category : #layout }
@@ -75,5 +82,19 @@ ToThemeEditorPresenter >> selectorEditor [
 ToThemeEditorPresenter >> theme: aToTheme [
 
 	self rulesTree controller theme: aToTheme.
-	self eventListenerEditor controller theme: aToTheme
+	self eventListenerEditor controller theme: aToTheme.
+	self themeInfos controller theme: aToTheme.
+	self tokensList controller theme: aToTheme
+]
+
+{ #category : #accessing }
+ToThemeEditorPresenter >> themeInfos [
+
+	^ themeInfos
+]
+
+{ #category : #accessing }
+ToThemeEditorPresenter >> tokensList [
+
+	^ tokensList
 ]

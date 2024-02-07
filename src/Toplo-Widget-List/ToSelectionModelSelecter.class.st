@@ -7,8 +7,7 @@ Class {
 		'target',
 		'currentIndex',
 		'distance',
-		'pivot',
-		'selectionCommandChecker'
+		'pivot'
 	],
 	#category : #'Toplo-Widget-List-Selection-Updater'
 }
@@ -22,8 +21,6 @@ ToSelectionModelSelecter >> addCommand: aCommand [
 { #category : #'command application' }
 ToSelectionModelSelecter >> apply [
 
-	self selectionCommandChecker ifNotNil: [ :checker |
-		operator command ifNotNil: [ :c | c applyOn: checker ] ].
 	self operator applyOn: self target
 ]
 
@@ -33,6 +30,12 @@ ToSelectionModelSelecter >> checkPivot [
 	self pivot ifNil: [
 		self pivot: self currentIndex.
 		self distance: 0 ]
+]
+
+{ #category : #accessing }
+ToSelectionModelSelecter >> checker: aSelectionCommandChecker [
+
+	self operator checker: aSelectionCommandChecker
 ]
 
 { #category : #accessing }
@@ -289,18 +292,6 @@ ToSelectionModelSelecter >> selectToIndex: index [
 	self markPointedPosition: index.
 	self pivot: curr.
 	self distance: index - curr.
-]
-
-{ #category : #accessing }
-ToSelectionModelSelecter >> selectionCommandChecker [
-
-	^ selectionCommandChecker 
-]
-
-{ #category : #accessing }
-ToSelectionModelSelecter >> selectionCommandChecker: aSelectionCommandChecker [
-
-	selectionCommandChecker := aSelectionCommandChecker
 ]
 
 { #category : #accessing }

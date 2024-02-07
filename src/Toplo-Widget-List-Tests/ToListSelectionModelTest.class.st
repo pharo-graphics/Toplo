@@ -54,7 +54,7 @@ ToListSelectionModelTest >> testDispatchSelectionChanged [
 	self assert: selChangedEvent isNil.
 
 	" incompatible mode "
-	holder selectionCommandChecker: ToListNoneSelectionCommandChecker new.
+	holder checker: ToListNoneSelectionCommandChecker new.
 	self
 		should: [
 			operator selectAllIndexes: { 2. 6. 9 }.
@@ -68,7 +68,7 @@ ToListSelectionModelTest >> testIncompatibleMode [
 
 	self flag: 'To redo'.
 	self skip.
-	holder selectionCommandChecker: ToListNoneSelectionCommandChecker new.
+	holder checker: ToListNoneSelectionCommandChecker new.
 	self
 		should: [
 			operator selectAllIndexes: { 2. 6. 9 }.
@@ -106,7 +106,7 @@ ToListSelectionModelTest >> testIncompatibleMode2 [
 
 	self flag: 'To redo'.
 	self skip.
-	holder selectionCommandChecker:
+	holder checker:
 		ToListSingleSelectionCommandChecker new.
 	self
 		should: [
@@ -135,7 +135,7 @@ ToListSelectionModelTest >> testOnSelectionRequestError [
 
 	self flag: 'To redo'.
 	self skip.
-	holder selectionCommandChecker:
+	holder checker:
 		ToListSingleSelectionCommandChecker new.
 	self
 		should: [
@@ -158,7 +158,7 @@ ToListSelectionModelTest >> testOnSelectionRequestSuccess [
 	operator applyOn: holder.
 	self assert: holder successfulCommand isNil.
 
-	holder selectionCommandChecker: ToListNoneSelectionCommandChecker new.
+	holder checker: ToListNoneSelectionCommandChecker new.
 	holder successfulCommand: nil.
 	self
 		should: [

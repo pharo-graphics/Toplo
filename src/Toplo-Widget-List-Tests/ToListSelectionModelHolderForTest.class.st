@@ -8,11 +8,17 @@ Class {
 	#category : #'Toplo-Widget-List-Tests-Selection-Model'
 }
 
+{ #category : #accessing }
+ToListSelectionModelHolderForTest >> checker: aSelectionCommandChecker [
+
+	selectionCommandChecker := aSelectionCommandChecker
+]
+
 { #category : #initialization }
 ToListSelectionModelHolderForTest >> initialize [ 
 
 	super initialize.
-	self selectionCommandChecker: ToListMultiSelectionCommandChecker new.
+	self checker: ToListMultiSelectionCommandChecker new.
 
 ]
 
@@ -20,7 +26,7 @@ ToListSelectionModelHolderForTest >> initialize [
 ToListSelectionModelHolderForTest >> selecter [
 
 	^ super selecter
-		  selectionCommandChecker: self selectionCommandChecker;
+		  checker: self selectionCommandChecker;
 		  yourself
 ]
 
@@ -28,10 +34,4 @@ ToListSelectionModelHolderForTest >> selecter [
 ToListSelectionModelHolderForTest >> selectionCommandChecker [
 
 	^ selectionCommandChecker
-]
-
-{ #category : #accessing }
-ToListSelectionModelHolderForTest >> selectionCommandChecker: aSelectionCommandChecker [
-
-	selectionCommandChecker := aSelectionCommandChecker
 ]

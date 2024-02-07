@@ -4,7 +4,8 @@ Class {
 	#classTraits : 'TBlEventTarget classTrait',
 	#instVars : [
 		'command',
-		'requester'
+		'requester',
+		'checker'
 	],
 	#category : #'Toplo-Widget-List-Selection-Updater'
 }
@@ -27,8 +28,22 @@ ToSelectionModelOperator >> addCommand: aCommand [
 ToSelectionModelOperator >> applyOn: anEventTarget [
 
 	command ifNil: [ ^ self ].
-	[ self dispatchEventForCommandOn: anEventTarget ] ensure: [
+	[
+	self checker ifNotNil: [ :c | command applyOn: checker ].
+	self dispatchEventForCommandOn: anEventTarget ] ensure: [
 		command := nil ]
+]
+
+{ #category : #accessing }
+ToSelectionModelOperator >> checker [
+
+	^ checker
+]
+
+{ #category : #accessing }
+ToSelectionModelOperator >> checker: anObject [
+
+	checker := anObject
 ]
 
 { #category : #accessing }

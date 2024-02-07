@@ -42,9 +42,8 @@ ToThemeEditorEventListenerSpecializedPropertyPresenter >> eventListener [
 ToThemeEditorEventListenerSpecializedPropertyPresenter >> eventListener: anObject [
 
 	eventListener := anObject.
-	eventListener ifNil: [ ^ self ].
-	eventListener isPropertyWriter ifFalse: [ ^ self ].
 	self updatePresenter
+	
 ]
 
 { #category : #initialization }
@@ -132,6 +131,31 @@ ToThemeEditorEventListenerSpecializedPropertyPresenter >> supplementInput [
 	^ supplementInput
 ]
 
+{ #category : #initialization }
+ToThemeEditorEventListenerSpecializedPropertyPresenter >> textForAnimationInputWhenAction [
+
+	^ self textForAnimationInputWhenNil
+]
+
+{ #category : #initialization }
+ToThemeEditorEventListenerSpecializedPropertyPresenter >> textForAnimationInputWhenNil [
+
+	^ '"Write here an animation."'.
+	
+]
+
+{ #category : #initialization }
+ToThemeEditorEventListenerSpecializedPropertyPresenter >> textForValueInputWhenAction [
+
+	^ self textForValueInputWhenNil
+]
+
+{ #category : #initialization }
+ToThemeEditorEventListenerSpecializedPropertyPresenter >> textForValueInputWhenNil [
+
+	^ '"Write here a value."'
+]
+
 { #category : #accessing }
 ToThemeEditorEventListenerSpecializedPropertyPresenter >> theme: aToTheme [
 
@@ -144,36 +168,26 @@ ToThemeEditorEventListenerSpecializedPropertyPresenter >> theme: aToTheme [
 ToThemeEditorEventListenerSpecializedPropertyPresenter >> updatePresenter [
 
 	self eventListener ifNil: [
-		self updatePresenterForNil.
+		self updatePresenterForNilOrAction.
 		^ self ].
 	self eventListener isPropertyWriter ifFalse: [
-		self updatePresenterForActionEvent.
+		self updatePresenterForNilOrAction.
 		^ self ].
-	self updatePresenterForPropertyEvent.
+	self updatePresenterForPropertyEvent
 ]
 
 { #category : #initialization }
-ToThemeEditorEventListenerSpecializedPropertyPresenter >> updatePresenterForActionEvent [
+ToThemeEditorEventListenerSpecializedPropertyPresenter >> updatePresenterForNilOrAction [
 
-	self animationInput text: '"Write here an animation."'.
+	self animationInput text: self textForAnimationInputWhenNil.
 	self supplementInput state: false.
 	self propertyInput resetSelection.
-	self valueInput text: '"Write here a value."'
-]
-
-{ #category : #initialization }
-ToThemeEditorEventListenerSpecializedPropertyPresenter >> updatePresenterForNil [
-
-	self animationInput text: '"Write here an animation."'.
-	self supplementInput state: false.
-	self propertyInput resetSelection.
-	self valueInput text: '"Write here a value."'
+	self valueInput text: self textForValueInputWhenNil
 ]
 
 { #category : #initialization }
 ToThemeEditorEventListenerSpecializedPropertyPresenter >> updatePresenterForPropertyEvent [
 
-	| property |
 	self eventListener animation
 		ifNil: [
 			self animationInput text: '"Put nil or a BlAnimation."

@@ -19,23 +19,8 @@ ToThemeEditorRuleSelectorEditor >> actionApplyButton [
 		                  onCompileError: [ :err | ^ self ]
 		                  onError: [ :err | ^ err pass ].
 	(compiledObject isKindOf: ToElementSelector) ifFalse: [
-		self informErrorWithCode.
-		^ self ].
-	self styleRule selector: compiledObject.
-	self observers do: [ :each | each styleRuleUpdated: self styleRule ]
-]
-
-{ #category : #'as yet unclassified' }
-ToThemeEditorRuleSelectorEditor >> applyToRule [
-
-	| compiledObject |
-	compiledObject := codeInput
-		                  evaluate: codeInput text
-		                  onCompileError: [ :err | ^ self ]
-		                  onError: [ :err | ^ err pass ].
-	(compiledObject isKindOf: ToElementSelector) ifFalse: [
-		self informErrorWithCode.
-		^ self ].
+		ToThemeEditorWrongObjectError new signal:
+			'Expected a ToElementSelector.' ].
 	self styleRule selector: compiledObject.
 	self observers do: [ :each | each styleRuleUpdated: self styleRule ]
 ]
@@ -61,14 +46,6 @@ ToThemeEditorRuleSelectorEditor >> defaultLayout [
 		  expand: false;
 		  add: self codeInput height: 120;
 		  yourself
-]
-
-{ #category : #'as yet unclassified' }
-ToThemeEditorRuleSelectorEditor >> informErrorWithCode [
-
-	(self confirm:
-		 'Is not expected type. Do you want to restore previous state ?')
-		ifTrue: [ self styleRule: self styleRule ]
 ]
 
 { #category : #initialization }

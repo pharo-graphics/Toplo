@@ -2,16 +2,16 @@ Class {
 	#name : #ToThemeEditorEventListenerSpecializedActionPresenter,
 	#superclass : #ToThemeEditorEventListenerSpecializedPresenter,
 	#instVars : [
-		'codeInput',
-		'eventListener'
+		'eventListener',
+		'actionInput'
 	],
 	#category : #'Toplo-IDE-theme-editor-presenter-eventListenerEditor'
 }
 
 { #category : #layout }
-ToThemeEditorEventListenerSpecializedActionPresenter >> codeInput [
+ToThemeEditorEventListenerSpecializedActionPresenter >> actionInput [
 
-	^ codeInput
+	^ actionInput
 ]
 
 { #category : #layout }
@@ -37,24 +37,23 @@ ToThemeEditorEventListenerSpecializedActionPresenter >> eventListener [
 ToThemeEditorEventListenerSpecializedActionPresenter >> eventListener: anObject [
 
 	eventListener := anObject.
-	eventListener ifNil: [ ^ self ].
-	eventListener isAction ifFalse: [ ^ self ].
 	self updatePresenter.
-	self codeInput text: self eventListener action printString
 ]
 
 { #category : #initialization }
 ToThemeEditorEventListenerSpecializedActionPresenter >> initializePresenters [
 
-	codeInput := SpCodePresenter new beForScripting; yourself
+	actionInput := SpCodePresenter new
+		             beForScripting;
+		             yourself
 ]
 
 { #category : #'as yet unclassified' }
 ToThemeEditorEventListenerSpecializedActionPresenter >> makeNewEventListener [
 
 	| action |
-	action := self codeInput
-		          evaluate: codeInput text
+	action := self actionInput
+		          evaluate: self actionInput text
 		          onCompileError: [ :err | ^ err pass ]
 		          onError: [ :err | ^ err pass ].
 	(action isKindOf: BlockClosure) ifFalse: [
@@ -67,10 +66,26 @@ ToThemeEditorEventListenerSpecializedActionPresenter >> makeNewEventListener [
 		  yourself
 ]
 
+{ #category : #'as yet unclassified' }
+ToThemeEditorEventListenerSpecializedActionPresenter >> textForActionInputWhenNil [
+
+	^ '"Select an event listener."'
+]
+
+{ #category : #'as yet unclassified' }
+ToThemeEditorEventListenerSpecializedActionPresenter >> textForActionInputWhenProperty [
+
+	^ '"Write a blockClosure."'
+]
+
 { #category : #accessing }
 ToThemeEditorEventListenerSpecializedActionPresenter >> updatePresenter [
 
-	self eventListener ifNil: [ self codeInput text: '"Select an event listener."'. ^ self ].
-	self eventListener isPropertyWriter ifFalse: [ self codeInput text: '"Write a blockClosure."'. ^ self ].
-	self codeInput text: self eventListener action printString
+	self eventListener ifNil: [
+		self actionInput text: self textForActionInputWhenNil.
+		^ self ].
+	self eventListener isAction ifFalse: [
+		self actionInput text: self textForActionInputWhenProperty.
+		^ self ].
+	self actionInput text: self eventListener action printString
 ]

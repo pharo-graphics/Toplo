@@ -64,10 +64,10 @@ ToListAbstractSelectionMode >> onClickOnNode: aNode event: anEvent [
 ToListAbstractSelectionMode >> onInstalledIn: anElement [
 
 	self selectionModel: anElement selectionModel.
-	self selectionModel selectionCommandChecker:
-		self defaultSelectionCommandChecker.
 	selecter := ToSelectionModelSelecter new.
 	selecter onInstalledIn: anElement.
+	selecter selectionCommandChecker: self defaultSelectionCommandChecker.
+
 ]
 
 { #category : #accessing }

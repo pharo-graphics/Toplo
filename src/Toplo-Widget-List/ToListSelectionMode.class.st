@@ -50,33 +50,15 @@ ToListSelectionMode >> preserveSelectionOnFocused: aBoolean [
 ]
 
 { #category : #shortcuts }
-ToListSelectionMode >> selectNextIn: anElement event: aShortcutEvent [
-
-	self selectionModel goTowardNext ifTrue: [
-		self selecter selectOnlyIndex: self selectionModel currentIndex; apply ].
-	self selectionModel isEmpty ifTrue: [ ^ self ].
-	anElement scrollToIndex: self selectionModel currentIndex
-]
-
-{ #category : #shortcuts }
-ToListSelectionMode >> selectPreviousIn: anElement event: aShortcutEvent [
-
-	self selectionModel goTowardPrevious ifTrue: [
-		self selecter selectOnlyIndex: self selectionModel currentIndex; apply ].
-	self selectionModel isEmpty ifTrue: [ ^ self ].
-	anElement scrollToIndex: self selectionModel currentIndex
-]
-
-{ #category : #shortcuts }
 ToListSelectionMode >> shortcutsIn: anElement [
 
 	^ {
 		  (BlShortcutWithAction new
 			   combination: BlKeyCombination builder arrowDown build;
 			   action: [ :aShortcutEvent :aShortcut |
-				   self selectNextIn: anElement event: aShortcutEvent ]).
+				   self selecter selectNextIn: anElement event: aShortcutEvent ]).
 		  (BlShortcutWithAction new
 			   combination: BlKeyCombination builder arrowUp build;
 			   action: [ :aShortcutEvent :aShortcut |
-				   self selectPreviousIn: anElement event: aShortcutEvent ]) }
+				   self selecter selectPreviousIn: anElement event: aShortcutEvent ]) }
 ]

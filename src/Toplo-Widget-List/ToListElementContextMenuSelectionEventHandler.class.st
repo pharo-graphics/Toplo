@@ -97,13 +97,13 @@ ToListElementContextMenuSelectionEventHandler >> listElementContextMenuRequest: 
 { #category : #'element handlers' }
 ToListElementContextMenuSelectionEventHandler >> listElementContextMenuSelectionChangedEvent: anEvent [
 
-	| node target pos targetChildren infinite childNode |
+	| target pos targetChildren childNode |
 	target := anEvent currentTarget.
 	anEvent selectedIndexes ifEmpty: [
 		self removeContextMenuSelectionIn: target.
 		^ self ].
 	pos := target globalPointToLocal: anEvent sourceEvent position.
-	targetChildren := (target infinite withAllChildrenAt: pos) allButLast.
+	targetChildren := (target infinite withAllChildrenAt: anEvent sourceEvent localPosition) allButLast.
 	targetChildren ifEmpty: [ ^ self ].
 	childNode := targetChildren last.
 	childNode holder isSelected

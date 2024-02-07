@@ -2,6 +2,9 @@ Class {
 	#name : #ToListSelectionModelHolderForTest,
 	#superclass : #ToSelectionModelHolderForTest,
 	#classTraits : 'TBlEventTarget classTrait',
+	#instVars : [
+		'selectionCommandChecker'
+	],
 	#category : #'Toplo-Widget-List-Tests-Selection-Model'
 }
 
@@ -20,13 +23,21 @@ ToListSelectionModelHolderForTest >> initialize [
 ]
 
 { #category : #accessing }
+ToListSelectionModelHolderForTest >> selecter [
+
+	^ super selecter
+		  selectionCommandChecker: self selectionCommandChecker;
+		  yourself
+]
+
+{ #category : #accessing }
 ToListSelectionModelHolderForTest >> selectionCommandChecker [
 
-	^ self selectionModel selectionCommandChecker
+	^ selectionCommandChecker
 ]
 
 { #category : #accessing }
 ToListSelectionModelHolderForTest >> selectionCommandChecker: aSelectionCommandChecker [
 
-	self selectionModel selectionCommandChecker: aSelectionCommandChecker
+	selectionCommandChecker := aSelectionCommandChecker
 ]

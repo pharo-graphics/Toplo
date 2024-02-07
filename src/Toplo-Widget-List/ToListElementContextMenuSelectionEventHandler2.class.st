@@ -54,21 +54,22 @@ ToListElementContextMenuSelectionEventHandler2 >> eventsToHandle [
 { #category : #'element handlers' }
 ToListElementContextMenuSelectionEventHandler2 >> listElementContextMenuRequest: anEvent [
 
-	| pos targetChildren childNode target infinite |
+	| pos foundChildren targetChildren childNode target infinite |
 	target := anEvent currentTarget.
 	infinite := target infinite.
 	target disableScrolledEvent.
 
 	pos := infinite globalPointToLocal: anEvent sourceEvent position.
-	targetChildren := (infinite withAllChildrenAt: pos) allButLast.
-
+	foundChildren := infinite withAllChildrenAt: pos.
+	foundChildren ifEmpty: [ ^ self ].
+	targetChildren := foundChildren allButLast.
 	targetChildren ifEmpty: [ ^ self ].
 	childNode := targetChildren last.
 
 	childNode holder isSelected
 		ifTrue: [ anEvent selectionModel: target selectionModel ]
 		ifFalse: [
-			anEvent selectionModel: ToListSelectionModel new.
+			anEvent selectionModel: ToSelectionModel new.
 			anEvent selectionModel newOperator
 				selectIndex: childNode holder position;
 				applyOn: anEvent selectionModel newUpdater ].
@@ -88,7 +89,7 @@ ToListElementContextMenuSelectionEventHandler2 >> listElementContextMenuSelectio
 	anEvent selectionModel ifEmpty: [
 		self removeContextMenuSelectionIn: target.
 		^ self ].
-	pos := target globalPointToLocal: anEvent sourceEvent position.
+	pos := anEvent sourceEvent localPosition.
 	targetChildren := (target infinite withAllChildrenAt: pos) allButLast.
 	targetChildren ifEmpty: [ ^ self ].
 	childNode := targetChildren last.

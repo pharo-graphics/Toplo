@@ -24,11 +24,7 @@ ToListSingleSelectionMode >> onClickOnNode: aNode event: anEvent [
 		| index |
 		index := aNode holder position.
 		(self selectionModel containsIndex: index) ifTrue: [
-			^ self selecter
-				  deselectIndex: index;
-				  apply ] ].
+			^ self selecter deselectIndex: index ] ].
 
-	self selecter
-		selectOnlyIndex: aNode holder position;
-		apply
+	self selecter selectOnlyIndex: aNode holder position
 ]

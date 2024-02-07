@@ -135,7 +135,7 @@ ToListElement2 >> newRawSkin [
 { #category : #initialization }
 ToListElement2 >> newSelectionModel [ 
 
-	^ ToListSelectionModel new
+	^ ToSelectionModel new
 ]
 
 { #category : #'t - element with placeholder' }

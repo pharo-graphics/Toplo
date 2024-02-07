@@ -1,11 +1,10 @@
 Class {
 	#name : #ToSelectionModelHolderForTest,
-	#superclass : #Object,
+	#superclass : #BlElement,
 	#traits : 'TBlEventTarget',
 	#classTraits : 'TBlEventTarget classTrait',
 	#instVars : [
 		'selectionModel',
-		'eventDispatcher',
 		'dataSource',
 		'successfulCommand',
 		'data'

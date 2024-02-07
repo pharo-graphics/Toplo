@@ -9,12 +9,6 @@ Class {
 }
 
 { #category : #initialization }
-ToListSelectionModelHolderForTest >> defaultSelectionModel [
-
-	^ ToListSelectionModel new
-]
-
-{ #category : #initialization }
 ToListSelectionModelHolderForTest >> initialize [ 
 
 	super initialize.

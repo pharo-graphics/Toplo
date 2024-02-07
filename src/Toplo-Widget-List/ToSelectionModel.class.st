@@ -45,6 +45,12 @@ ToSelectionModel >> addWholeSelectionCommand: aCommand [
 ]
 
 { #category : #'command handling' }
+ToSelectionModel >> applyCommand: aCommand [
+
+	aCommand applyOn: self
+]
+
+{ #category : #'command handling' }
 ToSelectionModel >> checkEmptiness [
 
 	self underlyingModel isEmpty ifTrue: [
@@ -84,10 +90,18 @@ ToSelectionModel >> hash [
 	^ self class hash bitXor: self underlyingModel hash
 ]
 
-{ #category : #accessing }
-ToSelectionModel >> indices [
+{ #category : #testing }
+ToSelectionModel >> ifEmpty: aBlock [
 
-	^ self underlyingModel indices
+	self isEmpty ifFalse: [ ^ self ].
+	aBlock value
+]
+
+{ #category : #testing }
+ToSelectionModel >> ifNotEmpty: aBlock [
+
+	self isEmpty ifTrue: [ ^ self ].
+	aBlock cull: self
 ]
 
 { #category : #initialization }
@@ -133,16 +147,29 @@ ToSelectionModel >> itemCount [
 	^ itemCountGetter value
 ]
 
-{ #category : #private }
+{ #category : #accessing }
 ToSelectionModel >> itemCountGetter [
 
 	^ itemCountGetter 
 ]
 
+{ #category : #accessing }
+ToSelectionModel >> itemCountGetter: aValuable [
+
+	" aValuable takes no args and return the number of items (typically, a datasource items count) "
+	itemCountGetter := aValuable
+]
+
 { #category : #'instance creation' }
-ToSelectionModel >> newSelecter [
+ToSelectionModel >> newOperator [
 
 	^ ToSelectionModelOperator new 
+]
+
+{ #category : #'instance creation' }
+ToSelectionModel >> newUpdater [
+
+	^ ToSelectionModelUpdater new selectionModel: self
 ]
 
 { #category : #'api - hooks' }
@@ -196,9 +223,27 @@ ToSelectionModel >> removeWholeSelectionCommand: aCommand [
 ]
 
 { #category : #accessing }
-ToSelectionModel >> selectedItemCount [
+ToSelectionModel >> selectedIndexes [
 
-	^ self underlyingModel selectedItemCountAmong: self itemCount
+	^ self underlyingModel selectedIndexesAmong: self itemCount
+]
+
+{ #category : #enumerating }
+ToSelectionModel >> selectedIndexesCollect: aBlock [
+
+	^ self underlyingModel selectedIndexesCollect: aBlock among: self itemCount
+]
+
+{ #category : #accessing }
+ToSelectionModel >> selectedIndexesCount [
+
+	^ self underlyingModel selectedIndexesCountAmong: self itemCount
+]
+
+{ #category : #enumerating }
+ToSelectionModel >> selectedIndexesDo: aBlock [
+
+	^ self underlyingModel selectedIndexesDo: aBlock among: self itemCount
 ]
 
 { #category : #accessing }

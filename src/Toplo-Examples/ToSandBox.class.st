@@ -327,6 +327,39 @@ ToSandBox class >> example_CodeEditor [
 
 ]
 
+{ #category : #'list 2' }
+ToSandBox class >> example_EditableList2WithAllClassesNames [
+
+	| l vscrollBar space innerWin |
+	l := ToListElement2 new.
+	l beVertical.
+	l
+		nodeClass: ToListClassNodeExample;
+		nodeBuilder: [ :node :holder | node forClassNameAssoc: holder data ];
+		addEventHandler: (BlEventHandler
+				 on: ToListStrongSelectionEvent
+				 do: [ :event |
+					 event indexes size == 1 ifTrue: [
+							 (l nodeAt: event indexes first) label addEditorEvent: event ] ]);
+		withRowNumbers.
+	l data addAll:
+		(Smalltalk globals allClasses collect: [ :cls | cls -> cls name ]).
+
+	vscrollBar := BlVerticalScrollbarElement new.
+	vscrollBar constraintsDo: [ :c |
+		c ignoreByLayout.
+		c margin: (BlInsets right: 2).
+		c ignored horizontal alignRight.
+		c ignored vertical alignBottom ].
+	vscrollBar attachTo: l infinite.
+	innerWin := ToInnerWindow new.
+	innerWin pane addChild: l.
+	innerWin pane addChild: vscrollBar.
+	space := BlSpace new.
+	space root addChild: innerWin.
+	space show
+]
+
 { #category : #list }
 ToSandBox class >> example_EditableListWithAllClassesNames [
 
@@ -427,6 +460,49 @@ ToSandBox class >> example_EditorWithoutSoftLine [
 	view withoutSoftLine.
 	view text: ((String loremIpsum: 100000) asRopedText fontName: 'Source Code Pro').
 	view openInSpace
+]
+
+{ #category : #'list 2' }
+ToSandBox class >> example_FilterOnList2WithAllClassesAndTraitsSorted [
+
+	| listElement pane filterField filter |
+	pane := ToPane new
+		        beVertical;
+		        matchParent.
+	filterField := ToTextField new.
+	listElement := ToListElement2 new nodeBuilder: [ :node :holder |
+		               node addChild: (ToClassNameViewExample new
+				                class: holder data position: holder position;
+				                yourself) ].
+	listElement margin: (BlInsets all: 2).
+	filterField margin: (BlInsets all: 2).
+
+	filter := ToListElementFilter new.
+	filter onInstalledIn: listElement.
+	listElement data addAll:
+		(Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]).
+
+
+	filterField addEventHandler: (BlEventHandler
+			 on: AlbTextEditedEvent
+			 do: [
+				 | pattern |
+				 pattern := filterField text asString.
+				 listElement dispatchEvent:
+					 (ToListFilterRequest new pattern: pattern) ]).
+
+	listElement placeholderBuilder: [ :ph :e |
+		| lab |
+		lab := ToAttributedLabel new text: ('No Data' asRopedText
+				        foreground: Color lightGray;
+				        fontSize: 24;
+				        yourself).
+		lab matchParent.
+		ph addChild: lab ].
+
+	pane addChild: listElement.
+	pane addChild: filterField.
+	pane openInSpace
 ]
 
 { #category : #list }
@@ -781,7 +857,7 @@ ToSandBox class >> example_List2WithAllClassesMono [
 
 	| l |
 	l := ToListElement2 new.
-	l installSelectionManager: ToListSingleSelectionManager new.
+	l selectionMode: ToListSingleSelectionMode new.
 	l data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]).
 	l openInSpace
 ]
@@ -802,9 +878,159 @@ ToSandBox class >> example_List2WithAllClassesNone [
 
 	| l |
 	l := ToListElement2 new.
-	l installSelectionManager: ToListNoneSelectionManager new.
+	l selectionMode: ToListNoneSelectionMode new.
 	l data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]).
 	l openInSpace
+]
+
+{ #category : #'list 2' }
+ToSandBox class >> example_List2WithEditableAndContextMenu [
+
+	| l selectionMenu menuFactory phtext |
+	l := ToListElement2 new.
+	phtext := (('Invoke the context menu ' , String cr
+	            , 'with a right-click' , String cr
+	            , 'to initialize the list') asRopedText
+		           foreground: Color lightGray;
+		           yourself)
+		          fontSize: 24;
+		          yourself.
+
+	l placeholderBuilder: [ :placeholder :e |
+		| lab |
+		placeholder layout alignCenter.
+		placeholder preventMeAndChildrenMouseEvents.
+		lab := ToAttributedLabel new
+			       beMultiLine;
+			       text: phtext;
+			       yourself.
+		placeholder addChild: lab ].
+	l nodeBuilder: [ :node :holder |
+		| lab t |
+		t := holder data.
+		lab := ToLabel text: t.
+		lab defaultRawSkin: ToLabelInListSkin new.
+		lab beMultiLine.
+		lab beEditable.
+		lab stillPressedStartDelay: 800 milliSeconds.
+		lab addEventHandler: (BlEventHandler
+				 on: ToStillPressedLookEvent
+				 do: [ :event |
+					 event consumed: true.
+					 lab addEditorEvent: event ]).
+		lab addEventHandler: (BlEventHandler
+				 on: ToLabelEditorOpenedEvent
+				 do: [ l disableScrolledEvent ]).
+		lab addEventHandler: (BlEventHandler
+				 on: ToLabelEditorClosedEvent
+				 do: [ l enableScrolledEvent ]).
+		lab addEventHandler: (BlEventHandler
+				 on: ToLabelTextReplacedEvent
+				 do: [ l data at: holder position put: lab text asString ]).
+		node addChild: (ToLabeledIcon new
+				 label: lab;
+				 hMatchParent) ].
+	l addEventHandler: (BlEventHandler
+			 on: ToListSelectionChangedEvent
+			 do: [ :event | self class name trace. ' list selection changed' traceCr ]).
+	l addEventHandler: (BlEventHandler
+			 on: ToListStrongSelectionEvent
+			 do: [ :event |
+				 | r |
+				self class name trace. ' double click' traceCr.
+				 r := event currentTarget selectionModel selectedIndexesCollect: [ :idx | idx asString , ':XXXXXX' ].
+				 r do: [ :e | l data addFirst: e ] ]).
+	menuFactory := [ :menu :request |
+	               | selectedIndexes target |
+	               target := request currentTarget.
+	               selectedIndexes := request selectionModel selectedIndexes.
+	               menu addItem: (ToMenuItem new
+			                labelText: 'Add initial Items';
+			                whenClickedDo: [ :event |
+				                target data addAll:
+						                ((1 to: 2000) collect: [ :p |
+								                 p asString , ' AAAAAAAAAAA' ]) ]).
+	               menu addItem: (ToMenuItem new
+			                labelText: 'Inspect list';
+			                whenClickedDo: [ :event | target inspect ]).
+	               target data ifNotEmpty: [
+		               menu addItem: (ToMenuItem new
+				                labelText: 'Select all';
+				                whenClickedDo: [ :event |
+					                target selecter selectAll ]).
+		               menu addItem: (ToMenuItem new
+				                labelText: 'Remove all';
+				                whenClickedDo: [ :event | target data removeAll ];
+				                yourself) ].
+	               selectedIndexes ifNotEmpty: [
+		               selectionMenu := ToMenu new.
+		               selectionMenu label: (ToLabel new text: 'Selection').
+		               selectedIndexes size = 1 ifTrue: [
+			               | node idx label |
+			               idx := selectedIndexes first.
+			               node := l nodeAt: idx.
+			               label := node firstChild label.
+			               selectionMenu addItem: (ToMenuItem new
+					                labelText: 'Edit';
+					                whenClickedDo: [ :event |
+						                label addEditorEvent: nil ];
+					                yourself).
+			               selectionMenu addItem: (ToMenuItem new
+					                labelText: (label isMonoLine
+							                 ifTrue: [ 'Be multiline' ]
+							                 ifFalse: [ 'Be monoline' ]);
+					                whenClickedDo: [ :event |
+						                node firstChild label monoLine:
+								                label isMonoLine not ];
+					                yourself).
+			               selectionMenu addItem: (ToMenuItem new
+					                labelText: 'Inspect';
+					                whenClickedDo: [ :event | node inspect ];
+					                yourself).
+			               selectionMenu addSeparator ].
+		               selectionMenu addItem: (ToMenuItem new
+				                labelText: 'Insert before';
+				                whenClickedDo: [ :event |
+					                | idx |
+					                idx := selectedIndexes first.
+					                target data
+						                add: idx asString , ':XXXXXX'
+						                beforeIndex: idx.
+						self flag: 'To do here'.
+					                "target selectionStrategy
+						                shiftAfterAddingAt: idx
+						                itemCount: 1" ];
+				                yourself).
+		               selectionMenu addItem: (ToMenuItem new
+				                labelText: 'Insert after';
+				                whenClickedDo: [ :event |
+					                | idx |
+					                idx := selectedIndexes last.
+					                target data
+						                add: idx asString , ':XXXXXX'
+						                afterIndex: idx ];
+				                yourself).
+		               selectionMenu addSeparator.
+		               selectionMenu addItem: (ToMenuItem new
+				                labelText: 'Remove';
+				                whenClickedDo: [ :event |
+					                selectedIndexes ifNotEmpty: [
+							                target data
+								                removeFrom: selectedIndexes first
+								                to: selectedIndexes last.
+								self flag: 'To do here'.
+							                "target selectionStrategy
+								                shiftAfterRemovingAt: selectedIndexes first
+								                itemCount:
+									                selectedIndexes last - selectedIndexes first
+									                + 1" ] ];
+				                yourself).
+		               menu addSeparator.
+		               menu addItem: selectionMenu ] ].
+
+	l contextMenu: menuFactory.
+	l withRowNumbers.
+	l openInInnerWindow
 ]
 
 { #category : #'list 2' }

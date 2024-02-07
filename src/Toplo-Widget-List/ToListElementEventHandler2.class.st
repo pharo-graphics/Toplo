@@ -79,7 +79,7 @@ ToListElementEventHandler2 >> eventsToHandle [
 { #category : #'event handling' }
 ToListElementEventHandler2 >> infiniteElementAttachedEvent: anEvent [
 
-	anEvent currentTarget selectionManager onAddedNode: anEvent element
+	anEvent currentTarget selectionMode onAddedNode: anEvent element
 ]
 
 { #category : #'event handling' }
@@ -97,7 +97,7 @@ ToListElementEventHandler2 >> infiniteElementDataSourceDetachedEvent: anEvent [
 { #category : #'event handling' }
 ToListElementEventHandler2 >> infiniteElementDetachedEvent: anEvent [
 
-	anEvent currentTarget selectionManager onRemovedNode: anEvent element
+	anEvent currentTarget selectionMode onRemovedNode: anEvent element
 ]
 
 { #category : #'mouse handlers' }
@@ -105,7 +105,7 @@ ToListElementEventHandler2 >> mouseDownEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	target selectionManager requestFocusOnMouseDown ifFalse: [ ^ self ].
+	target selectionMode requestFocusOnMouseDown ifFalse: [ ^ self ].
 	target hasFocus ifTrue: [ ^ self ].
 	target requestFocus.
 	anEvent consumed: true

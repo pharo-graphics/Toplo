@@ -2,9 +2,7 @@ Class {
 	#name : #ToListSelectionChangedEvent,
 	#superclass : #ToListSelectionEvent,
 	#instVars : [
-		'selectionModel',
-		'currentIndexes',
-		'previousIndexes'
+		'selectionModel'
 	],
 	#category : #'Toplo-Widget-List-Selection-Strategy'
 }
@@ -12,13 +10,19 @@ Class {
 { #category : #accessing }
 ToListSelectionChangedEvent >> currentIndexes [
 
-	^ currentIndexes
+	self
+		deprecated: 'Use #selectionModel instead '
+		transformWith: '`@receiver currentIndexes '
+			->
+			'`@receiver selectedIndexes '.
+	^ self selectedIndexes
 ]
 
 { #category : #accessing }
 ToListSelectionChangedEvent >> currentIndexes: currentSelectedIndexes [
 
-	currentIndexes := currentSelectedIndexes copy
+	self
+		deprecated: 'Use #selectionModel: instead '
 ]
 
 { #category : #accessing }
@@ -30,55 +34,48 @@ ToListSelectionChangedEvent >> newSelectedIndexes [
 			->
 			'`@receiver currentIndexes '.
 
-	^ self currentIndexes
+	^ self selectedIndexes
 ]
 
 { #category : #accessing }
 ToListSelectionChangedEvent >> newSelectedIndexes: anArray [
 
 	self
-		deprecated: 'Use currentIndexes: instead'
-		transformWith: '`@receiver newSelectedIndexes: `@arg '
-			->
-			'`@receiver currentIndexes: `@arg'.
-
-	self currentIndexes: anArray
+		deprecated: 'Use selectionModel instead'.
 ]
 
 { #category : #accessing }
 ToListSelectionChangedEvent >> oldSelectedIndexes [
 
 	self
-		deprecated: 'Use previousIndexes instead'
-		transformWith: '`@receiver oldSelectedIndexes '
-			->
-			'`@receiver previousIndexes '.
-
-	^ self previousIndexes
+		deprecated: 'Not used anymore'
 ]
 
 { #category : #accessing }
 ToListSelectionChangedEvent >> oldSelectedIndexes: anArray [
 
 	self
-		deprecated: 'Use previousIndexes: instead'
-		transformWith: '`@receiver oldSelectedIndexes: `@arg '
-			->
-			'`@receiver previousIndexes: `@arg'.
-
-	self previousIndexes: anArray
+		deprecated: 'Not used anymore'
 ]
 
 { #category : #accessing }
 ToListSelectionChangedEvent >> previousIndexes [
 
-	^ previousIndexes
+	self
+		deprecated: 'Not used anymore'
 ]
 
 { #category : #accessing }
 ToListSelectionChangedEvent >> previousIndexes: previousSelectedIndexes [
 
-	previousIndexes := previousSelectedIndexes copy
+	self
+		deprecated: 'Not used anymore'
+]
+
+{ #category : #accessing }
+ToListSelectionChangedEvent >> selectedIndexes [ 
+
+	^ self selectionModel selectedIndexes 
 ]
 
 { #category : #accessing }

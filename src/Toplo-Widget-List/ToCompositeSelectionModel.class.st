@@ -40,12 +40,6 @@ ToCompositeSelectionModel >> hash [
 	^ self class hash bitXor: self selection hash
 ]
 
-{ #category : #accessing }
-ToCompositeSelectionModel >> indices [
-
-	^ selection indices
-]
-
 { #category : #initialization }
 ToCompositeSelectionModel >> initialize [ 
 
@@ -85,12 +79,30 @@ ToCompositeSelectionModel >> selectIndex: anIndex [
 ]
 
 { #category : #accessing }
-ToCompositeSelectionModel >> selectedItemCountAmong: anInteger [
+ToCompositeSelectionModel >> selectedIndexesAmong: anInteger [
+
+	^ selection indices
+]
+
+{ #category : #enumerating }
+ToCompositeSelectionModel >> selectedIndexesCollect: aBlock among: anItemCount [
+
+	^ self selection indicesCollect: aBlock
+]
+
+{ #category : #accessing }
+ToCompositeSelectionModel >> selectedIndexesCountAmong: anInteger [
 
 	| count |
 	count := 0.
 	selection do: [ :s | count := count + s interval size - 1 ].
 	^ count
+]
+
+{ #category : #enumerating }
+ToCompositeSelectionModel >> selectedIndexesDo: aBlock among: anItemCount [
+
+	self selection indicesDo: aBlock
 ]
 
 { #category : #accessing }

@@ -8,10 +8,9 @@ Class {
 		'eventDispatcher',
 		'dataSource',
 		'successfulCommand',
-		'selectionMode',
 		'data'
 	],
-	#category : #'Toplo-Widget-List-Tests-Selection-Command'
+	#category : #'Toplo-Widget-List-Tests-Selection-Model'
 }
 
 { #category : #accessing }
@@ -54,13 +53,13 @@ ToSelectionModelHolderForTest >> initialize [
 	data := ToObservableCollection new.
 	self dataSource: ToInfiniteObservableCollectionDataSource new.
 	self dataSource data: data.
-	self selectionMode: ToListMultiSelectionMode new.
+	selectionModel := self defaultSelectionModel.
+	selectionModel onInstalledIn: self.
 	self addEventHandler: ToSelectionRequestEventHandler new.
 	self addEventHandler: (BlEventHandler
 			 on: ToSelectionResultEvent
 			 do: [ :event | self successfulCommand: true ]).
-	selectionModel := self defaultSelectionModel.
-	selectionModel onInstalledIn: self
+
 ]
 
 { #category : #accessing }
@@ -70,22 +69,10 @@ ToSelectionModelHolderForTest >> itemCount [
 ]
 
 { #category : #accessing }
-ToSelectionModelHolderForTest >> selecter [ 
+ToSelectionModelHolderForTest >> operator [ 
 
-	^  self selectionModel newSelecter on: self.
+	^  ToSelectionModelOperator new
 
-]
-
-{ #category : #accessing }
-ToSelectionModelHolderForTest >> selectionMode [
-
-	^ selectionMode
-]
-
-{ #category : #accessing }
-ToSelectionModelHolderForTest >> selectionMode: aSelectionMode [
-
-	selectionMode := aSelectionMode
 ]
 
 { #category : #accessing }

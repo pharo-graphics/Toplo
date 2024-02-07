@@ -7,7 +7,7 @@ Class {
 		'selectionElements',
 		'sharedDistributor',
 		'selectionModel',
-		'selectionManager'
+		'selectionMode'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -43,15 +43,9 @@ ToListElement2 >> defaultLayout [
 ]
 
 { #category : #initialization }
-ToListElement2 >> defaultSelectionManager [
+ToListElement2 >> defaultSelectionMode [
 
-	^ ToListMultiSelectionManager new.
-]
-
-{ #category : #initialization }
-ToListElement2 >> defaultSelectionModel [ 
-
-	^ ToListSelectionModel new
+	^ ToListMultiSelectionMode new.
 ]
 
 { #category : #orientation }
@@ -81,38 +75,20 @@ ToListElement2 >> initialize [
 
 	self next: self defaultInfiniteElement.
 	self next elevation: (BlRelativeElevation elevation: 10).
-	self installSelectionModel: self defaultSelectionModel.
+	self selectionModel: self newSelectionModel.
 	
 	selectionElements := #(  ).
 	self layout: self defaultLayout.
 	
-	self installSelectionManager: self defaultSelectionManager.
+	self selectionMode: self defaultSelectionMode.
 	self addEventHandler: ToListElementEventHandler2 new.
 	self installSharedEventDistributor.
 
 	self addChild: self next.
 	self contextMenuWindowManagerClass: ToListElementContextMenuWindowManager.
 	self addEventHandler: ToListSelectionElementEventHandler2 new.
-	self addEventHandler: ToListElementContextMenuSelectionEventHandler new.
+	self addEventHandler: ToListElementContextMenuSelectionEventHandler2 new.
 	self matchParent
-]
-
-{ #category : #accessing }
-ToListElement2 >> installSelectionManager: aSelectionManager [
-
-	selectionManager ifNotNil: [ selectionManager onUninstalledIn: self ].
-	selectionManager := aSelectionManager.
-	selectionManager ifNotNil: [ selectionManager onInstalledIn: self ]
-
-]
-
-{ #category : #'accessing - selection model' }
-ToListElement2 >> installSelectionModel: aSelectionModel [
-
-	selectionModel ifNotNil: [ selectionModel onUninstalledIn: self ].
-	selectionModel := aSelectionModel.
-	selectionModel ifNotNil: [selectionModel onInstalledIn: self ].
-	self infinite selectionModel: selectionModel.
 ]
 
 { #category : #initialization }
@@ -156,6 +132,12 @@ ToListElement2 >> newRawSkin [
 	^ ToListElementSkin new
 ]
 
+{ #category : #initialization }
+ToListElement2 >> newSelectionModel [ 
+
+	^ ToListSelectionModel new
+]
+
 { #category : #'t - element with placeholder' }
 ToListElement2 >> placeholderElevation [
 
@@ -165,7 +147,7 @@ ToListElement2 >> placeholderElevation [
 { #category : #accessing }
 ToListElement2 >> selecter [ 
 
-	^ self selectionManager selecter
+	^ self selectionMode selecter
 ]
 
 { #category : #accessing }
@@ -181,21 +163,33 @@ ToListElement2 >> selectionElements: aListElementSelectionCollection [
 ]
 
 { #category : #accessing }
-ToListElement2 >> selectionManager [
+ToListElement2 >> selectionMode [
 
-	^ selectionManager
+	^ selectionMode
 ]
 
 { #category : #accessing }
-ToListElement2 >> selectionMode [
+ToListElement2 >> selectionMode: aSelectionManager [
 
-	^ self selectionManager selectionMode
+	selectionMode ifNotNil: [ selectionMode onUninstalledIn: self ].
+	selectionMode := aSelectionManager.
+	selectionMode ifNotNil: [ selectionMode onInstalledIn: self ]
+
 ]
 
 { #category : #accessing }
 ToListElement2 >> selectionModel [
 
 	^ selectionModel
+]
+
+{ #category : #accessing }
+ToListElement2 >> selectionModel: aSelectionModel [
+
+	selectionModel ifNotNil: [ selectionModel onUninstalledIn: self ].
+	selectionModel := aSelectionModel.
+	selectionModel ifNotNil: [selectionModel onInstalledIn: self ].
+	self infinite selectionModel: selectionModel.
 ]
 
 { #category : #initialization }

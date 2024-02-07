@@ -33,12 +33,6 @@ ToEmptySelectionModel >> deselect: aFromTextIndex to: aToTextIndex [
 ToEmptySelectionModel >> deselectIndex: anIndex [
 ]
 
-{ #category : #accessing }
-ToEmptySelectionModel >> indices [ 
-
-	^ {  }
-]
-
 { #category : #testing }
 ToEmptySelectionModel >> isEmpty [
 
@@ -58,7 +52,25 @@ ToEmptySelectionModel >> select: aFromTextIndex to: aToTextIndex [
 ]
 
 { #category : #accessing }
-ToEmptySelectionModel >> selectedItemCountAmong: anInteger [
+ToEmptySelectionModel >> selectedIndexesAmong: anInteger [ 
+
+	^ {  }
+]
+
+{ #category : #enumerating }
+ToEmptySelectionModel >> selectedIndexesCollect: aBlock among: anItemCount [
+
+	^ #()
+]
+
+{ #category : #accessing }
+ToEmptySelectionModel >> selectedIndexesCountAmong: anInteger [
 
 	^ 0
+]
+
+{ #category : #enumerating }
+ToEmptySelectionModel >> selectedIndexesDo: aBlock among: anItemCount [
+
+
 ]

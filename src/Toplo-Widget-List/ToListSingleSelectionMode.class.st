@@ -1,55 +1,34 @@
 Class {
 	#name : #ToListSingleSelectionMode,
 	#superclass : #ToListSelectionMode,
-	#category : #'Toplo-Widget-List-Selection-Model'
+	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
-{ #category : #'command checking' }
-ToListSingleSelectionMode >> addIndexesSelectionCommand: aCommand [
+{ #category : #initialization }
+ToListSingleSelectionMode >> defaultSelectionCommandChecker [
 
-	aCommand indexes size = 1 ifTrue: [ ^ self ].
-	aCommand indexes ifEmpty: [ ^ ToInvalidCommand new messageText: 'The indexes array should not be empty' ].
-	ToIncompatibleMode new signal
+	^ ToListSingleSelectionCommandChecker new
 ]
 
-{ #category : #'command checking' }
-ToListSingleSelectionMode >> addIntervalSelectionCommand: aCommand [
+{ #category : #accessing }
+ToListSingleSelectionMode >> nodeEventHandlerClasses [ 
 
-	(aCommand from = aCommand to and: [aCommand from > 0]) ifTrue: [ ^ self ].
-	(aCommand from - aCommand to) abs > 0 ifFalse: [
-		^ ToInvalidCommand new messageText:
-			  'The interval should not be empty' ].
-	ToIncompatibleMode new signal
-]
-
-{ #category : #'command checking' }
-ToListSingleSelectionMode >> addWholeSelectionCommand: aCommand [
-
-	ToIncompatibleMode new signal
+	^ { ToListNodeSingleSelectionClickEventHandler }
 
 ]
 
-{ #category : #'command checking' }
-ToListSingleSelectionMode >> removeIndexesSelectionCommand: aCommand [
+{ #category : #'event handling' }
+ToListSingleSelectionMode >> onClickOnNode: aNode event: anEvent [
 
-	aCommand indexes size = 1 ifTrue: [ ^ self ].
-	aCommand indexes ifEmpty: [ ^ ToInvalidCommand new messageText: 'The indexes array should not be empty' ].
-	ToIncompatibleMode new signal
-]
+	anEvent sourceEvent modifiers isPrimaryModifier ifTrue: [
+		| index |
+		index := aNode holder position.
+		(self selectionModel containsIndex: index) ifTrue: [
+			^ self selecter
+				  deselectIndex: index;
+				  apply ] ].
 
-{ #category : #'command checking' }
-ToListSingleSelectionMode >> removeIntervalSelectionCommand: aCommand [
-
-	| interval |
-	interval := aCommand computedInterval.
-	interval size = 1 ifTrue: [ ^ self ].
-	interval ifEmpty: [ ^ ToInvalidCommand new messageText: 'The interval should not be empty' ].
-	ToIncompatibleMode new signal
-]
-
-{ #category : #'command checking' }
-ToListSingleSelectionMode >> removeWholeSelectionCommand: aCommand [
-
-	" ok lets do it "
-
+	self selecter
+		selectOnlyIndex: aNode holder position;
+		apply
 ]

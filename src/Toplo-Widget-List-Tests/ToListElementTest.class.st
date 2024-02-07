@@ -3,7 +3,7 @@ A ToListElementTest is a test class for testing the behavior of ToListElement
 "
 Class {
 	#name : #ToListElementTest,
-	#superclass : #ToInfiniteTest,
+	#superclass : #ToParameterizedHostTest,
 	#category : #'Toplo-Widget-List-Tests-Core'
 }
 
@@ -35,6 +35,20 @@ ToListElementTest >> listWithRemoveRowButtons [
 		line addChild: remBut.
 		node addChild: line ].
 	^ list
+]
+
+{ #category : #accessing }
+ToListElementTest >> statesOfAmerica [
+
+	^ { #Alabama. #Alaska. #Arizona. #Arkansas. #California. #Colorado.
+		#Connecticut. #Delaware. #Florida. #Georgia. #Hawaii. #Idaho. #'Illinois Indiana'.
+		#Iowa. #Kansas. #Kentucky. #Louisiana. #Maine. #Maryland. #Massachusetts.
+		#Michigan. #Minnesota. #Mississippi. #Missouri. #Montana. #Nebraska.
+		#Nevada. #'New Hampshire'. #'New Jersey'. #'New Mexico'.
+		#'New York'. #'North Carolina'. #'North Dakota'. #Ohio. #Oklahoma.
+		#Oregon. #'Pennsylvania Rhode Island'. #'South Carolina'.
+		#'South Dakota'. #Tennessee. #Texas. #Utah. #Vermont. #Virginia.
+		#Washington. #'West Virginia'. #Wisconsin. #Wyoming }.
 ]
 
 { #category : #tests }

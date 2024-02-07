@@ -86,12 +86,6 @@ ToInfiniteElement >> defaultPeserveSelectionOnFocused [
 ]
 
 { #category : #initialization }
-ToInfiniteElement >> defaultSelectionMode [
-
-	^ ToListMultiSelectionMode new
-]
-
-{ #category : #initialization }
 ToInfiniteElement >> defaultSelectionStrategy [
 
 	^ ToListNullSelectionStrategy new

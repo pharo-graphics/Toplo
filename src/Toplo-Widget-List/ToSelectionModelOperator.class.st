@@ -3,29 +3,31 @@ Class {
 	#superclass : #Object,
 	#classTraits : 'TBlEventTarget classTrait',
 	#instVars : [
-		'eventTarget'
+		'command'
 	],
-	#category : #'Toplo-Widget-List-Selection-Model'
+	#category : #'Toplo-Widget-List-Selection-Updater'
 }
 
 { #category : #operations }
-ToSelectionModelOperator >> cherryPickIndex: anIndex [
+ToSelectionModelOperator >> addCommand: aCommand [
 
-	(self selectionModel containsIndex: anIndex)
-		ifTrue: [ self deselectIndex: anIndex ]
-		ifFalse: [ self selectIndex: anIndex ]
+	command
+		ifNil: [ command := aCommand ]
+		ifNotNil: [ command next: aCommand ]
 ]
 
-{ #category : #accessing }
-ToSelectionModelOperator >> dataSource [
+{ #category : #'event dispatching' }
+ToSelectionModelOperator >> applyOn: anEventTarget [
 
-	^ self eventTarget dataSource
+	command ifNil: [ ^ self ].
+	[ self dispatchEventForCommandOn: anEventTarget ] ensure: [
+		command := nil ]
 ]
 
 { #category : #operations }
 ToSelectionModelOperator >> deselectAll [
 
-	self dispatchEventForCommand: (ToWholeSelectionCommand new
+	self addCommand: (ToWholeSelectionCommand new
 			 operation: ToRemoveSelectionOperation new;
 			 yourself)
 ]
@@ -33,7 +35,7 @@ ToSelectionModelOperator >> deselectAll [
 { #category : #operations }
 ToSelectionModelOperator >> deselectAllIndexes: anArray [
 
-	self dispatchEventForCommand: (ToIndexesSelectionCommand new
+	self addCommand: (ToIndexesSelectionCommand new
 			 indexes: anArray;
 			 operation: ToRemoveSelectionOperation new)
 ]
@@ -41,75 +43,27 @@ ToSelectionModelOperator >> deselectAllIndexes: anArray [
 { #category : #operations }
 ToSelectionModelOperator >> deselectIndex: anIndex [
 
-	self dispatchEventForCommand: (ToIntervalSelectionCommand new
+	self addCommand: (ToIntervalSelectionCommand new
 			 from: anIndex to: anIndex;
 			 operation: ToRemoveSelectionOperation new)
 ]
 
 { #category : #'event dispatching' }
-ToSelectionModelOperator >> dispatchCommandResult: aCommand [
-
-	self eventTarget dispatchEvent: (ToSelectionResultEvent new command: aCommand)
-]
-
-{ #category : #'event dispatching' }
-ToSelectionModelOperator >> dispatchEventForCommand: aCommand [
+ToSelectionModelOperator >> dispatchEventForCommandOn: anEventTarget [
 
 	| request |
-	[
-	self eventTarget dispatchEvent:
-		(request := ToSelectionRequestEvent new
-			            command: aCommand;
-			            yourself) ]
-		on: ToIncompatibleMode
-		do: [ :err | self onSelectionRequestError: err. ^ self].
+	anEventTarget dispatchEvent: (request := ToSelectionRequestEvent new
+			            command: command;
+			            yourself).
 	request selectionChanged ifFalse: [ ^ self ].
-	self dispatchSelectionChanged.
-	self onSelectionRequestSuccess: request
-]
-
-{ #category : #'event dispatching' }
-ToSelectionModelOperator >> dispatchSelectionChanged [
-
-	self eventTarget dispatchEvent: (ToListSelectionChangedEvent new
-			 selectionModel: self selectionModel;
-			 yourself)
-]
-
-{ #category : #accessing }
-ToSelectionModelOperator >> eventTarget [ 
-
-	^ eventTarget
-]
-
-{ #category : #accessing }
-ToSelectionModelOperator >> eventTarget: anEventTarget [
-
-	eventTarget := anEventTarget
-]
-
-{ #category : #initialization }
-ToSelectionModelOperator >> on: anEventTarget [
-
-	eventTarget := anEventTarget
-]
-
-{ #category : #'event dispatching' }
-ToSelectionModelOperator >> onSelectionRequestError: anError [
-
-	anError signal
-]
-
-{ #category : #'event dispatching' }
-ToSelectionModelOperator >> onSelectionRequestSuccess: aSelectionRequestEvent [
-
-	self dispatchCommandResult: aSelectionRequestEvent command
+	anEventTarget dispatchEvent: ToListSelectionChangedEvent new.
+	anEventTarget dispatchEvent: (ToSelectionResultEvent new command: command)
 ]
 
 { #category : #operations }
 ToSelectionModelOperator >> selectAll [
 
-	self dispatchEventForCommand: (ToWholeSelectionCommand new
+	self addCommand: (ToWholeSelectionCommand new
 			 operation: ToAddSelectionOperation new;
 			 yourself)
 ]
@@ -117,7 +71,7 @@ ToSelectionModelOperator >> selectAll [
 { #category : #operations }
 ToSelectionModelOperator >> selectAllIndexes: anArray [
 
-	self dispatchEventForCommand: (ToIndexesSelectionCommand new
+	self addCommand: (ToIndexesSelectionCommand new
 			 indexes: anArray;
 			 operation: ToAddSelectionOperation new)
 ]
@@ -125,7 +79,7 @@ ToSelectionModelOperator >> selectAllIndexes: anArray [
 { #category : #operations }
 ToSelectionModelOperator >> selectIndex: anIndex [
 
-	self dispatchEventForCommand: (ToIntervalSelectionCommand new
+	self addCommand: (ToIntervalSelectionCommand new
 			 from: anIndex to: anIndex;
 			 operation: ToAddSelectionOperation new)
 ]
@@ -133,7 +87,7 @@ ToSelectionModelOperator >> selectIndex: anIndex [
 { #category : #operations }
 ToSelectionModelOperator >> selectIndex: aStartIndex to: anEndIndex [
 
-	self dispatchEventForCommand: (ToIntervalSelectionCommand new
+	self addCommand: (ToIntervalSelectionCommand new
 			 from: aStartIndex to: anEndIndex;
 			 operation: ToAddSelectionOperation new)
 ]
@@ -141,8 +95,7 @@ ToSelectionModelOperator >> selectIndex: aStartIndex to: anEndIndex [
 { #category : #operations }
 ToSelectionModelOperator >> selectOnlyIndex: anIndex [
 
-	self dispatchEventForCommand:
-		((ToWholeSelectionCommand new operation:
+	self addCommand: ((ToWholeSelectionCommand new operation:
 			  ToRemoveSelectionOperation new) next:
 			 (ToIntervalSelectionCommand new
 				  from: anIndex to: anIndex;
@@ -152,22 +105,9 @@ ToSelectionModelOperator >> selectOnlyIndex: anIndex [
 { #category : #operations }
 ToSelectionModelOperator >> selectOnlyIndexes: anArray [
 
-	self dispatchEventForCommand:
-		((ToWholeSelectionCommand new operation:
+	self addCommand: ((ToWholeSelectionCommand new operation:
 			  ToRemoveSelectionOperation new) next:
 			 (ToIndexesSelectionCommand new
 				  indexes: anArray;
 				  operation: ToAddSelectionOperation new))
-]
-
-{ #category : #accessing }
-ToSelectionModelOperator >> selectionModel [
-
-	^ self eventTarget selectionModel
-]
-
-{ #category : #accessing }
-ToSelectionModelOperator >> selectionStrategy [
-
-	^ self eventTarget selectionStrategy
 ]

@@ -1,41 +1,24 @@
 Class {
 	#name : #ToListNoneSelectionMode,
-	#superclass : #ToListSelectionMode,
-	#category : #'Toplo-Widget-List-Selection-Model'
+	#superclass : #ToListAbstractSelectionMode,
+	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
-{ #category : #'command checking' }
-ToListNoneSelectionMode >> addIndexesSelectionCommand: aCommand [
+{ #category : #initialization }
+ToListNoneSelectionMode >> defaultSelectionCommandChecker [
 
-	ToIncompatibleMode new signal
+	^ ToListNoneSelectionCommandChecker new
 ]
 
-{ #category : #'command checking' }
-ToListNoneSelectionMode >> addIntervalSelectionCommand: aCommand [
+{ #category : #accessing }
+ToListNoneSelectionMode >> nodeEventHandlerClasses [ 
 
-	ToIncompatibleMode new signal
+	^ {  }
+
 ]
 
-{ #category : #'command checking' }
-ToListNoneSelectionMode >> addWholeSelectionCommand: aCommand [
+{ #category : #'event handling' }
+ToListNoneSelectionMode >> onClickOnNode: aNode event: anEvent [
 
-	ToIncompatibleMode new signal
-]
 
-{ #category : #'command checking' }
-ToListNoneSelectionMode >> removeIndexesSelectionCommand: aCommand [
-
-	ToIncompatibleMode new signal
-]
-
-{ #category : #'command checking' }
-ToListNoneSelectionMode >> removeIntervalSelectionCommand: aCommand [
-
-	ToIncompatibleMode new signal
-]
-
-{ #category : #'command checking' }
-ToListNoneSelectionMode >> removeWholeSelectionCommand: aCommand [
-
-	ToIncompatibleMode new signal
 ]

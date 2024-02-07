@@ -1,7 +1,7 @@
 Class {
 	#name : #ToListNodeSelectionEventHandler,
 	#superclass : #BlCustomEventHandler,
-	#category : #'Toplo-Widget-List-Selection-Model'
+	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
 { #category : #'api - accessing' }

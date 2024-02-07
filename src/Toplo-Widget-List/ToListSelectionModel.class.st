@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'currentIndex',
 		'distance',
-		'pivot'
+		'pivot',
+		'selectionCommandChecker'
 	],
 	#category : #'Toplo-Widget-List-Selection-Model'
 }
@@ -28,6 +29,21 @@ ToListSelectionModel >> addWholeSelectionCommand: aCommand [
 
 	super addWholeSelectionCommand: aCommand.
 	self markPointedPosition: 0
+]
+
+{ #category : #'command handling' }
+ToListSelectionModel >> applyCommand: aCommand [
+
+	self selectionCommandChecker ifNotNil: [ :checker | aCommand applyOn: checker ].
+	super applyCommand: aCommand
+]
+
+{ #category : #'private - operations' }
+ToListSelectionModel >> checkPivot [
+
+	self pivot ifNil: [
+		self pivot: self currentIndex.
+		self distance: 0 ]
 ]
 
 { #category : #accessing }
@@ -55,6 +71,36 @@ ToListSelectionModel >> distance: anInteger [
 ]
 
 { #category : #'private - operations' }
+ToListSelectionModel >> goTowardNext [ 
+
+	self currentIndex isZero
+		ifTrue: [
+			self itemCount isZero ifTrue: [ ^ false ].
+			self markPointedPosition: 1 ]
+		ifFalse: [
+			self currentIndex < self itemCount ifFalse: [
+				self markPointedPosition: 1.
+				^ true ].
+			self markPointedPosition: self currentIndex + 1 ].
+	^ true
+]
+
+{ #category : #'private - operations' }
+ToListSelectionModel >> goTowardPrevious [
+
+	self currentIndex isZero
+		ifTrue: [
+			self itemCount isZero ifTrue: [ ^ false ].
+			self markPointedPosition: self itemCount ]
+		ifFalse: [
+			self currentIndex > 1 ifFalse: [
+				self markPointedPosition: self itemCount.
+				^ true ].
+			self markPointedPosition: self currentIndex - 1 ].
+	^ true
+]
+
+{ #category : #'private - operations' }
 ToListSelectionModel >> markPointedPosition: anInteger [
 
 	" pivot and distance are used for shift-arrow-up and down management "
@@ -62,12 +108,6 @@ ToListSelectionModel >> markPointedPosition: anInteger [
 	self distance: nil.
 	self currentIndex: anInteger.
 
-]
-
-{ #category : #'instance creation' }
-ToListSelectionModel >> newSelecter [
-
-	^ ToListSelectionModelOperator new 
 ]
 
 { #category : #accessing }
@@ -101,4 +141,16 @@ ToListSelectionModel >> removeWholeSelectionCommand: aCommand [
 
 	super removeWholeSelectionCommand: aCommand.
 	self markPointedPosition: 0
+]
+
+{ #category : #accessing }
+ToListSelectionModel >> selectionCommandChecker [
+
+	^ selectionCommandChecker 
+]
+
+{ #category : #accessing }
+ToListSelectionModel >> selectionCommandChecker: aSelectionCommandChecker [
+
+	selectionCommandChecker := aSelectionCommandChecker
 ]

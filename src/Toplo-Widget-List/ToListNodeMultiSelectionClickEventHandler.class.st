@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'clickLauncher'
 	],
-	#category : #'Toplo-Widget-List-Selection-Model'
+	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
 { #category : #'events handling' }
@@ -25,7 +25,7 @@ ToListNodeMultiSelectionClickEventHandler >> launchClick: aBlock event: anEvent 
 
 	| listElement manager |
 	listElement := anEvent listElement.
-	manager := listElement selectionManager.
+	manager := listElement selectionMode.
 
 	listElement hasFocus ifFalse: [
 		listElement requestFocus.
@@ -77,9 +77,9 @@ ToListNodeMultiSelectionClickEventHandler >> listDoubleClickOnNodeEvent: anEvent
 { #category : #'selection events' }
 ToListNodeMultiSelectionClickEventHandler >> onClickOnNodeEvent: anEvent [
 
-	anEvent listElement selectionManager
+	anEvent listElement selectionMode
 		onClickOnNode: anEvent currentTarget
-		event: anEvent sourceEvent
+		event: anEvent
 ]
 
 { #category : #'events handling' }

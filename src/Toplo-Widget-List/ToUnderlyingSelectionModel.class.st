@@ -40,12 +40,6 @@ ToUnderlyingSelectionModel >> deselectIndex: anIndex [
 	^ ToInvalidCommand signal
 ]
 
-{ #category : #accessing }
-ToUnderlyingSelectionModel >> indices [
-
-	^ ToInvalidCommand signal
-]
-
 { #category : #testing }
 ToUnderlyingSelectionModel >> isCompositeSelectionModel [
 
@@ -83,7 +77,25 @@ ToUnderlyingSelectionModel >> selectIndex: anIndex [
 ]
 
 { #category : #accessing }
-ToUnderlyingSelectionModel >> selectedItemCountAmong: anInteger [
+ToUnderlyingSelectionModel >> selectedIndexesAmong: anInteger [
+
+	^ ToInvalidCommand signal
+]
+
+{ #category : #enumerating }
+ToUnderlyingSelectionModel >> selectedIndexesCollect: aBlock among: anItemCount [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #accessing }
+ToUnderlyingSelectionModel >> selectedIndexesCountAmong: anInteger [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #enumerating }
+ToUnderlyingSelectionModel >> selectedIndexesDo: aBlock among: anItemCount [
 
 	^ self subclassResponsibility 
 ]

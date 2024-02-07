@@ -1,14 +1,14 @@
 Class {
 	#name : #ToListNodeSingleSelectionClickEventHandler,
 	#superclass : #ToListNodeSelectionEventHandler,
-	#category : #'Toplo-Widget-List-Selection-Model'
+	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
 { #category : #'mouse handlers' }
 ToListNodeSingleSelectionClickEventHandler >> listClickOnNodeEvent: anEvent [
 
-	anEvent listElement selectionManager
+	anEvent listElement selectionMode
 		onClickOnNode: anEvent currentTarget
-		event: anEvent sourceEvent.
+		event: anEvent.
 	anEvent consumed: true
 ]

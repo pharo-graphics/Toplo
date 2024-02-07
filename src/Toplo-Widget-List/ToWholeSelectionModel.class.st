@@ -32,7 +32,26 @@ ToWholeSelectionModel >> isWholeSelectionModel [
 ]
 
 { #category : #accessing }
-ToWholeSelectionModel >> selectedItemCountAmong: anInteger [
+ToWholeSelectionModel >> selectedIndexesAmong: anInteger [
+
+	anInteger ifNil: [ ^ super selectedIndexesAmong: anInteger ].
+	^ 1 to: anInteger
+]
+
+{ #category : #enumerating }
+ToWholeSelectionModel >> selectedIndexesCollect: aBlock among: anItemCount [
+
+	^ (1 to: anItemCount) collect: aBlock
+]
+
+{ #category : #accessing }
+ToWholeSelectionModel >> selectedIndexesCountAmong: anInteger [
 
 	^ anInteger
+]
+
+{ #category : #enumerating }
+ToWholeSelectionModel >> selectedIndexesDo: aBlock among: anItemCount [
+
+	1 to: anItemCount do: aBlock
 ]

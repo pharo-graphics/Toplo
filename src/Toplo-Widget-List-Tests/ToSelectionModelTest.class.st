@@ -124,18 +124,6 @@ ToSelectionModelTest >> testEquals [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testIndices [
-
-	| s |
-	s := ToSelectionModel new.
-	self assert: s indices equals: #().
-	s ensureCompositeSelectionModel.
-	self assert: s indices equals: #().
-	s ensureWholeSelectionModel.
-	self should: [s indices] raise: ToInvalidCommand.
-]
-
-{ #category : #tests }
 ToSelectionModelTest >> testInitialize [ 
 
 	| s |
@@ -175,6 +163,14 @@ ToSelectionModelTest >> testItemCount [
 ]
 
 { #category : #tests }
+ToSelectionModelTest >> testNewOperator [
+
+	| s selecter |
+	s := ToSelectionModel new.
+	selecter := s newOperator
+]
+
+{ #category : #tests }
 ToSelectionModelTest >> testOnInstalledIn [
 
 	| s |
@@ -201,12 +197,12 @@ ToSelectionModelTest >> testSelectedItemCount [
 	| s |
 	s := ToSelectionModel new onInstalledIn: self.
 	self assert: s isEmptySelectionModel.
-	self assert: s selectedItemCount equals: 0.
+	self assert: s selectedIndexesCount equals: 0.
 	s ensureCompositeSelectionModel.
 	s underlyingModel selectIndex: 1.
-	self assert: s selectedItemCount equals: 1.
+	self assert: s selectedIndexesCount equals: 1.
 	s ensureWholeSelectionModel.
-	self assert: s selectedItemCount equals: self itemCount.
+	self assert: s selectedIndexesCount equals: self itemCount.
 ]
 
 { #category : #tests }
@@ -225,4 +221,16 @@ ToSelectionModelTest >> testUnderlyingModel [
 
 
 	
+]
+
+{ #category : #tests }
+ToSelectionModelTest >> testselectedIndexes [
+
+	| s |
+	s := ToSelectionModel new.
+	self assert: s selectedIndexes equals: #().
+	s ensureCompositeSelectionModel.
+	self assert: s selectedIndexes equals: #().
+	s ensureWholeSelectionModel.
+	self should: [s selectedIndexes] raise: ToInvalidCommand.
 ]

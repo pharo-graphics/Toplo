@@ -283,6 +283,19 @@ ToSelectionModelOperatorTest >> testSelectionChangedOnDeselectAll [
 ]
 
 { #category : #tests }
+ToSelectionModelOperatorTest >> testSelectionChangedOnDeselectAll2 [
+
+	operator selectAllIndexes: {2. 6. 9}.
+	operator applyOn: holder.
+	self assert: selectionChanged. 
+	selectionChanged := false.
+	operator deselectAll.
+	operator deselectAll.
+	operator applyOn: holder.
+	self assert: selectionChanged
+]
+
+{ #category : #tests }
 ToSelectionModelOperatorTest >> testSelectionChangedOnDeselectAllIndexes [
 
 	self deny: selectionChanged. 

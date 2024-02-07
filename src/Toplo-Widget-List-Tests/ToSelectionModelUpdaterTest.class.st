@@ -38,7 +38,7 @@ ToSelectionModelUpdaterTest >> testInitialize [
 	self assert: (updater eventDispatcher isKindOf: BlDirectEventDispatcher).
 	self assert: (updater eventDispatcher handlers
 			 detect: [ :handler |
-			 handler isKindOf: ToSelectionRequestEventHandler ]
+			 handler isKindOf: ToSelectionModelCommandEventHandler ]
 			 ifNone: [  ]) notNil.
 	self assert: updater selectionModel isNil
 ]

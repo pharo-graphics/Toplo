@@ -66,10 +66,8 @@ ToListAbstractSelectionMode >> onInstalledIn: anElement [
 	self selectionModel: anElement selectionModel.
 	self selectionModel selectionCommandChecker:
 		self defaultSelectionCommandChecker.
-	selecter := ToSelectionModelSelecter new
-		            operator: self selectionModel newOperator;
-		            target: anElement;
-		            yourself
+	selecter := ToSelectionModelSelecter new.
+	selecter onInstalledIn: anElement.
 ]
 
 { #category : #accessing }

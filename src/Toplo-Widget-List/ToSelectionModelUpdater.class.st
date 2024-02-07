@@ -52,7 +52,7 @@ ToSelectionModelUpdater >> initialize [
 
 	super initialize.
 	eventDispatcher := BlDirectEventDispatcher on: self.
-	self addEventHandler: ToSelectionRequestEventHandler new
+	self addEventHandler: ToSelectionModelCommandEventHandler new
 ]
 
 { #category : #accessing }

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToListNoneSelectionCommandChecker,
-	#superclass : #ToListSelectionCommandChecker,
+	#superclass : #ToListSelectionModelCommandChecker,
 	#category : #'Toplo-Widget-List-Selection-Command'
 }
 

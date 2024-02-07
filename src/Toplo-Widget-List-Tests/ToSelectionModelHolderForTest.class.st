@@ -55,7 +55,7 @@ ToSelectionModelHolderForTest >> initialize [
 	self dataSource data: data.
 	selectionModel := self defaultSelectionModel.
 	selectionModel onInstalledIn: self.
-	self addEventHandler: ToSelectionRequestEventHandler new.
+	self addEventHandler: ToSelectionModelCommandEventHandler new.
 	self addEventHandler: (BlEventHandler
 			 on: ToSelectionResultEvent
 			 do: [ :event | self successfulCommand: true ]).
@@ -71,8 +71,17 @@ ToSelectionModelHolderForTest >> itemCount [
 { #category : #accessing }
 ToSelectionModelHolderForTest >> operator [ 
 
-	^  ToSelectionModelOperator new
+	^  ToSelectionModelOperator new requester: self; yourself
 
+]
+
+{ #category : #accessing }
+ToSelectionModelHolderForTest >> selecter [
+
+	^ ToSelectionModelSelecter new
+		  operator: self operator;
+		  target: self;
+		  yourself
 ]
 
 { #category : #accessing }

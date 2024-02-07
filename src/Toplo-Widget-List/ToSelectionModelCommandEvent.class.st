@@ -1,5 +1,5 @@
 Class {
-	#name : #ToSelectionCommandEvent,
+	#name : #ToSelectionModelCommandEvent,
 	#superclass : #BlEvent,
 	#instVars : [
 		'command'
@@ -8,13 +8,13 @@ Class {
 }
 
 { #category : #accessing }
-ToSelectionCommandEvent >> command [
+ToSelectionModelCommandEvent >> command [
 
 	^ command
 ]
 
 { #category : #accessing }
-ToSelectionCommandEvent >> command: aSelectionCommand [
+ToSelectionModelCommandEvent >> command: aSelectionCommand [
 
 	command := aSelectionCommand
 ]

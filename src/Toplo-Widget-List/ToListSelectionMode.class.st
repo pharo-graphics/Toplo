@@ -3,8 +3,8 @@ Class {
 	#superclass : #ToListAbstractSelectionMode,
 	#instVars : [
 		'preserveSelectionOnFocused',
-		'selectionRequestEventHandler',
-		'installedShortcuts'
+		'installedShortcuts',
+		'selectionCommandEventHandler'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
@@ -20,8 +20,8 @@ ToListSelectionMode >> initialize [
 ToListSelectionMode >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement. 
-	selectionRequestEventHandler := ToSelectionRequestEventHandler new.
-	anElement addEventHandler: selectionRequestEventHandler.
+	selectionCommandEventHandler := ToSelectionModelCommandEventHandler new.
+	anElement addEventHandler: selectionCommandEventHandler.
 	installedShortcuts := self shortcutsIn: anElement.
 	installedShortcuts do: [ :s | anElement addShortcut: s ]
 ]
@@ -31,8 +31,8 @@ ToListSelectionMode >> onUninstalledIn: anElement [
 
 	installedShortcuts do: [ :s | anElement removeShortcut: s ].
 	installedShortcuts := nil.
-	anElement removeEventHandler: selectionRequestEventHandler.
-	selectionRequestEventHandler := nil.
+	anElement removeEventHandler: selectionCommandEventHandler.
+	selectionCommandEventHandler := nil.
 	super onUninstalledIn: anElement. 
 
 ]

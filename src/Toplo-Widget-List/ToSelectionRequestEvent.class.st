@@ -1,6 +1,6 @@
 Class {
 	#name : #ToSelectionRequestEvent,
-	#superclass : #ToSelectionCommandEvent,
+	#superclass : #ToSelectionModelCommandEvent,
 	#instVars : [
 		'selectionChanged'
 	],

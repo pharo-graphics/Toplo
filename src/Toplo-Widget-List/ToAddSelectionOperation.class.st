@@ -1,9 +1,6 @@
 Class {
 	#name : #ToAddSelectionOperation,
-	#superclass : #ToSelectionOperation,
-	#instVars : [
-		'deselectBefore'
-	],
+	#superclass : #ToSelectionModelOperation,
 	#category : #'Toplo-Widget-List-Selection-Command'
 }
 

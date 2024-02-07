@@ -1,8 +1,7 @@
 Class {
-	#name : #ToSelectionCommand,
+	#name : #ToSelectionModelCommand,
 	#superclass : #Object,
 	#instVars : [
-		'sourceEvent',
 		'operation',
 		'next'
 	],
@@ -10,13 +9,13 @@ Class {
 }
 
 { #category : #hook }
-ToSelectionCommand >> applyOn: anObject [ 
+ToSelectionModelCommand >> applyOn: anObject [ 
 
 	self nextDo: [ :n | n applyOn: anObject ]
 ]
 
 { #category : #testing }
-ToSelectionCommand >> isDeselection [
+ToSelectionModelCommand >> isDeselection [
 
 	^ self isSelection not
 
@@ -24,7 +23,7 @@ ToSelectionCommand >> isDeselection [
 ]
 
 { #category : #testing }
-ToSelectionCommand >> isSelection [
+ToSelectionModelCommand >> isSelection [
 
 	^ self operation isSelection
 
@@ -32,31 +31,31 @@ ToSelectionCommand >> isSelection [
 ]
 
 { #category : #accessing }
-ToSelectionCommand >> next [
+ToSelectionModelCommand >> next [
 
 	^ next
 ]
 
 { #category : #accessing }
-ToSelectionCommand >> next: aListSelectionAction [
+ToSelectionModelCommand >> next: aListSelectionAction [
 
 	next := aListSelectionAction
 ]
 
 { #category : #hook }
-ToSelectionCommand >> nextDo: aBlock [
+ToSelectionModelCommand >> nextDo: aBlock [
 
 	self next ifNotNil: [ :n | aBlock value: n ]
 ]
 
 { #category : #accessing }
-ToSelectionCommand >> operation [
+ToSelectionModelCommand >> operation [
 
 	^ operation
 ]
 
 { #category : #accessing }
-ToSelectionCommand >> operation: aSelectionOperation [
+ToSelectionModelCommand >> operation: aSelectionOperation [
 
 	operation := aSelectionOperation
 ]

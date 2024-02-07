@@ -1,29 +1,29 @@
 Class {
-	#name : #ToSelectionOperation,
+	#name : #ToSelectionModelOperation,
 	#superclass : #Object,
 	#category : #'Toplo-Widget-List-Selection-Command'
 }
 
 { #category : #dispatching }
-ToSelectionOperation >> applyIndexesSelection: aSelectionCommand on: anObject [
+ToSelectionModelOperation >> applyIndexesSelection: aSelectionCommand on: anObject [
 
 	self subclassResponsibility 
 ]
 
 { #category : #dispatching }
-ToSelectionOperation >> applyIntervalSelection: aSelectionCommand on: anObject [
+ToSelectionModelOperation >> applyIntervalSelection: aSelectionCommand on: anObject [
 
 	self subclassResponsibility 
 ]
 
 { #category : #dispatching }
-ToSelectionOperation >> applyWholeSelection: aSelectionCommand on: anObject [
+ToSelectionModelOperation >> applyWholeSelection: aSelectionCommand on: anObject [
 
 	self subclassResponsibility 
 ]
 
 { #category : #testing }
-ToSelectionOperation >> isSelection [
+ToSelectionModelOperation >> isSelection [
 
 	^ self subclassResponsibility 
 ]

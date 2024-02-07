@@ -1,18 +1,24 @@
 Class {
-	#name : #ToSelectionRequestEventHandler,
+	#name : #ToSelectionModelCommandEventHandler,
 	#superclass : #BlCustomEventHandler,
 	#classTraits : 'TBlEventTarget classTrait',
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
 { #category : #'api - accessing' }
-ToSelectionRequestEventHandler >> eventsToHandle [
+ToSelectionModelCommandEventHandler >> eventsToHandle [
 
-	^ { ToSelectionRequestEvent }
+	^ { ToSelectionModelCommandAddedEvent. ToSelectionRequestEvent }
 ]
 
 { #category : #'event handling' }
-ToSelectionRequestEventHandler >> selectionRequestEvent: aSelectionRequestEvent [
+ToSelectionModelCommandEventHandler >> selectionModelCommandAddedEvent: aSelectionCommandAddedEvent [
+
+	
+]
+
+{ #category : #'event handling' }
+ToSelectionModelCommandEventHandler >> selectionRequestEvent: aSelectionRequestEvent [
 
 	| previousModel targetModel |
 	targetModel := aSelectionRequestEvent currentTarget selectionModel.

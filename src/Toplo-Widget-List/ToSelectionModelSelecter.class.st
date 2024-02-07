@@ -9,6 +9,12 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Updater'
 }
 
+{ #category : #adding }
+ToSelectionModelSelecter >> addCommand: aCommand [
+
+	self operator addCommand: aCommand
+]
+
 { #category : #'event dispatching' }
 ToSelectionModelSelecter >> apply [
 
@@ -31,6 +37,26 @@ ToSelectionModelSelecter >> deselectAllIndexes: anArray [
 ToSelectionModelSelecter >> deselectIndex: anIndex [
 
 	self operator deselectIndex: anIndex
+]
+
+{ #category : #'api - hooks' }
+ToSelectionModelSelecter >> onInstalledIn: anEventTarget [
+
+	self target: anEventTarget.
+	self operator: anEventTarget selectionModel newOperator.
+	self operator requester: anEventTarget
+
+]
+
+{ #category : #'api - hooks' }
+ToSelectionModelSelecter >> onUninstalledIn: anEventTarget [
+
+	self operator requester: nil.
+	self operator: nil.
+	self target: nil.
+
+	
+
 ]
 
 { #category : #accessing }
@@ -72,13 +98,15 @@ ToSelectionModelSelecter >> selectIndex: aStartIndex to: anEndIndex [
 { #category : #operations }
 ToSelectionModelSelecter >> selectOnlyIndex: anIndex [
 
-	self operator selectOnlyIndex: anIndex
+	self operator deselectAll.
+	self operator selectIndex: anIndex
 ]
 
 { #category : #operations }
 ToSelectionModelSelecter >> selectOnlyIndexes: anArray [
 
-	self operator selectOnlyIndexes: anArray
+	self operator deselectAll.
+	self operator selectAllIndexes: anArray
 ]
 
 { #category : #accessing }

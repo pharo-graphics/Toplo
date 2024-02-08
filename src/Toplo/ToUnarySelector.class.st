@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'left'
 	],
-	#category : 'Toplo-Core-Selectors'
+	#category : #'Toplo-Core-Selectors'
 }
 
 { #category : #accessing }

@@ -1,5 +1,5 @@
 Class {
 	#name : #ToSkinManagementLookEvent,
 	#superclass : #ToElementLookEvent,
-	#category : 'Toplo-Core-LookEvents'
+	#category : #'Toplo-Core-LookEvents'
 }

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToDeselectedLookEvent,
 	#superclass : #ToIntrasicStateLookEvent,
-	#category : 'Toplo-Core-LookEvents'
+	#category : #'Toplo-Core-LookEvents'
 }
 
 { #category : #sending }

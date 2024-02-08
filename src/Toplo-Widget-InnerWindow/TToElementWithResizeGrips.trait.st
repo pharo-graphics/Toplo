@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToElementWithResizeGrips,
-	#category : 'Toplo-Widget-InnerWindow'
+	#category : #'Toplo-Widget-InnerWindow'
 }
 
 { #category : #'t - element with resize grips - accessing' }

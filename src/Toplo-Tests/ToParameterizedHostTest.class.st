@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'space'
 	],
-	#category : 'Toplo-Tests-Core'
+	#category : #'Toplo-Tests-Core'
 }
 
 { #category : #tests }

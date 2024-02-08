@@ -1,7 +1,7 @@
 Class {
 	#name : #ToLayoutConstraintsChangedEvent,
 	#superclass : #BlEvent,
-	#category : 'Toplo-Core'
+	#category : #'Toplo-Core'
 }
 
 { #category : #sending }

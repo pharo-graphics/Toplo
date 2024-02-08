@@ -1,7 +1,7 @@
 Class {
 	#name : #ToTabPaneHeaderOnRightCenter,
 	#superclass : #ToTabPaneHeaderOnRight,
-	#category : 'Toplo-Widget-TabPane'
+	#category : #'Toplo-Widget-TabPane'
 }
 
 { #category : #hook }

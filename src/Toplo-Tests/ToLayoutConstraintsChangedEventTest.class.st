@@ -4,7 +4,7 @@ A ToLayoutConstraintsChangedEventTest is a test class for testing the behavior o
 Class {
 	#name : #ToLayoutConstraintsChangedEventTest,
 	#superclass : #TestCase,
-	#category : 'Toplo-Tests-Core'
+	#category : #'Toplo-Tests-Core'
 }
 
 { #category : #tests }

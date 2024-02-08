@@ -4,7 +4,7 @@ A TToStyleRuleHolderTest is a test class for testing the behavior of TToStyleRul
 Class {
 	#name : #TToStyleRulesHolderTest,
 	#superclass : #TestCase,
-	#category : 'Toplo-Tests-Core-StyleSheet'
+	#category : #'Toplo-Tests-Core-StyleSheet'
 }
 
 { #category : #tests }

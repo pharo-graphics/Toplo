@@ -1,7 +1,7 @@
 Class {
 	#name : #ToCollectionAddEvent,
 	#superclass : #ToCollectionAfterChangeEvent,
-	#category : 'Toplo-Core-Collection'
+	#category : #'Toplo-Core-Collection'
 }
 
 { #category : #sending }

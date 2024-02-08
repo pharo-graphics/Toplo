@@ -1,7 +1,7 @@
 Class {
 	#name : #ToElementSelector,
 	#superclass : #Object,
-	#category : 'Toplo-Core-Selectors'
+	#category : #'Toplo-Core-Selectors'
 }
 
 { #category : #'logical operator' }

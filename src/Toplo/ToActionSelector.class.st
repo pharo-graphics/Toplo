@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'action'
 	],
-	#category : 'Toplo-Core-Selectors'
+	#category : #'Toplo-Core-Selectors'
 }
 
 { #category : #visiting }

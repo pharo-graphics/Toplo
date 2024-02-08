@@ -1,7 +1,7 @@
 Class {
 	#name : #ToStampProperty,
 	#superclass : #ToPropertyWithValue,
-	#category : 'Toplo-Core-Properties'
+	#category : #'Toplo-Core-Properties'
 }
 
 { #category : #converting }

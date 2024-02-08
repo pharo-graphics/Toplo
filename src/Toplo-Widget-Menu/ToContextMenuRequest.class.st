@@ -1,7 +1,7 @@
 Class {
 	#name : #ToContextMenuRequest,
 	#superclass : #ToWindowOpenRequest,
-	#category : 'Toplo-Widget-Menu-Context menu'
+	#category : #'Toplo-Widget-Menu-Context menu'
 }
 
 { #category : #sending }

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'openTooltipTask'
 	],
-	#category : 'Toplo-Core-Tooltip'
+	#category : #'Toplo-Core-Tooltip'
 }
 
 { #category : #'api - accessing' }

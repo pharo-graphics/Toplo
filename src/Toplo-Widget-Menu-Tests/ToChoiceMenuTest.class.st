@@ -2,14 +2,12 @@
 A ToChoiceBoxTest is a test class for testing the behavior of ToChoiceBox
 "
 Class {
-	#name : 'ToChoiceMenuTest',
-	#superclass : 'TestCase',
-	#category : 'Toplo-Widget-Menu-Tests-Choice menu',
-	#package : 'Toplo-Widget-Menu-Tests',
-	#tag : 'Choice menu'
+	#name : #ToChoiceMenuTest,
+	#superclass : #TestCase,
+	#category : #'Toplo-Widget-Menu-Tests-Choice menu'
 }
 
-{ #category : 'asserting' }
+{ #category : #asserting }
 ToChoiceMenuTest >> assertEmpty: select [
 
 	self assert: select group buttons isEmpty.
@@ -19,7 +17,7 @@ ToChoiceMenuTest >> assertEmpty: select [
 	self assert: select dataToTextConverter notNil
 ]
 
-{ #category : ' tests' }
+{ #category : #' tests' }
 ToChoiceMenuTest >> testAddRemoveOneStringData [
 
 	| cb d |
@@ -31,7 +29,7 @@ ToChoiceMenuTest >> testAddRemoveOneStringData [
 
 ]
 
-{ #category : ' tests' }
+{ #category : #' tests' }
 ToChoiceMenuTest >> testCheckUncheckWithUncheckStrategy [
 
 	| cb d1 d2 d3 |
@@ -55,7 +53,7 @@ ToChoiceMenuTest >> testCheckUncheckWithUncheckStrategy [
 	self assert: cb group buttons third checked not
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToChoiceMenuTest >> testDefaultLabel2 [
 
 	| cb |
@@ -73,7 +71,7 @@ ToChoiceMenuTest >> testDefaultLabel2 [
 	self assert: cb selectedData isNil
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToChoiceMenuTest >> testDefaultLabel3 [
 
 	| cb |
@@ -93,7 +91,7 @@ ToChoiceMenuTest >> testDefaultLabel3 [
 	self assert: cb selectedData isNil
 ]
 
-{ #category : ' tests' }
+{ #category : #' tests' }
 ToChoiceMenuTest >> testEmpty [
 
 	| cb d |
@@ -103,7 +101,7 @@ ToChoiceMenuTest >> testEmpty [
 	self assert: (cb dataToTextConverter value: d) equals: d.
 ]
 
-{ #category : ' tests' }
+{ #category : #' tests' }
 ToChoiceMenuTest >> testNoSelectedData [
 
 	| cb d |
@@ -115,7 +113,7 @@ ToChoiceMenuTest >> testNoSelectedData [
 	self assert: (cb group buttons noneSatisfy: [ :b | b checked ])
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToChoiceMenuTest >> testNoSelectedDataWithDefaultLabel [
 
 	| cb |
@@ -130,7 +128,7 @@ ToChoiceMenuTest >> testNoSelectedDataWithDefaultLabel [
 	self assert: (cb group buttons noneSatisfy: [ :b | b checked ])
 ]
 
-{ #category : ' tests' }
+{ #category : #' tests' }
 ToChoiceMenuTest >> testRemove [
 
 	| cb d1 d2 d3 |
@@ -157,7 +155,7 @@ ToChoiceMenuTest >> testRemove [
 	self assert: cb group buttons second checked not
 ]
 
-{ #category : ' tests' }
+{ #category : #' tests' }
 ToChoiceMenuTest >> testRemoveWithSeparator [
 
 	| cb d1 d2 d3 |
@@ -190,7 +188,7 @@ ToChoiceMenuTest >> testRemoveWithSeparator [
 
 ]
 
-{ #category : ' tests' }
+{ #category : #' tests' }
 ToChoiceMenuTest >> testRemoveWithSeparator2 [
 
 	| cb d1 d2 d3 |
@@ -222,7 +220,7 @@ ToChoiceMenuTest >> testRemoveWithSeparator2 [
 
 ]
 
-{ #category : ' tests' }
+{ #category : #' tests' }
 ToChoiceMenuTest >> testRemoveWithStrictStrategy [
 
 	| cb d1 d2 d3 |
@@ -256,7 +254,7 @@ ToChoiceMenuTest >> testRemoveWithStrictStrategy [
 
 ]
 
-{ #category : ' tests' }
+{ #category : #' tests' }
 ToChoiceMenuTest >> testRemoveWithStrictUncheckingStrategy [
 
 	| cb d1 d2 d3 |
@@ -288,7 +286,7 @@ ToChoiceMenuTest >> testRemoveWithStrictUncheckingStrategy [
 
 ]
 
-{ #category : ' tests' }
+{ #category : #' tests' }
 ToChoiceMenuTest >> testSelectedData1 [
 
 	| cb d |
@@ -302,7 +300,7 @@ ToChoiceMenuTest >> testSelectedData1 [
 	self assert: cb group buttons second checked
 ]
 
-{ #category : ' tests' }
+{ #category : #' tests' }
 ToChoiceMenuTest >> testSelectedData2 [
 
 	| cb d |
@@ -317,7 +315,7 @@ ToChoiceMenuTest >> testSelectedData2 [
 	self assert: cb selectedIndex equals: 1
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToChoiceMenuTest >> testTryNoSelectedDataWithStrictStrategy [
 
 	| cb d |
@@ -336,7 +334,7 @@ ToChoiceMenuTest >> testTryNoSelectedDataWithStrictStrategy [
 	self assert: (cb group buttons detect: [ :b | b checked ] ifNone: []) notNil
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToChoiceMenuTest >> testWith5StringData [
 
 	| cb d |
@@ -359,7 +357,7 @@ ToChoiceMenuTest >> testWith5StringData [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToChoiceMenuTest >> testWithOneStringData [
 
 	| cb d |
@@ -374,7 +372,7 @@ ToChoiceMenuTest >> testWithOneStringData [
 	self assert: cb defaultLabel isNil
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToChoiceMenuTest >> testWithStrictStrategy [
 
 	| cb d1 d2 d3 |
@@ -400,7 +398,7 @@ ToChoiceMenuTest >> testWithStrictStrategy [
 	self assert: cb group buttons first checked
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToChoiceMenuTest >> testWithStructuredDataWithStrictStrategy [
 
 	| space cb d |
@@ -427,7 +425,7 @@ ToChoiceMenuTest >> testWithStructuredDataWithStrictStrategy [
 	self assert: (cb group buttons select: [ :b | b checked ]) size equals: 1
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToChoiceMenuTest >> testWithStructuredDataWithUncheckingStrategy [
 
 	| space cb d |
@@ -448,7 +446,7 @@ ToChoiceMenuTest >> testWithStructuredDataWithUncheckingStrategy [
 	self assert: (cb group buttons noneSatisfy: [ :b | b checked ])
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToChoiceMenuTest >> testWithUncheckStrategy [
 
 	| cb d1 d2 d3 |
@@ -473,7 +471,7 @@ ToChoiceMenuTest >> testWithUncheckStrategy [
 	self assert: cb label isNil
 ]
 
-{ #category : ' tests' }
+{ #category : #' tests' }
 ToChoiceMenuTest >> testdefaultLabel [
 
 	| cb |

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'parentSwitchIcon'
 	],
-	#category : 'Toplo-Widget-Button-Switch'
+	#category : #'Toplo-Widget-Button-Switch'
 }
 
 { #category : #'hooks - children' }

@@ -5,7 +5,7 @@ Class {
 		'styleSheet',
 		'toElement'
 	],
-	#category : 'Toplo-Core-StyleSheet'
+	#category : #'Toplo-Core-StyleSheet'
 }
 
 { #category : #accessing }

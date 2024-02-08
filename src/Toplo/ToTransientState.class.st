@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'lookEvent'
 	],
-	#category : 'Toplo-Core-States'
+	#category : #'Toplo-Core-States'
 }
 
 { #category : #accessing }

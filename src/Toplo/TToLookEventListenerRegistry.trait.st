@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToLookEventListenerRegistry,
-	#category : 'Toplo-Core-StyleSheet'
+	#category : #'Toplo-Core-StyleSheet'
 }
 
 { #category : #'t - look event listener registry' }

@@ -5,7 +5,7 @@ Class {
 		'DefaultThemeClass',
 		'DefaultThemeVariantClass'
 	],
-	#category : 'Toplo-Core'
+	#category : #'Toplo-Core'
 }
 
 { #category : #settings }

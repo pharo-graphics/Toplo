@@ -13,7 +13,7 @@ Class {
 		'startContainer',
 		'endContainer'
 	],
-	#category : 'Toplo-Widget-TabPane'
+	#category : #'Toplo-Widget-TabPane'
 }
 
 { #category : #'add-remove' }

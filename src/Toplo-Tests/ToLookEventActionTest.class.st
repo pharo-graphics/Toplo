@@ -1,7 +1,7 @@
 Class {
 	#name : #ToLookEventActionTest,
 	#superclass : #ToTestCaseWithSpace,
-	#category : 'Toplo-Tests-Core-StyleSheet'
+	#category : #'Toplo-Tests-Core-StyleSheet'
 }
 
 { #category : #tests }

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToMenuBarSeparator,
 	#superclass : #ToElement,
-	#category : 'Toplo-Widget-Menu-Bar'
+	#category : #'Toplo-Widget-Menu-Bar'
 }
 
 { #category : #orientation }

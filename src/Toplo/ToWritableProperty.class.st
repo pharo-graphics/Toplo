@@ -1,7 +1,7 @@
 Class {
 	#name : #ToWritableProperty,
 	#superclass : #ToAbstractProperty,
-	#category : 'Toplo-Core-Properties'
+	#category : #'Toplo-Core-Properties'
 }
 
 { #category : #operating }

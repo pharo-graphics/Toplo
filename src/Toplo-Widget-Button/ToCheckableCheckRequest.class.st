@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'checked'
 	],
-	#category : 'Toplo-Widget-Button-Checkable'
+	#category : #'Toplo-Widget-Button-Checkable'
 }
 
 { #category : #accessing }

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'removed'
 	],
-	#category : 'Toplo-Core-Collection'
+	#category : #'Toplo-Core-Collection'
 }
 
 { #category : #accessing }

@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'lookEventListeners'
 	],
-	#category : 'Toplo-Core-StyleSheet'
+	#category : #'Toplo-Core-StyleSheet'
 }
 
 { #category : #'api - event managing' }

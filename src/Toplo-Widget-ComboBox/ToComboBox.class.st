@@ -12,7 +12,7 @@ Class {
 		'#mode => ObservableSlot',
 		'#selectedIndex => ObservableSlot'
 	],
-	#category : 'Toplo-Widget-ComboBox'
+	#category : #'Toplo-Widget-ComboBox'
 }
 
 { #category : #'mode change' }

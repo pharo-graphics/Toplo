@@ -1,7 +1,7 @@
 Class {
 	#name : #ToThemeForStyleRuleTest,
 	#superclass : #ToTheme,
-	#category : 'Toplo-Tests-Core-StyleSheet'
+	#category : #'Toplo-Tests-Core-StyleSheet'
 }
 
 { #category : #accessing }

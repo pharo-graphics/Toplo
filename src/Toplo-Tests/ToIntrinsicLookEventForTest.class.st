@@ -1,7 +1,7 @@
 Class {
 	#name : #ToIntrinsicLookEventForTest,
 	#superclass : #BlEvent,
-	#category : 'Toplo-Tests-Core-States'
+	#category : #'Toplo-Tests-Core-States'
 }
 
 { #category : #sending }

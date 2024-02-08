@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'printer'
 	],
-	#category : 'Toplo-Tests-Core-Selectors'
+	#category : #'Toplo-Tests-Core-Selectors'
 }
 
 { #category : #running }

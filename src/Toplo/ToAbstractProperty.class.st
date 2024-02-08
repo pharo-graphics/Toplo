@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'name'
 	],
-	#category : 'Toplo-Core-Properties'
+	#category : #'Toplo-Core-Properties'
 }
 
 { #category : #accessing }

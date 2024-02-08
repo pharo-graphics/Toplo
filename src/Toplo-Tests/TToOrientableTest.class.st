@@ -11,7 +11,7 @@ Class {
 		'oriCpt',
 		'dirCpt'
 	],
-	#category : 'Toplo-Tests-Core'
+	#category : #'Toplo-Tests-Core'
 }
 
 { #category : #running }

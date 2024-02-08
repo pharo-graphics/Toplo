@@ -6,7 +6,11 @@ Class {
 		'saveButton',
 		'themeClassInput',
 		'notebook',
-		'theme'
+		'theme',
+		'tokensPresenter',
+		'tokenAll',
+		'tokenNo',
+		'tokenNew'
 	],
 	#category : #'Toplo-IDE-theme-editor-presenter-themeInfos'
 }
@@ -34,10 +38,19 @@ ToThemeEditorThemeInfos >> defaultLayout [
 				   yourself)
 		  expand: false;
 		  add: self themeClassInput expand: false;
+		  add: self tokenAll expand: false;
+		 add: self tokenNew expand: false;
+		 add: self tokenNo expand: false;
 		  add: self saveButton expand: false;
-		add: self inspectButton expand: false;
+		  add: self inspectButton expand: false;
 		  add: self notebook expand: true;
 		  yourself
+]
+
+{ #category : #initialization }
+ToThemeEditorThemeInfos >> initializeNotebookPage [
+		tokensPresenter := ToThemeEditorTokensListPresenter new.
+	self  add: tokensPresenter asNotebookPageNamed: 'Tokens'
 ]
 
 { #category : #initialization }
@@ -45,16 +58,29 @@ ToThemeEditorThemeInfos >> initializePresenters [
 
 	saveButton := SpButtonPresenter new
 		              label: 'Save Changement';
-		icon: (self iconNamed: #smallSave);
+		              icon: (self iconNamed: #smallSave);
 		              action: [ self saveCurrentTheme ];
 		              yourself.
 	inspectButton := SpButtonPresenter new
 		                 label: 'Inspect Theme';
-		icon: (self iconNamed: #smallInspectIt);
+		                 icon: (self iconNamed: #smallInspectIt);
 		                 action: [ self theme inspect ];
 		                 yourself.
 	themeClassInput := SpTextInputFieldPresenter new.
-	notebook := SpNotebookPresenter new
+	notebook := SpNotebookPresenter new.
+
+	self initializeNotebookPage.
+
+	tokenAll := SpRadioButtonPresenter new
+		            label: 'Save all tokens in theme.';
+		            yourself.
+	tokenNew := SpRadioButtonPresenter new
+		            label: 'Save only the tokens not in parents theme.';
+		            yourself.
+	tokenNo := SpRadioButtonPresenter new
+		           label: 'Do not save the tokens.';
+		           yourself.
+	tokenAll associatedRadioButtons: { tokenNew . tokenNo }
 ]
 
 { #category : #layout }
@@ -78,7 +104,15 @@ ToThemeEditorThemeInfos >> saveButton [
 { #category : #'as yet unclassified' }
 ToThemeEditorThemeInfos >> saveCurrentTheme [
 
-	self theme compileInitialiazeStyleRules.
+	self tokenAll state ifTrue: [
+		self theme compileInitialiazeStyleRulesWithAllTokens:
+			self tokensPresenter controller tokens.
+		^ self ].
+	self tokenNew state ifTrue: [
+		self theme compileInitialiazeStyleRulesWithNewTokensOnly:
+			self tokensPresenter controller tokens.
+		^ self ].
+	self theme compileInitialiazeStyleRulesWithoutTokens
 ]
 
 { #category : #'as yet unclassified' }
@@ -101,8 +135,30 @@ ToThemeEditorThemeInfos >> themeClassInput [
 	^ themeClassInput
 ]
 
+{ #category : #initialization }
+ToThemeEditorThemeInfos >> tokenAll [
+	^ tokenAll
+]
+
+{ #category : #initialization }
+ToThemeEditorThemeInfos >> tokenNew [
+	^ tokenNew
+]
+
+{ #category : #initialization }
+ToThemeEditorThemeInfos >> tokenNo [
+	^ tokenNo
+]
+
+{ #category : #accessing }
+ToThemeEditorThemeInfos >> tokensPresenter [
+
+	^ tokensPresenter
+]
+
 { #category : #'as yet unclassified' }
 ToThemeEditorThemeInfos >> updatePresenter [
 
-	self themeClassInput text: self theme class printString
+	self themeClassInput text: self theme class printString.
+	self tokensPresenter controller theme: self theme.
 ]

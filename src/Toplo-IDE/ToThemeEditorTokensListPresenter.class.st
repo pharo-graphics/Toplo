@@ -42,18 +42,36 @@ ToThemeEditorTokensListPresenter >> initializePresenters [
 
 	tokensList := SpTablePresenter new
 		              isResizable: true;
-		contextMenu: self tokenMenu;
+		              contextMenu: self tokenMenu;
+		whenSelectedItemChangedDo: [ :item | self updatePresenter ];
 		              yourself.
 	tokensList addColumn:
-		(SpStringTableColumn title: 'Token' evaluated: [ :each | each name ]).
-	tokensList addColumn: (SpStringTableColumn
-			 title: 'Type'
-			 evaluated: [ :each | each value class name ]).
+		((SpStringTableColumn
+			  title: 'Token'
+			  evaluated: [ :each | each name ]) sortFunction:
+			 [ :each | each name ] ascending).
+	tokensList addColumn: ((SpStringTableColumn
+			  title: 'Type'
+			  evaluated: [ :each | each value class name ]) sortFunction:
+			 [ :each | each value class name ] ascending).
 	tokensList addColumn:
-		(SpStringTableColumn title: 'Value' evaluated: [ :each |
+		((SpStringTableColumn title: 'Value' evaluated: [ :each |
+			  each value isColor
+				  ifTrue: [
+					  | hex |
+					  hex := each value asHexString.
+					  each value alpha ~= 1 ifTrue: [
+						  hex := hex , ' alpha: ' , each value alpha printString ].
+					  hex ]
+				  ifFalse: [ each value printString ] ]) sortFunction: [ :each |
 			 each value isColor
-				 ifTrue: [ each value asHexString ]
-				 ifFalse: [ each value printString ] ]).
+				 ifTrue: [
+					 | hex |
+					 hex := each value asHexString.
+					 each value alpha ~= 1 ifTrue: [
+						 hex := hex , ' alpha: ' , each value alpha printString ].
+					 '  ~  ' , hex ]
+				 ifFalse: [ each value printString ] ] ascending).
 	tokensList addColumn:
 		((SpImageTableColumn title: '' evaluated: [ :each |
 			  each value isColor

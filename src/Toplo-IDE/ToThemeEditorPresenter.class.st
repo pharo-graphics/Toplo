@@ -6,8 +6,7 @@ Class {
 		'eventListenersList',
 		'selectorEditor',
 		'eventListenerEditor',
-		'themeInfos',
-		'tokensList'
+		'themeInfos'
 	],
 	#category : #'Toplo-IDE-theme-editor-presenter-main'
 }
@@ -64,9 +63,7 @@ ToThemeEditorPresenter >> initializePresenters [
 	selectorEditor := ToThemeEditorRuleSelectorEditor new.
 	eventListenerEditor := ToThemeEditorEventListenerEditorPresenter new.
 	themeInfos := ToThemeEditorThemeInfos new.
-	tokensList := ToThemeEditorTokensListPresenter new.
 
-	themeInfos add: tokensList asNotebookPageNamed: 'Tokens'
 ]
 
 { #category : #layout }
@@ -87,17 +84,10 @@ ToThemeEditorPresenter >> theme: aToTheme [
 	self rulesTree controller theme: aToTheme.
 	self eventListenerEditor controller theme: aToTheme.
 	self themeInfos controller theme: aToTheme.
-	self tokensList controller theme: aToTheme
 ]
 
 { #category : #accessing }
 ToThemeEditorPresenter >> themeInfos [
 
 	^ themeInfos
-]
-
-{ #category : #accessing }
-ToThemeEditorPresenter >> tokensList [
-
-	^ tokensList
 ]

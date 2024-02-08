@@ -5,8 +5,14 @@ terminology : https://design-tokens.github.io/community-group/format/#design-tok
 Class {
 	#name : #ToTokenProperty,
 	#superclass : #ToPropertyWithValue,
-	#category : 'Toplo-Core-Properties'
+	#category : #'Toplo-Core-Properties'
 }
+
+{ #category : #visiting }
+ToTokenProperty >> accept: aVisitor [
+
+	aVisitor visitToken: self 
+]
 
 { #category : #converting }
 ToTokenProperty >> asTokenProperty [ 

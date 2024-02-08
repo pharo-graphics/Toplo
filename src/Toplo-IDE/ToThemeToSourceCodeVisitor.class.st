@@ -2,8 +2,7 @@ Class {
 	#name : #ToThemeToSourceCodeVisitor,
 	#superclass : #Object,
 	#instVars : [
-		'stream',
-		'selectorVisitor'
+		'stream'
 	],
 	#classInstVars : [
 		'indentLevel'
@@ -15,23 +14,6 @@ Class {
 ToThemeToSourceCodeVisitor >> contents [
 
 	^self stream contents expandMacros.
-]
-
-{ #category : #accessing }
-ToThemeToSourceCodeVisitor >> formatedContents [
-
-	| expr |
-	expr := RBParser parseMethod: self contents.
-	^ RBSimpleFormatter format: expr
-]
-
-{ #category : #'as yet unclassified' }
-ToThemeToSourceCodeVisitor >> generatedComment [
-
-	^ 'This class has been generated using ToThemeToSourceCodeVisitor.<r><r><t>By: <1s><r><t><2s> <3s>'
-		expandMacrosWith: Author uniqueInstance fullName
-		with: Date today yyyymmdd
-		with: Time now print24
 ]
 
 { #category : #initialization }
@@ -50,12 +32,6 @@ ToThemeToSourceCodeVisitor >> nextPut: aString [
 ToThemeToSourceCodeVisitor >> reset [
 
 	self stream reset
-]
-
-{ #category : #accessing }
-ToThemeToSourceCodeVisitor >> selectorVisitor [
-
-	^ selectorVisitor
 ]
 
 { #category : #visiting }
@@ -181,7 +157,7 @@ ToThemeToSourceCodeVisitor >> visitPropertyWriter: aToPropertyWriter [
 	aToPropertyWriter animation
 		ifNil: [ self nextPut: 'nil' ]
 		ifNotNil: [ aToPropertyWriter animation accept: self ].
-	self nextPut: ').<r>'
+	self nextPut: ').<r>'.
 ]
 
 { #category : #visiting }
@@ -208,10 +184,6 @@ ToThemeToSourceCodeVisitor >> visitStyleRule: aToStyleRule [
 { #category : #visiting }
 ToThemeToSourceCodeVisitor >> visitStyleSheetTheme: aToStyleTheme [
 
-	self nextPut: 'initializeStyleRules<r>"'.
-	self nextPut: self generatedComment.
-	self nextPut: '"<r><r>'.
-
 	aToStyleTheme styleRules do: [ :each | each accept: self ]
 ]
 
@@ -222,6 +194,23 @@ ToThemeToSourceCodeVisitor >> visitStyleStampSelector: aSelector [
 		ifTrue: [ self nextPut: aSelector allStamps first printString ]
 		ifFalse: [ self nextPut: aSelector allStamps printString ].
 	self nextPut: ' asStampSelector'
+]
+
+{ #category : #visiting }
+ToThemeToSourceCodeVisitor >> visitToken: aToTokenProperty [ 
+	
+	self nextPut: 'ToTokenProperty name: '.
+	self nextPut: aToTokenProperty name printString.
+	self nextPut: 'value: '.
+	self nextPut: aToTokenProperty value printString.
+]
+
+{ #category : #visiting }
+ToThemeToSourceCodeVisitor >> visitTokensHolder: aTokenHolder [
+
+	self nextPut: '{'.
+	aTokenHolder tokens do: [ :each | each accept: self ] separatedBy: [ self nextPut: '.<r>' ].
+	self nextPut: '}'.
 ]
 
 { #category : #visiting }

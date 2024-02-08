@@ -12,6 +12,25 @@ Class {
 	#category : #'Toplo-Widget-List-Core'
 }
 
+{ #category : #accessing }
+ToListElement2 >> adoptSelectedIndexesFrom: aSelectionModel [
+
+	" fast update of the selected indexes. A task has to be used to 
+	avoid unpreditable result if I'm send from a layout phase "
+	self enqueueTask: (BlTaskAction new action: [
+			 self selectionModel adoptSelectedIndexesFrom: aSelectionModel.
+			 self dispatchEvent: (ToListSelectionChangedEvent new
+					  selectionModel: self selectionModel copy;
+					  yourself) ])
+]
+
+{ #category : #accessing }
+ToListElement2 >> adoptSelectionModel: aSelectionModel [
+
+	self selecter deselectAll.
+	aSelectionModel selectedIndexesDo: [ :idx | self selecter selectIndex: idx ]
+]
+
 { #category : #orientation }
 ToListElement2 >> beHorizontal [
 
@@ -40,6 +59,12 @@ ToListElement2 >> defaultInfiniteElement [
 ToListElement2 >> defaultLayout [
 
 	^ BlFrameLayout new
+]
+
+{ #category : #initialization }
+ToListElement2 >> defaultSelecter [
+
+	^ ToSelectionModelSelecter new.
 ]
 
 { #category : #initialization }
@@ -133,9 +158,11 @@ ToListElement2 >> newRawSkin [
 ]
 
 { #category : #initialization }
-ToListElement2 >> newSelectionModel [ 
+ToListElement2 >> newSelectionModel [
 
 	^ ToSelectionModel new
+		  itemCountGetter: [ self dataSource itemCount ];
+		  yourself
 ]
 
 { #category : #'t - element with placeholder' }
@@ -186,10 +213,13 @@ ToListElement2 >> selectionModel [
 { #category : #accessing }
 ToListElement2 >> selectionModel: aSelectionModel [
 
+	self class name trace. ' selectionModel: ' trace.
+	aSelectionModel selectedIndexes traceCr.
+
 	selectionModel ifNotNil: [ selectionModel onUninstalledIn: self ].
 	selectionModel := aSelectionModel.
 	selectionModel ifNotNil: [selectionModel onInstalledIn: self ].
-	self infinite selectionModel: selectionModel.
+	self infinite selectionModel: selectionModel
 ]
 
 { #category : #initialization }

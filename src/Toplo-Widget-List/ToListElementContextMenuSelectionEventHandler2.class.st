@@ -70,9 +70,7 @@ ToListElementContextMenuSelectionEventHandler2 >> listElementContextMenuRequest:
 		ifTrue: [ anEvent selectionModel: target selectionModel ]
 		ifFalse: [
 			anEvent selectionModel: ToSelectionModel new.
-			anEvent selectionModel newOperator
-				selectIndex: childNode holder position;
-				applyOn: anEvent selectionModel newUpdater ].
+			anEvent selectionModel selectIndex: childNode holder position ].
 
 	target dispatchEvent:
 		(ToListElementContextMenuSelectionChangedEvent new

@@ -1,3 +1,7 @@
+"
+My class hierarchy models all the basic actions that can be made on a selection. 
+
+"
 Class {
 	#name : #ToSelectionCommand,
 	#superclass : #Object,

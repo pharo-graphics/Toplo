@@ -82,6 +82,45 @@ ToSelectionModelTest >> testCopyWholeModel [
 ]
 
 { #category : #tests }
+ToSelectionModelTest >> testDeselectAll [
+
+	| s |
+	s := ToSelectionModel new.
+	s deselectAll.
+	self assert: (s underlyingModel isKindOf: ToEmptySelectionModel ).
+	s selectIndex: 10.
+	s deselectAll.
+	self assert: (s underlyingModel isKindOf: ToEmptySelectionModel ).
+]
+
+{ #category : #tests }
+ToSelectionModelTest >> testDeselectAllIndexesAmong [
+
+	| s |
+	s := ToSelectionModel new.
+	s selectAllIndexes: { 1. 5. 6 }.
+	self assert: s selectedIndexes asSet equals: { 1. 5. 6 } asSet.
+	s deselectAllIndexes: { 10. 50. 60 } among: 100.
+	self assert: s selectedIndexes asSet equals: { 1. 5. 6 } asSet.
+	s deselectAllIndexes: { 5. 6 } among: 100.
+	self assert: s selectedIndexes asSet equals: { 1.  } asSet
+]
+
+{ #category : #tests }
+ToSelectionModelTest >> testDeselectIndexAmong [
+
+	| s |
+	s := ToSelectionModel new.
+	s selectAllIndexes: { 1. 5. 6 }.
+	self assert: s selectedIndexes asSet equals: { 1. 5. 6 } asSet.
+	s deselectIndex: 10 among: 100.
+	self assert: s selectedIndexes asSet equals: { 1. 5. 6 } asSet.
+	s deselectIndex: 5 among: 100.
+	s deselectIndex: 6 among: 100.
+	self assert: s selectedIndexes asSet equals: { 1.  } asSet
+]
+
+{ #category : #tests }
 ToSelectionModelTest >> testEnsureCompositeSelectionModel [
 
 	| s |
@@ -171,6 +210,17 @@ ToSelectionModelTest >> testNewOperator [
 ]
 
 { #category : #tests }
+ToSelectionModelTest >> testNewOperatorWithUpdater [
+
+	| s selecter |
+	s := ToSelectionModel new.
+	selecter := s newOperator selectIndex: 10;
+	applyOn: s newUpdater.
+	self assert: s selectedIndexes equals: { 10 }
+
+]
+
+{ #category : #tests }
 ToSelectionModelTest >> testOnInstalledIn [
 
 	| s |
@@ -189,6 +239,46 @@ ToSelectionModelTest >> testOnUninstalledIn [
 	s onUninstalledIn: self.
 	self assert: s itemCountGetter isNil.
 	self assert: s itemCount isNil
+]
+
+{ #category : #tests }
+ToSelectionModelTest >> testSelectAll [
+
+	| s |
+	s := ToSelectionModel new.
+	s selectAll.
+	self assert: (s underlyingModel isKindOf: ToWholeSelectionModel ).
+	s selectIndex: 10.
+	s selectAll.
+	self assert: (s underlyingModel isKindOf: ToWholeSelectionModel ).
+]
+
+{ #category : #tests }
+ToSelectionModelTest >> testSelectAllIndexes [
+
+	| s |
+	s := ToSelectionModel new.
+	s selectAllIndexes: { 1. 5. 6 }.
+	self assert: (s underlyingModel isKindOf: ToCompositeSelectionModel ).
+	self assert: s selectedIndexes asSet equals: { 1. 5. 6 } asSet.
+	s selectAllIndexes: { 10. 50. 60 }.
+	self assert: s selectedIndexes asSet equals: { 1. 5. 6. 10. 50. 60 } asSet
+]
+
+{ #category : #tests }
+ToSelectionModelTest >> testSelectIndex [
+
+	| s |
+	s := ToSelectionModel new.
+	s selectIndex: 1.
+	s selectIndex: 5.
+	s selectIndex: 6.
+	self assert: (s underlyingModel isKindOf: ToCompositeSelectionModel ).
+	self assert: s selectedIndexes asSet equals: { 1. 5. 6 } asSet.
+	s selectIndex: 10.
+	s selectIndex: 50.
+	s selectIndex: 60.
+	self assert: s selectedIndexes asSet equals: { 1. 5. 6. 10. 50. 60 } asSet
 ]
 
 { #category : #tests }

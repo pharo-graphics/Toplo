@@ -273,6 +273,16 @@ ToSelectionModelSelecterTest >> testSelectPreviousOnFirstIndex [
 ]
 
 { #category : #tests }
+ToSelectionModelSelecterTest >> testSelectThenDeselectAll [
+
+	selecter selectIndex: 2.
+	selecter deselectAll.
+	selecter apply.
+	self assert: holder selectionModel selectedIndexes isEmpty.
+	self assert: selecter currentIndex equals: 0
+]
+
+{ #category : #tests }
 ToSelectionModelSelecterTest >> testSelectToIndex [
 
 	selecter selectIndex: 2.

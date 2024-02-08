@@ -21,7 +21,7 @@ ToSelectionModelSelecter >> addCommand: aCommand [
 { #category : #'applied command handling' }
 ToSelectionModelSelecter >> addIndexesSelectionCommand: aCommand [
 
-	self currentIndex: aCommand indexes first
+	aCommand indexes ifEmpty: [ self currentIndex: 0 ] ifNotEmpty: [ :indexes | self currentIndex: indexes first ]
 ]
 
 { #category : #'applied command handling' }

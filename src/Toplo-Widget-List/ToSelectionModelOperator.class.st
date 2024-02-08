@@ -70,7 +70,7 @@ ToSelectionModelOperator >> dispatchEventForCommandOn: anEventTarget [
 			            command: command;
 			            yourself).
 	request selectionChanged ifTrue: [
-		anEventTarget dispatchEvent: ToListSelectionChangedEvent new ].
+		anEventTarget dispatchEvent: (ToListSelectionChangedEvent new selectionModel: anEventTarget selectionModel copy; yourself)].
 	anEventTarget dispatchEvent: (ToAppliedSelectionEvent new
 			 selectionChanged: request selectionChanged;
 			 command: command)

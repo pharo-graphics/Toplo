@@ -17,7 +17,7 @@ ToSelectionModel >> = anObject [
 	^ self underlyingModel = anObject underlyingModel
 ]
 
-{ #category : #'command handling' }
+{ #category : #'command operations' }
 ToSelectionModel >> addIndexesSelectionCommand: aCommand [
 
 	aCommand indexes ifEmpty: [ ^ self ].
@@ -26,7 +26,7 @@ ToSelectionModel >> addIndexesSelectionCommand: aCommand [
 			self underlyingModel selectIndex: idx ]
 ]
 
-{ #category : #'command handling' }
+{ #category : #'command operations' }
 ToSelectionModel >> addIntervalSelectionCommand: aCommand [
 
 	| interval |
@@ -38,24 +38,30 @@ ToSelectionModel >> addIntervalSelectionCommand: aCommand [
 		to: interval last
 ]
 
-{ #category : #'command handling' }
+{ #category : #'command operations' }
 ToSelectionModel >> addSelectionHolderCommand: aCommand [
 
 ]
 
-{ #category : #'command handling' }
+{ #category : #'command operations' }
 ToSelectionModel >> addWholeSelectionCommand: aCommand [
 
 	self ensureWholeSelectionModel 
 ]
 
-{ #category : #'command handling' }
+{ #category : #updating }
+ToSelectionModel >> adoptSelectedIndexesFrom: aSelectionModel [
+
+	self underlyingModel: aSelectionModel underlyingModel copy.
+]
+
+{ #category : #'command operations' }
 ToSelectionModel >> applyCommand: aCommand [
 
 	aCommand applyOn: self
 ]
 
-{ #category : #'command handling' }
+{ #category : #'command operations' }
 ToSelectionModel >> checkEmptiness [
 
 	self underlyingModel isEmpty ifTrue: [
@@ -66,6 +72,36 @@ ToSelectionModel >> checkEmptiness [
 ToSelectionModel >> containsIndex: anIndex [
 
 	^ self underlyingModel containsIndex: anIndex
+]
+
+{ #category : #updating }
+ToSelectionModel >> deselectAll [
+
+	self ensureEmptySelectionModel 
+]
+
+{ #category : #updating }
+ToSelectionModel >> deselectAllIndexes: anArray among: anInteger [
+
+	| wasWhole |
+	wasWhole := self isWholeSelectionModel.
+	self ensureCompositeSelectionModel.
+	wasWhole ifTrue: [ self underlyingModel select: 0 to: anInteger ].
+	anArray do: [ :idx |
+		self underlyingModel deselectIndex: idx ].
+	self checkEmptiness
+]
+
+{ #category : #updating }
+ToSelectionModel >> deselectIndex: anIndex among: anInteger [
+
+	| wasWhole |
+	wasWhole := self isWholeSelectionModel.
+	self ensureCompositeSelectionModel.
+	wasWhole ifTrue: [
+		self underlyingModel select: 0 to: anInteger ].
+	self underlyingModel deselect: anIndex - 1 to: anIndex.
+	self checkEmptiness
 ]
 
 { #category : #private }
@@ -196,7 +232,7 @@ ToSelectionModel >> postCopy [
 	underlyingModel := underlyingModel copy
 ]
 
-{ #category : #'command handling' }
+{ #category : #'command operations' }
 ToSelectionModel >> removeIndexesSelectionCommand: aCommand [
 
 	| wasWhole |
@@ -208,7 +244,7 @@ ToSelectionModel >> removeIndexesSelectionCommand: aCommand [
 	self checkEmptiness
 ]
 
-{ #category : #'command handling' }
+{ #category : #'command operations' }
 ToSelectionModel >> removeIntervalSelectionCommand: aCommand [
 
 	| interval wasWhole |
@@ -221,10 +257,34 @@ ToSelectionModel >> removeIntervalSelectionCommand: aCommand [
 	self checkEmptiness
 ]
 
-{ #category : #'command handling' }
+{ #category : #'command operations' }
 ToSelectionModel >> removeWholeSelectionCommand: aCommand [
 
 	self underlyingModel: ToUnderlyingSelectionModel empty
+]
+
+{ #category : #updating }
+ToSelectionModel >> selectAll [
+
+	self ensureWholeSelectionModel 
+]
+
+{ #category : #updating }
+ToSelectionModel >> selectAllIndexes: anArray [
+
+	anArray ifEmpty: [ ^ self ].
+	self ensureCompositeSelectionModel.
+	anArray do: [ :idx |
+			self underlyingModel selectIndex: idx ]
+]
+
+{ #category : #updating }
+ToSelectionModel >> selectIndex: anIndex [
+
+	self ensureCompositeSelectionModel.
+	self underlyingModel 
+		select: anIndex - 1
+		to: anIndex 
 ]
 
 { #category : #accessing }

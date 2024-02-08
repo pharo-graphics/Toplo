@@ -1621,6 +1621,53 @@ ToSandBox class >> example_Popup1 [
 	container openInSpace
 ]
 
+{ #category : #'list 2' }
+ToSandBox class >> example_QueryOnList2WithStatesOfAmerica [
+
+	| listElement pane filterField data selector |
+	pane := ToPane new
+		        beVertical;
+		        matchParent.
+	filterField := ToTextField new.
+	listElement := ToListElement2 new.
+	data := self statesOfAmerica.
+
+	listElement margin: (BlInsets all: 2).
+	filterField margin: (BlInsets all: 2).
+
+	selector := ToObservableCollectionQueryRunner new.
+	listElement data addAll: data.
+	
+	selector onInstalledIn: listElement data.
+
+	filterField addEventHandler: (BlEventHandler
+			 on: AlbTextEditedEvent
+			 do: [
+				 | pattern |
+				 pattern := filterField text asString.
+				 selector pattern: pattern ]).
+
+	listElement data addEventHandler: (BlEventHandler
+			 on: ToObservableCollectionQueryResultEvent
+			 do: [ :event |
+				 listElement selecter selectOnlyIndexes:
+					 event selector selectionModel selectedIndexes ]).
+
+	listElement placeholderBuilder: [ :ph :e |
+		| lab |
+		lab := ToAttributedLabel new text: ('No Data' asRopedText
+				        foreground: Color lightGray;
+				        fontSize: 24;
+				        yourself).
+		lab matchParent.
+		ph addChild: lab ].
+
+	"handler inspect."
+	pane addChild: listElement.
+	pane addChild: filterField.
+	pane openInSpace
+]
+
 { #category : #list }
 ToSandBox class >> example_QueryOnListWithStatesOfAmerica [
 
@@ -1699,6 +1746,99 @@ ToSandBox class >> example_RadioButtonWithIndeterminate [
 	but labelText: 'Radio'.
 	but inspect.
 	but openInSpace
+]
+
+{ #category : #'list 2' }
+ToSandBox class >> example_SieveOnList2WithStatesOfAmerica [
+
+	| listElement pane filterField data sieve |
+	pane := ToPane new
+		        beVertical;
+		        matchParent.
+	filterField := ToTextField new.
+	listElement := ToListElement2 new.
+	data := self statesOfAmerica copyFrom: 1 to: 8.
+
+	listElement margin: (BlInsets all: 2).
+	listElement withRowNumbers.
+	filterField margin: (BlInsets all: 2).
+
+	sieve := ToListElementSieve new.
+	sieve onInstalledIn: listElement.
+	listElement data addAll: data.
+
+	filterField addEventHandler: (BlEventHandler
+			 on: AlbTextEditedEvent
+			 do: [
+				 | pattern |
+				 pattern := filterField text asString.
+				 sieve pattern: pattern ]).
+
+	listElement placeholderBuilder: [ :ph :e |
+		| lab |
+		lab := ToAttributedLabel new text: ('No Data' asRopedText
+				        foreground: Color lightGray;
+				        fontSize: 24;
+				        yourself).
+		lab matchParent.
+		ph addChild: lab ].
+
+	"handler inspect."
+	pane addChild: listElement.
+	pane addChild: filterField.
+	pane openInSpace
+]
+
+{ #category : #'list 2' }
+ToSandBox class >> example_SieveOnList2With_350000_Items [
+
+	| listElement pane filterField data sieve |
+	pane := ToPane new
+		        beVertical;
+		        matchParent.
+	filterField := ToTextField new.
+	listElement := ToListElement2 new.
+	data := OrderedCollection new.
+	Character alphabet do: [ :c1 |
+		(Character alphabet ) do: [ :c2 |
+			(Character alphabet ) do: [ :c3 |
+				((48 to: 57) collect: [:n | n asCharacter]) do: [ :c4 |
+					data add: (String streamContents: [ :str |
+							 str nextPutAll: {
+									 c1.
+									 c2.
+									 c3.
+									 c4 } ]) ] ] ] ].
+				
+	listElement margin: (BlInsets all: 2).
+	listElement withRowNumbers.
+	filterField margin: (BlInsets all: 2).
+	listElement data addAll: data.
+
+	sieve := ToListElementSieve new.
+	sieve onInstalledIn: listElement.
+	listElement data addAll: data.
+	listElement data size traceCr.
+	filterField addEventHandler: (BlEventHandler
+			 on: AlbTextEditedEvent
+			 do: [
+				 | pattern |
+				 pattern := filterField text asString.
+				 sieve pattern: pattern ]).
+
+	listElement placeholderBuilder: [ :ph :e |
+		| lab |
+		lab := ToAttributedLabel new text: ('No Data' asRopedText
+				        foreground: Color lightGray;
+				        fontSize: 24;
+				        yourself).
+		lab matchParent.
+		ph addChild: lab ].
+
+	"handler inspect."
+	pane addChild: listElement.
+	pane addChild: filterField.
+	pane openInSpace
 ]
 
 { #category : #list }

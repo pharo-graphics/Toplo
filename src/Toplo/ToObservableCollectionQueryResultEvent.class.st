@@ -1,6 +1,6 @@
 Class {
 	#name : #ToObservableCollectionQueryResultEvent,
-	#superclass : #ToObservableCollectionQueryEvent,
+	#superclass : #BlEvent,
 	#category : #'Toplo-Core-CollectionQuery'
 }
 

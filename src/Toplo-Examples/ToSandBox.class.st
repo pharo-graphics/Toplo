@@ -868,7 +868,7 @@ ToSandBox class >> example_List2WithAllClassesMulti [
 	| l |
 	l := ToListElement2 new.
 	l withRowNumbers.
-	l selectionModel inspect.
+	"l selectionModel inspect."
 	l data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]).
 	l openInSpace
 ]
@@ -1049,7 +1049,7 @@ ToSandBox class >> example_List2WithSelectionHistory [
 		(ToListSelectionHistoryEventHandlerExample2 new historyList:
 			 historyList).
 	statesList addEventHandler: (BlEventHandler
-			 on: ToSelectionResultEvent
+			 on: ToAppliedSelectionEvent
 			 do: [ :event | event traceCr ]).
 
 	pane

@@ -3,10 +3,9 @@ Class {
 	#superclass : #Object,
 	#classTraits : 'TBlEventTarget classTrait',
 	#instVars : [
-		'command',
-		'requester'
+		'command'
 	],
-	#category : #'Toplo-Widget-List-Selection-Updater'
+	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
 
 { #category : #operations }
@@ -16,11 +15,7 @@ ToSelectionModelOperator >> addCommand: aCommand [
 		| tail |
 		tail := command.
 		[ tail next isNil ] whileFalse: [ tail := tail next ].
-		tail next: aCommand ].
-	self requester ifNotNil: [ :req |
-		req dispatchEvent: (ToSelectionModelCommandAddedEvent new
-				 command: aCommand;
-				 yourself) ]
+		tail next: aCommand ]
 ]
 
 { #category : #'event dispatching' }
@@ -71,25 +66,14 @@ ToSelectionModelOperator >> deselectIndex: anIndex [
 ToSelectionModelOperator >> dispatchEventForCommandOn: anEventTarget [
 
 	| request |
-	
 	anEventTarget dispatchEvent: (request := ToSelectionRequestEvent new
 			            command: command;
 			            yourself).
-	request selectionChanged ifFalse: [ ^ self ].
-	anEventTarget dispatchEvent: ToListSelectionChangedEvent new.
-	anEventTarget dispatchEvent: (ToSelectionResultEvent new command: command)
-]
-
-{ #category : #accessing }
-ToSelectionModelOperator >> requester [
-
-	^ requester
-]
-
-{ #category : #accessing }
-ToSelectionModelOperator >> requester: anEventTarget [
-
-	requester := anEventTarget
+	request selectionChanged ifTrue: [
+		anEventTarget dispatchEvent: ToListSelectionChangedEvent new ].
+	anEventTarget dispatchEvent: (ToAppliedSelectionEvent new
+			 selectionChanged: request selectionChanged;
+			 command: command)
 ]
 
 { #category : #operations }

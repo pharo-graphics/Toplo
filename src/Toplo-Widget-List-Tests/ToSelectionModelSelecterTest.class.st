@@ -6,7 +6,7 @@ Class {
 		'selectionChanged',
 		'selecter'
 	],
-	#category : #'Toplo-Widget-List-Tests-Selection-Updater'
+	#category : #'Toplo-Widget-List-Tests-Selection-Selecter'
 }
 
 { #category : #running }
@@ -118,6 +118,74 @@ ToSelectionModelSelecterTest >> testSelectAllIndexes [
 ]
 
 { #category : #tests }
+ToSelectionModelSelecterTest >> testSelectAndScrollToIndex [
+
+	selecter selectIndex: 2.
+	selecter selectAndScrollToIndex: 10.
+	selecter apply.
+	self assert: holder selectionModel selectedIndexes asSet equals: #(2 10) asSet.
+	self assert: selecter currentIndex equals: 10.
+	self assert: holder scrollIndex equals: 10
+
+]
+
+{ #category : #tests }
+ToSelectionModelSelecterTest >> testSelectAndScrollToNext [
+
+	selecter selectIndex: 2.
+	selecter selectAndScrollToNext.
+	selecter apply.
+	self assert: holder selectionModel selectedIndexes asSet equals: #(3) asSet.
+	self assert: selecter currentIndex equals: 3.
+	self assert: holder scrollIndex equals: 3
+
+]
+
+{ #category : #tests }
+ToSelectionModelSelecterTest >> testSelectAndScrollToNextDeselected [
+
+	selecter deselectAll.
+	selecter selectIndex: 2.
+	selecter selectAndScrollToNextDeselected.
+	selecter apply.
+	self assert: holder selectionModel selectedIndexes equals: #( 2 3 ).
+	self assert: selecter currentIndex equals: 3.
+	selecter selectAndScrollToNextDeselected.
+	selecter apply.
+	self assert: holder selectionModel selectedIndexes equals: #( 2 3 4 ).
+	self assert: selecter currentIndex equals: 4.
+	self assert: holder scrollIndex equals: 4
+
+]
+
+{ #category : #tests }
+ToSelectionModelSelecterTest >> testSelectAndScrollToPrevious [
+
+	selecter selectIndex: 2.
+	selecter selectAndScrollToPrevious.
+	selecter apply.
+	self assert: holder selectionModel selectedIndexes asSet equals: #(1) asSet.
+	self assert: selecter currentIndex equals: 1.
+	self assert: holder scrollIndex equals: 1
+]
+
+{ #category : #tests }
+ToSelectionModelSelecterTest >> testSelectAndScrollToPreviousDeselected [
+
+	selecter deselectAll.
+	selecter selectIndex: 2.
+	selecter selectAndScrollToPreviousDeselected.
+	selecter apply.
+	self assert: holder selectionModel selectedIndexes equals: #( 1 2 ).
+	self assert: selecter currentIndex equals: 1.
+	selecter selectAndScrollToPreviousDeselected.
+	selecter apply.
+	self assert: holder selectionModel selectedIndexes equals: #( 1 2 ).
+	self assert: selecter currentIndex equals: 1.
+	self assert: holder scrollIndex equals: 1
+]
+
+{ #category : #tests }
 ToSelectionModelSelecterTest >> testSelectIndex [
 
 	selecter selectIndex: 2.
@@ -153,32 +221,20 @@ ToSelectionModelSelecterTest >> testSelectIndexTo2 [
 ]
 
 { #category : #tests }
-ToSelectionModelSelecterTest >> testSelectNext [
-
-	selecter selectIndex: 2.
-	selecter apply.
-	self assert: selecter currentIndex equals: 2.
-	selecter selectNext.
-	selecter apply.
-	self assert: holder selectionModel selectedIndexes asSet equals: #(3) asSet.
-	self assert: selecter currentIndex equals: 3
-
-]
-
-{ #category : #tests }
 ToSelectionModelSelecterTest >> testSelectNextOnLastIndex [
 
 	selecter selectIndex: holder dataSource itemCount.
 	selecter apply.
 	self assert: selecter currentIndex equals: holder dataSource itemCount.
-	selecter selectNext.
+	selecter selectAndScrollToNext.
 	selecter apply.
 	self
 		assert: holder selectionModel selectedIndexes asSet
 		equals: { 1 } asSet.
 	self
 		assert: selecter currentIndex
-		equals: 1
+		equals: 1.
+	self assert: holder scrollIndex equals: 1
 ]
 
 { #category : #tests }
@@ -201,63 +257,19 @@ ToSelectionModelSelecterTest >> testSelectOnlyIndexes [
 ]
 
 { #category : #tests }
-ToSelectionModelSelecterTest >> testSelectOrDeselectNext [
-
-	selecter deselectAll.
-	selecter selectIndex: 2.
-	selecter apply.
-	selecter selectOrDeselectNext.
-	selecter apply.
-	self assert: holder selectionModel selectedIndexes equals: #( 2 3 ).
-	self assert: selecter currentIndex equals: 3.
-	selecter selectOrDeselectNext.
-	selecter apply.
-	self assert: holder selectionModel selectedIndexes equals: #( 2 3 4 ).
-	self assert: selecter currentIndex equals: 4.
-
-]
-
-{ #category : #tests }
-ToSelectionModelSelecterTest >> testSelectOrDeselectPrevious [
-
-	selecter deselectAll.
-	selecter selectIndex: 2.
-	selecter selectOrDeselectPrevious.
-	selecter apply.
-	self assert: holder selectionModel selectedIndexes equals: #( 1 2 ).
-	self assert: selecter currentIndex equals: 1.
-	selecter selectOrDeselectPrevious.
-	selecter apply.
-	self assert: holder selectionModel selectedIndexes equals: #( 1 2 ).
-	self assert: selecter currentIndex equals: 1
-]
-
-{ #category : #tests }
-ToSelectionModelSelecterTest >> testSelectPrevious [
-
-	selecter selectIndex: 2.
-	selecter apply.
-	self assert: selecter currentIndex equals: 2.
-	selecter selectPrevious.
-	selecter apply.
-	self assert: holder selectionModel selectedIndexes asSet equals: #(1) asSet.
-	self assert: selecter currentIndex equals: 1
-]
-
-{ #category : #tests }
 ToSelectionModelSelecterTest >> testSelectPreviousOnFirstIndex [
 
 	selecter selectIndex: 1.
-	selecter apply.
 	self assert: selecter currentIndex equals: 1.
-	selecter selectPrevious.
+	selecter selectAndScrollToPrevious.
 	selecter apply.
 	self
 		assert: holder selectionModel selectedIndexes asSet
 		equals: { holder dataSource itemCount } asSet.
 	self
 		assert: selecter currentIndex
-		equals: holder dataSource itemCount
+		equals: holder dataSource itemCount.
+	self assert: holder scrollIndex equals: holder dataSource itemCount
 ]
 
 { #category : #tests }

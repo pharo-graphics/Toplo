@@ -36,7 +36,7 @@ Class {
 		'eventDispatcher',
 		'selectionModel'
 	],
-	#category : #'Toplo-Widget-List-Selection-Updater'
+	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
 
 { #category : #'event management accessing' }
@@ -52,7 +52,7 @@ ToSelectionModelUpdater >> initialize [
 
 	super initialize.
 	eventDispatcher := BlDirectEventDispatcher on: self.
-	self addEventHandler: ToSelectionModelCommandEventHandler new
+	self addEventHandler: ToSelectionModelEventHandler new
 ]
 
 { #category : #accessing }

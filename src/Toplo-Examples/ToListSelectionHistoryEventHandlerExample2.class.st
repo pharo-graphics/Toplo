@@ -24,16 +24,30 @@ ToListSelectionHistoryEventHandlerExample2 >> addIntervalSelectionCommand: aComm
 ]
 
 { #category : #'event handling' }
+ToListSelectionHistoryEventHandlerExample2 >> addSelectionHolderCommand: aCommand [ 
+
+	
+]
+
+{ #category : #'event handling' }
 ToListSelectionHistoryEventHandlerExample2 >> addWholeSelectionCommand: aCommand [
 
 	(historyList data includes: currentTarget data last) ifTrue: [ ^ self ].
 	historyList data add: currentTarget data last
 ]
 
+{ #category : #'event handling' }
+ToListSelectionHistoryEventHandlerExample2 >> appliedSelectionEvent: anEvent [
+
+	currentTarget := anEvent currentTarget.
+	anEvent command applyOn: self.
+	currentTarget := nil
+]
+
 { #category : #'api - accessing' }
 ToListSelectionHistoryEventHandlerExample2 >> eventsToHandle [
 
-	^ { ToSelectionResultEvent }
+	^ { ToAppliedSelectionEvent }
 ]
 
 { #category : #accessing }
@@ -67,12 +81,4 @@ ToListSelectionHistoryEventHandlerExample2 >> removeIntervalSelectionCommand: aC
 ToListSelectionHistoryEventHandlerExample2 >> removeWholeSelectionCommand: aCommand [
 
 	historyList data removeAll
-]
-
-{ #category : #'event handling' }
-ToListSelectionHistoryEventHandlerExample2 >> selectionResultEvent: anEvent [
-
-	currentTarget := anEvent currentTarget.
-	anEvent command applyOn: self.
-	currentTarget := nil
 ]

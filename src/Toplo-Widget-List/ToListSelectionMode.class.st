@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'preserveSelectionOnFocused',
 		'installedShortcuts',
-		'selectionCommandEventHandler'
+		'selectionModelEventHandler'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
@@ -20,8 +20,8 @@ ToListSelectionMode >> initialize [
 ToListSelectionMode >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement. 
-	selectionCommandEventHandler := ToSelectionModelCommandEventHandler new.
-	anElement addEventHandler: selectionCommandEventHandler.
+	selectionModelEventHandler := ToListSelectionModelEventHandler new.
+	anElement addEventHandler: selectionModelEventHandler.
 	installedShortcuts := self shortcutsIn: anElement.
 	installedShortcuts do: [ :s | anElement addShortcut: s ]
 ]
@@ -31,8 +31,8 @@ ToListSelectionMode >> onUninstalledIn: anElement [
 
 	installedShortcuts do: [ :s | anElement removeShortcut: s ].
 	installedShortcuts := nil.
-	anElement removeEventHandler: selectionCommandEventHandler.
-	selectionCommandEventHandler := nil.
+	anElement removeEventHandler: selectionModelEventHandler.
+	selectionModelEventHandler := nil.
 	super onUninstalledIn: anElement. 
 
 ]
@@ -56,9 +56,9 @@ ToListSelectionMode >> shortcutsIn: anElement [
 		  (BlShortcutWithAction new
 			   combination: BlKeyCombination builder arrowDown build;
 			   action: [ :aShortcutEvent :aShortcut |
-				   self selecter selectNextIn: anElement event: aShortcutEvent ]).
+				   self selecter selectAndScrollToNext ]).
 		  (BlShortcutWithAction new
 			   combination: BlKeyCombination builder arrowUp build;
 			   action: [ :aShortcutEvent :aShortcut |
-				   self selecter selectPreviousIn: anElement event: aShortcutEvent ]) }
+				   self selecter selectAndScrollToPrevious ]) }
 ]

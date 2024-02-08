@@ -40,6 +40,12 @@ ToSelectionCommandTest >> addIntervalSelectionCommand: aCommand [
 ]
 
 { #category : #tests }
+ToSelectionCommandTest >> addSelectionHolderCommand: aCommand [
+
+	
+]
+
+{ #category : #tests }
 ToSelectionCommandTest >> addWholeSelectionCommand: aCommand [
 
 	wholeSelectionCommand := aCommand

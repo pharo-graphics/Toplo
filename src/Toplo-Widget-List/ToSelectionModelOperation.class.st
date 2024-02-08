@@ -21,9 +21,3 @@ ToSelectionModelOperation >> applyWholeSelection: aSelectionCommand on: anObject
 
 	self subclassResponsibility 
 ]
-
-{ #category : #testing }
-ToSelectionModelOperation >> isSelection [
-
-	^ self subclassResponsibility 
-]

@@ -6,7 +6,7 @@ Class {
 		'selectionChanged',
 		'operator'
 	],
-	#category : #'Toplo-Widget-List-Tests-Selection-Updater'
+	#category : #'Toplo-Widget-List-Tests-Selection-Selecter'
 }
 
 { #category : #running }

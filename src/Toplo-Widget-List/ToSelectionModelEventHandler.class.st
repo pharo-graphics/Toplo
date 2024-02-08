@@ -1,5 +1,5 @@
 Class {
-	#name : #ToSelectionModelCommandEventHandler,
+	#name : #ToSelectionModelEventHandler,
 	#superclass : #BlCustomEventHandler,
 	#classTraits : 'TBlEventTarget classTrait',
 	#instVars : [
@@ -9,13 +9,13 @@ Class {
 }
 
 { #category : #'api - accessing' }
-ToSelectionModelCommandEventHandler >> eventsToHandle [
+ToSelectionModelEventHandler >> eventsToHandle [
 
-	^ { ToSelectionModelCommandAddedEvent. ToSelectionRequestEvent }
+	^ { ToSelectionCommandAddedEvent. ToSelectionRequestEvent }
 ]
 
 { #category : #'event handling' }
-ToSelectionModelCommandEventHandler >> selectionModelCommandAddedEvent: aSelectionCommandAddedEvent [
+ToSelectionModelEventHandler >> selectionCommandAddedEvent: aSelectionCommandAddedEvent [
 
 	| target |
 	target := aSelectionCommandAddedEvent target.
@@ -30,7 +30,7 @@ ToSelectionModelCommandEventHandler >> selectionModelCommandAddedEvent: aSelecti
 ]
 
 { #category : #'event handling' }
-ToSelectionModelCommandEventHandler >> selectionRequestEvent: aSelectionRequestEvent [
+ToSelectionModelEventHandler >> selectionRequestEvent: aSelectionRequestEvent [
 
 	| previousModel targetModel |
 	targetModel := aSelectionRequestEvent currentTarget selectionModel.

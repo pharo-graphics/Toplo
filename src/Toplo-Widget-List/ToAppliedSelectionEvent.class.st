@@ -1,5 +1,5 @@
 Class {
-	#name : #ToSelectionRequestEvent,
+	#name : #ToAppliedSelectionEvent,
 	#superclass : #ToSelectionCommandEvent,
 	#instVars : [
 		'selectionChanged'
@@ -8,26 +8,26 @@ Class {
 }
 
 { #category : #copying }
-ToSelectionRequestEvent >> copySharedStatesFrom: anEvent [
+ToAppliedSelectionEvent >> copySharedStatesFrom: anEvent [
 
 	super copySharedStatesFrom: anEvent.
 	self selectionChanged: anEvent selectionChanged 
 ]
 
 { #category : #accessing }
-ToSelectionRequestEvent >> selectionChanged [
+ToAppliedSelectionEvent >> selectionChanged [
 
-	^ selectionChanged ifNil: [ selectionChanged := false ]
+	^ selectionChanged
 ]
 
 { #category : #accessing }
-ToSelectionRequestEvent >> selectionChanged: aBoolean [
+ToAppliedSelectionEvent >> selectionChanged: aBoolean [
 
 	selectionChanged := aBoolean
 ]
 
 { #category : #sending }
-ToSelectionRequestEvent >> sendTo: anObject [
+ToAppliedSelectionEvent >> sendTo: anObject [
 
-	anObject selectionRequestEvent: self
+	anObject appliedSelectionEvent: self
 ]

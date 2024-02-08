@@ -21,9 +21,3 @@ ToRemoveSelectionOperation >> applyWholeSelection: aSelectionCommand on: anObjec
 
 	anObject removeWholeSelectionCommand: aSelectionCommand
 ]
-
-{ #category : #testing }
-ToRemoveSelectionOperation >> isSelection [
-
-	^ false
-]

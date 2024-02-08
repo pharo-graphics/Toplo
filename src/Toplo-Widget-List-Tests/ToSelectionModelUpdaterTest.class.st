@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'updater'
 	],
-	#category : #'Toplo-Widget-List-Tests-Selection-Updater'
+	#category : #'Toplo-Widget-List-Tests-Selection-Selecter'
 }
 
 { #category : #tests }
@@ -38,7 +38,7 @@ ToSelectionModelUpdaterTest >> testInitialize [
 	self assert: (updater eventDispatcher isKindOf: BlDirectEventDispatcher).
 	self assert: (updater eventDispatcher handlers
 			 detect: [ :handler |
-			 handler isKindOf: ToSelectionModelCommandEventHandler ]
+			 handler isKindOf: ToSelectionModelEventHandler ]
 			 ifNone: [  ]) notNil.
 	self assert: updater selectionModel isNil
 ]

@@ -21,9 +21,3 @@ ToAddSelectionOperation >> applyWholeSelection: aSelectionCommand on: anObject [
 
 	anObject addWholeSelectionCommand: aSelectionCommand
 ]
-
-{ #category : #testing }
-ToAddSelectionOperation >> isSelection [
-
-	^ true
-]

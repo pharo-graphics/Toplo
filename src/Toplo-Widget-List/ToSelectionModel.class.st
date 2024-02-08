@@ -39,6 +39,11 @@ ToSelectionModel >> addIntervalSelectionCommand: aCommand [
 ]
 
 { #category : #'command handling' }
+ToSelectionModel >> addSelectionHolderCommand: aCommand [
+
+]
+
+{ #category : #'command handling' }
 ToSelectionModel >> addWholeSelectionCommand: aCommand [
 
 	self ensureWholeSelectionModel 

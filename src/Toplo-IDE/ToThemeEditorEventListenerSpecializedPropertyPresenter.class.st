@@ -49,7 +49,9 @@ ToThemeEditorEventListenerSpecializedPropertyPresenter >> eventListener: anObjec
 { #category : #initialization }
 ToThemeEditorEventListenerSpecializedPropertyPresenter >> initializePresenters [
 
-	propertyInput := SpDropListPresenter new display: [:prop | prop name ]; yourself.
+	propertyInput := SpDropListPresenter new
+		                 display: [ :prop | prop name ];
+		                 yourself.
 	supplementInput := SpCheckBoxPresenter new
 		                   label: 'supplement';
 		                   yourself.
@@ -58,7 +60,7 @@ ToThemeEditorEventListenerSpecializedPropertyPresenter >> initializePresenters [
 		                  yourself.
 	valueInput := SpCodePresenter new
 		              beForScripting;
-		              yourself
+		              yourself.
 ]
 
 { #category : #'as yet unclassified' }
@@ -71,7 +73,7 @@ ToThemeEditorEventListenerSpecializedPropertyPresenter >> makeNewAnimation [
 		             onError: [ :err | ^ err pass ].
 	animation ifNil: [ ^ nil ].
 	(animation isKindOf: ToPropertyAnimation) ifFalse: [
-		ToThemeEditorWrongObjectError new signal: 'Expected a BlAnimation.' ].
+		ToThemeEditorWrongObjectError new signal: 'Expected a ToPropertyAnimation.' ].
 	^ animation
 ]
 
@@ -190,20 +192,22 @@ ToThemeEditorEventListenerSpecializedPropertyPresenter >> updatePresenterForProp
 
 	self eventListener animation
 		ifNil: [
-			self animationInput text: '"Put nil or a BlAnimation."
-nil '.
-			self animationInput beForObject: self eventListener animation ]
+			self animationInput text: '"Put nil or a ToPropertyAnimation."
+nil ' ]
 		ifNotNil: [
-			self animationInput text:
-				'"Put nil or a BlAnimation. Self is the current animation."
-self '.
-			self animationInput beForObject: self eventListener animation ].
+			| visitor |
+			visitor := ToThemeToSourceCodeVisitor new.
+			self eventListener animation accept: visitor.
+			self animationInput text: '"Put nil or a ToPropertyAnimation."
+' , visitor contents ].
 
 	self supplementInput state: self eventListener isSupplement.
 	self propertyInput selectItem: self eventListener property.
 	self eventListener value isBlock
 		ifTrue: [
-		self valueInput text: self eventListener value printString ]
+			| expr |
+			expr := RBParser parseExpression: self eventListener value printString.
+			self valueInput text: (RBSimpleFormatter format: expr) ]
 		ifFalse: [
 			self valueInput text: '"self is the current value."
 self '.

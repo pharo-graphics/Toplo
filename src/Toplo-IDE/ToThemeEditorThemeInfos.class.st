@@ -78,7 +78,7 @@ ToThemeEditorThemeInfos >> saveButton [
 { #category : #'as yet unclassified' }
 ToThemeEditorThemeInfos >> saveCurrentTheme [
 
-	self halt.
+	self theme compileInitialiazeStyleRules.
 ]
 
 { #category : #'as yet unclassified' }

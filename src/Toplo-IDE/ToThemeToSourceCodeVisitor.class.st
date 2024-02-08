@@ -2,7 +2,6 @@ Class {
 	#name : #ToThemeToSourceCodeVisitor,
 	#superclass : #Object,
 	#instVars : [
-		'indentLevel',
 		'stream',
 		'selectorVisitor'
 	],
@@ -15,7 +14,15 @@ Class {
 { #category : #accessing }
 ToThemeToSourceCodeVisitor >> contents [
 
-	^ self stream contents expandMacros
+	^self stream contents expandMacros.
+]
+
+{ #category : #accessing }
+ToThemeToSourceCodeVisitor >> formatedContents [
+
+	| expr |
+	expr := RBParser parseMethod: self contents.
+	^ RBSimpleFormatter format: expr
 ]
 
 { #category : #'as yet unclassified' }
@@ -27,24 +34,22 @@ ToThemeToSourceCodeVisitor >> generatedComment [
 		with: Time now print24
 ]
 
-{ #category : #visiting }
-ToThemeToSourceCodeVisitor >> indentLevel [
-
-	^ indentLevel
-]
-
-{ #category : #visiting }
-ToThemeToSourceCodeVisitor >> indentLevel: aNumber [
-
-	indentLevel := aNumber
-]
-
 { #category : #initialization }
 ToThemeToSourceCodeVisitor >> initialize [
 
-	indentLevel := 1.
 	stream := String new writeStream.
-	selectorVisitor := ToSelectorPrinterAsSource new.
+]
+
+{ #category : #accessing }
+ToThemeToSourceCodeVisitor >> nextPut: aString [
+
+	stream nextPutAll: aString
+]
+
+{ #category : #initialization }
+ToThemeToSourceCodeVisitor >> reset [
+
+	self stream reset
 ]
 
 { #category : #accessing }
@@ -60,85 +65,178 @@ ToThemeToSourceCodeVisitor >> stream [
 ]
 
 { #category : #visiting }
-ToThemeToSourceCodeVisitor >> visitPropertyBorderColorTransition: aToPropertyBorderColorTransitionAnimation [ 
-	self stream << 'ToPropertyBorderColorTransitionAnimation new duration: '.
-	self stream << aToPropertyBorderColorTransitionAnimation duration wholeMilliseconds printString.
-	self stream << ' milliSeconds'
+ToThemeToSourceCodeVisitor >> visitActionSelector: aSelector [
+
+	self nextPut: aSelector action printString.
+	self nextPut: ' asActionSelector'
 ]
 
 { #category : #visiting }
-ToThemeToSourceCodeVisitor >> visitPropertyBorderEffectTransitionAnimation: aToPropertyBorderEffectTransitionAnimation [ 
-	self stream
-	<< 'ToPropertyBorderEffectTransitionAnimation new duration: '.
-	self stream
-	<<
-		aToPropertyBorderEffectTransitionAnimation duration wholeMilliseconds
-			printString.
-	self stream << ' milliSeconds'
+ToThemeToSourceCodeVisitor >> visitAndSelector: aSelector [
+
+	self nextPut: '('.
+	aSelector left accept: self.
+	self nextPut: ') && ('.
+	aSelector right accept: self.
+	self nextPut: ')'
 ]
 
 { #category : #visiting }
-ToThemeToSourceCodeVisitor >> visitPropertyColorTransitionAnimation: aToPropertyColorTransitionAnimation [ 
-	self stream
-	<< 'ToPropertyColorTransitionAnimation new duration: '.
-	self stream
-	<<
-		aToPropertyColorTransitionAnimation duration wholeMilliseconds
+ToThemeToSourceCodeVisitor >> visitChildSelector: aSelector [
+
+	self nextPut: '('.
+	aSelector left accept: self.
+	self nextPut: ') withChild: ('.
+
+	aSelector depth
+		ifNil: [
+			aSelector right accept: self.
+			self nextPut: ')' ]
+		ifNotNil: [
+			aSelector right accept: self.
+			self nextPut: ') atDepth: '.
+			self nextPut: aSelector depth printString ]
+]
+
+{ #category : #visiting }
+ToThemeToSourceCodeVisitor >> visitIdSelector: aSelector [
+
+	self nextPut: aSelector  id printString .self nextPut: ' asIdSelector'
+]
+
+{ #category : #visiting }
+ToThemeToSourceCodeVisitor >> visitNotSelector: aSelector [
+
+	self nextPut: '('.
+	aSelector left accept: self.
+	self nextPut: ') not'
+]
+
+{ #category : #visiting }
+ToThemeToSourceCodeVisitor >> visitOrSelector: aSelector [
+
+	self nextPut: '('.
+	aSelector left accept: self.
+	self nextPut: ') || ('.
+	aSelector right accept: self.
+	self nextPut: ')'
+]
+
+{ #category : #visiting }
+ToThemeToSourceCodeVisitor >> visitParentSelector: aSelector [
+
+	self nextPut: '('.
+	aSelector left accept: self.
+	self nextPut: ') withParent: ('.
+
+	aSelector depth
+		ifNil: [
+			aSelector right accept: self.
+			self nextPut: ')' ]
+		ifNotNil: [
+			aSelector right accept: self.
+			self nextPut: ') atDepth: '.
+			self nextPut: aSelector depth printString ]
+]
+
+{ #category : #visiting }
+ToThemeToSourceCodeVisitor >> visitPropertyBorderColorTransition: aToPropertyBorderColorTransitionAnimation [
+
+	self nextPut: 'ToPropertyBorderColorTransitionAnimation new duration: '.
+	self nextPut:
+		aToPropertyBorderColorTransitionAnimation duration wholeMilliseconds
 			printString.
-	self stream << ' milliSeconds'
+	self nextPut: ' milliSeconds; yourself'
+]
+
+{ #category : #visiting }
+ToThemeToSourceCodeVisitor >> visitPropertyBorderEffectTransitionAnimation: aToPropertyBorderEffectTransitionAnimation [
+
+	self nextPut: 'ToPropertyBorderEffectTransitionAnimation new duration: '.
+	self nextPut:
+		aToPropertyBorderEffectTransitionAnimation duration
+			wholeMilliseconds printString.
+	self nextPut: ' milliSeconds; yourself'
+]
+
+{ #category : #visiting }
+ToThemeToSourceCodeVisitor >> visitPropertyColorTransitionAnimation: aToPropertyColorTransitionAnimation [
+
+	self nextPut: 'ToPropertyColorTransitionAnimation new duration: '.
+	self nextPut: aToPropertyColorTransitionAnimation duration wholeMilliseconds
+			printString.
+	self nextPut: ' milliSeconds; yourself'
 ]
 
 { #category : #visiting }
 ToThemeToSourceCodeVisitor >> visitPropertyWriter: aToPropertyWriter [
 
-	self stream << ('<t>' repeat: self indentLevel).
-	self stream << 'self<r>'.
-	self indentLevel: self indentLevel + 1.
-	self stream << ('<t>' repeat: self indentLevel).
-	self stream << 'when: '.
-	self stream << aToPropertyWriter eventClass printString.
-	self stream << '<r>'.
-	self stream << ('<t>' repeat: self indentLevel).
-	self stream << 'write: (self property:'.
-	self stream << aToPropertyWriter property name asSymbol printString.
-	self stream << ')<r>'.
-	self stream << ('<t>' repeat: self indentLevel).
-	self stream << 'with: ('.
-	self stream << aToPropertyWriter value printString.
-	self stream << ')<r>'.
-	self stream << ('<t>' repeat: self indentLevel).
-	self stream << 'animation: ('.
+	self nextPut: 'self when: '.
+	self nextPut: aToPropertyWriter eventClass printString.
+	self nextPut: ' write: (self property:'.
+	self nextPut: aToPropertyWriter property name asSymbol printString.
+	self nextPut: ') with: ('.
+	self nextPut: aToPropertyWriter value printString.
+	self nextPut: ') animation: ('.
 	aToPropertyWriter animation
-		ifNil: [ self stream << 'nil' ]
+		ifNil: [ self nextPut: 'nil' ]
 		ifNotNil: [ aToPropertyWriter animation accept: self ].
-	self stream << ').<r>'.
-	self indentLevel: self indentLevel - 1
+	self nextPut: ').<r>'
+]
+
+{ #category : #visiting }
+ToThemeToSourceCodeVisitor >> visitSiblingSelector: aSelector [
+
+	self nextPut: '('.
+	aSelector left accept: self.
+	self nextPut: ') withSibling: ('.
+	aSelector right accept: self.
+	self nextPut: ')'
 ]
 
 { #category : #visiting }
 ToThemeToSourceCodeVisitor >> visitStyleRule: aToStyleRule [
 
-	self stream << ('<t>' repeat: self indentLevel).
-	self stream << 'self select: ('.
-	aToStyleRule selector accept: self selectorVisitor.
-	self stream << self selectorVisitor contents.
-	self selectorVisitor reset.
-	self stream << ') style: [<r>'.
-	self indentLevel: self indentLevel + 1.
+	self nextPut: 'self select: ('.
+	aToStyleRule selector accept: self.
+	self nextPut: ') style: [<r>'.
 	aToStyleRule lookEventListeners do: [ :each | each accept: self ].
 	aToStyleRule styleRules do: [ :each | each accept: self ].
-	self stream << ('<t>' repeat: self indentLevel).
-	self stream << '].<r>'.
-	self indentLevel: self indentLevel - 1
+	self nextPut: '].<r>'
 ]
 
 { #category : #visiting }
 ToThemeToSourceCodeVisitor >> visitStyleSheetTheme: aToStyleTheme [
-	"heelo"
 
-	self stream << 'initializeStyleRules<r><t>'.
-	self stream << '"'.
-	self stream << self generatedComment.
-	self stream << '"<r><r>'.
+	self nextPut: 'initializeStyleRules<r>"'.
+	self nextPut: self generatedComment.
+	self nextPut: '"<r><r>'.
+
 	aToStyleTheme styleRules do: [ :each | each accept: self ]
+]
+
+{ #category : #visiting }
+ToThemeToSourceCodeVisitor >> visitStyleStampSelector: aSelector [
+
+	aSelector allStamps size = 1
+		ifTrue: [ self nextPut: aSelector allStamps first printString ]
+		ifFalse: [ self nextPut: aSelector allStamps printString ].
+	self nextPut: ' asStampSelector'
+]
+
+{ #category : #visiting }
+ToThemeToSourceCodeVisitor >> visitTypeSelector: aSelector [
+
+	aSelector exact ifTrue: [
+		self nextPut: aSelector type printString .
+		self nextPut: ' asTypeSelector' ] ifFalse: [ self nextPut: '( '.
+		self nextPut: aSelector type printString.
+		self nextPut: ' asTypeSelector ) exact: false; yourself'. ].
+
+]
+
+{ #category : #visiting }
+ToThemeToSourceCodeVisitor >> visitUniversalSelector: aSelector [
+
+	self nextPut: aSelector  class name .self nextPut: ' new'
 ]

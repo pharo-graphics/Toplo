@@ -1,21 +1,21 @@
 Class {
-	#name : #ToSelectorPrinterAsSourceTest,
+	#name : #ToThemeToSourceCodeVisitorTest,
 	#superclass : #TestCase,
 	#instVars : [
 		'printer'
 	],
-	#category : #'Toplo-Tests-Core-Selectors'
+	#category : #'Toplo-IDE-theme-editor-presenter'
 }
 
 { #category : #running }
-ToSelectorPrinterAsSourceTest >> setUp [
+ToThemeToSourceCodeVisitorTest >> setUp [
 
 	super setUp.
-	printer := ToSelectorPrinterAsSource new
+	printer := ToThemeToSourceCodeVisitor new
 ]
 
 { #category : #tests }
-ToSelectorPrinterAsSourceTest >> test1 [
+ToThemeToSourceCodeVisitorTest >> test1 [
 
 	| selector |
 	selector := #stamp asStampSelector.
@@ -28,7 +28,7 @@ ToSelectorPrinterAsSourceTest >> test1 [
 ]
 
 { #category : #tests }
-ToSelectorPrinterAsSourceTest >> test2 [
+ToThemeToSourceCodeVisitorTest >> test2 [
 
 	| selector |
 	selector := ToButton asTypeSelector.
@@ -41,7 +41,7 @@ ToSelectorPrinterAsSourceTest >> test2 [
 ]
 
 { #category : #tests }
-ToSelectorPrinterAsSourceTest >> test3 [
+ToThemeToSourceCodeVisitorTest >> test3 [
 
 	| selector |
 	selector := #( #stamp1 #stamp2 #stamp3 ) asStampSelector not.
@@ -54,7 +54,7 @@ ToSelectorPrinterAsSourceTest >> test3 [
 ]
 
 { #category : #tests }
-ToSelectorPrinterAsSourceTest >> test4 [
+ToThemeToSourceCodeVisitorTest >> test4 [
 
 	| selector |
 	selector := #'button-label' asStampSelector
@@ -70,7 +70,7 @@ ToSelectorPrinterAsSourceTest >> test4 [
 ]
 
 { #category : #tests }
-ToSelectorPrinterAsSourceTest >> test5 [
+ToThemeToSourceCodeVisitorTest >> test5 [
 
 	| selector |
 	selector := ((ToStampSelector new addStamp: #stamp1)
@@ -95,7 +95,7 @@ ToSelectorPrinterAsSourceTest >> test5 [
 ]
 
 { #category : #tests }
-ToSelectorPrinterAsSourceTest >> test6 [
+ToThemeToSourceCodeVisitorTest >> test6 [
 
 	| selector |
 	selector := (((ToUniversalSelector new withParent:
@@ -118,7 +118,7 @@ ToSelectorPrinterAsSourceTest >> test6 [
 ]
 
 { #category : #tests }
-ToSelectorPrinterAsSourceTest >> testAndNot [
+ToThemeToSourceCodeVisitorTest >> testAndNot [
 
 	| selector |
 	selector := #'labeled-icon' asStampSelector
@@ -128,7 +128,7 @@ ToSelectorPrinterAsSourceTest >> testAndNot [
 ]
 
 { #category : #tests }
-ToSelectorPrinterAsSourceTest >> testCompileSelector: aSelector [
+ToThemeToSourceCodeVisitorTest >> testCompileSelector: aSelector [
 
 	| newSelector |
 	newSelector := self class compiler
@@ -139,7 +139,7 @@ ToSelectorPrinterAsSourceTest >> testCompileSelector: aSelector [
 ]
 
 { #category : #tests }
-ToSelectorPrinterAsSourceTest >> testVisitActionSelector [
+ToThemeToSourceCodeVisitorTest >> testVisitActionSelector [
 
 	| selector newSelector |
 	selector := [ :e | e isKindOf: ToButton ] asActionSelector.
@@ -156,7 +156,7 @@ ToSelectorPrinterAsSourceTest >> testVisitActionSelector [
 ]
 
 { #category : #tests }
-ToSelectorPrinterAsSourceTest >> testVisitAndSelector [
+ToThemeToSourceCodeVisitorTest >> testVisitAndSelector [
 
 	| selector |
 	selector := #'labeled-icon' asStampSelector && ToImage asTypeSelector.
@@ -165,7 +165,7 @@ ToSelectorPrinterAsSourceTest >> testVisitAndSelector [
 ]
 
 { #category : #tests }
-ToSelectorPrinterAsSourceTest >> testVisitChildSelector [
+ToThemeToSourceCodeVisitorTest >> testVisitChildSelector [
 
 	| selector |
 	selector := #button asStampSelector withChild: ToImage asTypeSelector.
@@ -174,7 +174,7 @@ ToSelectorPrinterAsSourceTest >> testVisitChildSelector [
 ]
 
 { #category : #tests }
-ToSelectorPrinterAsSourceTest >> testVisitChildSelectorWithDepth [
+ToThemeToSourceCodeVisitorTest >> testVisitChildSelectorWithDepth [
 
 	| selector |
 	selector := #button asStampSelector
@@ -185,7 +185,7 @@ ToSelectorPrinterAsSourceTest >> testVisitChildSelectorWithDepth [
 ]
 
 { #category : #tests }
-ToSelectorPrinterAsSourceTest >> testVisitIdSelector [
+ToThemeToSourceCodeVisitorTest >> testVisitIdSelector [
 
 	| selector |
 	selector := #'button-label' asIdSelector.
@@ -194,7 +194,7 @@ ToSelectorPrinterAsSourceTest >> testVisitIdSelector [
 ]
 
 { #category : #tests }
-ToSelectorPrinterAsSourceTest >> testVisitNotSelector [
+ToThemeToSourceCodeVisitorTest >> testVisitNotSelector [
 
 	| selector |
 	selector := #'labeled-icon' asStampSelector not.
@@ -203,7 +203,7 @@ ToSelectorPrinterAsSourceTest >> testVisitNotSelector [
 ]
 
 { #category : #tests }
-ToSelectorPrinterAsSourceTest >> testVisitOrSelector [
+ToThemeToSourceCodeVisitorTest >> testVisitOrSelector [
 
 	| selector |
 	selector := #'labeled-icon' asStampSelector || ToImage asTypeSelector.
@@ -212,7 +212,7 @@ ToSelectorPrinterAsSourceTest >> testVisitOrSelector [
 ]
 
 { #category : #tests }
-ToSelectorPrinterAsSourceTest >> testVisitParentSelector [
+ToThemeToSourceCodeVisitorTest >> testVisitParentSelector [
 
 	| selector |
 	selector := #button asStampSelector withParent: ToPane asTypeSelector.
@@ -221,7 +221,7 @@ ToSelectorPrinterAsSourceTest >> testVisitParentSelector [
 ]
 
 { #category : #tests }
-ToSelectorPrinterAsSourceTest >> testVisitParentSelectorWithDepth [
+ToThemeToSourceCodeVisitorTest >> testVisitParentSelectorWithDepth [
 
 	| selector |
 	selector := #button asStampSelector
@@ -232,7 +232,7 @@ ToSelectorPrinterAsSourceTest >> testVisitParentSelectorWithDepth [
 ]
 
 { #category : #tests }
-ToSelectorPrinterAsSourceTest >> testVisitSiblingSelector [
+ToThemeToSourceCodeVisitorTest >> testVisitSiblingSelector [
 
 	| selector |
 	selector := #icon asStampSelector withSibling: #label asStampSelector.
@@ -241,7 +241,7 @@ ToSelectorPrinterAsSourceTest >> testVisitSiblingSelector [
 ]
 
 { #category : #tests }
-ToSelectorPrinterAsSourceTest >> testVisitStyleStampSelector [
+ToThemeToSourceCodeVisitorTest >> testVisitStyleStampSelector [
 
 	| selector |
 	selector := #'labeled-icon' asStampSelector.
@@ -250,7 +250,7 @@ ToSelectorPrinterAsSourceTest >> testVisitStyleStampSelector [
 ]
 
 { #category : #tests }
-ToSelectorPrinterAsSourceTest >> testVisitStyleStampSelectorWith2Stamps [
+ToThemeToSourceCodeVisitorTest >> testVisitStyleStampSelectorWith2Stamps [
 
 	| selector |
 	selector := #( #button 'primary' ) asStampSelector.
@@ -264,7 +264,7 @@ ToSelectorPrinterAsSourceTest >> testVisitStyleStampSelectorWith2Stamps [
 ]
 
 { #category : #tests }
-ToSelectorPrinterAsSourceTest >> testVisitTypeSelector [
+ToThemeToSourceCodeVisitorTest >> testVisitTypeSelector [
 
 	| selector |
 	selector := ToButton asTypeSelector.
@@ -273,7 +273,7 @@ ToSelectorPrinterAsSourceTest >> testVisitTypeSelector [
 ]
 
 { #category : #tests }
-ToSelectorPrinterAsSourceTest >> testVisitUniversalSelector [
+ToThemeToSourceCodeVisitorTest >> testVisitUniversalSelector [
 
 	| selector |
 	selector := ToUniversalSelector new.

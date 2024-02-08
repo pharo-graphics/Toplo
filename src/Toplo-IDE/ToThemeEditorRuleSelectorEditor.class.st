@@ -99,7 +99,7 @@ ToThemeEditorRuleSelectorEditor >> updatePresenter [
 	self styleRule ifNil: [
 		self codeInput text: '"Select a rule on the left."'.
 		^ self ].
-	interpreter := ToSelectorPrinterAsSource new.
+	interpreter := ToThemeToSourceCodeVisitor new.
 	self styleRule selector accept: interpreter.
-	self codeInput text: interpreter contents.
+	self codeInput text: interpreter contents
 ]

@@ -4,10 +4,23 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
+{ #category : #'events handling' }
+ToListNodeSelectionEventHandler >> clickEvent: anEvent [
+
+	| listElement node |
+	node := anEvent currentTarget.
+	listElement := node holder listElement.
+
+	node dispatchEvent: (ToListClickOnNodeEvent new
+			 listElement: listElement;
+			 sourceEvent: anEvent;
+			 yourself)
+]
+
 { #category : #'api - accessing' }
 ToListNodeSelectionEventHandler >> eventsToHandle [
 
-	^ { ToListClickOnNodeEvent. ToListDoubleClickOnNodeEvent }
+	^ { ToListClickOnNodeEvent. ToListDoubleClickOnNodeEvent. BlPrimaryClickEvent  }
 ]
 
 { #category : #'mouse handlers' }

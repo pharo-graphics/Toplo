@@ -97,13 +97,14 @@ ToListSelectionElementEventHandler2 >> newPrimarySelectionElementsFromEvent: anE
 
 	| adjacentNodeGroups target |
 	target := anEvent currentTarget.
+	target isAttachedToSceneGraph ifFalse: [ ^ nil ].
 	adjacentNodeGroups := self adjacentSelectedNodesGroupsIn: target.
 	adjacentNodeGroups = previousAdjacentNodeGroups ifTrue: [
 		^ nil ].
 	previousAdjacentNodeGroups := adjacentNodeGroups.
 	^ adjacentNodeGroups collect: [ :g |
 		  ToListPrimarySelectionElement new
-			  listElement: anEvent currentTarget;
+			  listElement: target;
 			  nodes: g;
 			  yourself ]
 ]
@@ -136,7 +137,7 @@ ToListSelectionElementEventHandler2 >> onListSelectionElementUpdatedFromEvent: a
 	" Ok, the state of the infinite has changed, le's dispatch the event 
 	that is used by the skin state generator to generate the selection state "
 	nodesArray do: [ :node |
-		node dispatchEvent: (ToListNodeSelectionEvent new
+		node dispatchEvent: (ToListNodeSelectedEvent new
 				 listElement: target;
 				 selected: (selectionModel containsIndex: node holder position)) ]
 ]
@@ -147,6 +148,7 @@ ToListSelectionElementEventHandler2 >> updatePrimarySelectionFromEvent: anEvent 
 
 	| newSelElements target previous |
 	target := anEvent currentTarget.
+	target isAttachedToSceneGraph ifFalse: [ ^ self ].
 	previous := target selectionElements copy.
 	newSelElements := self newPrimarySelectionElementsFromEvent: anEvent.
 	newSelElements

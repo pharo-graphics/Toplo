@@ -57,16 +57,16 @@ ToSingleSelectStrategy >> refreshHeaderNodeContainer [
 	node := select headerNodeContainer firstChild.
 	holder := node selectHolder.
 
-	holder position isZero ifFalse: [ " directly deselection in the selection model works.
+"	holder position isZero ifFalse: [ "" directly deselection in the selection model works.
 		using the listElement selectionStrategy do not works because of the shared event distributor.
-		Indeed, this method is invoked from the event handler added in ToSelectReadOnlyMode>>onInstalledIn: "
+		Indeed, this method is invoked from the event handler added in ToSelectReadOnlyMode>>onInstalledIn: ""
 		self flag: 'use-case to fix ToListElement event handling'.
 		select isFiltrable
 			ifTrue: [ select mode deselectIndex: holder position ]
-			ifFalse: [ select selectionModel deselectIndex: holder position ].
-		select listElement dispatchEvent: ToListSelectionDirtyEvent new ].
+			ifFalse: [ select selectionModel deselectIndex: holder position among: select data size].
+		select listElement dispatchEvent: ToListSelectionDirtyEvent new ]."
 
-	select selectionModel indices
+	select listElement selectionModel selectedIndexes
 		ifEmpty: [
 			idx := 0.
 			selectedData := nil ]

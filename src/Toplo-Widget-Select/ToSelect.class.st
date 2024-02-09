@@ -4,11 +4,12 @@ Class {
 	#instVars : [
 		'windowManager',
 		'fakeData',
-		'data',
-		'selectionModel',
 		'strategy',
 		'mode',
-		'placeholderText'
+		'placeholderText',
+		'selection',
+		'data',
+		'dataCollectionAfterChangeEventHandler'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -28,13 +29,13 @@ ToSelect >> currentWindow [
 { #category : #accessing }
 ToSelect >> data [
 
-	^ data ifNil: [ data := ToObservableCollection new ]
+	^ data
 ]
 
 { #category : #accessing }
-ToSelect >> data: anObservableCollection [
+ToSelect >> data: aCollection [
 
-	data := anObservableCollection
+	self data updateAllWith: aCollection
 ]
 
 { #category : #accessing }
@@ -135,6 +136,16 @@ ToSelect >> initialize [
 
 	| sharedEventsDistributor headerElement |
 	super initialize.
+	
+	data := ToObservableCollection new.
+	
+	dataCollectionAfterChangeEventHandler := BlEventHandler
+			 on: ToCollectionAfterChangeEvent
+			 do: [ self listElement data updateAllWith: self data ].
+			
+	data addEventHandler: dataCollectionAfterChangeEventHandler.
+	selection := BlCompositeSelection new.
+	
 	" for the popup "
 	windowManager := self newWindowManager.
 
@@ -143,7 +154,6 @@ ToSelect >> initialize [
 	self addChild: headerElement.
 	self addChild: self newIconContainer.
 	
-	selectionModel := BlCompositeSelection new.
 	" initialize the mode *** before *** the strategy (the strategy need an installed mode) "
 	self mode: self defaultMode.
 	" initialize the default strategy "
@@ -155,8 +165,7 @@ ToSelect >> initialize [
 	sharedEventsDistributor := BlSharedEventDistributor new.
 	sharedEventsDistributor
 		adjustMousePosition: false;
-		shareEvents: {
-				ToCollectionFilteredEvent}.
+		shareEvents: { ToCollectionFilteredEvent }.
 
 	self listElement data addEventHandler: sharedEventsDistributor.
 	self addEventHandler: sharedEventsDistributor.
@@ -335,19 +344,13 @@ ToSelect >> selectedData [
 { #category : #'accessing selection' }
 ToSelect >> selectedIndexes [
 
-	^ selectionModel indices
+	^ self selection indices
 ]
 
 { #category : #accessing }
-ToSelect >> selectionModel [
+ToSelect >> selection [ 
 
-	^ selectionModel ifNil: [ selectionModel := BlCompositeSelection new ]
-]
-
-{ #category : #accessing }
-ToSelect >> selectionModel: aSelectionModel [
-
-	selectionModel := aSelectionModel
+	^ selection
 ]
 
 { #category : #accessing }

@@ -73,9 +73,8 @@ ToListElementSieve >> onInstalledIn: aListElement [
 	originalData addEventHandler: originalDataUpdater.
 	self buildOriginalIndexedData.
 
-	" currentSelectionModel maintains the original data selection up-to-date even with a filtered contents "
-	currentSelection := BlCompositeSelection new.
-	currentSelection selectAllIndexes: aListElement selectionModel selectedIndexes.
+	" currentSelection contains the original data selection. It is maintained up-to-date even with a filtered contents "
+	currentSelection := aListElement selectionModel selectedIndexes asIdentitySet.
 	
 	" the query runner will run the query in background on the originalIndexedData collection "
 	queryRunner := ToObservableCollectionQueryRunner new.
@@ -103,8 +102,7 @@ ToListElementSieve >> onInstalledIn: aListElement [
 ToListElementSieve >> onListSelectionChangedEvent: anEvent [
 
 	| currentIndexes selectedStream deselectedStream |
-
-	currentIndexes := anEvent selectedIndexes asSet.
+	currentIndexes := anEvent selectedIndexes asIdentitySet.
 	selectedStream := WriteStream on: (Array new: 10).
 	deselectedStream := WriteStream on: (Array new: 10).
 
@@ -119,11 +117,15 @@ ToListElementSieve >> onListSelectionChangedEvent: anEvent [
 					ifTrue: [ selectedStream nextPut: assoc value ]
 					ifFalse: [ deselectedStream nextPut: assoc value ] ] ].
 
-	currentSelection deselectAllIndexes: deselectedStream contents.
-	currentSelection selectAllIndexes: selectedStream contents.
+	currentSelection removeAllFoundIn: deselectedStream contents.
+	currentSelection addAll: selectedStream contents.
 
 	listElement dispatchEvent:
 		(ToListElementSieveSelectionChangedEvent new
+			 originalData: self originalData;
+			 selectionModel: (ToSelectionModel new
+					  selectAllIndexes: currentSelection;
+					  yourself);
 			 sieve: self;
 			 yourself)
 ]
@@ -138,10 +140,10 @@ ToListElementSieve >> onObservableCollectionQueryResultEvent: anEvent [
 	self buildCurrentQueryResults.
 	" now the selected indexes "
 	selectedIndexes := queryRunner pattern
-		             ifEmpty: [ currentSelection indices]
+		             ifEmpty: [ currentSelection asArray]
 		             ifNotEmpty: [Array streamContents: [ :stream |
 				                   currentResultsArray withIndexDo: [ :assoc :idx |
-					                   (currentSelection containsIndex: assoc value)
+					                   (currentSelection includes: assoc value)
 						                   ifTrue: [ stream nextPut: idx ] ] ] ].
    "Update litElement data together with the selection "
 	listElement data filterResult: (currentResultsArray collect: [ :assoc | assoc key ]).
@@ -169,6 +171,12 @@ ToListElementSieve >> onUninstalledIn: aListElement [
 	queryRunner := nil.
 	originalDataUpdater := nil.
 	originalIndexedData := nil
+]
+
+{ #category : #accessing }
+ToListElementSieve >> originalData [ 
+
+	^ originalData 
 ]
 
 { #category : #accessing }

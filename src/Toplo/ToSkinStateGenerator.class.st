@@ -149,7 +149,7 @@ ToSkinStateGenerator >> eventsToHandle [
 		  BlMouseLeaveEvent.
 		  ToWindowOpenedEvent.
 		  ToWindowClosedEvent.
-		  ToListNodeSelectionEvent }
+		  ToListNodeSelectedEvent }
 ]
 
 { #category : #'focus events handling' }
@@ -375,7 +375,7 @@ ToSkinStateGenerator >> leaved: aBoolean [
 ]
 
 { #category : #'list selection' }
-ToSkinStateGenerator >> listNodeSelectionEvent: anEvent [
+ToSkinStateGenerator >> listNodeSelectedEvent: anEvent [
 
 	self generateSelectionStateFromEvent: anEvent
 ]

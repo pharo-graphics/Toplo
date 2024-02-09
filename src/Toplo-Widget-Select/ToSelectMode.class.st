@@ -7,6 +7,12 @@ Class {
 	#category : #'Toplo-Widget-Select-Core'
 }
 
+{ #category : #accessing }
+ToSelectMode >> data [
+
+	self subclassResponsibility 
+]
+
 { #category : #initialization }
 ToSelectMode >> defaultMonoSelectHeaderNodeClass [
 
@@ -23,6 +29,12 @@ ToSelectMode >> deselectIndex: anIndex [
 ToSelectMode >> isFiltrableMode [
 
 	^ false
+]
+
+{ #category : #'accessing selection' }
+ToSelectMode >> onClickAtIndex: anIndex [
+
+	self subclassResponsibility 
 ]
 
 { #category : #'api - hooks' }

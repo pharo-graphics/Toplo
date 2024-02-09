@@ -12,14 +12,16 @@ ToListElementEventHandler2 >> clickEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
+	self flag: 'Check nodeContainingGlobalPosition: because it seems that the conversion from global to local position is not well computed (try with context menu)'.
 	lastClickedNode := target infinite nodeContainingGlobalPosition: anEvent position.
+	target selectionMode requestFocusOnMouseDown ifFalse: [ ^ self ].
 	lastClickedNode ifNil: [
 		target requestFocus.
 		^ self ].
-	lastClickedNode dispatchEvent: (ToListClickOnNodeEvent new
+	"lastClickedNode dispatchEvent: (ToListClickOnNodeEvent new
 			 listElement: target;
 			 sourceEvent: anEvent;
-			 yourself)
+			 yourself)"
 ]
 
 { #category : #'data events handling' }
@@ -78,8 +80,12 @@ ToListElementEventHandler2 >> eventsToHandle [
 
 { #category : #'event handling' }
 ToListElementEventHandler2 >> infiniteElementAttachedEvent: anEvent [
-
-	anEvent currentTarget selectionMode onAddedNode: anEvent element
+	
+	| listElement node |
+	listElement := anEvent currentTarget.
+	node := anEvent element.
+	node holder listElement: listElement.
+	listElement selectionMode onAddedNode: anEvent element
 ]
 
 { #category : #'event handling' }
@@ -97,7 +103,12 @@ ToListElementEventHandler2 >> infiniteElementDataSourceDetachedEvent: anEvent [
 { #category : #'event handling' }
 ToListElementEventHandler2 >> infiniteElementDetachedEvent: anEvent [
 
-	anEvent currentTarget selectionMode onRemovedNode: anEvent element
+	| node listElement |
+	node := anEvent element.
+	listElement := anEvent currentTarget.
+	listElement selectionMode onRemovedNode: node.
+	node holder listElement: nil.
+
 ]
 
 { #category : #'mouse handlers' }

@@ -1,5 +1,5 @@
 Class {
-	#name : #ToListNodeSelectionEvent,
+	#name : #ToListNodeSelectedEvent,
 	#superclass : #ToListNodeEvent,
 	#instVars : [
 		'selected'
@@ -8,19 +8,19 @@ Class {
 }
 
 { #category : #accessing }
-ToListNodeSelectionEvent >> selected [
+ToListNodeSelectedEvent >> selected [
 
 	^ selected
 ]
 
 { #category : #accessing }
-ToListNodeSelectionEvent >> selected: aBoolean [
+ToListNodeSelectedEvent >> selected: aBoolean [
 
 	selected := aBoolean
 ]
 
 { #category : #sending }
-ToListNodeSelectionEvent >> sendTo: anObject [
+ToListNodeSelectedEvent >> sendTo: anObject [
 
-	anObject listNodeSelectionEvent: self
+	anObject listNodeSelectedEvent: self
 ]

@@ -2,8 +2,7 @@ Class {
 	#name : #ToNodeHolder,
 	#superclass : #BlInfiniteHolder,
 	#instVars : [
-		'data',
-		'eventDispatcher'
+		'data'
 	],
 	#category : #'Toplo-Widget-List-Node'
 }

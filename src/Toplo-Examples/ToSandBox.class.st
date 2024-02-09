@@ -428,49 +428,6 @@ ToSandBox class >> example_EditorWithoutSoftLine [
 	view openInSpace
 ]
 
-{ #category : #'list 2' }
-ToSandBox class >> example_FilterOnList2WithAllClassesAndTraitsSorted [
-
-	| listElement pane filterField filter |
-	pane := ToPane new
-		        beVertical;
-		        matchParent.
-	filterField := ToTextField new.
-	listElement := ToListElement2 new nodeBuilder: [ :node :holder |
-		               node addChild: (ToClassNameViewExample new
-				                class: holder data position: holder position;
-				                yourself) ].
-	listElement margin: (BlInsets all: 2).
-	filterField margin: (BlInsets all: 2).
-
-	filter := ToListElementFilter new.
-	filter onInstalledIn: listElement.
-	listElement data addAll:
-		(Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]).
-
-
-	filterField addEventHandler: (BlEventHandler
-			 on: AlbTextEditedEvent
-			 do: [
-				 | pattern |
-				 pattern := filterField text asString.
-				 listElement dispatchEvent:
-					 (ToListFilterRequest new pattern: pattern) ]).
-
-	listElement placeholderBuilder: [ :ph :e |
-		| lab |
-		lab := ToAttributedLabel new text: ('No Data' asRopedText
-				        foreground: Color lightGray;
-				        fontSize: 24;
-				        yourself).
-		lab matchParent.
-		ph addChild: lab ].
-
-	pane addChild: listElement.
-	pane addChild: filterField.
-	pane openInSpace
-]
-
 { #category : #'general button' }
 ToSandBox class >> example_GeneralButtonWithIconAndLabel [
 
@@ -1176,6 +1133,8 @@ ToSandBox class >> example_MonoNotFiltrable [
 	| select innerWindow |
 	select := ToSelect new.
 	select data addAll: self statesOfAmerica.
+
+
 	
 	select strategy: ToSingleSelectStrategy new.
 	select mode: ToSelectReadOnlyMode new.
@@ -1215,7 +1174,7 @@ ToSandBox class >> example_MultiNotFiltrable [
 	| select innerWindow |
 	select := ToSelect new.
 	select data addAll: self statesOfAmerica.
-	
+		select inspect.
 	select mode: ToSelectReadOnlyMode new.
 	select strategy: ToMultipleSelectStrategy new.
 	select placeholderText: ('Select states' asRopedText foreground: Color red).
@@ -1540,6 +1499,56 @@ ToSandBox class >> example_SieveOnList2With_350000_Items [
 		ph addChild: lab ].
 
 	"handler inspect."
+	pane addChild: listElement.
+	pane addChild: filterField.
+	pane openInSpace
+]
+
+{ #category : #'list 2' }
+ToSandBox class >> example_SieveOnList2With_AllClassNames [
+
+	| listElement pane filterField data sieve |
+	pane := ToPane new
+		        beVertical;
+		        matchParent.
+		
+	filterField := ToTextField new.
+	listElement := ToListElement2 new.
+	data := SystemNavigation default allMethods.
+	listElement withRowNumbers.
+	filterField margin: (BlInsets all: 2).
+	filterField placeholderText: (' Method name filter' asRopedText foreground: Color lightGray).
+
+	sieve := ToListElementSieve new.
+	sieve onInstalledIn: listElement.
+	listElement data addAll: (Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]).
+	
+	sieve dataFilter: [ :aCompiledMethod :aPattern |
+		aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
+	
+
+	listElement nodeBuilder: [ :node :holder |
+		node addChild: (ToLabel new text: holder data printString) ].
+	
+	sieve dataFilter: [ :aClass :aPattern |
+		aClass name beginsWith: aPattern caseSensitive: true ].
+	filterField addEventHandler: (BlEventHandler
+			 on: AlbTextEditedEvent
+			 do: [
+				 | pattern |
+				 pattern := filterField text asString.
+				 sieve pattern: pattern ]).
+
+	listElement placeholderBuilder: [ :ph :e |
+		| lab |
+		lab := ToAttributedLabel new text: ('No Data' asRopedText
+				        foreground: Color lightGray;
+				        fontSize: 24;
+				        yourself).
+		lab matchParent.
+		ph addChild: lab ].
+	"handler inspect."
+	"listElement inspect."
 	pane addChild: listElement.
 	pane addChild: filterField.
 	pane openInSpace

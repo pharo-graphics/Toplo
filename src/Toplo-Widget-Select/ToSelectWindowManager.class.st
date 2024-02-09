@@ -87,12 +87,10 @@ ToSelectWindowManager >> minHeight: anInteger [
 ToSelectWindowManager >> newListElement [
 
 	| newListElement |
-	newListElement := ToListElement new.
+	newListElement := ToListElement2 new.
 	newListElement nodeClass: ToSelectListNode.
-	newListElement selectionStrategy: ToSelectListSelectionStrategy new.
-	" the list must be multiple even with mono select "
-	newListElement selectionStrategy beMultipleSelection.
-	newListElement requestFocusOnMouseDown: false.
+	newListElement selectionMode: (ToSelectSelectionMode new select: self element; yourself).
+	newListElement selectionMode requestFocusOnMouseDown: false.
 	newListElement maxHeight: self maxHeight.
 	newListElement minHeight: self minHeight.
 	newListElement infinite vFitContent.

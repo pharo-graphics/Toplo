@@ -106,8 +106,7 @@ ToSelectTextInputElement >> newTextField [
 { #category : #private }
 ToSelectTextInputElement >> onFilterTextFieldUpdated: anEvent [
 
-	select listElement dispatchEvent:
-		(ToListFilterRequest new pattern: self filterString).
+	select mode pattern: self filterString.
 	select isMultipleSelection
 		ifTrue: [self checkMultipleSelectPlaceholderText ]
 		ifFalse: [self checkSingleSelectPlaceholderText]

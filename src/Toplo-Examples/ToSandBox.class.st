@@ -360,40 +360,6 @@ ToSandBox class >> example_EditableList2WithAllClassesNames [
 	space show
 ]
 
-{ #category : #list }
-ToSandBox class >> example_EditableListWithAllClassesNames [
-
-	| l vscrollBar space innerWin |
-	l := ToListElement new.
-	l beVertical.
-	l
-		nodeClass: ToListClassNodeExample;
-		nodeBuilder: [ :node :holder | node forClassNameAssoc: holder data ];
-		addEventHandler: (BlEventHandler
-				 on: ToListStrongSelectionEvent
-				 do: [ :event |
-					 event indexes size == 1 ifTrue: [
-							 (l nodeAt: event indexes first) label addEditorEvent: event ] ]);
-		preserveSelectionOnFocused: false;
-		withRowNumbers.
-	l data addAll:
-		(Smalltalk globals allClasses collect: [ :cls | cls -> cls name ]).
-
-	vscrollBar := BlVerticalScrollbarElement new.
-	vscrollBar constraintsDo: [ :c |
-		c ignoreByLayout.
-		c margin: (BlInsets right: 2).
-		c ignored horizontal alignRight.
-		c ignored vertical alignBottom ].
-	vscrollBar attachTo: l infinite.
-	innerWin := ToInnerWindow new.
-	innerWin pane addChild: l.
-	innerWin pane addChild: vscrollBar.
-	space := BlSpace new.
-	space root addChild: innerWin.
-	space show
-]
-
 { #category : #album }
 ToSandBox class >> example_EditorWithPlaceholder [
 
@@ -505,176 +471,6 @@ ToSandBox class >> example_FilterOnList2WithAllClassesAndTraitsSorted [
 	pane openInSpace
 ]
 
-{ #category : #list }
-ToSandBox class >> example_FilterOnListWithAllClassesAndTraitsSorted [
-
-	| listElement pane filterField filter |
-	pane := ToPane new
-		        beVertical;
-		        matchParent.
-	filterField := ToTextField new.
-	listElement := ToListElement new nodeBuilder: [ :node :holder |
-		               node addChild: (ToClassNameViewExample new
-				                class: holder data position: holder position;
-				                yourself) ].
-	listElement margin: (BlInsets all: 2).
-	filterField margin: (BlInsets all: 2).
-
-	filter := ToListElementFilter new.
-	filter onInstalledIn: listElement.
-	listElement data addAll:
-		(Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]).
-
-
-	filterField addEventHandler: (BlEventHandler
-			 on: AlbTextEditedEvent
-			 do: [
-				 | pattern |
-				 pattern := filterField text asString.
-				 listElement dispatchEvent:
-					 (ToListFilterRequest new pattern: pattern) ]).
-
-	listElement placeholderBuilder: [ :ph :e |
-		| lab |
-		lab := ToAttributedLabel new text: ('No Data' asRopedText
-				        foreground: Color lightGray;
-				        fontSize: 24;
-				        yourself).
-		lab matchParent.
-		ph addChild: lab ].
-
-	pane addChild: listElement.
-	pane addChild: filterField.
-	pane openInSpace
-]
-
-{ #category : #list }
-ToSandBox class >> example_FilterOnListWith_175000_Items [
-
-	| listElement pane filterField data filter  |
-	pane := ToPane new
-		        beVertical;
-		        matchParent.
-	filterField := ToTextField new.
-	listElement := ToListElement new.
-	data := OrderedCollection new.
-	Character alphabet do: [ :c1 |
-		(Character alphabet ) do: [ :c2 |
-			(Character alphabet ) do: [ :c3 |
-				((48 to: 57) collect: [:n | n asCharacter]) do: [ :c4 |
-					data add: (String streamContents: [ :str |
-							 str nextPutAll: {
-									 c1.
-									 c2.
-									 c3.
-									 c4 } ]) ] ] ] ].
-
-	listElement margin: (BlInsets all: 2).
-	filterField margin: (BlInsets all: 2).
-	
-	filter := ToListElementFilter new.
-	filter onInstalledIn: listElement.
-	listElement data addAll: data.
-	
-	filterField addEventHandler: (BlEventHandler
-			 on: AlbTextEditedEvent
-			 do: [
-				 | pattern |
-				 pattern := filterField text asString.
-				 listElement dispatchEvent: (ToListFilterRequest new pattern: pattern) ]).
-
-	listElement placeholderBuilder: [ :ph :e |
-		| lab |
-		lab := ToAttributedLabel new text: ('No Data' asRopedText
-				        foreground: Color lightGray;
-				        fontSize: 24;
-				        yourself).
-		lab matchParent.
-		ph addChild: lab ].
-	"handler inspect."
-	pane addChild: listElement.
-	pane addChild: filterField.
-	pane openInSpace
-]
-
-{ #category : #list }
-ToSandBox class >> example_FilterOnListWith_AllMethods [
-
-	| listElement pane filterField data filter |
-	pane := ToPane new
-		        beVertical;
-		        matchParent.
-	filterField := ToTextField new.
-	listElement := ToListElement new.
-	data := SystemNavigation default allMethods.
-	filter := ToListElementFilter new.
-	filter onInstalledIn: listElement.
-	listElement data addAll: data.
-	listElement nodeBuilder: [ :node :holder |
-		node addChild: (ToLabel new text: holder data printString) ].
-	filter dataFilter: [ :aCompiledMethod :aPattern |
-		aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
-	filterField addEventHandler: (BlEventHandler
-			 on: AlbTextEditedEvent
-			 do: [
-				 | pattern |
-				 pattern := filterField text asString.
-				 listElement dispatchEvent:
-					 (ToListFilterRequest new pattern: pattern) ]).
-
-	listElement placeholderBuilder: [ :ph :e |
-		| lab |
-		lab := ToAttributedLabel new text: ('No Data' asRopedText
-				        foreground: Color lightGray;
-				        fontSize: 24;
-				        yourself).
-		lab matchParent.
-		ph addChild: lab ].
-	"handler inspect."
-	pane addChild: listElement.
-	pane addChild: filterField.
-	pane openInSpace
-]
-
-{ #category : #list }
-ToSandBox class >> example_FilterOnListWith_AllMethodsOnCr [
-
-	| listElement pane filterField data filter |
-	pane := ToPane new
-		        beVertical;
-		        matchParent.
-	filterField := ToTextField new withoutLineBreak.
-	listElement := ToListElement new.
-	data := SystemNavigation default allMethods.
-	filter := ToListElementFilter new.
-	filter onInstalledIn: listElement.
-	listElement data addAll: data.
-	listElement nodeBuilder: [ :node :holder |
-		node addChild: (ToLabel new text: holder data printString) ].
-	filter dataFilter: [ :aCompiledMethod :aPattern |
-		aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
-	filterField addEditorShortcut: (BlShortcutWithAction new
-			 combination: BlKeyCombination return;
-			 action: [ :event |
-				 | pattern |
-				 pattern := event currentTarget text asString.
-				 self inform: pattern.
-				 listElement dispatchEvent:
-						 (ToListFilterRequest new pattern: pattern) ] yourself).
-	listElement placeholderBuilder: [ :ph :e |
-		| lab |
-		lab := ToAttributedLabel new text: ('No Data' asRopedText
-				        foreground: Color lightGray;
-				        fontSize: 24;
-				        yourself).
-		lab matchParent.
-		ph addChild: lab ].
-	"handler inspect."
-	pane addChild: listElement.
-	pane addChild: filterField.
-	pane openInSpace
-]
-
 { #category : #'general button' }
 ToSandBox class >> example_GeneralButtonWithIconAndLabel [
 
@@ -728,12 +524,12 @@ ToSandBox class >> example_GeneralButtonWithLabel [
 	^ but
 ]
 
-{ #category : #list }
+{ #category : #'list 2' }
 ToSandBox class >> example_HorizontalListWithIndexedColors [
 
 	| l space |
-	l := ToListElement new nodeBuilder: [ :node :holder |
-				node fitContent.
+	l := ToListElement2 new nodeBuilder: [ :node :holder |
+			node constraintsDo: [:c | c horizontal fitContent. c vertical fitContent].
 		     node addChild: (ToElement new
 				      size: 70@50;
 				      background: holder data) ].
@@ -1058,11 +854,11 @@ ToSandBox class >> example_List2WithSelectionHistory [
 	pane openInInnerWindow
 ]
 
-{ #category : #list }
+{ #category : #'list 2' }
 ToSandBox class >> example_ListOneClass [
 
 	| l |
-	l := ToListElement new nodeBuilder: [ :node :holder |
+	l := ToListElement2 new nodeBuilder: [ :node :holder |
 		     node addChild: (ToCheckbox new
 				      labelText: holder data name;
 				      interspace: 10;
@@ -1072,30 +868,30 @@ ToSandBox class >> example_ListOneClass [
 	l openInSpace
 ]
 
-{ #category : #list }
+{ #category : #'list 2' }
 ToSandBox class >> example_ListWith6Elements [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement2 new.
 	l data addAll: ((1 to: 6) collect: [ :i | i asString ]).
-	l selectionStrategy selectIndex: 4.
+	l selecter selectIndex: 4.
 	l openInInnerWindow
 ]
 
-{ #category : #list }
+{ #category : #'list 2' }
 ToSandBox class >> example_ListWithAllClasses [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement2 new.
 	l data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]).
 	l openInSpace
 ]
 
-{ #category : #list }
+{ #category : #'list 2' }
 ToSandBox class >> example_ListWithAllClasses3 [
 
 	| l |
-	l := ToListElement new nodeBuilder: [ :node :holder |
+	l := ToListElement2 new nodeBuilder: [ :node :holder |
 		     | icn lab |
 		     icn := holder data hasComment
 			            ifTrue: [ #class ]
@@ -1120,35 +916,34 @@ ToSandBox class >> example_ListWithAllClasses3 [
 	l openInInnerWindow
 ]
 
-{ #category : #list }
+{ #category : #'list 2' }
 ToSandBox class >> example_ListWithAllClasses4 [
 
 	| l |
-	l := ToListElement new		     
+	l := ToListElement2 new		     
 		     nodeBuilder: [ :node :holder |
 			     node addChild: (ToCheckbox new
 						      labelText: holder data name;
-						      interspace: 10;
-						      hMatchParent) ].
+						      interspace: 10) ].
 	l data addAll: Smalltalk globals allClasses.
 	l openInSpace
 ]
 
-{ #category : #list }
+{ #category : #'list 2' }
 ToSandBox class >> example_ListWithAllClassesAndTraitsSorted [
 
 	| l |
-	l := ToListElement new nodeBuilder: [  :node :holder | 
+	l := ToListElement2 new nodeBuilder: [  :node :holder | 
 			node addChild: (ToClassNameViewExample new class: holder data position: holder position; yourself) ].
 	l data addAll: (Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]).
 	l openInSpace
 ]
 
-{ #category : #list }
+{ #category : #'list 2' }
 ToSandBox class >> example_ListWithAllClassesAsButton [
 
 	| l |
-	l := ToListElement new nodeBuilder: [ :node :holder |
+	l := ToListElement2 new nodeBuilder: [ :node :holder |
 		     node addChild: (ToButton new
 				      labelText: holder data name;
 				      hMatchParent) ].
@@ -1156,11 +951,11 @@ ToSandBox class >> example_ListWithAllClassesAsButton [
 	l openInSpace
 ]
 
-{ #category : #list }
+{ #category : #'list 2' }
 ToSandBox class >> example_ListWithEditableAndContextMenu [
 
 	| l selectionMenu menuFactory phtext |
-	l := ToListElement new.
+	l := ToListElement2 new.
 	phtext := (('Invoke the context menu ' , String cr
 	            , 'with a right-click' , String cr
 	            , 'to initialize the list') asRopedText
@@ -1304,11 +1099,11 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 	l openInInnerWindow
 ]
 
-{ #category : #list }
+{ #category : #'list 2' }
 ToSandBox class >> example_ListWithIndexedColors [
 
 	| l vscrollBar space |
-	l := ToListElement new nodeBuilder: [ :node :holder |
+	l := ToListElement2 new nodeBuilder: [ :node :holder |
 		     node addChild: (ToLabel new
 				      text: holder data asString asRopedText;
 				      hMatchParent;
@@ -1328,11 +1123,11 @@ ToSandBox class >> example_ListWithIndexedColors [
 	space show
 ]
 
-{ #category : #list }
+{ #category : #'list 2' }
 ToSandBox class >> example_ListWithPanes [
 
 	| list |
-	list := ToListElement new
+	list := ToListElement2 new
 		        withRowNumbers;
 		        nodeBuilder: [ :node :holder |
 			        | title blContent |
@@ -1352,51 +1147,6 @@ ToSandBox class >> example_ListWithPanes [
 			        node addChild: blContent ].
 	list data addAll: (1 to: 1000).
 	list openInSpace
-]
-
-{ #category : #list }
-ToSandBox class >> example_ListWithSelectionHistory [
-
-	| statesList historyList pane |
-	pane := ToPane horizontal.
-	statesList := ToListElement new matchParent.
-	historyList := ToListElement new matchParent.
-	statesList data addAll: self statesOfAmerica.
-	pane addChildren: {
-			statesList.
-			historyList }.
-
-	statesList addEventHandler:
-		(ToListSelectionHistoryEventHandlerExample new historyList:
-			 historyList).
-	statesList addEventHandler: (BlEventHandler
-			 on: ToListSelectionActionEvent
-			 do: [ :event | event traceCr ]).
-
-	pane
-		matchParent;
-		addDividers.
-	pane openInInnerWindow
-]
-
-{ #category : #list }
-ToSandBox class >> example_ListWithSingleSelection [
-
-	| l |
-	l := ToListElement new.
-	l data addAll: Smalltalk globals allClasses.
-	l selection beSingleSelection.
-	l openInSpace
-]
-
-{ #category : #list }
-ToSandBox class >> example_ListWithoutSelection [
-
-	| l |
-	l := ToListElement new.
-	l data addAll: Smalltalk globals allClasses.
-	l selectionStrategy beWithoutSelection.
-	l openInSpace
 ]
 
 { #category : #select }
@@ -1530,14 +1280,14 @@ ToSandBox class >> example_OpenSaveSaveAsCloseWithSubmenu [
 	container openInSpace
 ]
 
-{ #category : #list }
+{ #category : #'list 2' }
 ToSandBox class >> example_PicsumPhotosGallery [
 	" cool example adapted from the feenk Glamorous Toolkit version BlInfiniteExample>>exampleGallery"
 
 	" Images loaded from https://picsum.photos "
 
 	| space list vscrollBar |
-	list := ToListElement new
+	list := ToListElement2 new
 		        matchParent;
 		        yourself.
 	list padding: (BlInsets all: 1).
@@ -1651,53 +1401,7 @@ ToSandBox class >> example_QueryOnList2WithStatesOfAmerica [
 			 on: ToObservableCollectionQueryResultEvent
 			 do: [ :event |
 				 listElement selecter selectOnlyIndexes:
-					 event selector selectionModel selectedIndexes ]).
-
-	listElement placeholderBuilder: [ :ph :e |
-		| lab |
-		lab := ToAttributedLabel new text: ('No Data' asRopedText
-				        foreground: Color lightGray;
-				        fontSize: 24;
-				        yourself).
-		lab matchParent.
-		ph addChild: lab ].
-
-	"handler inspect."
-	pane addChild: listElement.
-	pane addChild: filterField.
-	pane openInSpace
-]
-
-{ #category : #list }
-ToSandBox class >> example_QueryOnListWithStatesOfAmerica [
-
-	| listElement pane filterField data selector |
-	pane := ToPane new
-		        beVertical;
-		        matchParent.
-	filterField := ToTextField new.
-	listElement := ToListElement new.
-	data := self statesOfAmerica.
-
-	listElement margin: (BlInsets all: 2).
-	filterField margin: (BlInsets all: 2).
-
-	selector := ToObservableCollectionQueryRunner new.
-	listElement data addAll: data.
-	selector onInstalledIn: listElement data.
-
-	filterField addEventHandler: (BlEventHandler
-			 on: AlbTextEditedEvent
-			 do: [
-				 | pattern |
-				 pattern := filterField text asString.
-				 selector pattern: pattern ]).
-
-	listElement data addEventHandler: (BlEventHandler
-			 on: ToObservableCollectionQueryResultEvent
-			 do: [ :event |
-				 listElement selectionStrategy selectOnlyIndexes:
-					 event selector selectedIndexes ]).
+					 event queryRunner selectedIndexes ]).
 
 	listElement placeholderBuilder: [ :ph :e |
 		| lab |
@@ -1757,7 +1461,7 @@ ToSandBox class >> example_SieveOnList2WithStatesOfAmerica [
 		        matchParent.
 	filterField := ToTextField new.
 	listElement := ToListElement2 new.
-	data := self statesOfAmerica copyFrom: 1 to: 8.
+	data := self statesOfAmerica "copyFrom: 1 to: 8".
 
 	listElement margin: (BlInsets all: 2).
 	listElement withRowNumbers.
@@ -1841,101 +1545,8 @@ ToSandBox class >> example_SieveOnList2With_350000_Items [
 	pane openInSpace
 ]
 
-{ #category : #list }
-ToSandBox class >> example_SieveOnListWithStatesOfAmerica [
-
-	| listElement pane filterField data sieve |
-	pane := ToPane new
-		        beVertical;
-		        matchParent.
-	filterField := ToTextField new.
-	listElement := ToListElement new.
-	data := self statesOfAmerica.
-
-	listElement margin: (BlInsets all: 2).
-	listElement withRowNumbers.
-	filterField margin: (BlInsets all: 2).
-
-	sieve := ToListElementSieve new.
-	sieve onInstalledIn: listElement.
-	listElement data addAll: data.
-
-	filterField addEventHandler: (BlEventHandler
-			 on: AlbTextEditedEvent
-			 do: [
-				 | pattern |
-				 pattern := filterField text asString.
-				 sieve pattern: pattern ]).
-
-	listElement placeholderBuilder: [ :ph :e |
-		| lab |
-		lab := ToAttributedLabel new text: ('No Data' asRopedText
-				        foreground: Color lightGray;
-				        fontSize: 24;
-				        yourself).
-		lab matchParent.
-		ph addChild: lab ].
-
-	"handler inspect."
-	pane addChild: listElement.
-	pane addChild: filterField.
-	pane openInSpace
-]
-
-{ #category : #list }
-ToSandBox class >> example_SieveOnListWith_350000_Items [
-
-	| listElement pane filterField data sieve |
-	pane := ToPane new
-		        beVertical;
-		        matchParent.
-	filterField := ToTextField new.
-	listElement := ToListElement new.
-	data := OrderedCollection new.
-	Character alphabet do: [ :c1 |
-		(Character alphabet ) do: [ :c2 |
-			(Character alphabet ) do: [ :c3 |
-				((48 to: 57) collect: [:n | n asCharacter]) do: [ :c4 |
-					data add: (String streamContents: [ :str |
-							 str nextPutAll: {
-									 c1.
-									 c2.
-									 c3.
-									 c4 } ]) ] ] ] ].
-				
-	listElement margin: (BlInsets all: 2).
-	listElement withRowNumbers.
-	filterField margin: (BlInsets all: 2).
-	listElement data addAll: data.
-
-	sieve := ToListElementSieve new.
-	sieve onInstalledIn: listElement.
-	listElement data addAll: data.
-	listElement data size traceCr.
-	filterField addEventHandler: (BlEventHandler
-			 on: AlbTextEditedEvent
-			 do: [
-				 | pattern |
-				 pattern := filterField text asString.
-				 sieve pattern: pattern ]).
-
-	listElement placeholderBuilder: [ :ph :e |
-		| lab |
-		lab := ToAttributedLabel new text: ('No Data' asRopedText
-				        foreground: Color lightGray;
-				        fontSize: 24;
-				        yourself).
-		lab matchParent.
-		ph addChild: lab ].
-
-	"handler inspect."
-	pane addChild: listElement.
-	pane addChild: filterField.
-	pane openInSpace
-]
-
-{ #category : #list }
-ToSandBox class >> example_SieveOnListWith_AllMethods [
+{ #category : #'list 2' }
+ToSandBox class >> example_SieveOnList2With_AllMethods [
 
 	| listElement pane filterField data sieve |
 	pane := ToPane new
@@ -1943,7 +1554,7 @@ ToSandBox class >> example_SieveOnListWith_AllMethods [
 		        matchParent.
 		
 	filterField := ToTextField new.
-	listElement := ToListElement new.
+	listElement := ToListElement2 new.
 	data := SystemNavigation default allMethods.
 	listElement withRowNumbers.
 	filterField margin: (BlInsets all: 2).
@@ -1984,8 +1595,8 @@ ToSandBox class >> example_SieveOnListWith_AllMethods [
 	pane openInSpace
 ]
 
-{ #category : #list }
-ToSandBox class >> example_SieveOnListWith_AllMethods_OnCR [
+{ #category : #'list 2' }
+ToSandBox class >> example_SieveOnList2With_AllMethods_OnCR [
 
 	| listElement pane filterField data sieve |
 	pane := ToPane new
@@ -1993,7 +1604,7 @@ ToSandBox class >> example_SieveOnListWith_AllMethods_OnCR [
 		        matchParent.
 		
 	filterField := ToTextField new.
-	listElement := ToListElement new.
+	listElement := ToListElement2 new.
 	data := SystemNavigation default allMethods.
 	listElement withRowNumbers.
 	filterField margin: (BlInsets all: 2).
@@ -2561,7 +2172,7 @@ ToSandBox class >> example_contactList [
 	panel constraints horizontal matchParent.
 	panel layout cellSpacing: 10.
 
-	list := ToListElement new.
+	list := ToListElement2 new.
 	list inspect.
 
 	nameTxtF := ToTextField new
@@ -2592,8 +2203,8 @@ ToSandBox class >> example_contactList [
 	list addEventHandler: (BlEventHandler
 			 on: ToListSelectionChangedEvent
 			 do: [ :evt |
-				 evt currentIndexes size = 1 ifTrue: [
-					 contact := list data at: evt currentIndexes anyOne.
+				 evt selectedIndexes size = 1 ifTrue: [
+					 contact := list data at: evt selectedIndexes anyOne.
 					 nameTxtF text: contact name.
 					 phoneTxtF text: contact phoneNumber.
 					 addressTxtF text: contact address ] ]).

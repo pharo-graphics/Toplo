@@ -9,9 +9,9 @@ Class {
 		'originalIndexedData',
 		'originalIndexedDataArray',
 		'selectionChangedHandler',
-		'currentSelectionModel',
 		'queryResultHandler',
-		'currentResultsArray'
+		'currentResultsArray',
+		'currentSelection'
 	],
 	#category : #'Toplo-Widget-List-Sieve'
 }
@@ -19,9 +19,11 @@ Class {
 { #category : #accessing }
 ToListElementSieve >> buildCurrentQueryResults [
 
-	currentResultsArray := queryRunner pattern ifEmpty: [ originalIndexedDataArray] ifNotEmpty: [
-		  queryRunner selectionModel selectedIndexesCollect: [ :idx |
-			  originalIndexedDataArray at: idx ] ]
+	currentResultsArray := queryRunner pattern
+		                       ifEmpty: [  originalIndexedDataArray ]
+		                       ifNotEmpty: [
+			                       queryRunner selectedIndexes collect: [ :idx |
+				                       originalIndexedDataArray at: idx ] ]
 ]
 
 { #category : #private }
@@ -45,7 +47,10 @@ ToListElementSieve >> dataFilter: aValuable [
 ToListElementSieve >> onCollectionAfterChangeEvent: anEvent [
 
 	listElement selecter deselectAll.
-	self buildOriginalIndexedData
+	self buildOriginalIndexedData.
+	self pattern
+		ifNotEmpty: [ self pattern: '' ]
+		ifEmpty: [ self buildCurrentQueryResults ]
 ]
 
 { #category : #'api - hooks' }
@@ -69,7 +74,8 @@ ToListElementSieve >> onInstalledIn: aListElement [
 	self buildOriginalIndexedData.
 
 	" currentSelectionModel maintains the original data selection up-to-date even with a filtered contents "
-	currentSelectionModel := aListElement selectionModel copy.
+	currentSelection := BlCompositeSelection new.
+	currentSelection selectAllIndexes: aListElement selectionModel selectedIndexes.
 	
 	" the query runner will run the query in background on the originalIndexedData collection "
 	queryRunner := ToObservableCollectionQueryRunner new.
@@ -96,19 +102,26 @@ ToListElementSieve >> onInstalledIn: aListElement [
 { #category : #'event handling' }
 ToListElementSieve >> onListSelectionChangedEvent: anEvent [
 
-	| currentIndexes |
+	| currentIndexes selectedStream deselectedStream |
+
 	currentIndexes := anEvent selectedIndexes asSet.
+	selectedStream := WriteStream on: (Array new: 10).
+	deselectedStream := WriteStream on: (Array new: 10).
+
 	self pattern
 		ifEmpty: [
-			currentSelectionModel deselectAll.
 			currentResultsArray withIndexDo: [ :assoc :idx |
 				(currentIndexes includes: idx) ifTrue: [
-					currentSelectionModel selectIndex: assoc value ] ] ]
+					selectedStream nextPut: assoc value ] ] ]
 		ifNotEmpty: [
 			currentResultsArray withIndexDo: [ :assoc :idx |
 				(currentIndexes includes: idx)
-					ifTrue: [ currentSelectionModel selectIndex: assoc value ]
-					ifFalse: [ currentSelectionModel deselectIndex: assoc value among: 1000] ] ].
+					ifTrue: [ selectedStream nextPut: assoc value ]
+					ifFalse: [ deselectedStream nextPut: assoc value ] ] ].
+
+	currentSelection deselectAllIndexes: deselectedStream contents.
+	currentSelection selectAllIndexes: selectedStream contents.
+
 	listElement dispatchEvent:
 		(ToListElementSieveSelectionChangedEvent new
 			 sieve: self;
@@ -120,20 +133,19 @@ ToListElementSieve >> onObservableCollectionQueryResultEvent: anEvent [
 
 	" a query has occured (becuse the query pattern has changed), update the list element accordingly "
 
-	| selection |
+	| selectedIndexes |
 	" get the filtered data "
 	self buildCurrentQueryResults.
-	selection := queryRunner pattern
-		             ifEmpty: [ currentSelectionModel ]
-		             ifNotEmpty: [
-			             selection := listElement newSelectionModel.
-			             currentResultsArray withIndexDo: [ :assoc :idx |
-				             (currentSelectionModel containsIndex: assoc value)
-					             ifTrue: [ selection selectIndex: idx ] ].
-			             selection ].
-	" Update the listElement with the query result data together with the selection "
+	" now the selected indexes "
+	selectedIndexes := queryRunner pattern
+		             ifEmpty: [ currentSelection indices]
+		             ifNotEmpty: [Array streamContents: [ :stream |
+				                   currentResultsArray withIndexDo: [ :assoc :idx |
+					                   (currentSelection containsIndex: assoc value)
+						                   ifTrue: [ stream nextPut: idx ] ] ] ].
+   "Update litElement data together with the selection "
 	listElement data filterResult: (currentResultsArray collect: [ :assoc | assoc key ]).
-	listElement adoptSelectedIndexesFrom: selection.
+	listElement selecter selectOnlyIndexes: selectedIndexes.
 	listElement dispatchEvent: (ToListElementSieveFilterAppliedEvent new
 			 sieve: self;
 			 yourself)

@@ -8,6 +8,12 @@ Class {
 }
 
 { #category : #accessing }
+ToListElementContextMenuRequest >> selectedIndexes [
+
+	^ self selectionModel selectedIndexes
+]
+
+{ #category : #accessing }
 ToListElementContextMenuRequest >> selectionModel [
 
 	^ selectionModel ifNil: [ selectionModel := ToSelectionModel new ]

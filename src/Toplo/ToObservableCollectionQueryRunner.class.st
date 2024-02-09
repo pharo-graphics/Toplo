@@ -8,7 +8,7 @@ Class {
 		'delayBeforeFilter',
 		'previousPattern',
 		'dataFilter',
-		'selectionModel'
+		'selectedIndexes'
 	],
 	#category : #'Toplo-Core-CollectionQuery'
 }
@@ -17,13 +17,16 @@ Class {
 ToObservableCollectionQueryRunner >> applyDataFilterIn: anObservableCollection [
 
 	| event |
-	selectionModel := ToSelectionModel new itemCountGetter: [ anObservableCollection size ].
-	self pattern ifNotEmpty: [
-		anObservableCollection withIndexDo: [ :d :idx |
-			(self dataFilter value: d value: self pattern) ifTrue: [
-				selectionModel selectIndex: idx ] ] ].
-	event := ToObservableCollectionQueryResultEvent new.
+	selectedIndexes := self pattern
+		ifEmpty: [ #(  ) ]
+		ifNotEmpty: [
+			Array streamContents: [ :stream |
+				                   anObservableCollection withIndexDo: [ :d :idx |
+					                   (self dataFilter value: d value: self pattern)
+						                   ifTrue: [ stream nextPut: idx ] ] ] ].
+	event := ToObservableCollectionQueryResultEvent new queryRunner: self; yourself.
 	anObservableCollection dispatchEvent: event
+
 ]
 
 { #category : #accessing }
@@ -80,7 +83,7 @@ ToObservableCollectionQueryRunner >> onInstalledIn: anObservableCollection [
 
 	delayBeforeFilter := self defaultDelay.
 	process := self newProcessIn: anObservableCollection.
-	selectionModel := ToSelectionModel new itemCountGetter: [ anObservableCollection size ].
+	selectedIndexes := #()
 ]
 
 { #category : #'api - hooks' }
@@ -88,7 +91,8 @@ ToObservableCollectionQueryRunner >> onUninstalledIn: anObservableCollection [
 
 	process terminate.
 	pattern := ''.
-	semaphore := nil
+	semaphore := nil.
+	selectedIndexes := #()
 ]
 
 { #category : #accessing }
@@ -107,9 +111,9 @@ ToObservableCollectionQueryRunner >> pattern: aString [
 ]
 
 { #category : #accessing }
-ToObservableCollectionQueryRunner >> selectionModel [
+ToObservableCollectionQueryRunner >> selectedIndexes [
 
-	^ selectionModel
+	^ selectedIndexes
 
 	
 ]

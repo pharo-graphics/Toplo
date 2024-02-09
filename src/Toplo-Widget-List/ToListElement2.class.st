@@ -12,25 +12,6 @@ Class {
 	#category : #'Toplo-Widget-List-Core'
 }
 
-{ #category : #accessing }
-ToListElement2 >> adoptSelectedIndexesFrom: aSelectionModel [
-
-	" fast update of the selected indexes. A task has to be used to 
-	avoid unpreditable result if I'm send from a layout phase "
-	self enqueueTask: (BlTaskAction new action: [
-			 self selectionModel adoptSelectedIndexesFrom: aSelectionModel.
-			 self dispatchEvent: (ToListSelectionChangedEvent new
-					  selectionModel: self selectionModel copy;
-					  yourself) ])
-]
-
-{ #category : #accessing }
-ToListElement2 >> adoptSelectionModel: aSelectionModel [
-
-	self selecter deselectAll.
-	aSelectionModel selectedIndexesDo: [ :idx | self selecter selectIndex: idx ]
-]
-
 { #category : #orientation }
 ToListElement2 >> beHorizontal [
 
@@ -212,9 +193,6 @@ ToListElement2 >> selectionModel [
 
 { #category : #accessing }
 ToListElement2 >> selectionModel: aSelectionModel [
-
-	self class name trace. ' selectionModel: ' trace.
-	aSelectionModel selectedIndexes traceCr.
 
 	selectionModel ifNotNil: [ selectionModel onUninstalledIn: self ].
 	selectionModel := aSelectionModel.

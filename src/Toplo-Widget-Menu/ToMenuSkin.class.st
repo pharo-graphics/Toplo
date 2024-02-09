@@ -1,7 +1,7 @@
 Class {
 	#name : #ToMenuSkin,
 	#superclass : #ToMenuItemSkin,
-	#category : 'Toplo-Widget-Menu-Basic'
+	#category : #'Toplo-Widget-Menu-Basic'
 }
 
 { #category : #'event handling' }

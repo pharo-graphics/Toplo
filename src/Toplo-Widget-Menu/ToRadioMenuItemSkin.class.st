@@ -1,7 +1,7 @@
 Class {
 	#name : #ToRadioMenuItemSkin,
 	#superclass : #ToCheckMenuItemSkin,
-	#category : 'Toplo-Widget-Menu-Basic'
+	#category : #'Toplo-Widget-Menu-Basic'
 }
 
 { #category : #accessing }

@@ -7,7 +7,7 @@ Class {
 		'body',
 		'resizablePanes'
 	],
-	#category : 'Toplo-Widget-TabPane'
+	#category : #'Toplo-Widget-TabPane'
 }
 
 { #category : #'adding-removing' }

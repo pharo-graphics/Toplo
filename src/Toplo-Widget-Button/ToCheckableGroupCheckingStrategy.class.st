@@ -8,7 +8,7 @@ aStrategy can be Strong, WithUncheck or None
 Class {
 	#name : #ToCheckableGroupCheckingStrategy,
 	#superclass : #Object,
-	#category : 'Toplo-Widget-Button-Checkable'
+	#category : #'Toplo-Widget-Button-Checkable'
 }
 
 { #category : #testing }

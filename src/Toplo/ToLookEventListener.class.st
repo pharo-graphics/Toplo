@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'eventClass'
 	],
-	#category : 'Toplo-Core-StyleSheet'
+	#category : #'Toplo-Core-StyleSheet'
 }
 
 { #category : #'look event handling' }

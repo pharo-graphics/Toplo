@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSkinManagementState,
 	#superclass : #ToImplicitState,
-	#category : 'Toplo-Core-States'
+	#category : #'Toplo-Core-States'
 }
 
 { #category : #testing }

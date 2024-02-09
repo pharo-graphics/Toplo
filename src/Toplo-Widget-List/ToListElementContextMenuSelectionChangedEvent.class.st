@@ -5,7 +5,7 @@ Class {
 		'selectedIndexes',
 		'sourceEvent'
 	],
-	#category : 'Toplo-Widget-List-Context-menu'
+	#category : #'Toplo-Widget-List-Context-menu'
 }
 
 { #category : #accessing }

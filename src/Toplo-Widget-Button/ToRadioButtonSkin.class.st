@@ -1,7 +1,7 @@
 Class {
 	#name : #ToRadioButtonSkin,
 	#superclass : #ToCheckboxSkin,
-	#category : 'Toplo-Widget-Button-Checkable'
+	#category : #'Toplo-Widget-Button-Checkable'
 }
 
 { #category : #accessing }

@@ -9,7 +9,7 @@ Class {
 		'paneExtentHandler',
 		'divider'
 	],
-	#category : 'Toplo-Widget-Pane'
+	#category : #'Toplo-Widget-Pane'
 }
 
 { #category : #'dnd handlers' }

@@ -12,7 +12,7 @@ Class {
 		'id',
 		'form'
 	],
-	#category : 'Toplo-Examples'
+	#category : #'Toplo-Examples'
 }
 
 { #category : #'instance creation' }

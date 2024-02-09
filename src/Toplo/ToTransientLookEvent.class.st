@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'sourceEvent'
 	],
-	#category : 'Toplo-Core-LookEvents'
+	#category : #'Toplo-Core-LookEvents'
 }
 
 { #category : #accessing }

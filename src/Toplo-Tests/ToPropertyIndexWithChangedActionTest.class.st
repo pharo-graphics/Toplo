@@ -1,7 +1,7 @@
 Class {
 	#name : #ToPropertyIndexWithChangedActionTest,
 	#superclass : #TestCase,
-	#category : 'Toplo-Tests-Core-Properties'
+	#category : #'Toplo-Tests-Core-Properties'
 }
 
 { #category : #tests }

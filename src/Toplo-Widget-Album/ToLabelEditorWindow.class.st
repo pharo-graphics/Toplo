@@ -1,7 +1,7 @@
 Class {
 	#name : #ToLabelEditorWindow,
 	#superclass : #ToAnchoredWindow,
-	#category : 'Toplo-Widget-Album-Label'
+	#category : #'Toplo-Widget-Album-Label'
 }
 
 { #category : #accessing }

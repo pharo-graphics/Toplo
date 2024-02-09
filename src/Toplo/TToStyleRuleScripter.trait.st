@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToStyleRuleScripter,
-	#category : 'Toplo-Core-StyleSheet'
+	#category : #'Toplo-Core-StyleSheet'
 }
 
 { #category : #'t - stylesheet scripter - syntactic sugar' }

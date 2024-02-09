@@ -3,7 +3,7 @@ Class {
 	#superclass : #BlElement,
 	#traits : 'TToLabelInnerElement',
 	#classTraits : 'TToLabelInnerElement classTrait',
-	#category : 'Toplo-Examples'
+	#category : #'Toplo-Examples'
 }
 
 { #category : #'api - editor' }

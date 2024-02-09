@@ -5,7 +5,7 @@ Class {
 		'type',
 		'exact'
 	],
-	#category : 'Toplo-Core-Selectors'
+	#category : #'Toplo-Core-Selectors'
 }
 
 { #category : #visiting }

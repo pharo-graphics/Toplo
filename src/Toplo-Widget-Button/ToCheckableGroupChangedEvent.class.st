@@ -5,7 +5,7 @@ Class {
 		'checkedButtons',
 		'uncheckedButtons'
 	],
-	#category : 'Toplo-Widget-Button-Checkable'
+	#category : #'Toplo-Widget-Button-Checkable'
 }
 
 { #category : #accessing }

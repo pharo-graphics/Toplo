@@ -5,7 +5,7 @@ Class {
 		'autoOpen',
 		'target'
 	],
-	#category : 'Toplo-Widget-Menu-Bar'
+	#category : #'Toplo-Widget-Menu-Bar'
 }
 
 { #category : #'api - accessing' }

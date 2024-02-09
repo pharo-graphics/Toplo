@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSkinnablePropertySlot,
 	#superclass : #IndexedSlot,
-	#category : 'Toplo-Core-Slots'
+	#category : #'Toplo-Core-Slots'
 }
 
 { #category : #initialization }

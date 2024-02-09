@@ -1,7 +1,7 @@
 Class {
 	#name : #ToButtonTest,
 	#superclass : #TestCase,
-	#category : 'Toplo-Widget-Button-Tests-Core'
+	#category : #'Toplo-Widget-Button-Tests-Core'
 }
 
 { #category : #tests }

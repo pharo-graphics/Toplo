@@ -4,7 +4,7 @@ A ToPseudoPropertyTest is a test class for testing the behavior of ToPseudoPrope
 Class {
 	#name : #ToPseudoPropertyTest,
 	#superclass : #TestCase,
-	#category : 'Toplo-Tests-Core-Properties'
+	#category : #'Toplo-Tests-Core-Properties'
 }
 
 { #category : #tests }

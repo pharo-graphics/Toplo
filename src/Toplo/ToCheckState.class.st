@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'checked'
 	],
-	#category : 'Toplo-Core-States'
+	#category : #'Toplo-Core-States'
 }
 
 { #category : #accessing }

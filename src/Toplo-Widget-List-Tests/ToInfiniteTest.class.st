@@ -1,7 +1,7 @@
 Class {
 	#name : #ToInfiniteTest,
 	#superclass : #ToParameterizedHostTest,
-	#category : 'Toplo-Widget-List-Tests-Core'
+	#category : #'Toplo-Widget-List-Tests-Core'
 }
 
 { #category : #accessing }

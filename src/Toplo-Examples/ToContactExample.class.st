@@ -6,7 +6,7 @@ Class {
 		'phoneNumber',
 		'address'
 	],
-	#category : 'Toplo-Examples'
+	#category : #'Toplo-Examples'
 }
 
 { #category : #accessing }

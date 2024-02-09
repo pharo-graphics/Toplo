@@ -4,7 +4,7 @@ A ToStyleSelectorInterpreterTest is a test class for testing the behavior of ToS
 Class {
 	#name : #ToSelectorInterpreterTest,
 	#superclass : #TestCase,
-	#category : 'Toplo-Tests-Core-Selectors'
+	#category : #'Toplo-Tests-Core-Selectors'
 }
 
 { #category : #tests }

@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToStyleRulesHolder,
-	#category : 'Toplo-Core-StyleSheet'
+	#category : #'Toplo-Core-StyleSheet'
 }
 
 { #category : #'t - style rules holder' }

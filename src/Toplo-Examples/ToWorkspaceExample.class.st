@@ -8,7 +8,7 @@ Class {
 		'textModel',
 		'bindings'
 	],
-	#category : 'Toplo-Examples'
+	#category : #'Toplo-Examples'
 }
 
 { #category : #'instance creation' }

@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'labeledIcon'
 	],
-	#category : 'Toplo-Tests-Core'
+	#category : #'Toplo-Tests-Core'
 }
 
 { #category : #initialization }

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToElementSelectorVisitor,
 	#superclass : #Object,
-	#category : 'Toplo-Core-Selectors'
+	#category : #'Toplo-Core-Selectors'
 }
 
 { #category : #visiting }

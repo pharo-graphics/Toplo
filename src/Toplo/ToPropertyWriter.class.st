@@ -7,7 +7,7 @@ Class {
 		'animation',
 		'supplement'
 	],
-	#category : 'Toplo-Core-StyleSheet'
+	#category : #'Toplo-Core-StyleSheet'
 }
 
 { #category : #accessing }

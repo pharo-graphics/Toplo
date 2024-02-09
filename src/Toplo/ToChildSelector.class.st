@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'depth'
 	],
-	#category : 'Toplo-Core-Selectors'
+	#category : #'Toplo-Core-Selectors'
 }
 
 { #category : #visiting }

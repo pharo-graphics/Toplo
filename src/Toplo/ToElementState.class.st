@@ -1,7 +1,7 @@
 Class {
 	#name : #ToElementState,
 	#superclass : #Object,
-	#category : 'Toplo-Core-States'
+	#category : #'Toplo-Core-States'
 }
 
 { #category : #'look event sending' }

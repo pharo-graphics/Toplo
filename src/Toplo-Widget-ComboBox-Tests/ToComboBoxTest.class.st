@@ -1,17 +1,16 @@
 Class {
-	#name : 'ToComboBoxTest',
-	#superclass : 'TestCase',
-	#category : 'Toplo-Widget-ComboBox-Tests',
-	#package : 'Toplo-Widget-ComboBox-Tests'
+	#name : #ToComboBoxTest,
+	#superclass : #TestCase,
+	#category : #'Toplo-Widget-ComboBox-Tests'
 }
 
-{ #category : 'combobox' }
+{ #category : #combobox }
 ToComboBoxTest >> colors [
 
 	^ Color registeredColorNames collect: [ :c | Color named: c ]
 ]
 
-{ #category : 'combobox' }
+{ #category : #combobox }
 ToComboBoxTest >> statesOfAmerica [
 
 	^ { #Alabama. #Alaska. #Arizona. #Arkansas. #California. #Colorado.

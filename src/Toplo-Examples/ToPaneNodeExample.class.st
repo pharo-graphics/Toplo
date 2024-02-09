@@ -1,7 +1,7 @@
 Class {
 	#name : #ToPaneNodeExample,
 	#superclass : #ToPane,
-	#category : 'Toplo-Examples'
+	#category : #'Toplo-Examples'
 }
 
 { #category : #'t - list node - initialization' }

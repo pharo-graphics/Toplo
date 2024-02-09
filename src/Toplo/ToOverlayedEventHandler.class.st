@@ -1,7 +1,7 @@
 Class {
 	#name : #ToOverlayedEventHandler,
 	#superclass : #ToAnchorEventHandler,
-	#category : 'Toplo-Core-Window'
+	#category : #'Toplo-Core-Window'
 }
 
 { #category : #'element handlers' }

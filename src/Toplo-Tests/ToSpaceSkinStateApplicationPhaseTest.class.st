@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSpaceSkinStateApplicationPhaseTest,
 	#superclass : #ToTestCaseWithSpace,
-	#category : 'Toplo-Tests-Core-SpaceFrame'
+	#category : #'Toplo-Tests-Core-SpaceFrame'
 }
 
 { #category : #tests }

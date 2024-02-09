@@ -19,5 +19,7 @@ ToListNodeSelectionEventHandler >> listClickOnNodeEvent: anEvent [
 { #category : #'mouse handlers' }
 ToListNodeSelectionEventHandler >> listDoubleClickOnNodeEvent: anEvent [
 
-	anEvent listElement dispatchEvent: ToListStrongSelectionEvent new
+	anEvent listElement dispatchEvent: (ToListStrongSelectionEvent new
+			 indexes: anEvent listElement selectionModel selectedIndexes;
+			 yourself)
 ]

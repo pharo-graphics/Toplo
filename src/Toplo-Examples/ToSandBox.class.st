@@ -1025,7 +1025,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 		               menu addItem: (ToMenuItem new
 				                labelText: 'Select all';
 				                whenClickedDo: [ :event |
-					                target selectionStrategy selectAll ]).
+					                target selecter selectAll ]).
 		               menu addItem: (ToMenuItem new
 				                labelText: 'Remove all';
 				                whenClickedDo: [ :event | target data removeAll ];
@@ -1064,9 +1064,9 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 					                target data
 						                add: idx asString , ':XXXXXX'
 						                beforeIndex: idx.
-					                target selectionStrategy
+					                "target selectionStrategy
 						                shiftAfterAddingAt: idx
-						                itemCount: 1 ];
+						                itemCount: 1" ];
 				                yourself).
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Insert after';
@@ -1085,11 +1085,11 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 							                target data
 								                removeFrom: selectedIndexes first
 								                to: selectedIndexes last.
-							                target selectionStrategy
+							                "target selectionStrategy
 								                shiftAfterRemovingAt: selectedIndexes first
 								                itemCount:
 									                selectedIndexes last - selectedIndexes first
-									                + 1 ] ];
+									                + 1" ] ];
 				                yourself).
 		               menu addSeparator.
 		               menu addItem: selectionMenu ] ].

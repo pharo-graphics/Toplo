@@ -29,16 +29,21 @@ ToCompositeSelectionModel >> deleteAndMoveFrom: aStartIndex to: aStopIndex among
 	from := aStartIndex min: aStopIndex.
 	to := aStartIndex max: aStopIndex.
 	selection selections delete:
-		(BlMonotoneSelection from: from - 1 to: to).
+		(BlMonotoneSelection from: ((from - 1) max: 0) to: to ).
 	to > anItemCount ifTrue: [ ^ self ].
 	over := selection selections findOverlapping:
 		        (BlMonotoneSelection from: to to: anItemCount).
 	selection selections delete:
 		(BlMonotoneSelection from: to - 1 to: anItemCount).
 	gap := to - from + 1.
-	over do: [ :o |
-		selection selections insert:
-			(BlMonotoneSelection from: o selection from - gap to: o selection to - gap) ]
+	over do: [ :o | | i1 i2 |
+		i1 := o selection from - gap.
+		i2 := o selection to - gap.
+		(i1 <= i2
+		and: [ i1 >= 0
+			and: [ i2 >= 0 ] ])
+		ifTrue: [ selection selections insert:
+			(BlMonotoneSelection from: i1 to: i2) ] ]
 ]
 
 { #category : #'accessing selection' }
@@ -145,13 +150,25 @@ ToCompositeSelectionModel >> selection: aSelection [
 { #category : #'accessing selection' }
 ToCompositeSelectionModel >> shift: aGap from: aStartIndex among: anItemCount [
 
-	| from to prev |
+	| from to prev high |
 	aGap isZero ifTrue: [ ^ self ].
-	aGap < 0 ifTrue: [ ^ self deleteAndMoveFrom: aStartIndex + aGap + 1 to: aStartIndex among: anItemCount ].	
-	from := aStartIndex.
-	to := aStartIndex + aGap.
+	self isEmpty ifTrue: [ ^ self ].
+	
 	prev := selection copy.
-	selection selections delete: (BlMonotoneSelection from: from - 1 to: anItemCount).
-	prev indices do: [ :idx |
-		idx >= aStartIndex ifTrue: [ selection selectIndex: idx+ aGap ] ]
+	high := selection to.
+
+	aGap < 0
+		ifTrue: [
+			from := aStartIndex + aGap.
+			to := aStartIndex min: high ]
+		ifFalse: [
+			from := aStartIndex.
+			to := aStartIndex + aGap min: high ].
+
+	from < high ifTrue: [
+		selection selections delete:
+			(BlMonotoneSelection from: (from -1 max: 0) to: high) ].
+	prev indicesDo: [ :idx |
+		(idx >= from and: [ idx + aGap > 0 ]) ifTrue: [
+			selection selectIndex: idx + aGap ] ]
 ]

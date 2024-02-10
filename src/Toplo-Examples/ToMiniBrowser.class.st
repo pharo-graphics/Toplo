@@ -37,7 +37,7 @@ ToMiniBrowser >> changeCodeInEditor [
 
 	| selected cls sel codeText |
 	selected := selectors data at:
-		            selectors selectionStrategy selectedIndexes anyOne.
+		            selectors selectionModel selectedIndexes anyOne.
 	selected = selectedSelector ifTrue: [ ^ self ].
 	selectedSelector := selected.
 	cls := selectedSelector key.
@@ -50,7 +50,8 @@ ToMiniBrowser >> changeCodeInEditor [
 { #category : #'class selection' }
 ToMiniBrowser >> classSelectionChangedEvent: aToSelectionChanged [
 
-	self refreshClassSelectionWithSelectedIndexes: aToSelectionChanged currentIndexes
+	self refreshClassSelectionWithSelectedIndexes:
+		aToSelectionChanged selectedIndexes
 ]
 
 { #category : #accessing }
@@ -108,7 +109,7 @@ ToMiniBrowser >> initialize [
 	pkgFilterField := ToTextField new.
 	pkgFilterField placeholderText:
 		('Packages filter' asRopedText foreground: Color lightGray).
-	packages := ToListElement new
+	packages := ToListElement2 new
 		            id: #packages;
 		            nodeBuilder: [ :node :holder |
 			            node addChild: (ToLabel new
@@ -154,7 +155,7 @@ ToMiniBrowser >> initialize [
 		(RPackage organizer packages asSortedCollection: [ :p1 :p2 |
 			 p1 name < p2 name ]).
 
-	classes := ToListElement new
+	classes := ToListElement2 new
 		           id: #classes;
 		           nodeBuilder: [ :node :holder |
 			           node addChild: (ToClassNameViewExample new
@@ -185,9 +186,9 @@ ToMiniBrowser >> initialize [
 			 on: ToCheckableCheckEvent
 			 do: [ :event | classSide := event current.
 				 self refreshClassSelectionWithSelectedIndexes:
-					 classes selectionStrategy selectedIndexes ]).
+					 classes selectionModel selectedIndexes ]).
 
-	protocols := ToListElement new
+	protocols := ToListElement2 new
 		             id: #protocols;
 		             nodeBuilder: [ :node :holder |
 			             node addChild: (ToLabel new
@@ -201,7 +202,7 @@ ToMiniBrowser >> initialize [
 			 do: [ :event | self protocolSelectionChangedEvent: event ]).
 	protocols data whenRemoveChangeDo: [ selectors data removeAll ].
 
-	selectors := ToListElement new
+	selectors := ToListElement2 new
 		             id: #selectors;
 		             nodeBuilder: [ :node :holder |
 			             node addChild: (ToLabel new
@@ -254,9 +255,9 @@ ToMiniBrowser >> open [
 ToMiniBrowser >> packageSelectionChangedEvent: aToSelectionChanged [
 
 	| selectedPackages clsList |
-	classes selectionStrategy deselectAll.
+	classes selecter deselectAll.
 	classes data removeAll.
-	selectedPackages := aToSelectionChanged currentIndexes collect: [
+	selectedPackages := aToSelectionChanged selectedIndexes collect: [
 		                    :idx | packages data at: idx ].
 	clsList := Array streamContents: [ :stream |
 		           selectedPackages do: [ :pkg |
@@ -269,9 +270,9 @@ ToMiniBrowser >> packageSelectionChangedEvent: aToSelectionChanged [
 ToMiniBrowser >> protocolSelectionChangedEvent: aToSelectionChanged [
 
 	| selectedProtocols |
-	selectors selectionStrategy deselectAll.
+	selectors selecter deselectAll.
 	selectors data removeAll.
-	selectedProtocols := aToSelectionChanged currentIndexes collect: [
+	selectedProtocols := aToSelectionChanged selectedIndexes collect: [
 		                     :idx | protocols data at: idx ].
 	selectedProtocols do: [ :assoc |
 		selectors data addAll:
@@ -283,7 +284,7 @@ ToMiniBrowser >> protocolSelectionChangedEvent: aToSelectionChanged [
 ToMiniBrowser >> refreshClassSelectionWithSelectedIndexes: aCollection [
 
 	| selectedClasses allProtocols |
-	protocols selectionStrategy deselectAll.
+	protocols selecter deselectAll.
 	protocols data removeAll.
 	selectedClasses := aCollection collect: [ :idx |
 		                   classes data at: idx ].
@@ -307,7 +308,7 @@ ToMiniBrowser >> refreshClassSelectionWithSelectedIndexes: aCollection [
 { #category : #initialization }
 ToMiniBrowser >> selectorSelectionChangedEvent: aToSelectionChanged [
 
-	aToSelectionChanged currentIndexes size = 1 ifTrue: [
+	aToSelectionChanged selectedIndexes size = 1 ifTrue: [
 		^ self changeCodeInEditor ].
 	self clearCodeInEditor
 ]

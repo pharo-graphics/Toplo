@@ -224,6 +224,18 @@ ToSelectionModelTest >> testItemCount [
 ]
 
 { #category : #tests }
+ToSelectionModelTest >> testItemCountGetter [
+
+	| s |
+	s := ToSelectionModel new onInstalledIn: self.
+	self assert: s itemCount equals: s itemCountGetter value.
+	s itemCountGetter: [ 1000 ].
+	self assert: s itemCount equals: 1000.
+	
+
+]
+
+{ #category : #tests }
 ToSelectionModelTest >> testNewOperator [
 
 	| s selecter |
@@ -315,6 +327,86 @@ ToSelectionModelTest >> testSelectedItemCount [
 	self assert: s selectedIndexesCount equals: 1.
 	s ensureWholeSelectionModel.
 	self assert: s selectedIndexesCount equals: self itemCount.
+]
+
+{ #category : #tests }
+ToSelectionModelTest >> testShiftFrom [
+
+	| s |
+	s := ToSelectionModel new itemCountGetter: 100.
+	s selectAllIndexes: { 1. 5. 6 }.
+	self assert: s selectedIndexes  equals: { 1. 5. 6 }.
+	s shift: 1 from: 1.
+	self assert: s selectedIndexes  equals: { 2. 6. 7 } .
+	s shift: -1 from: 1.
+	self assert: s selectedIndexes  equals: { 1. 5. 6 }.
+
+]
+
+{ #category : #tests }
+ToSelectionModelTest >> testShiftFrom2 [
+
+	| s |
+	s := ToSelectionModel new itemCountGetter: 100.
+	s selectAllIndexes: { 1. 5. 6 }.
+	self assert: s selectedIndexes  equals: { 1. 5. 6 }.
+	s shift: 3 from: 5.
+	self assert: s selectedIndexes  equals: { 1. 8. 9 } .
+	s shift: -3 from: 1.
+	self assert: s selectedIndexes  equals: { 5. 6 }.
+	s shift: -3 from: 1.
+	self assert: s selectedIndexes  equals: { 2. 3 }
+
+
+]
+
+{ #category : #tests }
+ToSelectionModelTest >> testShiftFrom3 [
+
+	| s |
+	s := ToSelectionModel new itemCountGetter: 100.
+	s selectAllIndexes: { 2. 3 }.
+	s shift: -2 from: 3.
+	self assert: s selectedIndexes  equals: { 1 }.
+	s shift: -1 from: 1.
+	self assert: s selectedIndexes  equals: {  }.
+
+
+
+
+
+]
+
+{ #category : #tests }
+ToSelectionModelTest >> testShiftFrom4 [
+
+	| s |
+	s := ToSelectionModel new itemCountGetter: 100.
+	s selectAllIndexes: { 1. 5. 6 }.
+	self assert: s selectedIndexes  equals: { 1. 5. 6 }.
+	s shift: 1 from: 1.
+	self assert: s selectedIndexes  equals: { 2. 6. 7 } .
+
+]
+
+{ #category : #tests }
+ToSelectionModelTest >> testShiftFrom5 [
+
+	| s |
+	s := ToSelectionModel new itemCountGetter: 100.
+	s selectAllIndexes: { 2. 6. 7 }.
+	s shift: 1 from: 6.
+	self assert: s selectedIndexes  equals: { 2. 7. 8 }
+]
+
+{ #category : #tests }
+ToSelectionModelTest >> testShiftFrom6 [
+
+	| s |
+	s := ToSelectionModel new itemCountGetter: 2.
+	s selectAllIndexes: { 1 }.
+	s shift: -1 from: 2.
+	self assert: s selectedIndexes  equals: { 1 }
 ]
 
 { #category : #tests }

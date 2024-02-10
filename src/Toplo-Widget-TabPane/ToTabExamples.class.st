@@ -336,11 +336,11 @@ ToTabExamples class >> example_tabsWith2Pages [
 ToTabExamples class >> example_twoTabsWithListElement [
 
 	| tabsPanel list1 list2 tab1 tab2 |
-	list1 := ToListElement new.
+	list1 := ToListElement2 new.
 	list1 constraints vertical matchParent.
 	list1 constraints horizontal matchParent.
 	1 to: 10 do: [ :i | list1 data add: 'Hello ' , i asString ].
-	list2 := ToListElement new.
+	list2 := ToListElement2 new.
 	list2 constraints vertical matchParent.
 	list2 constraints horizontal matchParent.
 	11 to: 20 do: [ :i | list2 data add: 'Goodbye ' , i asString ].

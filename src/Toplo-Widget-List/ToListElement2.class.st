@@ -200,6 +200,16 @@ ToListElement2 >> selectionModel: aSelectionModel [
 	self infinite selectionModel: selectionModel
 ]
 
+{ #category : #accessing }
+ToListElement2 >> selectionStrategy [
+
+	self
+		deprecated: 'Use selecter instead'
+		transformWith: '`@receiver selectionStrategy' -> '`@receiver selecter'.
+
+	^ self selecter
+]
+
 { #category : #initialization }
 ToListElement2 >> selectionStrategySharedEvents [
 

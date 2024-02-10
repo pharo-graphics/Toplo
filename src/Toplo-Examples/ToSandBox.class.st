@@ -958,12 +958,15 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 				 hMatchParent) ].
 	l addEventHandler: (BlEventHandler
 			 on: ToListSelectionChangedEvent
-			 do: [ :event | self class name trace. ' list selection changed' traceCr ]).
+			 do: [ :event |
+				 self class name trace.
+				 ' list selection changed' traceCr ]).
 	l addEventHandler: (BlEventHandler
 			 on: ToListStrongSelectionEvent
 			 do: [ :event |
 				 | r |
-				self class name trace. ' double click' traceCr.
+				 self class name trace.
+				 ' double click' traceCr.
 				 r := event indexes collect: [ :idx | idx asString , ':XXXXXX' ].
 				 r do: [ :e | l data addFirst: e ] ]).
 	menuFactory := [ :menu :request |
@@ -1022,9 +1025,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 					                target data
 						                add: idx asString , ':XXXXXX'
 						                beforeIndex: idx.
-					                "target selectionStrategy
-						                shiftAfterAddingAt: idx
-						                itemCount: 1" ];
+					                target selectionModel shift: 1 from: idx ];
 				                yourself).
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Insert after';
@@ -1043,6 +1044,11 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 							                target data
 								                removeFrom: selectedIndexes first
 								                to: selectedIndexes last.
+							                target selectionModel
+								                shift:
+									                (selectedIndexes last - selectedIndexes first + 1)
+										                negated
+								                from: selectedIndexes first
 							                "target selectionStrategy
 								                shiftAfterRemovingAt: selectedIndexes first
 								                itemCount:

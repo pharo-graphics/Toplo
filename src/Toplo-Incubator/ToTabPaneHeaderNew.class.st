@@ -64,7 +64,7 @@ ToTabPaneHeaderNew >> initialize [
 
 	super initialize.
 	tabRowContainer := ToPane new fitContent; yourself.
-	tabs := ToListElement new nodeBuilder: self defaultTabRowNodeBuilder; yourself.
+	tabs := ToListElement2 new nodeBuilder: self defaultTabRowNodeBuilder; yourself.
 	tabs nodeClass: ToTabNode.
 	tabs matchParent.
 	tabs infinite matchParent.

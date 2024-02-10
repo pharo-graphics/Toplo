@@ -26,7 +26,8 @@ ToSelectionModelEventHandler >> selectionCommandAddedEvent: aSelectionCommandAdd
 	selectionUpdateTask := BlTaskAction new action: [
 		                       target selecter apply.
 		                       selectionUpdateTask := nil ].
-	target enqueueTask: selectionUpdateTask
+	target enqueueTask: selectionUpdateTask.
+	target requestLayout
 ]
 
 { #category : #'event handling' }

@@ -213,6 +213,7 @@ ToInfiniteElement2 >> nodeHolderClass [
 { #category : #'private - commands' }
 ToInfiniteElement2 >> offsetPositionRecordsForInsert: aStartPosition itemCount: anItemCount [
 
+	"self selectionModel shift: anItemCount from: aStartPosition."
 	super
 		offsetPositionRecordsForInsert: aStartPosition
 		itemCount: anItemCount.
@@ -229,10 +230,12 @@ ToInfiniteElement2 >> offsetPositionRecordsForMove: aFromPosition to: aToPositio
 { #category : #'private - commands' }
 ToInfiniteElement2 >> offsetPositionRecordsForRemove: aStartPosition itemCount: anItemCount applyToPreLayout: applyToPreLayout [
 
+	"self selectionModel shift: anItemCount negated from: aStartPosition."
 	super
 		offsetPositionRecordsForRemove: aStartPosition
 		itemCount: anItemCount
 		applyToPreLayout: applyToPreLayout.
+		"self halt."
 	self dispatchEvent: ToListSelectionDirtyEvent new
 ]
 

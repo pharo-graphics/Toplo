@@ -333,6 +333,7 @@ ToSandBox class >> example_EditableList2WithAllClassesNames [
 	| l vscrollBar space innerWin |
 	l := ToListElement2 new.
 	l beVertical.
+	l inspect.
 	l
 		nodeClass: ToListClassNodeExample;
 		nodeBuilder: [ :node :holder | node forClassNameAssoc: holder data ];
@@ -2171,7 +2172,7 @@ ToSandBox class >> example_choiceButtonWithUncheckingStrategy [
 	win openInSpace
 ]
 
-{ #category : #list }
+{ #category : #'list 2' }
 ToSandBox class >> example_contactList [
 
 	| panel button list contacts contact nameTxtF phoneTxtF addressTxtF inputPane |
@@ -2282,9 +2283,8 @@ ToSandBox class >> example_contactList [
 				 do: [ :event |
 					 event consumed: true.
 					 holder infiniteElement data removeAt: holder position.
-					 holder infiniteElement selectionStrategy
-						 shiftAfterRemovingAt: holder position
-						 itemCount: 1 ]).
+					 holder infiniteElement selectionModel
+						 shift: -1 from: holder position ]).
 		line addChild: remBut.
 		node addChild: line ].
 	list data addAll: contacts.

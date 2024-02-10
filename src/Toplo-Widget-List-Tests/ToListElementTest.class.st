@@ -11,7 +11,7 @@ Class {
 ToListElementTest >> listWithRemoveRowButtons [
 
 	| list |
-	list := ToListElement new.
+	list := ToListElement2 new.
 	list nodeBuilder: [ :node :holder |
 		| line remBut filler |
 		line := ToPane horizontal id: #row.
@@ -24,10 +24,8 @@ ToListElementTest >> listWithRemoveRowButtons [
 				 on: BlClickEvent
 				 do: [ :event |
 					 event consumed: true.
-					 holder infiniteElement data removeAt: holder position.
-					 holder infiniteElement selectionStrategy
-						 shiftAfterRemovingAt: holder position
-						 itemCount: 1 ]).
+					 holder listElement data removeAt: holder position.
+					 holder listElement selectionModel shift: -1 from: holder position ]).
 		filler := ToElement new
 			          matchParent;
 			          id: #filler.
@@ -89,13 +87,13 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved [
 	BlSpace simulateMouseDownOn: fillers first.
 	BlSpace simulateMouseUpOn: fillers first.
 	self assert: list data size equals: 2.
-	self assert: list selectionStrategy selectedIndexes equals: { 1 }.
+	self assert: list selectionModel selectedIndexes equals: { 1 }.
 	self assert: list selectionElements size equals: 1.
 	but := remButtons at: 2.
 	BlSpace simulateMouseDownOn: but.
 	BlSpace simulateMouseUpOn: but.
 	self assert: list data size equals: 1.
-	self assert: list selectionStrategy selectedIndexes equals: { 1 }.
+	self assert: list selectionModel selectedIndexes equals: { 1 }.
 	self assert: list selectionElements size equals: 1
 ]
 
@@ -115,14 +113,14 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved2 [
 	BlSpace simulateMouseUpOn: fillers first.
 	self waitTestingSpaces.
 	self assert: list data size equals: 2.
-	self assert: list selectionStrategy selectedIndexes equals: { 1 }.
+	self assert: list selectionModel selectedIndexes equals: { 1 }.
 	self assert: list selectionElements size equals: 1.
 	but := list childWithId: #'remove-button-1'.
 	BlSpace simulateMouseDownOn: but.
 	BlSpace simulateMouseUpOn: but.
 	self waitTestingSpaces.
 	self assert: list data size equals: 1.
-	self assert: list selectionStrategy selectedIndexes isEmpty.
+	self assert: list selectionModel selectedIndexes isEmpty.
 	self assert: list selectionElements isEmpty
 ]
 
@@ -142,21 +140,21 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved3 [
 	BlSpace simulateMouseUpOn: fillers first.
 	self waitTestingSpaces.
 	self assert: list data size equals: 2.
-	self assert: list selectionStrategy selectedIndexes equals: { 1 }.
+	self assert: list selectionModel selectedIndexes equals: { 1 }.
 	self assert: list selectionElements size equals: 1.
 	but := list childWithId: #'remove-button-1'.
 	BlSpace simulateMouseDownOn: but.
 	BlSpace simulateMouseUpOn: but.
 	self waitTestingSpaces.
 	self assert: list data size equals: 1.
-	list selectionStrategy shiftAfterRemovingAt: 1 itemCount: 1.
-	self assert: list selectionStrategy selectedIndexes isEmpty.
+	list selectionModel shift: -1 from: 1.
+	self assert: list selectionModel selectedIndexes isEmpty.
 	but := list childWithId: #'remove-button-2'.
 	BlSpace simulateMouseDownOn: but.
 	BlSpace simulateMouseUpOn: but.
 	self waitTestingSpaces.
 	self assert: list data size equals: 0.
-	self assert: list selectionStrategy selectedIndexes isEmpty.
+	self assert: list selectionModel selectedIndexes isEmpty.
 	self assert: list selectionElements isEmpty
 ]
 
@@ -176,19 +174,19 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved4 [
 	BlSpace simulateMouseUpOn: fillers first.
 	self waitTestingSpaces.
 	self assert: list data size equals: 2.
-	self assert: list selectionStrategy selectedIndexes equals: { 1 }.
+	self assert: list selectionModel selectedIndexes equals: { 1 }.
 	but := list childWithId: #'remove-button-2'.
 	BlSpace simulateMouseDownOn: but.
 	BlSpace simulateMouseUpOn: but.
 	self waitTestingSpaces.
 	self assert: list data size equals: 1.
-	self assert: list selectionStrategy selectedIndexes equals: { 1 }.
+	self assert: list selectionModel selectedIndexes equals: { 1 }.
 	self assert: list selectionElements size equals: 1.
 	but := list childWithId: #'remove-button-1'.
 	BlSpace simulateMouseDownOn: but.
 	BlSpace simulateMouseUpOn: but.
 	self waitTestingSpaces.
 	self assert: list data size equals: 0.
-	self assert: list selectionStrategy selectedIndexes isEmpty.
+	self assert: list selectionModel selectedIndexes isEmpty.
 	self assert: list selectionElements isEmpty
 ]

@@ -23,6 +23,25 @@ ToCompositeSelectionModel >> containsIndex: anIndex [
 ]
 
 { #category : #'accessing selection' }
+ToCompositeSelectionModel >> deleteAndMoveFrom: aStartIndex to: aStopIndex among: anItemCount [
+
+	| from to over gap |
+	from := aStartIndex min: aStopIndex.
+	to := aStartIndex max: aStopIndex.
+	selection selections delete:
+		(BlMonotoneSelection from: from - 1 to: to).
+	to > anItemCount ifTrue: [ ^ self ].
+	over := selection selections findOverlapping:
+		        (BlMonotoneSelection from: to to: anItemCount).
+	selection selections delete:
+		(BlMonotoneSelection from: to - 1 to: anItemCount).
+	gap := to - from + 1.
+	over do: [ :o |
+		selection selections insert:
+			(BlMonotoneSelection from: o selection from - gap to: o selection to - gap) ]
+]
+
+{ #category : #'accessing selection' }
 ToCompositeSelectionModel >> deselect: aFromTextIndex to: aToTextIndex [
 
 	selection deselect: aFromTextIndex to: aToTextIndex
@@ -57,6 +76,12 @@ ToCompositeSelectionModel >> isCompositeSelectionModel [
 ToCompositeSelectionModel >> isEmpty [
 
 	^ selection isEmpty
+]
+
+{ #category : #'accessing selection' }
+ToCompositeSelectionModel >> move: aGap from: anIndex [
+
+	
 ]
 
 { #category : #copying }
@@ -115,4 +140,18 @@ ToCompositeSelectionModel >> selection [
 ToCompositeSelectionModel >> selection: aSelection [
 
 	selection := aSelection
+]
+
+{ #category : #'accessing selection' }
+ToCompositeSelectionModel >> shift: aGap from: aStartIndex among: anItemCount [
+
+	| from to prev |
+	aGap isZero ifTrue: [ ^ self ].
+	aGap < 0 ifTrue: [ ^ self deleteAndMoveFrom: aStartIndex + aGap + 1 to: aStartIndex among: anItemCount ].	
+	from := aStartIndex.
+	to := aStartIndex + aGap.
+	prev := selection copy.
+	selection selections delete: (BlMonotoneSelection from: from - 1 to: anItemCount).
+	prev indices do: [ :idx |
+		idx >= aStartIndex ifTrue: [ selection selectIndex: idx+ aGap ] ]
 ]

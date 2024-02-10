@@ -49,19 +49,13 @@ ToSelectionModel >> addWholeSelectionCommand: aCommand [
 	self ensureWholeSelectionModel 
 ]
 
-{ #category : #updating }
-ToSelectionModel >> adoptSelectedIndexesFrom: aSelectionModel [
-
-	self underlyingModel: aSelectionModel underlyingModel copy.
-]
-
 { #category : #'command operations' }
 ToSelectionModel >> applyCommand: aCommand [
 
 	aCommand applyOn: self
 ]
 
-{ #category : #'command operations' }
+{ #category : #private }
 ToSelectionModel >> checkEmptiness [
 
 	self underlyingModel isEmpty ifTrue: [
@@ -81,25 +75,25 @@ ToSelectionModel >> deselectAll [
 ]
 
 { #category : #updating }
-ToSelectionModel >> deselectAllIndexes: anArray among: anInteger [
+ToSelectionModel >> deselectAllIndexes: anArray [
 
 	| wasWhole |
 	wasWhole := self isWholeSelectionModel.
 	self ensureCompositeSelectionModel.
-	wasWhole ifTrue: [ self underlyingModel select: 0 to: anInteger ].
+	wasWhole ifTrue: [ self underlyingModel select: 0 to: self itemCount ].
 	anArray do: [ :idx |
 		self underlyingModel deselectIndex: idx ].
 	self checkEmptiness
 ]
 
 { #category : #updating }
-ToSelectionModel >> deselectIndex: anIndex among: anInteger [
+ToSelectionModel >> deselectIndex: anIndex [
 
 	| wasWhole |
 	wasWhole := self isWholeSelectionModel.
 	self ensureCompositeSelectionModel.
 	wasWhole ifTrue: [
-		self underlyingModel select: 0 to: anInteger ].
+		self underlyingModel select: 0 to: self itemCount ].
 	self underlyingModel deselect: anIndex - 1 to: anIndex.
 	self checkEmptiness
 ]
@@ -152,7 +146,7 @@ ToSelectionModel >> initialize [
 	underlyingModel := ToUnderlyingSelectionModel empty
 ]
 
-{ #category : #testing }
+{ #category : #'private testing' }
 ToSelectionModel >> isCompositeSelectionModel [
 
 	^ self underlyingModel isCompositeSelectionModel
@@ -164,7 +158,7 @@ ToSelectionModel >> isEmpty [
 	^ self underlyingModel isEmpty
 ]
 
-{ #category : #testing }
+{ #category : #'private testing' }
 ToSelectionModel >> isEmptySelectionModel [
 
 	^ self underlyingModel isEmptySelectionModel
@@ -176,7 +170,7 @@ ToSelectionModel >> isNotEmpty [
 	^ self isEmpty not
 ]
 
-{ #category : #testing }
+{ #category : #'private testing' }
 ToSelectionModel >> isWholeSelectionModel [
 
 	^ self underlyingModel isWholeSelectionModel
@@ -264,6 +258,15 @@ ToSelectionModel >> removeWholeSelectionCommand: aCommand [
 ]
 
 { #category : #updating }
+ToSelectionModel >> select: aFirstIndex to: aSecondIndex [
+
+	self ensureCompositeSelectionModel.
+	self underlyingModel 
+		select: aFirstIndex - 1
+		to: aSecondIndex
+]
+
+{ #category : #updating }
 ToSelectionModel >> selectAll [
 
 	self ensureWholeSelectionModel 
@@ -309,6 +312,20 @@ ToSelectionModel >> selectedIndexesCount [
 ToSelectionModel >> selectedIndexesDo: aBlock [
 
 	^ self underlyingModel selectedIndexesDo: aBlock among: self itemCount
+]
+
+{ #category : #updating }
+ToSelectionModel >> shift: aGap from: aStartIndex [
+
+	self isEmpty ifTrue: [ ^ self ].
+	self isWholeSelectionModel ifTrue: [
+		self ensureCompositeSelectionModel.
+		self select: 1 to: self itemCount ].
+	self underlyingModel
+		shift: aGap
+		from: aStartIndex
+		among: self itemCount.
+	self checkEmptiness 
 ]
 
 { #category : #accessing }

@@ -94,29 +94,51 @@ ToSelectionModelTest >> testDeselectAll [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testDeselectAllIndexesAmong [
+ToSelectionModelTest >> testDeselectAllIndexes [
 
 	| s |
 	s := ToSelectionModel new.
 	s selectAllIndexes: { 1. 5. 6 }.
 	self assert: s selectedIndexes asSet equals: { 1. 5. 6 } asSet.
-	s deselectAllIndexes: { 10. 50. 60 } among: 100.
+	s deselectAllIndexes: { 10. 50. 60 }.
 	self assert: s selectedIndexes asSet equals: { 1. 5. 6 } asSet.
-	s deselectAllIndexes: { 5. 6 } among: 100.
+	s deselectAllIndexes: { 5. 6 }.
 	self assert: s selectedIndexes asSet equals: { 1.  } asSet
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testDeselectIndexAmong [
+ToSelectionModelTest >> testDeselectAllIndexesWithAWholeSelection [
+
+	| s |
+	s := ToSelectionModel new itemCountGetter: 10.
+	s selectAll.
+	" item count that is necessary in that case "
+	s deselectAllIndexes: { 2. 4. 6 }.
+	self assert: s selectedIndexes equals: { 1. 3. 5. 7. 8. 9. 10 }
+]
+
+{ #category : #tests }
+ToSelectionModelTest >> testDeselectAllIndexesWithAWholeSelection2 [
+
+	| s |
+	s := ToSelectionModel new.
+	s selectAll.
+	" no way to get item count that is necessary in that case -> Error"
+	self should: [ s deselectAllIndexes: { 2. 4. 6 } ] raise: Error
+
+]
+
+{ #category : #tests }
+ToSelectionModelTest >> testDeselectIndex [
 
 	| s |
 	s := ToSelectionModel new.
 	s selectAllIndexes: { 1. 5. 6 }.
 	self assert: s selectedIndexes asSet equals: { 1. 5. 6 } asSet.
-	s deselectIndex: 10 among: 100.
+	s deselectIndex: 10.
 	self assert: s selectedIndexes asSet equals: { 1. 5. 6 } asSet.
-	s deselectIndex: 5 among: 100.
-	s deselectIndex: 6 among: 100.
+	s deselectIndex: 5.
+	s deselectIndex: 6.
 	self assert: s selectedIndexes asSet equals: { 1.  } asSet
 ]
 

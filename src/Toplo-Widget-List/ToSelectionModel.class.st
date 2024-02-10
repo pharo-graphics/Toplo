@@ -179,12 +179,14 @@ ToSelectionModel >> isWholeSelectionModel [
 { #category : #accessing }
 ToSelectionModel >> itemCount [
 
-	^ itemCountGetter value
+	
+	^ self itemCountGetter value
 ]
 
 { #category : #accessing }
 ToSelectionModel >> itemCountGetter [
 
+	itemCountGetter ifNil: [ Error signal: 'A selection model must have an initalized itemCountGetter' ].
 	^ itemCountGetter 
 ]
 

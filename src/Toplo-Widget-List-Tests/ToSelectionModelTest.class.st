@@ -97,7 +97,7 @@ ToSelectionModelTest >> testDeselectAll [
 ToSelectionModelTest >> testDeselectAllIndexes [
 
 	| s |
-	s := ToSelectionModel new.
+	s := ToSelectionModel new itemCountGetter: 100.
 	s selectAllIndexes: { 1. 5. 6 }.
 	self assert: s selectedIndexes asSet equals: { 1. 5. 6 } asSet.
 	s deselectAllIndexes: { 10. 50. 60 }.
@@ -132,7 +132,7 @@ ToSelectionModelTest >> testDeselectAllIndexesWithAWholeSelection2 [
 ToSelectionModelTest >> testDeselectIndex [
 
 	| s |
-	s := ToSelectionModel new.
+	s := ToSelectionModel new itemCountGetter: 100.
 	s selectAllIndexes: { 1. 5. 6 }.
 	self assert: s selectedIndexes asSet equals: { 1. 5. 6 } asSet.
 	s deselectIndex: 10.
@@ -235,7 +235,7 @@ ToSelectionModelTest >> testNewOperator [
 ToSelectionModelTest >> testNewOperatorWithUpdater [
 
 	| s selecter |
-	s := ToSelectionModel new.
+	s := ToSelectionModel new itemCountGetter: 100.
 	selecter := s newOperator selectIndex: 10;
 	applyOn: s newUpdater.
 	self assert: s selectedIndexes equals: { 10 }
@@ -259,8 +259,8 @@ ToSelectionModelTest >> testOnUninstalledIn [
 	s := ToSelectionModel new.
 	s onInstalledIn: self.
 	s onUninstalledIn: self.
-	self assert: s itemCountGetter isNil.
-	self assert: s itemCount isNil
+	self should: [ s itemCountGetter ] raise: Error.
+	self should: [ s itemCount ] raise: Error
 ]
 
 { #category : #tests }
@@ -279,7 +279,7 @@ ToSelectionModelTest >> testSelectAll [
 ToSelectionModelTest >> testSelectAllIndexes [
 
 	| s |
-	s := ToSelectionModel new.
+	s := ToSelectionModel new itemCountGetter: 100.
 	s selectAllIndexes: { 1. 5. 6 }.
 	self assert: (s underlyingModel isKindOf: ToCompositeSelectionModel ).
 	self assert: s selectedIndexes asSet equals: { 1. 5. 6 } asSet.
@@ -291,7 +291,7 @@ ToSelectionModelTest >> testSelectAllIndexes [
 ToSelectionModelTest >> testSelectIndex [
 
 	| s |
-	s := ToSelectionModel new.
+	s := ToSelectionModel new itemCountGetter: 100.
 	s selectIndex: 1.
 	s selectIndex: 5.
 	s selectIndex: 6.
@@ -339,10 +339,10 @@ ToSelectionModelTest >> testUnderlyingModel [
 ToSelectionModelTest >> testselectedIndexes [
 
 	| s |
-	s := ToSelectionModel new.
-	self assert: s selectedIndexes equals: #().
+	s := ToSelectionModel new itemCountGetter: 100.
+	self assert: s selectedIndexes equals: #(  ).
 	s ensureCompositeSelectionModel.
-	self assert: s selectedIndexes equals: #().
+	self assert: s selectedIndexes equals: #(  ).
 	s ensureWholeSelectionModel.
-	self should: [s selectedIndexes] raise: ToInvalidCommand.
+	self assert: s selectedIndexes equals: (1 to: 100)
 ]

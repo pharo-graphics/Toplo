@@ -10,15 +10,8 @@ Class {
 { #category : #accessing }
 ToSelectSelectionMode >> nodeEventHandlerClasses [ 
 
-	^ { ToListNodeSelectEventHandler }
+	^ { ToListNodeSingleSelectionClickEventHandler }
 
-]
-
-{ #category : #accessing }
-ToSelectSelectionMode >> onAddedNode: aNode [
-
-	super onAddedNode: aNode.
-	aNode select: self select
 ]
 
 { #category : #'event handling' }
@@ -27,14 +20,6 @@ ToSelectSelectionMode >> onClickOnNode: aNode event: anEvent [
 	| index |
 	index := aNode holder position.
 	select mode onClickAtIndex: index
-]
-
-{ #category : #accessing }
-ToSelectSelectionMode >> onRemovedNode: aNode [
-
-	aNode select: nil.
-	super onRemovedNode: aNode.
-
 ]
 
 { #category : #accessing }

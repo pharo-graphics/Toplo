@@ -84,10 +84,10 @@ ToSelectTextInputElement >> newInputTextField [
 				ToSelectTextFieldCarriageReturnShortcut new.
 			textField addEventHandler: (BlEventHandler
 					 on: AlbTextEditedEvent
-					 do: [ :event | self onFilterTextFieldUpdated: event ]).
+					 do: [ :event |  self onFilterTextFieldUpdated: event ]).
 			textField addEventHandler: (BlEventHandler
 					 on: AlbTextReplacedEvent
-					 do: [ :event | self onFilterTextFieldUpdated: event ]) ]
+					 do: [ :event |  self onFilterTextFieldUpdated: event ]) ]
 		ifFalse: [ textField beReadonlyWithSelection ].
 	
 	^ textField

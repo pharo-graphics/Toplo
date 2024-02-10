@@ -11,7 +11,8 @@ Class {
 		'selectionChangedHandler',
 		'queryResultHandler',
 		'currentResultsArray',
-		'currentSelection'
+		'currentSelection',
+		'originalIndexedDataIndex'
 	],
 	#category : #'Toplo-Widget-List-Sieve'
 }
@@ -33,7 +34,15 @@ ToListElementSieve >> buildOriginalIndexedData [
 	assocs := Array streamContents: [ :str |
 		          originalData withIndexDo: [ :d :i | str nextPut: d -> i ] ].
 	originalIndexedData updateAllWith: assocs.
-	originalIndexedDataArray := originalIndexedData asArray
+	originalIndexedDataArray := originalIndexedData asArray.
+	originalIndexedDataIndex := IdentityDictionary new.
+	assocs do: [:a | originalIndexedDataIndex at: a key put: a value ]
+]
+
+{ #category : #accessing }
+ToListElementSieve >> currentSelection [
+
+	^ currentSelection 
 ]
 
 { #category : #accessing }
@@ -106,16 +115,10 @@ ToListElementSieve >> onListSelectionChangedEvent: anEvent [
 	selectedStream := WriteStream on: (Array new: 10).
 	deselectedStream := WriteStream on: (Array new: 10).
 
-	self pattern
-		ifEmpty: [
-			currentResultsArray withIndexDo: [ :assoc :idx |
-				(currentIndexes includes: idx) ifTrue: [
-					selectedStream nextPut: assoc value ] ] ]
-		ifNotEmpty: [
-			currentResultsArray withIndexDo: [ :assoc :idx |
-				(currentIndexes includes: idx)
-					ifTrue: [ selectedStream nextPut: assoc value ]
-					ifFalse: [ deselectedStream nextPut: assoc value ] ] ].
+	currentResultsArray withIndexDo: [ :assoc :idx |
+		(currentIndexes includes: idx)
+			ifTrue: [ selectedStream nextPut: assoc value ]
+			ifFalse: [ deselectedStream nextPut: assoc value ] ].
 
 	currentSelection removeAllFoundIn: deselectedStream contents.
 	currentSelection addAll: selectedStream contents.
@@ -123,7 +126,7 @@ ToListElementSieve >> onListSelectionChangedEvent: anEvent [
 	listElement dispatchEvent:
 		(ToListElementSieveSelectionChangedEvent new
 			 originalData: self originalData;
-			 selectionModel: (ToSelectionModel new
+			 selection: (BlCompositeSelection new
 					  selectAllIndexes: currentSelection;
 					  yourself);
 			 sieve: self;
@@ -132,7 +135,6 @@ ToListElementSieve >> onListSelectionChangedEvent: anEvent [
 
 { #category : #'event handling' }
 ToListElementSieve >> onObservableCollectionQueryResultEvent: anEvent [
-
 	" a query has occured (becuse the query pattern has changed), update the list element accordingly "
 
 	| selectedIndexes |
@@ -140,14 +142,17 @@ ToListElementSieve >> onObservableCollectionQueryResultEvent: anEvent [
 	self buildCurrentQueryResults.
 	" now the selected indexes "
 	selectedIndexes := queryRunner pattern
-		             ifEmpty: [ currentSelection asArray]
-		             ifNotEmpty: [Array streamContents: [ :stream |
+		                   ifEmpty: [ currentSelection asArray ]
+		                   ifNotEmpty: [
+			                   Array streamContents: [ :stream |
 				                   currentResultsArray withIndexDo: [ :assoc :idx |
 					                   (currentSelection includes: assoc value)
 						                   ifTrue: [ stream nextPut: idx ] ] ] ].
-   "Update litElement data together with the selection "
-	listElement data filterResult: (currentResultsArray collect: [ :assoc | assoc key ]).
-	listElement selecter selectOnlyIndexes: selectedIndexes.
+	"Update litElement data together with the selection "
+	listElement data filterResult:
+		(currentResultsArray collect: [ :assoc | assoc key ]).
+	listElement selecter beSilentWhile: [
+		listElement selecter selectOnlyIndexes: selectedIndexes ].
 	listElement dispatchEvent: (ToListElementSieveFilterAppliedEvent new
 			 sieve: self;
 			 yourself)
@@ -165,6 +170,7 @@ ToListElementSieve >> onUninstalledIn: aListElement [
 	selectionChangedHandler := nil.
 	originalIndexedData := nil.
 	originalIndexedDataArray := nil.
+	originalIndexedDataIndex := nil.
 	listElement := nil.
 	originalData := nil.
 	currentResultsArray := nil.
@@ -177,6 +183,12 @@ ToListElementSieve >> onUninstalledIn: aListElement [
 ToListElementSieve >> originalData [ 
 
 	^ originalData 
+]
+
+{ #category : #accessing }
+ToListElementSieve >> originalIndexOfData: aData [
+
+	^ originalIndexedDataIndex at: aData ifAbsent: [  ]
 ]
 
 { #category : #accessing }

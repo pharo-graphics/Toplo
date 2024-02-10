@@ -24,8 +24,11 @@ ToSelectFiltrableListEventHandler >> eventsToHandle [
 { #category : #'element handlers' }
 ToSelectFiltrableListEventHandler >> listElementSieveSelectionChangedEvent: anEvent [
 
-	select selection selectAllIndexes: anEvent selectionModel selectedIndexes.
-	select strategy refreshHeaderNodeContainer
+	select selection indices = anEvent selection indices ifTrue: [ ^ self ].
+	select selection deselectAll.
+	select selection selectAllIndexes: anEvent selection indices.
+	select strategy refreshHeaderNodeContainer.
+
 ]
 
 { #category : #accessing }

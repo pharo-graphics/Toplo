@@ -59,6 +59,7 @@ ToSelect >> defaultStrategy [
 { #category : #'accessing selection' }
 ToSelect >> deselectIndex: anIndex [
 
+	self inputTextField text: ''.
 	self mode deselectIndex: anIndex
 ]
 
@@ -332,6 +333,7 @@ ToSelect >> popupWindowEvent: anEvent [
 { #category : #'accessing selection' }
 ToSelect >> selectIndex: anIndex [
 
+	self inputTextField text: ''.
 	self mode selectIndex: anIndex
 ]
 

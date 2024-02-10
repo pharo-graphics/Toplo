@@ -65,8 +65,7 @@ ToSingleSelectStrategy >> refreshHeaderNodeContainer [
 			ifTrue: [ select mode deselectIndex: holder position ]
 			ifFalse: [ select selectionModel deselectIndex: holder position among: select data size].
 		select listElement dispatchEvent: ToListSelectionDirtyEvent new ]."
-
-	select listElement selectionModel selectedIndexes
+	select selection indices
 		ifEmpty: [
 			idx := 0.
 			selectedData := nil ]

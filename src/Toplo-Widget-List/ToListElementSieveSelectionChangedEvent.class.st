@@ -1,9 +1,10 @@
 Class {
 	#name : #ToListElementSieveSelectionChangedEvent,
-	#superclass : #ToListSelectionChangedEvent,
+	#superclass : #BlEvent,
 	#instVars : [
 		'sieve',
-		'originalData'
+		'originalData',
+		'selection'
 	],
 	#category : #'Toplo-Widget-List-Sieve'
 }
@@ -18,6 +19,18 @@ ToListElementSieveSelectionChangedEvent >> originalData [
 ToListElementSieveSelectionChangedEvent >> originalData: aCollection [
 
 	originalData := aCollection
+]
+
+{ #category : #accessing }
+ToListElementSieveSelectionChangedEvent >> selection [
+
+	^ selection
+]
+
+{ #category : #accessing }
+ToListElementSieveSelectionChangedEvent >> selection: aSelection [
+
+	selection := aSelection
 ]
 
 { #category : #sending }

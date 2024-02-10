@@ -1,9 +1,9 @@
 Class {
 	#name : #ToSelectionModelOperator,
 	#superclass : #Object,
-	#classTraits : 'TBlEventTarget classTrait',
 	#instVars : [
-		'command'
+		'command',
+		'dispatchChanges'
 	],
 	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
@@ -24,6 +24,15 @@ ToSelectionModelOperator >> applyOn: anEventTarget [
 	command ifNil: [ ^ self ].
 	[ self dispatchEventForCommandOn: anEventTarget ] ensure: [
 		command := nil ]
+]
+
+{ #category : #'event dispatching' }
+ToSelectionModelOperator >> beSilentWhile: aBlock [
+
+	| prev |
+	prev := dispatchChanges.
+	dispatchChanges := false.
+	aBlock ensure: [ dispatchChanges := prev ]
 ]
 
 { #category : #accessing }
@@ -69,11 +78,19 @@ ToSelectionModelOperator >> dispatchEventForCommandOn: anEventTarget [
 	anEventTarget dispatchEvent: (request := ToSelectionRequestEvent new
 			            command: command;
 			            yourself).
+	dispatchChanges ifFalse: [ ^ self ].
 	request selectionChanged ifTrue: [
 		anEventTarget dispatchEvent: (ToListSelectionChangedEvent new selectionModel: anEventTarget selectionModel copy; yourself)].
 	anEventTarget dispatchEvent: (ToAppliedSelectionEvent new
 			 selectionChanged: request selectionChanged;
 			 command: command)
+]
+
+{ #category : #initialization }
+ToSelectionModelOperator >> initialize [ 
+
+	super initialize.
+	dispatchChanges := true
 ]
 
 { #category : #operations }

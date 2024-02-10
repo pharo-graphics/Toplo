@@ -23,7 +23,7 @@ ToSelectFiltrableMode >> dataFilter: aValuable [
 { #category : #'accessing selection' }
 ToSelectFiltrableMode >> deselectIndex: anIndex [
 
-	"select listElement selecter deselectIndex: anIndex"
+	select listElement selecter deselectIndex: anIndex
 ]
 
 { #category : #testing }
@@ -37,7 +37,10 @@ ToSelectFiltrableMode >> onClickAtIndex: anIndex [
 
 	(select listElement selectionModel containsIndex: anIndex)
 		ifTrue: [ self deselectIndex: anIndex ]
-		ifFalse: [ self selectIndex: anIndex ]
+		ifFalse: [
+			select isMultipleSelection ifFalse: [
+				sieve currentSelection removeAll ].
+			self selectIndex: anIndex ]
 ]
 
 { #category : #'api - hooks' }
@@ -64,6 +67,12 @@ ToSelectFiltrableMode >> onUninstalledIn: aSelect [
 ]
 
 { #category : #accessing }
+ToSelectFiltrableMode >> pattern [
+
+	^ sieve pattern
+]
+
+{ #category : #accessing }
 ToSelectFiltrableMode >> pattern: aPattern [
 
 	sieve pattern: aPattern
@@ -72,6 +81,15 @@ ToSelectFiltrableMode >> pattern: aPattern [
 { #category : #'accessing selection' }
 ToSelectFiltrableMode >> selectIndex: anIndex [
 
-	"select isMultipleSelection ifFalse: [ select listElement selecter deselectAll ].
-	select listElement selecter selectIndex: anIndex"
+	select isMultipleSelection ifFalse: [ 
+		select listElement selecter selectOnlyIndex: anIndex.
+		^ self ].
+	select listElement selecter selectIndex: anIndex.
+
+]
+
+{ #category : #accessing }
+ToSelectFiltrableMode >> sieve [ 
+
+	^ sieve
 ]

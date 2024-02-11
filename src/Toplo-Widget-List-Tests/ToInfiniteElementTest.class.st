@@ -22,7 +22,7 @@ ToInfiniteElementTest >> statesOfAmerica [
 ToInfiniteElementTest >> testEmptyInfinite [
 
 	| l |
-	l := ToInfiniteElement new.
+	l := ToInfiniteElement2 new.
 	l fitContent.
 	self assert: l data isEmpty.
 	l forceLayout.
@@ -31,165 +31,18 @@ ToInfiniteElementTest >> testEmptyInfinite [
 		equals:
 		l padding left + l padding right
 		@ (l padding top + l padding bottom).
-	self assert: l selectionStrategy selectedIndexes isEmpty
-]
-
-{ #category : #'test selection - select next/previous' }
-ToInfiniteElementTest >> testEmptyListAddOrRemoveNextInSelection [
-
-	| l |
-	l := ToInfiniteElement new.
-	l selectionStrategy: ToStandardListSelectionStrategy new.
-	l fitContent.
-	self assert: l data isEmpty.
-	l forceLayout.
-	self assert: l selectionStrategy selectedIndexes isEmpty.
-	l selectionStrategy addOrRemoveNext.
-	self assert: l selectionStrategy currentIndex isZero
-]
-
-{ #category : #'test selection - select next/previous' }
-ToInfiniteElementTest >> testEmptyListAddOrRemovePreviousInSelection [
-
-	| l |
-	l := ToInfiniteElement new.
-	l selectionStrategy: ToStandardListSelectionStrategy new.
-	l fitContent.
-	self assert: l data isEmpty.
-	l forceLayout.
-	self assert: l selectionStrategy selectedIndexes isEmpty.
-	l selectionStrategy addOrRemovePrevious.
-	self assert: l selectionStrategy currentIndex isZero
-]
-
-{ #category : #'test selection - select next/previous' }
-ToInfiniteElementTest >> testEmptyListSelectNextInSelection [
-
-	| l |
-	l := ToInfiniteElement new.
-	l selectionStrategy: ToStandardListSelectionStrategy new.
-
-	l fitContent.
-	self assert: l data isEmpty.
-	l forceLayout.
-	self assert: l selectionStrategy selectedIndexes isEmpty.
-	l selectionStrategy selectNext.
-	self assert: l selectionStrategy currentIndex isZero.
-	self assert: l selectionStrategy selectedIndexes isEmpty.
-	l selectionStrategy selectNext.
-	self assert: l selectionStrategy currentIndex isZero.
-	self assert: l selectionStrategy selectedIndexes isEmpty
-]
-
-{ #category : #'test selection - select next/previous' }
-ToInfiniteElementTest >> testEmptyListSelectPreviousInSelection [
-
-	| l |
-	l := ToInfiniteElement new.
-	l selectionStrategy: ToStandardListSelectionStrategy new.
-
-	l fitContent.
-	self assert: l data isEmpty.
-	l forceLayout.
-	self assert: l selectionStrategy selectedIndexes isEmpty.
-	l selectionStrategy selectPrevious.
-	self assert: l selectionStrategy currentIndex isZero.
-	self assert: l selectionStrategy selectedIndexes isEmpty.
-	l selectionStrategy selectPrevious.
-	self assert: l selectionStrategy currentIndex isZero.
-	self assert: l selectionStrategy selectedIndexes isEmpty
+	self assert: l selectionModel isNil
 ]
 
 { #category : #tests }
 ToInfiniteElementTest >> testInfiniteWithOneElement [
 
 	| l |
-	l := ToInfiniteElement new.
-	l selectionStrategy: ToStandardListSelectionStrategy new.
-
+	l := ToInfiniteElement2 new.
 	self assert: l data isEmpty.
 	l data add: self statesOfAmerica first.
 	self assert: l children size equals: 0.
-	l forceLayout.
-	self assert: l children size equals: 1.
-	self assert: l selectionStrategy notNil.
-	self assert: l selectionStrategy selectedIndexes isEmpty.
-	self assert: l selectionStrategy currentIndex isZero
-]
-
-{ #category : #'test selection - mode' }
-ToInfiniteElementTest >> testListWithFiveDefaultSelectionMode [
-
-	| l |
-	l := ToInfiniteElement new.
-	l selectionStrategy: ToStandardListSelectionStrategy new.
-
-	l fitContent.
-	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
-	self assert: l data size equals: 5.
-	l forceLayout.
-	self assert: l selectionStrategy isMultiple
-]
-
-{ #category : #'test selection - select next/previous' }
-ToInfiniteElementTest >> testListWithFiveElementAddNextInSelection [
-
-	| l |
-	l := ToInfiniteElement new.
-	l selectionStrategy: ToStandardListSelectionStrategy new.
-
-	l fitContent.
-	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
-	self assert: l data size equals: 5.
-	l forceLayout.
-	self assert: l selectionStrategy selectedIndexes isEmpty.
-	l selectionStrategy doSelectIndex: 4.
-	l selectionStrategy doSelectIndex: 2.
-	self assert: l selectionStrategy currentIndex equals: 2.
-	self
-		assert: l selectionStrategy selectedIndexes asArray
-		equals: #( 2 4 ).
-	l selectionStrategy addOrRemoveNext.
-	self assert: l selectionStrategy currentIndex equals: 4.
-	self
-		assert: l selectionStrategy selectedIndexes asArray
-		equals: #( 2 3 4 ).
-	l selectionStrategy addOrRemoveNext.
-	self assert: l selectionStrategy currentIndex equals: 5.
-	self
-		assert: l selectionStrategy selectedIndexes asArray
-		equals: #( 2 3 4 5 )
-]
-
-{ #category : #'test selection - select next/previous' }
-ToInfiniteElementTest >> testListWithFiveElementAddPreviousInSelection [
-
-	| l |
-	l := ToInfiniteElement new.
-	l selectionStrategy: ToStandardListSelectionStrategy new.
-
-	l fitContent.
-	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
-	self assert: l data size equals: 5.
-	l forceLayout.
-	self assert: l selectionStrategy selectedIndexes isEmpty.
-	l selectionStrategy selectNext.
-	l selectionStrategy selectNext.
-	l selectionStrategy doSelectIndex: 4.
-	self assert: l selectionStrategy currentIndex equals: 4.
-	self
-		assert: l selectionStrategy selectedIndexes asArray
-		equals: #( 2 4 ).
-	l selectionStrategy addOrRemovePrevious.
-	self assert: l selectionStrategy currentIndex equals: 2.
-	self
-		assert: l selectionStrategy selectedIndexes asArray
-		equals: #( 2 3 4 ).
-	l selectionStrategy addOrRemovePrevious.
-	self assert: l selectionStrategy currentIndex equals: 1.
-	self
-		assert: l selectionStrategy selectedIndexes asArray
-		equals: #( 1 2 3 4 )
+	l forceLayout
 ]
 
 { #category : #'test selection - select next/previous' }
@@ -580,76 +433,6 @@ ToInfiniteElementTest >> testRemoveAll [
 	self assert: l children size equals: 0.
 	l selectionStrategy shiftAfterRemovingAt: 2 itemCount: 3.
 	self assert: l selectionStrategy selectedIndexes isEmpty
-]
-
-{ #category : #'test selection - adding/removing' }
-ToInfiniteElementTest >> testSelectionUpdatedAfterInsert [
-
-	| l sp |
-	l := ToInfiniteElement new.
-	l selectionStrategy: ToStandardListSelectionStrategy new.
-
-	l fitContent.
-	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
-	self assert: l data size equals: 5.
-	l forceLayout.
-	self assert: l selectionStrategy selectedIndexes isEmpty.
-	l selectionStrategy selectOnlyIndex: 3.
-	self assert: l selectionStrategy currentIndex equals: 3.
-	l data add: (self statesOfAmerica at: 6) afterIndex: 1.
-	self assert: l selectionStrategy currentIndex equals: 3.
-	sp := l inSpace.
-	sp pulse.
-	l selectionStrategy shiftAfterAddingAt: 1 itemCount: 1.
-	self assert: l selectionStrategy currentIndex equals: 4.
-	self assert: l selectionStrategy selectedIndex equals: 4
-]
-
-{ #category : #'test selection - adding/removing' }
-ToInfiniteElementTest >> testSelectionUpdatedAfterInsert1 [
-
-	| l sp |
-	l := ToInfiniteElement new.
-	l selectionStrategy: ToStandardListSelectionStrategy new.
-
-	l fitContent.
-	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
-	self assert: l data size equals: 5.
-	l forceLayout.
-	self assert: l selectionStrategy selectedIndexes isEmpty.
-	l selectionStrategy selectOnlyIndex: 3.
-	self assert: l selectionStrategy selectedIndexes equals: { 3 }.
-	self assert: l selectionStrategy currentIndex equals: 3.
-	self assert: l children size equals: 5.
-	l data addAllFirst: (self statesOfAmerica copyFrom: 6 to: 10).
-	self assert: l data size equals: 10.
-	self assert: l children size equals: 5.
-	self assert: l selectionStrategy currentIndex equals: 3.
-	sp := l inSpace.
-	sp pulse.
-	self assert: l selectionStrategy currentIndex equals: 3.
-	l selectionStrategy shiftAfterAddingAt: 3 itemCount: 5.
-	self assert: l selectionStrategy selectedIndex equals: 8
-]
-
-{ #category : #'test selection - adding/removing' }
-ToInfiniteElementTest >> testSelectionUpdatedAfterInsert2 [
-
-	| l sp |
-	l := ToInfiniteElement new.
-	l selectionStrategy: ToStandardListSelectionStrategy new.
-
-	l fitContent.
-	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
-	self assert: l data size equals: 5.
-	self assert: l selectionStrategy selectedIndexes isEmpty.
-	l selectionStrategy selectOnlyIndex: 3.
-	self assert: l selectionStrategy currentIndex equals: 3.
-	l data add: (self statesOfAmerica at: 6) afterIndex: 3.
-	self assert: l selectionStrategy currentIndex equals: 3.
-	sp := l inSpace.
-	sp pulse.
-	self assert: l selectionStrategy currentIndex equals: 3
 ]
 
 { #category : #'test selection - adding/removing' }

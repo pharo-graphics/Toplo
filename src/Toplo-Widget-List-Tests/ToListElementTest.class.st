@@ -24,8 +24,7 @@ ToListElementTest >> listWithRemoveRowButtons [
 				 on: BlClickEvent
 				 do: [ :event |
 					 event consumed: true.
-					 holder listElement data removeAt: holder position.
-					 "holder listElement selectionModel shift: -1 from: holder position" ]).
+					 holder listElement data removeAt: holder position ]).
 		filler := ToElement new
 			          matchParent;
 			          id: #filler.
@@ -68,6 +67,79 @@ ToListElementTest >> testDataRemovedWhenNodeRemoved [
 	BlSpace simulateMouseUpOn: but.
 	self assert: list data isEmpty.
 	self assert: list selectionElements isEmpty
+]
+
+{ #category : #'test selection - select next/previous' }
+ToListElementTest >> testEmptyListAddOrRemoveNextInSelection [
+
+	| l |
+	l := ToListElement2 new.
+	l selectionMode: ToListMultiSelectionMode new.
+	l fitContent.
+	self assert: l data isEmpty.
+	l forceLayout.
+	self assert: l selectionModel isEmpty.
+	l selecter selectAndScrollToNext.
+	self assert: l selecter currentIndex isZero
+]
+
+{ #category : #'test selection - select next/previous' }
+ToListElementTest >> testEmptyListAddOrRemovePreviousInSelection [
+
+	| l |
+	l := ToListElement2 new.
+	l selectionMode: ToListMultiSelectionMode new.
+	l fitContent.
+	self assert: l data isEmpty.
+	l forceLayout.
+	self assert: l selectionModel isEmpty.
+	l selecter selectAndScrollToPrevious.
+	self assert: l selecter currentIndex isZero
+]
+
+{ #category : #'test selection - select next/previous' }
+ToListElementTest >> testEmptyListSelectNextInSelection [
+
+	| l |
+	l := ToListElement2 new.
+
+	l fitContent.
+	self assert: l data isEmpty.
+	l forceLayout.
+	self assert: l selectionModel isEmpty.
+	l selecter selectAndScrollToNext.
+	self assert: l selecter currentIndex isZero.
+	self assert: l selectionModel isEmpty.
+	l selecter selectAndScrollToNext.
+	self assert: l selecter currentIndex isZero.
+	self assert: l selectionModel isEmpty.
+
+]
+
+{ #category : #'test selection - select next/previous' }
+ToListElementTest >> testEmptyListSelectPreviousInSelection [
+
+	| l |
+	l := ToListElement2 new.
+
+	l fitContent.
+	self assert: l data isEmpty.
+	l forceLayout.
+	l selecter selectAndScrollToPrevious.
+	l selecter selectAndScrollToPrevious.
+	self assert: l selecter currentIndex isZero.
+	self assert: l selectionModel isEmpty
+]
+
+{ #category : #'test selection - mode' }
+ToListElementTest >> testListElementWithFiveDefaultSelectionMode [
+
+	| l |
+	l := ToListElement2 new.
+	l fitContent.
+	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self assert: l data size equals: 5.
+
 ]
 
 { #category : #tests }
@@ -189,4 +261,89 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved4 [
 	self assert: list data size equals: 0.
 	self assert: list selectionModel selectedIndexes isEmpty.
 	self assert: list selectionElements isEmpty
+]
+
+{ #category : #'test selection - select next/previous' }
+ToListElementTest >> testSelectAndScrollToNext [
+
+	| l |
+	l := ToListElement2 new.
+
+	l fitContent.
+	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self assert: l data size equals: 5.
+	l forceLayout.
+	l selecter selectIndex: 4.
+	l selecter selectIndex: 2.
+	self assert: l selecter currentIndex equals: 2.
+	self
+		assert: l selectionModel selectedIndexes asArray
+		equals: #( 2 4 ).
+	l selecter selectAndScrollToNext.
+	self assert: l selecter currentIndex equals: 3.
+	self assert: l selectionModel selectedIndexes asArray equals: #( 3 ).
+	l selecter selectAndScrollToNext.
+	self assert: l selecter currentIndex equals: 4.
+	self assert: l selectionModel selectedIndexes asArray equals: #( 4 )
+]
+
+{ #category : #'test selection - select next/previous' }
+ToListElementTest >> testSelectAndScrollToPrevious [
+
+	| l |
+	l := ToListElement2 new.
+	l fitContent.
+	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self assert: l data size equals: 5.
+	l selecter selectIndex: 4.
+	self assert: l selecter currentIndex equals: 4.
+	self
+		assert: l selectionModel selectedIndexes asArray
+		equals: #( 4 ).
+	l selecter selectAndScrollToPrevious.
+	self assert: l selecter currentIndex equals: 3.
+	self
+		assert: l selectionModel selectedIndexes asArray
+		equals: #( 3 ).
+	l selecter selectAndScrollToPrevious.
+	self assert: l selecter currentIndex equals: 2.
+	self
+		assert: l selectionModel selectedIndexes asArray
+		equals: #( 2 )
+]
+
+{ #category : #'test selection - adding/removing' }
+ToListElementTest >> testSelectionUpdatedAfterInsert [
+
+	| l sp |
+	l := ToListElement2 new.
+	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	l selecter selectOnlyIndex: 3.
+	self assert: l selecter currentIndex equals: 3.
+	l data add: (self statesOfAmerica at: 6) afterIndex: 1.
+	self assert: l selecter currentIndex equals: 3.
+	sp := l inSpace.
+	sp pulse.
+	l selectionModel shift: 1 from: 1.
+	self assert: l selectionModel lastIndex equals: 4
+]
+
+{ #category : #'test selection - adding/removing' }
+ToListElementTest >> testSelectionUpdatedAfterInsert1 [
+
+	| l sp |
+	l := ToListElement2 new.
+	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self assert: l data size equals: 5.
+	l selecter selectOnlyIndex: 3.
+	self assert: l selectionModel selectedIndexes equals: { 3 }.
+	self assert: l selecter currentIndex equals: 3.
+	l forceLayout.
+	self assert: l infinite children size equals: 5.
+	l data addAllFirst: (self statesOfAmerica copyFrom: 6 to: 10).
+	self assert: l data size equals: 10.
+	self assert: l infinite children size equals: 5.
+	sp := l inSpace.
+	sp pulse.
+	self assert: l selectionModel lastIndex equals: 8
 ]

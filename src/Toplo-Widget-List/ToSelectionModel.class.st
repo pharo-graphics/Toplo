@@ -98,6 +98,15 @@ ToSelectionModel >> deselectIndex: anIndex [
 	self checkEmptiness
 ]
 
+{ #category : #updating }
+ToSelectionModel >> deselectIndex: aFirstIndex to: aSecondIndex [
+
+	self ensureCompositeSelectionModel.
+	self underlyingModel 
+		deselect: aFirstIndex - 1
+		to: aSecondIndex
+]
+
 { #category : #private }
 ToSelectionModel >> ensureCompositeSelectionModel [
 
@@ -117,6 +126,12 @@ ToSelectionModel >> ensureWholeSelectionModel [
 
 	self isWholeSelectionModel ifTrue: [ ^ self ].
 	self underlyingModel: ToUnderlyingSelectionModel whole
+]
+
+{ #category : #accessing }
+ToSelectionModel >> firstIndex [
+
+	^ self underlyingModel firstIndexAmong: self itemCount
 ]
 
 { #category : #comparing }
@@ -197,6 +212,12 @@ ToSelectionModel >> itemCountGetter: aValuable [
 	itemCountGetter := aValuable
 ]
 
+{ #category : #accessing }
+ToSelectionModel >> lastIndex [
+
+	^ self underlyingModel lastIndexAmong: self itemCount
+]
+
 { #category : #'instance creation' }
 ToSelectionModel >> newOperator [
 
@@ -260,15 +281,6 @@ ToSelectionModel >> removeWholeSelectionCommand: aCommand [
 ]
 
 { #category : #updating }
-ToSelectionModel >> select: aFirstIndex to: aSecondIndex [
-
-	self ensureCompositeSelectionModel.
-	self underlyingModel 
-		select: aFirstIndex - 1
-		to: aSecondIndex
-]
-
-{ #category : #updating }
 ToSelectionModel >> selectAll [
 
 	self ensureWholeSelectionModel 
@@ -290,6 +302,15 @@ ToSelectionModel >> selectIndex: anIndex [
 	self underlyingModel 
 		select: anIndex - 1
 		to: anIndex 
+]
+
+{ #category : #updating }
+ToSelectionModel >> selectIndex: aFirstIndex to: aSecondIndex [
+
+	self ensureCompositeSelectionModel.
+	self underlyingModel 
+		select: aFirstIndex - 1
+		to: aSecondIndex
 ]
 
 { #category : #accessing }
@@ -322,7 +343,7 @@ ToSelectionModel >> shift: aGap from: aStartIndex [
 	self isEmpty ifTrue: [ ^ self ].
 	self isWholeSelectionModel ifTrue: [
 		self ensureCompositeSelectionModel.
-		self select: 1 to: self itemCount ].
+		self selectIndex: 1 to: self itemCount ].
 	self underlyingModel
 		shift: aGap
 		from: aStartIndex

@@ -212,31 +212,47 @@ ToInfiniteElement2 >> nodeHolderClass [
 
 { #category : #'private - commands' }
 ToInfiniteElement2 >> offsetPositionRecordsForInsert: aStartPosition itemCount: anItemCount [
+	"'offsetPositionRecordsForInsert: ' trace. aStartPosition trace. ' itemCount: ' trace. anItemCount traceCr."
 
-	"self selectionModel shift: anItemCount from: aStartPosition."
+	self selectionModel shift: anItemCount from: aStartPosition.
 	super
 		offsetPositionRecordsForInsert: aStartPosition
 		itemCount: anItemCount.
-	self dispatchEvent: ToListSelectionDirtyEvent new
+	self enqueueTask: (BlTaskAction new action: [
+			 self dispatchEvent: ToListSelectionDirtyEvent new ])
 ]
 
 { #category : #'private - commands' }
 ToInfiniteElement2 >> offsetPositionRecordsForMove: aFromPosition to: aToPosition [
+	"'offsetPositionRecordsForMove: ' trace. aFromPosition trace. ' to: ' trace. aToPosition traceCr."
 
 	super offsetPositionRecordsForMove: aFromPosition to: aToPosition.
-	self dispatchEvent: ToListSelectionDirtyEvent new
+	(self selectionModel containsIndex: aFromPosition) ifTrue: [
+		self selectionModel deselectIndex: aFromPosition.
+		self selectionModel selectIndex: aToPosition ].
+	self enqueueTask: (BlTaskAction new action: [
+			 self dispatchEvent: ToListSelectionDirtyEvent new ])
 ]
 
 { #category : #'private - commands' }
 ToInfiniteElement2 >> offsetPositionRecordsForRemove: aStartPosition itemCount: anItemCount applyToPreLayout: applyToPreLayout [
+	"self selectionModel underlyingModel selection trace."
 
-	"self selectionModel shift: anItemCount negated from: aStartPosition."
+	"' :: offsetPositionRecordsForRemove: ' trace. aStartPosition trace. ' itemCount: ' trace. anItemCount traceCr."
+
 	super
 		offsetPositionRecordsForRemove: aStartPosition
 		itemCount: anItemCount
 		applyToPreLayout: applyToPreLayout.
-		"self halt."
-	self dispatchEvent: ToListSelectionDirtyEvent new
+
+	self selectionModel
+		deselectIndex: aStartPosition
+		to: aStartPosition + anItemCount - 1.
+	self selectionModel shift: anItemCount negated from: aStartPosition.
+
+	"' -> ' trace. self selectionModel underlyingModel selection traceCr."
+	self enqueueTask: (BlTaskAction new action: [
+			 self dispatchEvent: ToListSelectionDirtyEvent new ])
 ]
 
 { #category : #deprecated }

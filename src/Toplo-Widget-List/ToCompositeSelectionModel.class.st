@@ -58,6 +58,12 @@ ToCompositeSelectionModel >> deselectIndex: anIndex [
 	selection deselectIndex: anIndex
 ]
 
+{ #category : #accessing }
+ToCompositeSelectionModel >> firstIndexAmong: anItemCount [
+
+	^ self selection from
+]
+
 { #category : #comparing }
 ToCompositeSelectionModel >> hash [
 
@@ -81,6 +87,12 @@ ToCompositeSelectionModel >> isCompositeSelectionModel [
 ToCompositeSelectionModel >> isEmpty [
 
 	^ selection isEmpty
+]
+
+{ #category : #accessing }
+ToCompositeSelectionModel >> lastIndexAmong: anItemCount [
+
+	^ self selection to
 ]
 
 { #category : #'accessing selection' }
@@ -153,22 +165,28 @@ ToCompositeSelectionModel >> shift: aGap from: aStartIndex among: anItemCount [
 	| from to prev high |
 	aGap isZero ifTrue: [ ^ self ].
 	self isEmpty ifTrue: [ ^ self ].
-	
+
 	prev := selection copy.
 	high := selection to.
 
-	aGap < 0
+	aGap <= 0
 		ifTrue: [
 			from := aStartIndex + aGap.
-			to := aStartIndex min: high ]
+			to := aStartIndex.
+			(high >= 0 and: [from <= high ]) ifTrue: [
+				selection selections delete:
+					(BlMonotoneSelection from: (from max: 0) to: high) ].
+			prev indices do: [ :idx |
+				(idx >= aStartIndex and: [ idx + aGap > 0 ]) ifTrue: [
+					selection selectIndex: idx + aGap ] ] ]
 		ifFalse: [
 			from := aStartIndex.
-			to := aStartIndex + aGap min: high ].
+			to := aStartIndex + aGap min: high.
 
-	from < high ifTrue: [
-		selection selections delete:
-			(BlMonotoneSelection from: (from -1 max: 0) to: high) ].
-	prev indicesDo: [ :idx |
-		(idx >= from and: [ idx + aGap > 0 ]) ifTrue: [
-			selection selectIndex: idx + aGap ] ]
+			from <= high ifTrue: [
+				selection selections delete:
+					(BlMonotoneSelection from: (from - 1 max: 0) to: high) ].
+			prev indicesDo: [ :idx |
+				(idx >= aStartIndex and: [ idx + aGap > 0 ]) ifTrue: [
+					selection selectIndex: idx + aGap ] ] ]
 ]

@@ -40,6 +40,12 @@ ToUnderlyingSelectionModel >> deselectIndex: anIndex [
 	^ ToInvalidCommand signal
 ]
 
+{ #category : #accessing }
+ToUnderlyingSelectionModel >> firstIndexAmong: anItemCount [
+
+	^ self subclassResponsibility 
+]
+
 { #category : #testing }
 ToUnderlyingSelectionModel >> isCompositeSelectionModel [
 

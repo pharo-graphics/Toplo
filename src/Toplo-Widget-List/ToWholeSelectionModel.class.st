@@ -25,10 +25,28 @@ ToWholeSelectionModel >> copy [
 	^ self
 ]
 
+{ #category : #accessing }
+ToWholeSelectionModel >> firstIndex [
+
+	^ 1
+]
+
+{ #category : #accessing }
+ToWholeSelectionModel >> firstIndexAmong: anItemCount [
+
+	^ anItemCount > 0 ifTrue: [ 1 ] ifFalse: [ 0 ]
+]
+
 { #category : #testing }
 ToWholeSelectionModel >> isWholeSelectionModel [
 
 	^ true
+]
+
+{ #category : #accessing }
+ToWholeSelectionModel >> lastIndexAmong: anItemCount [
+
+	^ anItemCount
 ]
 
 { #category : #accessing }

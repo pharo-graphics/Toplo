@@ -327,7 +327,7 @@ ToSandBox class >> example_CodeEditor [
 
 ]
 
-{ #category : #'list 2' }
+{ #category : #list }
 ToSandBox class >> example_EditableList2WithAllClassesNames [
 
 	| l vscrollBar space innerWin |
@@ -482,7 +482,7 @@ ToSandBox class >> example_GeneralButtonWithLabel [
 	^ but
 ]
 
-{ #category : #'list 2' }
+{ #category : #list }
 ToSandBox class >> example_HorizontalListWithIndexedColors [
 
 	| l space |
@@ -606,7 +606,7 @@ ToSandBox class >> example_LabeledIconlWithIconAndText_vertical_interspace [
 	^ but
 ]
 
-{ #category : #'list 2' }
+{ #category : #list }
 ToSandBox class >> example_List2WithAllClassesMono [
 
 	| l |
@@ -616,7 +616,7 @@ ToSandBox class >> example_List2WithAllClassesMono [
 	l openInSpace
 ]
 
-{ #category : #'list 2' }
+{ #category : #list }
 ToSandBox class >> example_List2WithAllClassesMulti [
 
 	| l |
@@ -627,7 +627,7 @@ ToSandBox class >> example_List2WithAllClassesMulti [
 	l openInSpace
 ]
 
-{ #category : #'list 2' }
+{ #category : #list }
 ToSandBox class >> example_List2WithAllClassesNone [
 
 	| l |
@@ -637,7 +637,7 @@ ToSandBox class >> example_List2WithAllClassesNone [
 	l openInSpace
 ]
 
-{ #category : #'list 2' }
+{ #category : #list }
 ToSandBox class >> example_List2WithEditableAndContextMenu [
 
 	| l selectionMenu menuFactory phtext |
@@ -787,7 +787,7 @@ ToSandBox class >> example_List2WithEditableAndContextMenu [
 	l openInInnerWindow
 ]
 
-{ #category : #'list 2' }
+{ #category : #list }
 ToSandBox class >> example_List2WithSelectionHistory [
 
 	| statesList historyList pane |
@@ -812,7 +812,7 @@ ToSandBox class >> example_List2WithSelectionHistory [
 	pane openInInnerWindow
 ]
 
-{ #category : #'list 2' }
+{ #category : #list }
 ToSandBox class >> example_ListOneClass [
 
 	| l |
@@ -826,7 +826,7 @@ ToSandBox class >> example_ListOneClass [
 	l openInSpace
 ]
 
-{ #category : #'list 2' }
+{ #category : #list }
 ToSandBox class >> example_ListWith6Elements [
 
 	| l |
@@ -836,7 +836,7 @@ ToSandBox class >> example_ListWith6Elements [
 	l openInInnerWindow
 ]
 
-{ #category : #'list 2' }
+{ #category : #list }
 ToSandBox class >> example_ListWithAllClasses [
 
 	| l |
@@ -845,7 +845,7 @@ ToSandBox class >> example_ListWithAllClasses [
 	l openInSpace
 ]
 
-{ #category : #'list 2' }
+{ #category : #list }
 ToSandBox class >> example_ListWithAllClasses3 [
 
 	| l |
@@ -874,7 +874,7 @@ ToSandBox class >> example_ListWithAllClasses3 [
 	l openInInnerWindow
 ]
 
-{ #category : #'list 2' }
+{ #category : #list }
 ToSandBox class >> example_ListWithAllClasses4 [
 
 	| l |
@@ -887,7 +887,7 @@ ToSandBox class >> example_ListWithAllClasses4 [
 	l openInSpace
 ]
 
-{ #category : #'list 2' }
+{ #category : #list }
 ToSandBox class >> example_ListWithAllClassesAndTraitsSorted [
 
 	| l |
@@ -897,7 +897,7 @@ ToSandBox class >> example_ListWithAllClassesAndTraitsSorted [
 	l openInSpace
 ]
 
-{ #category : #'list 2' }
+{ #category : #list }
 ToSandBox class >> example_ListWithAllClassesAsButton [
 
 	| l |
@@ -909,7 +909,7 @@ ToSandBox class >> example_ListWithAllClassesAsButton [
 	l openInSpace
 ]
 
-{ #category : #'list 2' }
+{ #category : #list }
 ToSandBox class >> example_ListWithEditableAndContextMenu [
 
 	| l selectionMenu menuFactory phtext |
@@ -1024,8 +1024,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 					                idx := selectedIndexes first.
 					                target data
 						                add: idx asString , ':XXXXXX'
-						                beforeIndex: idx.
-					                target selectionModel shift: 1 from: idx ];
+						                beforeIndex: idx ];
 				                yourself).
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Insert after';
@@ -1040,20 +1039,8 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Remove';
 				                whenClickedDo: [ :event |
-					                selectedIndexes ifNotEmpty: [
-							                target data
-								                removeFrom: selectedIndexes first
-								                to: selectedIndexes last.
-							                target selectionModel
-								                shift:
-									                (selectedIndexes last - selectedIndexes first + 1)
-										                negated
-								                from: selectedIndexes first
-							                "target selectionStrategy
-								                shiftAfterRemovingAt: selectedIndexes first
-								                itemCount:
-									                selectedIndexes last - selectedIndexes first
-									                + 1" ] ];
+					                selectedIndexes reverseDo: [ :idx |
+							                target data removeAt: idx ] ];
 				                yourself).
 		               menu addSeparator.
 		               menu addItem: selectionMenu ] ].
@@ -1063,7 +1050,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 	l openInInnerWindow
 ]
 
-{ #category : #'list 2' }
+{ #category : #list }
 ToSandBox class >> example_ListWithIndexedColors [
 
 	| l vscrollBar space |
@@ -1087,7 +1074,7 @@ ToSandBox class >> example_ListWithIndexedColors [
 	space show
 ]
 
-{ #category : #'list 2' }
+{ #category : #list }
 ToSandBox class >> example_ListWithPanes [
 
 	| list |
@@ -1247,7 +1234,7 @@ ToSandBox class >> example_OpenSaveSaveAsCloseWithSubmenu [
 	container openInSpace
 ]
 
-{ #category : #'list 2' }
+{ #category : #list }
 ToSandBox class >> example_PicsumPhotosGallery [
 	" cool example adapted from the feenk Glamorous Toolkit version BlInfiniteExample>>exampleGallery"
 
@@ -1338,7 +1325,7 @@ ToSandBox class >> example_Popup1 [
 	container openInSpace
 ]
 
-{ #category : #'list 2' }
+{ #category : #list }
 ToSandBox class >> example_QueryOnList2WithStatesOfAmerica [
 
 	| listElement pane filterField data selector |
@@ -1419,7 +1406,7 @@ ToSandBox class >> example_RadioButtonWithIndeterminate [
 	but openInSpace
 ]
 
-{ #category : #'list 2' }
+{ #category : #list }
 ToSandBox class >> example_SieveOnList2WithStatesOfAmerica [
 
 	| listElement pane filterField data sieve |
@@ -1460,7 +1447,7 @@ ToSandBox class >> example_SieveOnList2WithStatesOfAmerica [
 	pane openInSpace
 ]
 
-{ #category : #'list 2' }
+{ #category : #list }
 ToSandBox class >> example_SieveOnList2With_350000_Items [
 
 	| listElement pane filterField data sieve |
@@ -1512,7 +1499,7 @@ ToSandBox class >> example_SieveOnList2With_350000_Items [
 	pane openInSpace
 ]
 
-{ #category : #'list 2' }
+{ #category : #list }
 ToSandBox class >> example_SieveOnList2With_AllClassNames [
 
 	| listElement pane filterField data sieve |
@@ -1562,7 +1549,7 @@ ToSandBox class >> example_SieveOnList2With_AllClassNames [
 	pane openInSpace
 ]
 
-{ #category : #'list 2' }
+{ #category : #list }
 ToSandBox class >> example_SieveOnList2With_AllMethods [
 
 	| listElement pane filterField data sieve |
@@ -1612,7 +1599,7 @@ ToSandBox class >> example_SieveOnList2With_AllMethods [
 	pane openInSpace
 ]
 
-{ #category : #'list 2' }
+{ #category : #list }
 ToSandBox class >> example_SieveOnList2With_AllMethods_OnCR [
 
 	| listElement pane filterField data sieve |
@@ -2178,7 +2165,7 @@ ToSandBox class >> example_choiceButtonWithUncheckingStrategy [
 	win openInSpace
 ]
 
-{ #category : #'list 2' }
+{ #category : #list }
 ToSandBox class >> example_contactList [
 
 	| panel button list contacts contact nameTxtF phoneTxtF addressTxtF inputPane |
@@ -2288,9 +2275,7 @@ ToSandBox class >> example_contactList [
 				 on: BlClickEvent
 				 do: [ :event |
 					 event consumed: true.
-					 holder infiniteElement data removeAt: holder position.
-					 holder infiniteElement selectionModel
-						 shift: -1 from: holder position ]).
+					 holder infiniteElement data removeAt: holder position ]).
 		line addChild: remBut.
 		node addChild: line ].
 	list data addAll: contacts.

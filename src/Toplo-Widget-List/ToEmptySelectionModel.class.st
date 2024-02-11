@@ -33,6 +33,12 @@ ToEmptySelectionModel >> deselect: aFromTextIndex to: aToTextIndex [
 ToEmptySelectionModel >> deselectIndex: anIndex [
 ]
 
+{ #category : #accessing }
+ToEmptySelectionModel >> firstIndexAmong: anItemCount [
+
+	^ 0
+]
+
 { #category : #testing }
 ToEmptySelectionModel >> isEmpty [
 
@@ -43,6 +49,12 @@ ToEmptySelectionModel >> isEmpty [
 ToEmptySelectionModel >> isEmptySelectionModel [
 
 	^ true
+]
+
+{ #category : #accessing }
+ToEmptySelectionModel >> lastIndexAmong: anItemCount [
+
+	^ 0
 ]
 
 { #category : #'accessing selection' }

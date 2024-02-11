@@ -25,7 +25,7 @@ ToListElementTest >> listWithRemoveRowButtons [
 				 do: [ :event |
 					 event consumed: true.
 					 holder listElement data removeAt: holder position.
-					 holder listElement selectionModel shift: -1 from: holder position ]).
+					 "holder listElement selectionModel shift: -1 from: holder position" ]).
 		filler := ToElement new
 			          matchParent;
 			          id: #filler.

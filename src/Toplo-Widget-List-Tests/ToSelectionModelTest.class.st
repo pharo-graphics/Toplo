@@ -344,6 +344,16 @@ ToSelectionModelTest >> testShiftFrom [
 ]
 
 { #category : #tests }
+ToSelectionModelTest >> testShiftFrom10 [
+
+	| s |
+	s := ToSelectionModel new itemCountGetter: 200.
+	s selectAllIndexes: { 4. 5. 7. 8. 10. 11 }.
+	{ 4. 5. 7. 8. 10. 11 } do: [ :idx | s shift: -1 from: idx ].
+	self assert: s selectedIndexes  equals: { 3. 4. 5. 6. 7 }
+]
+
+{ #category : #tests }
 ToSelectionModelTest >> testShiftFrom2 [
 
 	| s |
@@ -407,6 +417,50 @@ ToSelectionModelTest >> testShiftFrom6 [
 	s selectAllIndexes: { 1 }.
 	s shift: -1 from: 2.
 	self assert: s selectedIndexes  equals: { 1 }
+]
+
+{ #category : #tests }
+ToSelectionModelTest >> testShiftFrom7 [
+
+	| s |
+	s := ToSelectionModel new itemCountGetter: 200.
+	s selectAllIndexes: { 3 }.
+	s shift: -1 from: 4.
+	self assert: s selectedIndexes  equals: { 3 }
+]
+
+{ #category : #tests }
+ToSelectionModelTest >> testShiftFrom8 [
+
+	| s |
+	s := ToSelectionModel new itemCountGetter: 200.
+	s selectAllIndexes: { 3 }.
+	s shift: 1 from: 1.
+	self assert: s selectedIndexes  equals: { 4 }
+]
+
+{ #category : #tests }
+ToSelectionModelTest >> testShiftFrom9 [
+
+	| s |
+	s := ToSelectionModel new itemCountGetter: 200.
+	s selectAllIndexes: { 4. 5. 7. 8. 10. 11 }.
+	s shift: -1 from: 4.
+	self assert: s selectedIndexes  equals: { 3. 4. 6. 7. 9. 10 }.
+	s shift: -1 from: 5.
+	self assert: s selectedIndexes  equals: { 3. 4. 5. 6. 8. 9 }.
+	s shift: -1 from: 7.
+	self assert: s selectedIndexes  equals: { 3. 4. 5. 6. 7. 8 }.
+	s shift: -1 from: 8.
+	self assert: s selectedIndexes  equals: { 3. 4. 5. 6. 7 }.
+	s shift: -1 from: 10.
+	self assert: s selectedIndexes  equals: { 3. 4. 5. 6. 7 }.
+	s shift: -1 from: 11.
+	self assert: s selectedIndexes  equals: { 3. 4. 5. 6. 7 }.
+	"{ 4. 5. 7. 8. 10. 11 } do: [ :idx | s shift: -1 from: idx ].
+	self assert: s selectedIndexes  equals: { 3. 4. 6. 7. 9. 10 }
+	{ 4. 5. 7. 8. 10. 11 } do: [ :idx | s shift: -1 from: idx ].
+	self assert: s selectedIndexes  equals: { 3. 4. 6. 7. 9. 10 }"
 ]
 
 { #category : #tests }

@@ -41,8 +41,7 @@ ToInfiniteObservableCollectionDataSource >> itemCount [
 
 { #category : #'instance creation' }
 ToInfiniteObservableCollectionDataSource >> onBindHolder: anElementHolder at: aPosition [
-
 	"Update holder's model"
-	anElementHolder data: (self data at: aPosition).
 
+	anElementHolder dataItem: (self data at: aPosition)
 ]

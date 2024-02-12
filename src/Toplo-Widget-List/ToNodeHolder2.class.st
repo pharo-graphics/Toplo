@@ -2,8 +2,8 @@ Class {
 	#name : #ToNodeHolder2,
 	#superclass : #BlInfiniteHolder,
 	#instVars : [
-		'data',
-		'listElement'
+		'listElement',
+		'dataItem'
 	],
 	#category : #'Toplo-Widget-List-Node'
 }
@@ -11,13 +11,34 @@ Class {
 { #category : #accessing }
 ToNodeHolder2 >> data [
 
-	^ data
+
+	self
+		deprecated: 'Use dataItem instead'
+		transformWith: '`@receiver data' -> '`@receiver dataItem'.
+
+	^ self dataItem
 ]
 
 { #category : #accessing }
 ToNodeHolder2 >> data: aData [ 
 
-	data := aData.
+	self
+		deprecated: 'Use dataItem: instead'
+		transformWith: '`@receiver data: `@arg' -> '`@receiver dataItem: `@arg'.
+
+	self dataItem: aData
+]
+
+{ #category : #accessing }
+ToNodeHolder2 >> dataItem [
+
+	^ dataItem
+]
+
+{ #category : #accessing }
+ToNodeHolder2 >> dataItem: aData [ 
+
+	dataItem := aData.
 	infiniteElement nodeHolderBuilder value: self
 ]
 

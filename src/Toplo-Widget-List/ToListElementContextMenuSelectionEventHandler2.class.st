@@ -80,12 +80,14 @@ ToListElementContextMenuSelectionEventHandler2 >> listElementContextMenuRequest:
 { #category : #'element handlers' }
 ToListElementContextMenuSelectionEventHandler2 >> listElementContextMenuSelectionChangedEvent: anEvent [
 
-	| target pos targetChildren childNode |
+	| target pos targetChildren childNode foundChildren |
 	target := anEvent currentTarget.
 	anEvent selection isEmpty ifTrue: [
 		self removeContextMenuSelectionIn: target.
 		^ self ].
 	pos := anEvent sourceEvent localPosition.
+	foundChildren := target infinite withAllChildrenAt: pos.
+	foundChildren ifEmpty: [ ^ self ].
 	targetChildren := (target infinite withAllChildrenAt: pos) allButLast.
 	targetChildren ifEmpty: [ ^ self ].
 	childNode := targetChildren last.

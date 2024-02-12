@@ -134,7 +134,7 @@ ToListElementSelecter >> removeWholeSelectionCommand: aCommand [
 ToListElementSelecter >> selectAndScrollToIndex: anIndex [
 
 	self selectIndex: anIndex.
-	self addCommand: (ToSelectionHolderCommand new
+	self addCommand: (ToActionCommand new
 			 action: [ :e |
 				 e selectionModel ifNotEmpty: [ e scrollToIndex: anIndex ] ];
 			 yourself)

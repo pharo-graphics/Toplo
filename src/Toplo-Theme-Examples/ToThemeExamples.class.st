@@ -159,7 +159,7 @@ ToThemeExamples class >> example_ToLabelWithHeadingSkin [
 
 	space root addChild: themeSwitcher.
 
-	listElement := ToListElement2 new nodeBuilder: [ :node :holder |
+	listElement := ToListElement new nodeBuilder: [ :node :holder |
 		               | lab |
 		               lab := holder data.
 		               lab removeFromParent.

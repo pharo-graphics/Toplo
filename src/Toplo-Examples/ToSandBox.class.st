@@ -331,7 +331,7 @@ ToSandBox class >> example_CodeEditor [
 ToSandBox class >> example_EditableList2WithAllClassesNames [
 
 	| l vscrollBar space innerWin |
-	l := ToListElement2 new.
+	l := ToListElement new.
 	l beVertical.
 	l inspect.
 	l
@@ -487,7 +487,7 @@ ToSandBox class >> example_GeneralButtonWithLabel [
 ToSandBox class >> example_HorizontalListWithIndexedColors [
 
 	| l space |
-	l := ToListElement2 new nodeBuilder: [ :node :holder |
+	l := ToListElement new nodeBuilder: [ :node :holder |
 		     node constraintsDo: [ :c |
 			     c horizontal fitContent.
 			     c vertical fitContent ].
@@ -613,7 +613,7 @@ ToSandBox class >> example_LabeledIconlWithIconAndText_vertical_interspace [
 ToSandBox class >> example_List2WithAllClassesMono [
 
 	| l |
-	l := ToListElement2 new.
+	l := ToListElement new.
 	l selectionMode: ToListSingleSelectionMode new.
 	l data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]).
 	l openInSpace
@@ -623,7 +623,7 @@ ToSandBox class >> example_List2WithAllClassesMono [
 ToSandBox class >> example_List2WithAllClassesMulti [
 
 	| l |
-	l := ToListElement2 new.
+	l := ToListElement new.
 	l withRowNumbers.
 	"l selectionModel inspect."
 	l data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]).
@@ -634,7 +634,7 @@ ToSandBox class >> example_List2WithAllClassesMulti [
 ToSandBox class >> example_List2WithAllClassesNone [
 
 	| l |
-	l := ToListElement2 new.
+	l := ToListElement new.
 	l selectionMode: ToListNoneSelectionMode new.
 	l data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]).
 	l openInSpace
@@ -645,8 +645,8 @@ ToSandBox class >> example_List2WithSelectionHistory [
 
 	| statesList historyList pane |
 	pane := ToPane horizontal.
-	statesList := ToListElement2 new matchParent.
-	historyList := ToListElement2 new matchParent.
+	statesList := ToListElement new matchParent.
+	historyList := ToListElement new matchParent.
 	statesList data addAll: self statesOfAmerica.
 	pane addChildren: {
 			statesList.
@@ -669,7 +669,7 @@ ToSandBox class >> example_List2WithSelectionHistory [
 ToSandBox class >> example_ListOneClass [
 
 	| l |
-	l := ToListElement2 new nodeBuilder: [ :node :holder |
+	l := ToListElement new nodeBuilder: [ :node :holder |
 		     node addChild: (ToCheckbox new
 				      labelText: holder data name;
 				      interspace: 10;
@@ -683,7 +683,7 @@ ToSandBox class >> example_ListOneClass [
 ToSandBox class >> example_ListWith6Elements [
 
 	| l |
-	l := ToListElement2 new.
+	l := ToListElement new.
 	l data addAll: ((1 to: 6) collect: [ :i | i asString ]).
 	l selecter selectIndex: 4.
 	l openInInnerWindow
@@ -693,7 +693,7 @@ ToSandBox class >> example_ListWith6Elements [
 ToSandBox class >> example_ListWithAllClasses [
 
 	| l |
-	l := ToListElement2 new.
+	l := ToListElement new.
 	l data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]).
 	l openInSpace
 ]
@@ -702,7 +702,7 @@ ToSandBox class >> example_ListWithAllClasses [
 ToSandBox class >> example_ListWithAllClasses3 [
 
 	| l |
-	l := ToListElement2 new nodeBuilder: [ :node :holder |
+	l := ToListElement new nodeBuilder: [ :node :holder |
 		     | icn lab |
 		     icn := holder data hasComment
 			            ifTrue: [ #class ]
@@ -731,7 +731,7 @@ ToSandBox class >> example_ListWithAllClasses3 [
 ToSandBox class >> example_ListWithAllClasses4 [
 
 	| l |
-	l := ToListElement2 new		     
+	l := ToListElement new		     
 		     nodeBuilder: [ :node :holder |
 			     node addChild: (ToCheckbox new
 						      labelText: holder data name;
@@ -744,7 +744,7 @@ ToSandBox class >> example_ListWithAllClasses4 [
 ToSandBox class >> example_ListWithAllClassesAndTraitsSorted [
 
 	| l |
-	l := ToListElement2 new nodeBuilder: [  :node :holder | 
+	l := ToListElement new nodeBuilder: [  :node :holder | 
 			node addChild: (ToClassNameViewExample new class: holder data position: holder position; yourself) ].
 	l data addAll: (Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]).
 	l openInSpace
@@ -754,7 +754,7 @@ ToSandBox class >> example_ListWithAllClassesAndTraitsSorted [
 ToSandBox class >> example_ListWithAllClassesAsButton [
 
 	| l |
-	l := ToListElement2 new nodeBuilder: [ :node :holder |
+	l := ToListElement new nodeBuilder: [ :node :holder |
 		     node addChild: (ToButton new
 				      labelText: holder data name;
 				      hMatchParent) ].
@@ -766,7 +766,7 @@ ToSandBox class >> example_ListWithAllClassesAsButton [
 ToSandBox class >> example_ListWithEditableAndContextMenu [
 
 	| l selectionMenu menuFactory phtext |
-	l := ToListElement2 new.
+	l := ToListElement new.
 	phtext := (('Invoke the context menu ' , String cr
 	            , 'with a right-click' , String cr
 	            , 'to initialize the list') asRopedText
@@ -907,7 +907,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 ToSandBox class >> example_ListWithIndexedColors [
 
 	| l vscrollBar space |
-	l := ToListElement2 new nodeBuilder: [ :node :holder |
+	l := ToListElement new nodeBuilder: [ :node :holder |
 		     node addChild: (ToLabel new
 				      text: holder data asString asRopedText;
 				      hMatchParent;
@@ -931,7 +931,7 @@ ToSandBox class >> example_ListWithIndexedColors [
 ToSandBox class >> example_ListWithPanes [
 
 	| list |
-	list := ToListElement2 new
+	list := ToListElement new
 		        withRowNumbers;
 		        nodeBuilder: [ :node :holder |
 			        | title blContent |
@@ -1005,9 +1005,10 @@ ToSandBox class >> example_MultiFiltrable [
 	select inspect.
 	select mode: ToSelectFiltrableMode new.
 	select strategy: ToMultipleSelectStrategy new.
-	select placeholderText: ('Select states' asRopedText foreground: Color red).
+	select placeholderText:
+		('Select states' asRopedText foreground: Color red).
 	select listElement nodeBuilder: [ :node :holder |
-		node addChild: (ToLabel text: holder data asString) hMatchParent ].
+		node addChild: (ToLabel text: holder dataItem asString) hMatchParent ].
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
 	select width: 300.
@@ -1094,13 +1095,13 @@ ToSandBox class >> example_PicsumPhotosGallery [
 	" Images loaded from https://picsum.photos "
 
 	| space list vscrollBar |
-	list := ToListElement2 new
+	list := ToListElement new
 		        matchParent;
 		        yourself.
 	list padding: (BlInsets all: 1).
 	list nodeBuilder: [ :node :holder |
 		| imageData photoElement |
-		imageData := holder data.
+		imageData := holder dataItem.
 		photoElement := ToPicsumPhotosGalleryImageElement new
 			                hMatchParent;
 			                vFitContent;
@@ -1108,13 +1109,13 @@ ToSandBox class >> example_PicsumPhotosGallery [
 			                imageData: imageData;
 			                yourself.
 		node addChild: photoElement ].
-	
+
 	list addEventHandler: (BlEventHandler
-				 on: BlInfiniteElementAttachedEvent
-				 do: [ :event | event element firstChild attached ]).
+			 on: BlInfiniteElementAttachedEvent
+			 do: [ :event | event element firstChild attached ]).
 	list addEventHandler: (BlEventHandler
-				 on: BlInfiniteElementDetachedEvent
-				 do: [ :event | event element firstChild detached ]).
+			 on: BlInfiniteElementDetachedEvent
+			 do: [ :event | event element firstChild detached ]).
 
 	[
 	| images |
@@ -1186,7 +1187,7 @@ ToSandBox class >> example_QueryOnList2WithStatesOfAmerica [
 		        beVertical;
 		        matchParent.
 	filterField := ToTextField new.
-	listElement := ToListElement2 new.
+	listElement := ToListElement new.
 	data := self statesOfAmerica.
 
 	listElement margin: (BlInsets all: 2).
@@ -1267,7 +1268,7 @@ ToSandBox class >> example_SieveOnList2WithStatesOfAmerica [
 		        beVertical;
 		        matchParent.
 	filterField := ToTextField new.
-	listElement := ToListElement2 new.
+	listElement := ToListElement new.
 	data := self statesOfAmerica "copyFrom: 1 to: 8".
 
 	listElement margin: (BlInsets all: 2).
@@ -1308,7 +1309,7 @@ ToSandBox class >> example_SieveOnList2With_350000_Items [
 		        beVertical;
 		        matchParent.
 	filterField := ToTextField new.
-	listElement := ToListElement2 new.
+	listElement := ToListElement new.
 	data := OrderedCollection new.
 	Character alphabet do: [ :c1 |
 		(Character alphabet ) do: [ :c2 |
@@ -1359,25 +1360,27 @@ ToSandBox class >> example_SieveOnList2With_AllClassNames [
 	pane := ToPane new
 		        beVertical;
 		        matchParent.
-		
+
 	filterField := ToTextField new.
-	listElement := ToListElement2 new.
+	listElement := ToListElement new.
 	data := SystemNavigation default allMethods.
 	listElement withRowNumbers.
 	filterField margin: (BlInsets all: 2).
-	filterField placeholderText: (' Method name filter' asRopedText foreground: Color lightGray).
+	filterField placeholderText:
+		(' Method name filter' asRopedText foreground: Color lightGray).
 
 	sieve := ToListElementSieve new.
 	sieve onInstalledIn: listElement.
-	listElement data addAll: (Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]).
-	
+	listElement data addAll:
+		(Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]).
+
 	sieve dataFilter: [ :aCompiledMethod :aPattern |
 		aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
-	
+
 
 	listElement nodeBuilder: [ :node :holder |
-		node addChild: (ToLabel new text: holder data printString) ].
-	
+		node addChild: (ToLabel new text: holder dataItem printString) ].
+
 	sieve dataFilter: [ :aClass :aPattern |
 		aClass name beginsWith: aPattern caseSensitive: true ].
 	filterField addEventHandler: (BlEventHandler
@@ -1409,25 +1412,26 @@ ToSandBox class >> example_SieveOnList2With_AllMethods [
 	pane := ToPane new
 		        beVertical;
 		        matchParent.
-		
+
 	filterField := ToTextField new.
-	listElement := ToListElement2 new.
+	listElement := ToListElement new.
 	data := SystemNavigation default allMethods.
 	listElement withRowNumbers.
 	filterField margin: (BlInsets all: 2).
-	filterField placeholderText: (' Method name filter' asRopedText foreground: Color lightGray).
+	filterField placeholderText:
+		(' Method name filter' asRopedText foreground: Color lightGray).
 
 	sieve := ToListElementSieve new.
 	sieve onInstalledIn: listElement.
 	listElement data addAll: data.
-	
+
 	sieve dataFilter: [ :aCompiledMethod :aPattern |
 		aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
-	
+
 
 	listElement nodeBuilder: [ :node :holder |
-		node addChild: (ToLabel new text: holder data printString) ].
-	
+		node addChild: (ToLabel new text: holder dataItem printString) ].
+
 	sieve dataFilter: [ :aCompiledMethod :aPattern |
 		aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
 	filterField addEventHandler: (BlEventHandler
@@ -1461,7 +1465,7 @@ ToSandBox class >> example_SieveOnList2With_AllMethods_OnCR [
 		        matchParent.
 		
 	filterField := ToTextField new.
-	listElement := ToListElement2 new.
+	listElement := ToListElement new.
 	data := SystemNavigation default allMethods.
 	listElement withRowNumbers.
 	filterField margin: (BlInsets all: 2).
@@ -2029,7 +2033,7 @@ ToSandBox class >> example_contactList [
 	panel constraints horizontal matchParent.
 	panel layout cellSpacing: 10.
 
-	list := ToListElement2 new.
+	list := ToListElement new.
 	list inspect.
 
 	nameTxtF := ToTextField new
@@ -2105,17 +2109,17 @@ ToSandBox class >> example_contactList [
 			        layout: BlLinearLayout horizontal;
 			        matchParent.
 		line addChild: (ToLabel new
-				 text: holder data name;
+				 text: holder dataItem name;
 				 defaultRawSkin: ToLabelInListSkin new;
 				 width: 100;
 				 margin: (BlInsets right: 10)).
 		line addChild: (ToLabel new
-				 text: holder data phoneNumber;
+				 text: holder dataItem phoneNumber;
 				 defaultRawSkin: ToLabelInListSkin new;
 				 width: 100;
 				 margin: (BlInsets right: 10)).
 		line addChild: (ToLabel new
-				 text: holder data address;
+				 text: holder dataItem address;
 				 defaultRawSkin: ToLabelInListSkin new;
 				 width: 200;
 				 margin: (BlInsets right: 10)).
@@ -2544,7 +2548,7 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWith_AllMethods [
 
 	select mode: ToSelectFiltrableMode new.
 	select strategy: ToMultipleSelectStrategy new.
-	
+
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
 	select hMatchParent.
@@ -2552,12 +2556,14 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWith_AllMethods [
 	data size traceCr.
 	select data addAll: data.
 	select listNodeBuilder: [ :aCompiledMethod :aSelectHolder |
-		     aCompiledMethod addChild: (ToLabel new text: aSelectHolder data printString ) ].
+		aCompiledMethod addChild:
+			(ToLabel new text: aSelectHolder dataItem printString) ].
 	select headerNodeBuilder: [ :aSelectNode :aNodeHolder |
-	  aSelectNode beRemovable.
-	  aSelectNode middleContainer addChild:
-		  (ToLabel text: aNodeHolder data printString) ].
-	select dataFilter: [ :aCompiledMethod :aPattern | aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
+		aSelectNode beRemovable.
+		aSelectNode middleContainer addChild:
+			(ToLabel text: aNodeHolder data printString) ].
+	select dataFilter: [ :aCompiledMethod :aPattern |
+		aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
 	innerWindow pane addChild: select.
 	innerWindow openInSpace
 ]

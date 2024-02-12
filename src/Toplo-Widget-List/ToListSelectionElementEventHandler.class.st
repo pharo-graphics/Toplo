@@ -3,9 +3,9 @@ Class {
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'previousNodesArray',
-		'previousSelectedIndexes',
 		'wasFocused',
-		'previousAdjacentNodeGroups'
+		'previousAdjacentNodeGroups',
+		'previousSelectionModel'
 	],
 	#category : #'Toplo-Widget-List-Selection-Element'
 }
@@ -97,13 +97,14 @@ ToListSelectionElementEventHandler >> newPrimarySelectionElementsFromEvent: anEv
 
 	| adjacentNodeGroups target |
 	target := anEvent currentTarget.
+	target isAttachedToSceneGraph ifFalse: [ ^ nil ].
 	adjacentNodeGroups := self adjacentSelectedNodesGroupsIn: target.
 	adjacentNodeGroups = previousAdjacentNodeGroups ifTrue: [
 		^ nil ].
 	previousAdjacentNodeGroups := adjacentNodeGroups.
 	^ adjacentNodeGroups collect: [ :g |
 		  ToListPrimarySelectionElement new
-			  listElement: anEvent currentTarget;
+			  listElement: target;
 			  nodes: g;
 			  yourself ]
 ]
@@ -111,12 +112,12 @@ ToListSelectionElementEventHandler >> newPrimarySelectionElementsFromEvent: anEv
 { #category : #'element handlers' }
 ToListSelectionElementEventHandler >> onListSelectionElementUpdatedFromEvent: anEvent [
 
-	| target nodesArray selectedIndexes focused |
+	| target nodesArray focused selectionModel |
 	target := anEvent currentTarget.
 
 	nodesArray := target infinite children asArray.
-	selectedIndexes := target infinite selectionStrategy selectedIndexes.
-	focused := target infinite isFocused.
+	selectionModel := target selectionModel.
+	focused := target hasFocus.
 
 	" ** important note **
 	do not send unnecessary event here. 
@@ -124,19 +125,21 @@ ToListSelectionElementEventHandler >> onListSelectionElementUpdatedFromEvent: an
 	(which would be normal since dispatching a node change event 
 	implies the skin application which implies a layout request somewhere... ) "
 
+	self flag: 'Check if this crappy stuff is still necessary'.
+
 	(previousNodesArray = nodesArray and: [
-		 previousSelectedIndexes = selectedIndexes and: [
+		 previousSelectionModel = selectionModel and: [
 			 wasFocused = focused ] ]) ifTrue: [ ^ self ].
 	wasFocused := focused.
 	previousNodesArray := nodesArray.
-	previousSelectedIndexes := selectedIndexes.
+	previousSelectionModel := selectionModel copy.
 
-	" Ok, the state of the infinite has changed "
-
+	" Ok, the state of the infinite has changed, le's dispatch the event 
+	that is used by the skin state generator to generate the selection state "
 	nodesArray do: [ :node |
 		node dispatchEvent: (ToListNodeSelectedEvent new
 				 listElement: target;
-				 selected: (selectedIndexes includes: node holder position)) ]
+				 selected: (selectionModel containsIndex: node holder position)) ]
 ]
 
 { #category : #'selection managing' }
@@ -145,6 +148,7 @@ ToListSelectionElementEventHandler >> updatePrimarySelectionFromEvent: anEvent [
 
 	| newSelElements target previous |
 	target := anEvent currentTarget.
+	target isAttachedToSceneGraph ifFalse: [ ^ self ].
 	previous := target selectionElements copy.
 	newSelElements := self newPrimarySelectionElementsFromEvent: anEvent.
 	newSelElements

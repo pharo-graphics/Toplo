@@ -87,7 +87,7 @@ ToSelectWindowManager >> minHeight: anInteger [
 ToSelectWindowManager >> newListElement [
 
 	| newListElement |
-	newListElement := ToListElement2 new.
+	newListElement := ToListElement new.
 	newListElement nodeClass: ToSelectListNode.
 	newListElement selectionMode: (ToSelectSelectionMode new select: self element; yourself).
 	newListElement selectionMode requestFocusOnMouseDown: false.

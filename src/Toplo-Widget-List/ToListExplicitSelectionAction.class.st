@@ -7,6 +7,12 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Action'
 }
 
+{ #category : #testing }
+ToListExplicitSelectionAction class >> isDeprecated [ 
+
+	^ true
+]
+
 { #category : #hook }
 ToListExplicitSelectionAction >> applyOn: anObject [
 

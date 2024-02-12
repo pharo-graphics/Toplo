@@ -7,6 +7,12 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Action'
 }
 
+{ #category : #testing }
+ToListIntervalSelectionAction class >> isDeprecated [ 
+
+	^ true
+]
+
 { #category : #hook }
 ToListIntervalSelectionAction >> applyOn: anObject [
 

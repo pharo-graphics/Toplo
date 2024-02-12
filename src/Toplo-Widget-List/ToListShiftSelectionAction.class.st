@@ -8,6 +8,12 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Action'
 }
 
+{ #category : #testing }
+ToListShiftSelectionAction class >> isDeprecated [ 
+
+	^ true
+]
+
 { #category : #hook }
 ToListShiftSelectionAction >> applyOn: anObject [
 

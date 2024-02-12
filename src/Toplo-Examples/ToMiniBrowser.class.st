@@ -109,11 +109,11 @@ ToMiniBrowser >> initialize [
 	pkgFilterField := ToTextField new.
 	pkgFilterField placeholderText:
 		('Packages filter' asRopedText foreground: Color lightGray).
-	packages := ToListElement2 new
+	packages := ToListElement new
 		            id: #packages;
 		            nodeBuilder: [ :node :holder |
 			            node addChild: (ToLabel new
-						             text: holder data name;
+						             text: holder dataItem name;
 						             defaultRawSkin: ToLabelInListSkin new;
 						             hMatchParent;
 						             yourself) ].
@@ -155,11 +155,11 @@ ToMiniBrowser >> initialize [
 		(RPackage organizer packages asSortedCollection: [ :p1 :p2 |
 			 p1 name < p2 name ]).
 
-	classes := ToListElement2 new
+	classes := ToListElement new
 		           id: #classes;
 		           nodeBuilder: [ :node :holder |
 			           node addChild: (ToClassNameViewExample new
-						            class: holder data position: holder position;
+						            class: holder dataItem position: holder position;
 						            yourself) ].
 
 	classes addEventHandler: (BlEventHandler
@@ -184,15 +184,16 @@ ToMiniBrowser >> initialize [
 	sideToggle checked: self classSide.
 	sideToggle addEventHandler: (BlEventHandler
 			 on: ToCheckableCheckEvent
-			 do: [ :event | classSide := event current.
+			 do: [ :event |
+				 classSide := event current.
 				 self refreshClassSelectionWithSelectedIndexes:
 					 classes selectionModel selectedIndexes ]).
 
-	protocols := ToListElement2 new
+	protocols := ToListElement new
 		             id: #protocols;
 		             nodeBuilder: [ :node :holder |
 			             node addChild: (ToLabel new
-						              text: holder data value name;
+						              text: holder dataItem value name;
 						              defaultRawSkin: ToLabelInListSkin new;
 						              hMatchParent) ].
 	protocols margin: (BlInsets all: 2).
@@ -202,11 +203,11 @@ ToMiniBrowser >> initialize [
 			 do: [ :event | self protocolSelectionChangedEvent: event ]).
 	protocols data whenRemoveChangeDo: [ selectors data removeAll ].
 
-	selectors := ToListElement2 new
+	selectors := ToListElement new
 		             id: #selectors;
 		             nodeBuilder: [ :node :holder |
 			             node addChild: (ToLabel new
-						              text: holder data value asString;
+						              text: holder dataItem value asString;
 						              defaultRawSkin: ToLabelInListSkin new;
 						              hMatchParent) ].
 

@@ -11,7 +11,7 @@ Class {
 ToListElementTest >> listWithRemoveRowButtons [
 
 	| list |
-	list := ToListElement2 new.
+	list := ToListElement new.
 	list nodeBuilder: [ :node :holder |
 		| line remBut filler |
 		line := ToPane horizontal id: #row.
@@ -73,7 +73,7 @@ ToListElementTest >> testDataRemovedWhenNodeRemoved [
 ToListElementTest >> testEmptyListAddOrRemoveNextInSelection [
 
 	| l |
-	l := ToListElement2 new.
+	l := ToListElement new.
 	l selectionMode: ToListMultiSelectionMode new.
 	l fitContent.
 	self assert: l data isEmpty.
@@ -87,7 +87,7 @@ ToListElementTest >> testEmptyListAddOrRemoveNextInSelection [
 ToListElementTest >> testEmptyListAddOrRemovePreviousInSelection [
 
 	| l |
-	l := ToListElement2 new.
+	l := ToListElement new.
 	l selectionMode: ToListMultiSelectionMode new.
 	l fitContent.
 	self assert: l data isEmpty.
@@ -101,7 +101,7 @@ ToListElementTest >> testEmptyListAddOrRemovePreviousInSelection [
 ToListElementTest >> testEmptyListSelectNextInSelection [
 
 	| l |
-	l := ToListElement2 new.
+	l := ToListElement new.
 
 	l fitContent.
 	self assert: l data isEmpty.
@@ -120,7 +120,7 @@ ToListElementTest >> testEmptyListSelectNextInSelection [
 ToListElementTest >> testEmptyListSelectPreviousInSelection [
 
 	| l |
-	l := ToListElement2 new.
+	l := ToListElement new.
 
 	l fitContent.
 	self assert: l data isEmpty.
@@ -135,7 +135,7 @@ ToListElementTest >> testEmptyListSelectPreviousInSelection [
 ToListElementTest >> testListElementWithFiveDefaultSelectionMode [
 
 	| l |
-	l := ToListElement2 new.
+	l := ToListElement new.
 	l fitContent.
 	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	self assert: l data size equals: 5.
@@ -263,11 +263,31 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved4 [
 	self assert: list selectionElements isEmpty
 ]
 
+{ #category : #'test selection - adding/removing' }
+ToListElementTest >> testRemoveAll [
+
+	| l |
+	l := ToListElement new.
+	space root addChild: l.
+	l infinite size: 800@600.
+	l fitContent.
+	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self waitTestingSpaces.
+	self assert: l infinite children size equals: 5.
+	l selecter selectOnlyIndex: 2.
+	self waitTestingSpaces.
+	self assert: l selectionModel selectedIndexes equals: #( 2 ).
+	l data removeAll.
+	self waitTestingSpaces.
+	self assert: l infinite children size equals: 0.
+	self assert: l selectionModel selectedIndexes isEmpty
+]
+
 { #category : #'test selection - select next/previous' }
 ToListElementTest >> testSelectAndScrollToNext [
 
 	| l |
-	l := ToListElement2 new.
+	l := ToListElement new.
 
 	l fitContent.
 	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
@@ -291,7 +311,7 @@ ToListElementTest >> testSelectAndScrollToNext [
 ToListElementTest >> testSelectAndScrollToPrevious [
 
 	| l |
-	l := ToListElement2 new.
+	l := ToListElement new.
 	l fitContent.
 	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	self assert: l data size equals: 5.
@@ -316,7 +336,7 @@ ToListElementTest >> testSelectAndScrollToPrevious [
 ToListElementTest >> testSelectionUpdatedAfterInsert [
 
 	| l sp |
-	l := ToListElement2 new.
+	l := ToListElement new.
 	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	l selecter selectOnlyIndex: 3.
 	self assert: l selecter currentIndex equals: 3.
@@ -324,7 +344,6 @@ ToListElementTest >> testSelectionUpdatedAfterInsert [
 	self assert: l selecter currentIndex equals: 3.
 	sp := l inSpace.
 	sp pulse.
-	l selectionModel shift: 1 from: 1.
 	self assert: l selectionModel lastIndex equals: 4
 ]
 
@@ -332,7 +351,7 @@ ToListElementTest >> testSelectionUpdatedAfterInsert [
 ToListElementTest >> testSelectionUpdatedAfterInsert1 [
 
 	| l sp |
-	l := ToListElement2 new.
+	l := ToListElement new.
 	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	self assert: l data size equals: 5.
 	l selecter selectOnlyIndex: 3.
@@ -346,4 +365,143 @@ ToListElementTest >> testSelectionUpdatedAfterInsert1 [
 	sp := l inSpace.
 	sp pulse.
 	self assert: l selectionModel lastIndex equals: 8
+]
+
+{ #category : #'test selection - adding/removing' }
+ToListElementTest >> testSelectionUpdatedAfterInsert3 [
+
+	| l sp |
+	l := ToListElement new.
+	l fitContent.
+	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	l forceLayout.
+	self assert: l selectionModel isEmpty.
+	l selecter selectAllIndexes: #( 3 4 ).
+	self assert: l selectionModel selectedIndexes equals: #( 3 4 ).
+	self assert: l selecter currentIndex equals: 3.
+	l data add: (self statesOfAmerica at: 6) afterIndex: 1.
+	self assert: l selecter currentIndex equals: 3.
+	sp := l inSpace.
+	sp pulse.
+	self assert: l selecter currentIndex equals: 3.
+	self assert: l selectionModel selectedIndexes equals: #( 4 5 )
+]
+
+{ #category : #'test selection - adding/removing' }
+ToListElementTest >> testSelectionUpdatedAfterRemove [
+
+	| l sp |
+	l := ToListElement new.
+	l fitContent.
+	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	l forceLayout.
+	l selecter selectOnlyIndex: 3.
+	l data removeAt: 2.
+	sp := l inSpace.
+	sp pulse.
+	self assert: l selectionModel selectedIndexes equals: {2}
+]
+
+{ #category : #'test selection - adding/removing' }
+ToListElementTest >> testSelectionUpdatedAfterRemove1 [
+
+	| l sp |
+	l := ToListElement new.
+	l fitContent.
+	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	l forceLayout.
+	l selecter selectOnlyIndex: 3.
+	self assert: l selectionModel selectedIndexes equals: {3}.
+	sp := l inSpace.
+	l data removeAll.
+	sp pulse.
+	self assert: l data size equals: 0.
+	self assert: l selectionModel isEmpty
+]
+
+{ #category : #'test selection - adding/removing' }
+ToListElementTest >> testSelectionUpdatedAfterRemove2 [
+
+	| l sp |
+	l := ToListElement new.
+	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self assert: l data size equals: 5.
+	self assert: l selectionModel isEmpty.
+	l selecter selectOnlyIndex: 3.
+	self assert: l selecter currentIndex equals: 3.
+	l data removeAt: 4.
+	sp := l inSpace.
+	sp pulse.
+	self assert: l selectionModel selectedIndexes equals: {3}
+]
+
+{ #category : #'test selection - adding/removing' }
+ToListElementTest >> testSelectionUpdatedAfterRemove3 [
+
+	| l |
+	l := ToListElement new.
+	space root addChild: l.
+	l fitContent.
+	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self assert: l selectionModel selectedIndexes isEmpty.
+	l selecter selectAllIndexes: #( 3 4 ).
+	self waitTestingSpaces.
+	self assert: l selectionModel selectedIndexes equals: #( 3 4 ).
+	l data removeAt: 2.
+	self waitTestingSpaces.
+	self assert: l selectionModel selectedIndexes equals: #( 2 3 )
+]
+
+{ #category : #'test selection - adding/removing' }
+ToListElementTest >> testSelectionUpdatedAfterRemove4 [
+
+	| l |
+	l := ToListElement new.
+	space root addChild: l.
+	l  fitContent.
+	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self waitTestingSpaces.
+	self assert: l data size equals: 5.
+	self assert: l selectionModel selectedIndexes isEmpty.
+	l selecter selectAllIndexes: #( 2 ).
+	self waitTestingSpaces.
+	self assert: l selectionModel selectedIndexes equals: #( 2 ).
+	l data removeAt: 2.
+	self waitTestingSpaces.
+	self assert: l selectionModel selectedIndexes isEmpty
+]
+
+{ #category : #'test selection - adding/removing' }
+ToListElementTest >> testSelectionUpdatedAfterRemove5 [
+
+	| l |
+	l := ToListElement new.
+	space root addChild: l.
+	l fitContent.
+	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self assert: l selectionModel selectedIndexes isEmpty.
+	l selecter selectAllIndexes: #( 3 4 ).
+	self waitTestingSpaces.
+	self assert: l selectionModel selectedIndexes equals: #( 3 4 ).
+	l data removeAt: 3.
+	self waitTestingSpaces.
+	self assert: l selectionModel selectedIndexes equals: #( 3 )
+]
+
+{ #category : #'test selection - adding/removing' }
+ToListElementTest >> testSelectionUpdatedAfterRemove6 [
+
+	| l |
+	l := ToListElement new.
+	space root addChild: l.
+	l fitContent.
+	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self assert: l selectionModel selectedIndexes isEmpty.
+	l selecter selectAllIndexes: #( 3 4 ).
+	self waitTestingSpaces.
+	self assert: l selectionModel selectedIndexes equals: #( 3 4 ).
+	l data removeAt: 3.
+	l data removeAt: 3.
+	self waitTestingSpaces.
+	self assert: l selectionModel selectedIndexes equals: #(  )
 ]

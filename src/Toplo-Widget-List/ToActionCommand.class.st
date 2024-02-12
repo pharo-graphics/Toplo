@@ -1,5 +1,5 @@
 Class {
-	#name : #ToSelectionHolderCommand,
+	#name : #ToActionCommand,
 	#superclass : #ToListElementCommand,
 	#instVars : [
 		'action'
@@ -8,19 +8,19 @@ Class {
 }
 
 { #category : #accessing }
-ToSelectionHolderCommand >> action [
+ToActionCommand >> action [
 
 	^ action
 ]
 
 { #category : #accessing }
-ToSelectionHolderCommand >> action: aValuable [
+ToActionCommand >> action: aValuable [
 
 	action := aValuable
 ]
 
 { #category : #hook }
-ToSelectionHolderCommand >> applyOn: anObject [
+ToActionCommand >> applyOn: anObject [
 
 	anObject addSelectionHolderCommand: self.
 	super applyOn: anObject

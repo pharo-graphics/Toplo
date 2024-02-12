@@ -10,15 +10,18 @@ Class {
 { #category : #'mouse handlers' }
 ToListElementEventHandler >> clickEvent: anEvent [
 
-	| infiniteElement target |
+	| target |
 	target := anEvent currentTarget.
+	self flag: 'Check nodeContainingGlobalPosition: because it seems that the conversion from global to local position is not well computed (try with context menu)'.
 	lastClickedNode := target infinite nodeContainingGlobalPosition: anEvent position.
+	target selectionMode requestFocusOnMouseDown ifFalse: [ ^ self ].
 	lastClickedNode ifNil: [
 		target requestFocus.
 		^ self ].
-	lastClickedNode dispatchEvent: (ToListClickOnNodeEvent new
+	"lastClickedNode dispatchEvent: (ToListClickOnNodeEvent new
+			 listElement: target;
 			 sourceEvent: anEvent;
-			 yourself)
+			 yourself)"
 ]
 
 { #category : #'data events handling' }
@@ -36,6 +39,7 @@ ToListElementEventHandler >> doubleClickEvent: anEvent [
 	target := anEvent currentTarget.
 	lastClickedNode ifNotNil: [
 		lastClickedNode dispatchEvent: (ToListDoubleClickOnNodeEvent new
+				 listElement: target;
 				 sourceEvent: anEvent;
 				 yourself) ].
 	anEvent consumed: true
@@ -70,32 +74,46 @@ ToListElementEventHandler >> eventsToHandle [
 		  BlPrimaryClickEvent.
 		  BlDoubleClickEvent.
 
+		  " data source "
+		  BlInfiniteDataSourceItemRangeInserted.
+		  BlInfiniteDataSourceItemRangeRemoved.
+
+
 		  " data events "
 		  ToCollectionEmptinessEvent }
 ]
 
-{ #category : #'event handling' }
+{ #category : #'infinite event handling' }
 ToListElementEventHandler >> infiniteElementAttachedEvent: anEvent [
-
-	anEvent currentTarget selectionStrategy onAddedNode: anEvent element
+	
+	| listElement node |
+	listElement := anEvent currentTarget.
+	node := anEvent element.
+	node holder listElement: listElement.
+	listElement selectionMode onAddedNode: anEvent element
 ]
 
-{ #category : #'event handling' }
+{ #category : #'infinite event handling' }
 ToListElementEventHandler >> infiniteElementDataSourceAttachedEvent: anEvent [
 
 
 ]
 
-{ #category : #'event handling' }
+{ #category : #'infinite event handling' }
 ToListElementEventHandler >> infiniteElementDataSourceDetachedEvent: anEvent [
 
 
 ]
 
-{ #category : #'event handling' }
+{ #category : #'infinite event handling' }
 ToListElementEventHandler >> infiniteElementDetachedEvent: anEvent [
 
-	anEvent currentTarget selectionStrategy onRemovedNode: anEvent element
+	| node listElement |
+	node := anEvent element.
+	listElement := anEvent currentTarget.
+	listElement selectionMode onRemovedNode: node.
+	node holder listElement: nil.
+
 ]
 
 { #category : #'mouse handlers' }
@@ -103,10 +121,35 @@ ToListElementEventHandler >> mouseDownEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	target requestFocusOnMouseDown ifFalse: [ ^ self ].
+	target selectionMode requestFocusOnMouseDown ifFalse: [ ^ self ].
 	target hasFocus ifTrue: [ ^ self ].
 	target requestFocus.
 	anEvent consumed: true
+]
+
+{ #category : #'infinite event handling' }
+ToListElementEventHandler >> onItemsInserted: anEvent [
+
+	| target |
+	target := anEvent currentTarget.
+	target selectionModel shift: anEvent itemCount from: anEvent position.
+	target requestLayout.
+	target enqueueTask: (BlTaskAction new action: [
+			 target dispatchEvent: ToListSelectionDirtyEvent new ])
+]
+
+{ #category : #'infinite event handling' }
+ToListElementEventHandler >> onItemsRemoved: anEvent [
+
+	| target |
+	target := anEvent currentTarget.
+	target selectionModel
+		deselectIndex: anEvent position
+		to: anEvent position + anEvent itemCount - 1.
+	target selectionModel shift: anEvent itemCount negated from: anEvent position.
+	target requestLayout.
+	target enqueueTask: (BlTaskAction new action: [
+			 target dispatchEvent: ToListSelectionDirtyEvent new ])
 ]
 
 { #category : #'data events handling' }

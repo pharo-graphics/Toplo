@@ -2,6 +2,7 @@ Class {
 	#name : #ToNodeHolder,
 	#superclass : #BlInfiniteHolder,
 	#instVars : [
+		'listElement',
 		'dataItem'
 	],
 	#category : #'Toplo-Widget-List-Node'
@@ -44,7 +45,19 @@ ToNodeHolder >> dataItem: aData [
 { #category : #accessing }
 ToNodeHolder >> isSelected [
 
-	^ self infiniteElement selectionStrategy includes: self position
+	^ self listElement ifNil: [false] ifNotNil: [:le | le selectionModel containsIndex: self position]
+]
+
+{ #category : #accessing }
+ToNodeHolder >> listElement [
+
+	^ listElement
+]
+
+{ #category : #accessing }
+ToNodeHolder >> listElement: aListElement [
+
+	listElement := aListElement
 ]
 
 { #category : #accessing }

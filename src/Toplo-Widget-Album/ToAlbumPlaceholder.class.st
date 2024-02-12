@@ -1,7 +1,6 @@
 Class {
 	#name : #ToAlbumPlaceholder,
 	#superclass : #ToPlaceholderLayer,
-	#classTraits : 'TToElement classTrait',
 	#category : #'Toplo-Widget-Album-TextPane'
 }
 

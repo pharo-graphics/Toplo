@@ -91,7 +91,7 @@ ToSelectionModelHolderForTest >> scrollToIndex: anIndex [
 { #category : #accessing }
 ToSelectionModelHolderForTest >> selecter [
 
-	^ selecter ifNil: [selecter := ToSelectionModelSelecter new
+	^ selecter ifNil: [selecter := ToListElementSelecter new
 		  target: self;
 		  yourself ]
 ]

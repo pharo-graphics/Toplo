@@ -2,7 +2,7 @@
 A ToSelectionCommandTest is a test class for testing the behavior of ToSelectionCommand
 "
 Class {
-	#name : #ToSelectionCommandTest,
+	#name : #ToSelectionModelCommandTest,
 	#superclass : #TestCase,
 	#instVars : [
 		'addIndexesCommand',
@@ -16,79 +16,79 @@ Class {
 }
 
 { #category : #accessing }
-ToSelectionCommandTest >> addIndexesCommand [
+ToSelectionModelCommandTest >> addIndexesCommand [
 
 	^ addIndexesCommand
 ]
 
 { #category : #tests }
-ToSelectionCommandTest >> addIndexesSelectionCommand: aCommand [
+ToSelectionModelCommandTest >> addIndexesSelectionCommand: aCommand [
 
 	addIndexesCommand  := aCommand 
 ]
 
 { #category : #accessing }
-ToSelectionCommandTest >> addIntervalCommand [
+ToSelectionModelCommandTest >> addIntervalCommand [
 
 	^ addIntervalCommand
 ]
 
 { #category : #tests }
-ToSelectionCommandTest >> addIntervalSelectionCommand: aCommand [
+ToSelectionModelCommandTest >> addIntervalSelectionCommand: aCommand [
 
 	addIntervalCommand := aCommand 
 ]
 
 { #category : #tests }
-ToSelectionCommandTest >> addSelectionHolderCommand: aCommand [
+ToSelectionModelCommandTest >> addSelectionHolderCommand: aCommand [
 
 	
 ]
 
 { #category : #tests }
-ToSelectionCommandTest >> addWholeSelectionCommand: aCommand [
+ToSelectionModelCommandTest >> addWholeSelectionCommand: aCommand [
 
 	wholeSelectionCommand := aCommand
 ]
 
 { #category : #accessing }
-ToSelectionCommandTest >> noSelectionCommand [
+ToSelectionModelCommandTest >> noSelectionCommand [
 
 	^ noSelectionCommand
 ]
 
 { #category : #accessing }
-ToSelectionCommandTest >> removeIndexesCommand [
+ToSelectionModelCommandTest >> removeIndexesCommand [
 
 	^ removeIndexesCommand
 ]
 
 { #category : #tests }
-ToSelectionCommandTest >> removeIndexesSelectionCommand: aCommand [
+ToSelectionModelCommandTest >> removeIndexesSelectionCommand: aCommand [
 
 	removeIndexesCommand := aCommand
 ]
 
 { #category : #accessing }
-ToSelectionCommandTest >> removeIntervalCommmand [
+ToSelectionModelCommandTest >> removeIntervalCommmand [
 
 	^ removeIntervalCommmand
 ]
 
 { #category : #tests }
-ToSelectionCommandTest >> removeIntervalSelectionCommand: aCommand [
+ToSelectionModelCommandTest >> removeIntervalSelectionCommand: aCommand [
 
 	removeIntervalCommmand  := aCommand
 ]
 
 { #category : #tests }
-ToSelectionCommandTest >> removeWholeSelectionCommand: aCommand [
+ToSelectionModelCommandTest >> removeWholeSelectionCommand: aCommand [
 
 	noSelectionCommand  := aCommand
 ]
 
 { #category : #running }
-ToSelectionCommandTest >> setUp [
+ToSelectionModelCommandTest >> setUp [
 
 	super setUp.
 	addIndexesCommand := nil.
@@ -100,7 +100,7 @@ ToSelectionCommandTest >> setUp [
 ]
 
 { #category : #tests }
-ToSelectionCommandTest >> testAddIndexesSelectionCommand [
+ToSelectionModelCommandTest >> testAddIndexesSelectionCommand [
 
 	| cmd |
 	cmd := ToIndexesSelectionCommand new.
@@ -111,7 +111,7 @@ ToSelectionCommandTest >> testAddIndexesSelectionCommand [
 ]
 
 { #category : #tests }
-ToSelectionCommandTest >> testAddIntervalSelectionCommand [
+ToSelectionModelCommandTest >> testAddIntervalSelectionCommand [
 
 	| cmd |
 	cmd := ToIntervalSelectionCommand new.
@@ -122,7 +122,7 @@ ToSelectionCommandTest >> testAddIntervalSelectionCommand [
 ]
 
 { #category : #tests }
-ToSelectionCommandTest >> testAddWholeSelectionCommand [
+ToSelectionModelCommandTest >> testAddWholeSelectionCommand [
 
 	| cmd |
 	cmd := ToWholeSelectionCommand new.
@@ -132,7 +132,7 @@ ToSelectionCommandTest >> testAddWholeSelectionCommand [
 ]
 
 { #category : #tests }
-ToSelectionCommandTest >> testRemoveIndexesSelectionCommand [
+ToSelectionModelCommandTest >> testRemoveIndexesSelectionCommand [
 
 	| cmd |
 	cmd := ToIndexesSelectionCommand new.
@@ -143,7 +143,7 @@ ToSelectionCommandTest >> testRemoveIndexesSelectionCommand [
 ]
 
 { #category : #tests }
-ToSelectionCommandTest >> testRemoveIntervalSelectionCommand [
+ToSelectionModelCommandTest >> testRemoveIntervalSelectionCommand [
 
 	| cmd |
 	cmd := ToIntervalSelectionCommand new.
@@ -154,7 +154,7 @@ ToSelectionCommandTest >> testRemoveIntervalSelectionCommand [
 ]
 
 { #category : #tests }
-ToSelectionCommandTest >> testRemoveWholeSelectionCommand [
+ToSelectionModelCommandTest >> testRemoveWholeSelectionCommand [
 
 	| cmd |
 	cmd := ToWholeSelectionCommand new.
@@ -164,7 +164,7 @@ ToSelectionCommandTest >> testRemoveWholeSelectionCommand [
 ]
 
 { #category : #accessing }
-ToSelectionCommandTest >> wholeSelectionCommand [
+ToSelectionModelCommandTest >> wholeSelectionCommand [
 
 	^ wholeSelectionCommand
 ]

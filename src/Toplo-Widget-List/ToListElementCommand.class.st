@@ -3,34 +3,34 @@ My class hierarchy models all the basic actions that can be made on a selection.
 
 "
 Class {
-	#name : #ToSelectionCommand,
+	#name : #ToListElementCommand,
 	#superclass : #Object,
 	#instVars : [
 		'next'
 	],
-	#category : #'Toplo-Widget-List-Selection-Command'
+	#category : #'Toplo-Widget-List-Command'
 }
 
 { #category : #hook }
-ToSelectionCommand >> applyOn: anObject [ 
+ToListElementCommand >> applyOn: anObject [ 
 
 	self nextDo: [ :n | n applyOn: anObject ]
 ]
 
 { #category : #accessing }
-ToSelectionCommand >> next [
+ToListElementCommand >> next [
 
 	^ next
 ]
 
 { #category : #accessing }
-ToSelectionCommand >> next: aListSelectionAction [
+ToListElementCommand >> next: aListSelectionAction [
 
 	next := aListSelectionAction
 ]
 
 { #category : #hook }
-ToSelectionCommand >> nextDo: aBlock [
+ToListElementCommand >> nextDo: aBlock [
 
 	self next ifNotNil: [ :n | aBlock value: n ]
 ]

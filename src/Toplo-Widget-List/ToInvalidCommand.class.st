@@ -1,5 +1,5 @@
 Class {
 	#name : #ToInvalidCommand,
 	#superclass : #Error,
-	#category : #'Toplo-Widget-List-Selection-Command'
+	#category : #'Toplo-Widget-List-Command'
 }

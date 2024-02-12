@@ -1,51 +1,8 @@
 Class {
 	#name : #ToSelectionModelOperator,
-	#superclass : #Object,
-	#instVars : [
-		'command',
-		'dispatchChanges'
-	],
+	#superclass : #ToListElementOperator,
 	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
-
-{ #category : #operations }
-ToSelectionModelOperator >> addCommand: aCommand [
-
-	command ifNil: [ command := aCommand ] ifNotNil: [
-		| tail |
-		tail := command.
-		[ tail next isNil ] whileFalse: [ tail := tail next ].
-		tail next: aCommand ]
-]
-
-{ #category : #'event dispatching' }
-ToSelectionModelOperator >> applyOn: anEventTarget [
-
-	command ifNil: [ ^ self ].
-	[ self dispatchEventForCommandOn: anEventTarget ] ensure: [
-		command := nil ]
-]
-
-{ #category : #'event dispatching' }
-ToSelectionModelOperator >> beSilentWhile: aBlock [
-
-	| prev |
-	prev := dispatchChanges.
-	dispatchChanges := false.
-	aBlock ensure: [ dispatchChanges := prev ]
-]
-
-{ #category : #accessing }
-ToSelectionModelOperator >> command [
-
-	^ command
-]
-
-{ #category : #accessing }
-ToSelectionModelOperator >> command: anObject [
-
-	command := anObject
-]
 
 { #category : #operations }
 ToSelectionModelOperator >> deselectAll [
@@ -84,13 +41,6 @@ ToSelectionModelOperator >> dispatchEventForCommandOn: anEventTarget [
 	anEventTarget dispatchEvent: (ToAppliedSelectionEvent new
 			 selectionChanged: request selectionChanged;
 			 command: command)
-]
-
-{ #category : #initialization }
-ToSelectionModelOperator >> initialize [ 
-
-	super initialize.
-	dispatchChanges := true
 ]
 
 { #category : #operations }

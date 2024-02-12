@@ -58,7 +58,7 @@ ToListAbstractSelectionMode >> onClickOnNode: aNode event: anEvent [
 ToListAbstractSelectionMode >> onInstalledIn: anElement [
 
 	self selectionModel: anElement selectionModel.
-	selecter := ToSelectionModelSelecter new.
+	selecter := ToListElementSelecter new.
 	selecter onInstalledIn: anElement
 ]
 

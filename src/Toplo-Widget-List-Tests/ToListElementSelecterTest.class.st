@@ -1,5 +1,5 @@
 Class {
-	#name : #ToSelectionModelSelecterTest,
+	#name : #ToListElementSelecterTest,
 	#superclass : #TestCase,
 	#instVars : [
 		'holder',
@@ -10,7 +10,7 @@ Class {
 }
 
 { #category : #running }
-ToSelectionModelSelecterTest >> setUp [
+ToListElementSelecterTest >> setUp [
 
 	super setUp.
 	selectionChanged := false.
@@ -23,7 +23,7 @@ ToSelectionModelSelecterTest >> setUp [
 ]
 
 { #category : #tests }
-ToSelectionModelSelecterTest >> testAddCommand [
+ToListElementSelecterTest >> testAddCommand [
 
 	| selChangedEvent selRequestEvent cmd |
 	holder addEventHandler: (BlEventHandler
@@ -44,7 +44,7 @@ ToSelectionModelSelecterTest >> testAddCommand [
 ]
 
 { #category : #tests }
-ToSelectionModelSelecterTest >> testDeselectAll [
+ToListElementSelecterTest >> testDeselectAll [
 
 	selecter selectAllIndexes: {2. 6. 9}.
 	selecter deselectAll.
@@ -53,7 +53,7 @@ ToSelectionModelSelecterTest >> testDeselectAll [
 ]
 
 { #category : #tests }
-ToSelectionModelSelecterTest >> testDeselectAllIndexes [
+ToListElementSelecterTest >> testDeselectAllIndexes [
 
 	selecter selectAllIndexes: {2. 6. 9}.
 	selecter deselectAllIndexes: {2. 6. 9}.
@@ -62,7 +62,7 @@ ToSelectionModelSelecterTest >> testDeselectAllIndexes [
 ]
 
 { #category : #tests }
-ToSelectionModelSelecterTest >> testDeselectIndex [
+ToListElementSelecterTest >> testDeselectIndex [
 
 	selecter selectIndex: 2.
 	selecter deselectIndex: 2.
@@ -71,7 +71,7 @@ ToSelectionModelSelecterTest >> testDeselectIndex [
 ]
 
 { #category : #tests }
-ToSelectionModelSelecterTest >> testDispatchSelectionChanged [
+ToListElementSelecterTest >> testDispatchSelectionChanged [
 
 	| selChangedEvent |
 	holder addEventHandler: (BlEventHandler
@@ -90,7 +90,7 @@ ToSelectionModelSelecterTest >> testDispatchSelectionChanged [
 ]
 
 { #category : #tests }
-ToSelectionModelSelecterTest >> testSelectAll [
+ToListElementSelecterTest >> testSelectAll [
 
 	selecter selectAll.
 	selecter apply.
@@ -100,7 +100,7 @@ ToSelectionModelSelecterTest >> testSelectAll [
 ]
 
 { #category : #tests }
-ToSelectionModelSelecterTest >> testSelectAll2 [
+ToListElementSelecterTest >> testSelectAll2 [
 
 	selecter selectAll.
 	selecter apply.
@@ -109,7 +109,7 @@ ToSelectionModelSelecterTest >> testSelectAll2 [
 ]
 
 { #category : #tests }
-ToSelectionModelSelecterTest >> testSelectAllIndexes [
+ToListElementSelecterTest >> testSelectAllIndexes [
 
 	selecter selectAllIndexes: {2. 6. 9}.
 	selecter apply.
@@ -118,7 +118,7 @@ ToSelectionModelSelecterTest >> testSelectAllIndexes [
 ]
 
 { #category : #tests }
-ToSelectionModelSelecterTest >> testSelectAndScrollToIndex [
+ToListElementSelecterTest >> testSelectAndScrollToIndex [
 
 	selecter selectIndex: 2.
 	selecter selectAndScrollToIndex: 10.
@@ -130,7 +130,7 @@ ToSelectionModelSelecterTest >> testSelectAndScrollToIndex [
 ]
 
 { #category : #tests }
-ToSelectionModelSelecterTest >> testSelectAndScrollToNext [
+ToListElementSelecterTest >> testSelectAndScrollToNext [
 
 	selecter selectIndex: 2.
 	selecter selectAndScrollToNext.
@@ -142,7 +142,7 @@ ToSelectionModelSelecterTest >> testSelectAndScrollToNext [
 ]
 
 { #category : #tests }
-ToSelectionModelSelecterTest >> testSelectAndScrollToNextDeselected [
+ToListElementSelecterTest >> testSelectAndScrollToNextDeselected [
 
 	selecter deselectAll.
 	selecter selectIndex: 2.
@@ -159,7 +159,7 @@ ToSelectionModelSelecterTest >> testSelectAndScrollToNextDeselected [
 ]
 
 { #category : #tests }
-ToSelectionModelSelecterTest >> testSelectAndScrollToPrevious [
+ToListElementSelecterTest >> testSelectAndScrollToPrevious [
 
 	selecter selectIndex: 2.
 	selecter selectAndScrollToPrevious.
@@ -170,7 +170,7 @@ ToSelectionModelSelecterTest >> testSelectAndScrollToPrevious [
 ]
 
 { #category : #tests }
-ToSelectionModelSelecterTest >> testSelectAndScrollToPreviousDeselected [
+ToListElementSelecterTest >> testSelectAndScrollToPreviousDeselected [
 
 	selecter deselectAll.
 	selecter selectIndex: 2.
@@ -186,7 +186,7 @@ ToSelectionModelSelecterTest >> testSelectAndScrollToPreviousDeselected [
 ]
 
 { #category : #tests }
-ToSelectionModelSelecterTest >> testSelectIndex [
+ToListElementSelecterTest >> testSelectIndex [
 
 	selecter selectIndex: 2.
 	selecter apply.
@@ -195,7 +195,7 @@ ToSelectionModelSelecterTest >> testSelectIndex [
 ]
 
 { #category : #tests }
-ToSelectionModelSelecterTest >> testSelectIndex2 [
+ToListElementSelecterTest >> testSelectIndex2 [
 
 	selecter selectIndex: 2.
 	selecter apply.
@@ -204,7 +204,7 @@ ToSelectionModelSelecterTest >> testSelectIndex2 [
 ]
 
 { #category : #tests }
-ToSelectionModelSelecterTest >> testSelectIndexTo [
+ToListElementSelecterTest >> testSelectIndexTo [
 
 	selecter selectIndex: 2 to: 10.
 	selecter apply.
@@ -213,7 +213,7 @@ ToSelectionModelSelecterTest >> testSelectIndexTo [
 ]
 
 { #category : #tests }
-ToSelectionModelSelecterTest >> testSelectIndexTo2 [
+ToListElementSelecterTest >> testSelectIndexTo2 [
 
 	selecter selectIndex: 2 to: 10.
 	selecter apply.
@@ -221,7 +221,7 @@ ToSelectionModelSelecterTest >> testSelectIndexTo2 [
 ]
 
 { #category : #tests }
-ToSelectionModelSelecterTest >> testSelectNextOnLastIndex [
+ToListElementSelecterTest >> testSelectNextOnLastIndex [
 
 	selecter selectIndex: holder dataSource itemCount.
 	selecter apply.
@@ -238,7 +238,7 @@ ToSelectionModelSelecterTest >> testSelectNextOnLastIndex [
 ]
 
 { #category : #tests }
-ToSelectionModelSelecterTest >> testSelectOnlyIndex [
+ToListElementSelecterTest >> testSelectOnlyIndex [
 
 	selecter deselectAll.
 	selecter selectAllIndexes: {2. 6. 9}.
@@ -248,7 +248,7 @@ ToSelectionModelSelecterTest >> testSelectOnlyIndex [
 ]
 
 { #category : #tests }
-ToSelectionModelSelecterTest >> testSelectOnlyIndexes [
+ToListElementSelecterTest >> testSelectOnlyIndexes [
 
 	selecter selectAllIndexes: {2. 6. 9}.
 	selecter selectOnlyIndexes: {10. 6. 20}.
@@ -257,7 +257,7 @@ ToSelectionModelSelecterTest >> testSelectOnlyIndexes [
 ]
 
 { #category : #tests }
-ToSelectionModelSelecterTest >> testSelectPreviousOnFirstIndex [
+ToListElementSelecterTest >> testSelectPreviousOnFirstIndex [
 
 	selecter selectIndex: 1.
 	self assert: selecter currentIndex equals: 1.
@@ -273,7 +273,7 @@ ToSelectionModelSelecterTest >> testSelectPreviousOnFirstIndex [
 ]
 
 { #category : #tests }
-ToSelectionModelSelecterTest >> testSelectThenDeselectAll [
+ToListElementSelecterTest >> testSelectThenDeselectAll [
 
 	selecter selectIndex: 2.
 	selecter deselectAll.
@@ -283,7 +283,7 @@ ToSelectionModelSelecterTest >> testSelectThenDeselectAll [
 ]
 
 { #category : #tests }
-ToSelectionModelSelecterTest >> testSelectToIndex [
+ToListElementSelecterTest >> testSelectToIndex [
 
 	selecter selectIndex: 2.
 	selecter apply.
@@ -303,7 +303,7 @@ ToSelectionModelSelecterTest >> testSelectToIndex [
 ]
 
 { #category : #tests }
-ToSelectionModelSelecterTest >> testSelectionChanged [
+ToListElementSelecterTest >> testSelectionChanged [
 
 	selecter selectAllIndexes: {2. 6. 9}.
 	selecter apply.
@@ -312,7 +312,7 @@ ToSelectionModelSelecterTest >> testSelectionChanged [
 ]
 
 { #category : #tests }
-ToSelectionModelSelecterTest >> testSelectionChangedOnDeselectAll [
+ToListElementSelecterTest >> testSelectionChangedOnDeselectAll [
 
 	selectionChanged := false.
 	selecter selectAllIndexes: {2. 6. 9}.
@@ -323,7 +323,7 @@ ToSelectionModelSelecterTest >> testSelectionChangedOnDeselectAll [
 ]
 
 { #category : #tests }
-ToSelectionModelSelecterTest >> testSelectionChangedOnDeselectAll2 [
+ToListElementSelecterTest >> testSelectionChangedOnDeselectAll2 [
 
 	selectionChanged := false.
 	selecter selectAllIndexes: {2. 6. 9}.

@@ -45,7 +45,7 @@ ToListElement2 >> defaultLayout [
 { #category : #initialization }
 ToListElement2 >> defaultSelecter [
 
-	^ ToSelectionModelSelecter new.
+	^ ToListElementSelecter new.
 ]
 
 { #category : #initialization }

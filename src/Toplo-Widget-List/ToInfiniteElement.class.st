@@ -76,7 +76,9 @@ ToInfiniteElement >> defaultMouseScrollEventHandler [
 { #category : #initialization }
 ToInfiniteElement >> defaultNodeBuilder [
 
-	^ [ :node :holder | node addChild: ((ToLabel text: holder data asString) hMatchParent) ]
+	^ [ :node :holder |
+	  node addChild:
+		  (ToLabel text: holder dataItem asString) hMatchParent ]
 ]
 
 { #category : #initialization }

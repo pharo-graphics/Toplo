@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'maxIndex'
 	],
-	#category : #'Toplo-Widget-List-Selection-Command'
+	#category : #'Toplo-Widget-List-Command'
 }
 
 { #category : #hook }

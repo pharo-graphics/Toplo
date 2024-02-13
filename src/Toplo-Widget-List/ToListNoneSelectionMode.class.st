@@ -12,7 +12,7 @@ ToListNoneSelectionMode >> nodeEventHandlerClasses [
 ]
 
 { #category : #'event handling' }
-ToListNoneSelectionMode >> onClickOnNode: aNode event: anEvent [
+ToListNoneSelectionMode >> onClickEvent: anEvent onNode: aNode [
 
 
 ]

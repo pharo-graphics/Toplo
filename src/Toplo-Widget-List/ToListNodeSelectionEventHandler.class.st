@@ -7,32 +7,35 @@ Class {
 { #category : #'events handling' }
 ToListNodeSelectionEventHandler >> clickEvent: anEvent [
 
-	| listElement node |
-	node := anEvent currentTarget.
-	listElement := node holder listElement.
 
-	node dispatchEvent: (ToListClickOnNodeEvent new
-			 listElement: listElement;
-			 sourceEvent: anEvent;
-			 yourself)
 ]
 
 { #category : #'api - accessing' }
 ToListNodeSelectionEventHandler >> eventsToHandle [
 
-	^ { ToListClickOnNodeEvent. ToListDoubleClickOnNodeEvent. BlPrimaryClickEvent  }
+	^ { ToListDoubleClickEvent. BlPrimaryClickEvent. BlPrimaryMouseDownEvent }
 ]
 
 { #category : #'mouse handlers' }
-ToListNodeSelectionEventHandler >> listClickOnNodeEvent: anEvent [
-
-	self subclassResponsibility
+ToListNodeSelectionEventHandler >> listDoubleClickEvent: anEvent [
 ]
 
 { #category : #'mouse handlers' }
-ToListNodeSelectionEventHandler >> listDoubleClickOnNodeEvent: anEvent [
+ToListNodeSelectionEventHandler >> mouseDownEvent: anEvent [
 
-	anEvent listElement dispatchEvent: (ToListStrongSelectionEvent new
-			 indexes: anEvent listElement selectionModel selectedIndexes;
-			 yourself)
+		anEvent
+		  ifPrimary: [ self primaryMouseDownEvent: anEvent ]
+		  secondary: [  ]
+		  middle: [  ]
+		  other: [  ]
+]
+
+{ #category : #'mouse handlers' }
+ToListNodeSelectionEventHandler >> primaryMouseDownEvent: anEvent [
+
+	| target listElement mode |
+	target := anEvent currentTarget.
+	listElement := target holder listElement.
+	mode := listElement selectionMode.
+	mode allowNodeSelectionOnMouseDown ifFalse: [ anEvent consumed: true ]
 ]

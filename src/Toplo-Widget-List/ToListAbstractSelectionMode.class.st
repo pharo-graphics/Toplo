@@ -10,6 +10,12 @@ Class {
 }
 
 { #category : #testing }
+ToListAbstractSelectionMode >> allowNodeSelectionOnMouseDown [
+
+	^ self requestFocusOnMouseDown 
+]
+
+{ #category : #testing }
 ToListAbstractSelectionMode >> hasSelectionAt: anIndex [
 
 	^ self selectionModel containsIndex: anIndex
@@ -49,7 +55,7 @@ ToListAbstractSelectionMode >> onAddedNode: aNode [
 ]
 
 { #category : #'event handling' }
-ToListAbstractSelectionMode >> onClickOnNode: aNode event: anEvent [
+ToListAbstractSelectionMode >> onClickEvent: anEvent onNode: aNode [
 
 	self subclassResponsibility 
 ]

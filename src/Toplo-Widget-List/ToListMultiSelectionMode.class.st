@@ -4,6 +4,14 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
+{ #category : #testing }
+ToListMultiSelectionMode >> allowNodeSelectionOnMouseDown [
+
+	(self hasWholeSelection or: [ self selectedIndexesCount > 1 ])
+		ifTrue: [ self preserveSelectionOnFocused ifTrue: [ ^ false ] ].
+	^ super allowNodeSelectionOnMouseDown
+]
+
 { #category : #accessing }
 ToListMultiSelectionMode >> nodeEventHandlerClasses [ 
 
@@ -11,15 +19,16 @@ ToListMultiSelectionMode >> nodeEventHandlerClasses [
 ]
 
 { #category : #'event handling' }
-ToListMultiSelectionMode >> onClickOnNode: aNode event: anEvent [
+ToListMultiSelectionMode >> onClickEvent: anEvent onNode: aNode [
 
-	anEvent sourceEvent modifiers isShift ifTrue: [
+	super onClickEvent: anEvent onNode: aNode.
+	anEvent modifiers isShift ifTrue: [
 		self selecter selectToIndex: aNode holder position.
 		^ self ].
-	anEvent sourceEvent modifiers isPrimaryModifier ifTrue: [
+	anEvent modifiers isPrimaryModifier ifTrue: [
 		| index target |
 		index := aNode holder position.
-		target := anEvent listElement.
+		target := aNode holder listElement.
 		(target selectionModel containsIndex: index)
 			ifTrue: [ self selecter deselectIndex: index ]
 			ifFalse: [ self selecter selectIndex: index ].

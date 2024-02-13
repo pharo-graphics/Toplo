@@ -1023,18 +1023,19 @@ ToSandBox class >> example_MultiNotFiltrable [
 	| select innerWindow |
 	select := ToSelect new.
 	select data addAll: self statesOfAmerica.
-		select inspect.
+	select inspect.
 	select mode: ToSelectReadOnlyMode new.
 	select strategy: ToMultipleSelectStrategy new.
-	select placeholderText: ('Select states' asRopedText foreground: Color red).
+	select placeholderText:
+		('Select states' asRopedText foreground: Color red).
 
 	select listElement nodeBuilder: [ :node :holder |
-		node addChild: (ToLabel text: holder data asString) hMatchParent ].
+		node addChild: (ToLabel text: holder dataItem asString) hMatchParent ].
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
 	select width: 300.
 	select position: 50 @ 50.
-	
+
 	innerWindow pane addChild: select.
 	innerWindow openInSpace
 ]

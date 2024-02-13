@@ -15,9 +15,10 @@ ToSelectSelectionMode >> nodeEventHandlerClasses [
 ]
 
 { #category : #'event handling' }
-ToSelectSelectionMode >> onClickOnNode: aNode event: anEvent [
+ToSelectSelectionMode >> onClickEvent: anEvent onNode: aNode [
 
 	| index |
+	super onClickEvent: anEvent onNode: aNode.
 	index := aNode holder position.
 	select mode onClickAtIndex: index
 ]

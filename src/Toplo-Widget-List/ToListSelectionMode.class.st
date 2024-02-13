@@ -16,6 +16,12 @@ ToListSelectionMode >> initialize [
 	preserveSelectionOnFocused := true
 ]
 
+{ #category : #'event handling' }
+ToListSelectionMode >> onClickEvent: anEvent onNode: aNode [
+
+
+]
+
 { #category : #'api - hooks' }
 ToListSelectionMode >> onInstalledIn: anElement [
 

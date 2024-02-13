@@ -1,5 +1,5 @@
 Class {
-	#name : #ToListClickOnNodeEvent,
+	#name : #ToListDoubleClickEvent,
 	#superclass : #ToListNodeEvent,
 	#instVars : [
 		'sourceEvent'
@@ -8,19 +8,19 @@ Class {
 }
 
 { #category : #sending }
-ToListClickOnNodeEvent >> sendTo: anObject [
+ToListDoubleClickEvent >> sendTo: anObject [
 
-	anObject listClickOnNodeEvent: self
+	anObject listDoubleClickEvent: self
 ]
 
 { #category : #accessing }
-ToListClickOnNodeEvent >> sourceEvent [
+ToListDoubleClickEvent >> sourceEvent [
 
 	^ sourceEvent
 ]
 
 { #category : #accessing }
-ToListClickOnNodeEvent >> sourceEvent: anEvent [
+ToListDoubleClickEvent >> sourceEvent: anEvent [
 
 	sourceEvent := anEvent
 ]

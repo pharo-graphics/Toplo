@@ -8,6 +8,17 @@ Class {
 }
 
 { #category : #'events handling' }
+ToListNodeMultiSelectionClickEventHandler >> clickEvent: anEvent [
+
+	| target |
+	target := anEvent currentTarget.
+	self
+		launchClick: [ self onClickOnNodeEvent: anEvent ]
+		event: anEvent.
+	anEvent consumed: true
+]
+
+{ #category : #'events handling' }
 ToListNodeMultiSelectionClickEventHandler >> clickLauncher: aProcessOrNil [
 
 	clickLauncher := aProcessOrNil
@@ -23,29 +34,31 @@ ToListNodeMultiSelectionClickEventHandler >> hasClickLauncher [
 ToListNodeMultiSelectionClickEventHandler >> launchClick: aBlock event: anEvent [
 	" click launcher management to allow double click to work with several selected nodes "
 
-	| listElement manager |
-	listElement := anEvent listElement.
-	manager := listElement selectionMode.
+	| listElement node holder mode |
+	node := anEvent currentTarget.
+	holder := node holder.
+	listElement := node holder listElement.
+	mode := listElement selectionMode.
 
-	listElement hasFocus ifFalse: [
+	listElement isFocused ifFalse: [
 		listElement requestFocus.
-		" Avoid selection size computation if all is selected "
-		(manager hasWholeSelection or: [ manager selectedIndexesCount > 1 ])
-			ifTrue: [ anEvent listElement preserveSelectionOnFocused ifTrue: [ ^ self ] ] ].
+		mode preserveSelectionOnFocused ifTrue: [
+			self terminateClickLauncher.
+			^ self ] ].
 
 	" do not try double click if ctrl or Cmd or shift is pressed "
-	(anEvent currentTarget holder isSelected not or: [
-		 anEvent sourceEvent modifiers isPrimaryModifier or: [
-			 anEvent sourceEvent modifiers isShift ] ]) ifTrue: [
+	(holder isSelected not or: [
+		 anEvent modifiers isPrimaryModifier or: [
+			 anEvent modifiers isShift ] ]) ifTrue: [
 		self terminateClickLauncher.
 		^ aBlock value ].
 
-	" Already has a click launcher "
+	" Already have a click launcher "
 	self hasClickLauncher ifTrue: [ ^ self ].
-
+	
 	" no click launcher for only one selected node "
 	" Avoid selection size computation if all is selected "
-	(manager hasWholeSelection or: [ manager selectedIndexesCount > 0 ])
+	(mode hasWholeSelection or: [ mode selectedIndexesCount > 0 ])
 		ifFalse: [ ^ aBlock value ].
 
 	self clickLauncher: ([
@@ -57,29 +70,24 @@ ToListNodeMultiSelectionClickEventHandler >> launchClick: aBlock event: anEvent 
 ]
 
 { #category : #'mouse handlers' }
-ToListNodeMultiSelectionClickEventHandler >> listClickOnNodeEvent: anEvent [
-
-	| target |
-	target := anEvent currentTarget.
-	self
-		launchClick: [ self onClickOnNodeEvent: anEvent ]
-		event: anEvent.
-	anEvent consumed: true
-]
-
-{ #category : #'mouse handlers' }
-ToListNodeMultiSelectionClickEventHandler >> listDoubleClickOnNodeEvent: anEvent [
+ToListNodeMultiSelectionClickEventHandler >> listDoubleClickEvent: anEvent [
 
 	self terminateClickLauncher.
-	super listDoubleClickOnNodeEvent: anEvent
+	super listDoubleClickEvent: anEvent
 ]
 
 { #category : #'selection events' }
 ToListNodeMultiSelectionClickEventHandler >> onClickOnNodeEvent: anEvent [
 
-	anEvent listElement selectionMode
-		onClickOnNode: anEvent currentTarget
-		event: anEvent
+
+	| listElement node holder mode |
+
+	node := anEvent currentTarget.
+	holder := node holder.	
+	listElement := node holder listElement.
+	mode := listElement selectionMode.
+
+	mode onClickEvent: anEvent onNode: node
 ]
 
 { #category : #'events handling' }

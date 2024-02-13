@@ -7,23 +7,6 @@ Class {
 	#category : #'Toplo-Widget-List-Core'
 }
 
-{ #category : #'mouse handlers' }
-ToListElementEventHandler >> clickEvent: anEvent [
-
-	| target |
-	target := anEvent currentTarget.
-	self flag: 'Check nodeContainingGlobalPosition: because it seems that the conversion from global to local position is not well computed (try with context menu)'.
-	lastClickedNode := target infinite nodeContainingGlobalPosition: anEvent position.
-	target selectionMode requestFocusOnMouseDown ifFalse: [ ^ self ].
-	lastClickedNode ifNil: [
-		target requestFocus.
-		^ self ].
-	"lastClickedNode dispatchEvent: (ToListClickOnNodeEvent new
-			 listElement: target;
-			 sourceEvent: anEvent;
-			 yourself)"
-]
-
 { #category : #'data events handling' }
 ToListElementEventHandler >> collectionEmptinessEvent: anEvent [
 
@@ -37,11 +20,15 @@ ToListElementEventHandler >> doubleClickEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	lastClickedNode ifNotNil: [
-		lastClickedNode dispatchEvent: (ToListDoubleClickOnNodeEvent new
+	" first, inform the node that a double click is received "
+	target infinite childrenDo: [ :node |
+		node dispatchEvent: (ToListDoubleClickEvent new
 				 listElement: target;
 				 sourceEvent: anEvent;
 				 yourself) ].
+	target dispatchEvent: (ToListStrongSelectionEvent new
+			 indexes: target selectionModel selectedIndexes;
+			 yourself).
 	anEvent consumed: true
 ]
 
@@ -69,7 +56,6 @@ ToListElementEventHandler >> eventsToHandle [
 		  BlInfiniteElementDetachedEvent.
 
 		  BlMouseDownEvent.
-		  BlPrimaryClickEvent.
 		  BlDoubleClickEvent.
 
 		  " data source "
@@ -132,8 +118,8 @@ ToListElementEventHandler >> launchSelectionAction: aBlock in: aTarget [
 ToListElementEventHandler >> mouseDownEvent: anEvent [
 
 	| target |
+	anEvent isConsumed ifTrue: [ ^ self ].
 	target := anEvent currentTarget.
-	target selectionMode requestFocusOnMouseDown ifFalse: [ ^ self ].
 	target hasFocus ifTrue: [ ^ self ].
 	target requestFocus.
 	anEvent consumed: true

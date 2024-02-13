@@ -4,6 +4,14 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
+{ #category : #testing }
+ToListSingleSelectionMode >> allowNodeSelectionOnMouseDown [
+
+	( self selectedIndexesCount > 0 )
+		ifTrue: [ self preserveSelectionOnFocused ifTrue: [ ^ false ] ].
+	^ super allowNodeSelectionOnMouseDown
+]
+
 { #category : #accessing }
 ToListSingleSelectionMode >> nodeEventHandlerClasses [ 
 
@@ -12,8 +20,9 @@ ToListSingleSelectionMode >> nodeEventHandlerClasses [
 ]
 
 { #category : #'event handling' }
-ToListSingleSelectionMode >> onClickOnNode: aNode event: anEvent [
+ToListSingleSelectionMode >> onClickEvent: anEvent onNode: aNode [
 
+	super onClickEvent: anEvent onNode: aNode.
 	anEvent sourceEvent modifiers isPrimaryModifier ifTrue: [
 		| index |
 		index := aNode holder position.

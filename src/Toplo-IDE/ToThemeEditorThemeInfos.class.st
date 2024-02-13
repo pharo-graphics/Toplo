@@ -104,15 +104,15 @@ ToThemeEditorThemeInfos >> saveButton [
 { #category : #'as yet unclassified' }
 ToThemeEditorThemeInfos >> saveCurrentTheme [
 
-	self tokenAll state ifTrue: [
-		self theme compileInitialiazeStyleRulesWithAllTokens:
-			self tokensPresenter controller tokens.
-		^ self ].
-	self tokenNew state ifTrue: [
-		self theme compileInitialiazeStyleRulesWithNewTokensOnly:
-			self tokensPresenter controller tokens.
-		^ self ].
-	self theme compileInitialiazeStyleRulesWithoutTokens
+	| model |
+	model := ThemeModel new
+		         theme: self theme;
+					tokens: self tokensPresenter controller tokens;
+		         yourself.
+	self tokenAll state ifTrue: [ model doNotHeritToken ].
+	self tokenNew state ifTrue: [ model onlyDifferentTokens ].
+	self tokenNo state ifTrue: [ model doHeritToken ].
+	model compileOnCurrentTheme
 ]
 
 { #category : #'as yet unclassified' }

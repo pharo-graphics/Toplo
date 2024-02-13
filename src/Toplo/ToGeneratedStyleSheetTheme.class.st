@@ -7,12 +7,35 @@ Class {
 { #category : #'as yet unclassified' }
 ToGeneratedStyleSheetTheme >> compileInitialiazeStyleRules [
 
-	| visitor sourceCode expr formatedSourceCode |
+	| visitor dictionary others sourceCode expr formatedSourceCode |
 	visitor := ToThemeToSourceCodeVisitor new.
+
+	dictionary := Dictionary new.
+	others := OrderedCollection new.
+	self styleRules do: [ :each |
+		each selector isStyleSelector
+			ifTrue: [
+				dictionary
+					at: each selector type
+					ifPresent: [ :list | list add: each ]
+					ifAbsentPut: [
+						OrderedCollection new
+							add: each;
+							yourself ] ]
+			ifFalse: [ others add: each ] ].
+
+	self styleRules
+		select: [ :each | each selector type ]
+		thenDo: [ :type |
+		(dictionary at: type) do: [ :each | each accept: visitor ] ].
+	
+	others do: [ :each | ].
+
 	self accept: visitor.
-	sourceCode := ('initialiazeStyleRules<r>"'
+	sourceCode := ('initializeStyleRules<r>"'
 	               , self generatedDefaultComment
-	               , '"<generated: ''StyleSheetTheme''><r><r>') expandMacros.
+	               , '"<generated: ''StyleSheetTheme''><r><r>')
+		              expandMacros.
 	sourceCode := sourceCode , visitor contents.
 
 	expr := RBParser parseMethod: sourceCode.

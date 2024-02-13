@@ -39,6 +39,13 @@ ToThemeEditorTokensListController >> isButtonRemoveEnabled [
 	^ self presenter tokensList selectedItem isNotNil
 ]
 
+{ #category : #removing }
+ToThemeEditorTokensListController >> removeToken: aToTokenProperty [ 
+
+	self tokens remove: aToTokenProperty.
+	self updatePresenter
+]
+
 { #category : #accessing }
 ToThemeEditorTokensListController >> theme [
 

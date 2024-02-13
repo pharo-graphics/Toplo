@@ -47,6 +47,12 @@ ToTypeSelector >> initialize [
 	exact := true
 ]
 
+{ #category : #testing }
+ToTypeSelector >> isTypeSelector [
+
+	^ true
+]
+
 { #category : #operating }
 ToTypeSelector >> selectType: aClass [
 

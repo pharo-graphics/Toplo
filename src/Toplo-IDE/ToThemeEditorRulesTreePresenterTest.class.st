@@ -61,7 +61,7 @@ ToThemeEditorRulesTreePresenterTest >> testActionAddButton [
 		self presenter rulesTree processDeferredActions.
 		self
 			assert: self presenter rulesTree selectedItem
-			equals: currentSelection styleRules first ]
+			equals: currentSelection styleRules first ].
 ]
 
 { #category : #tests }
@@ -71,7 +71,8 @@ ToThemeEditorRulesTreePresenterTest >> testActionRemoveButton [
 	self presenter rulesTree selectPath: #( 1 1 ).
 	self presenter updatePresenterOnlyButtons.
 	self presenter buttonRemove click.
-	self assert: self theme styleRules size equals: 0
+	self assert: self theme styleRules size equals: 0.
+	self assert: self observer count equals: 1
 ]
 
 { #category : #tests }
@@ -87,7 +88,12 @@ ToThemeEditorRulesTreePresenterTest >> testSelectedRuleChanged [
 
 	self assert: self observer styleRule equals: nil.
 	self presenter rulesTree selectPath: #( 1 1 ).
-	self assert: self observer styleRule equals: self theme styleRules first.
+	self
+		assert: self observer styleRule
+		equals: self theme styleRules first.
+	self
+		assert: self observer count
+		equals: 1
 ]
 
 { #category : #tests }

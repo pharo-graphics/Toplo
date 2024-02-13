@@ -4,15 +4,29 @@ Class {
 	#traits : 'TToThemeEditorRulesTreeObserver',
 	#classTraits : 'TToThemeEditorRulesTreeObserver classTrait',
 	#instVars : [
-		'styleRule'
+		'styleRule',
+		'count'
 	],
 	#category : #'Toplo-IDE-theme-editor-presenter-rulesTree'
 }
 
+{ #category : #accessing }
+ToThemeEditorRuleObserverForTest >> count [
+
+	^ count
+]
+
+{ #category : #initialization }
+ToThemeEditorRuleObserverForTest >> initialize [
+
+	count := 0
+]
+
 { #category : #initialization }
 ToThemeEditorRuleObserverForTest >> selectedRuleChanged: aToStyleRule [
 
-	self styleRule: aToStyleRule
+	self styleRule: aToStyleRule.
+	count := count + 1.
 ]
 
 { #category : #accessing }

@@ -110,6 +110,12 @@ ToElementSelector >> child: aSelector depth: anInteger [
 	^ self withChild: aSelector atDepth: anInteger
 ]
 
+{ #category : #testing }
+ToElementSelector >> isTypeSelector [
+
+	^ false
+]
+
 { #category : #'logical operator' }
 ToElementSelector >> not [
 

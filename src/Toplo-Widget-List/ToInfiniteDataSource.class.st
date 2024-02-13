@@ -19,7 +19,7 @@ ToInfiniteDataSource >> data: aCollection [
 { #category : #hooks }
 ToInfiniteDataSource >> onAttached: anInfiniteElement [
 
-	
+	self dispatchEvent: ToDataSourceAttachedEvent new
 	
 ]
 
@@ -32,6 +32,6 @@ ToInfiniteDataSource >> onCreateHolder: anInfiniteElement [
 { #category : #hooks }
 ToInfiniteDataSource >> onDetached: anInfiniteElement [
 
-	
+	self dispatchEvent: ToDataSourceDetachedEvent new
 	
 ]

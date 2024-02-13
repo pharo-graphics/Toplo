@@ -67,14 +67,14 @@ ToListElementEventHandler >> eventsToHandle [
 		  BlElementScrolledEvent.
 		  BlInfiniteElementAttachedEvent.
 		  BlInfiniteElementDetachedEvent.
-		  ToDataSourceAttachedEvent.
-		  ToDataSourceDetachedEvent.
 
 		  BlMouseDownEvent.
 		  BlPrimaryClickEvent.
 		  BlDoubleClickEvent.
 
 		  " data source "
+		  ToDataSourceAttachedEvent.
+		  ToDataSourceDetachedEvent.
 		  BlInfiniteDataSourceItemRangeInserted.
 		  BlInfiniteDataSourceItemRangeRemoved.
 

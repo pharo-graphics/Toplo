@@ -16,13 +16,6 @@ ToInfiniteElement >> data [
 	^ dataSource data
 ]
 
-{ #category : #accessing }
-ToInfiniteElement >> dataSource: aDataSource [
-
-	super dataSource: aDataSource.
-	self dispatchEvent: ToDataSourceAttachedEvent new
-]
-
 { #category : #initialization }
 ToInfiniteElement >> defaultDataSource [
 

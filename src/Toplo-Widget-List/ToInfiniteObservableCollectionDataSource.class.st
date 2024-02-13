@@ -36,7 +36,7 @@ ToInfiniteObservableCollectionDataSource >> itemCount [
 	"Return the total number of items in the data set"
 	<return: #Number>
 
-	^ self data ifNil: [0] ifNotNil: [:l | l size]
+	^ self data size
 ]
 
 { #category : #'instance creation' }

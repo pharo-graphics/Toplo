@@ -5,9 +5,9 @@ Class {
 	#classTraits : 'TToListElementDecorator classTrait + TToElementWithPlaceholder classTrait',
 	#instVars : [
 		'selectionElements',
-		'sharedDistributor',
 		'selectionModel',
-		'selectionMode'
+		'selectionMode',
+		'sharedDistributors'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -28,6 +28,16 @@ ToListElement >> beVertical [
 ToListElement >> dataSharedEvents [
 
 	^ { ToCollectionEmptinessEvent }
+]
+
+{ #category : #initialization }
+ToListElement >> dataSourceSharedEvents [
+
+	^ {
+		  ToDataSourceAttachedEvent.
+		  ToDataSourceDetachedEvent.
+		  BlInfiniteDataSourceItemRangeInserted.
+		  BlInfiniteDataSourceItemRangeRemoved }
 ]
 
 { #category : #initialization }
@@ -61,19 +71,12 @@ ToListElement >> horizontal: aBoolean [
 ]
 
 { #category : #initialization }
-ToListElement >> infiniteElementSharedEvents [
+ToListElement >> infiniteSharedEvents [
 
 	^ {
-		  BlInfiniteDataSourceItemRangeInserted.
-		  BlInfiniteDataSourceItemRangeRemoved.
 		  BlInfiniteElementAttachedEvent.
 		  BlInfiniteElementDetachedEvent.
-		  ToDataSourceAttachedEvent.
-		  ToDataSourceDetachedEvent.
-		  BlElementScrolledEvent.
-		  BlElementExtentChangedEvent.
-		  BlBlurEvent.
-		  BlFocusEvent }
+		  BlElementScrolledEvent }
 ]
 
 { #category : #initialization }
@@ -90,7 +93,7 @@ ToListElement >> initialize [
 	
 	self selectionMode: self defaultSelectionMode.
 	self addEventHandler: ToListElementEventHandler new.
-	self installSharedEventDistributor.
+	self installSharedEventDistributors.
 
 	self addChild: self next.
 	self contextMenuWindowManagerClass: ToListElementContextMenuWindowManager.
@@ -100,21 +103,32 @@ ToListElement >> initialize [
 ]
 
 { #category : #initialization }
-ToListElement >> installSharedEventDistributor [
+ToListElement >> installSharedEventDistributors [
 	"installs shared event distributors between the list element, the selection strategy,
 	the infinite, the data and the data source. 
 	This gives the possibility to directly add event handlers on shared events :
 		self when: ToInfiniteSelectionChangedEvent do: [ bla bla ] 
 		instead of 
-		self infinite when: ToInfiniteSelectionChangedEvent do: [ bla bla ] "
+		self infinite when: ToSelectionChangedEvent do: [ bla bla ] "
 
-	sharedDistributor := BlSharedEventDistributor new
-		                     shareEvents: self sharedEvents;
+	| dataSharedHandler dataSourceSharedHandler infiniteSharedHandler |
+	dataSharedHandler := BlSharedEventDistributor new
+		                     shareEvents: self dataSharedEvents;
 		                     yourself.
-	self addEventHandler: sharedDistributor.
-	self data addEventHandler: sharedDistributor.
-	self dataSource addEventHandler: sharedDistributor.
-	self infinite addEventHandler: sharedDistributor
+	dataSourceSharedHandler := BlSharedEventDistributor new
+		                           shareEvents: self dataSourceSharedEvents;
+		                           yourself.
+	infiniteSharedHandler := BlSharedEventDistributor new
+		                         shareEvents: self infiniteSharedEvents;
+		                         yourself.
+	sharedDistributors := {
+		                      dataSharedHandler.
+		                      dataSourceSharedHandler.
+		                      infiniteSharedHandler }.
+	sharedDistributors do: [ :handler | self addEventHandler: handler ].
+	self data addEventHandler: dataSharedHandler.
+	self dataSource addEventHandler: dataSourceSharedHandler.
+	self infinite addEventHandler: infiniteSharedHandler
 ]
 
 { #category : #orientation }
@@ -223,25 +237,18 @@ ToListElement >> selectionStrategySharedEvents [
 ]
 
 { #category : #initialization }
-ToListElement >> sharedEvents [
-
-	^ Array streamContents: [ :stream |
-		  stream nextPutAll: self dataSharedEvents.
-		  stream nextPutAll: self infiniteElementSharedEvents.
-		  stream nextPutAll: self selectionStrategySharedEvents ]
-]
-
-{ #category : #initialization }
-ToListElement >> uninstallSharedEventDistributor [
+ToListElement >> uninstallSharedEventDistributors [
 	" see uninstallSharedEventDistributor "
 
-	sharedDistributor ifNil: [ ^ self ].
-	self removeEventHandler: sharedDistributor.
-	self data removeEventHandler: sharedDistributor.
-	self infinite removeEventHandler: sharedDistributor.
-	self dataSource removeEventHandler: sharedDistributor.
-	self selectionStrategy removeEventHandler: sharedDistributor.
-	sharedDistributor := nil
+	sharedDistributors ifNil: [ ^ self ].
+
+	sharedDistributors do: [ :handler |
+		self removeEventHandler: handler.
+		self data removeEventHandlersSuchThat: [ :h | handler = h ].
+		self dataSource removeEventHandlersSuchThat: [ :h | handler = h ].
+		self infinite removeEventHandlersSuchThat: [ :h | handler = h ] ].
+
+	sharedDistributors := nil
 ]
 
 { #category : #orientation }

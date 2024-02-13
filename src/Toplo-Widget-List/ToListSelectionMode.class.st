@@ -26,7 +26,7 @@ ToListSelectionMode >> onClickEvent: anEvent onNode: aNode [
 ToListSelectionMode >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement. 
-	selectionModelEventHandler := ToListSelectionModelEventHandler new.
+	selectionModelEventHandler := ToCommandTargetEventHandler new.
 	anElement addEventHandler: selectionModelEventHandler.
 	installedShortcuts := self shortcutsIn: anElement.
 	installedShortcuts do: [ :s | anElement addShortcut: s ]

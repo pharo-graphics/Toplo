@@ -3,7 +3,7 @@ My class hierarchy models all the basic actions that can be made on a selection.
 
 "
 Class {
-	#name : #ToListElementCommand,
+	#name : #ToBasicCommand,
 	#superclass : #Object,
 	#instVars : [
 		'next'
@@ -12,25 +12,25 @@ Class {
 }
 
 { #category : #hook }
-ToListElementCommand >> applyOn: anObject [ 
+ToBasicCommand >> applyOn: anObject [ 
 
 	self nextDo: [ :n | n applyOn: anObject ]
 ]
 
 { #category : #accessing }
-ToListElementCommand >> next [
+ToBasicCommand >> next [
 
 	^ next
 ]
 
 { #category : #accessing }
-ToListElementCommand >> next: aListSelectionAction [
+ToBasicCommand >> next: aListSelectionAction [
 
 	next := aListSelectionAction
 ]
 
 { #category : #hook }
-ToListElementCommand >> nextDo: aBlock [
+ToBasicCommand >> nextDo: aBlock [
 
 	self next ifNotNil: [ :n | aBlock value: n ]
 ]

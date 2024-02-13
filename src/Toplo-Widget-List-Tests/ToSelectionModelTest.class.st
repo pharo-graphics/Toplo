@@ -244,17 +244,6 @@ ToSelectionModelTest >> testNewOperator [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testNewOperatorWithUpdater [
-
-	| s selecter |
-	s := ToSelectionModel new itemCountGetter: 100.
-	selecter := s newOperator selectIndex: 10;
-	applyOn: s newUpdater.
-	self assert: s selectedIndexes equals: { 10 }
-
-]
-
-{ #category : #tests }
 ToSelectionModelTest >> testOnInstalledIn [
 
 	| s |

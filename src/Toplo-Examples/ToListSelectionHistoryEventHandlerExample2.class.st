@@ -9,6 +9,12 @@ Class {
 }
 
 { #category : #'event handling' }
+ToListSelectionHistoryEventHandlerExample2 >> actionCommand: aCommand [ 
+
+	
+]
+
+{ #category : #'event handling' }
 ToListSelectionHistoryEventHandlerExample2 >> addIndexesSelectionCommand: aCommand [ 
 
 	historyList data add:	(currentTarget data at: aCommand indexes last)
@@ -24,12 +30,6 @@ ToListSelectionHistoryEventHandlerExample2 >> addIntervalSelectionCommand: aComm
 ]
 
 { #category : #'event handling' }
-ToListSelectionHistoryEventHandlerExample2 >> addSelectionHolderCommand: aCommand [ 
-
-	
-]
-
-{ #category : #'event handling' }
 ToListSelectionHistoryEventHandlerExample2 >> addWholeSelectionCommand: aCommand [
 
 	(historyList data includes: currentTarget data last) ifTrue: [ ^ self ].
@@ -37,17 +37,17 @@ ToListSelectionHistoryEventHandlerExample2 >> addWholeSelectionCommand: aCommand
 ]
 
 { #category : #'event handling' }
-ToListSelectionHistoryEventHandlerExample2 >> appliedSelectionEvent: anEvent [
+ToListSelectionHistoryEventHandlerExample2 >> commandAppliedEvent: aCommandAppliedEvent [
 
-	currentTarget := anEvent currentTarget.
-	anEvent command applyOn: self.
+	currentTarget := aCommandAppliedEvent currentTarget.
+	aCommandAppliedEvent command applyOn: self.
 	currentTarget := nil
 ]
 
 { #category : #'api - accessing' }
 ToListSelectionHistoryEventHandlerExample2 >> eventsToHandle [
 
-	^ { ToAppliedSelectionEvent }
+	^ { ToSelectionCommandAppliedEvent }
 ]
 
 { #category : #accessing }

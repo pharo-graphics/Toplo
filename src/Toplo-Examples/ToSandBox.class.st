@@ -656,7 +656,7 @@ ToSandBox class >> example_List2WithSelectionHistory [
 		(ToListSelectionHistoryEventHandlerExample2 new historyList:
 			 historyList).
 	statesList addEventHandler: (BlEventHandler
-			 on: ToAppliedSelectionEvent
+			 on: ToSelectionCommandAppliedEvent
 			 do: [ :event | event traceCr ]).
 
 	pane
@@ -704,11 +704,11 @@ ToSandBox class >> example_ListWithAllClasses3 [
 	| l |
 	l := ToListElement new nodeBuilder: [ :node :holder |
 		     | icn lab |
-		     icn := holder data hasComment
+		     icn := holder dataItem hasComment
 			            ifTrue: [ #class ]
 			            ifFalse: [ #uncommentedClass ].
 		     lab := ToLabel new
-			            text: holder data name;
+			            text: holder dataItem name;
 			            beEditable;
 			            yourself.
 		     node addChild: (ToLabeledIcon new

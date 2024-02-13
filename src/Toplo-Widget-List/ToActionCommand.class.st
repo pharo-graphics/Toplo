@@ -1,6 +1,6 @@
 Class {
 	#name : #ToActionCommand,
-	#superclass : #ToListElementCommand,
+	#superclass : #ToBasicCommand,
 	#instVars : [
 		'action'
 	],
@@ -22,6 +22,6 @@ ToActionCommand >> action: aValuable [
 { #category : #hook }
 ToActionCommand >> applyOn: anObject [
 
-	anObject addSelectionHolderCommand: self.
+	anObject actionCommand: self.
 	super applyOn: anObject
 ]

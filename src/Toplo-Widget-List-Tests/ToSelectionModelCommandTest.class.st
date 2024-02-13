@@ -15,6 +15,12 @@ Class {
 	#category : #'Toplo-Widget-List-Tests-Selection-Command'
 }
 
+{ #category : #tests }
+ToSelectionModelCommandTest >> actionCommand: aCommand [
+
+	
+]
+
 { #category : #accessing }
 ToSelectionModelCommandTest >> addIndexesCommand [
 
@@ -37,12 +43,6 @@ ToSelectionModelCommandTest >> addIntervalCommand [
 ToSelectionModelCommandTest >> addIntervalSelectionCommand: aCommand [
 
 	addIntervalCommand := aCommand 
-]
-
-{ #category : #tests }
-ToSelectionModelCommandTest >> addSelectionHolderCommand: aCommand [
-
-	
 ]
 
 { #category : #tests }

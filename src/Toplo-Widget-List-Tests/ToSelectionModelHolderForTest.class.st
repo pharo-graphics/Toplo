@@ -11,7 +11,7 @@ Class {
 		'selecter',
 		'scrollIndex'
 	],
-	#category : #'Toplo-Widget-List-Tests-Selection-Model'
+	#category : #'Toplo-Widget-List-Tests-Selection-Selecter'
 }
 
 { #category : #accessing }
@@ -56,7 +56,7 @@ ToSelectionModelHolderForTest >> initialize [
 	self dataSource data: data.
 	selectionModel := self defaultSelectionModel.
 	selectionModel onInstalledIn: self.
-	self addEventHandler: ToListSelectionModelEventHandler new.
+	self addEventHandler: ToCommandTargetEventHandler new.
 	self addEventHandler: (BlEventHandler
 			 on: ToListSelectionChangedEvent
 			 do: [ :event | self successfulCommand: true ]).
@@ -72,7 +72,7 @@ ToSelectionModelHolderForTest >> itemCount [
 { #category : #accessing }
 ToSelectionModelHolderForTest >> operator [ 
 
-	^  ToSelectionModelOperator new
+	^  ToListElementSelecter new
 
 ]
 

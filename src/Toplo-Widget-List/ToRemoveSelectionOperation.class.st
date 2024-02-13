@@ -1,7 +1,7 @@
 Class {
 	#name : #ToRemoveSelectionOperation,
 	#superclass : #ToSelectionModelOperation,
-	#category : #'Toplo-Widget-List-Command'
+	#category : #'Toplo-Widget-List-Selection-Command'
 }
 
 { #category : #dispatching }

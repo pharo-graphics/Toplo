@@ -17,44 +17,6 @@ ToSelectionModel >> = anObject [
 	^ self underlyingModel = anObject underlyingModel
 ]
 
-{ #category : #'command operations' }
-ToSelectionModel >> addIndexesSelectionCommand: aCommand [
-
-	aCommand indexes ifEmpty: [ ^ self ].
-	self ensureCompositeSelectionModel.
-	aCommand indexes do: [ :idx |
-			self underlyingModel selectIndex: idx ]
-]
-
-{ #category : #'command operations' }
-ToSelectionModel >> addIntervalSelectionCommand: aCommand [
-
-	| interval |
-	interval := aCommand computedInterval.
-	interval ifEmpty: [ ^ self ].
-	self ensureCompositeSelectionModel.
-	self underlyingModel 
-		select: interval first - 1
-		to: interval last
-]
-
-{ #category : #'command operations' }
-ToSelectionModel >> addSelectionHolderCommand: aCommand [
-
-]
-
-{ #category : #'command operations' }
-ToSelectionModel >> addWholeSelectionCommand: aCommand [
-
-	self ensureWholeSelectionModel 
-]
-
-{ #category : #'command operations' }
-ToSelectionModel >> applyCommand: aCommand [
-
-	aCommand applyOn: self
-]
-
 { #category : #private }
 ToSelectionModel >> checkEmptiness [
 
@@ -221,13 +183,7 @@ ToSelectionModel >> lastIndex [
 { #category : #'instance creation' }
 ToSelectionModel >> newOperator [
 
-	^ ToSelectionModelOperator new 
-]
-
-{ #category : #'instance creation' }
-ToSelectionModel >> newUpdater [
-
-	^ ToSelectionModelUpdater new selectionModel: self
+	^ ToListElementSelecter new 
 ]
 
 { #category : #'api - hooks' }
@@ -247,37 +203,6 @@ ToSelectionModel >> postCopy [
 
 	super postCopy.
 	underlyingModel := underlyingModel copy
-]
-
-{ #category : #'command operations' }
-ToSelectionModel >> removeIndexesSelectionCommand: aCommand [
-
-	| wasWhole |
-	wasWhole := self isWholeSelectionModel.
-	self ensureCompositeSelectionModel.
-	wasWhole ifTrue: [ self underlyingModel select: 0 to: self itemCount ].
-	aCommand indexes do: [ :idx |
-		self underlyingModel deselectIndex: idx ].
-	self checkEmptiness
-]
-
-{ #category : #'command operations' }
-ToSelectionModel >> removeIntervalSelectionCommand: aCommand [
-
-	| interval wasWhole |
-	wasWhole := self isWholeSelectionModel.
-	self ensureCompositeSelectionModel.
-	wasWhole ifTrue: [
-		self underlyingModel select: 0 to: self itemCount ].
-	interval := aCommand computedInterval.
-	self underlyingModel deselect: interval first - 1 to: interval last.
-	self checkEmptiness
-]
-
-{ #category : #'command operations' }
-ToSelectionModel >> removeWholeSelectionCommand: aCommand [
-
-	self underlyingModel: ToUnderlyingSelectionModel empty
 ]
 
 { #category : #updating }

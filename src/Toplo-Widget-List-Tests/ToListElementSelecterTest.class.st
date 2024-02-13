@@ -25,22 +25,18 @@ ToListElementSelecterTest >> setUp [
 { #category : #tests }
 ToListElementSelecterTest >> testAddCommand [
 
-	| selChangedEvent selRequestEvent cmd |
+	| selChangedEvent cmd |
 	holder addEventHandler: (BlEventHandler
 			 on: ToListSelectionChangedEvent
 			 do: [ :event | selChangedEvent := event ]).
-	holder addEventHandler: (BlEventHandler
-			 on: ToSelectionRequestEvent
-			 do: [ :event | selRequestEvent := event ]).
 
 	selecter addCommand: (cmd := ToWholeSelectionCommand new
 			        operation: ToAddSelectionOperation new;
 			        yourself).
+			
 	selecter apply.
 	self assert: holder selectionModel isNotEmpty.
-	self assert: selChangedEvent notNil.
-	self assert: selRequestEvent notNil.
-	self assert: selRequestEvent command identicalTo: cmd
+	self assert: selChangedEvent notNil
 ]
 
 { #category : #tests }

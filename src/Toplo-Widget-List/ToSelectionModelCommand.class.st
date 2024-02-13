@@ -1,10 +1,10 @@
 Class {
 	#name : #ToSelectionModelCommand,
-	#superclass : #ToListElementCommand,
+	#superclass : #ToBasicCommand,
 	#instVars : [
 		'operation'
 	],
-	#category : #'Toplo-Widget-List-Command'
+	#category : #'Toplo-Widget-List-Selection-Command'
 }
 
 { #category : #accessing }

@@ -431,10 +431,11 @@ TToObservableCollection >> notifyUpdateAllChangeAround: aBlock [
 TToObservableCollection >> notifyUpdateChangeAround: aBlock interval: anInterval [
 
 	| request |
-	self fireEvent: (request := ToCollectionUpdateRequest new interval: anInterval).
-	request accepted ifTrue: [
-		aBlock value.
-		self fireEvent: (ToCollectionUpdateEvent new interval: anInterval) ]
+	self fireEvent:
+		(request := ToCollectionUpdateRequest new interval: anInterval).
+	request accepted ifFalse: [ ^ self ].
+	aBlock value.
+	self fireEvent: (ToCollectionUpdateEvent new interval: anInterval)
 ]
 
 { #category : #'t - observable collection - copying' }

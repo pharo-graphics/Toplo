@@ -67,14 +67,14 @@ ToListElementEventHandler >> eventsToHandle [
 		  BlElementScrolledEvent.
 		  BlInfiniteElementAttachedEvent.
 		  BlInfiniteElementDetachedEvent.
-		  ToDataSourceAttachedEvent.
-		  ToDataSourceDetachedEvent.
 
 		  BlMouseDownEvent.
 		  BlPrimaryClickEvent.
 		  BlDoubleClickEvent.
 
 		  " data source "
+		  ToDataSourceAttachedEvent.
+		  ToDataSourceDetachedEvent.
 		  BlInfiniteDataSourceItemRangeInserted.
 		  BlInfiniteDataSourceItemRangeRemoved.
 
@@ -116,6 +116,18 @@ ToListElementEventHandler >> infiniteElementDetachedEvent: anEvent [
 
 ]
 
+{ #category : #'infinite event handling' }
+ToListElementEventHandler >> launchSelectionAction: aBlock in: aTarget [
+
+	aTarget isAttachedToSceneGraph ifFalse: [
+		aBlock value.
+		^ self ].
+	" use a task here to ensure the selection model update during UI thread"
+	aTarget enqueueTask: (BlTaskAction new action: [
+			 aBlock value.
+			 aTarget dispatchEvent: ToListSelectionDirtyEvent new ])
+]
+
 { #category : #'mouse handlers' }
 ToListElementEventHandler >> mouseDownEvent: anEvent [
 
@@ -132,10 +144,12 @@ ToListElementEventHandler >> onItemsInserted: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	target selectionModel shift: anEvent itemCount from: anEvent position.
-	target requestLayout.
-	target enqueueTask: (BlTaskAction new action: [
-			 target dispatchEvent: ToListSelectionDirtyEvent new ])
+	self
+		launchSelectionAction: [
+			target selectionModel
+				shift: anEvent itemCount
+				from: anEvent position ]
+		in: target
 ]
 
 { #category : #'infinite event handling' }
@@ -143,13 +157,15 @@ ToListElementEventHandler >> onItemsRemoved: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	target selectionModel
-		deselectIndex: anEvent position
-		to: anEvent position + anEvent itemCount - 1.
-	target selectionModel shift: anEvent itemCount negated from: anEvent position.
-	target requestLayout.
-	target enqueueTask: (BlTaskAction new action: [
-			 target dispatchEvent: ToListSelectionDirtyEvent new ])
+	self
+		launchSelectionAction: [
+			target selectionModel
+				deselectIndex: anEvent position
+				to: anEvent position + anEvent itemCount - 1.
+			target selectionModel
+				shift: anEvent itemCount negated
+				from: anEvent position ]
+		in: target
 ]
 
 { #category : #'data events handling' }

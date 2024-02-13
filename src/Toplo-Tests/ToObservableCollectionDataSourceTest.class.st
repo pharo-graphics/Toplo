@@ -122,6 +122,6 @@ ToObservableCollectionDataSourceTest >> testWithoutData [
 	| datasource |
 	datasource := ToInfiniteObservableCollectionDataSource new.
 	self assert: datasource data isNil.
-	self assert: datasource itemCount equals: 0.
+	self should: [ datasource itemCount ] raise: Error.
 	self assert: datasource hasStableIds not
 ]

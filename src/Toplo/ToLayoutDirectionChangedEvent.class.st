@@ -1,7 +1,7 @@
 Class {
 	#name : #ToLayoutDirectionChangedEvent,
 	#superclass : #BlEvent,
-	#category : 'Toplo-Core'
+	#category : #'Toplo-Core'
 }
 
 { #category : #sending }

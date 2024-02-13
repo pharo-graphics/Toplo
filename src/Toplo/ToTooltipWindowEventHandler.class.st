@@ -1,7 +1,7 @@
 Class {
 	#name : #ToTooltipWindowEventHandler,
 	#superclass : #BlCustomEventHandler,
-	#category : 'Toplo-Core-Tooltip'
+	#category : #'Toplo-Core-Tooltip'
 }
 
 { #category : #'api - accessing' }

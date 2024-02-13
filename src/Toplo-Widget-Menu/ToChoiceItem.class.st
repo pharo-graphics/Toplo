@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'data'
 	],
-	#category : 'Toplo-Widget-Menu-Choice menu'
+	#category : #'Toplo-Widget-Menu-Choice menu'
 }
 
 { #category : #testing }

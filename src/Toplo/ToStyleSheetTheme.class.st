@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'styleSheet'
 	],
-	#category : 'Toplo-Core-Theme'
+	#category : #'Toplo-Core-Theme'
 }
 
 { #category : #testing }

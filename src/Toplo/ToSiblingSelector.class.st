@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSiblingSelector,
 	#superclass : #ToBinarySelector,
-	#category : 'Toplo-Core-Selectors'
+	#category : #'Toplo-Core-Selectors'
 }
 
 { #category : #visiting }

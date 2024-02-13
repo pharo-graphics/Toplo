@@ -7,7 +7,7 @@ Class {
 		'property',
 		'duration'
 	],
-	#category : 'Toplo-Core-Theme'
+	#category : #'Toplo-Core-Theme'
 }
 
 { #category : #accessing }

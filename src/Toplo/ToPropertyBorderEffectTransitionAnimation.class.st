@@ -1,7 +1,7 @@
 Class {
 	#name : #ToPropertyBorderEffectTransitionAnimation,
 	#superclass : #ToPropertyAnimation,
-	#category : 'Toplo-Core-StyleSheet'
+	#category : #'Toplo-Core-StyleSheet'
 }
 
 { #category : #'instance creation' }

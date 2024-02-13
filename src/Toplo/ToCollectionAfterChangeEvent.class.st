@@ -1,5 +1,5 @@
 Class {
 	#name : #ToCollectionAfterChangeEvent,
 	#superclass : #ToCollectionChangedEvent,
-	#category : 'Toplo-Core-Collection'
+	#category : #'Toplo-Core-Collection'
 }

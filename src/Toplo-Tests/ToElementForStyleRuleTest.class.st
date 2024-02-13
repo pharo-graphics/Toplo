@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'themeForSetup'
 	],
-	#category : 'Toplo-Tests-Core-StyleSheet'
+	#category : #'Toplo-Tests-Core-StyleSheet'
 }
 
 { #category : #initialization }

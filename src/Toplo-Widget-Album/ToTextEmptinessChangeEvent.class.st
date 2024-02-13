@@ -1,7 +1,7 @@
 Class {
 	#name : #ToTextEmptinessChangeEvent,
 	#superclass : #BlEvent,
-	#category : 'Toplo-Widget-Album-TextPane'
+	#category : #'Toplo-Widget-Album-TextPane'
 }
 
 { #category : #sending }

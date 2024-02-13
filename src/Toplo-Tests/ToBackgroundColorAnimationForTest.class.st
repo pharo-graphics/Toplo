@@ -1,7 +1,7 @@
 Class {
 	#name : #ToBackgroundColorAnimationForTest,
 	#superclass : #ToPropertyAnimation,
-	#category : 'Toplo-Tests-Core-Theme'
+	#category : #'Toplo-Tests-Core-Theme'
 }
 
 { #category : #writing }

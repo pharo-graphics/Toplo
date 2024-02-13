@@ -5,7 +5,7 @@ Class {
 	#instVars : [
 		'styleRules'
 	],
-	#category : 'Toplo-Tests-Core-StyleSheet'
+	#category : #'Toplo-Tests-Core-StyleSheet'
 }
 
 { #category : #'t - style rule holder - accessing' }

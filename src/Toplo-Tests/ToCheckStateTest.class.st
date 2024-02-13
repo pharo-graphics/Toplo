@@ -1,7 +1,7 @@
 Class {
 	#name : #ToCheckStateTest,
 	#superclass : #ToTestCaseWithSpace,
-	#category : 'Toplo-Tests-Core-States'
+	#category : #'Toplo-Tests-Core-States'
 }
 
 { #category : #running }

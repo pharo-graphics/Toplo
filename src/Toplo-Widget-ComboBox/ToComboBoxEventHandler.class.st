@@ -1,7 +1,7 @@
 Class {
 	#name : #ToComboBoxEventHandler,
 	#superclass : #BlCustomEventHandler,
-	#category : 'Toplo-Widget-ComboBox'
+	#category : #'Toplo-Widget-ComboBox'
 }
 
 { #category : #'api - accessing' }

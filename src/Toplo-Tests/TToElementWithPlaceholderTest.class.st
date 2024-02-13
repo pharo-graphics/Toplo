@@ -4,7 +4,7 @@ A TToElementWithPlaceholderTest is a test class for testing the behavior of TToE
 Class {
 	#name : #TToElementWithPlaceholderTest,
 	#superclass : #ToTestCaseWithSpace,
-	#category : 'Toplo-Tests-Core'
+	#category : #'Toplo-Tests-Core'
 }
 
 { #category : #tests }

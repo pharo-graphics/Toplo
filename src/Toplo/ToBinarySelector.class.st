@@ -5,7 +5,7 @@ Class {
 		'left',
 		'right'
 	],
-	#category : 'Toplo-Core-Selectors'
+	#category : #'Toplo-Core-Selectors'
 }
 
 { #category : #accessing }

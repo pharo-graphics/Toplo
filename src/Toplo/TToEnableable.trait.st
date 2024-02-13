@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToEnableable,
-	#category : 'Toplo-Core'
+	#category : #'Toplo-Core'
 }
 
 { #category : #'t - enableable' }

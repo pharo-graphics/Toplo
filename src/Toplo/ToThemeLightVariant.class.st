@@ -1,7 +1,7 @@
 Class {
 	#name : #ToThemeLightVariant,
 	#superclass : #ToThemeVariant,
-	#category : 'Toplo-Core-Theme'
+	#category : #'Toplo-Core-Theme'
 }
 
 { #category : #accessing }

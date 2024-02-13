@@ -1,7 +1,7 @@
 Class {
 	#name : #ToStillHoveredLookEvent,
 	#superclass : #ToTransientLookEvent,
-	#category : 'Toplo-Core-LookEvents'
+	#category : #'Toplo-Core-LookEvents'
 }
 
 { #category : #sending }

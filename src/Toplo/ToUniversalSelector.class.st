@@ -1,7 +1,7 @@
 Class {
 	#name : #ToUniversalSelector,
 	#superclass : #ToSimpleSelector,
-	#category : 'Toplo-Core-Selectors'
+	#category : #'Toplo-Core-Selectors'
 }
 
 { #category : #visiting }

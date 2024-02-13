@@ -4,7 +4,7 @@ A ToBasicWindowElementTest is a test class for testing the behavior of ToBasicWi
 Class {
 	#name : #ToBasicWindowElementTest,
 	#superclass : #ToTestCaseWithSpace,
-	#category : 'Toplo-Tests-Core-Window'
+	#category : #'Toplo-Tests-Core-Window'
 }
 
 { #category : #tests }

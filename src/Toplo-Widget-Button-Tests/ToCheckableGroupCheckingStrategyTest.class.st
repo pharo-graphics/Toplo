@@ -4,7 +4,7 @@ A ToCheckableGroupCheckingStrategyTest is a test class for testing the behavior 
 Class {
 	#name : #ToCheckableGroupCheckingStrategyTest,
 	#superclass : #TestCase,
-	#category : 'Toplo-Widget-Button-Tests-Checkable'
+	#category : #'Toplo-Widget-Button-Tests-Checkable'
 }
 
 { #category : #tests }

@@ -4,7 +4,7 @@ A ToCheckableGroupTest is a test class for testing the behavior of ToCheckableGr
 Class {
 	#name : #ToCheckableGroupTest,
 	#superclass : #TestCase,
-	#category : 'Toplo-Widget-Button-Tests-Checkable'
+	#category : #'Toplo-Widget-Button-Tests-Checkable'
 }
 
 { #category : #tests }

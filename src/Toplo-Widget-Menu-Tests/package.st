@@ -1,1 +1,1 @@
-Package { #name : 'Toplo-Widget-Menu-Tests' }
+Package { #name : #'Toplo-Widget-Menu-Tests' }

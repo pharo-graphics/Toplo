@@ -1,5 +1,5 @@
 Class {
 	#name : #ToAlbumCancelRequestedEvent,
 	#superclass : #ToAlbumClientEvent,
-	#category : 'Toplo-Widget-Album-TextPane'
+	#category : #'Toplo-Widget-Album-TextPane'
 }

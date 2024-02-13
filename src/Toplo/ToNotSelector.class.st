@@ -1,7 +1,7 @@
 Class {
 	#name : #ToNotSelector,
 	#superclass : #ToUnarySelector,
-	#category : 'Toplo-Core-Selectors'
+	#category : #'Toplo-Core-Selectors'
 }
 
 { #category : #visiting }

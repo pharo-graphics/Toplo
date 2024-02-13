@@ -7,7 +7,7 @@ Class {
 		'clickHandler',
 		'clickEventClass'
 	],
-	#category : 'Toplo-Widget-Button-Core'
+	#category : #'Toplo-Widget-Button-Core'
 }
 
 { #category : #'t - clickable' }

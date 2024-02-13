@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'changedAction'
 	],
-	#category : 'Toplo-Core-Properties'
+	#category : #'Toplo-Core-Properties'
 }
 
 { #category : #adding }

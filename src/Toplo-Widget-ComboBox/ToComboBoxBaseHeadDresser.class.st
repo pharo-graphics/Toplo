@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'comboBox'
 	],
-	#category : 'Toplo-Widget-ComboBox'
+	#category : #'Toplo-Widget-ComboBox'
 }
 
 { #category : #'api - install/uninstall  hook' }

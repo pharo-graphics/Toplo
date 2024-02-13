@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'innerElement'
 	],
-	#category : 'Toplo-Widget-Menu-Basic'
+	#category : #'Toplo-Widget-Menu-Basic'
 }
 
 { #category : #accessing }

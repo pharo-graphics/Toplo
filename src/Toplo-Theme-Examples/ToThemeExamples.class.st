@@ -161,7 +161,7 @@ ToThemeExamples class >> example_ToLabelWithHeadingSkin [
 
 	listElement := ToListElement new nodeBuilder: [ :node :holder |
 		               | lab |
-		               lab := holder data.
+		               lab := holder dataItem.
 		               lab removeFromParent.
 		               lab hMatchParent.
 		               node addChild: lab ].

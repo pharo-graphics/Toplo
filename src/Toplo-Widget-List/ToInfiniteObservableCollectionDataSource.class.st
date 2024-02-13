@@ -36,33 +36,12 @@ ToInfiniteObservableCollectionDataSource >> itemCount [
 	"Return the total number of items in the data set"
 	<return: #Number>
 
-	^ self data ifNil: [0] ifNotNil: [:l | l size]
-]
-
-{ #category : #accessing }
-ToInfiniteObservableCollectionDataSource >> list [
-
-	self 
-		deprecated:  'Use #data instead' 
-		transformWith: '`@receiver list' -> '`@receiver data'.
-	^ self data	
-]
-
-{ #category : #accessing }
-ToInfiniteObservableCollectionDataSource >> list: anObservableCollection [
-
-	self
-		deprecated: 'Please use data: instead.'
-		transformWith:
-			'`@receiver list: `@col'
-				-> '`@receiver data: `@col'.
-	^ self data: anObservableCollection
+	^ self data size
 ]
 
 { #category : #'instance creation' }
 ToInfiniteObservableCollectionDataSource >> onBindHolder: anElementHolder at: aPosition [
-
 	"Update holder's model"
-	anElementHolder data: (self data at: aPosition).
 
+	anElementHolder dataItem: (self data at: aPosition)
 ]

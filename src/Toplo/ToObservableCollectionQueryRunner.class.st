@@ -17,20 +17,16 @@ Class {
 ToObservableCollectionQueryRunner >> applyDataFilterIn: anObservableCollection [
 
 	| event |
-	anObservableCollection dispatchEvent:
-		(ToObservableCollectionQueryPatternChangedEvent new
-			 selector: self;
-			 yourself).
-	self pattern
-		ifEmpty: [ selectedIndexes := OrderedCollection new ]
+	selectedIndexes := self pattern
+		ifEmpty: [ #(  ) ]
 		ifNotEmpty: [
-			selectedIndexes := Array streamContents: [ :stream |
+			Array streamContents: [ :stream |
 				                   anObservableCollection withIndexDo: [ :d :idx |
 					                   (self dataFilter value: d value: self pattern)
 						                   ifTrue: [ stream nextPut: idx ] ] ] ].
-	event := ToObservableCollectionQueryResultEvent new.
-	event selector: self.
+	event := ToObservableCollectionQueryResultEvent new queryRunner: self; yourself.
 	anObservableCollection dispatchEvent: event
+
 ]
 
 { #category : #accessing }
@@ -86,7 +82,8 @@ ToObservableCollectionQueryRunner >> newProcessIn: anObservableCollection [
 ToObservableCollectionQueryRunner >> onInstalledIn: anObservableCollection [
 
 	delayBeforeFilter := self defaultDelay.
-	process := self newProcessIn: anObservableCollection
+	process := self newProcessIn: anObservableCollection.
+	selectedIndexes := #()
 ]
 
 { #category : #'api - hooks' }
@@ -94,7 +91,8 @@ ToObservableCollectionQueryRunner >> onUninstalledIn: anObservableCollection [
 
 	process terminate.
 	pattern := ''.
-	semaphore := nil
+	semaphore := nil.
+	selectedIndexes := #()
 ]
 
 { #category : #accessing }
@@ -116,6 +114,8 @@ ToObservableCollectionQueryRunner >> pattern: aString [
 ToObservableCollectionQueryRunner >> selectedIndexes [
 
 	^ selectedIndexes
+
+	
 ]
 
 { #category : #accessing }

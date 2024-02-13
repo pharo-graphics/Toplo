@@ -41,6 +41,7 @@ ToParameterizedHostTest >> waitTestingSpaces [
 
 	testingSpaces ifNil: [ ^ self ].
 	testingSpaces do: [ :each |
-		each requestNextPulse ].
-	super waitTestingSpaces
+		(BlSpace
+			pulseUntilEmptyTaskQueue: each
+			timeout: 200 milliSeconds) ]
 ]

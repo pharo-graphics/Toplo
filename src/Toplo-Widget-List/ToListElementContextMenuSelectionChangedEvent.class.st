@@ -2,22 +2,22 @@ Class {
 	#name : #ToListElementContextMenuSelectionChangedEvent,
 	#superclass : #BlEvent,
 	#instVars : [
-		'selectedIndexes',
+		'selection',
 		'sourceEvent'
 	],
 	#category : #'Toplo-Widget-List-Context-menu'
 }
 
 { #category : #accessing }
-ToListElementContextMenuSelectionChangedEvent >> selectedIndexes [
+ToListElementContextMenuSelectionChangedEvent >> selection [
 
-	^ selectedIndexes
+	^ selection ifNil: [ selection := BlCompositeSelection new ]
 ]
 
 { #category : #accessing }
-ToListElementContextMenuSelectionChangedEvent >> selectedIndexes: aCollection [
+ToListElementContextMenuSelectionChangedEvent >> selection: aSelection [
 
-	selectedIndexes := aCollection
+	selection := aSelection
 ]
 
 { #category : #sending }

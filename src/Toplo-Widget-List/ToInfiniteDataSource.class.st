@@ -16,20 +16,22 @@ ToInfiniteDataSource >> data: aCollection [
 	self subclassResponsibility 
 ]
 
-{ #category : #accessing }
-ToInfiniteDataSource >> list [
+{ #category : #hooks }
+ToInfiniteDataSource >> onAttached: anInfiniteElement [
 
-	^ self subclassResponsibility 
-]
-
-{ #category : #accessing }
-ToInfiniteDataSource >> list: aCollection [
-
-	self subclassResponsibility 
+	self dispatchEvent: ToDataSourceAttachedEvent new
+	
 ]
 
 { #category : #'instance creation' }
 ToInfiniteDataSource >> onCreateHolder: anInfiniteElement [ 
 
 	^ anInfiniteElement newNodeHolderFromDataSource: self
+]
+
+{ #category : #hooks }
+ToInfiniteDataSource >> onDetached: anInfiniteElement [
+
+	self dispatchEvent: ToDataSourceDetachedEvent new
+	
 ]

@@ -1,41 +1,55 @@
 Class {
 	#name : #ToListMultiSelectionMode,
 	#superclass : #ToListSelectionMode,
-	#category : #'Toplo-Widget-List-Selection-Command'
+	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
-{ #category : #'command checking' }
-ToListMultiSelectionMode >> addIndexesSelectionCommand: aCommand [
+{ #category : #testing }
+ToListMultiSelectionMode >> allowNodeSelectionOnMouseDown [
 
-	" ok lets do it "
+	(self hasWholeSelection or: [ self selectedIndexesCount > 1 ])
+		ifTrue: [ self preserveSelectionOnFocused ifTrue: [ ^ false ] ].
+	^ super allowNodeSelectionOnMouseDown
 ]
 
-{ #category : #'command checking' }
-ToListMultiSelectionMode >> addIntervalSelectionCommand: aCommand [
+{ #category : #accessing }
+ToListMultiSelectionMode >> nodeEventHandlerClasses [ 
 
-	" ok lets do it "
+	^ { ToListNodeMultiSelectionClickEventHandler }
 ]
 
-{ #category : #'command checking' }
-ToListMultiSelectionMode >> addWholeSelectionCommand: aCommand [
+{ #category : #'event handling' }
+ToListMultiSelectionMode >> onClickEvent: anEvent onNode: aNode [
 
-	" ok lets do it "
+	super onClickEvent: anEvent onNode: aNode.
+	anEvent modifiers isShift ifTrue: [
+		self selecter selectToIndex: aNode holder position.
+		^ self ].
+	anEvent modifiers isPrimaryModifier ifTrue: [
+		| index target |
+		index := aNode holder position.
+		target := aNode holder listElement.
+		(target selectionModel containsIndex: index)
+			ifTrue: [ self selecter deselectIndex: index ]
+			ifFalse: [ self selecter selectIndex: index ].
+		^ self ].
+	self selecter
+		selectOnlyIndex: aNode holder position
 ]
 
-{ #category : #'command checking' }
-ToListMultiSelectionMode >> removeIndexesSelectionCommand: aCommand [
+{ #category : #shortcuts }
+ToListMultiSelectionMode >> shortcutsIn: anElement [
 
-	" ok lets do it "
-]
-
-{ #category : #'command checking' }
-ToListMultiSelectionMode >> removeIntervalSelectionCommand: aCommand [
-
-	" ok lets do it "
-]
-
-{ #category : #'command checking' }
-ToListMultiSelectionMode >> removeWholeSelectionCommand: aCommand [
-
-	" ok lets do it "
+	^ (super shortcutsIn: anElement) , {
+		  (BlShortcutWithAction new
+			   combination: BlKeyCombination primaryA;
+			   action: [ :aShortcutEvent :aShortcut | self selecter selectAll ]).
+		  (BlShortcutWithAction new
+			   combination: BlKeyCombination builder shift arrowDown build;
+			   action: [ :aShortcutEvent :aShortcut |
+				   self selecter selectAndScrollToNextDeselected ]).
+		  (BlShortcutWithAction new
+			   combination: BlKeyCombination builder shift arrowUp build;
+			   action: [ :aShortcutEvent :aShortcut |
+				   self selecter selectAndScrollToPreviousDeselected ]) }
 ]

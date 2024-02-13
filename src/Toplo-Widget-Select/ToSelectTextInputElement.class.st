@@ -84,10 +84,10 @@ ToSelectTextInputElement >> newInputTextField [
 				ToSelectTextFieldCarriageReturnShortcut new.
 			textField addEventHandler: (BlEventHandler
 					 on: AlbTextEditedEvent
-					 do: [ :event | self onFilterTextFieldUpdated: event ]).
+					 do: [ :event |  self onFilterTextFieldUpdated: event ]).
 			textField addEventHandler: (BlEventHandler
 					 on: AlbTextReplacedEvent
-					 do: [ :event | self onFilterTextFieldUpdated: event ]) ]
+					 do: [ :event |  self onFilterTextFieldUpdated: event ]) ]
 		ifFalse: [ textField beReadonlyWithSelection ].
 	
 	^ textField
@@ -106,8 +106,7 @@ ToSelectTextInputElement >> newTextField [
 { #category : #private }
 ToSelectTextInputElement >> onFilterTextFieldUpdated: anEvent [
 
-	select listElement dispatchEvent:
-		(ToListFilterRequest new pattern: self filterString).
+	select mode pattern: self filterString.
 	select isMultipleSelection
 		ifTrue: [self checkMultipleSelectPlaceholderText ]
 		ifFalse: [self checkSingleSelectPlaceholderText]

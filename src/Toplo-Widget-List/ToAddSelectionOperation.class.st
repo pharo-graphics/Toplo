@@ -1,9 +1,6 @@
 Class {
 	#name : #ToAddSelectionOperation,
-	#superclass : #ToSelectionOperation,
-	#instVars : [
-		'deselectBefore'
-	],
+	#superclass : #ToSelectionModelOperation,
 	#category : #'Toplo-Widget-List-Selection-Command'
 }
 
@@ -23,10 +20,4 @@ ToAddSelectionOperation >> applyIntervalSelection: aSelectionCommand on: anObjec
 ToAddSelectionOperation >> applyWholeSelection: aSelectionCommand on: anObject [
 
 	anObject addWholeSelectionCommand: aSelectionCommand
-]
-
-{ #category : #testing }
-ToAddSelectionOperation >> isSelection [
-
-	^ true
 ]

@@ -1,94 +1,72 @@
 Class {
 	#name : #ToListElementSelecter,
-	#superclass : #Object,
-	#traits : 'TToListSelectionOperator',
-	#classTraits : 'TToListSelectionOperator classTrait',
+	#superclass : #ToCommandOperator,
 	#instVars : [
 		'currentIndex',
-		'eventTarget',
-		'distance',
-		'pivot'
+		'operateSilently'
 	],
 	#category : #'Toplo-Widget-List-Selection-Command'
 }
 
-{ #category : #'instance creation' }
-ToListElementSelecter class >> on: anEventTargetWithDataSourceAndselectionModel [
-
-	^ self new onInstalledIn: anEventTargetWithDataSourceAndselectionModel
-]
-
-{ #category : #'private - command handling' }
+{ #category : #'command operations' }
 ToListElementSelecter >> addIndexesSelectionCommand: aCommand [
 
-	self markPointedPosition: aCommand indexes first
+	aCommand indexes ifEmpty: [ ^ self ].
+	self selectionModel selectAllIndexes: aCommand indexes.
+	aCommand indexes
+		ifEmpty: [ self currentIndex: 0 ]
+		ifNotEmpty: [ :indexes | self currentIndex: indexes first ]
 ]
 
-{ #category : #'private - command handling' }
+{ #category : #'command operations' }
 ToListElementSelecter >> addIntervalSelectionCommand: aCommand [
 
-	self markPointedPosition: aCommand interval first
+	| from to |
+	from := aCommand from min: aCommand to.
+	to := aCommand from max: aCommand to.
+	self selectionModel selectIndex: from to: to.
+	self currentIndex: aCommand to
 ]
 
-{ #category : #'other selection commands' }
-ToListElementSelecter >> addOrRemoveNext [
-
-	self currentIndex = self dataSource itemCount ifTrue: [ ^ self ].
-	self addOrRemoveWithGap: 1
-]
-
-{ #category : #'other selection commands' }
-ToListElementSelecter >> addOrRemovePrevious [
-
-	self currentIndex <= 1 ifTrue: [ ^ self ].
-	self addOrRemoveWithGap: -1
-]
-
-{ #category : #'private - other selection commands' }
-ToListElementSelecter >> addOrRemoveWithGap: aGap [
-
-	| nextIdx prevDistance deselect |
-	self checkPivot.
-
-	prevDistance := self distance.
-	nextIdx := self currentIndex + aGap.
-	self distance: self pivot - nextIdx.
-
-	deselect := prevDistance abs - self distance abs ~= -1.
-	deselect
-		ifTrue: [
-			| idx |
-			idx := nextIdx - aGap.
-			self deselectIndex: idx ]
-		ifFalse: [
-			[
-			self selectIndex: nextIdx.
-			nextIdx < self dataSource itemCount and: [
-				nextIdx > 1 and: [ self selectionModel containsIndex: nextIdx + aGap ] ] ] whileTrue: [
-				nextIdx := nextIdx + aGap.
-				self distance: self distance - aGap ] ].
-
-	self currentIndex: nextIdx
-]
-
-{ #category : #'private - command handling' }
+{ #category : #'command operations' }
 ToListElementSelecter >> addWholeSelectionCommand: aCommand [
 
-	self markPointedPosition: 0
+	self selectionModel selectAll.
+	self currentIndex: 0
 ]
 
-{ #category : #'private - other selection commands' }
-ToListElementSelecter >> checkPivot [
+{ #category : #'command application' }
+ToListElementSelecter >> apply [
 
-	self pivot ifNil: [
-		self pivot: self currentIndex.
-		self distance: 0 ]
+	| previousModel changed |
+	previousModel := self selectionModel copy.
+	command applyOn: self.
+	changed := previousModel ~= self selectionModel.
+	operateSilently ifTrue: [ ^ self ].
+	
+	self target dispatchEvent: (ToSelectionCommandAppliedEvent new
+			 commandTarget: self;
+			 command: command).
+			
+	changed ifFalse: [ ^ self ].
+	self target dispatchEvent: (ToListSelectionChangedEvent new
+			 selectionModel: self selectionModel copy;
+			 yourself)
+]
+
+{ #category : #'event dispatching' }
+ToListElementSelecter >> beSilentWhile: aBlock [
+
+	| prev | 
+	prev := operateSilently.
+	operateSilently := false.
+	aBlock ensure: [ operateSilently := prev ]
 ]
 
 { #category : #accessing }
 ToListElementSelecter >> currentIndex [
 
-	^ currentIndex 
+	^ currentIndex
 ]
 
 { #category : #accessing }
@@ -97,171 +75,205 @@ ToListElementSelecter >> currentIndex: anIndex [
 	currentIndex := anIndex
 ]
 
-{ #category : #'t - list selection operator - accessing' }
-ToListElementSelecter >> dataSource [
+{ #category : #operations }
+ToListElementSelecter >> deselectAll [
 
-	^ self eventTarget dataSource
+	self addCommand: (ToWholeSelectionCommand new
+			 operation: ToRemoveSelectionOperation new;
+			 yourself)
 ]
 
-{ #category : #'t - list selection operator - event dispatching' }
-ToListElementSelecter >> dispatchCommandResult: aCommand [
+{ #category : #operations }
+ToListElementSelecter >> deselectAllIndexes: anArray [
 
-	self eventTarget dispatchEvent:
-		(ToSelectionResultEvent new command: aCommand)
+	self addCommand: (ToIndexesSelectionCommand new
+			 indexes: anArray;
+			 operation: ToRemoveSelectionOperation new)
 ]
 
-{ #category : #'private - other selection commands' }
-ToListElementSelecter >> distance [
-	
-	^ distance
-]
+{ #category : #operations }
+ToListElementSelecter >> deselectIndex: anIndex [
 
-{ #category : #'private - other selection commands' }
-ToListElementSelecter >> distance: aGap [
-	
-	distance := aGap
-]
-
-{ #category : #'t - list selection operator - accessing' }
-ToListElementSelecter >> eventTarget [
-
-	^ eventTarget
-]
-
-{ #category : #accessing }
-ToListElementSelecter >> eventTarget: anEventTargetWithDataSourceAndselectionModel [
-
-	eventTarget := anEventTargetWithDataSourceAndselectionModel
-]
-
-{ #category : #'private - other selection commands' }
-ToListElementSelecter >> goTowardNext [ 
-
-	self currentIndex isZero
-		ifTrue: [
-			self dataSource data ifEmpty: [ ^ false ].
-			self markPointedPosition: 1 ]
-		ifFalse: [
-			self currentIndex < self dataSource data size ifFalse: [
-				self markPointedPosition: 1.
-				^ true ].
-			self markPointedPosition: self currentIndex + 1 ].
-	^ true
-]
-
-{ #category : #'private - other selection commands' }
-ToListElementSelecter >> goTowardPrevious [
-
-	self currentIndex isZero
-		ifTrue: [
-			self dataSource data ifEmpty: [ ^ false ].
-			self markPointedPosition: self dataSource itemCount ]
-		ifFalse: [
-			self currentIndex > 1 ifFalse: [
-				self markPointedPosition: self dataSource itemCount.
-				^ true ].
-			self markPointedPosition: self currentIndex - 1 ].
-	^ true
+	self addCommand: (ToIntervalSelectionCommand new
+			 from: anIndex to: anIndex;
+			 operation: ToRemoveSelectionOperation new)
 ]
 
 { #category : #initialization }
-ToListElementSelecter >> initialize [
+ToListElementSelecter >> initialize [ 
 
 	super initialize.
+	operateSilently := false.
 	currentIndex := 0
 ]
 
-{ #category : #'private - other selection commands' }
-ToListElementSelecter >> markPointedPosition: anInteger [
+{ #category : #accessing }
+ToListElementSelecter >> itemCount [
 
-	" pivot and distance are used for shift-arrow-up and down management "
-	self pivot: nil.
-	self distance: nil.
-	
-	self currentIndex: anInteger.
-
+	^ self selectionModel itemCount
 ]
 
-{ #category : #initialization }
-ToListElementSelecter >> onInstalledIn: anEventTargetWithDataSourceAndselectionModel [
+{ #category : #private }
+ToListElementSelecter >> nextIdxTowardEnd [ 
 
-	eventTarget := anEventTargetWithDataSourceAndselectionModel.
-	self installStrategy: anEventTargetWithDataSourceAndselectionModel selectionStrategy
+	self currentIndex isZero
+		ifTrue: [
+			self itemCount isZero ifTrue: [ ^ 0 ].
+			^ 1 ]
+		ifFalse: [
+			self currentIndex < self itemCount ifFalse: [
+				^  1 ] ].
+	^ self currentIndex + 1
 ]
 
-{ #category : #'t - list selection operator - event dispatching' }
-ToListElementSelecter >> onSelectionRequestSuccess: aSelectionRequestEvent [
+{ #category : #private }
+ToListElementSelecter >> nextIdxTowardStart [
 
-
-	aSelectionRequestEvent command applyOn: self.
-	self dispatchCommandResult: aSelectionRequestEvent command
+	self currentIndex isZero
+		ifTrue: [
+			self itemCount isZero ifTrue: [ ^ 0 ].
+			^ self itemCount ]
+		ifFalse: [ self currentIndex > 1 ifFalse: [ ^ self itemCount ] ].
+	^ self currentIndex - 1
 ]
 
-{ #category : #initialization }
-ToListElementSelecter >> onUninstalledIn: anEventTargetWithDataSourceAndselectionModel [
-
-	self uninstallStrategy: anEventTargetWithDataSourceAndselectionModel selectionStrategy.
-	eventTarget := nil
-]
-
-{ #category : #'private - other selection commands' }
-ToListElementSelecter >> pivot [
-
-	^ pivot
-]
-
-{ #category : #'private - other selection commands' }
-ToListElementSelecter >> pivot: anIndex [
-
-	pivot := anIndex
-]
-
-{ #category : #'private - command handling' }
+{ #category : #'command operations' }
 ToListElementSelecter >> removeIndexesSelectionCommand: aCommand [
 
-	self markPointedPosition: aCommand indexes first
+	aCommand indexes ifEmpty: [ ^ self ].
+	self selectionModel deselectAllIndexes: aCommand indexes.
+	self currentIndex: aCommand indexes first
 ]
 
-{ #category : #'private - command handling' }
+{ #category : #'command operations' }
 ToListElementSelecter >> removeIntervalSelectionCommand: aCommand [
 
-	self markPointedPosition: aCommand interval first
+	self selectionModel deselectIndex: aCommand from to: aCommand to.
+	self currentIndex: aCommand to
 ]
 
-{ #category : #'private - command handling' }
+{ #category : #'command operations' }
 ToListElementSelecter >> removeWholeSelectionCommand: aCommand [
 
-	self markPointedPosition: 0
+	self selectionModel deselectAll.
+	self currentIndex: 0
 ]
 
-{ #category : #'other selection commands' }
-ToListElementSelecter >> selectNext [
+{ #category : #operations }
+ToListElementSelecter >> selectAll [
 
-	self goTowardNext ifTrue: [ self selectOnlyIndex: self currentIndex ]
+	self addCommand: (ToWholeSelectionCommand new
+			 operation: ToAddSelectionOperation new;
+			 yourself)
 ]
 
-{ #category : #'other selection commands' }
-ToListElementSelecter >> selectPrevious [
+{ #category : #operations }
+ToListElementSelecter >> selectAllIndexes: anArray [
 
-	self goTowardPrevious ifTrue: [
-		self selectOnlyIndex: self currentIndex ]
+	self addCommand: (ToIndexesSelectionCommand new
+			 indexes: anArray;
+			 operation: ToAddSelectionOperation new)
 ]
 
-{ #category : #'other selection commands' }
+{ #category : #operations }
+ToListElementSelecter >> selectAndScrollToIndex: anIndex [
+
+	self selectIndex: anIndex.
+	self selectionModel ifNotEmpty: [ self target scrollToIndex: anIndex ]
+]
+
+{ #category : #'shortcuts operations' }
+ToListElementSelecter >> selectAndScrollToNext [
+
+	| nextIdx |
+	nextIdx := self nextIdxTowardEnd.
+	nextIdx isZero ifTrue: [ ^ self ].
+	self deselectAll.
+	self selectAndScrollToIndex: nextIdx
+]
+
+{ #category : #'shortcuts operations' }
+ToListElementSelecter >> selectAndScrollToNextDeselected [
+
+	self selectAndScrollToIndex: (self sideIdx: 1)
+]
+
+{ #category : #'shortcuts operations' }
+ToListElementSelecter >> selectAndScrollToPrevious [
+
+	| nextIdx |
+	nextIdx := self nextIdxTowardStart.
+	nextIdx isZero ifTrue: [ ^ self ].
+	self deselectAll.
+	self selectAndScrollToIndex: nextIdx
+]
+
+{ #category : #'shortcuts operations' }
+ToListElementSelecter >> selectAndScrollToPreviousDeselected [
+
+	self selectAndScrollToIndex: (self sideIdx: -1)
+]
+
+{ #category : #operations }
+ToListElementSelecter >> selectIndex: anIndex [
+
+	self addCommand: (ToIntervalSelectionCommand new
+			 from: anIndex to: anIndex;
+			 operation: ToAddSelectionOperation new)
+]
+
+{ #category : #operations }
+ToListElementSelecter >> selectIndex: aStartIndex to: anEndIndex [
+
+	self addCommand: (ToIntervalSelectionCommand new
+			 from: aStartIndex to: anEndIndex;
+			 operation: ToAddSelectionOperation new)
+]
+
+{ #category : #operations }
+ToListElementSelecter >> selectOnlyIndex: anIndex [
+
+	self addCommand: ((ToWholeSelectionCommand new operation:
+			  ToRemoveSelectionOperation new) next:
+			 (ToIntervalSelectionCommand new
+				  from: anIndex to: anIndex;
+				  operation: ToAddSelectionOperation new))
+]
+
+{ #category : #operations }
+ToListElementSelecter >> selectOnlyIndexes: anArray [
+
+	self addCommand: ((ToWholeSelectionCommand new operation:
+			  ToRemoveSelectionOperation new) next:
+			 (ToIndexesSelectionCommand new
+				  indexes: anArray;
+				  operation: ToAddSelectionOperation new))
+]
+
+{ #category : #'shortcuts operations' }
 ToListElementSelecter >> selectToIndex: index [
 
 	| curr |
 	curr := self currentIndex.
-	self markPointedPosition: index.
-	self pivot: curr.
-	self distance: index - curr.
-	curr < index
-		ifTrue: [ self selectIndex: curr - 1 to: index ]
-		ifFalse: [ self selectIndex: index - 1 to: curr ]
+	self selectIndex: curr to: index
 ]
 
-{ #category : #'t - list selection operator - accessing' }
+{ #category : #accessing }
 ToListElementSelecter >> selectionModel [
 
-	^ self eventTarget selectionModel
+	^ self target selectionModel
+]
+
+{ #category : #private }
+ToListElementSelecter >> sideIdx: aGap [
+
+	| nextIdx |
+	nextIdx := self currentIndex.
+	(self selectionModel containsIndex: nextIdx) ifFalse: [ ^ nextIdx ].
+	[
+	(nextIdx between: 1 and: self itemCount) and: [
+		self selectionModel containsIndex: nextIdx ] ] whileTrue: [
+		nextIdx := nextIdx + aGap ].
+	nextIdx := (nextIdx max: 1) min: self itemCount.
+	^ nextIdx
 ]

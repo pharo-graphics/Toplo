@@ -5,9 +5,9 @@ Class {
 	#classTraits : 'TToListElementDecorator classTrait + TToElementWithPlaceholder classTrait',
 	#instVars : [
 		'selectionElements',
-		'sharedDistributor',
-		'preserveSelectionOnFocused',
-		'requestFocusOnMouseDown'
+		'selectionModel',
+		'selectionMode',
+		'sharedDistributors'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -31,6 +31,16 @@ ToListElement >> dataSharedEvents [
 ]
 
 { #category : #initialization }
+ToListElement >> dataSourceSharedEvents [
+
+	^ {
+		  ToDataSourceAttachedEvent.
+		  ToDataSourceDetachedEvent.
+		  BlInfiniteDataSourceItemRangeInserted.
+		  BlInfiniteDataSourceItemRangeRemoved }
+]
+
+{ #category : #initialization }
 ToListElement >> defaultInfiniteElement [ 
 
 	^ ToInfiniteElement new
@@ -43,15 +53,15 @@ ToListElement >> defaultLayout [
 ]
 
 { #category : #initialization }
-ToListElement >> defaultPeserveSelectionOnFocused [
+ToListElement >> defaultSelecter [
 
-	^ true
+	^ ToListElementSelecter new.
 ]
 
 { #category : #initialization }
-ToListElement >> defaultSelectionStrategy [
+ToListElement >> defaultSelectionMode [
 
-	^ ToStandardListSelectionStrategy new
+	^ ToListMultiSelectionMode new.
 ]
 
 { #category : #orientation }
@@ -61,15 +71,12 @@ ToListElement >> horizontal: aBoolean [
 ]
 
 { #category : #initialization }
-ToListElement >> infiniteElementSharedEvents [
+ToListElement >> infiniteSharedEvents [
 
 	^ {
 		  BlInfiniteElementAttachedEvent.
 		  BlInfiniteElementDetachedEvent.
-		  BlElementScrolledEvent.
-		  BlElementExtentChangedEvent.
-		  BlBlurEvent.
-		  BlFocusEvent }
+		  BlElementScrolledEvent }
 ]
 
 { #category : #initialization }
@@ -77,43 +84,51 @@ ToListElement >> initialize [
 
 	super initialize.
 
-	selectionElements := #(  ).
-	requestFocusOnMouseDown := true.
-	self preserveSelectionOnFocused: self defaultPeserveSelectionOnFocused.
-	self layout: self defaultLayout.
 	self next: self defaultInfiniteElement.
-
+	self next elevation: (BlRelativeElevation elevation: 10).
+	self selectionModel: self newSelectionModel.
+	
+	selectionElements := #(  ).
+	self layout: self defaultLayout.
+	
+	self selectionMode: self defaultSelectionMode.
 	self addEventHandler: ToListElementEventHandler new.
-
-	self installSharedEventDistributor.
+	self installSharedEventDistributors.
 
 	self addChild: self next.
-	self infinite elevation: (BlRelativeElevation elevation: 10).
-	self contextMenuWindowManagerClass:
-		ToListElementContextMenuWindowManager.
+	self contextMenuWindowManagerClass: ToListElementContextMenuWindowManager.
 	self addEventHandler: ToListSelectionElementEventHandler new.
-	self addEventHandler:
-		ToListElementContextMenuSelectionEventHandler new.
-	self matchParent.
-	self selectionStrategy: self defaultSelectionStrategy
+	self addEventHandler: ToListElementContextMenuSelectionEventHandler new.
+	self matchParent
 ]
 
 { #category : #initialization }
-ToListElement >> installSharedEventDistributor [
+ToListElement >> installSharedEventDistributors [
 	"installs shared event distributors between the list element, the selection strategy,
 	the infinite, the data and the data source. 
 	This gives the possibility to directly add event handlers on shared events :
 		self when: ToInfiniteSelectionChangedEvent do: [ bla bla ] 
 		instead of 
-		self infinite when: ToInfiniteSelectionChangedEvent do: [ bla bla ] "
+		self infinite when: ToSelectionChangedEvent do: [ bla bla ] "
 
-	sharedDistributor := ToSharedEventDistributor new
-		                     shareEvents: self sharedEvents;
+	| dataSharedHandler dataSourceSharedHandler infiniteSharedHandler |
+	dataSharedHandler := BlSharedEventDistributor new
+		                     shareEvents: self dataSharedEvents;
 		                     yourself.
-	self addEventHandler: sharedDistributor.
-	self data addEventHandler: sharedDistributor.
-	self infinite addEventHandler: sharedDistributor.
-	self selectionStrategy addEventHandler: sharedDistributor
+	dataSourceSharedHandler := BlSharedEventDistributor new
+		                           shareEvents: self dataSourceSharedEvents;
+		                           yourself.
+	infiniteSharedHandler := BlSharedEventDistributor new
+		                         shareEvents: self infiniteSharedEvents;
+		                         yourself.
+	sharedDistributors := {
+		                      dataSharedHandler.
+		                      dataSourceSharedHandler.
+		                      infiniteSharedHandler }.
+	sharedDistributors do: [ :handler | self addEventHandler: handler ].
+	self data addEventHandler: dataSharedHandler.
+	self dataSource addEventHandler: dataSourceSharedHandler.
+	self infinite addEventHandler: infiniteSharedHandler
 ]
 
 { #category : #orientation }
@@ -128,10 +143,24 @@ ToListElement >> isVertical [
 	^ self infinite layout isVertical
 ]
 
+{ #category : #accessing }
+ToListElement >> itemCount [
+
+	^ self dataSource itemCount
+]
+
 { #category : #skin }
 ToListElement >> newRawSkin [ 
 
 	^ ToListElementSkin new
+]
+
+{ #category : #initialization }
+ToListElement >> newSelectionModel [
+
+	^ ToSelectionModel new
+		  itemCountGetter: [ self dataSource itemCount ];
+		  yourself
 ]
 
 { #category : #'t - element with placeholder' }
@@ -141,33 +170,9 @@ ToListElement >> placeholderElevation [
 ]
 
 { #category : #accessing }
-ToListElement >> preserveSelectionOnFocused [
+ToListElement >> selecter [ 
 
-	^ preserveSelectionOnFocused
-]
-
-{ #category : #accessing }
-ToListElement >> preserveSelectionOnFocused: aBoolean [
-
-	preserveSelectionOnFocused := aBoolean
-]
-
-{ #category : #'focus requesting' }
-ToListElement >> requestFocus [
-
-	self infinite requestFocus
-]
-
-{ #category : #accessing }
-ToListElement >> requestFocusOnMouseDown [
-
-	^ requestFocusOnMouseDown 
-]
-
-{ #category : #accessing }
-ToListElement >> requestFocusOnMouseDown: aBoolean [
-
-	requestFocusOnMouseDown := aBoolean
+	^ self selectionMode selecter
 ]
 
 { #category : #accessing }
@@ -183,19 +188,48 @@ ToListElement >> selectionElements: aListElementSelectionCollection [
 ]
 
 { #category : #accessing }
-ToListElement >> selectionStrategy: aSelectionStrategy [
+ToListElement >> selectionMode [
 
-	self uninstallSharedEventDistributor.
-	self next selectionStrategy: aSelectionStrategy.
-	self installSharedEventDistributor 
+	^ selectionMode
+]
+
+{ #category : #accessing }
+ToListElement >> selectionMode: aSelectionManager [
+
+	selectionMode ifNotNil: [ selectionMode onUninstalledIn: self ].
+	selectionMode := aSelectionManager.
+	selectionMode ifNotNil: [ selectionMode onInstalledIn: self ]
+
+]
+
+{ #category : #accessing }
+ToListElement >> selectionModel [
+
+	^ selectionModel
+]
+
+{ #category : #accessing }
+ToListElement >> selectionModel: aSelectionModel [
+
+	selectionModel ifNotNil: [ selectionModel onUninstalledIn: self ].
+	selectionModel := aSelectionModel.
+	selectionModel ifNotNil: [selectionModel onInstalledIn: self ]
+]
+
+{ #category : #accessing }
+ToListElement >> selectionStrategy [
+
+	self
+		deprecated: 'Use selecter instead'
+		transformWith: '`@receiver selectionStrategy' -> '`@receiver selecter'.
+
+	^ self selecter
 ]
 
 { #category : #initialization }
 ToListElement >> selectionStrategySharedEvents [
 
 	^ {
-		  ToListClickOnNodeEvent.
-		  ToListSelectionActionEvent.
 		  ToListSelectionDirtyEvent.
 		  ToListSelectionChangedEvent.
 		  ToListStrongSelectionEvent.
@@ -203,24 +237,18 @@ ToListElement >> selectionStrategySharedEvents [
 ]
 
 { #category : #initialization }
-ToListElement >> sharedEvents [
-
-	^ Array streamContents: [ :stream |
-		  stream nextPutAll: self dataSharedEvents.
-		  stream nextPutAll: self infiniteElementSharedEvents.
-		  stream nextPutAll: self selectionStrategySharedEvents ]
-]
-
-{ #category : #initialization }
-ToListElement >> uninstallSharedEventDistributor [
+ToListElement >> uninstallSharedEventDistributors [
 	" see uninstallSharedEventDistributor "
 
-	sharedDistributor ifNil: [ ^ self ].
-	self removeEventHandler: sharedDistributor.
-	self data removeEventHandler: sharedDistributor.
-	self infinite removeEventHandler: sharedDistributor.
-	self selectionStrategy removeEventHandler: sharedDistributor.
-	sharedDistributor := nil
+	sharedDistributors ifNil: [ ^ self ].
+
+	sharedDistributors do: [ :handler |
+		self removeEventHandler: handler.
+		self data removeEventHandlersSuchThat: [ :h | handler = h ].
+		self dataSource removeEventHandlersSuchThat: [ :h | handler = h ].
+		self infinite removeEventHandlersSuchThat: [ :h | handler = h ] ].
+
+	sharedDistributors := nil
 ]
 
 { #category : #orientation }

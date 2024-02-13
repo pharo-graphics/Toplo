@@ -88,8 +88,6 @@ ToFilteredListElementEventHandler >> listFilterResultEvent: anEvent [
 
 { #category : #'event handlers' }
 ToFilteredListElementEventHandler >> listSelectionChangedEvent: anEvent [
-	" launched when the list element is clicked. 
-	invoked from the list element selection strategy "
 
 	| target |
 	updatingSelection ifTrue: [ ^ self ].

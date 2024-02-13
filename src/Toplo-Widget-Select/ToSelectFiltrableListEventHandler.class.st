@@ -18,13 +18,17 @@ ToSelectFiltrableListEventHandler >> collectionFilteredEvent: anEvent [
 { #category : #'api - accessing' }
 ToSelectFiltrableListEventHandler >> eventsToHandle [
 
-	^ { ToFilteredListSelectionChangedEvent. ToCollectionFilteredEvent }
+	^ { ToListElementSieveSelectionChangedEvent. ToCollectionFilteredEvent }
 ]
 
 { #category : #'element handlers' }
-ToSelectFiltrableListEventHandler >> filteredListSelectionChangedEvent: anEvent [
+ToSelectFiltrableListEventHandler >> listElementSieveSelectionChangedEvent: anEvent [
 
-	select strategy refreshHeaderNodeContainer
+	select selection indices = anEvent selection indices ifTrue: [ ^ self ].
+	select selection deselectAll.
+	select selection selectAllIndexes: anEvent selection indices.
+	select strategy refreshHeaderNodeContainer.
+
 ]
 
 { #category : #accessing }

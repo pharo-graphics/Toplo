@@ -131,7 +131,7 @@ ToThemeEditorEventListenerSpecializedPropertyPresenterTest >> testEventListener6
 			 property: property1;
 			 yourself).
 	self assert: presenter makeNewAnimation equals: nil.
-	self assert: presenter valueInput text equals: '[ :e | Color red ]'.
+	self assert: presenter valueInput text equals: '[:e |  Color red ]'.
 	self assert: presenter propertyInput selectedItem equals: property1.
 	self assert: presenter supplementInput state equals: false
 ]

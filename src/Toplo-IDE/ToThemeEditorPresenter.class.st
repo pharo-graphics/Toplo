@@ -31,13 +31,13 @@ ToThemeEditorPresenter >> defaultLayout [
 		  add: (SpPanedLayout newHorizontal
 				   add: (SpPanedLayout newHorizontal
 						    add: self rulesTree;
-						    add: self eventListenersList;
+						    add: (SpBoxLayout newVertical
+								     spacing: 4;
+								     add: self selectorEditor expand: false;
+								     add: self eventListenersList;
+								     yourself);
 						    yourself);
-				   add: (SpBoxLayout newVertical
-						    spacing: 4;
-						    add: self selectorEditor expand: false;
-						    add: self eventListenerEditor;
-						    yourself);
+				   add: self  eventListenerEditor;
 				   yourself);
 		  add: self themeInfos;
 		  yourself

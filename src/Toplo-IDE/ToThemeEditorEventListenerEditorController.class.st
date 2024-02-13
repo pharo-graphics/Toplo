@@ -6,7 +6,9 @@ Class {
 	#instVars : [
 		'eventListener',
 		'actionPresenter',
-		'propertyPresenter'
+		'propertyPresenter',
+		'allEventClasses',
+		'nullPresenter'
 	],
 	#category : #'Toplo-IDE-theme-editor-presenter-eventListenerEditor'
 }
@@ -18,9 +20,15 @@ ToThemeEditorEventListenerEditorController >> actionPresenter [
 ]
 
 { #category : #'as yet unclassified' }
+ToThemeEditorEventListenerEditorController >> allEventClasses [
+
+	^ allEventClasses ifNil: [allEventClasses := ToElementLookEvent allSubclasses reject: [ :each | each isAbstract ]]
+]
+
+{ #category : #'as yet unclassified' }
 ToThemeEditorEventListenerEditorController >> currentSpecializeController [
 
-	self eventListener ifNil: [ ^ SpNullPresenter new ].
+	self eventListener ifNil: [ ^ self nullPresenter  ].
 	self isAction ifTrue: [ ^ self actionPresenter ].
 	^ self propertyPresenter
 ]
@@ -36,20 +44,25 @@ ToThemeEditorEventListenerEditorController >> eventListener: anObject [
 
 	eventListener := anObject.
 	self presenter updatePresenter.
-	
-	
+
+
 	self actionPresenter eventListener: anObject.
 	self propertyPresenter eventListener: anObject.
-	
+
 	eventListener ifNil: [ ^ self ].
 	eventListener isAction ifTrue: [ self presenter actionRadio click ].
 	eventListener isPropertyWriter ifTrue: [
 		self presenter propertyRadio click ].
-	self presenter eventClassDropList selectItem:
-		eventListener eventClass.
 
+	self presenter eventClassDropList selectIndex:
+		(self indexOfEventClass: eventListener eventClass).
+]
 
-	
+{ #category : #'as yet unclassified' }
+ToThemeEditorEventListenerEditorController >> indexOfEventClass: anEventClass [
+
+^ allEventClasses indexOf: anEventClass.
+
 ]
 
 { #category : #initialization }
@@ -57,7 +70,9 @@ ToThemeEditorEventListenerEditorController >> initialize [
 
 	propertyPresenter := ToThemeEditorEventListenerSpecializedPropertyPresenter
 		                     new.
-	actionPresenter := ToThemeEditorEventListenerSpecializedActionPresenter new
+	actionPresenter := ToThemeEditorEventListenerSpecializedActionPresenter
+		                   new.
+		nullPresenter := SpNullPresenter new
 ]
 
 { #category : #testing }
@@ -72,12 +87,17 @@ ToThemeEditorEventListenerEditorController >> isPresenterEnabled [
 	^ self eventListener isNotNil
 ]
 
+{ #category : #initialization }
+ToThemeEditorEventListenerEditorController >> nullPresenter [
+
+	^ nullPresenter
+]
+
 { #category : #'as yet unclassified' }
 ToThemeEditorEventListenerEditorController >> populateEventClassDropList: aSpDropListPresenter [
 
-	aSpDropListPresenter items: (ToElementLookEvent allSubclasses reject: [ :each |
-					                  each isAbstract ])
-	
+	aSpDropListPresenter items: self allEventClasses.
+		(ToElementLookEvent allSubclasses reject: [ :each | each isAbstract ])
 ]
 
 { #category : #testing }

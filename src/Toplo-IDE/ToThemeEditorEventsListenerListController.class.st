@@ -92,9 +92,9 @@ ToThemeEditorEventsListenerListController >> replaceEventListener: anOldEventLis
 { #category : #initialization }
 ToThemeEditorEventsListenerListController >> selectedEventListenerChanged: anEventListener [
 
-	self isTriggerSelectedRuleChanged ifFalse: [ ^ self ].
-	self observers do: [ :each |
-		each selectedEventListenerChanged: anEventListener ]
+		self isTriggerSelectedRuleChanged ifFalse: [ ^ self ].
+		self observers do: [ :each |
+			each selectedEventListenerChanged: anEventListener ]
 ]
 
 { #category : #initialization }

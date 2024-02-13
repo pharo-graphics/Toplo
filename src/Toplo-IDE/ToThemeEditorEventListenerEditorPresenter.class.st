@@ -6,7 +6,8 @@ Class {
 	#instVars : [
 		'propertyRadio',
 		'actionRadio',
-		'eventClassDropList'
+		'eventClassDropList',
+		'currentSpecializationPanel'
 	],
 	#category : #'Toplo-IDE-theme-editor-presenter-eventListenerEditor'
 }
@@ -29,6 +30,22 @@ ToThemeEditorEventListenerEditorPresenter >> controllerClass [
 	^ ToThemeEditorEventListenerEditorController
 ]
 
+{ #category : #initialization }
+ToThemeEditorEventListenerEditorPresenter >> currentSpecializationPanel [
+
+	^ currentSpecializationPanel ifNil: [
+		currentSpecializationPanel := self controller
+			                              currentSpecializeController ]
+]
+
+{ #category : #initialization }
+ToThemeEditorEventListenerEditorPresenter >> currentSpecializationPanel: aSpPanel [
+	self layout replace: currentSpecializationPanel with: aSpPanel.
+	currentSpecializationPanel := aSpPanel
+
+	
+]
+
 { #category : #layout }
 ToThemeEditorEventListenerEditorPresenter >> defaultLayout [
 
@@ -36,8 +53,13 @@ ToThemeEditorEventListenerEditorPresenter >> defaultLayout [
 		  spacing: 4;
 		  add: self topLayout expand: false;
 		  add: self eventClassDropList expand: false;
-		add: (SpBoxLayout newHorizontal spacing: 4; add: self propertyRadio; add: self actionRadio ; yourself ) expand: false;
-		  add: self controller currentSpecializeController expand: true;
+		  add: (SpBoxLayout newHorizontal
+				   spacing: 4;
+				   add: self propertyRadio;
+				   add: self actionRadio;
+				   yourself)
+		  expand: false;
+		  add: self currentSpecializationPanel expand: true;
 		  yourself
 ]
 
@@ -79,5 +101,6 @@ ToThemeEditorEventListenerEditorPresenter >> propertyRadio [
 ToThemeEditorEventListenerEditorPresenter >> updatePresenter [
 
 	self enabled: self controller isPresenterEnabled.
-	self layout: self defaultLayout.
+	self currentSpecializationPanel:
+		self controller currentSpecializeController.
 ]

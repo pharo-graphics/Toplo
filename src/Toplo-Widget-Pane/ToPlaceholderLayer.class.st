@@ -1,8 +1,6 @@
 Class {
 	#name : #ToPlaceholderLayer,
 	#superclass : #BlOverlayElement,
-	#traits : 'TToElement',
-	#classTraits : 'TToElement classTrait',
 	#category : #'Toplo-Widget-Pane'
 }
 
@@ -17,6 +15,6 @@ ToPlaceholderLayer >> initialize [
 
 	super initialize.
 	self layout: self defaultLayout.
-	self initializeForToplo 
+	"self initializeForToplo "
 	
 ]

@@ -9,7 +9,7 @@ ToBlElementTest >> testApplicableListenersFor [
 
 	| e theme |
 	e := BlElement new.
-	theme := ToStyleSheetThemeForTest light.
+	theme := ToStyleSheetThemeForTest new.
 	space toTheme: theme.
 	
 	space root addChild: e.
@@ -132,7 +132,7 @@ ToBlElementTest >> testUnsortedApplicableListenersFor [
 
 	| e theme |
 	e := BlElement new.
-	theme := ToStyleSheetThemeForTest light.
+	theme := ToStyleSheetThemeForTest new.
 	space toTheme: theme.
 	space root addChild: e.
 	self assert: e toStyleStore isNil.

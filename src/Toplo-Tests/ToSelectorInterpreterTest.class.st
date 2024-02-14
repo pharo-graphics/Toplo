@@ -20,7 +20,7 @@ ToSelectorInterpreterTest >> testPush [
 	self assert: engine result.
 	self assert: e themeForSetup isNil.
 	
-	theme := ToThemeForStyleRuleTest light.
+	theme := ToThemeForStyleRuleTest new.
 	engine theme: theme.
 	engine check: selector on: e.
 	self assert: engine result.

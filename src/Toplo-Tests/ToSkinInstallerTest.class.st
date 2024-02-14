@@ -24,7 +24,7 @@ ToSkinInstallerTest >> testApplyOnWithRawSkin [
 
 	| e |
 	e := ToElementForRawSkinTest new.
-	space toTheme: ToRawTheme light.
+	space toTheme: ToRawTheme new.
 	e skinManager setSkinInstaller: ToSkinInstaller new in: e.
 	" an element must be attached to a space 
 	because installing a skin requires a theme"

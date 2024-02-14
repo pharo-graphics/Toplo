@@ -1,9 +1,6 @@
 Class {
 	#name : #ToTheme,
 	#superclass : #Object,
-	#instVars : [
-		'variant'
-	],
 	#category : #'Toplo-Core-Theme'
 }
 
@@ -11,12 +8,6 @@ Class {
 ToTheme class >> canBeDefault [
 
 	^ false
-]
-
-{ #category : #'instance creation' }
-ToTheme class >> dark [
-
-	^ self variant: ToThemeDarkVariant new
 ]
 
 { #category : #accessing }
@@ -274,31 +265,6 @@ ToTheme class >> label [
 	^ 'Unsupported abstract theme'
 ]
 
-{ #category : #'instance creation' }
-ToTheme class >> light [
-
-	^ self variant: ToThemeLightVariant new
-]
-
-{ #category : #'instance creation' }
-ToTheme class >> new [
-
-	self error: 'Use one of the builder methods'
-]
-
-{ #category : #'instance creation' }
-ToTheme class >> variant: aThemeVariant [
-
-	^ self basicNew initialize variant: aThemeVariant
-]
-
-{ #category : #comparing }
-ToTheme >> = anObject [
-
-	self class == anObject class ifFalse: [ ^ false ].
-	^ self variant class == anObject variant class
-]
-
 { #category : #accessing }
 ToTheme >> defaultSkinFor: anElement [
 
@@ -318,16 +284,10 @@ ToTheme >> expectedSkinFor: anElement [
 	^ anElement skinManager ifNotNil: [:sm | sm defaultSkin ]
 ]
 
-{ #category : #comparing }
-ToTheme >> hash [
-
-	^ self class hash bitXor: self variant class hash
-]
-
 { #category : #accessing }
 ToTheme >> name [
 
-	^ self class label, ' - ', self variant class label
+	^ self class label
 ]
 
 { #category : #accessing }
@@ -347,7 +307,6 @@ ToTheme >> newSkinInstanceFor: anElement [
 ToTheme >> onInstalledIn: anElement [
 
 	anElement addAllTokenProperties: self defaultTokenProperties.
-	self variant onInstalledIn: anElement.
 	anElement toThemeChanged
 ]
 
@@ -355,7 +314,6 @@ ToTheme >> onInstalledIn: anElement [
 ToTheme >> onUninstalledIn: anElement [
 
 	anElement removeAllTokenPropertiesFromNames: (self defaultTokenProperties collect: [:tp | tp name]).
-	self variant onUninstalledIn: anElement.
 	anElement toThemeChanged
 ]
 
@@ -377,17 +335,4 @@ ToTheme >> setUpElement: anElement [
 ToTheme >> styleSheet [ 
 
 	^ nil
-]
-
-{ #category : #accessing }
-ToTheme >> variant [
-
-	^ variant
-]
-
-{ #category : #accessing }
-ToTheme >> variant: aThemeVariant [
-
-	variant ifNotNil: [ (BlImmutableObjectChangeError object: self) signal ].
-	variant := aThemeVariant
 ]

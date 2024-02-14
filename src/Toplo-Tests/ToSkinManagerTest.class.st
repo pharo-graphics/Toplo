@@ -97,7 +97,7 @@ ToSkinManagerTest >> testComputedStyleSheetChainIn [
 	self assert:
 		(childchildchild skinManager computedStyleSheetChainIn: childchildchild)
 			isEmpty.
-	space toTheme: ToStyleSheetTheme light.
+	space toTheme: ToStyleSheetTheme new.
 	" one style sheet in theme by default "
 	self assert:
 		(childchildchild skinManager computedStyleSheetChainIn: childchildchild)
@@ -385,7 +385,7 @@ ToSkinManagerTest >> testIsSetUpForTheme [
 	| e theme skin |
 	e := ToElement new.
 	space := BlSpace new.
-	theme := ToRawTheme light.
+	theme := ToRawTheme new.
 	self deny: (e skinManager isSetUpForTheme: theme).
 	self assert: e skinManager registeredThemeClasses isEmpty.
 	self assert: ((theme newSkinFor: e) isKindOf: ToRawSkin).
@@ -463,7 +463,7 @@ ToSkinManagerTest >> testRegisterTheme [
 	e := ToElement new.
 	self assert: e skinManager registeredThemeClasses notNil.
 	self assert: e skinManager registeredThemeClasses isEmpty.
-	e skinManager registerTheme: ToRawTheme light.
+	e skinManager registerTheme: ToRawTheme new.
 	self assert: e skinManager registeredThemeClasses size equals: 1.
 	self
 		assert: e skinManager registeredThemeClasses anyOne
@@ -477,7 +477,7 @@ ToSkinManagerTest >> testRegisteredThemeClasses [
 	e := ToElement new.
 	self assert: e skinManager registeredThemeClasses notNil.
 	self assert: e skinManager registeredThemeClasses isEmpty.
-	e skinManager setUp: e forTheme: ToRawTheme light.
+	e skinManager setUp: e forTheme: ToRawTheme new.
 	self assert: e skinManager registeredThemeClasses size equals: 1.
 	self
 		assert: e skinManager registeredThemeClasses anyOne
@@ -726,7 +726,7 @@ ToSkinManagerTest >> testSetUpForTheme [
 	e := ToElement new.
 	self assert: e skinManager registeredThemeClasses notNil.
 	self assert: e skinManager registeredThemeClasses isEmpty.
-	theme := ToRawTheme light.
+	theme := ToRawTheme new.
 	self deny: (e skinManager isSetUpForTheme: theme).
 	e skinManager setUp: e forTheme: theme.
 	self assert: (e skinManager isSetUpForTheme: theme).
@@ -734,7 +734,7 @@ ToSkinManagerTest >> testSetUpForTheme [
 	self
 		assert: e skinManager registeredThemeClasses anyOne
 		equals: ToRawTheme.
-	e skinManager setUp: e forTheme: ToRawTheme light.
+	e skinManager setUp: e forTheme: ToRawTheme new.
 	self assert: e skinManager registeredThemeClasses size equals: 1.
 	self
 		assert: e skinManager registeredThemeClasses anyOne
@@ -749,7 +749,7 @@ ToSkinManagerTest >> testSetUpForThemeIn2 [
 	space := BlSpace new.
 	self assert: e skinManager registeredThemeClasses notNil.
 	self assert: e skinManager registeredThemeClasses isEmpty.
-	theme := ToRawTheme light.
+	theme := ToRawTheme new.
 	space root addChild: e.
 	skin := theme newSkinFor: e.
 	self assert: e skinManager registeredThemeClasses size equals: 1.

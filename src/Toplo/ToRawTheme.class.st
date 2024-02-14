@@ -16,12 +16,6 @@ ToRawTheme class >> label [
 	^'Raw'
 ]
 
-{ #category : #testing }
-ToRawTheme class >> supportedVariantClasses [
-
-	^ { ToThemeDarkVariant. ToThemeLightVariant }
-]
-
 { #category : #accessing }
 ToRawTheme >> expectedSkinFor: anElement [
 

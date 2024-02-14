@@ -414,7 +414,7 @@ ToChoiceMenuTest >> testWithStructuredDataWithStrictStrategy [
 
 	cb addEventHandler: (BlEventHandler
 			 on: ToChoiceSelectedIndexChangeEvent
-			 do: [ cb selectedData ifNotNil: [:data | space toTheme: (data value light) ] ] ).
+			 do: [ cb selectedData ifNotNil: [:data | space toTheme: (data value new) ] ] ).
 			
 	cb selectIndex: 1.
 	self assert: cb selectedData value identicalTo: ToBeeTheme.

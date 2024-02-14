@@ -28,7 +28,7 @@ ToSkinUninstallerTest >> testApplyOnWithRawSkin [
 
 	| e |
 	e := ToElementForRawSkinTest new.
-	space toTheme: ToRawTheme light.
+	space toTheme: ToRawTheme new.
 	e skinManager setSkinUninstaller: ToSkinUninstaller new in: e.
 	e skinManager applySkinUninstallerIn: e.
 	self deny: e skinManager installedSkin notNil.

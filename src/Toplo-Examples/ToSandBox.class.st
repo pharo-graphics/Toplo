@@ -20,7 +20,7 @@ ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheet [
 	btn addStamp: #danger.
 	btn size: 500 @ 100.
 	space := BlSpace new.
-	space toTheme: ToBeeTheme light.
+	space toTheme: ToBeeTheme new.
 	space root layout: BlLinearLayout vertical.
 	space root addChildren: {
 			chk.
@@ -42,7 +42,7 @@ ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheetDarkTheme [
 	btn addStamp: #primary.
 	btn addStamp: #danger.
 	btn size: 500 @ 100.
-	space := BlSpace new toTheme: ToBeeTheme dark.
+	space := BlSpace new toTheme: ToBeeDarkTheme new.
 	space root layout: BlLinearLayout vertical.
 	space root addChildren: {
 			chk.
@@ -57,7 +57,7 @@ ToSandBox class >> example_CheckBoxWithDefaultStyleSheetDarkTheme [
 	ToTheme cleanUp.
 	chk := ToCheckbox new.
 	chk labelText: 'OK'.
-	space := BlSpace new toTheme: ToBeeTheme dark.
+	space := BlSpace new toTheme: ToBeeDarkTheme new.
 	space root layout: BlLinearLayout vertical.
 	space root addChildren: {
 			chk }.
@@ -1584,7 +1584,7 @@ ToSandBox class >> example_StyleSheetSandbox [
 	"b := ToCheckbox new."
 	"b := ToRadioButton new."
 	b := ToButton new.
-	b toTheme: ToBeeTheme light.
+	b toTheme: ToBeeTheme new.
 
 	"b := ToToggleButton new."
 	"b stampWith: #primary. "
@@ -1647,7 +1647,7 @@ ToSandBox class >> example_StyleSheetSandboxDarkTheme [
 	"b withIndeterminate: true."
 	"b innerElement border: (BlBorder paint: Color black)."
 
-	(b openInSpace) toTheme: ToBeeTheme dark.
+	(b openInSpace) toTheme: ToBeeDarkTheme new.
 	"b width: 200."
 	"b size: 100 @ 100."
 
@@ -1669,8 +1669,8 @@ ToSandBox class >> example_ToButtonSkins [
 	themeSwitcher := ToChoiceMenu new.
 	themeSwitcher width: 150.
 	themeSwitcher data addAll: {
-			ToBeeTheme light.
-			ToBeeTheme dark. }.
+			ToBeeTheme new.
+			ToBeeDarkTheme new. }.
 
 	themeSwitcher whenSelectedIndexChangedDo: [
 		space toTheme: themeSwitcher selectedData new ].
@@ -2578,7 +2578,7 @@ ToSandBox class >> example_spaceRootSkin [
 	| space  |
 	space := BlSpace new.
 	space inspect.
-	space toTheme: ToBeeTheme dark.
+	space toTheme: ToBeeDarkTheme new.
 "	themeSwitcher := ToToggleButton new
 		      labelText: 'Theme';
 		      beLabelFirst.
@@ -2849,10 +2849,10 @@ ToSandBox class >> example_themeChoiceButton [
 	themeSelect defaultSelectedIndex: 3.
 	themeSelect dataToTextConverter: [ :assoc | assoc key ].
 	themeSelect data addAll: {
-			('Bee Light' -> ToBeeTheme light).
-			('Bee Dark' -> ToBeeTheme dark).
-			('Raw Light' -> ToRawTheme light).
-			('Raw Dark' -> ToRawTheme dark) }.
+			('Bee Light' -> ToBeeTheme new).
+			('Bee Dark' -> ToBeeDarkTheme new).
+			('Raw Light' -> ToRawTheme new).
+			('Raw Dark' -> ToRawDarkTheme new) }.
 
 	themeSelect addEventHandler: (BlEventHandler
 			 on: ToChoiceChangedEvent
@@ -2881,7 +2881,7 @@ ToSandBox class >> example_themeSelectPlusCheckbox [
 
 	themeSelect addEventHandler: (BlEventHandler
 			 on: ToChoiceSelectedIndexChangeEvent
-			 do: [ space toTheme: themeSelect selectedData value light ]).
+			 do: [ space toTheme: themeSelect selectedData value new ]).
 
 	themePane addChild: themeSelect.
 	space root addChild: themePane.

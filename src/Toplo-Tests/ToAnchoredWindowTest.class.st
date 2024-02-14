@@ -191,7 +191,7 @@ ToAnchoredWindowTest >> testLocalThemeSetOnPopupEvent2 [
 	windowHandler onInstalledIn: e.
 	win := windowHandler newWindowEvent: nil.
 	self assert: win localTheme isNil.
-	localTheme := ToRawTheme dark.
+	localTheme := ToRawDarkTheme new.
 	win localTheme: localTheme.
 	win popupEvent: nil.
 	self waitTestingSpaces.

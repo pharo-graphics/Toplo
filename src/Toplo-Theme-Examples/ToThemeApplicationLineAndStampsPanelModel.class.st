@@ -31,8 +31,8 @@ ToThemeApplicationLineAndStampsPanelModel >> body [
 		        vertical: true;
 		        constraintsDo: [ :c |
 			        c horizontal matchParent.
-			        c vertical matchParent ];
-		clipChildren: false;
+			        c vertical fitContent ];
+		        clipChildren: false;
 		        yourself.
 	self allStampsVariation do: [ :each |
 		each ifNotNil: [

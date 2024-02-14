@@ -41,7 +41,7 @@ ToThemeApplicationPanelModel >> panel [
 	^ panel ifNil: [
 		  panel := ToPane new
 			           vertical: true;
-			clipChildren: false;
+			           clipChildren: false;
 			           addChild: (ToLabel new
 					            text: self name;
 					            addStamp: #H1;
@@ -52,6 +52,6 @@ ToThemeApplicationPanelModel >> panel [
 			           addChild: self body;
 			           constraintsDo: [ :c |
 				           c horizontal matchParent.
-				           c vertical matchParent ];
+				           c vertical fitContent ];
 			           yourself ]
 ]

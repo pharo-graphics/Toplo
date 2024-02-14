@@ -17,19 +17,20 @@ Class {
 { #category : #'as yet unclassified' }
 ToThemeApplication >> applyThemeSelectorMenu [
 
-	self currentPanel space ifNotNil: [ :s | s toTheme: self themeSelectorMenu selectedData value]
+	self currentPanel space ifNotNil: [ :s |
+		s toTheme: self themeSelectorMenu selectedData value ]
 ]
 
 { #category : #accessing }
 ToThemeApplication >> currentPanel [
 
 	^ currentPanel ifNil: [
-		  currentPanel := BlElement new
-			                  margin: (BlInsets all: 8);
-			                  constraintsDo: [ :c |
-				                  c horizontal matchParent.
-				                  c vertical matchParent ];
-			                  yourself ]
+		  currentPanel := (BlElement new
+			                   margin: (BlInsets all: 8);
+			                   constraintsDo: [ :c |
+				                   c horizontal matchParent.
+				                   c vertical fitContent ];
+			                   yourself) asScrollableElement ]
 ]
 
 { #category : #initialization }
@@ -109,9 +110,11 @@ ToThemeApplication >> initializeThemeSelector [
 		                 toTheme: self navigationTheme;
 		                 yourself.
 	themeSelector layout cellSpacing: 16.
+	
 	themeSelectorMenu := ToChoiceMenu new
 		                     constraintsDo: [ :c | c horizontal matchParent ];
 		                     yourself.
+	themeSelectorMenu dataToTextConverter: [ :assoc | assoc key ].
 	themeSelector addChild: (ToButton new
 			 labelText: 'refresh list';
 			 constraintsDo: [ :c | c minWidth: 128 ];
@@ -133,7 +136,7 @@ ToThemeApplication >> intializeStampButtons [
 	group := ToCheckableGroup new
 		         withStrictCheckingStrategy;
 		         yourself.
-	{ #normal. #information. #danger. #success. #warning } do: [
+	{ #normal. #danger. #success. #warning } do: [
 		:stampText |
 		| button |
 		button := ToCheckbox new
@@ -141,7 +144,8 @@ ToThemeApplication >> intializeStampButtons [
 			          addToGroup: group;
 			          constraintsDo: [ :c | c horizontal matchParent ];
 			          whenClickedDo: [
-				          self panelModels do: [ :each | each applyStamp: stampText ]  ];
+				          self panelModels do: [ :each |
+						          each applyStamp: stampText ] ];
 			          yourself.
 		stampButtons add: button ].
 	stampButtons first check

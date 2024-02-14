@@ -30,3 +30,9 @@ TToCommandOperator >> applyCommand: aCommand for: aTarget [
 	aCommand applyOn: self for: aTarget.
 
 ]
+
+{ #category : #'event management' }
+TToCommandOperator >> dispatchEvent: anEvent [
+
+	self explicitRequirement 
+]

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToListSelectionDirtyEvent,
 	#superclass : #ToListSelectionEvent,
-	#category : #'Toplo-Widget-List-Selection-Strategy'
+	#category : #'Toplo-Widget-List-Selection-Events'
 }
 
 { #category : #sending }

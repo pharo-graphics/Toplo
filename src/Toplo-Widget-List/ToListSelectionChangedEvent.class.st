@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'selectionModel'
 	],
-	#category : #'Toplo-Widget-List-Selection-Strategy'
+	#category : #'Toplo-Widget-List-Selection-Events'
 }
 
 { #category : #accessing }

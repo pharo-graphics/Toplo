@@ -143,6 +143,20 @@ ToSelectionModelTest >> testDeselectIndex [
 ]
 
 { #category : #tests }
+ToSelectionModelTest >> testDeselectIndexTo [
+
+	| s |
+	s := ToSelectionModel new itemCountGetter: 100.
+	s selectIndex: 5 to: 15.
+	s 	deselectIndex: 8 to: 12.
+	self assert: s selectedIndexes equals: { 5. 6. 7. 13. 14. 15 }.
+	s deselectAll.
+	s selectIndex: 5 to: 15.
+	s 	deselectIndex: 12 to: 8.
+	self assert: s selectedIndexes equals: { 5. 6. 7. 13. 14. 15 }
+]
+
+{ #category : #tests }
 ToSelectionModelTest >> testEnsureCompositeSelectionModel [
 
 	| s |
@@ -182,6 +196,23 @@ ToSelectionModelTest >> testEquals [
 	s ensureWholeSelectionModel.
 	self deny: s equals: ToSelectionModel new.
 
+]
+
+{ #category : #tests }
+ToSelectionModelTest >> testFirstIndex [
+
+	| s |
+	s := ToSelectionModel new.
+	self should: [ s firstIndex ] raise: Error.
+	s itemCountGetter: [ 100 ].
+	self assert: s firstIndex equals: 0.
+	s selectAllIndexes: #( 4 6 8).
+	self assert: s firstIndex equals: 4.
+	s selectAll.
+	self assert: s firstIndex equals: 1.
+
+	
+	
 ]
 
 { #category : #tests }
@@ -233,6 +264,20 @@ ToSelectionModelTest >> testItemCountGetter [
 	self assert: s itemCount equals: 1000.
 	
 
+]
+
+{ #category : #tests }
+ToSelectionModelTest >> testLastIndex [
+
+	| s |
+	s := ToSelectionModel new.
+	self should: [ s lastIndex ] raise: Error.
+	s itemCountGetter: [ 100 ].
+	self assert: s lastIndex equals: 0.
+	s selectAllIndexes: #( 4 6 8 ).
+	self assert: s lastIndex equals: 8.
+	s selectAll.
+	self assert: s lastIndex equals: 100
 ]
 
 { #category : #tests }
@@ -302,6 +347,80 @@ ToSelectionModelTest >> testSelectIndex [
 	s selectIndex: 50.
 	s selectIndex: 60.
 	self assert: s selectedIndexes asSet equals: { 1. 5. 6. 10. 50. 60 } asSet
+]
+
+{ #category : #tests }
+ToSelectionModelTest >> testSelectIndexTo [
+
+	| s |
+	s := ToSelectionModel new itemCountGetter: 100.
+	s selectIndex: 5 to: 9.
+	self assert: (s underlyingModel isKindOf: ToCompositeSelectionModel ).
+	self assert: s selectedIndexes equals: { 5. 6. 7. 8. 9 }.
+	s 	selectIndex: 15 to: 10.
+	self assert: s selectedIndexes equals: { 5. 6. 7. 8. 9. 10. 11. 12. 13. 14. 15 }
+]
+
+{ #category : #tests }
+ToSelectionModelTest >> testSelectedIndexesCollect [
+
+	| s collected |
+	s := ToSelectionModel new.
+	self should: [ s selectedIndexesDo: [ :idx | ] ] raise: Error.
+	s itemCountGetter: [ 100 ].
+	collected := s selectedIndexesCollect: [ :idx | idx ].
+	self assert: collected equals: #(  ).
+	s selectAllIndexes: #( 4 6 8 ).
+	collected := s selectedIndexesCollect: [ :idx | idx ].
+	self assert: collected equals: #( 4 6 8 ).
+	s deselectAll.
+	collected := s selectedIndexesCollect: [ :idx | idx ].
+	self assert: collected equals: #(  ).
+	s selectAll.
+	collected := s selectedIndexesCollect: [ :idx | idx ].
+	self assert: collected equals: (( 1 to: 100 ) collect: [:idx | idx]).
+
+]
+
+{ #category : #tests }
+ToSelectionModelTest >> testSelectedIndexesCount [
+
+	| s |
+	s := ToSelectionModel new.
+	self should: [ s selectedIndexesCount ] raise: Error.
+	s itemCountGetter: [ 100 ].
+	self assert: s selectedIndexesCount equals: 0.
+	s selectAllIndexes: #( 4 6 8 ).
+	self assert: s selectedIndexesCount equals: 3.
+	s deselectAll.
+	self assert: s selectedIndexesCount equals: 0.
+	s selectAll.
+	self assert: s selectedIndexesCount equals: 100
+]
+
+{ #category : #tests }
+ToSelectionModelTest >> testSelectedIndexesDo [
+
+	| s count |
+	s := ToSelectionModel new.
+	self should: [ s selectedIndexesDo: [ :idx | ] ] raise: Error.
+	s itemCountGetter: [ 100 ].
+	count := 0.
+	s selectedIndexesDo: [ :idx | count := count + 1 ].
+	self assert: count equals: 0.
+	s selectAllIndexes: #( 4 6 8 ).
+	count := 0.
+	s selectedIndexesDo: [ :idx | count := count + 1 ].
+	self assert: count equals: 3.
+	s deselectAll.
+	count := 0.
+	s selectedIndexesDo: [ :idx | count := count + 1 ].
+	self assert: count equals: 0.
+	s selectAll.
+	count := 0.
+	s selectedIndexesDo: [ :idx | count := count + 1 ].
+	self assert: count equals: 100.
+
 ]
 
 { #category : #tests }

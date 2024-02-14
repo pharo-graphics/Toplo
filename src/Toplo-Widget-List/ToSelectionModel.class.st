@@ -63,10 +63,13 @@ ToSelectionModel >> deselectIndex: anIndex [
 { #category : #updating }
 ToSelectionModel >> deselectIndex: aFirstIndex to: aSecondIndex [
 
+	| from to |
 	self ensureCompositeSelectionModel.
+	from := aFirstIndex min: aSecondIndex.
+	to := aFirstIndex max: aSecondIndex.
 	self underlyingModel 
-		deselect: aFirstIndex - 1
-		to: aSecondIndex
+		deselect: from - 1
+		to: to
 ]
 
 { #category : #private }
@@ -232,10 +235,13 @@ ToSelectionModel >> selectIndex: anIndex [
 { #category : #updating }
 ToSelectionModel >> selectIndex: aFirstIndex to: aSecondIndex [
 
+	| from to |
 	self ensureCompositeSelectionModel.
+	from := aFirstIndex min: aSecondIndex.
+	to := aFirstIndex max: aSecondIndex.
 	self underlyingModel 
-		select: aFirstIndex - 1
-		to: aSecondIndex
+		select: from - 1
+		to: to
 ]
 
 { #category : #accessing }

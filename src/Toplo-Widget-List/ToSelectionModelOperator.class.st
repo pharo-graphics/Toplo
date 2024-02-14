@@ -22,10 +22,7 @@ ToSelectionModelOperator >> addIndexesSelectionCommand: aCommand [
 { #category : #'command operations' }
 ToSelectionModelOperator >> addIntervalSelectionCommand: aCommand [
 
-	| from to |
-	from := aCommand from min: aCommand to.
-	to := aCommand from max: aCommand to.
-	self selectionModel selectIndex: from to: to.
+	self selectionModel selectIndex: aCommand from to: aCommand to.
 	self currentIndex: aCommand to
 ]
 

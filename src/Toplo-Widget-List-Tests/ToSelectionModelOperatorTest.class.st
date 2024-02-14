@@ -117,6 +117,7 @@ ToSelectionModelOperatorTest >> testSelectAllIndexes [
 ToSelectionModelOperatorTest >> testSelectAndScrollToIndex [
 
 	selecter selectIndex: 2.
+	self waitTestingSpaces.
 	selecter selectAndScrollToIndex: 10.
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes asSet equals: #(2 10) asSet.
@@ -129,6 +130,7 @@ ToSelectionModelOperatorTest >> testSelectAndScrollToIndex [
 ToSelectionModelOperatorTest >> testSelectAndScrollToNext [
 
 	selecter selectIndex: 2.
+	self waitTestingSpaces.
 	selecter selectAndScrollToNext.
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes asSet equals: #(3) asSet.
@@ -142,6 +144,7 @@ ToSelectionModelOperatorTest >> testSelectAndScrollToNextDeselected [
 
 	selecter deselectAll.
 	selecter selectIndex: 2.
+	self waitTestingSpaces.
 	selecter selectAndScrollToNextDeselected.
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes equals: #( 2 3 ).
@@ -158,6 +161,7 @@ ToSelectionModelOperatorTest >> testSelectAndScrollToNextDeselected [
 ToSelectionModelOperatorTest >> testSelectAndScrollToPrevious [
 
 	selecter selectIndex: 2.
+	self waitTestingSpaces.
 	selecter selectAndScrollToPrevious.
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes asSet equals: #(1) asSet.
@@ -170,6 +174,7 @@ ToSelectionModelOperatorTest >> testSelectAndScrollToPreviousDeselected [
 
 	selecter deselectAll.
 	selecter selectIndex: 2.
+	self waitTestingSpaces.
 	selecter selectAndScrollToPreviousDeselected.
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes equals: #( 1 2 ).

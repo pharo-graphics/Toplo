@@ -3,7 +3,8 @@ Class {
 	#superclass : #ToInfiniteDataSource,
 	#instVars : [
 		'data',
-		'observableCollectionEventHandler'
+		'observableCollectionEventHandler',
+		'infiniteSharedHandler'
 	],
 	#category : #'Toplo-Widget-List-Infinite'
 }
@@ -55,7 +56,12 @@ ToInfiniteObservableCollectionDataSource >> onAttached: anInfiniteElement [
 	observableCollectionEventHandler := ToInfiniteObservableCollectionEventHandler new.
 	observableCollectionEventHandler infinite: anInfiniteElement.
 	data addEventHandler: observableCollectionEventHandler.
-
+	
+	infiniteSharedHandler := BlSharedEventDistributor new
+		                     shareEvents: anInfiniteElement dataSourceSharedEvents;
+		                     yourself.
+	self addEventHandler: infiniteSharedHandler.
+	anInfiniteElement addEventHandler: infiniteSharedHandler.
 	super onAttached: anInfiniteElement
 ]
 
@@ -70,6 +76,10 @@ ToInfiniteObservableCollectionDataSource >> onBindHolder: anElementHolder at: aP
 ToInfiniteObservableCollectionDataSource >> onDetached: anInfiniteElement [
 
 	data removeEventHandler: observableCollectionEventHandler.
+	anInfiniteElement removeEventHandler: infiniteSharedHandler.
+	self removeEventHandler: infiniteSharedHandler.
+
 	observableCollectionEventHandler := nil.
+	infiniteSharedHandler := nil.
 	super onDetached: anInfiniteElement
 ]

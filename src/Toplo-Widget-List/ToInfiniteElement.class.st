@@ -5,8 +5,7 @@ Class {
 	#classTraits : 'TBlLayoutResizable classTrait',
 	#instVars : [
 		'nodeBuilder',
-		'nodeClass',
-		'dataSourceSharedHandler'
+		'nodeClass'
 	],
 	#category : #'Toplo-Widget-List-Infinite'
 }
@@ -21,23 +20,6 @@ ToInfiniteElement >> data [
 ToInfiniteElement >> dataAccessor [
 
 	^ self dataSource dataAccessor
-]
-
-{ #category : #accessing }
-ToInfiniteElement >> dataSource: aDataSource [
-
-	dataSource ifNotNil: [
-		self removeEventHandler: dataSourceSharedHandler.
-		dataSource removeEventHandler: dataSourceSharedHandler ].
-
-	super dataSource: aDataSource.
-	
-	dataSourceSharedHandler := BlSharedEventDistributor new
-		                     shareEvents: self dataSourceSharedEvents;
-		                     yourself.
-
-	self addEventHandler: dataSourceSharedHandler.
-	dataSource addEventHandler: dataSourceSharedHandler.
 ]
 
 { #category : #accessing }

@@ -36,8 +36,7 @@ ToMiniBrowser >> candidateProtocolsForClass: aClass [
 ToMiniBrowser >> changeCodeInEditor [
 
 	| selected cls sel codeText |
-	selected := selectors data at:
-		            selectors selectionModel selectedIndexes anyOne.
+	selected := selectors dataAccessor at: selectors selectionModel firstIndex.
 	selected = selectedSelector ifTrue: [ ^ self ].
 	selectedSelector := selected.
 	cls := selectedSelector key.
@@ -151,7 +150,7 @@ ToMiniBrowser >> initialize [
 	packages addEventHandler: (BlEventHandler
 			 on: ToListSelectionChangedEvent
 			 do: [ :event | self packageSelectionChangedEvent: event ]).
-	packages data addAll:
+	packages dataAccessor addAll:
 		(RPackage organizer packages asSortedCollection: [ :p1 :p2 |
 			 p1 name < p2 name ]).
 
@@ -165,7 +164,8 @@ ToMiniBrowser >> initialize [
 	classes addEventHandler: (BlEventHandler
 			 on: ToListSelectionChangedEvent
 			 do: [ :event | self classSelectionChangedEvent: event ]).
-	classes data whenRemoveChangeDo: [ protocols data removeAll ].
+	classes dataAccessor whenRemoveChangeDo: [
+		protocols dataAccessor removeAll ].
 	classesPane := ToPane new
 		               id: #classesPane;
 		               beVertical;
@@ -201,7 +201,8 @@ ToMiniBrowser >> initialize [
 	protocols addEventHandler: (BlEventHandler
 			 on: ToListSelectionChangedEvent
 			 do: [ :event | self protocolSelectionChangedEvent: event ]).
-	protocols data whenRemoveChangeDo: [ selectors data removeAll ].
+	protocols dataAccessor whenRemoveChangeDo: [
+		selectors dataAccessor removeAll ].
 
 	selectors := ToListElement new
 		             id: #selectors;
@@ -215,7 +216,7 @@ ToMiniBrowser >> initialize [
 	selectors addEventHandler: (BlEventHandler
 			 on: ToListSelectionChangedEvent
 			 do: [ :event | self selectorSelectionChangedEvent: event ]).
-	selectors data whenRemoveChangeDo: [ self clearCodeInEditor ].
+	selectors dataAccessor whenRemoveChangeDo: [ self clearCodeInEditor ].
 
 	"selectors hasFixedSize: true."
 
@@ -257,14 +258,14 @@ ToMiniBrowser >> packageSelectionChangedEvent: aToSelectionChanged [
 
 	| selectedPackages clsList |
 	classes selecter deselectAll.
-	classes data removeAll.
+	classes dataAccessor removeAll.
 	selectedPackages := aToSelectionChanged selectedIndexes collect: [
-		                    :idx | packages data at: idx ].
+		                    :idx | packages dataAccessor at: idx ].
 	clsList := Array streamContents: [ :stream |
 		           selectedPackages do: [ :pkg |
 			           stream nextPutAll: pkg definedClasses ] ].
 	clsList := clsList asSortedCollection: [ :a :b | a name < b name ].
-	classes data addAll: clsList
+	classes dataAccessor addAll: clsList
 ]
 
 { #category : #initialization }
@@ -272,11 +273,11 @@ ToMiniBrowser >> protocolSelectionChangedEvent: aToSelectionChanged [
 
 	| selectedProtocols |
 	selectors selecter deselectAll.
-	selectors data removeAll.
+	selectors dataAccessor removeAll.
 	selectedProtocols := aToSelectionChanged selectedIndexes collect: [
-		                     :idx | protocols data at: idx ].
+		                     :idx | protocols dataAccessor at: idx ].
 	selectedProtocols do: [ :assoc |
-		selectors data addAll:
+		selectors dataAccessor addAll:
 			(assoc value methodSelectors asSortedCollection collect: [ :sel |
 				 assoc key -> sel ]) ]
 ]
@@ -286,9 +287,9 @@ ToMiniBrowser >> refreshClassSelectionWithSelectedIndexes: aCollection [
 
 	| selectedClasses allProtocols |
 	protocols selecter deselectAll.
-	protocols data removeAll.
+	protocols dataAccessor removeAll.
 	selectedClasses := aCollection collect: [ :idx |
-		                   classes data at: idx ].
+		                   classes dataAccessor at: idx ].
 	allProtocols := Array streamContents: [ :stream |
 		                selectedClasses do: [ :cls |
 			                | side prots |
@@ -303,7 +304,7 @@ ToMiniBrowser >> refreshClassSelectionWithSelectedIndexes: aCollection [
 
 	selectedClasses size > 1 ifTrue: [
 		allProtocols := self filteredProtocolsFrom: allProtocols ].
-	protocols data addAll: allProtocols
+	protocols dataAccessor addAll: allProtocols
 ]
 
 { #category : #initialization }

@@ -61,7 +61,7 @@ ToCompositeSelectionModel >> deselectIndex: anIndex [
 { #category : #accessing }
 ToCompositeSelectionModel >> firstIndexAmong: anItemCount [
 
-	^ self selection from
+	^ self selection from + 1
 ]
 
 { #category : #comparing }

@@ -636,7 +636,8 @@ ToSandBox class >> example_List2WithAllClassesNone [
 	| l |
 	l := ToListElement new.
 	l selectionMode: ToListNoneSelectionMode new.
-	l data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]).
+	l dataAccessor addAll:
+		(Smalltalk globals allClasses collect: [ :cls | cls name ]).
 	l openInSpace
 ]
 
@@ -2077,15 +2078,17 @@ ToSandBox class >> example_contactList [
 		n := nameTxtF text asString.
 		p := phoneTxtF text asString.
 		a := addressTxtF text asString.
-		idx := list data detectIndex: [ :e | e name = n ] ifNone: [  ].
+		idx := list dataAccessor
+			       detectIndex: [ :e | e name = n ]
+			       ifNone: [  ].
 		c := ToContactExample new
 			     name: n;
 			     phoneNumber: p;
 			     address: a;
 			     yourself.
 		idx
-			ifNotNil: [ list data at: idx put: c ]
-			ifNil: [ list data add: c ] ].
+			ifNotNil: [ list dataAccessor at: idx put: c ]
+			ifNil: [ list dataAccessor add: c ] ].
 	inputPane := ToPane horizontal.
 	inputPane layout cellSpacing: 10.
 	inputPane addChildren: {

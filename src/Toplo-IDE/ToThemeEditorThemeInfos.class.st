@@ -105,7 +105,7 @@ ToThemeEditorThemeInfos >> saveButton [
 ToThemeEditorThemeInfos >> saveCurrentTheme [
 
 	| model |
-	model := ThemeModel new
+	model := ToThemeModel new
 		         theme: self theme;
 					tokens: self tokensPresenter controller tokens;
 		         yourself.

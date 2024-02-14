@@ -43,13 +43,16 @@ ToThemeEditorTokensListPresenter >> initializePresenters [
 	tokensList := SpTablePresenter new
 		              isResizable: true;
 		              contextMenu: self tokenMenu;
-		whenSelectedItemChangedDo: [ :item | self updatePresenter ];
+		              whenSelectedItemChangedDo: [ :item |
+			              self updatePresenter ];
 		              yourself.
 	tokensList addColumn:
 		((SpStringTableColumn
 			  title: 'Token'
 			  evaluated: [ :each | each name ]) sortFunction:
-			 [ :each | each name ] ascending).
+			 [ :each | each name ] ascending; displayColor: [ :token | 
+				self controller colorForToken: token
+				 ]).
 	tokensList addColumn: ((SpStringTableColumn
 			  title: 'Type'
 			  evaluated: [ :each | each value class name ]) sortFunction:
@@ -99,8 +102,16 @@ ToThemeEditorTokensListPresenter >> tokenMenu [
 				  name: 'Copy for property writer';
 				  action: [
 					  Clipboard clipboardText:
-							  '(e valueOfTokenNamed: #''' , self tokensList selectedItem name
-							  , ''')' ];
+							  '(e valueOfTokenNamed: #'''
+							  , self tokensList selectedItem name , ''')' ];
+				  yourself ];
+			 addItem: [ :item |
+			  item
+				  icon: (self iconNamed: #edit);
+				  name: 'Modify';
+				  action: [
+					  self controller modifyToken:
+							  self tokensList selectedItem ];
 				  yourself ];
 		  yourself
 ]

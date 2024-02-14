@@ -197,12 +197,12 @@ ToThemeToSourceCodeVisitor >> visitStyleStampSelector: aSelector [
 ]
 
 { #category : #visiting }
-ToThemeToSourceCodeVisitor >> visitToken: aToTokenProperty [ 
-	
+ToThemeToSourceCodeVisitor >> visitToken: aToTokenProperty [
+
 	self nextPut: 'ToTokenProperty name: '.
 	self nextPut: aToTokenProperty name printString.
-	self nextPut: 'value: '.
-	self nextPut: aToTokenProperty value printString.
+	self nextPut: ' value: '.
+	self nextPut: aToTokenProperty value printString
 ]
 
 { #category : #visiting }

@@ -9,10 +9,11 @@ ToBeeThemeGenerated class >> defaultTokenProperties [
   "This method has been generated.
 
 	By: YannLEGOFF
-	2024-02-13 16:53:35"
-  ^{(ToTokenProperty name: #'animation-window-opening' value: [:win |  win opacity: 0.3.
-        win addAnimation: ((BlOpacityAnimation new opacity: 1.8) duration: 600 milliSeconds) ]) . 
-  (ToTokenProperty name: #'checkbox-image-builder' value: [ self defaultCheckboxBlankImage ])}
+	2024-02-14 08:54:54"
+  ^super defaultTokenProperties , {(ToTokenProperty name: #'animation-window-opening' value: [:win |  win opacity: 0.3.
+              win addAnimation: ((BlOpacityAnimation new opacity: 1.8) duration: 600 milliSeconds) ]) . 
+        (ToTokenProperty name: #'checkbox-image-builder' value: [ self defaultCheckboxBlankImage ]) . 
+        (ToTokenProperty name: #toto value: 'toto')}
 ]
 
 { #category : #'as yet unclassified' }
@@ -364,7 +365,7 @@ ToBeeThemeGenerated >> initializeStyleRules [
   "This method has been generated.
 
 	By: YannLEGOFF
-	2024-02-13 16:53:35"
+	2024-02-14 08:54:54"
   self initializeToLabelStyleRules.
   self initializeToButtonStyleRules.
   self select: #'space-root' asIdSelector style: [ self when: ToInstallLookEvent write: (self property: #background) with: [:e |  e valueOfTokenNamed: #'background-color' ] animation: nil ].
@@ -388,7 +389,7 @@ ToBeeThemeGenerated >> initializeToButtonStyleRules [
   "This method has been generated.
 
 	By: YannLEGOFF
-	2024-02-13 16:53:35"
+	2024-02-14 08:54:54"
   self select: ToButton asTypeSelector style: [ self when: ToHoveredLookEvent write: (self property: #mouseCursor) with: [:e |  e isEnabled ifTrue: [ Cursor webLink ] ifFalse: [  ] ] animation: nil.
         self when: ToLeavedLookEvent write: (self property: #mouseCursor) with: nil animation: nil.
         self when: ToDisabledLookEvent write: (self property: #'background-color') with: [:e |  e valueOfTokenNamed: #'color-bg-container-disabled' ] animation: nil.
@@ -663,7 +664,7 @@ ToBeeThemeGenerated >> initializeToLabelStyleRules [
   "This method has been generated.
 
 	By: YannLEGOFF
-	2024-02-13 16:53:35"
+	2024-02-14 08:54:54"
   self select: ToLabel asTypeSelector style: [ self when: ToInstallLookEvent write: (self property: #'text-attributes-with-builder') with: [:e |  e textAttributesBuilder
                  weight: (e valueOfTokenNamed: #'font-weight-strong');
                  defaultFontName: (e valueOfTokenNamed: #'font-family-code');

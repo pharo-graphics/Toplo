@@ -19,7 +19,7 @@ ToTokensOnlyDifferentStrategy >> asSourceCodeWith: aCollection [
 		 yourself) accept: visitor.
 
 
-	^ '^ ' , visitor contents
+	^ '^ super defaultTokenProperties , ' , visitor contents
 ]
 
 { #category : #converting }

@@ -43,8 +43,6 @@ ToThemeEditorEventListenerEditorController >> eventListener [
 ToThemeEditorEventListenerEditorController >> eventListener: anObject [
 
 	eventListener := anObject.
-	self presenter updatePresenter.
-
 
 	self actionPresenter eventListener: anObject.
 	self propertyPresenter eventListener: anObject.
@@ -56,6 +54,7 @@ ToThemeEditorEventListenerEditorController >> eventListener: anObject [
 
 	self presenter eventClassDropList selectIndex:
 		(self indexOfEventClass: eventListener eventClass).
+	self presenter updatePresenter.
 ]
 
 { #category : #'as yet unclassified' }

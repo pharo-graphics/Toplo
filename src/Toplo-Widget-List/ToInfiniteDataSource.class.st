@@ -16,6 +16,20 @@ ToInfiniteDataSource >> data: aCollection [
 	self subclassResponsibility 
 ]
 
+{ #category : #accessing }
+ToInfiniteDataSource >> dataAccessor [
+
+	self subclassResponsibility 
+]
+
+{ #category : #accessing }
+ToInfiniteDataSource >> itemCount [
+	"Return the total number of items in the data set"
+	<return: #Number>
+
+	^ self dataAccessor size
+]
+
 { #category : #hooks }
 ToInfiniteDataSource >> onAttached: anInfiniteElement [
 

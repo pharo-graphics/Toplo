@@ -1,15 +1,16 @@
 Class {
-	#name : #ToListElementSelecter,
-	#superclass : #ToCommandOperator,
+	#name : #ToSelectionModelOperator,
+	#superclass : #ToCommandTarget,
 	#instVars : [
 		'currentIndex',
-		'operateSilently'
+		'operateSilently',
+		'selectionModel'
 	],
-	#category : #'Toplo-Widget-List-Selection-Command'
+	#category : #'Toplo-Widget-List-Command-Selection'
 }
 
 { #category : #'command operations' }
-ToListElementSelecter >> addIndexesSelectionCommand: aCommand [
+ToSelectionModelOperator >> addIndexesSelectionCommand: aCommand [
 
 	aCommand indexes ifEmpty: [ ^ self ].
 	self selectionModel selectAllIndexes: aCommand indexes.
@@ -19,7 +20,7 @@ ToListElementSelecter >> addIndexesSelectionCommand: aCommand [
 ]
 
 { #category : #'command operations' }
-ToListElementSelecter >> addIntervalSelectionCommand: aCommand [
+ToSelectionModelOperator >> addIntervalSelectionCommand: aCommand [
 
 	| from to |
 	from := aCommand from min: aCommand to.
@@ -29,33 +30,35 @@ ToListElementSelecter >> addIntervalSelectionCommand: aCommand [
 ]
 
 { #category : #'command operations' }
-ToListElementSelecter >> addWholeSelectionCommand: aCommand [
+ToSelectionModelOperator >> addWholeSelectionCommand: aCommand [
 
 	self selectionModel selectAll.
 	self currentIndex: 0
 ]
 
 { #category : #'command application' }
-ToListElementSelecter >> apply [
+ToSelectionModelOperator >> applyCommand: aCommand for: aTarget [
 
 	| previousModel changed |
 	previousModel := self selectionModel copy.
-	command applyOn: self.
+	
+	super applyCommand: aCommand for: aTarget.
+	
 	changed := previousModel ~= self selectionModel.
 	operateSilently ifTrue: [ ^ self ].
 	
-	self target dispatchEvent: (ToSelectionCommandAppliedEvent new
-			 commandTarget: self;
-			 command: command).
+	self dispatchEvent: (ToSelectionCommandAppliedEvent new
+			 commandOperator: self;
+			 command: aCommand).
 			
 	changed ifFalse: [ ^ self ].
-	self target dispatchEvent: (ToListSelectionChangedEvent new
+	self dispatchEvent: (ToListSelectionChangedEvent new
 			 selectionModel: self selectionModel copy;
 			 yourself)
 ]
 
 { #category : #'event dispatching' }
-ToListElementSelecter >> beSilentWhile: aBlock [
+ToSelectionModelOperator >> beSilentWhile: aBlock [
 
 	| prev | 
 	prev := operateSilently.
@@ -64,19 +67,19 @@ ToListElementSelecter >> beSilentWhile: aBlock [
 ]
 
 { #category : #accessing }
-ToListElementSelecter >> currentIndex [
+ToSelectionModelOperator >> currentIndex [
 
 	^ currentIndex
 ]
 
 { #category : #accessing }
-ToListElementSelecter >> currentIndex: anIndex [
+ToSelectionModelOperator >> currentIndex: anIndex [
 
 	currentIndex := anIndex
 ]
 
 { #category : #operations }
-ToListElementSelecter >> deselectAll [
+ToSelectionModelOperator >> deselectAll [
 
 	self addCommand: (ToWholeSelectionCommand new
 			 operation: ToRemoveSelectionOperation new;
@@ -84,7 +87,7 @@ ToListElementSelecter >> deselectAll [
 ]
 
 { #category : #operations }
-ToListElementSelecter >> deselectAllIndexes: anArray [
+ToSelectionModelOperator >> deselectAllIndexes: anArray [
 
 	self addCommand: (ToIndexesSelectionCommand new
 			 indexes: anArray;
@@ -92,7 +95,7 @@ ToListElementSelecter >> deselectAllIndexes: anArray [
 ]
 
 { #category : #operations }
-ToListElementSelecter >> deselectIndex: anIndex [
+ToSelectionModelOperator >> deselectIndex: anIndex [
 
 	self addCommand: (ToIntervalSelectionCommand new
 			 from: anIndex to: anIndex;
@@ -100,7 +103,7 @@ ToListElementSelecter >> deselectIndex: anIndex [
 ]
 
 { #category : #initialization }
-ToListElementSelecter >> initialize [ 
+ToSelectionModelOperator >> initialize [ 
 
 	super initialize.
 	operateSilently := false.
@@ -108,13 +111,13 @@ ToListElementSelecter >> initialize [
 ]
 
 { #category : #accessing }
-ToListElementSelecter >> itemCount [
+ToSelectionModelOperator >> itemCount [
 
 	^ self selectionModel itemCount
 ]
 
 { #category : #private }
-ToListElementSelecter >> nextIdxTowardEnd [ 
+ToSelectionModelOperator >> nextIdxTowardEnd [ 
 
 	self currentIndex isZero
 		ifTrue: [
@@ -127,7 +130,7 @@ ToListElementSelecter >> nextIdxTowardEnd [
 ]
 
 { #category : #private }
-ToListElementSelecter >> nextIdxTowardStart [
+ToSelectionModelOperator >> nextIdxTowardStart [
 
 	self currentIndex isZero
 		ifTrue: [
@@ -138,7 +141,7 @@ ToListElementSelecter >> nextIdxTowardStart [
 ]
 
 { #category : #'command operations' }
-ToListElementSelecter >> removeIndexesSelectionCommand: aCommand [
+ToSelectionModelOperator >> removeIndexesSelectionCommand: aCommand [
 
 	aCommand indexes ifEmpty: [ ^ self ].
 	self selectionModel deselectAllIndexes: aCommand indexes.
@@ -146,21 +149,21 @@ ToListElementSelecter >> removeIndexesSelectionCommand: aCommand [
 ]
 
 { #category : #'command operations' }
-ToListElementSelecter >> removeIntervalSelectionCommand: aCommand [
+ToSelectionModelOperator >> removeIntervalSelectionCommand: aCommand [
 
 	self selectionModel deselectIndex: aCommand from to: aCommand to.
 	self currentIndex: aCommand to
 ]
 
 { #category : #'command operations' }
-ToListElementSelecter >> removeWholeSelectionCommand: aCommand [
+ToSelectionModelOperator >> removeWholeSelectionCommand: aCommand [
 
 	self selectionModel deselectAll.
 	self currentIndex: 0
 ]
 
 { #category : #operations }
-ToListElementSelecter >> selectAll [
+ToSelectionModelOperator >> selectAll [
 
 	self addCommand: (ToWholeSelectionCommand new
 			 operation: ToAddSelectionOperation new;
@@ -168,7 +171,7 @@ ToListElementSelecter >> selectAll [
 ]
 
 { #category : #operations }
-ToListElementSelecter >> selectAllIndexes: anArray [
+ToSelectionModelOperator >> selectAllIndexes: anArray [
 
 	self addCommand: (ToIndexesSelectionCommand new
 			 indexes: anArray;
@@ -176,14 +179,17 @@ ToListElementSelecter >> selectAllIndexes: anArray [
 ]
 
 { #category : #operations }
-ToListElementSelecter >> selectAndScrollToIndex: anIndex [
+ToSelectionModelOperator >> selectAndScrollToIndex: anIndex [
 
 	self selectIndex: anIndex.
-	self selectionModel ifNotEmpty: [ self target scrollToIndex: anIndex ]
+	self selectionModel ifNotEmpty: [
+		self addCommand: (ToActionCommand new
+				 action: [ :e | e scrollToIndex: anIndex ];
+				 yourself) ]
 ]
 
 { #category : #'shortcuts operations' }
-ToListElementSelecter >> selectAndScrollToNext [
+ToSelectionModelOperator >> selectAndScrollToNext [
 
 	| nextIdx |
 	nextIdx := self nextIdxTowardEnd.
@@ -193,13 +199,13 @@ ToListElementSelecter >> selectAndScrollToNext [
 ]
 
 { #category : #'shortcuts operations' }
-ToListElementSelecter >> selectAndScrollToNextDeselected [
+ToSelectionModelOperator >> selectAndScrollToNextDeselected [
 
 	self selectAndScrollToIndex: (self sideIdx: 1)
 ]
 
 { #category : #'shortcuts operations' }
-ToListElementSelecter >> selectAndScrollToPrevious [
+ToSelectionModelOperator >> selectAndScrollToPrevious [
 
 	| nextIdx |
 	nextIdx := self nextIdxTowardStart.
@@ -209,13 +215,13 @@ ToListElementSelecter >> selectAndScrollToPrevious [
 ]
 
 { #category : #'shortcuts operations' }
-ToListElementSelecter >> selectAndScrollToPreviousDeselected [
+ToSelectionModelOperator >> selectAndScrollToPreviousDeselected [
 
 	self selectAndScrollToIndex: (self sideIdx: -1)
 ]
 
 { #category : #operations }
-ToListElementSelecter >> selectIndex: anIndex [
+ToSelectionModelOperator >> selectIndex: anIndex [
 
 	self addCommand: (ToIntervalSelectionCommand new
 			 from: anIndex to: anIndex;
@@ -223,7 +229,7 @@ ToListElementSelecter >> selectIndex: anIndex [
 ]
 
 { #category : #operations }
-ToListElementSelecter >> selectIndex: aStartIndex to: anEndIndex [
+ToSelectionModelOperator >> selectIndex: aStartIndex to: anEndIndex [
 
 	self addCommand: (ToIntervalSelectionCommand new
 			 from: aStartIndex to: anEndIndex;
@@ -231,7 +237,7 @@ ToListElementSelecter >> selectIndex: aStartIndex to: anEndIndex [
 ]
 
 { #category : #operations }
-ToListElementSelecter >> selectOnlyIndex: anIndex [
+ToSelectionModelOperator >> selectOnlyIndex: anIndex [
 
 	self addCommand: ((ToWholeSelectionCommand new operation:
 			  ToRemoveSelectionOperation new) next:
@@ -241,7 +247,7 @@ ToListElementSelecter >> selectOnlyIndex: anIndex [
 ]
 
 { #category : #operations }
-ToListElementSelecter >> selectOnlyIndexes: anArray [
+ToSelectionModelOperator >> selectOnlyIndexes: anArray [
 
 	self addCommand: ((ToWholeSelectionCommand new operation:
 			  ToRemoveSelectionOperation new) next:
@@ -251,7 +257,7 @@ ToListElementSelecter >> selectOnlyIndexes: anArray [
 ]
 
 { #category : #'shortcuts operations' }
-ToListElementSelecter >> selectToIndex: index [
+ToSelectionModelOperator >> selectToIndex: index [
 
 	| curr |
 	curr := self currentIndex.
@@ -259,13 +265,27 @@ ToListElementSelecter >> selectToIndex: index [
 ]
 
 { #category : #accessing }
-ToListElementSelecter >> selectionModel [
+ToSelectionModelOperator >> selectionModel [
 
-	^ self target selectionModel
+	^ selectionModel
+]
+
+{ #category : #accessing }
+ToSelectionModelOperator >> selectionModel: aSelectionModel [
+
+	selectionModel := aSelectionModel
+]
+
+{ #category : #accessing }
+ToSelectionModelOperator >> sharedEvents [
+
+	^ super sharedEvents , {
+		  ToSelectionCommandAppliedEvent.
+		  ToListSelectionChangedEvent }
 ]
 
 { #category : #private }
-ToListElementSelecter >> sideIdx: aGap [
+ToSelectionModelOperator >> sideIdx: aGap [
 
 	| nextIdx |
 	nextIdx := self currentIndex.

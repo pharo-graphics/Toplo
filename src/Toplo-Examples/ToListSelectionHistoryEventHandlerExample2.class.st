@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #'event handling' }
-ToListSelectionHistoryEventHandlerExample2 >> actionCommand: aCommand [ 
+ToListSelectionHistoryEventHandlerExample2 >> actionCommand: aCommand for: aTarget [
 
 	
 ]
@@ -24,9 +24,10 @@ ToListSelectionHistoryEventHandlerExample2 >> addIndexesSelectionCommand: aComma
 ToListSelectionHistoryEventHandlerExample2 >> addIntervalSelectionCommand: aCommand [
 
 	| s |
-	s := currentTarget data at: aCommand to.
-	(historyList data includes: s) ifTrue: [ historyList data remove: s ].
-	historyList data add: s
+	s := currentTarget dataAccessor at: aCommand to.
+	(historyList dataAccessor includes: s) ifTrue: [
+		historyList data remove: s ].
+	historyList dataAccessor add: s
 ]
 
 { #category : #'event handling' }
@@ -40,7 +41,7 @@ ToListSelectionHistoryEventHandlerExample2 >> addWholeSelectionCommand: aCommand
 ToListSelectionHistoryEventHandlerExample2 >> commandAppliedEvent: aCommandAppliedEvent [
 
 	currentTarget := aCommandAppliedEvent currentTarget.
-	aCommandAppliedEvent command applyOn: self.
+	aCommandAppliedEvent command applyOn: self for: self historyList.
 	currentTarget := nil
 ]
 
@@ -71,14 +72,14 @@ ToListSelectionHistoryEventHandlerExample2 >> removeIndexesSelectionCommand: aCo
 { #category : #'event handling' }
 ToListSelectionHistoryEventHandlerExample2 >> removeIntervalSelectionCommand: aCommand [
 
-	(historyList data includes:
-		 (currentTarget data at: aCommand to)) ifFalse: [ ^ self ].
-	historyList data remove:
-		(currentTarget data at: aCommand to)
+	(historyList dataAccessor includes:
+		 (currentTarget dataAccessor at: aCommand to)) ifFalse: [ ^ self ].
+	historyList dataAccessor remove:
+		(currentTarget dataAccessor at: aCommand to)
 ]
 
 { #category : #'event handling' }
 ToListSelectionHistoryEventHandlerExample2 >> removeWholeSelectionCommand: aCommand [
 
-	historyList data removeAll
+	historyList dataAccessor removeAll
 ]

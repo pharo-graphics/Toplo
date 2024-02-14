@@ -183,7 +183,7 @@ ToSelectionModel >> lastIndex [
 { #category : #'instance creation' }
 ToSelectionModel >> newOperator [
 
-	^ ToListElementSelecter new 
+	^ ToSelectionModelOperator new selectionModel: self
 ]
 
 { #category : #'api - hooks' }

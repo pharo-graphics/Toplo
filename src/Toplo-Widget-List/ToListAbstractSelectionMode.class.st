@@ -64,7 +64,7 @@ ToListAbstractSelectionMode >> onClickEvent: anEvent onNode: aNode [
 ToListAbstractSelectionMode >> onInstalledIn: anElement [
 
 	self selectionModel: anElement selectionModel.
-	selecter := ToListElementSelecter new.
+	selecter := self selectionModel newOperator.
 	selecter onInstalledIn: anElement
 ]
 
@@ -80,6 +80,7 @@ ToListAbstractSelectionMode >> onRemovedNode: aNode [
 { #category : #'api - hooks' }
 ToListAbstractSelectionMode >> onUninstalledIn: anElement [
 
+	selecter onUninstalledIn: anElement.
 	selecter := nil.
 	self selectionModel: nil
 ]

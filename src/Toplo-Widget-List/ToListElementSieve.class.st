@@ -70,7 +70,7 @@ ToListElementSieve >> onInstalledIn: aListElement [
 
 	originalData ifNotNil: [
 		^ (BlImmutableObjectChangeError object: self) signal ].
-	originalData := aListElement data newMirror.
+	originalData := aListElement dataAccessor newMirror.
 	originalIndexedData := ToObservableCollection new.
 
 	" handler to update the original indexed data if the list element data contents change 
@@ -83,8 +83,9 @@ ToListElementSieve >> onInstalledIn: aListElement [
 	self buildOriginalIndexedData.
 
 	" currentSelection contains the original data selection. It is maintained up-to-date even with a filtered contents "
-	currentSelection := aListElement selectionModel selectedIndexes asIdentitySet.
-	
+	currentSelection := aListElement selectionModel selectedIndexes
+		                    asIdentitySet.
+
 	" the query runner will run the query in background on the originalIndexedData collection "
 	queryRunner := ToObservableCollectionQueryRunner new.
 	queryRunner onInstalledIn: originalIndexedData.
@@ -95,15 +96,18 @@ ToListElementSieve >> onInstalledIn: aListElement [
 
 	" a filtering occured : put the new data in the list element and 
 	update the selection according to the current filtering result "
-	queryResultHandler := BlEventHandler 
-			 on: ToObservableCollectionQueryResultEvent
-			 do: [ :event | self onObservableCollectionQueryResultEvent: event ].
+	queryResultHandler := BlEventHandler
+		                      on: ToObservableCollectionQueryResultEvent
+		                      do: [ :event |
+		                      self onObservableCollectionQueryResultEvent:
+			                      event ].
 	originalIndexedData addEventHandler: queryResultHandler.
 
 	" a selection occurs in the list element. Have to report it in the originalSelection "
 	selectionChangedHandler := BlEventHandler
-			 on: ToListSelectionChangedEvent
-			 do: [ :event | self onListSelectionChangedEvent: event ].
+		                           on: ToListSelectionChangedEvent
+		                           do: [ :event |
+		                           self onListSelectionChangedEvent: event ].
 	aListElement addEventHandler: selectionChangedHandler
 ]
 
@@ -149,7 +153,7 @@ ToListElementSieve >> onObservableCollectionQueryResultEvent: anEvent [
 					                   (currentSelection includes: assoc value)
 						                   ifTrue: [ stream nextPut: idx ] ] ] ].
 	"Update litElement data together with the selection "
-	listElement data filterResult:
+	listElement dataAccessor filterResult:
 		(currentResultsArray collect: [ :assoc | assoc key ]).
 	listElement selecter beSilentWhile: [
 		listElement selecter selectOnlyIndexes: selectedIndexes ].

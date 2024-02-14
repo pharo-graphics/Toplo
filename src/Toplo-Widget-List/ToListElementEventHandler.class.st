@@ -7,8 +7,8 @@ Class {
 	#category : #'Toplo-Widget-List-Core'
 }
 
-{ #category : #'data events handling' }
-ToListElementEventHandler >> collectionEmptinessEvent: anEvent [
+{ #category : #'infinite event handling' }
+ToListElementEventHandler >> dataSourceEmptinessEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
@@ -63,10 +63,7 @@ ToListElementEventHandler >> eventsToHandle [
 		  ToDataSourceDetachedEvent.
 		  BlInfiniteDataSourceItemRangeInserted.
 		  BlInfiniteDataSourceItemRangeRemoved.
-
-
-		  " data events "
-		  ToCollectionEmptinessEvent }
+		  ToDataSourceEmptinessEvent }
 ]
 
 { #category : #'infinite event handling' }
@@ -129,6 +126,7 @@ ToListElementEventHandler >> mouseDownEvent: anEvent [
 ToListElementEventHandler >> onItemsInserted: anEvent [
 
 	| target |
+
 	target := anEvent currentTarget.
 	self
 		launchSelectionAction: [
@@ -154,9 +152,9 @@ ToListElementEventHandler >> onItemsRemoved: anEvent [
 		in: target
 ]
 
-{ #category : #'data events handling' }
+{ #category : #'list element handling' }
 ToListElementEventHandler >> showHidePlaceholderIn: aListElement [
 
-	aListElement data ifEmpty: [ ^ aListElement showPlaceholder ].
+	aListElement dataAccessor ifEmpty: [ ^ aListElement showPlaceholder ].
 	aListElement hidePlaceholder
 ]

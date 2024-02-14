@@ -16,6 +16,23 @@ ToInfiniteElement >> data [
 	^ dataSource data
 ]
 
+{ #category : #accessing }
+ToInfiniteElement >> dataAccessor [
+
+	^ self dataSource dataAccessor
+]
+
+{ #category : #accessing }
+ToInfiniteElement >> dataSourceSharedEvents [
+
+	^ {
+		  ToDataSourceEmptinessEvent.
+		  ToDataSourceAttachedEvent.
+		  ToDataSourceDetachedEvent.
+		  BlInfiniteDataSourceItemRangeInserted.
+		  BlInfiniteDataSourceItemRangeRemoved }
+]
+
 { #category : #initialization }
 ToInfiniteElement >> defaultDataSource [
 
@@ -66,7 +83,6 @@ ToInfiniteElement >> infinite [
 ToInfiniteElement >> initialize [
 
 	super initialize.
-	self privateData: ToObservableCollection new.
 	self nodeBuilder: self defaultNodeBuilder.
 	self matchParent
 ]
@@ -141,12 +157,6 @@ ToInfiniteElement >> nodeHolderBuilder [
 ToInfiniteElement >> nodeHolderClass [
 
 	^ ToNodeHolder
-]
-
-{ #category : #private }
-ToInfiniteElement >> privateData: aCollection [
-
-	dataSource data: aCollection
 ]
 
 { #category : #'t - resizeable' }

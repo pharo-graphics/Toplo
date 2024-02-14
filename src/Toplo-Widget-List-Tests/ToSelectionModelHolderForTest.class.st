@@ -50,13 +50,12 @@ ToSelectionModelHolderForTest >> eventDispatcher [
 ToSelectionModelHolderForTest >> initialize [
 
 	super initialize.
-	eventDispatcher := BlDirectEventDispatcher on: self.
 	data := ToObservableCollection new.
 	self dataSource: ToInfiniteObservableCollectionDataSource new.
 	self dataSource data: data.
 	selectionModel := self defaultSelectionModel.
 	selectionModel onInstalledIn: self.
-	self addEventHandler: ToCommandTargetEventHandler new.
+	self addEventHandler: ToCommandEventHandler new.
 	self addEventHandler: (BlEventHandler
 			 on: ToListSelectionChangedEvent
 			 do: [ :event | self successfulCommand: true ]).
@@ -67,13 +66,6 @@ ToSelectionModelHolderForTest >> initialize [
 ToSelectionModelHolderForTest >> itemCount [
 
 	^ self dataSource itemCount
-]
-
-{ #category : #accessing }
-ToSelectionModelHolderForTest >> operator [ 
-
-	^  ToListElementSelecter new
-
 ]
 
 { #category : #accessing }
@@ -91,9 +83,10 @@ ToSelectionModelHolderForTest >> scrollToIndex: anIndex [
 { #category : #accessing }
 ToSelectionModelHolderForTest >> selecter [
 
-	^ selecter ifNil: [selecter := ToListElementSelecter new
-		  target: self;
-		  yourself ]
+	^ selecter ifNil: [
+		  selecter := self selectionModel newOperator.
+		  selecter onInstalledIn: self.
+		  selecter ]
 ]
 
 { #category : #accessing }

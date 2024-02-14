@@ -350,7 +350,7 @@ ToThemeExamples class >> inspectSpaceToTheme: aSpace [
 	aSpace toTheme inspect
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'examples - buttons' }
 ToThemeExamples class >> makeStandardButtons [
 
 	|primaryButton defaultButton dashedButton textButton linkButton |

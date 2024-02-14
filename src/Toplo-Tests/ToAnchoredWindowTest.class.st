@@ -377,6 +377,40 @@ ToAnchoredWindowTest >> testPopupTimeStamp [
 ]
 
 { #category : #tests }
+ToAnchoredWindowTest >> testValueOfTokenNamedInWindow [
+
+	| win e windowHandler lab |
+	e := ToElement new.
+	e toTheme: ToRawThemeForTest new.
+	space root addChild: e.
+	windowHandler := ToAnchoredWindowManager new builder: [
+		                 :anchWin
+		                 :requestEvent |
+		                 lab := ToLabel new text: 'H'.
+		                 anchWin root addChild: lab ].
+	windowHandler onInstalledIn: e.
+	win := windowHandler newWindowEvent: nil.
+	win popupEvent: nil.
+	self waitTestingSpaces.
+	self
+		assert: (e valueOfTokenNamed: #'test-background-color')
+		equals: Color white.
+	self assert: lab notNil.
+	self assert: win localTheme identicalTo: e toTheme.
+	self assert: lab toTheme identicalTo: win localTheme.
+	self
+		assert: (lab valueOfTokenNamed: #'test-background-color')
+		equals: Color white.
+	win close.
+	self
+		assert: (e valueOfTokenNamed: #'test-background-color')
+		equals: Color white.
+	self
+		should: [ lab valueOfTokenNamed: #'test-background-color' ]
+		raise: Error
+]
+
+{ #category : #tests }
 ToAnchoredWindowTest >> testWindowSize [
 	" since there is no size hook by default, the window is fitContent by default"
 

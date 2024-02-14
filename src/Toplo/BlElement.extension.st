@@ -179,7 +179,9 @@ BlElement >> localTheme [
 { #category : #'*Toplo' }
 BlElement >> localTheme: aTheme [
 
-	self userData at: #toTheme put: aTheme
+	self localTheme ifNotNil: [ :th | th onUninstalledIn: self ].
+	self userData at: #toTheme put: aTheme.
+	self localTheme ifNotNil: [ :th | th onInstalledIn: self ]
 ]
 
 { #category : #'*Toplo' }
@@ -386,9 +388,7 @@ BlElement >> toTheme [
 { #category : #'*Toplo' }
 BlElement >> toTheme: aTheme [
 
-	self localTheme ifNotNil: [ :th | th onUninstalledIn: self ].
-	self localTheme: aTheme.
-	self localTheme ifNotNil: [ :th | th onInstalledIn: self ]
+	self localTheme: aTheme
 ]
 
 { #category : #'*Toplo-LookAndFeel' }

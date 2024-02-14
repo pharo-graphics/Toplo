@@ -67,8 +67,10 @@ ToCheckMenuItemSkin >> installLookEvent: anEvent [
 	anEvent elementDo: [ :e | 
 		e iconImage: ((e valueOfTokenNamed: #'checkbox-image-builder') value).
 		e icon geometry: (self iconGeometryIn: e).
+		e button rightLabelAlignment: (e valueOfTokenNamed: #'menu-item-right-label-alignment').
 		e border: (e valueOfTokenNamed: #'color-border-checkable').		
-		e icon border: (e valueOfTokenNamed: #'color-border') ]
+		e icon border: (e valueOfTokenNamed: #'color-border') ].
+
 	
 ]
 

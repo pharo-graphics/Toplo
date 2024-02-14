@@ -47,7 +47,7 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'border-radius-LG' value: 8).
 		  (ToTokenProperty name: #'border-radius-SM' value: 4).
 
-		(ToTokenProperty
+		  (ToTokenProperty
 			   name: #'double-click-delay'
 			   value: 250 milliSeconds).
 
@@ -132,8 +132,7 @@ ToTheme class >> defaultTokenProperties [
 			   value: self defaultColorPrimary darker darker).
 		  (ToTokenProperty
 			   name: #'color-primary-hover'
-			   value:
-			   (self defaultColorPrimary lighter lighter)).
+			   value: self defaultColorPrimary lighter lighter).
 
 		  (ToTokenProperty
 			   name: #'color-success'
@@ -220,7 +219,9 @@ ToTheme class >> defaultTokenProperties [
 
 		  (ToTokenProperty name: #'text-editor-padding-H' value: 3).
 		  (ToTokenProperty name: #'text-editor-padding-V' value: 2).
-
+		  (ToTokenProperty
+			   name: #'menu-item-right-label-alignment'
+			   value: 25).
 		  (ToTokenProperty
 			   name: #'checkbox-image-builder'
 			   value: [ self defaultCheckboxBlankImage ]).
@@ -254,7 +255,7 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty
 			   name: #'border-color-primary-selection'
 			   value: self defaultColorPrimary).
-			(ToTokenProperty
+		  (ToTokenProperty
 			   name: #'list-context-menu-selection-border-gap'
 			   value: 1.0) }
 ]

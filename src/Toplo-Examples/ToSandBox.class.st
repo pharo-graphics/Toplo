@@ -2846,7 +2846,7 @@ ToSandBox class >> example_themeChoiceButton [
 	win := ToInnerWindow new title: 'Some host'.
 	themeSelect := ToChoiceMenu new.
 	themeSelect withStrictCheckingStrategy.
-	themeSelect defaultSelectedIndex: 3.
+	themeSelect defaultSelectedIndex: 4.
 	themeSelect dataToTextConverter: [ :assoc | assoc key ].
 	themeSelect data addAll: {
 			('Bee Light' -> ToBeeTheme new).
@@ -2854,6 +2854,30 @@ ToSandBox class >> example_themeChoiceButton [
 			('Raw Light' -> ToRawTheme new).
 			('Raw Dark' -> ToRawDarkTheme new) }.
 
+	themeSelect addEventHandler: (BlEventHandler
+			 on: ToChoiceChangedEvent
+			 do: [ space toTheme: themeSelect selectedData value ]).
+
+	space root addChild: themeSelect.
+	space show
+]
+
+{ #category : #'choice menu' }
+ToSandBox class >> example_themeChoiceButton2 [
+
+	| win themeSelect space |
+	space := BlSpace new.
+	win := ToInnerWindow new title: 'Some host'.
+	themeSelect := ToChoiceMenu new.
+	themeSelect withStrictCheckingStrategy.
+	themeSelect defaultSelectedIndex: 1.
+	themeSelect dataToTextConverter: [ :assoc | assoc key ].
+	themeSelect data addAll: {
+			"('Bee Light' -> ToBeeTheme new).
+			('Bee Dark' -> ToBeeDarkTheme new)."
+			('Raw Light' -> ToRawTheme new).
+			"('Raw Dark' -> ToRawDarkTheme new)" }.
+themeSelect inspect.
 	themeSelect addEventHandler: (BlEventHandler
 			 on: ToChoiceChangedEvent
 			 do: [ space toTheme: themeSelect selectedData value ]).

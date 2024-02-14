@@ -24,10 +24,3 @@ ToChoiceItem >> data: anObject [
 
 	data := anObject
 ]
-
-{ #category : #skin }
-ToChoiceItem >> installRawStyle [ 
-
-	super installRawStyle.
-	self button rightLabelAlignment: 30
-]

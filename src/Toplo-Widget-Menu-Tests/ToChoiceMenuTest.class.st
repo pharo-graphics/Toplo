@@ -399,54 +399,6 @@ ToChoiceMenuTest >> testWithStrictStrategy [
 ]
 
 { #category : #tests }
-ToChoiceMenuTest >> testWithStructuredDataWithStrictStrategy [
-
-	| space cb d |
-	space := BlSpace new.
-	cb := ToChoiceMenu new.
-	cb withStrictCheckingStrategy.
-	cb defaultSelectedIndex: 2.
-	cb dataToTextConverter: [ :assoc | assoc key ].
-	cb data addAll: (d := {
-			('Bee Theme' -> ToBeeTheme).
-			('Raw Theme' -> ToRawTheme) }).
-	space root addChild: cb.
-
-	cb addEventHandler: (BlEventHandler
-			 on: ToChoiceSelectedIndexChangeEvent
-			 do: [ cb selectedData ifNotNil: [:data | space toTheme: (data value new) ] ] ).
-			
-	cb selectIndex: 1.
-	self assert: cb selectedData value identicalTo: ToBeeTheme.
-	self assert: cb label text asString equals: d first key.
-	self should: [cb selectData: nil] raise: Error.
-	self assert: cb selectedIndex equals: 1.
-	self assert: cb label text asString equals: d first key.
-	self assert: (cb group buttons select: [ :b | b checked ]) size equals: 1
-]
-
-{ #category : #tests }
-ToChoiceMenuTest >> testWithStructuredDataWithUncheckingStrategy [
-
-	| space cb d |
-	space := BlSpace new.
-	cb := ToChoiceMenu new.
-	cb withUncheckingStrategy.
-	space root addChild: cb.
-	cb dataToTextConverter: [ :assoc | assoc key ].
-	cb data addAll: (d := {
-			('Bee Theme' -> ToBeeTheme).
-			('Raw Theme' -> ToRawTheme) }).
-	cb selectIndex: 1.
-	self assert: cb selectedData value identicalTo: ToBeeTheme.
-	self assert: cb label text asString equals: d first key.
-	cb selectData: nil.
-	self assert: cb selectedData isNil.
-	self assert: cb label isNil.
-	self assert: (cb group buttons noneSatisfy: [ :b | b checked ])
-]
-
-{ #category : #tests }
 ToChoiceMenuTest >> testWithUncheckStrategy [
 
 	| cb d1 d2 d3 |

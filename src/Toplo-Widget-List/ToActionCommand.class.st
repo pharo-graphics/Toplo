@@ -20,8 +20,9 @@ ToActionCommand >> action: aValuable [
 ]
 
 { #category : #hook }
-ToActionCommand >> applyOn: anObject [
+ToActionCommand >> applyOn: anObject for: aTarget [
 
-	anObject actionCommand: self.
-	super applyOn: anObject
+	anObject actionCommand: self for: aTarget.
+	super applyOn: anObject for: aTarget
+
 ]

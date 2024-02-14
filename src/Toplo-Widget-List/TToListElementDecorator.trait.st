@@ -7,9 +7,9 @@ Trait {
 }
 
 { #category : #'t - infinite accessing' }
-TToListElementDecorator >> data [
+TToListElementDecorator >> dataAccessor [
 
-	^ self next data
+	^ self next dataAccessor
 ]
 
 { #category : #'t - infinite accessing' }

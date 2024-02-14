@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSelectionCommandAppliedEvent,
 	#superclass : #ToCommandEvent,
-	#category : #'Toplo-Widget-List-Selection-Command'
+	#category : #'Toplo-Widget-List-Command-Selection'
 }
 
 { #category : #sending }

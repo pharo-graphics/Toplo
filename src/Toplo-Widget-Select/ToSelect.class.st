@@ -137,16 +137,20 @@ ToSelect >> initialize [
 
 	| sharedEventsDistributor headerElement |
 	super initialize.
-	
+
 	data := ToObservableCollection new.
-	
+
 	dataCollectionAfterChangeEventHandler := BlEventHandler
-			 on: ToCollectionAfterChangeEvent
-			 do: [ self listElement data updateAllWith: self data ].
-			
+		                                         on:
+		                                         ToCollectionAfterChangeEvent
+		                                         do: [
+		                                         self listElement
+			                                         dataAccessor
+			                                         updateAllWith: self data ].
+
 	data addEventHandler: dataCollectionAfterChangeEventHandler.
 	selection := BlCompositeSelection new.
-	
+
 	" for the popup "
 	windowManager := self newWindowManager.
 
@@ -154,12 +158,12 @@ ToSelect >> initialize [
 	headerElement := self newHeaderElement.
 	self addChild: headerElement.
 	self addChild: self newIconContainer.
-	
+
 	" initialize the mode *** before *** the strategy (the strategy need an installed mode) "
 	self mode: self defaultMode.
 	" initialize the default strategy "
 	self strategy: self defaultStrategy.
-	
+
 	self layout: BlLinearLayout horizontal.
 	self fitContent.
 
@@ -168,10 +172,10 @@ ToSelect >> initialize [
 		adjustMousePosition: false;
 		shareEvents: { ToCollectionFilteredEvent }.
 
-	self listElement data addEventHandler: sharedEventsDistributor.
+	self listElement dataAccessor addEventHandler:
+		sharedEventsDistributor.
 	self addEventHandler: sharedEventsDistributor.
-	self listElement addEventHandler: sharedEventsDistributor.
-
+	self listElement addEventHandler: sharedEventsDistributor
 ]
 
 { #category : #accessing }

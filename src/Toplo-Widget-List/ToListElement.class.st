@@ -24,20 +24,26 @@ ToListElement >> beVertical [
 	self infinite layout beVertical
 ]
 
-{ #category : #initialization }
-ToListElement >> dataSharedEvents [
+{ #category : #accessing }
+ToListElement >> data [
 
-	^ { ToCollectionEmptinessEvent }
+	self
+		deprecated: 'Please use dataAccessor instead.'
+		transformWith:
+			'`@receiver data'
+				-> '`@receiver dataAccessor'.
+	^ self dataAccessor
 ]
 
-{ #category : #initialization }
-ToListElement >> dataSourceSharedEvents [
+{ #category : #accessing }
+ToListElement >> dataUpdater [
 
-	^ {
-		  ToDataSourceAttachedEvent.
-		  ToDataSourceDetachedEvent.
-		  BlInfiniteDataSourceItemRangeInserted.
-		  BlInfiniteDataSourceItemRangeRemoved }
+	self
+		deprecated: 'Please use dataAccessor instead.'
+		transformWith:
+			'`@receiver dataUpdater'
+				-> '`@receiver dataAccessor'.
+	^ self dataAccessor
 ]
 
 { #category : #initialization }
@@ -50,12 +56,6 @@ ToListElement >> defaultInfiniteElement [
 ToListElement >> defaultLayout [
 
 	^ BlFrameLayout new
-]
-
-{ #category : #initialization }
-ToListElement >> defaultSelecter [
-
-	^ ToListElementSelecter new.
 ]
 
 { #category : #initialization }
@@ -74,6 +74,11 @@ ToListElement >> horizontal: aBoolean [
 ToListElement >> infiniteSharedEvents [
 
 	^ {
+		  ToDataSourceEmptinessEvent.
+		  ToDataSourceAttachedEvent.
+		  ToDataSourceDetachedEvent.
+		  BlInfiniteDataSourceItemRangeInserted.
+		  BlInfiniteDataSourceItemRangeRemoved.
 		  BlInfiniteElementAttachedEvent.
 		  BlInfiniteElementDetachedEvent.
 		  BlElementScrolledEvent }
@@ -86,6 +91,7 @@ ToListElement >> initialize [
 
 	self next: self defaultInfiniteElement.
 	self next elevation: (BlRelativeElevation elevation: 10).
+
 	self selectionModel: self newSelectionModel.
 	
 	selectionElements := #(  ).
@@ -99,6 +105,7 @@ ToListElement >> initialize [
 	self contextMenuWindowManagerClass: ToListElementContextMenuWindowManager.
 	self addEventHandler: ToListSelectionElementEventHandler new.
 	self addEventHandler: ToListElementContextMenuSelectionEventHandler new.
+	self addEventHandler: ToCommandEventHandler new.
 	self matchParent
 ]
 
@@ -111,23 +118,12 @@ ToListElement >> installSharedEventDistributors [
 		instead of 
 		self infinite when: ToSelectionChangedEvent do: [ bla bla ] "
 
-	| dataSharedHandler dataSourceSharedHandler infiniteSharedHandler |
-	dataSharedHandler := BlSharedEventDistributor new
-		                     shareEvents: self dataSharedEvents;
-		                     yourself.
-	dataSourceSharedHandler := BlSharedEventDistributor new
-		                           shareEvents: self dataSourceSharedEvents;
-		                           yourself.
+	| infiniteSharedHandler |
 	infiniteSharedHandler := BlSharedEventDistributor new
 		                         shareEvents: self infiniteSharedEvents;
 		                         yourself.
-	sharedDistributors := {
-		                      dataSharedHandler.
-		                      dataSourceSharedHandler.
-		                      infiniteSharedHandler }.
+	sharedDistributors := { infiniteSharedHandler }.
 	sharedDistributors do: [ :handler | self addEventHandler: handler ].
-	self data addEventHandler: dataSharedHandler.
-	self dataSource addEventHandler: dataSourceSharedHandler.
 	self infinite addEventHandler: infiniteSharedHandler
 ]
 
@@ -238,14 +234,12 @@ ToListElement >> selectionStrategySharedEvents [
 
 { #category : #initialization }
 ToListElement >> uninstallSharedEventDistributors [
-	" see uninstallSharedEventDistributor "
+	" see installSharedEventDistributor "
 
 	sharedDistributors ifNil: [ ^ self ].
 
 	sharedDistributors do: [ :handler |
 		self removeEventHandler: handler.
-		self data removeEventHandlersSuchThat: [ :h | handler = h ].
-		self dataSource removeEventHandlersSuchThat: [ :h | handler = h ].
 		self infinite removeEventHandlersSuchThat: [ :h | handler = h ] ].
 
 	sharedDistributors := nil

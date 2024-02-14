@@ -16,7 +16,7 @@ Class {
 }
 
 { #category : #tests }
-ToSelectionModelCommandTest >> actionCommand: aCommand [
+ToSelectionModelCommandTest >> actionCommand: aCommand for: aTarget [
 
 	
 ]

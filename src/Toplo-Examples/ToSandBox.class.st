@@ -344,7 +344,7 @@ ToSandBox class >> example_EditableList2WithAllClassesNames [
 					 event indexes size == 1 ifTrue: [
 							 (l nodeAt: event indexes first) label addEditorEvent: event ] ]);
 		withRowNumbers.
-	l data addAll:
+	l dataAccessor addAll:
 		(Smalltalk globals allClasses collect: [ :cls | cls -> cls name ]).
 
 	vscrollBar := BlVerticalScrollbarElement new.
@@ -647,7 +647,7 @@ ToSandBox class >> example_List2WithSelectionHistory [
 	pane := ToPane horizontal.
 	statesList := ToListElement new matchParent.
 	historyList := ToListElement new matchParent.
-	statesList data addAll: self statesOfAmerica.
+	statesList dataAccessor addAll: self statesOfAmerica.
 	pane addChildren: {
 			statesList.
 			historyList }.
@@ -720,7 +720,7 @@ ToSandBox class >> example_ListWithAllClasses3 [
 			 on: ToListSelectionChangedEvent
 			 do: [ :evt | evt traceCr ]).
 
-	l data addAll: Smalltalk globals allClasses.
+	l dataAccessor addAll: Smalltalk globals allClasses.
 	l withRowNumbers.
 	l inspect.
 	l infinite requestFocus.
@@ -731,11 +731,10 @@ ToSandBox class >> example_ListWithAllClasses3 [
 ToSandBox class >> example_ListWithAllClasses4 [
 
 	| l |
-	l := ToListElement new		     
-		     nodeBuilder: [ :node :holder |
-			     node addChild: (ToCheckbox new
-						      labelText: holder data name;
-						      interspace: 10) ].
+	l := ToListElement new nodeBuilder: [ :node :holder |
+		     node addChild: (ToCheckbox new
+				      labelText: holder dataItem name;
+				      interspace: 10) ].
 	l data addAll: Smalltalk globals allClasses.
 	l openInSpace
 ]
@@ -805,7 +804,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 				 do: [ l enableScrolledEvent ]).
 		lab addEventHandler: (BlEventHandler
 				 on: ToLabelTextReplacedEvent
-				 do: [ l data at: holder position put: lab text asString ]).
+				 do: [ l dataAccessor at: holder position put: lab text asString ]).
 		node addChild: (ToLabeledIcon new
 				 label: lab;
 				 hMatchParent) ].
@@ -821,7 +820,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 				 self class name trace.
 				 ' double click' traceCr.
 				 r := event indexes collect: [ :idx | idx asString , ':XXXXXX' ].
-				 r do: [ :e | l data addFirst: e ] ]).
+				 r do: [ :e | l dataAccessor addFirst: e ] ]).
 	menuFactory := [ :menu :request |
 	               | selectedIndexes target |
 	               target := request currentTarget.
@@ -829,20 +828,21 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 	               menu addItem: (ToMenuItem new
 			                labelText: 'Add initial Items';
 			                whenClickedDo: [ :event |
-				                target data addAll:
+				                target dataAccessor addAll:
 						                ((1 to: 2000) collect: [ :p |
 								                 p asString , ' AAAAAAAAAAA' ]) ]).
 	               menu addItem: (ToMenuItem new
 			                labelText: 'Inspect list';
 			                whenClickedDo: [ :event | target inspect ]).
-	               target data ifNotEmpty: [
+	               target dataAccessor ifNotEmpty: [
 		               menu addItem: (ToMenuItem new
 				                labelText: 'Select all';
 				                whenClickedDo: [ :event |
 					                target selecter selectAll ]).
 		               menu addItem: (ToMenuItem new
 				                labelText: 'Remove all';
-				                whenClickedDo: [ :event | target data removeAll ];
+				                whenClickedDo: [ :event |
+					                target dataAccessor removeAll ];
 				                yourself) ].
 	               selectedIndexes ifNotEmpty: [
 		               selectionMenu := ToMenu new.
@@ -875,7 +875,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 				                whenClickedDo: [ :event |
 					                | idx |
 					                idx := selectedIndexes first.
-					                target data
+					                target dataAccessor
 						                add: idx asString , ':XXXXXX'
 						                beforeIndex: idx ];
 				                yourself).
@@ -893,7 +893,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 				                labelText: 'Remove';
 				                whenClickedDo: [ :event |
 					                selectedIndexes reverseDo: [ :idx |
-							                target data removeAt: idx ] ];
+							                target dataAccessor removeAt: idx ] ];
 				                yourself).
 		               menu addSeparator.
 		               menu addItem: selectionMenu ] ].
@@ -1126,7 +1126,7 @@ ToSandBox class >> example_PicsumPhotosGallery [
 			          ToPicsumPhotosGalleryImageData fromDictionary:
 				          aDictionary ].
 	images sort: [ :a :b | a id > b id ].
-	list data addAll: images ] fork.
+	list dataAccessor addAll: images ] fork.
 
 	vscrollBar := BlVerticalScrollbarElement new.
 	vscrollBar constraintsDo: [ :c |
@@ -1424,7 +1424,7 @@ ToSandBox class >> example_SieveOnList2With_AllMethods [
 
 	sieve := ToListElementSieve new.
 	sieve onInstalledIn: listElement.
-	listElement data addAll: data.
+	listElement dataAccessor addAll: data.
 
 	sieve dataFilter: [ :aCompiledMethod :aPattern |
 		aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
@@ -2066,7 +2066,7 @@ ToSandBox class >> example_contactList [
 			 on: ToListSelectionChangedEvent
 			 do: [ :evt |
 				 evt selectedIndexes size = 1 ifTrue: [
-					 contact := list data at: evt selectedIndexes anyOne.
+					 contact := list dataAccessor at: evt selectedIndexes anyOne.
 					 nameTxtF text: contact name.
 					 phoneTxtF text: contact phoneNumber.
 					 addressTxtF text: contact address ] ]).
@@ -2136,7 +2136,7 @@ ToSandBox class >> example_contactList [
 					 holder infiniteElement data removeAt: holder position ]).
 		line addChild: remBut.
 		node addChild: line ].
-	list data addAll: contacts.
+	list dataAccessor addAll: contacts.
 	panel addChild: inputPane.
 	panel addChild: list.
 	panel openInSpace

@@ -5,7 +5,8 @@ Class {
 	#classTraits : 'TBlLayoutResizable classTrait',
 	#instVars : [
 		'nodeBuilder',
-		'nodeClass'
+		'nodeClass',
+		'dataSourceSharedHandler'
 	],
 	#category : #'Toplo-Widget-List-Infinite'
 }
@@ -14,6 +15,40 @@ Class {
 ToInfiniteElement >> data [
 
 	^ dataSource data
+]
+
+{ #category : #accessing }
+ToInfiniteElement >> dataAccessor [
+
+	^ self dataSource dataAccessor
+]
+
+{ #category : #accessing }
+ToInfiniteElement >> dataSource: aDataSource [
+
+	dataSource ifNotNil: [
+		self removeEventHandler: dataSourceSharedHandler.
+		dataSource removeEventHandler: dataSourceSharedHandler ].
+
+	super dataSource: aDataSource.
+	
+	dataSourceSharedHandler := BlSharedEventDistributor new
+		                     shareEvents: self dataSourceSharedEvents;
+		                     yourself.
+
+	self addEventHandler: dataSourceSharedHandler.
+	dataSource addEventHandler: dataSourceSharedHandler.
+]
+
+{ #category : #accessing }
+ToInfiniteElement >> dataSourceSharedEvents [
+
+	^ {
+		  ToDataSourceEmptinessEvent.
+		  ToDataSourceAttachedEvent.
+		  ToDataSourceDetachedEvent.
+		  BlInfiniteDataSourceItemRangeInserted.
+		  BlInfiniteDataSourceItemRangeRemoved }
 ]
 
 { #category : #initialization }
@@ -66,7 +101,6 @@ ToInfiniteElement >> infinite [
 ToInfiniteElement >> initialize [
 
 	super initialize.
-	self privateData: ToObservableCollection new.
 	self nodeBuilder: self defaultNodeBuilder.
 	self matchParent
 ]
@@ -141,12 +175,6 @@ ToInfiniteElement >> nodeHolderBuilder [
 ToInfiniteElement >> nodeHolderClass [
 
 	^ ToNodeHolder
-]
-
-{ #category : #private }
-ToInfiniteElement >> privateData: aCollection [
-
-	dataSource data: aCollection
 ]
 
 { #category : #'t - resizeable' }

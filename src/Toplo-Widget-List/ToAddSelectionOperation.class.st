@@ -1,7 +1,7 @@
 Class {
 	#name : #ToAddSelectionOperation,
 	#superclass : #ToSelectionModelOperation,
-	#category : #'Toplo-Widget-List-Selection-Command'
+	#category : #'Toplo-Widget-List-Command-Selection'
 }
 
 { #category : #dispatching }

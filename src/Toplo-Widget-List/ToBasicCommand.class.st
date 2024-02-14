@@ -12,9 +12,15 @@ Class {
 }
 
 { #category : #hook }
-ToBasicCommand >> applyOn: anObject [ 
+ToBasicCommand >> applyOn: anObject [
 
-	self nextDo: [ :n | n applyOn: anObject ]
+	self applyOn: anObject for: nil
+]
+
+{ #category : #hook }
+ToBasicCommand >> applyOn: anObject for: aTarget [
+
+	self nextDo: [ :n | n applyOn: anObject for: aTarget]
 ]
 
 { #category : #accessing }

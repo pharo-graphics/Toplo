@@ -14,12 +14,30 @@ ToThemeModel >> compileOn: aTheme [
 
 	self compileTokensOn: aTheme.
 	self compileStyleRulesOn: aTheme.
+	self compileScriptOn: aTheme
 ]
 
 { #category : #compiling }
 ToThemeModel >> compileOnCurrentTheme [
 
 	self compileOn: self theme
+]
+
+{ #category : #compiling }
+ToThemeModel >> compileScriptOn: aTheme [
+
+	| formatedSourceCode expr sourceCode |
+	sourceCode := 'edit
+	<script>
+	ToThemeEditorPresenter new
+	theme: self light;
+	open'.
+	expr := RBParser parseMethod: sourceCode.
+	formatedSourceCode := RBSimpleFormatter format: expr.
+
+	aTheme class class
+		compile: formatedSourceCode
+		classified: #'scripting - generated'
 ]
 
 { #category : #compiling }

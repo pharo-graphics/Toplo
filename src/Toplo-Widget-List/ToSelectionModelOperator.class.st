@@ -48,7 +48,7 @@ ToSelectionModelOperator >> applyCommand: aCommand for: aTarget [
 	operateSilently ifTrue: [ ^ self ].
 	
 	self dispatchEvent: (ToSelectionCommandAppliedEvent new
-			 commandOperator: self;
+			 operator: self;
 			 command: aCommand).
 			
 	changed ifFalse: [ ^ self ].
@@ -182,6 +182,7 @@ ToSelectionModelOperator >> selectAllIndexes: anArray [
 ToSelectionModelOperator >> selectAndScrollToIndex: anIndex [
 
 	self selectIndex: anIndex.
+	self applyAll.
 	self selectionModel ifNotEmpty: [
 		self addCommand: (ToActionCommand new
 				 action: [ :e | e scrollToIndex: anIndex ];
@@ -195,6 +196,7 @@ ToSelectionModelOperator >> selectAndScrollToNext [
 	nextIdx := self nextIdxTowardEnd.
 	nextIdx isZero ifTrue: [ ^ self ].
 	self deselectAll.
+	self applyAll.
 	self selectAndScrollToIndex: nextIdx
 ]
 

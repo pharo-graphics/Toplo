@@ -14,8 +14,14 @@ TToCommandOperator >> addCommand: aCommand [
 
 	self dispatchEvent: (ToCommandAddedEvent new
 			 command: aCommand;
-			 commandOperator: self;
+			 operator: self;
 			 yourself)
+]
+
+{ #category : #accessing }
+TToCommandOperator >> applyAll [
+
+	self dispatchEvent: ToCommandApplicationRequestEvent new
 ]
 
 { #category : #'command application' }

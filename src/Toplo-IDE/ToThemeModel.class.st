@@ -30,7 +30,7 @@ ToThemeModel >> compileScriptOn: aTheme [
 	sourceCode := 'edit
 	<script>
 	ToThemeEditorPresenter new
-	theme: self light;
+	theme: self new;
 	open'.
 	expr := RBParser parseMethod: sourceCode.
 	formatedSourceCode := RBSimpleFormatter format: expr.

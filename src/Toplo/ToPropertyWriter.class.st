@@ -13,7 +13,9 @@ Class {
 { #category : #visiting }
 ToPropertyWriter >> accept: aVisitor [
 
-	aVisitor visitPropertyWriter: self.
+	self isSupplement
+		ifTrue: [ aVisitor visitPropertyWriterForSupplement: self ]
+		ifFalse: [ aVisitor visitPropertyWriter: self ]
 ]
 
 { #category : #accessing }

@@ -55,6 +55,12 @@ ToThemeEditorEventsListenerListPresenter >> eventListenerMenu [
 				  name: 'Inspect';
 				  action: [ self eventListenersList selectedItem inspect ];
 				  yourself ];
+		  addItem: [ :item |
+			  item
+				  icon: (self iconNamed: #smallCopy);
+				  name: 'Duplicate';
+				  action: [ self controller duplicateEventListener: self eventListenersList selectedItem ];
+				  yourself ];
 		  yourself
 ]
 
@@ -73,19 +79,22 @@ ToThemeEditorEventsListenerListPresenter >> initializePresenters [
 					                      anEventListener ];
 		                      contextMenu: self eventListenerMenu;
 		                      yourself.
-	eventListenersList addColumn:
-		((SpStringTableColumn title: 'Event' evaluated: [ :eventListner |
-			  (eventListner eventClass eventName) ])).
+	eventListenersList addColumn: ((SpStringTableColumn
+			  title: 'Event'
+			  evaluated: [ :eventListner | eventListner eventClass eventName ])
+			 sortFunction:
+			 [ :eventListner | eventListner eventClass eventName ] ascending).
 	eventListenersList addColumn:
 		((SpStringTableColumn title: 'Type' evaluated: [ :eventListner |
 			  eventListner isAction
 				  ifTrue: [ 'Action' ]
 				  ifFalse: [ 'Property' ] ]) width: 70).
 	eventListenersList addColumn:
-		(SpStringTableColumn title: 'Property' evaluated: [ :eventListner |
+		((SpStringTableColumn title: 'Property' evaluated: [ :eventListner |
 			 eventListner isAction
 				 ifTrue: [ '' ]
-				 ifFalse: [ eventListner property name ] ])
+				 ifFalse: [ eventListner property name ] ])sortFunction:
+			 [ :eventListner | eventListner property name ] ascending).
 ]
 
 { #category : #accessing }

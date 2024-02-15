@@ -18,7 +18,7 @@ Class {
 ToThemeApplication >> applyThemeSelectorMenu [
 
 	self currentPanel space ifNotNil: [ :s |
-		s toTheme: self themeSelectorMenu selectedData value ]
+		s toTheme: self themeSelectorMenu selectedData value value ]
 ]
 
 { #category : #accessing }
@@ -78,6 +78,7 @@ ToThemeApplication >> initializePanelModels [
 
 	panelModels := OrderedCollection new.
 	panelModels add: ToThemeApplicationButtonsPanelModel new.
+	panelModels add: ToThemeApplicationButtonsWithIconsPanelModel new.
 	panelModels add: ToThemeApplicationCheckboxPanelModel new.
 	panelModels add: ToThemeApplicationLabelPanelModel new.
 	self selectedPanelModel: panelModels first.
@@ -177,13 +178,13 @@ ToThemeApplication >> navigation [
 { #category : #'as yet unclassified' }
 ToThemeApplication >> navigationTheme [
 
-^ ToRawTheme dark.
+	^ ToRawDarkTheme new
 ]
 
 { #category : #'instance creation' }
 ToThemeApplication >> open [
 
-	self rootElement openInNewSpace
+	^ self rootElement openInNewSpace
 ]
 
 { #category : #accessing }
@@ -197,13 +198,12 @@ ToThemeApplication >> refreshThemeSelectorMenu [
 
 	| defaultThemes generatedThemes |
 	generatedThemes := ToEmptyStyleSheetThemeGenerated allSubclasses
-		                   collect: [ :each |
-		                   each printString -> each light ].
+		                   collect: [ :each | each printString -> [each new] ].
 	defaultThemes := {
-		                 ('Raw Theme light' -> ToRawTheme light).
-		                 ('Raw Theme dark' -> ToRawTheme dark).
-		                 ('Bee Theme light' -> ToBeeTheme light).
-		                 ('Bee Theme dark' -> ToBeeTheme dark) }.
+		                 ('Raw Theme light' -> [ ToRawTheme new ]).
+		                 ('Raw Theme dark' -> [ToRawDarkTheme new]).
+		                 ('Bee Theme light' -> [ToBeeTheme new]).
+		                 ('Bee Theme dark' -> [ToBeeDarkTheme new]) }.
 	self themeSelectorMenu data removeAll.
 	self themeSelectorMenu data addAll: defaultThemes , generatedThemes.
 	self themeSelectorMenu selectIndex: 1

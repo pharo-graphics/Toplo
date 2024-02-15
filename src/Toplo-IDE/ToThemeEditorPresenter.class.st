@@ -82,8 +82,9 @@ ToThemeEditorPresenter >> selectorEditor [
 ToThemeEditorPresenter >> theme: aToTheme [
 
 	self rulesTree controller theme: aToTheme.
+	self eventListenersList controller theme: aToTheme.
 	self eventListenerEditor controller theme: aToTheme.
-	self themeInfos controller theme: aToTheme.
+	self themeInfos controller theme: aToTheme
 ]
 
 { #category : #accessing }

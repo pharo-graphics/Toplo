@@ -5,7 +5,8 @@ Class {
 	#classTraits : 'TToThemeEditorControllerWithButtons classTrait + TToThemeEditorRulesTreeObserver classTrait + TToThemeEditorObservable classTrait + TToThemeEditorEventListenerEditorObserver classTrait',
 	#instVars : [
 		'styleRule',
-		'isTriggerSelectedRuleChanged'
+		'isTriggerSelectedRuleChanged',
+		'theme'
 	],
 	#category : #'Toplo-IDE-theme-editor-presenter-eventListeners'
 }
@@ -15,10 +16,13 @@ ToThemeEditorEventsListenerListController >> addEventListener [
 
 	| newEventListener |
 	self styleRule ifNil: [ ^ self ].
-	newEventListener := ToLookEventAction new action: [ :element |  ]; eventClass: ToInstallLookEvent; yourself.
+	newEventListener := ToPropertyWriter new
+		                    value: [ :e |  ];
+		                    eventClass: ToInstallLookEvent;
+		                    property: self defaultProperty;
+		                    yourself.
 	self styleRule addLookEventListener: newEventListener.
 	self updatePresenterOn: newEventListener
-	
 ]
 
 { #category : #'as yet unclassified' }
@@ -26,6 +30,12 @@ ToThemeEditorEventsListenerListController >> allEventListeners [
 
 	self styleRule ifNil: [ ^ {  } ].
 	^ self styleRule lookEventListeners
+]
+
+{ #category : #adding }
+ToThemeEditorEventsListenerListController >> defaultProperty [
+
+	^ self theme styleSheet rawWritablePropertyIndex index atRandom value.
 ]
 
 { #category : #adding }
@@ -46,6 +56,20 @@ ToThemeEditorEventsListenerListController >> doNotTriggerSelectedRuleChangedWhil
 ToThemeEditorEventsListenerListController >> doTriggerSelectedRuleChanged [
 
 	isTriggerSelectedRuleChanged := true
+]
+
+{ #category : #'as yet unclassified' }
+ToThemeEditorEventsListenerListController >> duplicateEventListener: anEventListener [
+	|newEventListener | 
+self styleRule ifNil: [ ^ self ].
+	newEventListener := ToPropertyWriter new
+		value: anEventListener value copy;
+		eventClass: anEventListener eventClass;
+		property: anEventListener property;
+		supplement: anEventListener isSupplement;
+		yourself.
+	self styleRule addLookEventListener: newEventListener.
+	self updatePresenterOn: newEventListener
 ]
 
 { #category : #initialization }
@@ -119,6 +143,18 @@ ToThemeEditorEventsListenerListController >> styleRule: aToStyleRule [
 	self presenter eventListenersList selectItem:
 		self allEventListeners first.
 		self presenter updatePresenterOnlyButtons
+]
+
+{ #category : #accessing }
+ToThemeEditorEventsListenerListController >> theme [
+	^ theme 
+]
+
+{ #category : #accessing }
+ToThemeEditorEventsListenerListController >> theme: anObject [
+
+
+	theme:= anObject
 ]
 
 { #category : #initialization }

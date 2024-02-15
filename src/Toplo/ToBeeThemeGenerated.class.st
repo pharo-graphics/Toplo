@@ -9,7 +9,7 @@ ToBeeThemeGenerated class >> defaultTokenProperties [
   "This method has been generated.
 
 	By: YannLEGOFF
-	2024-02-14 15:49:10"
+	2024-02-15 11:47:03"
   ^{(ToTokenProperty name: #'background-color' value: Color white) . 
   (ToTokenProperty name: #'border-radius' value: 6) . 
   (ToTokenProperty name: #'border-radius-large' value: 8) . 
@@ -98,14 +98,16 @@ ToBeeThemeGenerated class >> defaultTokenProperties [
   (ToTokenProperty name: #'color-primary-selection-unfocused' value: (Color r: 0.08602150537634409 g: 0.4662756598240469 b: 1.0 alpha: 0.09803921568627451)) . 
   (ToTokenProperty name: #'border-width-primary-selection' value: 1) . 
   (ToTokenProperty name: #'border-color-primary-selection' value: (Color r: 0.08602150537634409 g: 0.4662756598240469 b: 1.0 alpha: 1.0)) . 
-  (ToTokenProperty name: #'height-normal' value: 24)}
+  (ToTokenProperty name: #'height-normal' value: 24) . 
+  (ToTokenProperty name: #'color-primary-text' value: Color white) . 
+  (ToTokenProperty name: #'color-primary-text' value: Color white)}
 ]
 
 { #category : #'scripting - generated' }
 ToBeeThemeGenerated class >> edit [
   < script>
   ToThemeEditorPresenter new
-     theme: self light;
+     theme: self new;
      open
 ]
 
@@ -114,10 +116,10 @@ ToBeeThemeGenerated >> initializeStyleRules [
   "This method has been generated.
 
 	By: YannLEGOFF
-	2024-02-14 15:49:10"
+	2024-02-15 11:47:03"
+  self initializeToLabeledIconStyleRules.
   self initializeToLabelStyleRules.
   self initializeToButtonStyleRules.
-  self initializeToLabeledIconStyleRules.
   self select: #'space-root' asIdSelector style: [ self when: ToInstallLookEvent write: (self property: #background) with: [:e |  e valueOfTokenNamed: #'background-color' ] animation: nil ]
 ]
 
@@ -126,18 +128,53 @@ ToBeeThemeGenerated >> initializeToButtonStyleRules [
   "This method has been generated.
 
 	By: YannLEGOFF
-	2024-02-14 15:49:10"
+	2024-02-15 11:47:03"
   self select: ToButton asTypeSelector style: [ self when: ToHoveredLookEvent write: (self property: #mouseCursor) with: [:e |  e isEnabled ifTrue: [ Cursor webLink ] ifFalse: [  ] ] animation: nil.
         self when: ToLeavedLookEvent write: (self property: #mouseCursor) with: nil animation: nil.
         self when: ToDisabledLookEvent write: (self property: #'background-color') with: [:e |  e valueOfTokenNamed: #'color-bg-container-disabled' ] animation: nil.
         self when: ToInstallLookEvent write: (self property: #'background-color') with: [:e |  e valueOfTokenNamed: #'color-bg-container' ] animation: nil.
         self when: ToInstallLookEvent write: (self property: #height) with: [:e |  e valueOfTokenNamed: #'control-height' ] animation: nil.
         self when: ToInstallLookEvent write: (self property: #geometry) with: [:e |  BlRoundedRectangleGeometry cornerRadius: (e valueOfTokenNamed: 'border-radius') ] animation: nil.
+        self when: ToUninstallLookEvent write: (self property: #'background-color') with: [:e |  e valueOfTokenNamed: #'color-bg-container' ] animation: nil.
+        self when: ToUninstallLookEvent write: (self property: #height) with: [:e |  e valueOfTokenNamed: #'control-height' ] animation: nil.
+        self when: ToUninstallLookEvent write: (self property: #geometry) with: [:e |  BlRoundedRectangleGeometry cornerRadius: (e valueOfTokenNamed: 'border-radius') ] animation: nil.
+        self when: ToInstallLookEvent write: (self property: #'border-with-builder') with: [:e |  e borderBuilder
+                 dashArray: #();
+                 paint: (e valueOfTokenNamed: #'color-border');
+                 width: (e valueOfTokenNamed: #'border-width-primary-selection') ] animation: nil.
+        self when: ToUninstallLookEvent supplement: (self property: #'border-with-builder') with: [:e |  e borderBuilder
+                 dashArray: #();
+                 paint: (e valueOfTokenNamed: #'color-border');
+                 width: (e valueOfTokenNamed: #'border-width-primary-selection') ] animation: nil.
+        self when: ToHoveredLookEvent write: (self property: #'button-label-text-foreground') with: [:e |  e valueOfTokenNamed: #'color-primary-hover' ] animation: nil.
+        self when: ToHoveredLookEvent write: (self property: #'border-with-builder') with: [:e |  e borderBuilder paint: (e valueOfTokenNamed: #'color-primary-hover') ] animation: nil.
+        self when: ToLeavedLookEvent write: (self property: #'border-with-builder') with: [:e |  e borderBuilder
+                 dashArray: #();
+                 paint: (e valueOfTokenNamed: #'color-border');
+                 width: (e valueOfTokenNamed: #'border-width-primary-selection') ] animation: nil.
+        self when: ToInstallLookEvent write: (self property: #'button-label-text-foreground') with: [:e |  e valueOfTokenNamed: #'color-text' ] animation: nil.
+        self when: ToUninstallLookEvent write: (self property: #'button-label-text-foreground') with: [:e |  e valueOfTokenNamed: #'color-text' ] animation: nil.
+        self when: ToLeavedLookEvent write: (self property: #'button-label-text-foreground') with: [:e |  e valueOfTokenNamed: #'color-text' ] animation: nil.
         self select: #'small-sizing' asStampSelector style: [ self when: ToInstallLookEvent write: (self property: #height) with: [:e |  e valueOfTokenNamed: #'control-height-small' ] animation: nil.
               self when: ToInstallLookEvent write: (self property: #geometry) with: [:e |  BlRoundedRectangleGeometry cornerRadius: (e valueOfTokenNamed: 'border-radius-small') ] animation: nil ].
         self select: #'large-sizing' asStampSelector style: [ self when: ToInstallLookEvent write: (self property: #height) with: [:e |  e valueOfTokenNamed: #'control-height-large' ] animation: nil.
               self when: ToInstallLookEvent write: (self property: #geometry) with: [:e |  BlRoundedRectangleGeometry cornerRadius: (e valueOfTokenNamed: 'border-radius-large') ] animation: nil ].
-        self select: #round asStampSelector style: [ self when: ToInstallLookEvent write: (self property: #geometry) with: [:e |  BlRoundedRectangleGeometry cornerRadius: e requestedHeight ] animation: nil ] ]
+        self select: #round asStampSelector style: [ self when: ToInstallLookEvent write: (self property: #geometry) with: [:e |  BlRoundedRectangleGeometry cornerRadius: e requestedHeight ] animation: nil ].
+        self select: #text asStampSelector || #link asStampSelector style: [ self when: ToInstallLookEvent supplement: (self property: #'border-with-builder') with: [:e |  e borderBuilder paint: Color transparent ] animation: nil.
+              self when: ToHoveredLookEvent supplement: (self property: #'border-with-builder') with: [:e |  e borderBuilder paint: Color transparent ] animation: nil.
+              self when: ToLeavedLookEvent supplement: (self property: #'border-with-builder') with: [:e |  e borderBuilder paint: Color transparent ] animation: nil ].
+        self select: #primary asStampSelector style: [ self when: ToInstallLookEvent supplement: (self property: #'border-with-builder') with: [:e |  e borderBuilder paint: (e valueOfTokenNamed: #'color-primary') ] animation: nil.
+              self when: ToInstallLookEvent write: (self property: #'background-color') with: [:e |  e valueOfTokenNamed: #'color-primary' ] animation: nil.
+              self when: ToInstallLookEvent write: (self property: #'button-label-text-foreground') with: [:e |  e valueOfTokenNamed: #'color-primary-text' ] animation: nil.
+              self when: ToPressedLookEvent write: (self property: #'button-label-text-foreground') with: [:e |  e valueOfTokenNamed: #'color-primary-text' ] animation: nil.
+              self when: ToHoveredLookEvent write: (self property: #'button-label-text-foreground') with: [:e |  e valueOfTokenNamed: #'color-primary-text' ] animation: nil.
+              self when: ToLeavedLookEvent write: (self property: #'button-label-text-foreground') with: [:e |  e valueOfTokenNamed: #'color-primary-text' ] animation: nil.
+              self when: ToLeavedLookEvent supplement: (self property: #'border-with-builder') with: [:e |  e borderBuilder paint: (e valueOfTokenNamed: #'color-primary') ] animation: nil.
+              self when: ToHoveredLookEvent write: (self property: #'background-color') with: [:e |  e valueOfTokenNamed: #'color-primary-hover' ] animation: nil.
+              self when: ToLeavedLookEvent write: (self property: #'background-color') with: [:e |  e valueOfTokenNamed: #'color-primary' ] animation: nil ].
+        self select: #dashed asStampSelector style: [ self when: ToInstallLookEvent supplement: (self property: #'border-with-builder') with: [:e |  e borderBuilder dashArray: (e valueOfTokenNamed: #'dash-array') ] animation: nil.
+              self when: ToHoveredLookEvent supplement: (self property: #'border-with-builder') with: [:e |  e borderBuilder dashArray: (e valueOfTokenNamed: #'dash-array') ] animation: nil.
+              self when: ToLeavedLookEvent supplement: (self property: #'border-with-builder') with: [:e |  e borderBuilder dashArray: (e valueOfTokenNamed: #'dash-array') ] animation: nil ] ]
 ]
 
 { #category : #'initialization - generated' }
@@ -145,7 +182,7 @@ ToBeeThemeGenerated >> initializeToLabelStyleRules [
   "This method has been generated.
 
 	By: YannLEGOFF
-	2024-02-14 15:49:10"
+	2024-02-15 11:47:03"
   self select: ToLabel asTypeSelector style: [ self when: ToInstallLookEvent write: (self property: #'text-attributes-with-builder') with: [:e |  e textAttributesBuilder
                  weight: (e valueOfTokenNamed: #'font-weight-strong');
                  defaultFontName: (e valueOfTokenNamed: #'font-family-code');
@@ -201,18 +238,12 @@ ToBeeThemeGenerated >> initializeToLabeledIconStyleRules [
   "This method has been generated.
 
 	By: YannLEGOFF
-	2024-02-14 15:49:10"
+	2024-02-15 11:47:03"
   self select: ToLabeledIcon asTypeSelector style: [ self when: ToInstallLookEvent write: (self property: #layout) with: [:e |  BlLinearLayout horizontal ] animation: nil.
         self when: ToInstallLookEvent write: (self property: #'layout-constraints') with: [:e |  [:c |  c horizontal fitContent.
               c vertical fitContent.
               c linear vertical alignCenter.
               c linear horizontal alignCenter ] ] animation: nil.
-        self select: ((ToUniversalSelector new withParent: ToButton asTypeSelector atDepth: 1) withParent: #flexible asStampSelector atDepth: 1) not style: [ self when: ToInstallLookEvent write: (self property: #'layout-constraints') with: [:e |  [:c |  c frame vertical alignCenter.
-                    c frame horizontal alignCenter.
-                    c linear vertical alignCenter.
-                    c linear horizontal alignCenter ] ] animation: nil ].
-        self select: ((ToUniversalSelector new withParent: ToButton asTypeSelector atDepth: 1) withParent: #flexible asStampSelector atDepth: 1) style: [ self when: ToInstallLookEvent write: (self property: #'layout-constraints') with: [:e |  [:c |  c horizontal matchParent.
-                    c vertical matchParent ] ] animation: nil ].
         self select: ((ToUniversalSelector new withParent: ToButton asTypeSelector atDepth: 1) withParent: #'icon-first' asStampSelector atDepth: 1) style: [ self when: ToInstallLookEvent write: (self property: #'layout-direction') with: [:e |  BlLayoutDirection leftToRight ] animation: nil ].
         self select: ((ToUniversalSelector new withParent: ToButton asTypeSelector atDepth: 1) withParent: #'label-first' asStampSelector atDepth: 1) style: [ self when: ToInstallLookEvent write: (self property: #'layout-direction') with: [:e |  BlLayoutDirection rightToLeft ] animation: nil ] ]
 ]

@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToStyleRuleScripter,
-	#category : 'Toplo-Core-StyleSheet'
+	#category : #'Toplo-Core-StyleSheet'
 }
 
 { #category : #'t - stylesheet scripter - syntactic sugar' }
@@ -84,6 +84,19 @@ TToStyleRuleScripter >> when: aLookEventClass supplement: aWritableProperty with
 			 eventClass: aLookEventClass;
 			 property: aWritableProperty;
 			 value: aValuableOrObject;
+			 supplement: true;
+			 yourself)
+]
+
+{ #category : #'t - stylesheet scripter' }
+TToStyleRuleScripter >> when: aLookEventClass supplement: aWriteableProperty with: aValuableOrObject animation: aPropertyAnimation [
+
+	self lookEventListenerHolder addLookEventListener:
+		(ToPropertyWriter new
+			 eventClass: aLookEventClass;
+			 property: aWriteableProperty;
+			 value: aValuableOrObject;
+			 animation: aPropertyAnimation;
 			 supplement: true;
 			 yourself)
 ]

@@ -161,6 +161,22 @@ ToThemeToSourceCodeVisitor >> visitPropertyWriter: aToPropertyWriter [
 ]
 
 { #category : #visiting }
+ToThemeToSourceCodeVisitor >> visitPropertyWriterForSupplement: aToPropertyWriter [
+
+	self nextPut: 'self when: '.
+	self nextPut: aToPropertyWriter eventClass printString.
+	self nextPut: ' supplement: (self property:'.
+	self nextPut: aToPropertyWriter property name asSymbol printString.
+	self nextPut: ') with: ('.
+	self nextPut: aToPropertyWriter value printString.
+	self nextPut: ') animation: ('.
+	aToPropertyWriter animation
+		ifNil: [ self nextPut: 'nil' ]
+		ifNotNil: [ aToPropertyWriter animation accept: self ].
+	self nextPut: ').<r>'
+]
+
+{ #category : #visiting }
 ToThemeToSourceCodeVisitor >> visitSiblingSelector: aSelector [
 
 	self nextPut: '('.

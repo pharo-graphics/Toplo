@@ -111,6 +111,12 @@ ToListElementEventHandler >> launchSelectionAction: aBlock in: aTarget [
 			 aTarget dispatchEvent: ToListSelectionDirtyEvent new ])
 ]
 
+{ #category : #'infinite event handling' }
+ToListElementEventHandler >> listSelectionModeChangedEvent: anEvent [
+
+	anEvent currentTarget selectionModel deselectAll 
+]
+
 { #category : #'mouse handlers' }
 ToListElementEventHandler >> mouseDownEvent: anEvent [
 

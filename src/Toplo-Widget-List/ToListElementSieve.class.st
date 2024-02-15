@@ -128,7 +128,7 @@ ToListElementSieve >> onListSelectionChangedEvent: anEvent [
 	currentSelection addAll: selectedStream contents.
 
 	listElement dispatchEvent:
-		(ToListElementSieveSelectionChangedEvent new
+		(ToListSieveSelectionChangedEvent new
 			 originalData: self originalData;
 			 selection: (BlCompositeSelection new
 					  selectAllIndexes: currentSelection;
@@ -157,7 +157,7 @@ ToListElementSieve >> onObservableCollectionQueryResultEvent: anEvent [
 		(currentResultsArray collect: [ :assoc | assoc key ]).
 	listElement selecter beSilentWhile: [
 		listElement selecter selectOnlyIndexes: selectedIndexes ].
-	listElement dispatchEvent: (ToListElementSieveFilterAppliedEvent new
+	listElement dispatchEvent: (ToListSieveFilterAppliedEvent new
 			 sieve: self;
 			 yourself)
 ]

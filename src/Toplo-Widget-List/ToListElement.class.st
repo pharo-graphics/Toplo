@@ -194,8 +194,8 @@ ToListElement >> selectionMode: aSelectionManager [
 
 	selectionMode ifNotNil: [ selectionMode onUninstalledIn: self ].
 	selectionMode := aSelectionManager.
-	selectionMode ifNotNil: [ selectionMode onInstalledIn: self ]
-
+	selectionMode ifNotNil: [ selectionMode onInstalledIn: self ].
+	self dispatchEvent: ToListSelectionModeChangedEvent new
 ]
 
 { #category : #accessing }

@@ -7,12 +7,6 @@ Class {
 	#category : #'Toplo-Widget-Select-Core'
 }
 
-{ #category : #accessing }
-ToSelectReadOnlyMode >> data [
-
-	^ select listElement data
-]
-
 { #category : #'accessing selection' }
 ToSelectReadOnlyMode >> deselectIndex: anIndex [
 

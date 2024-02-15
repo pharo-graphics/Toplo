@@ -1196,9 +1196,9 @@ ToSandBox class >> example_QueryOnList2WithStatesOfAmerica [
 	filterField margin: (BlInsets all: 2).
 
 	selector := ToObservableCollectionQueryRunner new.
-	listElement data addAll: data.
-	
-	selector onInstalledIn: listElement data.
+	listElement dataAccessor addAll: data.
+
+	selector onInstalledIn: listElement dataAccessor.
 
 	filterField addEventHandler: (BlEventHandler
 			 on: AlbTextEditedEvent
@@ -1207,7 +1207,7 @@ ToSandBox class >> example_QueryOnList2WithStatesOfAmerica [
 				 pattern := filterField text asString.
 				 selector pattern: pattern ]).
 
-	listElement data addEventHandler: (BlEventHandler
+	listElement dataAccessor addEventHandler: (BlEventHandler
 			 on: ToObservableCollectionQueryResultEvent
 			 do: [ :event |
 				 listElement selecter selectOnlyIndexes:
@@ -1271,7 +1271,7 @@ ToSandBox class >> example_SieveOnList2WithStatesOfAmerica [
 		        matchParent.
 	filterField := ToTextField new.
 	listElement := ToListElement new.
-	data := self statesOfAmerica "copyFrom: 1 to: 8".
+	data := self statesOfAmerica. "copyFrom: 1 to: 8"
 
 	listElement margin: (BlInsets all: 2).
 	listElement withRowNumbers.
@@ -1279,7 +1279,7 @@ ToSandBox class >> example_SieveOnList2WithStatesOfAmerica [
 
 	sieve := ToListElementSieve new.
 	sieve onInstalledIn: listElement.
-	listElement data addAll: data.
+	listElement dataAccessor addAll: data.
 
 	filterField addEventHandler: (BlEventHandler
 			 on: AlbTextEditedEvent
@@ -1314,25 +1314,25 @@ ToSandBox class >> example_SieveOnList2With_350000_Items [
 	listElement := ToListElement new.
 	data := OrderedCollection new.
 	Character alphabet do: [ :c1 |
-		(Character alphabet ) do: [ :c2 |
-			(Character alphabet ) do: [ :c3 |
-				((48 to: 57) collect: [:n | n asCharacter]) do: [ :c4 |
+		Character alphabet do: [ :c2 |
+			Character alphabet do: [ :c3 |
+				((48 to: 57) collect: [ :n | n asCharacter ]) do: [ :c4 |
 					data add: (String streamContents: [ :str |
 							 str nextPutAll: {
 									 c1.
 									 c2.
 									 c3.
 									 c4 } ]) ] ] ] ].
-				
+
 	listElement margin: (BlInsets all: 2).
 	listElement withRowNumbers.
 	filterField margin: (BlInsets all: 2).
-	listElement data addAll: data.
+	listElement dataAccessor addAll: data.
 
 	sieve := ToListElementSieve new.
 	sieve onInstalledIn: listElement.
-	listElement data addAll: data.
-	listElement data size traceCr.
+	listElement dataAccessor addAll: data.
+	listElement dataAccessor size traceCr.
 	filterField addEventHandler: (BlEventHandler
 			 on: AlbTextEditedEvent
 			 do: [
@@ -1373,7 +1373,7 @@ ToSandBox class >> example_SieveOnList2With_AllClassNames [
 
 	sieve := ToListElementSieve new.
 	sieve onInstalledIn: listElement.
-	listElement data addAll:
+	listElement dataAccessor addAll:
 		(Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]).
 
 	sieve dataFilter: [ :aCompiledMethod :aPattern |

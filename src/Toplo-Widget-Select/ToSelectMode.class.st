@@ -7,12 +7,6 @@ Class {
 	#category : #'Toplo-Widget-Select-Core'
 }
 
-{ #category : #accessing }
-ToSelectMode >> data [
-
-	self subclassResponsibility 
-]
-
 { #category : #initialization }
 ToSelectMode >> defaultMonoSelectHeaderNodeClass [
 

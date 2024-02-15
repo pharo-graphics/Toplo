@@ -85,7 +85,7 @@ ToSelectionModelTest >> testCopyWholeModel [
 ToSelectionModelTest >> testDeselectAll [
 
 	| s |
-	s := ToSelectionModel new.
+	s := ToSelectionModel new itemCountGetter: 100.
 	s deselectAll.
 	self assert: (s underlyingModel isKindOf: ToEmptySelectionModel ).
 	s selectIndex: 10.
@@ -313,7 +313,7 @@ ToSelectionModelTest >> testOnUninstalledIn [
 ToSelectionModelTest >> testSelectAll [
 
 	| s |
-	s := ToSelectionModel new.
+	s := ToSelectionModel new itemCountGetter: 100.
 	s selectAll.
 	self assert: (s underlyingModel isKindOf: ToWholeSelectionModel ).
 	s selectIndex: 10.

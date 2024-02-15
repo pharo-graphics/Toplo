@@ -18,11 +18,11 @@ ToSelectFiltrableListEventHandler >> collectionFilteredEvent: anEvent [
 { #category : #'api - accessing' }
 ToSelectFiltrableListEventHandler >> eventsToHandle [
 
-	^ { ToListElementSieveSelectionChangedEvent. ToCollectionFilteredEvent }
+	^ { ToListSieveSelectionChangedEvent. ToCollectionFilteredEvent }
 ]
 
 { #category : #'element handlers' }
-ToSelectFiltrableListEventHandler >> listElementSieveSelectionChangedEvent: anEvent [
+ToSelectFiltrableListEventHandler >> listSieveSelectionChangedEvent: anEvent [
 
 	select selection indices = anEvent selection indices ifTrue: [ ^ self ].
 	select selection deselectAll.

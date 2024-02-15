@@ -44,7 +44,8 @@ ToSelectionModel >> deselectAllIndexes: anArray [
 	self ensureCompositeSelectionModel.
 	wasWhole ifTrue: [ self underlyingModel select: 0 to: self itemCount ].
 	anArray do: [ :idx |
-		self underlyingModel deselectIndex: idx ].
+		idx <= self itemCount ifTrue: [
+			self underlyingModel deselectIndex: idx ] ].
 	self checkEmptiness
 ]
 
@@ -52,6 +53,7 @@ ToSelectionModel >> deselectAllIndexes: anArray [
 ToSelectionModel >> deselectIndex: anIndex [
 
 	| wasWhole |
+	anIndex <= self itemCount ifFalse: [ ^ self ].
 	wasWhole := self isWholeSelectionModel.
 	self ensureCompositeSelectionModel.
 	wasWhole ifTrue: [
@@ -64,9 +66,11 @@ ToSelectionModel >> deselectIndex: anIndex [
 ToSelectionModel >> deselectIndex: aFirstIndex to: aSecondIndex [
 
 	| from to |
-	self ensureCompositeSelectionModel.
 	from := aFirstIndex min: aSecondIndex.
 	to := aFirstIndex max: aSecondIndex.
+	from <= self itemCount ifFalse: [ ^ self ].
+	to <= self itemCount ifFalse: [ ^ self ].
+	self ensureCompositeSelectionModel.
 	self underlyingModel 
 		deselect: from - 1
 		to: to
@@ -220,12 +224,14 @@ ToSelectionModel >> selectAllIndexes: anArray [
 	anArray ifEmpty: [ ^ self ].
 	self ensureCompositeSelectionModel.
 	anArray do: [ :idx |
-			self underlyingModel selectIndex: idx ]
+		idx <= self itemCount ifTrue: [
+			self underlyingModel selectIndex: idx ] ]
 ]
 
 { #category : #updating }
 ToSelectionModel >> selectIndex: anIndex [
 
+	anIndex <= self itemCount ifFalse: [ ^ self ].
 	self ensureCompositeSelectionModel.
 	self underlyingModel 
 		select: anIndex - 1
@@ -236,9 +242,11 @@ ToSelectionModel >> selectIndex: anIndex [
 ToSelectionModel >> selectIndex: aFirstIndex to: aSecondIndex [
 
 	| from to |
-	self ensureCompositeSelectionModel.
 	from := aFirstIndex min: aSecondIndex.
 	to := aFirstIndex max: aSecondIndex.
+	from <= self itemCount ifFalse: [ ^ self ].
+	to <= self itemCount ifFalse: [ ^ self ].
+	self ensureCompositeSelectionModel.
 	self underlyingModel 
 		select: from - 1
 		to: to

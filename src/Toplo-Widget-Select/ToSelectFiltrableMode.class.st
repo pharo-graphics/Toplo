@@ -9,12 +9,6 @@ Class {
 }
 
 { #category : #accessing }
-ToSelectFiltrableMode >> data [ 
-
-	^ sieve originalData
-]
-
-{ #category : #accessing }
 ToSelectFiltrableMode >> dataFilter: aValuable [
 
 	sieve dataFilter: aValuable

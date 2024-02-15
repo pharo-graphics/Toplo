@@ -16,12 +16,6 @@ ToButterflyTheme class >> label [
 	^'Butterfly'
 ]
 
-{ #category : #testing }
-ToButterflyTheme class >> supportedVariantClasses [
-
-	^ { ToThemeDarkVariant. ToThemeLightVariant }
-]
-
 { #category : #accessing }
 ToButterflyTheme >> expectedSkinFor: anElement [
 

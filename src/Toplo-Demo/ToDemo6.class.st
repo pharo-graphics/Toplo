@@ -10,7 +10,7 @@ ToDemo6 class >> example0 [
 	| dem1 pane space |
 	
 	space := BlSpace new.
-	space toTheme: ToBeetleTheme light.
+	space toTheme: ToBeetleTheme new.
 	pane := ToPane vertical.
 	dem1 := ToDemo6 new.
 
@@ -27,13 +27,13 @@ ToDemo6 class >> example1 [
 	| dem1 dem2 pane space |
 	
 	space := BlSpace new.
-	space toTheme: ToBeetleTheme light.
+	space toTheme: ToBeetleTheme new.
 	pane := ToPane vertical.
 	dem1 := ToDemo6 new.
 	
 	dem2 := ToDemo5 new.
 	dem2 defaultButterflySkin: ToDemoButSkin2 new.
-	dem2 toTheme: ToButterflyTheme light.
+	dem2 toTheme: ToButterflyTheme new.
 
 	pane addChild: dem1.
 	pane addChild: dem2.	

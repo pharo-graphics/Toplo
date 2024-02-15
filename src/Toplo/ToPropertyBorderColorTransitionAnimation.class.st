@@ -4,6 +4,11 @@ Class {
 	#category : #'Toplo-Core-StyleSheet'
 }
 
+{ #category : #visiting }
+ToPropertyBorderColorTransitionAnimation >> accept: aToThemeToSourceCodeVisitor [ 
+	aToThemeToSourceCodeVisitor visitPropertyBorderColorTransition: self
+]
+
 { #category : #'instance creation' }
 ToPropertyBorderColorTransitionAnimation >> newRawAnimationFor: anElement to: aStopBorder [
 

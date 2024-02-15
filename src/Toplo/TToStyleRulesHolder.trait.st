@@ -28,6 +28,12 @@ TToStyleRulesHolder >> rawStyleRules: aStyleRuleCollection [
 ]
 
 { #category : #'t - style rules holder' }
+TToStyleRulesHolder >> removeStyleRule: aStyleRule [
+
+	self rawStyleRules: (self rawStyleRules copyWithout: aStyleRule)
+]
+
+{ #category : #'t - style rules holder' }
 TToStyleRulesHolder >> styleRules [
 
 	^ self rawStyleRules 

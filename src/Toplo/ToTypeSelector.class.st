@@ -8,6 +8,13 @@ Class {
 	#category : #'Toplo-Core-Selectors'
 }
 
+{ #category : #'as yet unclassified' }
+ToTypeSelector >> = anObject [
+
+	super = anObject ifFalse: [ ^ false ].
+	^ self type = anObject type and: [ self exact = anObject exact ]
+]
+
 { #category : #visiting }
 ToTypeSelector >> accept: aVisitor [
 
@@ -38,6 +45,12 @@ ToTypeSelector >> initialize [
 
 	super initialize.
 	exact := true
+]
+
+{ #category : #testing }
+ToTypeSelector >> isTypeSelector [
+
+	^ true
 ]
 
 { #category : #operating }

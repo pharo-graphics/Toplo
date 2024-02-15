@@ -29,6 +29,18 @@ TToStyleRulesHolderTest >> testAddStyleRule [
 ]
 
 { #category : #tests }
+TToStyleRulesHolderTest >> testRemoveStyleRule [
+
+	| e rule |
+	e := ToStyleRulesHolderElementForTest new.
+	rule :=  ToStyleRule new.
+	e addStyleRule: rule.
+	self assert: e styleRules size equals: 1.
+	e removeStyleRule: rule.
+	self assert: e styleRules size equals: 0
+]
+
+{ #category : #tests }
 TToStyleRulesHolderTest >> testStyleRules [
 
 	| e |

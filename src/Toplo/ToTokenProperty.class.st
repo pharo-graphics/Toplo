@@ -8,6 +8,12 @@ Class {
 	#category : #'Toplo-Core-Properties'
 }
 
+{ #category : #visiting }
+ToTokenProperty >> accept: aVisitor [
+
+	aVisitor visitToken: self 
+]
+
 { #category : #converting }
 ToTokenProperty >> asTokenProperty [ 
 

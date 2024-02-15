@@ -21,6 +21,14 @@ ToPropertyWithValue class >> name: aSymbol value: anObject [
 		  yourself
 ]
 
+{ #category : #comparing }
+ToPropertyWithValue >> = anObject [ 
+
+	anObject == self ifTrue: [ ^ true ].
+	anObject class == self class ifFalse: [ ^ false ].
+	^ self name = anObject name and: [ self value = anObject value ]
+]
+
 { #category : #accessing }
 ToPropertyWithValue >> value [
 

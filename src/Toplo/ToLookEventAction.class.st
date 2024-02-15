@@ -7,6 +7,12 @@ Class {
 	#category : #'Toplo-Core-StyleSheet'
 }
 
+{ #category : #visiting }
+ToLookEventAction >> accept: aVisitor [
+
+	aVisitor visitLookEventAction: self
+]
+
 { #category : #accessing }
 ToLookEventAction >> action [
 
@@ -24,6 +30,12 @@ ToLookEventAction >> action: aValuable [
 ToLookEventAction >> applyOn: anObject [
 
 	self action value: anObject
+]
+
+{ #category : #testing }
+ToLookEventAction >> isAction [
+
+	^ true
 ]
 
 { #category : #testing }

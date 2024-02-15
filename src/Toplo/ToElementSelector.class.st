@@ -40,6 +40,13 @@ ToElementSelector >> - aStyleSelector [
 		  yourself
 ]
 
+{ #category : #converting }
+ToElementSelector >> = anObject [ 
+
+	self == anObject ifTrue: [ ^ true ].
+	^ self class == anObject class
+]
+
 { #category : #visiting }
 ToElementSelector >> accept: aVisitor [
 
@@ -101,6 +108,12 @@ ToElementSelector >> child: aSelector depth: anInteger [
 			'`@receiver child: `@arg1 depth: `@arg2'
 				-> '`@receiver withChild: `@arg1 atDepth: `@arg2 '.	
 	^ self withChild: aSelector atDepth: anInteger
+]
+
+{ #category : #testing }
+ToElementSelector >> isTypeSelector [
+
+	^ false
 ]
 
 { #category : #'logical operator' }

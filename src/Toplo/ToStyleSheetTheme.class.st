@@ -1,8 +1,8 @@
 Class {
 	#name : #ToStyleSheetTheme,
 	#superclass : #ToTheme,
-	#traits : 'TToStyleRuleScripter',
-	#classTraits : 'TToStyleRuleScripter classTrait',
+	#traits : 'TToStyleRuleScripter + TToStyleRulesHolder',
+	#classTraits : 'TToStyleRuleScripter classTrait + TToStyleRulesHolder classTrait',
 	#instVars : [
 		'styleSheet'
 	],
@@ -13,6 +13,12 @@ Class {
 ToStyleSheetTheme class >> canBeDefault [
 
 	^ false
+]
+
+{ #category : #visiting }
+ToStyleSheetTheme >> accept: aVisitor [
+
+	aVisitor visitStyleSheetTheme: self.
 ]
 
 { #category : #styling }
@@ -116,6 +122,18 @@ ToStyleSheetTheme >> newSkinInstanceFor: anElement [
 ToStyleSheetTheme >> property: aSymbol [
 
 	^ self styleSheet writablePropertyNamed: aSymbol
+]
+
+{ #category : #accessing }
+ToStyleSheetTheme >> rawStyleRules [
+
+	^ self styleSheet styleRules
+]
+
+{ #category : #accessing }
+ToStyleSheetTheme >> rawStyleRules: aStyleRuleCollection [
+
+	self styleSheet script styleRules: aStyleRuleCollection
 ]
 
 { #category : #styling }

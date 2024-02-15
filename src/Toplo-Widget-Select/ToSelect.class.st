@@ -4,11 +4,12 @@ Class {
 	#instVars : [
 		'windowManager',
 		'fakeData',
-		'data',
-		'selectionModel',
 		'strategy',
 		'mode',
-		'placeholderText'
+		'placeholderText',
+		'selection',
+		'data',
+		'dataCollectionAfterChangeEventHandler'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -28,13 +29,13 @@ ToSelect >> currentWindow [
 { #category : #accessing }
 ToSelect >> data [
 
-	^ data ifNil: [ data := ToObservableCollection new ]
+	^ data
 ]
 
 { #category : #accessing }
-ToSelect >> data: anObservableCollection [
+ToSelect >> data: aCollection [
 
-	data := anObservableCollection
+	self data updateAllWith: aCollection
 ]
 
 { #category : #accessing }
@@ -58,6 +59,7 @@ ToSelect >> defaultStrategy [
 { #category : #'accessing selection' }
 ToSelect >> deselectIndex: anIndex [
 
+	self inputTextField text: ''.
 	self mode deselectIndex: anIndex
 ]
 
@@ -135,6 +137,20 @@ ToSelect >> initialize [
 
 	| sharedEventsDistributor headerElement |
 	super initialize.
+
+	data := ToObservableCollection new.
+
+	dataCollectionAfterChangeEventHandler := BlEventHandler
+		                                         on:
+		                                         ToCollectionAfterChangeEvent
+		                                         do: [
+		                                         self listElement
+			                                         dataAccessor
+			                                         updateAllWith: self data ].
+
+	data addEventHandler: dataCollectionAfterChangeEventHandler.
+	selection := BlCompositeSelection new.
+
 	" for the popup "
 	windowManager := self newWindowManager.
 
@@ -142,26 +158,24 @@ ToSelect >> initialize [
 	headerElement := self newHeaderElement.
 	self addChild: headerElement.
 	self addChild: self newIconContainer.
-	
-	selectionModel := BlCompositeSelection new.
+
 	" initialize the mode *** before *** the strategy (the strategy need an installed mode) "
 	self mode: self defaultMode.
 	" initialize the default strategy "
 	self strategy: self defaultStrategy.
-	
+
 	self layout: BlLinearLayout horizontal.
 	self fitContent.
 
 	sharedEventsDistributor := BlSharedEventDistributor new.
 	sharedEventsDistributor
 		adjustMousePosition: false;
-		shareEvents: {
-				ToCollectionFilteredEvent}.
+		shareEvents: { ToCollectionFilteredEvent }.
 
-	self listElement data addEventHandler: sharedEventsDistributor.
+	self listElement dataAccessor addEventHandler:
+		sharedEventsDistributor.
 	self addEventHandler: sharedEventsDistributor.
-	self listElement addEventHandler: sharedEventsDistributor.
-
+	self listElement addEventHandler: sharedEventsDistributor
 ]
 
 { #category : #accessing }
@@ -323,6 +337,7 @@ ToSelect >> popupWindowEvent: anEvent [
 { #category : #'accessing selection' }
 ToSelect >> selectIndex: anIndex [
 
+	self inputTextField text: ''.
 	self mode selectIndex: anIndex
 ]
 
@@ -335,19 +350,13 @@ ToSelect >> selectedData [
 { #category : #'accessing selection' }
 ToSelect >> selectedIndexes [
 
-	^ selectionModel indices
+	^ self selection indices
 ]
 
 { #category : #accessing }
-ToSelect >> selectionModel [
+ToSelect >> selection [ 
 
-	^ selectionModel ifNil: [ selectionModel := BlCompositeSelection new ]
-]
-
-{ #category : #accessing }
-ToSelect >> selectionModel: aSelectionModel [
-
-	selectionModel := aSelectionModel
+	^ selection
 ]
 
 { #category : #accessing }

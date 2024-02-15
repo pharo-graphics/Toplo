@@ -4,13 +4,13 @@ A ToRawThemeTest is a test class for testing the behavior of ToRawTheme
 Class {
 	#name : #ToRawThemeTest,
 	#superclass : #TestCase,
-	#category : 'Toplo-Tests-Core-Theme'
+	#category : #'Toplo-Tests-Core-Theme'
 }
 
 { #category : #tests }
 ToRawThemeTest >> testName [
 	| theme |
-	theme := ToRawTheme light.
+	theme := ToRawTheme new.
 	theme name
 ]
 
@@ -18,7 +18,7 @@ ToRawThemeTest >> testName [
 ToRawThemeTest >> testNewRootSkinInstance [
 
 	| space e theme |
-	theme := ToRawTheme light.
+	theme := ToRawTheme new.
 	space := BlSpace new.
 	e := space root.
 	self assert: ((theme newSkinInstanceFor: e) isKindOf: ToRawSkin).
@@ -30,6 +30,6 @@ ToRawThemeTest >> testNewSkinInstanceFor [
 
 	| e |
 	e := BlElement new.
-	self assert: ((ToRawTheme light newSkinInstanceFor: e) isKindOf: ToRawSkin).
-	self assert: (ToRawTheme light newSkinInstanceFor: e) class identicalTo: e newRawSkin class
+	self assert: ((ToRawTheme new newSkinInstanceFor: e) isKindOf: ToRawSkin).
+	self assert: (ToRawTheme new newSkinInstanceFor: e) class identicalTo: e newRawSkin class
 ]

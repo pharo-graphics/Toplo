@@ -23,18 +23,18 @@ ToThemeExamples class >> createThemeMenuBar: aSpace [
 
 	beeMenu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Switch to Light');
-			 whenClickedDo: [ self switchTheme: ToBeeTheme light for: aSpace ]).
+			 whenClickedDo: [ self switchTheme: ToBeeTheme new for: aSpace ]).
 	beeMenu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Switch to Dark');
-			 whenClickedDo: [ self switchTheme: ToBeeTheme dark for: aSpace ]).
+			 whenClickedDo: [ self switchTheme: ToBeeDarkTheme new for: aSpace ]).
 
 	themeMenu addItem: (rawMenu := ToMenu new labelText: 'Raw theme').
 	rawMenu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Switch to Light');
-			 whenClickedDo: [ self switchTheme: ToRawTheme light for: aSpace ]).
+			 whenClickedDo: [ self switchTheme: ToRawTheme new for: aSpace ]).
 	rawMenu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Switch to Dark');
-			 whenClickedDo: [ self switchTheme: ToRawTheme dark for: aSpace ]).
+			 whenClickedDo: [ self switchTheme: ToRawDarkTheme new for: aSpace ]).
 			
 	themeMenu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Randomize color');
@@ -144,7 +144,7 @@ ToThemeExamples class >> example_ToLabelWithHeadingSkin [
 	| typeArr headingArr listElement themeSwitcher space |
 	ToTheme cleanUp.
 	space := BlSpace new.
-	space toTheme: ToBeeTheme light.
+	space toTheme: ToBeeTheme new.
 	space root layout: (BlLinearLayout vertical cellSpacing: 10).
 	themeSwitcher := ToCheckbox new
 		                 labelText: 'Dark Theme';
@@ -154,14 +154,14 @@ ToThemeExamples class >> example_ToLabelWithHeadingSkin [
 			 on: ToCheckableChangedEvent
 			 do: [ :event |
 				 space toTheme: (themeSwitcher isChecked
-						  ifTrue: [ ToBeeTheme dark ]
-						  ifFalse: [ ToBeeTheme light ]) ]).
+						  ifTrue: [ ToBeeDarkTheme new ]
+						  ifFalse: [ ToBeeTheme new ]) ]).
 
 	space root addChild: themeSwitcher.
 
 	listElement := ToListElement new nodeBuilder: [ :node :holder |
 		               | lab |
-		               lab := holder data.
+		               lab := holder dataItem.
 		               lab removeFromParent.
 		               lab hMatchParent.
 		               node addChild: lab ].
@@ -187,7 +187,7 @@ ToThemeExamples class >> example_ToLabelWithHeadingSkin [
 			lab addAllStamps: typeAssoc value.
 			lab addStamp: headingAssoc value.
 			lab text: typeAssoc key , ' ' , headingAssoc key.
-			listElement data add: lab ] ].
+			listElement dataAccessor add: lab ] ].
 	space root addChild: listElement.
 	space show
 ]
@@ -195,57 +195,33 @@ ToThemeExamples class >> example_ToLabelWithHeadingSkin [
 { #category : #'examples - buttons' }
 ToThemeExamples class >> example_beeButtonsInRawPane [
 
-	| space primaryButton2 pane c chb disachb themeSelect themePane themeVariant variantGroup lightVariantChk darkVariantChk variantPane mainPane |
+	| space primaryButton2 pane c chb disachb themeSelect themePane mainPane |
 	space := BlSpace new.
 	space root layout: BlLinearLayout vertical.
 
 	themePane := ToPane horizontal.
-	themePane toTheme: ToRawTheme light.
+	themePane toTheme: ToRawTheme new.
 	themePane geometry: (BlRoundedRectangleGeometry cornerRadius: 6).
 	themePane padding: (BlInsets all: 5).
-	variantPane := ToPane vertical.
-	variantPane fitContent.
-	variantPane padding: (BlInsets horizontal: 10).
 	pane := ToPane vertical.
 
 	pane layout cellSpacing: 5.
 	pane padding: (BlInsets all: 5).
 
 
-	themeVariant := #light.
-
 	themeSelect := ToChoiceMenu new.
 	themeSelect dataToTextConverter: [ :assoc | assoc key ].
 	themeSelect withStrictCheckingStrategy.
 	themeSelect data addAll: {
-			('Bee Theme' -> ToBeeTheme).
-			('Raw Theme' -> ToRawTheme) }.
+			('Raw Light Theme' -> ToBeeTheme).
+			('Raw Dark Theme' -> ToRawDarkTheme).
+			('Bee Light Theme' -> ToBeeTheme).
+			('Bee Dark Theme' -> ToBeeDarkTheme) }.
 	themeSelect selectIndex: 2.
 
 	themeSelect addEventHandler: (BlEventHandler
 			 on: ToChoiceChangedEvent
-			 do: [
-				 space toTheme:
-					 (themeSelect selectedData value perform: themeVariant) ]).
-
-	variantGroup := ToCheckableGroup new.
-
-	lightVariantChk := ToCheckbox new labelText: 'Light'.
-	darkVariantChk := ToCheckbox new labelText: 'Dark'.
-	lightVariantChk defaultSkin: ToCheckboxSkin new.
-	darkVariantChk defaultSkin: ToCheckboxSkin new.
-	variantGroup addAll: {
-			lightVariantChk.
-			darkVariantChk }.
-	variantGroup addEventHandler: (BlEventHandler
-			 on: ToCheckableGroupChangedEvent
-			 do: [ :event |
-				 themeVariant := event checkedButtons anyOne = lightVariantChk
-					                 ifTrue: [ #light ]
-					                 ifFalse: [ #dark ].
-				 space toTheme:
-					 (themeSelect selectedData value perform: themeVariant) ]).
-	lightVariantChk checked: true.
+			 do: [ space toTheme: (themeSelect selectedData value new) ]).
 
 	disachb := ToCheckbox new label:
 		           (ToLabel text: 'Disable all buttons').
@@ -291,8 +267,6 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 	pane addChild: chb.
 	pane addChild: primaryButton2.
 	themePane addChild: themeSelect.
-	variantPane addChildren: variantGroup buttons.
-	themePane addChild: variantPane.
 	mainPane := ToPane vertical.
 	mainPane padding: (BlInsets all: 10).
 	mainPane addChild: themePane.
@@ -352,7 +326,7 @@ ToThemeExamples class >> example_oneButton [
 
 	| space defaultButton |
 	space := BlSpace new.
-	space toTheme: ToBeeTheme light.
+	space toTheme: ToBeeTheme new.
 	defaultButton := ToButton new.
 	"defaultButton when: ToElementLookEvent do: [ :evt | evt traceCr ]."
 	defaultButton addStamp: #'primary'.
@@ -376,7 +350,7 @@ ToThemeExamples class >> inspectSpaceToTheme: aSpace [
 	aSpace toTheme inspect
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'examples - buttons' }
 ToThemeExamples class >> makeStandardButtons [
 
 	|primaryButton defaultButton dashedButton textButton linkButton |
@@ -425,7 +399,7 @@ ToThemeExamples class >> openThemeExampleSpace [
 	space root addChild: (ToElement id: #themeSandBox).
 
 	"Configure default Theme"
-	space toTheme: ToBeeTheme light.
+	space toTheme: ToBeeTheme new.
 
 	space position: 100 @ 100.
 	space show.

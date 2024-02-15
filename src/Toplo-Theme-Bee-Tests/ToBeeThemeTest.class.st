@@ -11,7 +11,7 @@ Class {
 ToBeeThemeTest >> setUp [ 
 
 	super setUp.
-	space toTheme: ToBeeTheme light.
+	space toTheme: ToBeeTheme new.
 ]
 
 { #category : #tests }
@@ -32,7 +32,7 @@ ToBeeThemeTest >> testDefaultButtonSkin [
 ToBeeThemeTest >> testSpaceRoot [
 
 	| theme e |
-	theme := ToStyleSheetTheme light.
+	theme := ToStyleSheetTheme new.
 	space toTheme: theme.
 	e := (ToElement new
 			 size: 100 @ 100;
@@ -43,7 +43,7 @@ ToBeeThemeTest >> testSpaceRoot [
 	space applyAllSkinInstallers.
 	space applyAllEnqueuedStates.
 	self assert: space root background paint color equals: (space root valueOfTokenNamed: 'background-color').
-	theme := ToBeeTheme dark.
+	theme := ToBeeDarkTheme new.
 	space toTheme: theme.
 	space applyAllSkinInstallers.
 	space applyAllEnqueuedStates.

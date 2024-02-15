@@ -1,7 +1,7 @@
 Class {
 	#name : #ToRemoveSelectionOperation,
-	#superclass : #ToSelectionOperation,
-	#category : #'Toplo-Widget-List-Selection-Command'
+	#superclass : #ToSelectionModelOperation,
+	#category : #'Toplo-Widget-List-Command-Selection'
 }
 
 { #category : #dispatching }
@@ -20,10 +20,4 @@ ToRemoveSelectionOperation >> applyIntervalSelection: aSelectionCommand on: anOb
 ToRemoveSelectionOperation >> applyWholeSelection: aSelectionCommand on: anObject [
 
 	anObject removeWholeSelectionCommand: aSelectionCommand
-]
-
-{ #category : #testing }
-ToRemoveSelectionOperation >> isSelection [
-
-	^ false
 ]

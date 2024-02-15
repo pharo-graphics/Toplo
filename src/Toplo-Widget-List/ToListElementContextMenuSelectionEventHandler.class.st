@@ -1,9 +1,6 @@
 Class {
 	#name : #ToListElementContextMenuSelectionEventHandler,
 	#superclass : #BlCustomEventHandler,
-	#instVars : [
-		'selection'
-	],
 	#category : #'Toplo-Widget-List-Context-menu'
 }
 
@@ -24,10 +21,8 @@ ToListElementContextMenuSelectionEventHandler >> contextMenuClosedEvent: anEvent
 
 	| target |
 	target := anEvent currentTarget.
-	selection deselectAll.
 	target dispatchEvent:
 		(ToListElementContextMenuSelectionChangedEvent new
-			 selectedIndexes: #(  );
 			 sourceEvent: anEvent;
 			 yourself).
 	target enableScrolledEvent
@@ -55,41 +50,29 @@ ToListElementContextMenuSelectionEventHandler >> eventsToHandle [
 		  ToListElementContextMenuSelectionChangedEvent }
 ]
 
-{ #category : #initialization }
-ToListElementContextMenuSelectionEventHandler >> initialize [
-
-	super initialize.
-	selection := BlCompositeSelection new
-
-]
-
 { #category : #'element handlers' }
 ToListElementContextMenuSelectionEventHandler >> listElementContextMenuRequest: anEvent [
 
-	| pos targetChildren childNode target infinite |
+	| pos foundChildren targetChildren childNode target infinite |
 	target := anEvent currentTarget.
 	infinite := target infinite.
 	target disableScrolledEvent.
 
 	pos := infinite globalPointToLocal: anEvent sourceEvent position.
-	targetChildren := (infinite withAllChildrenAt: pos) allButLast.
-
-	anEvent selectedIndexes: #(  ).
-
+	foundChildren := infinite withAllChildrenAt: pos.
+	foundChildren ifEmpty: [ ^ self ].
+	targetChildren := foundChildren allButLast.
 	targetChildren ifEmpty: [ ^ self ].
 	childNode := targetChildren last.
-
+	
+	anEvent selection deselectAll.
 	childNode holder isSelected
-		ifTrue: [
-			selection selectAllIndexes:
-				target selectionStrategy selectedIndexes ]
-		ifFalse: [ selection selectOnlyIndex: childNode holder position ].
-
-	anEvent selectedIndexes: selection indices.
+		ifTrue: [ anEvent selection selectAllIndexes: target selectionModel selectedIndexes ]
+		ifFalse: [ anEvent selection selectIndex: childNode holder position ].
 
 	target dispatchEvent:
 		(ToListElementContextMenuSelectionChangedEvent new
-			 selectedIndexes: selection indices;
+			 selection: anEvent selection;
 			 sourceEvent: anEvent sourceEvent;
 			 yourself)
 ]
@@ -97,19 +80,20 @@ ToListElementContextMenuSelectionEventHandler >> listElementContextMenuRequest: 
 { #category : #'element handlers' }
 ToListElementContextMenuSelectionEventHandler >> listElementContextMenuSelectionChangedEvent: anEvent [
 
-	| node target pos targetChildren infinite childNode |
+	| target pos targetChildren childNode foundChildren |
 	target := anEvent currentTarget.
-	anEvent selectedIndexes ifEmpty: [
+	anEvent selection isEmpty ifTrue: [
 		self removeContextMenuSelectionIn: target.
 		^ self ].
-	pos := target globalPointToLocal: anEvent sourceEvent position.
+	pos := anEvent sourceEvent localPosition.
+	foundChildren := target infinite withAllChildrenAt: pos.
+	foundChildren ifEmpty: [ ^ self ].
 	targetChildren := (target infinite withAllChildrenAt: pos) allButLast.
 	targetChildren ifEmpty: [ ^ self ].
 	childNode := targetChildren last.
 	childNode holder isSelected
 		ifTrue: [ self contextMenuSelectionOverPrimaryIn: target ]
-		ifFalse: [
-		self addContextMenuSelectionIn: target onNode: childNode ]
+		ifFalse: [ self addContextMenuSelectionIn: target onNode: childNode ]
 ]
 
 { #category : #'element handlers' }

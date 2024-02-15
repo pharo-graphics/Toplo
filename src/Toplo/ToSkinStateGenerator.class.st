@@ -149,7 +149,7 @@ ToSkinStateGenerator >> eventsToHandle [
 		  BlMouseLeaveEvent.
 		  ToWindowOpenedEvent.
 		  ToWindowClosedEvent.
-		  ToListNodeSelectionEvent }
+		  ToListNodeSelectedEvent }
 ]
 
 { #category : #'focus events handling' }
@@ -310,7 +310,7 @@ ToSkinStateGenerator >> generateSelectionStateFromEvent: anEvent [
 					sm
 						enqueueSkinState: (ToSelectionState new
 								 selected: anEvent selected;
-								 focused: anEvent infiniteElement hasFocus;
+								 focused: anEvent listElement hasFocus;
 								 yourself)
 						in: child ] ] ]
 		in: target
@@ -375,7 +375,7 @@ ToSkinStateGenerator >> leaved: aBoolean [
 ]
 
 { #category : #'list selection' }
-ToSkinStateGenerator >> listNodeSelectionEvent: anEvent [
+ToSkinStateGenerator >> listNodeSelectedEvent: anEvent [
 
 	self generateSelectionStateFromEvent: anEvent
 ]

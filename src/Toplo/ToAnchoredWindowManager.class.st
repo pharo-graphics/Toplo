@@ -158,6 +158,7 @@ ToAnchoredWindowManager >> newElementEventHandler [
 ToAnchoredWindowManager >> newWindowEvent: anEvent [
 
 	| request |
+
 	self currentWindow ifNotNil: [
 		^ Error signal: 'Asking for a window building twice' ].
 	self element ifNil: [

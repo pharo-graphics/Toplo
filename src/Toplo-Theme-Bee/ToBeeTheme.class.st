@@ -66,12 +66,6 @@ ToBeeTheme class >> label [
 	^ 'Bee'
 ]
 
-{ #category : #testing }
-ToBeeTheme class >> supportedVariantClasses [
-
-	^ { ToThemeDarkVariant. ToThemeLightVariant }
-]
-
 { #category : #'syntactic sugar' }
 ToBeeTheme >> buttonSelector [
 

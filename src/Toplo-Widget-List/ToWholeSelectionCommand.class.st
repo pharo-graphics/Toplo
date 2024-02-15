@@ -1,12 +1,27 @@
 Class {
 	#name : #ToWholeSelectionCommand,
-	#superclass : #ToSelectionCommand,
-	#category : #'Toplo-Widget-List-Selection-Command'
+	#superclass : #ToSelectionModelCommand,
+	#instVars : [
+		'maxIndex'
+	],
+	#category : #'Toplo-Widget-List-Command-Selection'
 }
 
 { #category : #hook }
-ToWholeSelectionCommand >> applyOn: anObject [
+ToWholeSelectionCommand >> applyOn: anObject for: aTarget [
 
 	self operation applyWholeSelection: self on: anObject.
-	super applyOn: anObject	
+	super applyOn: anObject for: aTarget
+]
+
+{ #category : #accessing }
+ToWholeSelectionCommand >> maxIndex [
+
+	^ maxIndex
+]
+
+{ #category : #accessing }
+ToWholeSelectionCommand >> maxIndex: anIndex [
+
+	maxIndex := anIndex
 ]

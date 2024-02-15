@@ -15,7 +15,7 @@ ToStyleSheetApplicationTest >> testButtonLabelSkin0 [
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
-	theme := ToStyleSheetTheme light.
+	theme := ToStyleSheetTheme new.
 	prop := ToPseudoProperty new name: #'text-attributes'.
 	prop writer: [ :e :v |
 		e text attributes:
@@ -88,7 +88,7 @@ ToStyleSheetApplicationTest >> testButtonSkin0 [
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
-	theme := ToStyleSheetTheme light.
+	theme := ToStyleSheetTheme new.
 
 	" default button rule "
 	styleSheet
@@ -204,7 +204,7 @@ ToStyleSheetApplicationTest >> testButtonSkin0 [
 ToStyleSheetApplicationTest >> testButtonSkinWithInterspace [
 
 	| elem writers skin interspaceProp layoutProp theme styleSheet |
-	theme := ToStyleSheetTheme light.
+	theme := ToStyleSheetTheme new.
 	interspaceProp := ToPseudoProperty
 		                  name: #'layout-interspace'
 		                  reader: [ :e | e layout interspace ]
@@ -243,7 +243,7 @@ ToStyleSheetApplicationTest >> testEmptyStyleSheet [
 
 	| ss ssi |
 	ss := ToStyleSheet new inherits: false; yourself.
-	ssi := ToStyleSheetTheme light.
+	ssi := ToStyleSheetTheme new.
 	self assert: (ssi applicableListenersFor: (ToElement new)) isEmpty
 ]
 
@@ -255,7 +255,7 @@ ToStyleSheetApplicationTest >> testSkinWith2LookEventActionOnSameLookEventEvent 
 		              inherits: false;
 		              yourself.
 
-	theme := ToStyleSheetTheme light.
+	theme := ToStyleSheetTheme new.
 
 	" here the border should be blue because only the last one is applied (for the same event) "
 	styleSheet select: (ToIdSelector new id: #a) style: [ :sr |
@@ -288,7 +288,7 @@ ToStyleSheetApplicationTest >> testSkinWithAnUniversalRule [
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
-	theme := ToStyleSheetTheme light.
+	theme := ToStyleSheetTheme new.
 
 	styleSheet select: ToUniversalSelector new style: [ :sr |
 		sr
@@ -316,7 +316,7 @@ ToStyleSheetApplicationTest >> testSkinWithChildRule [
 		              inherits: false;
 		              yourself.
 
-	theme := ToStyleSheetTheme light.
+	theme := ToStyleSheetTheme new.
 
 	styleSheet
 		select: ((ToIdSelector new id: #child) withParent:
@@ -358,7 +358,7 @@ ToStyleSheetApplicationTest >> testSkinWithChildRule2 [
 		              inherits: false;
 		              yourself.
 
-	theme := ToStyleSheetTheme light.
+	theme := ToStyleSheetTheme new.
 
 	styleSheet
 		select: ((ToIdSelector new id: #child)
@@ -400,7 +400,7 @@ ToStyleSheetApplicationTest >> testSkinWithIdRule [
 		              inherits: false;
 		              yourself.
 
-	theme := ToStyleSheetTheme light.
+	theme := ToStyleSheetTheme new.
 
 	styleSheet select: (ToIdSelector new id: #a) style: [ :sr |
 		sr
@@ -432,7 +432,7 @@ ToStyleSheetApplicationTest >> testSkinWithLookEventAction [
 		              inherits: false;
 		              yourself.
 
-	theme := ToStyleSheetTheme light.
+	theme := ToStyleSheetTheme new.
 
 	styleSheet select: (ToIdSelector new id: #a) style: [ :sr |
 		sr do: [ :e | e border: (BlBorder paint: Color red width: 3) ] ].
@@ -462,7 +462,7 @@ ToStyleSheetApplicationTest >> testSkinWithLookEventAction2 [
 		              inherits: false;
 		              yourself.
 
-	theme := ToStyleSheetTheme light.
+	theme := ToStyleSheetTheme new.
 
 	styleSheet select: (ToIdSelector new id: #a) style: [ :sr |
 		sr
@@ -494,7 +494,7 @@ ToStyleSheetApplicationTest >> testSkinWithLookEventActionMixedWithWriter [
 		              inherits: false;
 		              yourself.
 
-	theme := ToStyleSheetTheme light.
+	theme := ToStyleSheetTheme new.
 
 	" here the border should be blue even the lookEventAction is added after "
 	styleSheet select: (ToIdSelector new id: #a) style: [ :sr |
@@ -530,7 +530,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyle0 [
 		              inherits: false;
 		              yourself.
 
-	theme := ToStyleSheetTheme light.
+	theme := ToStyleSheetTheme new.
 
 	styleSheet select: #button asStampSelector style: [ :sr |
 		sr write: (styleSheet property: #background) with: Color white.
@@ -566,7 +566,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules0 [
 		              inherits: false;
 		              yourself.
 
-	theme := ToStyleSheetTheme light.
+	theme := ToStyleSheetTheme new.
 
 	styleSheet select: #button asStampSelector style: [ :sr |
 		sr select: #danger asStampSelector style: [
@@ -624,7 +624,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules1 [
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
-	theme := ToStyleSheetTheme light.
+	theme := ToStyleSheetTheme new.
 
 	elem := ToElement new addStamp: #elem.
 	space root addChild: elem.
@@ -669,7 +669,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules2 [
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
-	theme := ToStyleSheetTheme light.
+	theme := ToStyleSheetTheme new.
 
 	elem := ToElement new addStamp: #elem.
 	space root addChild: elem.
@@ -719,7 +719,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules22 [
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
-	theme := ToStyleSheetTheme light.
+	theme := ToStyleSheetTheme new.
 
 	elem := ToElement new addAllStamps: #( elem #red ).
 	space root addChild: elem.
@@ -769,7 +769,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules3 [
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
-	theme := ToStyleSheetTheme light.
+	theme := ToStyleSheetTheme new.
 
 	elem := ToElement new addAllStamps: #( elem #red ).
 	space root addChild: elem.
@@ -820,7 +820,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules32 [
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
-	theme := ToStyleSheetTheme light.
+	theme := ToStyleSheetTheme new.
 
 	elem := ToElement new addAllStamps: #( elem #red ).
 	space root addChild: elem.
@@ -871,7 +871,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules33 [
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
-	theme := ToStyleSheetTheme light.
+	theme := ToStyleSheetTheme new.
 
 	elem := ToElement new addAllStamps: #( elem #red ).
 	space root addChild: elem.
@@ -925,7 +925,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules1 [
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
-	theme := ToStyleSheetTheme light.
+	theme := ToStyleSheetTheme new.
 
 	elem := ToElement new addStamp: #elem.
 	space root addChild: elem.
@@ -963,7 +963,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules2 [
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
-	theme := ToStyleSheetTheme light.
+	theme := ToStyleSheetTheme new.
 
 	elem := ToElement new addStamp: #elem.
 	space root addChild: elem.
@@ -1004,7 +1004,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules3 [
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
-	theme := ToStyleSheetTheme light.
+	theme := ToStyleSheetTheme new.
 
 	elem := ToElement new addAllStamps: #( elem #red ).
 	space root addChild: elem.
@@ -1049,7 +1049,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules4 [
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
-	theme := ToStyleSheetTheme light.
+	theme := ToStyleSheetTheme new.
 
 	elem := ToElement new addAllStamps: #( #elem #red ).
 	space root addChild: elem.

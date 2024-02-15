@@ -29,7 +29,6 @@ ToObservableCollectionDataSourceTest >> testRangeChangedNotification [
 	datasource addEventHandler: (BlEventHandler
 			 on: BlInfiniteDataSourceItemRangeChanged
 			 do: [ :event | rangeEvent := event ]).
-	datasource data: ToObservableCollection new.
 	datasource data addAll: self statesOfAmerica.
 	self assert: rangeEvent isNil.
 
@@ -57,7 +56,6 @@ ToObservableCollectionDataSourceTest >> testRangeInsertedNotification [
 	datasource addEventHandler: (BlEventHandler
 			 on: BlInfiniteDataSourceItemRangeInserted
 			 do: [ :event | rangeEvent := event ]).
-	datasource data: ToObservableCollection new.
 	datasource data addAll: self statesOfAmerica.
 	self assert: rangeEvent notNil.
 	self assert: rangeEvent position equals: 1.
@@ -76,7 +74,6 @@ ToObservableCollectionDataSourceTest >> testRangeRemovedNotification [
 	datasource addEventHandler: (BlEventHandler
 			 on: BlInfiniteDataSourceItemRangeRemoved
 			 do: [ :event | rangeEvent := event ]).
-	datasource data: ToObservableCollection new.
 	datasource data addAll: self statesOfAmerica.
 	datasource data remove: self statesOfAmerica first.
 	self assert: rangeEvent notNil.
@@ -105,13 +102,7 @@ ToObservableCollectionDataSourceTest >> testWithData [
 
 	| datasource changedEvent |
 	datasource := ToInfiniteObservableCollectionDataSource new.
-	datasource addEventHandler: (BlEventHandler
-			 on: BlInfiniteDataSourceChanged
-			 do: [ :event | changedEvent := event ]).
-	datasource data:
-		(ToObservableCollection newFrom: self statesOfAmerica).
-	self assert: changedEvent notNil.
-	self assert: changedEvent dataSource equals: datasource.
+	datasource dataAccessor addAll: self statesOfAmerica.
 	self assert: datasource itemCount equals: self statesOfAmerica size.
 	self assert: datasource hasStableIds not
 ]
@@ -121,7 +112,6 @@ ToObservableCollectionDataSourceTest >> testWithoutData [
 
 	| datasource |
 	datasource := ToInfiniteObservableCollectionDataSource new.
-	self assert: datasource data isNil.
 	self assert: datasource itemCount equals: 0.
 	self assert: datasource hasStableIds not
 ]

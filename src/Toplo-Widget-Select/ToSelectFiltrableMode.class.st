@@ -2,27 +2,28 @@ Class {
 	#name : #ToSelectFiltrableMode,
 	#superclass : #ToSelectMode,
 	#instVars : [
-		'filter',
 		'filtrableListEventHandler',
-		'dataCollectionAfterChangeEventHandler'
+		'sieve'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
 
 { #category : #accessing }
+ToSelectFiltrableMode >> data [ 
+
+	^ sieve originalData
+]
+
+{ #category : #accessing }
 ToSelectFiltrableMode >> dataFilter: aValuable [
 
-	filter dataFilter: aValuable
+	sieve dataFilter: aValuable
 ]
 
 { #category : #'accessing selection' }
 ToSelectFiltrableMode >> deselectIndex: anIndex [
 
-	select selectionModel deselectIndex: anIndex.
-	select listElement dispatchEvent:
-		(ToFilteredListSelectionModelChangedEvent new
-			 selection: select selectionModel;
-			 yourself)
+	select listElement selecter deselectIndex: anIndex
 ]
 
 { #category : #testing }
@@ -31,47 +32,64 @@ ToSelectFiltrableMode >> isFiltrableMode [
 	^ true
 ]
 
+{ #category : #'accessing selection' }
+ToSelectFiltrableMode >> onClickAtIndex: anIndex [
+
+	(select listElement selectionModel containsIndex: anIndex)
+		ifTrue: [ self deselectIndex: anIndex ]
+		ifFalse: [
+			select isMultipleSelection ifFalse: [
+				sieve currentSelection removeAll ].
+			self selectIndex: anIndex ]
+]
+
 { #category : #'api - hooks' }
 ToSelectFiltrableMode >> onInstalledIn: aSelect [
 
 	super onInstalledIn: aSelect.
+
 	filtrableListEventHandler := ToSelectFiltrableListEventHandler new
 			 select: select;
 			 yourself.
-
-	dataCollectionAfterChangeEventHandler := BlEventHandler
-			 on: ToCollectionAfterChangeEvent
-			 do: [ select listElement data updateAllWith: select data ].
-	
 	select listElement addEventHandler: filtrableListEventHandler.
-	select data addEventHandler: dataCollectionAfterChangeEventHandler.
 
-	filter := ToListElementFilter new.
-	filter taskQueueHolder: select.
-	filter selectionModel: select selectionModel.
-	filter onInstalledIn: select listElement
+	sieve := ToListElementSieve new.
+	sieve onInstalledIn: select listElement.
 ]
 
 { #category : #'api - hooks' }
 ToSelectFiltrableMode >> onUninstalledIn: aSelect [
 
-	filter onUninstalledIn: select  listElement.
-	select listElement removeEventHandler: filtrableListEventHandler.
-	select data removeEventHandler: dataCollectionAfterChangeEventHandler.
-	select selectionModel: nil.
+	sieve onUninstalledIn: select listElement.
 	filtrableListEventHandler := nil.
-	dataCollectionAfterChangeEventHandler := nil.
-	filter := nil.
-
+	sieve := nil.
 	super onUninstalledIn: aSelect.
+]
+
+{ #category : #accessing }
+ToSelectFiltrableMode >> pattern [
+
+	^ sieve pattern
+]
+
+{ #category : #accessing }
+ToSelectFiltrableMode >> pattern: aPattern [
+
+	sieve pattern: aPattern
 ]
 
 { #category : #'accessing selection' }
 ToSelectFiltrableMode >> selectIndex: anIndex [
 
-	select listElement selectionStrategy selectIndex: anIndex.
-	select listElement dispatchEvent:
-		(ToFilteredListSelectionModelChangedEvent new
-			 selection: select selectionModel;
-			 yourself)
+	select isMultipleSelection ifFalse: [ 
+		select listElement selecter selectOnlyIndex: anIndex.
+		^ self ].
+	select listElement selecter selectIndex: anIndex.
+
+]
+
+{ #category : #accessing }
+ToSelectFiltrableMode >> sieve [ 
+
+	^ sieve
 ]

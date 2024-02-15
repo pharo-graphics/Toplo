@@ -17,19 +17,35 @@ ToInfiniteDataSource >> data: aCollection [
 ]
 
 { #category : #accessing }
-ToInfiniteDataSource >> list [
+ToInfiniteDataSource >> dataAccessor [
 
-	^ self subclassResponsibility 
+	self subclassResponsibility 
 ]
 
 { #category : #accessing }
-ToInfiniteDataSource >> list: aCollection [
+ToInfiniteDataSource >> itemCount [
+	"Return the total number of items in the data set"
+	<return: #Number>
 
-	self subclassResponsibility 
+	^ self dataAccessor size
+]
+
+{ #category : #hooks }
+ToInfiniteDataSource >> onAttached: anInfiniteElement [
+
+	self dispatchEvent: ToDataSourceAttachedEvent new
+	
 ]
 
 { #category : #'instance creation' }
 ToInfiniteDataSource >> onCreateHolder: anInfiniteElement [ 
 
 	^ anInfiniteElement newNodeHolderFromDataSource: self
+]
+
+{ #category : #hooks }
+ToInfiniteDataSource >> onDetached: anInfiniteElement [
+
+	self dispatchEvent: ToDataSourceDetachedEvent new
+	
 ]

@@ -4,17 +4,28 @@ Class {
 	#instVars : [
 		'queryRunner',
 		'originalData',
-		'currentResults',
 		'listElement',
-		'filterResultTask',
 		'originalDataUpdater',
 		'originalIndexedData',
-		'queryResultHandler',
+		'originalIndexedDataArray',
 		'selectionChangedHandler',
-		'currentSelectionModel'
+		'queryResultHandler',
+		'currentResultsArray',
+		'currentSelection',
+		'originalIndexedDataIndex'
 	],
 	#category : #'Toplo-Widget-List-Sieve'
 }
+
+{ #category : #accessing }
+ToListElementSieve >> buildCurrentQueryResults [
+
+	currentResultsArray := queryRunner pattern
+		                       ifEmpty: [  originalIndexedDataArray ]
+		                       ifNotEmpty: [
+			                       queryRunner selectedIndexes collect: [ :idx |
+				                       originalIndexedDataArray at: idx ] ]
+]
 
 { #category : #private }
 ToListElementSieve >> buildOriginalIndexedData [
@@ -22,19 +33,16 @@ ToListElementSieve >> buildOriginalIndexedData [
 	| assocs |
 	assocs := Array streamContents: [ :str |
 		          originalData withIndexDo: [ :d :i | str nextPut: d -> i ] ].
-	originalIndexedData updateAllWith: assocs
+	originalIndexedData updateAllWith: assocs.
+	originalIndexedDataArray := originalIndexedData asArray.
+	originalIndexedDataIndex := IdentityDictionary new.
+	assocs do: [:a | originalIndexedDataIndex at: a key put: a value ]
 ]
 
 { #category : #accessing }
-ToListElementSieve >> currentResults [
+ToListElementSieve >> currentSelection [
 
-	^ currentResults
-]
-
-{ #category : #accessing }
-ToListElementSieve >> currentSelectedIndexes [
-
-	^ currentSelectionModel indices
+	^ currentSelection 
 ]
 
 { #category : #accessing }
@@ -47,8 +55,11 @@ ToListElementSieve >> dataFilter: aValuable [
 { #category : #'event handling' }
 ToListElementSieve >> onCollectionAfterChangeEvent: anEvent [
 
-	listElement selectionStrategy deselectAll.
-	self buildOriginalIndexedData
+	listElement selecter deselectAll.
+	self buildOriginalIndexedData.
+	self pattern
+		ifNotEmpty: [ self pattern: '' ]
+		ifEmpty: [ self buildCurrentQueryResults ]
 ]
 
 { #category : #'api - hooks' }
@@ -59,7 +70,7 @@ ToListElementSieve >> onInstalledIn: aListElement [
 
 	originalData ifNotNil: [
 		^ (BlImmutableObjectChangeError object: self) signal ].
-	originalData := aListElement data newMirror.
+	originalData := aListElement dataAccessor newMirror.
 	originalIndexedData := ToObservableCollection new.
 
 	" handler to update the original indexed data if the list element data contents change 
@@ -71,88 +82,84 @@ ToListElementSieve >> onInstalledIn: aListElement [
 	originalData addEventHandler: originalDataUpdater.
 	self buildOriginalIndexedData.
 
-	" original selection maintains the original data selection up-to-date even with a filtered contents "
-	currentSelectionModel := aListElement selectionStrategy newSelectionModel.
-	currentSelectionModel selectAllIndexes: aListElement selectionStrategy selectedIndexes.
-	
+	" currentSelection contains the original data selection. It is maintained up-to-date even with a filtered contents "
+	currentSelection := aListElement selectionModel selectedIndexes
+		                    asIdentitySet.
+
 	" the query runner will run the query in background on the originalIndexedData collection "
 	queryRunner := ToObservableCollectionQueryRunner new.
 	queryRunner onInstalledIn: originalIndexedData.
 	self dataFilter: queryRunner defaultFilter.
 
 	" initialization of the current result with an empty pattern "
-	currentResults := self results.
+	self buildCurrentQueryResults.
 
 	" a filtering occured : put the new data in the list element and 
 	update the selection according to the current filtering result "
 	queryResultHandler := BlEventHandler
-			 on: ToObservableCollectionQueryResultEvent
-			 do: [ :event | self onObservableCollectionQueryResultEvent: event ].
+		                      on: ToObservableCollectionQueryResultEvent
+		                      do: [ :event |
+		                      self onObservableCollectionQueryResultEvent:
+			                      event ].
 	originalIndexedData addEventHandler: queryResultHandler.
 
 	" a selection occurs in the list element. Have to report it in the originalSelection "
 	selectionChangedHandler := BlEventHandler
-			 on: ToListSelectionChangedEvent
-			 do: [ :event | self onListSelectionChangedEvent: event ].
+		                           on: ToListSelectionChangedEvent
+		                           do: [ :event |
+		                           self onListSelectionChangedEvent: event ].
 	aListElement addEventHandler: selectionChangedHandler
 ]
 
 { #category : #'event handling' }
 ToListElementSieve >> onListSelectionChangedEvent: anEvent [
 
-	| currentIndexes |
-	currentIndexes := anEvent currentIndexes asSet.
-	self pattern
-		ifEmpty: [
-			currentSelectionModel deselectAll.
-			currentResults withIndexDo: [ :assoc :idx |
-				(currentIndexes includes: idx) ifTrue: [
-					currentSelectionModel selectIndex: assoc value ] ] ]
-		ifNotEmpty: [
-			currentResults withIndexDo: [ :assoc :idx |
-				(currentIndexes includes: idx)
-					ifTrue: [ currentSelectionModel selectIndex: assoc value ]
-					ifFalse: [ currentSelectionModel deselectIndex: assoc value ] ] ].
+	| currentIndexes selectedStream deselectedStream |
+	currentIndexes := anEvent selectedIndexes asIdentitySet.
+	selectedStream := WriteStream on: (Array new: 10).
+	deselectedStream := WriteStream on: (Array new: 10).
+
+	currentResultsArray withIndexDo: [ :assoc :idx |
+		(currentIndexes includes: idx)
+			ifTrue: [ selectedStream nextPut: assoc value ]
+			ifFalse: [ deselectedStream nextPut: assoc value ] ].
+
+	currentSelection removeAllFoundIn: deselectedStream contents.
+	currentSelection addAll: selectedStream contents.
+
 	listElement dispatchEvent:
 		(ToListElementSieveSelectionChangedEvent new
+			 originalData: self originalData;
+			 selection: (BlCompositeSelection new
+					  selectAllIndexes: currentSelection;
+					  yourself);
 			 sieve: self;
 			 yourself)
 ]
 
 { #category : #'event handling' }
 ToListElementSieve >> onObservableCollectionQueryResultEvent: anEvent [
+	" a query has occured (becuse the query pattern has changed), update the list element accordingly "
 
 	| selectedIndexes |
-	listElement isAttachedToSceneGraph ifTrue: [
-		| space |
-		space := listElement space.
-		filterResultTask ifNotNil: [ space dequeueTask: filterResultTask ] ].
-
-	currentResults := self results.
-	queryRunner pattern
-		ifEmpty: [ selectedIndexes := currentSelectionModel indices]
-		ifNotEmpty: [
-			selectedIndexes := Array streamContents: [ :stream |
-				                   currentResults withIndexDo: [ :assoc :idx |
-					                   (currentSelectionModel containsIndex: assoc value)
-						                   ifTrue: [ stream nextPut: idx ] ] ]  ].
-
-	"If the list element is attached, then,  task must be used here because the 
-	filtering is runned asynchronously. The task allows to re-synchronise the element response 
-	( and then to be runned in the UI thread ).
-	As an example, it can avoid the children updating during layouting (because during layouting 
-	children are temporarily detached - (which leads to errors related to children adding and 
-	which are difficult to understand)"
-	listElement isAttachedToSceneGraph ifTrue: [
-		| space |
-		space := listElement space.
-		filterResultTask := BlTaskAction new.
-		filterResultTask action: [
-			self updateListElementWithSelectedIndexes: selectedIndexes.
-			filterResultTask := nil ].
-		space enqueueTask: filterResultTask.
-		^ self ].
-	self updateListElementWithSelectedIndexes: selectedIndexes
+	" get the filtered data "
+	self buildCurrentQueryResults.
+	" now the selected indexes "
+	selectedIndexes := queryRunner pattern
+		                   ifEmpty: [ currentSelection asArray ]
+		                   ifNotEmpty: [
+			                   Array streamContents: [ :stream |
+				                   currentResultsArray withIndexDo: [ :assoc :idx |
+					                   (currentSelection includes: assoc value)
+						                   ifTrue: [ stream nextPut: idx ] ] ] ].
+	"Update litElement data together with the selection "
+	listElement dataAccessor filterResult:
+		(currentResultsArray collect: [ :assoc | assoc key ]).
+	listElement selecter beSilentWhile: [
+		listElement selecter selectOnlyIndexes: selectedIndexes ].
+	listElement dispatchEvent: (ToListElementSieveFilterAppliedEvent new
+			 sieve: self;
+			 yourself)
 ]
 
 { #category : #'api - hooks' }
@@ -166,13 +173,26 @@ ToListElementSieve >> onUninstalledIn: aListElement [
 	queryResultHandler := nil.
 	selectionChangedHandler := nil.
 	originalIndexedData := nil.
+	originalIndexedDataArray := nil.
+	originalIndexedDataIndex := nil.
 	listElement := nil.
 	originalData := nil.
-	currentResults := nil.
+	currentResultsArray := nil.
 	queryRunner := nil.
-	filterResultTask := nil.
 	originalDataUpdater := nil.
 	originalIndexedData := nil
+]
+
+{ #category : #accessing }
+ToListElementSieve >> originalData [ 
+
+	^ originalData 
+]
+
+{ #category : #accessing }
+ToListElementSieve >> originalIndexOfData: aData [
+
+	^ originalIndexedDataIndex at: aData ifAbsent: [  ]
 ]
 
 { #category : #accessing }
@@ -185,24 +205,4 @@ ToListElementSieve >> pattern [
 ToListElementSieve >> pattern: aPattern [
 
 	queryRunner pattern: aPattern 
-]
-
-{ #category : #accessing }
-ToListElementSieve >> results [
-
-	^ queryRunner pattern ifEmpty: [ originalIndexedData ] ifNotEmpty: [
-		  Array streamContents: [ :stream |
-			  queryRunner selectedIndexes do: [ :idx |
-				  stream nextPut: (originalIndexedData at: idx) ] ] ]
-]
-
-{ #category : #'event handling' }
-ToListElementSieve >> updateListElementWithSelectedIndexes: aCollectionOfIndexes [
-
-	listElement data filterResult: (currentResults collect: [ :assoc | assoc key ]).
-	listElement selectionStrategy selectOnlyIndexes: aCollectionOfIndexes.
-	listElement dispatchEvent:
-		(ToListElementSieveFilterAppliedEvent new
-			 sieve: self;
-			 yourself)
 ]

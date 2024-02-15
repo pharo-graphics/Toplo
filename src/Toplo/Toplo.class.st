@@ -2,10 +2,9 @@ Class {
 	#name : #Toplo,
 	#superclass : #Object,
 	#classVars : [
-		'DefaultThemeClass',
-		'DefaultThemeVariantClass'
+		'DefaultThemeClass'
 	],
-	#category : 'Toplo-Core'
+	#category : #'Toplo-Core'
 }
 
 { #category : #settings }
@@ -17,27 +16,13 @@ Toplo class >> defaultThemeClass [
 { #category : #settings }
 Toplo class >> defaultThemeClass: aClass [
 
-	DefaultThemeClass := aClass.
-	(DefaultThemeClass supportedVariantClasses includes: self defaultThemeVariantClass) ifFalse: [
-		self defaultThemeVariantClass: DefaultThemeClass supportedVariantClasses first ]
-]
-
-{ #category : #settings }
-Toplo class >> defaultThemeVariantClass [
-
-	^ DefaultThemeVariantClass ifNil: [ DefaultThemeVariantClass := ToThemeLightVariant ]
-]
-
-{ #category : #settings }
-Toplo class >> defaultThemeVariantClass: aThemeVariantClass [
-
-	DefaultThemeVariantClass := aThemeVariantClass
+	DefaultThemeClass := aClass
 ]
 
 { #category : #settings }
 Toplo class >> newDefaultThemeInstance [
 
-	^ self defaultThemeClass variant: self defaultThemeVariantClass new
+	^ self defaultThemeClass new
 ]
 
 { #category : #settings }
@@ -54,13 +39,7 @@ Toplo class >> settingsOn: aBuilder [
 				order: 1;
 				label: 'Default theme';
 				domainValues: self supportedThemeClasses;
-				description: 'Choose the default theme for Toplo'.
-			(aBuilder pickOne: #defaultThemeVariantClass)
-				target: self;
-				order: 1;
-				label: 'Default theme variant';
-				domainValues: self defaultThemeClass supportedVariantClasses;
-				description: 'Choose the default theme variant' ]
+				description: 'Choose the default theme for Toplo' ]
 ]
 
 { #category : #settings }

@@ -2,7 +2,9 @@ Class {
 	#name : #ToInfiniteObservableCollectionDataSource,
 	#superclass : #ToInfiniteDataSource,
 	#instVars : [
-		'data'
+		'data',
+		'observableCollectionEventHandler',
+		'infiniteSharedHandler'
 	],
 	#category : #'Toplo-Widget-List-Infinite'
 }
@@ -16,7 +18,9 @@ ToInfiniteObservableCollectionDataSource >> data [
 { #category : #accessing }
 ToInfiniteObservableCollectionDataSource >> data: anObservableCollection [
 
+
 	data := anObservableCollection.
+
 	data whenAddChangeDo: [ :ann |
 		self notifyItemsInserted: ann interval ].
 	data whenRemoveChangeDo: [ :ann |
@@ -32,37 +36,50 @@ ToInfiniteObservableCollectionDataSource >> data: anObservableCollection [
 ]
 
 { #category : #accessing }
-ToInfiniteObservableCollectionDataSource >> itemCount [
-	"Return the total number of items in the data set"
-	<return: #Number>
+ToInfiniteObservableCollectionDataSource >> dataAccessor [
 
-	^ self data ifNil: [0] ifNotNil: [:l | l size]
+	^ self data
 ]
 
-{ #category : #accessing }
-ToInfiniteObservableCollectionDataSource >> list [
+{ #category : #initialization }
+ToInfiniteObservableCollectionDataSource >> initialize [ 
 
-	self 
-		deprecated:  'Use #data instead' 
-		transformWith: '`@receiver list' -> '`@receiver data'.
-	^ self data	
+	super initialize.
+	self data: ToObservableCollection new.
+
 ]
 
-{ #category : #accessing }
-ToInfiniteObservableCollectionDataSource >> list: anObservableCollection [
+{ #category : #hooks }
+ToInfiniteObservableCollectionDataSource >> onAttached: anInfiniteElement [
 
-	self
-		deprecated: 'Please use data: instead.'
-		transformWith:
-			'`@receiver list: `@col'
-				-> '`@receiver data: `@col'.
-	^ self data: anObservableCollection
+	" prepare the event handler for the data observable collection "
+	observableCollectionEventHandler := ToInfiniteObservableCollectionEventHandler new.
+	observableCollectionEventHandler infinite: anInfiniteElement.
+	data addEventHandler: observableCollectionEventHandler.
+	
+	infiniteSharedHandler := BlSharedEventDistributor new
+		                     shareEvents: anInfiniteElement dataSourceSharedEvents;
+		                     yourself.
+	self addEventHandler: infiniteSharedHandler.
+	anInfiniteElement addEventHandler: infiniteSharedHandler.
+	super onAttached: anInfiniteElement
 ]
 
 { #category : #'instance creation' }
 ToInfiniteObservableCollectionDataSource >> onBindHolder: anElementHolder at: aPosition [
-
 	"Update holder's model"
-	anElementHolder data: (self data at: aPosition).
 
+	anElementHolder dataItem: (self dataAccessor at: aPosition)
+]
+
+{ #category : #hooks }
+ToInfiniteObservableCollectionDataSource >> onDetached: anInfiniteElement [
+
+	data removeEventHandler: observableCollectionEventHandler.
+	anInfiniteElement removeEventHandler: infiniteSharedHandler.
+	self removeEventHandler: infiniteSharedHandler.
+
+	observableCollectionEventHandler := nil.
+	infiniteSharedHandler := nil.
+	super onDetached: anInfiniteElement
 ]

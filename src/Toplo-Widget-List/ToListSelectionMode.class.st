@@ -1,29 +1,65 @@
 Class {
 	#name : #ToListSelectionMode,
-	#superclass : #Object,
-	#category : #'Toplo-Widget-List-Selection-Command'
+	#superclass : #ToListAbstractSelectionMode,
+	#instVars : [
+		'preserveSelectionOnFocused',
+		'installedShortcuts'
+	],
+	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
-{ #category : #'command checking' }
-ToListSelectionMode >> addIndexesSelectionCommand: aCommand [
+{ #category : #initialization }
+ToListSelectionMode >> initialize [ 
 
-	self subclassResponsibility 
+	super initialize.
+	preserveSelectionOnFocused := true
 ]
 
-{ #category : #'command checking' }
-ToListSelectionMode >> addIntervalSelectionCommand: aCommand [
+{ #category : #'event handling' }
+ToListSelectionMode >> onClickEvent: anEvent onNode: aNode [
 
-	self subclassResponsibility 
+
 ]
 
-{ #category : #'command checking' }
-ToListSelectionMode >> removeIndexesSelectionCommand: aCommand [
+{ #category : #'api - hooks' }
+ToListSelectionMode >> onInstalledIn: anElement [
 
-	self subclassResponsibility 
+	super onInstalledIn: anElement. 
+	installedShortcuts := self shortcutsIn: anElement.
+	installedShortcuts do: [ :s | anElement addShortcut: s ]
 ]
 
-{ #category : #'command checking' }
-ToListSelectionMode >> removeIntervalSelectionCommand: aCommand [
+{ #category : #'api - hooks' }
+ToListSelectionMode >> onUninstalledIn: anElement [
 
-	self subclassResponsibility 
+	installedShortcuts do: [ :s | anElement removeShortcut: s ].
+	installedShortcuts := nil.
+	super onUninstalledIn: anElement. 
+
+]
+
+{ #category : #accessing }
+ToListSelectionMode >> preserveSelectionOnFocused [
+
+	^ preserveSelectionOnFocused
+]
+
+{ #category : #accessing }
+ToListSelectionMode >> preserveSelectionOnFocused: aBoolean [
+
+	preserveSelectionOnFocused := aBoolean
+]
+
+{ #category : #shortcuts }
+ToListSelectionMode >> shortcutsIn: anElement [
+
+	^ {
+		  (BlShortcutWithAction new
+			   combination: BlKeyCombination builder arrowDown build;
+			   action: [ :aShortcutEvent :aShortcut |
+				   self selecter selectAndScrollToNext ]).
+		  (BlShortcutWithAction new
+			   combination: BlKeyCombination builder arrowUp build;
+			   action: [ :aShortcutEvent :aShortcut |
+				   self selecter selectAndScrollToPrevious ]) }
 ]

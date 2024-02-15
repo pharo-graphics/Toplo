@@ -4,7 +4,7 @@ A ToStyleSelectorInterpreterTest is a test class for testing the behavior of ToS
 Class {
 	#name : #ToSelectorInterpreterTest,
 	#superclass : #TestCase,
-	#category : 'Toplo-Tests-Core-Selectors'
+	#category : #'Toplo-Tests-Core-Selectors'
 }
 
 { #category : #tests }
@@ -20,7 +20,7 @@ ToSelectorInterpreterTest >> testPush [
 	self assert: engine result.
 	self assert: e themeForSetup isNil.
 	
-	theme := ToThemeForStyleRuleTest light.
+	theme := ToThemeForStyleRuleTest new.
 	engine theme: theme.
 	engine check: selector on: e.
 	self assert: engine result.

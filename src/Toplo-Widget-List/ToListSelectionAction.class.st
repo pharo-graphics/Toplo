@@ -8,6 +8,12 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Action'
 }
 
+{ #category : #testing }
+ToListSelectionAction class >> isDeprecated [ 
+
+	^ true
+]
+
 { #category : #hook }
 ToListSelectionAction >> applyOn: anObject [
 

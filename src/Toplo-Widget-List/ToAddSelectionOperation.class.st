@@ -1,7 +1,7 @@
 Class {
 	#name : #ToAddSelectionOperation,
-	#superclass : #ToSelectionOperation,
-	#category : #'Toplo-Widget-List-Selection-Command'
+	#superclass : #ToSelectionModelOperation,
+	#category : #'Toplo-Widget-List-Command-Selection'
 }
 
 { #category : #dispatching }
@@ -20,10 +20,4 @@ ToAddSelectionOperation >> applyIntervalSelection: aSelectionCommand on: anObjec
 ToAddSelectionOperation >> applyWholeSelection: aSelectionCommand on: anObject [
 
 	anObject addWholeSelectionCommand: aSelectionCommand
-]
-
-{ #category : #testing }
-ToAddSelectionOperation >> isSelection [
-
-	^ true
 ]

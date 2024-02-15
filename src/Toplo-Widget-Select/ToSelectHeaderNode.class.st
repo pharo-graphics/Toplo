@@ -24,7 +24,6 @@ ToSelectHeaderNode >> addRemoveButton [
 	but addEventHandler: (BlEventHandler
 			 on: BlClickEvent
 			 do: [ :event |
-				 | list |
 				 event consumed: true.
 				 " remove the button by deselecting the corresponding list node in the list "
 				 self removeFromSelect ]).

@@ -148,7 +148,7 @@ ToMultipleSelectStrategy >> refreshHeaderNodeContainer [
 		node removeFromParent ].
 	self headerNodeHolders reset.
 	" then rebuild current nodes according to current selection "
-	nodes := select selectionModel indices collect: [ :idx |
+	nodes := select selection indices collect: [ :idx |
 		         | node selectedData |
 		         node := self newHeaderNode.
 		         self headerNodeHolders add: node selectHolder.

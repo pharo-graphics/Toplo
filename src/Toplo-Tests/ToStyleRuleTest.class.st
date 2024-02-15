@@ -4,7 +4,7 @@ A ToStyleRuleTest is a test class for testing the behavior of ToStyleRule
 Class {
 	#name : #ToStyleRuleTest,
 	#superclass : #TestCase,
-	#category : 'Toplo-Tests-Core-StyleSheet'
+	#category : #'Toplo-Tests-Core-StyleSheet'
 }
 
 { #category : #running }
@@ -27,7 +27,7 @@ ToStyleRuleTest >> testCanBeAppliedToInTheme [
 
 	| rule theme1 theme2 theme3 e |
 	e := ToElementForStyleRuleTest new.
-	theme1 := ToThemeForStyleRuleTest light.
+	theme1 := ToThemeForStyleRuleTest new.
 	rule := ToStyleRule new selector: ToUniversalSelector new.
 	self assert: (rule canBeAppliedTo: e inTheme: theme1).
 	self assert: (e skinManager isSetUpForTheme: theme1).
@@ -41,13 +41,13 @@ ToStyleRuleTest >> testCanBeAppliedToInTheme [
 	self assert: e themeForSetup isNil.
 	
 	" now with another theme of the same class "
-	theme2 := ToThemeForStyleRuleTest light.
+	theme2 := ToThemeForStyleRuleTest new.
 	self assert: (rule canBeAppliedTo: e inTheme: theme2).
 	self assert: (e skinManager isSetUpForTheme: theme2).
 	self assert: e themeForSetup isNil.
 	
 		" now with another theme of a different class "
-	theme3 := ToSubThemeForStyleRuleTest light.
+	theme3 := ToSubThemeForStyleRuleTest new.
 	self assert: (rule canBeAppliedTo: e inTheme: theme3).
 	self assert: (e skinManager isSetUpForTheme: theme3).
 	self assert: e themeForSetup identicalTo: theme3.
@@ -296,7 +296,7 @@ ToStyleRuleTest >> testCanBeAppliedToWithRuleWithUniversalSelector2 [
 ToStyleRuleTest >> testCanBeRecursivelyAppliedToForTheme [
 
 	| rule theme e |
-	theme := ToThemeForStyleRuleTest light.
+	theme := ToThemeForStyleRuleTest new.
 	e := ToElementForStyleRuleTest new.
 	rule := ToStyleRule new selector: ToUniversalSelector new.
 	self assert: (rule canBeRecursivelyAppliedTo: e forTheme: theme).

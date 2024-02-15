@@ -288,6 +288,12 @@ ToLabeledIcon >> layoutStrategy [
 ]
 
 { #category : #accessing }
+ToLabeledIcon >> rightLabelAlignment [
+
+	^ self iconContainerWidth
+]
+
+{ #category : #accessing }
 ToLabeledIcon >> rightLabelAlignment: anInteger [
 
 	self iconContainerWidth: anInteger

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'space'
 	],
-	#category : 'Toplo-Tests-Core'
+	#category : #'Toplo-Tests-Core'
 }
 
 { #category : #tests }
@@ -41,6 +41,7 @@ ToParameterizedHostTest >> waitTestingSpaces [
 
 	testingSpaces ifNil: [ ^ self ].
 	testingSpaces do: [ :each |
-		each requestNextPulse ].
-	super waitTestingSpaces
+		(BlSpace
+			pulseUntilEmptyTaskQueue: each
+			timeout: 200 milliSeconds) ]
 ]

@@ -2,7 +2,7 @@ Class {
 	#name : #ToListElementContextMenuRequest,
 	#superclass : #ToContextMenuRequest,
 	#instVars : [
-		'selectedIndexes'
+		'selection'
 	],
 	#category : #'Toplo-Widget-List-Context-menu'
 }
@@ -10,13 +10,13 @@ Class {
 { #category : #accessing }
 ToListElementContextMenuRequest >> selectedIndexes [
 
-	^ selectedIndexes
+	^ self selection indices
 ]
 
 { #category : #accessing }
-ToListElementContextMenuRequest >> selectedIndexes: aCollection [
+ToListElementContextMenuRequest >> selection [
 
-	selectedIndexes := aCollection
+	^ selection ifNil: [ selection := BlCompositeSelection new ]
 ]
 
 { #category : #sending }

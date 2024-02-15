@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'data'
 	],
-	#category : 'Toplo-Widget-Menu-Choice menu'
+	#category : #'Toplo-Widget-Menu-Choice menu'
 }
 
 { #category : #testing }
@@ -23,11 +23,4 @@ ToChoiceItem >> data [
 ToChoiceItem >> data: anObject [
 
 	data := anObject
-]
-
-{ #category : #skin }
-ToChoiceItem >> installRawStyle [ 
-
-	super installRawStyle.
-	self button rightLabelAlignment: 30
 ]

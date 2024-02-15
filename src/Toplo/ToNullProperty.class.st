@@ -4,7 +4,7 @@ Class {
 	#classInstVars : [
 		'uniqueInstance'
 	],
-	#category : #'Toplo-Core-Properties'
+	#category : 'Toplo-Core-Properties'
 }
 
 { #category : #accessing }

@@ -6,7 +6,7 @@ Class {
 		'filterDresser',
 		'filterResultHandler'
 	],
-	#category : #'Toplo-Widget-ComboBox'
+	#category : 'Toplo-Widget-ComboBox'
 }
 
 { #category : #accessing }

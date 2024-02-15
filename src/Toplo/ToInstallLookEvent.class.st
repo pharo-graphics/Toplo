@@ -1,7 +1,7 @@
 Class {
 	#name : #ToInstallLookEvent,
 	#superclass : #ToSkinManagementLookEvent,
-	#category : #'Toplo-Core-LookEvents'
+	#category : 'Toplo-Core-LookEvents'
 }
 
 { #category : #sending }

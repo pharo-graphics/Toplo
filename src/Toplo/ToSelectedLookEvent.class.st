@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'focused'
 	],
-	#category : #'Toplo-Core-LookEvents'
+	#category : 'Toplo-Core-LookEvents'
 }
 
 { #category : #accessing }

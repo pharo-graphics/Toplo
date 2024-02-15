@@ -1,5 +1,5 @@
 Class {
 	#name : #ToWindowClosingEvent,
 	#superclass : #ToWindowElementEvent,
-	#category : #'Toplo-Core-Window'
+	#category : 'Toplo-Core-Window'
 }

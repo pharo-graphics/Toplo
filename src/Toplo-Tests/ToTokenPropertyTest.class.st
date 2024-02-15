@@ -4,7 +4,7 @@ A ToStyleStampTest is a test class for testing the behavior of ToStyleStamp
 Class {
 	#name : #ToTokenPropertyTest,
 	#superclass : #TestCase,
-	#category : #'Toplo-Tests-Core-Properties'
+	#category : 'Toplo-Tests-Core-Properties'
 }
 
 { #category : #tests }

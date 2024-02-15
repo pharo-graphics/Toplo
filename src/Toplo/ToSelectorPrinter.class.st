@@ -5,7 +5,7 @@ Class {
 		'stream',
 		'indentLevel'
 	],
-	#category : #'Toplo-Core-Selectors'
+	#category : 'Toplo-Core-Selectors'
 }
 
 { #category : #accessing }

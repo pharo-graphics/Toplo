@@ -7,6 +7,13 @@ Class {
 	#category : #'Toplo-Core-Selectors'
 }
 
+{ #category : #'as yet unclassified' }
+ToStampSelector >> = anObject [
+
+	super = anObject ifFalse: [ ^ false ].
+	^ self allStamps = anObject allStamps
+]
+
 { #category : #visiting }
 ToStampSelector >> accept: aVisitor [
 

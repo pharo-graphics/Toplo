@@ -4,7 +4,7 @@ A ToTooltipWindowTest is a test class for testing the behavior of ToTooltipWindo
 Class {
 	#name : #ToTooltipWindowTest,
 	#superclass : #ToTestCaseWithSpace,
-	#category : #'Toplo-Tests-Core-Tooltip'
+	#category : 'Toplo-Tests-Core-Tooltip'
 }
 
 { #category : #tests }

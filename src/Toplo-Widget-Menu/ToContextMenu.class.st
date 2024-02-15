@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'items'
 	],
-	#category : #'Toplo-Widget-Menu-Context menu'
+	#category : 'Toplo-Widget-Menu-Context menu'
 }
 
 { #category : #'t - menu item holder - adding/removing' }

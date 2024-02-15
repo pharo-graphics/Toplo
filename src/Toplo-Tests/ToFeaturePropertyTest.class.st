@@ -4,7 +4,7 @@ A ToFeaturePropertyTest is a test class for testing the behavior of ToFeaturePro
 Class {
 	#name : #ToFeaturePropertyTest,
 	#superclass : #TestCase,
-	#category : #'Toplo-Tests-Core-Properties'
+	#category : 'Toplo-Tests-Core-Properties'
 }
 
 { #category : #tests }

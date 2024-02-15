@@ -1,7 +1,7 @@
 Class {
 	#name : #TToElementWithContextMenuTest,
 	#superclass : #ToTestCaseWithSpace,
-	#category : #'Toplo-Tests-Core'
+	#category : 'Toplo-Tests-Core'
 }
 
 { #category : #tests }

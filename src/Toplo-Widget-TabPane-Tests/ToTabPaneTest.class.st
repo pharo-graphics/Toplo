@@ -1,13 +1,14 @@
 Class {
-	#name : #ToTabPaneTest,
-	#superclass : #ToParameterizedHostTest,
+	#name : 'ToTabPaneTest',
+	#superclass : 'ToParameterizedHostTest',
 	#instVars : [
 		'notebook'
 	],
-	#category : #'Toplo-Widget-TabPane-Tests'
+	#category : 'Toplo-Widget-TabPane-Tests',
+	#package : 'Toplo-Widget-TabPane-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 ToTabPaneTest >> setUp [
 
 	super setUp.
@@ -15,7 +16,7 @@ ToTabPaneTest >> setUp [
 	space root addChild: notebook.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToTabPaneTest >> testCloseLastPage [
 
 	notebook addTabWithText: 'Red' builder: [ :pane :theNotebook |
@@ -34,7 +35,7 @@ ToTabPaneTest >> testCloseLastPage [
 	self assert: notebook tabs isEmpty
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToTabPaneTest >> testCloseSelectedPage [
 
 	| redButton greenButton |
@@ -67,7 +68,7 @@ ToTabPaneTest >> testCloseSelectedPage [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToTabPaneTest >> testCloseSelectedPage2 [
 
 	| redButton greenButton |
@@ -100,7 +101,7 @@ ToTabPaneTest >> testCloseSelectedPage2 [
 	self deny: (notebook tabs includes: greenButton)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToTabPaneTest >> testCloseUnselectedPage [
 
 	| redButton greenButton |
@@ -137,7 +138,7 @@ ToTabPaneTest >> testCloseUnselectedPage [
 	self assert: redButton isSelected
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToTabPaneTest >> testCloseUnselectedPage2 [
 
 	| redButton greenButton |
@@ -174,7 +175,7 @@ ToTabPaneTest >> testCloseUnselectedPage2 [
 	self assert: redButton isSelected
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToTabPaneTest >> testDefaultBodyIsTransparent [
 
 	| aPage |
@@ -184,7 +185,7 @@ ToTabPaneTest >> testDefaultBodyIsTransparent [
 	self assert: aPage body background isTransparent
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToTabPaneTest >> testIsSelected [
 
 	| redButton greenButton |
@@ -215,7 +216,7 @@ ToTabPaneTest >> testIsSelected [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToTabPaneTest >> testPaneBuilderIsValuedOnSelect [
 
 	| redButton greenButton redCount greenCount |

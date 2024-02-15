@@ -1,7 +1,7 @@
 Class {
 	#name : #ToTabPaneHeaderNewExamples,
 	#superclass : #Object,
-	#category : #'Toplo-Incubator'
+	#category : 'Toplo-Incubator'
 }
 
 { #category : #header }

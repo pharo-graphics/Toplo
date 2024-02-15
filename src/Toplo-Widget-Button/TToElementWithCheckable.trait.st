@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToElementWithCheckable,
-	#category : #'Toplo-Widget-Button-Core'
+	#category : 'Toplo-Widget-Button-Core'
 }
 
 { #category : #'t - checkable - group' }

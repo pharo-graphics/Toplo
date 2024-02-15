@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'listAutocompleteDresser'
 	],
-	#category : #'Toplo-Widget-ComboBox'
+	#category : 'Toplo-Widget-ComboBox'
 }
 
 { #category : #accessing }

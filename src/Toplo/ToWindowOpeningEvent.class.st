@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'sourceEvent'
 	],
-	#category : #'Toplo-Core-Window'
+	#category : 'Toplo-Core-Window'
 }
 
 { #category : #'as yet unclassified' }

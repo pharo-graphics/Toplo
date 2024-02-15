@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'receivedEvents'
 	],
-	#category : #'Toplo-Tests-Core-Theme'
+	#category : 'Toplo-Tests-Core-Theme'
 }
 
 { #category : #accessing }

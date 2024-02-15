@@ -8,6 +8,13 @@ Class {
 	#category : #'Toplo-Core-Selectors'
 }
 
+{ #category : #converting }
+ToBinarySelector >> = anObject [
+
+	super = anObject ifFalse: [ ^ false ].
+	^ self left = anObject left and: [ self right = anObject right ]
+]
+
 { #category : #accessing }
 ToBinarySelector >> left [
 

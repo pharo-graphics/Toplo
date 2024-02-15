@@ -5,7 +5,7 @@ Class {
 		'styleInstalled',
 		'styleUninstalled'
 	],
-	#category : #'Toplo-Tests-Core-Theme'
+	#category : 'Toplo-Tests-Core-Theme'
 }
 
 { #category : #skin }

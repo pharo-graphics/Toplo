@@ -1,7 +1,7 @@
 Class {
 	#name : #ToCheckableGroupStrictStrategy,
 	#superclass : #ToCheckableGroupCheckingStrategy,
-	#category : #'Toplo-Widget-Button-Checkable'
+	#category : 'Toplo-Widget-Button-Checkable'
 }
 
 { #category : #testing }

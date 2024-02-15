@@ -1,7 +1,7 @@
 Class {
 	#name : #ToLabelLineMode,
 	#superclass : #Object,
-	#category : #'Toplo-Widget-Album-Label'
+	#category : 'Toplo-Widget-Album-Label'
 }
 
 { #category : #testing }

@@ -1,5 +1,5 @@
 Class {
 	#name : #ToPlaceholderEvent,
 	#superclass : #BlEvent,
-	#category : #'Toplo-Widget-Pane'
+	#category : 'Toplo-Widget-Pane'
 }

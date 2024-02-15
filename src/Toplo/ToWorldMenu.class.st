@@ -1,7 +1,7 @@
 Class {
 	#name : #ToWorldMenu,
 	#superclass : #Object,
-	#category : #'Toplo-Core'
+	#category : 'Toplo-Core'
 }
 
 { #category : #'menu - toplo' }

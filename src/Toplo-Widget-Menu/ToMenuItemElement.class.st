@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'parentMenu'
 	],
-	#category : #'Toplo-Widget-Menu-Basic'
+	#category : 'Toplo-Widget-Menu-Basic'
 }
 
 { #category : #'adding-removing' }

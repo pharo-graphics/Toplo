@@ -3,3 +3,9 @@ Class {
 	#superclass : #ToElementLookEvent,
 	#category : #'Toplo-Core-LookEvents'
 }
+
+{ #category : #testing }
+ToSkinManagementLookEvent class >> isAbstract [
+
+	^ self == ToSkinManagementLookEvent
+]

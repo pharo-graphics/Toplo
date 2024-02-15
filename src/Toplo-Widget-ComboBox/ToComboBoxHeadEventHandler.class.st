@@ -1,7 +1,7 @@
 Class {
 	#name : #ToComboBoxHeadEventHandler,
 	#superclass : #ToSkinStateGenerator,
-	#category : #'Toplo-Widget-ComboBox'
+	#category : 'Toplo-Widget-ComboBox'
 }
 
 { #category : #'mouse handlers' }

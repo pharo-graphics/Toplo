@@ -7,7 +7,7 @@ Class {
 		'ruleStack',
 		'styleRules'
 	],
-	#category : #'Toplo-Core-StyleSheet'
+	#category : 'Toplo-Core-StyleSheet'
 }
 
 { #category : #'private - adding' }

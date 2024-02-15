@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'popupDelay'
 	],
-	#category : #'Toplo-Core-Tooltip'
+	#category : 'Toplo-Core-Tooltip'
 }
 
 { #category : #accessing }

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToStyleSheetThemeForTest,
 	#superclass : #ToStyleSheetTheme,
-	#category : #'Toplo-Tests-Core-Theme'
+	#category : 'Toplo-Tests-Core-Theme'
 }
 
 { #category : #'rules declaring' }

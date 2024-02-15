@@ -1,7 +1,7 @@
 Class {
 	#name : #ToOverlayWindowManager,
 	#superclass : #ToAnchoredWindowManager,
-	#category : #'Toplo-Core-Window'
+	#category : 'Toplo-Core-Window'
 }
 
 { #category : #initialization }

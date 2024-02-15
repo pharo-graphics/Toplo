@@ -1,7 +1,7 @@
 Class {
 	#name : #ToPlaceholderAddedEvent,
 	#superclass : #ToPlaceholderEvent,
-	#category : #'Toplo-Widget-Pane'
+	#category : 'Toplo-Widget-Pane'
 }
 
 { #category : #sending }

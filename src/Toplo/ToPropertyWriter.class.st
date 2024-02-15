@@ -10,6 +10,14 @@ Class {
 	#category : #'Toplo-Core-StyleSheet'
 }
 
+{ #category : #visiting }
+ToPropertyWriter >> accept: aVisitor [
+
+	self isSupplement
+		ifTrue: [ aVisitor visitPropertyWriterForSupplement: self ]
+		ifFalse: [ aVisitor visitPropertyWriter: self ]
+]
+
 { #category : #accessing }
 ToPropertyWriter >> animation [
 
@@ -26,6 +34,12 @@ ToPropertyWriter >> animation: aPropertyAnimation [
 ToPropertyWriter >> applyOn: anObject [
 
 	self writeTo: anObject
+]
+
+{ #category : #testing }
+ToPropertyWriter >> isPropertyWriter [
+
+	^ true
 ]
 
 { #category : #testing }

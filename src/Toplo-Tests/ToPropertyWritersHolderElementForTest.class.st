@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'lookEventListeners'
 	],
-	#category : #'Toplo-Tests-Core-StyleSheet'
+	#category : 'Toplo-Tests-Core-StyleSheet'
 }
 
 { #category : #'t - look event listener registry' }

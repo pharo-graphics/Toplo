@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'labeledIcon'
 	],
-	#category : #'Toplo-Widget-Button-Core'
+	#category : 'Toplo-Widget-Button-Core'
 }
 
 { #category : #initialization }

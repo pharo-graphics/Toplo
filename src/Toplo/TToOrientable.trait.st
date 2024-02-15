@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToOrientable,
-	#category : #'Toplo-Core'
+	#category : 'Toplo-Core'
 }
 
 { #category : #'t - orientable - orientation' }

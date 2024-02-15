@@ -15,7 +15,7 @@ Class {
 		'uncheckedSide',
 		'handleDisabledBuilder'
 	],
-	#category : #'Toplo-Widget-Button-Switch'
+	#category : 'Toplo-Widget-Button-Switch'
 }
 
 { #category : #layout }

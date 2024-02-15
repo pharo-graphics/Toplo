@@ -11,6 +11,12 @@ Class {
 	#category : #'Toplo-Core-StyleSheet'
 }
 
+{ #category : #visiting }
+ToStyleRule >> accept: aVisitor [
+
+	aVisitor visitStyleRule: self.
+]
+
 { #category : #testing }
 ToStyleRule >> canBeAppliedTo: anElement [
 

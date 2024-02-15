@@ -8,7 +8,7 @@ Class {
 		'checkingStrategy',
 		'eventDispatcher'
 	],
-	#category : #'Toplo-Widget-Button-Checkable'
+	#category : 'Toplo-Widget-Button-Checkable'
 }
 
 { #category : #'adding / removing' }

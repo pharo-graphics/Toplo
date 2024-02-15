@@ -55,7 +55,7 @@ TToLookEventListenerRegistry >> removeAllLookEventListeners: aListenerCollection
 ]
 
 { #category : #'t - look event listener registry' }
-TToLookEventListenerRegistry >> removeLookEventListener: aLookEventListener [
+TToLookEventListenerRegistry >> removeLookEventListener: aListener [
 
-	self lookEventListeners remove: aLookEventListener
+	self lookEventListeners remove: aListener
 ]

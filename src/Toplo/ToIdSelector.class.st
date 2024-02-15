@@ -7,6 +7,13 @@ Class {
 	#category : #'Toplo-Core-Selectors'
 }
 
+{ #category : #'as yet unclassified' }
+ToIdSelector >> = anObject [
+
+	super = anObject ifFalse: [ ^ false ].
+	^ self id = anObject id
+]
+
 { #category : #visiting }
 ToIdSelector >> accept: aVisitor [
 

@@ -1,5 +1,5 @@
 Class {
 	#name : #ToLabelEditorOpenedEvent,
 	#superclass : #BlEvent,
-	#category : #'Toplo-Widget-Album-Label'
+	#category : 'Toplo-Widget-Album-Label'
 }

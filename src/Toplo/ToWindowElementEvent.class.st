@@ -1,5 +1,5 @@
 Class {
 	#name : #ToWindowElementEvent,
 	#superclass : #BlEvent,
-	#category : #'Toplo-Core-Window'
+	#category : 'Toplo-Core-Window'
 }

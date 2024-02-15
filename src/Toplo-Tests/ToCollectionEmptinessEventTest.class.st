@@ -4,7 +4,7 @@ A ToCollectionEmptinessEventTest is a test class for testing the behavior of ToC
 Class {
 	#name : #ToCollectionEmptinessEventTest,
 	#superclass : #TestCase,
-	#category : #'Toplo-Tests-Core-Collection'
+	#category : 'Toplo-Tests-Core-Collection'
 }
 
 { #category : #tests }

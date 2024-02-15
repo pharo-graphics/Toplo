@@ -2,12 +2,13 @@
 A ToComboBoxTest is a test class for testing the behavior of ToComboBox
 "
 Class {
-	#name : #ToSelectOnlyComboBoxTest,
-	#superclass : #ToComboBoxTest,
-	#category : #'Toplo-Widget-ComboBox-Tests'
+	#name : 'ToSelectOnlyComboBoxTest',
+	#superclass : 'ToComboBoxTest',
+	#category : 'Toplo-Widget-ComboBox-Tests',
+	#package : 'Toplo-Widget-ComboBox-Tests'
 }
 
-{ #category : #asserting }
+{ #category : 'asserting' }
 ToSelectOnlyComboBoxTest >> assertEmpty: aCombo [
 
 	self assert: aCombo data notNil.
@@ -22,7 +23,7 @@ ToSelectOnlyComboBoxTest >> assertEmpty: aCombo [
 	self assert: aCombo mode class equals: aCombo defaultMode class
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSelectOnlyComboBoxTest >> testEmpty [
 
 	| cb |
@@ -31,7 +32,7 @@ ToSelectOnlyComboBoxTest >> testEmpty [
 	self assertEmpty: cb
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSelectOnlyComboBoxTest >> testSelectDeselect [
 
 	| cb  |
@@ -45,7 +46,7 @@ ToSelectOnlyComboBoxTest >> testSelectDeselect [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSelectOnlyComboBoxTest >> testSelectedIndexChange [
 
 	| cb count index |
@@ -64,7 +65,7 @@ ToSelectOnlyComboBoxTest >> testSelectedIndexChange [
 	self assert: index equals: 10
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSelectOnlyComboBoxTest >> testWithColors [
 
 	| cb |
@@ -85,7 +86,7 @@ ToSelectOnlyComboBoxTest >> testWithColors [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSelectOnlyComboBoxTest >> testWithOneElement [
 
 	| cb |
@@ -101,7 +102,7 @@ ToSelectOnlyComboBoxTest >> testWithOneElement [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSelectOnlyComboBoxTest >> testWithOneElement1 [
 
 	| cb |
@@ -118,7 +119,7 @@ ToSelectOnlyComboBoxTest >> testWithOneElement1 [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSelectOnlyComboBoxTest >> testWithStatesOfAmerica [
 
 	| cb |

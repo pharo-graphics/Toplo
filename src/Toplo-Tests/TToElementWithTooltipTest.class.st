@@ -4,7 +4,7 @@ A TToWidgetWithTooltipTest is a test class for testing the behavior of TToWidget
 Class {
 	#name : #TToElementWithTooltipTest,
 	#superclass : #ToTestCaseWithSpace,
-	#category : #'Toplo-Tests-Core'
+	#category : 'Toplo-Tests-Core'
 }
 
 { #category : #tests }

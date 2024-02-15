@@ -1,7 +1,7 @@
 Class {
 	#name : #ToEnablementChangedEvent,
 	#superclass : #BlEvent,
-	#category : #'Toplo-Core'
+	#category : 'Toplo-Core'
 }
 
 { #category : #sending }

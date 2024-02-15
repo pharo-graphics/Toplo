@@ -4,7 +4,7 @@ A TToPropertyWriterHolderTest is a test class for testing the behavior of TToPro
 Class {
 	#name : #TToLookEventListenerRegistryTest,
 	#superclass : #TestCase,
-	#category : #'Toplo-Tests-Core-StyleSheet'
+	#category : 'Toplo-Tests-Core-StyleSheet'
 }
 
 { #category : #tests }

@@ -19,6 +19,16 @@ ToAbstractProperty >> name: anObject [
 	name := anObject asSymbol
 ]
 
+{ #category : #printing }
+ToAbstractProperty >> printOn: aStream [
+
+	super printOn: aStream.
+	aStream << ' [' << self name << ']'
+	
+
+
+]
+
 { #category : #operating }
 ToAbstractProperty >> read: anObject [
 

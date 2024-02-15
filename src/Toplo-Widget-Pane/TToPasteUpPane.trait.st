@@ -46,7 +46,7 @@ TToPasteUpPane >> setUpAsPasteUp [
 	self pasteUpField: field.
 	field attachTo: self.
 	self addChild: field.
-	self when: BlDragStartEvent do: [ :event |
+	self addEventHandlerOn: BlDragStartEvent do: [ :event |
 		| dragged |
 		event consumed: true.
 		dragged := self findMouseEventTargetAt: event position.
@@ -54,11 +54,11 @@ TToPasteUpPane >> setUpAsPasteUp [
 			self initialGap: event position - dragged position.
 			self removeChild: dragged.
 			field addChild: dragged ] ].
-	self when: BlDragEvent do: [ :event |
+	self addEventHandlerOn: BlDragEvent do: [ :event |
 		event consumed: true.
 		self draggedElement ifNotNil: [ :dragged |
 			dragged position: event position - self initialGap ] ].
-	self when: BlDragEndEvent do: [ :event |
+	self addEventHandlerOn: BlDragEndEvent do: [ :event |
 		event consumed: true.
 		self draggedElement ifNotNil: [ :dragged |
 			dragged position: event position - self initialGap.

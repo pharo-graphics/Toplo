@@ -1,7 +1,7 @@
 Class {
 	#name : #ToComboBoxMode,
 	#superclass : #Object,
-	#category : #'Toplo-Widget-ComboBox'
+	#category : 'Toplo-Widget-ComboBox'
 }
 
 { #category : #accessing }

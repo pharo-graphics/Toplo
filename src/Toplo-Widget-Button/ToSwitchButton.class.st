@@ -7,7 +7,7 @@ Class {
 		'group',
 		'checked'
 	],
-	#category : #'Toplo-Widget-Button-Switch'
+	#category : 'Toplo-Widget-Button-Switch'
 }
 
 { #category : #accessing }

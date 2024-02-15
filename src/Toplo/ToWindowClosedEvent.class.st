@@ -1,7 +1,7 @@
 Class {
 	#name : #ToWindowClosedEvent,
 	#superclass : #ToWindowClosingEvent,
-	#category : #'Toplo-Core-Window'
+	#category : 'Toplo-Core-Window'
 }
 
 { #category : #sending }

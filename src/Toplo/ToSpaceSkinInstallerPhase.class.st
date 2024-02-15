@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSpaceSkinInstallerPhase,
 	#superclass : #BlSpaceFramePhase,
-	#category : #'Toplo-Core-SpaceFrame'
+	#category : 'Toplo-Core-SpaceFrame'
 }
 
 { #category : #accessing }

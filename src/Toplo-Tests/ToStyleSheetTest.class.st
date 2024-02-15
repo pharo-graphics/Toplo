@@ -4,7 +4,7 @@ A ToStyleSheetTest is a test class for testing the behavior of ToStyleSheet
 Class {
 	#name : #ToStyleSheetTest,
 	#superclass : #ToTestCaseWithSpace,
-	#category : #'Toplo-Tests-Core-StyleSheet'
+	#category : 'Toplo-Tests-Core-StyleSheet'
 }
 
 { #category : #tests }

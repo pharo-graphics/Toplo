@@ -1,7 +1,7 @@
 Class {
 	#name : #ToBeeSkin,
 	#superclass : #ToStyleSheetSkin,
-	#category : #'Toplo-Theme-Bee'
+	#category : 'Toplo-Theme-Bee'
 }
 
 { #category : #'api - hooks' }

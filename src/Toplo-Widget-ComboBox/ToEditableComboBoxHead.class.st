@@ -7,7 +7,7 @@ Class {
 		'textToDataConverter',
 		'textField'
 	],
-	#category : #'Toplo-Widget-ComboBox'
+	#category : 'Toplo-Widget-ComboBox'
 }
 
 { #category : #accessing }

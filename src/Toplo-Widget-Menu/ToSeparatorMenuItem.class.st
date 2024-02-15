@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSeparatorMenuItem,
 	#superclass : #ToMenuItemElement,
-	#category : #'Toplo-Widget-Menu-Basic'
+	#category : 'Toplo-Widget-Menu-Basic'
 }
 
 { #category : #initialization }

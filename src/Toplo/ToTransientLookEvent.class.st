@@ -7,6 +7,12 @@ Class {
 	#category : #'Toplo-Core-LookEvents'
 }
 
+{ #category : #testing }
+ToTransientLookEvent class >> isAbstract [
+
+	^ self == ToTransientLookEvent
+]
+
 { #category : #accessing }
 ToTransientLookEvent class >> sourceEvent: anEvent [
 

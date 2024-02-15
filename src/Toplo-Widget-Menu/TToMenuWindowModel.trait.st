@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToMenuWindowModel,
-	#category : #'Toplo-Widget-Menu-Basic'
+	#category : 'Toplo-Widget-Menu-Basic'
 }
 
 { #category : #'t - menu window model' }

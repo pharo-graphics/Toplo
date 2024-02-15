@@ -2,12 +2,14 @@
 A ToLabelTest is a test class for testing the behavior of ToLabel
 "
 Class {
-	#name : #ToLabelTest,
-	#superclass : #TestCase,
-	#category : #'Toplo-Widget-Album-Tests-Label'
+	#name : 'ToLabelTest',
+	#superclass : 'TestCase',
+	#category : 'Toplo-Widget-Album-Tests-Label',
+	#package : 'Toplo-Widget-Album-Tests',
+	#tag : 'Label'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToLabelTest >> testBeMonoline [
 
 	| lab |
@@ -24,7 +26,7 @@ ToLabelTest >> testBeMonoline [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToLabelTest >> testBeMultiline [
 
 	| lab |
@@ -35,7 +37,7 @@ ToLabelTest >> testBeMultiline [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToLabelTest >> testText [
 
 	| lab |
@@ -46,7 +48,7 @@ ToLabelTest >> testText [
 	self assert: lab text asString equals: 'A' 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToLabelTest >> testTextSharedWithInnerElement [
 
 	| lab inner |

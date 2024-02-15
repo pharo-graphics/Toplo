@@ -1,5 +1,5 @@
 Class {
 	#name : #ToSpaceSkinPhasesStarted,
 	#superclass : #BlSpaceEvent,
-	#category : #'Toplo-Core-SpaceFrame'
+	#category : 'Toplo-Core-SpaceFrame'
 }

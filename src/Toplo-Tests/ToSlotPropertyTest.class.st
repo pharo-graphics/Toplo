@@ -4,7 +4,7 @@ A ToSlotPropertyTest is a test class for testing the behavior of ToSlotProperty
 Class {
 	#name : #ToSlotPropertyTest,
 	#superclass : #TestCase,
-	#category : #'Toplo-Tests-Core-Properties'
+	#category : 'Toplo-Tests-Core-Properties'
 }
 
 { #category : #tests }

@@ -5,7 +5,7 @@ Class {
 		'nodeButton',
 		'changeBackground'
 	],
-	#category : #'Toplo-Examples'
+	#category : 'Toplo-Examples'
 }
 
 { #category : #accessing }

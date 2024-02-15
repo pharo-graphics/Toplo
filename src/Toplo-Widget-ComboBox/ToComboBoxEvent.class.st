@@ -1,5 +1,5 @@
 Class {
 	#name : #ToComboBoxEvent,
 	#superclass : #BlEvent,
-	#category : #'Toplo-Widget-ComboBox'
+	#category : 'Toplo-Widget-ComboBox'
 }

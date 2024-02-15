@@ -6,7 +6,7 @@ Class {
 		'innerElement',
 		'button'
 	],
-	#category : #'Toplo-Widget-ComboBox'
+	#category : 'Toplo-Widget-ComboBox'
 }
 
 { #category : #accessing }

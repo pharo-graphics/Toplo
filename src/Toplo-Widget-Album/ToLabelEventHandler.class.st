@@ -1,7 +1,7 @@
 Class {
 	#name : #ToLabelEventHandler,
 	#superclass : #BlCustomEventHandler,
-	#category : #'Toplo-Widget-Album-Label'
+	#category : 'Toplo-Widget-Album-Label'
 }
 
 { #category : #'api - accessing' }

@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToMenuItemHolder,
-	#category : #'Toplo-Widget-Menu-Basic'
+	#category : 'Toplo-Widget-Menu-Basic'
 }
 
 { #category : #'t - menu item holder - adding/removing' }

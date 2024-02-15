@@ -1,7 +1,7 @@
 Class {
 	#name : #ToCollectionRemoveRequest,
 	#superclass : #ToCollectionChangeRequest,
-	#category : #'Toplo-Core-Collection'
+	#category : 'Toplo-Core-Collection'
 }
 
 { #category : #sending }

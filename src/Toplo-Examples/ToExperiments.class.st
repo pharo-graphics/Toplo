@@ -327,7 +327,7 @@ ToExperiments class >> example_LinearLayout [
 		         background: Color gray;
 		         size: 300 @ 100;
 		         layout: BlLinearLayout new;
-		         constraintsDo: [ :c | 
+		         constraintsDo: [ :c |
 			         c horizontal matchParent.
 			         c vertical fitContent ].
 
@@ -339,11 +339,12 @@ ToExperiments class >> example_LinearLayout [
 	fill := BlElement new
 		        background: Color yellow;
 		        height: 20;
-		        constraintsDo: [ :c | 
-			        c horizontal
-				        matchParent.
-				      c minWidth: 50 ].
-	fill when: BlElementExtentChangedEvent do: [ :ann | fill width traceCr ].
+		        constraintsDo: [ :c |
+			        c horizontal matchParent.
+			        c minWidth: 50 ].
+	fill
+		addEventHandlerOn: BlElementExtentChangedEvent
+		do: [ :ann | fill width traceCr ].
 	right := BlElement new
 		         background: Color red;
 		         width: 100;
@@ -465,7 +466,7 @@ ToExperiments class >> example_LinearLayoutWithLabels [
 { #category : #'drag and drop' }
 ToExperiments class >> example_PasteUpPane [
 
-	| container red blue space  |
+	| container red blue space |
 	container := ToPane new id: #container.
 	container border: Color black.
 	container matchParent.
@@ -487,10 +488,10 @@ ToExperiments class >> example_PasteUpPane [
 	space show.
 
 	blue
-		when: BlDragEnterEvent
+		addEventHandlerOn: BlDragEnterEvent
 		do: [ :event | blue border: (BlBorder paint: Color yellow width: 5) ].
 	blue
-		when: BlDragLeaveEvent
+		addEventHandlerOn: BlDragLeaveEvent
 		do: [ :event | blue border: BlBorder empty ]
 ]
 

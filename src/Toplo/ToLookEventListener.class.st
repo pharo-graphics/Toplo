@@ -32,6 +32,18 @@ ToLookEventListener >> eventClass: aLookEventClass [
 ]
 
 { #category : #testing }
+ToLookEventListener >> isAction [
+
+	^ false
+]
+
+{ #category : #testing }
+ToLookEventListener >> isPropertyWriter [
+
+	^ false
+]
+
+{ #category : #testing }
 ToLookEventListener >> isSupplement [ 
 
 	^ self subclassResponsibility 

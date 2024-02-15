@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'stampName'
 	],
-	#category : #'Toplo-Core-Properties'
+	#category : 'Toplo-Core-Properties'
 }
 
 { #category : #'instance creation' }

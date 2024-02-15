@@ -5,7 +5,7 @@ Class {
 		'previous',
 		'current'
 	],
-	#category : #'Toplo-Widget-Button-Checkable'
+	#category : 'Toplo-Widget-Button-Checkable'
 }
 
 { #category : #'instance creation' }

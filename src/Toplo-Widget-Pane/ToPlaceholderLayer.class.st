@@ -1,7 +1,6 @@
 Class {
 	#name : #ToPlaceholderLayer,
 	#superclass : #BlOverlayElement,
-
 	#traits : 'TToElement',
 	#classTraits : 'TToElement classTrait',
 	#category : #'Toplo-Widget-Pane'

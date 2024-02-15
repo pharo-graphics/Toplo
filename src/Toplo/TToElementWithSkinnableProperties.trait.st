@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToElementWithSkinnableProperties,
-	#category : #'Toplo-Core-Slots'
+	#category : 'Toplo-Core-Slots'
 }
 
 { #category : #accessing }

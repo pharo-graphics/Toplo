@@ -1,5 +1,5 @@
 Class {
 	#name : #ToSubThemeForStyleRuleTest,
 	#superclass : #ToThemeForStyleRuleTest,
-	#category : #'Toplo-Tests-Core-StyleSheet'
+	#category : 'Toplo-Tests-Core-StyleSheet'
 }

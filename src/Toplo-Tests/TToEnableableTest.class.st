@@ -4,7 +4,7 @@ A TToEnableableTest is a test class for testing the behavior of TToEnableable
 Class {
 	#name : #TToEnableableTest,
 	#superclass : #TestCase,
-	#category : #'Toplo-Tests-Core'
+	#category : 'Toplo-Tests-Core'
 }
 
 { #category : #tests }

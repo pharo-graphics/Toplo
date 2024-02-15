@@ -5,7 +5,7 @@ Class {
 		'applyCount',
 		'canBeEnqueued'
 	],
-	#category : #'Toplo-Tests-Core-States'
+	#category : 'Toplo-Tests-Core-States'
 }
 
 { #category : #accessing }

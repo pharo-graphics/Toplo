@@ -4,7 +4,7 @@ A ToStyleScriptTest is a test class for testing the behavior of ToStyleScript
 Class {
 	#name : #ToStyleScriptTest,
 	#superclass : #TestCase,
-	#category : #'Toplo-Tests-Core-StyleSheet'
+	#category : 'Toplo-Tests-Core-StyleSheet'
 }
 
 { #category : #tests }

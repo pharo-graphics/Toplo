@@ -1,7 +1,7 @@
 Class {
 	#name : #ToGaussianEffectOpacityAnimation,
 	#superclass : #BlGaussianEffectOpacityAnimation,
-	#category : #'Toplo-Core-StyleSheet'
+	#category : 'Toplo-Core-StyleSheet'
 }
 
 { #category : #pulse }

@@ -7,6 +7,13 @@ Class {
 	#category : #'Toplo-Core-Selectors'
 }
 
+{ #category : #'as yet unclassified' }
+ToActionSelector >> = anObject [
+
+	super = anObject ifFalse: [ ^ false ].
+	^ self action = anObject action
+]
+
 { #category : #visiting }
 ToActionSelector >> accept: aVisitor [
 

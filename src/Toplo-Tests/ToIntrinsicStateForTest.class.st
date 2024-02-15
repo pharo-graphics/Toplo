@@ -6,7 +6,7 @@ Class {
 		'canBeEnqueued',
 		'val'
 	],
-	#category : #'Toplo-Tests-Core-States'
+	#category : 'Toplo-Tests-Core-States'
 }
 
 { #category : #accessing }

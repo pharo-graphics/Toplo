@@ -7,6 +7,12 @@ Class {
 	#category : #'Toplo-Widget-Select-Core'
 }
 
+{ #category : #'instance creation' }
+ToSelectSelectionMode >> newSelecterIn: anElement [
+
+	^ ToSingleSelectionModelSelecter new 
+]
+
 { #category : #accessing }
 ToSelectSelectionMode >> nodeEventHandlerClasses [ 
 

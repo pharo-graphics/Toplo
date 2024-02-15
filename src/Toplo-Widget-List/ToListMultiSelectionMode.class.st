@@ -12,6 +12,12 @@ ToListMultiSelectionMode >> allowNodeSelectionOnMouseDown [
 	^ super allowNodeSelectionOnMouseDown
 ]
 
+{ #category : #'instance creation' }
+ToListMultiSelectionMode >> newSelecterIn: anElement [
+
+	^ ToMultiSelectionModelSelecter new 
+]
+
 { #category : #accessing }
 ToListMultiSelectionMode >> nodeEventHandlerClasses [ 
 

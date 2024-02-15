@@ -1,6 +1,6 @@
 Class {
 	#name : #ToSelectionModelOperator,
-	#superclass : #ToCommandTarget,
+	#superclass : #ToCommandOperator,
 	#instVars : [
 		'currentIndex',
 		'operateSilently',
@@ -75,30 +75,6 @@ ToSelectionModelOperator >> currentIndex: anIndex [
 	currentIndex := anIndex
 ]
 
-{ #category : #operations }
-ToSelectionModelOperator >> deselectAll [
-
-	self addCommand: (ToWholeSelectionCommand new
-			 operation: ToRemoveSelectionOperation new;
-			 yourself)
-]
-
-{ #category : #operations }
-ToSelectionModelOperator >> deselectAllIndexes: anArray [
-
-	self addCommand: (ToIndexesSelectionCommand new
-			 indexes: anArray;
-			 operation: ToRemoveSelectionOperation new)
-]
-
-{ #category : #operations }
-ToSelectionModelOperator >> deselectIndex: anIndex [
-
-	self addCommand: (ToIntervalSelectionCommand new
-			 from: anIndex to: anIndex;
-			 operation: ToRemoveSelectionOperation new)
-]
-
 { #category : #initialization }
 ToSelectionModelOperator >> initialize [ 
 
@@ -137,6 +113,20 @@ ToSelectionModelOperator >> nextIdxTowardStart [
 	^ self currentIndex - 1
 ]
 
+{ #category : #'api - hooks' }
+ToSelectionModelOperator >> onInstalledIn: anEventTarget [
+
+	super onInstalledIn: anEventTarget.
+	self selectionModel: anEventTarget selectionModel
+]
+
+{ #category : #'api - hooks' }
+ToSelectionModelOperator >> onUninstalledIn: anEventTarget [
+
+	super onUninstalledIn: anEventTarget.
+	self selectionModel: nil
+]
+
 { #category : #'command operations' }
 ToSelectionModelOperator >> removeIndexesSelectionCommand: aCommand [
 
@@ -157,110 +147,6 @@ ToSelectionModelOperator >> removeWholeSelectionCommand: aCommand [
 
 	self selectionModel deselectAll.
 	self currentIndex: 0
-]
-
-{ #category : #operations }
-ToSelectionModelOperator >> selectAll [
-
-	self addCommand: (ToWholeSelectionCommand new
-			 operation: ToAddSelectionOperation new;
-			 yourself)
-]
-
-{ #category : #operations }
-ToSelectionModelOperator >> selectAllIndexes: anArray [
-
-	self addCommand: (ToIndexesSelectionCommand new
-			 indexes: anArray;
-			 operation: ToAddSelectionOperation new)
-]
-
-{ #category : #operations }
-ToSelectionModelOperator >> selectAndScrollToIndex: anIndex [
-
-	self selectIndex: anIndex.
-	self applyAll.
-	self selectionModel ifNotEmpty: [
-		self addCommand: (ToActionCommand new
-				 action: [ :e | e scrollToIndex: anIndex ];
-				 yourself) ]
-]
-
-{ #category : #'shortcuts operations' }
-ToSelectionModelOperator >> selectAndScrollToNext [
-
-	| nextIdx |
-	nextIdx := self nextIdxTowardEnd.
-	nextIdx isZero ifTrue: [ ^ self ].
-	self deselectAll.
-	self applyAll.
-	self selectAndScrollToIndex: nextIdx
-]
-
-{ #category : #'shortcuts operations' }
-ToSelectionModelOperator >> selectAndScrollToNextDeselected [
-
-	self selectAndScrollToIndex: (self sideIdx: 1)
-]
-
-{ #category : #'shortcuts operations' }
-ToSelectionModelOperator >> selectAndScrollToPrevious [
-
-	| nextIdx |
-	nextIdx := self nextIdxTowardStart.
-	nextIdx isZero ifTrue: [ ^ self ].
-	self deselectAll.
-	self selectAndScrollToIndex: nextIdx
-]
-
-{ #category : #'shortcuts operations' }
-ToSelectionModelOperator >> selectAndScrollToPreviousDeselected [
-
-	self selectAndScrollToIndex: (self sideIdx: -1)
-]
-
-{ #category : #operations }
-ToSelectionModelOperator >> selectIndex: anIndex [
-
-	self addCommand: (ToIntervalSelectionCommand new
-			 from: anIndex to: anIndex;
-			 operation: ToAddSelectionOperation new)
-]
-
-{ #category : #operations }
-ToSelectionModelOperator >> selectIndex: aStartIndex to: anEndIndex [
-
-	self addCommand: (ToIntervalSelectionCommand new
-			 from: aStartIndex to: anEndIndex;
-			 operation: ToAddSelectionOperation new)
-]
-
-{ #category : #operations }
-ToSelectionModelOperator >> selectOnlyIndex: anIndex [
-
-	self addCommand: ((ToWholeSelectionCommand new operation:
-			  ToRemoveSelectionOperation new) next:
-			 (ToIntervalSelectionCommand new
-				  from: anIndex to: anIndex;
-				  operation: ToAddSelectionOperation new))
-]
-
-{ #category : #operations }
-ToSelectionModelOperator >> selectOnlyIndexes: anArray [
-
-	self addCommand: ((ToWholeSelectionCommand new operation:
-			  ToRemoveSelectionOperation new) next:
-			 (ToIndexesSelectionCommand new
-				  indexes: anArray;
-				  operation: ToAddSelectionOperation new))
-]
-
-{ #category : #'shortcuts operations' }
-ToSelectionModelOperator >> selectToIndex: index [
-
-	| curr |
-	curr := self currentIndex.
-	self selectIndex: curr to: index
 ]
 
 { #category : #accessing }

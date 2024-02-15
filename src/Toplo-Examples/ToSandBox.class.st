@@ -615,7 +615,8 @@ ToSandBox class >> example_List2WithAllClassesMono [
 	| l |
 	l := ToListElement new.
 	l selectionMode: ToListSingleSelectionMode new.
-	l data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]).
+	l dataAccessor addAll:
+		(Smalltalk globals allClasses collect: [ :cls | cls name ]).
 	l openInSpace
 ]
 
@@ -626,7 +627,8 @@ ToSandBox class >> example_List2WithAllClassesMulti [
 	l := ToListElement new.
 	l withRowNumbers.
 	"l selectionModel inspect."
-	l data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]).
+	l dataAccessor addAll:
+		(Smalltalk globals allClasses collect: [ :cls | cls name ]).
 	l openInSpace
 ]
 
@@ -885,7 +887,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 				                whenClickedDo: [ :event |
 					                | idx |
 					                idx := selectedIndexes last.
-					                target data
+					                target dataAccessor
 						                add: idx asString , ':XXXXXX'
 						                afterIndex: idx ];
 				                yourself).

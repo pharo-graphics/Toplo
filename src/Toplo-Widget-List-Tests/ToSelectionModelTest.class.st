@@ -281,14 +281,6 @@ ToSelectionModelTest >> testLastIndex [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testNewOperator [
-
-	| s selecter |
-	s := ToSelectionModel new.
-	selecter := s newOperator
-]
-
-{ #category : #tests }
 ToSelectionModelTest >> testOnInstalledIn [
 
 	| s |

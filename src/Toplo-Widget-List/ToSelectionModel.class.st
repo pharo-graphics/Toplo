@@ -70,6 +70,9 @@ ToSelectionModel >> deselectIndex: aFirstIndex to: aSecondIndex [
 	to := aFirstIndex max: aSecondIndex.
 	from <= self itemCount ifFalse: [ ^ self ].
 	to <= self itemCount ifFalse: [ ^ self ].
+	(from <= to
+		and: [ from > 0
+			and: [ to >= 0 ] ]) ifFalse: [ ^ self ].
 	self ensureCompositeSelectionModel.
 	self underlyingModel 
 		deselect: from - 1
@@ -185,12 +188,6 @@ ToSelectionModel >> itemCountGetter: aValuable [
 ToSelectionModel >> lastIndex [
 
 	^ self underlyingModel lastIndexAmong: self itemCount
-]
-
-{ #category : #'instance creation' }
-ToSelectionModel >> newOperator [
-
-	^ ToSelectionModelOperator new selectionModel: self
 ]
 
 { #category : #'api - hooks' }

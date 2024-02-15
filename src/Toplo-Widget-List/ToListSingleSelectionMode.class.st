@@ -12,6 +12,12 @@ ToListSingleSelectionMode >> allowNodeSelectionOnMouseDown [
 	^ super allowNodeSelectionOnMouseDown
 ]
 
+{ #category : #'instance creation' }
+ToListSingleSelectionMode >> newSelecterIn: anElement [
+
+	^ ToSingleSelectionModelSelecter new 
+]
+
 { #category : #accessing }
 ToListSingleSelectionMode >> nodeEventHandlerClasses [ 
 
@@ -23,7 +29,7 @@ ToListSingleSelectionMode >> nodeEventHandlerClasses [
 ToListSingleSelectionMode >> onClickEvent: anEvent onNode: aNode [
 
 	super onClickEvent: anEvent onNode: aNode.
-	anEvent sourceEvent modifiers isPrimaryModifier ifTrue: [
+	anEvent modifiers isPrimaryModifier ifTrue: [
 		| index |
 		index := aNode holder position.
 		(self selectionModel containsIndex: index) ifTrue: [

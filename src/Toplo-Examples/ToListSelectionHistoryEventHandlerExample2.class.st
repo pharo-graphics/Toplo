@@ -33,8 +33,9 @@ ToListSelectionHistoryEventHandlerExample2 >> addIntervalSelectionCommand: aComm
 { #category : #'event handling' }
 ToListSelectionHistoryEventHandlerExample2 >> addWholeSelectionCommand: aCommand [
 
-	(historyList data includes: currentTarget data last) ifTrue: [ ^ self ].
-	historyList data add: currentTarget data last
+	(historyList dataAccessor includes: currentTarget dataAccessor last)
+		ifTrue: [ ^ self ].
+	historyList dataAccessor add: currentTarget dataAccessor last
 ]
 
 { #category : #'event handling' }

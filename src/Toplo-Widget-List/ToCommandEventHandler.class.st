@@ -13,20 +13,23 @@ Class {
 ToCommandEventHandler >> addComand: aCommand fromOperator: anOperator forTarget: aTarget [
 
 	| targetedCommand |
-	aTarget isAttachedToSceneGraph ifFalse: [
-		anOperator applyCommand: aCommand for: aTarget.
-		^ self ].
+	
 	targetedCommand := ToTargetedCommand new
 		                   operator: anOperator;
 		                   target: aTarget;
 		                   command: aCommand;
 		                   yourself.
+
 	commandQueue nextPut: targetedCommand.
+	aTarget isAttachedToSceneGraph ifFalse: [
+		aTarget dispatchEvent: ToCommandApplicationRequestEvent new.
+		^ self ].
+	
 	applicationTask ifNotNil: [ ^ self ].
-	applicationTask := BlTaskAction new action: [ 
-								applicationTask := nil.
-								" use of an event to make sure the target is still on the scene graph "
+	applicationTask := BlTaskAction new action: [
+		                   applicationTask := nil.
 		                   aTarget dispatchEvent: ToCommandApplicationRequestEvent new ].
+
 	aTarget enqueueTask: applicationTask.
 	aTarget requestLayout
 ]
@@ -52,8 +55,7 @@ ToCommandEventHandler >> commandAddedEvent: aCommandAddedEvent [
 ToCommandEventHandler >> commandApplicationRequestEvent: aCommandApplicationRequestEvent [
 
 	applicationTask ifNotNil: [
-		aCommandApplicationRequestEvent currentTarget dequeueTask:
-			applicationTask.
+		aCommandApplicationRequestEvent currentTarget dequeueTask: applicationTask.
 		applicationTask := nil ].
 	self applyAllCommands
 ]

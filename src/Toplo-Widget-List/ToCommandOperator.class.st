@@ -1,8 +1,8 @@
 Class {
-	#name : #ToCommandTarget,
-	#superclass : #Object,
-	#traits : 'TBlEventTarget + TToCommandOperator',
-	#classTraits : 'TBlEventTarget classTrait + TToCommandOperator classTrait',
+	#name : #ToCommandOperator,
+	#superclass : #ToBasicCommandApplier,
+	#traits : 'TBlEventTarget',
+	#classTraits : 'TBlEventTarget classTrait',
 	#instVars : [
 		'eventDispatcher',
 		'sharedEventDistributor'
@@ -10,8 +10,29 @@ Class {
 	#category : #'Toplo-Widget-List-Command'
 }
 
+{ #category : #'applied command handling' }
+ToCommandOperator >> actionCommand: aCommand for: aTarget [
+
+	aCommand action cull: aTarget
+]
+
+{ #category : #accessing }
+ToCommandOperator >> addCommand: aCommand [
+
+	self dispatchEvent: (ToCommandAddedEvent new
+			 command: aCommand;
+			 operator: self;
+			 yourself)
+]
+
+{ #category : #accessing }
+ToCommandOperator >> applyAll [
+
+	self dispatchEvent: ToCommandApplicationRequestEvent new
+]
+
 { #category : #'event management accessing' }
-ToCommandTarget >> eventDispatcher [
+ToCommandOperator >> eventDispatcher [
 	"Return an object responsible for event dispatching"
 	<return: #BlDirectEventDispatcher>
 
@@ -19,14 +40,14 @@ ToCommandTarget >> eventDispatcher [
 ]
 
 { #category : #initialization }
-ToCommandTarget >> initialize [ 
+ToCommandOperator >> initialize [ 
 
 	super initialize.
 	eventDispatcher := BlDirectEventDispatcher on: self
 ]
 
 { #category : #'api - hooks' }
-ToCommandTarget >> onInstalledIn: anEventTarget [
+ToCommandOperator >> onInstalledIn: anEventTarget [
 
 	sharedEventDistributor ifNotNil: [ Error signal: 'A CommandTarget can be installed only once' ].
 	sharedEventDistributor := BlSharedEventDistributor new
@@ -37,7 +58,7 @@ ToCommandTarget >> onInstalledIn: anEventTarget [
 ]
 
 { #category : #'api - hooks' }
-ToCommandTarget >> onUninstalledIn: anEventTarget [
+ToCommandOperator >> onUninstalledIn: anEventTarget [
 
 	sharedEventDistributor ifNil: [ Error signal: 'Not installed' ].
 	self removeEventHandler: sharedEventDistributor.
@@ -46,7 +67,7 @@ ToCommandTarget >> onUninstalledIn: anEventTarget [
 ]
 
 { #category : #accessing }
-ToCommandTarget >> sharedEvents [ 
+ToCommandOperator >> sharedEvents [ 
 
 	^ { ToCommandAddedEvent }
 ]

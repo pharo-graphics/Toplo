@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
+{ #category : #'instance creation' }
+ToListNoneSelectionMode >> newSelecterIn: anElement [
+
+	^ ToNoneSelectionModelSelecter new 
+]
+
 { #category : #accessing }
 ToListNoneSelectionMode >> nodeEventHandlerClasses [ 
 

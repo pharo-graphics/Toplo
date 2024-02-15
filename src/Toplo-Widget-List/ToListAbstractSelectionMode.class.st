@@ -41,6 +41,12 @@ ToListAbstractSelectionMode >> itemCount [
 	^ self selectionModel itemCount
 ]
 
+{ #category : #'instance creation' }
+ToListAbstractSelectionMode >> newSelecterIn: anElement [
+
+	self subclassResponsibility 
+]
+
 { #category : #accessing }
 ToListAbstractSelectionMode >> nodeEventHandlerClasses [ 
 
@@ -64,7 +70,7 @@ ToListAbstractSelectionMode >> onClickEvent: anEvent onNode: aNode [
 ToListAbstractSelectionMode >> onInstalledIn: anElement [
 
 	self selectionModel: anElement selectionModel.
-	selecter := self selectionModel newOperator.
+	selecter := self newSelecterIn: anElement.
 	selecter onInstalledIn: anElement
 ]
 

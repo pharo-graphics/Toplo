@@ -89,6 +89,19 @@ TToStyleRuleScripter >> when: aLookEventClass supplement: aWritableProperty with
 ]
 
 { #category : #'t - stylesheet scripter' }
+TToStyleRuleScripter >> when: aLookEventClass supplement: aWriteableProperty with: aValuableOrObject animation: aPropertyAnimation [
+
+	self lookEventListenerHolder addLookEventListener:
+		(ToPropertyWriter new
+			 eventClass: aLookEventClass;
+			 property: aWriteableProperty;
+			 value: aValuableOrObject;
+			 animation: aPropertyAnimation;
+			 supplement: true;
+			 yourself)
+]
+
+{ #category : #'t - stylesheet scripter' }
 TToStyleRuleScripter >> when: aLookEventClass write: aProperty with: aValuableOrObject [
 
 	self

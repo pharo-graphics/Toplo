@@ -35,6 +35,14 @@ ToSelectionModelSelecter >> deselectAllIndexes: anArray [
 			 operation: ToRemoveSelectionOperation new)
 ]
 
+{ #category : #operations }
+ToSelectionModelSelecter >> deselectIndex: anIndex [
+
+	self operator addCommand: (ToIntervalSelectionCommand new
+			 from: anIndex to: anIndex;
+			 operation: ToRemoveSelectionOperation new)
+]
+
 { #category : #'api - hooks' }
 ToSelectionModelSelecter >> onInstalledIn: anEventTarget [
 
@@ -55,4 +63,46 @@ ToSelectionModelSelecter >> onUninstalledIn: anEventTarget [
 ToSelectionModelSelecter >> operator [
 
 	^ operator
+]
+
+{ #category : #operations }
+ToSelectionModelSelecter >> selectAndScrollToIndex: anIndex [
+
+	self selectIndex: anIndex.
+	self operator selectionModel ifNotEmpty: [
+		self operator addCommand: (ToActionCommand new
+				 action: [ :e | e scrollToIndex: anIndex ];
+				 yourself) ]
+]
+
+{ #category : #'shortcuts operations' }
+ToSelectionModelSelecter >> selectAndScrollToNext [
+
+	| nextIdx |
+	nextIdx := self operator nextIdxTowardEnd.
+	nextIdx isZero ifTrue: [ ^ self ].
+	self deselectAll.
+	self selectAndScrollToIndex: nextIdx
+]
+
+{ #category : #'shortcuts operations' }
+ToSelectionModelSelecter >> selectAndScrollToNextDeselected [
+
+	self selectAndScrollToIndex: (self operator sideIdx: 1)
+]
+
+{ #category : #'shortcuts operations' }
+ToSelectionModelSelecter >> selectAndScrollToPrevious [
+
+	| nextIdx |
+	nextIdx := self operator nextIdxTowardStart.
+	nextIdx isZero ifTrue: [ ^ self ].
+	self deselectAll.
+	self selectAndScrollToIndex: nextIdx
+]
+
+{ #category : #'shortcuts operations' }
+ToSelectionModelSelecter >> selectAndScrollToPreviousDeselected [
+
+	self selectAndScrollToIndex: (self operator sideIdx: -1)
 ]

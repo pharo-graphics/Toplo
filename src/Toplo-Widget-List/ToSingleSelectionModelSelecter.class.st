@@ -5,14 +5,6 @@ Class {
 }
 
 { #category : #operations }
-ToSingleSelectionModelSelecter >> deselectIndex: anIndex [
-
-	self operator addCommand: (ToIntervalSelectionCommand new
-			 from: anIndex to: anIndex;
-			 operation: ToRemoveSelectionOperation new)
-]
-
-{ #category : #operations }
 ToSingleSelectionModelSelecter >> selectAll [
 ]
 
@@ -26,50 +18,6 @@ ToSingleSelectionModelSelecter >> selectAllIndexes: anArray [
 	self operator addCommand: (ToIndexesSelectionCommand new
 			 indexes: indexes;
 			 operation: ToAddSelectionOperation new)
-]
-
-{ #category : #operations }
-ToSingleSelectionModelSelecter >> selectAndScrollToIndex: anIndex [
-
-	self selectIndex: anIndex.
-	self operator applyAll.
-	self operator selectionModel ifNotEmpty: [
-		self operator addCommand: (ToActionCommand new
-				 action: [ :e | e scrollToIndex: anIndex ];
-				 yourself) ]
-]
-
-{ #category : #'shortcuts operations' }
-ToSingleSelectionModelSelecter >> selectAndScrollToNext [
-
-	| nextIdx |
-	nextIdx := self operator nextIdxTowardEnd.
-	nextIdx isZero ifTrue: [ ^ self ].
-	self deselectAll.
-	self operator applyAll.
-	self selectAndScrollToIndex: nextIdx
-]
-
-{ #category : #'shortcuts operations' }
-ToSingleSelectionModelSelecter >> selectAndScrollToNextDeselected [
-
-	self selectAndScrollToIndex: (self operator sideIdx: 1)
-]
-
-{ #category : #'shortcuts operations' }
-ToSingleSelectionModelSelecter >> selectAndScrollToPrevious [
-
-	| nextIdx |
-	nextIdx := self operator nextIdxTowardStart.
-	nextIdx isZero ifTrue: [ ^ self ].
-	self deselectAll.
-	self selectAndScrollToIndex: nextIdx
-]
-
-{ #category : #'shortcuts operations' }
-ToSingleSelectionModelSelecter >> selectAndScrollToPreviousDeselected [
-
-	self selectAndScrollToIndex: (self operator sideIdx: -1)
 ]
 
 { #category : #operations }

@@ -16,11 +16,7 @@ ToThemeEditorEventsListenerListController >> addEventListener [
 
 	| newEventListener |
 	self styleRule ifNil: [ ^ self ].
-	newEventListener := ToPropertyWriter new
-		                    value: [ :e |  ];
-		                    eventClass: ToInstallLookEvent;
-		                    property: self defaultProperty;
-		                    yourself.
+	newEventListener := self defaultEventListner.
 	self styleRule addLookEventListener: newEventListener.
 	self updatePresenterOn: newEventListener
 ]
@@ -32,10 +28,20 @@ ToThemeEditorEventsListenerListController >> allEventListeners [
 	^ self styleRule lookEventListeners
 ]
 
+{ #category : #'as yet unclassified' }
+ToThemeEditorEventsListenerListController >> defaultEventListner [
+	self theme ifNil: [ ^ ToLookEventAction new action: [ :e | ]; yourself ].
+	^ ToPropertyWriter new
+		                    value: [ :e |  ];
+		                    eventClass: ToInstallLookEvent;
+		                    property: self defaultProperty;
+		                    yourself.
+]
+
 { #category : #adding }
 ToThemeEditorEventsListenerListController >> defaultProperty [
 
-	^ self theme styleSheet rawWritablePropertyIndex index atRandom value.
+	^ self theme styleSheet writablePropertyIndex index atRandom value.
 ]
 
 { #category : #adding }

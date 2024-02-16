@@ -3,10 +3,23 @@ Class {
 	#superclass : #BlEvent,
 	#instVars : [
 		'selection',
-		'sourceEvent'
+		'sourceEvent',
+		'node'
 	],
 	#category : #'Toplo-Widget-List-Context-menu'
 }
+
+{ #category : #accessing }
+ToListElementContextMenuSelectionChangedEvent >> node [
+
+	^ node
+]
+
+{ #category : #accessing }
+ToListElementContextMenuSelectionChangedEvent >> node: aNode [
+
+	node := aNode
+]
 
 { #category : #accessing }
 ToListElementContextMenuSelectionChangedEvent >> selection [

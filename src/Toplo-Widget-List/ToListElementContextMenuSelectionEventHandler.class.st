@@ -53,25 +53,25 @@ ToListElementContextMenuSelectionEventHandler >> eventsToHandle [
 { #category : #'element handlers' }
 ToListElementContextMenuSelectionEventHandler >> listElementContextMenuRequest: anEvent [
 
-	| pos foundChildren targetChildren childNode target infinite |
+	| childNode target infinite globalPosition |
 	target := anEvent currentTarget.
 	infinite := target infinite.
 	target disableScrolledEvent.
-
-	pos := infinite globalPointToLocal: anEvent sourceEvent position.
-	foundChildren := infinite withAllChildrenAt: pos.
-	foundChildren ifEmpty: [ ^ self ].
-	targetChildren := foundChildren allButLast.
-	targetChildren ifEmpty: [ ^ self ].
-	childNode := targetChildren last.
-	
-	anEvent selection deselectAll.
+	globalPosition := anEvent sourceEvent position.
+	childNode := infinite children
+		             detect: [ :node |
+		             node containsGlobalPoint: globalPosition ]
+		             ifNone: [  ].
+	childNode ifNil: [ ^ self ].
 	childNode holder isSelected
-		ifTrue: [ anEvent selection selectAllIndexes: target selectionModel selectedIndexes ]
+		ifTrue: [
+			anEvent selection selectAllIndexes:
+				target selectionModel selectedIndexes ]
 		ifFalse: [ anEvent selection selectIndex: childNode holder position ].
 
 	target dispatchEvent:
 		(ToListElementContextMenuSelectionChangedEvent new
+			 node: childNode;
 			 selection: anEvent selection;
 			 sourceEvent: anEvent sourceEvent;
 			 yourself)
@@ -80,20 +80,17 @@ ToListElementContextMenuSelectionEventHandler >> listElementContextMenuRequest: 
 { #category : #'element handlers' }
 ToListElementContextMenuSelectionEventHandler >> listElementContextMenuSelectionChangedEvent: anEvent [
 
-	| target pos targetChildren childNode foundChildren |
+	| target |
 	target := anEvent currentTarget.
+	
 	anEvent selection isEmpty ifTrue: [
 		self removeContextMenuSelectionIn: target.
 		^ self ].
-	pos := anEvent sourceEvent localPosition.
-	foundChildren := target infinite withAllChildrenAt: pos.
-	foundChildren ifEmpty: [ ^ self ].
-	targetChildren := (target infinite withAllChildrenAt: pos) allButLast.
-	targetChildren ifEmpty: [ ^ self ].
-	childNode := targetChildren last.
-	childNode holder isSelected
+
+	anEvent node holder isSelected 
 		ifTrue: [ self contextMenuSelectionOverPrimaryIn: target ]
-		ifFalse: [ self addContextMenuSelectionIn: target onNode: childNode ]
+		ifFalse: [
+			self addContextMenuSelectionIn: target onNode: anEvent node ]
 ]
 
 { #category : #'element handlers' }

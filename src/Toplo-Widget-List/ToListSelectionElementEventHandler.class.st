@@ -93,14 +93,13 @@ ToListSelectionElementEventHandler >> listSelectionDirtyEvent: anEvent [
 
 { #category : #'selection managing' }
 ToListSelectionElementEventHandler >> newPrimarySelectionElementsFromEvent: anEvent [
-	" return a collection with instances of ListSelectionDecorationElement "
+	" return a collection with instances of ToListPrimarySelectionElement "
 
 	| adjacentNodeGroups target |
 	target := anEvent currentTarget.
 	target isAttachedToSceneGraph ifFalse: [ ^ nil ].
 	adjacentNodeGroups := self adjacentSelectedNodesGroupsIn: target.
-	adjacentNodeGroups = previousAdjacentNodeGroups ifTrue: [
-		^ nil ].
+	adjacentNodeGroups = previousAdjacentNodeGroups ifTrue: [ ^ nil ].
 	previousAdjacentNodeGroups := adjacentNodeGroups.
 	^ adjacentNodeGroups collect: [ :g |
 		  ToListPrimarySelectionElement new

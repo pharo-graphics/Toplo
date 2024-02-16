@@ -14,7 +14,7 @@ ToCommandEventHandler >> addComand: aCommand fromOperator: anOperator forTarget:
 
 	| targetedCommand |
 	
-	targetedCommand := ToTargetedCommand new
+	targetedCommand := ToApplicableCommand new
 		                   operator: anOperator;
 		                   target: aTarget;
 		                   command: aCommand;

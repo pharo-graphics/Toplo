@@ -53,9 +53,15 @@ ToListMultiSelectionMode >> shortcutsIn: anElement [
 		  (BlShortcutWithAction new
 			   combination: BlKeyCombination builder shift arrowDown build;
 			   action: [ :aShortcutEvent :aShortcut |
-				   self selecter selectAndScrollToNextDeselected ]).
+				   | idx |
+				   idx := self selecter nextDeselectedIndex.
+				   self selecter selectIndex: idx.
+				   self selecter scrollToIndex: idx ]).
 		  (BlShortcutWithAction new
 			   combination: BlKeyCombination builder shift arrowUp build;
 			   action: [ :aShortcutEvent :aShortcut |
-				   self selecter selectAndScrollToPreviousDeselected ]) }
+				   | idx |
+				   idx := self selecter previousDeselectedIndex.
+				   self selecter selectIndex: idx.
+				   self selecter scrollToIndex: idx ]) }
 ]

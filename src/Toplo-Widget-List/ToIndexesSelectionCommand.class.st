@@ -1,6 +1,6 @@
 Class {
 	#name : #ToIndexesSelectionCommand,
-	#superclass : #ToSelectionModelCommand,
+	#superclass : #ToSelectionModelAddRemoveCommand,
 	#instVars : [
 		'indexes'
 	],

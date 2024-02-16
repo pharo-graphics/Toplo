@@ -5,63 +5,84 @@ Class {
 }
 
 { #category : #operations }
+ToMultiSelectionModelSelecter >> deselectIndex: aStartIndex to: anEndIndex [
+
+	self addCommand: (ToIntervalSelectionCommand new
+			 from: aStartIndex to: anEndIndex;
+			 operation: ToRemoveSelectionOperation new).
+	self changeCurrentIndexWith: (aStartIndex min: anEndIndex)
+]
+
+{ #category : #operations }
 ToMultiSelectionModelSelecter >> selectAll [
 
-	self operator addCommand: (ToWholeSelectionCommand new
+	self addCommand: (ToWholeSelectionCommand new
 			 operation: ToAddSelectionOperation new;
-			 yourself)
+			 yourself).
+	self selectionModel itemCount > 0
+		ifTrue: [ self changeCurrentIndexWith: 1 ]
+		ifFalse: [ self changeCurrentIndexWith: 0 ]
 ]
 
 { #category : #operations }
 ToMultiSelectionModelSelecter >> selectAllIndexes: anArray [
 
-	self operator addCommand: (ToIndexesSelectionCommand new
+	self addCommand: (ToIndexesSelectionCommand new
 			 indexes: anArray;
-			 operation: ToAddSelectionOperation new)
+			 operation: ToAddSelectionOperation new).
+	self changeCurrentIndexWith: anArray last
 ]
 
 { #category : #operations }
 ToMultiSelectionModelSelecter >> selectIndex: anIndex [
 
-	self operator addCommand: (ToIntervalSelectionCommand new
+	self addCommand: (ToIntervalSelectionCommand new
 			 from: anIndex to: anIndex;
-			 operation: ToAddSelectionOperation new)
+			 operation: ToAddSelectionOperation new).
+	self changeCurrentIndexWith: anIndex
 ]
 
 { #category : #operations }
 ToMultiSelectionModelSelecter >> selectIndex: aStartIndex to: anEndIndex [
 
-	self operator addCommand: (ToIntervalSelectionCommand new
+	self addCommand: (ToIntervalSelectionCommand new
 			 from: aStartIndex to: anEndIndex;
-			 operation: ToAddSelectionOperation new)
+			 operation: ToAddSelectionOperation new).
+	self changeCurrentIndexWith: anEndIndex
 ]
 
 { #category : #operations }
 ToMultiSelectionModelSelecter >> selectOnlyIndex: anIndex [
 
-	self operator addCommand:
-		(ToWholeSelectionCommand new operation:
-			 ToRemoveSelectionOperation new).
-	self operator addCommand: (ToIntervalSelectionCommand new
+	(self selectionModel selectedIndexesCount = 1 and: [
+		 self selectionModel firstIndex = anIndex ]) ifTrue: [ ^ self ].
+	self addCommand: (ToWholeSelectionCommand new
+			 silent: true;
+			 operation: ToRemoveSelectionOperation new;
+			 yourself).
+	self addCommand: (ToIntervalSelectionCommand new
 			 from: anIndex to: anIndex;
-			 operation: ToAddSelectionOperation new)
+			 operation: ToAddSelectionOperation new).
+	self changeCurrentIndexWith: anIndex
 ]
 
 { #category : #operations }
 ToMultiSelectionModelSelecter >> selectOnlyIndexes: anArray [
 
-	self operator addCommand:
+	self addCommand:
 		(ToWholeSelectionCommand new operation:
 			 ToRemoveSelectionOperation new).
-	self operator addCommand: (ToIndexesSelectionCommand new
+	anArray ifEmpty: [ ^ self ].
+	self addCommand: (ToIndexesSelectionCommand new
 			 indexes: anArray;
-			 operation: ToAddSelectionOperation new)
+			 operation: ToAddSelectionOperation new).
+	self changeCurrentIndexWith: anArray last
 ]
 
-{ #category : #'shortcuts operations' }
+{ #category : #operations }
 ToMultiSelectionModelSelecter >> selectToIndex: index [
 
 	| curr |
-	curr := self operator currentIndex.
+	curr := self currentIndex.
 	self selectIndex: curr to: index
 ]

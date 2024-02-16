@@ -1,6 +1,6 @@
 Class {
 	#name : #ToWholeSelectionCommand,
-	#superclass : #ToSelectionModelCommand,
+	#superclass : #ToSelectionModelAddRemoveCommand,
 	#instVars : [
 		'maxIndex'
 	],

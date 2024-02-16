@@ -8,7 +8,8 @@ Class {
 		'dataSource',
 		'successfulCommand',
 		'data',
-		'scrollIndex'
+		'scrollIndex',
+		'selecter'
 	],
 	#category : #'Toplo-Widget-List-Tests-Selection-Selecter'
 }
@@ -70,7 +71,6 @@ ToSelectionModelHolderForTest >> itemCount [
 { #category : #accessing }
 ToSelectionModelHolderForTest >> multiSelectionSelecter [
 
-	| selecter |
 	selecter := ToMultiSelectionModelSelecter new.
 	selecter onInstalledIn: self.
 	^ selecter
@@ -79,7 +79,6 @@ ToSelectionModelHolderForTest >> multiSelectionSelecter [
 { #category : #accessing }
 ToSelectionModelHolderForTest >> noneSelectionSelecter [
 
-	| selecter |
 	selecter := ToNoneSelectionModelSelecter new.
 	selecter onInstalledIn: self.
 	^ selecter
@@ -107,6 +106,12 @@ ToSelectionModelHolderForTest >> scrollToIndex: anIndex [
 ]
 
 { #category : #accessing }
+ToSelectionModelHolderForTest >> selecter [
+
+	^ selecter
+]
+
+{ #category : #accessing }
 ToSelectionModelHolderForTest >> selectionModel [
 
 	^ selectionModel 
@@ -115,7 +120,6 @@ ToSelectionModelHolderForTest >> selectionModel [
 { #category : #accessing }
 ToSelectionModelHolderForTest >> singleSelectionSelecter [
 
-	| selecter |
 	selecter := ToSingleSelectionModelSelecter new.
 	selecter onInstalledIn: self.
 	^ selecter

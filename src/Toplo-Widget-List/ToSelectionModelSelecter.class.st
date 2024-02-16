@@ -2,45 +2,84 @@ Class {
 	#name : #ToSelectionModelSelecter,
 	#superclass : #ToAbstractSelectionModelSelecter,
 	#instVars : [
+		'currentIndex',
 		'operator'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
-{ #category : #accessing }
-ToSelectionModelSelecter >> beSilentWhile: aBlock [ 
+{ #category : #adding }
+ToSelectionModelSelecter >> addCommand: aCommand [
 
-	self operator beSilentWhile: aBlock 
+	aCommand silent ifFalse: [aCommand silent: self operateSilently ].
+	self operator addCommand: aCommand
+]
+
+{ #category : #operations }
+ToSelectionModelSelecter >> changeCurrentIndexWith: anIndex [
+
+	self currentIndex: anIndex
 ]
 
 { #category : #accessing }
-ToSelectionModelSelecter >> currentIndex [ 
+ToSelectionModelSelecter >> currentIndex [
 
-	^ self operator currentIndex
+	^ currentIndex
+]
+
+{ #category : #accessing }
+ToSelectionModelSelecter >> currentIndex: anIndex [
+
+	currentIndex := anIndex
 ]
 
 { #category : #operations }
 ToSelectionModelSelecter >> deselectAll [
 
-	self operator addCommand: (ToWholeSelectionCommand new
+	self addCommand: (ToWholeSelectionCommand new
 			 operation: ToRemoveSelectionOperation new;
-			 yourself)
+			 yourself).
+	self changeCurrentIndexWith: 0
 ]
 
 { #category : #operations }
 ToSelectionModelSelecter >> deselectAllIndexes: anArray [
 
-	self operator addCommand: (ToIndexesSelectionCommand new
+	self addCommand: (ToIndexesSelectionCommand new
 			 indexes: anArray;
-			 operation: ToRemoveSelectionOperation new)
+			 operation: ToRemoveSelectionOperation new).
+	self changeCurrentIndexWith: 0
 ]
 
 { #category : #operations }
 ToSelectionModelSelecter >> deselectIndex: anIndex [
 
-	self operator addCommand: (ToIntervalSelectionCommand new
+	self addCommand: (ToIntervalSelectionCommand new
 			 from: anIndex to: anIndex;
 			 operation: ToRemoveSelectionOperation new)
+]
+
+{ #category : #accessing }
+ToSelectionModelSelecter >> itemCount [
+
+	^ self selectionModel itemCount
+]
+
+{ #category : #private }
+ToSelectionModelSelecter >> nextDeselectedIndex [
+
+	^ self sideIdx: 1
+]
+
+{ #category : #private }
+ToSelectionModelSelecter >> nextSelectableIndex [
+
+	self currentIndex isZero
+		ifTrue: [
+			self itemCount isZero ifTrue: [ ^ 0 ].
+			^ 1 ]
+		ifFalse: [ self currentIndex < self itemCount ifFalse: [ ^ 1 ] ].
+	^ self currentIndex + 1
 ]
 
 { #category : #'api - hooks' }
@@ -48,7 +87,8 @@ ToSelectionModelSelecter >> onInstalledIn: anEventTarget [
 
 	super onInstalledIn: anEventTarget.
 	operator := ToSelectionModelOperator new.
-	operator onInstalledIn: anEventTarget
+	operator onInstalledIn: anEventTarget.
+		currentIndex := 0
 ]
 
 { #category : #'api - hooks' }
@@ -56,7 +96,8 @@ ToSelectionModelSelecter >> onUninstalledIn: anEventTarget [
 
 	super onUninstalledIn: anEventTarget.
 	operator onUninstalledIn: anEventTarget.
-	operator := nil
+	operator := nil.
+	currentIndex := 0
 ]
 
 { #category : #accessing }
@@ -65,44 +106,96 @@ ToSelectionModelSelecter >> operator [
 	^ operator
 ]
 
-{ #category : #operations }
-ToSelectionModelSelecter >> selectAndScrollToIndex: anIndex [
+{ #category : #private }
+ToSelectionModelSelecter >> previousDeselectedIndex [
 
-	self selectIndex: anIndex.
-	self operator selectionModel ifNotEmpty: [
-		self operator addCommand: (ToActionCommand new
-				 action: [ :e | e scrollToIndex: anIndex ];
+	^ self sideIdx: -1
+]
+
+{ #category : #private }
+ToSelectionModelSelecter >> previousSelectableIndex [
+
+	self currentIndex isZero
+		ifTrue: [
+			self itemCount isZero ifTrue: [ ^ 0 ].
+			^ self itemCount ]
+		ifFalse: [ self currentIndex > 1 ifFalse: [ ^ self itemCount ] ].
+	^ self currentIndex - 1
+]
+
+{ #category : #private }
+ToSelectionModelSelecter >> scrollToCurrentIndex [
+
+	self scrollToIndex: self currentIndex
+]
+
+{ #category : #'shortcuts operations' }
+ToSelectionModelSelecter >> scrollToIndex: anIndex [
+
+	self itemCount >= anIndex ifTrue: [
+		self addCommand: (ToListScrollCommand new
+				 index: anIndex;
 				 yourself) ]
 ]
 
-{ #category : #'shortcuts operations' }
-ToSelectionModelSelecter >> selectAndScrollToNext [
+{ #category : #operations }
+ToSelectionModelSelecter >> scrollToNextIndex [
 
 	| nextIdx |
-	nextIdx := self operator nextIdxTowardEnd.
+	nextIdx := self nextSelectableIndex.
 	nextIdx isZero ifTrue: [ ^ self ].
-	self deselectAll.
-	self selectAndScrollToIndex: nextIdx
+	self scrollToIndex: nextIdx
 ]
 
-{ #category : #'shortcuts operations' }
-ToSelectionModelSelecter >> selectAndScrollToNextDeselected [
-
-	self selectAndScrollToIndex: (self operator sideIdx: 1)
-]
-
-{ #category : #'shortcuts operations' }
-ToSelectionModelSelecter >> selectAndScrollToPrevious [
+{ #category : #operations }
+ToSelectionModelSelecter >> scrollToPreviousIndex [
 
 	| nextIdx |
-	nextIdx := self operator nextIdxTowardStart.
+	nextIdx := self previousSelectableIndex.
 	nextIdx isZero ifTrue: [ ^ self ].
-	self deselectAll.
-	self selectAndScrollToIndex: nextIdx
+	self scrollToIndex: nextIdx
 ]
 
-{ #category : #'shortcuts operations' }
-ToSelectionModelSelecter >> selectAndScrollToPreviousDeselected [
+{ #category : #operations }
+ToSelectionModelSelecter >> selectNextIndex [
 
-	self selectAndScrollToIndex: (self operator sideIdx: -1)
+	| nextIdx |
+	nextIdx := self nextSelectableIndex.
+	nextIdx isZero ifTrue: [ ^ self ].
+	self selectIndex: nextIdx
+]
+
+{ #category : #operations }
+ToSelectionModelSelecter >> selectPreviousIndex [
+
+	| nextIdx |
+	nextIdx := self previousSelectableIndex.
+	nextIdx isZero ifTrue: [ ^ self ].
+	self selectIndex: nextIdx
+]
+
+{ #category : #accessing }
+ToSelectionModelSelecter >> selectionModel [
+
+	^ self operator selectionModel
+]
+
+{ #category : #operations }
+ToSelectionModelSelecter >> shiftSelection: anInteger from: anIndex [
+
+	self addCommand: (ToSelectionModelShiftCommand new itemCount: anInteger; fromIndex: anIndex; yourself)
+]
+
+{ #category : #private }
+ToSelectionModelSelecter >> sideIdx: aGap [
+
+	| nextIdx |
+	nextIdx := self currentIndex.
+	(self selectionModel containsIndex: nextIdx) ifFalse: [ ^ nextIdx ].
+	[
+	(nextIdx between: 1 and: self itemCount) and: [
+		self selectionModel containsIndex: nextIdx ] ] whileTrue: [
+		nextIdx := nextIdx + aGap ].
+	nextIdx := (nextIdx max: 1) min: self itemCount.
+	^ nextIdx
 ]

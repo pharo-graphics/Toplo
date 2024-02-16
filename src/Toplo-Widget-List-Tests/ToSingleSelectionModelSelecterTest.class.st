@@ -110,12 +110,13 @@ ToSingleSelectionModelSelecterTest >> testSelectAndScrollToIndex [
 
 	selecter selectIndex: 2.
 	self waitTestingSpaces.
-	selecter selectAndScrollToIndex: 10.
+	selecter selectIndex: 10.
 	self waitTestingSpaces.
-	self assert: holder selectionModel selectedIndexes equals: #(10).
+	selecter scrollToIndex:  selecter currentIndex.
+	self waitTestingSpaces.
+	self assert: holder selectionModel selectedIndexes equals: #( 10 ).
 	self assert: selecter currentIndex equals: 10.
 	self assert: holder scrollIndex equals: 10
-
 ]
 
 { #category : #tests }
@@ -123,12 +124,14 @@ ToSingleSelectionModelSelecterTest >> testSelectAndScrollToNext [
 
 	selecter selectIndex: 2.
 	self waitTestingSpaces.
-	selecter selectAndScrollToNext.
+	selecter selectIndex: selecter nextSelectableIndex.
+	selecter scrollToCurrentIndex.
 	self waitTestingSpaces.
-	self assert: holder selectionModel selectedIndexes asSet equals: #(3) asSet.
+	self
+		assert: holder selectionModel selectedIndexes asSet
+		equals: #( 3 ) asSet.
 	self assert: selecter currentIndex equals: 3.
 	self assert: holder scrollIndex equals: 3
-
 ]
 
 { #category : #tests }
@@ -137,16 +140,19 @@ ToSingleSelectionModelSelecterTest >> testSelectAndScrollToNextDeselected [
 	selecter deselectAll.
 	selecter selectIndex: 2.
 	self waitTestingSpaces.
-	selecter selectAndScrollToNextDeselected.
+	selecter selectIndex: selecter nextDeselectedIndex.
+	self waitTestingSpaces.
+	selecter scrollToIndex: selecter currentIndex.
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes equals: #( 3 ).
 	self assert: selecter currentIndex equals: 3.
-	selecter selectAndScrollToNextDeselected.
+	selecter selectIndex: selecter nextDeselectedIndex.
+	self waitTestingSpaces.
+	selecter scrollToIndex: selecter currentIndex.
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes equals: #( 4 ).
 	self assert: selecter currentIndex equals: 4.
 	self assert: holder scrollIndex equals: 4
-
 ]
 
 { #category : #tests }
@@ -154,9 +160,12 @@ ToSingleSelectionModelSelecterTest >> testSelectAndScrollToPrevious [
 
 	selecter selectIndex: 2.
 	self waitTestingSpaces.
-	selecter selectAndScrollToPrevious.
+	selecter selectIndex: selecter previousSelectableIndex.
+	selecter scrollToCurrentIndex.
 	self waitTestingSpaces.
-	self assert: holder selectionModel selectedIndexes asSet equals: #(1) asSet.
+	self
+		assert: holder selectionModel selectedIndexes asSet
+		equals: #( 1 ) asSet.
 	self assert: selecter currentIndex equals: 1.
 	self assert: holder scrollIndex equals: 1
 ]
@@ -167,11 +176,13 @@ ToSingleSelectionModelSelecterTest >> testSelectAndScrollToPreviousDeselected [
 	selecter deselectAll.
 	selecter selectIndex: 2.
 	self waitTestingSpaces.
-	selecter selectAndScrollToPreviousDeselected.
+	selecter selectIndex: selecter previousDeselectedIndex.
+	selecter scrollToIndex:  selecter currentIndex.
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes equals: #( 1 ).
 	self assert: selecter currentIndex equals: 1.
-	selecter selectAndScrollToPreviousDeselected.
+	selecter selectIndex: selecter previousDeselectedIndex.
+	selecter scrollToIndex:  selecter currentIndex.
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes equals: #( 1 ).
 	self assert: selecter currentIndex equals: 1.
@@ -218,15 +229,16 @@ ToSingleSelectionModelSelecterTest >> testSelectNextOnLastIndex [
 
 	selecter selectIndex: holder dataSource itemCount.
 	self waitTestingSpaces.
-	self assert: selecter currentIndex equals: holder dataSource itemCount.
-	selecter selectAndScrollToNext.
+	self
+		assert: selecter currentIndex
+		equals: holder dataSource itemCount.
+	selecter selectIndex: selecter nextSelectableIndex.
+	selecter scrollToCurrentIndex.
 	self waitTestingSpaces.
 	self
 		assert: holder selectionModel selectedIndexes asSet
 		equals: { 1 } asSet.
-	self
-		assert: selecter currentIndex
-		equals: 1.
+	self assert: selecter currentIndex equals: 1.
 	self assert: holder scrollIndex equals: 1
 ]
 
@@ -255,7 +267,8 @@ ToSingleSelectionModelSelecterTest >> testSelectPreviousOnFirstIndex [
 	selecter selectIndex: 1.
 	self waitTestingSpaces.
 	self assert: selecter currentIndex equals: 1.
-	selecter selectAndScrollToPrevious.
+	selecter selectIndex: selecter previousSelectableIndex.
+	selecter scrollToCurrentIndex.
 	self waitTestingSpaces.
 	self
 		assert: holder selectionModel selectedIndexes asSet

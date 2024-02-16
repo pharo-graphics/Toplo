@@ -109,12 +109,12 @@ ToNoneSelectionModelSelecterTest >> testSelectAndScrollToIndex [
 
 	selecter selectIndex: 2.
 	self waitTestingSpaces.
-	selecter selectAndScrollToIndex: 10.
+	selecter selectIndex: 10.
+	selecter scrollToIndex: 10.
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes isEmpty.
 	self assert: selecter currentIndex equals: 0.
 	self assert: holder scrollIndex equals: nil
-
 ]
 
 { #category : #tests }
@@ -122,12 +122,12 @@ ToNoneSelectionModelSelecterTest >> testSelectAndScrollToNext [
 
 	selecter selectIndex: 2.
 	self waitTestingSpaces.
-	selecter selectAndScrollToNext.
+	selecter selectIndex: selecter nextSelectableIndex.
+	selecter scrollToCurrentIndex.
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes isEmpty.
 	self assert: selecter currentIndex equals: 0.
 	self assert: holder scrollIndex equals: nil
-
 ]
 
 { #category : #tests }
@@ -136,16 +136,17 @@ ToNoneSelectionModelSelecterTest >> testSelectAndScrollToNextDeselected [
 	selecter deselectAll.
 	selecter selectIndex: 2.
 	self waitTestingSpaces.
-	selecter selectAndScrollToNextDeselected.
+	selecter selectIndex: selecter nextDeselectedIndex.
+	selecter scrollToIndex: selecter currentIndex.
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes isEmpty.
 	self assert: selecter currentIndex equals: 0.
-	selecter selectAndScrollToNextDeselected.
+	selecter selectIndex: selecter nextDeselectedIndex.
+	selecter scrollToIndex: selecter currentIndex.
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes isEmpty.
 	self assert: selecter currentIndex equals: 0.
 	self assert: holder scrollIndex equals: nil
-
 ]
 
 { #category : #tests }
@@ -153,7 +154,8 @@ ToNoneSelectionModelSelecterTest >> testSelectAndScrollToPrevious [
 
 	selecter selectIndex: 2.
 	self waitTestingSpaces.
-	selecter selectAndScrollToPrevious.
+	selecter selectIndex: selecter previousSelectableIndex.
+	selecter scrollToCurrentIndex.
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes isEmpty.
 	self assert: selecter currentIndex equals: 0.
@@ -166,11 +168,13 @@ ToNoneSelectionModelSelecterTest >> testSelectAndScrollToPreviousDeselected [
 	selecter deselectAll.
 	selecter selectIndex: 2.
 	self waitTestingSpaces.
-	selecter selectAndScrollToPreviousDeselected.
+	selecter selectIndex: selecter previousDeselectedIndex.
+	selecter scrollToIndex:  selecter currentIndex.
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes isEmpty.
 	self assert: selecter currentIndex equals: 0.
-	selecter selectAndScrollToPreviousDeselected.
+	selecter selectIndex: selecter previousDeselectedIndex.
+	selecter scrollToIndex:  selecter currentIndex.
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes isEmpty.
 	self assert: selecter currentIndex equals: 0.
@@ -216,13 +220,11 @@ ToNoneSelectionModelSelecterTest >> testSelectNextOnLastIndex [
 	selecter selectIndex: holder dataSource itemCount.
 	self waitTestingSpaces.
 	self assert: selecter currentIndex equals: 0.
-	selecter selectAndScrollToNext.
+	selecter selectIndex: selecter nextSelectableIndex.
+	selecter scrollToCurrentIndex.
 	self waitTestingSpaces.
-	self
-		assert: holder selectionModel selectedIndexes isEmpty.
-	self
-		assert: selecter currentIndex
-		equals: 0.
+	self assert: holder selectionModel selectedIndexes isEmpty.
+	self assert: selecter currentIndex equals: 0.
 	self assert: holder scrollIndex equals: nil
 ]
 
@@ -251,13 +253,11 @@ ToNoneSelectionModelSelecterTest >> testSelectPreviousOnFirstIndex [
 	selecter selectIndex: 1.
 	self waitTestingSpaces.
 	self assert: selecter currentIndex equals: 0.
-	selecter selectAndScrollToPrevious.
+	selecter selectIndex: selecter previousSelectableIndex.
+	selecter scrollToCurrentIndex.
 	self waitTestingSpaces.
-	self
-		assert: holder selectionModel selectedIndexes isEmpty.
-	self
-		assert: selecter currentIndex
-		equals: 0.
+	self assert: holder selectionModel selectedIndexes isEmpty.
+	self assert: selecter currentIndex equals: 0.
 	self assert: holder scrollIndex equals: nil
 ]
 

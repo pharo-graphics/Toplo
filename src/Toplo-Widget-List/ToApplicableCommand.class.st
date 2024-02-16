@@ -1,5 +1,5 @@
 Class {
-	#name : #ToTargetedCommand,
+	#name : #ToApplicableCommand,
 	#superclass : #Object,
 	#instVars : [
 		'command',
@@ -10,43 +10,43 @@ Class {
 }
 
 { #category : #'api - processing' }
-ToTargetedCommand >> apply [
+ToApplicableCommand >> apply [
 
 	self operator applyCommand: self command for: self target
 ]
 
 { #category : #accessing }
-ToTargetedCommand >> command [
+ToApplicableCommand >> command [
 
 	^ command
 ]
 
 { #category : #accessing }
-ToTargetedCommand >> command: aCommand [
+ToApplicableCommand >> command: aCommand [
 
 	command := aCommand
 ]
 
 { #category : #accessing }
-ToTargetedCommand >> operator [
+ToApplicableCommand >> operator [
 
 	^ operator
 ]
 
 { #category : #accessing }
-ToTargetedCommand >> operator: aCommandOperator [
+ToApplicableCommand >> operator: aCommandOperator [
 
 	operator := aCommandOperator
 ]
 
 { #category : #accessing }
-ToTargetedCommand >> target [
+ToApplicableCommand >> target [
 
 	^ target
 ]
 
 { #category : #accessing }
-ToTargetedCommand >> target: anObject [
+ToApplicableCommand >> target: anObject [
 
 	target := anObject
 ]

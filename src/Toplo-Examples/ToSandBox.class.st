@@ -2039,6 +2039,9 @@ ToSandBox class >> example_contactList [
 
 	list := ToListElement new.
 	list inspect.
+	list addEventHandler: (BlEventHandler
+			 on: ToListSelectionChangedEvent
+			 do: [ :evt | evt traceCr ]).
 
 	nameTxtF := ToTextField new
 		            width: 100;

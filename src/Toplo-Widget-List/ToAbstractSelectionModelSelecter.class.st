@@ -1,8 +1,20 @@
 Class {
 	#name : #ToAbstractSelectionModelSelecter,
 	#superclass : #Object,
+	#instVars : [
+		'operateSilently'
+	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
+
+{ #category : #accessing }
+ToAbstractSelectionModelSelecter >> beSilentWhile: aBlock [
+
+	| prev |
+	prev := operateSilently.
+	operateSilently := true.
+	aBlock ensure: [ operateSilently := prev ]
+]
 
 { #category : #accessing }
 ToAbstractSelectionModelSelecter >> currentIndex [ 
@@ -28,12 +40,72 @@ ToAbstractSelectionModelSelecter >> deselectIndex: anIndex [
 	self subclassResponsibility 
 ]
 
+{ #category : #operations }
+ToAbstractSelectionModelSelecter >> deselectIndex: aStartIndex to: anEndIndex [
+
+	self subclassResponsibility
+]
+
+{ #category : #private }
+ToAbstractSelectionModelSelecter >> nextDeselectedIndex [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #private }
+ToAbstractSelectionModelSelecter >> nextSelectableIndex [
+
+	^ self subclassResponsibility 
+]
+
 { #category : #'api - hooks' }
 ToAbstractSelectionModelSelecter >> onInstalledIn: anEventTarget [
 ]
 
 { #category : #'api - hooks' }
 ToAbstractSelectionModelSelecter >> onUninstalledIn: anEventTarget [
+]
+
+{ #category : #accessing }
+ToAbstractSelectionModelSelecter >> operateSilently [
+
+	^ operateSilently ifNil: [ operateSilently := false ]
+]
+
+{ #category : #private }
+ToAbstractSelectionModelSelecter >> previousDeselectedIndex [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #private }
+ToAbstractSelectionModelSelecter >> previousSelectableIndex [
+
+	^ self subclassResponsibility
+]
+
+{ #category : #'shortcuts operations' }
+ToAbstractSelectionModelSelecter >> scrollToCurrentIndex [
+
+	self subclassResponsibility
+]
+
+{ #category : #'shortcuts operations' }
+ToAbstractSelectionModelSelecter >> scrollToIndex: anIndex [
+
+	self subclassResponsibility 
+]
+
+{ #category : #'shortcuts operations' }
+ToAbstractSelectionModelSelecter >> scrollToNextIndex [
+
+	self subclassResponsibility
+]
+
+{ #category : #'shortcuts operations' }
+ToAbstractSelectionModelSelecter >> scrollToPreviousIndex [
+
+	self subclassResponsibility
 ]
 
 { #category : #operations }
@@ -44,36 +116,6 @@ ToAbstractSelectionModelSelecter >> selectAll [
 
 { #category : #operations }
 ToAbstractSelectionModelSelecter >> selectAllIndexes: anArray [
-
-	self subclassResponsibility 
-]
-
-{ #category : #operations }
-ToAbstractSelectionModelSelecter >> selectAndScrollToIndex: anIndex [
-
-	self subclassResponsibility 
-]
-
-{ #category : #'shortcuts operations' }
-ToAbstractSelectionModelSelecter >> selectAndScrollToNext [
-
-	self subclassResponsibility 
-]
-
-{ #category : #'shortcuts operations' }
-ToAbstractSelectionModelSelecter >> selectAndScrollToNextDeselected [
-
-	self subclassResponsibility 
-]
-
-{ #category : #'shortcuts operations' }
-ToAbstractSelectionModelSelecter >> selectAndScrollToPrevious [
-
-	self subclassResponsibility 
-]
-
-{ #category : #'shortcuts operations' }
-ToAbstractSelectionModelSelecter >> selectAndScrollToPreviousDeselected [
 
 	self subclassResponsibility 
 ]
@@ -90,6 +132,12 @@ ToAbstractSelectionModelSelecter >> selectIndex: aStartIndex to: anEndIndex [
 	self subclassResponsibility 
 ]
 
+{ #category : #'shortcuts operations' }
+ToAbstractSelectionModelSelecter >> selectNextIndex [
+
+	self subclassResponsibility 
+]
+
 { #category : #operations }
 ToAbstractSelectionModelSelecter >> selectOnlyIndex: anIndex [
 
@@ -100,6 +148,12 @@ ToAbstractSelectionModelSelecter >> selectOnlyIndex: anIndex [
 ToAbstractSelectionModelSelecter >> selectOnlyIndexes: anArray [
 
 	self subclassResponsibility 
+]
+
+{ #category : #'shortcuts operations' }
+ToAbstractSelectionModelSelecter >> selectPreviousIndex [
+
+	self subclassResponsibility
 ]
 
 { #category : #'shortcuts operations' }

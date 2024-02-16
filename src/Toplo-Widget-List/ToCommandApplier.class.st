@@ -1,5 +1,5 @@
 Class {
-	#name : #ToCommandOperator,
+	#name : #ToCommandApplier,
 	#superclass : #ToBasicCommandApplier,
 	#traits : 'TBlEventTarget',
 	#classTraits : 'TBlEventTarget classTrait',
@@ -11,13 +11,13 @@ Class {
 }
 
 { #category : #'applied command handling' }
-ToCommandOperator >> actionCommand: aCommand for: aTarget [
+ToCommandApplier >> actionCommand: aCommand for: aTarget [
 
 	aCommand action cull: aTarget
 ]
 
 { #category : #accessing }
-ToCommandOperator >> addCommand: aCommand [
+ToCommandApplier >> addCommand: aCommand [
 
 	self dispatchEvent: (ToCommandAddedEvent new
 			 command: aCommand;
@@ -26,13 +26,13 @@ ToCommandOperator >> addCommand: aCommand [
 ]
 
 { #category : #accessing }
-ToCommandOperator >> applyAll [
+ToCommandApplier >> applyAll [
 
 	self dispatchEvent: ToCommandApplicationRequestEvent new
 ]
 
 { #category : #'event management accessing' }
-ToCommandOperator >> eventDispatcher [
+ToCommandApplier >> eventDispatcher [
 	"Return an object responsible for event dispatching"
 	<return: #BlDirectEventDispatcher>
 
@@ -40,14 +40,14 @@ ToCommandOperator >> eventDispatcher [
 ]
 
 { #category : #initialization }
-ToCommandOperator >> initialize [ 
+ToCommandApplier >> initialize [ 
 
 	super initialize.
 	eventDispatcher := BlDirectEventDispatcher on: self
 ]
 
 { #category : #'api - hooks' }
-ToCommandOperator >> onInstalledIn: anEventTarget [
+ToCommandApplier >> onInstalledIn: anEventTarget [
 
 	sharedEventDistributor ifNotNil: [ Error signal: 'A CommandTarget can be installed only once' ].
 	sharedEventDistributor := BlSharedEventDistributor new
@@ -58,7 +58,7 @@ ToCommandOperator >> onInstalledIn: anEventTarget [
 ]
 
 { #category : #'api - hooks' }
-ToCommandOperator >> onUninstalledIn: anEventTarget [
+ToCommandApplier >> onUninstalledIn: anEventTarget [
 
 	sharedEventDistributor ifNil: [ Error signal: 'Not installed' ].
 	self removeEventHandler: sharedEventDistributor.
@@ -67,7 +67,7 @@ ToCommandOperator >> onUninstalledIn: anEventTarget [
 ]
 
 { #category : #accessing }
-ToCommandOperator >> sharedEvents [ 
+ToCommandApplier >> sharedEvents [ 
 
 	^ { ToCommandAddedEvent }
 ]

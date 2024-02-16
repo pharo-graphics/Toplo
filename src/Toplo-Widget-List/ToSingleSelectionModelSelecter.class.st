@@ -5,6 +5,12 @@ Class {
 }
 
 { #category : #operations }
+ToSingleSelectionModelSelecter >> deselectIndex: aStartIndex to: anEndIndex [
+
+	self deselectIndex: anEndIndex
+]
+
+{ #category : #operations }
 ToSingleSelectionModelSelecter >> selectAll [
 ]
 
@@ -12,21 +18,25 @@ ToSingleSelectionModelSelecter >> selectAll [
 ToSingleSelectionModelSelecter >> selectAllIndexes: anArray [
 
 	| indexes |
+	anArray ifEmpty: [ ^ self ].
 	indexes := anArray size > 1
 		           ifTrue: [ anArray copyFrom: 1 to: 1 ]
 		           ifFalse: [ anArray ].
-	self operator addCommand: (ToIndexesSelectionCommand new
+	self addCommand: (ToIndexesSelectionCommand new
 			 indexes: indexes;
-			 operation: ToAddSelectionOperation new)
+			 operation: ToAddSelectionOperation new).
+	self changeCurrentIndexWith: indexes last
 ]
 
 { #category : #operations }
 ToSingleSelectionModelSelecter >> selectIndex: anIndex [
 
-	self deselectAll.
-	self operator addCommand: (ToIntervalSelectionCommand new
+	self selectionModel firstIndex = anIndex ifTrue: [ ^ self ].
+	self beSilentWhile: [ self deselectAll ].
+	self addCommand: (ToIntervalSelectionCommand new
 			 from: anIndex to: anIndex;
-			 operation: ToAddSelectionOperation new)
+			 operation: ToAddSelectionOperation new).
+	self changeCurrentIndexWith: anIndex
 ]
 
 { #category : #operations }
@@ -45,19 +55,21 @@ ToSingleSelectionModelSelecter >> selectOnlyIndex: anIndex [
 ToSingleSelectionModelSelecter >> selectOnlyIndexes: anArray [
 
 	| indexes |
+	self deselectAll.
+	anArray ifEmpty: [ ^ self ].
 	indexes := anArray size > 1
 		           ifTrue: [ anArray copyFrom: 1 to: 1 ]
 		           ifFalse: [ anArray ].
-	self deselectAll.
-	self operator addCommand: (ToIndexesSelectionCommand new
+	self addCommand: (ToIndexesSelectionCommand new
 			 indexes: indexes;
-			 operation: ToAddSelectionOperation new)
+			 operation: ToAddSelectionOperation new).
+	self changeCurrentIndexWith: anArray last
 ]
 
-{ #category : #'shortcuts operations' }
+{ #category : #operations }
 ToSingleSelectionModelSelecter >> selectToIndex: index [
 
 	| curr |
-	curr := self operator currentIndex.
+	curr := self currentIndex.
 	self selectIndex: index
 ]

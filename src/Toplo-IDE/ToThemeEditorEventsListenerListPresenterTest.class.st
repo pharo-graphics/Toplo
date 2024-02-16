@@ -54,15 +54,37 @@ ToThemeEditorEventsListenerListPresenterTest >> styleRule [
 ]
 
 { #category : #tests }
-ToThemeEditorEventsListenerListPresenterTest >> testActionAddButton [
+ToThemeEditorEventsListenerListPresenterTest >> testActionAddButtonWithNilTheme [
 
 	| previousEventListeners |
+	controller theme: nil.
 	self assert: self presenter eventListenersList items size equals: 2.
 	previousEventListeners := self styleRule lookEventListeners copy.
 	self presenter buttonAdd click.
 	self assert: self presenter eventListenersList items size equals: 3.
 	self assert: self styleRule lookEventListeners size equals: 3.
-	self deny: (previousEventListeners includes: self presenter eventListenersList selectedItem )
+	self deny: (previousEventListeners includes:
+			 self presenter eventListenersList selectedItem).
+	self assert:
+		(self presenter eventListenersList selectedItem isKindOf:
+			 ToLookEventAction)
+]
+
+{ #category : #tests }
+ToThemeEditorEventsListenerListPresenterTest >> testActionAddButtonWithToStyleSheetTheme [
+
+	| previousEventListeners |
+	controller theme: ToStyleSheetTheme new.
+	self assert: self presenter eventListenersList items size equals: 2.
+	previousEventListeners := self styleRule lookEventListeners copy.
+	self presenter buttonAdd click.
+	self assert: self presenter eventListenersList items size equals: 3.
+	self assert: self styleRule lookEventListeners size equals: 3.
+	self deny: (previousEventListeners includes:
+			 self presenter eventListenersList selectedItem).
+	self assert:
+		(self presenter eventListenersList selectedItem isKindOf:
+			 ToPropertyWriter)
 ]
 
 { #category : #tests }

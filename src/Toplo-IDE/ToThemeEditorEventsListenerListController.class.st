@@ -41,7 +41,7 @@ ToThemeEditorEventsListenerListController >> defaultEventListner [
 { #category : #adding }
 ToThemeEditorEventsListenerListController >> defaultProperty [
 
-	^ self theme styleSheet rawWritablePropertyIndex index atRandom value.
+	^ self theme styleSheet writablePropertyIndex index atRandom value.
 ]
 
 { #category : #adding }

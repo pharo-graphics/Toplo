@@ -51,6 +51,25 @@ ToListElementSimpleSieve >> dataFilter: aValuable [
 	queryRunner dataFilter: [ :assoc : pattern | aValuable value: assoc key value: pattern ]
 ]
 
+{ #category : #'api - hooks' }
+ToListElementSimpleSieve >> initializeOriginalDatafor: aListElement [
+	
+	originalData ifNotNil: [
+		^ (BlImmutableObjectChangeError object: self) signal ].
+	originalData := aListElement dataAccessor newMirror.
+	originalIndexedData := ToObservableCollection new.
+
+	" handler to update the original indexed data if the list element data contents change 
+	** after ** the sieve installation"
+	originalDataUpdater := BlEventHandler
+		                       on: ToCollectionAfterChangeEvent
+		                       do: [ :event |
+		                       self onCollectionAfterChangeEvent: event for: aListElement ].
+	originalData addEventHandler: originalDataUpdater.
+	self buildOriginalIndexedData.
+
+]
+
 { #category : #'event handling' }
 ToListElementSimpleSieve >> onCollectionAfterChangeEvent: anEvent for: aListElement [
 
@@ -65,19 +84,7 @@ ToListElementSimpleSieve >> onCollectionAfterChangeEvent: anEvent for: aListElem
 ToListElementSimpleSieve >> onInstalledIn: aListElement [
 	" install the sieve on the listElement "
 
-	originalData ifNotNil: [
-		^ (BlImmutableObjectChangeError object: self) signal ].
-	originalData := aListElement dataAccessor newMirror.
-	originalIndexedData := ToObservableCollection new.
-
-	" handler to update the original indexed data if the list element data contents change 
-	** after ** the sieve installation"
-	originalDataUpdater := BlEventHandler
-		                       on: ToCollectionAfterChangeEvent
-		                       do: [ :event |
-		                       self onCollectionAfterChangeEvent: event for: aListElement ].
-	originalData addEventHandler: originalDataUpdater.
-	self buildOriginalIndexedData.
+	self initializeOriginalDatafor: aListElement.
 
 	" the query runner will run the query in background on the originalIndexedData collection "
 	queryRunner := ToObservableCollectionQueryRunner new.

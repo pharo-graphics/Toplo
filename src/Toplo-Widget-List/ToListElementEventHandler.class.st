@@ -124,8 +124,7 @@ ToListElementEventHandler >> onItemsInserted: anEvent [
 	target := anEvent currentTarget.
 	target selecter
 		shiftSelection: anEvent itemCount
-		from: anEvent position.
-	target spaceDo: [ :sp | sp pulse ]
+		from: anEvent position
 ]
 
 { #category : #'infinite event handling' }
@@ -133,13 +132,13 @@ ToListElementEventHandler >> onItemsRemoved: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	target selectionModel
-		deselectIndex: anEvent position
-		to: anEvent position + anEvent itemCount - 1.
+	target dataAccessor size >= anEvent position ifTrue: [
+		target selecter
+			deselectIndex: anEvent position
+			to: anEvent position + anEvent itemCount - 1 ].
 	target selecter
 		shiftSelection: anEvent itemCount negated
 		from: anEvent position.
-	target spaceDo: [ :sp | sp pulse ].
 	target dispatchEvent: ToListSelectionDirtyEvent new
 ]
 

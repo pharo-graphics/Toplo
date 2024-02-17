@@ -53,7 +53,7 @@ ToListElementSieve >> applyObservableCollectionQueryResultEvent [
 
 	" beSilentWhile: to avoid #ToListSelectionChangedEvent dispatches from the selecter.
 	It is necessary because the result would not be correct (because of the event selected indexes)"
-	listElement selecter beSilentWhile: [
+"	listElement selecter beSilentWhile: ["
 	listElement dataAccessor filterResult:
 		(currentResultsArray collect: [ :assoc | assoc key ]).
 		listElement selecter selectOnlyIndexes: selectedIndexes.
@@ -64,7 +64,7 @@ ToListElementSieve >> applyObservableCollectionQueryResultEvent [
 				 yourself).
 		listElement dispatchEvent: (ToListSieveFilterAppliedEvent new
 				 sieve: self;
-				 yourself) ]
+				 yourself) "]"
 ]
 
 { #category : #accessing }
@@ -191,14 +191,14 @@ ToListElementSieve >> onListSelectionChangedEvent: anEvent [
 	currentSelection removeAllFoundIn: deselectedStream contents.
 	currentSelection addAll: selectedStream contents.
 
-	listElement selecter beSilentWhile: [
+	
 		listElement dispatchEvent: (ToListSieveSelectionChangedEvent new
 				 originalData: self originalData;
 				 selection: (BlCompositeSelection new
 						  selectAllIndexes: currentSelection asArray;
 						  yourself);
 				 sieve: self;
-				 yourself) ]
+				 yourself)
 ]
 
 { #category : #'event handling' }

@@ -45,8 +45,7 @@ ToNodeHolder >> dataItem: aData [
 { #category : #accessing }
 ToNodeHolder >> isSelected [
 
-
-	^ self listElement ifNil: [false] ifNotNil: [:le | le selectionModel containsIndex: self position]
+	^ self listElement selectionModel containsIndex: self position
 ]
 
 { #category : #accessing }

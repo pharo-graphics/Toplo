@@ -30,7 +30,7 @@ ToSelectionModelShiftCommand >> fromIndex: anIndex [
 ToSelectionModelShiftCommand >> initialize [
 
 	super initialize.
-	self silent: true
+	"self silent: true"
 ]
 
 { #category : #accessing }

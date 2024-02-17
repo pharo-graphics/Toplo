@@ -116,7 +116,7 @@ ToMiniBrowser >> initialize [
 						             defaultRawSkin: ToLabelInListSkin new;
 						             hMatchParent;
 						             yourself) ].
-	pkgSieve := ToListElementSieve new.
+	pkgSieve := ToListElementSimpleSieve new.
 	pkgSieve onInstalledIn: packages.
 
 	pkgSieve dataFilter: [ :aPackage :aPattern |

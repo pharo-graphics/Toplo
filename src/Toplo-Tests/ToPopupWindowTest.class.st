@@ -60,13 +60,17 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownDelayUp [
 
 	" mouse down immediately followed by a mouse up -> the popup should stay opened"
 	BlSpace simulateMouseDownOn: e.
+	self waitTestingSpaces.
 	self assert: windowHandler currentWindow isOpened.
 	BlSpace simulateMouseUpOn: e.
+	self waitTestingSpaces.
 	self assert: windowHandler currentWindow isOpened.
 
 	BlSpace simulateMouseDownOn: e.
+	self waitTestingSpaces.
 	self assert: windowHandler currentWindow isNil.
 	BlSpace simulateMouseUpOn: e.
+	self waitTestingSpaces.
 	self assert: windowHandler currentWindow isNil
 ]
 
@@ -87,10 +91,12 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownDelayUp2 [
 
 	" mouse down then wait a delay then a mouse up -> the popup should be closed"
 	BlSpace simulateMouseDownOn: e.
+	self waitTestingSpaces.
 	self assert: windowHandler currentWindow notNil.
 	self assert: windowHandler currentWindow isOpened.
 	(windowHandler autoCloseOnMouseUpDelay + 1 milliSecond) wait.
 	BlSpace simulateMouseUpOn: e.
+	self waitTestingSpaces.
 	" window is closed on mouse-up "
 	self assert: windowHandler currentWindow isNil
 ]
@@ -112,8 +118,10 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownOutside [
 
 	" mouse down immediately followed by a mouse up -> the popup should stay opened"
 	BlSpace simulateMouseDownOn: e.
+	self waitTestingSpaces.
 	self assert: windowHandler currentWindow isOpened.
 	BlSpace simulateMouseUpOn: e.
+	self waitTestingSpaces.
 	self assert: windowHandler currentWindow isOpened.
 
 	closed := false.
@@ -123,6 +131,7 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownOutside [
 	BlSpace simulateMouseMoveOutside: windowHandler currentWindow.
 	BlSpace simulateMouseDownOn: space root.
 	BlSpace simulateMouseUpOn: space root.
+	self waitTestingSpaces.
 	self assert: closed.
 	self assert: windowHandler currentWindow isNil
 ]
@@ -145,6 +154,7 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseUpOutsideAssociateElement [
 	" mouse down on widget then up on popup"
 	self waitTestingSpaces.
 	BlSpace simulateMouseDownOn: e.
+	self waitTestingSpaces.
 	self assert: windowHandler currentWindow isOpened.
 	self waitTestingSpaces.
 	BlSpace simulateMouseUpOn: windowHandler currentWindow.

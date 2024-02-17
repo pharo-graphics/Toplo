@@ -985,12 +985,13 @@ ToSandBox class >> example_MonoNotFiltrable [
 	select data addAll: self statesOfAmerica.
 
 
-	
+
 	select strategy: ToSingleSelectStrategy new.
 	select mode: ToSelectReadOnlyMode new.
-	select placeholderText: ('Select a state' asRopedText foreground: Color red).
+	select placeholderText:
+		('Select a state' asRopedText foreground: Color red).
 	select listElement nodeBuilder: [ :node :holder |
-		node addChild: (ToLabel text: holder data asString) hMatchParent ].
+		node addChild: (ToLabel text: holder dataItem asString) hMatchParent ].
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
 	select width: 300.
@@ -1017,6 +1018,7 @@ ToSandBox class >> example_MultiFiltrable [
 	select width: 300.
 	select position: 50 @ 50.
 	innerWindow pane addChild: select.
+	innerWindow height: 500.
 	innerWindow openInSpace
 ]
 

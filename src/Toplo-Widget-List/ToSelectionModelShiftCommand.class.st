@@ -26,6 +26,13 @@ ToSelectionModelShiftCommand >> fromIndex: anIndex [
 	fromIndex := anIndex
 ]
 
+{ #category : #initialization }
+ToSelectionModelShiftCommand >> initialize [
+
+	super initialize.
+	self silent: true
+]
+
 { #category : #accessing }
 ToSelectionModelShiftCommand >> itemCount [
 

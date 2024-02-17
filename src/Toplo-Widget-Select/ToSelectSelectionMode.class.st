@@ -10,7 +10,7 @@ Class {
 { #category : #'instance creation' }
 ToSelectSelectionMode >> newSelecterIn: anElement [
 
-	^ ToSingleSelectionModelSelecter new 
+	^ ToSelectSelectionModelSelecter new
 ]
 
 { #category : #accessing }

@@ -63,6 +63,7 @@ ToElementWithPopupEventHandlerTest >> testMouseDownOutsideEvent [
 
 	windowManager onInstalledIn: e.
 	BlSpace simulateMouseDownOn: e.
+	self waitTestingSpaces.
 	self assert: windowManager currentWindow notNil.
 	self assert: windowManager currentWindow isOpened.
 	closed := false.
@@ -95,6 +96,7 @@ ToElementWithPopupEventHandlerTest >> testMouseDownOutsideEventWithAutoCloseWith
 
 	windowManager onInstalledIn: e.
 	BlSpace simulateMouseDownOn: e.
+	self waitTestingSpaces.
 	self assert: windowManager currentWindow notNil.
 	self assert: windowManager currentWindow isOpened.
 	closed := false.
@@ -125,6 +127,7 @@ ToElementWithPopupEventHandlerTest >> testMouseUpEvent [
 
 	windowManager onInstalledIn: e.
 	BlSpace simulateMouseDownOn: e.
+	self waitTestingSpaces.
 	self assert: windowManager currentWindow notNil.
 	self assert: windowManager currentWindow isOpened.
 	closed := false.
@@ -156,6 +159,7 @@ ToElementWithPopupEventHandlerTest >> testMouseUpOutsideEvent [
 
 	windowManager onInstalledIn: e.
 	BlSpace simulateMouseDownOn: e.
+	self waitTestingSpaces.
 	self assert: windowManager currentWindow notNil.
 	self assert: windowManager currentWindow isOpened.
 	closed := false.
@@ -188,6 +192,7 @@ ToElementWithPopupEventHandlerTest >> testMouseUpOutsideEventWithAutoCloseWithDo
 
 	windowManager onInstalledIn: e.
 	BlSpace simulateMouseDownOn: e.
+	self waitTestingSpaces.
 	self assert: windowManager currentWindow notNil.
 	self assert: windowManager currentWindow isOpened.
 	closed := false.

@@ -1,6 +1,6 @@
 Class {
 	#name : #TToElementWithContextMenuTest,
-	#superclass : #ToTestCaseWithSpace,
+	#superclass : #ToParameterizedHostTest,
 	#category : #'Toplo-Tests-Core'
 }
 
@@ -17,6 +17,7 @@ TToElementWithContextMenuTest >> testContextMenu [
 	ttwin := e newContextMenuEvent: nil.
 	self assert: e currentContextMenu identicalTo: ttwin.
 	ttwin popupEvent: (BlMouseDownEvent new position: 0@0).
+	self waitTestingSpaces.
 	self assert: ttwin root firstChild identicalTo: tt.
 	self assert: ttwin element identicalTo: e.
 	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
@@ -41,6 +42,7 @@ TToElementWithContextMenuTest >> testContextMenuAddItem [
 	self assert: ttwin isClosed.
 	self assert: ttwin root hasChildren.
 	ttwin popupEvent: (BlMouseDownEvent new position: 0@0).
+	self waitTestingSpaces.
 	self assert: ttwin isOpened.
 	self assert: ttwin root hasChildren.
 	self assert: e contextMenuWindowManager currentWindow notNil.
@@ -88,6 +90,7 @@ TToElementWithContextMenuTest >> testContextMenuCanPopupIfElementInSpace [
 	self assert: ttwin root hasChildren.
 	space root addChild: e.
 	ttwin popupEvent: (BlMouseDownEvent new position: 0@0).
+	self waitTestingSpaces.
 	self assert: ttwin isOpened.
 	self assert: ttwin root hasChildren.
 	self assert: e contextMenuWindowManager currentWindow notNil.
@@ -110,6 +113,7 @@ TToElementWithContextMenuTest >> testContextMenuContent [
 	self assert: e hasContextMenu.
 	ttwin := e newContextMenuEvent: (BlMouseDownEvent new).
 	ttwin popupEvent: (BlMouseDownEvent new position: 0@0).
+	self waitTestingSpaces.
 	self assert: ttwin root firstChild notNil.
 	e contextMenuContent: nil.
 	self assert: e currentContextMenu isNil.
@@ -149,6 +153,7 @@ TToElementWithContextMenuTest >> testContextMenuWindowManager [
 	self assert: e rawContextMenuWindowManager notNil.
 	ttwin := e newContextMenuEvent: nil.
 	ttwin popupEvent: (BlMouseDownEvent new position: 0@0).
+	self waitTestingSpaces.
 	self assert: e contextMenuWindowManager currentWindow notNil.
 	self assert: e contextMenuWindowManager element identicalTo: e.
 	ttwin close.

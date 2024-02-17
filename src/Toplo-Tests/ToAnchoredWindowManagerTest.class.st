@@ -114,6 +114,7 @@ ToAnchoredWindowManagerTest >> testCloseWindow [
 	windowManager onInstalledIn: e.
 	win := windowManager newWindowEvent: nil.
 	win popup.
+	self waitTestingSpaces.
 	self assert: win isOpened.
 	win close.
 	self assert: win isClosed
@@ -133,6 +134,7 @@ ToAnchoredWindowManagerTest >> testCurrentWindow [
 	win := windowManager newWindowEvent: nil.
 	self assert: windowManager currentWindow identicalTo: win.
 	win popup.
+	self waitTestingSpaces.
 	self assert: windowManager currentWindow identicalTo: win.
 	win close.
 	self assert: windowManager currentWindow isNil
@@ -217,6 +219,7 @@ ToAnchoredWindowManagerTest >> testElement [
 	self assert: win element equals: e.
 
 	win popup.
+	self waitTestingSpaces.
 	self assert: openEventFromWindow notNil.
 	self assert: openEventFromWindow currentTarget equals: win.
 	self assert: openEventFromWidget notNil.
@@ -258,6 +261,7 @@ ToAnchoredWindowManagerTest >> testElementEventHandlerClass [
 	windowManager onInstalledIn: e.
 	win := windowManager newWindowEvent: nil.
 	win popup.
+	self waitTestingSpaces.
 	self assert: win element equals: e.
 	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
 			 eh isKindOf: ToAnchorEventHandler ]).
@@ -283,6 +287,7 @@ ToAnchoredWindowManagerTest >> testHasWindow [
 	win := windowManager newWindowEvent: nil.
 	self assert: windowManager hasWindow.
 	win popup.
+	self waitTestingSpaces.
 	self assert: windowManager hasWindow.
 	win close.
 	self deny: windowManager hasWindow

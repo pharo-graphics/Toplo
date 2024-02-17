@@ -100,17 +100,6 @@ ToListElementEventHandler >> infiniteElementDetachedEvent: anEvent [
 ]
 
 { #category : #'infinite event handling' }
-ToListElementEventHandler >> launchSelectionAction: aBlock in: aTarget [
-
-aBlock value.
-	"aTarget isAttachedToSceneGraph ifFalse: [
-		aBlock value.
-		^ self ].
-	"" use a task here to ensure the selection model update during UI thread""
-	aTarget enqueueTask: (BlTaskAction new action: [ aBlock value ])"
-]
-
-{ #category : #'infinite event handling' }
 ToListElementEventHandler >> listSelectionModeChangedEvent: anEvent [
 
 	anEvent currentTarget selectionModel deselectAll 
@@ -122,6 +111,7 @@ ToListElementEventHandler >> mouseDownEvent: anEvent [
 	| target |
 	anEvent isConsumed ifTrue: [ ^ self ].
 	target := anEvent currentTarget.
+	target stopScroll.
 	target hasFocus ifTrue: [ ^ self ].
 	target requestFocus.
 	anEvent consumed: true
@@ -134,7 +124,8 @@ ToListElementEventHandler >> onItemsInserted: anEvent [
 	target := anEvent currentTarget.
 	target selecter
 		shiftSelection: anEvent itemCount
-		from: anEvent position
+		from: anEvent position.
+	target spaceDo: [ :sp | sp pulse ]
 ]
 
 { #category : #'infinite event handling' }
@@ -142,13 +133,14 @@ ToListElementEventHandler >> onItemsRemoved: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-
-	target selecter
+	target selectionModel
 		deselectIndex: anEvent position
 		to: anEvent position + anEvent itemCount - 1.
 	target selecter
 		shiftSelection: anEvent itemCount negated
-		from: anEvent position
+		from: anEvent position.
+	target spaceDo: [ :sp | sp pulse ].
+	target dispatchEvent: ToListSelectionDirtyEvent new
 ]
 
 { #category : #'list element handling' }

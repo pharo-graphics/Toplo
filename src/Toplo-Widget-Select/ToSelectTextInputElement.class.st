@@ -26,7 +26,9 @@ ToSelectTextInputElement >> checkMultipleSelectPlaceholderText [
 			self selectedDataTextField text: select placeholderText.
 			^ self ].
 	self selectedDataTextField visibility: BlVisibility hidden.
-	self selectedDataTextField text: ''
+
+	"select listElement selecter selectAllIndexes: select selection indices."
+	"self selectedDataTextField text: ''"
 ]
 
 { #category : #private }
@@ -108,8 +110,8 @@ ToSelectTextInputElement >> onFilterTextFieldUpdated: anEvent [
 
 	select mode pattern: self filterString.
 	select isMultipleSelection
-		ifTrue: [self checkMultipleSelectPlaceholderText ]
-		ifFalse: [self checkSingleSelectPlaceholderText]
+		ifTrue: [ self checkMultipleSelectPlaceholderText ]
+		ifFalse: [ self checkSingleSelectPlaceholderText ]
 ]
 
 { #category : #'api - hooks' }

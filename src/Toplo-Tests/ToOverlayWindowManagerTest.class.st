@@ -40,6 +40,7 @@ ToOverlayWindowManagerTest >> testElementEventHandlerClass [
 	windowManager onInstalledIn: e.
 	win := windowManager newWindowEvent: nil.
 	win popup.
+	self waitTestingSpaces.
 	self assert: win element equals: e.
 	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
 			 eh isKindOf: ToOverlayedEventHandler ]).

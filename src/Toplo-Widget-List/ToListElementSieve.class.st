@@ -18,6 +18,22 @@ Class {
 	#category : #'Toplo-Widget-List-Sieve'
 }
 
+{ #category : #'selection command' }
+ToListElementSieve >> addIndexesSelectionCommand: aCommand [
+
+
+]
+
+{ #category : #'selection command' }
+ToListElementSieve >> addIntervalSelectionCommand: aCommand [
+
+
+]
+
+{ #category : #'selection command' }
+ToListElementSieve >> addWholeSelectionCommand: aCommand [
+]
+
 { #category : #'event handling' }
 ToListElementSieve >> applyObservableCollectionQueryResultEvent [
 	" a query has occured (becuse the query pattern has changed), update the list element accordingly "
@@ -34,18 +50,21 @@ ToListElementSieve >> applyObservableCollectionQueryResultEvent [
 					                   (currentSelection includes: assoc value)
 						                   ifTrue: [ stream nextPut: idx ] ] ] ].
 	"Update litElement data together with the selection "
+
+	" beSilentWhile: to avoid #ToListSelectionChangedEvent dispatches from the selecter.
+	It is necessary because the result would not be correct (because of the event selected indexes)"
+	listElement selecter beSilentWhile: [
 	listElement dataAccessor filterResult:
 		(currentResultsArray collect: [ :assoc | assoc key ]).
-
-	listElement selecter selectOnlyIndexes: selectedIndexes.
-	listElement dispatchEvent: (ToListSelectionChangedEvent new
-			 selectionModel: (listElement newSelectionModel
-					  selectAllIndexes: selectedIndexes;
-					  yourself);
-			 yourself).
-	listElement dispatchEvent: (ToListSieveFilterAppliedEvent new
-			 sieve: self;
-			 yourself)
+		listElement selecter selectOnlyIndexes: selectedIndexes.
+		listElement dispatchEvent: (ToListSelectionChangedEvent new
+				 selectionModel: (listElement newSelectionModel
+						  selectAllIndexes: selectedIndexes;
+						  yourself);
+				 yourself).
+		listElement dispatchEvent: (ToListSieveFilterAppliedEvent new
+				 sieve: self;
+				 yourself) ]
 ]
 
 { #category : #accessing }
@@ -93,10 +112,18 @@ ToListElementSieve >> onCollectionAfterChangeEvent: anEvent [
 		ifEmpty: [ self buildCurrentQueryResults ]
 ]
 
+{ #category : #'event handling' }
+ToListElementSieve >> onCommandAppliedEvent: aCommandAppliedEvent [
+
+	aCommandAppliedEvent command traceCr.
+	aCommandAppliedEvent command applyOn: self for: listElement
+]
+
 { #category : #'api - hooks' }
 ToListElementSieve >> onInstalledIn: aListElement [
 	" install the sieve on the listElement "
 
+	| commandHandler |
 	listElement := aListElement.
 
 	originalData ifNotNil: [
@@ -139,13 +166,19 @@ ToListElementSieve >> onInstalledIn: aListElement [
 		                           on: ToListSelectionChangedEvent
 		                           do: [ :event |
 		                           self onListSelectionChangedEvent: event ].
-	aListElement addEventHandler: selectionChangedHandler
+	aListElement addEventHandler: selectionChangedHandler.
+
+	"commandHandler := BlEventHandler
+		                  on: ToSelectionCommandAppliedEvent
+		                  do: [ :event | self onCommandAppliedEvent: event ].
+	aListElement addEventHandler: commandHandler"
 ]
 
 { #category : #'event handling' }
 ToListElementSieve >> onListSelectionChangedEvent: anEvent [
 
 	| currentIndexes selectedStream deselectedStream |
+	"'onListSelectionChangedEvent:' traceCr."
 	currentIndexes := anEvent selectedIndexes asIdentitySet.
 	selectedStream := WriteStream on: (Array new: 10).
 	deselectedStream := WriteStream on: (Array new: 10).
@@ -158,20 +191,24 @@ ToListElementSieve >> onListSelectionChangedEvent: anEvent [
 	currentSelection removeAllFoundIn: deselectedStream contents.
 	currentSelection addAll: selectedStream contents.
 
-	listElement dispatchEvent: (ToListSieveSelectionChangedEvent new
-			 originalData: self originalData;
-			 selection: (BlCompositeSelection new
-					  selectAllIndexes: currentSelection;
-					  yourself);
-			 sieve: self;
-			 yourself)
+	listElement selecter beSilentWhile: [
+		listElement dispatchEvent: (ToListSieveSelectionChangedEvent new
+				 originalData: self originalData;
+				 selection: (BlCompositeSelection new
+						  selectAllIndexes: currentSelection asArray;
+						  yourself);
+				 sieve: self;
+				 yourself) ]
 ]
 
 { #category : #'event handling' }
 ToListElementSieve >> onObservableCollectionQueryResultEvent: anEvent [
-	" a query has occured (becuse the query pattern has changed), update the list element accordingly "
+	" a query has occured (becuse the query pattern has changed), 
+	update the list element accordingly "
 
-	queryApplicationTask ifNotNil: [ listElement dequeueTask: queryApplicationTask. queryApplicationTask := nil ].
+	queryApplicationTask ifNotNil: [
+		listElement dequeueTask: queryApplicationTask.
+		queryApplicationTask := nil ].
 	listElement isAttachedToSceneGraph ifFalse: [
 		self applyObservableCollectionQueryResultEvent.
 		^ self ].
@@ -225,4 +262,23 @@ ToListElementSieve >> pattern [
 ToListElementSieve >> pattern: aPattern [
 
 	queryRunner pattern: aPattern 
+]
+
+{ #category : #'selection command' }
+ToListElementSieve >> removeIndexesSelectionCommand: aCommand [
+
+
+]
+
+{ #category : #'selection command' }
+ToListElementSieve >> removeIntervalSelectionCommand: aCommand [
+
+
+]
+
+{ #category : #'selection command' }
+ToListElementSieve >> removeWholeSelectionCommand: aCommand [
+
+
+	
 ]

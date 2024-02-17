@@ -33,7 +33,7 @@ ToSelectFiltrableMode >> onClickAtIndex: anIndex [
 		ifTrue: [ self deselectIndex: anIndex ]
 		ifFalse: [
 			select isMultipleSelection ifFalse: [
-				sieve currentSelection removeAll ].
+				select listElement selecter deselectAll ].
 			self selectIndex: anIndex ]
 ]
 
@@ -43,12 +43,12 @@ ToSelectFiltrableMode >> onInstalledIn: aSelect [
 	super onInstalledIn: aSelect.
 
 	filtrableListEventHandler := ToSelectFiltrableListEventHandler new
-			 select: select;
-			 yourself.
+		                             select: select;
+		                             yourself.
 	select listElement addEventHandler: filtrableListEventHandler.
 
 	sieve := ToListElementSieve new.
-	sieve onInstalledIn: select listElement.
+	sieve onInstalledIn: select listElement
 ]
 
 { #category : #'api - hooks' }
@@ -75,11 +75,10 @@ ToSelectFiltrableMode >> pattern: aPattern [
 { #category : #'accessing selection' }
 ToSelectFiltrableMode >> selectIndex: anIndex [
 
-	select isMultipleSelection ifFalse: [ 
+	select isMultipleSelection ifFalse: [
 		select listElement selecter selectOnlyIndex: anIndex.
 		^ self ].
-	select listElement selecter selectIndex: anIndex.
-
+	select listElement selecter selectIndex: anIndex
 ]
 
 { #category : #accessing }

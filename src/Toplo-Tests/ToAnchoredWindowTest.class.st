@@ -48,6 +48,7 @@ ToAnchoredWindowTest >> testClosedEventClass [
 			 do: [ :event | closeEvent := event ]).
 	self assert: closeEvent isNil.
 	win popup.
+	self waitTestingSpaces.
 	win close.
 	" need to wait space pulsing "
 	self waitTestingSpaces.
@@ -94,6 +95,7 @@ ToAnchoredWindowTest >> testDispatchClosedEvent [
 			 on: win closedEventClass
 			 do: [ :event | closedEventReceivedByElement := event ]).
 	win popup.
+	self waitTestingSpaces.
 	win close.
 	self waitTestingSpaces.
 	self assert: closedEventReceivedByWin notNil.
@@ -252,6 +254,7 @@ ToAnchoredWindowTest >> testPopup [
 	windowHandler onInstalledIn: e.
 	win := windowHandler newWindowEvent: nil.
 	win popup.
+	self waitTestingSpaces.
 	self assert: win isOpened.
 	self assert: win parent notNil
 ]
@@ -315,6 +318,7 @@ ToAnchoredWindowTest >> testPopupEventNotInSpace [
 	self assert: openEventFromWidget isNil.
 	space root addChild: e.
 	win popup.
+	self waitTestingSpaces.
 	win close.
 	self assert: closeEventFromWindow notNil.
 	self assert: closeEventFromWidget notNil

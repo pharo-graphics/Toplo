@@ -45,6 +45,8 @@ ToSelectionModelSelecter >> deselectAll [
 { #category : #operations }
 ToSelectionModelSelecter >> deselectAllIndexes: anArray [
 
+	self class name trace.
+	' deselectAllIndexes:' traceCr.
 	self addCommand: (ToIndexesSelectionCommand new
 			 indexes: anArray;
 			 operation: ToRemoveSelectionOperation new).

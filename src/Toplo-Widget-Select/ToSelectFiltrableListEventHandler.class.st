@@ -23,12 +23,16 @@ ToSelectFiltrableListEventHandler >> eventsToHandle [
 
 { #category : #'element handlers' }
 ToSelectFiltrableListEventHandler >> listSieveSelectionChangedEvent: anEvent [
+	"self halt."
 
-	select selection indices = anEvent selection indices ifTrue: [ ^ self ].
+	anEvent selection indices traceCr.
+	anEvent consumed: true.
+	select selection indices = anEvent selection indices ifTrue: [
+		^ self ].
+
 	select selection deselectAll.
 	select selection selectAllIndexes: anEvent selection indices.
-	select strategy refreshHeaderNodeContainer.
-
+	select strategy refreshHeaderNodeContainer
 ]
 
 { #category : #accessing }

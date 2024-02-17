@@ -2,7 +2,8 @@ Class {
 	#name : #ToSelectionModelOperator,
 	#superclass : #ToCommandApplier,
 	#instVars : [
-		'selectionModel'
+		'selectionModel',
+		'previousModel'
 	],
 	#category : #'Toplo-Widget-List-Command-Selection'
 }
@@ -29,8 +30,8 @@ ToSelectionModelOperator >> addWholeSelectionCommand: aCommand [
 { #category : #'command application' }
 ToSelectionModelOperator >> applyCommand: aCommand for: aTarget [
 
-	| previousModel dispatch |
-	aCommand silent ifFalse: [ previousModel := self selectionModel copy ].
+	| dispatch |
+	previousModel ifNil: [ previousModel := self selectionModel copy ].
 
 	super applyCommand: aCommand for: aTarget.
 
@@ -38,13 +39,15 @@ ToSelectionModelOperator >> applyCommand: aCommand for: aTarget [
 		            ifTrue: [ false ]
 		            ifFalse: [ previousModel ~= self selectionModel ].
 
+	dispatch ifFalse: [ ^ self ].
+	
+	previousModel := self selectionModel copy.
 	aTarget dispatchEvent: (ToSelectionCommandAppliedEvent new
 			 operator: self;
 			 command: aCommand).
 
-	dispatch ifFalse: [ ^ self ].
 	aTarget dispatchEvent: (ToListSelectionChangedEvent new
-			 selectionModel: self selectionModel copy;
+			 selectionModel: previousModel;
 			 yourself)
 ]
 
@@ -99,7 +102,7 @@ ToSelectionModelOperator >> selectionModel: aSelectionModel [
 	selectionModel := aSelectionModel
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'command operations' }
 ToSelectionModelOperator >> selectionModelShiftCommand: aShiftCommand [
 
 	self selectionModel shift: aShiftCommand itemCount from: aShiftCommand fromIndex

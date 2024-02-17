@@ -3,7 +3,7 @@ A ToTooltipWindowTest is a test class for testing the behavior of ToTooltipWindo
 "
 Class {
 	#name : #ToTooltipWindowTest,
-	#superclass : #ToTestCaseWithSpace,
+	#superclass : #ToParameterizedHostTest,
 	#category : #'Toplo-Tests-Core-Tooltip'
 }
 
@@ -17,11 +17,13 @@ ToTooltipWindowTest >> testContent [
 	windowHandler := e tooltipWindowManager.
 	self assert: (windowHandler isKindOf: ToTooltipWindowManager).
 	space root addChild: e.
-	"self waitTestingSpaces."
+	self waitTestingSpaces.
 
 	BlSpace simulateMouseMoveInside: e.
+	self waitTestingSpaces.
 	(windowHandler popupDelay + 100 milliSecond ) wait.
-	space pulse.
+	self waitTestingSpaces.
+
 	self assert: (windowHandler currentWindow root firstChild isKindOf: ToLabel) .
 	self assert: windowHandler currentWindow root firstChild text asString equals: 'Tooltip content' .
 	^  windowHandler currentWindow

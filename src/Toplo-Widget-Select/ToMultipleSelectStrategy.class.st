@@ -147,6 +147,7 @@ ToMultipleSelectStrategy >> refreshHeaderNodeContainer [
 		node onUninstalledIn: select.
 		node removeFromParent ].
 	self headerNodeHolders reset.
+	"select selection indices traceCr."
 	" then rebuild current nodes according to current selection "
 	nodes := select selection indices collect: [ :idx |
 		         | node selectedData |
@@ -159,7 +160,7 @@ ToMultipleSelectStrategy >> refreshHeaderNodeContainer [
 		         self headerNodeBuilder value: node value: node selectHolder.
 		         node ].
 	self addAllDataNodes: nodes.
-	self textInputElement onMultipleSelectDataNodeListChanged
+	"self textInputElement onMultipleSelectDataNodeListChanged"
 ]
 
 { #category : #accessing }

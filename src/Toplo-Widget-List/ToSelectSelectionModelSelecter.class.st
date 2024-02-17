@@ -1,23 +1,25 @@
 Class {
-	#name : #ToSingleSelectionModelSelecter,
+	#name : #ToSelectSelectionModelSelecter,
 	#superclass : #ToSelectionModelSelecter,
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
 { #category : #operations }
-ToSingleSelectionModelSelecter >> deselectIndex: aStartIndex to: anEndIndex [
+ToSelectSelectionModelSelecter >> deselectIndex: aStartIndex to: anEndIndex [
 
 	self deselectIndex: anEndIndex
 ]
 
 { #category : #operations }
-ToSingleSelectionModelSelecter >> selectAll [
+ToSelectSelectionModelSelecter >> selectAll [
 ]
 
 { #category : #operations }
-ToSingleSelectionModelSelecter >> selectAllIndexes: anArray [
+ToSelectSelectionModelSelecter >> selectAllIndexes: anArray [
 
 	| indexes |
+	self class name trace.
+	' selectAllIndexes:' traceCr.
 	anArray ifEmpty: [ ^ self ].
 	indexes := anArray size > 1
 		           ifTrue: [ anArray copyFrom: 1 to: 1 ]
@@ -29,11 +31,10 @@ ToSingleSelectionModelSelecter >> selectAllIndexes: anArray [
 ]
 
 { #category : #operations }
-ToSingleSelectionModelSelecter >> selectIndex: anIndex [
+ToSelectSelectionModelSelecter >> selectIndex: anIndex [
 
 	self selectionModel ifNotEmpty: [
 		self selectionModel firstIndex = anIndex ifTrue: [ ^ self ] ].
-	self beSilentWhile: [ self deselectAll ].
 	self addCommand: (ToIntervalSelectionCommand new
 			 from: anIndex to: anIndex;
 			 operation: ToAddSelectionOperation new).
@@ -41,34 +42,33 @@ ToSingleSelectionModelSelecter >> selectIndex: anIndex [
 ]
 
 { #category : #operations }
-ToSingleSelectionModelSelecter >> selectIndex: aStartIndex to: anEndIndex [
+ToSelectSelectionModelSelecter >> selectIndex: aStartIndex to: anEndIndex [
 
 	self selectIndex: anEndIndex
 ]
 
 { #category : #operations }
-ToSingleSelectionModelSelecter >> selectOnlyIndex: anIndex [
+ToSelectSelectionModelSelecter >> selectOnlyIndex: anIndex [
 
 	self selectIndex: anIndex
 ]
 
 { #category : #operations }
-ToSingleSelectionModelSelecter >> selectOnlyIndexes: anArray [
+ToSelectSelectionModelSelecter >> selectOnlyIndexes: anArray [
 
-	| indexes |
+	self class name trace.
+	' selectOnlyIndexes: ' trace.
+	anArray traceCr.
 	self deselectAll.
 	anArray ifEmpty: [ ^ self ].
-	indexes := anArray size > 1
-		           ifTrue: [ anArray copyFrom: 1 to: 1 ]
-		           ifFalse: [ anArray ].
 	self addCommand: (ToIndexesSelectionCommand new
-			 indexes: indexes;
+			 indexes: anArray;
 			 operation: ToAddSelectionOperation new).
 	self changeCurrentIndexWith: anArray last
 ]
 
 { #category : #operations }
-ToSingleSelectionModelSelecter >> selectToIndex: index [
+ToSelectSelectionModelSelecter >> selectToIndex: index [
 
 	| curr |
 	curr := self currentIndex.

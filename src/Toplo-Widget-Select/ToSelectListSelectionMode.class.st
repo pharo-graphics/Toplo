@@ -1,5 +1,5 @@
 Class {
-	#name : #ToSelectSelectionMode,
+	#name : #ToSelectListSelectionMode,
 	#superclass : #ToListSelectionMode,
 	#instVars : [
 		'select'
@@ -8,20 +8,20 @@ Class {
 }
 
 { #category : #'instance creation' }
-ToSelectSelectionMode >> newSelecterIn: anElement [
+ToSelectListSelectionMode >> newSelecterIn: anElement [
 
 	^ ToSelectSelectionModelSelecter new
 ]
 
 { #category : #accessing }
-ToSelectSelectionMode >> nodeEventHandlerClasses [ 
+ToSelectListSelectionMode >> nodeEventHandlerClasses [ 
 
 	^ { ToListNodeSingleSelectionClickEventHandler }
 
 ]
 
 { #category : #'event handling' }
-ToSelectSelectionMode >> onClickEvent: anEvent onNode: aNode [
+ToSelectListSelectionMode >> onClickEvent: anEvent onNode: aNode [
 
 	| index |
 	super onClickEvent: anEvent onNode: aNode.
@@ -30,13 +30,13 @@ ToSelectSelectionMode >> onClickEvent: anEvent onNode: aNode [
 ]
 
 { #category : #accessing }
-ToSelectSelectionMode >> select [
+ToSelectListSelectionMode >> select [
 
 	^ select
 ]
 
 { #category : #accessing }
-ToSelectSelectionMode >> select: aSelect [
+ToSelectListSelectionMode >> select: aSelect [
 
 	select := aSelect
 ]

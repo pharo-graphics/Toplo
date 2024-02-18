@@ -974,6 +974,7 @@ select inspect.
 	select position: 50 @ 50.
 	select inputTextField requestFocus.
 	innerWindow pane addChild: select.
+	innerWindow height: 500.
 	innerWindow openInSpace
 ]
 
@@ -1281,7 +1282,7 @@ ToSandBox class >> example_SieveOnList2WithStatesOfAmerica [
 	listElement withRowNumbers.
 	filterField margin: (BlInsets all: 2).
 
-	sieve := ToListElementSieve new.
+	sieve := ToListElementSieveWithSelection new.
 	sieve onInstalledIn: listElement.
 	listElement dataAccessor addAll: data.
 
@@ -1333,7 +1334,7 @@ ToSandBox class >> example_SieveOnList2With_350000_Items [
 	filterField margin: (BlInsets all: 2).
 	listElement dataAccessor addAll: data.
 
-	sieve := ToListElementSieve new.
+	sieve := ToListElementSieveWithSelection new.
 	sieve onInstalledIn: listElement.
 	listElement dataAccessor addAll: data.
 	listElement dataAccessor size traceCr.
@@ -1375,7 +1376,7 @@ ToSandBox class >> example_SieveOnList2With_AllClassNames [
 	filterField placeholderText:
 		(' Method name filter' asRopedText foreground: Color lightGray).
 
-	sieve := ToListElementSieve new.
+	sieve := ToListElementSieveWithSelection new.
 	sieve onInstalledIn: listElement.
 	listElement dataAccessor addAll:
 		(Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]).
@@ -1427,7 +1428,7 @@ ToSandBox class >> example_SieveOnList2With_AllMethods [
 	filterField placeholderText:
 		(' Method name filter' asRopedText foreground: Color lightGray).
 
-	sieve := ToListElementSieve new.
+	sieve := ToListElementSieveWithSelection new.
 	sieve onInstalledIn: listElement.
 	listElement dataAccessor addAll: data.
 
@@ -1476,7 +1477,7 @@ ToSandBox class >> example_SieveOnList2With_AllMethods_OnCR [
 	listElement withRowNumbers.
 	filterField margin: (BlInsets all: 2).
 
-	sieve := ToListElementSieve new.
+	sieve := ToListElementSieveWithSelection new.
 	sieve onInstalledIn: listElement.
 	listElement data addAll: data.
 	

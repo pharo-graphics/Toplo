@@ -64,12 +64,6 @@ ToInfiniteElement >> initialize [
 ]
 
 { #category : #initialization }
-ToInfiniteElement >> initializeDataSource [ 
-
-	super initializeDataSource
-]
-
-{ #category : #initialization }
 ToInfiniteElement >> newNode [
 
 	^ self nodeClass new

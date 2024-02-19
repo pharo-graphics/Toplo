@@ -13,10 +13,16 @@ ToObservableCollectionInfiniteEventHandler >> collectionEmptinessEvent: anEvent 
 	infinite dispatchEvent: ToDataSourceEmptinessEvent new
 ]
 
+{ #category : #'data events handling' }
+ToObservableCollectionInfiniteEventHandler >> collectionFilteredEvent: anEvent [
+
+	infinite dispatchEvent: ToDataSourceFilteredEvent new
+]
+
 { #category : #'api - accessing' }
 ToObservableCollectionInfiniteEventHandler >> eventsToHandle [
 
-	^ { ToCollectionEmptinessEvent }
+	^ { ToCollectionEmptinessEvent. ToCollectionFilteredEvent  }
 ]
 
 { #category : #accessing }

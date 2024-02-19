@@ -7,7 +7,8 @@ Class {
 		'strategy',
 		'mode',
 		'placeholderText',
-		'selection'
+		'selection',
+		'filtrable'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -75,13 +76,15 @@ ToSelect >> fakeNode [
 ]
 
 { #category : #accessing }
+ToSelect >> filtrable [
+
+	^ filtrable 
+]
+
+{ #category : #accessing }
 ToSelect >> filtrable: aBoolean [
 
-	self mode ifNotNil: [ self mode onUninstalledIn: self ].
-	mode := aBoolean
-		        ifTrue: [ ToSelectFiltrableMode new ]
-		        ifFalse: [ ToSelectReadOnlyMode new ].
-	mode onInstalledIn: self
+	filtrable := aBoolean
 ]
 
 { #category : #accessing }
@@ -129,16 +132,16 @@ ToSelect >> initialize [
 
 	| sharedEventsDistributor headerElement |
 	super initialize.
+	filtrable := false.
 
 	selection := BlCompositeSelection new.
+	" for the popup "
+	windowManager := self newWindowManager.
 
 	" the element that holds the node container"
 	headerElement := self newHeaderElement.
 	self addChild: headerElement.
 	self addChild: self newIconContainer.
-
-	" for the popup "
-	windowManager := self newWindowManager.
 
 	self layout: BlLinearLayout horizontal.
 	self fitContent.
@@ -146,10 +149,8 @@ ToSelect >> initialize [
 	sharedEventsDistributor := BlSharedEventDistributor new.
 	sharedEventsDistributor
 		adjustMousePosition: false;
-		shareEvents: { ToCollectionFilteredEvent }.
+		shareEvents: { ToDataSourceFilteredEvent }.
 
-	self listElement dataAccessor addEventHandler:
-		sharedEventsDistributor.
 	self addEventHandler: sharedEventsDistributor.
 	self listElement addEventHandler: sharedEventsDistributor
 ]

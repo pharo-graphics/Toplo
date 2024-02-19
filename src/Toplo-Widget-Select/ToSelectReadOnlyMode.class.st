@@ -12,10 +12,10 @@ ToSelectReadOnlyMode >> onInstalledIn: aSelect [
 
 	super onInstalledIn: aSelect.
 	
-	listSelectionChangedEventHandler := BlEventHandler
+	"listSelectionChangedEventHandler := BlEventHandler
 			 on: ToListSelectionChangedEvent
 			 do: [ :event | select strategy refreshHeaderNodeContainer ].
-	select listElement addEventHandler: listSelectionChangedEventHandler
+	select listElement addEventHandler: listSelectionChangedEventHandler"
 ]
 
 { #category : #'api - hooks' }

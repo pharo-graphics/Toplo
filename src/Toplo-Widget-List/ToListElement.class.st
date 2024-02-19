@@ -36,7 +36,7 @@ ToListElement >> defaultInfiniteElement [
 ToListElement >> infiniteSharedEvents [
 
 	^ super infiniteSharedEvents, {
-		  ToDataSourceEmptinessEvent }
+		  ToDataSourceEmptinessEvent. ToDataSourceFilteredEvent }
 ]
 
 { #category : #skin }

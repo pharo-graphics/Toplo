@@ -31,7 +31,7 @@ ToSingleSelectStrategy >> defaultHeaderNodeBuilder [
 { #category : #initialization }
 ToSingleSelectStrategy >> defaultHeaderNodeClass [ 
 
-	^ select mode defaultMonoSelectHeaderNodeClass
+	^  ToSingleSelectHeaderNode
 ]
 
 { #category : #'instance creation' }

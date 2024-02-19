@@ -981,12 +981,7 @@ ToSandBox class >> example_MonoNotFiltrable [
 
 	| select innerWindow |
 	select := ToSelect new.
-	select data addAll: self statesOfAmerica.
-
-
-
-	select strategy: ToSingleSelectStrategy new.
-	select mode: ToSelectReadOnlyMode new.
+	select dataAccessor addAll: self statesOfAmerica.
 	select placeholderText:
 		('Select a state' asRopedText foreground: Color red).
 	select listElement nodeBuilder: [ :node :holder |

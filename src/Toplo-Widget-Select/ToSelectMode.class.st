@@ -13,22 +13,10 @@ ToSelectMode >> defaultMonoSelectHeaderNodeClass [
 	^ ToSingleSelectHeaderNode
 ]
 
-{ #category : #'accessing selection' }
-ToSelectMode >> deselectIndex: anIndex [
-
-	self subclassResponsibility 
-]
-
 { #category : #testing }
 ToSelectMode >> isFiltrableMode [
 
 	^ false
-]
-
-{ #category : #'accessing selection' }
-ToSelectMode >> onClickAtIndex: anIndex [
-
-	self subclassResponsibility 
 ]
 
 { #category : #'api - hooks' }
@@ -51,10 +39,4 @@ ToSelectMode >> reInstall [
 	s := select.
 	self onUninstalledIn: s.
 	self onInstalledIn: s
-]
-
-{ #category : #'accessing selection' }
-ToSelectMode >> selectIndex: anIndex [
-
-	self subclassResponsibility 
 ]

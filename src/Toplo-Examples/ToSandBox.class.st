@@ -961,10 +961,8 @@ ToSandBox class >> example_MonoFiltrable [
 
 	| select innerWindow |
 	select := ToSelect new.
-	select data addAll: self statesOfAmerica.
+	select dataAccessor addAll: self statesOfAmerica.
 select inspect.
-	select strategy: ToSingleSelectStrategy new.
-	select mode: ToSelectFiltrableMode new.
 
 	select placeholderText: ('Select a state' asRopedText foreground: Color red).
 
@@ -1282,7 +1280,7 @@ ToSandBox class >> example_SieveOnList2WithStatesOfAmerica [
 	listElement withRowNumbers.
 	filterField margin: (BlInsets all: 2).
 
-	sieve := ToListElementSieveWithSelection new.
+	sieve := ToListElementSieve new.
 	sieve onInstalledIn: listElement.
 	listElement dataAccessor addAll: data.
 
@@ -1334,7 +1332,7 @@ ToSandBox class >> example_SieveOnList2With_350000_Items [
 	filterField margin: (BlInsets all: 2).
 	listElement dataAccessor addAll: data.
 
-	sieve := ToListElementSieveWithSelection new.
+	sieve := ToListElementSieve new.
 	sieve onInstalledIn: listElement.
 	listElement dataAccessor addAll: data.
 	listElement dataAccessor size traceCr.
@@ -1376,7 +1374,7 @@ ToSandBox class >> example_SieveOnList2With_AllClassNames [
 	filterField placeholderText:
 		(' Method name filter' asRopedText foreground: Color lightGray).
 
-	sieve := ToListElementSieveWithSelection new.
+	sieve := ToListElementSieve new.
 	sieve onInstalledIn: listElement.
 	listElement dataAccessor addAll:
 		(Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]).
@@ -1428,7 +1426,7 @@ ToSandBox class >> example_SieveOnList2With_AllMethods [
 	filterField placeholderText:
 		(' Method name filter' asRopedText foreground: Color lightGray).
 
-	sieve := ToListElementSieveWithSelection new.
+	sieve := ToListElementSieve new.
 	sieve onInstalledIn: listElement.
 	listElement dataAccessor addAll: data.
 
@@ -1477,7 +1475,7 @@ ToSandBox class >> example_SieveOnList2With_AllMethods_OnCR [
 	listElement withRowNumbers.
 	filterField margin: (BlInsets all: 2).
 
-	sieve := ToListElementSieveWithSelection new.
+	sieve := ToListElementSieve new.
 	sieve onInstalledIn: listElement.
 	listElement data addAll: data.
 	

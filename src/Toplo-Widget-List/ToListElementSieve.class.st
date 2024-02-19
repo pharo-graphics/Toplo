@@ -4,11 +4,9 @@ Class {
 	#instVars : [
 		'queryRunner',
 		'originalData',
-		'originalDataUpdater',
-		'originalIndexedData',
 		'queryResultHandler',
 		'queryApplicationTask',
-		'currentResults'
+		'currentData'
 	],
 	#category : #'Toplo-Widget-List-Sieve'
 }
@@ -17,91 +15,50 @@ Class {
 ToListElementSieve >> applyObservableCollectionQueryResultEventFor: aListElement [
 	" a query has occured (becuse the query pattern has changed), update the list element accordingly "
 
-	" get the filtered data "
-	self buildCurrentQueryResults.
-	aListElement dataAccessor filterResult: (currentResults collect: [ :assoc | assoc key ]).
+	self updateCurrentData.
+		" update the list "
+	aListElement dataAccessor filterResult: currentData.
 	aListElement dispatchEvent: (ToListSieveFilterAppliedEvent new
 			 sieve: self;
 			 yourself)
 ]
 
 { #category : #accessing }
-ToListElementSieve >> buildCurrentQueryResults [
-
-	currentResults := queryRunner pattern
-		                       ifEmpty: [  originalIndexedData ]
-		                       ifNotEmpty: [
-			                       queryRunner selectedIndexes collect: [ :idx |
-				                       originalIndexedData at: idx ] ]
-]
-
-{ #category : #private }
-ToListElementSieve >> buildOriginalIndexedData [
-
-	| assocs |
-	assocs := Array streamContents: [ :str |
-		          originalData withIndexDo: [ :d :i | str nextPut: d -> i ] ].
-	originalIndexedData updateAllWith: assocs
-]
-
-{ #category : #accessing }
 ToListElementSieve >> dataFilter: aValuable [
 	" filter takes a data and a pattern as argument "
 
-	queryRunner dataFilter: [ :assoc :pattern |
-		aValuable value: assoc key value: pattern ]
-]
-
-{ #category : #'api - hooks' }
-ToListElementSieve >> initializeOriginalDatafor: aListElement [
-	
-	originalData ifNotNil: [
-		^ (BlImmutableObjectChangeError object: self) signal ].
-	originalData := aListElement dataAccessor newMirror.
-
-	" handler to update the original indexed data if the list element data contents change 
-	** after ** the sieve installation"
-	originalDataUpdater := BlEventHandler
-		                       on: ToCollectionAfterChangeEvent
-		                       do: [ :event |
-		                       self onCollectionAfterChangeEvent: event for: aListElement ].
-	originalData addEventHandler: originalDataUpdater.
-	originalIndexedData := ToObservableCollection new.
-	self buildOriginalIndexedData.
-
+	queryRunner dataFilter: [ :item :pattern |
+		aValuable value: item value: pattern ]
 ]
 
 { #category : #'event handling' }
 ToListElementSieve >> onCollectionAfterChangeEvent: anEvent for: aListElement [
 
 	aListElement selecter deselectAll.
-	self buildOriginalIndexedData.
 	self pattern
 		ifNotEmpty: [ self pattern: '' ]
-		ifEmpty: [ self buildCurrentQueryResults ]
+		ifEmpty: [ 	self updateCurrentData ]
 ]
 
 { #category : #'api - hooks' }
 ToListElementSieve >> onInstalledIn: aListElement [
 	" install the sieve on the listElement "
 
-	self initializeOriginalDatafor: aListElement.
-
-	" the query runner will run the query in background on the originalIndexedData collection "
+	originalData ifNotNil: [ ^ (BlImmutableObjectChangeError object: self) signal ].
+	originalData := aListElement dataAccessor newMirror.
 	queryRunner := ToObservableCollectionQueryRunner new.
-	queryRunner onInstalledIn: originalIndexedData.
+	queryRunner onInstalledIn: originalData.
 	self dataFilter: queryRunner defaultFilter.
 
-	" initialization of the current result with an empty pattern "
-	self buildCurrentQueryResults.
+	" initialization of the current result with the current pattern "
+	self updateCurrentData.
 
-	" a filtering occured : put the new data in the list element and 
-	update the selection according to the current filtering result "
+	" a filtering occured : put the new data in the list element "
 	queryResultHandler := BlEventHandler
 		                      on: ToObservableCollectionQueryResultEvent
 		                      do: [ :event |
 		                      self onObservableCollectionQueryResultEvent: event for: aListElement].
-	originalIndexedData addEventHandler: queryResultHandler
+	originalData addEventHandler: queryResultHandler
 ]
 
 { #category : #'event handling' }
@@ -126,16 +83,12 @@ ToListElementSieve >> onObservableCollectionQueryResultEvent: anEvent for: aList
 ToListElementSieve >> onUninstalledIn: aListElement [
 	" uninstall list element handlers and the queyrunner properly "
 
-	queryRunner onUninstalledIn: originalIndexedData.
-	originalData removeEventHandler: originalDataUpdater.
-	originalIndexedData removeEventHandler: queryResultHandler.
+	queryRunner onUninstalledIn: originalData.
+	originalData removeEventHandler: queryResultHandler.
 	queryResultHandler := nil.
-	originalIndexedData := nil.
 	originalData := nil.
-	currentResults := nil.
-	queryRunner := nil.
-	originalDataUpdater := nil.
-	originalIndexedData := nil
+	currentData := nil.
+	queryRunner := nil
 ]
 
 { #category : #accessing }
@@ -154,4 +107,16 @@ ToListElementSieve >> pattern [
 ToListElementSieve >> pattern: aPattern [
 
 	queryRunner pattern: aPattern 
+]
+
+{ #category : #private }
+ToListElementSieve >> updateCurrentData [
+
+	" get the filtered data "
+	currentData := queryRunner pattern
+		               ifEmpty: [ originalData asArray ]
+		               ifNotEmpty: [
+			               queryRunner selectedIndexes collect: [ :idx |
+				               originalData at: idx ] ].
+
 ]

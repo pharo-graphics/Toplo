@@ -17,7 +17,7 @@ Class {
 { #category : #accessing }
 ToSelectionModelHolderForTest >> data [
 
-	^ data
+	^ dataSource data
 ]
 
 { #category : #accessing }
@@ -50,9 +50,7 @@ ToSelectionModelHolderForTest >> eventDispatcher [
 ToSelectionModelHolderForTest >> initialize [
 
 	super initialize.
-	data := ToObservableCollection new.
-	self dataSource: ToInfiniteObservableCollectionDataSource new.
-	self dataSource data: data.
+	self dataSource: ToObservableCollectionInfiniteDataSource new.
 	selectionModel := self defaultSelectionModel.
 	selectionModel onInstalledIn: self.
 	self addEventHandler: ToCommandEventHandler new.

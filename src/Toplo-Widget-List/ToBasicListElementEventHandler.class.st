@@ -1,14 +1,11 @@
 Class {
-	#name : #ToListElementEventHandler,
+	#name : #ToBasicListElementEventHandler,
 	#superclass : #BlCustomEventHandler,
-	#instVars : [
-		'lastClickedNode'
-	],
 	#category : #'Toplo-Widget-List-Core'
 }
 
 { #category : #'infinite event handling' }
-ToListElementEventHandler >> dataSourceEmptinessEvent: anEvent [
+ToBasicListElementEventHandler >> dataSourceEmptinessEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
@@ -16,7 +13,7 @@ ToListElementEventHandler >> dataSourceEmptinessEvent: anEvent [
 ]
 
 { #category : #'mouse handlers' }
-ToListElementEventHandler >> doubleClickEvent: anEvent [
+ToBasicListElementEventHandler >> doubleClickEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
@@ -33,7 +30,7 @@ ToListElementEventHandler >> doubleClickEvent: anEvent [
 ]
 
 { #category : #'element events handling' }
-ToListElementEventHandler >> elementAddedToSceneGraphEvent: anEvent [
+ToBasicListElementEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
@@ -41,13 +38,13 @@ ToListElementEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 ]
 
 { #category : #'element handlers' }
-ToListElementEventHandler >> elementScrolledEvent: anEvent [
+ToBasicListElementEventHandler >> elementScrolledEvent: anEvent [
 
 	anEvent currentTarget spaceDo: [ :sp | sp mouseProcessor handleLastMouseMove ]
 ]
 
 { #category : #'api - accessing' }
-ToListElementEventHandler >> eventsToHandle [
+ToBasicListElementEventHandler >> eventsToHandle [
 
 	^ {
 		  BlElementAddedToSceneGraphEvent.
@@ -67,7 +64,7 @@ ToListElementEventHandler >> eventsToHandle [
 ]
 
 { #category : #'infinite event handling' }
-ToListElementEventHandler >> infiniteElementAttachedEvent: anEvent [
+ToBasicListElementEventHandler >> infiniteElementAttachedEvent: anEvent [
 	
 	| listElement node |
 	listElement := anEvent currentTarget.
@@ -77,19 +74,19 @@ ToListElementEventHandler >> infiniteElementAttachedEvent: anEvent [
 ]
 
 { #category : #'infinite event handling' }
-ToListElementEventHandler >> infiniteElementDataSourceAttachedEvent: anEvent [
+ToBasicListElementEventHandler >> infiniteElementDataSourceAttachedEvent: anEvent [
 
 
 ]
 
 { #category : #'infinite event handling' }
-ToListElementEventHandler >> infiniteElementDataSourceDetachedEvent: anEvent [
+ToBasicListElementEventHandler >> infiniteElementDataSourceDetachedEvent: anEvent [
 
 
 ]
 
 { #category : #'infinite event handling' }
-ToListElementEventHandler >> infiniteElementDetachedEvent: anEvent [
+ToBasicListElementEventHandler >> infiniteElementDetachedEvent: anEvent [
 
 	| node listElement |
 	node := anEvent element.
@@ -100,13 +97,13 @@ ToListElementEventHandler >> infiniteElementDetachedEvent: anEvent [
 ]
 
 { #category : #'infinite event handling' }
-ToListElementEventHandler >> listSelectionModeChangedEvent: anEvent [
+ToBasicListElementEventHandler >> listSelectionModeChangedEvent: anEvent [
 
 	anEvent currentTarget selectionModel deselectAll 
 ]
 
 { #category : #'mouse handlers' }
-ToListElementEventHandler >> mouseDownEvent: anEvent [
+ToBasicListElementEventHandler >> mouseDownEvent: anEvent [
 
 	| target |
 	anEvent isConsumed ifTrue: [ ^ self ].
@@ -118,7 +115,7 @@ ToListElementEventHandler >> mouseDownEvent: anEvent [
 ]
 
 { #category : #'infinite event handling' }
-ToListElementEventHandler >> onItemsInserted: anEvent [
+ToBasicListElementEventHandler >> onItemsInserted: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
@@ -128,7 +125,7 @@ ToListElementEventHandler >> onItemsInserted: anEvent [
 ]
 
 { #category : #'infinite event handling' }
-ToListElementEventHandler >> onItemsRemoved: anEvent [
+ToBasicListElementEventHandler >> onItemsRemoved: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
@@ -143,7 +140,7 @@ ToListElementEventHandler >> onItemsRemoved: anEvent [
 ]
 
 { #category : #'list element handling' }
-ToListElementEventHandler >> showHidePlaceholderIn: aListElement [
+ToBasicListElementEventHandler >> showHidePlaceholderIn: aListElement [
 
 	aListElement dataAccessor ifEmpty: [ ^ aListElement showPlaceholder ].
 	aListElement hidePlaceholder

@@ -1,38 +1,8 @@
 Class {
 	#name : #ToListElementSieveWithSelection,
-	#superclass : #Object,
-	#instVars : [
-		'queryRunner',
-		'originalData',
-		'listElement',
-		'originalDataUpdater',
-		'originalIndexedData',
-		'originalIndexedDataArray',
-		'selectionChangedHandler',
-		'queryResultHandler',
-		'currentResultsArray',
-		'currentSelection',
-		'originalIndexedDataIndex',
-		'queryApplicationTask'
-	],
+	#superclass : #ToListElementSieve,
 	#category : #'Toplo-Widget-List-Sieve'
 }
-
-{ #category : #'selection command' }
-ToListElementSieveWithSelection >> addIndexesSelectionCommand: aCommand [
-
-
-]
-
-{ #category : #'selection command' }
-ToListElementSieveWithSelection >> addIntervalSelectionCommand: aCommand [
-
-
-]
-
-{ #category : #'selection command' }
-ToListElementSieveWithSelection >> addWholeSelectionCommand: aCommand [
-]
 
 { #category : #'event handling' }
 ToListElementSieveWithSelection >> applyObservableCollectionQueryResultEvent [
@@ -261,23 +231,4 @@ ToListElementSieveWithSelection >> pattern [
 ToListElementSieveWithSelection >> pattern: aPattern [
 
 	queryRunner pattern: aPattern 
-]
-
-{ #category : #'selection command' }
-ToListElementSieveWithSelection >> removeIndexesSelectionCommand: aCommand [
-
-
-]
-
-{ #category : #'selection command' }
-ToListElementSieveWithSelection >> removeIntervalSelectionCommand: aCommand [
-
-
-]
-
-{ #category : #'selection command' }
-ToListElementSieveWithSelection >> removeWholeSelectionCommand: aCommand [
-
-
-	
 ]

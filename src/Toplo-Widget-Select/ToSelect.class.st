@@ -7,9 +7,7 @@ Class {
 		'strategy',
 		'mode',
 		'placeholderText',
-		'selection',
-		'data',
-		'dataCollectionAfterChangeEventHandler'
+		'selection'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -27,15 +25,9 @@ ToSelect >> currentWindow [
 ]
 
 { #category : #accessing }
-ToSelect >> data [
+ToSelect >> dataAccessor [ 
 
-	^ data
-]
-
-{ #category : #accessing }
-ToSelect >> data: aCollection [
-
-	self data updateAllWith: aCollection
+	^ self listElement dataAccessor
 ]
 
 { #category : #accessing }
@@ -64,15 +56,15 @@ ToSelect >> deselectIndex: anIndex [
 ]
 
 { #category : #private }
-ToSelect >> fakeData [
+ToSelect >> fakeDataItem [
 
 	^ fakeData ifNil: [ fakeData := '' ]
 ]
 
 { #category : #private }
-ToSelect >> fakeData: aData [
+ToSelect >> fakeDataItem: aDataItem [
 
-	fakeData := aData.
+	fakeData := aDataItem.
 	self strategy initializeFakeNode
 ]
 
@@ -138,31 +130,15 @@ ToSelect >> initialize [
 	| sharedEventsDistributor headerElement |
 	super initialize.
 
-	data := ToObservableCollection new.
-
-	dataCollectionAfterChangeEventHandler := BlEventHandler
-		                                         on:
-		                                         ToCollectionAfterChangeEvent
-		                                         do: [
-		                                         self listElement
-			                                         dataAccessor
-			                                         updateAllWith: self data ].
-
-	data addEventHandler: dataCollectionAfterChangeEventHandler.
 	selection := BlCompositeSelection new.
-
-	" for the popup "
-	windowManager := self newWindowManager.
 
 	" the element that holds the node container"
 	headerElement := self newHeaderElement.
 	self addChild: headerElement.
 	self addChild: self newIconContainer.
 
-	" initialize the mode *** before *** the strategy (the strategy need an installed mode) "
-	self mode: self defaultMode.
-	" initialize the default strategy "
-	self strategy: self defaultStrategy.
+	" for the popup "
+	windowManager := self newWindowManager.
 
 	self layout: BlLinearLayout horizontal.
 	self fitContent.
@@ -187,7 +163,7 @@ ToSelect >> inputTextField [
 { #category : #testing }
 ToSelect >> isFiltrable [
 
-	^ self mode isFiltrableMode 
+	^ self filtrable
 ]
 
 { #category : #testing }
@@ -277,6 +253,18 @@ ToSelect >> newWindowManager [
 	^ wm
 ]
 
+{ #category : #accessing }
+ToSelect >> pattern [
+
+	^ self sieve pattern
+]
+
+{ #category : #accessing }
+ToSelect >> pattern: aPattern [
+
+	self sieve pattern: aPattern
+]
+
 { #category : #'t - element with placeholder' }
 ToSelect >> placeholderText [
 	"The text to be shown when no data is selected "
@@ -288,8 +276,7 @@ ToSelect >> placeholderText [
 ToSelect >> placeholderText: aText [
 	"The text to be shown when no data is selected "
 
-	placeholderText := aText.
-	self strategy textInputElement onSelectPlaceholderTextChanged
+	placeholderText := aText
 ]
 
 { #category : #'accessing list' }
@@ -344,7 +331,7 @@ ToSelect >> selectIndex: anIndex [
 { #category : #'accessing selection' }
 ToSelect >> selectedData [
 
-	^ self selectedIndexes collect: [ :idx | self data at: idx ]
+	^ self selectedIndexes collect: [ :idx | self dataAccessor at: idx ]
 ]
 
 { #category : #'accessing selection' }
@@ -357,6 +344,12 @@ ToSelect >> selectedIndexes [
 ToSelect >> selection [ 
 
 	^ selection
+]
+
+{ #category : #accessing }
+ToSelect >> sieve [ 
+
+	^ self windowManager sieve
 ]
 
 { #category : #accessing }

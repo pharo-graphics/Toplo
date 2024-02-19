@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'listElement',
 		'maxHeight',
-		'minHeight'
+		'minHeight',
+		'sieve'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -89,7 +90,7 @@ ToSelectWindowManager >> newListElement [
 	| newListElement |
 	newListElement := ToListElement new.
 	newListElement nodeClass: ToSelectListNode.
-	newListElement selectionMode: (ToSelectListSelectionMode new select: self element; yourself).
+	newListElement selectionMode: ToListSingleSelectionMode new.
 	newListElement selectionMode requestFocusOnMouseDown: false.
 	newListElement maxHeight: self maxHeight.
 	newListElement minHeight: self minHeight.
@@ -110,13 +111,18 @@ ToSelectWindowManager >> onInstalledIn: anElement [
 	self builder: [ :selectWin :request |
 		selectWin root hMatchParent.
 		selectWin root vFitContent.
-		selectWin root addChild: self listElement ]
+		selectWin root addChild: self listElement ].
+	sieve := ToListElementSieve new.
+	sieve onInstalledIn: listElement.	
+
 ]
 
 { #category : #accessing }
 ToSelectWindowManager >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
+	sieve onInstalledIn: listElement.
+	sieve := nil.
 	listElement := nil.
 
 ]
@@ -138,6 +144,12 @@ ToSelectWindowManager >> onWindowOpened [
 	self element strategy onWindowOpened
 
 
+]
+
+{ #category : #accessing }
+ToSelectWindowManager >> sieve [ 
+
+	^ sieve
 ]
 
 { #category : #accessing }

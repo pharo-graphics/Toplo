@@ -1,5 +1,5 @@
 Class {
-	#name : #ToInfiniteObservableCollectionEventHandler,
+	#name : #ToObservableCollectionInfiniteEventHandler,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'infinite'
@@ -8,19 +8,19 @@ Class {
 }
 
 { #category : #'data events handling' }
-ToInfiniteObservableCollectionEventHandler >> collectionEmptinessEvent: anEvent [
+ToObservableCollectionInfiniteEventHandler >> collectionEmptinessEvent: anEvent [
 
 	infinite dispatchEvent: ToDataSourceEmptinessEvent new
 ]
 
 { #category : #'api - accessing' }
-ToInfiniteObservableCollectionEventHandler >> eventsToHandle [
+ToObservableCollectionInfiniteEventHandler >> eventsToHandle [
 
 	^ { ToCollectionEmptinessEvent }
 ]
 
 { #category : #accessing }
-ToInfiniteObservableCollectionEventHandler >> infinite: anInfiniteElement [
+ToObservableCollectionInfiniteEventHandler >> infinite: anInfiniteElement [
 
 	infinite := anInfiniteElement
 ]

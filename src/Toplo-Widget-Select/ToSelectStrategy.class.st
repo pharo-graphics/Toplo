@@ -98,7 +98,7 @@ ToSelectStrategy >> initializeFakeNode [
 	fakeNode onInstalledIn: select.
 	fakeHolder
 		node: fakeNode;
-		data: select fakeData.
+		data: select fakeDataItem.
 	self headerNodeBuilder value: fakeNode value: fakeHolder.
 	fakeNode width: 0.
 	fakeNode constraintsDo: [ :c |

@@ -11,32 +11,9 @@ Class {
 }
 
 { #category : #accessing }
-ToInfiniteElement >> data [
-
-	^ dataSource data
-]
-
-{ #category : #accessing }
 ToInfiniteElement >> dataAccessor [
 
-	^ self dataSource dataAccessor
-]
-
-{ #category : #accessing }
-ToInfiniteElement >> dataSourceSharedEvents [
-
-	^ {
-		  ToDataSourceEmptinessEvent.
-		  ToDataSourceAttachedEvent.
-		  ToDataSourceDetachedEvent.
-		  BlInfiniteDataSourceItemRangeInserted.
-		  BlInfiniteDataSourceItemRangeRemoved }
-]
-
-{ #category : #initialization }
-ToInfiniteElement >> defaultDataSource [
-
-	^ ToInfiniteObservableCollectionDataSource new
+	^ self subclassResponsibility 
 ]
 
 { #category : #initialization }
@@ -57,8 +34,7 @@ ToInfiniteElement >> defaultMouseScrollEventHandler [
 ToInfiniteElement >> defaultNodeBuilder [
 
 	^ [ :node :holder |
-	  node addChild:
-		  (ToLabel text: holder dataItem asString) hMatchParent ]
+	  node addChild: (ToLabel text: holder dataItem asString) hMatchParent ]
 ]
 
 { #category : #'scrolled event' }
@@ -85,6 +61,12 @@ ToInfiniteElement >> initialize [
 	super initialize.
 	self nodeBuilder: self defaultNodeBuilder.
 	self matchParent
+]
+
+{ #category : #initialization }
+ToInfiniteElement >> initializeDataSource [ 
+
+	super initializeDataSource
 ]
 
 { #category : #initialization }

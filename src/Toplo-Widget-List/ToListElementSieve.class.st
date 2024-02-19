@@ -48,7 +48,6 @@ ToListElementSieve >> onInstalledIn: aListElement [
 	originalData := aListElement dataAccessor newMirror.
 	queryRunner := ToObservableCollectionQueryRunner new.
 	queryRunner onInstalledIn: originalData.
-	self dataFilter: queryRunner defaultFilter.
 
 	" initialization of the current result with the current pattern "
 	self updateCurrentData.
@@ -114,7 +113,7 @@ ToListElementSieve >> updateCurrentData [
 
 	" get the filtered data "
 	currentData := queryRunner pattern
-		               ifEmpty: [ originalData asArray ]
+		               ifEmpty: [ originalData ]
 		               ifNotEmpty: [
 			               queryRunner selectedIndexes collect: [ :idx |
 				               originalData at: idx ] ].

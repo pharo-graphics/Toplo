@@ -7,5 +7,5 @@ Class {
 { #category : #sending }
 ToCollectionUpdateRequest >> sendTo: anObject [
 
-	anObject collectionUpdateAllRequest: self
+	anObject collectionUpdateRequest: self
 ]

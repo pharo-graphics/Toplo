@@ -164,9 +164,13 @@ ToMiniBrowser >> initialize [
 	classes addEventHandler: (BlEventHandler
 			 on: ToListSelectionChangedEvent
 			 do: [ :event | self classSelectionChangedEvent: event ]).
-	classes dataAccessor whenRemoveChangeDo: [
+			
+	classes addEventHandler: (BlEventHandler
+			 on: ToCollectionAddEvent do: [ :ann | protocols dataAccessor removeAll ]).	
+
+"	classes dataAccessor whenRemoveChangeDo: [
 		protocols dataAccessor removeAll ].
-	classesPane := ToPane new
+"	classesPane := ToPane new
 		               id: #classesPane;
 		               beVertical;
 		               matchParent.
@@ -201,8 +205,9 @@ ToMiniBrowser >> initialize [
 	protocols addEventHandler: (BlEventHandler
 			 on: ToListSelectionChangedEvent
 			 do: [ :event | self protocolSelectionChangedEvent: event ]).
-	protocols dataAccessor whenRemoveChangeDo: [
-		selectors dataAccessor removeAll ].
+	protocols addEventHandler: (BlEventHandler
+			 on: ToCollectionRemoveEvent
+			 do: [ :ann | selectors dataAccessor removeAll ]).
 
 	selectors := ToListElement new
 		             id: #selectors;
@@ -216,7 +221,9 @@ ToMiniBrowser >> initialize [
 	selectors addEventHandler: (BlEventHandler
 			 on: ToListSelectionChangedEvent
 			 do: [ :event | self selectorSelectionChangedEvent: event ]).
-	selectors dataAccessor whenRemoveChangeDo: [ self clearCodeInEditor ].
+	selectors addEventHandler: (BlEventHandler
+			 on: ToCollectionRemoveEvent
+			 do: [ :ann | self clearCodeInEditor ]).
 
 	"selectors hasFixedSize: true."
 

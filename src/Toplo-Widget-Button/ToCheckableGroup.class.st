@@ -98,43 +98,9 @@ ToCheckableGroup >> initialize [
 	eventDispatcher := BlDirectEventDispatcher on: self.
 	checkingStrategy := self defaultCheckStrategy.
 	buttons := ToObservableCollection new.
-	buttons whenBeforeAddChangeDo: [ :ann | self notifyBeforeButtonsInserted: ann ].
-	buttons whenBeforeRemoveChangeDo: [ :ann | self notifyBeforeButtonsRemoved: ann ].
-	buttons whenBeforeUpdateChangeDo: [ :ann | self notifyBeforeButtonsChanged: ann ].
-	buttons whenAddChangeDo: [ :ann | self notifyButtonsInserted: ann ].
-	buttons whenRemoveChangeDo: [ :ann | self notifyButtonsRemoved: ann ].
+	buttons addEventHandler: (ToCheckableGroupButtonCollectionEventHandler new checkableGroup: self; yourself).
 
 	self notifyChanged
-]
-
-{ #category : #notifications }
-ToCheckableGroup >> notifyBeforeButtonsChanged: aCollectionChangeAnnouncement [
-
-	self error: 'Changing a button in a CheckableGroup is not allowed'
-]
-
-{ #category : #notifications }
-ToCheckableGroup >> notifyBeforeButtonsInserted: aCollectionChangeAnnouncement [
-
-	self checkingStrategy notifyBeforeButtonsInserted: aCollectionChangeAnnouncement in: self
-]
-
-{ #category : #notifications }
-ToCheckableGroup >> notifyBeforeButtonsRemoved: aCollectionChangeAnnouncement [
-
-	self checkingStrategy notifyBeforeButtonsRemoved: aCollectionChangeAnnouncement in: self
-]
-
-{ #category : #notifications }
-ToCheckableGroup >> notifyButtonsInserted: aCollectionChangeAnnouncement [
-
-	self checkingStrategy notifyButtonsInserted: aCollectionChangeAnnouncement in: self
-]
-
-{ #category : #notifications }
-ToCheckableGroup >> notifyButtonsRemoved: aCollectionChangeAnnouncement [
-
-	self checkingStrategy notifyButtonsRemoved: aCollectionChangeAnnouncement in: self
 ]
 
 { #category : #'checking protocol' }

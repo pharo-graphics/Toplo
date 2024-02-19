@@ -13,7 +13,8 @@ ToObservableCollectionTest >> testAdd [
 	| l i|
 	l := ToObservableCollection new.
 
-	l whenAddChangeDo: [ :ann | i := ann interval ].
+	l addEventHandler: (BlEventHandler
+			 on: ToCollectionAddEvent do: [ :ann | i := ann interval ]).
 	l add: 88.
 	self
 		assert: l asOrderedCollection
@@ -33,7 +34,8 @@ ToObservableCollectionTest >> testAddAfter [
 	| l i |
 	l := ToObservableCollection newFrom: #( 1 2 3 4 ).
 
-	l whenAddChangeDo: [ :ann | i := ann interval ].
+	l addEventHandler: (BlEventHandler
+			 on: ToCollectionAddEvent do: [ :ann | i := ann interval ]).
 
 	l add: 88 after: 1.
 
@@ -81,7 +83,8 @@ ToObservableCollectionTest >> testAddAll [
 	| c1 c2 i |
 	c1 := ToObservableCollection newFrom: #(1 2 3 4).
 	c2 := ToObservableCollection newFrom: #(5 6 7 8 9).
-	c1 whenAddChangeDo: [ :ann | i := ann interval ].
+	c1 addEventHandler: (BlEventHandler
+			 on: ToCollectionAddEvent do: [ :ann | i := ann interval ]).	
 	c1 addAll: c2.
 	self assert: c1 asArray equals: #(1 2 3 4 5 6 7 8 9).
 	self assert: i equals: (5 to: 9)
@@ -100,7 +103,8 @@ ToObservableCollectionTest >> testAddAllFirst [
 		     addAll: #(5 6 7 8 9);
 		     yourself.
 
-	c2 whenAddChangeDo: [ :ann | i := ann interval ].
+	c2 addEventHandler: (BlEventHandler
+			 on: ToCollectionAddEvent do: [ :ann | i := ann interval ]).	
 
 	c2 addAllFirst: c1.
 	self assert: c2 asOrderedCollection equals: #(1 2 3 4 5 6 7 8 9) asOrderedCollection.
@@ -121,7 +125,8 @@ ToObservableCollectionTest >> testAddAllLast [
 		     addAll: #(5 6 7 8 9);
 		     yourself.
 
-	c1 whenAddChangeDo: [ :ann | i := ann interval ].
+	c1 addEventHandler: (BlEventHandler
+			 on: ToCollectionAddEvent do: [ :ann | i := ann interval ]).	
 
 	c1 addAllLast: c2.
 	self assert: c1 asOrderedCollection equals: #(1 2 3 4 5 6 7 8 9) asOrderedCollection.
@@ -137,7 +142,8 @@ ToObservableCollectionTest >> testAddBefore [
 		     addAll: #( 1 2 3 4 );
 		     yourself.
 
-	l whenAddChangeDo: [ :ann | i := ann interval ].
+	l addEventHandler: (BlEventHandler
+			 on: ToCollectionAddEvent do: [ :ann | i := ann interval ]).	
 
 	l add: 88 before: 1.
 
@@ -167,7 +173,8 @@ ToObservableCollectionTest >> testAddBeforeAndRemove [
 
 	initialCollection := l copy.
 
-	l whenAddChangeDo: [ :ann | i := ann interval ].
+	l addEventHandler: (BlEventHandler
+			 on: ToCollectionAddEvent do: [ :ann | i := ann interval ]).	
 
 	l add: 88 before: 1.
 
@@ -196,7 +203,8 @@ ToObservableCollectionTest >> testAddBeforeIndex [
 		     addAll: #( 1 2 3 4 );
 		     yourself.
 
-	l whenAddChangeDo: [ :ann | i := ann interval ].
+	l addEventHandler: (BlEventHandler
+			 on: ToCollectionAddEvent do: [ :ann | i := ann interval ]).	
 
 	l add: 88 beforeIndex: 1.
 
@@ -224,7 +232,8 @@ ToObservableCollectionTest >> testAddFirst [
 		     addAll: #( 1 2 3 4 );
 		     yourself.
 
-	l whenAddChangeDo: [ :ann | i := ann interval ].
+	l addEventHandler: (BlEventHandler
+			 on: ToCollectionAddEvent do: [ :ann | i := ann interval ]).	
 
 	l addFirst: 88.
 
@@ -254,7 +263,8 @@ ToObservableCollectionTest >> testAddLast [
 		     addAll: #( 1 2 3 4 );
 		     yourself.
 
-	l whenAddChangeDo: [ :ann | i := ann interval ].
+	l addEventHandler: (BlEventHandler
+			 on: ToCollectionAddEvent do: [ :ann | i := ann interval ]).	
 
 	l addLast: 88.
 
@@ -307,7 +317,9 @@ ToObservableCollectionTest >> testAtPut [
 
 	| c i |
 	c := ToObservableCollection newFrom:  #(1 2 3 4).
-	c whenUpdateChangeDo: [ :ann | i := ann interval ].
+	c addEventHandler: (BlEventHandler
+			 on: ToCollectionUpdateEvent
+			 do: [ :ann | i := ann interval ]).
 	c at: 2 put: 5.
 	self assert: i equals: (2 to: 2).
 	self assert: c asArray equals: #(1 5 3 4).
@@ -368,7 +380,9 @@ ToObservableCollectionTest >> testRemove [
 
 	| c1 i |
 	c1 := ToObservableCollection newFrom: #( 2 3 4 6 ).
-	c1 whenRemoveChangeDo: [ :ann | i := ann interval ].
+	c1 addEventHandler: (BlEventHandler
+			 on: ToCollectionRemoveEvent
+			 do: [ :ann | i := ann interval ]).
 
 	c1 remove: 3.
 	self assert: i equals: (2 to: 2).
@@ -385,7 +399,8 @@ ToObservableCollectionTest >> testRemoveAll [
 	| c1 c2 s2 i |
 	c1 := ToObservableCollection newFrom: #( 2 3 4 6 ).
 
-	c1 whenAddChangeDo: [ :ann | i := ann interval ].
+	c1 addEventHandler: (BlEventHandler
+			 on: ToCollectionAddEvent do: [ :ann | i := ann interval ]).	
 	c1 addAll: (1 to: 200).
 	self assert: i equals: (5 to: 204).
 
@@ -394,7 +409,9 @@ ToObservableCollectionTest >> testRemoveAll [
 
 	i := nil.
 
-	c1 whenRemoveChangeDo: [ :ann | i := ann interval ].
+	c1 addEventHandler: (BlEventHandler
+			 on: ToCollectionRemoveEvent
+			 do: [ :ann | i := ann interval ]).
 	c1 removeAll.
 	self assert: i equals: (1 to: 204).
 
@@ -411,7 +428,9 @@ ToObservableCollectionTest >> testRemoveAt [
 
 	| c1 i |
 	c1 := ToObservableCollection newFrom: #( 2 3 4 6 ).
-	c1 whenRemoveChangeDo: [ :ann | i := ann interval ].
+	c1 addEventHandler: (BlEventHandler
+			 on: ToCollectionRemoveEvent
+			 do: [ :ann | i := ann interval ]).
 
 	c1 removeAt: 2.
 	self assert: i equals: (2 to: 2).
@@ -428,7 +447,9 @@ ToObservableCollectionTest >> testRemoveFirst [
 
 	| c1 i |
 	c1 := ToObservableCollection newFrom: #( 2 3 4 6 ).
-	c1 whenRemoveChangeDo: [ :ann | i := ann interval ].
+	c1 addEventHandler: (BlEventHandler
+			 on: ToCollectionRemoveEvent
+			 do: [ :ann | i := ann interval ]).
 
 	c1 removeFirst: 1.
 	self assert: i equals: (1 to: 1).
@@ -448,7 +469,9 @@ ToObservableCollectionTest >> testRemoveFromTo [
 
 	| c1 i |
 	c1 := ToObservableCollection newFrom: #( 2 3 4 6 ).
-	c1 whenRemoveChangeDo: [ :ann | i := ann interval ].
+	c1 addEventHandler: (BlEventHandler
+			 on: ToCollectionRemoveEvent
+			 do: [ :ann | i := ann interval ]).
 
 	c1 removeFrom: 2 to: 2.
 	self assert: i equals: (2 to: 2).
@@ -470,7 +493,9 @@ ToObservableCollectionTest >> testRemoveLast [
 
 	| c1 i |
 	c1 := ToObservableCollection newFrom: #(2 3 4 6).
-	c1 whenRemoveChangeDo: [ :ann | i := ann interval ].
+	c1 addEventHandler: (BlEventHandler
+			 on: ToCollectionRemoveEvent
+			 do: [ :ann | i := ann interval ]).
 
 	c1 removeLast: 1.
 	self assert: i equals: (4 to: 4).

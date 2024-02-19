@@ -1,13 +1,28 @@
 Class {
 	#name : #ToObservableCollectionInfiniteDataSource,
 	#superclass : #BlInfiniteDataSource,
+	#traits : 'TToObservableCollection',
+	#classTraits : 'TToObservableCollection classTrait',
 	#instVars : [
-		'data',
 		'infiniteElementSharedHandler',
-		'observableCollectionEventHandler'
+		'dataEventHandler',
+		'data'
 	],
 	#category : #'Toplo-Widget-List-Infinite'
 }
+
+{ #category : #'t - observable collection - accessing' }
+ToObservableCollectionInfiniteDataSource >> collection [
+
+	^ data
+
+]
+
+{ #category : #'t - observable collection - accessing' }
+ToObservableCollectionInfiniteDataSource >> collection: aCollection [
+
+	data := aCollection
+]
 
 { #category : #accessing }
 ToObservableCollectionInfiniteDataSource >> data [
@@ -19,7 +34,7 @@ ToObservableCollectionInfiniteDataSource >> data [
 ToObservableCollectionInfiniteDataSource >> initialize [ 
 
 	super initialize.
-	data := ToObservableCollection new.
+	data := OrderedCollection new
 
 ]
 
@@ -42,22 +57,9 @@ ToObservableCollectionInfiniteDataSource >> onAttached: anInfiniteElement [
 	self addEventHandler: infiniteElementSharedHandler.
 	anInfiniteElement addEventHandler: infiniteElementSharedHandler.
 
-	self flag: 'TODO: review ObservableCollection event handling to remove all #whenXXXChangedDo: '.
-
-	observableCollectionEventHandler := ToObservableCollectionInfiniteEventHandler new.
-	observableCollectionEventHandler infinite: anInfiniteElement.
-	data addEventHandler: observableCollectionEventHandler.
-	
-	data whenAddChangeDo: [ :ann |
-		self notifyItemsInserted: ann interval ].
-	data whenRemoveChangeDo: [ :ann |
-		self notifyItemsRemoved: ann interval ].
-	data whenUpdateChangeDo: [ :ann |
-		self notifyItemsChanged: ann interval ].
-	data whenBeforeFilterChangeDo: [ :ann |
-		self notifyItemsRemoved: ann interval ].
-	data whenFilterChangeDo: [ :ann |
-		self notifyItemsInserted: ann interval ].
+	dataEventHandler := ToInfiniteDataSourceDataEventHandler new.
+	dataEventHandler infinite: anInfiniteElement.
+	self addEventHandler: dataEventHandler.
 
 	self notifyChanged.
 
@@ -82,7 +84,7 @@ ToObservableCollectionInfiniteDataSource >> onCreateHolder: anInfiniteElement [
 ToObservableCollectionInfiniteDataSource >> onDetached: anInfiniteElement [
 
 	super onDetached: anInfiniteElement.
-	data removeEventHandler: observableCollectionEventHandler.
+	data removeEventHandler: dataEventHandler.
 	self removeEventHandler: infiniteElementSharedHandler.
 	anInfiniteElement removeEventHandler: infiniteElementSharedHandler.
 	self dispatchEvent: ToDataSourceDetachedEvent new.

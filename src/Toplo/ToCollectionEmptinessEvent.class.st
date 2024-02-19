@@ -1,6 +1,6 @@
 Class {
 	#name : #ToCollectionEmptinessEvent,
-	#superclass : #BlEvent,
+	#superclass : #ToObservableCollectionEvent,
 	#category : #'Toplo-Core-Collection'
 }
 

@@ -26,7 +26,7 @@ ToListSelectionHistoryEventHandlerExample2 >> addIntervalSelectionCommand: aComm
 	| s |
 	s := currentTarget dataAccessor at: aCommand to.
 	(historyList dataAccessor includes: s) ifTrue: [
-		historyList data remove: s ].
+		historyList dataAccessor remove: s ].
 	historyList dataAccessor add: s
 ]
 

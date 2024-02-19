@@ -738,7 +738,7 @@ ToSandBox class >> example_ListWithAllClasses4 [
 		     node addChild: (ToCheckbox new
 				      labelText: holder dataItem name;
 				      interspace: 10) ].
-	l data addAll: Smalltalk globals allClasses.
+	l dataAccessor addAll: Smalltalk globals allClasses.
 	l openInSpace
 ]
 
@@ -746,9 +746,12 @@ ToSandBox class >> example_ListWithAllClasses4 [
 ToSandBox class >> example_ListWithAllClassesAndTraitsSorted [
 
 	| l |
-	l := ToListElement new nodeBuilder: [  :node :holder | 
-			node addChild: (ToClassNameViewExample new class: holder data position: holder position; yourself) ].
-	l data addAll: (Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]).
+	l := ToListElement new nodeBuilder: [ :node :holder |
+		     node addChild: (ToClassNameViewExample new
+				      class: holder dataItem position: holder position;
+				      yourself) ].
+	l dataAccessor addAll:
+		(Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]).
 	l openInSpace
 ]
 
@@ -912,10 +915,10 @@ ToSandBox class >> example_ListWithIndexedColors [
 	| l vscrollBar space |
 	l := ToListElement new nodeBuilder: [ :node :holder |
 		     node addChild: (ToLabel new
-				      text: holder data asString asRopedText;
+				      text: holder dataItem asString asRopedText;
 				      hMatchParent;
-				      background: holder data) ].
-	l data addAll: Color indexedColors.
+				      background: holder dataItem) ].
+	l dataAccessor addAll: Color indexedColors.
 
 	vscrollBar := BlVerticalScrollbarElement new.
 	vscrollBar constraintsDo: [ :c |
@@ -2137,7 +2140,7 @@ ToSandBox class >> example_contactList [
 				 on: BlClickEvent
 				 do: [ :event |
 					 event consumed: true.
-					 holder infiniteElement data removeAt: holder position ]).
+					 holder infiniteElement dataAccessor removeAt: holder position ]).
 		line addChild: remBut.
 		node addChild: line ].
 	list dataAccessor addAll: contacts.

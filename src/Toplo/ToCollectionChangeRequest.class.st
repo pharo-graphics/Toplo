@@ -1,6 +1,6 @@
 Class {
 	#name : #ToCollectionChangeRequest,
-	#superclass : #ToCollectionChangedEvent,
+	#superclass : #ToObservableCollectionChangeEvent,
 	#instVars : [
 		'accepted'
 	],

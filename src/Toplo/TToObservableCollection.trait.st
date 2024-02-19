@@ -361,6 +361,14 @@ TToObservableCollection >> last: n [
 	^ self copyFrom: size - n + 1 to: size
 ]
 
+{ #category : #'t - observable collection - accessing' }
+TToObservableCollection >> newMirror [
+
+	^ ToCollectionMirror new
+		  mirrored: self;
+		  yourself
+]
+
 { #category : #'t - observable collection - enumerating' }
 TToObservableCollection >> noneSatisfy: aBlock [
 
@@ -591,70 +599,6 @@ TToObservableCollection >> updateAllWith: aCollection [
 	self notifyUpdateAllChangeAround: [
 		self collection removeAll.
 		self collection addAll: aCollection ]
-]
-
-{ #category : #'t - observable collection - event management' }
-TToObservableCollection >> whenAddChangeDo: aBlock [
-
-	self addEventHandler: (BlEventHandler
-			 on: ToCollectionAddEvent
-			 do: [ :ann | aBlock cull: ann ])
-]
-
-{ #category : #'t - observable collection - event management' }
-TToObservableCollection >> whenBeforeAddChangeDo: aBlock [
-
-	self addEventHandler: (BlEventHandler
-			 on: ToCollectionAddRequest
-			 do: [ :ann | aBlock cull: ann ])
-]
-
-{ #category : #'t - observable collection - event management' }
-TToObservableCollection >> whenBeforeFilterChangeDo: aBlock [
-
-	self addEventHandler: (BlEventHandler
-			 on: ToCollectionFilterRequest
-			 do: [ :ann | aBlock cull: ann ])
-]
-
-{ #category : #'t - observable collection - event management' }
-TToObservableCollection >> whenBeforeRemoveChangeDo: aBlock [
-
-	self addEventHandler: (BlEventHandler
-			 on: ToCollectionRemoveRequest
-			 do: [ :ann | aBlock cull: ann ])
-]
-
-{ #category : #'t - observable collection - event management' }
-TToObservableCollection >> whenBeforeUpdateChangeDo: aBlock [
-
-	self addEventHandler: (BlEventHandler
-			 on: ToCollectionUpdateRequest
-			 do: [ :ann | aBlock cull: ann ])
-]
-
-{ #category : #'t - observable collection - event management' }
-TToObservableCollection >> whenFilterChangeDo: aBlock [
-
-	self addEventHandler: (BlEventHandler
-			 on: ToCollectionFilteredEvent
-			 do: [ :event | aBlock cull: event ])
-]
-
-{ #category : #'t - observable collection - event management' }
-TToObservableCollection >> whenRemoveChangeDo: aBlock [
-
-	self addEventHandler: (BlEventHandler
-			 on: ToCollectionRemoveEvent
-			 do: [ :ann | aBlock cull: ann ])
-]
-
-{ #category : #'t - observable collection - event management' }
-TToObservableCollection >> whenUpdateChangeDo: aBlock [
-
-	self addEventHandler: (BlEventHandler
-			 on: ToCollectionUpdateEvent
-			 do: [ :ann | aBlock cull: ann ])
 ]
 
 { #category : #'t - observable collection - enumerating' }

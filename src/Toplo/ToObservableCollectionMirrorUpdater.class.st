@@ -1,6 +1,6 @@
 Class {
 	#name : #ToObservableCollectionMirrorUpdater,
-	#superclass : #BlCustomEventHandler,
+	#superclass : #ToObservableCollectionEventHandler,
 	#instVars : [
 		'mirror'
 	],
@@ -13,11 +13,6 @@ ToObservableCollectionMirrorUpdater >> collectionAddEvent: anEvent [
 	| target |
 	target := anEvent currentTarget.
 	mirror updateAllWith: target
-]
-
-{ #category : #'data events handling' }
-ToObservableCollectionMirrorUpdater >> collectionFilteredEvent: anEvent [
-	" nothing to do "
 ]
 
 { #category : #'data events handling' }
@@ -42,12 +37,6 @@ ToObservableCollectionMirrorUpdater >> collectionUpdateEvent: anEvent [
 	| target |
 	target := anEvent currentTarget.
 	mirror updateAllWith: target
-]
-
-{ #category : #'api - accessing' }
-ToObservableCollectionMirrorUpdater >> eventsToHandle [
-
-	^ { ToCollectionAfterChangeEvent }
 ]
 
 { #category : #accessing }

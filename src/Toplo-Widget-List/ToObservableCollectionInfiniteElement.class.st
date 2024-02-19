@@ -7,7 +7,7 @@ Class {
 { #category : #accessing }
 ToObservableCollectionInfiniteElement >> dataAccessor [
 
-	^ self dataSource data
+	^ self dataSource
 ]
 
 { #category : #initialization }

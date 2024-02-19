@@ -143,53 +143,9 @@ ToChoiceMenu >> newRawSkin [
 ]
 
 { #category : #'private - notifications' }
-ToChoiceMenu >> notifyBeforeDataRemoved: anEvent [
-
-	| removedData |
-	anEvent interval ifEmpty: [ ^ self ].
-	removedData := anEvent interval collect: [ :idx | self data at: idx ].
-	removedData do: [ :d |
-		| item |
-		item := self menuItemFromData: d.
-		item isChecked ifTrue: [ item checked: false ].
-		item isChecked ifTrue: [ 
-			anEvent accepted: false.
-			^ Error signal: 'Can''t removed a checked item' ] ].
-	removedData do: [ :d |
-		| item |
-		item := self menuItemFromData: d.
-		self removeItem: item.
-		self group remove: item ]
-]
-
-{ #category : #'private - notifications' }
 ToChoiceMenu >> notifyChanged [
 
 	self dispatchEvent: ToChoiceChangedEvent new
-]
-
-{ #category : #'private - notifications' }
-ToChoiceMenu >> notifyDataChanged: anInterval [
-
-	anInterval ifEmpty: [ ^ self ].
-	anInterval do: [ :idx |
-		| prevItem newItem |
-		prevItem := self items at: idx.
-		newItem := self newMenuItemFromData: (self data at: idx).
-		self flag: 'ToDo'.
-		self replaceItemAt: idx with: newItem.
-		self group replace: prevItem with: newItem.
-		(self selectedData = self data at: idx) ifTrue: [ self selectData: nil ] ]
-]
-
-{ #category : #'private - notifications' }
-ToChoiceMenu >> notifyDataInserted: anInterval [
-
-	| newItems |
-	anInterval ifEmpty: [ ^ self ].
-	newItems := anInterval collect: [ :idx | self newMenuItemFromData: (self data at: idx) ].
-	self addAllItems: newItems.
-	self group addAll: newItems
 ]
 
 { #category : #'hooks - children' }
@@ -206,10 +162,7 @@ ToChoiceMenu >> onAddedToSceneGraph [
 ToChoiceMenu >> privateData: anObservableCollection [
 
 	data := anObservableCollection.
-	data whenAddChangeDo: [ :ann | self notifyDataInserted: ann interval ].
-	data whenBeforeRemoveChangeDo: [ :ann | self notifyBeforeDataRemoved: ann ].
-	data whenUpdateChangeDo: [ :ann | self notifyDataChanged: ann interval ].
-
+	data addEventHandler: (ToChoiceMenuDataEventHandler new choiceMenu: self; yourself).
 	self notifyChanged
 ]
 

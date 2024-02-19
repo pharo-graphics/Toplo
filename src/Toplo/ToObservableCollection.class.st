@@ -48,11 +48,3 @@ ToObservableCollection >> initialize [
 	eventDispatcher := BlDirectEventDispatcher on: self.
 	self collection: OrderedCollection new
 ]
-
-{ #category : #'instance creation' }
-ToObservableCollection >> newMirror [
-
-	^ ToCollectionMirror new
-		  mirrored: self;
-		  yourself
-]

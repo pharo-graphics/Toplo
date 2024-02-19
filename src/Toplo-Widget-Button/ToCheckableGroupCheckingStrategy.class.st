@@ -17,18 +17,6 @@ ToCheckableGroupCheckingStrategy >> allowUnchecking [
 	^ true
 ]
 
-{ #category : #notifications }
-ToCheckableGroupCheckingStrategy >> buttonInserted: aCheckable in: aGroup [
-
-	aCheckable group: aGroup
-]
-
-{ #category : #notifications }
-ToCheckableGroupCheckingStrategy >> buttonRemoved: aCheckable in: aGroup [
-
-	aCheckable group: nil
-]
-
 { #category : #testing }
 ToCheckableGroupCheckingStrategy >> checkRequestEvent: aCheckRequest in: aGroup [
 
@@ -36,28 +24,28 @@ ToCheckableGroupCheckingStrategy >> checkRequestEvent: aCheckRequest in: aGroup 
 ]
 
 { #category : #notifications }
-ToCheckableGroupCheckingStrategy >> notifyBeforeButtonsInserted: aCollectionChangeAnnouncement in: aGroup [
+ToCheckableGroupCheckingStrategy >> onButtonAdded: aCheckable in: aGroup [
 
-
+	aCheckable group: aGroup
 ]
 
 { #category : #notifications }
-ToCheckableGroupCheckingStrategy >> notifyBeforeButtonsRemoved: aCollectionChangeAnnouncement in: aGroup [
+ToCheckableGroupCheckingStrategy >> onButtonRemoved: aCheckable in: aGroup [
 
-
+	aCheckable group: nil
 ]
 
 { #category : #notifications }
-ToCheckableGroupCheckingStrategy >> notifyButtonsInserted: aCollectionChangeAnnouncement in: aGroup [
+ToCheckableGroupCheckingStrategy >> onButtonsAddEvent: aCollectionChangeEvent in: aGroup [
 
-	aCollectionChangeAnnouncement interval do: [ :idx | | aCheckable |
+	aCollectionChangeEvent interval do: [ :idx | | aCheckable |
 		aCheckable := aGroup buttons at: idx.
-		self buttonInserted: aCheckable in: aGroup]
+		self onButtonAdded: aCheckable in: aGroup]
 ]
 
 { #category : #notifications }
-ToCheckableGroupCheckingStrategy >> notifyButtonsRemoved: aCollectionChangeAnnouncement in: aGroup [
+ToCheckableGroupCheckingStrategy >> onButtonsRemoveEvent: aCollectionChangeEvent in: aGroup [
 
-	aCollectionChangeAnnouncement removed do: [ :checkable |
-		self buttonRemoved: checkable in: aGroup ]
+	aCollectionChangeEvent removed do: [ :checkable |
+		self onButtonRemoved: checkable in: aGroup ]
 ]

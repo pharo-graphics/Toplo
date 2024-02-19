@@ -4,14 +4,6 @@ Class {
 	#category : #'Toplo-Widget-List-Core'
 }
 
-{ #category : #'infinite event handling' }
-ToBasicListElementEventHandler >> dataSourceEmptinessEvent: anEvent [
-
-	| target |
-	target := anEvent currentTarget.
-	self showHidePlaceholderIn: target
-]
-
 { #category : #'mouse handlers' }
 ToBasicListElementEventHandler >> doubleClickEvent: anEvent [
 
@@ -56,11 +48,8 @@ ToBasicListElementEventHandler >> eventsToHandle [
 		  BlDoubleClickEvent.
 
 		  " data source "
-		  ToDataSourceAttachedEvent.
-		  ToDataSourceDetachedEvent.
 		  BlInfiniteDataSourceItemRangeInserted.
-		  BlInfiniteDataSourceItemRangeRemoved.
-		  ToDataSourceEmptinessEvent }
+		  BlInfiniteDataSourceItemRangeRemoved }
 ]
 
 { #category : #'infinite event handling' }
@@ -71,18 +60,6 @@ ToBasicListElementEventHandler >> infiniteElementAttachedEvent: anEvent [
 	node := anEvent element.
 	node holder listElement: listElement.
 	listElement selectionMode onAddedNode: anEvent element
-]
-
-{ #category : #'infinite event handling' }
-ToBasicListElementEventHandler >> infiniteElementDataSourceAttachedEvent: anEvent [
-
-
-]
-
-{ #category : #'infinite event handling' }
-ToBasicListElementEventHandler >> infiniteElementDataSourceDetachedEvent: anEvent [
-
-
 ]
 
 { #category : #'infinite event handling' }

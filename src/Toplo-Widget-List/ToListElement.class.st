@@ -27,6 +27,12 @@ ToListElement >> dataUpdater [
 ]
 
 { #category : #initialization }
+ToListElement >> defaultEventHandler [
+
+	^ ToListElementEventHandler new
+]
+
+{ #category : #initialization }
 ToListElement >> defaultInfiniteElement [
 
 	^ ToObservableCollectionInfiniteElement new
@@ -35,8 +41,7 @@ ToListElement >> defaultInfiniteElement [
 { #category : #initialization }
 ToListElement >> infiniteSharedEvents [
 
-	^ super infiniteSharedEvents, {
-		  ToDataSourceEmptinessEvent. ToDataSourceFilteredEvent }
+	^ super infiniteSharedEvents, { ToObservableCollectionEvent }
 ]
 
 { #category : #skin }

@@ -344,6 +344,7 @@ ToSandBox class >> example_EditableList2WithAllClassesNames [
 					 event indexes size == 1 ifTrue: [
 							 (l nodeAt: event indexes first) label addEditorEvent: event ] ]);
 		withRowNumbers.
+
 	l dataAccessor addAll:
 		(Smalltalk globals allClasses collect: [ :cls | cls -> cls name ]).
 

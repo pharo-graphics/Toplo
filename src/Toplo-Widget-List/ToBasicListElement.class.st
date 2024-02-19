@@ -47,6 +47,12 @@ ToBasicListElement >> dataUpdater [
 ]
 
 { #category : #initialization }
+ToBasicListElement >> defaultEventHandler [
+
+	^ ToBasicListElementEventHandler new
+]
+
+{ #category : #initialization }
 ToBasicListElement >> defaultInfiniteElement [ 
 
 	^ self subclassResponsibility 
@@ -74,8 +80,6 @@ ToBasicListElement >> horizontal: aBoolean [
 ToBasicListElement >> infiniteSharedEvents [
 
 	^ {
-		  ToDataSourceAttachedEvent.
-		  ToDataSourceDetachedEvent.
 		  BlInfiniteDataSourceItemRangeInserted.
 		  BlInfiniteDataSourceItemRangeRemoved.
 		  BlInfiniteElementAttachedEvent.
@@ -97,7 +101,7 @@ ToBasicListElement >> initialize [
 	self layout: self defaultLayout.
 	
 	self selectionMode: self defaultSelectionMode.
-	self addEventHandler: ToBasicListElementEventHandler new.
+	self addEventHandler: self defaultEventHandler.
 	self installSharedEventDistributors.
 
 	self addChild: self next.

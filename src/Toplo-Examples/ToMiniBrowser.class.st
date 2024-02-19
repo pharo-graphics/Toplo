@@ -150,6 +150,7 @@ ToMiniBrowser >> initialize [
 	packages addEventHandler: (BlEventHandler
 			 on: ToListSelectionChangedEvent
 			 do: [ :event | self packageSelectionChangedEvent: event ]).
+			
 	packages dataAccessor addAll:
 		(RPackage organizer packages asSortedCollection: [ :p1 :p2 |
 			 p1 name < p2 name ]).
@@ -165,12 +166,7 @@ ToMiniBrowser >> initialize [
 			 on: ToListSelectionChangedEvent
 			 do: [ :event | self classSelectionChangedEvent: event ]).
 			
-	classes addEventHandler: (BlEventHandler
-			 on: ToCollectionAddEvent do: [ :ann | protocols dataAccessor removeAll ]).	
-
-"	classes dataAccessor whenRemoveChangeDo: [
-		protocols dataAccessor removeAll ].
-"	classesPane := ToPane new
+	classesPane := ToPane new
 		               id: #classesPane;
 		               beVertical;
 		               matchParent.
@@ -205,9 +201,6 @@ ToMiniBrowser >> initialize [
 	protocols addEventHandler: (BlEventHandler
 			 on: ToListSelectionChangedEvent
 			 do: [ :event | self protocolSelectionChangedEvent: event ]).
-	protocols addEventHandler: (BlEventHandler
-			 on: ToCollectionRemoveEvent
-			 do: [ :ann | selectors dataAccessor removeAll ]).
 
 	selectors := ToListElement new
 		             id: #selectors;
@@ -221,11 +214,6 @@ ToMiniBrowser >> initialize [
 	selectors addEventHandler: (BlEventHandler
 			 on: ToListSelectionChangedEvent
 			 do: [ :event | self selectorSelectionChangedEvent: event ]).
-	selectors addEventHandler: (BlEventHandler
-			 on: ToCollectionRemoveEvent
-			 do: [ :ann | self clearCodeInEditor ]).
-
-	"selectors hasFixedSize: true."
 
 	codePane := ToAlbum new withRowNumbers.
 	codePane styler: BlRBTextStyler new.

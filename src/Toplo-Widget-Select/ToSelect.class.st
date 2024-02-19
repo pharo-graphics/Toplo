@@ -149,7 +149,7 @@ ToSelect >> initialize [
 	sharedEventsDistributor := BlSharedEventDistributor new.
 	sharedEventsDistributor
 		adjustMousePosition: false;
-		shareEvents: { ToDataSourceFilteredEvent }.
+		shareEvents: { ToCollectionFilteredEvent }.
 
 	self addEventHandler: sharedEventsDistributor.
 	self listElement addEventHandler: sharedEventsDistributor

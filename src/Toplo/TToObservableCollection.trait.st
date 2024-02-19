@@ -380,13 +380,13 @@ TToObservableCollection >> notifyAddChangeAround: aBlock candidates: aCollection
 
 	self notifyEmptinessChangeAfter: [
 		| request |
-		self fireEvent: (request := ToCollectionAddRequest new
+		self dispatchEvent: (request := ToCollectionAddRequest new
 				            interval: anInterval;
 				            candidates: aCollection;
 				            yourself).
 		request accepted ifTrue: [
 			aBlock value.
-			self fireEvent: (ToCollectionAddEvent new interval: anInterval) ] ]
+			self dispatchEvent: (ToCollectionAddEvent new interval: anInterval) ] ]
 ]
 
 { #category : #'t - observable collection - notifications' }
@@ -395,7 +395,7 @@ TToObservableCollection >> notifyEmptinessChangeAfter: aBlock [
 	| wasEmpty |
 	wasEmpty := self collection isEmpty.
 	aBlock value.
-	wasEmpty = self collection isEmpty ifFalse: [ self fireEvent: ToCollectionEmptinessEvent new ]
+	wasEmpty = self collection isEmpty ifFalse: [ self dispatchEvent: ToCollectionEmptinessEvent new ]
 ]
 
 { #category : #'t - observable collection - notifications' }
@@ -403,10 +403,10 @@ TToObservableCollection >> notifyFilterChangeAround: aBlock interval: anInterval
 
 	self notifyEmptinessChangeAfter: [
 		| request |
-		self fireEvent: (request := ToCollectionFilterRequest new interval: (1 to: self size)).
+		self dispatchEvent: (request := ToCollectionFilterRequest new interval: (1 to: self size)).
 		request accepted ifTrue: [
 			aBlock value.
-			self fireEvent: (ToCollectionFilteredEvent new interval: anInterval) ] ]
+			self dispatchEvent: (ToCollectionFilteredEvent new interval: anInterval) ] ]
 ]
 
 { #category : #'t - observable collection - notifications' }
@@ -414,10 +414,10 @@ TToObservableCollection >> notifyRemoveChangeAround: aBlock removed: aCollection
 
 	self notifyEmptinessChangeAfter: [
 		| request |
-		self fireEvent: (request := ToCollectionRemoveRequest new interval: anInterval).
+		self dispatchEvent: (request := ToCollectionRemoveRequest new interval: anInterval).
 		request accepted ifTrue: [
 			aBlock value.
-			self fireEvent: (ToCollectionRemoveEvent new
+			self dispatchEvent: (ToCollectionRemoveEvent new
 					 interval: anInterval;
 					 removed: aCollection;
 					 yourself) ] ]
@@ -428,22 +428,22 @@ TToObservableCollection >> notifyUpdateAllChangeAround: aBlock [
 
 	| request interval |
 	interval := 1 to: self size.
-	self fireEvent:
+	self dispatchEvent:
 		(request := ToCollectionUpdateAllRequest new interval: interval).
 	request accepted ifFalse: [ ^ self ].
 	aBlock value.
-	self fireEvent: (ToCollectionUpdateAllEvent new interval: interval)
+	self dispatchEvent: (ToCollectionUpdateAllEvent new interval: interval)
 ]
 
 { #category : #'t - observable collection - notifications' }
 TToObservableCollection >> notifyUpdateChangeAround: aBlock interval: anInterval [
 
 	| request |
-	self fireEvent:
+	self dispatchEvent:
 		(request := ToCollectionUpdateRequest new interval: anInterval).
 	request accepted ifFalse: [ ^ self ].
 	aBlock value.
-	self fireEvent: (ToCollectionUpdateEvent new interval: anInterval)
+	self dispatchEvent: (ToCollectionUpdateEvent new interval: anInterval)
 ]
 
 { #category : #'t - observable collection - copying' }

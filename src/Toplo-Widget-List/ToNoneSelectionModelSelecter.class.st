@@ -53,25 +53,25 @@ ToNoneSelectionModelSelecter >> previousSelectableIndex [
 	^ 0
 ]
 
-{ #category : #'shortcuts operations' }
+{ #category : #operations }
 ToNoneSelectionModelSelecter >> scrollToCurrentIndex [
 
 
 ]
 
-{ #category : #'shortcuts operations' }
+{ #category : #operations }
 ToNoneSelectionModelSelecter >> scrollToIndex: anIndex [
 
 
 ]
 
-{ #category : #'shortcuts operations' }
+{ #category : #operations }
 ToNoneSelectionModelSelecter >> scrollToNextIndex [
 
 
 ]
 
-{ #category : #'shortcuts operations' }
+{ #category : #operations }
 ToNoneSelectionModelSelecter >> scrollToPreviousIndex [
 
 ]
@@ -92,7 +92,7 @@ ToNoneSelectionModelSelecter >> selectIndex: anIndex [
 ToNoneSelectionModelSelecter >> selectIndex: aStartIndex to: anEndIndex [
 ]
 
-{ #category : #'shortcuts operations' }
+{ #category : #operations }
 ToNoneSelectionModelSelecter >> selectNextIndex [
 
 
@@ -106,10 +106,10 @@ ToNoneSelectionModelSelecter >> selectOnlyIndex: anIndex [
 ToNoneSelectionModelSelecter >> selectOnlyIndexes: anArray [
 ]
 
-{ #category : #'shortcuts operations' }
+{ #category : #operations }
 ToNoneSelectionModelSelecter >> selectPreviousIndex [
 ]
 
-{ #category : #'shortcuts operations' }
+{ #category : #operations }
 ToNoneSelectionModelSelecter >> selectToIndex: index [
 ]

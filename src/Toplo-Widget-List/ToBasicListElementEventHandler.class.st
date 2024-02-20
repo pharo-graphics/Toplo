@@ -96,6 +96,7 @@ ToBasicListElementEventHandler >> onItemsInserted: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
+	target selectionModel ifEmpty: [ ^ self ].
 	target selecter
 		shiftSelection: anEvent itemCount
 		from: anEvent position
@@ -106,6 +107,7 @@ ToBasicListElementEventHandler >> onItemsRemoved: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
+	target selectionModel ifEmpty: [ ^ self ].
 	target dataAccessor size >= anEvent position ifTrue: [
 		target selecter
 			deselectIndex: anEvent position

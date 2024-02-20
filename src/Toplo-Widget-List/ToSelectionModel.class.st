@@ -68,8 +68,6 @@ ToSelectionModel >> deselectIndex: aFirstIndex to: aSecondIndex [
 	| from to |
 	from := aFirstIndex min: aSecondIndex.
 	to := aFirstIndex max: aSecondIndex.
-	from <= self itemCount ifFalse: [ ^ self ].
-	to <= self itemCount ifFalse: [ ^ self ].
 	(from <= to
 		and: [ from > 0
 			and: [ to >= 0 ] ]) ifFalse: [ ^ self ].

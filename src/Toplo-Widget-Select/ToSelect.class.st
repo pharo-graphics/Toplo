@@ -8,7 +8,8 @@ Class {
 		'mode',
 		'placeholderText',
 		'selection',
-		'filtrable'
+		'filtrable',
+		'data'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -28,7 +29,7 @@ ToSelect >> currentWindow [
 { #category : #accessing }
 ToSelect >> dataAccessor [ 
 
-	^ self listElement dataAccessor
+	^ data
 ]
 
 { #category : #accessing }
@@ -132,7 +133,9 @@ ToSelect >> initialize [
 
 	| sharedEventsDistributor headerElement |
 	super initialize.
-	filtrable := false.
+	filtrable := true.
+
+	data := ToObservableCollection new.
 
 	selection := BlCompositeSelection new.
 	" for the popup "
@@ -142,6 +145,9 @@ ToSelect >> initialize [
 	headerElement := self newHeaderElement.
 	self addChild: headerElement.
 	self addChild: self newIconContainer.
+	
+	strategy := ToSingleSelectStrategy new.
+	strategy onInstalledIn: self.
 
 	self layout: BlLinearLayout horizontal.
 	self fitContent.

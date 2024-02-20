@@ -167,7 +167,7 @@ ToSelectStrategy >> onInstalledIn: aSelect [
 	select headerElement addChild: nodeContainer.
 	self buildHeaderNodeContainer: nodeContainer.
 	self initializeFakeNode.
-	self refreshHeaderNodeContainer 
+	self refreshHeaderNodeContainer
 ]
 
 { #category : #'api - hooks' }

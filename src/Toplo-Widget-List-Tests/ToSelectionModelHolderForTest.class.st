@@ -82,6 +82,12 @@ ToSelectionModelHolderForTest >> noneSelectionSelecter [
 	^ selecter
 ]
 
+{ #category : #'event firing' }
+ToSelectionModelHolderForTest >> notifySelectionChanged: anEvent [
+
+	self dispatchEvent: anEvent
+]
+
 { #category : #accessing }
 ToSelectionModelHolderForTest >> operator [
 

@@ -59,7 +59,7 @@ ToSelectTextInputElement >> initialize [
 		c frame vertical alignCenter.
 		c flow vertical alignCenter.
 		c linear vertical alignCenter ].
-	self background: BlBackground transparent.
+	self background: (Color yellow alpha: 0.3).
 	self fitContent
 ]
 
@@ -86,10 +86,10 @@ ToSelectTextInputElement >> newInputTextField [
 				ToSelectTextFieldCarriageReturnShortcut new.
 			textField addEventHandler: (BlEventHandler
 					 on: AlbTextEditedEvent
-					 do: [ :event |  self onFilterTextFieldUpdated: event ]).
+					 do: [ :event |  self onFilterTextUpdated: event ]).
 			textField addEventHandler: (BlEventHandler
 					 on: AlbTextReplacedEvent
-					 do: [ :event |  self onFilterTextFieldUpdated: event ]) ]
+					 do: [ :event |  self onFilterTextReplaced: event ]) ]
 		ifFalse: [ textField beReadonlyWithSelection ].
 	
 	^ textField
@@ -106,12 +106,21 @@ ToSelectTextInputElement >> newTextField [
 ]
 
 { #category : #private }
-ToSelectTextInputElement >> onFilterTextFieldUpdated: anEvent [
+ToSelectTextInputElement >> onFilterTextReplaced: anEvent [
 
-	select pattern: self filterString.
+	"select pattern: self filterString.
 	select isMultipleSelection
 		ifTrue: [ self checkMultipleSelectPlaceholderText ]
-		ifFalse: [ self checkSingleSelectPlaceholderText ]
+		ifFalse: [ self checkSingleSelectPlaceholderText ]"
+]
+
+{ #category : #private }
+ToSelectTextInputElement >> onFilterTextUpdated: anEvent [
+
+	"select pattern: self filterString.
+	select isMultipleSelection
+		ifTrue: [ self checkMultipleSelectPlaceholderText ]
+		ifFalse: [ self checkSingleSelectPlaceholderText ]"
 ]
 
 { #category : #'api - hooks' }
@@ -134,7 +143,10 @@ ToSelectTextInputElement >> onInstalledIn: aSelect [
 	" the id is set here to avoid that a fake node with a text field with the same id "
 	selectedDataTextField id: #selectedDataTextField.
 	self addChild: selectedDataTextField.
-	self addChild: inputTextField
+	self addChild: inputTextField.
+	inputTextField 	addEventHandler: (BlEventHandler
+			 on: BlMouseDownEvent
+			 do: [ :event | self select windowManager popupWindowEvent: event ])
 ]
 
 { #category : #private }

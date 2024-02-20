@@ -995,6 +995,7 @@ ToSandBox class >> example_MonoNotFiltrable [
 	select width: 300.
 	select position: 50 @ 50.
 	innerWindow pane addChild: select.
+	innerWindow height: 500.
 	innerWindow openInSpace
 ]
 
@@ -1040,6 +1041,7 @@ ToSandBox class >> example_MultiNotFiltrable [
 	select position: 50 @ 50.
 
 	innerWindow pane addChild: select.
+	innerWindow height: 500.
 	innerWindow openInSpace
 ]
 
@@ -1302,7 +1304,65 @@ ToSandBox class >> example_SieveOnList2WithStatesOfAmerica [
 	"handler inspect."
 	pane addChild: listElement.
 	pane addChild: filterField.
-	pane openInSpace
+	pane openInSpace.
+	^ listElement 
+]
+
+{ #category : #list }
+ToSandBox class >> example_SieveOnList2WithStatesOfAmerica_WithSelection [
+
+	| listElement indexedData selectionSet sieved originalData |
+	listElement := self example_SieveOnList2WithStatesOfAmerica.
+	listElement dataAccessor addAll:
+		(SystemNavigation default allMethods collect: [ :m | m printString ]).
+
+	sieved := false.
+
+	selectionSet := IdentitySet new.
+	selectionSet addAll: listElement selectionModel selectedIndexes.
+
+	originalData := OrderedCollection new.
+	originalData addAll: listElement dataAccessor asArray.
+
+	indexedData := IdentityDictionary new.
+	originalData withIndexDo: [ :aData :idx |
+		indexedData at: aData put: idx ].
+
+	listElement addEventHandler: (BlEventHandler
+			 on: ToListSelectionChangedEvent
+			 do: [ :event |
+				 event traceCr.
+				 selectionSet removeAll.
+				 selectionSet addAll: event selectionModel selectedIndexes ]).
+
+	listElement addEventHandler: (BlEventHandler
+			 on: ToSievedListSelectionChangedEvent
+			 do: [ :event |
+				 event traceCr.
+				 listElement dataAccessor withIndexDo: [ :d :localIdx |
+					 | originalIndex |
+					 originalIndex := indexedData at: d.
+					 (event selectionModel containsIndex: localIdx)
+						 ifTrue: [ selectionSet add: originalIndex ]
+						 ifFalse: [ selectionSet remove: originalIndex ifAbsent: [  ] ] ] ]).
+
+	listElement addEventHandler: (BlEventHandler
+			 on: ToListSieveFilterAppliedEvent
+			 do: [ :event |
+				 event traceCr.
+				 sieved := event sieve pattern notEmpty.
+				 sieved
+					 ifTrue: [
+						 | selected |
+						 selected := OrderedCollection new.
+						 listElement dataAccessor withIndexDo: [ :d :localIndex |
+							 | originalIndex |
+							 originalIndex := indexedData at: d.
+							 (selectionSet includes: originalIndex) ifTrue: [
+								 selected add: localIndex ] ].
+						 listElement selecter selectAllIndexes: selected ]
+					 ifFalse: [
+						 listElement selecter selectOnlyIndexes: selectionSet asArray ] ])
 ]
 
 { #category : #list }
@@ -1431,7 +1491,7 @@ ToSandBox class >> example_SieveOnList2With_AllMethods [
 
 	sieve dataFilter: [ :aCompiledMethod :aPattern |
 		aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
-
+sieve inspect.
 
 	listElement nodeBuilder: [ :node :holder |
 		node addChild: (ToLabel new text: holder dataItem printString) ].
@@ -1457,7 +1517,16 @@ ToSandBox class >> example_SieveOnList2With_AllMethods [
 	"listElement inspect."
 	pane addChild: listElement.
 	pane addChild: filterField.
-	pane openInSpace
+	pane openInSpace.
+	^ listElement
+]
+
+{ #category : #list }
+ToSandBox class >> example_SieveOnList2With_AllMethods_MonoSelection [
+
+	| listElement |
+	listElement := self example_SieveOnList2With_AllMethods.
+	listElement selectionMode: ToListSingleSelectionMode new
 ]
 
 { #category : #list }

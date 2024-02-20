@@ -27,6 +27,7 @@ ToMultiSelectionModelSelecter >> selectAll [
 { #category : #operations }
 ToMultiSelectionModelSelecter >> selectAllIndexes: anArray [
 
+	anArray ifEmpty: [ ^ self ].
 	self addCommand: (ToIndexesSelectionCommand new
 			 indexes: anArray;
 			 operation: ToAddSelectionOperation new).
@@ -69,10 +70,15 @@ ToMultiSelectionModelSelecter >> selectOnlyIndex: anIndex [
 { #category : #operations }
 ToMultiSelectionModelSelecter >> selectOnlyIndexes: anArray [
 
-	self addCommand:
-		(ToWholeSelectionCommand new operation:
-			 ToRemoveSelectionOperation new).
-	anArray ifEmpty: [ ^ self ].
+	anArray ifEmpty: [
+		self addCommand:
+			(ToWholeSelectionCommand new operation:
+				 ToRemoveSelectionOperation new).
+		self changeCurrentIndexWith: 0.
+		^ self ].
+	self addCommand: (ToWholeSelectionCommand new
+			 silent: true;
+			 operation: ToRemoveSelectionOperation new).
 	self addCommand: (ToIndexesSelectionCommand new
 			 indexes: anArray;
 			 operation: ToAddSelectionOperation new).

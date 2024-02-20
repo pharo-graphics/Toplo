@@ -91,7 +91,7 @@ ToBasicListElement >> infiniteSharedEvents [
 ToBasicListElement >> initialize [
 
 	super initialize.
-
+	
 	self next: self defaultInfiniteElement.
 	self next elevation: (BlRelativeElevation elevation: 10).
 
@@ -154,6 +154,18 @@ ToBasicListElement >> newSelectionModel [
 	^ ToSelectionModel new
 		  itemCountGetter: [ self dataSource itemCount ];
 		  yourself
+]
+
+{ #category : #'event firing' }
+ToBasicListElement >> notifySelectionChanged: aSelectionChangedEvent [
+
+	| preNotification |
+	preNotification := ToListSelectionChangePreNotificationEvent new
+		                   selectionChangedEvent: aSelectionChangedEvent;
+		                   yourself.
+	self dispatchEvent: preNotification.
+	preNotification selectionChangedEvent ifNil: [ ^ self ].
+	self dispatchEvent: preNotification selectionChangedEvent
 ]
 
 { #category : #'t - element with placeholder' }

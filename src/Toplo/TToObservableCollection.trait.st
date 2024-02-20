@@ -365,7 +365,7 @@ TToObservableCollection >> last: n [
 TToObservableCollection >> newMirror [
 
 	^ ToCollectionMirror new
-		  mirrored: self;
+		  mirroredTo: self;
 		  yourself
 ]
 

@@ -18,8 +18,6 @@ ToSelectSelectionModelSelecter >> selectAll [
 ToSelectSelectionModelSelecter >> selectAllIndexes: anArray [
 
 	| indexes |
-	self class name trace.
-	' selectAllIndexes:' traceCr.
 	anArray ifEmpty: [ ^ self ].
 	indexes := anArray size > 1
 		           ifTrue: [ anArray copyFrom: 1 to: 1 ]
@@ -56,9 +54,6 @@ ToSelectSelectionModelSelecter >> selectOnlyIndex: anIndex [
 { #category : #operations }
 ToSelectSelectionModelSelecter >> selectOnlyIndexes: anArray [
 
-	self class name trace.
-	' selectOnlyIndexes: ' trace.
-	anArray traceCr.
 	self deselectAll.
 	anArray ifEmpty: [ ^ self ].
 	self addCommand: (ToIndexesSelectionCommand new

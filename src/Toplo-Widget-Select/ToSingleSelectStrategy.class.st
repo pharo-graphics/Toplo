@@ -40,6 +40,16 @@ ToSingleSelectStrategy >> headerNodeContainerLayout [
 	^ BlFrameLayout new
 ]
 
+{ #category : #'event handling' }
+ToSingleSelectStrategy >> onListElementSelectionChangedEvent: anEvent [
+'onListElementSelectionChangedEvent:' traceCr.
+	select selection deselectAll.
+	anEvent selectionModel ifNotEmpty: [
+		select selection selectIndex: anEvent selectedIndexes first ].
+	select selection traceCr.
+	self refreshHeaderNodeContainer
+]
+
 { #category : #'api - hooks' }
 ToSingleSelectStrategy >> onUninstalledIn: aSelect [
 
@@ -63,12 +73,16 @@ ToSingleSelectStrategy >> refreshHeaderNodeContainer [
 			selectedData := nil ]
 		ifFalse: [ 
 			idx := select selection from + 1.
-			selectedData := select data at: idx ].
+			selectedData := select dataAccessor at: idx ].
+
 	holder
 		position: idx;
 		data: selectedData.
-	select closeWindow.
-	self textInputElement onSingleSelectDataChanged
+	"select closeWindow."
+	
+	self textInputElement selectedDataTextField visibility: BlVisibility visible.
+	self textInputElement selectedDataTextField text: selectedData asString.
+	self textInputElement inputTextField text: ''
 ]
 
 { #category : #accessing }

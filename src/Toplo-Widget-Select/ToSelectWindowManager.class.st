@@ -5,7 +5,8 @@ Class {
 		'listElement',
 		'maxHeight',
 		'minHeight',
-		'sieve'
+		'sieve',
+		'listDataSourceUpdater'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -108,13 +109,26 @@ ToSelectWindowManager >> onInstalledIn: anElement [
 	maxHeight := self defaultMaxHeight.
 	minHeight := self defaultMinHeight.
 	listElement := self newListElement.
+	
+	listDataSourceUpdater := ToObservableCollectionMirrorUpdater new mirror: listElement dataAccessor.
+	anElement dataAccessor addEventHandler: listDataSourceUpdater.
+	
+	listElement addEventHandlerOn: ToListSelectionChangedEvent do: [ :anEvent | self onListElementSelectionChangedEvent: anEvent ].
+
 	self builder: [ :selectWin :request |
 		selectWin root hMatchParent.
 		selectWin root vFitContent.
 		selectWin root addChild: self listElement ].
+
 	sieve := ToListElementSieve new.
 	sieve onInstalledIn: listElement.	
 
+]
+
+{ #category : #'as yet unclassified' }
+ToSelectWindowManager >> onListElementSelectionChangedEvent: anEvent [
+
+	self element strategy  onListElementSelectionChangedEvent: anEvent
 ]
 
 { #category : #accessing }
@@ -122,6 +136,8 @@ ToSelectWindowManager >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
 	sieve onInstalledIn: listElement.
+	anElement dataAccessor removeEventHandler: listDataSourceUpdater.
+	listDataSourceUpdater := nil.
 	sieve := nil.
 	listElement := nil.
 
@@ -132,7 +148,7 @@ ToSelectWindowManager >> onWindowClosed [
 
 	super onWindowClosed.
 	" if case one of my children has focus "
-	self element strategy onWindowClosed.
+	"self element strategy onWindowClosed."
 
 
 ]
@@ -141,7 +157,7 @@ ToSelectWindowManager >> onWindowClosed [
 ToSelectWindowManager >> onWindowOpened [
 
 	super onWindowOpened.
-	self element strategy onWindowOpened
+	"self element strategy onWindowOpened"
 
 
 ]

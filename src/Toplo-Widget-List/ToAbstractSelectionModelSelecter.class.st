@@ -13,7 +13,7 @@ ToAbstractSelectionModelSelecter >> beSilentWhile: aBlock [
 	| prev |
 	prev := operateSilently.
 	operateSilently := true.
-	aBlock ensure: [ operateSilently := prev ]
+	[ aBlock cull: self ] ensure: [ operateSilently := prev ]
 ]
 
 { #category : #accessing }
@@ -84,25 +84,25 @@ ToAbstractSelectionModelSelecter >> previousSelectableIndex [
 	^ self subclassResponsibility
 ]
 
-{ #category : #'shortcuts operations' }
+{ #category : #operations }
 ToAbstractSelectionModelSelecter >> scrollToCurrentIndex [
 
 	self subclassResponsibility
 ]
 
-{ #category : #'shortcuts operations' }
+{ #category : #operations }
 ToAbstractSelectionModelSelecter >> scrollToIndex: anIndex [
 
 	self subclassResponsibility 
 ]
 
-{ #category : #'shortcuts operations' }
+{ #category : #operations }
 ToAbstractSelectionModelSelecter >> scrollToNextIndex [
 
 	self subclassResponsibility
 ]
 
-{ #category : #'shortcuts operations' }
+{ #category : #operations }
 ToAbstractSelectionModelSelecter >> scrollToPreviousIndex [
 
 	self subclassResponsibility
@@ -132,7 +132,7 @@ ToAbstractSelectionModelSelecter >> selectIndex: aStartIndex to: anEndIndex [
 	self subclassResponsibility 
 ]
 
-{ #category : #'shortcuts operations' }
+{ #category : #operations }
 ToAbstractSelectionModelSelecter >> selectNextIndex [
 
 	self subclassResponsibility 
@@ -150,13 +150,13 @@ ToAbstractSelectionModelSelecter >> selectOnlyIndexes: anArray [
 	self subclassResponsibility 
 ]
 
-{ #category : #'shortcuts operations' }
+{ #category : #operations }
 ToAbstractSelectionModelSelecter >> selectPreviousIndex [
 
 	self subclassResponsibility
 ]
 
-{ #category : #'shortcuts operations' }
+{ #category : #operations }
 ToAbstractSelectionModelSelecter >> selectToIndex: index [
 
 	self subclassResponsibility 

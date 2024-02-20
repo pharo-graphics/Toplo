@@ -24,9 +24,8 @@ ToSelectTextFieldCarriageReturnShortcut >> name [
 { #category : #evaluation }
 ToSelectTextFieldCarriageReturnShortcut >> performOnEditor: aTextEditor element: anEditorElement dueTo: aShortcutEvent [
 
-	
 	| select |
 	select := anEditorElement rootAlbumElement select.
-	select  listElement data ifEmpty: [ ^ self ].
+	select listElement dataAccessor ifEmpty: [ ^ self ].
 	select mode selectIndex: 1
 ]

@@ -30,23 +30,21 @@ ToSelectionModelOperator >> addWholeSelectionCommand: aCommand [
 { #category : #'command application' }
 ToSelectionModelOperator >> applyCommand: aCommand for: aTarget [
 
-	| dispatch |
+	| silent |
 	previousModel ifNil: [ previousModel := self selectionModel copy ].
 
 	super applyCommand: aCommand for: aTarget.
 
-	dispatch := aCommand silent
-		            ifTrue: [ false ]
-		            ifFalse: [ previousModel ~= self selectionModel ].
+	silent := aCommand silent or: [ previousModel = self selectionModel ].
 
-	dispatch ifFalse: [ ^ self ].
+	silent ifTrue: [ ^ self ].
 	
 	previousModel := self selectionModel copy.
 	aTarget dispatchEvent: (ToSelectionCommandAppliedEvent new
 			 operator: self;
 			 command: aCommand).
 
-	aTarget dispatchEvent: (ToListSelectionChangedEvent new
+	aTarget notifySelectionChanged: (ToListSelectionChangedEvent new
 			 selectionModel: previousModel;
 			 yourself)
 ]

@@ -45,8 +45,6 @@ ToSelectionModelSelecter >> deselectAll [
 { #category : #operations }
 ToSelectionModelSelecter >> deselectAllIndexes: anArray [
 
-	self class name trace.
-	' deselectAllIndexes:' traceCr.
 	self addCommand: (ToIndexesSelectionCommand new
 			 indexes: anArray;
 			 operation: ToRemoveSelectionOperation new).
@@ -131,7 +129,7 @@ ToSelectionModelSelecter >> scrollToCurrentIndex [
 	self scrollToIndex: self currentIndex
 ]
 
-{ #category : #'shortcuts operations' }
+{ #category : #operations }
 ToSelectionModelSelecter >> scrollToIndex: anIndex [
 
 	self itemCount >= anIndex ifTrue: [

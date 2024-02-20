@@ -31,3 +31,9 @@ ToSievedListSelectionChangedEvent >> selectionModel: aSelectionModel [
 
 	selectionModel := aSelectionModel
 ]
+
+{ #category : #sending }
+ToSievedListSelectionChangedEvent >> sendTo: anObject [
+
+	anObject sievedListSelectionChangedEvent: self
+]

@@ -44,7 +44,7 @@ ToListElementSieve >> listSelectionChangePreNotificationEvent: aPreNotification 
 	newEvent := ToSievedListSelectionChangedEvent new.
 	newEvent
 		pattern: self pattern;
-		selectionModel: sourceEvent selectionModel.
+		selectionModel: sourceEvent selectionModel copy.
 	aPreNotification currentTarget dispatchEvent: newEvent.
 	aPreNotification currentTarget dispatchEvent: ToListSelectionDirtyEvent new.
 	aPreNotification selectionChangedEvent: nil

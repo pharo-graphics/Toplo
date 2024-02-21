@@ -1,6 +1,6 @@
 Class {
 	#name : #ToListSelectionDirtyEvent,
-	#superclass : #ToListSelectionEvent,
+	#superclass : #ToListElementEvent,
 	#category : #'Toplo-Widget-List-Selection-Events'
 }
 

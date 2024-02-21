@@ -1,6 +1,6 @@
 Class {
 	#name : #ToSievedListSelectionChangedEvent,
-	#superclass : #ToListSelectionEvent,
+	#superclass : #ToListElementEvent,
 	#instVars : [
 		'pattern',
 		'selectionModel'

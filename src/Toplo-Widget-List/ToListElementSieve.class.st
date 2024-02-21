@@ -6,7 +6,8 @@ Class {
 		'originalData',
 		'queryResultHandler',
 		'queryApplicationTask',
-		'currentData'
+		'currentData',
+		'selectionHandler'
 	],
 	#category : #'Toplo-Widget-List-Sieve'
 }
@@ -64,7 +65,11 @@ ToListElementSieve >> onInstalledIn: aListElement [
 				                      onObservableCollectionQueryResultEvent:
 				                      event
 				                      for: aListElement ].
-	originalData addEventHandler: queryResultHandler
+	originalData addEventHandler: queryResultHandler.
+	selectionHandler := ToListElementSieveSelectionEventHandler new
+			 sieve: self;
+			 yourself.
+	aListElement addEventHandler: selectionHandler
 ]
 
 { #category : #'event handling' }
@@ -89,6 +94,7 @@ ToListElementSieve >> onObservableCollectionQueryResultEvent: anEvent for: aList
 ToListElementSieve >> onUninstalledIn: aListElement [
 	" uninstall list element handlers and the queyrunner properly "
 
+	aListElement removeEventHandler: selectionHandler.
 	queryRunner onUninstalledIn: originalData.
 	originalData unmirrored.
 	originalData removeEventHandler: queryResultHandler.

@@ -81,6 +81,6 @@ ToListSelectionHistoryEventHandlerExample2 >> removeIntervalSelectionCommand: aC
 
 { #category : #'event handling' }
 ToListSelectionHistoryEventHandlerExample2 >> removeWholeSelectionCommand: aCommand [
-
+aCommand traceCr.
 	historyList dataAccessor removeAll
 ]

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToListStrongSelectionEvent,
-	#superclass : #ToListSelectionEvent,
+	#superclass : #ToListElementEvent,
 	#instVars : [
 		'indexes'
 	],

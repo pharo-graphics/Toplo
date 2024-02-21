@@ -118,9 +118,6 @@ ToMiniBrowser >> initialize [
 						             yourself) ].
 	pkgSieve := ToListElementSieve new.
 	pkgSieve onInstalledIn: packages.
-	packages
-		addEventHandlerOn: ToListSieveFilterAppliedEvent
-		do: [ :event | packages selecter deselectAll ].
 
 	pkgSieve dataFilter: [ :aPackage :aPattern |
 		aPackage name

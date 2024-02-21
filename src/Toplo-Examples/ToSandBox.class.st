@@ -1309,24 +1309,6 @@ ToSandBox class >> example_SieveOnList2WithStatesOfAmerica [
 ]
 
 { #category : #list }
-ToSandBox class >> example_SieveOnList2WithStatesOfAmerica_WithSelectionHandling2 [
-
-	| listElement assoc sieve |
-	assoc := self example_SieveOnList2WithStatesOfAmerica.
-	listElement := assoc key.
-	sieve := assoc value.
-	listElement addEventHandler:
-		(ToListElementSieveSelectionEventHandler new
-			 sieve: sieve;
-			 yourself).
-	listElement addEventHandler: (BlEventHandler
-			 on: ToSievedListSelectionChangedEvent
-			 do: [ :event |
-				 '>>>>> ' trace.
-				 event traceCr ])
-]
-
-{ #category : #list }
 ToSandBox class >> example_SieveOnList2With_350000_Items [
 
 	| listElement pane filterField data sieve |
@@ -1498,7 +1480,7 @@ ToSandBox class >> example_SieveOnList2With_AllMethods_OnCR [
 	pane := ToPane new
 		        beVertical;
 		        matchParent.
-		
+
 	filterField := ToTextField new.
 	listElement := ToListElement new.
 	data := SystemNavigation default allMethods.
@@ -1507,15 +1489,15 @@ ToSandBox class >> example_SieveOnList2With_AllMethods_OnCR [
 
 	sieve := ToListElementSieve new.
 	sieve onInstalledIn: listElement.
-	listElement data addAll: data.
-	
+	listElement dataAccessor addAll: data.
+
 	sieve dataFilter: [ :aCompiledMethod :aPattern |
 		aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
-	
+
 
 	listElement nodeBuilder: [ :node :holder |
-		node addChild: (ToLabel new text: holder data printString) ].
-	
+		node addChild: (ToLabel new text: holder dataItem printString) ].
+
 	sieve dataFilter: [ :aCompiledMethod :aPattern |
 		aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
 	filterField addEditorShortcut: (BlShortcutWithAction new
@@ -1524,7 +1506,7 @@ ToSandBox class >> example_SieveOnList2With_AllMethods_OnCR [
 				 | pattern |
 				 pattern := event currentTarget text asString.
 				 self inform: pattern.
-				 sieve pattern: pattern  ] yourself).
+				 sieve pattern: pattern ] yourself).
 
 	listElement placeholderBuilder: [ :ph :e |
 		| lab |
@@ -1538,19 +1520,6 @@ ToSandBox class >> example_SieveOnList2With_AllMethods_OnCR [
 	pane addChild: listElement.
 	pane addChild: filterField.
 	pane openInSpace
-]
-
-{ #category : #list }
-ToSandBox class >> example_SieveOnList2With_AllMethods_WithSelectionHandling [
-
-	| listElement assoc sieve |
-	assoc := self example_SieveOnList2With_AllMethods.
-	listElement := assoc key.
-	sieve := assoc value.
-	listElement addEventHandler:
-		(ToListElementSieveSelectionEventHandler new
-			 sieve: sieve;
-			 yourself)
 ]
 
 { #category : #menu }

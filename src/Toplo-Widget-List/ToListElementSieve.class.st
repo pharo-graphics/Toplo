@@ -6,8 +6,7 @@ Class {
 		'originalData',
 		'queryResultHandler',
 		'queryApplicationTask',
-		'currentData',
-		'preNotificationHandler'
+		'currentData'
 	],
 	#category : #'Toplo-Widget-List-Sieve'
 }
@@ -19,8 +18,9 @@ ToListElementSieve >> applyObservableCollectionQueryResultEventFor: aListElement
 	self updateCurrentData.
 		" update the list "
 	aListElement selecter beSilentWhile: [ :s | 
-		aListElement dataAccessor filterResult: currentData.
-		s deselectAll ].
+		aListElement dataAccessor filterResult: currentData ].
+	" don't deselect here"
+	"aListElement selecter deselectAll."
 	aListElement dispatchEvent: (ToListSieveFilterAppliedEvent new
 			 sieve: self;
 			 yourself)
@@ -32,22 +32,6 @@ ToListElementSieve >> dataFilter: aValuable [
 
 	queryRunner dataFilter: [ :item :pattern |
 		aValuable value: item value: pattern ]
-]
-
-{ #category : #'event handling' }
-ToListElementSieve >> listSelectionChangePreNotificationEvent: aPreNotification [
-
-	| sourceEvent newEvent |
-	" keep the original "
-	self pattern ifEmpty: [ ^ self ].
-	sourceEvent := aPreNotification selectionChangedEvent.
-	newEvent := ToSievedListSelectionChangedEvent new.
-	newEvent
-		pattern: self pattern;
-		selectionModel: sourceEvent selectionModel copy.
-	aPreNotification currentTarget dispatchEvent: newEvent.
-	aPreNotification currentTarget dispatchEvent: ToListSelectionDirtyEvent new.
-	aPreNotification selectionChangedEvent: nil
 ]
 
 { #category : #'event handling' }
@@ -71,12 +55,6 @@ ToListElementSieve >> onInstalledIn: aListElement [
 
 	" initialization of the current result with the current pattern "
 	self updateCurrentData.
-
-	preNotificationHandler := BlEventHandler
-		                          on:
-		                          ToListSelectionChangePreNotificationEvent
-		                          do: [ :event | event sendTo: self ].
-	aListElement addEventHandler: preNotificationHandler.
 
 	" a filtering occured : put the new data in the list element "
 	queryResultHandler := BlEventHandler
@@ -111,7 +89,6 @@ ToListElementSieve >> onObservableCollectionQueryResultEvent: anEvent for: aList
 ToListElementSieve >> onUninstalledIn: aListElement [
 	" uninstall list element handlers and the queyrunner properly "
 
-	aListElement removeEventHandler: preNotificationHandler.
 	queryRunner onUninstalledIn: originalData.
 	originalData unmirrored.
 	originalData removeEventHandler: queryResultHandler.

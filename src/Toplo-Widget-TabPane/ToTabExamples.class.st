@@ -339,11 +339,11 @@ ToTabExamples class >> example_twoTabsWithListElement [
 	list1 := ToListElement new.
 	list1 constraints vertical matchParent.
 	list1 constraints horizontal matchParent.
-	1 to: 10 do: [ :i | list1 data add: 'Hello ' , i asString ].
+	1 to: 10 do: [ :i | list1 dataAccessor add: 'Hello ' , i asString ].
 	list2 := ToListElement new.
 	list2 constraints vertical matchParent.
 	list2 constraints horizontal matchParent.
-	11 to: 20 do: [ :i | list2 data add: 'Goodbye ' , i asString ].
+	11 to: 20 do: [ :i | list2 dataAccessor add: 'Goodbye ' , i asString ].
 	tabsPanel := ToTabPane new.
 	tab1 := ToTab new.
 	tab1 labelText: 'Hello'.

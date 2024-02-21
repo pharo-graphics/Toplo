@@ -30,14 +30,14 @@ ToListSelectionElementEventHandler >> adjacentSelectedNodesGroupsIn: aListElemen
 	" compare with the previous result. 
 		if different, then return the new one (computed). 
 		If equals, then return the previous one"
-
-	(previousAdjacentNodeGroups notNil and: [
+	^ computed
+	"(previousAdjacentNodeGroups notNil and: [
 		 previousAdjacentNodeGroups size = computed ]) ifFalse: [
 		^ computed ].
 	previousAdjacentNodeGroups with: computed do: [ :pg :g |
 		pg size = g size ifFalse: [ ^ computed ].
 		pg with: g do: [ :pn :n | pn = n ifFalse: [ ^ computed ] ] ].
-	^ previousAdjacentNodeGroups
+	^ previousAdjacentNodeGroups"
 ]
 
 { #category : #'element handlers' }
@@ -99,8 +99,8 @@ ToListSelectionElementEventHandler >> newPrimarySelectionElementsFromEvent: anEv
 	target := anEvent currentTarget.
 	target isAttachedToSceneGraph ifFalse: [ ^ nil ].
 	adjacentNodeGroups := self adjacentSelectedNodesGroupsIn: target.
-	adjacentNodeGroups = previousAdjacentNodeGroups ifTrue: [ ^ nil ].
-	previousAdjacentNodeGroups := adjacentNodeGroups.
+	"adjacentNodeGroups = previousAdjacentNodeGroups ifTrue: [ ^ nil ]."
+	"previousAdjacentNodeGroups := adjacentNodeGroups."
 	^ adjacentNodeGroups collect: [ :g |
 		  ToListPrimarySelectionElement new
 			  listElement: target;
@@ -126,12 +126,12 @@ ToListSelectionElementEventHandler >> onListSelectionElementUpdatedFromEvent: an
 
 	self flag: 'Check if this crappy stuff is still necessary'.
 
-	(previousNodesArray = nodesArray and: [
+	"(previousNodesArray = nodesArray and: [
 		 previousSelectionModel = selectionModel and: [
 			 wasFocused = focused ] ]) ifTrue: [ ^ self ].
 	wasFocused := focused.
 	previousNodesArray := nodesArray.
-	previousSelectionModel := selectionModel copy.
+	previousSelectionModel := selectionModel copy."
 
 	" Ok, the state of the infinite has changed, le's dispatch the event 
 	that is used by the skin state generator to generate the selection state "

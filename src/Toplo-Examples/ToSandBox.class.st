@@ -1305,71 +1305,25 @@ ToSandBox class >> example_SieveOnList2WithStatesOfAmerica [
 	pane addChild: listElement.
 	pane addChild: filterField.
 	pane openInSpace.
-	^ listElement 
-]
-
-{ #category : #list }
-ToSandBox class >> example_SieveOnList2WithStatesOfAmerica_WithSelectionHandling [
-
-	| listElement dataPositionIndex selection sieved |
-	listElement := self example_SieveOnList2WithStatesOfAmerica.
-
-	sieved := false.
-
-	selection := BlCompositeSelection new.
-	selection selectAllIndexes: listElement selectionModel selectedIndexes.
-
-	dataPositionIndex := IdentityDictionary new.
-	listElement dataAccessor withIndexDo: [ :aData :idx |
-		dataPositionIndex at: aData put: idx ].
-
-	listElement addEventHandler: (BlEventHandler
-			 on: ToListSelectionChangedEvent
-			 do: [ :event |
-				 event traceCr.
-				 selection deselectAll.
-				 selection selectAllIndexes: event selectionModel selectedIndexes ]).
-
-	listElement addEventHandler: (BlEventHandler
-			 on: ToSievedListSelectionChangedEvent
-			 do: [ :event |
-				 event traceCr.
-				 listElement dataAccessor withIndexDo: [ :d :localIdx |
-					 | originalIndex |
-					 originalIndex := dataPositionIndex at: d.
-					 (event selectionModel containsIndex: localIdx)
-						 ifTrue: [ selection selectIndex: originalIndex ]
-						 ifFalse: [ selection deselectIndex: originalIndex ] ] ]).
-
-	listElement addEventHandler: (BlEventHandler
-			 on: ToListSieveFilterAppliedEvent
-			 do: [ :event |
-				 event traceCr.
-				 sieved := event sieve pattern notEmpty.
-				 sieved
-					 ifTrue: [
-						 | selected |
-						 selected := OrderedCollection new.
-						 listElement dataAccessor withIndexDo: [ :d :localIndex |
-							 | originalIndex |
-							 originalIndex := dataPositionIndex at: d.
-							 (selection containsIndex: originalIndex) ifTrue: [
-								 selected add: localIndex ] ].
-						 listElement selecter selectAllIndexes: selected ]
-					 ifFalse: [
-						 listElement selecter selectOnlyIndexes: selection indices ] ])
+	^ listElement->sieve
 ]
 
 { #category : #list }
 ToSandBox class >> example_SieveOnList2WithStatesOfAmerica_WithSelectionHandling2 [
 
-	| listElement |
-	listElement := self example_SieveOnList2WithStatesOfAmerica.
+	| listElement assoc sieve |
+	assoc := self example_SieveOnList2WithStatesOfAmerica.
+	listElement := assoc key.
+	sieve := assoc value.
 	listElement addEventHandler:
-		ToListElementSieveSelectionEventHandler new.
+		(ToListElementSieveSelectionEventHandler new
+			 sieve: sieve;
+			 yourself).
 	listElement addEventHandler: (BlEventHandler
 			 on: ToSievedListSelectionChangedEvent
-			 do: [ :event | '>>>>> ' trace. event traceCr ])
+			 do: [ :event |
+				 '>>>>> ' trace.
+				 event traceCr ])
 ]
 
 { #category : #list }
@@ -1525,14 +1479,15 @@ ToSandBox class >> example_SieveOnList2With_AllMethods [
 	pane addChild: listElement.
 	pane addChild: filterField.
 	pane openInSpace.
-	^ listElement
+	^ listElement -> sieve
 ]
 
 { #category : #list }
 ToSandBox class >> example_SieveOnList2With_AllMethods_MonoSelection [
 
-	| listElement |
-	listElement := self example_SieveOnList2With_AllMethods.
+	| listElement assoc |
+	assoc := self example_SieveOnList2With_AllMethods.
+	listElement := assoc key.
 	listElement selectionMode: ToListSingleSelectionMode new
 ]
 
@@ -1588,10 +1543,14 @@ ToSandBox class >> example_SieveOnList2With_AllMethods_OnCR [
 { #category : #list }
 ToSandBox class >> example_SieveOnList2With_AllMethods_WithSelectionHandling [
 
-	| listElement |
-	listElement := self example_SieveOnList2With_AllMethods.
-	listElement addEventHandler: ToListElementSieveSelectionEventHandler new.
-	listElement inspect
+	| listElement assoc sieve |
+	assoc := self example_SieveOnList2With_AllMethods.
+	listElement := assoc key.
+	sieve := assoc value.
+	listElement addEventHandler:
+		(ToListElementSieveSelectionEventHandler new
+			 sieve: sieve;
+			 yourself)
 ]
 
 { #category : #menu }

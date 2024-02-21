@@ -2,6 +2,7 @@ Class {
 	#name : #ToListElementSieveSelectionEventHandler,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
+		'sieve',
 		'selectionSet',
 		'dataPositionIndex'
 	],
@@ -12,9 +13,26 @@ Class {
 ToListElementSieveSelectionEventHandler >> eventsToHandle [
 
 	^ {
+		  ToListSelectionChangePreNotificationEvent.
 		  ToListSelectionChangedEvent.
 		  ToSievedListSelectionChangedEvent.
 		  ToListSieveFilterAppliedEvent }
+]
+
+{ #category : #'element handlers' }
+ToListElementSieveSelectionEventHandler >> listSelectionChangePreNotificationEvent: aPreNotification [
+
+	| sourceEvent newEvent |
+	" keep the original "
+	sieve pattern ifEmpty: [ ^ self ].
+	sourceEvent := aPreNotification selectionChangedEvent.
+	newEvent := ToSievedListSelectionChangedEvent new.
+	newEvent
+		pattern: sieve pattern;
+		selectionModel: sourceEvent selectionModel copy.
+	aPreNotification currentTarget dispatchEvent: newEvent.
+	aPreNotification currentTarget dispatchEvent: ToListSelectionDirtyEvent new.
+	aPreNotification selectionChangedEvent: nil
 ]
 
 { #category : #'element handlers' }
@@ -52,6 +70,12 @@ ToListElementSieveSelectionEventHandler >> onInstalledIn: aListElement [
 	dataPositionIndex := IdentityDictionary new.
 	aListElement dataAccessor withIndexDo: [ :aData :idx |
 		dataPositionIndex at: aData put: idx ]
+]
+
+{ #category : #accessing }
+ToListElementSieveSelectionEventHandler >> sieve: aListElementSieve [
+
+	sieve := aListElementSieve
 ]
 
 { #category : #'element handlers' }

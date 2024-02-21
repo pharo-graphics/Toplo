@@ -118,6 +118,9 @@ ToMiniBrowser >> initialize [
 						             yourself) ].
 	pkgSieve := ToListElementSieve new.
 	pkgSieve onInstalledIn: packages.
+	packages
+		addEventHandlerOn: ToListSieveFilterAppliedEvent
+		do: [ :event | packages selecter deselectAll ].
 
 	pkgSieve dataFilter: [ :aPackage :aPattern |
 		aPackage name
@@ -150,7 +153,7 @@ ToMiniBrowser >> initialize [
 	packages addEventHandler: (BlEventHandler
 			 on: ToListSelectionChangedEvent
 			 do: [ :event | self packageSelectionChangedEvent: event ]).
-			
+
 	packages dataAccessor addAll:
 		(RPackage organizer packages asSortedCollection: [ :p1 :p2 |
 			 p1 name < p2 name ]).
@@ -165,7 +168,7 @@ ToMiniBrowser >> initialize [
 	classes addEventHandler: (BlEventHandler
 			 on: ToListSelectionChangedEvent
 			 do: [ :event | self classSelectionChangedEvent: event ]).
-			
+
 	classesPane := ToPane new
 		               id: #classesPane;
 		               beVertical;

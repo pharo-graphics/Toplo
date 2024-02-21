@@ -21,12 +21,6 @@ ToListAbstractSelectionMode >> hasSelectionAt: anIndex [
 	^ self selectionModel containsIndex: anIndex
 ]
 
-{ #category : #testing }
-ToListAbstractSelectionMode >> hasWholeSelection [
-
-	^ self selectionModel isWholeSelectionModel
-]
-
 { #category : #initialization }
 ToListAbstractSelectionMode >> initialize [ 
 

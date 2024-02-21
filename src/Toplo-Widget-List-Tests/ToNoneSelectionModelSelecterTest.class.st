@@ -82,9 +82,7 @@ ToNoneSelectionModelSelecterTest >> testSelectAll [
 
 	selecter selectAll.
 	self waitTestingSpaces.
-	self deny: holder selectionModel isNotEmpty.
-	self
-		deny: holder selectionModel isWholeSelectionModel
+	self deny: holder selectionModel isEmpty
 ]
 
 { #category : #tests }
@@ -93,7 +91,7 @@ ToNoneSelectionModelSelecterTest >> testSelectAll2 [
 	selecter selectAll.
 	self waitTestingSpaces.
 	self assert: selecter currentIndex equals: 0.
-	self assert: holder selectionModel isEmptySelectionModel
+	self assert: holder selectionModel isEmpty
 ]
 
 { #category : #tests }

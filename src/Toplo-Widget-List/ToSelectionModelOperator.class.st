@@ -12,7 +12,9 @@ Class {
 ToSelectionModelOperator >> addIndexesSelectionCommand: aCommand [
 
 	aCommand indexes ifEmpty: [ ^ self ].
-	self selectionModel selectAllIndexes: aCommand indexes
+	self selectionModel selectAllIndexes: aCommand indexes.
+	"intervals := self intervalsIn: aCommand indexes.
+	intervals do: [ :i | self selectionModel selectIndex: i first to: i last ]"
 ]
 
 { #category : #'command operations' }
@@ -50,6 +52,29 @@ ToSelectionModelOperator >> applyCommand: aCommand for: aTarget [
 			 yourself)
 ]
 
+{ #category : #private }
+ToSelectionModelOperator >> intervalsIn: aCollection [
+	" return an array of intervals #( 2 3 4 6 7 8 ) -> { 2 to: 4. 6 to: 8 } "
+
+	| sorted |
+	sorted := aCollection asOrderedCollection sort.
+	^ Array streamContents: [ :stream |
+		  | g prev |
+		  g := nil.
+		  prev := nil.
+		  sorted do: [ :idx |
+			  (prev isNil or: [ prev + 1 = idx ])
+				  ifTrue: [
+				  g := g ifNil: [ idx to: idx ] ifNotNil: [ g first to: idx ] ]
+				  ifFalse: [
+					  g ifNotNil: [
+						  stream nextPut: g.
+						  g := nil ] ].
+			  prev := idx.
+			  g := idx to: idx ].
+		  g ifNotNil: [ stream nextPut: g ] ]
+]
+
 { #category : #accessing }
 ToSelectionModelOperator >> itemCount [
 
@@ -74,7 +99,9 @@ ToSelectionModelOperator >> onUninstalledIn: anEventTarget [
 ToSelectionModelOperator >> removeIndexesSelectionCommand: aCommand [
 
 	aCommand indexes ifEmpty: [ ^ self ].
-	self selectionModel deselectAllIndexes: aCommand indexes
+	self selectionModel deselectAllIndexes: aCommand indexes.
+	"intervals := self intervalsIn: aCommand indexes.
+	intervals reverseDo: [ :i | self selectionModel deselectIndex: i first to: i last ]"
 ]
 
 { #category : #'command operations' }

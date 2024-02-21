@@ -7,7 +7,7 @@ Class {
 { #category : #testing }
 ToListMultiSelectionMode >> allowNodeSelectionOnMouseDown [
 
-	(self hasWholeSelection or: [ self selectedIndexesCount > 1 ])
+	( self selectedIndexesCount > 1 )
 		ifTrue: [ self preserveSelectionOnFocused ifTrue: [ ^ false ] ].
 	^ super allowNodeSelectionOnMouseDown
 ]

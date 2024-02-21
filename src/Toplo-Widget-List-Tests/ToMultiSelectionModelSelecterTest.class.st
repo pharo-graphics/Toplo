@@ -75,8 +75,7 @@ ToMultiSelectionModelSelecterTest >> testSelectAll [
 	selecter selectAll.
 	self waitTestingSpaces.
 	self assert: holder selectionModel isNotEmpty.
-	self assert: selecter currentIndex equals: 1.
-	self assert: holder selectionModel isWholeSelectionModel
+	self assert: selecter currentIndex equals: 1
 ]
 
 { #category : #tests }
@@ -85,7 +84,7 @@ ToMultiSelectionModelSelecterTest >> testSelectAllIndexes [
 	selecter selectAllIndexes: {2. 6. 9}.
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes size equals: 3.
-	self assert: holder selectionModel selectedIndexes asSet equals: {2. 6. 9} asSet
+	self assert: holder selectionModel selectedIndexes equals: {2. 6. 9} 
 ]
 
 { #category : #tests }
@@ -240,7 +239,7 @@ ToMultiSelectionModelSelecterTest >> testSelectOnlyIndexes [
 	selecter selectAllIndexes: {2. 6. 9}.
 	selecter selectOnlyIndexes: {10. 6. 20}.
 	self waitTestingSpaces.
-	self assert: holder selectionModel selectedIndexes asSet equals: {10. 6. 20} asSet.
+	self assert: holder selectionModel selectedIndexes equals: {6. 10. 20}.
 ]
 
 { #category : #tests }

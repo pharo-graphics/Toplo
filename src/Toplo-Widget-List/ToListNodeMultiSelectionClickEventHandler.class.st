@@ -58,7 +58,7 @@ ToListNodeMultiSelectionClickEventHandler >> launchClick: aBlock event: anEvent 
 	
 	" no click launcher for only one selected node "
 	" Avoid selection size computation if all is selected "
-	(mode hasWholeSelection or: [ mode selectedIndexesCount > 0 ])
+	(mode selectedIndexesCount > 0)
 		ifFalse: [ ^ aBlock value ].
 
 	self clickLauncher: ([

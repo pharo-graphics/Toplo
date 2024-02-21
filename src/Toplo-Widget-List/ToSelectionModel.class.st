@@ -17,13 +17,6 @@ ToSelectionModel >> = anObject [
 	^ self underlyingModel = anObject underlyingModel
 ]
 
-{ #category : #private }
-ToSelectionModel >> checkEmptiness [
-
-	self underlyingModel isEmpty ifTrue: [
-		self ensureEmptySelectionModel ].
-]
-
 { #category : #'api - testing' }
 ToSelectionModel >> containsIndex: anIndex [
 
@@ -33,33 +26,19 @@ ToSelectionModel >> containsIndex: anIndex [
 { #category : #updating }
 ToSelectionModel >> deselectAll [
 
-	self ensureEmptySelectionModel 
+	self underlyingModel removeAll 
 ]
 
 { #category : #updating }
 ToSelectionModel >> deselectAllIndexes: anArray [
 
-	| wasWhole |
-	wasWhole := self isWholeSelectionModel.
-	self ensureCompositeSelectionModel.
-	wasWhole ifTrue: [ self underlyingModel select: 0 to: self itemCount ].
-	anArray do: [ :idx |
-		idx <= self itemCount ifTrue: [
-			self underlyingModel deselectIndex: idx ] ].
-	self checkEmptiness
+	anArray do: [ :idx | self deselectIndex: idx ]
 ]
 
 { #category : #updating }
 ToSelectionModel >> deselectIndex: anIndex [
 
-	| wasWhole |
-	anIndex <= self itemCount ifFalse: [ ^ self ].
-	wasWhole := self isWholeSelectionModel.
-	self ensureCompositeSelectionModel.
-	wasWhole ifTrue: [
-		self underlyingModel select: 0 to: self itemCount ].
-	self underlyingModel deselect: anIndex - 1 to: anIndex.
-	self checkEmptiness
+	self underlyingModel deselectIndex: anIndex
 ]
 
 { #category : #updating }
@@ -71,37 +50,16 @@ ToSelectionModel >> deselectIndex: aFirstIndex to: aSecondIndex [
 	(from <= to
 		and: [ from > 0
 			and: [ to >= 0 ] ]) ifFalse: [ ^ self ].
-	self ensureCompositeSelectionModel.
 	self underlyingModel 
 		deselect: from - 1
 		to: to
 ]
 
-{ #category : #private }
-ToSelectionModel >> ensureCompositeSelectionModel [
-
-	self underlyingModel isCompositeSelectionModel ifTrue: [ ^ self ].
-	self underlyingModel: ToUnderlyingSelectionModel composite
-]
-
-{ #category : #private }
-ToSelectionModel >> ensureEmptySelectionModel [
-
-	self isEmptySelectionModel ifTrue: [ ^ self ].
-	self underlyingModel: ToUnderlyingSelectionModel empty
-]
-
-{ #category : #private }
-ToSelectionModel >> ensureWholeSelectionModel [
-
-	self isWholeSelectionModel ifTrue: [ ^ self ].
-	self underlyingModel: ToUnderlyingSelectionModel whole
-]
-
 { #category : #accessing }
 ToSelectionModel >> firstIndex [
 
-	^ self underlyingModel firstIndexAmong: self itemCount
+	self ifEmpty: [^ 0].
+	^ self underlyingModel from + 1
 ]
 
 { #category : #comparing }
@@ -128,13 +86,8 @@ ToSelectionModel >> ifNotEmpty: aBlock [
 ToSelectionModel >> initialize [
 
 	super initialize.
-	underlyingModel := ToUnderlyingSelectionModel empty
-]
-
-{ #category : #'private testing' }
-ToSelectionModel >> isCompositeSelectionModel [
-
-	^ self underlyingModel isCompositeSelectionModel
+	underlyingModel := BlCompositeSelection new.
+	underlyingModel removeAll
 ]
 
 { #category : #testing }
@@ -143,22 +96,10 @@ ToSelectionModel >> isEmpty [
 	^ self underlyingModel isEmpty
 ]
 
-{ #category : #'private testing' }
-ToSelectionModel >> isEmptySelectionModel [
-
-	^ self underlyingModel isEmptySelectionModel
-]
-
 { #category : #testing }
 ToSelectionModel >> isNotEmpty [
 
 	^ self isEmpty not
-]
-
-{ #category : #'private testing' }
-ToSelectionModel >> isWholeSelectionModel [
-
-	^ self underlyingModel isWholeSelectionModel
 ]
 
 { #category : #accessing }
@@ -185,7 +126,8 @@ ToSelectionModel >> itemCountGetter: aValuable [
 { #category : #accessing }
 ToSelectionModel >> lastIndex [
 
-	^ self underlyingModel lastIndexAmong: self itemCount
+	self ifEmpty: [^ 0].
+	^ self underlyingModel to
 ]
 
 { #category : #'api - hooks' }
@@ -210,27 +152,20 @@ ToSelectionModel >> postCopy [
 { #category : #updating }
 ToSelectionModel >> selectAll [
 
-	self ensureWholeSelectionModel 
+	self selectIndex: 1 to: self itemCount
 ]
 
 { #category : #updating }
 ToSelectionModel >> selectAllIndexes: anArray [
 
 	anArray ifEmpty: [ ^ self ].
-	self ensureCompositeSelectionModel.
-	anArray do: [ :idx |
-		idx <= self itemCount ifTrue: [
-			self underlyingModel selectIndex: idx ] ]
+	anArray do: [ :idx | self selectIndex: idx ]
 ]
 
 { #category : #updating }
 ToSelectionModel >> selectIndex: anIndex [
 
-	anIndex <= self itemCount ifFalse: [ ^ self ].
-	self ensureCompositeSelectionModel.
-	self underlyingModel 
-		select: anIndex - 1
-		to: anIndex 
+	self underlyingModel selectIndex: anIndex
 ]
 
 { #category : #updating }
@@ -239,9 +174,6 @@ ToSelectionModel >> selectIndex: aFirstIndex to: aSecondIndex [
 	| from to |
 	from := aFirstIndex min: aSecondIndex.
 	to := aFirstIndex max: aSecondIndex.
-	from <= self itemCount ifFalse: [ ^ self ].
-	to <= self itemCount ifFalse: [ ^ self ].
-	self ensureCompositeSelectionModel.
 	self underlyingModel 
 		select: from - 1
 		to: to
@@ -250,39 +182,60 @@ ToSelectionModel >> selectIndex: aFirstIndex to: aSecondIndex [
 { #category : #accessing }
 ToSelectionModel >> selectedIndexes [
 
-	^ self underlyingModel selectedIndexesAmong: self itemCount
+	^ self underlyingModel indices
 ]
 
 { #category : #enumerating }
 ToSelectionModel >> selectedIndexesCollect: aBlock [
 
-	^ self underlyingModel selectedIndexesCollect: aBlock among: self itemCount
+	^ self underlyingModel indicesCollect: aBlock
 ]
 
 { #category : #accessing }
 ToSelectionModel >> selectedIndexesCount [
 
-	^ self underlyingModel selectedIndexesCountAmong: self itemCount
+	| count |
+	count := 0.
+	self underlyingModel do: [ :s | count := count + s interval size - 1 ].
+	^ count
 ]
 
 { #category : #enumerating }
 ToSelectionModel >> selectedIndexesDo: aBlock [
 
-	^ self underlyingModel selectedIndexesDo: aBlock among: self itemCount
+	^ self underlyingModel indicesDo: aBlock
 ]
 
 { #category : #updating }
 ToSelectionModel >> shift: aGap from: aStartIndex [
 
+	| from to prev high |
+	aGap isZero ifTrue: [ ^ self ].
 	self isEmpty ifTrue: [ ^ self ].
-	self isWholeSelectionModel ifTrue: [
-		self ensureCompositeSelectionModel.
-		self selectIndex: 1 to: self itemCount ].
-	self underlyingModel
-		shift: aGap
-		from: aStartIndex
-		among: self itemCount.
-	self checkEmptiness 
+
+	prev := self underlyingModel copy.
+	high := self underlyingModel to.
+
+	aGap <= 0
+		ifTrue: [
+			from := aStartIndex + aGap.
+			to := aStartIndex.
+			(high >= 0 and: [from <= high ]) ifTrue: [
+				self underlyingModel selections delete:
+					(BlMonotoneSelection from: (from max: 0) to: high) ].
+			prev indices do: [ :idx |
+				(idx >= aStartIndex and: [ idx + aGap > 0 ]) ifTrue: [
+					self underlyingModel selectIndex: idx + aGap ] ] ]
+		ifFalse: [
+			from := aStartIndex.
+			to := aStartIndex + aGap min: high.
+
+			from <= high ifTrue: [
+				self underlyingModel selections delete:
+					(BlMonotoneSelection from: (from - 1 max: 0) to: high) ].
+			prev indicesDo: [ :idx |
+				(idx >= aStartIndex and: [ idx + aGap > 0 ]) ifTrue: [
+					self underlyingModel selectIndex: idx + aGap ] ] ]
 ]
 
 { #category : #accessing }

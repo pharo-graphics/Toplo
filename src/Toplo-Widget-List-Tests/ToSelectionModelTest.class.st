@@ -14,39 +14,14 @@ ToSelectionModelTest >> itemCount [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testCheckEmptiness [
-
-	| s |
-	s := ToSelectionModel new.
-	s checkEmptiness.
-	self assert: (s underlyingModel isKindOf: ToEmptySelectionModel ).
-	s ensureCompositeSelectionModel.
-	self assert: (s underlyingModel isKindOf: ToCompositeSelectionModel ).
-	s checkEmptiness.
-	self assert: (s underlyingModel isKindOf: ToEmptySelectionModel ).
-	s ensureCompositeSelectionModel.
-	s underlyingModel selectIndex: 1.
-	s checkEmptiness.
-	self assert: (s underlyingModel isKindOf: ToCompositeSelectionModel ).
-	s underlyingModel deselectIndex: 1.
-	s checkEmptiness.
-	self assert: (s underlyingModel isKindOf: ToEmptySelectionModel ).
-
-
-
-]
-
-{ #category : #tests }
 ToSelectionModelTest >> testContainsIndex [
 
 	| s |
 	s := ToSelectionModel new.
 	self deny: (s containsIndex: 1).
-	s ensureCompositeSelectionModel.
-	s underlyingModel selectIndex: 1.
+	s selectIndex: 1.
 	s assert: (s containsIndex: 1).
-	s ensureWholeSelectionModel.
-	s assert: (s containsIndex: 1).
+
 ]
 
 { #category : #tests }
@@ -54,30 +29,8 @@ ToSelectionModelTest >> testCopyCompositeModel [
 
 	| s c |
 	s := ToSelectionModel new.
-	s ensureCompositeSelectionModel.
 	c := s copy.
 	self deny: s underlyingModel identicalTo: c underlyingModel.
-	self assert: c equals: s
-]
-
-{ #category : #tests }
-ToSelectionModelTest >> testCopyEmptyModel [
-
-	| s c |
-	s := ToSelectionModel new.
-	c := s copy.
-	self assert: s underlyingModel identicalTo: c underlyingModel.
-	self assert: c equals: s
-]
-
-{ #category : #tests }
-ToSelectionModelTest >> testCopyWholeModel [
-
-	| s c |
-	s := ToSelectionModel new.
-	s ensureWholeSelectionModel.
-	c := s copy.
-	self assert: s underlyingModel identicalTo: c underlyingModel.
 	self assert: c equals: s
 ]
 
@@ -87,10 +40,11 @@ ToSelectionModelTest >> testDeselectAll [
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
 	s deselectAll.
-	self assert: (s underlyingModel isKindOf: ToEmptySelectionModel ).
+	self assert: s isEmpty .
 	s selectIndex: 10.
 	s deselectAll.
-	self assert: (s underlyingModel isKindOf: ToEmptySelectionModel ).
+	self assert: s isEmpty
+
 ]
 
 { #category : #tests }
@@ -122,9 +76,10 @@ ToSelectionModelTest >> testDeselectAllIndexesWithAWholeSelection2 [
 
 	| s |
 	s := ToSelectionModel new.
-	s selectAll.
 	" no way to get item count that is necessary in that case -> Error"
-	self should: [ s deselectAllIndexes: { 2. 4. 6 } ] raise: Error
+	self should: [s selectAll] raise: Error.
+	s deselectAllIndexes: { 2. 4. 6 }.
+	self assert: s isEmpty
 
 ]
 
@@ -157,44 +112,11 @@ ToSelectionModelTest >> testDeselectIndexTo [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testEnsureCompositeSelectionModel [
-
-	| s |
-	s := ToSelectionModel new.
-	s ensureCompositeSelectionModel.
-	self assert: (s underlyingModel isKindOf: ToCompositeSelectionModel )
-]
-
-{ #category : #tests }
-ToSelectionModelTest >> testEnsureEmptySelectionModel [
-
-	| s |
-	s := ToSelectionModel new.
-	s ensureEmptySelectionModel.
-	self assert: (s underlyingModel isKindOf: ToEmptySelectionModel )
-]
-
-{ #category : #tests }
-ToSelectionModelTest >> testEnsureWholeSelectionModel [
-
-	| s |
-	s := ToSelectionModel new.
-	s ensureWholeSelectionModel.
-	self assert: (s underlyingModel isKindOf: ToWholeSelectionModel )
-]
-
-{ #category : #tests }
 ToSelectionModelTest >> testEquals [
 
 	| s |
 	s := ToSelectionModel new.
 	self assert: s equals: ToSelectionModel new.
-	s ensureCompositeSelectionModel.
-	self deny: s equals: ToSelectionModel new.
-	s ensureEmptySelectionModel.
-	self assert: s equals: ToSelectionModel new.
-	s ensureWholeSelectionModel.
-	self deny: s equals: ToSelectionModel new.
 
 ]
 
@@ -203,7 +125,7 @@ ToSelectionModelTest >> testFirstIndex [
 
 	| s |
 	s := ToSelectionModel new.
-	self should: [ s firstIndex ] raise: Error.
+	self assert: s firstIndex equals: 0.
 	s itemCountGetter: [ 100 ].
 	self assert: s firstIndex equals: 0.
 	s selectAllIndexes: #( 4 6 8).
@@ -220,8 +142,8 @@ ToSelectionModelTest >> testInitialize [
 
 	| s |
 	s := ToSelectionModel new.
-	self assert: s isEmptySelectionModel.
-	self assert: (s underlyingModel isKindOf: ToEmptySelectionModel).
+	self assert: s isEmpty.
+	self assert: (s underlyingModel isKindOf: BlCompositeSelection ).
 ]
 
 { #category : #tests }
@@ -229,15 +151,7 @@ ToSelectionModelTest >> testIsEmpty [
 
 	| s |
 	s := ToSelectionModel new.
-	self assert: s isEmptySelectionModel.
-	self assert: s isEmpty.
-	s ensureCompositeSelectionModel.
-	self deny: s isEmptySelectionModel.	
-	self assert: s isEmpty.
-	s ensureWholeSelectionModel.
-	self deny: s isEmptySelectionModel.
-	self deny: s isEmpty.
-
+	self assert: s isEmpty
 
 ]
 
@@ -247,11 +161,8 @@ ToSelectionModelTest >> testItemCount [
 	| s |
 	s := ToSelectionModel new onInstalledIn: self.
 	self assert: s itemCount equals: self itemCount.
-	s ensureCompositeSelectionModel.
 	s underlyingModel selectIndex: 1.
-	s assert: (s containsIndex: 1).
-	s ensureWholeSelectionModel.
-	s assert: (s containsIndex: 1).
+	s assert: (s containsIndex: 1)
 ]
 
 { #category : #tests }
@@ -271,7 +182,7 @@ ToSelectionModelTest >> testLastIndex [
 
 	| s |
 	s := ToSelectionModel new.
-	self should: [ s lastIndex ] raise: Error.
+	self assert: s lastIndex equals: 0.
 	s itemCountGetter: [ 100 ].
 	self assert: s lastIndex equals: 0.
 	s selectAllIndexes: #( 4 6 8 ).
@@ -307,10 +218,11 @@ ToSelectionModelTest >> testSelectAll [
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
 	s selectAll.
-	self assert: (s underlyingModel isKindOf: ToWholeSelectionModel ).
+	self assert: s lastIndex equals: 100.
 	s selectIndex: 10.
 	s selectAll.
-	self assert: (s underlyingModel isKindOf: ToWholeSelectionModel ).
+	self assert: s lastIndex equals: 100.
+
 ]
 
 { #category : #tests }
@@ -319,10 +231,9 @@ ToSelectionModelTest >> testSelectAllIndexes [
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
 	s selectAllIndexes: { 1. 5. 6 }.
-	self assert: (s underlyingModel isKindOf: ToCompositeSelectionModel ).
-	self assert: s selectedIndexes asSet equals: { 1. 5. 6 } asSet.
+	self assert: s selectedIndexes equals: { 1. 5. 6 }.
 	s selectAllIndexes: { 10. 50. 60 }.
-	self assert: s selectedIndexes asSet equals: { 1. 5. 6. 10. 50. 60 } asSet
+	self assert: s selectedIndexes equals: { 1. 5. 6. 10. 50. 60 }
 ]
 
 { #category : #tests }
@@ -333,12 +244,11 @@ ToSelectionModelTest >> testSelectIndex [
 	s selectIndex: 1.
 	s selectIndex: 5.
 	s selectIndex: 6.
-	self assert: (s underlyingModel isKindOf: ToCompositeSelectionModel ).
-	self assert: s selectedIndexes asSet equals: { 1. 5. 6 } asSet.
+	self assert: s selectedIndexes equals: { 1. 5. 6 }.
 	s selectIndex: 10.
 	s selectIndex: 50.
 	s selectIndex: 60.
-	self assert: s selectedIndexes asSet equals: { 1. 5. 6. 10. 50. 60 } asSet
+	self assert: s selectedIndexes equals: { 1. 5. 6. 10. 50. 60 }
 ]
 
 { #category : #tests }
@@ -347,7 +257,6 @@ ToSelectionModelTest >> testSelectIndexTo [
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
 	s selectIndex: 5 to: 9.
-	self assert: (s underlyingModel isKindOf: ToCompositeSelectionModel ).
 	self assert: s selectedIndexes equals: { 5. 6. 7. 8. 9 }.
 	s 	selectIndex: 15 to: 10.
 	self assert: s selectedIndexes equals: { 5. 6. 7. 8. 9. 10. 11. 12. 13. 14. 15 }
@@ -358,7 +267,6 @@ ToSelectionModelTest >> testSelectedIndexesCollect [
 
 	| s collected |
 	s := ToSelectionModel new.
-	self should: [ s selectedIndexesDo: [ :idx | ] ] raise: Error.
 	s itemCountGetter: [ 100 ].
 	collected := s selectedIndexesCollect: [ :idx | idx ].
 	self assert: collected equals: #(  ).
@@ -379,7 +287,6 @@ ToSelectionModelTest >> testSelectedIndexesCount [
 
 	| s |
 	s := ToSelectionModel new.
-	self should: [ s selectedIndexesCount ] raise: Error.
 	s itemCountGetter: [ 100 ].
 	self assert: s selectedIndexesCount equals: 0.
 	s selectAllIndexes: #( 4 6 8 ).
@@ -395,7 +302,6 @@ ToSelectionModelTest >> testSelectedIndexesDo [
 
 	| s count |
 	s := ToSelectionModel new.
-	self should: [ s selectedIndexesDo: [ :idx | ] ] raise: Error.
 	s itemCountGetter: [ 100 ].
 	count := 0.
 	s selectedIndexesDo: [ :idx | count := count + 1 ].
@@ -420,12 +326,10 @@ ToSelectionModelTest >> testSelectedItemCount [
 
 	| s |
 	s := ToSelectionModel new onInstalledIn: self.
-	self assert: s isEmptySelectionModel.
 	self assert: s selectedIndexesCount equals: 0.
-	s ensureCompositeSelectionModel.
-	s underlyingModel selectIndex: 1.
+	s selectIndex: 1.
 	self assert: s selectedIndexesCount equals: 1.
-	s ensureWholeSelectionModel.
+	s selectAll.
 	self assert: s selectedIndexesCount equals: self itemCount.
 ]
 
@@ -568,17 +472,7 @@ ToSelectionModelTest >> testUnderlyingModel [
 
 	| s |
 	s := ToSelectionModel new.
-	self assert: (s underlyingModel isKindOf: ToEmptySelectionModel).
-	s ensureCompositeSelectionModel.
-	self assert: (s underlyingModel isKindOf: ToCompositeSelectionModel).
-	s ensureWholeSelectionModel.
-	self assert: (s underlyingModel isKindOf: ToWholeSelectionModel).
-	s ensureEmptySelectionModel.
-	self assert: (s underlyingModel isKindOf: ToEmptySelectionModel).
-
-
-
-	
+	self assert: (s underlyingModel isKindOf: BlCompositeSelection)
 ]
 
 { #category : #tests }
@@ -587,8 +481,6 @@ ToSelectionModelTest >> testselectedIndexes [
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
 	self assert: s selectedIndexes equals: #(  ).
-	s ensureCompositeSelectionModel.
-	self assert: s selectedIndexes equals: #(  ).
-	s ensureWholeSelectionModel.
+	s selectAll.
 	self assert: s selectedIndexes equals: (1 to: 100)
 ]

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToListSelectionModeChangedEvent,
-	#superclass : #ToListSelectionEvent,
+	#superclass : #ToListElementEvent,
 	#category : #'Toplo-Widget-List-Selection-Events'
 }
 

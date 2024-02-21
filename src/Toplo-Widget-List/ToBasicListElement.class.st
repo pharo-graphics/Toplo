@@ -80,8 +80,7 @@ ToBasicListElement >> horizontal: aBoolean [
 ToBasicListElement >> infiniteSharedEvents [
 
 	^ {
-		  BlInfiniteDataSourceItemRangeInserted.
-		  BlInfiniteDataSourceItemRangeRemoved.
+		  BlInfiniteDataSourceEvent.
 		  BlInfiniteElementAttachedEvent.
 		  BlInfiniteElementDetachedEvent.
 		  BlElementScrolledEvent }
@@ -157,15 +156,27 @@ ToBasicListElement >> newSelectionModel [
 ]
 
 { #category : #'event firing' }
+ToBasicListElement >> notifyDataSourceItemsChanged: aDataSourceEvent [
+
+	| preNotification |
+	preNotification := ToListDataSourceItemsChangePreNotificationEvent new
+		                   sourceEvent: aDataSourceEvent;
+		                   yourself.
+	self dispatchEvent: preNotification.
+	preNotification sourceEvent ifNil: [ ^ self ].
+	self dispatchEvent: preNotification sourceEvent
+]
+
+{ #category : #'event firing' }
 ToBasicListElement >> notifySelectionChanged: aSelectionChangedEvent [
 
 	| preNotification |
 	preNotification := ToListSelectionChangePreNotificationEvent new
-		                   selectionChangedEvent: aSelectionChangedEvent;
+		                   sourceEvent: aSelectionChangedEvent;
 		                   yourself.
 	self dispatchEvent: preNotification.
-	preNotification selectionChangedEvent ifNil: [ ^ self ].
-	self dispatchEvent: preNotification selectionChangedEvent
+	preNotification sourceEvent ifNil: [ ^ self ].
+	self dispatchEvent: preNotification sourceEvent
 ]
 
 { #category : #'t - element with placeholder' }

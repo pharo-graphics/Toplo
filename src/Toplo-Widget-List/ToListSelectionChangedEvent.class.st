@@ -1,6 +1,6 @@
 Class {
 	#name : #ToListSelectionChangedEvent,
-	#superclass : #ToListSelectionEvent,
+	#superclass : #ToListElementEvent,
 	#instVars : [
 		'selectionModel'
 	],

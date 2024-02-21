@@ -27,10 +27,12 @@ ToMultiSelectionModelSelecter >> selectAll [
 { #category : #operations }
 ToMultiSelectionModelSelecter >> selectAllIndexes: anArray [
 
-	anArray ifEmpty: [ ^ self ].
 	self addCommand: (ToIndexesSelectionCommand new
 			 indexes: anArray;
 			 operation: ToAddSelectionOperation new).
+	anArray ifEmpty: [
+		self changeCurrentIndexWith: 0.
+		^ self ].
 	self changeCurrentIndexWith: anArray last
 ]
 

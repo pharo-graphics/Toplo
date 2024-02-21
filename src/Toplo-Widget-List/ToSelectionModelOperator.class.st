@@ -37,10 +37,11 @@ ToSelectionModelOperator >> applyCommand: aCommand for: aTarget [
 
 	silent := aCommand silent or: [ previousModel = self selectionModel ].
 
-	aTarget dispatchEvent: (ToSelectionCommandAppliedEvent new
-			 operator: self;
-			 command: aCommand).
-			
+	previousModel = self selectionModel ifFalse: [
+		aTarget dispatchEvent: (ToSelectionCommandAppliedEvent new
+				 operator: self;
+				 command: aCommand) ].
+
 	previousModel := self selectionModel copy.
 	silent ifTrue: [ ^ self ].
 

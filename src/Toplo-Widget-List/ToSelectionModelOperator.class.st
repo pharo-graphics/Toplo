@@ -3,7 +3,8 @@ Class {
 	#superclass : #ToCommandApplier,
 	#instVars : [
 		'selectionModel',
-		'previousModel'
+		'previousModel',
+		'history'
 	],
 	#category : #'Toplo-Widget-List-Command-Selection'
 }
@@ -11,10 +12,11 @@ Class {
 { #category : #'command operations' }
 ToSelectionModelOperator >> addIndexesSelectionCommand: aCommand [
 
+	| intervals |
 	aCommand indexes ifEmpty: [ ^ self ].
-	self selectionModel selectAllIndexes: aCommand indexes.
-	"intervals := self intervalsIn: aCommand indexes.
-	intervals do: [ :i | self selectionModel selectIndex: i first to: i last ]"
+	"self selectionModel selectAllIndexes: aCommand indexes."
+	intervals := self intervalsIn: aCommand indexes.
+	intervals do: [ :i | self selectionModel selectIndex: i first to: i last ]
 ]
 
 { #category : #'command operations' }
@@ -45,11 +47,20 @@ ToSelectionModelOperator >> applyCommand: aCommand for: aTarget [
 				 command: aCommand) ].
 
 	previousModel := self selectionModel copy.
+	history add: aCommand->previousModel.
+
 	silent ifTrue: [ ^ self ].
 
 	aTarget notifySelectionChanged: (ToListSelectionChangedEvent new
 			 selectionModel: previousModel;
 			 yourself)
+]
+
+{ #category : #initialization }
+ToSelectionModelOperator >> initialize [ 
+
+	super initialize.
+	history := OrderedCollection new
 ]
 
 { #category : #private }
@@ -59,19 +70,20 @@ ToSelectionModelOperator >> intervalsIn: aCollection [
 	| sorted |
 	sorted := aCollection asOrderedCollection sort.
 	^ Array streamContents: [ :stream |
-		  | g prev |
+		  | prev g |
 		  g := nil.
 		  prev := nil.
 		  sorted do: [ :idx |
-			  (prev isNil or: [ prev + 1 = idx ])
-				  ifTrue: [
-				  g := g ifNil: [ idx to: idx ] ifNotNil: [ g first to: idx ] ]
-				  ifFalse: [
-					  g ifNotNil: [
-						  stream nextPut: g.
-						  g := nil ] ].
-			  prev := idx.
-			  g := idx to: idx ].
+			  prev
+				  ifNil: [
+					  g := idx to: idx ]
+				  ifNotNil: [
+					  prev + 1 = idx
+						  ifTrue: [ g := g first to: idx ]
+						  ifFalse: [
+							  stream nextPut: g.
+							  g := idx to: idx ] ].
+			  prev := idx ].
 		  g ifNotNil: [ stream nextPut: g ] ]
 ]
 
@@ -98,10 +110,11 @@ ToSelectionModelOperator >> onUninstalledIn: anEventTarget [
 { #category : #'command operations' }
 ToSelectionModelOperator >> removeIndexesSelectionCommand: aCommand [
 
+	| intervals |
 	aCommand indexes ifEmpty: [ ^ self ].
-	self selectionModel deselectAllIndexes: aCommand indexes.
-	"intervals := self intervalsIn: aCommand indexes.
-	intervals reverseDo: [ :i | self selectionModel deselectIndex: i first to: i last ]"
+	"self selectionModel deselectAllIndexes: aCommand indexes."
+	intervals := self intervalsIn: aCommand indexes.
+	intervals do: [ :i | self selectionModel deselectIndex: i first to: i last ]
 ]
 
 { #category : #'command operations' }

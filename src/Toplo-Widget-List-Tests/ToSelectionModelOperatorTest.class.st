@@ -95,5 +95,22 @@ ToSelectionModelOperatorTest >> testIntervalsIn2 [
 	intervals := operator intervalsIn: {2. 3. 6}.
 	self assert: intervals size equals: 2.
 	self assert: intervals first equals: (2 to: 3)	.
-	self assert: intervals second equals: (6 to: 6)
+	self assert: intervals second equals: (6 to: 6).
+	
+	intervals := operator intervalsIn: {2. 3. 5. 6. 7}.
+	self assert: intervals size equals: 2.
+	self assert: intervals first equals: (2 to: 3)	.
+	self assert: intervals second equals: (5 to: 7).
+
+	intervals := operator intervalsIn: {2. 3. 5. 6. 7. 10}.
+	self assert: intervals size equals: 3.
+	self assert: intervals first equals: (2 to: 3)	.
+	self assert: intervals second equals: (5 to: 7).
+	self assert: intervals third equals: (10 to: 10).
+	
+	intervals := operator intervalsIn: {2. 5. 6. 7. 10}.
+	self assert: intervals size equals: 3.
+	self assert: intervals first equals: (2 to: 2)	.
+	self assert: intervals second equals: (5 to: 7).
+	self assert: intervals third equals: (10 to: 10)
 ]

@@ -82,7 +82,7 @@ ToNoneSelectionModelSelecterTest >> testSelectAll [
 
 	selecter selectAll.
 	self waitTestingSpaces.
-	self deny: holder selectionModel isEmpty
+	self assert: holder selectionModel isEmpty
 ]
 
 { #category : #tests }

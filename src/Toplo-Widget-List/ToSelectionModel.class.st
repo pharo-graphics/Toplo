@@ -86,8 +86,7 @@ ToSelectionModel >> ifNotEmpty: aBlock [
 ToSelectionModel >> initialize [
 
 	super initialize.
-	underlyingModel := BlCompositeSelection new.
-	underlyingModel removeAll
+	underlyingModel := BlCompositeSelection new
 ]
 
 { #category : #testing }

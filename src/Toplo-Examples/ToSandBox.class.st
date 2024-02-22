@@ -660,7 +660,7 @@ ToSandBox class >> example_List2WithSelectionHistory [
 		(ToListSelectionHistoryEventHandlerExample2 new historyList:
 			 historyList).
 	statesList addEventHandler: (BlEventHandler
-			 on: ToSelectionCommandAppliedEvent
+			 on: ToCommandAppliedEvent
 			 do: [ :event | event traceCr ]).
 
 	pane
@@ -1332,7 +1332,7 @@ ToSandBox class >> example_SieveOnList2With_350000_Items [
 	listElement margin: (BlInsets all: 2).
 	listElement withRowNumbers.
 	filterField margin: (BlInsets all: 2).
-	listElement dataAccessor addAll: data.
+	listElement dataAccessor addAll: (data collect: [:d | d copy]).
 
 	sieve := ToListElementSieve new.
 	sieve onInstalledIn: listElement.

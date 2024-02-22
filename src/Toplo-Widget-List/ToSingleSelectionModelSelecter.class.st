@@ -7,70 +7,48 @@ Class {
 { #category : #operations }
 ToSingleSelectionModelSelecter >> deselectIndex: aStartIndex to: anEndIndex [
 
-	self deselectIndex: anEndIndex
+	ToInvalidCommand signal
+]
+
+{ #category : #operations }
+ToSingleSelectionModelSelecter >> deselectIndexes: anArray [
+
+	ToInvalidCommand signal
 ]
 
 { #category : #operations }
 ToSingleSelectionModelSelecter >> selectAll [
-]
 
-{ #category : #operations }
-ToSingleSelectionModelSelecter >> selectAllIndexes: anArray [
-
-	| indexes |
-	anArray ifEmpty: [ ^ self ].
-	indexes := anArray size > 1
-		           ifTrue: [ anArray copyFrom: 1 to: 1 ]
-		           ifFalse: [ anArray ].
-	self addCommand: (ToIndexesSelectionCommand new
-			 indexes: indexes;
-			 operation: ToAddSelectionOperation new).
-	self changeCurrentIndexWith: indexes last
+	ToInvalidCommand signal
 ]
 
 { #category : #operations }
 ToSingleSelectionModelSelecter >> selectIndex: anIndex [
 
-	self selectionModel ifNotEmpty: [
-		self selectionModel firstIndex = anIndex ifTrue: [ ^ self ] ].
-	self beSilentWhile: [ self deselectAll ].
-	self addCommand: (ToIntervalSelectionCommand new
-			 from: anIndex to: anIndex;
-			 operation: ToAddSelectionOperation new).
+	self addCommand: (ToCompositeCommand new commands: {
+				 (ToWholeSelectionCommand new
+					  silent: true;
+					  operation: ToRemoveSelectionOperation new).
+				 (ToIntervalSelectionCommand new
+					  from: anIndex to: anIndex;
+					  operation: ToAddSelectionOperation new) }).
 	self changeCurrentIndexWith: anIndex
 ]
 
 { #category : #operations }
 ToSingleSelectionModelSelecter >> selectIndex: aStartIndex to: anEndIndex [
 
-	self selectIndex: anEndIndex
+	ToInvalidCommand signal
 ]
 
 { #category : #operations }
-ToSingleSelectionModelSelecter >> selectOnlyIndex: anIndex [
+ToSingleSelectionModelSelecter >> selectIndexes: anArray [
 
-	self selectIndex: anIndex
+	ToInvalidCommand signal
 ]
 
 { #category : #operations }
 ToSingleSelectionModelSelecter >> selectOnlyIndexes: anArray [
 
-	| indexes |
-	self deselectAll.
-	anArray ifEmpty: [ ^ self ].
-	indexes := anArray size > 1
-		           ifTrue: [ anArray copyFrom: 1 to: 1 ]
-		           ifFalse: [ anArray ].
-	self addCommand: (ToIndexesSelectionCommand new
-			 indexes: indexes;
-			 operation: ToAddSelectionOperation new).
-	self changeCurrentIndexWith: anArray last
-]
-
-{ #category : #operations }
-ToSingleSelectionModelSelecter >> selectToIndex: index [
-
-	| curr |
-	curr := self currentIndex.
-	self selectIndex: index
+	ToInvalidCommand signal
 ]

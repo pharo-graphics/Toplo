@@ -95,7 +95,7 @@ ToListElementTest >> testEmptyListAddOrRemovePreviousInSelection [
 	l forceLayout.
 	self assert: l selectionModel isEmpty.
 	l selecter selectIndex: l selecter previousSelectableIndex.
-	l selecter scrollToCurrentIndex.
+	l selecter scrollToIndex: l selecter currentIndex.
 	self assert: l selecter currentIndex isZero
 ]
 
@@ -128,7 +128,7 @@ ToListElementTest >> testEmptyListSelectPreviousInSelection [
 	l forceLayout.
 	l selecter selectIndex: l selecter previousSelectableIndex.
 	l selecter selectIndex: l selecter previousSelectableIndex.
-	l selecter scrollToCurrentIndex.
+	l selecter scrollToIndex: l selecter currentIndex.
 	self assert: l selecter currentIndex isZero.
 	self assert: l selectionModel isEmpty
 ]
@@ -301,11 +301,11 @@ ToListElementTest >> testSelectAndScrollToNext [
 		assert: l selectionModel selectedIndexes asArray
 		equals: #( 2 4 ).
 	l selecter selectIndex: l selecter nextSelectableIndex.
-	l selecter scrollToCurrentIndex.
+	l selecter scrollToIndex: l selecter currentIndex.
 	self assert: l selecter currentIndex equals: 3.
 	self assert: l selectionModel selectedIndexes asArray equals: #( 2 3 4).
 	l selecter selectIndex: l selecter nextSelectableIndex.
-	l selecter scrollToCurrentIndex.
+	l selecter scrollToIndex: l selecter currentIndex.
 	self assert: l selecter currentIndex equals: 4.
 	self assert: l selectionModel selectedIndexes asArray equals: #( 2 3 4 )
 ]
@@ -322,11 +322,11 @@ ToListElementTest >> testSelectAndScrollToPrevious [
 	self assert: l selecter currentIndex equals: 4.
 	self assert: l selectionModel selectedIndexes asArray equals: #( 4 ).
 	l selecter selectIndex: l selecter previousSelectableIndex.
-	l selecter scrollToCurrentIndex.
+	l selecter scrollToIndex: l selecter currentIndex.
 	self assert: l selecter currentIndex equals: 3.
 	self assert: l selectionModel selectedIndexes asArray equals: #( 3 4 ).
 	l selecter selectIndex: l selecter previousSelectableIndex.
-	l selecter scrollToCurrentIndex.
+	l selecter scrollToIndex: l selecter currentIndex.
 	self assert: l selecter currentIndex equals: 2.
 	self assert: l selectionModel selectedIndexes asArray equals: #( 2 3 4)
 ]
@@ -375,7 +375,7 @@ ToListElementTest >> testSelectionUpdatedAfterInsert3 [
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	l forceLayout.
 	self assert: l selectionModel isEmpty.
-	l selecter selectAllIndexes: #( 3 4 ).
+	l selecter selectIndexes: #( 3 4 ).
 	self assert: l selectionModel selectedIndexes equals: #( 3 4 ).
 	self assert: l selecter currentIndex equals: 4.
 	l dataAccessor add: (self statesOfAmerica at: 6) afterIndex: 1.
@@ -443,7 +443,7 @@ ToListElementTest >> testSelectionUpdatedAfterRemove3 [
 	l fitContent.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	self assert: l selectionModel selectedIndexes isEmpty.
-	l selecter selectAllIndexes: #( 3 4 ).
+	l selecter selectIndexes: #( 3 4 ).
 	self waitTestingSpaces.
 	self assert: l selectionModel selectedIndexes equals: #( 3 4 ).
 	l dataAccessor removeAt: 2.
@@ -462,7 +462,7 @@ ToListElementTest >> testSelectionUpdatedAfterRemove4 [
 	self waitTestingSpaces.
 	self assert: l dataAccessor size equals: 5.
 	self assert: l selectionModel selectedIndexes isEmpty.
-	l selecter selectAllIndexes: #( 2 ).
+	l selecter selectIndexes: #( 2 ).
 	self waitTestingSpaces.
 	self assert: l selectionModel selectedIndexes equals: #( 2 ).
 	l dataAccessor removeAt: 2.
@@ -479,7 +479,7 @@ ToListElementTest >> testSelectionUpdatedAfterRemove5 [
 	l fitContent.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	self assert: l selectionModel selectedIndexes isEmpty.
-	l selecter selectAllIndexes: #( 3 4 ).
+	l selecter selectIndexes: #( 3 4 ).
 	self waitTestingSpaces.
 	self assert: l selectionModel selectedIndexes equals: #( 3 4 ).
 	l dataAccessor removeAt: 3.
@@ -496,7 +496,7 @@ ToListElementTest >> testSelectionUpdatedAfterRemove6 [
 	l fitContent.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	self assert: l selectionModel selectedIndexes isEmpty.
-	l selecter selectAllIndexes: #( 3 4 ).
+	l selecter selectIndexes: #( 3 4 ).
 	self waitTestingSpaces.
 	self assert: l selectionModel selectedIndexes equals: #( 3 4 ).
 	l dataAccessor removeAt: 3.

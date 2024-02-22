@@ -3,7 +3,8 @@ Class {
 	#superclass : #ToAbstractSelectionModelSelecter,
 	#instVars : [
 		'currentIndex',
-		'operator'
+		'operator',
+		'operateSilently'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
@@ -13,6 +14,15 @@ ToSelectionModelSelecter >> addCommand: aCommand [
 
 	aCommand silent ifFalse: [aCommand silent: self operateSilently ].
 	self operator addCommand: aCommand
+]
+
+{ #category : #accessing }
+ToSelectionModelSelecter >> beSilentWhile: aBlock [
+
+	| prev |
+	prev := operateSilently.
+	operateSilently := true.
+	[ aBlock cull: self ] ensure: [ operateSilently := prev ] 
 ]
 
 { #category : #operations }
@@ -43,20 +53,20 @@ ToSelectionModelSelecter >> deselectAll [
 ]
 
 { #category : #operations }
-ToSelectionModelSelecter >> deselectAllIndexes: anArray [
-
-	self addCommand: (ToIndexesSelectionCommand new
-			 indexes: anArray;
-			 operation: ToRemoveSelectionOperation new).
-	self changeCurrentIndexWith: 0
-]
-
-{ #category : #operations }
 ToSelectionModelSelecter >> deselectIndex: anIndex [
 
 	self addCommand: (ToIntervalSelectionCommand new
 			 from: anIndex to: anIndex;
 			 operation: ToRemoveSelectionOperation new)
+]
+
+{ #category : #operations }
+ToSelectionModelSelecter >> deselectIndexes: anArray [
+
+	self addCommand: (ToIndexesSelectionCommand new
+			 indexes: anArray;
+			 operation: ToRemoveSelectionOperation new).
+	self changeCurrentIndexWith: 0
 ]
 
 { #category : #accessing }
@@ -101,6 +111,12 @@ ToSelectionModelSelecter >> onUninstalledIn: anEventTarget [
 ]
 
 { #category : #accessing }
+ToSelectionModelSelecter >> operateSilently [
+
+	^ operateSilently 
+]
+
+{ #category : #accessing }
 ToSelectionModelSelecter >> operator [
 
 	^ operator
@@ -123,12 +139,6 @@ ToSelectionModelSelecter >> previousSelectableIndex [
 	^ self currentIndex - 1
 ]
 
-{ #category : #private }
-ToSelectionModelSelecter >> scrollToCurrentIndex [
-
-	self scrollToIndex: self currentIndex
-]
-
 { #category : #operations }
 ToSelectionModelSelecter >> scrollToIndex: anIndex [
 
@@ -139,39 +149,28 @@ ToSelectionModelSelecter >> scrollToIndex: anIndex [
 ]
 
 { #category : #operations }
-ToSelectionModelSelecter >> scrollToNextIndex [
+ToSelectionModelSelecter >> selectIndex: anIndex [
 
-	| nextIdx |
-	nextIdx := self nextSelectableIndex.
-	nextIdx isZero ifTrue: [ ^ self ].
-	self scrollToIndex: nextIdx
+	self addCommand: (ToIntervalSelectionCommand new
+			 from: anIndex to: anIndex;
+			 operation: ToAddSelectionOperation new).
+	self changeCurrentIndexWith: anIndex
 ]
 
 { #category : #operations }
-ToSelectionModelSelecter >> scrollToPreviousIndex [
+ToSelectionModelSelecter >> selectOnlyIndex: anIndex [
 
-	| nextIdx |
-	nextIdx := self previousSelectableIndex.
-	nextIdx isZero ifTrue: [ ^ self ].
-	self scrollToIndex: nextIdx
-]
-
-{ #category : #operations }
-ToSelectionModelSelecter >> selectNextIndex [
-
-	| nextIdx |
-	nextIdx := self nextSelectableIndex.
-	nextIdx isZero ifTrue: [ ^ self ].
-	self selectIndex: nextIdx
-]
-
-{ #category : #operations }
-ToSelectionModelSelecter >> selectPreviousIndex [
-
-	| nextIdx |
-	nextIdx := self previousSelectableIndex.
-	nextIdx isZero ifTrue: [ ^ self ].
-	self selectIndex: nextIdx
+	(self selectionModel selectedIndexesCount = 1 and: [
+		 self selectionModel firstIndex = anIndex ]) ifTrue: [ ^ self ].
+	self addCommand: (ToCompositeCommand new commands: {
+				 (ToWholeSelectionCommand new
+					  silent: true;
+					  operation: ToRemoveSelectionOperation new;
+					  yourself).
+				 (ToIntervalSelectionCommand new
+					  from: anIndex to: anIndex;
+					  operation: ToAddSelectionOperation new) }).
+	self changeCurrentIndexWith: anIndex
 ]
 
 { #category : #accessing }
@@ -183,7 +182,10 @@ ToSelectionModelSelecter >> selectionModel [
 { #category : #operations }
 ToSelectionModelSelecter >> shiftSelection: anInteger from: anIndex [
 
-	self addCommand: (ToSelectionModelShiftCommand new itemCount: anInteger; fromIndex: anIndex; yourself)
+	self addCommand: (ToSelectionModelShiftCommand new
+			 itemCount: anInteger;
+			 fromIndex: anIndex;
+			 yourself)
 ]
 
 { #category : #private }

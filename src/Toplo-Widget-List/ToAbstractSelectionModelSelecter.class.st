@@ -1,19 +1,13 @@
 Class {
 	#name : #ToAbstractSelectionModelSelecter,
 	#superclass : #Object,
-	#instVars : [
-		'operateSilently'
-	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
 { #category : #accessing }
 ToAbstractSelectionModelSelecter >> beSilentWhile: aBlock [
 
-	| prev |
-	prev := operateSilently.
-	operateSilently := true.
-	[ aBlock cull: self ] ensure: [ operateSilently := prev ]
+	aBlock cull: self
 ]
 
 { #category : #accessing }
@@ -29,12 +23,6 @@ ToAbstractSelectionModelSelecter >> deselectAll [
 ]
 
 { #category : #operations }
-ToAbstractSelectionModelSelecter >> deselectAllIndexes: anArray [
-
-	self subclassResponsibility 
-]
-
-{ #category : #operations }
 ToAbstractSelectionModelSelecter >> deselectIndex: anIndex [
 
 	self subclassResponsibility 
@@ -44,6 +32,12 @@ ToAbstractSelectionModelSelecter >> deselectIndex: anIndex [
 ToAbstractSelectionModelSelecter >> deselectIndex: aStartIndex to: anEndIndex [
 
 	self subclassResponsibility
+]
+
+{ #category : #operations }
+ToAbstractSelectionModelSelecter >> deselectIndexes: anArray [
+
+	self subclassResponsibility 
 ]
 
 { #category : #private }
@@ -69,7 +63,7 @@ ToAbstractSelectionModelSelecter >> onUninstalledIn: anEventTarget [
 { #category : #accessing }
 ToAbstractSelectionModelSelecter >> operateSilently [
 
-	^ operateSilently ifNil: [ operateSilently := false ]
+	^ false
 ]
 
 { #category : #private }
@@ -85,37 +79,13 @@ ToAbstractSelectionModelSelecter >> previousSelectableIndex [
 ]
 
 { #category : #operations }
-ToAbstractSelectionModelSelecter >> scrollToCurrentIndex [
-
-	self subclassResponsibility
-]
-
-{ #category : #operations }
 ToAbstractSelectionModelSelecter >> scrollToIndex: anIndex [
 
 	self subclassResponsibility 
 ]
 
 { #category : #operations }
-ToAbstractSelectionModelSelecter >> scrollToNextIndex [
-
-	self subclassResponsibility
-]
-
-{ #category : #operations }
-ToAbstractSelectionModelSelecter >> scrollToPreviousIndex [
-
-	self subclassResponsibility
-]
-
-{ #category : #operations }
 ToAbstractSelectionModelSelecter >> selectAll [
-
-	self subclassResponsibility 
-]
-
-{ #category : #operations }
-ToAbstractSelectionModelSelecter >> selectAllIndexes: anArray [
 
 	self subclassResponsibility 
 ]
@@ -133,7 +103,7 @@ ToAbstractSelectionModelSelecter >> selectIndex: aStartIndex to: anEndIndex [
 ]
 
 { #category : #operations }
-ToAbstractSelectionModelSelecter >> selectNextIndex [
+ToAbstractSelectionModelSelecter >> selectIndexes: anArray [
 
 	self subclassResponsibility 
 ]
@@ -146,18 +116,6 @@ ToAbstractSelectionModelSelecter >> selectOnlyIndex: anIndex [
 
 { #category : #operations }
 ToAbstractSelectionModelSelecter >> selectOnlyIndexes: anArray [
-
-	self subclassResponsibility 
-]
-
-{ #category : #operations }
-ToAbstractSelectionModelSelecter >> selectPreviousIndex [
-
-	self subclassResponsibility
-]
-
-{ #category : #operations }
-ToAbstractSelectionModelSelecter >> selectToIndex: index [
 
 	self subclassResponsibility 
 ]

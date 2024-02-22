@@ -253,7 +253,6 @@ ToMiniBrowser >> open [
 ToMiniBrowser >> packageSelectionChangedEvent: aToSelectionChanged [
 
 	| selectedPackages clsList |
-	classes selecter deselectAll.
 	classes dataAccessor removeAll.
 	selectedPackages := aToSelectionChanged selectedIndexes collect: [
 		                    :idx | packages dataAccessor at: idx ].
@@ -268,7 +267,6 @@ ToMiniBrowser >> packageSelectionChangedEvent: aToSelectionChanged [
 ToMiniBrowser >> protocolSelectionChangedEvent: aToSelectionChanged [
 
 	| selectedProtocols |
-	selectors selecter deselectAll.
 	selectors dataAccessor removeAll.
 	selectedProtocols := aToSelectionChanged selectedIndexes collect: [
 		                     :idx | protocols dataAccessor at: idx ].
@@ -282,7 +280,6 @@ ToMiniBrowser >> protocolSelectionChangedEvent: aToSelectionChanged [
 ToMiniBrowser >> refreshClassSelectionWithSelectedIndexes: aCollection [
 
 	| selectedClasses allProtocols |
-	protocols selecter deselectAll.
 	protocols dataAccessor removeAll.
 	selectedClasses := aCollection collect: [ :idx |
 		                   classes dataAccessor at: idx ].

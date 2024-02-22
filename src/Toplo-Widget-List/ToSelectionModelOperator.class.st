@@ -3,8 +3,7 @@ Class {
 	#superclass : #ToCommandApplier,
 	#instVars : [
 		'selectionModel',
-		'previousModel',
-		'history'
+		'previousModel'
 	],
 	#category : #'Toplo-Widget-List-Command-Selection'
 }
@@ -31,36 +30,27 @@ ToSelectionModelOperator >> addWholeSelectionCommand: aCommand [
 	self selectionModel selectAll
 ]
 
-{ #category : #'command application' }
-ToSelectionModelOperator >> applyCommand: aCommand for: aTarget [
+{ #category : #'private command application' }
+ToSelectionModelOperator >> applyCommand: aCommand for: aTarget withApplicationBlock: aBlock [
 
-	| silent |
+	| silent selectionModelChanged |
 	previousModel ifNil: [ previousModel := self selectionModel copy ].
 
-	super applyCommand: aCommand for: aTarget.
+	super applyCommand: aCommand for: aTarget withApplicationBlock: aBlock.
 
-	silent := aCommand silent or: [ previousModel = self selectionModel ].
+	selectionModelChanged := previousModel ~= self selectionModel.
+	silent := aCommand silent or: [ selectionModelChanged not ].
 
-	previousModel = self selectionModel ifFalse: [
-		aTarget dispatchEvent: (ToSelectionCommandAppliedEvent new
+	selectionModelChanged ifTrue: [
+		aTarget dispatchEvent: (ToCommandAppliedEvent new
 				 operator: self;
 				 command: aCommand) ].
 
-	previousModel := self selectionModel copy.
-	history add: aCommand->previousModel.
-
 	silent ifTrue: [ ^ self ].
-
+	previousModel := self selectionModel copy.
 	aTarget notifySelectionChanged: (ToListSelectionChangedEvent new
 			 selectionModel: previousModel;
 			 yourself)
-]
-
-{ #category : #initialization }
-ToSelectionModelOperator >> initialize [ 
-
-	super initialize.
-	history := OrderedCollection new
 ]
 
 { #category : #private }
@@ -151,6 +141,6 @@ ToSelectionModelOperator >> selectionModelShiftCommand: aShiftCommand [
 ToSelectionModelOperator >> sharedEvents [
 
 	^ super sharedEvents , {
-		  ToSelectionCommandAppliedEvent.
+		  ToCommandAppliedEvent.
 		  ToListSelectionChangedEvent }
 ]

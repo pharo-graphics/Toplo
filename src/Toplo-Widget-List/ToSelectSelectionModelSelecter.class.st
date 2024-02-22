@@ -15,20 +15,6 @@ ToSelectSelectionModelSelecter >> selectAll [
 ]
 
 { #category : #operations }
-ToSelectSelectionModelSelecter >> selectAllIndexes: anArray [
-
-	| indexes |
-	anArray ifEmpty: [ ^ self ].
-	indexes := anArray size > 1
-		           ifTrue: [ anArray copyFrom: 1 to: 1 ]
-		           ifFalse: [ anArray ].
-	self addCommand: (ToIndexesSelectionCommand new
-			 indexes: indexes;
-			 operation: ToAddSelectionOperation new).
-	self changeCurrentIndexWith: indexes last
-]
-
-{ #category : #operations }
 ToSelectSelectionModelSelecter >> selectIndex: anIndex [
 
 	self selectionModel ifNotEmpty: [
@@ -46,6 +32,20 @@ ToSelectSelectionModelSelecter >> selectIndex: aStartIndex to: anEndIndex [
 ]
 
 { #category : #operations }
+ToSelectSelectionModelSelecter >> selectIndexes: anArray [
+
+	| indexes |
+	anArray ifEmpty: [ ^ self ].
+	indexes := anArray size > 1
+		           ifTrue: [ anArray copyFrom: 1 to: 1 ]
+		           ifFalse: [ anArray ].
+	self addCommand: (ToIndexesSelectionCommand new
+			 indexes: indexes;
+			 operation: ToAddSelectionOperation new).
+	self changeCurrentIndexWith: indexes last
+]
+
+{ #category : #operations }
 ToSelectSelectionModelSelecter >> selectOnlyIndex: anIndex [
 
 	self selectIndex: anIndex
@@ -54,18 +54,18 @@ ToSelectSelectionModelSelecter >> selectOnlyIndex: anIndex [
 { #category : #operations }
 ToSelectSelectionModelSelecter >> selectOnlyIndexes: anArray [
 
-	self deselectAll.
-	anArray ifEmpty: [ ^ self ].
-	self addCommand: (ToIndexesSelectionCommand new
-			 indexes: anArray;
-			 operation: ToAddSelectionOperation new).
+	| deselCmd |
+	deselCmd := ToWholeSelectionCommand new
+		            operation: ToRemoveSelectionOperation new;
+		            yourself.
+	anArray ifEmpty: [
+		self addCommand: deselCmd.
+		^ self ].
+	deselCmd silent: true.
+	self addCommand: (ToCompositeCommand new commands: {
+				 deselCmd.
+				 (ToIndexesSelectionCommand new
+					  indexes: anArray;
+					  operation: ToAddSelectionOperation new) }).
 	self changeCurrentIndexWith: anArray last
-]
-
-{ #category : #operations }
-ToSelectSelectionModelSelecter >> selectToIndex: index [
-
-	| curr |
-	curr := self currentIndex.
-	self selectIndex: index
 ]

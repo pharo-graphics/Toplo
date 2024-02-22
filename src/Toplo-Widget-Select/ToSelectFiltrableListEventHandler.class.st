@@ -31,7 +31,7 @@ ToSelectFiltrableListEventHandler >> listSieveSelectionChangedEvent: anEvent [
 		^ self ].
 
 	select selection deselectAll.
-	select selection selectAllIndexes: anEvent selection indices.
+	select selection selectIndexes: anEvent selection indices.
 	select strategy refreshHeaderNodeContainer
 ]
 

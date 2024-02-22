@@ -30,11 +30,10 @@ ToListElementSieveSelectionEventHandler >> eventsToHandle [
 
 { #category : #'element handlers' }
 ToListElementSieveSelectionEventHandler >> listDataSourceItemsChangePreNotificationEvent: aPreNotification [
-
-	sieve pattern ifEmpty: [ ^ self ].
 	" don't send the data source add/remove change event if the sieve is filtering"
-	sieve pattern ifNotEmpty: [ ^ self ].
-	self buildIndexedDataFrom: aPreNotification currentTarget.
+
+	sieve pattern ifEmpty: [
+		^ self ].
 	aPreNotification sourceEvent: nil
 ]
 
@@ -75,7 +74,7 @@ ToListElementSieveSelectionEventHandler >> listSieveFilterAppliedEvent: anEvent 
 				originalIndex := dataPositionIndex at: d.
 				(selectionSet includes: originalIndex) ifTrue: [
 					selected add: localIndex ] ].
-			target selecter selectAllIndexes: selected ]
+			target selecter selectOnlyIndexes: selected ]
 		ifEmpty: [ target selecter selectOnlyIndexes: selectionSet asArray ]
 ]
 

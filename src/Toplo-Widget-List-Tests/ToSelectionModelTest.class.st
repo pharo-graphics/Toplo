@@ -48,26 +48,13 @@ ToSelectionModelTest >> testDeselectAll [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testDeselectAllIndexes [
-
-	| s |
-	s := ToSelectionModel new itemCountGetter: 100.
-	s selectAllIndexes: { 1. 5. 6 }.
-	self assert: s selectedIndexes asSet equals: { 1. 5. 6 } asSet.
-	s deselectAllIndexes: { 10. 50. 60 }.
-	self assert: s selectedIndexes asSet equals: { 1. 5. 6 } asSet.
-	s deselectAllIndexes: { 5. 6 }.
-	self assert: s selectedIndexes asSet equals: { 1.  } asSet
-]
-
-{ #category : #tests }
 ToSelectionModelTest >> testDeselectAllIndexesWithAWholeSelection [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 10.
 	s selectAll.
 	" item count that is necessary in that case "
-	s deselectAllIndexes: { 2. 4. 6 }.
+	s deselectIndexes: { 2. 4. 6 }.
 	self assert: s selectedIndexes equals: { 1. 3. 5. 7. 8. 9. 10 }
 ]
 
@@ -78,7 +65,7 @@ ToSelectionModelTest >> testDeselectAllIndexesWithAWholeSelection2 [
 	s := ToSelectionModel new.
 	" no way to get item count that is necessary in that case -> Error"
 	self should: [s selectAll] raise: Error.
-	s deselectAllIndexes: { 2. 4. 6 }.
+	s deselectIndexes: { 2. 4. 6 }.
 	self assert: s isEmpty
 
 ]
@@ -88,7 +75,7 @@ ToSelectionModelTest >> testDeselectIndex [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
-	s selectAllIndexes: { 1. 5. 6 }.
+	s selectIndexes: { 1. 5. 6 }.
 	self assert: s selectedIndexes asSet equals: { 1. 5. 6 } asSet.
 	s deselectIndex: 10.
 	self assert: s selectedIndexes asSet equals: { 1. 5. 6 } asSet.
@@ -112,6 +99,19 @@ ToSelectionModelTest >> testDeselectIndexTo [
 ]
 
 { #category : #tests }
+ToSelectionModelTest >> testDeselectIndexes [
+
+	| s |
+	s := ToSelectionModel new itemCountGetter: 100.
+	s selectIndexes: { 1. 5. 6 }.
+	self assert: s selectedIndexes asSet equals: { 1. 5. 6 } asSet.
+	s deselectIndexes: { 10. 50. 60 }.
+	self assert: s selectedIndexes asSet equals: { 1. 5. 6 } asSet.
+	s deselectIndexes: { 5. 6 }.
+	self assert: s selectedIndexes asSet equals: { 1.  } asSet
+]
+
+{ #category : #tests }
 ToSelectionModelTest >> testEquals [
 
 	| s |
@@ -128,7 +128,7 @@ ToSelectionModelTest >> testFirstIndex [
 	self assert: s firstIndex equals: 0.
 	s itemCountGetter: [ 100 ].
 	self assert: s firstIndex equals: 0.
-	s selectAllIndexes: #( 4 6 8).
+	s selectIndexes: #( 4 6 8).
 	self assert: s firstIndex equals: 4.
 	s selectAll.
 	self assert: s firstIndex equals: 1.
@@ -185,7 +185,7 @@ ToSelectionModelTest >> testLastIndex [
 	self assert: s lastIndex equals: 0.
 	s itemCountGetter: [ 100 ].
 	self assert: s lastIndex equals: 0.
-	s selectAllIndexes: #( 4 6 8 ).
+	s selectIndexes: #( 4 6 8 ).
 	self assert: s lastIndex equals: 8.
 	s selectAll.
 	self assert: s lastIndex equals: 100
@@ -226,17 +226,6 @@ ToSelectionModelTest >> testSelectAll [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testSelectAllIndexes [
-
-	| s |
-	s := ToSelectionModel new itemCountGetter: 100.
-	s selectAllIndexes: { 1. 5. 6 }.
-	self assert: s selectedIndexes equals: { 1. 5. 6 }.
-	s selectAllIndexes: { 10. 50. 60 }.
-	self assert: s selectedIndexes equals: { 1. 5. 6. 10. 50. 60 }
-]
-
-{ #category : #tests }
 ToSelectionModelTest >> testSelectIndex [
 
 	| s |
@@ -263,6 +252,17 @@ ToSelectionModelTest >> testSelectIndexTo [
 ]
 
 { #category : #tests }
+ToSelectionModelTest >> testSelectIndexes [
+
+	| s |
+	s := ToSelectionModel new itemCountGetter: 100.
+	s selectIndexes: { 1. 5. 6 }.
+	self assert: s selectedIndexes equals: { 1. 5. 6 }.
+	s selectIndexes: { 10. 50. 60 }.
+	self assert: s selectedIndexes equals: { 1. 5. 6. 10. 50. 60 }
+]
+
+{ #category : #tests }
 ToSelectionModelTest >> testSelectedIndexesCollect [
 
 	| s collected |
@@ -270,7 +270,7 @@ ToSelectionModelTest >> testSelectedIndexesCollect [
 	s itemCountGetter: [ 100 ].
 	collected := s selectedIndexesCollect: [ :idx | idx ].
 	self assert: collected equals: #(  ).
-	s selectAllIndexes: #( 4 6 8 ).
+	s selectIndexes: #( 4 6 8 ).
 	collected := s selectedIndexesCollect: [ :idx | idx ].
 	self assert: collected equals: #( 4 6 8 ).
 	s deselectAll.
@@ -289,7 +289,7 @@ ToSelectionModelTest >> testSelectedIndexesCount [
 	s := ToSelectionModel new.
 	s itemCountGetter: [ 100 ].
 	self assert: s selectedIndexesCount equals: 0.
-	s selectAllIndexes: #( 4 6 8 ).
+	s selectIndexes: #( 4 6 8 ).
 	self assert: s selectedIndexesCount equals: 3.
 	s deselectAll.
 	self assert: s selectedIndexesCount equals: 0.
@@ -306,7 +306,7 @@ ToSelectionModelTest >> testSelectedIndexesDo [
 	count := 0.
 	s selectedIndexesDo: [ :idx | count := count + 1 ].
 	self assert: count equals: 0.
-	s selectAllIndexes: #( 4 6 8 ).
+	s selectIndexes: #( 4 6 8 ).
 	count := 0.
 	s selectedIndexesDo: [ :idx | count := count + 1 ].
 	self assert: count equals: 3.
@@ -338,7 +338,7 @@ ToSelectionModelTest >> testShiftFrom [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
-	s selectAllIndexes: { 1. 5. 6 }.
+	s selectIndexes: { 1. 5. 6 }.
 	self assert: s selectedIndexes  equals: { 1. 5. 6 }.
 	s shift: 1 from: 1.
 	self assert: s selectedIndexes  equals: { 2. 6. 7 } .
@@ -352,7 +352,7 @@ ToSelectionModelTest >> testShiftFrom10 [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 200.
-	s selectAllIndexes: { 4. 5. 7. 8. 10. 11 }.
+	s selectIndexes: { 4. 5. 7. 8. 10. 11 }.
 	{ 4. 5. 7. 8. 10. 11 } do: [ :idx | s shift: -1 from: idx ].
 	self assert: s selectedIndexes  equals: { 3. 4. 5. 6. 7 }
 ]
@@ -362,7 +362,7 @@ ToSelectionModelTest >> testShiftFrom2 [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
-	s selectAllIndexes: { 1. 5. 6 }.
+	s selectIndexes: { 1. 5. 6 }.
 	self assert: s selectedIndexes  equals: { 1. 5. 6 }.
 	s shift: 3 from: 5.
 	self assert: s selectedIndexes  equals: { 1. 8. 9 } .
@@ -379,7 +379,7 @@ ToSelectionModelTest >> testShiftFrom3 [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
-	s selectAllIndexes: { 2. 3 }.
+	s selectIndexes: { 2. 3 }.
 	s shift: -2 from: 3.
 	self assert: s selectedIndexes  equals: { 1 }.
 	s shift: -1 from: 1.
@@ -396,7 +396,7 @@ ToSelectionModelTest >> testShiftFrom4 [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
-	s selectAllIndexes: { 1. 5. 6 }.
+	s selectIndexes: { 1. 5. 6 }.
 	self assert: s selectedIndexes  equals: { 1. 5. 6 }.
 	s shift: 1 from: 1.
 	self assert: s selectedIndexes  equals: { 2. 6. 7 } .
@@ -408,7 +408,7 @@ ToSelectionModelTest >> testShiftFrom5 [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
-	s selectAllIndexes: { 2. 6. 7 }.
+	s selectIndexes: { 2. 6. 7 }.
 	s shift: 1 from: 6.
 	self assert: s selectedIndexes  equals: { 2. 7. 8 }
 ]
@@ -418,7 +418,7 @@ ToSelectionModelTest >> testShiftFrom6 [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 2.
-	s selectAllIndexes: { 1 }.
+	s selectIndexes: { 1 }.
 	s shift: -1 from: 2.
 	self assert: s selectedIndexes  equals: { 1 }
 ]
@@ -428,7 +428,7 @@ ToSelectionModelTest >> testShiftFrom7 [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 200.
-	s selectAllIndexes: { 3 }.
+	s selectIndexes: { 3 }.
 	s shift: -1 from: 4.
 	self assert: s selectedIndexes  equals: { 3 }
 ]
@@ -438,7 +438,7 @@ ToSelectionModelTest >> testShiftFrom8 [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 200.
-	s selectAllIndexes: { 3 }.
+	s selectIndexes: { 3 }.
 	s shift: 1 from: 1.
 	self assert: s selectedIndexes  equals: { 4 }
 ]
@@ -448,7 +448,7 @@ ToSelectionModelTest >> testShiftFrom9 [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 200.
-	s selectAllIndexes: { 4. 5. 7. 8. 10. 11 }.
+	s selectIndexes: { 4. 5. 7. 8. 10. 11 }.
 	s shift: -1 from: 4.
 	self assert: s selectedIndexes  equals: { 3. 4. 6. 7. 9. 10 }.
 	s shift: -1 from: 5.

@@ -26,23 +26,12 @@ ToNoneSelectionModelSelecterTest >> setUp [
 { #category : #tests }
 ToNoneSelectionModelSelecterTest >> testDeselectAll [
 
-	selecter selectAllIndexes: {2. 6. 9}.
+	selecter selectIndexes: {2. 6. 9}.
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes isEmpty.
 	selecter deselectAll.
 	self waitTestingSpaces.
 	self assert: holder selectionModel isEmpty
-]
-
-{ #category : #tests }
-ToNoneSelectionModelSelecterTest >> testDeselectAllIndexes [
-
-	selecter selectAllIndexes: {2. 6. 9}.
-	self waitTestingSpaces.
-	self assert: holder selectionModel selectedIndexes isEmpty.
-	selecter deselectAllIndexes: {2. 6. 9}.
-	self waitTestingSpaces.
-	self assert: holder selectionModel isEmpty 
 ]
 
 { #category : #tests }
@@ -55,6 +44,17 @@ ToNoneSelectionModelSelecterTest >> testDeselectIndex [
 ]
 
 { #category : #tests }
+ToNoneSelectionModelSelecterTest >> testDeselectIndexes [
+
+	selecter selectIndexes: {2. 6. 9}.
+	self waitTestingSpaces.
+	self assert: holder selectionModel selectedIndexes isEmpty.
+	selecter deselectIndexes: {2. 6. 9}.
+	self waitTestingSpaces.
+	self assert: holder selectionModel isEmpty 
+]
+
+{ #category : #tests }
 ToNoneSelectionModelSelecterTest >> testDispatchSelectionChanged [
 
 	| selChangedEvent |
@@ -62,7 +62,7 @@ ToNoneSelectionModelSelecterTest >> testDispatchSelectionChanged [
 			 on: ToListSelectionChangedEvent
 			 do: [ :event | selChangedEvent := event ]).
 
-	selecter selectAllIndexes: { 2. 6. 9 }.
+	selecter selectIndexes: { 2. 6. 9 }.
 	self waitTestingSpaces.
 	self assert: selChangedEvent isNil.
 	self waitTestingSpaces.
@@ -70,7 +70,7 @@ ToNoneSelectionModelSelecterTest >> testDispatchSelectionChanged [
 
 	selChangedEvent := nil.
 	" no change "
-	selecter selectAllIndexes: { 2. 6. 9 }.
+	selecter selectIndexes: { 2. 6. 9 }.
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes isEmpty.
 	self waitTestingSpaces.
@@ -95,14 +95,6 @@ ToNoneSelectionModelSelecterTest >> testSelectAll2 [
 ]
 
 { #category : #tests }
-ToNoneSelectionModelSelecterTest >> testSelectAllIndexes [
-
-	selecter selectAllIndexes: {2. 6. 9}.
-	self waitTestingSpaces.
-	self assert: holder selectionModel selectedIndexes isEmpty.
-]
-
-{ #category : #tests }
 ToNoneSelectionModelSelecterTest >> testSelectAndScrollToIndex [
 
 	selecter selectIndex: 2.
@@ -121,7 +113,7 @@ ToNoneSelectionModelSelecterTest >> testSelectAndScrollToNext [
 	selecter selectIndex: 2.
 	self waitTestingSpaces.
 	selecter selectIndex: selecter nextSelectableIndex.
-	selecter scrollToCurrentIndex.
+	selecter scrollToIndex: selecter currentIndex.
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes isEmpty.
 	self assert: selecter currentIndex equals: 0.
@@ -153,7 +145,7 @@ ToNoneSelectionModelSelecterTest >> testSelectAndScrollToPrevious [
 	selecter selectIndex: 2.
 	self waitTestingSpaces.
 	selecter selectIndex: selecter previousSelectableIndex.
-	selecter scrollToCurrentIndex.
+	selecter scrollToIndex: selecter currentIndex.
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes isEmpty.
 	self assert: selecter currentIndex equals: 0.
@@ -213,13 +205,21 @@ ToNoneSelectionModelSelecterTest >> testSelectIndexTo2 [
 ]
 
 { #category : #tests }
+ToNoneSelectionModelSelecterTest >> testSelectIndexes [
+
+	selecter selectIndexes: {2. 6. 9}.
+	self waitTestingSpaces.
+	self assert: holder selectionModel selectedIndexes isEmpty.
+]
+
+{ #category : #tests }
 ToNoneSelectionModelSelecterTest >> testSelectNextOnLastIndex [
 
 	selecter selectIndex: holder dataSource itemCount.
 	self waitTestingSpaces.
 	self assert: selecter currentIndex equals: 0.
 	selecter selectIndex: selecter nextSelectableIndex.
-	selecter scrollToCurrentIndex.
+	selecter scrollToIndex: selecter currentIndex.
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes isEmpty.
 	self assert: selecter currentIndex equals: 0.
@@ -230,7 +230,7 @@ ToNoneSelectionModelSelecterTest >> testSelectNextOnLastIndex [
 ToNoneSelectionModelSelecterTest >> testSelectOnlyIndex [
 
 	selecter deselectAll.
-	selecter selectAllIndexes: {2. 6. 9}.
+	selecter selectIndexes: {2. 6. 9}.
 	selecter selectOnlyIndex: 10.
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes isEmpty.
@@ -239,7 +239,7 @@ ToNoneSelectionModelSelecterTest >> testSelectOnlyIndex [
 { #category : #tests }
 ToNoneSelectionModelSelecterTest >> testSelectOnlyIndexes [
 
-	selecter selectAllIndexes: {2. 6. 9}.
+	selecter selectIndexes: {2. 6. 9}.
 	selecter selectOnlyIndexes: {10. 6. 20}.
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes isEmpty.
@@ -252,7 +252,7 @@ ToNoneSelectionModelSelecterTest >> testSelectPreviousOnFirstIndex [
 	self waitTestingSpaces.
 	self assert: selecter currentIndex equals: 0.
 	selecter selectIndex: selecter previousSelectableIndex.
-	selecter scrollToCurrentIndex.
+	selecter scrollToIndex: selecter currentIndex.
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes isEmpty.
 	self assert: selecter currentIndex equals: 0.
@@ -276,11 +276,11 @@ ToNoneSelectionModelSelecterTest >> testSelectToIndex [
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes isEmpty.
 	self assert: selecter currentIndex equals: 0.
-	selecter selectToIndex: 12.
+	selecter selectIndex: 2 to: 12.
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes isEmpty.
 	self assert: selecter currentIndex equals: 0.
-	selecter selectToIndex: 2.
+	selecter selectIndex: 12 to: 2.
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes isEmpty.
 	self assert: selecter currentIndex equals: 0
@@ -290,7 +290,7 @@ ToNoneSelectionModelSelecterTest >> testSelectToIndex [
 { #category : #tests }
 ToNoneSelectionModelSelecterTest >> testSelectionChanged [
 
-	selecter selectAllIndexes: {2}.
+	selecter selectIndexes: {2}.
 	self waitTestingSpaces.
 	self deny: selectionChanged. 
 
@@ -300,7 +300,7 @@ ToNoneSelectionModelSelecterTest >> testSelectionChanged [
 ToNoneSelectionModelSelecterTest >> testSelectionChangedOnDeselectAll [
 
 	selectionChanged := false.
-	selecter selectAllIndexes: {2}.
+	selecter selectIndexes: {2}.
 	self waitTestingSpaces.
 	selecter deselectAll.
 	self waitTestingSpaces.
@@ -311,7 +311,7 @@ ToNoneSelectionModelSelecterTest >> testSelectionChangedOnDeselectAll [
 ToNoneSelectionModelSelecterTest >> testSelectionChangedOnDeselectAll2 [
 
 	selectionChanged := false.
-	selecter selectAllIndexes: {2 }.
+	selecter selectIndexes: {2 }.
 	self waitTestingSpaces.
 	selecter deselectAll.
 	selecter deselectAll.

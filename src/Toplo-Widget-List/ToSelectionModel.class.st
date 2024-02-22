@@ -30,12 +30,6 @@ ToSelectionModel >> deselectAll [
 ]
 
 { #category : #updating }
-ToSelectionModel >> deselectAllIndexes: anArray [
-
-	anArray do: [ :idx | self deselectIndex: idx ]
-]
-
-{ #category : #updating }
 ToSelectionModel >> deselectIndex: anIndex [
 
 	self underlyingModel deselectIndex: anIndex
@@ -53,6 +47,12 @@ ToSelectionModel >> deselectIndex: aFirstIndex to: aSecondIndex [
 	self underlyingModel 
 		deselect: from - 1
 		to: to
+]
+
+{ #category : #updating }
+ToSelectionModel >> deselectIndexes: anArray [
+
+	anArray do: [ :idx | self deselectIndex: idx ]
 ]
 
 { #category : #accessing }
@@ -155,13 +155,6 @@ ToSelectionModel >> selectAll [
 ]
 
 { #category : #updating }
-ToSelectionModel >> selectAllIndexes: anArray [
-
-	anArray ifEmpty: [ ^ self ].
-	anArray do: [ :idx | self selectIndex: idx ]
-]
-
-{ #category : #updating }
 ToSelectionModel >> selectIndex: anIndex [
 
 	self underlyingModel selectIndex: anIndex
@@ -176,6 +169,13 @@ ToSelectionModel >> selectIndex: aFirstIndex to: aSecondIndex [
 	self underlyingModel 
 		select: from - 1
 		to: to
+]
+
+{ #category : #updating }
+ToSelectionModel >> selectIndexes: anArray [
+
+	anArray ifEmpty: [ ^ self ].
+	anArray do: [ :idx | self selectIndex: idx ]
 ]
 
 { #category : #accessing }

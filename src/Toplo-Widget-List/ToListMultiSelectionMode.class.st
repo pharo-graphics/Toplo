@@ -29,7 +29,9 @@ ToListMultiSelectionMode >> onClickEvent: anEvent onNode: aNode [
 
 	super onClickEvent: anEvent onNode: aNode.
 	anEvent modifiers isShift ifTrue: [
-		self selecter selectToIndex: aNode holder position.
+		| curr |
+		curr := self selecter currentIndex.
+		self selecter selectIndex: curr to: aNode holder position.
 		^ self ].
 	anEvent modifiers isPrimaryModifier ifTrue: [
 		| index target |
@@ -39,8 +41,7 @@ ToListMultiSelectionMode >> onClickEvent: anEvent onNode: aNode [
 			ifTrue: [ self selecter deselectIndex: index ]
 			ifFalse: [ self selecter selectIndex: index ].
 		^ self ].
-	self selecter
-		selectOnlyIndex: aNode holder position
+	self selecter selectOnlyIndex: aNode holder position
 ]
 
 { #category : #shortcuts }

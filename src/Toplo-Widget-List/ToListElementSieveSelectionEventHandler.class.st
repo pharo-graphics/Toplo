@@ -34,6 +34,7 @@ ToListElementSieveSelectionEventHandler >> listDataSourceItemsChangePreNotificat
 
 	sieve pattern ifEmpty: [
 		^ self ].
+	" the data source event should not be sent. this is why the source event is changed with nil "
 	aPreNotification sourceEvent: nil
 ]
 
@@ -41,20 +42,20 @@ ToListElementSieveSelectionEventHandler >> listDataSourceItemsChangePreNotificat
 ToListElementSieveSelectionEventHandler >> listSelectionChangePreNotificationEvent: aPreNotification [
 
 	| sourceEvent newEvent |
-	" keep the original "
 	sieve pattern ifEmpty: [ ^ self ].
 	sourceEvent := aPreNotification sourceEvent.
 	newEvent := ToSievedListSelectionChangedEvent new.
 	newEvent
 		pattern: sieve pattern;
 		selectionModel: sourceEvent selectionModel copy.
-	aPreNotification currentTarget dispatchEvent: newEvent
+	aPreNotification currentTarget dispatchEvent: newEvent.
+	" let listSelectionChangedEvent be sent to update the selection properly "
 ]
 
 { #category : #'element handlers' }
 ToListElementSieveSelectionEventHandler >> listSelectionChangedEvent: anEvent [
 
-	" the selection is fully updated only without filter "
+	" the selection is fully updated with an empty pattern "
 	sieve pattern ifNotEmpty: [ ^ self ].
 	selectionSet removeAll.
 	selectionSet addAll: anEvent selectionModel selectedIndexes
@@ -68,12 +69,12 @@ ToListElementSieveSelectionEventHandler >> listSieveFilterAppliedEvent: anEvent 
 	anEvent sieve pattern
 		ifNotEmpty: [
 			| selected |
-			selected := OrderedCollection new.
-			target dataAccessor withIndexDo: [ :d :localIndex |
-				| originalIndex |
-				originalIndex := dataPositionIndex at: d.
-				(selectionSet includes: originalIndex) ifTrue: [
-					selected add: localIndex ] ].
+			selected := Array streamContents: [ :stream |
+				            target dataAccessor withIndexDo: [ :d :localIndex |
+					            | originalIndex |
+					            originalIndex := dataPositionIndex at: d.
+					            (selectionSet includes: originalIndex) ifTrue: [
+						            stream nextPut: localIndex ] ] ].
 			target selecter selectOnlyIndexes: selected ]
 		ifEmpty: [ target selecter selectOnlyIndexes: selectionSet asArray ]
 ]
@@ -118,8 +119,7 @@ ToListElementSieveSelectionEventHandler >> onItemsInserted: anEvent [
 { #category : #'data events handling' }
 ToListElementSieveSelectionEventHandler >> onItemsRemoved: anEvent [
 
-	sieve pattern ifNotEmpty: [ ^ self ].
-	self buildIndexedDataFrom: anEvent currentTarget
+	" no need to update dataPositionIndex here "
 ]
 
 { #category : #accessing }

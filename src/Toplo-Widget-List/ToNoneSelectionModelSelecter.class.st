@@ -1,7 +1,7 @@
 Class {
 	#name : #ToNoneSelectionModelSelecter,
 	#superclass : #ToAbstractSelectionModelSelecter,
-	#category : #'Toplo-Widget-List-Selection-Mode'
+	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
 
 { #category : #accessing }

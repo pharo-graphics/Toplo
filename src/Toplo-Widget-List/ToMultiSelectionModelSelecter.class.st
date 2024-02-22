@@ -1,7 +1,7 @@
 Class {
 	#name : #ToMultiSelectionModelSelecter,
 	#superclass : #ToSelectionModelSelecter,
-	#category : #'Toplo-Widget-List-Selection-Mode'
+	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
 
 { #category : #operations }

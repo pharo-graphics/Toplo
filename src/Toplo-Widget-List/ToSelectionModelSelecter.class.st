@@ -6,7 +6,7 @@ Class {
 		'operator',
 		'operateSilently'
 	],
-	#category : #'Toplo-Widget-List-Selection-Mode'
+	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
 
 { #category : #adding }

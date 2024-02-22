@@ -1,12 +1,6 @@
 Class {
 	#name : #ToListSelectionElementEventHandler,
 	#superclass : #BlCustomEventHandler,
-	#instVars : [
-		'previousNodesArray',
-		'wasFocused',
-		'previousAdjacentNodeGroups',
-		'previousSelectionModel'
-	],
 	#category : #'Toplo-Widget-List-Selection-Element'
 }
 
@@ -14,30 +8,17 @@ Class {
 ToListSelectionElementEventHandler >> adjacentSelectedNodesGroupsIn: aListElement [
 	" return an array of collection. Each collection contains a list of adjacent selected nodes "
 
-	| computed |
-	computed := Array streamContents: [ :stream |
-		            | g |
-		            g := OrderedCollection new.
-		            aListElement infinite childrenDo: [ :node |
-			            node holder isSelected
-				            ifTrue: [ g add: node ]
-				            ifFalse: [
-					            g ifNotEmpty: [
-						            stream nextPut: g.
-						            g := OrderedCollection new ] ] ].
-		            g ifNotEmpty: [ stream nextPut: g ] ].
-
-	" compare with the previous result. 
-		if different, then return the new one (computed). 
-		If equals, then return the previous one"
-	^ computed
-	"(previousAdjacentNodeGroups notNil and: [
-		 previousAdjacentNodeGroups size = computed ]) ifFalse: [
-		^ computed ].
-	previousAdjacentNodeGroups with: computed do: [ :pg :g |
-		pg size = g size ifFalse: [ ^ computed ].
-		pg with: g do: [ :pn :n | pn = n ifFalse: [ ^ computed ] ] ].
-	^ previousAdjacentNodeGroups"
+	^ Array streamContents: [ :stream |
+		  | g |
+		  g := OrderedCollection new.
+		  aListElement infinite childrenDo: [ :node |
+			  node holder isSelected
+				  ifTrue: [ g add: node ]
+				  ifFalse: [
+					  g ifNotEmpty: [
+						  stream nextPut: g.
+						  g := OrderedCollection new ] ] ].
+		  g ifNotEmpty: [ stream nextPut: g ] ]
 ]
 
 { #category : #'element handlers' }
@@ -97,10 +78,7 @@ ToListSelectionElementEventHandler >> newPrimarySelectionElementsFromEvent: anEv
 
 	| adjacentNodeGroups target |
 	target := anEvent currentTarget.
-	target isAttachedToSceneGraph ifFalse: [ ^ nil ].
 	adjacentNodeGroups := self adjacentSelectedNodesGroupsIn: target.
-	"adjacentNodeGroups = previousAdjacentNodeGroups ifTrue: [ ^ nil ]."
-	"previousAdjacentNodeGroups := adjacentNodeGroups."
 	^ adjacentNodeGroups collect: [ :g |
 		  ToListPrimarySelectionElement new
 			  listElement: target;
@@ -111,30 +89,13 @@ ToListSelectionElementEventHandler >> newPrimarySelectionElementsFromEvent: anEv
 { #category : #'element handlers' }
 ToListSelectionElementEventHandler >> onListSelectionElementUpdatedFromEvent: anEvent [
 
-	| target nodesArray focused selectionModel |
+	| target nodesArray selectionModel |
 	target := anEvent currentTarget.
 
 	nodesArray := target infinite children asArray.
 	selectionModel := target selectionModel.
-	focused := target hasFocus.
 
-	" ** important note **
-	do not send unnecessary event here. 
-	If not then the consequence is an infinite layout request loop. 
-	(which would be normal since dispatching a node change event 
-	implies the skin application which implies a layout request somewhere... ) "
-
-	self flag: 'Check if this crappy stuff is still necessary'.
-
-	"(previousNodesArray = nodesArray and: [
-		 previousSelectionModel = selectionModel and: [
-			 wasFocused = focused ] ]) ifTrue: [ ^ self ].
-	wasFocused := focused.
-	previousNodesArray := nodesArray.
-	previousSelectionModel := selectionModel copy."
-
-	" Ok, the state of the infinite has changed, le's dispatch the event 
-	that is used by the skin state generator to generate the selection state "
+	" Dispatch the event that is used by the skin state generator to generate the selection state "
 	nodesArray do: [ :node |
 		node dispatchEvent: (ToListNodeSelectedEvent new
 				 listElement: target;
@@ -148,13 +109,10 @@ ToListSelectionElementEventHandler >> updatePrimarySelectionFromEvent: anEvent [
 	| newSelElements target previous |
 	target := anEvent currentTarget.
 	target isAttachedToSceneGraph ifFalse: [ ^ self ].
-	previous := target selectionElements copy.
+	previous := target selectionElements.
 	newSelElements := self newPrimarySelectionElementsFromEvent: anEvent.
-	newSelElements
-		ifNil: [ previous do: [ :s | s computeBounds ] ]
-		ifNotNil: [
-			previous do: [ :s | s removeFromParent ].
-			target addChildren: newSelElements.
-			target selectionElements: newSelElements ].
+	previous do: [ :s | s removeFromParent ].
+	target addChildren: newSelElements.
+	target selectionElements: newSelElements.
 	self onListSelectionElementUpdatedFromEvent: anEvent
 ]

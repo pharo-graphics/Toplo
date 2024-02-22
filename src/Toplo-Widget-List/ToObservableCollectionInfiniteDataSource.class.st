@@ -61,12 +61,6 @@ ToObservableCollectionInfiniteDataSource >> onBindHolder: anElementHolder at: aP
 	anElementHolder dataItem: (data at: aPosition)
 ]
 
-{ #category : #'instance creation' }
-ToObservableCollectionInfiniteDataSource >> onCreateHolder: anInfiniteElement [ 
-
-	^ anInfiniteElement newNodeHolderFromDataSource: self
-]
-
 { #category : #hooks }
 ToObservableCollectionInfiniteDataSource >> onDetached: anInfiniteElement [
 

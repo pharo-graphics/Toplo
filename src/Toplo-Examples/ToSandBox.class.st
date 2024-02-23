@@ -2213,6 +2213,44 @@ ToSandBox class >> example_horizontalPaneWithDivider [
 	pane openInSpace
 ]
 
+{ #category : #list }
+ToSandBox class >> example_listStress [
+
+	| tabsPanel list1 tab1 tabSize |
+	tabSize := 10.
+	list1 := ToListElement new.
+	list1 constraints vertical matchParent.
+	list1 constraints horizontal matchParent.
+	1 to: tabSize do: [ :i |
+	list1 dataAccessor add: 'Hello ' , i asString ].
+	tabsPanel := ToTabPane new.
+	tab1 := ToTab new.
+	tab1 labelText: 'Hello'.
+	tab1 paneBuilder: [ :pane :theTabPane | pane addChild: list1 ].
+	tabsPanel addTab: tab1.
+	list1 selecter selectAll.
+	list1 withRowNumbers.
+	tabsPanel openInSpace.
+
+	tabsPanel enqueueTask: (BlTaskAction new action: [
+			 [
+			 1 to: 1000 do: [ :e |
+				 tabsPanel enqueueTask: (BlTaskAction new action: [
+						  | r |
+						  1 to: tabSize do: [ :i |
+						  list1 dataAccessor at: i put: 'Hello ' , e asString ].
+						  list1 dataAccessor addFirst:
+							  'Hello ' , (list1 dataAccessor size + 1) asString.
+						  list1 dataAccessor add:
+							  'Hello ' , (list1 dataAccessor size + 1) asString.
+						  r := (Random new next * 1000) asInteger
+						       \\ (list1 dataAccessor size - 1) + 1.
+						  list1 selecter selectIndex: r.
+						  list1 dataAccessor removeAt: (r - 1 max: 1).
+						  list1 scrollToIndex: list1 dataAccessor size ]).
+				 50 milliSeconds wait ] ] fork ])
+]
+
 { #category : #'look event' }
 ToSandBox class >> example_lookEventTrace [
 

@@ -40,7 +40,7 @@ ToListNodeMultiSelectionClickEventHandler >> launchClick: aBlock event: anEvent 
 	listElement := node holder listElement.
 	mode := listElement selectionMode.
 
-	listElement isFocused ifFalse: [
+	(listElement isFocused not and: [listElement selectionMode requestFocusOnMouseDown]) ifTrue: [
 		listElement requestFocus.
 		mode preserveSelectionOnFocused ifTrue: [
 			self terminateClickLauncher.

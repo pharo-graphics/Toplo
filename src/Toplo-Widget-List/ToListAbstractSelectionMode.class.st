@@ -29,6 +29,12 @@ ToListAbstractSelectionMode >> initialize [
 
 ]
 
+{ #category : #testing }
+ToListAbstractSelectionMode >> isMultipleSelection [
+
+	^ self subclassResponsibility 
+]
+
 { #category : #accessing }
 ToListAbstractSelectionMode >> itemCount [
 
@@ -109,7 +115,7 @@ ToListAbstractSelectionMode >> selectedIndexesCount [
 	^ self selectionModel selectedIndexesCount
 ]
 
-{ #category : #'accessing - operator' }
+{ #category : #accessing }
 ToListAbstractSelectionMode >> selecter [
 
 	^ selecter 

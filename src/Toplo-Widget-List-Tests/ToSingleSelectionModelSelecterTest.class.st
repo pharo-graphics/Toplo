@@ -44,7 +44,19 @@ ToSingleSelectionModelSelecterTest >> testDeselectIndex [
 { #category : #tests }
 ToSingleSelectionModelSelecterTest >> testDeselectIndexes [
 
-	self should: [selecter deselectIndexes: {2. 6. 9}] raise: Error
+	selecter selectIndex: 2.
+	self waitTestingSpaces.
+	self assert: holder selectionModel selectedIndexes equals: #( 2 ).
+	selecter deselectIndexes: {3. 6. 9}.
+	self waitTestingSpaces.
+	self assert: holder selectionModel selectedIndexes equals: #( 2 ).
+	selecter deselectIndexes: {3. 2. 9}.
+	self waitTestingSpaces.
+	self assert: holder selectionModel selectedIndexes equals: #(  ).
+
+
+
+	
 ]
 
 { #category : #tests }
@@ -184,7 +196,11 @@ ToSingleSelectionModelSelecterTest >> testSelectIndex2 [
 { #category : #tests }
 ToSingleSelectionModelSelecterTest >> testSelectIndexTo [
 
-	self should: [selecter selectIndex: 2 to: 2] raise: Error
+	self should: [selecter selectIndex: 2 to: 4] raise: Error.
+	self should: [selecter selectIndex: 4 to: 2] raise: Error.
+	selecter selectIndex: 2 to: 2.
+	self waitTestingSpaces.
+	self assert: holder selectionModel selectedIndexes  equals: {2} .
 ]
 
 { #category : #tests }

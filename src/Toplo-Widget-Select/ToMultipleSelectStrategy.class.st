@@ -121,6 +121,18 @@ ToMultipleSelectStrategy >> nodeWrapping: aBoolean [
 	self onNodeWrappingChange.
 ]
 
+{ #category : #'api - hooks' }
+ToMultipleSelectStrategy >> onInstalledIn: aSelect [
+
+	aSelect listElement selectionMode: ToListMultipleSelectionMode new.
+	aSelect listElement selectionMode requestFocusOnMouseDown: false.
+	super onInstalledIn: aSelect.
+
+
+
+
+]
+
 { #category : #private }
 ToMultipleSelectStrategy >> onNodeWrappingChange [
 
@@ -149,11 +161,11 @@ ToMultipleSelectStrategy >> refreshHeaderNodeContainer [
 	self headerNodeHolders reset.
 	"select selection indices traceCr."
 	" then rebuild current nodes according to current selection "
-	nodes := select selection indices collect: [ :idx |
+	nodes := select selectionModel selectedIndexes collect: [ :idx |
 		         | node selectedData |
 		         node := self newHeaderNode.
 		         self headerNodeHolders add: node selectHolder.
-		         selectedData := select data at: idx.
+		         selectedData := select dataAccessor at: idx.
 		         node selectHolder
 			         position: idx;
 			         data: selectedData.

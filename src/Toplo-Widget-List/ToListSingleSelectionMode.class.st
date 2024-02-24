@@ -12,6 +12,12 @@ ToListSingleSelectionMode >> allowNodeSelectionOnMouseDown [
 	^ super allowNodeSelectionOnMouseDown
 ]
 
+{ #category : #testing }
+ToListSingleSelectionMode >> isMultipleSelection [
+
+	^ false
+]
+
 { #category : #'instance creation' }
 ToListSingleSelectionMode >> newSelecterIn: anElement [
 
@@ -34,6 +40,5 @@ ToListSingleSelectionMode >> onClickEvent: anEvent onNode: aNode [
 		index := aNode holder position.
 		(self selectionModel containsIndex: index) ifTrue: [
 			^ self selecter deselectIndex: index ] ].
-
 	self selecter selectOnlyIndex: aNode holder position
 ]

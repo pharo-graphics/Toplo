@@ -61,6 +61,15 @@ ToSelectionModelSelecter >> deselectIndex: anIndex [
 ]
 
 { #category : #operations }
+ToSelectionModelSelecter >> deselectIndex: aStartIndex to: anEndIndex [
+
+	self addCommand: (ToIntervalSelectionCommand new
+			 from: aStartIndex to: anEndIndex;
+			 operation: ToRemoveSelectionOperation new).
+	self changeCurrentIndexWith: (aStartIndex min: anEndIndex)
+]
+
+{ #category : #operations }
 ToSelectionModelSelecter >> deselectIndexes: anArray [
 
 	self addCommand: (ToIndexesSelectionCommand new
@@ -171,6 +180,25 @@ ToSelectionModelSelecter >> selectOnlyIndex: anIndex [
 					  from: anIndex to: anIndex;
 					  operation: ToAddSelectionOperation new) }).
 	self changeCurrentIndexWith: anIndex
+]
+
+{ #category : #operations }
+ToSelectionModelSelecter >> selectOnlyIndexes: anArray [
+
+	anArray ifEmpty: [ 
+		self addCommand:
+			(ToWholeSelectionCommand new operation:
+				 ToRemoveSelectionOperation new).
+		self changeCurrentIndexWith: 0.
+		^ self ].
+	self addCommand: (ToCompositeCommand new commands: {
+				 (ToWholeSelectionCommand new
+					  silent: true;
+					  operation: ToRemoveSelectionOperation new).
+				 (ToIndexesSelectionCommand new
+					  indexes: anArray;
+					  operation: ToAddSelectionOperation new) }).
+	self changeCurrentIndexWith: anArray last
 ]
 
 { #category : #accessing }

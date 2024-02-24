@@ -1,5 +1,5 @@
 Class {
-	#name : #ToListElementSieveSelectionEventHandler,
+	#name : #ToSievedListElementEventHandler,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'sieve',
@@ -10,7 +10,7 @@ Class {
 }
 
 { #category : #'api - hooks' }
-ToListElementSieveSelectionEventHandler >> buildIndexedDataFrom: aListElement [
+ToSievedListElementEventHandler >> buildIndexedDataFrom: aListElement [
 
 	dataPositionIndex := IdentityDictionary new.
 	aListElement dataAccessor withIndexDo: [ :aData :idx |
@@ -18,18 +18,25 @@ ToListElementSieveSelectionEventHandler >> buildIndexedDataFrom: aListElement [
 ]
 
 { #category : #'api - accessing' }
-ToListElementSieveSelectionEventHandler >> eventsToHandle [
+ToSievedListElementEventHandler >> eventsToHandle [
 
 	^ {
 		  BlInfiniteDataSourceEvent.
 		  ToListChangePreNotificationEvent.
 		  ToListSelectionChangedEvent.
 		  ToSievedListSelectionChangedEvent.
-		  ToListSieveFilterAppliedEvent }
+		  ToSieveFilterAppliedEvent }
 ]
 
 { #category : #'element handlers' }
-ToListElementSieveSelectionEventHandler >> listDataSourceItemsChangePreNotificationEvent: aPreNotification [
+ToSievedListElementEventHandler >> listClickOnNodePreNotificationEvent: anEvent [
+
+	anEvent currentTarget isMultipleSelection ifFalse: [
+		selectionSet removeAll ]
+]
+
+{ #category : #'element handlers' }
+ToSievedListElementEventHandler >> listDataSourceItemsChangePreNotificationEvent: aPreNotification [
 	" don't send the data source add/remove change event if the sieve is filtering"
 
 	sieve pattern ifEmpty: [
@@ -39,7 +46,7 @@ ToListElementSieveSelectionEventHandler >> listDataSourceItemsChangePreNotificat
 ]
 
 { #category : #'element handlers' }
-ToListElementSieveSelectionEventHandler >> listSelectionChangePreNotificationEvent: aPreNotification [
+ToSievedListElementEventHandler >> listSelectionChangePreNotificationEvent: aPreNotification [
 
 	| sourceEvent newEvent |
 	sieve pattern ifEmpty: [ ^ self ].
@@ -53,41 +60,30 @@ ToListElementSieveSelectionEventHandler >> listSelectionChangePreNotificationEve
 ]
 
 { #category : #'element handlers' }
-ToListElementSieveSelectionEventHandler >> listSelectionChangedEvent: anEvent [
-
+ToSievedListElementEventHandler >> listSelectionChangedEvent: anEvent [
 	" the selection is fully updated with an empty pattern "
+
+	| prevSet |
 	sieve pattern ifNotEmpty: [ ^ self ].
-	selectionSet removeAll.
-	selectionSet addAll: anEvent selectionModel selectedIndexes
-]
-
-{ #category : #'element handlers' }
-ToListElementSieveSelectionEventHandler >> listSieveFilterAppliedEvent: anEvent [
-
-	| target |
-	target := anEvent currentTarget.
-	anEvent sieve pattern
-		ifNotEmpty: [
-			| selected |
-			selected := Array streamContents: [ :stream |
-				            target dataAccessor withIndexDo: [ :d :localIndex |
-					            | originalIndex |
-					            originalIndex := dataPositionIndex at: d.
-					            (selectionSet includes: originalIndex) ifTrue: [
-						            stream nextPut: localIndex ] ] ].
-			target selecter selectOnlyIndexes: selected ]
-		ifEmpty: [ target selecter selectOnlyIndexes: selectionSet asArray ]
+	prevSet := selectionSet.
+	selectionSet := IdentitySet new.
+	selectionSet addAll: anEvent selectionModel selectedIndexes.
+	(prevSet notEmpty and: [ prevSet = selectionSet]) ifTrue: [ ^ self ].
+	anEvent currentTarget dispatchEvent:
+		(ToSieveSelectionChangedEvent new
+			 selectionModel: anEvent selectionModel copy;
+			 yourself)
 ]
 
 { #category : #'data events handling' }
-ToListElementSieveSelectionEventHandler >> onChanged: anEvent [
+ToSievedListElementEventHandler >> onChanged: anEvent [
 
 	sieve pattern ifNotEmpty: [ ^ self ].
 	self buildIndexedDataFrom: anEvent currentTarget
 ]
 
 { #category : #'api - hooks' }
-ToListElementSieveSelectionEventHandler >> onInstalledIn: aListElement [
+ToSievedListElementEventHandler >> onInstalledIn: aListElement [
 
 	super onInstalledIn: aListElement.
 	selectionSet := IdentitySet new.
@@ -96,40 +92,57 @@ ToListElementSieveSelectionEventHandler >> onInstalledIn: aListElement [
 ]
 
 { #category : #'data events handling' }
-ToListElementSieveSelectionEventHandler >> onItemsChanged: anEvent [
+ToSievedListElementEventHandler >> onItemsChanged: anEvent [
 
 	sieve pattern ifNotEmpty: [ ^ self ].
 	self buildIndexedDataFrom: anEvent currentTarget
 ]
 
 { #category : #'data events handling' }
-ToListElementSieveSelectionEventHandler >> onItemsEvent: anEvent [
+ToSievedListElementEventHandler >> onItemsEvent: anEvent [
 
 	sieve pattern ifNotEmpty: [ ^ self ].
 	self buildIndexedDataFrom: anEvent currentTarget
 ]
 
 { #category : #'data events handling' }
-ToListElementSieveSelectionEventHandler >> onItemsInserted: anEvent [
+ToSievedListElementEventHandler >> onItemsInserted: anEvent [
 
 	sieve pattern ifNotEmpty: [ ^ self ].
 	self buildIndexedDataFrom: anEvent currentTarget
 ]
 
 { #category : #'data events handling' }
-ToListElementSieveSelectionEventHandler >> onItemsRemoved: anEvent [
+ToSievedListElementEventHandler >> onItemsRemoved: anEvent [
 
 	" no need to update dataPositionIndex here "
 ]
 
 { #category : #accessing }
-ToListElementSieveSelectionEventHandler >> sieve: aListElementSieve [
+ToSievedListElementEventHandler >> sieve: aListElementSieve [
 
 	sieve := aListElementSieve
 ]
 
 { #category : #'element handlers' }
-ToListElementSieveSelectionEventHandler >> sievedListSelectionChangedEvent: anEvent [
+ToSievedListElementEventHandler >> sieveFilterAppliedEvent: anEvent [
+
+	| target selected |
+	target := anEvent currentTarget.
+	selected := anEvent sieve pattern
+		            ifNotEmpty: [
+			            Array streamContents: [ :stream |
+				            target dataAccessor withIndexDo: [ :d :localIndex |
+					            | originalIndex |
+					            originalIndex := dataPositionIndex at: d.
+					            (selectionSet includes: originalIndex) ifTrue: [
+						            stream nextPut: localIndex ] ] ] ]
+		            ifEmpty: [ selectionSet asArray ].
+	target selecter selectOnlyIndexes: selected
+]
+
+{ #category : #'element handlers' }
+ToSievedListElementEventHandler >> sievedListSelectionChangedEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
@@ -138,5 +151,10 @@ ToListElementSieveSelectionEventHandler >> sievedListSelectionChangedEvent: anEv
 		originalIndex := dataPositionIndex at: d.
 		(anEvent selectionModel containsIndex: localIdx)
 			ifTrue: [ selectionSet add: originalIndex ]
-			ifFalse: [ selectionSet remove: originalIndex ifAbsent: []] ]
+			ifFalse: [ selectionSet remove: originalIndex ifAbsent: [  ] ] ].
+	anEvent currentTarget dispatchEvent:
+		(ToSieveSelectionChangedEvent new selectionModel:
+			 (anEvent currentTarget newSelectionModel
+				  selectIndexes: selectionSet;
+				  yourself))
 ]

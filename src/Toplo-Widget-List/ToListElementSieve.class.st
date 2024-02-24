@@ -22,7 +22,7 @@ ToListElementSieve >> applyObservableCollectionQueryResultEventFor: aListElement
 		aListElement dataAccessor filterResult: currentData ].
 	" don't deselect here"
 	"aListElement selecter deselectAll."
-	aListElement dispatchEvent: (ToListSieveFilterAppliedEvent new
+	aListElement dispatchEvent: (ToSieveFilterAppliedEvent new
 			 sieve: self;
 			 yourself)
 ]
@@ -66,7 +66,7 @@ ToListElementSieve >> onInstalledIn: aListElement [
 				                      event
 				                      for: aListElement ].
 	originalData addEventHandler: queryResultHandler.
-	selectionHandler := ToListElementSieveSelectionEventHandler new
+	selectionHandler := ToSievedListElementEventHandler new
 			 sieve: self;
 			 yourself.
 	aListElement addEventHandler: selectionHandler

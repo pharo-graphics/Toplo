@@ -4,12 +4,11 @@ Class {
 	#instVars : [
 		'windowManager',
 		'fakeData',
-		'strategy',
-		'mode',
-		'placeholderText',
-		'selection',
 		'filtrable',
-		'data'
+		'data',
+		'selectionModel',
+		'strategy',
+		'placeholderText'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -36,12 +35,6 @@ ToSelect >> dataAccessor [
 ToSelect >> dataFilter: aValuable [
 
 	self mode dataFilter: aValuable
-]
-
-{ #category : #initialization }
-ToSelect >> defaultMode [
-
-	^ ToSelectFiltrableMode new
 ]
 
 { #category : #initialization }
@@ -85,7 +78,11 @@ ToSelect >> filtrable [
 { #category : #accessing }
 ToSelect >> filtrable: aBoolean [
 
-	filtrable := aBoolean
+	filtrable = aBoolean ifTrue: [ ^ self ].
+	filtrable := aBoolean.
+	filtrable
+		ifTrue: [ self strategy textInputElement beEditable ]
+		ifFalse: [ self strategy textInputElement beReadonly ]
 ]
 
 { #category : #accessing }
@@ -133,19 +130,20 @@ ToSelect >> initialize [
 
 	| sharedEventsDistributor headerElement |
 	super initialize.
-	filtrable := true.
 
 	data := ToObservableCollection new.
 
-	selection := BlCompositeSelection new.
 	" for the popup "
 	windowManager := self newWindowManager.
+	data addEventHandler: (ToObservableCollectionMirrorUpdater new mirror: windowManager listElement dataAccessor).
+	selectionModel := self listElement newSelectionModel.
 
-	" the element that holds the node container"
+	" the element that holds the node container" 
 	headerElement := self newHeaderElement.
 	self addChild: headerElement.
 	self addChild: self newIconContainer.
 	
+	filtrable := false.
 	strategy := ToSingleSelectStrategy new.
 	strategy onInstalledIn: self.
 
@@ -195,21 +193,6 @@ ToSelect >> listElement [
 ToSelect >> listNodeBuilder: aValuable [
 
 	self listElement nodeBuilder: aValuable
-]
-
-{ #category : #accessing }
-ToSelect >> mode [
-
-	^ mode
-]
-
-{ #category : #accessing }
-ToSelect >> mode: aToSelectMode [ 
-
-	self mode ifNotNil: [ self mode onUninstalledIn: self ].
-	mode := aToSelectMode.
-	mode onInstalledIn: self.
-	self strategy ifNotNil: [self strategy reInstall ]
 ]
 
 { #category : #accessing }
@@ -274,7 +257,7 @@ ToSelect >> pattern: aPattern [
 
 { #category : #'t - element with placeholder' }
 ToSelect >> placeholderText [
-	"The text to be shown when no data is selected "
+	"The text to be shown when no data is selected " 
 
 	^ placeholderText ifNil: [ placeholderText := '' asRopedText ]
 ]
@@ -338,7 +321,7 @@ ToSelect >> selectIndex: anIndex [
 { #category : #'accessing selection' }
 ToSelect >> selectedData [
 
-	^ self selectedIndexes collect: [ :idx | self dataAccessor at: idx ]
+	^ self selectionModel selectedIndexesCollect: [ :idx | self dataAccessor at: idx ]
 ]
 
 { #category : #'accessing selection' }
@@ -350,7 +333,13 @@ ToSelect >> selectedIndexes [
 { #category : #accessing }
 ToSelect >> selection [ 
 
-	^ selection
+	^ selectionModel
+]
+
+{ #category : #accessing }
+ToSelect >> selectionModel [
+
+	^ selectionModel
 ]
 
 { #category : #accessing }

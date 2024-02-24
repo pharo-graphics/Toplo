@@ -42,7 +42,7 @@ ToObservableCollectionInfiniteDataSource >> itemCount [
 	"Return the total number of items in the data set"
 	<return: #Number>
 
-	^ data size
+	^ self data size
 ]
 
 { #category : #hooks }
@@ -58,13 +58,13 @@ ToObservableCollectionInfiniteDataSource >> onAttached: anInfiniteElement [
 ToObservableCollectionInfiniteDataSource >> onBindHolder: anElementHolder at: aPosition [
 	"Update holder's model"
 
-	anElementHolder dataItem: (data at: aPosition)
+	anElementHolder dataItem: (self data at: aPosition)
 ]
 
 { #category : #hooks }
 ToObservableCollectionInfiniteDataSource >> onDetached: anInfiniteElement [
 
-	data removeEventHandler: dataEventHandler.
+	self data removeEventHandler: dataEventHandler.
 	super onDetached: anInfiniteElement.
 
 

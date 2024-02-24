@@ -5,18 +5,6 @@ Class {
 }
 
 { #category : #operations }
-ToSingleSelectionModelSelecter >> deselectIndex: aStartIndex to: anEndIndex [
-
-	ToInvalidCommand signal
-]
-
-{ #category : #operations }
-ToSingleSelectionModelSelecter >> deselectIndexes: anArray [
-
-	ToInvalidCommand signal
-]
-
-{ #category : #operations }
 ToSingleSelectionModelSelecter >> selectAll [
 
 	ToInvalidCommand signal
@@ -38,17 +26,21 @@ ToSingleSelectionModelSelecter >> selectIndex: anIndex [
 { #category : #operations }
 ToSingleSelectionModelSelecter >> selectIndex: aStartIndex to: anEndIndex [
 
-	ToInvalidCommand signal
+	aStartIndex ~= anEndIndex ifTrue: [ ^ ToInvalidCommand signal ].
+	self selectIndex: aStartIndex
 ]
 
 { #category : #operations }
 ToSingleSelectionModelSelecter >> selectIndexes: anArray [
 
-	ToInvalidCommand signal
+	anArray ifEmpty: [ ^ self ].
+	anArray size > 1 ifTrue: [ ^ ToInvalidCommand signal ].
+	self selectIndex: anArray first
 ]
 
 { #category : #operations }
 ToSingleSelectionModelSelecter >> selectOnlyIndexes: anArray [
 
-	ToInvalidCommand signal
+	anArray size > 1 ifTrue: [ ^ ToInvalidCommand signal ].
+	super selectOnlyIndexes: anArray
 ]

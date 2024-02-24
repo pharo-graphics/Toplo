@@ -5,15 +5,6 @@ Class {
 }
 
 { #category : #operations }
-ToMultiSelectionModelSelecter >> deselectIndex: aStartIndex to: anEndIndex [
-
-	self addCommand: (ToIntervalSelectionCommand new
-			 from: aStartIndex to: anEndIndex;
-			 operation: ToRemoveSelectionOperation new).
-	self changeCurrentIndexWith: (aStartIndex min: anEndIndex)
-]
-
-{ #category : #operations }
 ToMultiSelectionModelSelecter >> selectAll [
 
 	self addCommand: (ToWholeSelectionCommand new
@@ -42,24 +33,5 @@ ToMultiSelectionModelSelecter >> selectIndexes: anArray [
 	anArray ifEmpty: [
 		self changeCurrentIndexWith: 0.
 		^ self ].
-	self changeCurrentIndexWith: anArray last
-]
-
-{ #category : #operations }
-ToMultiSelectionModelSelecter >> selectOnlyIndexes: anArray [
-
-	anArray ifEmpty: [ 
-		self addCommand:
-			(ToWholeSelectionCommand new operation:
-				 ToRemoveSelectionOperation new).
-		self changeCurrentIndexWith: 0.
-		^ self ].
-	self addCommand: (ToCompositeCommand new commands: {
-				 (ToWholeSelectionCommand new
-					  silent: true;
-					  operation: ToRemoveSelectionOperation new).
-				 (ToIndexesSelectionCommand new
-					  indexes: anArray;
-					  operation: ToAddSelectionOperation new) }).
 	self changeCurrentIndexWith: anArray last
 ]

@@ -1,31 +1,37 @@
 Class {
-	#name : #ToListMultiSelectionMode,
+	#name : #ToListMultipleSelectionMode,
 	#superclass : #ToListSelectionMode,
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
 { #category : #testing }
-ToListMultiSelectionMode >> allowNodeSelectionOnMouseDown [
+ToListMultipleSelectionMode >> allowNodeSelectionOnMouseDown [
 
 	( self selectedIndexesCount > 1 )
 		ifTrue: [ self preserveSelectionOnFocused ifTrue: [ ^ false ] ].
 	^ super allowNodeSelectionOnMouseDown
 ]
 
+{ #category : #testing }
+ToListMultipleSelectionMode >> isMultipleSelection [
+
+	^ true
+]
+
 { #category : #'instance creation' }
-ToListMultiSelectionMode >> newSelecterIn: anElement [
+ToListMultipleSelectionMode >> newSelecterIn: anElement [
 
 	^ ToMultiSelectionModelSelecter new 
 ]
 
 { #category : #accessing }
-ToListMultiSelectionMode >> nodeEventHandlerClasses [ 
+ToListMultipleSelectionMode >> nodeEventHandlerClasses [ 
 
 	^ { ToListNodeMultiSelectionClickEventHandler }
 ]
 
 { #category : #'event handling' }
-ToListMultiSelectionMode >> onClickEvent: anEvent onNode: aNode [
+ToListMultipleSelectionMode >> onClickEvent: anEvent onNode: aNode [
 
 	super onClickEvent: anEvent onNode: aNode.
 	anEvent modifiers isShift ifTrue: [
@@ -45,7 +51,7 @@ ToListMultiSelectionMode >> onClickEvent: anEvent onNode: aNode [
 ]
 
 { #category : #shortcuts }
-ToListMultiSelectionMode >> shortcutsIn: anElement [
+ToListMultipleSelectionMode >> shortcutsIn: anElement [
 
 	^ (super shortcutsIn: anElement) , {
 		  (BlShortcutWithAction new

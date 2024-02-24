@@ -4,13 +4,14 @@ Class {
 	#instVars : [
 		'selectionModel',
 		'selecter',
-		'requestFocusOnMouseDown'
+		'requestFocusOnMouseDown',
+		'selectOnMouseDown'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
 { #category : #testing }
-ToListAbstractSelectionMode >> allowNodeSelectionOnMouseDown [
+ToListAbstractSelectionMode >> allowRequestFocusOnMouseDown [
 
 	^ self requestFocusOnMouseDown 
 ]
@@ -26,6 +27,7 @@ ToListAbstractSelectionMode >> initialize [
 
 	super initialize.
 	requestFocusOnMouseDown := true.
+	selectOnMouseDown := false
 
 ]
 
@@ -101,6 +103,18 @@ ToListAbstractSelectionMode >> requestFocusOnMouseDown [
 ToListAbstractSelectionMode >> requestFocusOnMouseDown: aBoolean [
 
 	requestFocusOnMouseDown := aBoolean 
+]
+
+{ #category : #accessing }
+ToListAbstractSelectionMode >> selectOnMouseDown [
+
+	^ selectOnMouseDown
+]
+
+{ #category : #accessing }
+ToListAbstractSelectionMode >> selectOnMouseDown: aBoolean [
+
+	selectOnMouseDown := aBoolean
 ]
 
 { #category : #accessing }

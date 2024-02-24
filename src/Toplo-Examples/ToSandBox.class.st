@@ -963,8 +963,21 @@ ToSandBox class >> example_ListWithPanes [
 { #category : #select }
 ToSandBox class >> example_MonoFiltrable [
 
-	| select innerWindow |
+	| select innerWindow phtext |
 	select := ToSelect new.
+	
+	phtext := ('No Data' asRopedText
+		           foreground: Color lightGray;
+		           yourself)
+		          fontSize: 24;
+		          yourself.
+
+	select listElement placeholderBuilder: [ :placeholder :e |
+		| lab |
+		placeholder layout alignCenter.
+		lab := ToAttributedLabel text: phtext.
+		placeholder addChild: lab ].
+	
 	select filtrable: true.
 	select dataAccessor addAll: self statesOfAmerica.
 	select placeholderText: ('Select a state' asRopedText foreground: Color red).
@@ -2545,6 +2558,7 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWithAllClassNames [
 
 	| select innerWindow |
 	select := self selectWithEditingMultiSelection.
+	select filtrable: true.
 	select strategy: ToMultipleSelectStrategy new.
 	
 	innerWindow := ToInnerWindow new.

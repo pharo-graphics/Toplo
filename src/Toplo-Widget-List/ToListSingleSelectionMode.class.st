@@ -5,11 +5,11 @@ Class {
 }
 
 { #category : #testing }
-ToListSingleSelectionMode >> allowNodeSelectionOnMouseDown [
+ToListSingleSelectionMode >> allowRequestFocusOnMouseDown [
 
 	( self selectedIndexesCount > 0 )
 		ifTrue: [ self preserveSelectionOnFocused ifTrue: [ ^ false ] ].
-	^ super allowNodeSelectionOnMouseDown
+	^ super allowRequestFocusOnMouseDown
 ]
 
 { #category : #testing }
@@ -35,10 +35,11 @@ ToListSingleSelectionMode >> nodeEventHandlerClasses [
 ToListSingleSelectionMode >> onClickEvent: anEvent onNode: aNode [
 
 	super onClickEvent: anEvent onNode: aNode.
-	anEvent modifiers isPrimaryModifier ifTrue: [
-		| index |
-		index := aNode holder position.
-		(self selectionModel containsIndex: index) ifTrue: [
-			^ self selecter deselectIndex: index ] ].
+	(anEvent modifiers isPrimaryModifier or: [ self selectOnMouseDown ])
+		ifTrue: [
+			| index |
+			index := aNode holder position.
+			(self selectionModel containsIndex: index) ifTrue: [
+				^ self selecter deselectIndex: index ] ].
 	self selecter selectOnlyIndex: aNode holder position
 ]

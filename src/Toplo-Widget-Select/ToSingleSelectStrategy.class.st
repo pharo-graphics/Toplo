@@ -50,7 +50,6 @@ ToSingleSelectStrategy >> inputTextField [
 ToSingleSelectStrategy >> onInstalledIn: aSelect [
 
 	aSelect listElement selectionMode: ToListSingleSelectionMode new.
-	aSelect listElement selectionMode requestFocusOnMouseDown: false.
 	super onInstalledIn: aSelect.
 
 

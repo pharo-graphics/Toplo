@@ -3,7 +3,6 @@ Class {
 	#superclass : #ToSelectStrategy,
 	#instVars : [
 		'nodeWrapping',
-		'maxCount',
 		'headerNodeHolders',
 		'textInputElement'
 	],
@@ -83,7 +82,6 @@ ToMultipleSelectStrategy >> initialize [
 
 	super initialize.
 	headerNodeHolders := OrderedCollection new.
-	maxCount := SmallInteger maxVal.
 	nodeWrapping := self defaultNodeWrapping.
 
 	
@@ -93,18 +91,6 @@ ToMultipleSelectStrategy >> initialize [
 ToMultipleSelectStrategy >> isMultipleSelection [
 
 	^ true
-]
-
-{ #category : #accessing }
-ToMultipleSelectStrategy >> maxCount [
-
-	^ maxCount
-]
-
-{ #category : #accessing }
-ToMultipleSelectStrategy >> maxCount: aNumber [
-
-	maxCount := aNumber
 ]
 
 { #category : #accessing }
@@ -125,7 +111,6 @@ ToMultipleSelectStrategy >> nodeWrapping: aBoolean [
 ToMultipleSelectStrategy >> onInstalledIn: aSelect [
 
 	aSelect listElement selectionMode: ToListMultipleSelectionMode new.
-	aSelect listElement selectionMode requestFocusOnMouseDown: false.
 	super onInstalledIn: aSelect.
 
 

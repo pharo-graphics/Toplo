@@ -2249,7 +2249,7 @@ ToSandBox class >> example_listStress [
 
 	tabsPanel enqueueTask: (BlTaskAction new action: [
 			 [
-			 1 to: 100000 do: [ :e |
+			 1 to: 10000 do: [ :e |
 				 tabsPanel enqueueTask: (BlTaskAction new action: [
 						  | r |
 						  1 to: tabSize do: [ :i |

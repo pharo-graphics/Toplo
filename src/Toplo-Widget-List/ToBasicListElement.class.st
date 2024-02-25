@@ -112,6 +112,7 @@ ToBasicListElement >> initialize [
 	self addChild: self next.
 	self contextMenuWindowManagerClass: ToListElementContextMenuWindowManager.
 	self addEventHandler: ToListPrimarySelectionElementEventHandler new.
+	self addEventHandler: ToListSecondarySelectionElementEventHandler new.
 	self addEventHandler: ToListElementContextMenuSelectionEventHandler new.
 	self addEventHandler: ToCommandEventHandler new.
 	self matchParent

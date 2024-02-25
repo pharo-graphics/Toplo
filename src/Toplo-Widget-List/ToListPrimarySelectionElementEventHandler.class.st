@@ -13,12 +13,6 @@ ToListPrimarySelectionElementEventHandler >> blurEvent: anEvent [
 	self updateSelectionFromEvent: anEvent
 ]
 
-{ #category : #accessing }
-ToListPrimarySelectionElementEventHandler >> currentSelectionElementsIn: aListElement [
-
-	^ aListElement primarySelectionElements
-]
-
 { #category : #'element handlers' }
 ToListPrimarySelectionElementEventHandler >> elementExtentChangedEvent: anEvent [
 

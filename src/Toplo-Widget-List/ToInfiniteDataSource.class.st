@@ -21,6 +21,12 @@ ToInfiniteDataSource >> onAttached: anInfiniteElement [
 	self notifyChanged
 ]
 
+{ #category : #'instance creation' }
+ToInfiniteDataSource >> onCreateHolder: anInfiniteElement [ 
+
+	^ anInfiniteElement newNodeHolderFromDataSource: self
+]
+
 { #category : #hooks }
 ToInfiniteDataSource >> onDetached: anInfiniteElement [
 

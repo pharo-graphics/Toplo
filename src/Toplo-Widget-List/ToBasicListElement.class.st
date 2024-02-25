@@ -67,7 +67,7 @@ ToBasicListElement >> defaultLayout [
 { #category : #initialization }
 ToBasicListElement >> defaultSelectionMode [
 
-	^ ToListMultiSelectionMode new.
+	^ ToListMultipleSelectionMode new.
 ]
 
 { #category : #orientation }
@@ -133,6 +133,12 @@ ToBasicListElement >> installSharedEventDistributors [
 ToBasicListElement >> isHorizontal [
 
 	^ self infinite layout isHorizontal
+]
+
+{ #category : #testing }
+ToBasicListElement >> isMultipleSelection [
+
+	^ self selectionMode isMultipleSelection
 ]
 
 { #category : #orientation }

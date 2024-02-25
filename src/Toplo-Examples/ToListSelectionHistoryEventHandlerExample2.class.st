@@ -49,7 +49,7 @@ ToListSelectionHistoryEventHandlerExample2 >> commandAppliedEvent: aCommandAppli
 { #category : #'api - accessing' }
 ToListSelectionHistoryEventHandlerExample2 >> eventsToHandle [
 
-	^ { ToSelectionCommandAppliedEvent }
+	^ { ToCommandAppliedEvent }
 ]
 
 { #category : #accessing }

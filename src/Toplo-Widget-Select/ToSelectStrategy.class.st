@@ -114,18 +114,6 @@ ToSelectStrategy >> isMultipleSelection [
 	^ false
 ]
 
-{ #category : #accessing }
-ToSelectStrategy >> maxCount [ 
-
-	^ Error signal: 'Not applicable feature'
-]
-
-{ #category : #accessing }
-ToSelectStrategy >> maxCount: aNumber [
-
-	^ Error signal: 'Not applicable feature'
-]
-
 { #category : #'accessing nodes' }
 ToSelectStrategy >> newHeaderNode [
 
@@ -167,7 +155,10 @@ ToSelectStrategy >> onInstalledIn: aSelect [
 	select headerElement addChild: nodeContainer.
 	self buildHeaderNodeContainer: nodeContainer.
 	self initializeFakeNode.
-	self refreshHeaderNodeContainer
+	self refreshHeaderNodeContainer.
+	aSelect listElement selectionMode selectOnMouseDown: true.
+	aSelect listElement selectionMode requestFocusOnMouseDown: false.
+
 ]
 
 { #category : #'api - hooks' }

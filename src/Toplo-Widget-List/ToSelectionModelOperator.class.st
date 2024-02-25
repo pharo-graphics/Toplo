@@ -11,8 +11,11 @@ Class {
 { #category : #'command operations' }
 ToSelectionModelOperator >> addIndexesSelectionCommand: aCommand [
 
+	| intervals |
 	aCommand indexes ifEmpty: [ ^ self ].
-	self selectionModel selectAllIndexes: aCommand indexes
+	"self selectionModel selectAllIndexes: aCommand indexes."
+	intervals := self intervalsIn: aCommand indexes.
+	intervals do: [ :i | self selectionModel selectIndex: i first to: i last ]
 ]
 
 { #category : #'command operations' }
@@ -27,27 +30,51 @@ ToSelectionModelOperator >> addWholeSelectionCommand: aCommand [
 	self selectionModel selectAll
 ]
 
-{ #category : #'command application' }
-ToSelectionModelOperator >> applyCommand: aCommand for: aTarget [
+{ #category : #'private command application' }
+ToSelectionModelOperator >> applyCommand: aCommand for: aTarget withApplicationBlock: aBlock [
 
-	| silent |
+	| silent selectionModelChanged |
 	previousModel ifNil: [ previousModel := self selectionModel copy ].
 
-	super applyCommand: aCommand for: aTarget.
+	super applyCommand: aCommand for: aTarget withApplicationBlock: aBlock.
 
-	silent := aCommand silent or: [ previousModel = self selectionModel ].
+	selectionModelChanged := previousModel ~= self selectionModel.
+	silent := aCommand silent or: [ selectionModelChanged not ].
 
-	previousModel = self selectionModel ifFalse: [
-		aTarget dispatchEvent: (ToSelectionCommandAppliedEvent new
+	selectionModelChanged ifTrue: [
+		aTarget dispatchEvent: (ToCommandAppliedEvent new
 				 operator: self;
 				 command: aCommand) ].
 
-	previousModel := self selectionModel copy.
 	silent ifTrue: [ ^ self ].
-
+	previousModel := self selectionModel copy.
 	aTarget notifySelectionChanged: (ToListSelectionChangedEvent new
 			 selectionModel: previousModel;
 			 yourself)
+]
+
+{ #category : #private }
+ToSelectionModelOperator >> intervalsIn: aCollection [
+	" return an array of intervals #( 2 3 4 6 7 8 ) -> { 2 to: 4. 6 to: 8 } "
+
+	| sorted |
+	sorted := aCollection asOrderedCollection sort.
+	^ Array streamContents: [ :stream |
+		  | prev g |
+		  g := nil.
+		  prev := nil.
+		  sorted do: [ :idx |
+			  prev
+				  ifNil: [
+					  g := idx to: idx ]
+				  ifNotNil: [
+					  prev + 1 = idx
+						  ifTrue: [ g := g first to: idx ]
+						  ifFalse: [
+							  stream nextPut: g.
+							  g := idx to: idx ] ].
+			  prev := idx ].
+		  g ifNotNil: [ stream nextPut: g ] ]
 ]
 
 { #category : #accessing }
@@ -73,8 +100,11 @@ ToSelectionModelOperator >> onUninstalledIn: anEventTarget [
 { #category : #'command operations' }
 ToSelectionModelOperator >> removeIndexesSelectionCommand: aCommand [
 
+	| intervals |
 	aCommand indexes ifEmpty: [ ^ self ].
-	self selectionModel deselectAllIndexes: aCommand indexes
+	"self selectionModel deselectAllIndexes: aCommand indexes."
+	intervals := self intervalsIn: aCommand indexes.
+	intervals do: [ :i | self selectionModel deselectIndex: i first to: i last ]
 ]
 
 { #category : #'command operations' }
@@ -111,6 +141,6 @@ ToSelectionModelOperator >> selectionModelShiftCommand: aShiftCommand [
 ToSelectionModelOperator >> sharedEvents [
 
 	^ super sharedEvents , {
-		  ToSelectionCommandAppliedEvent.
+		  ToCommandAppliedEvent.
 		  ToListSelectionChangedEvent }
 ]

@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
+{ #category : #testing }
+ToListNoneSelectionMode >> isMultipleSelection [
+
+	^ false
+]
+
 { #category : #'instance creation' }
 ToListNoneSelectionMode >> newSelecterIn: anElement [
 

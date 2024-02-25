@@ -1,11 +1,12 @@
 Class {
 	#name : #ToSelectionCommandAppliedEvent,
-	#superclass : #ToCommandEvent,
+	#superclass : #ToCommandAppliedEvent,
 	#category : #'Toplo-Widget-List-Command-Selection'
 }
 
-{ #category : #sending }
-ToSelectionCommandAppliedEvent >> sendTo: anObject [
+{ #category : #testing }
+ToSelectionCommandAppliedEvent class >> isDeprecated [ 
+	" just use my superclass instead"
 
-	anObject commandAppliedEvent: self
+	^ true
 ]

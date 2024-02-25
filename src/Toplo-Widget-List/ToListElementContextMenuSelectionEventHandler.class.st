@@ -65,7 +65,7 @@ ToListElementContextMenuSelectionEventHandler >> listElementContextMenuRequest: 
 	childNode ifNil: [ ^ self ].
 	childNode holder isSelected
 		ifTrue: [
-			anEvent selection selectAllIndexes:
+			anEvent selection selectIndexes:
 				target selectionModel selectedIndexes ]
 		ifFalse: [ anEvent selection selectIndex: childNode holder position ].
 

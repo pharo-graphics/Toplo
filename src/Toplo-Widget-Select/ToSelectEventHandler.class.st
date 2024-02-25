@@ -5,6 +5,16 @@ Class {
 }
 
 { #category : #'element handlers' }
+ToSelectEventHandler >> collectionFilteredEvent: anEvent [
+
+	| select |
+	select := windowManager element.
+	windowManager currentWindow ifNil: [
+		select strategy textInputElement filterString ifNotEmpty: [
+			select popupWindowEvent: anEvent ] ]
+]
+
+{ #category : #'element handlers' }
 ToSelectEventHandler >> elementExtentChangedEvent: anEvent [
 
 	windowManager currentWindow ifNil: [ ^ self ].
@@ -15,5 +25,5 @@ ToSelectEventHandler >> elementExtentChangedEvent: anEvent [
 { #category : #'api - accessing' }
 ToSelectEventHandler >> eventsToHandle [
 
-	^ super eventsToHandle , { BlElementExtentChangedEvent }
+	^ super eventsToHandle , { ToCollectionFilteredEvent .  BlElementExtentChangedEvent }
 ]

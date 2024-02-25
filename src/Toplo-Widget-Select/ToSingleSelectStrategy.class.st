@@ -34,20 +34,27 @@ ToSingleSelectStrategy >> defaultHeaderNodeClass [
 	^  ToSingleSelectHeaderNode
 ]
 
-{ #category : #'instance creation' }
+{ #category : #private }
 ToSingleSelectStrategy >> headerNodeContainerLayout [
 
 	^ BlFrameLayout new
 ]
 
-{ #category : #'event handling' }
-ToSingleSelectStrategy >> onListElementSelectionChangedEvent: anEvent [
-'onListElementSelectionChangedEvent:' traceCr.
-	select selection deselectAll.
-	anEvent selectionModel ifNotEmpty: [
-		select selection selectIndex: anEvent selectedIndexes first ].
-	select selection traceCr.
-	self refreshHeaderNodeContainer
+{ #category : #accessing }
+ToSingleSelectStrategy >> inputTextField [
+
+	^ self textInputElement inputTextField
+]
+
+{ #category : #'api - hooks' }
+ToSingleSelectStrategy >> onInstalledIn: aSelect [
+
+	aSelect listElement selectionMode: ToListSingleSelectionMode new.
+	super onInstalledIn: aSelect.
+
+
+
+
 ]
 
 { #category : #'api - hooks' }
@@ -66,23 +73,36 @@ ToSingleSelectStrategy >> refreshHeaderNodeContainer [
 	| node holder idx selectedData |
 	node := select headerNodeContainer firstChild.
 	holder := node selectHolder.
-
-	select selection isEmpty
+	select selectionModel isEmpty
 		ifTrue: [
 			idx := 0.
 			selectedData := nil ]
-		ifFalse: [ 
-			idx := select selection from + 1.
+		ifFalse: [
+			idx := select selectionModel firstIndex.
 			selectedData := select dataAccessor at: idx ].
 
 	holder
 		position: idx;
 		data: selectedData.
-	"select closeWindow."
-	
-	self textInputElement selectedDataTextField visibility: BlVisibility visible.
-	self textInputElement selectedDataTextField text: selectedData asString.
-	self textInputElement inputTextField text: ''
+
+	select enqueueTask: (BlTaskAction new action: [
+			 self refreshInputTextElementWithSelectedData: selectedData ])
+]
+
+{ #category : #private }
+ToSingleSelectStrategy >> refreshInputTextElementWithSelectedData: aData [
+
+	select ifNil: [ ^ self ].
+	select listElement selecter beSilentWhile: [
+		self inputTextField text: '' ].
+	self selectedDataTextField text:
+				 (aData ifNil: [ '' ] ifNotNil: [ :d | d asString ])
+]
+
+{ #category : #accessing }
+ToSingleSelectStrategy >> selectedDataTextField [
+
+	^ self textInputElement selectedDataTextField
 ]
 
 { #category : #accessing }

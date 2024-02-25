@@ -12,7 +12,23 @@ ToListNodeSingleSelectionClickEventHandler >> clickEvent: anEvent [
 	holder := node holder.	
 	listElement := node holder listElement.
 	mode := listElement selectionMode.
-
+	mode selectOnMouseDown ifTrue: [ ^ self ].
 	mode onClickEvent: anEvent onNode: node.
 	anEvent consumed: true
+]
+
+{ #category : #'mouse handlers' }
+ToListNodeSingleSelectionClickEventHandler >> primaryMouseDownEvent: anEvent [
+
+	| node listElement mode |
+	super primaryMouseDownEvent: anEvent.
+	node := anEvent currentTarget.
+	node := anEvent currentTarget.
+	listElement := node holder listElement.
+	mode := listElement selectionMode.
+	mode selectOnMouseDown ifFalse: [ ^ self ].
+	mode onClickEvent: anEvent onNode: node.
+	anEvent consumed: true
+
+
 ]

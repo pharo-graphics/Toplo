@@ -10,8 +10,11 @@ Class {
 { #category : #'events handling' }
 ToListNodeMultiSelectionClickEventHandler >> clickEvent: anEvent [
 
-	| target |
+	| target listElement mode |
 	target := anEvent currentTarget.
+	listElement := target holder listElement.
+	mode := listElement selectionMode.
+	mode selectOnMouseDown ifTrue: [ ^ self ].
 	self
 		launchClick: [ self onClickOnNodeEvent: anEvent ]
 		event: anEvent.
@@ -40,7 +43,7 @@ ToListNodeMultiSelectionClickEventHandler >> launchClick: aBlock event: anEvent 
 	listElement := node holder listElement.
 	mode := listElement selectionMode.
 
-	listElement isFocused ifFalse: [
+	(listElement isFocused not and: [listElement selectionMode requestFocusOnMouseDown]) ifTrue: [
 		listElement requestFocus.
 		mode preserveSelectionOnFocused ifTrue: [
 			self terminateClickLauncher.
@@ -58,7 +61,7 @@ ToListNodeMultiSelectionClickEventHandler >> launchClick: aBlock event: anEvent 
 	
 	" no click launcher for only one selected node "
 	" Avoid selection size computation if all is selected "
-	(mode hasWholeSelection or: [ mode selectedIndexesCount > 0 ])
+	(mode selectedIndexesCount > 0)
 		ifFalse: [ ^ aBlock value ].
 
 	self clickLauncher: ([
@@ -88,6 +91,19 @@ ToListNodeMultiSelectionClickEventHandler >> onClickOnNodeEvent: anEvent [
 	mode := listElement selectionMode.
 
 	mode onClickEvent: anEvent onNode: node
+]
+
+{ #category : #'mouse handlers' }
+ToListNodeMultiSelectionClickEventHandler >> primaryMouseDownEvent: anEvent [
+
+	| target listElement mode |
+	super primaryMouseDownEvent: anEvent.
+	target := anEvent currentTarget.
+	listElement := target holder listElement.
+	mode := listElement selectionMode.
+	mode selectOnMouseDown ifFalse: [ ^ self ].
+	self launchClick: [ self onClickOnNodeEvent: anEvent ] event: anEvent.
+	anEvent consumed: true
 ]
 
 { #category : #'events handling' }

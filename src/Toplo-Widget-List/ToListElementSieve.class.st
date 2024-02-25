@@ -17,12 +17,12 @@ ToListElementSieve >> applyObservableCollectionQueryResultEventFor: aListElement
 	" a query has occured (becuse the query pattern has changed), update the list element accordingly "
 
 	self updateCurrentData.
-		" update the list "
+	" update the list element "
 	aListElement selecter beSilentWhile: [ :s | 
 		aListElement dataAccessor filterResult: currentData ].
 	" don't deselect here"
 	"aListElement selecter deselectAll."
-	aListElement dispatchEvent: (ToListSieveFilterAppliedEvent new
+	aListElement dispatchEvent: (ToSieveFilterAppliedEvent new
 			 sieve: self;
 			 yourself)
 ]
@@ -38,7 +38,7 @@ ToListElementSieve >> dataFilter: aValuable [
 { #category : #'event handling' }
 ToListElementSieve >> onCollectionAfterChangeEvent: anEvent for: aListElement [
 
-	aListElement selecter deselectAll.
+	self pattern ifEmpty: [ aListElement selecter deselectAll ].
 	self pattern
 		ifNotEmpty: [ self pattern: '' ]
 		ifEmpty: [ 	self updateCurrentData ]
@@ -66,7 +66,7 @@ ToListElementSieve >> onInstalledIn: aListElement [
 				                      event
 				                      for: aListElement ].
 	originalData addEventHandler: queryResultHandler.
-	selectionHandler := ToListElementSieveSelectionEventHandler new
+	selectionHandler := ToSievedListElementEventHandler new
 			 sieve: self;
 			 yourself.
 	aListElement addEventHandler: selectionHandler

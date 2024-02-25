@@ -37,5 +37,5 @@ ToListNodeSelectionEventHandler >> primaryMouseDownEvent: anEvent [
 	target := anEvent currentTarget.
 	listElement := target holder listElement.
 	mode := listElement selectionMode.
-	mode allowNodeSelectionOnMouseDown ifFalse: [ anEvent consumed: true ]
+	mode allowRequestFocusOnMouseDown ifFalse: [ anEvent consumed: true ]
 ]

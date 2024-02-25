@@ -10,7 +10,7 @@ Class {
 { #category : #'api - accessing' }
 ToSelectListElementEventHandler >> eventsToHandle [
 
-	^ { ToSieveSelectionChangedEvent. ToListClickOnNodePreNotificationEvent }
+	^ { ToSieveSelectionChangedEvent. ToListClickOnNodePreNotificationEvent.  }
 ]
 
 { #category : #'element handlers' }
@@ -31,5 +31,6 @@ ToSelectListElementEventHandler >> sieveSelectionChangedEvent: anEvent [
 	select selectionModel = anEvent selectionModel ifTrue: [ ^ self ].
 	select selectionModel deselectAll.
 	select selectionModel selectIndexes: anEvent selectionModel selectedIndexes.
-	select strategy refreshHeaderNodeContainer
+	select strategy refreshHeaderNodeContainer.
+	select dispatchEvent: ToSelectListSelectionChanged new
 ]

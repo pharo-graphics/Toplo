@@ -3,8 +3,6 @@ Class {
 	#superclass : #ToPopupWindowManager,
 	#instVars : [
 		'listElement',
-		'maxHeight',
-		'minHeight',
 		'sieve',
 		'listDataSourceUpdater'
 	],
@@ -32,7 +30,7 @@ ToSelectWindowManager >> defaultMaxHeight [
 { #category : #initialization }
 ToSelectWindowManager >> defaultMinHeight [
 
-	^ 50
+	^ 0
 ]
 
 { #category : #initialization }
@@ -64,25 +62,25 @@ ToSelectWindowManager >> listElement [
 { #category : #accessing }
 ToSelectWindowManager >> maxHeight [
 
-	^ maxHeight
+	^ listElement maxHeight
 ]
 
 { #category : #accessing }
-ToSelectWindowManager >> maxHeight: anInteger [
+ToSelectWindowManager >> maxHeight: aNumber [
 
-	maxHeight := anInteger
+	listElement maxHeight: aNumber
 ]
 
 { #category : #accessing }
 ToSelectWindowManager >> minHeight [
 
-	^ minHeight
+	^ listElement minHeight
 ]
 
 { #category : #accessing }
-ToSelectWindowManager >> minHeight: anInteger [
+ToSelectWindowManager >> minHeight: aNumber [
 
-	minHeight := anInteger
+	listElement minHeight: aNumber
 ]
 
 { #category : #initialization }
@@ -91,8 +89,8 @@ ToSelectWindowManager >> newListElement [
 	| newListElement |
 	newListElement := ToListElement new.
 	newListElement nodeClass: ToSelectListNode.
-	newListElement maxHeight: self maxHeight.
-	newListElement minHeight: self minHeight.
+	newListElement maxHeight: self defaultMaxHeight .
+	newListElement minHeight: self defaultMinHeight.
 	newListElement infinite vFitContent.
 	newListElement vFitContent.
 	newListElement hMatchParent.
@@ -104,10 +102,7 @@ ToSelectWindowManager >> newListElement [
 ToSelectWindowManager >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	maxHeight := self defaultMaxHeight.
-	minHeight := self defaultMinHeight.
 	listElement := self newListElement.
-	
 	listElement addEventHandler: (ToSelectListElementEventHandler new
 			 select: self element;
 			 yourself).

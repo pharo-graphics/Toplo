@@ -23,9 +23,7 @@ ToSingleSelectStrategy >> buildHeaderNodeContainer: anElement [
 { #category : #initialization }
 ToSingleSelectStrategy >> defaultHeaderNodeBuilder [
 
-	^ [ :aSelectNode :aNodeHolder |
-	  self textInputElement ifNotNil: [ :ti |
-		  ti onSingleSelectDataChanged ] ]
+	^ [ :aSelectNode :aNodeHolder | ]
 ]
 
 { #category : #initialization }

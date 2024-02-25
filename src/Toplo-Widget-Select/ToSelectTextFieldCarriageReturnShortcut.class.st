@@ -27,5 +27,5 @@ ToSelectTextFieldCarriageReturnShortcut >> performOnEditor: aTextEditor element:
 	| select |
 	select := anEditorElement rootAlbumElement select.
 	select listElement dataAccessor ifEmpty: [ ^ self ].
-	select mode selectIndex: 1
+	select listElement selecter selectIndex: 1
 ]

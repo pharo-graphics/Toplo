@@ -15,6 +15,12 @@ ToSelectEventHandler >> collectionFilteredEvent: anEvent [
 ]
 
 { #category : #'element handlers' }
+ToSelectEventHandler >> elementAddedToSceneGraphEvent: anEvent [
+
+	self showHidePlaceholderIn: anEvent currentTarget
+]
+
+{ #category : #'element handlers' }
 ToSelectEventHandler >> elementExtentChangedEvent: anEvent [
 
 	windowManager currentWindow ifNil: [ ^ self ].
@@ -25,5 +31,18 @@ ToSelectEventHandler >> elementExtentChangedEvent: anEvent [
 { #category : #'api - accessing' }
 ToSelectEventHandler >> eventsToHandle [
 
-	^ super eventsToHandle , { ToCollectionFilteredEvent .  BlElementExtentChangedEvent }
+	^ super eventsToHandle , { BlElementAddedToSceneGraphEvent. ToSelectListSelectionChanged. ToCollectionFilteredEvent .  BlElementExtentChangedEvent }
+]
+
+{ #category : #'element handlers' }
+ToSelectEventHandler >> selectListSelectionChanged: anEvent [
+
+	self showHidePlaceholderIn: anEvent currentTarget
+]
+
+{ #category : #'element handlers' }
+ToSelectEventHandler >> showHidePlaceholderIn: aSelect [
+
+	aSelect selectionModel ifEmpty: [ ^ aSelect headerElement showPlaceholder ].
+	aSelect headerElement hidePlaceholder
 ]

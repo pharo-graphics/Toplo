@@ -965,7 +965,8 @@ ToSandBox class >> example_MonoFiltrable [
 
 	| select innerWindow phtext |
 	select := ToSelect new.
-	
+
+	select listElement placeholderMinHeight: 35.
 	phtext := ('No Data' asRopedText
 		           foreground: Color lightGray;
 		           yourself)
@@ -977,7 +978,7 @@ ToSandBox class >> example_MonoFiltrable [
 		placeholder layout alignCenter.
 		lab := ToAttributedLabel text: phtext.
 		placeholder addChild: lab ].
-	
+
 	select filtrable: true.
 	select dataAccessor addAll: self statesOfAmerica.
 	select placeholderText: ('Select a state' asRopedText foreground: Color red).
@@ -998,8 +999,7 @@ ToSandBox class >> example_MonoNotFiltrable [
 	select := ToSelect new.
 	select filtrable: false.
 	select dataAccessor addAll: self statesOfAmerica.
-	select placeholderText:
-		('Select a state' asRopedText foreground: Color red).
+	select placeholderText: ('Select a state' asRopedText foreground: Color red).
 	select listElement nodeBuilder: [ :node :holder |
 		node addChild: (ToLabel text: holder dataItem asString) hMatchParent ].
 	innerWindow := ToInnerWindow new.
@@ -1016,9 +1016,10 @@ ToSandBox class >> example_MultiFiltrable [
 
 	| select innerWindow |
 	select := ToSelect new.
-	select filtrable: true.
 	select dataAccessor addAll: self statesOfAmerica.
 	select strategy: ToMultipleSelectStrategy new.
+	select filtrable: true.
+	select popupMaxHeight: 200.
 	select placeholderText:
 		('Select states' asRopedText foreground: Color red).
 	select listElement nodeBuilder: [ :node :holder |
@@ -1026,9 +1027,9 @@ ToSandBox class >> example_MultiFiltrable [
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
 	select width: 300.
-	select position: 50 @ 50.
+	select position: 50 @ 10.
 	innerWindow pane addChild: select.
-	innerWindow height: 500.
+	innerWindow height: 600.
 	innerWindow openInSpace
 ]
 
@@ -2556,7 +2557,7 @@ ToSandBox class >> example_selectWith5Nodes [
 { #category : #select }
 ToSandBox class >> example_selectWithEditingMultiSelectionWithAllClassNames [
 
-	| select innerWindow |
+	| select innerWindow space |
 	select := self selectWithEditingMultiSelection.
 	select filtrable: true.
 	select strategy: ToMultipleSelectStrategy new.
@@ -2567,7 +2568,11 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWithAllClassNames [
 	select dataAccessor updateAllWith: (Smalltalk globals allClasses collect: [ :cls | cls name ]).
 
 	innerWindow pane addChild: select.
-	innerWindow openInSpace
+	innerWindow height: 800.
+	space := BlSpace new.
+	space extent: 800@900.
+	space root addChild: innerWindow.
+	space show
 ]
 
 { #category : #space }
@@ -3801,6 +3806,8 @@ ToSandBox class >> selectWithEditingMultiSelection [
 		           yourself)
 		          fontSize: 24;
 		          yourself.
+	select popupMaxHeight: 600.
+	select listElement placeholderMinHeight: 35.
 
 	select listElement placeholderBuilder: [ :placeholder :e |
 		| lab |

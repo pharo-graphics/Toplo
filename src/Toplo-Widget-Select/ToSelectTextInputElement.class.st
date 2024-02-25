@@ -33,12 +33,11 @@ ToSelectTextInputElement >> checkMultipleSelectPlaceholderText [
 	" In case of multiple selection, the selectedDataTextField can contain 
 		and empty text or the placeholder text"
 
-	(self inputTextField text isEmpty and: [ select selectedData isEmpty ])
+"	(self inputTextField text isEmpty and: [ select selectedData isEmpty ])
 		ifTrue: [
 			self selectedDataTextField visibility: BlVisibility visible.
-			self selectedDataTextField text: select placeholderText.
 			^ self ].
-	self selectedDataTextField visibility: BlVisibility hidden.
+	""self selectedDataTextField visibility: BlVisibility hidden."""
 ]
 
 { #category : #private }
@@ -70,7 +69,8 @@ ToSelectTextInputElement >> initialize [
 		c frame vertical alignCenter.
 		c flow vertical alignCenter.
 		c linear vertical alignCenter ].
-	self fitContent
+	self hMatchParent.
+	self vFitContent
 ]
 
 { #category : #accessing }
@@ -108,23 +108,15 @@ ToSelectTextInputElement >> installInputTextFieldEventHandlers [
 ]
 
 { #category : #initialization }
-ToSelectTextInputElement >> newInputTextField [
-
-	| textField |
-	textField := self newTextField
-		             id: #inputTextField;
-		             yourself.		
-	textField fitContent.
-	^ textField
-]
-
-{ #category : #initialization }
 ToSelectTextInputElement >> newTextField [ 
 
 	| textField |
 	textField := ToSelectTextField new
 		             select: select;
 		             yourself.
+	select isSingleSelection ifTrue: [
+		textField withLineWrapping.
+		textField hMatchParent].
 	^ textField
 ]
 
@@ -152,17 +144,12 @@ ToSelectTextInputElement >> onInstalledIn: aSelect [
 	select := aSelect.
 	selectedDataTextField := self newTextField.
 	selectedDataTextField beReadonlyWithSelection.
-	selectedDataTextField fitContent.
-	selectedDataTextField text: select placeholderText.
-	inputTextField := self newInputTextField.
-	aSelect isMultipleSelection ifFalse: [
-		self hMatchParent.
-		inputTextField withLineWrapping.
-		selectedDataTextField withLineWrapping.
-		inputTextField hMatchParent.
-		selectedDataTextField hMatchParent ].
-	" the id is set here to avoid that a fake node with a text field with the same id "
+"	selectedDataTextField
+		hMatchParent;
+		vFitContent."
+	inputTextField := self newTextField.
 	selectedDataTextField id: #selectedDataTextField.
+	inputTextField id: #inputTextField.
 	self addChild: selectedDataTextField.
 	self addChild: inputTextField.
 	select isFiltrable
@@ -171,29 +158,6 @@ ToSelectTextInputElement >> onInstalledIn: aSelect [
 	inputTextField addEventHandler: (BlEventHandler
 			 on: BlMouseDownEvent
 			 do: [ :event | self select windowManager popupWindowEvent: event ])
-]
-
-{ #category : #private }
-ToSelectTextInputElement >> onMultipleSelectDataNodeListChanged [
-
-	self checkMultipleSelectPlaceholderText
-]
-
-{ #category : #placeholder }
-ToSelectTextInputElement >> onSelectPlaceholderTextChanged [
-
-	(self selectedDataTextField notNil and: [
-		 select selectedData isEmpty ]) ifTrue: [
-		self selectedDataTextField text: select placeholderText ]
-]
-
-{ #category : #private }
-ToSelectTextInputElement >> onSingleSelectDataChanged [
-
-	self inputTextField text: ''.
-	select selectedData
-		ifEmpty: [ self selectedDataTextField text: select placeholderText ]
-		ifNotEmpty: [ :l | self selectedDataTextField text: l first asString ]
 ]
 
 { #category : #'api - hooks' }

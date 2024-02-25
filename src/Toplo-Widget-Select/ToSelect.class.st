@@ -7,8 +7,7 @@ Class {
 		'filtrable',
 		'data',
 		'selectionModel',
-		'strategy',
-		'placeholderText'
+		'strategy'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -208,13 +207,7 @@ ToSelect >> multiSelection: aBoolean [
 { #category : #initialization }
 ToSelect >> newHeaderElement [
 
-	^ ToElement new
-		  vFitContent;
-		  hMatchParent;
-		  id: #headerElement;
-		  layout: BlFrameLayout new;
-		  constraintsDo: [ :c | c linear vertical alignCenter ];
-		  yourself
+	^ ToSelectHeaderElement new
 ]
 
 { #category : #initialization }
@@ -256,35 +249,24 @@ ToSelect >> pattern: aPattern [
 ]
 
 { #category : #'t - element with placeholder' }
-ToSelect >> placeholderText [
-	"The text to be shown when no data is selected " 
+ToSelect >> placeholderBuilder: aValuable [
+	" aValuable takes 2 args: 1 the placeholder to build, 2 the element. 
+	If nil, the current builder is removed"
 
-	^ placeholderText ifNil: [ placeholderText := '' asRopedText ]
+	self headerElement placeholderBuilder: aValuable
 ]
 
 { #category : #'t - element with placeholder' }
 ToSelect >> placeholderText: aText [
 	"The text to be shown when no data is selected "
 
-	placeholderText := aText
-]
-
-{ #category : #'accessing list' }
-ToSelect >> popupMaxHeight [
-
-	^ self windowManager maxHeight
+	self headerElement placeholderText: aText
 ]
 
 { #category : #'accessing list' }
 ToSelect >> popupMaxHeight: aNumber [
 
 	self windowManager maxHeight: aNumber
-]
-
-{ #category : #'accessing list' }
-ToSelect >> popupMinHeight [
-
-	^ self windowManager minHeight
 ]
 
 { #category : #'accessing list' }
@@ -312,13 +294,6 @@ ToSelect >> popupWindowEvent: anEvent [
 ]
 
 { #category : #'accessing selection' }
-ToSelect >> selectIndex: anIndex [
-
-	self inputTextField text: ''.
-	self mode selectIndex: anIndex
-]
-
-{ #category : #'accessing selection' }
 ToSelect >> selectedData [
 
 	^ self selectionModel selectedIndexesCollect: [ :idx | self dataAccessor at: idx ]
@@ -327,13 +302,7 @@ ToSelect >> selectedData [
 { #category : #'accessing selection' }
 ToSelect >> selectedIndexes [
 
-	^ self selection indices
-]
-
-{ #category : #accessing }
-ToSelect >> selection [ 
-
-	^ selectionModel
+	^ self selectionModel indices
 ]
 
 { #category : #accessing }

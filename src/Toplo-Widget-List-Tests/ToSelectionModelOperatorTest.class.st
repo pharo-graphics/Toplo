@@ -18,7 +18,7 @@ ToSelectionModelOperatorTest >> setUp [
 	space root addChild: holder.
 	holder data addAll: (1 to: 1000).
 	holder addEventHandler: (BlEventHandler
-			 on: ToListSelectionChangedEvent
+			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :event | selectionChanged := true ]).
 	operator := holder operator
 ]
@@ -28,7 +28,7 @@ ToSelectionModelOperatorTest >> testAddCommand [
 
 	| selChangedEvent cmd |
 	holder addEventHandler: (BlEventHandler
-			 on: ToListSelectionChangedEvent
+			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :event | selChangedEvent := event ]).
 
 	operator addCommand: (cmd := ToWholeSelectionCommand new

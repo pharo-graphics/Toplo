@@ -123,6 +123,7 @@ ToSelectTextInputElement >> newTextField [
 { #category : #private }
 ToSelectTextInputElement >> onFilterTextReplaced: anEvent [
 
+	select dispatchEvent: ToSelectInputTextFieldUpdatedEvent new.
 	select pattern: self filterString.
 	select isMultipleSelection
 		ifTrue: [ self checkMultipleSelectPlaceholderText ]
@@ -132,6 +133,7 @@ ToSelectTextInputElement >> onFilterTextReplaced: anEvent [
 { #category : #private }
 ToSelectTextInputElement >> onFilterTextUpdated: anEvent [
 
+	select dispatchEvent: ToSelectInputTextFieldUpdatedEvent new.
 	select pattern: self filterString.
 	select isMultipleSelection
 		ifTrue: [ self checkMultipleSelectPlaceholderText ]
@@ -144,9 +146,6 @@ ToSelectTextInputElement >> onInstalledIn: aSelect [
 	select := aSelect.
 	selectedDataTextField := self newTextField.
 	selectedDataTextField beReadonlyWithSelection.
-"	selectedDataTextField
-		hMatchParent;
-		vFitContent."
 	inputTextField := self newTextField.
 	selectedDataTextField id: #selectedDataTextField.
 	inputTextField id: #inputTextField.

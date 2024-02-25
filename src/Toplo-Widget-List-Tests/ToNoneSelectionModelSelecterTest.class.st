@@ -18,7 +18,7 @@ ToNoneSelectionModelSelecterTest >> setUp [
 	space root addChild: holder.
 	holder data addAll: (1 to: 1000).
 	holder addEventHandler: (BlEventHandler
-			 on: ToListSelectionChangedEvent
+			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :event | selectionChanged := true ]).
 	selecter := holder noneSelectionSelecter
 ]
@@ -59,7 +59,7 @@ ToNoneSelectionModelSelecterTest >> testDispatchSelectionChanged [
 
 	| selChangedEvent |
 	holder addEventHandler: (BlEventHandler
-			 on: ToListSelectionChangedEvent
+			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :event | selChangedEvent := event ]).
 
 	selecter selectIndexes: { 2. 6. 9 }.

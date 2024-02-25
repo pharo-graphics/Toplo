@@ -9,7 +9,8 @@ Class {
 		'successfulCommand',
 		'data',
 		'scrollIndex',
-		'selecter'
+		'selecter',
+		'operator'
 	],
 	#category : #'Toplo-Widget-List-Tests-Selection-Selecter'
 }
@@ -54,8 +55,11 @@ ToSelectionModelHolderForTest >> initialize [
 	selectionModel := self defaultSelectionModel.
 	selectionModel onInstalledIn: self.
 	self addEventHandler: ToCommandEventHandler new.
+	operator := ToPrimarySelectionModelOperator new.
+	operator onInstalledIn: self.
+	operator selectionModel: self selectionModel.
 	self addEventHandler: (BlEventHandler
-			 on: ToListSelectionChangedEvent
+			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :event | self successfulCommand: true ]).
 
 ]
@@ -71,6 +75,7 @@ ToSelectionModelHolderForTest >> multiSelectionSelecter [
 
 	selecter := ToMultiSelectionModelSelecter new.
 	selecter onInstalledIn: self.
+	selecter operator: operator.
 	^ selecter
 ]
 
@@ -83,7 +88,7 @@ ToSelectionModelHolderForTest >> noneSelectionSelecter [
 ]
 
 { #category : #'event firing' }
-ToSelectionModelHolderForTest >> notifySelectionChanged: anEvent [
+ToSelectionModelHolderForTest >> notifyPrimarySelectionChanged: anEvent [
 
 	self dispatchEvent: anEvent
 ]
@@ -92,8 +97,9 @@ ToSelectionModelHolderForTest >> notifySelectionChanged: anEvent [
 ToSelectionModelHolderForTest >> operator [
 
 	| operator |
-	operator := ToSelectionModelOperator new.
+	operator := ToPrimarySelectionModelOperator new.
 	operator onInstalledIn: self.
+	operator selectionModel: self selectionModel.
 	^ operator
 ]
 
@@ -126,6 +132,7 @@ ToSelectionModelHolderForTest >> singleSelectionSelecter [
 
 	selecter := ToSingleSelectionModelSelecter new.
 	selecter onInstalledIn: self.
+	selecter operator: operator.
 	^ selecter
 ]
 

@@ -65,7 +65,8 @@ ToListSelectionElement >> horizontalGap [
 ToListSelectionElement >> initialize [
 
 	super initialize.
-	self constraintsDo: [ :c | c ignoreByLayout ]
+	self constraintsDo: [ :c | c ignoreByLayout ].
+	self applySkinInstallerOnFirstRequest: true
 ]
 
 { #category : #accessing }

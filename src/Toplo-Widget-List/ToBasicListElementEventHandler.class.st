@@ -100,7 +100,7 @@ ToBasicListElementEventHandler >> listDataSourceItemsRemovedEvent: anEvent [
 ]
 
 { #category : #'infinite event handling' }
-ToBasicListElementEventHandler >> listSelectionModeChangedEvent: anEvent [
+ToBasicListElementEventHandler >> listPrimarySelectionModeChangedEvent: anEvent [
 
 	anEvent currentTarget selectionModel deselectAll 
 ]

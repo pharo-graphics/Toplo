@@ -23,7 +23,7 @@ ToSievedListElementEventHandler >> eventsToHandle [
 	^ {
 		  BlInfiniteDataSourceEvent.
 		  ToListChangePreNotificationEvent.
-		  ToListSelectionChangedEvent.
+		  ToListPrimarySelectionChangedEvent.
 		  ToSievedListSelectionChangedEvent.
 		  ToSieveFilterAppliedEvent }
 ]
@@ -46,7 +46,7 @@ ToSievedListElementEventHandler >> listDataSourceItemsChangePreNotificationEvent
 ]
 
 { #category : #'element handlers' }
-ToSievedListElementEventHandler >> listSelectionChangePreNotificationEvent: aPreNotification [
+ToSievedListElementEventHandler >> listPrimarySelectionChangePreNotificationEvent: aPreNotification [
 
 	| sourceEvent newEvent |
 	sieve pattern ifEmpty: [ ^ self ].
@@ -60,7 +60,7 @@ ToSievedListElementEventHandler >> listSelectionChangePreNotificationEvent: aPre
 ]
 
 { #category : #'element handlers' }
-ToSievedListElementEventHandler >> listSelectionChangedEvent: anEvent [
+ToSievedListElementEventHandler >> listPrimarySelectionChangedEvent: anEvent [
 	" the selection is fully updated with an empty pattern "
 
 	| prevSet |

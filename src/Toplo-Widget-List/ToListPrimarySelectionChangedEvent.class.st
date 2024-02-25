@@ -1,5 +1,5 @@
 Class {
-	#name : #ToListSelectionChangedEvent,
+	#name : #ToListPrimarySelectionChangedEvent,
 	#superclass : #ToListElementEvent,
 	#instVars : [
 		'selectionModel'
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #accessing }
-ToListSelectionChangedEvent >> currentIndexes [
+ToListPrimarySelectionChangedEvent >> currentIndexes [
 
 	self
 		deprecated: 'Use #selectionModel instead '
@@ -19,14 +19,14 @@ ToListSelectionChangedEvent >> currentIndexes [
 ]
 
 { #category : #accessing }
-ToListSelectionChangedEvent >> currentIndexes: currentSelectedIndexes [
+ToListPrimarySelectionChangedEvent >> currentIndexes: currentSelectedIndexes [
 
 	self
 		deprecated: 'Use #selectionModel: instead '
 ]
 
 { #category : #accessing }
-ToListSelectionChangedEvent >> newSelectedIndexes [
+ToListPrimarySelectionChangedEvent >> newSelectedIndexes [
 
 	self
 		deprecated: 'Use currentIndexes instead'
@@ -38,60 +38,60 @@ ToListSelectionChangedEvent >> newSelectedIndexes [
 ]
 
 { #category : #accessing }
-ToListSelectionChangedEvent >> newSelectedIndexes: anArray [
+ToListPrimarySelectionChangedEvent >> newSelectedIndexes: anArray [
 
 	self
 		deprecated: 'Use selectionModel instead'.
 ]
 
 { #category : #accessing }
-ToListSelectionChangedEvent >> oldSelectedIndexes [
+ToListPrimarySelectionChangedEvent >> oldSelectedIndexes [
 
 	self
 		deprecated: 'Not used anymore'
 ]
 
 { #category : #accessing }
-ToListSelectionChangedEvent >> oldSelectedIndexes: anArray [
+ToListPrimarySelectionChangedEvent >> oldSelectedIndexes: anArray [
 
 	self
 		deprecated: 'Not used anymore'
 ]
 
 { #category : #accessing }
-ToListSelectionChangedEvent >> previousIndexes [
+ToListPrimarySelectionChangedEvent >> previousIndexes [
 
 	self
 		deprecated: 'Not used anymore'
 ]
 
 { #category : #accessing }
-ToListSelectionChangedEvent >> previousIndexes: previousSelectedIndexes [
+ToListPrimarySelectionChangedEvent >> previousIndexes: previousSelectedIndexes [
 
 	self
 		deprecated: 'Not used anymore'
 ]
 
 { #category : #accessing }
-ToListSelectionChangedEvent >> selectedIndexes [ 
+ToListPrimarySelectionChangedEvent >> selectedIndexes [ 
 
 	^ self selectionModel selectedIndexes 
 ]
 
 { #category : #accessing }
-ToListSelectionChangedEvent >> selectionModel [
+ToListPrimarySelectionChangedEvent >> selectionModel [
 
 	^ selectionModel
 ]
 
 { #category : #accessing }
-ToListSelectionChangedEvent >> selectionModel: aSelectionModel [
+ToListPrimarySelectionChangedEvent >> selectionModel: aSelectionModel [
 
 	selectionModel := aSelectionModel
 ]
 
 { #category : #sending }
-ToListSelectionChangedEvent >> sendTo: anObject [
+ToListPrimarySelectionChangedEvent >> sendTo: anObject [
 
-	anObject listSelectionChangedEvent: self
+	anObject listPrimarySelectionChangedEvent: self
 ]

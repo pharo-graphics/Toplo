@@ -30,29 +30,6 @@ ToSelectionModelOperator >> addWholeSelectionCommand: aCommand [
 	self selectionModel selectAll
 ]
 
-{ #category : #'private command application' }
-ToSelectionModelOperator >> applyCommand: aCommand for: aTarget withApplicationBlock: aBlock [
-
-	| silent selectionModelChanged |
-	previousModel ifNil: [ previousModel := self selectionModel copy ].
-
-	super applyCommand: aCommand for: aTarget withApplicationBlock: aBlock.
-
-	selectionModelChanged := previousModel ~= self selectionModel.
-	silent := aCommand silent or: [ selectionModelChanged not ].
-
-	selectionModelChanged ifTrue: [
-		aTarget dispatchEvent: (ToCommandAppliedEvent new
-				 operator: self;
-				 command: aCommand) ].
-
-	silent ifTrue: [ ^ self ].
-	previousModel := self selectionModel copy.
-	aTarget notifySelectionChanged: (ToListSelectionChangedEvent new
-			 selectionModel: previousModel;
-			 yourself)
-]
-
 { #category : #private }
 ToSelectionModelOperator >> intervalsIn: aCollection [
 	" return an array of intervals #( 2 3 4 6 7 8 ) -> { 2 to: 4. 6 to: 8 } "
@@ -81,20 +58,6 @@ ToSelectionModelOperator >> intervalsIn: aCollection [
 ToSelectionModelOperator >> itemCount [
 
 	^ self selectionModel itemCount
-]
-
-{ #category : #'api - hooks' }
-ToSelectionModelOperator >> onInstalledIn: anEventTarget [
-
-	super onInstalledIn: anEventTarget.
-	self selectionModel: anEventTarget selectionModel
-]
-
-{ #category : #'api - hooks' }
-ToSelectionModelOperator >> onUninstalledIn: anEventTarget [
-
-	super onUninstalledIn: anEventTarget.
-	self selectionModel: nil
 ]
 
 { #category : #'command operations' }
@@ -142,5 +105,5 @@ ToSelectionModelOperator >> sharedEvents [
 
 	^ super sharedEvents , {
 		  ToCommandAppliedEvent.
-		  ToListSelectionChangedEvent }
+		  ToListPrimarySelectionChangedEvent }
 ]

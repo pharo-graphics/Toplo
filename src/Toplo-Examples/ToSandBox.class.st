@@ -721,7 +721,7 @@ ToSandBox class >> example_ListWithAllClasses3 [
 				      interspace: 10;
 				      hMatchParent) ].
 	l addEventHandler: (BlEventHandler
-			 on: ToListSelectionChangedEvent
+			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :evt | evt traceCr ]).
 
 	l dataAccessor addAll: Smalltalk globals allClasses.
@@ -816,7 +816,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 				 label: lab;
 				 hMatchParent) ].
 	l addEventHandler: (BlEventHandler
-			 on: ToListSelectionChangedEvent
+			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :event |
 				 self class name trace.
 				 ' list selection changed' traceCr ]).
@@ -2068,7 +2068,7 @@ ToSandBox class >> example_contactList [
 	list := ToListElement new.
 	list inspect.
 	list addEventHandler: (BlEventHandler
-			 on: ToListSelectionChangedEvent
+			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :evt | evt traceCr ]).
 
 	nameTxtF := ToTextField new
@@ -2097,7 +2097,7 @@ ToSandBox class >> example_contactList [
 						                yourself) ].
 
 	list addEventHandler: (BlEventHandler
-			 on: ToListSelectionChangedEvent
+			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :evt |
 				 evt selectedIndexes size = 1 ifTrue: [
 					 contact := list dataAccessor at: evt selectedIndexes anyOne.

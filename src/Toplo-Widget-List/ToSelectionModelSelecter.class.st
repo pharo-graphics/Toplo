@@ -105,16 +105,13 @@ ToSelectionModelSelecter >> nextSelectableIndex [
 ToSelectionModelSelecter >> onInstalledIn: anEventTarget [
 
 	super onInstalledIn: anEventTarget.
-	operator := ToSelectionModelOperator new.
-	operator onInstalledIn: anEventTarget.
-		currentIndex := 0
+	currentIndex := 0
 ]
 
 { #category : #'api - hooks' }
 ToSelectionModelSelecter >> onUninstalledIn: anEventTarget [
 
 	super onUninstalledIn: anEventTarget.
-	operator onUninstalledIn: anEventTarget.
 	operator := nil.
 	currentIndex := 0
 ]
@@ -129,6 +126,12 @@ ToSelectionModelSelecter >> operateSilently [
 ToSelectionModelSelecter >> operator [
 
 	^ operator
+]
+
+{ #category : #accessing }
+ToSelectionModelSelecter >> operator: anOperator [
+
+	operator := anOperator
 ]
 
 { #category : #private }

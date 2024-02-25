@@ -149,7 +149,7 @@ ToMiniBrowser >> initialize [
 	packagesPane addChild: packageBottomPane.
 
 	packages addEventHandler: (BlEventHandler
-			 on: ToListSelectionChangedEvent
+			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :event | self packageSelectionChangedEvent: event ]).
 
 	packages dataAccessor addAll:
@@ -164,7 +164,7 @@ ToMiniBrowser >> initialize [
 						            yourself) ].
 
 	classes addEventHandler: (BlEventHandler
-			 on: ToListSelectionChangedEvent
+			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :event | self classSelectionChangedEvent: event ]).
 
 	classesPane := ToPane new
@@ -200,7 +200,7 @@ ToMiniBrowser >> initialize [
 	protocols margin: (BlInsets all: 2).
 
 	protocols addEventHandler: (BlEventHandler
-			 on: ToListSelectionChangedEvent
+			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :event | self protocolSelectionChangedEvent: event ]).
 
 	selectors := ToListElement new
@@ -213,7 +213,7 @@ ToMiniBrowser >> initialize [
 
 	selectors margin: (BlInsets all: 2).
 	selectors addEventHandler: (BlEventHandler
-			 on: ToListSelectionChangedEvent
+			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :event | self selectorSelectionChangedEvent: event ]).
 
 	codePane := ToAlbum new withRowNumbers.

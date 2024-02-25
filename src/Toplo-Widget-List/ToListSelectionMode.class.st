@@ -3,7 +3,8 @@ Class {
 	#superclass : #ToListAbstractSelectionMode,
 	#instVars : [
 		'preserveSelectionOnFocused',
-		'installedShortcuts'
+		'installedShortcuts',
+		'operator'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
@@ -31,6 +32,11 @@ ToListSelectionMode >> onClickEvent: anEvent onNode: aNode [
 ToListSelectionMode >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement. 
+	operator := ToPrimarySelectionModelOperator new.
+	operator onInstalledIn: anElement.
+	operator selectionModel: anElement selectionModel.
+	selecter operator: operator.
+
 	installedShortcuts := self shortcutsIn: anElement.
 	installedShortcuts do: [ :s | anElement addShortcut: s ]
 ]
@@ -40,6 +46,8 @@ ToListSelectionMode >> onUninstalledIn: anElement [
 
 	installedShortcuts do: [ :s | anElement removeShortcut: s ].
 	installedShortcuts := nil.
+	operator onUninstalledIn: anElement.
+	operator := nil.
 	super onUninstalledIn: anElement. 
 
 ]

@@ -31,7 +31,18 @@ ToSelectEventHandler >> elementExtentChangedEvent: anEvent [
 { #category : #'api - accessing' }
 ToSelectEventHandler >> eventsToHandle [
 
-	^ super eventsToHandle , { BlElementAddedToSceneGraphEvent. ToSelectListSelectionChanged. ToCollectionFilteredEvent .  BlElementExtentChangedEvent }
+	^ super eventsToHandle , {
+		  BlElementAddedToSceneGraphEvent.
+		  ToSelectListSelectionChanged.
+		  ToCollectionFilteredEvent.
+		  BlElementExtentChangedEvent.
+		  ToSelectInputTextFieldUpdatedEvent }
+]
+
+{ #category : #'element handlers' }
+ToSelectEventHandler >> selectInputTextFieldUpdatedEvent: anEvent [
+
+	self showHidePlaceholderIn: anEvent currentTarget
 ]
 
 { #category : #'element handlers' }
@@ -43,6 +54,8 @@ ToSelectEventHandler >> selectListSelectionChanged: anEvent [
 { #category : #'element handlers' }
 ToSelectEventHandler >> showHidePlaceholderIn: aSelect [
 
-	aSelect selectionModel ifEmpty: [ ^ aSelect headerElement showPlaceholder ].
+	aSelect selectionModel ifEmpty: [
+		aSelect inputTextField text ifEmpty: [
+			^ aSelect headerElement showPlaceholder ] ].
 	aSelect headerElement hidePlaceholder
 ]

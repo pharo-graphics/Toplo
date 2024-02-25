@@ -4,13 +4,6 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Element'
 }
 
-{ #category : #initialization }
-ToListPrimarySelectionElement >> initialize [ 
-
-	super initialize.
-	self applySkinInstallerOnFirstRequest: true
-]
-
 { #category : #skin }
 ToListPrimarySelectionElement >> newRawSkin [ 
 

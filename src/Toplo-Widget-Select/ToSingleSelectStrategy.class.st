@@ -47,12 +47,10 @@ ToSingleSelectStrategy >> inputTextField [
 { #category : #'api - hooks' }
 ToSingleSelectStrategy >> onInstalledIn: aSelect [
 
-	aSelect listElement selectionMode: ToListSingleSelectionMode new.
-	super onInstalledIn: aSelect.
-
-
-
-
+	aSelect listElement selectionMode:
+		(ToListSingleSelectionMode new operator:
+			 (ToPrimarySelectionModelOperator new selectionModel: aSelect listElement selectionModel)).
+	super onInstalledIn: aSelect
 ]
 
 { #category : #'api - hooks' }

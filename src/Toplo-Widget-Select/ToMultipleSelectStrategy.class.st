@@ -110,12 +110,10 @@ ToMultipleSelectStrategy >> nodeWrapping: aBoolean [
 { #category : #'api - hooks' }
 ToMultipleSelectStrategy >> onInstalledIn: aSelect [
 
-	aSelect listElement selectionMode: ToListMultipleSelectionMode new.
-	super onInstalledIn: aSelect.
-
-
-
-
+	aSelect listElement selectionMode:
+		(ToListMultipleSelectionMode new operator:
+			 (ToPrimarySelectionModelOperator new selectionModel: aSelect listElement selectionModel)).
+	super onInstalledIn: aSelect
 ]
 
 { #category : #private }
@@ -156,8 +154,7 @@ ToMultipleSelectStrategy >> refreshHeaderNodeContainer [
 			         data: selectedData.
 		         self headerNodeBuilder value: node value: node selectHolder.
 		         node ].
-	self addAllDataNodes: nodes.
-	"self textInputElement onMultipleSelectDataNodeListChanged"
+	self addAllDataNodes: nodes
 ]
 
 { #category : #accessing }

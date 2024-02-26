@@ -10,13 +10,7 @@ Class {
 { #category : #'api - accessing' }
 ToSelectListElementEventHandler >> eventsToHandle [
 
-	^ { ToSieveSelectionChangedEvent. ToListClickOnNodePreNotificationEvent.  }
-]
-
-{ #category : #'element handlers' }
-ToSelectListElementEventHandler >> listClickOnNodePreNotificationEvent: anEvent [
-
-	"select listElement isMultipleSelection ifFalse: [ select listElement selectionModel deselectAll ]"
+	^ { ToSieveSelectionChangedEvent.  }
 ]
 
 { #category : #accessing }

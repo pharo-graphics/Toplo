@@ -1,6 +1,10 @@
 Class {
 	#name : #ToListElement,
 	#superclass : #ToBasicListElement,
+	#instVars : [
+		'secondarySelectionModel',
+		'secondarySelectionMode'
+	],
 	#category : #'Toplo-Widget-List-Core'
 }
 
@@ -39,15 +43,67 @@ ToListElement >> defaultInfiniteElement [
 ]
 
 { #category : #initialization }
+ToListElement >> defaultSecondarySelectionMode [
+
+	^ ToListMultipleSelectionMode new operator:
+		  (ToSecondarySelectionModelOperator new selectionModel:
+			   self secondarySelectionModel)
+]
+
+{ #category : #initialization }
 ToListElement >> infiniteSharedEvents [
 
 	^ super infiniteSharedEvents, { ToObservableCollectionEvent }
+]
+
+{ #category : #initialization }
+ToListElement >> initialize [ 
+
+	super initialize.
+	self secondarySelectionModel: self newSelectionModel.
+	self secondarySelectionMode: self defaultSecondarySelectionMode.
+	self addEventHandler: ToListSecondarySelectionElementEventHandler new
 ]
 
 { #category : #skin }
 ToListElement >> newRawSkin [ 
 
 	^ ToListElementSkin new
+]
+
+{ #category : #accessing }
+ToListElement >> secondarySelecter [ 
+
+	^ self secondarySelectionMode selecter
+]
+
+{ #category : #accessing }
+ToListElement >> secondarySelectionMode [
+
+	^ secondarySelectionMode
+]
+
+{ #category : #accessing }
+ToListElement >> secondarySelectionMode: aSelectionMode [
+
+	secondarySelectionMode ifNotNil: [ secondarySelectionMode onUninstalledIn: self ].
+	secondarySelectionMode := aSelectionMode.
+	secondarySelectionMode ifNotNil: [ secondarySelectionMode onInstalledIn: self ].
+	self dispatchEvent: ToListSecondarySelectionModeChangedEvent new
+]
+
+{ #category : #accessing }
+ToListElement >> secondarySelectionModel [
+
+	^ secondarySelectionModel
+]
+
+{ #category : #accessing }
+ToListElement >> secondarySelectionModel: aSelectionModel [
+
+	secondarySelectionModel ifNotNil: [ secondarySelectionModel onUninstalledIn: self ].
+	secondarySelectionModel := aSelectionModel.
+	secondarySelectionModel ifNotNil: [secondarySelectionModel onInstalledIn: self ]
 ]
 
 { #category : #accessing }

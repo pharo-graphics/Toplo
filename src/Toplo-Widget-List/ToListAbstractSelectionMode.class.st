@@ -140,3 +140,9 @@ ToListAbstractSelectionMode >> selectionModel: aSelectionModel [
 
 	selectionModel := aSelectionModel
 ]
+
+{ #category : #shortcuts }
+ToListAbstractSelectionMode >> shortcutsIn: anElement [
+
+	^ {  }
+]

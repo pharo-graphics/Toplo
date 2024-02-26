@@ -93,7 +93,6 @@ ToBeeThemeGenerated class >> defaultTokenProperties [
   (ToTokenProperty name: #'switch-disabled-background' value: Color lightGray) . 
   (ToTokenProperty name: #'switch-handle-disabled-background' value: Color veryLightGray) . 
   (ToTokenProperty name: #'switch-handle-enabled-background' value: Color white) . 
-  (ToTokenProperty name: #'primary-selection-geometry-class' value: BlRoundedRectangleGeometry) . 
   (ToTokenProperty name: #'color-primary-selection-focused' value: (Color r: 0.08602150537634409 g: 0.4662756598240469 b: 1.0 alpha: 0.6)) . 
   (ToTokenProperty name: #'color-primary-selection-unfocused' value: (Color r: 0.08602150537634409 g: 0.4662756598240469 b: 1.0 alpha: 0.09803921568627451)) . 
   (ToTokenProperty name: #'border-width-primary-selection' value: 1) . 

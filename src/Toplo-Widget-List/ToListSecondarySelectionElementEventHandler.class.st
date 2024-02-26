@@ -8,15 +8,12 @@ Class {
 }
 
 { #category : #'mouse handlers' }
-ToListSecondarySelectionElementEventHandler >> addSecondarySelectionIn: aListElement onNode: aChildNode [
+ToListSecondarySelectionElementEventHandler >> addSecondarySelectionIn: aListElement onNodes: aNodeCollection [
 	" update selection decoration to show the secondary selection on which the popup is opened"
 
-	| deco |
-	deco := ToListSecondarySelectionElement new
-		        listElement: aListElement;
-		        nodes: (Array with: aChildNode);
-		        yourself.
-	aListElement addChild: deco
+	(self
+		 newSelectionElementsFromSelectedNodes: aNodeCollection
+		 in: aListElement) do: [ :s | aListElement addChild: s ]
 ]
 
 { #category : #'mouse handlers' }
@@ -29,17 +26,23 @@ ToListSecondarySelectionElementEventHandler >> elementScrolledEvent: anEvent [
 ToListSecondarySelectionElementEventHandler >> eventsToHandle [
 
 	^ {
+		  ToListSecondarySelectionChangedEvent.
 		  BlMouseLeaveEvent.
 		  BlElementScrolledEvent.
 		  BlMouseMoveEvent }
 ]
 
 { #category : #'mouse handlers' }
+ToListSecondarySelectionElementEventHandler >> listSecondarySelectionChangedEvent: anEvent [
+
+	self updateSelectionFromEvent: anEvent
+]
+
+{ #category : #'mouse handlers' }
 ToListSecondarySelectionElementEventHandler >> mouseLeaveEvent: anEvent [
 
-	| target |
-	target := anEvent currentTarget.
-	target secondarySelectionElements do: [ :s | s removeFromParent ]
+	anEvent currentTarget secondarySelecter deselectAll.
+
 ]
 
 { #category : #'mouse handlers' }
@@ -53,9 +56,37 @@ ToListSecondarySelectionElementEventHandler >> mouseMoveEvent: anEvent [
 		             detect: [ :node |
 		             node containsGlobalPoint: globalPosition ]
 		             ifNone: [  ].
-	target secondarySelectionElements do: [ :s | s removeFromParent ].
-	anEvent anyButtonPressed ifTrue: [ ^ self ].
-	prevNode := childNode.
+	target secondarySelecter deselectAll.
 	childNode ifNil: [ ^ self ].
-	self addSecondarySelectionIn: target onNode: childNode
+	anEvent anyButtonPressed ifTrue: [ ^ self ].
+	target secondarySelecter selectIndex: childNode holder position
+]
+
+{ #category : #'instance creation' }
+ToListSecondarySelectionElementEventHandler >> newSelectionElementsFromSelectedNodes: aCollection in: aListElement [
+	" return a collection with instances of ToListSecondarySelectionElement "
+
+	| adjacentNodeGroups |
+	adjacentNodeGroups := aListElement infinite nodeGroupsSatisfying: [ :n | aCollection includes: n ].
+	^ adjacentNodeGroups collect: [ :g |
+		  ToListSecondarySelectionElement new
+			  listElement: aListElement;
+			  nodes: g;
+			  yourself ]
+]
+
+{ #category : #'mouse handlers' }
+ToListSecondarySelectionElementEventHandler >> updateSelectionFromEvent: anEvent [
+
+	| target infinite childNodes |
+	target := anEvent currentTarget.
+	infinite := target infinite.
+	target secondarySelectionElements do: [ :s | s removeFromParent ].
+	anEvent selectionModel ifEmpty: [ ^ self ].
+	childNodes := infinite children
+		             select: [ :node |
+			             target secondarySelectionModel containsIndex:
+				             node holder position ].
+	childNodes ifEmpty: [ ^ self ].
+	self addSecondarySelectionIn: target onNodes: childNodes
 ]

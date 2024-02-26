@@ -6,7 +6,8 @@ Class {
 	#instVars : [
 		'selectionModel',
 		'selectionMode',
-		'sharedEventDistributors'
+		'sharedEventDistributors',
+		'installedShortcuts'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -75,7 +76,9 @@ ToBasicListElement >> defaultLayout [
 { #category : #initialization }
 ToBasicListElement >> defaultSelectionMode [
 
-	^ ToListMultipleSelectionMode new.
+	^ ToListMultipleSelectionMode new operator:
+		  (ToPrimarySelectionModelOperator new selectionModel:
+			   self selectionModel)
 ]
 
 { #category : #orientation }
@@ -112,7 +115,6 @@ ToBasicListElement >> initialize [
 	self addChild: self next.
 	self contextMenuWindowManagerClass: ToListElementContextMenuWindowManager.
 	self addEventHandler: ToListPrimarySelectionElementEventHandler new.
-	self addEventHandler: ToListSecondarySelectionElementEventHandler new.
 	self addEventHandler: ToListElementContextMenuSelectionEventHandler new.
 	self addEventHandler: ToCommandEventHandler new.
 	self matchParent
@@ -134,6 +136,12 @@ ToBasicListElement >> installSharedEventDistributors [
 	sharedEventDistributors := { infiniteSharedHandler }.
 	sharedEventDistributors do: [ :handler | self addEventHandler: handler ].
 	self infinite addEventHandler: infiniteSharedHandler
+]
+
+{ #category : #'accessing - shortcuts' }
+ToBasicListElement >> installedShortcuts [
+
+	^ installedShortcuts
 ]
 
 { #category : #orientation }
@@ -229,11 +237,17 @@ ToBasicListElement >> selectionMode [
 ]
 
 { #category : #accessing }
-ToBasicListElement >> selectionMode: aSelectionManager [
+ToBasicListElement >> selectionMode: aSelectionMode [
 
-	selectionMode ifNotNil: [ selectionMode onUninstalledIn: self ].
-	selectionMode := aSelectionManager.
-	selectionMode ifNotNil: [ selectionMode onInstalledIn: self ].
+	selectionMode ifNotNil: [
+		selectionMode onUninstalledIn: self.
+		installedShortcuts do: [ :s | self removeShortcut: s ].
+		installedShortcuts := nil ].
+	selectionMode := aSelectionMode.
+	selectionMode ifNotNil: [
+		selectionMode onInstalledIn: self.
+		installedShortcuts := selectionMode shortcutsIn: self.
+		installedShortcuts do: [ :s | self addShortcut: s ] ].
 	self dispatchEvent: ToListPrimarySelectionModeChangedEvent new
 ]
 

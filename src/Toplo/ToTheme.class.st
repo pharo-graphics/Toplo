@@ -242,9 +242,6 @@ ToTheme class >> defaultTokenProperties [
 			   value: Color white).
 
 		  (ToTokenProperty
-			   name: #'primary-selection-geometry-class'
-			   value: BlRoundedRectangleGeometry).
-		  (ToTokenProperty
 			   name: #'color-primary-selection-focused'
 			   value: (self defaultColorPrimary alpha: 0.6)).
 		  (ToTokenProperty

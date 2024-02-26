@@ -960,101 +960,6 @@ ToSandBox class >> example_ListWithPanes [
 	list openInSpace
 ]
 
-{ #category : #select }
-ToSandBox class >> example_MonoFiltrable [
-
-	| select innerWindow phtext |
-	select := ToSelect new.
-
-	select listElement placeholderMinHeight: 35.
-	phtext := ('No Data' asRopedText
-		           foreground: Color lightGray;
-		           yourself)
-		          fontSize: 24;
-		          yourself.
-
-	select listElement placeholderBuilder: [ :placeholder :e |
-		| lab |
-		placeholder layout alignCenter.
-		lab := ToAttributedLabel text: phtext.
-		placeholder addChild: lab ].
-
-	select filtrable: true.
-	select dataAccessor addAll: self statesOfAmerica.
-	select placeholderText: ('Select a state' asRopedText foreground: Color red).
-	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
-	select width: 300.
-	select position: 50 @ 50.
-	select inputTextField requestFocus.
-	innerWindow pane addChild: select.
-	innerWindow height: 500.
-	innerWindow openInSpace
-]
-
-{ #category : #select }
-ToSandBox class >> example_MonoNotFiltrable [
-
-	| select innerWindow |
-	select := ToSelect new.
-	select filtrable: false.
-	select dataAccessor addAll: self statesOfAmerica.
-	select placeholderText: ('Select a state' asRopedText foreground: Color red).
-	select listElement nodeBuilder: [ :node :holder |
-		node addChild: (ToLabel text: holder dataItem asString) hMatchParent ].
-	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
-	select width: 300.
-	select position: 50 @ 50.
-	innerWindow pane addChild: select.
-	innerWindow height: 500.
-	innerWindow openInSpace
-]
-
-{ #category : #select }
-ToSandBox class >> example_MultiFiltrable [
-
-	| select innerWindow |
-	select := ToSelect new.
-	select dataAccessor addAll: self statesOfAmerica.
-	select strategy: ToMultipleSelectStrategy new.
-	select filtrable: true.
-	select popupMaxHeight: 200.
-	select placeholderText:
-		('Select states' asRopedText foreground: Color red).
-	select listElement nodeBuilder: [ :node :holder |
-		node addChild: (ToLabel text: holder dataItem asString) hMatchParent ].
-	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
-	select width: 300.
-	select position: 50 @ 10.
-	innerWindow pane addChild: select.
-	innerWindow height: 600.
-	innerWindow openInSpace
-]
-
-{ #category : #select }
-ToSandBox class >> example_MultiNotFiltrable [
-
-	| select innerWindow |
-	select := ToSelect new.
-	select filtrable: false.
-	select dataAccessor addAll: self statesOfAmerica.
-	select strategy: ToMultipleSelectStrategy new.
-	select placeholderText:
-		('Select states' asRopedText foreground: Color red).
-	select listElement nodeBuilder: [ :node :holder |
-		node addChild: (ToLabel text: holder dataItem asString) hMatchParent ].
-	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
-	select width: 300.
-	select position: 50 @ 50.
-
-	innerWindow pane addChild: select.
-	innerWindow height: 500.
-	innerWindow openInSpace
-]
-
 { #category : #menu }
 ToSandBox class >> example_OpenSaveSaveAsCloseWithSubmenu [
 
@@ -1274,6 +1179,101 @@ ToSandBox class >> example_RadioButtonWithIndeterminate [
 	but labelText: 'Radio'.
 	but inspect.
 	but openInSpace
+]
+
+{ #category : #select }
+ToSandBox class >> example_SelectMonoFiltrable [
+
+	| select innerWindow phtext |
+	select := ToSelect new.
+
+	select listElement placeholderMinHeight: 35.
+	phtext := ('No Data' asRopedText
+		           foreground: Color lightGray;
+		           yourself)
+		          fontSize: 24;
+		          yourself.
+
+	select listElement placeholderBuilder: [ :placeholder :e |
+		| lab |
+		placeholder layout alignCenter.
+		lab := ToAttributedLabel text: phtext.
+		placeholder addChild: lab ].
+
+	select filtrable: true.
+	select dataAccessor addAll: self statesOfAmerica.
+	select placeholderText: ('Select a state' asRopedText foreground: Color red).
+	innerWindow := ToInnerWindow new.
+	select windowManager anchorRoot: innerWindow root.
+	select width: 300.
+	select position: 50 @ 50.
+	select inputTextField requestFocus.
+	innerWindow pane addChild: select.
+	innerWindow height: 500.
+	innerWindow openInSpace
+]
+
+{ #category : #select }
+ToSandBox class >> example_SelectMonoNotFiltrable [
+
+	| select innerWindow |
+	select := ToSelect new.
+	select filtrable: false.
+	select dataAccessor addAll: self statesOfAmerica.
+	select placeholderText: ('Select a state' asRopedText foreground: Color red).
+	select listElement nodeBuilder: [ :node :holder |
+		node addChild: (ToLabel text: holder dataItem asString) hMatchParent ].
+	innerWindow := ToInnerWindow new.
+	select windowManager anchorRoot: innerWindow root.
+	select width: 300.
+	select position: 50 @ 50.
+	innerWindow pane addChild: select.
+	innerWindow height: 500.
+	innerWindow openInSpace
+]
+
+{ #category : #select }
+ToSandBox class >> example_SelectMultiFiltrable [
+
+	| select innerWindow |
+	select := ToSelect new.
+	select dataAccessor addAll: self statesOfAmerica.
+	select strategy: ToMultipleSelectStrategy new.
+	select filtrable: true.
+	select popupMaxHeight: 200.
+	select placeholderText:
+		('Select states' asRopedText foreground: Color red).
+	select listElement nodeBuilder: [ :node :holder |
+		node addChild: (ToLabel text: holder dataItem asString) hMatchParent ].
+	innerWindow := ToInnerWindow new.
+	select windowManager anchorRoot: innerWindow root.
+	select width: 300.
+	select position: 50 @ 10.
+	innerWindow pane addChild: select.
+	innerWindow height: 600.
+	innerWindow openInSpace
+]
+
+{ #category : #select }
+ToSandBox class >> example_SelectMultiNotFiltrable [
+
+	| select innerWindow |
+	select := ToSelect new.
+	select filtrable: false.
+	select dataAccessor addAll: self statesOfAmerica.
+	select strategy: ToMultipleSelectStrategy new.
+	select placeholderText:
+		('Select states' asRopedText foreground: Color red).
+	select listElement nodeBuilder: [ :node :holder |
+		node addChild: (ToLabel text: holder dataItem asString) hMatchParent ].
+	innerWindow := ToInnerWindow new.
+	select windowManager anchorRoot: innerWindow root.
+	select width: 300.
+	select position: 50 @ 50.
+
+	innerWindow pane addChild: select.
+	innerWindow height: 500.
+	innerWindow openInSpace
 ]
 
 { #category : #list }

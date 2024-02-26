@@ -16,12 +16,6 @@ ToListAbstractSelectionMode >> allowRequestFocusOnMouseDown [
 	^ self requestFocusOnMouseDown 
 ]
 
-{ #category : #testing }
-ToListAbstractSelectionMode >> hasSelectionAt: anIndex [
-
-	^ self selectionModel containsIndex: anIndex
-]
-
 { #category : #initialization }
 ToListAbstractSelectionMode >> initialize [ 
 

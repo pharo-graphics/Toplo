@@ -660,7 +660,7 @@ ToSandBox class >> example_List2WithSelectionHistory [
 		(ToListSelectionHistoryEventHandlerExample2 new historyList:
 			 historyList).
 	statesList addEventHandler: (BlEventHandler
-			 on: ToCommandAppliedEvent
+			 on: ToPrimarySelectionCommandAppliedEvent
 			 do: [ :event | event traceCr ]).
 
 	pane

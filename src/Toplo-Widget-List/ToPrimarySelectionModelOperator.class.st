@@ -16,7 +16,7 @@ ToPrimarySelectionModelOperator >> applyCommand: aCommand for: aTarget withAppli
 	silent := aCommand silent or: [ selectionModelChanged not ].
 
 	selectionModelChanged ifTrue: [
-		aTarget dispatchEvent: (ToCommandAppliedEvent new
+		aTarget dispatchEvent: (ToPrimarySelectionCommandAppliedEvent new
 				 operator: self;
 				 command: aCommand) ].
 

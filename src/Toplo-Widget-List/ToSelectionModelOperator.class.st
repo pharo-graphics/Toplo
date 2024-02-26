@@ -104,6 +104,6 @@ ToSelectionModelOperator >> selectionModelShiftCommand: aShiftCommand [
 ToSelectionModelOperator >> sharedEvents [
 
 	^ super sharedEvents , {
-		  ToCommandAppliedEvent.
+		  ToPrimarySelectionCommandAppliedEvent.
 		  ToListPrimarySelectionChangedEvent }
 ]

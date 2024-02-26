@@ -16,13 +16,13 @@ ToSecondarySelectionModelOperator >> applyCommand: aCommand for: aTarget withApp
 	silent := aCommand silent or: [ selectionModelChanged not ].
 
 	selectionModelChanged ifTrue: [
-		aTarget dispatchEvent: (ToCommandAppliedEvent new
+		aTarget dispatchEvent: (ToSecondarySelectionCommandAppliedEvent new
 				 operator: self;
 				 command: aCommand) ].
 
 	silent ifTrue: [ ^ self ].
 	previousModel := self selectionModel copy.
-	aTarget notifyPrimarySelectionChanged: (ToListPrimarySelectionChangedEvent new
+	aTarget notifyPrimarySelectionChanged: (ToListSecondarySelectionChangedEvent new
 			 selectionModel: previousModel;
 			 yourself)
 ]

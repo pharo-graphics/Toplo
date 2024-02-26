@@ -7,7 +7,7 @@ Class {
 		'selectionModel',
 		'selectionMode',
 		'sharedEventDistributors',
-		'installedShortcuts'
+		'installedSelectionModeShortcuts'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -139,9 +139,9 @@ ToBasicListElement >> installSharedEventDistributors [
 ]
 
 { #category : #'accessing - shortcuts' }
-ToBasicListElement >> installedShortcuts [
+ToBasicListElement >> installedSelectionModeShortcuts [
 
-	^ installedShortcuts
+	^ installedSelectionModeShortcuts
 ]
 
 { #category : #orientation }
@@ -241,13 +241,13 @@ ToBasicListElement >> selectionMode: aSelectionMode [
 
 	selectionMode ifNotNil: [
 		selectionMode onUninstalledIn: self.
-		installedShortcuts do: [ :s | self removeShortcut: s ].
-		installedShortcuts := nil ].
+		installedSelectionModeShortcuts do: [ :s | self removeShortcut: s ].
+		installedSelectionModeShortcuts := #(  ) ].
 	selectionMode := aSelectionMode.
 	selectionMode ifNotNil: [
 		selectionMode onInstalledIn: self.
-		installedShortcuts := selectionMode shortcutsIn: self.
-		installedShortcuts do: [ :s | self addShortcut: s ] ].
+		installedSelectionModeShortcuts := selectionMode shortcutsIn: self.
+		installedSelectionModeShortcuts do: [ :s | self addShortcut: s ] ].
 	self dispatchEvent: ToListPrimarySelectionModeChangedEvent new
 ]
 

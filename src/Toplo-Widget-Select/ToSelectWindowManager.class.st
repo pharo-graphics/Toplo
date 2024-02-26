@@ -3,8 +3,6 @@ Class {
 	#superclass : #ToPopupWindowManager,
 	#instVars : [
 		'listElement',
-		'maxHeight',
-		'minHeight',
 		'sieve',
 		'listDataSourceUpdater'
 	],
@@ -32,7 +30,7 @@ ToSelectWindowManager >> defaultMaxHeight [
 { #category : #initialization }
 ToSelectWindowManager >> defaultMinHeight [
 
-	^ 50
+	^ 0
 ]
 
 { #category : #initialization }
@@ -64,25 +62,25 @@ ToSelectWindowManager >> listElement [
 { #category : #accessing }
 ToSelectWindowManager >> maxHeight [
 
-	^ maxHeight
+	^ listElement maxHeight
 ]
 
 { #category : #accessing }
-ToSelectWindowManager >> maxHeight: anInteger [
+ToSelectWindowManager >> maxHeight: aNumber [
 
-	maxHeight := anInteger
+	listElement maxHeight: aNumber
 ]
 
 { #category : #accessing }
 ToSelectWindowManager >> minHeight [
 
-	^ minHeight
+	^ listElement minHeight
 ]
 
 { #category : #accessing }
-ToSelectWindowManager >> minHeight: anInteger [
+ToSelectWindowManager >> minHeight: aNumber [
 
-	minHeight := anInteger
+	listElement minHeight: aNumber
 ]
 
 { #category : #initialization }
@@ -91,10 +89,8 @@ ToSelectWindowManager >> newListElement [
 	| newListElement |
 	newListElement := ToListElement new.
 	newListElement nodeClass: ToSelectListNode.
-	newListElement selectionMode: ToListSingleSelectionMode new.
-	newListElement selectionMode requestFocusOnMouseDown: false.
-	newListElement maxHeight: self maxHeight.
-	newListElement minHeight: self minHeight.
+	newListElement maxHeight: self defaultMaxHeight .
+	newListElement minHeight: self defaultMinHeight.
 	newListElement infinite vFitContent.
 	newListElement vFitContent.
 	newListElement hMatchParent.
@@ -106,14 +102,14 @@ ToSelectWindowManager >> newListElement [
 ToSelectWindowManager >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	maxHeight := self defaultMaxHeight.
-	minHeight := self defaultMinHeight.
 	listElement := self newListElement.
-	
-	listDataSourceUpdater := ToObservableCollectionMirrorUpdater new mirror: listElement dataAccessor.
+	listElement addEventHandler: (ToSelectListElementEventHandler new
+			 select: self element;
+			 yourself).
+
+	listDataSourceUpdater := ToObservableCollectionMirrorUpdater new
+		                         mirror: listElement dataAccessor.
 	anElement dataAccessor addEventHandler: listDataSourceUpdater.
-	
-	listElement addEventHandlerOn: ToListSelectionChangedEvent do: [ :anEvent | self onListElementSelectionChangedEvent: anEvent ].
 
 	self builder: [ :selectWin :request |
 		selectWin root hMatchParent.
@@ -121,14 +117,7 @@ ToSelectWindowManager >> onInstalledIn: anElement [
 		selectWin root addChild: self listElement ].
 
 	sieve := ToListElementSieve new.
-	sieve onInstalledIn: listElement.	
-
-]
-
-{ #category : #'as yet unclassified' }
-ToSelectWindowManager >> onListElementSelectionChangedEvent: anEvent [
-
-	self element strategy  onListElementSelectionChangedEvent: anEvent
+	sieve onInstalledIn: listElement
 ]
 
 { #category : #accessing }
@@ -148,7 +137,7 @@ ToSelectWindowManager >> onWindowClosed [
 
 	super onWindowClosed.
 	" if case one of my children has focus "
-	"self element strategy onWindowClosed."
+	self element strategy onWindowClosed.
 
 
 ]
@@ -157,7 +146,7 @@ ToSelectWindowManager >> onWindowClosed [
 ToSelectWindowManager >> onWindowOpened [
 
 	super onWindowOpened.
-	"self element strategy onWindowOpened"
+	self element strategy onWindowOpened
 
 
 ]

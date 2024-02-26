@@ -3,7 +3,6 @@ Class {
 	#superclass : #ToSelectStrategy,
 	#instVars : [
 		'nodeWrapping',
-		'maxCount',
 		'headerNodeHolders',
 		'textInputElement'
 	],
@@ -83,7 +82,6 @@ ToMultipleSelectStrategy >> initialize [
 
 	super initialize.
 	headerNodeHolders := OrderedCollection new.
-	maxCount := SmallInteger maxVal.
 	nodeWrapping := self defaultNodeWrapping.
 
 	
@@ -93,18 +91,6 @@ ToMultipleSelectStrategy >> initialize [
 ToMultipleSelectStrategy >> isMultipleSelection [
 
 	^ true
-]
-
-{ #category : #accessing }
-ToMultipleSelectStrategy >> maxCount [
-
-	^ maxCount
-]
-
-{ #category : #accessing }
-ToMultipleSelectStrategy >> maxCount: aNumber [
-
-	maxCount := aNumber
 ]
 
 { #category : #accessing }
@@ -119,6 +105,15 @@ ToMultipleSelectStrategy >> nodeWrapping: aBoolean [
 	nodeWrapping = aBoolean ifTrue: [ ^ self ].
 	nodeWrapping := aBoolean.
 	self onNodeWrappingChange.
+]
+
+{ #category : #'api - hooks' }
+ToMultipleSelectStrategy >> onInstalledIn: aSelect [
+
+	aSelect listElement selectionMode:
+		(ToListMultipleSelectionMode new operator:
+			 (ToPrimarySelectionModelOperator new selectionModel: aSelect listElement selectionModel)).
+	super onInstalledIn: aSelect
 ]
 
 { #category : #private }
@@ -149,18 +144,17 @@ ToMultipleSelectStrategy >> refreshHeaderNodeContainer [
 	self headerNodeHolders reset.
 	"select selection indices traceCr."
 	" then rebuild current nodes according to current selection "
-	nodes := select selection indices collect: [ :idx |
+	nodes := select selectionModel selectedIndexes collect: [ :idx |
 		         | node selectedData |
 		         node := self newHeaderNode.
 		         self headerNodeHolders add: node selectHolder.
-		         selectedData := select data at: idx.
+		         selectedData := select dataAccessor at: idx.
 		         node selectHolder
 			         position: idx;
 			         data: selectedData.
 		         self headerNodeBuilder value: node value: node selectHolder.
 		         node ].
-	self addAllDataNodes: nodes.
-	"self textInputElement onMultipleSelectDataNodeListChanged"
+	self addAllDataNodes: nodes
 ]
 
 { #category : #accessing }

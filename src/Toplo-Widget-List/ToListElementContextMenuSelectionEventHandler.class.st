@@ -1,7 +1,7 @@
 Class {
 	#name : #ToListElementContextMenuSelectionEventHandler,
 	#superclass : #BlCustomEventHandler,
-	#category : #'Toplo-Widget-List-Context-menu'
+	#category : #'Toplo-Widget-List-Selection-Element'
 }
 
 { #category : #'selection managing' }
@@ -9,7 +9,7 @@ ToListElementContextMenuSelectionEventHandler >> addContextMenuSelectionIn: aLis
 	" update selection decoration to show the secondary selection on which the popup is opened"
 
 	| deco |
-	deco := self secondarySelectionElementClass new
+	deco := ToListContextMenuSelectionElement new
 		        listElement: aListElement;
 		        nodes: (Array with: aChildNode);
 		        yourself.
@@ -31,11 +31,14 @@ ToListElementContextMenuSelectionEventHandler >> contextMenuClosedEvent: anEvent
 { #category : #'selection managing' }
 ToListElementContextMenuSelectionEventHandler >> contextMenuSelectionOverPrimaryIn: aListElement [
 
-	aListElement selectionElements do: [ :d |
+	| adjacentNodeGroups |
+	adjacentNodeGroups := aListElement infinite nodeGroupsSatisfying: [
+		                      :n | n holder isSelected ].
+	adjacentNodeGroups do: [ :group |
 		| deco |
-		deco := self secondarySelectionElementClass new
+		deco := ToListContextMenuSelectionElement new
 			        listElement: aListElement;
-			        nodes: d nodes;
+			        nodes: group;
 			        yourself.
 		aListElement addChild: deco ]
 ]
@@ -44,7 +47,7 @@ ToListElementContextMenuSelectionEventHandler >> contextMenuSelectionOverPrimary
 ToListElementContextMenuSelectionEventHandler >> eventsToHandle [
 
 	^ {
-		  ToListSelectionChangedEvent.
+		  ToListPrimarySelectionChangedEvent.
 		  ToListElementContextMenuRequest.
 		  ToContextMenuClosedEvent.
 		  ToListElementContextMenuSelectionChangedEvent }
@@ -62,10 +65,11 @@ ToListElementContextMenuSelectionEventHandler >> listElementContextMenuRequest: 
 		             detect: [ :node |
 		             node containsGlobalPoint: globalPosition ]
 		             ifNone: [  ].
+
 	childNode ifNil: [ ^ self ].
 	childNode holder isSelected
 		ifTrue: [
-			anEvent selection selectAllIndexes:
+			anEvent selection selectIndexes:
 				target selectionModel selectedIndexes ]
 		ifFalse: [ anEvent selection selectIndex: childNode holder position ].
 
@@ -84,7 +88,7 @@ ToListElementContextMenuSelectionEventHandler >> listElementContextMenuSelection
 	target := anEvent currentTarget.
 	
 	anEvent selection isEmpty ifTrue: [
-		self removeContextMenuSelectionIn: target.
+		target contextMenuSelectionElements  do: [ :s | s removeFromParent ].
 		^ self ].
 
 	anEvent node holder isSelected 
@@ -94,25 +98,12 @@ ToListElementContextMenuSelectionEventHandler >> listElementContextMenuSelection
 ]
 
 { #category : #'element handlers' }
-ToListElementContextMenuSelectionEventHandler >> listSelectionChangedEvent: anEvent [
+ToListElementContextMenuSelectionEventHandler >> listPrimarySelectionChangedEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
 	target currentContextMenu ifNotNil: [ :win |
 		win isOpened ifTrue: [ win close ] ].
-	self removeContextMenuSelectionIn: target
-]
-
-{ #category : #'selection managing' }
-ToListElementContextMenuSelectionEventHandler >> removeContextMenuSelectionIn: aListElement [
-
-	(aListElement allChildrenBreadthFirstSelect: [ :child |
-		 child isKindOf: ToListContextMenuSelectionElement ]) do: [ :d |
+	target contextMenuSelectionElements do: [ :d |
 		d removeFromParent ]
-]
-
-{ #category : #accessing }
-ToListElementContextMenuSelectionEventHandler >> secondarySelectionElementClass [
-
-	^ ToListContextMenuSelectionElement
 ]

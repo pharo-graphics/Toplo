@@ -1,17 +1,8 @@
 Class {
 	#name : #ToMultiSelectionModelSelecter,
 	#superclass : #ToSelectionModelSelecter,
-	#category : #'Toplo-Widget-List-Selection-Mode'
+	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
-
-{ #category : #operations }
-ToMultiSelectionModelSelecter >> deselectIndex: aStartIndex to: anEndIndex [
-
-	self addCommand: (ToIntervalSelectionCommand new
-			 from: aStartIndex to: anEndIndex;
-			 operation: ToRemoveSelectionOperation new).
-	self changeCurrentIndexWith: (aStartIndex min: anEndIndex)
-]
 
 { #category : #operations }
 ToMultiSelectionModelSelecter >> selectAll [
@@ -25,25 +16,6 @@ ToMultiSelectionModelSelecter >> selectAll [
 ]
 
 { #category : #operations }
-ToMultiSelectionModelSelecter >> selectAllIndexes: anArray [
-
-	anArray ifEmpty: [ ^ self ].
-	self addCommand: (ToIndexesSelectionCommand new
-			 indexes: anArray;
-			 operation: ToAddSelectionOperation new).
-	self changeCurrentIndexWith: anArray last
-]
-
-{ #category : #operations }
-ToMultiSelectionModelSelecter >> selectIndex: anIndex [
-
-	self addCommand: (ToIntervalSelectionCommand new
-			 from: anIndex to: anIndex;
-			 operation: ToAddSelectionOperation new).
-	self changeCurrentIndexWith: anIndex
-]
-
-{ #category : #operations }
 ToMultiSelectionModelSelecter >> selectIndex: aStartIndex to: anEndIndex [
 
 	self addCommand: (ToIntervalSelectionCommand new
@@ -53,42 +25,13 @@ ToMultiSelectionModelSelecter >> selectIndex: aStartIndex to: anEndIndex [
 ]
 
 { #category : #operations }
-ToMultiSelectionModelSelecter >> selectOnlyIndex: anIndex [
+ToMultiSelectionModelSelecter >> selectIndexes: anArray [
 
-	(self selectionModel selectedIndexesCount = 1 and: [
-		 self selectionModel firstIndex = anIndex ]) ifTrue: [ ^ self ].
-	self addCommand: (ToWholeSelectionCommand new
-			 silent: true;
-			 operation: ToRemoveSelectionOperation new;
-			 yourself).
-	self addCommand: (ToIntervalSelectionCommand new
-			 from: anIndex to: anIndex;
-			 operation: ToAddSelectionOperation new).
-	self changeCurrentIndexWith: anIndex
-]
-
-{ #category : #operations }
-ToMultiSelectionModelSelecter >> selectOnlyIndexes: anArray [
-
-	anArray ifEmpty: [
-		self addCommand:
-			(ToWholeSelectionCommand new operation:
-				 ToRemoveSelectionOperation new).
-		self changeCurrentIndexWith: 0.
-		^ self ].
-	self addCommand: (ToWholeSelectionCommand new
-			 silent: true;
-			 operation: ToRemoveSelectionOperation new).
 	self addCommand: (ToIndexesSelectionCommand new
 			 indexes: anArray;
 			 operation: ToAddSelectionOperation new).
+	anArray ifEmpty: [
+		self changeCurrentIndexWith: 0.
+		^ self ].
 	self changeCurrentIndexWith: anArray last
-]
-
-{ #category : #operations }
-ToMultiSelectionModelSelecter >> selectToIndex: index [
-
-	| curr |
-	curr := self currentIndex.
-	self selectIndex: curr to: index
 ]

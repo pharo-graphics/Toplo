@@ -107,17 +107,6 @@ ToAnchoredWindowManager >> element [
 ]
 
 { #category : #accessing }
-ToAnchoredWindowManager >> element: anElement [
-
-	anElement ifNil: [ self halt ] ifNotNil: [
-		self
-			deprecated: 'Use selection onInstalledIn: instead'
-			transformWith:
-			'`@receiver element: `@arg' -> '`@receiver onInstalledIn: `@arg'.
-		self onInstalledIn: anElement ]
-]
-
-{ #category : #accessing }
 ToAnchoredWindowManager >> elementEventHandler [
 
 	^ elementEventHandler

@@ -76,7 +76,7 @@ ToTabPaneHeaderNew >> initialize [
 	self addChild: tabRowContainer.
 	self addChild: endContainer.
 	self initializeEventHandler.
-	self when: ToListSelectionChangedEvent do: [ :evt | self tabsSelectionChangedEvent: evt ].
+	self when: ToListPrimarySelectionChangedEvent do: [ :evt | self tabsSelectionChangedEvent: evt ].
 	tabs data when: ToCollectionEmptinessEvent do: [ :evt | self dataEmptinessChangeEvent: evt ]
 ]
 
@@ -107,7 +107,7 @@ ToTabPaneHeaderNew >> selectIndex: anInteger [
 { #category : #initialization }
 ToTabPaneHeaderNew >> sharedEvents [
 
-	^ { ToListSelectionChangedEvent. }
+	^ { ToListPrimarySelectionChangedEvent. }
 ]
 
 { #category : #accessing }

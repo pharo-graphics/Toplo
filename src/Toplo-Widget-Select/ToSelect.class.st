@@ -4,12 +4,10 @@ Class {
 	#instVars : [
 		'windowManager',
 		'fakeData',
-		'strategy',
-		'mode',
-		'placeholderText',
-		'selection',
 		'filtrable',
-		'data'
+		'data',
+		'selectionModel',
+		'strategy'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -36,12 +34,6 @@ ToSelect >> dataAccessor [
 ToSelect >> dataFilter: aValuable [
 
 	self mode dataFilter: aValuable
-]
-
-{ #category : #initialization }
-ToSelect >> defaultMode [
-
-	^ ToSelectFiltrableMode new
 ]
 
 { #category : #initialization }
@@ -85,7 +77,11 @@ ToSelect >> filtrable [
 { #category : #accessing }
 ToSelect >> filtrable: aBoolean [
 
-	filtrable := aBoolean
+	filtrable = aBoolean ifTrue: [ ^ self ].
+	filtrable := aBoolean.
+	filtrable
+		ifTrue: [ self strategy textInputElement beEditable ]
+		ifFalse: [ self strategy textInputElement beReadonly ]
 ]
 
 { #category : #accessing }
@@ -133,19 +129,20 @@ ToSelect >> initialize [
 
 	| sharedEventsDistributor headerElement |
 	super initialize.
-	filtrable := true.
 
 	data := ToObservableCollection new.
 
-	selection := BlCompositeSelection new.
 	" for the popup "
 	windowManager := self newWindowManager.
+	data addEventHandler: (ToObservableCollectionMirrorUpdater new mirror: windowManager listElement dataAccessor).
+	selectionModel := self listElement newSelectionModel.
 
-	" the element that holds the node container"
+	" the element that holds the node container" 
 	headerElement := self newHeaderElement.
 	self addChild: headerElement.
 	self addChild: self newIconContainer.
 	
+	filtrable := false.
 	strategy := ToSingleSelectStrategy new.
 	strategy onInstalledIn: self.
 
@@ -198,21 +195,6 @@ ToSelect >> listNodeBuilder: aValuable [
 ]
 
 { #category : #accessing }
-ToSelect >> mode [
-
-	^ mode
-]
-
-{ #category : #accessing }
-ToSelect >> mode: aToSelectMode [ 
-
-	self mode ifNotNil: [ self mode onUninstalledIn: self ].
-	mode := aToSelectMode.
-	mode onInstalledIn: self.
-	self strategy ifNotNil: [self strategy reInstall ]
-]
-
-{ #category : #accessing }
 ToSelect >> multiSelection: aBoolean [
 
 	strategy ifNotNil: [ self strategy onUninstalledIn: self ].
@@ -225,13 +207,7 @@ ToSelect >> multiSelection: aBoolean [
 { #category : #initialization }
 ToSelect >> newHeaderElement [
 
-	^ ToElement new
-		  vFitContent;
-		  hMatchParent;
-		  id: #headerElement;
-		  layout: BlFrameLayout new;
-		  constraintsDo: [ :c | c linear vertical alignCenter ];
-		  yourself
+	^ ToSelectHeaderElement new
 ]
 
 { #category : #initialization }
@@ -273,35 +249,24 @@ ToSelect >> pattern: aPattern [
 ]
 
 { #category : #'t - element with placeholder' }
-ToSelect >> placeholderText [
-	"The text to be shown when no data is selected "
+ToSelect >> placeholderBuilder: aValuable [
+	" aValuable takes 2 args: 1 the placeholder to build, 2 the element. 
+	If nil, the current builder is removed"
 
-	^ placeholderText ifNil: [ placeholderText := '' asRopedText ]
+	self headerElement placeholderBuilder: aValuable
 ]
 
 { #category : #'t - element with placeholder' }
 ToSelect >> placeholderText: aText [
 	"The text to be shown when no data is selected "
 
-	placeholderText := aText
-]
-
-{ #category : #'accessing list' }
-ToSelect >> popupMaxHeight [
-
-	^ self windowManager maxHeight
+	self headerElement placeholderText: aText
 ]
 
 { #category : #'accessing list' }
 ToSelect >> popupMaxHeight: aNumber [
 
 	self windowManager maxHeight: aNumber
-]
-
-{ #category : #'accessing list' }
-ToSelect >> popupMinHeight [
-
-	^ self windowManager minHeight
 ]
 
 { #category : #'accessing list' }
@@ -329,28 +294,21 @@ ToSelect >> popupWindowEvent: anEvent [
 ]
 
 { #category : #'accessing selection' }
-ToSelect >> selectIndex: anIndex [
-
-	self inputTextField text: ''.
-	self mode selectIndex: anIndex
-]
-
-{ #category : #'accessing selection' }
 ToSelect >> selectedData [
 
-	^ self selectedIndexes collect: [ :idx | self dataAccessor at: idx ]
+	^ self selectionModel selectedIndexesCollect: [ :idx | self dataAccessor at: idx ]
 ]
 
 { #category : #'accessing selection' }
 ToSelect >> selectedIndexes [
 
-	^ self selection indices
+	^ self selectionModel indices
 ]
 
 { #category : #accessing }
-ToSelect >> selection [ 
+ToSelect >> selectionModel [
 
-	^ selection
+	^ selectionModel
 ]
 
 { #category : #accessing }

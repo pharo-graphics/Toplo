@@ -19,7 +19,7 @@ ToListPrimarySelectionElementSkin >> installLookEvent: anEvent [
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e geometry:
-			((e valueOfTokenNamed: #'primary-selection-geometry-class')
+			(BlRoundedRectangleGeometry
 				 cornerRadius: (e valueOfTokenNamed: #'border-radius-SM')).
 		e border: (BlBorder
 				 paint: (e valueOfTokenNamed: #'border-color-primary-selection')

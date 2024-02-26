@@ -3,7 +3,7 @@ Class {
 	#superclass : #ToListAbstractSelectionMode,
 	#instVars : [
 		'preserveSelectionOnFocused',
-		'installedShortcuts'
+		'operator'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
@@ -18,24 +18,41 @@ ToListSelectionMode >> initialize [
 { #category : #'event handling' }
 ToListSelectionMode >> onClickEvent: anEvent onNode: aNode [
 
-
+	| listElement |
+	listElement := aNode holder listElement.
+	listElement dispatchEvent:
+		(ToListClickOnNodePreNotificationEvent new
+			 sourceEvent: anEvent;
+			 node: aNode;
+			 yourself)
 ]
 
 { #category : #'api - hooks' }
 ToListSelectionMode >> onInstalledIn: anElement [
 
-	super onInstalledIn: anElement. 
-	installedShortcuts := self shortcutsIn: anElement.
-	installedShortcuts do: [ :s | anElement addShortcut: s ]
+	super onInstalledIn: anElement.
+	operator onInstalledIn: anElement.
+	selecter operator: operator
 ]
 
 { #category : #'api - hooks' }
 ToListSelectionMode >> onUninstalledIn: anElement [
 
-	installedShortcuts do: [ :s | anElement removeShortcut: s ].
-	installedShortcuts := nil.
+	operator onUninstalledIn: anElement.
 	super onUninstalledIn: anElement. 
 
+]
+
+{ #category : #accessing }
+ToListSelectionMode >> operator [
+
+	^ operator
+]
+
+{ #category : #accessing }
+ToListSelectionMode >> operator: aSelectionOperator [
+
+	operator := aSelectionOperator
 ]
 
 { #category : #accessing }
@@ -59,15 +76,13 @@ ToListSelectionMode >> shortcutsIn: anElement [
 			   action: [ :aShortcutEvent :aShortcut |
 				   | idx |
 				   idx := self selecter nextSelectableIndex.
-				   self selecter beSilentWhile: [ self selecter deselectAll ].
-				   self selecter selectIndex: idx.
+				   self selecter selectOnlyIndex: idx.
 				   self selecter scrollToIndex: idx ]).
 		  (BlShortcutWithAction new
 			   combination: BlKeyCombination builder arrowUp build;
 			   action: [ :aShortcutEvent :aShortcut |
 				   | idx |
 				   idx := self selecter previousSelectableIndex.
-				   self selecter beSilentWhile: [ self selecter deselectAll ].
-				   self selecter selectIndex: idx.
+				   self selecter selectOnlyIndex: idx.
 				   self selecter scrollToIndex: idx ]) }
 ]

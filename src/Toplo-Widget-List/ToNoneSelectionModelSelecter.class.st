@@ -1,7 +1,7 @@
 Class {
 	#name : #ToNoneSelectionModelSelecter,
 	#superclass : #ToAbstractSelectionModelSelecter,
-	#category : #'Toplo-Widget-List-Selection-Mode'
+	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
 
 { #category : #accessing }
@@ -16,16 +16,16 @@ ToNoneSelectionModelSelecter >> deselectAll [
 ]
 
 { #category : #operations }
-ToNoneSelectionModelSelecter >> deselectAllIndexes: anArray [
-
-]
-
-{ #category : #operations }
 ToNoneSelectionModelSelecter >> deselectIndex: anIndex [
 ]
 
 { #category : #operations }
 ToNoneSelectionModelSelecter >> deselectIndex: aStartIndex to: anEndIndex [
+
+]
+
+{ #category : #operations }
+ToNoneSelectionModelSelecter >> deselectIndexes: anArray [
 
 ]
 
@@ -54,34 +54,13 @@ ToNoneSelectionModelSelecter >> previousSelectableIndex [
 ]
 
 { #category : #operations }
-ToNoneSelectionModelSelecter >> scrollToCurrentIndex [
-
-
-]
-
-{ #category : #operations }
 ToNoneSelectionModelSelecter >> scrollToIndex: anIndex [
 
 
 ]
 
 { #category : #operations }
-ToNoneSelectionModelSelecter >> scrollToNextIndex [
-
-
-]
-
-{ #category : #operations }
-ToNoneSelectionModelSelecter >> scrollToPreviousIndex [
-
-]
-
-{ #category : #operations }
 ToNoneSelectionModelSelecter >> selectAll [
-]
-
-{ #category : #operations }
-ToNoneSelectionModelSelecter >> selectAllIndexes: anArray [
 ]
 
 { #category : #operations }
@@ -93,9 +72,7 @@ ToNoneSelectionModelSelecter >> selectIndex: aStartIndex to: anEndIndex [
 ]
 
 { #category : #operations }
-ToNoneSelectionModelSelecter >> selectNextIndex [
-
-
+ToNoneSelectionModelSelecter >> selectIndexes: anArray [
 ]
 
 { #category : #operations }
@@ -104,12 +81,4 @@ ToNoneSelectionModelSelecter >> selectOnlyIndex: anIndex [
 
 { #category : #operations }
 ToNoneSelectionModelSelecter >> selectOnlyIndexes: anArray [
-]
-
-{ #category : #operations }
-ToNoneSelectionModelSelecter >> selectPreviousIndex [
-]
-
-{ #category : #operations }
-ToNoneSelectionModelSelecter >> selectToIndex: index [
 ]

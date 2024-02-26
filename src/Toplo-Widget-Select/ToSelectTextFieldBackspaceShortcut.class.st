@@ -10,7 +10,7 @@ ToSelectTextFieldBackspaceShortcut >> performOnEditor: aTextEditor element: anEd
 	anEditorElement text ifEmpty: [
 		anEditorElement rootAlbumElement nodeBeforeDo: [ :node |
 			node isRemovable ifTrue: [
-				"node removeFromSelect."
+				node removeFromSelect.
 				^ self ] ] ].
 	super
 		performOnEditor: aTextEditor

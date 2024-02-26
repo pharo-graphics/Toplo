@@ -38,18 +38,10 @@ ToListSelectionHistoryEventHandlerExample2 >> addWholeSelectionCommand: aCommand
 	historyList dataAccessor add: currentTarget dataAccessor last
 ]
 
-{ #category : #'event handling' }
-ToListSelectionHistoryEventHandlerExample2 >> commandAppliedEvent: aCommandAppliedEvent [
-
-	currentTarget := aCommandAppliedEvent currentTarget.
-	aCommandAppliedEvent command applyOn: self for: self historyList.
-	currentTarget := nil
-]
-
 { #category : #'api - accessing' }
 ToListSelectionHistoryEventHandlerExample2 >> eventsToHandle [
 
-	^ { ToSelectionCommandAppliedEvent }
+	^ { ToPrimarySelectionCommandAppliedEvent }
 ]
 
 { #category : #accessing }
@@ -62,6 +54,14 @@ ToListSelectionHistoryEventHandlerExample2 >> historyList [
 ToListSelectionHistoryEventHandlerExample2 >> historyList: aList [
 
 	historyList := aList
+]
+
+{ #category : #'event handling' }
+ToListSelectionHistoryEventHandlerExample2 >> primarySelectionCommandAppliedEvent: aCommandAppliedEvent [
+
+	currentTarget := aCommandAppliedEvent currentTarget.
+	aCommandAppliedEvent command applyOn: self for: self historyList.
+	currentTarget := nil
 ]
 
 { #category : #'event handling' }
@@ -81,6 +81,6 @@ ToListSelectionHistoryEventHandlerExample2 >> removeIntervalSelectionCommand: aC
 
 { #category : #'event handling' }
 ToListSelectionHistoryEventHandlerExample2 >> removeWholeSelectionCommand: aCommand [
-
+aCommand traceCr.
 	historyList dataAccessor removeAll
 ]

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'inner'
 	],
-	#category : #'Toplo-Widget-List-Context-menu'
+	#category : #'Toplo-Widget-List-Selection-Element'
 }
 
 { #category : #initialization }

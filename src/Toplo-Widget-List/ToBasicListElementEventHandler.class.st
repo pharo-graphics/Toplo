@@ -39,6 +39,8 @@ ToBasicListElementEventHandler >> elementScrolledEvent: anEvent [
 ToBasicListElementEventHandler >> eventsToHandle [
 
 	^ {
+		  ToListDataSourceItemsChangeEvent.
+
 		  BlElementAddedToSceneGraphEvent.
 		  BlElementScrolledEvent.
 		  BlInfiniteElementAttachedEvent.
@@ -74,7 +76,31 @@ ToBasicListElementEventHandler >> infiniteElementDetachedEvent: anEvent [
 ]
 
 { #category : #'infinite event handling' }
-ToBasicListElementEventHandler >> listSelectionModeChangedEvent: anEvent [
+ToBasicListElementEventHandler >> listDataSourceItemsAddedEvent: anEvent [
+
+	| target |
+	target := anEvent currentTarget.
+	target selecter
+		shiftSelection: anEvent itemCount
+		from: anEvent position
+]
+
+{ #category : #'infinite event handling' }
+ToBasicListElementEventHandler >> listDataSourceItemsRemovedEvent: anEvent [
+
+	| target |
+	target := anEvent currentTarget.
+	target dataAccessor size >= anEvent position ifTrue: [
+		target selecter
+			deselectIndex: anEvent position
+			to: anEvent position + anEvent itemCount - 1 ].
+	target selecter
+		shiftSelection: anEvent itemCount negated
+		from: anEvent position
+]
+
+{ #category : #'infinite event handling' }
+ToBasicListElementEventHandler >> listPrimarySelectionModeChangedEvent: anEvent [
 
 	anEvent currentTarget selectionModel deselectAll 
 ]
@@ -94,28 +120,27 @@ ToBasicListElementEventHandler >> mouseDownEvent: anEvent [
 { #category : #'infinite event handling' }
 ToBasicListElementEventHandler >> onItemsInserted: anEvent [
 
-	| target |
+	| target dataSourceChangeEvent |
 	target := anEvent currentTarget.
 	target selectionModel ifEmpty: [ ^ self ].
-	target selecter
-		shiftSelection: anEvent itemCount
-		from: anEvent position
+	dataSourceChangeEvent := ToListDataSourceItemsAddedEvent new
+		                         itemCount: anEvent itemCount;
+		                         position: anEvent position;
+		                         yourself.
+	target notifyDataSourceItemsChanged: dataSourceChangeEvent
 ]
 
 { #category : #'infinite event handling' }
 ToBasicListElementEventHandler >> onItemsRemoved: anEvent [
 
-	| target |
+	| target dataSourceChangeEvent |
 	target := anEvent currentTarget.
 	target selectionModel ifEmpty: [ ^ self ].
-	target dataAccessor size >= anEvent position ifTrue: [
-		target selecter
-			deselectIndex: anEvent position
-			to: anEvent position + anEvent itemCount - 1 ].
-	target selecter
-		shiftSelection: anEvent itemCount negated
-		from: anEvent position.
-	target dispatchEvent: ToListSelectionDirtyEvent new
+	dataSourceChangeEvent := ToListDataSourceItemsRemovedEvent new
+		                         itemCount: anEvent itemCount;
+		                         position: anEvent position;
+		                         yourself.
+	target notifyDataSourceItemsChanged: dataSourceChangeEvent
 ]
 
 { #category : #'list element handling' }

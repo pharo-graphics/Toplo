@@ -4,27 +4,16 @@ Class {
 	#instVars : [
 		'selectionModel',
 		'selecter',
-		'requestFocusOnMouseDown'
+		'requestFocusOnMouseDown',
+		'selectOnMouseDown'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
 { #category : #testing }
-ToListAbstractSelectionMode >> allowNodeSelectionOnMouseDown [
+ToListAbstractSelectionMode >> allowRequestFocusOnMouseDown [
 
 	^ self requestFocusOnMouseDown 
-]
-
-{ #category : #testing }
-ToListAbstractSelectionMode >> hasSelectionAt: anIndex [
-
-	^ self selectionModel containsIndex: anIndex
-]
-
-{ #category : #testing }
-ToListAbstractSelectionMode >> hasWholeSelection [
-
-	^ self selectionModel isWholeSelectionModel
 ]
 
 { #category : #initialization }
@@ -32,7 +21,14 @@ ToListAbstractSelectionMode >> initialize [
 
 	super initialize.
 	requestFocusOnMouseDown := true.
+	selectOnMouseDown := false
 
+]
+
+{ #category : #testing }
+ToListAbstractSelectionMode >> isMultipleSelection [
+
+	^ self subclassResponsibility 
 ]
 
 { #category : #accessing }
@@ -104,6 +100,18 @@ ToListAbstractSelectionMode >> requestFocusOnMouseDown: aBoolean [
 ]
 
 { #category : #accessing }
+ToListAbstractSelectionMode >> selectOnMouseDown [
+
+	^ selectOnMouseDown
+]
+
+{ #category : #accessing }
+ToListAbstractSelectionMode >> selectOnMouseDown: aBoolean [
+
+	selectOnMouseDown := aBoolean
+]
+
+{ #category : #accessing }
 ToListAbstractSelectionMode >> selectedIndexes [
 
 	^ self selectionModel indexes
@@ -115,7 +123,7 @@ ToListAbstractSelectionMode >> selectedIndexesCount [
 	^ self selectionModel selectedIndexesCount
 ]
 
-{ #category : #'accessing - operator' }
+{ #category : #accessing }
 ToListAbstractSelectionMode >> selecter [
 
 	^ selecter 
@@ -131,4 +139,10 @@ ToListAbstractSelectionMode >> selectionModel [
 ToListAbstractSelectionMode >> selectionModel: aSelectionModel [
 
 	selectionModel := aSelectionModel
+]
+
+{ #category : #shortcuts }
+ToListAbstractSelectionMode >> shortcutsIn: anElement [
+
+	^ {  }
 ]

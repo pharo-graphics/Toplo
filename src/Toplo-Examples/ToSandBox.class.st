@@ -615,7 +615,7 @@ ToSandBox class >> example_List2WithAllClassesMono [
 
 	| l |
 	l := ToListElement new.
-	l selectionMode: ToListSingleSelectionMode new.
+	l selectionMode: (ToListSingleSelectionMode new operator: (ToPrimarySelectionModelOperator new selectionModel: l selectionModel)).
 	l dataAccessor addAll:
 		(Smalltalk globals allClasses collect: [ :cls | cls name ]).
 	l openInSpace
@@ -660,7 +660,7 @@ ToSandBox class >> example_List2WithSelectionHistory [
 		(ToListSelectionHistoryEventHandlerExample2 new historyList:
 			 historyList).
 	statesList addEventHandler: (BlEventHandler
-			 on: ToSelectionCommandAppliedEvent
+			 on: ToPrimarySelectionCommandAppliedEvent
 			 do: [ :event | event traceCr ]).
 
 	pane
@@ -721,7 +721,7 @@ ToSandBox class >> example_ListWithAllClasses3 [
 				      interspace: 10;
 				      hMatchParent) ].
 	l addEventHandler: (BlEventHandler
-			 on: ToListSelectionChangedEvent
+			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :evt | evt traceCr ]).
 
 	l dataAccessor addAll: Smalltalk globals allClasses.
@@ -816,7 +816,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 				 label: lab;
 				 hMatchParent) ].
 	l addEventHandler: (BlEventHandler
-			 on: ToListSelectionChangedEvent
+			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :event |
 				 self class name trace.
 				 ' list selection changed' traceCr ]).
@@ -958,91 +958,6 @@ ToSandBox class >> example_ListWithPanes [
 			        node addChild: blContent ].
 	list data addAll: (1 to: 1000).
 	list openInSpace
-]
-
-{ #category : #select }
-ToSandBox class >> example_MonoFiltrable [
-
-	| select innerWindow |
-	select := ToSelect new.
-	select dataAccessor addAll: self statesOfAmerica.
-select inspect.
-
-	select placeholderText: ('Select a state' asRopedText foreground: Color red).
-
-	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
-	select width: 300.
-	select position: 50 @ 50.
-	select inputTextField requestFocus.
-	innerWindow pane addChild: select.
-	innerWindow height: 500.
-	innerWindow openInSpace
-]
-
-{ #category : #select }
-ToSandBox class >> example_MonoNotFiltrable [
-
-	| select innerWindow |
-	select := ToSelect new.
-	select dataAccessor addAll: self statesOfAmerica.
-	select placeholderText:
-		('Select a state' asRopedText foreground: Color red).
-	select listElement nodeBuilder: [ :node :holder |
-		node addChild: (ToLabel text: holder dataItem asString) hMatchParent ].
-	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
-	select width: 300.
-	select position: 50 @ 50.
-	innerWindow pane addChild: select.
-	innerWindow height: 500.
-	innerWindow openInSpace
-]
-
-{ #category : #select }
-ToSandBox class >> example_MultiFiltrable [
-
-	| select innerWindow |
-	select := ToSelect new.
-	select data addAll: self statesOfAmerica.
-	select inspect.
-	select mode: ToSelectFiltrableMode new.
-	select strategy: ToMultipleSelectStrategy new.
-	select placeholderText:
-		('Select states' asRopedText foreground: Color red).
-	select listElement nodeBuilder: [ :node :holder |
-		node addChild: (ToLabel text: holder dataItem asString) hMatchParent ].
-	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
-	select width: 300.
-	select position: 50 @ 50.
-	innerWindow pane addChild: select.
-	innerWindow height: 500.
-	innerWindow openInSpace
-]
-
-{ #category : #select }
-ToSandBox class >> example_MultiNotFiltrable [
-
-	| select innerWindow |
-	select := ToSelect new.
-	select data addAll: self statesOfAmerica.
-	select inspect.
-	select mode: ToSelectReadOnlyMode new.
-	select strategy: ToMultipleSelectStrategy new.
-	select placeholderText:
-		('Select states' asRopedText foreground: Color red).
-
-	select listElement nodeBuilder: [ :node :holder |
-		node addChild: (ToLabel text: holder dataItem asString) hMatchParent ].
-	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
-	select width: 300.
-	select position: 50 @ 50.
-
-	innerWindow pane addChild: select.
-	innerWindow height: 500.
-	innerWindow openInSpace
 ]
 
 { #category : #menu }
@@ -1266,6 +1181,101 @@ ToSandBox class >> example_RadioButtonWithIndeterminate [
 	but openInSpace
 ]
 
+{ #category : #select }
+ToSandBox class >> example_SelectMonoFiltrable [
+
+	| select innerWindow phtext |
+	select := ToSelect new.
+
+	select listElement placeholderMinHeight: 35.
+	phtext := ('No Data' asRopedText
+		           foreground: Color lightGray;
+		           yourself)
+		          fontSize: 24;
+		          yourself.
+
+	select listElement placeholderBuilder: [ :placeholder :e |
+		| lab |
+		placeholder layout alignCenter.
+		lab := ToAttributedLabel text: phtext.
+		placeholder addChild: lab ].
+
+	select filtrable: true.
+	select dataAccessor addAll: self statesOfAmerica.
+	select placeholderText: ('Select a state' asRopedText foreground: Color red).
+	innerWindow := ToInnerWindow new.
+	select windowManager anchorRoot: innerWindow root.
+	select width: 300.
+	select position: 50 @ 50.
+	select inputTextField requestFocus.
+	innerWindow pane addChild: select.
+	innerWindow height: 500.
+	innerWindow openInSpace
+]
+
+{ #category : #select }
+ToSandBox class >> example_SelectMonoNotFiltrable [
+
+	| select innerWindow |
+	select := ToSelect new.
+	select filtrable: false.
+	select dataAccessor addAll: self statesOfAmerica.
+	select placeholderText: ('Select a state' asRopedText foreground: Color red).
+	select listElement nodeBuilder: [ :node :holder |
+		node addChild: (ToLabel text: holder dataItem asString) hMatchParent ].
+	innerWindow := ToInnerWindow new.
+	select windowManager anchorRoot: innerWindow root.
+	select width: 300.
+	select position: 50 @ 50.
+	innerWindow pane addChild: select.
+	innerWindow height: 500.
+	innerWindow openInSpace
+]
+
+{ #category : #select }
+ToSandBox class >> example_SelectMultiFiltrable [
+
+	| select innerWindow |
+	select := ToSelect new.
+	select dataAccessor addAll: self statesOfAmerica.
+	select strategy: ToMultipleSelectStrategy new.
+	select filtrable: true.
+	select popupMaxHeight: 200.
+	select placeholderText:
+		('Select states' asRopedText foreground: Color red).
+	select listElement nodeBuilder: [ :node :holder |
+		node addChild: (ToLabel text: holder dataItem asString) hMatchParent ].
+	innerWindow := ToInnerWindow new.
+	select windowManager anchorRoot: innerWindow root.
+	select width: 300.
+	select position: 50 @ 10.
+	innerWindow pane addChild: select.
+	innerWindow height: 600.
+	innerWindow openInSpace
+]
+
+{ #category : #select }
+ToSandBox class >> example_SelectMultiNotFiltrable [
+
+	| select innerWindow |
+	select := ToSelect new.
+	select filtrable: false.
+	select dataAccessor addAll: self statesOfAmerica.
+	select strategy: ToMultipleSelectStrategy new.
+	select placeholderText:
+		('Select states' asRopedText foreground: Color red).
+	select listElement nodeBuilder: [ :node :holder |
+		node addChild: (ToLabel text: holder dataItem asString) hMatchParent ].
+	innerWindow := ToInnerWindow new.
+	select windowManager anchorRoot: innerWindow root.
+	select width: 300.
+	select position: 50 @ 50.
+
+	innerWindow pane addChild: select.
+	innerWindow height: 500.
+	innerWindow openInSpace
+]
+
 { #category : #list }
 ToSandBox class >> example_SieveOnList2WithStatesOfAmerica [
 
@@ -1309,24 +1319,6 @@ ToSandBox class >> example_SieveOnList2WithStatesOfAmerica [
 ]
 
 { #category : #list }
-ToSandBox class >> example_SieveOnList2WithStatesOfAmerica_WithSelectionHandling2 [
-
-	| listElement assoc sieve |
-	assoc := self example_SieveOnList2WithStatesOfAmerica.
-	listElement := assoc key.
-	sieve := assoc value.
-	listElement addEventHandler:
-		(ToListElementSieveSelectionEventHandler new
-			 sieve: sieve;
-			 yourself).
-	listElement addEventHandler: (BlEventHandler
-			 on: ToSievedListSelectionChangedEvent
-			 do: [ :event |
-				 '>>>>> ' trace.
-				 event traceCr ])
-]
-
-{ #category : #list }
 ToSandBox class >> example_SieveOnList2With_350000_Items [
 
 	| listElement pane filterField data sieve |
@@ -1350,7 +1342,7 @@ ToSandBox class >> example_SieveOnList2With_350000_Items [
 	listElement margin: (BlInsets all: 2).
 	listElement withRowNumbers.
 	filterField margin: (BlInsets all: 2).
-	listElement dataAccessor addAll: data.
+	listElement dataAccessor addAll: (data collect: [:d | d copy]).
 
 	sieve := ToListElementSieve new.
 	sieve onInstalledIn: listElement.
@@ -1449,6 +1441,11 @@ ToSandBox class >> example_SieveOnList2With_AllMethods [
 	sieve := ToListElementSieve new.
 	sieve onInstalledIn: listElement.
 	listElement dataAccessor addAll: data.
+	listElement
+		addEventHandlerOn: ToSieveSelectionChangedEvent
+		do: [ :event |
+			'selected: ' trace.
+			event selectionModel selectedIndexes traceCr ].
 
 	sieve dataFilter: [ :aCompiledMethod :aPattern |
 		aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
@@ -1488,7 +1485,8 @@ ToSandBox class >> example_SieveOnList2With_AllMethods_MonoSelection [
 	| listElement assoc |
 	assoc := self example_SieveOnList2With_AllMethods.
 	listElement := assoc key.
-	listElement selectionMode: ToListSingleSelectionMode new
+	listElement selectionMode: (ToListSingleSelectionMode new operator:
+			 (ToPrimarySelectionModelOperator new selectionModel: listElement selectionModel))
 ]
 
 { #category : #list }
@@ -1498,7 +1496,7 @@ ToSandBox class >> example_SieveOnList2With_AllMethods_OnCR [
 	pane := ToPane new
 		        beVertical;
 		        matchParent.
-		
+
 	filterField := ToTextField new.
 	listElement := ToListElement new.
 	data := SystemNavigation default allMethods.
@@ -1507,15 +1505,15 @@ ToSandBox class >> example_SieveOnList2With_AllMethods_OnCR [
 
 	sieve := ToListElementSieve new.
 	sieve onInstalledIn: listElement.
-	listElement data addAll: data.
-	
+	listElement dataAccessor addAll: data.
+
 	sieve dataFilter: [ :aCompiledMethod :aPattern |
 		aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
-	
+
 
 	listElement nodeBuilder: [ :node :holder |
-		node addChild: (ToLabel new text: holder data printString) ].
-	
+		node addChild: (ToLabel new text: holder dataItem printString) ].
+
 	sieve dataFilter: [ :aCompiledMethod :aPattern |
 		aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
 	filterField addEditorShortcut: (BlShortcutWithAction new
@@ -1524,7 +1522,7 @@ ToSandBox class >> example_SieveOnList2With_AllMethods_OnCR [
 				 | pattern |
 				 pattern := event currentTarget text asString.
 				 self inform: pattern.
-				 sieve pattern: pattern  ] yourself).
+				 sieve pattern: pattern ] yourself).
 
 	listElement placeholderBuilder: [ :ph :e |
 		| lab |
@@ -1538,19 +1536,6 @@ ToSandBox class >> example_SieveOnList2With_AllMethods_OnCR [
 	pane addChild: listElement.
 	pane addChild: filterField.
 	pane openInSpace
-]
-
-{ #category : #list }
-ToSandBox class >> example_SieveOnList2With_AllMethods_WithSelectionHandling [
-
-	| listElement assoc sieve |
-	assoc := self example_SieveOnList2With_AllMethods.
-	listElement := assoc key.
-	sieve := assoc value.
-	listElement addEventHandler:
-		(ToListElementSieveSelectionEventHandler new
-			 sieve: sieve;
-			 yourself)
 ]
 
 { #category : #menu }
@@ -2084,7 +2069,7 @@ ToSandBox class >> example_contactList [
 	list := ToListElement new.
 	list inspect.
 	list addEventHandler: (BlEventHandler
-			 on: ToListSelectionChangedEvent
+			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :evt | evt traceCr ]).
 
 	nameTxtF := ToTextField new
@@ -2113,7 +2098,7 @@ ToSandBox class >> example_contactList [
 						                yourself) ].
 
 	list addEventHandler: (BlEventHandler
-			 on: ToListSelectionChangedEvent
+			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :evt |
 				 evt selectedIndexes size = 1 ifTrue: [
 					 contact := list dataAccessor at: evt selectedIndexes anyOne.
@@ -2242,6 +2227,44 @@ ToSandBox class >> example_horizontalPaneWithDivider [
 
 	pane addDividers.
 	pane openInSpace
+]
+
+{ #category : #list }
+ToSandBox class >> example_listStress [
+
+	| tabsPanel list1 tab1 tabSize |
+	tabSize := 1.
+	list1 := ToListElement new.
+	list1 constraints vertical matchParent.
+	list1 constraints horizontal matchParent.
+	1 to: tabSize do: [ :i |
+	list1 dataAccessor add: 'Hello ' , i asString ].
+	tabsPanel := ToTabPane new.
+	tab1 := ToTab new.
+	tab1 labelText: 'Hello'.
+	tab1 paneBuilder: [ :pane :theTabPane | pane addChild: list1 ].
+	tabsPanel addTab: tab1.
+	list1 selecter selectAll.
+	list1 withRowNumbers.
+	tabsPanel openInSpace.
+
+	tabsPanel enqueueTask: (BlTaskAction new action: [
+			 [
+			 1 to: 10000 do: [ :e |
+				 tabsPanel enqueueTask: (BlTaskAction new action: [
+						  | r |
+						  1 to: tabSize do: [ :i |
+						  list1 dataAccessor at: i put: 'Hello ' , e asString ].
+						  list1 dataAccessor addFirst:
+							  'Hello ' , (list1 dataAccessor size + 1) asString.
+						  list1 dataAccessor add:
+							  'Hello ' , (list1 dataAccessor size + 1) asString.
+						  r := (Random new next * 1000) asInteger
+						       \\ (list1 dataAccessor size - 1) + 1.
+						  list1 selecter selectIndex: r.
+						  list1 dataAccessor removeAt: (r + 1 min: list1 dataAccessor size).
+						  list1 scrollToIndex: list1 dataAccessor size ]).
+				 50 milliSeconds wait ] ] fork ])
 ]
 
 { #category : #'look event' }
@@ -2521,104 +2544,36 @@ ToSandBox class >> example_selectWith5Nodes [
 
 	| select innerWindow |
 	select := ToSelect new.
-	select listElement nodeBuilder: [ :node :holder | 
-		node addChild: ((ToLabel text: holder data asString) hMatchParent) ].
+	select listElement nodeBuilder: [ :node :holder |
+		node addChild: (ToLabel text: holder dataItem asString) hMatchParent ].
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
 	select width: 300.
-	select position: 50@50.
-	select data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	select position: 50 @ 50.
+	select dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	innerWindow pane addChild: select.
-	innerWindow openInSpace 
+	innerWindow openInSpace
 ]
 
 { #category : #select }
 ToSandBox class >> example_selectWithEditingMultiSelectionWithAllClassNames [
 
-	| select innerWindow |
+	| select innerWindow space |
 	select := self selectWithEditingMultiSelection.
-	select mode: ToSelectFiltrableMode new.
+	select filtrable: true.
 	select strategy: ToMultipleSelectStrategy new.
 	
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
 	select hMatchParent.
-	select data updateAllWith: (Smalltalk globals allClasses collect: [ :cls | cls name ]).
+	select dataAccessor updateAllWith: (Smalltalk globals allClasses collect: [ :cls | cls name ]).
 
 	innerWindow pane addChild: select.
-	innerWindow openInSpace
-]
-
-{ #category : #select }
-ToSandBox class >> example_selectWithEditingMultiSelectionWithStatesOfAmerica [
-
-	| select innerWindow |
-	select := self selectWithEditingMultiSelection.
-	select mode: ToSelectFiltrableMode new.
-	select strategy: ToMultipleSelectStrategy new.
-	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
-	select hMatchParent.
-	select data addAll: self statesOfAmerica.
-	"select inspect."
-	innerWindow pane addChild: select.
-	innerWindow openInSpace
-]
-
-{ #category : #select }
-ToSandBox class >> example_selectWithEditingMultiSelectionWith_175000_Items [
-
-	| select innerWindow data |
-	select := self selectWithEditingMultiSelection.
-	select mode: ToSelectFiltrableMode new.
-	select strategy: ToMultipleSelectStrategy new.
-	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
-	select hMatchParent.
-	data := OrderedCollection new.
-	Character alphabet do: [ :c1 |
-		Character alphabet do: [ :c2 |
-			Character alphabet do: [ :c3 |
-				((48 to: 57) collect: [ :n | n asCharacter ]) do: [ :c4 |
-					data add: (String streamContents: [ :str |
-							 str nextPutAll: {
-									 c1.
-									 c2.
-									 c3.
-									 c4 } ]) ] ] ] ].
-	data size traceCr.
-	select data updateAllWith: data.
-
-	innerWindow pane addChild: select.
-	innerWindow openInSpace
-]
-
-{ #category : #select }
-ToSandBox class >> example_selectWithEditingMultiSelectionWith_AllMethods [
-
-	| select innerWindow data |
-	select := self selectWithEditingMultiSelection.
-
-	select mode: ToSelectFiltrableMode new.
-	select strategy: ToMultipleSelectStrategy new.
-
-	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
-	select hMatchParent.
-	data := SystemNavigation default allMethods.
-	data size traceCr.
-	select data addAll: data.
-	select listNodeBuilder: [ :aCompiledMethod :aSelectHolder |
-		aCompiledMethod addChild:
-			(ToLabel new text: aSelectHolder dataItem printString) ].
-	select headerNodeBuilder: [ :aSelectNode :aNodeHolder |
-		aSelectNode beRemovable.
-		aSelectNode middleContainer addChild:
-			(ToLabel text: aNodeHolder data printString) ].
-	select dataFilter: [ :aCompiledMethod :aPattern |
-		aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
-	innerWindow pane addChild: select.
-	innerWindow openInSpace
+	innerWindow height: 800.
+	space := BlSpace new.
+	space extent: 800@900.
+	space root addChild: innerWindow.
+	space show
 ]
 
 { #category : #space }
@@ -3852,6 +3807,8 @@ ToSandBox class >> selectWithEditingMultiSelection [
 		           yourself)
 		          fontSize: 24;
 		          yourself.
+	select popupMaxHeight: 600.
+	select listElement placeholderMinHeight: 35.
 
 	select listElement placeholderBuilder: [ :placeholder :e |
 		| lab |

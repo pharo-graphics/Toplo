@@ -1,7 +1,7 @@
 Class {
 	#name : #ToListContextMenuSelectionElementSkin,
 	#superclass : #ToRawSkin,
-	#category : #'Toplo-Widget-List-Context-menu'
+	#category : #'Toplo-Widget-List-Selection-Element'
 }
 
 { #category : #'event handling' }
@@ -10,10 +10,10 @@ ToListContextMenuSelectionElementSkin >> installLookEvent: anEvent [
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e geometry:
-			((e valueOfTokenNamed: #'primary-selection-geometry-class')
+			(BlRoundedRectangleGeometry
 				 cornerRadius: (e valueOfTokenNamed: #'border-radius-SM')).
 		e inner geometry:
-			((e valueOfTokenNamed: #'primary-selection-geometry-class')
+			(BlRoundedRectangleGeometry
 				 cornerRadius: (e valueOfTokenNamed: #'border-radius-SM')).
 		e inner border: (BlBorder paint: Color white width: 2).
 		e border: (BlBorder

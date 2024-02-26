@@ -6,7 +6,8 @@ Class {
 		'originalData',
 		'queryResultHandler',
 		'queryApplicationTask',
-		'currentData'
+		'currentData',
+		'selectionHandler'
 	],
 	#category : #'Toplo-Widget-List-Sieve'
 }
@@ -16,12 +17,12 @@ ToListElementSieve >> applyObservableCollectionQueryResultEventFor: aListElement
 	" a query has occured (becuse the query pattern has changed), update the list element accordingly "
 
 	self updateCurrentData.
-		" update the list "
+	" update the list element "
 	aListElement selecter beSilentWhile: [ :s | 
 		aListElement dataAccessor filterResult: currentData ].
 	" don't deselect here"
 	"aListElement selecter deselectAll."
-	aListElement dispatchEvent: (ToListSieveFilterAppliedEvent new
+	aListElement dispatchEvent: (ToSieveFilterAppliedEvent new
 			 sieve: self;
 			 yourself)
 ]
@@ -37,7 +38,7 @@ ToListElementSieve >> dataFilter: aValuable [
 { #category : #'event handling' }
 ToListElementSieve >> onCollectionAfterChangeEvent: anEvent for: aListElement [
 
-	aListElement selecter deselectAll.
+	self pattern ifEmpty: [ aListElement selecter deselectAll ].
 	self pattern
 		ifNotEmpty: [ self pattern: '' ]
 		ifEmpty: [ 	self updateCurrentData ]
@@ -64,7 +65,11 @@ ToListElementSieve >> onInstalledIn: aListElement [
 				                      onObservableCollectionQueryResultEvent:
 				                      event
 				                      for: aListElement ].
-	originalData addEventHandler: queryResultHandler
+	originalData addEventHandler: queryResultHandler.
+	selectionHandler := ToSievedListElementEventHandler new
+			 sieve: self;
+			 yourself.
+	aListElement addEventHandler: selectionHandler
 ]
 
 { #category : #'event handling' }
@@ -89,6 +94,7 @@ ToListElementSieve >> onObservableCollectionQueryResultEvent: anEvent for: aList
 ToListElementSieve >> onUninstalledIn: aListElement [
 	" uninstall list element handlers and the queyrunner properly "
 
+	aListElement removeEventHandler: selectionHandler.
 	queryRunner onUninstalledIn: originalData.
 	originalData unmirrored.
 	originalData removeEventHandler: queryResultHandler.

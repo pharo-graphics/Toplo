@@ -1,50 +1,64 @@
 Class {
-	#name : #ToListMultiSelectionMode,
+	#name : #ToListMultipleSelectionMode,
 	#superclass : #ToListSelectionMode,
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
 { #category : #testing }
-ToListMultiSelectionMode >> allowNodeSelectionOnMouseDown [
+ToListMultipleSelectionMode >> allowRequestFocusOnMouseDown [
 
-	(self hasWholeSelection or: [ self selectedIndexesCount > 1 ])
+	( self selectedIndexesCount > 1 )
 		ifTrue: [ self preserveSelectionOnFocused ifTrue: [ ^ false ] ].
-	^ super allowNodeSelectionOnMouseDown
+	^ super allowRequestFocusOnMouseDown
+]
+
+{ #category : #testing }
+ToListMultipleSelectionMode >> isMultipleSelection [
+
+	^ true
 ]
 
 { #category : #'instance creation' }
-ToListMultiSelectionMode >> newSelecterIn: anElement [
+ToListMultipleSelectionMode >> newSelecterIn: anElement [
 
 	^ ToMultiSelectionModelSelecter new 
 ]
 
 { #category : #accessing }
-ToListMultiSelectionMode >> nodeEventHandlerClasses [ 
+ToListMultipleSelectionMode >> nodeEventHandlerClasses [ 
 
 	^ { ToListNodeMultiSelectionClickEventHandler }
 ]
 
 { #category : #'event handling' }
-ToListMultiSelectionMode >> onClickEvent: anEvent onNode: aNode [
+ToListMultipleSelectionMode >> onClickEvent: anEvent onNode: aNode [
 
 	super onClickEvent: anEvent onNode: aNode.
 	anEvent modifiers isShift ifTrue: [
-		self selecter selectToIndex: aNode holder position.
+		| curr |
+		curr := self selecter currentIndex.
+		self selecter selectIndex: curr to: aNode holder position.
 		^ self ].
-	anEvent modifiers isPrimaryModifier ifTrue: [
-		| index target |
-		index := aNode holder position.
-		target := aNode holder listElement.
-		(target selectionModel containsIndex: index)
-			ifTrue: [ self selecter deselectIndex: index ]
-			ifFalse: [ self selecter selectIndex: index ].
-		^ self ].
-	self selecter
-		selectOnlyIndex: aNode holder position
+	(anEvent modifiers isPrimaryModifier or: [ self selectOnMouseDown ])
+		ifTrue: [
+			self selectOrDeselectOnNode: aNode.
+			^ self ].
+	self selecter selectOnlyIndex: aNode holder position
+]
+
+{ #category : #'event handling' }
+ToListMultipleSelectionMode >> selectOrDeselectOnNode: aNode [
+
+	| index target |
+	index := aNode holder position.
+	target := aNode holder listElement.
+	(target selectionModel containsIndex: index)
+		ifTrue: [ self selecter deselectIndex: index ]
+		ifFalse: [ self selecter selectIndex: index ]
 ]
 
 { #category : #shortcuts }
-ToListMultiSelectionMode >> shortcutsIn: anElement [
+ToListMultipleSelectionMode >> shortcutsIn: anElement [
 
 	^ (super shortcutsIn: anElement) , {
 		  (BlShortcutWithAction new

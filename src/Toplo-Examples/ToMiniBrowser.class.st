@@ -118,9 +118,6 @@ ToMiniBrowser >> initialize [
 						             yourself) ].
 	pkgSieve := ToListElementSieve new.
 	pkgSieve onInstalledIn: packages.
-	packages
-		addEventHandlerOn: ToListSieveFilterAppliedEvent
-		do: [ :event | packages selecter deselectAll ].
 
 	pkgSieve dataFilter: [ :aPackage :aPattern |
 		aPackage name
@@ -145,13 +142,14 @@ ToMiniBrowser >> initialize [
 	packages addEventHandler: (BlEventHandler
 			 on: ToListStrongSelectionEvent
 			 do: [ :event | event traceCr ]).
+	packages selecter operator inspect.
 
 	packagesPane margin: (BlInsets all: 2).
 	packagesPane addChild: packages.
 	packagesPane addChild: packageBottomPane.
 
 	packages addEventHandler: (BlEventHandler
-			 on: ToListSelectionChangedEvent
+			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :event | self packageSelectionChangedEvent: event ]).
 
 	packages dataAccessor addAll:
@@ -166,7 +164,7 @@ ToMiniBrowser >> initialize [
 						            yourself) ].
 
 	classes addEventHandler: (BlEventHandler
-			 on: ToListSelectionChangedEvent
+			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :event | self classSelectionChangedEvent: event ]).
 
 	classesPane := ToPane new
@@ -202,7 +200,7 @@ ToMiniBrowser >> initialize [
 	protocols margin: (BlInsets all: 2).
 
 	protocols addEventHandler: (BlEventHandler
-			 on: ToListSelectionChangedEvent
+			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :event | self protocolSelectionChangedEvent: event ]).
 
 	selectors := ToListElement new
@@ -215,7 +213,7 @@ ToMiniBrowser >> initialize [
 
 	selectors margin: (BlInsets all: 2).
 	selectors addEventHandler: (BlEventHandler
-			 on: ToListSelectionChangedEvent
+			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :event | self selectorSelectionChangedEvent: event ]).
 
 	codePane := ToAlbum new withRowNumbers.
@@ -255,7 +253,6 @@ ToMiniBrowser >> open [
 ToMiniBrowser >> packageSelectionChangedEvent: aToSelectionChanged [
 
 	| selectedPackages clsList |
-	classes selecter deselectAll.
 	classes dataAccessor removeAll.
 	selectedPackages := aToSelectionChanged selectedIndexes collect: [
 		                    :idx | packages dataAccessor at: idx ].
@@ -270,7 +267,6 @@ ToMiniBrowser >> packageSelectionChangedEvent: aToSelectionChanged [
 ToMiniBrowser >> protocolSelectionChangedEvent: aToSelectionChanged [
 
 	| selectedProtocols |
-	selectors selecter deselectAll.
 	selectors dataAccessor removeAll.
 	selectedProtocols := aToSelectionChanged selectedIndexes collect: [
 		                     :idx | protocols dataAccessor at: idx ].
@@ -284,7 +280,6 @@ ToMiniBrowser >> protocolSelectionChangedEvent: aToSelectionChanged [
 ToMiniBrowser >> refreshClassSelectionWithSelectedIndexes: aCollection [
 
 	| selectedClasses allProtocols |
-	protocols selecter deselectAll.
 	protocols dataAccessor removeAll.
 	selectedClasses := aCollection collect: [ :idx |
 		                   classes dataAccessor at: idx ].

@@ -142,7 +142,7 @@ ToSelectHeaderNode >> removable: aBoolean [
 ToSelectHeaderNode >> removeFromSelect [
 	" remove the node by deselecting the corresponding list node in the list "
 
-	self selectHolder select mode deselectIndex:
+	self selectHolder select listElement selecter deselectIndex:
 		self selectHolder position.
 	self selectHolder select strategy refreshHeaderNodeContainer
 ]

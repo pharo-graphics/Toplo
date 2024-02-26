@@ -9,7 +9,7 @@ ToListElementEventHandler >> collectionEmptinessEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	self showHidePlaceholderIn: target
+	target enqueueTask: (BlTaskAction new action: [self showHidePlaceholderIn: target ])
 ]
 
 { #category : #'api - accessing' }

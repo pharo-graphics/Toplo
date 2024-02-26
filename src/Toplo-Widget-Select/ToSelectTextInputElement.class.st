@@ -4,14 +4,27 @@ Class {
 	#instVars : [
 		'select',
 		'selectedDataTextField',
-		'inputTextField'
+		'inputTextField',
+		'installedInputTextFieldShortcuts',
+		'installedInputTextFieldTextEventHandler'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
 
 { #category : #initialization }
+ToSelectTextInputElement >> beEditable [
+
+	self inputTextField beEditable.
+	self installInputTextFieldEventHandlers.
+	self installInputTestFieldShortcuts.
+
+]
+
+{ #category : #initialization }
 ToSelectTextInputElement >> beReadonly [
 
+	self uninstallInputTextFieldEventHandlers.
+	self uninstallInputTestFieldShortcuts.
 	self inputTextField beReadonlyWithoutSelection
 ]
 
@@ -20,15 +33,11 @@ ToSelectTextInputElement >> checkMultipleSelectPlaceholderText [
 	" In case of multiple selection, the selectedDataTextField can contain 
 		and empty text or the placeholder text"
 
-	(self inputTextField text isEmpty and: [ select selectedData isEmpty ])
+"	(self inputTextField text isEmpty and: [ select selectedData isEmpty ])
 		ifTrue: [
 			self selectedDataTextField visibility: BlVisibility visible.
-			self selectedDataTextField text: select placeholderText.
 			^ self ].
-	self selectedDataTextField visibility: BlVisibility hidden.
-
-	"select listElement selecter selectAllIndexes: select selection indices."
-	"self selectedDataTextField text: ''"
+	""self selectedDataTextField visibility: BlVisibility hidden."""
 ]
 
 { #category : #private }
@@ -38,7 +47,8 @@ ToSelectTextInputElement >> checkSingleSelectPlaceholderText [
 
 	self inputTextField text
 		ifEmpty: [
-		self selectedDataTextField text foreground: Color lightGray ]
+		self selectedDataTextField visibility: BlVisibility visible.
+		"self selectedDataTextField text foreground: Color lightGray" ]
 		ifNotEmpty: [
 		self selectedDataTextField visibility: BlVisibility hidden ]
 ]
@@ -59,8 +69,8 @@ ToSelectTextInputElement >> initialize [
 		c frame vertical alignCenter.
 		c flow vertical alignCenter.
 		c linear vertical alignCenter ].
-	self background: (Color yellow alpha: 0.3).
-	self fitContent
+	self hMatchParent.
+	self vFitContent
 ]
 
 { #category : #accessing }
@@ -70,29 +80,31 @@ ToSelectTextInputElement >> inputTextField [
 ]
 
 { #category : #initialization }
-ToSelectTextInputElement >> newInputTextField [
+ToSelectTextInputElement >> installInputTestFieldShortcuts [
 
-	| textField |
-	textField := self newTextField
-		             id: #inputTextField;
-		             yourself.		
-	textField fitContent.
-	select isFiltrable
-		ifTrue: [
-			select isMultipleSelection ifTrue: [
-				textField addEditorShortcut:
-					ToSelectTextFieldBackspaceShortcut new ].
-			textField addEditorShortcut:
-				ToSelectTextFieldCarriageReturnShortcut new.
-			textField addEventHandler: (BlEventHandler
-					 on: AlbTextEditedEvent
-					 do: [ :event |  self onFilterTextUpdated: event ]).
-			textField addEventHandler: (BlEventHandler
-					 on: AlbTextReplacedEvent
-					 do: [ :event |  self onFilterTextReplaced: event ]) ]
-		ifFalse: [ textField beReadonlyWithSelection ].
-	
-	^ textField
+	installedInputTextFieldShortcuts ifNotNil: [ ^ self ].
+	installedInputTextFieldShortcuts := OrderedCollection new.
+
+	select isMultipleSelection ifTrue: [
+		installedInputTextFieldShortcuts add: ToSelectTextFieldBackspaceShortcut new ].
+	installedInputTextFieldShortcuts add: ToSelectTextFieldCarriageReturnShortcut new.
+	installedInputTextFieldShortcuts do: [ :sc |
+		self inputTextField addEditorShortcut: sc ]
+]
+
+{ #category : #initialization }
+ToSelectTextInputElement >> installInputTextFieldEventHandlers [
+
+	installedInputTextFieldTextEventHandler ifNotNil: [ ^ self ].
+	installedInputTextFieldTextEventHandler := OrderedCollection new.
+	installedInputTextFieldTextEventHandler add: (BlEventHandler
+			 on: AlbTextEditedEvent
+			 do: [ :event | self onFilterTextUpdated: event ]).
+	installedInputTextFieldTextEventHandler add: (BlEventHandler
+			 on: AlbTextReplacedEvent
+			 do: [ :event | self onFilterTextReplaced: event ]).
+	installedInputTextFieldTextEventHandler do: [ :h |
+		self inputTextField addEventHandler: h ]
 ]
 
 { #category : #initialization }
@@ -102,25 +114,30 @@ ToSelectTextInputElement >> newTextField [
 	textField := ToSelectTextField new
 		             select: select;
 		             yourself.
+	select isSingleSelection ifTrue: [
+		textField withLineWrapping.
+		textField hMatchParent].
 	^ textField
 ]
 
 { #category : #private }
 ToSelectTextInputElement >> onFilterTextReplaced: anEvent [
 
-	"select pattern: self filterString.
+	select dispatchEvent: ToSelectInputTextFieldUpdatedEvent new.
+	select pattern: self filterString.
 	select isMultipleSelection
 		ifTrue: [ self checkMultipleSelectPlaceholderText ]
-		ifFalse: [ self checkSingleSelectPlaceholderText ]"
+		ifFalse: [ self checkSingleSelectPlaceholderText ]
 ]
 
 { #category : #private }
 ToSelectTextInputElement >> onFilterTextUpdated: anEvent [
 
-	"select pattern: self filterString.
+	select dispatchEvent: ToSelectInputTextFieldUpdatedEvent new.
+	select pattern: self filterString.
 	select isMultipleSelection
 		ifTrue: [ self checkMultipleSelectPlaceholderText ]
-		ifFalse: [ self checkSingleSelectPlaceholderText ]"
+		ifFalse: [ self checkSingleSelectPlaceholderText ]
 ]
 
 { #category : #'api - hooks' }
@@ -129,47 +146,17 @@ ToSelectTextInputElement >> onInstalledIn: aSelect [
 	select := aSelect.
 	selectedDataTextField := self newTextField.
 	selectedDataTextField beReadonlyWithSelection.
-	selectedDataTextField fitContent.
-	selectedDataTextField text: select placeholderText.
-	inputTextField := self newInputTextField.
-	inputTextField fitContent.
-	aSelect isMultipleSelection ifFalse: [
-		self hMatchParent.
-		inputTextField withLineWrapping.
-		selectedDataTextField withLineWrapping.
-		inputTextField hMatchParent.
-		selectedDataTextField hMatchParent ].
-	aSelect isFiltrable ifFalse: [ inputTextField beReadonlyWithoutSelection ].
-	" the id is set here to avoid that a fake node with a text field with the same id "
+	inputTextField := self newTextField.
 	selectedDataTextField id: #selectedDataTextField.
+	inputTextField id: #inputTextField.
 	self addChild: selectedDataTextField.
 	self addChild: inputTextField.
-	inputTextField 	addEventHandler: (BlEventHandler
+	select isFiltrable
+		ifTrue: [ self beEditable ]
+		ifFalse: [ self beReadonly ].
+	inputTextField addEventHandler: (BlEventHandler
 			 on: BlMouseDownEvent
 			 do: [ :event | self select windowManager popupWindowEvent: event ])
-]
-
-{ #category : #private }
-ToSelectTextInputElement >> onMultipleSelectDataNodeListChanged [
-
-	self checkMultipleSelectPlaceholderText
-]
-
-{ #category : #placeholder }
-ToSelectTextInputElement >> onSelectPlaceholderTextChanged [
-
-	(self selectedDataTextField notNil and: [
-		 select selectedData isEmpty ]) ifTrue: [
-		self selectedDataTextField text: select placeholderText ]
-]
-
-{ #category : #private }
-ToSelectTextInputElement >> onSingleSelectDataChanged [
-
-	self inputTextField text: ''.
-	select selectedData
-		ifEmpty: [ self selectedDataTextField text: select placeholderText ]
-		ifNotEmpty: [ :l | self selectedDataTextField text: l first asString ]
 ]
 
 { #category : #'api - hooks' }
@@ -206,4 +193,22 @@ ToSelectTextInputElement >> select [
 ToSelectTextInputElement >> selectedDataTextField [
 
 	^ selectedDataTextField
+]
+
+{ #category : #initialization }
+ToSelectTextInputElement >> uninstallInputTestFieldShortcuts [
+
+	installedInputTextFieldShortcuts ifNil: [ ^ self ].
+	installedInputTextFieldShortcuts do: [ :sc |
+		self inputTextField removeEditorShortcut: sc ].
+	installedInputTextFieldShortcuts := nil
+]
+
+{ #category : #initialization }
+ToSelectTextInputElement >> uninstallInputTextFieldEventHandlers [
+
+	installedInputTextFieldTextEventHandler ifNil: [ ^ self ].
+	installedInputTextFieldTextEventHandler do: [ :h |
+		self inputTextField removeEventHandler: h ].
+	installedInputTextFieldTextEventHandler := nil
 ]

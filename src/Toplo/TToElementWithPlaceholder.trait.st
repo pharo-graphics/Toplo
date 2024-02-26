@@ -10,12 +10,26 @@ TToElementWithPlaceholder >> currentPlaceholderLayer [
 ]
 
 { #category : #'t - element with placeholder' }
+TToElementWithPlaceholder >> hasPlaceholderMinHeight [
+
+	^ self userData includesKey: #placeholderMinHeight
+]
+
+{ #category : #'t - element with placeholder' }
+TToElementWithPlaceholder >> hasPlaceholderMinWidth [
+
+	^ self userData includesKey: #placeholderMinWidth
+]
+
+{ #category : #'t - element with placeholder' }
 TToElementWithPlaceholder >> hidePlaceholder [
 
 	self currentPlaceholderLayer ifNil: [ ^ self ].
 	self currentPlaceholderLayer detach.
 	self removeChild: self currentPlaceholderLayer.
-	self dispatchEvent: ToPlaceholderRemovedEvent new.
+	self dispatchEvent: (ToPlaceholderHiddenEvent new
+			 placeholder: self currentPlaceholderLayer;
+			 yourself).
 	self userData removeKey: #currentPlaceholderLayer
 ]
 
@@ -62,6 +76,42 @@ TToElementWithPlaceholder >> placeholderElevation [
 ]
 
 { #category : #'t - element with placeholder' }
+TToElementWithPlaceholder >> placeholderEventHandler [
+
+	^ self userData at: #placeholderEventHandler ifAbsent: [  ]
+]
+
+{ #category : #'t - element with placeholder' }
+TToElementWithPlaceholder >> placeholderEventHandler: anEventHandler [
+
+	^ self userData at: #placeholderEventHandler put: anEventHandler
+]
+
+{ #category : #'t - element with placeholder' }
+TToElementWithPlaceholder >> placeholderMinHeight [
+
+	^ self userData at: #placeholderMinHeight ifAbsent: [ 0 ]
+]
+
+{ #category : #'t - element with placeholder' }
+TToElementWithPlaceholder >> placeholderMinHeight: aNumber [
+
+	^ self userData at: #placeholderMinHeight put: aNumber
+]
+
+{ #category : #'t - element with placeholder' }
+TToElementWithPlaceholder >> placeholderMinWidth [
+
+	^ self userData at: #placeholderMinWidth ifAbsent: [ 0 ]
+]
+
+{ #category : #'t - element with placeholder' }
+TToElementWithPlaceholder >> placeholderMinWidth: aNumber [
+
+	^ self userData at: #placeholderMinWidth put: aNumber
+]
+
+{ #category : #'t - element with placeholder' }
 TToElementWithPlaceholder >> placeholderText: aText [
 	"Syntaxic sugar to set a string has a placeholder message"
 
@@ -90,8 +140,15 @@ TToElementWithPlaceholder >> rawPlaceholderBuilder: aValuable [
 	aValuable ifNil: [
 		self isShowingPlaceholder ifTrue: [ self hidePlaceholder ].
 		self userData removeKey: #placeholderBuilder ifAbsent: [  ].
+		self placeholderEventHandler ifNotNil: [ :handler |
+			self removeEventHandler: handler.
+			self placeholderEventHandler: nil ].
 		^ self ].
-	self userData at: #placeholderBuilder put: aValuable
+	self userData at: #placeholderBuilder put: aValuable.
+	aValuable ifNotNil: [
+		self placeholderEventHandler:
+			ToElementWithPlaceholderEventHandler new.
+		self addEventHandler: self placeholderEventHandler ]
 ]
 
 { #category : #'t - element with placeholder' }
@@ -106,5 +163,7 @@ TToElementWithPlaceholder >> showPlaceholder [
 		ph attachTo: self.
 		ph elevation: self placeholderElevation.
 		self addChild: ph.
-		self dispatchEvent: ToPlaceholderAddedEvent new ]
+		self dispatchEvent: (ToPlaceholderShownEvent new
+				 placeholder: ph;
+				 yourself) ]
 ]

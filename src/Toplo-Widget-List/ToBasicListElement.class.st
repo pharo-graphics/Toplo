@@ -4,10 +4,10 @@ Class {
 	#traits : 'TToListElementDecorator + TToElementWithPlaceholder',
 	#classTraits : 'TToListElementDecorator classTrait + TToElementWithPlaceholder classTrait',
 	#instVars : [
-		'selectionElements',
 		'selectionModel',
 		'selectionMode',
-		'sharedDistributors'
+		'sharedEventDistributors',
+		'installedSelectionModeShortcuts'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -22,6 +22,15 @@ ToBasicListElement >> beHorizontal [
 ToBasicListElement >> beVertical [
 
 	self infinite layout beVertical
+]
+
+{ #category : #accessing }
+ToBasicListElement >> contextMenuSelectionElements [
+
+	^ Array streamContents: [ :stream |
+		  self childrenDo: [ :child |
+			  (child isKindOf: ToListContextMenuSelectionElement) ifTrue: [
+				  stream nextPut: child ] ] ]
 ]
 
 { #category : #accessing }
@@ -67,7 +76,9 @@ ToBasicListElement >> defaultLayout [
 { #category : #initialization }
 ToBasicListElement >> defaultSelectionMode [
 
-	^ ToListMultiSelectionMode new.
+	^ ToListMultipleSelectionMode new operator:
+		  (ToPrimarySelectionModelOperator new selectionModel:
+			   self selectionModel)
 ]
 
 { #category : #orientation }
@@ -80,8 +91,7 @@ ToBasicListElement >> horizontal: aBoolean [
 ToBasicListElement >> infiniteSharedEvents [
 
 	^ {
-		  BlInfiniteDataSourceItemRangeInserted.
-		  BlInfiniteDataSourceItemRangeRemoved.
+		  BlInfiniteDataSourceEvent.
 		  BlInfiniteElementAttachedEvent.
 		  BlInfiniteElementDetachedEvent.
 		  BlElementScrolledEvent }
@@ -96,8 +106,6 @@ ToBasicListElement >> initialize [
 	self next elevation: (BlRelativeElevation elevation: 10).
 
 	self selectionModel: self newSelectionModel.
-	
-	selectionElements := #(  ).
 	self layout: self defaultLayout.
 	
 	self selectionMode: self defaultSelectionMode.
@@ -106,7 +114,7 @@ ToBasicListElement >> initialize [
 
 	self addChild: self next.
 	self contextMenuWindowManagerClass: ToListElementContextMenuWindowManager.
-	self addEventHandler: ToListSelectionElementEventHandler new.
+	self addEventHandler: ToListPrimarySelectionElementEventHandler new.
 	self addEventHandler: ToListElementContextMenuSelectionEventHandler new.
 	self addEventHandler: ToCommandEventHandler new.
 	self matchParent
@@ -125,15 +133,27 @@ ToBasicListElement >> installSharedEventDistributors [
 	infiniteSharedHandler := BlSharedEventDistributor new
 		                         shareEvents: self infiniteSharedEvents;
 		                         yourself.
-	sharedDistributors := { infiniteSharedHandler }.
-	sharedDistributors do: [ :handler | self addEventHandler: handler ].
+	sharedEventDistributors := { infiniteSharedHandler }.
+	sharedEventDistributors do: [ :handler | self addEventHandler: handler ].
 	self infinite addEventHandler: infiniteSharedHandler
+]
+
+{ #category : #'accessing - shortcuts' }
+ToBasicListElement >> installedSelectionModeShortcuts [
+
+	^ installedSelectionModeShortcuts
 ]
 
 { #category : #orientation }
 ToBasicListElement >> isHorizontal [
 
 	^ self infinite layout isHorizontal
+]
+
+{ #category : #testing }
+ToBasicListElement >> isMultipleSelection [
+
+	^ self selectionMode isMultipleSelection
 ]
 
 { #category : #orientation }
@@ -157,15 +177,27 @@ ToBasicListElement >> newSelectionModel [
 ]
 
 { #category : #'event firing' }
-ToBasicListElement >> notifySelectionChanged: aSelectionChangedEvent [
+ToBasicListElement >> notifyDataSourceItemsChanged: aDataSourceEvent [
 
 	| preNotification |
-	preNotification := ToListSelectionChangePreNotificationEvent new
-		                   selectionChangedEvent: aSelectionChangedEvent;
+	preNotification := ToListDataSourceItemsChangePreNotificationEvent new
+		                   sourceEvent: aDataSourceEvent;
 		                   yourself.
 	self dispatchEvent: preNotification.
-	preNotification selectionChangedEvent ifNil: [ ^ self ].
-	self dispatchEvent: preNotification selectionChangedEvent
+	preNotification sourceEvent ifNil: [ ^ self ].
+	self dispatchEvent: preNotification sourceEvent
+]
+
+{ #category : #'event firing' }
+ToBasicListElement >> notifyPrimarySelectionChanged: aSelectionChangedEvent [
+
+	| preNotification |
+	preNotification := ToListPrimarySelectionChangePreNotificationEvent new
+		                   sourceEvent: aSelectionChangedEvent;
+		                   yourself.
+	self dispatchEvent: preNotification.
+	preNotification sourceEvent ifNil: [ ^ self ].
+	self dispatchEvent: preNotification sourceEvent
 ]
 
 { #category : #'t - element with placeholder' }
@@ -175,21 +207,27 @@ ToBasicListElement >> placeholderElevation [
 ]
 
 { #category : #accessing }
+ToBasicListElement >> primarySelectionElements [
+
+	^ Array streamContents: [ :stream |
+		  self childrenDo: [ :child |
+			  (child isKindOf: ToListPrimarySelectionElement) ifTrue: [
+				  stream nextPut: child ] ] ]
+]
+
+{ #category : #accessing }
+ToBasicListElement >> secondarySelectionElements [
+
+	^ Array streamContents: [ :stream |
+		  self childrenDo: [ :child |
+			  (child isKindOf: ToListSecondarySelectionElement) ifTrue: [
+				  stream nextPut: child ] ] ]
+]
+
+{ #category : #accessing }
 ToBasicListElement >> selecter [ 
 
 	^ self selectionMode selecter
-]
-
-{ #category : #accessing }
-ToBasicListElement >> selectionElements [
-
-	^ selectionElements
-]
-
-{ #category : #accessing }
-ToBasicListElement >> selectionElements: aListElementSelectionCollection [
-
-	selectionElements := aListElementSelectionCollection
 ]
 
 { #category : #accessing }
@@ -199,12 +237,18 @@ ToBasicListElement >> selectionMode [
 ]
 
 { #category : #accessing }
-ToBasicListElement >> selectionMode: aSelectionManager [
+ToBasicListElement >> selectionMode: aSelectionMode [
 
-	selectionMode ifNotNil: [ selectionMode onUninstalledIn: self ].
-	selectionMode := aSelectionManager.
-	selectionMode ifNotNil: [ selectionMode onInstalledIn: self ].
-	self dispatchEvent: ToListSelectionModeChangedEvent new
+	selectionMode ifNotNil: [
+		selectionMode onUninstalledIn: self.
+		installedSelectionModeShortcuts do: [ :s | self removeShortcut: s ].
+		installedSelectionModeShortcuts := #(  ) ].
+	selectionMode := aSelectionMode.
+	selectionMode ifNotNil: [
+		selectionMode onInstalledIn: self.
+		installedSelectionModeShortcuts := selectionMode shortcutsIn: self.
+		installedSelectionModeShortcuts do: [ :s | self addShortcut: s ] ].
+	self dispatchEvent: ToListPrimarySelectionModeChangedEvent new
 ]
 
 { #category : #accessing }
@@ -225,13 +269,13 @@ ToBasicListElement >> selectionModel: aSelectionModel [
 ToBasicListElement >> uninstallSharedEventDistributors [
 	" see installSharedEventDistributor "
 
-	sharedDistributors ifNil: [ ^ self ].
+	sharedEventDistributors ifNil: [ ^ self ].
 
-	sharedDistributors do: [ :handler |
+	sharedEventDistributors do: [ :handler |
 		self removeEventHandler: handler.
 		self infinite removeEventHandlersSuchThat: [ :h | handler = h ] ].
 
-	sharedDistributors := nil
+	sharedEventDistributors := nil
 ]
 
 { #category : #orientation }

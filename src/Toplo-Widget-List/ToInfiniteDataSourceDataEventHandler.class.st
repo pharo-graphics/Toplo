@@ -35,6 +35,13 @@ ToInfiniteDataSourceDataEventHandler >> collectionRemoveEvent: anEvent [
 ]
 
 { #category : #'data events handling' }
+ToInfiniteDataSourceDataEventHandler >> collectionUpdateAllEvent: anEvent [
+
+	infinite dataSource notifyItemsInserted: anEvent interval
+	
+]
+
+{ #category : #'data events handling' }
 ToInfiniteDataSourceDataEventHandler >> collectionUpdateEvent: anEvent [
 
 	infinite dataSource notifyItemsChanged: anEvent interval

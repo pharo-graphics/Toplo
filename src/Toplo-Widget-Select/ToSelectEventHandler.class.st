@@ -5,6 +5,22 @@ Class {
 }
 
 { #category : #'element handlers' }
+ToSelectEventHandler >> collectionFilteredEvent: anEvent [
+
+	| select |
+	select := windowManager element.
+	windowManager currentWindow ifNil: [
+		select strategy textInputElement filterString ifNotEmpty: [
+			select popupWindowEvent: anEvent ] ]
+]
+
+{ #category : #'element handlers' }
+ToSelectEventHandler >> elementAddedToSceneGraphEvent: anEvent [
+
+	self showHidePlaceholderIn: anEvent currentTarget
+]
+
+{ #category : #'element handlers' }
 ToSelectEventHandler >> elementExtentChangedEvent: anEvent [
 
 	windowManager currentWindow ifNil: [ ^ self ].
@@ -15,5 +31,31 @@ ToSelectEventHandler >> elementExtentChangedEvent: anEvent [
 { #category : #'api - accessing' }
 ToSelectEventHandler >> eventsToHandle [
 
-	^ super eventsToHandle , { BlElementExtentChangedEvent }
+	^ super eventsToHandle , {
+		  BlElementAddedToSceneGraphEvent.
+		  ToSelectListSelectionChanged.
+		  ToCollectionFilteredEvent.
+		  BlElementExtentChangedEvent.
+		  ToSelectInputTextFieldUpdatedEvent }
+]
+
+{ #category : #'element handlers' }
+ToSelectEventHandler >> selectInputTextFieldUpdatedEvent: anEvent [
+
+	self showHidePlaceholderIn: anEvent currentTarget
+]
+
+{ #category : #'element handlers' }
+ToSelectEventHandler >> selectListSelectionChanged: anEvent [
+
+	self showHidePlaceholderIn: anEvent currentTarget
+]
+
+{ #category : #'element handlers' }
+ToSelectEventHandler >> showHidePlaceholderIn: aSelect [
+
+	aSelect selectionModel ifEmpty: [
+		aSelect inputTextField text ifEmpty: [
+			^ aSelect headerElement showPlaceholder ] ].
+	aSelect headerElement hidePlaceholder
 ]

@@ -120,6 +120,13 @@ ToBasicListElement >> initialize [
 	self matchParent
 ]
 
+{ #category : #accessing }
+ToBasicListElement >> installSelectionModeShortcuts [
+
+	installedSelectionModeShortcuts := selectionMode shortcutsIn: self.
+	installedSelectionModeShortcuts do: [ :s | self addShortcut: s ]
+]
+
 { #category : #initialization }
 ToBasicListElement >> installSharedEventDistributors [
 	"installs shared event distributors between the list element, the selection strategy,
@@ -200,6 +207,12 @@ ToBasicListElement >> notifyPrimarySelectionChanged: aSelectionChangedEvent [
 	self dispatchEvent: preNotification sourceEvent
 ]
 
+{ #category : #'event firing' }
+ToBasicListElement >> notifySecondarySelectionChanged: aSelectionChangedEvent [
+
+	self dispatchEvent: aSelectionChangedEvent
+]
+
 { #category : #'t - element with placeholder' }
 ToBasicListElement >> placeholderElevation [
 
@@ -241,13 +254,11 @@ ToBasicListElement >> selectionMode: aSelectionMode [
 
 	selectionMode ifNotNil: [
 		selectionMode onUninstalledIn: self.
-		installedSelectionModeShortcuts do: [ :s | self removeShortcut: s ].
-		installedSelectionModeShortcuts := #(  ) ].
+		self uninstallSelectionModeShortcuts ].
 	selectionMode := aSelectionMode.
 	selectionMode ifNotNil: [
 		selectionMode onInstalledIn: self.
-		installedSelectionModeShortcuts := selectionMode shortcutsIn: self.
-		installedSelectionModeShortcuts do: [ :s | self addShortcut: s ] ].
+		self installSelectionModeShortcuts ].
 	self dispatchEvent: ToListPrimarySelectionModeChangedEvent new
 ]
 
@@ -263,6 +274,13 @@ ToBasicListElement >> selectionModel: aSelectionModel [
 	selectionModel ifNotNil: [ selectionModel onUninstalledIn: self ].
 	selectionModel := aSelectionModel.
 	selectionModel ifNotNil: [selectionModel onInstalledIn: self ]
+]
+
+{ #category : #accessing }
+ToBasicListElement >> uninstallSelectionModeShortcuts [
+
+	installedSelectionModeShortcuts do: [ :s | self removeShortcut: s ].
+	installedSelectionModeShortcuts := #(  )
 ]
 
 { #category : #initialization }

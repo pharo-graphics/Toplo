@@ -113,6 +113,7 @@ ToMultipleSelectStrategy >> onInstalledIn: aSelect [
 	aSelect listElement selectionMode:
 		(ToListMultipleSelectionMode new operator:
 			 (ToPrimarySelectionModelOperator new selectionModel: aSelect listElement selectionModel)).
+	aSelect listElement uninstallSelectionModeShortcuts.
 	super onInstalledIn: aSelect
 ]
 

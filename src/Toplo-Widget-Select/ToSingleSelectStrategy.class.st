@@ -38,18 +38,13 @@ ToSingleSelectStrategy >> headerNodeContainerLayout [
 	^ BlFrameLayout new
 ]
 
-{ #category : #accessing }
-ToSingleSelectStrategy >> inputTextField [
-
-	^ self textInputElement inputTextField
-]
-
 { #category : #'api - hooks' }
 ToSingleSelectStrategy >> onInstalledIn: aSelect [
 
 	aSelect listElement selectionMode:
 		(ToListSingleSelectionMode new operator:
 			 (ToPrimarySelectionModelOperator new selectionModel: aSelect listElement selectionModel)).
+	aSelect listElement uninstallSelectionModeShortcuts.
 	super onInstalledIn: aSelect
 ]
 
@@ -58,8 +53,9 @@ ToSingleSelectStrategy >> onUninstalledIn: aSelect [
 
 	headerNode onUninstalledIn: aSelect.
 	headerNode removeFromParent.
+	super onUninstalledIn: aSelect.
 	headerNode := nil.
-	super onUninstalledIn: aSelect
+
 
 ]
 
@@ -93,12 +89,6 @@ ToSingleSelectStrategy >> refreshInputTextElementWithSelectedData: aData [
 		self inputTextField text: '' ].
 	self selectedDataTextField text:
 				 (aData ifNil: [ '' ] ifNotNil: [ :d | d asString ])
-]
-
-{ #category : #accessing }
-ToSingleSelectStrategy >> selectedDataTextField [
-
-	^ self textInputElement selectedDataTextField
 ]
 
 { #category : #accessing }

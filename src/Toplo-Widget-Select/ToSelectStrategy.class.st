@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'select',
 		'headerNodeBuilder',
-		'headerNodeClass'
+		'headerNodeClass',
+		'installedSelectionModeShortcuts'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -108,6 +109,12 @@ ToSelectStrategy >> initializeFakeNode [
 	select headerNodeContainer addChild: fakeNode
 ]
 
+{ #category : #accessing }
+ToSelectStrategy >> inputTextField [
+
+	^ self textInputElement inputTextField
+]
+
 { #category : #testing }
 ToSelectStrategy >> isMultipleSelection [
 
@@ -158,14 +165,26 @@ ToSelectStrategy >> onInstalledIn: aSelect [
 	self refreshHeaderNodeContainer.
 	aSelect listElement selectionMode selectOnMouseDown: true.
 	aSelect listElement selectionMode requestFocusOnMouseDown: false.
-
+	installedSelectionModeShortcuts := select listElement
+		                                   secondarySelectionMode
+		                                   shortcutsIn: self.
+	aSelect isFiltrable
+		ifTrue: [
+			installedSelectionModeShortcuts do: [ :s |
+				self inputTextField addEditorShortcut: s ] ]
+		ifFalse: [
+		installedSelectionModeShortcuts do: [ :s | select addShortcut: s ] ]
 ]
 
 { #category : #'api - hooks' }
 ToSelectStrategy >> onUninstalledIn: aSelect [
 
 
+	aSelect isFiltrable 
+		ifTrue: [ installedSelectionModeShortcuts do: [ :s | self inputTextField removeEditorShortcut: s ] ] 
+		ifFalse: [ installedSelectionModeShortcuts do: [ :s | select removeShortcut: s ] ].
 	select headerElement removeChild: select headerNodeContainer.
+
 	select := nil
 ]
 
@@ -200,6 +219,12 @@ ToSelectStrategy >> refreshHeaderNodeContainer [
 ToSelectStrategy >> select: aSelect [
 
 	select := aSelect
+]
+
+{ #category : #accessing }
+ToSelectStrategy >> selectedDataTextField [
+
+	^ self textInputElement selectedDataTextField
 ]
 
 { #category : #accessing }

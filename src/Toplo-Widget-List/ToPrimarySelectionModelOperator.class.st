@@ -1,6 +1,9 @@
 Class {
 	#name : #ToPrimarySelectionModelOperator,
 	#superclass : #ToSelectionModelOperator,
+	#instVars : [
+		'previousModel'
+	],
 	#category : #'Toplo-Widget-List-Command-Selection'
 }
 

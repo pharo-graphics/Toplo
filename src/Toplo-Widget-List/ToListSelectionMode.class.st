@@ -76,13 +76,13 @@ ToListSelectionMode >> shortcutsIn: anElement [
 			   action: [ :aShortcutEvent :aShortcut |
 				   | idx |
 				   idx := self selecter nextSelectableIndex.
-				   self selecter selectOnlyIndex: idx.
-				   self selecter scrollToIndex: idx ]).
+				   self selecter scrollToIndex: idx.
+				   self selecter selectOnlyIndex: idx ]).
 		  (BlShortcutWithAction new
 			   combination: BlKeyCombination builder arrowUp build;
 			   action: [ :aShortcutEvent :aShortcut |
 				   | idx |
 				   idx := self selecter previousSelectableIndex.
-				   self selecter selectOnlyIndex: idx.
-				   self selecter scrollToIndex: idx ]) }
+				   self selecter scrollToIndex: idx.
+				   self selecter selectOnlyIndex: idx ]) }
 ]

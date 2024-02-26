@@ -131,18 +131,20 @@ ToSelect >> initialize [
 	super initialize.
 
 	data := ToObservableCollection new.
-
+	
 	" for the popup "
 	windowManager := self newWindowManager.
-	data addEventHandler: (ToObservableCollectionMirrorUpdater new mirror: windowManager listElement dataAccessor).
+	data addEventHandler:
+		(ToObservableCollectionMirrorUpdater new mirror:
+			 windowManager listElement dataAccessor).
 	selectionModel := self listElement newSelectionModel.
-
-	" the element that holds the node container" 
+	
+	" the element that holds the node container"
 	headerElement := self newHeaderElement.
 	self addChild: headerElement.
 	self addChild: self newIconContainer.
-	
-	filtrable := false.
+
+	filtrable := true.
 	strategy := ToSingleSelectStrategy new.
 	strategy onInstalledIn: self.
 

@@ -10,7 +10,7 @@ Class {
 { #category : #hook }
 ToListScrollCommand >> applyOn: anObject for: aTarget [
 
-	aTarget scrollToIndex: self index
+	anObject listScrollCommand: self for: aTarget
 ]
 
 { #category : #accessing }

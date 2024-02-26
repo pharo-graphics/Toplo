@@ -180,7 +180,9 @@ ToSelectTextInputElement >> onWindowOpened [
 
 	select isMultipleSelection ifFalse: [
 		self selectedDataTextField text foreground: Color lightGray ].
-	select isFiltrable ifTrue: [ self inputTextField requestFocus ]
+	select isFiltrable
+		ifTrue: [ self inputTextField requestFocus ]
+		ifFalse: [ select requestFocus ]
 ]
 
 { #category : #accessing }

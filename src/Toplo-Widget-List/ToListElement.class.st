@@ -43,6 +43,12 @@ ToListElement >> defaultInfiniteElement [
 ]
 
 { #category : #initialization }
+ToListElement >> defaultSecondarySelectionEventHandler [
+
+	^ ToListSecondarySelectionElementEventHandler new
+]
+
+{ #category : #initialization }
 ToListElement >> defaultSecondarySelectionMode [
 
 	^ ToListMultipleSelectionMode new operator:
@@ -62,7 +68,7 @@ ToListElement >> initialize [
 	super initialize.
 	self secondarySelectionModel: self newSelectionModel.
 	self secondarySelectionMode: self defaultSecondarySelectionMode.
-	self addEventHandler: ToListSecondarySelectionElementEventHandler new
+	self addEventHandler: self defaultSecondarySelectionEventHandler 
 ]
 
 { #category : #skin }

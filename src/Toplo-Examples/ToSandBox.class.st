@@ -1225,6 +1225,7 @@ ToSandBox class >> example_SelectMonoNotFiltrable [
 		node addChild: (ToLabel text: holder dataItem asString) hMatchParent ].
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
+	select listElement withRowNumbers.
 	select width: 300.
 	select position: 50 @ 50.
 	innerWindow pane addChild: select.
@@ -2560,7 +2561,7 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWithAllClassNames [
 
 	| select innerWindow space |
 	select := self selectWithEditingMultiSelection.
-	select filtrable: true.
+	select filtrable: false.
 	select strategy: ToMultipleSelectStrategy new.
 	
 	innerWindow := ToInnerWindow new.

@@ -267,12 +267,6 @@ ToBasicListElement >> selectionModel: aSelectionModel [
 	selectionModel ifNotNil: [selectionModel onInstalledIn: self ]
 ]
 
-{ #category : #accessing }
-ToBasicListElement >> shortcutsToInstall [ 
-
-	^ #(  )
-]
-
 { #category : #initialization }
 ToBasicListElement >> uninstallSharedEventDistributors [
 	" see installSharedEventDistributor "

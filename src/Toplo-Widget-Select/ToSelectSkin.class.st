@@ -21,20 +21,9 @@ ToSelectSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		self installShortcutsIn: e.
+		e shortcuts: (self shortcutsToInstallIn: e).
+		e installShortcuts.
 		e icon: (ToImage inner: (self iconNamed: #bottom)) ]
-]
-
-{ #category : #'accessing - shortcuts' }
-ToSelectSkin >> installShortcutsIn: aSelect [
-
-	installedShortcuts := self shortcutsToInstallIn: aSelect.
-	filtrable := aSelect isFiltrable.
-	filtrable ifTrue: [
-		installedShortcuts do: [ :sc |
-			aSelect inputTextField addEditorShortcut: sc ].
-		^ self ].
-	installedShortcuts do: [ :sc | aSelect addShortcut: sc ]
 ]
 
 { #category : #'accessing - shortcuts' }
@@ -90,16 +79,6 @@ ToSelectSkin >> uninstallLookEvent: anEvent [
 
 	super uninstallLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		self uninstallShortcutsIn: e.
+		e uninstallShortcuts.
 		e icon: nil ]
-]
-
-{ #category : #'accessing - shortcuts' }
-ToSelectSkin >> uninstallShortcutsIn: aSelect [
-
-	filtrable ifTrue: [
-		installedShortcuts do: [ :sc |
-			aSelect inputTextField removeEditorShortcut: sc ].
-		^ self ].
-	installedShortcuts do: [ :sc | aSelect removeShortcut: sc ]
 ]

@@ -231,6 +231,12 @@ ToSelect >> newRawSkin [
 	^ ToSelectSkin new
 ]
 
+{ #category : #'instance creation' }
+ToSelect >> newShortcutsStore [ 
+
+	^ ToSelectShortcutsStore new
+]
+
 { #category : #initialization }
 ToSelect >> newWindowManager [
 

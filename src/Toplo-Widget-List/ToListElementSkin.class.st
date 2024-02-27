@@ -11,14 +11,9 @@ Class {
 ToListElementSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
-	anEvent elementDo: [ :e | self installShortcutsIn: e ]
-]
-
-{ #category : #'accessing - shortcuts' }
-ToListElementSkin >> installShortcutsIn: aListElement [
-
-	installedShortcuts := self shortcutsToInstallIn: aListElement.
-	installedShortcuts do: [ :sc | aListElement addShortcut: sc ]
+	anEvent elementDo: [ :e | 
+		e shortcuts: (self shortcutsToInstallIn: e).
+		e installShortcuts ]
 ]
 
 { #category : #'accessing - shortcuts' }
@@ -70,11 +65,5 @@ ToListElementSkin >> shortcutsToInstallIn: aListElement [
 ToListElementSkin >> uninstallLookEvent: anEvent [
 
 	super uninstallLookEvent: anEvent.
-	anEvent elementDo: [ :e | self uninstallShortcutsIn: e ]
-]
-
-{ #category : #'accessing - shortcuts' }
-ToListElementSkin >> uninstallShortcutsIn: aListElement [
-
-	installedShortcuts do: [ :sc | aListElement removeShortcut: sc ]
+	anEvent elementDo: [ :e | e uninstallShortcuts ]
 ]

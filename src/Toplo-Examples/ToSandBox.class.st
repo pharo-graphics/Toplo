@@ -2561,7 +2561,7 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWithAllClassNames [
 
 	| select innerWindow space |
 	select := self selectWithEditingMultiSelection.
-	select filtrable: false.
+	select filtrable: true.
 	select strategy: ToMultipleSelectStrategy new.
 	
 	innerWindow := ToInnerWindow new.

@@ -89,12 +89,11 @@ ToSelectWindowManager >> newListElement [
 	| newListElement |
 	newListElement := ToSelectListElement new.
 	newListElement nodeClass: ToSelectListNode.
-	newListElement maxHeight: self defaultMaxHeight .
-	newListElement minHeight: self defaultMinHeight.
-	"newListElement infinite vFitContent.
+	newListElement infinite maxHeight: self defaultMaxHeight .
+	newListElement infinite minHeight: self defaultMinHeight.
+	newListElement infinite vFitContent.
 	newListElement vFitContent.
-	newListElement hMatchParent."
-	newListElement infinite height: self defaultMaxHeight.
+	newListElement hMatchParent.
 	^ newListElement
 ]
 

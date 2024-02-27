@@ -68,7 +68,7 @@ ToListElement >> initialize [
 	super initialize.
 	self secondarySelectionModel: self newSelectionModel.
 	self secondarySelectionMode: self defaultSecondarySelectionMode.
-	self addEventHandler: self defaultSecondarySelectionEventHandler 
+	self addEventHandler: self defaultSecondarySelectionEventHandler
 ]
 
 { #category : #skin }
@@ -120,4 +120,46 @@ ToListElement >> selectionStrategy [
 		transformWith: '`@receiver selectionStrategy' -> '`@receiver selecter'.
 
 	^ self selecter
+]
+
+{ #category : #accessing }
+ToListElement >> shortcutsToInstall [
+
+	^ Array streamContents: [ :stream |
+		  stream nextPutAll: super shortcutsToInstall.
+		
+		  stream nextPut: (BlShortcutWithAction new
+				   combination: BlKeyCombination builder arrowDown build;
+				   action: [ :aShortcutEvent :aShortcut |
+					   | idx |
+					   idx := self selecter nextSelectableIndex.
+					   self selecter scrollToIndex: idx.
+					   self selecter selectOnlyIndex: idx ]).
+		  stream nextPut: (BlShortcutWithAction new
+				   combination: BlKeyCombination builder arrowUp build;
+				   action: [ :aShortcutEvent :aShortcut |
+					   | idx |
+					   idx := self selecter previousSelectableIndex.
+					   self selecter scrollToIndex: idx.
+					   self selecter selectOnlyIndex: idx ]).
+
+		  self isMultipleSelection ifTrue: [
+			  stream nextPut: (BlShortcutWithAction new
+					   combination: BlKeyCombination primaryA;
+					   action: [ :aShortcutEvent :aShortcut |
+						   self selecter selectAll ]).
+			  stream nextPut: (BlShortcutWithAction new
+					   combination: BlKeyCombination builder shift arrowDown build;
+					   action: [ :aShortcutEvent :aShortcut |
+						   | idx |
+						   idx := self selecter nextDeselectedIndex.
+						   self selecter selectIndex: idx.
+						   self selecter scrollToIndex: idx ]).
+			  stream nextPut: (BlShortcutWithAction new
+					   combination: BlKeyCombination builder shift arrowUp build;
+					   action: [ :aShortcutEvent :aShortcut |
+						   | idx |
+						   idx := self selecter previousDeselectedIndex.
+						   self selecter selectIndex: idx.
+						   self selecter scrollToIndex: idx ]) ] ]
 ]

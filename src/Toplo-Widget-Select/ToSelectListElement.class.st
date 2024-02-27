@@ -9,3 +9,9 @@ ToSelectListElement >> defaultSecondarySelectionEventHandler [
 
 	^ ToSelectSecondarySelectionElementEventHandler new
 ]
+
+{ #category : #skin }
+ToSelectListElement >> newRawSkin [ 
+
+	^ ToBasicListElementSkin new
+]

@@ -44,7 +44,6 @@ ToSingleSelectStrategy >> onInstalledIn: aSelect [
 	aSelect listElement selectionMode:
 		(ToListSingleSelectionMode new operator:
 			 (ToPrimarySelectionModelOperator new selectionModel: aSelect listElement selectionModel)).
-	aSelect listElement uninstallSelectionModeShortcuts.
 	super onInstalledIn: aSelect
 ]
 

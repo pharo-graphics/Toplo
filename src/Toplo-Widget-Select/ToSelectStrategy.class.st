@@ -4,8 +4,7 @@ Class {
 	#instVars : [
 		'select',
 		'headerNodeBuilder',
-		'headerNodeClass',
-		'installedSelectionModeShortcuts'
+		'headerNodeClass'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -164,27 +163,13 @@ ToSelectStrategy >> onInstalledIn: aSelect [
 	self initializeFakeNode.
 	self refreshHeaderNodeContainer.
 	aSelect listElement selectionMode selectOnMouseDown: true.
-	aSelect listElement selectionMode requestFocusOnMouseDown: false.
-	installedSelectionModeShortcuts := select listElement
-		                                   secondarySelectionMode
-		                                   shortcutsIn: self.
-	aSelect isFiltrable
-		ifTrue: [
-			installedSelectionModeShortcuts do: [ :s |
-				self inputTextField addEditorShortcut: s ] ]
-		ifFalse: [
-		installedSelectionModeShortcuts do: [ :s | select addShortcut: s ] ]
+	aSelect listElement selectionMode requestFocusOnMouseDown: false
 ]
 
 { #category : #'api - hooks' }
 ToSelectStrategy >> onUninstalledIn: aSelect [
 
-
-	aSelect isFiltrable 
-		ifTrue: [ installedSelectionModeShortcuts do: [ :s | self inputTextField removeEditorShortcut: s ] ] 
-		ifFalse: [ installedSelectionModeShortcuts do: [ :s | select removeShortcut: s ] ].
 	select headerElement removeChild: select headerNodeContainer.
-
 	select := nil
 ]
 

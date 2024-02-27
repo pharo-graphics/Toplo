@@ -6,8 +6,7 @@ Class {
 	#instVars : [
 		'selectionModel',
 		'selectionMode',
-		'sharedEventDistributors',
-		'installedSelectionModeShortcuts'
+		'sharedEventDistributors'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -120,13 +119,6 @@ ToBasicListElement >> initialize [
 	self matchParent
 ]
 
-{ #category : #accessing }
-ToBasicListElement >> installSelectionModeShortcuts [
-
-	installedSelectionModeShortcuts := selectionMode shortcutsIn: self.
-	installedSelectionModeShortcuts do: [ :s | self addShortcut: s ]
-]
-
 { #category : #initialization }
 ToBasicListElement >> installSharedEventDistributors [
 	"installs shared event distributors between the list element, the selection strategy,
@@ -143,12 +135,6 @@ ToBasicListElement >> installSharedEventDistributors [
 	sharedEventDistributors := { infiniteSharedHandler }.
 	sharedEventDistributors do: [ :handler | self addEventHandler: handler ].
 	self infinite addEventHandler: infiniteSharedHandler
-]
-
-{ #category : #'accessing - shortcuts' }
-ToBasicListElement >> installedSelectionModeShortcuts [
-
-	^ installedSelectionModeShortcuts
 ]
 
 { #category : #orientation }
@@ -173,6 +159,12 @@ ToBasicListElement >> isVertical [
 ToBasicListElement >> itemCount [
 
 	^ self dataSource itemCount
+]
+
+{ #category : #skin }
+ToBasicListElement >> newRawSkin [ 
+
+	^ ToBasicListElementSkin new
 ]
 
 { #category : #initialization }
@@ -253,13 +245,12 @@ ToBasicListElement >> selectionMode [
 ToBasicListElement >> selectionMode: aSelectionMode [
 
 	selectionMode ifNotNil: [
-		selectionMode onUninstalledIn: self.
-		self uninstallSelectionModeShortcuts ].
+		selectionMode onUninstalledIn: self ].
 	selectionMode := aSelectionMode.
 	selectionMode ifNotNil: [
-		selectionMode onInstalledIn: self.
-		self installSelectionModeShortcuts ].
-	self dispatchEvent: ToListPrimarySelectionModeChangedEvent new
+		selectionMode onInstalledIn: self ].
+	self dispatchEvent: ToListPrimarySelectionModeChangedEvent new.
+	self requestNewSkin
 ]
 
 { #category : #accessing }
@@ -277,10 +268,9 @@ ToBasicListElement >> selectionModel: aSelectionModel [
 ]
 
 { #category : #accessing }
-ToBasicListElement >> uninstallSelectionModeShortcuts [
+ToBasicListElement >> shortcutsToInstall [ 
 
-	installedSelectionModeShortcuts do: [ :s | self removeShortcut: s ].
-	installedSelectionModeShortcuts := #(  )
+	^ #(  )
 ]
 
 { #category : #initialization }

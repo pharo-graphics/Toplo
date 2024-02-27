@@ -81,7 +81,8 @@ ToSelect >> filtrable: aBoolean [
 	filtrable := aBoolean.
 	filtrable
 		ifTrue: [ self strategy textInputElement beEditable ]
-		ifFalse: [ self strategy textInputElement beReadonly ]
+		ifFalse: [ self strategy textInputElement beReadonly ].
+	self requestNewSkin
 ]
 
 { #category : #accessing }
@@ -163,7 +164,7 @@ ToSelect >> initialize [
 { #category : #accessing }
 ToSelect >> inputTextField [ 
 
-	^ self strategy textInputElement inputTextField
+	^ self strategy inputTextField
 ]
 
 { #category : #testing }
@@ -203,7 +204,8 @@ ToSelect >> multiSelection: aBoolean [
 	strategy := aBoolean
 		        ifTrue: [ ToMultipleSelectStrategy new ]
 		        ifFalse: [ ToSingleSelectStrategy new ].
-	strategy onInstalledIn: self
+	strategy onInstalledIn: self.
+	self requestNewSkin
 ]
 
 { #category : #initialization }
@@ -330,7 +332,8 @@ ToSelect >> strategy: aToSelectStrategy [
 
 	self strategy ifNotNil: [ self strategy onUninstalledIn: self ].
 	strategy := aToSelectStrategy.
-	strategy onInstalledIn: self
+	strategy onInstalledIn: self.
+	self requestNewSkin
 ]
 
 { #category : #accessing }

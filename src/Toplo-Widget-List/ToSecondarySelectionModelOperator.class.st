@@ -22,6 +22,7 @@ ToSecondarySelectionModelOperator >> listScrollCommand: aCommand for: aTarget [
 	If not done, the wrap-around comme back to the last mouse move event position"
 
 	aTarget spaceDo: [ :sp |
-		sp mouseProcessor lastMouseMoveEvent consumed: true ].
+		sp mouseProcessor lastMouseMoveEvent ifNotNil: [ :e |
+			e consumed: true ] ].
 	super listScrollCommand: aCommand for: aTarget
 ]

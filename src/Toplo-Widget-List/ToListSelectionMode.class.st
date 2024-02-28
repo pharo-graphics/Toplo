@@ -66,23 +66,3 @@ ToListSelectionMode >> preserveSelectionOnFocused: aBoolean [
 
 	preserveSelectionOnFocused := aBoolean
 ]
-
-{ #category : #shortcuts }
-ToListSelectionMode >> shortcutsIn: anElement [
-
-	^ {
-		  (BlShortcutWithAction new
-			   combination: BlKeyCombination builder arrowDown build;
-			   action: [ :aShortcutEvent :aShortcut |
-				   | idx |
-				   idx := self selecter nextSelectableIndex.
-				   self selecter selectOnlyIndex: idx.
-				   self selecter scrollToIndex: idx ]).
-		  (BlShortcutWithAction new
-			   combination: BlKeyCombination builder arrowUp build;
-			   action: [ :aShortcutEvent :aShortcut |
-				   | idx |
-				   idx := self selecter previousSelectableIndex.
-				   self selecter selectOnlyIndex: idx.
-				   self selecter scrollToIndex: idx ]) }
-]

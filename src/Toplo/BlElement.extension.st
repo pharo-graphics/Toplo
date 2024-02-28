@@ -98,6 +98,12 @@ BlElement >> ensureHaveSkinManager [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> ensuredShortcutsStore [
+
+	^ self userData at: #shortcutsStore ifAbsentPut: [ self newShortcutsStore ]
+]
+
+{ #category : #'*Toplo' }
 BlElement >> ensuredSkinManager [
 
 	self ensureHaveSkinManager.
@@ -149,6 +155,12 @@ BlElement >> installRawStyle [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> installShortcuts [
+
+	self shortcutsStoreDo: [ :store | store install ]
+]
+
+{ #category : #'*Toplo' }
 BlElement >> installedSkin [
 
 	self
@@ -188,6 +200,12 @@ BlElement >> localTheme: aTheme [
 BlElement >> newRawSkin [
 
 	^  ToRawSkin new
+]
+
+{ #category : #'*Toplo' }
+BlElement >> newShortcutsStore [
+
+	^ ToShortcutsStore new
 ]
 
 { #category : #'*Toplo' }
@@ -238,6 +256,26 @@ BlElement >> requestUninstallSkin [
 		transformWith: '`@receiver requestUninstallSkin' -> '`@receiver skinManagerDo: [ :sm | sm requestUninstallSkinIn: `@receiver ]'.
 
 	self skinManagerDo: [ :sm | sm requestUninstallSkinIn: self ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> shortcut: aShortcut [
+
+	self ensuredShortcutsStore shortcut: aShortcut in: self
+]
+
+{ #category : #'*Toplo' }
+BlElement >> shortcuts: aShortcutCollection [
+
+	aShortcutCollection do: [ :sc |
+		self ensuredShortcutsStore shortcut: sc in: self ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> shortcutsStoreDo: aValuable [
+
+	self userData at: #shortcutsStore ifPresent: [ :store | aValuable value: store ].
+	
 ]
 
 { #category : #'*Toplo' }
@@ -416,6 +454,12 @@ BlElement >> tokenValueNamed: aSymbol [
 { #category : #'*Toplo' }
 BlElement >> uninstallRawStyle [
 
+]
+
+{ #category : #'*Toplo' }
+BlElement >> uninstallShortcuts [
+
+	self shortcutsStoreDo: [ :store | store uninstall ]
 ]
 
 { #category : #'*Toplo' }

@@ -2,7 +2,8 @@ Class {
 	#name : #ToSingleSelectStrategy,
 	#superclass : #ToSelectStrategy,
 	#instVars : [
-		'headerNode'
+		'headerNode',
+		'refreshInputTextTask'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -38,12 +39,6 @@ ToSingleSelectStrategy >> headerNodeContainerLayout [
 	^ BlFrameLayout new
 ]
 
-{ #category : #accessing }
-ToSingleSelectStrategy >> inputTextField [
-
-	^ self textInputElement inputTextField
-]
-
 { #category : #'api - hooks' }
 ToSingleSelectStrategy >> onInstalledIn: aSelect [
 
@@ -58,8 +53,10 @@ ToSingleSelectStrategy >> onUninstalledIn: aSelect [
 
 	headerNode onUninstalledIn: aSelect.
 	headerNode removeFromParent.
+	refreshInputTextTask ifNotNil: [ select dequeueTask: refreshInputTextTask ].
+	super onUninstalledIn: aSelect.
 	headerNode := nil.
-	super onUninstalledIn: aSelect
+
 
 ]
 
@@ -81,24 +78,21 @@ ToSingleSelectStrategy >> refreshHeaderNodeContainer [
 		position: idx;
 		data: selectedData.
 
-	select enqueueTask: (BlTaskAction new action: [
-			 self refreshInputTextElementWithSelectedData: selectedData ])
+	self refreshInputTextElementWithSelectedData: selectedData
 ]
 
 { #category : #private }
 ToSingleSelectStrategy >> refreshInputTextElementWithSelectedData: aData [
 
 	select ifNil: [ ^ self ].
-	select listElement selecter beSilentWhile: [
-		self inputTextField text: '' ].
+
+	refreshInputTextTask ifNil: [
+		refreshInputTextTask := BlTaskAction new action: [
+			                        refreshInputTextTask := nil.
+			                        self inputTextField text: '' ].
+		select enqueueTask: refreshInputTextTask ].
 	self selectedDataTextField text:
-				 (aData ifNil: [ '' ] ifNotNil: [ :d | d asString ])
-]
-
-{ #category : #accessing }
-ToSingleSelectStrategy >> selectedDataTextField [
-
-	^ self textInputElement selectedDataTextField
+		(aData ifNil: [ '' ] ifNotNil: [ :d | d asString ])
 ]
 
 { #category : #accessing }

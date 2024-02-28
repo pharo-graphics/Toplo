@@ -7,24 +7,26 @@ Class {
 		'queryResultHandler',
 		'queryApplicationTask',
 		'currentData',
-		'selectionHandler'
+		'selectionHandler',
+		'mute'
 	],
 	#category : #'Toplo-Widget-List-Sieve'
 }
 
 { #category : #'event handling' }
-ToListElementSieve >> applyObservableCollectionQueryResultEventFor: aListElement [
+ToListElementSieve >> applyQueryAppliedEvent: anEvent for: aListElement [
 	" a query has occured (becuse the query pattern has changed), update the list element accordingly "
 
 	self updateCurrentData.
 	" update the list element "
-	aListElement selecter beSilentWhile: [ :s | 
-		aListElement dataAccessor filterResult: currentData ].
-	" don't deselect here"
-	"aListElement selecter deselectAll."
-	aListElement dispatchEvent: (ToSieveFilterAppliedEvent new
-			 sieve: self;
-			 yourself)
+	aListElement selecter beSilentWhile: [ :s |
+		aListElement dataAccessor filterResult: currentData.
+		" don't deselect here"
+		"aListElement selecter deselectAll."
+		aListElement dispatchEvent: (ToSieveAppliedEvent new
+				 mute: anEvent mute;
+				 sieve: self;
+				 yourself) ]
 ]
 
 { #category : #accessing }
@@ -33,6 +35,27 @@ ToListElementSieve >> dataFilter: aValuable [
 
 	queryRunner dataFilter: [ :item :pattern |
 		aValuable value: item value: pattern ]
+]
+
+{ #category : #accessing }
+ToListElementSieve >> isMute [
+
+	^ mute ifNil: [ mute := false ]
+]
+
+{ #category : #accessing }
+ToListElementSieve >> mute: aBoolean [
+
+	mute := aBoolean
+]
+
+{ #category : #accessing }
+ToListElementSieve >> muteWhile: aBlock [
+
+	| prevMute |
+	prevMute := mute.
+	mute := true.
+	[ aBlock cull: self ] ensure: [ mute := prevMute ]
 ]
 
 { #category : #'event handling' }
@@ -59,34 +82,33 @@ ToListElementSieve >> onInstalledIn: aListElement [
 
 	" a filtering occured : put the new data in the list element "
 	queryResultHandler := BlEventHandler
-		                      on: ToObservableCollectionQueryResultEvent
+		                      on: ToSieveFilterQueryAppliedEvent
 		                      do: [ :event |
-			                      self
-				                      onObservableCollectionQueryResultEvent:
-				                      event
-				                      for: aListElement ].
+		                      self
+			                      onQueryAppliedEvent: event
+			                      for: aListElement ].
 	originalData addEventHandler: queryResultHandler.
 	selectionHandler := ToSievedListElementEventHandler new
-			 sieve: self;
-			 yourself.
+		                    sieve: self;
+		                    yourself.
 	aListElement addEventHandler: selectionHandler
 ]
 
 { #category : #'event handling' }
-ToListElementSieve >> onObservableCollectionQueryResultEvent: anEvent for: aListElement [
+ToListElementSieve >> onQueryAppliedEvent: anEvent for: aListElement [
 	" a query has occured (becuse the query pattern has changed), 
 	update the list element accordingly "
-
+	
 	queryApplicationTask ifNotNil: [
 		aListElement dequeueTask: queryApplicationTask.
 		queryApplicationTask := nil ].
 	aListElement isAttachedToSceneGraph ifFalse: [
-		self applyObservableCollectionQueryResultEventFor: aListElement.
+		self applyQueryAppliedEvent: anEvent for: aListElement.
 		^ self ].
 	queryApplicationTask := BlTaskAction new.
 	queryApplicationTask action: [
 		queryApplicationTask := nil.
-		self applyObservableCollectionQueryResultEventFor: aListElement ].
+		self applyQueryAppliedEvent: anEvent for: aListElement ].
 	aListElement enqueueTask: queryApplicationTask
 ]
 
@@ -119,7 +141,12 @@ ToListElementSieve >> pattern [
 { #category : #accessing }
 ToListElementSieve >> pattern: aPattern [
 
-	queryRunner pattern: aPattern 
+	queryRunner
+		pattern: aPattern
+		notifyResultWithEvent: (ToSieveFilterQueryAppliedEvent new
+				 sieve: self;
+				 mute: mute;
+				 yourself)
 ]
 
 { #category : #private }

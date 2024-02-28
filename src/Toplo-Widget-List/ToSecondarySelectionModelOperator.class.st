@@ -7,22 +7,22 @@ Class {
 { #category : #'private command application' }
 ToSecondarySelectionModelOperator >> applyCommand: aCommand for: aTarget withApplicationBlock: aBlock [
 
-	| silent selectionModelChanged |
-	previousModel ifNil: [ previousModel := self selectionModel copy ].
-
 	super applyCommand: aCommand for: aTarget withApplicationBlock: aBlock.
-
-	selectionModelChanged := previousModel ~= self selectionModel.
-	silent := aCommand silent or: [ selectionModelChanged not ].
-
-	selectionModelChanged ifTrue: [
-		aTarget dispatchEvent: (ToSecondarySelectionCommandAppliedEvent new
-				 operator: self;
-				 command: aCommand) ].
-
-	silent ifTrue: [ ^ self ].
-	previousModel := self selectionModel copy.
-	aTarget notifyPrimarySelectionChanged: (ToListSecondarySelectionChangedEvent new
-			 selectionModel: previousModel;
+	aCommand silent ifTrue: [ ^ self ].
+	aTarget notifySecondarySelectionChanged: (ToListSecondarySelectionChangedEvent new
+			 selectionModel: self selectionModel copy;
 			 yourself)
+]
+
+{ #category : #'command operations' }
+ToSecondarySelectionModelOperator >> listScrollCommand: aCommand for: aTarget [
+	" "
+
+	" to ensure that wrap-around when scrolling works as expected. 
+	If not done, the wrap-around comme back to the last mouse move event position"
+
+	aTarget spaceDo: [ :sp |
+		sp mouseProcessor lastMouseMoveEvent ifNotNil: [ :e |
+			e consumed: true ] ].
+	super listScrollCommand: aCommand for: aTarget
 ]

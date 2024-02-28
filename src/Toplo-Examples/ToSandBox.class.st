@@ -650,6 +650,7 @@ ToSandBox class >> example_List2WithSelectionHistory [
 	| statesList historyList pane |
 	pane := ToPane horizontal.
 	statesList := ToListElement new matchParent.
+
 	historyList := ToListElement new matchParent.
 	statesList dataAccessor addAll: self statesOfAmerica.
 	pane addChildren: {
@@ -1186,7 +1187,7 @@ ToSandBox class >> example_SelectMonoFiltrable [
 
 	| select innerWindow phtext |
 	select := ToSelect new.
-
+select inspect.
 	select listElement placeholderMinHeight: 35.
 	phtext := ('No Data' asRopedText
 		           foreground: Color lightGray;
@@ -1225,6 +1226,7 @@ ToSandBox class >> example_SelectMonoNotFiltrable [
 		node addChild: (ToLabel text: holder dataItem asString) hMatchParent ].
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
+	select listElement withRowNumbers.
 	select width: 300.
 	select position: 50 @ 50.
 	innerWindow pane addChild: select.

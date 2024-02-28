@@ -42,13 +42,6 @@ ToSelect >> defaultStrategy [
 	^ ToSingleSelectStrategy new
 ]
 
-{ #category : #'accessing selection' }
-ToSelect >> deselectIndex: anIndex [
-
-	self inputTextField text: ''.
-	self mode deselectIndex: anIndex
-]
-
 { #category : #private }
 ToSelect >> fakeDataItem [
 
@@ -301,6 +294,13 @@ ToSelect >> popupSizeHook: aValuable [
 ToSelect >> popupWindowEvent: anEvent [ 
 
 	^ self windowManager popupWindowEvent: anEvent 
+]
+
+{ #category : #'accessing selection' }
+ToSelect >> selectIndexes: aCollection [
+
+	self selectionModel selectIndexes: aCollection.
+	self dispatchEvent: ToSelectListSelectionChanged new
 ]
 
 { #category : #'accessing selection' }

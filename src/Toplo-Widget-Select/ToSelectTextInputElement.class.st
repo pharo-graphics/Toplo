@@ -5,7 +5,6 @@ Class {
 		'select',
 		'selectedDataTextField',
 		'inputTextField',
-		'installedInputTextFieldShortcuts',
 		'installedInputTextFieldTextEventHandler'
 	],
 	#category : #'Toplo-Widget-Select-Core'
@@ -15,16 +14,13 @@ Class {
 ToSelectTextInputElement >> beEditable [
 
 	self inputTextField beEditable.
-	self installInputTextFieldEventHandlers.
-	self installInputTestFieldShortcuts.
-
+	self installInputTextFieldEventHandlers
 ]
 
 { #category : #initialization }
 ToSelectTextInputElement >> beReadonly [
 
 	self uninstallInputTextFieldEventHandlers.
-	self uninstallInputTestFieldShortcuts.
 	self inputTextField beReadonlyWithoutSelection
 ]
 
@@ -77,19 +73,6 @@ ToSelectTextInputElement >> initialize [
 ToSelectTextInputElement >> inputTextField [
 
 	^ inputTextField
-]
-
-{ #category : #initialization }
-ToSelectTextInputElement >> installInputTestFieldShortcuts [
-
-	installedInputTextFieldShortcuts ifNotNil: [ ^ self ].
-	installedInputTextFieldShortcuts := OrderedCollection new.
-
-	select isMultipleSelection ifTrue: [
-		installedInputTextFieldShortcuts add: ToSelectTextFieldBackspaceShortcut new ].
-	installedInputTextFieldShortcuts add: ToSelectTextFieldCarriageReturnShortcut new.
-	installedInputTextFieldShortcuts do: [ :sc |
-		self inputTextField addEditorShortcut: sc ]
 ]
 
 { #category : #initialization }
@@ -195,15 +178,6 @@ ToSelectTextInputElement >> select [
 ToSelectTextInputElement >> selectedDataTextField [
 
 	^ selectedDataTextField
-]
-
-{ #category : #initialization }
-ToSelectTextInputElement >> uninstallInputTestFieldShortcuts [
-
-	installedInputTextFieldShortcuts ifNil: [ ^ self ].
-	installedInputTextFieldShortcuts do: [ :sc |
-		self inputTextField removeEditorShortcut: sc ].
-	installedInputTextFieldShortcuts := nil
 ]
 
 { #category : #initialization }

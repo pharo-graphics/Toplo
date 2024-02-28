@@ -650,6 +650,7 @@ ToSandBox class >> example_List2WithSelectionHistory [
 	| statesList historyList pane |
 	pane := ToPane horizontal.
 	statesList := ToListElement new matchParent.
+
 	historyList := ToListElement new matchParent.
 	statesList dataAccessor addAll: self statesOfAmerica.
 	pane addChildren: {

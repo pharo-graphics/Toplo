@@ -51,7 +51,19 @@ ToSelectSkin >> shortcutsToInstallIn: aSelect [
 					   listElement secondarySelecter scrollToIndex: idx.
 					   listElement secondarySelecter selectOnlyIndex: idx ]).
 
+		  stream nextPut: (BlShortcutWithAction new
+				   combination: BlKeyCombination builder return build;
+				   action: [ :aShortcutEvent :aShortcut |
+					   | idxes |
+					   idxes := listElement secondarySelectionModel selectedIndexes.
+					   idxes do: [ :idx |
+							   (listElement selectionModel containsIndex: idx)
+								   ifTrue: [ listElement selecter deselectIndex: idx ]
+								   ifFalse: [ listElement selecter selectIndex: idx ] ] ]).
+
 		  listElement isMultipleSelection ifTrue: [
+			  aSelect isFiltrable ifTrue: [
+				  stream nextPut: ToSelectTextFieldBackspaceShortcut new ].
 			  stream nextPut: (BlShortcutWithAction new
 					   combination: BlKeyCombination primaryA;
 					   action: [ :aShortcutEvent :aShortcut |

@@ -19,7 +19,6 @@ ToSelectSecondarySelectionElementEventHandler >> elementScrolledEvent: anEvent [
 { #category : #'mouse handlers' }
 ToSelectSecondarySelectionElementEventHandler >> updateSelectionFromEvent: anEvent [
 
-	anEvent currentTarget enqueueTask: (BlTaskAction new action: [
-			 super updateSelectionFromEvent: anEvent.
-			 lastSelectionChangedEvent := anEvent ])
+	super updateSelectionFromEvent: anEvent.
+	lastSelectionChangedEvent := anEvent
 ]

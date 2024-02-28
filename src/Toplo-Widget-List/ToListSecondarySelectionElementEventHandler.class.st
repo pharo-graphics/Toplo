@@ -27,7 +27,6 @@ ToListSecondarySelectionElementEventHandler >> eventsToHandle [
 
 	^ {
 		  ToListSecondarySelectionChangedEvent.
-		  BlMouseLeaveEvent.
 		  BlElementScrolledEvent.
 		  BlMouseMoveEvent }
 ]
@@ -36,13 +35,6 @@ ToListSecondarySelectionElementEventHandler >> eventsToHandle [
 ToListSecondarySelectionElementEventHandler >> listSecondarySelectionChangedEvent: anEvent [
 
 	self updateSelectionFromEvent: anEvent
-]
-
-{ #category : #'mouse handlers' }
-ToListSecondarySelectionElementEventHandler >> mouseLeaveEvent: anEvent [
-
-	anEvent currentTarget secondarySelecter deselectAll.
-
 ]
 
 { #category : #'mouse handlers' }

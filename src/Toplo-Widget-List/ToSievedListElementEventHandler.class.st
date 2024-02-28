@@ -25,14 +25,12 @@ ToSievedListElementEventHandler >> eventsToHandle [
 		  ToListChangePreNotificationEvent.
 		  ToListPrimarySelectionChangedEvent.
 		  ToSievedListSelectionChangedEvent.
-		  ToSieveFilterAppliedEvent }
+		  ToSieveAppliedEvent }
 ]
 
 { #category : #'element handlers' }
 ToSievedListElementEventHandler >> listClickOnNodePreNotificationEvent: anEvent [
 
-	anEvent currentTarget isMultipleSelection ifFalse: [
-		selectionSet removeAll ]
 ]
 
 { #category : #'element handlers' }
@@ -50,13 +48,19 @@ ToSievedListElementEventHandler >> listPrimarySelectionChangePreNotificationEven
 
 	| sourceEvent newEvent |
 	sieve pattern ifEmpty: [ ^ self ].
+	
+	" reset the selection in case off single selection mode "
+	aPreNotification currentTarget isMultipleSelection ifFalse: [
+		selectionSet removeAll ].
 	sourceEvent := aPreNotification sourceEvent.
 	newEvent := ToSievedListSelectionChangedEvent new.
 	newEvent
 		pattern: sieve pattern;
 		selectionModel: sourceEvent selectionModel copy.
 	aPreNotification currentTarget dispatchEvent: newEvent.
-	" let listSelectionChangedEvent be sent to update the selection properly "
+	" in case the sieve is mute, don't let listSelectionChangedEvent be sent "
+	sieve isMute ifTrue: [ aPreNotification sourceEvent: nil ]
+
 ]
 
 { #category : #'element handlers' }
@@ -125,9 +129,10 @@ ToSievedListElementEventHandler >> sieve: aListElementSieve [
 ]
 
 { #category : #'element handlers' }
-ToSievedListElementEventHandler >> sieveFilterAppliedEvent: anEvent [
+ToSievedListElementEventHandler >> sieveAppliedEvent: anEvent [
 
 	| target selected |
+
 	target := anEvent currentTarget.
 	selected := anEvent sieve pattern
 		            ifNotEmpty: [

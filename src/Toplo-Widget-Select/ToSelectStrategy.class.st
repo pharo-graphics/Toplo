@@ -108,6 +108,12 @@ ToSelectStrategy >> initializeFakeNode [
 	select headerNodeContainer addChild: fakeNode
 ]
 
+{ #category : #accessing }
+ToSelectStrategy >> inputTextField [
+
+	^ self textInputElement inputTextField
+]
+
 { #category : #testing }
 ToSelectStrategy >> isMultipleSelection [
 
@@ -157,13 +163,11 @@ ToSelectStrategy >> onInstalledIn: aSelect [
 	self initializeFakeNode.
 	self refreshHeaderNodeContainer.
 	aSelect listElement selectionMode selectOnMouseDown: true.
-	aSelect listElement selectionMode requestFocusOnMouseDown: false.
-
+	aSelect listElement selectionMode requestFocusOnMouseDown: false
 ]
 
 { #category : #'api - hooks' }
 ToSelectStrategy >> onUninstalledIn: aSelect [
-
 
 	select headerElement removeChild: select headerNodeContainer.
 	select := nil
@@ -200,6 +204,12 @@ ToSelectStrategy >> refreshHeaderNodeContainer [
 ToSelectStrategy >> select: aSelect [
 
 	select := aSelect
+]
+
+{ #category : #accessing }
+ToSelectStrategy >> selectedDataTextField [
+
+	^ self textInputElement selectedDataTextField
 ]
 
 { #category : #accessing }

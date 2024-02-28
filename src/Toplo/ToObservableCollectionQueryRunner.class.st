@@ -8,7 +8,8 @@ Class {
 		'delayBeforeFilter',
 		'previousPattern',
 		'dataFilter',
-		'selectedIndexes'
+		'selectedIndexes',
+		'notificationEvent'
 	],
 	#category : #'Toplo-Core-CollectionQuery'
 }
@@ -17,16 +18,16 @@ Class {
 ToObservableCollectionQueryRunner >> applyDataFilterIn: anObservableCollection [
 
 	| event |
-	selectedIndexes := self pattern
-		ifEmpty: [ #(  ) ]
-		ifNotEmpty: [
-			Array streamContents: [ :stream |
-				                   anObservableCollection withIndexDo: [ :d :idx |
-					                   (self dataFilter value: d value: self pattern)
-						                   ifTrue: [ stream nextPut: idx ] ] ] ].
-	event := ToObservableCollectionQueryResultEvent new queryRunner: self; yourself.
+	selectedIndexes := self pattern ifEmpty: [ #(  ) ] ifNotEmpty: [
+		                   Array streamContents: [ :stream |
+			                   anObservableCollection withIndexDo: [ :d :idx |
+				                   (self dataFilter value: d value: self pattern)
+					                   ifTrue: [ stream nextPut: idx ] ] ] ].
+	event := notificationEvent ifNil: [
+		         ToObservableCollectionQueryResultEvent new
+			         queryRunner: self;
+			         yourself ].
 	anObservableCollection dispatchEvent: event
-
 ]
 
 { #category : #accessing }
@@ -107,6 +108,16 @@ ToObservableCollectionQueryRunner >> pattern: aString [
 	pattern = aString ifTrue: [ ^ self ].
 	pattern := aString asString trimBoth.
 	previousPattern = pattern ifTrue: [ ^ self ].
+	self semaphore signal
+]
+
+{ #category : #'private filtering' }
+ToObservableCollectionQueryRunner >> pattern: aString notifyResultWithEvent: anEvent [
+
+	pattern = aString ifTrue: [ ^ self ].
+	pattern := aString asString trimBoth.
+	previousPattern = pattern ifTrue: [ ^ self ].
+	notificationEvent := anEvent.
 	self semaphore signal
 ]
 

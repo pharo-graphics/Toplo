@@ -87,14 +87,13 @@ ToSelectWindowManager >> minHeight: aNumber [
 ToSelectWindowManager >> newListElement [
 
 	| newListElement |
-	newListElement := ToListElement new.
+	newListElement := ToSelectListElement new.
 	newListElement nodeClass: ToSelectListNode.
-	newListElement maxHeight: self defaultMaxHeight .
-	newListElement minHeight: self defaultMinHeight.
+	newListElement infinite maxHeight: self defaultMaxHeight .
+	newListElement infinite minHeight: self defaultMinHeight.
 	newListElement infinite vFitContent.
 	newListElement vFitContent.
 	newListElement hMatchParent.
-
 	^ newListElement
 ]
 
@@ -114,7 +113,10 @@ ToSelectWindowManager >> onInstalledIn: anElement [
 	self builder: [ :selectWin :request |
 		selectWin root hMatchParent.
 		selectWin root vFitContent.
-		selectWin root addChild: self listElement ].
+		selectWin root addChild: self listElement.
+		self listElement enqueueTask: (BlTaskAction new action: [
+				 self listElement secondarySelectionModel ifEmpty: [
+					 self listElement secondarySelecter selectIndex: 1 ] ]) ].
 
 	sieve := ToListElementSieve new.
 	sieve onInstalledIn: listElement
@@ -147,8 +149,6 @@ ToSelectWindowManager >> onWindowOpened [
 
 	super onWindowOpened.
 	self element strategy onWindowOpened
-
-
 ]
 
 { #category : #accessing }

@@ -6,8 +6,7 @@ Class {
 	#instVars : [
 		'selectionModel',
 		'selectionMode',
-		'sharedEventDistributors',
-		'installedSelectionModeShortcuts'
+		'sharedEventDistributors'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -138,12 +137,6 @@ ToBasicListElement >> installSharedEventDistributors [
 	self infinite addEventHandler: infiniteSharedHandler
 ]
 
-{ #category : #'accessing - shortcuts' }
-ToBasicListElement >> installedSelectionModeShortcuts [
-
-	^ installedSelectionModeShortcuts
-]
-
 { #category : #orientation }
 ToBasicListElement >> isHorizontal [
 
@@ -166,6 +159,12 @@ ToBasicListElement >> isVertical [
 ToBasicListElement >> itemCount [
 
 	^ self dataSource itemCount
+]
+
+{ #category : #skin }
+ToBasicListElement >> newRawSkin [ 
+
+	^ ToBasicListElementSkin new
 ]
 
 { #category : #initialization }
@@ -198,6 +197,12 @@ ToBasicListElement >> notifyPrimarySelectionChanged: aSelectionChangedEvent [
 	self dispatchEvent: preNotification.
 	preNotification sourceEvent ifNil: [ ^ self ].
 	self dispatchEvent: preNotification sourceEvent
+]
+
+{ #category : #'event firing' }
+ToBasicListElement >> notifySecondarySelectionChanged: aSelectionChangedEvent [
+
+	self dispatchEvent: aSelectionChangedEvent
 ]
 
 { #category : #'t - element with placeholder' }
@@ -240,15 +245,12 @@ ToBasicListElement >> selectionMode [
 ToBasicListElement >> selectionMode: aSelectionMode [
 
 	selectionMode ifNotNil: [
-		selectionMode onUninstalledIn: self.
-		installedSelectionModeShortcuts do: [ :s | self removeShortcut: s ].
-		installedSelectionModeShortcuts := #(  ) ].
+		selectionMode onUninstalledIn: self ].
 	selectionMode := aSelectionMode.
 	selectionMode ifNotNil: [
-		selectionMode onInstalledIn: self.
-		installedSelectionModeShortcuts := selectionMode shortcutsIn: self.
-		installedSelectionModeShortcuts do: [ :s | self addShortcut: s ] ].
-	self dispatchEvent: ToListPrimarySelectionModeChangedEvent new
+		selectionMode onInstalledIn: self ].
+	self dispatchEvent: ToListPrimarySelectionModeChangedEvent new.
+	self requestNewSkin
 ]
 
 { #category : #accessing }

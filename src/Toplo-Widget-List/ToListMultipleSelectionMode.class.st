@@ -56,26 +56,3 @@ ToListMultipleSelectionMode >> selectOrDeselectOnNode: aNode [
 		ifTrue: [ self selecter deselectIndex: index ]
 		ifFalse: [ self selecter selectIndex: index ]
 ]
-
-{ #category : #shortcuts }
-ToListMultipleSelectionMode >> shortcutsIn: anElement [
-
-	^ (super shortcutsIn: anElement) , {
-		  (BlShortcutWithAction new
-			   combination: BlKeyCombination primaryA;
-			   action: [ :aShortcutEvent :aShortcut | self selecter selectAll ]).
-		  (BlShortcutWithAction new
-			   combination: BlKeyCombination builder shift arrowDown build;
-			   action: [ :aShortcutEvent :aShortcut |
-				   | idx |
-				   idx := self selecter nextDeselectedIndex.
-				   self selecter selectIndex: idx.
-				   self selecter scrollToIndex: idx ]).
-		  (BlShortcutWithAction new
-			   combination: BlKeyCombination builder shift arrowUp build;
-			   action: [ :aShortcutEvent :aShortcut |
-				   | idx |
-				   idx := self selecter previousDeselectedIndex.
-				   self selecter selectIndex: idx.
-				   self selecter scrollToIndex: idx ]) }
-]

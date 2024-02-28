@@ -10,7 +10,7 @@ Class {
 { #category : #'api - accessing' }
 ToSelectListElementEventHandler >> eventsToHandle [
 
-	^ { ToSieveSelectionChangedEvent.  }
+	^ { ToSieveSelectionChangedEvent. ToSieveAppliedEvent }
 ]
 
 { #category : #accessing }
@@ -20,11 +20,18 @@ ToSelectListElementEventHandler >> select: aSelect [
 ]
 
 { #category : #'element handlers' }
+ToSelectListElementEventHandler >> sieveAppliedEvent: anEvent [
+
+	select isMultipleSelection ifFalse: [
+		select listElement secondarySelectionModel deselectAll ]
+]
+
+{ #category : #'element handlers' }
 ToSelectListElementEventHandler >> sieveSelectionChangedEvent: anEvent [
 
 	select selectionModel = anEvent selectionModel ifTrue: [ ^ self ].
 	select selectionModel deselectAll.
-	select selectionModel selectIndexes: anEvent selectionModel selectedIndexes.
+	select selectIndexes: anEvent selectionModel selectedIndexes.
 	select strategy refreshHeaderNodeContainer.
-	select dispatchEvent: ToSelectListSelectionChanged new
+
 ]

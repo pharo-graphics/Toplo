@@ -42,13 +42,6 @@ ToSelect >> defaultStrategy [
 	^ ToSingleSelectStrategy new
 ]
 
-{ #category : #'accessing selection' }
-ToSelect >> deselectIndex: anIndex [
-
-	self inputTextField text: ''.
-	self mode deselectIndex: anIndex
-]
-
 { #category : #private }
 ToSelect >> fakeDataItem [
 
@@ -81,7 +74,8 @@ ToSelect >> filtrable: aBoolean [
 	filtrable := aBoolean.
 	filtrable
 		ifTrue: [ self strategy textInputElement beEditable ]
-		ifFalse: [ self strategy textInputElement beReadonly ]
+		ifFalse: [ self strategy textInputElement beReadonly ].
+	self requestNewSkin
 ]
 
 { #category : #accessing }
@@ -131,18 +125,20 @@ ToSelect >> initialize [
 	super initialize.
 
 	data := ToObservableCollection new.
-
+	
 	" for the popup "
 	windowManager := self newWindowManager.
-	data addEventHandler: (ToObservableCollectionMirrorUpdater new mirror: windowManager listElement dataAccessor).
+	data addEventHandler:
+		(ToObservableCollectionMirrorUpdater new mirror:
+			 windowManager listElement dataAccessor).
 	selectionModel := self listElement newSelectionModel.
-
-	" the element that holds the node container" 
+	
+	" the element that holds the node container"
 	headerElement := self newHeaderElement.
 	self addChild: headerElement.
 	self addChild: self newIconContainer.
-	
-	filtrable := false.
+
+	filtrable := true.
 	strategy := ToSingleSelectStrategy new.
 	strategy onInstalledIn: self.
 
@@ -161,7 +157,7 @@ ToSelect >> initialize [
 { #category : #accessing }
 ToSelect >> inputTextField [ 
 
-	^ self strategy textInputElement inputTextField
+	^ self strategy inputTextField
 ]
 
 { #category : #testing }
@@ -201,7 +197,8 @@ ToSelect >> multiSelection: aBoolean [
 	strategy := aBoolean
 		        ifTrue: [ ToMultipleSelectStrategy new ]
 		        ifFalse: [ ToSingleSelectStrategy new ].
-	strategy onInstalledIn: self
+	strategy onInstalledIn: self.
+	self requestNewSkin
 ]
 
 { #category : #initialization }
@@ -225,6 +222,12 @@ ToSelect >> newIconContainer [
 ToSelect >> newRawSkin [ 
 
 	^ ToSelectSkin new
+]
+
+{ #category : #'instance creation' }
+ToSelect >> newShortcutsStore [ 
+
+	^ ToSelectShortcutsStore new
 ]
 
 { #category : #initialization }
@@ -294,6 +297,13 @@ ToSelect >> popupWindowEvent: anEvent [
 ]
 
 { #category : #'accessing selection' }
+ToSelect >> selectIndexes: aCollection [
+
+	self selectionModel selectIndexes: aCollection.
+	self dispatchEvent: ToSelectListSelectionChanged new
+]
+
+{ #category : #'accessing selection' }
 ToSelect >> selectedData [
 
 	^ self selectionModel selectedIndexesCollect: [ :idx | self dataAccessor at: idx ]
@@ -328,7 +338,8 @@ ToSelect >> strategy: aToSelectStrategy [
 
 	self strategy ifNotNil: [ self strategy onUninstalledIn: self ].
 	strategy := aToSelectStrategy.
-	strategy onInstalledIn: self
+	strategy onInstalledIn: self.
+	self requestNewSkin
 ]
 
 { #category : #accessing }

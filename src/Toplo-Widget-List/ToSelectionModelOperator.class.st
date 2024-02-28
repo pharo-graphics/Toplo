@@ -2,8 +2,7 @@ Class {
 	#name : #ToSelectionModelOperator,
 	#superclass : #ToCommandApplier,
 	#instVars : [
-		'selectionModel',
-		'previousModel'
+		'selectionModel'
 	],
 	#category : #'Toplo-Widget-List-Command-Selection'
 }
@@ -58,6 +57,12 @@ ToSelectionModelOperator >> intervalsIn: aCollection [
 ToSelectionModelOperator >> itemCount [
 
 	^ self selectionModel itemCount
+]
+
+{ #category : #'command operations' }
+ToSelectionModelOperator >> listScrollCommand: aCommand for: aTarget [
+
+	aTarget scrollToIndex: aCommand index
 ]
 
 { #category : #'command operations' }

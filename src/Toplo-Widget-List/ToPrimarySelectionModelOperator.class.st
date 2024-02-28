@@ -7,8 +7,8 @@ Class {
 { #category : #'private command application' }
 ToPrimarySelectionModelOperator >> applyCommand: aCommand for: aTarget withApplicationBlock: aBlock [
 
-	| silent selectionModelChanged |
-	previousModel ifNil: [ previousModel := self selectionModel copy ].
+	| silent selectionModelChanged previousModel |
+	previousModel := self selectionModel copy.
 
 	super applyCommand: aCommand for: aTarget withApplicationBlock: aBlock.
 

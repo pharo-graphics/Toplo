@@ -1,9 +1,6 @@
 Class {
 	#name : #ToListSecondarySelectionElementEventHandler,
 	#superclass : #BlCustomEventHandler,
-	#instVars : [
-		'prevNode'
-	],
 	#category : #'Toplo-Widget-List-Selection-Element'
 }
 
@@ -19,7 +16,10 @@ ToListSecondarySelectionElementEventHandler >> addSecondarySelectionIn: aListEle
 { #category : #'mouse handlers' }
 ToListSecondarySelectionElementEventHandler >> elementScrolledEvent: anEvent [
 
-	anEvent currentTarget spaceDo: [ :sp | sp mouseProcessor handleLastMouseMove ]
+	anEvent currentTarget spaceDo: [ :sp | 
+		" to ensure that the ListSecondaryChangedEvent is sent "
+		anEvent currentTarget secondarySelectionModel deselectAll.
+		sp mouseProcessor handleLastMouseMove ]
 ]
 
 { #category : #'api - accessing' }
@@ -27,7 +27,6 @@ ToListSecondarySelectionElementEventHandler >> eventsToHandle [
 
 	^ {
 		  ToListSecondarySelectionChangedEvent.
-		  BlMouseLeaveEvent.
 		  BlElementScrolledEvent.
 		  BlMouseMoveEvent }
 ]
@@ -39,16 +38,10 @@ ToListSecondarySelectionElementEventHandler >> listSecondarySelectionChangedEven
 ]
 
 { #category : #'mouse handlers' }
-ToListSecondarySelectionElementEventHandler >> mouseLeaveEvent: anEvent [
-
-	anEvent currentTarget secondarySelecter deselectAll.
-
-]
-
-{ #category : #'mouse handlers' }
 ToListSecondarySelectionElementEventHandler >> mouseMoveEvent: anEvent [
 
 	| target infinite globalPosition childNode |
+	anEvent anyButtonPressed ifTrue: [ ^ self ].
 	target := anEvent currentTarget.
 	infinite := target infinite.
 	globalPosition := anEvent position.
@@ -56,10 +49,10 @@ ToListSecondarySelectionElementEventHandler >> mouseMoveEvent: anEvent [
 		             detect: [ :node |
 		             node containsGlobalPoint: globalPosition ]
 		             ifNone: [  ].
-	target secondarySelecter deselectAll.
-	childNode ifNil: [ ^ self ].
-	anEvent anyButtonPressed ifTrue: [ ^ self ].
-	target secondarySelecter selectIndex: childNode holder position
+	childNode ifNil: [
+		target secondarySelecter deselectAll.
+		^ self ].
+	target secondarySelecter selectOnlyIndex: childNode holder position
 ]
 
 { #category : #'instance creation' }

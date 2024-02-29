@@ -43,10 +43,19 @@ ToListElementContextMenuSelectionEventHandler >> contextMenuSelectionOverPrimary
 		aListElement addChild: deco ]
 ]
 
+{ #category : #'element handlers' }
+ToListElementContextMenuSelectionEventHandler >> elementExtentChangedEvent: anEvent [
+
+	| target |
+	target := anEvent currentTarget.
+	target contextMenuSelectionElements  do: [ :s | s computeBounds ].
+]
+
 { #category : #'api - accessing' }
 ToListElementContextMenuSelectionEventHandler >> eventsToHandle [
 
 	^ {
+		  BlElementExtentChangedEvent.
 		  ToListPrimarySelectionChangedEvent.
 		  ToListElementContextMenuRequest.
 		  ToContextMenuClosedEvent.

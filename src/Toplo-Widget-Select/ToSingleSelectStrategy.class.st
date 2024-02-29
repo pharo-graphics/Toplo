@@ -72,7 +72,7 @@ ToSingleSelectStrategy >> refreshHeaderNodeContainer [
 			selectedData := nil ]
 		ifFalse: [
 			idx := select selectionModel firstIndex.
-			selectedData := select dataAccessor at: idx ].
+			selectedData := idx <= select dataAccessor size ifTrue: [select dataAccessor at: idx ] ifFalse: [] ].
 
 	holder
 		position: idx;

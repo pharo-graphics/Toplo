@@ -57,11 +57,14 @@ ToBasicListElementEventHandler >> eventsToHandle [
 
 { #category : #'infinite event handling' }
 ToBasicListElementEventHandler >> infiniteElementAttachedEvent: anEvent [
-	
+
 	| listElement node |
 	listElement := anEvent currentTarget.
 	node := anEvent element.
 	node holder listElement: listElement.
+	node holder isEnabled
+		ifTrue: [ node enabled: true ]
+		ifFalse: [ node disabled: true ].
 	listElement selectionMode onAddedNode: anEvent element
 ]
 

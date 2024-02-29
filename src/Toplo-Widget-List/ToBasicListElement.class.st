@@ -6,7 +6,9 @@ Class {
 	#instVars : [
 		'selectionModel',
 		'selectionMode',
-		'sharedEventDistributors'
+		'sharedEventDistributors',
+		'disabledSelecter',
+		'disabledSelectionModel'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -80,6 +82,26 @@ ToBasicListElement >> defaultSelectionMode [
 			   self selectionModel)
 ]
 
+{ #category : #accessing }
+ToBasicListElement >> disabledSelecter [ 
+
+	^ disabledSelecter
+]
+
+{ #category : #accessing }
+ToBasicListElement >> disabledSelectionModel [
+
+	^ disabledSelectionModel
+]
+
+{ #category : #accessing }
+ToBasicListElement >> disabledSelectionModel: aSelectionModel [
+
+	disabledSelectionModel ifNotNil: [ disabledSelectionModel onUninstalledIn: self ].
+	disabledSelectionModel := aSelectionModel.
+	disabledSelectionModel ifNotNil: [disabledSelectionModel onInstalledIn: self ]
+]
+
 { #category : #orientation }
 ToBasicListElement >> horizontal: aBoolean [
 
@@ -99,23 +121,37 @@ ToBasicListElement >> infiniteSharedEvents [
 { #category : #initialization }
 ToBasicListElement >> initialize [
 
+	| operatorForDisabledItems |
 	super initialize.
-	
+
 	self next: self defaultInfiniteElement.
 	self next elevation: (BlRelativeElevation elevation: 10).
 
 	self selectionModel: self newSelectionModel.
 	self layout: self defaultLayout.
-	
+
 	self selectionMode: self defaultSelectionMode.
 	self addEventHandler: self defaultEventHandler.
 	self installSharedEventDistributors.
 
 	self addChild: self next.
-	self contextMenuWindowManagerClass: ToListElementContextMenuWindowManager.
+	self contextMenuWindowManagerClass:
+		ToListElementContextMenuWindowManager.
 	self addEventHandler: ToListPrimarySelectionElementEventHandler new.
-	self addEventHandler: ToListElementContextMenuSelectionEventHandler new.
+	self addEventHandler:
+		ToListElementContextMenuSelectionEventHandler new.
 	self addEventHandler: ToCommandEventHandler new.
+
+	disabledSelectionModel := self newSelectionModel.
+	disabledSelecter := ToMultiSelectionModelSelecter new.
+	operatorForDisabledItems := ToDisabledSelectionModelOperator new
+		                            selectionModel: disabledSelectionModel;
+		                            yourself.
+	operatorForDisabledItems onInstalledIn: self.
+	disabledSelecter operator: operatorForDisabledItems.
+	disabledSelecter onInstalledIn: self.
+	self addEventHandler: ToListDisabledSelectionEventHandler new.
+
 	self matchParent
 ]
 
@@ -188,6 +224,12 @@ ToBasicListElement >> notifyDataSourceItemsChanged: aDataSourceEvent [
 ]
 
 { #category : #'event firing' }
+ToBasicListElement >> notifyDisabledSelectionChanged: aSelectionChangedEvent [
+
+	self dispatchEvent: aSelectionChangedEvent
+]
+
+{ #category : #'event firing' }
 ToBasicListElement >> notifyPrimarySelectionChanged: aSelectionChangedEvent [
 
 	| preNotification |
@@ -197,6 +239,12 @@ ToBasicListElement >> notifyPrimarySelectionChanged: aSelectionChangedEvent [
 	self dispatchEvent: preNotification.
 	preNotification sourceEvent ifNil: [ ^ self ].
 	self dispatchEvent: preNotification sourceEvent
+]
+
+{ #category : #'event firing' }
+ToBasicListElement >> notifyPrimarySelectionDirty [
+
+	self dispatchEvent: ToListPrimarySelectionDirtyEvent new
 ]
 
 { #category : #'event firing' }

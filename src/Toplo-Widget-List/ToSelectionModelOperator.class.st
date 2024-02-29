@@ -12,7 +12,6 @@ ToSelectionModelOperator >> addIndexesSelectionCommand: aCommand [
 
 	| intervals |
 	aCommand indexes ifEmpty: [ ^ self ].
-	"self selectionModel selectAllIndexes: aCommand indexes."
 	intervals := self intervalsIn: aCommand indexes.
 	intervals do: [ :i | self selectionModel selectIndex: i first to: i last ]
 ]
@@ -70,7 +69,6 @@ ToSelectionModelOperator >> removeIndexesSelectionCommand: aCommand [
 
 	| intervals |
 	aCommand indexes ifEmpty: [ ^ self ].
-	"self selectionModel deselectAllIndexes: aCommand indexes."
 	intervals := self intervalsIn: aCommand indexes.
 	intervals do: [ :i | self selectionModel deselectIndex: i first to: i last ]
 ]

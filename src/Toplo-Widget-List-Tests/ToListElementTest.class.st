@@ -70,6 +70,45 @@ ToListElementTest >> testDataRemovedWhenNodeRemoved [
 	self assert: list primarySelectionElements isEmpty
 ]
 
+{ #category : #tests }
+ToListElementTest >> testDoubleListsSelectionEvents [
+
+	| panel list1 list2 tabSize |
+	panel := ToPane new.
+	space root addChild: panel.
+	panel matchParent.
+	tabSize := 100.
+	list1 := ToListElement new.
+	list2 := ToListElement new.
+	1 to: tabSize do: [ :i |
+	list1 dataAccessor add: 'Hello ' , i asString ].
+	1 to: tabSize do: [ :i |
+	list2 dataAccessor add: 'Goodbye ' , i asString ].
+	list1 addEventHandler: (BlEventHandler
+			 on: ToListPrimarySelectionChangedEvent
+			 do: [ :e |
+				 list2 selectionModel deselectAll.
+				 e currentTarget selectionModel selectedIndexesDo: [ :idx |
+					 list2 selectionModel selectIndex: idx ].
+				 list2 notifyPrimarySelectionDirty ]).
+	list2 addEventHandler: (BlEventHandler
+			 on: ToListPrimarySelectionChangedEvent
+			 do: [ :e |
+				 list1 selectionModel deselectAll.
+				 list1 notifyPrimarySelectionDirty ]).
+	panel addChild: list1.
+	panel addChild: list2.
+	list1 selecter selectIndex: 1.
+	self waitTestingSpaces.
+	self assert: (list1 selectionModel containsIndex: 1).
+	self assert: (list2 selectionModel containsIndex: 1).
+
+	list2 selecter selectIndex: 2.
+	self waitTestingSpaces.
+	self assert: list1 selectionModel isEmpty.
+	self assert: (list2 selectionModel containsIndex: 2)
+]
+
 { #category : #'test selection - select next/previous' }
 ToListElementTest >> testEmptyListAddOrRemoveNextInSelection [
 

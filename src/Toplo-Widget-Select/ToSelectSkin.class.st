@@ -38,8 +38,8 @@ ToSelectSkin >> shortcutsToInstallIn: aSelect [
 				   action: [ :aShortcutEvent :aShortcut |
 					   | idx |
 					   idx := listElement secondarySelecter nextSelectableIndex.
-					   listElement secondarySelecter scrollToIndex: idx.
 					   listElement secondarySelecter selectOnlyIndex: idx.
+					   listElement secondarySelecter scrollToIndex: idx.
 					   aSelect windowManager currentWindow ifNil: [
 							   aSelect popupWindowEvent: aShortcutEvent ] ]).
 
@@ -54,9 +54,7 @@ ToSelectSkin >> shortcutsToInstallIn: aSelect [
 		  stream nextPut: (BlShortcutWithAction new
 				   combination: BlKeyCombination builder return build;
 				   action: [ :aShortcutEvent :aShortcut |
-					   | idxes |
-					   idxes := listElement secondarySelectionModel selectedIndexes.
-					   idxes do: [ :idx |
+					   listElement secondarySelectionModel selectedIndexesDo: [ :idx |
 							   (listElement selectionModel containsIndex: idx)
 								   ifTrue: [ listElement selecter deselectIndex: idx ]
 								   ifFalse: [ listElement selecter selectIndex: idx ] ] ]).

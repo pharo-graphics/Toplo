@@ -136,24 +136,37 @@ ToMultipleSelectStrategy >> onUninstalledIn: aSelect [
 { #category : #private }
 ToMultipleSelectStrategy >> refreshHeaderNodeContainer [
 
-	| nodes |
+	| nodes previousHolders |
 	" first remove all data nodes "
-	self headerDataNodesDo: [ :node |
-		node onUninstalledIn: select.
-		node removeFromParent ].
+	self headerDataNodesDo: [ :node | node removeFromParent ].
+	previousHolders := self headerNodeHolders copy.
 	self headerNodeHolders reset.
-	"select selection indices traceCr."
 	" then rebuild current nodes according to current selection "
 	nodes := select selectionModel selectedIndexes collect: [ :idx |
-		         | node selectedData |
-		         node := self newHeaderNode.
+		         | node prevHolder selectedData |
+		         prevHolder := previousHolders
+			                       detect: [ :h | h position = idx ]
+			                       ifNone: [  ].
+		         node := prevHolder
+			                 ifNil: [ self newHeaderNode ]
+			                 ifNotNil: [ :h | h node ].
+		         prevHolder
+			         ifNil: [
+				         selectedData := select dataAccessor at: idx.
+				         node selectHolder
+					         position: idx;
+					         data: selectedData.
+				         self headerNodeBuilder
+					         value: node
+					         value: node selectHolder ]
+			         ifNotNil: [ previousHolders remove: prevHolder ].
 		         self headerNodeHolders add: node selectHolder.
-		         selectedData := select dataAccessor at: idx.
-		         node selectHolder
-			         position: idx;
-			         data: selectedData.
-		         self headerNodeBuilder value: node value: node selectHolder.
 		         node ].
+
+	previousHolders do: [ :h | h node onUninstalledIn: select ].
+
+	"select selectionModel selectedIndexes reversed do: [ :idx | select  listElement dataAccessor removeAt: idx]."
+
 	self addAllDataNodes: nodes
 ]
 

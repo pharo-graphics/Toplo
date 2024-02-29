@@ -7,7 +7,7 @@ Class {
 { #category : #initialization }
 ToSelectListElement >> defaultSecondarySelectionEventHandler [ 
 
-	^ ToSelectSecondarySelectionElementEventHandler new
+	^ ToListSecondarySelectionElementEventHandler new
 ]
 
 { #category : #skin }

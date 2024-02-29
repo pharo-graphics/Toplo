@@ -316,6 +316,12 @@ ToSelect >> selectedIndexes [
 ]
 
 { #category : #accessing }
+ToSelect >> selecter [
+
+	^ self listElement selecter
+]
+
+{ #category : #accessing }
 ToSelect >> selectionModel [
 
 	^ selectionModel

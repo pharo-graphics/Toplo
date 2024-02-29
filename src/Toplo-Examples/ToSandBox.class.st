@@ -741,6 +741,7 @@ ToSandBox class >> example_ListWithAllClasses4 [
 				      labelText: holder dataItem name;
 				      interspace: 10) ].
 	l dataAccessor addAll: Smalltalk globals allClasses.
+	l inspect.
 	l openInSpace
 ]
 
@@ -878,6 +879,17 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 					                whenClickedDo: [ :event | node inspect ];
 					                yourself).
 			               selectionMenu addSeparator ].
+		               selectionMenu addItem: (ToMenuItem new
+				                labelText: 'Enable/Disable';
+				                whenClickedDo: [ :event |
+					                selectedIndexes do: [ :idx |
+							                (target disabledSelectionModel containsIndex:
+									                 idx)
+								                ifTrue: [
+									                target disabledSelecter deselectIndex: idx ]
+								                ifFalse: [
+									                target disabledSelecter selectIndex: idx ] ] ];
+				                yourself).
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Insert before';
 				                whenClickedDo: [ :event |
@@ -1187,13 +1199,13 @@ ToSandBox class >> example_SelectMonoFiltrable [
 
 	| select innerWindow phtext |
 	select := ToSelect new.
-select inspect.
 	select listElement placeholderMinHeight: 35.
 	phtext := ('No Data' asRopedText
 		           foreground: Color lightGray;
 		           yourself)
 		          fontSize: 24;
 		          yourself.
+
 
 	select listElement placeholderBuilder: [ :placeholder :e |
 		| lab |
@@ -1203,7 +1215,10 @@ select inspect.
 
 	select filtrable: true.
 	select dataAccessor addAll: self statesOfAmerica.
-	select placeholderText: ('Select a state' asRopedText foreground: Color red).
+	select selecter selectIndex: 2.
+
+	select placeholderText:
+		('Select a state' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
 	select width: 300.
@@ -1935,6 +1950,38 @@ ToSandBox class >> example_ToButtonWithDefaultSkin0 [
 	space show.
 ]
 
+{ #category : #list }
+ToSandBox class >> example_TwoCoordinateLists [
+
+	| panel list1 list2 tabSize |
+	panel := ToPane new.
+	panel matchParent.
+	tabSize := 100.
+	list1 := ToListElement new.
+	list2 := ToListElement new.
+	1 to: tabSize do: [ :i |
+	list1 dataAccessor add: 'Hello ' , i asString ].
+	1 to: tabSize do: [ :i |
+	list2 dataAccessor add: 'Goodbye ' , i asString ].
+	list1 addEventHandler: (BlEventHandler
+			 on: ToListPrimarySelectionChangedEvent
+			 do: [ :e |
+				 list2 selectionModel deselectAll.
+				 e currentTarget selectionModel selectedIndexesDo: [ :idx |
+					 list2 selectionModel selectIndex: idx ].
+				 list2 notifyPrimarySelectionDirty ]).
+	list2 addEventHandler: (BlEventHandler
+			 on: ToListPrimarySelectionChangedEvent
+			 do: [ :e |
+				 list1 selectionModel deselectAll.
+				 list1 notifyPrimarySelectionDirty ]).
+	panel addChild: list1.
+	panel addChild: list2.
+	list1 selecter selectIndex: 1.
+	list2 selecter selectIndex: 2.
+	panel openInSpace
+]
+
 { #category : #button }
 ToSandBox class >> example_buttonWithIcon [
 
@@ -2250,22 +2297,21 @@ ToSandBox class >> example_listStress [
 	list1 withRowNumbers.
 	tabsPanel openInSpace.
 
-	tabsPanel enqueueTask: (BlTaskAction new action: [
+	list1 enqueueTask: (BlTaskAction new action: [
 			 [
 			 1 to: 10000 do: [ :e |
-				 tabsPanel enqueueTask: (BlTaskAction new action: [
-						  | r |
-						  1 to: tabSize do: [ :i |
-						  list1 dataAccessor at: i put: 'Hello ' , e asString ].
-						  list1 dataAccessor addFirst:
-							  'Hello ' , (list1 dataAccessor size + 1) asString.
-						  list1 dataAccessor add:
-							  'Hello ' , (list1 dataAccessor size + 1) asString.
-						  r := (Random new next * 1000) asInteger
-						       \\ (list1 dataAccessor size - 1) + 1.
-						  list1 selecter selectIndex: r.
-						  list1 dataAccessor removeAt: (r + 1 min: list1 dataAccessor size).
-						  list1 scrollToIndex: list1 dataAccessor size ]).
+				 | r |
+				 1 to: tabSize do: [ :i |
+				 list1 dataAccessor at: i put: 'Hello ' , e asString ].
+				 list1 dataAccessor addFirst:
+					 'Hello ' , (list1 dataAccessor size + 1) asString.
+				 list1 dataAccessor add:
+					 'Hello ' , (list1 dataAccessor size + 1) asString.
+				 r := (Random new next * 1000) asInteger
+				      \\ (list1 dataAccessor size - 1) + 1.
+				 list1 selecter selectIndex: r.
+				 list1 dataAccessor removeAt: (r + 1 min: list1 dataAccessor size).
+				 list1 scrollToIndex: list1 dataAccessor size.
 				 50 milliSeconds wait ] ] fork ])
 ]
 

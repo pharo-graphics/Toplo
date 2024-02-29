@@ -59,16 +59,20 @@ ToListElement >> defaultSecondarySelectionMode [
 { #category : #initialization }
 ToListElement >> infiniteSharedEvents [
 
-	^ super infiniteSharedEvents, { ToObservableCollectionEvent }
+	^ super infiniteSharedEvents , {
+		  ToInfiniteScrollFinishedEvent.
+		  ToObservableCollectionEvent }
 ]
 
 { #category : #initialization }
-ToListElement >> initialize [ 
+ToListElement >> initialize [
 
 	super initialize.
 	self secondarySelectionModel: self newSelectionModel.
 	self secondarySelectionMode: self defaultSecondarySelectionMode.
-	self addEventHandler: self defaultSecondarySelectionEventHandler
+	self addEventHandler: self defaultSecondarySelectionEventHandler.
+
+
 ]
 
 { #category : #skin }

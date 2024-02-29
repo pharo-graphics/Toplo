@@ -1,6 +1,8 @@
 Class {
 	#name : #ToNode,
 	#superclass : #BlElement,
+	#traits : 'TToEnableable',
+	#classTraits : 'TToEnableable classTrait',
 	#category : #'Toplo-Widget-List-Node'
 }
 

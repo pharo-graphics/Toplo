@@ -43,9 +43,26 @@ ToNodeHolder >> dataItem: aData [
 ]
 
 { #category : #accessing }
+ToNodeHolder >> isDisabled [
+
+	^ self listElement
+		  ifNil: [ true ]
+		  ifNotNil: [ :le |
+		  le disabledSelectionModel containsIndex: self position ]
+]
+
+{ #category : #accessing }
+ToNodeHolder >> isEnabled [
+
+	^ self isDisabled not
+]
+
+{ #category : #accessing }
 ToNodeHolder >> isSelected [
 
-	^ self listElement ifNil: [ false ] ifNotNil: [:le | le selectionModel containsIndex: self position]
+	^ self listElement
+		  ifNil: [ false ]
+		  ifNotNil: [ :le | le selectionModel containsIndex: self position ]
 ]
 
 { #category : #accessing }

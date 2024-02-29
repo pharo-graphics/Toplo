@@ -17,7 +17,8 @@ ToSelectEventHandler >> collectionFilteredEvent: anEvent [
 { #category : #'element handlers' }
 ToSelectEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 
-	self showHidePlaceholderIn: anEvent currentTarget
+	self showHidePlaceholderIn: anEvent currentTarget.
+	anEvent currentTarget strategy refreshHeaderNodeContainer 
 ]
 
 { #category : #'element handlers' }

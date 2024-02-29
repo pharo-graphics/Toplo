@@ -151,7 +151,6 @@ ToMiniBrowser >> initialize [
 	packages addEventHandler: (BlEventHandler
 			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :event | self packageSelectionChangedEvent: event ]).
-
 	packages dataAccessor addAll:
 		(RPackage organizer packages asSortedCollection: [ :p1 :p2 |
 			 p1 name < p2 name ]).
@@ -253,6 +252,7 @@ ToMiniBrowser >> open [
 ToMiniBrowser >> packageSelectionChangedEvent: aToSelectionChanged [
 
 	| selectedPackages clsList |
+
 	classes dataAccessor removeAll.
 	selectedPackages := aToSelectionChanged selectedIndexes collect: [
 		                    :idx | packages dataAccessor at: idx ].

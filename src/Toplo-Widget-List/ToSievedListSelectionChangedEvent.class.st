@@ -21,6 +21,12 @@ ToSievedListSelectionChangedEvent >> pattern: aPattern [
 ]
 
 { #category : #accessing }
+ToSievedListSelectionChangedEvent >> selectedIndexes [
+
+	^ self selectionModel selectedIndexes
+]
+
+{ #category : #accessing }
 ToSievedListSelectionChangedEvent >> selectionModel [
 
 	^ selectionModel

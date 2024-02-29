@@ -24,7 +24,6 @@ ToListElementSieve >> applyQueryAppliedEvent: anEvent for: aListElement [
 		" don't deselect here"
 		"aListElement selecter deselectAll."
 		aListElement dispatchEvent: (ToSieveAppliedEvent new
-				 mute: anEvent mute;
 				 sieve: self;
 				 yourself) ]
 ]
@@ -82,7 +81,7 @@ ToListElementSieve >> onInstalledIn: aListElement [
 
 	" a filtering occured : put the new data in the list element "
 	queryResultHandler := BlEventHandler
-		                      on: ToSieveFilterQueryAppliedEvent
+		                      on: ToObservableCollectionQueryResultEvent
 		                      do: [ :event |
 		                      self
 			                      onQueryAppliedEvent: event
@@ -143,10 +142,6 @@ ToListElementSieve >> pattern: aPattern [
 
 	queryRunner
 		pattern: aPattern
-		notifyResultWithEvent: (ToSieveFilterQueryAppliedEvent new
-				 sieve: self;
-				 mute: mute;
-				 yourself)
 ]
 
 { #category : #private }

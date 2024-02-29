@@ -59,7 +59,9 @@ ToListElement >> defaultSecondarySelectionMode [
 { #category : #initialization }
 ToListElement >> infiniteSharedEvents [
 
-	^ super infiniteSharedEvents, { ToObservableCollectionEvent }
+	^ super infiniteSharedEvents , {
+		  ToInfiniteScrollFinishedEvent.
+		  ToObservableCollectionEvent }
 ]
 
 { #category : #initialization }

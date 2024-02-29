@@ -37,6 +37,12 @@ ToInfiniteElement >> defaultNodeBuilder [
 	  node addChild: (ToLabel text: holder dataItem asString) hMatchParent ]
 ]
 
+{ #category : #initialization }
+ToInfiniteElement >> defaultScrollFlinger [
+	"Return class, actuall instantiation happens in initialize"
+	^ ToInfiniteScrollFlinger
+]
+
 { #category : #'scrolled event' }
 ToInfiniteElement >> disableScrolledEvent [
 

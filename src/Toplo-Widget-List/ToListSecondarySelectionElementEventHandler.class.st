@@ -17,18 +17,25 @@ ToListSecondarySelectionElementEventHandler >> addSecondarySelectionIn: aListEle
 ToListSecondarySelectionElementEventHandler >> elementScrolledEvent: anEvent [
 
 	anEvent currentTarget spaceDo: [ :sp | 
-		" to ensure that the ListSecondaryChangedEvent is sent "
-		anEvent currentTarget secondarySelectionModel deselectAll.
-		sp mouseProcessor handleLastMouseMove ]
+		sp mouseProcessor handleLastMouseMove ].
+	self updateSelectionFromEvent: anEvent
+
 ]
 
 { #category : #'api - accessing' }
 ToListSecondarySelectionElementEventHandler >> eventsToHandle [
 
 	^ {
-		  ToListSecondarySelectionChangedEvent.
 		  BlElementScrolledEvent.
+		  ToInfiniteScrollFinishedEvent.
+		  ToListSecondarySelectionChangedEvent.
 		  BlMouseMoveEvent }
+]
+
+{ #category : #'mouse handlers' }
+ToListSecondarySelectionElementEventHandler >> infiniteScrollFinishedEvent: anEvent [
+
+	self updateSelectionFromEvent: anEvent
 ]
 
 { #category : #'mouse handlers' }
@@ -72,14 +79,15 @@ ToListSecondarySelectionElementEventHandler >> newSelectionElementsFromSelectedN
 ToListSecondarySelectionElementEventHandler >> updateSelectionFromEvent: anEvent [
 
 	| target infinite childNodes |
+
 	target := anEvent currentTarget.
 	infinite := target infinite.
 	target secondarySelectionElements do: [ :s | s removeFromParent ].
-	anEvent selectionModel ifEmpty: [ ^ self ].
+	target secondarySelectionModel ifEmpty: [ ^ self ].
 	childNodes := infinite children
 		             select: [ :node |
 			             target secondarySelectionModel containsIndex:
 				             node holder position ].
-	childNodes ifEmpty: [ ^ self ].
+	childNodes ifEmpty: [^ self ].
 	self addSecondarySelectionIn: target onNodes: childNodes
 ]

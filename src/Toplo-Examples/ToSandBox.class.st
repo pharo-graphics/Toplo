@@ -2300,18 +2300,23 @@ ToSandBox class >> example_listStress [
 	list1 enqueueTask: (BlTaskAction new action: [
 			 [
 			 1 to: 10000 do: [ :e |
-				 | r |
-				 1 to: tabSize do: [ :i |
-				 list1 dataAccessor at: i put: 'Hello ' , e asString ].
-				 list1 dataAccessor addFirst:
-					 'Hello ' , (list1 dataAccessor size + 1) asString.
-				 list1 dataAccessor add:
-					 'Hello ' , (list1 dataAccessor size + 1) asString.
-				 r := (Random new next * 1000) asInteger
-				      \\ (list1 dataAccessor size - 1) + 1.
-				 list1 selecter selectIndex: r.
-				 list1 dataAccessor removeAt: (r + 1 min: list1 dataAccessor size).
-				 list1 scrollToIndex: list1 dataAccessor size.
+				 | r r2 |
+				 tabsPanel enqueueTask: (BlTaskAction new action: [
+						  1 to: tabSize do: [ :i |
+						  list1 dataAccessor at: i put: 'Hello ' , e asString ].
+						  list1 dataAccessor addFirst:
+							  'Hello ' , (list1 dataAccessor size + 1) asString.
+						  list1 dataAccessor add:
+							  'Hello ' , (list1 dataAccessor size + 1) asString.
+						  r := (Random new next * 10000) asInteger
+						       \\ (list1 dataAccessor size - 1) + 1.
+						  list1 selecter selectIndex: r.
+						  r2 := (Random new next * 10000) asInteger
+						        \\ (list1 dataAccessor size - 1) + 1.
+						  list1 disabledSelecter selectIndex: r2.
+						  list1 dataAccessor removeAt:
+							  (r + 1 min: list1 dataAccessor size).
+						  list1 scrollToIndex: list1 dataAccessor size ]).
 				 50 milliSeconds wait ] ] fork ])
 ]
 

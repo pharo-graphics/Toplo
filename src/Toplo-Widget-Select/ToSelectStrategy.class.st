@@ -161,7 +161,6 @@ ToSelectStrategy >> onInstalledIn: aSelect [
 	select headerElement addChild: nodeContainer.
 	self buildHeaderNodeContainer: nodeContainer.
 	self initializeFakeNode.
-	self refreshHeaderNodeContainer.
 	aSelect listElement selectionMode selectOnMouseDown: true.
 	aSelect listElement selectionMode requestFocusOnMouseDown: false
 ]

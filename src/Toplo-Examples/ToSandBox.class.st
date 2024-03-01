@@ -2284,6 +2284,7 @@ ToSandBox class >> example_listStress [
 	| tabsPanel list1 tab1 tabSize |
 	tabSize := 1.
 	list1 := ToListElement new.
+	list1 inspect.
 	list1 constraints vertical matchParent.
 	list1 constraints horizontal matchParent.
 	1 to: tabSize do: [ :i |

@@ -35,6 +35,25 @@ ToSelectionModelTest >> testCopyCompositeModel [
 ]
 
 { #category : #tests }
+ToSelectionModelTest >> testCopySelectionFrom [
+
+	| s s2 |
+	s := ToSelectionModel new itemCountGetter: 100.
+	s2 := s copy.
+	s selectIndexes: { 1. 5. 6 }.
+	s2 copySelectionFrom: s.
+	self assert: s equals: s2.
+	self deny: s underlyingModel identicalTo: s2 underlyingModel.
+	s deselectIndexes: { 10. 50. 60 }.
+	s2 copySelectionFrom: s.
+	self assert: s equals: s2.
+	s deselectIndexes: { 5. 6 }.
+	s2 copySelectionFrom: s.
+	self assert: s equals: s2.
+
+]
+
+{ #category : #tests }
 ToSelectionModelTest >> testDeselectAll [
 
 	| s |

@@ -17,8 +17,7 @@ ToSelectEventHandler >> collectionFilteredEvent: anEvent [
 { #category : #'element handlers' }
 ToSelectEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 
-	self showHidePlaceholderIn: anEvent currentTarget.
-	anEvent currentTarget strategy refreshHeaderNodeContainer 
+	anEvent currentTarget notifySelectionChanged
 ]
 
 { #category : #'element handlers' }
@@ -34,7 +33,7 @@ ToSelectEventHandler >> eventsToHandle [
 
 	^ super eventsToHandle , {
 		  BlElementAddedToSceneGraphEvent.
-		  ToSelectListSelectionChanged.
+		  ToSelectSelectionChanged.
 		  ToCollectionFilteredEvent.
 		  BlElementExtentChangedEvent.
 		  ToSelectInputTextFieldUpdatedEvent }
@@ -47,9 +46,10 @@ ToSelectEventHandler >> selectInputTextFieldUpdatedEvent: anEvent [
 ]
 
 { #category : #'element handlers' }
-ToSelectEventHandler >> selectListSelectionChanged: anEvent [
+ToSelectEventHandler >> selectSelectionChanged: anEvent [
 
-	self showHidePlaceholderIn: anEvent currentTarget
+	anEvent currentTarget strategy refreshHeaderNodeContainer.
+	self showHidePlaceholderIn: anEvent currentTarget.
 ]
 
 { #category : #'element handlers' }

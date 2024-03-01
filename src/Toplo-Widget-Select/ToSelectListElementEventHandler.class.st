@@ -31,9 +31,5 @@ ToSelectListElementEventHandler >> select: aSelect [
 { #category : #'element handlers' }
 ToSelectListElementEventHandler >> sieveSelectionChangedEvent: anEvent [
 
-	select selectionModel = anEvent selectionModel ifTrue: [ ^ self ].
-	select selectionModel deselectAll.
-	select selectIndexes: anEvent selectionModel selectedIndexes.
-	select strategy refreshHeaderNodeContainer.
-
+	select copySelectionFrom: anEvent selectionModel
 ]

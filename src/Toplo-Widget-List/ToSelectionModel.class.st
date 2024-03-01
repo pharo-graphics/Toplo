@@ -23,6 +23,12 @@ ToSelectionModel >> containsIndex: anIndex [
 	^ self underlyingModel containsIndex: anIndex
 ]
 
+{ #category : #copying }
+ToSelectionModel >> copySelectionFrom: anotherSelectionModel [
+
+	underlyingModel := anotherSelectionModel underlyingModel copy
+]
+
 { #category : #updating }
 ToSelectionModel >> deselectAll [
 

@@ -16,7 +16,7 @@ ToSieveSelectionChangedEvent >> selectionModel [
 { #category : #accessing }
 ToSieveSelectionChangedEvent >> selectionModel: aSelectionModel [
 
-	selectionModel := aSelectionModel 
+	selectionModel := aSelectionModel
 ]
 
 { #category : #sending }

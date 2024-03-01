@@ -7,8 +7,7 @@ Class {
 		'queryResultHandler',
 		'queryApplicationTask',
 		'currentData',
-		'selectionHandler',
-		'mute'
+		'selectionHandler'
 	],
 	#category : #'Toplo-Widget-List-Sieve'
 }
@@ -18,15 +17,14 @@ ToListElementSieve >> applyQueryAppliedEvent: anEvent for: aListElement [
 	" a query has occured (becuse the query pattern has changed), update the list element accordingly "
 
 	self updateCurrentData.
-	" update the list element "
-	aListElement selecter beSilentWhile: [ :s |
-		aListElement dataAccessor filterResult: currentData.
-		" don't deselect here"
-		"aListElement selecter deselectAll."
-		aListElement dispatchEvent: (ToSieveAppliedEvent new
-				 mute: anEvent mute;
+	" update the list element but not the selection "
+	" *** note that it is required to deselect all here - 
+	the selection is managed after *** "
+	aListElement selectionModel deselectAll.
+	aListElement dataAccessor filterResult: currentData.
+	"aListElement dispatchEvent: (ToSieveAppliedEvent new
 				 sieve: self;
-				 yourself) ]
+				 yourself)"
 ]
 
 { #category : #accessing }
@@ -35,27 +33,6 @@ ToListElementSieve >> dataFilter: aValuable [
 
 	queryRunner dataFilter: [ :item :pattern |
 		aValuable value: item value: pattern ]
-]
-
-{ #category : #accessing }
-ToListElementSieve >> isMute [
-
-	^ mute ifNil: [ mute := false ]
-]
-
-{ #category : #accessing }
-ToListElementSieve >> mute: aBoolean [
-
-	mute := aBoolean
-]
-
-{ #category : #accessing }
-ToListElementSieve >> muteWhile: aBlock [
-
-	| prevMute |
-	prevMute := mute.
-	mute := true.
-	[ aBlock cull: self ] ensure: [ mute := prevMute ]
 ]
 
 { #category : #'event handling' }
@@ -82,7 +59,7 @@ ToListElementSieve >> onInstalledIn: aListElement [
 
 	" a filtering occured : put the new data in the list element "
 	queryResultHandler := BlEventHandler
-		                      on: ToSieveFilterQueryAppliedEvent
+		                      on: ToObservableCollectionQueryResultEvent
 		                      do: [ :event |
 		                      self
 			                      onQueryAppliedEvent: event
@@ -143,10 +120,6 @@ ToListElementSieve >> pattern: aPattern [
 
 	queryRunner
 		pattern: aPattern
-		notifyResultWithEvent: (ToSieveFilterQueryAppliedEvent new
-				 sieve: self;
-				 mute: mute;
-				 yourself)
 ]
 
 { #category : #private }

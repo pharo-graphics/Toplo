@@ -497,7 +497,7 @@ ToSandBox class >> example_HorizontalListWithIndexedColors [
 				      background: holder dataItem) ].
 	l background: Color yellow.
 	l beHorizontal.
-	l data addAll: Color indexedColors.
+	l dataAccessor addAll: Color indexedColors.
 	space := BlSpace new.
 	space root addChild: l.
 	space show
@@ -689,7 +689,7 @@ ToSandBox class >> example_ListWith6Elements [
 
 	| l |
 	l := ToListElement new.
-	l data addAll: ((1 to: 6) collect: [ :i | i asString ]).
+	l dataAccessor addAll: ((1 to: 6) collect: [ :i | i asString ]).
 	l selecter selectIndex: 4.
 	l openInInnerWindow
 ]
@@ -1042,14 +1042,12 @@ ToSandBox class >> example_PicsumPhotosGallery [
 			                margin: (BlInsets all: 5);
 			                imageData: imageData;
 			                yourself.
-		node addChild: photoElement ].
-
-	list addEventHandler: (BlEventHandler
-			 on: BlInfiniteElementAttachedEvent
-			 do: [ :event | event element firstChild attached ]).
-	list addEventHandler: (BlEventHandler
-			 on: BlInfiniteElementDetachedEvent
-			 do: [ :event | event element firstChild detached ]).
+		node addChild: photoElement.
+		photoElement attached ].
+	list nodeReleaser: [ :node :holder |
+		| photoElement |
+		photoElement := node firstChild.
+		photoElement detached ].
 
 	[
 	| images |
@@ -2279,7 +2277,7 @@ ToSandBox class >> example_horizontalPaneWithDivider [
 ]
 
 { #category : #list }
-ToSandBox class >> example_listStress [
+ToSandBox class >> example_listStressWithFork [
 
 	| tabsPanel list1 tab1 tabSize |
 	tabSize := 1.
@@ -2319,6 +2317,46 @@ ToSandBox class >> example_listStress [
 							  (r + 1 min: list1 dataAccessor size).
 						  list1 scrollToIndex: list1 dataAccessor size ]).
 				 50 milliSeconds wait ] ] fork ])
+]
+
+{ #category : #list }
+ToSandBox class >> example_listStressWithoutFork [
+
+	| tabsPanel list1 tab1 tabSize |
+	tabSize := 1.
+	list1 := ToListElement new.
+	list1 constraints vertical matchParent.
+	list1 constraints horizontal matchParent.
+	1 to: tabSize do: [ :i |
+	list1 dataAccessor add: 'Hello ' , i asString ].
+	tabsPanel := ToTabPane new.
+	tab1 := ToTab new.
+	tab1 labelText: 'Hello'.
+	tab1 paneBuilder: [ :pane :theTabPane | pane addChild: list1 ].
+	tabsPanel addTab: tab1.
+	list1 selecter selectAll.
+	list1 withRowNumbers.
+	tabsPanel openInSpace.
+
+	list1 enqueueTask: (BlTaskAction new action: [
+			 1 to: 3000 do: [ :e |
+				 | r r2 |
+				 tabsPanel enqueueTask: (BlTaskAction new action: [
+						  1 to: tabSize do: [ :i |
+						  list1 dataAccessor at: i put: 'Hello ' , e asString ].
+						  list1 dataAccessor addFirst:
+							  'Hello ' , (list1 dataAccessor size + 1) asString.
+						  list1 dataAccessor add:
+							  'Hello ' , (list1 dataAccessor size + 1) asString.
+						  r := (Random new next * 10000) asInteger
+						       \\ (list1 dataAccessor size - 1) + 1.
+						  list1 selecter selectIndex: r.
+						  r2 := (Random new next * 10000) asInteger
+						        \\ (list1 dataAccessor size - 1) + 1.
+						  list1 disabledSelecter selectIndex: r2.
+						  list1 dataAccessor removeAt:
+							  (r + 1 min: list1 dataAccessor size).
+						  list1 scrollToIndex: list1 dataAccessor size ]) ] ])
 ]
 
 { #category : #'look event' }

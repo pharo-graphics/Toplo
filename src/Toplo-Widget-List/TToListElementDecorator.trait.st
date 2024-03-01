@@ -73,12 +73,6 @@ TToListElementDecorator >> nodeAt: anIndex [
 ]
 
 { #category : #'t - infinite accessing' }
-TToListElementDecorator >> nodeBuilder: aNodeFactory [
-
-	self next nodeBuilder: aNodeFactory
-]
-
-{ #category : #'t - infinite accessing' }
 TToListElementDecorator >> nodeClass: aNodeClass [
 
 	self next nodeClass: aNodeClass

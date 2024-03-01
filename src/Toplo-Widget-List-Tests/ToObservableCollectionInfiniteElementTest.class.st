@@ -12,7 +12,6 @@ ToObservableCollectionInfiniteElementTest >> setUp [
 
 	super setUp.
 	l := ToObservableCollectionInfiniteElement new.
-	l fitContent.
 	space root addChild: l
 
 	
@@ -36,6 +35,7 @@ ToObservableCollectionInfiniteElementTest >> statesOfAmerica [
 ToObservableCollectionInfiniteElementTest >> testEmptyInfinite [
 
 	self assert: l dataAccessor isEmpty.
+	l fitContent.
 	l forceLayout.
 	self assert: l children size equals: 0.
 	self
@@ -49,6 +49,7 @@ ToObservableCollectionInfiniteElementTest >> testEmptyInfinite [
 ToObservableCollectionInfiniteElementTest >> testInfiniteWithOneElement [
 
 	l dataAccessor add: self statesOfAmerica first.
+	l matchParent.
 	self assert: l children size equals: 0.
 	self waitTestingSpaces.
 	self assert: l children size equals: 1.

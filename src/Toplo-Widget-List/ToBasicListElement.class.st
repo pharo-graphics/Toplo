@@ -4,6 +4,8 @@ Class {
 	#traits : 'TToListElementDecorator + TToElementWithPlaceholder',
 	#classTraits : 'TToListElementDecorator classTrait + TToElementWithPlaceholder classTrait',
 	#instVars : [
+		'nodeBuilder',
+		'nodeReleaser',
 		'selectionModel',
 		'selectionMode',
 		'sharedEventDistributors',
@@ -75,6 +77,19 @@ ToBasicListElement >> defaultLayout [
 ]
 
 { #category : #initialization }
+ToBasicListElement >> defaultNodeBuilder [
+
+	^ [ :node :holder |
+	  node addChild: (ToLabel text: holder dataItem asString) hMatchParent ]
+]
+
+{ #category : #initialization }
+ToBasicListElement >> defaultNodeReleaser [
+
+	^ [ :node :holder | node removeChildren ]
+]
+
+{ #category : #initialization }
 ToBasicListElement >> defaultSelectionMode [
 
 	^ ToListMultipleSelectionMode new operator:
@@ -112,6 +127,7 @@ ToBasicListElement >> horizontal: aBoolean [
 ToBasicListElement >> infiniteSharedEvents [
 
 	^ {
+		  ToObservableCollectionEvent.
 		  BlInfiniteDataSourceEvent.
 		  BlInfiniteElementAttachedEvent.
 		  BlInfiniteElementDetachedEvent.
@@ -123,7 +139,10 @@ ToBasicListElement >> initialize [
 
 	| operatorForDisabledItems |
 	super initialize.
-
+	
+	self nodeBuilder: self defaultNodeBuilder.
+	self nodeReleaser: self defaultNodeReleaser.
+	
 	self next: self defaultInfiniteElement.
 	self next elevation: (BlRelativeElevation elevation: 10).
 
@@ -209,6 +228,34 @@ ToBasicListElement >> newSelectionModel [
 	^ ToSelectionModel new
 		  itemCountGetter: [ self dataSource itemCount ];
 		  yourself
+]
+
+{ #category : #accessing }
+ToBasicListElement >> nodeBuilder [
+
+	"aValuable takes 2 args: first, the ToNode to build and second, its holder in the list element "
+	^ nodeBuilder
+]
+
+{ #category : #accessing }
+ToBasicListElement >> nodeBuilder: aValuable [
+
+	"aValuable takes 2 args: first, the ToNode to build and second, its holder in the list element "
+	nodeBuilder := aValuable
+]
+
+{ #category : #accessing }
+ToBasicListElement >> nodeReleaser [
+
+	"aValuable takes 2 args: first, the ToNode to release and second, its holder in the list element "
+	^ nodeReleaser
+]
+
+{ #category : #accessing }
+ToBasicListElement >> nodeReleaser: aValuable [
+
+	"aValuable takes 2 args: first, the ToNode to release and second, its holder in the list element "
+	nodeReleaser := aValuable
 ]
 
 { #category : #'event firing' }

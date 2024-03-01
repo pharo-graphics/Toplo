@@ -4,6 +4,14 @@ Class {
 	#category : #'Toplo-Widget-List-Core'
 }
 
+{ #category : #'infinite event handling' }
+ToBasicListElementEventHandler >> collectionEmptinessEvent: anEvent [
+
+	| target |
+	target := anEvent currentTarget.
+	target enqueueTask: (BlTaskAction new action: [self showHidePlaceholderIn: target ])
+]
+
 { #category : #'mouse handlers' }
 ToBasicListElementEventHandler >> doubleClickEvent: anEvent [
 
@@ -51,6 +59,7 @@ ToBasicListElementEventHandler >> eventsToHandle [
 		  BlDoubleClickEvent.
 
 		  " data source "
+		  ToCollectionEmptinessEvent.
 		  BlInfiniteDataSourceItemRangeInserted.
 		  BlInfiniteDataSourceItemRangeRemoved }
 ]
@@ -62,6 +71,7 @@ ToBasicListElementEventHandler >> infiniteElementAttachedEvent: anEvent [
 	listElement := anEvent currentTarget.
 	node := anEvent element.
 	node holder listElement: listElement.
+	listElement nodeBuilder value: node value: node holder.
 	node holder isEnabled
 		ifTrue: [ node enabled: true ]
 		ifFalse: [ node disabled: true ].
@@ -75,6 +85,7 @@ ToBasicListElementEventHandler >> infiniteElementDetachedEvent: anEvent [
 	node := anEvent element.
 	listElement := anEvent currentTarget.
 	listElement selectionMode onRemovedNode: node.
+	listElement nodeReleaser value: node value: node holder.
 	node holder listElement: nil.
 
 ]

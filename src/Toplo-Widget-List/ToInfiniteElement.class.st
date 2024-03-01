@@ -4,7 +4,6 @@ Class {
 	#traits : 'TBlLayoutResizable',
 	#classTraits : 'TBlLayoutResizable classTrait',
 	#instVars : [
-		'nodeBuilder',
 		'nodeClass'
 	],
 	#category : #'Toplo-Widget-List-Infinite'
@@ -65,7 +64,6 @@ ToInfiniteElement >> infinite [
 ToInfiniteElement >> initialize [
 
 	super initialize.
-	self nodeBuilder: self defaultNodeBuilder.
 	self matchParent
 ]
 
@@ -89,20 +87,6 @@ ToInfiniteElement >> nodeAt: anIndex [
 	^ (self findElementHolderForDataSourcePosition: anIndex)
 		  ifNotNil: [ :holder | holder itemElement ]
 		  ifNil: [  ]
-]
-
-{ #category : #accessing }
-ToInfiniteElement >> nodeBuilder [
-
-	"aValuable takes 2 args: first, the ToNode to build and second, the data"
-	^ nodeBuilder 
-]
-
-{ #category : #accessing }
-ToInfiniteElement >> nodeBuilder: aValuable [
-
-	"aValuable takes 2 args: first, the ToNode to build and second, its holder in the list element "
-	nodeBuilder := aValuable
 ]
 
 { #category : #initialization }
@@ -148,8 +132,7 @@ ToInfiniteElement >> nodeHolderBuilder [
 	^ [ :theHolder |
 	  | newNode |
 	  newNode := self newNode.
-	  theHolder node: newNode.
-	  self nodeBuilder value: theHolder node value: theHolder ]
+	  theHolder node: newNode ]
 ]
 
 { #category : #initialization }

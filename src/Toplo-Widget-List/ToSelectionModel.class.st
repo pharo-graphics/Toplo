@@ -215,6 +215,9 @@ ToSelectionModel >> selectedIndexesDo: aBlock [
 ToSelectionModel >> shift: aGap from: aStartIndex [
 
 	| from to prev high |
+	
+	self flag: 'Certainely too naive. should be optimized. see comments below '.
+	
 	aGap isZero ifTrue: [ ^ self ].
 	self isEmpty ifTrue: [ ^ self ].
 
@@ -228,6 +231,7 @@ ToSelectionModel >> shift: aGap from: aStartIndex [
 			(high >= 0 and: [from <= high ]) ifTrue: [
 				self underlyingModel selections delete:
 					(BlMonotoneSelection from: (from max: 0) to: high) ].
+			" this do: enumeration should be optimized to avoid the use of selectIndex "
 			prev indices do: [ :idx |
 				(idx >= aStartIndex and: [ idx + aGap > 0 ]) ifTrue: [
 					self underlyingModel selectIndex: idx + aGap ] ] ]
@@ -238,6 +242,7 @@ ToSelectionModel >> shift: aGap from: aStartIndex [
 			from <= high ifTrue: [
 				self underlyingModel selections delete:
 					(BlMonotoneSelection from: (from - 1 max: 0) to: high) ].
+			" this do: enumeration should be optimized to avoid the use of selectIndex "
 			prev indicesDo: [ :idx |
 				(idx >= aStartIndex and: [ idx + aGap > 0 ]) ifTrue: [
 					self underlyingModel selectIndex: idx + aGap ] ] ]

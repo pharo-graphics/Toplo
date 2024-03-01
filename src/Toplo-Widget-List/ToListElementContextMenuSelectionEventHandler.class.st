@@ -33,7 +33,9 @@ ToListElementContextMenuSelectionEventHandler >> contextMenuSelectionOverPrimary
 
 	| adjacentNodeGroups |
 	adjacentNodeGroups := aListElement infinite nodeGroupsSatisfying: [
-		                      :n | n holder isSelected ].
+		                      :n |
+		                      n holder isSelectable and: [
+			                      n holder isSelected ] ].
 	adjacentNodeGroups do: [ :group |
 		| deco |
 		deco := ToListContextMenuSelectionElement new
@@ -72,7 +74,8 @@ ToListElementContextMenuSelectionEventHandler >> listElementContextMenuRequest: 
 	globalPosition := anEvent sourceEvent position.
 	childNode := infinite children
 		             detect: [ :node |
-		             node containsGlobalPoint: globalPosition ]
+			             node holder isSelectable and: [
+				             node containsGlobalPoint: globalPosition ] ]
 		             ifNone: [  ].
 
 	childNode ifNil: [ ^ self ].

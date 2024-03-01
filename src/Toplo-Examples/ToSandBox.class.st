@@ -699,7 +699,8 @@ ToSandBox class >> example_ListWithAllClasses [
 
 	| l |
 	l := ToListElement new.
-	l data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]).
+	l dataAccessor addAll:
+		(Smalltalk globals allClasses collect: [ :cls | cls name ]).
 	l openInSpace
 ]
 
@@ -775,6 +776,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 
 	| l selectionMenu menuFactory phtext |
 	l := ToListElement new.
+	l inspect.
 	phtext := (('Invoke the context menu ' , String cr
 	            , 'with a right-click' , String cr
 	            , 'to initialize the list') asRopedText
@@ -798,22 +800,26 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 		lab := ToLabel text: t.
 		lab defaultRawSkin: ToLabelInListSkin new.
 		lab beMultiLine.
-		lab beEditable.
-		lab stillPressedStartDelay: 800 milliSeconds.
-		lab addEventHandler: (BlEventHandler
-				 on: ToStillPressedLookEvent
-				 do: [ :event |
-					 event consumed: true.
-					 lab addEditorEvent: event ]).
-		lab addEventHandler: (BlEventHandler
-				 on: ToLabelEditorOpenedEvent
-				 do: [ l disableScrolledEvent ]).
-		lab addEventHandler: (BlEventHandler
-				 on: ToLabelEditorClosedEvent
-				 do: [ l enableScrolledEvent ]).
-		lab addEventHandler: (BlEventHandler
-				 on: ToLabelTextReplacedEvent
-				 do: [ l dataAccessor at: holder position put: lab text asString ]).
+		holder isSelectable
+			ifTrue: [
+				lab beEditable.
+				lab stillPressedStartDelay: 800 milliSeconds.
+				lab addEventHandler: (BlEventHandler
+						 on: ToStillPressedLookEvent
+						 do: [ :event |
+							 event consumed: true.
+							 lab addEditorEvent: event ]).
+				lab addEventHandler: (BlEventHandler
+						 on: ToLabelEditorOpenedEvent
+						 do: [ l disableScrolledEvent ]).
+				lab addEventHandler: (BlEventHandler
+						 on: ToLabelEditorClosedEvent
+						 do: [ l enableScrolledEvent ]).
+				lab addEventHandler: (BlEventHandler
+						 on: ToLabelTextReplacedEvent
+						 do: [
+						 l dataAccessor at: holder position put: lab text asString ]) ]
+			ifFalse: [ node background: (Color red alpha: 0.5) ].
 		node addChild: (ToLabeledIcon new
 				 label: lab;
 				 hMatchParent) ].

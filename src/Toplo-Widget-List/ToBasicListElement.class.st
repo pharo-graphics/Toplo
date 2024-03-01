@@ -10,7 +10,9 @@ Class {
 		'selectionMode',
 		'sharedEventDistributors',
 		'disabledSelecter',
-		'disabledSelectionModel'
+		'disabledSelectionModel',
+		'unselectableSelectionModel',
+		'unselectableSelecter'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -137,7 +139,7 @@ ToBasicListElement >> infiniteSharedEvents [
 { #category : #initialization }
 ToBasicListElement >> initialize [
 
-	| operatorForDisabledItems |
+	| operatorForDisabledItems operatorForUnselectableItems |
 	super initialize.
 	
 	self nodeBuilder: self defaultNodeBuilder.
@@ -145,6 +147,15 @@ ToBasicListElement >> initialize [
 	
 	self next: self defaultInfiniteElement.
 	self next elevation: (BlRelativeElevation elevation: 10).
+
+	unselectableSelectionModel := self newSelectionModel.
+	unselectableSelecter := ToMultiSelectionModelSelecter new.
+	operatorForUnselectableItems := ToUnselectableSelectionModelOperator new
+		                            selectionModel: unselectableSelectionModel;
+		                            yourself.
+	operatorForUnselectableItems onInstalledIn: self.
+	unselectableSelecter operator: operatorForUnselectableItems.
+	unselectableSelecter onInstalledIn: self.
 
 	self selectionModel: self newSelectionModel.
 	self layout: self defaultLayout.
@@ -154,11 +165,9 @@ ToBasicListElement >> initialize [
 	self installSharedEventDistributors.
 
 	self addChild: self next.
-	self contextMenuWindowManagerClass:
-		ToListElementContextMenuWindowManager.
+	self contextMenuWindowManagerClass: ToListElementContextMenuWindowManager.
 	self addEventHandler: ToListPrimarySelectionElementEventHandler new.
-	self addEventHandler:
-		ToListElementContextMenuSelectionEventHandler new.
+	self addEventHandler:	ToListElementContextMenuSelectionEventHandler new.
 	self addEventHandler: ToCommandEventHandler new.
 
 	disabledSelectionModel := self newSelectionModel.
@@ -169,8 +178,7 @@ ToBasicListElement >> initialize [
 	operatorForDisabledItems onInstalledIn: self.
 	disabledSelecter operator: operatorForDisabledItems.
 	disabledSelecter onInstalledIn: self.
-	self addEventHandler: ToListDisabledSelectionEventHandler new.
-
+	
 	self matchParent
 ]
 
@@ -300,6 +308,12 @@ ToBasicListElement >> notifySecondarySelectionChanged: aSelectionChangedEvent [
 	self dispatchEvent: aSelectionChangedEvent
 ]
 
+{ #category : #'event firing' }
+ToBasicListElement >> notifyUnselectableSelectionChanged: aSelectionChangedEvent [
+
+	self dispatchEvent: aSelectionChangedEvent
+]
+
 { #category : #'t - element with placeholder' }
 ToBasicListElement >> placeholderElevation [
 
@@ -373,6 +387,18 @@ ToBasicListElement >> uninstallSharedEventDistributors [
 		self infinite removeEventHandlersSuchThat: [ :h | handler = h ] ].
 
 	sharedEventDistributors := nil
+]
+
+{ #category : #accessing }
+ToBasicListElement >> unselectableSelecter [
+
+	^ unselectableSelecter
+]
+
+{ #category : #accessing }
+ToBasicListElement >> unselectableSelectionModel [
+
+	^ unselectableSelectionModel
 ]
 
 { #category : #orientation }

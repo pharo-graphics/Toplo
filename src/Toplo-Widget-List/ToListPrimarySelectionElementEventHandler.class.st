@@ -61,7 +61,9 @@ ToListPrimarySelectionElementEventHandler >> newSelectionElementsFromEvent: anEv
 
 	| adjacentNodeGroups target |
 	target := anEvent currentTarget.
-	adjacentNodeGroups := target infinite nodeGroupsSatisfying: [ :n | n holder isSelected ].
+	adjacentNodeGroups := target infinite nodeGroupsSatisfying: [ :n |
+		                      n holder isSelectable and: [
+			                      n holder isSelected ] ].
 	^ adjacentNodeGroups collect: [ :g |
 		  ToListPrimarySelectionElement new
 			  listElement: target;
@@ -79,13 +81,14 @@ ToListPrimarySelectionElementEventHandler >> updateSelectionFromEvent: anEvent [
 	newSelElements := self newSelectionElementsFromEvent: anEvent.
 	previous do: [ :s | s removeFromParent ].
 	target addChildren: newSelElements.
-	
+
 	nodesArray := target infinite children asArray.
 	selectionModel := target selectionModel.
 
 	" Dispatch the event that is used by the skin state generator to generate the selection state "
 	nodesArray do: [ :node |
-		node dispatchEvent: (ToListNodeSelectedEvent new
-				 listElement: target;
-				 selected: (selectionModel containsIndex: node holder position)) ]
+		node holder isSelectable ifTrue: [
+			node dispatchEvent: (ToListNodeSelectedEvent new
+					 listElement: target;
+					 selected: (selectionModel containsIndex: node holder position)) ] ]
 ]

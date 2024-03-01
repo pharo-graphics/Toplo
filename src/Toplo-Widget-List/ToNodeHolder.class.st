@@ -58,11 +58,26 @@ ToNodeHolder >> isEnabled [
 ]
 
 { #category : #accessing }
+ToNodeHolder >> isSelectable [
+
+	^ self isUnselectable not
+]
+
+{ #category : #accessing }
 ToNodeHolder >> isSelected [
 
 	^ self listElement
 		  ifNil: [ false ]
 		  ifNotNil: [ :le | le selectionModel containsIndex: self position ]
+]
+
+{ #category : #accessing }
+ToNodeHolder >> isUnselectable [
+
+	^ self listElement
+		  ifNil: [ true ]
+		  ifNotNil: [ :le |
+		  le unselectableSelectionModel containsIndex: self position ]
 ]
 
 { #category : #accessing }

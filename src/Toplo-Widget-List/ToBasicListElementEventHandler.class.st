@@ -5,6 +5,12 @@ Class {
 }
 
 { #category : #'infinite event handling' }
+ToBasicListElementEventHandler >> buildNode: aNode in: aListElement [
+
+	aListElement nodeBuilder value: aNode value: aNode holder
+]
+
+{ #category : #'infinite event handling' }
 ToBasicListElementEventHandler >> collectionEmptinessEvent: anEvent [
 
 	| target |
@@ -48,6 +54,8 @@ ToBasicListElementEventHandler >> elementScrolledEvent: anEvent [
 ToBasicListElementEventHandler >> eventsToHandle [
 
 	^ {
+		  ToListUnselectableSelectionChangedEvent.
+		  ToListDisabledSelectionChangedEvent.
 		  ToListDataSourceItemsChangeEvent.
 
 		  BlElementAddedToSceneGraphEvent.
@@ -71,7 +79,7 @@ ToBasicListElementEventHandler >> infiniteElementAttachedEvent: anEvent [
 	listElement := anEvent currentTarget.
 	node := anEvent element.
 	node holder listElement: listElement.
-	listElement nodeBuilder value: node value: node holder.
+	self buildNode: node in: listElement.
 	node holder isEnabled
 		ifTrue: [ node enabled: true ]
 		ifFalse: [ node disabled: true ].
@@ -85,9 +93,8 @@ ToBasicListElementEventHandler >> infiniteElementDetachedEvent: anEvent [
 	node := anEvent element.
 	listElement := anEvent currentTarget.
 	listElement selectionMode onRemovedNode: node.
-	listElement nodeReleaser value: node value: node holder.
-	node holder listElement: nil.
-
+	self releaseNode: node in: listElement.
+	node holder listElement: nil
 ]
 
 { #category : #'infinite event handling' }
@@ -95,6 +102,12 @@ ToBasicListElementEventHandler >> listDataSourceItemsAddedEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
+	target unselectableSelecter
+		shiftSelection: anEvent itemCount
+		from: anEvent position.
+	target disabledSelecter
+		shiftSelection: anEvent itemCount
+		from: anEvent position.
 	target selecter
 		shiftSelection: anEvent itemCount
 		from: anEvent position
@@ -109,15 +122,47 @@ ToBasicListElementEventHandler >> listDataSourceItemsRemovedEvent: anEvent [
 		target selecter
 			deselectIndex: anEvent position
 			to: anEvent position + anEvent itemCount - 1 ].
-	target selecter
+"	target unselectableSelecter
+		shiftSelection: anEvent itemCount negated
+		from: anEvent position.
+	target disabledSelecter
+		shiftSelection: anEvent itemCount negated
+		from: anEvent position.
+"	target selecter
 		shiftSelection: anEvent itemCount negated
 		from: anEvent position
+]
+
+{ #category : #'list element handling' }
+ToBasicListElementEventHandler >> listDisabledSelectionChangedEvent: anEvent [
+
+	| target nodesArray selectionModel |
+	target := anEvent currentTarget.
+	target isAttachedToSceneGraph ifFalse: [ ^ self ].
+
+	nodesArray := target infinite children asArray.
+	selectionModel := target disabledSelectionModel.
+
+	nodesArray do: [ :node |
+		(selectionModel containsIndex: node holder position)
+			ifTrue: [ node disabled: true ]
+			ifFalse: [ node disabled: false ] ].
+	target requestLayout
 ]
 
 { #category : #'infinite event handling' }
 ToBasicListElementEventHandler >> listPrimarySelectionModeChangedEvent: anEvent [
 
 	anEvent currentTarget selectionModel deselectAll 
+]
+
+{ #category : #'list element handling' }
+ToBasicListElementEventHandler >> listUnselectableSelectionChangedEvent: anEvent [
+
+	| target |
+	target := anEvent currentTarget.	
+	target isAttachedToSceneGraph ifFalse: [ ^ self ].
+	self rebuildNodesIn: target
 ]
 
 { #category : #'mouse handlers' }
@@ -156,6 +201,28 @@ ToBasicListElementEventHandler >> onItemsRemoved: anEvent [
 		                         position: anEvent position;
 		                         yourself.
 	target notifyDataSourceItemsChanged: dataSourceChangeEvent
+]
+
+{ #category : #'infinite event handling' }
+ToBasicListElementEventHandler >> rebuildNode: aNode in: aListElement [
+
+	aListElement nodeReleaser value: aNode value: aNode holder.
+	aListElement nodeBuilder value: aNode value: aNode holder
+]
+
+{ #category : #'list element handling' }
+ToBasicListElementEventHandler >> rebuildNodesIn: aListElement [
+
+	aListElement notifyPrimarySelectionDirty.
+	aListElement infinite childrenDo: [ :node |
+		self rebuildNode: node in: aListElement ].
+
+]
+
+{ #category : #'infinite event handling' }
+ToBasicListElementEventHandler >> releaseNode: aNode in: aListElement [
+
+	aListElement nodeReleaser value: aNode value: aNode holder
 ]
 
 { #category : #'list element handling' }

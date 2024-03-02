@@ -4,8 +4,7 @@ Class {
 	#instVars : [
 		'currentIndex',
 		'operator',
-		'operateSilently',
-		'unselectableSelectionModel'
+		'operateSilently'
 	],
 	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
@@ -107,16 +106,13 @@ ToSelectionModelSelecter >> nextSelectableIndex [
 { #category : #private }
 ToSelectionModelSelecter >> nextSelectableIndexStartingAt: anIndex [
 
-	anIndex to: unselectableSelectionModel itemCount do: [ :idx |
-		(unselectableSelectionModel containsIndex: idx) ifFalse: [ ^ idx ] ].
-	^ 0
+	^ self selectionModel nextSelectableIndexStartingAt: anIndex
 ]
 
 { #category : #'api - hooks' }
 ToSelectionModelSelecter >> onInstalledIn: anEventTarget [
 
 	super onInstalledIn: anEventTarget.
-	unselectableSelectionModel := anEventTarget unselectableSelectionModel.
 	currentIndex := 0
 ]
 
@@ -125,8 +121,7 @@ ToSelectionModelSelecter >> onUninstalledIn: anEventTarget [
 
 	super onUninstalledIn: anEventTarget.
 	operator := nil.
-	currentIndex := 0.
-	unselectableSelectionModel := nil
+	currentIndex := 0
 ]
 
 { #category : #accessing }
@@ -167,9 +162,7 @@ ToSelectionModelSelecter >> previousSelectableIndex [
 { #category : #private }
 ToSelectionModelSelecter >> previousSelectableIndexStartingAt: anIndex [
 
-	anIndex to: 1 by: -1 do: [ :idx |
-		(unselectableSelectionModel containsIndex: idx) ifFalse: [ ^ idx ] ].
-	^ 0
+	^ self selectionModel previousSelectableIndexStartingAt: anIndex
 ]
 
 { #category : #operations }
@@ -243,20 +236,5 @@ ToSelectionModelSelecter >> shiftSelection: anInteger from: anIndex [
 { #category : #private }
 ToSelectionModelSelecter >> sideIdx: aGap [
 
-	| nextIdx |
-	nextIdx := self currentIndex.
-	(self selectionModel containsIndex: nextIdx) ifFalse: [
-		^ aGap < 0
-			  ifTrue: [ self previousSelectableIndexStartingAt: nextIdx ]
-			  ifFalse: [ self nextSelectableIndexStartingAt: nextIdx ] ].
-	[
-	(nextIdx between: 1 and: self itemCount) and: [
-		(self selectionModel containsIndex: nextIdx) or: [
-			unselectableSelectionModel containsIndex: nextIdx ] ] ] whileTrue: [
-		nextIdx := nextIdx + aGap ].
-	nextIdx := (nextIdx max: 1) min: self itemCount.
-
-	^ (unselectableSelectionModel containsIndex: nextIdx)
-		  ifTrue: [ 0 ]
-		  ifFalse: [ nextIdx ]
+	^ self selectionModel sideIdx: aGap startingAt: self currentIndex
 ]

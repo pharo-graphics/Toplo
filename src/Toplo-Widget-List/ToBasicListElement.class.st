@@ -4,15 +4,15 @@ Class {
 	#traits : 'TToListElementDecorator + TToElementWithPlaceholder',
 	#classTraits : 'TToListElementDecorator classTrait + TToElementWithPlaceholder classTrait',
 	#instVars : [
-		'nodeBuilder',
-		'nodeReleaser',
 		'selectionModel',
 		'selectionMode',
 		'sharedEventDistributors',
 		'disabledSelecter',
 		'disabledSelectionModel',
 		'unselectableSelectionModel',
-		'unselectableSelecter'
+		'unselectableSelecter',
+		'nodeBuilderIndex',
+		'nodeReleaserIndex'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -141,13 +141,13 @@ ToBasicListElement >> initialize [
 
 	| operatorForDisabledItems operatorForUnselectableItems |
 	super initialize.
-	
-	self nodeBuilder: self defaultNodeBuilder.
-	self nodeReleaser: self defaultNodeReleaser.
-	
+
 	self next: self defaultInfiniteElement.
 	self next elevation: (BlRelativeElevation elevation: 10).
 
+	nodeBuilderIndex := IdentityDictionary new.
+	nodeReleaserIndex := IdentityDictionary new.
+	
 	unselectableSelectionModel := self newSelectionModel.
 	unselectableSelecter := ToMultiSelectionModelSelecter new.
 	operatorForUnselectableItems := ToUnselectableSelectionModelOperator new
@@ -157,7 +157,16 @@ ToBasicListElement >> initialize [
 	unselectableSelecter operator: operatorForUnselectableItems.
 	unselectableSelecter onInstalledIn: self.
 
-	self selectionModel: self newSelectionModel.
+	disabledSelectionModel := self newSelectionModel.
+	disabledSelecter := ToMultiSelectionModelSelecter new.
+	operatorForDisabledItems := ToDisabledSelectionModelOperator new
+		                            selectionModel: disabledSelectionModel;
+		                            yourself.
+	operatorForDisabledItems onInstalledIn: self.
+	disabledSelecter operator: operatorForDisabledItems.
+	disabledSelecter onInstalledIn: self.
+
+	self selectionModel: self newPrimarySelectionModel.
 	self layout: self defaultLayout.
 
 	self selectionMode: self defaultSelectionMode.
@@ -169,15 +178,6 @@ ToBasicListElement >> initialize [
 	self addEventHandler: ToListPrimarySelectionElementEventHandler new.
 	self addEventHandler:	ToListElementContextMenuSelectionEventHandler new.
 	self addEventHandler: ToCommandEventHandler new.
-
-	disabledSelectionModel := self newSelectionModel.
-	disabledSelecter := ToMultiSelectionModelSelecter new.
-	operatorForDisabledItems := ToDisabledSelectionModelOperator new
-		                            selectionModel: disabledSelectionModel;
-		                            yourself.
-	operatorForDisabledItems onInstalledIn: self.
-	disabledSelecter operator: operatorForDisabledItems.
-	disabledSelecter onInstalledIn: self.
 	
 	self matchParent
 ]
@@ -224,6 +224,12 @@ ToBasicListElement >> itemCount [
 	^ self dataSource itemCount
 ]
 
+{ #category : #initialization }
+ToBasicListElement >> newPrimarySelectionModel [
+
+	^ ToPrimarySelectionModel new
+]
+
 { #category : #skin }
 ToBasicListElement >> newRawSkin [ 
 
@@ -242,28 +248,40 @@ ToBasicListElement >> newSelectionModel [
 ToBasicListElement >> nodeBuilder [
 
 	"aValuable takes 2 args: first, the ToNode to build and second, its holder in the list element "
-	^ nodeBuilder
+	^ self nodeBuilderIndex at: self infinite nodeClass ifAbsentPut: [ self defaultNodeBuilder ]
 ]
 
 { #category : #accessing }
 ToBasicListElement >> nodeBuilder: aValuable [
 
 	"aValuable takes 2 args: first, the ToNode to build and second, its holder in the list element "
-	nodeBuilder := aValuable
+	self nodeBuilderIndex at: self infinite nodeClass put: aValuable
+]
+
+{ #category : #accessing }
+ToBasicListElement >> nodeBuilderIndex [
+
+	^ nodeBuilderIndex 
 ]
 
 { #category : #accessing }
 ToBasicListElement >> nodeReleaser [
 
 	"aValuable takes 2 args: first, the ToNode to release and second, its holder in the list element "
-	^ nodeReleaser
+	^ self nodeReleaserIndex at: self infinite nodeClass ifAbsentPut: [ self defaultNodeReleaser ]
 ]
 
 { #category : #accessing }
 ToBasicListElement >> nodeReleaser: aValuable [
 
 	"aValuable takes 2 args: first, the ToNode to release and second, its holder in the list element "
-	nodeReleaser := aValuable
+	self nodeReleaserIndex at: self infinite nodeClass put: aValuable
+]
+
+{ #category : #accessing }
+ToBasicListElement >> nodeReleaserIndex [
+
+	^ nodeReleaserIndex 
 ]
 
 { #category : #'event firing' }

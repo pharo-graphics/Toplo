@@ -102,12 +102,6 @@ ToBasicListElementEventHandler >> listDataSourceItemsAddedEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	target unselectableSelecter
-		shiftSelection: anEvent itemCount
-		from: anEvent position.
-	target disabledSelecter
-		shiftSelection: anEvent itemCount
-		from: anEvent position.
 	target selecter
 		shiftSelection: anEvent itemCount
 		from: anEvent position
@@ -119,16 +113,13 @@ ToBasicListElementEventHandler >> listDataSourceItemsRemovedEvent: anEvent [
 	| target |
 	target := anEvent currentTarget.
 	target dataAccessor size >= anEvent position ifTrue: [
+		target disabledSelectionModel
+			deselectIndex: anEvent position
+			to: anEvent position + anEvent itemCount - 1.
 		target selecter
 			deselectIndex: anEvent position
 			to: anEvent position + anEvent itemCount - 1 ].
-"	target unselectableSelecter
-		shiftSelection: anEvent itemCount negated
-		from: anEvent position.
-	target disabledSelecter
-		shiftSelection: anEvent itemCount negated
-		from: anEvent position.
-"	target selecter
+	target selecter
 		shiftSelection: anEvent itemCount negated
 		from: anEvent position
 ]
@@ -142,12 +133,7 @@ ToBasicListElementEventHandler >> listDisabledSelectionChangedEvent: anEvent [
 
 	nodesArray := target infinite children asArray.
 	selectionModel := target disabledSelectionModel.
-
-	nodesArray do: [ :node |
-		(selectionModel containsIndex: node holder position)
-			ifTrue: [ node disabled: true ]
-			ifFalse: [ node disabled: false ] ].
-	target requestLayout
+	target dataSource notifyChanged
 ]
 
 { #category : #'infinite event handling' }
@@ -162,7 +148,7 @@ ToBasicListElementEventHandler >> listUnselectableSelectionChangedEvent: anEvent
 	| target |
 	target := anEvent currentTarget.	
 	target isAttachedToSceneGraph ifFalse: [ ^ self ].
-	self rebuildNodesIn: target
+	target dataSource notifyChanged
 ]
 
 { #category : #'mouse handlers' }
@@ -201,22 +187,6 @@ ToBasicListElementEventHandler >> onItemsRemoved: anEvent [
 		                         position: anEvent position;
 		                         yourself.
 	target notifyDataSourceItemsChanged: dataSourceChangeEvent
-]
-
-{ #category : #'infinite event handling' }
-ToBasicListElementEventHandler >> rebuildNode: aNode in: aListElement [
-
-	aListElement nodeReleaser value: aNode value: aNode holder.
-	aListElement nodeBuilder value: aNode value: aNode holder
-]
-
-{ #category : #'list element handling' }
-ToBasicListElementEventHandler >> rebuildNodesIn: aListElement [
-
-	aListElement notifyPrimarySelectionDirty.
-	aListElement infinite childrenDo: [ :node |
-		self rebuildNode: node in: aListElement ].
-
 ]
 
 { #category : #'infinite event handling' }

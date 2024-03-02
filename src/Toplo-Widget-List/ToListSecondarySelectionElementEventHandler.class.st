@@ -59,7 +59,9 @@ ToListSecondarySelectionElementEventHandler >> mouseMoveEvent: anEvent [
 	infinite := target infinite.
 	globalPosition := anEvent position.
 	childNode := infinite children
-		             detect: [ :node | node holder isSelectable and: [ node containsGlobalPoint: globalPosition ] ]
+		             detect: [ :node |
+			             node holder isSelectable and: [
+				             node containsGlobalPoint: globalPosition ] ]
 		             ifNone: [  ].
 	childNode ifNil: [
 		target secondarySelecter deselectAll.

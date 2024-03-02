@@ -12,7 +12,7 @@ ToListNodeMultiSelectionClickEventHandler >> clickEvent: anEvent [
 
 	| node listElement mode |
 	node := anEvent currentTarget.
-	node holder isUnselectable ifTrue: [ ^ self ].
+	node holder isSelectable ifFalse: [ ^ self ].
 	listElement := node holder listElement.
 	mode := listElement selectionMode.
 	mode selectOnMouseDown ifTrue: [ ^ self ].

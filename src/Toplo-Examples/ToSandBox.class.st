@@ -897,6 +897,12 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 									                target disabledSelecter selectIndex: idx ] ] ];
 				                yourself).
 		               selectionMenu addItem: (ToMenuItem new
+				                labelText: 'Set unselectable';
+				                whenClickedDo: [ :event |
+					                selectedIndexes do: [ :idx |
+							                target unselectableSelecter selectIndex: idx ] ];
+				                yourself).
+		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Insert before';
 				                whenClickedDo: [ :event |
 					                | idx |
@@ -2288,6 +2294,9 @@ ToSandBox class >> example_listStressWithFork [
 	| tabsPanel list1 tab1 tabSize |
 	tabSize := 1.
 	list1 := ToListElement new.
+	list1 nodeBuilder: [ :node :holder |
+		node addChild: (ToLabel text: holder dataItem asString) hMatchParent.
+		holder isUnselectable ifTrue: [ node background: Color red ] ].
 	list1 inspect.
 	list1 constraints vertical matchParent.
 	list1 constraints horizontal matchParent.
@@ -2305,7 +2314,7 @@ ToSandBox class >> example_listStressWithFork [
 	list1 enqueueTask: (BlTaskAction new action: [
 			 [
 			 1 to: 10000 do: [ :e |
-				 | r r2 |
+				 | r r2 r3 |
 				 tabsPanel enqueueTask: (BlTaskAction new action: [
 						  1 to: tabSize do: [ :i |
 						  list1 dataAccessor at: i put: 'Hello ' , e asString ].
@@ -2318,7 +2327,10 @@ ToSandBox class >> example_listStressWithFork [
 						  list1 selecter selectIndex: r.
 						  r2 := (Random new next * 10000) asInteger
 						        \\ (list1 dataAccessor size - 1) + 1.
+						  r3 := (Random new next * 10000) asInteger
+						        \\ (list1 dataAccessor size - 1) + 1.
 						  list1 disabledSelecter selectIndex: r2.
+						  list1 unselectableSelecter selectIndex: r3.
 						  list1 dataAccessor removeAt:
 							  (r + 1 min: list1 dataAccessor size).
 						  list1 scrollToIndex: list1 dataAccessor size ]).

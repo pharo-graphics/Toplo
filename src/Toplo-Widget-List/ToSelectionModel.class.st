@@ -107,6 +107,12 @@ ToSelectionModel >> isNotEmpty [
 	^ self isEmpty not
 ]
 
+{ #category : #testing }
+ToSelectionModel >> isUnselectableIndex: anIndex [
+
+	^ false
+]
+
 { #category : #accessing }
 ToSelectionModel >> itemCount [
 
@@ -135,6 +141,13 @@ ToSelectionModel >> lastIndex [
 	^ self underlyingModel to
 ]
 
+{ #category : #accessing }
+ToSelectionModel >> nextSelectableIndexStartingAt: anIndex [
+
+	anIndex < self itemCount ifTrue: [ ^ anIndex ].
+	^ 0
+]
+
 { #category : #'api - hooks' }
 ToSelectionModel >> onInstalledIn: anElement [
 
@@ -152,6 +165,13 @@ ToSelectionModel >> postCopy [
 
 	super postCopy.
 	underlyingModel := underlyingModel copy
+]
+
+{ #category : #accessing }
+ToSelectionModel >> previousSelectableIndexStartingAt: anIndex [
+
+	anIndex > 0 ifTrue: [ ^ anIndex ].
+	^ 0
 ]
 
 { #category : #updating }
@@ -246,6 +266,27 @@ ToSelectionModel >> shift: aGap from: aStartIndex [
 			prev indicesDo: [ :idx |
 				(idx >= aStartIndex and: [ idx + aGap > 0 ]) ifTrue: [
 					self underlyingModel selectIndex: idx + aGap ] ] ]
+]
+
+{ #category : #accessing }
+ToSelectionModel >> sideIdx: aGap startingAt: anIndex [
+
+	| nextIdx |
+	nextIdx := anIndex.
+	(self containsIndex: nextIdx) ifFalse: [
+		^ aGap < 0
+			  ifTrue: [ self previousSelectableIndexStartingAt: nextIdx ]
+			  ifFalse: [ self nextSelectableIndexStartingAt: nextIdx ] ].
+	[
+	(nextIdx between: 1 and: self itemCount) and: [
+		(self containsIndex: nextIdx) or: [
+			self isUnselectableIndex:  nextIdx ] ] ] whileTrue: [
+		nextIdx := nextIdx + aGap ].
+	nextIdx := (nextIdx max: 1) min: self itemCount.
+
+	^ (self isUnselectableIndex:  nextIdx)
+		  ifTrue: [ 0 ]
+		  ifFalse: [ nextIdx ]
 ]
 
 { #category : #accessing }

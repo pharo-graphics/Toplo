@@ -91,6 +91,20 @@ ToSelectionModelSelecter >> nextDeselectedIndex [
 ]
 
 { #category : #private }
+ToSelectionModelSelecter >> nextIndexToScrollTo [
+
+	| next |
+	next := self nextSelectableIndex.
+	" not on the last selectable position -> just return the next index else, return 1 or 0"
+	^ self currentIndex < (self previousSelectableIndexStartingAt: self selectionModel itemCount)
+		  ifTrue: [ next ]
+		  ifFalse: [
+			  self selectionModel itemCount > 0
+				  ifTrue: [ 1 ]
+				  ifFalse: [ 0 ] ]
+]
+
+{ #category : #private }
 ToSelectionModelSelecter >> nextSelectableIndex [
 
 	self currentIndex isZero
@@ -98,8 +112,9 @@ ToSelectionModelSelecter >> nextSelectableIndex [
 			self itemCount isZero ifTrue: [ ^ 0 ].
 			^ self nextSelectableIndexStartingAt: 1 ]
 		ifFalse: [
-			self currentIndex < self itemCount ifFalse: [
-				^ self nextSelectableIndexStartingAt: 1 ] ].
+			self currentIndex
+			< (self previousSelectableIndexStartingAt: self itemCount)
+				ifFalse: [ ^ self nextSelectableIndexStartingAt: 1 ] ].
 	^ self nextSelectableIndexStartingAt: self currentIndex + 1
 ]
 
@@ -149,13 +164,28 @@ ToSelectionModelSelecter >> previousDeselectedIndex [
 ]
 
 { #category : #private }
+ToSelectionModelSelecter >> previousIndexToScrollTo [
+
+	| prev |
+	prev := self previousSelectableIndex.
+	" not exactly on the first selectable position -> just return the previous index else, return self itemCount or 0"
+	^ self currentIndex > (self nextSelectableIndexStartingAt: 1)
+		  ifTrue: [ prev ]
+		  ifFalse: [
+			  self selectionModel itemCount > 0
+				  ifTrue: [ self selectionModel itemCount ]
+				  ifFalse: [ 0 ] ]
+]
+
+{ #category : #private }
 ToSelectionModelSelecter >> previousSelectableIndex [
 
 	self currentIndex isZero
 		ifTrue: [
 			self itemCount isZero ifTrue: [ ^ 0 ].
 			^ self previousSelectableIndexStartingAt: self itemCount ]
-		ifFalse: [ self currentIndex > 1 ifFalse: [ ^ self previousSelectableIndexStartingAt: self itemCount ] ].
+		ifFalse: [ self currentIndex > (self nextSelectableIndexStartingAt: 1) 
+			ifFalse: [ ^ self previousSelectableIndexStartingAt: self itemCount ] ].
 	^ self previousSelectableIndexStartingAt: self currentIndex - 1
 ]
 

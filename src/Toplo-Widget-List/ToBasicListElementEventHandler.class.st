@@ -112,13 +112,6 @@ ToBasicListElementEventHandler >> listDataSourceItemsRemovedEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	target dataAccessor size >= anEvent position ifTrue: [
-		target disabledSelectionModel
-			deselectIndex: anEvent position
-			to: anEvent position + anEvent itemCount - 1.
-		target selecter
-			deselectIndex: anEvent position
-			to: anEvent position + anEvent itemCount - 1 ].
 	target selecter
 		shiftSelection: anEvent itemCount negated
 		from: anEvent position

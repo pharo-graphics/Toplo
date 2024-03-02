@@ -11,7 +11,7 @@ Class {
 { #category : #hook }
 ToSelectionModelShiftCommand >> applyOn: anObject for: aTarget [
 
-	anObject selectionModelShiftCommand: self
+	anObject selectionModelShiftCommand: self for: aTarget
 ]
 
 { #category : #accessing }

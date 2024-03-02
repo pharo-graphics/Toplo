@@ -25,7 +25,7 @@ ToListElementSkin >> shortcutsToInstallIn: aListElement [
 				   combination: BlKeyCombination builder arrowDown build;
 				   action: [ :aShortcutEvent :aShortcut |
 					   | idx |
-					   idx := aListElement selecter nextSelectableIndex.
+					   idx := aListElement selecter nextIndexToScrollTo.
 					   aListElement selecter scrollToIndex: idx.
 					   aListElement selecter selectOnlyIndex: idx ]).
 
@@ -33,7 +33,7 @@ ToListElementSkin >> shortcutsToInstallIn: aListElement [
 				   combination: BlKeyCombination builder arrowUp build;
 				   action: [ :aShortcutEvent :aShortcut |
 					   | idx |
-					   idx := aListElement selecter previousSelectableIndex.
+					   idx := aListElement selecter previousIndexToScrollTo.
 					   aListElement selecter scrollToIndex: idx.
 					   aListElement selecter selectOnlyIndex: idx ]).
 

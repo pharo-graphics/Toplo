@@ -55,9 +55,9 @@ ToPrimarySelectionModel >> onUninstalledIn: anElement [
 
 { #category : #accessing }
 ToPrimarySelectionModel >> previousSelectableIndexStartingAt: anIndex [
-
 	unselectableSelectionModel ifEmpty: [
-		^ super previousSelectableIndexStartingAt: anIndex ].	
+		^ super previousSelectableIndexStartingAt: anIndex ].
+
 	anIndex to: 1 by: -1 do: [ :idx |
 		(unselectableSelectionModel containsIndex: idx) ifFalse: [ ^ idx ] ].
 	^ 0
@@ -81,6 +81,14 @@ ToPrimarySelectionModel >> selectIndex: aFirstIndex to: aSecondIndex [
 
 { #category : #updating }
 ToPrimarySelectionModel >> shift: aGap from: aStartIndex [
+
+	(aGap < 0 and: [ self itemCount >= aStartIndex ]) ifTrue: [
+		| count |
+		count := aGap abs.
+		disabledSelectionModel
+			deselectIndex: aStartIndex
+			to: aStartIndex + count - 1.
+		self deselectIndex: aStartIndex to: aStartIndex + count - 1 ].
 
 	super shift: aGap from: aStartIndex.
 	unselectableSelectionModel shift: aGap from: aStartIndex.

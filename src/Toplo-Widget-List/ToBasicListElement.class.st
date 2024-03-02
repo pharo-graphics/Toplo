@@ -248,14 +248,14 @@ ToBasicListElement >> newSelectionModel [
 ToBasicListElement >> nodeBuilder [
 
 	"aValuable takes 2 args: first, the ToNode to build and second, its holder in the list element "
-	^ self nodeBuilderIndex at: self infinite nodeClass ifAbsentPut: [ self defaultNodeBuilder ]
+	^ self nodeBuilderIndex at: Object ifAbsentPut: [ self defaultNodeBuilder ]
 ]
 
 { #category : #accessing }
 ToBasicListElement >> nodeBuilder: aValuable [
 
 	"aValuable takes 2 args: first, the ToNode to build and second, its holder in the list element "
-	self nodeBuilderIndex at: self infinite nodeClass put: aValuable
+	self nodeBuilderIndex at: Object put: aValuable
 ]
 
 { #category : #accessing }
@@ -268,14 +268,14 @@ ToBasicListElement >> nodeBuilderIndex [
 ToBasicListElement >> nodeReleaser [
 
 	"aValuable takes 2 args: first, the ToNode to release and second, its holder in the list element "
-	^ self nodeReleaserIndex at: self infinite nodeClass ifAbsentPut: [ self defaultNodeReleaser ]
+	^ self nodeReleaserIndex at: Object ifAbsentPut: [ self defaultNodeReleaser ]
 ]
 
 { #category : #accessing }
 ToBasicListElement >> nodeReleaser: aValuable [
 
 	"aValuable takes 2 args: first, the ToNode to release and second, its holder in the list element "
-	self nodeReleaserIndex at: self infinite nodeClass put: aValuable
+	self nodeReleaserIndex at: Object put: aValuable
 ]
 
 { #category : #accessing }

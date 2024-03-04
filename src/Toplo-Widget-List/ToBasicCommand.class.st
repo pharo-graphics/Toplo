@@ -16,6 +16,12 @@ ToBasicCommand >> applyOn: anObject for: aTarget [
 ]
 
 { #category : #accessing }
+ToBasicCommand >> positionStart [
+
+	^ 1
+]
+
+{ #category : #accessing }
 ToBasicCommand >> silent [
 
 	^ silent ifNil: [ silent := false ]

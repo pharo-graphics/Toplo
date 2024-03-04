@@ -15,8 +15,7 @@ ToListElementTest >> listWithRemoveRowButtons [
 	list nodeBuilder: [ :node :holder |
 		| line remBut filler |
 		line := ToPane horizontal id: #row.
-		remBut := ToButton new id:
-			          #'remove-button-' , holder position asString.
+		remBut := ToButton new id: #'remove-button-' , holder position asString.
 		remBut withNullSkin.
 		remBut icon: (ToImage inner: (self iconNamed: #windowClose)).
 		remBut constraintsDo: [ :c | c linear vertical alignCenter ].
@@ -263,7 +262,6 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved3 [
 	BlSpace simulateMouseUpOn: but.
 	self waitTestingSpaces.
 	self assert: list dataAccessor size equals: 1.
-	list selectionModel shift: -1 from: 1.
 	self assert: list selectionModel selectedIndexes isEmpty.
 	but := list childWithId: #'remove-button-2'.
 	BlSpace simulateMouseDownOn: but.

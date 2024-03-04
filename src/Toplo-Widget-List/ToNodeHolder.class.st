@@ -2,7 +2,6 @@ Class {
 	#name : #ToNodeHolder,
 	#superclass : #BlInfiniteHolder,
 	#instVars : [
-		'listElement',
 		'dataItem'
 	],
 	#category : #'Toplo-Widget-List-Node'
@@ -83,13 +82,7 @@ ToNodeHolder >> isUnselectable [
 { #category : #accessing }
 ToNodeHolder >> listElement [
 
-	^ listElement
-]
-
-{ #category : #accessing }
-ToNodeHolder >> listElement: aListElement [
-
-	listElement := aListElement
+	^ infiniteElement listElement
 ]
 
 { #category : #accessing }

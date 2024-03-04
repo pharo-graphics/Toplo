@@ -27,6 +27,20 @@ ToApplicableCommand >> command: aCommand [
 	command := aCommand
 ]
 
+{ #category : #commands }
+ToApplicableCommand >> dispatchToLayout: aLyout [
+]
+
+{ #category : #commands }
+ToApplicableCommand >> offsetPositionsIn: anInfiniteElement [ 
+
+	anInfiniteElement dataSourceManager
+		markElementHoldersUpdated: command positionStart
+		itemCount: 1
+		in: anInfiniteElement
+
+]
+
 { #category : #accessing }
 ToApplicableCommand >> operator [
 

@@ -78,7 +78,6 @@ ToBasicListElementEventHandler >> infiniteElementAttachedEvent: anEvent [
 	| listElement node |
 	listElement := anEvent currentTarget.
 	node := anEvent element.
-	node holder listElement: listElement.
 	self buildNode: node in: listElement.
 	node holder isEnabled
 		ifTrue: [ node enabled: true ]
@@ -93,8 +92,7 @@ ToBasicListElementEventHandler >> infiniteElementDetachedEvent: anEvent [
 	node := anEvent element.
 	listElement := anEvent currentTarget.
 	listElement selectionMode onRemovedNode: node.
-	self releaseNode: node in: listElement.
-	node holder listElement: nil
+	self releaseNode: node in: listElement
 ]
 
 { #category : #'infinite event handling' }

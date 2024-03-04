@@ -234,6 +234,12 @@ ToSelectionModel >> selectedIndexesDo: aBlock [
 { #category : #updating }
 ToSelectionModel >> shift: aGap from: aStartIndex [
 
+	self shift: aGap from: aStartIndex for: nil
+]
+
+{ #category : #updating }
+ToSelectionModel >> shift: aGap from: aStartIndex for: anEventTarget [
+
 	| from to prev high |
 	
 	self flag: 'Certainely too naive. should be optimized. see comments below '.

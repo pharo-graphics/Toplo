@@ -4,7 +4,8 @@ Class {
 	#traits : 'TBlLayoutResizable',
 	#classTraits : 'TBlLayoutResizable classTrait',
 	#instVars : [
-		'nodeClass'
+		'nodeClass',
+		'listElement'
 	],
 	#category : #'Toplo-Widget-List-Infinite'
 }
@@ -13,6 +14,19 @@ Class {
 ToInfiniteElement >> dataAccessor [
 
 	^ self subclassResponsibility 
+]
+
+{ #category : #initialization }
+ToInfiniteElement >> defaultChildrenUpdateRunnable [
+
+	"Return class, actual instantiation happens in initialize"
+	^ ToInfiniteChildrenUpdateRunnable
+]
+
+{ #category : #initialization }
+ToInfiniteElement >> defaultDataSourceManager [
+
+	^ ToInfiniteDataSourceManager new
 ]
 
 { #category : #initialization }
@@ -65,6 +79,12 @@ ToInfiniteElement >> initialize [
 
 	super initialize.
 	self matchParent
+]
+
+{ #category : #accessing }
+ToInfiniteElement >> listElement [
+
+	^ listElement
 ]
 
 { #category : #initialization }
@@ -139,6 +159,12 @@ ToInfiniteElement >> nodeHolderBuilder [
 ToInfiniteElement >> nodeHolderClass [
 
 	^ ToNodeHolder
+]
+
+{ #category : #'api - hooks' }
+ToInfiniteElement >> onInstalledIn: aListElement [
+
+	listElement := aListElement
 ]
 
 { #category : #'t - resizeable' }

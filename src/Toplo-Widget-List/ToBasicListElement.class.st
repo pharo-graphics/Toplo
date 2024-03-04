@@ -4,13 +4,11 @@ Class {
 	#traits : 'TToListElementDecorator + TToElementWithPlaceholder',
 	#classTraits : 'TToListElementDecorator classTrait + TToElementWithPlaceholder classTrait',
 	#instVars : [
-		'selectionModel',
 		'selectionMode',
-		'sharedEventDistributors',
+		'selectionModel',
 		'disabledSelecter',
-		'disabledSelectionModel',
-		'unselectableSelectionModel',
 		'unselectableSelecter',
+		'sharedEventDistributors',
 		'nodeBuilderIndex',
 		'nodeReleaserIndex'
 	],
@@ -108,15 +106,7 @@ ToBasicListElement >> disabledSelecter [
 { #category : #accessing }
 ToBasicListElement >> disabledSelectionModel [
 
-	^ disabledSelectionModel
-]
-
-{ #category : #accessing }
-ToBasicListElement >> disabledSelectionModel: aSelectionModel [
-
-	disabledSelectionModel ifNotNil: [ disabledSelectionModel onUninstalledIn: self ].
-	disabledSelectionModel := aSelectionModel.
-	disabledSelectionModel ifNotNil: [disabledSelectionModel onInstalledIn: self ]
+	^ self disabledSelecter selectionModel
 ]
 
 { #category : #orientation }
@@ -139,16 +129,19 @@ ToBasicListElement >> infiniteSharedEvents [
 { #category : #initialization }
 ToBasicListElement >> initialize [
 
-	| operatorForDisabledItems operatorForUnselectableItems |
+	| operatorForDisabledItems operatorForUnselectableItems unselectableSelectionModel disabledSelectionModel |
 	super initialize.
 
 	self next: self defaultInfiniteElement.
+	self next onInstalledIn: self.
+
 	self next elevation: (BlRelativeElevation elevation: 10).
 
 	nodeBuilderIndex := IdentityDictionary new.
 	nodeReleaserIndex := IdentityDictionary new.
 	
 	unselectableSelectionModel := self newSelectionModel.
+	unselectableSelectionModel onInstalledIn: self.
 	unselectableSelecter := ToMultiSelectionModelSelecter new.
 	operatorForUnselectableItems := ToUnselectableSelectionModelOperator new
 		                            selectionModel: unselectableSelectionModel;
@@ -158,6 +151,7 @@ ToBasicListElement >> initialize [
 	unselectableSelecter onInstalledIn: self.
 
 	disabledSelectionModel := self newSelectionModel.
+	disabledSelectionModel onInstalledIn: self.
 	disabledSelecter := ToMultiSelectionModelSelecter new.
 	operatorForDisabledItems := ToDisabledSelectionModelOperator new
 		                            selectionModel: disabledSelectionModel;
@@ -167,7 +161,7 @@ ToBasicListElement >> initialize [
 	disabledSelecter onInstalledIn: self.
 
 	self selectionModel: self newPrimarySelectionModel.
-	self layout: self defaultLayout.
+	self layout: self defaultLayout.	
 
 	self selectionMode: self defaultSelectionMode.
 	self addEventHandler: self defaultEventHandler.
@@ -416,7 +410,7 @@ ToBasicListElement >> unselectableSelecter [
 { #category : #accessing }
 ToBasicListElement >> unselectableSelectionModel [
 
-	^ unselectableSelectionModel
+	^ self unselectableSelecter selectionModel
 ]
 
 { #category : #orientation }

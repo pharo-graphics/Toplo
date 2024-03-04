@@ -2313,7 +2313,7 @@ ToSandBox class >> example_listStressWithFork [
 
 	list1 enqueueTask: (BlTaskAction new action: [
 			 [
-			 1 to: 10000 do: [ :e |
+			 1 to: 3000 do: [ :e |
 				 | r r2 r3 |
 				 tabsPanel enqueueTask: (BlTaskAction new action: [
 						  1 to: tabSize do: [ :i |

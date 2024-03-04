@@ -18,6 +18,12 @@ TToListElementDecorator >> dataSource [
 	^ self next dataSource
 ]
 
+{ #category : #'t - infinite accessing' }
+TToListElementDecorator >> dataSourceManager [
+	
+	^ next dataSourceManager
+]
+
 { #category : #'t - infinite scrolled event' }
 TToListElementDecorator >> disableScrolledEvent [
 

@@ -80,7 +80,7 @@ ToPrimarySelectionModel >> selectIndex: aFirstIndex to: aSecondIndex [
 ]
 
 { #category : #updating }
-ToPrimarySelectionModel >> shift: aGap from: aStartIndex [
+ToPrimarySelectionModel >> shift: aGap from: aStartIndex for: anEventTarget [
 
 	(aGap < 0 and: [ self itemCount >= aStartIndex ]) ifTrue: [
 		| count |
@@ -90,7 +90,7 @@ ToPrimarySelectionModel >> shift: aGap from: aStartIndex [
 			to: aStartIndex + count - 1.
 		self deselectIndex: aStartIndex to: aStartIndex + count - 1 ].
 
-	super shift: aGap from: aStartIndex.
+	super shift: aGap from: aStartIndex for: anEventTarget.
 	unselectableSelectionModel shift: aGap from: aStartIndex.
 	disabledSelectionModel shift: aGap from: aStartIndex
 ]

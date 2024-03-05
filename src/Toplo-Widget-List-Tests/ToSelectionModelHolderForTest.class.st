@@ -96,6 +96,12 @@ ToSelectionModelHolderForTest >> notifyPrimarySelectionChanged: anEvent [
 	self dispatchEvent: anEvent
 ]
 
+{ #category : #'event firing' }
+ToSelectionModelHolderForTest >> notifyUnselectableSelectionChanged: anEvent [
+
+	self dispatchEvent: anEvent
+]
+
 { #category : #accessing }
 ToSelectionModelHolderForTest >> operator [
 

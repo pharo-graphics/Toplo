@@ -21,7 +21,7 @@ ToPrimarySelectionModelOperator >> applyCommand: aCommand in: aTarget withApplic
 
 	selectionModelChanged ifFalse: [ ^ self ].
 	aTarget notifyPrimarySelectionChanged: (ToListPrimarySelectionChangedEvent new
-			 selectionModel: self selectionModel;
+			 selectionModel: self selectionModel copy;
 			 yourself).
 
 	aTarget notifyUnselectableSelectionChanged: (ToListUnselectableSelectionChangedEvent new

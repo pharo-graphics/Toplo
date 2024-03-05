@@ -9,7 +9,7 @@ ToSecondarySelectionModelOperator >> applyCommand: aCommand in: aTarget withAppl
 
 	super applyCommand: aCommand in: aTarget withApplicationBlock: aBlock.
 	aTarget notifySecondarySelectionChanged: (ToListSecondarySelectionChangedEvent new
-			 selectionModel: self selectionModel" copy";
+			 selectionModel: self selectionModel copy;
 			 yourself)
 ]
 

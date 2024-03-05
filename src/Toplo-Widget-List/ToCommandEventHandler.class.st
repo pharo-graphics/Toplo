@@ -4,7 +4,8 @@ Class {
 	#classTraits : 'TBlEventTarget classTrait',
 	#instVars : [
 		'commandQueue',
-		'applicationTask'
+		'applicationTask',
+		'queued'
 	],
 	#category : #'Toplo-Widget-List-Command'
 }
@@ -20,14 +21,11 @@ ToCommandEventHandler >> addComand: aCommand fromOperator: anOperator inTarget: 
 	targetedCommand := ToApplicableCommand new
 		                   operator: anOperator;
 		                   command: aCommand;
+		                   target: aTarget;
 		                   yourself.
 
 	commandQueue nextPut: targetedCommand.
-	applicationTask ifNotNil: [ ^ self ].
-	applicationTask := BlTaskAction new action: [
-		                   self applyAllIn: aTarget ].
-
-	aTarget enqueueTask: applicationTask
+	self postApplicationTaskIn: aTarget
 ]
 
 { #category : #'event handling' }
@@ -55,9 +53,25 @@ ToCommandEventHandler >> eventsToHandle [
 ]
 
 { #category : #initialization }
-ToCommandEventHandler >> initialize [ 
+ToCommandEventHandler >> initialize [
 
 	super initialize.
 	commandQueue := WaitfreeQueue new.
+	applicationTask := ToInfiniteCommandApplicationTask new
+		                   commandQueue: commandQueue;
+		                   finishedAction: [ queued := false ];
+		                   yourself.
+	queued := false
+]
 
+{ #category : #'event handling' }
+ToCommandEventHandler >> postApplicationTaskIn: anEventTarget [
+	"Post children update runnable to consume update operations"
+	
+	queued ifTrue: [ ^ self ].
+	queued := true.
+	" Allow re-lauching of the same task"
+	applicationTask setNew.
+	" enqueue the update task "
+	anEventTarget enqueueTask: applicationTask
 ]

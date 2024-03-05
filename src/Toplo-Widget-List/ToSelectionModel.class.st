@@ -3,7 +3,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'underlyingModel',
-		'itemCountGetter'
+		'itemCountGetter',
+		'monitor'
 	],
 	#category : #'Toplo-Widget-List-Selection-Model'
 }
@@ -20,25 +21,25 @@ ToSelectionModel >> = anObject [
 { #category : #'api - testing' }
 ToSelectionModel >> containsIndex: anIndex [
 
-	^ self underlyingModel containsIndex: anIndex
+	self underlyingModelDo: [ :ulm | ^ ulm containsIndex: anIndex ]
 ]
 
 { #category : #copying }
 ToSelectionModel >> copySelectionFrom: anotherSelectionModel [
 
-	underlyingModel := anotherSelectionModel underlyingModel copy
+	anotherSelectionModel underlyingModelDo: [ :ulm | underlyingModel := ulm copy ]
 ]
 
 { #category : #updating }
 ToSelectionModel >> deselectAll [
 
-	self underlyingModel removeAll 
+	self underlyingModelDo: [ :ulm | ulm removeAll ]
 ]
 
 { #category : #updating }
 ToSelectionModel >> deselectIndex: anIndex [
 
-	self underlyingModel deselectIndex: anIndex
+	self underlyingModelDo: [ :ulm | ulm deselectIndex: anIndex ]
 ]
 
 { #category : #updating }
@@ -47,12 +48,8 @@ ToSelectionModel >> deselectIndex: aFirstIndex to: aSecondIndex [
 	| from to |
 	from := aFirstIndex min: aSecondIndex.
 	to := aFirstIndex max: aSecondIndex.
-	(from <= to
-		and: [ from > 0
-			and: [ to >= 0 ] ]) ifFalse: [ ^ self ].
-	self underlyingModel 
-		deselect: from - 1
-		to: to
+	(from <= to and: [ from > 0 and: [ to >= 0 ] ]) ifFalse: [ ^ self ].
+	self underlyingModelDo: [ :ulm | ulm deselect: from - 1 to: to ]
 ]
 
 { #category : #updating }
@@ -65,7 +62,7 @@ ToSelectionModel >> deselectIndexes: anArray [
 ToSelectionModel >> firstIndex [
 
 	self ifEmpty: [^ 0].
-	^ self underlyingModel from + 1
+	self underlyingModelDo: [ :ulm | ^ ulm from + 1 ]
 ]
 
 { #category : #comparing }
@@ -92,13 +89,14 @@ ToSelectionModel >> ifNotEmpty: aBlock [
 ToSelectionModel >> initialize [
 
 	super initialize.
-	underlyingModel := BlCompositeSelection new
+	underlyingModel := BlCompositeSelection new.
+	monitor := Monitor new.
 ]
 
 { #category : #testing }
 ToSelectionModel >> isEmpty [
 
-	^ self underlyingModel isEmpty
+	self underlyingModelDo: [ :ulm | ^ ulm isEmpty ]
 ]
 
 { #category : #testing }
@@ -138,7 +136,7 @@ ToSelectionModel >> itemCountGetter: aValuable [
 ToSelectionModel >> lastIndex [
 
 	self ifEmpty: [^ 0].
-	^ self underlyingModel to
+	self underlyingModelDo: [ :ulm | ^ ulm to ]
 ]
 
 { #category : #accessing }
@@ -164,7 +162,8 @@ ToSelectionModel >> onUninstalledIn: anElement [
 ToSelectionModel >> postCopy [ 
 
 	super postCopy.
-	underlyingModel := underlyingModel copy
+	self underlyingModelDo: [ :ulm | underlyingModel := ulm copy ].
+	monitor := Monitor new.
 ]
 
 { #category : #accessing }
@@ -183,7 +182,7 @@ ToSelectionModel >> selectAll [
 { #category : #updating }
 ToSelectionModel >> selectIndex: anIndex [
 
-	self underlyingModel selectIndex: anIndex
+	self underlyingModelDo: [ :ulm | ulm selectIndex: anIndex ]
 ]
 
 { #category : #updating }
@@ -192,9 +191,7 @@ ToSelectionModel >> selectIndex: aFirstIndex to: aSecondIndex [
 	| from to |
 	from := aFirstIndex min: aSecondIndex.
 	to := aFirstIndex max: aSecondIndex.
-	self underlyingModel 
-		select: from - 1
-		to: to
+	self underlyingModelDo: [ :ulm | ulm select: from - 1 to: to ]
 ]
 
 { #category : #updating }
@@ -207,13 +204,13 @@ ToSelectionModel >> selectIndexes: anArray [
 { #category : #accessing }
 ToSelectionModel >> selectedIndexes [
 
-	^ self underlyingModel indices
+	self underlyingModelDo: [ :ulm | ^ ulm indices ]
 ]
 
 { #category : #enumerating }
 ToSelectionModel >> selectedIndexesCollect: aBlock [
 
-	^ self underlyingModel indicesCollect: aBlock
+	self underlyingModelDo: [ :ulm | ^ ulm indicesCollect: aBlock ]
 ]
 
 { #category : #accessing }
@@ -221,14 +218,14 @@ ToSelectionModel >> selectedIndexesCount [
 
 	| count |
 	count := 0.
-	self underlyingModel do: [ :s | count := count + s interval size - 1 ].
+	self underlyingModelDo: [ :ulm | ulm do: [ :s | count := count + s interval size - 1 ] ].
 	^ count
 ]
 
 { #category : #enumerating }
 ToSelectionModel >> selectedIndexesDo: aBlock [
 
-	^ self underlyingModel indicesDo: aBlock
+	self underlyingModelDo: [ :ulm | ^ ulm indicesDo: aBlock ]
 ]
 
 { #category : #accessing }
@@ -269,36 +266,40 @@ ToSelectionModel >> shift: aGap from: aStartIndex for: anEventTarget [
 
 	| from to prevIntervals high |
 	aGap isZero ifTrue: [ ^ self ].
-	self isEmpty ifTrue: [ ^ self ].
+	
+	self underlyingModelDo: [ :ulm |
+		
+		self isEmpty ifTrue: [ ^ self ].
 
-	" 1 - keep selected intervals to reselect them accordingly at 2"
-	prevIntervals := self selectedIndexesIntervals.
-	high := self underlyingModel to.
+		" 1 - keep selected intervals to reselect them accordingly at 2"
+		prevIntervals := self selectedIndexesIntervals.
+		high := self underlyingModel to.
 
-	" deselect according to start index and gap "
-	aGap <= 0
-		ifTrue: [
-			from := aStartIndex + aGap.
-			to := aStartIndex.
-			(high >= 0 and: [ from <= high ]) ifTrue: [
-				self underlyingModel selections delete:
-					(BlMonotoneSelection from: (from max: 0) to: high) ] ]
-		ifFalse: [
-			from := aStartIndex.
-			to := aStartIndex + aGap min: high.
-
-			from <= high ifTrue: [
-				self underlyingModel selections delete:
-					(BlMonotoneSelection from: (from - 1 max: 0) to: high) ] ].
-			
-	" 2 - reselect "
-	prevIntervals do: [ :interval |
-		| first last |
-		(interval last >= aStartIndex and: [ interval last + aGap > 0 ])
+		" deselect according to start index and gap "
+		aGap <= 0
 			ifTrue: [
-				first := interval first max: aStartIndex.
-				last := interval last.
-				self underlyingModel select: first + aGap - 1 to: last + aGap ] ]
+				from := aStartIndex + aGap.
+				to := aStartIndex.
+				(high >= 0 and: [ from <= high ]) ifTrue: [
+					ulm selections delete:
+						(BlMonotoneSelection from: (from max: 0) to: high) ] ]
+			ifFalse: [
+				from := aStartIndex.
+				to := aStartIndex + aGap min: high.
+
+				from <= high ifTrue: [
+					ulm selections delete:
+						(BlMonotoneSelection from: (from - 1 max: 0) to: high) ] ].
+
+		" 2 - reselect "
+		prevIntervals do: [ :interval |
+			| first last |
+			(interval last >= aStartIndex and: [ interval last + aGap > 0 ])
+				ifTrue: [
+					first := interval first max: aStartIndex.
+					last := interval last.
+
+					ulm select: first + aGap - 1 to: last + aGap ] ] ]
 ]
 
 { #category : #accessing }
@@ -328,8 +329,8 @@ ToSelectionModel >> underlyingModel [
 	^ underlyingModel
 ]
 
-{ #category : #accessing }
-ToSelectionModel >> underlyingModel: anUnderlyingModel [
+{ #category : #updating }
+ToSelectionModel >> underlyingModelDo: aBlock [
 
-	underlyingModel := anUnderlyingModel
+	monitor critical: [ aBlock value: underlyingModel ]
 ]

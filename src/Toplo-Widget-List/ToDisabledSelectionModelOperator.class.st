@@ -12,7 +12,7 @@ ToDisabledSelectionModelOperator >> applyCommand: aCommand in: aTarget withAppli
 		applyCommand: aCommand
 		in: aTarget
 		withApplicationBlock: aBlock.
-	emittedSelectionModel := self selectionModel.
+	emittedSelectionModel := self selectionModel copy.
 	aTarget notifyDisabledSelectionChanged: (ToListDisabledSelectionChangedEvent new
 			 selectionModel: emittedSelectionModel;
 			 yourself).

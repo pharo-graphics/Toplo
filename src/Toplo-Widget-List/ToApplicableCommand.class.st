@@ -3,15 +3,16 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'command',
-		'operator'
+		'operator',
+		'target'
 	],
 	#category : #'Toplo-Widget-List-Command'
 }
 
 { #category : #'api - processing' }
-ToApplicableCommand >> applyIn: aTarget [
+ToApplicableCommand >> apply [
 
-	self operator applyCommand: self command in: aTarget
+	self operator applyCommand: self command in: self target
 ]
 
 { #category : #accessing }
@@ -36,4 +37,16 @@ ToApplicableCommand >> operator [
 ToApplicableCommand >> operator: aCommandOperator [
 
 	operator := aCommandOperator
+]
+
+{ #category : #accessing }
+ToApplicableCommand >> target [
+
+	^ target
+]
+
+{ #category : #accessing }
+ToApplicableCommand >> target: anObject [
+
+	target := anObject
 ]

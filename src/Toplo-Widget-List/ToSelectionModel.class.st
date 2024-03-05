@@ -267,14 +267,15 @@ ToSelectionModel >> shift: aGap from: aStartIndex [
 { #category : #updating }
 ToSelectionModel >> shift: aGap from: aStartIndex for: anEventTarget [
 
-	| from to prev high |
-
+	| from to prevIntervals high |
 	aGap isZero ifTrue: [ ^ self ].
 	self isEmpty ifTrue: [ ^ self ].
 
-	prev := self underlyingModel copy.
+	" 1 - keep selected intervals to reselect them accordingly at 2"
+	prevIntervals := self selectedIndexesIntervals.
 	high := self underlyingModel to.
 
+	" deselect according to start index and gap "
 	aGap <= 0
 		ifTrue: [
 			from := aStartIndex + aGap.
@@ -290,9 +291,14 @@ ToSelectionModel >> shift: aGap from: aStartIndex for: anEventTarget [
 				self underlyingModel selections delete:
 					(BlMonotoneSelection from: (from - 1 max: 0) to: high) ] ].
 			
-	prev indicesDo: [ :idx |
-		(idx >= aStartIndex and: [ idx + aGap > 0 ]) ifTrue: [
-			self underlyingModel selectIndex: idx + aGap ] ]
+	" 2 - reselect "
+	prevIntervals do: [ :interval |
+		| first last |
+		(interval last >= aStartIndex and: [ interval last + aGap > 0 ])
+			ifTrue: [
+				first := interval first max: aStartIndex.
+				last := interval last.
+				self underlyingModel select: first + aGap - 1 to: last + aGap ] ]
 ]
 
 { #category : #accessing }

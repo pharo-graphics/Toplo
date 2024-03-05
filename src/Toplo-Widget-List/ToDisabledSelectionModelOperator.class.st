@@ -5,12 +5,12 @@ Class {
 }
 
 { #category : #'private command application' }
-ToDisabledSelectionModelOperator >> applyCommand: aCommand for: aTarget withApplicationBlock: aBlock [
+ToDisabledSelectionModelOperator >> applyCommand: aCommand in: aTarget withApplicationBlock: aBlock [
 
 	| emittedSelectionModel |
 	super
 		applyCommand: aCommand
-		for: aTarget
+		in: aTarget
 		withApplicationBlock: aBlock.
 	emittedSelectionModel := self selectionModel.
 	aTarget notifyDisabledSelectionChanged: (ToListDisabledSelectionChangedEvent new
@@ -19,7 +19,7 @@ ToDisabledSelectionModelOperator >> applyCommand: aCommand for: aTarget withAppl
 ]
 
 { #category : #'command operations' }
-ToDisabledSelectionModelOperator >> listScrollCommand: aCommand for: aTarget [
+ToDisabledSelectionModelOperator >> listScrollCommand: aCommand in: aTarget [
 	" nothing to do "
 
 	

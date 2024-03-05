@@ -64,7 +64,7 @@ ToSelectionModelOperator >> itemCount [
 ]
 
 { #category : #'command operations' }
-ToSelectionModelOperator >> listScrollCommand: aCommand for: aTarget [
+ToSelectionModelOperator >> listScrollCommand: aCommand in: aTarget [
 
 	aTarget scrollToIndex: aCommand index
 ]
@@ -103,7 +103,7 @@ ToSelectionModelOperator >> selectionModel: aSelectionModel [
 ]
 
 { #category : #'command operations' }
-ToSelectionModelOperator >> selectionModelShiftCommand: aShiftCommand for: aEventTarget [
+ToSelectionModelOperator >> selectionModelShiftCommand: aShiftCommand in: aEventTarget [
 
 	self selectionModel shift: aShiftCommand itemCount from: aShiftCommand fromIndex.
 	" Must take car of unselectable items: "

@@ -9,21 +9,9 @@ Class {
 }
 
 { #category : #'api - processing' }
-ToApplicableCommand >> applyFor: aTarget [
+ToApplicableCommand >> applyIn: aTarget [
 
-	self operator applyCommand: self command for: aTarget
-]
-
-{ #category : #'api - processing' }
-ToApplicableCommand >> applyIn: anInfiniteElement [
-
-	self operator applyCommand: self command for: anInfiniteElement
-]
-
-{ #category : #commands }
-ToApplicableCommand >> applyOnPosition: aPosition [
-
-	^ aPosition
+	self operator applyCommand: self command in: aTarget
 ]
 
 { #category : #accessing }
@@ -36,24 +24,6 @@ ToApplicableCommand >> command [
 ToApplicableCommand >> command: aCommand [
 
 	command := aCommand
-]
-
-{ #category : #commands }
-ToApplicableCommand >> dispatchToLayout: aLayout [
-
-	
-]
-
-{ #category : #testing }
-ToApplicableCommand >> isUpdate [
-
-	^ false
-]
-
-{ #category : #commands }
-ToApplicableCommand >> offsetPositionsIn: anInfiniteElement [ 
-
-	
 ]
 
 { #category : #accessing }

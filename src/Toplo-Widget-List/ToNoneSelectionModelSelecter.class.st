@@ -82,3 +82,9 @@ ToNoneSelectionModelSelecter >> selectOnlyIndex: anIndex [
 { #category : #operations }
 ToNoneSelectionModelSelecter >> selectOnlyIndexes: anArray [
 ]
+
+{ #category : #accessing }
+ToNoneSelectionModelSelecter >> selectedIndexes [
+
+	^ #(  )
+]

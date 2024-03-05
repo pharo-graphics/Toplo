@@ -9,11 +9,5 @@ Class {
 }
 
 { #category : #hook }
-ToBasicCommand >> applyOn: anObject for: aTarget [
-]
-
-{ #category : #accessing }
-ToBasicCommand >> positionStart [
-
-	^ 1
+ToBasicCommand >> applyOn: anObject in: aTarget [
 ]

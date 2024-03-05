@@ -3,35 +3,40 @@ Class {
 	#superclass : #BlCustomEventHandler,
 	#classTraits : 'TBlEventTarget classTrait',
 	#instVars : [
-		'applicationTask',
-		'commandQueue'
+		'commandQueue',
+		'applicationTask'
 	],
 	#category : #'Toplo-Widget-List-Command'
 }
 
 { #category : #'event handling' }
-ToCommandEventHandler >> addComand: aCommand fromOperator: anOperator forTarget: aTarget [
+ToCommandEventHandler >> addComand: aCommand fromOperator: anOperator inTarget: aTarget [
 
 	| targetedCommand |
-	
 	aTarget isAttachedToSceneGraph ifFalse: [
-		anOperator applyCommand: aCommand for: aTarget.
+		anOperator applyCommand: aCommand in: aTarget.
 		^ self ].
-	
+
 	targetedCommand := ToApplicableCommand new
 		                   operator: anOperator;
 		                   command: aCommand;
 		                   yourself.
 
 	commandQueue nextPut: targetedCommand.
-	
 	applicationTask ifNotNil: [ ^ self ].
 	applicationTask := BlTaskAction new action: [
-		                   applicationTask := nil.
-		                   aTarget dispatchEvent: ToCommandApplicationRequestEvent new ].
-	aTarget enqueueTask: applicationTask.
-	"aTarget infinite dataSourceManager onOtherCommand: targetedCommand."
-	"aTarget infinite postChildrenUpdater."
+		                   self applyAllIn: aTarget ].
+
+	aTarget enqueueTask: applicationTask
+]
+
+{ #category : #'event handling' }
+ToCommandEventHandler >> applyAllIn: aTarget [
+
+	| nextInQueue |
+	applicationTask := nil.
+	[ (nextInQueue := commandQueue nextOrNil) isNotNil ] whileTrue: [
+		nextInQueue applyIn: aTarget ]
 ]
 
 { #category : #'event handling' }
@@ -40,29 +45,18 @@ ToCommandEventHandler >> commandAddedEvent: aCommandAddedEvent [
 	self
 		addComand: aCommandAddedEvent command
 		fromOperator: aCommandAddedEvent operator
-		forTarget: aCommandAddedEvent currentTarget
-]
-
-{ #category : #'event handling' }
-ToCommandEventHandler >> commandApplicationRequestEvent: aCommandApplicationRequestEvent [
-
-	| nextInQueue |
-	applicationTask ifNotNil: [
-		aCommandApplicationRequestEvent currentTarget dequeueTask: applicationTask.
-		applicationTask := nil ].
-	[ (nextInQueue := commandQueue nextOrNil) isNotNil ] whileTrue: [
-		nextInQueue applyFor: aCommandApplicationRequestEvent currentTarget ]
+		inTarget: aCommandAddedEvent currentTarget
 ]
 
 { #category : #'api - accessing' }
 ToCommandEventHandler >> eventsToHandle [
 
-	^ { ToCommandAddedEvent. ToCommandApplicationRequestEvent }
+	^ { ToCommandAddedEvent }
 ]
 
 { #category : #initialization }
 ToCommandEventHandler >> initialize [ 
 
 	super initialize.
-	commandQueue := WaitfreeQueue new.
+	commandQueue := WaitfreeQueue new
 ]

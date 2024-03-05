@@ -17,19 +17,6 @@ ToInfiniteElement >> dataAccessor [
 ]
 
 { #category : #initialization }
-ToInfiniteElement >> defaultChildrenUpdateRunnable [
-
-	"Return class, actual instantiation happens in initialize"
-	^ ToInfiniteChildrenUpdateRunnable
-]
-
-{ #category : #initialization }
-ToInfiniteElement >> defaultDataSourceManager [
-
-	^ ToInfiniteDataSourceManager new
-]
-
-{ #category : #initialization }
 ToInfiniteElement >> defaultLayout [
 
 	^ BlInfiniteLinearLayout new

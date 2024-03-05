@@ -9,10 +9,10 @@ Class {
 }
 
 { #category : #hook }
-ToIntervalSelectionCommand >> applyOn: anObject for: aTarget [
+ToIntervalSelectionCommand >> applyOn: anObject in: aTarget [
 
 	self operation applyIntervalSelection: self on: anObject.
-	super applyOn: anObject for: aTarget
+	super applyOn: anObject in: aTarget
 ]
 
 { #category : #accessing }

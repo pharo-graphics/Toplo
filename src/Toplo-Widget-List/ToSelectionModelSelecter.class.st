@@ -227,6 +227,12 @@ ToSelectionModelSelecter >> selectOnlyIndexes: anArray [
 ]
 
 { #category : #accessing }
+ToSelectionModelSelecter >> selectedIndexes [
+
+	^ self selectionModel selectedIndexes
+]
+
+{ #category : #accessing }
 ToSelectionModelSelecter >> selectionModel [
 
 	^ self operator selectionModel

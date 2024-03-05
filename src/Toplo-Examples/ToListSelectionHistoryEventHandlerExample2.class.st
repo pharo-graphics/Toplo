@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #'event handling' }
-ToListSelectionHistoryEventHandlerExample2 >> actionCommand: aCommand for: aTarget [
+ToListSelectionHistoryEventHandlerExample2 >> actionCommand: aCommand in: aTarget [
 
 	
 ]
@@ -64,7 +64,7 @@ ToListSelectionHistoryEventHandlerExample2 >> historyList: aList [
 ToListSelectionHistoryEventHandlerExample2 >> primarySelectionCommandAppliedEvent: aCommandAppliedEvent [
 
 	currentTarget := aCommandAppliedEvent currentTarget.
-	aCommandAppliedEvent command applyOn: self for: self historyList.
+	aCommandAppliedEvent command applyOn: self in: self historyList.
 	currentTarget := nil
 ]
 

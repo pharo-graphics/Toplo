@@ -5,16 +5,16 @@ Class {
 }
 
 { #category : #'private command application' }
-ToSecondarySelectionModelOperator >> applyCommand: aCommand for: aTarget withApplicationBlock: aBlock [
+ToSecondarySelectionModelOperator >> applyCommand: aCommand in: aTarget withApplicationBlock: aBlock [
 
-	super applyCommand: aCommand for: aTarget withApplicationBlock: aBlock.
+	super applyCommand: aCommand in: aTarget withApplicationBlock: aBlock.
 	aTarget notifySecondarySelectionChanged: (ToListSecondarySelectionChangedEvent new
 			 selectionModel: self selectionModel" copy";
 			 yourself)
 ]
 
 { #category : #'command operations' }
-ToSecondarySelectionModelOperator >> listScrollCommand: aCommand for: aTarget [
+ToSecondarySelectionModelOperator >> listScrollCommand: aCommand in: aTarget [
 	" "
 
 	" to ensure that wrap-around when scrolling works as expected. 
@@ -23,5 +23,5 @@ ToSecondarySelectionModelOperator >> listScrollCommand: aCommand for: aTarget [
 	aTarget spaceDo: [ :sp |
 		sp mouseProcessor lastMouseMoveEvent ifNotNil: [ :e |
 			e consumed: true ] ].
-	super listScrollCommand: aCommand for: aTarget
+	super listScrollCommand: aCommand in: aTarget
 ]

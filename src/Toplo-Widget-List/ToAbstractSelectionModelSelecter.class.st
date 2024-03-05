@@ -113,3 +113,9 @@ ToAbstractSelectionModelSelecter >> selectOnlyIndexes: anArray [
 
 	self subclassResponsibility 
 ]
+
+{ #category : #accessing }
+ToAbstractSelectionModelSelecter >> selectedIndexes [
+
+	^ self subclassResponsibility 
+]

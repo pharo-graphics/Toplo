@@ -676,10 +676,10 @@ ToSandBox class >> example_ListOneClass [
 	| l |
 	l := ToListElement new nodeBuilder: [ :node :holder |
 		     node addChild: (ToCheckbox new
-				      labelText: holder data name;
+				      labelText: holder dataItem name;
 				      interspace: 10;
 				      hMatchParent) ].
-	l data addAll: { Smalltalk globals allClasses first }.
+	l dataAccessor addAll: { Smalltalk globals allClasses first }.
 	l inspect.
 	l openInSpace
 ]
@@ -776,7 +776,6 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 
 	| l selectionMenu menuFactory phtext |
 	l := ToListElement new.
-	l inspect.
 	phtext := (('Invoke the context menu ' , String cr
 	            , 'with a right-click' , String cr
 	            , 'to initialize the list') asRopedText
@@ -2301,7 +2300,6 @@ ToSandBox class >> example_listStressWithFork [
 	list1 nodeBuilder: [ :node :holder |
 		node addChild: (ToLabel text: holder dataItem asString) hMatchParent.
 		holder isUnselectable ifTrue: [ node background: Color red ] ].
-	list1 inspect.
 	list1 constraints vertical matchParent.
 	list1 constraints horizontal matchParent.
 	1 to: tabSize do: [ :i |

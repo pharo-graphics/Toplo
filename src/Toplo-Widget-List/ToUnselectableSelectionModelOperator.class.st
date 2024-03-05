@@ -5,12 +5,12 @@ Class {
 }
 
 { #category : #'private command application' }
-ToUnselectableSelectionModelOperator >> applyCommand: aCommand for: aTarget withApplicationBlock: aBlock [
+ToUnselectableSelectionModelOperator >> applyCommand: aCommand in: aTarget withApplicationBlock: aBlock [
 
 	| emittedSelectionModel |
 	super
 		applyCommand: aCommand
-		for: aTarget
+		in: aTarget
 		withApplicationBlock: aBlock.
 	emittedSelectionModel := self selectionModel" copy".
 	aTarget notifyUnselectableSelectionChanged: (ToListUnselectableSelectionChangedEvent new
@@ -19,7 +19,7 @@ ToUnselectableSelectionModelOperator >> applyCommand: aCommand for: aTarget with
 ]
 
 { #category : #'command operations' }
-ToUnselectableSelectionModelOperator >> listScrollCommand: aCommand for: aTarget [
+ToUnselectableSelectionModelOperator >> listScrollCommand: aCommand in: aTarget [
 	" nothing to do "
 
 	

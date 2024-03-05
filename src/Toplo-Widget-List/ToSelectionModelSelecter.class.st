@@ -3,8 +3,7 @@ Class {
 	#superclass : #ToAbstractSelectionModelSelecter,
 	#instVars : [
 		'currentIndex',
-		'operator',
-		'operateSilently'
+		'operator'
 	],
 	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
@@ -12,17 +11,7 @@ Class {
 { #category : #adding }
 ToSelectionModelSelecter >> addCommand: aCommand [
 
-	aCommand silent ifFalse: [aCommand silent: self operateSilently ].
 	self operator addCommand: aCommand
-]
-
-{ #category : #accessing }
-ToSelectionModelSelecter >> beSilentWhile: aBlock [
-
-	| prev |
-	prev := operateSilently.
-	operateSilently := true.
-	[ aBlock cull: self ] ensure: [ operateSilently := prev ] 
 ]
 
 { #category : #operations }
@@ -140,12 +129,6 @@ ToSelectionModelSelecter >> onUninstalledIn: anEventTarget [
 ]
 
 { #category : #accessing }
-ToSelectionModelSelecter >> operateSilently [
-
-	^ operateSilently 
-]
-
-{ #category : #accessing }
 ToSelectionModelSelecter >> operator [
 
 	^ operator
@@ -218,33 +201,28 @@ ToSelectionModelSelecter >> selectOnlyIndex: anIndex [
 
 	(self selectionModel selectedIndexesCount = 1 and: [
 		 self selectionModel firstIndex = anIndex ]) ifTrue: [ ^ self ].
-	self addCommand: (ToCompositeCommand new commands: {
-				 (ToWholeSelectionCommand new
-					  silent: true;
-					  operation: ToRemoveSelectionOperation new;
-					  yourself).
-				 (ToIntervalSelectionCommand new
-					  from: anIndex to: anIndex;
-					  operation: ToAddSelectionOperation new) }).
+	self addCommand: (ToIntervalSelectionCommand new
+			 from: anIndex to: anIndex;
+			 operation: (ToAddSelectionOperation new
+					  deselectAllBefore: true;
+					  yourself)).
 	self changeCurrentIndexWith: anIndex
 ]
 
 { #category : #operations }
 ToSelectionModelSelecter >> selectOnlyIndexes: anArray [
 
-	anArray ifEmpty: [ 
+	anArray ifEmpty: [
 		self addCommand:
 			(ToWholeSelectionCommand new operation:
 				 ToRemoveSelectionOperation new).
 		self changeCurrentIndexWith: 0.
 		^ self ].
-	self addCommand: (ToCompositeCommand new commands: {
-				 (ToWholeSelectionCommand new
-					  silent: true;
-					  operation: ToRemoveSelectionOperation new).
-				 (ToIndexesSelectionCommand new
-					  indexes: anArray;
-					  operation: ToAddSelectionOperation new) }).
+	self addCommand: (ToIndexesSelectionCommand new
+			 indexes: anArray;
+			 operation: (ToAddSelectionOperation new
+					  deselectAllBefore: true;
+					  yourself)).
 	self changeCurrentIndexWith: anArray last
 ]
 

@@ -13,13 +13,11 @@ ToSingleSelectionModelSelecter >> selectAll [
 { #category : #operations }
 ToSingleSelectionModelSelecter >> selectIndex: anIndex [
 
-	self addCommand: (ToCompositeCommand new commands: {
-				 (ToWholeSelectionCommand new
-					  silent: true;
-					  operation: ToRemoveSelectionOperation new).
-				 (ToIntervalSelectionCommand new
-					  from: anIndex to: anIndex;
-					  operation: ToAddSelectionOperation new) }).
+	self addCommand: (ToIntervalSelectionCommand new
+			 from: anIndex to: anIndex;
+			 operation: (ToAddSelectionOperation new
+					  deselectAllBefore: true;
+					  yourself)).
 	self changeCurrentIndexWith: anIndex
 ]
 

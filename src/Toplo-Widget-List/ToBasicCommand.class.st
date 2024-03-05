@@ -5,9 +5,6 @@ My class hierarchy models all the basic actions that can be made on a selection.
 Class {
 	#name : #ToBasicCommand,
 	#superclass : #Object,
-	#instVars : [
-		'silent'
-	],
 	#category : #'Toplo-Widget-List-Command'
 }
 
@@ -19,16 +16,4 @@ ToBasicCommand >> applyOn: anObject for: aTarget [
 ToBasicCommand >> positionStart [
 
 	^ 1
-]
-
-{ #category : #accessing }
-ToBasicCommand >> silent [
-
-	^ silent ifNil: [ silent := false ]
-]
-
-{ #category : #accessing }
-ToBasicCommand >> silent: aBoolean [
-
-	silent := aBoolean 
 ]

@@ -24,10 +24,3 @@ ToListScrollCommand >> index: anIndex [
 
 	index := anIndex
 ]
-
-{ #category : #initialization }
-ToListScrollCommand >> initialize [ 
-
-	super initialize.
-	self silent: true
-]

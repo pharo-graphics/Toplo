@@ -8,9 +8,8 @@ Class {
 ToSecondarySelectionModelOperator >> applyCommand: aCommand for: aTarget withApplicationBlock: aBlock [
 
 	super applyCommand: aCommand for: aTarget withApplicationBlock: aBlock.
-	aCommand silent ifTrue: [ ^ self ].
 	aTarget notifySecondarySelectionChanged: (ToListSecondarySelectionChangedEvent new
-			 selectionModel: self selectionModel copy;
+			 selectionModel: self selectionModel" copy";
 			 yourself)
 ]
 

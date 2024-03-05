@@ -7,22 +7,20 @@ Class {
 { #category : #'private command application' }
 ToPrimarySelectionModelOperator >> applyCommand: aCommand for: aTarget withApplicationBlock: aBlock [
 
-	| silent selectionModelChanged previousModel |
+	| selectionModelChanged previousModel |
 	previousModel := self selectionModel copy.
 
 	super applyCommand: aCommand for: aTarget withApplicationBlock: aBlock.
 
 	selectionModelChanged := previousModel ~= self selectionModel.
-	silent := aCommand silent or: [ selectionModelChanged not ].
 
 	selectionModelChanged ifTrue: [
 		aTarget dispatchEvent: (ToPrimarySelectionCommandAppliedEvent new
 				 operator: self;
 				 command: aCommand) ].
 
-	silent ifTrue: [ ^ self ].
-	previousModel := self selectionModel copy.
+	selectionModelChanged ifFalse: [ ^ self ].
 	aTarget notifyPrimarySelectionChanged: (ToListPrimarySelectionChangedEvent new
-			 selectionModel: previousModel;
+			 selectionModel: self selectionModel" copy";
 			 yourself)
 ]

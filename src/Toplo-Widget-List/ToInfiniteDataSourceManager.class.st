@@ -4,20 +4,12 @@ Class {
 	#category : #'Toplo-Widget-List-Infinite'
 }
 
-{ #category : #initialization }
-ToInfiniteDataSourceManager >> initialize [ 
-
-	super initialize.
-	existingCommandTypes := ToInfiniteDataSourceCommandTypeFlags new
-]
-
 { #category : #'as yet unclassified' }
-ToInfiniteDataSourceManager >> onOtherCommand: aCommand [ 
+ToInfiniteDataSourceManager >> onOtherCommand: aCommand [
+	"Return true if pending commands should be processed,
+	otherwise false"
 
-	"Register update command"
-	
+	"Register add command"
 	pendingCommands add: aCommand.
-	existingCommandTypes addOther.
-
-	^ true
+	^ pendingCommands size >= 1
 ]

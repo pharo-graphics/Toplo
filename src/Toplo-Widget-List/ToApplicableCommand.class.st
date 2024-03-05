@@ -3,16 +3,27 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'command',
-		'operator',
-		'target'
+		'operator'
 	],
 	#category : #'Toplo-Widget-List-Command'
 }
 
 { #category : #'api - processing' }
-ToApplicableCommand >> apply [
+ToApplicableCommand >> applyFor: aTarget [
 
-	self operator applyCommand: self command for: self target
+	self operator applyCommand: self command for: aTarget
+]
+
+{ #category : #'api - processing' }
+ToApplicableCommand >> applyIn: anInfiniteElement [
+
+	self operator applyCommand: self command for: anInfiniteElement
+]
+
+{ #category : #commands }
+ToApplicableCommand >> applyOnPosition: aPosition [
+
+	^ aPosition
 ]
 
 { #category : #accessing }
@@ -28,17 +39,21 @@ ToApplicableCommand >> command: aCommand [
 ]
 
 { #category : #commands }
-ToApplicableCommand >> dispatchToLayout: aLyout [
+ToApplicableCommand >> dispatchToLayout: aLayout [
+
+	
+]
+
+{ #category : #testing }
+ToApplicableCommand >> isUpdate [
+
+	^ false
 ]
 
 { #category : #commands }
 ToApplicableCommand >> offsetPositionsIn: anInfiniteElement [ 
 
-	anInfiniteElement dataSourceManager
-		markElementHoldersUpdated: command positionStart
-		itemCount: 1
-		in: anInfiniteElement
-
+	
 ]
 
 { #category : #accessing }
@@ -51,16 +66,4 @@ ToApplicableCommand >> operator [
 ToApplicableCommand >> operator: aCommandOperator [
 
 	operator := aCommandOperator
-]
-
-{ #category : #accessing }
-ToApplicableCommand >> target [
-
-	^ target
-]
-
-{ #category : #accessing }
-ToApplicableCommand >> target: anObject [
-
-	target := anObject
 ]

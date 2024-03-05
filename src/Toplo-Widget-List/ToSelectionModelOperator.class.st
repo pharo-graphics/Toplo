@@ -12,13 +12,18 @@ ToSelectionModelOperator >> addIndexesSelectionCommand: aCommand [
 
 	| intervals |
 	aCommand indexes ifEmpty: [ ^ self ].
+	aCommand operation deselectAllBefore ifTrue: [
+		self selectionModel deselectAll ].
 	intervals := self intervalsIn: aCommand indexes.
-	intervals do: [ :i | self selectionModel selectIndex: i first to: i last ]
+	intervals do: [ :i |
+		self selectionModel selectIndex: i first to: i last ]
 ]
 
 { #category : #'command operations' }
 ToSelectionModelOperator >> addIntervalSelectionCommand: aCommand [
 
+	aCommand operation deselectAllBefore ifTrue: [
+		self selectionModel deselectAll ].
 	self selectionModel selectIndex: aCommand from to: aCommand to
 ]
 
@@ -107,7 +112,7 @@ ToSelectionModelOperator >> selectionModelShiftCommand: aShiftCommand for: aEven
 	to correctly update the UI"
 	aShiftCommand itemCount > 0 ifTrue: [ ^ self ].
 	aShiftCommand fromIndex <= self selectionModel itemCount ifTrue: [
-		aEventTarget dataSource notifyChanged ]
+		"aEventTarget dataSource notifyChanged" ]
 
 ]
 

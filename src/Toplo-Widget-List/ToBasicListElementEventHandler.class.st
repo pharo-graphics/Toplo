@@ -124,7 +124,8 @@ ToBasicListElementEventHandler >> listDisabledSelectionChangedEvent: anEvent [
 
 	nodesArray := target infinite children asArray.
 	selectionModel := target disabledSelectionModel.
-	target dataSource notifyChanged
+	anEvent selectionModel selectedIndexesIntervalsDo: [ :interval |
+		target dataSource notifyItemsChanged: (interval first to: interval last) ]
 ]
 
 { #category : #'infinite event handling' }
@@ -139,7 +140,8 @@ ToBasicListElementEventHandler >> listUnselectableSelectionChangedEvent: anEvent
 	| target |
 	target := anEvent currentTarget.	
 	target isAttachedToSceneGraph ifFalse: [ ^ self ].
-	target dataSource notifyChanged
+	anEvent selectionModel selectedIndexesIntervalsDo: [ :interval |
+		target dataSource notifyItemsChanged: (interval first to: interval last) ]
 ]
 
 { #category : #'mouse handlers' }

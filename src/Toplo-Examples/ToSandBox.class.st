@@ -969,7 +969,7 @@ ToSandBox class >> example_ListWithPanes [
 			        | title blContent |
 			        title := ToLabel new
 				                 id: #title;
-				                 text: holder data;
+				                 text: holder dataItem;
 				                 margin: (BlInsets all: 1);
 				                 padding: (BlInsets all: 1);
 				                 yourself.
@@ -981,7 +981,7 @@ ToSandBox class >> example_ListWithPanes [
 				        (BlRoundedRectangleGeometry cornerRadius: 6).
 			        blContent border: (BlBorder paint: Color lightGray).
 			        node addChild: blContent ].
-	list data addAll: (1 to: 1000).
+	list dataAccessor addAll: (1 to: 1000).
 	list openInSpace
 ]
 
@@ -2291,9 +2291,13 @@ ToSandBox class >> example_horizontalPaneWithDivider [
 { #category : #list }
 ToSandBox class >> example_listStressWithFork [
 
-	| tabsPanel list1 tab1 tabSize |
-	tabSize := 1.
+	| tabsPanel list1 tab1 tabSize rand randGetter |
+	tabSize := 1000.
+	rand := Random new.
 	list1 := ToListElement new.
+	randGetter := [
+	              (rand next * 10000) asInteger
+	              \\ (list1 dataAccessor size - 1) max: 1 ].
 	list1 nodeBuilder: [ :node :holder |
 		node addChild: (ToLabel text: holder dataItem asString) hMatchParent.
 		holder isUnselectable ifTrue: [ node background: Color red ] ].
@@ -2313,28 +2317,35 @@ ToSandBox class >> example_listStressWithFork [
 
 	list1 enqueueTask: (BlTaskAction new action: [
 			 [
-			 1 to: 3000 do: [ :e |
-				 | r r2 r3 |
-				 tabsPanel enqueueTask: (BlTaskAction new action: [
-						  1 to: tabSize do: [ :i |
-						  list1 dataAccessor at: i put: 'Hello ' , e asString ].
-						  list1 dataAccessor addFirst:
-							  'Hello ' , (list1 dataAccessor size + 1) asString.
-						  list1 dataAccessor add:
-							  'Hello ' , (list1 dataAccessor size + 1) asString.
-						  r := (Random new next * 10000) asInteger
-						       \\ (list1 dataAccessor size - 1) + 1.
-						  list1 selecter selectIndex: r.
-						  r2 := (Random new next * 10000) asInteger
-						        \\ (list1 dataAccessor size - 1) + 1.
-						  r3 := (Random new next * 10000) asInteger
-						        \\ (list1 dataAccessor size - 1) + 1.
-						  list1 disabledSelecter selectIndex: r2.
-						  list1 unselectableSelecter selectIndex: r3.
-						  list1 dataAccessor removeAt:
-							  (r + 1 min: list1 dataAccessor size).
-						  list1 scrollToIndex: list1 dataAccessor size ]).
-				 50 milliSeconds wait ] ] fork ])
+			 1 to: 1000 do: [ :e |
+				 | r1 r2 r3 r4 |
+				 1 to: tabSize do: [ :i |
+					 tabsPanel enqueueTask: (BlTaskAction new action: [
+							  list1 selectionModel selectedIndexesCount traceCr.
+							  list1 unselectableSelectionModel selectedIndexesCount traceCr.
+							  list1 disabledSelectionModel selectedIndexesCount traceCr.
+							  list1 dataAccessor at: i put: 'Hello ' , e asString.
+							  list1 dataAccessor addFirst:
+								  'Hello ' , (list1 dataAccessor size + 1) asString.
+							  list1 dataAccessor add:
+								  'Hello ' , (list1 dataAccessor size + 1) asString.
+							  r1 := randGetter value.
+							  list1 selecter selectIndex: r1.
+							  2 timesRepeat: [
+								  r2 := randGetter value.
+								  r3 := randGetter value.
+								  list1 disabledSelecter selectIndex: r2.
+								  list1 unselectableSelecter selectIndex: r3 ].
+							  r4 := randGetter value.
+							  list1 dataAccessor removeAt: r4.
+							  list1 scrollToIndex: list1 dataAccessor size.
+							  list1 selectionModel selectedIndexesCount > 600 ifTrue: [
+								  list1 selecter deselectAll ].
+							  list1 unselectableSelectionModel selectedIndexesCount > 400
+								  ifTrue: [ list1 unselectableSelecter deselectAll ].
+							  list1 disabledSelectionModel selectedIndexesCount > 400
+								  ifTrue: [ list1 disabledSelecter deselectAll ] ]).
+					 50 milliSeconds wait ] ] ] fork ])
 ]
 
 { #category : #list }

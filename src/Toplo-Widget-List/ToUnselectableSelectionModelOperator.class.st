@@ -12,8 +12,7 @@ ToUnselectableSelectionModelOperator >> applyCommand: aCommand for: aTarget with
 		applyCommand: aCommand
 		for: aTarget
 		withApplicationBlock: aBlock.
-	aCommand silent ifTrue: [ ^ self ].
-	emittedSelectionModel := self selectionModel copy.
+	emittedSelectionModel := self selectionModel" copy".
 	aTarget notifyUnselectableSelectionChanged: (ToListUnselectableSelectionChangedEvent new
 			 selectionModel: emittedSelectionModel;
 			 yourself).

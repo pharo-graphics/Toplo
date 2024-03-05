@@ -5,12 +5,6 @@ Class {
 }
 
 { #category : #accessing }
-ToAbstractSelectionModelSelecter >> beSilentWhile: aBlock [
-
-	aBlock cull: self
-]
-
-{ #category : #accessing }
 ToAbstractSelectionModelSelecter >> currentIndex [ 
 
 	^ self subclassResponsibility 

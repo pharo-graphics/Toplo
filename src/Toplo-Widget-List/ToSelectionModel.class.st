@@ -231,6 +231,33 @@ ToSelectionModel >> selectedIndexesDo: aBlock [
 	^ self underlyingModel indicesDo: aBlock
 ]
 
+{ #category : #accessing }
+ToSelectionModel >> selectedIndexesIntervals [
+	" return an array of intervals #( 2 3 4 6 7 8 ) -> { 2 to: 4. 6 to: 8 } "
+
+	^ Array streamContents: [ :stream |
+		  self selectedIndexesIntervalsDo: [ :interval |
+			  stream nextPut: interval ] ]
+]
+
+{ #category : #enumerating }
+ToSelectionModel >> selectedIndexesIntervalsDo: aBlock [
+	" aBlock has one interval argument "
+
+	| prev g |
+	g := nil.
+	prev := nil.
+	self selectedIndexesDo: [ :idx |
+		prev ifNil: [ g := idx to: idx ] ifNotNil: [
+			prev + 1 = idx
+				ifTrue: [ g := g first to: idx ]
+				ifFalse: [
+					aBlock value: g.
+					g := idx to: idx ] ].
+		prev := idx ].
+	g ifNotNil: [ aBlock value: g ]
+]
+
 { #category : #updating }
 ToSelectionModel >> shift: aGap from: aStartIndex [
 
@@ -241,9 +268,7 @@ ToSelectionModel >> shift: aGap from: aStartIndex [
 ToSelectionModel >> shift: aGap from: aStartIndex for: anEventTarget [
 
 	| from to prev high |
-	
-	self flag: 'Certainely too naive. should be optimized. see comments below '.
-	
+
 	aGap isZero ifTrue: [ ^ self ].
 	self isEmpty ifTrue: [ ^ self ].
 
@@ -254,24 +279,20 @@ ToSelectionModel >> shift: aGap from: aStartIndex for: anEventTarget [
 		ifTrue: [
 			from := aStartIndex + aGap.
 			to := aStartIndex.
-			(high >= 0 and: [from <= high ]) ifTrue: [
+			(high >= 0 and: [ from <= high ]) ifTrue: [
 				self underlyingModel selections delete:
-					(BlMonotoneSelection from: (from max: 0) to: high) ].
-			" this do: enumeration should be optimized to avoid the use of selectIndex "
-			prev indices do: [ :idx |
-				(idx >= aStartIndex and: [ idx + aGap > 0 ]) ifTrue: [
-					self underlyingModel selectIndex: idx + aGap ] ] ]
+					(BlMonotoneSelection from: (from max: 0) to: high) ] ]
 		ifFalse: [
 			from := aStartIndex.
 			to := aStartIndex + aGap min: high.
 
 			from <= high ifTrue: [
 				self underlyingModel selections delete:
-					(BlMonotoneSelection from: (from - 1 max: 0) to: high) ].
-			" this do: enumeration should be optimized to avoid the use of selectIndex "
-			prev indicesDo: [ :idx |
-				(idx >= aStartIndex and: [ idx + aGap > 0 ]) ifTrue: [
-					self underlyingModel selectIndex: idx + aGap ] ] ]
+					(BlMonotoneSelection from: (from - 1 max: 0) to: high) ] ].
+			
+	prev indicesDo: [ :idx |
+		(idx >= aStartIndex and: [ idx + aGap > 0 ]) ifTrue: [
+			self underlyingModel selectIndex: idx + aGap ] ]
 ]
 
 { #category : #accessing }

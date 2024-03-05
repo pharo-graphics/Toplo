@@ -15,15 +15,19 @@ ToListSelectionHistoryEventHandlerExample2 >> actionCommand: aCommand for: aTarg
 ]
 
 { #category : #'event handling' }
-ToListSelectionHistoryEventHandlerExample2 >> addIndexesSelectionCommand: aCommand [ 
+ToListSelectionHistoryEventHandlerExample2 >> addIndexesSelectionCommand: aCommand [
 
-	historyList data add:	(currentTarget data at: aCommand indexes last)
+	aCommand operation deselectAllBefore ifTrue: [
+		historyList data removeAll ].
+	historyList data add: (currentTarget data at: aCommand indexes last)
 ]
 
 { #category : #'event handling' }
 ToListSelectionHistoryEventHandlerExample2 >> addIntervalSelectionCommand: aCommand [
 
 	| s |
+	aCommand operation deselectAllBefore ifTrue: [
+		historyList dataAccessor removeAll ].
 	s := currentTarget dataAccessor at: aCommand to.
 	(historyList dataAccessor includes: s) ifTrue: [
 		historyList dataAccessor remove: s ].

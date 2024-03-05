@@ -2291,7 +2291,7 @@ ToSandBox class >> example_horizontalPaneWithDivider [
 ToSandBox class >> example_listStressWithFork [
 
 	| tabsPanel list1 tab1 tabSize rand randGetter |
-	tabSize := 1000.
+	tabSize := 10000.
 	rand := Random new.
 	list1 := ToListElement new.
 	randGetter := [
@@ -2316,32 +2316,37 @@ ToSandBox class >> example_listStressWithFork [
 	list1 enqueueTask: (BlTaskAction new action: [
 			 [
 			 1 to: 1000 do: [ :e |
-				 | r1 r2 r3 r4 |
-				 1 to: tabSize do: [ :i | "tabsPanel enqueueTask: (BlTaskAction new action: ["
-					 list1 dataAccessor at: i put: 'Hello ' , e asString.
+				 | r |
+				 1 to: tabSize do: [ :i | 
+					r := randGetter value.
+
+					 list1 dataAccessor at: r put: 'Goodbye ' , e asString.
 					 list1 dataAccessor addFirst:
-						 'Hello ' , (list1 dataAccessor size + 1) asString.
+						 'Goodbye ' , (list1 dataAccessor size + 1) asString.
 					 list1 dataAccessor add:
-						 'Hello ' , (list1 dataAccessor size + 1) asString.
-					 r1 := randGetter value.
-					 list1 selecter selectIndex: r1.
+						 'Goodbye ' , (list1 dataAccessor size + 1) asString.
+					 r := randGetter value.
+					 list1 selecter selectIndex: r.
 					 2 timesRepeat: [
-						 r2 := randGetter value.
-						 r3 := randGetter value.
-						 list1 disabledSelecter selectIndex: r2.
-						 list1 unselectableSelecter selectIndex: r3 ].
-					 r4 := randGetter value.
-					 list1 dataAccessor removeAt: r4.
-					 list1 scrollToIndex: list1 dataAccessor size.
+						 r := randGetter value.
+						list1 disabledSelecter selectIndex: r.
+						 r := randGetter value.
+						 list1 unselectableSelecter selectIndex: r ].
+					 r := randGetter value.
+					 list1 scrollToIndex: r.
+					 list1 dataAccessor removeAt: r.
+					 r := randGetter value.
+					 list1 scrollToIndex: r.
+					 list1 dataAccessor removeAt: r.
 					 list1 selectionModel selectedIndexesCount > 600 ifTrue: [
 						 list1 selecter deselectAll ].
 					 list1 unselectableSelectionModel selectedIndexesCount > 400
 						 ifTrue: [ list1 unselectableSelecter deselectAll ].
 					 list1 disabledSelectionModel selectedIndexesCount > 400 ifTrue: [ "])"
 						 list1 disabledSelecter deselectAll ].
-					 150 milliSeconds wait ] ] ] 
-		                  forkAt: Processor systemBackgroundPriority
-		                  named: 'List stress example' ])
+					 150 milliSeconds wait ] ] ]
+				 forkAt: Processor systemBackgroundPriority
+				 named: 'List stress example' ])
 ]
 
 { #category : #list }

@@ -58,5 +58,6 @@ ToCommandEventHandler >> eventsToHandle [
 ToCommandEventHandler >> initialize [ 
 
 	super initialize.
-	commandQueue := WaitfreeQueue new
+	commandQueue := WaitfreeQueue new.
+
 ]

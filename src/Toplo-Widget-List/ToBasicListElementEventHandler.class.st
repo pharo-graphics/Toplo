@@ -137,11 +137,16 @@ ToBasicListElementEventHandler >> listPrimarySelectionModeChangedEvent: anEvent 
 { #category : #'list element handling' }
 ToBasicListElementEventHandler >> listUnselectableSelectionChangedEvent: anEvent [
 
-	| target |
-	target := anEvent currentTarget.	
+	| target firstPos lastPos |
+	target := anEvent currentTarget.
 	target isAttachedToSceneGraph ifFalse: [ ^ self ].
-	anEvent selectionModel selectedIndexesIntervalsDo: [ :interval |
-		target dataSource notifyItemsChanged: (interval first to: interval last) ]
+	target infinite hasChildren ifFalse: [ ^ self ].
+	firstPos := target infinite firstChild holder position.
+	lastPos := target infinite lastChild holder position.
+	(target selectionModel hasUnselectableInInterval: (firstPos to: lastPos)) ifFalse: [ ^ self ].
+	"'listUnselectableSelectionChangedEvent: ' trace. (firstPos to: lastPos) traceCr."
+	target dataSource notifyItemsChanged: (firstPos to: lastPos).
+	target requestLayout
 ]
 
 { #category : #'mouse handlers' }

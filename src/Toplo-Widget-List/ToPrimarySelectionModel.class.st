@@ -21,6 +21,13 @@ ToPrimarySelectionModel >> disabledSelectionModel: aSelectionModel [
 ]
 
 { #category : #testing }
+ToPrimarySelectionModel >> hasUnselectableInInterval: anInterval [
+
+	^ anInterval anySatisfy: [ :idx | unselectableSelectionModel containsIndex: idx ]
+
+]
+
+{ #category : #testing }
 ToPrimarySelectionModel >> isUnselectableIndex: anIndex [
 
 	^ unselectableSelectionModel containsIndex: anIndex

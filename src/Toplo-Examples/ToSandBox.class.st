@@ -2290,12 +2290,13 @@ ToSandBox class >> example_horizontalPaneWithDivider [
 { #category : #list }
 ToSandBox class >> example_listStressWithFork [
 
-	| tabsPanel list1 tab1 tabSize rand randGetter |
+	| tabsPanel list1 tab1 tabSize rand randGetter maxSelectionSize |
 	tabSize := 1000.
+	maxSelectionSize := 600.
 	rand := Random new.
 	list1 := ToListElement new.
 	randGetter := [
-	              (rand next * 10000) asInteger
+	              (rand next * list1 dataAccessor size) asInteger
 	              \\ (list1 dataAccessor size - 1) max: 1 ].
 	list1 nodeBuilder: [ :node :holder |
 		node addChild: (ToLabel text: holder dataItem asString) hMatchParent.
@@ -2319,8 +2320,18 @@ ToSandBox class >> example_listStressWithFork [
 				 | r1 r2 r3 r4 |
 				 1 to: tabSize do: [ :i |
 					 tabsPanel enqueueTask: (BlTaskAction new action: [
-							  list1 selectionModel selectedIndexesCount traceCr.
-							  list1 unselectableSelectionModel selectedIndexesCount traceCr.
+							  list1 selectionModel selectedIndexesCount > maxSelectionSize
+								  ifTrue: [ list1 selecter deselectAll ].
+							  list1 unselectableSelectionModel selectedIndexesCount
+							  > maxSelectionSize ifTrue: [
+								  list1 unselectableSelecter deselectAll ].
+							  list1 disabledSelectionModel selectedIndexesCount
+							  > maxSelectionSize ifTrue: [
+								  list1 disabledSelecter deselectAll ].
+							  list1 selectionModel selectedIndexesCount trace.
+							  ' ' trace.
+							  list1 unselectableSelectionModel selectedIndexesCount trace.
+							  ' ' trace.
 							  list1 disabledSelectionModel selectedIndexesCount traceCr.
 							  list1 dataAccessor at: i put: 'Hello ' , e asString.
 							  list1 dataAccessor addFirst:
@@ -2336,13 +2347,7 @@ ToSandBox class >> example_listStressWithFork [
 								  list1 unselectableSelecter selectIndex: r3 ].
 							  r4 := randGetter value.
 							  list1 dataAccessor removeAt: r4.
-							  list1 scrollToIndex: list1 dataAccessor size.
-							  list1 selectionModel selectedIndexesCount > 600 ifTrue: [
-								  list1 selecter deselectAll ].
-							  list1 unselectableSelectionModel selectedIndexesCount > 400
-								  ifTrue: [ list1 unselectableSelecter deselectAll ].
-							  list1 disabledSelectionModel selectedIndexesCount > 400
-								  ifTrue: [ list1 disabledSelecter deselectAll ] ]).
+							  list1 scrollToIndex: list1 dataAccessor size ]).
 					 50 milliSeconds wait ] ] ] fork ])
 ]
 

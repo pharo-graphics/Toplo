@@ -24,7 +24,7 @@ ToCommandEventHandler >> addComand: aCommand fromOperator: anOperator inTarget: 
 		                   target: aTarget;
 		                   yourself.
 
-	commandQueue nextPut: targetedCommand.
+	commandQueue add: targetedCommand.
 	aTarget dispatchEvent: ToCommandsApplicationRequestEvent new
 ]
 
@@ -49,16 +49,27 @@ ToCommandEventHandler >> eventsToHandle [
 	^ { ToCommandAddedEvent. ToCommandsApplicationRequestEvent }
 ]
 
-{ #category : #initialization }
-ToCommandEventHandler >> initialize [
+{ #category : #'api - hooks' }
+ToCommandEventHandler >> onInstalledIn: aListElement [
 
-	super initialize.
-	commandQueue := WaitfreeQueue new.
+	super onInstalledIn: aListElement.
+
+	commandQueue := OrderedCollection new.
 	applicationTask := ToCommandApplicationTask new
 		                   commandQueue: commandQueue;
+		                   listElement: aListElement;
 		                   finishedAction: [ queued := false ];
 		                   yourself.
 	queued := false
+]
+
+{ #category : #'api - hooks' }
+ToCommandEventHandler >> onUninstalledIn: aListElement [
+
+	super onUninstalledIn: aListElement.
+
+	commandQueue := nil.
+	applicationTask := nil.
 ]
 
 { #category : #'event handling' }

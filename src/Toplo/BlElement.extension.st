@@ -39,6 +39,12 @@ BlElement >> allStamps [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> allowsSkinInstallation [
+
+	^ true
+]
+
+{ #category : #'*Toplo' }
 BlElement >> applySkinInstallerOnFirstRequest: aBoolean [
 
 	self skinManagerDo: [ :sm | sm  applySkinInstallerOnFirstRequest: aBoolean ]

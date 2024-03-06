@@ -3988,7 +3988,6 @@ ToSandBox class >> stressedListNamed: aName withSize: aListSize withBackgroundPr
 		           action value: round.
 		           actionList do: [ :act | act value: round ].
 
-
 		           50 milliSeconds wait ] ] newProcess.
 
 	process name: self class name

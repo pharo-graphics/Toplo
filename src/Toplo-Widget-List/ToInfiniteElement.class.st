@@ -10,6 +10,12 @@ Class {
 	#category : #'Toplo-Widget-List-Infinite'
 }
 
+{ #category : #'as yet unclassified' }
+ToInfiniteElement >> allowsSkinInstallation [
+
+	^ super allowsSkinInstallation and: [ self state isStartStep   ]
+]
+
 { #category : #accessing }
 ToInfiniteElement >> dataAccessor [
 

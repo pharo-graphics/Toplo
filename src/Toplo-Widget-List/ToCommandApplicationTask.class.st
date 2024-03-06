@@ -3,7 +3,8 @@ Class {
 	#superclass : #BlTask,
 	#instVars : [
 		'commandQueue',
-		'finishedAction'
+		'finishedAction',
+		'listElement'
 	],
 	#category : #'Toplo-Widget-List-Command'
 }
@@ -11,9 +12,24 @@ Class {
 { #category : #'api - running' }
 ToCommandApplicationTask >> applyAll [
 
-	| nextInQueue |
-	[ (nextInQueue := commandQueue nextOrNil) isNotNil ] whileTrue: [
+	[ commandQueue isEmpty ] whileFalse: [
+		| nextInQueue |
+		nextInQueue := commandQueue removeFirst.
 		nextInQueue apply ]
+]
+
+{ #category : #'api - running' }
+ToCommandApplicationTask >> canApplyCommands [
+
+	| infiniteElement |
+	listElement space isApplyingSkinInstallers ifTrue: [ ^ false ].
+	infiniteElement := listElement infinite.
+	infiniteElement isFirstLayoutComplete ifFalse: [ ^ false ].
+	infiniteElement isComputingLayout ifTrue: [ ^ false ].
+	infiniteElement isAttached ifFalse: [ ^ false ].
+	infiniteElement isLayoutFrozen ifTrue: [ ^ false ].
+
+	^ true
 ]
 
 { #category : #initialization }
@@ -28,10 +44,21 @@ ToCommandApplicationTask >> finishedAction: aValuable [
 	finishedAction := aValuable
 ]
 
+{ #category : #accessing }
+ToCommandApplicationTask >> listElement: aListElement [
+
+	listElement := aListElement
+]
+
 { #category : #'api - running' }
 ToCommandApplicationTask >> run [
 
-	"I perform all the commands stored in the queue "
+	self canApplyCommands ifFalse: [
+		finishedAction value.
+		listElement enqueueTask: (BlTaskAction new action: [
+				 listElement dispatchEvent: ToCommandsApplicationRequestEvent new ]).
+		^ self ].
+
 	self applyAll.
 	finishedAction value
 ]

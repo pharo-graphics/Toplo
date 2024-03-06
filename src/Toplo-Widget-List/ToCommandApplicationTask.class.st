@@ -1,5 +1,5 @@
 Class {
-	#name : #ToInfiniteCommandApplicationTask,
+	#name : #ToCommandApplicationTask,
 	#superclass : #BlTask,
 	#instVars : [
 		'commandQueue',
@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #'api - running' }
-ToInfiniteCommandApplicationTask >> applyAll [
+ToCommandApplicationTask >> applyAll [
 
 	| nextInQueue |
 	[ (nextInQueue := commandQueue nextOrNil) isNotNil ] whileTrue: [
@@ -17,21 +17,21 @@ ToInfiniteCommandApplicationTask >> applyAll [
 ]
 
 { #category : #initialization }
-ToInfiniteCommandApplicationTask >> commandQueue: aWaitFreeQueue [
+ToCommandApplicationTask >> commandQueue: aWaitFreeQueue [
 	
 	commandQueue := aWaitFreeQueue
 ]
 
 { #category : #accessing }
-ToInfiniteCommandApplicationTask >> finishedAction: aValuable [
+ToCommandApplicationTask >> finishedAction: aValuable [
 
 	finishedAction := aValuable
 ]
 
 { #category : #'api - running' }
-ToInfiniteCommandApplicationTask >> run [
+ToCommandApplicationTask >> run [
 
-	"actually perform all necessary updates and trigger layout update"
+	"I perform all the commands stored in the queue "
 	self applyAll.
 	finishedAction value
 ]

@@ -29,8 +29,9 @@ ToSkinManagerTest >> testApplySkinInstallerIn2 [
 
 	| e |
 	e := ToElement new.
-	" no skinInstaller -> error "
-	self should: [ e skinManager applySkinInstallerIn: e ] raise: Error.
+	" no skinInstaller -> no installed skin  "
+	e skinManager applySkinInstallerIn: e.
+	self assert: e skinManager installedSkin isNil.
 	e skinManager requestNewSkinIn: e.
 	self assert: e skinManager hasPostponedInstallSkinHandler
 ]
@@ -581,21 +582,17 @@ ToSkinManagerTest >> testRequestUninstallSkinInWithChildrenWithInstalledSkin [
 
 	" install skin on the element tree "
 	e space applyAllSkinInstallers.
-	self assert:
-		(e skinManager installedSkin) notNil.
+	self assert: e skinManager installedSkin notNil.
 	self assert: e skinManager skinInstaller isNil.
-	self assert:
-		(child skinManager installedSkin) notNil.
+	self assert: child skinManager installedSkin notNil.
 	self assert: child skinManager skinInstaller isNil.
-	self assert:
-		(childchild skinManager installedSkin) notNil.
+	self assert: childchild skinManager installedSkin notNil.
 	self assert: childchild skinManager skinInstaller isNil.
 
 	e skinManager requestUninstallSkinIn: e.
 	self assert: e skinManager skinUninstaller notNil.
 	" but installed skin not yet uninstalled "
-	self assert:
-		(e skinManager installedSkin) notNil.
+	self assert: e skinManager installedSkin notNil.
 
 	" uninstalling "
 	e skinManager applySkinUninstallerIn: e.
@@ -607,7 +604,8 @@ ToSkinManagerTest >> testRequestUninstallSkinInWithChildrenWithInstalledSkin [
 	self assert: child skinManager installedSkin notNil.
 	self assert: childchild skinManager installedSkin notNil.
 
-	self should: [ e skinManager applySkinInstallerIn: e ] raise: Error.
+	e skinManager applySkinInstallerIn: e.
+	self assert: e skinManager installedSkin isNil.
 	e ensuredSkinManager requestInstallSkinIn: e.
 	e skinManager applySkinInstallerIn: e.
 	self assert: e skinManager installedSkin notNil.
@@ -647,8 +645,9 @@ ToSkinManagerTest >> testRequestUninstallSkinInWithChildrenWithInstalledSkin2 [
 	e skinManager applySkinUninstallerIn: e.
 	self assert: e skinManager installedSkin isNil.
 
-	" trying to install here should raise an error because no installer has been requested "
-	self should: [ e skinManager applySkinReinstallIn: e ] raise: Error.
+	" trying to install here should not results in an installed skin because no installer has been requested "
+	e skinManager applySkinReinstallIn: e.
+	self assert: e skinManager installedSkin isNil.
 
 	self assert: child skinManager installedSkin notNil.
 	self assert: childchild skinManager installedSkin notNil

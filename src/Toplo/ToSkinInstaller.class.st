@@ -22,6 +22,10 @@ ToSkinInstaller >> applyOn: anElement [
 					because  requestNewSkin may be sent during skin installation 
 					(in that case it it ignored) "
 					sm applyEnqueuedStatesIn: anElement ] ].
+			" check skin installation "
+			(sm installedSkin isNil and: [
+				 sm postponedInstallSkinHandler isNil ]) ifTrue: [
+				Error signal: 'A ToSkinManager has an invalid state' ].
 			sm setSkinInstaller: nil in: anElement ] ]
 ]
 

@@ -57,7 +57,7 @@ ToCommandEventHandler >> initialize [
 
 	super initialize.
 	commandQueue := WaitfreeQueue new.
-	applicationTask := ToInfiniteCommandApplicationTask new
+	applicationTask := ToCommandApplicationTask new
 		                   commandQueue: commandQueue;
 		                   finishedAction: [ queued := false ];
 		                   yourself.

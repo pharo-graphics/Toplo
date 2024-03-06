@@ -25,16 +25,7 @@ ToCommandEventHandler >> addComand: aCommand fromOperator: anOperator inTarget: 
 		                   yourself.
 
 	commandQueue nextPut: targetedCommand.
-	self postApplicationTaskIn: aTarget
-]
-
-{ #category : #'event handling' }
-ToCommandEventHandler >> applyAllIn: aTarget [
-
-	| nextInQueue |
-	applicationTask := nil.
-	[ (nextInQueue := commandQueue nextOrNil) isNotNil ] whileTrue: [
-		nextInQueue applyIn: aTarget ]
+	aTarget dispatchEvent: ToCommandsApplicationRequestEvent new
 ]
 
 { #category : #'event handling' }
@@ -46,10 +37,16 @@ ToCommandEventHandler >> commandAddedEvent: aCommandAddedEvent [
 		inTarget: aCommandAddedEvent currentTarget
 ]
 
+{ #category : #'event handling' }
+ToCommandEventHandler >> commandsApplicationRequestEvent: aCommandsApplicationRequestEvent [
+
+	self postApplicationTaskIn: aCommandsApplicationRequestEvent currentTarget
+]
+
 { #category : #'api - accessing' }
 ToCommandEventHandler >> eventsToHandle [
 
-	^ { ToCommandAddedEvent }
+	^ { ToCommandAddedEvent. ToCommandsApplicationRequestEvent }
 ]
 
 { #category : #initialization }

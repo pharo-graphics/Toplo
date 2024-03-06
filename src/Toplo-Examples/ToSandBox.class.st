@@ -2673,7 +2673,7 @@ ToSandBox class >> example_stillPressedEvent [
 ToSandBox class >> example_stressedListsWithFork [
 
 	| tabsPanel maxRound maxTab rand priorities |
-	maxRound := 10000.
+	maxRound := 50000.
 	maxTab := 8.
 	rand := Random new.
 	priorities := {
@@ -3934,9 +3934,12 @@ ToSandBox class >> stressedListNamed: aName withSize: aListSize withBackgroundPr
 
 	actionList := {
 		              [ :theRound |
+		              | idx current |
+		              idx := randGetter value.
+		              current := list dataAccessor at: randGetter value.
 		              list dataAccessor
-			              at: randGetter value
-			              put: 'Goodbye ' , theRound asString ].
+			              at: idx
+			              put: current , ' ' , theRound asString ].
 
 		              [ :theRound |
 		              list dataAccessor

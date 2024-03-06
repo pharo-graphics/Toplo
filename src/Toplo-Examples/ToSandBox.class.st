@@ -2704,7 +2704,7 @@ ToSandBox class >> example_stressedListsWithFork [
 		tab paneBuilder: [ :pane :theTabPane | pane addChild: list ].
 		tabsPanel addTab: tab ].
 
-	tabsPanel openInSpace
+	tabsPanel openInInnerWindow 
 ]
 
 { #category : #'switch button' }

@@ -10,19 +10,26 @@ ToListPrimarySelectionElementEventHandler >> blurEvent: anEvent [
 	" Don't update the selection when the element is removed from the scene 
 	This is the case if the event reason is for element removal "
 	anEvent isDueToRemoval ifTrue: [ ^ self ].
-	self updateSelectionFromEvent: anEvent
+	self enqueueUpdateSelectionFromEvent: anEvent
 ]
 
 { #category : #'element handlers' }
 ToListPrimarySelectionElementEventHandler >> elementExtentChangedEvent: anEvent [
 
-	self updateSelectionFromEvent: anEvent
+	self enqueueUpdateSelectionFromEvent: anEvent
 ]
 
 { #category : #'element handlers' }
 ToListPrimarySelectionElementEventHandler >> elementScrolledEvent: anEvent [
 
 	self updateSelectionFromEvent: anEvent
+]
+
+{ #category : #'element handlers' }
+ToListPrimarySelectionElementEventHandler >> enqueueUpdateSelectionFromEvent: anEvent [
+
+	anEvent currentTarget enqueueTask:
+		(BlTaskAction new action: [ self updateSelectionFromEvent: anEvent ])
 ]
 
 { #category : #'api - accessing' }

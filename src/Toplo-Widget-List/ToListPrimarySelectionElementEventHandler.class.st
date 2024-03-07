@@ -101,8 +101,9 @@ ToListPrimarySelectionElementEventHandler >> updateSelectionFromEvent: anEvent [
 	target isAttachedToSceneGraph ifFalse: [ ^ self ].
 	previous := target primarySelectionElements.
 	previous do: [ :s |
-		s skinManagerDo: [ :sm |
-			sm isInstallingSkin ifTrue: [
+		s skinManagerDo: [ :sm | | holder |
+			holder := target infinite elementHolderOf: s.
+			(holder isTmpDetached or: [	sm isInstallingSkin ]) ifTrue: [
 				self postponeSelectionElementUpdateIn: target.
 				^ self ] ] ].
 	newSelElements := self newSelectionElementsFromEvent: anEvent.

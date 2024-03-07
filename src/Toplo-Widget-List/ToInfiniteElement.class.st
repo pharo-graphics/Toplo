@@ -158,17 +158,18 @@ ToInfiniteElement >> nodeContainingGlobalPosition: aPoint [
 ToInfiniteElement >> nodeGroupsSatisfying: aBlock [
 	" return an array of collection. Each collection contains a list of adjacent selected nodes "
 
-	^ Array streamContents: [ :stream |
-		  | g |
-		  g := OrderedCollection new.
-		  self childrenDo: [ :node |
-			  (aBlock value: node)
-				  ifTrue: [ g add: node ]
-				  ifFalse: [
-					  g ifNotEmpty: [
-						  stream nextPut: g.
-						  g := OrderedCollection new ] ] ].
-		  g ifNotEmpty: [ stream nextPut: g ] ]
+	self layoutCritical: [
+		^ Array streamContents: [ :stream |
+			  | g |
+			  g := OrderedCollection new.
+			  self childrenDo: [ :node |
+				  (aBlock value: node)
+					  ifTrue: [ g add: node ]
+					  ifFalse: [
+						  g ifNotEmpty: [
+							  stream nextPut: g.
+							  g := OrderedCollection new ] ] ].
+			  g ifNotEmpty: [ stream nextPut: g ] ] ]
 ]
 
 { #category : #accessing }

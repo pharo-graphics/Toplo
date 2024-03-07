@@ -6,7 +6,8 @@ Class {
 		'maxTab',
 		'maxRound',
 		'rand',
-		'counter'
+		'counter',
+		'listIdentifiers'
 	],
 	#category : #'Toplo-Examples'
 }
@@ -108,12 +109,14 @@ ToListElementStresser >> initialize [
 		              Processor systemBackgroundPriority }.
 
 	tabsPanel := ToTabPane new.
+	listIdentifiers := Array new: self maxTab.
 
 	1 to: self maxTab do: [ :i |
 		| listAndNameAssoc tab |
 		listAndNameAssoc := self newStressedListNumber: i.
 		tab := ToTab new.
 		tab labelText: listAndNameAssoc value.
+		tab firstChild withNullSkin.
 		tab paneBuilder: [ :pane :theTabPane |
 			pane addChild: listAndNameAssoc key ].
 		tabsPanel addTab: tab ]
@@ -141,7 +144,7 @@ ToListElementStresser >> maxRound: anObject [
 { #category : #accessing }
 ToListElementStresser >> maxTab [
 
-	^ maxTab ifNil: [ maxTab := 10 ]
+	^ maxTab ifNil: [ maxTab := 6 ]
 ]
 
 { #category : #accessing }
@@ -174,6 +177,7 @@ ToListElementStresser >> newStressedListNumber: aNumber [
 		         stream nextPutAll: priority asString.
 		         stream nextPutAll: ') '.
 		         stream nextPutAll: size asString ].
+	listIdentifiers at: aNumber put: ident.
 
 	list nodeBuilder: [ :node :holder |
 		holder isUnselectable ifTrue: [ node background: Color red ].
@@ -190,13 +194,9 @@ ToListElementStresser >> newStressedListNumber: aNumber [
 	           round := 0.
 	           self maxRound timesRepeat: [
 		           round := round + 1.
-		           (round \\ 100) isZero ifTrue: [
-			           (ident , ' round: ') trace.
-			           round traceCr ].
-		           self selectActionsToRun shuffled do: [ :act |
-			           self perform: act with: list ].
+		           self processingRound: round inList: list number: aNumber.
 		           50 milliSeconds wait ].
-	           self processEndInListNumber: aNumber ] newProcess.
+	           self processEndInList: list number: aNumber ] newProcess.
 
 	process name: self class name.
 	process priority: priority.
@@ -239,12 +239,29 @@ ToListElementStresser >> nextSizeForListNumber: aNumber [
 ]
 
 { #category : #running }
-ToListElementStresser >> processEndInListNumber: aNumber [
+ToListElementStresser >> processEndInList: aList number: aNumber [
 
 	| tab |
 	tab := self tabsPanel tabs at: aNumber.
-	tab firstChild text: tab firstChild text , ' [over]' asRopedText bold.
-	tab firstChild textChanged
+	self tabsPanel enqueueTask: (BlTaskAction new action: [
+			 tab firstChild text bold.
+			 tab firstChild textChanged ])
+]
+
+{ #category : #running }
+ToListElementStresser >> processingRound: aRound inList: aList number: aNumber [
+
+	| tab s |
+	tab := self tabsPanel tabs at: aNumber.
+	s := ' [' asRopedText , aRound asString asRopedText bold
+	     , ('/' , self maxRound asString , ']') asRopedText.
+
+	self tabsPanel enqueueTask: (BlTaskAction new action: [
+			 tab firstChild text: (listIdentifiers at: aNumber) asRopedText , s.
+			 tab firstChild textChanged ]).
+
+	self selectActionsToRun shuffled do: [ :act |
+		self perform: act with: aList ]
 ]
 
 { #category : #private }

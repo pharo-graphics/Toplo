@@ -11,10 +11,17 @@ Class {
 		'scrollIndex',
 		'selecter',
 		'operator',
-		'unselectableSelectionModel'
+		'unselectableSelectionModel',
+		'infinite'
 	],
 	#category : #'Toplo-Widget-List-Tests-Selection-Selecter'
 }
+
+{ #category : #'mutual exclusion' }
+ToSelectionModelHolderForTest >> critical: aBlock [
+
+	aBlock value
+]
 
 { #category : #accessing }
 ToSelectionModelHolderForTest >> data [
@@ -48,11 +55,19 @@ ToSelectionModelHolderForTest >> eventDispatcher [
 	^ eventDispatcher
 ]
 
+{ #category : #accessing }
+ToSelectionModelHolderForTest >> infinite [
+
+	^ infinite
+]
+
 { #category : #initialization }
 ToSelectionModelHolderForTest >> initialize [
 
 	super initialize.
 	self dataSource: ToObservableCollectionInfiniteDataSource new.
+	infinite := ToObservableCollectionInfiniteElement new.
+	self addChild: infinite.
 	selectionModel := self defaultSelectionModel.
 	selectionModel onInstalledIn: self.
 	unselectableSelectionModel := self defaultSelectionModel.

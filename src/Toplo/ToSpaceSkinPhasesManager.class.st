@@ -56,6 +56,7 @@ ToSpaceSkinPhasesManager >> applyAllSkinInstallersIn: aSpace [
 	self isApplyingSkinInstallers ifTrue: [ ^ self ].
 	" flag it now, before a skin installation pass because nothing prevent a skin installation to ask for another installation.
 	This is normally not the case. One known case is the space root installation that induce a skin installation "
+	self needSkinInstallPass: false.
 	applyingSkinInstallers := true.
 	" First make a layout pass because installing a skin may require measured/positionned elements "
 	[ aSpace

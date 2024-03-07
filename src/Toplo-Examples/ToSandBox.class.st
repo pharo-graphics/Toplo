@@ -3931,12 +3931,12 @@ ToSandBox class >> stressedListNamed: aName withSize: aListSize withBackgroundPr
 	list matchParent.
 
 	randGetter := [
+
 	              | s |
 	              s := list dataAccessor size.
 	              s isZero
 		              ifTrue: [ 0 ]
 		              ifFalse: [ rand nextIntegerBetween: 1 and: s ] ].
-
 
 	actionList := {
 		              [ :theRound |
@@ -3947,6 +3947,7 @@ ToSandBox class >> stressedListNamed: aName withSize: aListSize withBackgroundPr
 			              list dataAccessor
 				              at: idx
 				              put: current , ' ' , theRound asString ] ].
+
 
 		              [ :theRound |
 		              list dataAccessor
@@ -4009,7 +4010,6 @@ ToSandBox class >> stressedListNamed: aName withSize: aListSize withBackgroundPr
 			            ].
 
 		           actionList shuffled do: [ :act | act value: round ].
-
 		           50 milliSeconds wait ] ] newProcess.
 
 	process name: self class name

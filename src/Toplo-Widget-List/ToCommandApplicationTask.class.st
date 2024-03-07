@@ -11,7 +11,7 @@ Class {
 
 { #category : #'api - running' }
 ToCommandApplicationTask >> applyAll [
-
+  
 	listElement critical: [
 		[ commandQueue isEmpty ] whileFalse: [
 			| nextInQueue |

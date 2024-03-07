@@ -1,6 +1,9 @@
 Class {
 	#name : #ToListSecondarySelectionElementEventHandler,
 	#superclass : #BlCustomEventHandler,
+	#instVars : [
+		'postponedUpdateTask'
+	],
 	#category : #'Toplo-Widget-List-Selection-Element'
 }
 
@@ -94,8 +97,11 @@ ToListSecondarySelectionElementEventHandler >> newSelectionElementsFromSelectedN
 { #category : #'mouse handlers' }
 ToListSecondarySelectionElementEventHandler >> postponeSelectionElementUpdateFromEvent: anEvent in: anElement [
 
-	anElement enqueueTask: (BlTaskAction new action: [
-			 anElement dispatchEvent: anEvent ])
+	postponedUpdateTask ifNotNil: [ ^ self ].
+	postponedUpdateTask := BlTaskAction new action: [
+		                      anElement dispatchEvent: anEvent.
+		                      postponedUpdateTask := nil ].
+	anElement enqueueTask: postponedUpdateTask
 ]
 
 { #category : #'mouse handlers' }
@@ -103,22 +109,26 @@ ToListSecondarySelectionElementEventHandler >> updateSelectionFromEvent: anEvent
 
 	| target infinite childNodes previous |
 	target := anEvent currentTarget.
+
+	target isAttachedToSceneGraph ifFalse: [
+		self postponeSelectionElementUpdateFromEvent: anEvent in: target.
+		^ self ].
+
 	infinite := target infinite.
 	previous := target secondarySelectionElements.
 
-	infinite childrenDo: [ :node |
+	"infinite childrenDo: [ :node |
 		| holder |
 		holder := infinite elementHolderOf: node.
 		holder isTmpDetached ifTrue: [
-			self class name trace. '>> updateSelectionFromEvent: ' trace. infinite state isStartStep traceCr.
 			self postponeSelectionElementUpdateFromEvent: anEvent in: target.
-			^ self ] ].
+			^ self ] ]."
 
-	previous do: [ :s |
+"	previous do: [ :s |
 		s skinManagerDo: [ :sm |
 			sm isInstallingSkin ifTrue: [
 				self postponeSelectionElementUpdateFromEvent: anEvent in: target.
-				^ self ] ] ].
+				^ self ] ] ]."
 
 	previous do: [ :s | s removeFromParent ].
 	target secondarySelectionModel ifEmpty: [ ^ self ].

@@ -22,6 +22,15 @@ ToListElementStresser class >> run [
 ]
 
 { #category : #actions }
+ToListElementStresser >> _actionShiftSelectionFromIn: aList [
+
+	| nb idx |
+	nb := self randIndexIn: aList.
+	idx := self randIndexIn: aList.
+	idx isZero ifFalse: [ aList selecter shiftSelection: nb from: idx ]
+]
+
+{ #category : #actions }
 ToListElementStresser >> actionAddAfterIndexIn: aList [
 
 	aList dataAccessor
@@ -40,11 +49,27 @@ ToListElementStresser >> actionAtPutIn: aList [
 ]
 
 { #category : #actions }
+ToListElementStresser >> actionDeselectAllIn: aList [
+
+	aList selecter deselectAll
+]
+
+{ #category : #actions }
 ToListElementStresser >> actionDeselectIndexIn: aList [
 
 	| idx |
 	idx := self randIndexIn: aList.
 	idx isZero ifFalse: [ aList selecter deselectIndex: idx ]
+]
+
+{ #category : #actions }
+ToListElementStresser >> actionDeselectIndexesIn: aList [
+
+	| nb selected |
+	nb := (self randIndexIn: aList) min: 30.
+	nb isZero ifTrue: [ ^ self ].
+	selected := (1 to: nb) collect: [ :i | self randIndexIn: aList ].
+	aList selecter deselectIndexes: selected
 ]
 
 { #category : #actions }
@@ -56,11 +81,31 @@ ToListElementStresser >> actionDisableIndexIn: aList [
 ]
 
 { #category : #actions }
+ToListElementStresser >> actionDisableIndexesIn: aList [
+
+	| nb selected |
+	nb := (self randIndexIn: aList) min: 30.
+	nb isZero ifTrue: [ ^ self ].
+	selected := (1 to: nb) collect: [ :i | self randIndexIn: aList ].
+	aList disabledSelecter selectIndexes: selected
+]
+
+{ #category : #actions }
 ToListElementStresser >> actionEnableIndexIn: aList [
 
 	| idx |
 	idx := self randIndexIn: aList.
 	idx isZero ifFalse: [ aList disabledSelecter deselectIndex: idx ]
+]
+
+{ #category : #actions }
+ToListElementStresser >> actionEnableIndexesIn: aList [
+
+	| nb selected |
+	nb := (self randIndexIn: aList) min: 30.
+	nb isZero ifTrue: [ ^ self ].
+	selected := (1 to: nb) collect: [ :i | self randIndexIn: aList ].
+	aList disabledSelecter deselectIndexes: selected
 ]
 
 { #category : #actions }
@@ -72,11 +117,55 @@ ToListElementStresser >> actionRemoveAtIn: aList [
 ]
 
 { #category : #actions }
+ToListElementStresser >> actionSelectAllIn: aList [
+
+	aList selecter selectAll
+]
+
+{ #category : #actions }
 ToListElementStresser >> actionSelectIndexIn: aList [
 
 	| idx |
 	idx := self randIndexIn: aList.
 	idx isZero ifFalse: [ aList selecter selectIndex: idx ]
+]
+
+{ #category : #actions }
+ToListElementStresser >> actionSelectIndexeToIn: aList [
+
+	| from to  |
+	from := self randIndexIn: aList.
+	to := self randIndexIn: aList.
+	(from isZero or: [ to isZero ]) ifTrue: [ ^ self ].
+	aList selecter selectIndex: from to: to
+]
+
+{ #category : #actions }
+ToListElementStresser >> actionSelectIndexesIn: aList [
+
+	| nb selected |
+	nb := (self randIndexIn: aList) min: 30.
+	nb isZero ifTrue: [ ^ self ].
+	selected := (1 to: nb) collect: [ :i | self randIndexIn: aList ].
+	aList selecter selectIndexes: selected
+]
+
+{ #category : #actions }
+ToListElementStresser >> actionSelectOnlyIndexIn: aList [
+
+	| idx |
+	idx := self randIndexIn: aList.
+	idx isZero ifFalse: [ aList selecter selectOnlyIndex: idx ]
+]
+
+{ #category : #actions }
+ToListElementStresser >> actionSelectOnlyIndexesIn: aList [
+
+	| nb selected |
+	nb := (self randIndexIn: aList) min: 30.
+	nb isZero ifTrue: [ ^ self ].
+	selected := (1 to: nb) collect: [ :i | self randIndexIn: aList ].
+	aList selecter selectOnlyIndexes: selected
 ]
 
 { #category : #actions }
@@ -88,6 +177,16 @@ ToListElementStresser >> actionSelectableIndexIn: aList [
 ]
 
 { #category : #actions }
+ToListElementStresser >> actionSelectableIndexesIn: aList [
+
+	| nb selected |
+	nb := (self randIndexIn: aList) min: 30.
+	nb isZero ifTrue: [ ^ self ].
+	selected := (1 to: nb) collect: [ :i | self randIndexIn: aList ].
+	aList unselectableSelecter deselectIndexes: selected
+]
+
+{ #category : #actions }
 ToListElementStresser >> actionUnselectableIndexIn: aList [
 
 	| idx |
@@ -95,10 +194,26 @@ ToListElementStresser >> actionUnselectableIndexIn: aList [
 	idx isZero ifFalse: [ aList unselectableSelecter selectIndex: idx ]
 ]
 
+{ #category : #actions }
+ToListElementStresser >> actionUnselectableIndexesIn: aList [
+
+	| nb selected |
+	nb := (self randIndexIn: aList) min: 30.
+	nb isZero ifTrue: [ ^ self ].
+	selected := (1 to: nb) collect: [ :i | self randIndexIn: aList ].
+	aList unselectableSelecter selectIndexes: selected
+]
+
+{ #category : #private }
+ToListElementStresser >> afterRoundInList: aList [
+
+	self interRoundWaitDuration wait 
+]
+
 { #category : #initialization }
 ToListElementStresser >> initialize [
 
-	| priorities |
+	| priorities tabSelectionProcess |
 	super initialize.
 
 	counter := 0.
@@ -115,18 +230,44 @@ ToListElementStresser >> initialize [
 		| listAndNameAssoc tab |
 		listAndNameAssoc := self newStressedListNumber: i.
 		tab := ToTab new.
-		tab labelText: (listAndNameAssoc value).
+		tab labelText: listAndNameAssoc value.
 		tab firstChild withNullSkin.
 		tab addChild: ToLabel new withNullSkin at: 2.
 		tab paneBuilder: [ :pane :theTabPane |
 			pane addChild: listAndNameAssoc key ].
-		tabsPanel addTab: tab ]
+		tabsPanel addTab: tab ].
+
+	tabSelectionProcess := [
+	                       1 to: self maxRound do: [ :round |
+		                       | idx |
+		                       idx := (round \\ self maxTab + 1 max: 1)
+			                              min: self maxTab.
+		                       self tabsPanel enqueueTask:
+			                       (BlTaskAction new action: [
+				                        (self tabsPanel tabs at: idx) check ]).
+		                       3 seconds wait ] ] newProcess.
+
+	tabSelectionProcess name: self class name.
+	tabSelectionProcess priority: Processor systemBackgroundPriority.
+
+	self tabsPanel
+		addEventHandlerOn: BlElementAddedToSceneGraphEvent
+		do: [ :event | tabSelectionProcess resume ].
+	self tabsPanel
+		addEventHandlerOn: BlElementRemovedFromSceneGraphEvent
+		do: [ :event | tabSelectionProcess terminate ]
 ]
 
-{ #category : #private }
+{ #category : #accessing }
+ToListElementStresser >> interRoundWaitDuration [
+
+	^ 50 milliSeconds 
+]
+
+{ #category : #accessing }
 ToListElementStresser >> maxListSize [
 
-	^ 5000
+	^ 3000
 
 ]
 
@@ -154,10 +295,10 @@ ToListElementStresser >> maxTab: anObject [
 	maxTab := anObject
 ]
 
-{ #category : #private }
+{ #category : #accessing }
 ToListElementStresser >> minListSize [
 
-	^ 5
+	^ 20
 
 ]
 
@@ -201,7 +342,7 @@ ToListElementStresser >> newStressedListNumber: aNumber [
 	           self maxRound timesRepeat: [
 		           round := round + 1.
 		           self processingRound: round inList: list number: aNumber.
-		           50 milliSeconds wait ].
+		           self afterRoundInList: list ].
 	           self processEndInList: list number: aNumber ] newProcess.
 
 	process name: self class name.

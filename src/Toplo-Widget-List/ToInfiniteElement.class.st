@@ -4,7 +4,6 @@ Class {
 	#traits : 'TBlLayoutResizable',
 	#classTraits : 'TBlLayoutResizable classTrait',
 	#instVars : [
-
 		'layoutMonitor',
 		'nodeClass',
 		'listElement'
@@ -13,19 +12,16 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-
 ToInfiniteElement >> aeDrawItemDecorationsOn: aCanvas [
 
 	self critical: [ super aeDrawItemDecorationsOn: aCanvas ]
 ]
 
 { #category : #'as yet unclassified' }
-
 ToInfiniteElement >> allowsSkinInstallation [
 
 	^ super allowsSkinInstallation and: [ self state isStartStep   ]
 ]
-
 
 { #category : #accessing }
 ToInfiniteElement >> critical: aBlock [

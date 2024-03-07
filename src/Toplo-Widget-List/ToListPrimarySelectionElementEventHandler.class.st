@@ -87,7 +87,6 @@ ToListPrimarySelectionElementEventHandler >> newSelectionElementsFromEvent: anEv
 { #category : #'element handlers' }
 ToListPrimarySelectionElementEventHandler >> postponeSelectionElementUpdateIn: anElement [
 
-	'postponeSelectionElementUpdateIn:' traceCr.
 	anElement enqueueTask: (BlTaskAction new action: [
 			 anElement dispatchEvent: ToListPrimarySelectionDirtyEvent new ])
 ]

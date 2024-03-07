@@ -101,15 +101,22 @@ ToListSecondarySelectionElementEventHandler >> postponeSelectionElementUpdateFro
 { #category : #'mouse handlers' }
 ToListSecondarySelectionElementEventHandler >> updateSelectionFromEvent: anEvent [
 
-	| target infinite childNodes previous holder |
+	| target infinite childNodes previous |
 	target := anEvent currentTarget.
 	infinite := target infinite.
 	previous := target secondarySelectionElements.
 
+	infinite childrenDo: [ :node |
+		| holder |
+		holder := infinite elementHolderOf: node.
+		holder isTmpDetached ifTrue: [
+			self class name trace. '>> updateSelectionFromEvent: ' trace. infinite state isStartStep traceCr.
+			self postponeSelectionElementUpdateFromEvent: anEvent in: target.
+			^ self ] ].
+
 	previous do: [ :s |
 		s skinManagerDo: [ :sm |
-			holder := infinite elementHolderOf: s.
-			(holder isTmpDetached or: [ sm isInstallingSkin ]) ifTrue: [
+			sm isInstallingSkin ifTrue: [
 				self postponeSelectionElementUpdateFromEvent: anEvent in: target.
 				^ self ] ] ].
 

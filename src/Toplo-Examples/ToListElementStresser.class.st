@@ -115,8 +115,9 @@ ToListElementStresser >> initialize [
 		| listAndNameAssoc tab |
 		listAndNameAssoc := self newStressedListNumber: i.
 		tab := ToTab new.
-		tab labelText: listAndNameAssoc value.
+		tab labelText: (listAndNameAssoc value).
 		tab firstChild withNullSkin.
+		tab addChild: ToLabel new withNullSkin at: 2.
 		tab paneBuilder: [ :pane :theTabPane |
 			pane addChild: listAndNameAssoc key ].
 		tabsPanel addTab: tab ]
@@ -163,21 +164,26 @@ ToListElementStresser >> minListSize [
 { #category : #private }
 ToListElementStresser >> newStressedListNumber: aNumber [
 
-	| list process size ident priority |
+	| list process size ident priority suffix |
 	rand := Random new.
 
 	list := ToListElement new.
 	priority := self nextProcessPriorityForListNumber: aNumber.
 	size := self nextSizeForListNumber: aNumber.
-	ident := String streamContents: [ :stream |
-		         stream nextPutAll:
-			         ((String loremIpsum: self maxTab * 1000) substrings at:
-				          aNumber).
-		         stream nextPutAll: ' ('.
-		         stream nextPutAll: priority asString.
-		         stream nextPutAll: ') '.
-		         stream nextPutAll: size asString ].
-	listIdentifiers at: aNumber put: ident.
+	ident := (String loremIpsum: self maxTab * 1000) substrings at:
+		         aNumber.
+	ident := ident trimRight: [ :char | char isAlphaNumeric not ].
+
+	suffix := String streamContents: [ :stream |
+		          stream nextPutAll: ' ('.
+		          stream nextPutAll: priority asString.
+		          stream nextPutAll: ') '.
+		          stream nextPutAll: size asString.
+		          stream nextPutAll: ' ' ].
+
+	listIdentifiers
+		at: aNumber
+		put: ident asRopedText bold , suffix asRopedText.
 
 	list nodeBuilder: [ :node :holder |
 		holder isUnselectable ifTrue: [ node background: Color red ].
@@ -208,7 +214,7 @@ ToListElementStresser >> newStressedListNumber: aNumber [
 		addEventHandlerOn: BlElementRemovedFromSceneGraphEvent
 		do: [ :event | process terminate ].
 
-	^ list -> ident
+	^ list -> (listIdentifiers at: aNumber)
 ]
 
 { #category : #private }
@@ -244,7 +250,7 @@ ToListElementStresser >> processEndInList: aList number: aNumber [
 	| tab |
 	tab := self tabsPanel tabs at: aNumber.
 	self tabsPanel enqueueTask: (BlTaskAction new action: [
-			 tab firstChild text bold.
+			 tab firstChild text foreground: Color green muchDarker.
 			 tab firstChild textChanged ])
 ]
 
@@ -257,8 +263,8 @@ ToListElementStresser >> processingRound: aRound inList: aList number: aNumber [
 	     , ('/' , self maxRound asString , ']') asRopedText.
 
 	self tabsPanel enqueueTask: (BlTaskAction new action: [
-			 tab firstChild text: (listIdentifiers at: aNumber) asRopedText , s.
-			 tab firstChild textChanged ]).
+			 (tab childAt: 2) text: s.
+			 (tab childAt: 2) textChanged ]).
 
 	self selectActionsToRun shuffled do: [ :act |
 		self perform: act with: aList ]

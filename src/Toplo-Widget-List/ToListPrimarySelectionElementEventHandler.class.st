@@ -96,16 +96,26 @@ ToListPrimarySelectionElementEventHandler >> postponeSelectionElementUpdateIn: a
 { #category : #'element handlers' }
 ToListPrimarySelectionElementEventHandler >> updateSelectionFromEvent: anEvent [
 
-	| newSelElements target previous nodesArray selectionModel |
+	| newSelElements target infinite previous nodesArray selectionModel |
 	target := anEvent currentTarget.
 	target isAttachedToSceneGraph ifFalse: [ ^ self ].
+	infinite := target infinite.
 	previous := target primarySelectionElements.
+
+	infinite childrenDo: [ :node |
+		| holder |
+		holder := infinite elementHolderOf: node.
+		holder isTmpDetached ifTrue: [
+			self class name trace. '>> updateSelectionFromEvent: ' trace. infinite state isStartStep traceCr.
+			self postponeSelectionElementUpdateIn: target.
+			^ self ] ].
+
 	previous do: [ :s |
-		s skinManagerDo: [ :sm | | holder |
-			holder := target infinite elementHolderOf: s.
-			(holder isTmpDetached or: [	sm isInstallingSkin ]) ifTrue: [
+		s skinManagerDo: [ :sm |
+			sm isInstallingSkin ifTrue: [
 				self postponeSelectionElementUpdateIn: target.
 				^ self ] ] ].
+
 	newSelElements := self newSelectionElementsFromEvent: anEvent.
 	previous do: [ :s | s removeFromParent ].
 	target addChildren: newSelElements.

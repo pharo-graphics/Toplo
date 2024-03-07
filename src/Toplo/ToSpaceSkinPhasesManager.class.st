@@ -7,7 +7,8 @@ Class {
 		'spaceShownEventHandler',
 		'needSkinInstallPass',
 		'stateGenerationHolder',
-		'needSkinStateApplicationPass'
+		'needSkinStateApplicationPass',
+		'applyingSkinInstallers'
 	],
 	#category : #'Toplo-Core-SpaceFrame'
 }
@@ -52,18 +53,19 @@ ToSpaceSkinPhasesManager >> applyAllEnqueuedStatesIn: aSpace [
 ToSpaceSkinPhasesManager >> applyAllSkinInstallersIn: aSpace [
 
 	self needSkinInstallPass ifFalse: [ ^ self ].
+	self isApplyingSkinInstallers ifTrue: [ ^ self ].
 	" flag it now, before a skin installation pass because nothing prevent a skin installation to ask for another installation.
 	This is normally not the case. One known case is the space root installation that induce a skin installation "
-	self needSkinInstallPass: false.
+	applyingSkinInstallers := true.
 	" First make a layout pass because installing a skin may require measured/positionned elements "
-	aSpace
+	[ aSpace
 		dispatchTimeEvent: BlSpaceLayoutEndEvent
 		during: [ :theSpace | theSpace doLayout ].
 	" Then install the skin "
 	aSpace root withAllChildrenDepthFirstDo: [ :child |
 		child skinManagerDo: [ :sm |
 			sm applySkinUninstallerIn: child.
-			sm applySkinInstallerIn: child ] ]
+			sm applySkinInstallerIn: child ] ] ] ensure: [ applyingSkinInstallers := false ]
 ]
 
 { #category : #'phases installation' }
@@ -83,6 +85,7 @@ ToSpaceSkinPhasesManager >> initialize [
 	allowSkinPhases := true.
 	needSkinInstallPass := true.
 	needSkinStateApplicationPass := true.
+	applyingSkinInstallers := false.
 	stateGenerationHolder := ToSpaceStateGenerationHolder new
 ]
 
@@ -100,6 +103,12 @@ ToSpaceSkinPhasesManager >> installedSkinStateApplicationPhaseIn: aSpace [
 	^ aSpace frame phases
 		  detect: [ :p | p isKindOf: ToSpaceSkinStateApplicationPhase ]
 		  ifNone: [  ]
+]
+
+{ #category : #testing }
+ToSpaceSkinPhasesManager >> isApplyingSkinInstallers [
+
+	^ applyingSkinInstallers 
 ]
 
 { #category : #testing }

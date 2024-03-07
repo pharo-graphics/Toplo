@@ -10,19 +10,32 @@ ToListPrimarySelectionElementEventHandler >> blurEvent: anEvent [
 	" Don't update the selection when the element is removed from the scene 
 	This is the case if the event reason is for element removal "
 	anEvent isDueToRemoval ifTrue: [ ^ self ].
-	self updateSelectionFromEvent: anEvent
+	self enqueueUpdateSelectionFromEvent: anEvent
+]
+
+{ #category : #'element handlers' }
+ToListPrimarySelectionElementEventHandler >> criticalUpdateSelectionFromEvent: anEvent [
+
+	anEvent currentTarget critical: [self updateSelectionFromEvent: anEvent ]
 ]
 
 { #category : #'element handlers' }
 ToListPrimarySelectionElementEventHandler >> elementExtentChangedEvent: anEvent [
 
-	self updateSelectionFromEvent: anEvent
+	self enqueueUpdateSelectionFromEvent: anEvent
 ]
 
 { #category : #'element handlers' }
 ToListPrimarySelectionElementEventHandler >> elementScrolledEvent: anEvent [
 
 	self updateSelectionFromEvent: anEvent
+]
+
+{ #category : #'element handlers' }
+ToListPrimarySelectionElementEventHandler >> enqueueUpdateSelectionFromEvent: anEvent [
+
+	anEvent currentTarget enqueueTask:
+		(BlTaskAction new action: [ self updateSelectionFromEvent: anEvent ])
 ]
 
 { #category : #'api - accessing' }
@@ -46,7 +59,7 @@ ToListPrimarySelectionElementEventHandler >> focusEvent: anEvent [
 { #category : #'element handlers' }
 ToListPrimarySelectionElementEventHandler >> listPrimarySelectionChangedEvent: anEvent [
 
-	self updateSelectionFromEvent: anEvent
+	self criticalUpdateSelectionFromEvent: anEvent
 ]
 
 { #category : #'element handlers' }
@@ -61,12 +74,22 @@ ToListPrimarySelectionElementEventHandler >> newSelectionElementsFromEvent: anEv
 
 	| adjacentNodeGroups target |
 	target := anEvent currentTarget.
-	adjacentNodeGroups := target infinite nodeGroupsSatisfying: [ :n | n holder isSelected ].
+	adjacentNodeGroups := target infinite nodeGroupsSatisfying: [ :n |
+		                      n holder isSelectable and: [
+			                      n holder isSelected ] ].
 	^ adjacentNodeGroups collect: [ :g |
 		  ToListPrimarySelectionElement new
 			  listElement: target;
 			  nodes: g;
 			  yourself ]
+]
+
+{ #category : #'element handlers' }
+ToListPrimarySelectionElementEventHandler >> postponeSelectionElementUpdateIn: anElement [
+
+	'postponeSelectionElementUpdateIn:' traceCr.
+	anElement enqueueTask: (BlTaskAction new action: [
+			 anElement dispatchEvent: ToListPrimarySelectionDirtyEvent new ])
 ]
 
 { #category : #'element handlers' }
@@ -76,16 +99,22 @@ ToListPrimarySelectionElementEventHandler >> updateSelectionFromEvent: anEvent [
 	target := anEvent currentTarget.
 	target isAttachedToSceneGraph ifFalse: [ ^ self ].
 	previous := target primarySelectionElements.
+	previous do: [ :s |
+		s skinManagerDo: [ :sm |
+			sm isInstallingSkin ifTrue: [
+				self postponeSelectionElementUpdateIn: target.
+				^ self ] ] ].
 	newSelElements := self newSelectionElementsFromEvent: anEvent.
 	previous do: [ :s | s removeFromParent ].
 	target addChildren: newSelElements.
-	
+
 	nodesArray := target infinite children asArray.
 	selectionModel := target selectionModel.
 
 	" Dispatch the event that is used by the skin state generator to generate the selection state "
 	nodesArray do: [ :node |
-		node dispatchEvent: (ToListNodeSelectedEvent new
-				 listElement: target;
-				 selected: (selectionModel containsIndex: node holder position)) ]
+		node holder isSelectable ifTrue: [
+			node dispatchEvent: (ToListNodeSelectedEvent new
+					 listElement: target;
+					 selected: (selectionModel containsIndex: node holder position)) ] ]
 ]

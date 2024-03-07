@@ -12,7 +12,7 @@ Class {
 { #category : #'api - processing' }
 ToApplicableCommand >> apply [
 
-	self operator applyCommand: self command for: self target
+	self operator applyCommand: self command in: self target
 ]
 
 { #category : #accessing }

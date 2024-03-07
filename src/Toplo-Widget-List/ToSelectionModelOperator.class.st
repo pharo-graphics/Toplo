@@ -12,13 +12,18 @@ ToSelectionModelOperator >> addIndexesSelectionCommand: aCommand [
 
 	| intervals |
 	aCommand indexes ifEmpty: [ ^ self ].
+	aCommand operation deselectAllBefore ifTrue: [
+		self selectionModel deselectAll ].
 	intervals := self intervalsIn: aCommand indexes.
-	intervals do: [ :i | self selectionModel selectIndex: i first to: i last ]
+	intervals do: [ :i |
+		self selectionModel selectIndex: i first to: i last ]
 ]
 
 { #category : #'command operations' }
 ToSelectionModelOperator >> addIntervalSelectionCommand: aCommand [
 
+	aCommand operation deselectAllBefore ifTrue: [
+		self selectionModel deselectAll ].
 	self selectionModel selectIndex: aCommand from to: aCommand to
 ]
 
@@ -59,7 +64,7 @@ ToSelectionModelOperator >> itemCount [
 ]
 
 { #category : #'command operations' }
-ToSelectionModelOperator >> listScrollCommand: aCommand for: aTarget [
+ToSelectionModelOperator >> listScrollCommand: aCommand in: aTarget [
 
 	aTarget scrollToIndex: aCommand index
 ]
@@ -98,9 +103,17 @@ ToSelectionModelOperator >> selectionModel: aSelectionModel [
 ]
 
 { #category : #'command operations' }
-ToSelectionModelOperator >> selectionModelShiftCommand: aShiftCommand [
+ToSelectionModelOperator >> selectionModelShiftCommand: aShiftCommand in: aEventTarget [
 
-	self selectionModel shift: aShiftCommand itemCount from: aShiftCommand fromIndex
+	self selectionModel shift: aShiftCommand itemCount from: aShiftCommand fromIndex.
+	" Must take car of unselectable items: "
+	" for adding items, no need to notify change because it is already done here but when
+	when removing items (itemCount < 0) one have to notify change to the datasource 
+	to correctly update the UI"
+	aShiftCommand itemCount > 0 ifTrue: [ ^ self ].
+	aShiftCommand fromIndex <= self selectionModel itemCount ifTrue: [
+		"aEventTarget dataSource notifyChanged" ]
+
 ]
 
 { #category : #accessing }

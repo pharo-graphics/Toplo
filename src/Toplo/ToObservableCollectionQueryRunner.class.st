@@ -8,8 +8,7 @@ Class {
 		'delayBeforeFilter',
 		'previousPattern',
 		'dataFilter',
-		'selectedIndexes',
-		'notificationEvent'
+		'selectedIndexes'
 	],
 	#category : #'Toplo-Core-CollectionQuery'
 }
@@ -23,10 +22,9 @@ ToObservableCollectionQueryRunner >> applyDataFilterIn: anObservableCollection [
 			                   anObservableCollection withIndexDo: [ :d :idx |
 				                   (self dataFilter value: d value: self pattern)
 					                   ifTrue: [ stream nextPut: idx ] ] ] ].
-	event := notificationEvent ifNil: [
-		         ToObservableCollectionQueryResultEvent new
-			         queryRunner: self;
-			         yourself ].
+	event := ToObservableCollectionQueryResultEvent new
+		         queryRunner: self;
+		         yourself.
 	anObservableCollection dispatchEvent: event
 ]
 
@@ -108,16 +106,6 @@ ToObservableCollectionQueryRunner >> pattern: aString [
 	pattern = aString ifTrue: [ ^ self ].
 	pattern := aString asString trimBoth.
 	previousPattern = pattern ifTrue: [ ^ self ].
-	self semaphore signal
-]
-
-{ #category : #'private filtering' }
-ToObservableCollectionQueryRunner >> pattern: aString notifyResultWithEvent: anEvent [
-
-	pattern = aString ifTrue: [ ^ self ].
-	pattern := aString asString trimBoth.
-	previousPattern = pattern ifTrue: [ ^ self ].
-	notificationEvent := anEvent.
 	self semaphore signal
 ]
 

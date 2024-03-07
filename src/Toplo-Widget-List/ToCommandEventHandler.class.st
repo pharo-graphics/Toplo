@@ -3,43 +3,29 @@ Class {
 	#superclass : #BlCustomEventHandler,
 	#classTraits : 'TBlEventTarget classTrait',
 	#instVars : [
+		'commandQueue',
 		'applicationTask',
-		'commandQueue'
+		'queued'
 	],
 	#category : #'Toplo-Widget-List-Command'
 }
 
 { #category : #'event handling' }
-ToCommandEventHandler >> addComand: aCommand fromOperator: anOperator forTarget: aTarget [
+ToCommandEventHandler >> addComand: aCommand fromOperator: anOperator inTarget: aTarget [
 
 	| targetedCommand |
-	
+	aTarget isAttachedToSceneGraph ifFalse: [
+		anOperator applyCommand: aCommand in: aTarget.
+		^ self ].
+
 	targetedCommand := ToApplicableCommand new
 		                   operator: anOperator;
-		                   target: aTarget;
 		                   command: aCommand;
+		                   target: aTarget;
 		                   yourself.
 
-	commandQueue nextPut: targetedCommand.
-	aTarget isAttachedToSceneGraph ifFalse: [
-		aTarget dispatchEvent: ToCommandApplicationRequestEvent new.
-		^ self ].
-	
-	applicationTask ifNotNil: [ ^ self ].
-	applicationTask := BlTaskAction new action: [
-		                   applicationTask := nil.
-		                   aTarget dispatchEvent: ToCommandApplicationRequestEvent new ].
-
-	aTarget enqueueTask: applicationTask.
-	aTarget requestLayout
-]
-
-{ #category : #'event handling' }
-ToCommandEventHandler >> applyAllCommands [
-
-	| nextInQueue |
-	[ (nextInQueue := commandQueue nextOrNil) isNotNil ] whileTrue: [
-		nextInQueue apply ]
+	commandQueue add: targetedCommand.
+	aTarget dispatchEvent: ToCommandsApplicationRequestEvent new
 ]
 
 { #category : #'event handling' }
@@ -48,27 +34,52 @@ ToCommandEventHandler >> commandAddedEvent: aCommandAddedEvent [
 	self
 		addComand: aCommandAddedEvent command
 		fromOperator: aCommandAddedEvent operator
-		forTarget: aCommandAddedEvent currentTarget
+		inTarget: aCommandAddedEvent currentTarget
 ]
 
 { #category : #'event handling' }
-ToCommandEventHandler >> commandApplicationRequestEvent: aCommandApplicationRequestEvent [
+ToCommandEventHandler >> commandsApplicationRequestEvent: aCommandsApplicationRequestEvent [
 
-	applicationTask ifNotNil: [
-		aCommandApplicationRequestEvent currentTarget dequeueTask: applicationTask.
-		applicationTask := nil ].
-	self applyAllCommands
+	self postApplicationTaskIn: aCommandsApplicationRequestEvent currentTarget
 ]
 
 { #category : #'api - accessing' }
 ToCommandEventHandler >> eventsToHandle [
 
-	^ { ToCommandAddedEvent. ToCommandApplicationRequestEvent }
+	^ { ToCommandAddedEvent. ToCommandsApplicationRequestEvent }
 ]
 
-{ #category : #initialization }
-ToCommandEventHandler >> initialize [ 
+{ #category : #'api - hooks' }
+ToCommandEventHandler >> onInstalledIn: aListElement [
 
-	super initialize.
-	commandQueue := WaitfreeQueue new.
+	super onInstalledIn: aListElement.
+
+	commandQueue := OrderedCollection new.
+	applicationTask := ToCommandApplicationTask new
+		                   commandQueue: commandQueue;
+		                   listElement: aListElement;
+		                   finishedAction: [ queued := false ];
+		                   yourself.
+	queued := false
+]
+
+{ #category : #'api - hooks' }
+ToCommandEventHandler >> onUninstalledIn: aListElement [
+
+	super onUninstalledIn: aListElement.
+
+	commandQueue := nil.
+	applicationTask := nil.
+]
+
+{ #category : #'event handling' }
+ToCommandEventHandler >> postApplicationTaskIn: anEventTarget [
+	"Post children update runnable to consume update operations"
+	
+	queued ifTrue: [ ^ self ].
+	queued := true.
+	" Allow re-lauching of the same task"
+	applicationTask setNew.
+	" enqueue the update task "
+	anEventTarget enqueueTask: applicationTask
 ]

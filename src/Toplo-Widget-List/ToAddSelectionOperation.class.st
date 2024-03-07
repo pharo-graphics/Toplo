@@ -1,6 +1,9 @@
 Class {
 	#name : #ToAddSelectionOperation,
 	#superclass : #ToSelectionModelOperation,
+	#instVars : [
+		'deselectAllBefore'
+	],
 	#category : #'Toplo-Widget-List-Command-Selection'
 }
 
@@ -20,4 +23,16 @@ ToAddSelectionOperation >> applyIntervalSelection: aSelectionCommand on: anObjec
 ToAddSelectionOperation >> applyWholeSelection: aSelectionCommand on: anObject [
 
 	anObject addWholeSelectionCommand: aSelectionCommand
+]
+
+{ #category : #accessing }
+ToAddSelectionOperation >> deselectAllBefore [
+
+	^ deselectAllBefore ifNil: [ deselectAllBefore := false ]
+]
+
+{ #category : #accessing }
+ToAddSelectionOperation >> deselectAllBefore: aBoolean [
+
+	deselectAllBefore := aBoolean
 ]

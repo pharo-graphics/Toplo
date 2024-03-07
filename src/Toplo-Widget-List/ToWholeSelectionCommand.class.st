@@ -8,10 +8,10 @@ Class {
 }
 
 { #category : #hook }
-ToWholeSelectionCommand >> applyOn: anObject for: aTarget [
+ToWholeSelectionCommand >> applyOn: anObject in: aTarget [
 
 	self operation applyWholeSelection: self on: anObject.
-	super applyOn: anObject for: aTarget
+	super applyOn: anObject in: aTarget
 ]
 
 { #category : #accessing }

@@ -497,7 +497,7 @@ ToSandBox class >> example_HorizontalListWithIndexedColors [
 				      background: holder dataItem) ].
 	l background: Color yellow.
 	l beHorizontal.
-	l data addAll: Color indexedColors.
+	l dataAccessor addAll: Color indexedColors.
 	space := BlSpace new.
 	space root addChild: l.
 	space show
@@ -676,10 +676,10 @@ ToSandBox class >> example_ListOneClass [
 	| l |
 	l := ToListElement new nodeBuilder: [ :node :holder |
 		     node addChild: (ToCheckbox new
-				      labelText: holder data name;
+				      labelText: holder dataItem name;
 				      interspace: 10;
 				      hMatchParent) ].
-	l data addAll: { Smalltalk globals allClasses first }.
+	l dataAccessor addAll: { Smalltalk globals allClasses first }.
 	l inspect.
 	l openInSpace
 ]
@@ -689,7 +689,7 @@ ToSandBox class >> example_ListWith6Elements [
 
 	| l |
 	l := ToListElement new.
-	l data addAll: ((1 to: 6) collect: [ :i | i asString ]).
+	l dataAccessor addAll: ((1 to: 6) collect: [ :i | i asString ]).
 	l selecter selectIndex: 4.
 	l openInInnerWindow
 ]
@@ -699,7 +699,8 @@ ToSandBox class >> example_ListWithAllClasses [
 
 	| l |
 	l := ToListElement new.
-	l data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]).
+	l dataAccessor addAll:
+		(Smalltalk globals allClasses collect: [ :cls | cls name ]).
 	l openInSpace
 ]
 
@@ -798,22 +799,26 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 		lab := ToLabel text: t.
 		lab defaultRawSkin: ToLabelInListSkin new.
 		lab beMultiLine.
-		lab beEditable.
-		lab stillPressedStartDelay: 800 milliSeconds.
-		lab addEventHandler: (BlEventHandler
-				 on: ToStillPressedLookEvent
-				 do: [ :event |
-					 event consumed: true.
-					 lab addEditorEvent: event ]).
-		lab addEventHandler: (BlEventHandler
-				 on: ToLabelEditorOpenedEvent
-				 do: [ l disableScrolledEvent ]).
-		lab addEventHandler: (BlEventHandler
-				 on: ToLabelEditorClosedEvent
-				 do: [ l enableScrolledEvent ]).
-		lab addEventHandler: (BlEventHandler
-				 on: ToLabelTextReplacedEvent
-				 do: [ l dataAccessor at: holder position put: lab text asString ]).
+		holder isSelectable
+			ifTrue: [
+				lab beEditable.
+				lab stillPressedStartDelay: 800 milliSeconds.
+				lab addEventHandler: (BlEventHandler
+						 on: ToStillPressedLookEvent
+						 do: [ :event |
+							 event consumed: true.
+							 lab addEditorEvent: event ]).
+				lab addEventHandler: (BlEventHandler
+						 on: ToLabelEditorOpenedEvent
+						 do: [ l disableScrolledEvent ]).
+				lab addEventHandler: (BlEventHandler
+						 on: ToLabelEditorClosedEvent
+						 do: [ l enableScrolledEvent ]).
+				lab addEventHandler: (BlEventHandler
+						 on: ToLabelTextReplacedEvent
+						 do: [
+						 l dataAccessor at: holder position put: lab text asString ]) ]
+			ifFalse: [ node background: (Color red alpha: 0.5) ].
 		node addChild: (ToLabeledIcon new
 				 label: lab;
 				 hMatchParent) ].
@@ -891,6 +896,12 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 									                target disabledSelecter selectIndex: idx ] ] ];
 				                yourself).
 		               selectionMenu addItem: (ToMenuItem new
+				                labelText: 'Set unselectable';
+				                whenClickedDo: [ :event |
+					                selectedIndexes do: [ :idx |
+							                target unselectableSelecter selectIndex: idx ] ];
+				                yourself).
+		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Insert before';
 				                whenClickedDo: [ :event |
 					                | idx |
@@ -957,7 +968,7 @@ ToSandBox class >> example_ListWithPanes [
 			        | title blContent |
 			        title := ToLabel new
 				                 id: #title;
-				                 text: holder data;
+				                 text: holder dataItem;
 				                 margin: (BlInsets all: 1);
 				                 padding: (BlInsets all: 1);
 				                 yourself.
@@ -969,7 +980,7 @@ ToSandBox class >> example_ListWithPanes [
 				        (BlRoundedRectangleGeometry cornerRadius: 6).
 			        blContent border: (BlBorder paint: Color lightGray).
 			        node addChild: blContent ].
-	list data addAll: (1 to: 1000).
+	list dataAccessor addAll: (1 to: 1000).
 	list openInSpace
 ]
 
@@ -1042,14 +1053,12 @@ ToSandBox class >> example_PicsumPhotosGallery [
 			                margin: (BlInsets all: 5);
 			                imageData: imageData;
 			                yourself.
-		node addChild: photoElement ].
-
-	list addEventHandler: (BlEventHandler
-			 on: BlInfiniteElementAttachedEvent
-			 do: [ :event | event element firstChild attached ]).
-	list addEventHandler: (BlEventHandler
-			 on: BlInfiniteElementDetachedEvent
-			 do: [ :event | event element firstChild detached ]).
+		node addChild: photoElement.
+		photoElement attached ].
+	list nodeReleaser: [ :node :holder |
+		| photoElement |
+		photoElement := node firstChild.
+		photoElement detached ].
 
 	[
 	| images |
@@ -2278,43 +2287,6 @@ ToSandBox class >> example_horizontalPaneWithDivider [
 	pane openInSpace
 ]
 
-{ #category : #list }
-ToSandBox class >> example_listStress [
-
-	| tabsPanel list1 tab1 tabSize |
-	tabSize := 1.
-	list1 := ToListElement new.
-	list1 constraints vertical matchParent.
-	list1 constraints horizontal matchParent.
-	1 to: tabSize do: [ :i |
-	list1 dataAccessor add: 'Hello ' , i asString ].
-	tabsPanel := ToTabPane new.
-	tab1 := ToTab new.
-	tab1 labelText: 'Hello'.
-	tab1 paneBuilder: [ :pane :theTabPane | pane addChild: list1 ].
-	tabsPanel addTab: tab1.
-	list1 selecter selectAll.
-	list1 withRowNumbers.
-	tabsPanel openInSpace.
-
-	list1 enqueueTask: (BlTaskAction new action: [
-			 [
-			 1 to: 10000 do: [ :e |
-				 | r |
-				 1 to: tabSize do: [ :i |
-				 list1 dataAccessor at: i put: 'Hello ' , e asString ].
-				 list1 dataAccessor addFirst:
-					 'Hello ' , (list1 dataAccessor size + 1) asString.
-				 list1 dataAccessor add:
-					 'Hello ' , (list1 dataAccessor size + 1) asString.
-				 r := (Random new next * 1000) asInteger
-				      \\ (list1 dataAccessor size - 1) + 1.
-				 list1 selecter selectIndex: r.
-				 list1 dataAccessor removeAt: (r + 1 min: list1 dataAccessor size).
-				 list1 scrollToIndex: list1 dataAccessor size.
-				 50 milliSeconds wait ] ] fork ])
-]
-
 { #category : #'look event' }
 ToSandBox class >> example_lookEventTrace [
 
@@ -2695,6 +2667,46 @@ ToSandBox class >> example_stillPressedEvent [
 					 count := 0.
 					 color := Color white alpha: 0.3 ] ]).
 	e openInSpace
+]
+
+{ #category : #list }
+ToSandBox class >> example_stressedListsWithFork [
+
+	| tabsPanel maxRound maxTab rand priorities |
+	maxRound := 50000.
+	maxTab := 8.
+	rand := Random new.
+	priorities := {
+		              Processor lowestPriority.
+		              Processor userBackgroundPriority.
+		              Processor systemBackgroundPriority }.
+	tabsPanel := ToTabPane new.
+
+	1 to: maxTab do: [ :i |
+		| ident size priority list tab |
+		size := rand nextIntegerBetween: 1 and: (i even
+				         ifTrue: [ 20 ]
+				         ifFalse: [ 3000 ]).
+		ident := String streamContents: [ :stream |
+			         stream nextPutAll:
+				         ((String loremIpsum: maxTab * 1000) substrings at: i).
+			         stream nextPutAll: ' '.
+			         stream nextPutAll: size asString ].
+
+		priority := Processor userBackgroundPriority.
+		list := self
+			        stressedListNamed: ident
+			        withSize: size
+			        withBackgroundProcessPriority:
+			        (priorities at: i \\ priorities size + 1)
+			        forMaxRound: maxRound
+			        inHolder: tabsPanel.
+		tab := ToTab new.
+		tab labelText: ident.
+		tab paneBuilder: [ :pane :theTabPane | pane addChild: list ].
+		tabsPanel addTab: tab ].
+
+	tabsPanel openInSpace
 ]
 
 { #category : #'switch button' }
@@ -3898,6 +3910,121 @@ ToSandBox class >> statesOfAmerica [
 		#Oregon. #'Pennsylvania Rhode Island'. #'South Carolina'.
 		#'South Dakota'. #Tennessee. #Texas. #Utah. #Vermont. #Virginia.
 		#Washington. #'West Virginia'. #Wisconsin. #Wyoming }.
+]
+
+{ #category : #list }
+ToSandBox class >> stressedListNamed: aName withSize: aListSize withBackgroundProcessPriority: aPriority forMaxRound: aMaxRound inHolder: anElement [
+
+	| list rand randGetter process actionList |
+	rand := Random new.
+
+	list := ToListElement new.
+
+
+	list nodeBuilder: [ :node :holder |
+		holder isUnselectable ifTrue: [ node background: Color red ].
+		node addChild: (ToLabel text: holder dataItem asString) hMatchParent ].
+	list dataAccessor addAll:
+		((1 to: aListSize) collect: [ :i | 'Hello ' , i asString ]).
+
+	list withRowNumbers.
+	list matchParent.
+
+	randGetter := [
+	              | s |
+	              s := list dataAccessor size.
+	              s isZero
+		              ifTrue: [ 0 ]
+		              ifFalse: [ rand nextIntegerBetween: 1 and: s ] ].
+
+
+	actionList := {
+		              [ :theRound |
+		              | idx current |
+		              idx := randGetter value.
+		              idx isZero ifFalse: [
+			              current := list dataAccessor at: idx.
+			              list dataAccessor
+				              at: idx
+				              put: current , ' ' , theRound asString ] ].
+
+		              [ :theRound |
+		              list dataAccessor
+			              add: 'Goodbye ' , theRound asString
+			              afterIndex: randGetter value ].
+
+		              [ :theRound |
+		              list dataAccessor
+			              add: 'Goodbye ' , theRound asString
+			              afterIndex: randGetter value ].
+
+		              [ :theRound |
+		              | idx |
+		              idx := randGetter value.
+		              idx isZero ifFalse: [ list selecter selectIndex: idx ] ].
+
+		              [ :theRound |
+		              | idx |
+		              idx := randGetter value.
+		              idx isZero ifFalse: [
+			              list selecter deselectIndex: idx ] ].
+
+		              [ :theRound |
+		              | idx |
+		              idx := randGetter value.
+		              idx isZero ifFalse: [
+			              list disabledSelecter selectIndex: idx ].
+
+		              idx := randGetter value.
+		              idx isZero ifFalse: [
+			              list unselectableSelecter selectIndex: idx ] ].
+
+		              [ :theRound |
+		              | idx |
+		              idx := randGetter value.
+		              idx isZero ifFalse: [
+			              list disabledSelecter deselectIndex: idx ].
+		              idx := randGetter value.
+		              idx isZero ifFalse: [
+			              list unselectableSelecter deselectIndex: idx ] ].
+
+		              [ :theRound |
+		              | idx |
+		              idx := randGetter value.
+		              idx isZero ifFalse: [ list dataAccessor removeAt: idx ] ].
+
+		              [ :theRound |
+		              | idx |
+		              idx := randGetter value.
+		              idx isZero ifFalse: [ list dataAccessor removeAt: idx ] ] }.
+
+
+	process := [
+	           | round |
+	           round := 0.
+	           aMaxRound timesRepeat: [
+		           round := round + 1.
+		           (round \\ 100) isZero ifTrue: [ " (aName , ' round: ') trace.
+			           round traceCr"
+			            ].
+
+		           actionList shuffled do: [ :act | act value: round ].
+
+		           50 milliSeconds wait ] ] newProcess.
+
+	process name: self class name
+		,
+		'>>#stressedListNamed:withSize:withBackgroundProcessPriority:forMaxRound:inHolder:'.
+	process priority: aPriority.
+
+	anElement
+		addEventHandlerOn: BlElementAddedToSceneGraphEvent
+		do: [ :event | process resume ].
+	anElement
+		addEventHandlerOn: BlElementRemovedFromSceneGraphEvent
+		do: [ :event | process terminate ].
+
+	^ list
 ]
 
 { #category : #'see class side' }

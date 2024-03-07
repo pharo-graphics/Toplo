@@ -4,11 +4,13 @@ Class {
 	#traits : 'TToListElementDecorator + TToElementWithPlaceholder',
 	#classTraits : 'TToListElementDecorator classTrait + TToElementWithPlaceholder classTrait',
 	#instVars : [
-		'selectionModel',
 		'selectionMode',
-		'sharedEventDistributors',
+		'selectionModel',
 		'disabledSelecter',
-		'disabledSelectionModel'
+		'unselectableSelecter',
+		'sharedEventDistributors',
+		'nodeBuilderIndex',
+		'nodeReleaserIndex'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -75,6 +77,19 @@ ToBasicListElement >> defaultLayout [
 ]
 
 { #category : #initialization }
+ToBasicListElement >> defaultNodeBuilder [
+
+	^ [ :node :holder |
+	  node addChild: (ToLabel text: holder dataItem asString) hMatchParent ]
+]
+
+{ #category : #initialization }
+ToBasicListElement >> defaultNodeReleaser [
+
+	^ [ :node :holder | node removeChildren ]
+]
+
+{ #category : #initialization }
 ToBasicListElement >> defaultSelectionMode [
 
 	^ ToListMultipleSelectionMode new operator:
@@ -91,15 +106,7 @@ ToBasicListElement >> disabledSelecter [
 { #category : #accessing }
 ToBasicListElement >> disabledSelectionModel [
 
-	^ disabledSelectionModel
-]
-
-{ #category : #accessing }
-ToBasicListElement >> disabledSelectionModel: aSelectionModel [
-
-	disabledSelectionModel ifNotNil: [ disabledSelectionModel onUninstalledIn: self ].
-	disabledSelectionModel := aSelectionModel.
-	disabledSelectionModel ifNotNil: [disabledSelectionModel onInstalledIn: self ]
+	^ self disabledSelecter selectionModel
 ]
 
 { #category : #orientation }
@@ -112,6 +119,7 @@ ToBasicListElement >> horizontal: aBoolean [
 ToBasicListElement >> infiniteSharedEvents [
 
 	^ {
+		  ToObservableCollectionEvent.
 		  BlInfiniteDataSourceEvent.
 		  BlInfiniteElementAttachedEvent.
 		  BlInfiniteElementDetachedEvent.
@@ -121,28 +129,29 @@ ToBasicListElement >> infiniteSharedEvents [
 { #category : #initialization }
 ToBasicListElement >> initialize [
 
-	| operatorForDisabledItems |
+	| operatorForDisabledItems operatorForUnselectableItems unselectableSelectionModel disabledSelectionModel |
 	super initialize.
 
 	self next: self defaultInfiniteElement.
+	self next onInstalledIn: self.
+
 	self next elevation: (BlRelativeElevation elevation: 10).
 
-	self selectionModel: self newSelectionModel.
-	self layout: self defaultLayout.
-
-	self selectionMode: self defaultSelectionMode.
-	self addEventHandler: self defaultEventHandler.
-	self installSharedEventDistributors.
-
-	self addChild: self next.
-	self contextMenuWindowManagerClass:
-		ToListElementContextMenuWindowManager.
-	self addEventHandler: ToListPrimarySelectionElementEventHandler new.
-	self addEventHandler:
-		ToListElementContextMenuSelectionEventHandler new.
-	self addEventHandler: ToCommandEventHandler new.
+	nodeBuilderIndex := IdentityDictionary new.
+	nodeReleaserIndex := IdentityDictionary new.
+	
+	unselectableSelectionModel := self newSelectionModel.
+	unselectableSelectionModel onInstalledIn: self.
+	unselectableSelecter := ToMultiSelectionModelSelecter new.
+	operatorForUnselectableItems := ToUnselectableSelectionModelOperator new
+		                            selectionModel: unselectableSelectionModel;
+		                            yourself.
+	operatorForUnselectableItems onInstalledIn: self.
+	unselectableSelecter operator: operatorForUnselectableItems.
+	unselectableSelecter onInstalledIn: self.
 
 	disabledSelectionModel := self newSelectionModel.
+	disabledSelectionModel onInstalledIn: self.
 	disabledSelecter := ToMultiSelectionModelSelecter new.
 	operatorForDisabledItems := ToDisabledSelectionModelOperator new
 		                            selectionModel: disabledSelectionModel;
@@ -150,8 +159,20 @@ ToBasicListElement >> initialize [
 	operatorForDisabledItems onInstalledIn: self.
 	disabledSelecter operator: operatorForDisabledItems.
 	disabledSelecter onInstalledIn: self.
-	self addEventHandler: ToListDisabledSelectionEventHandler new.
 
+	self selectionModel: self newPrimarySelectionModel.
+	self layout: self defaultLayout.	
+
+	self selectionMode: self defaultSelectionMode.
+	self addEventHandler: self defaultEventHandler.
+	self installSharedEventDistributors.
+
+	self addChild: self next.
+	self contextMenuWindowManagerClass: ToListElementContextMenuWindowManager.
+	self addEventHandler: ToListPrimarySelectionElementEventHandler new.
+	self addEventHandler:	ToListElementContextMenuSelectionEventHandler new.
+	self addEventHandler: ToCommandEventHandler new.
+	
 	self matchParent
 ]
 
@@ -197,6 +218,12 @@ ToBasicListElement >> itemCount [
 	^ self dataSource itemCount
 ]
 
+{ #category : #initialization }
+ToBasicListElement >> newPrimarySelectionModel [
+
+	^ ToPrimarySelectionModel new
+]
+
 { #category : #skin }
 ToBasicListElement >> newRawSkin [ 
 
@@ -209,6 +236,46 @@ ToBasicListElement >> newSelectionModel [
 	^ ToSelectionModel new
 		  itemCountGetter: [ self dataSource itemCount ];
 		  yourself
+]
+
+{ #category : #accessing }
+ToBasicListElement >> nodeBuilder [
+
+	"aValuable takes 2 args: first, the ToNode to build and second, its holder in the list element "
+	^ self nodeBuilderIndex at: Object ifAbsentPut: [ self defaultNodeBuilder ]
+]
+
+{ #category : #accessing }
+ToBasicListElement >> nodeBuilder: aValuable [
+
+	"aValuable takes 2 args: first, the ToNode to build and second, its holder in the list element "
+	self nodeBuilderIndex at: Object put: aValuable
+]
+
+{ #category : #accessing }
+ToBasicListElement >> nodeBuilderIndex [
+
+	^ nodeBuilderIndex 
+]
+
+{ #category : #accessing }
+ToBasicListElement >> nodeReleaser [
+
+	"aValuable takes 2 args: first, the ToNode to release and second, its holder in the list element "
+	^ self nodeReleaserIndex at: Object ifAbsentPut: [ self defaultNodeReleaser ]
+]
+
+{ #category : #accessing }
+ToBasicListElement >> nodeReleaser: aValuable [
+
+	"aValuable takes 2 args: first, the ToNode to release and second, its holder in the list element "
+	self nodeReleaserIndex at: Object put: aValuable
+]
+
+{ #category : #accessing }
+ToBasicListElement >> nodeReleaserIndex [
+
+	^ nodeReleaserIndex 
 ]
 
 { #category : #'event firing' }
@@ -249,6 +316,12 @@ ToBasicListElement >> notifyPrimarySelectionDirty [
 
 { #category : #'event firing' }
 ToBasicListElement >> notifySecondarySelectionChanged: aSelectionChangedEvent [
+
+	self dispatchEvent: aSelectionChangedEvent
+]
+
+{ #category : #'event firing' }
+ToBasicListElement >> notifyUnselectableSelectionChanged: aSelectionChangedEvent [
 
 	self dispatchEvent: aSelectionChangedEvent
 ]
@@ -326,6 +399,18 @@ ToBasicListElement >> uninstallSharedEventDistributors [
 		self infinite removeEventHandlersSuchThat: [ :h | handler = h ] ].
 
 	sharedEventDistributors := nil
+]
+
+{ #category : #accessing }
+ToBasicListElement >> unselectableSelecter [
+
+	^ unselectableSelecter
+]
+
+{ #category : #accessing }
+ToBasicListElement >> unselectableSelectionModel [
+
+	^ self unselectableSelecter selectionModel
 ]
 
 { #category : #orientation }

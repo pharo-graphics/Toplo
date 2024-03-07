@@ -19,23 +19,6 @@ ToListElement >> data [
 	^ self dataAccessor
 ]
 
-{ #category : #accessing }
-ToListElement >> dataUpdater [
-
-	self
-		deprecated: 'Please use dataAccessor instead.'
-		transformWith:
-			'`@receiver dataUpdater'
-				-> '`@receiver dataAccessor'.
-	^ self dataAccessor
-]
-
-{ #category : #initialization }
-ToListElement >> defaultEventHandler [
-
-	^ ToListElementEventHandler new
-]
-
 { #category : #initialization }
 ToListElement >> defaultInfiniteElement [
 
@@ -59,9 +42,7 @@ ToListElement >> defaultSecondarySelectionMode [
 { #category : #initialization }
 ToListElement >> infiniteSharedEvents [
 
-	^ super infiniteSharedEvents , {
-		  ToInfiniteScrollFinishedEvent.
-		  ToObservableCollectionEvent }
+	^ super infiniteSharedEvents , { ToInfiniteScrollFinishedEvent }
 ]
 
 { #category : #initialization }
@@ -114,14 +95,4 @@ ToListElement >> secondarySelectionModel: aSelectionModel [
 	secondarySelectionModel ifNotNil: [ secondarySelectionModel onUninstalledIn: self ].
 	secondarySelectionModel := aSelectionModel.
 	secondarySelectionModel ifNotNil: [secondarySelectionModel onInstalledIn: self ]
-]
-
-{ #category : #accessing }
-ToListElement >> selectionStrategy [
-
-	self
-		deprecated: 'Use selecter instead'
-		transformWith: '`@receiver selectionStrategy' -> '`@receiver selecter'.
-
-	^ self selecter
 ]

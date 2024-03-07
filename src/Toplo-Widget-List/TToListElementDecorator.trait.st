@@ -7,6 +7,12 @@ Trait {
 }
 
 { #category : #'t - infinite accessing' }
+TToListElementDecorator >> critical: aBlock [
+
+	self next critical: aBlock
+]
+
+{ #category : #'t - infinite accessing' }
 TToListElementDecorator >> dataAccessor [
 
 	^ self next dataAccessor
@@ -16,6 +22,12 @@ TToListElementDecorator >> dataAccessor [
 TToListElementDecorator >> dataSource [
 
 	^ self next dataSource
+]
+
+{ #category : #'t - infinite accessing' }
+TToListElementDecorator >> dataSourceManager [
+	
+	^ next dataSourceManager
 ]
 
 { #category : #'t - infinite scrolled event' }
@@ -70,12 +82,6 @@ TToListElementDecorator >> next: aDecoratorOrInfinite [
 TToListElementDecorator >> nodeAt: anIndex [
 
 	^ self next nodeAt: anIndex
-]
-
-{ #category : #'t - infinite accessing' }
-TToListElementDecorator >> nodeBuilder: aNodeFactory [
-
-	self next nodeBuilder: aNodeFactory
 ]
 
 { #category : #'t - infinite accessing' }

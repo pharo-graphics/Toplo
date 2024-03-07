@@ -11,6 +11,7 @@ Class {
 ToSkinInstaller >> applyOn: anElement [
 	" if there is an installed skin -> nothing to do "
 
+	anElement allowsSkinInstallation ifFalse: [ ^ self ].
 	self installingWhile: [
 		anElement skinManagerDo: [ :sm |
 			sm installedSkin ifNil: [
@@ -22,6 +23,10 @@ ToSkinInstaller >> applyOn: anElement [
 					because  requestNewSkin may be sent during skin installation 
 					(in that case it it ignored) "
 					sm applyEnqueuedStatesIn: anElement ] ].
+			" check skin installation "
+			(sm installedSkin isNil and: [
+				 sm postponedInstallSkinHandler isNil ]) ifTrue: [
+				Error signal: 'A ToSkinManager has an invalid state' ].
 			sm setSkinInstaller: nil in: anElement ] ]
 ]
 

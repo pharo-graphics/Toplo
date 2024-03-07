@@ -4,11 +4,30 @@ Class {
 	#traits : 'TBlLayoutResizable',
 	#classTraits : 'TBlLayoutResizable classTrait',
 	#instVars : [
-		'nodeBuilder',
-		'nodeClass'
+		'layoutMonitor',
+		'nodeClass',
+		'listElement'
 	],
 	#category : #'Toplo-Widget-List-Infinite'
 }
+
+{ #category : #'as yet unclassified' }
+ToInfiniteElement >> aeDrawItemDecorationsOn: aCanvas [
+
+	self critical: [ super aeDrawItemDecorationsOn: aCanvas ]
+]
+
+{ #category : #'as yet unclassified' }
+ToInfiniteElement >> allowsSkinInstallation [
+
+	^ super allowsSkinInstallation and: [ self state isStartStep   ]
+]
+
+{ #category : #accessing }
+ToInfiniteElement >> critical: aBlock [
+
+	layoutMonitor critical: aBlock
+]
 
 { #category : #accessing }
 ToInfiniteElement >> dataAccessor [
@@ -49,6 +68,12 @@ ToInfiniteElement >> disableScrolledEvent [
 	self eventDispatcher disableScrolledEvent 
 ]
 
+{ #category : #layout }
+ToInfiniteElement >> dispatchLayout [ 
+
+	self critical: [ super dispatchLayout ]
+]
+
 { #category : #'scrolled event' }
 ToInfiniteElement >> enableScrolledEvent [
 
@@ -65,8 +90,14 @@ ToInfiniteElement >> infinite [
 ToInfiniteElement >> initialize [
 
 	super initialize.
-	self nodeBuilder: self defaultNodeBuilder.
+	layoutMonitor := Monitor new.
 	self matchParent
+]
+
+{ #category : #accessing }
+ToInfiniteElement >> listElement [
+
+	^ listElement
 ]
 
 { #category : #initialization }
@@ -89,20 +120,6 @@ ToInfiniteElement >> nodeAt: anIndex [
 	^ (self findElementHolderForDataSourcePosition: anIndex)
 		  ifNotNil: [ :holder | holder itemElement ]
 		  ifNil: [  ]
-]
-
-{ #category : #accessing }
-ToInfiniteElement >> nodeBuilder [
-
-	"aValuable takes 2 args: first, the ToNode to build and second, the data"
-	^ nodeBuilder 
-]
-
-{ #category : #accessing }
-ToInfiniteElement >> nodeBuilder: aValuable [
-
-	"aValuable takes 2 args: first, the ToNode to build and second, its holder in the list element "
-	nodeBuilder := aValuable
 ]
 
 { #category : #initialization }
@@ -148,14 +165,19 @@ ToInfiniteElement >> nodeHolderBuilder [
 	^ [ :theHolder |
 	  | newNode |
 	  newNode := self newNode.
-	  theHolder node: newNode.
-	  self nodeBuilder value: theHolder node value: theHolder ]
+	  theHolder node: newNode ]
 ]
 
 { #category : #initialization }
 ToInfiniteElement >> nodeHolderClass [
 
 	^ ToNodeHolder
+]
+
+{ #category : #'api - hooks' }
+ToInfiniteElement >> onInstalledIn: aListElement [
+
+	listElement := aListElement
 ]
 
 { #category : #'t - resizeable' }

@@ -11,7 +11,7 @@ Class {
 }
 
 { #category : #'applied command handling' }
-ToCommandApplier >> actionCommand: aCommand for: aTarget [
+ToCommandApplier >> actionCommand: aCommand in: aTarget [
 
 	aCommand action cull: aTarget
 ]
@@ -23,12 +23,6 @@ ToCommandApplier >> addCommand: aCommand [
 			 command: aCommand;
 			 operator: self;
 			 yourself)
-]
-
-{ #category : #accessing }
-ToCommandApplier >> applyAll [
-
-	self dispatchEvent: ToCommandApplicationRequestEvent new
 ]
 
 { #category : #'event management accessing' }

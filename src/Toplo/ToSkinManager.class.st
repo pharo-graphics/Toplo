@@ -42,11 +42,18 @@ ToSkinManager >> applyEnqueuedStatesIn: anElement [
 ToSkinManager >> applySkinInstallerIn: anElement [
 	" ask the skin installer (if any) to actually install the skin "
 
-	self skinInstaller ifNotNil: [ :si | si applyOn: anElement ].
-	self installedSkin ifNil: [
-		" no installed skin and nothing to install it, hum, smell bad "
-		((anElement isKindOf: ToElement) and: [self postponedInstallSkinHandler isNil and: [self skinInstaller isNil ] ]) ifTrue: [
-			Error signal: 'A ToSkinManager has an invalid state' ] ]
+	self skinInstaller ifNotNil: [ :si | si applyOn: anElement ]
+]
+
+{ #category : #'skin - install / uninstall request' }
+ToSkinManager >> applySkinInstallerNowIn: anElement [
+
+	skinRequestCount > 1 ifTrue: [ ^ false ].
+	self applySkinInstallerOnFirstRequest ifTrue: [ ^ true ].
+	anElement parentDo: [ :p |
+		p skinManagerDo: [ :sm |
+			(sm applySkinInstallerNowIn: p) ifTrue: [ ^ true ] ] ].
+	^ false
 ]
 
 { #category : #'skin - install / uninstall request' }
@@ -173,6 +180,12 @@ ToSkinManager >> installedSkinDo: aBlock [
 	aBlock value: self installedSkin
 ]
 
+{ #category : #testing }
+ToSkinManager >> isInstallingSkin [
+
+	^ self skinInstaller notNil and: [ self skinInstaller isInstalling ]
+]
+
 { #category : #'element setup' }
 ToSkinManager >> isSetUpForTheme: aTheme [
 
@@ -261,7 +274,7 @@ ToSkinManager >> requestInstallSkinIn: anElement [
 	Because requestInstallSkin can be sent many times (as an example during a theme installation). Thus, applying 
 	each request instantly would increase time consuming and can lead to an infinite loop or unpredictable results.
 	Such an infinite loop  systematically arise if a requestNewSkin is sent during a skin installation **** "
-	(self applySkinInstallerOnFirstRequest and: [
+	((self applySkinInstallerNowIn: anElement) and: [
 		 skinRequestCount = 1 ]) ifFalse: [ ^ self ].
 	" If an uninstaller is present, apply it "
 	self skinUninstaller ifNotNil: [ :su | su applyOn: anElement ].

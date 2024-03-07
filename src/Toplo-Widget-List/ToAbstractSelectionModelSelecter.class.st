@@ -5,12 +5,6 @@ Class {
 }
 
 { #category : #accessing }
-ToAbstractSelectionModelSelecter >> beSilentWhile: aBlock [
-
-	aBlock cull: self
-]
-
-{ #category : #accessing }
 ToAbstractSelectionModelSelecter >> currentIndex [ 
 
 	^ self subclassResponsibility 
@@ -118,4 +112,10 @@ ToAbstractSelectionModelSelecter >> selectOnlyIndex: anIndex [
 ToAbstractSelectionModelSelecter >> selectOnlyIndexes: anArray [
 
 	self subclassResponsibility 
+]
+
+{ #category : #accessing }
+ToAbstractSelectionModelSelecter >> selectedIndexes [
+
+	^ self subclassResponsibility 
 ]

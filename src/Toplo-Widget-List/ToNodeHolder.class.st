@@ -2,7 +2,6 @@ Class {
 	#name : #ToNodeHolder,
 	#superclass : #BlInfiniteHolder,
 	#instVars : [
-		'listElement',
 		'dataItem'
 	],
 	#category : #'Toplo-Widget-List-Node'
@@ -58,6 +57,12 @@ ToNodeHolder >> isEnabled [
 ]
 
 { #category : #accessing }
+ToNodeHolder >> isSelectable [
+
+	^ self isUnselectable not
+]
+
+{ #category : #accessing }
 ToNodeHolder >> isSelected [
 
 	^ self listElement
@@ -66,15 +71,18 @@ ToNodeHolder >> isSelected [
 ]
 
 { #category : #accessing }
-ToNodeHolder >> listElement [
+ToNodeHolder >> isUnselectable [
 
-	^ listElement
+	^ self listElement
+		  ifNil: [ true ]
+		  ifNotNil: [ :le |
+		  le unselectableSelectionModel containsIndex: self position ]
 ]
 
 { #category : #accessing }
-ToNodeHolder >> listElement: aListElement [
+ToNodeHolder >> listElement [
 
-	listElement := aListElement
+	^ infiniteElement listElement
 ]
 
 { #category : #accessing }

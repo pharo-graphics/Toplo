@@ -8,10 +8,10 @@ Class {
 }
 
 { #category : #hook }
-ToIndexesSelectionCommand >> applyOn: anObject for: aTarget [
+ToIndexesSelectionCommand >> applyOn: anObject in: aTarget [
 
 	self operation applyIndexesSelection: self on: anObject.
-	super applyOn: anObject for: aTarget
+	super applyOn: anObject in: aTarget
 ]
 
 { #category : #accessing }

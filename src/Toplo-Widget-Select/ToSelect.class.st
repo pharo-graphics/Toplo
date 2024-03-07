@@ -18,6 +18,13 @@ ToSelect >> closeWindow [
 	^ self windowManager closeWindow
 ]
 
+{ #category : #'accessing selection' }
+ToSelect >> copySelectionFrom: anotherSelectionModel [
+
+	self selectionModel copySelectionFrom: anotherSelectionModel.
+	self notifySelectionChanged
+]
+
 { #category : #'accessing window' }
 ToSelect >> currentWindow [ 
 
@@ -40,6 +47,13 @@ ToSelect >> dataFilter: aValuable [
 ToSelect >> defaultStrategy [
 
 	^ ToSingleSelectStrategy new
+]
+
+{ #category : #'accessing selection' }
+ToSelect >> deselectAll [
+
+	self selectionModel deselectAll.
+	self notifySelectionChanged
 ]
 
 { #category : #private }
@@ -239,6 +253,12 @@ ToSelect >> newWindowManager [
 	^ wm
 ]
 
+{ #category : #'accessing selection' }
+ToSelect >> notifySelectionChanged [
+
+	self dispatchEvent: ToSelectSelectionChanged new
+]
+
 { #category : #accessing }
 ToSelect >> pattern [
 
@@ -300,7 +320,15 @@ ToSelect >> popupWindowEvent: anEvent [
 ToSelect >> selectIndexes: aCollection [
 
 	self selectionModel selectIndexes: aCollection.
-	self dispatchEvent: ToSelectListSelectionChanged new
+	self notifySelectionChanged
+]
+
+{ #category : #'accessing selection' }
+ToSelect >> selectOnlyIndexes: aCollection [
+
+	self selectionModel deselectAll.
+	self selectionModel selectIndexes: aCollection.
+	self notifySelectionChanged
 ]
 
 { #category : #'accessing selection' }
@@ -325,6 +353,12 @@ ToSelect >> selecter [
 ToSelect >> selectionModel [
 
 	^ selectionModel
+]
+
+{ #category : #accessing }
+ToSelect >> selectionModel: aSelectionModel [
+
+	selectionModel := aSelectionModel
 ]
 
 { #category : #accessing }

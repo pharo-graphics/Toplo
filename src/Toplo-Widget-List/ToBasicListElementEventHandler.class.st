@@ -4,6 +4,20 @@ Class {
 	#category : #'Toplo-Widget-List-Core'
 }
 
+{ #category : #'infinite event handling' }
+ToBasicListElementEventHandler >> buildNode: aNode in: aListElement [
+
+	aListElement nodeBuilder value: aNode value: aNode holder
+]
+
+{ #category : #'infinite event handling' }
+ToBasicListElementEventHandler >> collectionEmptinessEvent: anEvent [
+
+	| target |
+	target := anEvent currentTarget.
+	target enqueueTask: (BlTaskAction new action: [self showHidePlaceholderIn: target ])
+]
+
 { #category : #'mouse handlers' }
 ToBasicListElementEventHandler >> doubleClickEvent: anEvent [
 
@@ -40,6 +54,8 @@ ToBasicListElementEventHandler >> elementScrolledEvent: anEvent [
 ToBasicListElementEventHandler >> eventsToHandle [
 
 	^ {
+		  ToListUnselectableSelectionChangedEvent.
+		  ToListDisabledSelectionChangedEvent.
 		  ToListDataSourceItemsChangeEvent.
 
 		  BlElementAddedToSceneGraphEvent.
@@ -51,6 +67,7 @@ ToBasicListElementEventHandler >> eventsToHandle [
 		  BlDoubleClickEvent.
 
 		  " data source "
+		  ToCollectionEmptinessEvent.
 		  BlInfiniteDataSourceItemRangeInserted.
 		  BlInfiniteDataSourceItemRangeRemoved }
 ]
@@ -61,7 +78,7 @@ ToBasicListElementEventHandler >> infiniteElementAttachedEvent: anEvent [
 	| listElement node |
 	listElement := anEvent currentTarget.
 	node := anEvent element.
-	node holder listElement: listElement.
+	self buildNode: node in: listElement.
 	node holder isEnabled
 		ifTrue: [ node enabled: true ]
 		ifFalse: [ node disabled: true ].
@@ -75,8 +92,7 @@ ToBasicListElementEventHandler >> infiniteElementDetachedEvent: anEvent [
 	node := anEvent element.
 	listElement := anEvent currentTarget.
 	listElement selectionMode onRemovedNode: node.
-	node holder listElement: nil.
-
+	self releaseNode: node in: listElement
 ]
 
 { #category : #'infinite event handling' }
@@ -94,19 +110,43 @@ ToBasicListElementEventHandler >> listDataSourceItemsRemovedEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	target dataAccessor size >= anEvent position ifTrue: [
-		target selecter
-			deselectIndex: anEvent position
-			to: anEvent position + anEvent itemCount - 1 ].
 	target selecter
 		shiftSelection: anEvent itemCount negated
 		from: anEvent position
+]
+
+{ #category : #'list element handling' }
+ToBasicListElementEventHandler >> listDisabledSelectionChangedEvent: anEvent [
+
+	| target nodesArray selectionModel |
+	target := anEvent currentTarget.
+	target isAttachedToSceneGraph ifFalse: [ ^ self ].
+
+	nodesArray := target infinite children asArray.
+	selectionModel := target disabledSelectionModel.
+	anEvent selectionModel selectedIndexesIntervalsDo: [ :interval |
+		target dataSource notifyItemsChanged: (interval first to: interval last) ]
 ]
 
 { #category : #'infinite event handling' }
 ToBasicListElementEventHandler >> listPrimarySelectionModeChangedEvent: anEvent [
 
 	anEvent currentTarget selectionModel deselectAll 
+]
+
+{ #category : #'list element handling' }
+ToBasicListElementEventHandler >> listUnselectableSelectionChangedEvent: anEvent [
+
+	| target firstPos lastPos |
+	target := anEvent currentTarget.
+	target isAttachedToSceneGraph ifFalse: [ ^ self ].
+	target infinite hasChildren ifFalse: [ ^ self ].
+	firstPos := target infinite firstChild holder position.
+	lastPos := target infinite lastChild holder position.
+	(target selectionModel hasUnselectableInInterval: (firstPos to: lastPos)) ifFalse: [ ^ self ].
+	"'listUnselectableSelectionChangedEvent: ' trace. (firstPos to: lastPos) traceCr."
+	target dataSource notifyItemsChanged: (firstPos to: lastPos).
+	target requestLayout
 ]
 
 { #category : #'mouse handlers' }
@@ -145,6 +185,12 @@ ToBasicListElementEventHandler >> onItemsRemoved: anEvent [
 		                         position: anEvent position;
 		                         yourself.
 	target notifyDataSourceItemsChanged: dataSourceChangeEvent
+]
+
+{ #category : #'infinite event handling' }
+ToBasicListElementEventHandler >> releaseNode: aNode in: aListElement [
+
+	aListElement nodeReleaser value: aNode value: aNode holder
 ]
 
 { #category : #'list element handling' }

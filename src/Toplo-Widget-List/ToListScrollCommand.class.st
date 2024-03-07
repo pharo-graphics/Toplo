@@ -8,9 +8,9 @@ Class {
 }
 
 { #category : #hook }
-ToListScrollCommand >> applyOn: anObject for: aTarget [
+ToListScrollCommand >> applyOn: anObject in: aTarget [
 
-	anObject listScrollCommand: self for: aTarget
+	anObject listScrollCommand: self in: aTarget
 ]
 
 { #category : #accessing }
@@ -23,11 +23,4 @@ ToListScrollCommand >> index [
 ToListScrollCommand >> index: anIndex [
 
 	index := anIndex
-]
-
-{ #category : #initialization }
-ToListScrollCommand >> initialize [ 
-
-	super initialize.
-	self silent: true
 ]

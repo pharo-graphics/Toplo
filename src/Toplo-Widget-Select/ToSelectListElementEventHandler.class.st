@@ -7,10 +7,19 @@ Class {
 	#category : #'Toplo-Widget-Select-Core'
 }
 
+{ #category : #'element handlers' }
+ToSelectListElementEventHandler >> collectionFilteredEvent: anEvent [
+
+	select isMultipleSelection ifFalse: [
+		select listElement secondarySelectionModel deselectAll ]
+]
+
 { #category : #'api - accessing' }
 ToSelectListElementEventHandler >> eventsToHandle [
 
-	^ { ToSieveSelectionChangedEvent. ToSieveAppliedEvent }
+	^ {
+		  ToSieveSelectionChangedEvent.
+		  ToCollectionFilteredEvent }
 ]
 
 { #category : #accessing }
@@ -20,18 +29,7 @@ ToSelectListElementEventHandler >> select: aSelect [
 ]
 
 { #category : #'element handlers' }
-ToSelectListElementEventHandler >> sieveAppliedEvent: anEvent [
-
-	select isMultipleSelection ifFalse: [
-		select listElement secondarySelectionModel deselectAll ]
-]
-
-{ #category : #'element handlers' }
 ToSelectListElementEventHandler >> sieveSelectionChangedEvent: anEvent [
 
-	select selectionModel = anEvent selectionModel ifTrue: [ ^ self ].
-	select selectionModel deselectAll.
-	select selectIndexes: anEvent selectionModel selectedIndexes.
-	select strategy refreshHeaderNodeContainer.
-
+	select copySelectionFrom: anEvent selectionModel
 ]

@@ -3,8 +3,7 @@ Class {
 	#superclass : #ToAbstractSelectionModelSelecter,
 	#instVars : [
 		'currentIndex',
-		'operator',
-		'operateSilently'
+		'operator'
 	],
 	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
@@ -12,17 +11,7 @@ Class {
 { #category : #adding }
 ToSelectionModelSelecter >> addCommand: aCommand [
 
-	aCommand silent ifFalse: [aCommand silent: self operateSilently ].
 	self operator addCommand: aCommand
-]
-
-{ #category : #accessing }
-ToSelectionModelSelecter >> beSilentWhile: aBlock [
-
-	| prev |
-	prev := operateSilently.
-	operateSilently := true.
-	[ aBlock cull: self ] ensure: [ operateSilently := prev ] 
 ]
 
 { #category : #operations }
@@ -91,14 +80,37 @@ ToSelectionModelSelecter >> nextDeselectedIndex [
 ]
 
 { #category : #private }
+ToSelectionModelSelecter >> nextIndexToScrollTo [
+
+	| next |
+	next := self nextSelectableIndex.
+	" not on the last selectable position -> just return the next index else, return 1 or 0"
+	^ self currentIndex < (self previousSelectableIndexStartingAt: self selectionModel itemCount)
+		  ifTrue: [ next ]
+		  ifFalse: [
+			  self selectionModel itemCount > 0
+				  ifTrue: [ 1 ]
+				  ifFalse: [ 0 ] ]
+]
+
+{ #category : #private }
 ToSelectionModelSelecter >> nextSelectableIndex [
 
 	self currentIndex isZero
 		ifTrue: [
 			self itemCount isZero ifTrue: [ ^ 0 ].
-			^ 1 ]
-		ifFalse: [ self currentIndex < self itemCount ifFalse: [ ^ 1 ] ].
-	^ self currentIndex + 1
+			^ self nextSelectableIndexStartingAt: 1 ]
+		ifFalse: [
+			self currentIndex
+			< (self previousSelectableIndexStartingAt: self itemCount)
+				ifFalse: [ ^ self nextSelectableIndexStartingAt: 1 ] ].
+	^ self nextSelectableIndexStartingAt: self currentIndex + 1
+]
+
+{ #category : #private }
+ToSelectionModelSelecter >> nextSelectableIndexStartingAt: anIndex [
+
+	^ self selectionModel nextSelectableIndexStartingAt: anIndex
 ]
 
 { #category : #'api - hooks' }
@@ -114,12 +126,6 @@ ToSelectionModelSelecter >> onUninstalledIn: anEventTarget [
 	super onUninstalledIn: anEventTarget.
 	operator := nil.
 	currentIndex := 0
-]
-
-{ #category : #accessing }
-ToSelectionModelSelecter >> operateSilently [
-
-	^ operateSilently 
 ]
 
 { #category : #accessing }
@@ -141,14 +147,35 @@ ToSelectionModelSelecter >> previousDeselectedIndex [
 ]
 
 { #category : #private }
+ToSelectionModelSelecter >> previousIndexToScrollTo [
+
+	| prev |
+	prev := self previousSelectableIndex.
+	" not exactly on the first selectable position -> just return the previous index else, return self itemCount or 0"
+	^ self currentIndex > (self nextSelectableIndexStartingAt: 1)
+		  ifTrue: [ prev ]
+		  ifFalse: [
+			  self selectionModel itemCount > 0
+				  ifTrue: [ self selectionModel itemCount ]
+				  ifFalse: [ 0 ] ]
+]
+
+{ #category : #private }
 ToSelectionModelSelecter >> previousSelectableIndex [
 
 	self currentIndex isZero
 		ifTrue: [
 			self itemCount isZero ifTrue: [ ^ 0 ].
-			^ self itemCount ]
-		ifFalse: [ self currentIndex > 1 ifFalse: [ ^ self itemCount ] ].
-	^ self currentIndex - 1
+			^ self previousSelectableIndexStartingAt: self itemCount ]
+		ifFalse: [ self currentIndex > (self nextSelectableIndexStartingAt: 1) 
+			ifFalse: [ ^ self previousSelectableIndexStartingAt: self itemCount ] ].
+	^ self previousSelectableIndexStartingAt: self currentIndex - 1
+]
+
+{ #category : #private }
+ToSelectionModelSelecter >> previousSelectableIndexStartingAt: anIndex [
+
+	^ self selectionModel previousSelectableIndexStartingAt: anIndex
 ]
 
 { #category : #operations }
@@ -174,34 +201,35 @@ ToSelectionModelSelecter >> selectOnlyIndex: anIndex [
 
 	(self selectionModel selectedIndexesCount = 1 and: [
 		 self selectionModel firstIndex = anIndex ]) ifTrue: [ ^ self ].
-	self addCommand: (ToCompositeCommand new commands: {
-				 (ToWholeSelectionCommand new
-					  silent: true;
-					  operation: ToRemoveSelectionOperation new;
-					  yourself).
-				 (ToIntervalSelectionCommand new
-					  from: anIndex to: anIndex;
-					  operation: ToAddSelectionOperation new) }).
+	self addCommand: (ToIntervalSelectionCommand new
+			 from: anIndex to: anIndex;
+			 operation: (ToAddSelectionOperation new
+					  deselectAllBefore: true;
+					  yourself)).
 	self changeCurrentIndexWith: anIndex
 ]
 
 { #category : #operations }
 ToSelectionModelSelecter >> selectOnlyIndexes: anArray [
 
-	anArray ifEmpty: [ 
+	anArray ifEmpty: [
 		self addCommand:
 			(ToWholeSelectionCommand new operation:
 				 ToRemoveSelectionOperation new).
 		self changeCurrentIndexWith: 0.
 		^ self ].
-	self addCommand: (ToCompositeCommand new commands: {
-				 (ToWholeSelectionCommand new
-					  silent: true;
-					  operation: ToRemoveSelectionOperation new).
-				 (ToIndexesSelectionCommand new
-					  indexes: anArray;
-					  operation: ToAddSelectionOperation new) }).
+	self addCommand: (ToIndexesSelectionCommand new
+			 indexes: anArray;
+			 operation: (ToAddSelectionOperation new
+					  deselectAllBefore: true;
+					  yourself)).
 	self changeCurrentIndexWith: anArray last
+]
+
+{ #category : #accessing }
+ToSelectionModelSelecter >> selectedIndexes [
+
+	^ self selectionModel selectedIndexes
 ]
 
 { #category : #accessing }
@@ -222,13 +250,5 @@ ToSelectionModelSelecter >> shiftSelection: anInteger from: anIndex [
 { #category : #private }
 ToSelectionModelSelecter >> sideIdx: aGap [
 
-	| nextIdx |
-	nextIdx := self currentIndex.
-	(self selectionModel containsIndex: nextIdx) ifFalse: [ ^ nextIdx ].
-	[
-	(nextIdx between: 1 and: self itemCount) and: [
-		self selectionModel containsIndex: nextIdx ] ] whileTrue: [
-		nextIdx := nextIdx + aGap ].
-	nextIdx := (nextIdx max: 1) min: self itemCount.
-	^ nextIdx
+	^ self selectionModel sideIdx: aGap startingAt: self currentIndex
 ]

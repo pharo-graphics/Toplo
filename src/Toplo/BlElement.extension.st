@@ -39,6 +39,12 @@ BlElement >> allStamps [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> allowsSkinInstallation [
+
+	^ true
+]
+
+{ #category : #'*Toplo' }
 BlElement >> applySkinInstallerOnFirstRequest: aBoolean [
 
 	self skinManagerDo: [ :sm | sm  applySkinInstallerOnFirstRequest: aBoolean ]
@@ -280,10 +286,6 @@ BlElement >> shortcutsStoreDo: aValuable [
 
 { #category : #'*Toplo' }
 BlElement >> skinInstaller [
-
-	self
-		deprecated: 'Please delegate to the skinManager instead'
-		transformWith: '`@receiver skinInstaller' -> '`@receiver skinManager skinInstaller'.
 
 	^ self skinManager skinInstaller
 ]

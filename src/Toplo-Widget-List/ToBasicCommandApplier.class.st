@@ -5,13 +5,13 @@ Class {
 }
 
 { #category : #'command application' }
-ToBasicCommandApplier >> applyCommand: aCommand for: aTarget [ 
+ToBasicCommandApplier >> applyCommand: aCommand in: aTarget [ 
 	
-	self applyCommand: aCommand for: aTarget withApplicationBlock: [ aCommand applyOn: self for: aTarget ]
+	self applyCommand: aCommand in: aTarget withApplicationBlock: [ aCommand applyOn: self in: aTarget ]
 ]
 
 { #category : #'private command application' }
-ToBasicCommandApplier >> applyCommand: aCommand for: aTarget withApplicationBlock: aBlock [
+ToBasicCommandApplier >> applyCommand: aCommand in: aTarget withApplicationBlock: aBlock [
 
 	aBlock value
 ]

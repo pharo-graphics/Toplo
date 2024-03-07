@@ -35,6 +35,25 @@ ToSelectionModelTest >> testCopyCompositeModel [
 ]
 
 { #category : #tests }
+ToSelectionModelTest >> testCopySelectionFrom [
+
+	| s s2 |
+	s := ToSelectionModel new itemCountGetter: 100.
+	s2 := s copy.
+	s selectIndexes: { 1. 5. 6 }.
+	s2 copySelectionFrom: s.
+	self assert: s equals: s2.
+	self deny: s underlyingModel identicalTo: s2 underlyingModel.
+	s deselectIndexes: { 10. 50. 60 }.
+	s2 copySelectionFrom: s.
+	self assert: s equals: s2.
+	s deselectIndexes: { 5. 6 }.
+	s2 copySelectionFrom: s.
+	self assert: s equals: s2.
+
+]
+
+{ #category : #tests }
 ToSelectionModelTest >> testDeselectAll [
 
 	| s |
@@ -461,10 +480,30 @@ ToSelectionModelTest >> testShiftFrom9 [
 	self assert: s selectedIndexes  equals: { 3. 4. 5. 6. 7 }.
 	s shift: -1 from: 11.
 	self assert: s selectedIndexes  equals: { 3. 4. 5. 6. 7 }.
-	"{ 4. 5. 7. 8. 10. 11 } do: [ :idx | s shift: -1 from: idx ].
-	self assert: s selectedIndexes  equals: { 3. 4. 6. 7. 9. 10 }
-	{ 4. 5. 7. 8. 10. 11 } do: [ :idx | s shift: -1 from: idx ].
-	self assert: s selectedIndexes  equals: { 3. 4. 6. 7. 9. 10 }"
+]
+
+{ #category : #tests }
+ToSelectionModelTest >> testShiftFrom9bis [
+
+	| s |
+	s := ToSelectionModel new itemCountGetter: 200.
+	s selectIndexes: { 3. 4. 5. 6. 7. 8 }.
+	s shift: -1 from: 8.
+	self assert: s selectedIndexes  equals: { 3. 4. 5. 6. 7 }.
+	s shift: -1 from: 10.
+	self assert: s selectedIndexes  equals: { 3. 4. 5. 6. 7 }.
+	s shift: -1 from: 11.
+	self assert: s selectedIndexes  equals: { 3. 4. 5. 6. 7 }
+]
+
+{ #category : #tests }
+ToSelectionModelTest >> testShiftFrom9bis2 [
+
+	| s |
+	s := ToSelectionModel new itemCountGetter: 200.
+	s selectIndexes: { 4. 5. 7}.
+	s shift: -1 from: 4.
+	self assert: s selectedIndexes  equals: { 3. 4. 6}.
 ]
 
 { #category : #tests }

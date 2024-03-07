@@ -1,11 +1,11 @@
 Class {
-	#name : #ToDisabledSelectionModelOperator,
+	#name : #ToUnselectableSelectionModelOperator,
 	#superclass : #ToSelectionModelOperator,
 	#category : #'Toplo-Widget-List-Command-Selection'
 }
 
 { #category : #'private command application' }
-ToDisabledSelectionModelOperator >> applyCommand: aCommand in: aTarget withApplicationBlock: aBlock [
+ToUnselectableSelectionModelOperator >> applyCommand: aCommand in: aTarget withApplicationBlock: aBlock [
 
 	| emittedSelectionModel |
 	super
@@ -13,13 +13,13 @@ ToDisabledSelectionModelOperator >> applyCommand: aCommand in: aTarget withAppli
 		in: aTarget
 		withApplicationBlock: aBlock.
 	emittedSelectionModel := self selectionModel copy.
-	aTarget notifyDisabledSelectionChanged: (ToListDisabledSelectionChangedEvent new
+	aTarget notifyUnselectableSelectionChanged: (ToListUnselectableSelectionChangedEvent new
 			 selectionModel: emittedSelectionModel;
 			 yourself).
 ]
 
 { #category : #'command operations' }
-ToDisabledSelectionModelOperator >> listScrollCommand: aCommand in: aTarget [
+ToUnselectableSelectionModelOperator >> listScrollCommand: aCommand in: aTarget [
 	" nothing to do "
 
 	

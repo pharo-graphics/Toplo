@@ -22,9 +22,9 @@ ToListSecondarySelectionElementEventHandler >> elementExtentChangedEvent: anEven
 { #category : #'mouse handlers' }
 ToListSecondarySelectionElementEventHandler >> elementScrolledEvent: anEvent [
 
-	"anEvent currentTarget spaceDo: [ :sp | 
+	anEvent currentTarget spaceDo: [ :sp | 
 		sp mouseProcessor handleLastMouseMove ].
-	self updateSelectionFromEvent: anEvent"
+	self updateSelectionFromEvent: anEvent
 ]
 
 { #category : #'api - accessing' }
@@ -60,7 +60,8 @@ ToListSecondarySelectionElementEventHandler >> mouseMoveEvent: anEvent [
 	globalPosition := anEvent position.
 	childNode := infinite children
 		             detect: [ :node |
-		             node containsGlobalPoint: globalPosition ]
+			             node holder isSelectable and: [
+				             node containsGlobalPoint: globalPosition ] ]
 		             ifNone: [  ].
 	childNode ifNil: [
 		target secondarySelecter deselectAll.
@@ -85,15 +86,14 @@ ToListSecondarySelectionElementEventHandler >> newSelectionElementsFromSelectedN
 ToListSecondarySelectionElementEventHandler >> updateSelectionFromEvent: anEvent [
 
 	| target infinite childNodes |
-
 	target := anEvent currentTarget.
 	infinite := target infinite.
 	target secondarySelectionElements do: [ :s | s removeFromParent ].
 	target secondarySelectionModel ifEmpty: [ ^ self ].
-	childNodes := infinite children
-		             select: [ :node |
-			             target secondarySelectionModel containsIndex:
-				             node holder position ].
-	childNodes ifEmpty: [^ self ].
+	childNodes := infinite children select: [ :node |
+		              node holder isSelectable and: [
+			              target secondarySelectionModel containsIndex:
+				              node holder position ] ].
+	childNodes ifEmpty: [ ^ self ].
 	self addSecondarySelectionIn: target onNodes: childNodes
 ]

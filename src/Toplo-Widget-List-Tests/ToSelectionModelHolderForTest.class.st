@@ -10,7 +10,8 @@ Class {
 		'data',
 		'scrollIndex',
 		'selecter',
-		'operator'
+		'operator',
+		'unselectableSelectionModel'
 	],
 	#category : #'Toplo-Widget-List-Tests-Selection-Selecter'
 }
@@ -54,6 +55,8 @@ ToSelectionModelHolderForTest >> initialize [
 	self dataSource: ToObservableCollectionInfiniteDataSource new.
 	selectionModel := self defaultSelectionModel.
 	selectionModel onInstalledIn: self.
+	unselectableSelectionModel := self defaultSelectionModel.
+	unselectableSelectionModel onInstalledIn: self.
 	self addEventHandler: ToCommandEventHandler new.
 	operator := ToPrimarySelectionModelOperator new.
 	operator onInstalledIn: self.
@@ -89,6 +92,12 @@ ToSelectionModelHolderForTest >> noneSelectionSelecter [
 
 { #category : #'event firing' }
 ToSelectionModelHolderForTest >> notifyPrimarySelectionChanged: anEvent [
+
+	self dispatchEvent: anEvent
+]
+
+{ #category : #'event firing' }
+ToSelectionModelHolderForTest >> notifyUnselectableSelectionChanged: anEvent [
 
 	self dispatchEvent: anEvent
 ]
@@ -146,4 +155,10 @@ ToSelectionModelHolderForTest >> successfulCommand [
 ToSelectionModelHolderForTest >> successfulCommand: anObject [
 
 	successfulCommand := anObject
+]
+
+{ #category : #accessing }
+ToSelectionModelHolderForTest >> unselectableSelectionModel [
+
+	^ unselectableSelectionModel 
 ]

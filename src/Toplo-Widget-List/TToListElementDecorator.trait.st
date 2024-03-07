@@ -7,6 +7,12 @@ Trait {
 }
 
 { #category : #'t - infinite accessing' }
+TToListElementDecorator >> critical: aBlock [
+
+	self next critical: aBlock
+]
+
+{ #category : #'t - infinite accessing' }
 TToListElementDecorator >> dataAccessor [
 
 	^ self next dataAccessor

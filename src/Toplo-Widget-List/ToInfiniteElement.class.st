@@ -4,6 +4,8 @@ Class {
 	#traits : 'TBlLayoutResizable',
 	#classTraits : 'TBlLayoutResizable classTrait',
 	#instVars : [
+
+		'layoutMonitor',
 		'nodeClass',
 		'listElement'
 	],
@@ -11,9 +13,24 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+
+ToInfiniteElement >> aeDrawItemDecorationsOn: aCanvas [
+
+	self critical: [ super aeDrawItemDecorationsOn: aCanvas ]
+]
+
+{ #category : #'as yet unclassified' }
+
 ToInfiniteElement >> allowsSkinInstallation [
 
 	^ super allowsSkinInstallation and: [ self state isStartStep   ]
+]
+
+
+{ #category : #accessing }
+ToInfiniteElement >> critical: aBlock [
+
+	layoutMonitor critical: aBlock
 ]
 
 { #category : #accessing }
@@ -55,6 +72,12 @@ ToInfiniteElement >> disableScrolledEvent [
 	self eventDispatcher disableScrolledEvent 
 ]
 
+{ #category : #layout }
+ToInfiniteElement >> dispatchLayout [ 
+
+	self critical: [ super dispatchLayout ]
+]
+
 { #category : #'scrolled event' }
 ToInfiniteElement >> enableScrolledEvent [
 
@@ -71,6 +94,8 @@ ToInfiniteElement >> infinite [
 ToInfiniteElement >> initialize [
 
 	super initialize.
+
+	layoutMonitor := Monitor new.
 	self matchParent
 ]
 

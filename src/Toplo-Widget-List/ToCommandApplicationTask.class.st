@@ -11,11 +11,12 @@ Class {
 
 { #category : #'api - running' }
 ToCommandApplicationTask >> applyAll [
-
-	[ commandQueue isEmpty ] whileFalse: [
-		| nextInQueue |
-		nextInQueue := commandQueue removeFirst.
-		nextInQueue apply ]
+  
+	listElement critical: [
+		[ commandQueue isEmpty ] whileFalse: [
+			| nextInQueue |
+			nextInQueue := commandQueue removeFirst.
+			nextInQueue apply ] ]
 ]
 
 { #category : #'api - running' }
@@ -25,7 +26,6 @@ ToCommandApplicationTask >> canApplyCommands [
 	listElement space isApplyingSkinInstallers ifTrue: [ ^ false ].
 	infiniteElement := listElement infinite.
 	infiniteElement isFirstLayoutComplete ifFalse: [ ^ false ].
-	infiniteElement isComputingLayout ifTrue: [ ^ false ].
 	infiniteElement isAttached ifFalse: [ ^ false ].
 	infiniteElement isLayoutFrozen ifTrue: [ ^ false ].
 

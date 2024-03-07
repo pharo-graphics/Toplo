@@ -2684,7 +2684,9 @@ ToSandBox class >> example_stressedListsWithFork [
 
 	1 to: maxTab do: [ :i |
 		| ident size priority list tab |
-		size := rand nextIntegerBetween: 1 and: 1000.
+		size := rand nextIntegerBetween: 1 and: (i even
+				         ifTrue: [ 20 ]
+				         ifFalse: [ 3000 ]).
 		ident := String streamContents: [ :stream |
 			         stream nextPutAll:
 				         ((String loremIpsum: maxTab * 1000) substrings at: i).
@@ -2704,7 +2706,7 @@ ToSandBox class >> example_stressedListsWithFork [
 		tab paneBuilder: [ :pane :theTabPane | pane addChild: list ].
 		tabsPanel addTab: tab ].
 
-	tabsPanel openInInnerWindow 
+	tabsPanel openInSpace
 ]
 
 { #category : #'switch button' }
@@ -3929,17 +3931,23 @@ ToSandBox class >> stressedListNamed: aName withSize: aListSize withBackgroundPr
 	list matchParent.
 
 	randGetter := [
-	              rand nextIntegerBetween: 1 and: list dataAccessor size ].
 
+	              | s |
+	              s := list dataAccessor size.
+	              s isZero
+		              ifTrue: [ 0 ]
+		              ifFalse: [ rand nextIntegerBetween: 1 and: s ] ].
 
 	actionList := {
 		              [ :theRound |
 		              | idx current |
 		              idx := randGetter value.
-		              current := list dataAccessor at: randGetter value.
-		              list dataAccessor
-			              at: idx
-			              put: current , ' ' , theRound asString ].
+		              idx isZero ifFalse: [
+			              current := list dataAccessor at: idx.
+			              list dataAccessor
+				              at: idx
+				              put: current , ' ' , theRound asString ] ].
+
 
 		              [ :theRound |
 		              list dataAccessor
@@ -3952,42 +3960,56 @@ ToSandBox class >> stressedListNamed: aName withSize: aListSize withBackgroundPr
 			              afterIndex: randGetter value ].
 
 		              [ :theRound |
-		              list selecter selectIndex: randGetter value ].
+		              | idx |
+		              idx := randGetter value.
+		              idx isZero ifFalse: [ list selecter selectIndex: idx ] ].
 
 		              [ :theRound |
-		              list selecter deselectIndex: randGetter value ].
+		              | idx |
+		              idx := randGetter value.
+		              idx isZero ifFalse: [
+			              list selecter deselectIndex: idx ] ].
 
 		              [ :theRound |
-		              list disabledSelecter selectIndex: randGetter value.
-		              list unselectableSelecter selectIndex:
-			              randGetter value ].
+		              | idx |
+		              idx := randGetter value.
+		              idx isZero ifFalse: [
+			              list disabledSelecter selectIndex: idx ].
+
+		              idx := randGetter value.
+		              idx isZero ifFalse: [
+			              list unselectableSelecter selectIndex: idx ] ].
 
 		              [ :theRound |
-		              list disabledSelecter deselectIndex: randGetter value.
-		              list unselectableSelecter deselectIndex:
-			              randGetter value ].
+		              | idx |
+		              idx := randGetter value.
+		              idx isZero ifFalse: [
+			              list disabledSelecter deselectIndex: idx ].
+		              idx := randGetter value.
+		              idx isZero ifFalse: [
+			              list unselectableSelecter deselectIndex: idx ] ].
 
 		              [ :theRound |
-		              list dataAccessor removeAt: randGetter value ].
+		              | idx |
+		              idx := randGetter value.
+		              idx isZero ifFalse: [ list dataAccessor removeAt: idx ] ].
 
 		              [ :theRound |
-		              list dataAccessor removeAt: randGetter value ] }.
+		              | idx |
+		              idx := randGetter value.
+		              idx isZero ifFalse: [ list dataAccessor removeAt: idx ] ] }.
 
 
 	process := [
 	           | round |
 	           round := 0.
 	           aMaxRound timesRepeat: [
-		           | action |
 		           round := round + 1.
-		           (round \\ 100) isZero ifTrue: [
-			           (aName , ' round: ') trace.
-			           round traceCr ].
+		           (round \\ 100) isZero ifTrue: [ " (aName , ' round: ') trace.
+			           round traceCr"
+			            ].
 
-		           action := actionList at: round \\ actionList size + 1.
-		           action value: round.
-		           actionList do: [ :act | act value: round ].
-
+		           actionList shuffled do: [ :act | act value: round ].
 		           50 milliSeconds wait ] ] newProcess.
 
 	process name: self class name

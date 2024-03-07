@@ -14,6 +14,12 @@ ToListPrimarySelectionElementEventHandler >> blurEvent: anEvent [
 ]
 
 { #category : #'element handlers' }
+ToListPrimarySelectionElementEventHandler >> criticalUpdateSelectionFromEvent: anEvent [
+
+	anEvent currentTarget critical: [self updateSelectionFromEvent: anEvent ]
+]
+
+{ #category : #'element handlers' }
 ToListPrimarySelectionElementEventHandler >> elementExtentChangedEvent: anEvent [
 
 	self enqueueUpdateSelectionFromEvent: anEvent
@@ -53,7 +59,7 @@ ToListPrimarySelectionElementEventHandler >> focusEvent: anEvent [
 { #category : #'element handlers' }
 ToListPrimarySelectionElementEventHandler >> listPrimarySelectionChangedEvent: anEvent [
 
-	self updateSelectionFromEvent: anEvent
+	self criticalUpdateSelectionFromEvent: anEvent
 ]
 
 { #category : #'element handlers' }
@@ -79,12 +85,25 @@ ToListPrimarySelectionElementEventHandler >> newSelectionElementsFromEvent: anEv
 ]
 
 { #category : #'element handlers' }
+ToListPrimarySelectionElementEventHandler >> postponeSelectionElementUpdateIn: anElement [
+
+	'postponeSelectionElementUpdateIn:' traceCr.
+	anElement enqueueTask: (BlTaskAction new action: [
+			 anElement dispatchEvent: ToListPrimarySelectionDirtyEvent new ])
+]
+
+{ #category : #'element handlers' }
 ToListPrimarySelectionElementEventHandler >> updateSelectionFromEvent: anEvent [
 
 	| newSelElements target previous nodesArray selectionModel |
 	target := anEvent currentTarget.
 	target isAttachedToSceneGraph ifFalse: [ ^ self ].
 	previous := target primarySelectionElements.
+	previous do: [ :s |
+		s skinManagerDo: [ :sm |
+			sm isInstallingSkin ifTrue: [
+				self postponeSelectionElementUpdateIn: target.
+				^ self ] ] ].
 	newSelElements := self newSelectionElementsFromEvent: anEvent.
 	previous do: [ :s | s removeFromParent ].
 	target addChildren: newSelElements.

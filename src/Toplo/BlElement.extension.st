@@ -287,10 +287,6 @@ BlElement >> shortcutsStoreDo: aValuable [
 { #category : #'*Toplo' }
 BlElement >> skinInstaller [
 
-	self
-		deprecated: 'Please delegate to the skinManager instead'
-		transformWith: '`@receiver skinInstaller' -> '`@receiver skinManager skinInstaller'.
-
 	^ self skinManager skinInstaller
 ]
 

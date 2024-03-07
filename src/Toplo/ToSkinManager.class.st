@@ -180,6 +180,12 @@ ToSkinManager >> installedSkinDo: aBlock [
 	aBlock value: self installedSkin
 ]
 
+{ #category : #testing }
+ToSkinManager >> isInstallingSkin [
+
+	^ self skinInstaller notNil and: [ self skinInstaller isInstalling ]
+]
+
 { #category : #'element setup' }
 ToSkinManager >> isSetUpForTheme: aTheme [
 

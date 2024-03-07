@@ -122,7 +122,7 @@ ToListElementStresser >> initialize [
 { #category : #private }
 ToListElementStresser >> maxListSize [
 
-	^ 3000
+	^ 5000
 
 ]
 
@@ -153,7 +153,7 @@ ToListElementStresser >> maxTab: anObject [
 { #category : #private }
 ToListElementStresser >> minListSize [
 
-	^ 20
+	^ 5
 
 ]
 

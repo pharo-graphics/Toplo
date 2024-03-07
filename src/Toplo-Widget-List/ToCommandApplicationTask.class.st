@@ -23,7 +23,6 @@ ToCommandApplicationTask >> applyAll [
 ToCommandApplicationTask >> canApplyCommands [
 
 	| infiniteElement |
-	listElement space isApplyingSkinInstallers ifTrue: [ ^ false ].
 	infiniteElement := listElement infinite.
 	infiniteElement isFirstLayoutComplete ifFalse: [ ^ false ].
 	infiniteElement isAttached ifFalse: [ ^ false ].

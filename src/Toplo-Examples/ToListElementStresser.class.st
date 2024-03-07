@@ -20,25 +20,8 @@ ToListElementStresser class >> run [
 
 ]
 
-{ #category : #running }
-ToListElementStresser >> actionsToRunIn: aList [
-
-	^ {
-		  [ self atPutIn: aList ].
-		  [ self addAfterIndexIn: aList ].
-		  [ self addAfterIndexIn: aList ].
-		  [ self selectIndexIn: aList ].
-		  [ self deselectIndexIn: aList ].
-		  [ self disableIndexIn: aList ].
-		  [ self unselectableIndexIn: aList ].
-		  [ self enableIndexIn: aList ].
-		  [ self selectableIndexIn: aList ].
-		  [ self removeAtIn: aList ].
-		  [ self removeAtIn: aList ] }
-]
-
 { #category : #actions }
-ToListElementStresser >> addAfterIndexIn: aList [
+ToListElementStresser >> actionAddAfterIndexIn: aList [
 
 	aList dataAccessor
 		add: 'Goodbye ' , self nextCounter asString
@@ -46,7 +29,7 @@ ToListElementStresser >> addAfterIndexIn: aList [
 ]
 
 { #category : #actions }
-ToListElementStresser >> atPutIn: aList [
+ToListElementStresser >> actionAtPutIn: aList [
 
 	| idx current |
 	idx := self randIndexIn: aList.
@@ -56,7 +39,7 @@ ToListElementStresser >> atPutIn: aList [
 ]
 
 { #category : #actions }
-ToListElementStresser >> deselectIndexIn: aList [
+ToListElementStresser >> actionDeselectIndexIn: aList [
 
 	| idx |
 	idx := self randIndexIn: aList.
@@ -64,7 +47,7 @@ ToListElementStresser >> deselectIndexIn: aList [
 ]
 
 { #category : #actions }
-ToListElementStresser >> disableIndexIn: aList [
+ToListElementStresser >> actionDisableIndexIn: aList [
 
 	| idx |
 	idx := self randIndexIn: aList.
@@ -72,11 +55,43 @@ ToListElementStresser >> disableIndexIn: aList [
 ]
 
 { #category : #actions }
-ToListElementStresser >> enableIndexIn: aList [
+ToListElementStresser >> actionEnableIndexIn: aList [
 
 	| idx |
 	idx := self randIndexIn: aList.
 	idx isZero ifFalse: [ aList disabledSelecter deselectIndex: idx ]
+]
+
+{ #category : #actions }
+ToListElementStresser >> actionRemoveAtIn: aList [
+
+	| idx |
+	idx := self randIndexIn: aList.
+	idx isZero ifFalse: [ aList dataAccessor removeAt: idx ]
+]
+
+{ #category : #actions }
+ToListElementStresser >> actionSelectIndexIn: aList [
+
+	| idx |
+	idx := self randIndexIn: aList.
+	idx isZero ifFalse: [ aList selecter selectIndex: idx ]
+]
+
+{ #category : #actions }
+ToListElementStresser >> actionSelectableIndexIn: aList [
+
+	| idx |
+	idx := self randIndexIn: aList.
+	idx isZero ifFalse: [ aList unselectableSelecter deselectIndex: idx ]
+]
+
+{ #category : #actions }
+ToListElementStresser >> actionUnselectableIndexIn: aList [
+
+	| idx |
+	idx := self randIndexIn: aList.
+	idx isZero ifFalse: [ aList unselectableSelecter selectIndex: idx ]
 ]
 
 { #category : #initialization }
@@ -95,21 +110,12 @@ ToListElementStresser >> initialize [
 	tabsPanel := ToTabPane new.
 
 	1 to: self maxTab do: [ :i |
-		| ident size list tab |
-		size := rand nextIntegerBetween: 1 and: (i even
-				         ifTrue: [ 20 ]
-				         ifFalse: [ 3000 ]).
-		ident := String streamContents: [ :stream |
-			         stream nextPutAll:
-				         ((String loremIpsum: self maxTab * 1000) substrings at: i).
-			         stream nextPutAll: ' '.
-			         stream nextPutAll: size asString ].
-
-		list := self
-			        newStressedListNumber: i.
+		| listAndNameAssoc tab |
+		listAndNameAssoc := self newStressedListNumber: i.
 		tab := ToTab new.
-		tab labelText: ident.
-		tab paneBuilder: [ :pane :theTabPane | pane addChild: list ].
+		tab labelText: listAndNameAssoc value.
+		tab paneBuilder: [ :pane :theTabPane |
+			pane addChild: listAndNameAssoc key ].
 		tabsPanel addTab: tab ]
 ]
 
@@ -154,16 +160,19 @@ ToListElementStresser >> minListSize [
 { #category : #private }
 ToListElementStresser >> newStressedListNumber: aNumber [
 
-	| list process size ident |
+	| list process size ident priority |
 	rand := Random new.
 
 	list := ToListElement new.
+	priority := self nextProcessPriorityForListNumber: aNumber.
 	size := self nextSizeForListNumber: aNumber.
 	ident := String streamContents: [ :stream |
 		         stream nextPutAll:
 			         ((String loremIpsum: self maxTab * 1000) substrings at:
 				          aNumber).
-		         stream nextPutAll: ' '.
+		         stream nextPutAll: ' ('.
+		         stream nextPutAll: priority asString.
+		         stream nextPutAll: ') '.
 		         stream nextPutAll: size asString ].
 
 	list nodeBuilder: [ :node :holder |
@@ -184,12 +193,12 @@ ToListElementStresser >> newStressedListNumber: aNumber [
 		           (round \\ 100) isZero ifTrue: [
 			           (ident , ' round: ') trace.
 			           round traceCr ].
-		           (self actionsToRunIn: list) shuffled do: [ :act |
-			           act value ].
+		           self selectActionsToRun shuffled do: [ :act |
+			           self perform: act with: list ].
 		           50 milliSeconds wait ] ] newProcess.
 
 	process name: self class name.
-	process priority: (self nextProcessPriorityForListNumber: aNumber).
+	process priority: priority.
 
 	self tabsPanel
 		addEventHandlerOn: BlElementAddedToSceneGraphEvent
@@ -198,7 +207,7 @@ ToListElementStresser >> newStressedListNumber: aNumber [
 		addEventHandlerOn: BlElementRemovedFromSceneGraphEvent
 		do: [ :event | process terminate ].
 
-	^ list
+	^ list -> ident
 ]
 
 { #category : #private }
@@ -235,15 +244,7 @@ ToListElementStresser >> randIndexIn: aList [
 	s := aList dataAccessor size.
 	^ s isZero
 		  ifTrue: [ 0 ]
-		  ifFalse: [ rand nextIntegerBetween: 1 and: s ]
-]
-
-{ #category : #actions }
-ToListElementStresser >> removeAtIn: aList [
-
-	| idx |
-	idx := self randIndexIn: aList.
-	idx isZero ifFalse: [ aList dataAccessor removeAt: idx ]
+		  ifFalse: [ ((rand nextIntegerBetween: 1 and: s) max: 1) min: s]
 ]
 
 { #category : #running }
@@ -252,32 +253,14 @@ ToListElementStresser >> run [
 	self tabsPanel openInSpace
 ]
 
-{ #category : #actions }
-ToListElementStresser >> selectIndexIn: aList [
+{ #category : #running }
+ToListElementStresser >> selectActionsToRun [
 
-	| idx |
-	idx := self randIndexIn: aList.
-	idx isZero ifFalse: [ aList selecter selectIndex: idx ]
-]
-
-{ #category : #actions }
-ToListElementStresser >> selectableIndexIn: aList [
-
-	| idx |
-	idx := self randIndexIn: aList.
-	idx isZero ifFalse: [ aList unselectableSelecter deselectIndex: idx ]
+	^ self class selectors select: [ :selector | selector beginsWith: #action ]
 ]
 
 { #category : #accessing }
 ToListElementStresser >> tabsPanel [
 
 	^ tabsPanel
-]
-
-{ #category : #actions }
-ToListElementStresser >> unselectableIndexIn: aList [
-
-	| idx |
-	idx := self randIndexIn: aList.
-	idx isZero ifFalse: [ aList unselectableSelecter selectIndex: idx ]
 ]

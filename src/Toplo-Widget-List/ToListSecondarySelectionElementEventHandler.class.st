@@ -13,10 +13,16 @@ ToListSecondarySelectionElementEventHandler >> addSecondarySelectionIn: aListEle
 		 in: aListElement) do: [ :s | aListElement addChild: s ]
 ]
 
+{ #category : #'mouse handlers' }
+ToListSecondarySelectionElementEventHandler >> criticalUpdateSelectionFromEvent: anEvent [
+
+	anEvent currentTarget critical: [self updateSelectionFromEvent: anEvent ]
+]
+
 { #category : #'element handlers' }
 ToListSecondarySelectionElementEventHandler >> elementExtentChangedEvent: anEvent [
 
-	self updateSelectionFromEvent: anEvent
+	self criticalUpdateSelectionFromEvent: anEvent
 ]
 
 { #category : #'mouse handlers' }
@@ -24,7 +30,7 @@ ToListSecondarySelectionElementEventHandler >> elementScrolledEvent: anEvent [
 
 	anEvent currentTarget spaceDo: [ :sp | 
 		sp mouseProcessor handleLastMouseMove ].
-	self updateSelectionFromEvent: anEvent
+	self criticalUpdateSelectionFromEvent: anEvent
 ]
 
 { #category : #'api - accessing' }
@@ -83,12 +89,27 @@ ToListSecondarySelectionElementEventHandler >> newSelectionElementsFromSelectedN
 ]
 
 { #category : #'mouse handlers' }
+ToListSecondarySelectionElementEventHandler >> postponeSelectionElementUpdateFromEvent: anEvent in: anElement [
+
+	anElement enqueueTask: (BlTaskAction new action: [
+			 anElement dispatchEvent: anEvent ])
+]
+
+{ #category : #'mouse handlers' }
 ToListSecondarySelectionElementEventHandler >> updateSelectionFromEvent: anEvent [
 
-	| target infinite childNodes |
+	| target infinite childNodes previous |
 	target := anEvent currentTarget.
 	infinite := target infinite.
-	target secondarySelectionElements do: [ :s | s removeFromParent ].
+	previous := target secondarySelectionElements.
+
+	previous do: [ :s |
+		s skinManagerDo: [ :sm |
+			sm isInstallingSkin ifTrue: [
+				self postponeSelectionElementUpdateFromEvent: anEvent in: target.
+				^ self ] ] ].
+
+	previous do: [ :s | s removeFromParent ].
 	target secondarySelectionModel ifEmpty: [ ^ self ].
 	childNodes := infinite children select: [ :node |
 		              node holder isSelectable and: [

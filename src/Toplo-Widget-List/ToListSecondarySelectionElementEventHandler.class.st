@@ -16,7 +16,8 @@ ToListSecondarySelectionElementEventHandler >> addSecondarySelectionIn: aListEle
 { #category : #'mouse handlers' }
 ToListSecondarySelectionElementEventHandler >> criticalUpdateSelectionFromEvent: anEvent [
 
-	anEvent currentTarget critical: [self updateSelectionFromEvent: anEvent ]
+	anEvent currentTarget layoutCritical: [
+		self updateSelectionFromEvent: anEvent ]
 ]
 
 { #category : #'element handlers' }
@@ -47,13 +48,13 @@ ToListSecondarySelectionElementEventHandler >> eventsToHandle [
 { #category : #'mouse handlers' }
 ToListSecondarySelectionElementEventHandler >> infiniteScrollFinishedEvent: anEvent [
 
-	self updateSelectionFromEvent: anEvent
+	self criticalUpdateSelectionFromEvent: anEvent
 ]
 
 { #category : #'mouse handlers' }
 ToListSecondarySelectionElementEventHandler >> listSecondarySelectionChangedEvent: anEvent [
 
-	self updateSelectionFromEvent: anEvent
+	self criticalUpdateSelectionFromEvent: anEvent
 ]
 
 { #category : #'mouse handlers' }
@@ -64,11 +65,12 @@ ToListSecondarySelectionElementEventHandler >> mouseMoveEvent: anEvent [
 	target := anEvent currentTarget.
 	infinite := target infinite.
 	globalPosition := anEvent position.
-	childNode := infinite children
-		             detect: [ :node |
-			             node holder isSelectable and: [
-				             node containsGlobalPoint: globalPosition ] ]
-		             ifNone: [  ].
+	target layoutCritical: [
+		childNode := infinite children
+			             detect: [ :node |
+				             node holder isSelectable and: [
+					             node containsGlobalPoint: globalPosition ] ]
+			             ifNone: [  ] ].
 	childNode ifNil: [
 		target secondarySelecter deselectAll.
 		^ self ].
@@ -80,7 +82,8 @@ ToListSecondarySelectionElementEventHandler >> newSelectionElementsFromSelectedN
 	" return a collection with instances of ToListSecondarySelectionElement "
 
 	| adjacentNodeGroups |
-	adjacentNodeGroups := aListElement infinite nodeGroupsSatisfying: [ :n | aCollection includes: n ].
+	adjacentNodeGroups := aListElement infinite nodeGroupsSatisfying: [
+		                      :n | aCollection includes: n ].
 	^ adjacentNodeGroups collect: [ :g |
 		  ToListSecondarySelectionElement new
 			  listElement: aListElement;

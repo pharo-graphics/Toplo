@@ -16,7 +16,8 @@ ToListPrimarySelectionElementEventHandler >> blurEvent: anEvent [
 { #category : #'element handlers' }
 ToListPrimarySelectionElementEventHandler >> criticalUpdateSelectionFromEvent: anEvent [
 
-	anEvent currentTarget critical: [self updateSelectionFromEvent: anEvent ]
+	anEvent currentTarget layoutCritical: [
+		self updateSelectionFromEvent: anEvent ]
 ]
 
 { #category : #'element handlers' }
@@ -28,7 +29,7 @@ ToListPrimarySelectionElementEventHandler >> elementExtentChangedEvent: anEvent 
 { #category : #'element handlers' }
 ToListPrimarySelectionElementEventHandler >> elementScrolledEvent: anEvent [
 
-	self updateSelectionFromEvent: anEvent
+	self criticalUpdateSelectionFromEvent: anEvent
 ]
 
 { #category : #'element handlers' }
@@ -53,7 +54,7 @@ ToListPrimarySelectionElementEventHandler >> eventsToHandle [
 { #category : #'element handlers' }
 ToListPrimarySelectionElementEventHandler >> focusEvent: anEvent [
 
-	self updateSelectionFromEvent: anEvent
+	self criticalUpdateSelectionFromEvent: anEvent
 ]
 
 { #category : #'element handlers' }
@@ -65,7 +66,7 @@ ToListPrimarySelectionElementEventHandler >> listPrimarySelectionChangedEvent: a
 { #category : #'element handlers' }
 ToListPrimarySelectionElementEventHandler >> listPrimarySelectionDirtyEvent: anEvent [
 
-	self updateSelectionFromEvent: anEvent
+	self criticalUpdateSelectionFromEvent: anEvent
 ]
 
 { #category : #'selection managing' }
@@ -74,6 +75,7 @@ ToListPrimarySelectionElementEventHandler >> newSelectionElementsFromEvent: anEv
 
 	| adjacentNodeGroups target |
 	target := anEvent currentTarget.
+
 	adjacentNodeGroups := target infinite nodeGroupsSatisfying: [ :n |
 		                      n holder isSelectable and: [
 			                      n holder isSelected ] ].

@@ -14,7 +14,7 @@ Class {
 { #category : #'as yet unclassified' }
 ToInfiniteElement >> aeDrawItemDecorationsOn: aCanvas [
 
-	self critical: [ super aeDrawItemDecorationsOn: aCanvas ]
+	self layoutCritical: [ super aeDrawItemDecorationsOn: aCanvas ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -26,7 +26,12 @@ ToInfiniteElement >> allowsSkinInstallation [
 { #category : #accessing }
 ToInfiniteElement >> critical: aBlock [
 
-	layoutMonitor critical: aBlock
+	self
+		deprecated: 'Use layoutCritical: instead'
+		transformWith: '`@receiver critical: `@argument'
+			-> '`@receiver layoutCritical: `@argument'.
+
+	self layoutCritical: aBlock
 ]
 
 { #category : #accessing }
@@ -69,9 +74,9 @@ ToInfiniteElement >> disableScrolledEvent [
 ]
 
 { #category : #layout }
-ToInfiniteElement >> dispatchLayout [ 
+ToInfiniteElement >> dispatchLayout [
 
-	self critical: [ super dispatchLayout ]
+	self layoutCritical: [ super dispatchLayout ]
 ]
 
 { #category : #'scrolled event' }
@@ -93,6 +98,12 @@ ToInfiniteElement >> initialize [
 
 	layoutMonitor := Monitor new.
 	self matchParent
+]
+
+{ #category : #accessing }
+ToInfiniteElement >> layoutCritical: aBlock [
+			
+	layoutMonitor critical: aBlock
 ]
 
 { #category : #accessing }

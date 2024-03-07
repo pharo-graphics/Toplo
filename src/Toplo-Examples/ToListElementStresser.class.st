@@ -129,7 +129,7 @@ ToListElementStresser >> maxListSize [
 { #category : #accessing }
 ToListElementStresser >> maxRound [
 
-	^ maxRound ifNil: [ maxRound := 10000 ]
+	^ maxRound ifNil: [ maxRound := 5000 ]
 ]
 
 { #category : #accessing }
@@ -195,7 +195,8 @@ ToListElementStresser >> newStressedListNumber: aNumber [
 			           round traceCr ].
 		           self selectActionsToRun shuffled do: [ :act |
 			           self perform: act with: list ].
-		           50 milliSeconds wait ] ] newProcess.
+		           50 milliSeconds wait ].
+	           self processEndInListNumber: aNumber ] newProcess.
 
 	process name: self class name.
 	process priority: priority.
@@ -235,6 +236,15 @@ ToListElementStresser >> nextSizeForListNumber: aNumber [
 	^ rand nextIntegerBetween: 1 and: (aNumber even
 			   ifTrue: [ self minListSize ]
 			   ifFalse: [ self maxListSize ])
+]
+
+{ #category : #running }
+ToListElementStresser >> processEndInListNumber: aNumber [
+
+	| tab |
+	tab := self tabsPanel tabs at: aNumber.
+	tab firstChild text: tab firstChild text , ' [over]' asRopedText bold.
+	tab firstChild textChanged
 ]
 
 { #category : #private }

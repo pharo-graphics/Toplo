@@ -9,7 +9,12 @@ Trait {
 { #category : #'t - infinite accessing' }
 TToListElementDecorator >> critical: aBlock [
 
-	self next critical: aBlock
+	self
+		deprecated: 'Use layoutCritical: instead'
+		transformWith: '`@receiver critical: `@argument'
+			-> '`@receiver layoutCritical: `@argument'.
+
+	self layoutCritical: aBlock
 ]
 
 { #category : #'t - infinite accessing' }
@@ -52,6 +57,12 @@ TToListElementDecorator >> findElementHolderForDataSourcePosition: anInteger [
 TToListElementDecorator >> infinite [
 
 	^ self next infinite
+]
+
+{ #category : #'t - infinite accessing' }
+TToListElementDecorator >> layoutCritical: aBlock [
+
+	self next layoutCritical: aBlock
 ]
 
 { #category : #'t - accessing constraints' }

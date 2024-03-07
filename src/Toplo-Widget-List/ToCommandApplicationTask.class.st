@@ -11,8 +11,8 @@ Class {
 
 { #category : #'api - running' }
 ToCommandApplicationTask >> applyAll [
-  
-	listElement critical: [
+
+	listElement layoutCritical: [
 		[ commandQueue isEmpty ] whileFalse: [
 			| nextInQueue |
 			nextInQueue := commandQueue removeFirst.

@@ -26,7 +26,7 @@ ToSkinStateGenerator >> checkableCheckedEvent: anEvent [
 ]
 
 { #category : #'mouse handlers' }
-ToSkinStateGenerator >> clickAvortedEvent: anEvent [
+ToSkinStateGenerator >> clickAbortedEvent: anEvent [
 
 	(anEvent upEvent target hasInParentChain: target) ifFalse: [ ^ self ].
 	anEvent target: target.
@@ -139,7 +139,7 @@ ToSkinStateGenerator >> eventsToHandle [
 		  BlKeyboardEvent.
 		  BlBlurEvent.
 		  BlFocusEvent.
-		  BlClickAvortedEvent.
+		  BlClickAbortedEvent.
 		  BlClickEvent.
 		  BlDoubleClickEvent.
 		  BlMouseDownEvent.

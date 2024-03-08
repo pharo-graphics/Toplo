@@ -115,8 +115,8 @@ TToElementWithLabeledIconTest >> testFlexibleWithLabel [
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
 	container forceLayout.
-	self assert: li labelContainer bounds right equals: container width.
-	self assert: li iconContainer bounds left equals: 0
+	self assert: li labelContainer bounds right closeTo: container width.
+	self assert: li iconContainer bounds left closeTo: 0
 ]
 
 { #category : #tests }

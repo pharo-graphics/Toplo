@@ -4,10 +4,27 @@ Class {
 	#instVars : [
 		'sieve',
 		'dataPositionIndex',
-		'sieveSelectionModel'
+		'sieveSelectionModel',
+		'queryApplicationTask'
 	],
 	#category : #'Toplo-Widget-List-Sieve'
 }
+
+{ #category : #'element handlers' }
+ToSievedListElementEventHandler >> applyQueryAppliedEvent: anEvent [
+
+	| listElement |
+	listElement := anEvent currentTarget.
+	" a query has occured (because the query pattern has changed), update the list element accordingly "
+
+	listElement dataCritical: [
+		sieve updateCurrentData.
+		" update the list element but not the selection "
+		" *** note that it is required to deselect all here - 
+		the selection is managed after *** "
+		listElement selectionModel deselectAll.
+		listElement dataAccessor filterResult: sieve currentData ]
+]
 
 { #category : #'api - hooks' }
 ToSievedListElementEventHandler >> buildIndexedDataFrom: aListElement [
@@ -44,6 +61,7 @@ ToSievedListElementEventHandler >> collectionFilteredEvent: anEvent [
 ToSievedListElementEventHandler >> eventsToHandle [
 
 	^ {
+		  ToObservableCollectionQueryResultEvent.
 		  BlInfiniteDataSourceEvent.
 		  ToListChangePreNotificationEvent.
 		  ToCollectionFilteredEvent }
@@ -101,6 +119,28 @@ ToSievedListElementEventHandler >> listPrimarySelectionChangePreNotificationEven
 		listElement dispatchEvent: (ToSieveSelectionChangedEvent new
 				 selectionModel: sieveSelectionModel copy;
 				 yourself) ]
+]
+
+{ #category : #'element handlers' }
+ToSievedListElementEventHandler >> observableCollectionQueryResultEvent: anEvent [
+
+	| listElement |
+	listElement := anEvent currentTarget.
+
+	" a query has occured (becuse the query pattern has changed), 
+	update the list element accordingly "
+	
+	queryApplicationTask ifNotNil: [
+		listElement dequeueTask: queryApplicationTask.
+		queryApplicationTask := nil ].
+	listElement isAttachedToSceneGraph ifFalse: [
+		self applyQueryAppliedEvent: anEvent.
+		^ self ].
+	queryApplicationTask := BlTaskAction new.
+	queryApplicationTask action: [
+		queryApplicationTask := nil.
+		self applyQueryAppliedEvent: anEvent ].
+	listElement enqueueTask: queryApplicationTask
 ]
 
 { #category : #'data events handling' }

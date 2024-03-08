@@ -4,25 +4,17 @@ Class {
 	#instVars : [
 		'queryRunner',
 		'originalData',
-		'queryResultHandler',
-		'queryApplicationTask',
 		'currentData',
-		'selectionHandler'
+		'selectionHandler',
+		'sharedHandler'
 	],
 	#category : #'Toplo-Widget-List-Sieve'
 }
 
-{ #category : #'event handling' }
-ToListElementSieve >> applyQueryAppliedEvent: anEvent for: aListElement [
-	" a query has occured (becuse the query pattern has changed), update the list element accordingly "
+{ #category : #accessing }
+ToListElementSieve >> currentData [
 
-	aListElement dataCritical: [
-		self updateCurrentData.
-		" update the list element but not the selection "
-		" *** note that it is required to deselect all here - 
-		the selection is managed after *** "
-		aListElement selectionModel deselectAll.
-		aListElement dataAccessor filterResult: currentData ]
+	^ currentData 
 ]
 
 { #category : #accessing }
@@ -31,16 +23,6 @@ ToListElementSieve >> dataFilter: aValuable [
 
 	queryRunner dataFilter: [ :item :pattern |
 		aValuable value: item value: pattern ]
-]
-
-{ #category : #'event handling' }
-ToListElementSieve >> onCollectionAfterChangeEvent: anEvent for: aListElement [
-
-	aListElement dataCritical: [
-		self pattern ifEmpty: [ aListElement selecter deselectAll ].
-		self pattern
-			ifNotEmpty: [ self pattern: '' ]
-			ifEmpty: [ self updateCurrentData ] ]
 ]
 
 { #category : #'api - hooks' }
@@ -55,37 +37,14 @@ ToListElementSieve >> onInstalledIn: aListElement [
 
 	" initialization of the current result with the current pattern "
 	self updateCurrentData.
+	sharedHandler := BlSharedEventDistributor new.
+	sharedHandler shareEvents: { ToObservableCollectionQueryResultEvent }.
+	originalData addEventHandler: sharedHandler.
+	aListElement addEventHandler: sharedHandler.
 
-	" a filtering occured : put the new data in the list element "
-	queryResultHandler := BlEventHandler
-		                      on: ToObservableCollectionQueryResultEvent
-		                      do: [ :event |
-		                      self
-			                      onQueryAppliedEvent: event
-			                      for: aListElement ].
-	originalData addEventHandler: queryResultHandler.
-	selectionHandler := ToSievedListElementEventHandler new
-		                    sieve: self;
-		                    yourself.
+	selectionHandler := ToSievedListElementEventHandler new.
+	selectionHandler sieve: self.
 	aListElement addEventHandler: selectionHandler
-]
-
-{ #category : #'event handling' }
-ToListElementSieve >> onQueryAppliedEvent: anEvent for: aListElement [
-	" a query has occured (becuse the query pattern has changed), 
-	update the list element accordingly "
-	
-	queryApplicationTask ifNotNil: [
-		aListElement dequeueTask: queryApplicationTask.
-		queryApplicationTask := nil ].
-	aListElement isAttachedToSceneGraph ifFalse: [
-		self applyQueryAppliedEvent: anEvent for: aListElement.
-		^ self ].
-	queryApplicationTask := BlTaskAction new.
-	queryApplicationTask action: [
-		queryApplicationTask := nil.
-		self applyQueryAppliedEvent: anEvent for: aListElement ].
-	aListElement enqueueTask: queryApplicationTask
 ]
 
 { #category : #'api - hooks' }
@@ -94,9 +53,10 @@ ToListElementSieve >> onUninstalledIn: aListElement [
 
 	aListElement removeEventHandler: selectionHandler.
 	queryRunner onUninstalledIn: originalData.
+	originalData removeEventHandler: sharedHandler.
+	aListElement removeEventHandler: sharedHandler.
+	sharedHandler := nil.
 	originalData unmirrored.
-	originalData removeEventHandler: queryResultHandler.
-	queryResultHandler := nil.
 	originalData := nil.
 	currentData := nil.
 	queryRunner := nil

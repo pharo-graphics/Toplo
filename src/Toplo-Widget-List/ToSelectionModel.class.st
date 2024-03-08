@@ -15,7 +15,8 @@ ToSelectionModel >> = anObject [
 	self == anObject ifTrue: [ ^ true ].
 	self class = anObject class ifFalse: [ ^ false ].
 
-	^ self underlyingModel = anObject underlyingModel
+	self underlyingModelDo: [ :ulm |
+		anObject underlyingModelDo: [ :ulm2 | ^ ulm = ulm2 ] ]
 ]
 
 { #category : #'api - testing' }

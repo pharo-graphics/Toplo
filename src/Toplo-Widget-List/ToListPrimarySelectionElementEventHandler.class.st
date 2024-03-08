@@ -2,7 +2,8 @@ Class {
 	#name : #ToListPrimarySelectionElementEventHandler,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
-		'postponedUpdateTask'
+		'postponedUpdateTask',
+		'monitor'
 	],
 	#category : #'Toplo-Widget-List-Selection-Element'
 }
@@ -16,7 +17,13 @@ ToListPrimarySelectionElementEventHandler >> blurEvent: anEvent [
 	self enqueueUpdateSelectionFromEvent: anEvent
 ]
 
-{ #category : #'element handlers' }
+{ #category : #private }
+ToListPrimarySelectionElementEventHandler >> critical: aBlock [
+
+	monitor critical: aBlock
+]
+
+{ #category : #'selection managing' }
 ToListPrimarySelectionElementEventHandler >> criticalUpdateSelectionFromEvent: anEvent [
 
 	anEvent currentTarget layoutCritical: [
@@ -35,7 +42,7 @@ ToListPrimarySelectionElementEventHandler >> elementScrolledEvent: anEvent [
 	self criticalUpdateSelectionFromEvent: anEvent
 ]
 
-{ #category : #'element handlers' }
+{ #category : #'selection managing' }
 ToListPrimarySelectionElementEventHandler >> enqueueUpdateSelectionFromEvent: anEvent [
 
 	anEvent currentTarget enqueueTask:
@@ -58,6 +65,13 @@ ToListPrimarySelectionElementEventHandler >> eventsToHandle [
 ToListPrimarySelectionElementEventHandler >> focusEvent: anEvent [
 
 	self criticalUpdateSelectionFromEvent: anEvent
+]
+
+{ #category : #initialization }
+ToListPrimarySelectionElementEventHandler >> initialize [ 
+
+	super initialize.
+	monitor := Monitor new
 ]
 
 { #category : #'element handlers' }
@@ -89,7 +103,7 @@ ToListPrimarySelectionElementEventHandler >> newSelectionElementsFromEvent: anEv
 			  yourself ]
 ]
 
-{ #category : #'element handlers' }
+{ #category : #'selection managing' }
 ToListPrimarySelectionElementEventHandler >> postponeSelectionElementUpdateIn: anElement [
 
 	postponedUpdateTask ifNotNil: [ ^ self ].
@@ -100,16 +114,12 @@ ToListPrimarySelectionElementEventHandler >> postponeSelectionElementUpdateIn: a
 	anElement enqueueTask: postponedUpdateTask
 ]
 
-{ #category : #'element handlers' }
+{ #category : #'selection managing' }
 ToListPrimarySelectionElementEventHandler >> updateSelectionFromEvent: anEvent [
 
 	| newSelElements target infinite previous nodesArray selectionModel |
 	target := anEvent currentTarget.
-	target isAttachedToSceneGraph ifFalse: [
-		self postponeSelectionElementUpdateIn: target.
-		^ self ].
 	infinite := target infinite.
-	previous := target primarySelectionElements.
 
 	"infinite childrenDo: [ :node |
 		| holder |
@@ -124,17 +134,21 @@ ToListPrimarySelectionElementEventHandler >> updateSelectionFromEvent: anEvent [
 				self postponeSelectionElementUpdateIn: target.
 				^ self ] ] ]."
 
-	newSelElements := self newSelectionElementsFromEvent: anEvent.
-	previous do: [ :s | s removeFromParent ].
-	target addChildren: newSelElements.
+	self critical: [
+		target isAttachedToSceneGraph ifFalse: [
+			self postponeSelectionElementUpdateIn: target.
+			^ self ].
+		previous := target primarySelectionElements.
+		nodesArray := target infinite children asArray.
+		selectionModel := target selectionModel copy.
+		newSelElements := self newSelectionElementsFromEvent: anEvent.
+		previous do: [ :s | s removeFromParent ].
+		target addChildren: newSelElements.
 
-	nodesArray := target infinite children asArray.
-	selectionModel := target selectionModel.
-
-	" Dispatch the event that is used by the skin state generator to generate the selection state "
-	nodesArray do: [ :node |
-		node holder isSelectable ifTrue: [
-			node dispatchEvent: (ToListNodeSelectedEvent new
-					 listElement: target;
-					 selected: (selectionModel containsIndex: node holder position)) ] ]
+		" Dispatch the event that is used by the skin state generator to generate the selection state "
+		nodesArray do: [ :node |
+			node holder isSelectable ifTrue: [
+				node dispatchEvent: (ToListNodeSelectedEvent new
+						 listElement: target;
+						 selected: (selectionModel containsIndex: node holder position)) ] ] ]
 ]

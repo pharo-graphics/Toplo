@@ -40,6 +40,13 @@ ToInfiniteElement >> dataAccessor [
 	^ self subclassResponsibility 
 ]
 
+{ #category : #'t - observable collection - accessing' }
+ToInfiniteElement >> dataCritical: aBlock [
+
+	^ self dataSource dataCritical: aBlock
+
+]
+
 { #category : #initialization }
 ToInfiniteElement >> defaultLayout [
 

@@ -24,6 +24,12 @@ TToListElementDecorator >> dataAccessor [
 ]
 
 { #category : #'t - infinite accessing' }
+TToListElementDecorator >> dataCritical: aBlock [
+
+	^ self next dataCritical: aBlock
+]
+
+{ #category : #'t - infinite accessing' }
 TToListElementDecorator >> dataSource [
 
 	^ self next dataSource

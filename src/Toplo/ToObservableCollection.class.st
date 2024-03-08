@@ -26,13 +26,6 @@ ToObservableCollection >> collection [
 
 ]
 
-{ #category : #'t - observable collection - accessing' }
-ToObservableCollection >> collection: aCollection [
-
-	collection := aCollection
-
-]
-
 { #category : #'event management accessing' }
 ToObservableCollection >> eventDispatcher [
 	"Return an object responsible for event dispatching"
@@ -46,5 +39,5 @@ ToObservableCollection >> initialize [
 
 	super initialize.
 	eventDispatcher := BlDirectEventDispatcher on: self.
-	self collection: OrderedCollection new
+	collection := OrderedCollection new
 ]

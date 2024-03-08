@@ -16,15 +16,13 @@ Class {
 ToListElementSieve >> applyQueryAppliedEvent: anEvent for: aListElement [
 	" a query has occured (becuse the query pattern has changed), update the list element accordingly "
 
-	self updateCurrentData.
-	" update the list element but not the selection "
-	" *** note that it is required to deselect all here - 
-	the selection is managed after *** "
-	aListElement selectionModel deselectAll.
-	aListElement dataAccessor filterResult: currentData.
-	"aListElement dispatchEvent: (ToSieveAppliedEvent new
-				 sieve: self;
-				 yourself)"
+	aListElement dataCritical: [
+		self updateCurrentData.
+		" update the list element but not the selection "
+		" *** note that it is required to deselect all here - 
+		the selection is managed after *** "
+		aListElement selectionModel deselectAll.
+		aListElement dataAccessor filterResult: currentData ]
 ]
 
 { #category : #accessing }
@@ -38,10 +36,11 @@ ToListElementSieve >> dataFilter: aValuable [
 { #category : #'event handling' }
 ToListElementSieve >> onCollectionAfterChangeEvent: anEvent for: aListElement [
 
-	self pattern ifEmpty: [ aListElement selecter deselectAll ].
-	self pattern
-		ifNotEmpty: [ self pattern: '' ]
-		ifEmpty: [ 	self updateCurrentData ]
+	aListElement dataCritical: [
+		self pattern ifEmpty: [ aListElement selecter deselectAll ].
+		self pattern
+			ifNotEmpty: [ self pattern: '' ]
+			ifEmpty: [ self updateCurrentData ] ]
 ]
 
 { #category : #'api - hooks' }

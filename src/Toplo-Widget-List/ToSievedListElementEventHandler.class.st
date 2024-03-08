@@ -12,28 +12,31 @@ Class {
 { #category : #'api - hooks' }
 ToSievedListElementEventHandler >> buildIndexedDataFrom: aListElement [
 
-	dataPositionIndex := IdentityDictionary new.
-	aListElement dataAccessor withIndexDo: [ :aData :idx |
-		dataPositionIndex at: aData put: idx ]
+	aListElement dataAccessor dataCritical: [
+		dataPositionIndex := IdentityDictionary new.
+		aListElement dataAccessor withIndexDo: [ :aData :idx |
+			dataPositionIndex at: aData put: idx ] ]
 ]
 
 { #category : #'element handlers' }
 ToSievedListElementEventHandler >> collectionFilteredEvent: anEvent [
-
 	" the list has been filtered - now deal with the selection "
 
 	| target selected |
-
 	target := anEvent currentTarget.
-	selected := sieve pattern
-		            ifNotEmpty: [
-			            Array streamContents: [ :stream |
-				            target dataAccessor withIndexDo: [ :d :localIndex |
-					            | originalIndex |
-					            originalIndex := dataPositionIndex at: d.
-					            (sieveSelectionModel containsIndex: originalIndex) ifTrue: [
-						            stream nextPut: localIndex ] ] ] ]
-		            ifEmpty: [ sieveSelectionModel selectedIndexes ].
+	target dataAccessor dataCritical: [
+		selected := sieve pattern
+			            ifNotEmpty: [
+				            Array streamContents: [ :stream |
+					            target dataAccessor withIndexDo: [ :d :localIndex |
+						            | originalIndex |
+						            originalIndex := dataPositionIndex
+							                             at: d
+							                             ifAbsent: [  ].
+						            originalIndex ifNotNil: [
+							            (sieveSelectionModel containsIndex: originalIndex)
+								            ifTrue: [ stream nextPut: localIndex ] ] ] ] ]
+			            ifEmpty: [ sieveSelectionModel selectedIndexes ] ].
 	target selecter selectOnlyIndexes: selected
 ]
 
@@ -79,23 +82,25 @@ ToSievedListElementEventHandler >> listPrimarySelectionChangePreNotificationEven
 	" the selection set is updated according to the pattern:
 	- if empty, the whole selection set is set from the whole list element selection model 
 	- if not empty, the selection set is computed according to the current list node list "
-	sieve pattern
-		ifEmpty: [
+	listElement dataCritical: [
+		sieve pattern
+			ifEmpty: [
 			sieveSelectionModel copySelectionFrom: listElement selectionModel ]
-		ifNotEmpty: [
-			listElement dataAccessor withIndexDo: [ :d :localIdx |
-				| originalIndex |
-				originalIndex := dataPositionIndex at: d.
-				(listSelModel containsIndex: localIdx)
-					ifTrue: [ sieveSelectionModel selectIndex: originalIndex ]
-					ifFalse: [ sieveSelectionModel deselectIndex: originalIndex ] ] ].
+			ifNotEmpty: [
+				listElement dataAccessor withIndexDo: [ :d :localIdx |
+					| originalIndex |
+					originalIndex := dataPositionIndex at: d ifAbsent: [  ].
+					originalIndex ifNotNil: [
+						(listSelModel containsIndex: localIdx)
+							ifTrue: [ sieveSelectionModel selectIndex: originalIndex ]
+							ifFalse: [ sieveSelectionModel deselectIndex: originalIndex ] ] ] ].
 
-	" dispatch a specific, different from the primary selection change event that will be sent after.
+		" dispatch a specific, different from the primary selection change event that will be sent after.
 	It is useful for sieve list user that relies on the sieve internal selection to adapt themeself according 
 	to the sieve selection"
-	listElement dispatchEvent: (ToSieveSelectionChangedEvent new
-			 selectionModel: sieveSelectionModel copy;
-			 yourself)
+		listElement dispatchEvent: (ToSieveSelectionChangedEvent new
+				 selectionModel: sieveSelectionModel copy;
+				 yourself) ]
 ]
 
 { #category : #'data events handling' }

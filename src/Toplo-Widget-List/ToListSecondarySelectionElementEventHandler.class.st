@@ -2,18 +2,25 @@ Class {
 	#name : #ToListSecondarySelectionElementEventHandler,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
-		'postponedUpdateTask'
+		'postponedUpdateTask',
+		'monitor'
 	],
 	#category : #'Toplo-Widget-List-Selection-Element'
 }
 
-{ #category : #'mouse handlers' }
+{ #category : #'selection managing' }
 ToListSecondarySelectionElementEventHandler >> addSecondarySelectionIn: aListElement onNodes: aNodeCollection [
 	" update selection decoration to show the secondary selection on which the popup is opened"
 
 	(self
 		 newSelectionElementsFromSelectedNodes: aNodeCollection
 		 in: aListElement) do: [ :s | aListElement addChild: s ]
+]
+
+{ #category : #private }
+ToListSecondarySelectionElementEventHandler >> critical: aBlock [
+
+	monitor critical: aBlock
 ]
 
 { #category : #'mouse handlers' }
@@ -54,6 +61,13 @@ ToListSecondarySelectionElementEventHandler >> infiniteScrollFinishedEvent: anEv
 	self criticalUpdateSelectionFromEvent: anEvent
 ]
 
+{ #category : #initialization }
+ToListSecondarySelectionElementEventHandler >> initialize [ 
+
+	super initialize.
+	monitor := Monitor new
+]
+
 { #category : #'mouse handlers' }
 ToListSecondarySelectionElementEventHandler >> listSecondarySelectionChangedEvent: anEvent [
 
@@ -80,7 +94,7 @@ ToListSecondarySelectionElementEventHandler >> mouseMoveEvent: anEvent [
 	target secondarySelecter selectOnlyIndex: childNode holder position
 ]
 
-{ #category : #'instance creation' }
+{ #category : #'selection managing' }
 ToListSecondarySelectionElementEventHandler >> newSelectionElementsFromSelectedNodes: aCollection in: aListElement [
 	" return a collection with instances of ToListSecondarySelectionElement "
 
@@ -94,7 +108,7 @@ ToListSecondarySelectionElementEventHandler >> newSelectionElementsFromSelectedN
 			  yourself ]
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : #'selection managing' }
 ToListSecondarySelectionElementEventHandler >> postponeSelectionElementUpdateFromEvent: anEvent in: anElement [
 
 	postponedUpdateTask ifNotNil: [ ^ self ].
@@ -104,18 +118,12 @@ ToListSecondarySelectionElementEventHandler >> postponeSelectionElementUpdateFro
 	anElement enqueueTask: postponedUpdateTask
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : #'selection managing' }
 ToListSecondarySelectionElementEventHandler >> updateSelectionFromEvent: anEvent [
 
 	| target infinite childNodes previous |
 	target := anEvent currentTarget.
-
-	target isAttachedToSceneGraph ifFalse: [
-		self postponeSelectionElementUpdateFromEvent: anEvent in: target.
-		^ self ].
-
 	infinite := target infinite.
-	previous := target secondarySelectionElements.
 
 	"infinite childrenDo: [ :node |
 		| holder |
@@ -124,18 +132,23 @@ ToListSecondarySelectionElementEventHandler >> updateSelectionFromEvent: anEvent
 			self postponeSelectionElementUpdateFromEvent: anEvent in: target.
 			^ self ] ]."
 
-"	previous do: [ :s |
+	"	previous do: [ :s |
 		s skinManagerDo: [ :sm |
 			sm isInstallingSkin ifTrue: [
 				self postponeSelectionElementUpdateFromEvent: anEvent in: target.
 				^ self ] ] ]."
 
-	previous do: [ :s | s removeFromParent ].
-	target secondarySelectionModel ifEmpty: [ ^ self ].
-	childNodes := infinite children select: [ :node |
-		              node holder isSelectable and: [
-			              target secondarySelectionModel containsIndex:
-				              node holder position ] ].
-	childNodes ifEmpty: [ ^ self ].
-	self addSecondarySelectionIn: target onNodes: childNodes
+	self critical: [
+		target isAttachedToSceneGraph ifFalse: [
+			self postponeSelectionElementUpdateFromEvent: anEvent in: target.
+			^ self ].
+		previous := target secondarySelectionElements.
+		previous do: [ :s | s removeFromParent ].
+		target secondarySelectionModel ifEmpty: [ ^ self ].
+		childNodes := infinite children select: [ :node |
+			              node holder isSelectable and: [
+				              target secondarySelectionModel containsIndex:
+					              node holder position ] ].
+		childNodes ifEmpty: [ ^ self ].
+		self addSecondarySelectionIn: target onNodes: childNodes ]
 ]

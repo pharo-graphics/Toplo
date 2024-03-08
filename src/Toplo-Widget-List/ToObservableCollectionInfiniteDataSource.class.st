@@ -17,12 +17,6 @@ ToObservableCollectionInfiniteDataSource >> collection [
 
 ]
 
-{ #category : #'t - observable collection - accessing' }
-ToObservableCollectionInfiniteDataSource >> collection: aCollection [
-
-	data := aCollection
-]
-
 { #category : #accessing }
 ToObservableCollectionInfiniteDataSource >> data [
 
@@ -33,6 +27,7 @@ ToObservableCollectionInfiniteDataSource >> data [
 ToObservableCollectionInfiniteDataSource >> initialize [ 
 
 	super initialize.
+	"data := ToProtectedCollection new"
 	data := OrderedCollection new
 
 ]

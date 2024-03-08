@@ -7,6 +7,12 @@ Class {
 	#category : #'Toplo-Widget-List-Infinite'
 }
 
+{ #category : #'t - observable collection - accessing' }
+ToInfiniteDataSource >> dataCritical: aBlock [
+
+	^ aBlock value
+]
+
 { #category : #hooks }
 ToInfiniteDataSource >> onAttached: anInfiniteElement [
 

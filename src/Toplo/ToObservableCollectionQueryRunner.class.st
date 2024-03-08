@@ -17,15 +17,16 @@ Class {
 ToObservableCollectionQueryRunner >> applyDataFilterIn: anObservableCollection [
 
 	| event |
-	selectedIndexes := self pattern ifEmpty: [ #(  ) ] ifNotEmpty: [
-		                   Array streamContents: [ :stream |
-			                   anObservableCollection withIndexDo: [ :d :idx |
-				                   (self dataFilter value: d value: self pattern)
-					                   ifTrue: [ stream nextPut: idx ] ] ] ].
-	event := ToObservableCollectionQueryResultEvent new
-		         queryRunner: self;
-		         yourself.
-	anObservableCollection dispatchEvent: event
+	anObservableCollection dataCritical: [
+		selectedIndexes := self pattern ifEmpty: [ #(  ) ] ifNotEmpty: [
+			                   Array streamContents: [ :stream |
+				                   anObservableCollection withIndexDo: [ :d :idx |
+					                   (self dataFilter value: d value: self pattern)
+						                   ifTrue: [ stream nextPut: idx ] ] ] ].
+		event := ToObservableCollectionQueryResultEvent new
+			         queryRunner: self;
+			         yourself.
+		anObservableCollection dispatchEvent: event ]
 ]
 
 { #category : #accessing }

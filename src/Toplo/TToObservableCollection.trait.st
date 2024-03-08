@@ -156,12 +156,6 @@ TToObservableCollection >> collection [
 
 ]
 
-{ #category : #'t - observable collection - accessing' }
-TToObservableCollection >> collection: aCollection [
-
-	self explicitRequirement 
-]
-
 { #category : #'t - observable collection - copying' }
 TToObservableCollection >> copyFrom: startIndex to: endIndex [ 
 	"Answer a copy of the receiver that contains elements from position
@@ -181,6 +175,13 @@ TToObservableCollection >> copyReplaceFrom: start to: stop with: replacementColl
 	l := self collection copyReplaceFrom: start to: stop with: replacementCollection.
 	n := self species newFrom: l.
 	^ n
+]
+
+{ #category : #'t - observable collection - accessing' }
+TToObservableCollection >> dataCritical: aBlock [
+
+	"^ self collection dataCritical: aBlock"
+	aBlock value
 ]
 
 { #category : #'t - observable collection - enumerating' }

@@ -46,44 +46,49 @@ ToSelectionModel >> deselectIndex: anIndex [
 { #category : #updating }
 ToSelectionModel >> deselectIndex: aFirstIndex to: aSecondIndex [
 
-	| from to |
-	from := aFirstIndex min: aSecondIndex.
-	to := aFirstIndex max: aSecondIndex.
-	(from <= to and: [ from > 0 and: [ to >= 0 ] ]) ifFalse: [ ^ self ].
-	self underlyingModelDo: [ :ulm | ulm deselect: from - 1 to: to ]
+	self underlyingModelDo: [ :ulm |
+		| from to |
+		from := aFirstIndex min: aSecondIndex.
+		to := aFirstIndex max: aSecondIndex.
+		(from <= to and: [ from > 0 and: [ to >= 0 ] ]) ifFalse: [ ^ self ].
+		ulm deselect: from - 1 to: to ]
 ]
 
 { #category : #updating }
 ToSelectionModel >> deselectIndexes: anArray [
 
-	anArray do: [ :idx | self deselectIndex: idx ]
+	self underlyingModelDo: [ :ulm |
+		anArray do: [ :idx | self deselectIndex: idx ] ]
 ]
 
 { #category : #accessing }
 ToSelectionModel >> firstIndex [
 
-	self ifEmpty: [^ 0].
-	self underlyingModelDo: [ :ulm | ^ ulm from + 1 ]
+	self underlyingModelDo: [ :ulm |
+		self ifEmpty: [ ^ 0 ].
+		^ ulm from + 1 ]
 ]
 
 { #category : #comparing }
 ToSelectionModel >> hash [
 
-	^ self class hash bitXor: self underlyingModel hash
+	self underlyingModelDo: [ :ulm | ^ self class hash bitXor: ulm hash ]
 ]
 
 { #category : #testing }
 ToSelectionModel >> ifEmpty: aBlock [
 
-	self isEmpty ifFalse: [ ^ self ].
-	aBlock value
+	self underlyingModelDo: [ :ulm |
+		self isEmpty ifFalse: [ ^ self ].
+		aBlock value ]
 ]
 
 { #category : #testing }
 ToSelectionModel >> ifNotEmpty: aBlock [
 
-	self isEmpty ifTrue: [ ^ self ].
-	aBlock cull: self
+	self underlyingModelDo: [ :ulm |
+		self isEmpty ifTrue: [ ^ self ].
+		aBlock cull: self ]
 ]
 
 { #category : #initialization }
@@ -136,8 +141,9 @@ ToSelectionModel >> itemCountGetter: aValuable [
 { #category : #accessing }
 ToSelectionModel >> lastIndex [
 
-	self ifEmpty: [^ 0].
-	self underlyingModelDo: [ :ulm | ^ ulm to ]
+	self underlyingModelDo: [ :ulm |
+		self ifEmpty: [ ^ 0 ].
+		^ ulm to ]
 ]
 
 { #category : #accessing }
@@ -177,7 +183,9 @@ ToSelectionModel >> previousSelectableIndexStartingAt: anIndex [
 { #category : #updating }
 ToSelectionModel >> selectAll [
 
-	self selectIndex: 1 to: self itemCount
+	self underlyingModelDo: [ :ulm |
+		ulm removeAll.
+		self selectIndex: 1 to: self itemCount ]
 ]
 
 { #category : #updating }
@@ -189,17 +197,19 @@ ToSelectionModel >> selectIndex: anIndex [
 { #category : #updating }
 ToSelectionModel >> selectIndex: aFirstIndex to: aSecondIndex [
 
-	| from to |
-	from := aFirstIndex min: aSecondIndex.
-	to := aFirstIndex max: aSecondIndex.
-	self underlyingModelDo: [ :ulm | ulm select: from - 1 to: to ]
+	self underlyingModelDo: [ :ulm |
+		| from to |
+		from := aFirstIndex min: aSecondIndex.
+		to := aFirstIndex max: aSecondIndex.
+		ulm select: from - 1 to: to ]
 ]
 
 { #category : #updating }
 ToSelectionModel >> selectIndexes: anArray [
 
-	anArray ifEmpty: [ ^ self ].
-	anArray do: [ :idx | self selectIndex: idx ]
+	self underlyingModelDo: [ :ulm |
+		anArray ifEmpty: [ ^ self ].
+		anArray do: [ :idx | self selectIndex: idx ] ]
 ]
 
 { #category : #accessing }
@@ -233,27 +243,29 @@ ToSelectionModel >> selectedIndexesDo: aBlock [
 ToSelectionModel >> selectedIndexesIntervals [
 	" return an array of intervals #( 2 3 4 6 7 8 ) -> { 2 to: 4. 6 to: 8 } "
 
-	^ Array streamContents: [ :stream |
-		  self selectedIndexesIntervalsDo: [ :interval |
-			  stream nextPut: interval ] ]
+	self underlyingModelDo: [ :ulm |
+		^ Array streamContents: [ :stream |
+			  self selectedIndexesIntervalsDo: [ :interval |
+				  stream nextPut: interval ] ] ]
 ]
 
 { #category : #enumerating }
 ToSelectionModel >> selectedIndexesIntervalsDo: aBlock [
 	" aBlock has one interval argument "
 
-	| prev g |
-	g := nil.
-	prev := nil.
-	self selectedIndexesDo: [ :idx |
-		prev ifNil: [ g := idx to: idx ] ifNotNil: [
-			prev + 1 = idx
-				ifTrue: [ g := g first to: idx ]
-				ifFalse: [
-					aBlock value: g.
-					g := idx to: idx ] ].
-		prev := idx ].
-	g ifNotNil: [ aBlock value: g ]
+	self underlyingModelDo: [ :ulm |
+		| prev g |
+		g := nil.
+		prev := nil.
+		self selectedIndexesDo: [ :idx |
+			prev ifNil: [ g := idx to: idx ] ifNotNil: [
+				prev + 1 = idx
+					ifTrue: [ g := g first to: idx ]
+					ifFalse: [
+						aBlock value: g.
+						g := idx to: idx ] ].
+			prev := idx ].
+		g ifNotNil: [ aBlock value: g ] ]
 ]
 
 { #category : #updating }
@@ -306,22 +318,23 @@ ToSelectionModel >> shift: aGap from: aStartIndex for: anEventTarget [
 { #category : #accessing }
 ToSelectionModel >> sideIdx: aGap startingAt: anIndex [
 
-	| nextIdx |
-	nextIdx := anIndex.
-	(self containsIndex: nextIdx) ifFalse: [
-		^ aGap < 0
-			  ifTrue: [ self previousSelectableIndexStartingAt: nextIdx ]
-			  ifFalse: [ self nextSelectableIndexStartingAt: nextIdx ] ].
-	[
-	(nextIdx between: 1 and: self itemCount) and: [
-		(self containsIndex: nextIdx) or: [
-			self isUnselectableIndex:  nextIdx ] ] ] whileTrue: [
-		nextIdx := nextIdx + aGap ].
-	nextIdx := (nextIdx max: 1) min: self itemCount.
+	self underlyingModelDo: [ :ulm |
+		| nextIdx |
+		nextIdx := anIndex.
+		(self containsIndex: nextIdx) ifFalse: [
+			^ aGap < 0
+				  ifTrue: [ self previousSelectableIndexStartingAt: nextIdx ]
+				  ifFalse: [ self nextSelectableIndexStartingAt: nextIdx ] ].
+		[
+		(nextIdx between: 1 and: self itemCount) and: [
+			(self containsIndex: nextIdx) or: [
+				self isUnselectableIndex: nextIdx ] ] ] whileTrue: [
+			nextIdx := nextIdx + aGap ].
+		nextIdx := (nextIdx max: 1) min: self itemCount.
 
-	^ (self isUnselectableIndex:  nextIdx)
-		  ifTrue: [ 0 ]
-		  ifFalse: [ nextIdx ]
+		^ (self isUnselectableIndex: nextIdx)
+			  ifTrue: [ 0 ]
+			  ifFalse: [ nextIdx ] ]
 ]
 
 { #category : #accessing }

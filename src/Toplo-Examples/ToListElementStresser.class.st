@@ -25,221 +25,235 @@ ToListElementStresser class >> run [
 ToListElementStresser >> _actionFilterResultIn: aList [
 
 	| idx pattern sieve |
-
-		idx := self randIndexIn: aList.
-		pattern := idx odd
-			           ifTrue: [ '' ]
-			           ifFalse: [
-				           idx := self randIndexIn: aList.
-				           idx even
-					           ifTrue: [ 'Hel' ]
-					           ifFalse: [ 'Good' ] ].
-		sieve := aList userData at: #sieve.
-		sieve pattern: pattern 
+	idx := self randIndexIn: aList.
+	pattern := idx odd
+		           ifTrue: [ '' ]
+		           ifFalse: [
+			           idx := self randIndexIn: aList.
+			           idx even
+				           ifTrue: [ 'Hel' ]
+				           ifFalse: [ 'Good' ] ].
+	sieve := aList userData at: #sieve.
+	sieve pattern: pattern
 ]
 
 { #category : #actions }
 ToListElementStresser >> _actionShiftSelectionFromIn: aList [
 
 	| nb idx |
-	
-		nb := self randIndexIn: aList.
-		idx := self randIndexIn: aList.
-		idx isZero ifFalse: [ aList selecter shiftSelection: nb from: idx ]
+	nb := self randIndexIn: aList.
+	idx := self randIndexIn: aList.
+	idx isZero ifFalse: [ aList selecter shiftSelection: nb from: idx ]
 ]
 
 { #category : #actions }
 ToListElementStresser >> actionAddAfterIndexIn: aList [
 
-	aList dataCritical: [
-		aList dataAccessor
-			add: 'Goodbye ' , self nextCounter asString
-			afterIndex: (self randIndexIn: aList) ]
+	aList dataAccessor
+		add: 'Goodbye ' , self nextCounter asString
+		afterIndex: (self randIndexIn: aList)
 ]
 
 { #category : #actions }
 ToListElementStresser >> actionAtPutIn: aList [
 
-	aList dataCritical: [
-		| idx current |
-		idx := self randIndexIn: aList.
-		idx isZero ifFalse: [
-			current := aList dataAccessor at: idx.
-			aList dataAccessor
-				at: idx
-				put: current , ' ' , self nextCounter asString ] ]
+	| idx current |
+	idx := self randIndexIn: aList.
+	idx isZero ifTrue: [ ^ self ].
+	current := aList dataAccessor at: idx.
+	aList dataAccessor
+		at: idx
+		put: current , ' ' , self nextCounter asString
 ]
 
 { #category : #actions }
 ToListElementStresser >> actionDeselectAllIn: aList [
 
-	aList dataCritical: [ aList selecter deselectAll ]
+	aList selecter deselectAll
 ]
 
 { #category : #actions }
 ToListElementStresser >> actionDeselectIndexIn: aList [
 
-	aList dataCritical: [
-		| idx |
-		idx := self randIndexIn: aList.
-		idx isZero ifFalse: [ aList selecter deselectIndex: idx ] ]
+	| idx |
+	idx := self randIndexIn: aList.
+	idx isZero ifFalse: [ aList selecter deselectIndex: idx ]
 ]
 
 { #category : #actions }
 ToListElementStresser >> actionDeselectIndexesIn: aList [
 
-	aList dataCritical: [
-		| nb selected |
-		nb := (self randIndexIn: aList) min: 30.
-		nb isZero ifTrue: [ ^ self ].
-		selected := (1 to: nb) collect: [ :i | self randIndexIn: aList ].
-		aList selecter deselectIndexes: selected ]
+	| nb selected |
+	nb := (self randIndexIn: aList) min: 30.
+	nb isZero ifTrue: [ ^ self ].
+	selected := (1 to: nb) collect: [ :i | self randIndexIn: aList ].
+	aList selecter deselectIndexes: selected
+]
+
+{ #category : #actions }
+ToListElementStresser >> actionDisableAllIn: aList [
+
+	aList disabledSelecter selectAll
 ]
 
 { #category : #actions }
 ToListElementStresser >> actionDisableIndexIn: aList [
 
-	aList dataCritical: [
-		| idx |
-		idx := self randIndexIn: aList.
-		idx isZero ifFalse: [ aList disabledSelecter selectIndex: idx ] ]
+	| idx |
+	idx := self randIndexIn: aList.
+	idx isZero ifFalse: [ aList disabledSelecter selectIndex: idx ]
 ]
 
 { #category : #actions }
 ToListElementStresser >> actionDisableIndexesIn: aList [
 
-	aList dataCritical: [
-		| nb selected |
-		nb := (self randIndexIn: aList) min: 30.
-		nb isZero ifTrue: [ ^ self ].
-		selected := (1 to: nb) collect: [ :i | self randIndexIn: aList ].
-		aList disabledSelecter selectIndexes: selected ]
+	| nb selected |
+	nb := (self randIndexIn: aList) min: 30.
+	nb isZero ifTrue: [ ^ self ].
+	selected := (1 to: nb) collect: [ :i | self randIndexIn: aList ].
+	aList disabledSelecter selectIndexes: selected
+]
+
+{ #category : #actions }
+ToListElementStresser >> actionEnableAllIn: aList [
+
+	aList disabledSelecter deselectAll
 ]
 
 { #category : #actions }
 ToListElementStresser >> actionEnableIndexIn: aList [
 
-	aList dataCritical: [
-		| idx |
-		idx := self randIndexIn: aList.
-		idx isZero ifFalse: [ aList disabledSelecter deselectIndex: idx ] ]
+	| idx |
+	idx := self randIndexIn: aList.
+	idx isZero ifFalse: [ aList disabledSelecter deselectIndex: idx ]
 ]
 
 { #category : #actions }
 ToListElementStresser >> actionEnableIndexesIn: aList [
 
-	aList dataCritical: [
-		| nb selected |
-		nb := (self randIndexIn: aList) min: 30.
-		nb isZero ifTrue: [ ^ self ].
-		selected := (1 to: nb) collect: [ :i | self randIndexIn: aList ].
-		aList disabledSelecter deselectIndexes: selected ]
+	| nb selected |
+	nb := (self randIndexIn: aList) min: 30.
+	nb isZero ifTrue: [ ^ self ].
+	selected := (1 to: nb) collect: [ :i | self randIndexIn: aList ].
+	aList disabledSelecter deselectIndexes: selected
 ]
 
 { #category : #actions }
 ToListElementStresser >> actionRemoveAtIn: aList [
 
-	aList dataCritical: [
-		| idx |
-		idx := self randIndexIn: aList.
-		idx isZero ifFalse: [ aList dataAccessor removeAt: idx ] ]
+	| idx |
+	idx := self randIndexIn: aList.
+	idx isZero ifFalse: [ aList dataAccessor removeAt: idx ]
 ]
 
 { #category : #actions }
 ToListElementStresser >> actionSelectAllIn: aList [
 
-	aList dataCritical: [ aList selecter selectAll ]
+	aList selecter selectAll
 ]
 
 { #category : #actions }
 ToListElementStresser >> actionSelectIndexIn: aList [
 
-	aList dataCritical: [
-		| idx |
-		idx := self randIndexIn: aList.
-		idx isZero ifFalse: [ aList selecter selectIndex: idx ] ]
+	| idx |
+	idx := self randIndexIn: aList.
+	idx isZero ifFalse: [ aList selecter selectIndex: idx ]
 ]
 
 { #category : #actions }
 ToListElementStresser >> actionSelectIndexeToIn: aList [
 
-	aList dataCritical: [
-		| from to |
-		from := self randIndexIn: aList.
-		to := self randIndexIn: aList.
-		(from isZero or: [ to isZero ]) ifTrue: [ ^ self ].
-		aList selecter selectIndex: from to: to ]
+	| from to |
+	from := self randIndexIn: aList.
+	to := self randIndexIn: aList.
+	(from isZero or: [ to isZero ]) ifTrue: [ ^ self ].
+	aList selecter selectIndex: from to: to
 ]
 
 { #category : #actions }
 ToListElementStresser >> actionSelectIndexesIn: aList [
 
-	aList dataCritical: [
-		| nb selected |
-		nb := (self randIndexIn: aList) min: 30.
-		nb isZero ifTrue: [ ^ self ].
-		selected := (1 to: nb) collect: [ :i | self randIndexIn: aList ].
-		aList selecter selectIndexes: selected ]
+	| nb selected |
+	nb := (self randIndexIn: aList) min: 30.
+	nb isZero ifTrue: [ ^ self ].
+	selected := (1 to: nb) collect: [ :i | self randIndexIn: aList ].
+	aList selecter selectIndexes: selected
 ]
 
 { #category : #actions }
 ToListElementStresser >> actionSelectOnlyIndexIn: aList [
 
-	aList dataCritical: [
-		| idx |
-		idx := self randIndexIn: aList.
-		idx isZero ifFalse: [ aList selecter selectOnlyIndex: idx ] ]
+	| idx |
+	idx := self randIndexIn: aList.
+	idx isZero ifFalse: [ aList selecter selectOnlyIndex: idx ]
 ]
 
 { #category : #actions }
 ToListElementStresser >> actionSelectOnlyIndexesIn: aList [
 
-	aList dataCritical: [
-		| nb selected |
-		nb := (self randIndexIn: aList) min: 30.
-		nb isZero ifTrue: [ ^ self ].
-		selected := (1 to: nb) collect: [ :i | self randIndexIn: aList ].
-		aList selecter selectOnlyIndexes: selected ]
+	| nb selected |
+	nb := (self randIndexIn: aList) min: 30.
+	nb isZero ifTrue: [ ^ self ].
+	selected := (1 to: nb) collect: [ :i | self randIndexIn: aList ].
+	aList selecter selectOnlyIndexes: selected
+]
+
+{ #category : #actions }
+ToListElementStresser >> actionSelectableAllIn: aList [
+
+	
+		aList unselectableSelecter deselectAll
 ]
 
 { #category : #actions }
 ToListElementStresser >> actionSelectableIndexIn: aList [
 
-	aList dataCritical: [
-		| idx |
-		idx := self randIndexIn: aList.
-		idx isZero ifFalse: [ aList unselectableSelecter deselectIndex: idx ] ]
+	| idx |
+	idx := self randIndexIn: aList.
+	idx isZero ifFalse: [ aList unselectableSelecter deselectIndex: idx ]
 ]
 
 { #category : #actions }
 ToListElementStresser >> actionSelectableIndexesIn: aList [
 
-	aList dataCritical: [
-		| nb selected |
-		nb := (self randIndexIn: aList) min: 30.
-		nb isZero ifTrue: [ ^ self ].
-		selected := (1 to: nb) collect: [ :i | self randIndexIn: aList ].
-		aList unselectableSelecter deselectIndexes: selected ]
+	| nb selected |
+	nb := (self randIndexIn: aList) min: 30.
+	nb isZero ifTrue: [ ^ self ].
+	selected := (1 to: nb) collect: [ :i | self randIndexIn: aList ].
+	aList unselectableSelecter deselectIndexes: selected
+]
+
+{ #category : #actions }
+ToListElementStresser >> actionShiftSelectionFromIn: aList [
+
+	| nb idx |
+	nb := self randIndexIn: aList.
+	idx := self randIndexIn: aList.
+	idx isZero ifFalse: [ aList selecter shiftSelection: nb from: idx ]
+]
+
+{ #category : #actions }
+ToListElementStresser >> actionUnselectableAllIn: aList [
+
+	aList unselectableSelecter selectAll
 ]
 
 { #category : #actions }
 ToListElementStresser >> actionUnselectableIndexIn: aList [
 
-	aList dataCritical: [
-		| idx |
-		idx := self randIndexIn: aList.
-		idx isZero ifFalse: [ aList unselectableSelecter selectIndex: idx ] ]
+	| idx |
+	idx := self randIndexIn: aList.
+	idx isZero ifFalse: [ aList unselectableSelecter selectIndex: idx ]
 ]
 
 { #category : #actions }
 ToListElementStresser >> actionUnselectableIndexesIn: aList [
 
-	aList dataCritical: [
-		| nb selected |
-		nb := (self randIndexIn: aList) min: 30.
-		nb isZero ifTrue: [ ^ self ].
-		selected := (1 to: nb) collect: [ :i | self randIndexIn: aList ].
-		aList unselectableSelecter selectIndexes: selected ]
+	| nb selected |
+	nb := (self randIndexIn: aList) min: 30.
+	nb isZero ifTrue: [ ^ self ].
+	selected := (1 to: nb) collect: [ :i | self randIndexIn: aList ].
+	aList unselectableSelecter selectIndexes: selected
 ]
 
 { #category : #private }
@@ -445,9 +459,9 @@ ToListElementStresser >> processingRound: aRound inList: aList number: aNumber [
 			 (tab childAt: 2) text: s.
 			 (tab childAt: 2) textChanged ]).
 
-	self selectActionsToRun shuffled do: [ :act |
-		"act traceCr."
-		self perform: act with: aList ]
+	self selectActionsToRun shuffled do: [ :act | "act traceCr."
+		self tabsPanel enqueueTask:
+			(BlTaskAction new action: [ self perform: act with: aList ]) ]
 ]
 
 { #category : #private }

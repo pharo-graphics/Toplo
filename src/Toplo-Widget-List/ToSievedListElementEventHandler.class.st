@@ -108,14 +108,14 @@ ToSievedListElementEventHandler >> listPrimarySelectionChangePreNotificationEven
 				originalIndex ifNotNil: [
 					(listSelModel containsIndex: localIdx)
 						ifTrue: [ sieveSelectionModel selectIndex: originalIndex ]
-						ifFalse: [ sieveSelectionModel deselectIndex: originalIndex ] ] ].
+						ifFalse: [ sieveSelectionModel deselectIndex: originalIndex ] ] ] ].
 
 	" dispatch a specific, different from the primary selection change event that will be sent after.
 	It is useful for sieve list user that relies on the sieve internal selection to adapt themeself according 
 	to the sieve selection"
-			listElement dispatchEvent: (ToSieveSelectionChangedEvent new
-					 selectionModel: sieveSelectionModel copy;
-					 yourself) ]
+	listElement dispatchEvent: (ToSieveSelectionChangedEvent new
+			 selectionModel: sieveSelectionModel copy;
+			 yourself)
 ]
 
 { #category : #'element handlers' }

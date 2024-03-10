@@ -17,12 +17,6 @@ Class {
 	#category : #'Toplo-Widget-List-Tests-Selection-Selecter'
 }
 
-{ #category : #'mutual exclusion' }
-ToSelectionModelHolderForTest >> critical: aBlock [
-
-	aBlock value
-]
-
 { #category : #accessing }
 ToSelectionModelHolderForTest >> data [
 
@@ -86,6 +80,12 @@ ToSelectionModelHolderForTest >> initialize [
 ToSelectionModelHolderForTest >> itemCount [
 
 	^ self dataSource itemCount
+]
+
+{ #category : #'mutual exclusion' }
+ToSelectionModelHolderForTest >> layoutCritical: aBlock [
+
+	aBlock value
 ]
 
 { #category : #accessing }

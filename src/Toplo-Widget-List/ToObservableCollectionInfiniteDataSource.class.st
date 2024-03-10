@@ -66,6 +66,12 @@ ToObservableCollectionInfiniteDataSource >> onDetached: anInfiniteElement [
 	
 ]
 
+{ #category : #'t - observable collection - copying' }
+ToObservableCollectionInfiniteDataSource >> postCopy [
+
+	data := self collection copy
+]
+
 { #category : #hooks }
 ToObservableCollectionInfiniteDataSource >> sharedEvents [
 

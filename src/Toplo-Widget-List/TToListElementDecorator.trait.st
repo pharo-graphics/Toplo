@@ -7,26 +7,9 @@ Trait {
 }
 
 { #category : #'t - infinite accessing' }
-TToListElementDecorator >> critical: aBlock [
-
-	self
-		deprecated: 'Use layoutCritical: instead'
-		transformWith: '`@receiver critical: `@argument'
-			-> '`@receiver layoutCritical: `@argument'.
-
-	self layoutCritical: aBlock
-]
-
-{ #category : #'t - infinite accessing' }
 TToListElementDecorator >> dataAccessor [
 
 	^ self next dataAccessor
-]
-
-{ #category : #'t - infinite accessing' }
-TToListElementDecorator >> dataCritical: aBlock [
-
-	^ self next dataCritical: aBlock
 ]
 
 { #category : #'t - infinite accessing' }

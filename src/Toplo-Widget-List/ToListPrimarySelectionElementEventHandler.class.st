@@ -2,8 +2,7 @@ Class {
 	#name : #ToListPrimarySelectionElementEventHandler,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
-		'postponedUpdateTask',
-		'monitor'
+		'postponedUpdateTask'
 	],
 	#category : #'Toplo-Widget-List-Selection-Element'
 }
@@ -15,12 +14,6 @@ ToListPrimarySelectionElementEventHandler >> blurEvent: anEvent [
 	This is the case if the event reason is for element removal "
 	anEvent isDueToRemoval ifTrue: [ ^ self ].
 	self enqueueUpdateSelectionFromEvent: anEvent
-]
-
-{ #category : #private }
-ToListPrimarySelectionElementEventHandler >> critical: aBlock [
-
-	"monitor critical: "aBlock value
 ]
 
 { #category : #'selection managing' }
@@ -65,13 +58,6 @@ ToListPrimarySelectionElementEventHandler >> eventsToHandle [
 ToListPrimarySelectionElementEventHandler >> focusEvent: anEvent [
 
 	self criticalUpdateSelectionFromEvent: anEvent
-]
-
-{ #category : #initialization }
-ToListPrimarySelectionElementEventHandler >> initialize [ 
-
-	super initialize.
-	monitor := Monitor new
 ]
 
 { #category : #'element handlers' }
@@ -121,34 +107,20 @@ ToListPrimarySelectionElementEventHandler >> updateSelectionFromEvent: anEvent [
 	target := anEvent currentTarget.
 	infinite := target infinite.
 
-	"infinite childrenDo: [ :node |
-		| holder |
-		holder := infinite elementHolderOf: node.
-		holder isTmpDetached ifTrue: [
-			self postponeSelectionElementUpdateIn: target.
-			^ self ] ]."
+	target isAttachedToSceneGraph ifFalse: [
+		self postponeSelectionElementUpdateIn: target.
+		^ self ].
+	previous := target primarySelectionElements.
+	nodesArray := target infinite children asArray.
+	selectionModel := target selectionModel copy.
+	newSelElements := self newSelectionElementsFromEvent: anEvent.
+	previous do: [ :s | s removeFromParent ].
+	target addChildren: newSelElements.
 
-	"previous do: [ :s |
-		s skinManagerDo: [ :sm |
-			sm isInstallingSkin ifTrue: [
-				self postponeSelectionElementUpdateIn: target.
-				^ self ] ] ]."
-
-	self critical: [
-		target isAttachedToSceneGraph ifFalse: [
-			self postponeSelectionElementUpdateIn: target.
-			^ self ].
-		previous := target primarySelectionElements.
-		nodesArray := target infinite children asArray.
-		selectionModel := target selectionModel copy.
-		newSelElements := self newSelectionElementsFromEvent: anEvent.
-		previous do: [ :s | s removeFromParent ].
-		target addChildren: newSelElements.
-
-		" Dispatch the event that is used by the skin state generator to generate the selection state "
-		nodesArray do: [ :node |
-			node holder isSelectable ifTrue: [
-				node dispatchEvent: (ToListNodeSelectedEvent new
-						 listElement: target;
-						 selected: (selectionModel containsIndex: node holder position)) ] ] ]
+	" Dispatch the event that is used by the skin state generator to generate the selection state "
+	nodesArray do: [ :node |
+		node holder isSelectable ifTrue: [
+			node dispatchEvent: (ToListNodeSelectedEvent new
+					 listElement: target;
+					 selected: (selectionModel containsIndex: node holder position)) ] ]
 ]

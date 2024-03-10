@@ -2,8 +2,7 @@ Class {
 	#name : #ToListSecondarySelectionElementEventHandler,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
-		'postponedUpdateTask',
-		'monitor'
+		'postponedUpdateTask'
 	],
 	#category : #'Toplo-Widget-List-Selection-Element'
 }
@@ -17,13 +16,7 @@ ToListSecondarySelectionElementEventHandler >> addSecondarySelectionIn: aListEle
 		 in: aListElement) do: [ :s | aListElement addChild: s ]
 ]
 
-{ #category : #private }
-ToListSecondarySelectionElementEventHandler >> critical: aBlock [
-
-	"monitor critical: "aBlock value
-]
-
-{ #category : #'mouse handlers' }
+{ #category : #'selection managing' }
 ToListSecondarySelectionElementEventHandler >> criticalUpdateSelectionFromEvent: anEvent [
 
 	anEvent currentTarget layoutCritical: [
@@ -59,13 +52,6 @@ ToListSecondarySelectionElementEventHandler >> eventsToHandle [
 ToListSecondarySelectionElementEventHandler >> infiniteScrollFinishedEvent: anEvent [
 
 	self criticalUpdateSelectionFromEvent: anEvent
-]
-
-{ #category : #initialization }
-ToListSecondarySelectionElementEventHandler >> initialize [ 
-
-	super initialize.
-	monitor := Monitor new
 ]
 
 { #category : #'mouse handlers' }
@@ -125,30 +111,16 @@ ToListSecondarySelectionElementEventHandler >> updateSelectionFromEvent: anEvent
 	target := anEvent currentTarget.
 	infinite := target infinite.
 
-	"infinite childrenDo: [ :node |
-		| holder |
-		holder := infinite elementHolderOf: node.
-		holder isTmpDetached ifTrue: [
-			self postponeSelectionElementUpdateFromEvent: anEvent in: target.
-			^ self ] ]."
-
-	"	previous do: [ :s |
-		s skinManagerDo: [ :sm |
-			sm isInstallingSkin ifTrue: [
-				self postponeSelectionElementUpdateFromEvent: anEvent in: target.
-				^ self ] ] ]."
-
-	self critical: [
-		target isAttachedToSceneGraph ifFalse: [
-			self postponeSelectionElementUpdateFromEvent: anEvent in: target.
-			^ self ].
-		previous := target secondarySelectionElements.
-		previous do: [ :s | s removeFromParent ].
-		target secondarySelectionModel ifEmpty: [ ^ self ].
-		childNodes := infinite children select: [ :node |
-			              node holder isSelectable and: [
-				              target secondarySelectionModel containsIndex:
-					              node holder position ] ].
-		childNodes ifEmpty: [ ^ self ].
-		self addSecondarySelectionIn: target onNodes: childNodes ]
+	target isAttachedToSceneGraph ifFalse: [
+		self postponeSelectionElementUpdateFromEvent: anEvent in: target.
+		^ self ].
+	previous := target secondarySelectionElements.
+	previous do: [ :s | s removeFromParent ].
+	target secondarySelectionModel ifEmpty: [ ^ self ].
+	childNodes := infinite children select: [ :node |
+		              node holder isSelectable and: [
+			              target secondarySelectionModel containsIndex:
+				              node holder position ] ].
+	childNodes ifEmpty: [ ^ self ].
+	self addSecondarySelectionIn: target onNodes: childNodes
 ]

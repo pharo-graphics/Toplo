@@ -177,13 +177,6 @@ TToObservableCollection >> copyReplaceFrom: start to: stop with: replacementColl
 	^ n
 ]
 
-{ #category : #'t - observable collection - accessing' }
-TToObservableCollection >> dataCritical: aBlock [
-
-	"^ self collection dataCritical: aBlock"
-	aBlock value
-]
-
 { #category : #'t - observable collection - enumerating' }
 TToObservableCollection >> detect: aBlock ifNone: exceptionBlock [
 	"Evaluate aBlock with each of the receiver's elements as the argument.
@@ -449,7 +442,8 @@ TToObservableCollection >> notifyUpdateChangeAround: aBlock interval: anInterval
 
 { #category : #'t - observable collection - copying' }
 TToObservableCollection >> postCopy [
-	self collection: self collection copy
+
+	self explicitRequirement 
 ]
 
 { #category : #'t - observable collection - enumerating' }

@@ -41,3 +41,9 @@ ToObservableCollection >> initialize [
 	eventDispatcher := BlDirectEventDispatcher on: self.
 	collection := OrderedCollection new
 ]
+
+{ #category : #'t - observable collection - copying' }
+ToObservableCollection >> postCopy [
+
+	collection := self collection copy
+]

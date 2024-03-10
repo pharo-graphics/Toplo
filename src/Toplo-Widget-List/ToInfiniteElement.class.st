@@ -17,34 +17,10 @@ ToInfiniteElement >> aeDrawItemDecorationsOn: aCanvas [
 	self layoutCritical: [ super aeDrawItemDecorationsOn: aCanvas ]
 ]
 
-{ #category : #'as yet unclassified' }
-ToInfiniteElement >> allowsSkinInstallation [
-
-	^ super allowsSkinInstallation and: [ self state isStartStep   ]
-]
-
-{ #category : #accessing }
-ToInfiniteElement >> critical: aBlock [
-
-	self
-		deprecated: 'Use layoutCritical: instead'
-		transformWith: '`@receiver critical: `@argument'
-			-> '`@receiver layoutCritical: `@argument'.
-
-	self layoutCritical: aBlock
-]
-
 { #category : #accessing }
 ToInfiniteElement >> dataAccessor [
 
 	^ self subclassResponsibility 
-]
-
-{ #category : #'t - observable collection - accessing' }
-ToInfiniteElement >> dataCritical: aBlock [
-
-	^ self dataSource dataCritical: aBlock
-
 ]
 
 { #category : #initialization }

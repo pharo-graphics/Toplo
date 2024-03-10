@@ -284,7 +284,7 @@ ToListElementStresser >> initialize [
 		                       self tabsPanel enqueueTask:
 			                       (BlTaskAction new action: [
 				                        (self tabsPanel tabs at: idx) check ]).
-		                       30 seconds wait ] ] newProcess.
+		                       10 seconds wait ] ] newProcess.
 
 	tabSelectionProcess name: self class name.
 	tabSelectionProcess priority: Processor systemBackgroundPriority.
@@ -448,9 +448,9 @@ ToListElementStresser >> processingRound: aRound inList: aList number: aNumber [
 			 (tab childAt: 2) text: s.
 			 (tab childAt: 2) textChanged ]).
 
-	self selectActionsToRun shuffled do: [ :act | "act traceCr."
-		self tabsPanel enqueueTask:
-			(BlTaskAction new action: [ self perform: act with: aList ]) ]
+	self tabsPanel enqueueTask: (BlTaskAction new action: [
+			 self selectActionsToRun shuffled do: [ :act |
+				 self perform: act with: aList ] ])
 ]
 
 { #category : #private }

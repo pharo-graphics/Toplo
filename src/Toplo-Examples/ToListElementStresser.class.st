@@ -31,19 +31,10 @@ ToListElementStresser >> _actionFilterResultIn: aList [
 		           ifFalse: [
 			           idx := self randIndexIn: aList.
 			           idx even
-				           ifTrue: [ 'Hel' ]
-				           ifFalse: [ 'Good' ] ].
+				           ifTrue: [ 'G' ]
+				           ifFalse: [ 'H' ] ].
 	sieve := aList userData at: #sieve.
 	sieve pattern: pattern
-]
-
-{ #category : #actions }
-ToListElementStresser >> _actionShiftSelectionFromIn: aList [
-
-	| nb idx |
-	nb := self randIndexIn: aList.
-	idx := self randIndexIn: aList.
-	idx isZero ifFalse: [ aList selecter shiftSelection: nb from: idx ]
 ]
 
 { #category : #actions }
@@ -293,7 +284,7 @@ ToListElementStresser >> initialize [
 		                       self tabsPanel enqueueTask:
 			                       (BlTaskAction new action: [
 				                        (self tabsPanel tabs at: idx) check ]).
-		                       6 seconds wait ] ] newProcess.
+		                       30 seconds wait ] ] newProcess.
 
 	tabSelectionProcess name: self class name.
 	tabSelectionProcess priority: Processor systemBackgroundPriority.
@@ -309,7 +300,7 @@ ToListElementStresser >> initialize [
 { #category : #accessing }
 ToListElementStresser >> interRoundWaitDuration [
 
-	^ 50 milliSeconds 
+	^ 150 milliSeconds 
 ]
 
 { #category : #accessing }
@@ -346,7 +337,7 @@ ToListElementStresser >> maxTab: anObject [
 { #category : #accessing }
 ToListElementStresser >> minListSize [
 
-	^ 20
+	^ 50
 
 ]
 
@@ -432,9 +423,7 @@ ToListElementStresser >> nextProcessPriorityForListNumber: aNumber [
 { #category : #private }
 ToListElementStresser >> nextSizeForListNumber: aNumber [
 
-	^ rand nextIntegerBetween: 1 and: (aNumber even
-			   ifTrue: [ self minListSize ]
-			   ifFalse: [ self maxListSize ])
+	^ rand nextIntegerBetween: self minListSize and: self maxListSize 
 ]
 
 { #category : #running }

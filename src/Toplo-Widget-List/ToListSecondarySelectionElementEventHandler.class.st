@@ -20,7 +20,7 @@ ToListSecondarySelectionElementEventHandler >> addSecondarySelectionIn: aListEle
 { #category : #private }
 ToListSecondarySelectionElementEventHandler >> critical: aBlock [
 
-	monitor critical: aBlock
+	"monitor critical: "aBlock value
 ]
 
 { #category : #'mouse handlers' }

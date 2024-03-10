@@ -20,7 +20,7 @@ ToListPrimarySelectionElementEventHandler >> blurEvent: anEvent [
 { #category : #private }
 ToListPrimarySelectionElementEventHandler >> critical: aBlock [
 
-	monitor critical: aBlock
+	"monitor critical: "aBlock value
 ]
 
 { #category : #'selection managing' }

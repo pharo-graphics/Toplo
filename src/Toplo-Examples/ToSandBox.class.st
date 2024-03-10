@@ -843,7 +843,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 			                labelText: 'Add initial Items';
 			                whenClickedDo: [ :event |
 				                target dataAccessor addAll:
-						                ((1 to: 2000) collect: [ :p |
+						                ((1 to: 20000) collect: [ :p |
 								                 p asString , ' AAAAAAAAAAA' ]) ]).
 	               menu addItem: (ToMenuItem new
 			                labelText: 'Inspect list';

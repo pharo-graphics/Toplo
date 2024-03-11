@@ -5,6 +5,7 @@ Class {
 	#classTraits : 'TBlLayoutResizable classTrait',
 	#instVars : [
 		'layoutMonitor',
+		'nodeHolderClass',
 		'nodeClass',
 		'listElement'
 	],
@@ -167,7 +168,13 @@ ToInfiniteElement >> nodeHolderBuilder [
 { #category : #initialization }
 ToInfiniteElement >> nodeHolderClass [
 
-	^ ToNodeHolder
+	^ nodeHolderClass ifNil: [nodeHolderClass := ToNodeHolder ]
+]
+
+{ #category : #initialization }
+ToInfiniteElement >> nodeHolderClass: aNodeHolderClass [
+
+	nodeHolderClass := aNodeHolderClass
 ]
 
 { #category : #'api - hooks' }

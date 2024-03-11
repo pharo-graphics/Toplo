@@ -88,6 +88,7 @@ ToSelectWindowManager >> newListElement [
 
 	| newListElement |
 	newListElement := ToSelectListElement new.
+	newListElement nodeHolderClass: ToSelectListNodeHolder.
 	newListElement nodeClass: ToSelectListNode.
 	newListElement infinite maxHeight: self defaultMaxHeight .
 	newListElement infinite minHeight: self defaultMinHeight.
@@ -102,6 +103,8 @@ ToSelectWindowManager >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	listElement := self newListElement.
+	listElement nodeBuilder: anElement defaultListNodeBuilder.
+
 	listElement addEventHandler: (ToSelectListElementEventHandler new
 			 select: self element;
 			 yourself).

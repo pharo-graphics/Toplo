@@ -91,6 +91,12 @@ TToListElementDecorator >> nodeClass: aNodeClass [
 ]
 
 { #category : #'t - infinite accessing' }
+TToListElementDecorator >> nodeHolderClass: aNodeHolderClass [
+
+	self next nodeHolderClass: aNodeHolderClass
+]
+
+{ #category : #'t - infinite accessing' }
 TToListElementDecorator >> scrollToDataSourcePosition: anIndex [
 
 	self next scrollToDataSourcePosition: anIndex

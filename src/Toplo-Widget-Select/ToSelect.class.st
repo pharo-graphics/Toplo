@@ -7,10 +7,21 @@ Class {
 		'filtrable',
 		'data',
 		'selectionModel',
+		'groupIndexes',
 		'strategy'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
+
+{ #category : #accessing }
+ToSelect >> addGroupIndexes: anIntegerCollection [
+
+	groupIndexes addAll: anIntegerCollection.
+	self listElement unselectableSelecter deselectAll.
+	self listElement unselectableSelecter selectIndexes: groupIndexes asArray.	
+	self listElement disabledSelecter deselectAll.
+	self listElement disabledSelecter selectIndexes: groupIndexes asArray.
+]
 
 { #category : #'accessing window' }
 ToSelect >> closeWindow [
@@ -41,6 +52,13 @@ ToSelect >> dataAccessor [
 ToSelect >> dataFilter: aValuable [
 
 	self mode dataFilter: aValuable
+]
+
+{ #category : #initialization }
+ToSelect >> defaultListNodeBuilder [
+
+	^ [ :node :holder |
+	  node addChild: (ToLabel text: holder dataItem asString) hMatchParent ]
 ]
 
 { #category : #initialization }
@@ -139,6 +157,7 @@ ToSelect >> initialize [
 	super initialize.
 
 	data := ToObservableCollection new.
+	groupIndexes := IdentitySet new.
 	
 	" for the popup "
 	windowManager := self newWindowManager.

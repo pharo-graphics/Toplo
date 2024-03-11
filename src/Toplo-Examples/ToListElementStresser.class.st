@@ -21,6 +21,13 @@ ToListElementStresser class >> run [
 
 ]
 
+{ #category : #running }
+ToListElementStresser class >> runInSDL [
+
+	<script>
+	self new runInHost: BlOSWindowSDL2Host new
+]
+
 { #category : #actions }
 ToListElementStresser >> _actionFilterResultIn: aList [
 
@@ -349,9 +356,8 @@ ToListElementStresser >> newStressedListNumber: aNumber [
 
 	list := ToListElement new.
 	sieve := ToListElementSieve new.
-	sieve onInstalledIn: list.
 	list userData at: #sieve put: sieve.
-	
+
 	priority := self nextProcessPriorityForListNumber: aNumber.
 	size := self nextSizeForListNumber: aNumber.
 	ident := (String loremIpsum: self maxTab * 1000) substrings at:
@@ -393,10 +399,14 @@ ToListElementStresser >> newStressedListNumber: aNumber [
 
 	self tabsPanel
 		addEventHandlerOn: BlElementAddedToSceneGraphEvent
-		do: [ :event | process resume ].
+		do: [ :event |
+			sieve isInstalled ifFalse: [ sieve onInstalledIn: list ].
+			process resume ].
 	self tabsPanel
 		addEventHandlerOn: BlElementRemovedFromSceneGraphEvent
-		do: [ :event | process terminate ].
+		do: [ :event |
+			process terminate.
+			sieve isInstalled ifTrue: [ sieve onUninstalledIn: list ] ].
 
 	^ list -> (listIdentifiers at: aNumber)
 ]
@@ -468,6 +478,16 @@ ToListElementStresser >> run [
 
 	self tabsPanel openInSpace.
 "	self tabsPanel inspect"
+]
+
+{ #category : #running }
+ToListElementStresser >> runInHost: aBlOSWindowHost [
+
+	| space |
+	space := BlSpace new.
+	space host: aBlOSWindowHost.
+	space root addChild: self tabsPanel.
+	space show
 ]
 
 { #category : #running }

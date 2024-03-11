@@ -25,6 +25,12 @@ ToListElementSieve >> dataFilter: aValuable [
 		aValuable value: item value: pattern ]
 ]
 
+{ #category : #accessing }
+ToListElementSieve >> isInstalled [
+
+	^ originalData notNil
+]
+
 { #category : #'api - hooks' }
 ToListElementSieve >> onInstalledIn: aListElement [
 	" install the sieve on the listElement "

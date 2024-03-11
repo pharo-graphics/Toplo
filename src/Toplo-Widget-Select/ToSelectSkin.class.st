@@ -37,7 +37,7 @@ ToSelectSkin >> shortcutsToInstallIn: aSelect [
 				   combination: BlKeyCombination builder arrowDown build;
 				   action: [ :aShortcutEvent :aShortcut |
 					   | idx |
-					   idx := listElement secondarySelecter nextSelectableIndex.
+					   idx := listElement secondarySelecter nextSelectableIndexToScrollTo.
 					   listElement secondarySelecter selectOnlyIndex: idx.
 					   listElement secondarySelecter scrollToIndex: idx.
 					   aSelect windowManager currentWindow ifNil: [
@@ -47,7 +47,7 @@ ToSelectSkin >> shortcutsToInstallIn: aSelect [
 				   combination: BlKeyCombination builder arrowUp build;
 				   action: [ :aShortcutEvent :aShortcut |
 					   | idx |
-					   idx := listElement secondarySelecter previousSelectableIndex.
+					   idx := listElement secondarySelecter previousSelectableIndexToScrollTo.
 					   listElement secondarySelecter scrollToIndex: idx.
 					   listElement secondarySelecter selectOnlyIndex: idx ]).
 
@@ -71,7 +71,7 @@ ToSelectSkin >> shortcutsToInstallIn: aSelect [
 					   combination: BlKeyCombination builder shift arrowDown build;
 					   action: [ :aShortcutEvent :aShortcut |
 						   | idx |
-						   idx := listElement secondarySelecter nextDeselectedIndex.
+						   idx := listElement secondarySelecter nextSelectableIndexToScrollTo.
 						   listElement secondarySelecter selectIndex: idx.
 						   listElement secondarySelecter scrollToIndex: idx ]).
 
@@ -79,7 +79,7 @@ ToSelectSkin >> shortcutsToInstallIn: aSelect [
 					   combination: BlKeyCombination builder shift arrowUp build;
 					   action: [ :aShortcutEvent :aShortcut |
 						   | idx |
-						   idx := listElement secondarySelecter previousDeselectedIndex.
+						   idx := listElement secondarySelecter previousSelectableIndexToScrollTo.
 						   listElement secondarySelecter selectIndex: idx.
 						   listElement secondarySelecter scrollToIndex: idx ]) ] ]
 ]

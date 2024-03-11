@@ -49,7 +49,7 @@ ToListElement >> infiniteSharedEvents [
 ToListElement >> initialize [
 
 	super initialize.
-	self secondarySelectionModel: self newSelectionModel.
+	self secondarySelectionModel: self newSecondarySelectionModel.
 	self secondarySelectionMode: self defaultSecondarySelectionMode.
 	self addEventHandler: self defaultSecondarySelectionEventHandler.
 
@@ -60,6 +60,12 @@ ToListElement >> initialize [
 ToListElement >> newRawSkin [ 
 
 	^ ToListElementSkin new
+]
+
+{ #category : #initialization }
+ToListElement >> newSecondarySelectionModel [
+
+	^ ToInteractiveSelectionModel new
 ]
 
 { #category : #accessing }

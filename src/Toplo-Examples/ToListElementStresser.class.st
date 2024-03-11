@@ -291,7 +291,7 @@ ToListElementStresser >> initialize [
 		                       self tabsPanel enqueueTask:
 			                       (BlTaskAction new action: [
 				                        (self tabsPanel tabs at: idx) check ]).
-		                       10 seconds wait ] ] newProcess.
+		                       1 seconds wait ] ] newProcess.
 
 	tabSelectionProcess name: self class name.
 	tabSelectionProcess priority: Processor systemBackgroundPriority.
@@ -307,7 +307,7 @@ ToListElementStresser >> initialize [
 { #category : #accessing }
 ToListElementStresser >> interRoundWaitDuration [
 
-	^ 150 milliSeconds 
+	^ 50 milliSeconds 
 ]
 
 { #category : #accessing }
@@ -433,7 +433,10 @@ ToListElementStresser >> nextProcessPriorityForListNumber: aNumber [
 { #category : #private }
 ToListElementStresser >> nextSizeForListNumber: aNumber [
 
-	^ rand nextIntegerBetween: self minListSize and: self maxListSize 
+	^ aNumber even
+		  ifTrue: [ rand nextIntegerBetween: 1 and: self minListSize ]
+		  ifFalse: [
+		  rand nextIntegerBetween: self minListSize and: self maxListSize ]
 ]
 
 { #category : #running }

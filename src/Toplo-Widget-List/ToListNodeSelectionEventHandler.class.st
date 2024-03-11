@@ -7,13 +7,22 @@ Class {
 { #category : #'events handling' }
 ToListNodeSelectionEventHandler >> clickEvent: anEvent [
 
-
+	| node listElement mode |
+	node := anEvent currentTarget.
+	listElement := node holder listElement.
+	mode := listElement selectionMode.
+	mode selectOnMouseDown ifTrue: [ ^ self ].
+	self notifyClickOnNodeFromEvent: anEvent
 ]
 
 { #category : #'api - accessing' }
 ToListNodeSelectionEventHandler >> eventsToHandle [
 
-	^ { ToListDoubleClickEvent. BlPrimaryClickEvent. BlPrimaryMouseDownEvent }
+	^ { ToListDoubleClickEvent. BlPrimaryClickEvent. BlPrimaryMouseDownEvent. ToListClickOnNodeEvent  }
+]
+
+{ #category : #'events handling' }
+ToListNodeSelectionEventHandler >> listClickOnNodeEvent: anEvent [
 ]
 
 { #category : #'mouse handlers' }
@@ -31,11 +40,25 @@ ToListNodeSelectionEventHandler >> mouseDownEvent: anEvent [
 ]
 
 { #category : #'mouse handlers' }
+ToListNodeSelectionEventHandler >> notifyClickOnNodeFromEvent: anEvent [
+
+	| node listElement |
+	node := anEvent currentTarget.
+	listElement := node holder listElement.
+	listElement notifyClickOnNodeEvent: (ToListClickOnNodeEvent new
+			 sourceEvent: anEvent;
+			 yourself)
+]
+
+{ #category : #'mouse handlers' }
 ToListNodeSelectionEventHandler >> primaryMouseDownEvent: anEvent [
 
-	| target listElement mode |
-	target := anEvent currentTarget.
-	listElement := target holder listElement.
+	| node listElement mode |
+	node := anEvent currentTarget.
+	listElement := node holder listElement.
 	mode := listElement selectionMode.
-	mode allowRequestFocusOnMouseDown ifFalse: [ anEvent consumed: true ]
+	mode allowRequestFocusOnMouseDown ifFalse: [ anEvent consumed: true ].
+	mode := listElement selectionMode.
+	mode selectOnMouseDown ifFalse: [ ^ self ].
+	self notifyClickOnNodeFromEvent: anEvent
 ]

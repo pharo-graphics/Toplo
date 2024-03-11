@@ -34,12 +34,12 @@ ToListMultipleSelectionMode >> nodeEventHandlerClasses [
 ToListMultipleSelectionMode >> onClickEvent: anEvent onNode: aNode [
 
 	super onClickEvent: anEvent onNode: aNode.
-	anEvent modifiers isShift ifTrue: [
+	anEvent sourceEvent modifiers isShift ifTrue: [
 		| curr |
 		curr := self selecter currentIndex.
 		self selecter selectIndex: curr to: aNode holder position.
 		^ self ].
-	(anEvent modifiers isPrimaryModifier or: [ self selectOnMouseDown ])
+	(anEvent sourceEvent modifiers isPrimaryModifier or: [ self selectOnMouseDown ])
 		ifTrue: [
 			self selectOrDeselectOnNode: aNode.
 			^ self ].

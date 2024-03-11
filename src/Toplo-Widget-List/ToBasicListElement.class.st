@@ -221,7 +221,7 @@ ToBasicListElement >> itemCount [
 { #category : #initialization }
 ToBasicListElement >> newPrimarySelectionModel [
 
-	^ ToPrimarySelectionModel new
+	^ ToInteractiveSelectionModel new
 ]
 
 { #category : #skin }
@@ -276,6 +276,20 @@ ToBasicListElement >> nodeReleaser: aValuable [
 ToBasicListElement >> nodeReleaserIndex [
 
 	^ nodeReleaserIndex 
+]
+
+{ #category : #'event firing' }
+ToBasicListElement >> notifyClickOnNodeEvent: aClickEvent [
+
+	| preNotification node |
+	node := aClickEvent sourceEvent currentTarget.
+	preNotification := ToListClickOnNodePreNotificationEvent new
+		                   node: node;
+		                   sourceEvent: aClickEvent;
+		                   yourself.
+	self dispatchEvent: preNotification.
+	preNotification sourceEvent ifNil: [ ^ self ].
+	node dispatchEvent: preNotification sourceEvent
 ]
 
 { #category : #'event firing' }

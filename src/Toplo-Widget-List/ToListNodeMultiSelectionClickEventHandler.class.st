@@ -8,21 +8,6 @@ Class {
 }
 
 { #category : #'events handling' }
-ToListNodeMultiSelectionClickEventHandler >> clickEvent: anEvent [
-
-	| node listElement mode |
-	node := anEvent currentTarget.
-	node holder isSelectable ifFalse: [ ^ self ].
-	listElement := node holder listElement.
-	mode := listElement selectionMode.
-	mode selectOnMouseDown ifTrue: [ ^ self ].
-	self
-		launchClick: [ self onClickOnNodeEvent: anEvent ]
-		event: anEvent.
-	anEvent consumed: true
-]
-
-{ #category : #'events handling' }
 ToListNodeMultiSelectionClickEventHandler >> clickLauncher: aProcessOrNil [
 
 	clickLauncher := aProcessOrNil
@@ -52,8 +37,8 @@ ToListNodeMultiSelectionClickEventHandler >> launchClick: aBlock event: anEvent 
 
 	" do not try double click if ctrl or Cmd or shift is pressed "
 	(holder isSelected not or: [
-		 anEvent modifiers isPrimaryModifier or: [
-			 anEvent modifiers isShift ] ]) ifTrue: [
+		 anEvent sourceEvent modifiers isPrimaryModifier or: [
+			 anEvent sourceEvent modifiers isShift ] ]) ifTrue: [
 		self terminateClickLauncher.
 		^ aBlock value ].
 
@@ -71,6 +56,14 @@ ToListNodeMultiSelectionClickEventHandler >> launchClick: aBlock event: anEvent 
 		 self clickLauncher: nil ]
 			 forkAt: Processor highIOPriority
 			 named: self class name)
+]
+
+{ #category : #'mouse handlers' }
+ToListNodeMultiSelectionClickEventHandler >> listClickOnNodeEvent: anEvent [
+
+	super listClickOnNodeEvent: anEvent.
+	self launchClick: [ self onClickOnNodeEvent: anEvent ] event: anEvent.
+	anEvent consumed: true
 ]
 
 { #category : #'mouse handlers' }
@@ -92,19 +85,6 @@ ToListNodeMultiSelectionClickEventHandler >> onClickOnNodeEvent: anEvent [
 	mode := listElement selectionMode.
 
 	mode onClickEvent: anEvent onNode: node
-]
-
-{ #category : #'mouse handlers' }
-ToListNodeMultiSelectionClickEventHandler >> primaryMouseDownEvent: anEvent [
-
-	| target listElement mode |
-	super primaryMouseDownEvent: anEvent.
-	target := anEvent currentTarget.
-	listElement := target holder listElement.
-	mode := listElement selectionMode.
-	mode selectOnMouseDown ifFalse: [ ^ self ].
-	self launchClick: [ self onClickOnNodeEvent: anEvent ] event: anEvent.
-	anEvent consumed: true
 ]
 
 { #category : #'events handling' }

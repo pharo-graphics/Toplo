@@ -18,13 +18,7 @@ ToListSelectionMode >> initialize [
 { #category : #'event handling' }
 ToListSelectionMode >> onClickEvent: anEvent onNode: aNode [
 
-	| listElement |
-	listElement := aNode holder listElement.
-	listElement dispatchEvent:
-		(ToListClickOnNodePreNotificationEvent new
-			 sourceEvent: anEvent;
-			 node: aNode;
-			 yourself)
+
 ]
 
 { #category : #'api - hooks' }

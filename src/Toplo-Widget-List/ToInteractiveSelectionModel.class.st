@@ -1,5 +1,5 @@
 Class {
-	#name : #ToPrimarySelectionModel,
+	#name : #ToInteractiveSelectionModel,
 	#superclass : #ToSelectionModel,
 	#instVars : [
 		'unselectableSelectionModel',
@@ -9,33 +9,33 @@ Class {
 }
 
 { #category : #accessing }
-ToPrimarySelectionModel >> disabledSelectionModel [
+ToInteractiveSelectionModel >> disabledSelectionModel [
 
 	^ disabledSelectionModel
 ]
 
 { #category : #accessing }
-ToPrimarySelectionModel >> disabledSelectionModel: aSelectionModel [
+ToInteractiveSelectionModel >> disabledSelectionModel: aSelectionModel [
 
 	disabledSelectionModel := aSelectionModel
 ]
 
 { #category : #testing }
-ToPrimarySelectionModel >> hasUnselectableInInterval: anInterval [
+ToInteractiveSelectionModel >> hasUnselectableInInterval: anInterval [
 
 	^ anInterval anySatisfy: [ :idx | unselectableSelectionModel containsIndex: idx ]
 
 ]
 
 { #category : #testing }
-ToPrimarySelectionModel >> isUnselectableIndex: anIndex [
+ToInteractiveSelectionModel >> isUnselectableIndex: anIndex [
 
 	^ unselectableSelectionModel containsIndex: anIndex
 
 ]
 
 { #category : #accessing }
-ToPrimarySelectionModel >> nextSelectableIndexStartingAt: anIndex [
+ToInteractiveSelectionModel >> nextSelectableIndexStartingAt: anIndex [
 
 	unselectableSelectionModel ifEmpty: [
 		^ super nextSelectableIndexStartingAt: anIndex ].
@@ -45,7 +45,7 @@ ToPrimarySelectionModel >> nextSelectableIndexStartingAt: anIndex [
 ]
 
 { #category : #'api - hooks' }
-ToPrimarySelectionModel >> onInstalledIn: anElement [
+ToInteractiveSelectionModel >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	self unselectableSelectionModel: anElement unselectableSelectionModel.
@@ -53,7 +53,7 @@ ToPrimarySelectionModel >> onInstalledIn: anElement [
 ]
 
 { #category : #'api - hooks' }
-ToPrimarySelectionModel >> onUninstalledIn: anElement [ 
+ToInteractiveSelectionModel >> onUninstalledIn: anElement [ 
 
 	unselectableSelectionModel := nil.
 	super onUninstalledIn: anElement.
@@ -61,7 +61,7 @@ ToPrimarySelectionModel >> onUninstalledIn: anElement [
 ]
 
 { #category : #accessing }
-ToPrimarySelectionModel >> previousSelectableIndexStartingAt: anIndex [
+ToInteractiveSelectionModel >> previousSelectableIndexStartingAt: anIndex [
 	unselectableSelectionModel ifEmpty: [
 		^ super previousSelectableIndexStartingAt: anIndex ].
 
@@ -71,14 +71,14 @@ ToPrimarySelectionModel >> previousSelectableIndexStartingAt: anIndex [
 ]
 
 { #category : #updating }
-ToPrimarySelectionModel >> selectIndex: anIndex [
+ToInteractiveSelectionModel >> selectIndex: anIndex [
 
 	(self unselectableSelectionModel containsIndex: anIndex) ifTrue: [ ^ self ].
 	super selectIndex: anIndex
 ]
 
 { #category : #updating }
-ToPrimarySelectionModel >> selectIndex: aFirstIndex to: aSecondIndex [
+ToInteractiveSelectionModel >> selectIndex: aFirstIndex to: aSecondIndex [
 
 	super selectIndex: aFirstIndex to: aSecondIndex.
 	aFirstIndex to: aSecondIndex do: [ :idx |
@@ -87,7 +87,7 @@ ToPrimarySelectionModel >> selectIndex: aFirstIndex to: aSecondIndex [
 ]
 
 { #category : #updating }
-ToPrimarySelectionModel >> shift: aGap from: aStartIndex for: anEventTarget [
+ToInteractiveSelectionModel >> shift: aGap from: aStartIndex for: anEventTarget [
 
 	(aGap < 0 and: [ self itemCount >= aStartIndex ]) ifTrue: [
 		| count |
@@ -103,13 +103,13 @@ ToPrimarySelectionModel >> shift: aGap from: aStartIndex for: anEventTarget [
 ]
 
 { #category : #accessing }
-ToPrimarySelectionModel >> unselectableSelectionModel [
+ToInteractiveSelectionModel >> unselectableSelectionModel [
 
 	^ unselectableSelectionModel
 ]
 
 { #category : #accessing }
-ToPrimarySelectionModel >> unselectableSelectionModel: aSelectionModel [
+ToInteractiveSelectionModel >> unselectableSelectionModel: aSelectionModel [
 
 	unselectableSelectionModel := aSelectionModel
 ]

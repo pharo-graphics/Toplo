@@ -35,7 +35,7 @@ ToListSingleSelectionMode >> nodeEventHandlerClasses [
 ToListSingleSelectionMode >> onClickEvent: anEvent onNode: aNode [
 
 	super onClickEvent: anEvent onNode: aNode.
-	(anEvent modifiers isPrimaryModifier or: [ self selectOnMouseDown ])
+	(anEvent sourceEvent modifiers isPrimaryModifier or: [ self selectOnMouseDown ])
 		ifTrue: [
 			| index |
 			index := aNode holder position.

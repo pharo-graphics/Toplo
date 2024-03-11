@@ -11,7 +11,7 @@ Class {
 ToSelectListNodeHolder >> dataItem: aData [ 
 
 	super dataItem: aData.
-	self isGroup: (infiniteElement listElement unselectableSelectionModel containsIndex: self position)
+	self isGroup: self isUnselectable
 ]
 
 { #category : #initialization }

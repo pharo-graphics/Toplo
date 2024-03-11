@@ -57,6 +57,7 @@ ToBasicListElementEventHandler >> eventsToHandle [
 		  ToListUnselectableSelectionChangedEvent.
 		  ToListDisabledSelectionChangedEvent.
 		  ToListDataSourceItemsChangeEvent.
+		  ToListClickOnNodePreNotificationEvent.
 
 		  BlElementAddedToSceneGraphEvent.
 		  BlElementScrolledEvent.
@@ -93,6 +94,15 @@ ToBasicListElementEventHandler >> infiniteElementDetachedEvent: anEvent [
 	listElement := anEvent currentTarget.
 	listElement selectionMode onRemovedNode: node.
 	self releaseNode: node in: listElement
+]
+
+{ #category : #'element events handling' }
+ToBasicListElementEventHandler >> listClickOnNodePreNotificationEvent: anEvent [
+
+	| listElement node |
+	listElement := anEvent currentTarget.
+	node := anEvent sourceEvent sourceEvent currentTarget.
+	node holder isSelectable ifFalse: [ anEvent sourceEvent: nil ]
 ]
 
 { #category : #'infinite event handling' }

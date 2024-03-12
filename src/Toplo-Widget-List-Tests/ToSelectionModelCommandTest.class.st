@@ -45,6 +45,12 @@ ToSelectionModelCommandTest >> addWholeSelectionCommand: aCommand [
 	wholeSelectionCommand := aCommand
 ]
 
+{ #category : #running }
+ToSelectionModelCommandTest >> applyCommand: aCommand in: aTarget [ 
+
+	aCommand applyOn: self in: aTarget
+]
+
 { #category : #accessing }
 ToSelectionModelCommandTest >> noSelectionCommand [
 

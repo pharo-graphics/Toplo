@@ -1,6 +1,6 @@
 Class {
 	#name : #ToPrimarySelectionCommandAppliedEvent,
-	#superclass : #ToCommandAppliedEvent,
+	#superclass : #ToCommandEvent,
 	#category : #'Toplo-Widget-List-Command-Selection'
 }
 

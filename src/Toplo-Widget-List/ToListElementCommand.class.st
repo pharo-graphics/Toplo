@@ -1,6 +1,6 @@
 Class {
 	#name : #ToListElementCommand,
-	#superclass : #ToBasicCommand,
+	#superclass : #ToListBasicCommand,
 	#instVars : [
 		'operator'
 	],

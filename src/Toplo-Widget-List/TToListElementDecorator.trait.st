@@ -7,18 +7,6 @@ Trait {
 }
 
 { #category : #'t - infinite accessing' }
-TToListElementDecorator >> dataAccessor [
-
-	^ self next dataAccessor
-]
-
-{ #category : #'t - infinite accessing' }
-TToListElementDecorator >> dataSource [
-
-	^ self next dataSource
-]
-
-{ #category : #'t - infinite accessing' }
 TToListElementDecorator >> dataSourceManager [
 	
 	^ next dataSourceManager

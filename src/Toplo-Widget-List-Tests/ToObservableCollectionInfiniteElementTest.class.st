@@ -11,7 +11,7 @@ Class {
 ToObservableCollectionInfiniteElementTest >> setUp [
 
 	super setUp.
-	l := ToObservableCollectionInfiniteElement new.
+	l := ToInfiniteElement onListElement: ToListElement new.
 	space root addChild: l
 
 	
@@ -34,7 +34,6 @@ ToObservableCollectionInfiniteElementTest >> statesOfAmerica [
 { #category : #tests }
 ToObservableCollectionInfiniteElementTest >> testEmptyInfinite [
 
-	self assert: l dataAccessor isEmpty.
 	l fitContent.
 	l forceLayout.
 	self assert: l children size equals: 0.
@@ -48,7 +47,7 @@ ToObservableCollectionInfiniteElementTest >> testEmptyInfinite [
 { #category : #tests }
 ToObservableCollectionInfiniteElementTest >> testInfiniteWithOneElement [
 
-	l dataAccessor add: self statesOfAmerica first.
+	l dataSource add: self statesOfAmerica first.
 	l matchParent.
 	self assert: l children size equals: 0.
 	self waitTestingSpaces.
@@ -63,21 +62,21 @@ ToObservableCollectionInfiniteElementTest >> testRangeChangedNotification [
 	l addEventHandler: (BlEventHandler
 			 on: BlInfiniteDataSourceItemRangeChanged
 			 do: [ :event | rangeEvent := event ]).
-	l dataAccessor addAll: self statesOfAmerica.
+	l dataSource addAll: self statesOfAmerica.
 	self assert: rangeEvent isNil.
 
-	l dataAccessor at: 2 put: nil.
+	l dataSource at: 2 put: nil.
 	self assert: rangeEvent notNil.
 	self assert: rangeEvent position equals: 2.
 	self assert: rangeEvent itemCount equals: 1.
-	self assert: l dataSource itemCount equals: l dataAccessor size.
+	self assert: l dataSource itemCount equals: l dataSource size.
 
-	l dataAccessor
+	l dataSource
 		replaceFrom: 2
 		to: 10
 		with: ((2 to: 10) collect: [ :p | p ])
 		startingAt: 1.
-	(2 to: 10) do: [ :p | self assert: (l dataAccessor at: p) equals: p ].
+	(2 to: 10) do: [ :p | self assert: (l dataSource at: p) equals: p ].
 	self assert: rangeEvent position equals: 2.
 	self assert: rangeEvent itemCount equals: 9
 ]
@@ -89,12 +88,12 @@ ToObservableCollectionInfiniteElementTest >> testRangeInsertedNotification [
 	l addEventHandler: (BlEventHandler
 			 on: BlInfiniteDataSourceItemRangeInserted
 			 do: [ :event | rangeEvent := event ]).
-	l dataAccessor addAll: self statesOfAmerica.
+	l dataSource addAll: self statesOfAmerica.
 	self assert: rangeEvent notNil.
 	self assert: rangeEvent position equals: 1.
 	self assert: rangeEvent itemCount equals: self statesOfAmerica size.
-	self assert: l dataAccessor size equals: l dataSource itemCount.
-	l dataAccessor add: Object new afterIndex: 1.
+	self assert: l dataSource size equals: l dataSource itemCount.
+	l dataSource add: Object new afterIndex: 1.
 	self assert: rangeEvent position equals: 2.
 	self assert: rangeEvent itemCount equals: 1
 ]
@@ -107,15 +106,15 @@ ToObservableCollectionInfiniteElementTest >> testRangeRemovedNotification [
 	l addEventHandler: (BlEventHandler
 			 on: BlInfiniteDataSourceItemRangeRemoved
 			 do: [ :event | rangeEvent := event ]).
-	l dataAccessor addAll: self statesOfAmerica.
-	l dataAccessor remove: self statesOfAmerica first.
+	l dataSource addAll: self statesOfAmerica.
+	l dataSource remove: self statesOfAmerica first.
 	self assert: rangeEvent notNil.
 	self assert: rangeEvent position equals: 1.
 	self assert: rangeEvent itemCount equals: 1.
 	self
 		assert: l dataSource itemCount
 		equals: self statesOfAmerica size - 1.
-	l dataAccessor remove: self statesOfAmerica last.
+	l dataSource remove: self statesOfAmerica last.
 	self
 		assert: rangeEvent position
 		equals: self statesOfAmerica size - 1.
@@ -123,7 +122,7 @@ ToObservableCollectionInfiniteElementTest >> testRangeRemovedNotification [
 	self
 		assert: l dataSource itemCount
 		equals: self statesOfAmerica size - 2.
-	l dataAccessor removeAll.
+	l dataSource removeAll.
 	self assert: rangeEvent position equals: 1.
 	self
 		assert: rangeEvent itemCount
@@ -133,7 +132,7 @@ ToObservableCollectionInfiniteElementTest >> testRangeRemovedNotification [
 { #category : #tests }
 ToObservableCollectionInfiniteElementTest >> testWithData [
 
-	l dataAccessor addAll: self statesOfAmerica.
-	self assert: l dataAccessor size equals: self statesOfAmerica size.
+	l dataSource addAll: self statesOfAmerica.
+	self assert: l dataSource size equals: self statesOfAmerica size.
 	self assert: l dataSource hasStableIds not
 ]

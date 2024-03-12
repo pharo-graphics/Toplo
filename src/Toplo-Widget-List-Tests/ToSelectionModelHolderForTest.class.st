@@ -60,7 +60,7 @@ ToSelectionModelHolderForTest >> initialize [
 
 	super initialize.
 	self dataSource: ToObservableCollectionInfiniteDataSource new.
-	infinite := ToObservableCollectionInfiniteElement new.
+	infinite := ToInfiniteElement onListElement: ToListElement new.
 	self addChild: infinite.
 	selectionModel := self defaultSelectionModel.
 	selectionModel onInstalledIn: self.

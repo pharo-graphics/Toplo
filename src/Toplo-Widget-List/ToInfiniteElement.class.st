@@ -14,16 +14,24 @@ Class {
 	#category : #'Toplo-Widget-List-Infinite'
 }
 
+{ #category : #'instance creation' }
+ToInfiniteElement class >> onListElement: aListElement [
+
+	^ self basicNew
+		  listElement: aListElement;
+		  initialize
+]
+
 { #category : #'as yet unclassified' }
 ToInfiniteElement >> aeDrawItemDecorationsOn: aCanvas [
 
 	self layoutCritical: [ super aeDrawItemDecorationsOn: aCanvas ]
 ]
 
-{ #category : #accessing }
-ToInfiniteElement >> dataAccessor [
+{ #category : #initialization }
+ToInfiniteElement >> defaultDataSource [
 
-	^ self subclassResponsibility 
+	^ self listElement dataSource
 ]
 
 { #category : #initialization }

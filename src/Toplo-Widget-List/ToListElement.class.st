@@ -19,10 +19,22 @@ ToListElement >> data [
 	^ self dataAccessor
 ]
 
+{ #category : #accessing }
+ToListElement >> dataAccessor [
+
+	^ self dataSource
+]
+
+{ #category : #initialization }
+ToListElement >> defaultDataSource [
+
+	^ ToObservableCollectionInfiniteDataSource new
+]
+
 { #category : #initialization }
 ToListElement >> defaultInfiniteElement [
 
-	^ ToObservableCollectionInfiniteElement new
+	^ ToInfiniteElement onListElement: self
 ]
 
 { #category : #initialization }

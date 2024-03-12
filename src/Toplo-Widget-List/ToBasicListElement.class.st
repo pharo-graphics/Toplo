@@ -4,11 +4,12 @@ Class {
 	#traits : 'TToListElementDecorator + TToElementWithPlaceholder',
 	#classTraits : 'TToListElementDecorator classTrait + TToElementWithPlaceholder classTrait',
 	#instVars : [
-		'selectionMode',
-		'selectionModel',
 		'disabledSelecter',
 		'unselectableSelecter',
-		'sharedEventDistributors'
+		'selectionMode',
+		'selectionModel',
+		'sharedEventDistributors',
+		'dataSource'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -46,6 +47,18 @@ ToBasicListElement >> data [
 ]
 
 { #category : #accessing }
+ToBasicListElement >> dataAccessor [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #accessing }
+ToBasicListElement >> dataSource [
+
+	^ dataSource
+]
+
+{ #category : #accessing }
 ToBasicListElement >> dataUpdater [
 
 	self
@@ -54,6 +67,12 @@ ToBasicListElement >> dataUpdater [
 			'`@receiver dataUpdater'
 				-> '`@receiver dataAccessor'.
 	^ self dataAccessor
+]
+
+{ #category : #initialization }
+ToBasicListElement >> defaultDataSource [ 
+
+	^ self subclassResponsibility 
 ]
 
 { #category : #initialization }
@@ -130,9 +149,8 @@ ToBasicListElement >> initialize [
 	| operatorForDisabledItems operatorForUnselectableItems unselectableSelectionModel disabledSelectionModel |
 	super initialize.
 
+	dataSource := self defaultDataSource.
 	self next: self defaultInfiniteElement.
-	self infinite listElement: self.
-
 	self next elevation: (BlRelativeElevation elevation: 10).
 	
 	unselectableSelectionModel := self newSelectionModel.

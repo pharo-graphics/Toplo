@@ -1,7 +1,7 @@
 Class {
 	#name : #ToBasicCommandApplier,
 	#superclass : #Object,
-	#category : #'Toplo-Widget-List-Command'
+	#category : #'Toplo-Widget-List-Command-Selection'
 }
 
 { #category : #'command application' }

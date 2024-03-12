@@ -66,7 +66,7 @@ ToSelectionModelHolderForTest >> initialize [
 	selectionModel onInstalledIn: self.
 	unselectableSelectionModel := self defaultSelectionModel.
 	unselectableSelectionModel onInstalledIn: self.
-	self addEventHandler: ToCommandEventHandler new.
+	self addEventHandler: ToElementCommandEventHandler new.
 	operator := ToPrimarySelectionModelOperator new.
 	operator onInstalledIn: self.
 	operator selectionModel: self selectionModel.

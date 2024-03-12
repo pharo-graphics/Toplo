@@ -65,6 +65,40 @@ ToSievedListElementEventHandler >> eventsToHandle [
 		  ToCollectionFilteredEvent }
 ]
 
+{ #category : #'data events handling' }
+ToSievedListElementEventHandler >> infiniteDataSourceChanged: anEvent [
+
+	sieve pattern ifNotEmpty: [ ^ self ].
+	self buildIndexedDataFrom: anEvent currentTarget
+]
+
+{ #category : #'data events handling' }
+ToSievedListElementEventHandler >> infiniteDataSourceItemRangeChanged: anEvent [
+
+	sieve pattern ifNotEmpty: [ ^ self ].
+	self buildIndexedDataFrom: anEvent currentTarget
+]
+
+{ #category : #'data events handling' }
+ToSievedListElementEventHandler >> infiniteDataSourceItemRangeEvent: anEvent [
+
+	sieve pattern ifNotEmpty: [ ^ self ].
+	self buildIndexedDataFrom: anEvent currentTarget
+]
+
+{ #category : #'data events handling' }
+ToSievedListElementEventHandler >> infiniteDataSourceItemRangeInserted: anEvent [
+
+	sieve pattern ifNotEmpty: [ ^ self ].
+	self buildIndexedDataFrom: anEvent currentTarget
+]
+
+{ #category : #'data events handling' }
+ToSievedListElementEventHandler >> infiniteDataSourceItemRangeRemoved: anEvent [
+
+	" no need to update dataPositionIndex here "
+]
+
 { #category : #'element handlers' }
 ToSievedListElementEventHandler >> listClickOnNodePreNotificationEvent: anEvent [
 
@@ -140,46 +174,12 @@ ToSievedListElementEventHandler >> observableCollectionQueryResultEvent: anEvent
 	listElement enqueueTask: queryApplicationTask
 ]
 
-{ #category : #'data events handling' }
-ToSievedListElementEventHandler >> onChanged: anEvent [
-
-	sieve pattern ifNotEmpty: [ ^ self ].
-	self buildIndexedDataFrom: anEvent currentTarget
-]
-
 { #category : #'api - hooks' }
 ToSievedListElementEventHandler >> onInstalledIn: aListElement [
 
 	super onInstalledIn: aListElement.
 	sieveSelectionModel := aListElement selectionModel copy.
 	self buildIndexedDataFrom: aListElement
-]
-
-{ #category : #'data events handling' }
-ToSievedListElementEventHandler >> onItemsChanged: anEvent [
-
-	sieve pattern ifNotEmpty: [ ^ self ].
-	self buildIndexedDataFrom: anEvent currentTarget
-]
-
-{ #category : #'data events handling' }
-ToSievedListElementEventHandler >> onItemsEvent: anEvent [
-
-	sieve pattern ifNotEmpty: [ ^ self ].
-	self buildIndexedDataFrom: anEvent currentTarget
-]
-
-{ #category : #'data events handling' }
-ToSievedListElementEventHandler >> onItemsInserted: anEvent [
-
-	sieve pattern ifNotEmpty: [ ^ self ].
-	self buildIndexedDataFrom: anEvent currentTarget
-]
-
-{ #category : #'data events handling' }
-ToSievedListElementEventHandler >> onItemsRemoved: anEvent [
-
-	" no need to update dataPositionIndex here "
 ]
 
 { #category : #accessing }

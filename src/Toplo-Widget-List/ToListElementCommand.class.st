@@ -1,6 +1,6 @@
 Class {
 	#name : #ToListElementCommand,
-	#superclass : #ToListBasicCommand,
+	#superclass : #ToElementBasicCommand,
 	#instVars : [
 		'operator'
 	],
@@ -11,7 +11,7 @@ Class {
 ToListElementCommand >> applyIn: aTarget [
 	" dispatch that should send back #applyOn:in: to myself"
 
-	self operator applyCommand: self in: aTarget
+	aTarget layoutCritical: [ self operator applyCommand: self in: aTarget ]
 ]
 
 { #category : #hook }

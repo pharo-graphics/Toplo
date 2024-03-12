@@ -7,13 +7,13 @@ Class {
 		'eventDispatcher',
 		'sharedEventDistributor'
 	],
-	#category : #'Toplo-Widget-List-Command'
+	#category : #'Toplo-Widget-List-Command-Selection'
 }
 
 { #category : #accessing }
 ToCommandApplier >> addCommand: aCommand [
 
-	self dispatchEvent: (ToCommandAddedEvent new
+	self dispatchEvent: (ToElementCommandAddedEvent new
 			 command: aCommand
 			 yourself)
 ]
@@ -56,5 +56,5 @@ ToCommandApplier >> onUninstalledIn: anEventTarget [
 { #category : #accessing }
 ToCommandApplier >> sharedEvents [ 
 
-	^ { ToCommandAddedEvent }
+	^ { ToElementCommandAddedEvent }
 ]

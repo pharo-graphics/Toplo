@@ -13,6 +13,16 @@ Class {
 	#category : #'Toplo-Widget-Select-Core'
 }
 
+{ #category : #accessing }
+ToSelect >> addGroup: anObject withData: aCollection [
+
+	| grpIdx |
+	self dataAccessor add: anObject.
+	grpIdx := self dataAccessor itemCount.
+	self setGroupIndex: grpIdx.
+	self dataAccessor addAll: aCollection
+]
+
 { #category : #'accessing window' }
 ToSelect >> closeWindow [
 
@@ -36,12 +46,6 @@ ToSelect >> currentWindow [
 ToSelect >> dataAccessor [ 
 
 	^ data
-]
-
-{ #category : #accessing }
-ToSelect >> dataFilter: aValuable [
-
-	self mode dataFilter: aValuable
 ]
 
 { #category : #'accessing list' }
@@ -373,6 +377,13 @@ ToSelect >> selectionModel [
 ToSelect >> selectionModel: aSelectionModel [
 
 	selectionModel := aSelectionModel
+]
+
+{ #category : #'accessing list' }
+ToSelect >> setGroupIndex: anIndex [
+
+	groupIndexes add: anIndex.
+	self listElement unselectableSelecter selectIndex: anIndex
 ]
 
 { #category : #'accessing list' }

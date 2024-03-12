@@ -68,6 +68,32 @@ ToBasicListElementEventHandler >> eventsToHandle [
 ]
 
 { #category : #'infinite event handling' }
+ToBasicListElementEventHandler >> infiniteDataSourceItemRangeInserted: anEvent [
+
+	| target dataSourceChangeEvent |
+	target := anEvent currentTarget.
+	target selectionModel ifEmpty: [ ^ self ].
+	dataSourceChangeEvent := ToListDataSourceItemsAddedEvent new
+		                         itemCount: anEvent itemCount;
+		                         position: anEvent position;
+		                         yourself.
+	target notifyDataSourceItemsChanged: dataSourceChangeEvent
+]
+
+{ #category : #'infinite event handling' }
+ToBasicListElementEventHandler >> infiniteDataSourceItemRangeRemoved: anEvent [
+
+	| target dataSourceChangeEvent |
+	target := anEvent currentTarget.
+	target selectionModel ifEmpty: [ ^ self ].
+	dataSourceChangeEvent := ToListDataSourceItemsRemovedEvent new
+		                         itemCount: anEvent itemCount;
+		                         position: anEvent position;
+		                         yourself.
+	target notifyDataSourceItemsChanged: dataSourceChangeEvent
+]
+
+{ #category : #'infinite event handling' }
 ToBasicListElementEventHandler >> infiniteElementAttachedEvent: anEvent [
 
 	| listElement node |
@@ -158,32 +184,6 @@ ToBasicListElementEventHandler >> mouseDownEvent: anEvent [
 	target hasFocus ifTrue: [ ^ self ].
 	target requestFocus.
 	anEvent consumed: true
-]
-
-{ #category : #'infinite event handling' }
-ToBasicListElementEventHandler >> onItemsInserted: anEvent [
-
-	| target dataSourceChangeEvent |
-	target := anEvent currentTarget.
-	target selectionModel ifEmpty: [ ^ self ].
-	dataSourceChangeEvent := ToListDataSourceItemsAddedEvent new
-		                         itemCount: anEvent itemCount;
-		                         position: anEvent position;
-		                         yourself.
-	target notifyDataSourceItemsChanged: dataSourceChangeEvent
-]
-
-{ #category : #'infinite event handling' }
-ToBasicListElementEventHandler >> onItemsRemoved: anEvent [
-
-	| target dataSourceChangeEvent |
-	target := anEvent currentTarget.
-	target selectionModel ifEmpty: [ ^ self ].
-	dataSourceChangeEvent := ToListDataSourceItemsRemovedEvent new
-		                         itemCount: anEvent itemCount;
-		                         position: anEvent position;
-		                         yourself.
-	target notifyDataSourceItemsChanged: dataSourceChangeEvent
 ]
 
 { #category : #'list element handling' }

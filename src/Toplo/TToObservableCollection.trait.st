@@ -340,6 +340,12 @@ TToObservableCollection >> isNotEmpty [
 ]
 
 { #category : #'t - observable collection - accessing' }
+TToObservableCollection >> itemCount [ 
+
+	^ self size
+]
+
+{ #category : #'t - observable collection - accessing' }
 TToObservableCollection >> last [
 
 	^ self collection last

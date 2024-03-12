@@ -3,11 +3,11 @@ My class hierarchy models all the basic actions that can be made on a selection.
 
 "
 Class {
-	#name : #ToListBasicCommand,
+	#name : #ToElementBasicCommand,
 	#superclass : #Object,
-	#category : #'Toplo-Widget-List-Command'
+	#category : #'Toplo-Widget-List-Command-support'
 }
 
 { #category : #hook }
-ToListBasicCommand >> applyIn: aTarget [
+ToElementBasicCommand >> applyIn: aTarget [
 ]

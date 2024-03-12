@@ -7,7 +7,7 @@ Class {
 { #category : #operations }
 ToSingleSelectionModelSelecter >> selectAll [
 
-	ToInvalidCommand signal
+	ToInvalidElementCommand signal
 ]
 
 { #category : #operations }
@@ -25,7 +25,7 @@ ToSingleSelectionModelSelecter >> selectIndex: anIndex [
 { #category : #operations }
 ToSingleSelectionModelSelecter >> selectIndex: aStartIndex to: anEndIndex [
 
-	aStartIndex ~= anEndIndex ifTrue: [ ^ ToInvalidCommand signal ].
+	aStartIndex ~= anEndIndex ifTrue: [ ^ ToInvalidElementCommand signal ].
 	self selectIndex: aStartIndex
 ]
 
@@ -33,13 +33,13 @@ ToSingleSelectionModelSelecter >> selectIndex: aStartIndex to: anEndIndex [
 ToSingleSelectionModelSelecter >> selectIndexes: anArray [
 
 	anArray ifEmpty: [ ^ self ].
-	anArray size > 1 ifTrue: [ ^ ToInvalidCommand signal ].
+	anArray size > 1 ifTrue: [ ^ ToInvalidElementCommand signal ].
 	self selectIndex: anArray first
 ]
 
 { #category : #operations }
 ToSingleSelectionModelSelecter >> selectOnlyIndexes: anArray [
 
-	anArray size > 1 ifTrue: [ ^ ToInvalidCommand signal ].
+	anArray size > 1 ifTrue: [ ^ ToInvalidElementCommand signal ].
 	super selectOnlyIndexes: anArray
 ]

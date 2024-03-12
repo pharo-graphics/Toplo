@@ -184,7 +184,7 @@ ToBasicListElement >> initialize [
 	self contextMenuWindowManagerClass: ToListElementContextMenuWindowManager.
 	self addEventHandler: ToListPrimarySelectionElementEventHandler new.
 	self addEventHandler:	ToListElementContextMenuSelectionEventHandler new.
-	self addEventHandler: ToCommandEventHandler new.
+	self addEventHandler: ToElementCommandEventHandler new.
 	
 	self matchParent
 ]

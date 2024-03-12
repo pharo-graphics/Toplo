@@ -1214,8 +1214,6 @@ ToSandBox class >> example_SelectMonoFiltrable [
 		           yourself)
 		          fontSize: 24;
 		          yourself.
-
-
 	select listElement placeholderBuilder: [ :placeholder :e |
 		| lab |
 		placeholder layout alignCenter.
@@ -1239,11 +1237,42 @@ ToSandBox class >> example_SelectMonoFiltrable [
 ]
 
 { #category : #select }
+ToSandBox class >> example_SelectMonoFiltrableWithGroups [
+
+	| select innerWindow phtext |
+	select := ToSelect new.
+	select listElement placeholderMinHeight: 35.
+	phtext := ('No Data' asRopedText
+		           foreground: Color lightGray;
+		           yourself)
+		          fontSize: 24;
+		          yourself.
+	select listElement placeholderBuilder: [ :placeholder :e |
+		| lab |
+		placeholder layout alignCenter.
+		lab := ToAttributedLabel text: phtext.
+		placeholder addChild: lab ].
+
+	select filtrable: true.
+	self statesOfAmericaWithGroups do: [ :assoc | select addGroup: assoc key withData: assoc value].
+
+	select placeholderText:
+		('Select a state' asRopedText foreground: Color red).
+	innerWindow := ToInnerWindow new.
+	select windowManager anchorRoot: innerWindow root.
+	select width: 300.
+	select position: 50 @ 50.
+	select inputTextField requestFocus.
+	innerWindow pane addChild: select.
+	innerWindow height: 500.
+	innerWindow openInSpace
+]
+
+{ #category : #select }
 ToSandBox class >> example_SelectMonoNotFiltrable [
 
 	| select innerWindow |
 	select := ToSelect new.
-	select setGroupIndexes: #(1 6).
 	select filtrable: false.
 	select dataAccessor addAll: self statesOfAmerica.
 	select placeholderText: ('Select a state' asRopedText foreground: Color red).
@@ -1252,6 +1281,38 @@ ToSandBox class >> example_SelectMonoNotFiltrable [
 	select listElement withRowNumbers.
 	select width: 300.
 	select position: 50 @ 50.
+	innerWindow pane addChild: select.
+	innerWindow height: 500.
+	innerWindow openInSpace
+]
+
+{ #category : #select }
+ToSandBox class >> example_SelectMonoNotFiltrableWithGroups [
+
+	| select innerWindow phtext |
+	select := ToSelect new.
+	select listElement placeholderMinHeight: 35.
+	phtext := ('No Data' asRopedText
+		           foreground: Color lightGray;
+		           yourself)
+		          fontSize: 24;
+		          yourself.
+	select listElement placeholderBuilder: [ :placeholder :e |
+		| lab |
+		placeholder layout alignCenter.
+		lab := ToAttributedLabel text: phtext.
+		placeholder addChild: lab ].
+
+	select filtrable: false.
+	self statesOfAmericaWithGroups do: [ :assoc | select addGroup: assoc key withData: assoc value].
+
+	select placeholderText:
+		('Select a state' asRopedText foreground: Color red).
+	innerWindow := ToInnerWindow new.
+	select windowManager anchorRoot: innerWindow root.
+	select width: 300.
+	select position: 50 @ 50.
+	select inputTextField requestFocus.
 	innerWindow pane addChild: select.
 	innerWindow height: 500.
 	innerWindow openInSpace
@@ -3869,6 +3930,33 @@ ToSandBox class >> statesOfAmerica [
 		#Oregon. #'Pennsylvania Rhode Island'. #'South Carolina'.
 		#'South Dakota'. #Tennessee. #Texas. #Utah. #Vermont. #Virginia.
 		#Washington. #'West Virginia'. #Wisconsin. #Wyoming }.
+]
+
+{ #category : #accessing }
+ToSandBox class >> statesOfAmericaWithGroups [
+
+	^ {
+		  (#West
+		   ->
+			   { #Hawaii. #Alaska. #Washington. "#Oregon. #California.
+			   #Nevada. #Idaho. #Utah. #Arizona" }).
+		  (#'Middle-west'
+		   -> { #Montana. #Wyoming. "#Colorado. #'New Mexico'" }).
+		  (#Middle
+		   ->
+			   { #'North Dakota'. #'South Dakota'. #Nebraska. "#Kansas. #Oklahoma.
+			   #Texas "}).
+		  (#'Middle-east'
+		   ->
+			   { #Minnesota. #Iowa. #Missouri. "#Arkansas. #Louisiana. #Wisconsin.
+			   #Michigan. #Illinois. #Indiana. #Kentucky. #Tennessee. #Mississippi.
+			   #Alabama" }).
+		  (#East
+		   -> { #Ohio. #'West Virginia'. #Virginia. #'North Carolina'.
+			   #'South Carolina'. "#Georgia. #Florida. #Pennsylvania.
+			   #'New York'. #Maryland. #Delaware. #'New Jersey'. #Connecticut.
+			   #'Rhode Island'. #Massachusetts. #'New Hampshire'.
+			   #Maine. #Vermont" }) }
 ]
 
 { #category : #'see class side' }

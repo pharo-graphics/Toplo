@@ -5,26 +5,14 @@ Class {
 }
 
 { #category : #'private command application' }
-ToPrimarySelectionModelOperator >> applyCommand: aCommand in: aTarget withApplicationBlock: aBlock [
+ToPrimarySelectionModelOperator >> notifySelectionChangedAfter: aCommand in: aTarget [
 
-	| selectionModelChanged previousModel |
-	previousModel := self selectionModel copy.
+	aTarget dispatchEvent: (ToPrimarySelectionCommandAppliedEvent new
+			 operator: self;
+			 command: aCommand).
 
-	super applyCommand: aCommand in: aTarget withApplicationBlock: aBlock.
-
-	selectionModelChanged := previousModel ~= self selectionModel.
-
-	selectionModelChanged ifTrue: [
-		aTarget dispatchEvent: (ToPrimarySelectionCommandAppliedEvent new
-				 operator: self;
-				 command: aCommand) ].
-
-	selectionModelChanged ifFalse: [ ^ self ].
-	aTarget notifyPrimarySelectionChanged: (ToListPrimarySelectionChangedEvent new
+	aTarget notifyPrimarySelectionChanged:
+		(ToListPrimarySelectionChangedEvent new
 			 selectionModel: self selectionModel copy;
-			 yourself).
-
-	aTarget notifyUnselectableSelectionChanged: (ToListUnselectableSelectionChangedEvent new
-			 selectionModel: self selectionModel;
-			 yourself).
+			 yourself)
 ]

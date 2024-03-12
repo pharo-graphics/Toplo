@@ -4,15 +4,6 @@ Class {
 	#category : #'Toplo-Widget-List-Command-Selection'
 }
 
-{ #category : #'private command application' }
-ToSecondarySelectionModelOperator >> applyCommand: aCommand in: aTarget withApplicationBlock: aBlock [
-
-	super applyCommand: aCommand in: aTarget withApplicationBlock: aBlock.
-	aTarget notifySecondarySelectionChanged: (ToListSecondarySelectionChangedEvent new
-			 selectionModel: self selectionModel copy;
-			 yourself)
-]
-
 { #category : #'command operations' }
 ToSecondarySelectionModelOperator >> listScrollCommand: aCommand in: aTarget [
 	" "
@@ -24,4 +15,13 @@ ToSecondarySelectionModelOperator >> listScrollCommand: aCommand in: aTarget [
 		sp mouseProcessor lastMouseMoveEvent ifNotNil: [ :e |
 			e consumed: true ] ].
 	super listScrollCommand: aCommand in: aTarget
+]
+
+{ #category : #'private command application' }
+ToSecondarySelectionModelOperator >> notifySelectionChangedAfter: aCommand in: aTarget [
+
+	aTarget notifySecondarySelectionChanged:
+		(ToListSecondarySelectionChangedEvent new
+			 selectionModel: self selectionModel copy;
+			 yourself)
 ]

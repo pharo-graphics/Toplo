@@ -33,6 +33,16 @@ ToSelectionModelOperator >> addWholeSelectionCommand: aCommand [
 	self selectionModel selectAll
 ]
 
+{ #category : #'command application' }
+ToSelectionModelOperator >> applyCommand: aCommand in: aTarget [
+
+	| previousModel |
+	previousModel := self selectionModel copy.
+	super applyCommand: aCommand in: aTarget.
+	previousModel = self selectionModel ifTrue: [ ^ self ].
+	self notifySelectionChangedAfter: aCommand in: aTarget
+]
+
 { #category : #private }
 ToSelectionModelOperator >> intervalsIn: aCollection [
 	" return an array of intervals #( 2 3 4 6 7 8 ) -> { 2 to: 4. 6 to: 8 } "
@@ -67,6 +77,12 @@ ToSelectionModelOperator >> itemCount [
 ToSelectionModelOperator >> listScrollCommand: aCommand in: aTarget [
 
 	aTarget scrollToIndex: aCommand index
+]
+
+{ #category : #'private command application' }
+ToSelectionModelOperator >> notifySelectionChangedAfter: aCommand in: aTarget [
+
+	self subclassResponsibility 
 ]
 
 { #category : #'command operations' }

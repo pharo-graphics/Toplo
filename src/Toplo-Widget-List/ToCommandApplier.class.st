@@ -10,18 +10,11 @@ Class {
 	#category : #'Toplo-Widget-List-Command'
 }
 
-{ #category : #'applied command handling' }
-ToCommandApplier >> actionCommand: aCommand in: aTarget [
-
-	aCommand action cull: aTarget
-]
-
 { #category : #accessing }
 ToCommandApplier >> addCommand: aCommand [
 
 	self dispatchEvent: (ToCommandAddedEvent new
-			 command: aCommand;
-			 operator: self;
+			 command: aCommand
 			 yourself)
 ]
 

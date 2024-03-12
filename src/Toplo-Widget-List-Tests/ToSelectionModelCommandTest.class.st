@@ -15,12 +15,6 @@ Class {
 	#category : #'Toplo-Widget-List-Tests-Selection-Command'
 }
 
-{ #category : #tests }
-ToSelectionModelCommandTest >> actionCommand: aCommand in: aTarget [
-
-	
-]
-
 { #category : #accessing }
 ToSelectionModelCommandTest >> addIndexesCommand [
 
@@ -103,10 +97,10 @@ ToSelectionModelCommandTest >> setUp [
 ToSelectionModelCommandTest >> testAddIndexesSelectionCommand [
 
 	| cmd |
-	cmd := ToIndexesSelectionCommand new.
+	cmd := ToIndexesSelectionCommand new operator: self.
 	cmd indexes: #(1).
 	cmd operation: ToAddSelectionOperation new.
-	cmd applyOn: self in: nil.
+	cmd applyIn: nil.
 	self assert: self addIndexesCommand equals: cmd
 ]
 
@@ -114,10 +108,10 @@ ToSelectionModelCommandTest >> testAddIndexesSelectionCommand [
 ToSelectionModelCommandTest >> testAddIntervalSelectionCommand [
 
 	| cmd |
-	cmd := ToIntervalSelectionCommand new.
+	cmd := ToIntervalSelectionCommand new operator: self.
 	cmd from: 1 to: 2.
 	cmd operation: ToAddSelectionOperation new.
-	cmd applyOn: self in: nil.
+	cmd applyIn: nil.
 	self assert: self addIntervalCommand equals: cmd
 ]
 
@@ -125,9 +119,9 @@ ToSelectionModelCommandTest >> testAddIntervalSelectionCommand [
 ToSelectionModelCommandTest >> testAddWholeSelectionCommand [
 
 	| cmd |
-	cmd := ToWholeSelectionCommand new.
+	cmd := ToWholeSelectionCommand new operator: self.
 	cmd operation: ToAddSelectionOperation new.
-	cmd applyOn: self in: nil.
+	cmd applyIn: nil.
 	self assert: self wholeSelectionCommand equals: cmd
 ]
 
@@ -135,10 +129,10 @@ ToSelectionModelCommandTest >> testAddWholeSelectionCommand [
 ToSelectionModelCommandTest >> testRemoveIndexesSelectionCommand [
 
 	| cmd |
-	cmd := ToIndexesSelectionCommand new.
+	cmd := ToIndexesSelectionCommand new operator: self.
 	cmd indexes: #(1).
 	cmd operation: ToRemoveSelectionOperation new.
-	cmd applyOn: self in: nil.
+	cmd applyIn: nil.
 	self assert: self removeIndexesCommand equals: cmd
 ]
 
@@ -146,10 +140,10 @@ ToSelectionModelCommandTest >> testRemoveIndexesSelectionCommand [
 ToSelectionModelCommandTest >> testRemoveIntervalSelectionCommand [
 
 	| cmd |
-	cmd := ToIntervalSelectionCommand new.
+	cmd := ToIntervalSelectionCommand new operator: self.
 	cmd from: 1 to: 2.
 	cmd operation: ToRemoveSelectionOperation new.
-	cmd applyOn: self in: nil.
+	cmd applyIn: nil.
 	self assert: self removeIntervalCommmand equals: cmd
 ]
 
@@ -157,9 +151,9 @@ ToSelectionModelCommandTest >> testRemoveIntervalSelectionCommand [
 ToSelectionModelCommandTest >> testRemoveWholeSelectionCommand [
 
 	| cmd |
-	cmd := ToWholeSelectionCommand new.
+	cmd := ToWholeSelectionCommand new operator: self.
 	cmd operation: ToRemoveSelectionOperation new.
-	cmd applyOn: self in: nil.
+	cmd applyIn: nil.
 	self assert: self noSelectionCommand equals: cmd
 ]
 

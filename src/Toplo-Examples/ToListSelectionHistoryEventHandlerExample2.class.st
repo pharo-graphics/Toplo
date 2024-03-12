@@ -9,12 +9,6 @@ Class {
 }
 
 { #category : #'event handling' }
-ToListSelectionHistoryEventHandlerExample2 >> actionCommand: aCommand in: aTarget [
-
-	
-]
-
-{ #category : #'event handling' }
 ToListSelectionHistoryEventHandlerExample2 >> addIndexesSelectionCommand: aCommand [
 
 	aCommand operation deselectAllBefore ifTrue: [

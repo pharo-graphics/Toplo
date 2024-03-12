@@ -16,7 +16,7 @@ ToCommandApplicationTask >> applyAll [
 		[ commandQueue isEmpty ] whileFalse: [
 			| nextInQueue |
 			nextInQueue := commandQueue removeFirst.
-			nextInQueue apply ] ]
+			nextInQueue applyIn: listElement ] ]
 ]
 
 { #category : #'api - running' }

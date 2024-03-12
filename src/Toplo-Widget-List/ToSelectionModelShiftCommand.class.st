@@ -9,9 +9,10 @@ Class {
 }
 
 { #category : #hook }
-ToSelectionModelShiftCommand >> applyOn: anObject in: aTarget [
+ToSelectionModelShiftCommand >> applyOn: anOperator in: aTarget [
 
-	anObject selectionModelShiftCommand: self in: aTarget
+	anOperator selectionModelShiftCommand: self in: aTarget.
+	super applyOn: anOperator in: aTarget
 ]
 
 { #category : #accessing }

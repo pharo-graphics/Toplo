@@ -36,6 +36,7 @@ ToSelectionModelSelecter >> currentIndex: anIndex [
 ToSelectionModelSelecter >> deselectAll [
 
 	self addCommand: (ToWholeSelectionCommand new
+			 operator: self operator;
 			 operation: ToRemoveSelectionOperation new;
 			 yourself).
 	self changeCurrentIndexWith: 0
@@ -45,6 +46,7 @@ ToSelectionModelSelecter >> deselectAll [
 ToSelectionModelSelecter >> deselectIndex: anIndex [
 
 	self addCommand: (ToIntervalSelectionCommand new
+			 operator: self operator;
 			 from: anIndex to: anIndex;
 			 operation: ToRemoveSelectionOperation new)
 ]
@@ -53,6 +55,7 @@ ToSelectionModelSelecter >> deselectIndex: anIndex [
 ToSelectionModelSelecter >> deselectIndex: aStartIndex to: anEndIndex [
 
 	self addCommand: (ToIntervalSelectionCommand new
+			 operator: self operator;
 			 from: aStartIndex to: anEndIndex;
 			 operation: ToRemoveSelectionOperation new).
 	self changeCurrentIndexWith: (aStartIndex min: anEndIndex)
@@ -62,6 +65,7 @@ ToSelectionModelSelecter >> deselectIndex: aStartIndex to: anEndIndex [
 ToSelectionModelSelecter >> deselectIndexes: anArray [
 
 	self addCommand: (ToIndexesSelectionCommand new
+			 operator: self operator;
 			 indexes: anArray;
 			 operation: ToRemoveSelectionOperation new).
 	self changeCurrentIndexWith: 0
@@ -183,6 +187,7 @@ ToSelectionModelSelecter >> scrollToIndex: anIndex [
 
 	self itemCount >= anIndex ifTrue: [
 		self addCommand: (ToListScrollCommand new
+				 operator: self operator;
 				 index: anIndex;
 				 yourself) ]
 ]
@@ -191,6 +196,7 @@ ToSelectionModelSelecter >> scrollToIndex: anIndex [
 ToSelectionModelSelecter >> selectIndex: anIndex [
 
 	self addCommand: (ToIntervalSelectionCommand new
+			 operator: self operator;
 			 from: anIndex to: anIndex;
 			 operation: ToAddSelectionOperation new).
 	self changeCurrentIndexWith: anIndex
@@ -202,6 +208,7 @@ ToSelectionModelSelecter >> selectOnlyIndex: anIndex [
 	(self selectionModel selectedIndexesCount = 1 and: [
 		 self selectionModel firstIndex = anIndex ]) ifTrue: [ ^ self ].
 	self addCommand: (ToIntervalSelectionCommand new
+			 operator: self operator;
 			 from: anIndex to: anIndex;
 			 operation: (ToAddSelectionOperation new
 					  deselectAllBefore: true;
@@ -213,12 +220,13 @@ ToSelectionModelSelecter >> selectOnlyIndex: anIndex [
 ToSelectionModelSelecter >> selectOnlyIndexes: anArray [
 
 	anArray ifEmpty: [
-		self addCommand:
-			(ToWholeSelectionCommand new operation:
-				 ToRemoveSelectionOperation new).
+		self addCommand: (ToWholeSelectionCommand new
+				 operator: self operator;
+				 operation: ToRemoveSelectionOperation new).
 		self changeCurrentIndexWith: 0.
 		^ self ].
 	self addCommand: (ToIndexesSelectionCommand new
+			 operator: self operator;
 			 indexes: anArray;
 			 operation: (ToAddSelectionOperation new
 					  deselectAllBefore: true;
@@ -242,6 +250,7 @@ ToSelectionModelSelecter >> selectionModel [
 ToSelectionModelSelecter >> shiftSelection: anInteger from: anIndex [
 
 	self addCommand: (ToSelectionModelShiftCommand new
+			 operator: self operator;
 			 itemCount: anInteger;
 			 fromIndex: anIndex;
 			 yourself)

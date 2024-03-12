@@ -9,5 +9,5 @@ Class {
 }
 
 { #category : #hook }
-ToBasicCommand >> applyOn: anObject in: aTarget [
+ToBasicCommand >> applyIn: aTarget [
 ]

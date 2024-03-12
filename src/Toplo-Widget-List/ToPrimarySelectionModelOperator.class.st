@@ -8,8 +8,8 @@ Class {
 ToPrimarySelectionModelOperator >> notifySelectionChangedAfter: aCommand in: aTarget [
 
 	aTarget dispatchEvent: (ToPrimarySelectionCommandAppliedEvent new
-			 operator: self;
-			 command: aCommand).
+			 command: aCommand;
+			 yourself).
 
 	aTarget notifyPrimarySelectionChanged:
 		(ToListPrimarySelectionChangedEvent new

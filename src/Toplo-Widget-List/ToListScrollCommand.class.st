@@ -8,9 +8,10 @@ Class {
 }
 
 { #category : #hook }
-ToListScrollCommand >> applyOn: anObject in: aTarget [
+ToListScrollCommand >> applyOn: anOperator in: aTarget [
 
-	anObject listScrollCommand: self in: aTarget
+	anOperator listScrollCommand: self in: aTarget.
+	super applyOn: anOperator in: aTarget
 ]
 
 { #category : #accessing }

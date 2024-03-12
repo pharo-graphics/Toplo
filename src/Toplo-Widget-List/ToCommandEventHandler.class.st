@@ -11,30 +11,15 @@ Class {
 }
 
 { #category : #'event handling' }
-ToCommandEventHandler >> addComand: aCommand fromOperator: anOperator inTarget: aTarget [
-
-	| targetedCommand |
-	aTarget isAttachedToSceneGraph ifFalse: [
-		anOperator applyCommand: aCommand in: aTarget.
-		^ self ].
-
-	targetedCommand := ToApplicableCommand new
-		                   operator: anOperator;
-		                   command: aCommand;
-		                   target: aTarget;
-		                   yourself.
-
-	commandQueue add: targetedCommand.
-	aTarget dispatchEvent: ToCommandsApplicationRequestEvent new
-]
-
-{ #category : #'event handling' }
 ToCommandEventHandler >> commandAddedEvent: aCommandAddedEvent [
 
-	self
-		addComand: aCommandAddedEvent command
-		fromOperator: aCommandAddedEvent operator
-		inTarget: aCommandAddedEvent currentTarget
+	| listElement |
+	listElement := aCommandAddedEvent currentTarget.
+	listElement isAttachedToSceneGraph ifFalse: [
+		aCommandAddedEvent command applyIn: listElement.
+		^ self ].
+	commandQueue add: aCommandAddedEvent command.
+	listElement dispatchEvent: ToCommandsApplicationRequestEvent new
 ]
 
 { #category : #'event handling' }

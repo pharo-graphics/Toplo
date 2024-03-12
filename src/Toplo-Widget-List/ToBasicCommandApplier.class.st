@@ -7,5 +7,5 @@ Class {
 { #category : #'command application' }
 ToBasicCommandApplier >> applyCommand: aCommand in: aTarget [ 
 	
-	aCommand applyOn: self in: aTarget
+	aCommand applyOn: aCommand operator in: aTarget
 ]

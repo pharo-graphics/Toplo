@@ -14,6 +14,7 @@ ToSingleSelectionModelSelecter >> selectAll [
 ToSingleSelectionModelSelecter >> selectIndex: anIndex [
 
 	self addCommand: (ToIntervalSelectionCommand new
+			 operator: self operator;
 			 from: anIndex to: anIndex;
 			 operation: (ToAddSelectionOperation new
 					  deselectAllBefore: true;

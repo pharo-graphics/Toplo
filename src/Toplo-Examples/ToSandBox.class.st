@@ -765,9 +765,9 @@ ToSandBox class >> example_ListWithAllClassesAsButton [
 	| l |
 	l := ToListElement new nodeBuilder: [ :node :holder |
 		     node addChild: (ToButton new
-				      labelText: holder data name;
+				      labelText: holder dataItem name;
 				      hMatchParent) ].
-	l data addAll: Smalltalk globals allClasses.
+	l dataAccessor addAll: Smalltalk globals allClasses.
 	l openInSpace
 ]
 
@@ -1243,12 +1243,10 @@ ToSandBox class >> example_SelectMonoNotFiltrable [
 
 	| select innerWindow |
 	select := ToSelect new.
-	select addGroupIndexes: #(1 6).
+	select setGroupIndexes: #(1 6).
 	select filtrable: false.
 	select dataAccessor addAll: self statesOfAmerica.
 	select placeholderText: ('Select a state' asRopedText foreground: Color red).
-	select listElement nodeBuilder: [ :node :holder |
-		node addChild: (ToLabel text: holder dataItem asString) hMatchParent ].
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
 	select listElement withRowNumbers.

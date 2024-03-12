@@ -4,10 +4,24 @@ Class {
 	#instVars : [
 		'listElement',
 		'sieve',
-		'listDataSourceUpdater'
+		'listDataSourceUpdater',
+		'dataNodeBuilder',
+		'groupNodeBuilder'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
+
+{ #category : #accessing }
+ToSelectWindowManager >> dataNodeBuilder [
+
+	^ dataNodeBuilder
+]
+
+{ #category : #accessing }
+ToSelectWindowManager >> dataNodeBuilder: aValuable [
+
+	dataNodeBuilder := aValuable
+]
 
 { #category : #initialization }
 ToSelectWindowManager >> defaultAutoCloseOnMouseUpDelay [
@@ -22,6 +36,20 @@ ToSelectWindowManager >> defaultAutoClosePickOutsideEventClass [
 ]
 
 { #category : #initialization }
+ToSelectWindowManager >> defaultDataNodeBuilder [
+
+	^ [ :node :holder |
+	  node addChild: (ToLabel text: holder dataItem asString) hMatchParent ]
+]
+
+{ #category : #initialization }
+ToSelectWindowManager >> defaultGroupNodeBuilder [
+
+	^ [ :node :holder |
+	  node addChild: (ToAttributedLabel text: holder dataItem asString) hMatchParent ]
+]
+
+{ #category : #initialization }
 ToSelectWindowManager >> defaultMaxHeight [
 
 	^ 300
@@ -31,6 +59,25 @@ ToSelectWindowManager >> defaultMaxHeight [
 ToSelectWindowManager >> defaultMinHeight [
 
 	^ 0
+]
+
+{ #category : #initialization }
+ToSelectWindowManager >> defaultNodeBuilder [
+
+	^ [ :node :holder | | nodebuilder |
+		nodebuilder := holder isGroup
+		  ifTrue: [ self groupNodeBuilder]
+		  ifFalse: [ self dataNodeBuilder].
+	  nodebuilder value: node value: holder ] 
+]
+
+{ #category : #initialization }
+ToSelectWindowManager >> defaultNodeFactory [
+
+	^ [ :theHolder |
+	  theHolder isGroup
+		  ifTrue: [ ToSelectGroupListNode new ]
+		  ifFalse: [ ToSelectDataListNode new ] ]
 ]
 
 { #category : #initialization }
@@ -51,6 +98,26 @@ ToSelectWindowManager >> defaultSizeHook [
 ToSelectWindowManager >> elementEventHandlerClass [ 
 
 	^ ToSelectEventHandler
+]
+
+{ #category : #accessing }
+ToSelectWindowManager >> groupNodeBuilder [
+
+	^ groupNodeBuilder
+]
+
+{ #category : #accessing }
+ToSelectWindowManager >> groupNodeBuilder: aValuable [
+
+	groupNodeBuilder := aValuable
+]
+
+{ #category : #initialization }
+ToSelectWindowManager >> initialize [ 
+
+	super initialize.
+	dataNodeBuilder := self defaultDataNodeBuilder.
+	groupNodeBuilder := self defaultGroupNodeBuilder 
 ]
 
 { #category : #accessing }
@@ -89,8 +156,9 @@ ToSelectWindowManager >> newListElement [
 	| newListElement |
 	newListElement := ToSelectListElement new.
 	newListElement nodeHolderClass: ToSelectListNodeHolder.
-	newListElement nodeClass: ToSelectListNode.
-	newListElement infinite maxHeight: self defaultMaxHeight .
+	newListElement nodeFactory: self defaultNodeFactory.
+	newListElement nodeBuilder: self defaultNodeBuilder.
+	newListElement infinite maxHeight: self defaultMaxHeight.
 	newListElement infinite minHeight: self defaultMinHeight.
 	newListElement infinite vFitContent.
 	newListElement vFitContent.
@@ -98,12 +166,11 @@ ToSelectWindowManager >> newListElement [
 	^ newListElement
 ]
 
-{ #category : #accessing }
+{ #category : #'api - hook' }
 ToSelectWindowManager >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	listElement := self newListElement.
-	listElement nodeBuilder: anElement defaultListNodeBuilder.
 
 	listElement addEventHandler: (ToSelectListElementEventHandler new
 			 select: self element;
@@ -125,7 +192,7 @@ ToSelectWindowManager >> onInstalledIn: anElement [
 	sieve onInstalledIn: listElement
 ]
 
-{ #category : #accessing }
+{ #category : #'api - hook' }
 ToSelectWindowManager >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.

@@ -10,8 +10,11 @@ Class {
 { #category : #accessing }
 ToSelectListNodeHolder >> dataItem: aData [ 
 
+	self isGroup: self isUnselectable.
+	
+	" must send to super ** after ** local initialization is done "
 	super dataItem: aData.
-	self isGroup: self isUnselectable
+
 ]
 
 { #category : #initialization }

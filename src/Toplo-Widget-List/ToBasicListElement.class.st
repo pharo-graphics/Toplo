@@ -8,9 +8,7 @@ Class {
 		'selectionModel',
 		'disabledSelecter',
 		'unselectableSelecter',
-		'sharedEventDistributors',
-		'nodeBuilderIndex',
-		'nodeReleaserIndex'
+		'sharedEventDistributors'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -133,12 +131,9 @@ ToBasicListElement >> initialize [
 	super initialize.
 
 	self next: self defaultInfiniteElement.
-	self next onInstalledIn: self.
+	self infinite listElement: self.
 
 	self next elevation: (BlRelativeElevation elevation: 10).
-
-	nodeBuilderIndex := IdentityDictionary new.
-	nodeReleaserIndex := IdentityDictionary new.
 	
 	unselectableSelectionModel := self newSelectionModel.
 	unselectableSelectionModel onInstalledIn: self.
@@ -236,46 +231,6 @@ ToBasicListElement >> newSelectionModel [
 	^ ToSelectionModel new
 		  itemCountGetter: [ self dataSource itemCount ];
 		  yourself
-]
-
-{ #category : #accessing }
-ToBasicListElement >> nodeBuilder [
-
-	"aValuable takes 2 args: first, the ToNode to build and second, its holder in the list element "
-	^ self nodeBuilderIndex at: Object ifAbsentPut: [ self defaultNodeBuilder ]
-]
-
-{ #category : #accessing }
-ToBasicListElement >> nodeBuilder: aValuable [
-
-	"aValuable takes 2 args: first, the ToNode to build and second, its holder in the list element "
-	self nodeBuilderIndex at: Object put: aValuable
-]
-
-{ #category : #accessing }
-ToBasicListElement >> nodeBuilderIndex [
-
-	^ nodeBuilderIndex 
-]
-
-{ #category : #accessing }
-ToBasicListElement >> nodeReleaser [
-
-	"aValuable takes 2 args: first, the ToNode to release and second, its holder in the list element "
-	^ self nodeReleaserIndex at: Object ifAbsentPut: [ self defaultNodeReleaser ]
-]
-
-{ #category : #accessing }
-ToBasicListElement >> nodeReleaser: aValuable [
-
-	"aValuable takes 2 args: first, the ToNode to release and second, its holder in the list element "
-	self nodeReleaserIndex at: Object put: aValuable
-]
-
-{ #category : #accessing }
-ToBasicListElement >> nodeReleaserIndex [
-
-	^ nodeReleaserIndex 
 ]
 
 { #category : #'event firing' }

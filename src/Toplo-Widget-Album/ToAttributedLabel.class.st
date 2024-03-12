@@ -10,9 +10,3 @@ ToAttributedLabel >> initialize [
 	super initialize.
 	self withNullSkin
 ]
-
-{ #category : #skin }
-ToAttributedLabel >> newRawSkin [ 
-
-	^ ToNullSkin new
-]

@@ -85,15 +85,39 @@ TToListElementDecorator >> nodeAt: anIndex [
 ]
 
 { #category : #'t - infinite accessing' }
+TToListElementDecorator >> nodeBuilder [
+
+	^ self next nodeBuilder
+]
+
+{ #category : #'t - infinite accessing' }
+TToListElementDecorator >> nodeBuilder: aValuable [
+
+	self next nodeBuilder: aValuable
+]
+
+{ #category : #'t - infinite accessing' }
 TToListElementDecorator >> nodeClass: aNodeClass [
 
 	self next nodeClass: aNodeClass
 ]
 
 { #category : #'t - infinite accessing' }
+TToListElementDecorator >> nodeFactory: aValuable [
+
+	self next nodeFactory: aValuable
+]
+
+{ #category : #'t - infinite accessing' }
 TToListElementDecorator >> nodeHolderClass: aNodeHolderClass [
 
 	self next nodeHolderClass: aNodeHolderClass
+]
+
+{ #category : #'t - infinite accessing' }
+TToListElementDecorator >> nodeReleaser: aValuable [
+
+	self next nodeReleaser: aValuable
 ]
 
 { #category : #'t - infinite accessing' }

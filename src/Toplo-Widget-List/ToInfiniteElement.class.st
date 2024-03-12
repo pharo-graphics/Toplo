@@ -6,8 +6,10 @@ Class {
 	#instVars : [
 		'layoutMonitor',
 		'nodeHolderClass',
-		'nodeClass',
-		'listElement'
+		'nodeFactory',
+		'listElement',
+		'nodeBuilder',
+		'nodeReleaser'
 	],
 	#category : #'Toplo-Widget-List-Infinite'
 }
@@ -46,6 +48,18 @@ ToInfiniteElement >> defaultNodeBuilder [
 ]
 
 { #category : #initialization }
+ToInfiniteElement >> defaultNodeFactory [
+
+	^ [ :holder | ToNode new ]
+]
+
+{ #category : #initialization }
+ToInfiniteElement >> defaultNodeReleaser [
+
+	^ [ :node :holder | node removeChildren ]
+]
+
+{ #category : #initialization }
 ToInfiniteElement >> defaultScrollFlinger [
 	"Return class, actuall instantiation happens in initialize"
 	^ ToInfiniteScrollFlinger
@@ -55,6 +69,13 @@ ToInfiniteElement >> defaultScrollFlinger [
 ToInfiniteElement >> disableScrolledEvent [
 
 	self eventDispatcher disableScrolledEvent 
+]
+
+{ #category : #dispatching }
+ToInfiniteElement >> dispatchChildDetached: aNode [
+
+	self nodeReleaser cull: aNode cull: aNode holder.
+	super dispatchChildDetached: aNode
 ]
 
 { #category : #layout }
@@ -79,12 +100,26 @@ ToInfiniteElement >> infinite [
 ToInfiniteElement >> initialize [
 
 	super initialize.
-
+	nodeBuilder := self defaultNodeBuilder.
+	nodeReleaser := self defaultNodeReleaser.
+	nodeFactory := self defaultNodeFactory.
 	layoutMonitor := Monitor new.
 	self matchParent
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - nodes' }
+ToInfiniteElement >> initializeNodeHolder: aNodeHolder forData: aData [
+
+	| newNode |
+	newNode := self nodeFactory value: aNodeHolder.
+	aNodeHolder node: newNode.
+	self nodeBuilder cull: newNode cull: aNodeHolder.
+	aNodeHolder isEnabled
+		ifTrue: [ newNode enabled: true ]
+		ifFalse: [ newNode disabled: true ].
+]
+
+{ #category : #layout }
 ToInfiniteElement >> layoutCritical: aBlock [
 			
 	layoutMonitor critical: aBlock
@@ -96,10 +131,10 @@ ToInfiniteElement >> listElement [
 	^ listElement
 ]
 
-{ #category : #initialization }
-ToInfiniteElement >> newNode [
+{ #category : #private }
+ToInfiniteElement >> listElement: aListElement [
 
-	^ self nodeClass new
+	listElement := aListElement
 ]
 
 { #category : #'instance creation' }
@@ -108,7 +143,7 @@ ToInfiniteElement >> newNodeHolderFromDataSource: aDataSource [
 	^ self nodeHolderClass new infiniteElement: self
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - nodes' }
 ToInfiniteElement >> nodeAt: anIndex [
 
 	" return the holder for the data at anIndex according to currently viewed data range. 
@@ -118,16 +153,24 @@ ToInfiniteElement >> nodeAt: anIndex [
 		  ifNil: [  ]
 ]
 
-{ #category : #initialization }
-ToInfiniteElement >> nodeClass [
+{ #category : #'accessing - nodes' }
+ToInfiniteElement >> nodeBuilder [
 
-	^ nodeClass ifNil: [ nodeClass := ToNode ]
+	"aValuable takes 2 args: first, the node to build and second, its holder in the list element "
+	^ nodeBuilder
 ]
 
-{ #category : #initialization }
+{ #category : #'accessing - nodes' }
+ToInfiniteElement >> nodeBuilder: aValuable [
+
+	"aValuable takes 2 args: first, the node to build and second, its holder in the list element "
+	nodeBuilder := aValuable
+]
+
+{ #category : #'accessing - nodes' }
 ToInfiniteElement >> nodeClass: aNodeClass [
 
-	nodeClass := aNodeClass
+	nodeFactory := [ :holder | aNodeClass new ]
 ]
 
 { #category : #'accessing - children' }
@@ -136,6 +179,20 @@ ToInfiniteElement >> nodeContainingGlobalPosition: aPoint [
 	self childrenDo: [ :node |
 		(node containsGlobalPoint: aPoint) ifTrue: [ ^ node ] ].
 	^ nil
+]
+
+{ #category : #'accessing - nodes' }
+ToInfiniteElement >> nodeFactory [
+	" returns aValuable that takes a node holder as unique argument and which running results in a new node "
+
+	^ nodeFactory
+]
+
+{ #category : #'accessing - nodes' }
+ToInfiniteElement >> nodeFactory: aValuable [
+	" aValuable takes a node holder as unique argument and its running results in a new node "
+
+	nodeFactory := aValuable
 ]
 
 { #category : #'accessing - nodes' }
@@ -156,31 +213,30 @@ ToInfiniteElement >> nodeGroupsSatisfying: aBlock [
 			  g ifNotEmpty: [ stream nextPut: g ] ] ]
 ]
 
-{ #category : #accessing }
-ToInfiniteElement >> nodeHolderBuilder [
-
-	^ [ :theHolder |
-	  | newNode |
-	  newNode := self newNode.
-	  theHolder node: newNode ]
-]
-
-{ #category : #initialization }
+{ #category : #'accessing - nodes' }
 ToInfiniteElement >> nodeHolderClass [
 
 	^ nodeHolderClass ifNil: [nodeHolderClass := ToNodeHolder ]
 ]
 
-{ #category : #initialization }
+{ #category : #'accessing - nodes' }
 ToInfiniteElement >> nodeHolderClass: aNodeHolderClass [
 
 	nodeHolderClass := aNodeHolderClass
 ]
 
-{ #category : #'api - hooks' }
-ToInfiniteElement >> onInstalledIn: aListElement [
+{ #category : #'accessing - nodes' }
+ToInfiniteElement >> nodeReleaser [
 
-	listElement := aListElement
+	"aValuable takes 2 args: first, the ToNode to release and second, its holder in the list element "
+	^ nodeReleaser
+]
+
+{ #category : #'accessing - nodes' }
+ToInfiniteElement >> nodeReleaser: aValuable [
+
+	"aValuable takes 2 args: first, the ToNode to release and second, its holder in the list element "
+	nodeReleaser := aValuable
 ]
 
 { #category : #'t - resizeable' }

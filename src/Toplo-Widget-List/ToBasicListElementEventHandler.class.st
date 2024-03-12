@@ -5,12 +5,6 @@ Class {
 }
 
 { #category : #'infinite event handling' }
-ToBasicListElementEventHandler >> buildNode: aNode in: aListElement [
-
-	aListElement nodeBuilder value: aNode value: aNode holder
-]
-
-{ #category : #'infinite event handling' }
 ToBasicListElementEventHandler >> collectionEmptinessEvent: anEvent [
 
 	| target |
@@ -79,10 +73,6 @@ ToBasicListElementEventHandler >> infiniteElementAttachedEvent: anEvent [
 	| listElement node |
 	listElement := anEvent currentTarget.
 	node := anEvent element.
-	self buildNode: node in: listElement.
-	node holder isEnabled
-		ifTrue: [ node enabled: true ]
-		ifFalse: [ node disabled: true ].
 	listElement selectionMode onAddedNode: anEvent element
 ]
 
@@ -92,8 +82,7 @@ ToBasicListElementEventHandler >> infiniteElementDetachedEvent: anEvent [
 	| node listElement |
 	node := anEvent element.
 	listElement := anEvent currentTarget.
-	listElement selectionMode onRemovedNode: node.
-	self releaseNode: node in: listElement
+	listElement selectionMode onRemovedNode: node
 ]
 
 { #category : #'element events handling' }
@@ -195,12 +184,6 @@ ToBasicListElementEventHandler >> onItemsRemoved: anEvent [
 		                         position: anEvent position;
 		                         yourself.
 	target notifyDataSourceItemsChanged: dataSourceChangeEvent
-]
-
-{ #category : #'infinite event handling' }
-ToBasicListElementEventHandler >> releaseNode: aNode in: aListElement [
-
-	aListElement nodeReleaser value: aNode value: aNode holder
 ]
 
 { #category : #'list element handling' }

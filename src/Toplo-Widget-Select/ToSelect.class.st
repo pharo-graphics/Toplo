@@ -13,16 +13,6 @@ Class {
 	#category : #'Toplo-Widget-Select-Core'
 }
 
-{ #category : #accessing }
-ToSelect >> addGroupIndexes: anIntegerCollection [
-
-	groupIndexes addAll: anIntegerCollection.
-	self listElement unselectableSelecter deselectAll.
-	self listElement unselectableSelecter selectIndexes: groupIndexes asArray.	
-	self listElement disabledSelecter deselectAll.
-	self listElement disabledSelecter selectIndexes: groupIndexes asArray.
-]
-
 { #category : #'accessing window' }
 ToSelect >> closeWindow [
 
@@ -54,11 +44,10 @@ ToSelect >> dataFilter: aValuable [
 	self mode dataFilter: aValuable
 ]
 
-{ #category : #initialization }
-ToSelect >> defaultListNodeBuilder [
+{ #category : #'accessing list' }
+ToSelect >> dataNodeBuilder: aBuilder [
 
-	^ [ :node :holder |
-	  node addChild: (ToLabel text: holder dataItem asString) hMatchParent ]
+	self windowManager dataNodeBuilder: aBuilder
 ]
 
 { #category : #initialization }
@@ -108,6 +97,12 @@ ToSelect >> filtrable: aBoolean [
 		ifTrue: [ self strategy textInputElement beEditable ]
 		ifFalse: [ self strategy textInputElement beReadonly ].
 	self requestNewSkin
+]
+
+{ #category : #'accessing list' }
+ToSelect >> groupNodeBuilder: aBuilder [
+
+	self windowManager groupNodeBuilder: aBuilder
 ]
 
 { #category : #accessing }
@@ -211,7 +206,7 @@ ToSelect >> isSingleSelection [
 	^ self isMultipleSelection not
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing list' }
 ToSelect >> listElement [
 
 	^ self windowManager listElement
@@ -378,6 +373,14 @@ ToSelect >> selectionModel [
 ToSelect >> selectionModel: aSelectionModel [
 
 	selectionModel := aSelectionModel
+]
+
+{ #category : #'accessing list' }
+ToSelect >> setGroupIndexes: anIntegerCollection [
+
+	groupIndexes addAll: anIntegerCollection.
+	self listElement unselectableSelecter deselectAll.
+	self listElement unselectableSelecter selectIndexes: groupIndexes asArray
 ]
 
 { #category : #accessing }

@@ -1309,6 +1309,40 @@ ToSandBox class >> example_SelectMonoFiltrableWithGroups [
 ]
 
 { #category : #select }
+ToSandBox class >> example_SelectMonoFiltrableWithHideSelected [
+
+	| select innerWindow phtext |
+	select := ToSelectElement new.
+	select hideSelected: false.
+	select listElement placeholderMinHeight: 35.
+	phtext := ('No Data' asRopedText
+		           foreground: Color lightGray;
+		           yourself)
+		          fontSize: 24;
+		          yourself.
+	select listElement placeholderBuilder: [ :placeholder :e |
+		| lab |
+		placeholder layout alignCenter.
+		lab := ToAttributedLabel text: phtext.
+		placeholder addChild: lab ].
+
+	select filtrable: true.
+	select dataAccessor addAll: self statesOfAmerica.
+	select selecter selectIndex: 2.
+
+	select placeholderText:
+		('Select a state' asRopedText foreground: Color red).
+	innerWindow := ToInnerWindow new.
+	select windowManager anchorRoot: innerWindow root.
+	select width: 300.
+	select position: 50 @ 50.
+	select inputTextField requestFocus.
+	innerWindow pane addChild: select.
+	innerWindow height: 500.
+	innerWindow openInSpace
+]
+
+{ #category : #select }
 ToSandBox class >> example_SelectMonoNotFiltrable [
 
 	| select innerWindow |

@@ -12,7 +12,6 @@ ToSelectEventHandler >> collectionFilteredEvent: anEvent [
 	windowManager currentWindow ifNil: [
 		select strategy textInputElement filterString ifNotEmpty: [
 			select popupWindowEvent: anEvent ] ].
-	"select strategy refreshHeaderNodeContainer."
 ]
 
 { #category : #'element handlers' }

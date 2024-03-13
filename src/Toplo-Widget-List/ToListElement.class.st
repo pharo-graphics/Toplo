@@ -2,6 +2,8 @@ Class {
 	#name : #ToListElement,
 	#superclass : #ToBasicListElement,
 	#instVars : [
+		'disabledSelecter',
+		'unselectableSelecter',
 		'secondarySelectionModel',
 		'secondarySelectionMode'
 	],
@@ -19,22 +21,10 @@ ToListElement >> data [
 	^ self dataAccessor
 ]
 
-{ #category : #accessing }
-ToListElement >> dataAccessor [
-
-	^ self dataSource
-]
-
 { #category : #initialization }
-ToListElement >> defaultDataSource [
+ToListElement >> defaultEventHandler [
 
-	^ ToObservableCollectionInfiniteDataSource new
-]
-
-{ #category : #initialization }
-ToListElement >> defaultInfiniteElement [
-
-	^ ToInfiniteElement onListElement: self
+	^ ToListElementEventHandler new
 ]
 
 { #category : #initialization }
@@ -51,6 +41,12 @@ ToListElement >> defaultSecondarySelectionMode [
 			   self secondarySelectionModel)
 ]
 
+{ #category : #accessing }
+ToListElement >> disabledSelecter [ 
+
+	^ disabledSelecter
+]
+
 { #category : #initialization }
 ToListElement >> infiniteSharedEvents [
 
@@ -58,14 +54,48 @@ ToListElement >> infiniteSharedEvents [
 ]
 
 { #category : #initialization }
-ToListElement >> initialize [
+ToListElement >> initializeNodeHolder: aNodeHolder forData: aData [
 
-	super initialize.
+	super initializeNodeHolder: aNodeHolder forData: aData.
+	aNodeHolder isEnabled
+		ifTrue: [ aNodeHolder node enabled: true ]
+		ifFalse: [ aNodeHolder node disabled: true ].
+]
+
+{ #category : #initialization }
+ToListElement >> initializeSelectionModel [
+
+	| unselectableSelectionModel operatorForUnselectableItems disabledSelectionModel operatorForDisabledItems |
+	unselectableSelectionModel := self newSelectionModel.
+	unselectableSelectionModel onInstalledIn: self.
+	unselectableSelecter := ToMultiSelectionModelSelecter new.
+	operatorForUnselectableItems := ToUnselectableSelectionModelOperator new.
+	operatorForUnselectableItems selectionModel:
+		unselectableSelectionModel.
+	operatorForUnselectableItems onInstalledIn: self.
+	unselectableSelecter operator: operatorForUnselectableItems.
+	unselectableSelecter onInstalledIn: self.
+
+	disabledSelectionModel := self newSelectionModel.
+	disabledSelectionModel onInstalledIn: self.
+	disabledSelecter := ToMultiSelectionModelSelecter new.
+	operatorForDisabledItems := ToDisabledSelectionModelOperator new.
+	operatorForDisabledItems selectionModel: disabledSelectionModel.
+	operatorForDisabledItems onInstalledIn: self.
+	disabledSelecter operator: operatorForDisabledItems.
+	disabledSelecter onInstalledIn: self.
+
 	self secondarySelectionModel: self newSecondarySelectionModel.
 	self secondarySelectionMode: self defaultSecondarySelectionMode.
 	self addEventHandler: self defaultSecondarySelectionEventHandler.
 
+	super initializeSelectionModel
+]
 
+{ #category : #'instance creation' }
+ToListElement >> newPrimarySelectionModel [
+
+	^ ToInteractiveSelectionModel new
 ]
 
 { #category : #skin }
@@ -74,7 +104,7 @@ ToListElement >> newRawSkin [
 	^ ToListElementSkin new
 ]
 
-{ #category : #initialization }
+{ #category : #'instance creation' }
 ToListElement >> newSecondarySelectionModel [
 
 	^ ToInteractiveSelectionModel new
@@ -113,4 +143,10 @@ ToListElement >> secondarySelectionModel: aSelectionModel [
 	secondarySelectionModel ifNotNil: [ secondarySelectionModel onUninstalledIn: self ].
 	secondarySelectionModel := aSelectionModel.
 	secondarySelectionModel ifNotNil: [secondarySelectionModel onInstalledIn: self ]
+]
+
+{ #category : #accessing }
+ToListElement >> unselectableSelecter [
+
+	^ unselectableSelecter
 ]

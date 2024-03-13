@@ -48,6 +48,7 @@ ToSelectEventHandler >> selectInputTextFieldUpdatedEvent: anEvent [
 { #category : #'element handlers' }
 ToSelectEventHandler >> selectSelectionChanged: anEvent [
 
+	anEvent currentTarget listElement dataSource notifyChanged.
 	anEvent currentTarget strategy refreshHeaderNodeContainer.
 	self showHidePlaceholderIn: anEvent currentTarget.
 ]

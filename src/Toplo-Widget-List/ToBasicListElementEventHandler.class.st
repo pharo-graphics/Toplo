@@ -48,11 +48,7 @@ ToBasicListElementEventHandler >> elementScrolledEvent: anEvent [
 ToBasicListElementEventHandler >> eventsToHandle [
 
 	^ {
-		  ToListUnselectableSelectionChangedEvent.
-		  ToListDisabledSelectionChangedEvent.
 		  ToListDataSourceItemsChangeEvent.
-		  ToListClickOnNodePreNotificationEvent.
-
 		  BlElementAddedToSceneGraphEvent.
 		  BlElementScrolledEvent.
 		  BlInfiniteElementAttachedEvent.
@@ -108,16 +104,8 @@ ToBasicListElementEventHandler >> infiniteElementDetachedEvent: anEvent [
 	| node listElement |
 	node := anEvent element.
 	listElement := anEvent currentTarget.
-	listElement selectionMode onRemovedNode: node
-]
-
-{ #category : #'element events handling' }
-ToBasicListElementEventHandler >> listClickOnNodePreNotificationEvent: anEvent [
-
-	| listElement node |
-	listElement := anEvent currentTarget.
-	node := anEvent sourceEvent sourceEvent currentTarget.
-	node holder isSelectable ifFalse: [ anEvent sourceEvent: nil ]
+	listElement selectionMode onRemovedNode: node.
+	listElement nodeReleaser cull: node cull: node holder.
 ]
 
 { #category : #'infinite event handling' }
@@ -140,38 +128,10 @@ ToBasicListElementEventHandler >> listDataSourceItemsRemovedEvent: anEvent [
 		from: anEvent position
 ]
 
-{ #category : #'list element handling' }
-ToBasicListElementEventHandler >> listDisabledSelectionChangedEvent: anEvent [
-
-	| target nodesArray selectionModel |
-	target := anEvent currentTarget.
-	target isAttachedToSceneGraph ifFalse: [ ^ self ].
-
-	nodesArray := target infinite children asArray.
-	selectionModel := target disabledSelectionModel.
-	anEvent selectionModel selectedIndexesIntervalsDo: [ :interval |
-		target dataSource notifyItemsChanged: (interval first to: interval last) ]
-]
-
 { #category : #'infinite event handling' }
 ToBasicListElementEventHandler >> listPrimarySelectionModeChangedEvent: anEvent [
 
 	anEvent currentTarget selectionModel deselectAll 
-]
-
-{ #category : #'list element handling' }
-ToBasicListElementEventHandler >> listUnselectableSelectionChangedEvent: anEvent [
-
-	| target firstPos lastPos |
-	target := anEvent currentTarget.
-	target isAttachedToSceneGraph ifFalse: [ ^ self ].
-	target infinite hasChildren ifFalse: [ ^ self ].
-	firstPos := target infinite firstChild holder position.
-	lastPos := target infinite lastChild holder position.
-	(target selectionModel hasUnselectableInInterval: (firstPos to: lastPos)) ifFalse: [ ^ self ].
-	"'listUnselectableSelectionChangedEvent: ' trace. (firstPos to: lastPos) traceCr."
-	target dataSource notifyItemsChanged: (firstPos to: lastPos).
-	target requestLayout
 ]
 
 { #category : #'mouse handlers' }

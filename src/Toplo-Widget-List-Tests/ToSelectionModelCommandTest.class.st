@@ -51,6 +51,12 @@ ToSelectionModelCommandTest >> applyCommand: aCommand in: aTarget [
 	aCommand applyOn: self in: aTarget
 ]
 
+{ #category : #'t - infinite accessing' }
+ToSelectionModelCommandTest >> layoutCritical: aBlock [
+
+	aBlock value
+]
+
 { #category : #accessing }
 ToSelectionModelCommandTest >> noSelectionCommand [
 
@@ -106,7 +112,7 @@ ToSelectionModelCommandTest >> testAddIndexesSelectionCommand [
 	cmd := ToIndexesSelectionCommand new operator: self.
 	cmd indexes: #(1).
 	cmd operation: ToAddSelectionOperation new.
-	cmd applyIn: nil.
+	cmd applyIn: self.
 	self assert: self addIndexesCommand equals: cmd
 ]
 
@@ -117,7 +123,7 @@ ToSelectionModelCommandTest >> testAddIntervalSelectionCommand [
 	cmd := ToIntervalSelectionCommand new operator: self.
 	cmd from: 1 to: 2.
 	cmd operation: ToAddSelectionOperation new.
-	cmd applyIn: nil.
+	cmd applyIn: self.
 	self assert: self addIntervalCommand equals: cmd
 ]
 
@@ -127,7 +133,7 @@ ToSelectionModelCommandTest >> testAddWholeSelectionCommand [
 	| cmd |
 	cmd := ToWholeSelectionCommand new operator: self.
 	cmd operation: ToAddSelectionOperation new.
-	cmd applyIn: nil.
+	cmd applyIn: self.
 	self assert: self wholeSelectionCommand equals: cmd
 ]
 
@@ -138,7 +144,7 @@ ToSelectionModelCommandTest >> testRemoveIndexesSelectionCommand [
 	cmd := ToIndexesSelectionCommand new operator: self.
 	cmd indexes: #(1).
 	cmd operation: ToRemoveSelectionOperation new.
-	cmd applyIn: nil.
+	cmd applyIn: self.
 	self assert: self removeIndexesCommand equals: cmd
 ]
 
@@ -149,7 +155,7 @@ ToSelectionModelCommandTest >> testRemoveIntervalSelectionCommand [
 	cmd := ToIntervalSelectionCommand new operator: self.
 	cmd from: 1 to: 2.
 	cmd operation: ToRemoveSelectionOperation new.
-	cmd applyIn: nil.
+	cmd applyIn: self.
 	self assert: self removeIntervalCommmand equals: cmd
 ]
 
@@ -159,7 +165,7 @@ ToSelectionModelCommandTest >> testRemoveWholeSelectionCommand [
 	| cmd |
 	cmd := ToWholeSelectionCommand new operator: self.
 	cmd operation: ToRemoveSelectionOperation new.
-	cmd applyIn: nil.
+	cmd applyIn: self.
 	self assert: self noSelectionCommand equals: cmd
 ]
 

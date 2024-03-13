@@ -38,7 +38,7 @@ ToNodeHolder >> dataItem [
 ToNodeHolder >> dataItem: aData [ 
 
 	dataItem := aData.
-	infiniteElement initializeNodeHolder: self forData: aData
+	self listElement initializeNodeHolder: self forData: aData
 ]
 
 { #category : #accessing }

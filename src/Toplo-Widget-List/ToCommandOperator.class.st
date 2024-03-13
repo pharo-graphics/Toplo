@@ -1,6 +1,6 @@
 Class {
-	#name : #ToCommandApplier,
-	#superclass : #ToBasicCommandApplier,
+	#name : #ToCommandOperator,
+	#superclass : #Object,
 	#traits : 'TBlEventTarget',
 	#classTraits : 'TBlEventTarget classTrait',
 	#instVars : [
@@ -11,15 +11,21 @@ Class {
 }
 
 { #category : #accessing }
-ToCommandApplier >> addCommand: aCommand [
+ToCommandOperator >> addCommand: aCommand [
 
 	self dispatchEvent: (ToElementCommandAddedEvent new
 			 command: aCommand
 			 yourself)
 ]
 
+{ #category : #'command application' }
+ToCommandOperator >> applyCommand: aCommand in: aTarget [ 
+	
+	aCommand applyOn: aCommand operator in: aTarget
+]
+
 { #category : #'event management accessing' }
-ToCommandApplier >> eventDispatcher [
+ToCommandOperator >> eventDispatcher [
 	"Return an object responsible for event dispatching"
 	<return: #BlDirectEventDispatcher>
 
@@ -27,14 +33,20 @@ ToCommandApplier >> eventDispatcher [
 ]
 
 { #category : #initialization }
-ToCommandApplier >> initialize [ 
+ToCommandOperator >> initialize [ 
 
 	super initialize.
 	eventDispatcher := BlDirectEventDispatcher on: self
 ]
 
+{ #category : #'command operations' }
+ToCommandOperator >> listScrollCommand: aCommand in: aTarget [
+
+	aTarget scrollToIndex: aCommand index
+]
+
 { #category : #'api - hooks' }
-ToCommandApplier >> onInstalledIn: anEventTarget [
+ToCommandOperator >> onInstalledIn: anEventTarget [
 
 	sharedEventDistributor ifNotNil: [ Error signal: 'A CommandTarget can be installed only once' ].
 	sharedEventDistributor := BlSharedEventDistributor new
@@ -45,7 +57,7 @@ ToCommandApplier >> onInstalledIn: anEventTarget [
 ]
 
 { #category : #'api - hooks' }
-ToCommandApplier >> onUninstalledIn: anEventTarget [
+ToCommandOperator >> onUninstalledIn: anEventTarget [
 
 	sharedEventDistributor ifNil: [ Error signal: 'Not installed' ].
 	self removeEventHandler: sharedEventDistributor.
@@ -54,7 +66,7 @@ ToCommandApplier >> onUninstalledIn: anEventTarget [
 ]
 
 { #category : #accessing }
-ToCommandApplier >> sharedEvents [ 
+ToCommandOperator >> sharedEvents [ 
 
 	^ { ToElementCommandAddedEvent }
 ]

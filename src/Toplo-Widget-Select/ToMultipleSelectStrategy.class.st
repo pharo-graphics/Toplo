@@ -142,7 +142,7 @@ ToMultipleSelectStrategy >> refreshHeaderNodeContainer [
 	previousHolders := self headerNodeHolders copy.
 	self headerNodeHolders reset.
 	" then rebuild current nodes according to current selection "
-	nodes := select selectionModel selectedIndexes collect: [ :idx |
+	nodes := select selectionModel selectedIndexesCollect: [ :idx |
 		         | node prevHolder selectedData |
 		         prevHolder := previousHolders
 			                       detect: [ :h | h position = idx ]
@@ -164,9 +164,6 @@ ToMultipleSelectStrategy >> refreshHeaderNodeContainer [
 		         node ].
 
 	previousHolders do: [ :h | h node onUninstalledIn: select ].
-
-	"select selectionModel selectedIndexes reversed do: [ :idx | select  listElement dataAccessor removeAt: idx]."
-
 	self addAllDataNodes: nodes
 ]
 

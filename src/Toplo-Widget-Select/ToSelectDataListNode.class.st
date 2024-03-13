@@ -18,3 +18,9 @@ ToSelectDataListNode >> installRawStyle [
 			 bottom: verticalPadding
 			 right: rightPadding)
 ]
+
+{ #category : #skin }
+ToSelectDataListNode >> newRawSkin [ 
+
+	^ ToSelectDataListNodeSkin new
+]

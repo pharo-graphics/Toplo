@@ -31,5 +31,6 @@ ToSelectListElementEventHandler >> select: aSelect [
 { #category : #'element handlers' }
 ToSelectListElementEventHandler >> sieveSelectionChangedEvent: anEvent [
 
+	anEvent currentTarget dataSource notifyChanged.
 	select copySelectionFrom: anEvent selectionModel
 ]

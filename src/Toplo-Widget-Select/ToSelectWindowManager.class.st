@@ -39,7 +39,8 @@ ToSelectWindowManager >> defaultAutoClosePickOutsideEventClass [
 ToSelectWindowManager >> defaultDataNodeBuilder [
 
 	^ [ :node :holder |
-	  node addChild: (ToLabel text: holder dataItem asString) hMatchParent ]
+	  node addChild:
+		  (ToLabel text: holder dataItem asString) hMatchParent ]
 ]
 
 { #category : #initialization }
@@ -155,7 +156,7 @@ ToSelectWindowManager >> newListElement [
 
 	| newListElement |
 	newListElement := ToSelectListElement new.
-	newListElement nodeHolderClass: ToSelectListNodeHolder.
+	newListElement nodeHolderFactory: [ ToSelectListNodeHolder new ].
 	newListElement nodeFactory: self defaultNodeFactory.
 	newListElement nodeBuilder: self defaultNodeBuilder.
 	newListElement infinite maxHeight: self defaultMaxHeight.

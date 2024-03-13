@@ -118,9 +118,8 @@ ToListSecondarySelectionElementEventHandler >> updateSelectionFromEvent: anEvent
 	previous do: [ :s | s removeFromParent ].
 	target secondarySelectionModel ifEmpty: [ ^ self ].
 	childNodes := infinite children select: [ :node |
-		              node holder isSelectable and: [
-			              target secondarySelectionModel containsIndex:
-				              node holder position ] ].
+		              target secondarySelectionModel containsIndex:
+			              node holder position ].
 	childNodes ifEmpty: [ ^ self ].
 	self addSecondarySelectionIn: target onNodes: childNodes
 ]

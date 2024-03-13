@@ -1,6 +1,6 @@
 Class {
 	#name : #ToSelectionModelOperator,
-	#superclass : #ToCommandApplier,
+	#superclass : #ToCommandOperator,
 	#instVars : [
 		'selectionModel'
 	],
@@ -71,12 +71,6 @@ ToSelectionModelOperator >> intervalsIn: aCollection [
 ToSelectionModelOperator >> itemCount [
 
 	^ self selectionModel itemCount
-]
-
-{ #category : #'command operations' }
-ToSelectionModelOperator >> listScrollCommand: aCommand in: aTarget [
-
-	aTarget scrollToIndex: aCommand index
 ]
 
 { #category : #'private command application' }

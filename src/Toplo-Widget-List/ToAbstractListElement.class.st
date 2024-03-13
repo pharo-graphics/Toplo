@@ -1,0 +1,435 @@
+Class {
+	#name : #ToAbstractListElement,
+	#superclass : #ToElement,
+	#traits : 'TToListElementDecorator + TToElementWithPlaceholder',
+	#classTraits : 'TToListElementDecorator classTrait + TToElementWithPlaceholder classTrait',
+	#instVars : [
+		'selectionMode',
+		'selectionModel',
+		'sharedEventDistributors',
+		'dataSource'
+	],
+	#category : #'Toplo-Widget-List-Core'
+}
+
+{ #category : #orientation }
+ToAbstractListElement >> beHorizontal [
+
+	self infinite layout beHorizontal
+]
+
+{ #category : #orientation }
+ToAbstractListElement >> beVertical [
+
+	self infinite layout beVertical
+]
+
+{ #category : #accessing }
+ToAbstractListElement >> contextMenuSelectionElements [
+
+	^ Array streamContents: [ :stream |
+		  self childrenDo: [ :child |
+			  (child isKindOf: ToListContextMenuSelectionElement) ifTrue: [
+				  stream nextPut: child ] ] ]
+]
+
+{ #category : #accessing }
+ToAbstractListElement >> data [
+
+	self
+		deprecated: 'Please use dataAccessor instead.'
+		transformWith:
+			'`@receiver data'
+				-> '`@receiver dataAccessor'.
+	^ self dataAccessor
+]
+
+{ #category : #accessing }
+ToAbstractListElement >> dataAccessor [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #accessing }
+ToAbstractListElement >> dataSource [
+
+	^ dataSource
+]
+
+{ #category : #accessing }
+ToAbstractListElement >> dataSource: aDataSource [
+
+	dataSource ifNotNil: [ BlImmutableObjectChangeError signal ].
+	dataSource := aDataSource
+]
+
+{ #category : #accessing }
+ToAbstractListElement >> dataUpdater [
+
+	self
+		deprecated: 'Please use dataAccessor instead.'
+		transformWith:
+			'`@receiver dataUpdater'
+				-> '`@receiver dataAccessor'.
+	^ self dataAccessor
+]
+
+{ #category : #initialization }
+ToAbstractListElement >> defaultDataSource [ 
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #initialization }
+ToAbstractListElement >> defaultEventHandler [
+
+	^ ToBasicListElementEventHandler new
+]
+
+{ #category : #initialization }
+ToAbstractListElement >> defaultInfiniteElement [ 
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #initialization }
+ToAbstractListElement >> defaultLayout [
+
+	^ BlFrameLayout new
+]
+
+{ #category : #initialization }
+ToAbstractListElement >> defaultNodeBuilder [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #initialization }
+ToAbstractListElement >> defaultNodeFactory [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #initialization }
+ToAbstractListElement >> defaultNodeHolderFactory [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #initialization }
+ToAbstractListElement >> defaultNodeReleaser [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #initialization }
+ToAbstractListElement >> defaultSelectionMode [
+
+	^ ToListMultipleSelectionMode new operator:
+		  (ToPrimarySelectionModelOperator new selectionModel:
+			   self selectionModel)
+]
+
+{ #category : #accessing }
+ToAbstractListElement >> disabledSelectionModel [
+
+	^ self disabledSelecter selectionModel
+]
+
+{ #category : #orientation }
+ToAbstractListElement >> horizontal: aBoolean [
+
+	self vertical: aBoolean not
+]
+
+{ #category : #initialization }
+ToAbstractListElement >> infiniteSharedEvents [
+
+	^ {
+		  ToObservableCollectionEvent.
+		  BlInfiniteDataSourceEvent.
+		  BlInfiniteElementAttachedEvent.
+		  BlInfiniteElementDetachedEvent.
+		  BlElementScrolledEvent }
+]
+
+{ #category : #initialization }
+ToAbstractListElement >> initialize [
+
+	super initialize.
+	self initializeDataSource.
+
+	self next: self defaultInfiniteElement.
+	self next elevation: (BlRelativeElevation elevation: 10).
+
+	self initializeSelectionModel.
+	self layout: self defaultLayout.	
+
+	self selectionMode: self defaultSelectionMode.
+	self addEventHandler: self defaultEventHandler.
+	self installSharedEventDistributors.
+
+	self addChild: self next.
+	self contextMenuWindowManagerClass: ToListElementContextMenuWindowManager.
+	self addEventHandler: ToListPrimarySelectionElementEventHandler new.
+	self addEventHandler:	ToListElementContextMenuSelectionEventHandler new.
+	self addEventHandler: ToElementCommandEventHandler new.
+	
+	self matchParent
+]
+
+{ #category : #initialization }
+ToAbstractListElement >> initializeDataSource [ 
+
+	self dataSource: self defaultDataSource
+]
+
+{ #category : #initialization }
+ToAbstractListElement >> initializeNodeHolder: aNodeHolder forData: aData [
+
+	| newNode |
+	newNode := self nodeFactory cull: aNodeHolder.
+	aNodeHolder node: newNode.
+	self nodeBuilder cull: newNode cull: aNodeHolder
+]
+
+{ #category : #initialization }
+ToAbstractListElement >> initializeSelectionModel [
+
+	self selectionModel: self newPrimarySelectionModel
+]
+
+{ #category : #initialization }
+ToAbstractListElement >> installSharedEventDistributors [
+	"installs shared event distributors between the list element, the selection strategy,
+	the infinite, the data and the data source. 
+	This gives the possibility to directly add event handlers on shared events :
+		self when: ToInfiniteSelectionChangedEvent do: [ bla bla ] 
+		instead of 
+		self infinite when: ToSelectionChangedEvent do: [ bla bla ] "
+
+	| infiniteSharedHandler |
+	infiniteSharedHandler := BlSharedEventDistributor new
+		                         shareEvents: self infiniteSharedEvents;
+		                         yourself.
+	sharedEventDistributors := { infiniteSharedHandler }.
+	sharedEventDistributors do: [ :handler | self addEventHandler: handler ].
+	self infinite addEventHandler: infiniteSharedHandler
+]
+
+{ #category : #orientation }
+ToAbstractListElement >> isHorizontal [
+
+	^ self infinite layout isHorizontal
+]
+
+{ #category : #testing }
+ToAbstractListElement >> isMultipleSelection [
+
+	^ self selectionMode isMultipleSelection
+]
+
+{ #category : #orientation }
+ToAbstractListElement >> isVertical [
+
+	^ self infinite layout isVertical
+]
+
+{ #category : #accessing }
+ToAbstractListElement >> itemCount [
+
+	^ self dataSource itemCount
+]
+
+{ #category : #'instance creation' }
+ToAbstractListElement >> newPrimarySelectionModel [
+
+	^ ToSelectionModel new
+]
+
+{ #category : #skin }
+ToAbstractListElement >> newRawSkin [ 
+
+	^ ToBasicListElementSkin new
+]
+
+{ #category : #initialization }
+ToAbstractListElement >> newSelectionModel [
+
+	^ ToSelectionModel new
+		  itemCountGetter: [ self dataSource itemCount ];
+		  yourself
+]
+
+{ #category : #accessing }
+ToAbstractListElement >> nodeBuilder [
+
+	"aValuable takes 2 args: first, the node to build and second, its holder in the list element "
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #accessing }
+ToAbstractListElement >> nodeFactory [
+	" returns aValuable that takes a node holder as unique argument and which running results in a new node "
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #accessing }
+ToAbstractListElement >> nodeReleaser [
+	"aValuable takes 2 args: first, the ToNode to release and second, its holder in the list element "
+
+	^ self subclassResponsibility
+]
+
+{ #category : #'event firing' }
+ToAbstractListElement >> notifyClickOnNodeEvent: aClickEvent [
+
+	| preNotification node |
+	node := aClickEvent sourceEvent currentTarget.
+	preNotification := ToListClickOnNodePreNotificationEvent new
+		                   node: node;
+		                   sourceEvent: aClickEvent;
+		                   yourself.
+	self dispatchEvent: preNotification.
+	preNotification sourceEvent ifNil: [ ^ self ].
+	node dispatchEvent: preNotification sourceEvent
+]
+
+{ #category : #'event firing' }
+ToAbstractListElement >> notifyDataSourceItemsChanged: aDataSourceEvent [
+
+	| preNotification |
+	preNotification := ToListDataSourceItemsChangePreNotificationEvent new
+		                   sourceEvent: aDataSourceEvent;
+		                   yourself.
+	self dispatchEvent: preNotification.
+	preNotification sourceEvent ifNil: [ ^ self ].
+	self dispatchEvent: preNotification sourceEvent
+]
+
+{ #category : #'event firing' }
+ToAbstractListElement >> notifyDisabledSelectionChanged: aSelectionChangedEvent [
+
+	self dispatchEvent: aSelectionChangedEvent
+]
+
+{ #category : #'event firing' }
+ToAbstractListElement >> notifyPrimarySelectionChanged: aSelectionChangedEvent [
+
+	| preNotification |
+	preNotification := ToListPrimarySelectionChangePreNotificationEvent new
+		                   sourceEvent: aSelectionChangedEvent;
+		                   yourself.
+	self dispatchEvent: preNotification.
+	preNotification sourceEvent ifNil: [ ^ self ].
+	self dispatchEvent: preNotification sourceEvent
+]
+
+{ #category : #'event firing' }
+ToAbstractListElement >> notifyPrimarySelectionDirty [
+
+	self dispatchEvent: ToListPrimarySelectionDirtyEvent new
+]
+
+{ #category : #'event firing' }
+ToAbstractListElement >> notifySecondarySelectionChanged: aSelectionChangedEvent [
+
+	self dispatchEvent: aSelectionChangedEvent
+]
+
+{ #category : #'event firing' }
+ToAbstractListElement >> notifyUnselectableSelectionChanged: aSelectionChangedEvent [
+
+	self dispatchEvent: aSelectionChangedEvent
+]
+
+{ #category : #'t - element with placeholder' }
+ToAbstractListElement >> placeholderElevation [
+
+	^ self infinite elevation
+]
+
+{ #category : #accessing }
+ToAbstractListElement >> primarySelectionElements [
+
+	^ Array streamContents: [ :stream |
+		  self childrenDo: [ :child |
+			  (child isKindOf: ToListPrimarySelectionElement) ifTrue: [
+				  stream nextPut: child ] ] ]
+]
+
+{ #category : #accessing }
+ToAbstractListElement >> secondarySelectionElements [
+
+	^ Array streamContents: [ :stream |
+		  self childrenDo: [ :child |
+			  (child isKindOf: ToListSecondarySelectionElement) ifTrue: [
+				  stream nextPut: child ] ] ]
+]
+
+{ #category : #accessing }
+ToAbstractListElement >> selecter [ 
+
+	^ self selectionMode selecter
+]
+
+{ #category : #accessing }
+ToAbstractListElement >> selectionMode [
+
+	^ selectionMode
+]
+
+{ #category : #accessing }
+ToAbstractListElement >> selectionMode: aSelectionMode [
+
+	selectionMode ifNotNil: [
+		selectionMode onUninstalledIn: self ].
+	selectionMode := aSelectionMode.
+	selectionMode ifNotNil: [
+		selectionMode onInstalledIn: self ].
+	self dispatchEvent: ToListPrimarySelectionModeChangedEvent new.
+	self requestNewSkin
+]
+
+{ #category : #accessing }
+ToAbstractListElement >> selectionModel [
+
+	^ selectionModel
+]
+
+{ #category : #accessing }
+ToAbstractListElement >> selectionModel: aSelectionModel [
+
+	selectionModel ifNotNil: [ selectionModel onUninstalledIn: self ].
+	selectionModel := aSelectionModel.
+	selectionModel ifNotNil: [selectionModel onInstalledIn: self ]
+]
+
+{ #category : #initialization }
+ToAbstractListElement >> uninstallSharedEventDistributors [
+	" see installSharedEventDistributor "
+
+	sharedEventDistributors ifNil: [ ^ self ].
+
+	sharedEventDistributors do: [ :handler |
+		self removeEventHandler: handler.
+		self infinite removeEventHandlersSuchThat: [ :h | handler = h ] ].
+
+	sharedEventDistributors := nil
+]
+
+{ #category : #accessing }
+ToAbstractListElement >> unselectableSelectionModel [
+
+	^ self unselectableSelecter selectionModel
+]
+
+{ #category : #orientation }
+ToAbstractListElement >> vertical: aBoolean [
+
+	aBoolean
+		ifTrue: [ self beVertical ]
+		ifFalse: [ self beHorizontal ]
+]

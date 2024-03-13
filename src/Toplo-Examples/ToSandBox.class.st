@@ -4,6 +4,35 @@ Class {
 	#category : #'Toplo-Examples'
 }
 
+{ #category : #list }
+ToSandBox class >> example_BasicListWithAllClasses3 [
+
+	| l |
+	l := ToBasicListElement new nodeBuilder: [ :node :holder |
+		     | icn lab |
+		     icn := holder dataItem hasComment
+			            ifTrue: [ #class ]
+			            ifFalse: [ #uncommentedClass ].
+		     lab := ToLabel new
+			            text: holder dataItem name;
+			            beEditable;
+			            yourself.
+		     node addChild: (ToLabeledIcon new
+				      label: lab;
+				      icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
+				      interspace: 10;
+				      hMatchParent) ].
+	l addEventHandler: (BlEventHandler
+			 on: ToListPrimarySelectionChangedEvent
+			 do: [ :evt | evt traceCr ]).
+
+	l dataAccessor addAll: Smalltalk globals allClasses.
+	l withRowNumbers.
+	l inspect.
+	l infinite requestFocus.
+	l openInInnerWindow
+]
+
 { #category : #'button-dep' }
 ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheet [
 
@@ -335,7 +364,7 @@ ToSandBox class >> example_EditableList2WithAllClassesNames [
 	l beVertical.
 	l inspect.
 	l
-		nodeClass: ToListClassNodeExample;
+		nodeFactory: [ ToListClassNodeExample new ];
 		nodeBuilder: [ :node :holder |
 			node forClassNameAssoc: holder dataItem ];
 		addEventHandler: (BlEventHandler
@@ -1207,7 +1236,7 @@ ToSandBox class >> example_RadioButtonWithIndeterminate [
 ToSandBox class >> example_SelectMonoFiltrable [
 
 	| select innerWindow phtext |
-	select := ToSelect new.
+	select := ToSelectElement new.
 	select listElement placeholderMinHeight: 35.
 	phtext := ('No Data' asRopedText
 		           foreground: Color lightGray;
@@ -1240,7 +1269,7 @@ ToSandBox class >> example_SelectMonoFiltrable [
 ToSandBox class >> example_SelectMonoFiltrableWithGroups [
 
 	| select innerWindow phtext |
-	select := ToSelect new.
+	select := ToSelectElement new.
 	select listElement placeholderMinHeight: 35.
 	phtext := ('No Data' asRopedText
 		           foreground: Color lightGray;
@@ -1272,7 +1301,7 @@ ToSandBox class >> example_SelectMonoFiltrableWithGroups [
 ToSandBox class >> example_SelectMonoNotFiltrable [
 
 	| select innerWindow |
-	select := ToSelect new.
+	select := ToSelectElement new.
 	select filtrable: false.
 	select dataAccessor addAll: self statesOfAmerica.
 	select placeholderText: ('Select a state' asRopedText foreground: Color red).
@@ -1290,7 +1319,7 @@ ToSandBox class >> example_SelectMonoNotFiltrable [
 ToSandBox class >> example_SelectMonoNotFiltrableWithGroups [
 
 	| select innerWindow phtext |
-	select := ToSelect new.
+	select := ToSelectElement new.
 	select listElement placeholderMinHeight: 35.
 	phtext := ('No Data' asRopedText
 		           foreground: Color lightGray;
@@ -1322,15 +1351,13 @@ ToSandBox class >> example_SelectMonoNotFiltrableWithGroups [
 ToSandBox class >> example_SelectMultiFiltrable [
 
 	| select innerWindow |
-	select := ToSelect new.
+	select := ToSelectElement new.
 	select dataAccessor addAll: self statesOfAmerica.
 	select strategy: ToMultipleSelectStrategy new.
 	select filtrable: true.
 	select popupMaxHeight: 200.
 	select placeholderText:
 		('Select states' asRopedText foreground: Color red).
-	select listElement nodeBuilder: [ :node :holder |
-		node addChild: (ToLabel text: holder dataItem asString) hMatchParent ].
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
 	select width: 300.
@@ -1344,7 +1371,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 ToSandBox class >> example_SelectMultiNotFiltrable [
 
 	| select innerWindow |
-	select := ToSelect new.
+	select := ToSelectElement new.
 	select filtrable: false.
 	select dataAccessor addAll: self statesOfAmerica.
 	select strategy: ToMultipleSelectStrategy new.
@@ -2623,7 +2650,7 @@ ToSandBox class >> example_scaledImage [
 ToSandBox class >> example_selectWith5Nodes [
 
 	| select innerWindow |
-	select := ToSelect new.
+	select := ToSelectElement new.
 	select listElement nodeBuilder: [ :node :holder |
 		node addChild: (ToLabel text: holder dataItem asString) hMatchParent ].
 	innerWindow := ToInnerWindow new.
@@ -3881,7 +3908,7 @@ ToSandBox class >> methodText [
 ToSandBox class >> selectWithEditingMultiSelection [
 
 	| select phtext |
-	select := ToSelect new.
+	select := ToSelectElement new.
 	phtext := ('No Data' asRopedText
 		           foreground: Color lightGray;
 		           yourself)

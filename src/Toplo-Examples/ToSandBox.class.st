@@ -1380,6 +1380,28 @@ ToSandBox class >> example_SelectMultiFiltrable [
 ]
 
 { #category : #select }
+ToSandBox class >> example_SelectMultiFiltrableNoWrapping [
+
+	| select innerWindow |
+	select := ToSelectElement new.
+	select nodeWrapping: false.
+	select hideSelected: false.
+	select dataAccessor addAll: self statesOfAmerica.
+	select strategy: ToMultipleSelectStrategy new.
+	select filtrable: true.
+	select popupMaxHeight: 200.
+	select placeholderText:
+		('Select states' asRopedText foreground: Color red).
+	innerWindow := ToInnerWindow new.
+	select windowManager anchorRoot: innerWindow root.
+	select width: 300.
+	select position: 50 @ 10.
+	innerWindow pane addChild: select.
+	innerWindow height: 600.
+	innerWindow openInSpace
+]
+
+{ #category : #select }
 ToSandBox class >> example_SelectMultiFiltrableWithHideSelected [
 
 	| select innerWindow |

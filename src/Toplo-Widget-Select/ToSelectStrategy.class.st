@@ -9,6 +9,12 @@ Class {
 	#category : #'Toplo-Widget-Select-Core'
 }
 
+{ #category : #private }
+ToSelectStrategy >> adaptNodeContainerLayout [
+
+	" no effect here "
+]
+
 { #category : #initialization }
 ToSelectStrategy >> buildHeaderNodeContainer: anElement [
 
@@ -151,6 +157,12 @@ ToSelectStrategy >> newHeaderNodeHolder [
 	^ self headerNodeHolderClass new select: select; yourself
 ]
 
+{ #category : #accessing }
+ToSelectStrategy >> nodeWrapping: aBoolean [
+
+	" no effect here "
+]
+
 { #category : #'api - hooks' }
 ToSelectStrategy >> onInstalledIn: aSelect [
 
@@ -162,7 +174,8 @@ ToSelectStrategy >> onInstalledIn: aSelect [
 	self buildHeaderNodeContainer: nodeContainer.
 	self initializeFakeNode.
 	aSelect listElement selectionMode selectOnMouseDown: true.
-	aSelect listElement selectionMode requestFocusOnMouseDown: false
+	aSelect listElement selectionMode requestFocusOnMouseDown: false.
+	self adaptNodeContainerLayout 
 ]
 
 { #category : #'api - hooks' }

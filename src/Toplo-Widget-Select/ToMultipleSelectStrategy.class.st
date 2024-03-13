@@ -2,12 +2,17 @@ Class {
 	#name : #ToMultipleSelectStrategy,
 	#superclass : #ToSelectStrategy,
 	#instVars : [
-		'nodeWrapping',
 		'headerNodeHolders',
 		'textInputElement'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
+
+{ #category : #private }
+ToMultipleSelectStrategy >> adaptNodeContainerLayout [
+
+	select headerNodeContainer layout: self headerNodeContainerLayout
+]
 
 { #category : #'accessing nodes' }
 ToMultipleSelectStrategy >> addAllDataNodes: aNodeCollection [
@@ -51,12 +56,6 @@ ToMultipleSelectStrategy >> defaultHeaderNodeClass [
 	^ ToMultipleSelectHeaderNode
 ]
 
-{ #category : #initialization }
-ToMultipleSelectStrategy >> defaultNodeWrapping [
-
-	^ true
-]
-
 { #category : #'accessing nodes' }
 ToMultipleSelectStrategy >> headerDataNodesDo: aBlock [
 
@@ -66,7 +65,7 @@ ToMultipleSelectStrategy >> headerDataNodesDo: aBlock [
 { #category : #private }
 ToMultipleSelectStrategy >> headerNodeContainerLayout [
 
-	^ nodeWrapping
+	^ self nodeWrapping
 		ifTrue: [ BlFlowLayout horizontal ]
 		ifFalse: [ BlLinearLayout horizontal ]
 ]
@@ -81,9 +80,7 @@ ToMultipleSelectStrategy >> headerNodeHolders [
 ToMultipleSelectStrategy >> initialize [
 
 	super initialize.
-	headerNodeHolders := OrderedCollection new.
-	nodeWrapping := self defaultNodeWrapping.
-
+	headerNodeHolders := OrderedCollection new
 	
 ]
 
@@ -96,15 +93,7 @@ ToMultipleSelectStrategy >> isMultipleSelection [
 { #category : #accessing }
 ToMultipleSelectStrategy >> nodeWrapping [
 
-	^ nodeWrapping 
-]
-
-{ #category : #accessing }
-ToMultipleSelectStrategy >> nodeWrapping: aBoolean [
-
-	nodeWrapping = aBoolean ifTrue: [ ^ self ].
-	nodeWrapping := aBoolean.
-	self onNodeWrappingChange.
+	^ select nodeWrapping
 ]
 
 { #category : #'api - hooks' }
@@ -114,12 +103,6 @@ ToMultipleSelectStrategy >> onInstalledIn: aSelect [
 		(ToListMultipleSelectionMode new operator:
 			 (ToPrimarySelectionModelOperator new selectionModel: aSelect listElement selectionModel)).
 	super onInstalledIn: aSelect
-]
-
-{ #category : #private }
-ToMultipleSelectStrategy >> onNodeWrappingChange [
-
-	select headerNodeContainer layout: self headerNodeContainerLayout
 ]
 
 { #category : #'api - hooks' }

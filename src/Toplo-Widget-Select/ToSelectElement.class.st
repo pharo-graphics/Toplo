@@ -6,6 +6,7 @@ Class {
 		'fakeData',
 		'filtrable',
 		'data',
+		'nodeWrapping',
 		'selectionModel',
 		'groupIndexes',
 		'strategy',
@@ -167,8 +168,10 @@ ToSelectElement >> initialize [
 
 	| sharedEventsDistributor headerElement |
 	super initialize.
-	hideSelected := false.
 
+	hideSelected := false.
+	nodeWrapping := true.
+	
 	data := ToObservableCollection new.
 	groupIndexes := IdentitySet new.
 	
@@ -283,6 +286,20 @@ ToSelectElement >> newWindowManager [
 	wm := ToSelectWindowManager new.
 	wm onInstalledIn: self.
 	^ wm
+]
+
+{ #category : #accessing }
+ToSelectElement >> nodeWrapping [
+
+	^ nodeWrapping 
+]
+
+{ #category : #accessing }
+ToSelectElement >> nodeWrapping: aBoolean [
+
+	nodeWrapping = aBoolean ifTrue: [ ^ self ].
+	nodeWrapping := aBoolean.
+	self strategy adaptNodeContainerLayout 
 ]
 
 { #category : #'accessing selection' }

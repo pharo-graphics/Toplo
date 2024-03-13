@@ -83,6 +83,13 @@ ToBasicListElement >> nodeFactory [
 ]
 
 { #category : #accessing }
+ToBasicListElement >> nodeFactory: aValuable [
+	" aValuable that takes a node holder as unique argument and which running results in a new node "
+
+	nodeFactory := aValuable
+]
+
+{ #category : #accessing }
 ToBasicListElement >> nodeReleaser [
 	"aValuable takes 2 args: first, the ToNode to release and second, its holder in the list element "
 

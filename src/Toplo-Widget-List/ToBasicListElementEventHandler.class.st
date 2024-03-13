@@ -146,6 +146,20 @@ ToBasicListElementEventHandler >> mouseDownEvent: anEvent [
 	anEvent consumed: true
 ]
 
+{ #category : #'infinite event handling' }
+ToBasicListElementEventHandler >> onItemsInserted: anEvent [
+
+	self infiniteDataSourceItemRangeInserted: anEvent
+
+]
+
+{ #category : #'infinite event handling' }
+ToBasicListElementEventHandler >> onItemsRemoved: anEvent [
+
+	^ self infiniteDataSourceItemRangeRemoved: anEvent
+
+]
+
 { #category : #'list element handling' }
 ToBasicListElementEventHandler >> showHidePlaceholderIn: aListElement [
 

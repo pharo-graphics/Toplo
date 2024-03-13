@@ -11,7 +11,8 @@ ToSelectEventHandler >> collectionFilteredEvent: anEvent [
 	select := windowManager element.
 	windowManager currentWindow ifNil: [
 		select strategy textInputElement filterString ifNotEmpty: [
-			select popupWindowEvent: anEvent ] ]
+			select popupWindowEvent: anEvent ] ].
+	"select strategy refreshHeaderNodeContainer."
 ]
 
 { #category : #'element handlers' }
@@ -50,12 +51,13 @@ ToSelectEventHandler >> selectSelectionChanged: anEvent [
 
 	| select listElement |
 	select := anEvent currentTarget.
-	"select listElement dataSource notifyChanged."
 	listElement := select listElement.
-	select dataAccessor withIndexDo: [ :d :idx |
-		(listElement selectionModel containsIndex: idx)
-			ifTrue: [ listElement hiddenSelecter selectIndex: idx ]
-			ifFalse: [ listElement hiddenSelecter deselectIndex: idx ] ].
+	" hide selected nodes if the hideSelected option is true "
+	select hideSelected ifTrue: [
+		select dataAccessor withIndexDo: [ :d :idx |
+			(listElement selectionModel containsIndex: idx)
+				ifTrue: [ listElement hiddenSelecter selectIndex: idx ]
+				ifFalse: [ listElement hiddenSelecter deselectIndex: idx ] ] ].
 	select strategy refreshHeaderNodeContainer.
 	self showHidePlaceholderIn: select
 ]

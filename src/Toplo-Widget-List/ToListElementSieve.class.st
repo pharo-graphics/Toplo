@@ -6,7 +6,8 @@ Class {
 		'originalData',
 		'currentData',
 		'selectionHandler',
-		'sharedHandler'
+		'sharedHandler',
+		'dataPositionIndex'
 	],
 	#category : #'Toplo-Widget-List-Sieve'
 }
@@ -17,12 +18,38 @@ ToListElementSieve >> currentData [
 	^ currentData 
 ]
 
+{ #category : #enumerating }
+ToListElementSieve >> currentDataWithIndexDo: aBlock [
+	" aBlock takes a data an its index as arguments "
+
+	self currentData do: [ :d |
+		| idx |
+		idx := self dataPositionIndex at: d.
+		aBlock value: d value: idx ]
+]
+
+{ #category : #enumerating }
+ToListElementSieve >> currentIndexesDo: aBlock [
+	" aBlock takes an index as argument "
+
+	self currentData do: [ :d |
+		| idx |
+		idx := self dataPositionIndex at: d.
+		aBlock value: idx ]
+]
+
 { #category : #accessing }
 ToListElementSieve >> dataFilter: aValuable [
 	" filter takes a data and a pattern as argument "
 
 	queryRunner dataFilter: [ :item :pattern |
 		aValuable value: item value: pattern ]
+]
+
+{ #category : #accessing }
+ToListElementSieve >> dataPositionIndex [
+
+	^ dataPositionIndex 
 ]
 
 { #category : #accessing }
@@ -37,6 +64,7 @@ ToListElementSieve >> onInstalledIn: aListElement [
 
 	originalData ifNotNil: [
 		^ (BlImmutableObjectChangeError object: self) signal ].
+	dataPositionIndex := IdentityDictionary new.
 	originalData := aListElement dataAccessor newMirror.
 	queryRunner := ToObservableCollectionQueryRunner new.
 	queryRunner onInstalledIn: originalData.

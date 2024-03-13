@@ -45,6 +45,38 @@ ToListElementStresser >> _actionFilterResultIn: aList [
 ]
 
 { #category : #actions }
+ToListElementStresser >> _actionHiddenAllIn: aList [
+
+	aList hiddenSelecter selectAll
+]
+
+{ #category : #actions }
+ToListElementStresser >> _actionHiddenIndexesIn: aList [
+
+	| nb selected |
+	nb := (self randIndexIn: aList) min: 30.
+	nb isZero ifTrue: [ ^ self ].
+	selected := (1 to: nb) collect: [ :i | self randIndexIn: aList ].
+	aList hiddenSelecter selectIndexes: selected
+]
+
+{ #category : #actions }
+ToListElementStresser >> _actionUnhiddenAllIn: aList [
+
+	aList hiddenSelecter deselectAll
+]
+
+{ #category : #actions }
+ToListElementStresser >> _actionUnhiddenIndexesIn: aList [
+
+	| nb selected |
+	nb := (self randIndexIn: aList) min: 30.
+	nb isZero ifTrue: [ ^ self ].
+	selected := (1 to: nb) collect: [ :i | self randIndexIn: aList ].
+	aList hiddenSelecter deselectIndexes: selected
+]
+
+{ #category : #actions }
 ToListElementStresser >> actionAddAfterIndexIn: aList [
 
 	aList dataAccessor
@@ -134,6 +166,16 @@ ToListElementStresser >> actionEnableIndexesIn: aList [
 	nb isZero ifTrue: [ ^ self ].
 	selected := (1 to: nb) collect: [ :i | self randIndexIn: aList ].
 	aList disabledSelecter deselectIndexes: selected
+]
+
+{ #category : #actions }
+ToListElementStresser >> actionHiddenIndexesIn: aList [
+
+	| nb selected |
+	nb := (self randIndexIn: aList) min: 30.
+	nb isZero ifTrue: [ ^ self ].
+	selected := (1 to: nb) collect: [ :i | self randIndexIn: aList ].
+	aList hiddenSelecter selectIndexes: selected
 ]
 
 { #category : #actions }
@@ -228,6 +270,12 @@ ToListElementStresser >> actionShiftSelectionFromIn: aList [
 	nb := self randIndexIn: aList.
 	idx := self randIndexIn: aList.
 	idx isZero ifFalse: [ aList selecter shiftSelection: nb from: idx ]
+]
+
+{ #category : #actions }
+ToListElementStresser >> actionUnhiddenAllIn: aList [
+
+	aList hiddenSelecter deselectAll
 ]
 
 { #category : #actions }

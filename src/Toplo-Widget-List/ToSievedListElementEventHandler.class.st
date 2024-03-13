@@ -16,7 +16,6 @@ ToSievedListElementEventHandler >> applyQueryAppliedEvent: anEvent [
 	| listElement |
 	listElement := anEvent currentTarget.
 	" a query has occured (because the query pattern has changed), update the list element accordingly "
-
 	sieve updateCurrentData.
 	" update the list element but not the selection "
 	" *** note that it is required to deselect all here - 
@@ -28,7 +27,7 @@ ToSievedListElementEventHandler >> applyQueryAppliedEvent: anEvent [
 { #category : #'api - hooks' }
 ToSievedListElementEventHandler >> buildIndexedDataFrom: aListElement [
 
-	dataPositionIndex := IdentityDictionary new.
+	dataPositionIndex removeAll.
 	aListElement dataAccessor withIndexDo: [ :aData :idx |
 		dataPositionIndex at: aData put: idx ]
 ]
@@ -53,6 +52,18 @@ ToSievedListElementEventHandler >> collectionFilteredEvent: anEvent [
 							            ifTrue: [ stream nextPut: localIndex ] ] ] ] ]
 		            ifEmpty: [ sieveSelectionModel selectedIndexes ].
 	target selecter selectOnlyIndexes: selected
+]
+
+{ #category : #accessing }
+ToSievedListElementEventHandler >> dataPositionIndex [
+
+	^ dataPositionIndex 
+]
+
+{ #category : #accessing }
+ToSievedListElementEventHandler >> dataPositionIndex: aDictionary [
+
+	dataPositionIndex := aDictionary
 ]
 
 { #category : #'api - accessing' }
@@ -174,12 +185,41 @@ ToSievedListElementEventHandler >> observableCollectionQueryResultEvent: anEvent
 	listElement enqueueTask: queryApplicationTask
 ]
 
+{ #category : #'data events handling' }
+ToSievedListElementEventHandler >> onChanged: anEvent [
+
+	self infiniteDataSourceChanged: anEvent
+]
+
 { #category : #'api - hooks' }
 ToSievedListElementEventHandler >> onInstalledIn: aListElement [
 
 	super onInstalledIn: aListElement.
 	sieveSelectionModel := aListElement selectionModel copy.
+	self dataPositionIndex: sieve dataPositionIndex.
 	self buildIndexedDataFrom: aListElement
+]
+
+{ #category : #'data events handling' }
+ToSievedListElementEventHandler >> onItemsChanged: anEvent [
+
+	self infiniteDataSourceItemRangeChanged: anEvent
+]
+
+{ #category : #'data events handling' }
+ToSievedListElementEventHandler >> onItemsEvent: anEvent [
+
+	self infiniteDataSourceItemRangeEvent: anEvent
+]
+
+{ #category : #'data events handling' }
+ToSievedListElementEventHandler >> onItemsInserted: anEvent [
+
+]
+
+{ #category : #'data events handling' }
+ToSievedListElementEventHandler >> onItemsRemoved: anEvent [
+
 ]
 
 { #category : #accessing }

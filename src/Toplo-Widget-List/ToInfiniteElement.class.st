@@ -20,12 +20,6 @@ ToInfiniteElement class >> onListElement: aListElement [
 		  initialize
 ]
 
-{ #category : #'as yet unclassified' }
-ToInfiniteElement >> aeDrawItemDecorationsOn: aCanvas [
-
-	"self layoutCritical: [ "super aeDrawItemDecorationsOn: aCanvas" ]"
-]
-
 { #category : #initialization }
 ToInfiniteElement >> defaultDataSource [
 

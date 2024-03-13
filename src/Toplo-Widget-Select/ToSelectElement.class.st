@@ -8,7 +8,8 @@ Class {
 		'data',
 		'selectionModel',
 		'groupIndexes',
-		'strategy'
+		'strategy',
+		'hideSelected'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -128,6 +129,18 @@ ToSelectElement >> headerNodeContainer [
 ]
 
 { #category : #accessing }
+ToSelectElement >> hideSelected [
+
+	^ hideSelected 
+]
+
+{ #category : #accessing }
+ToSelectElement >> hideSelected: aBoolean [
+
+	hideSelected := aBoolean
+]
+
+{ #category : #accessing }
 ToSelectElement >> icon [
 
 	^ self childWithId: #icon ifNone: [  ]
@@ -154,6 +167,7 @@ ToSelectElement >> initialize [
 
 	| sharedEventsDistributor headerElement |
 	super initialize.
+	hideSelected := false.
 
 	data := ToObservableCollection new.
 	groupIndexes := IdentitySet new.

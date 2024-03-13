@@ -22,6 +22,12 @@ ToBasicListElement >> defaultDataSource [
 ]
 
 { #category : #initialization }
+ToBasicListElement >> defaultEventHandler [
+
+	^ ToBasicListElementEventHandler new
+]
+
+{ #category : #initialization }
 ToBasicListElement >> defaultInfiniteElement [
 
 	^ ToInfiniteElement onListElement: self
@@ -40,10 +46,10 @@ ToBasicListElement >> defaultNodeFactory [
 	^ [ :holder | ToNode new ]
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 ToBasicListElement >> defaultNodeHolderFactory [
 
-	^ [ ToNodeHolder new ]
+	^ [ ToBasicNodeHolder new ]
 ]
 
 { #category : #initialization }
@@ -59,6 +65,20 @@ ToBasicListElement >> initialize [
 	nodeFactory := self defaultNodeFactory.
 	nodeBuilder := self defaultNodeBuilder.
 	nodeReleaser := self defaultNodeReleaser 
+]
+
+{ #category : #'instance creation' }
+ToBasicListElement >> newPrimarySelectionModel [
+
+	^ self newSelectionModel 
+]
+
+{ #category : #'instance creation' }
+ToBasicListElement >> newSelectionModel [
+
+	^ ToBasicListSelectionModel new
+		  itemCountGetter: [ self dataSource itemCount ];
+		  yourself
 ]
 
 { #category : #accessing }
@@ -101,4 +121,19 @@ ToBasicListElement >> nodeReleaser: aValuable [
 	"aValuable takes 2 args: first, the ToNode to release and second, its holder in the list element "
 
 	nodeReleaser := aValuable
+]
+
+{ #category : #'selection command application' }
+ToBasicListElement >> onPrimarySelectionCommandApplied: aCommand [
+
+	aCommand selectionChanged ifFalse: [ ^ self ].
+	
+	self dispatchEvent: (ToPrimarySelectionCommandAppliedEvent new
+			 command: aCommand;
+			 yourself).
+
+	self notifyPrimarySelectionChanged:
+		(ToListPrimarySelectionChangedEvent new
+			 selectionModel: self selectionModel copy;
+			 yourself)
 ]

@@ -8,6 +8,7 @@ Class {
 ToListElementEventHandler >> eventsToHandle [
 
 	^ super eventsToHandle, {
+		  ToListHiddenSelectionChangedEvent.
 		  ToListUnselectableSelectionChangedEvent.
 		  ToListDisabledSelectionChangedEvent.
 		  ToListClickOnNodePreNotificationEvent }
@@ -25,14 +26,31 @@ ToListElementEventHandler >> listClickOnNodePreNotificationEvent: anEvent [
 { #category : #'list element handling' }
 ToListElementEventHandler >> listDisabledSelectionChangedEvent: anEvent [
 
-	| target nodesArray selectionModel |
+	| target nodesArray |
 	target := anEvent currentTarget.
 	target isAttachedToSceneGraph ifFalse: [ ^ self ].
 
 	nodesArray := target infinite children asArray.
-	selectionModel := target disabledSelectionModel.
+	anEvent selectionModel ifEmpty: [
+		target dataSource notifyChanged.
+		^ self ].
 	anEvent selectionModel selectedIndexesIntervalsDo: [ :interval |
 		target dataSource notifyItemsChanged: (interval first to: interval last) ]
+]
+
+{ #category : #'list element handling' }
+ToListElementEventHandler >> listHiddenSelectionChangedEvent: anEvent [
+
+	| target nodesArray |
+	target := anEvent currentTarget.
+	target isAttachedToSceneGraph ifFalse: [ ^ self ].
+	nodesArray := target infinite children asArray.
+	anEvent selectionModel ifEmpty: [
+		target dataSource notifyChanged.
+		^ self ].
+	anEvent selectionModel selectedIndexesIntervalsDo: [ :interval |
+		target dataSource notifyItemsChanged:
+			(interval first to: interval last) ]
 ]
 
 { #category : #'list element handling' }
@@ -42,6 +60,9 @@ ToListElementEventHandler >> listUnselectableSelectionChangedEvent: anEvent [
 	target := anEvent currentTarget.
 	target isAttachedToSceneGraph ifFalse: [ ^ self ].
 	target infinite hasChildren ifFalse: [ ^ self ].
+	anEvent selectionModel ifEmpty: [
+		target dataSource notifyChanged.
+		^ self ].
 	firstPos := target infinite firstChild holder position.
 	lastPos := target infinite lastChild holder position.
 	(target selectionModel hasUnselectableInInterval:

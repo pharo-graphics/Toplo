@@ -1,44 +1,15 @@
 Class {
 	#name : #ToNodeHolder,
-	#superclass : #BlInfiniteHolder,
-	#instVars : [
-		'dataItem'
-	],
+	#superclass : #ToBasicNodeHolder,
 	#category : #'Toplo-Widget-List-Node'
 }
 
 { #category : #accessing }
-ToNodeHolder >> data [
-
-
-	self
-		deprecated: 'Use dataItem instead'
-		transformWith: '`@receiver data' -> '`@receiver dataItem'.
-
-	^ self dataItem
-]
-
-{ #category : #accessing }
-ToNodeHolder >> data: aData [ 
-
-	self
-		deprecated: 'Use dataItem: instead'
-		transformWith: '`@receiver data: `@arg' -> '`@receiver dataItem: `@arg'.
-
-	self dataItem: aData
-]
-
-{ #category : #accessing }
-ToNodeHolder >> dataItem [
-
-	^ dataItem
-]
-
-{ #category : #accessing }
 ToNodeHolder >> dataItem: aData [ 
 
-	dataItem := aData.
-	self listElement initializeNodeHolder: self forData: aData
+	super dataItem: aData.
+	self node enabled: self isEnabled.
+	self isHidden ifTrue: [ self node height: 0 ]
 ]
 
 { #category : #accessing }
@@ -54,6 +25,15 @@ ToNodeHolder >> isDisabled [
 ToNodeHolder >> isEnabled [
 
 	^ self isDisabled not
+]
+
+{ #category : #accessing }
+ToNodeHolder >> isHidden [
+
+	^ self listElement
+		  ifNil: [ true ]
+		  ifNotNil: [ :le |
+		  le hiddenSelectionModel containsIndex: self position ]
 ]
 
 { #category : #accessing }
@@ -77,22 +57,4 @@ ToNodeHolder >> isUnselectable [
 		  ifNil: [ true ]
 		  ifNotNil: [ :le |
 		  le unselectableSelectionModel containsIndex: self position ]
-]
-
-{ #category : #accessing }
-ToNodeHolder >> listElement [
-
-	^ infiniteElement listElement
-]
-
-{ #category : #accessing }
-ToNodeHolder >> node [
-
-	^ self itemElement 
-]
-
-{ #category : #accessing }
-ToNodeHolder >> node: aNode [
-
-	itemElement := aNode
 ]

@@ -5,7 +5,8 @@ Class {
 		'disabledSelecter',
 		'unselectableSelecter',
 		'secondarySelectionModel',
-		'secondarySelectionMode'
+		'secondarySelectionMode',
+		'hiddenSelecter'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -28,6 +29,12 @@ ToListElement >> defaultEventHandler [
 ]
 
 { #category : #initialization }
+ToListElement >> defaultNodeHolderFactory [
+
+	^ [ ToNodeHolder new ]
+]
+
+{ #category : #initialization }
 ToListElement >> defaultSecondarySelectionEventHandler [
 
 	^ ToListSecondarySelectionElementEventHandler new
@@ -47,6 +54,24 @@ ToListElement >> disabledSelecter [
 	^ disabledSelecter
 ]
 
+{ #category : #accessing }
+ToListElement >> disabledSelectionModel [
+
+	^ self disabledSelecter selectionModel
+]
+
+{ #category : #accessing }
+ToListElement >> hiddenSelecter [ 
+
+	^ hiddenSelecter
+]
+
+{ #category : #accessing }
+ToListElement >> hiddenSelectionModel [
+
+	^ self hiddenSelecter selectionModel
+]
+
 { #category : #initialization }
 ToListElement >> infiniteSharedEvents [
 
@@ -54,36 +79,14 @@ ToListElement >> infiniteSharedEvents [
 ]
 
 { #category : #initialization }
-ToListElement >> initializeNodeHolder: aNodeHolder forData: aData [
-
-	super initializeNodeHolder: aNodeHolder forData: aData.
-	aNodeHolder isEnabled
-		ifTrue: [ aNodeHolder node enabled: true ]
-		ifFalse: [ aNodeHolder node disabled: true ].
-]
-
-{ #category : #initialization }
 ToListElement >> initializeSelectionModel [
 
-	| unselectableSelectionModel operatorForUnselectableItems disabledSelectionModel operatorForDisabledItems |
-	unselectableSelectionModel := self newSelectionModel.
-	unselectableSelectionModel onInstalledIn: self.
-	unselectableSelecter := ToMultiSelectionModelSelecter new.
-	operatorForUnselectableItems := ToUnselectableSelectionModelOperator new.
-	operatorForUnselectableItems selectionModel:
-		unselectableSelectionModel.
-	operatorForUnselectableItems onInstalledIn: self.
-	unselectableSelecter operator: operatorForUnselectableItems.
-	unselectableSelecter onInstalledIn: self.
-
-	disabledSelectionModel := self newSelectionModel.
-	disabledSelectionModel onInstalledIn: self.
-	disabledSelecter := ToMultiSelectionModelSelecter new.
-	operatorForDisabledItems := ToDisabledSelectionModelOperator new.
-	operatorForDisabledItems selectionModel: disabledSelectionModel.
-	operatorForDisabledItems onInstalledIn: self.
-	disabledSelecter operator: operatorForDisabledItems.
-	disabledSelecter onInstalledIn: self.
+	unselectableSelecter := self installSelecterForOperator:
+		                        ToUnselectableSelectionModelOperator new.
+	disabledSelecter := self installSelecterForOperator:
+		                    ToDisabledSelectionModelOperator new.
+	hiddenSelecter := self installSelecterForOperator:
+		                    ToHiddenSelectionModelOperator new.
 
 	self secondarySelectionModel: self newSecondarySelectionModel.
 	self secondarySelectionMode: self defaultSecondarySelectionMode.
@@ -92,10 +95,25 @@ ToListElement >> initializeSelectionModel [
 	super initializeSelectionModel
 ]
 
+{ #category : #initialization }
+ToListElement >> installSelecterForOperator: aSelectionOperator [
+
+	| newSelectionModel newSelecter |
+	newSelectionModel := self newSelectionModel.
+	newSelectionModel onInstalledIn: self.
+	newSelecter := ToMultiSelectionModelSelecter new.
+	aSelectionOperator selectionModel: newSelectionModel.
+	aSelectionOperator onInstalledIn: self.
+	newSelecter operator: aSelectionOperator.
+	newSelecter onInstalledIn: self.
+
+	^ newSelecter
+]
+
 { #category : #'instance creation' }
 ToListElement >> newPrimarySelectionModel [
 
-	^ ToInteractiveSelectionModel new
+	^ ToListSelectionModel new
 ]
 
 { #category : #skin }
@@ -107,7 +125,75 @@ ToListElement >> newRawSkin [
 { #category : #'instance creation' }
 ToListElement >> newSecondarySelectionModel [
 
-	^ ToInteractiveSelectionModel new
+	^ ToListSelectionModel new
+]
+
+{ #category : #'event firing' }
+ToListElement >> notifyDisabledSelectionChanged: aSelectionChangedEvent [
+
+	self dispatchEvent: aSelectionChangedEvent
+]
+
+{ #category : #'event firing' }
+ToListElement >> notifyHiddenSelectionChanged: aSelectionChangedEvent [
+
+	self dispatchEvent: aSelectionChangedEvent
+]
+
+{ #category : #'event firing' }
+ToListElement >> notifySecondarySelectionChanged: aSelectionChangedEvent [
+
+	self dispatchEvent: aSelectionChangedEvent
+]
+
+{ #category : #'event firing' }
+ToListElement >> notifyUnselectableSelectionChanged: aSelectionChangedEvent [
+
+	self dispatchEvent: aSelectionChangedEvent
+]
+
+{ #category : #'selection command application' }
+ToListElement >> onDisabledSelectionCommandApplied: aCommand [
+
+	aCommand selectionChanged ifFalse: [ ^ self ].
+	
+	self notifyDisabledSelectionChanged:
+		(ToListDisabledSelectionChangedEvent new
+			 selectionModel: self disabledSelectionModel copy;
+			 yourself)
+]
+
+{ #category : #'selection command application' }
+ToListElement >> onHiddenSelectionCommandApplied: aCommand [
+
+	aCommand selectionChanged ifFalse: [ ^ self ].
+
+	self notifyHiddenSelectionChanged:
+		(ToListHiddenSelectionChangedEvent new
+			 selectionModel: self hiddenSelectionModel copy;
+			 yourself)
+]
+
+{ #category : #'selection command application' }
+ToListElement >> onSecondarySelectionCommandApplied: aCommand [
+
+	aCommand selectionChanged ifFalse: [ ^ self ].
+
+	self notifySecondarySelectionChanged:
+		(ToListSecondarySelectionChangedEvent new
+			 selectionModel: self secondarySelectionModel copy;
+			 yourself)
+]
+
+{ #category : #'selection command application' }
+ToListElement >> onUnselectableSelectionCommandApplied: aCommand [
+
+	aCommand selectionChanged ifFalse: [ ^ self ].
+
+	self notifyUnselectableSelectionChanged:
+		(ToListUnselectableSelectionChangedEvent new
+			 selectionModel: self unselectableSelectionModel copy;
+			 yourself)
 ]
 
 { #category : #accessing }
@@ -149,4 +235,10 @@ ToListElement >> secondarySelectionModel: aSelectionModel [
 ToListElement >> unselectableSelecter [
 
 	^ unselectableSelecter
+]
+
+{ #category : #accessing }
+ToListElement >> unselectableSelectionModel [
+
+	^ self unselectableSelecter selectionModel
 ]

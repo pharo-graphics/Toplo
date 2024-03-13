@@ -9,9 +9,3 @@ ToSelectListNodeHolder >> isGroup [
 
 	^ self isUnselectable
 ]
-
-{ #category : #testing }
-ToSelectListNodeHolder >> isHidden [
-
-	^ self isSelected
-]

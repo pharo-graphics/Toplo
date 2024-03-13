@@ -83,7 +83,7 @@ ToAbstractListElement >> defaultDataSource [
 { #category : #initialization }
 ToAbstractListElement >> defaultEventHandler [
 
-	^ ToBasicListElementEventHandler new
+	^ self subclassResponsibility 
 ]
 
 { #category : #initialization }
@@ -128,12 +128,6 @@ ToAbstractListElement >> defaultSelectionMode [
 	^ ToListMultipleSelectionMode new operator:
 		  (ToPrimarySelectionModelOperator new selectionModel:
 			   self selectionModel)
-]
-
-{ #category : #accessing }
-ToAbstractListElement >> disabledSelectionModel [
-
-	^ self disabledSelecter selectionModel
 ]
 
 { #category : #orientation }
@@ -182,15 +176,6 @@ ToAbstractListElement >> initialize [
 ToAbstractListElement >> initializeDataSource [ 
 
 	self dataSource: self defaultDataSource
-]
-
-{ #category : #initialization }
-ToAbstractListElement >> initializeNodeHolder: aNodeHolder forData: aData [
-
-	| newNode |
-	newNode := self nodeFactory cull: aNodeHolder.
-	aNodeHolder node: newNode.
-	self nodeBuilder cull: newNode cull: aNodeHolder
 ]
 
 { #category : #initialization }
@@ -244,7 +229,7 @@ ToAbstractListElement >> itemCount [
 { #category : #'instance creation' }
 ToAbstractListElement >> newPrimarySelectionModel [
 
-	^ ToSelectionModel new
+	^ self subclassResponsibility 
 ]
 
 { #category : #skin }
@@ -253,12 +238,10 @@ ToAbstractListElement >> newRawSkin [
 	^ ToBasicListElementSkin new
 ]
 
-{ #category : #initialization }
+{ #category : #'instance creation' }
 ToAbstractListElement >> newSelectionModel [
 
-	^ ToSelectionModel new
-		  itemCountGetter: [ self dataSource itemCount ];
-		  yourself
+	^ self subclassResponsibility 
 ]
 
 { #category : #accessing }
@@ -310,12 +293,6 @@ ToAbstractListElement >> notifyDataSourceItemsChanged: aDataSourceEvent [
 ]
 
 { #category : #'event firing' }
-ToAbstractListElement >> notifyDisabledSelectionChanged: aSelectionChangedEvent [
-
-	self dispatchEvent: aSelectionChangedEvent
-]
-
-{ #category : #'event firing' }
 ToAbstractListElement >> notifyPrimarySelectionChanged: aSelectionChangedEvent [
 
 	| preNotification |
@@ -331,18 +308,6 @@ ToAbstractListElement >> notifyPrimarySelectionChanged: aSelectionChangedEvent [
 ToAbstractListElement >> notifyPrimarySelectionDirty [
 
 	self dispatchEvent: ToListPrimarySelectionDirtyEvent new
-]
-
-{ #category : #'event firing' }
-ToAbstractListElement >> notifySecondarySelectionChanged: aSelectionChangedEvent [
-
-	self dispatchEvent: aSelectionChangedEvent
-]
-
-{ #category : #'event firing' }
-ToAbstractListElement >> notifyUnselectableSelectionChanged: aSelectionChangedEvent [
-
-	self dispatchEvent: aSelectionChangedEvent
 ]
 
 { #category : #'t - element with placeholder' }
@@ -418,12 +383,6 @@ ToAbstractListElement >> uninstallSharedEventDistributors [
 		self infinite removeEventHandlersSuchThat: [ :h | handler = h ] ].
 
 	sharedEventDistributors := nil
-]
-
-{ #category : #accessing }
-ToAbstractListElement >> unselectableSelectionModel [
-
-	^ self unselectableSelecter selectionModel
 ]
 
 { #category : #orientation }

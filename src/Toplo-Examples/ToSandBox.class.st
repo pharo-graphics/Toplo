@@ -886,6 +886,11 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 				                labelText: 'Remove all';
 				                whenClickedDo: [ :event |
 					                target dataAccessor removeAll ];
+				                yourself).
+		               menu addItem: (ToMenuItem new
+				                labelText: 'Show all';
+				                whenClickedDo: [ :event |
+					                target hiddenSelecter deselectAll ];
 				                yourself) ].
 	               selectedIndexes ifNotEmpty: [
 		               selectionMenu := ToMenu new.
@@ -929,6 +934,12 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 				                whenClickedDo: [ :event |
 					                selectedIndexes do: [ :idx |
 							                target unselectableSelecter selectIndex: idx ] ];
+				                yourself).
+		               selectionMenu addItem: (ToMenuItem new
+				                labelText: 'Hide';
+				                whenClickedDo: [ :event |
+					                selectedIndexes do: [ :idx |
+							                target hiddenSelecter selectIndex: idx ] ];
 				                yourself).
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Insert before';

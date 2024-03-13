@@ -147,12 +147,14 @@ ToInfiniteElement >> nodeGroupsSatisfying: aBlock [
 { #category : #'accessing - nodes' }
 ToInfiniteElement >> nodeHolderFactory [
 
+	"aValuable that takes the data source as argument and returns a node holder instance "
 	^ nodeHolderFactory
 ]
 
 { #category : #'accessing - nodes' }
 ToInfiniteElement >> nodeHolderFactory: aValuable [
 
+	"aValuable that takes the data source as argument and returns a node holder instance "
 	nodeHolderFactory := aValuable
 ]
 

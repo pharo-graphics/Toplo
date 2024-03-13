@@ -1,5 +1,5 @@
 Class {
-	#name : #ToSelectionModel,
+	#name : #ToBasicListSelectionModel,
 	#superclass : #Object,
 	#instVars : [
 		'underlyingModel',
@@ -10,7 +10,7 @@ Class {
 }
 
 { #category : #comparing }
-ToSelectionModel >> = anObject [
+ToBasicListSelectionModel >> = anObject [
 
 	self == anObject ifTrue: [ ^ true ].
 	self class = anObject class ifFalse: [ ^ false ].
@@ -20,31 +20,31 @@ ToSelectionModel >> = anObject [
 ]
 
 { #category : #'api - testing' }
-ToSelectionModel >> containsIndex: anIndex [
+ToBasicListSelectionModel >> containsIndex: anIndex [
 
 	self underlyingModelDo: [ :ulm | ^ ulm containsIndex: anIndex ]
 ]
 
 { #category : #copying }
-ToSelectionModel >> copySelectionFrom: anotherSelectionModel [
+ToBasicListSelectionModel >> copySelectionFrom: anotherSelectionModel [
 
 	anotherSelectionModel underlyingModelDo: [ :ulm | underlyingModel := ulm copy ]
 ]
 
 { #category : #updating }
-ToSelectionModel >> deselectAll [
+ToBasicListSelectionModel >> deselectAll [
 
 	self underlyingModelDo: [ :ulm | ulm removeAll ]
 ]
 
 { #category : #updating }
-ToSelectionModel >> deselectIndex: anIndex [
+ToBasicListSelectionModel >> deselectIndex: anIndex [
 
 	self underlyingModelDo: [ :ulm | ulm deselectIndex: anIndex ]
 ]
 
 { #category : #updating }
-ToSelectionModel >> deselectIndex: aFirstIndex to: aSecondIndex [
+ToBasicListSelectionModel >> deselectIndex: aFirstIndex to: aSecondIndex [
 
 	self underlyingModelDo: [ :ulm |
 		| from to |
@@ -55,14 +55,14 @@ ToSelectionModel >> deselectIndex: aFirstIndex to: aSecondIndex [
 ]
 
 { #category : #updating }
-ToSelectionModel >> deselectIndexes: anArray [
+ToBasicListSelectionModel >> deselectIndexes: anArray [
 
 	self underlyingModelDo: [ :ulm |
 		anArray do: [ :idx | self deselectIndex: idx ] ]
 ]
 
 { #category : #accessing }
-ToSelectionModel >> firstIndex [
+ToBasicListSelectionModel >> firstIndex [
 
 	self underlyingModelDo: [ :ulm |
 		self ifEmpty: [ ^ 0 ].
@@ -70,13 +70,13 @@ ToSelectionModel >> firstIndex [
 ]
 
 { #category : #comparing }
-ToSelectionModel >> hash [
+ToBasicListSelectionModel >> hash [
 
 	self underlyingModelDo: [ :ulm | ^ self class hash bitXor: ulm hash ]
 ]
 
 { #category : #testing }
-ToSelectionModel >> ifEmpty: aBlock [
+ToBasicListSelectionModel >> ifEmpty: aBlock [
 
 	self underlyingModelDo: [ :ulm |
 		self isEmpty ifFalse: [ ^ self ].
@@ -84,7 +84,7 @@ ToSelectionModel >> ifEmpty: aBlock [
 ]
 
 { #category : #testing }
-ToSelectionModel >> ifNotEmpty: aBlock [
+ToBasicListSelectionModel >> ifNotEmpty: aBlock [
 
 	self underlyingModelDo: [ :ulm |
 		self isEmpty ifTrue: [ ^ self ].
@@ -92,7 +92,7 @@ ToSelectionModel >> ifNotEmpty: aBlock [
 ]
 
 { #category : #initialization }
-ToSelectionModel >> initialize [
+ToBasicListSelectionModel >> initialize [
 
 	super initialize.
 	underlyingModel := BlCompositeSelection new.
@@ -100,46 +100,46 @@ ToSelectionModel >> initialize [
 ]
 
 { #category : #testing }
-ToSelectionModel >> isEmpty [
+ToBasicListSelectionModel >> isEmpty [
 
 	self underlyingModelDo: [ :ulm | ^ ulm isEmpty ]
 ]
 
 { #category : #testing }
-ToSelectionModel >> isNotEmpty [
+ToBasicListSelectionModel >> isNotEmpty [
 
 	^ self isEmpty not
 ]
 
 { #category : #testing }
-ToSelectionModel >> isUnselectableIndex: anIndex [
+ToBasicListSelectionModel >> isUnselectableIndex: anIndex [
 
 	^ false
 ]
 
 { #category : #accessing }
-ToSelectionModel >> itemCount [
+ToBasicListSelectionModel >> itemCount [
 
 	
 	^ self itemCountGetter value
 ]
 
 { #category : #accessing }
-ToSelectionModel >> itemCountGetter [
+ToBasicListSelectionModel >> itemCountGetter [
 
 	itemCountGetter ifNil: [ Error signal: 'A selection model must have an initalized itemCountGetter' ].
 	^ itemCountGetter 
 ]
 
 { #category : #accessing }
-ToSelectionModel >> itemCountGetter: aValuable [
+ToBasicListSelectionModel >> itemCountGetter: aValuable [
 
 	" aValuable takes no args and return the number of items (typically, a datasource items count) "
 	itemCountGetter := aValuable
 ]
 
 { #category : #accessing }
-ToSelectionModel >> lastIndex [
+ToBasicListSelectionModel >> lastIndex [
 
 	self underlyingModelDo: [ :ulm |
 		self ifEmpty: [ ^ 0 ].
@@ -147,26 +147,26 @@ ToSelectionModel >> lastIndex [
 ]
 
 { #category : #accessing }
-ToSelectionModel >> nextSelectableIndexStartingAt: anIndex [
+ToBasicListSelectionModel >> nextSelectableIndexStartingAt: anIndex [
 
 	anIndex < self itemCount ifTrue: [ ^ anIndex ].
 	^ 0
 ]
 
 { #category : #'api - hooks' }
-ToSelectionModel >> onInstalledIn: anElement [
+ToBasicListSelectionModel >> onInstalledIn: anElement [
 
 	itemCountGetter := [ anElement itemCount ]
 ]
 
 { #category : #'api - hooks' }
-ToSelectionModel >> onUninstalledIn: anElement [
+ToBasicListSelectionModel >> onUninstalledIn: anElement [
 
 	itemCountGetter := nil
 ]
 
 { #category : #copying }
-ToSelectionModel >> postCopy [ 
+ToBasicListSelectionModel >> postCopy [ 
 
 	super postCopy.
 	self underlyingModelDo: [ :ulm | underlyingModel := ulm copy ].
@@ -174,14 +174,14 @@ ToSelectionModel >> postCopy [
 ]
 
 { #category : #accessing }
-ToSelectionModel >> previousSelectableIndexStartingAt: anIndex [
+ToBasicListSelectionModel >> previousSelectableIndexStartingAt: anIndex [
 
 	anIndex > 0 ifTrue: [ ^ anIndex ].
 	^ 0
 ]
 
 { #category : #updating }
-ToSelectionModel >> selectAll [
+ToBasicListSelectionModel >> selectAll [
 
 	self underlyingModelDo: [ :ulm |
 		ulm removeAll.
@@ -189,13 +189,13 @@ ToSelectionModel >> selectAll [
 ]
 
 { #category : #updating }
-ToSelectionModel >> selectIndex: anIndex [
+ToBasicListSelectionModel >> selectIndex: anIndex [
 
 	self underlyingModelDo: [ :ulm | ulm selectIndex: anIndex ]
 ]
 
 { #category : #updating }
-ToSelectionModel >> selectIndex: aFirstIndex to: aSecondIndex [
+ToBasicListSelectionModel >> selectIndex: aFirstIndex to: aSecondIndex [
 
 	self underlyingModelDo: [ :ulm |
 		| from to |
@@ -205,7 +205,7 @@ ToSelectionModel >> selectIndex: aFirstIndex to: aSecondIndex [
 ]
 
 { #category : #updating }
-ToSelectionModel >> selectIndexes: anArray [
+ToBasicListSelectionModel >> selectIndexes: anArray [
 
 	self underlyingModelDo: [ :ulm |
 		anArray ifEmpty: [ ^ self ].
@@ -213,19 +213,19 @@ ToSelectionModel >> selectIndexes: anArray [
 ]
 
 { #category : #accessing }
-ToSelectionModel >> selectedIndexes [
+ToBasicListSelectionModel >> selectedIndexes [
 
 	self underlyingModelDo: [ :ulm | ^ ulm indices ]
 ]
 
 { #category : #enumerating }
-ToSelectionModel >> selectedIndexesCollect: aBlock [
+ToBasicListSelectionModel >> selectedIndexesCollect: aBlock [
 
 	self underlyingModelDo: [ :ulm | ^ ulm indicesCollect: aBlock ]
 ]
 
 { #category : #accessing }
-ToSelectionModel >> selectedIndexesCount [
+ToBasicListSelectionModel >> selectedIndexesCount [
 
 	| count |
 	count := 0.
@@ -234,13 +234,13 @@ ToSelectionModel >> selectedIndexesCount [
 ]
 
 { #category : #enumerating }
-ToSelectionModel >> selectedIndexesDo: aBlock [
+ToBasicListSelectionModel >> selectedIndexesDo: aBlock [
 
 	self underlyingModelDo: [ :ulm | ^ ulm indicesDo: aBlock ]
 ]
 
 { #category : #accessing }
-ToSelectionModel >> selectedIndexesIntervals [
+ToBasicListSelectionModel >> selectedIndexesIntervals [
 	" return an array of intervals #( 2 3 4 6 7 8 ) -> { 2 to: 4. 6 to: 8 } "
 
 	self underlyingModelDo: [ :ulm |
@@ -250,7 +250,7 @@ ToSelectionModel >> selectedIndexesIntervals [
 ]
 
 { #category : #enumerating }
-ToSelectionModel >> selectedIndexesIntervalsDo: aBlock [
+ToBasicListSelectionModel >> selectedIndexesIntervalsDo: aBlock [
 	" aBlock has one interval argument "
 
 	self underlyingModelDo: [ :ulm |
@@ -269,13 +269,13 @@ ToSelectionModel >> selectedIndexesIntervalsDo: aBlock [
 ]
 
 { #category : #updating }
-ToSelectionModel >> shift: aGap from: aStartIndex [
+ToBasicListSelectionModel >> shift: aGap from: aStartIndex [
 
 	self shift: aGap from: aStartIndex for: nil
 ]
 
 { #category : #updating }
-ToSelectionModel >> shift: aGap from: aStartIndex for: anEventTarget [
+ToBasicListSelectionModel >> shift: aGap from: aStartIndex for: anEventTarget [
 
 	| from to prevIntervals high |
 	aGap isZero ifTrue: [ ^ self ].
@@ -316,7 +316,7 @@ ToSelectionModel >> shift: aGap from: aStartIndex for: anEventTarget [
 ]
 
 { #category : #accessing }
-ToSelectionModel >> sideIdx: aGap startingAt: anIndex [
+ToBasicListSelectionModel >> sideIdx: aGap startingAt: anIndex [
 
 	self underlyingModelDo: [ :ulm |
 		| nextIdx |
@@ -338,13 +338,13 @@ ToSelectionModel >> sideIdx: aGap startingAt: anIndex [
 ]
 
 { #category : #accessing }
-ToSelectionModel >> underlyingModel [
+ToBasicListSelectionModel >> underlyingModel [
 
 	^ underlyingModel
 ]
 
 { #category : #updating }
-ToSelectionModel >> underlyingModelDo: aBlock [
+ToBasicListSelectionModel >> underlyingModelDo: aBlock [
 
 	monitor critical: [ aBlock value: underlyingModel ]
 ]

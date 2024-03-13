@@ -48,9 +48,16 @@ ToSelectEventHandler >> selectInputTextFieldUpdatedEvent: anEvent [
 { #category : #'element handlers' }
 ToSelectEventHandler >> selectSelectionChanged: anEvent [
 
-	anEvent currentTarget listElement dataSource notifyChanged.
-	anEvent currentTarget strategy refreshHeaderNodeContainer.
-	self showHidePlaceholderIn: anEvent currentTarget.
+	| select listElement |
+	select := anEvent currentTarget.
+	"select listElement dataSource notifyChanged."
+	listElement := select listElement.
+	select dataAccessor withIndexDo: [ :d :idx |
+		(listElement selectionModel containsIndex: idx)
+			ifTrue: [ listElement hiddenSelecter selectIndex: idx ]
+			ifFalse: [ listElement hiddenSelecter deselectIndex: idx ] ].
+	select strategy refreshHeaderNodeContainer.
+	self showHidePlaceholderIn: select
 ]
 
 { #category : #'element handlers' }

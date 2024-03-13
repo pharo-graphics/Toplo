@@ -14,8 +14,5 @@ ToUnselectableSelectionModelOperator >> listScrollCommand: aCommand in: aTarget 
 { #category : #'private command application' }
 ToUnselectableSelectionModelOperator >> notifySelectionChangedAfter: aCommand in: aTarget [
 
-	aTarget notifyUnselectableSelectionChanged:
-		(ToListUnselectableSelectionChangedEvent new
-			 selectionModel: self selectionModel copy;
-			 yourself)
+	aTarget onUnselectableSelectionCommandApplied: aCommand
 ]

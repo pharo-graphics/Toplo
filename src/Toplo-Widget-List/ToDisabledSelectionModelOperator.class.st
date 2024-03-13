@@ -14,8 +14,5 @@ ToDisabledSelectionModelOperator >> listScrollCommand: aCommand in: aTarget [
 { #category : #'private command application' }
 ToDisabledSelectionModelOperator >> notifySelectionChangedAfter: aCommand in: aTarget [
 
-	aTarget notifyDisabledSelectionChanged:
-		(ToListDisabledSelectionChangedEvent new
-			 selectionModel: self selectionModel copy;
-			 yourself)
+	aTarget onDisabledSelectionCommandApplied: aCommand
 ]

@@ -20,8 +20,5 @@ ToSecondarySelectionModelOperator >> listScrollCommand: aCommand in: aTarget [
 { #category : #'private command application' }
 ToSecondarySelectionModelOperator >> notifySelectionChangedAfter: aCommand in: aTarget [
 
-	aTarget notifySecondarySelectionChanged:
-		(ToListSecondarySelectionChangedEvent new
-			 selectionModel: self selectionModel copy;
-			 yourself)
+	aTarget onSecondarySelectionCommandApplied: aCommand
 ]

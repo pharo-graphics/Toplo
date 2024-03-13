@@ -2,7 +2,8 @@ Class {
 	#name : #ToListElementCommand,
 	#superclass : #ToElementBasicCommand,
 	#instVars : [
-		'operator'
+		'operator',
+		'selectionChanged'
 	],
 	#category : #'Toplo-Widget-List-Command-Selection'
 }
@@ -29,4 +30,16 @@ ToListElementCommand >> operator [
 ToListElementCommand >> operator: aSelectionModelOperator [
 
 	operator := aSelectionModelOperator
+]
+
+{ #category : #accessing }
+ToListElementCommand >> selectionChanged [
+
+	^ selectionChanged ifNil: [  selectionChanged := false ]
+]
+
+{ #category : #accessing }
+ToListElementCommand >> selectionChanged: aBoolean [
+
+	selectionChanged := aBoolean
 ]

@@ -7,12 +7,5 @@ Class {
 { #category : #'private command application' }
 ToPrimarySelectionModelOperator >> notifySelectionChangedAfter: aCommand in: aTarget [
 
-	aTarget dispatchEvent: (ToPrimarySelectionCommandAppliedEvent new
-			 command: aCommand;
-			 yourself).
-
-	aTarget notifyPrimarySelectionChanged:
-		(ToListPrimarySelectionChangedEvent new
-			 selectionModel: self selectionModel copy;
-			 yourself)
+	aTarget onPrimarySelectionCommandApplied: aCommand
 ]

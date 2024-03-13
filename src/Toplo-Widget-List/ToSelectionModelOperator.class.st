@@ -39,7 +39,7 @@ ToSelectionModelOperator >> applyCommand: aCommand in: aTarget [
 	| previousModel |
 	previousModel := self selectionModel copy.
 	super applyCommand: aCommand in: aTarget.
-	previousModel = self selectionModel ifTrue: [ ^ self ].
+	aCommand selectionChanged: previousModel ~= self selectionModel.
 	self notifySelectionChangedAfter: aCommand in: aTarget
 ]
 

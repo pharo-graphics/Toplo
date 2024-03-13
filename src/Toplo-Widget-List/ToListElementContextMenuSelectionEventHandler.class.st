@@ -33,9 +33,7 @@ ToListElementContextMenuSelectionEventHandler >> contextMenuSelectionOverPrimary
 
 	| adjacentNodeGroups |
 	adjacentNodeGroups := aListElement infinite nodeGroupsSatisfying: [
-		                      :n |
-		                      n holder isSelectable and: [
-			                      n holder isSelected ] ].
+		                      :n | n holder isSelected ].
 	adjacentNodeGroups do: [ :group |
 		| deco |
 		deco := ToListContextMenuSelectionElement new

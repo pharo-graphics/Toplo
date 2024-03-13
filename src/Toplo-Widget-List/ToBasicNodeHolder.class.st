@@ -42,6 +42,12 @@ ToBasicNodeHolder >> dataItem: aData [
 	self listElement nodeBuilder cull: self node cull: self
 ]
 
+{ #category : #testing }
+ToBasicNodeHolder >> isHidden [
+
+	^ false
+]
+
 { #category : #accessing }
 ToBasicNodeHolder >> listElement [
 

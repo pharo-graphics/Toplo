@@ -12,7 +12,7 @@ ToNodeHolder >> dataItem: aData [
 	self isHidden ifTrue: [ self node height: 0 ]
 ]
 
-{ #category : #accessing }
+{ #category : #testing }
 ToNodeHolder >> isDisabled [
 
 	^ self listElement
@@ -21,13 +21,13 @@ ToNodeHolder >> isDisabled [
 		  le disabledSelectionModel containsIndex: self position ]
 ]
 
-{ #category : #accessing }
+{ #category : #testing }
 ToNodeHolder >> isEnabled [
 
 	^ self isDisabled not
 ]
 
-{ #category : #accessing }
+{ #category : #testing }
 ToNodeHolder >> isHidden [
 
 	^ self listElement
@@ -36,13 +36,13 @@ ToNodeHolder >> isHidden [
 		  le hiddenSelectionModel containsIndex: self position ]
 ]
 
-{ #category : #accessing }
+{ #category : #testing }
 ToNodeHolder >> isSelectable [
 
 	^ self isUnselectable not
 ]
 
-{ #category : #accessing }
+{ #category : #testing }
 ToNodeHolder >> isSelected [
 
 	^ self listElement
@@ -50,7 +50,7 @@ ToNodeHolder >> isSelected [
 		  ifNotNil: [ :le | le selectionModel containsIndex: self position ]
 ]
 
-{ #category : #accessing }
+{ #category : #testing }
 ToNodeHolder >> isUnselectable [
 
 	^ self listElement

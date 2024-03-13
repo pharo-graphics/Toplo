@@ -20,20 +20,29 @@ ToListSelectionModel >> hasUnselectableInInterval: anInterval [
 
 ]
 
+{ #category : #accessing }
+ToListSelectionModel >> hiddenSelectionModel [
+
+	^ listElement hiddenSelectionModel
+]
+
 { #category : #testing }
 ToListSelectionModel >> isUnselectableIndex: anIndex [
 
-	^ self unselectableSelectionModel containsIndex: anIndex
-
+	^ (self unselectableSelectionModel containsIndex: anIndex) or: [
+		  self hiddenSelectionModel containsIndex: anIndex ]
 ]
 
 { #category : #accessing }
 ToListSelectionModel >> nextSelectableIndexStartingAt: anIndex [
 
-	self unselectableSelectionModel ifEmpty: [
+	(self unselectableSelectionModel isEmpty and: [
+		 self hiddenSelectionModel isEmpty ]) ifTrue: [
 		^ super nextSelectableIndexStartingAt: anIndex ].
-	anIndex to: self unselectableSelectionModel itemCount do: [ :idx |
-		(self unselectableSelectionModel containsIndex: idx) ifFalse: [ ^ idx ] ].
+
+	anIndex to: self itemCount do: [ :idx |
+		((self unselectableSelectionModel containsIndex: idx) or: [
+			 self hiddenSelectionModel containsIndex: idx ]) ifFalse: [ ^ idx ] ].
 	^ 0
 ]
 
@@ -55,11 +64,13 @@ ToListSelectionModel >> onUninstalledIn: aListElement [
 { #category : #accessing }
 ToListSelectionModel >> previousSelectableIndexStartingAt: anIndex [
 
-	self unselectableSelectionModel ifEmpty: [
+	(self unselectableSelectionModel isEmpty and: [
+		 self hiddenSelectionModel isEmpty ]) ifTrue: [
 		^ super previousSelectableIndexStartingAt: anIndex ].
 
 	anIndex to: 1 by: -1 do: [ :idx |
-		(self unselectableSelectionModel containsIndex: idx) ifFalse: [ ^ idx ] ].
+		((self unselectableSelectionModel containsIndex: idx) or: [
+			 self hiddenSelectionModel containsIndex: idx ]) ifFalse: [ ^ idx ] ].
 	^ 0
 ]
 

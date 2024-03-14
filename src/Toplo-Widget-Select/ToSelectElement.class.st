@@ -33,8 +33,18 @@ ToSelectElement >> closeWindow [
 
 { #category : #'accessing selection' }
 ToSelectElement >> copySelectionFrom: anotherSelectionModel [
+	" hide selected nodes if the hideSelected option is true "
 
-	self selectionModel selectedIndexes = anotherSelectionModel selectedIndexes ifTrue: [ ^ self ].
+	(self isMultipleSelection and: [ self hideSelected ]) ifTrue: [
+		| hidden |
+		hidden := Array streamContents: [ :stream |
+			          self dataAccessor withIndexDo: [ :d :idx |
+				          (self listElement selectionModel containsIndex: idx)
+					          ifTrue: [ stream nextPut: idx ] ] ].
+		self listElement hiddenSelecter selectOnlyIndexes: hidden ].
+
+	self selectionModel selectedIndexes
+	= anotherSelectionModel selectedIndexes ifTrue: [ ^ self ].
 	self selectionModel copySelectionFrom: anotherSelectionModel.
 	self notifySelectionChanged
 ]

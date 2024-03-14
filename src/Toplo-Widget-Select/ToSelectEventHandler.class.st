@@ -48,16 +48,8 @@ ToSelectEventHandler >> selectInputTextFieldUpdatedEvent: anEvent [
 { #category : #'element handlers' }
 ToSelectEventHandler >> selectSelectionChanged: anEvent [
 
-	| select listElement |
+	| select |
 	select := anEvent currentTarget.
-	
-	listElement := select listElement.
-	" hide selected nodes if the hideSelected option is true "
-	(select isMultipleSelection and: [ select hideSelected ]) ifTrue: [
-		select dataAccessor withIndexDo: [ :d :idx |
-			(listElement selectionModel containsIndex: idx)
-				ifTrue: [ listElement hiddenSelecter selectIndex: idx ]
-				ifFalse: [ listElement hiddenSelecter deselectIndex: idx ] ] ].
 	select strategy refreshHeaderNodeContainer.
 	self showHidePlaceholderIn: select
 ]

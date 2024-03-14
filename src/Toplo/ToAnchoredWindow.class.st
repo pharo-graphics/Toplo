@@ -146,8 +146,9 @@ ToAnchoredWindow >> popupEvent: anEvent [
 			 self localTheme ifNil: [ self localTheme: self element toTheme ].
 			 popupTimestamp := DateAndTime now.
 			 self toFront.
-			 self checkBeforePopupEvent: anEvent ]).
-	"self visibility: BlVisibility visible. "
+			 self checkBeforePopupEvent: anEvent
+			 "self visibility: BlVisibility visible." ]).
+
 	self dispatchOpenedEvent: anEvent
 ]
 

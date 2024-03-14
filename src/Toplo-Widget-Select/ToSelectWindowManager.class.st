@@ -167,7 +167,7 @@ ToSelectWindowManager >> newListElement [
 	^ newListElement
 ]
 
-{ #category : #'api - hook' }
+{ #category : #accessing }
 ToSelectWindowManager >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
@@ -185,9 +185,8 @@ ToSelectWindowManager >> onInstalledIn: anElement [
 		selectWin root hMatchParent.
 		selectWin root vFitContent.
 		selectWin root addChild: self listElement.
-		self listElement enqueueTask: (BlTaskAction new action: [
-				 self listElement secondarySelectionModel ifEmpty: [
-					 self listElement secondarySelecter selectIndex: 1 ] ]) ].
+		self listElement secondarySelectionModel ifEmpty: [
+			self listElement secondarySelecter selectIndex: 1 ] ].
 
 	sieve := ToListElementSieve new.
 	sieve onInstalledIn: listElement

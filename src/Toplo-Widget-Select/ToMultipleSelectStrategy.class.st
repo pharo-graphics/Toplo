@@ -2,8 +2,7 @@ Class {
 	#name : #ToMultipleSelectStrategy,
 	#superclass : #ToSelectStrategy,
 	#instVars : [
-		'headerNodeHolders',
-		'textInputElement'
+		'headerNodeHolders'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -41,25 +40,16 @@ ToMultipleSelectStrategy >> buildHeaderNodeContainer: aSelectHeaderNodeContainer
 	aSelectHeaderNodeContainer addChild: textInputElement
 ]
 
-{ #category : #initialization }
-ToMultipleSelectStrategy >> defaultHeaderNodeBuilder [
-
-	^ [ :aSelectNode :aNodeHolder |
-	  aSelectNode beRemovable.
-	  aSelectNode middleContainer addChild:
-		  (ToLabel text: aNodeHolder data asString) ]
-]
-
-{ #category : #initialization }
-ToMultipleSelectStrategy >> defaultHeaderNodeClass [ 
-
-	^ ToMultipleSelectHeaderNode
-]
-
 { #category : #'accessing nodes' }
 ToMultipleSelectStrategy >> headerDataNodesDo: aBlock [
 
 	self headerNodeHolders do: [ :holder |	aBlock value: holder node ].
+]
+
+{ #category : #'instance creation' }
+ToMultipleSelectStrategy >> headerNodeContainerClass [
+
+	^ ToMultipleSelectHeaderNodeContainerElement
 ]
 
 { #category : #private }
@@ -112,7 +102,6 @@ ToMultipleSelectStrategy >> onUninstalledIn: aSelect [
 		node onUninstalledIn: select.
 		node removeFromParent ].
 	self headerNodeHolders reset.
-	textInputElement := nil.
 	super onUninstalledIn: select
 ]
 
@@ -131,7 +120,7 @@ ToMultipleSelectStrategy >> refreshHeaderNodeContainer [
 			                       detect: [ :h | h position = idx ]
 			                       ifNone: [  ].
 		         node := prevHolder
-			                 ifNil: [ self newHeaderNode ]
+			                 ifNil: [ select headerNodeContainer newHeaderNode ]
 			                 ifNotNil: [ :h | h node ].
 		         prevHolder
 			         ifNil: [
@@ -153,5 +142,5 @@ ToMultipleSelectStrategy >> refreshHeaderNodeContainer [
 { #category : #accessing }
 ToMultipleSelectStrategy >> textInputElement [
 
-	^ textInputElement 
+	^ select headerNodeContainer textInputElement 
 ]

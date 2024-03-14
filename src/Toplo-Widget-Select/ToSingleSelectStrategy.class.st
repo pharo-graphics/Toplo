@@ -2,7 +2,6 @@ Class {
 	#name : #ToSingleSelectStrategy,
 	#superclass : #ToSelectStrategy,
 	#instVars : [
-		'headerNode',
 		'refreshInputTextTask'
 	],
 	#category : #'Toplo-Widget-Select-Core'
@@ -15,22 +14,16 @@ ToSingleSelectStrategy >> buildHeaderNodeContainer: anElement [
 		vFitContent;
 		hMatchParent;
 		constraintsDo: [ :c | c linear vertical alignCenter ].
-	headerNode := self newHeaderNode.
+	headerNode := select headerNodeContainer newHeaderNode.
 	self headerNodeBuilder value: headerNode value: headerNode selectHolder.
 	anElement addChild: headerNode.
 	headerNode onInstalledIn: select
 ]
 
-{ #category : #initialization }
-ToSingleSelectStrategy >> defaultHeaderNodeBuilder [
+{ #category : #accessing }
+ToSingleSelectStrategy >> headerNodeContainerClass [
 
-	^ [ :aSelectNode :aNodeHolder | ]
-]
-
-{ #category : #initialization }
-ToSingleSelectStrategy >> defaultHeaderNodeClass [ 
-
-	^  ToSingleSelectHeaderNode
+	^ ToSingleSelectHeaderNodeContainerElement
 ]
 
 { #category : #private }
@@ -51,11 +44,11 @@ ToSingleSelectStrategy >> onInstalledIn: aSelect [
 { #category : #'api - hooks' }
 ToSingleSelectStrategy >> onUninstalledIn: aSelect [
 
-	headerNode onUninstalledIn: aSelect.
-	headerNode removeFromParent.
+	"headerNode onUninstalledIn: aSelect.
+	headerNode removeFromParent."
 	refreshInputTextTask ifNotNil: [ select dequeueTask: refreshInputTextTask ].
 	super onUninstalledIn: aSelect.
-	headerNode := nil.
+	"headerNode := nil."
 
 
 ]
@@ -98,5 +91,5 @@ ToSingleSelectStrategy >> refreshInputTextElementWithSelectedData: aData [
 { #category : #accessing }
 ToSingleSelectStrategy >> textInputElement [
 
-	^ headerNode textInputElement
+	^ select headerNodeContainer textInputElement
 ]

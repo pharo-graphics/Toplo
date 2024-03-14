@@ -2,9 +2,7 @@ Class {
 	#name : #ToSelectStrategy,
 	#superclass : #Object,
 	#instVars : [
-		'select',
-		'headerNodeBuilder',
-		'headerNodeClass'
+		'select'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -21,24 +19,12 @@ ToSelectStrategy >> buildHeaderNodeContainer: anElement [
 	self subclassResponsibility 
 ]
 
-{ #category : #initialization }
-ToSelectStrategy >> defaultHeaderNodeBuilder [ 
-
-	^ self subclassResponsibility 
-]
-
-{ #category : #initialization }
-ToSelectStrategy >> defaultHeaderNodeClass [ 
-
-	self subclassResponsibility 
-]
-
 { #category : #accessing }
 ToSelectStrategy >> headerNodeBuilder [
 
 	" see the mutator method  "
 	
-	^ headerNodeBuilder 
+	^ select headerNodeContainer headerNodeBuilder 
 ]
 
 { #category : #accessing }
@@ -48,70 +34,19 @@ ToSelectStrategy >> headerNodeBuilder: aValuable [
 	aValuable take the select node element to build as first argument 
 	and the select node holder as second argument"
 	
-	headerNodeBuilder := aValuable.
-	self initializeFakeNode
+	select headerNodeContainer headerNodeBuilder: aValuable
 ]
 
 { #category : #accessing }
-ToSelectStrategy >> headerNodeClass [ 
+ToSelectStrategy >> headerNodeContainerClass [
 
-	" lazy because asking for it may require the mode to be set "
-	^ headerNodeClass ifNil: [ 	headerNodeClass := self defaultHeaderNodeClass ]
-]
-
-{ #category : #accessing }
-ToSelectStrategy >> headerNodeClass: aNodeClass [
-
-	headerNodeClass := aNodeClass.
-	self initializeFakeNode
+	^ self subclassResponsibility 
 ]
 
 { #category : #private }
 ToSelectStrategy >> headerNodeContainerLayout [
 
 	^ self subclassResponsibility 
-]
-
-{ #category : #'accessing nodes' }
-ToSelectStrategy >> headerNodeHolderClass [ 
-
-	^ ToSelectHeaderNodeHolder
-]
-
-{ #category : #initialization }
-ToSelectStrategy >> initialize [ 
-
-	super initialize.
-	headerNodeBuilder := self defaultHeaderNodeBuilder.
-
-
-]
-
-{ #category : #initialization }
-ToSelectStrategy >> initializeFakeNode [
-	" the fake node is added when no data is selected to ensure a 
-	suitable minimum height according to the node class, the node builder 
-	and the data kind."
-
-	| fakeHolder fakeNode |
-	select fakeNode ifNotNil: [ :fn |
-		fn onUninstalledIn: select headerNodeContainer.
-		fn removeFromParent ].
-	fakeNode := self newHeaderNode.
-	fakeNode id: #fakeNode.
-	fakeHolder := self newHeaderNodeHolder.
-	fakeNode selectHolder: fakeHolder.
-	fakeNode onInstalledIn: select.
-	fakeHolder
-		node: fakeNode;
-		data: select fakeDataItem.
-	self headerNodeBuilder value: fakeNode value: fakeHolder.
-	fakeNode width: 0.
-	fakeNode constraintsDo: [ :c |
-		c flow vertical alignCenter.
-		c linear vertical alignCenter ].
-	" add the fake node if the selection is empty (to keep a constant minimum height )"
-	select headerNodeContainer addChild: fakeNode
 ]
 
 { #category : #accessing }
@@ -126,35 +61,14 @@ ToSelectStrategy >> isMultipleSelection [
 	^ false
 ]
 
-{ #category : #'accessing nodes' }
-ToSelectStrategy >> newHeaderNode [
-
-	| node holder |
-	node := self headerNodeClass new.
-	holder := self newHeaderNodeHolder.
-	node selectHolder: holder.
-	holder
-		node: node;
-		position: 0;
-		select: select;
-		data: nil.
-		
-	^ node
-]
-
 { #category : #initialization }
 ToSelectStrategy >> newHeaderNodeContainer [
 
-	^ ToSelectHeaderNodeContainerElement new
+	^ self headerNodeContainerClass new
+		  select: select;
 		  id: #headerNodeContainer;
 		  layout: self headerNodeContainerLayout;
 		  yourself
-]
-
-{ #category : #'accessing nodes' }
-ToSelectStrategy >> newHeaderNodeHolder [
-
-	^ self headerNodeHolderClass new select: select; yourself
 ]
 
 { #category : #accessing }
@@ -171,8 +85,7 @@ ToSelectStrategy >> onInstalledIn: aSelect [
 	" the element that contains nodes + the text field "
 	nodeContainer := self newHeaderNodeContainer.
 	select headerElement addChild: nodeContainer.
-	self buildHeaderNodeContainer: nodeContainer.
-	self initializeFakeNode.
+	nodeContainer onInstalledIn: select.
 	aSelect listElement selectionMode selectOnMouseDown: true.
 	aSelect listElement selectionMode requestFocusOnMouseDown: false.
 	self adaptNodeContainerLayout 

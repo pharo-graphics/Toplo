@@ -89,7 +89,7 @@ ToSelectElement >> fakeDataItem [
 ToSelectElement >> fakeDataItem: aDataItem [
 
 	fakeData := aDataItem.
-	self strategy initializeFakeNode
+	self headerNodeContainer initializeFakeNode
 ]
 
 { #category : #private }

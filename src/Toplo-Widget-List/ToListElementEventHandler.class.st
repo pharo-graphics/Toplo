@@ -41,15 +41,15 @@ ToListElementEventHandler >> listDisabledSelectionChangedEvent: anEvent [
 { #category : #'list element handling' }
 ToListElementEventHandler >> listHiddenSelectionChangedEvent: anEvent [
 
-	| target nodesArray |
-	target := anEvent currentTarget.
-	target isAttachedToSceneGraph ifFalse: [ ^ self ].
-	nodesArray := target infinite children asArray.
+	| listElement nodesArray |
+	listElement := anEvent currentTarget.
+	listElement isAttachedToSceneGraph ifFalse: [ ^ self ].
+	nodesArray := listElement infinite children asArray.
 	anEvent selectionModel ifEmpty: [
-		target dataSource notifyChanged.
+		listElement dataSource notifyChanged.
 		^ self ].
 	anEvent selectionModel selectedIndexesIntervalsDo: [ :interval |
-		target dataSource notifyItemsChanged:
+		listElement dataSource notifyItemsChanged:
 			(interval first to: interval last) ]
 ]
 

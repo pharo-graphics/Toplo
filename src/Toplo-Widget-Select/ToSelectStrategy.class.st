@@ -145,7 +145,7 @@ ToSelectStrategy >> newHeaderNode [
 { #category : #initialization }
 ToSelectStrategy >> newHeaderNodeContainer [
 
-	^ ToElement new
+	^ ToSelectHeaderNodeContainerElement new
 		  id: #headerNodeContainer;
 		  layout: self headerNodeContainerLayout;
 		  yourself

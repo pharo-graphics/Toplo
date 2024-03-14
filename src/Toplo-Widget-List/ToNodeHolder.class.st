@@ -7,12 +7,9 @@ Class {
 { #category : #accessing }
 ToNodeHolder >> dataItem: aData [ 
 
-	dataItem := aData.
-	self node: (self listElement nodeFactory cull: self).
-	self isHidden ifTrue: [ self node height: 0 ].
-	self listElement nodeBuilder cull: self node cull: self.
+	super dataItem: aData.
 	self node enabled: self isEnabled.
-
+	self isHidden ifTrue: [ self node height: 0 ]
 ]
 
 { #category : #testing }

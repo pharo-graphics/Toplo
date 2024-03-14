@@ -43,7 +43,5 @@ ToInfiniteDataSource >> onDetached: anInfiniteElement [
 ToInfiniteDataSource >> sharedEvents [
 
 	^ {
-		  BlInfiniteDataSourceItemRangeChanged.
-		  BlInfiniteDataSourceItemRangeInserted.
-		  BlInfiniteDataSourceItemRangeRemoved }
+		  BlInfiniteDataSourceEvent }
 ]

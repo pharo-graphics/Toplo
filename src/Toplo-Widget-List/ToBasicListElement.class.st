@@ -59,6 +59,14 @@ ToBasicListElement >> defaultNodeReleaser [
 ]
 
 { #category : #initialization }
+ToBasicListElement >> infiniteSharedEvents [
+
+	^ super infiniteSharedEvents , {
+		  ToObservableCollectionEvent.
+		  BlInfiniteDataSourceEvent }
+]
+
+{ #category : #initialization }
 ToBasicListElement >> initialize [
 
 	super initialize.

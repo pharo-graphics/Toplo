@@ -27,6 +27,7 @@ ToSievedListElementEventHandler >> applyQueryAppliedEvent: anEvent [
 { #category : #'api - hooks' }
 ToSievedListElementEventHandler >> buildIndexedDataFrom: aListElement [
 
+
 	dataPositionIndex removeAll.
 	aListElement dataAccessor withIndexDo: [ :aData :idx |
 		dataPositionIndex at: aData put: idx ]
@@ -44,12 +45,9 @@ ToSievedListElementEventHandler >> collectionFilteredEvent: anEvent [
 			            Array streamContents: [ :stream |
 				            target dataAccessor withIndexDo: [ :d :localIndex |
 					            | originalIndex |
-					            originalIndex := dataPositionIndex
-						                             at: d
-						                             ifAbsent: [  ].
-					            originalIndex ifNotNil: [
-						            (sieveSelectionModel containsIndex: originalIndex)
-							            ifTrue: [ stream nextPut: localIndex ] ] ] ] ]
+					            originalIndex := dataPositionIndex at: d.
+					            (sieveSelectionModel containsIndex: originalIndex)
+						            ifTrue: [ stream nextPut: localIndex ] ] ] ]
 		            ifEmpty: [ sieveSelectionModel selectedIndexes ].
 	target selecter selectOnlyIndexes: selected
 ]
@@ -149,11 +147,10 @@ ToSievedListElementEventHandler >> listPrimarySelectionChangePreNotificationEven
 		ifNotEmpty: [
 			listElement dataAccessor withIndexDo: [ :d :localIdx |
 				| originalIndex |
-				originalIndex := dataPositionIndex at: d ifAbsent: [  ].
-				originalIndex ifNotNil: [
-					(listSelModel containsIndex: localIdx)
-						ifTrue: [ sieveSelectionModel selectIndex: originalIndex ]
-						ifFalse: [ sieveSelectionModel deselectIndex: originalIndex ] ] ] ].
+				originalIndex := dataPositionIndex at: d.
+				(listSelModel containsIndex: localIdx)
+					ifTrue: [ sieveSelectionModel selectIndex: originalIndex ]
+					ifFalse: [ sieveSelectionModel deselectIndex: originalIndex ] ] ].
 
 	" dispatch a specific, different from the primary selection change event that will be sent after.
 	It is useful for sieve list user that relies on the sieve internal selection to adapt themeself according 
@@ -215,11 +212,13 @@ ToSievedListElementEventHandler >> onItemsEvent: anEvent [
 { #category : #'data events handling' }
 ToSievedListElementEventHandler >> onItemsInserted: anEvent [
 
+	self infiniteDataSourceItemRangeInserted: anEvent
 ]
 
 { #category : #'data events handling' }
 ToSievedListElementEventHandler >> onItemsRemoved: anEvent [
 
+	self infiniteDataSourceItemRangeRemoved: anEvent
 ]
 
 { #category : #accessing }

@@ -42,7 +42,6 @@ ToSelectElement >> copySelectionFrom: anotherSelectionModel [
 				          (self listElement selectionModel containsIndex: idx)
 					          ifTrue: [ stream nextPut: idx ] ] ].
 		self listElement hiddenSelecter selectOnlyIndexes: hidden ].
-
 	self selectionModel selectedIndexes
 	= anotherSelectionModel selectedIndexes ifTrue: [ ^ self ].
 	self selectionModel copySelectionFrom: anotherSelectionModel.

@@ -1441,7 +1441,7 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected [
 	| select innerWindow |
 	select := ToSelectElement new.
 	select hideSelected: true.
-	select dataAccessor addAll: self statesOfAmerica.
+	select dataAccessor updateAllWith: self statesOfAmerica.
 	select strategy: ToMultipleSelectStrategy new.
 	select filtrable: true.
 	select popupMaxHeight: 200.

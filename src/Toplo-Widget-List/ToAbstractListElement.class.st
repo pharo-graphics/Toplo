@@ -140,8 +140,6 @@ ToAbstractListElement >> horizontal: aBoolean [
 ToAbstractListElement >> infiniteSharedEvents [
 
 	^ {
-		  ToObservableCollectionEvent.
-		  BlInfiniteDataSourceEvent.
 		  BlInfiniteElementAttachedEvent.
 		  BlInfiniteElementDetachedEvent.
 		  BlElementScrolledEvent }
@@ -161,9 +159,10 @@ ToAbstractListElement >> initialize [
 
 	self selectionMode: self defaultSelectionMode.
 	self addEventHandler: self defaultEventHandler.
-	self installSharedEventDistributors.
 
 	self addChild: self next.
+	self installSharedEventDistributors.
+	
 	self contextMenuWindowManagerClass: ToListElementContextMenuWindowManager.
 	self addEventHandler: ToListPrimarySelectionElementEventHandler new.
 	self addEventHandler:	ToListElementContextMenuSelectionEventHandler new.
@@ -199,7 +198,8 @@ ToAbstractListElement >> installSharedEventDistributors [
 		                         yourself.
 	sharedEventDistributors := { infiniteSharedHandler }.
 	sharedEventDistributors do: [ :handler | self addEventHandler: handler ].
-	self infinite addEventHandler: infiniteSharedHandler
+	self infinite addEventHandler: infiniteSharedHandler.
+	self addEventHandler: infiniteSharedHandler
 ]
 
 { #category : #orientation }

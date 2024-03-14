@@ -50,9 +50,10 @@ ToSelectEventHandler >> selectSelectionChanged: anEvent [
 
 	| select listElement |
 	select := anEvent currentTarget.
+	
 	listElement := select listElement.
 	" hide selected nodes if the hideSelected option is true "
-	select hideSelected ifTrue: [
+	(select isMultipleSelection and: [ select hideSelected ]) ifTrue: [
 		select dataAccessor withIndexDo: [ :d :idx |
 			(listElement selectionModel containsIndex: idx)
 				ifTrue: [ listElement hiddenSelecter selectIndex: idx ]

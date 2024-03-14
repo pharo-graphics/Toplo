@@ -34,6 +34,7 @@ ToSelectElement >> closeWindow [
 { #category : #'accessing selection' }
 ToSelectElement >> copySelectionFrom: anotherSelectionModel [
 
+	self selectionModel selectedIndexes = anotherSelectionModel selectedIndexes ifTrue: [ ^ self ].
 	self selectionModel copySelectionFrom: anotherSelectionModel.
 	self notifySelectionChanged
 ]

@@ -1313,7 +1313,7 @@ ToSandBox class >> example_SelectMonoFiltrableWithHideSelected [
 
 	| select innerWindow phtext |
 	select := ToSelectElement new.
-	select hideSelected: false.
+	select hideSelected: true.
 	select listElement placeholderMinHeight: 35.
 	phtext := ('No Data' asRopedText
 		           foreground: Color lightGray;

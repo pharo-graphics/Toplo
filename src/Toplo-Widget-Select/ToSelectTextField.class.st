@@ -12,8 +12,8 @@ ToSelectTextField >> headerNodeBefore [
 
 	| holders |
 	" the strategy must be a multiple one "
-	holders := self select strategy headerNodeHolders.
-	holders size > 0 ifTrue: [
+	holders := self select headerNodeContainer headerNodeHolders.
+	holders ifNotEmpty: [
 		^ holders last node ].
 	^ nil
 ]

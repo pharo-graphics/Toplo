@@ -43,7 +43,7 @@ ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheet [
 	chk labelText: 'OK'.
 	btn := ToButton new.
 	btn labelText: 'Erase all your Pharo images?'.
-	btn iconImage: ToThemeIcons iconSearchOutlined16x16.
+	btn iconImage: ToThemeInnerImages searchOutlined16x16.
 	btn label addStamp: #H3.
 	btn addStamp: #primary.
 	btn addStamp: #danger.
@@ -66,7 +66,7 @@ ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheetDarkTheme [
 	chk labelText: 'OK'.
 	btn := ToButton new.
 	btn labelText: 'Erase all your Pharo images?'.
-	btn iconImage: ToThemeIcons iconSearchOutlined16x16.
+	btn iconImage: ToThemeInnerImages searchOutlined16x16.
 	btn label addStamp: #H3.
 	btn addStamp: #primary.
 	btn addStamp: #danger.
@@ -1429,8 +1429,7 @@ ToSandBox class >> example_SelectMultiFiltrableNoWrapping [
 		('Select states' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
-	select width: 300.
-	select position: 50 @ 10.
+	select hMatchParent.
 	innerWindow pane addChild: select.
 	innerWindow height: 600.
 	innerWindow openInSpace
@@ -1450,8 +1449,8 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected [
 		('Selected are removed' asRopedText foreground: Color veryLightGray).
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
-	select width: 300.
-	select position: 50 @ 10.
+	select hMatchParent.
+	select listElement withRowNumbers.
 	innerWindow pane addChild: select.
 	innerWindow height: 600.
 	innerWindow openInSpace
@@ -1857,7 +1856,7 @@ ToSandBox class >> example_StyleSheetSandbox [
 	"b stampWith: #danger."
 	"b stampWith: #dashed."
 	b
-		iconImage: ToThemeIcons iconSearchOutlined16x16;
+		iconImage: ToThemeInnerImages searchOutlined16x16;
 		labelText: 'Close'.
 	"b labelFirst: true."
 	"b checked: nil."
@@ -1895,7 +1894,7 @@ ToSandBox class >> example_StyleSheetSandboxDarkTheme [
 	"b stampWith: #danger."
 	"b stampWith: #dashed."
 	b
-		iconImage: ToThemeIcons iconSearchOutlined16x16;
+		iconImage: ToThemeInnerImages searchOutlined16x16;
 		labelText: 'Close'.
 	"b labelFirst: true."
 	"b checked: nil."
@@ -2026,7 +2025,7 @@ ToSandBox class >> example_ToButtonSkins [
 
 	butBuilder := [
 	              ToImage new innerImage:
-		              ToThemeIcons iconSearchOutlined16x16 ].
+		              ToThemeInnerImages searchOutlined16x16 ].
 	buttonSpecsBuilder := [
 	                      {
 		                      {
@@ -2149,7 +2148,7 @@ ToSandBox class >> example_ToButtonWithDefaultSkin0 [
 
 	button1 := ToButton new.
 	button1 label: (ToLabel text: 'Default raw button').
-	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	button1 icon: (ToImage new innerImage: (ToThemeInnerImages searchOutlined16x16)).
 
 	space root addChild: pane.
 	space root addChild: button1.
@@ -2965,6 +2964,8 @@ ToSandBox class >> example_textFieldWithLineWrapping [
 	t := ToTextField new
 		     withLineWrapping;
 		     withSaveCapability.
+	t height: 100.
+	t inspect.
 	t openInSpace
 ]
 
@@ -3293,7 +3294,7 @@ ToSandBox class >> example_toButtonWithIconAndText [
 	but := ToButton new.
 
 	but label: (ToLabel text: 'Button').
-	icon := ToImage new innerImage: ToThemeIcons iconSearchOutlined16x16.
+	icon := ToImage new innerImage: ToThemeInnerImages searchOutlined16x16.
 	but icon: icon.
 	"but effect: (BlGaussianShadowEffect
 					color: Color green
@@ -3316,7 +3317,7 @@ ToSandBox class >> example_toButtonWithIconAndTextAndExtra [
 	but := ToButton new.
 
 	but label: (ToLabel text: 'Button').
-	icon := ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16).
+	icon := ToImage new innerImage: (ToThemeInnerImages searchOutlined16x16).
 	but icon: icon.
 	but effect: (BlBlurAboveEffect new radius: 20).
 	but when: BlPrimaryClickEvent do: [ :event | event currentTarget traceCr ].

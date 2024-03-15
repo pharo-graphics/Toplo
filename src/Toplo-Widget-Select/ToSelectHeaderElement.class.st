@@ -59,3 +59,15 @@ ToSelectHeaderElement >> onUninstalledIn: aSelect [
 	headerNodeContainer := nil.
 	select := nil
 ]
+
+{ #category : #window }
+ToSelectHeaderElement >> onWindowClosed [
+
+	self headerNodeContainer onWindowClosed
+]
+
+{ #category : #window }
+ToSelectHeaderElement >> onWindowOpened [
+
+	self headerNodeContainer onWindowOpened
+]

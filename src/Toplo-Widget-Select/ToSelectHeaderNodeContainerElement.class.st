@@ -128,6 +128,18 @@ ToSelectHeaderNodeContainerElement >> onUninstalledIn: aSelect [
 	select := nil
 ]
 
+{ #category : #window }
+ToSelectHeaderNodeContainerElement >> onWindowClosed [
+
+	self textInputElement onWindowClosed
+]
+
+{ #category : #window }
+ToSelectHeaderNodeContainerElement >> onWindowOpened [
+
+	self textInputElement onWindowOpened
+]
+
 { #category : #accessing }
 ToSelectHeaderNodeContainerElement >> select: aSelect [
 

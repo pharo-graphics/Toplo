@@ -10,7 +10,8 @@ Class {
 		'selectionModel',
 		'groupIndexes',
 		'strategy',
-		'hideSelected'
+		'hideSelected',
+		'iconContainer'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -152,25 +153,22 @@ ToSelectElement >> hideSelected: aBoolean [
 ]
 
 { #category : #accessing }
-ToSelectElement >> icon [
-
-	^ self childWithId: #icon ifNone: [  ]
-]
-
-{ #category : #accessing }
-ToSelectElement >> icon: anElement [
-
-	anElement = self icon ifTrue: [ ^ self ].
-	self icon ifNotNil: [ :s | self icon removeFromParent ].
-	anElement ifNil: [ ^ self ].
-	anElement id: #icon.
-	self iconContainer addChild: anElement
-]
-
-{ #category : #accessing }
 ToSelectElement >> iconContainer [
 
-	^ self childWithId: #iconContainer ifNone: [  ]
+	^ iconContainer 
+]
+
+{ #category : #accessing }
+ToSelectElement >> iconContainer: anIconContainer [
+
+	iconContainer = anIconContainer ifTrue: [ ^ self ].
+	iconContainer ifNotNil: [ 
+		iconContainer onUninstalledIn: self.
+		iconContainer removeFromParent ].
+	anIconContainer ifNil: [ ^ self ].
+	self addChild: anIconContainer.
+	anIconContainer onInstalledIn: self.
+	iconContainer := anIconContainer 
 ]
 
 { #category : #initialization }
@@ -193,9 +191,8 @@ ToSelectElement >> initialize [
 	selectionModel := self listElement newSelectionModel.
 	
 	filtrable := true.
-	self addChild: self newIconContainer.
-	self iconContainer onInstalledIn: self.
-	self strategy: ToSingleSelectStrategy new.
+	self iconContainer: self newIconContainer.
+	self strategy: self defaultStrategy.
 
 	self layout: BlLinearLayout horizontal.
 	self fitContent.
@@ -324,13 +321,13 @@ ToSelectElement >> notifySelectionChanged [
 { #category : #window }
 ToSelectElement >> onWindowClosed [
 
-	self textInputElement onWindowClosed
+	self headerElement onWindowClosed
 ]
 
 { #category : #window }
 ToSelectElement >> onWindowOpened [
 
-	self textInputElement onWindowOpened
+	self headerElement onWindowOpened
 ]
 
 { #category : #accessing }

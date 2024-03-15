@@ -23,6 +23,9 @@ ToTextField >> initialize [
 	self infinite vFitContent.
 	self next vFitContent.
 	self vFitContent.
+	self next constraintsDo: [ :c |
+		c linear vertical alignCenter.
+		c frame vertical alignCenter ].
 	self withoutLineWrapping
 ]
 

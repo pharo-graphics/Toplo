@@ -8,7 +8,7 @@ Class {
 ToSelectEventHandler >> collectionFilteredEvent: anEvent [
 
 	| select |
-	select := windowManager element.
+	select := anEvent currentTarget.
 	windowManager currentWindow ifNil: [
 		select textInputElement filterString ifNotEmpty: [
 			select popupWindowEvent: anEvent ] ].
@@ -61,4 +61,18 @@ ToSelectEventHandler >> showHidePlaceholderIn: aSelect [
 		aSelect inputTextField text ifEmpty: [
 			^ aSelect headerElement showPlaceholder ] ].
 	aSelect headerElement hidePlaceholder
+]
+
+{ #category : #'event handling' }
+ToSelectEventHandler >> windowClosedEvent: anEvent [
+
+	super windowClosedEvent: anEvent.
+	anEvent currentTarget iconContainer dispatchEvent: anEvent
+]
+
+{ #category : #'event handling' }
+ToSelectEventHandler >> windowOpenedEvent: anEvent [
+
+	super windowOpenedEvent: anEvent.
+	anEvent currentTarget iconContainer dispatchEvent: anEvent
 ]

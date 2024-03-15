@@ -18,8 +18,7 @@ ToSelectElementSkin >> installLookEvent: anEvent [
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e shortcuts: (self shortcutsToInstallIn: e).
-		e installShortcuts.
-		e icon: (ToImage inner: (self iconNamed: #bottom)) ]
+		e installShortcuts ]
 ]
 
 { #category : #'accessing - shortcuts' }
@@ -85,6 +84,5 @@ ToSelectElementSkin >> uninstallLookEvent: anEvent [
 
 	super uninstallLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e uninstallShortcuts.
-		e icon: nil ]
+		e uninstallShortcuts ]
 ]

@@ -14,11 +14,11 @@ Class {
 }
 
 { #category : #'private filtering' }
-ToItemsQueryRunner >> applyFetcherIn: anEventTarget [
+ToItemsQueryRunner >> applyFetcherIn: anEventTarget withPattern: aPattern [
 
 	| event |
 
-	items := fetcher value: anEventTarget value: pattern.
+	items := fetcher value: anEventTarget value: aPattern.
 	event := ToItemsQueryResultEvent new
 		         queryRunner: self;
 		         yourself.
@@ -28,7 +28,7 @@ ToItemsQueryRunner >> applyFetcherIn: anEventTarget [
 { #category : #accessing }
 ToItemsQueryRunner >> defaultDelay [
 
-	^ 250 milliSeconds
+	^ 150 milliSeconds
 ]
 
 { #category : #accessing }
@@ -61,23 +61,22 @@ ToItemsQueryRunner >> items [
 { #category : #accessing }
 ToItemsQueryRunner >> itemsQueryRequestEvent: anEvent [
 
-	previousPattern = anEvent pattern ifTrue: [ ^ self ].
-	self delay wait.
-	self pattern: anEvent pattern.
-	process := self newProcessIn: anEvent currentTarget
-
-	
+	self processPattern: anEvent pattern for: anEvent currentTarget
 ]
 
 { #category : #'private filtering' }
 ToItemsQueryRunner >> newProcessIn: anEventTarget [
 
 	self terminateProcess.
-	process := [ 
-	           self applyFetcherIn: anEventTarget.
-	           process := nil ]
-		           forkAt: Processor systemBackgroundPriority
-		           named: self class name
+	^ process := [
+	             | pat |
+	             pat := pattern.
+	             self delay wait.
+	             pat = pattern ifFalse: [ ^ self ].
+	             self applyFetcherIn: anEventTarget withPattern: pat.
+	             process := nil ]
+		             forkAt: Processor systemBackgroundPriority
+		             named: self class name
 ]
 
 { #category : #'api - hooks' }
@@ -120,6 +119,17 @@ ToItemsQueryRunner >> pattern: anObject [
 ToItemsQueryRunner >> process [
 
 	^ process
+]
+
+{ #category : #accessing }
+ToItemsQueryRunner >> processPattern: aPattern for: aTarget [
+
+	previousPattern = aPattern ifTrue: [ ^ self ].
+	self pattern: aPattern.
+	process := self newProcessIn: aTarget.
+	^ process
+
+	
 ]
 
 { #category : #'private filtering' }

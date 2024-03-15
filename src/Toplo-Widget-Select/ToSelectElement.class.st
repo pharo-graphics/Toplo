@@ -11,7 +11,8 @@ Class {
 		'groupIndexes',
 		'strategy',
 		'hideSelected',
-		'iconContainer'
+		'iconContainer',
+		'headerElement'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -86,7 +87,7 @@ ToSelectElement >> fakeDataItem [
 	^ fakeData ifNil: [ fakeData := '' ]
 ]
 
-{ #category : #private }
+{ #category : #accessing }
 ToSelectElement >> fakeDataItem: aDataItem [
 
 	fakeData := aDataItem.
@@ -125,7 +126,7 @@ ToSelectElement >> groupNodeBuilder: aBuilder [
 { #category : #accessing }
 ToSelectElement >> headerElement [
 
-	^ self childWithId: #headerElement ifNone: [  ]
+	^ headerElement
 ]
 
 { #category : #accessing }
@@ -215,7 +216,6 @@ ToSelectElement >> inputTextField [
 { #category : #initialization }
 ToSelectElement >> installHeaderElement [
 
-	| headerElement |
 	headerElement := self newHeaderElement.
 	headerElement onInstalledIn: self.
 	self addChild: headerElement before: self iconContainer.

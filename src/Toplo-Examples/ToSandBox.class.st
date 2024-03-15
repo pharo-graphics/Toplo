@@ -2946,6 +2946,32 @@ ToSandBox class >> example_textFieldOnlyDigits [
 ]
 
 { #category : #'text field' }
+ToSandBox class >> example_textFieldWithAutocompletePopup [
+
+	| t queryRunner allMethods |
+	t := ToTextField new.
+	queryRunner := ToItemsQueryRunner new.
+	queryRunner onInstalledIn: t.
+	allMethods := SystemNavigation default allMethods sort: [ :a :b |
+		              a selector < b selector ].
+	queryRunner fetcher: [ :theTextField :thePattern |
+		allMethods select: [ :m |
+			m selector beginsWith: thePattern caseSensitive: false ] ].
+	t addEventHandler: (BlEventHandler
+			 on: AlbTextEditedEvent
+			 do: [
+				 t text asString trimmed ifNotEmpty: [ :pat |
+					 queryRunner processPattern: pat for: t ] ]).
+	t addEventHandlerOn: ToItemsQueryResultEvent do: [ :event |
+		(event items collect: [ :m | m selector ]) asSet asArray sort in: [
+			:result |
+			result size trace.
+			'->' trace.
+			(result first: (5 min: result size)) traceCr ] ].
+	t openInSpace
+]
+
+{ #category : #'text field' }
 ToSandBox class >> example_textFieldWithCRAction [
 
 	| t  |

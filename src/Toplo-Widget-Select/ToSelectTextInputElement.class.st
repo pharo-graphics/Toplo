@@ -26,14 +26,7 @@ ToSelectTextInputElement >> beReadonly [
 
 { #category : #private }
 ToSelectTextInputElement >> checkMultipleSelectPlaceholderText [
-	" In case of multiple selection, the selectedDataTextField can contain 
-		and empty text or the placeholder text"
-
-"	(self inputTextField text isEmpty and: [ select selectedData isEmpty ])
-		ifTrue: [
-			self selectedDataTextField visibility: BlVisibility visible.
-			^ self ].
-	""self selectedDataTextField visibility: BlVisibility hidden."""
+	
 ]
 
 { #category : #private }
@@ -44,7 +37,7 @@ ToSelectTextInputElement >> checkSingleSelectPlaceholderText [
 	self inputTextField text
 		ifEmpty: [
 		self selectedDataTextField visibility: BlVisibility visible.
-		"self selectedDataTextField text foreground: Color lightGray" ]
+		self selectedDataTextField text foreground: Color lightGray ]
 		ifNotEmpty: [
 		self selectedDataTextField visibility: BlVisibility hidden ]
 ]
@@ -83,9 +76,6 @@ ToSelectTextInputElement >> installInputTextFieldEventHandlers [
 	installedInputTextFieldTextEventHandler add: (BlEventHandler
 			 on: AlbTextEditedEvent
 			 do: [ :event | self onFilterTextUpdated: event ]).
-	installedInputTextFieldTextEventHandler add: (BlEventHandler
-			 on: AlbTextReplacedEvent
-			 do: [ :event | self onFilterTextReplaced: event ]).
 	installedInputTextFieldTextEventHandler do: [ :h |
 		self inputTextField addEventHandler: h ]
 ]

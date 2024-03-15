@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'queryRunner'
 	],
-	#category : #'Toplo-Core-CollectionQueryRunner'
+	#category : #'Toplo-Core-CollectionFilter'
 }
 
 { #category : #accessing }

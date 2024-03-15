@@ -10,7 +10,7 @@ Class {
 		'selectedIndexes',
 		'delay'
 	],
-	#category : #'Toplo-Core-CollectionQueryRunner'
+	#category : #'Toplo-Core-CollectionFilter'
 }
 
 { #category : #'private filtering' }

@@ -4,7 +4,6 @@ Class {
 	#instVars : [
 		'pattern',
 		'process',
-		'previousPattern',
 		'fetcher',
 		'queryRequestEventHandler',
 		'items',
@@ -17,7 +16,6 @@ Class {
 ToItemsQueryRunner >> applyFetcherIn: anEventTarget withPattern: aPattern [
 
 	| event |
-
 	items := fetcher value: anEventTarget value: aPattern.
 	event := ToItemsQueryResultEvent new
 		         queryRunner: self;
@@ -28,7 +26,7 @@ ToItemsQueryRunner >> applyFetcherIn: anEventTarget withPattern: aPattern [
 { #category : #accessing }
 ToItemsQueryRunner >> defaultDelay [
 
-	^ 150 milliSeconds
+	^ 70 milliSeconds
 ]
 
 { #category : #accessing }
@@ -70,7 +68,7 @@ ToItemsQueryRunner >> newProcessIn: anEventTarget [
 	self terminateProcess.
 	^ process := [
 	             | pat |
-	             pat := pattern.
+	             pat := pattern copy.
 	             self delay wait.
 	             pat = pattern ifFalse: [ ^ self ].
 	             self applyFetcherIn: anEventTarget withPattern: pat.
@@ -111,7 +109,6 @@ ToItemsQueryRunner >> pattern [
 { #category : #'private filtering' }
 ToItemsQueryRunner >> pattern: anObject [
 
-	previousPattern := pattern.
 	pattern := anObject
 ]
 
@@ -124,7 +121,7 @@ ToItemsQueryRunner >> process [
 { #category : #accessing }
 ToItemsQueryRunner >> processPattern: aPattern for: aTarget [
 
-	previousPattern = aPattern ifTrue: [ ^ self ].
+
 	self pattern: aPattern.
 	process := self newProcessIn: aTarget.
 	^ process

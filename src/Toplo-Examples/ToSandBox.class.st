@@ -2948,26 +2948,36 @@ ToSandBox class >> example_textFieldOnlyDigits [
 { #category : #'text field' }
 ToSandBox class >> example_textFieldWithAutocompletePopup [
 
-	| t queryRunner allMethods |
+	| t queryRunner |
 	t := ToTextField new.
 	queryRunner := ToItemsQueryRunner new.
 	queryRunner onInstalledIn: t.
-	allMethods := SystemNavigation default allMethods sort: [ :a :b |
-		              a selector < b selector ].
 	queryRunner fetcher: [ :theTextField :thePattern |
-		allMethods select: [ :m |
-			m selector beginsWith: thePattern caseSensitive: false ] ].
+		(SystemNavigation default allMethods collect: [ :m | m selector ])
+			asSet asArray sort select: [ :m |
+			m beginsWith: thePattern caseSensitive: false ] ].
 	t addEventHandler: (BlEventHandler
-			 on: AlbTextEditedEvent
-			 do: [
-				 t text asString trimmed ifNotEmpty: [ :pat |
-					 queryRunner processPattern: pat for: t ] ]).
+			 on: AlbTextInsertedEvent
+			 do: [ :event |
+				 | sub selecter |
+				 t infinite atTextIndex: event index do: [ :e :lidx |
+					 | origin  |
+					 origin := e screenCornerAt: lidx.
+					 e localPointToGlobal: origin "traceCr" ].
+				selecter := t selecter.
+				(selecter findLineStartBefore: event index + event text size) = event index ifFalse: [ 
+				 sub := (t text
+					         copyFrom:
+					         (selecter findWordStartBefore:
+						          event index + event text size + 1)
+					         to: event index + event text size) asString.
+				 sub trimmed ifNotEmpty: [ :pat |
+					 queryRunner processPattern: pat for: t ] ] ]).
 	t addEventHandlerOn: ToItemsQueryResultEvent do: [ :event |
-		(event items collect: [ :m | m selector ]) asSet asArray sort in: [
-			:result |
-			result size trace.
+		(event items collect: [ :m | m ]) asArray in: [ :result | result size trace.
 			'->' trace.
-			(result first: (5 min: result size)) traceCr ] ].
+			(result first: (5 min: result size)) traceCr
+			 ] ].
 	t openInSpace
 ]
 

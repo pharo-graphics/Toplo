@@ -460,6 +460,53 @@ ToSandBox class >> example_EditorWithoutSoftLine [
 	view openInSpace
 ]
 
+{ #category : #list }
+ToSandBox class >> example_FilterOnList2WithStatesOfAmerica [
+
+	| listElement pane filterField data selector |
+	pane := ToPane new
+		        beVertical;
+		        matchParent.
+	filterField := ToTextField new.
+	listElement := ToListElement new.
+	data := self statesOfAmerica.
+
+	listElement margin: (BlInsets all: 2).
+	filterField margin: (BlInsets all: 2).
+
+	selector := ToObservableCollectionFilter new.
+	listElement dataAccessor addAll: data.
+
+	selector onInstalledIn: listElement dataAccessor.
+
+	filterField addEventHandler: (BlEventHandler
+			 on: AlbTextEditedEvent
+			 do: [
+				 | pattern |
+				 pattern := filterField text asString.
+				 selector pattern: pattern ]).
+
+	listElement dataAccessor addEventHandler: (BlEventHandler
+			 on: ToObservableCollectionFilterResultEvent
+			 do: [ :event |
+				 listElement selecter selectOnlyIndexes:
+					 event filter selectedIndexes ]).
+
+	listElement placeholderBuilder: [ :ph :e |
+		| lab |
+		lab := ToAttributedLabel new text: ('No Data' asRopedText
+				        foreground: Color lightGray;
+				        fontSize: 24;
+				        yourself).
+		lab matchParent.
+		ph addChild: lab ].
+
+	"handler inspect."
+	pane addChild: listElement.
+	pane addChild: filterField.
+	pane openInSpace
+]
+
 { #category : #'general button' }
 ToSandBox class >> example_GeneralButtonWithIconAndLabel [
 
@@ -1160,53 +1207,6 @@ ToSandBox class >> example_Popup1 [
 	popupWindowHandler onInstalledIn: menu.
 	container pane addChild: menu.
 	container openInSpace
-]
-
-{ #category : #list }
-ToSandBox class >> example_QueryOnList2WithStatesOfAmerica [
-
-	| listElement pane filterField data selector |
-	pane := ToPane new
-		        beVertical;
-		        matchParent.
-	filterField := ToTextField new.
-	listElement := ToListElement new.
-	data := self statesOfAmerica.
-
-	listElement margin: (BlInsets all: 2).
-	filterField margin: (BlInsets all: 2).
-
-	selector := ToObservableCollectionQueryRunner new.
-	listElement dataAccessor addAll: data.
-
-	selector onInstalledIn: listElement dataAccessor.
-
-	filterField addEventHandler: (BlEventHandler
-			 on: AlbTextEditedEvent
-			 do: [
-				 | pattern |
-				 pattern := filterField text asString.
-				 selector pattern: pattern ]).
-
-	listElement dataAccessor addEventHandler: (BlEventHandler
-			 on: ToObservableCollectionQueryResultEvent
-			 do: [ :event |
-				 listElement selecter selectOnlyIndexes:
-					 event queryRunner selectedIndexes ]).
-
-	listElement placeholderBuilder: [ :ph :e |
-		| lab |
-		lab := ToAttributedLabel new text: ('No Data' asRopedText
-				        foreground: Color lightGray;
-				        fontSize: 24;
-				        yourself).
-		lab matchParent.
-		ph addChild: lab ].
-
-	"handler inspect."
-	pane addChild: listElement.
-	pane addChild: filterField.
-	pane openInSpace
 ]
 
 { #category : #checkbox }

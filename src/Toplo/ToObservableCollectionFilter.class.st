@@ -1,20 +1,20 @@
 Class {
-	#name : #ToObservableCollectionQueryRunner,
+	#name : #ToObservableCollectionFilter,
 	#superclass : #Object,
 	#instVars : [
 		'pattern',
 		'semaphore',
 		'process',
-		'delayBeforeFilter',
 		'previousPattern',
 		'dataFilter',
-		'selectedIndexes'
+		'selectedIndexes',
+		'delay'
 	],
-	#category : #'Toplo-Core-CollectionQuery'
+	#category : #'Toplo-Core-CollectionQueryRunner'
 }
 
 { #category : #'private filtering' }
-ToObservableCollectionQueryRunner >> applyDataFilterIn: anObservableCollection [
+ToObservableCollectionFilter >> applyDataFilterIn: anObservableCollection [
 
 	| event |
 	selectedIndexes := self pattern ifEmpty: [ #(  ) ] ifNotEmpty: [
@@ -22,46 +22,46 @@ ToObservableCollectionQueryRunner >> applyDataFilterIn: anObservableCollection [
 			                   anObservableCollection withIndexDo: [ :d :idx |
 				                   (self dataFilter value: d value: self pattern)
 					                   ifTrue: [ stream nextPut: idx ] ] ] ].
-	event := ToObservableCollectionQueryResultEvent new
-		         queryRunner: self;
+	event := ToObservableCollectionFilterResultEvent new
+		         filter: self;
 		         yourself.
 	anObservableCollection dispatchEvent: event
 ]
 
 { #category : #accessing }
-ToObservableCollectionQueryRunner >> dataFilter [
+ToObservableCollectionFilter >> dataFilter [
 
 	^ dataFilter ifNil: [ dataFilter := self defaultFilter ]
 ]
 
 { #category : #accessing }
-ToObservableCollectionQueryRunner >> dataFilter: aValuable [
+ToObservableCollectionFilter >> dataFilter: aValuable [
 	" filter takes a data and a pattern as argument "
 
 	dataFilter := aValuable
 ]
 
 { #category : #accessing }
-ToObservableCollectionQueryRunner >> defaultDelay [
+ToObservableCollectionFilter >> defaultDelay [
 
 	^ 250 milliSeconds
 ]
 
 { #category : #accessing }
-ToObservableCollectionQueryRunner >> defaultFilter [
+ToObservableCollectionFilter >> defaultFilter [
 
 	"^ [ :data :p | data includesSubstring: p caseSensitive: false ]"
 	^ [ :aData :aPattern | aData asString beginsWith: aPattern caseSensitive: true ]
 ]
 
 { #category : #accessing }
-ToObservableCollectionQueryRunner >> delayBeforeFilter [
+ToObservableCollectionFilter >> delay [
 
-	^ delayBeforeFilter
+	^ delay
 ]
 
 { #category : #'private filtering' }
-ToObservableCollectionQueryRunner >> newProcessIn: anObservableCollection [
+ToObservableCollectionFilter >> newProcessIn: anObservableCollection [
 	"Used the solution implemented in FastTable. see FTFieldFunction>>#spawnFilterUpdateThread.
 	Runs in background, thank to Henrik Johansen for this"
 
@@ -69,7 +69,7 @@ ToObservableCollectionQueryRunner >> newProcessIn: anObservableCollection [
 	^ [
 	  [
 	  self semaphore wait.	
-	  pattern ifNotEmpty: [ self delayBeforeFilter wait ].
+	  pattern ifNotEmpty: [ self delay wait ].
 	  previousPattern = pattern ifFalse: [
 		  previousPattern := pattern.
 		  self applyDataFilterIn: anObservableCollection ] ] repeat ]
@@ -78,15 +78,15 @@ ToObservableCollectionQueryRunner >> newProcessIn: anObservableCollection [
 ]
 
 { #category : #'api - hooks' }
-ToObservableCollectionQueryRunner >> onInstalledIn: anObservableCollection [
+ToObservableCollectionFilter >> onInstalledIn: anObservableCollection [
 
-	delayBeforeFilter := self defaultDelay.
+	delay := self defaultDelay.
 	process := self newProcessIn: anObservableCollection.
 	selectedIndexes := #()
 ]
 
 { #category : #'api - hooks' }
-ToObservableCollectionQueryRunner >> onUninstalledIn: anObservableCollection [
+ToObservableCollectionFilter >> onUninstalledIn: anObservableCollection [
 
 	process terminate.
 	pattern := ''.
@@ -95,13 +95,13 @@ ToObservableCollectionQueryRunner >> onUninstalledIn: anObservableCollection [
 ]
 
 { #category : #accessing }
-ToObservableCollectionQueryRunner >> pattern [
+ToObservableCollectionFilter >> pattern [
 
 	^ pattern ifNil: [ pattern := '' ]
 ]
 
 { #category : #'private filtering' }
-ToObservableCollectionQueryRunner >> pattern: aString [
+ToObservableCollectionFilter >> pattern: aString [
 
 	pattern = aString ifTrue: [ ^ self ].
 	pattern := aString asString trimBoth.
@@ -110,7 +110,7 @@ ToObservableCollectionQueryRunner >> pattern: aString [
 ]
 
 { #category : #accessing }
-ToObservableCollectionQueryRunner >> selectedIndexes [
+ToObservableCollectionFilter >> selectedIndexes [
 
 	^ selectedIndexes
 
@@ -118,7 +118,7 @@ ToObservableCollectionQueryRunner >> selectedIndexes [
 ]
 
 { #category : #accessing }
-ToObservableCollectionQueryRunner >> semaphore [
+ToObservableCollectionFilter >> semaphore [
 
 	^ semaphore 
 ]

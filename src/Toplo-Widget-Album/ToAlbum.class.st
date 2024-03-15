@@ -6,10 +6,23 @@ Class {
 	#instVars : [
 		'next',
 		'editsFeedbackLayer',
-		'edited'
+		'edited',
+		'autocompleteRule'
 	],
 	#category : #'Toplo-Widget-Album-TextPane'
 }
+
+{ #category : #initialization }
+ToAlbum >> autocompleteRule [
+
+	^ autocompleteRule 
+]
+
+{ #category : #initialization }
+ToAlbum >> autocompleteRule: anAutocompleteRule [
+
+	autocompleteRule := anAutocompleteRule
+]
 
 { #category : #'styler configuration' }
 ToAlbum >> codeFontName [ 

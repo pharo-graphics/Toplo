@@ -66,13 +66,13 @@ ToListElementSieve >> onInstalledIn: aListElement [
 		^ (BlImmutableObjectChangeError object: self) signal ].
 	dataPositionIndex := IdentityDictionary new.
 	originalData := aListElement dataAccessor newMirror.
-	queryRunner := ToObservableCollectionQueryRunner new.
+	queryRunner := ToObservableCollectionFilter new.
 	queryRunner onInstalledIn: originalData.
 
 	" initialization of the current result with the current pattern "
 	self updateCurrentData.
 	sharedHandler := BlSharedEventDistributor new.
-	sharedHandler shareEvents: { ToObservableCollectionQueryResultEvent }.
+	sharedHandler shareEvents: { ToObservableCollectionFilterResultEvent }.
 	originalData addEventHandler: sharedHandler.
 	aListElement addEventHandler: sharedHandler.
 

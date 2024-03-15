@@ -68,7 +68,7 @@ ToSievedListElementEventHandler >> dataPositionIndex: aDictionary [
 ToSievedListElementEventHandler >> eventsToHandle [
 
 	^ {
-		  ToObservableCollectionQueryResultEvent.
+		  ToObservableCollectionFilterResultEvent.
 		  BlInfiniteDataSourceEvent.
 		  ToListChangePreNotificationEvent.
 		  ToCollectionFilteredEvent }
@@ -161,7 +161,7 @@ ToSievedListElementEventHandler >> listPrimarySelectionChangePreNotificationEven
 ]
 
 { #category : #'element handlers' }
-ToSievedListElementEventHandler >> observableCollectionQueryResultEvent: anEvent [
+ToSievedListElementEventHandler >> observableCollectionFilterResultEvent: anEvent [
 
 	| listElement |
 	listElement := anEvent currentTarget.

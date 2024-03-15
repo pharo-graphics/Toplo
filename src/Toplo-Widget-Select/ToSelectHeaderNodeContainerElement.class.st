@@ -38,7 +38,7 @@ ToSelectHeaderNodeContainerElement >> headerNodeBuilder: aValuable [
 	and the select node holder as second argument"
 	
 	headerNodeBuilder := aValuable.
-	select headerNodeContainer initializeFakeNode
+	self initializeFakeNode
 ]
 
 { #category : #accessing }
@@ -62,12 +62,6 @@ ToSelectHeaderNodeContainerElement >> headerNodeHolderClass [
 ]
 
 { #category : #initialization }
-ToSelectHeaderNodeContainerElement >> initialize [ 
-
-	super initialize
-]
-
-{ #category : #initialization }
 ToSelectHeaderNodeContainerElement >> initializeFakeNode [
 	" the fake node is added when no data is selected to ensure a 
 	suitable minimum height according to the node class, the node builder 
@@ -88,6 +82,12 @@ ToSelectHeaderNodeContainerElement >> initializeFakeNode [
 		c linear vertical alignCenter ].
 	" add the fake node if the selection is empty (to keep a constant minimum height )"
 	self addChild: fakeNode
+]
+
+{ #category : #accessing }
+ToSelectHeaderNodeContainerElement >> inputTextField [
+
+	^ self textInputElement inputTextField
 ]
 
 { #category : #initialization }
@@ -115,11 +115,33 @@ ToSelectHeaderNodeContainerElement >> newHeaderNodeHolder [
 { #category : #'api - hooks' }
 ToSelectHeaderNodeContainerElement >> onInstalledIn: aSelect [
 
+	self select: aSelect
+]
 
+{ #category : #accessing }
+ToSelectHeaderNodeContainerElement >> onNodeWrappingChange [ 
+]
+
+{ #category : #'api - hooks' }
+ToSelectHeaderNodeContainerElement >> onUninstalledIn: aSelect [
+
+	select := nil
 ]
 
 { #category : #accessing }
 ToSelectHeaderNodeContainerElement >> select: aSelect [
 
 	select := aSelect
+]
+
+{ #category : #accessing }
+ToSelectHeaderNodeContainerElement >> selectedDataTextField [
+
+	^ self textInputElement selectedDataTextField
+]
+
+{ #category : #accessing }
+ToSelectHeaderNodeContainerElement >> textInputElement [ 
+
+	^ self subclassResponsibility 
 ]

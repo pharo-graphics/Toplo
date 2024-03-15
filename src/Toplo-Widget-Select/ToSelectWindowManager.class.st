@@ -209,7 +209,7 @@ ToSelectWindowManager >> onWindowClosed [
 
 	super onWindowClosed.
 	" if case one of my children has focus "
-	self element strategy onWindowClosed.
+	self element onWindowClosed.
 
 
 ]
@@ -218,7 +218,7 @@ ToSelectWindowManager >> onWindowClosed [
 ToSelectWindowManager >> onWindowOpened [
 
 	super onWindowOpened.
-	self element strategy onWindowOpened
+	self element onWindowOpened
 ]
 
 { #category : #accessing }

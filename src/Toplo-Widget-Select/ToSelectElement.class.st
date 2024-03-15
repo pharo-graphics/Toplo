@@ -110,8 +110,8 @@ ToSelectElement >> filtrable: aBoolean [
 	filtrable = aBoolean ifTrue: [ ^ self ].
 	filtrable := aBoolean.
 	filtrable
-		ifTrue: [ self strategy textInputElement beEditable ]
-		ifFalse: [ self strategy textInputElement beReadonly ].
+		ifTrue: [ self textInputElement beEditable ]
+		ifFalse: [ self textInputElement beReadonly ].
 	self requestNewSkin
 ]
 
@@ -124,19 +124,19 @@ ToSelectElement >> groupNodeBuilder: aBuilder [
 { #category : #accessing }
 ToSelectElement >> headerElement [
 
-	^ self childWithId: #headerElement 
+	^ self childWithId: #headerElement ifNone: [  ]
 ]
 
 { #category : #accessing }
 ToSelectElement >> headerNodeBuilder: aValuable [
 
-	self strategy headerNodeBuilder: aValuable
+	self headerNodeContainer headerNodeBuilder: aValuable
 ]
 
 { #category : #accessing }
 ToSelectElement >> headerNodeContainer [
 
-	^ self childWithId: #headerNodeContainer
+	^ self headerElement headerNodeContainer
 ]
 
 { #category : #accessing }
@@ -176,7 +176,7 @@ ToSelectElement >> iconContainer [
 { #category : #initialization }
 ToSelectElement >> initialize [
 
-	| sharedEventsDistributor headerElement |
+	| sharedEventsDistributor |
 	super initialize.
 
 	hideSelected := false.
@@ -192,14 +192,10 @@ ToSelectElement >> initialize [
 			 windowManager listElement dataAccessor).
 	selectionModel := self listElement newSelectionModel.
 	
-	" the element that holds the node container"
-	headerElement := self newHeaderElement.
-	self addChild: headerElement.
-	self addChild: self newIconContainer.
-
 	filtrable := true.
-	strategy := ToSingleSelectStrategy new.
-	strategy onInstalledIn: self.
+	self addChild: self newIconContainer.
+	self iconContainer onInstalledIn: self.
+	self strategy: ToSingleSelectStrategy new.
 
 	self layout: BlLinearLayout horizontal.
 	self fitContent.
@@ -216,7 +212,17 @@ ToSelectElement >> initialize [
 { #category : #accessing }
 ToSelectElement >> inputTextField [ 
 
-	^ self strategy inputTextField
+	^ self headerNodeContainer inputTextField
+]
+
+{ #category : #initialization }
+ToSelectElement >> installHeaderElement [
+
+	| headerElement |
+	headerElement := self newHeaderElement.
+	headerElement onInstalledIn: self.
+	self addChild: headerElement before: self iconContainer.
+
 ]
 
 { #category : #testing }
@@ -257,6 +263,8 @@ ToSelectElement >> multiSelection: aBoolean [
 		        ifTrue: [ ToMultipleSelectStrategy new ]
 		        ifFalse: [ ToSingleSelectStrategy new ].
 	strategy onInstalledIn: self.
+	self headerElement onUninstalledIn: self.
+	
 	self requestNewSkin
 ]
 
@@ -269,18 +277,13 @@ ToSelectElement >> newHeaderElement [
 { #category : #initialization }
 ToSelectElement >> newIconContainer [
 
-	^ ToElement new
-		  fitContent;
-		  id: #iconContainer;
-		  layout: BlFrameLayout new;
-		  constraintsDo: [ :c | c linear vertical alignCenter ];
-		  yourself
+	^ ToSelectIconContainer new
 ]
 
 { #category : #skin }
 ToSelectElement >> newRawSkin [ 
 
-	^ ToSelectSkin new
+	^ ToSelectElementSkin new
 ]
 
 { #category : #'instance creation' }
@@ -309,13 +312,25 @@ ToSelectElement >> nodeWrapping: aBoolean [
 
 	nodeWrapping = aBoolean ifTrue: [ ^ self ].
 	nodeWrapping := aBoolean.
-	self strategy adaptNodeContainerLayout 
+	self headerNodeContainer onNodeWrappingChange  
 ]
 
 { #category : #'accessing selection' }
 ToSelectElement >> notifySelectionChanged [
 
 	self dispatchEvent: ToSelectSelectionChanged new
+]
+
+{ #category : #window }
+ToSelectElement >> onWindowClosed [
+
+	self textInputElement onWindowClosed
+]
+
+{ #category : #window }
+ToSelectElement >> onWindowOpened [
+
+	self textInputElement onWindowOpened
 ]
 
 { #category : #accessing }
@@ -453,7 +468,17 @@ ToSelectElement >> strategy: aToSelectStrategy [
 	self strategy ifNotNil: [ self strategy onUninstalledIn: self ].
 	strategy := aToSelectStrategy.
 	strategy onInstalledIn: self.
+	self headerElement ifNotNil: [ :he |
+		he onUninstalledIn: self.
+		he removeFromParent ].
+	self installHeaderElement.
 	self requestNewSkin
+]
+
+{ #category : #accessing }
+ToSelectElement >> textInputElement [ 
+
+	^ self headerNodeContainer textInputElement
 ]
 
 { #category : #accessing }

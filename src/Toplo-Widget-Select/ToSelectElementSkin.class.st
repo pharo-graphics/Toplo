@@ -1,15 +1,11 @@
 Class {
-	#name : #ToSelectSkin,
+	#name : #ToSelectElementSkin,
 	#superclass : #ToGeneralButtonSkin,
-	#instVars : [
-		'installedShortcuts',
-		'filtrable'
-	],
 	#category : #'Toplo-Widget-Select-Core'
 }
 
 { #category : #'event handling' }
-ToSelectSkin >> hoveredLookEvent: anEvent [
+ToSelectElementSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -17,7 +13,7 @@ ToSelectSkin >> hoveredLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToSelectSkin >> installLookEvent: anEvent [
+ToSelectElementSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -27,7 +23,7 @@ ToSelectSkin >> installLookEvent: anEvent [
 ]
 
 { #category : #'accessing - shortcuts' }
-ToSelectSkin >> shortcutsToInstallIn: aSelect [
+ToSelectElementSkin >> shortcutsToInstallIn: aSelect [
 
 	| listElement |
 	listElement := aSelect listElement.
@@ -85,7 +81,7 @@ ToSelectSkin >> shortcutsToInstallIn: aSelect [
 ]
 
 { #category : #'event handling' }
-ToSelectSkin >> uninstallLookEvent: anEvent [
+ToSelectElementSkin >> uninstallLookEvent: anEvent [
 
 	super uninstallLookEvent: anEvent.
 	anEvent elementDo: [ :e |

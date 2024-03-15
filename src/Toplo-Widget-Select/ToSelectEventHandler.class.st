@@ -10,7 +10,7 @@ ToSelectEventHandler >> collectionFilteredEvent: anEvent [
 	| select |
 	select := windowManager element.
 	windowManager currentWindow ifNil: [
-		select strategy textInputElement filterString ifNotEmpty: [
+		select textInputElement filterString ifNotEmpty: [
 			select popupWindowEvent: anEvent ] ].
 ]
 
@@ -50,7 +50,7 @@ ToSelectEventHandler >> selectSelectionChanged: anEvent [
 
 	| select |
 	select := anEvent currentTarget.
-	select strategy refreshHeaderNodeContainer.
+	select headerNodeContainer refresh.
 	self showHidePlaceholderIn: select
 ]
 

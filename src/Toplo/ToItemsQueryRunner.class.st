@@ -70,7 +70,6 @@ ToItemsQueryRunner >> newProcessIn: anEventTarget [
 	             | pat |
 	             pat := pattern copy.
 	             self delay wait.
-	             pat = pattern ifFalse: [ ^ self ].
 	             self applyFetcherIn: anEventTarget withPattern: pat.
 	             process := nil ]
 		             forkAt: Processor systemBackgroundPriority

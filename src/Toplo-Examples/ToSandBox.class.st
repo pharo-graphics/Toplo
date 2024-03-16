@@ -2959,25 +2959,22 @@ ToSandBox class >> example_textFieldWithAutocompletePopup [
 	t addEventHandler: (BlEventHandler
 			 on: AlbTextInsertedEvent
 			 do: [ :event |
-				 | sub selecter |
+				 | sub selecter wordStart currIdx |
+				currIdx := event endIndex.
 				 t infinite atTextIndex: event index do: [ :e :lidx |
-					 | origin  |
+					 | origin |
 					 origin := e screenCornerAt: lidx.
 					 e localPointToGlobal: origin "traceCr" ].
-				selecter := t selecter.
-				(selecter findLineStartBefore: event index + event text size) = event index ifFalse: [ 
-				 sub := (t text
-					         copyFrom:
-					         (selecter findWordStartBefore:
-						          event index + event text size + 1)
-					         to: event index + event text size) asString.
-				 sub trimmed ifNotEmpty: [ :pat |
-					 queryRunner processPattern: pat for: t ] ] ]).
+				 selecter := t selecter.
+				 wordStart := selecter findWordStartBefore: event endIndex.
+				 sub := (t text copyFrom: wordStart to: event endIndex).
+				 sub asString ifNotEmpty: [ :pat |
+					 queryRunner processPattern: pat for: t ] ]).
 	t addEventHandlerOn: ToItemsQueryResultEvent do: [ :event |
-		(event items collect: [ :m | m ]) asArray in: [ :result | result size trace.
+		(event items collect: [ :m | m ]) asArray in: [ :result |
+			result size trace.
 			'->' trace.
-			(result first: (5 min: result size)) traceCr
-			 ] ].
+			(result first: (5 min: result size)) traceCr ] ].
 	t openInSpace
 ]
 

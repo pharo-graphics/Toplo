@@ -76,6 +76,9 @@ ToSelectTextInputElement >> installInputTextFieldEventHandlers [
 	installedInputTextFieldTextEventHandler add: (BlEventHandler
 			 on: AlbTextEditedEvent
 			 do: [ :event | self onFilterTextUpdated: event ]).
+	installedInputTextFieldTextEventHandler add: (BlEventHandler
+			 on: AlbTextReplacedEvent
+			 do: [ :event | self onFilterTextUpdated: event ]).
 	installedInputTextFieldTextEventHandler do: [ :h |
 		self inputTextField addEventHandler: h ]
 ]
@@ -108,9 +111,11 @@ ToSelectTextInputElement >> onFilterTextUpdated: anEvent [
 
 	select dispatchEvent: ToSelectInputTextFieldUpdatedEvent new.
 	select pattern: self filterString.
-	select isMultipleSelection
-		ifTrue: [ self checkMultipleSelectPlaceholderText ]
-		ifFalse: [ self checkSingleSelectPlaceholderText ]
+	self inputTextField text
+		ifEmpty: [
+		self selectedDataTextField visibility: BlVisibility visible ]
+		ifNotEmpty: [
+		self selectedDataTextField visibility: BlVisibility hidden ]
 ]
 
 { #category : #'api - hooks' }

@@ -140,14 +140,16 @@ ToAnchoredWindow >> popupEvent: anEvent [
 	self element isAttachedToSceneGraph ifFalse: [
 		Error signal:
 			'Can''t popup an anchored window if the element is not attached to a space' ].
-	"self visibility: BlVisibility hidden. "
+
+
+
 	self anchorRoot enqueueTask: (BlTaskAction new action: [
-			 self anchorRoot addChild: self.
-			 self localTheme ifNil: [ self localTheme: self element toTheme ].
-			 popupTimestamp := DateAndTime now.
+			 self isOpened ifFalse: [
+				 self anchorRoot addChild: self.
+				 self localTheme ifNil: [ self localTheme: self element toTheme ].
+				 popupTimestamp := DateAndTime now ].
 			 self toFront.
-			 self checkBeforePopupEvent: anEvent
-			 "self visibility: BlVisibility visible." ]).
+			 self checkBeforePopupEvent: anEvent ]).
 
 	self dispatchOpenedEvent: anEvent
 ]

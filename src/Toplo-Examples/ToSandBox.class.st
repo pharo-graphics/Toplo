@@ -2948,8 +2948,44 @@ ToSandBox class >> example_textFieldOnlyDigits [
 { #category : #'text field' }
 ToSandBox class >> example_textFieldWithAutocompletePopup [
 
-	| t queryRunner |
+	| t queryRunner  |
 	t := ToTextField new.
+	t addEventHandler: ToAutocompleteEventHandler new.
+	
+	queryRunner := ToItemsQueryRunner new.
+	queryRunner onInstalledIn: t.
+	queryRunner fetcher: [ :theTextField :thePattern |
+		(SystemNavigation default allMethods collect: [ :m | m selector ])
+			asSet asArray sort select: [ :m |
+			m beginsWith: thePattern caseSensitive: false ] ].
+	"t addEventHandler: (BlEventHandler
+			 on: AlbTextInsertedEvent
+			 do: [ :event |
+				 | sub selecter wordStart currIdx |
+				currIdx := event endIndex.
+				 t infinite atTextIndex: event index do: [ :e :lidx |
+					 | origin |
+					 origin := e screenCornerAt: lidx.
+					 e localPointToGlobal: origin ""traceCr"" ].
+				 selecter := t selecter.
+				 wordStart := selecter findWordStartBefore: event endIndex.
+				 sub := (t text copyFrom: wordStart to: event endIndex).
+				 sub asString ifNotEmpty: [ :pat |
+					 queryRunner processPattern: pat for: t ] ])."
+	t addEventHandlerOn: ToItemsQueryResultEvent do: [ :event |
+		(event items collect: [ :m | m ]) asArray in: [ :result |
+			result size trace.
+			'->' trace.
+			(result first: (5 min: result size)) traceCr ] ].
+	t openInSpace
+]
+
+{ #category : #'text field' }
+ToSandBox class >> example_textFieldWithAutocompletePopup_experiment [
+
+	| t queryRunner  |
+	t := ToTextField new.
+	
 	queryRunner := ToItemsQueryRunner new.
 	queryRunner onInstalledIn: t.
 	queryRunner fetcher: [ :theTextField :thePattern |
@@ -2960,14 +2996,14 @@ ToSandBox class >> example_textFieldWithAutocompletePopup [
 			 on: AlbTextInsertedEvent
 			 do: [ :event |
 				 | sub selecter wordStart currIdx |
-				currIdx := event endIndex.
-				 t infinite atTextIndex: event index do: [ :e :lidx |
+				currIdx := event toIndex.
+				 t infinite atTextIndex: event fromIndex do: [ :e :lidx |
 					 | origin |
 					 origin := e screenCornerAt: lidx.
 					 e localPointToGlobal: origin "traceCr" ].
 				 selecter := t selecter.
-				 wordStart := selecter findWordStartBefore: event endIndex.
-				 sub := (t text copyFrom: wordStart to: event endIndex).
+				 wordStart := selecter findWordStartBefore: event toIndex.
+				 sub := (t text copyFrom: wordStart to: event toIndex).
 				 sub asString ifNotEmpty: [ :pat |
 					 queryRunner processPattern: pat for: t ] ]).
 	t addEventHandlerOn: ToItemsQueryResultEvent do: [ :event |

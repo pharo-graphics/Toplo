@@ -215,12 +215,11 @@ ToAnchoredWindowManager >> positionHook [
 
 { #category : #accessing }
 ToAnchoredWindowManager >> positionHook: aValuable [
-	" aValuable takes the event as first argument and the element as second argument. 
+	" aValuable takes the window as first argument, the element as second argument 
+	and the event as third argument. 
 	Computes the window position according to the element position "
 	
-	positionHook := aValuable.
-	self currentWindow ifNil: [ ^ self ].
-	self applyPositionHookFromEvent: nil
+	positionHook := aValuable
 ]
 
 { #category : #'window handling' }

@@ -92,6 +92,8 @@ ToAlbum >> initialize [
 		shareEvents: {
 				BlDragStartEvent.
 				BlDragEvent.
+				AlbCursorElementMovedEvent.
+				AlbTextDeletedEvent.
 				AlbTextInsertedEvent.
 				AlbTextEditedEvent.
 				AlbTextReplacedEvent.
@@ -181,7 +183,7 @@ ToAlbum >> saveResult: aBoolean [
 
 	| event |
 	
-	self deprecated: 'Send #validated: to the event instead '.
+	self deprecated: 'Send #validated: to the event current target instead '.
 	
 	self edited: aBoolean not.
 	event := aBoolean

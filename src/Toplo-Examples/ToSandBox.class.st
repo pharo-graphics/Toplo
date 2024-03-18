@@ -2949,7 +2949,7 @@ ToSandBox class >> example_textFieldOnlyDigits [
 ToSandBox class >> example_textFieldWithAutocompletePopup [
 
 	| t queryRunner  |
-	t := ToTextField new.
+	t := ToAlbum  new.
 	t addEventHandler: ToAutocompleteEventHandler new.
 	
 	queryRunner := ToItemsQueryRunner new.

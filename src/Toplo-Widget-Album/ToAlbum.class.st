@@ -92,7 +92,6 @@ ToAlbum >> initialize [
 		shareEvents: {
 				BlDragStartEvent.
 				BlDragEvent.
-				AlbCursorElementMovedEvent.
 				AlbTextDeletedEvent.
 				AlbTextInsertedEvent.
 				AlbTextEditedEvent.

@@ -4,7 +4,9 @@ Class {
 	#instVars : [
 		'windowManager',
 		'window',
-		'windowPosition'
+		'windowPosition',
+		'previousBounds',
+		'counter'
 	],
 	#category : #'Toplo-Widget-Album-TextPane'
 }
@@ -12,30 +14,48 @@ Class {
 { #category : #'event handling' }
 ToAutocompleteEventHandler >> cursorElementMovedEvent: anEvent [
 
-	windowPosition := anEvent currentTarget bounds inSpace bounds bottomRight.
-	windowPosition traceCr.
+	| cursorElement bnds |
+	cursorElement := anEvent currentTarget cursorElement.
+	counter := counter + 1.
+	counter trace. ' ' trace. 
+	cursorElement textPosition traceCr.
+	bnds := cursorElement bounds inSpace bounds.
+	bnds height isZero ifTrue: [ ^ self ].
+	previousBounds = bnds ifTrue: [ ^ self ].
+	previousBounds := bnds.
+	windowPosition := bnds bottomRight.
 	window popupEvent: anEvent
 ]
 
 { #category : #'event handling' }
-ToAutocompleteEventHandler >> cursorElementPositionChangedEvent: anEvent [
+ToAutocompleteEventHandler >> cursorMovedEvent: anEvent [
 
-	windowPosition := anEvent currentTarget bounds inSpace bounds bottomRight.
+	| cursorElement bnds |
+	cursorElement := anEvent currentTarget cursorElement.
+	counter := counter + 1.
+	counter trace. ' ' trace. 
+	cursorElement textPosition traceCr.
+	bnds := cursorElement bounds inSpace bounds.
+	bnds height isZero ifTrue: [ ^ self ].
+	previousBounds = bnds ifTrue: [ ^ self ].
+	previousBounds := bnds.
+	windowPosition := bnds bottomRight.
 	window popupEvent: anEvent
 ]
 
 { #category : #'api - accessing' }
 ToAutocompleteEventHandler >> eventsToHandle [
 
-	^ {"AlbCursorElementMovedEvent."
-		  AlbTextInsertedEvent.
-		  AlbTextDeletedEvent }
+	^ {AlbCursorElementMovedEvent.
+		  "AlbTextInsertedEvent.
+		  AlbTextDeletedEvent" }
 ]
 
 { #category : #'api - hooks' }
 ToAutocompleteEventHandler >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
+	counter := 0.
 	windowManager := ToAnchoredWindowManager new.
 	windowManager onInstalledIn: anElement.
 	windowManager builder: [ :anchWin :element |
@@ -43,8 +63,6 @@ ToAutocompleteEventHandler >> onInstalledIn: anElement [
 				 size: 50 @ 70;
 				 background: Color red;
 				 yourself) ].
-	anElement cursorElement addEventHandlerOn: BlElementPositionInSpaceChangedEvent do: [ :event | self cursorElementPositionChangedEvent: event ].
-	anElement cursorElement addEventHandlerOn: BlElementAddedToParentEvent do: [ :event | self cursorElementPositionChangedEvent: event ].
 	windowManager positionHook: [ :theWindow :theElement :event |
 		theElement enqueueTask: (BlTaskAction new action: [
 				 theWindow position: self windowPosition]) ].

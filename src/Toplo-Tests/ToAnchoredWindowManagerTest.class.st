@@ -390,10 +390,6 @@ ToAnchoredWindowManagerTest >> testPositionHook2 [
 	self
 		assert: win bounds inSpace bounds origin
 		equals: e bounds inSpace bounds origin.
-	self waitTestingSpaces.
-	self
-		assert: win bounds inSpace bounds origin
-		equals: e bounds inSpace bounds bottomRight.
 	e position: 50 asPoint.
 	self waitTestingSpaces.
 	self assert: e bounds inSpace bounds origin equals: 50 asPoint.

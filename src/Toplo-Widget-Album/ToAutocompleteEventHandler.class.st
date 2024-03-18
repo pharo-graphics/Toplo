@@ -4,9 +4,7 @@ Class {
 	#instVars : [
 		'windowManager',
 		'window',
-		'windowPosition',
-		'previousBounds',
-		'counter'
+		'windowPosition'
 	],
 	#category : #'Toplo-Widget-Album-TextPane'
 }
@@ -16,29 +14,9 @@ ToAutocompleteEventHandler >> cursorElementMovedEvent: anEvent [
 
 	| cursorElement bnds |
 	cursorElement := anEvent currentTarget cursorElement.
-	counter := counter + 1.
-	counter trace. ' ' trace. 
 	cursorElement textPosition traceCr.
 	bnds := cursorElement bounds inSpace bounds.
 	bnds height isZero ifTrue: [ ^ self ].
-	previousBounds = bnds ifTrue: [ ^ self ].
-	previousBounds := bnds.
-	windowPosition := bnds bottomRight.
-	window popupEvent: anEvent
-]
-
-{ #category : #'event handling' }
-ToAutocompleteEventHandler >> cursorMovedEvent: anEvent [
-
-	| cursorElement bnds |
-	cursorElement := anEvent currentTarget cursorElement.
-	counter := counter + 1.
-	counter trace. ' ' trace. 
-	cursorElement textPosition traceCr.
-	bnds := cursorElement bounds inSpace bounds.
-	bnds height isZero ifTrue: [ ^ self ].
-	previousBounds = bnds ifTrue: [ ^ self ].
-	previousBounds := bnds.
 	windowPosition := bnds bottomRight.
 	window popupEvent: anEvent
 ]
@@ -46,16 +24,13 @@ ToAutocompleteEventHandler >> cursorMovedEvent: anEvent [
 { #category : #'api - accessing' }
 ToAutocompleteEventHandler >> eventsToHandle [
 
-	^ {AlbCursorElementMovedEvent.
-		  "AlbTextInsertedEvent.
-		  AlbTextDeletedEvent" }
+	^ { AlbCursorElementMovedEvent }
 ]
 
 { #category : #'api - hooks' }
 ToAutocompleteEventHandler >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	counter := 0.
 	windowManager := ToAnchoredWindowManager new.
 	windowManager onInstalledIn: anElement.
 	windowManager builder: [ :anchWin :element |

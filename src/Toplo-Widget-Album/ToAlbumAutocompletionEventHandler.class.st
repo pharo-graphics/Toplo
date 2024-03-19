@@ -1,5 +1,5 @@
 Class {
-	#name : #ToAutocompleteEventHandler,
+	#name : #ToAlbumAutocompletionEventHandler,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'windowManager',
@@ -9,23 +9,23 @@ Class {
 		'currentPattern',
 		'moveCount'
 	],
-	#category : #'Toplo-Widget-Album-Autocompletion'
+	#category : #'Toplo-Widget-Album-Incubator-Autocompletion'
 }
 
 { #category : #'event handling' }
-ToAutocompleteEventHandler >> closeWindow [
+ToAlbumAutocompletionEventHandler >> closeWindow [
 
 	windowManager closeWindow
 ]
 
 { #category : #accessing }
-ToAutocompleteEventHandler >> currentPattern [
+ToAlbumAutocompletionEventHandler >> currentPattern [
 
 	^ currentPattern 
 ]
 
 { #category : #'event handling' }
-ToAutocompleteEventHandler >> cursorElementMovedEvent: anEvent [
+ToAlbumAutocompletionEventHandler >> cursorElementMovedEvent: anEvent [
 
 	| cursorElement bnds album |
 	album := anEvent currentTarget.
@@ -40,31 +40,31 @@ ToAutocompleteEventHandler >> cursorElementMovedEvent: anEvent [
 ]
 
 { #category : #accessing }
-ToAutocompleteEventHandler >> dataAccessor [ 
+ToAlbumAutocompletionEventHandler >> dataAccessor [ 
 
 	^ self listElement dataAccessor 
 ]
 
 { #category : #initialization }
-ToAutocompleteEventHandler >> defaultFontSize [
+ToAlbumAutocompletionEventHandler >> defaultFontSize [
 
 	^ 13
 ]
 
 { #category : #initialization }
-ToAutocompleteEventHandler >> defaultMaxHeight [
+ToAlbumAutocompletionEventHandler >> defaultMaxHeight [
 
 	^ 200
 ]
 
 { #category : #initialization }
-ToAutocompleteEventHandler >> defaultMinHeight [
+ToAlbumAutocompletionEventHandler >> defaultMinHeight [
 
 	^ 0
 ]
 
 { #category : #initialization }
-ToAutocompleteEventHandler >> defaultNodeBuilder [
+ToAlbumAutocompletionEventHandler >> defaultNodeBuilder [
 
 	^ [ :node :holder |
 	  | text |
@@ -78,25 +78,25 @@ ToAutocompleteEventHandler >> defaultNodeBuilder [
 ]
 
 { #category : #initialization }
-ToAutocompleteEventHandler >> defaultNodeFactory [
+ToAlbumAutocompletionEventHandler >> defaultNodeFactory [
 
 	^ [ :holder | ToNode new ]
 ]
 
 { #category : #initialization }
-ToAutocompleteEventHandler >> defaultNodeHolderBuilder [
+ToAlbumAutocompletionEventHandler >> defaultNodeHolderBuilder [
 
 	^ [ :holder :boundDataItem | holder dataItem: boundDataItem ]
 ]
 
 { #category : #initialization }
-ToAutocompleteEventHandler >> defaultNodeHolderFactory [
+ToAlbumAutocompletionEventHandler >> defaultNodeHolderFactory [
 
 	^ [ :dataSource | ToNodeHolder new ]
 ]
 
 { #category : #'api - accessing' }
-ToAutocompleteEventHandler >> eventsToHandle [
+ToAlbumAutocompletionEventHandler >> eventsToHandle [
 
 	^ {
 		  AlbCursorElementMovedEvent.
@@ -104,7 +104,7 @@ ToAutocompleteEventHandler >> eventsToHandle [
 ]
 
 { #category : #'event handling' }
-ToAutocompleteEventHandler >> itemsQueryResultEvent: anItemsQueryResultEvent [
+ToAlbumAutocompletionEventHandler >> itemsQueryResultEvent: anItemsQueryResultEvent [
 
 	moveCount := 0.
 
@@ -127,16 +127,16 @@ ToAutocompleteEventHandler >> itemsQueryResultEvent: anItemsQueryResultEvent [
 ]
 
 { #category : #accessing }
-ToAutocompleteEventHandler >> listElement [ 
+ToAlbumAutocompletionEventHandler >> listElement [ 
 
 	^ listElement 
 ]
 
 { #category : #initialization }
-ToAutocompleteEventHandler >> newListElement [
+ToAlbumAutocompletionEventHandler >> newListElement [
  
 	| newListElement |
-	newListElement := ToAlbumAutocompleteListElement new.
+	newListElement := ToAlbumAutocompletionListElement new.
 	"newListElement withDecoration: ToAutocompleteListSideBackgroundDecoration."
 	newListElement nodeHolderFactory: self defaultNodeHolderFactory.
 	newListElement nodeHolderBuilder: self defaultNodeHolderBuilder.
@@ -152,7 +152,7 @@ ToAutocompleteEventHandler >> newListElement [
 ]
 
 { #category : #'api - hooks' }
-ToAutocompleteEventHandler >> onInstalledIn: anElement [
+ToAlbumAutocompletionEventHandler >> onInstalledIn: anElement [
 
 	| selectors |
 	super onInstalledIn: anElement.
@@ -181,14 +181,14 @@ ToAutocompleteEventHandler >> onInstalledIn: anElement [
 ]
 
 { #category : #'event handling' }
-ToAutocompleteEventHandler >> openWindowFromEvent: anEvent [
+ToAlbumAutocompletionEventHandler >> openWindowFromEvent: anEvent [
 
 	windowManager currentWindow ifNil: [
 		windowManager popupWindowEvent: anEvent ]
 ]
 
 { #category : #'event handling' }
-ToAutocompleteEventHandler >> queryFromIndex: anIndex in: anAlbum [
+ToAlbumAutocompletionEventHandler >> queryFromIndex: anIndex in: anAlbum [
 
 	| selecter wordStart sub |
 	selecter := anAlbum selecter.
@@ -201,7 +201,7 @@ ToAutocompleteEventHandler >> queryFromIndex: anIndex in: anAlbum [
 ]
 
 { #category : #'event handling' }
-ToAutocompleteEventHandler >> refreshWindowFromEvent: anEvent [
+ToAlbumAutocompletionEventHandler >> refreshWindowFromEvent: anEvent [
 
 	windowManager currentWindow ifNotNil: [
 		windowManager applyPositionAnsSizeHooksFromEvent: anEvent ].
@@ -209,7 +209,7 @@ ToAutocompleteEventHandler >> refreshWindowFromEvent: anEvent [
 ]
 
 { #category : #accessing }
-ToAutocompleteEventHandler >> windowPosition [ 
+ToAlbumAutocompletionEventHandler >> windowPosition [ 
 
 	^ windowPosition 
 ]

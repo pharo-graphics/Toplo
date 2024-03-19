@@ -2950,7 +2950,7 @@ ToSandBox class >> example_textFieldWithAutocompletePopup [
 
 	| t |
 	t := ToAlbum  new.
-	t addEventHandler: ToAutocompleteEventHandler new.
+	t addEventHandler: ToAlbumAutocompletionEventHandler new.
 	t openInSpace
 ]
 

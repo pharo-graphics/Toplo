@@ -1,46 +1,46 @@
 Class {
-	#name : #ToAlbumAutocompleteListElement,
+	#name : #ToAlbumAutocompletionListElement,
 	#superclass : #ToListElement,
 	#instVars : [
 		'currentPattern',
 		'fontName',
 		'fontSize'
 	],
-	#category : #'Toplo-Widget-Album-Autocompletion'
+	#category : #'Toplo-Widget-Album-Incubator-Autocompletion'
 }
 
 { #category : #accessing }
-ToAlbumAutocompleteListElement >> currentPattern [
+ToAlbumAutocompletionListElement >> currentPattern [
 
 	^ currentPattern ifNil: [ currentPattern := '' ]
 ]
 
 { #category : #accessing }
-ToAlbumAutocompleteListElement >> currentPattern: aString [
+ToAlbumAutocompletionListElement >> currentPattern: aString [
 
 	currentPattern := aString
 ]
 
 { #category : #accessing }
-ToAlbumAutocompleteListElement >> fontName [
+ToAlbumAutocompletionListElement >> fontName [
 
 	^ fontName ifNil: [ fontName := 'Source Code Pro' ]
 ]
 
 { #category : #accessing }
-ToAlbumAutocompleteListElement >> fontName: aFontName [
+ToAlbumAutocompletionListElement >> fontName: aFontName [
 
 	fontName := aFontName
 ]
 
 { #category : #accessing }
-ToAlbumAutocompleteListElement >> fontSize [
+ToAlbumAutocompletionListElement >> fontSize [
 
 	^ fontSize ifNil: [ fontSize := 11 ]
 ]
 
 { #category : #accessing }
-ToAlbumAutocompleteListElement >> fontSize: anInteger [
+ToAlbumAutocompletionListElement >> fontSize: anInteger [
 
 	fontSize := anInteger
 ]

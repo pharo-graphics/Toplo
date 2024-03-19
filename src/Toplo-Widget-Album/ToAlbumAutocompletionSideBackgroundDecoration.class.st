@@ -1,11 +1,11 @@
 Class {
-	#name : #ToAutocompleteListSideBackgroundDecoration,
+	#name : #ToAlbumAutocompletionSideBackgroundDecoration,
 	#superclass : #BlSideBackgroundDecoration,
-	#category : #'Toplo-Widget-Album-Autocompletion'
+	#category : #'Toplo-Widget-Album-Incubator-Autocompletion'
 }
 
 { #category : #accessing }
-ToAutocompleteListSideBackgroundDecoration >> aeBackgroundBoundsOn: aeCanvas in: anInfiniteElement [
+ToAlbumAutocompletionSideBackgroundDecoration >> aeBackgroundBoundsOn: aeCanvas in: anInfiniteElement [
 
 
 	| cairoScaledFont fontExtents cairoGlyphsArray rect |
@@ -21,7 +21,7 @@ ToAutocompleteListSideBackgroundDecoration >> aeBackgroundBoundsOn: aeCanvas in:
 ]
 
 { #category : #accessing }
-ToAutocompleteListSideBackgroundDecoration >> aeCairoScaledFontOn: aeCanvas in: anInfiniteElement [
+ToAlbumAutocompletionSideBackgroundDecoration >> aeCairoScaledFontOn: aeCanvas in: anInfiniteElement [
 
 	| fontAndStyleBuilder freeTypeFont |
 	fontAndStyleBuilder := BlTextFontAndStyleBuilder new.
@@ -31,7 +31,7 @@ ToAutocompleteListSideBackgroundDecoration >> aeCairoScaledFontOn: aeCanvas in: 
 ]
 
 { #category : #initialization }
-ToAutocompleteListSideBackgroundDecoration >> defaultBackground [
+ToAlbumAutocompletionSideBackgroundDecoration >> defaultBackground [
 
 	^ (Color veryLightGray alpha: 0.2) asBlBackground
 ]

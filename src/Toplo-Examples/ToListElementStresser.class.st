@@ -339,7 +339,9 @@ ToListElementStresser >> initialize [
 		                       self tabsPanel enqueueTask:
 			                       (BlTaskAction new action: [
 				                        (self tabsPanel tabs at: idx) check ]).
+		                       self resizeSpace.
 		                       1 seconds wait ] ] newProcess.
+
 
 	tabSelectionProcess name: self class name.
 	tabSelectionProcess priority: Processor systemBackgroundPriority.
@@ -522,6 +524,16 @@ ToListElementStresser >> randIndexIn: aList [
 	^ s isZero
 		  ifTrue: [ 0 ]
 		  ifFalse: [ ((rand nextIntegerBetween: 1 and: s) max: 1) min: s]
+]
+
+{ #category : #running }
+ToListElementStresser >> resizeSpace [
+
+	self tabsPanel spaceDo: [ :sp |
+		| w h |
+		w := rand nextIntegerBetween: 1 and: 1024.
+		h := rand nextIntegerBetween: 1 and: 900.
+		sp extent: w @ h ]
 ]
 
 { #category : #running }

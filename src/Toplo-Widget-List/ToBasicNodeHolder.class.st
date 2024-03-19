@@ -8,6 +8,14 @@ Class {
 }
 
 { #category : #accessing }
+ToBasicNodeHolder >> bindDataItem: aData [ 
+
+	self listElement nodeHolderBuilder value: self value: aData.
+	self node: (self listElement nodeFactory cull: self).
+	self listElement nodeBuilder cull: self node cull: self
+]
+
+{ #category : #accessing }
 ToBasicNodeHolder >> data [
 
 
@@ -19,16 +27,6 @@ ToBasicNodeHolder >> data [
 ]
 
 { #category : #accessing }
-ToBasicNodeHolder >> data: aData [ 
-
-	self
-		deprecated: 'Use dataItem: instead'
-		transformWith: '`@receiver data: `@arg' -> '`@receiver dataItem: `@arg'.
-
-	self dataItem: aData
-]
-
-{ #category : #accessing }
 ToBasicNodeHolder >> dataItem [
 
 	^ dataItem
@@ -37,15 +35,15 @@ ToBasicNodeHolder >> dataItem [
 { #category : #accessing }
 ToBasicNodeHolder >> dataItem: aData [ 
 
-	dataItem := aData.
-	self node: (self listElement nodeFactory cull: self).
-	self listElement nodeBuilder cull: self node cull: self
+	dataItem := aData
 ]
 
 { #category : #testing }
-ToBasicNodeHolder >> isHidden [
+ToBasicNodeHolder >> isSelected [
 
-	^ false
+	^ self listElement
+		  ifNil: [ false ]
+		  ifNotNil: [ :le | le selectionModel containsIndex: self position ]
 ]
 
 { #category : #accessing }

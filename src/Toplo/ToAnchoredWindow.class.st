@@ -3,7 +3,8 @@ Class {
 	#superclass : #ToBasicWindowElement,
 	#instVars : [
 		'popupTimestamp',
-		'windowManager'
+		'windowManager',
+		'openTask'
 	],
 	#category : #'Toplo-Core-Window'
 }
@@ -36,6 +37,7 @@ ToAnchoredWindow >> checkBeforePopupEvent: anEvent [
 { #category : #'api - displaying' }
 ToAnchoredWindow >> close [
 
+	openTask ifNotNil: [ :t | self anchorRoot dequeueTask: openTask].
 	self dispatchCloseRequest.
 	super close.
 	self root removeChildren.
@@ -141,17 +143,18 @@ ToAnchoredWindow >> popupEvent: anEvent [
 		Error signal:
 			'Can''t popup an anchored window if the element is not attached to a space' ].
 
-
-
-	self anchorRoot enqueueTask: (BlTaskAction new action: [
-			 self isOpened ifFalse: [
-				 self anchorRoot addChild: self.
-				 self localTheme ifNil: [ self localTheme: self element toTheme ].
-				 popupTimestamp := DateAndTime now ].
-			 self toFront.
-			 self checkBeforePopupEvent: anEvent ]).
-
-	self dispatchOpenedEvent: anEvent
+	openTask ifNotNil: [ ^ self ].
+	openTask := BlTaskAction new action: [
+		            self isOpened ifFalse: [
+			            self anchorRoot addChild: self.
+			            self localTheme ifNil: [
+				            self localTheme: self element toTheme ].
+			            popupTimestamp := DateAndTime now.
+			            self dispatchOpenedEvent: anEvent ].
+		            self toFront.
+		            self checkBeforePopupEvent: anEvent.
+		            openTask := nil ].
+	self anchorRoot enqueueTask: openTask
 ]
 
 { #category : #accessing }

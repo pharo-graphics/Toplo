@@ -53,7 +53,7 @@ ToObservableCollectionInfiniteDataSource >> onAttached: anInfiniteElement [
 ToObservableCollectionInfiniteDataSource >> onBindHolder: anElementHolder at: aPosition [
 	"Update holder's model"
 
-	anElementHolder dataItem: (self data at: aPosition)
+	anElementHolder bindDataItem: (self data at: aPosition)
 ]
 
 { #category : #hooks }

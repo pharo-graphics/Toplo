@@ -5,9 +5,9 @@ Class {
 }
 
 { #category : #accessing }
-ToNodeHolder >> dataItem: aData [ 
+ToNodeHolder >> bindDataItem: aData [ 
 
-	super dataItem: aData.
+	super bindDataItem: aData.
 	self node enabled: self isEnabled.
 	self isHidden ifTrue: [ self node height: 0 ]
 ]
@@ -40,14 +40,6 @@ ToNodeHolder >> isHidden [
 ToNodeHolder >> isSelectable [
 
 	^ self isUnselectable not
-]
-
-{ #category : #testing }
-ToNodeHolder >> isSelected [
-
-	^ self listElement
-		  ifNil: [ false ]
-		  ifNotNil: [ :le | le selectionModel containsIndex: self position ]
 ]
 
 { #category : #testing }

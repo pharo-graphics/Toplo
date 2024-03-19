@@ -509,9 +509,9 @@ ToListElementStresser >> processingRound: aRound inList: aList number: aNumber [
 			 (tab childAt: 2) text: s.
 			 (tab childAt: 2) textChanged ]).
 
-	self tabsPanel enqueueTask: (BlTaskAction new action: [
+	"self tabsPanel enqueueTask: (BlTaskAction new action: ["
 			 self selectActionsToRun shuffled do: [ :act |
-				 self perform: act with: aList ] ])
+				 self perform: act with: aList ] "])"
 ]
 
 { #category : #private }

@@ -80,8 +80,7 @@ ToListPrimarySelectionElementEventHandler >> newSelectionElementsFromEvent: anEv
 	target := anEvent currentTarget.
 
 	adjacentNodeGroups := target infinite nodeGroupsSatisfying: [ :n |
-		                      n holder isSelected and: [
-			                      n holder isHidden not ] ].
+		                      n holder isSelected ].
 	^ adjacentNodeGroups collect: [ :g |
 		  ToListPrimarySelectionElement new
 			  listElement: target;

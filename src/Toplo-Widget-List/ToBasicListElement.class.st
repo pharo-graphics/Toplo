@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'nodeFactory',
 		'nodeBuilder',
-		'nodeReleaser'
+		'nodeReleaser',
+		'nodeHolderBuilder'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -47,6 +48,12 @@ ToBasicListElement >> defaultNodeFactory [
 ]
 
 { #category : #initialization }
+ToBasicListElement >> defaultNodeHolderBuilder [
+
+	^ [ :holder :boundData | holder dataItem: boundData ]
+]
+
+{ #category : #initialization }
 ToBasicListElement >> defaultNodeHolderFactory [
 
 	^ [ ToBasicNodeHolder new ]
@@ -71,6 +78,7 @@ ToBasicListElement >> initialize [
 
 	super initialize.
 	nodeFactory := self defaultNodeFactory.
+	nodeHolderBuilder := self defaultNodeHolderBuilder.
 	nodeBuilder := self defaultNodeBuilder.
 	nodeReleaser := self defaultNodeReleaser 
 ]
@@ -115,6 +123,22 @@ ToBasicListElement >> nodeFactory: aValuable [
 	" aValuable that takes a node holder as unique argument and which running results in a new node "
 
 	nodeFactory := aValuable
+]
+
+{ #category : #accessing }
+ToBasicListElement >> nodeHolderBuilder [
+
+	"aValuable takes 2 args: the holder to build and second the dataItem that is bound to the holder "
+
+	^ nodeHolderBuilder 
+]
+
+{ #category : #accessing }
+ToBasicListElement >> nodeHolderBuilder: aBuilder [
+
+	"aValuable takes 1 arg: the holder to build and second "
+
+	nodeHolderBuilder := aBuilder
 ]
 
 { #category : #accessing }

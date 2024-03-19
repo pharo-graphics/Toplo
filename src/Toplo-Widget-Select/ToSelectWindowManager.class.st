@@ -167,7 +167,7 @@ ToSelectWindowManager >> newListElement [
 	^ newListElement
 ]
 
-{ #category : #accessing }
+{ #category : #'api - hook' }
 ToSelectWindowManager >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.

@@ -26,6 +26,14 @@ ToAnchoredWindowManager >> anchorRoot: anElement [
 ]
 
 { #category : #'bounds hook' }
+ToAnchoredWindowManager >> applyPositionAnsSizeHooksFromEvent: anEvent [
+
+	self currentWindow ifNil: [ Error signal: 'No current window' ].
+	self applyPositionHookFromEvent: anEvent.
+	self applySizeHookFromEvent: anEvent
+]
+
+{ #category : #'bounds hook' }
 ToAnchoredWindowManager >> applyPositionHookFromEvent: anEvent [
 
 	self currentWindow ifNil: [ Error signal: 'No current window' ].
@@ -57,6 +65,14 @@ ToAnchoredWindowManager >> builder [
 ToAnchoredWindowManager >> builder: aWindowBuilderValuable [
 
 	builder := aWindowBuilderValuable
+]
+
+{ #category : #'mouse handlers' }
+ToAnchoredWindowManager >> closeWindow [
+
+	currentWindow ifNotNil: [
+		currentWindow close.
+		^ self ]
 ]
 
 { #category : #accessing }
@@ -205,6 +221,16 @@ ToAnchoredWindowManager >> onWindowRemoved [
 	self currentWindow root removeChildren.
 	currentWindow manager: nil.
 	currentWindow := nil
+]
+
+{ #category : #'mouse handlers' }
+ToAnchoredWindowManager >> popupWindowEvent: anEvent [
+
+	currentWindow ifNotNil: [
+		currentWindow isOpened ifTrue: [ currentWindow close ].
+		^ self ].
+	self newWindowEvent: anEvent.
+	currentWindow popupEvent: anEvent
 ]
 
 { #category : #accessing }

@@ -2951,27 +2951,6 @@ ToSandBox class >> example_textFieldWithAutocompletePopup [
 	| t |
 	t := ToAlbum  new.
 	t addEventHandler: ToAutocompleteEventHandler new.
-	
-	"queryRunner := ToItemsQueryRunner new.
-	queryRunner onInstalledIn: t.
-	queryRunner fetcher: [ :theTextField :thePattern |
-		(SystemNavigation default allMethods collect: [ :m | m selector ])
-			asSet asArray sort select: [ :m |
-			m beginsWith: thePattern caseSensitive: false ] ]."
-	"t addEventHandler: (BlEventHandler
-			 on: AlbTextInsertedEvent
-			 do: [ :event |
-				 | sub selecter wordStart currIdx |
-				currIdx := event endIndex.
-				 t infinite atTextIndex: event index do: [ :e :lidx |
-					 | origin |
-					 origin := e screenCornerAt: lidx.
-					 e localPointToGlobal: origin ""traceCr"" ].
-				 selecter := t selecter.
-				 wordStart := selecter findWordStartBefore: event endIndex.
-				 sub := (t text copyFrom: wordStart to: event endIndex).
-				 sub asString ifNotEmpty: [ :pat |
-					 queryRunner processPattern: pat for: t ] ])."
 	t openInSpace
 ]
 
@@ -2992,7 +2971,7 @@ ToSandBox class >> example_textFieldWithAutocompletePopup_experiment [
 			 do: [ :event |
 				 | sub selecter wordStart currIdx |
 				currIdx := event toIndex.
-				 t infinite atTextIndex: event fromIndex do: [ :e :lidx |
+				 t atTextIndex: event fromIndex do: [ :e :lidx |
 					 | origin |
 					 origin := e screenCornerAt: lidx.
 					 e localPointToGlobal: origin "traceCr" ].

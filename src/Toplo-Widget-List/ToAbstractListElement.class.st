@@ -111,6 +111,12 @@ ToAbstractListElement >> defaultNodeFactory [
 ]
 
 { #category : #initialization }
+ToAbstractListElement >> defaultNodeHolderBuilder [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #initialization }
 ToAbstractListElement >> defaultNodeHolderFactory [
 
 	^ self subclassResponsibility 
@@ -255,6 +261,14 @@ ToAbstractListElement >> nodeBuilder [
 { #category : #accessing }
 ToAbstractListElement >> nodeFactory [
 	" returns aValuable that takes a node holder as unique argument and which running results in a new node "
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #accessing }
+ToAbstractListElement >> nodeHolderBuilder [
+
+	"aValuable takes 1 arg: the holder to build and second "
 
 	^ self subclassResponsibility 
 ]

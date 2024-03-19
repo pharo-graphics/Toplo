@@ -29,7 +29,7 @@ ToMenu >> clickEventClass [
 { #category : #'menu window' }
 ToMenu >> closeWindow [
 
-	self items do: [ :it | it closeWindow ].
+	self items do: [ :it | it isOpened ifTrue: [ it closeWindow ] ].
 	self menuWindow ifNotNil: [:mw | mw close ]
 ]
 

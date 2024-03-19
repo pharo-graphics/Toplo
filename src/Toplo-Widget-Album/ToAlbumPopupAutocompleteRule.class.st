@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'windowManager'
 	],
-	#category : #'Toplo-Widget-Album-TextPane'
+	#category : #'Toplo-Widget-Album-Autocompletion'
 }
 
 { #category : #accessing }

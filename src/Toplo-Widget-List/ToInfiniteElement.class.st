@@ -81,7 +81,7 @@ ToInfiniteElement >> initialize [
 { #category : #layout }
 ToInfiniteElement >> layoutCritical: aBlock [
 			
-	layoutMonitor critical: aBlock
+	layoutMonitor critical: aBlock value
 ]
 
 { #category : #accessing }

@@ -24,7 +24,7 @@ ToMenuItemElement >> closeSiblingMenuWindow [
 
 	self parentMenu ifNil: [ ^ self ].
 	self parentMenu items do: [ :it |
-		it menuWindowDo: [ :w | w close ] ]
+		it menuWindowDo: [ :w | w isOpened ifTrue: [ w close ] ] ]
 ]
 
 { #category : #'menu window' }
@@ -79,6 +79,14 @@ ToMenuItemElement >> initializeWithMenuItemConstraints [
 ToMenuItemElement >> isMenu [
 
 	^ false
+]
+
+{ #category : #'menu window' }
+ToMenuItemElement >> isOpened [
+
+	^ false
+
+	
 ]
 
 { #category : #testing }

@@ -2948,16 +2948,16 @@ ToSandBox class >> example_textFieldOnlyDigits [
 { #category : #'text field' }
 ToSandBox class >> example_textFieldWithAutocompletePopup [
 
-	| t queryRunner  |
+	| t |
 	t := ToAlbum  new.
 	t addEventHandler: ToAutocompleteEventHandler new.
 	
-	queryRunner := ToItemsQueryRunner new.
+	"queryRunner := ToItemsQueryRunner new.
 	queryRunner onInstalledIn: t.
 	queryRunner fetcher: [ :theTextField :thePattern |
 		(SystemNavigation default allMethods collect: [ :m | m selector ])
 			asSet asArray sort select: [ :m |
-			m beginsWith: thePattern caseSensitive: false ] ].
+			m beginsWith: thePattern caseSensitive: false ] ]."
 	"t addEventHandler: (BlEventHandler
 			 on: AlbTextInsertedEvent
 			 do: [ :event |
@@ -2972,11 +2972,6 @@ ToSandBox class >> example_textFieldWithAutocompletePopup [
 				 sub := (t text copyFrom: wordStart to: event endIndex).
 				 sub asString ifNotEmpty: [ :pat |
 					 queryRunner processPattern: pat for: t ] ])."
-	t addEventHandlerOn: ToItemsQueryResultEvent do: [ :event |
-		(event items collect: [ :m | m ]) asArray in: [ :result |
-			result size trace.
-			'->' trace.
-			(result first: (5 min: result size)) traceCr ] ].
 	t openInSpace
 ]
 

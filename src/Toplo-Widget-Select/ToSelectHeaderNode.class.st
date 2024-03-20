@@ -21,6 +21,8 @@ ToSelectHeaderNode >> endContainer [
 ToSelectHeaderNode >> initialize [
 
 	super initialize.
+	
+	self applySkinInstallerOnFirstRequest: true.
 
 	self layout: BlLinearLayout horizontal.
 

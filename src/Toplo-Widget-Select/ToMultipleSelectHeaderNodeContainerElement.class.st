@@ -3,7 +3,8 @@ Class {
 	#superclass : #ToSelectHeaderNodeContainerElement,
 	#instVars : [
 		'textInputElement',
-		'headerNodeHolders'
+		'headerNodeHolders',
+		'previousHeaderWidth'
 	],
 	#category : #'Toplo-Widget-Select-Node'
 }
@@ -18,6 +19,42 @@ ToMultipleSelectHeaderNodeContainerElement >> addAllDataNodes: aNodeCollection [
 ToMultipleSelectHeaderNodeContainerElement >> addDataNode: aNode [
 
 	self addChild: aNode before: self textInputElement
+]
+
+{ #category : #layout }
+ToMultipleSelectHeaderNodeContainerElement >> checkVisibleNodes [
+
+	| invisibleNodes visibleNodes showerNode showerHolder currentHeaderWidth |
+	invisibleNodes := self headerDataNodesSelect: [ :n |
+		                  n isFullyVisible not ].
+	previousHeaderWidth ifNil: [ previousHeaderWidth := 	(select headerElement measuredBounds inParent: select) width.
+	previousHeaderWidth := previousHeaderWidth - select textInputElement measuredWidth. ].
+	currentHeaderWidth := 	(select headerElement measuredBounds inParent: select) width.
+	currentHeaderWidth := currentHeaderWidth - select textInputElement measuredWidth.
+	currentHeaderWidth > (previousHeaderWidth) ifTrue: [ previousHeaderWidth := currentHeaderWidth. 
+			self enqueueTask: (BlTaskAction new action: [ self refresh ]). 
+			^ self ].
+	previousHeaderWidth := 	currentHeaderWidth.
+	invisibleNodes ifEmpty: [ ^ self ].
+	visibleNodes := self headerDataNodesSelect: [ :n | n isFullyVisible  ].
+	visibleNodes ifEmpty: [ ^ self ].
+	visibleNodes ifNotEmpty: [
+		invisibleNodes := invisibleNodes copyWith: visibleNodes last.
+		visibleNodes := visibleNodes copyWithout: visibleNodes last ].
+	invisibleNodes do: [ :node | node onUninstalledIn: select ].
+	showerHolder := ToCompositeHeaderNodeHolder new select: select.
+	showerHolder holders:
+		(invisibleNodes collect: [ :node | node selectHolder ]).
+	showerNode := ToInvisibleSelectHeaderNodesShower new.
+	showerHolder node: showerNode.
+	showerNode selectHolder: showerHolder.
+	invisibleNodes do: [ :node |
+		self detachChild: node.
+		headerNodeHolders remove: node selectHolder ].
+	headerNodeHolders add: showerHolder.
+	showerNode middleContainer addChild: (ToLabel text:
+			 '+ ' , (self nodesCount - visibleNodes size) asString , ' ...').
+	self addDataNode: showerNode
 ]
 
 { #category : #accessing }
@@ -57,6 +94,16 @@ ToMultipleSelectHeaderNodeContainerElement >> headerNodeHolders [
 		  headerNodeHolders := OrderedCollection new ]
 ]
 
+{ #category : #accessing }
+ToMultipleSelectHeaderNodeContainerElement >> nodesCount [
+
+	| count |
+	count := 0.
+	self headerNodeHolders do: [ :holder |
+		count := count + holder nodesCount ].
+	^ count
+]
+
 { #category : #'api - hooks' }
 ToMultipleSelectHeaderNodeContainerElement >> onInstalledIn: aSelect [
 
@@ -78,29 +125,11 @@ ToMultipleSelectHeaderNodeContainerElement >> onInstalledIn: aSelect [
 ]
 
 { #category : #layout }
-ToMultipleSelectHeaderNodeContainerElement >> onMeasure: anExtentMeasurementSpec [
+ToMultipleSelectHeaderNodeContainerElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 
-	| invisibleNodes visibleNodes showerNode showerHolder |
-	super onMeasure: anExtentMeasurementSpec.
-	invisibleNodes := self headerDataNodesSelect: [ :n |
-		                  n isFullyVisible not ].
-	invisibleNodes ifEmpty: [ ^ self ].
-	visibleNodes := self headerDataNodesSelect: [ :n | n isFullyVisible ].
-	visibleNodes ifNotEmpty: [
-		invisibleNodes := invisibleNodes copyWith: visibleNodes last ].
-	invisibleNodes do: [ :node | node onUninstalledIn: select ].
-	showerHolder := ToCompositeHeaderNodeHolder new select: select.
-	showerHolder holders:
-		(invisibleNodes collect: [ :node | node selectHolder ]).
-	showerNode := ToInvisibleSelectHeaderNodesShower new.
-	showerHolder node: showerNode.
-	showerNode selectHolder: showerHolder.
-	invisibleNodes do: [ :node |
-		self detachChild: node.
-		headerNodeHolders remove: node selectHolder ].
-	showerNode middleContainer addChild:
-		(ToLabel text: '+ ' , invisibleNodes size asString , ' ...').
-	self addDataNode: showerNode
+	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
+	self checkVisibleNodes 
+
 ]
 
 { #category : #accessing }
@@ -131,13 +160,16 @@ ToMultipleSelectHeaderNodeContainerElement >> onUninstalledIn: aSelect [
 { #category : #accessing }
 ToMultipleSelectHeaderNodeContainerElement >> refresh [
 	" first remove all data nodes "
-
+	
+	| detached newNodes |
+	detached := OrderedCollection new.
 	self headerDataNodesDo: [ :node |
 		node onUninstalledIn: select.
-		node removeFromParent ].
+		detached add: node.
+		self detachChild: node ].
 	self headerNodeHolders reset.
 	" then rebuild current nodes according to current selection "
-	select selectionModel selectedIndexesDo: [ :idx |
+	newNodes := select selectionModel selectedIndexesCollect: [ :idx |
 		| node selectedData |
 		node := self newHeaderNode.
 		selectedData := select dataAccessor at: idx.
@@ -146,7 +178,9 @@ ToMultipleSelectHeaderNodeContainerElement >> refresh [
 			data: selectedData.
 		self headerNodeBuilder value: node value: node selectHolder.
 		self headerNodeHolders add: node selectHolder.
-		self addDataNode: node ]
+		node ].
+	self addAllDataNodes: newNodes.
+	detached do: [ :node | self removeDetachedChild: node]
 ]
 
 { #category : #accessing }

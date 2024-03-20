@@ -10,6 +10,10 @@ Class {
 	#category : #'Toplo-Widget-Select-Node'
 }
 
+{ #category : #layout }
+ToSelectHeaderNodeContainerElement >> checkVisibleNodes [
+]
+
 { #category : #accessing }
 ToSelectHeaderNodeContainerElement >> defaultHeaderNodeBuilder [
 

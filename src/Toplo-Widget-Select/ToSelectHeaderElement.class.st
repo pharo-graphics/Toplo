@@ -51,6 +51,14 @@ ToSelectHeaderElement >> onInstalledIn: aSelect [
 
 ]
 
+{ #category : #layout }
+ToSelectHeaderElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
+
+	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
+"	self headerNodeContainer checkVisibleNodes."
+
+]
+
 { #category : #'api - hooks' }
 ToSelectHeaderElement >> onUninstalledIn: aSelect [
 

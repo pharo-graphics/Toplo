@@ -23,6 +23,18 @@ ToMultipleSelectHeaderNode >> isFullyVisible [
 	select := self selectHolder select.
 	bnds := (self measuredBounds inParent: select) asRectangle.
 	pbnds := (select headerElement measuredBounds inParent: select) asRectangle.
+	pbnds := pbnds withRight: (pbnds right - select textInputElement measuredWidth).
 	intersection := bnds intersect: pbnds.
+	^ intersection = bnds
+]
+
+{ #category : #layout }
+ToMultipleSelectHeaderNode >> isFullyVisibleInBounds: aRectangle [
+
+	| intersection bnds select |
+	self measuredWidth isZero ifTrue: [^ true ].
+	select := self selectHolder select.
+	bnds := (self measuredBounds inParent: select) asRectangle.
+	intersection := bnds intersect: aRectangle.
 	^ intersection = bnds
 ]

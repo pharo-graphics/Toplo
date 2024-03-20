@@ -18,3 +18,13 @@ ToCompositeHeaderNodeHolder >> holders: anHolderArray [
 
 	holders := anHolderArray
 ]
+
+{ #category : #accessing }
+ToCompositeHeaderNodeHolder >> nodesCount [ 
+
+	| count |
+	count := 0.
+	self holders do: [ :holder |
+		count := count + holder nodesCount ].
+	^ count
+]

@@ -21,6 +21,12 @@ ToHeaderNodeHolder >> data: anObject [
 ]
 
 { #category : #accessing }
+ToHeaderNodeHolder >> nodesCount [
+
+	^ 1
+]
+
+{ #category : #accessing }
 ToHeaderNodeHolder >> position [
 
 	^ position

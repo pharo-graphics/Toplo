@@ -25,19 +25,20 @@ ToMultipleSelectHeaderNodeContainerElement >> addDataNode: aNode [
 ToMultipleSelectHeaderNodeContainerElement >> checkVisibleNodes [
 
 	| invisibleNodes visibleNodes showerNode showerHolder currentHeaderWidth |
+	self ensurePreviousHeaderWidth.
+	currentHeaderWidth := self computedHeaderWidth.
+	currentHeaderWidth > previousHeaderWidth ifTrue: [
+		previousHeaderWidth := currentHeaderWidth.
+		self enqueueTask: (BlTaskAction new action: [ self refresh ]).
+		^ self ].
+	(self headerNodeHolders size = 1 and: [
+		 self headerNodeHolders first nodesCount > 1 ]) ifTrue: [ ^ self ].
+
+	previousHeaderWidth := currentHeaderWidth.
 	invisibleNodes := self headerDataNodesSelect: [ :n |
 		                  n isFullyVisible not ].
-	previousHeaderWidth ifNil: [ previousHeaderWidth := 	(select headerElement measuredBounds inParent: select) width.
-	previousHeaderWidth := previousHeaderWidth - select textInputElement measuredWidth. ].
-	currentHeaderWidth := 	(select headerElement measuredBounds inParent: select) width.
-	currentHeaderWidth := currentHeaderWidth - select textInputElement measuredWidth.
-	currentHeaderWidth > (previousHeaderWidth) ifTrue: [ previousHeaderWidth := currentHeaderWidth. 
-			self enqueueTask: (BlTaskAction new action: [ self refresh ]). 
-			^ self ].
-	previousHeaderWidth := 	currentHeaderWidth.
 	invisibleNodes ifEmpty: [ ^ self ].
-	visibleNodes := self headerDataNodesSelect: [ :n | n isFullyVisible  ].
-	visibleNodes ifEmpty: [ ^ self ].
+	visibleNodes := self headerDataNodesSelect: [ :n | n isFullyVisible ].
 	visibleNodes ifNotEmpty: [
 		invisibleNodes := invisibleNodes copyWith: visibleNodes last.
 		visibleNodes := visibleNodes copyWithout: visibleNodes last ].
@@ -57,6 +58,13 @@ ToMultipleSelectHeaderNodeContainerElement >> checkVisibleNodes [
 	self addDataNode: showerNode
 ]
 
+{ #category : #layout }
+ToMultipleSelectHeaderNodeContainerElement >> computedHeaderWidth [
+
+	^ (select headerElement measuredBounds inParent: select) width
+	  - select textInputElement measuredWidth
+]
+
 { #category : #accessing }
 ToMultipleSelectHeaderNodeContainerElement >> defaultHeaderNodeBuilder [
 
@@ -70,6 +78,13 @@ ToMultipleSelectHeaderNodeContainerElement >> defaultHeaderNodeBuilder [
 ToMultipleSelectHeaderNodeContainerElement >> defaultHeaderNodeClass [ 
 
 	^ ToVisibleSelectHeaderNode
+]
+
+{ #category : #layout }
+ToMultipleSelectHeaderNodeContainerElement >> ensurePreviousHeaderWidth [
+
+	previousHeaderWidth ifNil: [
+		previousHeaderWidth := self computedHeaderWidth  ]
 ]
 
 { #category : #enumerating }

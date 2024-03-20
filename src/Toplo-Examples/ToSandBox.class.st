@@ -1397,6 +1397,8 @@ ToSandBox class >> example_SelectMultiFiltrable [
 
 	| select innerWindow |
 	select := ToSelectElement new.
+	select maxSelectedCount: 4.
+
 	select inspect.
 	select hideSelected: false.
 	select dataAccessor addAll: self statesOfAmerica.
@@ -1419,6 +1421,7 @@ ToSandBox class >> example_SelectMultiFiltrableNoWrapping [
 
 	| select innerWindow |
 	select := ToSelectElement new.
+	select maxSelectedCount: 3.
 	select nodeWrapping: false.
 	select hideSelected: false.
 	select dataAccessor addAll: self statesOfAmerica.
@@ -1482,6 +1485,7 @@ ToSandBox class >> example_SelectMultiNotFiltrable [
 
 	| select innerWindow |
 	select := ToSelectElement new.
+	select maxSelectedCount: 4.
 	select filtrable: false.
 	select dataAccessor addAll: self statesOfAmerica.
 	select strategy: ToMultipleSelectStrategy new.

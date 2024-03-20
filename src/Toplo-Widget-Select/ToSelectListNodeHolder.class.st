@@ -7,5 +7,5 @@ Class {
 { #category : #testing }
 ToSelectListNodeHolder >> isGroup [
 
-	^ self isUnselectable
+	^ self listElement groupSelectionModel containsIndex: self position
 ]

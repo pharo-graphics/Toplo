@@ -33,6 +33,7 @@ ToSelectIconContainerSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
+		e iconHolder padding: (BlInsets horizontal: 5).
 		e icon ifNil: [ e icon: self popupClosedIcon ] ]
 ]
 

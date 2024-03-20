@@ -143,8 +143,8 @@ ToMultipleSelectHeaderNodeContainerElement >> onInstalledIn: aSelect [
 ToMultipleSelectHeaderNodeContainerElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 
 	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
-	self checkVisibleNodes 
-
+	select nodeWrapping ifTrue: [ ^ self ].
+	self checkVisibleNodes
 ]
 
 { #category : #accessing }

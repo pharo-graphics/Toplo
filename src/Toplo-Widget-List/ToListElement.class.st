@@ -143,7 +143,13 @@ ToListElement >> notifyHiddenSelectionChanged: aSelectionChangedEvent [
 { #category : #'event firing' }
 ToListElement >> notifySecondarySelectionChanged: aSelectionChangedEvent [
 
-	self dispatchEvent: aSelectionChangedEvent
+	| preNotification |
+	preNotification := ToListSecondarySelectionChangePreNotificationEvent new
+		                   sourceEvent: aSelectionChangedEvent;
+		                   yourself.
+	self dispatchEvent: preNotification.
+	preNotification sourceEvent ifNil: [ ^ self ].
+	self dispatchEvent: preNotification sourceEvent
 ]
 
 { #category : #'event firing' }

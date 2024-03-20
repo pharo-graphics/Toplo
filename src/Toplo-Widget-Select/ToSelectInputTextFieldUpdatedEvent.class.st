@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSelectInputTextFieldUpdatedEvent,
 	#superclass : #BlEvent,
-	#category : #'Toplo-Widget-Select-Core'
+	#category : #'Toplo-Widget-Select-Node'
 }
 
 { #category : #sending }

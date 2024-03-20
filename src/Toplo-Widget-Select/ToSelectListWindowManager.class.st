@@ -1,5 +1,5 @@
 Class {
-	#name : #ToSelectWindowManager,
+	#name : #ToSelectListWindowManager,
 	#superclass : #ToPopupWindowManager,
 	#instVars : [
 		'listElement',
@@ -12,31 +12,31 @@ Class {
 }
 
 { #category : #accessing }
-ToSelectWindowManager >> dataNodeBuilder [
+ToSelectListWindowManager >> dataNodeBuilder [
 
 	^ dataNodeBuilder
 ]
 
 { #category : #accessing }
-ToSelectWindowManager >> dataNodeBuilder: aValuable [
+ToSelectListWindowManager >> dataNodeBuilder: aValuable [
 
 	dataNodeBuilder := aValuable
 ]
 
 { #category : #initialization }
-ToSelectWindowManager >> defaultAutoCloseOnMouseUpDelay [
+ToSelectListWindowManager >> defaultAutoCloseOnMouseUpDelay [
 
 	^ nil
 ]
 
 { #category : #initialization }
-ToSelectWindowManager >> defaultAutoClosePickOutsideEventClass [
+ToSelectListWindowManager >> defaultAutoClosePickOutsideEventClass [
 
 	^ BlMouseDownOutsideEvent
 ]
 
 { #category : #initialization }
-ToSelectWindowManager >> defaultDataNodeBuilder [
+ToSelectListWindowManager >> defaultDataNodeBuilder [
 
 	^ [ :node :holder |
 	  node addChild:
@@ -44,26 +44,26 @@ ToSelectWindowManager >> defaultDataNodeBuilder [
 ]
 
 { #category : #initialization }
-ToSelectWindowManager >> defaultGroupNodeBuilder [
+ToSelectListWindowManager >> defaultGroupNodeBuilder [
 
 	^ [ :node :holder |
 	  node addChild: (ToAttributedLabel text: holder dataItem asString) hMatchParent ]
 ]
 
 { #category : #initialization }
-ToSelectWindowManager >> defaultMaxHeight [
+ToSelectListWindowManager >> defaultMaxHeight [
 
 	^ 300
 ]
 
 { #category : #initialization }
-ToSelectWindowManager >> defaultMinHeight [
+ToSelectListWindowManager >> defaultMinHeight [
 
 	^ 0
 ]
 
 { #category : #initialization }
-ToSelectWindowManager >> defaultNodeBuilder [
+ToSelectListWindowManager >> defaultNodeBuilder [
 
 	^ [ :node :holder | | nodebuilder |
 		nodebuilder := holder isGroup
@@ -73,7 +73,7 @@ ToSelectWindowManager >> defaultNodeBuilder [
 ]
 
 { #category : #initialization }
-ToSelectWindowManager >> defaultNodeFactory [
+ToSelectListWindowManager >> defaultNodeFactory [
 
 	^ [ :theHolder |
 	  theHolder isGroup
@@ -82,39 +82,39 @@ ToSelectWindowManager >> defaultNodeFactory [
 ]
 
 { #category : #initialization }
-ToSelectWindowManager >> defaultPositionHook [
+ToSelectListWindowManager >> defaultPositionHook [
 
 	^ [ :window :theElement :event |
 	  window position: (theElement bounds inParent: self anchorRoot) bounds bottomLeft ]
 ]
 
 { #category : #initialization }
-ToSelectWindowManager >> defaultSizeHook [
+ToSelectListWindowManager >> defaultSizeHook [
 
 	^ [ :theWindow :theElement :event |
 	  theWindow width: theElement measuredWidth]
 ]
 
 { #category : #accessing }
-ToSelectWindowManager >> elementEventHandlerClass [ 
+ToSelectListWindowManager >> elementEventHandlerClass [ 
 
 	^ ToSelectEventHandler
 ]
 
 { #category : #accessing }
-ToSelectWindowManager >> groupNodeBuilder [
+ToSelectListWindowManager >> groupNodeBuilder [
 
 	^ groupNodeBuilder
 ]
 
 { #category : #accessing }
-ToSelectWindowManager >> groupNodeBuilder: aValuable [
+ToSelectListWindowManager >> groupNodeBuilder: aValuable [
 
 	groupNodeBuilder := aValuable
 ]
 
 { #category : #initialization }
-ToSelectWindowManager >> initialize [ 
+ToSelectListWindowManager >> initialize [ 
 
 	super initialize.
 	dataNodeBuilder := self defaultDataNodeBuilder.
@@ -122,37 +122,37 @@ ToSelectWindowManager >> initialize [
 ]
 
 { #category : #accessing }
-ToSelectWindowManager >> listElement [
+ToSelectListWindowManager >> listElement [
 
 	^ listElement 
 ]
 
 { #category : #accessing }
-ToSelectWindowManager >> maxHeight [
+ToSelectListWindowManager >> maxHeight [
 
 	^ listElement maxHeight
 ]
 
 { #category : #accessing }
-ToSelectWindowManager >> maxHeight: aNumber [
+ToSelectListWindowManager >> maxHeight: aNumber [
 
 	listElement maxHeight: aNumber
 ]
 
 { #category : #accessing }
-ToSelectWindowManager >> minHeight [
+ToSelectListWindowManager >> minHeight [
 
 	^ listElement minHeight
 ]
 
 { #category : #accessing }
-ToSelectWindowManager >> minHeight: aNumber [
+ToSelectListWindowManager >> minHeight: aNumber [
 
 	listElement minHeight: aNumber
 ]
 
 { #category : #initialization }
-ToSelectWindowManager >> newListElement [
+ToSelectListWindowManager >> newListElement [
 
 	| newListElement |
 	newListElement := ToSelectListElement new.
@@ -168,7 +168,7 @@ ToSelectWindowManager >> newListElement [
 ]
 
 { #category : #'api - hook' }
-ToSelectWindowManager >> onInstalledIn: anElement [
+ToSelectListWindowManager >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	listElement := self newListElement.
@@ -193,7 +193,7 @@ ToSelectWindowManager >> onInstalledIn: anElement [
 ]
 
 { #category : #'api - hook' }
-ToSelectWindowManager >> onUninstalledIn: anElement [
+ToSelectListWindowManager >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
 	sieve onInstalledIn: listElement.
@@ -205,7 +205,7 @@ ToSelectWindowManager >> onUninstalledIn: anElement [
 ]
 
 { #category : #'window handling' }
-ToSelectWindowManager >> onWindowClosed [
+ToSelectListWindowManager >> onWindowClosed [
 
 	super onWindowClosed.
 	" if case one of my children has focus "
@@ -215,20 +215,20 @@ ToSelectWindowManager >> onWindowClosed [
 ]
 
 { #category : #'window handling' }
-ToSelectWindowManager >> onWindowOpened [
+ToSelectListWindowManager >> onWindowOpened [
 
 	super onWindowOpened.
 	self element onWindowOpened
 ]
 
 { #category : #accessing }
-ToSelectWindowManager >> sieve [ 
+ToSelectListWindowManager >> sieve [ 
 
 	^ sieve
 ]
 
 { #category : #accessing }
-ToSelectWindowManager >> windowClass [
+ToSelectListWindowManager >> windowClass [
 
-	^ ToSelectWindow 
+	^ ToSelectListWindow 
 ]

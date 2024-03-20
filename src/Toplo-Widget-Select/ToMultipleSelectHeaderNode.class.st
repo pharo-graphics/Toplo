@@ -14,3 +14,15 @@ ToMultipleSelectHeaderNode >> installRawStyle [
 	self geometry: (BlRoundedRectangleGeometry cornerRadius: 4).
 	self background: (Color lightGray alpha: 0.3)
 ]
+
+{ #category : #layout }
+ToMultipleSelectHeaderNode >> isFullyVisible [
+
+	| intersection bnds pbnds select |
+	self measuredWidth isZero ifTrue: [^ true ].
+	select := self selectHolder select.
+	bnds := (self measuredBounds inParent: select) asRectangle.
+	pbnds := (select headerElement measuredBounds inParent: select) asRectangle.
+	intersection := bnds intersect: pbnds.
+	^ intersection = bnds
+]

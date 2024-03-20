@@ -7,7 +7,7 @@ Class {
 		'headerNodeClass',
 		'headerNodeBuilder'
 	],
-	#category : #'Toplo-Widget-Select-Core'
+	#category : #'Toplo-Widget-Select-Node'
 }
 
 { #category : #accessing }
@@ -58,7 +58,7 @@ ToSelectHeaderNodeContainerElement >> headerNodeClass: aNodeClass [
 { #category : #initialization }
 ToSelectHeaderNodeContainerElement >> headerNodeHolderClass [ 
 
-	^ ToSelectHeaderNodeHolder
+	^ ToHeaderNodeHolder
 ]
 
 { #category : #initialization }

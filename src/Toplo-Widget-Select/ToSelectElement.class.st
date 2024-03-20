@@ -293,7 +293,7 @@ ToSelectElement >> newShortcutsStore [
 ToSelectElement >> newWindowManager [
 
 	| wm |
-	wm := ToSelectWindowManager new.
+	wm := ToSelectListWindowManager new.
 	wm onInstalledIn: self.
 	^ wm
 ]

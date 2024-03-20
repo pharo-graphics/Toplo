@@ -5,7 +5,7 @@ Class {
 		'textInputElement',
 		'headerNodeHolders'
 	],
-	#category : #'Toplo-Widget-Select-Core'
+	#category : #'Toplo-Widget-Select-Node'
 }
 
 { #category : #adding }
@@ -32,13 +32,22 @@ ToMultipleSelectHeaderNodeContainerElement >> defaultHeaderNodeBuilder [
 { #category : #accessing }
 ToMultipleSelectHeaderNodeContainerElement >> defaultHeaderNodeClass [ 
 
-	^ ToMultipleSelectHeaderNode
+	^ ToVisibleSelectHeaderNode
 ]
 
 { #category : #enumerating }
 ToMultipleSelectHeaderNodeContainerElement >> headerDataNodesDo: aBlock [
 
 	self headerNodeHolders do: [ :holder |	aBlock value: holder node ].
+]
+
+{ #category : #enumerating }
+ToMultipleSelectHeaderNodeContainerElement >> headerDataNodesSelect: aBlock [
+
+	^ Array streamContents: [ :stream |
+		  self headerNodeHolders do: [ :holder |
+			  (aBlock value: holder node) ifTrue: [
+				  stream nextPut: holder node ] ] ]
 ]
 
 { #category : #enumerating }
@@ -68,6 +77,32 @@ ToMultipleSelectHeaderNodeContainerElement >> onInstalledIn: aSelect [
 	self initializeFakeNode
 ]
 
+{ #category : #layout }
+ToMultipleSelectHeaderNodeContainerElement >> onMeasure: anExtentMeasurementSpec [
+
+	| invisibleNodes visibleNodes showerNode showerHolder |
+	super onMeasure: anExtentMeasurementSpec.
+	invisibleNodes := self headerDataNodesSelect: [ :n |
+		                  n isFullyVisible not ].
+	invisibleNodes ifEmpty: [ ^ self ].
+	visibleNodes := self headerDataNodesSelect: [ :n | n isFullyVisible ].
+	visibleNodes ifNotEmpty: [
+		invisibleNodes := invisibleNodes copyWith: visibleNodes last ].
+	invisibleNodes do: [ :node | node onUninstalledIn: select ].
+	showerHolder := ToCompositeHeaderNodeHolder new select: select.
+	showerHolder holders:
+		(invisibleNodes collect: [ :node | node selectHolder ]).
+	showerNode := ToInvisibleSelectHeaderNodesShower new.
+	showerHolder node: showerNode.
+	showerNode selectHolder: showerHolder.
+	invisibleNodes do: [ :node |
+		self detachChild: node.
+		headerNodeHolders remove: node selectHolder ].
+	showerNode middleContainer addChild:
+		(ToLabel text: '+ ' , invisibleNodes size asString , ' ...').
+	self addDataNode: showerNode
+]
+
 { #category : #accessing }
 ToMultipleSelectHeaderNodeContainerElement >> onNodeWrappingChange [
 
@@ -95,36 +130,23 @@ ToMultipleSelectHeaderNodeContainerElement >> onUninstalledIn: aSelect [
 
 { #category : #accessing }
 ToMultipleSelectHeaderNodeContainerElement >> refresh [
-
-	| nodes previousHolders |
 	" first remove all data nodes "
-	self headerDataNodesDo: [ :node | node removeFromParent ].
-	previousHolders := self headerNodeHolders copy.
+
+	self headerDataNodesDo: [ :node |
+		node onUninstalledIn: select.
+		node removeFromParent ].
 	self headerNodeHolders reset.
 	" then rebuild current nodes according to current selection "
-	nodes := select selectionModel selectedIndexesCollect: [ :idx |
-		         | node prevHolder selectedData |
-		         prevHolder := previousHolders
-			                       detect: [ :h | h position = idx ]
-			                       ifNone: [  ].
-		         node := prevHolder
-			                 ifNil: [ self newHeaderNode ]
-			                 ifNotNil: [ :h | h node ].
-		         prevHolder
-			         ifNil: [
-				         selectedData := select dataAccessor at: idx.
-				         node selectHolder
-					         position: idx;
-					         data: selectedData.
-				         self headerNodeBuilder
-					         value: node
-					         value: node selectHolder ]
-			         ifNotNil: [ previousHolders remove: prevHolder ].
-		         self headerNodeHolders add: node selectHolder.
-		         node ].
-
-	previousHolders do: [ :h | h node onUninstalledIn: select ].
-	self addAllDataNodes: nodes
+	select selectionModel selectedIndexesDo: [ :idx |
+		| node selectedData |
+		node := self newHeaderNode.
+		selectedData := select dataAccessor at: idx.
+		node selectHolder
+			position: idx;
+			data: selectedData.
+		self headerNodeBuilder value: node value: node selectHolder.
+		self headerNodeHolders add: node selectHolder.
+		self addDataNode: node ]
 ]
 
 { #category : #accessing }

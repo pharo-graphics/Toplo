@@ -27,7 +27,6 @@ ToObservableCollectionInfiniteDataSource >> data [
 ToObservableCollectionInfiniteDataSource >> initialize [ 
 
 	super initialize.
-	"data := ToProtectedCollection new"
 	data := OrderedCollection new
 
 ]

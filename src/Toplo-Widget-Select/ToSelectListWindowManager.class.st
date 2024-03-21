@@ -156,7 +156,6 @@ ToSelectListWindowManager >> newListElement [
 
 	| newListElement |
 	newListElement := ToSelectListElement new.
-	newListElement nodeHolderFactory: [ ToSelectListNodeHolder new ].
 	newListElement nodeFactory: self defaultNodeFactory.
 	newListElement nodeBuilder: self defaultNodeBuilder.
 	newListElement infinite maxHeight: self defaultMaxHeight.
@@ -189,7 +188,11 @@ ToSelectListWindowManager >> onInstalledIn: anElement [
 			self listElement secondarySelecter selectIndex: 1 ] ].
 
 	sieve := ToListElementSieve new.
-	sieve onInstalledIn: listElement
+	sieve onInstalledIn: listElement.
+	listElement nodeHolderFactory: [
+		ToSelectListNodeHolder new
+			select: self;
+			yourself ]
 ]
 
 { #category : #'api - hook' }

@@ -351,19 +351,24 @@ ToSelectElement >> onSelectionChanged [
 	self headerNodeContainer refresh.
 	self checkMaxSelectedCount: self selectionModel selectedIndexesCount.
 	self updateSelectedCountLabel.
-	
+
 	self headerNodeContainer requestLayout.
 
 	self maxSelectedCount isZero ifTrue: [ ^ self ].
 	self selectionModel selectedIndexesCount < self maxSelectedCount
 		ifTrue: [
-			self listElement disabledSelecter deselectAll.
-			self listElement unselectableSelecter deselectAll.
+			self dataAccessor withIndexDo: [ :d :idx |
+				| origIdx |
+				origIdx := self sieve dataPositionIndex at: d.
+				self listElement disabledSelecter deselectIndex: origIdx.
+				self listElement unselectableSelecter deselectIndex: origIdx ].
 			^ self ].
 	self dataAccessor withIndexDo: [ :d :idx |
-		(self selectionModel containsIndex: idx) ifFalse: [
-			self listElement disabledSelecter selectIndex: idx.
-			self listElement unselectableSelecter selectIndex: idx ] ]
+		| origIdx |
+		origIdx := self sieve dataPositionIndex at: d.
+		(self selectionModel containsIndex: origIdx) ifFalse: [
+			self listElement disabledSelecter selectIndex: origIdx.
+			self listElement unselectableSelecter selectIndex: origIdx ] ]
 ]
 
 { #category : #window }

@@ -339,7 +339,7 @@ ToListElementStresser >> initialize [
 		                       self tabsPanel enqueueTask:
 			                       (BlTaskAction new action: [
 				                        (self tabsPanel tabs at: idx) check ]).
-		                       self resizeSpace.
+		                       "self resizeSpace."
 		                       1 seconds wait ] ] newProcess.
 
 

@@ -281,37 +281,11 @@ ToAbstractListElement >> nodeReleaser [
 ]
 
 { #category : #'event firing' }
-ToAbstractListElement >> notifyClickOnNodeEvent: aClickEvent [
-
-	| preNotification node |
-	node := aClickEvent sourceEvent currentTarget.
-	preNotification := ToListClickOnNodePreNotificationEvent new
-		                   node: node;
-		                   sourceEvent: aClickEvent;
-		                   yourself.
-	self dispatchEvent: preNotification.
-	preNotification sourceEvent ifNil: [ ^ self ].
-	node dispatchEvent: preNotification sourceEvent
-]
-
-{ #category : #'event firing' }
 ToAbstractListElement >> notifyDataSourceItemsChanged: aDataSourceEvent [
 
 	| preNotification |
 	preNotification := ToListDataSourceItemsChangePreNotificationEvent new
 		                   sourceEvent: aDataSourceEvent;
-		                   yourself.
-	self dispatchEvent: preNotification.
-	preNotification sourceEvent ifNil: [ ^ self ].
-	self dispatchEvent: preNotification sourceEvent
-]
-
-{ #category : #'event firing' }
-ToAbstractListElement >> notifyPrimarySelectionChanged: aSelectionChangedEvent [
-
-	| preNotification |
-	preNotification := ToListPrimarySelectionChangePreNotificationEvent new
-		                   sourceEvent: aSelectionChangedEvent;
 		                   yourself.
 	self dispatchEvent: preNotification.
 	preNotification sourceEvent ifNil: [ ^ self ].

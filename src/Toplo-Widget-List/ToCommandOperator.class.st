@@ -42,7 +42,6 @@ ToCommandOperator >> initialize [
 { #category : #'command operations' }
 ToCommandOperator >> listScrollCommand: aCommand in: aTarget [
 
-	aTarget scrollToIndex: aCommand index
 ]
 
 { #category : #'api - hooks' }

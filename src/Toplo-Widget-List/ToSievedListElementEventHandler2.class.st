@@ -161,11 +161,6 @@ ToSievedListElementEventHandler2 >> listPrimarySelectionChangePreNotificationEve
 ]
 
 { #category : #'element handlers' }
-ToSievedListElementEventHandler2 >> listSecondarySelectionChangePreNotificationEvent: aPreNotification [
-	" nothing to do "
-]
-
-{ #category : #'element handlers' }
 ToSievedListElementEventHandler2 >> observableCollectionFilterResultEvent: anEvent [
 
 	| listElement |

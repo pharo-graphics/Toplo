@@ -161,11 +161,6 @@ ToSievedListElementEventHandler >> listPrimarySelectionChangePreNotificationEven
 ]
 
 { #category : #'element handlers' }
-ToSievedListElementEventHandler >> listSecondarySelectionChangePreNotificationEvent: aPreNotification [
-	" nothing to do "
-]
-
-{ #category : #'element handlers' }
 ToSievedListElementEventHandler >> observableCollectionFilterResultEvent: anEvent [
 
 	| listElement |
@@ -174,14 +169,19 @@ ToSievedListElementEventHandler >> observableCollectionFilterResultEvent: anEven
 	" a query has occured (becuse the query pattern has changed), 
 	update the list element accordingly "
 
+	" if the update task is already present, do nothing "
 	queryApplicationTask ifNotNil: [ ^ self ].
+
+	" can apply immediately if not attached "
 	listElement isAttachedToSceneGraph ifFalse: [
 		self applyQueryAppliedEvent: anEvent.
 		^ self ].
+
+	" enqueue a task for updating "
 	queryApplicationTask := BlTaskAction new.
 	queryApplicationTask action: [
 		self applyQueryAppliedEvent: anEvent.
-		queryApplicationTask := nil. ].
+		queryApplicationTask := nil ].
 	listElement enqueueTask: queryApplicationTask
 ]
 

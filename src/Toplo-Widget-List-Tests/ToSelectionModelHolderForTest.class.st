@@ -117,17 +117,6 @@ ToSelectionModelHolderForTest >> notifyUnselectableSelectionChanged: anEvent [
 	self dispatchEvent: anEvent
 ]
 
-{ #category : #'selection command application' }
-ToSelectionModelHolderForTest >> onPrimarySelectionCommandApplied: aCommand [
-
-	aCommand selectionChanged ifFalse: [ ^ self ].
-
-	self notifyPrimarySelectionChanged:
-		(ToListPrimarySelectionChangedEvent new
-			 selectionModel: self selectionModel copy;
-			 yourself)
-]
-
 { #category : #accessing }
 ToSelectionModelHolderForTest >> operator [
 

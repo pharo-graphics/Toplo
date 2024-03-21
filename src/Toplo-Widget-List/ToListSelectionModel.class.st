@@ -96,16 +96,15 @@ ToListSelectionModel >> shift: aGap from: aStartIndex for: anEventTarget [
 	(aGap < 0 and: [ self itemCount >= aStartIndex ]) ifTrue: [
 		| count |
 		count := aGap abs.
-		self disabledSelectionModel
+		"self disabledSelectionModel
 			deselectIndex: aStartIndex
-			to: aStartIndex + count - 1.
+			to: aStartIndex + count - 1."
 		self deselectIndex: aStartIndex to: aStartIndex + count - 1 ].
 	self unselectableSelectionModel shift: aGap from: aStartIndex.
 	self disabledSelectionModel shift: aGap from: aStartIndex.
-	
-	" ** super send after **"
-	super shift: aGap from: aStartIndex for: anEventTarget.
 
+	" ** super send after **"
+	super shift: aGap from: aStartIndex for: anEventTarget
 ]
 
 { #category : #accessing }

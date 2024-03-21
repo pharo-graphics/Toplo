@@ -1,6 +1,6 @@
 Class {
 	#name : #ToSecondarySelectionModelOperator,
-	#superclass : #ToSelectionModelOperator,
+	#superclass : #ToStandardSelectionModelOperator,
 	#category : #'Toplo-Widget-List-Command-Selection'
 }
 
@@ -14,11 +14,17 @@ ToSecondarySelectionModelOperator >> listScrollCommand: aCommand in: aTarget [
 	aTarget spaceDo: [ :sp |
 		sp mouseProcessor lastMouseMoveEvent ifNotNil: [ :e |
 			e consumed: true ] ].
-	super listScrollCommand: aCommand in: aTarget
+	
+	aTarget scrollToIndex: aCommand index
 ]
 
 { #category : #'private command application' }
 ToSecondarySelectionModelOperator >> notifySelectionChangedAfter: aCommand in: aTarget [
 
-	aTarget onSecondarySelectionCommandApplied: aCommand
+	aCommand selectionChanged ifFalse: [ ^ self ].
+
+	aTarget dispatchEvent:
+		(ToListSecondarySelectionChangedEvent new
+			 selectionModel: self selectionModel copy;
+			 yourself)
 ]

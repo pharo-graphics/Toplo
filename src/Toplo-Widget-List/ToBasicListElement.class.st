@@ -154,18 +154,3 @@ ToBasicListElement >> nodeReleaser: aValuable [
 
 	nodeReleaser := aValuable
 ]
-
-{ #category : #'selection command application' }
-ToBasicListElement >> onPrimarySelectionCommandApplied: aCommand [
-
-	aCommand selectionChanged ifFalse: [ ^ self ].
-	
-	self dispatchEvent: (ToPrimarySelectionCommandAppliedEvent new
-			 command: aCommand;
-			 yourself).
-
-	self notifyPrimarySelectionChanged:
-		(ToListPrimarySelectionChangedEvent new
-			 selectionModel: self selectionModel copy;
-			 yourself)
-]

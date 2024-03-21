@@ -351,6 +351,9 @@ ToSelectElement >> onSelectionChanged [
 	self headerNodeContainer refresh.
 	self checkMaxSelectedCount: self selectionModel selectedIndexesCount.
 	self updateSelectedCountLabel.
+	
+	self headerNodeContainer requestLayout.
+
 	self maxSelectedCount isZero ifTrue: [ ^ self ].
 	self selectionModel selectedIndexesCount < self maxSelectedCount
 		ifTrue: [

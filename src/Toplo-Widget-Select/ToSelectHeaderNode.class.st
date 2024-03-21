@@ -86,7 +86,7 @@ ToSelectHeaderNode >> removeFromSelect [
 	" remove the node by deselecting the corresponding list node in the list "
 
 	self selectHolder select listElement selecter deselectIndex:
-		self selectHolder position
+		self selectHolder position.
 ]
 
 { #category : #accessing }

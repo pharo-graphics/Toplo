@@ -76,7 +76,7 @@ ToListElementSieve2 >> onInstalledIn: aListElement [
 	originalData addEventHandler: sharedHandler.
 	aListElement addEventHandler: sharedHandler.
 
-	selectionHandler := ToSievedListElementEventHandler new.
+	selectionHandler := ToSievedListElementEventHandler2 new.
 	selectionHandler sieve: self.
 	aListElement addEventHandler: selectionHandler
 ]

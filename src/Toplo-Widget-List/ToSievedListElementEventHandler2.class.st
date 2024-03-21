@@ -4,7 +4,6 @@ Class {
 	#instVars : [
 		'sieve',
 		'dataPositionIndex',
-		'positionIndex',
 		'sieveSelectionModel',
 		'queryApplicationTask'
 	],

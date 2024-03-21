@@ -173,17 +173,15 @@ ToSievedListElementEventHandler >> observableCollectionFilterResultEvent: anEven
 
 	" a query has occured (becuse the query pattern has changed), 
 	update the list element accordingly "
-	
-	queryApplicationTask ifNotNil: [
-		listElement dequeueTask: queryApplicationTask.
-		queryApplicationTask := nil ].
+
+	queryApplicationTask ifNotNil: [ ^ self ].
 	listElement isAttachedToSceneGraph ifFalse: [
 		self applyQueryAppliedEvent: anEvent.
 		^ self ].
 	queryApplicationTask := BlTaskAction new.
 	queryApplicationTask action: [
-		queryApplicationTask := nil.
-		self applyQueryAppliedEvent: anEvent ].
+		self applyQueryAppliedEvent: anEvent.
+		queryApplicationTask := nil. ].
 	listElement enqueueTask: queryApplicationTask
 ]
 

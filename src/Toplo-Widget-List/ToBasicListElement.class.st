@@ -5,8 +5,7 @@ Class {
 		'nodeFactory',
 		'nodeBuilder',
 		'nodeReleaser',
-		'nodeHolderBuilder',
-		'nodeHolderReleaser'
+		'nodeHolderBuilder'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -61,12 +60,6 @@ ToBasicListElement >> defaultNodeHolderFactory [
 ]
 
 { #category : #initialization }
-ToBasicListElement >> defaultNodeHolderReleaser [
-
-	^ [ :theHolder | theHolder dataItem: nil ]
-]
-
-{ #category : #initialization }
 ToBasicListElement >> defaultNodeReleaser [
 
 	^ [ :node :holder | node removeChildren ]
@@ -86,7 +79,6 @@ ToBasicListElement >> initialize [
 	super initialize.
 	nodeFactory := self defaultNodeFactory.
 	nodeHolderBuilder := self defaultNodeHolderBuilder.
-	nodeHolderReleaser := self defaultNodeHolderReleaser.
 	nodeBuilder := self defaultNodeBuilder.
 	nodeReleaser := self defaultNodeReleaser 
 ]
@@ -100,7 +92,7 @@ ToBasicListElement >> newPrimarySelectionModel [
 { #category : #'instance creation' }
 ToBasicListElement >> newSelectionModel [
 
-	^ ToListSelectionModel new
+	^ ToBasicListSelectionModel new
 		  itemCountGetter: [ self dataSource itemCount ];
 		  yourself
 ]
@@ -147,20 +139,6 @@ ToBasicListElement >> nodeHolderBuilder: aBuilder [
 	"aValuable takes 1 arg: the holder to build and second "
 
 	nodeHolderBuilder := aBuilder
-]
-
-{ #category : #accessing }
-ToBasicListElement >> nodeHolderReleaser [
-	"aValuable takes 1 arg: the holder to release  "
-
-	^ nodeHolderReleaser
-]
-
-{ #category : #accessing }
-ToBasicListElement >> nodeHolderReleaser: aValuable [
-	"aValuable takes 1 arg: the holder to release  "
-
-	nodeHolderReleaser := aValuable
 ]
 
 { #category : #accessing }

@@ -5,6 +5,12 @@ Class {
 }
 
 { #category : #'private command application' }
+ToPrimarySelectionModelOperator >> listScrollCommand: aCommand in: aTarget [
+
+	aTarget scrollToIndex: aCommand index
+]
+
+{ #category : #'private command application' }
 ToPrimarySelectionModelOperator >> notifySelectionChangedAfter: aCommand in: aTarget [
 
 	| preNotification eventToNotify |

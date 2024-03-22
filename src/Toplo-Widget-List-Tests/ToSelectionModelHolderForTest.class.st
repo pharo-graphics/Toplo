@@ -38,7 +38,7 @@ ToSelectionModelHolderForTest >> dataSource: aDataSource [
 { #category : #initialization }
 ToSelectionModelHolderForTest >> defaultSelectionModel [
 
-	^ ToListSelectionModel new
+	^ ToBasicListSelectionModel new
 ]
 
 { #category : #'event management accessing' }

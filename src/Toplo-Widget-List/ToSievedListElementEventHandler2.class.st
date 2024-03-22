@@ -1,5 +1,5 @@
 Class {
-	#name : #ToSievedListElementEventHandler,
+	#name : #ToSievedListElementEventHandler2,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'sieve',
@@ -11,7 +11,7 @@ Class {
 }
 
 { #category : #'element handlers' }
-ToSievedListElementEventHandler >> applyQueryAppliedEvent: anEvent [
+ToSievedListElementEventHandler2 >> applyQueryAppliedEvent: anEvent [
 
 	| listElement |
 	listElement := anEvent currentTarget.
@@ -25,7 +25,7 @@ ToSievedListElementEventHandler >> applyQueryAppliedEvent: anEvent [
 ]
 
 { #category : #'api - hooks' }
-ToSievedListElementEventHandler >> buildIndexedDataFrom: aListElement [
+ToSievedListElementEventHandler2 >> buildIndexesFrom: aListElement [
 
 
 	dataPositionIndex removeAll.
@@ -34,7 +34,7 @@ ToSievedListElementEventHandler >> buildIndexedDataFrom: aListElement [
 ]
 
 { #category : #'element handlers' }
-ToSievedListElementEventHandler >> collectionFilteredEvent: anEvent [
+ToSievedListElementEventHandler2 >> collectionFilteredEvent: anEvent [
 	" the list has been filtered - now deal with the selection "
 
 	| target selected |
@@ -53,19 +53,19 @@ ToSievedListElementEventHandler >> collectionFilteredEvent: anEvent [
 ]
 
 { #category : #accessing }
-ToSievedListElementEventHandler >> dataPositionIndex [
+ToSievedListElementEventHandler2 >> dataPositionIndex [
 
 	^ dataPositionIndex 
 ]
 
 { #category : #accessing }
-ToSievedListElementEventHandler >> dataPositionIndex: aDictionary [
+ToSievedListElementEventHandler2 >> dataPositionIndex: aDictionary [
 
 	dataPositionIndex := aDictionary
 ]
 
 { #category : #'api - accessing' }
-ToSievedListElementEventHandler >> eventsToHandle [
+ToSievedListElementEventHandler2 >> eventsToHandle [
 
 	^ {
 		  ToObservableCollectionFilterResultEvent.
@@ -75,46 +75,46 @@ ToSievedListElementEventHandler >> eventsToHandle [
 ]
 
 { #category : #'data events handling' }
-ToSievedListElementEventHandler >> infiniteDataSourceChanged: anEvent [
+ToSievedListElementEventHandler2 >> infiniteDataSourceChanged: anEvent [
 
 	sieve pattern ifNotEmpty: [ ^ self ].
-	self buildIndexedDataFrom: anEvent currentTarget
+	self buildIndexesFrom: anEvent currentTarget
 ]
 
 { #category : #'data events handling' }
-ToSievedListElementEventHandler >> infiniteDataSourceItemRangeChanged: anEvent [
+ToSievedListElementEventHandler2 >> infiniteDataSourceItemRangeChanged: anEvent [
 
 	sieve pattern ifNotEmpty: [ ^ self ].
-	self buildIndexedDataFrom: anEvent currentTarget
+	self buildIndexesFrom: anEvent currentTarget
 ]
 
 { #category : #'data events handling' }
-ToSievedListElementEventHandler >> infiniteDataSourceItemRangeEvent: anEvent [
+ToSievedListElementEventHandler2 >> infiniteDataSourceItemRangeEvent: anEvent [
 
 	sieve pattern ifNotEmpty: [ ^ self ].
-	self buildIndexedDataFrom: anEvent currentTarget
+	self buildIndexesFrom: anEvent currentTarget
 ]
 
 { #category : #'data events handling' }
-ToSievedListElementEventHandler >> infiniteDataSourceItemRangeInserted: anEvent [
+ToSievedListElementEventHandler2 >> infiniteDataSourceItemRangeInserted: anEvent [
 
 	sieve pattern ifNotEmpty: [ ^ self ].
-	self buildIndexedDataFrom: anEvent currentTarget
+	self buildIndexesFrom: anEvent currentTarget
 ]
 
 { #category : #'data events handling' }
-ToSievedListElementEventHandler >> infiniteDataSourceItemRangeRemoved: anEvent [
+ToSievedListElementEventHandler2 >> infiniteDataSourceItemRangeRemoved: anEvent [
 
 	" no need to update dataPositionIndex here "
 ]
 
 { #category : #'element handlers' }
-ToSievedListElementEventHandler >> listClickOnNodePreNotificationEvent: anEvent [
+ToSievedListElementEventHandler2 >> listClickOnNodePreNotificationEvent: anEvent [
 
 ]
 
 { #category : #'element handlers' }
-ToSievedListElementEventHandler >> listDataSourceItemsChangePreNotificationEvent: aPreNotification [
+ToSievedListElementEventHandler2 >> listDataSourceItemsChangePreNotificationEvent: aPreNotification [
 	" don't send the data source add/remove change event if the sieve is filtering"
 
 	sieve pattern ifEmpty: [
@@ -124,7 +124,7 @@ ToSievedListElementEventHandler >> listDataSourceItemsChangePreNotificationEvent
 ]
 
 { #category : #'element handlers' }
-ToSievedListElementEventHandler >> listPrimarySelectionChangePreNotificationEvent: aPreNotification [
+ToSievedListElementEventHandler2 >> listPrimarySelectionChangePreNotificationEvent: aPreNotification [
 	" the list selection change event is about to be dispatched.
 	I take care of the sieve internal selectionSet according to the list element selection model"
 
@@ -161,71 +161,68 @@ ToSievedListElementEventHandler >> listPrimarySelectionChangePreNotificationEven
 ]
 
 { #category : #'element handlers' }
-ToSievedListElementEventHandler >> observableCollectionFilterResultEvent: anEvent [
+ToSievedListElementEventHandler2 >> observableCollectionFilterResultEvent: anEvent [
 
 	| listElement |
 	listElement := anEvent currentTarget.
 
 	" a query has occured (becuse the query pattern has changed), 
 	update the list element accordingly "
-
-	" if the update task is already present, do nothing "
-	queryApplicationTask ifNotNil: [ ^ self ].
-
-	" can apply immediately if not attached "
+	
+	queryApplicationTask ifNotNil: [
+		listElement dequeueTask: queryApplicationTask.
+		queryApplicationTask := nil ].
 	listElement isAttachedToSceneGraph ifFalse: [
 		self applyQueryAppliedEvent: anEvent.
 		^ self ].
-
-	" enqueue a task for updating "
 	queryApplicationTask := BlTaskAction new.
 	queryApplicationTask action: [
-		self applyQueryAppliedEvent: anEvent.
-		queryApplicationTask := nil ].
+		queryApplicationTask := nil.
+		self applyQueryAppliedEvent: anEvent ].
 	listElement enqueueTask: queryApplicationTask
 ]
 
 { #category : #'data events handling' }
-ToSievedListElementEventHandler >> onChanged: anEvent [
+ToSievedListElementEventHandler2 >> onChanged: anEvent [
 
 	self infiniteDataSourceChanged: anEvent
 ]
 
 { #category : #'api - hooks' }
-ToSievedListElementEventHandler >> onInstalledIn: aListElement [
+ToSievedListElementEventHandler2 >> onInstalledIn: aListElement [
 
 	super onInstalledIn: aListElement.
 	sieveSelectionModel := aListElement selectionModel copy.
 	self dataPositionIndex: sieve dataPositionIndex.
-	self buildIndexedDataFrom: aListElement
+	self buildIndexesFrom: aListElement
 ]
 
 { #category : #'data events handling' }
-ToSievedListElementEventHandler >> onItemsChanged: anEvent [
+ToSievedListElementEventHandler2 >> onItemsChanged: anEvent [
 
 	self infiniteDataSourceItemRangeChanged: anEvent
 ]
 
 { #category : #'data events handling' }
-ToSievedListElementEventHandler >> onItemsEvent: anEvent [
+ToSievedListElementEventHandler2 >> onItemsEvent: anEvent [
 
 	self infiniteDataSourceItemRangeEvent: anEvent
 ]
 
 { #category : #'data events handling' }
-ToSievedListElementEventHandler >> onItemsInserted: anEvent [
+ToSievedListElementEventHandler2 >> onItemsInserted: anEvent [
 
 	self infiniteDataSourceItemRangeInserted: anEvent
 ]
 
 { #category : #'data events handling' }
-ToSievedListElementEventHandler >> onItemsRemoved: anEvent [
+ToSievedListElementEventHandler2 >> onItemsRemoved: anEvent [
 
 	self infiniteDataSourceItemRangeRemoved: anEvent
 ]
 
 { #category : #accessing }
-ToSievedListElementEventHandler >> sieve: aListElementSieve [
+ToSievedListElementEventHandler2 >> sieve: aListElementSieve [
 
 	sieve := aListElementSieve
 ]

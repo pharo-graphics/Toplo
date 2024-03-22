@@ -2,8 +2,11 @@ Class {
 	#name : #ToListElement,
 	#superclass : #ToBasicListElement,
 	#instVars : [
+		'disabledSelecter',
+		'unselectableSelecter',
 		'secondarySelectionModel',
-		'secondarySelectionMode'
+		'secondarySelectionMode',
+		'hiddenSelecter'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -48,7 +51,7 @@ ToListElement >> defaultSecondarySelectionMode [
 { #category : #accessing }
 ToListElement >> disabledSelecter [ 
 
-	^ self selectionModel disabledSelecter
+	^ disabledSelecter
 ]
 
 { #category : #accessing }
@@ -60,7 +63,7 @@ ToListElement >> disabledSelectionModel [
 { #category : #accessing }
 ToListElement >> hiddenSelecter [ 
 
-	^ self selectionModel hiddenSelecter
+	^ hiddenSelecter
 ]
 
 { #category : #accessing }
@@ -78,10 +81,18 @@ ToListElement >> infiniteSharedEvents [
 { #category : #initialization }
 ToListElement >> initializeSelectionModel [
 
-	super initializeSelectionModel.
+	unselectableSelecter := self installSelecterForEventClass:
+		                        ToListUnselectableSelectionChangedEvent.
+	disabledSelecter := self installSelecterForEventClass:
+		                    ToListDisabledSelectionChangedEvent.
+	hiddenSelecter := self installSelecterForEventClass:
+		                  ToListHiddenSelectionChangedEvent.
+
 	self secondarySelectionModel: self newSecondarySelectionModel.
 	self secondarySelectionMode: self defaultSecondarySelectionMode.
-	self addEventHandler: self defaultSecondarySelectionEventHandler
+	self addEventHandler: self defaultSecondarySelectionEventHandler.
+
+	super initializeSelectionModel
 ]
 
 { #category : #initialization }
@@ -104,7 +115,7 @@ ToListElement >> installSelecterForEventClass: anEventClass [
 { #category : #'instance creation' }
 ToListElement >> newPrimarySelectionModel [
 
-	^ ToListPrimarySelectionModel new
+	^ ToListSelectionModel new
 ]
 
 { #category : #skin }
@@ -116,7 +127,7 @@ ToListElement >> newRawSkin [
 { #category : #'instance creation' }
 ToListElement >> newSecondarySelectionModel [
 
-	^ ToListSecondarySelectionModel new
+	^ ToListSelectionModel new
 ]
 
 { #category : #accessing }
@@ -157,7 +168,7 @@ ToListElement >> secondarySelectionModel: aSelectionModel [
 { #category : #accessing }
 ToListElement >> unselectableSelecter [
 
-	^ self selectionModel unselectableSelecter
+	^ unselectableSelecter
 ]
 
 { #category : #accessing }

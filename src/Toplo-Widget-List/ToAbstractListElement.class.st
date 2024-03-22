@@ -123,12 +123,6 @@ ToAbstractListElement >> defaultNodeHolderFactory [
 ]
 
 { #category : #initialization }
-ToAbstractListElement >> defaultNodeHolderReleaser [
-
-	^ self subclassResponsibility 
-]
-
-{ #category : #initialization }
 ToAbstractListElement >> defaultNodeReleaser [
 
 	^ self subclassResponsibility 
@@ -273,14 +267,6 @@ ToAbstractListElement >> nodeFactory [
 
 { #category : #accessing }
 ToAbstractListElement >> nodeHolderBuilder [
-
-	"aValuable takes 1 arg: the holder to build and second "
-
-	^ self subclassResponsibility 
-]
-
-{ #category : #accessing }
-ToAbstractListElement >> nodeHolderReleaser [
 
 	"aValuable takes 1 arg: the holder to build and second "
 

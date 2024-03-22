@@ -39,6 +39,11 @@ ToCommandOperator >> initialize [
 	eventDispatcher := BlDirectEventDispatcher on: self
 ]
 
+{ #category : #'command operations' }
+ToCommandOperator >> listScrollCommand: aCommand in: aTarget [
+
+]
+
 { #category : #'api - hooks' }
 ToCommandOperator >> onInstalledIn: anEventTarget [
 

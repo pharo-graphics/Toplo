@@ -47,6 +47,24 @@ ToSelectElement >> closeWindow [
 	^ self windowManager closeWindow
 ]
 
+{ #category : #'accessing selection' }
+ToSelectElement >> copySelectionFrom: anotherSelectionModel [
+	" hide selected nodes if the hideSelected option is true "
+
+	(self isMultipleSelection and: [ self hideSelected ]) ifTrue: [
+		| hidden |
+		hidden := Array streamContents: [ :stream |
+			          self dataAccessor withIndexDo: [ :d :idx |
+				          (self listElement selectionModel containsIndex: idx)
+					          ifTrue: [ stream nextPut: idx ] ] ].
+		self listElement hiddenSelecter selectOnlyIndexes: hidden ].
+	self selectionModel selectedIndexes
+	= anotherSelectionModel selectedIndexes ifTrue: [ ^ self ].
+	self checkMaxSelectedCount: anotherSelectionModel selectedIndexesCount.
+	self selectionModel copySelectionFrom: anotherSelectionModel.
+	self notifySelectionChanged
+]
+
 { #category : #'accessing window' }
 ToSelectElement >> currentWindow [ 
 
@@ -186,7 +204,8 @@ ToSelectElement >> initialize [
 	data addEventHandler:
 		(ToObservableCollectionMirrorUpdater new mirror:
 			 windowManager listElement dataAccessor).
-	selectionModel := self sieve selectionModel.
+	selectionModel := self listElement newSelectionModel.
+	
 	filtrable := true.
 	self iconContainer: self newIconContainer.
 	self strategy: self defaultStrategy.
@@ -332,47 +351,24 @@ ToSelectElement >> onSelectionChanged [
 	self headerNodeContainer refresh.
 	self checkMaxSelectedCount: self selectionModel selectedIndexesCount.
 	self updateSelectedCountLabel.
+
 	self headerNodeContainer requestLayout.
-
-	self hideSelected ifTrue: [
-		self listElement dataAccessor withIndexDo: [ :d :idx |
-			| originalIndex |
-			originalIndex := self sieve dataPositionIndex at: d.
-			(self listElement selectionModel containsIndex: idx)
-				ifTrue: [
-					self listElement hiddenSelectionModel selectIndex: idx.
-					self selectionModel hideIndex: originalIndex ]
-				ifFalse: [
-					self listElement hiddenSelectionModel deselectIndex: idx.
-					self selectionModel unhideIndex: originalIndex ] ] ].
-
-	self listElement dataSource notifyChanged.
 
 	self maxSelectedCount isZero ifTrue: [ ^ self ].
 	self selectionModel selectedIndexesCount < self maxSelectedCount
 		ifTrue: [
-			self selectionModel enableAll.
-			self selectionModel selectableAll.
-			self listElement selectionModel enableAll.
-			self listElement selectionModel selectableAll.
+			self dataAccessor withIndexDo: [ :d :idx |
+				| origIdx |
+				origIdx := self sieve dataPositionIndex at: d.
+				self listElement disabledSelecter deselectIndex: origIdx.
+				self listElement unselectableSelecter deselectIndex: origIdx ].
 			^ self ].
-
-	self listElement disabledSelectionModel deselectAll.
-	self listElement unselectableSelectionModel deselectAll.
-
-	self listElement dataAccessor withIndexDo: [ :d :idx |
+	self dataAccessor withIndexDo: [ :d :idx |
 		| origIdx |
 		origIdx := self sieve dataPositionIndex at: d.
-		(self selectionModel containsIndex: origIdx)
-			ifTrue: [ "self listElement selectionModel selectIndex: idx" ]
-			ifFalse: [
-				self selectionModel disableIndex: origIdx.
-				self selectionModel selectableIndex: origIdx.
-				self listElement disabledSelecter selectIndex: idx.
-				self listElement unselectableSelecter selectIndex: idx ] ].
-	self enqueueTask: (BlTaskAction new action: [
-			 self listElement unselectableSelecter selectedIndexes traceCr ]).
-	self listElement dataSource notifyChanged
+		(self selectionModel containsIndex: origIdx) ifFalse: [
+			self listElement disabledSelecter selectIndex: origIdx.
+			self listElement unselectableSelecter selectIndex: origIdx ] ]
 ]
 
 { #category : #window }

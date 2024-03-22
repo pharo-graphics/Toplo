@@ -9,7 +9,6 @@ ToSelectDataListNode >> installRawStyle [
 
 	| verticalPadding leftPadding rightPadding |
 	super installRawStyle.
-	self holder isUnselectable ifTrue: [ self background: (Color yellow alpha: 0.3)].
 	verticalPadding := self valueOfTokenNamed: #'padding-content-V'.
 	rightPadding := self valueOfTokenNamed: #'padding-content-H'.
 	leftPadding := self valueOfTokenNamed: #'padding-content-H'.

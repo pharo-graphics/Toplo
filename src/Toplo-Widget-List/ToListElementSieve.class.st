@@ -3,7 +3,6 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'queryRunner',
-		'selectionModel',
 		'originalData',
 		'currentData',
 		'selectionHandler',
@@ -65,10 +64,6 @@ ToListElementSieve >> onInstalledIn: aListElement [
 
 	originalData ifNotNil: [
 		^ (BlImmutableObjectChangeError object: self) signal ].
-	
-	selectionModel := aListElement newPrimarySelectionModel.
-	selectionModel onInstalledIn: aListElement.
-	
 	dataPositionIndex := IdentityDictionary new.
 	originalData := aListElement dataAccessor newMirror.
 	queryRunner := ToObservableCollectionFilter new.
@@ -118,12 +113,6 @@ ToListElementSieve >> pattern: aPattern [
 
 	queryRunner
 		pattern: aPattern
-]
-
-{ #category : #accessing }
-ToListElementSieve >> selectionModel [
-
-	^ selectionModel 
 ]
 
 { #category : #private }

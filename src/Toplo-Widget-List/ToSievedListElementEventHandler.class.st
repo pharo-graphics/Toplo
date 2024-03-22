@@ -48,9 +48,10 @@ ToSievedListElementEventHandler >> collectionFilteredEvent: anEvent [
 				target selectionModel
 					transferIndex: originalIndex
 					from: sieveSelectionModel
-					as: localIndex ]  ]
+					as: localIndex ] ]
 		ifEmpty: [
-			target selecter copySelectionFrom: sieveSelectionModel ]
+		self flag: 'Should use copySelectionFrom: with a command '.
+		target selecter selectOnlyIndexes: sieveSelectionModel selectedIndexes ]
 ]
 
 { #category : #accessing }
@@ -158,7 +159,7 @@ ToSievedListElementEventHandler >> listPrimarySelectionChangePreNotificationEven
 	It is useful for sieve list user that relies on the sieve internal selection to adapt themeself according 
 	to the sieve selection"
 	listElement dispatchEvent: (ToSieveSelectionChangedEvent new
-			 selectionModel: sieveSelectionModel;
+			 selectionModel: sieveSelectionModel copy;
 			 yourself)
 ]
 
@@ -197,8 +198,8 @@ ToSievedListElementEventHandler >> onChanged: anEvent [
 ToSievedListElementEventHandler >> onInstalledIn: aListElement [
 
 	super onInstalledIn: aListElement.
+	sieveSelectionModel := aListElement selectionModel copy.
 	self dataPositionIndex: sieve dataPositionIndex.
-	sieveSelectionModel := sieve selectionModel.
 	self buildIndexedDataFrom: aListElement
 ]
 

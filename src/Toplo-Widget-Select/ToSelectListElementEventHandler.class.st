@@ -15,13 +15,14 @@ ToSelectListElementEventHandler >> collectionFilteredEvent: anEvent [
 	select isMultipleSelection ifFalse: [
 		listElement secondarySelectionModel deselectAll ].
 
-	(select isMultipleSelection and: [ select hideSelected ]) ifFalse: [
-		^ self ].
-	hidden := Array streamContents: [:stream | 
-		select dataAccessor withIndexDo: [ :d :idx |
-		(listElement selectionModel containsIndex: idx)
-			ifTrue: [ stream nextPut: idx ]] ].
-	listElement hiddenSelectionModel deselectAll; selectIndexes: hidden
+	select hideSelected ifFalse: [ ^ self ].
+	hidden := Array streamContents: [ :stream |
+		          select dataAccessor withIndexDo: [ :d :idx |
+			          (listElement selectionModel containsIndex: idx) ifTrue: [
+				          stream nextPut: idx ] ] ].
+	listElement hiddenSelectionModel
+		deselectAll;
+		selectIndexes: hidden
 ]
 
 { #category : #'api - accessing' }
@@ -41,7 +42,7 @@ ToSelectListElementEventHandler >> select: aSelect [
 { #category : #'element handlers' }
 ToSelectListElementEventHandler >> sieveSelectionChangedEvent: anEvent [
 
-	anEvent currentTarget dataSource notifyChanged.
-	select copySelectionFrom: anEvent selectionModel.
-	
+	| listElement |
+	listElement := anEvent currentTarget.
+	select notifySelectionChanged
 ]

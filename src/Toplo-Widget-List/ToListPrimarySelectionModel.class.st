@@ -23,6 +23,12 @@ ToListPrimarySelectionModel >> disableIndex: anIndex [
 ]
 
 { #category : #updating }
+ToListPrimarySelectionModel >> enableAll [
+
+	self disabledSelecter deselectAll
+]
+
+{ #category : #updating }
 ToListPrimarySelectionModel >> enableIndex: anIndex [
 
 	self disabledSelecter deselectIndex: anIndex
@@ -114,6 +120,12 @@ ToListPrimarySelectionModel >> postCopy [
 ]
 
 { #category : #updating }
+ToListPrimarySelectionModel >> selectableAll [
+
+	self unselectableSelecter deselectAll
+]
+
+{ #category : #updating }
 ToListPrimarySelectionModel >> selectableIndex: anIndex [
 
 	self unselectableSelecter deselectIndex: anIndex
@@ -123,14 +135,17 @@ ToListPrimarySelectionModel >> selectableIndex: anIndex [
 ToListPrimarySelectionModel >> transferIndex: anIndex from: anotherPrimarySelectionModel as: targetIndex [
 
 	(anotherPrimarySelectionModel containsIndex: anIndex)
-		ifTrue: [ self selectIndex: targetIndex ].
-	(self disabledSelectionModel containsIndex: anIndex)
-		ifTrue: [ self disabledSelectionModel selectIndex: targetIndex ].
-	(self unselectableSelectionModel containsIndex: anIndex)
-		ifTrue: [ self unselectableSelectionModel selectIndex: targetIndex ].
-	(self hiddenSelectionModel containsIndex: anIndex)
-		ifTrue: [ self hiddenSelectionModel selectIndex:  targetIndex ].
-
+		ifTrue: [ self selectIndex: targetIndex ]
+		ifFalse: [ self deselectIndex: targetIndex ].
+	(anotherPrimarySelectionModel disabledSelectionModel containsIndex: anIndex)
+		ifTrue: [ self disabledSelectionModel selectIndex: targetIndex ]
+		ifFalse: [ self disabledSelectionModel deselectIndex: targetIndex ].
+	(anotherPrimarySelectionModel unselectableSelectionModel containsIndex: anIndex)
+		ifTrue: [ self unselectableSelectionModel selectIndex: targetIndex ]
+		ifFalse: [ self unselectableSelectionModel deselectIndex: targetIndex ].
+	(anotherPrimarySelectionModel hiddenSelectionModel containsIndex: anIndex)
+		ifTrue: [ self hiddenSelectionModel selectIndex: targetIndex ]
+		ifFalse: [ self hiddenSelectionModel deselectIndex: targetIndex ]
 ]
 
 { #category : #updating }

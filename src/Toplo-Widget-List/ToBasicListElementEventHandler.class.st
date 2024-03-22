@@ -105,7 +105,7 @@ ToBasicListElementEventHandler >> infiniteElementDetachedEvent: anEvent [
 	node := anEvent element.
 	listElement := anEvent currentTarget.
 	listElement selectionMode onRemovedNode: node.
-	listElement nodeReleaser cull: node cull: node holder.
+	node holder unbindDataItem.
 ]
 
 { #category : #'infinite event handling' }

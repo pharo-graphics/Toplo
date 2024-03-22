@@ -937,7 +937,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 		               menu addItem: (ToMenuItem new
 				                labelText: 'Show all';
 				                whenClickedDo: [ :event |
-					                target hiddenSelecter deselectAll ];
+					                target selectionModel unhideAll ];
 				                yourself) ].
 	               selectedIndexes ifNotEmpty: [
 		               selectionMenu := ToMenu new.
@@ -972,21 +972,21 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 							                (target disabledSelectionModel containsIndex:
 									                 idx)
 								                ifTrue: [
-									                target disabledSelecter deselectIndex: idx ]
+									                target selectionModel enableIndex: idx ]
 								                ifFalse: [
-									                target disabledSelecter selectIndex: idx ] ] ];
+									                target selectionModel disableIndex: idx ] ] ];
 				                yourself).
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Set unselectable';
 				                whenClickedDo: [ :event |
 					                selectedIndexes do: [ :idx |
-							                target unselectableSelecter selectIndex: idx ] ];
+							                target selectionModel unselectableIndex: idx ] ];
 				                yourself).
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Hide';
 				                whenClickedDo: [ :event |
 					                selectedIndexes do: [ :idx |
-							                target hiddenSelecter selectIndex: idx ] ];
+							                target selectionModel hideIndex: idx ] ];
 				                yourself).
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Insert before';
@@ -2429,7 +2429,7 @@ ToSandBox class >> example_contactList [
 				 on: BlClickEvent
 				 do: [ :event |
 					 event consumed: true.
-					 holder infiniteElement dataAccessor removeAt: holder position ]).
+					 holder listElement dataAccessor removeAt: holder position ]).
 		line addChild: remBut.
 		node addChild: line ].
 	list dataAccessor addAll: contacts.

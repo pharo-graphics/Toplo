@@ -63,3 +63,10 @@ ToBasicNodeHolder >> node: aNode [
 
 	itemElement := aNode
 ]
+
+{ #category : #accessing }
+ToBasicNodeHolder >> unbindDataItem [
+
+	self listElement nodeReleaser cull: self node cull: self.
+	self listElement nodeHolderReleaser value: self
+]

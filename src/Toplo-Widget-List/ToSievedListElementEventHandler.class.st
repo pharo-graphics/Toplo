@@ -37,19 +37,20 @@ ToSievedListElementEventHandler >> buildIndexedDataFrom: aListElement [
 ToSievedListElementEventHandler >> collectionFilteredEvent: anEvent [
 	" the list has been filtered - now deal with the selection "
 
-	| target selected |
+	| target |
 	target := anEvent currentTarget.
 
-	selected := sieve pattern
-		            ifNotEmpty: [
-			            Array streamContents: [ :stream |
-				            target dataAccessor withIndexDo: [ :d :localIndex |
-					            | originalIndex |
-					            originalIndex := dataPositionIndex at: d.
-					            (sieveSelectionModel containsIndex: originalIndex)
-						            ifTrue: [ stream nextPut: localIndex ] ] ] ]
-		            ifEmpty: [ sieveSelectionModel selectedIndexes ].
-	target selecter selectOnlyIndexes: selected
+	sieve pattern
+		ifNotEmpty: [
+			target dataAccessor withIndexDo: [ :d :localIndex |
+				| originalIndex |
+				originalIndex := dataPositionIndex at: d.
+				target selectionModel
+					transferIndex: originalIndex
+					from: sieveSelectionModel
+					as: localIndex ]  ]
+		ifEmpty: [
+			target selecter copySelectionFrom: sieveSelectionModel ]
 ]
 
 { #category : #accessing }
@@ -145,18 +146,19 @@ ToSievedListElementEventHandler >> listPrimarySelectionChangePreNotificationEven
 		ifEmpty: [
 		sieveSelectionModel copySelectionFrom: listElement selectionModel ]
 		ifNotEmpty: [
-			listElement dataAccessor withIndexDo: [ :d :localIdx |
+			listElement dataAccessor withIndexDo: [ :d :localIndex |
 				| originalIndex |
 				originalIndex := dataPositionIndex at: d.
-				(listSelModel containsIndex: localIdx)
-					ifTrue: [ sieveSelectionModel selectIndex: originalIndex ]
-					ifFalse: [ sieveSelectionModel deselectIndex: originalIndex ] ] ].
+				sieveSelectionModel
+					transferIndex: localIndex
+					from: listSelModel
+					as: originalIndex ] ].
 
 	" dispatch a specific, different from the primary selection change event that will be sent after.
 	It is useful for sieve list user that relies on the sieve internal selection to adapt themeself according 
 	to the sieve selection"
 	listElement dispatchEvent: (ToSieveSelectionChangedEvent new
-			 selectionModel: sieveSelectionModel copy;
+			 selectionModel: sieveSelectionModel;
 			 yourself)
 ]
 

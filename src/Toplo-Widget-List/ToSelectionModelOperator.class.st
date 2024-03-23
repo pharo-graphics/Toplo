@@ -113,6 +113,12 @@ ToSelectionModelOperator >> selectionModel: aSelectionModel [
 ]
 
 { #category : #'command operations' }
+ToSelectionModelOperator >> selectionModelCopyFromCommand: aCopyFromCommand in: aTarget [
+
+	self selectionModel copySelectionFrom:  aCopyFromCommand sourceSelectionModel
+]
+
+{ #category : #'command operations' }
 ToSelectionModelOperator >> selectionModelShiftCommand: aShiftCommand in: aEventTarget [
 
 	self selectionModel shift: aShiftCommand itemCount from: aShiftCommand fromIndex.

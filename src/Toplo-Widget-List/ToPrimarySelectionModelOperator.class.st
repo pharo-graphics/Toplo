@@ -21,7 +21,7 @@ ToPrimarySelectionModelOperator >> notifySelectionChangedAfter: aCommand in: aTa
 			 yourself).
 
 	eventToNotify := ToListPrimarySelectionChangedEvent new
-		                 selectionModel: self selectionModel copy;
+		                 selectionModel: self selectionModel;
 		                 yourself.
 
 	preNotification := ToListPrimarySelectionChangePreNotificationEvent

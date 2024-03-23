@@ -92,7 +92,7 @@ ToBasicListElement >> newPrimarySelectionModel [
 { #category : #'instance creation' }
 ToBasicListElement >> newSelectionModel [
 
-	^ ToBasicListSelectionModel new
+	^ ToSelectionModel new
 		  itemCountGetter: [ self dataSource itemCount ];
 		  yourself
 ]

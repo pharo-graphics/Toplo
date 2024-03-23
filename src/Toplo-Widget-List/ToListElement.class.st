@@ -115,7 +115,7 @@ ToListElement >> installSelecterForEventClass: anEventClass [
 { #category : #'instance creation' }
 ToListElement >> newPrimarySelectionModel [
 
-	^ ToListSelectionModel new
+	^ ToListPrimarySelectionModel new
 ]
 
 { #category : #skin }
@@ -127,7 +127,7 @@ ToListElement >> newRawSkin [
 { #category : #'instance creation' }
 ToListElement >> newSecondarySelectionModel [
 
-	^ ToListSelectionModel new
+	^ ToListElementSelectionModel new
 ]
 
 { #category : #accessing }

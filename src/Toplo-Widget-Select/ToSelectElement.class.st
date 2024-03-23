@@ -204,7 +204,7 @@ ToSelectElement >> initialize [
 	data addEventHandler:
 		(ToObservableCollectionMirrorUpdater new mirror:
 			 windowManager listElement dataAccessor).
-	selectionModel := self listElement newSelectionModel.
+	selectionModel := self sieve selectionModel.
 	
 	filtrable := true.
 	self iconContainer: self newIconContainer.

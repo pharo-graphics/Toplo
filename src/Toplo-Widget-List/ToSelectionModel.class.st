@@ -337,7 +337,7 @@ ToSelectionModel >> sideIdx: aGap startingAt: anIndex [
 			  ifFalse: [ nextIdx ] ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #updating }
 ToSelectionModel >> transferIndex: anIndex from: anotherPrimarySelectionModel as: targetIndex [
 
 	(anotherPrimarySelectionModel containsIndex: anIndex)
@@ -354,5 +354,5 @@ ToSelectionModel >> underlyingModel [
 { #category : #updating }
 ToSelectionModel >> underlyingModelDo: aBlock [
 
-	monitor critical: [ aBlock value: underlyingModel ]
+	"monitor critical: [" aBlock value: underlyingModel "]"
 ]

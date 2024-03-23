@@ -11,9 +11,12 @@ Class {
 ToListElementSelectionModel >> copySelectionFrom: anotherSelectionModel [
 
 	super copySelectionFrom: anotherSelectionModel.
-	self unselectableSelectionModel  copySelectionFrom: anotherSelectionModel unselectableSelectionModel.
-	self disabledSelectionModel  copySelectionFrom: anotherSelectionModel disabledSelectionModel.
-	self hiddenSelectionModel  copySelectionFrom: anotherSelectionModel hiddenSelectionModel
+	self unselectableSelectionModel copySelectionFrom:
+		anotherSelectionModel unselectableSelectionModel.
+	self disabledSelectionModel copySelectionFrom:
+		anotherSelectionModel disabledSelectionModel.
+	self hiddenSelectionModel copySelectionFrom:
+		anotherSelectionModel hiddenSelectionModel
 ]
 
 { #category : #accessing }

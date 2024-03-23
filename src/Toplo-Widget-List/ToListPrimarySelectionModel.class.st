@@ -59,6 +59,12 @@ ToListPrimarySelectionModel >> unhideIndex: anIndex [
 ]
 
 { #category : #updating }
+ToListPrimarySelectionModel >> unhideIndexes: aCollection [
+
+	self hiddenSelectionModel deselectIndexes: aCollection
+]
+
+{ #category : #updating }
 ToListPrimarySelectionModel >> unselectableIndex: anIndex [
 
 	self unselectableSelectionModel selectIndex: anIndex

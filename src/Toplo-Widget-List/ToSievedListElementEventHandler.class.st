@@ -197,7 +197,7 @@ ToSievedListElementEventHandler >> onChanged: anEvent [
 ToSievedListElementEventHandler >> onInstalledIn: aListElement [
 
 	super onInstalledIn: aListElement.
-	sieveSelectionModel := aListElement selectionModel copy.
+	sieveSelectionModel := sieve selectionModel.
 	self dataPositionIndex: sieve dataPositionIndex.
 	self buildIndexedDataFrom: aListElement
 ]

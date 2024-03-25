@@ -33,14 +33,6 @@ ToPopupWindowManager >> autoClosePickOutsideEventClass: anEventClass [
 	autoClosePickOutsideEventClass := anEventClass
 ]
 
-{ #category : #'mouse handlers' }
-ToPopupWindowManager >> closeWindow [
-
-	currentWindow ifNotNil: [
-		currentWindow isOpened ifTrue: [ currentWindow close ].
-		^ self ]
-]
-
 { #category : #initialization }
 ToPopupWindowManager >> defaultAutoCloseOnMouseUpDelay [
 
@@ -102,16 +94,6 @@ ToPopupWindowManager >> mouseUpInElementEvent: anEvent [
 		After a given delay between down and up, the popup window is closed "
 	delay := anEvent timestamp - currentWindow popupTimestamp.
 	delay > maxDelay ifTrue: [ currentWindow close ]
-]
-
-{ #category : #'mouse handlers' }
-ToPopupWindowManager >> popupWindowEvent: anEvent [
-
-	currentWindow ifNotNil: [
-		currentWindow isOpened ifTrue: [ currentWindow close ].
-		^ self ].
-	self newWindowEvent: anEvent.
-	currentWindow popupEvent: anEvent
 ]
 
 { #category : #initialization }

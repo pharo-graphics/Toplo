@@ -7,8 +7,12 @@ Class {
 		'headerNodeClass',
 		'headerNodeBuilder'
 	],
-	#category : #'Toplo-Widget-Select-Core'
+	#category : #'Toplo-Widget-Select-Node'
 }
+
+{ #category : #layout }
+ToSelectHeaderNodeContainerElement >> checkVisibleNodes [
+]
 
 { #category : #accessing }
 ToSelectHeaderNodeContainerElement >> defaultHeaderNodeBuilder [
@@ -58,7 +62,7 @@ ToSelectHeaderNodeContainerElement >> headerNodeClass: aNodeClass [
 { #category : #initialization }
 ToSelectHeaderNodeContainerElement >> headerNodeHolderClass [ 
 
-	^ ToSelectHeaderNodeHolder
+	^ ToHeaderNodeHolder
 ]
 
 { #category : #initialization }

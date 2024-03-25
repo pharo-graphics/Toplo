@@ -50,8 +50,8 @@ ToSelectEventHandler >> selectSelectionChanged: anEvent [
 
 	| select |
 	select := anEvent currentTarget.
-	select headerNodeContainer refresh.
-	self showHidePlaceholderIn: select
+	self showHidePlaceholderIn: select.
+	select onSelectionChanged
 ]
 
 { #category : #'element handlers' }

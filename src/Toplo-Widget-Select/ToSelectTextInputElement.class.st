@@ -7,7 +7,7 @@ Class {
 		'inputTextField',
 		'installedInputTextFieldTextEventHandler'
 	],
-	#category : #'Toplo-Widget-Select-Core'
+	#category : #'Toplo-Widget-Select-Node'
 }
 
 { #category : #initialization }

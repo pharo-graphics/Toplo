@@ -81,12 +81,12 @@ ToListElement >> infiniteSharedEvents [
 { #category : #initialization }
 ToListElement >> initializeSelectionModel [
 
-	unselectableSelecter := self installSelecterForOperator:
-		                        ToUnselectableSelectionModelOperator new.
-	disabledSelecter := self installSelecterForOperator:
-		                    ToDisabledSelectionModelOperator new.
-	hiddenSelecter := self installSelecterForOperator:
-		                    ToHiddenSelectionModelOperator new.
+	unselectableSelecter := self installSelecterForEventClass:
+		                        ToListUnselectableSelectionChangedEvent.
+	disabledSelecter := self installSelecterForEventClass:
+		                    ToListDisabledSelectionChangedEvent.
+	hiddenSelecter := self installSelecterForEventClass:
+		                  ToListHiddenSelectionChangedEvent.
 
 	self secondarySelectionModel: self newSecondarySelectionModel.
 	self secondarySelectionMode: self defaultSecondarySelectionMode.
@@ -96,15 +96,17 @@ ToListElement >> initializeSelectionModel [
 ]
 
 { #category : #initialization }
-ToListElement >> installSelecterForOperator: aSelectionOperator [
+ToListElement >> installSelecterForEventClass: anEventClass [
 
-	| newSelectionModel newSelecter |
+	| newSelectionModel newSelecter operator |
+	operator := ToAdditionalSelectionModelOperator eventClass:
+		            anEventClass.
 	newSelectionModel := self newSelectionModel.
 	newSelectionModel onInstalledIn: self.
 	newSelecter := ToMultiSelectionModelSelecter new.
-	aSelectionOperator selectionModel: newSelectionModel.
-	aSelectionOperator onInstalledIn: self.
-	newSelecter operator: aSelectionOperator.
+	operator selectionModel: newSelectionModel.
+	operator onInstalledIn: self.
+	newSelecter operator: operator.
 	newSelecter onInstalledIn: self.
 
 	^ newSelecter
@@ -113,7 +115,7 @@ ToListElement >> installSelecterForOperator: aSelectionOperator [
 { #category : #'instance creation' }
 ToListElement >> newPrimarySelectionModel [
 
-	^ ToListSelectionModel new
+	^ ToListPrimarySelectionModel new
 ]
 
 { #category : #skin }
@@ -125,75 +127,7 @@ ToListElement >> newRawSkin [
 { #category : #'instance creation' }
 ToListElement >> newSecondarySelectionModel [
 
-	^ ToListSelectionModel new
-]
-
-{ #category : #'event firing' }
-ToListElement >> notifyDisabledSelectionChanged: aSelectionChangedEvent [
-
-	self dispatchEvent: aSelectionChangedEvent
-]
-
-{ #category : #'event firing' }
-ToListElement >> notifyHiddenSelectionChanged: aSelectionChangedEvent [
-
-	self dispatchEvent: aSelectionChangedEvent
-]
-
-{ #category : #'event firing' }
-ToListElement >> notifySecondarySelectionChanged: aSelectionChangedEvent [
-
-	self dispatchEvent: aSelectionChangedEvent
-]
-
-{ #category : #'event firing' }
-ToListElement >> notifyUnselectableSelectionChanged: aSelectionChangedEvent [
-
-	self dispatchEvent: aSelectionChangedEvent
-]
-
-{ #category : #'selection command application' }
-ToListElement >> onDisabledSelectionCommandApplied: aCommand [
-
-	aCommand selectionChanged ifFalse: [ ^ self ].
-	
-	self notifyDisabledSelectionChanged:
-		(ToListDisabledSelectionChangedEvent new
-			 selectionModel: self disabledSelectionModel copy;
-			 yourself)
-]
-
-{ #category : #'selection command application' }
-ToListElement >> onHiddenSelectionCommandApplied: aCommand [
-
-	aCommand selectionChanged ifFalse: [ ^ self ].
-
-	self notifyHiddenSelectionChanged:
-		(ToListHiddenSelectionChangedEvent new
-			 selectionModel: self hiddenSelectionModel copy;
-			 yourself)
-]
-
-{ #category : #'selection command application' }
-ToListElement >> onSecondarySelectionCommandApplied: aCommand [
-
-	aCommand selectionChanged ifFalse: [ ^ self ].
-
-	self notifySecondarySelectionChanged:
-		(ToListSecondarySelectionChangedEvent new
-			 selectionModel: self secondarySelectionModel copy;
-			 yourself)
-]
-
-{ #category : #'selection command application' }
-ToListElement >> onUnselectableSelectionCommandApplied: aCommand [
-
-	aCommand selectionChanged ifFalse: [ ^ self ].
-
-	self notifyUnselectableSelectionChanged:
-		(ToListUnselectableSelectionChangedEvent new
-			 selectionModel: self unselectableSelectionModel copy;
-			 yourself)
+	^ ToListElementSelectionModel new
 ]
 
 { #category : #accessing }

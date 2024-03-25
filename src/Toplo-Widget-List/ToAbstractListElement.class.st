@@ -111,6 +111,12 @@ ToAbstractListElement >> defaultNodeFactory [
 ]
 
 { #category : #initialization }
+ToAbstractListElement >> defaultNodeHolderBuilder [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #initialization }
 ToAbstractListElement >> defaultNodeHolderFactory [
 
 	^ self subclassResponsibility 
@@ -260,24 +266,18 @@ ToAbstractListElement >> nodeFactory [
 ]
 
 { #category : #accessing }
+ToAbstractListElement >> nodeHolderBuilder [
+
+	"aValuable takes 1 arg: the holder to build and second "
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #accessing }
 ToAbstractListElement >> nodeReleaser [
 	"aValuable takes 2 args: first, the ToNode to release and second, its holder in the list element "
 
 	^ self subclassResponsibility
-]
-
-{ #category : #'event firing' }
-ToAbstractListElement >> notifyClickOnNodeEvent: aClickEvent [
-
-	| preNotification node |
-	node := aClickEvent sourceEvent currentTarget.
-	preNotification := ToListClickOnNodePreNotificationEvent new
-		                   node: node;
-		                   sourceEvent: aClickEvent;
-		                   yourself.
-	self dispatchEvent: preNotification.
-	preNotification sourceEvent ifNil: [ ^ self ].
-	node dispatchEvent: preNotification sourceEvent
 ]
 
 { #category : #'event firing' }
@@ -286,18 +286,6 @@ ToAbstractListElement >> notifyDataSourceItemsChanged: aDataSourceEvent [
 	| preNotification |
 	preNotification := ToListDataSourceItemsChangePreNotificationEvent new
 		                   sourceEvent: aDataSourceEvent;
-		                   yourself.
-	self dispatchEvent: preNotification.
-	preNotification sourceEvent ifNil: [ ^ self ].
-	self dispatchEvent: preNotification sourceEvent
-]
-
-{ #category : #'event firing' }
-ToAbstractListElement >> notifyPrimarySelectionChanged: aSelectionChangedEvent [
-
-	| preNotification |
-	preNotification := ToListPrimarySelectionChangePreNotificationEvent new
-		                   sourceEvent: aSelectionChangedEvent;
 		                   yourself.
 	self dispatchEvent: preNotification.
 	preNotification sourceEvent ifNil: [ ^ self ].

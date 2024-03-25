@@ -1,11 +1,11 @@
 Class {
-	#name : #ToSelectWindow,
+	#name : #ToSelectListWindow,
 	#superclass : #ToAnchoredWindow,
 	#category : #'Toplo-Widget-Select-Core'
 }
 
 { #category : #skin }
-ToSelectWindow >> installRawStyle [
+ToSelectListWindow >> installRawStyle [
 
 	super installRawStyle.
 	(self valueOfTokenNamed: #'animation-window-opening') value: self.

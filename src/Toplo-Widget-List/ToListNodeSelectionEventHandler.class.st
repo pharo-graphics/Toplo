@@ -42,12 +42,19 @@ ToListNodeSelectionEventHandler >> mouseDownEvent: anEvent [
 { #category : #'mouse handlers' }
 ToListNodeSelectionEventHandler >> notifyClickOnNodeFromEvent: anEvent [
 
-	| node listElement |
+	| node listElement preNotification eventToNotify |
 	node := anEvent currentTarget.
 	listElement := node holder listElement.
-	listElement notifyClickOnNodeEvent: (ToListClickOnNodeEvent new
-			 sourceEvent: anEvent;
-			 yourself)
+	eventToNotify := ToListClickOnNodeEvent new
+		                 sourceEvent: anEvent;
+		                 yourself.
+	preNotification := ToListClickOnNodePreNotificationEvent new
+		                   node: node;
+		                   sourceEvent: eventToNotify;
+		                   yourself.
+	listElement dispatchEvent: preNotification.
+	preNotification sourceEvent ifNil: [ ^ self ].
+	node dispatchEvent: eventToNotify
 ]
 
 { #category : #'mouse handlers' }

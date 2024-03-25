@@ -118,6 +118,7 @@ ToSwitchIcon >> handleUncheckedBuilder: aValuable [
 ToSwitchIcon >> initialize [
 
 	super initialize.
+	self applySkinInstallerOnFirstRequest: false.
 	self layout: BlBasicLayout new.
 	track := self newTrack.
 	handle := self newHandle.

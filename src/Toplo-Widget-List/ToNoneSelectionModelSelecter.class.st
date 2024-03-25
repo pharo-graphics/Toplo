@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
 
+{ #category : #copying }
+ToNoneSelectionModelSelecter >> copySelectionFrom: aSourceSelectionModel [
+
+
+]
+
 { #category : #accessing }
 ToNoneSelectionModelSelecter >> currentIndex [
 

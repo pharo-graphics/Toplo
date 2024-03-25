@@ -3,24 +3,10 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'select',
-		'node',
-		'data',
-		'position'
+		'node'
 	],
 	#category : #'Toplo-Widget-Select-Node'
 }
-
-{ #category : #accessing }
-ToSelectHeaderNodeHolder >> data [
-
-	^ data
-]
-
-{ #category : #accessing }
-ToSelectHeaderNodeHolder >> data: anObject [
-
-	data := anObject
-]
 
 { #category : #accessing }
 ToSelectHeaderNodeHolder >> listElement [
@@ -38,18 +24,6 @@ ToSelectHeaderNodeHolder >> node [
 ToSelectHeaderNodeHolder >> node: aSelectNode [
 
 	node := aSelectNode
-]
-
-{ #category : #accessing }
-ToSelectHeaderNodeHolder >> position [
-
-	^ position
-]
-
-{ #category : #accessing }
-ToSelectHeaderNodeHolder >> position: anInteger [
-
-	position := anInteger
 ]
 
 { #category : #accessing }

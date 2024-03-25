@@ -1,13 +1,23 @@
 Class {
 	#name : #ToSelectListElement,
 	#superclass : #ToListElement,
+	#instVars : [
+		'groupSelectionModel'
+	],
 	#category : #'Toplo-Widget-Select-Core'
 }
 
-{ #category : #initialization }
-ToSelectListElement >> defaultSecondarySelectionEventHandler [ 
+{ #category : #accessing }
+ToSelectListElement >> groupSelectionModel [
 
-	^ ToListSecondarySelectionElementEventHandler new
+	^ groupSelectionModel
+]
+
+{ #category : #initialization }
+ToSelectListElement >> initialize [
+
+	super initialize.
+	groupSelectionModel := self newSelectionModel 
 ]
 
 { #category : #skin }

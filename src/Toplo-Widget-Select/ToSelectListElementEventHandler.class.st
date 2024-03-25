@@ -10,18 +10,20 @@ Class {
 { #category : #'element handlers' }
 ToSelectListElementEventHandler >> collectionFilteredEvent: anEvent [
 
-	| listElement hidden |
+	| listElement visibleIdxes |
 	listElement := select listElement.
 	select isMultipleSelection ifFalse: [
 		listElement secondarySelectionModel deselectAll ].
 
-	(select isMultipleSelection and: [ select hideSelected ]) ifFalse: [
-		^ self ].
-	hidden := Array streamContents: [:stream | 
-		select dataAccessor withIndexDo: [ :d :idx |
-		(listElement selectionModel containsIndex: idx)
-			ifTrue: [ stream nextPut: idx ]] ].
-	listElement hiddenSelectionModel deselectAll; selectIndexes: hidden
+	select hideSelected ifFalse: [ ^ self ].
+	visibleIdxes := Array streamContents: [ :stream |
+		                listElement dataAccessor withIndexDo: [ :d :localIndex |
+			                (listElement selectionModel containsIndex:
+				                 localIndex)
+				                ifTrue: [
+				                listElement selectionModel hideIndex: localIndex ]
+				                ifFalse: [ stream nextPut: localIndex ] ] ].
+	listElement selectionModel unhideIndexes: visibleIdxes
 ]
 
 { #category : #'api - accessing' }
@@ -41,7 +43,16 @@ ToSelectListElementEventHandler >> select: aSelect [
 { #category : #'element handlers' }
 ToSelectListElementEventHandler >> sieveSelectionChangedEvent: anEvent [
 
+	| listElement |
+	listElement := anEvent currentTarget.
 	anEvent currentTarget dataSource notifyChanged.
-	select copySelectionFrom: anEvent selectionModel.
-	
+	select hideSelected ifTrue: [
+		listElement selectionModel unhideAll.
+		listElement dataAccessor withIndexDo: [ :d :localIndex |
+			| originalIndex |
+			originalIndex := select sieve dataPositionIndex at: d.
+			(listElement selectionModel containsIndex: localIndex) ifTrue: [
+				listElement selectionModel hideIndex: localIndex.
+				select selectionModel hideIndex: originalIndex ] ] ].
+	select notifySelectionChanged
 ]

@@ -1397,6 +1397,8 @@ ToSandBox class >> example_SelectMultiFiltrable [
 
 	| select innerWindow |
 	select := ToSelectElement new.
+	select maxSelectedCount: 4.
+
 	select inspect.
 	select hideSelected: false.
 	select dataAccessor addAll: self statesOfAmerica.
@@ -1419,6 +1421,7 @@ ToSandBox class >> example_SelectMultiFiltrableNoWrapping [
 
 	| select innerWindow |
 	select := ToSelectElement new.
+	select maxSelectedCount: 3.
 	select nodeWrapping: false.
 	select hideSelected: false.
 	select dataAccessor addAll: self statesOfAmerica.
@@ -1482,6 +1485,7 @@ ToSandBox class >> example_SelectMultiNotFiltrable [
 
 	| select innerWindow |
 	select := ToSelectElement new.
+	select maxSelectedCount: 4.
 	select filtrable: false.
 	select dataAccessor addAll: self statesOfAmerica.
 	select strategy: ToMultipleSelectStrategy new.
@@ -2948,8 +2952,18 @@ ToSandBox class >> example_textFieldOnlyDigits [
 { #category : #'text field' }
 ToSandBox class >> example_textFieldWithAutocompletePopup [
 
-	| t queryRunner |
+	| t |
+	t := ToAlbum  new.
+	t addEventHandler: ToAlbumAutocompletionEventHandler new.
+	t openInSpace
+]
+
+{ #category : #'text field' }
+ToSandBox class >> example_textFieldWithAutocompletePopup_experiment [
+
+	| t queryRunner  |
 	t := ToTextField new.
+	
 	queryRunner := ToItemsQueryRunner new.
 	queryRunner onInstalledIn: t.
 	queryRunner fetcher: [ :theTextField :thePattern |
@@ -2960,14 +2974,14 @@ ToSandBox class >> example_textFieldWithAutocompletePopup [
 			 on: AlbTextInsertedEvent
 			 do: [ :event |
 				 | sub selecter wordStart currIdx |
-				currIdx := event endIndex.
-				 t infinite atTextIndex: event index do: [ :e :lidx |
+				currIdx := event toIndex.
+				 t atTextIndex: event fromIndex do: [ :e :lidx |
 					 | origin |
 					 origin := e screenCornerAt: lidx.
 					 e localPointToGlobal: origin "traceCr" ].
 				 selecter := t selecter.
-				 wordStart := selecter findWordStartBefore: event endIndex.
-				 sub := (t text copyFrom: wordStart to: event endIndex).
+				 wordStart := selecter findWordStartBefore: event toIndex.
+				 sub := (t text copyFrom: wordStart to: event toIndex).
 				 sub asString ifNotEmpty: [ :pat |
 					 queryRunner processPattern: pat for: t ] ]).
 	t addEventHandlerOn: ToItemsQueryResultEvent do: [ :event |

@@ -34,7 +34,8 @@ ToElement >> inVerticalPane [
 ToElement >> initialize [
 
 	super initialize.
-	self initializeForToplo 
+	self initializeForToplo.
+	"self applySkinInstallerOnFirstRequest: true."
 ]
 
 { #category : #'t  - layout resizeable' }

@@ -38,7 +38,7 @@ ToSelectionModelHolderForTest >> dataSource: aDataSource [
 { #category : #initialization }
 ToSelectionModelHolderForTest >> defaultSelectionModel [
 
-	^ ToBasicListSelectionModel new
+	^ ToSelectionModel new
 ]
 
 { #category : #'event management accessing' }
@@ -115,17 +115,6 @@ ToSelectionModelHolderForTest >> notifyPrimarySelectionChanged: anEvent [
 ToSelectionModelHolderForTest >> notifyUnselectableSelectionChanged: anEvent [
 
 	self dispatchEvent: anEvent
-]
-
-{ #category : #'selection command application' }
-ToSelectionModelHolderForTest >> onPrimarySelectionCommandApplied: aCommand [
-
-	aCommand selectionChanged ifFalse: [ ^ self ].
-
-	self notifyPrimarySelectionChanged:
-		(ToListPrimarySelectionChangedEvent new
-			 selectionModel: self selectionModel copy;
-			 yourself)
 ]
 
 { #category : #accessing }

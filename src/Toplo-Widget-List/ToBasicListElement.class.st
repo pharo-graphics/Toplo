@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'nodeFactory',
 		'nodeBuilder',
-		'nodeReleaser'
+		'nodeReleaser',
+		'nodeHolderBuilder'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -47,6 +48,12 @@ ToBasicListElement >> defaultNodeFactory [
 ]
 
 { #category : #initialization }
+ToBasicListElement >> defaultNodeHolderBuilder [
+
+	^ [ :holder :boundData | holder dataItem: boundData ]
+]
+
+{ #category : #initialization }
 ToBasicListElement >> defaultNodeHolderFactory [
 
 	^ [ ToBasicNodeHolder new ]
@@ -71,6 +78,7 @@ ToBasicListElement >> initialize [
 
 	super initialize.
 	nodeFactory := self defaultNodeFactory.
+	nodeHolderBuilder := self defaultNodeHolderBuilder.
 	nodeBuilder := self defaultNodeBuilder.
 	nodeReleaser := self defaultNodeReleaser 
 ]
@@ -84,7 +92,7 @@ ToBasicListElement >> newPrimarySelectionModel [
 { #category : #'instance creation' }
 ToBasicListElement >> newSelectionModel [
 
-	^ ToBasicListSelectionModel new
+	^ ToSelectionModel new
 		  itemCountGetter: [ self dataSource itemCount ];
 		  yourself
 ]
@@ -118,6 +126,22 @@ ToBasicListElement >> nodeFactory: aValuable [
 ]
 
 { #category : #accessing }
+ToBasicListElement >> nodeHolderBuilder [
+
+	"aValuable takes 2 args: the holder to build and second the dataItem that is bound to the holder "
+
+	^ nodeHolderBuilder 
+]
+
+{ #category : #accessing }
+ToBasicListElement >> nodeHolderBuilder: aBuilder [
+
+	"aValuable takes 1 arg: the holder to build and second "
+
+	nodeHolderBuilder := aBuilder
+]
+
+{ #category : #accessing }
 ToBasicListElement >> nodeReleaser [
 	"aValuable takes 2 args: first, the ToNode to release and second, its holder in the list element "
 
@@ -129,19 +153,4 @@ ToBasicListElement >> nodeReleaser: aValuable [
 	"aValuable takes 2 args: first, the ToNode to release and second, its holder in the list element "
 
 	nodeReleaser := aValuable
-]
-
-{ #category : #'selection command application' }
-ToBasicListElement >> onPrimarySelectionCommandApplied: aCommand [
-
-	aCommand selectionChanged ifFalse: [ ^ self ].
-	
-	self dispatchEvent: (ToPrimarySelectionCommandAppliedEvent new
-			 command: aCommand;
-			 yourself).
-
-	self notifyPrimarySelectionChanged:
-		(ToListPrimarySelectionChangedEvent new
-			 selectionModel: self selectionModel copy;
-			 yourself)
 ]

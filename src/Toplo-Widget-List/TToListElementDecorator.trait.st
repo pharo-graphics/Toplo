@@ -103,6 +103,12 @@ TToListElementDecorator >> stopScroll [
 ]
 
 { #category : #'t - infinite accessing' }
+TToListElementDecorator >> withDecoration: aDecorationClass [
+
+	self next withDecoration: aDecorationClass
+]
+
+{ #category : #'t - infinite accessing' }
 TToListElementDecorator >> withRowNumbers [ 
 
 	self next withRowNumbers 

@@ -26,7 +26,7 @@ ToItemsQueryRunner >> applyFetcherIn: anEventTarget withPattern: aPattern [
 { #category : #accessing }
 ToItemsQueryRunner >> defaultDelay [
 
-	^ 70 milliSeconds
+	^ 50 milliSeconds
 ]
 
 { #category : #accessing }
@@ -72,7 +72,7 @@ ToItemsQueryRunner >> newProcessIn: anEventTarget [
 	             self delay wait.
 	             self applyFetcherIn: anEventTarget withPattern: pat.
 	             process := nil ]
-		             forkAt: Processor systemBackgroundPriority
+		             forkAt: Processor userBackgroundPriority
 		             named: self class name
 ]
 

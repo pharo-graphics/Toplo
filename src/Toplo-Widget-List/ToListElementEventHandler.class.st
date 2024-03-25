@@ -26,25 +26,25 @@ ToListElementEventHandler >> listClickOnNodePreNotificationEvent: anEvent [
 { #category : #'list element handling' }
 ToListElementEventHandler >> listDisabledSelectionChangedEvent: anEvent [
 
-	| target nodesArray |
-	target := anEvent currentTarget.
-	target isAttachedToSceneGraph ifFalse: [ ^ self ].
+	| listElement |
+	listElement := anEvent currentTarget.
+	listElement isAttachedToSceneGraph ifFalse: [ ^ self ].
 
-	nodesArray := target infinite children asArray.
 	anEvent selectionModel ifEmpty: [
-		target dataSource notifyChanged.
+		listElement dataSource notifyChanged.
 		^ self ].
 	anEvent selectionModel selectedIndexesIntervalsDo: [ :interval |
-		target dataSource notifyItemsChanged: (interval first to: interval last) ]
+		listElement dataSource notifyItemsChanged:
+			(interval first to: interval last) ]
 ]
 
 { #category : #'list element handling' }
 ToListElementEventHandler >> listHiddenSelectionChangedEvent: anEvent [
 
-	| listElement nodesArray |
+	| listElement |
 	listElement := anEvent currentTarget.
 	listElement isAttachedToSceneGraph ifFalse: [ ^ self ].
-	nodesArray := listElement infinite children asArray.
+
 	anEvent selectionModel ifEmpty: [
 		listElement dataSource notifyChanged.
 		^ self ].
@@ -56,21 +56,20 @@ ToListElementEventHandler >> listHiddenSelectionChangedEvent: anEvent [
 { #category : #'list element handling' }
 ToListElementEventHandler >> listUnselectableSelectionChangedEvent: anEvent [
 
-	| target firstPos lastPos |
-	target := anEvent currentTarget.
-	target isAttachedToSceneGraph ifFalse: [ ^ self ].
-	target infinite hasChildren ifFalse: [ ^ self ].
+	| listElement firstPos lastPos |
+	listElement := anEvent currentTarget.
+	listElement isAttachedToSceneGraph ifFalse: [ ^ self ].
+	listElement infinite hasChildren ifFalse: [ ^ self ].
 	anEvent selectionModel ifEmpty: [
-		target dataSource notifyChanged.
+		listElement dataSource notifyChanged.
 		^ self ].
-	firstPos := target infinite firstChild holder position.
-	lastPos := target infinite lastChild holder position.
-	(target selectionModel hasUnselectableInInterval:
-		 (firstPos to: lastPos)) ifFalse: [ ^ self ].
+	firstPos := listElement infinite firstChild holder position.
+	lastPos := listElement infinite lastChild holder position.
 	firstPos to: lastPos do: [ :idx |
-		((target selectionModel containsIndex: idx) and: [
-			 target unselectableSelectionModel containsIndex: idx ]) ifTrue: [
-			target selecter deselectIndex: idx ] ].
-	target dataSource notifyItemsChanged: (firstPos to: lastPos).
-	target requestLayout
+		((listElement selectionModel containsIndex: idx) and: [
+			 listElement unselectableSelectionModel containsIndex: idx ]) ifTrue: [
+			listElement selecter deselectIndex: idx ] ].
+	anEvent selectionModel selectedIndexesIntervalsDo: [ :interval |
+		listElement dataSource notifyItemsChanged:
+			(interval first to: interval last) ]
 ]

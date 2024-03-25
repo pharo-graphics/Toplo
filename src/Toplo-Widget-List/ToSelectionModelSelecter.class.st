@@ -20,6 +20,16 @@ ToSelectionModelSelecter >> changeCurrentIndexWith: anIndex [
 	self currentIndex: anIndex
 ]
 
+{ #category : #copying }
+ToSelectionModelSelecter >> copySelectionFrom: aSourceSelectionModel [
+
+	self addCommand: (ToSelectionModelCopyFromCommand new
+			 operator: self operator;
+			 sourceSelectionModel: aSourceSelectionModel;
+			 yourself).
+	self changeCurrentIndexWith: 0
+]
+
 { #category : #accessing }
 ToSelectionModelSelecter >> currentIndex [
 

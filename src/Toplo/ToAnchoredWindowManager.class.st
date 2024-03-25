@@ -26,6 +26,14 @@ ToAnchoredWindowManager >> anchorRoot: anElement [
 ]
 
 { #category : #'bounds hook' }
+ToAnchoredWindowManager >> applyPositionAnsSizeHooksFromEvent: anEvent [
+
+	self currentWindow ifNil: [ Error signal: 'No current window' ].
+	self applyPositionHookFromEvent: anEvent.
+	self applySizeHookFromEvent: anEvent
+]
+
+{ #category : #'bounds hook' }
 ToAnchoredWindowManager >> applyPositionHookFromEvent: anEvent [
 
 	self currentWindow ifNil: [ Error signal: 'No current window' ].
@@ -57,6 +65,14 @@ ToAnchoredWindowManager >> builder [
 ToAnchoredWindowManager >> builder: aWindowBuilderValuable [
 
 	builder := aWindowBuilderValuable
+]
+
+{ #category : #'mouse handlers' }
+ToAnchoredWindowManager >> closeWindow [
+
+	currentWindow ifNotNil: [
+		currentWindow close.
+		^ self ]
 ]
 
 { #category : #accessing }
@@ -207,6 +223,16 @@ ToAnchoredWindowManager >> onWindowRemoved [
 	currentWindow := nil
 ]
 
+{ #category : #'mouse handlers' }
+ToAnchoredWindowManager >> popupWindowEvent: anEvent [
+
+	currentWindow ifNotNil: [
+		currentWindow isOpened ifTrue: [ currentWindow close ].
+		^ self ].
+	self newWindowEvent: anEvent.
+	currentWindow popupEvent: anEvent
+]
+
 { #category : #accessing }
 ToAnchoredWindowManager >> positionHook [
 
@@ -215,12 +241,11 @@ ToAnchoredWindowManager >> positionHook [
 
 { #category : #accessing }
 ToAnchoredWindowManager >> positionHook: aValuable [
-	" aValuable takes the event as first argument and the element as second argument. 
+	" aValuable takes the window as first argument, the element as second argument 
+	and the event as third argument. 
 	Computes the window position according to the element position "
 	
-	positionHook := aValuable.
-	self currentWindow ifNil: [ ^ self ].
-	self applyPositionHookFromEvent: nil
+	positionHook := aValuable
 ]
 
 { #category : #'window handling' }

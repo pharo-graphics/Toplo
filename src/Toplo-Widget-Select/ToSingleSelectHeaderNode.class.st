@@ -28,7 +28,6 @@ ToSingleSelectHeaderNode >> installRawStyle [
 ToSingleSelectHeaderNode >> onInstalledIn: aSelect [
 
 	super onInstalledIn: aSelect.
-	self beUnremovable.
 	self hMatchParent.
 	textInputElement := ToSelectTextInputElement new.
 	textInputElement onInstalledIn: aSelect.

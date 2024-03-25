@@ -8,11 +8,11 @@ Class {
 		'data',
 		'nodeWrapping',
 		'selectionModel',
-		'groupIndexes',
 		'strategy',
 		'hideSelected',
 		'iconContainer',
-		'headerElement'
+		'headerElement',
+		'maxSelectedCount'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -27,27 +27,24 @@ ToSelectElement >> addGroup: anObject withData: aCollection [
 	self dataAccessor addAll: aCollection
 ]
 
+{ #category : #'accessing selection' }
+ToSelectElement >> allowSelectedCount: aNumber [
+
+	^ self maxSelectedCount isZero or: [ aNumber <= self maxSelectedCount ]
+]
+
+{ #category : #'accessing selection' }
+ToSelectElement >> checkMaxSelectedCount: aNumber [
+
+	(self allowSelectedCount: aNumber) ifFalse: [
+		self enqueueTask: (BlTaskAction new action: [
+				 Error signal: 'Max selected count reached' ]) ]
+]
+
 { #category : #'accessing window' }
 ToSelectElement >> closeWindow [
 
 	^ self windowManager closeWindow
-]
-
-{ #category : #'accessing selection' }
-ToSelectElement >> copySelectionFrom: anotherSelectionModel [
-	" hide selected nodes if the hideSelected option is true "
-
-	(self isMultipleSelection and: [ self hideSelected ]) ifTrue: [
-		| hidden |
-		hidden := Array streamContents: [ :stream |
-			          self dataAccessor withIndexDo: [ :d :idx |
-				          (self listElement selectionModel containsIndex: idx)
-					          ifTrue: [ stream nextPut: idx ] ] ].
-		self listElement hiddenSelecter selectOnlyIndexes: hidden ].
-	self selectionModel selectedIndexes
-	= anotherSelectionModel selectedIndexes ifTrue: [ ^ self ].
-	self selectionModel copySelectionFrom: anotherSelectionModel.
-	self notifySelectionChanged
 ]
 
 { #category : #'accessing window' }
@@ -180,16 +177,16 @@ ToSelectElement >> initialize [
 
 	hideSelected := false.
 	nodeWrapping := true.
+	maxSelectedCount := 0.
 	
 	data := ToObservableCollection new.
-	groupIndexes := IdentitySet new.
-	
+		
 	" for the popup "
 	windowManager := self newWindowManager.
 	data addEventHandler:
 		(ToObservableCollectionMirrorUpdater new mirror:
 			 windowManager listElement dataAccessor).
-	selectionModel := self listElement newSelectionModel.
+	selectionModel := self sieve selectionModel.
 	
 	filtrable := true.
 	self iconContainer: self newIconContainer.
@@ -253,6 +250,18 @@ ToSelectElement >> listNodeBuilder: aValuable [
 ]
 
 { #category : #accessing }
+ToSelectElement >> maxSelectedCount [
+
+	^ maxSelectedCount
+]
+
+{ #category : #accessing }
+ToSelectElement >> maxSelectedCount: aNumber [
+
+	maxSelectedCount := aNumber
+]
+
+{ #category : #accessing }
 ToSelectElement >> multiSelection: aBoolean [
 
 	strategy ifNotNil: [ self strategy onUninstalledIn: self ].
@@ -293,7 +302,7 @@ ToSelectElement >> newShortcutsStore [
 ToSelectElement >> newWindowManager [
 
 	| wm |
-	wm := ToSelectWindowManager new.
+	wm := ToSelectListWindowManager new.
 	wm onInstalledIn: self.
 	^ wm
 ]
@@ -316,6 +325,32 @@ ToSelectElement >> nodeWrapping: aBoolean [
 ToSelectElement >> notifySelectionChanged [
 
 	self dispatchEvent: ToSelectSelectionChanged new
+]
+
+{ #category : #'accessing selection' }
+ToSelectElement >> onSelectionChanged [
+
+	self headerNodeContainer refresh.
+	self checkMaxSelectedCount: self selectionModel selectedIndexesCount.
+	self updateSelectedCountLabel.
+
+	self headerNodeContainer requestLayout.
+
+	self maxSelectedCount isZero ifTrue: [ ^ self ].
+	self selectionModel selectedIndexesCount < self maxSelectedCount
+		ifTrue: [
+			self dataAccessor withIndexDo: [ :d :idx |
+				| origIdx |
+				origIdx := self sieve dataPositionIndex at: d.
+				self listElement disabledSelecter deselectIndex: origIdx.
+				self listElement unselectableSelecter deselectIndex: origIdx ].
+			^ self ].
+	self dataAccessor withIndexDo: [ :d :idx |
+		| origIdx |
+		origIdx := self sieve dataPositionIndex at: d.
+		(self selectionModel containsIndex: origIdx) ifFalse: [
+			self listElement disabledSelecter selectIndex: origIdx.
+			self listElement unselectableSelecter selectIndex: origIdx ] ]
 ]
 
 { #category : #window }
@@ -388,15 +423,41 @@ ToSelectElement >> popupWindowEvent: anEvent [
 ]
 
 { #category : #'accessing selection' }
+ToSelectElement >> selectIndex: anIndex [
+
+	| selectedAfter |
+	selectedAfter := Array streamContents: [ :stream |
+		                 stream nextPut: anIndex.
+		                 stream nextPutAll: self selectedIndexes ].
+	self checkMaxSelectedCount: selectedAfter asSet size.
+	self selectionModel selectIndex: anIndex.
+	self notifySelectionChanged
+]
+
+{ #category : #'accessing selection' }
 ToSelectElement >> selectIndexes: aCollection [
 
+	| selectedAfter |
+	selectedAfter := Array streamContents: [ :stream |
+		                 stream nextPutAll: aCollection.
+		                 stream nextPutAll: self selectedIndexes ].
 	self selectionModel selectIndexes: aCollection.
+	self notifySelectionChanged
+]
+
+{ #category : #'accessing selection' }
+ToSelectElement >> selectOnlyIndex: anIndex [
+
+	self checkMaxSelectedCount: 1.
+	self selectionModel deselectAll.
+	self selectionModel selectIndex: anIndex.
 	self notifySelectionChanged
 ]
 
 { #category : #'accessing selection' }
 ToSelectElement >> selectOnlyIndexes: aCollection [
 
+	self checkMaxSelectedCount: aCollection asSet size.
 	self selectionModel deselectAll.
 	self selectionModel selectIndexes: aCollection.
 	self notifySelectionChanged
@@ -411,7 +472,7 @@ ToSelectElement >> selectedData [
 { #category : #'accessing selection' }
 ToSelectElement >> selectedIndexes [
 
-	^ self selectionModel indices
+	^ self selectionModel selectedIndexes
 ]
 
 { #category : #accessing }
@@ -435,16 +496,17 @@ ToSelectElement >> selectionModel: aSelectionModel [
 { #category : #'accessing list' }
 ToSelectElement >> setGroupIndex: anIndex [
 
-	groupIndexes add: anIndex.
+	self listElement groupSelectionModel selectIndex: anIndex.
 	self listElement unselectableSelecter selectIndex: anIndex
 ]
 
 { #category : #'accessing list' }
 ToSelectElement >> setGroupIndexes: anIntegerCollection [
 
-	groupIndexes addAll: anIntegerCollection.
+	self listElement groupSelectionModel deselectAll.
+	self listElement groupSelectionModel selectIndexes: anIntegerCollection.
 	self listElement unselectableSelecter deselectAll.
-	self listElement unselectableSelecter selectIndexes: groupIndexes asArray
+	self listElement unselectableSelecter selectIndexes: anIntegerCollection
 ]
 
 { #category : #accessing }
@@ -476,6 +538,12 @@ ToSelectElement >> strategy: aToSelectStrategy [
 ToSelectElement >> textInputElement [ 
 
 	^ self headerNodeContainer textInputElement
+]
+
+{ #category : #private }
+ToSelectElement >> updateSelectedCountLabel [
+
+	self iconContainer updateSelectedCountLabel
 ]
 
 { #category : #accessing }

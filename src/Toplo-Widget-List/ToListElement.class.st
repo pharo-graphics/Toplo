@@ -81,30 +81,30 @@ ToListElement >> infiniteSharedEvents [
 { #category : #initialization }
 ToListElement >> initializeSelectionModel [
 
-	unselectableSelecter := self installSelecterForEventClass:
-		                        ToListUnselectableSelectionChangedEvent.
-	disabledSelecter := self installSelecterForEventClass:
-		                    ToListDisabledSelectionChangedEvent.
-	hiddenSelecter := self installSelecterForEventClass:
-		                  ToListHiddenSelectionChangedEvent.
 
+
+	super initializeSelectionModel.
 	self secondarySelectionModel: self newSecondarySelectionModel.
 	self secondarySelectionMode: self defaultSecondarySelectionMode.
 	self addEventHandler: self defaultSecondarySelectionEventHandler.
+	unselectableSelecter := self installSelecterForEventClass:
+		                        ToListUnselectableSelectionChangedEvent forSelectionModel: self selectionModel unselectableSelectionModel.
+	disabledSelecter := self installSelecterForEventClass:
+		                    ToListDisabledSelectionChangedEvent forSelectionModel: self selectionModel disabledSelectionModel.
+	hiddenSelecter := self installSelecterForEventClass:
+		                  ToListHiddenSelectionChangedEvent forSelectionModel: self selectionModel hiddenSelectionModel.
 
-	super initializeSelectionModel
+
 ]
 
 { #category : #initialization }
-ToListElement >> installSelecterForEventClass: anEventClass [
+ToListElement >> installSelecterForEventClass: anEventClass forSelectionModel: aSelectionModel [
 
-	| newSelectionModel newSelecter operator |
+	| newSelecter operator |
 	operator := ToAdditionalSelectionModelOperator eventClass:
 		            anEventClass.
-	newSelectionModel := self newSelectionModel.
-	newSelectionModel onInstalledIn: self.
 	newSelecter := ToMultiSelectionModelSelecter new.
-	operator selectionModel: newSelectionModel.
+	operator selectionModel: aSelectionModel.
 	operator onInstalledIn: self.
 	newSelecter operator: operator.
 	newSelecter onInstalledIn: self.
@@ -127,7 +127,7 @@ ToListElement >> newRawSkin [
 { #category : #'instance creation' }
 ToListElement >> newSecondarySelectionModel [
 
-	^ ToListElementSelectionModel new
+	^ ToListSecondarySelectionModel new
 ]
 
 { #category : #accessing }

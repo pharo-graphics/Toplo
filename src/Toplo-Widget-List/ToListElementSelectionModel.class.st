@@ -2,7 +2,10 @@ Class {
 	#name : #ToListElementSelectionModel,
 	#superclass : #ToSelectionModel,
 	#instVars : [
-		'listElement'
+		'listElement',
+		'disabledSelectionModel',
+		'hiddenSelectionModel',
+		'unselectableSelectionModel'
 	],
 	#category : #'Toplo-Widget-List-Selection-Model'
 }
@@ -22,7 +25,7 @@ ToListElementSelectionModel >> copySelectionFrom: anotherSelectionModel [
 { #category : #accessing }
 ToListElementSelectionModel >> disabledSelectionModel [
 
-	^ listElement disabledSelectionModel
+	^ disabledSelectionModel
 ]
 
 { #category : #testing }
@@ -35,7 +38,7 @@ ToListElementSelectionModel >> hasUnselectableInInterval: anInterval [
 { #category : #accessing }
 ToListElementSelectionModel >> hiddenSelectionModel [
 
-	^ listElement hiddenSelectionModel
+	^ hiddenSelectionModel
 ]
 
 { #category : #testing }
@@ -137,5 +140,5 @@ ToListElementSelectionModel >> transferIndex: anIndex from: anotherPrimarySelect
 { #category : #accessing }
 ToListElementSelectionModel >> unselectableSelectionModel [
 
-	^ listElement unselectableSelectionModel
+	^ unselectableSelectionModel
 ]

@@ -1,84 +1,80 @@
 Class {
-	#name : #ToListPrimarySelectionModel,
+	#name : #ToListSecondarySelectionModel,
 	#superclass : #ToListElementSelectionModel,
 	#category : #'Toplo-Widget-List-Selection-Model'
 }
 
 { #category : #updating }
-ToListPrimarySelectionModel >> disableIndex: anIndex [
+ToListSecondarySelectionModel >> disableIndex: anIndex [
 
 	self disabledSelectionModel selectIndex: anIndex
 ]
 
 { #category : #updating }
-ToListPrimarySelectionModel >> enableAll [
+ToListSecondarySelectionModel >> enableAll [
 
 	self disabledSelectionModel deselectAll
 ]
 
 { #category : #updating }
-ToListPrimarySelectionModel >> enableIndex: anIndex [
+ToListSecondarySelectionModel >> enableIndex: anIndex [
 
 	self disabledSelectionModel deselectIndex: anIndex
 ]
 
 { #category : #updating }
-ToListPrimarySelectionModel >> hideIndex: anIndex [
+ToListSecondarySelectionModel >> hideIndex: anIndex [
 
 	self hiddenSelectionModel selectIndex: anIndex
 ]
 
 { #category : #updating }
-ToListPrimarySelectionModel >> hideOnlyIndexes: aCollection [
+ToListSecondarySelectionModel >> hideOnlyIndexes: aCollection [
 
 	self hiddenSelectionModel selectOnlyIndexes: aCollection
 ]
 
 { #category : #'api - hooks' }
-ToListPrimarySelectionModel >> onInstalledIn: aListElement [
+ToListSecondarySelectionModel >> onInstalledIn: aListElement [
 
 	super onInstalledIn: aListElement.
-	disabledSelectionModel := aListElement newSelectionModel.
-	disabledSelectionModel onInstalledIn: aListElement.
-	hiddenSelectionModel := aListElement newSelectionModel.
-	hiddenSelectionModel onInstalledIn: aListElement.
-	unselectableSelectionModel := aListElement newSelectionModel.
-	unselectableSelectionModel onInstalledIn: aListElement
-	
+	disabledSelectionModel := aListElement selectionModel disabledSelectionModel.
+	hiddenSelectionModel := aListElement selectionModel hiddenSelectionModel.
+	unselectableSelectionModel := aListElement selectionModel unselectableSelectionModel
 ]
 
 { #category : #updating }
-ToListPrimarySelectionModel >> selectableAll [
+ToListSecondarySelectionModel >> selectableAll [
 
 	self unselectableSelectionModel deselectAll
 ]
 
 { #category : #updating }
-ToListPrimarySelectionModel >> selectableIndex: anIndex [
+ToListSecondarySelectionModel >> selectableIndex: anIndex [
 
 	self unselectableSelectionModel deselectIndex: anIndex
 ]
 
 { #category : #updating }
-ToListPrimarySelectionModel >> unhideAll [
+ToListSecondarySelectionModel >> unhideAll [
 
 	self hiddenSelectionModel deselectAll
 ]
 
 { #category : #updating }
-ToListPrimarySelectionModel >> unhideIndex: anIndex [
+ToListSecondarySelectionModel >> unhideIndex: anIndex [
 
 	self hiddenSelectionModel deselectIndex: anIndex
 ]
 
 { #category : #updating }
-ToListPrimarySelectionModel >> unhideIndexes: aCollection [
+ToListSecondarySelectionModel >> unhideIndexes: aCollection [
 
 	self hiddenSelectionModel deselectIndexes: aCollection
 ]
 
 { #category : #updating }
-ToListPrimarySelectionModel >> unselectableIndex: anIndex [
+ToListSecondarySelectionModel >> unselectableIndex: anIndex [
 
 	self unselectableSelectionModel selectIndex: anIndex
 ]

@@ -57,7 +57,7 @@ ToListElement >> disabledSelecter [
 { #category : #accessing }
 ToListElement >> disabledSelectionModel [
 
-	^ self disabledSelecter selectionModel
+	^ self selectionModel disabledSelectionModel
 ]
 
 { #category : #accessing }
@@ -69,7 +69,7 @@ ToListElement >> hiddenSelecter [
 { #category : #accessing }
 ToListElement >> hiddenSelectionModel [
 
-	^ self hiddenSelecter selectionModel
+	^ self selectionModel hiddenSelectionModel
 ]
 
 { #category : #initialization }
@@ -81,20 +81,26 @@ ToListElement >> infiniteSharedEvents [
 { #category : #initialization }
 ToListElement >> initializeSelectionModel [
 
-
-
 	super initializeSelectionModel.
 	self secondarySelectionModel: self newSecondarySelectionModel.
 	self secondarySelectionMode: self defaultSecondarySelectionMode.
 	self addEventHandler: self defaultSecondarySelectionEventHandler.
-	unselectableSelecter := self installSelecterForEventClass:
-		                        ToListUnselectableSelectionChangedEvent forSelectionModel: self selectionModel unselectableSelectionModel.
-	disabledSelecter := self installSelecterForEventClass:
-		                    ToListDisabledSelectionChangedEvent forSelectionModel: self selectionModel disabledSelectionModel.
-	hiddenSelecter := self installSelecterForEventClass:
-		                  ToListHiddenSelectionChangedEvent forSelectionModel: self selectionModel hiddenSelectionModel.
-
-
+	unselectableSelecter := self
+		                        installSelecterForEventClass:
+		                        ToListUnselectableSelectionChangedEvent
+		                        forSelectionModel:
+		                        self selectionModel
+			                        unselectableSelectionModel.
+	disabledSelecter := self
+		                    installSelecterForEventClass:
+		                    ToListDisabledSelectionChangedEvent
+		                    forSelectionModel:
+		                    self selectionModel disabledSelectionModel.
+	hiddenSelecter := self
+		                  installSelecterForEventClass:
+		                  ToListHiddenSelectionChangedEvent
+		                  forSelectionModel:
+		                  self selectionModel hiddenSelectionModel
 ]
 
 { #category : #initialization }
@@ -174,5 +180,5 @@ ToListElement >> unselectableSelecter [
 { #category : #accessing }
 ToListElement >> unselectableSelectionModel [
 
-	^ self unselectableSelecter selectionModel
+	^ self selectionModel unselectableSelectionModel
 ]

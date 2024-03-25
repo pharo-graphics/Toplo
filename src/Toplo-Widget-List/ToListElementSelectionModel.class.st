@@ -2,7 +2,6 @@ Class {
 	#name : #ToListElementSelectionModel,
 	#superclass : #ToSelectionModel,
 	#instVars : [
-		'listElement',
 		'disabledSelectionModel',
 		'hiddenSelectionModel',
 		'unselectableSelectionModel'
@@ -22,10 +21,28 @@ ToListElementSelectionModel >> copySelectionFrom: anotherSelectionModel [
 		anotherSelectionModel hiddenSelectionModel
 ]
 
+{ #category : #updating }
+ToListElementSelectionModel >> disableIndex: anIndex [
+
+	self disabledSelectionModel selectIndex: anIndex
+]
+
 { #category : #accessing }
 ToListElementSelectionModel >> disabledSelectionModel [
 
 	^ disabledSelectionModel
+]
+
+{ #category : #updating }
+ToListElementSelectionModel >> enableAll [
+
+	self disabledSelectionModel deselectAll
+]
+
+{ #category : #updating }
+ToListElementSelectionModel >> enableIndex: anIndex [
+
+	self disabledSelectionModel deselectIndex: anIndex
 ]
 
 { #category : #testing }
@@ -39,6 +56,18 @@ ToListElementSelectionModel >> hasUnselectableInInterval: anInterval [
 ToListElementSelectionModel >> hiddenSelectionModel [
 
 	^ hiddenSelectionModel
+]
+
+{ #category : #updating }
+ToListElementSelectionModel >> hideIndex: anIndex [
+
+	self hiddenSelectionModel selectIndex: anIndex
+]
+
+{ #category : #updating }
+ToListElementSelectionModel >> hideOnlyIndexes: aCollection [
+
+	self hiddenSelectionModel selectOnlyIndexes: aCollection
 ]
 
 { #category : #testing }
@@ -59,21 +88,6 @@ ToListElementSelectionModel >> nextSelectableIndexStartingAt: anIndex [
 		((self unselectableSelectionModel containsIndex: idx) or: [
 			 self hiddenSelectionModel containsIndex: idx ]) ifFalse: [ ^ idx ] ].
 	^ 0
-]
-
-{ #category : #'api - hooks' }
-ToListElementSelectionModel >> onInstalledIn: aListElement [
-
-	super onInstalledIn: aListElement.
-	listElement := aListElement
-]
-
-{ #category : #'api - hooks' }
-ToListElementSelectionModel >> onUninstalledIn: aListElement [ 
-
-	listElement := nil.
-	super onUninstalledIn: aListElement.
-
 ]
 
 { #category : #accessing }
@@ -106,6 +120,18 @@ ToListElementSelectionModel >> selectIndex: aFirstIndex to: aSecondIndex [
 ]
 
 { #category : #updating }
+ToListElementSelectionModel >> selectableAll [
+
+	self unselectableSelectionModel deselectAll
+]
+
+{ #category : #updating }
+ToListElementSelectionModel >> selectableIndex: anIndex [
+
+	self unselectableSelectionModel deselectIndex: anIndex
+]
+
+{ #category : #updating }
 ToListElementSelectionModel >> shift: aGap from: aStartIndex for: anEventTarget [
 
 	(aGap < 0 and: [ self itemCount >= aStartIndex ]) ifTrue: [
@@ -135,6 +161,30 @@ ToListElementSelectionModel >> transferIndex: anIndex from: anotherPrimarySelect
 	(anotherPrimarySelectionModel hiddenSelectionModel containsIndex: anIndex)
 		ifTrue: [ self hiddenSelectionModel selectIndex: targetIndex ]
 		ifFalse: [ self hiddenSelectionModel deselectIndex: targetIndex ]
+]
+
+{ #category : #updating }
+ToListElementSelectionModel >> unhideAll [
+
+	self hiddenSelectionModel deselectAll
+]
+
+{ #category : #updating }
+ToListElementSelectionModel >> unhideIndex: anIndex [
+
+	self hiddenSelectionModel deselectIndex: anIndex
+]
+
+{ #category : #updating }
+ToListElementSelectionModel >> unhideIndexes: aCollection [
+
+	self hiddenSelectionModel deselectIndexes: aCollection
+]
+
+{ #category : #updating }
+ToListElementSelectionModel >> unselectableIndex: anIndex [
+
+	self unselectableSelectionModel selectIndex: anIndex
 ]
 
 { #category : #accessing }

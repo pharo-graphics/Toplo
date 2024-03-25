@@ -2,10 +2,20 @@ Class {
 	#name : #ToSelectionModelSelecter,
 	#superclass : #ToAbstractSelectionModelSelecter,
 	#instVars : [
-		'operator'
+		'operator',
+		'selectionModel'
 	],
 	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
+
+{ #category : #'instance creation' }
+ToSelectionModelSelecter class >> selectionModel: aSelectionModel operator: anOperator [
+
+	^ self new
+		  selectionModel: aSelectionModel;
+		  operator: anOperator;
+		  yourself
+]
 
 { #category : #adding }
 ToSelectionModelSelecter >> addCommand: aCommand [
@@ -13,10 +23,17 @@ ToSelectionModelSelecter >> addCommand: aCommand [
 	self operator addCommand: aCommand
 ]
 
+{ #category : #adding }
+ToSelectionModelSelecter >> addSelectionCommand: aCommand [
+
+	aCommand selectionModel: selectionModel.
+	self addCommand: aCommand
+]
+
 { #category : #copying }
 ToSelectionModelSelecter >> copySelectionFrom: aSourceSelectionModel [
 
-	self addCommand: (ToSelectionModelCopyFromCommand new
+	self addSelectionCommand: (ToSelectionModelCopyFromCommand new
 			 operator: self operator;
 			 sourceSelectionModel: aSourceSelectionModel;
 			 yourself)
@@ -31,7 +48,7 @@ ToSelectionModelSelecter >> currentIndex [
 { #category : #operations }
 ToSelectionModelSelecter >> deselectAll [
 
-	self addCommand: (ToWholeSelectionCommand new
+	self addSelectionCommand: (ToWholeSelectionCommand new
 			 operator: self operator;
 			 operation: ToRemoveSelectionOperation new;
 			 yourself)
@@ -40,7 +57,7 @@ ToSelectionModelSelecter >> deselectAll [
 { #category : #operations }
 ToSelectionModelSelecter >> deselectIndex: anIndex [
 
-	self addCommand: (ToIntervalSelectionCommand new
+	self addSelectionCommand: (ToIntervalSelectionCommand new
 			 operator: self operator;
 			 from: anIndex to: anIndex;
 			 operation: ToRemoveSelectionOperation new)
@@ -49,7 +66,7 @@ ToSelectionModelSelecter >> deselectIndex: anIndex [
 { #category : #operations }
 ToSelectionModelSelecter >> deselectIndex: aStartIndex to: anEndIndex [
 
-	self addCommand: (ToIntervalSelectionCommand new
+	self addSelectionCommand: (ToIntervalSelectionCommand new
 			 operator: self operator;
 			 from: aStartIndex to: anEndIndex;
 			 operation: ToRemoveSelectionOperation new)
@@ -58,7 +75,7 @@ ToSelectionModelSelecter >> deselectIndex: aStartIndex to: anEndIndex [
 { #category : #operations }
 ToSelectionModelSelecter >> deselectIndexes: anArray [
 
-	self addCommand: (ToIndexesSelectionCommand new
+	self addSelectionCommand: (ToIndexesSelectionCommand new
 			 operator: self operator;
 			 indexes: anArray;
 			 operation: ToRemoveSelectionOperation new)
@@ -67,7 +84,7 @@ ToSelectionModelSelecter >> deselectIndexes: anArray [
 { #category : #accessing }
 ToSelectionModelSelecter >> itemCount [
 
-	^ self selectionModel itemCount
+	^ selectionModel itemCount
 ]
 
 { #category : #private }
@@ -81,11 +98,11 @@ ToSelectionModelSelecter >> nextSelectableIndex [
 
 	self currentIndex isZero
 		ifTrue: [
-			self itemCount isZero ifTrue: [ ^ 0 ].
+			selectionModel itemCount isZero ifTrue: [ ^ 0 ].
 			^ self nextSelectableIndexStartingAt: 1 ]
 		ifFalse: [
 			self currentIndex
-			< (self previousSelectableIndexStartingAt: self itemCount)
+			< (self previousSelectableIndexStartingAt: selectionModel itemCount)
 				ifFalse: [ ^ self nextSelectableIndexStartingAt: 1 ] ].
 	^ self nextSelectableIndexStartingAt: self currentIndex + 1
 ]
@@ -93,7 +110,7 @@ ToSelectionModelSelecter >> nextSelectableIndex [
 { #category : #private }
 ToSelectionModelSelecter >> nextSelectableIndexStartingAt: anIndex [
 
-	^ self selectionModel nextSelectableIndexStartingAt: anIndex
+	^ selectionModel nextSelectableIndexStartingAt: anIndex
 ]
 
 { #category : #private }
@@ -102,25 +119,12 @@ ToSelectionModelSelecter >> nextSelectableIndexToScrollTo [
 	| next |
 	next := self nextSelectableIndex.
 	" not on the last selectable position -> just return the next index else, return 1 or 0"
-	^ self currentIndex < (self previousSelectableIndexStartingAt: self selectionModel itemCount)
+	^ self currentIndex < (self previousSelectableIndexStartingAt: selectionModel itemCount)
 		  ifTrue: [ next ]
 		  ifFalse: [
-			  self selectionModel itemCount > 0
+			  selectionModel itemCount > 0
 				  ifTrue: [ 1 ]
 				  ifFalse: [ 0 ] ]
-]
-
-{ #category : #'api - hooks' }
-ToSelectionModelSelecter >> onInstalledIn: anEventTarget [
-
-	super onInstalledIn: anEventTarget
-]
-
-{ #category : #'api - hooks' }
-ToSelectionModelSelecter >> onUninstalledIn: anEventTarget [
-
-	super onUninstalledIn: anEventTarget.
-	operator := nil
 ]
 
 { #category : #accessing }
@@ -146,17 +150,17 @@ ToSelectionModelSelecter >> previousSelectableIndex [
 
 	self currentIndex isZero
 		ifTrue: [
-			self itemCount isZero ifTrue: [ ^ 0 ].
-			^ self previousSelectableIndexStartingAt: self itemCount ]
+			selectionModel itemCount isZero ifTrue: [ ^ 0 ].
+			^ self previousSelectableIndexStartingAt: selectionModel itemCount ]
 		ifFalse: [ self currentIndex > (self nextSelectableIndexStartingAt: 1) 
-			ifFalse: [ ^ self previousSelectableIndexStartingAt: self itemCount ] ].
+			ifFalse: [ ^ self previousSelectableIndexStartingAt: selectionModel itemCount ] ].
 	^ self previousSelectableIndexStartingAt: self currentIndex - 1
 ]
 
 { #category : #private }
 ToSelectionModelSelecter >> previousSelectableIndexStartingAt: anIndex [
 
-	^ self selectionModel previousSelectableIndexStartingAt: anIndex
+	^ selectionModel previousSelectableIndexStartingAt: anIndex
 ]
 
 { #category : #private }
@@ -167,17 +171,14 @@ ToSelectionModelSelecter >> previousSelectableIndexToScrollTo [
 	" not exactly on the first selectable position -> just return the previous index else, return self itemCount or 0"
 	^ self currentIndex > (self nextSelectableIndexStartingAt: 1)
 		  ifTrue: [ prev ]
-		  ifFalse: [
-			  self selectionModel itemCount > 0
-				  ifTrue: [ self selectionModel itemCount ]
-				  ifFalse: [ 0 ] ]
+		  ifFalse: [ selectionModel itemCount max: 0 ]
 ]
 
 { #category : #operations }
 ToSelectionModelSelecter >> scrollToIndex: anIndex [
 
-	self itemCount >= anIndex ifTrue: [
-		self addCommand: (ToListScrollCommand new
+	selectionModel itemCount >= anIndex ifTrue: [
+		self addSelectionCommand: (ToListScrollCommand new
 				 operator: self operator;
 				 index: anIndex;
 				 yourself) ]
@@ -186,7 +187,7 @@ ToSelectionModelSelecter >> scrollToIndex: anIndex [
 { #category : #operations }
 ToSelectionModelSelecter >> selectIndex: anIndex [
 
-	self addCommand: (ToIntervalSelectionCommand new
+	self addSelectionCommand: (ToIntervalSelectionCommand new
 			 operator: self operator;
 			 from: anIndex to: anIndex;
 			 operation: ToAddSelectionOperation new)
@@ -195,9 +196,9 @@ ToSelectionModelSelecter >> selectIndex: anIndex [
 { #category : #operations }
 ToSelectionModelSelecter >> selectOnlyIndex: anIndex [
 
-	(self selectionModel selectedIndexesCount = 1 and: [
-		 self selectionModel firstIndex = anIndex ]) ifTrue: [ ^ self ].
-	self addCommand: (ToIntervalSelectionCommand new
+	(selectionModel selectedIndexesCount = 1 and: [
+		 selectionModel firstIndex = anIndex ]) ifTrue: [ ^ self ].
+	self addSelectionCommand: (ToIntervalSelectionCommand new
 			 operator: self operator;
 			 from: anIndex to: anIndex;
 			 operation: (ToAddSelectionOperation new
@@ -209,11 +210,11 @@ ToSelectionModelSelecter >> selectOnlyIndex: anIndex [
 ToSelectionModelSelecter >> selectOnlyIndexes: anArray [
 
 	anArray ifEmpty: [
-		self addCommand: (ToWholeSelectionCommand new
+		self addSelectionCommand: (ToWholeSelectionCommand new
 				 operator: self operator;
 				 operation: ToRemoveSelectionOperation new).
 		^ self ].
-	self addCommand: (ToIndexesSelectionCommand new
+	self addSelectionCommand: (ToIndexesSelectionCommand new
 			 operator: self operator;
 			 indexes: anArray;
 			 operation: (ToAddSelectionOperation new
@@ -224,19 +225,19 @@ ToSelectionModelSelecter >> selectOnlyIndexes: anArray [
 { #category : #accessing }
 ToSelectionModelSelecter >> selectedIndexes [
 
-	^ self selectionModel selectedIndexes
+	^ selectionModel selectedIndexes
 ]
 
 { #category : #accessing }
-ToSelectionModelSelecter >> selectionModel [
+ToSelectionModelSelecter >> selectionModel: aSelectionModel [
 
-	^ self operator selectionModel
+	selectionModel := aSelectionModel
 ]
 
 { #category : #operations }
 ToSelectionModelSelecter >> shiftSelection: anInteger from: anIndex [
 
-	self addCommand: (ToSelectionModelShiftCommand new
+	self addSelectionCommand: (ToSelectionModelShiftCommand new
 			 operator: self operator;
 			 itemCount: anInteger;
 			 fromIndex: anIndex;
@@ -246,5 +247,5 @@ ToSelectionModelSelecter >> shiftSelection: anInteger from: anIndex [
 { #category : #private }
 ToSelectionModelSelecter >> sideIdx: aGap [
 
-	^ self selectionModel sideIdx: aGap startingAt: self currentIndex
+	^ selectionModel sideIdx: aGap startingAt: self currentIndex
 ]

@@ -7,7 +7,7 @@ Class {
 { #category : #operations }
 ToMultiSelectionModelSelecter >> selectAll [
 
-	self addCommand: (ToWholeSelectionCommand new
+	self addSelectionCommand: (ToWholeSelectionCommand new
 			 operator: self operator;
 			 operation: ToAddSelectionOperation new;
 			 yourself)
@@ -16,7 +16,7 @@ ToMultiSelectionModelSelecter >> selectAll [
 { #category : #operations }
 ToMultiSelectionModelSelecter >> selectIndex: aStartIndex to: anEndIndex [
 
-	self addCommand: (ToIntervalSelectionCommand new
+	self addSelectionCommand: (ToIntervalSelectionCommand new
 			 operator: self operator;
 			 from: aStartIndex to: anEndIndex;
 			 operation: ToAddSelectionOperation new)
@@ -25,7 +25,7 @@ ToMultiSelectionModelSelecter >> selectIndex: aStartIndex to: anEndIndex [
 { #category : #operations }
 ToMultiSelectionModelSelecter >> selectIndexes: anArray [
 
-	self addCommand: (ToIndexesSelectionCommand new
+	self addSelectionCommand: (ToIndexesSelectionCommand new
 			 operator: self operator;
 			 indexes: anArray;
 			 operation: ToAddSelectionOperation new)

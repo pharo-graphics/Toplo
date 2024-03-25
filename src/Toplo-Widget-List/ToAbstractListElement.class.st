@@ -131,9 +131,10 @@ ToAbstractListElement >> defaultNodeReleaser [
 { #category : #initialization }
 ToAbstractListElement >> defaultSelectionMode [
 
-	^ ToListMultipleSelectionMode new operator:
-		  (ToPrimarySelectionModelOperator new selectionModel:
-			   self selectionModel)
+	^ ToListMultipleSelectionMode new
+		  operator: ToPrimarySelectionModelOperator new;
+		  selectionModel: self selectionModel;
+		  yourself
 ]
 
 { #category : #orientation }

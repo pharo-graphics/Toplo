@@ -13,7 +13,7 @@ ToSingleSelectionModelSelecter >> selectAll [
 { #category : #operations }
 ToSingleSelectionModelSelecter >> selectIndex: anIndex [
 
-	self addCommand: (ToIntervalSelectionCommand new
+	self addSelectionCommand: (ToIntervalSelectionCommand new
 			 operator: self operator;
 			 from: anIndex to: anIndex;
 			 operation: (ToAddSelectionOperation new

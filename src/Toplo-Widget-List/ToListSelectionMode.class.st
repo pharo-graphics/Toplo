@@ -25,8 +25,7 @@ ToListSelectionMode >> onClickEvent: anEvent onNode: aNode [
 ToListSelectionMode >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	operator onInstalledIn: anElement.
-	selecter operator: operator
+	operator onInstalledIn: anElement
 ]
 
 { #category : #'api - hooks' }

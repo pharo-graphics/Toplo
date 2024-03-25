@@ -69,7 +69,6 @@ ToSelectionModelHolderForTest >> initialize [
 	self addEventHandler: ToElementCommandEventHandler new.
 	operator := ToPrimarySelectionModelOperator new.
 	operator onInstalledIn: self.
-	operator selectionModel: self selectionModel.
 	self addEventHandler: (BlEventHandler
 			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :event | self successfulCommand: true ]).
@@ -91,17 +90,15 @@ ToSelectionModelHolderForTest >> layoutCritical: aBlock [
 { #category : #accessing }
 ToSelectionModelHolderForTest >> multiSelectionSelecter [
 
-	selecter := ToMultiSelectionModelSelecter new.
-	selecter onInstalledIn: self.
-	selecter operator: operator.
-	^ selecter
+	^ ToMultiSelectionModelSelecter
+		  selectionModel: self selectionModel
+		  operator: operator
 ]
 
 { #category : #accessing }
 ToSelectionModelHolderForTest >> noneSelectionSelecter [
 
 	selecter := ToNoneSelectionModelSelecter new.
-	selecter onInstalledIn: self.
 	^ selecter
 ]
 
@@ -120,11 +117,10 @@ ToSelectionModelHolderForTest >> notifyUnselectableSelectionChanged: anEvent [
 { #category : #accessing }
 ToSelectionModelHolderForTest >> operator [
 
-	| operator |
-	operator := ToPrimarySelectionModelOperator new.
-	operator onInstalledIn: self.
-	operator selectionModel: self selectionModel.
-	^ operator
+	| op |
+	op := ToPrimarySelectionModelOperator new.
+	op onInstalledIn: self.
+	^ op
 ]
 
 { #category : #accessing }
@@ -154,10 +150,9 @@ ToSelectionModelHolderForTest >> selectionModel [
 { #category : #accessing }
 ToSelectionModelHolderForTest >> singleSelectionSelecter [
 
-	selecter := ToSingleSelectionModelSelecter new.
-	selecter onInstalledIn: self.
-	selecter operator: operator.
-	^ selecter
+	^ ToSingleSelectionModelSelecter
+		  selectionModel: self selectionModel
+		  operator: operator
 ]
 
 { #category : #accessing }

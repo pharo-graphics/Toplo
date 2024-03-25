@@ -43,9 +43,10 @@ ToListElement >> defaultSecondarySelectionEventHandler [
 { #category : #initialization }
 ToListElement >> defaultSecondarySelectionMode [
 
-	^ ToListMultipleSelectionMode new operator:
-		  (ToSecondarySelectionModelOperator new selectionModel:
-			   self secondarySelectionModel)
+	^ ToListMultipleSelectionMode new
+		  operator: ToSecondarySelectionModelOperator new;
+		  selectionModel: self secondarySelectionModel;
+		  yourself
 ]
 
 { #category : #accessing }
@@ -106,16 +107,13 @@ ToListElement >> initializeSelectionModel [
 { #category : #initialization }
 ToListElement >> installSelecterForEventClass: anEventClass forSelectionModel: aSelectionModel [
 
-	| newSelecter operator |
-	operator := ToAdditionalSelectionModelOperator eventClass:
-		            anEventClass.
-	newSelecter := ToMultiSelectionModelSelecter new.
-	operator selectionModel: aSelectionModel.
+	| operator |
+	operator := ToAdditionalSelectionModelOperator eventClass: anEventClass.
 	operator onInstalledIn: self.
-	newSelecter operator: operator.
-	newSelecter onInstalledIn: self.
 
-	^ newSelecter
+	^ ToMultiSelectionModelSelecter
+		  selectionModel: aSelectionModel
+		  operator: operator
 ]
 
 { #category : #'instance creation' }

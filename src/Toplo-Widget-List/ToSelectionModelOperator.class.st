@@ -1,9 +1,6 @@
 Class {
 	#name : #ToSelectionModelOperator,
 	#superclass : #ToCommandOperator,
-	#instVars : [
-		'selectionModel'
-	],
 	#category : #'Toplo-Widget-List-Command-Selection'
 }
 
@@ -13,33 +10,33 @@ ToSelectionModelOperator >> addIndexesSelectionCommand: aCommand [
 	| intervals |
 	aCommand indexes ifEmpty: [ ^ self ].
 	aCommand operation deselectAllBefore ifTrue: [
-		self selectionModel deselectAll ].
+		aCommand selectionModel deselectAll ].
 	intervals := self intervalsIn: aCommand indexes.
 	intervals do: [ :i |
-		self selectionModel selectIndex: i first to: i last ]
+		aCommand selectionModel selectIndex: i first to: i last ]
 ]
 
 { #category : #'command operations' }
 ToSelectionModelOperator >> addIntervalSelectionCommand: aCommand [
 
 	aCommand operation deselectAllBefore ifTrue: [
-		self selectionModel deselectAll ].
-	self selectionModel selectIndex: aCommand from to: aCommand to
+		aCommand selectionModel deselectAll ].
+	aCommand selectionModel selectIndex: aCommand from to: aCommand to
 ]
 
 { #category : #'command operations' }
 ToSelectionModelOperator >> addWholeSelectionCommand: aCommand [
 
-	self selectionModel selectAll
+	aCommand selectionModel selectAll
 ]
 
 { #category : #'command application' }
 ToSelectionModelOperator >> applyCommand: aCommand in: aTarget [
 
 	| previousModel |
-	previousModel := self selectionModel copy.
+	previousModel := aCommand selectionModel copy.
 	super applyCommand: aCommand in: aTarget.
-	aCommand selectionChanged: previousModel ~= self selectionModel.
+	aCommand selectionChanged: previousModel ~= aCommand selectionModel.
 	self notifySelectionChangedAfter: aCommand in: aTarget
 ]
 
@@ -71,12 +68,6 @@ ToSelectionModelOperator >> intervalsIn: aCollection [
 		  g ifNotNil: [ stream nextPut: g ] ]
 ]
 
-{ #category : #accessing }
-ToSelectionModelOperator >> itemCount [
-
-	^ self selectionModel itemCount
-]
-
 { #category : #'private command application' }
 ToSelectionModelOperator >> notifySelectionChangedAfter: aCommand in: aTarget [
 
@@ -89,49 +80,37 @@ ToSelectionModelOperator >> removeIndexesSelectionCommand: aCommand [
 	| intervals |
 	aCommand indexes ifEmpty: [ ^ self ].
 	intervals := self intervalsIn: aCommand indexes.
-	intervals do: [ :i | self selectionModel deselectIndex: i first to: i last ]
+	intervals do: [ :i | aCommand selectionModel deselectIndex: i first to: i last ]
 ]
 
 { #category : #'command operations' }
 ToSelectionModelOperator >> removeIntervalSelectionCommand: aCommand [
 
-	self selectionModel deselectIndex: aCommand from to: aCommand to
+	aCommand selectionModel deselectIndex: aCommand from to: aCommand to
 ]
 
 { #category : #'command operations' }
 ToSelectionModelOperator >> removeWholeSelectionCommand: aCommand [
 
-	self selectionModel deselectAll
-]
-
-{ #category : #accessing }
-ToSelectionModelOperator >> selectionModel [
-
-	^ selectionModel
-]
-
-{ #category : #accessing }
-ToSelectionModelOperator >> selectionModel: aSelectionModel [
-
-	selectionModel := aSelectionModel
+	aCommand selectionModel deselectAll
 ]
 
 { #category : #'command operations' }
 ToSelectionModelOperator >> selectionModelCopyFromCommand: aCopyFromCommand in: aTarget [
 
-	self selectionModel copySelectionFrom:  aCopyFromCommand sourceSelectionModel
+	aCopyFromCommand selectionModel copySelectionFrom:  aCopyFromCommand sourceSelectionModel
 ]
 
 { #category : #'command operations' }
 ToSelectionModelOperator >> selectionModelShiftCommand: aShiftCommand in: aEventTarget [
 
-	self selectionModel shift: aShiftCommand itemCount from: aShiftCommand fromIndex.
+	aShiftCommand selectionModel shift: aShiftCommand itemCount from: aShiftCommand fromIndex.
 	" Must take car of unselectable items: "
 	" for adding items, no need to notify change because it is already done here but when
 	when removing items (itemCount < 0) one have to notify change to the datasource 
 	to correctly update the UI"
 	aShiftCommand itemCount > 0 ifTrue: [ ^ self ].
-	aShiftCommand fromIndex <= self selectionModel itemCount ifTrue: [
+	aShiftCommand fromIndex <= aShiftCommand selectionModel itemCount ifTrue: [
 		"aEventTarget dataSource notifyChanged" ]
 
 ]

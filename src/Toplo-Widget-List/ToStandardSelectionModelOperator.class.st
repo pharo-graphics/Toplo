@@ -28,7 +28,7 @@ ToStandardSelectionModelOperator >> addIntervalSelectionCommand: aCommand [
 ToStandardSelectionModelOperator >> addWholeSelectionCommand: aCommand [
 
 	super addWholeSelectionCommand: aCommand.
-	self changeCurrentIndexWith: self selectionModel itemCount
+	self changeCurrentIndexWith: aCommand selectionModel itemCount
 ]
 
 { #category : #accessing }

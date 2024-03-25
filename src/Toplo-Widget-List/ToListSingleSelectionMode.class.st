@@ -19,9 +19,11 @@ ToListSingleSelectionMode >> isMultipleSelection [
 ]
 
 { #category : #'instance creation' }
-ToListSingleSelectionMode >> newSelecterIn: anElement [
+ToListSingleSelectionMode >> newSelecter [
 
-	^ ToSingleSelectionModelSelecter new 
+	^ ToSingleSelectionModelSelecter
+		  selectionModel: self selectionModel
+		  operator: self operator
 ]
 
 { #category : #accessing }

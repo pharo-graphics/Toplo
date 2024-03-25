@@ -52,14 +52,6 @@ ToAbstractSelectionModelSelecter >> nextSelectableIndex [
 	^ self subclassResponsibility 
 ]
 
-{ #category : #'api - hooks' }
-ToAbstractSelectionModelSelecter >> onInstalledIn: anEventTarget [
-]
-
-{ #category : #'api - hooks' }
-ToAbstractSelectionModelSelecter >> onUninstalledIn: anEventTarget [
-]
-
 { #category : #accessing }
 ToAbstractSelectionModelSelecter >> operateSilently [
 

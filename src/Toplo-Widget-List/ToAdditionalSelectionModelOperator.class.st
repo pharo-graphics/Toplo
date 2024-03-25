@@ -31,6 +31,6 @@ ToAdditionalSelectionModelOperator >> notifySelectionChangedAfter: aCommand in: 
 	aCommand selectionChanged ifFalse: [ ^ self ].
 
 	aTarget dispatchEvent: (self eventClass new
-			 selectionModel: self selectionModel;
+			 selectionModel: aCommand selectionModel;
 			 yourself)
 ]

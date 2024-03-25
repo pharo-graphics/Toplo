@@ -11,7 +11,7 @@ ToListNoneSelectionMode >> isMultipleSelection [
 ]
 
 { #category : #'instance creation' }
-ToListNoneSelectionMode >> newSelecterIn: anElement [
+ToListNoneSelectionMode >> newSelecter [
 
 	^ ToNoneSelectionModelSelecter new 
 ]

@@ -38,7 +38,7 @@ ToListAbstractSelectionMode >> itemCount [
 ]
 
 { #category : #'instance creation' }
-ToListAbstractSelectionMode >> newSelecterIn: anElement [
+ToListAbstractSelectionMode >> newSelecter [
 
 	self subclassResponsibility 
 ]
@@ -64,10 +64,6 @@ ToListAbstractSelectionMode >> onClickEvent: anEvent onNode: aNode [
 
 { #category : #'api - hooks' }
 ToListAbstractSelectionMode >> onInstalledIn: anElement [
-
-	self selectionModel: anElement selectionModel.
-	selecter := self newSelecterIn: anElement.
-	selecter onInstalledIn: anElement
 ]
 
 { #category : #accessing }
@@ -82,7 +78,6 @@ ToListAbstractSelectionMode >> onRemovedNode: aNode [
 { #category : #'api - hooks' }
 ToListAbstractSelectionMode >> onUninstalledIn: anElement [
 
-	selecter onUninstalledIn: anElement.
 	selecter := nil.
 	self selectionModel: nil
 ]
@@ -126,7 +121,7 @@ ToListAbstractSelectionMode >> selectedIndexesCount [
 { #category : #accessing }
 ToListAbstractSelectionMode >> selecter [
 
-	^ selecter 
+	^ selecter ifNil: [ selecter := self newSelecter ]
 ]
 
 { #category : #accessing }

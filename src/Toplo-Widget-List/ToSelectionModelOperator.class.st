@@ -43,6 +43,10 @@ ToSelectionModelOperator >> applyCommand: aCommand in: aTarget [
 	self notifySelectionChangedAfter: aCommand in: aTarget
 ]
 
+{ #category : #accessing }
+ToSelectionModelOperator >> currentIndex: anIndex [
+]
+
 { #category : #private }
 ToSelectionModelOperator >> intervalsIn: aCollection [
 	" return an array of intervals #( 2 3 4 6 7 8 ) -> { 2 to: 4. 6 to: 8 } "

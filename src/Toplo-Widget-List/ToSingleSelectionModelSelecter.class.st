@@ -18,8 +18,7 @@ ToSingleSelectionModelSelecter >> selectIndex: anIndex [
 			 from: anIndex to: anIndex;
 			 operation: (ToAddSelectionOperation new
 					  deselectAllBefore: true;
-					  yourself)).
-	self changeCurrentIndexWith: anIndex
+					  yourself))
 ]
 
 { #category : #operations }

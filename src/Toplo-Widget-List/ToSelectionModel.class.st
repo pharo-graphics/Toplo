@@ -3,8 +3,7 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'underlyingModel',
-		'itemCountGetter',
-		'monitor'
+		'itemCountGetter'
 	],
 	#category : #'Toplo-Widget-List-Selection-Model'
 }
@@ -95,8 +94,7 @@ ToSelectionModel >> ifNotEmpty: aBlock [
 ToSelectionModel >> initialize [
 
 	super initialize.
-	underlyingModel := BlCompositeSelection new.
-	monitor := Monitor new.
+	underlyingModel := BlCompositeSelection new
 ]
 
 { #category : #testing }
@@ -169,8 +167,7 @@ ToSelectionModel >> onUninstalledIn: anElement [
 ToSelectionModel >> postCopy [ 
 
 	super postCopy.
-	self underlyingModelDo: [ :ulm | underlyingModel := ulm copy ].
-	monitor := Monitor new.
+	self underlyingModelDo: [ :ulm | underlyingModel := ulm copy ]
 ]
 
 { #category : #accessing }
@@ -354,5 +351,5 @@ ToSelectionModel >> underlyingModel [
 { #category : #updating }
 ToSelectionModel >> underlyingModelDo: aBlock [
 
-	"monitor critical: [" aBlock value: underlyingModel "]"
+	aBlock value: underlyingModel
 ]

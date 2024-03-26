@@ -137,13 +137,12 @@ ToListSelectionMode >> multiple: aBoolean [
 { #category : #'instance creation' }
 ToListSelectionMode >> newSelecter [
 
-	| selecterCls |
-	selecterCls := self isDisabled
-		               ifTrue: [ ToNoneSelectionModelSelecter ]
-		               ifFalse: [ ToSelectionModelSelecter ].
-	^ (selecterCls
-		   selectionModel: self selectionModel
-		   operator: self operator) multiple: self isMultipleSelection
+	^ self isDisabled
+		  ifTrue: [ ToNoneSelectionModelSelecter new ]
+		  ifFalse: [
+			  (ToPredefinedSelectionModelSelecter
+				   selectionModel: self selectionModel
+				   operator: self operator) multiple: self isMultipleSelection ]
 ]
 
 { #category : #accessing }

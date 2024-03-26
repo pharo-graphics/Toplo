@@ -1,85 +1,121 @@
 Class {
 	#name : #ToListElementSelectionModel,
 	#superclass : #ToSelectionModel,
-	#instVars : [
-		'disabledSelectionModel',
-		'hiddenSelectionModel',
-		'unselectableSelectionModel'
-	],
 	#category : #'Toplo-Widget-List-Selection-Model'
 }
+
+{ #category : #accessing }
+ToListElementSelectionModel >> additionalSelectionModels [
+
+	^ self subclassResponsibility 
+]
 
 { #category : #copying }
 ToListElementSelectionModel >> copySelectionFrom: anotherSelectionModel [
 
 	super copySelectionFrom: anotherSelectionModel.
-	self unselectableSelectionModel copySelectionFrom:
-		anotherSelectionModel unselectableSelectionModel.
-	self disabledSelectionModel copySelectionFrom:
-		anotherSelectionModel disabledSelectionModel.
-	self hiddenSelectionModel copySelectionFrom:
-		anotherSelectionModel hiddenSelectionModel
+	self unselectableSelectionModelDo: [ :sm |
+		sm copySelectionFrom:
+			anotherSelectionModel unselectableSelectionModel ].
+	self disabledSelectionModelDo: [ :sm |
+		sm copySelectionFrom: anotherSelectionModel disabledSelectionModel ].
+	self hiddenSelectionModelDo: [ :sm |
+		sm copySelectionFrom: anotherSelectionModel hiddenSelectionModel ]
 ]
 
 { #category : #updating }
 ToListElementSelectionModel >> disableIndex: anIndex [
 
-	self disabledSelectionModel selectIndex: anIndex
+	self disabledSelectionModelDo: [ :sm | sm selectIndex: anIndex ]
 ]
 
 { #category : #accessing }
 ToListElementSelectionModel >> disabledSelectionModel [
 
-	^ disabledSelectionModel
+	^ self subclassResponsibility 
+]
+
+{ #category : #accessing }
+ToListElementSelectionModel >> disabledSelectionModelDo: aBlock [
+
+	self disabledSelectionModel ifNil: [ ^ self ].
+	aBlock value: self disabledSelectionModel
 ]
 
 { #category : #updating }
 ToListElementSelectionModel >> enableAll [
 
-	self disabledSelectionModel deselectAll
+	self disabledSelectionModelDo: [ :sm | sm deselectAll ]
 ]
 
 { #category : #updating }
 ToListElementSelectionModel >> enableIndex: anIndex [
 
-	self disabledSelectionModel deselectIndex: anIndex
+	self disabledSelectionModelDo: [ :sm | sm deselectIndex: anIndex ]
 ]
 
 { #category : #testing }
 ToListElementSelectionModel >> hasUnselectableInInterval: anInterval [
 
-	^ anInterval anySatisfy: [ :idx | self unselectableSelectionModel containsIndex: idx ]
-
+	self unselectableSelectionModelDo: [ :sm |
+		^ anInterval anySatisfy: [ :idx | sm containsIndex: idx ] ].
+	^ super hasUnselectableInInterval: anInterval
 ]
 
 { #category : #accessing }
 ToListElementSelectionModel >> hiddenSelectionModel [
 
-	^ hiddenSelectionModel
+	^ self subclassResponsibility 
+]
+
+{ #category : #accessing }
+ToListElementSelectionModel >> hiddenSelectionModelDo: aBlock [
+
+	self hiddenSelectionModel ifNil: [ ^ self ].
+	aBlock value: self hiddenSelectionModel
 ]
 
 { #category : #updating }
 ToListElementSelectionModel >> hideIndex: anIndex [
 
-	self hiddenSelectionModel selectIndex: anIndex
+	self hiddenSelectionModelDo: [ :sm | sm selectIndex: anIndex ]
 ]
 
 { #category : #updating }
 ToListElementSelectionModel >> hideOnlyIndexes: aCollection [
 
-	self hiddenSelectionModel selectOnlyIndexes: aCollection
+	self hiddenSelectionModelDo: [ :sm | sm selectOnlyIndexes: aCollection ]
+]
+
+{ #category : #testing }
+ToListElementSelectionModel >> isDisabledIndex: anIndex [
+
+	self disabledSelectionModelDo: [ :sm | ^ sm containsIndex: anIndex ].
+	^ super isDisabledIndex: anIndex
+]
+
+{ #category : #testing }
+ToListElementSelectionModel >> isHiddenIndex: anIndex [
+
+	self hiddenSelectionModelDo: [ :sm | ^ sm containsIndex: anIndex ].
+	^ super isHiddenIndex: anIndex
 ]
 
 { #category : #testing }
 ToListElementSelectionModel >> isUnselectableIndex: anIndex [
 
-	^ (self unselectableSelectionModel containsIndex: anIndex) or: [
-		  self hiddenSelectionModel containsIndex: anIndex ]
+	self unselectableSelectionModelDo: [ :sm |
+		^ (sm containsIndex: anIndex) or: [ self isHiddenIndex: anIndex ] ].
+	^ super isUnselectableIndex: anIndex
 ]
 
 { #category : #accessing }
 ToListElementSelectionModel >> nextSelectableIndexStartingAt: anIndex [
 
+	(self unselectableSelectionModel isNil or: [
+		 self hiddenSelectionModel isNil ]) ifTrue: [
+		^ super nextSelectableIndexStartingAt: anIndex ].
+	
 	(self unselectableSelectionModel isEmpty and: [
 		 self hiddenSelectionModel isEmpty ]) ifTrue: [
 		^ super nextSelectableIndexStartingAt: anIndex ].
@@ -91,7 +127,19 @@ ToListElementSelectionModel >> nextSelectableIndexStartingAt: anIndex [
 ]
 
 { #category : #accessing }
+ToListElementSelectionModel >> otherSelectionModels [
+
+	^ Array streamContents: [ :stream |
+		  stream nextPutAll: self standardAdditionalSelectionModels.
+		  stream nextPutAll: self additionalSelectionModels ]
+]
+
+{ #category : #accessing }
 ToListElementSelectionModel >> previousSelectableIndexStartingAt: anIndex [
+
+	(self unselectableSelectionModel isNil or: [
+		 self hiddenSelectionModel isNil ]) ifTrue: [
+		^ super previousSelectableIndexStartingAt: anIndex ].
 
 	(self unselectableSelectionModel isEmpty and: [
 		 self hiddenSelectionModel isEmpty ]) ifTrue: [
@@ -106,29 +154,30 @@ ToListElementSelectionModel >> previousSelectableIndexStartingAt: anIndex [
 { #category : #updating }
 ToListElementSelectionModel >> selectIndex: anIndex [
 
-	(self unselectableSelectionModel containsIndex: anIndex) ifTrue: [ ^ self ].
+	self unselectableSelectionModelDo: [ :sm | (sm containsIndex: anIndex) ifTrue: [ ^ self ] ].
 	super selectIndex: anIndex
 ]
 
 { #category : #updating }
 ToListElementSelectionModel >> selectIndex: aFirstIndex to: aSecondIndex [
 
+	self flag: 'To be optimized'.
 	super selectIndex: aFirstIndex to: aSecondIndex.
-	aFirstIndex to: aSecondIndex do: [ :idx |
-		(self unselectableSelectionModel containsIndex: idx) ifTrue: [
-			self deselectIndex: idx ] ]
+	self unselectableSelectionModelDo: [ :sm |
+		aFirstIndex to: aSecondIndex do: [ :idx |
+		(sm containsIndex: idx) ifTrue: [ self deselectIndex: idx ] ] ]
 ]
 
 { #category : #updating }
 ToListElementSelectionModel >> selectableAll [
 
-	self unselectableSelectionModel deselectAll
+	self unselectableSelectionModelDo: [ :sm | sm deselectAll ]
 ]
 
 { #category : #updating }
 ToListElementSelectionModel >> selectableIndex: anIndex [
 
-	self unselectableSelectionModel deselectIndex: anIndex
+	self unselectableSelectionModelDo: [ :sm | sm deselectIndex: anIndex ]
 ]
 
 { #category : #updating }
@@ -137,58 +186,71 @@ ToListElementSelectionModel >> shift: aGap from: aStartIndex for: anEventTarget 
 	(aGap < 0 and: [ self itemCount >= aStartIndex ]) ifTrue: [
 		| count |
 		count := aGap abs.
-		"self disabledSelectionModel
-			deselectIndex: aStartIndex
-			to: aStartIndex + count - 1."
 		self deselectIndex: aStartIndex to: aStartIndex + count - 1 ].
-	self unselectableSelectionModel shift: aGap from: aStartIndex.
-	self disabledSelectionModel shift: aGap from: aStartIndex.
+	self otherSelectionModels do: [ :sm |
+		sm shift: aGap from: aStartIndex ].
 
 	" ** super send after **"
 	super shift: aGap from: aStartIndex for: anEventTarget
+]
+
+{ #category : #accessing }
+ToListElementSelectionModel >> standardAdditionalSelectionModels [
+
+	^ {
+		  self disabledSelectionModel.
+		  self hiddenSelectionModel.
+		  self unselectableSelectionModel } select: [ :sm | sm notNil ]
 ]
 
 { #category : #updating }
 ToListElementSelectionModel >> transferIndex: anIndex from: anotherPrimarySelectionModel as: targetIndex [
 
 	super transferIndex: anIndex from: anotherPrimarySelectionModel as: targetIndex.
-	(anotherPrimarySelectionModel disabledSelectionModel containsIndex: anIndex)
-		ifTrue: [ self disabledSelectionModel selectIndex: targetIndex ]
-		ifFalse: [ self disabledSelectionModel deselectIndex: targetIndex ].
-	(anotherPrimarySelectionModel unselectableSelectionModel containsIndex: anIndex)
-		ifTrue: [ self unselectableSelectionModel selectIndex: targetIndex ]
-		ifFalse: [ self unselectableSelectionModel deselectIndex: targetIndex ].
-	(anotherPrimarySelectionModel hiddenSelectionModel containsIndex: anIndex)
-		ifTrue: [ self hiddenSelectionModel selectIndex: targetIndex ]
-		ifFalse: [ self hiddenSelectionModel deselectIndex: targetIndex ]
+	anotherPrimarySelectionModel disabledSelectionModelDo: [ :sm | (sm containsIndex: anIndex)
+		ifTrue: [ self disabledSelectionModelDo: [ :osm | osm selectIndex: targetIndex ] ]
+		ifFalse: [ self disabledSelectionModelDo: [ :osm | osm  deselectIndex: targetIndex ] ] ].
+	anotherPrimarySelectionModel unselectableSelectionModelDo: [ :sm | (sm containsIndex: anIndex)
+		ifTrue: [ self unselectableSelectionModelDo: [ :osm | osm selectIndex: targetIndex ] ]
+		ifFalse: [ self unselectableSelectionModelDo: [ :osm | osm  deselectIndex: targetIndex ] ] ].
+	anotherPrimarySelectionModel hiddenSelectionModelDo: [ :sm | (sm containsIndex: anIndex)
+		ifTrue: [ self hiddenSelectionModelDo: [ :osm | osm selectIndex: targetIndex ] ]
+		ifFalse: [ self hiddenSelectionModelDo: [ :osm | osm  deselectIndex: targetIndex ] ] ]
 ]
 
 { #category : #updating }
 ToListElementSelectionModel >> unhideAll [
 
-	self hiddenSelectionModel deselectAll
+	self hiddenSelectionModelDo: [ :sm | sm deselectAll ]
 ]
 
 { #category : #updating }
 ToListElementSelectionModel >> unhideIndex: anIndex [
 
-	self hiddenSelectionModel deselectIndex: anIndex
+	self hiddenSelectionModelDo: [ :sm | sm deselectIndex: anIndex ]
 ]
 
 { #category : #updating }
 ToListElementSelectionModel >> unhideIndexes: aCollection [
 
-	self hiddenSelectionModel deselectIndexes: aCollection
+	self hiddenSelectionModelDo: [ :sm | sm deselectIndexes: aCollection ]
 ]
 
 { #category : #updating }
 ToListElementSelectionModel >> unselectableIndex: anIndex [
 
-	self unselectableSelectionModel selectIndex: anIndex
+	self unselectableSelectionModelDo: [ :sm | sm selectIndex: anIndex ]
 ]
 
 { #category : #accessing }
 ToListElementSelectionModel >> unselectableSelectionModel [
 
-	^ unselectableSelectionModel
+	^ self subclassResponsibility 
+]
+
+{ #category : #accessing }
+ToListElementSelectionModel >> unselectableSelectionModelDo: aBlock [
+
+	self unselectableSelectionModel ifNil: [ ^ self ].
+	aBlock value: self unselectableSelectionModel
 ]

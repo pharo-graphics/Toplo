@@ -8,15 +8,6 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
 
-{ #category : #'instance creation' }
-ToAbstractSelectionModelSelecter class >> selectionModel: aSelectionModel operator: anOperator [
-
-	^ self new
-		  selectionModel: aSelectionModel;
-		  operator: anOperator;
-		  yourself
-]
-
 { #category : #copying }
 ToAbstractSelectionModelSelecter >> copySelectionFrom: aSourceSelectionModel [
 

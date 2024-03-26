@@ -15,10 +15,7 @@ ToNodeHolder >> bindDataItem: aData [
 { #category : #testing }
 ToNodeHolder >> isDisabled [
 
-	^ self listElement
-		  ifNil: [ true ]
-		  ifNotNil: [ :le |
-		  le disabledSelectionModel containsIndex: self position ]
+	^ self listElement selectionModel isDisabledIndex: self position
 ]
 
 { #category : #testing }
@@ -30,10 +27,7 @@ ToNodeHolder >> isEnabled [
 { #category : #testing }
 ToNodeHolder >> isHidden [
 
-	^ self listElement
-		  ifNil: [ true ]
-		  ifNotNil: [ :le |
-		  le hiddenSelectionModel containsIndex: self position ]
+	^ self listElement selectionModel isHiddenIndex: self position
 ]
 
 { #category : #testing }
@@ -45,8 +39,5 @@ ToNodeHolder >> isSelectable [
 { #category : #testing }
 ToNodeHolder >> isUnselectable [
 
-	^ self listElement
-		  ifNil: [ true ]
-		  ifNotNil: [ :le |
-		  le unselectableSelectionModel containsIndex: self position ]
+	^ self listElement selectionModel isUnselectableIndex: self position
 ]

@@ -1,23 +1,58 @@
 Class {
 	#name : #ToListSecondarySelectionModel,
 	#superclass : #ToListElementSelectionModel,
+	#instVars : [
+		'primarySelectionModel'
+	],
 	#category : #'Toplo-Widget-List-Selection-Model'
 }
+
+{ #category : #accessing }
+ToListSecondarySelectionModel >> additionalSelectionModels [
+
+	^ self primarySelectionModel additionalSelectionModels
+]
+
+{ #category : #accessing }
+ToListSecondarySelectionModel >> disabledSelectionModel [
+
+	^ self primarySelectionModel disabledSelectionModel
+]
+
+{ #category : #accessing }
+ToListSecondarySelectionModel >> hiddenSelectionModel [
+
+	^ self primarySelectionModel hiddenSelectionModel
+]
 
 { #category : #'api - hooks' }
 ToListSecondarySelectionModel >> onInstalledIn: aListElement [
 
 	super onInstalledIn: aListElement.
-	disabledSelectionModel := aListElement selectionModel disabledSelectionModel.
-	hiddenSelectionModel := aListElement selectionModel hiddenSelectionModel.
-	unselectableSelectionModel := aListElement selectionModel unselectableSelectionModel
+	primarySelectionModel := aListElement selectionModel.
 ]
 
 { #category : #'api - hooks' }
 ToListSecondarySelectionModel >> onUninstalledIn: aListElement [
 
 	super onUninstalledIn: aListElement.
-	disabledSelectionModel := nil.
-	hiddenSelectionModel := nil.
-	unselectableSelectionModel := nil	
+	primarySelectionModel := nil
+]
+
+{ #category : #accessing }
+ToListSecondarySelectionModel >> primarySelectionModel [
+
+	^ primarySelectionModel
+]
+
+{ #category : #accessing }
+ToListSecondarySelectionModel >> primarySelectionModel: aSelectionModel [
+
+	primarySelectionModel := aSelectionModel
+]
+
+{ #category : #accessing }
+ToListSecondarySelectionModel >> unselectableSelectionModel [
+
+	^ self primarySelectionModel unselectableSelectionModel
 ]

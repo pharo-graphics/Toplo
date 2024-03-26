@@ -76,37 +76,14 @@ ToListElement >> infiniteSharedEvents [
 ]
 
 { #category : #initialization }
-ToListElement >> initialize [ 
+ToListElement >> initialize [
 
 	super initialize.
 	self secondarySelectionMode: self defaultSecondarySelectionMode.
 	self addEventHandler: self defaultSecondarySelectionEventHandler.
-	unselectableSelecter := self
-		                        installSelecterForEventClass:
-		                        ToListUnselectableSelectionChangedEvent
-		                        forSelectionModel:
-		                        self selectionModel
-			                        unselectableSelectionModel.
-	disabledSelecter := self
-		                    installSelecterForEventClass:
-		                    ToListDisabledSelectionChangedEvent
-		                    forSelectionModel:
-		                    self selectionModel disabledSelectionModel.
-	hiddenSelecter := self
-		                  installSelecterForEventClass:
-		                  ToListHiddenSelectionChangedEvent
-		                  forSelectionModel:
-		                  self selectionModel hiddenSelectionModel
-]
-
-{ #category : #initialization }
-ToListElement >> installSelecterForEventClass: anEventClass forSelectionModel: aSelectionModel [
-
-	| operator |
-	operator := ToAdditionalSelectionModelOperator on: self withEventClass: anEventClass.
-	^ (ToSelectionModelSelecter
-		  selectionModel: aSelectionModel
-		  operator: operator) beMultipleSelection
+	unselectableSelecter := ToUnselectableSelectionModelSelecter on: self.
+	disabledSelecter := ToDisabledSelectionModelSelecter on: self.
+	hiddenSelecter := ToHiddenSelectionModelSelecter on: self
 ]
 
 { #category : #'instance creation' }

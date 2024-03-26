@@ -19,8 +19,7 @@ ToMultipleSelectStrategy >> isMultipleSelection [
 { #category : #'api - hooks' }
 ToMultipleSelectStrategy >> onInstalledIn: aSelect [
 
-	aSelect listElement selectionMode: (ToListMultipleSelectionMode new
-			 operator: ToPrimarySelectionModelOperator new;
-			 selectionModel: aSelect listElement selectionModel).
+	aSelect listElement selectionMode:
+		(ToListSelectionMode primaryOn: aSelect listElement) beMultipleSelection.
 	super onInstalledIn: aSelect
 ]

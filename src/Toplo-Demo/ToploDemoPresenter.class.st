@@ -43,7 +43,7 @@ ToploDemoPresenter >> demo2 [
 	| list colorAssociations |
 
 	(list := ToListElement new)
-		selectionMode: ToListNoneSelectionMode new;
+		selectionMode: (ToListSelectionMode primaryOn: list) disable;
 		nodeBuilder: [ :node :holder |
 			node addChild: (ToLabeledIcon new
 				label: (ToLabel new

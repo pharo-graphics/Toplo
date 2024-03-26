@@ -653,7 +653,7 @@ ToSkinStateGenerator >> target [
 { #category : #'api - event managing' }
 ToSkinStateGenerator >> wantsEvent: anEvent [
 
-	anEvent currentTarget isEnabled ifFalse: [ ^ false ].
+	target isEnabled ifFalse: [ ^ false ].
 	^ super wantsEvent: anEvent
 ]
 

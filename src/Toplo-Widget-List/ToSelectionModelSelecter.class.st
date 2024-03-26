@@ -2,20 +2,10 @@ Class {
 	#name : #ToSelectionModelSelecter,
 	#superclass : #ToAbstractSelectionModelSelecter,
 	#instVars : [
-		'operator',
-		'selectionModel'
+		'multiple'
 	],
 	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
-
-{ #category : #'instance creation' }
-ToSelectionModelSelecter class >> selectionModel: aSelectionModel operator: anOperator [
-
-	^ self new
-		  selectionModel: aSelectionModel;
-		  operator: anOperator;
-		  yourself
-]
 
 { #category : #adding }
 ToSelectionModelSelecter >> addCommand: aCommand [
@@ -28,6 +18,18 @@ ToSelectionModelSelecter >> addSelectionCommand: aCommand [
 
 	aCommand selectionModel: selectionModel.
 	self addCommand: aCommand
+]
+
+{ #category : #accessing }
+ToSelectionModelSelecter >> beMultipleSelection [
+
+	self multiple: true
+]
+
+{ #category : #accessing }
+ToSelectionModelSelecter >> beSingleSelection [
+
+	self multiple: false
 ]
 
 { #category : #copying }
@@ -81,10 +83,41 @@ ToSelectionModelSelecter >> deselectIndexes: anArray [
 			 operation: ToRemoveSelectionOperation new)
 ]
 
+{ #category : #initialization }
+ToSelectionModelSelecter >> initialize [ 
+
+	super initialize.
+	multiple := true.
+]
+
+{ #category : #testing }
+ToSelectionModelSelecter >> isMultipleSelection [
+
+	^ self multiple
+]
+
+{ #category : #testing }
+ToSelectionModelSelecter >> isSingleSelection [
+
+	^ self isMultipleSelection not
+]
+
 { #category : #accessing }
 ToSelectionModelSelecter >> itemCount [
 
 	^ selectionModel itemCount
+]
+
+{ #category : #accessing }
+ToSelectionModelSelecter >> multiple [
+
+	^ multiple
+]
+
+{ #category : #accessing }
+ToSelectionModelSelecter >> multiple: aBoolean [
+
+	multiple := aBoolean
 ]
 
 { #category : #private }
@@ -125,18 +158,6 @@ ToSelectionModelSelecter >> nextSelectableIndexToScrollTo [
 			  selectionModel itemCount > 0
 				  ifTrue: [ 1 ]
 				  ifFalse: [ 0 ] ]
-]
-
-{ #category : #accessing }
-ToSelectionModelSelecter >> operator [
-
-	^ operator
-]
-
-{ #category : #accessing }
-ToSelectionModelSelecter >> operator: anOperator [
-
-	operator := anOperator
 ]
 
 { #category : #private }
@@ -185,11 +206,54 @@ ToSelectionModelSelecter >> scrollToIndex: anIndex [
 ]
 
 { #category : #operations }
+ToSelectionModelSelecter >> selectAll [
+
+	self isMultipleSelection ifFalse: [ ToInvalidElementCommand signal ].
+	self addSelectionCommand: (ToWholeSelectionCommand new
+			 operator: self operator;
+			 operation: ToAddSelectionOperation new;
+			 yourself)
+]
+
+{ #category : #operations }
 ToSelectionModelSelecter >> selectIndex: anIndex [
 
 	self addSelectionCommand: (ToIntervalSelectionCommand new
 			 operator: self operator;
 			 from: anIndex to: anIndex;
+			 operation: (ToAddSelectionOperation new
+					  deselectAllBefore: self isSingleSelection;
+					  yourself))
+]
+
+{ #category : #operations }
+ToSelectionModelSelecter >> selectIndex: aStartIndex to: anEndIndex [
+
+	self isSingleSelection ifTrue: [
+		aStartIndex ~= anEndIndex ifTrue: [
+			^ ToInvalidElementCommand signal ].
+		self selectIndex: aStartIndex.
+		^ self ].
+
+	self addSelectionCommand: (ToIntervalSelectionCommand new
+			 operator: self operator;
+			 from: aStartIndex to: anEndIndex;
+			 operation: ToAddSelectionOperation new)
+]
+
+{ #category : #operations }
+ToSelectionModelSelecter >> selectIndexes: anArray [
+
+	anArray ifEmpty: [ ^ self ].
+
+	self isSingleSelection ifTrue: [
+		anArray size > 1 ifTrue: [ ^ ToInvalidElementCommand signal ].
+		self selectIndex: anArray first.
+		^ self ].
+
+	self addSelectionCommand: (ToIndexesSelectionCommand new
+			 operator: self operator;
+			 indexes: anArray;
 			 operation: ToAddSelectionOperation new)
 ]
 
@@ -209,11 +273,15 @@ ToSelectionModelSelecter >> selectOnlyIndex: anIndex [
 { #category : #operations }
 ToSelectionModelSelecter >> selectOnlyIndexes: anArray [
 
+	self isSingleSelection ifTrue: [
+		anArray size > 1 ifTrue: [ ^ ToInvalidElementCommand signal ] ].
+
 	anArray ifEmpty: [
 		self addSelectionCommand: (ToWholeSelectionCommand new
 				 operator: self operator;
 				 operation: ToRemoveSelectionOperation new).
 		^ self ].
+
 	self addSelectionCommand: (ToIndexesSelectionCommand new
 			 operator: self operator;
 			 indexes: anArray;
@@ -226,12 +294,6 @@ ToSelectionModelSelecter >> selectOnlyIndexes: anArray [
 ToSelectionModelSelecter >> selectedIndexes [
 
 	^ selectionModel selectedIndexes
-]
-
-{ #category : #accessing }
-ToSelectionModelSelecter >> selectionModel: aSelectionModel [
-
-	selectionModel := aSelectionModel
 ]
 
 { #category : #operations }

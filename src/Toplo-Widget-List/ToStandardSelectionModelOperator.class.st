@@ -7,6 +7,14 @@ Class {
 	#category : #'Toplo-Widget-List-Command-Selection'
 }
 
+{ #category : #'instance creation' }
+ToStandardSelectionModelOperator class >> on: anElement [ 
+
+	^ self new
+		  onInstalledIn: anElement;
+		  yourself
+]
+
 { #category : #'command operations' }
 ToStandardSelectionModelOperator >> addIndexesSelectionCommand: aCommand [
 

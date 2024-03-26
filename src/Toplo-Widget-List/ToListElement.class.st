@@ -4,7 +4,6 @@ Class {
 	#instVars : [
 		'disabledSelecter',
 		'unselectableSelecter',
-		'secondarySelectionModel',
 		'secondarySelectionMode',
 		'hiddenSelecter'
 	],
@@ -43,10 +42,7 @@ ToListElement >> defaultSecondarySelectionEventHandler [
 { #category : #initialization }
 ToListElement >> defaultSecondarySelectionMode [
 
-	^ ToListMultipleSelectionMode new
-		  operator: ToSecondarySelectionModelOperator new;
-		  selectionModel: self secondarySelectionModel;
-		  yourself
+	^ (ToListSelectionMode secondaryOn: self) beMultipleSelection
 ]
 
 { #category : #accessing }
@@ -80,10 +76,9 @@ ToListElement >> infiniteSharedEvents [
 ]
 
 { #category : #initialization }
-ToListElement >> initializeSelectionModel [
+ToListElement >> initialize [ 
 
-	super initializeSelectionModel.
-	self secondarySelectionModel: self newSecondarySelectionModel.
+	super initialize.
 	self secondarySelectionMode: self defaultSecondarySelectionMode.
 	self addEventHandler: self defaultSecondarySelectionEventHandler.
 	unselectableSelecter := self
@@ -108,12 +103,10 @@ ToListElement >> initializeSelectionModel [
 ToListElement >> installSelecterForEventClass: anEventClass forSelectionModel: aSelectionModel [
 
 	| operator |
-	operator := ToAdditionalSelectionModelOperator eventClass: anEventClass.
-	operator onInstalledIn: self.
-
-	^ ToMultiSelectionModelSelecter
+	operator := ToAdditionalSelectionModelOperator on: self withEventClass: anEventClass.
+	^ (ToSelectionModelSelecter
 		  selectionModel: aSelectionModel
-		  operator: operator
+		  operator: operator) beMultipleSelection
 ]
 
 { #category : #'instance creation' }
@@ -141,6 +134,15 @@ ToListElement >> secondarySelecter [
 ]
 
 { #category : #accessing }
+ToListElement >> secondarySelectionElements [
+
+	^ Array streamContents: [ :stream |
+		  self childrenDo: [ :child |
+			  (child isKindOf: ToListSecondarySelectionElement) ifTrue: [
+				  stream nextPut: child ] ] ]
+]
+
+{ #category : #accessing }
 ToListElement >> secondarySelectionMode [
 
 	^ secondarySelectionMode
@@ -158,15 +160,7 @@ ToListElement >> secondarySelectionMode: aSelectionMode [
 { #category : #accessing }
 ToListElement >> secondarySelectionModel [
 
-	^ secondarySelectionModel
-]
-
-{ #category : #accessing }
-ToListElement >> secondarySelectionModel: aSelectionModel [
-
-	secondarySelectionModel ifNotNil: [ secondarySelectionModel onUninstalledIn: self ].
-	secondarySelectionModel := aSelectionModel.
-	secondarySelectionModel ifNotNil: [secondarySelectionModel onInstalledIn: self ]
+	^ self secondarySelectionMode selectionModel
 ]
 
 { #category : #accessing }

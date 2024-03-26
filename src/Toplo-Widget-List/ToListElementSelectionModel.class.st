@@ -4,35 +4,31 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Model'
 }
 
-{ #category : #accessing }
-ToListElementSelectionModel >> additionalDependentSelectionModels [
-
-	^ self subclassResponsibility 
-]
-
-{ #category : #accessing }
-ToListElementSelectionModel >> allDependentSelectionModels [
-
-	^ Array streamContents: [ :stream |
-		  stream nextPutAll: self standardDependentSelectionModels.
-		  stream nextPutAll: self additionalDependentSelectionModels ]
-]
-
 { #category : #copying }
 ToListElementSelectionModel >> copySelectionFrom: anotherSelectionModel [
 
 	super copySelectionFrom: anotherSelectionModel.
-	self allDependentSelectionModels do: [ :sm |
+	self dependentSelectionModels do: [ :sm |
 		sm copySelectionFrom:
 			(anotherSelectionModel dependentSelectionModelWithId: sm uniqueId) ]
 ]
 
 { #category : #accessing }
+ToListElementSelectionModel >> dependentSelectionModelIndex [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #accessing }
 ToListElementSelectionModel >> dependentSelectionModelWithId: anUniqueId [
 
-	^ self allDependentSelectionModels
-		  detect: [ :sm | sm uniqueId = anUniqueId ]
-		  ifNone: [  ]
+	^ self dependentSelectionModelIndex at: anUniqueId ifAbsent: [  ]
+]
+
+{ #category : #accessing }
+ToListElementSelectionModel >> dependentSelectionModels [
+
+	^ self dependentSelectionModelIndex values
 ]
 
 { #category : #updating }
@@ -191,20 +187,11 @@ ToListElementSelectionModel >> shift: aGap from: aStartIndex for: anEventTarget 
 		| count |
 		count := aGap abs.
 		self deselectIndex: aStartIndex to: aStartIndex + count - 1 ].
-	self allDependentSelectionModels do: [ :sm |
+	self dependentSelectionModels do: [ :sm |
 		sm shift: aGap from: aStartIndex ].
 
 	" ** super send after **"
 	super shift: aGap from: aStartIndex for: anEventTarget
-]
-
-{ #category : #accessing }
-ToListElementSelectionModel >> standardDependentSelectionModels [
-
-	^ {
-		  self disabledSelectionModel.
-		  self hiddenSelectionModel.
-		  self unselectableSelectionModel } select: [ :sm | sm notNil ]
 ]
 
 { #category : #updating }
@@ -214,7 +201,7 @@ ToListElementSelectionModel >> transferIndex: anIndex from: anotherPrimarySelect
 		transferIndex: anIndex
 		from: anotherPrimarySelectionModel
 		as: targetIndex.
-	self allDependentSelectionModels do: [ :sm |
+	self dependentSelectionModels do: [ :sm |
 		(anotherPrimarySelectionModel dependentSelectionModelWithId: sm uniqueId) ifNotNil: [ :otherSm |
 			(otherSm containsIndex: anIndex)
 				ifTrue: [ sm selectIndex: targetIndex ]

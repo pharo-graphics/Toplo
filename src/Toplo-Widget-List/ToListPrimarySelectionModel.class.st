@@ -2,63 +2,77 @@ Class {
 	#name : #ToListPrimarySelectionModel,
 	#superclass : #ToListElementSelectionModel,
 	#instVars : [
-		'disabledSelectionModel',
-		'hiddenSelectionModel',
-		'unselectableSelectionModel',
-		'additionalDependentSelectionModels'
+		'dependentSelectionModelIndex'
 	],
 	#category : #'Toplo-Widget-List-Selection-Model'
 }
 
 { #category : #accessing }
-ToListPrimarySelectionModel >> additionalDependentSelectionModels [
+ToListPrimarySelectionModel >> changeSelectionModelWithId: aUniqueId withModel: aSelectionModel [
 
-	^ additionalDependentSelectionModels
+	self unrecordDependentSelectionModel:
+		(self dependentSelectionModelWithId: aUniqueId).
+	aSelectionModel ifNil: [ ^ self ].
+	aSelectionModel uniqueId: aUniqueId.
+	self recordDependentSelectionModel: aSelectionModel
+]
+
+{ #category : #accessing }
+ToListPrimarySelectionModel >> dependentSelectionModelIndex [
+
+	^ dependentSelectionModelIndex
 ]
 
 { #category : #accessing }
 ToListPrimarySelectionModel >> disabledSelectionModel [
 
-	^ disabledSelectionModel
+	^ self dependentSelectionModelWithId: #disabled 
 ]
 
 { #category : #accessing }
 ToListPrimarySelectionModel >> disabledSelectionModel: aSelectionModel [
 
-	disabledSelectionModel := aSelectionModel.
-	disabledSelectionModel ifNil: [ ^ self ].
-	aSelectionModel uniqueId: #disabled
+	self changeSelectionModelWithId: #disabled withModel: aSelectionModel
 ]
 
 { #category : #accessing }
 ToListPrimarySelectionModel >> hiddenSelectionModel [
 
-	^ hiddenSelectionModel
+	^ self dependentSelectionModelWithId: #hidden 
 ]
 
 { #category : #accessing }
 ToListPrimarySelectionModel >> hiddenSelectionModel: aSelectionModel [
 
-	hiddenSelectionModel := aSelectionModel.
-	hiddenSelectionModel ifNil: [ ^ self ].
-	aSelectionModel uniqueId: #hidden
+	self changeSelectionModelWithId: #hidden withModel: aSelectionModel
 ]
 
-{ #category : #initialization }
-ToListPrimarySelectionModel >> initialize [
+{ #category : #'api - hooks' }
+ToListPrimarySelectionModel >> onInstalledIn: aListElement [
 
-	super initialize.
-	additionalDependentSelectionModels := #(  )
+	super onInstalledIn: aListElement.
+	dependentSelectionModelIndex := SmallIdentityDictionary new
 ]
 
 { #category : #'api - hooks' }
 ToListPrimarySelectionModel >> onUninstalledIn: aListElement [
 
 	super onUninstalledIn: aListElement.
-	disabledSelectionModel := nil.
-	hiddenSelectionModel := nil.
-	unselectableSelectionModel := nil.
-	additionalDependentSelectionModels := nil
+	dependentSelectionModelIndex empty.
+	dependentSelectionModelIndex := nil
+]
+
+{ #category : #accessing }
+ToListPrimarySelectionModel >> recordDependentSelectionModel: aSelectionModel [
+
+	aSelectionModel ifNil: [ ^ self ].
+	dependentSelectionModelIndex
+		at: aSelectionModel uniqueId
+		ifPresent: [
+		Error signal: 'A selection model with the same id already exists' ].
+	dependentSelectionModelIndex
+		at: aSelectionModel uniqueId
+		put: aSelectionModel
 ]
 
 { #category : #accessing }
@@ -68,15 +82,23 @@ ToListPrimarySelectionModel >> uniqueId [
 ]
 
 { #category : #accessing }
+ToListPrimarySelectionModel >> unrecordDependentSelectionModel: aSelectionModel [
+
+	aSelectionModel ifNil: [ ^ self ].
+	dependentSelectionModelIndex removeKey:
+		aSelectionModel uniqueId
+]
+
+{ #category : #accessing }
 ToListPrimarySelectionModel >> unselectableSelectionModel [
 
-	^ unselectableSelectionModel
+	^ self dependentSelectionModelWithId: #unselectable 
 ]
 
 { #category : #accessing }
 ToListPrimarySelectionModel >> unselectableSelectionModel: aSelectionModel [
 
-	unselectableSelectionModel := aSelectionModel.
-	aSelectionModel ifNil: [ ^ self ].
-	aSelectionModel uniqueId: #unselectable
+	self
+		changeSelectionModelWithId: #unselectable
+		withModel: aSelectionModel
 ]

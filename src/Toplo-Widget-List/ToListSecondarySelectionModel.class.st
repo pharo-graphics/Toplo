@@ -2,15 +2,15 @@ Class {
 	#name : #ToListSecondarySelectionModel,
 	#superclass : #ToListElementSelectionModel,
 	#instVars : [
-		'primarySelectionModel'
+		'listElement'
 	],
 	#category : #'Toplo-Widget-List-Selection-Model'
 }
 
 { #category : #accessing }
-ToListSecondarySelectionModel >> additionalDependentSelectionModels [
+ToListSecondarySelectionModel >> dependentSelectionModelIndex [
 
-	^ self primarySelectionModel additionalDependentSelectionModels
+	^ self primarySelectionModel dependentSelectionModelIndex
 ]
 
 { #category : #accessing }
@@ -29,26 +29,20 @@ ToListSecondarySelectionModel >> hiddenSelectionModel [
 ToListSecondarySelectionModel >> onInstalledIn: aListElement [
 
 	super onInstalledIn: aListElement.
-	primarySelectionModel := aListElement selectionModel.
+	listElement := aListElement.
 ]
 
 { #category : #'api - hooks' }
 ToListSecondarySelectionModel >> onUninstalledIn: aListElement [
 
 	super onUninstalledIn: aListElement.
-	primarySelectionModel := nil
+	listElement := nil
 ]
 
 { #category : #accessing }
 ToListSecondarySelectionModel >> primarySelectionModel [
 
-	^ primarySelectionModel
-]
-
-{ #category : #accessing }
-ToListSecondarySelectionModel >> primarySelectionModel: aSelectionModel [
-
-	primarySelectionModel := aSelectionModel
+	^ listElement selectionModel
 ]
 
 { #category : #accessing }

@@ -10,16 +10,7 @@ Class {
 { #category : #testing }
 ToSelectListNodeHolder >> isGroup [
 
-	^ self listElement groupSelectionModel containsIndex:
-		  self originalPosition
-]
-
-{ #category : #testing }
-ToSelectListNodeHolder >> originalPosition [
-
-	| sieve |
-	sieve := select sieve.
-	^ sieve dataPositionIndex at: self dataItem
+	^ self listElement groupSelectionModel containsIndex: self position
 ]
 
 { #category : #accessing }

@@ -1,34 +1,32 @@
 Class {
 	#name : #ToListElementSelectionModel,
 	#superclass : #ToSelectionModel,
+	#instVars : [
+		'listElement'
+	],
 	#category : #'Toplo-Widget-List-Selection-Model'
 }
+
+{ #category : #accessing }
+ToListElementSelectionModel >> additionalSelecterWithId: anUniqueId [
+
+	^ listElement additionalSelecterWithId: anUniqueId
+]
+
+{ #category : #accessing }
+ToListElementSelectionModel >> additionalSelecters [
+
+	^ listElement additionalSelecterIndex values
+]
 
 { #category : #copying }
 ToListElementSelectionModel >> copySelectionFrom: anotherSelectionModel [
 
 	super copySelectionFrom: anotherSelectionModel.
-	self dependentSelectionModels do: [ :sm |
-		sm copySelectionFrom:
-			(anotherSelectionModel dependentSelectionModelWithId: sm uniqueId) ]
-]
-
-{ #category : #accessing }
-ToListElementSelectionModel >> dependentSelectionModelIndex [
-
-	^ self subclassResponsibility 
-]
-
-{ #category : #accessing }
-ToListElementSelectionModel >> dependentSelectionModelWithId: anUniqueId [
-
-	^ self dependentSelectionModelIndex at: anUniqueId ifAbsent: [  ]
-]
-
-{ #category : #accessing }
-ToListElementSelectionModel >> dependentSelectionModels [
-
-	^ self dependentSelectionModelIndex values
+	self additionalSelecters do: [ :dst |
+		(anotherSelectionModel additionalSelecterWithId: dst uniqueId)
+			ifNotNil: [ :src |
+			dst selectionModel copySelectionFrom: src selectionModel ] ]
 ]
 
 { #category : #updating }
@@ -40,7 +38,8 @@ ToListElementSelectionModel >> disableIndex: anIndex [
 { #category : #accessing }
 ToListElementSelectionModel >> disabledSelectionModel [
 
-	^ self subclassResponsibility 
+	^ listElement disabledSelecter ifNotNil: [ :selecter |
+		  selecter selectionModel ]
 ]
 
 { #category : #accessing }
@@ -73,7 +72,8 @@ ToListElementSelectionModel >> hasUnselectableInInterval: anInterval [
 { #category : #accessing }
 ToListElementSelectionModel >> hiddenSelectionModel [
 
-	^ self subclassResponsibility 
+	^ listElement hiddenSelecter ifNotNil: [ :selecter |
+		  selecter selectionModel ]
 ]
 
 { #category : #accessing }
@@ -134,6 +134,20 @@ ToListElementSelectionModel >> nextSelectableIndexStartingAt: anIndex [
 	^ 0
 ]
 
+{ #category : #'api - hooks' }
+ToListElementSelectionModel >> onInstalledIn: aListElement [
+
+	super onInstalledIn: aListElement.
+	listElement := aListElement.
+]
+
+{ #category : #'api - hooks' }
+ToListElementSelectionModel >> onUninstalledIn: aListElement [
+
+	super onUninstalledIn: aListElement.
+	listElement := nil
+]
+
 { #category : #accessing }
 ToListElementSelectionModel >> previousSelectableIndexStartingAt: anIndex [
 
@@ -187,25 +201,26 @@ ToListElementSelectionModel >> shift: aGap from: aStartIndex for: anEventTarget 
 		| count |
 		count := aGap abs.
 		self deselectIndex: aStartIndex to: aStartIndex + count - 1 ].
-	self dependentSelectionModels do: [ :sm |
-		sm shift: aGap from: aStartIndex ].
+	self additionalSelecters  do: [ :selecter |
+		selecter selectionModel shift: aGap from: aStartIndex ].
 
 	" ** super send after **"
 	super shift: aGap from: aStartIndex for: anEventTarget
 ]
 
 { #category : #updating }
-ToListElementSelectionModel >> transferIndex: anIndex from: anotherPrimarySelectionModel as: targetIndex [
+ToListElementSelectionModel >> transferIndex: anIndex from: anotherSelectionModel as: targetIndex [
 
 	super
 		transferIndex: anIndex
-		from: anotherPrimarySelectionModel
+		from: anotherSelectionModel
 		as: targetIndex.
-	self dependentSelectionModels do: [ :sm |
-		(anotherPrimarySelectionModel dependentSelectionModelWithId: sm uniqueId) ifNotNil: [ :otherSm |
-			(otherSm containsIndex: anIndex)
-				ifTrue: [ sm selectIndex: targetIndex ]
-				ifFalse: [ sm deselectIndex: targetIndex ] ] ]
+	self additionalSelecters do: [ :dst |
+		(anotherSelectionModel additionalSelecterWithId: dst uniqueId)
+			ifNotNil: [ :other |
+				(other selectionModel containsIndex: anIndex)
+					ifTrue: [ dst selectionModel selectIndex: targetIndex ]
+					ifFalse: [ dst selectionModel deselectIndex: targetIndex ] ] ]
 ]
 
 { #category : #updating }
@@ -235,7 +250,8 @@ ToListElementSelectionModel >> unselectableIndex: anIndex [
 { #category : #accessing }
 ToListElementSelectionModel >> unselectableSelectionModel [
 
-	^ self subclassResponsibility 
+	^ listElement unselectableSelecter ifNotNil: [ :selecter |
+		  selecter selectionModel ]
 ]
 
 { #category : #accessing }

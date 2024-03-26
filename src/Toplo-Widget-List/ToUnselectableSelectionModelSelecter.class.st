@@ -1,6 +1,6 @@
 Class {
 	#name : #ToUnselectableSelectionModelSelecter,
-	#superclass : #ToPredefinedAdditionalSelectionModelSelecter,
+	#superclass : #ToAdditionalSelectionModelSelecter,
 	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
 
@@ -10,16 +10,8 @@ ToUnselectableSelectionModelSelecter >> eventClass [
 	^ ToListUnselectableSelectionChangedEvent
 ]
 
-{ #category : #'api - hooks' }
-ToUnselectableSelectionModelSelecter >> onInstalledIn: aListElement [
+{ #category : #accessing }
+ToUnselectableSelectionModelSelecter >> uniqueId [
 
-	super onInstalledIn: aListElement.
-	aListElement selectionModel unselectableSelectionModel: selectionModel
-]
-
-{ #category : #'api - hooks' }
-ToUnselectableSelectionModelSelecter >> onUninstalledIn: aListElement [
-
-	super onUninstalledIn: aListElement.
-	aListElement selectionModel unselectableSelectionModel: nil
+	^ #unselectable
 ]

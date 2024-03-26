@@ -1,23 +1,26 @@
 Class {
 	#name : #ToSelectListElement,
 	#superclass : #ToListElement,
-	#instVars : [
-		'groupSelectionModel'
-	],
 	#category : #'Toplo-Widget-Select-Core'
 }
 
 { #category : #accessing }
+ToSelectListElement >> groupSelecter [
+
+	^ self additionalSelecterWithId: #group
+]
+
+{ #category : #accessing }
 ToSelectListElement >> groupSelectionModel [
 
-	^ groupSelectionModel
+	^ self groupSelecter selectionModel
 ]
 
 { #category : #initialization }
 ToSelectListElement >> initialize [
 
 	super initialize.
-	groupSelectionModel := self newAdditionalSelectionModel
+	ToSelectGroupSelectionModelSelecter on: self
 ]
 
 { #category : #skin }

@@ -1422,7 +1422,8 @@ ToSandBox class >> example_SelectMultiFiltrableNoWrapping [
 
 	| select innerWindow |
 	select := ToSelectElement new.
-	select maxSelectedCount: 3.
+	select inspect.
+	select maxSelectedCount: 6.
 	select nodeWrapping: false.
 	select hideSelected: false.
 	select dataAccessor addAll: self statesOfAmerica.

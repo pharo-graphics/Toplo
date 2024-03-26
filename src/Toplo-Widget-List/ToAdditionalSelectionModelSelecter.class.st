@@ -24,6 +24,7 @@ ToAdditionalSelectionModelSelecter >> onInstalledIn: aListElement [
 	operator := ToAdditionalSelectionModelOperator on: aListElement withEventClass: self eventClass.
 	selectionModel := aListElement newAdditionalSelectionModel.
 	selectionModel onInstalledIn: aListElement.
+	aListElement recordAdditionalSelecter: self.
 	self beMultipleSelection.
 
 ]
@@ -31,7 +32,14 @@ ToAdditionalSelectionModelSelecter >> onInstalledIn: aListElement [
 { #category : #'api - hooks' }
 ToAdditionalSelectionModelSelecter >> onUninstalledIn: aListElement [
 
+	aListElement unrecordAdditionalSelecter: self.
 	operator onUninstalledIn: aListElement.
 	selectionModel onUninstalledIn: aListElement.
 
+]
+
+{ #category : #accessing }
+ToAdditionalSelectionModelSelecter >> uniqueId [
+
+	^ self subclassResponsibility 
 ]

@@ -1,10 +1,6 @@
 Class {
 	#name : #ToAbstractSelectionModelSelecter,
 	#superclass : #Object,
-	#instVars : [
-		'operator',
-		'selectionModel'
-	],
 	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
 
@@ -12,12 +8,6 @@ Class {
 ToAbstractSelectionModelSelecter >> copySelectionFrom: aSourceSelectionModel [
 
 	self subclassResponsibility 
-]
-
-{ #category : #accessing }
-ToAbstractSelectionModelSelecter >> currentIndex [ 
-
-	^ self subclassResponsibility 
 ]
 
 { #category : #operations }
@@ -54,24 +44,6 @@ ToAbstractSelectionModelSelecter >> nextDeselectedIndex [
 ToAbstractSelectionModelSelecter >> nextSelectableIndex [
 
 	^ self subclassResponsibility 
-]
-
-{ #category : #accessing }
-ToAbstractSelectionModelSelecter >> operateSilently [
-
-	^ false
-]
-
-{ #category : #accessing }
-ToAbstractSelectionModelSelecter >> operator [
-
-	^ operator
-]
-
-{ #category : #accessing }
-ToAbstractSelectionModelSelecter >> operator: anOperator [
-
-	operator := anOperator
 ]
 
 { #category : #private }
@@ -126,16 +98,4 @@ ToAbstractSelectionModelSelecter >> selectOnlyIndex: anIndex [
 ToAbstractSelectionModelSelecter >> selectOnlyIndexes: anArray [
 
 	self subclassResponsibility 
-]
-
-{ #category : #accessing }
-ToAbstractSelectionModelSelecter >> selectedIndexes [
-
-	^ self subclassResponsibility 
-]
-
-{ #category : #accessing }
-ToAbstractSelectionModelSelecter >> selectionModel: aSelectionModel [
-
-	selectionModel := aSelectionModel
 ]

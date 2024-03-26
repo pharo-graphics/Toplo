@@ -8,9 +8,9 @@ Class {
 }
 
 { #category : #accessing }
-ToListSecondarySelectionModel >> additionalSelectionModels [
+ToListSecondarySelectionModel >> additionalDependentSelectionModels [
 
-	^ self primarySelectionModel additionalSelectionModels
+	^ self primarySelectionModel additionalDependentSelectionModels
 ]
 
 { #category : #accessing }
@@ -49,6 +49,12 @@ ToListSecondarySelectionModel >> primarySelectionModel [
 ToListSecondarySelectionModel >> primarySelectionModel: aSelectionModel [
 
 	primarySelectionModel := aSelectionModel
+]
+
+{ #category : #accessing }
+ToListSecondarySelectionModel >> uniqueId [
+
+	^ #secondary
 ]
 
 { #category : #accessing }

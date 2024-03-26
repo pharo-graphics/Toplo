@@ -9,7 +9,8 @@ Class {
 		'requestFocusOnMouseDown',
 		'preserveSelectionOnFocused',
 		'selectOnMouseDown',
-		'enabled'
+		'enabled',
+		'primary'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
@@ -22,6 +23,7 @@ ToListSelectionMode class >> primaryOn: anElement [
 	primary
 		operator: (ToPrimarySelectionModelOperator on: anElement);
 		selectionModel: (anElement newPrimarySelectionModel onInstalledIn: anElement).
+	primary primary: true.
 	^ primary
 ]
 
@@ -33,6 +35,7 @@ ToListSelectionMode class >> secondaryOn: anElement [
 	secondary
 		operator: (ToSecondarySelectionModelOperator on: anElement);
 		selectionModel: (anElement newSecondarySelectionModel onInstalledIn: anElement).
+	secondary primary: false.
 	^ secondary
 ]
 
@@ -116,6 +119,12 @@ ToListSelectionMode >> isMultipleSelection [
 	^ self multiple
 ]
 
+{ #category : #testing }
+ToListSelectionMode >> isPrimarySelectionMode [
+
+	^ primary
+]
+
 { #category : #accessing }
 ToListSelectionMode >> itemCount [
 
@@ -142,7 +151,9 @@ ToListSelectionMode >> newSelecter [
 		  ifFalse: [
 			  (ToPredefinedSelectionModelSelecter
 				   selectionModel: self selectionModel
-				   operator: self operator) multiple: self isMultipleSelection ]
+				   operator: self operator)
+				  multiple: self isMultipleSelection;
+				  yourself ]
 ]
 
 { #category : #accessing }
@@ -241,6 +252,20 @@ ToListSelectionMode >> preserveSelectionOnFocused [
 ToListSelectionMode >> preserveSelectionOnFocused: aBoolean [
 
 	preserveSelectionOnFocused := aBoolean
+]
+
+{ #category : #accessing }
+ToListSelectionMode >> primary [
+
+	^ primary
+
+]
+
+{ #category : #accessing }
+ToListSelectionMode >> primary: aBoolean [
+
+	primary := aBoolean
+
 ]
 
 { #category : #accessing }

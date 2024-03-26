@@ -1,6 +1,6 @@
 Class {
 	#name : #ToUnselectableSelectionModelSelecter,
-	#superclass : #ToAdditionalSelectionModelSelecter,
+	#superclass : #ToPredefinedAdditionalSelectionModelSelecter,
 	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
 

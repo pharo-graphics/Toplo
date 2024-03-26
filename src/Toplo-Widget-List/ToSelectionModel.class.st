@@ -373,3 +373,9 @@ ToSelectionModel >> underlyingModelDo: aBlock [
 
 	aBlock value: underlyingModel
 ]
+
+{ #category : #accessing }
+ToSelectionModel >> uniqueId [
+
+	^ self subclassResponsibility 
+]

@@ -17,7 +17,7 @@ ToSelectListElement >> groupSelectionModel [
 ToSelectListElement >> initialize [
 
 	super initialize.
-	groupSelectionModel := self newSelectionModel 
+	groupSelectionModel := self newAdditionalSelectionModel
 ]
 
 { #category : #skin }

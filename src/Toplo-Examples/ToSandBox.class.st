@@ -1443,6 +1443,7 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected [
 
 	| select innerWindow |
 	select := ToSelectElement new.
+	select inspect.
 	select hideSelected: true.
 	select dataAccessor updateAllWith: self statesOfAmerica.
 	select strategy: ToMultipleSelectStrategy new.

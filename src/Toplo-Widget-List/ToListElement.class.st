@@ -80,10 +80,7 @@ ToListElement >> initialize [
 
 	super initialize.
 	self secondarySelectionMode: self defaultSecondarySelectionMode.
-	self addEventHandler: self defaultSecondarySelectionEventHandler.
-	unselectableSelecter := ToUnselectableSelectionModelSelecter on: self.
-	disabledSelecter := ToDisabledSelectionModelSelecter on: self.
-	hiddenSelecter := ToHiddenSelectionModelSelecter on: self
+	self addEventHandler: self defaultSecondarySelectionEventHandler
 ]
 
 { #category : #'instance creation' }
@@ -138,6 +135,18 @@ ToListElement >> secondarySelectionMode: aSelectionMode [
 ToListElement >> secondarySelectionModel [
 
 	^ self secondarySelectionMode selectionModel
+]
+
+{ #category : #accessing }
+ToListElement >> selectionMode: aSelectionMode [
+
+	super selectionMode: aSelectionMode.
+	unselectableSelecter ifNotNil: [ unselectableSelecter onUninstalledIn: self ].
+	disabledSelecter ifNotNil: [ disabledSelecter onUninstalledIn: self ].
+	hiddenSelecter ifNotNil: [ hiddenSelecter onUninstalledIn: self ].
+	unselectableSelecter := ToUnselectableSelectionModelSelecter on: self.
+	disabledSelecter := ToDisabledSelectionModelSelecter on: self.
+	hiddenSelecter := ToHiddenSelectionModelSelecter on: self
 ]
 
 { #category : #accessing }

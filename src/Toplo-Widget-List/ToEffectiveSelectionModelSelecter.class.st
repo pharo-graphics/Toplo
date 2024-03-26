@@ -2,6 +2,8 @@ Class {
 	#name : #ToEffectiveSelectionModelSelecter,
 	#superclass : #ToAbstractSelectionModelSelecter,
 	#instVars : [
+		'operator',
+		'selectionModel',
 		'multiple'
 	],
 	#category : #'Toplo-Widget-List-Selection-Selecter'
@@ -160,6 +162,18 @@ ToEffectiveSelectionModelSelecter >> nextSelectableIndexToScrollTo [
 				  ifFalse: [ 0 ] ]
 ]
 
+{ #category : #accessing }
+ToEffectiveSelectionModelSelecter >> operator [
+
+	^ operator
+]
+
+{ #category : #accessing }
+ToEffectiveSelectionModelSelecter >> operator: aSelectionModelOperator [
+
+	operator := aSelectionModelOperator
+]
+
 { #category : #private }
 ToEffectiveSelectionModelSelecter >> previousDeselectedIndex [
 
@@ -294,6 +308,18 @@ ToEffectiveSelectionModelSelecter >> selectOnlyIndexes: anArray [
 ToEffectiveSelectionModelSelecter >> selectedIndexes [
 
 	^ selectionModel selectedIndexes
+]
+
+{ #category : #accessing }
+ToEffectiveSelectionModelSelecter >> selectionModel [
+
+	^ selectionModel
+]
+
+{ #category : #accessing }
+ToEffectiveSelectionModelSelecter >> selectionModel: aSelectionModel [
+
+	selectionModel := aSelectionModel
 ]
 
 { #category : #operations }

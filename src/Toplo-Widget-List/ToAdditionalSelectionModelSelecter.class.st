@@ -22,7 +22,7 @@ ToAdditionalSelectionModelSelecter >> eventClass [
 ToAdditionalSelectionModelSelecter >> onInstalledIn: aListElement [
 
 	operator := ToAdditionalSelectionModelOperator on: aListElement withEventClass: self eventClass.
-	selectionModel := aListElement newSelectionModel.
+	selectionModel := aListElement newAdditionalSelectionModel.
 	selectionModel onInstalledIn: aListElement.
 	self beMultipleSelection.
 

@@ -5,22 +5,34 @@ Class {
 }
 
 { #category : #accessing }
-ToListElementSelectionModel >> additionalSelectionModels [
+ToListElementSelectionModel >> additionalDependentSelectionModels [
 
 	^ self subclassResponsibility 
+]
+
+{ #category : #accessing }
+ToListElementSelectionModel >> allDependentSelectionModels [
+
+	^ Array streamContents: [ :stream |
+		  stream nextPutAll: self standardDependentSelectionModels.
+		  stream nextPutAll: self additionalDependentSelectionModels ]
 ]
 
 { #category : #copying }
 ToListElementSelectionModel >> copySelectionFrom: anotherSelectionModel [
 
 	super copySelectionFrom: anotherSelectionModel.
-	self unselectableSelectionModelDo: [ :sm |
+	self allDependentSelectionModels do: [ :sm |
 		sm copySelectionFrom:
-			anotherSelectionModel unselectableSelectionModel ].
-	self disabledSelectionModelDo: [ :sm |
-		sm copySelectionFrom: anotherSelectionModel disabledSelectionModel ].
-	self hiddenSelectionModelDo: [ :sm |
-		sm copySelectionFrom: anotherSelectionModel hiddenSelectionModel ]
+			(anotherSelectionModel dependentSelectionModelWithId: sm uniqueId) ]
+]
+
+{ #category : #accessing }
+ToListElementSelectionModel >> dependentSelectionModelWithId: anUniqueId [
+
+	^ self allDependentSelectionModels
+		  detect: [ :sm | sm uniqueId = anUniqueId ]
+		  ifNone: [  ]
 ]
 
 { #category : #updating }
@@ -127,14 +139,6 @@ ToListElementSelectionModel >> nextSelectableIndexStartingAt: anIndex [
 ]
 
 { #category : #accessing }
-ToListElementSelectionModel >> otherSelectionModels [
-
-	^ Array streamContents: [ :stream |
-		  stream nextPutAll: self standardAdditionalSelectionModels.
-		  stream nextPutAll: self additionalSelectionModels ]
-]
-
-{ #category : #accessing }
 ToListElementSelectionModel >> previousSelectableIndexStartingAt: anIndex [
 
 	(self unselectableSelectionModel isNil or: [
@@ -187,7 +191,7 @@ ToListElementSelectionModel >> shift: aGap from: aStartIndex for: anEventTarget 
 		| count |
 		count := aGap abs.
 		self deselectIndex: aStartIndex to: aStartIndex + count - 1 ].
-	self otherSelectionModels do: [ :sm |
+	self allDependentSelectionModels do: [ :sm |
 		sm shift: aGap from: aStartIndex ].
 
 	" ** super send after **"
@@ -195,7 +199,7 @@ ToListElementSelectionModel >> shift: aGap from: aStartIndex for: anEventTarget 
 ]
 
 { #category : #accessing }
-ToListElementSelectionModel >> standardAdditionalSelectionModels [
+ToListElementSelectionModel >> standardDependentSelectionModels [
 
 	^ {
 		  self disabledSelectionModel.
@@ -206,16 +210,15 @@ ToListElementSelectionModel >> standardAdditionalSelectionModels [
 { #category : #updating }
 ToListElementSelectionModel >> transferIndex: anIndex from: anotherPrimarySelectionModel as: targetIndex [
 
-	super transferIndex: anIndex from: anotherPrimarySelectionModel as: targetIndex.
-	anotherPrimarySelectionModel disabledSelectionModelDo: [ :sm | (sm containsIndex: anIndex)
-		ifTrue: [ self disabledSelectionModelDo: [ :osm | osm selectIndex: targetIndex ] ]
-		ifFalse: [ self disabledSelectionModelDo: [ :osm | osm  deselectIndex: targetIndex ] ] ].
-	anotherPrimarySelectionModel unselectableSelectionModelDo: [ :sm | (sm containsIndex: anIndex)
-		ifTrue: [ self unselectableSelectionModelDo: [ :osm | osm selectIndex: targetIndex ] ]
-		ifFalse: [ self unselectableSelectionModelDo: [ :osm | osm  deselectIndex: targetIndex ] ] ].
-	anotherPrimarySelectionModel hiddenSelectionModelDo: [ :sm | (sm containsIndex: anIndex)
-		ifTrue: [ self hiddenSelectionModelDo: [ :osm | osm selectIndex: targetIndex ] ]
-		ifFalse: [ self hiddenSelectionModelDo: [ :osm | osm  deselectIndex: targetIndex ] ] ]
+	super
+		transferIndex: anIndex
+		from: anotherPrimarySelectionModel
+		as: targetIndex.
+	self allDependentSelectionModels do: [ :sm |
+		(anotherPrimarySelectionModel dependentSelectionModelWithId: sm uniqueId) ifNotNil: [ :otherSm |
+			(otherSm containsIndex: anIndex)
+				ifTrue: [ sm selectIndex: targetIndex ]
+				ifFalse: [ sm deselectIndex: targetIndex ] ] ]
 ]
 
 { #category : #updating }

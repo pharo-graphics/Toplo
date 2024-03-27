@@ -2,14 +2,33 @@ Class {
 	#name : #ToListElement,
 	#superclass : #ToBasicListElement,
 	#instVars : [
-		'disabledSelecter',
-		'unselectableSelecter',
-		'secondarySelectionModel',
 		'secondarySelectionMode',
-		'hiddenSelecter'
+		'additionalSelecterIndex'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
+
+{ #category : #private }
+ToListElement >> additionalSelecterIndex [
+
+	^ additionalSelecterIndex
+]
+
+{ #category : #'additional selecters' }
+ToListElement >> additionalSelecterWithId: anUniqueId [
+
+	^ additionalSelecterIndex at: anUniqueId ifAbsent: [  ]
+]
+
+{ #category : #'additional selecters' }
+ToListElement >> changeAdditionalSelecterWithId: aUniqueId with: aSelecter [
+
+	self unrecordAdditionalSelecter:
+		(self additionalSelecterWithId: aUniqueId).
+	aSelecter ifNil: [ ^ self ].
+	aSelecter uniqueId: aUniqueId.
+	self recordAdditionalSelecter: aSelecter
+]
 
 { #category : #accessing }
 ToListElement >> data [
@@ -43,33 +62,25 @@ ToListElement >> defaultSecondarySelectionEventHandler [
 { #category : #initialization }
 ToListElement >> defaultSecondarySelectionMode [
 
-	^ ToListMultipleSelectionMode new operator:
-		  (ToSecondarySelectionModelOperator new selectionModel:
-			   self secondarySelectionModel)
+	^ (ToListSelectionMode secondaryOn: self) beMultipleSelection
 ]
 
 { #category : #accessing }
 ToListElement >> disabledSelecter [ 
 
-	^ disabledSelecter
+	^ self additionalSelecterWithId: #disabled
 ]
 
 { #category : #accessing }
 ToListElement >> disabledSelectionModel [
 
-	^ self disabledSelecter selectionModel
+	^ self selectionModel disabledSelectionModel
 ]
 
 { #category : #accessing }
 ToListElement >> hiddenSelecter [ 
 
-	^ hiddenSelecter
-]
-
-{ #category : #accessing }
-ToListElement >> hiddenSelectionModel [
-
-	^ self hiddenSelecter selectionModel
+	^ self additionalSelecterWithId: #hidden
 ]
 
 { #category : #initialization }
@@ -79,43 +90,18 @@ ToListElement >> infiniteSharedEvents [
 ]
 
 { #category : #initialization }
-ToListElement >> initializeSelectionModel [
+ToListElement >> initialize [
 
-	unselectableSelecter := self installSelecterForEventClass:
-		                        ToListUnselectableSelectionChangedEvent.
-	disabledSelecter := self installSelecterForEventClass:
-		                    ToListDisabledSelectionChangedEvent.
-	hiddenSelecter := self installSelecterForEventClass:
-		                  ToListHiddenSelectionChangedEvent.
-
-	self secondarySelectionModel: self newSecondarySelectionModel.
+	super initialize.
 	self secondarySelectionMode: self defaultSecondarySelectionMode.
 	self addEventHandler: self defaultSecondarySelectionEventHandler.
-
-	super initializeSelectionModel
-]
-
-{ #category : #initialization }
-ToListElement >> installSelecterForEventClass: anEventClass [
-
-	| newSelectionModel newSelecter operator |
-	operator := ToAdditionalSelectionModelOperator eventClass:
-		            anEventClass.
-	newSelectionModel := self newSelectionModel.
-	newSelectionModel onInstalledIn: self.
-	newSelecter := ToMultiSelectionModelSelecter new.
-	operator selectionModel: newSelectionModel.
-	operator onInstalledIn: self.
-	newSelecter operator: operator.
-	newSelecter onInstalledIn: self.
-
-	^ newSelecter
+	additionalSelecterIndex := SmallIdentityDictionary new
 ]
 
 { #category : #'instance creation' }
 ToListElement >> newPrimarySelectionModel [
 
-	^ ToListPrimarySelectionModel new
+	^ ToListElementSelectionModel new
 ]
 
 { #category : #skin }
@@ -130,10 +116,32 @@ ToListElement >> newSecondarySelectionModel [
 	^ ToListElementSelectionModel new
 ]
 
+{ #category : #'additional selecters' }
+ToListElement >> recordAdditionalSelecter: aSelecter [
+
+	aSelecter ifNil: [ ^ self ].
+	additionalSelecterIndex
+		at: aSelecter uniqueId
+		ifPresent: [
+		Error signal: 'A selecter with the same id already exists' ].
+	additionalSelecterIndex
+		at: aSelecter uniqueId
+		put: aSelecter
+]
+
 { #category : #accessing }
 ToListElement >> secondarySelecter [ 
 
 	^ self secondarySelectionMode selecter
+]
+
+{ #category : #accessing }
+ToListElement >> secondarySelectionElements [
+
+	^ Array streamContents: [ :stream |
+		  self childrenDo: [ :child |
+			  (child isKindOf: ToListSecondarySelectionElement) ifTrue: [
+				  stream nextPut: child ] ] ]
 ]
 
 { #category : #accessing }
@@ -154,25 +162,84 @@ ToListElement >> secondarySelectionMode: aSelectionMode [
 { #category : #accessing }
 ToListElement >> secondarySelectionModel [
 
-	^ secondarySelectionModel
+	^ self secondarySelectionMode selectionModel
 ]
 
-{ #category : #accessing }
-ToListElement >> secondarySelectionModel: aSelectionModel [
+{ #category : #'additional selecters' }
+ToListElement >> unrecordAdditionalSelecter: aSelecter [
 
-	secondarySelectionModel ifNotNil: [ secondarySelectionModel onUninstalledIn: self ].
-	secondarySelectionModel := aSelectionModel.
-	secondarySelectionModel ifNotNil: [secondarySelectionModel onInstalledIn: self ]
+	aSelecter ifNil: [ ^ self ].
+	additionalSelecterIndex removeKey:	aSelecter uniqueId
 ]
 
 { #category : #accessing }
 ToListElement >> unselectableSelecter [
 
-	^ unselectableSelecter
+	^ self additionalSelecterWithId: #unselectable
 ]
 
-{ #category : #accessing }
-ToListElement >> unselectableSelectionModel [
+{ #category : #'additional selecters' }
+ToListElement >> withAdditionalSelecterWithId: aSymbol withEventClass: anEventClass [
 
-	^ self unselectableSelecter selectionModel
+	| selecter |
+	selecter := ToAdditionalSelecter new.
+	selecter uniqueId: aSymbol.
+	selecter eventClass: anEventClass.
+	selecter onInstalledIn: self.
+	^ selecter
+	
+
+]
+
+{ #category : #'additional selecters' }
+ToListElement >> withDisabledSelecter [
+
+	ToDisabledSelecter on: self
+	
+
+]
+
+{ #category : #'additional selecters' }
+ToListElement >> withHiddenSelecter [
+
+	ToHiddenSelecter on: self
+
+]
+
+{ #category : #'additional selecters' }
+ToListElement >> withUnselectableSelecter [
+
+	ToUnselectableSelecter on: self
+
+]
+
+{ #category : #'additional selecters' }
+ToListElement >> withoutAdditionalSelecterWithId: aSymbol [ 
+
+	| selecter |
+	selecter := self additionalSelecterWithId: aSymbol.
+	selecter ifNil: [ ^ self ].
+	selecter onUninstalledIn: self.
+	^ selecter
+]
+
+{ #category : #'additional selecters' }
+ToListElement >> withoutDisabledSelecter [
+
+	(self additionalSelecterWithId: #disabled) ifNotNil: [ :selecter |
+		selecter onUninstalledIn: self ]
+]
+
+{ #category : #'additional selecters' }
+ToListElement >> withoutHiddenSelecter [
+
+	(self additionalSelecterWithId: #hidden) ifNotNil: [ :selecter |
+		selecter onUninstalledIn: self ]
+]
+
+{ #category : #'additional selecters' }
+ToListElement >> withoutUnselectableSelecter [
+
+	(self additionalSelecterWithId: #unselectable) ifNotNil: [ :selecter |
+		selecter onUninstalledIn: self ]
 ]

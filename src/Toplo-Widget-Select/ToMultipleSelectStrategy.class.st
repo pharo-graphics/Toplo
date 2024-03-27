@@ -20,7 +20,6 @@ ToMultipleSelectStrategy >> isMultipleSelection [
 ToMultipleSelectStrategy >> onInstalledIn: aSelect [
 
 	aSelect listElement selectionMode:
-		(ToListMultipleSelectionMode new operator:
-			 (ToPrimarySelectionModelOperator new selectionModel: aSelect listElement selectionModel)).
+		(ToListSelectionMode primaryOn: aSelect listElement) beMultipleSelection.
 	super onInstalledIn: aSelect
 ]

@@ -1,11 +1,11 @@
 Class {
 	#name : #ToCommandOperator,
 	#superclass : #Object,
-	#traits : 'TBlEventTarget',
 	#classTraits : 'TBlEventTarget classTrait',
 	#instVars : [
 		'eventDispatcher',
-		'sharedEventDistributor'
+		'sharedEventDistributor',
+		'element'
 	],
 	#category : #'Toplo-Widget-List-Command-Selection'
 }
@@ -24,19 +24,11 @@ ToCommandOperator >> applyCommand: aCommand in: aTarget [
 	aCommand applyOn: aCommand operator in: aTarget
 ]
 
-{ #category : #'event management accessing' }
-ToCommandOperator >> eventDispatcher [
-	"Return an object responsible for event dispatching"
-	<return: #BlDirectEventDispatcher>
+{ #category : #'event management' }
+ToCommandOperator >> dispatchEvent: anEvent [
+	"I only call my event dispatcher, so the event can be only handled by my event handlers/filters"
 
-	^ eventDispatcher 
-]
-
-{ #category : #initialization }
-ToCommandOperator >> initialize [ 
-
-	super initialize.
-	eventDispatcher := BlDirectEventDispatcher on: self
+	element dispatchEvent: anEvent
 ]
 
 { #category : #'command operations' }
@@ -45,23 +37,15 @@ ToCommandOperator >> listScrollCommand: aCommand in: aTarget [
 ]
 
 { #category : #'api - hooks' }
-ToCommandOperator >> onInstalledIn: anEventTarget [
+ToCommandOperator >> onInstalledIn: anElement [
 
-	sharedEventDistributor ifNotNil: [ Error signal: 'A CommandTarget can be installed only once' ].
-	sharedEventDistributor := BlSharedEventDistributor new
-		                          shareEvents: self sharedEvents;
-		                          yourself.
-	self addEventHandler: sharedEventDistributor.
-	anEventTarget addEventHandler: sharedEventDistributor
+	element := anElement 
 ]
 
 { #category : #'api - hooks' }
 ToCommandOperator >> onUninstalledIn: anEventTarget [
 
-	sharedEventDistributor ifNil: [ Error signal: 'Not installed' ].
-	self removeEventHandler: sharedEventDistributor.
-	anEventTarget removeEventHandler: sharedEventDistributor.
-	sharedEventDistributor := nil
+	element := nil
 ]
 
 { #category : #accessing }

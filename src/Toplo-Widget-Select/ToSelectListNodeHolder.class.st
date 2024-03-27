@@ -8,36 +8,9 @@ Class {
 }
 
 { #category : #testing }
-ToSelectListNodeHolder >> isDisabled [
-
-	^ self listElement
-		  ifNil: [ true ]
-		  ifNotNil: [ :le |
-		  le disabledSelectionModel containsIndex: self originalPosition ]
-]
-
-{ #category : #testing }
 ToSelectListNodeHolder >> isGroup [
 
-	^ self listElement groupSelectionModel containsIndex:
-		  self originalPosition
-]
-
-{ #category : #testing }
-ToSelectListNodeHolder >> isUnselectable [
-
-	^ self listElement
-		  ifNil: [ true ]
-		  ifNotNil: [ :le |
-		  le unselectableSelectionModel containsIndex: self originalPosition ]
-]
-
-{ #category : #testing }
-ToSelectListNodeHolder >> originalPosition [
-
-	| sieve |
-	sieve := select sieve.
-	^ sieve dataPositionIndex at: self dataItem
+	^ self listElement groupSelectionModel containsIndex: self position
 ]
 
 { #category : #accessing }

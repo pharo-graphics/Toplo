@@ -70,12 +70,6 @@ ToInfiniteElement >> initialize [
 	self matchParent
 ]
 
-{ #category : #layout }
-ToInfiniteElement >> layoutCritical: aBlock [
-			
-	aBlock value
-]
-
 { #category : #accessing }
 ToInfiniteElement >> listElement [
 

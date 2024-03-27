@@ -121,64 +121,6 @@ ToListElementStresser >> actionDeselectIndexesIn: aList [
 ]
 
 { #category : #actions }
-ToListElementStresser >> actionDisableAllIn: aList [
-
-	aList disabledSelecter selectAll
-]
-
-{ #category : #actions }
-ToListElementStresser >> actionDisableIndexIn: aList [
-
-	| idx |
-	idx := self randIndexIn: aList.
-	idx isZero ifFalse: [ aList disabledSelecter selectIndex: idx ]
-]
-
-{ #category : #actions }
-ToListElementStresser >> actionDisableIndexesIn: aList [
-
-	| nb selected |
-	nb := (self randIndexIn: aList) min: 30.
-	nb isZero ifTrue: [ ^ self ].
-	selected := (1 to: nb) collect: [ :i | self randIndexIn: aList ].
-	aList disabledSelecter selectIndexes: selected
-]
-
-{ #category : #actions }
-ToListElementStresser >> actionEnableAllIn: aList [
-
-	aList disabledSelecter deselectAll
-]
-
-{ #category : #actions }
-ToListElementStresser >> actionEnableIndexIn: aList [
-
-	| idx |
-	idx := self randIndexIn: aList.
-	idx isZero ifFalse: [ aList disabledSelecter deselectIndex: idx ]
-]
-
-{ #category : #actions }
-ToListElementStresser >> actionEnableIndexesIn: aList [
-
-	| nb selected |
-	nb := (self randIndexIn: aList) min: 30.
-	nb isZero ifTrue: [ ^ self ].
-	selected := (1 to: nb) collect: [ :i | self randIndexIn: aList ].
-	aList disabledSelecter deselectIndexes: selected
-]
-
-{ #category : #actions }
-ToListElementStresser >> actionHiddenIndexesIn: aList [
-
-	| nb selected |
-	nb := (self randIndexIn: aList) min: 30.
-	nb isZero ifTrue: [ ^ self ].
-	selected := (1 to: nb) collect: [ :i | self randIndexIn: aList ].
-	aList hiddenSelecter selectIndexes: selected
-]
-
-{ #category : #actions }
 ToListElementStresser >> actionRemoveAtIn: aList [
 
 	| idx |
@@ -239,67 +181,12 @@ ToListElementStresser >> actionSelectOnlyIndexesIn: aList [
 ]
 
 { #category : #actions }
-ToListElementStresser >> actionSelectableAllIn: aList [
-
-	
-		aList unselectableSelecter deselectAll
-]
-
-{ #category : #actions }
-ToListElementStresser >> actionSelectableIndexIn: aList [
-
-	| idx |
-	idx := self randIndexIn: aList.
-	idx isZero ifFalse: [ aList unselectableSelecter deselectIndex: idx ]
-]
-
-{ #category : #actions }
-ToListElementStresser >> actionSelectableIndexesIn: aList [
-
-	| nb selected |
-	nb := (self randIndexIn: aList) min: 30.
-	nb isZero ifTrue: [ ^ self ].
-	selected := (1 to: nb) collect: [ :i | self randIndexIn: aList ].
-	aList unselectableSelecter deselectIndexes: selected
-]
-
-{ #category : #actions }
 ToListElementStresser >> actionShiftSelectionFromIn: aList [
 
 	| nb idx |
 	nb := self randIndexIn: aList.
 	idx := self randIndexIn: aList.
 	idx isZero ifFalse: [ aList selecter shiftSelection: nb from: idx ]
-]
-
-{ #category : #actions }
-ToListElementStresser >> actionUnhiddenAllIn: aList [
-
-	aList hiddenSelecter deselectAll
-]
-
-{ #category : #actions }
-ToListElementStresser >> actionUnselectableAllIn: aList [
-
-	aList unselectableSelecter selectAll
-]
-
-{ #category : #actions }
-ToListElementStresser >> actionUnselectableIndexIn: aList [
-
-	| idx |
-	idx := self randIndexIn: aList.
-	idx isZero ifFalse: [ aList unselectableSelecter selectIndex: idx ]
-]
-
-{ #category : #actions }
-ToListElementStresser >> actionUnselectableIndexesIn: aList [
-
-	| nb selected |
-	nb := (self randIndexIn: aList) min: 30.
-	nb isZero ifTrue: [ ^ self ].
-	selected := (1 to: nb) collect: [ :i | self randIndexIn: aList ].
-	aList unselectableSelecter selectIndexes: selected
 ]
 
 { #category : #private }
@@ -357,7 +244,7 @@ ToListElementStresser >> initialize [
 { #category : #accessing }
 ToListElementStresser >> interRoundWaitDuration [
 
-	^ 50 milliSeconds 
+	^ 30 milliSeconds 
 ]
 
 { #category : #accessing }
@@ -399,9 +286,16 @@ ToListElementStresser >> minListSize [
 ]
 
 { #category : #initialization }
+ToListElementStresser >> newListElement [ 
+
+	^ ToListElement new
+]
+
+{ #category : #initialization }
 ToListElementStresser >> newStressedListNumber: aNumber [
 
 	| list process size ident priority suffix sieve |
+
 	list := ToListElement new.
 	sieve := ToListElementSieve new.
 	list userData at: #sieve put: sieve.

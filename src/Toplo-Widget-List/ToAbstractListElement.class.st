@@ -5,7 +5,6 @@ Class {
 	#classTraits : 'TToListElementDecorator classTrait + TToElementWithPlaceholder classTrait',
 	#instVars : [
 		'selectionMode',
-		'selectionModel',
 		'sharedEventDistributors',
 		'dataSource'
 	],
@@ -131,9 +130,7 @@ ToAbstractListElement >> defaultNodeReleaser [
 { #category : #initialization }
 ToAbstractListElement >> defaultSelectionMode [
 
-	^ ToListMultipleSelectionMode new operator:
-		  (ToPrimarySelectionModelOperator new selectionModel:
-			   self selectionModel)
+	^ (ToListSelectionMode primaryOn: self) beMultipleSelection 
 ]
 
 { #category : #orientation }
@@ -160,7 +157,6 @@ ToAbstractListElement >> initialize [
 	self next: self defaultInfiniteElement.
 	self next elevation: (BlRelativeElevation elevation: 10).
 
-	self initializeSelectionModel.
 	self layout: self defaultLayout.	
 
 	self selectionMode: self defaultSelectionMode.
@@ -181,12 +177,6 @@ ToAbstractListElement >> initialize [
 ToAbstractListElement >> initializeDataSource [ 
 
 	self dataSource: self defaultDataSource
-]
-
-{ #category : #initialization }
-ToAbstractListElement >> initializeSelectionModel [
-
-	self selectionModel: self newPrimarySelectionModel
 ]
 
 { #category : #initialization }
@@ -314,15 +304,6 @@ ToAbstractListElement >> primarySelectionElements [
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> secondarySelectionElements [
-
-	^ Array streamContents: [ :stream |
-		  self childrenDo: [ :child |
-			  (child isKindOf: ToListSecondarySelectionElement) ifTrue: [
-				  stream nextPut: child ] ] ]
-]
-
-{ #category : #accessing }
 ToAbstractListElement >> selecter [ 
 
 	^ self selectionMode selecter
@@ -349,15 +330,7 @@ ToAbstractListElement >> selectionMode: aSelectionMode [
 { #category : #accessing }
 ToAbstractListElement >> selectionModel [
 
-	^ selectionModel
-]
-
-{ #category : #accessing }
-ToAbstractListElement >> selectionModel: aSelectionModel [
-
-	selectionModel ifNotNil: [ selectionModel onUninstalledIn: self ].
-	selectionModel := aSelectionModel.
-	selectionModel ifNotNil: [selectionModel onInstalledIn: self ]
+	^ self selectionMode selectionModel
 ]
 
 { #category : #initialization }

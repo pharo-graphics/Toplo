@@ -19,14 +19,13 @@ ToListSecondarySelectionElementEventHandler >> addSecondarySelectionIn: aListEle
 { #category : #'selection managing' }
 ToListSecondarySelectionElementEventHandler >> criticalUpdateSelectionFromEvent: anEvent [
 
-	anEvent currentTarget layoutCritical: [
-		self updateSelectionFromEvent: anEvent ]
+	self updateSelectionFromEvent: anEvent
 ]
 
 { #category : #'element handlers' }
 ToListSecondarySelectionElementEventHandler >> elementExtentChangedEvent: anEvent [
 
-	self criticalUpdateSelectionFromEvent: anEvent
+	self updateSelectionFromEvent: anEvent
 ]
 
 { #category : #'mouse handlers' }
@@ -34,7 +33,7 @@ ToListSecondarySelectionElementEventHandler >> elementScrolledEvent: anEvent [
 
 	anEvent currentTarget spaceDo: [ :sp | 
 		sp mouseProcessor handleLastMouseMove ].
-	self criticalUpdateSelectionFromEvent: anEvent
+	self updateSelectionFromEvent: anEvent
 ]
 
 { #category : #'api - accessing' }
@@ -51,13 +50,13 @@ ToListSecondarySelectionElementEventHandler >> eventsToHandle [
 { #category : #'mouse handlers' }
 ToListSecondarySelectionElementEventHandler >> infiniteScrollFinishedEvent: anEvent [
 
-	self criticalUpdateSelectionFromEvent: anEvent
+	self updateSelectionFromEvent: anEvent
 ]
 
 { #category : #'mouse handlers' }
 ToListSecondarySelectionElementEventHandler >> listSecondarySelectionChangedEvent: anEvent [
 
-	self criticalUpdateSelectionFromEvent: anEvent
+	self updateSelectionFromEvent: anEvent
 ]
 
 { #category : #'mouse handlers' }
@@ -68,12 +67,12 @@ ToListSecondarySelectionElementEventHandler >> mouseMoveEvent: anEvent [
 	target := anEvent currentTarget.
 	infinite := target infinite.
 	globalPosition := anEvent position.
-	target layoutCritical: [
-		childNode := infinite children
-			             detect: [ :node |
-				             node holder isSelectable and: [
-					             node containsGlobalPoint: globalPosition ] ]
-			             ifNone: [  ] ].
+
+	childNode := infinite children
+		             detect: [ :node |
+			             node holder isSelectable and: [
+				             node containsGlobalPoint: globalPosition ] ]
+		             ifNone: [  ].
 	childNode ifNil: [
 		target secondarySelecter deselectAll.
 		^ self ].

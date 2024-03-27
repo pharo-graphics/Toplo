@@ -25,6 +25,6 @@ ToSecondarySelectionModelOperator >> notifySelectionChangedAfter: aCommand in: a
 
 	aTarget dispatchEvent:
 		(ToListSecondarySelectionChangedEvent new
-			 selectionModel: self selectionModel;
+			 selectionModel: aCommand selectionModel;
 			 yourself)
 ]

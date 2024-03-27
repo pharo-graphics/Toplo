@@ -84,6 +84,14 @@ ToBasicListElement >> initialize [
 ]
 
 { #category : #'instance creation' }
+ToBasicListElement >> newAdditionalSelectionModel [
+
+	^ ToSelectionModel new
+		  itemCountGetter: [ self dataSource itemCount ];
+		  yourself
+]
+
+{ #category : #'instance creation' }
 ToBasicListElement >> newPrimarySelectionModel [
 
 	^ self newSelectionModel 

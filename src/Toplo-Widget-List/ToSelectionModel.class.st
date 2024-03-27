@@ -27,7 +27,9 @@ ToSelectionModel >> containsIndex: anIndex [
 { #category : #copying }
 ToSelectionModel >> copySelectionFrom: anotherSelectionModel [
 
-	anotherSelectionModel underlyingModelDo: [ :ulm | underlyingModel := ulm copy ]
+	anotherSelectionModel ifNil: [ ^ self ].
+	anotherSelectionModel underlyingModelDo: [ :ulm |
+		underlyingModel := ulm copy ]
 ]
 
 { #category : #updating }
@@ -68,6 +70,12 @@ ToSelectionModel >> firstIndex [
 		^ ulm from + 1 ]
 ]
 
+{ #category : #testing }
+ToSelectionModel >> hasUnselectableInInterval: anInterval [
+
+	^ false
+]
+
 { #category : #comparing }
 ToSelectionModel >> hash [
 
@@ -98,9 +106,21 @@ ToSelectionModel >> initialize [
 ]
 
 { #category : #testing }
+ToSelectionModel >> isDisabledIndex: anIndex [
+
+	^ false
+]
+
+{ #category : #testing }
 ToSelectionModel >> isEmpty [
 
 	self underlyingModelDo: [ :ulm | ^ ulm isEmpty ]
+]
+
+{ #category : #testing }
+ToSelectionModel >> isHiddenIndex: anIndex [
+
+	^ false
 ]
 
 { #category : #testing }
@@ -340,6 +360,14 @@ ToSelectionModel >> transferIndex: anIndex from: anotherPrimarySelectionModel as
 	(anotherPrimarySelectionModel containsIndex: anIndex)
 		ifTrue: [ self selectIndex: targetIndex ]
 		ifFalse: [ self deselectIndex: targetIndex ]
+]
+
+{ #category : #updating }
+ToSelectionModel >> transferSelectionFromIndex: anIndex toIndex: targetIndex in: anotherPrimarySelectionModel [ 
+
+	(self containsIndex: anIndex)
+		ifTrue: [ anotherPrimarySelectionModel selectIndex: targetIndex ]
+		ifFalse: [ anotherPrimarySelectionModel deselectIndex: targetIndex ]
 ]
 
 { #category : #accessing }

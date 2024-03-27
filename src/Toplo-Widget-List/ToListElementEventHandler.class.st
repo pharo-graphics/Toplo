@@ -56,19 +56,23 @@ ToListElementEventHandler >> listHiddenSelectionChangedEvent: anEvent [
 { #category : #'list element handling' }
 ToListElementEventHandler >> listUnselectableSelectionChangedEvent: anEvent [
 
-	| listElement firstPos lastPos |
+	| listElement |
 	listElement := anEvent currentTarget.
 	listElement isAttachedToSceneGraph ifFalse: [ ^ self ].
 	listElement infinite hasChildren ifFalse: [ ^ self ].
 	anEvent selectionModel ifEmpty: [
 		listElement dataSource notifyChanged.
 		^ self ].
-	firstPos := listElement infinite firstChild holder position.
-	lastPos := listElement infinite lastChild holder position.
-	firstPos to: lastPos do: [ :idx |
-		((listElement selectionModel containsIndex: idx) and: [
-			 listElement unselectableSelectionModel containsIndex: idx ]) ifTrue: [
-			listElement selecter deselectIndex: idx ] ].
+
+	listElement selectionModel unselectableSelectionModelDo: [ :sm |
+		| firstPos lastPos |
+		firstPos := listElement infinite firstChild holder position.
+		lastPos := listElement infinite lastChild holder position.
+		firstPos to: lastPos do: [ :idx |
+			((listElement selectionModel containsIndex: idx) and: [
+				 sm containsIndex: idx ]) ifTrue: [
+				listElement selecter deselectIndex: idx ] ] ].
+
 	anEvent selectionModel selectedIndexesIntervalsDo: [ :interval |
 		listElement dataSource notifyItemsChanged:
 			(interval first to: interval last) ]

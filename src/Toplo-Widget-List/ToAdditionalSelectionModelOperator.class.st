@@ -7,10 +7,13 @@ Class {
 	#category : #'Toplo-Widget-List-Command-Selection'
 }
 
-{ #category : #accessing }
-ToAdditionalSelectionModelOperator class >> eventClass: anEventClass [
+{ #category : #instanceCreation }
+ToAdditionalSelectionModelOperator class >> on: anElement withEventClass: anEventClass [
 
-	^ self new eventClass: anEventClass
+	^ self new
+		  eventClass: anEventClass;
+		  onInstalledIn: anElement;
+		  yourself
 ]
 
 { #category : #accessing }
@@ -31,6 +34,6 @@ ToAdditionalSelectionModelOperator >> notifySelectionChangedAfter: aCommand in: 
 	aCommand selectionChanged ifFalse: [ ^ self ].
 
 	aTarget dispatchEvent: (self eventClass new
-			 selectionModel: self selectionModel;
+			 selectionModel: aCommand selectionModel;
 			 yourself)
 ]

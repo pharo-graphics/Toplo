@@ -113,9 +113,7 @@ ToListElementTest >> testEmptyListAddOrRemoveNextInSelection [
 
 	| l |
 	l := ToListElement new.
-	l selectionMode: (ToListMultipleSelectionMode new operator:
-			 (ToPrimarySelectionModelOperator new selectionModel:
-				  l selectionModel)).
+	l selectionMode: (ToListSelectionMode primaryOn: l) beMultipleSelection.
 	l fitContent.
 	self assert: l dataAccessor isEmpty.
 	l forceLayout.
@@ -129,9 +127,7 @@ ToListElementTest >> testEmptyListAddOrRemovePreviousInSelection [
 
 	| l |
 	l := ToListElement new.
-	l selectionMode: (ToListMultipleSelectionMode new operator:
-			 (ToPrimarySelectionModelOperator new selectionModel:
-				  l selectionModel)).
+	l selectionMode: (ToListSelectionMode primaryOn: l) beMultipleSelection.
 	l fitContent.
 	self assert: l dataAccessor isEmpty.
 	l forceLayout.

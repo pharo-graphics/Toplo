@@ -691,7 +691,7 @@ ToSandBox class >> example_List2WithAllClassesMono [
 
 	| l |
 	l := ToListElement new.
-	l selectionMode: (ToListSingleSelectionMode new operator: (ToPrimarySelectionModelOperator new selectionModel: l selectionModel)).
+	l selectionMode: (ToListSelectionMode primaryOn: l) beSingleSelection.
 	l dataAccessor addAll:
 		(Smalltalk globals allClasses collect: [ :cls | cls name ]).
 	l openInSpace
@@ -714,7 +714,7 @@ ToSandBox class >> example_List2WithAllClassesNone [
 
 	| l |
 	l := ToListElement new.
-	l selectionMode: ToListNoneSelectionMode new.
+	l selectionMode: (ToListSelectionMode primaryOn: l) disable.
 	l dataAccessor addAll:
 		(Smalltalk globals allClasses collect: [ :cls | cls name ]).
 	l openInSpace
@@ -1365,6 +1365,7 @@ ToSandBox class >> example_SelectMonoNotFiltrableWithGroups [
 
 	| select innerWindow phtext |
 	select := ToSelectElement new.
+	select inspect.
 	select listElement placeholderMinHeight: 35.
 	phtext := ('No Data' asRopedText
 		           foreground: Color lightGray;
@@ -1397,7 +1398,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 
 	| select innerWindow |
 	select := ToSelectElement new.
-	select maxSelectedCount: 4.
+	"select maxSelectedCount: 4."
 
 	select inspect.
 	select hideSelected: false.
@@ -1421,7 +1422,8 @@ ToSandBox class >> example_SelectMultiFiltrableNoWrapping [
 
 	| select innerWindow |
 	select := ToSelectElement new.
-	select maxSelectedCount: 3.
+	select inspect.
+	select maxSelectedCount: 6.
 	select nodeWrapping: false.
 	select hideSelected: false.
 	select dataAccessor addAll: self statesOfAmerica.
@@ -1443,6 +1445,7 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected [
 
 	| select innerWindow |
 	select := ToSelectElement new.
+	select inspect.
 	select hideSelected: true.
 	select dataAccessor updateAllWith: self statesOfAmerica.
 	select strategy: ToMultipleSelectStrategy new.
@@ -1712,8 +1715,7 @@ ToSandBox class >> example_SieveOnList2With_AllMethods_MonoSelection [
 	| listElement assoc |
 	assoc := self example_SieveOnList2With_AllMethods.
 	listElement := assoc key.
-	listElement selectionMode: (ToListSingleSelectionMode new operator:
-			 (ToPrimarySelectionModelOperator new selectionModel: listElement selectionModel))
+	listElement selectionMode: (ToListSelectionMode primaryOn: listElement) beSingleSelection
 ]
 
 { #category : #list }

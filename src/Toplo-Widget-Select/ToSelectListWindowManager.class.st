@@ -189,6 +189,7 @@ ToSelectListWindowManager >> onInstalledIn: anElement [
 
 	sieve := ToListElementSieve new.
 	sieve onInstalledIn: listElement.
+
 	listElement nodeHolderFactory: [
 		ToSelectListNodeHolder new
 			select: self;

@@ -13,7 +13,7 @@ Class {
 ToListElementCommand >> applyIn: aTarget [
 	" dispatch that should send back #applyOn:in: to myself"
 
-	aTarget layoutCritical: [ self operator applyCommand: self in: aTarget ]
+	self operator applyCommand: self in: aTarget
 ]
 
 { #category : #hook }

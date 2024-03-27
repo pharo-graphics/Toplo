@@ -4,7 +4,6 @@ Class {
 	#traits : 'TBlLayoutResizable',
 	#classTraits : 'TBlLayoutResizable classTrait',
 	#instVars : [
-		'layoutMonitor',
 		'nodeHolderFactory',
 		'listElement'
 	],
@@ -52,12 +51,6 @@ ToInfiniteElement >> disableScrolledEvent [
 	self eventDispatcher disableScrolledEvent 
 ]
 
-{ #category : #layout }
-ToInfiniteElement >> dispatchLayout [
-
-	self layoutCritical: [ super dispatchLayout ]
-]
-
 { #category : #'scrolled event' }
 ToInfiniteElement >> enableScrolledEvent [
 
@@ -74,14 +67,7 @@ ToInfiniteElement >> infinite [
 ToInfiniteElement >> initialize [
 
 	super initialize.
-	layoutMonitor := Monitor new.
 	self matchParent
-]
-
-{ #category : #layout }
-ToInfiniteElement >> layoutCritical: aBlock [
-			
-	layoutMonitor critical: aBlock
 ]
 
 { #category : #accessing }
@@ -124,18 +110,17 @@ ToInfiniteElement >> nodeContainingGlobalPosition: aPoint [
 ToInfiniteElement >> nodeGroupsSatisfying: aBlock [
 	" return an array of collection. Each collection contains a list of adjacent selected nodes "
 
-	self layoutCritical: [
-		^ Array streamContents: [ :stream |
-			  | g |
-			  g := OrderedCollection new.
-			  self childrenDo: [ :node |
-				  (aBlock value: node)
-					  ifTrue: [ g add: node ]
-					  ifFalse: [
-						  g ifNotEmpty: [
-							  stream nextPut: g.
-							  g := OrderedCollection new ] ] ].
-			  g ifNotEmpty: [ stream nextPut: g ] ] ]
+	^ Array streamContents: [ :stream |
+		  | g |
+		  g := OrderedCollection new.
+		  self childrenDo: [ :node |
+			  (aBlock value: node)
+				  ifTrue: [ g add: node ]
+				  ifFalse: [
+					  g ifNotEmpty: [
+						  stream nextPut: g.
+						  g := OrderedCollection new ] ] ].
+		  g ifNotEmpty: [ stream nextPut: g ] ]
 ]
 
 { #category : #'accessing - nodes' }

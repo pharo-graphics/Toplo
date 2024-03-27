@@ -16,13 +16,6 @@ ToListPrimarySelectionElementEventHandler >> blurEvent: anEvent [
 	self enqueueUpdateSelectionFromEvent: anEvent
 ]
 
-{ #category : #'selection managing' }
-ToListPrimarySelectionElementEventHandler >> criticalUpdateSelectionFromEvent: anEvent [
-
-	anEvent currentTarget layoutCritical: [
-		self updateSelectionFromEvent: anEvent ]
-]
-
 { #category : #'element handlers' }
 ToListPrimarySelectionElementEventHandler >> elementExtentChangedEvent: anEvent [
 
@@ -32,7 +25,7 @@ ToListPrimarySelectionElementEventHandler >> elementExtentChangedEvent: anEvent 
 { #category : #'element handlers' }
 ToListPrimarySelectionElementEventHandler >> elementScrolledEvent: anEvent [
 
-	self criticalUpdateSelectionFromEvent: anEvent
+	self updateSelectionFromEvent: anEvent
 ]
 
 { #category : #'selection managing' }
@@ -57,19 +50,19 @@ ToListPrimarySelectionElementEventHandler >> eventsToHandle [
 { #category : #'element handlers' }
 ToListPrimarySelectionElementEventHandler >> focusEvent: anEvent [
 
-	self criticalUpdateSelectionFromEvent: anEvent
+	self updateSelectionFromEvent: anEvent
 ]
 
 { #category : #'element handlers' }
 ToListPrimarySelectionElementEventHandler >> listPrimarySelectionChangedEvent: anEvent [
 
-	self criticalUpdateSelectionFromEvent: anEvent
+	self updateSelectionFromEvent: anEvent
 ]
 
 { #category : #'element handlers' }
 ToListPrimarySelectionElementEventHandler >> listPrimarySelectionDirtyEvent: anEvent [
 
-	self criticalUpdateSelectionFromEvent: anEvent
+	self updateSelectionFromEvent: anEvent
 ]
 
 { #category : #'selection managing' }

@@ -36,12 +36,6 @@ TToListElementDecorator >> infinite [
 	^ self next infinite
 ]
 
-{ #category : #'t - infinite accessing' }
-TToListElementDecorator >> layoutCritical: aBlock [
-
-	self next layoutCritical: aBlock
-]
-
 { #category : #'t - accessing constraints' }
 TToListElementDecorator >> maxHeight: aHeight [
 

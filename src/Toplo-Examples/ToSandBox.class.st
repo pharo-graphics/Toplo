@@ -852,6 +852,10 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 
 	| l selectionMenu menuFactory phtext |
 	l := ToListElement new.
+	l withDisabledSelecter.
+	l withUnselectableSelecter.
+	l withHiddenSelecter.
+	
 	phtext := (('Invoke the context menu ' , String cr
 	            , 'with a right-click' , String cr
 	            , 'to initialize the list') asRopedText

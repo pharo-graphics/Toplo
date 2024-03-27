@@ -296,7 +296,7 @@ ToListElementStresser >> newStressedListNumber: aNumber [
 
 	| list process size ident priority suffix sieve |
 
-	list := ToListElement new.
+	list := self newListElement.
 	sieve := ToListElementSieve new.
 	list userData at: #sieve put: sieve.
 

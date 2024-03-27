@@ -133,3 +133,11 @@ ToListElementStresserWithAdditionalSelecters >> newListElement [
 		  withDisabledSelecter;
 		  yourself
 ]
+
+{ #category : #running }
+ToListElementStresserWithAdditionalSelecters >> selectActionsToRun [
+
+	^ (super selectActionsToRun)
+	  , (self class superclass selectors select: [ :selector |
+			   selector beginsWith: #action ])
+]

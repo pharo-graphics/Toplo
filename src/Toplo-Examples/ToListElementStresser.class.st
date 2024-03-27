@@ -402,8 +402,6 @@ ToListElementStresser >> minListSize [
 ToListElementStresser >> newStressedListNumber: aNumber [
 
 	| list process size ident priority suffix sieve |
-	rand := Random new.
-
 	list := ToListElement new.
 	sieve := ToListElementSieve new.
 	list userData at: #sieve put: sieve.

@@ -88,7 +88,7 @@ ToSelectionModelHolderForTest >> layoutCritical: aBlock [
 { #category : #accessing }
 ToSelectionModelHolderForTest >> multiSelectionSelecter [
 
-	^ (ToPredefinedSelectionModelSelecter
+	^ (ToPredefinedSelecter
 		   selectionModel: self selectionModel
 		   operator: operator) multiple: true
 ]
@@ -96,7 +96,7 @@ ToSelectionModelHolderForTest >> multiSelectionSelecter [
 { #category : #accessing }
 ToSelectionModelHolderForTest >> noneSelectionSelecter [
 
-	^ selecter := ToNoneSelectionModelSelecter new
+	^ selecter := ToNoneSelecter new
 ]
 
 { #category : #'event firing' }
@@ -144,7 +144,7 @@ ToSelectionModelHolderForTest >> selectionModel [
 { #category : #accessing }
 ToSelectionModelHolderForTest >> singleSelectionSelecter [
 
-	^ (ToPredefinedSelectionModelSelecter
+	^ (ToPredefinedSelecter
 		   selectionModel: self selectionModel
 		   operator: operator) multiple: false
 ]

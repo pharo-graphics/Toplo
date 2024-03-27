@@ -224,6 +224,19 @@ ToListElementSelectionModel >> transferIndex: anIndex from: anotherSelectionMode
 ]
 
 { #category : #updating }
+ToListElementSelectionModel >> transferSelectionFromIndex: anIndex toIndex: targetIndex in: anotherSelectionModel [ 
+
+	super
+		transferSelectionFromIndex: anIndex toIndex: targetIndex in: anotherSelectionModel.
+	self additionalSelecters do: [ :dst |
+		(anotherSelectionModel additionalSelecterWithId: dst uniqueId)
+			ifNotNil: [ :other |
+				(dst selectionModel containsIndex: anIndex)
+					ifTrue: [ other selectionModel selectIndex: targetIndex ]
+					ifFalse: [ other selectionModel deselectIndex: targetIndex ] ] ]
+]
+
+{ #category : #updating }
 ToListElementSelectionModel >> unhideAll [
 
 	self hiddenSelectionModelDo: [ :sm | sm deselectAll ]

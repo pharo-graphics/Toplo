@@ -362,6 +362,14 @@ ToSelectionModel >> transferIndex: anIndex from: anotherPrimarySelectionModel as
 		ifFalse: [ self deselectIndex: targetIndex ]
 ]
 
+{ #category : #updating }
+ToSelectionModel >> transferSelectionFromIndex: anIndex toIndex: targetIndex in: anotherPrimarySelectionModel [ 
+
+	(self containsIndex: anIndex)
+		ifTrue: [ anotherPrimarySelectionModel selectIndex: targetIndex ]
+		ifFalse: [ anotherPrimarySelectionModel deselectIndex: targetIndex ]
+]
+
 { #category : #accessing }
 ToSelectionModel >> underlyingModel [
 

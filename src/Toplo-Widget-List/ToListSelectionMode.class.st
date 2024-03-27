@@ -147,9 +147,9 @@ ToListSelectionMode >> multiple: aBoolean [
 ToListSelectionMode >> newSelecter [
 
 	^ self isDisabled
-		  ifTrue: [ ToNoneSelectionModelSelecter new ]
+		  ifTrue: [ ToNoneSelecter new ]
 		  ifFalse: [
-			  (ToPredefinedSelectionModelSelecter
+			  (ToPredefinedSelecter
 				   selectionModel: self selectionModel
 				   operator: self operator)
 				  multiple: self isMultipleSelection;

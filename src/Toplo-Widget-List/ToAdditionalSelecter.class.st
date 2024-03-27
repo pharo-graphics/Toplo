@@ -1,11 +1,15 @@
 Class {
-	#name : #ToAdditionalSelectionModelSelecter,
-	#superclass : #ToEffectiveSelectionModelSelecter,
+	#name : #ToAdditionalSelecter,
+	#superclass : #ToEffectiveSelecter,
+	#instVars : [
+		'eventClass',
+		'uniqueId'
+	],
 	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
 
 { #category : #'instance creation' }
-ToAdditionalSelectionModelSelecter class >> on: aListElement [
+ToAdditionalSelecter class >> on: aListElement [
 
 	^ self new
 		  onInstalledIn: aListElement;
@@ -13,13 +17,19 @@ ToAdditionalSelectionModelSelecter class >> on: aListElement [
 ]
 
 { #category : #accessing }
-ToAdditionalSelectionModelSelecter >> eventClass [
+ToAdditionalSelecter >> eventClass [
 
-	^ self subclassResponsibility 
+	^ eventClass
+]
+
+{ #category : #accessing }
+ToAdditionalSelecter >> eventClass: anEventClass [
+
+	eventClass := anEventClass
 ]
 
 { #category : #'api - hooks' }
-ToAdditionalSelectionModelSelecter >> onInstalledIn: aListElement [
+ToAdditionalSelecter >> onInstalledIn: aListElement [
 
 	operator := ToAdditionalSelectionModelOperator on: aListElement withEventClass: self eventClass.
 	selectionModel := aListElement newAdditionalSelectionModel.
@@ -30,7 +40,7 @@ ToAdditionalSelectionModelSelecter >> onInstalledIn: aListElement [
 ]
 
 { #category : #'api - hooks' }
-ToAdditionalSelectionModelSelecter >> onUninstalledIn: aListElement [
+ToAdditionalSelecter >> onUninstalledIn: aListElement [
 
 	aListElement unrecordAdditionalSelecter: self.
 	operator onUninstalledIn: aListElement.
@@ -39,7 +49,13 @@ ToAdditionalSelectionModelSelecter >> onUninstalledIn: aListElement [
 ]
 
 { #category : #accessing }
-ToAdditionalSelectionModelSelecter >> uniqueId [
+ToAdditionalSelecter >> uniqueId [
 
-	^ self subclassResponsibility 
+	^ uniqueId
+]
+
+{ #category : #accessing }
+ToAdditionalSelecter >> uniqueId: aSymbol [
+
+	uniqueId := aSymbol
 ]

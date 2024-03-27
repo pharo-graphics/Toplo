@@ -20,7 +20,12 @@ ToSelectListElement >> groupSelectionModel [
 ToSelectListElement >> initialize [
 
 	super initialize.
-	ToSelectGroupSelectionModelSelecter on: self
+	self withUnselectableSelecter.
+	self withHiddenSelecter.
+	self withDisabledSelecter.
+	self
+		withAdditionalSelecterWithId: #group
+		withEventClass: ToSelectGroupSelectionChangedEvent
 ]
 
 { #category : #skin }

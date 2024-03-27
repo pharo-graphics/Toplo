@@ -8,7 +8,7 @@ Class {
 	#category : #'Toplo-Widget-List-Core'
 }
 
-{ #category : #accessing }
+{ #category : #private }
 ToListElement >> additionalSelecterIndex [
 
 	^ additionalSelecterIndex
@@ -83,12 +83,6 @@ ToListElement >> hiddenSelecter [
 	^ self additionalSelecterWithId: #hidden
 ]
 
-{ #category : #accessing }
-ToListElement >> hiddenSelectionModel [
-
-	^ self selectionModel hiddenSelectionModel
-]
-
 { #category : #initialization }
 ToListElement >> infiniteSharedEvents [
 
@@ -101,10 +95,7 @@ ToListElement >> initialize [
 	super initialize.
 	self secondarySelectionMode: self defaultSecondarySelectionMode.
 	self addEventHandler: self defaultSecondarySelectionEventHandler.
-	additionalSelecterIndex := SmallIdentityDictionary new.
-	ToUnselectableSelectionModelSelecter on: self.
-	ToDisabledSelectionModelSelecter on: self.
-	ToHiddenSelectionModelSelecter on: self
+	additionalSelecterIndex := SmallIdentityDictionary new
 ]
 
 { #category : #'instance creation' }
@@ -187,8 +178,68 @@ ToListElement >> unselectableSelecter [
 	^ self additionalSelecterWithId: #unselectable
 ]
 
-{ #category : #accessing }
-ToListElement >> unselectableSelectionModel [
+{ #category : #'additional selecters' }
+ToListElement >> withAdditionalSelecterWithId: aSymbol withEventClass: anEventClass [
 
-	^ self selectionModel unselectableSelectionModel
+	| selecter |
+	selecter := ToAdditionalSelecter new.
+	selecter uniqueId: aSymbol.
+	selecter eventClass: anEventClass.
+	selecter onInstalledIn: self.
+	^ selecter
+	
+
+]
+
+{ #category : #'additional selecters' }
+ToListElement >> withDisabledSelecter [
+
+	ToDisabledSelecter on: self
+	
+
+]
+
+{ #category : #'additional selecters' }
+ToListElement >> withHiddenSelecter [
+
+	ToHiddenSelecter on: self
+
+]
+
+{ #category : #'additional selecters' }
+ToListElement >> withUnselectableSelecter [
+
+	ToUnselectableSelecter on: self
+
+]
+
+{ #category : #'additional selecters' }
+ToListElement >> withoutAdditionalSelecterWithId: aSymbol [ 
+
+	| selecter |
+	selecter := self additionalSelecterWithId: aSymbol.
+	selecter ifNil: [ ^ self ].
+	selecter onUninstalledIn: self.
+	^ selecter
+]
+
+{ #category : #'additional selecters' }
+ToListElement >> withoutDisabledSelecter [
+
+	(self additionalSelecterWithId: #disabled) ifNotNil: [ :selecter |
+		selecter onUninstalledIn: self ]
+]
+
+{ #category : #'additional selecters' }
+ToListElement >> withoutHiddenSelecter [
+
+	(self additionalSelecterWithId: #hidden) ifNotNil: [ :selecter |
+		selecter onUninstalledIn: self ]
+]
+
+{ #category : #'additional selecters' }
+ToListElement >> withoutUnselectableSelecter [
+
+	(self additionalSelecterWithId: #unselectable) ifNotNil: [ :selecter |
+		selecter onUninstalledIn: self ]
 ]

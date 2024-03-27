@@ -59,9 +59,9 @@ ToSpaceSkinPhasesManager >> applyAllSkinInstallersIn: aSpace [
 	self needSkinInstallPass: false.
 	applyingSkinInstallers := true.
 	" First make a layout pass because installing a skin may require measured/positionned elements "
-	[ aSpace
+	[ "aSpace
 		dispatchTimeEvent: BlSpaceLayoutEndEvent
-		during: [ :theSpace | theSpace doLayout ].
+		during: [ :theSpace | theSpace doLayout ]."
 	" Then install the skin "
 	aSpace root withAllChildrenDepthFirstDo: [ :child |
 		child skinManagerDo: [ :sm |

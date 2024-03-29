@@ -12,6 +12,12 @@ ToBasicListElementEventHandler >> collectionEmptinessEvent: anEvent [
 	target enqueueTask: (BlTaskAction new action: [self showHidePlaceholderIn: target ])
 ]
 
+{ #category : #'infinite event handling' }
+ToBasicListElementEventHandler >> collectionUpdateAllRequest: anEvent [
+
+	anEvent currentTarget selectionModel resetAll
+]
+
 { #category : #'mouse handlers' }
 ToBasicListElementEventHandler >> doubleClickEvent: anEvent [
 
@@ -58,6 +64,7 @@ ToBasicListElementEventHandler >> eventsToHandle [
 		  BlDoubleClickEvent.
 
 		  " data source "
+		  ToCollectionUpdateAllRequest.
 		  ToCollectionEmptinessEvent.
 		  BlInfiniteDataSourceItemRangeInserted.
 		  BlInfiniteDataSourceItemRangeRemoved }

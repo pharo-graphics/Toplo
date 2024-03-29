@@ -528,7 +528,7 @@ ToObservableCollectionTest >> testUpdateAllWith [
 		     yourself.
 
 	l addEventHandler: (BlEventHandler
-			 on: ToCollectionUpdateAllEvent
+			 on: ToCollectionAllUpdatedEvent
 			 do: [ :ann | i := ann interval ]).
 
 	l updateAllWith: #(  ).

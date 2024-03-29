@@ -178,6 +178,12 @@ ToListElement >> unselectableSelecter [
 	^ self additionalSelecterWithId: #unselectable
 ]
 
+{ #category : #accessing }
+ToListElement >> unselectableSelectionModel [
+
+	^ self selectionModel unselectableSelectionModel
+]
+
 { #category : #'additional selecters' }
 ToListElement >> withAdditionalSelecterWithId: aSymbol withEventClass: anEventClass [
 

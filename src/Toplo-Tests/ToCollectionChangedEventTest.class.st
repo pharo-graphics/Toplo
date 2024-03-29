@@ -168,7 +168,7 @@ ToCollectionChangedEventTest >> testUpdateAllRequestUpdateAllEvent [
 				 reqInterval := request interval.
 				 request accepted: validate ]).
 	ocol addEventHandler: (BlEventHandler
-			 on: ToCollectionUpdateAllEvent
+			 on: ToCollectionAllUpdatedEvent
 			 do: [ :event |
 				 eventCount := eventCount + 1.
 				 eventInterval := event interval ]).

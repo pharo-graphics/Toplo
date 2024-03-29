@@ -198,6 +198,12 @@ ToSelectionModel >> previousSelectableIndexStartingAt: anIndex [
 ]
 
 { #category : #updating }
+ToSelectionModel >> resetAll [
+
+	self deselectAll
+]
+
+{ #category : #updating }
 ToSelectionModel >> selectAll [
 
 	self underlyingModelDo: [ :ulm |

@@ -331,26 +331,42 @@ ToSelectElement >> notifySelectionChanged [
 ToSelectElement >> onSelectionChanged [
 
 	self headerNodeContainer refresh.
-	self checkMaxSelectedCount: self selectionModel selectedIndexesCount.
 	self updateSelectedCountLabel.
 
-	self headerNodeContainer requestLayout.
+	self hideSelected ifTrue: [
+		self listElement dataAccessor withIndexDo: [ :d :localIndex |
+			| originalIndex |
+			originalIndex := self sieve dataPositionIndex at: d.
+			(self selectionModel containsIndex: originalIndex)
+				ifTrue: [
+					self listElement selectionModel
+						selectIndex: localIndex;
+						hideIndex: localIndex ]
+				ifFalse: [
+					self listElement selectionModel
+						deselectIndex: localIndex;
+						unhideIndex: localIndex ].
+			"self selectionModel
+				transferIndex: localIndex
+				from: self listElement selectionModel
+				as: originalIndex" ] ].
 
-	self maxSelectedCount isZero ifTrue: [ ^ self ].
-	self selectionModel selectedIndexesCount < self maxSelectedCount
-		ifTrue: [
-			self dataAccessor withIndexDo: [ :d :idx |
-				| origIdx |
-				origIdx := self sieve dataPositionIndex at: d.
-				self listElement disabledSelecter deselectIndex: origIdx.
-				self listElement unselectableSelecter deselectIndex: origIdx ].
-			^ self ].
-	self dataAccessor withIndexDo: [ :d :idx |
-		| origIdx |
-		origIdx := self sieve dataPositionIndex at: d.
-		(self selectionModel containsIndex: origIdx) ifFalse: [
-			self listElement disabledSelecter selectIndex: origIdx.
-			self listElement unselectableSelecter selectIndex: origIdx ] ]
+	self maxSelectedCount isZero ifFalse: [
+		self checkMaxSelectedCount: self selectionModel selectedIndexesCount.
+		self listElement unselectableSelecter deselectAll.
+		self selectionModel unselectableSelectionModel deselectAll.
+		self selectionModel selectedIndexesCount < self maxSelectedCount
+			ifFalse: [
+				self listElement dataAccessor withIndexDo: [ :d :idx |
+					| origIdx |
+					origIdx := self sieve dataPositionIndex at: d.
+					(self selectionModel containsIndex: origIdx) ifFalse: [
+						self selectionModel unselectableSelectionModel selectIndex:
+							origIdx.
+						self listElement unselectableSelecter selectIndex: idx ] ] ] ].
+
+	self listElement dataSource notifyChanged.
+	self headerNodeContainer requestLayout
 ]
 
 { #category : #window }

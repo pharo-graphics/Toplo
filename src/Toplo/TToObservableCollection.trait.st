@@ -426,13 +426,14 @@ TToObservableCollection >> notifyRemoveChangeAround: aBlock removed: aCollection
 { #category : #'t - observable collection - notifications' }
 TToObservableCollection >> notifyUpdateAllChangeAround: aBlock [
 
+	self notifyEmptinessChangeAfter: [
 	| request interval |
 	interval := 1 to: self size.
 	self dispatchEvent:
 		(request := ToCollectionUpdateAllRequest new interval: interval).
 	request accepted ifFalse: [ ^ self ].
 	aBlock value.
-	self dispatchEvent: (ToCollectionUpdateAllEvent new interval: interval)
+	self dispatchEvent: (ToCollectionAllUpdatedEvent new interval: interval) ]
 ]
 
 { #category : #'t - observable collection - notifications' }

@@ -20,7 +20,7 @@ ToSievedListElementEventHandler >> applyQueryAppliedEvent: anEvent [
 	" update the list element but not the selection "
 	" *** note that it is required to deselect all here - 
 		the selection is managed after (see #collectionFilteredEvent: ) *** "
-	listElement selectionModel deselectAll.
+	listElement selectionModel resetAll.
 	listElement dataAccessor filterResult: sieve currentData
 ]
 
@@ -37,20 +37,22 @@ ToSievedListElementEventHandler >> buildIndexedDataFrom: aListElement [
 ToSievedListElementEventHandler >> collectionFilteredEvent: anEvent [
 	" the list has been filtered - now deal with the selection "
 
-	| target |
-	target := anEvent currentTarget.
+	| listElement |
+	listElement := anEvent currentTarget.
 
-	sieve pattern
-		ifNotEmpty: [
-			target dataAccessor withIndexDo: [ :d :localIndex |
-				| originalIndex |
-				originalIndex := dataPositionIndex at: d.
-				target selectionModel
-					transferIndex: originalIndex
-					from: sieveSelectionModel
-					as: localIndex ]  ]
-		ifEmpty: [
-			target selecter copySelectionFrom: sieveSelectionModel ]
+	listElement enqueueTask: (BlTaskAction new action: [
+			 sieve pattern
+				 ifNotEmpty: [
+					 listElement dataAccessor withIndexDo: [ :d :localIndex |
+						 | originalIndex |
+						 originalIndex := dataPositionIndex at: d.
+						 listElement selectionModel
+							 transferIndex: originalIndex
+							 from: sieveSelectionModel
+							 as: localIndex ] ]
+				 ifEmpty: [
+				 listElement selecter copySelectionFrom: sieveSelectionModel ].
+			 ])
 ]
 
 { #category : #accessing }
@@ -134,7 +136,7 @@ ToSievedListElementEventHandler >> listPrimarySelectionChangePreNotificationEven
 
 	" reset the selection in case of single selection mode "
 	aPreNotification currentTarget isMultipleSelection ifFalse: [
-		sieveSelectionModel deselectAll ].
+		sieveSelectionModel resetAll ].
 
 	primSelChangedEvent := aPreNotification sourceEvent.
 	listSelModel := primSelChangedEvent selectionModel.

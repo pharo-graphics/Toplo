@@ -15,6 +15,12 @@ ToObservableCollectionEventHandler >> collectionAddRequest: anEvent [
 ]
 
 { #category : #'data events handling' }
+ToObservableCollectionEventHandler >> collectionAllUpdatedEvent: anEvent [
+
+	
+]
+
+{ #category : #'data events handling' }
 ToObservableCollectionEventHandler >> collectionEmptinessEvent: anEvent [
 
 ]
@@ -37,12 +43,6 @@ ToObservableCollectionEventHandler >> collectionRemoveEvent: anEvent [
 { #category : #'data events handling' }
 ToObservableCollectionEventHandler >> collectionRemoveRequest: anEvent [
 
-]
-
-{ #category : #'data events handling' }
-ToObservableCollectionEventHandler >> collectionUpdateAllEvent: anEvent [
-
-	
 ]
 
 { #category : #'data events handling' }

@@ -166,6 +166,13 @@ ToListElementSelectionModel >> previousSelectableIndexStartingAt: anIndex [
 ]
 
 { #category : #updating }
+ToListElementSelectionModel >> resetAll [
+
+	super resetAll.
+	self additionalSelecters do: [ :dst | dst selectionModel resetAll ]
+]
+
+{ #category : #updating }
 ToListElementSelectionModel >> selectIndex: anIndex [
 
 	self unselectableSelectionModelDo: [ :sm | (sm containsIndex: anIndex) ifTrue: [ ^ self ] ].

@@ -40,7 +40,7 @@ ToObservableCollectionMirrorUpdaterTest >> testAddAfter [
 	ocol addAll: #( 1 2 3 4 ).
 
 	mirror addEventHandler: (BlEventHandler
-			 on: ToCollectionUpdateAllEvent
+			 on: ToCollectionAllUpdatedEvent
 			 do: [ :ann | i := ann interval ]).
 
 	ocol add: 88 after: 1.

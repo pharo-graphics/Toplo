@@ -16,7 +16,7 @@ ToObservableCollectionMirrorUpdater >> collectionAddEvent: anEvent [
 ]
 
 { #category : #'data events handling' }
-ToObservableCollectionMirrorUpdater >> collectionRemoveEvent: anEvent [
+ToObservableCollectionMirrorUpdater >> collectionAllUpdatedEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
@@ -24,7 +24,7 @@ ToObservableCollectionMirrorUpdater >> collectionRemoveEvent: anEvent [
 ]
 
 { #category : #'data events handling' }
-ToObservableCollectionMirrorUpdater >> collectionUpdateAllEvent: anEvent [
+ToObservableCollectionMirrorUpdater >> collectionRemoveEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.

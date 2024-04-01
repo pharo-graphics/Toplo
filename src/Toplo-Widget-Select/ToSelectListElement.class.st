@@ -4,10 +4,16 @@ Class {
 	#category : #'Toplo-Widget-Select-Core'
 }
 
+{ #category : #'private - commands' }
+ToSelectListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
+	" update the selection according to the sieve selection model"
+	super applyDataSourceSieveCommand: aDataSourceCommand
+]
+
 { #category : #accessing }
 ToSelectListElement >> groupSelecter [
 
-	^ self additionalSelecterWithId: #group
+	^ self selecter subSelecterWithId: #group
 ]
 
 { #category : #accessing }

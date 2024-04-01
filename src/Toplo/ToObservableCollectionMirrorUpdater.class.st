@@ -12,7 +12,8 @@ ToObservableCollectionMirrorUpdater >> collectionAddEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	mirror updateAllWith: target
+	mirror reset.
+	mirror addAll: target
 ]
 
 { #category : #'data events handling' }
@@ -28,7 +29,8 @@ ToObservableCollectionMirrorUpdater >> collectionRemoveEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	mirror updateAllWith: target
+	mirror reset.
+	mirror addAll: target
 ]
 
 { #category : #'data events handling' }
@@ -36,7 +38,8 @@ ToObservableCollectionMirrorUpdater >> collectionUpdateEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	mirror updateAllWith: target
+	mirror reset.
+	mirror addAll: target
 ]
 
 { #category : #accessing }

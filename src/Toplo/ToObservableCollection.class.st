@@ -47,3 +47,11 @@ ToObservableCollection >> postCopy [
 
 	collection := self collection copy
 ]
+
+{ #category : #'t - observable collection - initialization' }
+ToObservableCollection >> updateAllWith: aCollection [
+
+	self notifyUpdateAllChangeAround: [
+		self collection reset.
+		self collection addAll: aCollection ]
+]

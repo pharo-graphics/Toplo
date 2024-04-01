@@ -47,7 +47,7 @@ ToObservableCollectionInfiniteElementTest >> testEmptyInfinite [
 { #category : #tests }
 ToObservableCollectionInfiniteElementTest >> testInfiniteWithOneElement [
 
-	l dataSource add: self statesOfAmerica first.
+	l dataSource collection add: self statesOfAmerica first.
 	l matchParent.
 	self assert: l children size equals: 0.
 	self waitTestingSpaces.
@@ -62,10 +62,10 @@ ToObservableCollectionInfiniteElementTest >> testRangeChangedNotification [
 	l addEventHandler: (BlEventHandler
 			 on: BlInfiniteDataSourceItemRangeChanged
 			 do: [ :event | rangeEvent := event ]).
-	l dataSource addAll: self statesOfAmerica.
+	l dataSource collection addAll: self statesOfAmerica.
 	self assert: rangeEvent isNil.
 
-	l dataSource at: 2 put: nil.
+	l dataSource collection at: 2 put: nil.
 	self assert: rangeEvent notNil.
 	self assert: rangeEvent position equals: 2.
 	self assert: rangeEvent itemCount equals: 1.

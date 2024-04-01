@@ -67,8 +67,7 @@ ToListElementSieve >> onInstalledIn: aListElement [
 		^ (BlImmutableObjectChangeError object: self) signal ].
 	dataPositionIndex := IdentityDictionary new.
 	
-	selectionModel := aListElement newPrimarySelectionModel.
-	selectionModel onInstalledIn: aListElement.
+	selectionModel := aListElement selectionModel duplicate.
 	
 	originalData := aListElement dataAccessor newMirror.
 	queryRunner := ToObservableCollectionFilter new.

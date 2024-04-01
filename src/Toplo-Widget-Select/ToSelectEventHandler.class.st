@@ -10,10 +10,9 @@ ToSelectEventHandler >> collectionFilteredEvent: anEvent [
 	| select |
 	select := anEvent currentTarget.
 
-	select enqueueTask: (BlTaskAction new action: [select onSelectionChanged]).
 	windowManager currentWindow ifNil: [
 		select textInputElement filterString ifNotEmpty: [
-			select popupWindowEvent: anEvent ] ].
+			select popupWindowEvent: anEvent ] ]
 ]
 
 { #category : #'element handlers' }

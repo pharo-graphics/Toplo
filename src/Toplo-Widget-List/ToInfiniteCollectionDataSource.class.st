@@ -1,7 +1,6 @@
 Class {
-	#name : #ToObservableCollectionInfiniteDataSource,
+	#name : #ToInfiniteCollectionDataSource,
 	#superclass : #ToInfiniteDataSource,
-	#traits : 'TToObservableCollection',
 	#classTraits : 'TToObservableCollection classTrait',
 	#instVars : [
 		'dataEventHandler',
@@ -10,29 +9,34 @@ Class {
 	#category : #'Toplo-Widget-List-Infinite'
 }
 
-{ #category : #'t - observable collection - accessing' }
-ToObservableCollectionInfiniteDataSource >> collection [
+{ #category : #accessing }
+ToInfiniteCollectionDataSource >> collection [
 
 	^ data
 
 ]
 
 { #category : #accessing }
-ToObservableCollectionInfiniteDataSource >> data [
+ToInfiniteCollectionDataSource >> data [
+
+	^ data
+]
+
+{ #category : #accessing }
+ToInfiniteCollectionDataSource >> dataAccessor [
 
 	^ data
 ]
 
 { #category : #initialization }
-ToObservableCollectionInfiniteDataSource >> initialize [ 
+ToInfiniteCollectionDataSource >> initialize [ 
 
 	super initialize.
-	data := OrderedCollection new
-
+	data := ToObservableCollection new
 ]
 
 { #category : #accessing }
-ToObservableCollectionInfiniteDataSource >> itemCount [
+ToInfiniteCollectionDataSource >> itemCount [
 	"Return the total number of items in the data set"
 	<return: #Number>
 
@@ -40,23 +44,23 @@ ToObservableCollectionInfiniteDataSource >> itemCount [
 ]
 
 { #category : #hooks }
-ToObservableCollectionInfiniteDataSource >> onAttached: anInfiniteElement [
+ToInfiniteCollectionDataSource >> onAttached: anInfiniteElement [
 
 	super onAttached: anInfiniteElement.
 	dataEventHandler := ToInfiniteDataSourceDataEventHandler new.
 	dataEventHandler infinite: anInfiniteElement.
-	self addEventHandler: dataEventHandler
+	self data addEventHandler: dataEventHandler
 ]
 
 { #category : #'instance creation' }
-ToObservableCollectionInfiniteDataSource >> onBindHolder: anElementHolder at: aPosition [
+ToInfiniteCollectionDataSource >> onBindHolder: anElementHolder at: aPosition [
 	"Update holder's model"
 
 	anElementHolder bindDataItem: (self data at: aPosition)
 ]
 
 { #category : #hooks }
-ToObservableCollectionInfiniteDataSource >> onDetached: anInfiniteElement [
+ToInfiniteCollectionDataSource >> onDetached: anInfiniteElement [
 
 	self data removeEventHandler: dataEventHandler.
 	super onDetached: anInfiniteElement.
@@ -65,15 +69,10 @@ ToObservableCollectionInfiniteDataSource >> onDetached: anInfiniteElement [
 	
 ]
 
-{ #category : #'t - observable collection - copying' }
-ToObservableCollectionInfiniteDataSource >> postCopy [
-
-	data := self collection copy
-]
-
 { #category : #hooks }
-ToObservableCollectionInfiniteDataSource >> sharedEvents [
+ToInfiniteCollectionDataSource >> sharedEvents [
 
 	^ super sharedEvents , {
+		  ToInfiniteDataSourceEmptinessChangedEvent.
 		  ToObservableCollectionEvent }
 ]

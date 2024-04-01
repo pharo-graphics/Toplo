@@ -2,19 +2,19 @@
 A ToSelectionModelTest is a test class for testing the behavior of ToSelectionModel
 "
 Class {
-	#name : #ToBasicListSelectionModelTest,
+	#name : #ToSelectionModelTest,
 	#superclass : #TestCase,
 	#category : #'Toplo-Widget-List-Tests-Selection-Model'
 }
 
 { #category : #accessing }
-ToBasicListSelectionModelTest >> itemCount [
+ToSelectionModelTest >> itemCount [
 
 	^ 1000
 ]
 
 { #category : #tests }
-ToBasicListSelectionModelTest >> testContainsIndex [
+ToSelectionModelTest >> testContainsIndex [
 
 	| s |
 	s := ToSelectionModel new.
@@ -25,7 +25,7 @@ ToBasicListSelectionModelTest >> testContainsIndex [
 ]
 
 { #category : #tests }
-ToBasicListSelectionModelTest >> testCopyCompositeModel [
+ToSelectionModelTest >> testCopyCompositeModel [
 
 	| s c |
 	s := ToSelectionModel new.
@@ -35,7 +35,7 @@ ToBasicListSelectionModelTest >> testCopyCompositeModel [
 ]
 
 { #category : #tests }
-ToBasicListSelectionModelTest >> testCopySelectionFrom [
+ToSelectionModelTest >> testCopySelectionFrom [
 
 	| s s2 |
 	s := ToSelectionModel new itemCountGetter: 100.
@@ -54,7 +54,52 @@ ToBasicListSelectionModelTest >> testCopySelectionFrom [
 ]
 
 { #category : #tests }
-ToBasicListSelectionModelTest >> testDeselectAll [
+ToSelectionModelTest >> testDeselectADeselectedIndex [
+
+	| s |
+	s := ToSelectionModel new itemCountGetter: 100.
+	s deselectAll.
+	s selectIndexes: #(1 5 8 12 16).
+	self assert: s selectedIndexes equals: #(1 5 8 12 16).
+	s deselectIndex: 4.
+	self assert: s selectedIndexes equals: #(1 5 8 12 16)
+]
+
+{ #category : #tests }
+ToSelectionModelTest >> testDeselectADeselectedIndex2 [
+
+	| s |
+	s := ToSelectionModel new itemCountGetter: 100.
+	s deselectAll.
+	s selectIndex: 1.
+	s selectIndex: 5.
+	s selectIndex: 8.
+	s selectIndex: 12.
+	s selectIndex: 16.
+	self assert: s selectedIndexes equals: #(1 5 8 12 16).
+	s deselectIndex: 4.
+	self assert: s selectedIndexes equals: #(1 5 8 12 16)
+]
+
+{ #category : #tests }
+ToSelectionModelTest >> testDeselectADeselectedIndex3 [
+
+	| s |
+	s := ToSelectionModel new itemCountGetter: 100.
+	s deselectAll.
+	s selectIndex: 1.
+	s selectIndex: 5.
+	s selectIndex: 8.
+	s selectIndex: 12.
+	s selectIndex: 16.
+	self assert: s selectedIndexes equals: #(1 5 8 12 16).
+	s selectIndex: 1.
+	s deselectIndex: 4.
+	self assert: s selectedIndexes equals: #(1 5 8 12 16)
+]
+
+{ #category : #tests }
+ToSelectionModelTest >> testDeselectAll [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
@@ -67,7 +112,7 @@ ToBasicListSelectionModelTest >> testDeselectAll [
 ]
 
 { #category : #tests }
-ToBasicListSelectionModelTest >> testDeselectAllIndexesWithAWholeSelection [
+ToSelectionModelTest >> testDeselectAllIndexesWithAWholeSelection [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 10.
@@ -78,7 +123,7 @@ ToBasicListSelectionModelTest >> testDeselectAllIndexesWithAWholeSelection [
 ]
 
 { #category : #tests }
-ToBasicListSelectionModelTest >> testDeselectAllIndexesWithAWholeSelection2 [
+ToSelectionModelTest >> testDeselectAllIndexesWithAWholeSelection2 [
 
 	| s |
 	s := ToSelectionModel new.
@@ -90,7 +135,7 @@ ToBasicListSelectionModelTest >> testDeselectAllIndexesWithAWholeSelection2 [
 ]
 
 { #category : #tests }
-ToBasicListSelectionModelTest >> testDeselectIndex [
+ToSelectionModelTest >> testDeselectIndex [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
@@ -104,7 +149,7 @@ ToBasicListSelectionModelTest >> testDeselectIndex [
 ]
 
 { #category : #tests }
-ToBasicListSelectionModelTest >> testDeselectIndexTo [
+ToSelectionModelTest >> testDeselectIndexTo [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
@@ -118,7 +163,7 @@ ToBasicListSelectionModelTest >> testDeselectIndexTo [
 ]
 
 { #category : #tests }
-ToBasicListSelectionModelTest >> testDeselectIndexes [
+ToSelectionModelTest >> testDeselectIndexes [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
@@ -131,7 +176,7 @@ ToBasicListSelectionModelTest >> testDeselectIndexes [
 ]
 
 { #category : #tests }
-ToBasicListSelectionModelTest >> testEquals [
+ToSelectionModelTest >> testEquals [
 
 	| s |
 	s := ToSelectionModel new.
@@ -140,7 +185,7 @@ ToBasicListSelectionModelTest >> testEquals [
 ]
 
 { #category : #tests }
-ToBasicListSelectionModelTest >> testFirstIndex [
+ToSelectionModelTest >> testFirstIndex [
 
 	| s |
 	s := ToSelectionModel new.
@@ -157,7 +202,7 @@ ToBasicListSelectionModelTest >> testFirstIndex [
 ]
 
 { #category : #tests }
-ToBasicListSelectionModelTest >> testInitialize [ 
+ToSelectionModelTest >> testInitialize [ 
 
 	| s |
 	s := ToSelectionModel new.
@@ -166,7 +211,7 @@ ToBasicListSelectionModelTest >> testInitialize [
 ]
 
 { #category : #tests }
-ToBasicListSelectionModelTest >> testIsEmpty [
+ToSelectionModelTest >> testIsEmpty [
 
 	| s |
 	s := ToSelectionModel new.
@@ -175,7 +220,7 @@ ToBasicListSelectionModelTest >> testIsEmpty [
 ]
 
 { #category : #tests }
-ToBasicListSelectionModelTest >> testItemCount [
+ToSelectionModelTest >> testItemCount [
 
 	| s |
 	s := ToSelectionModel new onInstalledIn: self.
@@ -185,7 +230,7 @@ ToBasicListSelectionModelTest >> testItemCount [
 ]
 
 { #category : #tests }
-ToBasicListSelectionModelTest >> testItemCountGetter [
+ToSelectionModelTest >> testItemCountGetter [
 
 	| s |
 	s := ToSelectionModel new onInstalledIn: self.
@@ -197,7 +242,7 @@ ToBasicListSelectionModelTest >> testItemCountGetter [
 ]
 
 { #category : #tests }
-ToBasicListSelectionModelTest >> testLastIndex [
+ToSelectionModelTest >> testLastIndex [
 
 	| s |
 	s := ToSelectionModel new.
@@ -211,7 +256,7 @@ ToBasicListSelectionModelTest >> testLastIndex [
 ]
 
 { #category : #tests }
-ToBasicListSelectionModelTest >> testOnInstalledIn [
+ToSelectionModelTest >> testOnInstalledIn [
 
 	| s |
 	s := ToSelectionModel new.
@@ -221,7 +266,7 @@ ToBasicListSelectionModelTest >> testOnInstalledIn [
 ]
 
 { #category : #tests }
-ToBasicListSelectionModelTest >> testOnUninstalledIn [
+ToSelectionModelTest >> testOnUninstalledIn [
 
 	| s |
 	s := ToSelectionModel new.
@@ -232,7 +277,7 @@ ToBasicListSelectionModelTest >> testOnUninstalledIn [
 ]
 
 { #category : #tests }
-ToBasicListSelectionModelTest >> testSelectAll [
+ToSelectionModelTest >> testSelectAll [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
@@ -245,7 +290,7 @@ ToBasicListSelectionModelTest >> testSelectAll [
 ]
 
 { #category : #tests }
-ToBasicListSelectionModelTest >> testSelectIndex [
+ToSelectionModelTest >> testSelectIndex [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
@@ -260,7 +305,7 @@ ToBasicListSelectionModelTest >> testSelectIndex [
 ]
 
 { #category : #tests }
-ToBasicListSelectionModelTest >> testSelectIndexTo [
+ToSelectionModelTest >> testSelectIndexTo [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
@@ -271,7 +316,7 @@ ToBasicListSelectionModelTest >> testSelectIndexTo [
 ]
 
 { #category : #tests }
-ToBasicListSelectionModelTest >> testSelectIndexes [
+ToSelectionModelTest >> testSelectIndexes [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
@@ -282,7 +327,7 @@ ToBasicListSelectionModelTest >> testSelectIndexes [
 ]
 
 { #category : #tests }
-ToBasicListSelectionModelTest >> testSelectedIndexesCollect [
+ToSelectionModelTest >> testSelectedIndexesCollect [
 
 	| s collected |
 	s := ToSelectionModel new.
@@ -302,7 +347,7 @@ ToBasicListSelectionModelTest >> testSelectedIndexesCollect [
 ]
 
 { #category : #tests }
-ToBasicListSelectionModelTest >> testSelectedIndexesCount [
+ToSelectionModelTest >> testSelectedIndexesCount [
 
 	| s |
 	s := ToSelectionModel new.
@@ -317,7 +362,7 @@ ToBasicListSelectionModelTest >> testSelectedIndexesCount [
 ]
 
 { #category : #tests }
-ToBasicListSelectionModelTest >> testSelectedIndexesDo [
+ToSelectionModelTest >> testSelectedIndexesDo [
 
 	| s count |
 	s := ToSelectionModel new.
@@ -341,7 +386,7 @@ ToBasicListSelectionModelTest >> testSelectedIndexesDo [
 ]
 
 { #category : #tests }
-ToBasicListSelectionModelTest >> testSelectedItemCount [
+ToSelectionModelTest >> testSelectedItemCount [
 
 	| s |
 	s := ToSelectionModel new onInstalledIn: self.
@@ -353,7 +398,7 @@ ToBasicListSelectionModelTest >> testSelectedItemCount [
 ]
 
 { #category : #tests }
-ToBasicListSelectionModelTest >> testShiftFrom [
+ToSelectionModelTest >> testShiftFrom [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
@@ -367,7 +412,7 @@ ToBasicListSelectionModelTest >> testShiftFrom [
 ]
 
 { #category : #tests }
-ToBasicListSelectionModelTest >> testShiftFrom10 [
+ToSelectionModelTest >> testShiftFrom10 [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 200.
@@ -377,7 +422,7 @@ ToBasicListSelectionModelTest >> testShiftFrom10 [
 ]
 
 { #category : #tests }
-ToBasicListSelectionModelTest >> testShiftFrom2 [
+ToSelectionModelTest >> testShiftFrom2 [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
@@ -394,7 +439,7 @@ ToBasicListSelectionModelTest >> testShiftFrom2 [
 ]
 
 { #category : #tests }
-ToBasicListSelectionModelTest >> testShiftFrom3 [
+ToSelectionModelTest >> testShiftFrom3 [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
@@ -411,7 +456,7 @@ ToBasicListSelectionModelTest >> testShiftFrom3 [
 ]
 
 { #category : #tests }
-ToBasicListSelectionModelTest >> testShiftFrom4 [
+ToSelectionModelTest >> testShiftFrom4 [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
@@ -423,7 +468,7 @@ ToBasicListSelectionModelTest >> testShiftFrom4 [
 ]
 
 { #category : #tests }
-ToBasicListSelectionModelTest >> testShiftFrom5 [
+ToSelectionModelTest >> testShiftFrom5 [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
@@ -433,7 +478,7 @@ ToBasicListSelectionModelTest >> testShiftFrom5 [
 ]
 
 { #category : #tests }
-ToBasicListSelectionModelTest >> testShiftFrom6 [
+ToSelectionModelTest >> testShiftFrom6 [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 2.
@@ -443,7 +488,7 @@ ToBasicListSelectionModelTest >> testShiftFrom6 [
 ]
 
 { #category : #tests }
-ToBasicListSelectionModelTest >> testShiftFrom7 [
+ToSelectionModelTest >> testShiftFrom7 [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 200.
@@ -453,7 +498,7 @@ ToBasicListSelectionModelTest >> testShiftFrom7 [
 ]
 
 { #category : #tests }
-ToBasicListSelectionModelTest >> testShiftFrom8 [
+ToSelectionModelTest >> testShiftFrom8 [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 200.
@@ -463,7 +508,7 @@ ToBasicListSelectionModelTest >> testShiftFrom8 [
 ]
 
 { #category : #tests }
-ToBasicListSelectionModelTest >> testShiftFrom9 [
+ToSelectionModelTest >> testShiftFrom9 [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 200.
@@ -483,7 +528,7 @@ ToBasicListSelectionModelTest >> testShiftFrom9 [
 ]
 
 { #category : #tests }
-ToBasicListSelectionModelTest >> testShiftFrom9bis [
+ToSelectionModelTest >> testShiftFrom9bis [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 200.
@@ -497,7 +542,7 @@ ToBasicListSelectionModelTest >> testShiftFrom9bis [
 ]
 
 { #category : #tests }
-ToBasicListSelectionModelTest >> testShiftFrom9bis2 [
+ToSelectionModelTest >> testShiftFrom9bis2 [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 200.
@@ -507,7 +552,7 @@ ToBasicListSelectionModelTest >> testShiftFrom9bis2 [
 ]
 
 { #category : #tests }
-ToBasicListSelectionModelTest >> testUnderlyingModel [
+ToSelectionModelTest >> testUnderlyingModel [
 
 	| s |
 	s := ToSelectionModel new.
@@ -515,7 +560,7 @@ ToBasicListSelectionModelTest >> testUnderlyingModel [
 ]
 
 { #category : #tests }
-ToBasicListSelectionModelTest >> testselectedIndexes [
+ToSelectionModelTest >> testselectedIndexes [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.

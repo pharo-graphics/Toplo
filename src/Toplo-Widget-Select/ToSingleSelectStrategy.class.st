@@ -13,8 +13,7 @@ ToSingleSelectStrategy >> headerNodeContainerClass [
 { #category : #'api - hooks' }
 ToSingleSelectStrategy >> onInstalledIn: aSelect [
 
-	aSelect listElement selectionMode:
-		(ToListSelectionMode primaryOn: aSelect listElement)
+	aSelect listElement selectionMode
 			beSingleSelection.
 	super onInstalledIn: aSelect
 ]

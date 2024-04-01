@@ -10,7 +10,7 @@ Class {
 { #category : #testing }
 ToSelectListNodeHolder >> isDisabled [
 
-	^ super isDisabled or: [ self isUnselectable ]
+	^ super isDisabled or: [ self isUnselectable  ]
 ]
 
 { #category : #testing }

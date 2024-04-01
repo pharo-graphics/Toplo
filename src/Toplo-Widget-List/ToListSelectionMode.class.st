@@ -2,8 +2,6 @@ Class {
 	#name : #ToListSelectionMode,
 	#superclass : #Object,
 	#instVars : [
-		'selectionModel',
-		'operator',
 		'selecter',
 		'multiple',
 		'requestFocusOnMouseDown',
@@ -20,9 +18,6 @@ ToListSelectionMode class >> primaryOn: anElement [
 
 	| primary |
 	primary := self new.
-	primary
-		operator: (ToPrimarySelectionModelOperator on: anElement);
-		selectionModel: (anElement newPrimarySelectionModel onInstalledIn: anElement).
 	primary primary: true.
 	^ primary
 ]
@@ -32,9 +27,6 @@ ToListSelectionMode class >> secondaryOn: anElement [
 
 	| secondary |
 	secondary := self new.
-	secondary
-		operator: (ToSecondarySelectionModelOperator on: anElement);
-		selectionModel: (anElement newSecondarySelectionModel onInstalledIn: anElement).
 	secondary primary: false.
 	^ secondary
 ]
@@ -116,7 +108,7 @@ ToListSelectionMode >> isEnabled [
 { #category : #testing }
 ToListSelectionMode >> isMultipleSelection [
 
-	^ self multiple
+	^ selecter multiple
 ]
 
 { #category : #testing }
@@ -134,26 +126,13 @@ ToListSelectionMode >> itemCount [
 { #category : #accessing }
 ToListSelectionMode >> multiple [
 
-	^ multiple
+	^ selecter multiple
 ]
 
 { #category : #accessing }
 ToListSelectionMode >> multiple: aBoolean [
 
-	multiple := aBoolean
-]
-
-{ #category : #'instance creation' }
-ToListSelectionMode >> newSelecter [
-
-	^ self isDisabled
-		  ifTrue: [ ToNoneSelecter new ]
-		  ifFalse: [
-			  (ToPredefinedSelecter
-				   selectionModel: self selectionModel
-				   operator: self operator)
-				  multiple: self isMultipleSelection;
-				  yourself ]
+	selecter multiple: aBoolean
 ]
 
 { #category : #accessing }
@@ -182,6 +161,16 @@ ToListSelectionMode >> onClickEvent: anEvent onNode: aNode [
 
 { #category : #'api - hooks' }
 ToListSelectionMode >> onInstalledIn: anElement [
+
+	selecter := self isPrimarySelectionMode 
+		ifTrue: [ ToPrimarySelecter new ]
+		ifFalse: [ ToSecondarySelecter new ].
+
+	selecter
+		  enabled: self enabled;
+		  multiple: self isMultipleSelection.
+		
+	selecter onInstalledIn: anElement
 ]
 
 { #category : #'event handling' }
@@ -223,23 +212,14 @@ ToListSelectionMode >> onSingleSelectionClickEvent: anEvent onNode: aNode [
 { #category : #'api - hooks' }
 ToListSelectionMode >> onUninstalledIn: anElement [
 
-	selecter := nil.
-	selectionModel onUninstalledIn: anElement.
-	selectionModel := nil.
-	operator onUninstalledIn: anElement.
-	operator := nil
+	selecter onUninstalledIn: anElement.
+	selecter := nil
 ]
 
 { #category : #accessing }
 ToListSelectionMode >> operator [
 
-	^ operator
-]
-
-{ #category : #accessing }
-ToListSelectionMode >> operator: aSelectionOperator [
-
-	operator := aSelectionOperator
+	^ selecter operator
 ]
 
 { #category : #accessing }
@@ -318,17 +298,11 @@ ToListSelectionMode >> selectedIndexesCount [
 { #category : #accessing }
 ToListSelectionMode >> selecter [
 
-	^ selecter ifNil: [ selecter := self newSelecter ]
+	^ selecter 
 ]
 
 { #category : #accessing }
 ToListSelectionMode >> selectionModel [
 
-	^ selectionModel
-]
-
-{ #category : #accessing }
-ToListSelectionMode >> selectionModel: aSelectionModel [
-
-	selectionModel := aSelectionModel
+	^ selecter selectionModel
 ]

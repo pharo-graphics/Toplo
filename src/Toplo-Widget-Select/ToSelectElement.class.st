@@ -24,7 +24,7 @@ ToSelectElement >> addGroup: anObject withData: aCollection [
 	self dataAccessor add: anObject.
 	grpIdx := self dataAccessor itemCount.
 	self setGroupIndex: grpIdx.
-	self dataAccessor addAll: aCollection
+	self dataAccessor addAll: aCollection.
 ]
 
 { #category : #'accessing selection' }
@@ -337,33 +337,37 @@ ToSelectElement >> onSelectionChanged [
 		self listElement dataAccessor withIndexDo: [ :d :localIndex |
 			| originalIndex |
 			originalIndex := self sieve dataPositionIndex at: d.
-			(self selectionModel containsIndex: originalIndex)
-				ifTrue: [
-					self listElement selectionModel
-						selectIndex: localIndex;
-						hideIndex: localIndex ]
+			(self listElement selectionModel containsIndex: localIndex)
+				ifTrue: [ self listElement selectionModel hideIndex: localIndex ]
 				ifFalse: [
-					self listElement selectionModel
-						deselectIndex: localIndex;
-						unhideIndex: localIndex ].
-			"self selectionModel
-				transferIndex: localIndex
-				from: self listElement selectionModel
-				as: originalIndex" ] ].
+				self listElement selectionModel unhideIndex: localIndex ].
+			self listElement selectionModel
+				transferSelectionFromIndex: localIndex
+				toIndex: originalIndex
+				in: self selectionModel ] ].
 
 	self maxSelectedCount isZero ifFalse: [
 		self checkMaxSelectedCount: self selectionModel selectedIndexesCount.
-		self listElement unselectableSelecter deselectAll.
-		self selectionModel unselectableSelectionModel deselectAll.
 		self selectionModel selectedIndexesCount < self maxSelectedCount
+			ifTrue: [
+				self listElement dataAccessor withIndexDo: [ :d :idx |
+					| origIdx |
+					origIdx := self sieve dataPositionIndex at: d.
+					(self listElement groupSelectionModel containsIndex: idx)
+						ifFalse: [
+							self listElement unselectableSelectionModel deselectIndex: idx.
+							(self selectionModel subSelectionModelWithId: #group)
+								deselectIndex: origIdx ] ] ]
 			ifFalse: [
 				self listElement dataAccessor withIndexDo: [ :d :idx |
 					| origIdx |
 					origIdx := self sieve dataPositionIndex at: d.
 					(self selectionModel containsIndex: origIdx) ifFalse: [
-						self selectionModel unselectableSelectionModel selectIndex:
-							origIdx.
-						self listElement unselectableSelecter selectIndex: idx ] ] ] ].
+						(self listElement groupSelectionModel containsIndex: idx)
+							ifFalse: [
+								self selectionModel unselectableSelectionModel selectIndex:
+									origIdx.
+								self listElement unselectableSelecter selectIndex: idx ] ] ] ] ].
 
 	self listElement dataSource notifyChanged.
 	self headerNodeContainer requestLayout
@@ -512,7 +516,7 @@ ToSelectElement >> selectionModel: aSelectionModel [
 { #category : #'accessing list' }
 ToSelectElement >> setGroupIndex: anIndex [
 
-	self listElement groupSelectionModel selectIndex: anIndex.
+	self listElement groupSelecter selectIndex: anIndex.
 	self listElement unselectableSelecter selectIndex: anIndex
 ]
 
@@ -520,7 +524,7 @@ ToSelectElement >> setGroupIndex: anIndex [
 ToSelectElement >> setGroupIndexes: anIntegerCollection [
 
 	self listElement groupSelectionModel deselectAll.
-	self listElement groupSelectionModel selectIndexes: anIntegerCollection.
+	self listElement groupSelecter selectIndexes: anIntegerCollection.
 	self listElement unselectableSelecter deselectAll.
 	self listElement unselectableSelecter selectIndexes: anIntegerCollection
 ]

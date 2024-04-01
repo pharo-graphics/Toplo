@@ -37,16 +37,18 @@ ToObservableCollectionMirrorUpdaterTest >> testAdd [
 ToObservableCollectionMirrorUpdaterTest >> testAddAfter [
 
 	| i |
-	ocol addAll: #( 1 2 3 4 ).
-
 	mirror addEventHandler: (BlEventHandler
 			 on: ToCollectionAllUpdatedEvent
 			 do: [ :ann | i := ann interval ]).
+	mirror addEventHandler: (BlEventHandler
+			 on: ToCollectionAddEvent 
+			 do: [ :ann | i := ann interval ]).
 
-	ocol add: 88 after: 1.
-
+	ocol updateAllWith: #( 1 2 3 4 ).
 	self assert: i notNil.
 	self assert: i equals: (1 to: 4).
+
+	ocol add: 88 after: 1.
 
 	self
 		assert: mirror asOrderedCollection
@@ -54,7 +56,7 @@ ToObservableCollectionMirrorUpdaterTest >> testAddAfter [
 
 	ocol add: 99 after: 2.
 
-	self assert: i equals: (1 to: 5).
+	self assert: i equals: (1 to: 6).
 
 	self
 		assert: mirror asOrderedCollection

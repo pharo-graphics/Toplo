@@ -2,6 +2,7 @@ Class {
 	#name : #ToSieveSelectionChangedEvent,
 	#superclass : #BlEvent,
 	#instVars : [
+		'sieve',
 		'selectionModel'
 	],
 	#category : #'Toplo-Widget-List-Sieve'
@@ -23,4 +24,16 @@ ToSieveSelectionChangedEvent >> selectionModel: aSelectionModel [
 ToSieveSelectionChangedEvent >> sendTo: anObject [
 
 	anObject sieveSelectionChangedEvent: self
+]
+
+{ #category : #accessing }
+ToSieveSelectionChangedEvent >> sieve [
+
+	^ sieve
+]
+
+{ #category : #accessing }
+ToSieveSelectionChangedEvent >> sieve: aSieve [
+
+	sieve := aSieve
 ]

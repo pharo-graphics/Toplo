@@ -1252,6 +1252,7 @@ ToSandBox class >> example_SelectMonoFiltrable [
 
 	| select innerWindow phtext |
 	select := ToSelectElement new.
+	select listElement inspect.
 	select listElement placeholderMinHeight: 35.
 	phtext := ('No Data' asRopedText
 		           foreground: Color lightGray;
@@ -1285,6 +1286,7 @@ ToSandBox class >> example_SelectMonoFiltrableWithGroups [
 
 	| select innerWindow phtext |
 	select := ToSelectElement new.
+	"select listElement inspect."
 	select listElement placeholderMinHeight: 35.
 	phtext := ('No Data' asRopedText
 		           foreground: Color lightGray;

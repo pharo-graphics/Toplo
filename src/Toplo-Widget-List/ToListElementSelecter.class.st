@@ -1,7 +1,8 @@
 Class {
-	#name : #ToEffectiveSelecter,
-	#superclass : #ToAbstractListElementSelecter,
+	#name : #ToListElementSelecter,
+	#superclass : #Object,
 	#instVars : [
+		'enabled',
 		'operator',
 		'selectionModel',
 		'multiple'
@@ -10,38 +11,39 @@ Class {
 }
 
 { #category : #adding }
-ToEffectiveSelecter >> addCommand: aCommand [
+ToListElementSelecter >> addCommand: aCommand [
 
+	self enabled ifFalse: [ ^ self ].
 	self operator addCommand: aCommand
 ]
 
 { #category : #adding }
-ToEffectiveSelecter >> addSelectionCommand: aCommand [
+ToListElementSelecter >> addSelectionCommand: aCommand [
 
 	aCommand selectionModel: selectionModel.
 	self addCommand: aCommand
 ]
 
 { #category : #accessing }
-ToEffectiveSelecter >> beMultipleSelection [
+ToListElementSelecter >> beMultipleSelection [
 
 	self multiple: true
 ]
 
 { #category : #accessing }
-ToEffectiveSelecter >> beSingleSelection [
+ToListElementSelecter >> beSingleSelection [
 
 	self multiple: false
 ]
 
 { #category : #testing }
-ToEffectiveSelecter >> containsIndex: anIndex [
+ToListElementSelecter >> containsIndex: anIndex [
 
 	^ self selectionModel containsIndex: anIndex
 ]
 
 { #category : #copying }
-ToEffectiveSelecter >> copySelectionFrom: aSourceSelectionModel [
+ToListElementSelecter >> copySelectionFrom: aSourceSelectionModel [
 
 	self addSelectionCommand: (ToSelectionModelCopyFromCommand new
 			 operator: self operator;
@@ -50,13 +52,13 @@ ToEffectiveSelecter >> copySelectionFrom: aSourceSelectionModel [
 ]
 
 { #category : #accessing }
-ToEffectiveSelecter >> currentIndex [
+ToListElementSelecter >> currentIndex [
 
 	^ self operator currentIndex
 ]
 
 { #category : #operations }
-ToEffectiveSelecter >> deselectAll [
+ToListElementSelecter >> deselectAll [
 
 	self addSelectionCommand: (ToWholeSelectionCommand new
 			 operator: self operator;
@@ -65,7 +67,7 @@ ToEffectiveSelecter >> deselectAll [
 ]
 
 { #category : #operations }
-ToEffectiveSelecter >> deselectIndex: anIndex [
+ToListElementSelecter >> deselectIndex: anIndex [
 
 	self addSelectionCommand: (ToIntervalSelectionCommand new
 			 operator: self operator;
@@ -74,7 +76,7 @@ ToEffectiveSelecter >> deselectIndex: anIndex [
 ]
 
 { #category : #operations }
-ToEffectiveSelecter >> deselectIndex: aStartIndex to: anEndIndex [
+ToListElementSelecter >> deselectIndex: aStartIndex to: anEndIndex [
 
 	self addSelectionCommand: (ToIntervalSelectionCommand new
 			 operator: self operator;
@@ -83,7 +85,7 @@ ToEffectiveSelecter >> deselectIndex: aStartIndex to: anEndIndex [
 ]
 
 { #category : #operations }
-ToEffectiveSelecter >> deselectIndexes: anArray [
+ToListElementSelecter >> deselectIndexes: anArray [
 
 	self addSelectionCommand: (ToIndexesSelectionCommand new
 			 operator: self operator;
@@ -91,51 +93,76 @@ ToEffectiveSelecter >> deselectIndexes: anArray [
 			 operation: ToRemoveSelectionOperation new)
 ]
 
+{ #category : #protocol }
+ToListElementSelecter >> disable [
+
+	self enabled: false
+]
+
+{ #category : #protocol }
+ToListElementSelecter >> enable [
+
+	self enabled: true
+]
+
+{ #category : #protocol }
+ToListElementSelecter >> enabled [
+
+	^ enabled
+]
+
+{ #category : #protocol }
+ToListElementSelecter >> enabled: aBoolean [
+
+	enabled := aBoolean
+]
+
 { #category : #initialization }
-ToEffectiveSelecter >> initialize [ 
+ToListElementSelecter >> initialize [ 
 
 	super initialize.
 	multiple := true.
+	enabled := true
 ]
 
 { #category : #testing }
-ToEffectiveSelecter >> isMultipleSelection [
+ToListElementSelecter >> isMultipleSelection [
 
 	^ self multiple
 ]
 
 { #category : #testing }
-ToEffectiveSelecter >> isSingleSelection [
+ToListElementSelecter >> isSingleSelection [
 
 	^ self isMultipleSelection not
 ]
 
 { #category : #accessing }
-ToEffectiveSelecter >> itemCount [
+ToListElementSelecter >> itemCount [
 
 	^ selectionModel itemCount
 ]
 
 { #category : #accessing }
-ToEffectiveSelecter >> multiple [
+ToListElementSelecter >> multiple [
 
 	^ multiple
 ]
 
 { #category : #accessing }
-ToEffectiveSelecter >> multiple: aBoolean [
+ToListElementSelecter >> multiple: aBoolean [
 
 	multiple := aBoolean
 ]
 
 { #category : #private }
-ToEffectiveSelecter >> nextDeselectedIndex [
+ToListElementSelecter >> nextDeselectedIndex [
 
 	^ self sideIdx: 1
 ]
 
 { #category : #private }
-ToEffectiveSelecter >> nextSelectableIndex [
+ToListElementSelecter >> nextSelectableIndex [
 
 	self currentIndex isZero
 		ifTrue: [
@@ -149,13 +176,13 @@ ToEffectiveSelecter >> nextSelectableIndex [
 ]
 
 { #category : #private }
-ToEffectiveSelecter >> nextSelectableIndexStartingAt: anIndex [
+ToListElementSelecter >> nextSelectableIndexStartingAt: anIndex [
 
 	^ selectionModel nextSelectableIndexStartingAt: anIndex
 ]
 
 { #category : #private }
-ToEffectiveSelecter >> nextSelectableIndexToScrollTo [
+ToListElementSelecter >> nextSelectableIndexToScrollTo [
 
 	| next |
 	next := self nextSelectableIndex.
@@ -168,26 +195,34 @@ ToEffectiveSelecter >> nextSelectableIndexToScrollTo [
 				  ifFalse: [ 0 ] ]
 ]
 
+{ #category : #'api - hooks' }
+ToListElementSelecter >> onInstalledIn: anElement [
+]
+
+{ #category : #'api - hooks' }
+ToListElementSelecter >> onUninstalledIn: anElement [
+]
+
 { #category : #accessing }
-ToEffectiveSelecter >> operator [
+ToListElementSelecter >> operator [
 
 	^ operator
 ]
 
 { #category : #accessing }
-ToEffectiveSelecter >> operator: aSelectionModelOperator [
+ToListElementSelecter >> operator: aSelectionModelOperator [
 
 	operator := aSelectionModelOperator
 ]
 
 { #category : #private }
-ToEffectiveSelecter >> previousDeselectedIndex [
+ToListElementSelecter >> previousDeselectedIndex [
 
 	^ self sideIdx: -1
 ]
 
 { #category : #private }
-ToEffectiveSelecter >> previousSelectableIndex [
+ToListElementSelecter >> previousSelectableIndex [
 
 	self currentIndex isZero
 		ifTrue: [
@@ -199,13 +234,13 @@ ToEffectiveSelecter >> previousSelectableIndex [
 ]
 
 { #category : #private }
-ToEffectiveSelecter >> previousSelectableIndexStartingAt: anIndex [
+ToListElementSelecter >> previousSelectableIndexStartingAt: anIndex [
 
 	^ selectionModel previousSelectableIndexStartingAt: anIndex
 ]
 
 { #category : #private }
-ToEffectiveSelecter >> previousSelectableIndexToScrollTo [
+ToListElementSelecter >> previousSelectableIndexToScrollTo [
 
 	| prev |
 	prev := self previousSelectableIndex.
@@ -216,7 +251,7 @@ ToEffectiveSelecter >> previousSelectableIndexToScrollTo [
 ]
 
 { #category : #operations }
-ToEffectiveSelecter >> scrollToIndex: anIndex [
+ToListElementSelecter >> scrollToIndex: anIndex [
 
 	selectionModel itemCount >= anIndex ifTrue: [
 		self addSelectionCommand: (ToListScrollCommand new
@@ -226,7 +261,7 @@ ToEffectiveSelecter >> scrollToIndex: anIndex [
 ]
 
 { #category : #operations }
-ToEffectiveSelecter >> selectAll [
+ToListElementSelecter >> selectAll [
 
 	self isMultipleSelection ifFalse: [ ToInvalidElementCommand signal ].
 	self addSelectionCommand: (ToWholeSelectionCommand new
@@ -236,7 +271,7 @@ ToEffectiveSelecter >> selectAll [
 ]
 
 { #category : #operations }
-ToEffectiveSelecter >> selectIndex: anIndex [
+ToListElementSelecter >> selectIndex: anIndex [
 
 	self addSelectionCommand: (ToIntervalSelectionCommand new
 			 operator: self operator;
@@ -247,7 +282,7 @@ ToEffectiveSelecter >> selectIndex: anIndex [
 ]
 
 { #category : #operations }
-ToEffectiveSelecter >> selectIndex: aStartIndex to: anEndIndex [
+ToListElementSelecter >> selectIndex: aStartIndex to: anEndIndex [
 
 	self isSingleSelection ifTrue: [
 		aStartIndex ~= anEndIndex ifTrue: [
@@ -262,7 +297,7 @@ ToEffectiveSelecter >> selectIndex: aStartIndex to: anEndIndex [
 ]
 
 { #category : #operations }
-ToEffectiveSelecter >> selectIndexes: anArray [
+ToListElementSelecter >> selectIndexes: anArray [
 
 	anArray ifEmpty: [ ^ self ].
 
@@ -278,7 +313,7 @@ ToEffectiveSelecter >> selectIndexes: anArray [
 ]
 
 { #category : #operations }
-ToEffectiveSelecter >> selectOnlyIndex: anIndex [
+ToListElementSelecter >> selectOnlyIndex: anIndex [
 
 	(selectionModel selectedIndexesCount = 1 and: [
 		 selectionModel firstIndex = anIndex ]) ifTrue: [ ^ self ].
@@ -291,7 +326,7 @@ ToEffectiveSelecter >> selectOnlyIndex: anIndex [
 ]
 
 { #category : #operations }
-ToEffectiveSelecter >> selectOnlyIndexes: anArray [
+ToListElementSelecter >> selectOnlyIndexes: anArray [
 
 	self isSingleSelection ifTrue: [
 		anArray size > 1 ifTrue: [ ^ ToInvalidElementCommand signal ] ].
@@ -311,25 +346,25 @@ ToEffectiveSelecter >> selectOnlyIndexes: anArray [
 ]
 
 { #category : #accessing }
-ToEffectiveSelecter >> selectedIndexes [
+ToListElementSelecter >> selectedIndexes [
 
 	^ self selectionModel selectedIndexes
 ]
 
 { #category : #accessing }
-ToEffectiveSelecter >> selectionModel [
+ToListElementSelecter >> selectionModel [
 
 	^ selectionModel
 ]
 
 { #category : #accessing }
-ToEffectiveSelecter >> selectionModel: aSelectionModel [
+ToListElementSelecter >> selectionModel: aSelectionModel [
 
 	selectionModel := aSelectionModel
 ]
 
 { #category : #operations }
-ToEffectiveSelecter >> shiftSelection: anInteger from: anIndex [
+ToListElementSelecter >> shiftSelection: anInteger from: anIndex [
 
 	self addSelectionCommand: (ToSelectionModelShiftCommand new
 			 operator: self operator;
@@ -339,7 +374,7 @@ ToEffectiveSelecter >> shiftSelection: anInteger from: anIndex [
 ]
 
 { #category : #private }
-ToEffectiveSelecter >> sideIdx: aGap [
+ToListElementSelecter >> sideIdx: aGap [
 
 	^ selectionModel sideIdx: aGap startingAt: self currentIndex
 ]

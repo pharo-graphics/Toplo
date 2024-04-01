@@ -46,6 +46,11 @@ ToObservableCollectionEventHandler >> collectionRemoveRequest: anEvent [
 ]
 
 { #category : #'data events handling' }
+ToObservableCollectionEventHandler >> collectionSievedEvent: anEvent [
+
+]
+
+{ #category : #'data events handling' }
 ToObservableCollectionEventHandler >> collectionUpdateAllRequest: anEvent [
 
 ]

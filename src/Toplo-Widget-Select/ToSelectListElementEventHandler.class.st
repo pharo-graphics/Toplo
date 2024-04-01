@@ -10,13 +10,22 @@ Class {
 { #category : #'api - accessing' }
 ToSelectListElementEventHandler >> eventsToHandle [
 
-	^ { ToSieveSelectionChangedEvent }
+	^ { ToSieveSelectionChangedEvent. ToSelectGroupSelectionChangedEvent  }
 ]
 
 { #category : #accessing }
 ToSelectListElementEventHandler >> select: aSelect [
 
 	select := aSelect
+]
+
+{ #category : #'element handlers' }
+ToSelectListElementEventHandler >> selectGroupSelectionChangedEvent: anEvent [
+
+	| listElement |
+	listElement := anEvent currentTarget.
+	(select selectionModel subSelectionModelWithId: #group)
+		copySelectionFrom: anEvent selectionModel
 ]
 
 { #category : #'element handlers' }

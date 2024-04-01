@@ -41,6 +41,7 @@ ToSelectionModel >> deselectAll [
 { #category : #updating }
 ToSelectionModel >> deselectIndex: anIndex [
 
+	(self containsIndex: anIndex) ifFalse: [ ^ self ].
 	self underlyingModelDo: [ :ulm | ulm deselectIndex: anIndex ]
 ]
 
@@ -214,6 +215,7 @@ ToSelectionModel >> selectAll [
 { #category : #updating }
 ToSelectionModel >> selectIndex: anIndex [
 
+	(self containsIndex: anIndex) ifTrue: [ ^ self ].
 	self underlyingModelDo: [ :ulm | ulm selectIndex: anIndex ]
 ]
 
@@ -358,14 +360,6 @@ ToSelectionModel >> sideIdx: aGap startingAt: anIndex [
 		^ (self isUnselectableIndex: nextIdx)
 			  ifTrue: [ 0 ]
 			  ifFalse: [ nextIdx ] ]
-]
-
-{ #category : #updating }
-ToSelectionModel >> transferIndex: anIndex from: anotherPrimarySelectionModel as: targetIndex [
-
-	(anotherPrimarySelectionModel containsIndex: anIndex)
-		ifTrue: [ self selectIndex: targetIndex ]
-		ifFalse: [ self deselectIndex: targetIndex ]
 ]
 
 { #category : #updating }

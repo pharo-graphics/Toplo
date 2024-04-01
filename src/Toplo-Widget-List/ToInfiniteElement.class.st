@@ -19,10 +19,28 @@ ToInfiniteElement class >> onListElement: aListElement [
 		  initialize
 ]
 
+{ #category : #'private - commands' }
+ToInfiniteElement >> applyDataSourceFilterCommand: aDataSourceCommand [
+
+	listElement applyDataSourceFilterCommand: aDataSourceCommand
+]
+
+{ #category : #'private - commands' }
+ToInfiniteElement >> applyDataSourceSieveCommand: aDataSourceCommand [
+
+	listElement applyDataSourceSieveCommand: aDataSourceCommand
+]
+
 { #category : #initialization }
 ToInfiniteElement >> defaultDataSource [
 
 	^ self listElement dataSource
+]
+
+{ #category : #initialization }
+ToInfiniteElement >> defaultDataSourceManager [
+
+	^ ToInfiniteDataSourceManager new
 ]
 
 { #category : #initialization }

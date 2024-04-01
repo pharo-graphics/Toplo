@@ -5,14 +5,6 @@ Class {
 }
 
 { #category : #'infinite event handling' }
-ToBasicListElementEventHandler >> collectionEmptinessEvent: anEvent [
-
-	| target |
-	target := anEvent currentTarget.
-	target enqueueTask: (BlTaskAction new action: [self showHidePlaceholderIn: target ])
-]
-
-{ #category : #'infinite event handling' }
 ToBasicListElementEventHandler >> collectionUpdateAllRequest: anEvent [
 
 	anEvent currentTarget selectionModel resetAll
@@ -54,7 +46,6 @@ ToBasicListElementEventHandler >> elementScrolledEvent: anEvent [
 ToBasicListElementEventHandler >> eventsToHandle [
 
 	^ {
-		  ToListDataSourceItemsChangeEvent.
 		  BlElementAddedToSceneGraphEvent.
 		  BlElementScrolledEvent.
 		  BlInfiniteElementAttachedEvent.
@@ -64,10 +55,19 @@ ToBasicListElementEventHandler >> eventsToHandle [
 		  BlDoubleClickEvent.
 
 		  " data source "
+		  ToListDataSourceItemsChangeEvent.
 		  ToCollectionUpdateAllRequest.
-		  ToCollectionEmptinessEvent.
+		  ToInfiniteDataSourceEmptinessChangedEvent.
 		  BlInfiniteDataSourceItemRangeInserted.
 		  BlInfiniteDataSourceItemRangeRemoved }
+]
+
+{ #category : #'infinite event handling' }
+ToBasicListElementEventHandler >> infiniteDataSourceEmptinessChangedEvent: anEvent [
+
+	| target |
+	target := anEvent currentTarget.
+	target enqueueTask: (BlTaskAction new action: [self showHidePlaceholderIn: target ])
 ]
 
 { #category : #'infinite event handling' }
@@ -96,6 +96,10 @@ ToBasicListElementEventHandler >> infiniteDataSourceItemRangeRemoved: anEvent [
 	target notifyDataSourceItemsChanged: dataSourceChangeEvent
 ]
 
+{ #category : #'list element handling' }
+ToBasicListElementEventHandler >> infiniteDataSourceItemsFiltered: anEvent [
+]
+
 { #category : #'infinite event handling' }
 ToBasicListElementEventHandler >> infiniteElementAttachedEvent: anEvent [
 
@@ -119,6 +123,7 @@ ToBasicListElementEventHandler >> infiniteElementDetachedEvent: anEvent [
 ToBasicListElementEventHandler >> listDataSourceItemsAddedEvent: anEvent [
 
 	| target |
+
 	target := anEvent currentTarget.
 	target selecter
 		shiftSelection: anEvent itemCount
@@ -151,20 +156,6 @@ ToBasicListElementEventHandler >> mouseDownEvent: anEvent [
 	target hasFocus ifTrue: [ ^ self ].
 	target requestFocus.
 	anEvent consumed: true
-]
-
-{ #category : #'infinite event handling' }
-ToBasicListElementEventHandler >> onItemsInserted: anEvent [
-
-	self infiniteDataSourceItemRangeInserted: anEvent
-
-]
-
-{ #category : #'infinite event handling' }
-ToBasicListElementEventHandler >> onItemsRemoved: anEvent [
-
-	^ self infiniteDataSourceItemRangeRemoved: anEvent
-
 ]
 
 { #category : #'list element handling' }

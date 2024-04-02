@@ -9,9 +9,10 @@ ToSelectEventHandler >> collectionFilteredEvent: anEvent [
 
 	| select |
 	select := anEvent currentTarget.
+
 	windowManager currentWindow ifNil: [
 		select textInputElement filterString ifNotEmpty: [
-			select popupWindowEvent: anEvent ] ].
+			select popupWindowEvent: anEvent ] ]
 ]
 
 { #category : #'element handlers' }

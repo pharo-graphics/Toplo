@@ -13,13 +13,13 @@ Class {
 { #category : #accessing }
 ToBasicListElement >> dataAccessor [
 
-	^ self dataSource
+	^ self dataSource dataAccessor
 ]
 
 { #category : #initialization }
 ToBasicListElement >> defaultDataSource [
 
-	^ ToObservableCollectionInfiniteDataSource new
+	^ ToInfiniteCollectionDataSource new
 ]
 
 { #category : #initialization }
@@ -70,6 +70,7 @@ ToBasicListElement >> infiniteSharedEvents [
 
 	^ super infiniteSharedEvents , {
 		  ToObservableCollectionEvent.
+		  ToInfiniteDataSourceEmptinessChangedEvent.
 		  BlInfiniteDataSourceEvent }
 ]
 
@@ -81,14 +82,6 @@ ToBasicListElement >> initialize [
 	nodeHolderBuilder := self defaultNodeHolderBuilder.
 	nodeBuilder := self defaultNodeBuilder.
 	nodeReleaser := self defaultNodeReleaser 
-]
-
-{ #category : #'instance creation' }
-ToBasicListElement >> newAdditionalSelectionModel [
-
-	^ ToSelectionModel new
-		  itemCountGetter: [ self dataSource itemCount ];
-		  yourself
 ]
 
 { #category : #'instance creation' }

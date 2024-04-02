@@ -11,6 +11,34 @@ Class {
 	#category : #'Toplo-Widget-List-Core'
 }
 
+{ #category : #'private - commands' }
+ToAbstractListElement >> applyDataSourceFilterCommand: aDataSourceCommand [
+]
+
+{ #category : #'private - commands' }
+ToAbstractListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
+	" update the selection according to the sieve selection model"
+
+	| sieve |
+	sieve := aDataSourceCommand sieve.
+	sieve pattern
+		ifNotEmpty: [
+			| start count |
+			self selectionModel resetAll.
+			start := aDataSourceCommand positionStart.
+			count := aDataSourceCommand itemCount.
+			start to: start + count - 1 do: [ :localIndex |
+				| d originalIndex |
+				d := self dataAccessor at: localIndex.
+				originalIndex := sieve dataPositionIndex at: d.
+				sieve selectionModel
+					transferSelectionFromIndex: originalIndex
+					toIndex: localIndex
+					in: self selectionModel ] ]
+		ifEmpty: [
+		self selectionModel copySelectionFrom: sieve selectionModel ]
+]
+
 { #category : #orientation }
 ToAbstractListElement >> beHorizontal [
 
@@ -130,7 +158,7 @@ ToAbstractListElement >> defaultNodeReleaser [
 { #category : #initialization }
 ToAbstractListElement >> defaultSelectionMode [
 
-	^ (ToListSelectionMode primaryOn: self) beMultipleSelection 
+	^ ToListSelectionMode primary
 ]
 
 { #category : #orientation }
@@ -283,9 +311,32 @@ ToAbstractListElement >> notifyDataSourceItemsChanged: aDataSourceEvent [
 ]
 
 { #category : #'event firing' }
+ToAbstractListElement >> notifyDataSourceItemsFiltered: aDataSourceEvent [
+
+	
+	self dispatchEvent: aDataSourceEvent
+]
+
+{ #category : #'event firing' }
 ToAbstractListElement >> notifyPrimarySelectionDirty [
 
 	self dispatchEvent: ToListPrimarySelectionDirtyEvent new
+]
+
+{ #category : #'private - commands' }
+ToAbstractListElement >> offsetPositionRecordsForFilter: aStartPosition itemCount: anItemCount fromSieve: aSieve [
+
+	aSieve pattern
+		ifNotEmpty: [
+			self dataAccessor withIndexDo: [ :d :localIndex |
+				| originalIndex |
+				originalIndex := aSieve dataPositionIndex at: d.
+				aSieve selectionModel
+					transferSelectionFromIndex: originalIndex
+					toIndex: localIndex
+					in: self selectionModel ] ]
+		ifEmpty: [
+		self selectionModel copySelectionFrom: aSieve selectionModel ]
 ]
 
 { #category : #'t - element with placeholder' }
@@ -331,6 +382,12 @@ ToAbstractListElement >> selectionMode: aSelectionMode [
 ToAbstractListElement >> selectionModel [
 
 	^ self selectionMode selectionModel
+]
+
+{ #category : #'private - commands' }
+ToAbstractListElement >> sieveResultWith: aSieve [
+
+	self dataAccessor sieveResultWith: aSieve
 ]
 
 { #category : #initialization }

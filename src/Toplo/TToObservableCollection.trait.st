@@ -223,8 +223,8 @@ TToObservableCollection >> fifth [
 TToObservableCollection >> filterResult: aCollection [
 
 	self
-		notifyFilterChangeAround: [
-			self collection removeAll.
+		notifyFilterAround: [
+			self collection reset.
 			self collection addAll: aCollection ]
 		interval: (1 to: aCollection size)
 ]
@@ -327,6 +327,13 @@ TToObservableCollection >> indexOf: anElement startingAt: start ifAbsent: except
 	^ self collection indexOf: anElement startingAt: start ifAbsent: exceptionBlock
 ]
 
+{ #category : #'t - observable collection - initialization' }
+TToObservableCollection >> initializeWith: aCollection [
+
+		self reset.
+		self collection addAll: aCollection
+]
+
 { #category : #'t - observable collection - testing' }
 TToObservableCollection >> isEmpty [
 
@@ -390,16 +397,17 @@ TToObservableCollection >> notifyAddChangeAround: aBlock candidates: aCollection
 ]
 
 { #category : #'t - observable collection - notifications' }
-TToObservableCollection >> notifyEmptinessChangeAfter: aBlock [ 
+TToObservableCollection >> notifyEmptinessChangeAfter: aBlock [
 
 	| wasEmpty |
 	wasEmpty := self collection isEmpty.
 	aBlock value.
-	wasEmpty = self collection isEmpty ifFalse: [ self dispatchEvent: ToCollectionEmptinessEvent new ]
+	wasEmpty = self collection isEmpty ifFalse: [
+		self dispatchEvent: ToCollectionEmptinessEvent new ]
 ]
 
 { #category : #'t - observable collection - notifications' }
-TToObservableCollection >> notifyFilterChangeAround: aBlock interval: anInterval [
+TToObservableCollection >> notifyFilterAround: aBlock interval: anInterval [
 
 	self notifyEmptinessChangeAfter: [
 		| request |
@@ -424,15 +432,32 @@ TToObservableCollection >> notifyRemoveChangeAround: aBlock removed: aCollection
 ]
 
 { #category : #'t - observable collection - notifications' }
+TToObservableCollection >> notifySievedWith: aSieve around: aBlock interval: anInterval [
+
+	self notifyEmptinessChangeAfter: [
+		| request |
+		self dispatchEvent:
+			(request := ToCollectionFilterRequest new interval:
+				            (1 to: self size)).
+		request accepted ifTrue: [
+			aBlock value.
+			self dispatchEvent: (ToCollectionSievedEvent new
+					 interval: anInterval;
+					 sieve: aSieve;
+					 yourself) ] ]
+]
+
+{ #category : #'t - observable collection - notifications' }
 TToObservableCollection >> notifyUpdateAllChangeAround: aBlock [
 
+	self notifyEmptinessChangeAfter: [
 	| request interval |
 	interval := 1 to: self size.
 	self dispatchEvent:
 		(request := ToCollectionUpdateAllRequest new interval: interval).
 	request accepted ifFalse: [ ^ self ].
 	aBlock value.
-	self dispatchEvent: (ToCollectionUpdateAllEvent new interval: interval)
+	self dispatchEvent: (ToCollectionAllUpdatedEvent new interval: (1 to: self size)) ]
 ]
 
 { #category : #'t - observable collection - notifications' }
@@ -556,6 +581,12 @@ TToObservableCollection >> replaceFrom: start to: stop with: replacement startin
 		interval: (start to: stop)
 ]
 
+{ #category : #'t - observable collection - initialization' }
+TToObservableCollection >> reset [
+
+		self collection reset
+]
+
 { #category : #'t - observable collection - enumerating' }
 TToObservableCollection >> reverseDo: aBlock [
 
@@ -582,6 +613,15 @@ TToObservableCollection >> select: aBlock [
 	^ self collection select: aBlock
 ]
 
+{ #category : #'t - observable collection - removing' }
+TToObservableCollection >> sieveResultWith: aSieve [
+
+	self
+		notifySievedWith: aSieve
+		around: [ self initializeWith: aSieve currentData ]
+		interval: (1 to: aSieve currentData)
+]
+
 { #category : #'t - observable collection - accessing' }
 TToObservableCollection >> size [
 
@@ -597,9 +637,7 @@ TToObservableCollection >> third [
 { #category : #'t - observable collection - initialization' }
 TToObservableCollection >> updateAllWith: aCollection [
 
-	self notifyUpdateAllChangeAround: [
-		self collection removeAll.
-		self collection addAll: aCollection ]
+	self notifyUpdateAllChangeAround: [ self initializeWith: aCollection ]
 ]
 
 { #category : #'t - observable collection - enumerating' }

@@ -15,16 +15,29 @@ ToInfiniteDataSourceDataEventHandler >> collectionAddEvent: anEvent [
 ]
 
 { #category : #'data events handling' }
+ToInfiniteDataSourceDataEventHandler >> collectionAllUpdatedEvent: anEvent [
+
+	infinite dataSource notifyItemsInserted: anEvent interval
+	
+]
+
+{ #category : #'data events handling' }
+ToInfiniteDataSourceDataEventHandler >> collectionEmptinessEvent: anEvent [
+
+	infinite dispatchEvent: (ToInfiniteDataSourceEmptinessChangedEvent new)
+]
+
+{ #category : #'data events handling' }
 ToInfiniteDataSourceDataEventHandler >> collectionFilterRequest: anEvent [
 
-	infinite dataSource notifyItemsRemoved: anEvent interval
+	"infinite dataSource notifyItemsRemoved: anEvent interval"
 	
 ]
 
 { #category : #'data events handling' }
 ToInfiniteDataSourceDataEventHandler >> collectionFilteredEvent: anEvent [
 
-	infinite dataSource notifyItemsInserted: anEvent interval
+	infinite dataSource notifyItemsFiltered
 ]
 
 { #category : #'data events handling' }
@@ -35,10 +48,15 @@ ToInfiniteDataSourceDataEventHandler >> collectionRemoveEvent: anEvent [
 ]
 
 { #category : #'data events handling' }
-ToInfiniteDataSourceDataEventHandler >> collectionUpdateAllEvent: anEvent [
+ToInfiniteDataSourceDataEventHandler >> collectionSievedEvent: anEvent [
 
-	infinite dataSource notifyItemsInserted: anEvent interval
-	
+	infinite dataSource notifyItemsSievedWith: anEvent sieve
+]
+
+{ #category : #'data events handling' }
+ToInfiniteDataSourceDataEventHandler >> collectionUpdateAllRequest: anEvent [
+
+	infinite dataSource notifyItemsRemoved: anEvent interval
 ]
 
 { #category : #'data events handling' }

@@ -8,6 +8,12 @@ Class {
 }
 
 { #category : #testing }
+ToSelectListNodeHolder >> isDisabled [
+
+	^ super isDisabled or: [ self isUnselectable  ]
+]
+
+{ #category : #testing }
 ToSelectListNodeHolder >> isGroup [
 
 	^ self listElement groupSelectionModel containsIndex: self position

@@ -39,32 +39,34 @@ ToploDemoPresenter >> demo1 [
 ToploDemoPresenter >> demo2 [
 
 	<demo>
-
 	| list colorAssociations |
-
 	(list := ToListElement new)
-		selectionMode: (ToListSelectionMode primaryOn: list) disable;
+		selectionMode: ToListSelectionMode primary disable;
 		nodeBuilder: [ :node :holder |
 			node addChild: (ToLabeledIcon new
-				label: (ToLabel new
-					text: holder dataItem key;
-					yourself);
-				icon: (ToElement new
-					size: 50 @ 20;
-					background: holder dataItem value;
-					yourself);
-				interspace: 3;
-				yourself) ].
+						 label: (ToLabel new
+								  text: holder dataItem key;
+								  yourself);
+						 icon: (ToElement new
+								  size: 50 @ 20;
+								  background: holder dataItem value;
+								  yourself);
+						 interspace: 3;
+						 yourself) ].
 	colorAssociations := Array streamContents: [ :stream |
-		Color registeredColorNames sorted do: [ :colorName |
-			| color expression |
-			color := Color named: colorName.
-			expression := color printString.
-			stream nextPut: (expression -> color).
-			#(lighter twiceLighter whiter paler darker twiceDarker blacker duller)
-				do: [ :transformationSelector |
-					stream nextPut: ('{1} {2}' format: { expression. transformationSelector })
-						-> (color perform: transformationSelector) ] ] ].
+		                     Color registeredColorNames sorted do: [
+			                     :colorName |
+			                     | color expression |
+			                     color := Color named: colorName.
+			                     expression := color printString.
+			                     stream nextPut: expression -> color.
+			                     #( lighter twiceLighter whiter paler darker
+			                        twiceDarker blacker duller ) do: [
+				                     :transformationSelector |
+				                     stream nextPut: ('{1} {2}' format: {
+							                      expression.
+							                      transformationSelector })
+					                     -> (color perform: transformationSelector) ] ] ].
 	list dataAccessor addAll: colorAssociations.
 	^ list
 ]

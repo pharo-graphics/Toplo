@@ -20,7 +20,7 @@ Class {
 { #category : #accessing }
 ToSelectionModelHolderForTest >> data [
 
-	^ dataSource data
+	^ dataSource
 ]
 
 { #category : #accessing }
@@ -59,7 +59,7 @@ ToSelectionModelHolderForTest >> infinite [
 ToSelectionModelHolderForTest >> initialize [
 
 	super initialize.
-	self dataSource: ToObservableCollectionInfiniteDataSource new.
+	self dataSource: ToInfiniteCollectionDataSource new.
 	infinite := ToInfiniteElement onListElement: ToListElement new.
 	self addChild: infinite.
 	selectionModel := self defaultSelectionModel.
@@ -88,7 +88,7 @@ ToSelectionModelHolderForTest >> layoutCritical: aBlock [
 { #category : #accessing }
 ToSelectionModelHolderForTest >> multiSelectionSelecter [
 
-	^ (ToPredefinedSelecter
+	^ (ToCompositeSelecter
 		   selectionModel: self selectionModel
 		   operator: operator) multiple: true
 ]
@@ -96,7 +96,9 @@ ToSelectionModelHolderForTest >> multiSelectionSelecter [
 { #category : #accessing }
 ToSelectionModelHolderForTest >> noneSelectionSelecter [
 
-	^ selecter := ToNoneSelecter new
+	^ selecter := ToListElementSelecter new
+		              enabled: false;
+		              yourself
 ]
 
 { #category : #'event firing' }
@@ -144,7 +146,7 @@ ToSelectionModelHolderForTest >> selectionModel [
 { #category : #accessing }
 ToSelectionModelHolderForTest >> singleSelectionSelecter [
 
-	^ (ToPredefinedSelecter
+	^ (ToCompositeSelecter
 		   selectionModel: self selectionModel
 		   operator: operator) multiple: false
 ]

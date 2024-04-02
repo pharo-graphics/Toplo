@@ -1,20 +1,13 @@
 Class {
 	#name : #ToAdditionalSelecter,
-	#superclass : #ToEffectiveSelecter,
+	#superclass : #ToListElementSelecter,
 	#instVars : [
 		'eventClass',
-		'uniqueId'
+		'uniqueId',
+		'parentSelecter'
 	],
 	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
-
-{ #category : #'instance creation' }
-ToAdditionalSelecter class >> on: aListElement [
-
-	^ self new
-		  onInstalledIn: aListElement;
-		  yourself
-]
 
 { #category : #accessing }
 ToAdditionalSelecter >> eventClass [
@@ -25,27 +18,47 @@ ToAdditionalSelecter >> eventClass [
 { #category : #accessing }
 ToAdditionalSelecter >> eventClass: anEventClass [
 
+	eventClass ifNotNil: [ BlImmutableObjectChangeError signal ].
 	eventClass := anEventClass
 ]
 
-{ #category : #'api - hooks' }
-ToAdditionalSelecter >> onInstalledIn: aListElement [
+{ #category : #initialization }
+ToAdditionalSelecter >> initialize [
 
-	operator := ToAdditionalSelectionModelOperator on: aListElement withEventClass: self eventClass.
-	selectionModel := aListElement newAdditionalSelectionModel.
-	selectionModel onInstalledIn: aListElement.
-	aListElement recordAdditionalSelecter: self.
-	self beMultipleSelection.
+	super initialize.
+	selectionModel := ToAdditionalSelectionModel new
+]
+
+{ #category : #'api - hooks' }
+ToAdditionalSelecter >> onInstalledIn: anElement [
+
+	super onInstalledIn: anElement.
+	selectionModel onInstalledIn: anElement.
+	selectionModel uniqueId: uniqueId.
+	operator := ToAdditionalSelectionModelOperator new eventClass: eventClass.
+	operator onInstalledIn: anElement.
+	parentSelecter recordSubSelecter: self
 
 ]
 
 { #category : #'api - hooks' }
-ToAdditionalSelecter >> onUninstalledIn: aListElement [
+ToAdditionalSelecter >> onUninstalledIn: anElement [
 
-	aListElement unrecordAdditionalSelecter: self.
-	operator onUninstalledIn: aListElement.
-	selectionModel onUninstalledIn: aListElement.
+	parentSelecter unrecordSubSelecter: self.
+	operator onUninstalledIn: anElement.
+	operator := nil.
+	selectionModel onUninstalledIn: anElement.
+	selectionModel := nil.
+	parentSelecter unrecordSubSelecter: self.
+	super onUninstalledIn: anElement
 
+]
+
+{ #category : #accessing }
+ToAdditionalSelecter >> parentSelecter: aCompositeSelecter [
+
+	parentSelecter ifNotNil: [ BlImmutableObjectChangeError signal ].
+	parentSelecter := aCompositeSelecter
 ]
 
 { #category : #accessing }
@@ -57,5 +70,6 @@ ToAdditionalSelecter >> uniqueId [
 { #category : #accessing }
 ToAdditionalSelecter >> uniqueId: aSymbol [
 
+	uniqueId ifNotNil: [ BlImmutableObjectChangeError signal ].
 	uniqueId := aSymbol
 ]

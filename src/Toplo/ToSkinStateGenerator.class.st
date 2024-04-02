@@ -494,7 +494,8 @@ ToSkinStateGenerator >> onInstalledIn: anElement [
 { #category : #'api - hooks' }
 ToSkinStateGenerator >> onUninstalledIn: anElement [
 
-	target := nil.
+	self flag: 'Should take care of addSkinStateGeneration: to remove the generation valuable stored for target before setting it to nil'.
+	"target := nil."
 	super onUninstalledIn: anElement
 ]
 
@@ -564,6 +565,7 @@ ToSkinStateGenerator >> secondaryMouseUpEvent: anEvent [
 ToSkinStateGenerator >> startStillHoveredEvent: anEvent [
 
 	| startDelay space |
+	target ifNil: [ ^ self ].
 	target space ifNil: [ ^ self ].
 	space := target space.
 	startDelay := target stillHoveredStartDelay.

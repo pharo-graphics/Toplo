@@ -10,7 +10,7 @@ Class {
 { #category : #'api - accessing' }
 ToSelectListElementEventHandler >> eventsToHandle [
 
-	^ { ToSieveSelectionChangedEvent }
+	^ { ToSieveSelectionChangedEvent. ToSelectGroupSelectionChangedEvent  }
 ]
 
 { #category : #accessing }
@@ -20,21 +20,18 @@ ToSelectListElementEventHandler >> select: aSelect [
 ]
 
 { #category : #'element handlers' }
+ToSelectListElementEventHandler >> selectGroupSelectionChangedEvent: anEvent [
+
+	| listElement |
+	listElement := anEvent currentTarget.
+	(select selectionModel subSelectionModelWithId: #group)
+		copySelectionFrom: anEvent selectionModel
+]
+
+{ #category : #'element handlers' }
 ToSelectListElementEventHandler >> sieveSelectionChangedEvent: anEvent [
 
 	| listElement |
 	listElement := anEvent currentTarget.
-	anEvent currentTarget dataSource notifyChanged.
-	select hideSelected ifTrue: [
-		listElement dataAccessor withIndexDo: [ :d :localIndex |
-			| originalIndex |
-			originalIndex := select sieve dataPositionIndex at: d.
-			(listElement selectionModel containsIndex: localIndex)
-				ifTrue: [ listElement selectionModel hideIndex: localIndex ]
-				ifFalse: [ listElement selectionModel unhideIndex: localIndex ].
-			select selectionModel
-				transferIndex: localIndex
-				from: listElement selectionModel
-				as: originalIndex ] ].
 	select notifySelectionChanged
 ]

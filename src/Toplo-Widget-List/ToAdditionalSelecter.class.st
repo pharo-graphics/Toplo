@@ -22,10 +22,16 @@ ToAdditionalSelecter >> eventClass: anEventClass [
 ]
 
 { #category : #'api - hooks' }
+ToAdditionalSelecter >> initialize [
+
+	super initialize.
+	selectionModel := ToAdditionalSelectionModel new
+]
+
+{ #category : #'api - hooks' }
 ToAdditionalSelecter >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	selectionModel := ToAdditionalSelectionModel new.
 	selectionModel onInstalledIn: anElement.
 	selectionModel uniqueId: uniqueId.
 	operator := ToAdditionalSelectionModelOperator new eventClass: eventClass.

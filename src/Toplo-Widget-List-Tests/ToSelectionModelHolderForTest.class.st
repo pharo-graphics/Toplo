@@ -20,7 +20,7 @@ Class {
 { #category : #accessing }
 ToSelectionModelHolderForTest >> data [
 
-	^ dataSource data
+	^ dataSource
 ]
 
 { #category : #accessing }

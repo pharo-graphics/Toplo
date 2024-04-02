@@ -39,7 +39,7 @@ ToListElement >> defaultSecondarySelectionEventHandler [
 { #category : #initialization }
 ToListElement >> defaultSecondarySelectionMode [
 
-	^ ToListSelectionMode secondaryOn: self
+	^ ToListSelectionMode secondary
 ]
 
 { #category : #accessing }

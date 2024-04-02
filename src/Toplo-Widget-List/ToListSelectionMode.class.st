@@ -3,18 +3,18 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'selecter',
-		'multiple',
+		'primary',
 		'requestFocusOnMouseDown',
 		'preserveSelectionOnFocused',
 		'selectOnMouseDown',
-		'enabled',
-		'primary'
+		'multiple',
+		'enabled'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
 { #category : #'instance creation' }
-ToListSelectionMode class >> primaryOn: anElement [
+ToListSelectionMode class >> primary [
 
 	| primary |
 	primary := self new.
@@ -23,7 +23,7 @@ ToListSelectionMode class >> primaryOn: anElement [
 ]
 
 { #category : #'instance creation' }
-ToListSelectionMode class >> secondaryOn: anElement [
+ToListSelectionMode class >> secondary [
 
 	| secondary |
 	secondary := self new.
@@ -76,9 +76,11 @@ ToListSelectionMode >> enabled [
 
 { #category : #accessing }
 ToListSelectionMode >> enabled: aBoolean [
-
+ 
+	enabled = aBoolean ifTrue: [ ^ self ].
 	enabled := aBoolean.
-	selecter := nil
+	selecter ifNil: [ ^ self ].
+	selecter enabled: aBoolean
 ]
 
 { #category : #initialization }
@@ -89,7 +91,8 @@ ToListSelectionMode >> initialize [
 	preserveSelectionOnFocused := true.
 	selectOnMouseDown := false.
 	multiple := true.
-	enabled := true
+	enabled := true.
+	primary := true
 
 ]
 
@@ -108,7 +111,7 @@ ToListSelectionMode >> isEnabled [
 { #category : #testing }
 ToListSelectionMode >> isMultipleSelection [
 
-	^ selecter multiple
+	^ multiple
 ]
 
 { #category : #testing }
@@ -126,12 +129,15 @@ ToListSelectionMode >> itemCount [
 { #category : #accessing }
 ToListSelectionMode >> multiple [
 
-	^ selecter multiple
+	^ multiple
 ]
 
 { #category : #accessing }
 ToListSelectionMode >> multiple: aBoolean [
 
+	multiple = aBoolean ifTrue: [ ^ self ].
+	multiple := aBoolean.
+	selecter ifNil: [ ^ self ].
 	selecter multiple: aBoolean
 ]
 
@@ -193,7 +199,7 @@ ToListSelectionMode >> onRemovedNode: aNode [
 
 	(aNode eventDispatcher handlers select: [ :handler |
 		 self nodeEventHandlerClasses anySatisfy: [ :cls |
-			 cls == handler class ] ]) do: [ :handler |
+			 cls inheritsFrom: ToListNodeSelectionEventHandler ] ]) do: [ :handler |
 		aNode removeEventHandler: handler ]
 ]
 
@@ -235,15 +241,9 @@ ToListSelectionMode >> preserveSelectionOnFocused: aBoolean [
 ]
 
 { #category : #accessing }
-ToListSelectionMode >> primary [
-
-	^ primary
-
-]
-
-{ #category : #accessing }
 ToListSelectionMode >> primary: aBoolean [
 
+	selecter ifNotNil: [ Error signal: 'The selecter kind can''t be changed' ].
 	primary := aBoolean
 
 ]

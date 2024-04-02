@@ -691,7 +691,7 @@ ToSandBox class >> example_List2WithAllClassesMono [
 
 	| l |
 	l := ToListElement new.
-	l selectionMode: (ToListSelectionMode primaryOn: l) beSingleSelection.
+	l selectionMode: ToListSelectionMode primary beSingleSelection.
 	l dataAccessor addAll:
 		(Smalltalk globals allClasses collect: [ :cls | cls name ]).
 	l openInSpace
@@ -714,7 +714,7 @@ ToSandBox class >> example_List2WithAllClassesNone [
 
 	| l |
 	l := ToListElement new.
-	l selectionMode: (ToListSelectionMode primaryOn: l) disable.
+	l selectionMode: ToListSelectionMode primary disable.
 	l dataAccessor addAll:
 		(Smalltalk globals allClasses collect: [ :cls | cls name ]).
 	l openInSpace
@@ -1721,7 +1721,8 @@ ToSandBox class >> example_SieveOnList2With_AllMethods_MonoSelection [
 	| listElement assoc |
 	assoc := self example_SieveOnList2With_AllMethods.
 	listElement := assoc key.
-	listElement selectionMode: (ToListSelectionMode primaryOn: listElement) beSingleSelection
+	listElement selectionMode:
+		ToListSelectionMode primary beSingleSelection
 ]
 
 { #category : #list }

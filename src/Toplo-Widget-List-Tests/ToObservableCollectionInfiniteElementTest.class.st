@@ -62,14 +62,14 @@ ToObservableCollectionInfiniteElementTest >> testRangeChangedNotification [
 	l addEventHandler: (BlEventHandler
 			 on: BlInfiniteDataSourceItemRangeChanged
 			 do: [ :event | rangeEvent := event ]).
-	l dataSource collection addAll: self statesOfAmerica.
+	l dataSource addAll: self statesOfAmerica.
 	self assert: rangeEvent isNil.
 
-	l dataSource collection at: 2 put: nil.
+	l dataSource  at: 2 put: nil.
 	self assert: rangeEvent notNil.
 	self assert: rangeEvent position equals: 2.
 	self assert: rangeEvent itemCount equals: 1.
-	self assert: l dataSource itemCount equals: l dataSource size.
+	self assert: l dataSource itemCount equals: l dataSource itemCount.
 
 	l dataSource
 		replaceFrom: 2

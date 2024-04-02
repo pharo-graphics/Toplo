@@ -158,7 +158,7 @@ ToAbstractListElement >> defaultNodeReleaser [
 { #category : #initialization }
 ToAbstractListElement >> defaultSelectionMode [
 
-	^ ToListSelectionMode primaryOn: self
+	^ ToListSelectionMode primary
 ]
 
 { #category : #orientation }

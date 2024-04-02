@@ -124,6 +124,13 @@ ToSelectElement >> deselectAll [
 	self notifySelectionChanged
 ]
 
+{ #category : #'accessing selection' }
+ToSelectElement >> deselectIndex: anIndex [
+
+	self selectionModel deselectIndex: anIndex.
+	self notifySelectionChanged
+]
+
 { #category : #private }
 ToSelectElement >> fakeDataItem [
 

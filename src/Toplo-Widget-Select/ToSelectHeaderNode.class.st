@@ -83,10 +83,19 @@ ToSelectHeaderNode >> onUninstalledIn: aSelectHeaderNodeContainer [
 
 { #category : #'private configurating' }
 ToSelectHeaderNode >> removeFromSelect [
-	" remove the node by deselecting the corresponding list node in the list "
+	" 
+	First, try to remove the node by deselecting the corresponding list node in the list (if found). 
+	Second, if the data is not one of the actual list element data, remove the data through the select "
 
-	self selectHolder select listElement selecter deselectIndex:
-		self selectHolder position.
+	| select originalIndex |
+	select := self selectHolder select.
+	select listElement dataAccessor withIndexDo: [ :d :localIndex |
+		d = self selectHolder data ifTrue: [
+			select listElement selecter deselectIndex: localIndex.
+			^ self ] ].
+	originalIndex := select sieve dataPositionIndex at:
+		                 self selectHolder data.
+	select deselectIndex: originalIndex
 ]
 
 { #category : #accessing }

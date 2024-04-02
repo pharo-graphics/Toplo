@@ -187,7 +187,7 @@ ToAnchoredWindowManager >> onCloseRequest [
 	
 ]
 
-{ #category : #accessing }
+{ #category : #'api - hooks' }
 ToAnchoredWindowManager >> onInstalledIn: anElement [
 
 	element := anElement.
@@ -195,7 +195,7 @@ ToAnchoredWindowManager >> onInstalledIn: anElement [
 		element addEventHandler: self newElementEventHandler ]
 ]
 
-{ #category : #accessing }
+{ #category : #'api - hooks' }
 ToAnchoredWindowManager >> onUninstalledIn: anElement [
 
 	element removeEventHandler: elementEventHandler.

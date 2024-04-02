@@ -166,7 +166,7 @@ ToSelectListWindowManager >> newListElement [
 	^ newListElement
 ]
 
-{ #category : #'api - hook' }
+{ #category : #'api - hooks' }
 ToSelectListWindowManager >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
@@ -193,11 +193,11 @@ ToSelectListWindowManager >> onInstalledIn: anElement [
 
 	listElement nodeHolderFactory: [
 		ToSelectListNodeHolder new
-			select: self;
+			select: self element;
 			yourself ]
 ]
 
-{ #category : #'api - hook' }
+{ #category : #'api - hooks' }
 ToSelectListWindowManager >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.

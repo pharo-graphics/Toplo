@@ -1,13 +1,18 @@
 Class {
 	#name : #ToSelectListElement,
 	#superclass : #ToListElement,
+	#instVars : [
+		'select'
+	],
 	#category : #'Toplo-Widget-Select-Core'
 }
 
 { #category : #'private - commands' }
 ToSelectListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 	" update the selection according to the sieve selection model"
-	super applyDataSourceSieveCommand: aDataSourceCommand
+	super applyDataSourceSieveCommand: aDataSourceCommand.
+	select checkHideSelection.
+	select checkMaxSelectedCount.
 ]
 
 { #category : #accessing }
@@ -38,4 +43,16 @@ ToSelectListElement >> initialize [
 ToSelectListElement >> newRawSkin [ 
 
 	^ ToBasicListElementSkin new
+]
+
+{ #category : #accessing }
+ToSelectListElement >> select [
+
+	^ select
+]
+
+{ #category : #accessing }
+ToSelectListElement >> select: aSelect [
+
+	select := aSelect
 ]

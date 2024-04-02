@@ -14,10 +14,16 @@ Class {
 }
 
 { #category : #'instance creation' }
+ToListSelectionMode class >> new [
+
+	^ self shouldNotImplement
+]
+
+{ #category : #'instance creation' }
 ToListSelectionMode class >> primary [
 
 	| primary |
-	primary := self new.
+	primary := self basicNew initialize.
 	primary primary: true.
 	^ primary
 ]
@@ -26,7 +32,7 @@ ToListSelectionMode class >> primary [
 ToListSelectionMode class >> secondary [
 
 	| secondary |
-	secondary := self new.
+	secondary := self basicNew initialize.
 	secondary primary: false.
 	^ secondary
 ]

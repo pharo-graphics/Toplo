@@ -34,11 +34,57 @@ ToSelectElement >> allowSelectedCount: aNumber [
 ]
 
 { #category : #'accessing selection' }
-ToSelectElement >> checkMaxSelectedCount: aNumber [
+ToSelectElement >> assertMaxSelectedCount: aNumber [
 
 	(self allowSelectedCount: aNumber) ifFalse: [
 		self enqueueTask: (BlTaskAction new action: [
 				 Error signal: 'Max selected count reached' ]) ]
+]
+
+{ #category : #'accessing selection' }
+ToSelectElement >> checkHideSelection [
+
+	self hideSelected ifFalse: [ ^ self ].
+	self listElement dataAccessor withIndexDo: [ :d :localIndex |
+		| originalIndex |
+		originalIndex := self sieve dataPositionIndex at: d.
+		(self listElement selectionModel containsIndex: localIndex)
+			ifTrue: [ self listElement selectionModel hideIndex: localIndex ]
+			ifFalse: [ self listElement selectionModel unhideIndex: localIndex ].
+		self listElement selectionModel
+			transferSelectionFromIndex: localIndex
+			toIndex: originalIndex
+			in: self selectionModel ]
+]
+
+{ #category : #'accessing selection' }
+ToSelectElement >> checkMaxSelectedCount [
+
+	self maxSelectedCount isZero ifTrue: [ ^ self ].
+	self updateSelectedCountLabel.
+
+	self assertMaxSelectedCount: self selectionModel selectedIndexesCount.
+	self listElement dataAccessor withIndexDo: [ :d :localIndex |
+		| originalIndex |
+		originalIndex := self sieve dataPositionIndex at: d.
+		(self listElement groupSelectionModel containsIndex: localIndex)
+			ifFalse: [
+				self selectionModel selectedIndexesCount < self maxSelectedCount
+					ifTrue: [
+						self listElement unselectableSelectionModel deselectIndex:
+							localIndex.
+						self listElement disabledSelectionModel deselectIndex:
+							originalIndex ]
+					ifFalse: [
+						(self selectionModel containsIndex: originalIndex) ifFalse: [
+							self listElement unselectableSelectionModel selectIndex:
+								localIndex.
+							self listElement disabledSelectionModel selectIndex:
+								originalIndex ] ] ].
+		self listElement selectionModel
+			transferSelectionFromIndex: localIndex
+			toIndex: originalIndex
+			in: self selectionModel ]
 ]
 
 { #category : #'accessing window' }
@@ -331,43 +377,9 @@ ToSelectElement >> notifySelectionChanged [
 ToSelectElement >> onSelectionChanged [
 
 	self headerNodeContainer refresh.
-	self updateSelectedCountLabel.
 
-	self hideSelected ifTrue: [
-		self listElement dataAccessor withIndexDo: [ :d :localIndex |
-			| originalIndex |
-			originalIndex := self sieve dataPositionIndex at: d.
-			(self listElement selectionModel containsIndex: localIndex)
-				ifTrue: [ self listElement selectionModel hideIndex: localIndex ]
-				ifFalse: [
-				self listElement selectionModel unhideIndex: localIndex ].
-			self listElement selectionModel
-				transferSelectionFromIndex: localIndex
-				toIndex: originalIndex
-				in: self selectionModel ] ].
-
-	self maxSelectedCount isZero ifFalse: [
-		self checkMaxSelectedCount: self selectionModel selectedIndexesCount.
-		self selectionModel selectedIndexesCount < self maxSelectedCount
-			ifTrue: [
-				self listElement dataAccessor withIndexDo: [ :d :idx |
-					| origIdx |
-					origIdx := self sieve dataPositionIndex at: d.
-					(self listElement groupSelectionModel containsIndex: idx)
-						ifFalse: [
-							self listElement unselectableSelectionModel deselectIndex: idx.
-							(self selectionModel subSelectionModelWithId: #group)
-								deselectIndex: origIdx ] ] ]
-			ifFalse: [
-				self listElement dataAccessor withIndexDo: [ :d :idx |
-					| origIdx |
-					origIdx := self sieve dataPositionIndex at: d.
-					(self selectionModel containsIndex: origIdx) ifFalse: [
-						(self listElement groupSelectionModel containsIndex: idx)
-							ifFalse: [
-								self selectionModel unselectableSelectionModel selectIndex:
-									origIdx.
-								self listElement unselectableSelecter selectIndex: idx ] ] ] ] ].
+	self checkHideSelection.
+	self checkMaxSelectedCount.
 
 	self listElement dataSource notifyChanged.
 	self headerNodeContainer requestLayout
@@ -449,7 +461,7 @@ ToSelectElement >> selectIndex: anIndex [
 	selectedAfter := Array streamContents: [ :stream |
 		                 stream nextPut: anIndex.
 		                 stream nextPutAll: self selectedIndexes ].
-	self checkMaxSelectedCount: selectedAfter asSet size.
+	self assertMaxSelectedCount: selectedAfter asSet size.
 	self selectionModel selectIndex: anIndex.
 	self notifySelectionChanged
 ]
@@ -468,7 +480,7 @@ ToSelectElement >> selectIndexes: aCollection [
 { #category : #'accessing selection' }
 ToSelectElement >> selectOnlyIndex: anIndex [
 
-	self checkMaxSelectedCount: 1.
+	self assertMaxSelectedCount: 1.
 	self selectionModel deselectAll.
 	self selectionModel selectIndex: anIndex.
 	self notifySelectionChanged
@@ -477,7 +489,7 @@ ToSelectElement >> selectOnlyIndex: anIndex [
 { #category : #'accessing selection' }
 ToSelectElement >> selectOnlyIndexes: aCollection [
 
-	self checkMaxSelectedCount: aCollection asSet size.
+	self assertMaxSelectedCount: aCollection asSet size.
 	self selectionModel deselectAll.
 	self selectionModel selectIndexes: aCollection.
 	self notifySelectionChanged

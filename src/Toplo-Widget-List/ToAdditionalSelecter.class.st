@@ -18,10 +18,11 @@ ToAdditionalSelecter >> eventClass [
 { #category : #accessing }
 ToAdditionalSelecter >> eventClass: anEventClass [
 
+	eventClass ifNotNil: [ BlImmutableObjectChangeError signal ].
 	eventClass := anEventClass
 ]
 
-{ #category : #'api - hooks' }
+{ #category : #initialization }
 ToAdditionalSelecter >> initialize [
 
 	super initialize.
@@ -56,6 +57,7 @@ ToAdditionalSelecter >> onUninstalledIn: anElement [
 { #category : #accessing }
 ToAdditionalSelecter >> parentSelecter: aCompositeSelecter [
 
+	parentSelecter ifNotNil: [ BlImmutableObjectChangeError signal ].
 	parentSelecter := aCompositeSelecter
 ]
 
@@ -68,5 +70,6 @@ ToAdditionalSelecter >> uniqueId [
 { #category : #accessing }
 ToAdditionalSelecter >> uniqueId: aSymbol [
 
+	uniqueId ifNotNil: [ BlImmutableObjectChangeError signal ].
 	uniqueId := aSymbol
 ]

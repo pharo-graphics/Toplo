@@ -171,6 +171,7 @@ ToSelectListWindowManager >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	listElement := self newListElement.
+	listElement select: self element.
 
 	listElement addEventHandler: (ToSelectListElementEventHandler new
 			 select: self element;

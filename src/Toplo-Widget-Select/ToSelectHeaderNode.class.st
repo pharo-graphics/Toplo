@@ -89,13 +89,15 @@ ToSelectHeaderNode >> removeFromSelect [
 
 	| select originalIndex |
 	select := self selectHolder select.
-	select listElement dataAccessor withIndexDo: [ :d :localIndex |
-		d = self selectHolder data ifTrue: [
-			select listElement selecter deselectIndex: localIndex.
+"	select listElement dataAccessor withIndexDo: [ :d :localIndex |
+		((d = self selectHolder data) ) ifTrue: [
+			select listElement selectionModel deselectIndex: localIndex.
+			
+			'local: ' trace. select listElement selectionModel  deselectedIndexes traceCr.
 			^ self ] ].
-	originalIndex := select sieve dataPositionIndex at:
+"	originalIndex := select sieve dataPositionIndex at:
 		                 self selectHolder data.
-	select deselectIndex: originalIndex
+	select deselectIndex: originalIndex	
 ]
 
 { #category : #accessing }

@@ -42,7 +42,7 @@ ToSelectElement >> assertMaxSelectedCount: aNumber [
 ]
 
 { #category : #'accessing selection' }
-ToSelectElement >> checkHideSelection [
+ToSelectElement >> checkHideSelectionFromListElement [
 
 	self hideSelected ifFalse: [ ^ self ].
 	self listElement dataAccessor withIndexDo: [ :d :localIndex |
@@ -58,7 +58,7 @@ ToSelectElement >> checkHideSelection [
 ]
 
 { #category : #'accessing selection' }
-ToSelectElement >> checkMaxSelectedCount [
+ToSelectElement >> checkMaxSelectedCountFromListElement [
 
 	self maxSelectedCount isZero ifTrue: [ ^ self ].
 	self updateSelectedCountLabel.
@@ -128,7 +128,14 @@ ToSelectElement >> deselectAll [
 ToSelectElement >> deselectIndex: anIndex [
 
 	self selectionModel deselectIndex: anIndex.
-	self notifySelectionChanged
+	self notifySelectionChanged 
+]
+
+{ #category : #'accessing selection' }
+ToSelectElement >> deselectIndexes: anArray [
+
+	self selectionModel deselectIndexes: anArray.
+	self notifySelectionChanged 
 ]
 
 { #category : #private }
@@ -383,10 +390,32 @@ ToSelectElement >> notifySelectionChanged [
 { #category : #'accessing selection' }
 ToSelectElement >> onSelectionChanged [
 
+	| listIdxesAssocs removedListIdxesAssocs removedListIdxes |
+	listIdxesAssocs := Array streamContents: [ :stream |
+		                   self listElement dataAccessor withIndexDo: [
+			                   :d
+			                   :localIndex |
+			                   | originalIndex |
+			                   originalIndex := self sieve dataPositionIndex
+				                                    at: d.
+			                   stream nextPut: localIndex -> originalIndex ] ].
+	removedListIdxesAssocs := listIdxesAssocs reject: [ :assoc |
+		                          self selectionModel containsIndex:
+			                          assoc value ].
+	removedListIdxes := removedListIdxesAssocs collect: [ :assoc |
+		                    assoc key ].
+	self listElement selectionModel deselectIndexes: removedListIdxes.
+	self onSelectionChangedInListElement
+]
+
+{ #category : #'accessing selection' }
+ToSelectElement >> onSelectionChangedInListElement [
+
+	self showHidePlaceholder.
 	self headerNodeContainer refresh.
 
-	self checkHideSelection.
-	self checkMaxSelectedCount.
+	self checkHideSelectionFromListElement.
+	self checkMaxSelectedCountFromListElement.
 
 	self listElement dataSource notifyChanged.
 	self headerNodeContainer requestLayout
@@ -546,6 +575,15 @@ ToSelectElement >> setGroupIndexes: anIntegerCollection [
 	self listElement groupSelecter selectIndexes: anIntegerCollection.
 	self listElement unselectableSelecter deselectAll.
 	self listElement unselectableSelecter selectIndexes: anIntegerCollection
+]
+
+{ #category : #private }
+ToSelectElement >> showHidePlaceholder [
+
+	self selectionModel ifEmpty: [
+		self inputTextField text ifEmpty: [
+			^ self headerElement showPlaceholder ] ].
+	self headerElement hidePlaceholder
 ]
 
 { #category : #accessing }

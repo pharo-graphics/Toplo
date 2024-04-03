@@ -85,6 +85,8 @@ ToSelectionModelTest >> testDeselectADeselectedIndex2 [
 ToSelectionModelTest >> testDeselectADeselectedIndex3 [
 
 	| s |
+	self skip.
+	self flag: 'Reported as a BlCompositeSelection issue (see issue #489 and BlCompositeSelectionTest)'.
 	s := ToSelectionModel new itemCountGetter: 100.
 	s deselectAll.
 	s selectIndex: 1.
@@ -287,6 +289,38 @@ ToSelectionModelTest >> testSelectAll [
 	s selectAll.
 	self assert: s lastIndex equals: 100.
 
+]
+
+{ #category : #tests }
+ToSelectionModelTest >> testSelectAllThenDeselectOneByOne [
+
+	| s |
+	self skip.
+	self flag: 'Reported as a BlCompositeSelection issue (see issue #489 and BlCompositeSelectionTest)'.
+	s := ToSelectionModel new itemCountGetter: 48.
+	s selectIndexes: (1 to: 48).
+	s deselectIndex: 26.
+	self assert: s deselectedIndexes equals: #(26).
+	s deselectIndex: 28.
+	self assert: s deselectedIndexes equals: #(26 28).
+	s deselectIndex: 35.
+	self assert: s deselectedIndexes equals: #(26 28 35).
+	s deselectIndex: 18.
+	self assert: s deselectedIndexes equals: #(18 26 28 35).
+	s deselectIndex: 40.
+	self assert: s deselectedIndexes equals: #(18 26 28 35 40).
+	s deselectIndex: 31.
+	self assert: s deselectedIndexes equals: #(18 26 28 31 35 40).
+	s deselectIndex: 19.
+	self assert: s deselectedIndexes equals: #(18 19 26 28 31 35 40).
+	s deselectIndex: 17.
+	self assert: s deselectedIndexes equals: #(17 18 19 26 28 31 35 40).
+	s deselectIndex: 45.
+	self assert: s deselectedIndexes equals: #(17 18 19 26 28 31 35 40 45).
+	s deselectIndex: 48.
+	self assert: s deselectedIndexes equals: #(17 18 19 26 28 31 35 40 45 48).
+	s deselectIndex: 36.
+	self assert: s deselectedIndexes equals: #(17 18 19 26 28 31 35 36 40 45 48)
 ]
 
 { #category : #tests }

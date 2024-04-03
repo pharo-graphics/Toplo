@@ -17,6 +17,12 @@ ToSelectionModel >> = anObject [
 	^ underlyingModel = anObject underlyingModel
 ]
 
+{ #category : #accessing }
+ToSelectionModel >> allIndexes [
+
+	^ (1 to: self itemCount) asArray
+]
+
 { #category : #'api - testing' }
 ToSelectionModel >> containsIndex: anIndex [
 
@@ -41,7 +47,6 @@ ToSelectionModel >> deselectAll [
 { #category : #updating }
 ToSelectionModel >> deselectIndex: anIndex [
 
-	(self containsIndex: anIndex) ifFalse: [ ^ self ].
 	underlyingModel deselectIndex: anIndex
 ]
 
@@ -59,6 +64,12 @@ ToSelectionModel >> deselectIndex: aFirstIndex to: aSecondIndex [
 ToSelectionModel >> deselectIndexes: anArray [
 
 	anArray do: [ :idx | self deselectIndex: idx ]
+]
+
+{ #category : #accessing }
+ToSelectionModel >> deselectedIndexes [
+
+	^ self allIndexes difference: self selectedIndexes
 ]
 
 { #category : #accessing }
@@ -208,7 +219,6 @@ ToSelectionModel >> selectAll [
 { #category : #updating }
 ToSelectionModel >> selectIndex: anIndex [
 
-	(self containsIndex: anIndex) ifTrue: [ ^ self ].
 	underlyingModel selectIndex: anIndex
 ]
 

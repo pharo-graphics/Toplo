@@ -33,5 +33,5 @@ ToSelectListElementEventHandler >> sieveSelectionChangedEvent: anEvent [
 
 	| listElement |
 	listElement := anEvent currentTarget.
-	select notifySelectionChanged
+	select onSelectionChangedInListElement
 ]

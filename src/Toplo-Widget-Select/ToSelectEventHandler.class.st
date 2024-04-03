@@ -18,7 +18,9 @@ ToSelectEventHandler >> collectionFilteredEvent: anEvent [
 { #category : #'element handlers' }
 ToSelectEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 
-	anEvent currentTarget notifySelectionChanged
+	| select |
+	select := anEvent currentTarget.
+	select notifySelectionChanged 
 ]
 
 { #category : #'element handlers' }
@@ -43,7 +45,7 @@ ToSelectEventHandler >> eventsToHandle [
 { #category : #'element handlers' }
 ToSelectEventHandler >> selectInputTextFieldUpdatedEvent: anEvent [
 
-	self showHidePlaceholderIn: anEvent currentTarget
+	anEvent currentTarget showHidePlaceholder
 ]
 
 { #category : #'element handlers' }
@@ -51,17 +53,8 @@ ToSelectEventHandler >> selectSelectionChanged: anEvent [
 
 	| select |
 	select := anEvent currentTarget.
-	self showHidePlaceholderIn: select.
+	select showHidePlaceholder.
 	select onSelectionChanged
-]
-
-{ #category : #'element handlers' }
-ToSelectEventHandler >> showHidePlaceholderIn: aSelect [
-
-	aSelect selectionModel ifEmpty: [
-		aSelect inputTextField text ifEmpty: [
-			^ aSelect headerElement showPlaceholder ] ].
-	aSelect headerElement hidePlaceholder
 ]
 
 { #category : #'event handling' }

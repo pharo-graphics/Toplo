@@ -1404,7 +1404,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 
 	| select innerWindow |
 	select := ToSelectElement new.
-	select maxSelectedCount: 4.
+	"select maxSelectedCount: 4."
 
 	select inspect.
 	select hideSelected: false.

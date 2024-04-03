@@ -11,8 +11,8 @@ Class {
 ToSelectListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 	" update the selection according to the sieve selection model"
 	super applyDataSourceSieveCommand: aDataSourceCommand.
-	select checkHideSelection.
-	select checkMaxSelectedCount.
+	select checkHideSelectionFromListElement.
+	select checkMaxSelectedCountFromListElement.
 ]
 
 { #category : #accessing }

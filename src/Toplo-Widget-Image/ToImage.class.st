@@ -12,6 +12,12 @@ ToImage class >> inner: anImage [
 	^ self new innerImage: anImage
 ]
 
+{ #category : #'instance creation' }
+ToImage class >> svgPathString: aString [
+
+	^ self inner: ((BlSvgConverter convertFromString: aString) id: #svgPath; yourself)
+]
+
 { #category : #initialization }
 ToImage >> defaultInnerImage [
 
@@ -45,7 +51,9 @@ ToImage >> formColor: aColor [
 ]
 
 { #category : #testing }
-ToImage >> hasInnerImage [ ^ self innerImage id asSymbol ~= #emptyImage
+ToImage >> hasInnerImage [
+
+	^ self innerImage id asSymbol ~= #emptyImage
 ]
 
 { #category : #initialization }
@@ -83,6 +91,10 @@ ToImage >> innerImage: anImage [
 	self removeChildren.
 	innerImage := element.
 	self addChild: element.
+	element id asSymbol = #svgPath ifTrue: [
+		element constraintsDo: [ :c |
+			c horizontal matchParent.
+			c vertical matchParent ] ].
 	self requestNewSkin
 ]
 

@@ -76,7 +76,7 @@ ToSelectIconContainerSkin >> removeAllIcon [
 { #category : #accessing }
 ToSelectIconContainerSkin >> searchIcon [
 
-	^ ToImage inner: (ToThemeInnerImages searchOutlined16x16)
+	^ ToImage inner: (ToThemeIcons searchOutlined16x16)
 ]
 
 { #category : #'event handling' }

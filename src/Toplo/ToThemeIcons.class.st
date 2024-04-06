@@ -7,14 +7,14 @@ iconDescription := AntDesignIconsLibrary new name: #checkCircle.
 iconDescription serializeAsForm: ToThemeIcons maxWidth: 32 maxHeight: 32.
 "
 Class {
-	#name : #ToThemeInnerImages,
+	#name : #ToThemeIcons,
 	#superclass : #Object,
 	#category : #'Toplo-Core-Theme'
 }
 
 { #category : #icons }
-ToThemeInnerImages class >> plainTriangle5x9 [
-	<script: 'self iconPlainTriangle5x9 inspect'>
+ToThemeIcons class >> plainTriangle5x9 [
+	<script: 'self plainTriangle5x9 inspect'>
 	
 
 	^ (Form
@@ -24,8 +24,8 @@ ToThemeInnerImages class >> plainTriangle5x9 [
 ]
 
 { #category : #icons }
-ToThemeInnerImages class >> searchOutlined16x16 [
-	<script: 'self iconSearchOutlined16x16 inspect'>
+ToThemeIcons class >> searchOutlined16x16 [
+	<script: 'self searchOutlined16x16 inspect'>
 	"This method was generated with the Iconography project (https://github.com/OpenSmock/Iconography)."
 	"This icon come from Ant Design icons"
 

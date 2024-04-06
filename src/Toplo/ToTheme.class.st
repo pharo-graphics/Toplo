@@ -1,6 +1,9 @@
 Class {
 	#name : #ToTheme,
 	#superclass : #Object,
+	#instVars : [
+		'icons'
+	],
 	#category : #'Toplo-Core-Theme'
 }
 
@@ -280,6 +283,18 @@ ToTheme >> defaultTokenProperties [
 ToTheme >> expectedSkinFor: anElement [
 
 	^ anElement skinManager ifNotNil: [:sm | sm defaultSkin ]
+]
+
+{ #category : #accessing }
+ToTheme >> icons [
+
+	^ icons
+]
+
+{ #category : #accessing }
+ToTheme >> icons: aThemeIcons [
+
+	icons := aThemeIcons
 ]
 
 { #category : #accessing }

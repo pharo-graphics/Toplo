@@ -19,7 +19,7 @@ ToDemoButSkin2 >> installLookEvent: anEvent [
 	anEvent elementDo: [ :e |
 		| im |
 		e layout: BlFrameLayout new.
-		im := ToImage new innerImage: ToThemeInnerImages searchOutlined16x16.
+		im := ToImage new innerImage: ToThemeIcons searchOutlined16x16.
 		im constraintsDo: [ :c |
 			c frame horizontal alignCenter.
 			c frame vertical alignCenter ].

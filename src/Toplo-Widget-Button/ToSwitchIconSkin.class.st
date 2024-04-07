@@ -47,7 +47,7 @@ ToSwitchIconSkin >> installLookEvent: anEvent [
 	justInstalled := true.
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e switch: e isChecked ]
+		e whenLayoutedDoOnce: [ e switch: e isChecked ] ]
 ]
 
 { #category : #'event handling' }

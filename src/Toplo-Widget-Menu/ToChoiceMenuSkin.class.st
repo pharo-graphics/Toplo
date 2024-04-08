@@ -40,7 +40,7 @@ ToChoiceMenuSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e beLabelFirst.
+		e beEndToStart.
 		e flexible: true.
 		e interspace: 10.
 		e icon: (ToImage inner: (self iconNamed: #bottom)) ]

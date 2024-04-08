@@ -31,8 +31,8 @@ TToElementWithLabeledIconTest >> testBeIconFirst [
 				  size: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself).
-	li beIconFirst.
-	self assert: li isIconFirst
+	li beStartToEnd.
+	self assert: li isStartToEnd
 ]
 
 { #category : #tests }
@@ -44,8 +44,8 @@ TToElementWithLabeledIconTest >> testBeLabelFirst [
 				  size: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself).
-	li beLabelFirst.
-	self assert: li isLabelFirst
+	li beEndToStart.
+	self assert: li isEndToStart
 ]
 
 { #category : #tests }
@@ -259,22 +259,6 @@ TToElementWithLabeledIconTest >> testIconDo [
 ]
 
 { #category : #tests }
-TToElementWithLabeledIconTest >> testIconFirst [
-
-	| li |
-	li := self testInitialize.
-	li iconImage: (BlElement new
-				  size: 60 @ 20;
-				  background: (Color blue alpha: 0.2);
-				  yourself).
-	li labelText: 'X'.
-	li iconFirst: true.
-	li forceLayout.
-	self assert: (li icon bounds inParent: li) right equals: (li label bounds inParent: li) left.
-	^ li
-]
-
-{ #category : #tests }
 TToElementWithLabeledIconTest >> testIconImage [
 
 	| li |
@@ -294,7 +278,7 @@ TToElementWithLabeledIconTest >> testInitialize [
 
 	| li |
 	li := ToElementWithLabeledIconForTest new.
-	self assert: li isIconFirst.
+	self assert: li isStartToEnd.
 	self assert: li isHorizontal.
 	li forceLayout.
 	self assert: li size equals: 0	asPoint.
@@ -378,9 +362,9 @@ TToElementWithLabeledIconTest >> testIsIconFirst [
 
 	| li |
 	li := self testInitialize.
-	li beIconFirst.
-	self assert: li isIconFirst.
-	self deny: li isLabelFirst.
+	li beStartToEnd.
+	self assert: li isStartToEnd.
+	self deny: li isEndToStart.
 
 ]
 
@@ -389,9 +373,9 @@ TToElementWithLabeledIconTest >> testIsLabelFirst [
 
 	| li |
 	li := self testInitialize.
-	li beLabelFirst.
-	self assert: li isLabelFirst.
-	self deny: li isIconFirst.
+	li beEndToStart.
+	self assert: li isEndToStart.
+	self deny: li isStartToEnd.
 
 
 ]
@@ -430,7 +414,7 @@ TToElementWithLabeledIconTest >> testLabelFirst [
 				  background: (Color blue alpha: 0.2);
 				  yourself).
 	li labelText: 'X'.
-	li labelFirst: true.
+	li endToStart: true.
 	li forceLayout.
 	self assert: (li label bounds inParent: li) right equals: (li icon bounds inParent: li) left.
 	^ li
@@ -449,6 +433,22 @@ TToElementWithLabeledIconTest >> testLabelText [
 	li forceLayout.
 	self assert: li label text asString equals: 'X'.
 	self assert: li size equals: li labelContainer size.
+	^ li
+]
+
+{ #category : #tests }
+TToElementWithLabeledIconTest >> testStartToEnd [
+
+	| li |
+	li := self testInitialize.
+	li iconImage: (BlElement new
+				  size: 60 @ 20;
+				  background: (Color blue alpha: 0.2);
+				  yourself).
+	li labelText: 'X'.
+	li startToEnd: true.
+	li forceLayout.
+	self assert: (li icon bounds inParent: li) right equals: (li label bounds inParent: li) left.
 	^ li
 ]
 
@@ -472,8 +472,8 @@ TToElementWithLabeledIconTest >> testWithLabelAndIconIconFirst [
 
 	| li |
 	li := ToLabeledIcon new.
-	li labelFirst: true.
-	li labelFirst: false.
+	li endToStart: true.
+	li endToStart: false.
 	li label: (ToLabel text: 'A').
 	li icon: (ToImage inner: (BlElement new
 				  size: 60 @ 20;
@@ -491,8 +491,8 @@ TToElementWithLabeledIconTest >> testWithLabelAndIconIconFirstVertical [
 
 	| li |
 	li := ToLabeledIcon new.
-	li labelFirst: true.
-	li labelFirst: false.
+	li endToStart: true.
+	li endToStart: false.
 	li vertical: true.
 	li label: (ToLabel text: 'A').
 	li icon: (ToImage inner: (BlElement new
@@ -511,7 +511,7 @@ TToElementWithLabeledIconTest >> testWithLabelAndIconLabelFirst [
 
 	| li |
 	li := ToLabeledIcon new.
-	li labelFirst: true.
+	li endToStart: true.
 	li label: (ToLabel text: 'A').
 	li icon: (ToImage inner: (BlElement new
 				  size: 60 @ 20;
@@ -529,7 +529,7 @@ TToElementWithLabeledIconTest >> testWithLabelAndIconLabelFirstVertical [
 
 	| li |
 	li := ToLabeledIcon new.
-	li labelFirst: true.
+	li endToStart: true.
 	li vertical: true.
 	li label: (ToLabel text: 'A').
 	li icon: (ToImage inner: (BlElement new

@@ -15,7 +15,7 @@ ToLabeledIcon >> installBeeStyle [
 	self icon ifNotNil: [ :ic | ic addStamp: #icon ].
 	self label ifNotNil: [ :la | la addStamp: #label ].
 
-	self isIconFirst
+	self isStartToEnd
 		ifTrue: [
 			self addStamp: #'icon-first'.
 			self removeStamp: #'label-first' ]

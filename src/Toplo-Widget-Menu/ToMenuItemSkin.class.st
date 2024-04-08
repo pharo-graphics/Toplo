@@ -46,8 +46,8 @@ ToMenuItemSkin >> installLookEvent: anEvent [
 		e isTopMenu ifFalse: [
 			e parentMenuDo: [ :pm |
 				(pm items anySatisfy: [ :mi | mi hasIcon ]) ifTrue: [
-					e button rightLabelAlignment:
-						(e valueOfTokenNamed: #'menu-item-right-label-alignment') ] ] ].
+					e button startAlignment:
+						(e valueOfTokenNamed: #'menu-item-start-alignment') ] ] ].
 		e iconDo: [ :ic |
 			ic formColor: (e valueOfTokenNamed: #'color-text') ].
 		e labelDo: [ :lab |

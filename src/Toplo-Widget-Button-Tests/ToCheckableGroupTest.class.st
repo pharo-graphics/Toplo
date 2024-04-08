@@ -69,7 +69,7 @@ ToCheckableGroupTest >> testCheckableGroupWithDresserChangeAndCheckUse2 [
 			           labelText: m;
 			           hMatchParent;
 			           id: m;
-			           beIconFirst ].
+			           beStartToEnd ].
 	modelButtonsGroup addAll: buttons.
 	self assert: modelButtonsGroup buttons size equals: 3.
 
@@ -107,7 +107,7 @@ ToCheckableGroupTest >> testCheckableGroupWithDresserChangeAndSwitchToNextStateU
 			           labelText: m;
 			           hMatchParent;
 			           id: m;
-			           beIconFirst ].
+			           beStartToEnd ].
 	modelButtonsGroup addAll: buttons.
 	self assert: modelButtonsGroup buttons size equals: 3.
 

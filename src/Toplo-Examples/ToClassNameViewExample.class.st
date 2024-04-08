@@ -8,7 +8,7 @@ Class {
 ToClassNameViewExample >> class: aClass position: anInteger [
 
 	self addChild: (ToLabeledIcon new
-			 beIconFirst;
+			 beStartToEnd;
 			 hMatchParent;
 			 vFitContent;
 			 interspace: 10;

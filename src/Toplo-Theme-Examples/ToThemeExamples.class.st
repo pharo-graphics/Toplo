@@ -148,7 +148,7 @@ ToThemeExamples class >> example_ToLabelWithHeadingSkin [
 	space root layout: (BlLinearLayout vertical cellSpacing: 10).
 	themeSwitcher := ToCheckbox new
 		                 labelText: 'Dark Theme';
-		                 beLabelFirst.
+		                 beEndToStart.
 	themeSwitcher defaultSkin: ToCheckboxSkin new.
 	themeSwitcher addEventHandler: (BlEventHandler
 			 on: ToCheckableChangedEvent

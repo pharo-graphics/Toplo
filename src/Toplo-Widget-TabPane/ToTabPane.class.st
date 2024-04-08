@@ -45,7 +45,7 @@ ToTabPane >> applyHeaderPositioning [
 ToTabPane >> applyResizablePanesConfiguration [
 
 	self body removeDividers.
-	self resizablePanes ifTrue: [ self body addDividers ]
+	resizablePanes ifTrue: [ self body addDividers ]
 ]
 
 { #category : #accessing }
@@ -142,12 +142,6 @@ ToTabPane >> rebuildPaneOnSelect [
 ToTabPane >> rebuildPaneOnSelect: aBoolean [
 
 	rebuildPaneOnSelect := aBoolean
-]
-
-{ #category : #configuration }
-ToTabPane >> resizablePanes [
-
-	^ resizablePanes
 ]
 
 { #category : #configuration }
@@ -250,7 +244,7 @@ ToTabPane >> withHorizontalBody [
 { #category : #configuration }
 ToTabPane >> withResizablePanes [
 
-	self resizablePanes ifTrue: [ ^ self ].
+	resizablePanes ifTrue: [ ^ self ].
 	self resizablePanes: true
 ]
 
@@ -281,6 +275,6 @@ ToTabPane >> withoutCheckingStrategy [
 { #category : #configuration }
 ToTabPane >> withoutResizablePanes [
 
-	self resizablePanes ifFalse: [ ^ self ].
+	resizablePanes ifFalse: [ ^ self ].
 	self resizablePanes: false
 ]

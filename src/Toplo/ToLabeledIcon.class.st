@@ -1,31 +1,22 @@
 Class {
 	#name : #ToLabeledIcon,
-	#superclass : #ToElement,
-	#traits : 'TToOrientable',
-	#classTraits : 'TToOrientable classTrait',
-	#instVars : [
-		'icon',
-		'filler',
-		'label',
-		'iconContainer',
-		'labelContainer'
-	],
+	#superclass : #ToTripletElement,
 	#category : #'Toplo-Core'
 }
 
 { #category : #configurating }
-ToLabeledIcon >> beIconFirst [
+ToLabeledIcon >> beEndToStart [
 
-	self isIconFirst ifTrue: [ ^ self ].
-	self leftToRight: true.
+	self isEndToStart ifTrue: [ ^ self ].
+	self leftToRight: false.
 	self requestLayout
 ]
 
 { #category : #configurating }
-ToLabeledIcon >> beLabelFirst [
+ToLabeledIcon >> beStartToEnd [
 
-	self isLabelFirst ifTrue: [ ^ self ].
-	self leftToRight: false.
+	self isStartToEnd ifTrue: [ ^ self ].
+	self leftToRight: true.
 	self requestLayout
 ]
 
@@ -43,28 +34,95 @@ ToLabeledIcon >> defaultLayout [
 ]
 
 { #category : #accessing }
+ToLabeledIcon >> endIcon [
+
+	^ self endElement
+]
+
+{ #category : #accessing }
+ToLabeledIcon >> endIcon: anElement [
+
+	self endElement: anElement
+]
+
+{ #category : #accessing }
+ToLabeledIcon >> endIconContainer [
+
+	^ self endContainer
+]
+
+{ #category : #accessing }
+ToLabeledIcon >> endIconContainerHeight [
+
+	^ self endIconContainer requestedHeight
+]
+
+{ #category : #accessing }
+ToLabeledIcon >> endIconContainerHeight: anInteger [
+
+	self endIconContainer height: anInteger
+]
+
+{ #category : #accessing }
+ToLabeledIcon >> endIconContainerWidth [
+
+	^ self endIconContainer requestedWidth
+]
+
+{ #category : #accessing }
+ToLabeledIcon >> endIconContainerWidth: anInteger [
+
+	self endIconContainer width: anInteger
+]
+
+{ #category : #accessing }
+ToLabeledIcon >> endInterspace [
+
+	| fc |
+	fc := self endFiller constraints.
+	^ fc minWidth @ fc minHeight
+]
+
+{ #category : #accessing }
+ToLabeledIcon >> endInterspace: aPoint [
+
+	| size |
+	size := aPoint asPoint.
+	self endInterspace = size ifTrue: [ ^ self ].
+	self endFiller constraints
+		minWidth: size x;
+		minHeight: size y.
+	self endFiller requestLayout
+]
+
+{ #category : #configurating }
+ToLabeledIcon >> endToStart: aBoolean [
+
+	self startToEnd: aBoolean not
+]
+
+{ #category : #accessing }
 ToLabeledIcon >> filler [
 
-	^ filler
+	^ self startFiller
 ]
 
 { #category : #configurating }
 ToLabeledIcon >> flexible [
 
-	^ self filler constraints horizontal resizer isMatchParent
+	^ self startFlexible
 ]
 
 { #category : #configurating }
 ToLabeledIcon >> flexible: aBoolean [
 
-	self isFlexible = aBoolean ifTrue: [ ^ self ].
-	aBoolean
-		ifTrue: [
-			self addStamp: #flexible.
-			self filler constraintsDo:  [ :c | c vertical matchParent. c horizontal matchParent ] ]
-		ifFalse: [
-			self removeStamp: #flexible.
-			self filler constraintsDo:  [ :c | c vertical fitContent. c horizontal fitContent ] ]
+	self startFlexible: aBoolean
+]
+
+{ #category : #testing }
+ToLabeledIcon >> hasEndIcon [
+
+	^ self endIcon notNil
 ]
 
 { #category : #testing }
@@ -82,23 +140,19 @@ ToLabeledIcon >> hasLabel [
 { #category : #accessing }
 ToLabeledIcon >> icon [
 
-	^ icon
+	^ self startElement
 ]
 
 { #category : #accessing }
 ToLabeledIcon >> icon: anElement [
 
-	anElement = self icon ifTrue: [ ^ self ].
-	self icon ifNotNil: [ :s | self icon removeFromParent ].
-	icon := anElement.
-	anElement ifNil: [ ^ self ].
-	self iconContainer addChild: anElement
+	self startElement: anElement
 ]
 
 { #category : #accessing }
 ToLabeledIcon >> iconContainer [
 
-	^ iconContainer
+	^ self startContainer
 ]
 
 { #category : #accessing }
@@ -125,14 +179,6 @@ ToLabeledIcon >> iconContainerWidth: anInteger [
 	self iconContainer width: anInteger
 ]
 
-{ #category : #configurating }
-ToLabeledIcon >> iconFirst: aBoolean [
-
-	aBoolean
-		ifTrue: [ self beIconFirst ]
-		ifFalse: [ self beLabelFirst ]
-]
-
 { #category : #accessing }
 ToLabeledIcon >> iconImage [
 
@@ -143,53 +189,6 @@ ToLabeledIcon >> iconImage [
 ToLabeledIcon >> iconImage: anElement [
 
 	self icon: (ToImage inner: anElement)
-]
-
-{ #category : #initialization }
-ToLabeledIcon >> initialize [
-
-	super initialize.
-
-	filler := BlElement new
-		          size: 0 @ 0;
-		          id: #filler;
-		          layout: BlFrameLayout new;
-		          constraintsDo: [ :c |
-			          c horizontal fitContent.
-			          c vertical fitContent ];
-		          yourself.
-	iconContainer := BlElement new
-		                 constraintsDo: [ :c |
-			                 c horizontal fitContent.
-			                 c vertical fitContent ];
-		                 id: #'icon-container';
-		                 layout: BlFrameLayout new;
-		                 yourself.
-	labelContainer := BlElement new
-		                  constraintsDo: [ :c |
-			                  c horizontal fitContent.
-			                  c vertical fitContent ];
-		                  id: #'label-container';
-		                  layout: BlFrameLayout new;
-		                  yourself.
-	self addChild: iconContainer.
-	self addChild: filler.
-	self addChild: labelContainer.
-	self beIconFirst.
-	self fitContent.
-	self addEventHandler: self defaultEventHandler
-]
-
-{ #category : #skin }
-ToLabeledIcon >> installRawStyle [
-
-	super installRawStyle.
-	self childrenDo: [ :child |
-		child constraintsDo: [ :c |
-			c linear vertical alignCenter.
-			c linear horizontal alignCenter ] ].
-
-	
 ]
 
 { #category : #accessing }
@@ -213,56 +212,39 @@ ToLabeledIcon >> interspace: aPoint [
 ]
 
 { #category : #testing }
-ToLabeledIcon >> isExact [
+ToLabeledIcon >> isEndToStart [
 
-	^ self constraints vertical resizer isExact and: [
-		  self constraints horizontal resizer isExact ]
+	^ self isStartToEnd not
 ]
 
 { #category : #testing }
 ToLabeledIcon >> isFlexible [
 
-	^ self flexible
+	^ self isStartFlexible
 ]
 
 { #category : #testing }
-ToLabeledIcon >> isIconFirst [
+ToLabeledIcon >> isStartToEnd [
 
 	^ self isLeftToRight
-]
-
-{ #category : #testing }
-ToLabeledIcon >> isLabelFirst [
-
-	^ self isIconFirst not
 ]
 
 { #category : #accessing }
 ToLabeledIcon >> label [
 
-	^ label
+	^ self middleElement
 ]
 
 { #category : #accessing }
 ToLabeledIcon >> label: anElement [
 
-	anElement = self label ifTrue: [ ^ self ].
-	self label ifNotNil: [ :s | s removeFromParent].
-	label := anElement.
-	anElement ifNil: [ ^ self ].
-	self labelContainer addChild: anElement
+	self middleElement: anElement
 ]
 
 { #category : #accessing }
 ToLabeledIcon >> labelContainer [
 
-	^ labelContainer
-]
-
-{ #category : #configurating }
-ToLabeledIcon >> labelFirst: aBoolean [
-
-	self iconFirst: aBoolean not
+	^ self middleContainer
 ]
 
 { #category : #accessing }
@@ -287,14 +269,10 @@ ToLabeledIcon >> layoutStrategy [
 	^ self layout
 ]
 
-{ #category : #accessing }
-ToLabeledIcon >> rightLabelAlignment [
+{ #category : #configurating }
+ToLabeledIcon >> startToEnd: aBoolean [
 
-	^ self iconContainerWidth
-]
-
-{ #category : #accessing }
-ToLabeledIcon >> rightLabelAlignment: anInteger [
-
-	self iconContainerWidth: anInteger
+	aBoolean
+		ifTrue: [ self beStartToEnd ]
+		ifFalse: [ self beEndToStart ]
 ]

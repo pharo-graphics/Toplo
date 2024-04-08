@@ -24,7 +24,7 @@ ToAlbumPrimarySelectionElementSkin >> hoveredLookEvent: anEvent [
 ToAlbumPrimarySelectionElementSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
-	anEvent elementDo: [ :e | e border: BlBorder empty ]
+	anEvent elementDo: [ :e | e border: (e valueOfTokenNamed: #'color-primary-selection-focused') ]
 ]
 
 { #category : #'event handling' }

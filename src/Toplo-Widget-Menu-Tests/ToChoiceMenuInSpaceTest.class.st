@@ -25,9 +25,9 @@ ToChoiceMenuInSpaceTest >> testChoiceItemRightLabelAlignmentOnFirstPopup [
 	self assert: themeSelect menuWindow notNil.
 	choiceItem := themeSelect menuWindow root firstChild.
 	self assert: choiceItem icon notNil.
-	ralign := choiceItem valueOfTokenNamed: #'menu-item-right-label-alignment'.
+	ralign := choiceItem valueOfTokenNamed: #'menu-item-start-alignment'.
 	self assert: ralign notNil.
-	self assert: choiceItem rightLabelAlignment equals: ralign.
+	self assert: choiceItem startAlignment equals: ralign.
 	
 ]
 

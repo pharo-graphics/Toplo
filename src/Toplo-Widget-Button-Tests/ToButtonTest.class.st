@@ -13,8 +13,8 @@ ToButtonTest >> testButton [
 
 	self assert: button isHorizontal.
 
-	self assert: button isIconFirst.
-	self assert: button isLabelFirst equals: false.
+	self assert: button isStartToEnd.
+	self assert: button isEndToStart equals: false.
 
 	self assert: button icon isNil.
 	self assert: button label isNil

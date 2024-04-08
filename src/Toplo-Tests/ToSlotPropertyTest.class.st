@@ -13,9 +13,9 @@ ToSlotPropertyTest >> testName [
 	| w prop |
 	w := ToLabeledIcon  new.
 	prop := ToSlotProperty new.
-	prop name: #label.
-	self assert: (w class hasSlotNamed: #label).
-	self assert: prop name equals: #label.
+	prop name: #middleElement.
+	self assert: (w class hasSlotNamed: #middleElement).
+	self assert: prop name equals: #middleElement.
 
 ]
 
@@ -34,10 +34,10 @@ ToSlotPropertyTest >> testRead [
 	| w prop |
 	w := ToLabeledIcon  new.
 	prop := ToSlotProperty new.
-	prop name: #label.
-	self assert: (w class hasSlotNamed: #label).
+	prop name: #middleElement.
+	self assert: (w class hasSlotNamed: #middleElement).
 	self assert: (prop read: w) equals: w label.
-	self assert: (w readSlotNamed: #label) equals: w label
+	self assert: (w readSlotNamed: #middleElement) equals: w label
 ]
 
 { #category : #tests }
@@ -46,8 +46,8 @@ ToSlotPropertyTest >> testWrite [
 	| w prop |
 	w := ToLabeledIcon  new.
 	prop := ToSlotProperty new.
-	prop name: #label.
-	self assert: (w class hasSlotNamed: #label).
+	prop name: #middleElement.
+	self assert: (w class hasSlotNamed: #middleElement).
 	self assert: (prop read: w) equals: w label.
 	prop write: (ToLabel text: 'Hello') to: w.
 	self assert: (prop read: w) text asString equals: 'Hello'

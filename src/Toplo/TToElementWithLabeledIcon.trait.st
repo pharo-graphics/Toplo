@@ -4,27 +4,120 @@ Trait {
 }
 
 { #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> beEndToStart [
+
+	self labeledIcon beEndToStart
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
 TToElementWithLabeledIcon >> beHorizontal [
 
 	self labeledIcon beHorizontal
 ]
 
 { #category : #'t - element with labeled icon - accessing' }
-TToElementWithLabeledIcon >> beIconFirst [
+TToElementWithLabeledIcon >> beStartToEnd [
 
-	self labeledIcon beIconFirst
-]
-
-{ #category : #'t - element with labeled icon - accessing' }
-TToElementWithLabeledIcon >> beLabelFirst [
-
-	self labeledIcon beLabelFirst
+	self labeledIcon beStartToEnd
 ]
 
 { #category : #'t - element with labeled icon - accessing' }
 TToElementWithLabeledIcon >> beVertical [
 
-		self labeledIcon beVertical
+	self labeledIcon beVertical
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> endAlignment [
+
+	^ self labeledIcon endAlignment
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> endAlignment: anInteger [
+
+	self labeledIcon endAlignment: anInteger
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> endFiller [ 
+
+	^ self labeledIcon endFiller
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> endFlexible: aBoolean [
+
+	self labeledIcon endFlexible: aBoolean
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> endIcon [
+
+	^ self labeledIcon endIcon
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> endIcon: anElement [
+
+	self endIcon = anElement ifTrue: [ ^ self ].
+	self labeledIcon endIcon: anElement.
+	self requestNewSkin
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> endIconContainer [
+
+	^ self labeledIcon endIconContainer
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> endIconContainerHeight [
+
+	^ self labeledIcon endIconContainerHeight
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> endIconContainerHeight: anInteger [
+
+	self labeledIcon endIconContainerHeight: anInteger
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> endIconContainerWidth [
+
+	^ self labeledIcon endIconContainerWidth
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> endIconContainerWidth: anInteger [
+
+	self labeledIcon endIconContainerWidth: anInteger
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> endIconDo: aBlock [
+
+	self endIcon ifNotNil: [ :ic | aBlock value: ic ]
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> endInterspace [
+
+	^ self labeledIcon endInterspace
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> endInterspace: aPoint [
+
+	self endInterspace = aPoint asPoint ifTrue: [ ^ self ].
+	self labeledIcon endInterspace: aPoint asPoint
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> endToStart: aBoolean [
+
+	self labeledIcon endToStart: aBoolean
 ]
 
 { #category : #'t - element with labeled icon - accessing' }
@@ -34,15 +127,15 @@ TToElementWithLabeledIcon >> filler [
 ]
 
 { #category : #'t - element with labeled icon - accessing' }
-TToElementWithLabeledIcon >> flexible [
-
-	^ self labeledIcon flexible
-]
-
-{ #category : #'t - element with labeled icon - accessing' }
 TToElementWithLabeledIcon >> flexible: aBoolean [
 
 	self labeledIcon flexible: aBoolean
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> hasEndIcon [
+
+	^ self labeledIcon hasEndIcon
 ]
 
 { #category : #'t - element with labeled icon - accessing' }
@@ -108,12 +201,6 @@ TToElementWithLabeledIcon >> iconDo: aBlock [
 ]
 
 { #category : #'t - element with labeled icon - accessing' }
-TToElementWithLabeledIcon >> iconFirst: aBoolean [
-
-	self labeledIcon iconFirst: aBoolean
-]
-
-{ #category : #'t - element with labeled icon - accessing' }
 TToElementWithLabeledIcon >> iconImage [
 
 	^ self labeledIcon iconImage
@@ -139,6 +226,18 @@ TToElementWithLabeledIcon >> interspace: aPoint [
 ]
 
 { #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> isEndFlexible [
+
+	^ self labeledIcon isEndFlexible
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> isEndToStart [
+
+	^ self labeledIcon isEndToStart
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
 TToElementWithLabeledIcon >> isExact [
 
 	^ self labeledIcon isExact
@@ -157,15 +256,9 @@ TToElementWithLabeledIcon >> isHorizontal [
 ]
 
 { #category : #'t - element with labeled icon - accessing' }
-TToElementWithLabeledIcon >> isIconFirst [
+TToElementWithLabeledIcon >> isStartToEnd [
 
-	^ self labeledIcon isIconFirst
-]
-
-{ #category : #'t - element with labeled icon - accessing' }
-TToElementWithLabeledIcon >> isLabelFirst [
-
-	^ self labeledIcon isLabelFirst
+	^ self labeledIcon isStartToEnd
 ]
 
 { #category : #'t - element with labeled icon - accessing' }
@@ -201,12 +294,6 @@ TToElementWithLabeledIcon >> labelDo: aBlock [
 ]
 
 { #category : #'t - element with labeled icon - accessing' }
-TToElementWithLabeledIcon >> labelFirst: aBoolean [
-
-	self labeledIcon labelFirst: aBoolean
-]
-
-{ #category : #'t - element with labeled icon - accessing' }
 TToElementWithLabeledIcon >> labelIconfiller [
 
 	^ self labeledIcon filler
@@ -232,15 +319,21 @@ TToElementWithLabeledIcon >> labeledIcon [
 ]
 
 { #category : #'t - element with labeled icon - accessing' }
-TToElementWithLabeledIcon >> rightLabelAlignment [
+TToElementWithLabeledIcon >> startAlignment [
 
-	^ self labeledIcon rightLabelAlignment
+	^ self labeledIcon startAlignment
 ]
 
 { #category : #'t - element with labeled icon - accessing' }
-TToElementWithLabeledIcon >> rightLabelAlignment: anInteger [
+TToElementWithLabeledIcon >> startAlignment: anInteger [
 
-	self labeledIcon rightLabelAlignment: anInteger
+	self labeledIcon startAlignment: anInteger
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> startToEnd: aBoolean [
+
+	self labeledIcon startToEnd: aBoolean
 ]
 
 { #category : #'t - element with labeled icon - accessing' }

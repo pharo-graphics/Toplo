@@ -132,7 +132,7 @@ ToSandBox class >> example_CheckboxFlexibleWithGroup [
 		chb := ToCheckbox new
 			       flexible: true;
 			       hMatchParent;
-			       beLabelFirst;
+			       beEndToStart;
 			       labelText: idx asString;
 			       id: idx asString.
 		buttons add: chb ].
@@ -165,7 +165,7 @@ ToSandBox class >> example_CheckboxGroupAndNoneStrategy [
 	1 to: 4 do: [ :idx |
 		| chb |
 		chb := ToCheckbox new
-			       beLabelFirst;
+			       beEndToStart;
 			       labelText: idx asString;
 			       id: idx asString.
 		buttons add: chb ].
@@ -198,7 +198,7 @@ ToSandBox class >> example_CheckboxGroupAndStrictStrategy [
 	1 to: 4 do: [ :idx |
 		| chb |
 		chb := ToCheckbox new
-			       beLabelFirst;
+			       beEndToStart;
 			       labelText: idx asString;
 			       id: idx asString.
 		buttons add: chb ].
@@ -232,7 +232,7 @@ ToSandBox class >> example_CheckboxGroupAndUnckekingStrategy [
 	1 to: 4 do: [ :idx |
 		| chb |
 		chb := ToCheckbox new
-			       beLabelFirst;
+			       beEndToStart;
 			       labelText: idx asString;
 			       id: idx asString.
 		buttons add: chb ].
@@ -290,7 +290,7 @@ ToSandBox class >> example_CheckboxVerticalGroupHorizontal [
 			       beVertical;
 			       labelText: idx asString;
 			       id: idx asString.
-		chb beIconFirst.
+		chb beStartToEnd.
 		group add: chb ].
 
 	group buttons second checked: true.
@@ -635,7 +635,7 @@ ToSandBox class >> example_LabeledIconlWithIconAndText_labelFirst [
 
 	| but  |
 	but := self example_LabeledIconlWithIconAndText.
-	but labelFirst: true.
+	but endToStart: true.
 	^ but
 ]
 
@@ -1862,7 +1862,7 @@ ToSandBox class >> example_StyleSheetSandbox [
 	b addStamp: #'icon-first'.
 	b addStamp: #'label-first'.
 	"b withStamp: #'interspace-1' -> 300."
-	b interspace: #flexible.
+	
 	"b stampWith: #circle."
 	"b stampWith: #round."
 	"b stampWith: #link. "
@@ -2010,14 +2010,14 @@ ToSandBox class >> example_ToButtonSkins [
 	
 	topBar addChild: buttonBar.
 	
-	directionSwitcher := ToSwitchIcon new labelText: 'Icon first'; beLabelFirst; yourself.
+	directionSwitcher := ToSwitchIcon new labelText: 'Icon first'; beEndToStart; yourself.
 	directionSwitcher check.
 	directionSwitcher
 		when: ToCheckableCheckEvent
-		do: [ :event | allButtons do: [ :b | b iconFirst: event target isChecked ] ].
+		do: [ :event | allButtons do: [ :b | b startToEnd: event target isChecked ] ].
 	topBar addChild: directionSwitcher.
 	
-	orientationSwitcher := ToSwitchIcon new labelText: 'Horizontal'; beLabelFirst; yourself.
+	orientationSwitcher := ToSwitchIcon new labelText: 'Horizontal'; beEndToStart; yourself.
 	orientationSwitcher check.
 	orientationSwitcher
 		when: ToCheckableCheckEvent
@@ -2169,6 +2169,55 @@ ToSandBox class >> example_ToButtonWithDefaultSkin0 [
 	space show.
 ]
 
+{ #category : #triplet }
+ToSandBox class >> example_TripletElementWithIconAndText [
+
+	| but  |
+	but := self tripletWithText.
+	but hMatchParent.
+	but inspect.
+	but openInSpace.
+	^ but
+]
+
+{ #category : #triplet }
+ToSandBox class >> example_TripletElementWithIconAndText_endAlignment [
+
+	| but  |
+	but := self example_TripletElementWithIconAndText.
+	but startAlignment: 30.
+	but endAlignment: 50.
+	but border: Color red.
+	but vFitContent.
+	but hFitContent.
+	^ but
+]
+
+{ #category : #triplet }
+ToSandBox class >> example_TripletElementWithIconAndText_startFlexible [
+
+	| but  |
+	but := self example_TripletElementWithIconAndText.
+	but startFlexible: true.
+	but border: Color red.
+	but vFitContent.
+	but hMatchParent.
+	^ but
+]
+
+{ #category : #triplet }
+ToSandBox class >> example_TripletElementWithIconAndText_startFlexible_startAlignment [
+
+	| but  |
+	but := self example_TripletElementWithIconAndText.
+	but startFlexible: true.
+	but startAlignment: 30.
+	but border: Color red.
+	but vFitContent.
+	but hMatchParent.
+	^ but
+]
+
 { #category : #list }
 ToSandBox class >> example_TwoCoordinateLists [
 
@@ -2199,6 +2248,27 @@ ToSandBox class >> example_TwoCoordinateLists [
 	list1 selecter selectIndex: 1.
 	list2 selecter selectIndex: 2.
 	panel openInSpace
+]
+
+{ #category : #button }
+ToSandBox class >> example_buttonWith2Icons [
+
+	| but  |
+	but := self example_buttonWithIcon.
+	but label: (ToLabel text: 'Button with 2 icons').
+	but endIcon: (ToImage inner: ToThemeIcons searchOutlined16x16).
+	^ but
+]
+
+{ #category : #button }
+ToSandBox class >> example_buttonWith2IconsVertical [
+
+	| but  |
+	but := self example_buttonWithIcon.
+	but label: (ToLabel text: 'Button with 2 icons').
+	but endIcon: (ToImage inner: ToThemeIcons searchOutlined16x16).
+	but beVertical.
+	^ but
 ]
 
 { #category : #button }
@@ -2911,7 +2981,7 @@ ToSandBox class >> example_switchButton3 [
 
 	| but onLab offLab onHandleIm handler |
 	but := ToSwitchButton new.
-	but labelFirst: true.
+	but endToStart: true.
 	but flexible: true.
 	but hMatchParent.
 	but labelText: ('Something' asRopedText fontSize: 44).
@@ -3940,15 +4010,15 @@ ToSandBox class >> example_withCustomMenuItems [
 
 	grp := ToCheckableGroup new.
 	right := ToRadioMenuItem new
-		         beLabelFirst;
+		         beEndToStart;
 		         labelText: 'Right';
 		         id: #right.
 	center := ToRadioMenuItem new
-		          beLabelFirst;
+		          beEndToStart;
 		          labelText: 'Center';
 		          id: #center.
 	left := ToRadioMenuItem new
-		        beLabelFirst;
+		        beEndToStart;
 		        labelText: 'Left';
 		        id: #left.
 	center checked: true.
@@ -3978,17 +4048,17 @@ ToSandBox class >> example_withCustomMenuItems [
 
 	grp := ToCheckableGroup new.
 	right := ToRadioMenuItem new
-		         beLabelFirst;
+		         beEndToStart;
 		         flexible: true;
 		         labelText: 'Right';
 		         id: #right.
 	center := ToRadioMenuItem new
-		          beLabelFirst;
+		          beEndToStart;
 		          flexible: true;
 		          labelText: 'Center';
 		          id: #center.
 	left := ToRadioMenuItem new
-		        beLabelFirst;
+		        beEndToStart;
 		        flexible: true;
 		        labelText: 'Left';
 		        id: #left.
@@ -4049,7 +4119,7 @@ ToSandBox class >> group [
 			       beVertical;
 			       labelText: idx asString;
 			       id: idx asString.
-		chb beIconFirst.
+		chb beStartToEnd.
 		group add: chb ].
 	group buttons second checked: true.
 	container := ToElement new.
@@ -4196,6 +4266,17 @@ ToSandBox class >> statesOfAmericaWithGroups [
 			   #'New York'. #Maryland. #Delaware. #'New Jersey'. #Connecticut.
 			   #'Rhode Island'. #Massachusetts. #'New Hampshire'.
 			   #Maine. #Vermont" }) }
+]
+
+{ #category : #triplet }
+ToSandBox class >> tripletWithText [
+
+	| but |
+	but := ToTripletElement new.
+	but middleElement: (ToLabel text: 'Middle').
+	but startElement: (ToLabel text: 'Start').
+	but endElement: (ToLabel text: 'End').
+	^ but
 ]
 
 { #category : #'see class side' }

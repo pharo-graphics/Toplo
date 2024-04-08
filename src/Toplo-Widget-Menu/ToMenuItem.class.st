@@ -28,6 +28,18 @@ ToMenuItem >> filler [
 	^ filler
 ]
 
+{ #category : #'as yet unclassified' }
+ToMenuItem >> flexible [
+
+	^ self labeledIcon startFlexible
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
+ToMenuItem >> flexible: aBoolean [
+
+	self labeledIcon startFlexible: aBoolean
+]
+
 { #category : #initialization }
 ToMenuItem >> initialize [ 
 

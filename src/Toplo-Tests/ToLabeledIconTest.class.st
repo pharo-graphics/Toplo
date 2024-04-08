@@ -23,8 +23,8 @@ ToLabeledIconTest >> testBeIconFirst [
 				  size: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself).
-	li beIconFirst.
-	self assert: li isIconFirst
+	li beStartToEnd.
+	self assert: li isStartToEnd
 ]
 
 { #category : #tests }
@@ -36,8 +36,8 @@ ToLabeledIconTest >> testBeLabelFirst [
 				  size: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself).
-	li beLabelFirst.
-	self assert: li isLabelFirst
+	li beEndToStart.
+	self assert: li isEndToStart
 ]
 
 { #category : #tests }
@@ -255,22 +255,6 @@ ToLabeledIconTest >> testIconContainerWidthVertical [
 ]
 
 { #category : #tests }
-ToLabeledIconTest >> testIconFirst [
-
-	| li |
-	li := self testInitialize.
-	li iconImage: (BlElement new
-				  size: 60 @ 20;
-				  background: (Color blue alpha: 0.2);
-				  yourself).
-	li labelText: 'X'.
-	li iconFirst: true.
-	li forceLayout.
-	self assert: (li icon bounds inParent: li) right equals: (li label bounds inParent: li) left.
-	^ li
-]
-
-{ #category : #tests }
 ToLabeledIconTest >> testIconImage [
 
 	| li |
@@ -290,7 +274,7 @@ ToLabeledIconTest >> testInitialize [
 
 	| li |
 	li := ToLabeledIcon new.
-	self assert: li isIconFirst.
+	self assert: li isStartToEnd.
 	self assert: li isHorizontal.
 	li forceLayout.
 	self assert: li size equals: 0	asPoint.
@@ -378,9 +362,9 @@ ToLabeledIconTest >> testIsIconFirst [
 
 	| li |
 	li := self testInitialize.
-	li beIconFirst.
-	self assert: li isIconFirst.
-	self deny: li isLabelFirst.
+	li beStartToEnd.
+	self assert: li isStartToEnd.
+	self deny: li isEndToStart.
 
 ]
 
@@ -389,9 +373,9 @@ ToLabeledIconTest >> testIsLabelFirst [
 
 	| li |
 	li := self testInitialize.
-	li beLabelFirst.
-	self assert: li isLabelFirst.
-	self deny: li isIconFirst.
+	li beEndToStart.
+	self assert: li isEndToStart.
+	self deny: li isStartToEnd.
 
 
 ]
@@ -435,7 +419,7 @@ ToLabeledIconTest >> testLabelFirst [
 				  background: (Color blue alpha: 0.2);
 				  yourself).
 	li labelText: 'X'.
-	li labelFirst: true.
+	li endToStart: true.
 	li forceLayout.
 	self assert: (li label bounds inParent: li) right equals: (li icon bounds inParent: li) left.
 	^ li
@@ -464,7 +448,7 @@ ToLabeledIconTest >> testLabelText [
 ]
 
 { #category : #tests }
-ToLabeledIconTest >> testRightLabelAlignment [
+ToLabeledIconTest >> testStartAlignment [
 
 	| li |
 	li := self testInitialize.
@@ -477,15 +461,31 @@ ToLabeledIconTest >> testRightLabelAlignment [
 	self
 		assert: li labelContainer bounds left
 		equals: li iconContainer bounds right.
-	li rightLabelAlignment: 100.
+	li startAlignment: 100.
 	li forceLayout.
 	self assert: li iconContainer bounds width equals: 100.
 	self assert: li labelContainer bounds left equals: 100.
-	li rightLabelAlignment: 50.
+	li startAlignment: 50.
 	li forceLayout.
 	self assert: li labelContainer bounds left equals: 50.
 	self assert: li iconContainer bounds width equals: 50.
 
+	^ li
+]
+
+{ #category : #tests }
+ToLabeledIconTest >> testStartToEnd [
+
+	| li |
+	li := self testInitialize.
+	li iconImage: (BlElement new
+				  size: 60 @ 20;
+				  background: (Color blue alpha: 0.2);
+				  yourself).
+	li labelText: 'X'.
+	li startToEnd: true.
+	li forceLayout.
+	self assert: (li icon bounds inParent: li) right equals: (li label bounds inParent: li) left.
 	^ li
 ]
 
@@ -513,8 +513,8 @@ ToLabeledIconTest >> testWithLabelAndIconIconFirst [
 
 	| li |
 	li := ToLabeledIcon new.
-	li labelFirst: true.
-	li labelFirst: false.
+	li endToStart: true.
+	li endToStart: false.
 	li label: (ToLabel text: 'A').
 	li icon: (ToImage inner: (BlElement new
 				  size: 60 @ 20;
@@ -532,8 +532,8 @@ ToLabeledIconTest >> testWithLabelAndIconIconFirstVertical [
 
 	| li |
 	li := ToLabeledIcon new.
-	li labelFirst: true.
-	li labelFirst: false.
+	li endToStart: true.
+	li endToStart: false.
 	li vertical: true.
 	li label: (ToLabel text: 'A').
 	li icon: (ToImage inner: (BlElement new
@@ -552,7 +552,7 @@ ToLabeledIconTest >> testWithLabelAndIconLabelFirst [
 
 	| li |
 	li := ToLabeledIcon new.
-	li labelFirst: true.
+	li endToStart: true.
 	li label: (ToLabel text: 'A').
 	li icon: (ToImage inner: (BlElement new
 				  size: 60 @ 20;
@@ -570,7 +570,7 @@ ToLabeledIconTest >> testWithLabelAndIconLabelFirstVertical [
 
 	| li |
 	li := ToLabeledIcon new.
-	li labelFirst: true.
+	li endToStart: true.
 	li vertical: true.
 	li label: (ToLabel text: 'A').
 	li icon: (ToImage inner: (BlElement new

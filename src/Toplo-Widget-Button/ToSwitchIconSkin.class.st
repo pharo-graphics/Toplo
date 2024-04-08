@@ -1,9 +1,6 @@
 Class {
 	#name : #ToSwitchIconSkin,
 	#superclass : #ToRawSkin,
-	#instVars : [
-		'justInstalled'
-	],
 	#category : #'Toplo-Widget-Button-Switch'
 }
 
@@ -11,9 +8,11 @@ Class {
 ToSwitchIconSkin >> checkedLookEvent: anEvent [
 
 	super checkedLookEvent: anEvent.
-	anEvent elementDo: [ :e | 
+	anEvent elementDo: [ :e |
 		e updateHandleContent.
-		self switch: true withAnimationIn: e ]
+		e background: (e valueOfTokenNamed: #'switch-checked-background').
+		" don't animate if the first measure is not done since the animation depends on size"
+		e firstMeasureDone ifTrue: [ self switchWithAnimation: e ] ]
 ]
 
 { #category : #'event handling' }
@@ -44,10 +43,8 @@ ToSwitchIconSkin >> hoveredLookEvent: anEvent [
 { #category : #'event handling' }
 ToSwitchIconSkin >> installLookEvent: anEvent [
 
-	justInstalled := true.
 	super installLookEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e whenLayoutedDoOnce: [ e switch: e isChecked ] ]
+	anEvent elementDo: [ :e | ]
 ]
 
 { #category : #'event handling' }
@@ -59,35 +56,32 @@ ToSwitchIconSkin >> leavedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToSwitchIconSkin >> switch: aBoolean withAnimationIn: aSwitchButton [
+ToSwitchIconSkin >> switchWithAnimation: aSwitchButton [
 
-	| anim posAnim colorAnim color background toPos |
-	background := (aBoolean
-		ifTrue: [ aSwitchButton valueOfTokenNamed: #'switch-checked-background' ]
-		ifFalse: [ aSwitchButton valueOfTokenNamed: #'switch-unchecked-background' ]) asBlBackground.
-	justInstalled ifTrue: [ 
-		justInstalled := false.
-		aSwitchButton background: background.
-		^ aSwitchButton switch: aBoolean ].
-	color := background paint color.
-	toPos := aBoolean
-		ifTrue: [ aSwitchButton trackOnExpectedPosition ]
-		ifFalse: [ aSwitchButton trackOffExpectedPosition ].
+	| anim posAnim colorAnim color toPos |
+	color := aSwitchButton background paint color.
+	toPos := aSwitchButton isChecked
+		         ifTrue: [ aSwitchButton trackOnExpectedPosition ]
+		         ifFalse: [ aSwitchButton trackOffExpectedPosition ].
 	posAnim := BlNumberTransition new
-		        duration: 200 milliSeconds;
-		        from: aSwitchButton track position x;
-		        to: toPos x;
-		        onStepDo: [ :number :anElement |
-			        anElement track position: number @ 0 ].
+		           duration: 200 milliSeconds;
+		           from: aSwitchButton track position x;
+		           to: toPos x;
+		           onStepDo: [ :number :anElement |
+			           anElement track position: number @ 0 ].
 	posAnim onFinishedDo: [ aSwitchButton track position: toPos ].
 	colorAnim := BlColorTransition new
-			       from: (aSwitchButton background paint color);
-			       to: color;
-			       duration: 300 milliSeconds;
-			       onStepDo: [ :c :anElement  | anElement background: c ].
-	colorAnim onFinishedDo: [ aSwitchButton background: background ].
-	
-	anim := BlParallelAnimation new addAll: { posAnim. colorAnim }; yourself.
+		             from: aSwitchButton background paint color;
+		             to: color;
+		             duration: 300 milliSeconds;
+		             onStepDo: [ :c :anElement | anElement background: c ].
+	colorAnim onFinishedDo: [ aSwitchButton background: aSwitchButton background ].
+
+	anim := BlParallelAnimation new
+		        addAll: {
+				        posAnim.
+				        colorAnim };
+		        yourself.
 	aSwitchButton addAnimation: anim
 ]
 
@@ -95,7 +89,9 @@ ToSwitchIconSkin >> switch: aBoolean withAnimationIn: aSwitchButton [
 ToSwitchIconSkin >> uncheckedLookEvent: anEvent [
 
 	super uncheckedLookEvent: anEvent.
-	anEvent elementDo: [ :e | 
+	anEvent elementDo: [ :e |
 		e updateHandleContent.
-		self switch: false withAnimationIn: e ]
+		e background: (e valueOfTokenNamed: #'switch-unchecked-background').
+		" don't animate if the first measure is not done since the animation depends on size"
+		e firstMeasureDone ifTrue: [ self switchWithAnimation: e ] ]
 ]

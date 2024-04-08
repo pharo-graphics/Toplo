@@ -6,14 +6,14 @@ Class {
 		'track',
 		'handle',
 		'checked',
-		'group',
 		'handleUncheckedBuilder',
 		'handleCheckedBuilder',
 		'checkedContainer',
 		'uncheckedContainer',
 		'checkedSide',
 		'uncheckedSide',
-		'handleDisabledBuilder'
+		'handleDisabledBuilder',
+		'firstMeasureDone'
 	],
 	#category : #'Toplo-Widget-Button-Switch'
 }
@@ -58,6 +58,12 @@ ToSwitchIcon >> defaultHandleMarginWidth [
 ToSwitchIcon >> defaultSize [
 
 	^ 35@20.0
+]
+
+{ #category : #'private - layout' }
+ToSwitchIcon >> firstMeasureDone [
+
+	^ firstMeasureDone
 ]
 
 { #category : #accessing }
@@ -153,7 +159,8 @@ ToSwitchIcon >> initialize [
 	
 	self addChild: track.
 	self size: self defaultSize.
-	self checked: false
+	self checked: false.
+	firstMeasureDone := false.
 ]
 
 { #category : #testing }
@@ -205,15 +212,18 @@ ToSwitchIcon >> onMeasure: anExtentMeasurementSpec [
 		                      self uncheckedContainer measuredWidth)
 	                     @ (self checkedContainer measuredHeight max:
 			                      self uncheckedContainer measuredHeight).
-	expectedSize := ((sideContainerSize x + 8 + sideContainerSize y) 
-	                @ (sideContainerSize y + 2)) max: self defaultSize.
-	
+	expectedSize := sideContainerSize x + 8 + sideContainerSize y
+	                @ (sideContainerSize y + 2) max: self defaultSize.
 	anExtentMeasurementSpec widthSpec size:
 		(expectedSize x max: anExtentMeasurementSpec widthSpec size).
 	anExtentMeasurementSpec heightSpec size:
 		(expectedSize y max: anExtentMeasurementSpec heightSpec size).
 	self size = expectedSize ifFalse: [ self applySize: expectedSize ].
-	super onMeasure: anExtentMeasurementSpec
+	super onMeasure: anExtentMeasurementSpec.
+	firstMeasureDone ifTrue: [ ^ self ].
+	self switch: self isChecked.
+	firstMeasureDone := true
+
 ]
 
 { #category : #layout }

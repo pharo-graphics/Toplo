@@ -24,10 +24,17 @@ ToSkinInstaller >> applyOn: anElement [
 					(in that case it it ignored) "
 					sm applyEnqueuedStatesIn: anElement ] ].
 			" check skin installation "
-			(sm installedSkin isNil and: [
-				 sm postponedInstallSkinHandler isNil ]) ifTrue: [
-				Error signal: 'A ToSkinManager has an invalid state' ].
+			self checkSkinInstallationOn: anElement.
 			sm setSkinInstaller: nil in: anElement ] ]
+]
+
+{ #category : #hook }
+ToSkinInstaller >> checkSkinInstallationOn: anElement [
+
+
+	anElement skinManagerDo: [ :sm | " check skin installation "
+		(sm installedSkin isNil and: [ sm postponedInstallSkinHandler isNil ])
+			ifTrue: [ Error signal: 'A ToSkinManager has an invalid state' ] ]
 ]
 
 { #category : #initialization }

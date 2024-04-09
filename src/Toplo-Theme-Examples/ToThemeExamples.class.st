@@ -248,8 +248,8 @@ ToThemeExamples class >> example_BlElementWithTheme2 [
 	lab := ToLabel new text: 'Hello'.
 	lab addAllStamps: #(#H1 #success).
 	pn2 addChild: lab.
-	space applyAllSkinInstallers.
-	space applyAllEnqueuedStates.
+	pn2 applySkinInstallersDeeply.
+	pn2 applyEnqueuedStatesDeeply.
 	space inspect
 ]
 
@@ -328,15 +328,15 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 	themeSelect dataToTextConverter: [ :assoc | assoc key ].
 	themeSelect withStrictCheckingStrategy.
 	themeSelect data addAll: {
-			('Raw Light Theme' -> ToBeeTheme).
+			('Raw Light Theme' -> ToRawTheme).
 			('Raw Dark Theme' -> ToRawDarkTheme).
 			('Bee Light Theme' -> ToBeeTheme).
 			('Bee Dark Theme' -> ToBeeDarkTheme) }.
-	themeSelect selectIndex: 2.
 
 	themeSelect addEventHandler: (BlEventHandler
 			 on: ToChoiceChangedEvent
 			 do: [ space toTheme: (themeSelect selectedData value new) ]).
+	themeSelect selectIndex: 2.
 
 	disachb := ToCheckbox new label:
 		           (ToLabel text: 'Disable all buttons').

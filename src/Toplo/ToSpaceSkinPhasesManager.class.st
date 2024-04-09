@@ -44,8 +44,7 @@ ToSpaceSkinPhasesManager >> applyAllEnqueuedStatesIn: aSpace [
 
 	self runStatesGeneration.
 	self needSkinStateApplicationPass ifTrue: [
-		aSpace root withAllChildrenDepthFirstDo: [ :child |
-			child skinManagerDo: [ :sm | sm applyEnqueuedStatesIn: child ] ] ].
+		aSpace root applyEnqueuedStatesDeeply ].
 	self needSkinStateApplicationPass: false
 ]
 
@@ -59,14 +58,8 @@ ToSpaceSkinPhasesManager >> applyAllSkinInstallersIn: aSpace [
 	self needSkinInstallPass: false.
 	applyingSkinInstallers := true.
 	" First make a layout pass because installing a skin may require measured/positionned elements "
-	[ "aSpace
-		dispatchTimeEvent: BlSpaceLayoutEndEvent
-		during: [ :theSpace | theSpace doLayout ]."
-	" Then install the skin "
-	aSpace root withAllChildrenDepthFirstDo: [ :child |
-		child skinManagerDo: [ :sm |
-			sm applySkinUninstallerIn: child.
-			sm applySkinInstallerIn: child ] ] ] ensure: [ applyingSkinInstallers := false ]
+	[ aSpace root applySkinInstallersDeeply ] ensure: [
+		applyingSkinInstallers := false ]
 ]
 
 { #category : #'phases installation' }

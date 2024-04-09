@@ -45,9 +45,25 @@ BlElement >> allowsSkinInstallation [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> applyEnqueuedStatesDeeply [
+
+	self withAllChildrenDepthFirstDo: [ :child |
+		child skinManagerDo: [ :sm | sm applyEnqueuedStatesIn: child ] ]
+]
+
+{ #category : #'*Toplo' }
 BlElement >> applySkinInstallerOnFirstRequest: aBoolean [
 
 	self skinManagerDo: [ :sm | sm  applySkinInstallerOnFirstRequest: aBoolean ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> applySkinInstallersDeeply [
+
+	self withAllChildrenDepthFirstDo: [ :child |
+		child skinManagerDo: [ :sm |
+			sm applySkinUninstallerIn: child.
+			sm applySkinInstallerIn: child ] ]
 ]
 
 { #category : #'*Toplo' }

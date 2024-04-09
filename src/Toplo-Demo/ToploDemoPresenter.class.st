@@ -51,7 +51,7 @@ ToploDemoPresenter >> demo2 [
 								  size: 50 @ 20;
 								  background: holder dataItem value;
 								  yourself);
-						 interspace: 3;
+						 startInterspace: 3;
 						 yourself) ].
 	colorAssociations := Array streamContents: [ :stream |
 		                     Color registeredColorNames sorted do: [

@@ -4,6 +4,7 @@ Class {
 	#traits : 'TToElementWithLabeledIcon',
 	#classTraits : 'TToElementWithLabeledIcon classTrait',
 	#instVars : [
+		'tripletElement',
 		'labeledIcon'
 	],
 	#category : #'Toplo-Widget-Button-Core'
@@ -28,7 +29,7 @@ ToButton >> installRawStyle [
 { #category : #'t - element with labeled icon - accessing' }
 ToButton >> labeledIcon [ 
 
-	^ labeledIcon 
+	^ labeledIcon
 ]
 
 { #category : #skin }

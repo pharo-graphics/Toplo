@@ -207,7 +207,7 @@ ToStyleSheetApplicationTest >> testButtonSkinWithInterspace [
 	theme := ToStyleSheetTheme new.
 	interspaceProp := ToPseudoProperty
 		                  name: #'layout-interspace'
-		                  reader: [ :e | e layout interspace ]
+		                  reader: [ :e | e layout startInterspace ]
 		                  writer: [ :e :v | e layout interspace: v ].
 	layoutProp := ToFeatureProperty name: #layout.
 

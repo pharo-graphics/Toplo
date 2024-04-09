@@ -534,7 +534,7 @@ ToBeeTheme >> declareLabeledIconInButtonRules [
 			" without justification "
 			self
 				select:
-				(self withParent: #flexible asStampSelector atDepth: 1) not
+				(self withParent: #'start-flexible' asStampSelector atDepth: 1) not
 				style: [
 					self write: (self property: #'layout-constraints') with: [ :e |
 						[ :c |
@@ -545,7 +545,7 @@ ToBeeTheme >> declareLabeledIconInButtonRules [
 
 			" with justification: innerElement is matchParent if it has a parent with #justified "
 			self
-				select: (self withParent: #flexible asStampSelector atDepth: 1)
+				select: (self withParent: #'start-flexible' asStampSelector atDepth: 1)
 				style: [
 					self write: (self property: #'layout-constraints') with: [ :e |
 						[ :c |

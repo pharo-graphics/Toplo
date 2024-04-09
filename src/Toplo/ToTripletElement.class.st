@@ -49,15 +49,11 @@ ToTripletElement >> endAlignment: aNumber [
 			ifTrue: [
 				endContainer constraintsDo: [ :c |
 					c horizontal exact: endAlignment.
-					c vertical fitContent ].
-				self endElement ifNotNil: [ :ee |
-					ee constraintsDo: [ :c | c frame horizontal alignRight ] ] ]
+					c vertical fitContent ] ]
 			ifFalse: [
 				endContainer constraintsDo: [ :c |
 					c vertical exact: endAlignment.
-					c horizontal fitContent ].
-				self endElement ifNotNil: [ :ee |
-					ee constraintsDo: [ :c | c frame horizontal alignBottom ] ] ] ]
+					c horizontal fitContent ] ] ]
 ]
 
 { #category : #accessing }
@@ -240,6 +236,19 @@ ToTripletElement >> middleElement: anElement [
 	middleContainer addChild: anElement
 ]
 
+{ #category : #layout }
+ToTripletElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
+
+	self isHorizontal
+		ifTrue: [
+			self endElement ifNotNil: [ :ee |
+				ee constraints frame horizontal alignRight ] ]
+		ifFalse: [
+			self endElement ifNotNil: [ :ee |
+				ee constraints frame vertical alignBottom ] ].
+	super onLayout: aBounds context: aBlElementBoundsUpdateContext
+]
+
 { #category : #accessing }
 ToTripletElement >> startAlignment [
 
@@ -260,8 +269,7 @@ ToTripletElement >> startAlignment: aNumber [
 			ifFalse: [
 				startContainer constraintsDo: [ :c |
 					c vertical exact: startAlignment.
-					c horizontal fitContent ] ] ].
-
+					c horizontal fitContent ] ] ]
 ]
 
 { #category : #accessing }

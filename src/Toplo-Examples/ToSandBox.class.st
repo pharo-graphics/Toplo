@@ -20,7 +20,7 @@ ToSandBox class >> example_BasicListWithAllClasses3 [
 		     node addChild: (ToLabeledIcon new
 				      label: lab;
 				      icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
-				      interspace: 10;
+				      startInterspace: 10;
 				      hMatchParent) ].
 	l addEventHandler: (BlEventHandler
 			 on: ToListPrimarySelectionChangedEvent
@@ -106,53 +106,6 @@ ToSandBox class >> example_CheckboxChecked [
 	chb checked: true.
 	chb openInInnerWindow.
 	chb inspect
-]
-
-{ #category : #checkbox }
-ToSandBox class >> example_CheckboxFlexible [
-
-	| chb |
-	ToTheme cleanUp.
-	chb := ToCheckbox new
-		       flexible: true;
-		       hMatchParent;
-		       labelText: 'Checkbox' asString.
-	"chb inspect."
-	chb openInInnerWindow
-]
-
-{ #category : #checkbox }
-ToSandBox class >> example_CheckboxFlexibleWithGroup [
-
-	| group container buttons |
-	group := ToCheckableGroup new.
-	buttons := OrderedCollection new.
-	1 to: 4 do: [ :idx |
-		| chb |
-		chb := ToCheckbox new
-			       flexible: true;
-			       hMatchParent;
-			       beEndToStart;
-			       labelText: idx asString;
-			       id: idx asString.
-		buttons add: chb ].
-	buttons second checked: true.
-	group addAll: buttons.
-	group addEventHandler: (BlEventHandler
-			 on: ToCheckableGroupChangedEvent
-			 do: [ :event |
-				 ('checked: ' , event checkedButtons asString , ' unchecked: '
-				  , event uncheckedButtons asString) traceCr ]).
-
-	container := ToElement new.
-	container background: Color veryLightGray.
-	container matchParent.
-
-	container layout: BlLinearLayout vertical.
-	container layout cellSpacing: 5.
-
-	container addChildren: group buttons.
-	container openInSpace
 ]
 
 { #category : #checkbox }
@@ -268,12 +221,59 @@ ToSandBox class >> example_CheckboxNoLabel [
 ]
 
 { #category : #checkbox }
+ToSandBox class >> example_CheckboxStartFlexible [
+
+	| chb |
+	ToTheme cleanUp.
+	chb := ToCheckbox new
+		       startFlexible: true;
+		       hMatchParent;
+		       labelText: 'Checkbox' asString.
+	"chb inspect."
+	chb openInInnerWindow
+]
+
+{ #category : #checkbox }
+ToSandBox class >> example_CheckboxStartFlexibleWithGroup [
+
+	| group container buttons |
+	group := ToCheckableGroup new.
+	buttons := OrderedCollection new.
+	1 to: 4 do: [ :idx |
+		| chb |
+		chb := ToCheckbox new
+			       startFlexible: true;
+			       hMatchParent;
+			       beEndToStart;
+			       labelText: idx asString;
+			       id: idx asString.
+		buttons add: chb ].
+	buttons second checked: true.
+	group addAll: buttons.
+	group addEventHandler: (BlEventHandler
+			 on: ToCheckableGroupChangedEvent
+			 do: [ :event |
+				 ('checked: ' , event checkedButtons asString , ' unchecked: '
+				  , event uncheckedButtons asString) traceCr ]).
+
+	container := ToElement new.
+	container background: Color veryLightGray.
+	container matchParent.
+
+	container layout: BlLinearLayout vertical.
+	container layout cellSpacing: 5.
+
+	container addChildren: group buttons.
+	container openInSpace
+]
+
+{ #category : #checkbox }
 ToSandBox class >> example_CheckboxUnchecked [
 
 	| chb |
 	ToTheme cleanUp.
 	chb := ToCheckbox new
-				interspace: 10;
+				startInterspace: 10;
 		       label: (ToLabel text: 'Checkbox');
 		       id: 1 asString.
 	chb openInInnerWindow
@@ -310,7 +310,7 @@ ToSandBox class >> example_CheckboxWithExactWidth [
 	| chb |
 	ToTheme cleanUp.
 	chb := ToCheckbox new
-		       interspace: 100 @ 0;
+		       startInterspace: 100 @ 0;
 		       labelText: 'Checkbox' asString.
 	chb openInInnerWindow
 ]
@@ -591,42 +591,12 @@ ToSandBox class >> example_LabeledIconlWithIconAndText [
 ]
 
 { #category : #'labeled icon' }
-ToSandBox class >> example_LabeledIconlWithIconAndText_flexible [
-
-	| but  |
-	but := self example_LabeledIconlWithIconAndText.
-	but flexible: true.
-	but border: Color red.
-	but vFitContent.
-	but hMatchParent.
-	^ but
-]
-
-{ #category : #'labeled icon' }
-ToSandBox class >> example_LabeledIconlWithIconAndText_flexible_inFitContent [
-
-	| but container |
-	container := ToElement new.
-	container hMatchParent.
-	container vFitContent.
-	container layout: BlLinearLayout vertical.
-	but := self labeledIconlWithIconAndText.
-	but flexible: true.
-	but border: Color red.
-	but vFitContent.
-	but hMatchParent.
-	container addChild: but.
-	container openInInnerWindow.
-	^ but
-]
-
-{ #category : #'labeled icon' }
 ToSandBox class >> example_LabeledIconlWithIconAndText_interspace [
 
 	| but  |
 	but := self example_LabeledIconlWithIconAndText.
 	but border: Color black.
-	but interspace: 100 asPoint.
+	but startInterspace: 100 asPoint.
 	^ but
 ]
 
@@ -640,11 +610,11 @@ ToSandBox class >> example_LabeledIconlWithIconAndText_labelFirst [
 ]
 
 { #category : #'labeled icon' }
-ToSandBox class >> example_LabeledIconlWithIconAndText_labelFirst_flexible [
+ToSandBox class >> example_LabeledIconlWithIconAndText_labelFirst_startFlexible [
 
 	| but  |
 	but := self example_LabeledIconlWithIconAndText_labelFirst.
-	but flexible: true.
+	but startFlexible: true.
 	but matchParent.
 	^ but
 ]
@@ -659,12 +629,42 @@ ToSandBox class >> example_LabeledIconlWithIconAndText_labelFirst_vertical [
 ]
 
 { #category : #'labeled icon' }
-ToSandBox class >> example_LabeledIconlWithIconAndText_labelFirst_vertical_flexible [
+ToSandBox class >> example_LabeledIconlWithIconAndText_labelFirst_vertical_startFlexible [
 
 	| but  |
 	but := self example_LabeledIconlWithIconAndText_labelFirst_vertical.
-	but flexible: true.
+	but startFlexible: true.
 	but matchParent.
+	^ but
+]
+
+{ #category : #'labeled icon' }
+ToSandBox class >> example_LabeledIconlWithIconAndText_startFlexible [
+
+	| but  |
+	but := self example_LabeledIconlWithIconAndText.
+	but startFlexible: true.
+	but border: Color red.
+	but vFitContent.
+	but hMatchParent.
+	^ but
+]
+
+{ #category : #'labeled icon' }
+ToSandBox class >> example_LabeledIconlWithIconAndText_startFlexible_inFitContent [
+
+	| but container |
+	container := ToElement new.
+	container hMatchParent.
+	container vFitContent.
+	container layout: BlLinearLayout vertical.
+	but := self labeledIconlWithIconAndText.
+	but startFlexible: true.
+	but border: Color red.
+	but vFitContent.
+	but hMatchParent.
+	container addChild: but.
+	container openInInnerWindow.
 	^ but
 ]
 
@@ -682,7 +682,7 @@ ToSandBox class >> example_LabeledIconlWithIconAndText_vertical_interspace [
 
 	| but  |
 	but := self example_LabeledIconlWithIconAndText_vertical.
-	but interspace: 20.
+	but startInterspace: 20.
 	^ but
 ]
 
@@ -753,7 +753,7 @@ ToSandBox class >> example_ListOneClass [
 	l := ToListElement new nodeBuilder: [ :node :holder |
 		     node addChild: (ToCheckbox new
 				      labelText: holder dataItem name;
-				      interspace: 10;
+				      startInterspace: 10;
 				      hMatchParent) ].
 	l dataAccessor addAll: { Smalltalk globals allClasses first }.
 	l inspect.
@@ -796,7 +796,7 @@ ToSandBox class >> example_ListWithAllClasses3 [
 		     node addChild: (ToLabeledIcon new
 				      label: lab;
 				      icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
-				      interspace: 10;
+				      startInterspace: 10;
 				      hMatchParent) ].
 	l addEventHandler: (BlEventHandler
 			 on: ToListPrimarySelectionChangedEvent
@@ -816,7 +816,7 @@ ToSandBox class >> example_ListWithAllClasses4 [
 	l := ToListElement new nodeBuilder: [ :node :holder |
 		     node addChild: (ToCheckbox new
 				      labelText: holder dataItem name;
-				      interspace: 10) ].
+				      startInterspace: 10) ].
 	l dataAccessor addAll: Smalltalk globals allClasses.
 	l inspect.
 	l openInSpace
@@ -2185,7 +2185,7 @@ ToSandBox class >> example_TripletElementWithIconAndText_endAlignment [
 
 	| but  |
 	but := self example_TripletElementWithIconAndText.
-	but startAlignment: 30.
+	but startAlignment: 50.
 	but endAlignment: 50.
 	but border: Color red.
 	but vFitContent.
@@ -2256,7 +2256,7 @@ ToSandBox class >> example_buttonWith2Icons [
 	| but  |
 	but := self example_buttonWithIcon.
 	but label: (ToLabel text: 'Button with 2 icons').
-	but endIcon: (ToImage inner: ToThemeIcons searchOutlined16x16).
+	but endElement: (ToImage inner: ToThemeIcons searchOutlined16x16).
 	^ but
 ]
 
@@ -2266,7 +2266,7 @@ ToSandBox class >> example_buttonWith2IconsVertical [
 	| but  |
 	but := self example_buttonWithIcon.
 	but label: (ToLabel text: 'Button with 2 icons').
-	but endIcon: (ToImage inner: ToThemeIcons searchOutlined16x16).
+	but endElement: (ToImage inner: ToThemeIcons searchOutlined16x16).
 	but beVertical.
 	^ but
 ]
@@ -2982,7 +2982,7 @@ ToSandBox class >> example_switchButton3 [
 	| but onLab offLab onHandleIm handler |
 	but := ToSwitchButton new.
 	but endToStart: true.
-	but flexible: true.
+	but startFlexible: true.
 	but hMatchParent.
 	but labelText: ('Something' asRopedText fontSize: 44).
 	handler := BlEventHandler
@@ -4038,49 +4038,6 @@ ToSandBox class >> example_withCustomMenuItems [
 		       ('Radio button label first' asRopedText
 			        italic;
 			        fontSize: 12;
-			        foreground: (Color black alpha: 0.7)).
-	menu addItem: (ToCustomMenuItem new
-			 innerElement: lbl;
-			 margin: (BlInsets
-					  top: 2;
-					  bottom: 4)).
-	menu addAllItems: grp buttons.
-
-	grp := ToCheckableGroup new.
-	right := ToRadioMenuItem new
-		         beEndToStart;
-		         flexible: true;
-		         labelText: 'Right';
-		         id: #right.
-	center := ToRadioMenuItem new
-		          beEndToStart;
-		          flexible: true;
-		          labelText: 'Center';
-		          id: #center.
-	left := ToRadioMenuItem new
-		        beEndToStart;
-		        flexible: true;
-		        labelText: 'Left';
-		        id: #left.
-	center checked: true.
-	grp addAll: {
-			right.
-			center.
-			left }.
-
-	grp addEventHandler: (BlEventHandler
-			 on: ToCheckableGroupChangedEvent
-			 do: [ :event |
-				 ('checked: ' , event checkedButtons asString , ' unchecked: '
-				  , event uncheckedButtons asString) traceCr ]).
-
-	center checked: true.
-
-	menu addSeparator.
-	lbl := ToAttributedLabel new text:
-		       ('Radio buttons label first and justified' asRopedText
-			        fontSize: 12;
-			        italic;
 			        foreground: (Color black alpha: 0.7)).
 	menu addItem: (ToCustomMenuItem new
 			 innerElement: lbl;

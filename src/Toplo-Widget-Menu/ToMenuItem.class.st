@@ -3,10 +3,6 @@ Class {
 	#superclass : #ToGeneralButtonMenuItem,
 	#traits : 'TToElementWithLabeledIcon',
 	#classTraits : 'TToElementWithLabeledIcon classTrait',
-	#instVars : [
-		'filler',
-		'rightHandSide'
-	],
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
@@ -22,33 +18,12 @@ ToMenuItem >> closeOnMouseEvent [
 	^ self isTopMenu not
 ]
 
-{ #category : #accessing }
-ToMenuItem >> filler [ 
-
-	^ filler
-]
-
-{ #category : #'as yet unclassified' }
-ToMenuItem >> flexible [
-
-	^ self labeledIcon startFlexible
-]
-
-{ #category : #'t - element with labeled icon - accessing' }
-ToMenuItem >> flexible: aBoolean [
-
-	self labeledIcon startFlexible: aBoolean
-]
-
 { #category : #initialization }
 ToMenuItem >> initialize [ 
 
 	super initialize.
 	self addStamp: #'menu-item'.
-	filler := self newFiller.
-	rightHandSide := self newRightHandSide.
-	self button addChild: filler.
-	self button addChild: rightHandSide
+	self endElement: self newRightHandSide
 ]
 
 { #category : #'t - element with labeled icon - accessing' }
@@ -86,10 +61,4 @@ ToMenuItem >> newRightHandSide [
 		c linear vertical alignCenter.
 		c linear horizontal alignCenter ].
 	^ rhs
-]
-
-{ #category : #accessing }
-ToMenuItem >> rightHandSide [
-
-	^ rightHandSide
 ]

@@ -21,16 +21,16 @@ ToLabeledIcon >> beStartToEnd [
 ]
 
 { #category : #initialization }
-ToLabeledIcon >> defaultEventHandler [
-
-	^ ToLabeledIconEventHandler new
-]
-
-{ #category : #initialization }
 ToLabeledIcon >> defaultLayout [ 
 
 	^ BlLinearLayout horizontal.
 
+]
+
+{ #category : #accessing }
+ToLabeledIcon >> endContainerHeight [
+
+	^ self endContainer requestedHeight
 ]
 
 { #category : #accessing }
@@ -43,36 +43,6 @@ ToLabeledIcon >> endIcon [
 ToLabeledIcon >> endIcon: anElement [
 
 	self endElement: anElement
-]
-
-{ #category : #accessing }
-ToLabeledIcon >> endIconContainer [
-
-	^ self endContainer
-]
-
-{ #category : #accessing }
-ToLabeledIcon >> endIconContainerHeight [
-
-	^ self endIconContainer requestedHeight
-]
-
-{ #category : #accessing }
-ToLabeledIcon >> endIconContainerHeight: anInteger [
-
-	self endIconContainer height: anInteger
-]
-
-{ #category : #accessing }
-ToLabeledIcon >> endIconContainerWidth [
-
-	^ self endIconContainer requestedWidth
-]
-
-{ #category : #accessing }
-ToLabeledIcon >> endIconContainerWidth: anInteger [
-
-	self endIconContainer width: anInteger
 ]
 
 { #category : #accessing }
@@ -99,24 +69,6 @@ ToLabeledIcon >> endInterspace: aPoint [
 ToLabeledIcon >> endToStart: aBoolean [
 
 	self startToEnd: aBoolean not
-]
-
-{ #category : #accessing }
-ToLabeledIcon >> filler [
-
-	^ self startFiller
-]
-
-{ #category : #configurating }
-ToLabeledIcon >> flexible [
-
-	^ self startFlexible
-]
-
-{ #category : #configurating }
-ToLabeledIcon >> flexible: aBoolean [
-
-	self startFlexible: aBoolean
 ]
 
 { #category : #testing }
@@ -191,36 +143,10 @@ ToLabeledIcon >> iconImage: anElement [
 	self icon: (ToImage inner: anElement)
 ]
 
-{ #category : #accessing }
-ToLabeledIcon >> interspace [
-
-	| fc |
-	fc := self filler constraints.
-	^ fc minWidth @ fc minHeight
-]
-
-{ #category : #accessing }
-ToLabeledIcon >> interspace: aPoint [
-
-	| size |
-	size := aPoint asPoint.
-	self interspace = size ifTrue: [ ^ self ].
-	self filler constraints
-		minWidth: size x;
-		minHeight: size y.
-	self filler requestLayout
-]
-
 { #category : #testing }
 ToLabeledIcon >> isEndToStart [
 
 	^ self isStartToEnd not
-]
-
-{ #category : #testing }
-ToLabeledIcon >> isFlexible [
-
-	^ self isStartFlexible
 ]
 
 { #category : #testing }
@@ -263,10 +189,24 @@ ToLabeledIcon >> labelText: aText [
 	self label: (ToLabel text: aText asRopedText).
 ]
 
-{ #category : #'t - orientable - accessing' }
-ToLabeledIcon >> layoutStrategy [
+{ #category : #accessing }
+ToLabeledIcon >> startInterspace [
 
-	^ self layout
+	| fc |
+	fc := self startFiller constraints.
+	^ fc minWidth @ fc minHeight
+]
+
+{ #category : #accessing }
+ToLabeledIcon >> startInterspace: aPoint [
+
+	| size |
+	size := aPoint asPoint.
+	self startInterspace = size ifTrue: [ ^ self ].
+	self startFiller constraints
+		minWidth: size x;
+		minHeight: size y.
+	self startFiller requestLayout
 ]
 
 { #category : #configurating }

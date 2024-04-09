@@ -11,7 +11,7 @@ ToButtonSkin >> disabledLookEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic |
 			ic formColor: (e valueOfTokenNamed: #'color-text-disabled') ].
-		e endIconDo: [ :ic |
+		e endElementDo: [ :ic |
 			ic formColor: (e valueOfTokenNamed: #'color-text-disabled') ].
 		e labelDo: [ :lab |
 			lab text attributes: { (BlTextForegroundAttribute paint:
@@ -25,7 +25,7 @@ ToButtonSkin >> enabledLookEvent: anEvent [
 	super enabledLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic | ic formColor: (e valueOfTokenNamed: #'color-text') ].
-		e endIconDo: [ :ic | ic formColor: (e valueOfTokenNamed: #'color-text') ].
+		e endElementDo: [ :ic | ic formColor: (e valueOfTokenNamed: #'color-text') ].
 		e labelDo: [ :lab |
 			lab text attributes:
 				{ (BlTextForegroundAttribute paint:
@@ -40,7 +40,7 @@ ToButtonSkin >> hoveredLookEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic |
 			ic formColor: (e valueOfTokenNamed: #'color-primary') ].
-		e endIconDo: [ :ic |
+		e endElementDo: [ :ic |
 			ic formColor: (e valueOfTokenNamed: #'color-primary') ].
 		e labelDo: [ :lab |
 			lab text attributes: { (BlTextForegroundAttribute paint:
@@ -54,13 +54,13 @@ ToButtonSkin >> installLookEvent: anEvent [
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		(e hasIcon and: [ e hasLabel ])
-			ifTrue: [ e interspace: 10 ]
-			ifFalse: [ e interspace: 0 ].
-		(e hasEndIcon and: [ e hasLabel ])
+			ifTrue: [ e startInterspace: 10 ]
+			ifFalse: [ e startInterspace: 0 ].
+		(e hasEndElement and: [ e hasLabel ])
 			ifTrue: [ e endInterspace: 10 ]
 			ifFalse: [ e endInterspace: 0 ].
 		e iconDo: [ :ic | ic formColor: (e valueOfTokenNamed: #'color-text') ].
-		e endIconDo: [ :ic | ic formColor: (e valueOfTokenNamed: #'color-text') ].
+		e endElementDo: [ :ic | ic formColor: (e valueOfTokenNamed: #'color-text') ].
 		e labelDo: [ :lab |
 			lab text attributes:
 				{ (BlTextForegroundAttribute paint:
@@ -74,7 +74,7 @@ ToButtonSkin >> leavedLookEvent: anEvent [
 	super leavedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic | ic formColor: (e valueOfTokenNamed: #'color-text') ].
-		e endIconDo: [ :ic | ic formColor: (e valueOfTokenNamed: #'color-text') ].
+		e endElementDo: [ :ic | ic formColor: (e valueOfTokenNamed: #'color-text') ].
 		e labelDo: [ :lab |
 			lab text attributes:
 				{ (BlTextForegroundAttribute paint:
@@ -89,7 +89,7 @@ ToButtonSkin >> pressedLookEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic |
 			ic formColor: (e valueOfTokenNamed: #'color-primary-pressed') ].
-		e endIconDo: [ :ic |
+		e endElementDo: [ :ic |
 			ic formColor: (e valueOfTokenNamed: #'color-primary-pressed') ].
 		e labelDo: [ :lab |
 			lab text attributes: { (BlTextForegroundAttribute paint:

@@ -11,22 +11,28 @@ ToMenuSkin >> installLookEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e parentMenuDo: [ :pm |
 			pm items do: [ :it |
-				(it isKindOf: ToMenuItem) ifTrue: [ it filler width: 10 ] ] ].
-
+				(it isKindOf: ToMenuItem) ifTrue: [
+					it isStartToEnd
+						ifTrue: [
+							it endInterspace: 10.
+							it endFlexible: true ]
+						ifFalse: [
+							it startInterspace: 10.
+							it startFlexible: true ] ] ] ].
 		e isSubmenu
 			ifTrue: [
-				e rightHandSide addChild: (ToAttributedLabel new
+				e endElement addChild: (ToAttributedLabel new
 						 text: ('>' asRopedText foreground: Color lightGray);
 						 yourself) ]
 			ifFalse: [
 				(e hasIcon and: [ e hasLabel ])
-					ifTrue: [ e interspace: 10 ]
-					ifFalse: [ e interspace: 0 ] ] ]
+					ifTrue: [ e startInterspace: 10 ]
+					ifFalse: [ e startInterspace: 0 ] ] ]
 ]
 
 { #category : #'event handling' }
 ToMenuSkin >> uninstallLookEvent: anEvent [
 
 	super uninstallLookEvent: anEvent.
-	anEvent elementDo: [ :e | e rightHandSide removeChildren ]
+	anEvent elementDo: [ :e | e endElement removeChildren ]
 ]

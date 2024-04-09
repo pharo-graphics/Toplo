@@ -11,7 +11,7 @@ ToClassNameViewExample >> class: aClass position: anInteger [
 			 beStartToEnd;
 			 hMatchParent;
 			 vFitContent;
-			 interspace: 10;
+			 startInterspace: 10;
 			 background: (self colorFor: anInteger);
 			 icon: (self iconFor: aClass);
 			 label: (ToLabel new

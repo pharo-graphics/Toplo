@@ -40,6 +40,38 @@ TToElementWithLabeledIcon >> endAlignment: anInteger [
 ]
 
 { #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> endContainer [
+
+	^ self labeledIcon endContainer
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> endContainerHeight [
+
+	^ self labeledIcon endContainerHeight
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> endElement [
+
+	^ self labeledIcon endElement
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> endElement: anElement [
+
+	self endElement = anElement ifTrue: [ ^ self ].
+	self labeledIcon endElement: anElement.
+	self requestNewSkin
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> endElementDo: aBlock [
+
+	self endElement ifNotNil: [ :ic | aBlock value: ic ]
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
 TToElementWithLabeledIcon >> endFiller [ 
 
 	^ self labeledIcon endFiller
@@ -49,56 +81,6 @@ TToElementWithLabeledIcon >> endFiller [
 TToElementWithLabeledIcon >> endFlexible: aBoolean [
 
 	self labeledIcon endFlexible: aBoolean
-]
-
-{ #category : #'t - element with labeled icon - accessing' }
-TToElementWithLabeledIcon >> endIcon [
-
-	^ self labeledIcon endIcon
-]
-
-{ #category : #'t - element with labeled icon - accessing' }
-TToElementWithLabeledIcon >> endIcon: anElement [
-
-	self endIcon = anElement ifTrue: [ ^ self ].
-	self labeledIcon endIcon: anElement.
-	self requestNewSkin
-]
-
-{ #category : #'t - element with labeled icon - accessing' }
-TToElementWithLabeledIcon >> endIconContainer [
-
-	^ self labeledIcon endIconContainer
-]
-
-{ #category : #'t - element with labeled icon - accessing' }
-TToElementWithLabeledIcon >> endIconContainerHeight [
-
-	^ self labeledIcon endIconContainerHeight
-]
-
-{ #category : #'t - element with labeled icon - accessing' }
-TToElementWithLabeledIcon >> endIconContainerHeight: anInteger [
-
-	self labeledIcon endIconContainerHeight: anInteger
-]
-
-{ #category : #'t - element with labeled icon - accessing' }
-TToElementWithLabeledIcon >> endIconContainerWidth [
-
-	^ self labeledIcon endIconContainerWidth
-]
-
-{ #category : #'t - element with labeled icon - accessing' }
-TToElementWithLabeledIcon >> endIconContainerWidth: anInteger [
-
-	self labeledIcon endIconContainerWidth: anInteger
-]
-
-{ #category : #'t - element with labeled icon - accessing' }
-TToElementWithLabeledIcon >> endIconDo: aBlock [
-
-	self endIcon ifNotNil: [ :ic | aBlock value: ic ]
 ]
 
 { #category : #'t - element with labeled icon - accessing' }
@@ -121,21 +103,9 @@ TToElementWithLabeledIcon >> endToStart: aBoolean [
 ]
 
 { #category : #'t - element with labeled icon - accessing' }
-TToElementWithLabeledIcon >> filler [ 
+TToElementWithLabeledIcon >> hasEndElement [
 
-	^ self labeledIcon filler
-]
-
-{ #category : #'t - element with labeled icon - accessing' }
-TToElementWithLabeledIcon >> flexible: aBoolean [
-
-	self labeledIcon flexible: aBoolean
-]
-
-{ #category : #'t - element with labeled icon - accessing' }
-TToElementWithLabeledIcon >> hasEndIcon [
-
-	^ self labeledIcon hasEndIcon
+	^ self labeledIcon hasEndElement
 ]
 
 { #category : #'t - element with labeled icon - accessing' }
@@ -213,19 +183,6 @@ TToElementWithLabeledIcon >> iconImage: anElement [
 ]
 
 { #category : #'t - element with labeled icon - accessing' }
-TToElementWithLabeledIcon >> interspace [
-
-	^ self labeledIcon interspace
-]
-
-{ #category : #'t - element with labeled icon - accessing' }
-TToElementWithLabeledIcon >> interspace: aPoint [
-
-	self interspace = aPoint asPoint ifTrue: [ ^ self ].
-	self labeledIcon interspace: aPoint asPoint
-]
-
-{ #category : #'t - element with labeled icon - accessing' }
 TToElementWithLabeledIcon >> isEndFlexible [
 
 	^ self labeledIcon isEndFlexible
@@ -244,15 +201,15 @@ TToElementWithLabeledIcon >> isExact [
 ]
 
 { #category : #'t - element with labeled icon - accessing' }
-TToElementWithLabeledIcon >> isFlexible [
-
-	^ self labeledIcon isFlexible
-]
-
-{ #category : #'t - element with labeled icon - accessing' }
 TToElementWithLabeledIcon >> isHorizontal [
 
 	^ self labeledIcon isHorizontal
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> isStartFlexible [
+
+	^ self labeledIcon isStartFlexible
 ]
 
 { #category : #'t - element with labeled icon - accessing' }
@@ -296,7 +253,7 @@ TToElementWithLabeledIcon >> labelDo: aBlock [
 { #category : #'t - element with labeled icon - accessing' }
 TToElementWithLabeledIcon >> labelIconfiller [
 
-	^ self labeledIcon filler
+	^ self labeledIcon startFiller
 ]
 
 { #category : #'t - element with labeled icon - accessing' }
@@ -328,6 +285,31 @@ TToElementWithLabeledIcon >> startAlignment [
 TToElementWithLabeledIcon >> startAlignment: anInteger [
 
 	self labeledIcon startAlignment: anInteger
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> startFiller [ 
+
+	^ self labeledIcon startFiller
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> startFlexible: aBoolean [
+
+	self labeledIcon startFlexible: aBoolean
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> startInterspace [
+
+	^ self labeledIcon startInterspace
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> startInterspace: aPoint [
+
+	self startInterspace = aPoint asPoint ifTrue: [ ^ self ].
+	self labeledIcon startInterspace: aPoint asPoint
 ]
 
 { #category : #'t - element with labeled icon - accessing' }

@@ -38,7 +38,7 @@ ToListClassNodeExample >> forClassNameAssoc: aClassNameAssoc [
 	self addChild: (ToLabeledIcon new
 			 label: label;
 			 iconImage: icon;
-			 interspace: 10;
+			 startInterspace: 10;
 			 hMatchParent)
 ]
 

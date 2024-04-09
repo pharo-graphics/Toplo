@@ -62,81 +62,8 @@ TToElementWithLabeledIconTest >> testFiller [
 
 	| li |
 	li := self testInitialize.
-	self assert: li filler notNil.
-	self assert: li filler size equals: 0 asPoint
-]
-
-{ #category : #tests }
-TToElementWithLabeledIconTest >> testFlexible [
-
-	| li |
-	li := self testInitialize.
-	self assert: li filler notNil.
-	self assert: li filler size equals: 0 asPoint.
-	li flexible: true.
-	li forceLayout.
-	self assert: li isFlexible
-]
-
-{ #category : #tests }
-TToElementWithLabeledIconTest >> testFlexibleInEmpty [
-
-	| li container |
-	container := ToElement new size: 200 asPoint.
-	li := ToLabeledIcon new.
-	li flexible: true.
-	self assert: li isFlexible.
-	li matchParent.
-	container addChild: li.
-	li forceLayout.
-	self assert: li size equals: 200 asPoint.
-	li vFitContent.
-	li forceLayout.
-	self assert: li width equals: 200.
-	self assert: li height equals: 0.
-	li label: (ToLabel text: 'X').
-	li forceLayout.
-	self assert: li height equals: li label height.
-]
-
-{ #category : #tests }
-TToElementWithLabeledIconTest >> testFlexibleWithLabel [
-
-	| li container |
-	container := ToElement new size: 200 asPoint.
-	li := ToLabeledIcon new.
-	li matchParent.
-	container addChild: li.
-	li flexible: true.
-	li vertical: false.
-	li label: (ToLabel text: 'A').
-	li icon: (ToImage inner: (BlElement new
-				  size: 60 @ 20;
-				  background: (Color blue alpha: 0.2);
-				  yourself)).
-	container forceLayout.
-	self assert: li labelContainer bounds right closeTo: container width.
-	self assert: li iconContainer bounds left closeTo: 0
-]
-
-{ #category : #tests }
-TToElementWithLabeledIconTest >> testFlexibleWithLabelAndVertical [
-
-	| li container |
-	container := ToElement new size: 200 asPoint.
-	li := ToLabeledIcon new.
-	li vertical: true.
-	li matchParent.
-	container addChild: li.
-	li flexible: true.
-	li label: (ToLabel text: 'A').
-	li icon: (ToImage inner: (BlElement new
-				  size: 60 @ 20;
-				  background: (Color blue alpha: 0.2);
-				  yourself)).
-	container forceLayout.
-	self assert: li labelContainer bounds bottom equals: container height.
-	self assert: li iconContainer bounds top equals: 0
+	self assert: li startFiller notNil.
+	self assert: li startFiller size equals: 0 asPoint
 ]
 
 { #category : #tests }
@@ -290,7 +217,7 @@ TToElementWithLabeledIconTest >> testInterspace [
 
 	| li |
 	li := ToLabeledIcon new.
-	li interspace: 10.
+	li startInterspace: 10.
 	li forceLayout.
 	self assert: li size equals: 10 asPoint.
 	li vFitContent.
@@ -308,7 +235,7 @@ TToElementWithLabeledIconTest >> testInterspaceWithLabel [
 
 	| li |
 	li := ToLabeledIcon new.
-	li interspace: 10.
+	li startInterspace: 10.
 	li label: (ToLabel text: 'A').
 	li icon: (ToImage inner: (BlElement new
 				  size: 60 @ 20;
@@ -325,7 +252,7 @@ TToElementWithLabeledIconTest >> testInterspaceWithLabelAndVertical [
 
 	| li |
 	li := ToLabeledIcon new.
-	li interspace: 10.
+	li startInterspace: 10.
 	li vertical: true.
 	li label: (ToLabel text: 'A').
 	li icon: (ToImage inner: (BlElement new
@@ -345,16 +272,6 @@ TToElementWithLabeledIconTest >> testIsExact [
 	li := self testInitialize.
 	self assert: li isExact equals: li labeledIcon isExact
 
-]
-
-{ #category : #tests }
-TToElementWithLabeledIconTest >> testIsFlexible [
-
-	| li |
-	li := self testInitialize.
-	self deny: li isFlexible.
-	li flexible: true.
-	self assert: li isFlexible
 ]
 
 { #category : #tests }
@@ -378,6 +295,16 @@ TToElementWithLabeledIconTest >> testIsLabelFirst [
 	self deny: li isStartToEnd.
 
 
+]
+
+{ #category : #tests }
+TToElementWithLabeledIconTest >> testIsStartFlexible [
+
+	| li |
+	li := self testInitialize.
+	self deny: li isStartFlexible.
+	li startFlexible: true.
+	self assert: li isStartFlexible
 ]
 
 { #category : #tests }
@@ -434,6 +361,79 @@ TToElementWithLabeledIconTest >> testLabelText [
 	self assert: li label text asString equals: 'X'.
 	self assert: li size equals: li labelContainer size.
 	^ li
+]
+
+{ #category : #tests }
+TToElementWithLabeledIconTest >> testStartFlexible [
+
+	| li |
+	li := self testInitialize.
+	self assert: li startFiller notNil.
+	self assert: li startFiller size equals: 0 asPoint.
+	li startFlexible: true.
+	li forceLayout.
+	self assert: li isStartFlexible
+]
+
+{ #category : #tests }
+TToElementWithLabeledIconTest >> testStartFlexibleInEmpty [
+
+	| li container |
+	container := ToElement new size: 200 asPoint.
+	li := ToLabeledIcon new.
+	li startFlexible: true.
+	self assert: li isStartFlexible.
+	li matchParent.
+	container addChild: li.
+	li forceLayout.
+	self assert: li size equals: 200 asPoint.
+	li vFitContent.
+	li forceLayout.
+	self assert: li width equals: 200.
+	self assert: li height equals: 0.
+	li label: (ToLabel text: 'X').
+	li forceLayout.
+	self assert: li height equals: li label height.
+]
+
+{ #category : #tests }
+TToElementWithLabeledIconTest >> testStartFlexibleWithLabel [
+
+	| li container |
+	container := ToElement new size: 200 asPoint.
+	li := ToLabeledIcon new.
+	li matchParent.
+	container addChild: li.
+	li startFlexible: true.
+	li vertical: false.
+	li label: (ToLabel text: 'A').
+	li icon: (ToImage inner: (BlElement new
+				  size: 60 @ 20;
+				  background: (Color blue alpha: 0.2);
+				  yourself)).
+	container forceLayout.
+	self assert: li labelContainer bounds right closeTo: container width.
+	self assert: li iconContainer bounds left closeTo: 0
+]
+
+{ #category : #tests }
+TToElementWithLabeledIconTest >> testStartFlexibleWithLabelAndVertical [
+
+	| li container |
+	container := ToElement new size: 200 asPoint.
+	li := ToLabeledIcon new.
+	li vertical: true.
+	li matchParent.
+	container addChild: li.
+	li startFlexible: true.
+	li label: (ToLabel text: 'A').
+	li icon: (ToImage inner: (BlElement new
+				  size: 60 @ 20;
+				  background: (Color blue alpha: 0.2);
+				  yourself)).
+	container forceLayout.
+	self assert: li labelContainer bounds bottom equals: container height.
+	self assert: li iconContainer bounds top equals: 0
 ]
 
 { #category : #tests }

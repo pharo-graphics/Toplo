@@ -144,7 +144,6 @@ ToThemeExamples class >> example_BlElementWithTheme [
 	| space pn themeSwitcher listElement typeArr headingArr hello pn2 |
 	ToTheme cleanUp.
 	space := BlSpace new.
-	"space toTheme: ToBeeTheme new."
 
 	pn := BlElement new layout: (BlLinearLayout vertical cellSpacing: 10).
 	pn constraintsDo: [ :c |
@@ -158,10 +157,8 @@ ToThemeExamples class >> example_BlElementWithTheme [
 	pn2 addChild: pn.
 
 	pn background: Color white.
-	pn addEventHandler: ToSkinStateGenerator new.
-	pn addEventHandler: ToElementInitializeEventHandler new.
-	pn toTheme: ToBeeTheme new.
-	pn2 styleSheet: ToBeeTheme new styleSheet.
+	pn2 ensureCanManageSkin.
+	pn2 localStyleSheetTheme: ToBeeTheme new.
 
 	themeSwitcher := ToCheckbox new
 		                 labelText: 'Dark Theme';
@@ -226,7 +223,6 @@ ToThemeExamples class >> example_BlElementWithTheme2 [
 	| space pn pn2 lab |
 	ToTheme cleanUp.
 	space := BlSpace new.
-	
 	pn2 := BlElement new layout: (BlFrameLayout new).
 	
 	pn2 constraintsDo: [ :c |
@@ -238,18 +234,16 @@ ToThemeExamples class >> example_BlElementWithTheme2 [
 		c vertical matchParent.
 		c horizontal matchParent ].
 	
-	pn2 addEventHandler: ToSkinStateGenerator new.
-	pn2 addEventHandler: ToElementInitializeEventHandler new.
-	pn2 toTheme: ToBeeTheme new.
-	pn2 styleSheet: pn2 toTheme styleSheet.
-
+	pn2 ensureCanManageSkin.
+	pn2 localStyleSheetTheme: ToBeeTheme new.
+	
 	space root addChild: pn2.
 	pn2 addChild: pn.
 	lab := ToLabel new text: 'Hello'.
 	lab addAllStamps: #(#H1 #success).
 	pn2 addChild: lab.
-	pn2 applySkinInstallersDeeply.
-	pn2 applyEnqueuedStatesDeeply.
+	
+	space applyAllSkinPhases.
 	space inspect
 ]
 

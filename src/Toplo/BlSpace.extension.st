@@ -39,6 +39,13 @@ BlSpace >> applyAllSkinInstallers [
 ]
 
 { #category : #'*Toplo' }
+BlSpace >> applyAllSkinPhases [
+
+	self applyAllSkinInstallers.
+	self applyAllEnqueuedStates.
+]
+
+{ #category : #'*Toplo' }
 BlSpace >> checkSkinPhases [
 
 	self skinPhasesManager skinPhasesInstalled ifTrue: [^ self ].
@@ -78,7 +85,7 @@ BlSpace >> needSkinStateApplicationPass: aBoolean [
 { #category : #'*Toplo' }
 BlSpace >> renewRootStyleSheet [
 
-	self root styleSheet: self toTheme styleSheet
+	self root renewStyleSheet
 ]
 
 { #category : #'*Toplo' }

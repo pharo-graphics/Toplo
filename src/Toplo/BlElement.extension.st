@@ -106,8 +106,12 @@ BlElement >> enable [
 BlElement >> ensureCanManageSkin [
 
 	self ensureHaveSkinManager.
-	self addEventHandler: ToSkinStateGenerator new.
-	self addEventHandler: ToElementInitializeEventHandler new
+	(self eventDispatcher hasEventHandlerSuchThat: [ :h |
+		 h isKindOf: ToSkinStateGenerator ]) ifFalse: [
+		self addEventHandler: ToSkinStateGenerator new ].
+	(self eventDispatcher hasEventHandlerSuchThat: [ :h |
+		 h isKindOf: ToElementInitializeEventHandler ]) ifFalse: [
+		self addEventHandler: ToElementInitializeEventHandler new ]
 ]
 
 { #category : #'*Toplo' }
@@ -205,6 +209,13 @@ BlElement >> isEnabled [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> localStyleSheetTheme: aTheme [
+
+	self localTheme: aTheme.
+	self renewStyleSheet
+]
+
+{ #category : #'*Toplo' }
 BlElement >> localTheme [
 
 	^ self userData at: #toTheme ifAbsent: [ ]
@@ -262,6 +273,12 @@ BlElement >> removeStamp: aSymbol [
 BlElement >> removeTokenNamed: aSymbol [
 
 	self toStyleStoreDo: [ :tst | tst removeTokenPropertyNamed: aSymbol ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> renewStyleSheet [
+
+	self styleSheet: self toTheme styleSheet
 ]
 
 { #category : #'*Toplo' }

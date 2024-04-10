@@ -137,9 +137,6 @@ ToSpaceSkinPhasesManagerTest >> testNeedSkinInstallPass [
 	space root addChild: e.
 	self assert: space needSkinInstallPass.
 	space applyAllSkinInstallers.
-	" because of the theme installation with theme token properties installed on root "
-	self assert: space needSkinInstallPass.
-	space applyAllSkinInstallers.
 	self deny: space needSkinInstallPass.
 	e addStamp: #stamp.
 	self assert: space needSkinInstallPass
@@ -166,8 +163,6 @@ ToSpaceSkinPhasesManagerTest >> testNeedSkinStateApplicationPass [
 	space applyAllSkinInstallers.
 	self assert: space needSkinStateApplicationPass.
 	space applyAllEnqueuedStates.
-	" because of the theme installation with theme token properties installed on root "
-	self assert: space needSkinInstallPass.
 	self deny: space needSkinStateApplicationPass.
 
 	space applyAllSkinInstallers.

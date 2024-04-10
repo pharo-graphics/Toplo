@@ -42,6 +42,11 @@ ToAlbumSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
+		(e hasStamp: #placeholder) ifTrue: [
+			e text
+				fontSize: 24;
+				foreground: Color gray lighter;
+				textChanged ].
 		e border: (self blurBorderIn: e).
 		e background: (e valueOfTokenNamed: #'color-bg-container').
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:

@@ -58,7 +58,7 @@ ToThemeApplication >> initializeNavigationPanel [
 		              constraintsDo: [ :c |
 			              c vertical matchParent.
 			              c horizontal exact: 200 ];
-		              toTheme: self navigationTheme;
+		              localTheme: self navigationTheme;
 		              padding: (BlInsets all: 8);
 		              yourself.
 	navigation layout cellSpacing: 4.
@@ -108,7 +108,7 @@ ToThemeApplication >> initializeThemeSelector [
 			                 c horizontal matchParent.
 			                 c vertical fitContent ];
 		                 layout: BlLinearLayout new;
-		                 toTheme: self navigationTheme;
+		                 localTheme: self navigationTheme;
 		                 yourself.
 	themeSelector layout cellSpacing: 16.
 	

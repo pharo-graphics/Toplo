@@ -1851,7 +1851,7 @@ ToSandBox class >> example_StyleSheetSandbox [
 	"b := ToCheckbox new."
 	"b := ToRadioButton new."
 	b := ToButton new.
-	b toTheme: ToBeeTheme new.
+	b localTheme: ToBeeTheme new.
 
 	"b := ToToggleButton new."
 	"b stampWith: #primary. "
@@ -1914,7 +1914,7 @@ ToSandBox class >> example_StyleSheetSandboxDarkTheme [
 	"b withIndeterminate: true."
 	"b innerElement border: (BlBorder paint: Color black)."
 
-	(b openInSpace) toTheme: ToBeeDarkTheme new.
+	(b openInSpace) localTheme: ToBeeDarkTheme new.
 	"b width: 200."
 	"b size: 100 @ 100."
 
@@ -3088,9 +3088,7 @@ ToSandBox class >> example_textFieldWithLineWrapping [
 
 	| t |
 	t := ToTextField new
-		     withLineWrapping;
-		     withSaveCapability.
-	t height: 100.
+		     withLineWrapping.
 	t inspect.
 	t openInSpace
 ]

@@ -55,7 +55,7 @@ ToSkinWithSkinManagerPresenter >> defaultLayout [
 { #category : #accessing }
 ToSkinWithSkinManagerPresenter >> element: aBlElement [
 
-	self installedTheme: aBlElement toTheme.
+	self installedTheme: aBlElement lookupTheme.
 	aBlElement skinManager installedSkin
 		ifNil: [ self noInstalledSkin ]
 		ifNotNil: [ :skin | self installedSkin: skin ].

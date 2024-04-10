@@ -233,6 +233,12 @@ ToAlbum >> text: aBlText [
 	self edited: false
 ]
 
+{ #category : #'event handling' }
+ToAlbum >> textChanged [
+
+	self invalidate; requestLayout
+]
+
 { #category : #'transaction hook' }
 ToAlbum >> whenCancelRequestedDo: aBlock [
 

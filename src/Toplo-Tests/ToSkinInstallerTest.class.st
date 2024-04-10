@@ -51,6 +51,6 @@ ToSkinInstallerTest >> testInstallSkinInWithErrorNonAttachedInSpace [
 		(e skinManager installedSkin) isNil.
 	" an element must be attached to a space 
 	because installing a skin requires a theme"
-	self should: [ e toTheme ] raise: Error.
+	self should: [ e lookupTheme ] raise: Error.
 	self should: [ e skinManager skinInstaller applyOn: e ] raise: Error
 ]

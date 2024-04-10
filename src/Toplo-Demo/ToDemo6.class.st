@@ -33,7 +33,7 @@ ToDemo6 class >> example1 [
 	
 	dem2 := ToDemo5 new.
 	dem2 defaultButterflySkin: ToDemoButSkin2 new.
-	dem2 toTheme: ToButterflyTheme new.
+	dem2 localTheme: ToButterflyTheme new.
 
 	pane addChild: dem1.
 	pane addChild: dem2.	

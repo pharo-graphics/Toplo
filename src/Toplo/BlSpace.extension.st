@@ -83,12 +83,6 @@ BlSpace >> needSkinStateApplicationPass: aBoolean [
 ]
 
 { #category : #'*Toplo' }
-BlSpace >> renewRootStyleSheet [
-
-	self root renewStyleSheet
-]
-
-{ #category : #'*Toplo' }
 BlSpace >> runStatesGeneration [
 
 	self skinPhasesManager runStatesGeneration
@@ -130,7 +124,7 @@ BlSpace >> toTheme [
 BlSpace >> toTheme: aTheme [
 
 	self userData at: #toTheme put: aTheme.
-	self root toTheme: aTheme
+	self root localTheme: aTheme
 ]
 
 { #category : #'*Toplo' }

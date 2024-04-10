@@ -301,7 +301,7 @@ ToSkinManagerTest >> testInstallSkinIn2 [
 		(e skinManager installedSkin) notNil.
 	self
 		assert: (e skinManager installedSkin) class
-		equals: (e toTheme newSkinFor: e) class
+		equals: (e lookupTheme newSkinFor: e) class
 ]
 
 { #category : #tests }

@@ -412,7 +412,7 @@ ToSkinManager >> skinStateQueue: anObject [
 ToSkinManager >> skinToInstallIn: anElement [
 
 	| theme |
-	theme := anElement toTheme.
+	theme := anElement lookupTheme.
 	^ (theme defaultSkinFor: anElement) ifNil: [
 		  theme newSkinFor: anElement ]
 ]

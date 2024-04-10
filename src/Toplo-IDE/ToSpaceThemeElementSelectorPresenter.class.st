@@ -70,19 +70,19 @@ ToSpaceThemeElementSelectorPresenter class >> themeColumn [
 	columnTheme := SpStringTableColumn
 		               title: 'Theme'
 		               evaluated: [ :element |
-		               '[' , element toTheme name , '] ' ].
+		               '[' , element lookupTheme name , '] ' ].
 	columnInherits := SpImageTableColumn
 		                  title: 'Inherits theme'
 		                  evaluated: [ :element |
 			                  element userData
-				                  at: #toTheme
+				                  at: #localTheme
 				                  ifPresent: [ nil ]
 				                  ifAbsent: [ self iconNamed: #arrowUp ] ].
 	columnMain addColumn: columnInherits.
 	columnMain addColumn: columnTheme.
 	columnMain width: 150.
 	
-	columnTheme displayBold: [ :element | element userData includesKey: #toTheme ].
+	columnTheme displayBold: [ :element | element userData includesKey: #localTheme ].
 
 	^ columnMain
 ]

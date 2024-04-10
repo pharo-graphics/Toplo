@@ -118,6 +118,13 @@ ToStyleSheetTheme >> newSkinInstanceFor: anElement [
 	^ skin
 ]
 
+{ #category : #'api - hooks' }
+ToStyleSheetTheme >> onInstalledIn: anElement [
+
+	super onInstalledIn: anElement.
+	anElement styleSheet: self styleSheet
+]
+
 { #category : #'accessing - writable properties' }
 ToStyleSheetTheme >> property: aSymbol [
 

@@ -16,6 +16,7 @@ ToStyleSheet class >> defaultWritablePropertyList [
 	" skin managing need a list of unique writeable properties. "
 
 	^ {
+		  (ToFeatureProperty name: #text).
 		  (ToFeatureProperty name: #mouseCursor).
 		  (ToFeatureProperty name: #background).
 		  (ToFeatureProperty name: #geometry).

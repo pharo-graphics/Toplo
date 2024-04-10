@@ -700,6 +700,23 @@ ToBeeTheme >> declareTextButtonRules [
 				tokenPressed: #'color-error-pressed' ] ]
 ]
 
+{ #category : #'rules-declaring-text' }
+ToBeeTheme >> declareTextPaneRules [
+
+	self select: (ToAlbum asTypeSelector exact: false) style: [
+		self select: #placeholder asStampSelector style: [
+			self
+				write: (self property: #'text-attributes-with-builder')
+				with: [ :e | 
+					e textAttributesBuilder
+						weight: (e valueOfTokenNamed: #'font-weight-strong');
+						defaultFontName: (e valueOfTokenNamed: #'font-family-code');
+						defaultFontSize: 28;
+						foreground: Color lightGray lighter;
+						lineSpacing: (e valueOfTokenNamed: #'line-height');
+						yourself ] ] ]
+]
+
 { #category : #initialization }
 ToBeeTheme >> defaultElementStampsFor: anElement [ 
 
@@ -712,7 +729,8 @@ ToBeeTheme >> initializeStyleRules [
 	super initializeStyleRules.
 	self declareRootPaneRules.
 	self declareLabelRules.
-	self declareButtonRules
+	self declareButtonRules.
+	self declareTextPaneRules 
 ]
 
 { #category : #styling }

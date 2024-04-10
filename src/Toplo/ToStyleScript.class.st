@@ -13,7 +13,7 @@ Class {
 { #category : #'private - adding' }
 ToStyleScript >> addLookEventListener: aPropertyWriter [
 
-	self ruleStack top addLookEventListener: aPropertyWriter
+	ruleStack top addLookEventListener: aPropertyWriter
 ]
 
 { #category : #initialization }
@@ -33,7 +33,7 @@ ToStyleScript >> lookEventListenerHolder [
 { #category : #'rules declaring' }
 ToStyleScript >> newUniversalSelector [
 
-	^ self ruleStack
+	^ ruleStack
 		  ifEmpty: [ ToUniversalSelector new ]
 		  ifNotEmpty: [ :stk | stk top selector ]
 ]
@@ -42,10 +42,10 @@ ToStyleScript >> newUniversalSelector [
 ToStyleScript >> pushStyleRuleFor: aStyleSelector styleWith: aBlock [
 
 	| rule |
-	self ruleStack push: (ToStyleRule new selector: aStyleSelector).
+	ruleStack push: (ToStyleRule new selector: aStyleSelector).
 	aBlock cull: self.
-	rule := self ruleStack pop.
-	self ruleStack
+	rule := ruleStack pop.
+	ruleStack
 		ifEmpty: [ self addStyleRule: rule ]
 		ifNotEmpty: [ :stk | stk top addStyleRule: rule ]
 ]

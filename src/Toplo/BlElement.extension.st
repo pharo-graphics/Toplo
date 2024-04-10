@@ -209,24 +209,29 @@ BlElement >> isEnabled [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> localStyleSheetTheme: aTheme [
-
-	self localTheme: aTheme.
-	self renewStyleSheet
-]
-
-{ #category : #'*Toplo' }
 BlElement >> localTheme [
 
-	^ self userData at: #toTheme ifAbsent: [ ]
+	^ self userData at: #localTheme ifAbsent: [ ]
 ]
 
 { #category : #'*Toplo' }
 BlElement >> localTheme: aTheme [
 
+	(self parent isNil and: [
+		 self space notNil and: [ self space toTheme ~= aTheme ] ]) ifTrue: [
+		Error signal: 'The space root local theme can''t be changed directly, use the space API (#toTheme:)' ].
 	self localTheme ifNotNil: [ :th | th onUninstalledIn: self ].
-	self userData at: #toTheme put: aTheme.
+	self userData at: #localTheme put: aTheme.
 	self localTheme ifNotNil: [ :th | th onInstalledIn: self ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> lookupTheme [
+
+	^ self localTheme ifNil: [
+		  self parent
+			  ifNil: [ self space toTheme ]
+			  ifNotNil: [ :p | p lookupTheme ] ]
 ]
 
 { #category : #'*Toplo' }
@@ -273,12 +278,6 @@ BlElement >> removeStamp: aSymbol [
 BlElement >> removeTokenNamed: aSymbol [
 
 	self toStyleStoreDo: [ :tst | tst removeTokenPropertyNamed: aSymbol ]
-]
-
-{ #category : #'*Toplo' }
-BlElement >> renewStyleSheet [
-
-	self styleSheet: self toTheme styleSheet
 ]
 
 { #category : #'*Toplo' }
@@ -449,30 +448,11 @@ BlElement >> toStyleStoreDo: aBlock [
 	self toStyleStore ifNotNil: [ :tst | aBlock value: tst ]
 ]
 
-{ #category : #'*Toplo' }
-BlElement >> toTheme [
-
-	^ self localTheme ifNil: [
-		  self parent
-			  ifNil: [ self space toTheme ]
-			  ifNotNil: [ :p | p toTheme ] ]
-]
-
-{ #category : #'*Toplo' }
-BlElement >> toTheme: aTheme [
-
-	self localTheme: aTheme
-]
-
 { #category : #'*Toplo-LookAndFeel' }
 BlElement >> toThemeChanged [
 
 	self childrenDo: [ :c | c toThemeChanged ].
 	self dispatchEvent: ToThemeChangedEvent new.
-	" if i'm the space root element then take care to renew my base stylesheet "
-	self parent ifNil: [
-		self spaceDo: [ :sp |
-			sp root == self ifTrue: [ sp renewRootStyleSheet ] ] ].
 	self requestNewSkin
 ]
 

@@ -9,7 +9,7 @@ ToDemo5 class >> example0 [
 
 	| dem1 dem2 pane |
 	pane := ToPane vertical.
-	pane toTheme: ToButterflyTheme new.
+	pane localTheme: ToButterflyTheme new.
 	dem1 := ToDemo5 new.
 	dem2 := ToDemo5 new.
 	dem2 defaultButterflySkin: ToDemoButSkin2 new.

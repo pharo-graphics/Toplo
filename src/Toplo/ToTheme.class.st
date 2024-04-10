@@ -176,7 +176,7 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'dash-array' value: #( 3 3 )).
 
 		  "#( 'SFMono-Regular' , Consolas , 'Liberation Mono', Menlo , Courier , monospace )"
-		  (ToTokenProperty name: #'font-family-code' value: 'SFMono-Regular').
+		  (ToTokenProperty name: #'font-family-code' value: 'Courier').
 		  (ToTokenProperty name: #'font-size' value: 14).
 		  (ToTokenProperty name: #'font-size-in-tooltip' value: 12).
 		  (ToTokenProperty name: #'font-size-H1' value: 38).
@@ -316,14 +316,14 @@ ToTheme >> newSkinInstanceFor: anElement [
 	^ self subclassResponsibility 
 ]
 
-{ #category : #'space configurating' }
+{ #category : #'api - hooks' }
 ToTheme >> onInstalledIn: anElement [
 
 	anElement addAllTokenProperties: self defaultTokenProperties.
 	anElement toThemeChanged
 ]
 
-{ #category : #'space configurating' }
+{ #category : #'api - hooks' }
 ToTheme >> onUninstalledIn: anElement [
 
 	anElement removeAllTokenPropertiesFromNames: (self defaultTokenProperties collect: [:tp | tp name]).

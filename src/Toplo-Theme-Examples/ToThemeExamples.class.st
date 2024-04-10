@@ -141,7 +141,7 @@ ToThemeExamples class >> elementSandBoxFor: aSpace [
 { #category : #'examples - labels' }
 ToThemeExamples class >> example_BlElementWithTheme [
 
-	| space pn themeSwitcher listElement typeArr headingArr hello pn2 |
+	| space pn themeSwitcher listElement typeArr headingArr hello pn2 helloWorld |
 	ToTheme cleanUp.
 	space := BlSpace new.
 
@@ -158,7 +158,7 @@ ToThemeExamples class >> example_BlElementWithTheme [
 
 	pn background: Color white.
 	pn2 ensureCanManageSkin.
-	pn2 localStyleSheetTheme: ToBeeTheme new.
+	pn2 localTheme: ToBeeTheme new.
 
 	themeSwitcher := ToCheckbox new
 		                 labelText: 'Dark Theme';
@@ -168,7 +168,7 @@ ToThemeExamples class >> example_BlElementWithTheme [
 	themeSwitcher addEventHandler: (BlEventHandler
 			 on: ToCheckableChangedEvent
 			 do: [ :event |
-				 pn toTheme: (themeSwitcher isChecked
+				 pn localTheme: (themeSwitcher isChecked
 						  ifTrue: [ ToBeeDarkTheme new ]
 						  ifFalse: [ ToBeeTheme new ]).
 				 themeSwitcher isChecked
@@ -180,7 +180,14 @@ ToThemeExamples class >> example_BlElementWithTheme [
 	
 	hello := ToLabel new text: 'Hello'.
 	hello addAllStamps: #(#H1 #success).
+	
+	helloWorld := ToTextField new text: 'Hello world'.
+	helloWorld addStamp: #description.
+	helloWorld withLineWrapping; beReadonlyWithoutSelection.
+	helloWorld localTheme: TestTheme new.
 	pn addChild: hello.
+	pn addChild: helloWorld.
+
 
 	listElement := ToListElement new nodeBuilder: [ :node :holder |
 		               |  lab |
@@ -235,7 +242,7 @@ ToThemeExamples class >> example_BlElementWithTheme2 [
 		c horizontal matchParent ].
 	
 	pn2 ensureCanManageSkin.
-	pn2 localStyleSheetTheme: ToBeeTheme new.
+	pn2 localTheme: ToBeeTheme new.
 	
 	space root addChild: pn2.
 	pn2 addChild: pn.
@@ -309,7 +316,7 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 	space root layout: BlLinearLayout vertical.
 
 	themePane := ToPane horizontal.
-	themePane toTheme: ToRawTheme new.
+	themePane localTheme: ToRawTheme new.
 	themePane geometry: (BlRoundedRectangleGeometry cornerRadius: 6).
 	themePane padding: (BlInsets all: 5).
 	pane := ToPane vertical.

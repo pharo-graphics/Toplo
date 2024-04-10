@@ -184,7 +184,7 @@ ToStyleSheetCSSLikePrinter >> styleRules [
 		  self toElement
 			  ifNotNil: [ :e |
 				  | theme |
-				  theme := self toElement toTheme.
+				  theme := self toElement lookupTheme.
 				  (theme notNil and: [ theme styleSheet notNil ])
 					  ifFalse: [ nil ]
 					  ifTrue: [ theme applicableRulesFor: self toElement ] ]

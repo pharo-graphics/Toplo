@@ -308,6 +308,35 @@ ToThemeExamples class >> example_ToLabelWithHeadingSkin [
 	space show
 ]
 
+{ #category : #'examples - labels' }
+ToThemeExamples class >> example_WithLateBoundPropertyWriter [
+
+	| styleSheet lab parent |
+	styleSheet := ToStyleSheet new.
+	styleSheet addWritableProperty: (ToPseudoProperty new
+			 name: #textBuilder;
+			 writer: [ :e :v |
+				 e text attributes: v attributes.
+				 e textChanged ]).
+	styleSheet select: ToLabel asTypeSelector style: [ :sr |
+		sr
+			when: ToInstallLookEvent
+			write: #textBuilder asWritableProperty
+			with: [ :e |
+				e textAttributesBuilder defaultFontName: 'American Typewriter'.
+				e textAttributesBuilder fontSize: 32.
+				e textAttributesBuilder foreground: Color red ] ].
+	lab := ToLabel new.
+	lab text: 'Hello My World'.
+	parent := ToElement new matchParent.
+	parent localTheme: ToBeeTheme new.
+	lab styleSheet: styleSheet.
+
+	parent addChild: lab.
+	parent openInSpace.
+	lab inspect
+]
+
 { #category : #'examples - buttons' }
 ToThemeExamples class >> example_beeButtonsInRawPane [
 

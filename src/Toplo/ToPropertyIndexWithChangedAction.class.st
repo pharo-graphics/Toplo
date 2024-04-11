@@ -12,7 +12,7 @@ ToPropertyIndexWithChangedAction >> addAllProperties: aCollectionOfProperties [
 
 	(aCollectionOfProperties anySatisfy: [ :p |
 		 (self hasProperty: p) not ]) ifFalse: [ ^ self ].
-	super addAllProperties: aCollectionOfProperties.
+	aCollectionOfProperties do: [ :p | self index at: p name asSymbol put: p ].
 	self changedAction value
 ]
 

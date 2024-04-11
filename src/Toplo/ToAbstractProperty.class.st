@@ -23,10 +23,7 @@ ToAbstractProperty >> name: anObject [
 ToAbstractProperty >> printOn: aStream [
 
 	super printOn: aStream.
-	aStream << ' [' << self name << ']'
-	
-
-
+	aStream << ' [' << (self name ifNil: [ '<invalid anonymous property>' ]) << ']'
 ]
 
 { #category : #operating }

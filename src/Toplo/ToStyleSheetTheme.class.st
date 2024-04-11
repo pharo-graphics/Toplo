@@ -49,8 +49,7 @@ ToStyleSheetTheme >> applicableListenersFor: anElement [
 				indexByProperty at: w property put: w ] ].
 
 	uniqueListeners := Array streamContents: [ :str |
-		                   eventClassIndex valuesDo: [ :indexByProperty | 
-									" actions property is the ToNullProperty uniqueInstance "
+		                   eventClassIndex valuesDo: [ :indexByProperty | " actions property is the ToNullProperty uniqueInstance "
 			                   indexByProperty
 				                   at: ToNullProperty uniqueInstance
 				                   ifPresent: [ :listener |
@@ -65,9 +64,7 @@ ToStyleSheetTheme >> applicableListenersFor: anElement [
 
 	^ Array streamContents: [ :str |
 		  str nextPutAll: lookEventActions.
-		  str nextPutAll:
-			  (uniqueListeners sort: [ :a :b |
-				   a property name < b property name ]).
+		  str nextPutAll: uniqueListeners.
 		  str nextPutAll: supplement ]
 ]
 

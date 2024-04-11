@@ -234,6 +234,14 @@ BlElement >> lookupTheme [
 			  ifNotNil: [ :p | p lookupTheme ] ]
 ]
 
+{ #category : #'*Toplo-LookAndFeel' }
+BlElement >> lookupWritablePropertyNamed: aSymbol [
+
+	self styleSheetChain do: [ :ss |
+		(ss property: aSymbol) ifNotNil: [ :wp | ^ wp ] ].
+	^ nil
+]
+
 { #category : #'*Toplo' }
 BlElement >> newRawSkin [
 
@@ -408,6 +416,13 @@ BlElement >> stillPressedStartDelay: aDuration [
 
 	" must have a skin state generator "
 	self userData at: #stillPressedStartDelay put: aDuration asDuration
+]
+
+{ #category : #'*Toplo' }
+BlElement >> styleSheet [
+
+	self skinManagerDo: [ :sm | ^ sm styleSheet  ].
+	^ nil
 ]
 
 { #category : #'*Toplo-LookAndFeel' }

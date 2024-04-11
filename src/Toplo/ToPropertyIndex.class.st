@@ -10,7 +10,7 @@ Class {
 { #category : #adding }
 ToPropertyIndex >> addAllProperties: aCollectionOfProperties [
 
-	aCollectionOfProperties do: [ :p | self index at: p name asSymbol put: p ]
+	aCollectionOfProperties do: [ :p | self addProperty: p ]
 ]
 
 { #category : #adding }

@@ -93,6 +93,12 @@ ToStyleSheet class >> defaultWritablePropertyList [
 			   writer: [ :e :v | v value: e constraints ]) }
 ]
 
+{ #category : #'accessing - writable properties' }
+ToStyleSheet >> addWritableProperty: aProperty [
+
+	self writablePropertyIndex addProperty: aProperty
+]
+
 { #category : #initialization }
 ToStyleSheet >> defaultScript [
 

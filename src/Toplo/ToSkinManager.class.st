@@ -350,7 +350,7 @@ ToSkinManager >> setSkinUninstaller: aSkinUninstaller in: anElement [
 	self userData at: #skinUninstaller put: aSkinUninstaller
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - styleSheet' }
 ToSkinManager >> setStyleSheet: aStyleSheet in: anElement [
 
 	self styleSheet ifNotNil: [ :prev | prev onUninstalledIn: anElement ].
@@ -423,13 +423,13 @@ ToSkinManager >> skinUninstaller [
 	^ self userData at: #skinUninstaller ifAbsent: [  ]
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - styleSheet' }
 ToSkinManager >> styleSheet [
 
 	^ styleSheet 
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - styleSheet' }
 ToSkinManager >> styleSheet: anObject [
 
 	styleSheet := anObject

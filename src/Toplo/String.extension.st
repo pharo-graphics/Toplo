@@ -7,6 +7,14 @@ String >> asIdSelector [
 ]
 
 { #category : #'*Toplo' }
+String >> asLateBoundWritableProperty [
+
+	^ ToLateBoundWritableProperty new
+		  name: self asSymbol;
+		  yourself
+]
+
+{ #category : #'*Toplo' }
 String >> asStampProperty [
 
 	^ ToStampProperty new

@@ -355,7 +355,8 @@ ToSkinManager >> setStyleSheet: aStyleSheet in: anElement [
 
 	self styleSheet ifNotNil: [ :prev | prev onUninstalledIn: anElement ].
 	styleSheet := aStyleSheet.
-	self styleSheet ifNotNil: [ :curr | curr onInstalledIn: anElement ]
+	self styleSheet ifNotNil: [ :curr | curr onInstalledIn: anElement ].
+	anElement spaceDo: [ :sp | sp requestNextPulse ]
 ]
 
 { #category : #'element setup' }

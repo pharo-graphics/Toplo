@@ -45,7 +45,7 @@ ToStyleSheetTheme >> applicableListenersFor: anElement [
 				| indexByProperty |
 				indexByProperty := eventClassIndex
 					                   at: w eventClass
-					                   ifAbsentPut: [ IdentityDictionary new ].
+					                   ifAbsentPut: [ OrderPreservingIdentityDictionary new ].
 				indexByProperty at: w property put: w ] ].
 
 	uniqueListeners := Array streamContents: [ :str |

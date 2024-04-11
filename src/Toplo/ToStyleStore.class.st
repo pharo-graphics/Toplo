@@ -16,9 +16,11 @@ ToStyleStore >> onInstalledIn: anElement [
 	This is done after installing a new skin "
 
 	self tokenPropertyIndex changedAction: [
-		self requestNewSkinRecursivelyFrom: anElement ].
+		self requestNewSkinRecursivelyFrom: anElement.
+		anElement spaceDo: [ :sp | sp requestNextPulse ] ].
 	self stampIndex changedAction: [
-		self requestNewSkinRecursivelyFrom: anElement ]
+		self requestNewSkinRecursivelyFrom: anElement.
+		anElement spaceDo: [ :sp | sp requestNextPulse ] ]
 ]
 
 { #category : #'t - stamps holder' }

@@ -312,7 +312,9 @@ ToThemeExamples class >> example_ToLabelWithHeadingSkin [
 ToThemeExamples class >> example_WithLateBoundPropertyWriter [
 
 	| styleSheet lab parent |
-	styleSheet := ToStyleSheet new.
+	styleSheet := ToStyleSheet new
+		              inherits: false;
+		              yourself.
 	styleSheet addWritableProperty: (ToPseudoProperty new
 			 name: #textBuilder;
 			 writer: [ :e :v |

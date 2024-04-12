@@ -4,11 +4,9 @@ Class {
 	#traits : 'TToElementWithSkinnableProperties',
 	#classTraits : 'TToElementWithSkinnableProperties classTrait',
 	#instVars : [
-		'#skinRequestCount',
 		'#skinStatesApplied',
 		'#backgroundValue => ToSkinnablePropertySlot',
-		'#borderValue => ToSkinnablePropertySlot',
-		'#skinInstallStateCount'
+		'#borderValue => ToSkinnablePropertySlot'
 	],
 	#category : #'Toplo-Tests-Core-Slots'
 }
@@ -56,36 +54,30 @@ ToElementWithSkinnablePropertiesForTest >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
-	" count the number of #SkinRequest sents"
-	skinRequestCount := 0.
-	" count the number of ToSkinchangedEvent dispatches (for the skin installer)"
-	skinInstallStateCount := 0.
 	" count the number of state engine applyOn: (only for dirty element stored in the space) "
 	skinStatesApplied := 0.
-
-	self addEventHandler: (BlEventHandler
-			 on: ToInstallSkinRequest
-			 do: [ skinRequestCount := skinRequestCount + 1 ]).
 			
 	self addEventHandler: (BlEventHandler
 			 on: ToSkinStateQueueAppliedEvent 
-			 do: [ skinStatesApplied := skinStatesApplied + 1 ]).
+			 do: [ skinStatesApplied := skinStatesApplied + 1 ])
+]
 
-	self addEventHandler: (BlEventHandler
-			 on: ToInstallSkinEvent
-			 do: [ skinInstallStateCount := skinInstallStateCount + 1 ])
+{ #category : #'instance creation' }
+ToElementWithSkinnablePropertiesForTest >> newSkinManager [ 
+
+	^ ToSkinManagerForTest new
 ]
 
 { #category : #accessing }
 ToElementWithSkinnablePropertiesForTest >> skinInstallStateCount [
 
-	^ skinInstallStateCount
+	^ self skinManager skinInstalledCount
 ]
 
 { #category : #accessing }
 ToElementWithSkinnablePropertiesForTest >> skinRequestCount [
 
-	^ skinRequestCount 
+	^ self skinManager skinRequestCount 
 ]
 
 { #category : #accessing }

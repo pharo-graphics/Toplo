@@ -9,6 +9,6 @@ ToSkinUninstaller >> applyOn: anElement [
 	" if there is not an installed skin -> nothing to do "
 
 	anElement skinManagerDo: [ :sm |
-			anElement dispatchEvent: ToUninstallSkinEvent new.
-			sm setSkinUninstaller: nil in: anElement ]
+		sm uninstallSkinIn: anElement.
+		sm setSkinUninstaller: nil in: anElement ]
 ]

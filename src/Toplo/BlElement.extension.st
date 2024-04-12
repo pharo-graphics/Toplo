@@ -118,7 +118,7 @@ BlElement >> ensureCanManageSkin [
 BlElement >> ensureHaveSkinManager [
 
 	self userData at: #skinManager ifAbsentPut: [
-		ToSkinManager new
+		self newSkinManager
 			onInstalledIn: self;
 			yourself ]
 ]
@@ -252,6 +252,12 @@ BlElement >> newRawSkin [
 BlElement >> newShortcutsStore [
 
 	^ ToShortcutsStore new
+]
+
+{ #category : #'*Toplo' }
+BlElement >> newSkinManager [
+
+	^ ToSkinManager new
 ]
 
 { #category : #'*Toplo' }

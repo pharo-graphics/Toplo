@@ -72,7 +72,7 @@ ToSkinStateQueueTest >> testEnqueueInstallStateForThroughARequest [
 	self
 		deny: (e skinManager installedSkin)
 		identicalTo: sk.
-	e dispatchEvent: (ToInstallSkinEvent new skin: sk).
+	e skinManager installSkin: sk in: e.
 	" on enqueued, the state requests a next pulse and the queue is emptied "
 	self assert: q nextStates size equals: 0.
 	" the skin should be installed now because the skin management event handler 

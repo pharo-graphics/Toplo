@@ -17,7 +17,6 @@ ToSkinnablePropertySlotTest >> testNew [
 	" -> 1 skin install : the skin is given by the theme. initializing the theme implies 1 requestNewSkin "
 	" -> toThemeChanged : -> 1 requestSkin "
 	space applyAllSkinInstallers.
-
 	space applyAllEnqueuedStates.
 	self assert: e skinRequestCount equals: 1.
 	self assert: e skinInstallStateCount equals: 1.

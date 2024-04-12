@@ -16,15 +16,13 @@ ToSkinInstaller >> applyOn: anElement [
 		anElement skinManagerDo: [ :sm |
 			sm installedSkin ifNil: [
 				(sm skinToInstallIn: anElement) ifNotNil: [ :skin |
-					anElement dispatchEvent: (ToInstallSkinEvent new
-							 skin: skin;
-							 yourself).
-					" apply style here directly to benefit from the installer recursion protection
+					sm installSkin: skin in: anElement ].
+				" check skin installation "
+				self checkSkinInstallationOn: anElement.
+				" apply style here directly to benefit from the installer recursion protection
 					because  requestNewSkin may be sent during skin installation 
 					(in that case it it ignored) "
-					sm applyEnqueuedStatesIn: anElement ] ].
-			" check skin installation "
-			self checkSkinInstallationOn: anElement.
+				sm applyEnqueuedStatesIn: anElement ].
 			sm setSkinInstaller: nil in: anElement ] ]
 ]
 

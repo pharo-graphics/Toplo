@@ -15,35 +15,5 @@ ToSkinManagerEventHandler >> enablementChangedEvent: anEvent [
 { #category : #'api - accessing' }
 ToSkinManagerEventHandler >> eventsToHandle [
 
-	^ {
-		  ToSkinManagementEvent.
-		  ToEnablementChangedEvent }
-]
-
-{ #category : #'event handling' }
-ToSkinManagerEventHandler >> installSkinEvent: anEvent [
-
-	| target |
-	target := anEvent currentTarget.
-	target skinManager installSkin: anEvent skin in: target
-]
-
-{ #category : #'event handling' }
-ToSkinManagerEventHandler >> installSkinRequest: anEvent [
-
-
-]
-
-{ #category : #'event handling' }
-ToSkinManagerEventHandler >> uninstallSkinEvent: anEvent [
-
-	| target |
-	target := anEvent currentTarget.
-	target skinManager uninstallSkinIn: target
-]
-
-{ #category : #'event handling' }
-ToSkinManagerEventHandler >> uninstallSkinRequest: anEvent [
-
-
+	^ { ToEnablementChangedEvent }
 ]

@@ -258,15 +258,12 @@ ToSkinManager >> registeredThemeClasses [
 { #category : #'skin - install / uninstall request' }
 ToSkinManager >> requestInstallSkinIn: anElement [
 
-	| request |
 	anElement space ifNil: [ ^ self postponeRequestSkinIn: anElement ].
 	skinRequestCount := skinRequestCount + 1.
 	(skinRequestCount > 1 and: [ self skinInstaller notNil ])
 		ifTrue: [ ^ self ].
 	" check that the skin related space phases are installed "
 	anElement space checkSkinPhases.
-	anElement dispatchEvent: (request := ToInstallSkinRequest new).
-	request accepted ifFalse: [ ^ self ].
 	self setSkinInstaller: ToSkinInstaller new in: anElement.
 	" *** Important point: a skin can be installed instantly.
 	This is used to avoid visual flashing effects in differents situations: (selection or labels updating in lists). 
@@ -303,7 +300,6 @@ ToSkinManager >> requestUninstallSkinIn: anElement [
 	installer := self skinInstaller.
 	(installer notNil and: [ installer isInstalling ]) ifTrue: [ ^ self ].
 	self skinUninstaller ifNotNil: [ ^ self ].
-	anElement dispatchEvent: ToUninstallSkinRequest new.
 	self setSkinUninstaller: ToSkinUninstaller new in: anElement
 ]
 

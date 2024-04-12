@@ -184,7 +184,7 @@ ToThemeExamples class >> example_BlElementWithTheme [
 	helloWorld := ToTextField new text: 'Hello world'.
 	helloWorld addStamp: #description.
 	helloWorld withLineWrapping; beReadonlyWithoutSelection.
-	helloWorld localTheme: TestTheme new.
+	helloWorld localTheme: ToBeeTheme new.
 	pn addChild: hello.
 	pn addChild: helloWorld.
 

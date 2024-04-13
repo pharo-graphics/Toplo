@@ -851,7 +851,7 @@ ToSkinManagerTest >> testSkinUninstallerWithToThemeChanged [
 	self assert: childchild skinManager skinUninstaller isNil.
 
 	space root addChild: e.
-	e toThemeChanged.
+	e toThemeInstalled.
 	self assert: e skinManager skinInstaller notNil.
 	self assert:
 		(e skinManager installedSkin) isNil.

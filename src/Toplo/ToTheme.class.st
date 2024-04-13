@@ -2,7 +2,8 @@ Class {
 	#name : #ToTheme,
 	#superclass : #Object,
 	#instVars : [
-		'icons'
+		'icons',
+		'tokenProperties'
 	],
 	#category : #'Toplo-Core-Theme'
 }
@@ -267,6 +268,12 @@ ToTheme class >> label [
 ]
 
 { #category : #accessing }
+ToTheme >> addTokenProperties: aCollection [
+
+	tokenProperties addAll: aCollection
+]
+
+{ #category : #accessing }
 ToTheme >> defaultSkinFor: anElement [
 
 	anElement skinManager setUp: anElement forTheme: self.
@@ -297,6 +304,13 @@ ToTheme >> icons: aThemeIcons [
 	icons := aThemeIcons
 ]
 
+{ #category : #initialization }
+ToTheme >> initialize [ 
+
+	super initialize.
+	tokenProperties := self defaultTokenProperties asOrderedCollection
+]
+
 { #category : #accessing }
 ToTheme >> name [
 
@@ -319,15 +333,17 @@ ToTheme >> newSkinInstanceFor: anElement [
 { #category : #'api - hooks' }
 ToTheme >> onInstalledIn: anElement [
 
-	anElement addAllTokenProperties: self defaultTokenProperties.
-	anElement toThemeChanged
+	anElement toThemeAboutToBeInstalled: self.
+	anElement addAllTokenProperties: self tokenProperties.
+	anElement toThemeInstalled
 ]
 
 { #category : #'api - hooks' }
 ToTheme >> onUninstalledIn: anElement [
 
-	anElement removeAllTokenPropertiesFromNames: (self defaultTokenProperties collect: [:tp | tp name]).
-	anElement toThemeChanged
+	anElement toThemeAboutToBeUninstalled: self.
+	anElement removeAllTokenPropertiesFromNames: (self tokenProperties collect: [:tp | tp name]).
+	anElement toThemeUninstalled: self
 ]
 
 { #category : #printing }
@@ -348,4 +364,10 @@ ToTheme >> setUpElement: anElement [
 ToTheme >> styleSheet [ 
 
 	^ nil
+]
+
+{ #category : #accessing }
+ToTheme >> tokenProperties [
+
+	^ tokenProperties 
 ]

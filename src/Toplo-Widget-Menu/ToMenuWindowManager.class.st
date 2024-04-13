@@ -20,9 +20,15 @@ ToMenuWindowManager >> elementEventHandlerClass [
 ]
 
 { #category : #'theme event handling' }
-ToMenuWindowManager >> toThemeChanged [
+ToMenuWindowManager >> toThemeInstalled [
 
-	currentWindow ifNotNil: [ currentWindow toThemeChanged ]
+	currentWindow ifNotNil: [ currentWindow toThemeInstalled ]
+]
+
+{ #category : #'theme event handling' }
+ToMenuWindowManager >> toThemeUninstalled: aTheme [
+
+	currentWindow ifNotNil: [ currentWindow toThemeUninstalled: aTheme ]
 ]
 
 { #category : #accessing }

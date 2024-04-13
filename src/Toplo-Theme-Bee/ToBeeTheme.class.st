@@ -305,11 +305,6 @@ ToBeeTheme >> declareDashedButtonRules [
 { #category : #'rules declaring - button' }
 ToBeeTheme >> declareDefaultButtonRules [
 
-	| borderColorAnim borderEffectAnim |
-	borderColorAnim := ToPropertyBorderColorTransitionAnimation new
-		                   duration: 500 milliSeconds.
-	borderEffectAnim := ToPropertyBorderEffectTransitionAnimation new
-		                    duration: 350 milliSeconds.
 
 	"Button background and border"
 	"Background"

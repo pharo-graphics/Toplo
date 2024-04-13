@@ -122,6 +122,13 @@ ToStyleSheetTheme >> onInstalledIn: anElement [
 	anElement styleSheet: self styleSheet
 ]
 
+{ #category : #'api - hooks' }
+ToStyleSheetTheme >> onUninstalledIn: anElement [
+
+	super onUninstalledIn: anElement.
+	anElement styleSheet: nil
+]
+
 { #category : #'accessing - writable properties' }
 ToStyleSheetTheme >> property: aSymbol [
 

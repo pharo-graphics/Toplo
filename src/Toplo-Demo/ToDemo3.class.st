@@ -9,7 +9,8 @@ ToDemo3 class >> example0 [
 
 	| dem |
 	dem := ToDemo3 new.
-	dem ensuredSkinManager requestInstallSkinIn: self.
+	dem toTheme: ToRawTheme new.
+"	dem requestNewSkin."
 	dem openInSpace
 ]
 

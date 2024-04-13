@@ -8,7 +8,7 @@ Class {
 ToBeetleTheme >> initializeStyleRules [
 
 	super initializeStyleRules.
-	self select: ToDemo6 asTypeSelector style: [
+	self select: #demo asStampSelector  style: [
 
  		" installation rules "
 		self

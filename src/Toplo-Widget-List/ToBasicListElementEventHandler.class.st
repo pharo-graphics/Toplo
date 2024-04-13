@@ -24,7 +24,7 @@ ToBasicListElementEventHandler >> doubleClickEvent: anEvent [
 	target dispatchEvent: (ToListStrongSelectionEvent new
 			 indexes: target selectionModel selectedIndexes;
 			 yourself).
-	anEvent consumed: true
+	anEvent consume
 ]
 
 { #category : #'element events handling' }
@@ -155,7 +155,7 @@ ToBasicListElementEventHandler >> mouseDownEvent: anEvent [
 	target stopScroll.
 	target hasFocus ifTrue: [ ^ self ].
 	target requestFocus.
-	anEvent consumed: true
+	anEvent consume
 ]
 
 { #category : #'list element handling' }

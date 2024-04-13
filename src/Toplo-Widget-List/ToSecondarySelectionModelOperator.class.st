@@ -13,7 +13,7 @@ ToSecondarySelectionModelOperator >> listScrollCommand: aCommand in: aTarget [
 
 	aTarget spaceDo: [ :sp |
 		sp mouseProcessor lastMouseMoveEvent ifNotNil: [ :e |
-			e consumed: true ] ].
+			e consume ] ].
 	
 	aTarget scrollToIndex: aCommand index
 ]

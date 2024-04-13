@@ -16,13 +16,13 @@ ToAlbumPrimarySelectionElementEventHandler >> blurEvent: anEvent [
 { #category : #'dnd handlers' }
 ToAlbumPrimarySelectionElementEventHandler >> dragEvent: anEvent [
 
-	anEvent consumed: true
+	anEvent consume
 ]
 
 { #category : #'dnd handlers' }
 ToAlbumPrimarySelectionElementEventHandler >> dragStartEvent: anEvent [
 
-	anEvent consumed: true
+	anEvent consume
 ]
 
 { #category : #'api - accessing' }
@@ -72,7 +72,7 @@ ToAlbumPrimarySelectionElementEventHandler >> primaryMouseDownEvent: anEvent [
 	target := anEvent currentTarget.
 	target hasFocus
 		ifTrue: [
-			anEvent consumed: true.
+			anEvent consume.
 			prevMouseDownEvent := anEvent "target editorElement dispatchEvent: anEvent" ]
 		ifFalse: [ target dispatchEvent: BlFocusEvent new ]
 ]

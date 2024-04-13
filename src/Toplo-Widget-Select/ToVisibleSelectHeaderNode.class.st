@@ -19,17 +19,17 @@ ToVisibleSelectHeaderNode >> addRemoveButton [
 	but addEventHandler: (BlEventHandler
 			 on: BlClickEvent
 			 do: [ :event |
-				 event consumed: true.
+				 event consume.
 				 " remove the button by deselecting the corresponding list node in the list "
 				 self removeFromSelect ]).
 
 	" consume mouseUp/mouseDown to avoid unwanted opening/closing of the popup list element"
 	but addEventHandler: (BlEventHandler
 			 on: BlMouseDownEvent
-			 do: [ :event | event consumed: true ]).
+			 do: [ :event | event consume ]).
 	but addEventHandler: (BlEventHandler
 			 on: BlMouseUpEvent
-			 do: [ :event | event consumed: true ]).
+			 do: [ :event | event consume ]).
 
 	but id: #removeButton.
 	self endContainer addChild: but

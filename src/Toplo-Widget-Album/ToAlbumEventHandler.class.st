@@ -49,7 +49,7 @@ ToAlbumEventHandler >> mouseDownEvent: anEvent [
 	" copy the event, else the double click can't works "
 	anEvent currentTarget infinite dispatchEvent: anEvent copy.
 	anEvent currentTarget infinite requestFocus.
-	anEvent consumed: true
+	anEvent consume
 ]
 
 { #category : #'mouse handlers' }
@@ -57,7 +57,7 @@ ToAlbumEventHandler >> mouseUpEvent: anEvent [
 
 	" copy the event, else the double click can't works "
 	anEvent currentTarget infinite dispatchEvent: anEvent copy.
-	anEvent consumed: true
+	anEvent consume
 ]
 
 { #category : #'event handling' }

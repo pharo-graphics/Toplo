@@ -63,7 +63,7 @@ ToMenuBarEventHandler >> mouseUpOutsideEvent: anEvent [
 	anEvent originalEvent target ifNil: [ ^ self ].
 	(anEvent originalEvent target hasInParentChain: target)
 		ifTrue: [ ^ self ].
-	anEvent consumed: true.
+	anEvent consume.
 	autoOpen := false
 ]
 

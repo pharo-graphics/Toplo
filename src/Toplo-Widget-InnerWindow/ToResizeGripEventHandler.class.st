@@ -10,7 +10,7 @@ Class {
 { #category : #'event handling' }
 ToResizeGripEventHandler >> dragEndEvent: anEvent [
 
-	anEvent consumed: true.
+	anEvent consume.
 	anEvent currentTarget mouseCursor: Cursor normal
 ]
 
@@ -24,7 +24,7 @@ ToResizeGripEventHandler >> dragEvent: anEvent [
 ToResizeGripEventHandler >> dragStartEvent: anEvent [
 
 
-	anEvent consumed: true.
+	anEvent consume.
 	anEvent currentTarget initialDragPosition: anEvent position.
 	anEvent currentTarget initialPosition: gripTarget position.
 	anEvent currentTarget initialSize: gripTarget size
@@ -75,14 +75,14 @@ ToResizeGripEventHandler >> leave: anElement [
 ToResizeGripEventHandler >> mouseDownEvent: anEvent [
 
 
-	anEvent consumed: true.
+	anEvent consume.
 	self hover: anEvent currentTarget
 ]
 
 { #category : #'mouse handlers' }
 ToResizeGripEventHandler >> mouseEnterEvent: anEvent [
 
-	anEvent consumed: true.
+	anEvent consume.
 	anEvent anyButtonPressed ifFalse: [
 		self hover: anEvent currentTarget ]
 ]
@@ -90,6 +90,6 @@ ToResizeGripEventHandler >> mouseEnterEvent: anEvent [
 { #category : #'mouse handlers' }
 ToResizeGripEventHandler >> mouseLeaveEvent: anEvent [
 
-	anEvent consumed: true.
+	anEvent consume.
 	self leave: anEvent currentTarget
 ]

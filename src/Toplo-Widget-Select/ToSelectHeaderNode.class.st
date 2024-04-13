@@ -68,7 +68,7 @@ ToSelectHeaderNode >> onInstalledIn: aSelect [
 	layout that can enlarge the select height when a node is added)"
 	mouseUpHandler := BlEventHandler
 			 on: BlMouseUpEvent
-			 do: [ :event | event consumed: true ].
+			 do: [ :event | event consume ].
 	self addEventHandler: mouseUpHandler
 ]
 

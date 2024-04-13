@@ -22,7 +22,7 @@ ToListElementTest >> listWithRemoveRowButtons [
 		remBut addEventHandler: (BlEventHandler
 				 on: BlClickEvent
 				 do: [ :event |
-					 event consumed: true.
+					 event consume.
 					 holder listElement dataAccessor removeAt: holder position ]).
 		filler := ToElement new
 			          matchParent;

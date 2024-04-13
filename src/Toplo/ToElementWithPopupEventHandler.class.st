@@ -70,7 +70,7 @@ ToElementWithPopupEventHandler >> pickOutsideEvent: anEvent [
 		(originalTarget hasInParentChain: windowManager currentWindow) ifTrue: [ ^ self ] ].
 	
 	" ok, mouseUp outside the element and outside of the popup window "
-	anEvent consumed: true.
+	anEvent consume.
 	windowManager currentWindowDo: [:w | w close ]
 ]
 

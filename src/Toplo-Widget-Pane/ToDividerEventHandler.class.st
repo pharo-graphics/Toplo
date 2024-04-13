@@ -33,7 +33,7 @@ ToDividerEventHandler >> dragEvent: anEvent [
 
 	| firstTargetBounds secondTargetBounds dragDelta |
 	
-	anEvent consumed: true.
+	anEvent consume.
 
 	firstTargetBounds := startBounds first copy.
 	secondTargetBounds := startBounds second copy.
@@ -88,7 +88,7 @@ ToDividerEventHandler >> dragEvent: anEvent target: aTarget bounds: aTargetBound
 ToDividerEventHandler >> dragStartEvent: anEvent [
 
 	" consume before super send to ensure dragged state "
-	anEvent consumed: true.
+	anEvent consume.
 
 	"drag start position in parent"
 	startPosition := anEvent position.

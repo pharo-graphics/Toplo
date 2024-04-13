@@ -63,7 +63,7 @@ ToListNodeMultiSelectionClickEventHandler >> listClickOnNodeEvent: anEvent [
 
 	super listClickOnNodeEvent: anEvent.
 	self launchClick: [ self onClickOnNodeEvent: anEvent ] event: anEvent.
-	anEvent consumed: true
+	anEvent consume
 ]
 
 { #category : #'mouse handlers' }

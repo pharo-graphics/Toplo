@@ -886,7 +886,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 				lab addEventHandler: (BlEventHandler
 						 on: ToStillPressedLookEvent
 						 do: [ :event |
-							 event consumed: true.
+							 event consume.
 							 lab addEditorEvent: event ]).
 				lab addEventHandler: (BlEventHandler
 						 on: ToLabelEditorOpenedEvent
@@ -2507,7 +2507,7 @@ ToSandBox class >> example_contactList [
 		remBut addEventHandler: (BlEventHandler
 				 on: BlClickEvent
 				 do: [ :event |
-					 event consumed: true.
+					 event consume.
 					 holder infiniteElement dataAccessor removeAt: holder position ]).
 		line addChild: remBut.
 		node addChild: line ].
@@ -2914,7 +2914,7 @@ ToSandBox class >> example_stillHoveredEvent [
 				 lab text: count asString asRopedText.
 				 count := count + 1.
 				 count > 50 ifTrue: [
-					 event consumed: true.
+					 event consume.
 					 count := 0 ] ]).
 	e openInSpace
 ]
@@ -2943,7 +2943,7 @@ ToSandBox class >> example_stillPressedEvent [
 				 count := count + 1.
 				 color := color darker.
 				 count > 50 ifTrue: [
-					 event consumed: true.
+					 event consume.
 					 count := 0.
 					 color := Color white alpha: 0.3 ] ]).
 	e openInSpace
@@ -3652,7 +3652,7 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 			addEventHandler: (BlEventHandler
 					 on: ToStillHoveredLookEvent
 					 do: [ :event |
-						 event consumed: true.
+						 event consume.
 						 event currentTarget addEditorEvent: event ]).
 		win root addChild: lab ].
 	but whenClickedDo: [ :ann | self inform: 'Button clicked' ].

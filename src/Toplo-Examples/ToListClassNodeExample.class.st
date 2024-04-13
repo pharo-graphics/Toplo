@@ -29,7 +29,7 @@ ToListClassNodeExample >> forClassNameAssoc: aClassNameAssoc [
 		addEventHandler: (BlEventHandler
 				 on: ToStillPressedLookEvent
 				 do: [ :event |
-					 event consumed: true.
+					 event consume.
 					 event currentTarget label addEditorEvent: event ]);
 		addEventHandler: (BlEventHandler
 				 on: ToLabelTextReplacedEvent

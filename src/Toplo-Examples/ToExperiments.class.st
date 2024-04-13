@@ -525,7 +525,7 @@ ToExperiments class >> example_PasteUpWithPlaceHolder [
 
 	container when: BlDragStartEvent do: [ :event |
 		| dragged |
-		event consumed: true.
+		event consume.
 		dragged := container findMouseEventTargetAt: event position.
 		(dragged notNil and: [ dragged ~= container ]) ifTrue: [
 			pred := event position - dragged position.
@@ -533,14 +533,14 @@ ToExperiments class >> example_PasteUpWithPlaceHolder [
 			phpane attachChild: dragged ] ].
 
 	container when: BlDragEvent do: [ :event |
-		event consumed: true.
+		event consume.
 		phpane hasChildren ifTrue: [
 			| dragged |
 			dragged := phpane firstChild.
 			dragged position: event position - pred ] ].
 
 	container when: BlDragEndEvent do: [ :event |
-		event consumed: true.
+		event consume.
 		phpane hasChildren ifTrue: [
 			| dragged |
 			dragged := phpane firstChild.
@@ -550,12 +550,12 @@ ToExperiments class >> example_PasteUpWithPlaceHolder [
 
 	blue when: BlDragStartEvent do: [ :event |
 		pblue := event position - blue position.
-		event consumed: true ].
+		event consume ].
 	blue when: BlDragEvent do: [ :event |
-		event consumed: true.
+		event consume.
 		blue position: event position - pblue.
 		blue forceLayout ].
-	blue when: BlDragEndEvent do: [ :event | event consumed: true ].
+	blue when: BlDragEndEvent do: [ :event | event consume ].
 
 	blue
 		when: BlDragEnterEvent
@@ -564,8 +564,8 @@ ToExperiments class >> example_PasteUpWithPlaceHolder [
 		when: BlDragLeaveEvent
 		do: [ :event | blue border: BlBorder empty ]
 
-	"red when: BlDragEnterEvent do: [ :event | event consumed: true. red background: Color random ].
-red when: BlDragLeaveEvent do: [ :event | event consumed: true. red background: Color red ].
+	"red when: BlDragEnterEvent do: [ :event | event consume. red background: Color random ].
+red when: BlDragLeaveEvent do: [ :event | event consume. red background: Color red ].
 "
 ]
 
@@ -734,7 +734,7 @@ ToExperiments class >> example_drag [
 
 	child when: BlDragStartEvent do: [ :evt |
 		p := evt position - child position.
-		evt consumed: true ].
+		evt consume ].
 
 	child
 		when: BlDragEvent

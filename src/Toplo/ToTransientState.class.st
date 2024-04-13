@@ -38,7 +38,7 @@ ToTransientState >> lookEvent: aLookEvent [
 ToTransientState >> onAppliedOn: anElement [
 
 	super onAppliedOn: anElement.
-	lookEvent isConsumed ifTrue: [ self sourceEvent consumed: true ].
+	lookEvent isConsumed ifTrue: [ self sourceEvent consume ].
 	lookEvent := nil
 
 ]

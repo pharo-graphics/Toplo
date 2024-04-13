@@ -274,6 +274,12 @@ ToTheme >> addTokenProperties: aCollection [
 ]
 
 { #category : #accessing }
+ToTheme >> addTokenProperty: aTokenProperty [
+
+	tokenProperties add: aTokenProperty
+]
+
+{ #category : #accessing }
 ToTheme >> defaultSkinFor: anElement [
 
 	anElement skinManager setUp: anElement forTheme: self.
@@ -333,7 +339,7 @@ ToTheme >> newSkinInstanceFor: anElement [
 { #category : #'api - hooks' }
 ToTheme >> onInstalledIn: anElement [
 
-	anElement toThemeAboutToBeInstalled: self.
+	anElement toThemePreInstall: self.
 	anElement addAllTokenProperties: self tokenProperties.
 	anElement toThemeInstalled
 ]

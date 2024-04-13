@@ -470,13 +470,6 @@ BlElement >> toStyleStoreDo: aBlock [
 ]
 
 { #category : #'*Toplo-LookAndFeel' }
-BlElement >> toThemeAboutToBeInstalled: aTheme [
-
-	self childrenDo: [ :c | c toThemeAboutToBeInstalled: aTheme ].
-	self dispatchEvent: (ToThemeAboutToBeInstalledEvent new theme: aTheme; yourself)
-]
-
-{ #category : #'*Toplo-LookAndFeel' }
 BlElement >> toThemeAboutToBeUninstalled: aTheme [
 
 	self childrenDo: [ :c | c toThemeAboutToBeUninstalled: aTheme ]
@@ -488,6 +481,13 @@ BlElement >> toThemeInstalled [
 	self childrenDo: [ :c | c toThemeInstalled ].
 	self dispatchEvent: ToThemeInstalledEvent new.
 	self requestNewSkin
+]
+
+{ #category : #'*Toplo-LookAndFeel' }
+BlElement >> toThemePreInstall: aTheme [
+
+	self childrenDo: [ :c | c toThemePreInstall: aTheme ].
+	self dispatchEvent: (ToThemePreInstallEvent new theme: aTheme; yourself)
 ]
 
 { #category : #'*Toplo-LookAndFeel' }

@@ -327,10 +327,16 @@ ToThemeExamples class >> example_WithLateBoundPropertyWriter [
 			with: [ :e |
 				e textAttributesBuilder defaultFontName: 'American Typewriter'.
 				e textAttributesBuilder fontSize: 32.
-				e textAttributesBuilder foreground: Color red ] ].
+				e textAttributesBuilder foreground:
+					(e valueOfTokenNamed: #'my-red-color') ] ].
 	lab := ToLabel new.
 	lab text: 'Hello My World'.
 	parent := ToElement new matchParent.
+	parent
+		addEventHandlerOn: ToThemePreInstallEvent 
+		do: [ :event |
+			event currentTarget lookupTheme addTokenProperty:
+				(ToTokenProperty name: #'my-red-color' value: Color red) ].
 	parent localTheme: ToBeeTheme new.
 	lab styleSheet: styleSheet.
 

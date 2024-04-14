@@ -259,12 +259,13 @@ ToSkinManager >> registeredThemeClasses [
 ToSkinManager >> requestInstallSkinIn: anElement [
 
 	anElement space ifNil: [ ^ self postponeRequestSkinIn: anElement ].
-	skinRequestCount := skinRequestCount + 1.
-	(skinRequestCount > 1 and: [ self skinInstaller notNil ])
-		ifTrue: [ ^ self ].
-	" check that the skin related space phases are installed "
-	anElement space checkSkinPhases.
-	self setSkinInstaller: ToSkinInstaller new in: anElement.
+	self skinInstaller
+		ifNil: [
+			skinRequestCount := skinRequestCount + 1.
+			" check that the skin related space phases are installed "
+			anElement space checkSkinPhases.
+			self setSkinInstaller: ToSkinInstaller new in: anElement ]
+		ifNotNil: [ skinRequestCount > 1 ifTrue: [ ^ self ] ].
 	" *** Important point: a skin can be installed instantly.
 	This is used to avoid visual flashing effects in differents situations: (selection or labels updating in lists). 
 	but but but it is possible only at the first request. Why ?

@@ -37,7 +37,7 @@ ToElementTest >> testApplySkinInstallerOnFirstRequestButWithNoEffect [
 	e := ToElement new.
 	space root addChild: e.
 	" asking to apply the skin installer on first request after it has been already requested has no effect.
-	Indeed, the better place for a send applySkinInstallerOnFirstRequest: is in the initialize method
+	Indeed, the better place for a send of applySkinInstallerOnFirstRequest: is in the initialize method
 	to be sure it will have an effect on the first requestInstallSkin "
 	self assert: e skinManager skinRequestCount equals: 1.
 	e applySkinInstallerOnFirstRequest: true.
@@ -46,8 +46,8 @@ ToElementTest >> testApplySkinInstallerOnFirstRequestButWithNoEffect [
 	" and to not have an installed skin -> illustrates no effect of applySkinInstallerOnFirstRequest: "
 	self assert: e skinManager installedSkin isNil.
 	e ensuredSkinManager requestInstallSkinIn: e.
-	self assert: e skinManager skinInstaller notNil.
-	self assert: e skinManager installedSkin isNil
+	self assert: e skinManager skinInstaller isNil.
+	self assert: e skinManager installedSkin notNil
 ]
 
 { #category : #'test initialize' }
@@ -363,7 +363,7 @@ ToElementTest >> testSkinInstallRequestCount [
 	self assert: e skinManager hasPostponedInstallSkinHandler.
 	self assert: e skinManager skinRequestCount equals: 0.
 	space root addChild: e.
-	self assert: e skinManager skinRequestCount > 1
+	self assert: e skinManager skinRequestCount equals: 1
 	" several install may be requested after the first installation :
 	- by the postponed request
 	- by the theme installation "

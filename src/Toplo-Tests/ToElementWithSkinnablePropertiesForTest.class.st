@@ -69,7 +69,7 @@ ToElementWithSkinnablePropertiesForTest >> newSkinManager [
 ]
 
 { #category : #accessing }
-ToElementWithSkinnablePropertiesForTest >> skinInstallStateCount [
+ToElementWithSkinnablePropertiesForTest >> skinInstalledCount [
 
 	^ self skinManager skinInstalledCount
 ]

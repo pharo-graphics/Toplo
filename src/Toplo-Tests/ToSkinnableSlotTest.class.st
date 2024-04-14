@@ -19,7 +19,7 @@ ToSkinnableSlotTest >> testNew [
 	self assert: e skinRequestCount equals: 1.
 	space applyAllEnqueuedStates.
 	self assert: e skinRequestCount equals: 1.
-	self assert: e skinInstallStateCount equals: 1.
+	self assert: e skinInstalledCount equals: 1.
 	self assert: e skinStatesApplied equals: 1
 	
 ]
@@ -39,7 +39,7 @@ ToSkinnableSlotTest >> testWriteTo [
 
 	space applyAllEnqueuedStates.
 	self assert: e skinRequestCount equals: 1.
-	self assert: e skinInstallStateCount equals: 1.
+	self assert: e skinInstalledCount equals: 1.
 	self assert: e skinStatesApplied equals: 1.
 
 	self assert: e skinStatesApplied equals: 1.
@@ -68,7 +68,7 @@ ToSkinnableSlotTest >> testWriteTo2 [
 
 	space applyAllEnqueuedStates.
 	self assert: e skinRequestCount equals: 1.
-	self assert: e skinInstallStateCount equals: 1 
+	self assert: e skinInstalledCount equals: 1 
 
 	
 ]
@@ -91,7 +91,7 @@ ToSkinnableSlotTest >> testWriteTo3 [
 	space applyAllEnqueuedStates.
 	self assert: e skinRequestCount equals: 1.
 
-	self assert: e skinInstallStateCount equals: 1 
+	self assert: e skinInstalledCount equals: 1 
 
 	
 ]
@@ -117,12 +117,12 @@ ToSkinnableSlotTest >> testWriteTo4 [
 	self assert: e skinRequestCount equals: 2.
 	" because of the child1: "
 
-	self assert: e skinInstallStateCount equals: 1.
+	self assert: e skinInstalledCount equals: 1.
 	self assert: e skinManager skinInstaller notNil.
 
 	space applyAllSkinInstallers.
 	self assert: e skinRequestCount equals: 2.
-	self assert: e skinInstallStateCount equals: 2.
+	self assert: e skinInstalledCount equals: 2.
 	self assert: e skinManager skinInstaller isNil.
 	self assert: e skinStatesApplied equals: 3.
 
@@ -134,7 +134,7 @@ ToSkinnableSlotTest >> testWriteTo4 [
 	space applyAllEnqueuedStates.
 
 	self assert: e skinRequestCount equals: 3.
-	self assert: e skinInstallStateCount equals: 3.
+	self assert: e skinInstalledCount equals: 3.
 	self assert: e skinStatesApplied equals: 5.
 	self assert: e skinManager skinInstaller isNil.
 
@@ -144,7 +144,7 @@ ToSkinnableSlotTest >> testWriteTo4 [
 	self assert: e skinRequestCount equals: 3.
 	" no new state enqueued "
 	self assert: e skinStatesApplied equals: 5.
-	self assert: e skinInstallStateCount equals: 3
+	self assert: e skinInstalledCount equals: 3
 ]
 
 { #category : #tests }
@@ -162,7 +162,7 @@ ToSkinnableSlotTest >> testWriteToWithSpaceAddChildBefore [
 	self assert: e skinRequestCount equals: 1.
 	space applyAllEnqueuedStates.
 	self assert: e skinRequestCount equals: 1.
-	self assert: e skinInstallStateCount equals: 1 
+	self assert: e skinInstalledCount equals: 1 
 
 	
 ]

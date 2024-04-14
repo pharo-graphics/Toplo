@@ -52,7 +52,7 @@ ToElementWithSkinnableSlotsForTest >> newSkinManager [
 ]
 
 { #category : #accessing }
-ToElementWithSkinnableSlotsForTest >> skinInstallStateCount [
+ToElementWithSkinnableSlotsForTest >> skinInstalledCount [
 
 	^ self skinManager skinInstalledCount
 ]

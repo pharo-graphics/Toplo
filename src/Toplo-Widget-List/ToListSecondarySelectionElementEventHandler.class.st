@@ -25,7 +25,7 @@ ToListSecondarySelectionElementEventHandler >> criticalUpdateSelectionFromEvent:
 { #category : #'element handlers' }
 ToListSecondarySelectionElementEventHandler >> elementExtentChangedEvent: anEvent [
 
-	self updateSelectionFromEvent: anEvent
+	self enqueueUpdateSelectionFromEvent: anEvent
 ]
 
 { #category : #'mouse handlers' }
@@ -34,6 +34,13 @@ ToListSecondarySelectionElementEventHandler >> elementScrolledEvent: anEvent [
 	anEvent currentTarget spaceDo: [ :sp | 
 		sp mouseProcessor handleLastMouseMove ].
 	self updateSelectionFromEvent: anEvent
+]
+
+{ #category : #'selection managing' }
+ToListSecondarySelectionElementEventHandler >> enqueueUpdateSelectionFromEvent: anEvent [
+
+	anEvent currentTarget enqueueTask:
+		(BlTaskAction new action: [ self updateSelectionFromEvent: anEvent ])
 ]
 
 { #category : #'api - accessing' }

@@ -51,7 +51,13 @@ ToElement >> resizableConstraintsDo: aBlock [
 	implement additional actions when resizing is changed
 	
 	"
-	self constraintsDo: aBlock.
-	self dispatchEvent: ToLayoutConstraintsChangedEvent new
-	
+
+	| hr vr |
+	hr := self constraints horizontal resizer.
+	vr := self constraints vertical resizer.
+	aBlock value: self constraints.
+	(hr = self constraints horizontal resizer and: [
+		 vr = self constraints vertical resizer ]) ifTrue: [ ^ self ].
+	self dispatchEvent: ToLayoutConstraintsChangedEvent new.
+	self requestLayout
 ]

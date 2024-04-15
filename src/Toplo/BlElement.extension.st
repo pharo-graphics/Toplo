@@ -301,6 +301,12 @@ BlElement >> requestNewSkin [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> requestSkinApplication [
+
+	self spaceDo: [ :sp | sp requestNextPulse ]
+]
+
+{ #category : #'*Toplo' }
 BlElement >> requestUninstallSkin [
 
 	self

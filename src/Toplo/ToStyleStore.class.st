@@ -17,10 +17,10 @@ ToStyleStore >> onInstalledIn: anElement [
 
 	self tokenPropertyIndex changedAction: [
 		self requestNewSkinRecursivelyFrom: anElement.
-		anElement spaceDo: [ :sp | sp requestNextPulse ] ].
+		anElement requestSkinApplication ].
 	self stampIndex changedAction: [
 		self requestNewSkinRecursivelyFrom: anElement.
-		anElement spaceDo: [ :sp | sp requestNextPulse ] ]
+		anElement requestSkinApplication ]
 ]
 
 { #category : #'t - stamps holder' }

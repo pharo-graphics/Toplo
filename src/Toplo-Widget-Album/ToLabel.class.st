@@ -327,7 +327,6 @@ ToLabel >> text: aBlTextOrString [
 	self text = aBlTextOrString ifTrue: [ ^ self ].
 	newText := (aBlTextOrString ifNil: [ self defaultText ]) asRopedText.
 	self privateText: newText.
-	self requestNewSkin.
 	self dispatchEvent: (ToLabelTextReplacedEvent new text: self text)
 ]
 

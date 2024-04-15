@@ -60,9 +60,13 @@ TToElementWithLabeledIcon >> endElement [
 { #category : #'t - element with labeled icon - accessing' }
 TToElementWithLabeledIcon >> endElement: anElement [
 
+	| prevEndElement |
 	self endElement = anElement ifTrue: [ ^ self ].
+	prevEndElement := self endElement.
 	self labeledIcon endElement: anElement.
-	self requestNewSkin
+	((prevEndElement isNil and: [ self endElement notNil ]) or: [
+		 prevEndElement notNil and: [ self endElement isNil ] ]) ifTrue: [ 
+		self requestNewSkin ]
 ]
 
 { #category : #'t - element with labeled icon - accessing' }
@@ -129,9 +133,14 @@ TToElementWithLabeledIcon >> icon [
 { #category : #'t - element with labeled icon - accessing' }
 TToElementWithLabeledIcon >> icon: anElement [
 
+	| prevIcon |
 	self icon = anElement ifTrue: [ ^ self ].
+	prevIcon := self icon.
 	self labeledIcon icon: anElement.
-	self requestNewSkin
+	((prevIcon isNil and: [ self icon notNil ]) or: [
+		 prevIcon notNil and: [ self icon isNil ] ]) ifTrue: [ 
+		" since the skin can depend on the icon "
+		self requestNewSkin ]
 ]
 
 { #category : #'t - element with labeled icon - accessing' }
@@ -233,9 +242,14 @@ TToElementWithLabeledIcon >> label [
 { #category : #'t - element with labeled icon - accessing' }
 TToElementWithLabeledIcon >> label: anElement [
 
+	| prevLabel |
 	self label = anElement ifTrue: [ ^ self ].
+	prevLabel := self label.
 	self labeledIcon label: anElement.
-	self requestNewSkin
+	((prevLabel isNil and: [ self label notNil ]) or: [
+		 prevLabel notNil and: [ self label isNil ] ]) ifTrue: [ 
+		" since the skin can depend on the label "
+		self requestNewSkin ]
 ]
 
 { #category : #'t - element with labeled icon - accessing' }

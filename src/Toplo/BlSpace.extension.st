@@ -3,13 +3,15 @@ Extension { #name : #BlSpace }
 { #category : #'*Toplo' }
 BlSpace >> addDraggedSkinStateGeneration: aValuable [
 
-	self skinPhasesManager addDraggedSkinStateGeneration: aValuable
+	self skinPhasesManager addDraggedSkinStateGeneration: aValuable.
+	self requestNextPulse 
 ]
 
 { #category : #'*Toplo' }
 BlSpace >> addSkinStateGeneration: aValuable [
 
-	self skinPhasesManager addSkinStateGeneration: aValuable
+	self skinPhasesManager addSkinStateGeneration: aValuable.
+	self requestNextPulse
 ]
 
 { #category : #'*Toplo' }
@@ -67,7 +69,8 @@ BlSpace >> needSkinInstallPass [
 { #category : #'*Toplo' }
 BlSpace >> needSkinInstallPass: aBoolean [
 
-	self skinPhasesManager needSkinInstallPass: aBoolean
+	self skinPhasesManager needSkinInstallPass: aBoolean.
+	aBoolean ifTrue: [ self requestNextPulse ]
 ]
 
 { #category : #'*Toplo' }
@@ -79,7 +82,8 @@ BlSpace >> needSkinStateApplicationPass [
 { #category : #'*Toplo' }
 BlSpace >> needSkinStateApplicationPass: aBoolean [
 
-	self skinPhasesManager needSkinStateApplicationPass: aBoolean
+	self skinPhasesManager needSkinStateApplicationPass: aBoolean.
+	aBoolean ifTrue: [ self requestNextPulse ]
 ]
 
 { #category : #'*Toplo' }

@@ -21,7 +21,7 @@ ToTestCaseWithSpace >> installNewSkinNowIn: anElement [
 	anElement ensuredSkinManager requestInstallSkinIn: anElement.
 	anElement skinManager skinInstaller ifNotNil: [ :si |
 		si applyOn: anElement ].
-	anElement spaceDo: [ :sp | sp requestNextPulse ]
+	anElement requestSkinApplication
 ]
 
 { #category : #running }

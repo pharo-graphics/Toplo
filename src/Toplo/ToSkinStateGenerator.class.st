@@ -577,8 +577,7 @@ ToSkinStateGenerator >> startStillHoveredEvent: anEvent [
 	                    [ space isOpened  and: [ target space notNil and: [event isConsumed not ] ] ]
 		                    whileTrue: [
 			                    self generateStillHoveredStateFromEvent: event.
-			                    (Delay forMilliseconds: 50) wait.
-			                    target spaceDo: [ :sp | sp requestNextPulse ] ] ]
+			                    (Delay forMilliseconds: 50) wait ] ]
 		                    forkAt: Processor userBackgroundPriority
 		                    named: self class name , ' stillHoveredTask'
 ]
@@ -601,8 +600,7 @@ ToSkinStateGenerator >> startStillPressedEvent: anEvent [
 				                    target bounds inSpace bounds position
 				                    = targetPos ] ] ] ] whileTrue: [
 		                    self generateStillPressedStateFromEvent: anEvent.
-		                    (Delay forMilliseconds: 10) wait.
-		                    target spaceDo: [ :sp | sp requestNextPulse ] ] ]
+		                    (Delay forMilliseconds: 10) wait ] ]
 		                    forkAt: Processor userBackgroundPriority
 		                    named: self class name , ' stillPressedTask'
 ]

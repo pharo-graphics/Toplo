@@ -38,14 +38,14 @@ ToSkinManager >> applyEnqueuedStatesIn: anElement [
 	self skinStateQueue applyEnqueuedStatesIn: anElement
 ]
 
-{ #category : #'skin - install / uninstall request' }
+{ #category : #'skin - installing / uninstalling' }
 ToSkinManager >> applySkinInstallerIn: anElement [
 	" ask the skin installer (if any) to actually install the skin "
 
 	self skinInstaller ifNotNil: [ :si | si applyOn: anElement ]
 ]
 
-{ #category : #'skin - install / uninstall request' }
+{ #category : #'skin - installing / uninstalling' }
 ToSkinManager >> applySkinInstallerNowIn: anElement [
 
 	skinRequestCount > 1 ifTrue: [ ^ false ].
@@ -56,26 +56,26 @@ ToSkinManager >> applySkinInstallerNowIn: anElement [
 	^ false
 ]
 
-{ #category : #'skin - install / uninstall request' }
+{ #category : #'skin - installing / uninstalling' }
 ToSkinManager >> applySkinInstallerOnFirstRequest [
 
 	^ applySkinInstallerOnFirstRequest 
 ]
 
-{ #category : #'skin - install / uninstall request' }
+{ #category : #'skin - installing / uninstalling' }
 ToSkinManager >> applySkinInstallerOnFirstRequest: aBoolean [
 
 	applySkinInstallerOnFirstRequest := aBoolean
 ]
 
-{ #category : #'skin - install / uninstall request' }
+{ #category : #'skin - installing / uninstalling' }
 ToSkinManager >> applySkinReinstallIn: anElement [
 
 	self applySkinUninstallerIn: anElement.
 	self applySkinInstallerIn: anElement
 ]
 
-{ #category : #'skin - install / uninstall request' }
+{ #category : #'skin - installing / uninstalling' }
 ToSkinManager >> applySkinUninstallerIn: anElement [
 
 	" ask the skin uninstaller (if any) to actually uninstall the skin "
@@ -163,7 +163,9 @@ ToSkinManager >> installSkin: aSkin in: anElement [
 
 	self ensureHaveSkinContext.
 	self skinContext installSkin: aSkin in: anElement.
-	self skinStateQueue enqueueInstallStateForElement: anElement
+	self skinStateQueue enqueueInstallStateForElement: anElement.
+	"'installSkin: aSkin in: ' trace. anElement traceCr."
+
 ]
 
 { #category : #'accessing - installed skin' }
@@ -261,6 +263,7 @@ ToSkinManager >> requestInstallSkinIn: anElement [
 	anElement space ifNil: [ ^ self postponeRequestSkinIn: anElement ].
 	self skinInstaller
 		ifNil: [
+			"'requestInstallSkinIn: ' trace. anElement traceCr."
 			skinRequestCount := skinRequestCount + 1.
 			" check that the skin related space phases are installed "
 			anElement space checkSkinPhases.
@@ -270,8 +273,7 @@ ToSkinManager >> requestInstallSkinIn: anElement [
 	This is used to avoid visual flashing effects in differents situations: (selection or labels updating in lists). 
 	but but but it is possible only at the first request. Why ?
 	Because requestInstallSkin can be sent many times (as an example during a theme installation). Thus, applying 
-	each request instantly would increase time consuming and can lead to an infinite loop or unpredictable results.
-	Such an infinite loop  systematically arise if a requestNewSkin is sent during a skin installation **** "
+	each request instantly could increase time consuming for nothing **** "
 	((self applySkinInstallerNowIn: anElement) and: [
 		 skinRequestCount = 1 ]) ifFalse: [ ^ self ].
 	" If an uninstaller is present, apply it "
@@ -353,7 +355,7 @@ ToSkinManager >> setStyleSheet: aStyleSheet in: anElement [
 	self styleSheet ifNotNil: [ :prev | prev onUninstalledIn: anElement ].
 	styleSheet := aStyleSheet.
 	self styleSheet ifNotNil: [ :curr | curr onInstalledIn: anElement ].
-	anElement spaceDo: [ :sp | sp requestNextPulse ]
+	anElement requestSkinApplication
 ]
 
 { #category : #'element setup' }

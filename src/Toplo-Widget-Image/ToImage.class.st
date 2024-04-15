@@ -95,8 +95,7 @@ ToImage >> innerImage: anImage [
 		id asSymbol = #svgPath ifTrue: [
 			element constraintsDo: [ :c |
 				c horizontal matchParent.
-				c vertical matchParent ] ] ].
-	self requestNewSkin
+				c vertical matchParent ] ] ]
 ]
 
 { #category : #rotation }

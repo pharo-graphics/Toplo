@@ -178,7 +178,7 @@ ToThemeExamples class >> example_BlElementWithTheme [
 	pn addChild: themeSwitcher.
 	space root addChild: pn2.
 	
-	hello := ToLabel new text: 'Hello'.
+	hello := ToLabel new text: 'Hello H1'.
 	hello addAllStamps: #(#H1 #success).
 	
 	helloWorld := ToTextField new text: 'Hello world'.

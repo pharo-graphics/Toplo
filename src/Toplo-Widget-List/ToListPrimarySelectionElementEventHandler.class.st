@@ -73,7 +73,9 @@ ToListPrimarySelectionElementEventHandler >> newSelectionElementsFromEvent: anEv
 	target := anEvent currentTarget.
 
 	adjacentNodeGroups := target infinite nodeGroupsSatisfying: [ :n |
-		                      n holder isSelected and: [ n height > 0 ] ].
+		                      n holder isSelected and: [
+			                      n holder isTmpDetached not and: [
+				                      n height > 0 ] ] ].
 	^ adjacentNodeGroups collect: [ :g |
 		  ToListPrimarySelectionElement new
 			  listElement: target;
@@ -102,9 +104,10 @@ ToListPrimarySelectionElementEventHandler >> updateSelectionFromEvent: anEvent [
 	target isAttachedToSceneGraph ifFalse: [
 		self postponeSelectionElementUpdateIn: target.
 		^ self ].
+
 	previous := target primarySelectionElements.
 	nodesArray := target infinite children asArray.
-	selectionModel := target selectionModel copy.
+	selectionModel := target selectionModel.
 	newSelElements := self newSelectionElementsFromEvent: anEvent.
 	previous do: [ :s | s removeFromParent ].
 	target addChildren: newSelElements.

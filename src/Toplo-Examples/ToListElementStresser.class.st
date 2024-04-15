@@ -198,7 +198,7 @@ ToListElementStresser >> afterRoundInList: aList [
 { #category : #initialization }
 ToListElementStresser >> initialize [
 
-	| tabSelectionProcess |
+	| tabSelectionProcess resizeSpaceProcess |
 	super initialize.
 
 	counter := 0.
@@ -229,16 +229,27 @@ ToListElementStresser >> initialize [
 		                       "self resizeSpace."
 		                       1 seconds wait ] ] newProcess.
 
+	"resizeSpaceProcess := [
+	                      1 to: self maxRound do: [ :round |
+		                      self resizeSpace.
+		                      1 seconds wait ] ] newProcess."
 
 	tabSelectionProcess name: self class name.
 	tabSelectionProcess priority: Processor systemBackgroundPriority.
 
+	"resizeSpaceProcess name: self class name.
+	resizeSpaceProcess priority: Processor systemBackgroundPriority."
+
 	self tabsPanel
 		addEventHandlerOn: BlElementAddedToSceneGraphEvent
-		do: [ :event | tabSelectionProcess resume ].
+		do: [ :event |
+			tabSelectionProcess resume.
+			"resizeSpaceProcess resume" ].
 	self tabsPanel
 		addEventHandlerOn: BlElementRemovedFromSceneGraphEvent
-		do: [ :event | tabSelectionProcess terminate ]
+		do: [ :event |
+			tabSelectionProcess terminate.
+			"resizeSpaceProcess terminate" ]
 ]
 
 { #category : #accessing }

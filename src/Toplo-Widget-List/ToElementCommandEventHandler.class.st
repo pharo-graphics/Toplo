@@ -19,7 +19,8 @@ ToElementCommandEventHandler >> elementCommandAddedEvent: aCommandAddedEvent [
 		aCommandAddedEvent command applyIn: element.
 		^ self ].
 	commandQueue add: aCommandAddedEvent command.
-	element dispatchEvent: ToElementCommandApplicationTaskActivationEvent new
+	element dispatchEvent: ToElementCommandApplicationTaskActivationEvent new.
+	element spaceDo: [ :sp | sp requestNextPulse ] 
 ]
 
 { #category : #'event handling' }

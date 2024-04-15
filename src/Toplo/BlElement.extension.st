@@ -39,12 +39,6 @@ BlElement >> allStamps [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> allowsSkinInstallation [
-
-	^ true
-]
-
-{ #category : #'*Toplo' }
 BlElement >> applyEnqueuedStatesDeeply [
 
 	self withAllChildrenDepthFirstDo: [ :child |

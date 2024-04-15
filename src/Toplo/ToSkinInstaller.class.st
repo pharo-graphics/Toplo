@@ -11,7 +11,6 @@ Class {
 ToSkinInstaller >> applyOn: anElement [
 	" if there is an installed skin -> nothing to do "
 
-	anElement allowsSkinInstallation ifFalse: [ ^ self ].
 	self installingWhile: [
 		anElement skinManagerDo: [ :sm |
 			sm installedSkin ifNil: [

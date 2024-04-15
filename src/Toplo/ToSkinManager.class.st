@@ -270,14 +270,12 @@ ToSkinManager >> requestInstallSkinIn: anElement [
 			self setSkinInstaller: ToSkinInstaller new in: anElement ]
 		ifNotNil: [ skinRequestCount > 1 ifTrue: [ ^ self ] ].
 	" *** Important point: a skin can be installed instantly.
-	This is used to avoid visual flashing effects in differents situations: (selection or labels updating in lists). 
-	but but but it is possible only at the first request. Why ?
+	This is used to avoid visual flashing effects in some situations: selection or labels updating in lists as examples. 
+	But but but it is possible only at the first request. Why ?
 	Because requestInstallSkin can be sent many times (as an example during a theme installation). Thus, applying 
 	each request instantly could increase time consuming for nothing **** "
 	((self applySkinInstallerNowIn: anElement) and: [
 		 skinRequestCount = 1 ]) ifFalse: [ ^ self ].
-	" If an uninstaller is present, apply it "
-	self skinUninstaller ifNotNil: [ :su | su applyOn: anElement ].
 	" then apply the installer now "
 	self skinInstaller applyOn: anElement
 ]

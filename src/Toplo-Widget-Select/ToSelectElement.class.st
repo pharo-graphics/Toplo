@@ -24,7 +24,7 @@ ToSelectElement >> addGroup: anObject withData: aCollection [
 	self dataAccessor add: anObject.
 	grpIdx := self dataAccessor itemCount.
 	self setGroupIndex: grpIdx.
-	self dataAccessor addAll: aCollection.
+	self dataAccessor addAll: aCollection
 ]
 
 { #category : #'accessing selection' }

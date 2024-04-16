@@ -1,54 +1,39 @@
 Class {
 	#name : #ToListSecondarySelectionElementEventHandler,
-	#superclass : #BlCustomEventHandler,
-	#instVars : [
-		'postponedUpdateTask'
-	],
+	#superclass : #ToListSelectionElementEventHandler,
 	#category : #'Toplo-Widget-List-Selection-Element'
 }
 
 { #category : #'selection managing' }
-ToListSecondarySelectionElementEventHandler >> addSecondarySelectionIn: aListElement onNodes: aNodeCollection [
-	" update selection decoration to show the secondary selection on which the popup is opened"
+ToListSecondarySelectionElementEventHandler >> addNewSelectionElementsFrom: target [
 
-	(self
-		 newSelectionElementsFromSelectedNodes: aNodeCollection
-		 in: aListElement) do: [ :s | aListElement addChild: s ]
+	| infinite childNodes |
+	infinite := target infinite.
+
+	childNodes := infinite children select: [ :node |
+		              target secondarySelectionModel containsIndex:
+			              node holder position ].
+	childNodes ifEmpty: [ ^ self ].
+	(self newSelectionElementsFromSelectedNodes: childNodes in: target)
+		do: [ :s | target addChild: s ]
 ]
 
 { #category : #'selection managing' }
-ToListSecondarySelectionElementEventHandler >> criticalUpdateSelectionFromEvent: anEvent [
-
-	self updateSelectionFromEvent: anEvent
+ToListSecondarySelectionElementEventHandler >> differUpdateSelectionFrom: anElement [
 ]
 
 { #category : #'element handlers' }
-ToListSecondarySelectionElementEventHandler >> elementExtentChangedEvent: anEvent [
-
-	self enqueueUpdateSelectionFromEvent: anEvent
-]
-
-{ #category : #'mouse handlers' }
 ToListSecondarySelectionElementEventHandler >> elementScrolledEvent: anEvent [
 
 	anEvent currentTarget spaceDo: [ :sp | 
 		sp mouseProcessor handleLastMouseMove ].
-	self updateSelectionFromEvent: anEvent
-]
-
-{ #category : #'selection managing' }
-ToListSecondarySelectionElementEventHandler >> enqueueUpdateSelectionFromEvent: anEvent [
-
-	anEvent currentTarget enqueueTask:
-		(BlTaskAction new action: [ self updateSelectionFromEvent: anEvent ])
+	super elementScrolledEvent: anEvent
 ]
 
 { #category : #'api - accessing' }
 ToListSecondarySelectionElementEventHandler >> eventsToHandle [
 
-	^ {
-		  BlElementExtentChangedEvent.
-		  BlElementScrolledEvent.
+	^ super eventsToHandle, {
 		  ToInfiniteScrollFinishedEvent.
 		  ToListSecondarySelectionChangedEvent.
 		  BlMouseMoveEvent }
@@ -87,6 +72,23 @@ ToListSecondarySelectionElementEventHandler >> mouseMoveEvent: anEvent [
 ]
 
 { #category : #'selection managing' }
+ToListSecondarySelectionElementEventHandler >> newSelectionElementsFrom: target [
+
+	| infinite childNodes adjacentNodeGroups |
+	infinite := target infinite.
+	childNodes := infinite children select: [ :node |
+		              target secondarySelectionModel containsIndex:
+			              node holder position ].
+	adjacentNodeGroups := infinite nodeGroupsSatisfying: [ :n |
+		                      childNodes includes: n ].
+	^ adjacentNodeGroups collect: [ :g |
+		  ToListSecondarySelectionElement new
+			  listElement: target;
+			  nodes: g;
+			  yourself ]
+]
+
+{ #category : #'selection managing' }
 ToListSecondarySelectionElementEventHandler >> newSelectionElementsFromSelectedNodes: aCollection in: aListElement [
 	" return a collection with instances of ToListSecondarySelectionElement "
 
@@ -101,31 +103,13 @@ ToListSecondarySelectionElementEventHandler >> newSelectionElementsFromSelectedN
 ]
 
 { #category : #'selection managing' }
-ToListSecondarySelectionElementEventHandler >> postponeSelectionElementUpdateFromEvent: anEvent in: anElement [
-
-	postponedUpdateTask ifNotNil: [ ^ self ].
-	postponedUpdateTask := BlTaskAction new action: [
-		                      anElement dispatchEvent: anEvent.
-		                      postponedUpdateTask := nil ].
-	anElement enqueueTask: postponedUpdateTask
+ToListSecondarySelectionElementEventHandler >> previousSelectionElementsFrom: aTarget [
+	
+	^ aTarget secondarySelectionElements
 ]
 
 { #category : #'selection managing' }
-ToListSecondarySelectionElementEventHandler >> updateSelectionFromEvent: anEvent [
+ToListSecondarySelectionElementEventHandler >> selectionModelFrom: target [
 
-	| target infinite childNodes previous |
-	target := anEvent currentTarget.
-	infinite := target infinite.
-
-	target isAttachedToSceneGraph ifFalse: [
-		self postponeSelectionElementUpdateFromEvent: anEvent in: target.
-		^ self ].
-	previous := target secondarySelectionElements.
-	previous do: [ :s | s removeFromParent ].
-	target secondarySelectionModel ifEmpty: [ ^ self ].
-	childNodes := infinite children select: [ :node |
-		              target secondarySelectionModel containsIndex:
-			              node holder position ].
-	childNodes ifEmpty: [ ^ self ].
-	self addSecondarySelectionIn: target onNodes: childNodes
+	^ target secondarySelectionModel
 ]

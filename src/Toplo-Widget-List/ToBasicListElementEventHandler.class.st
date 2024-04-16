@@ -75,7 +75,6 @@ ToBasicListElementEventHandler >> infiniteDataSourceItemRangeInserted: anEvent [
 
 	| target dataSourceChangeEvent |
 	target := anEvent currentTarget.
-	target selectionModel ifEmpty: [ ^ self ].
 	dataSourceChangeEvent := ToListDataSourceItemsAddedEvent new
 		                         itemCount: anEvent itemCount;
 		                         position: anEvent position;
@@ -88,7 +87,6 @@ ToBasicListElementEventHandler >> infiniteDataSourceItemRangeRemoved: anEvent [
 
 	| target dataSourceChangeEvent |
 	target := anEvent currentTarget.
-	target selectionModel ifEmpty: [ ^ self ].
 	dataSourceChangeEvent := ToListDataSourceItemsRemovedEvent new
 		                         itemCount: anEvent itemCount;
 		                         position: anEvent position;

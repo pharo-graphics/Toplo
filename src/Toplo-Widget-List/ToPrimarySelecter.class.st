@@ -14,24 +14,16 @@ ToPrimarySelecter >> initialize [
 	subSelecterIndex := IdentityDictionary new
 ]
 
-{ #category : #'api - hooks' }
-ToPrimarySelecter >> onInstalledIn: anElement [
-
-	super onInstalledIn: anElement.
-	operator := ToPrimarySelectionModelOperator new.
-	operator onInstalledIn: anElement.
-	selectionModel := anElement newPrimarySelectionModel.
-	selectionModel onInstalledIn: anElement
+{ #category : #'instance creation' }
+ToPrimarySelecter >> newOperator [
+	
+	^ ToPrimarySelectionModelOperator new
 ]
 
-{ #category : #'api - hooks' }
-ToPrimarySelecter >> onUninstalledIn: anElement [
+{ #category : #'instance creation' }
+ToPrimarySelecter >> newSelectionModelInElement: anElement [
 
-	operator onUninstalledIn: anElement.
-	operator := nil.
-	selectionModel onUninstalledIn: anElement.
-	selectionModel := nil.
-	super onUninstalledIn: anElement.
+	^ anElement newPrimarySelectionModel
 ]
 
 { #category : #accessing }

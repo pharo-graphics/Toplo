@@ -7,25 +7,16 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
 
-{ #category : #'api - hooks' }
-ToSecondarySelecter >> onInstalledIn: anElement [
-
-	super onInstalledIn: anElement.
-	operator := ToSecondarySelectionModelOperator new.
-	operator onInstalledIn: anElement.
-	selectionModel := anElement newSecondarySelectionModel.
-	selectionModel onInstalledIn: anElement
+{ #category : #'instance creation' }
+ToSecondarySelecter >> newOperator [
+	
+	^ ToSecondarySelectionModelOperator new
 ]
 
-{ #category : #'api - hooks' }
-ToSecondarySelecter >> onUninstalledIn: anElement [
+{ #category : #'instance creation' }
+ToSecondarySelecter >> newSelectionModelInElement: anElement [
 
-	operator := ToSecondarySelectionModelOperator new.
-	operator onInstalledIn: anElement.
-	selectionModel := anElement newSecondarySelectionModel.
-	selectionModel onInstalledIn: anElement.
-	super onUninstalledIn: anElement.
-
+	^ anElement newSecondarySelectionModel
 ]
 
 { #category : #accessing }

@@ -231,7 +231,7 @@ ToListElementStresser >> initialize [
 
 	resizeSpaceProcess := [
 	                      1 to: self maxRound do: [ :round |
-		                      self resizeSpace.
+		                      "self resizeSpace."
 		                      1 seconds wait ] ] newProcess.
 
 	tabSelectionProcess name: self class name.

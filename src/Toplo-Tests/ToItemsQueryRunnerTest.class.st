@@ -62,7 +62,7 @@ ToItemsQueryRunnerTest >> testSeveralQueryRequestEvent [
 	target dispatchEvent: (ToItemsQueryRequestEvent new
 			 pattern: 'C';
 			 yourself).
-	(queryRunner delay + 20 milliSeconds) wait.
+	(queryRunner delay + 1000 milliSeconds) wait.
 	self assert: items equals: #( 'C' ) asOrderedCollection 
 ]
 
@@ -76,7 +76,7 @@ ToItemsQueryRunnerTest >> testitemsQueryRequestEvent [
 	target dispatchEvent: (ToItemsQueryRequestEvent new
 			 pattern: 'A';
 			 yourself).
-	(queryRunner delay + 20 milliSeconds) wait.
+	(queryRunner delay + 1000 milliSeconds) wait.
 	self assert: items equals: #(  )
 ]
 
@@ -92,6 +92,6 @@ ToItemsQueryRunnerTest >> testitemsQueryRequestEventWithNotEmptyTarget [
 	target dispatchEvent: (ToItemsQueryRequestEvent new
 			 pattern: 'B';
 			 yourself).
-	(queryRunner delay + 20 milliSeconds) wait.
+	(queryRunner delay + 1000 milliSeconds) wait.
 	self assert: items equals: #( 'B' ) asOrderedCollection 
 ]

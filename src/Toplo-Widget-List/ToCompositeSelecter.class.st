@@ -13,6 +13,38 @@ ToCompositeSelecter class >> selectionModel: aSelectionModel operator: anOperato
 		  yourself
 ]
 
+{ #category : #'instance creation' }
+ToCompositeSelecter >> newOperator [ 
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #'instance creation' }
+ToCompositeSelecter >> newSelectionModelInElement: anElement [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #'api - hooks' }
+ToCompositeSelecter >> onInstalledIn: anElement [
+
+	super onInstalledIn: anElement.
+	operator := self newOperator.
+	operator onInstalledIn: anElement.
+	selectionModel := self newSelectionModelInElement: anElement.
+	selectionModel onInstalledIn: anElement
+]
+
+{ #category : #'api - hooks' }
+ToCompositeSelecter >> onUninstalledIn: anElement [
+
+	operator onUninstalledIn: anElement.
+	operator := nil.
+	selectionModel onUninstalledIn: anElement.
+	selectionModel := nil.
+	super onUninstalledIn: anElement.
+]
+
 { #category : #accessing }
 ToCompositeSelecter >> subSelecterIndex [
 

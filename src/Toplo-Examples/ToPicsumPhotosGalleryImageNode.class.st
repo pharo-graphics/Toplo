@@ -1,5 +1,5 @@
 Class {
-	#name : #ToPicsumPhotosGalleryImageElement,
+	#name : #ToPicsumPhotosGalleryImageNode,
 	#superclass : #ToNode,
 	#instVars : [
 		'label'
@@ -8,19 +8,19 @@ Class {
 }
 
 { #category : #initialization }
-ToPicsumPhotosGalleryImageElement >> defaultLayout [
+ToPicsumPhotosGalleryImageNode >> defaultLayout [
 
 	^ BlFrameLayout new
 ]
 
 { #category : #initialization }
-ToPicsumPhotosGalleryImageElement >> defaultWidth [
+ToPicsumPhotosGalleryImageNode >> defaultWidth [
 
 	^ 500
 ]
 
 { #category : #initialization }
-ToPicsumPhotosGalleryImageElement >> initialize [
+ToPicsumPhotosGalleryImageNode >> initialize [
 
 	super initialize.
 	label := ToLabel new
@@ -32,7 +32,7 @@ ToPicsumPhotosGalleryImageElement >> initialize [
 ]
 
 { #category : #accessing }
-ToPicsumPhotosGalleryImageElement >> labelString: aString [
+ToPicsumPhotosGalleryImageNode >> labelString: aString [
 
 	label text: (aString asRopedText
 			 foreground: Color white;
@@ -40,7 +40,7 @@ ToPicsumPhotosGalleryImageElement >> labelString: aString [
 ]
 
 { #category : #layout }
-ToPicsumPhotosGalleryImageElement >> onMeasure: anExtentMeasurementSpec [
+ToPicsumPhotosGalleryImageNode >> onMeasure: anExtentMeasurementSpec [
 
 	" ensure a 16/9 size "
 

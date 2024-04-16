@@ -1136,7 +1136,7 @@ ToSandBox class >> example_PicsumPhotosGallery [
 		        yourself.
 	list
 		nodeHolderFactory: [ ToPicsumPhotosGalleryImageHolder new ];
-		nodeFactory: [ ToPicsumPhotosGalleryImageElement new ];
+		nodeFactory: [ ToPicsumPhotosGalleryImageNode new ];
 		nodeBuilder: [ :node :holder | node labelString: holder dataItem id ].
 
 	[

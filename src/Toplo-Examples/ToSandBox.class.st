@@ -1373,7 +1373,7 @@ ToSandBox class >> example_SelectMonoNotFiltrableWithGroups [
 		placeholder addChild: lab ].
 
 	select filtrable: false.
-	self statesOfAmericaWithGroups do: [ :assoc | select addGroup: assoc key withData: assoc value].
+	"self statesOfAmericaWithGroups do: [ :assoc | select addGroup: assoc key withData: assoc value]."
 
 	select placeholderText:
 		('Select a state' asRopedText foreground: Color red).

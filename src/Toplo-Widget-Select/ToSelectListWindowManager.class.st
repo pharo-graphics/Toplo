@@ -4,7 +4,6 @@ Class {
 	#instVars : [
 		'listElement',
 		'sieve',
-		'listDataSourceUpdater',
 		'dataNodeBuilder',
 		'groupNodeBuilder'
 	],
@@ -177,10 +176,6 @@ ToSelectListWindowManager >> onInstalledIn: anElement [
 			 select: self element;
 			 yourself).
 
-	listDataSourceUpdater := ToObservableCollectionMirrorUpdater new
-		                         mirror: listElement dataAccessor.
-	anElement dataAccessor addEventHandler: listDataSourceUpdater.
-
 	self builder: [ :selectWin :request |
 		selectWin root hMatchParent.
 		selectWin root vFitContent.
@@ -202,8 +197,6 @@ ToSelectListWindowManager >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
 	sieve onInstalledIn: listElement.
-	anElement dataAccessor removeEventHandler: listDataSourceUpdater.
-	listDataSourceUpdater := nil.
 	sieve := nil.
 	listElement := nil.
 

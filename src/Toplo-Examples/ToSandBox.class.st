@@ -1131,35 +1131,23 @@ ToSandBox class >> example_PicsumPhotosGallery [
 	" Images loaded from https://picsum.photos "
 
 	| space list vscrollBar |
-	list := ToListElement new
+	list := ToBasicListElement new
 		        matchParent;
 		        yourself.
-	list padding: (BlInsets all: 1).
-	list nodeBuilder: [ :node :holder |
-		| imageData photoElement |
-		imageData := holder dataItem.
-		photoElement := ToPicsumPhotosGalleryImageElement new
-			                hMatchParent;
-			                vFitContent;
-			                margin: (BlInsets all: 5);
-			                imageData: imageData;
-			                yourself.
-		node addChild: photoElement.
-		photoElement attached ].
-	list nodeReleaser: [ :node :holder |
-		| photoElement |
-		photoElement := node firstChild.
-		photoElement detached ].
+	list
+		nodeHolderFactory: [ ToPicsumPhotosGalleryImageHolder new ];
+		nodeFactory: [ ToPicsumPhotosGalleryImageElement new ];
+		nodeBuilder: [ :node :holder | node labelString: holder dataItem id ].
 
 	[
-	| images |
-	images := (STONJSON fromString:
+	| allImagesData |
+	allImagesData := (STONJSON fromString:
 		           'https://picsum.photos/list' asUrl retrieveContents)
 		          collect: [ :aDictionary |
 			          ToPicsumPhotosGalleryImageData fromDictionary:
 				          aDictionary ].
-	images sort: [ :a :b | a id > b id ].
-	list dataAccessor addAll: images ] fork.
+	allImagesData sort: [ :a :b | a id > b id ].
+	list dataAccessor addAll: allImagesData ] fork.
 
 	vscrollBar := BlVerticalScrollbarElement new.
 	vscrollBar constraintsDo: [ :c |

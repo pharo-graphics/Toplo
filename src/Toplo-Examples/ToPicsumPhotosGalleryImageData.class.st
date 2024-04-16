@@ -10,7 +10,7 @@ Class {
 		'width',
 		'postUrl',
 		'id',
-		'form'
+		'loadedForm'
 	],
 	#category : #'Toplo-Examples'
 }
@@ -60,16 +60,6 @@ ToPicsumPhotosGalleryImageData >> filename: anObject [
 ]
 
 { #category : #accessing }
-ToPicsumPhotosGalleryImageData >> form [
-	^ form
-]
-
-{ #category : #accessing }
-ToPicsumPhotosGalleryImageData >> form: aForm [
-	form := aForm
-]
-
-{ #category : #accessing }
 ToPicsumPhotosGalleryImageData >> format [
 	^ format
 ]
@@ -100,8 +90,15 @@ ToPicsumPhotosGalleryImageData >> id: anObject [
 ]
 
 { #category : #accessing }
-ToPicsumPhotosGalleryImageData >> loadUrl: anExtent [
-	^ 'https://unsplash.it/', (anExtent x min: 4096) asString, '/', (anExtent y min: 4096) asString,'?image=', self id asString
+ToPicsumPhotosGalleryImageData >> loadedForm [
+
+	^ loadedForm
+]
+
+{ #category : #accessing }
+ToPicsumPhotosGalleryImageData >> loadedForm: aForm [
+
+	loadedForm := aForm
 ]
 
 { #category : #accessing }

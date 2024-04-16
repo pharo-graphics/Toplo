@@ -60,27 +60,25 @@ ToSelectElement >> checkHideSelectionFromListElement [
 { #category : #'accessing selection' }
 ToSelectElement >> checkMaxSelectedCountFromListElement [
 
+	| unselectableSM groupeSM |
 	self maxSelectedCount isZero ifTrue: [ ^ self ].
+	
+	unselectableSM := self listElement unselectableSelectionModel.
+	groupeSM := self listElement groupSelectionModel.
+
 	self updateSelectedCountLabel.
 
 	self assertMaxSelectedCount: self selectionModel selectedIndexesCount.
 	self listElement dataAccessor withIndexDo: [ :d :localIndex |
 		| originalIndex |
 		originalIndex := self sieve dataPositionIndex at: d.
-		(self listElement groupSelectionModel containsIndex: localIndex)
-			ifFalse: [
-				self selectionModel selectedIndexesCount < self maxSelectedCount
-					ifTrue: [
-						self listElement unselectableSelectionModel deselectIndex:
-							localIndex.
-						self listElement disabledSelectionModel deselectIndex:
-							originalIndex ]
-					ifFalse: [
-						(self selectionModel containsIndex: originalIndex) ifFalse: [
-							self listElement unselectableSelectionModel selectIndex:
-								localIndex.
-							self listElement disabledSelectionModel selectIndex:
-								originalIndex ] ] ].
+		(groupeSM containsIndex: localIndex) ifFalse: [
+			self selectionModel selectedIndexesCount < self maxSelectedCount
+				ifTrue: [ unselectableSM deselectIndex: localIndex ]
+				ifFalse: [
+					(self selectionModel containsIndex: originalIndex) ifFalse: [
+						unselectableSM selectIndex: localIndex ] ] ].
+
 		self listElement selectionModel
 			transferSelectionFromIndex: localIndex
 			toIndex: originalIndex

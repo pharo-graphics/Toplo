@@ -1404,7 +1404,6 @@ ToSandBox class >> example_SelectMultiFiltrable [
 
 	| select innerWindow |
 	select := ToSelectElement new.
-	"select maxSelectedCount: 4."
 
 	select inspect.
 	select hideSelected: false.
@@ -1420,7 +1419,8 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	select position: 50 @ 10.
 	innerWindow pane addChild: select.
 	innerWindow height: 600.
-	innerWindow openInSpace
+	innerWindow openInSpace.
+	^ select
 ]
 
 { #category : #select }
@@ -1487,6 +1487,14 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected2 [
 	innerWindow pane addChild: select.
 	innerWindow height: 600.
 	innerWindow openInSpace
+]
+
+{ #category : #select }
+ToSandBox class >> example_SelectMultiFiltrableWithMax [
+
+	| select  |
+	select := self example_SelectMultiFiltrable.
+	select maxSelectedCount: 4
 ]
 
 { #category : #select }

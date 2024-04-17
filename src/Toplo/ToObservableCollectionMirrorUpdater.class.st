@@ -12,8 +12,11 @@ ToObservableCollectionMirrorUpdater >> collectionAddEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	mirror reset.
-	mirror addAll: target
+	(mirror isEmpty and: [ anEvent interval first = 1 ]) ifTrue: [
+		mirror addAll: target.
+		^ self ].
+	anEvent interval do: [ :idx |
+		mirror add: (target at: idx) afterIndex: idx - 1 ]
 ]
 
 { #category : #'data events handling' }
@@ -29,8 +32,7 @@ ToObservableCollectionMirrorUpdater >> collectionRemoveEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	mirror reset.
-	mirror addAll: target
+	anEvent interval reverseDo: [ :idx | mirror removeAt: idx ]
 ]
 
 { #category : #'data events handling' }
@@ -38,8 +40,7 @@ ToObservableCollectionMirrorUpdater >> collectionUpdateEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	mirror reset.
-	mirror addAll: target
+	anEvent interval do: [ :idx | mirror at: idx put: (target at: idx) ]
 ]
 
 { #category : #accessing }

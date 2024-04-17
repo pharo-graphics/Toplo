@@ -56,7 +56,7 @@ ToObservableCollectionMirrorUpdaterTest >> testAddAfter [
 
 	ocol add: 99 after: 2.
 
-	self assert: i equals: (1 to: 6).
+	self assert: i equals: (4 to: 4).
 
 	self
 		assert: mirror asOrderedCollection

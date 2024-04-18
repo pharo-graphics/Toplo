@@ -30,189 +30,185 @@ ToIndexIntervalSelectionModelTest >> testContainsIndex [
 { #category : #tests }
 ToIndexIntervalSelectionModelTest >> testCopyCompositeModel [
 
-	| s c |
-	s := ToSelectionModel new.
+	| c |
 	c := s copy.
-	self deny: s underlyingModel identicalTo: c underlyingModel.
+	self deny: s intervals identicalTo: c intervals.
 	self assert: c equals: s
-]
-
-{ #category : #tests }
-ToIndexIntervalSelectionModelTest >> testCopySelectionFrom [
-
-	| s s2 |
-	s := ToSelectionModel new itemCountGetter: 100.
-	s2 := s copy.
-	s selectIndexes: { 1. 5. 6 }.
-	s2 copySelectionFrom: s.
-	self assert: s equals: s2.
-	self deny: s underlyingModel identicalTo: s2 underlyingModel.
-	s deselectIndexes: { 10. 50. 60 }.
-	s2 copySelectionFrom: s.
-	self assert: s equals: s2.
-	s deselectIndexes: { 5. 6 }.
-	s2 copySelectionFrom: s.
-	self assert: s equals: s2.
-
-]
-
-{ #category : #tests }
-ToIndexIntervalSelectionModelTest >> testDeselectAll [
-
-	| s |
-	s := ToSelectionModel new itemCountGetter: 100.
-	s deselectAll.
-	self assert: s isEmpty .
-	s selectIndex: 10.
-	s deselectAll.
-	self assert: s isEmpty
-
-]
-
-{ #category : #tests }
-ToIndexIntervalSelectionModelTest >> testDeselectAllIndexesWithAWholeSelection [
-
-	| s |
-	s := ToSelectionModel new itemCountGetter: 10.
-	s selectAll.
-	" item count that is necessary in that case "
-	s deselectIndexes: { 2. 4. 6 }.
-	self assert: s selectedIndexes equals: { 1. 3. 5. 7. 8. 9. 10 }
-]
-
-{ #category : #tests }
-ToIndexIntervalSelectionModelTest >> testDeselectAllIndexesWithAWholeSelection2 [
-
-	| s |
-	s := ToSelectionModel new.
-	" no way to get item count that is necessary in that case -> Error"
-	self should: [s selectAll] raise: Error.
-	s deselectIndexes: { 2. 4. 6 }.
-	self assert: s isEmpty
-
 ]
 
 { #category : #tests }
 ToIndexIntervalSelectionModelTest >> testDeselectAndDeselectedIndex [
 
-	| s |
-	s := ToSelectionModel new itemCountGetter: 100.
-	s deselectAll.
+	s removeAll.
 	s selectIndexes: #(1 5 8 12 16).
-	self assert: s selectedIndexes equals: #(1 5 8 12 16).
+	self assert: s indices equals: #(1 5 8 12 16).
 	s deselectIndex: 4.
-	self assert: s selectedIndexes equals: #(1 5 8 12 16)
+	self assert: s indices equals: #(1 5 8 12 16)
 ]
 
 { #category : #tests }
 ToIndexIntervalSelectionModelTest >> testDeselectAndDeselectedIndex2 [
 
-	| s |
-	s := ToSelectionModel new itemCountGetter: 100.
-	s deselectAll.
+	s removeAll.
 	s selectIndex: 1.
 	s selectIndex: 5.
 	s selectIndex: 8.
 	s selectIndex: 12.
 	s selectIndex: 16.
-	self assert: s selectedIndexes equals: #(1 5 8 12 16).
+	self assert: s indices equals: #(1 5 8 12 16).
 	s deselectIndex: 4.
-	self assert: s selectedIndexes equals: #(1 5 8 12 16)
+	self assert: s indices equals: #(1 5 8 12 16)
 ]
 
 { #category : #tests }
 ToIndexIntervalSelectionModelTest >> testDeselectAndDeselectedIndex3 [
 
-	| s |
-	self skip.
-	self flag: 'Reported as a BlCompositeSelection issue (see issue #489 and BlCompositeSelectionTest)'.
-	s := ToSelectionModel new itemCountGetter: 100.
-	s deselectAll.
+	s removeAll.
 	s selectIndex: 1.
 	s selectIndex: 5.
 	s selectIndex: 8.
 	s selectIndex: 12.
 	s selectIndex: 16.
-	self assert: s selectedIndexes equals: #(1 5 8 12 16).
+	self assert: s indices equals: #(1 5 8 12 16).
 	s selectIndex: 1.
 	s deselectIndex: 4.
-	self assert: s selectedIndexes equals: #(1 5 8 12 16)
+	self assert: s indices equals: #(1 5 8 12 16)
 ]
 
 { #category : #tests }
 ToIndexIntervalSelectionModelTest >> testDeselectIndex [
 
-	| s |
-	s := ToSelectionModel new itemCountGetter: 100.
-	s selectIndexes: { 1. 5. 6 }.
-	self assert: s selectedIndexes asSet equals: { 1. 5. 6 } asSet.
-	s deselectIndex: 10.
-	self assert: s selectedIndexes asSet equals: { 1. 5. 6 } asSet.
-	s deselectIndex: 5.
-	s deselectIndex: 6.
-	self assert: s selectedIndexes asSet equals: { 1.  } asSet
+	s removeAll.
+	s selectIndexes: { 1 }.
+	self assert: s indices equals: { 1. }.
+	s deselectIndex: 1.
+	self assert: s indices equals: {  }.
+
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testDeselectIndexTo [
+ToIndexIntervalSelectionModelTest >> testDeselectIndex10 [
 
-	| s |
-	s := ToSelectionModel new itemCountGetter: 100.
-	s selectIndex: 5 to: 15.
-	s 	deselectIndex: 8 to: 12.
-	self assert: s selectedIndexes equals: { 5. 6. 7. 13. 14. 15 }.
-	s deselectAll.
-	s selectIndex: 5 to: 15.
-	s 	deselectIndex: 12 to: 8.
-	self assert: s selectedIndexes equals: { 5. 6. 7. 13. 14. 15 }
+	s removeAll.
+	s selectIndexes: { 1. 5. 6 }.
+	self assert: s indices equals: { 1. 5. 6 }.
+	s deselectIndex: 10.
+	self assert: s indices equals: { 1. 5. 6 }.
+	s deselectIndex: 5.
+	s deselectIndex: 6.
+	self assert: s indices equals: { 1 }
+]
+
+{ #category : #tests }
+ToIndexIntervalSelectionModelTest >> testDeselectIndex2 [
+
+	s removeAll.
+	s selectIndexes: { 1 }.
+	s deselectIndex: 2.
+	self assert: s indices equals: { 1 }.
+
+]
+
+{ #category : #tests }
+ToIndexIntervalSelectionModelTest >> testDeselectIndex3 [
+
+	s removeAll.
+	s selectIndexes: { 1. 2. 5. 10}.
+	s deselectIndex: 8.
+	self assert: s indices equals: { 1. 2. 5. 10 }.
+
 ]
 
 { #category : #tests }
 ToIndexIntervalSelectionModelTest >> testDeselectIndexes [
 
-	| s |
-	s := ToSelectionModel new itemCountGetter: 100.
 	s selectIndexes: { 1. 5. 6 }.
-	self assert: s selectedIndexes asSet equals: { 1. 5. 6 } asSet.
+	self assert: s indices  equals: { 1. 5. 6 } .
 	s deselectIndexes: { 10. 50. 60 }.
-	self assert: s selectedIndexes asSet equals: { 1. 5. 6 } asSet.
+	self assert: s indices  equals: { 1. 5. 6 } .
 	s deselectIndexes: { 5. 6 }.
-	self assert: s selectedIndexes asSet equals: { 1.  } asSet
+	self assert: s indices  equals: { 1.  } 
+]
+
+{ #category : #tests }
+ToIndexIntervalSelectionModelTest >> testDeselectTo [
+
+	s removeAll.
+	s select: 5 to: 15.
+	s 	deselect: 8 to: 12.
+	self assert: s indices equals: { 5. 6. 7. 13. 14. 15 }.
+	s removeAll.
+	s select: 5 to: 15.
+	s 	deselect: 8 to: 12.
+	self assert: s indices equals: { 5. 6. 7. 13. 14. 15 }
 ]
 
 { #category : #tests }
 ToIndexIntervalSelectionModelTest >> testEquals [
 
-	| s |
-	s := ToSelectionModel new.
-	self assert: s equals: ToSelectionModel new.
+	self assert: s equals: ToIndexIntervalSelectionModel new
 
 ]
 
 { #category : #tests }
 ToIndexIntervalSelectionModelTest >> testFirstIndex [
 
-	| s |
-	s := ToSelectionModel new.
-	self assert: s firstIndex equals: 0.
-	s itemCountGetter: [ 100 ].
+	s removeAll.
 	self assert: s firstIndex equals: 0.
 	s selectIndexes: #( 4 6 8).
-	self assert: s firstIndex equals: 4.
-	s selectAll.
-	self assert: s firstIndex equals: 1.
+	self assert: s firstIndex equals: 4	
+	
+]
 
-	
-	
+{ #category : #tests }
+ToIndexIntervalSelectionModelTest >> testIndices [
+
+	s selectIndexes: { 1. 5. 6 }.
+	self assert: s indices equals: { 1. 5. 6 }.
+	s selectIndexes: { 10. 50. 60 }.
+	self assert: s indices equals: { 1. 5. 6. 10. 50. 60 }
+]
+
+{ #category : #tests }
+ToIndexIntervalSelectionModelTest >> testIndicesCollect [
+
+	| collected |
+	s removeAll.
+	collected := s indicesCollect: [ :idx | idx ].
+	self assert: collected equals: #(  ).
+	s selectIndexes: #( 4 6 8 ).
+	collected := s indicesCollect: [ :idx | idx ].
+	self assert: collected equals: #( 4 6 8 )
+]
+
+{ #category : #tests }
+ToIndexIntervalSelectionModelTest >> testIndicesCount [
+
+	s removeAll.
+	self assert: s indicesCount equals: 0.
+	s selectIndexes: #( 4 6 8 ).
+	self assert: s indicesCount equals: 3
+]
+
+{ #category : #tests }
+ToIndexIntervalSelectionModelTest >> testIndicesDo [
+
+	| count |
+	s removeAll.
+	count := 0.
+	s indicesDo: [ :idx | count := count + 1 ].
+	self assert: count equals: 0.
+	s selectIndexes: #( 4 6 8 ).
+	count := 0.
+	s indicesDo: [ :idx | count := count + 1 ].
+	self assert: count equals: 3
 ]
 
 { #category : #tests }
 ToIndexIntervalSelectionModelTest >> testInitialize [ 
 
-	| s |
-	s := ToSelectionModel new.
 	self assert: s isEmpty.
-	self assert: (s underlyingModel isKindOf: BlCompositeSelection ).
+	self assert: (s intervals isKindOf: OrderedCollection  ).
 ]
 
 { #category : #test }
@@ -288,16 +284,16 @@ ToIndexIntervalSelectionModelTest >> testInsertInterval4 [
 ToIndexIntervalSelectionModelTest >> testIntervalContainingIndex [
 
 	s removeAll.
-	s insertInterval: (1 to: 3).
+	s addInterval: (1 to: 3).
 	self assert: (s positionOfIntervalContainingIndex: 0) equals: 0.
 	self assert: (s positionOfIntervalContainingIndex: 1) equals: 1.
 	self assert: (s positionOfIntervalContainingIndex: 2) equals: 1.
 	self assert: (s positionOfIntervalContainingIndex: 3) equals: 1.
 	self assert: (s positionOfIntervalContainingIndex: 4) equals: 0.
 
-	s insertInterval: (5 to: 5).
+	s addInterval: (5 to: 5).
 	self assert: (s positionOfIntervalContainingIndex: 5) equals: 2.
-	s insertInterval: (1 to: 6).
+	s addInterval: (1 to: 6).
 	self assert: (s positionOfIntervalContainingIndex: 0) equals: 0.
 	self assert: (s positionOfIntervalContainingIndex: 1) equals: 1.
 	self assert: (s positionOfIntervalContainingIndex: 2) equals: 1.
@@ -313,391 +309,68 @@ ToIndexIntervalSelectionModelTest >> testIntervalContainingIndex [
 ]
 
 { #category : #tests }
+ToIndexIntervalSelectionModelTest >> testIntervals [
+
+	self assert: (s intervals isKindOf: OrderedCollection )
+]
+
+{ #category : #tests }
 ToIndexIntervalSelectionModelTest >> testIsEmpty [
 
-	| s |
-	s := ToSelectionModel new.
 	self assert: s isEmpty
-
-]
-
-{ #category : #tests }
-ToIndexIntervalSelectionModelTest >> testItemCount [
-
-	| s |
-	s := ToSelectionModel new onInstalledIn: self.
-	self assert: s itemCount equals: self itemCount.
-	s underlyingModel selectIndex: 1.
-	s assert: (s containsIndex: 1)
-]
-
-{ #category : #tests }
-ToIndexIntervalSelectionModelTest >> testItemCountGetter [
-
-	| s |
-	s := ToSelectionModel new onInstalledIn: self.
-	self assert: s itemCount equals: s itemCountGetter value.
-	s itemCountGetter: [ 1000 ].
-	self assert: s itemCount equals: 1000.
-	
 
 ]
 
 { #category : #tests }
 ToIndexIntervalSelectionModelTest >> testLastIndex [
 
-	| s |
-	s := ToSelectionModel new.
-	self assert: s lastIndex equals: 0.
-	s itemCountGetter: [ 100 ].
 	self assert: s lastIndex equals: 0.
 	s selectIndexes: #( 4 6 8 ).
 	self assert: s lastIndex equals: 8.
-	s selectAll.
-	self assert: s lastIndex equals: 100
+
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testOnInstalledIn [
+ToIndexIntervalSelectionModelTest >> testRemoveAll [
 
-	| s |
-	s := ToSelectionModel new.
-	s onInstalledIn: self.
-	self assert: s itemCountGetter notNil.
-	self assert: s itemCountGetter value equals: self itemCount 
-]
-
-{ #category : #tests }
-ToIndexIntervalSelectionModelTest >> testOnUninstalledIn [
-
-	| s |
-	s := ToSelectionModel new.
-	s onInstalledIn: self.
-	s onUninstalledIn: self.
-	self should: [ s itemCountGetter ] raise: Error.
-	self should: [ s itemCount ] raise: Error
-]
-
-{ #category : #tests }
-ToIndexIntervalSelectionModelTest >> testSelectAll [
-
-	| s |
-	s := ToSelectionModel new itemCountGetter: 100.
-	s selectAll.
-	self assert: s lastIndex equals: 100.
+	s removeAll.
+	self assert: s isEmpty .
 	s selectIndex: 10.
-	s selectAll.
-	self assert: s lastIndex equals: 100.
+	s removeAll.
+	self assert: s isEmpty
 
-]
-
-{ #category : #tests }
-ToIndexIntervalSelectionModelTest >> testSelectAllThenDeselectOneByOne [
-
-	| s |
-	self skip.
-	self flag: 'Reported as a BlCompositeSelection issue (see issue #489 and BlCompositeSelectionTest)'.
-	s := ToSelectionModel new itemCountGetter: 48.
-	s selectIndexes: (1 to: 48).
-	s deselectIndex: 26.
-	self assert: s deselectedIndexes equals: #(26).
-	s deselectIndex: 28.
-	self assert: s deselectedIndexes equals: #(26 28).
-	s deselectIndex: 35.
-	self assert: s deselectedIndexes equals: #(26 28 35).
-	s deselectIndex: 18.
-	self assert: s deselectedIndexes equals: #(18 26 28 35).
-	s deselectIndex: 40.
-	self assert: s deselectedIndexes equals: #(18 26 28 35 40).
-	s deselectIndex: 31.
-	self assert: s deselectedIndexes equals: #(18 26 28 31 35 40).
-	s deselectIndex: 19.
-	self assert: s deselectedIndexes equals: #(18 19 26 28 31 35 40).
-	s deselectIndex: 17.
-	self assert: s deselectedIndexes equals: #(17 18 19 26 28 31 35 40).
-	s deselectIndex: 45.
-	self assert: s deselectedIndexes equals: #(17 18 19 26 28 31 35 40 45).
-	s deselectIndex: 48.
-	self assert: s deselectedIndexes equals: #(17 18 19 26 28 31 35 40 45 48).
-	s deselectIndex: 36.
-	self assert: s deselectedIndexes equals: #(17 18 19 26 28 31 35 36 40 45 48)
 ]
 
 { #category : #tests }
 ToIndexIntervalSelectionModelTest >> testSelectIndex [
 
+	s removeAll.
 	s selectIndex: 1.
 	s assert: (s containsIndex: 1).
 	s selectIndex: 5.
 	s selectIndex: 6.
-	self assert: s selectedIndexes equals: { 1. 5. 6 }.
+	self assert: s indices equals: { 1. 5. 6 }.
 	s selectIndex: 10.
 	s selectIndex: 50.
 	s selectIndex: 60.
-	self assert: s selectedIndexes equals: { 1. 5. 6. 10. 50. 60 }
-]
-
-{ #category : #tests }
-ToIndexIntervalSelectionModelTest >> testSelectIndexTo [
-
-	| s |
-	s := ToSelectionModel new itemCountGetter: 100.
-	s selectIndex: 5 to: 9.
-	self assert: s selectedIndexes equals: { 5. 6. 7. 8. 9 }.
-	s 	selectIndex: 15 to: 10.
-	self assert: s selectedIndexes equals: { 5. 6. 7. 8. 9. 10. 11. 12. 13. 14. 15 }
+	self assert: s indices equals: { 1. 5. 6. 10. 50. 60 }
 ]
 
 { #category : #tests }
 ToIndexIntervalSelectionModelTest >> testSelectIndexes [
 
-	| s |
-	s := ToSelectionModel new itemCountGetter: 100.
+	s removeAll.
 	s selectIndexes: { 1. 5. 6 }.
-	self assert: s selectedIndexes equals: { 1. 5. 6 }.
+	self assert: s indices equals: { 1. 5. 6 }.
 	s selectIndexes: { 10. 50. 60 }.
-	self assert: s selectedIndexes equals: { 1. 5. 6. 10. 50. 60 }
+	self assert: s indices equals: { 1. 5. 6. 10. 50. 60 }
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testSelectedIndexesCollect [
+ToIndexIntervalSelectionModelTest >> testSelectTo [
 
-	| s collected |
-	s := ToSelectionModel new.
-	s itemCountGetter: [ 100 ].
-	collected := s selectedIndexesCollect: [ :idx | idx ].
-	self assert: collected equals: #(  ).
-	s selectIndexes: #( 4 6 8 ).
-	collected := s selectedIndexesCollect: [ :idx | idx ].
-	self assert: collected equals: #( 4 6 8 ).
-	s deselectAll.
-	collected := s selectedIndexesCollect: [ :idx | idx ].
-	self assert: collected equals: #(  ).
-	s selectAll.
-	collected := s selectedIndexesCollect: [ :idx | idx ].
-	self assert: collected equals: (( 1 to: 100 ) collect: [:idx | idx]).
-
-]
-
-{ #category : #tests }
-ToIndexIntervalSelectionModelTest >> testSelectedIndexesCount [
-
-	| s |
-	s := ToSelectionModel new.
-	s itemCountGetter: [ 100 ].
-	self assert: s selectedIndexesCount equals: 0.
-	s selectIndexes: #( 4 6 8 ).
-	self assert: s selectedIndexesCount equals: 3.
-	s deselectAll.
-	self assert: s selectedIndexesCount equals: 0.
-	s selectAll.
-	self assert: s selectedIndexesCount equals: 100
-]
-
-{ #category : #tests }
-ToIndexIntervalSelectionModelTest >> testSelectedIndexesDo [
-
-	| s count |
-	s := ToSelectionModel new.
-	s itemCountGetter: [ 100 ].
-	count := 0.
-	s selectedIndexesDo: [ :idx | count := count + 1 ].
-	self assert: count equals: 0.
-	s selectIndexes: #( 4 6 8 ).
-	count := 0.
-	s selectedIndexesDo: [ :idx | count := count + 1 ].
-	self assert: count equals: 3.
-	s deselectAll.
-	count := 0.
-	s selectedIndexesDo: [ :idx | count := count + 1 ].
-	self assert: count equals: 0.
-	s selectAll.
-	count := 0.
-	s selectedIndexesDo: [ :idx | count := count + 1 ].
-	self assert: count equals: 100.
-
-]
-
-{ #category : #tests }
-ToIndexIntervalSelectionModelTest >> testSelectedItemCount [
-
-	| s |
-	s := ToSelectionModel new onInstalledIn: self.
-	self assert: s selectedIndexesCount equals: 0.
-	s selectIndex: 1.
-	self assert: s selectedIndexesCount equals: 1.
-	s selectAll.
-	self assert: s selectedIndexesCount equals: self itemCount.
-]
-
-{ #category : #tests }
-ToIndexIntervalSelectionModelTest >> testShiftFrom [
-
-	| s |
-	s := ToSelectionModel new itemCountGetter: 100.
-	s selectIndexes: { 1. 5. 6 }.
-	self assert: s selectedIndexes  equals: { 1. 5. 6 }.
-	s shift: 1 from: 1.
-	self assert: s selectedIndexes  equals: { 2. 6. 7 } .
-	s shift: -1 from: 1.
-	self assert: s selectedIndexes  equals: { 1. 5. 6 }.
-
-]
-
-{ #category : #tests }
-ToIndexIntervalSelectionModelTest >> testShiftFrom10 [
-
-	| s |
-	s := ToSelectionModel new itemCountGetter: 200.
-	s selectIndexes: { 4. 5. 7. 8. 10. 11 }.
-	{ 4. 5. 7. 8. 10. 11 } do: [ :idx | s shift: -1 from: idx ].
-	self assert: s selectedIndexes  equals: { 3. 4. 5. 6. 7 }
-]
-
-{ #category : #tests }
-ToIndexIntervalSelectionModelTest >> testShiftFrom2 [
-
-	| s |
-	s := ToSelectionModel new itemCountGetter: 100.
-	s selectIndexes: { 1. 5. 6 }.
-	self assert: s selectedIndexes  equals: { 1. 5. 6 }.
-	s shift: 3 from: 5.
-	self assert: s selectedIndexes  equals: { 1. 8. 9 } .
-	s shift: -3 from: 1.
-	self assert: s selectedIndexes  equals: { 5. 6 }.
-	s shift: -3 from: 1.
-	self assert: s selectedIndexes  equals: { 2. 3 }
-
-
-]
-
-{ #category : #tests }
-ToIndexIntervalSelectionModelTest >> testShiftFrom3 [
-
-	| s |
-	s := ToSelectionModel new itemCountGetter: 100.
-	s selectIndexes: { 2. 3 }.
-	s shift: -2 from: 3.
-	self assert: s selectedIndexes  equals: { 1 }.
-	s shift: -1 from: 1.
-	self assert: s selectedIndexes  equals: {  }.
-
-
-
-
-
-]
-
-{ #category : #tests }
-ToIndexIntervalSelectionModelTest >> testShiftFrom4 [
-
-	| s |
-	s := ToSelectionModel new itemCountGetter: 100.
-	s selectIndexes: { 1. 5. 6 }.
-	self assert: s selectedIndexes  equals: { 1. 5. 6 }.
-	s shift: 1 from: 1.
-	self assert: s selectedIndexes  equals: { 2. 6. 7 } .
-
-]
-
-{ #category : #tests }
-ToIndexIntervalSelectionModelTest >> testShiftFrom5 [
-
-	| s |
-	s := ToSelectionModel new itemCountGetter: 100.
-	s selectIndexes: { 2. 6. 7 }.
-	s shift: 1 from: 6.
-	self assert: s selectedIndexes  equals: { 2. 7. 8 }
-]
-
-{ #category : #tests }
-ToIndexIntervalSelectionModelTest >> testShiftFrom6 [
-
-	| s |
-	s := ToSelectionModel new itemCountGetter: 2.
-	s selectIndexes: { 1 }.
-	s shift: -1 from: 2.
-	self assert: s selectedIndexes  equals: { 1 }
-]
-
-{ #category : #tests }
-ToIndexIntervalSelectionModelTest >> testShiftFrom7 [
-
-	| s |
-	s := ToSelectionModel new itemCountGetter: 200.
-	s selectIndexes: { 3 }.
-	s shift: -1 from: 4.
-	self assert: s selectedIndexes  equals: { 3 }
-]
-
-{ #category : #tests }
-ToIndexIntervalSelectionModelTest >> testShiftFrom8 [
-
-	| s |
-	s := ToSelectionModel new itemCountGetter: 200.
-	s selectIndexes: { 3 }.
-	s shift: 1 from: 1.
-	self assert: s selectedIndexes  equals: { 4 }
-]
-
-{ #category : #tests }
-ToIndexIntervalSelectionModelTest >> testShiftFrom9 [
-
-	| s |
-	s := ToSelectionModel new itemCountGetter: 200.
-	s selectIndexes: { 4. 5. 7. 8. 10. 11 }.
-	s shift: -1 from: 4.
-	self assert: s selectedIndexes  equals: { 3. 4. 6. 7. 9. 10 }.
-	s shift: -1 from: 5.
-	self assert: s selectedIndexes  equals: { 3. 4. 5. 6. 8. 9 }.
-	s shift: -1 from: 7.
-	self assert: s selectedIndexes  equals: { 3. 4. 5. 6. 7. 8 }.
-	s shift: -1 from: 8.
-	self assert: s selectedIndexes  equals: { 3. 4. 5. 6. 7 }.
-	s shift: -1 from: 10.
-	self assert: s selectedIndexes  equals: { 3. 4. 5. 6. 7 }.
-	s shift: -1 from: 11.
-	self assert: s selectedIndexes  equals: { 3. 4. 5. 6. 7 }.
-]
-
-{ #category : #tests }
-ToIndexIntervalSelectionModelTest >> testShiftFrom9bis [
-
-	| s |
-	s := ToSelectionModel new itemCountGetter: 200.
-	s selectIndexes: { 3. 4. 5. 6. 7. 8 }.
-	s shift: -1 from: 8.
-	self assert: s selectedIndexes  equals: { 3. 4. 5. 6. 7 }.
-	s shift: -1 from: 10.
-	self assert: s selectedIndexes  equals: { 3. 4. 5. 6. 7 }.
-	s shift: -1 from: 11.
-	self assert: s selectedIndexes  equals: { 3. 4. 5. 6. 7 }
-]
-
-{ #category : #tests }
-ToIndexIntervalSelectionModelTest >> testShiftFrom9bis2 [
-
-	| s |
-	s := ToSelectionModel new itemCountGetter: 200.
-	s selectIndexes: { 4. 5. 7}.
-	s shift: -1 from: 4.
-	self assert: s selectedIndexes  equals: { 3. 4. 6}.
-]
-
-{ #category : #tests }
-ToIndexIntervalSelectionModelTest >> testUnderlyingModel [
-
-	| s |
-	s := ToSelectionModel new.
-	self assert: (s underlyingModel isKindOf: BlCompositeSelection)
-]
-
-{ #category : #tests }
-ToIndexIntervalSelectionModelTest >> testselectedIndexes [
-
-	| s |
-	s := ToSelectionModel new itemCountGetter: 100.
-	self assert: s selectedIndexes equals: #(  ).
-	s selectAll.
-	self assert: s selectedIndexes equals: (1 to: 100)
+	s select: 5 to: 9.
+	self assert: s indices equals: { 5. 6. 7. 8. 9 }.
+	s 	select: 10 to: 15.
+	self assert: s indices equals: { 5. 6. 7. 8. 9. 10. 11. 12. 13. 14. 15 }
 ]

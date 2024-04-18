@@ -125,8 +125,18 @@ ToSelectElement >> deselectAll [
 { #category : #'accessing selection' }
 ToSelectElement >> deselectIndex: anIndex [
 
+	'deselectIndex: ' trace. anIndex traceCr.
+	'0 : ' trace.  self selectionModel selectedIndexes traceCr.
+	'0 : ' trace.  self listElement selectionModel selectedIndexes traceCr.
 	self selectionModel deselectIndex: anIndex.
-	self notifySelectionChanged 
+	'1 : ' trace.  self selectionModel selectedIndexes traceCr.
+	'1 : ' trace.  self listElement selectionModel selectedIndexes traceCr.
+
+	self notifySelectionChanged.
+	'2 : ' trace.  self selectionModel selectedIndexes traceCr. 
+	'2 : ' trace.  self listElement selectionModel selectedIndexes traceCr. 
+	'2 : ' trace.  self listElement selectionModel underlyingModel indices traceCr. '' traceCr.
+
 ]
 
 { #category : #'accessing selection' }
@@ -388,21 +398,27 @@ ToSelectElement >> notifySelectionChanged [
 { #category : #'accessing selection' }
 ToSelectElement >> onSelectionChanged [
 
-	| listIdxesAssocs removedListIdxesAssocs removedListIdxes |
-	listIdxesAssocs := Array streamContents: [ :stream |
-		                   self listElement dataAccessor withIndexDo: [
-			                   :d
-			                   :localIndex |
-			                   | originalIndex |
-			                   originalIndex := self sieve dataPositionIndex
-				                                    at: d.
-			                   stream nextPut: localIndex -> originalIndex ] ].
-	removedListIdxesAssocs := listIdxesAssocs reject: [ :assoc |
-		                          self selectionModel containsIndex:
-			                          assoc value ].
-	removedListIdxes := removedListIdxesAssocs collect: [ :assoc |
-		                    assoc key ].
-	self listElement selectionModel deselectIndexes: removedListIdxes.
+	| toRemove listData |
+	listData := self listElement dataAccessor.
+	toRemove := Array streamContents: [ :stream |
+		            listData withIndexDo: [ :d :localIndex |
+			            | originalIndex |
+			            originalIndex := self sieve dataPositionIndex at: d.
+			            (self selectionModel containsIndex: originalIndex)
+				            ifFalse: [ stream nextPut: localIndex ] ] ].
+
+	toRemove traceCr.
+	'onSelectionChanged 1 : ' trace.
+	self listElement selectionModel underlyingModel indices traceCr.
+	'' traceCr.
+	self flag: 'ToFIX after the Bloc issue #489 is fixed'.
+	toRemove do: [ :idx |
+		(self listElement selectionModel containsIndex: idx) ifTrue: [
+			self listElement selectionModel deselectIndex: idx ] ].
+	"self listElement selectionModel deselectIndexes: toRemove."
+	'onSelectionChanged 2 : ' trace.
+	self listElement selectionModel underlyingModel indices traceCr.
+	'' traceCr.
 	self onSelectionChangedInListElement
 ]
 

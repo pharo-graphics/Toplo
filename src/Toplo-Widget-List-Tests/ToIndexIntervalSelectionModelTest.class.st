@@ -1,31 +1,34 @@
-"
-A ToSelectionModelTest is a test class for testing the behavior of ToSelectionModel
-"
 Class {
-	#name : #ToSelectionModelTest,
+	#name : #ToIndexIntervalSelectionModelTest,
 	#superclass : #TestCase,
+	#instVars : [
+		's'
+	],
 	#category : #'Toplo-Widget-List-Tests-Selection-Model'
 }
 
 { #category : #accessing }
-ToSelectionModelTest >> itemCount [
+ToIndexIntervalSelectionModelTest >> itemCount [
 
 	^ 1000
 ]
 
-{ #category : #tests }
-ToSelectionModelTest >> testContainsIndex [
+{ #category : #running }
+ToIndexIntervalSelectionModelTest >> setUp [
 
-	| s |
-	s := ToSelectionModel new.
-	self deny: (s containsIndex: 1).
-	s selectIndex: 1.
-	s assert: (s containsIndex: 1).
+	super setUp.
+	s := ToIndexIntervalSelectionModel new.
 
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testCopyCompositeModel [
+ToIndexIntervalSelectionModelTest >> testContainsIndex [
+
+	self deny: (s containsIndex: 1)
+]
+
+{ #category : #tests }
+ToIndexIntervalSelectionModelTest >> testCopyCompositeModel [
 
 	| s c |
 	s := ToSelectionModel new.
@@ -35,7 +38,7 @@ ToSelectionModelTest >> testCopyCompositeModel [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testCopySelectionFrom [
+ToIndexIntervalSelectionModelTest >> testCopySelectionFrom [
 
 	| s s2 |
 	s := ToSelectionModel new itemCountGetter: 100.
@@ -54,7 +57,7 @@ ToSelectionModelTest >> testCopySelectionFrom [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testDeselectAll [
+ToIndexIntervalSelectionModelTest >> testDeselectAll [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
@@ -67,7 +70,7 @@ ToSelectionModelTest >> testDeselectAll [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testDeselectAllIndexesWithAWholeSelection [
+ToIndexIntervalSelectionModelTest >> testDeselectAllIndexesWithAWholeSelection [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 10.
@@ -78,7 +81,7 @@ ToSelectionModelTest >> testDeselectAllIndexesWithAWholeSelection [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testDeselectAllIndexesWithAWholeSelection2 [
+ToIndexIntervalSelectionModelTest >> testDeselectAllIndexesWithAWholeSelection2 [
 
 	| s |
 	s := ToSelectionModel new.
@@ -90,7 +93,7 @@ ToSelectionModelTest >> testDeselectAllIndexesWithAWholeSelection2 [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testDeselectAndDeselectedIndex [
+ToIndexIntervalSelectionModelTest >> testDeselectAndDeselectedIndex [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
@@ -102,7 +105,7 @@ ToSelectionModelTest >> testDeselectAndDeselectedIndex [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testDeselectAndDeselectedIndex2 [
+ToIndexIntervalSelectionModelTest >> testDeselectAndDeselectedIndex2 [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
@@ -118,7 +121,7 @@ ToSelectionModelTest >> testDeselectAndDeselectedIndex2 [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testDeselectAndDeselectedIndex3 [
+ToIndexIntervalSelectionModelTest >> testDeselectAndDeselectedIndex3 [
 
 	| s |
 	self skip.
@@ -137,7 +140,7 @@ ToSelectionModelTest >> testDeselectAndDeselectedIndex3 [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testDeselectIndex [
+ToIndexIntervalSelectionModelTest >> testDeselectIndex [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
@@ -151,7 +154,7 @@ ToSelectionModelTest >> testDeselectIndex [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testDeselectIndexTo [
+ToIndexIntervalSelectionModelTest >> testDeselectIndexTo [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
@@ -165,7 +168,7 @@ ToSelectionModelTest >> testDeselectIndexTo [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testDeselectIndexes [
+ToIndexIntervalSelectionModelTest >> testDeselectIndexes [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
@@ -178,7 +181,7 @@ ToSelectionModelTest >> testDeselectIndexes [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testEquals [
+ToIndexIntervalSelectionModelTest >> testEquals [
 
 	| s |
 	s := ToSelectionModel new.
@@ -187,7 +190,7 @@ ToSelectionModelTest >> testEquals [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testFirstIndex [
+ToIndexIntervalSelectionModelTest >> testFirstIndex [
 
 	| s |
 	s := ToSelectionModel new.
@@ -204,7 +207,7 @@ ToSelectionModelTest >> testFirstIndex [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testInitialize [ 
+ToIndexIntervalSelectionModelTest >> testInitialize [ 
 
 	| s |
 	s := ToSelectionModel new.
@@ -212,8 +215,105 @@ ToSelectionModelTest >> testInitialize [
 	self assert: (s underlyingModel isKindOf: BlCompositeSelection ).
 ]
 
+{ #category : #test }
+ToIndexIntervalSelectionModelTest >> testInsertInterval [
+
+	s removeAll.
+	self assert: s intervals asArray equals: {  }.
+	s insertInterval: (1 to: 2).
+	self assert: s intervals asArray equals: { (1 to: 2) }.
+	s insertInterval: (3 to: 4).
+	self assert: s intervals asArray equals: { (1 to: 4) }.
+	s insertInterval: (6 to: 7).
+	self assert: s intervals asArray equals: { (1 to: 4). (6 to: 7) }.
+	s insertInterval: (1 to: 7).
+	self assert: s intervals asArray equals: { (1 to: 7) }.
+	s insertInterval: (0 to: 6).
+	self assert: s intervals asArray equals: { (0 to: 7) }.
+	s insertInterval: (12 to: 12).
+	self assert: s intervals asArray equals: { (0 to: 7). (12 to: 12). }.
+	s insertInterval: (8 to: 13).
+	self assert: s intervals asArray equals: { (0 to: 13).  }.
+
+	
+
+
+	" 
+    
+     def test_insertOverlappingBothSidesOfExisting(self):
+        self.assertEqual(myInsertInterval([[6, 7]], [1, 9]), [[1, 9]] , ""Expected [[1, 9]]"")
+    def test_insertWithinExistingInterval(self):
+        self.assertEqual(myInsertInterval([[1, 9]], [6, 7]), [[1, 9]] , ""Expected [[1, 9]]"")
+    def test_insertAndMergeBeginningExact(self):
+        self.assertEqual(myInsertInterval([[6, 7]], [1, 6]), [[1, 7]], ""Expected [[1, 7]]"")
+    def test_insertAndMerge2Intervals(self):
+        self.assertEqual(myInsertInterval([[1, 5], [10, 15], [20, 25]], [12, 22]), [[1, 5], [10, 25]], ""Expected [[1, 5], [10, 25]]"")
+    def test_insertAndMerge3Intervals(self):
+        self.assertEqual(myInsertInterval([[1, 2], [10, 11], [20, 21]], [2, 30]), [[1, 30]], ""Expected [[1,30]]"")
+    def test_insertExisting(self):
+        self.assertEqual(myInsertInterval([[1, 2], [3, 4]], [1, 2]), [[1, 2], [3, 4]], ""Expected [[1, 2], [3, 4]]"")"
+]
+
+{ #category : #test }
+ToIndexIntervalSelectionModelTest >> testInsertInterval2 [
+
+	s removeAll.
+	s insertInterval: (4 to: 6).
+	s insertInterval: (11 to: 13).
+	self assert: s intervals asArray equals: { (4 to: 6). (11 to: 13) }.
+	s insertInterval: (7 to: 10).
+	self assert: s intervals asArray equals: { (4 to: 13) }.
+]
+
+{ #category : #test }
+ToIndexIntervalSelectionModelTest >> testInsertInterval3 [
+
+	s removeAll.
+	s insertInterval: (1 to: 4).
+	s insertInterval: (6 to: 7).
+	self assert: s intervals asArray equals: { (1 to: 4). (6 to: 7) }
+]
+
+{ #category : #test }
+ToIndexIntervalSelectionModelTest >> testInsertInterval4 [
+
+	s removeAll.
+	s insertInterval: (1 to: 2).
+	s insertInterval: (3 to: 4).
+	self assert: s intervals asArray equals: { (1 to: 4) }
+
+]
+
 { #category : #tests }
-ToSelectionModelTest >> testIsEmpty [
+ToIndexIntervalSelectionModelTest >> testIntervalContainingIndex [
+
+	s removeAll.
+	s insertInterval: (1 to: 3).
+	self assert: (s positionOfIntervalContainingIndex: 0) equals: 0.
+	self assert: (s positionOfIntervalContainingIndex: 1) equals: 1.
+	self assert: (s positionOfIntervalContainingIndex: 2) equals: 1.
+	self assert: (s positionOfIntervalContainingIndex: 3) equals: 1.
+	self assert: (s positionOfIntervalContainingIndex: 4) equals: 0.
+
+	s insertInterval: (5 to: 5).
+	self assert: (s positionOfIntervalContainingIndex: 5) equals: 2.
+	s insertInterval: (1 to: 6).
+	self assert: (s positionOfIntervalContainingIndex: 0) equals: 0.
+	self assert: (s positionOfIntervalContainingIndex: 1) equals: 1.
+	self assert: (s positionOfIntervalContainingIndex: 2) equals: 1.
+	self assert: (s positionOfIntervalContainingIndex: 3) equals: 1.
+	self assert: (s positionOfIntervalContainingIndex: 4) equals: 1.
+	self assert: (s positionOfIntervalContainingIndex: 5) equals: 1.
+	self assert: (s positionOfIntervalContainingIndex: 6) equals: 1.
+	self assert: (s positionOfIntervalContainingIndex: 7) equals: 0.
+
+
+
+
+]
+
+{ #category : #tests }
+ToIndexIntervalSelectionModelTest >> testIsEmpty [
 
 	| s |
 	s := ToSelectionModel new.
@@ -222,7 +322,7 @@ ToSelectionModelTest >> testIsEmpty [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testItemCount [
+ToIndexIntervalSelectionModelTest >> testItemCount [
 
 	| s |
 	s := ToSelectionModel new onInstalledIn: self.
@@ -232,7 +332,7 @@ ToSelectionModelTest >> testItemCount [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testItemCountGetter [
+ToIndexIntervalSelectionModelTest >> testItemCountGetter [
 
 	| s |
 	s := ToSelectionModel new onInstalledIn: self.
@@ -244,7 +344,7 @@ ToSelectionModelTest >> testItemCountGetter [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testLastIndex [
+ToIndexIntervalSelectionModelTest >> testLastIndex [
 
 	| s |
 	s := ToSelectionModel new.
@@ -258,7 +358,7 @@ ToSelectionModelTest >> testLastIndex [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testOnInstalledIn [
+ToIndexIntervalSelectionModelTest >> testOnInstalledIn [
 
 	| s |
 	s := ToSelectionModel new.
@@ -268,7 +368,7 @@ ToSelectionModelTest >> testOnInstalledIn [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testOnUninstalledIn [
+ToIndexIntervalSelectionModelTest >> testOnUninstalledIn [
 
 	| s |
 	s := ToSelectionModel new.
@@ -279,7 +379,7 @@ ToSelectionModelTest >> testOnUninstalledIn [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testSelectAll [
+ToIndexIntervalSelectionModelTest >> testSelectAll [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
@@ -292,7 +392,7 @@ ToSelectionModelTest >> testSelectAll [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testSelectAllThenDeselectOneByOne [
+ToIndexIntervalSelectionModelTest >> testSelectAllThenDeselectOneByOne [
 
 	| s |
 	self skip.
@@ -324,11 +424,10 @@ ToSelectionModelTest >> testSelectAllThenDeselectOneByOne [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testSelectIndex [
+ToIndexIntervalSelectionModelTest >> testSelectIndex [
 
-	| s |
-	s := ToSelectionModel new itemCountGetter: 100.
 	s selectIndex: 1.
+	s assert: (s containsIndex: 1).
 	s selectIndex: 5.
 	s selectIndex: 6.
 	self assert: s selectedIndexes equals: { 1. 5. 6 }.
@@ -339,7 +438,7 @@ ToSelectionModelTest >> testSelectIndex [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testSelectIndexTo [
+ToIndexIntervalSelectionModelTest >> testSelectIndexTo [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
@@ -350,7 +449,7 @@ ToSelectionModelTest >> testSelectIndexTo [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testSelectIndexes [
+ToIndexIntervalSelectionModelTest >> testSelectIndexes [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
@@ -361,7 +460,7 @@ ToSelectionModelTest >> testSelectIndexes [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testSelectedIndexesCollect [
+ToIndexIntervalSelectionModelTest >> testSelectedIndexesCollect [
 
 	| s collected |
 	s := ToSelectionModel new.
@@ -381,7 +480,7 @@ ToSelectionModelTest >> testSelectedIndexesCollect [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testSelectedIndexesCount [
+ToIndexIntervalSelectionModelTest >> testSelectedIndexesCount [
 
 	| s |
 	s := ToSelectionModel new.
@@ -396,7 +495,7 @@ ToSelectionModelTest >> testSelectedIndexesCount [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testSelectedIndexesDo [
+ToIndexIntervalSelectionModelTest >> testSelectedIndexesDo [
 
 	| s count |
 	s := ToSelectionModel new.
@@ -420,7 +519,7 @@ ToSelectionModelTest >> testSelectedIndexesDo [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testSelectedItemCount [
+ToIndexIntervalSelectionModelTest >> testSelectedItemCount [
 
 	| s |
 	s := ToSelectionModel new onInstalledIn: self.
@@ -432,7 +531,7 @@ ToSelectionModelTest >> testSelectedItemCount [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testShiftFrom [
+ToIndexIntervalSelectionModelTest >> testShiftFrom [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
@@ -446,7 +545,7 @@ ToSelectionModelTest >> testShiftFrom [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testShiftFrom10 [
+ToIndexIntervalSelectionModelTest >> testShiftFrom10 [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 200.
@@ -456,7 +555,7 @@ ToSelectionModelTest >> testShiftFrom10 [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testShiftFrom2 [
+ToIndexIntervalSelectionModelTest >> testShiftFrom2 [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
@@ -473,7 +572,7 @@ ToSelectionModelTest >> testShiftFrom2 [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testShiftFrom3 [
+ToIndexIntervalSelectionModelTest >> testShiftFrom3 [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
@@ -490,7 +589,7 @@ ToSelectionModelTest >> testShiftFrom3 [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testShiftFrom4 [
+ToIndexIntervalSelectionModelTest >> testShiftFrom4 [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
@@ -502,7 +601,7 @@ ToSelectionModelTest >> testShiftFrom4 [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testShiftFrom5 [
+ToIndexIntervalSelectionModelTest >> testShiftFrom5 [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
@@ -512,7 +611,7 @@ ToSelectionModelTest >> testShiftFrom5 [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testShiftFrom6 [
+ToIndexIntervalSelectionModelTest >> testShiftFrom6 [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 2.
@@ -522,7 +621,7 @@ ToSelectionModelTest >> testShiftFrom6 [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testShiftFrom7 [
+ToIndexIntervalSelectionModelTest >> testShiftFrom7 [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 200.
@@ -532,7 +631,7 @@ ToSelectionModelTest >> testShiftFrom7 [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testShiftFrom8 [
+ToIndexIntervalSelectionModelTest >> testShiftFrom8 [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 200.
@@ -542,7 +641,7 @@ ToSelectionModelTest >> testShiftFrom8 [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testShiftFrom9 [
+ToIndexIntervalSelectionModelTest >> testShiftFrom9 [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 200.
@@ -562,7 +661,7 @@ ToSelectionModelTest >> testShiftFrom9 [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testShiftFrom9bis [
+ToIndexIntervalSelectionModelTest >> testShiftFrom9bis [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 200.
@@ -576,7 +675,7 @@ ToSelectionModelTest >> testShiftFrom9bis [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testShiftFrom9bis2 [
+ToIndexIntervalSelectionModelTest >> testShiftFrom9bis2 [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 200.
@@ -586,7 +685,7 @@ ToSelectionModelTest >> testShiftFrom9bis2 [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testUnderlyingModel [
+ToIndexIntervalSelectionModelTest >> testUnderlyingModel [
 
 	| s |
 	s := ToSelectionModel new.
@@ -594,7 +693,7 @@ ToSelectionModelTest >> testUnderlyingModel [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testselectedIndexes [
+ToIndexIntervalSelectionModelTest >> testselectedIndexes [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.

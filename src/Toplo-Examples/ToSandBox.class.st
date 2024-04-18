@@ -1392,7 +1392,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 
 	| select innerWindow |
 	select := ToSelectElement new.
-
+	select listElement withRowNumbers.
 	select inspect.
 	select hideSelected: false.
 	select dataAccessor addAll: self statesOfAmerica.

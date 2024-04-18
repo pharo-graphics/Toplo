@@ -211,73 +211,159 @@ ToIndexIntervalSelectionModelTest >> testInitialize [
 	self assert: (s intervals isKindOf: OrderedCollection  ).
 ]
 
-{ #category : #test }
+{ #category : #tests }
 ToIndexIntervalSelectionModelTest >> testInsertInterval [
 
 	s removeAll.
 	self assert: s intervals asArray equals: {  }.
-	s insertInterval: (1 to: 2).
+	s addInterval: (1 to: 2).
 	self assert: s intervals asArray equals: { (1 to: 2) }.
-	s insertInterval: (3 to: 4).
+	s addInterval: (3 to: 4).
 	self assert: s intervals asArray equals: { (1 to: 4) }.
-	s insertInterval: (6 to: 7).
+	s addInterval: (6 to: 7).
 	self assert: s intervals asArray equals: { (1 to: 4). (6 to: 7) }.
-	s insertInterval: (1 to: 7).
+	s addInterval: (1 to: 7).
 	self assert: s intervals asArray equals: { (1 to: 7) }.
-	s insertInterval: (0 to: 6).
+	s addInterval: (0 to: 6).
 	self assert: s intervals asArray equals: { (0 to: 7) }.
-	s insertInterval: (12 to: 12).
+	s addInterval: (12 to: 12).
 	self assert: s intervals asArray equals: { (0 to: 7). (12 to: 12). }.
-	s insertInterval: (8 to: 13).
-	self assert: s intervals asArray equals: { (0 to: 13).  }.
-
-	
-
-
-	" 
-    
-     def test_insertOverlappingBothSidesOfExisting(self):
-        self.assertEqual(myInsertInterval([[6, 7]], [1, 9]), [[1, 9]] , ""Expected [[1, 9]]"")
-    def test_insertWithinExistingInterval(self):
-        self.assertEqual(myInsertInterval([[1, 9]], [6, 7]), [[1, 9]] , ""Expected [[1, 9]]"")
-    def test_insertAndMergeBeginningExact(self):
-        self.assertEqual(myInsertInterval([[6, 7]], [1, 6]), [[1, 7]], ""Expected [[1, 7]]"")
-    def test_insertAndMerge2Intervals(self):
-        self.assertEqual(myInsertInterval([[1, 5], [10, 15], [20, 25]], [12, 22]), [[1, 5], [10, 25]], ""Expected [[1, 5], [10, 25]]"")
-    def test_insertAndMerge3Intervals(self):
-        self.assertEqual(myInsertInterval([[1, 2], [10, 11], [20, 21]], [2, 30]), [[1, 30]], ""Expected [[1,30]]"")
-    def test_insertExisting(self):
-        self.assertEqual(myInsertInterval([[1, 2], [3, 4]], [1, 2]), [[1, 2], [3, 4]], ""Expected [[1, 2], [3, 4]]"")"
+	s addInterval: (8 to: 13).
+	self assert: s intervals asArray equals: { (0 to: 13).  }
 ]
 
-{ #category : #test }
+{ #category : #tests }
+ToIndexIntervalSelectionModelTest >> testInsertInterval10 [
+
+	s removeAll.
+	s addInterval: (1 to: 8).
+	s addInterval: (4 to: 6).
+	self assert: s intervals asArray equals: { (1 to: 8) }
+
+]
+
+{ #category : #tests }
+ToIndexIntervalSelectionModelTest >> testInsertInterval11 [
+
+	s removeAll.
+	s addInterval: (1 to: 2).
+	s addInterval: (4 to: 6).
+	s addInterval: (1 to: 2).
+	self assert: s intervals asArray equals: { (1 to: 2). (4 to: 6) }
+
+]
+
+{ #category : #tests }
+ToIndexIntervalSelectionModelTest >> testInsertInterval12 [
+
+	s removeAll.
+	s addInterval: (2 to: 2).
+	s addInterval: (4 to: 4).
+	s addInterval: (8 to: 20).
+	self assert: s intervals asArray equals: { (2 to: 2). (4 to: 4). (8 to: 20) }.
+	s addInterval: (1 to: 15).
+	self assert: s intervals asArray equals: { (1 to: 20) }.
+
+
+
+]
+
+{ #category : #tests }
+ToIndexIntervalSelectionModelTest >> testInsertInterval13 [
+
+	s removeAll.
+	s addInterval: (6 to: 6).
+	s addInterval: (4 to: 4).
+	s addInterval: (1 to: 1).
+	self assert: s intervals asArray equals: { (1 to: 1). (4 to: 4). (6 to: 6) }
+
+]
+
+{ #category : #tests }
 ToIndexIntervalSelectionModelTest >> testInsertInterval2 [
 
 	s removeAll.
-	s insertInterval: (4 to: 6).
-	s insertInterval: (11 to: 13).
+	s addInterval: (4 to: 6).
+	s addInterval: (11 to: 13).
 	self assert: s intervals asArray equals: { (4 to: 6). (11 to: 13) }.
-	s insertInterval: (7 to: 10).
+	s addInterval: (7 to: 10).
 	self assert: s intervals asArray equals: { (4 to: 13) }.
 ]
 
-{ #category : #test }
+{ #category : #tests }
 ToIndexIntervalSelectionModelTest >> testInsertInterval3 [
 
 	s removeAll.
-	s insertInterval: (1 to: 4).
-	s insertInterval: (6 to: 7).
+	s addInterval: (1 to: 4).
+	s addInterval: (6 to: 7).
 	self assert: s intervals asArray equals: { (1 to: 4). (6 to: 7) }
 ]
 
-{ #category : #test }
+{ #category : #tests }
 ToIndexIntervalSelectionModelTest >> testInsertInterval4 [
 
 	s removeAll.
-	s insertInterval: (1 to: 2).
-	s insertInterval: (3 to: 4).
+	s addInterval: (1 to: 2).
+	s addInterval: (3 to: 4).
 	self assert: s intervals asArray equals: { (1 to: 4) }
 
+]
+
+{ #category : #tests }
+ToIndexIntervalSelectionModelTest >> testInsertInterval5 [
+
+	s removeAll.
+	s addInterval: (6 to: 7).
+	s addInterval: (1 to: 9).
+	self assert: s intervals asArray equals: { (1 to: 9) }
+
+]
+
+{ #category : #tests }
+ToIndexIntervalSelectionModelTest >> testInsertInterval6 [
+
+	s removeAll.
+	s addInterval: (6 to: 7).
+	s addInterval: (1 to: 6).
+	self assert: s intervals asArray equals: { (1 to: 7) }
+
+]
+
+{ #category : #tests }
+ToIndexIntervalSelectionModelTest >> testInsertInterval7 [
+
+	s removeAll.
+	s addInterval: (1 to: 5).
+	s addInterval: (10 to: 15).
+	s addInterval: (20 to: 25).
+	s addInterval: (12 to: 22).
+	self assert: s intervals asArray equals: {
+			(1 to: 5).
+			(10 to: 25) }
+]
+
+{ #category : #tests }
+ToIndexIntervalSelectionModelTest >> testInsertInterval8 [
+
+	s removeAll.
+	s addInterval: (1 to: 2).
+	s addInterval: (10 to: 11).
+	s addInterval: (20 to: 21).
+	self assert: s intervals asArray equals: { (1 to: 2). (10 to: 11). (20 to: 21) }.
+	s addInterval: (2 to: 30).
+	self assert: s intervals asArray equals: { (1 to: 30) }
+]
+
+{ #category : #tests }
+ToIndexIntervalSelectionModelTest >> testInsertInterval9 [
+
+	s removeAll.
+	s addInterval: (1 to: 2).
+	s addInterval: (10 to: 11).
+	s addInterval: (20 to: 26).
+	self assert: s intervals asArray equals: { (1 to: 2). (10 to: 11). (20 to: 26) }.
+	s addInterval: (2 to: 18).
+	self assert: s intervals asArray equals: { (1 to: 18). (20 to: 26) }
 ]
 
 { #category : #tests }

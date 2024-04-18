@@ -209,7 +209,7 @@ ToSelectionModelTest >> testInitialize [
 	| s |
 	s := ToSelectionModel new.
 	self assert: s isEmpty.
-	self assert: (s underlyingModel isKindOf: BlCompositeSelection ).
+	self assert: (s underlyingModel isKindOf: ToIndexIntervalSelectionModel  ).
 ]
 
 { #category : #tests }
@@ -590,7 +590,7 @@ ToSelectionModelTest >> testUnderlyingModel [
 
 	| s |
 	s := ToSelectionModel new.
-	self assert: (s underlyingModel isKindOf: BlCompositeSelection)
+	self assert: (s underlyingModel isKindOf: ToIndexIntervalSelectionModel )
 ]
 
 { #category : #tests }

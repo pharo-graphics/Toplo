@@ -2504,7 +2504,7 @@ ToSandBox class >> example_contactList [
 				 on: BlClickEvent
 				 do: [ :event |
 					 event consume.
-					 holder infiniteElement dataAccessor removeAt: holder position ]).
+					 holder listElement dataAccessor removeAt: holder position ]).
 		line addChild: remBut.
 		node addChild: line ].
 	list dataAccessor addAll: contacts.

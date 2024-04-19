@@ -243,7 +243,16 @@ ToIndexIntervalSelectionModelTest >> testInsertInterval0 [
 	self assert: s intervals asArray equals: { (1 to: 5) }.
 	s removeAll.
 	1 to: 5 by: 2 do: [ :idx | s selectIndex: idx ].
-	1 to: 5 do: [ :idx | s selectIndex: idx ].
+	self assert: s intervals asArray equals: { (1 to: 1). (3 to: 3). (5 to: 5) }.
+	s selectIndex: 1.
+	self assert: s intervals asArray equals: { (1 to: 1). (3 to: 3). (5 to: 5) }.
+	s selectIndex: 2.
+	self assert: s intervals asArray equals: { (1 to: 3). (5 to: 5) }.
+	s selectIndex: 3.
+	self assert: s intervals asArray equals: { (1 to: 3). (5 to: 5) }.
+	s selectIndex: 4.
+	self assert: s intervals asArray equals: { (1 to: 5) }.
+	s selectIndex: 5.
 	self assert: s intervals asArray equals: { (1 to: 5) }
 ]
 

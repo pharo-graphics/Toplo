@@ -3,11 +3,11 @@
 
 # Toplo
 
-Toplo is a widget framework on top of Bloc. 
+Toplo is a widget framework for [Pharo](https://www.pharo.org) on top of [Bloc](https://github.com/pharo-graphics/Bloc). 
 
 ## Installation
 
-Install the stable version of Toplo in current stable Pharo with:
+Install the stable version of Toplo in current stable [Pharo](https://www.pharo.org) with:
 
 ```Smalltalk
 EpMonitor disableDuring: [

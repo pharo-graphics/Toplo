@@ -33,7 +33,7 @@ ToSelectionModel >> containsIndex: anIndex [
 ToSelectionModel >> copySelectionFrom: anotherSelectionModel [
 
 	anotherSelectionModel ifNil: [
-		underlyingModel := BlCompositeSelection new.
+		underlyingModel := self newUnderlyingModel.
 		^ self ].
 	underlyingModel := anotherSelectionModel underlyingModel copy
 ]
@@ -57,7 +57,7 @@ ToSelectionModel >> deselectIndex: aFirstIndex to: aSecondIndex [
 	from := aFirstIndex min: aSecondIndex.
 	to := aFirstIndex max: aSecondIndex.
 	(from <= to and: [ from > 0 and: [ to >= 0 ] ]) ifFalse: [ ^ self ].
-	underlyingModel deselect: from - 1 to: to
+	underlyingModel deselectIndex: from to: to
 ]
 
 { #category : #updating }
@@ -75,8 +75,7 @@ ToSelectionModel >> deselectedIndexes [
 { #category : #accessing }
 ToSelectionModel >> firstIndex [
 
-	self ifEmpty: [ ^ 0 ].
-	^ underlyingModel from + 1
+	^ underlyingModel firstIndex
 ]
 
 { #category : #testing }
@@ -109,7 +108,19 @@ ToSelectionModel >> ifNotEmpty: aBlock [
 ToSelectionModel >> initialize [
 
 	super initialize.
-	underlyingModel := BlCompositeSelection new
+	underlyingModel := self newUnderlyingModel 
+]
+
+{ #category : #private }
+ToSelectionModel >> intervalFirstFromIndex: anIndex [
+
+	^ anIndex
+]
+
+{ #category : #private }
+ToSelectionModel >> intervalLastFromIndex: anIndex [
+
+	^ anIndex
 ]
 
 { #category : #testing }
@@ -166,8 +177,13 @@ ToSelectionModel >> itemCountGetter: aValuable [
 { #category : #accessing }
 ToSelectionModel >> lastIndex [
 
-	self ifEmpty: [ ^ 0 ].
-	^ underlyingModel to
+	^ underlyingModel lastIndex
+]
+
+{ #category : #initialization }
+ToSelectionModel >> newUnderlyingModel [ 
+
+	^ self underlyingModelClass new
 ]
 
 { #category : #accessing }
@@ -212,7 +228,6 @@ ToSelectionModel >> resetAll [
 { #category : #updating }
 ToSelectionModel >> selectAll [
 
-	underlyingModel removeAll.
 	self selectIndex: 1 to: self itemCount
 ]
 
@@ -228,7 +243,7 @@ ToSelectionModel >> selectIndex: aFirstIndex to: aSecondIndex [
 	| from to |
 	from := aFirstIndex min: aSecondIndex.
 	to := aFirstIndex max: aSecondIndex.
-	underlyingModel select: from - 1 to: to
+	underlyingModel selectIndex: from  to: to
 ]
 
 { #category : #updating }
@@ -253,10 +268,8 @@ ToSelectionModel >> selectedIndexesCollect: aBlock [
 { #category : #accessing }
 ToSelectionModel >> selectedIndexesCount [
 
-	| count |
-	count := 0.
-	underlyingModel do: [ :s | count := count + s interval size - 1 ].
-	^ count
+
+	^ underlyingModel indicesCount
 ]
 
 { #category : #enumerating }
@@ -269,27 +282,14 @@ ToSelectionModel >> selectedIndexesDo: aBlock [
 ToSelectionModel >> selectedIndexesIntervals [
 	" return an array of intervals #( 2 3 4 6 7 8 ) -> { 2 to: 4. 6 to: 8 } "
 
-	^ Array streamContents: [ :stream |
-		  self selectedIndexesIntervalsDo: [ :interval |
-			  stream nextPut: interval ] ]
+	^ underlyingModel intervals
 ]
 
 { #category : #enumerating }
 ToSelectionModel >> selectedIndexesIntervalsDo: aBlock [
 	" aBlock has one interval argument "
 
-	| prev g |
-	g := nil.
-	prev := nil.
-	self selectedIndexesDo: [ :idx |
-		prev ifNil: [ g := idx to: idx ] ifNotNil: [
-			prev + 1 = idx
-				ifTrue: [ g := g first to: idx ]
-				ifFalse: [
-					aBlock value: g.
-					g := idx to: idx ] ].
-		prev := idx ].
-	g ifNotNil: [ aBlock value: g ]
+	underlyingModel intervalsDo: aBlock
 ]
 
 { #category : #updating }
@@ -303,13 +303,11 @@ ToSelectionModel >> shift: aGap from: aStartIndex for: anEventTarget [
 
 	| from to prevIntervals high |
 	aGap isZero ifTrue: [ ^ self ].
-
-
 	self isEmpty ifTrue: [ ^ self ].
 
 	" 1 - keep selected intervals to reselect them accordingly at 2"
 	prevIntervals := self selectedIndexesIntervals.
-	high := underlyingModel to.
+	high := underlyingModel lastIndex.
 
 	" deselect according to start index and gap "
 	aGap <= 0
@@ -317,15 +315,13 @@ ToSelectionModel >> shift: aGap from: aStartIndex for: anEventTarget [
 			from := aStartIndex + aGap.
 			to := aStartIndex.
 			(high >= 0 and: [ from <= high ]) ifTrue: [
-				underlyingModel selections delete:
-					(BlMonotoneSelection from: (from max: 0) to: high) ] ]
+				underlyingModel removeIntervalFromIndex: from + 1 toIndex: high ] ]
 		ifFalse: [
 			from := aStartIndex.
 			to := aStartIndex + aGap min: high.
 
 			from <= high ifTrue: [
-				underlyingModel selections delete:
-					(BlMonotoneSelection from: (from - 1 max: 0) to: high) ] ].
+				underlyingModel removeIntervalFromIndex: from toIndex: high ] ].
 
 	" 2 - reselect "
 	prevIntervals do: [ :interval |
@@ -334,8 +330,7 @@ ToSelectionModel >> shift: aGap from: aStartIndex for: anEventTarget [
 			ifTrue: [
 				first := interval first max: aStartIndex.
 				last := interval last.
-
-				underlyingModel select: first + aGap - 1 to: last + aGap ] ]
+				underlyingModel selectIndex: first + aGap to: last + aGap ] ]
 ]
 
 { #category : #accessing }
@@ -371,4 +366,11 @@ ToSelectionModel >> transferSelectionFromIndex: anIndex toIndex: targetIndex in:
 ToSelectionModel >> underlyingModel [
 
 	^ underlyingModel
+]
+
+{ #category : #initialization }
+ToSelectionModel >> underlyingModelClass [
+
+	"^ BlCompositeSelection"
+	^ ToIntervalCollection 
 ]

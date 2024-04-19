@@ -1,5 +1,5 @@
 Class {
-	#name : #ToIndexIntervalSelectionModelTest,
+	#name : #ToIntervalCollectionTest,
 	#superclass : #TestCase,
 	#instVars : [
 		's'
@@ -8,27 +8,27 @@ Class {
 }
 
 { #category : #accessing }
-ToIndexIntervalSelectionModelTest >> itemCount [
+ToIntervalCollectionTest >> itemCount [
 
 	^ 1000
 ]
 
 { #category : #running }
-ToIndexIntervalSelectionModelTest >> setUp [
+ToIntervalCollectionTest >> setUp [
 
 	super setUp.
-	s := ToIndexIntervalSelectionModel new.
+	s := ToIntervalCollection new.
 
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testContainsIndex [
+ToIntervalCollectionTest >> testContainsIndex [
 
 	self deny: (s containsIndex: 1)
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testCopyCompositeModel [
+ToIntervalCollectionTest >> testCopyCompositeModel [
 
 	| c |
 	c := s copy.
@@ -37,7 +37,7 @@ ToIndexIntervalSelectionModelTest >> testCopyCompositeModel [
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testDeselectAndDeselectedIndex [
+ToIntervalCollectionTest >> testDeselectAndDeselectedIndex [
 
 	s removeAll.
 	s selectIndexes: #(1 5 8 12 16).
@@ -47,7 +47,7 @@ ToIndexIntervalSelectionModelTest >> testDeselectAndDeselectedIndex [
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testDeselectAndDeselectedIndex2 [
+ToIntervalCollectionTest >> testDeselectAndDeselectedIndex2 [
 
 	s removeAll.
 	s selectIndex: 1.
@@ -61,7 +61,7 @@ ToIndexIntervalSelectionModelTest >> testDeselectAndDeselectedIndex2 [
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testDeselectAndDeselectedIndex3 [
+ToIntervalCollectionTest >> testDeselectAndDeselectedIndex3 [
 
 	s removeAll.
 	s selectIndex: 1.
@@ -76,7 +76,7 @@ ToIndexIntervalSelectionModelTest >> testDeselectAndDeselectedIndex3 [
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testDeselectIndex [
+ToIntervalCollectionTest >> testDeselectIndex [
 
 	s removeAll.
 	s selectIndexes: { 1 }.
@@ -87,7 +87,7 @@ ToIndexIntervalSelectionModelTest >> testDeselectIndex [
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testDeselectIndex10 [
+ToIntervalCollectionTest >> testDeselectIndex10 [
 
 	s removeAll.
 	s selectIndexes: { 1. 5. 6 }.
@@ -100,7 +100,7 @@ ToIndexIntervalSelectionModelTest >> testDeselectIndex10 [
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testDeselectIndex2 [
+ToIntervalCollectionTest >> testDeselectIndex2 [
 
 	s removeAll.
 	s selectIndexes: { 1 }.
@@ -110,7 +110,7 @@ ToIndexIntervalSelectionModelTest >> testDeselectIndex2 [
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testDeselectIndex3 [
+ToIntervalCollectionTest >> testDeselectIndex3 [
 
 	s removeAll.
 	s selectIndexes: { 1. 2. 5. 10}.
@@ -120,18 +120,18 @@ ToIndexIntervalSelectionModelTest >> testDeselectIndex3 [
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testDeselectIndexes [
+ToIntervalCollectionTest >> testDeselectIndexes [
 
 	s selectIndexes: { 1. 5. 6 }.
-	self assert: s indices  equals: { 1. 5. 6 } .
+	self assert: s indices equals: { 1. 5. 6 }.
 	s deselectIndexes: { 10. 50. 60 }.
-	self assert: s indices  equals: { 1. 5. 6 } .
+	self assert: s indices equals: { 1. 5. 6 }.
 	s deselectIndexes: { 5. 6 }.
-	self assert: s indices  equals: { 1.  } 
+	self assert: s indices equals: { 1 }
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testDeselectTo [
+ToIntervalCollectionTest >> testDeselectTo [
 
 	s removeAll.
 	s select: 5 to: 15.
@@ -144,14 +144,14 @@ ToIndexIntervalSelectionModelTest >> testDeselectTo [
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testEquals [
+ToIntervalCollectionTest >> testEquals [
 
-	self assert: s equals: ToIndexIntervalSelectionModel new
+	self assert: s equals: ToIntervalCollection new
 
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testFirstIndex [
+ToIntervalCollectionTest >> testFirstIndex [
 
 	s removeAll.
 	self assert: s firstIndex equals: 0.
@@ -161,7 +161,7 @@ ToIndexIntervalSelectionModelTest >> testFirstIndex [
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testIndices [
+ToIntervalCollectionTest >> testIndices [
 
 	s selectIndexes: { 1. 5. 6 }.
 	self assert: s indices equals: { 1. 5. 6 }.
@@ -170,7 +170,7 @@ ToIndexIntervalSelectionModelTest >> testIndices [
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testIndicesCollect [
+ToIntervalCollectionTest >> testIndicesCollect [
 
 	| collected |
 	s removeAll.
@@ -182,7 +182,7 @@ ToIndexIntervalSelectionModelTest >> testIndicesCollect [
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testIndicesCount [
+ToIntervalCollectionTest >> testIndicesCount [
 
 	s removeAll.
 	self assert: s indicesCount equals: 0.
@@ -191,7 +191,7 @@ ToIndexIntervalSelectionModelTest >> testIndicesCount [
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testIndicesDo [
+ToIntervalCollectionTest >> testIndicesDo [
 
 	| count |
 	s removeAll.
@@ -205,14 +205,14 @@ ToIndexIntervalSelectionModelTest >> testIndicesDo [
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testInitialize [ 
+ToIntervalCollectionTest >> testInitialize [ 
 
 	self assert: s isEmpty.
 	self assert: (s intervals isKindOf: OrderedCollection  ).
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testInsertInterval [
+ToIntervalCollectionTest >> testInsertInterval [
 
 	s removeAll.
 	self assert: s intervals asArray equals: {  }.
@@ -233,17 +233,60 @@ ToIndexIntervalSelectionModelTest >> testInsertInterval [
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testInsertInterval10 [
+ToIntervalCollectionTest >> testInsertInterval0 [
+
+	s removeAll.
+	self assert: s intervals asArray equals: {  }.
+	1 to: 5 do: [ :idx | s selectIndex: idx ].
+	self assert: s intervals asArray equals: { (1 to: 5) }.
+	1 to: 5 by: 2 do: [ :idx | s selectIndex: idx ].
+	self assert: s intervals asArray equals: { (1 to: 5) }.
+	s removeAll.
+	1 to: 5 by: 2 do: [ :idx | s selectIndex: idx ].
+	self assert: s intervals asArray equals: { (1 to: 1). (3 to: 3). (5 to: 5) }.
+	s selectIndex: 1.
+	self assert: s intervals asArray equals: { (1 to: 1). (3 to: 3). (5 to: 5) }.
+	s selectIndex: 2.
+	self assert: s intervals asArray equals: { (1 to: 3). (5 to: 5) }.
+	s selectIndex: 3.
+	self assert: s intervals asArray equals: { (1 to: 3). (5 to: 5) }.
+	s selectIndex: 4.
+	self assert: s intervals asArray equals: { (1 to: 5) }.
+	s selectIndex: 5.
+	self assert: s intervals asArray equals: { (1 to: 5) }
+]
+
+{ #category : #tests }
+ToIntervalCollectionTest >> testInsertInterval1 [
+
+	s removeAll.
+	1 to: 20 by: 2 do: [ :idx | s selectIndex: idx ].
+	self assert: s intervals asArray equals: {
+			(1 to: 1).
+			(3 to: 3).
+			(5 to: 5).
+			(7 to: 7).
+			(9 to: 9).
+			(11 to: 11).
+			(13 to: 13).
+			(15 to: 15).
+			(17 to: 17).
+			(19 to: 19) }.
+	s select: 1 to: 20.
+	self assert: s intervals asArray equals: { (1 to: 20) }
+]
+
+{ #category : #tests }
+ToIntervalCollectionTest >> testInsertInterval10 [
 
 	s removeAll.
 	s addInterval: (1 to: 8).
 	s addInterval: (4 to: 6).
 	self assert: s intervals asArray equals: { (1 to: 8) }
-
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testInsertInterval11 [
+ToIntervalCollectionTest >> testInsertInterval11 [
 
 	s removeAll.
 	s addInterval: (1 to: 2).
@@ -254,7 +297,7 @@ ToIndexIntervalSelectionModelTest >> testInsertInterval11 [
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testInsertInterval12 [
+ToIntervalCollectionTest >> testInsertInterval12 [
 
 	s removeAll.
 	s addInterval: (2 to: 2).
@@ -269,7 +312,7 @@ ToIndexIntervalSelectionModelTest >> testInsertInterval12 [
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testInsertInterval13 [
+ToIntervalCollectionTest >> testInsertInterval13 [
 
 	s removeAll.
 	s addInterval: (6 to: 6).
@@ -280,7 +323,7 @@ ToIndexIntervalSelectionModelTest >> testInsertInterval13 [
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testInsertInterval2 [
+ToIntervalCollectionTest >> testInsertInterval2 [
 
 	s removeAll.
 	s addInterval: (4 to: 6).
@@ -291,7 +334,7 @@ ToIndexIntervalSelectionModelTest >> testInsertInterval2 [
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testInsertInterval3 [
+ToIntervalCollectionTest >> testInsertInterval3 [
 
 	s removeAll.
 	s addInterval: (1 to: 4).
@@ -300,7 +343,7 @@ ToIndexIntervalSelectionModelTest >> testInsertInterval3 [
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testInsertInterval4 [
+ToIntervalCollectionTest >> testInsertInterval4 [
 
 	s removeAll.
 	s addInterval: (1 to: 2).
@@ -310,7 +353,7 @@ ToIndexIntervalSelectionModelTest >> testInsertInterval4 [
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testInsertInterval5 [
+ToIntervalCollectionTest >> testInsertInterval5 [
 
 	s removeAll.
 	s addInterval: (6 to: 7).
@@ -320,7 +363,7 @@ ToIndexIntervalSelectionModelTest >> testInsertInterval5 [
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testInsertInterval6 [
+ToIntervalCollectionTest >> testInsertInterval6 [
 
 	s removeAll.
 	s addInterval: (6 to: 7).
@@ -330,7 +373,7 @@ ToIndexIntervalSelectionModelTest >> testInsertInterval6 [
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testInsertInterval7 [
+ToIntervalCollectionTest >> testInsertInterval7 [
 
 	s removeAll.
 	s addInterval: (1 to: 5).
@@ -343,7 +386,7 @@ ToIndexIntervalSelectionModelTest >> testInsertInterval7 [
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testInsertInterval8 [
+ToIntervalCollectionTest >> testInsertInterval8 [
 
 	s removeAll.
 	s addInterval: (1 to: 2).
@@ -355,7 +398,7 @@ ToIndexIntervalSelectionModelTest >> testInsertInterval8 [
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testInsertInterval9 [
+ToIntervalCollectionTest >> testInsertInterval9 [
 
 	s removeAll.
 	s addInterval: (1 to: 2).
@@ -367,27 +410,27 @@ ToIndexIntervalSelectionModelTest >> testInsertInterval9 [
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testIntervalContainingIndex [
+ToIntervalCollectionTest >> testIntervalContainingIndex [
 
 	s removeAll.
 	s addInterval: (1 to: 3).
-	self assert: (s positionOfIntervalContainingIndex: 0) equals: 0.
-	self assert: (s positionOfIntervalContainingIndex: 1) equals: 1.
-	self assert: (s positionOfIntervalContainingIndex: 2) equals: 1.
-	self assert: (s positionOfIntervalContainingIndex: 3) equals: 1.
-	self assert: (s positionOfIntervalContainingIndex: 4) equals: 0.
+	self assert: (s positionOfIntervalWithIndex: 0) equals: 0.
+	self assert: (s positionOfIntervalWithIndex: 1) equals: 1.
+	self assert: (s positionOfIntervalWithIndex: 2) equals: 1.
+	self assert: (s positionOfIntervalWithIndex: 3) equals: 1.
+	self assert: (s positionOfIntervalWithIndex: 4) equals: 0.
 
 	s addInterval: (5 to: 5).
-	self assert: (s positionOfIntervalContainingIndex: 5) equals: 2.
+	self assert: (s positionOfIntervalWithIndex: 5) equals: 2.
 	s addInterval: (1 to: 6).
-	self assert: (s positionOfIntervalContainingIndex: 0) equals: 0.
-	self assert: (s positionOfIntervalContainingIndex: 1) equals: 1.
-	self assert: (s positionOfIntervalContainingIndex: 2) equals: 1.
-	self assert: (s positionOfIntervalContainingIndex: 3) equals: 1.
-	self assert: (s positionOfIntervalContainingIndex: 4) equals: 1.
-	self assert: (s positionOfIntervalContainingIndex: 5) equals: 1.
-	self assert: (s positionOfIntervalContainingIndex: 6) equals: 1.
-	self assert: (s positionOfIntervalContainingIndex: 7) equals: 0.
+	self assert: (s positionOfIntervalWithIndex: 0) equals: 0.
+	self assert: (s positionOfIntervalWithIndex: 1) equals: 1.
+	self assert: (s positionOfIntervalWithIndex: 2) equals: 1.
+	self assert: (s positionOfIntervalWithIndex: 3) equals: 1.
+	self assert: (s positionOfIntervalWithIndex: 4) equals: 1.
+	self assert: (s positionOfIntervalWithIndex: 5) equals: 1.
+	self assert: (s positionOfIntervalWithIndex: 6) equals: 1.
+	self assert: (s positionOfIntervalWithIndex: 7) equals: 0.
 
 
 
@@ -395,20 +438,20 @@ ToIndexIntervalSelectionModelTest >> testIntervalContainingIndex [
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testIntervals [
+ToIntervalCollectionTest >> testIntervals [
 
 	self assert: (s intervals isKindOf: OrderedCollection )
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testIsEmpty [
+ToIntervalCollectionTest >> testIsEmpty [
 
 	self assert: s isEmpty
 
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testLastIndex [
+ToIntervalCollectionTest >> testLastIndex [
 
 	self assert: s lastIndex equals: 0.
 	s selectIndexes: #( 4 6 8 ).
@@ -417,7 +460,7 @@ ToIndexIntervalSelectionModelTest >> testLastIndex [
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testRemoveAll [
+ToIntervalCollectionTest >> testRemoveAll [
 
 	s removeAll.
 	self assert: s isEmpty .
@@ -428,7 +471,7 @@ ToIndexIntervalSelectionModelTest >> testRemoveAll [
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testSelectIndex [
+ToIntervalCollectionTest >> testSelectIndex [
 
 	s removeAll.
 	s selectIndex: 1.
@@ -443,7 +486,7 @@ ToIndexIntervalSelectionModelTest >> testSelectIndex [
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testSelectIndexes [
+ToIntervalCollectionTest >> testSelectIndexes [
 
 	s removeAll.
 	s selectIndexes: { 1. 5. 6 }.
@@ -453,7 +496,7 @@ ToIndexIntervalSelectionModelTest >> testSelectIndexes [
 ]
 
 { #category : #tests }
-ToIndexIntervalSelectionModelTest >> testSelectTo [
+ToIntervalCollectionTest >> testSelectTo [
 
 	s select: 5 to: 9.
 	self assert: s indices equals: { 5. 6. 7. 8. 9 }.

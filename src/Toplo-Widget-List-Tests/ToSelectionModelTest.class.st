@@ -121,8 +121,6 @@ ToSelectionModelTest >> testDeselectAndDeselectedIndex2 [
 ToSelectionModelTest >> testDeselectAndDeselectedIndex3 [
 
 	| s |
-	self skip.
-	self flag: 'Reported as a BlCompositeSelection issue (see issue #489 and BlCompositeSelectionTest)'.
 	s := ToSelectionModel new itemCountGetter: 100.
 	s deselectAll.
 	s selectIndex: 1.
@@ -208,8 +206,7 @@ ToSelectionModelTest >> testInitialize [
 
 	| s |
 	s := ToSelectionModel new.
-	self assert: s isEmpty.
-	self assert: (s underlyingModel isKindOf: BlCompositeSelection ).
+	self assert: s isEmpty
 ]
 
 { #category : #tests }
@@ -456,6 +453,26 @@ ToSelectionModelTest >> testShiftFrom10 [
 ]
 
 { #category : #tests }
+ToSelectionModelTest >> testShiftFrom11 [
+
+	| s |
+	s := ToSelectionModel new itemCountGetter: 2.
+	s selectIndexes: { 2 }.
+	s shift: -1 from: 1.
+	self assert: s selectedIndexes  equals: { 1 }
+]
+
+{ #category : #tests }
+ToSelectionModelTest >> testShiftFrom12 [
+
+	| s |
+	s := ToSelectionModel new itemCountGetter: 2.
+	s selectIndexes: { 2 }.
+	s shift: -1 from: 2.
+	self assert: s selectedIndexes  equals: { 1 }
+]
+
+{ #category : #tests }
 ToSelectionModelTest >> testShiftFrom2 [
 
 	| s |
@@ -586,11 +603,21 @@ ToSelectionModelTest >> testShiftFrom9bis2 [
 ]
 
 { #category : #tests }
+ToSelectionModelTest >> testShiftFrom9bis3 [
+
+	| s |
+	s := ToSelectionModel new itemCountGetter: 200.
+	s selectIndexes: { 4. 5. 7}.
+	s shift: 1 from: 1.
+	self assert: s selectedIndexes  equals: { 5. 6. 8}.
+]
+
+{ #category : #tests }
 ToSelectionModelTest >> testUnderlyingModel [
 
 	| s |
 	s := ToSelectionModel new.
-	self assert: (s underlyingModel isKindOf: BlCompositeSelection)
+	self assert: (s underlyingModel notNil)
 ]
 
 { #category : #tests }

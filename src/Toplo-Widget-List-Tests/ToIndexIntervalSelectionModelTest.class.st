@@ -371,23 +371,23 @@ ToIndexIntervalSelectionModelTest >> testIntervalContainingIndex [
 
 	s removeAll.
 	s addInterval: (1 to: 3).
-	self assert: (s positionOfIntervalContainingIndex: 0) equals: 0.
-	self assert: (s positionOfIntervalContainingIndex: 1) equals: 1.
-	self assert: (s positionOfIntervalContainingIndex: 2) equals: 1.
-	self assert: (s positionOfIntervalContainingIndex: 3) equals: 1.
-	self assert: (s positionOfIntervalContainingIndex: 4) equals: 0.
+	self assert: (s positionOfIntervalWithIndex: 0) equals: 0.
+	self assert: (s positionOfIntervalWithIndex: 1) equals: 1.
+	self assert: (s positionOfIntervalWithIndex: 2) equals: 1.
+	self assert: (s positionOfIntervalWithIndex: 3) equals: 1.
+	self assert: (s positionOfIntervalWithIndex: 4) equals: 0.
 
 	s addInterval: (5 to: 5).
-	self assert: (s positionOfIntervalContainingIndex: 5) equals: 2.
+	self assert: (s positionOfIntervalWithIndex: 5) equals: 2.
 	s addInterval: (1 to: 6).
-	self assert: (s positionOfIntervalContainingIndex: 0) equals: 0.
-	self assert: (s positionOfIntervalContainingIndex: 1) equals: 1.
-	self assert: (s positionOfIntervalContainingIndex: 2) equals: 1.
-	self assert: (s positionOfIntervalContainingIndex: 3) equals: 1.
-	self assert: (s positionOfIntervalContainingIndex: 4) equals: 1.
-	self assert: (s positionOfIntervalContainingIndex: 5) equals: 1.
-	self assert: (s positionOfIntervalContainingIndex: 6) equals: 1.
-	self assert: (s positionOfIntervalContainingIndex: 7) equals: 0.
+	self assert: (s positionOfIntervalWithIndex: 0) equals: 0.
+	self assert: (s positionOfIntervalWithIndex: 1) equals: 1.
+	self assert: (s positionOfIntervalWithIndex: 2) equals: 1.
+	self assert: (s positionOfIntervalWithIndex: 3) equals: 1.
+	self assert: (s positionOfIntervalWithIndex: 4) equals: 1.
+	self assert: (s positionOfIntervalWithIndex: 5) equals: 1.
+	self assert: (s positionOfIntervalWithIndex: 6) equals: 1.
+	self assert: (s positionOfIntervalWithIndex: 7) equals: 0.
 
 
 

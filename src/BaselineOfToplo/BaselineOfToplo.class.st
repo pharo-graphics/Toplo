@@ -116,6 +116,12 @@ BaselineOfToplo >> registerPackages: spec [
 			#( #Toplo #'Toplo-Widget-Album' #'Toplo-Widget-Button'
 			   #'Toplo-Widget-Image' #'Toplo-Theme') ].
 
+	spec package: #'Toplo-Demo' with: [
+		spec requires:
+			#( #Toplo #'Toplo-Widget-Album'
+				#'Toplo-Widget-Button' #'Toplo-Widget-Image'
+				#'Toplo-Widget-List' #'Toplo-Widget-Pane' ) ].
+
 	spec package: #'Toplo-Examples' with: [
 		spec requires:
 			#( #Toplo #'Toplo-Widget-Album' 

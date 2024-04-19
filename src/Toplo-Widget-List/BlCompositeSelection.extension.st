@@ -27,6 +27,15 @@ BlCompositeSelection >> indicesCount [
 ]
 
 { #category : #'*Toplo-Widget-List' }
+BlCompositeSelection >> intervals [
+	" return an array of intervals #( 2 3 4 6 7 8 ) -> { 2 to: 4. 6 to: 8 } "
+
+	^ Array streamContents: [ :stream |
+		  self intervalsDo: [ :interval |
+			  stream nextPut: interval ] ]
+]
+
+{ #category : #'*Toplo-Widget-List' }
 BlCompositeSelection >> intervalsDo: aBlock [
 	" aBlock has one interval argument "
 

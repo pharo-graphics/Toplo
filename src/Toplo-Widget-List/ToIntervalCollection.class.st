@@ -1,5 +1,5 @@
 Class {
-	#name : #ToIndexIntervalSelectionModel,
+	#name : #ToIntervalCollection,
 	#superclass : #Object,
 	#instVars : [
 		'intervals'
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #comparing }
-ToIndexIntervalSelectionModel >> = anObject [
+ToIntervalCollection >> = anObject [
 
 	self == anObject ifTrue: [ ^ true ].
 	self class = anObject class ifFalse: [ ^ false ].
@@ -16,7 +16,7 @@ ToIndexIntervalSelectionModel >> = anObject [
 ]
 
 { #category : #private }
-ToIndexIntervalSelectionModel >> addInterval: anInterval [
+ToIntervalCollection >> addInterval: anInterval [
 	" adapted from https://coderbyte.com/algorithm/insert-interval-into-list-of-sorted-disjoint-intervals "
 
 	| i |
@@ -40,62 +40,62 @@ ToIndexIntervalSelectionModel >> addInterval: anInterval [
 ]
 
 { #category : #testing }
-ToIndexIntervalSelectionModel >> containsIndex: anIndex [
+ToIntervalCollection >> containsIndex: anIndex [
 
 	^ (self positionOfIntervalWithIndex: anIndex) > 0
 ]
 
 { #category : #'api - selection' }
-ToIndexIntervalSelectionModel >> deselect: anIndex to: aLastIndex [
+ToIntervalCollection >> deselect: anIndex to: aLastIndex [
 
 	self removeInterval: (anIndex to: aLastIndex)
 ]
 
 { #category : #'api - selection' }
-ToIndexIntervalSelectionModel >> deselectIndex: aNumber [
+ToIntervalCollection >> deselectIndex: aNumber [
 
 	self deselect: aNumber to: aNumber
 ]
 
 { #category : #'api - selection' }
-ToIndexIntervalSelectionModel >> deselectIndex: fromIndex to: toIndex [
+ToIntervalCollection >> deselectIndex: fromIndex to: toIndex [
 
 	self deselect: fromIndex to: toIndex
 ]
 
 { #category : #'api - selection' }
-ToIndexIntervalSelectionModel >> deselectIndexes: anArray [
+ToIntervalCollection >> deselectIndexes: anArray [
 
 	anArray do: [ :idx | self deselectIndex: idx ]
 ]
 
 { #category : #enumerating }
-ToIndexIntervalSelectionModel >> do: aBlock [
+ToIntervalCollection >> do: aBlock [
 
 	intervals do: aBlock
 ]
 
 { #category : #accessing }
-ToIndexIntervalSelectionModel >> firstIndex [
+ToIntervalCollection >> firstIndex [
 
 	^ intervals ifEmpty: [ 0 ] ifNotEmpty: [ intervals first first ]
 ]
 
 { #category : #comparing }
-ToIndexIntervalSelectionModel >> hash [
+ToIntervalCollection >> hash [
 
 	^ self class hash bitXor: intervals hash
 ]
 
 { #category : #accessing }
-ToIndexIntervalSelectionModel >> indices [
+ToIntervalCollection >> indices [
 
 	^ Array streamContents: [ :aStream |
 		  intervals do: [ :eachInterval | aStream nextPutAll: eachInterval ] ]
 ]
 
 { #category : #enumerating }
-ToIndexIntervalSelectionModel >> indicesCollect: aBlock [
+ToIntervalCollection >> indicesCollect: aBlock [
 
 	^ Array streamContents: [ :stream |
 		  self do: [ :eachInterval |
@@ -103,7 +103,7 @@ ToIndexIntervalSelectionModel >> indicesCollect: aBlock [
 ]
 
 { #category : #accessing }
-ToIndexIntervalSelectionModel >> indicesCount [
+ToIntervalCollection >> indicesCount [
 
 	| count |
 	count := 0.
@@ -112,20 +112,20 @@ ToIndexIntervalSelectionModel >> indicesCount [
 ]
 
 { #category : #enumerating }
-ToIndexIntervalSelectionModel >> indicesDo: aBlock [
+ToIntervalCollection >> indicesDo: aBlock [
 
 	self do: [ :eachInterval | eachInterval do: aBlock ]
 ]
 
 { #category : #initialization }
-ToIndexIntervalSelectionModel >> initialize [ 
+ToIntervalCollection >> initialize [ 
 
 	super initialize.
 	intervals := OrderedCollection new
 ]
 
 { #category : #private }
-ToIndexIntervalSelectionModel >> intervalWithIndex: anIndex [
+ToIntervalCollection >> intervalWithIndex: anIndex [
 
 	| pos |
 	pos := self positionOfIntervalWithIndex: anIndex.
@@ -135,37 +135,37 @@ ToIndexIntervalSelectionModel >> intervalWithIndex: anIndex [
 ]
 
 { #category : #accessing }
-ToIndexIntervalSelectionModel >> intervals [
+ToIntervalCollection >> intervals [
 
 	^ intervals
 ]
 
 { #category : #enumerating }
-ToIndexIntervalSelectionModel >> intervalsDo: aBlock [
+ToIntervalCollection >> intervalsDo: aBlock [
 
 	self do: aBlock
 ]
 
 { #category : #testing }
-ToIndexIntervalSelectionModel >> isEmpty [
+ToIntervalCollection >> isEmpty [
 
 	^ intervals isEmpty
 ]
 
 { #category : #accessing }
-ToIndexIntervalSelectionModel >> lastIndex [
+ToIntervalCollection >> lastIndex [
 
 	^ intervals ifEmpty: [ 0 ] ifNotEmpty: [ intervals last last ]
 ]
 
 { #category : #private }
-ToIndexIntervalSelectionModel >> merge [
+ToIntervalCollection >> merge [
 
 	self mergeStartingAt: 1
 ]
 
 { #category : #private }
-ToIndexIntervalSelectionModel >> mergeStartingAt: aPosition [
+ToIntervalCollection >> mergeStartingAt: aPosition [
 
 	| first last interval1 interval2 |
 	" try to merge with previous interval "
@@ -185,7 +185,7 @@ ToIndexIntervalSelectionModel >> mergeStartingAt: aPosition [
 ]
 
 { #category : #private }
-ToIndexIntervalSelectionModel >> positionOfIntervalWithIndex: anIndex [
+ToIntervalCollection >> positionOfIntervalWithIndex: anIndex [
 
 	intervals withIndexDo: [ :int :pos |
 		(int includes: anIndex) ifTrue: [ ^ pos ] ].
@@ -193,20 +193,20 @@ ToIndexIntervalSelectionModel >> positionOfIntervalWithIndex: anIndex [
 ]
 
 { #category : #copying }
-ToIndexIntervalSelectionModel >> postCopy [
+ToIntervalCollection >> postCopy [
 
 	super postCopy.
 	intervals := intervals copy
 ]
 
 { #category : #'api - selection' }
-ToIndexIntervalSelectionModel >> removeAll [
+ToIntervalCollection >> removeAll [
 
 	intervals removeAll
 ]
 
 { #category : #private }
-ToIndexIntervalSelectionModel >> removeInterval: anInterval [
+ToIntervalCollection >> removeInterval: anInterval [
 	" adapted from https://leetcode.ca/2019-05-25-1272-Remove-Interval/ "
 
 	| newIntervals first last |
@@ -229,31 +229,31 @@ ToIndexIntervalSelectionModel >> removeInterval: anInterval [
 ]
 
 { #category : #private }
-ToIndexIntervalSelectionModel >> removeIntervalFromIndex: aFromIndex toIndex: aToIndex [
+ToIntervalCollection >> removeIntervalFromIndex: aFromIndex toIndex: aToIndex [
 
 	self removeInterval: (aFromIndex to: aToIndex)
 ]
 
 { #category : #'api - selection' }
-ToIndexIntervalSelectionModel >> select: fromIndex to: toIndex [
+ToIntervalCollection >> select: fromIndex to: toIndex [
 
 	self addInterval: (fromIndex to: toIndex)
 ]
 
 { #category : #'api - selection' }
-ToIndexIntervalSelectionModel >> selectIndex: aNumber [
+ToIntervalCollection >> selectIndex: aNumber [
 
 	self addInterval: (aNumber to: aNumber)
 ]
 
 { #category : #'api - selection' }
-ToIndexIntervalSelectionModel >> selectIndex: fromIndex to: toIndex [
+ToIntervalCollection >> selectIndex: fromIndex to: toIndex [
 
 	self select: fromIndex to: toIndex
 ]
 
 { #category : #'api - selection' }
-ToIndexIntervalSelectionModel >> selectIndexes: anArray [
+ToIntervalCollection >> selectIndexes: anArray [
 
 	anArray do: [ :idx | self addInterval: (idx to: idx) ]
 ]

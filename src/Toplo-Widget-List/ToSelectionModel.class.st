@@ -282,9 +282,7 @@ ToSelectionModel >> selectedIndexesDo: aBlock [
 ToSelectionModel >> selectedIndexesIntervals [
 	" return an array of intervals #( 2 3 4 6 7 8 ) -> { 2 to: 4. 6 to: 8 } "
 
-	^ Array streamContents: [ :stream |
-		  self selectedIndexesIntervalsDo: [ :interval |
-			  stream nextPut: interval ] ]
+	^ underlyingModel intervals
 ]
 
 { #category : #enumerating }
@@ -317,17 +315,13 @@ ToSelectionModel >> shift: aGap from: aStartIndex for: anEventTarget [
 			from := aStartIndex + aGap.
 			to := aStartIndex.
 			(high >= 0 and: [ from <= high ]) ifTrue: [
-				underlyingModel removeIntervalFromIndex: from + 1 toIndex: high.
-				"underlyingModel selections delete:
-					(BlMonotoneSelection from: (from max: 0) to: high)" ] ]
+				underlyingModel removeIntervalFromIndex: from + 1 toIndex: high ] ]
 		ifFalse: [
 			from := aStartIndex.
 			to := aStartIndex + aGap min: high.
 
 			from <= high ifTrue: [
-				underlyingModel removeIntervalFromIndex: from toIndex: high.
-				"underlyingModel selections delete:
-					(BlMonotoneSelection from: (from - 1 max: 0) to: high)" ] ].
+				underlyingModel removeIntervalFromIndex: from toIndex: high ] ].
 
 	" 2 - reselect "
 	prevIntervals do: [ :interval |
@@ -336,8 +330,7 @@ ToSelectionModel >> shift: aGap from: aStartIndex for: anEventTarget [
 			ifTrue: [
 				first := interval first max: aStartIndex.
 				last := interval last.
-				underlyingModel selectIndex: first + aGap to: last + aGap.
-				"underlyingModel select: first + aGap - 1 to: last + aGap" ] ]
+				underlyingModel selectIndex: first + aGap to: last + aGap ] ]
 ]
 
 { #category : #accessing }
@@ -379,5 +372,5 @@ ToSelectionModel >> underlyingModel [
 ToSelectionModel >> underlyingModelClass [
 
 	"^ BlCompositeSelection"
-	^ ToIndexIntervalSelectionModel 
+	^ ToIntervalCollection 
 ]

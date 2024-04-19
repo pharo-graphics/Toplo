@@ -123,11 +123,11 @@ ToIndexIntervalSelectionModelTest >> testDeselectIndex3 [
 ToIndexIntervalSelectionModelTest >> testDeselectIndexes [
 
 	s selectIndexes: { 1. 5. 6 }.
-	self assert: s indices  equals: { 1. 5. 6 } .
+	self assert: s indices equals: { 1. 5. 6 }.
 	s deselectIndexes: { 10. 50. 60 }.
-	self assert: s indices  equals: { 1. 5. 6 } .
+	self assert: s indices equals: { 1. 5. 6 }.
 	s deselectIndexes: { 5. 6 }.
-	self assert: s indices  equals: { 1.  } 
+	self assert: s indices equals: { 1 }
 ]
 
 { #category : #tests }
@@ -283,7 +283,6 @@ ToIndexIntervalSelectionModelTest >> testInsertInterval10 [
 	s addInterval: (1 to: 8).
 	s addInterval: (4 to: 6).
 	self assert: s intervals asArray equals: { (1 to: 8) }
-
 ]
 
 { #category : #tests }

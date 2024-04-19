@@ -20,6 +20,8 @@ ToIndexIntervalSelectionModel >> addInterval: anInterval [
 	" adapted from https://coderbyte.com/algorithm/insert-interval-into-list-of-sorted-disjoint-intervals "
 
 	| i |
+	anInterval ifEmpty: [ ^ self ].
+	anInterval last isZero ifTrue: [ ^ self ].
 	intervals ifEmpty: [
 		intervals add: anInterval.
 		^ self ].
@@ -27,45 +29,14 @@ ToIndexIntervalSelectionModel >> addInterval: anInterval [
 	[
 	i <= intervals size and: [
 		anInterval first >= (intervals at: i) first ] ] whileTrue: [
-		(intervals at: i) = anInterval ifTrue: [ ^ self ].
+		| curr |
+		curr := intervals at: i.
+		((curr includes: anInterval first) and: [
+			 curr includes: anInterval last ]) ifTrue: [ ^ self ].
 		i := i + 1 ].
-	" i can be after the end (i > intervals size) "
+
 	intervals add: anInterval beforeIndex: i.
-
-	" check each interval that comes after the new interval to determine if we can merge"
-	[ i <= intervals size ] whileTrue: [
-		(i = intervals size or: [
-			 (intervals at: i) last >= ((intervals at: i + 1) first - 1) ])
-			ifTrue: [
-				self checkMergeIntervalsAt: i.
-				i = intervals size ifTrue: [ ^ self ] ]
-			ifFalse: [ i := i + 1 ] ]
-]
-
-{ #category : #private }
-ToIndexIntervalSelectionModel >> checkMergeIntervalsAt: aPosition [
-
-	| first last interval1 interval2 |
-	" first, try to merge with previous interval "
-	aPosition < intervals size ifTrue: [
-		interval1 := intervals at: aPosition.
-		interval2 := intervals at: aPosition + 1.
-		first := interval1 first min: interval2 first.
-		last := interval1 last max: interval2 last.
-		(intervals at: aPosition) setFrom: first to: last by: 1.
-		intervals removeAt: aPosition + 1 ].
-
-	" second, try to merge with next interval "
-	(aPosition > 1 and: [ aPosition <= intervals size ]) ifFalse: [
-		^ self ].
-	interval1 := intervals at: aPosition - 1.
-	interval2 := intervals at: aPosition.
-	interval1 last >= (interval2 first - 1) ifFalse: [ ^ self ].
-	first := interval1 first min: interval2 first.
-	last := interval1 last max: interval2 last.
-	(intervals at: aPosition - 1) setFrom: first to: last by: 1.
-	intervals removeAt: aPosition.
-	self checkMergeIntervalsAt: aPosition
+	self merge
 ]
 
 { #category : #testing }
@@ -84,6 +55,12 @@ ToIndexIntervalSelectionModel >> deselect: anIndex to: aLastIndex [
 ToIndexIntervalSelectionModel >> deselectIndex: aNumber [
 
 	self deselect: aNumber to: aNumber
+]
+
+{ #category : #'api - selection' }
+ToIndexIntervalSelectionModel >> deselectIndex: fromIndex to: toIndex [
+
+	self deselect: fromIndex to: toIndex
 ]
 
 { #category : #'api - selection' }
@@ -163,6 +140,12 @@ ToIndexIntervalSelectionModel >> intervals [
 	^ intervals
 ]
 
+{ #category : #enumerating }
+ToIndexIntervalSelectionModel >> intervalsDo: aBlock [
+
+	self do: aBlock
+]
+
 { #category : #testing }
 ToIndexIntervalSelectionModel >> isEmpty [
 
@@ -173,6 +156,32 @@ ToIndexIntervalSelectionModel >> isEmpty [
 ToIndexIntervalSelectionModel >> lastIndex [
 
 	^ intervals ifEmpty: [ 0 ] ifNotEmpty: [ intervals last last ]
+]
+
+{ #category : #private }
+ToIndexIntervalSelectionModel >> merge [
+
+	self mergeStartingAt: 1
+]
+
+{ #category : #private }
+ToIndexIntervalSelectionModel >> mergeStartingAt: aPosition [
+
+	| first last interval1 interval2 |
+	" try to merge with previous interval "
+	aPosition < intervals size ifFalse: [ ^ self ].
+	interval1 := intervals at: aPosition.
+	interval2 := intervals at: aPosition + 1.
+
+	(interval1 last >= (interval2 first - 1) or: [
+		 interval1 last >= interval2 last ]) ifFalse: [
+		^ self mergeStartingAt: aPosition + 1 ].
+
+	first := interval1 first min: interval2 first.
+	last := interval1 last max: interval2 last.
+	intervals at: aPosition put: (first to: last).
+	intervals removeAt: aPosition + 1.
+	self mergeStartingAt: aPosition
 ]
 
 { #category : #private }
@@ -200,33 +209,29 @@ ToIndexIntervalSelectionModel >> removeAll [
 ToIndexIntervalSelectionModel >> removeInterval: anInterval [
 	" adapted from https://leetcode.ca/2019-05-25-1272-Remove-Interval/ "
 
-	| first last idx |
+	| newIntervals first last |
 	intervals ifEmpty: [ ^ self ].
 
 	first := anInterval first.
 	last := anInterval last.
 
-	idx := 0.
-	[ idx < intervals size ] whileTrue: [
-		| int a b |
-		idx := idx + 1.
-		int := intervals at: idx.
+	newIntervals := OrderedCollection new.
+	intervals do: [ :int |
+		| a b |
 		a := int first.
 		b := int last.
 		(a > last or: [ b < first ])
-			ifTrue: [ (intervals at: idx) setFrom: a to: b by: 1 ]
+			ifTrue: [ newIntervals add: (a to: b) ]
 			ifFalse: [
-				(a < first or: [ b > last ]) ifTrue: [
-					| gap |
-					gap := 0.
-					a < first ifTrue: [
-						intervals add: (a to: first - 1) beforeIndex: idx.
-						gap := gap + 1 ].
-					b > last ifTrue: [
-						intervals add: (last + 1 to: b) beforeIndex: idx + gap.
-						gap := gap + 1 ].
-					idx := idx + gap ].
-				intervals removeAt: idx ] ]
+				a < first ifTrue: [ newIntervals add: (a to: (first - 1)) ].
+				b > last ifTrue: [ newIntervals add: ((last + 1) to: b) ] ] ].
+	intervals := newIntervals
+]
+
+{ #category : #private }
+ToIndexIntervalSelectionModel >> removeIntervalFromIndex: aFromIndex toIndex: aToIndex [
+
+	self removeInterval: (aFromIndex to: aToIndex)
 ]
 
 { #category : #'api - selection' }
@@ -239,6 +244,12 @@ ToIndexIntervalSelectionModel >> select: fromIndex to: toIndex [
 ToIndexIntervalSelectionModel >> selectIndex: aNumber [
 
 	self addInterval: (aNumber to: aNumber)
+]
+
+{ #category : #'api - selection' }
+ToIndexIntervalSelectionModel >> selectIndex: fromIndex to: toIndex [
+
+	self select: fromIndex to: toIndex
 ]
 
 { #category : #'api - selection' }

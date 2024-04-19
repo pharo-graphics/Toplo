@@ -206,8 +206,7 @@ ToSelectionModelTest >> testInitialize [
 
 	| s |
 	s := ToSelectionModel new.
-	self assert: s isEmpty.
-	self assert: (s underlyingModel isKindOf: BlCompositeSelection ).
+	self assert: s isEmpty
 ]
 
 { #category : #tests }
@@ -604,11 +603,21 @@ ToSelectionModelTest >> testShiftFrom9bis2 [
 ]
 
 { #category : #tests }
+ToSelectionModelTest >> testShiftFrom9bis3 [
+
+	| s |
+	s := ToSelectionModel new itemCountGetter: 200.
+	s selectIndexes: { 4. 5. 7}.
+	s shift: 1 from: 1.
+	self assert: s selectedIndexes  equals: { 5. 6. 8}.
+]
+
+{ #category : #tests }
 ToSelectionModelTest >> testUnderlyingModel [
 
 	| s |
 	s := ToSelectionModel new.
-	self assert: (s underlyingModel isKindOf: BlCompositeSelection)
+	self assert: (s underlyingModel notNil)
 ]
 
 { #category : #tests }

@@ -33,7 +33,7 @@ ToSelectionModel >> containsIndex: anIndex [
 ToSelectionModel >> copySelectionFrom: anotherSelectionModel [
 
 	anotherSelectionModel ifNil: [
-		underlyingModel := BlCompositeSelection new.
+		underlyingModel := self newUnderlyingModel.
 		^ self ].
 	underlyingModel := anotherSelectionModel underlyingModel copy
 ]
@@ -110,7 +110,7 @@ ToSelectionModel >> ifNotEmpty: aBlock [
 ToSelectionModel >> initialize [
 
 	super initialize.
-	underlyingModel := BlCompositeSelection new
+	underlyingModel := self newUnderlyingModel 
 ]
 
 { #category : #private }
@@ -183,10 +183,10 @@ ToSelectionModel >> lastIndex [
 	^ underlyingModel to
 ]
 
-{ #category : #'instance creation' }
-ToSelectionModel >> newUnderlyingModel [
+{ #category : #initialization }
+ToSelectionModel >> newUnderlyingModel [ 
 
-	^ ToIndexIntervalSelectionModel new
+	^ self underlyingModelClass new
 ]
 
 { #category : #accessing }
@@ -391,4 +391,10 @@ ToSelectionModel >> transferSelectionFromIndex: anIndex toIndex: targetIndex in:
 ToSelectionModel >> underlyingModel [
 
 	^ underlyingModel
+]
+
+{ #category : #initialization }
+ToSelectionModel >> underlyingModelClass [
+
+	^ BlCompositeSelection
 ]

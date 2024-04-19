@@ -24,7 +24,7 @@ ToListElementContextMenuSelectionChangedEvent >> node: aNode [
 { #category : #accessing }
 ToListElementContextMenuSelectionChangedEvent >> selection [
 
-	^ selection ifNil: [ selection := BlCompositeSelection new ]
+	^ selection ifNil: [ selection := ToIntervalCollection new ]
 ]
 
 { #category : #accessing }

@@ -16,7 +16,7 @@ ToListElementContextMenuRequest >> selectedIndexes [
 { #category : #accessing }
 ToListElementContextMenuRequest >> selection [
 
-	^ selection ifNil: [ selection := BlCompositeSelection new ]
+	^ selection ifNil: [ selection := ToIntervalCollection new ]
 ]
 
 { #category : #sending }

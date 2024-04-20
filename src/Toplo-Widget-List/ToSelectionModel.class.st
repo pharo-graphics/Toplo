@@ -72,6 +72,13 @@ ToSelectionModel >> deselectedIndexes [
 	^ self allIndexes difference: self selectedIndexes
 ]
 
+{ #category : #copying }
+ToSelectionModel >> duplicate [ 
+
+	^ self copy.
+
+]
+
 { #category : #accessing }
 ToSelectionModel >> firstIndex [
 

@@ -299,7 +299,7 @@ ToListElementStresser >> minListSize [
 { #category : #initialization }
 ToListElementStresser >> newListElement [ 
 
-	^ ToListElement new
+	^ ToBasicListElement new
 ]
 
 { #category : #initialization }
@@ -327,10 +327,6 @@ ToListElementStresser >> newStressedListNumber: aNumber [
 	listIdentifiers
 		at: aNumber
 		put: ident asRopedText bold , suffix asRopedText.
-
-	list nodeBuilder: [ :node :holder |
-		holder isUnselectable ifTrue: [ node background: Color red ].
-		node addChild: (ToLabel text: holder dataItem asString) hMatchParent ].
 
 	list dataAccessor addAll:
 		((1 to: size) collect: [ :i | 'Hello ' , i asString ]).

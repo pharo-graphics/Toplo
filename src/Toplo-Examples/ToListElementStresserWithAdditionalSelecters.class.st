@@ -127,10 +127,13 @@ ToListElementStresserWithAdditionalSelecters >> actionUnselectableIndexesIn: aLi
 { #category : #initialization }
 ToListElementStresserWithAdditionalSelecters >> newListElement [
 
-	^ super newListElement
+	^ ToListElement new
 		  withHiddenSelecter;
 		  withUnselectableSelecter;
 		  withDisabledSelecter;
+			nodeBuilder: [ :node :holder |
+		holder isUnselectable ifTrue: [ node background: Color red ].
+		node addChild: (ToLabel text: holder dataItem asString) hMatchParent ];
 		  yourself
 ]
 

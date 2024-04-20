@@ -4059,6 +4059,27 @@ ToSandBox class >> example_withCustomMenuItems [
 	menu openInInnerWindow
 ]
 
+{ #category : #list }
+ToSandBox class >> experiment_intervalCollection [
+
+	<script>
+	| s sc cmp rounds r2 |
+	rounds := 12000.
+	s := ToIntervalCollection new.
+	1 to: rounds by: 2 do: [ :idx | s selectIndex: idx ].
+	s intervals traceCr.
+	sc := s copy.
+	r2 := rounds odd
+		      ifTrue: [ rounds - 1 ]
+		      ifFalse: [ rounds ].
+	1 to: r2 by: 1 do: [ :idx | s selectIndex: idx ].
+	s intervals traceCr.
+	2 to: r2 by: 2 do: [ :idx | s deselectIndex: idx ].
+	cmp := s = sc.
+	s intervals traceCr.
+	cmp traceCr
+]
+
 { #category : #checkbox }
 ToSandBox class >> group [ 
 

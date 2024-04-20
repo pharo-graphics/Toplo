@@ -125,17 +125,8 @@ ToSelectElement >> deselectAll [
 { #category : #'accessing selection' }
 ToSelectElement >> deselectIndex: anIndex [
 
-	'deselectIndex: ' trace. anIndex traceCr.
-	'0 : ' trace.  self selectionModel selectedIndexes traceCr.
-	'0 : ' trace.  self listElement selectionModel selectedIndexes traceCr.
 	self selectionModel deselectIndex: anIndex.
-	'1 : ' trace.  self selectionModel selectedIndexes traceCr.
-	'1 : ' trace.  self listElement selectionModel selectedIndexes traceCr.
-
 	self notifySelectionChanged.
-	'2 : ' trace.  self selectionModel selectedIndexes traceCr. 
-	'2 : ' trace.  self listElement selectionModel selectedIndexes traceCr. 
-	'2 : ' trace.  self listElement selectionModel underlyingModel indices traceCr. '' traceCr.
 
 ]
 
@@ -407,18 +398,7 @@ ToSelectElement >> onSelectionChanged [
 			            (self selectionModel containsIndex: originalIndex)
 				            ifFalse: [ stream nextPut: localIndex ] ] ].
 
-	toRemove traceCr.
-	'onSelectionChanged 1 : ' trace.
-	self listElement selectionModel underlyingModel indices traceCr.
-	'' traceCr.
-	self flag: 'ToFIX after the Bloc issue #489 is fixed'.
-	toRemove do: [ :idx |
-		(self listElement selectionModel containsIndex: idx) ifTrue: [
-			self listElement selectionModel deselectIndex: idx ] ].
-	"self listElement selectionModel deselectIndexes: toRemove."
-	'onSelectionChanged 2 : ' trace.
-	self listElement selectionModel underlyingModel indices traceCr.
-	'' traceCr.
+	self listElement selectionModel deselectIndexes: toRemove.
 	self onSelectionChangedInListElement
 ]
 

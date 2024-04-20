@@ -151,6 +151,31 @@ ToIntervalCollectionTest >> testEquals [
 ]
 
 { #category : #tests }
+ToIntervalCollectionTest >> testEquals1 [
+
+	| s2 |
+	s select: 9 to: 20.
+	s2 := ToIntervalCollection new.
+	s2 select: 9 to: 20.
+	self assert: s equals: s2
+
+]
+
+{ #category : #tests }
+ToIntervalCollectionTest >> testEquals2 [
+
+	| sc |
+	1 to: 10 by: 2 do: [ :idx | s selectIndex: idx ].
+	self assert: s intervals size equals: 5.
+	sc := s copy.
+	1 to: 10 by: 1 do: [ :idx | s selectIndex: idx ].
+	self assert: s intervals size equals: 1.
+	2 to: 99 by: 2 do: [ :idx | s deselectIndex: idx ].
+	self assert: s intervals size equals: 5.
+	self assert: s equals: sc
+]
+
+{ #category : #tests }
 ToIntervalCollectionTest >> testFirstIndex [
 
 	s removeAll.

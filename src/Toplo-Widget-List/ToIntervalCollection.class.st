@@ -36,7 +36,30 @@ ToIntervalCollection >> addInterval: anInterval [
 		i := i + 1 ].
 
 	intervals add: anInterval beforeIndex: i.
-	self merge
+	self merge.
+	self checkIntervals.
+
+]
+
+{ #category : #checking }
+ToIntervalCollection >> checkIntervals [
+
+	"intervals size traceCr."
+	true ifTrue: [ ^ self ].
+	1 to: intervals size do: [ :idx |
+		| curr |
+		curr := intervals at: idx.
+		curr first <= curr last ifFalse: [
+			Error signal: 'Malformed interval at ' , idx asString ].
+		idx > 1 ifTrue: [
+			| prev |
+			prev := intervals at: idx - 1.
+			prev first < curr first ifFalse: [
+				Error signal:
+					' first should be < than next interval at: ' , idx asString ].
+			prev last < (curr last - 1) ifFalse: [
+				Error signal:
+					' last should be < than next interval - 1 at: ' , idx asString ] ] ]
 ]
 
 { #category : #testing }
@@ -225,7 +248,9 @@ ToIntervalCollection >> removeInterval: anInterval [
 			ifFalse: [
 				a < first ifTrue: [ newIntervals add: (a to: (first - 1)) ].
 				b > last ifTrue: [ newIntervals add: ((last + 1) to: b) ] ] ].
-	intervals := newIntervals
+	intervals := newIntervals.
+	self checkIntervals.
+
 ]
 
 { #category : #private }

@@ -9,13 +9,10 @@ ToTabPaneHeaderNewExamples class >> example_headerFourTab [
 
 	| header |
 	header := ToTabPaneHeaderNew new.
-	header tabs data add: (ToTabNew new data: 'Tab 1').
-	header tabs data add: (ToTabNew new data: 'Tab 2').
-	header tabs data add: (ToTabNew new data: 'Tab 3').
-	header tabs data add: (ToTabNew new data: 'Tab 4').
+	1 to: 10 do: [ :count | header tabs dataAccessor add: (ToTabNew new data: 'Tab ', count asString). ].
 	header background: Color yellow.
 	header matchParent.
-	header beVertical.
+	header beHorizontal.
 	header openInSpace.
 	header inspect.
 	^ header

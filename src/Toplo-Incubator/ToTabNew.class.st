@@ -60,7 +60,7 @@ ToTabNew >> defaultButtonBuilder [
 	  | but |
 	  but := ToLabeledIcon new labelText: self data asString.
 	  node addChild: but.
-	  node fitContent ]
+	  node constraintsDo: [ :c | c horizontal fitContent ] ]
 ]
 
 { #category : #initialization }

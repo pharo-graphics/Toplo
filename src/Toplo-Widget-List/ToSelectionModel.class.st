@@ -73,10 +73,9 @@ ToSelectionModel >> deselectedIndexes [
 ]
 
 { #category : #copying }
-ToSelectionModel >> duplicate [ 
+ToSelectionModel >> duplicate [
 
-	^ self copy.
-
+	^ self copy
 ]
 
 { #category : #accessing }

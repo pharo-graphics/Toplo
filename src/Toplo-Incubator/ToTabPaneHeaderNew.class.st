@@ -14,22 +14,24 @@ Class {
 	#category : #'Toplo-Incubator'
 }
 
-{ #category : #orientation }
+{ #category : #'t - orientable - orientation' }
 ToTabPaneHeaderNew >> beHorizontal [
 
+	super beHorizontal.
 	self tabs beHorizontal
 ]
 
-{ #category : #orientation }
+{ #category : #'t - orientable - orientation' }
 ToTabPaneHeaderNew >> beVertical [
 
+	super beVertical.
 	self tabs beVertical
 ]
 
 { #category : #'tabs selection' }
 ToTabPaneHeaderNew >> dataEmptinessChangeEvent: anEvent [
 
-	self tabs selectedIndexes ifEmpty: [ self selectIndex: 1 ]
+	self tabs selectionModel ifEmpty: [ self selectIndex: 1 ]
 ]
 
 { #category : #initialization }
@@ -37,7 +39,7 @@ ToTabPaneHeaderNew >> defaultTabRowNodeBuilder [
 
 	^ [ :node :holder |
 	  | tabModel |
-	  tabModel := holder data.
+	  tabModel := holder dataItem.
 	  tabModel buttonBuilder value: node value: holder ]
 ]
 
@@ -60,24 +62,36 @@ ToTabPaneHeaderNew >> horizontal: aBoolean [
 ]
 
 { #category : #initialization }
-ToTabPaneHeaderNew >> initialize [ 
+ToTabPaneHeaderNew >> initialize [
 
 	super initialize.
-	tabRowContainer := ToPane new fitContent; yourself.
-	tabs := ToListElement new nodeBuilder: self defaultTabRowNodeBuilder; yourself.
+	tabRowContainer := ToPane new
+		                   fitContent;
+		                   yourself.
+	tabs := ToListElement new
+		        nodeBuilder: self defaultTabRowNodeBuilder;
+		        yourself.
 	tabs nodeFactory: [ ToTabNode new ].
 	tabs matchParent.
 	tabs infinite matchParent.
 	tabRowContainer addChild: tabs.
 	tabRowContainer matchParent.
-	startContainer := ToPane new fitContent; yourself.
-	endContainer := ToPane new fitContent; yourself.
+	startContainer := ToPane new
+		                  fitContent;
+		                  yourself.
+	endContainer := ToPane new
+		                fitContent;
+		                yourself.
 	self addChild: startContainer.
 	self addChild: tabRowContainer.
 	self addChild: endContainer.
 	self initializeEventHandler.
-	self when: ToListPrimarySelectionChangedEvent do: [ :evt | self tabsSelectionChangedEvent: evt ].
-	tabs data when: ToCollectionEmptinessEvent do: [ :evt | self dataEmptinessChangeEvent: evt ]
+	self
+		addEventHandlerOn: ToListPrimarySelectionChangedEvent
+		do: [ :evt | self tabsSelectionChangedEvent: evt ].
+	tabs dataAccessor
+		addEventHandlerOn: ToCollectionEmptinessEvent
+		do: [ :evt | self dataEmptinessChangeEvent: evt ]
 ]
 
 { #category : #initialization }
@@ -101,7 +115,7 @@ ToTabPaneHeaderNew >> orientationChanged [
 { #category : #'tabs selection' }
 ToTabPaneHeaderNew >> selectIndex: anInteger [
 
-	self tabs selectIndex: anInteger
+	self tabs selecter selectIndex: anInteger
 ]
 
 { #category : #initialization }
@@ -137,8 +151,7 @@ ToTabPaneHeaderNew >> tabs [
 { #category : #'tabs selection' }
 ToTabPaneHeaderNew >> tabsSelectionChangedEvent: anEvent [
 
-	anEvent oldSelectedIndexes trace. ' -> ' trace.
-	anEvent newSelectedIndexes traceCr.
+	anEvent selectionModel selectedIndexes traceCr.
 ]
 
 { #category : #orientation }

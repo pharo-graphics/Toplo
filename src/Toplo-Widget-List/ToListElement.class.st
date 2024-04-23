@@ -7,17 +7,6 @@ Class {
 	#category : #'Toplo-Widget-List-Core'
 }
 
-{ #category : #accessing }
-ToListElement >> data [
-
-	self
-		deprecated: 'Please use dataAccessor instead.'
-		transformWith:
-			'`@receiver data'
-				-> '`@receiver dataAccessor'.
-	^ self dataAccessor
-]
-
 { #category : #initialization }
 ToListElement >> defaultEventHandler [
 
@@ -103,7 +92,7 @@ ToListElement >> secondarySelectionElements [
 
 	^ Array streamContents: [ :stream |
 		  self childrenDo: [ :child |
-			  (child isKindOf: ToListSecondarySelectionElement) ifTrue: [
+			  (child isKindOf: secondarySelectionMode elementClass) ifTrue: [
 				  stream nextPut: child ] ] ]
 ]
 

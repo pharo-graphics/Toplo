@@ -364,7 +364,7 @@ ToAbstractListElement >> primarySelectionElements [
 
 	^ Array streamContents: [ :stream |
 		  self childrenDo: [ :child |
-			  (child isKindOf: ToListPrimarySelectionElement) ifTrue: [
+			  (child isKindOf: self selectionMode elementClass) ifTrue: [
 				  stream nextPut: child ] ] ]
 ]
 

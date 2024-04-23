@@ -76,9 +76,9 @@ ToListPrimarySelectionElementEventHandler >> previousSelectionElementsFrom: aTar
 ]
 
 { #category : #'selection managing' }
-ToListPrimarySelectionElementEventHandler >> selectionElementClass [
+ToListPrimarySelectionElementEventHandler >> selectionElementClassFrom: aTarget [
 
-	^ ToListPrimarySelectionElement 
+	^ aTarget selectionMode elementClass
 ]
 
 { #category : #'selection managing' }

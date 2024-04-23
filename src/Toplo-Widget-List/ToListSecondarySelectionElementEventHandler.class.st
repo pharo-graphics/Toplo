@@ -64,9 +64,9 @@ ToListSecondarySelectionElementEventHandler >> previousSelectionElementsFrom: aT
 ]
 
 { #category : #'selection managing' }
-ToListSecondarySelectionElementEventHandler >> selectionElementClass [
+ToListSecondarySelectionElementEventHandler >> selectionElementClassFrom: aTarget [
 
-	^ ToListSecondarySelectionElement 
+	^ aTarget secondarySelectionMode elementClass
 ]
 
 { #category : #'selection managing' }

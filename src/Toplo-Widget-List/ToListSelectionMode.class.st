@@ -4,6 +4,7 @@ Class {
 	#instVars : [
 		'beneathOption',
 		'overOption',
+		'elementClass',
 		'selecter',
 		'primary',
 		'requestFocusOnMouseDown',
@@ -25,8 +26,9 @@ ToListSelectionMode class >> new [
 ToListSelectionMode class >> primary [
 
 	| primary |
-	primary := self basicNew initialize.
+	primary := self basicNew.
 	primary primary: true.
+	primary initialize.
 	^ primary
 ]
 
@@ -34,8 +36,9 @@ ToListSelectionMode class >> primary [
 ToListSelectionMode class >> secondary [
 
 	| secondary |
-	secondary := self basicNew initialize.
+	secondary := self basicNew.
 	secondary primary: false.
+	secondary initialize.
 	^ secondary
 ]
 
@@ -76,10 +79,30 @@ ToListSelectionMode >> beneathOption: aListSelectionOption [
 	beneathOption := aListSelectionOption
 ]
 
+{ #category : #initialization }
+ToListSelectionMode >> defaultElementClass [
+
+	^ primary
+		  ifTrue: [ ToListPrimarySelectionElement ]
+		  ifFalse: [ ToListSecondarySelectionElement ]
+]
+
 { #category : #accessing }
 ToListSelectionMode >> disable [
 
 	self enabled: false
+]
+
+{ #category : #accessing }
+ToListSelectionMode >> elementClass [
+
+	^ elementClass 
+]
+
+{ #category : #accessing }
+ToListSelectionMode >> elementClass: aSelectionElementClass [
+
+	elementClass := aSelectionElementClass
 ]
 
 { #category : #accessing }
@@ -109,13 +132,12 @@ ToListSelectionMode >> initialize [
 	super initialize.
 	beneathOption := ToListSelectionOption grouped.
 	overOption := ToListSelectionOption none.
+	elementClass := self defaultElementClass.
 	requestFocusOnMouseDown := true.
 	preserveSelectionOnFocused := true.
 	selectOnMouseDown := false.
 	multiple := true.
-	enabled := true.
-	primary := true
-
+	enabled := true
 ]
 
 { #category : #testing }

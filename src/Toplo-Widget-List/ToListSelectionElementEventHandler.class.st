@@ -40,9 +40,9 @@ ToListSelectionElementEventHandler >> eventsToHandle [
 ]
 
 { #category : #'selection managing' }
-ToListSelectionElementEventHandler >> newSelectionElementBeneath: aBoolean [
+ToListSelectionElementEventHandler >> newSelectionElementFrom: aTarget beneath: aBoolean [
 
-	^ self selectionElementClass beneath: aBoolean 
+	^ (self selectionElementClassFrom: aTarget) beneath: aBoolean 
 ]
 
 { #category : #'selection managing' }
@@ -66,12 +66,12 @@ ToListSelectionElementEventHandler >> newSelectionElementsFrom: target [
 
 	^ Array streamContents: [ :stream |
 		  stream nextPutAll: (overNodeGroups collect: [ :g |
-				   (self newSelectionElementBeneath: false)
+				   (self newSelectionElementFrom: target beneath: false)
 					   listElement: target;
 					   nodes: g;
 					   yourself ]).
 		  stream nextPutAll: (beneathNodeGroups collect: [ :g |
-				   (self newSelectionElementBeneath: true)
+				   (self newSelectionElementFrom: target beneath: true)
 					   listElement: target;
 					   nodes: g;
 					   yourself ]) ]
@@ -93,9 +93,9 @@ ToListSelectionElementEventHandler >> removePreviousSelectionElementsFrom: targe
 ]
 
 { #category : #'selection managing' }
-ToListSelectionElementEventHandler >> selectionElementClass [
+ToListSelectionElementEventHandler >> selectionElementClassFrom: aTarget [
 
-	^ self subclassResponsibility 
+	self subclassResponsibility 
 ]
 
 { #category : #'selection managing' }

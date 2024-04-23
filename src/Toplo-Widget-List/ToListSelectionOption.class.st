@@ -1,7 +1,7 @@
 Class {
 	#name : #ToListSelectionOption,
 	#superclass : #Object,
-	#category : #'Toplo-Widget-List-Selection-Element'
+	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
 { #category : #'instance creation' }

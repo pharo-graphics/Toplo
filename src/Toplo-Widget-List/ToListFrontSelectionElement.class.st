@@ -22,7 +22,12 @@ ToListFrontSelectionElement >> beneath [
 { #category : #accessing }
 ToListFrontSelectionElement >> beneath: aBoolean [
 
-	beneath := aBoolean
+	beneath := aBoolean.
+	beneath
+		ifTrue: [ self elevation: (BlRelativeElevation elevation: 0) ]
+		ifFalse: [
+			self preventMeAndChildrenMouseEvents.
+			self elevation: (BlRelativeElevation elevation: 50) ]
 ]
 
 { #category : #initialization }

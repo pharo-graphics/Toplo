@@ -1140,6 +1140,8 @@ ToSandBox class >> example_PicsumPhotosGallery [
 		nodeHolderFactory: [ ToPicsumPhotosGalleryImageHolder new ];
 		nodeFactory: [ ToPicsumPhotosGalleryImageNode new ];
 		nodeBuilder: [ :node :holder | node labelString: holder dataItem id ].
+	list selectionMode beneathOption: ToListSelectionOption none.
+	list selectionMode overOption: ToListSelectionOption grouped.
 
 	[
 	| allImagesData |

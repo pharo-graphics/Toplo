@@ -71,6 +71,12 @@ ToListSelectionMode >> beneathOption [
 ]
 
 { #category : #accessing }
+ToListSelectionMode >> beneathOption: aListSelectionOption [
+
+	beneathOption := aListSelectionOption
+]
+
+{ #category : #accessing }
 ToListSelectionMode >> disable [
 
 	self enabled: false
@@ -248,6 +254,12 @@ ToListSelectionMode >> operator [
 ToListSelectionMode >> overOption [
 
 	^ overOption
+]
+
+{ #category : #accessing }
+ToListSelectionMode >> overOption: aListSelectionOption [
+
+	overOption := aListSelectionOption
 ]
 
 { #category : #accessing }

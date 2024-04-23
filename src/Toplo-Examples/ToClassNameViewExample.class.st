@@ -16,7 +16,7 @@ ToClassNameViewExample >> class: aClass position: anInteger [
 			 icon: (self iconFor: aClass);
 			 label: (ToLabel new
 					  text: aClass name;
-					  defaultRawSkin: ToLabelInListSkin new;
+					  defaultRawSkin: ToLabelInListElementSkin new;
 					  yourself);
 			 yourself)
 ]

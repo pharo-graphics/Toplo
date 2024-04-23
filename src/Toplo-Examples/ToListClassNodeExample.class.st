@@ -20,7 +20,7 @@ ToListClassNodeExample >> forClassNameAssoc: aClassNameAssoc [
 
 	label := ToLabel new.
 	label editorBuilder: [ :ed :lab | ed text foreground: Color black  ].
-	label defaultRawSkin: ToLabelInListSkin new.
+	label defaultRawSkin: ToLabelInListElementSkin new.
 	label
 		text: aClassNameAssoc value;
 		beEditable.

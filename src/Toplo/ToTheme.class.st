@@ -249,8 +249,14 @@ ToTheme class >> defaultTokenProperties [
 			   name: #'color-primary-selection-focused'
 			   value: (self defaultColorPrimary alpha: 0.6)).
 		  (ToTokenProperty
+			   name: #'color-primary-selection-over-focused'
+			   value: (self defaultColorPrimary alpha: 0.1)).
+		  (ToTokenProperty
 			   name: #'color-primary-selection-unfocused'
 			   value: (self defaultColorPrimary alpha: 0.1)).
+		  (ToTokenProperty
+			   name: #'color-primary-selection-over-unfocused'
+			   value: (self defaultColorPrimary alpha: 0.05)).
 
 		  (ToTokenProperty name: #'border-width-primary-selection' value: 1).
 		  (ToTokenProperty

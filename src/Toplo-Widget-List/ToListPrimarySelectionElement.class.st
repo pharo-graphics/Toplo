@@ -1,10 +1,10 @@
 Class {
 	#name : #ToListPrimarySelectionElement,
-	#superclass : #ToListSelectionElement,
+	#superclass : #ToListFrontSelectionElement,
 	#category : #'Toplo-Widget-List-Selection-Element'
 }
 
-{ #category : #skin }
+{ #category : #'instance creation' }
 ToListPrimarySelectionElement >> newRawSkin [ 
 
 	^ ToListPrimarySelectionElementSkin new

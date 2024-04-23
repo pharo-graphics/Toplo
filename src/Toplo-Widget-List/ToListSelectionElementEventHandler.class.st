@@ -40,9 +40,41 @@ ToListSelectionElementEventHandler >> eventsToHandle [
 ]
 
 { #category : #'selection managing' }
-ToListSelectionElementEventHandler >> newSelectionElementsFrom: target [
+ToListSelectionElementEventHandler >> newSelectionElementBeneath: aBoolean [
 
-	^ self subclassResponsibility 
+	^ self selectionElementClass beneath: aBoolean 
+]
+
+{ #category : #'selection managing' }
+ToListSelectionElementEventHandler >> newSelectionElementsFrom: target [
+	" return a collection with instances of ToListPrimarySelectionElement "
+
+	| overOption beneathOption overNodeGroups beneathNodeGroups |
+	overOption := (self selectionModeFrom: target) overOption.
+	beneathOption := (self selectionModeFrom: target) beneathOption.
+
+	overNodeGroups := Array streamContents: [ :stream |
+		                  overOption
+			                  nextPutNodeGroupsFrom: target
+			                  selectionModel: (self selectionModelFrom: target)
+			                  in: stream ].
+	beneathNodeGroups := Array streamContents: [ :stream |
+		                     beneathOption
+			                     nextPutNodeGroupsFrom: target
+			                     selectionModel: (self selectionModelFrom: target)
+			                     in: stream ].
+
+	^ Array streamContents: [ :stream |
+		  stream nextPutAll: (overNodeGroups collect: [ :g |
+				   (self newSelectionElementBeneath: false)
+					   listElement: target;
+					   nodes: g;
+					   yourself ]).
+		  stream nextPutAll: (beneathNodeGroups collect: [ :g |
+				   (self newSelectionElementBeneath: true)
+					   listElement: target;
+					   nodes: g;
+					   yourself ]) ]
 ]
 
 { #category : #'selection managing' }
@@ -58,6 +90,18 @@ ToListSelectionElementEventHandler >> removePreviousSelectionElementsFrom: targe
 	previous := self previousSelectionElementsFrom: target.
 	previous do: [ :s | s removeFromParent ].
 
+]
+
+{ #category : #'selection managing' }
+ToListSelectionElementEventHandler >> selectionElementClass [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #'selection managing' }
+ToListSelectionElementEventHandler >> selectionModeFrom: aTarget [
+
+	^ self subclassResponsibility
 ]
 
 { #category : #'selection managing' }

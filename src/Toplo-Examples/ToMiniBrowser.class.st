@@ -113,7 +113,7 @@ ToMiniBrowser >> initialize [
 		            nodeBuilder: [ :node :holder |
 			            node addChild: (ToLabel new
 						             text: holder dataItem name;
-						             defaultRawSkin: ToLabelInListSkin new;
+						             defaultRawSkin: ToLabelInListElementSkin new;
 						             hMatchParent;
 						             yourself) ].
 	pkgSieve := ToListElementSieve new.
@@ -194,7 +194,7 @@ ToMiniBrowser >> initialize [
 		             nodeBuilder: [ :node :holder |
 			             node addChild: (ToLabel new
 						              text: holder dataItem value name;
-						              defaultRawSkin: ToLabelInListSkin new;
+						              defaultRawSkin: ToLabelInListElementSkin new;
 						              hMatchParent) ].
 	protocols margin: (BlInsets all: 2).
 
@@ -207,7 +207,7 @@ ToMiniBrowser >> initialize [
 		             nodeBuilder: [ :node :holder |
 			             node addChild: (ToLabel new
 						              text: holder dataItem value asString;
-						              defaultRawSkin: ToLabelInListSkin new;
+						              defaultRawSkin: ToLabelInListElementSkin new;
 						              hMatchParent) ].
 
 	selectors margin: (BlInsets all: 2).

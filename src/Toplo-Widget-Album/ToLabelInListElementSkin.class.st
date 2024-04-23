@@ -1,11 +1,11 @@
 Class {
-	#name : #ToLabelInListSkin,
+	#name : #ToLabelInListElementSkin,
 	#superclass : #ToLabelSkin,
 	#category : #'Toplo-Widget-Album-Label'
 }
 
 { #category : #'event handling' }
-ToLabelInListSkin >> deselectedLookEvent: anEvent [
+ToLabelInListElementSkin >> deselectedLookEvent: anEvent [
 
 	super deselectedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -15,14 +15,15 @@ ToLabelInListSkin >> deselectedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToLabelInListSkin >> selectedLookEvent: anEvent [
+ToLabelInListElementSkin >> selectedLookEvent: anEvent [
 
 	super selectedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		| tokname |
 		tokname := anEvent focused
 			           ifTrue: [ #'label-in-list-foreground-selected-focused' ]
-			           ifFalse: [ #'label-in-list-foreground-selected-unfocused' ].
+			           ifFalse: [
+			           #'label-in-list-foreground-selected-unfocused' ].
 		e textAttributesBuilder foreground: (e valueOfTokenNamed: tokname).
 		e applyAttributesBuilder.
 		e textChanged ]

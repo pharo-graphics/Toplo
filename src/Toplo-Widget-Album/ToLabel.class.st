@@ -333,7 +333,6 @@ ToLabel >> text: aBlTextOrString [
 { #category : #'event handling' }
 ToLabel >> textChanged [
 
-	self forceLocalLayout.
 	self innerElement textChanged
 ]
 

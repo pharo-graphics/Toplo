@@ -1,6 +1,6 @@
 Class {
 	#name : #ToListSecondarySelectionElement,
-	#superclass : #ToListSelectionElement,
+	#superclass : #ToListFrontSelectionElement,
 	#category : #'Toplo-Widget-List-Selection-Element'
 }
 

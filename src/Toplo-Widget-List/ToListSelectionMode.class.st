@@ -2,6 +2,8 @@ Class {
 	#name : #ToListSelectionMode,
 	#superclass : #Object,
 	#instVars : [
+		'beneathOption',
+		'overOption',
 		'selecter',
 		'primary',
 		'requestFocusOnMouseDown',
@@ -63,6 +65,12 @@ ToListSelectionMode >> beSingleSelection [
 ]
 
 { #category : #accessing }
+ToListSelectionMode >> beneathOption [
+
+	^ beneathOption
+]
+
+{ #category : #accessing }
 ToListSelectionMode >> disable [
 
 	self enabled: false
@@ -93,6 +101,8 @@ ToListSelectionMode >> enabled: aBoolean [
 ToListSelectionMode >> initialize [ 
 
 	super initialize.
+	beneathOption := ToListSelectionOption grouped.
+	overOption := ToListSelectionOption none.
 	requestFocusOnMouseDown := true.
 	preserveSelectionOnFocused := true.
 	selectOnMouseDown := false.
@@ -232,6 +242,12 @@ ToListSelectionMode >> onUninstalledIn: anElement [
 ToListSelectionMode >> operator [
 
 	^ selecter operator
+]
+
+{ #category : #accessing }
+ToListSelectionMode >> overOption [
+
+	^ overOption
 ]
 
 { #category : #accessing }

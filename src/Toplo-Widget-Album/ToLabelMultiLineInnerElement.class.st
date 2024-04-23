@@ -69,13 +69,6 @@ ToLabelMultiLineInnerElement >> newTextElement [
 	^ BlTextElement new labelMeasurement
 ]
 
-{ #category : #layout }
-ToLabelMultiLineInnerElement >> requestLayout [ 
-	lines ifNotNil: [ 
-		lines do: [:l | l childrenDo: #requestLayout] ].
-	super requestLayout
-]
-
 { #category : #'private - text splitting' }
 ToLabelMultiLineInnerElement >> splitText [
 
@@ -122,14 +115,14 @@ ToLabelMultiLineInnerElement >> text: aBlText [
 
 	text = aBlText ifTrue: [ ^ self ].
 	text := aBlText.
-	self textChanged.
-	self forceLocalLayout
+	self textChanged
 ]
 
 { #category : #'event handling' }
 ToLabelMultiLineInnerElement >> textChanged [
 
-	self removeChildren.
-	lines := self splitText.
-	self addChildren: lines
+	(text isNotEmpty and: [ lines isEmpty ]) ifTrue: [
+		lines := self splitText.
+		self addChildren: lines ].
+	lines do: [ :l | l childrenDo: [ :child | child textChanged ] ]
 ]

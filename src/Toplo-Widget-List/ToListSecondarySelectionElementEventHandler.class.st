@@ -5,20 +5,6 @@ Class {
 }
 
 { #category : #'selection managing' }
-ToListSecondarySelectionElementEventHandler >> addNewSelectionElementsFrom: target [
-
-	| infinite childNodes |
-	infinite := target infinite.
-
-	childNodes := infinite children select: [ :node |
-		              target secondarySelectionModel containsIndex:
-			              node holder position ].
-	childNodes ifEmpty: [ ^ self ].
-	(self newSelectionElementsFromSelectedNodes: childNodes in: target)
-		do: [ :s | target addChild: s ]
-]
-
-{ #category : #'selection managing' }
 ToListSecondarySelectionElementEventHandler >> differUpdateSelectionFrom: anElement [
 ]
 
@@ -72,40 +58,21 @@ ToListSecondarySelectionElementEventHandler >> mouseMoveEvent: anEvent [
 ]
 
 { #category : #'selection managing' }
-ToListSecondarySelectionElementEventHandler >> newSelectionElementsFrom: target [
-
-	| infinite childNodes adjacentNodeGroups |
-	infinite := target infinite.
-	childNodes := infinite children select: [ :node |
-		              target secondarySelectionModel containsIndex:
-			              node holder position ].
-	adjacentNodeGroups := infinite nodeGroupsSatisfying: [ :n |
-		                      childNodes includes: n ].
-	^ adjacentNodeGroups collect: [ :g |
-		  ToListSecondarySelectionElement new
-			  listElement: target;
-			  nodes: g;
-			  yourself ]
-]
-
-{ #category : #'selection managing' }
-ToListSecondarySelectionElementEventHandler >> newSelectionElementsFromSelectedNodes: aCollection in: aListElement [
-	" return a collection with instances of ToListSecondarySelectionElement "
-
-	| adjacentNodeGroups |
-	adjacentNodeGroups := aListElement infinite nodeGroupsSatisfying: [
-		                      :n | aCollection includes: n ].
-	^ adjacentNodeGroups collect: [ :g |
-		  ToListSecondarySelectionElement new
-			  listElement: aListElement;
-			  nodes: g;
-			  yourself ]
-]
-
-{ #category : #'selection managing' }
 ToListSecondarySelectionElementEventHandler >> previousSelectionElementsFrom: aTarget [
 	
 	^ aTarget secondarySelectionElements
+]
+
+{ #category : #'selection managing' }
+ToListSecondarySelectionElementEventHandler >> selectionElementClass [
+
+	^ ToListSecondarySelectionElement 
+]
+
+{ #category : #'selection managing' }
+ToListSecondarySelectionElementEventHandler >> selectionModeFrom: aTarget [
+
+	^ aTarget secondarySelectionMode
 ]
 
 { #category : #'selection managing' }

@@ -13,7 +13,7 @@ ToSpaceStateGenerationHolder >> addDraggedSkinStateGeneration: aValuable [
 
 	hasDraggedState ifTrue: [ ^ self ].
 	hasDraggedState := true.
-	self generations add: aValuable
+	self addGeneration: aValuable
 ]
 
 { #category : #adding }

@@ -70,24 +70,21 @@ ToListPrimarySelectionElementEventHandler >> listPrimarySelectionDirtyEvent: anE
 ]
 
 { #category : #'selection managing' }
-ToListPrimarySelectionElementEventHandler >> newSelectionElementsFrom: target [
-	" return a collection with instances of ToListPrimarySelectionElement "
-
-	| adjacentNodeGroups  |
-
-	adjacentNodeGroups := target infinite nodeGroupsSatisfying: [ :n |
-		                      n holder isSelected and: [ n height > 0 ] ].
-	^ adjacentNodeGroups collect: [ :g |
-		  ToListPrimarySelectionElement new
-			  listElement: target;
-			  nodes: g;
-			  yourself ]
-]
-
-{ #category : #'selection managing' }
 ToListPrimarySelectionElementEventHandler >> previousSelectionElementsFrom: aTarget [
 	
 	^ aTarget primarySelectionElements
+]
+
+{ #category : #'selection managing' }
+ToListPrimarySelectionElementEventHandler >> selectionElementClass [
+
+	^ ToListPrimarySelectionElement 
+]
+
+{ #category : #'selection managing' }
+ToListPrimarySelectionElementEventHandler >> selectionModeFrom: aTarget [
+
+	^ aTarget selectionMode
 ]
 
 { #category : #'selection managing' }

@@ -855,7 +855,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 	l withDisabledSelecter.
 	l withUnselectableSelecter.
 	l withHiddenSelecter.
-	
+
 	phtext := (('Invoke the context menu ' , String cr
 	            , 'with a right-click' , String cr
 	            , 'to initialize the list') asRopedText
@@ -873,11 +873,13 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 			       text: phtext;
 			       yourself.
 		placeholder addChild: lab ].
+
 	l nodeBuilder: [ :node :holder |
 		| lab t |
+		node ensureCanManageSkin.
 		t := holder dataItem.
 		lab := ToLabel text: t.
-		lab defaultRawSkin: ToLabelInListSkin new.
+		lab defaultRawSkin: ToLabelInListElementSkin new.
 		lab beMultiLine.
 		holder isSelectable
 			ifTrue: [
@@ -2482,17 +2484,17 @@ ToSandBox class >> example_contactList [
 			        matchParent.
 		line addChild: (ToLabel new
 				 text: holder dataItem name;
-				 defaultRawSkin: ToLabelInListSkin new;
+				 defaultRawSkin: ToLabelInListElementSkin new;
 				 width: 100;
 				 margin: (BlInsets right: 10)).
 		line addChild: (ToLabel new
 				 text: holder dataItem phoneNumber;
-				 defaultRawSkin: ToLabelInListSkin new;
+				 defaultRawSkin: ToLabelInListElementSkin new;
 				 width: 100;
 				 margin: (BlInsets right: 10)).
 		line addChild: (ToLabel new
 				 text: holder dataItem address;
-				 defaultRawSkin: ToLabelInListSkin new;
+				 defaultRawSkin: ToLabelInListElementSkin new;
 				 width: 200;
 				 margin: (BlInsets right: 10)).
 		line addChild: ToElement new matchParent.

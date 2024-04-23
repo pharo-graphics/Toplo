@@ -12,17 +12,16 @@ Class {
 ToListSelectionElement >> boundsFromSelectedNodes [
 	" compute my bounds from my list of adjacent nodes. "
 
-	| first last top bottom hGap |
+	| first last top bottom |
 	first := nodes first.
 	last := nodes last.
 	top := self boundsOfNode: first.
 	bottom := first = last
 		          ifTrue: [ top ]
 		          ifFalse: [ self boundsOfNode: last ].
-	hGap := self horizontalGap.
 	^ BlBounds
-		  origin: top origin - (hGap @ 0)
-		  corner: bottom corner + (hGap @ 0)
+		  origin: top origin 
+		  corner: bottom corner 
 ]
 
 { #category : #private }
@@ -45,7 +44,7 @@ ToListSelectionElement >> boundsOfNode: aNode [
 	vgap := tpad > 0
 		        ifTrue: [ 1 ]
 		        ifFalse: [ 0 ].
-	^ bnds expandBy: hgap @ vgap
+	^ bnds "expandBy: hgap @ vgap"
 ]
 
 { #category : #private }
@@ -53,12 +52,6 @@ ToListSelectionElement >> computeBounds [
 	" compute my bounds from my list of adjacent nodes. "
 
 	self bounds: self boundsFromSelectedNodes
-]
-
-{ #category : #accessing }
-ToListSelectionElement >> horizontalGap [
-
-	^ (self listElement valueOfTokenNamed: #'list-padding-H') / 2
 ]
 
 { #category : #initialization }

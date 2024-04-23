@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #header }
-ToTabPaneHeaderNewExamples class >> example_headerFourTab [
+ToTabPaneHeaderNewExamples class >> example_header10Tab [
 
 	| header |
 	header := ToTabPaneHeaderNew new.

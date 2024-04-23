@@ -27,18 +27,7 @@ ToTabNew >> buttonBuilder: aValuable2Args [
 { #category : #accessing }
 ToTabNew >> closable: aBoolean [
 
-	closable := aBoolean.
-	aBoolean
-		ifTrue: [
-			| but |
-			but := ToButton new.
-			but defaultRawSkin: ToTabInnerCloseButtonSkin new.
-			but icon: (ToImage inner: (Smalltalk ui icons iconNamed: #windowClose)).
-			but constraintsDo: [ :c | c linear vertical alignCenter ].
-			but when: BlClickEvent do: [ :event | event currentTarget removeFromParent ].
-			but id: #innerCloseButton. ]
-		ifFalse: [
-			self removeChildNamed: #innerCloseButton ]
+	closable := aBoolean
 ]
 
 { #category : #accessing }

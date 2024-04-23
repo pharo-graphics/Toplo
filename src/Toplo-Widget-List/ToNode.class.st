@@ -17,6 +17,7 @@ ToNode >> initialize [
 
 	super initialize.
 	self layout: self defaultLayout.
+	self padding: (BlInsets horizontal: 4).
 	self constraintsDo: [ :c |
 		c horizontal matchParent.
 		c vertical fitContent ]

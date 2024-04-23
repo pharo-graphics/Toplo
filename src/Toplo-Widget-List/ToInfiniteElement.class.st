@@ -210,3 +210,15 @@ ToInfiniteElement >> scrollToIndexAtTop: anIndex [
 
 	self scrollToPosition: anIndex offset: self layout computeExtraLayoutSpace y.
 ]
+
+{ #category : #'view - configuration' }
+ToInfiniteElement >> withRowNumbers [
+
+	self withDecoration: ToInfiniteRowNumberDecoration
+]
+
+{ #category : #'view - configuration' }
+ToInfiniteElement >> withoutRowNumbers [
+
+	self withoutDecoration: ToInfiniteRowNumberDecoration
+]

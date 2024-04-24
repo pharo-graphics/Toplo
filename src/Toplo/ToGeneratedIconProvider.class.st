@@ -40,11 +40,12 @@ ToGeneratedIconProvider class >> addMethodsInClass: aClass withIcons: aCollectio
 				             on: Error
 				             do: [  ]) notNil.
 			loadable
-				ifTrue: [
+				ifTrue: [ | code  |
 					loaded := loaded copyWith: assoc key asSymbol.
+					code := assoc value value copyReplaceAll: String lf with: String space asTokens: false.
 					aClass class
 						compile:
-						assoc key , 'Src' , String cr , '^''' , assoc value value , ''''
+						assoc key , 'Src' , String cr , '^''' , code , ''''
 						classified: assoc value key ]
 				ifFalse: [ unloadable := unloadable copyWith: assoc key asSymbol ] ] ].
 

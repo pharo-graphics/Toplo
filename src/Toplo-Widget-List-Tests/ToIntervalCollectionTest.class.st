@@ -496,6 +496,25 @@ ToIntervalCollectionTest >> testRemoveAll [
 ]
 
 { #category : #tests }
+ToIntervalCollectionTest >> testSelectDeselectContainsCopy [
+
+	| sc r1 r2 |
+	r1 := self itemCount.
+	r2 := r1 odd
+		      ifTrue: [ r1 - 1 ]
+		      ifFalse: [ r1 ].
+	1 to: r1 by: 2 do: [ :idx | s selectIndex: idx ].
+	1 to: r1 by: 2 do: [ :idx | self assert: (s containsIndex: idx) ].
+	2 to: r2 by: 2 do: [ :idx | self deny: (s containsIndex: idx) ].
+	sc := s copy.
+	self assert: s equals: sc.
+	1 to: r2 by: 1 do: [ :idx | s selectIndex: idx ].
+	1 to: r1 do: [ :idx | self assert: (s containsIndex: idx) ].
+	2 to: r2 by: 2 do: [ :idx | s deselectIndex: idx ].
+	self assert: s equals: sc
+]
+
+{ #category : #tests }
 ToIntervalCollectionTest >> testSelectIndex [
 
 	s removeAll.

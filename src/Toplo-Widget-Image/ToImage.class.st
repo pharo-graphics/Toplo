@@ -9,13 +9,22 @@ Class {
 
 { #category : #'instance creation' }
 ToImage class >> inner: anImage [
+
 	^ self new innerImage: anImage
 ]
 
-{ #category : #'instance creation' }
-ToImage class >> svgPathString: aString [
+{ #category : #'private - conversion' }
+ToImage >> convertedAsInnerImage: aSource [
 
-	^ self inner: ((BlSvgConverter convertFromString: aString) id: #svgPath; yourself)
+	^ aSource isString
+		  ifTrue: [
+			  (BlSvgConverter convertFromString: aSource)
+				  id: #svgPath;
+				  yourself ]
+		  ifFalse: [
+			  aSource asElement id: (aSource isForm
+					   ifTrue: [ #form ]
+					   ifFalse: [ #unknownType ]) ]
 ]
 
 { #category : #initialization }
@@ -86,7 +95,7 @@ ToImage >> innerImage: anImage [
 	| element |
 	element := anImage
 		           ifNil: [ self defaultInnerImage ]
-		           ifNotNil: [ anImage asElement ].
+		           ifNotNil: [ self convertedAsInnerImage: anImage ].
 	anImage = innerImage ifTrue: [ ^ self ].
 	self removeChildren.
 	innerImage := element.

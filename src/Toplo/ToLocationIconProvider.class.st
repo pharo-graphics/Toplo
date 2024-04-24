@@ -1,31 +1,46 @@
-"
-I provide access to icons in png from the file system. 
-It receive locations (directory references) where to find them.
-
-Alternatively, it can also look for gtk theme icons (stored by name in the gtk theme).
-"
 Class {
 	#name : #ToLocationIconProvider,
 	#superclass : #ToIconProvider,
 	#instVars : [
 		'icons',
-		'locations'
+		'locations',
+		'fileNameExtension',
+		'loaderMap'
 	],
 	#category : #'Toplo-Core-Theme'
 }
 
 { #category : #'instance creation' }
-ToLocationIconProvider class >> newLocation: aLocation [
+ToLocationIconProvider class >> newLocation: aLocation forExtension: aFilenameExtension [
 
-	^ self new 
-		addLocation: aLocation;
-		yourself
+	^ self new
+		  fileNameExtension: aFilenameExtension;
+		  addLocation: aLocation;
+		  yourself
 ]
 
 { #category : #accessing }
 ToLocationIconProvider >> addLocation: aReference [
 
 	locations := locations copyWith: aReference
+]
+
+{ #category : #accessing }
+ToLocationIconProvider >> defaultFilenameExtension [
+
+	^ 'svg'
+]
+
+{ #category : #accessing }
+ToLocationIconProvider >> fileNameExtension: aString [
+
+	fileNameExtension := aString
+]
+
+{ #category : #accessing }
+ToLocationIconProvider >> filenameExtension [
+
+	^ fileNameExtension ifNil: [ fileNameExtension := self defaultFilenameExtension ]
 ]
 
 { #category : #accessing }
@@ -38,8 +53,7 @@ ToLocationIconProvider >> iconNamed: aName ifAbsent: aBlock [
 		icon := self loadIconNamed: aName.
 		icon ifNil: [ ^ aBlock value ].
 		icons at: aName put: icon ].
-
-	^ icon
+	^ ToImage inner: icon
 ]
 
 { #category : #accessing }
@@ -53,14 +67,24 @@ ToLocationIconProvider >> initialize [
 
 	super initialize.
 	locations := #().
-	icons := Dictionary new.
-	self initializeBlankIcon
+	self initializeLoaderMap.
+	icons := Dictionary new
 ]
 
 { #category : #initialization }
-ToLocationIconProvider >> initializeBlankIcon [
+ToLocationIconProvider >> initializeLoaderMap [
 
-	self setBlankIcon: (Form extent: 16@16 depth: 8)
+	loaderMap := IdentityDictionary new.
+	loaderMap at: 'png' asSymbol put: [ :aFileReference |
+		aFileReference binaryReadStreamDo: [ :stream |
+			Form fromBinaryStream: stream ] ].
+	loaderMap at: 'svg' asSymbol put: [ :aFileReference |
+		| contents |
+		([
+		 BlSvgConverter convertFromString:
+			 (contents := aFileReference readStream contents) ]
+			 on: Error
+			 do: [  ]) ifNotNil: [ contents ] ]
 ]
 
 { #category : #inspecting }
@@ -78,27 +102,30 @@ ToLocationIconProvider >> inspectionIcons [
 ToLocationIconProvider >> loadAllIcons [
 
 	self locations do: [ :eachLocation |
-		(eachLocation filesMatching: '*.png') do: [ :each |
-			icons 
-				at: each basename
-				put: (self loadIcon: each) ] ]
+		(eachLocation filesMatching: '*.' , self filenameExtension) do: [
+			:each |
+			| loaded |
+			loaded := self loadIcon: each.
+			loaded
+				ifNil: [ ('Error: ' , each asString) traceCr ]
+				ifNotNil: [ icons at: each basename put: loaded ] ] ]
 ]
 
 { #category : #utilities }
 ToLocationIconProvider >> loadIcon: fileReference [
 
-	fileReference exists ifFalse: [ 
-		self error: ('Icon {1} does not exit' format: { fileReference fullName }) ].
-
-	^ fileReference binaryReadStreamDo: [ :stream |
-		 Form fromBinaryStream: stream ]
+	fileReference exists ifFalse: [
+		self error:
+			('Icon {1} does not exit' format: { fileReference fullName }) ].
+	^ ((loaderMap at: fileNameExtension asSymbol) value: fileReference)
+		  ifNotNil: [ :loaded | loaded ]
 ]
 
 { #category : #utilities }
 ToLocationIconProvider >> loadIconNamed: aSymbol [
 
 	self locations do: [ :each | | ref |
-		ref := (each / aSymbol) withExtension: 'png'.
+		ref := (each / aSymbol) withExtension: self filenameExtension.
 		ref exists ifTrue: [ 
 			^ self loadIcon: ref ] ].
 	^ nil
@@ -108,17 +135,4 @@ ToLocationIconProvider >> loadIconNamed: aSymbol [
 ToLocationIconProvider >> locations [
 
 	^ locations
-]
-
-{ #category : #accessing }
-ToLocationIconProvider >> menuIconNamed: aName [ 
-
-	^ self iconNamed: aName
-]
-
-{ #category : #accessing }
-ToLocationIconProvider >> setBlankIcon: aForm [
-	"To be able to specify the form that represents a missing icon."
-	
-	icons at: #blank put: aForm
 ]

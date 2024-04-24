@@ -20,7 +20,7 @@ ToPicsumPhotosGallerySelectionSkin >> installLookEvent: anEvent [
 			c frame horizontal alignRight.
 			c vertical fitContent.
 			c horizontal fitContent ].
-		im := ToImage svgPathString: self pathCheckSVG.
+		im := ToImage inner: self pathCheckSVG.
 		im size: 25 asPoint.
 		cont addChild: im.
 		e layout: BlFrameLayout new.

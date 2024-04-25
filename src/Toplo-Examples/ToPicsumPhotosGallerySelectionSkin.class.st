@@ -10,6 +10,7 @@ ToPicsumPhotosGallerySelectionSkin >> installLookEvent: anEvent [
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		| im cont |
+		e border: (BlBorder paint: Color yellow width: 2).
 		cont := BlElement new
 			        geometry: BlCircleGeometry new;
 			        background: Color yellow;

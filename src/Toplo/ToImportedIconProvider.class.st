@@ -61,7 +61,6 @@ ToImportedIconProvider class >> listElementWithAllIconsInProviderClass: aProvide
 			((iconStyle iconNamed: iconName inProvider: icProvider)
 				 size: 24 asPoint;
 				 yourself).
-		imPane whenLayoutedDoOnce: [ imPane size traceCr. ].
 		node addChildren: {
 				stylePane.
 				iclabPane.

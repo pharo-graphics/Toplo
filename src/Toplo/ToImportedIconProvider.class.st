@@ -29,12 +29,15 @@ ToImportedIconProvider class >> listElementWithAllIconsInProviderClass: aProvide
 	l withRowNumbers.
 	l selectionMode beneathOption: ToListSelectionOption none.
 	l selectionMode overOption: ToListSelectionOption grouped.
+	l secondarySelectionMode beneathOption: ToListSelectionOption none.
+	l secondarySelectionMode overOption: ToListSelectionOption separate.
 
 	ToIconStyle allSubclassesDo: [ :cls |
 		| s |
 		s := ('_', cls prefix , '_loaded') asSymbol.
-		(icProvider class respondsTo: s) ifTrue: [
-			l dataAccessor addAll: ((icProvider class perform: s) collect: [:n | n -> cls]) ] ].
+		(icProvider class respondsTo: s) ifTrue: [ | iconNames |
+			iconNames := (icProvider class perform: s) sort.
+			l dataAccessor addAll: (iconNames collect: [:n | n -> cls]) ] ].
 
 	l nodeBuilder: [ :node :holder |
 		| styleLab stylePane iclab iclabPane imPane iconStyle iconName |
@@ -42,13 +45,11 @@ ToImportedIconProvider class >> listElementWithAllIconsInProviderClass: aProvide
 		iconName := holder dataItem key.
 		node layout: BlLinearLayout horizontal.
 		iclabPane := ToPane new layout: BlFrameLayout new.
-		iclabPane withNullSkin.
 		iclabPane vFitContent.
 		iclabPane width: 150.
 		stylePane := ToPane new layout: BlFrameLayout new.
-		stylePane withNullSkin.
 		stylePane vFitContent.
-		stylePane width: 150.
+		stylePane width: 60.
 		iclab := ToLabel text: iconName.
 		iclab constraintsDo: [ :c | c frame vertical alignCenter ].
 		iclabPane addChild: iclab.

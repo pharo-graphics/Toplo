@@ -1,5 +1,5 @@
 Class {
-	#name : #ToTabPaneHeaderNew,
+	#name : #ToTabBar,
 	#superclass : #ToPane,
 	#classTraits : 'TToOrientable classTrait',
 	#instVars : [
@@ -8,34 +8,33 @@ Class {
 		'tabRowContainer',
 		'startContainer',
 		'endContainer',
-		'vertical',
-		'sharedDistributor'
+		'vertical'
 	],
 	#category : #'Toplo-Incubator'
 }
 
 { #category : #'t - orientable - orientation' }
-ToTabPaneHeaderNew >> beHorizontal [
+ToTabBar >> beHorizontal [
 
 	super beHorizontal.
 	self tabs beHorizontal
 ]
 
 { #category : #'t - orientable - orientation' }
-ToTabPaneHeaderNew >> beVertical [
+ToTabBar >> beVertical [
 
 	super beVertical.
 	self tabs beVertical
 ]
 
 { #category : #'tabs selection' }
-ToTabPaneHeaderNew >> dataEmptinessChangeEvent: anEvent [
+ToTabBar >> dataEmptinessChangeEvent: anEvent [
 
 	self tabs selectionModel ifEmpty: [ self selectIndex: 1 ]
 ]
 
 { #category : #initialization }
-ToTabPaneHeaderNew >> defaultTabRowNodeBuilder [
+ToTabBar >> defaultTabRowNodeBuilder [
 
 	^ [ :node :holder |
 	  | tabModel |
@@ -44,25 +43,25 @@ ToTabPaneHeaderNew >> defaultTabRowNodeBuilder [
 ]
 
 { #category : #accessing }
-ToTabPaneHeaderNew >> endContainer [
+ToTabBar >> endContainer [
 
 	^ endContainer
 ]
 
 { #category : #orientation }
-ToTabPaneHeaderNew >> horizontal [
+ToTabBar >> horizontal [
 
 	^ self vertical not
 ]
 
 { #category : #orientation }
-ToTabPaneHeaderNew >> horizontal: aBoolean [
+ToTabBar >> horizontal: aBoolean [
 
 	self vertical: aBoolean not
 ]
 
 { #category : #initialization }
-ToTabPaneHeaderNew >> initialize [
+ToTabBar >> initialize [
 
 	super initialize.
 	tabRowContainer := ToPane new
@@ -85,8 +84,7 @@ ToTabPaneHeaderNew >> initialize [
 	self addChild: startContainer.
 	self addChild: tabRowContainer.
 	self addChild: endContainer.
-	self initializeEventHandler.
-	self
+	tabs
 		addEventHandlerOn: ToListPrimarySelectionChangedEvent
 		do: [ :evt | self tabsSelectionChangedEvent: evt ].
 	tabs dataAccessor
@@ -94,18 +92,8 @@ ToTabPaneHeaderNew >> initialize [
 		do: [ :evt | self dataEmptinessChangeEvent: evt ]
 ]
 
-{ #category : #initialization }
-ToTabPaneHeaderNew >> initializeEventHandler [
-
-	sharedDistributor := BlSharedEventDistributor new shareEvents:
-		                     self sharedEvents yourself.
-	self addEventHandler: sharedDistributor.
-	self tabs addEventHandler: sharedDistributor.
-
-]
-
 { #category : #orientation }
-ToTabPaneHeaderNew >> orientationChanged [
+ToTabBar >> orientationChanged [
 
 	self vertical
 		ifTrue: [ self beVertical ]
@@ -113,55 +101,55 @@ ToTabPaneHeaderNew >> orientationChanged [
 ]
 
 { #category : #'tabs selection' }
-ToTabPaneHeaderNew >> selectIndex: anInteger [
+ToTabBar >> selectIndex: anInteger [
 
 	self tabs selecter selectIndex: anInteger
 ]
 
 { #category : #initialization }
-ToTabPaneHeaderNew >> sharedEvents [
+ToTabBar >> sharedEvents [
 
 	^ { ToListPrimarySelectionChangedEvent. }
 ]
 
 { #category : #accessing }
-ToTabPaneHeaderNew >> startContainer [
+ToTabBar >> startContainer [
 
 	^ startContainer
 ]
 
 { #category : #accessing }
-ToTabPaneHeaderNew >> tabRow [
+ToTabBar >> tabRow [
 
 	^ tabRow 
 ]
 
 { #category : #accessing }
-ToTabPaneHeaderNew >> tabRowContainer [
+ToTabBar >> tabRowContainer [
 
 	^ tabRowContainer
 ]
 
 { #category : #accessing }
-ToTabPaneHeaderNew >> tabs [ 
+ToTabBar >> tabs [ 
 
 	^ tabs
 ]
 
 { #category : #'tabs selection' }
-ToTabPaneHeaderNew >> tabsSelectionChangedEvent: anEvent [
+ToTabBar >> tabsSelectionChangedEvent: anEvent [
 
 	anEvent selectionModel selectedIndexes traceCr.
 ]
 
 { #category : #orientation }
-ToTabPaneHeaderNew >> vertical [
+ToTabBar >> vertical [
 
 	^ vertical
 ]
 
 { #category : #orientation }
-ToTabPaneHeaderNew >> vertical: aBoolean [
+ToTabBar >> vertical: aBoolean [
 
 	vertical = aBoolean ifTrue: [ ^ self ].
 	vertical := aBoolean.

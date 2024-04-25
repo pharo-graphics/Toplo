@@ -4,20 +4,50 @@ Class {
 	#category : #'Toplo-Imported-Icons-MaterialDesign'
 }
 
-{ #category : #'generated - icon type' }
+{ #category : #'_private - icon type' }
 ToMaterialDesignContentIconProvider class >> _iconType [
 
 	^ #'content'
 ]
 
-{ #category : #'private - loaded and unloadable' }
-ToMaterialDesignContentIconProvider class >> _loaded [
-^ #( #outlined_biotech #sharp_biotech #round_biotech #outlined_insights #sharp_insights #round_insights #twotone_insights #outlined_shield #sharp_shield #round_shield #outlined_flag #sharp_flag #round_flag #outlined_flag_circle #sharp_flag_circle #round_flag_circle #twotone_flag_circle #outlined_save_as #sharp_save_as #round_save_as #outlined_font_download #sharp_font_download #round_font_download #outlined_copy_all #sharp_copy_all #round_copy_all #outlined_font_download_off #sharp_font_download_off #round_font_download_off #outlined_remove #sharp_remove #round_remove #twotone_remove #outlined_add_circle_outline #sharp_add_circle_outline #round_add_circle_outline #twotone_add_circle_outline #outlined_dynamic_feed #sharp_dynamic_feed #round_dynamic_feed #outlined_select_all #sharp_select_all #round_select_all #twotone_select_all #outlined_content_copy #sharp_content_copy #round_content_copy #outlined_inbox #sharp_inbox #round_inbox #outlined_weekend #sharp_weekend #round_weekend #outlined_inventory_2 #sharp_inventory_2 #round_inventory_2 #outlined_push_pin #sharp_push_pin #round_push_pin #outlined_calculate #sharp_calculate #round_calculate #outlined_archive #sharp_archive #round_archive #outlined_sort #sharp_sort #round_sort #twotone_sort #outlined_how_to_vote #sharp_how_to_vote #round_how_to_vote #outlined_how_to_reg #sharp_how_to_reg #round_how_to_reg #outlined_bolt #sharp_bolt #round_bolt #twotone_bolt #outlined_change_circle #sharp_change_circle #round_change_circle #outlined_content_cut #sharp_content_cut #round_content_cut #twotone_content_cut #outlined_content_paste_go #sharp_content_paste_go #round_content_paste_go #outlined_redo #sharp_redo #round_redo #twotone_redo #outlined_filter_list #sharp_filter_list #round_filter_list #twotone_filter_list #outlined_mail #sharp_mail #round_mail #outlined_drafts #sharp_drafts #round_drafts #outlined_link_off #sharp_link_off #round_link_off #twotone_link_off #outlined_content_paste #sharp_content_paste #round_content_paste #round_stream #outlined_remove_circle #sharp_remove_circle #round_remove_circle #outlined_remove_circle_outline #sharp_remove_circle_outline #round_remove_circle_outline #twotone_remove_circle_outline #outlined_amp_stories #sharp_amp_stories #round_amp_stories #twotone_amp_stories #outlined_deselect #sharp_deselect #round_deselect #twotone_deselect #outlined_undo #sharp_undo #round_undo #twotone_undo #outlined_content_paste_search #sharp_content_paste_search #round_content_paste_search #outlined_file_copy #sharp_file_copy #round_file_copy #outlined_text_format #sharp_text_format #round_text_format #twotone_text_format #outlined_unarchive #sharp_unarchive #round_unarchive #outlined_clear #sharp_clear #round_clear #twotone_clear #outlined_markunread #sharp_markunread #round_markunread #outlined_where_to_vote #sharp_where_to_vote #round_where_to_vote #outlined_reply_all #sharp_reply_all #round_reply_all #twotone_reply_all #outlined_reply #sharp_reply #round_reply #twotone_reply #outlined_save_alt #sharp_save_alt #round_save_alt #twotone_save_alt #outlined_report_off #sharp_report_off #round_report_off #outlined_add #sharp_add #round_add #twotone_add #outlined_link #sharp_link #round_link #outlined_add_circle #sharp_add_circle #round_add_circle #outlined_add_box #sharp_add_box #round_add_box #outlined_gesture #sharp_gesture #round_gesture #twotone_gesture #outlined_web_stories #sharp_web_stories #round_web_stories #outlined_next_week #sharp_next_week #round_next_week #outlined_inventory #sharp_inventory #round_inventory #outlined_attribution #sharp_attribution #round_attribution #outlined_waves #sharp_waves #round_waves #twotone_waves #outlined_ballot #sharp_ballot #round_ballot #outlined_backspace #sharp_backspace #round_backspace #outlined_filter_list_off #sharp_filter_list_off #round_filter_list_off #twotone_filter_list_off #outlined_content_paste_off #sharp_content_paste_off #round_content_paste_off #outlined_report #sharp_report #round_report #outlined_delete_sweep #sharp_delete_sweep #round_delete_sweep #outlined_square_foot #sharp_square_foot #round_square_foot #outlined_upcoming #sharp_upcoming #round_upcoming #outlined_add_link #sharp_add_link #round_add_link #twotone_add_link #outlined_outlined_flag #sharp_outlined_flag #round_outlined_flag #twotone_outlined_flag #outlined_report_gmailerrorred #sharp_report_gmailerrorred #round_report_gmailerrorred #twotone_report_gmailerrorred #outlined_save #sharp_save #round_save #outlined_send #sharp_send #round_send #outlined_create #sharp_create #round_create #outlined_stacked_bar_chart #sharp_stacked_bar_chart #round_stacked_bar_chart #twotone_stacked_bar_chart #outlined_tag #sharp_tag #round_tag #twotone_tag #outlined_low_priority #sharp_low_priority #round_low_priority #twotone_low_priority #outlined_forward #sharp_forward #round_forward #outlined_policy #sharp_policy #round_policy #outlined_move_to_inbox #sharp_move_to_inbox #round_move_to_inbox #outlined_block #sharp_block #round_block #twotone_block  )
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignContentIconProvider class >> _outlined_loaded [
+^ #( #biotech #insights #shield #flag #flag_circle #save_as #font_download #copy_all #font_download_off #remove #add_circle_outline #dynamic_feed #select_all #content_copy #inbox #weekend #inventory_2 #push_pin #calculate #archive #sort #how_to_vote #how_to_reg #bolt #change_circle #content_cut #content_paste_go #redo #filter_list #mail #drafts #link_off #content_paste #remove_circle #remove_circle_outline #amp_stories #deselect #undo #content_paste_search #file_copy #text_format #unarchive #clear #markunread #where_to_vote #reply_all #reply #save_alt #report_off #add #link #add_circle #add_box #gesture #web_stories #next_week #inventory #attribution #waves #ballot #backspace #filter_list_off #content_paste_off #report #delete_sweep #square_foot #upcoming #add_link #outlined_flag #report_gmailerrorred #save #send #create #stacked_bar_chart #tag #low_priority #forward #policy #move_to_inbox #block  )
 ]
 
-{ #category : #'private - loaded and unloadable' }
-ToMaterialDesignContentIconProvider class >> _unloadable [
-^ #( #twotone_biotech #twotone_shield #twotone_flag #twotone_save_as #twotone_font_download #twotone_copy_all #twotone_font_download_off #twotone_dynamic_feed #twotone_content_copy #twotone_inbox #twotone_weekend #twotone_inventory_2 #twotone_push_pin #twotone_calculate #twotone_archive #twotone_how_to_vote #twotone_how_to_reg #twotone_change_circle #twotone_content_paste_go #twotone_mail #twotone_drafts #twotone_content_paste #outlined_stream #sharp_stream #twotone_stream #twotone_remove_circle #twotone_content_paste_search #twotone_file_copy #twotone_unarchive #twotone_markunread #twotone_where_to_vote #twotone_report_off #twotone_link #twotone_add_circle #twotone_add_box #twotone_web_stories #twotone_next_week #twotone_inventory #twotone_attribution #twotone_ballot #twotone_backspace #twotone_content_paste_off #twotone_report #twotone_delete_sweep #twotone_square_foot #twotone_upcoming #twotone_save #twotone_send #twotone_create #twotone_forward #twotone_policy #twotone_move_to_inbox  )
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignContentIconProvider class >> _outlined_unloadable [
+^ #( #stream  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignContentIconProvider class >> _round_loaded [
+^ #( #biotech #insights #shield #flag #flag_circle #save_as #font_download #copy_all #font_download_off #remove #add_circle_outline #dynamic_feed #select_all #content_copy #inbox #weekend #inventory_2 #push_pin #calculate #archive #sort #how_to_vote #how_to_reg #bolt #change_circle #content_cut #content_paste_go #redo #filter_list #mail #drafts #link_off #content_paste #stream #remove_circle #remove_circle_outline #amp_stories #deselect #undo #content_paste_search #file_copy #text_format #unarchive #clear #markunread #where_to_vote #reply_all #reply #save_alt #report_off #add #link #add_circle #add_box #gesture #web_stories #next_week #inventory #attribution #waves #ballot #backspace #filter_list_off #content_paste_off #report #delete_sweep #square_foot #upcoming #add_link #outlined_flag #report_gmailerrorred #save #send #create #stacked_bar_chart #tag #low_priority #forward #policy #move_to_inbox #block  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignContentIconProvider class >> _round_unloadable [
+^ #(  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignContentIconProvider class >> _sharp_loaded [
+^ #( #biotech #insights #shield #flag #flag_circle #save_as #font_download #copy_all #font_download_off #remove #add_circle_outline #dynamic_feed #select_all #content_copy #inbox #weekend #inventory_2 #push_pin #calculate #archive #sort #how_to_vote #how_to_reg #bolt #change_circle #content_cut #content_paste_go #redo #filter_list #mail #drafts #link_off #content_paste #remove_circle #remove_circle_outline #amp_stories #deselect #undo #content_paste_search #file_copy #text_format #unarchive #clear #markunread #where_to_vote #reply_all #reply #save_alt #report_off #add #link #add_circle #add_box #gesture #web_stories #next_week #inventory #attribution #waves #ballot #backspace #filter_list_off #content_paste_off #report #delete_sweep #square_foot #upcoming #add_link #outlined_flag #report_gmailerrorred #save #send #create #stacked_bar_chart #tag #low_priority #forward #policy #move_to_inbox #block  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignContentIconProvider class >> _sharp_unloadable [
+^ #( #stream  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignContentIconProvider class >> _twotone_loaded [
+^ #( #insights #flag_circle #remove #add_circle_outline #select_all #sort #bolt #content_cut #redo #filter_list #link_off #remove_circle_outline #amp_stories #deselect #undo #text_format #clear #reply_all #reply #save_alt #add #gesture #waves #filter_list_off #add_link #outlined_flag #report_gmailerrorred #stacked_bar_chart #tag #low_priority #block  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignContentIconProvider class >> _twotone_unloadable [
+^ #( #biotech #shield #flag #save_as #font_download #copy_all #font_download_off #dynamic_feed #content_copy #inbox #weekend #inventory_2 #push_pin #calculate #archive #how_to_vote #how_to_reg #change_circle #content_paste_go #mail #drafts #content_paste #stream #remove_circle #content_paste_search #file_copy #unarchive #markunread #where_to_vote #report_off #link #add_circle #add_box #web_stories #next_week #inventory #attribution #ballot #backspace #content_paste_off #report #delete_sweep #square_foot #upcoming #save #send #create #forward #policy #move_to_inbox  )
 ]
 
 { #category : #add }

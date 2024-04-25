@@ -4,20 +4,50 @@ Class {
 	#category : #'Toplo-Imported-Icons-MaterialDesign'
 }
 
-{ #category : #'generated - icon type' }
+{ #category : #'_private - icon type' }
 ToMaterialDesignSearchIconProvider class >> _iconType [
 
 	^ #'search'
 ]
 
-{ #category : #'private - loaded and unloadable' }
-ToMaterialDesignSearchIconProvider class >> _loaded [
-^ #( #outlined_bed #sharp_bed #round_bed #outlined_door_back #sharp_door_back #round_door_back #outlined_door_front #sharp_door_front #round_door_front #outlined_bedroom_child #sharp_bedroom_child #round_bedroom_child #outlined_bathroom #sharp_bathroom #round_bathroom #outlined_bedroom_baby #sharp_bedroom_baby #round_bedroom_baby #outlined_manage_search #sharp_manage_search #round_manage_search #twotone_manage_search #outlined_living #sharp_living #round_living #outlined_doorbell #sharp_doorbell #round_doorbell #outlined_coffee_maker #sharp_coffee_maker #round_coffee_maker #outlined_chair #sharp_chair #round_chair #outlined_shower #sharp_shower #round_shower #outlined_podcasts #sharp_podcasts #round_podcasts #twotone_podcasts #outlined_feed #sharp_feed #round_feed #outlined_window #sharp_window #round_window #outlined_coffee #sharp_coffee #round_coffee #outlined_table_bar #sharp_table_bar #round_table_bar #outlined_camera_indoor #sharp_camera_indoor #round_camera_indoor #outlined_door_sliding #sharp_door_sliding #round_door_sliding #outlined_light #sharp_light #round_light #outlined_flatware #sharp_flatware #round_flatware #twotone_flatware #outlined_dining #sharp_dining #round_dining #outlined_table_restaurant #sharp_table_restaurant #round_table_restaurant #outlined_garage #sharp_garage #round_garage #outlined_blender #sharp_blender #round_blender #outlined_camera_outdoor #sharp_camera_outdoor #round_camera_outdoor #twotone_camera_outdoor #outlined_yard #sharp_yard #round_yard #outlined_chair_alt #sharp_chair_alt #round_chair_alt #outlined_bedroom_parent #sharp_bedroom_parent #round_bedroom_parent  )
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignSearchIconProvider class >> _outlined_loaded [
+^ #( #bed #door_back #door_front #bedroom_child #bathroom #bedroom_baby #manage_search #living #doorbell #coffee_maker #chair #shower #podcasts #feed #window #coffee #table_bar #camera_indoor #door_sliding #light #flatware #dining #table_restaurant #garage #blender #camera_outdoor #yard #chair_alt #bedroom_parent  )
 ]
 
-{ #category : #'private - loaded and unloadable' }
-ToMaterialDesignSearchIconProvider class >> _unloadable [
-^ #( #twotone_bed #twotone_door_back #twotone_door_front #twotone_bedroom_child #twotone_bathroom #twotone_bedroom_baby #twotone_living #twotone_doorbell #twotone_coffee_maker #twotone_chair #twotone_shower #twotone_feed #twotone_window #twotone_coffee #twotone_table_bar #twotone_camera_indoor #twotone_door_sliding #twotone_light #twotone_dining #twotone_table_restaurant #twotone_garage #twotone_blender #twotone_yard #twotone_chair_alt #twotone_bedroom_parent  )
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignSearchIconProvider class >> _outlined_unloadable [
+^ #(  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignSearchIconProvider class >> _round_loaded [
+^ #( #bed #door_back #door_front #bedroom_child #bathroom #bedroom_baby #manage_search #living #doorbell #coffee_maker #chair #shower #podcasts #feed #window #coffee #table_bar #camera_indoor #door_sliding #light #flatware #dining #table_restaurant #garage #blender #camera_outdoor #yard #chair_alt #bedroom_parent  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignSearchIconProvider class >> _round_unloadable [
+^ #(  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignSearchIconProvider class >> _sharp_loaded [
+^ #( #bed #door_back #door_front #bedroom_child #bathroom #bedroom_baby #manage_search #living #doorbell #coffee_maker #chair #shower #podcasts #feed #window #coffee #table_bar #camera_indoor #door_sliding #light #flatware #dining #table_restaurant #garage #blender #camera_outdoor #yard #chair_alt #bedroom_parent  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignSearchIconProvider class >> _sharp_unloadable [
+^ #(  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignSearchIconProvider class >> _twotone_loaded [
+^ #( #manage_search #podcasts #flatware #camera_outdoor  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignSearchIconProvider class >> _twotone_unloadable [
+^ #( #bed #door_back #door_front #bedroom_child #bathroom #bedroom_baby #living #doorbell #coffee_maker #chair #shower #feed #window #coffee #table_bar #camera_indoor #door_sliding #light #dining #table_restaurant #garage #blender #yard #chair_alt #bedroom_parent  )
 ]
 
 { #category : #bathroom }

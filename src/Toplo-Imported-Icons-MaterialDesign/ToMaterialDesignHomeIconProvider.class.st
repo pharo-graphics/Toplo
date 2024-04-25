@@ -4,20 +4,50 @@ Class {
 	#category : #'Toplo-Imported-Icons-MaterialDesign'
 }
 
-{ #category : #'generated - icon type' }
+{ #category : #'_private - icon type' }
 ToMaterialDesignHomeIconProvider class >> _iconType [
 
 	^ #'home'
 ]
 
-{ #category : #'private - loaded and unloadable' }
-ToMaterialDesignHomeIconProvider class >> _loaded [
-^ #( #outlined_wind_power #sharp_wind_power #round_wind_power #outlined_mode_fan_off #sharp_mode_fan_off #round_mode_fan_off #outlined_sensor_door #sharp_sensor_door #round_sensor_door #outlined_gas_meter #sharp_gas_meter #round_gas_meter #outlined_blinds #sharp_blinds #round_blinds #outlined_roller_shades_closed #sharp_roller_shades_closed #round_roller_shades_closed #twotone_roller_shades_closed #outlined_propane_tank #sharp_propane_tank #round_propane_tank #outlined_electric_meter #sharp_electric_meter #round_electric_meter #outlined_nest_cam_wired_stand #sharp_nest_cam_wired_stand #round_nest_cam_wired_stand #outlined_blinds_closed #sharp_blinds_closed #round_blinds_closed #round_solar_power #outlined_electric_bolt #sharp_electric_bolt #round_electric_bolt #twotone_electric_bolt #outlined_oil_barrel #sharp_oil_barrel #round_oil_barrel #outlined_curtains #sharp_curtains #round_curtains #outlined_curtains_closed #sharp_curtains_closed #round_curtains_closed #outlined_auto_mode #sharp_auto_mode #round_auto_mode #twotone_auto_mode #outlined_sensor_window #sharp_sensor_window #round_sensor_window #outlined_heat_pump #sharp_heat_pump #round_heat_pump #outlined_propane #sharp_propane #round_propane #outlined_sensor_occupied #sharp_sensor_occupied #round_sensor_occupied #outlined_vertical_shades_closed #sharp_vertical_shades_closed #round_vertical_shades_closed #outlined_energy_savings_leaf #sharp_energy_savings_leaf #round_energy_savings_leaf #twotone_energy_savings_leaf #outlined_vertical_shades #sharp_vertical_shades #round_vertical_shades #outlined_broadcast_on_personal #sharp_broadcast_on_personal #round_broadcast_on_personal #outlined_shield_moon #sharp_shield_moon #round_shield_moon #outlined_roller_shades #sharp_roller_shades #round_roller_shades #outlined_broadcast_on_home #sharp_broadcast_on_home #round_broadcast_on_home  )
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignHomeIconProvider class >> _outlined_loaded [
+^ #( #wind_power #mode_fan_off #sensor_door #gas_meter #blinds #roller_shades_closed #propane_tank #electric_meter #nest_cam_wired_stand #blinds_closed #electric_bolt #oil_barrel #curtains #curtains_closed #auto_mode #sensor_window #heat_pump #propane #sensor_occupied #vertical_shades_closed #energy_savings_leaf #vertical_shades #broadcast_on_personal #shield_moon #roller_shades #broadcast_on_home  )
 ]
 
-{ #category : #'private - loaded and unloadable' }
-ToMaterialDesignHomeIconProvider class >> _unloadable [
-^ #( #twotone_wind_power #twotone_mode_fan_off #twotone_sensor_door #twotone_gas_meter #twotone_blinds #twotone_propane_tank #twotone_electric_meter #twotone_nest_cam_wired_stand #twotone_blinds_closed #outlined_solar_power #sharp_solar_power #twotone_solar_power #twotone_oil_barrel #twotone_curtains #twotone_curtains_closed #twotone_sensor_window #twotone_heat_pump #twotone_propane #twotone_sensor_occupied #twotone_vertical_shades_closed #twotone_vertical_shades #twotone_broadcast_on_personal #twotone_shield_moon #twotone_roller_shades #twotone_broadcast_on_home  )
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignHomeIconProvider class >> _outlined_unloadable [
+^ #( #solar_power  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignHomeIconProvider class >> _round_loaded [
+^ #( #wind_power #mode_fan_off #sensor_door #gas_meter #blinds #roller_shades_closed #propane_tank #electric_meter #nest_cam_wired_stand #blinds_closed #solar_power #electric_bolt #oil_barrel #curtains #curtains_closed #auto_mode #sensor_window #heat_pump #propane #sensor_occupied #vertical_shades_closed #energy_savings_leaf #vertical_shades #broadcast_on_personal #shield_moon #roller_shades #broadcast_on_home  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignHomeIconProvider class >> _round_unloadable [
+^ #(  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignHomeIconProvider class >> _sharp_loaded [
+^ #( #wind_power #mode_fan_off #sensor_door #gas_meter #blinds #roller_shades_closed #propane_tank #electric_meter #nest_cam_wired_stand #blinds_closed #electric_bolt #oil_barrel #curtains #curtains_closed #auto_mode #sensor_window #heat_pump #propane #sensor_occupied #vertical_shades_closed #energy_savings_leaf #vertical_shades #broadcast_on_personal #shield_moon #roller_shades #broadcast_on_home  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignHomeIconProvider class >> _sharp_unloadable [
+^ #( #solar_power  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignHomeIconProvider class >> _twotone_loaded [
+^ #( #roller_shades_closed #electric_bolt #auto_mode #energy_savings_leaf  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignHomeIconProvider class >> _twotone_unloadable [
+^ #( #wind_power #mode_fan_off #sensor_door #gas_meter #blinds #propane_tank #electric_meter #nest_cam_wired_stand #blinds_closed #solar_power #oil_barrel #curtains #curtains_closed #sensor_window #heat_pump #propane #sensor_occupied #vertical_shades_closed #vertical_shades #broadcast_on_personal #shield_moon #roller_shades #broadcast_on_home  )
 ]
 
 { #category : #'auto_mode' }

@@ -4,20 +4,50 @@ Class {
 	#category : #'Toplo-Imported-Icons-MaterialDesign'
 }
 
-{ #category : #'generated - icon type' }
+{ #category : #'_private - icon type' }
 ToMaterialDesignFileIconProvider class >> _iconType [
 
 	^ #'file'
 ]
 
-{ #category : #'private - loaded and unloadable' }
-ToMaterialDesignFileIconProvider class >> _loaded [
-^ #( #outlined_folder_shared #sharp_folder_shared #round_folder_shared #outlined_snippet_folder #sharp_snippet_folder #round_snippet_folder #outlined_file_upload #sharp_file_upload #round_file_upload #outlined_create_new_folder #sharp_create_new_folder #round_create_new_folder #outlined_folder_open #sharp_folder_open #round_folder_open #outlined_drive_file_move_rtl #sharp_drive_file_move_rtl #round_drive_file_move_rtl #outlined_drive_file_move #sharp_drive_file_move #round_drive_file_move #outlined_cloud_done #sharp_cloud_done #round_cloud_done #outlined_cloud_queue #sharp_cloud_queue #round_cloud_queue #outlined_folder_copy #sharp_folder_copy #round_folder_copy #outlined_drive_file_rename_outline #round_drive_file_rename_outline #outlined_download_done #sharp_download_done #round_download_done #twotone_download_done #outlined_folder_delete #sharp_folder_delete #round_folder_delete #outlined_text_snippet #sharp_text_snippet #round_text_snippet #outlined_cloud_download #sharp_cloud_download #round_cloud_download #outlined_file_download_off #sharp_file_download_off #round_file_download_off #outlined_file_open #sharp_file_open #round_file_open #outlined_attachment #sharp_attachment #round_attachment #twotone_attachment #outlined_cloud_upload #sharp_cloud_upload #round_cloud_upload #outlined_folder #sharp_folder #round_folder #outlined_file_download_done #sharp_file_download_done #round_file_download_done #twotone_file_download_done #outlined_cloud_circle #sharp_cloud_circle #round_cloud_circle #outlined_format_overline #sharp_format_overline #round_format_overline #twotone_format_overline #outlined_download_for_offline #sharp_download_for_offline #round_download_for_offline #outlined_cloud_sync #sharp_cloud_sync #round_cloud_sync #twotone_cloud_sync #outlined_newspaper #sharp_newspaper #round_newspaper #twotone_newspaper #outlined_topic #sharp_topic #round_topic #outlined_workspaces #sharp_workspaces #round_workspaces #outlined_rule_folder #sharp_rule_folder #round_rule_folder #outlined_folder_zip #sharp_folder_zip #round_folder_zip #outlined_difference #sharp_difference #round_difference #outlined_attach_email #sharp_attach_email #round_attach_email #twotone_attach_email #outlined_download #sharp_download #round_download #outlined_downloading #sharp_downloading #round_downloading #twotone_downloading #outlined_cloud #sharp_cloud #round_cloud #outlined_file_download #sharp_file_download #round_file_download #outlined_drive_folder_upload #sharp_drive_folder_upload #round_drive_folder_upload #outlined_upload_file #sharp_upload_file #round_upload_file #outlined_grid_view #sharp_grid_view #round_grid_view #outlined_cloud_off #sharp_cloud_off #round_cloud_off #outlined_request_quote #sharp_request_quote #round_request_quote #outlined_folder_off #sharp_folder_off #round_folder_off #outlined_upload #sharp_upload #round_upload #outlined_approval #sharp_approval #round_approval  )
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignFileIconProvider class >> _outlined_loaded [
+^ #( #folder_shared #snippet_folder #file_upload #create_new_folder #folder_open #drive_file_move_rtl #drive_file_move #cloud_done #cloud_queue #folder_copy #drive_file_rename_outline #download_done #folder_delete #text_snippet #cloud_download #file_download_off #file_open #attachment #cloud_upload #folder #file_download_done #cloud_circle #format_overline #download_for_offline #cloud_sync #newspaper #topic #workspaces #rule_folder #folder_zip #difference #attach_email #download #downloading #cloud #file_download #drive_folder_upload #upload_file #grid_view #cloud_off #request_quote #folder_off #upload #approval  )
 ]
 
-{ #category : #'private - loaded and unloadable' }
-ToMaterialDesignFileIconProvider class >> _unloadable [
-^ #( #twotone_folder_shared #twotone_snippet_folder #twotone_file_upload #twotone_create_new_folder #twotone_folder_open #twotone_drive_file_move_rtl #twotone_drive_file_move #twotone_cloud_done #twotone_cloud_queue #twotone_folder_copy #sharp_drive_file_rename_outline #twotone_drive_file_rename_outline #twotone_folder_delete #twotone_text_snippet #twotone_cloud_download #twotone_file_download_off #twotone_file_open #twotone_cloud_upload #twotone_folder #twotone_cloud_circle #twotone_download_for_offline #twotone_topic #twotone_workspaces #twotone_rule_folder #twotone_folder_zip #twotone_difference #twotone_download #twotone_cloud #twotone_file_download #twotone_drive_folder_upload #twotone_upload_file #twotone_grid_view #twotone_cloud_off #twotone_request_quote #twotone_folder_off #twotone_upload #twotone_approval  )
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignFileIconProvider class >> _outlined_unloadable [
+^ #(  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignFileIconProvider class >> _round_loaded [
+^ #( #folder_shared #snippet_folder #file_upload #create_new_folder #folder_open #drive_file_move_rtl #drive_file_move #cloud_done #cloud_queue #folder_copy #drive_file_rename_outline #download_done #folder_delete #text_snippet #cloud_download #file_download_off #file_open #attachment #cloud_upload #folder #file_download_done #cloud_circle #format_overline #download_for_offline #cloud_sync #newspaper #topic #workspaces #rule_folder #folder_zip #difference #attach_email #download #downloading #cloud #file_download #drive_folder_upload #upload_file #grid_view #cloud_off #request_quote #folder_off #upload #approval  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignFileIconProvider class >> _round_unloadable [
+^ #(  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignFileIconProvider class >> _sharp_loaded [
+^ #( #folder_shared #snippet_folder #file_upload #create_new_folder #folder_open #drive_file_move_rtl #drive_file_move #cloud_done #cloud_queue #folder_copy #download_done #folder_delete #text_snippet #cloud_download #file_download_off #file_open #attachment #cloud_upload #folder #file_download_done #cloud_circle #format_overline #download_for_offline #cloud_sync #newspaper #topic #workspaces #rule_folder #folder_zip #difference #attach_email #download #downloading #cloud #file_download #drive_folder_upload #upload_file #grid_view #cloud_off #request_quote #folder_off #upload #approval  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignFileIconProvider class >> _sharp_unloadable [
+^ #( #drive_file_rename_outline  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignFileIconProvider class >> _twotone_loaded [
+^ #( #download_done #attachment #file_download_done #format_overline #cloud_sync #newspaper #attach_email #downloading  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignFileIconProvider class >> _twotone_unloadable [
+^ #( #folder_shared #snippet_folder #file_upload #create_new_folder #folder_open #drive_file_move_rtl #drive_file_move #cloud_done #cloud_queue #folder_copy #drive_file_rename_outline #folder_delete #text_snippet #cloud_download #file_download_off #file_open #cloud_upload #folder #cloud_circle #download_for_offline #topic #workspaces #rule_folder #folder_zip #difference #download #cloud #file_download #drive_folder_upload #upload_file #grid_view #cloud_off #request_quote #folder_off #upload #approval  )
 ]
 
 { #category : #approval }

@@ -4,20 +4,50 @@ Class {
 	#category : #'Toplo-Imported-Icons-MaterialDesign'
 }
 
-{ #category : #'generated - icon type' }
+{ #category : #'_private - icon type' }
 ToMaterialDesignAlertIconProvider class >> _iconType [
 
 	^ #'alert'
 ]
 
-{ #category : #'private - loaded and unloadable' }
-ToMaterialDesignAlertIconProvider class >> _loaded [
-^ #( #outlined_error_outline #sharp_error_outline #round_error_outline #twotone_error_outline #outlined_add_alert #sharp_add_alert #round_add_alert #outlined_notification_important #sharp_notification_important #round_notification_important #outlined_warning_amber #sharp_warning_amber #round_warning_amber #twotone_warning_amber #outlined_warning #sharp_warning #round_warning #outlined_auto_delete #sharp_auto_delete #round_auto_delete #outlined_error #sharp_error #round_error  )
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignAlertIconProvider class >> _outlined_loaded [
+^ #( #error_outline #add_alert #notification_important #warning_amber #warning #auto_delete #error  )
 ]
 
-{ #category : #'private - loaded and unloadable' }
-ToMaterialDesignAlertIconProvider class >> _unloadable [
-^ #( #twotone_add_alert #twotone_notification_important #twotone_warning #twotone_auto_delete #twotone_error  )
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignAlertIconProvider class >> _outlined_unloadable [
+^ #(  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignAlertIconProvider class >> _round_loaded [
+^ #( #error_outline #add_alert #notification_important #warning_amber #warning #auto_delete #error  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignAlertIconProvider class >> _round_unloadable [
+^ #(  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignAlertIconProvider class >> _sharp_loaded [
+^ #( #error_outline #add_alert #notification_important #warning_amber #warning #auto_delete #error  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignAlertIconProvider class >> _sharp_unloadable [
+^ #(  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignAlertIconProvider class >> _twotone_loaded [
+^ #( #error_outline #warning_amber  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignAlertIconProvider class >> _twotone_unloadable [
+^ #( #add_alert #notification_important #warning #auto_delete #error  )
 ]
 
 { #category : #'add_alert' }

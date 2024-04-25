@@ -4,20 +4,50 @@ Class {
 	#category : #'Toplo-Imported-Icons-MaterialDesign'
 }
 
-{ #category : #'generated - icon type' }
+{ #category : #'_private - icon type' }
 ToMaterialDesignNavigationIconProvider class >> _iconType [
 
 	^ #'navigation'
 ]
 
-{ #category : #'private - loaded and unloadable' }
-ToMaterialDesignNavigationIconProvider class >> _loaded [
-^ #( #outlined_arrow_forward #sharp_arrow_forward #round_arrow_forward #twotone_arrow_forward #outlined_expand_less #sharp_expand_less #round_expand_less #twotone_expand_less #outlined_payments #sharp_payments #round_payments #outlined_arrow_drop_down #sharp_arrow_drop_down #round_arrow_drop_down #twotone_arrow_drop_down #outlined_arrow_downward #sharp_arrow_downward #round_arrow_downward #twotone_arrow_downward #outlined_close #sharp_close #round_close #twotone_close #outlined_north #sharp_north #round_north #twotone_north #outlined_maps_home_work #sharp_maps_home_work #round_maps_home_work #outlined_pivot_table_chart #sharp_pivot_table_chart #round_pivot_table_chart #twotone_pivot_table_chart #outlined_arrow_drop_up #sharp_arrow_drop_up #round_arrow_drop_up #twotone_arrow_drop_up #outlined_fullscreen_exit #sharp_fullscreen_exit #round_fullscreen_exit #twotone_fullscreen_exit #outlined_subdirectory_arrow_left #sharp_subdirectory_arrow_left #round_subdirectory_arrow_left #twotone_subdirectory_arrow_left #outlined_refresh #sharp_refresh #round_refresh #twotone_refresh #outlined_apps_outage #sharp_apps_outage #round_apps_outage #twotone_apps_outage #outlined_app_settings_alt #sharp_app_settings_alt #round_app_settings_alt #outlined_arrow_drop_down_circle #sharp_arrow_drop_down_circle #round_arrow_drop_down_circle #outlined_unfold_more #sharp_unfold_more #round_unfold_more #twotone_unfold_more #outlined_add_home_work #sharp_add_home_work #round_add_home_work #outlined_offline_share #sharp_offline_share #round_offline_share #twotone_offline_share #outlined_arrow_forward_ios #sharp_arrow_forward_ios #twotone_arrow_forward_ios #outlined_chevron_left #sharp_chevron_left #round_chevron_left #twotone_chevron_left #outlined_east #sharp_east #round_east #twotone_east #outlined_legend_toggle #sharp_legend_toggle #round_legend_toggle #twotone_legend_toggle #outlined_menu_open #sharp_menu_open #round_menu_open #twotone_menu_open #outlined_switch_left #sharp_switch_left #round_switch_left #twotone_switch_left #outlined_double_arrow #sharp_double_arrow #round_double_arrow #twotone_double_arrow #outlined_home_work #sharp_home_work #round_home_work #outlined_north_east #sharp_north_east #round_north_east #twotone_north_east #outlined_arrow_back #sharp_arrow_back #round_arrow_back #twotone_arrow_back #outlined_menu #sharp_menu #round_menu #twotone_menu #outlined_campaign #sharp_campaign #round_campaign #outlined_south #sharp_south #round_south #twotone_south #outlined_south_west #sharp_south_west #round_south_west #twotone_south_west #outlined_more_horiz #sharp_more_horiz #round_more_horiz #twotone_more_horiz #outlined_waterfall_chart #sharp_waterfall_chart #round_waterfall_chart #twotone_waterfall_chart #outlined_expand_circle_down #sharp_expand_circle_down #round_expand_circle_down #outlined_assistant_direction #sharp_assistant_direction #round_assistant_direction #outlined_west #sharp_west #round_west #twotone_west #outlined_fullscreen #sharp_fullscreen #round_fullscreen #twotone_fullscreen #outlined_check #sharp_check #round_check #twotone_check #outlined_apps #sharp_apps #round_apps #twotone_apps #outlined_arrow_upward #sharp_arrow_upward #round_arrow_upward #twotone_arrow_upward #outlined_more_vert #sharp_more_vert #round_more_vert #twotone_more_vert #outlined_south_east #sharp_south_east #round_south_east #twotone_south_east #outlined_north_west #sharp_north_west #round_north_west #twotone_north_west #outlined_arrow_back_ios_new #sharp_arrow_back_ios_new #round_arrow_back_ios_new #twotone_arrow_back_ios_new #outlined_arrow_right #sharp_arrow_right #round_arrow_right #twotone_arrow_right #outlined_chevron_right #sharp_chevron_right #round_chevron_right #twotone_chevron_right  )
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignNavigationIconProvider class >> _outlined_loaded [
+^ #( #arrow_forward #expand_less #payments #arrow_drop_down #arrow_downward #close #north #maps_home_work #pivot_table_chart #arrow_drop_up #fullscreen_exit #subdirectory_arrow_left #refresh #apps_outage #app_settings_alt #arrow_drop_down_circle #unfold_more #add_home_work #offline_share #arrow_forward_ios #chevron_left #east #legend_toggle #menu_open #switch_left #double_arrow #home_work #north_east #arrow_back #menu #campaign #south #south_west #more_horiz #waterfall_chart #expand_circle_down #assistant_direction #west #fullscreen #check #apps #arrow_upward #more_vert #south_east #north_west #arrow_back_ios_new #arrow_right #chevron_right  )
 ]
 
-{ #category : #'private - loaded and unloadable' }
-ToMaterialDesignNavigationIconProvider class >> _unloadable [
-^ #( #outlined_subdirectory_arrow_right #sharp_subdirectory_arrow_right #round_subdirectory_arrow_right #twotone_subdirectory_arrow_right #outlined_cancel #sharp_cancel #round_cancel #twotone_cancel #twotone_payments #outlined_unfold_less #sharp_unfold_less #round_unfold_less #twotone_unfold_less #outlined_last_page #sharp_last_page #round_last_page #twotone_last_page #twotone_maps_home_work #outlined_expand_more #sharp_expand_more #round_expand_more #twotone_expand_more #twotone_app_settings_alt #twotone_arrow_drop_down_circle #twotone_add_home_work #round_arrow_forward_ios #outlined_switch_right #sharp_switch_right #round_switch_right #twotone_switch_right #twotone_home_work #outlined_arrow_back_ios #sharp_arrow_back_ios #round_arrow_back_ios #twotone_arrow_back_ios #twotone_campaign #twotone_expand_circle_down #twotone_assistant_direction #outlined_arrow_left #sharp_arrow_left #round_arrow_left #twotone_arrow_left #outlined_first_page #sharp_first_page #round_first_page #twotone_first_page  )
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignNavigationIconProvider class >> _outlined_unloadable [
+^ #( #subdirectory_arrow_right #cancel #unfold_less #last_page #expand_more #switch_right #arrow_back_ios #arrow_left #first_page  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignNavigationIconProvider class >> _round_loaded [
+^ #( #arrow_forward #expand_less #payments #arrow_drop_down #arrow_downward #close #north #maps_home_work #pivot_table_chart #arrow_drop_up #fullscreen_exit #subdirectory_arrow_left #refresh #apps_outage #app_settings_alt #arrow_drop_down_circle #unfold_more #add_home_work #offline_share #chevron_left #east #legend_toggle #menu_open #switch_left #double_arrow #home_work #north_east #arrow_back #menu #campaign #south #south_west #more_horiz #waterfall_chart #expand_circle_down #assistant_direction #west #fullscreen #check #apps #arrow_upward #more_vert #south_east #north_west #arrow_back_ios_new #arrow_right #chevron_right  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignNavigationIconProvider class >> _round_unloadable [
+^ #( #subdirectory_arrow_right #cancel #unfold_less #last_page #expand_more #arrow_forward_ios #switch_right #arrow_back_ios #arrow_left #first_page  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignNavigationIconProvider class >> _sharp_loaded [
+^ #( #arrow_forward #expand_less #payments #arrow_drop_down #arrow_downward #close #north #maps_home_work #pivot_table_chart #arrow_drop_up #fullscreen_exit #subdirectory_arrow_left #refresh #apps_outage #app_settings_alt #arrow_drop_down_circle #unfold_more #add_home_work #offline_share #arrow_forward_ios #chevron_left #east #legend_toggle #menu_open #switch_left #double_arrow #home_work #north_east #arrow_back #menu #campaign #south #south_west #more_horiz #waterfall_chart #expand_circle_down #assistant_direction #west #fullscreen #check #apps #arrow_upward #more_vert #south_east #north_west #arrow_back_ios_new #arrow_right #chevron_right  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignNavigationIconProvider class >> _sharp_unloadable [
+^ #( #subdirectory_arrow_right #cancel #unfold_less #last_page #expand_more #switch_right #arrow_back_ios #arrow_left #first_page  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignNavigationIconProvider class >> _twotone_loaded [
+^ #( #arrow_forward #expand_less #arrow_drop_down #arrow_downward #close #north #pivot_table_chart #arrow_drop_up #fullscreen_exit #subdirectory_arrow_left #refresh #apps_outage #unfold_more #offline_share #arrow_forward_ios #chevron_left #east #legend_toggle #menu_open #switch_left #double_arrow #north_east #arrow_back #menu #south #south_west #more_horiz #waterfall_chart #west #fullscreen #check #apps #arrow_upward #more_vert #south_east #north_west #arrow_back_ios_new #arrow_right #chevron_right  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignNavigationIconProvider class >> _twotone_unloadable [
+^ #( #subdirectory_arrow_right #cancel #payments #unfold_less #last_page #maps_home_work #expand_more #app_settings_alt #arrow_drop_down_circle #add_home_work #switch_right #home_work #arrow_back_ios #campaign #expand_circle_down #assistant_direction #arrow_left #first_page  )
 ]
 
 { #category : #'add_home_work' }

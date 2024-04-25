@@ -4,38 +4,70 @@ Class {
 	#category : #'Toplo-Core-Theme'
 }
 
-{ #category : #'loaded and unloadable' }
-ToImportedIconProvider class >> _loaded [
-
-	^ #(  )
-]
-
-{ #category : #'loaded and unloadable' }
-ToImportedIconProvider class >> _unloadable [
-
-	^ #(  )
-]
-
 { #category : #accessing }
 ToImportedIconProvider class >> iconNamed: aName [
 
-	| aToImportedIconProvider |
-	aToImportedIconProvider := self new.
-
-	^ aToImportedIconProvider iconNamed: aName ifAbsent: [  ]
+	^ self iconNamed: aName ifAbsent: [  ]
 ]
 
 { #category : #accessing }
 ToImportedIconProvider class >> iconNamed: aName ifAbsent: aBlock [
 
-	| aToImportedIconProvider |
-	aToImportedIconProvider := self new.
-
 	^ [
 	  ToImage inner:
-		  (aToImportedIconProvider class perform: aName asSymbol) ]
+		  (self perform: aName asSymbol) ]
 		  on: Error
 		  do: [ :err | aBlock value ]
+]
+
+{ #category : #'_private - utilities' }
+ToImportedIconProvider class >> listElementWithAllIconsInProviderClass: aProviderClass [
+
+	| l icProvider |
+	icProvider := aProviderClass new.
+	l := ToListElement new.
+	l withRowNumbers.
+	l selectionMode beneathOption: ToListSelectionOption none.
+	l selectionMode overOption: ToListSelectionOption grouped.
+
+	ToIconStyle allSubclassesDo: [ :cls |
+		| s |
+		s := ('_', cls prefix , '_loaded') asSymbol.
+		(icProvider class respondsTo: s) ifTrue: [
+			l dataAccessor addAll: ((icProvider class perform: s) collect: [:n | n -> cls]) ] ].
+
+	l nodeBuilder: [ :node :holder |
+		| styleLab stylePane iclab iclabPane imPane iconStyle iconName |
+		iconStyle := holder dataItem value.
+		iconName := holder dataItem key.
+		node layout: BlLinearLayout horizontal.
+		iclabPane := ToPane new layout: BlFrameLayout new.
+		iclabPane withNullSkin.
+		iclabPane vFitContent.
+		iclabPane width: 150.
+		stylePane := ToPane new layout: BlFrameLayout new.
+		stylePane withNullSkin.
+		stylePane vFitContent.
+		stylePane width: 150.
+		iclab := ToLabel text: iconName.
+		iclab constraintsDo: [ :c | c frame vertical alignCenter ].
+		iclabPane addChild: iclab.
+		styleLab := ToLabel text: iconStyle prefix.
+		styleLab constraintsDo: [ :c | c frame vertical alignCenter ].
+		stylePane addChild: styleLab.
+		imPane := ToPane new layout: BlFrameLayout new.
+		imPane fitContent.
+		imPane addChild:
+			((iconStyle iconNamed: iconName inProvider: icProvider)
+				 size: 24 asPoint;
+				 yourself).
+		node addChildren: {
+				stylePane.
+				iclabPane.
+				imPane }.
+		node childrenDo: [ :child |
+			child constraintsDo: [ :c | c linear vertical alignCenter ] ] ].
+	^ l
 ]
 
 { #category : #accessing }

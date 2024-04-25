@@ -4,20 +4,50 @@ Class {
 	#category : #'Toplo-Imported-Icons-MaterialDesign'
 }
 
-{ #category : #'generated - icon type' }
+{ #category : #'_private - icon type' }
 ToMaterialDesignToggleIconProvider class >> _iconType [
 
 	^ #'toggle'
 ]
 
-{ #category : #'private - loaded and unloadable' }
-ToMaterialDesignToggleIconProvider class >> _loaded [
-^ #( #outlined_indeterminate_check_box #sharp_indeterminate_check_box #round_indeterminate_check_box #outlined_star_border #sharp_star_border #round_star_border #twotone_star_border #outlined_radio_button_unchecked #sharp_radio_button_unchecked #round_radio_button_unchecked #twotone_radio_button_unchecked #outlined_check_box_outline_blank #sharp_check_box_outline_blank #round_check_box_outline_blank #twotone_check_box_outline_blank #outlined_star_border_purple500 #sharp_star_border_purple500 #round_star_border_purple500 #twotone_star_border_purple500 #outlined_star_half #sharp_star_half #round_star_half #twotone_star_half #outlined_radio_button_checked #sharp_radio_button_checked #round_radio_button_checked #twotone_radio_button_checked #outlined_toggle_on #sharp_toggle_on #round_toggle_on #outlined_toggle_off #sharp_toggle_off #round_toggle_off #outlined_star #sharp_star #round_star #outlined_star_outline #sharp_star_outline #round_star_outline #twotone_star_outline #outlined_check_box #sharp_check_box #round_check_box #outlined_star_purple500 #sharp_star_purple500 #round_star_purple500 #twotone_star_purple500  )
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignToggleIconProvider class >> _outlined_loaded [
+^ #( #indeterminate_check_box #star_border #radio_button_unchecked #check_box_outline_blank #star_border_purple500 #star_half #radio_button_checked #toggle_on #toggle_off #star #star_outline #check_box #star_purple500  )
 ]
 
-{ #category : #'private - loaded and unloadable' }
-ToMaterialDesignToggleIconProvider class >> _unloadable [
-^ #( #twotone_indeterminate_check_box #twotone_toggle_on #twotone_toggle_off #twotone_star #twotone_check_box  )
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignToggleIconProvider class >> _outlined_unloadable [
+^ #(  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignToggleIconProvider class >> _round_loaded [
+^ #( #indeterminate_check_box #star_border #radio_button_unchecked #check_box_outline_blank #star_border_purple500 #star_half #radio_button_checked #toggle_on #toggle_off #star #star_outline #check_box #star_purple500  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignToggleIconProvider class >> _round_unloadable [
+^ #(  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignToggleIconProvider class >> _sharp_loaded [
+^ #( #indeterminate_check_box #star_border #radio_button_unchecked #check_box_outline_blank #star_border_purple500 #star_half #radio_button_checked #toggle_on #toggle_off #star #star_outline #check_box #star_purple500  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignToggleIconProvider class >> _sharp_unloadable [
+^ #(  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignToggleIconProvider class >> _twotone_loaded [
+^ #( #star_border #radio_button_unchecked #check_box_outline_blank #star_border_purple500 #star_half #radio_button_checked #star_outline #star_purple500  )
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignToggleIconProvider class >> _twotone_unloadable [
+^ #( #indeterminate_check_box #toggle_on #toggle_off #star #check_box  )
 ]
 
 { #category : #'check_box' }

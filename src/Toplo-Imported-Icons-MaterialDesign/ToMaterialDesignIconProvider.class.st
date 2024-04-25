@@ -4,51 +4,47 @@ Class {
 	#category : #'Toplo-Imported-Icons-MaterialDesign'
 }
 
-{ #category : #'_code generating' }
-ToMaterialDesignIconProvider class >> listElementWithAllIcons [
+{ #category : #'_private - icon type' }
+ToMaterialDesignIconProvider class >> _iconType [
+	^ self subclassResponsibility
+]
 
-	| l  |
-	l := ToListElement new.
-	l withRowNumbers.
-	l selectionMode beneathOption: ToListSelectionOption none.
-	l selectionMode overOption: ToListSelectionOption grouped.
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignIconProvider class >> _outlined_loaded [
+	^ self subclassResponsibility
+]
 
-	self subclassesDo: [ :providerCls |
-		ToIconStyle allSubclassesDo: [ :styleCls |
-			| s |
-			s := #'_loaded'.
-			l dataAccessor addAll: ((providerCls perform: s) collect: [:n | n -> (providerCls -> styleCls) ]) ] ].
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignIconProvider class >> _outlined_unloadable [
+	^ self subclassResponsibility
+]
 
-	l nodeBuilder: [ :node :holder |
-		| styleCls typeLab typePane iclab iclabPane imPane providerCls iconName |
-		providerCls := holder dataItem value key.
-		styleCls := holder dataItem value value.
-		iconName := holder dataItem key.
-		node layout: BlLinearLayout horizontal.
-		iclabPane := ToPane new layout: BlFrameLayout new.
-		iclabPane withNullSkin.
-		iclabPane vFitContent.
-		iclabPane width: 150.
-		typePane := ToPane new layout: BlFrameLayout new.
-		typePane withNullSkin.
-		typePane vFitContent.
-		typePane width: 150.
-		iclab := ToLabel text: iconName.
-		iclab constraintsDo: [ :c | c frame vertical alignCenter ].
-		iclabPane addChild: iclab.
-		typeLab := ToLabel text: providerCls _iconType.
-		typeLab constraintsDo: [ :c | c frame vertical alignCenter ].
-		typePane addChild: typeLab.
-		imPane := ToPane new layout: BlFrameLayout new.
-		imPane fitContent.
-		imPane addChild: ((ToImage inner: (providerCls perform: iconName asSymbol))
-				 size: 24 asPoint;
-				 yourself).
-		node addChildren: {
-				typePane.
-				iclabPane.
-				imPane }.
-		node childrenDo: [ :child |
-			child constraintsDo: [ :c | c linear vertical alignCenter ] ] ].
-	^ l
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignIconProvider class >> _round_loaded [
+	^ self subclassResponsibility
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignIconProvider class >> _round_unloadable [
+	^ self subclassResponsibility
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignIconProvider class >> _sharp_loaded [
+	^ self subclassResponsibility
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignIconProvider class >> _sharp_unloadable [
+	^ self subclassResponsibility
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignIconProvider class >> _twotone_loaded [
+	^ self subclassResponsibility
+]
+
+{ #category : #'_private - loaded and unloadable' }
+ToMaterialDesignIconProvider class >> _twotone_unloadable [
+	^ self subclassResponsibility
 ]

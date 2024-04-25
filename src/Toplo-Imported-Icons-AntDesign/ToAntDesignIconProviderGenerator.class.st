@@ -1,16 +1,13 @@
+"
+ToAntDesignIconProviderGenerator  generateIconProviderClassesFromSrcDirectotyNamed: 'ant\_svg'
+"
 Class {
 	#name : #ToAntDesignIconProviderGenerator,
 	#superclass : #Object,
 	#category : #'Toplo-Imported-Icons-AntDesign'
 }
 
-{ #category : #'_code generating' }
-ToAntDesignIconProviderGenerator class >> categoryNameFromFileName: aFileName [
-
-	^ ($- split: ($. split: aFileName) first) first asLowercase
-]
-
-{ #category : #'_code generating' }
+{ #category : #'code generating' }
 ToAntDesignIconProviderGenerator class >> generateIconProviderClassesFromSrcDirectotyNamed: aSrcDirName [
 
 	| newClass |
@@ -29,7 +26,7 @@ ToAntDesignIconProviderGenerator class >> generateIconProviderClassesFromSrcDire
 			style: style ]
 ]
 
-{ #category : #'_code generating' }
+{ #category : #'code generating' }
 ToAntDesignIconProviderGenerator class >> generateIconProviderMethodsInClass: aClass fromSrcDirectoryNamed: aSrcDirName style: anIconStyle [
 	" 
 	generate the material design icon provider classes
@@ -43,32 +40,43 @@ ToAntDesignIconProviderGenerator class >> generateIconProviderMethodsInClass: aC
 	self
 		generateIconProviderMethodsInClass: aClass
 		withIcons: (styleDir asFileReference entries collect: [ :each |
-				 (self iconNameFromFileName: each basename)
-				 -> ((self categoryNameFromFileName: each basename)
-					  -> each readStream contents) ])
+				 | categoryName iconName |
+				 iconName := (($. split: each basename) first
+					              replaceAll: $-
+					              with: Character space) asCamelCase asValidSelector.
+				 categoryName := ($- split: ($. split: each basename) first) first
+					                 asLowercase.
+				 iconName -> (categoryName -> each readStream contents) ])
 		style: anIconStyle
 ]
 
-{ #category : #'_code generating' }
-ToAntDesignIconProviderGenerator class >> generateIconProviderMethodsInClass: aClass withIcons: aCollection style: anIconStyle [
+{ #category : #'code generating' }
+ToAntDesignIconProviderGenerator class >> generateIconProviderMethodsInClass: aClass withIcons: iconAssocCollection style: anIconStyle [
 
-	| unloadable loaded unloadableCode loadedCode |
-	aCollection ifEmpty: [ ^ self ].
+	| unloadable loaded unloadableCode loadedCode stylePrefix |
+	iconAssocCollection ifEmpty: [ ^ self ].
+
+	stylePrefix := anIconStyle prefix.
 	unloadable := #(  ).
 	loaded := #(  ).
-	aCollection do: [ :assoc |
+
+	iconAssocCollection do: [ :assoc |
 		assoc ifNotNil: [
 			| loadable |
 			loadable := ([ BlSvgConverter convertFromString: assoc value value ]
 				             on: Error
 				             do: [  ]) notNil.
 			loadable
-				ifTrue: [ | code  |
+				ifTrue: [
+					| code |
 					loaded := loaded copyWith: assoc key asSymbol.
-					code := assoc value value copyReplaceAll: String lf with: String space asTokens: false.
+					code := assoc value value
+						        copyReplaceAll: String lf
+						        with: String space
+						        asTokens: false.
 					aClass class
 						compile:
-						anIconStyle prefix, '_', assoc key, String cr , '^''' , code , ''''
+						stylePrefix , '_' , assoc key , String cr , '^''' , code , ''''
 						classified: assoc value key ]
 				ifFalse: [ unloadable := unloadable copyWith: assoc key asSymbol ] ] ].
 
@@ -81,16 +89,12 @@ ToAntDesignIconProviderGenerator class >> generateIconProviderMethodsInClass: aC
 			              stream nextPutAll: symb printString.
 			              stream nextPutAll: ' ' ] ].
 	aClass class
-		compile: '_', anIconStyle prefix, '_unloadable' , String cr , '^ #( ' , unloadableCode , ' )'
+		compile: '_' , stylePrefix , '_unloadable' , String cr , '^ #( '
+			, unloadableCode , ' )'
 		classified: #'_private - loaded and unloadable'.
 	aClass class
-		compile: '_', anIconStyle prefix, '_loaded' , String cr , '^ #( ' , loadedCode , ' )'
+		compile:
+			'_' , stylePrefix , '_loaded' , String cr , '^ #( ' , loadedCode
+			, ' )'
 		classified: #'_private - loaded and unloadable'
-]
-
-{ #category : #'_code generating' }
-ToAntDesignIconProviderGenerator class >> iconNameFromFileName: aFileName [
-
-	^ (($. split: aFileName) first replaceAll: $- with: Character space)
-		  asCamelCase asValidSelector
 ]

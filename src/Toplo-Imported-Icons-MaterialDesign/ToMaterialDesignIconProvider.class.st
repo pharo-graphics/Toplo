@@ -1,3 +1,11 @@
+"
+(ToImportedIconProvider listElementWithAllIconsInProviderClass: ToMaterialDesignAlertIconProvider ) openInSpace.
+(ToImportedIconProvider listElementWithAllIconsInProviderClass: ToMaterialDesignCommunicationIconProvider ) openInSpace.
+(ToImportedIconProvider listElementWithAllIconsInProviderClass: ToMaterialDesignContentIconProvider ) openInSpace.
+(ToImportedIconProvider listElementWithAllIconsInProviderClass: ToMaterialDesignMapsIconProvider ) openInSpace.
+
+(ToIconSharpStyle iconNamed: '18mp' inProvider: ToMaterialDesignImageIconProvider) matchParent; openInSpace.
+"
 Class {
 	#name : #ToMaterialDesignIconProvider,
 	#superclass : #ToImportedIconProvider,

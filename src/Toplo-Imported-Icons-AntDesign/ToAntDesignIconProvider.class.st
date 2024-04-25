@@ -1,3 +1,8 @@
+"
+(ToImportedIconProvider listElementWithAllIconsInProviderClass: ToAntDesignIconProvider  ) openInSpace.
+
+(ToIconFilledStyle iconNamed: 'alert' inProvider: ToAntDesignIconProvider) matchParent; openInSpace.
+"
 Class {
 	#name : #ToAntDesignIconProvider,
 	#superclass : #ToImportedIconProvider,

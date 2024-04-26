@@ -6,7 +6,9 @@ Class {
 	#instVars : [
 		'selectionMode',
 		'sharedEventDistributors',
-		'dataSource'
+		'dataSource',
+		'overContainer',
+		'beneathContainer'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -52,10 +54,16 @@ ToAbstractListElement >> beVertical [
 ]
 
 { #category : #accessing }
+ToAbstractListElement >> beneathContainer [
+
+	^ beneathContainer
+]
+
+{ #category : #accessing }
 ToAbstractListElement >> contextMenuSelectionElements [
 
 	^ Array streamContents: [ :stream |
-		  self childrenDo: [ :child |
+		  self overContainer childrenDo: [ :child |
 			  (child isKindOf: ToListContextMenuSelectionElement) ifTrue: [
 				  stream nextPut: child ] ] ]
 ]
@@ -187,6 +195,13 @@ ToAbstractListElement >> initialize [
 
 	super initialize.
 	self initializeDataSource.
+	beneathContainer := BlOverlayElement new.
+	beneathContainer attachTo: self.
+	beneathContainer elevation: (BlRelativeElevation elevation: 5).  
+	overContainer := BlOverlayElement new.
+	overContainer attachTo: self.
+	overContainer elevation: (BlRelativeElevation elevation: 15). 
+	self addChildren: { beneathContainer. overContainer }.
 
 	self next: self defaultInfiniteElement.
 	self next elevation: (BlRelativeElevation elevation: 10).
@@ -277,7 +292,7 @@ ToAbstractListElement >> newSelectionModel [
 { #category : #accessing }
 ToAbstractListElement >> nodeBuilder [
 
-	"aValuable takes 2 args: first, the node to build and second, its holder in the list element "
+	"aValuable takes 3 args: (1), the node to build (2) ts holder in the list element (3) the associated data "
 
 	^ self subclassResponsibility 
 ]
@@ -353,6 +368,12 @@ ToAbstractListElement >> offsetPositionRecordsForFilter: aStartPosition itemCoun
 		self selectionModel copySelectionFrom: aSieve selectionModel ]
 ]
 
+{ #category : #accessing }
+ToAbstractListElement >> overContainer [
+
+	^ overContainer
+]
+
 { #category : #'t - element with placeholder' }
 ToAbstractListElement >> placeholderElevation [
 
@@ -363,7 +384,10 @@ ToAbstractListElement >> placeholderElevation [
 ToAbstractListElement >> primarySelectionElements [
 
 	^ Array streamContents: [ :stream |
-		  self childrenDo: [ :child |
+		  overContainer childrenDo: [ :child |
+			  (child isKindOf: self selectionMode elementClass) ifTrue: [
+				  stream nextPut: child ] ].
+		  beneathContainer childrenDo: [ :child |
 			  (child isKindOf: self selectionMode elementClass) ifTrue: [
 				  stream nextPut: child ] ] ]
 ]

@@ -12,7 +12,7 @@ ToBasicNodeHolder >> bindDataItem: aData [
 
 	self listElement nodeHolderBuilder value: self value: aData.
 	self node: (self listElement nodeFactory cull: self).
-	self listElement nodeBuilder cull: self node cull: self
+	self listElement nodeBuilder cull: self node cull: self cull: aData
 ]
 
 { #category : #accessing }

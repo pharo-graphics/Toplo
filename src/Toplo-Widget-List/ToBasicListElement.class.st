@@ -109,7 +109,7 @@ ToBasicListElement >> newSelectionModel [
 { #category : #accessing }
 ToBasicListElement >> nodeBuilder [
 
-	"aValuable takes 2 args: first, the node to build and second, its holder in the list element "
+	"aValuable takes 3 args: (1), the node to build (2) ts holder in the list element (3) the associated data "
 	^ nodeBuilder
 ]
 

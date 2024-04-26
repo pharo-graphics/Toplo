@@ -7,10 +7,12 @@ Class {
 { #category : #'selection managing' }
 ToListSelectionElementEventHandler >> addNewSelectionElementsFrom: target [
 
-	|  newSelElements |
+	| newSelElements |
 	newSelElements := self newSelectionElementsFrom: target.
-	target addChildren: newSelElements.
-
+	newSelElements do: [ :e |
+		e beneath
+			ifTrue: [ target beneathContainer addChild: e ]
+			ifFalse: [ target overContainer addChild: e ] ]
 ]
 
 { #category : #'selection managing' }

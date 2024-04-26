@@ -1,5 +1,5 @@
 Class {
-	#name : #ToTabBar,
+	#name : #ToTabBarElement,
 	#superclass : #ToPane,
 	#classTraits : 'TToOrientable classTrait',
 	#instVars : [
@@ -14,61 +14,62 @@ Class {
 }
 
 { #category : #'t - orientable - orientation' }
-ToTabBar >> beHorizontal [
+ToTabBarElement >> beHorizontal [
 
 	super beHorizontal.
 	self tabs beHorizontal
 ]
 
 { #category : #'t - orientable - orientation' }
-ToTabBar >> beVertical [
+ToTabBarElement >> beVertical [
 
 	super beVertical.
 	self tabs beVertical
 ]
 
 { #category : #'tabs selection' }
-ToTabBar >> dataEmptinessChangeEvent: anEvent [
+ToTabBarElement >> dataEmptinessChangeEvent: anEvent [
 
 	self tabs selectionModel ifEmpty: [ self selectIndex: 1 ]
 ]
 
 { #category : #initialization }
-ToTabBar >> defaultTabRowNodeBuilder [
+ToTabBarElement >> defaultNodeBuilder [
 
-	^ [ :node :holder |
-	  | tabModel |
-	  tabModel := holder dataItem.
-	  tabModel buttonBuilder value: node value: holder ]
+	^ [ :tabNode :holder |
+	  | lab |
+	  lab := ToLabeledIcon new labelText: holder dataItem data asString.
+	  tabNode addChild: lab.
+	  tabNode constraintsDo: [ :c | c horizontal fitContent ] ]
 ]
 
 { #category : #accessing }
-ToTabBar >> endContainer [
+ToTabBarElement >> endContainer [
 
 	^ endContainer
 ]
 
 { #category : #orientation }
-ToTabBar >> horizontal [
+ToTabBarElement >> horizontal [
 
 	^ self vertical not
 ]
 
 { #category : #orientation }
-ToTabBar >> horizontal: aBoolean [
+ToTabBarElement >> horizontal: aBoolean [
 
 	self vertical: aBoolean not
 ]
 
 { #category : #initialization }
-ToTabBar >> initialize [
+ToTabBarElement >> initialize [
 
 	super initialize.
 	tabRowContainer := ToPane new
 		                   fitContent;
 		                   yourself.
 	tabs := ToListElement new
-		        nodeBuilder: self defaultTabRowNodeBuilder;
+		        nodeBuilder: self defaultNodeBuilder;
 		        yourself.
 	tabs nodeFactory: [ ToTabNode new ].
 	tabs matchParent.
@@ -93,7 +94,7 @@ ToTabBar >> initialize [
 ]
 
 { #category : #orientation }
-ToTabBar >> orientationChanged [
+ToTabBarElement >> orientationChanged [
 
 	self vertical
 		ifTrue: [ self beVertical ]
@@ -101,55 +102,55 @@ ToTabBar >> orientationChanged [
 ]
 
 { #category : #'tabs selection' }
-ToTabBar >> selectIndex: anInteger [
+ToTabBarElement >> selectIndex: anInteger [
 
 	self tabs selecter selectIndex: anInteger
 ]
 
 { #category : #initialization }
-ToTabBar >> sharedEvents [
+ToTabBarElement >> sharedEvents [
 
 	^ { ToListPrimarySelectionChangedEvent. }
 ]
 
 { #category : #accessing }
-ToTabBar >> startContainer [
+ToTabBarElement >> startContainer [
 
 	^ startContainer
 ]
 
 { #category : #accessing }
-ToTabBar >> tabRow [
+ToTabBarElement >> tabRow [
 
 	^ tabRow 
 ]
 
 { #category : #accessing }
-ToTabBar >> tabRowContainer [
+ToTabBarElement >> tabRowContainer [
 
 	^ tabRowContainer
 ]
 
 { #category : #accessing }
-ToTabBar >> tabs [ 
+ToTabBarElement >> tabs [ 
 
 	^ tabs
 ]
 
 { #category : #'tabs selection' }
-ToTabBar >> tabsSelectionChangedEvent: anEvent [
+ToTabBarElement >> tabsSelectionChangedEvent: anEvent [
 
 	anEvent selectionModel selectedIndexes traceCr.
 ]
 
 { #category : #orientation }
-ToTabBar >> vertical [
+ToTabBarElement >> vertical [
 
 	^ vertical
 ]
 
 { #category : #orientation }
-ToTabBar >> vertical: aBoolean [
+ToTabBarElement >> vertical: aBoolean [
 
 	vertical = aBoolean ifTrue: [ ^ self ].
 	vertical := aBoolean.

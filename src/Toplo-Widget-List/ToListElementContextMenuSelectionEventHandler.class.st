@@ -13,7 +13,7 @@ ToListElementContextMenuSelectionEventHandler >> addContextMenuSelectionIn: aLis
 		        listElement: aListElement;
 		        nodes: (Array with: aChildNode);
 		        yourself.
-	aListElement addChild: deco
+	aListElement overContainer addChild: deco
 ]
 
 { #category : #'element handlers' }
@@ -40,7 +40,7 @@ ToListElementContextMenuSelectionEventHandler >> contextMenuSelectionOverPrimary
 			        listElement: aListElement;
 			        nodes: group;
 			        yourself.
-		aListElement addChild: deco ]
+		aListElement overContainer addChild: deco ]
 ]
 
 { #category : #'element handlers' }

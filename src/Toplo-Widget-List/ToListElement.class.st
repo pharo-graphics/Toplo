@@ -91,7 +91,10 @@ ToListElement >> secondarySelecter [
 ToListElement >> secondarySelectionElements [
 
 	^ Array streamContents: [ :stream |
-		  self childrenDo: [ :child |
+		  overContainer childrenDo: [ :child |
+			  (child isKindOf: secondarySelectionMode elementClass) ifTrue: [
+				  stream nextPut: child ] ].
+		  beneathContainer childrenDo: [ :child |
 			  (child isKindOf: secondarySelectionMode elementClass) ifTrue: [
 				  stream nextPut: child ] ] ]
 ]

@@ -7,6 +7,12 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Element'
 }
 
+{ #category : #accessing }
+ToListContextMenuSelectionElement >> beneath [
+
+	^ false
+]
+
 { #category : #initialization }
 ToListContextMenuSelectionElement >> initialize [
 

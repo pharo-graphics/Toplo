@@ -8,8 +8,8 @@ Class {
 ToTabPaneHeaderNewExamples class >> example_header10Tab [
 
 	| header |
-	header := ToTabBar new.
-	1 to: 10 do: [ :count | header tabs dataAccessor add: (ToTabNew new data: 'Tab ', count asString). ].
+	header := ToTabBarElement new.
+	1 to: 10 do: [ :count | header tabs dataAccessor add: (ToTabModel new data: 'Tab ', count asString). ].
 	header background: Color yellow.
 	header hMatchParent.
 	header tabs vFitContent.

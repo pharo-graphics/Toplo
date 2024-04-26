@@ -34,13 +34,13 @@ ToImportedIconProvider class >> listElementWithAllIconsInProviderClass: aProvide
 
 	styles := ToIconStyle allSubclasses asArray sort: [ :a :b |
 		          a name < b name ].
-	styles do: [ :cls |
+	styles do: [ :style |
 		| s |
-		s := ('_' , cls prefix , '_loaded') asSymbol.
+		s := ('_' , style prefix , '_loaded') asSymbol.
 		(icProvider class respondsTo: s) ifTrue: [
 			| iconNames |
 			iconNames := (icProvider class perform: s) sort.
-			l dataAccessor addAll: (iconNames collect: [ :n | n -> cls ]) ] ].
+			l dataAccessor addAll: (iconNames collect: [ :n | n -> style ]) ] ].
 
 	l nodeBuilder: [ :node :holder |
 		| styleLab stylePane iclab iclabPane imPane iconStyle iconName |

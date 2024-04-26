@@ -9,3 +9,9 @@ ToListPrimarySelectionElement >> newRawSkin [
 
 	^ ToListPrimarySelectionElementSkin new
 ]
+
+{ #category : #private }
+ToListPrimarySelectionElement >> sizeFrom: aPoint [
+
+	^ super sizeFrom: aPoint "(listElement primarySelectionSizeFrom: aPoint)"
+]

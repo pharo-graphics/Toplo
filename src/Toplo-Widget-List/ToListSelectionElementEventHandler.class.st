@@ -11,8 +11,8 @@ ToListSelectionElementEventHandler >> addNewSelectionElementsFrom: target [
 	newSelElements := self newSelectionElementsFrom: target.
 	newSelElements do: [ :e |
 		e beneath
-			ifTrue: [ target beneathContainer addChild: e ]
-			ifFalse: [ target overContainer addChild: e ] ]
+			ifTrue: [ target addBeneathSelectionElement: e ]
+			ifFalse: [ target addOverSelectionElement: e ] ]
 ]
 
 { #category : #'selection managing' }

@@ -8,8 +8,14 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Element'
 }
 
+{ #category : #accessing }
+ToListSelectionElement >> boundsFrom: aBounds [
+
+	^ aBounds
+]
+
 { #category : #private }
-ToListSelectionElement >> boundsFromSelectedNodes [
+ToListSelectionElement >> boundsFromNodes [
 	" compute my bounds from my list of adjacent nodes. "
 
 	| first last top bottom |
@@ -19,39 +25,24 @@ ToListSelectionElement >> boundsFromSelectedNodes [
 	bottom := first = last
 		          ifTrue: [ top ]
 		          ifFalse: [ self boundsOfNode: last ].
-	^ BlBounds
-		  origin: top origin 
-		  corner: bottom corner 
+	^ self boundsFrom: (BlBounds origin: top origin corner: bottom corner)
 ]
 
 { #category : #private }
 ToListSelectionElement >> boundsOfNode: aNode [
 	" compute local node bounds "
 
-	| bnds lpad tpad hgap vgap |
-	bnds := (aNode bounds inSpace inChild: listElement) bounds.
-	" expand to ensure a confortable context menu selection visual"
-	listElement isVertical
-		ifTrue: [
-			lpad := listElement next padding left.
-			tpad := listElement next padding top ]
-		ifFalse: [
-			lpad := aNode padding left.
-			tpad := aNode padding top ].
-	hgap := lpad > 0
-		        ifTrue: [ lpad - 1 ]
-		        ifFalse: [ 0 ].
-	vgap := tpad > 0
-		        ifTrue: [ 1 ]
-		        ifFalse: [ 0 ].
-	^ bnds "expandBy: hgap @ vgap"
+	^ (aNode bounds inSpace inChild: listElement) bounds
 ]
 
 { #category : #private }
 ToListSelectionElement >> computeBounds [
 	" compute my bounds from my list of adjacent nodes. "
 
-	self bounds: self boundsFromSelectedNodes
+	| bnds |
+	bnds := self boundsFromNodes.
+	self position: (self positionFrom: bnds origin).
+	self size: (self sizeFrom: bnds extent)
 ]
 
 { #category : #initialization }
@@ -86,4 +77,16 @@ ToListSelectionElement >> nodes: aCollection [
 
 	nodes := aCollection.
 	self computeBounds
+]
+
+{ #category : #private }
+ToListSelectionElement >> positionFrom: aPoint [
+
+	^ aPoint
+]
+
+{ #category : #private }
+ToListSelectionElement >> sizeFrom: aPoint [
+
+	^ aPoint
 ]

@@ -13,6 +13,18 @@ Class {
 	#category : #'Toplo-Widget-List-Core'
 }
 
+{ #category : #'private - selection elements' }
+ToAbstractListElement >> addBeneathSelectionElement: aSelectionElement [
+
+	beneathContainer addChild: aSelectionElement
+]
+
+{ #category : #'private - selection elements' }
+ToAbstractListElement >> addOverSelectionElement: aSelectionElement [
+
+	overContainer addChild: aSelectionElement
+]
+
 { #category : #'private - commands' }
 ToAbstractListElement >> applyDataSourceFilterCommand: aDataSourceCommand [
 ]
@@ -195,16 +207,18 @@ ToAbstractListElement >> initialize [
 
 	super initialize.
 	self initializeDataSource.
-	beneathContainer := BlOverlayElement new.
+	self next: self defaultInfiniteElement.
+	self next elevation: (BlRelativeElevation elevation: 10).
+
+	beneathContainer := ToOverlayElement new.
 	beneathContainer attachTo: self.
 	beneathContainer elevation: (BlRelativeElevation elevation: 5).  
-	overContainer := BlOverlayElement new.
+	overContainer := ToOverlayElement new.
 	overContainer attachTo: self.
 	overContainer elevation: (BlRelativeElevation elevation: 15). 
 	self addChildren: { beneathContainer. overContainer }.
 
-	self next: self defaultInfiniteElement.
-	self next elevation: (BlRelativeElevation elevation: 10).
+
 
 	self layout: self defaultLayout.	
 

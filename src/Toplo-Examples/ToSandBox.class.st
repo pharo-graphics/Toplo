@@ -1143,6 +1143,9 @@ ToSandBox class >> example_PicsumPhotosGallery [
 	list selectionMode beneathOption: ToListSelectionOption none.
 	list selectionMode overOption: ToListSelectionOption separate.
 	list selectionMode elementClass: ToPicsumPhotosGallerySelectionElement.
+"	list overContainer positionHook: [ :p | (p x ""- 4"") @ p y ].
+	list overContainer sizeHook: [ :s | (s x + 5) @ (s y)].
+"
 
 	[
 	| allImagesData |
@@ -1157,7 +1160,7 @@ ToSandBox class >> example_PicsumPhotosGallery [
 	vscrollBar := BlVerticalScrollbarElement new.
 	vscrollBar constraintsDo: [ :c |
 		c ignoreByLayout.
-		c margin: (BlInsets right: 0).
+		c margin: (BlInsets left: 10).
 		c ignored horizontal alignRight.
 		c ignored vertical alignBottom ].
 	vscrollBar attachTo: list infinite.

@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-Examples'
 }
 
+{ #category : #accessing }
+ToPicsumPhotosGallerySelectionElement >> boundsFrom: aBounds [
+
+	^ aBounds left: (aBounds left - 5)
+]
+
 { #category : #'instance creation' }
 ToPicsumPhotosGallerySelectionElement >> newRawSkin [ 
 

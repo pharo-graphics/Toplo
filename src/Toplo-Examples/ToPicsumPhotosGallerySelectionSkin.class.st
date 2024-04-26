@@ -9,10 +9,16 @@ ToPicsumPhotosGallerySelectionSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		| im cont bar |
-		bar := BlElement new width: 4; yourself.
+		| im cont bar w |
+		w := 5.
+		bar := BlElement new
+			       width: w;
+			       margin: (BlInsets left: 1);
+			       yourself.
 		bar background: Color yellow.
-		bar constraintsDo: [ :c | c vertical matchParent. c frame horizontal alignLeft ].
+		bar constraintsDo: [ :c |
+			c vertical matchParent.
+			c frame horizontal alignLeft ].
 		e addChild: bar.
 		cont := BlElement new
 			        geometry: BlCircleGeometry new;
@@ -24,13 +30,12 @@ ToPicsumPhotosGallerySelectionSkin >> installLookEvent: anEvent [
 			c vertical fitContent.
 			c horizontal fitContent ].
 		im := ToImage inner: self pathCheckSVG.
-		im size: 25 asPoint.
+		im size: 18 asPoint.
 		im background: Color yellow.
 		im geometry: BlCircleGeometry new.
 		cont padding: (BlInsets all: 8).
 		cont addChild: im.
 		e layout: BlFrameLayout new.
-		e margin: (BlInsets left: 10).
 		e addChild: cont ]
 ]
 

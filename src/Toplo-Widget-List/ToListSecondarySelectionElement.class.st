@@ -9,3 +9,9 @@ ToListSecondarySelectionElement >> newRawSkin [
 
 	^ ToListSecondarySelectionElementSkin new
 ]
+
+{ #category : #accessing }
+ToListSecondarySelectionElement >> selectionMode [
+
+	^ listElement secondarySelectionMode
+]

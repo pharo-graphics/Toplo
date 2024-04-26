@@ -1143,9 +1143,9 @@ ToSandBox class >> example_PicsumPhotosGallery [
 	list selectionMode beneathOption: ToListSelectionOption none.
 	list selectionMode overOption: ToListSelectionOption separate.
 	list selectionMode elementClass: ToPicsumPhotosGallerySelectionElement.
-"	list overContainer positionHook: [ :p | (p x ""- 4"") @ p y ].
-	list overContainer sizeHook: [ :s | (s x + 5) @ (s y)].
-"
+	list selectionMode selectionElementPositionHook: [ :s :p | (p x - 5) @ p y ].
+	list selectionMode selectionElementSizeHook: [ :s :p | (p x + 5) @ p y ].
+
 
 	[
 	| allImagesData |

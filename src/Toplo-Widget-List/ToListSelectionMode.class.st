@@ -11,7 +11,9 @@ Class {
 		'preserveSelectionOnFocused',
 		'selectOnMouseDown',
 		'multiple',
-		'enabled'
+		'enabled',
+		'selectionElementSizeHook',
+		'selectionElementPositionHook'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
@@ -285,6 +287,14 @@ ToListSelectionMode >> overOption: aListSelectionOption [
 ]
 
 { #category : #accessing }
+ToListSelectionMode >> positionFrom: aPoint forSelectionElement: aSelectionElement [
+
+	^ selectionElementPositionHook
+		  ifNil: [ aPoint ]
+		  ifNotNil: [ :ph | ph value: aSelectionElement value: aPoint ]
+]
+
+{ #category : #accessing }
 ToListSelectionMode >> preserveSelectionOnFocused [
 
 	^ preserveSelectionOnFocused
@@ -358,7 +368,36 @@ ToListSelectionMode >> selecter [
 ]
 
 { #category : #accessing }
+ToListSelectionMode >> selectionElementPositionHook: aValuable [
+
+	" 
+	Computes the selection element position according to the selected node position.
+	aValuable takes the selected node position as first arg and return the selection element position to use. 
+	"
+	selectionElementPositionHook := aValuable
+]
+
+{ #category : #accessing }
+ToListSelectionMode >> selectionElementSizeHook: aValuable [
+
+	" 
+	Computes the selection element size according to the selected node size.
+	aValuable takes the selected node size as first arg and return the selection element size to use. 
+	"
+
+	selectionElementSizeHook := aValuable
+]
+
+{ #category : #accessing }
 ToListSelectionMode >> selectionModel [
 
 	^ selecter selectionModel
+]
+
+{ #category : #accessing }
+ToListSelectionMode >> sizeFrom: aPoint forSelectionElement: aSelectionElement [
+
+	^ selectionElementSizeHook
+		  ifNil: [ aPoint ]
+		  ifNotNil: [ :ph | ph value: aSelectionElement value: aPoint ]
 ]

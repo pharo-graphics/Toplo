@@ -1,11 +1,11 @@
 Class {
-	#name : #ToTabPaneHeaderNewExamples,
+	#name : #ToTabBarExamples,
 	#superclass : #Object,
 	#category : #'Toplo-Incubator'
 }
 
 { #category : #header }
-ToTabPaneHeaderNewExamples class >> example_header10Tab [
+ToTabBarExamples class >> example_header10Tab [
 
 	| header |
 	header := ToTabBarElement new.

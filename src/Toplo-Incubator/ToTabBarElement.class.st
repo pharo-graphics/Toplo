@@ -74,9 +74,8 @@ ToTabBarElement >> initialize [
 	tabs padding: (BlInsets bottom: 5).
 	tabs selectionMode beneathOption: ToListSelectionOption none.
 	tabs selectionMode overOption: ToListSelectionOption separate.
-	tabs selectionMode selectionElementPositionHook: [ :e :p | p x @ (p y + e nodes first measuredHeight) ].
-	tabs selectionMode selectionElementSizeHook: [ :e :p | p x @ 5 ].
-
+	tabs selectionMode elementClass: ToTabBarSelectionElement.
+	
 	tabs nodeFactory: [ ToTabNode new ].
 	tabs matchParent.
 	tabs infinite matchParent.

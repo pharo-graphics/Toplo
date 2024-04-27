@@ -32,20 +32,8 @@ ToListFrontSelectionElement >> initialize [
 	beneath := true
 ]
 
-{ #category : #private }
-ToListFrontSelectionElement >> positionFrom: aPoint [
-
-	^ super positionFrom: (self selectionMode positionFrom: aPoint forSelectionElement: self)
-]
-
 { #category : #accessing }
 ToListFrontSelectionElement >> selectionMode [
 
 	^ self subclassResponsibility 
-]
-
-{ #category : #private }
-ToListFrontSelectionElement >> sizeFrom: aPoint [
-
-	^ super sizeFrom: (self selectionMode sizeFrom: aPoint forSelectionElement: self)
 ]

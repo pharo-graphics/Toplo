@@ -9,8 +9,11 @@ ToPicsumPhotosGallerySelectionSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		| im cont bar w |
+		| im cont bar w bnds |
 		w := 5.
+		bnds := e boundsFromNodes.
+		e position: bnds origin - (w @ 0).
+		e size: bnds extent + (w @ 0).
 		bar := BlElement new
 			       width: w;
 			       margin: (BlInsets left: 1);

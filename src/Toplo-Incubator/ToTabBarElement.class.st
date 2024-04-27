@@ -71,7 +71,6 @@ ToTabBarElement >> initialize [
 	tabs := ToListElement new
 		        nodeBuilder: self defaultNodeBuilder;
 		        yourself.
-	tabs padding: (BlInsets bottom: 5).
 	tabs selectionMode beneathOption: ToListSelectionOption none.
 	tabs selectionMode overOption: ToListSelectionOption separate.
 	tabs selectionMode elementClass: ToTabBarSelectionElement.

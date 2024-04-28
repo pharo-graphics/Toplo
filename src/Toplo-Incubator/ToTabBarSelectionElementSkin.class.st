@@ -11,7 +11,6 @@ ToTabBarSelectionElementSkin >> installLookEvent: anEvent [
 	anEvent elementDo: [ :e | | bnds |
 		bnds := e boundsFromNodes.
 		e size: bnds extent x @ 3.
-		e position: bnds origin x @ (bnds origin y + e nodes first measuredHeight).
-		e background:
-			(e valueOfTokenNamed: #'color-primary-selection-focused') ]
+		e position: bnds origin x @ (bnds origin y + e nodes first height).
+		e background: (e valueOfTokenNamed: #'color-primary-selection-focused') ]
 ]

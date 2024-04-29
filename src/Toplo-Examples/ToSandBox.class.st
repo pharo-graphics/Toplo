@@ -827,6 +827,7 @@ ToSandBox class >> example_ListWithAllClassesAndTraitsSorted [
 
 	| l |
 	l := ToListElement new nodeBuilder: [ :node :holder |
+			node ensureCanManageSkin.
 		     node addChild: (ToClassNameViewExample new
 				      class: holder dataItem position: holder position;
 				      yourself) ].
@@ -2482,6 +2483,7 @@ ToSandBox class >> example_contactList [
 	contacts add: contact.
 	list nodeBuilder: [ :node :holder |
 		| line remBut |
+		node ensureCanManageSkin.
 		line := ToElement new
 			        layout: BlLinearLayout horizontal;
 			        matchParent.

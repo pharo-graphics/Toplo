@@ -111,6 +111,7 @@ ToMiniBrowser >> initialize [
 	packages := ToListElement new
 		            id: #packages;
 		            nodeBuilder: [ :node :holder |
+							node ensureCanManageSkin.
 			            node addChild: (ToLabel new
 						             text: holder dataItem name;
 						             defaultRawSkin: ToLabelInListElementSkin new;

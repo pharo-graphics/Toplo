@@ -8,7 +8,8 @@ Class {
 		'headerNodeContainer',
 		'selectionModel',
 		'dataAccessor',
-		'nodeWrapping'
+		'nodeWrapping',
+		'nodeScrolling'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -42,6 +43,7 @@ ToElementBar >> initialize [
 
 	super initialize.
 	nodeWrapping := true.
+	nodeScrolling := false.
 
 	self
 		vFitContent;
@@ -70,7 +72,15 @@ ToElementBar >> newHeaderNodeContainer [
 
 	^ strategy headerNodeContainerClass new
 		  nodeWrapping: nodeWrapping;
+		  nodeScrolling: nodeScrolling;
 		  yourself
+]
+
+{ #category : #accessing }
+ToElementBar >> nodeScrolling: aBoolean [
+
+	nodeScrolling := aBoolean.
+	headerNodeContainer nodeScrolling: aBoolean
 ]
 
 { #category : #accessing }
@@ -98,7 +108,7 @@ ToElementBar >> strategy [
 	^ strategy 
 ]
 
-{ #category : #'api - hooks' }
+{ #category : #accessing }
 ToElementBar >> strategy: aStrategy [
 
 	strategy := aStrategy.

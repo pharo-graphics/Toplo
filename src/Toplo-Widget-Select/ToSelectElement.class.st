@@ -11,7 +11,8 @@ Class {
 		'iconContainer',
 		'headerElement',
 		'maxSelectedCount',
-		'dataAccessor'
+		'dataAccessor',
+		'nodeScrolling'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -247,6 +248,7 @@ ToSelectElement >> initialize [
 
 	hideSelected := false.
 	nodeWrapping := true.
+	nodeScrolling := false.
 	maxSelectedCount := 0.
 			
 	" for the popup "
@@ -374,6 +376,20 @@ ToSelectElement >> newWindowManager [
 	wm := ToSelectListWindowManager new.
 	wm onInstalledIn: self.
 	^ wm
+]
+
+{ #category : #accessing }
+ToSelectElement >> nodeScrolling [
+
+	^ nodeScrolling 
+]
+
+{ #category : #accessing }
+ToSelectElement >> nodeScrolling: aBoolean [
+
+	nodeScrolling = aBoolean ifTrue: [ ^ self ].
+	nodeScrolling := aBoolean.
+	headerElement nodeScrolling: aBoolean
 ]
 
 { #category : #accessing }

@@ -2,9 +2,11 @@ Class {
 	#name : #ToMultipleSelectHeaderNodeContainerElement,
 	#superclass : #ToSelectHeaderNodeContainerElement,
 	#instVars : [
+		'nodeWrapping',
 		'textInputElement',
 		'headerNodeHolders',
-		'previousHeaderWidth'
+		'previousHeaderWidth',
+		'nodeScrolling'
 	],
 	#category : #'Toplo-Widget-Select-Node'
 }
@@ -109,6 +111,29 @@ ToMultipleSelectHeaderNodeContainerElement >> headerNodeHolders [
 		  headerNodeHolders := OrderedCollection new ]
 ]
 
+{ #category : #initialization }
+ToMultipleSelectHeaderNodeContainerElement >> initialize [
+
+	super initialize.
+	nodeWrapping := true.
+	nodeScrolling := false
+
+]
+
+{ #category : #accessing }
+ToMultipleSelectHeaderNodeContainerElement >> nodeScrolling: aBoolean [
+
+	nodeScrolling := aBoolean.
+	self onNodeScrollingChange  
+]
+
+{ #category : #accessing }
+ToMultipleSelectHeaderNodeContainerElement >> nodeWrapping: aBoolean [
+
+	nodeWrapping := aBoolean.
+	self onNodeWrappingChange  
+]
+
 { #category : #accessing }
 ToMultipleSelectHeaderNodeContainerElement >> nodesCount [
 
@@ -144,7 +169,14 @@ ToMultipleSelectHeaderNodeContainerElement >> onLayout: aBounds context: aBlElem
 
 	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
 	nodeWrapping ifTrue: [ ^ self ].
+	nodeScrolling ifTrue: [ ^ self ].
 	self checkVisibleNodes
+]
+
+{ #category : #accessing }
+ToMultipleSelectHeaderNodeContainerElement >> onNodeScrollingChange [
+
+
 ]
 
 { #category : #accessing }

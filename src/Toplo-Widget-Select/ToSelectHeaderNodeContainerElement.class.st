@@ -6,8 +6,7 @@ Class {
 		'headerNodeClass',
 		'headerNodeBuilder',
 		'holder',
-		'fakeDataItem',
-		'nodeWrapping'
+		'fakeDataItem'
 	],
 	#category : #'Toplo-Widget-Select-Node'
 }
@@ -81,14 +80,6 @@ ToSelectHeaderNodeContainerElement >> headerNodeHolderClass [
 ]
 
 { #category : #initialization }
-ToSelectHeaderNodeContainerElement >> initialize [
-
-	super initialize.
-	nodeWrapping := true
-
-]
-
-{ #category : #initialization }
 ToSelectHeaderNodeContainerElement >> initializeFakeNode [
 	" the fake node is added when no data is selected to ensure a 
 	suitable minimum height according to the node class, the node builder 
@@ -140,20 +131,19 @@ ToSelectHeaderNodeContainerElement >> newHeaderNodeHolder [
 ]
 
 { #category : #accessing }
+ToSelectHeaderNodeContainerElement >> nodeScrolling: aBoolean [
+
+]
+
+{ #category : #accessing }
 ToSelectHeaderNodeContainerElement >> nodeWrapping: aBoolean [
 
-	nodeWrapping := aBoolean.
-	self onNodeWrappingChange  
 ]
 
 { #category : #'api - hooks' }
 ToSelectHeaderNodeContainerElement >> onInstalledIn: anHolder [
 
 	holder := anHolder
-]
-
-{ #category : #accessing }
-ToSelectHeaderNodeContainerElement >> onNodeWrappingChange [ 
 ]
 
 { #category : #'api - hooks' }

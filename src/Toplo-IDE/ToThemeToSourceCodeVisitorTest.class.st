@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'printer'
 	],
-	#category : #'Toplo-IDE-theme-editor-presenter'
+	#category : #'Toplo-IDE-theme-serialization'
 }
 
 { #category : #running }

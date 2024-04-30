@@ -7,7 +7,7 @@ Class {
 	#classInstVars : [
 		'indentLevel'
 	],
-	#category : #'Toplo-IDE-theme-editor-presenter'
+	#category : #'Toplo-IDE-theme-serialization'
 }
 
 { #category : #accessing }
@@ -78,6 +78,16 @@ ToThemeToSourceCodeVisitor >> visitChildSelector: aSelector [
 ToThemeToSourceCodeVisitor >> visitIdSelector: aSelector [
 
 	self nextPut: aSelector  id printString .self nextPut: ' asIdSelector'
+]
+
+{ #category : #visiting }
+ToThemeToSourceCodeVisitor >> visitLookEventAction: aToLookEventAction [ 
+
+	self nextPut: 'self when: '.
+	self nextPut: aToLookEventAction eventClass printString.
+	self nextPut: ' do: '.
+	self nextPut: aToLookEventAction action printString.
+	self nextPut: '.<r>'.
 ]
 
 { #category : #visiting }

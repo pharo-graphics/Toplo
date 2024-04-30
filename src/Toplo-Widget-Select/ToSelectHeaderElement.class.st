@@ -1,37 +1,12 @@
 Class {
 	#name : #ToSelectHeaderElement,
-	#superclass : #ToElement,
-	#traits : 'TToElementWithPlaceholder',
-	#classTraits : 'TToElementWithPlaceholder classTrait',
+	#superclass : #ToElementBar,
 	#instVars : [
-		'strategy',
-		'windowManager',
-		'headerNodeContainer',
 		'filtrable',
-		'selectionModel',
-		'dataAccessor',
-		'nodeWrapping'
+		'windowManager'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
-
-{ #category : #accessing }
-ToSelectHeaderElement >> dataAccessor [
-
-	^ dataAccessor
-]
-
-{ #category : #accessing }
-ToSelectHeaderElement >> dataAccessor: aDataAccessor [
-
-	dataAccessor := aDataAccessor
-]
-
-{ #category : #accessing }
-ToSelectHeaderElement >> fakeDataItem: aDataItem [
-
-	headerNodeContainer fakeDataItem: aDataItem
-]
 
 { #category : #accessing }
 ToSelectHeaderElement >> filterString [ 
@@ -45,12 +20,6 @@ ToSelectHeaderElement >> filtrable: aBoolean [
 	filtrable := aBoolean
 ]
 
-{ #category : #accessing }
-ToSelectHeaderElement >> headerNodeContainer [
-
-	^ headerNodeContainer 
-]
-
 { #category : #initialization }
 ToSelectHeaderElement >> initialize [
 
@@ -58,15 +27,7 @@ ToSelectHeaderElement >> initialize [
 	filtrable := true.
 	nodeWrapping := true.
 
-	self
-		vFitContent;
-		hMatchParent;
-		id: #headerElement;
-		constraintsDo: [ :c | c linear vertical alignCenter ].
-		
-	self addEventHandlerOn: ToPlaceholderShownEvent do: [ :event |
-		event placeholder padding: (BlInsets left: 5).
-		event placeholder layout alignCenterLeft ]
+	self id: #headerElement
 ]
 
 { #category : #testing }
@@ -75,32 +36,12 @@ ToSelectHeaderElement >> isFiltrable [
 	^ filtrable
 ]
 
-{ #category : #testing }
-ToSelectHeaderElement >> isMultipleSelection [
-
-	^ strategy isMultipleSelection
-]
-
-{ #category : #testing }
-ToSelectHeaderElement >> isSingleSelection [
-
-	^ strategy isSingleSelection
-]
-
 { #category : #'instance creation' }
 ToSelectHeaderElement >> newHeaderNodeContainer [
 
-	^ strategy headerNodeContainerClass new
+	^ super newHeaderNodeContainer
 		  id: #headerNodeContainer;
-		  nodeWrapping: nodeWrapping;
 		  yourself
-]
-
-{ #category : #accessing }
-ToSelectHeaderElement >> nodeWrapping: aBoolean [
-
-	nodeWrapping := aBoolean.
-	headerNodeContainer nodeWrapping: aBoolean
 ]
 
 { #category : #window }
@@ -122,39 +63,9 @@ ToSelectHeaderElement >> pattern [
 ]
 
 { #category : #accessing }
-ToSelectHeaderElement >> selectionModel [
-
-	^ selectionModel
-]
-
-{ #category : #accessing }
-ToSelectHeaderElement >> selectionModel: aSelectionModel [
-
-	selectionModel := aSelectionModel
-]
-
-{ #category : #accessing }
 ToSelectHeaderElement >> sieve [
 
 	^ windowManager sieve
-]
-
-{ #category : #accessing }
-ToSelectHeaderElement >> strategy [
-
-	^ strategy 
-]
-
-{ #category : #'api - hooks' }
-ToSelectHeaderElement >> strategy: aStrategy [
-
-	strategy := aStrategy.
-	headerNodeContainer ifNotNil: [
-		headerNodeContainer onUninstalledIn: self.
-		headerNodeContainer removeFromParent ].
-	headerNodeContainer := self newHeaderNodeContainer.
-	headerNodeContainer onInstalledIn: self.
-	self addChild: headerNodeContainer
 ]
 
 { #category : #accessing }

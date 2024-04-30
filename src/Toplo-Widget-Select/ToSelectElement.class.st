@@ -252,6 +252,7 @@ ToSelectElement >> initialize [
 	" for the popup "
 	windowManager := self newWindowManager.	
 	filtrable := true.
+	
 	self iconContainer: self newIconContainer.
 	self installHeaderElement.
 	self selectionModel: self sieve selectionModel.

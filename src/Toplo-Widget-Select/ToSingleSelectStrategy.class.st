@@ -1,6 +1,6 @@
 Class {
 	#name : #ToSingleSelectStrategy,
-	#superclass : #ToSelectStrategy,
+	#superclass : #ToElementBarSelectionStrategy,
 	#category : #'Toplo-Widget-Select-Core'
 }
 

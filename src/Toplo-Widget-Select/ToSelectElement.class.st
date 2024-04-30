@@ -3,16 +3,15 @@ Class {
 	#superclass : #ToElement,
 	#instVars : [
 		'windowManager',
-		'fakeData',
 		'filtrable',
-		'data',
 		'nodeWrapping',
 		'selectionModel',
 		'strategy',
 		'hideSelected',
 		'iconContainer',
 		'headerElement',
-		'maxSelectedCount'
+		'maxSelectedCount',
+		'dataAccessor'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -100,7 +99,18 @@ ToSelectElement >> currentWindow [
 { #category : #accessing }
 ToSelectElement >> dataAccessor [ 
 
-	^ data
+	^ dataAccessor
+]
+
+{ #category : #accessing }
+ToSelectElement >> dataAccessor: aDataAccessor [
+
+	dataAccessor := aDataAccessor.
+	headerElement dataAccessor: aDataAccessor.
+	dataAccessor addEventHandler:
+		(ToObservableCollectionMirrorUpdater new mirror:
+			 windowManager listElement dataAccessor).
+
 ]
 
 { #category : #'accessing list' }
@@ -137,23 +147,22 @@ ToSelectElement >> deselectIndexes: anArray [
 	self notifySelectionChanged 
 ]
 
-{ #category : #private }
-ToSelectElement >> fakeDataItem [
-
-	^ fakeData ifNil: [ fakeData := '' ]
-]
-
 { #category : #accessing }
 ToSelectElement >> fakeDataItem: aDataItem [
 
-	fakeData := aDataItem.
-	self headerNodeContainer initializeFakeNode
+	self headerElement fakeDataItem: aDataItem
 ]
 
 { #category : #private }
 ToSelectElement >> fakeNode [
 
 	^ self childWithId: #fakeNode ifNone: [  ]
+]
+
+{ #category : #'accessing selection' }
+ToSelectElement >> filterStringChanged [
+
+	self pattern: headerElement filterString
 ]
 
 { #category : #accessing }
@@ -167,6 +176,8 @@ ToSelectElement >> filtrable: aBoolean [
 
 	filtrable = aBoolean ifTrue: [ ^ self ].
 	filtrable := aBoolean.
+	headerElement filtrable: aBoolean.
+	iconContainer forFiltering: aBoolean.
 	filtrable
 		ifTrue: [ self textInputElement beEditable ]
 		ifFalse: [ self textInputElement beReadonly ].
@@ -237,18 +248,15 @@ ToSelectElement >> initialize [
 	hideSelected := false.
 	nodeWrapping := true.
 	maxSelectedCount := 0.
-	
-	data := ToObservableCollection new.
-		
+			
 	" for the popup "
-	windowManager := self newWindowManager.
-	data addEventHandler:
-		(ToObservableCollectionMirrorUpdater new mirror:
-			 windowManager listElement dataAccessor).
-	selectionModel := self sieve selectionModel.
-	
+	windowManager := self newWindowManager.	
 	filtrable := true.
 	self iconContainer: self newIconContainer.
+	self installHeaderElement.
+	self selectionModel: self sieve selectionModel.
+	self dataAccessor: ToObservableCollection new.
+	
 	self strategy: self defaultStrategy.
 
 	self layout: BlLinearLayout horizontal.
@@ -273,9 +281,7 @@ ToSelectElement >> inputTextField [
 ToSelectElement >> installHeaderElement [
 
 	headerElement := self newHeaderElement.
-	headerElement onInstalledIn: self.
-	self addChild: headerElement before: self iconContainer.
-
+	self addChild: headerElement before: self iconContainer
 ]
 
 { #category : #testing }
@@ -317,7 +323,8 @@ ToSelectElement >> maxSelectedCount [
 { #category : #accessing }
 ToSelectElement >> maxSelectedCount: aNumber [
 
-	maxSelectedCount := aNumber
+	maxSelectedCount := aNumber.
+	iconContainer maxSelectedCount: aNumber
 ]
 
 { #category : #accessing }
@@ -337,12 +344,14 @@ ToSelectElement >> multiSelection: aBoolean [
 ToSelectElement >> newHeaderElement [
 
 	^ ToSelectHeaderElement new
+		  windowManager: windowManager;
+		  yourself
 ]
 
 { #category : #initialization }
 ToSelectElement >> newIconContainer [
 
-	^ ToSelectIconContainer new
+	^ ToSelectIconContainer new forFiltering: self isFiltrable 
 ]
 
 { #category : #skin }
@@ -377,7 +386,7 @@ ToSelectElement >> nodeWrapping: aBoolean [
 
 	nodeWrapping = aBoolean ifTrue: [ ^ self ].
 	nodeWrapping := aBoolean.
-	self headerNodeContainer onNodeWrappingChange  
+	headerElement nodeWrapping: aBoolean
 ]
 
 { #category : #'accessing selection' }
@@ -552,7 +561,9 @@ ToSelectElement >> selectionModel [
 { #category : #accessing }
 ToSelectElement >> selectionModel: aSelectionModel [
 
-	selectionModel := aSelectionModel
+	selectionModel := aSelectionModel.
+	headerElement selectionModel: aSelectionModel.
+	iconContainer selectionModel: aSelectionModel
 ]
 
 { #category : #'accessing list' }
@@ -598,10 +609,7 @@ ToSelectElement >> strategy: aToSelectStrategy [
 	self strategy ifNotNil: [ self strategy onUninstalledIn: self ].
 	strategy := aToSelectStrategy.
 	strategy onInstalledIn: self.
-	self headerElement ifNotNil: [ :he |
-		he onUninstalledIn: self.
-		he removeFromParent ].
-	self installHeaderElement.
+	self headerElement strategy: aToSelectStrategy.
 	self requestNewSkin
 ]
 

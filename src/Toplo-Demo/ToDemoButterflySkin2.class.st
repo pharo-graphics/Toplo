@@ -1,11 +1,11 @@
 Class {
-	#name : #ToDemoButSkin2,
+	#name : #ToDemoButterflySkin2,
 	#superclass : #ToButterflySkin,
 	#category : #'Toplo-Demo-2 - ButterflyTheme'
 }
 
 { #category : #'event handling' }
-ToDemoButSkin2 >> hoveredLookEvent: anEvent [
+ToDemoButterflySkin2 >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -13,7 +13,7 @@ ToDemoButSkin2 >> hoveredLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToDemoButSkin2 >> installLookEvent: anEvent [
+ToDemoButterflySkin2 >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -31,7 +31,7 @@ ToDemoButSkin2 >> installLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToDemoButSkin2 >> leavedLookEvent: anEvent [
+ToDemoButterflySkin2 >> leavedLookEvent: anEvent [
 
 	super leavedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -39,7 +39,7 @@ ToDemoButSkin2 >> leavedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToDemoButSkin2 >> uninstallLookEvent: anEvent [
+ToDemoButterflySkin2 >> uninstallLookEvent: anEvent [
 
 	super uninstallLookEvent: anEvent.
 	anEvent elementDo: [ :e |

@@ -8,7 +8,7 @@ Class {
 ToMultipleSelectHeaderNode >> installRawStyle [ 
 
 	super installRawStyle.
-	middleContainer padding: (BlInsets left: 3 right: 3).
+	self middleContainer padding: (BlInsets left: 3 right: 3).
 	self padding: (BlInsets horizontal: 2 vertical: 4).
 	self margin: (BlInsets all: 2).
 	self geometry: (BlRoundedRectangleGeometry cornerRadius: 4).
@@ -18,23 +18,12 @@ ToMultipleSelectHeaderNode >> installRawStyle [
 { #category : #layout }
 ToMultipleSelectHeaderNode >> isFullyVisible [
 
-	| intersection bnds pbnds select |
+	| intersection bnds pbnds header |
 	self measuredWidth isZero ifTrue: [^ true ].
-	select := self selectHolder select.
-	bnds := (self measuredBounds inParent: select) asRectangle.
-	pbnds := (select headerElement measuredBounds inParent: select) asRectangle.
-	pbnds := pbnds withRight: (pbnds right - select textInputElement measuredWidth).
+	header := self headerNodeHolder headerElement.
+	bnds := (self measuredBounds inParent: header) asRectangle.
+	pbnds := (header measuredBounds) asRectangle.
+	pbnds := pbnds withRight: (pbnds right - header textInputElement measuredWidth).
 	intersection := bnds intersect: pbnds.
-	^ intersection = bnds
-]
-
-{ #category : #layout }
-ToMultipleSelectHeaderNode >> isFullyVisibleInBounds: aRectangle [
-
-	| intersection bnds select |
-	self measuredWidth isZero ifTrue: [^ true ].
-	select := self selectHolder select.
-	bnds := (self measuredBounds inParent: select) asRectangle.
-	intersection := bnds intersect: aRectangle.
 	^ intersection = bnds
 ]

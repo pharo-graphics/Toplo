@@ -2,10 +2,11 @@ Class {
 	#name : #ToSelectTextInputElement,
 	#superclass : #ToElement,
 	#instVars : [
-		'select',
 		'selectedDataTextField',
 		'inputTextField',
-		'installedInputTextFieldTextEventHandler'
+		'installedInputTextFieldTextEventHandler',
+		'forMultipleSelection',
+		'forFiltering'
 	],
 	#category : #'Toplo-Widget-Select-Node'
 }
@@ -83,25 +84,36 @@ ToSelectTextInputElement >> installInputTextFieldEventHandlers [
 		self inputTextField addEventHandler: h ]
 ]
 
+{ #category : #testing }
+ToSelectTextInputElement >> isForFiltering [
+
+	^ forFiltering 
+]
+
+{ #category : #testing }
+ToSelectTextInputElement >> isForMultipleSelection [
+
+	^ forMultipleSelection 
+]
+
 { #category : #initialization }
-ToSelectTextInputElement >> newTextField [ 
+ToSelectTextInputElement >> newTextFieldIn: aHolder [
 
 	| textField |
-	textField := ToSelectTextField new
-		             select: select;
-		             yourself.
-	select isSingleSelection ifTrue: [
+	textField := ToSelectTextField new.
+	textField headerNodeContainer: aHolder headerNodeContainer.
+	aHolder isSingleSelection ifTrue: [
 		textField withLineWrapping.
-		textField hMatchParent].
+		textField hMatchParent ].
 	^ textField
 ]
 
 { #category : #private }
 ToSelectTextInputElement >> onFilterTextReplaced: anEvent [
 
-	select dispatchEvent: ToSelectInputTextFieldUpdatedEvent new.
-	select pattern: self filterString.
-	select isMultipleSelection
+	self fireEvent: ToSelectInputTextFieldUpdatedEvent new.
+	self parent sieve pattern: self filterString.
+	self parent isMultipleSelection
 		ifTrue: [ self checkMultipleSelectPlaceholderText ]
 		ifFalse: [ self checkSingleSelectPlaceholderText ]
 ]
@@ -109,8 +121,7 @@ ToSelectTextInputElement >> onFilterTextReplaced: anEvent [
 { #category : #private }
 ToSelectTextInputElement >> onFilterTextUpdated: anEvent [
 
-	select dispatchEvent: ToSelectInputTextFieldUpdatedEvent new.
-	select pattern: self filterString.
+	self fireEvent: ToSelectInputTextFieldUpdatedEvent new.
 	self inputTextField text
 		ifEmpty: [
 		self selectedDataTextField visibility: BlVisibility visible ]
@@ -119,54 +130,48 @@ ToSelectTextInputElement >> onFilterTextUpdated: anEvent [
 ]
 
 { #category : #'api - hooks' }
-ToSelectTextInputElement >> onInstalledIn: aSelect [
+ToSelectTextInputElement >> onInstalledIn: aHolder [
 
-	select := aSelect.
-	selectedDataTextField := self newTextField.
+	forMultipleSelection := aHolder isMultipleSelection.
+	forFiltering := aHolder isFiltrable.
+	selectedDataTextField := self newTextFieldIn: aHolder.
 	selectedDataTextField beReadonlyWithSelection.
-	inputTextField := self newTextField.
+	inputTextField := self newTextFieldIn: aHolder.
 	selectedDataTextField id: #selectedDataTextField.
 	inputTextField id: #inputTextField.
 	self addChild: selectedDataTextField.
 	self addChild: inputTextField.
-	select isFiltrable
+	aHolder isFiltrable
 		ifTrue: [ self beEditable ]
 		ifFalse: [ self beReadonly ].
 	inputTextField addEventHandler: (BlEventHandler
 			 on: BlMouseDownEvent
-			 do: [ :event | self select windowManager popupWindowEvent: event ])
+			 do: [ :event | aHolder windowManager popupWindowEvent: event ])
 ]
 
 { #category : #'api - hooks' }
-ToSelectTextInputElement >> onUninstalledIn: aSelect [
+ToSelectTextInputElement >> onUninstalledIn: aHolder [
 
-	select := nil.
 	self removeChildren 
 ]
 
 { #category : #window }
 ToSelectTextInputElement >> onWindowClosed [
 
-	select isMultipleSelection ifFalse: [
+	self isForMultipleSelection ifFalse: [
 		self selectedDataTextField visibility: BlVisibility visible.
 		self selectedDataTextField text foreground: Color black ].
-	select isFiltrable ifTrue: [ self inputTextField requestFocus ]
+	self isForFiltering ifTrue: [ self inputTextField requestFocus ]
 ]
 
 { #category : #window }
 ToSelectTextInputElement >> onWindowOpened [
 
-	select isMultipleSelection ifFalse: [
+	self isForMultipleSelection ifFalse: [
 		self selectedDataTextField text foreground: Color lightGray ].
-	select isFiltrable
+	self isForFiltering
 		ifTrue: [ self inputTextField requestFocus ]
-		ifFalse: [ select requestFocus ]
-]
-
-{ #category : #accessing }
-ToSelectTextInputElement >> select [
-
-	^ select
+		ifFalse: [ self parent requestFocus ]
 ]
 
 { #category : #accessing }

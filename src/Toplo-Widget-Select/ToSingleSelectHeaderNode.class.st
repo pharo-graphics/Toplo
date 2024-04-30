@@ -2,25 +2,16 @@ Class {
 	#name : #ToSingleSelectHeaderNode,
 	#superclass : #ToSelectHeaderNode,
 	#instVars : [
-		'selectedDataTextField',
-		'inputTextField',
 		'textInputElement'
 	],
 	#category : #'Toplo-Widget-Select-Node'
 }
 
-{ #category : #initialization }
-ToSingleSelectHeaderNode >> initialize [ 
-
-	super initialize.
-	middleContainer layout: BlFrameLayout new
-]
-
 { #category : #skin }
 ToSingleSelectHeaderNode >> installRawStyle [ 
 
 	super installRawStyle.
-	middleContainer padding: (BlInsets right: 3).
+	self middleContainer padding: (BlInsets right: 3).
 	self padding: (BlInsets vertical: 4)
 ]
 
@@ -29,6 +20,9 @@ ToSingleSelectHeaderNode >> onInstalledIn: aSelect [
 
 	super onInstalledIn: aSelect.
 	self hMatchParent.
+	self vFitContent.
+	triplet middleContainer constraintsDo: [ :c |
+		c horizontal matchParent ].
 	textInputElement := ToSelectTextInputElement new.
 	textInputElement onInstalledIn: aSelect.
 	self middleContainer addChild: textInputElement

@@ -2,10 +2,12 @@ Class {
 	#name : #ToSelectHeaderNodeContainerElement,
 	#superclass : #ToElement,
 	#instVars : [
-		'select',
 		'fakeNode',
 		'headerNodeClass',
-		'headerNodeBuilder'
+		'headerNodeBuilder',
+		'holder',
+		'fakeDataItem',
+		'nodeWrapping'
 	],
 	#category : #'Toplo-Widget-Select-Node'
 }
@@ -14,16 +16,29 @@ Class {
 ToSelectHeaderNodeContainerElement >> checkVisibleNodes [
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 ToSelectHeaderNodeContainerElement >> defaultHeaderNodeBuilder [
 
 	^ self subclassResponsibility 
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 ToSelectHeaderNodeContainerElement >> defaultHeaderNodeClass [
 
 	^ self subclassResponsibility 
+]
+
+{ #category : #accessing }
+ToSelectHeaderNodeContainerElement >> fakeDataItem: aData [
+
+	fakeDataItem := aData.
+	self initializeFakeNode 
+]
+
+{ #category : #accessing }
+ToSelectHeaderNodeContainerElement >> filterString [ 
+
+	^ self textInputElement filterString
 ]
 
 { #category : #accessing }
@@ -66,20 +81,28 @@ ToSelectHeaderNodeContainerElement >> headerNodeHolderClass [
 ]
 
 { #category : #initialization }
+ToSelectHeaderNodeContainerElement >> initialize [
+
+	super initialize.
+	nodeWrapping := true
+
+]
+
+{ #category : #initialization }
 ToSelectHeaderNodeContainerElement >> initializeFakeNode [
 	" the fake node is added when no data is selected to ensure a 
 	suitable minimum height according to the node class, the node builder 
 	and the data kind."
  
 	fakeNode ifNotNil: [ :fn |
-		fn onUninstalledIn: select.
+		fn onUninstalledIn: self.
 		fn removeFromParent ].
 	fakeNode := self newHeaderNode.
 	fakeNode id: #fakeNode.
-	fakeNode onInstalledIn: select.
-	fakeNode selectHolder
-		data: select fakeDataItem.
-	self headerNodeBuilder value: fakeNode value: fakeNode selectHolder.
+	fakeNode onInstalledIn: holder.
+	fakeNode headerNodeHolder
+		data: fakeDataItem.
+	self headerNodeBuilder value: fakeNode value: fakeNode headerNodeHolder.
 	fakeNode width: 0.
 	fakeNode constraintsDo: [ :c |
 		c flow vertical alignCenter.
@@ -97,14 +120,14 @@ ToSelectHeaderNodeContainerElement >> inputTextField [
 { #category : #initialization }
 ToSelectHeaderNodeContainerElement >> newHeaderNode [
 
-	| node holder |
+	| node nodeHolder |
 	node := self headerNodeClass new.
-	holder := self newHeaderNodeHolder.
-	node selectHolder: holder.
-	holder
+	nodeHolder := self newHeaderNodeHolder.
+	node headerNodeHolder: nodeHolder.
+	nodeHolder
 		node: node;
 		position: 0;
-		select: select;
+		headerElement: holder;
 		data: nil.
 		
 	^ node
@@ -113,13 +136,20 @@ ToSelectHeaderNodeContainerElement >> newHeaderNode [
 { #category : #initialization }
 ToSelectHeaderNodeContainerElement >> newHeaderNodeHolder [
 
-	^ self headerNodeHolderClass new select: select; yourself
+	^ self headerNodeHolderClass new headerElement: holder; yourself
+]
+
+{ #category : #accessing }
+ToSelectHeaderNodeContainerElement >> nodeWrapping: aBoolean [
+
+	nodeWrapping := aBoolean.
+	self onNodeWrappingChange  
 ]
 
 { #category : #'api - hooks' }
-ToSelectHeaderNodeContainerElement >> onInstalledIn: aSelect [
+ToSelectHeaderNodeContainerElement >> onInstalledIn: anHolder [
 
-	self select: aSelect
+	holder := anHolder
 ]
 
 { #category : #accessing }
@@ -127,9 +157,9 @@ ToSelectHeaderNodeContainerElement >> onNodeWrappingChange [
 ]
 
 { #category : #'api - hooks' }
-ToSelectHeaderNodeContainerElement >> onUninstalledIn: aSelect [
+ToSelectHeaderNodeContainerElement >> onUninstalledIn: aHolder [
 
-	select := nil
+	holder := nil
 ]
 
 { #category : #window }
@@ -145,9 +175,9 @@ ToSelectHeaderNodeContainerElement >> onWindowOpened [
 ]
 
 { #category : #accessing }
-ToSelectHeaderNodeContainerElement >> select: aSelect [
+ToSelectHeaderNodeContainerElement >> refresh [
 
-	select := aSelect
+	self subclassResponsibility 
 ]
 
 { #category : #accessing }

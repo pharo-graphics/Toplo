@@ -1,9 +1,6 @@
 Class {
 	#name : #ToSelectStrategy,
 	#superclass : #Object,
-	#instVars : [
-		'select'
-	],
 	#category : #'Toplo-Widget-Select-Core'
 }
 
@@ -19,10 +16,15 @@ ToSelectStrategy >> isMultipleSelection [
 	^ false
 ]
 
+{ #category : #testing }
+ToSelectStrategy >> isSingleSelection [
+
+	^ self isMultipleSelection not
+]
+
 { #category : #'api - hooks' }
 ToSelectStrategy >> onInstalledIn: aSelect [
 
-	select := aSelect.	
 	aSelect listElement selectionMode selectOnMouseDown: true.
 	aSelect listElement selectionMode requestFocusOnMouseDown: false
 ]
@@ -30,11 +32,5 @@ ToSelectStrategy >> onInstalledIn: aSelect [
 { #category : #'api - hooks' }
 ToSelectStrategy >> onUninstalledIn: aSelect [
 
-	select := nil
-]
 
-{ #category : #accessing }
-ToSelectStrategy >> select: aSelect [
-
-	select := aSelect
 ]

@@ -45,7 +45,8 @@ ToSelectEventHandler >> eventsToHandle [
 { #category : #'element handlers' }
 ToSelectEventHandler >> selectInputTextFieldUpdatedEvent: anEvent [
 
-	anEvent currentTarget showHidePlaceholder
+	anEvent currentTarget showHidePlaceholder.
+	anEvent currentTarget filterStringChanged.
 ]
 
 { #category : #'element handlers' }
@@ -54,7 +55,8 @@ ToSelectEventHandler >> selectSelectionChanged: anEvent [
 	| select |
 	select := anEvent currentTarget.
 	select showHidePlaceholder.
-	select onSelectionChanged
+	select onSelectionChanged.
+	anEvent consume
 ]
 
 { #category : #'event handling' }

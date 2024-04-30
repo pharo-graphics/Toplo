@@ -13,7 +13,7 @@ ToOverlayElement >> extentFrom: anExtent [
 
 	^ sizeHook
 		  ifNil: [ super extentFrom: anExtent ]
-		  ifNotNil: [ sizeHook value: anExtent ]
+		  ifNotNil: [ sizeHook value: referenceElement value: anExtent ]
 ]
 
 { #category : #'hook - geometry' }
@@ -21,7 +21,7 @@ ToOverlayElement >> positionFrom: aPosition [
 
 	^ positionHook
 		  ifNil: [ super positionFrom: aPosition ]
-		  ifNotNil: [ positionHook value: aPosition ]
+		  ifNotNil: [ positionHook value: referenceElement value: aPosition ]
 ]
 
 { #category : #accessing }
@@ -34,7 +34,8 @@ ToOverlayElement >> positionHook [
 ToOverlayElement >> positionHook: aValuable [
 	" 
 	Computes the overlay position according to the attached element position.
-	aValuable takes the attached element position as first arg and return the overlay element position. 
+	aValuable takes the attached element as first arg, the candidate overlay position as second arg 
+	and return the new overlay element position. 
 	 "
 	
 	positionHook := aValuable
@@ -50,7 +51,8 @@ ToOverlayElement >> sizeHook [
 ToOverlayElement >> sizeHook: aValuable [
 	" 
 	Computes the overlay size according to the attached element size.
-	aValuable takes the attached element size as first arg and return the overlay element size. 
+	aValuable takes the attached element as first arg, the candidate overlay size as second arg 
+	and return the new overlay element size.
 	"
 
 	sizeHook := aValuable

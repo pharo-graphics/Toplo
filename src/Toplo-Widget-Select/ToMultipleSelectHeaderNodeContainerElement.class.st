@@ -42,16 +42,16 @@ ToMultipleSelectHeaderNodeContainerElement >> checkVisibleNodes [
 	visibleNodes ifNotEmpty: [
 		invisibleNodes := invisibleNodes copyWith: visibleNodes last.
 		visibleNodes := visibleNodes copyWithout: visibleNodes last ].
-	invisibleNodes do: [ :node | node onUninstalledIn: select ].
-	showerHolder := ToCompositeHeaderNodeHolder new select: select.
+	invisibleNodes do: [ :node | node onUninstalledIn: holder ].
+	showerHolder := ToCompositeHeaderNodeHolder new headerElement: holder.
 	showerHolder holders:
-		(invisibleNodes collect: [ :node | node selectHolder ]).
+		(invisibleNodes collect: [ :node | node headerNodeHolder ]).
 	showerNode := ToInvisibleSelectHeaderNodesShower new.
 	showerHolder node: showerNode.
-	showerNode selectHolder: showerHolder.
+	showerNode headerNodeHolder: showerHolder.
 	invisibleNodes do: [ :node |
 		self detachChild: node.
-		headerNodeHolders remove: node selectHolder ].
+		headerNodeHolders remove: node headerNodeHolder ].
 	headerNodeHolders add: showerHolder.
 	showerNode middleContainer addChild: (ToLabel text:
 			 '+ ' , (self nodesCount - visibleNodes size) asString , ' ...').
@@ -61,11 +61,11 @@ ToMultipleSelectHeaderNodeContainerElement >> checkVisibleNodes [
 { #category : #layout }
 ToMultipleSelectHeaderNodeContainerElement >> computedHeaderWidth [
 
-	^ (select headerElement measuredBounds inParent: select) width
-	  - select textInputElement measuredWidth
+	^ (holder measuredBounds inParent: holder) width
+	  - holder textInputElement measuredWidth
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 ToMultipleSelectHeaderNodeContainerElement >> defaultHeaderNodeBuilder [
 
 	^ [ :aSelectNode :aNodeHolder |
@@ -74,7 +74,7 @@ ToMultipleSelectHeaderNodeContainerElement >> defaultHeaderNodeBuilder [
 		  (ToLabel text: aNodeHolder data asString) ]
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 ToMultipleSelectHeaderNodeContainerElement >> defaultHeaderNodeClass [ 
 
 	^ ToVisibleSelectHeaderNode
@@ -90,16 +90,16 @@ ToMultipleSelectHeaderNodeContainerElement >> ensurePreviousHeaderWidth [
 { #category : #enumerating }
 ToMultipleSelectHeaderNodeContainerElement >> headerDataNodesDo: aBlock [
 
-	self headerNodeHolders do: [ :holder |	aBlock value: holder node ].
+	self headerNodeHolders do: [ :nodeHolder |	aBlock value: nodeHolder node ].
 ]
 
 { #category : #enumerating }
 ToMultipleSelectHeaderNodeContainerElement >> headerDataNodesSelect: aBlock [
 
 	^ Array streamContents: [ :stream |
-		  self headerNodeHolders do: [ :holder |
-			  (aBlock value: holder node) ifTrue: [
-				  stream nextPut: holder node ] ] ]
+		  self headerNodeHolders do: [ :nodeHolder |
+			  (aBlock value: nodeHolder node) ifTrue: [
+				  stream nextPut: nodeHolder node ] ] ]
 ]
 
 { #category : #enumerating }
@@ -114,16 +114,16 @@ ToMultipleSelectHeaderNodeContainerElement >> nodesCount [
 
 	| count |
 	count := 0.
-	self headerNodeHolders do: [ :holder |
-		count := count + holder nodesCount ].
+	self headerNodeHolders do: [ :nodeHolder |
+		count := count + nodeHolder nodesCount ].
 	^ count
 ]
 
 { #category : #'api - hooks' }
-ToMultipleSelectHeaderNodeContainerElement >> onInstalledIn: aSelect [
+ToMultipleSelectHeaderNodeContainerElement >> onInstalledIn: aHolder [
 
-	super onInstalledIn: aSelect.
-	self layout: (aSelect nodeWrapping
+	super onInstalledIn: aHolder.
+	self layout: (nodeWrapping
 			 ifTrue: [ BlFlowLayout horizontal ]
 			 ifFalse: [ BlLinearLayout horizontal ]).
 	self
@@ -133,7 +133,7 @@ ToMultipleSelectHeaderNodeContainerElement >> onInstalledIn: aSelect [
 	" The textField is added whatever the mode to draw the placeholder text if any.
 	In case of read-only mode, the textfield is set as read-only by the mode "
 	textInputElement := ToSelectTextInputElement new.
-	textInputElement onInstalledIn: select.
+	textInputElement onInstalledIn: aHolder.
 	textInputElement hFitContent.
 	self addChild: textInputElement.
 	self initializeFakeNode
@@ -143,14 +143,14 @@ ToMultipleSelectHeaderNodeContainerElement >> onInstalledIn: aSelect [
 ToMultipleSelectHeaderNodeContainerElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 
 	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
-	select nodeWrapping ifTrue: [ ^ self ].
+	nodeWrapping ifTrue: [ ^ self ].
 	self checkVisibleNodes
 ]
 
 { #category : #accessing }
 ToMultipleSelectHeaderNodeContainerElement >> onNodeWrappingChange [
 
-	self layout: (select nodeWrapping
+	self layout: (nodeWrapping
 			 ifTrue: [ BlFlowLayout horizontal ]
 			 ifFalse: [ BlLinearLayout horizontal ])
 ]
@@ -159,13 +159,13 @@ ToMultipleSelectHeaderNodeContainerElement >> onNodeWrappingChange [
 ToMultipleSelectHeaderNodeContainerElement >> onUninstalledIn: aSelect [
 
 	self headerDataNodesDo: [ :node |
-		node onUninstalledIn: select.
+		node onUninstalledIn: holder.
 		node removeFromParent ].
-	textInputElement onUninstalledIn: select.
+	textInputElement onUninstalledIn: holder.
 	textInputElement removeFromParent.
 	textInputElement := nil.
 	self headerNodeHolders reset.
-	fakeNode onUninstalledIn: select.
+	fakeNode onUninstalledIn: holder.
 	fakeNode removeFromParent.
 	fakeNode := nil.
 	super onUninstalledIn: aSelect.
@@ -179,20 +179,20 @@ ToMultipleSelectHeaderNodeContainerElement >> refresh [
 	| detached newNodes |
 	detached := OrderedCollection new.
 	self headerDataNodesDo: [ :node |
-		node onUninstalledIn: select.
+		node onUninstalledIn: holder.
 		detached add: node.
 		self detachChild: node ].
 	self headerNodeHolders reset.
 	" then rebuild current nodes according to current selection "
-	newNodes := select selectionModel selectedIndexesCollect: [ :idx |
+	newNodes := holder selectionModel selectedIndexesCollect: [ :idx |
 		| node selectedData |
 		node := self newHeaderNode.
-		selectedData := select dataAccessor at: idx.
-		node selectHolder
+		selectedData := holder dataAccessor at: idx.
+		node headerNodeHolder
 			position: idx;
 			data: selectedData.
-		self headerNodeBuilder value: node value: node selectHolder.
-		self headerNodeHolders add: node selectHolder.
+		self headerNodeBuilder value: node value: node headerNodeHolder.
+		self headerNodeHolders add: node headerNodeHolder.
 		node ].
 	self addAllDataNodes: newNodes.
 	detached do: [ :node | self removeDetachedChild: node]

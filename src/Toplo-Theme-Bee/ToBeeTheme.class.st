@@ -358,6 +358,20 @@ ToBeeTheme >> declareDefaultButtonRules [
 				tokenPressed: #'color-error-pressed' ] ]
 ]
 
+{ #category : #'rules declaring - button' }
+ToBeeTheme >> declareIconInLabeledIconRules [
+
+	self
+		select: (ToImage asTypeSelector
+				 withParent: #'labeled-icon' asStampSelector
+				 atDepth: 2)
+		style: [
+			self write: (self property: #'layout-constraints') with: [ :e |
+				[ :c |
+				c linear vertical alignCenter.
+				c linear horizontal alignCenter ] ] ]
+]
+
 { #category : #'rules declaring - label' }
 ToBeeTheme >> declareLabelRules [
 	" label  rules"
@@ -724,6 +738,7 @@ ToBeeTheme >> initializeStyleRules [
 	super initializeStyleRules.
 	self declareRootPaneRules.
 	self declareLabelRules.
+	self declareIconInLabeledIconRules.
 	self declareButtonRules.
 	self declareTextPaneRules 
 ]

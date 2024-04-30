@@ -2,16 +2,28 @@ Class {
 	#name : #ToSelectHeaderNodeHolder,
 	#superclass : #Object,
 	#instVars : [
-		'select',
-		'node'
+		'node',
+		'headerElement'
 	],
 	#category : #'Toplo-Widget-Select-Node'
 }
 
 { #category : #accessing }
+ToSelectHeaderNodeHolder >> headerElement [
+
+	^ headerElement
+]
+
+{ #category : #accessing }
+ToSelectHeaderNodeHolder >> headerElement: aHeaderElement [
+
+	headerElement := aHeaderElement
+]
+
+{ #category : #accessing }
 ToSelectHeaderNodeHolder >> listElement [
 
-	^ select listElement
+	^ headerElement listElement
 ]
 
 { #category : #accessing }
@@ -27,13 +39,6 @@ ToSelectHeaderNodeHolder >> node: aSelectNode [
 ]
 
 { #category : #accessing }
-ToSelectHeaderNodeHolder >> select [
-
-	^ select
-]
-
-{ #category : #accessing }
-ToSelectHeaderNodeHolder >> select: aSelect [
-
-	select := aSelect
+ToSelectHeaderNodeHolder >> nodesCount [
+	^ self subclassResponsibility
 ]

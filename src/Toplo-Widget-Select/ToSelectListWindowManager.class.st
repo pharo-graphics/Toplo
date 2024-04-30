@@ -188,7 +188,6 @@ ToSelectListWindowManager >> onInstalledIn: anElement [
 
 	listElement nodeHolderFactory: [
 		ToSelectListNodeHolder new
-			select: self element;
 			yourself ]
 ]
 

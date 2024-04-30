@@ -35,7 +35,7 @@ ToElement >> initialize [
 
 	super initialize.
 	self initializeForToplo.
-	"self applySkinInstallerOnFirstRequest: true."
+	self applySkinInstallerOnFirstRequest: false.
 ]
 
 { #category : #'t  - layout resizeable' }

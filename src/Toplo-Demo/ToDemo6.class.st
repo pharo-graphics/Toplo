@@ -35,7 +35,7 @@ ToDemo6 class >> example1 [
 	dem1 := ToDemo6 new.
 	
 	dem2 := ToDemo5 new.
-	dem2 defaultButterflySkin: ToDemoButSkin2 new.
+	dem2 defaultButterflySkin: ToDemoButterflySkin2 new.
 	dem2 localTheme: ToButterflyTheme new.
 
 	pane addChild: dem1.
@@ -55,7 +55,7 @@ ToDemo6 >> initialize [
 { #category : #skin }
 ToDemo6 >> newButterflySkin [ 
 
-	^ ToDemoButSkin1 new
+	^ ToDemoButterflySkin1 new
 ]
 
 { #category : #skin }

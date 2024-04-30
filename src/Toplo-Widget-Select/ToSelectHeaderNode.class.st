@@ -2,11 +2,9 @@ Class {
 	#name : #ToSelectHeaderNode,
 	#superclass : #ToElement,
 	#instVars : [
-		'selectHolder',
-		'startContainer',
-		'middleContainer',
-		'endContainer',
-		'mouseUpHandler'
+		'triplet',
+		'mouseUpHandler',
+		'headerNodeHolder'
 	],
 	#category : #'Toplo-Widget-Select-Node'
 }
@@ -14,38 +12,34 @@ Class {
 { #category : #accessing }
 ToSelectHeaderNode >> endContainer [
 
-	^ endContainer
+	^ triplet endContainer
+]
+
+{ #category : #accessing }
+ToSelectHeaderNode >> headerNodeHolder [
+
+	^ headerNodeHolder 
+]
+
+{ #category : #accessing }
+ToSelectHeaderNode >> headerNodeHolder: aHeaderNodeHolder [
+
+	headerNodeHolder := aHeaderNodeHolder
 ]
 
 { #category : #initialization }
 ToSelectHeaderNode >> initialize [
 
 	super initialize.
-	
+
 	self applySkinInstallerOnFirstRequest: true.
-
 	self layout: BlLinearLayout horizontal.
-
-	startContainer := ToElement new
-		                  fitContent;
-		                  layout: BlLinearLayout horizontal;
-		                  yourself.
-	middleContainer := ToElement new
-		                   hMatchParent;
-		                   vFitContent;
-		                   layout: BlLinearLayout horizontal;
-		                   yourself.
-	endContainer := ToElement new
-		                fitContent;
-		                layout: BlLinearLayout horizontal;
-		                yourself.
-	self addChildren: {
-			startContainer.
-			middleContainer.
-			endContainer }.
-			
+	triplet := ToTripletElement new.
+	triplet hMatchParent.
+	self addChild: triplet.
 	self childrenDo: [ :child |
 		child constraintsDo: [ :c | c linear vertical alignCenter ] ].
+
 	self fitContent
 ]
 
@@ -58,7 +52,7 @@ ToSelectHeaderNode >> isRemovable [
 { #category : #accessing }
 ToSelectHeaderNode >> middleContainer [
 
-	^ middleContainer
+	^ triplet middleContainer
 ]
 
 { #category : #'api - hooks' }
@@ -87,27 +81,17 @@ ToSelectHeaderNode >> removeFromSelect [
 	First, try to remove the node by deselecting the corresponding list node in the list (if found). 
 	Second, if the data is not one of the actual list element data, remove the data through the select "
 
-	| select originalIndex |
-	select := self selectHolder select.
-	originalIndex := select sieve dataPositionIndex at:
-		                 self selectHolder data.
-	select deselectIndex: originalIndex	
-]
-
-{ #category : #accessing }
-ToSelectHeaderNode >> selectHolder [
-
-	^ selectHolder 
-]
-
-{ #category : #accessing }
-ToSelectHeaderNode >> selectHolder: aSelectNodeHolder [
-
-	selectHolder := aSelectNodeHolder
+	| sieve headerElement originalIndex |
+	headerElement := self headerNodeHolder headerElement.
+	sieve := headerElement sieve.
+	originalIndex := sieve dataPositionIndex at:
+		                 self headerNodeHolder data.
+	headerElement selectionModel deselectIndex: originalIndex.
+	headerElement fireEvent: ToSelectSelectionChanged new
 ]
 
 { #category : #accessing }
 ToSelectHeaderNode >> startContainer [
 
-	^ startContainer
+	^ triplet startContainer
 ]

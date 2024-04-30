@@ -2,7 +2,7 @@ Class {
 	#name : #ToSelectTextField,
 	#superclass : #ToTextField,
 	#instVars : [
-		'select'
+		'headerNodeContainer'
 	],
 	#category : #'Toplo-Widget-Select-Node'
 }
@@ -10,12 +10,18 @@ Class {
 { #category : #accessing }
 ToSelectTextField >> headerNodeBefore [
 
-	| holders |
+	| headerNodeholders |
 	" the strategy must be a multiple one "
-	holders := self select headerNodeContainer headerNodeHolders.
-	holders ifNotEmpty: [
-		^ holders last node ].
+	headerNodeholders := headerNodeContainer headerNodeHolders.
+	headerNodeholders ifNotEmpty: [
+		^ headerNodeholders last node ].
 	^ nil
+]
+
+{ #category : #accessing }
+ToSelectTextField >> headerNodeContainer: aHeaderNodeContainer [
+
+	headerNodeContainer := aHeaderNodeContainer 
 ]
 
 { #category : #initialization }
@@ -41,16 +47,4 @@ ToSelectTextField >> newRawSkin [
 ToSelectTextField >> nodeBeforeDo: aBlock [
 
 	self headerNodeBefore ifNotNil: [ :n | aBlock value: n ]
-]
-
-{ #category : #accessing }
-ToSelectTextField >> select [
-
-	^ select
-]
-
-{ #category : #accessing }
-ToSelectTextField >> select: aSelect [
-
-	select := aSelect
 ]

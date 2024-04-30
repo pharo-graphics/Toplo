@@ -1246,7 +1246,7 @@ ToSandBox class >> example_SelectMonoFiltrable [
 
 	| select innerWindow phtext |
 	select := ToSelectElement new.
-	select listElement inspect.
+	select  inspect.
 	select listElement placeholderMinHeight: 35.
 	phtext := ('No Data' asRopedText
 		           foreground: Color lightGray;
@@ -1347,6 +1347,7 @@ ToSandBox class >> example_SelectMonoNotFiltrable [
 
 	| select innerWindow |
 	select := ToSelectElement new.
+	select headerElement inspect.
 	select filtrable: false.
 	select dataAccessor addAll: self statesOfAmerica.
 	select placeholderText: ('Select a state' asRopedText foreground: Color red).

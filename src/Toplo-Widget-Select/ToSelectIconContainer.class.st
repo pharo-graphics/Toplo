@@ -2,10 +2,12 @@ Class {
 	#name : #ToSelectIconContainer,
 	#superclass : #ToElement,
 	#instVars : [
-		'select',
 		'selectedCountLabel',
 		'icon',
-		'iconHolder'
+		'iconHolder',
+		'maxSelectedCount',
+		'selectionModel',
+		'forFiltering'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -14,6 +16,12 @@ Class {
 ToSelectIconContainer >> defaultLayout [ 
 
 	^ BlLinearLayout horizontal
+]
+
+{ #category : #accessing }
+ToSelectIconContainer >> forFiltering: aBoolean [
+
+	forFiltering := aBoolean
 ]
 
 { #category : #accessing }
@@ -51,6 +59,18 @@ ToSelectIconContainer >> initialize [
 		constraintsDo: [ :c | c linear vertical alignCenter ]
 ]
 
+{ #category : #testing }
+ToSelectIconContainer >> isForFiltering [ 
+
+	^ forFiltering
+]
+
+{ #category : #accessing }
+ToSelectIconContainer >> maxSelectedCount: aNumber [
+
+	maxSelectedCount := aNumber
+]
+
 { #category : #skin }
 ToSelectIconContainer >> newRawSkin [ 
 
@@ -60,7 +80,6 @@ ToSelectIconContainer >> newRawSkin [
 { #category : #'api - hooks' }
 ToSelectIconContainer >> onInstalledIn: aSelect [
 
-	select := aSelect.
 	selectedCountLabel := ToLabel new.
 	selectedCountLabel constraintsDo: [ :c | c linear vertical alignCenter ].
 	self addChild: selectedCountLabel.
@@ -74,18 +93,11 @@ ToSelectIconContainer >> onInstalledIn: aSelect [
 { #category : #'api - hooks' }
 ToSelectIconContainer >> onUninstalledIn: aSelect [
 
-	select := nil.
 	icon := nil.
 	self removeChild: selectedCountLabel.
 	selectedCountLabel := nil.
 	self removeChild: iconHolder.
 	iconHolder := nil
-]
-
-{ #category : #accessing }
-ToSelectIconContainer >> select [
-
-	^ select
 ]
 
 { #category : #accessing }
@@ -95,10 +107,16 @@ ToSelectIconContainer >> selectedCountLabel [
 ]
 
 { #category : #accessing }
+ToSelectIconContainer >> selectionModel: aSelectionModel [
+
+	selectionModel := aSelectionModel
+]
+
+{ #category : #accessing }
 ToSelectIconContainer >> updateSelectedCountLabel [
 
-	select maxSelectedCount isZero ifTrue: [ ^ self ].
+	maxSelectedCount isZero ifTrue: [ ^ self ].
 	selectedCountLabel text:
-		select selectionModel selectedIndexesCount asString , ' / '
-		, select maxSelectedCount asString
+		selectionModel selectedIndexesCount asString , ' / '
+		, maxSelectedCount asString
 ]

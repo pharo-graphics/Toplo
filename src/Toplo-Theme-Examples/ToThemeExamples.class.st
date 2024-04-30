@@ -351,6 +351,7 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 	| space primaryButton2 pane c chb disachb themeSelect themePane mainPane |
 	space := BlSpace new.
 	space root layout: BlLinearLayout vertical.
+	space toTheme: ToBeeDarkTheme new.
 
 	themePane := ToPane horizontal.
 	themePane localTheme: ToRawTheme new.
@@ -373,8 +374,8 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 
 	themeSelect addEventHandler: (BlEventHandler
 			 on: ToChoiceChangedEvent
-			 do: [ space toTheme: (themeSelect selectedData value new) ]).
-	themeSelect selectIndex: 2.
+			 do: [ space toTheme: themeSelect selectedData value new ]).
+	themeSelect selectIndex: 4.
 
 	disachb := ToCheckbox new label:
 		           (ToLabel text: 'Disable all buttons').
@@ -388,8 +389,11 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 	"Create some buttons with different skins"
 	primaryButton1 := (ToButton id: #buttonA)
 		                  labelText: 'Change button 2 primary color';
+		                  icon:
+			                  (ToImage inner: ToThemeIcons searchOutlined16x16);
 		                  tooltipText:
 			                  'When clicked, change the theme primary color to a random one';
+		                  addStamp: #'large-sizing';
 		                  yourself.
 
 	primaryButton2 := (ToButton id: #buttonA) labelText: 'Button 2'.
@@ -413,8 +417,12 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 			 on: ToCheckableCheckEvent
 			 do: [ :evt |
 				 evt current
-					 ifTrue: [ pane childrenDo: [ :child | child ~= disachb ifTrue: [child disable ] ] ]
-					 ifFalse: [ pane childrenDo: [ :child | child ~= disachb ifTrue: [child enable ] ] ] ]).
+					 ifTrue: [
+						 pane childrenDo: [ :child |
+							 child ~= disachb ifTrue: [ child disable ] ] ]
+					 ifFalse: [
+						 pane childrenDo: [ :child |
+							 child ~= disachb ifTrue: [ child enable ] ] ] ]).
 
 	pane addChild: primaryButton1.
 	pane addChild: chb.
@@ -426,7 +434,7 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 	mainPane addChild: pane.
 	space root addChild: mainPane.
 	space show.
-	space inspect.
+	space inspect
 ]
 
 { #category : #'examples - buttons' }

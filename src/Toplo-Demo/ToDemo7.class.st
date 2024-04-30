@@ -2,7 +2,8 @@ Class {
 	#name : #ToDemo7,
 	#superclass : #ToElement,
 	#instVars : [
-		'dem6'
+		'dem6',
+		'dem62'
 	],
 	#category : #'Toplo-Demo-2 - ButterflyTheme'
 }
@@ -38,11 +39,19 @@ ToDemo7 >> dem6 [
 	^ dem6
 ]
 
+{ #category : #accessing }
+ToDemo7 >> dem62 [
+
+	^ dem62
+]
+
 { #category : #initialization }
 ToDemo7 >> initialize [
 
 	super initialize.
 	dem6 := ToDemo6 new.
-	self layout: BlFrameLayout new.
+	dem62 := BlElement new.
+	self layout: BlLinearLayout horizontal.
 	self addChild: dem6.
+	self addChild: dem62.
 ]

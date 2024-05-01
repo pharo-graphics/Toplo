@@ -153,8 +153,10 @@ ToMultipleSelectHeaderNodeContainerElement >> onInstalledIn: aHolder [
 			 ifFalse: [ BlLinearLayout horizontal ]).
 	self
 		vFitContent;
-		hMatchParent;
 		constraintsDo: [ :c | c linear vertical alignCenter ].
+	nodeScrolling
+		ifTrue: [ self hFitContent ]
+		ifFalse: [ self hMatchParent ].
 	" The textField is added whatever the mode to draw the placeholder text if any.
 	In case of read-only mode, the textfield is set as read-only by the mode "
 	textInputElement := ToSelectTextInputElement new.
@@ -176,6 +178,9 @@ ToMultipleSelectHeaderNodeContainerElement >> onLayout: aBounds context: aBlElem
 { #category : #accessing }
 ToMultipleSelectHeaderNodeContainerElement >> onNodeScrollingChange [
 
+	nodeScrolling
+		ifTrue: [ self hFitContent ]
+		ifFalse: [ self hMatchParent ].
 
 ]
 

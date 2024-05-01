@@ -1403,7 +1403,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	select inspect.
 	select hideSelected: false.
 	select dataAccessor addAll: self statesOfAmerica.
-	select strategy: ToMultipleSelectStrategy new.
+	select multipleSelection: true.
 	select filtrable: true.
 	select popupMaxHeight: 200.
 	select placeholderText:
@@ -1428,7 +1428,29 @@ ToSandBox class >> example_SelectMultiFiltrableNoWrapping [
 	select nodeWrapping: false.
 	select hideSelected: false.
 	select dataAccessor addAll: self statesOfAmerica.
-	select strategy: ToMultipleSelectStrategy new.
+	select multipleSelection: true.
+	select filtrable: true.
+	select popupMaxHeight: 200.
+	select placeholderText:
+		('Select states' asRopedText foreground: Color red).
+	innerWindow := ToInnerWindow new.
+	select windowManager anchorRoot: innerWindow root.
+	select hMatchParent.
+	innerWindow pane addChild: select.
+	innerWindow height: 600.
+	innerWindow openInSpace
+]
+
+{ #category : #select }
+ToSandBox class >> example_SelectMultiFiltrableScrolling [
+
+	| select innerWindow |
+	select := ToSelectElement new.
+	select inspect.
+	select nodeScrolling: true.
+	select hideSelected: false.
+	select dataAccessor addAll: self statesOfAmerica.
+	select multipleSelection: true.
 	select filtrable: true.
 	select popupMaxHeight: 200.
 	select placeholderText:
@@ -1449,7 +1471,7 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected [
 	select inspect.
 	select hideSelected: true.
 	select dataAccessor updateAllWith: self statesOfAmerica.
-	select strategy: ToMultipleSelectStrategy new.
+	select multipleSelection: true.
 	select filtrable: true.
 	select popupMaxHeight: 200.
 	select placeholderText:
@@ -1470,7 +1492,7 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected2 [
 	select := ToSelectElement new.
 	select hideSelected: true.
 	select dataAccessor addAll: {'Apples'.'Nails'. 'Bananas'. 'Helicopter'}.
-	select strategy: ToMultipleSelectStrategy new.
+	select multipleSelection: true.
 	select filtrable: true.
 	select popupMaxHeight: 200.
 	select placeholderText:
@@ -1500,7 +1522,7 @@ ToSandBox class >> example_SelectMultiNotFiltrable [
 	select maxSelectedCount: 4.
 	select filtrable: false.
 	select dataAccessor addAll: self statesOfAmerica.
-	select strategy: ToMultipleSelectStrategy new.
+	select multipleSelection: true.
 	select placeholderText:
 		('Select states' asRopedText foreground: Color red).
 	select listElement nodeBuilder: [ :node :holder |
@@ -2865,7 +2887,7 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWithAllClassNames [
 	| select innerWindow space |
 	select := self selectWithEditingMultiSelection.
 	select filtrable: true.
-	select strategy: ToMultipleSelectStrategy new.
+	select multipleSelection: true.
 	
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.

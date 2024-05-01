@@ -36,7 +36,9 @@ ToSelectListElement >> initialize [
 	self withDisabledSelecter.
 	self
 		withAdditionalSelecterWithId: #group
-		withEventClass: ToSelectGroupSelectionChangedEvent
+		withEventClass: ToSelectGroupSelectionChangedEvent.
+	self selectionMode selectOnMouseDown: true.
+	self selectionMode requestFocusOnMouseDown: false
 ]
 
 { #category : #skin }

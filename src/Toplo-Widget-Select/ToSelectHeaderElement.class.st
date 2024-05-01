@@ -36,6 +36,13 @@ ToSelectHeaderElement >> isFiltrable [
 	^ filtrable
 ]
 
+{ #category : #accessing }
+ToSelectHeaderElement >> multipleSelection: aBoolean [
+
+	super multipleSelection: aBoolean.
+	windowManager listElement selectionMode multiple: aBoolean
+]
+
 { #category : #'instance creation' }
 ToSelectHeaderElement >> newHeaderNodeContainer [
 

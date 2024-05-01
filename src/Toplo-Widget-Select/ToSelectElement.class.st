@@ -6,13 +6,13 @@ Class {
 		'filtrable',
 		'nodeWrapping',
 		'selectionModel',
-		'strategy',
 		'hideSelected',
 		'iconContainer',
 		'headerElement',
 		'maxSelectedCount',
 		'dataAccessor',
-		'nodeScrolling'
+		'nodeScrolling',
+		'multipleSelection'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -118,12 +118,6 @@ ToSelectElement >> dataAccessor: aDataAccessor [
 ToSelectElement >> dataNodeBuilder: aBuilder [
 
 	self windowManager dataNodeBuilder: aBuilder
-]
-
-{ #category : #initialization }
-ToSelectElement >> defaultStrategy [
-
-	^ ToSingleSelectStrategy new
 ]
 
 { #category : #'accessing selection' }
@@ -250,6 +244,7 @@ ToSelectElement >> initialize [
 	nodeWrapping := true.
 	nodeScrolling := false.
 	maxSelectedCount := 0.
+
 			
 	" for the popup "
 	windowManager := self newWindowManager.	
@@ -260,7 +255,8 @@ ToSelectElement >> initialize [
 	self selectionModel: self sieve selectionModel.
 	self dataAccessor: ToObservableCollection new.
 	
-	self strategy: self defaultStrategy.
+	self multipleSelection: false. 
+	
 
 	self layout: BlLinearLayout horizontal.
 	self fitContent.
@@ -296,7 +292,7 @@ ToSelectElement >> isFiltrable [
 { #category : #testing }
 ToSelectElement >> isMultipleSelection [ 
 
-	^ self strategy isMultipleSelection 
+	^ multipleSelection 
 ]
 
 { #category : #testing }
@@ -331,15 +327,11 @@ ToSelectElement >> maxSelectedCount: aNumber [
 ]
 
 { #category : #accessing }
-ToSelectElement >> multiSelection: aBoolean [
+ToSelectElement >> multipleSelection: aBoolean [
 
-	strategy ifNotNil: [ self strategy onUninstalledIn: self ].
-	strategy := aBoolean
-		        ifTrue: [ ToMultipleSelectStrategy new ]
-		        ifFalse: [ ToSingleSelectStrategy new ].
-	strategy onInstalledIn: self.
-	self headerElement onUninstalledIn: self.
-	
+	multipleSelection = aBoolean ifTrue: [ ^ self ].
+	multipleSelection := aBoolean.
+	self headerElement multipleSelection: aBoolean.
 	self requestNewSkin
 ]
 
@@ -612,22 +604,6 @@ ToSelectElement >> showHidePlaceholder [
 ToSelectElement >> sieve [ 
 
 	^ self windowManager sieve
-]
-
-{ #category : #accessing }
-ToSelectElement >> strategy [ 
-
-	^ strategy
-]
-
-{ #category : #accessing }
-ToSelectElement >> strategy: aToSelectStrategy [
-
-	self strategy ifNotNil: [ self strategy onUninstalledIn: self ].
-	strategy := aToSelectStrategy.
-	strategy onInstalledIn: self.
-	self headerElement strategy: aToSelectStrategy.
-	self requestNewSkin
 ]
 
 { #category : #accessing }

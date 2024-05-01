@@ -4,12 +4,13 @@ Class {
 	#traits : 'TToElementWithPlaceholder',
 	#classTraits : 'TToElementWithPlaceholder classTrait',
 	#instVars : [
-		'strategy',
 		'headerNodeContainer',
 		'selectionModel',
 		'dataAccessor',
 		'nodeWrapping',
-		'nodeScrolling'
+		'nodeScrolling',
+		'multipleSelection',
+		'scrollable'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -42,6 +43,7 @@ ToElementBar >> headerNodeContainer [
 ToElementBar >> initialize [
 
 	super initialize.
+	multipleSelection := false.
 	nodeWrapping := true.
 	nodeScrolling := false.
 
@@ -58,19 +60,41 @@ ToElementBar >> initialize [
 { #category : #testing }
 ToElementBar >> isMultipleSelection [
 
-	^ strategy isMultipleSelection
+	^ multipleSelection 
 ]
 
 { #category : #testing }
 ToElementBar >> isSingleSelection [
 
-	^ strategy isSingleSelection
+	^ self isMultipleSelection not
+]
+
+{ #category : #accessing }
+ToElementBar >> multipleSelection: aBoolean [
+
+	multipleSelection := aBoolean.
+	headerNodeContainer ifNotNil: [
+		headerNodeContainer onUninstalledIn: self ].
+	scrollable ifNotNil: [ scrollable removeFromParent ].
+	headerNodeContainer := self newHeaderNodeContainer.
+	headerNodeContainer onInstalledIn: self.
+	scrollable := headerNodeContainer asScrollableElement.
+	scrollable constraintsDo: [ :c |
+		c horizontal matchParent.
+		c vertical fitContent ].
+	self addChild: scrollable
 ]
 
 { #category : #'instance creation' }
 ToElementBar >> newHeaderNodeContainer [
 
-	^ strategy headerNodeContainerClass new
+	| containerClass |
+	containerClass := self isMultipleSelection
+		                  ifTrue: [
+		                  ToMultipleSelectHeaderNodeContainerElement ]
+		                  ifFalse: [
+		                  ToSingleSelectHeaderNodeContainerElement ].
+	^ containerClass new
 		  nodeWrapping: nodeWrapping;
 		  nodeScrolling: nodeScrolling;
 		  yourself
@@ -100,22 +124,4 @@ ToElementBar >> selectionModel [
 ToElementBar >> selectionModel: aSelectionModel [
 
 	selectionModel := aSelectionModel
-]
-
-{ #category : #accessing }
-ToElementBar >> strategy [
-
-	^ strategy 
-]
-
-{ #category : #accessing }
-ToElementBar >> strategy: aStrategy [
-
-	strategy := aStrategy.
-	headerNodeContainer ifNotNil: [
-		headerNodeContainer onUninstalledIn: self.
-		headerNodeContainer removeFromParent ].
-	headerNodeContainer := self newHeaderNodeContainer.
-	headerNodeContainer onInstalledIn: self.
-	self addChild: headerNodeContainer
 ]

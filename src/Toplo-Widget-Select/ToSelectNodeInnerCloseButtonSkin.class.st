@@ -1,11 +1,11 @@
 Class {
-	#name : #ToSelectHeaderNodeInnerCloseButtonSkin,
+	#name : #ToSelectNodeInnerCloseButtonSkin,
 	#superclass : #ToRawSkin,
 	#category : #'Toplo-Widget-Select-Node'
 }
 
 { #category : #'event handling' }
-ToSelectHeaderNodeInnerCloseButtonSkin >> hoveredLookEvent: anEvent [
+ToSelectNodeInnerCloseButtonSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
 	anEvent elementDo: [ :e | 
@@ -14,7 +14,7 @@ ToSelectHeaderNodeInnerCloseButtonSkin >> hoveredLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToSelectHeaderNodeInnerCloseButtonSkin >> installLookEvent: anEvent [
+ToSelectNodeInnerCloseButtonSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -26,7 +26,7 @@ ToSelectHeaderNodeInnerCloseButtonSkin >> installLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToSelectHeaderNodeInnerCloseButtonSkin >> leavedLookEvent: anEvent [
+ToSelectNodeInnerCloseButtonSkin >> leavedLookEvent: anEvent [
 
 	super leavedLookEvent: anEvent.
 	anEvent elementDo: [ :e |

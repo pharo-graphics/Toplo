@@ -1,6 +1,6 @@
 Class {
-	#name : #ToVisibleSelectHeaderNode,
-	#superclass : #ToMultipleSelectHeaderNode,
+	#name : #ToMultipleSelectNode,
+	#superclass : #ToElementBarNode,
 	#instVars : [
 		'removable'
 	],
@@ -8,11 +8,11 @@ Class {
 }
 
 { #category : #'private configurating' }
-ToVisibleSelectHeaderNode >> addRemoveButton [
+ToMultipleSelectNode >> addRemoveButton [
 
 	| but |
 	but := ToButton new.
-	but defaultRawSkin: ToSelectHeaderNodeInnerCloseButtonSkin new.
+	but defaultRawSkin: ToSelectNodeInnerCloseButtonSkin new.
 	but icon: (ToImage inner: (self iconNamed: #windowClose)).
 	but constraintsDo: [ :c | c linear vertical alignCenter ].
 
@@ -21,7 +21,7 @@ ToVisibleSelectHeaderNode >> addRemoveButton [
 			 do: [ :event |
 				 event consume.
 				 " remove the button by deselecting the corresponding list node in the list "
-				 self removeFromSelect ]).
+				 self removeFromBar ]).
 
 	" consume mouseUp/mouseDown to avoid unwanted opening/closing of the popup list element"
 	but addEventHandler: (BlEventHandler
@@ -36,38 +36,38 @@ ToVisibleSelectHeaderNode >> addRemoveButton [
 ]
 
 { #category : #configurating }
-ToVisibleSelectHeaderNode >> beRemovable [
+ToMultipleSelectNode >> beRemovable [
 
 	self removable: true
 ]
 
 { #category : #configurating }
-ToVisibleSelectHeaderNode >> beUnremovable [
+ToMultipleSelectNode >> beUnremovable [
 
 	self removable: false
 ]
 
 { #category : #initialization }
-ToVisibleSelectHeaderNode >> initialize [ 
+ToMultipleSelectNode >> initialize [ 
 
 	super initialize.
 	removable := false.
 ]
 
 { #category : #testing }
-ToVisibleSelectHeaderNode >> isRemovable [
+ToMultipleSelectNode >> isRemovable [
 
 	^ removable
 ]
 
 { #category : #accessing }
-ToVisibleSelectHeaderNode >> removable [
+ToMultipleSelectNode >> removable [
 
 	^ removable 
 ]
 
 { #category : #accessing }
-ToVisibleSelectHeaderNode >> removable: aBoolean [
+ToMultipleSelectNode >> removable: aBoolean [
 
 	removable = aBoolean ifTrue: [ ^ self ].
 	removable ifTrue: [ self removeRemoveButton ].
@@ -77,7 +77,7 @@ ToVisibleSelectHeaderNode >> removable: aBoolean [
 ]
 
 { #category : #'private configurating' }
-ToVisibleSelectHeaderNode >> removeRemoveButton [
+ToMultipleSelectNode >> removeRemoveButton [
 
 	| but |
 	but := self endContainer childWithId: #removeButton.

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'select'
 	],
-	#category : #'Toplo-Widget-Select-Core'
+	#category : #'Toplo-Widget-Select-List'
 }
 
 { #category : #'api - accessing' }

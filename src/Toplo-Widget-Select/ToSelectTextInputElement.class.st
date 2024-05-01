@@ -101,7 +101,7 @@ ToSelectTextInputElement >> newTextFieldIn: aHolder [
 
 	| textField |
 	textField := ToSelectTextField new.
-	textField headerNodeContainer: aHolder headerNodeContainer.
+	textField headerNodeContainer: aHolder nodeContainer.
 	aHolder isSingleSelection ifTrue: [
 		textField withLineWrapping.
 		textField hMatchParent ].

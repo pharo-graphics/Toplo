@@ -1,6 +1,6 @@
 Class {
-	#name : #ToSingleSelectHeaderNode,
-	#superclass : #ToSelectHeaderNode,
+	#name : #ToSingleSelectNode,
+	#superclass : #ToElementBarNode,
 	#instVars : [
 		'textInputElement'
 	],
@@ -8,37 +8,39 @@ Class {
 }
 
 { #category : #skin }
-ToSingleSelectHeaderNode >> installRawStyle [ 
+ToSingleSelectNode >> installRawStyle [
 
 	super installRawStyle.
+	self background: Color transparent.
 	self middleContainer padding: (BlInsets right: 3).
 	self padding: (BlInsets vertical: 4)
 ]
 
 { #category : #'api - hooks' }
-ToSingleSelectHeaderNode >> onInstalledIn: aSelect [
+ToSingleSelectNode >> onInstalledIn: anElementBar [
 
-	super onInstalledIn: aSelect.
+	super onInstalledIn: anElementBar.
 	self hMatchParent.
 	self vFitContent.
+	triplet hMatchParent.
 	triplet middleContainer constraintsDo: [ :c |
 		c horizontal matchParent ].
 	textInputElement := ToSelectTextInputElement new.
-	textInputElement onInstalledIn: aSelect.
+	textInputElement onInstalledIn: anElementBar.
 	self middleContainer addChild: textInputElement
 ]
 
 { #category : #'api - hooks' }
-ToSingleSelectHeaderNode >> onUninstalledIn: aSelect [
+ToSingleSelectNode >> onUninstalledIn: anElementBar [
 
-	textInputElement onUninstalledIn: aSelect.
+	textInputElement onUninstalledIn: anElementBar.
 	self middleContainer removeChild: textInputElement.
-	super onUninstalledIn: aSelect.
+	super onUninstalledIn: anElementBar.
 
 ]
 
 { #category : #accessing }
-ToSingleSelectHeaderNode >> textInputElement [ 
+ToSingleSelectNode >> textInputElement [ 
 
 	^ textInputElement 
 ]

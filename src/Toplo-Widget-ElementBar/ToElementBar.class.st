@@ -4,14 +4,14 @@ Class {
 	#traits : 'TToElementWithPlaceholder',
 	#classTraits : 'TToElementWithPlaceholder classTrait',
 	#instVars : [
-		'headerNodeContainer',
 		'selectionModel',
 		'dataAccessor',
 		'nodeWrapping',
 		'nodeScrolling',
-		'multipleSelection'
+		'multipleSelection',
+		'nodeContainer'
 	],
-	#category : #'Toplo-Widget-Select-Core'
+	#category : #'Toplo-Widget-ElementBar'
 }
 
 { #category : #accessing }
@@ -29,13 +29,7 @@ ToElementBar >> dataAccessor: aDataAccessor [
 { #category : #accessing }
 ToElementBar >> fakeDataItem: aDataItem [
 
-	headerNodeContainer fakeDataItem: aDataItem
-]
-
-{ #category : #accessing }
-ToElementBar >> headerNodeContainer [
-
-	^ headerNodeContainer 
+	nodeContainer fakeDataItem: aDataItem
 ]
 
 { #category : #initialization }
@@ -72,23 +66,23 @@ ToElementBar >> isSingleSelection [
 ToElementBar >> multipleSelection: aBoolean [
 
 	multipleSelection :=  aBoolean.
-	headerNodeContainer ifNotNil: [
-		headerNodeContainer onUninstalledIn: self.
-		headerNodeContainer removeFromParent ].
-	headerNodeContainer := self newHeaderNodeContainer.
-	headerNodeContainer onInstalledIn: self.
-	self addChild: headerNodeContainer
+	nodeContainer ifNotNil: [
+		nodeContainer onUninstalledIn: self.
+		nodeContainer removeFromParent ].
+	nodeContainer := self newNodeContainer.
+	nodeContainer onInstalledIn: self.
+	self addChild: nodeContainer
 ]
 
 { #category : #'instance creation' }
-ToElementBar >> newHeaderNodeContainer [
+ToElementBar >> newNodeContainer [
 
 	| containerClass |
 	containerClass := self isMultipleSelection
 		                  ifTrue: [
-		                  ToMultipleSelectHeaderNodeContainerElement ]
+		                  ToMultipleSelectionElementBarNodeContainerElement ]
 		                  ifFalse: [
-		                  ToSingleSelectHeaderNodeContainerElement ].
+		                  ToSingleSelectionElementBarNodeContainerElement ].
 	^ containerClass new
 		  nodeWrapping: nodeWrapping;
 		  nodeScrolling: nodeScrolling;
@@ -96,17 +90,32 @@ ToElementBar >> newHeaderNodeContainer [
 ]
 
 { #category : #accessing }
+ToElementBar >> nodeContainer [
+
+	^ nodeContainer 
+]
+
+{ #category : #accessing }
 ToElementBar >> nodeScrolling: aBoolean [
 
 	nodeScrolling := aBoolean.
-	headerNodeContainer nodeScrolling: aBoolean
+	nodeContainer nodeScrolling: aBoolean
 ]
 
 { #category : #accessing }
 ToElementBar >> nodeWrapping: aBoolean [
 
 	nodeWrapping := aBoolean.
-	headerNodeContainer nodeWrapping: aBoolean
+	nodeContainer nodeWrapping: aBoolean
+]
+
+{ #category : #removing }
+ToElementBar >> removeNode: aNode [
+
+	| index |
+	index := aNode barHolder position.
+	self selectionModel deselectIndex: index.
+	self fireEvent: ToSelectSelectionChanged new
 ]
 
 { #category : #accessing }

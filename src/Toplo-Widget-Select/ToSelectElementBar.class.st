@@ -1,5 +1,5 @@
 Class {
-	#name : #ToSelectHeaderElement,
+	#name : #ToSelectElementBar,
 	#superclass : #ToElementBar,
 	#instVars : [
 		'filtrable',
@@ -9,25 +9,25 @@ Class {
 }
 
 { #category : #accessing }
-ToSelectHeaderElement >> filterString [ 
+ToSelectElementBar >> filterString [ 
 
-	^ headerNodeContainer filterString
+	^ nodeContainer filterString
 ]
 
 { #category : #accessing }
-ToSelectHeaderElement >> filtrable [
+ToSelectElementBar >> filtrable [
 
 	^ filtrable
 ]
 
 { #category : #accessing }
-ToSelectHeaderElement >> filtrable: aBoolean [
+ToSelectElementBar >> filtrable: aBoolean [
 
 	filtrable := aBoolean
 ]
 
 { #category : #initialization }
-ToSelectHeaderElement >> initialize [
+ToSelectElementBar >> initialize [
 
 	super initialize.
 	filtrable := true.
@@ -37,64 +37,64 @@ ToSelectHeaderElement >> initialize [
 ]
 
 { #category : #testing }
-ToSelectHeaderElement >> isFiltrable [ 
+ToSelectElementBar >> isFiltrable [ 
 
 	^ filtrable
 ]
 
 { #category : #accessing }
-ToSelectHeaderElement >> multipleSelection: aBoolean [
+ToSelectElementBar >> multipleSelection: aBoolean [
 
 	super multipleSelection: aBoolean.
 	windowManager listElement selectionMode multiple: aBoolean
 ]
 
 { #category : #'instance creation' }
-ToSelectHeaderElement >> newHeaderNodeContainer [
+ToSelectElementBar >> newNodeContainer [
 
-	^ super newHeaderNodeContainer
-		  id: #headerNodeContainer;
+	^ super newNodeContainer
+		  id: #nodeContainer;
 		  yourself
 ]
 
 { #category : #window }
-ToSelectHeaderElement >> onWindowClosed [
+ToSelectElementBar >> onWindowClosed [
 
-	self headerNodeContainer onWindowClosed
+	self nodeContainer onWindowClosed
 ]
 
 { #category : #window }
-ToSelectHeaderElement >> onWindowOpened [
+ToSelectElementBar >> onWindowOpened [
 
-	self headerNodeContainer onWindowOpened
+	self nodeContainer onWindowOpened
 ]
 
 { #category : #accessing }
-ToSelectHeaderElement >> pattern [
+ToSelectElementBar >> pattern [
 
-	self sieve pattern
+	^ self sieve pattern
 ]
 
 { #category : #accessing }
-ToSelectHeaderElement >> sieve [
+ToSelectElementBar >> sieve [
 
 	^ windowManager sieve
 ]
 
 { #category : #accessing }
-ToSelectHeaderElement >> textInputElement [ 
+ToSelectElementBar >> textInputElement [ 
 
-	^ headerNodeContainer textInputElement
+	^ nodeContainer textInputElement
 ]
 
 { #category : #accessing }
-ToSelectHeaderElement >> windowManager [
+ToSelectElementBar >> windowManager [
 
 	^ windowManager
 ]
 
 { #category : #accessing }
-ToSelectHeaderElement >> windowManager: aSelectWindowManager [
+ToSelectElementBar >> windowManager: aSelectWindowManager [
 
 	windowManager := aSelectWindowManager 
 ]

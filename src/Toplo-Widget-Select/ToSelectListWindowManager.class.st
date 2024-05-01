@@ -7,7 +7,7 @@ Class {
 		'dataNodeBuilder',
 		'groupNodeBuilder'
 	],
-	#category : #'Toplo-Widget-Select-Core'
+	#category : #'Toplo-Widget-Select-List'
 }
 
 { #category : #accessing }

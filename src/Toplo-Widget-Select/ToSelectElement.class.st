@@ -1,14 +1,13 @@
 Class {
 	#name : #ToSelectElement,
 	#superclass : #ToElement,
+	#traits : 'TToElementWithTripletElement',
+	#classTraits : 'TToElementWithTripletElement classTrait',
 	#instVars : [
+		'triplet',
 		'windowManager',
-		'selectionModel',
 		'hideSelected',
-		'iconContainer',
-		'headerElement',
-		'maxSelectedCount',
-		'dataAccessor'
+		'maxSelectedCount'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -96,15 +95,14 @@ ToSelectElement >> currentWindow [
 { #category : #accessing }
 ToSelectElement >> dataAccessor [ 
 
-	^ dataAccessor
+	^ self headerElement dataAccessor
 ]
 
 { #category : #accessing }
 ToSelectElement >> dataAccessor: aDataAccessor [
 
-	dataAccessor := aDataAccessor.
-	headerElement dataAccessor: aDataAccessor.
-	dataAccessor addEventHandler:
+	self headerElement dataAccessor: aDataAccessor.
+	aDataAccessor addEventHandler:
 		(ToObservableCollectionMirrorUpdater new mirror:
 			 windowManager listElement dataAccessor).
 
@@ -153,20 +151,20 @@ ToSelectElement >> fakeNode [
 { #category : #'accessing selection' }
 ToSelectElement >> filterStringChanged [
 
-	self pattern: headerElement filterString
+	self pattern: self headerElement filterString
 ]
 
 { #category : #accessing }
 ToSelectElement >> filtrable [
 
-	^ headerElement filtrable 
+	^ self headerElement filtrable 
 ]
 
 { #category : #accessing }
 ToSelectElement >> filtrable: aBoolean [
 
-	headerElement filtrable: aBoolean.
-	iconContainer forFiltering: aBoolean.
+	self headerElement filtrable: aBoolean.
+	self iconContainer forFiltering: aBoolean.
 	aBoolean
 		ifTrue: [ self textInputElement beEditable ]
 		ifFalse: [ self textInputElement beReadonly ].
@@ -182,19 +180,7 @@ ToSelectElement >> groupNodeBuilder: aBuilder [
 { #category : #accessing }
 ToSelectElement >> headerElement [
 
-	^ headerElement
-]
-
-{ #category : #accessing }
-ToSelectElement >> headerNodeBuilder: aValuable [
-
-	self headerNodeContainer headerNodeBuilder: aValuable
-]
-
-{ #category : #accessing }
-ToSelectElement >> headerNodeContainer [
-
-	^ self headerElement headerNodeContainer
+	^ triplet middleElement
 ]
 
 { #category : #accessing }
@@ -212,20 +198,17 @@ ToSelectElement >> hideSelected: aBoolean [
 { #category : #accessing }
 ToSelectElement >> iconContainer [
 
-	^ iconContainer 
+	^ triplet endElement
 ]
 
 { #category : #accessing }
 ToSelectElement >> iconContainer: anIconContainer [
 
-	iconContainer = anIconContainer ifTrue: [ ^ self ].
-	iconContainer ifNotNil: [ 
-		iconContainer onUninstalledIn: self.
-		iconContainer removeFromParent ].
-	anIconContainer ifNil: [ ^ self ].
-	self addChild: anIconContainer.
-	anIconContainer onInstalledIn: self.
-	iconContainer := anIconContainer 
+	self iconContainer = anIconContainer ifTrue: [ ^ self ].
+	self iconContainer ifNotNil: [
+		self iconContainer onUninstalledIn: self ].
+	self endElement: anIconContainer.
+	anIconContainer onInstalledIn: self
 ]
 
 { #category : #initialization }
@@ -233,20 +216,27 @@ ToSelectElement >> initialize [
 
 	| sharedEventsDistributor |
 	super initialize.
+	triplet := ToTripletElement new.
+	triplet
+		hMatchParent;
+		vFitContent.
+	self middleContainer constraintsDo: [ :c |
+		c horizontal matchParent.
+		c vertical fitContent ].
+	self addChild: triplet.
 
 	hideSelected := false.
 	maxSelectedCount := 0.
 
 	" for the popup "
-	windowManager := self newWindowManager.	
-	
-	self installHeaderElement.
+	windowManager := self newWindowManager.
+
+	self middleElement: self newElementBar.
 	self iconContainer: self newIconContainer.
 	self selectionModel: self sieve selectionModel.
 	self dataAccessor: ToObservableCollection new.
-	
-	self multipleSelection: false. 
-	
+
+	self multipleSelection: false.
 
 	self layout: BlLinearLayout horizontal.
 	self fitContent.
@@ -263,14 +253,7 @@ ToSelectElement >> initialize [
 { #category : #accessing }
 ToSelectElement >> inputTextField [ 
 
-	^ self headerNodeContainer inputTextField
-]
-
-{ #category : #initialization }
-ToSelectElement >> installHeaderElement [
-
-	headerElement := self newHeaderElement.
-	self addChild: headerElement at: 1
+	^ self nodeContainer inputTextField
 ]
 
 { #category : #testing }
@@ -282,7 +265,7 @@ ToSelectElement >> isFiltrable [
 { #category : #testing }
 ToSelectElement >> isMultipleSelection [ 
 
-	^ headerElement isMultipleSelection 
+	^ self headerElement isMultipleSelection 
 ]
 
 { #category : #testing }
@@ -313,7 +296,7 @@ ToSelectElement >> maxSelectedCount [
 ToSelectElement >> maxSelectedCount: aNumber [
 
 	maxSelectedCount := aNumber.
-	iconContainer maxSelectedCount: aNumber
+	self iconContainer maxSelectedCount: aNumber
 ]
 
 { #category : #accessing }
@@ -324,10 +307,12 @@ ToSelectElement >> multipleSelection: aBoolean [
 ]
 
 { #category : #initialization }
-ToSelectElement >> newHeaderElement [
+ToSelectElement >> newElementBar [
 
-	^ ToSelectHeaderElement new
+	^ ToSelectElementBar new
 		  windowManager: windowManager;
+		  vFitContent;
+		  hMatchParent;
 		  yourself
 ]
 
@@ -359,27 +344,39 @@ ToSelectElement >> newWindowManager [
 ]
 
 { #category : #accessing }
+ToSelectElement >> nodeBuilder: aValuable [
+
+	self nodeContainer nodeBuilder: aValuable
+]
+
+{ #category : #accessing }
+ToSelectElement >> nodeContainer [
+
+	^ self headerElement nodeContainer
+]
+
+{ #category : #accessing }
 ToSelectElement >> nodeScrolling [
 
-	^ headerElement nodeScrolling 
+	^ self headerElement nodeScrolling 
 ]
 
 { #category : #accessing }
 ToSelectElement >> nodeScrolling: aBoolean [
 
-	headerElement nodeScrolling: aBoolean
+	self headerElement nodeScrolling: aBoolean
 ]
 
 { #category : #accessing }
 ToSelectElement >> nodeWrapping [
 
-	^ headerElement nodeWrapping 
+	^ self headerElement nodeWrapping 
 ]
 
 { #category : #accessing }
 ToSelectElement >> nodeWrapping: aBoolean [
 
-	headerElement nodeWrapping: aBoolean
+	self headerElement nodeWrapping: aBoolean
 ]
 
 { #category : #'accessing selection' }
@@ -408,13 +405,13 @@ ToSelectElement >> onSelectionChanged [
 ToSelectElement >> onSelectionChangedInListElement [
 
 	self showHidePlaceholder.
-	self headerNodeContainer refresh.
+	self nodeContainer refresh.
 
 	self checkHideSelectionFromListElement.
 	self checkMaxSelectedCountFromListElement.
 
 	self listElement dataSource notifyChanged.
-	self headerNodeContainer requestLayout
+	self nodeContainer requestLayout
 ]
 
 { #category : #window }
@@ -548,15 +545,14 @@ ToSelectElement >> selecter [
 { #category : #accessing }
 ToSelectElement >> selectionModel [
 
-	^ selectionModel
+	^ self headerElement selectionModel
 ]
 
 { #category : #accessing }
 ToSelectElement >> selectionModel: aSelectionModel [
 
-	selectionModel := aSelectionModel.
-	headerElement selectionModel: aSelectionModel.
-	iconContainer selectionModel: aSelectionModel
+	self headerElement selectionModel: aSelectionModel.
+	self iconContainer selectionModel: aSelectionModel
 ]
 
 { #category : #'accessing list' }
@@ -593,7 +589,13 @@ ToSelectElement >> sieve [
 { #category : #accessing }
 ToSelectElement >> textInputElement [ 
 
-	^ self headerNodeContainer textInputElement
+	^ self nodeContainer textInputElement
+]
+
+{ #category : #'t - element with triplet element' }
+ToSelectElement >> tripletElement [ 
+
+	^ triplet
 ]
 
 { #category : #private }

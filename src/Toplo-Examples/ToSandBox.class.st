@@ -1347,7 +1347,7 @@ ToSandBox class >> example_SelectMonoNotFiltrable [
 
 	| select innerWindow |
 	select := ToSelectElement new.
-	select headerElement inspect.
+	select inspect.
 	select filtrable: false.
 	select dataAccessor addAll: self statesOfAmerica.
 	select placeholderText: ('Select a state' asRopedText foreground: Color red).

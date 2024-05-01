@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'originalHeight'
 	],
-	#category : #'Toplo-Widget-Select-Node'
+	#category : #'Toplo-Widget-Select-List'
 }
 
 { #category : #'event handling' }

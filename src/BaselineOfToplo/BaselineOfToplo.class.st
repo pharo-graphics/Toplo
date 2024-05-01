@@ -158,6 +158,10 @@ BaselineOfToplo >> registerPackages: spec [
 	spec
 		package: #'Toplo-Theme-Examples'
 		with: [ spec requires: #( #'Toplo-Theme-Bee' ) ].
+
+	spec
+		package: #'Toplo-Widget-ElementBar'
+		with: [ spec requires: #(  ) ].
 		
 	spec
 		package: #'Toplo-Imported-Icons-AntDesign'

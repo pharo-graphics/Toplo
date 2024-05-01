@@ -1,6 +1,6 @@
 Class {
-	#name : #ToMultipleSelectHeaderNodeContainerElement,
-	#superclass : #ToSelectHeaderNodeContainerElement,
+	#name : #ToMultipleSelectionElementBarNodeContainerElement,
+	#superclass : #ToElementBarNodeContainerElement,
 	#instVars : [
 		'nodeWrapping',
 		'nodeScrolling',
@@ -10,17 +10,17 @@ Class {
 		'innerNodeContainer',
 		'scrollable'
 	],
-	#category : #'Toplo-Widget-Select-Node'
+	#category : #'Toplo-Widget-ElementBar'
 }
 
 { #category : #adding }
-ToMultipleSelectHeaderNodeContainerElement >> addAllDataNodes: aNodeCollection [
+ToMultipleSelectionElementBarNodeContainerElement >> addAllDataNodes: aNodeCollection [
 
 	aNodeCollection do: [ :n | self addDataNode: n ]
 ]
 
 { #category : #adding }
-ToMultipleSelectHeaderNodeContainerElement >> addDataNode: aNode [
+ToMultipleSelectionElementBarNodeContainerElement >> addDataNode: aNode [
 
 	nodeWrapping
 		ifTrue: [
@@ -29,11 +29,11 @@ ToMultipleSelectHeaderNodeContainerElement >> addDataNode: aNode [
 ]
 
 { #category : #layout }
-ToMultipleSelectHeaderNodeContainerElement >> checkVisibleNodes [
+ToMultipleSelectionElementBarNodeContainerElement >> checkVisibleNodes [
 
 	| invisibleNodes visibleNodes showerNode showerHolder currentHeaderWidth |
 	self ensurePreviousHeaderWidth.
-	currentHeaderWidth := self computedHeaderWidth.
+	currentHeaderWidth := self computedBarWidth.
 	currentHeaderWidth > previousHeaderWidth ifTrue: [
 		previousHeaderWidth := currentHeaderWidth.
 		self enqueueTask: (BlTaskAction new action: [ self refresh ]).
@@ -49,16 +49,16 @@ ToMultipleSelectHeaderNodeContainerElement >> checkVisibleNodes [
 	visibleNodes ifNotEmpty: [
 		invisibleNodes := invisibleNodes copyWith: visibleNodes last.
 		visibleNodes := visibleNodes copyWithout: visibleNodes last ].
-	invisibleNodes do: [ :node | node onUninstalledIn: holder ].
-	showerHolder := ToCompositeHeaderNodeHolder new headerElement: holder.
+	invisibleNodes do: [ :node | node onUninstalledIn: elementBar ].
+	showerHolder := ToCompositeElementBarNodeHolder new elementBar: elementBar.
 	showerHolder holders:
-		(invisibleNodes collect: [ :node | node headerNodeHolder ]).
-	showerNode := ToInvisibleSelectHeaderNodesShower new.
+		(invisibleNodes collect: [ :node | node barHolder ]).
+	showerNode := ToElementBarNode new.
 	showerHolder node: showerNode.
-	showerNode headerNodeHolder: showerHolder.
+	showerNode barHolder: showerHolder.
 	invisibleNodes do: [ :node |
 		innerNodeContainer detachChild: node.
-		headerNodeHolders remove: node headerNodeHolder ].
+		headerNodeHolders remove: node barHolder ].
 	headerNodeHolders add: showerHolder.
 	showerNode middleContainer addChild: (ToLabel text:
 			 '+ ' , (self nodesCount - visibleNodes size) asString , ' ...').
@@ -66,14 +66,14 @@ ToMultipleSelectHeaderNodeContainerElement >> checkVisibleNodes [
 ]
 
 { #category : #layout }
-ToMultipleSelectHeaderNodeContainerElement >> computedHeaderWidth [
+ToMultipleSelectionElementBarNodeContainerElement >> computedBarWidth [
 
-	^ (holder measuredBounds inParent: holder) width
+	^ (elementBar measuredBounds inParent: elementBar) width
 	  - textInputElement measuredWidth
 ]
 
 { #category : #initialization }
-ToMultipleSelectHeaderNodeContainerElement >> defaultHeaderNodeBuilder [
+ToMultipleSelectionElementBarNodeContainerElement >> defaultNodeBuilder [
 
 	^ [ :aSelectNode :aNodeHolder |
 	  aSelectNode beRemovable.
@@ -82,26 +82,26 @@ ToMultipleSelectHeaderNodeContainerElement >> defaultHeaderNodeBuilder [
 ]
 
 { #category : #initialization }
-ToMultipleSelectHeaderNodeContainerElement >> defaultHeaderNodeClass [ 
+ToMultipleSelectionElementBarNodeContainerElement >> defaultNodeClass [ 
 
-	^ ToVisibleSelectHeaderNode
+	^ ToMultipleSelectNode
 ]
 
 { #category : #layout }
-ToMultipleSelectHeaderNodeContainerElement >> ensurePreviousHeaderWidth [
+ToMultipleSelectionElementBarNodeContainerElement >> ensurePreviousHeaderWidth [
 
 	previousHeaderWidth ifNil: [
-		previousHeaderWidth := self computedHeaderWidth  ]
+		previousHeaderWidth := self computedBarWidth  ]
 ]
 
 { #category : #enumerating }
-ToMultipleSelectHeaderNodeContainerElement >> headerDataNodesDo: aBlock [
+ToMultipleSelectionElementBarNodeContainerElement >> headerDataNodesDo: aBlock [
 
 	self headerNodeHolders do: [ :nodeHolder |	aBlock value: nodeHolder node ].
 ]
 
 { #category : #enumerating }
-ToMultipleSelectHeaderNodeContainerElement >> headerDataNodesSelect: aBlock [
+ToMultipleSelectionElementBarNodeContainerElement >> headerDataNodesSelect: aBlock [
 
 	^ Array streamContents: [ :stream |
 		  self headerNodeHolders do: [ :nodeHolder |
@@ -110,14 +110,14 @@ ToMultipleSelectHeaderNodeContainerElement >> headerDataNodesSelect: aBlock [
 ]
 
 { #category : #enumerating }
-ToMultipleSelectHeaderNodeContainerElement >> headerNodeHolders [
+ToMultipleSelectionElementBarNodeContainerElement >> headerNodeHolders [
 
 	^ headerNodeHolders ifNil: [
 		  headerNodeHolders := OrderedCollection new ]
 ]
 
 { #category : #initialization }
-ToMultipleSelectHeaderNodeContainerElement >> initialize [
+ToMultipleSelectionElementBarNodeContainerElement >> initialize [
 
 	super initialize.
 	nodeWrapping := true.
@@ -126,21 +126,21 @@ ToMultipleSelectHeaderNodeContainerElement >> initialize [
 ]
 
 { #category : #accessing }
-ToMultipleSelectHeaderNodeContainerElement >> nodeScrolling: aBoolean [
+ToMultipleSelectionElementBarNodeContainerElement >> nodeScrolling: aBoolean [
 
 	nodeScrolling := aBoolean.
 	self onNodeScrollingChange  
 ]
 
 { #category : #accessing }
-ToMultipleSelectHeaderNodeContainerElement >> nodeWrapping: aBoolean [
+ToMultipleSelectionElementBarNodeContainerElement >> nodeWrapping: aBoolean [
 
 	nodeWrapping := aBoolean.
 	self onNodeWrappingChange  
 ]
 
 { #category : #accessing }
-ToMultipleSelectHeaderNodeContainerElement >> nodesCount [
+ToMultipleSelectionElementBarNodeContainerElement >> nodesCount [
 
 	| count |
 	count := 0.
@@ -150,9 +150,9 @@ ToMultipleSelectHeaderNodeContainerElement >> nodesCount [
 ]
 
 { #category : #'api - hooks' }
-ToMultipleSelectHeaderNodeContainerElement >> onInstalledIn: aHolder [
+ToMultipleSelectionElementBarNodeContainerElement >> onInstalledIn: anElementBar [
 
-	super onInstalledIn: aHolder.
+	super onInstalledIn: anElementBar.
 	self layout: BlLinearLayout horizontal.
 	self
 		vFitContent;
@@ -177,12 +177,12 @@ ToMultipleSelectHeaderNodeContainerElement >> onInstalledIn: aHolder [
 		c flow vertical alignCenter.
 		c vertical fitContent.
 		c horizontal matchParent ].
-	" In case of wrapping, the textField is added whatever the mode to draw the placeholder text if any.
+	" The textField is added whatever the mode to draw the placeholder text if any.
 	In case of read-only mode, the textfield is set as read-only by the mode "
 	self addChild: scrollable.
 
 	textInputElement := ToSelectTextInputElement new.
-	textInputElement onInstalledIn: aHolder.
+	textInputElement onInstalledIn: anElementBar.
 	textInputElement hFitContent.
 	textInputElement constraintsDo: [ :c |
 		c linear vertical alignCenter.
@@ -194,7 +194,7 @@ ToMultipleSelectHeaderNodeContainerElement >> onInstalledIn: aHolder [
 ]
 
 { #category : #layout }
-ToMultipleSelectHeaderNodeContainerElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
+ToMultipleSelectionElementBarNodeContainerElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 
 	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
 	nodeWrapping ifTrue: [ ^ self ].
@@ -203,7 +203,7 @@ ToMultipleSelectHeaderNodeContainerElement >> onLayout: aBounds context: aBlElem
 ]
 
 { #category : #accessing }
-ToMultipleSelectHeaderNodeContainerElement >> onNodeScrollingChange [
+ToMultipleSelectionElementBarNodeContainerElement >> onNodeScrollingChange [
 
 	nodeScrolling
 		ifTrue: [ self hFitContent ]
@@ -212,7 +212,7 @@ ToMultipleSelectHeaderNodeContainerElement >> onNodeScrollingChange [
 ]
 
 { #category : #accessing }
-ToMultipleSelectHeaderNodeContainerElement >> onNodeWrappingChange [
+ToMultipleSelectionElementBarNodeContainerElement >> onNodeWrappingChange [
 
 	self layout: (nodeWrapping
 			 ifTrue: [ BlFlowLayout horizontal ]
@@ -220,45 +220,45 @@ ToMultipleSelectHeaderNodeContainerElement >> onNodeWrappingChange [
 ]
 
 { #category : #'api - hooks' }
-ToMultipleSelectHeaderNodeContainerElement >> onUninstalledIn: aSelect [
+ToMultipleSelectionElementBarNodeContainerElement >> onUninstalledIn: anElementBar [
 
 	self headerDataNodesDo: [ :node |
-		node onUninstalledIn: holder.
+		node onUninstalledIn: anElementBar.
 		node removeFromParent ].
-	textInputElement onUninstalledIn: holder.
+	textInputElement onUninstalledIn: anElementBar.
 	textInputElement removeFromParent.
 	textInputElement := nil.
 	self headerNodeHolders reset.
-	fakeNode onUninstalledIn: holder.
+	fakeNode onUninstalledIn: anElementBar.
 	fakeNode removeFromParent.
 	fakeNode := nil.
 	innerNodeContainer removeFromParent.
 	innerNodeContainer := nil.
-	super onUninstalledIn: aSelect.
+	super onUninstalledIn: anElementBar.
 
 ]
 
 { #category : #accessing }
-ToMultipleSelectHeaderNodeContainerElement >> refresh [
+ToMultipleSelectionElementBarNodeContainerElement >> refresh [
 	" first remove all data nodes "
 	
 	| detached newNodes |
 	detached := OrderedCollection new.
 	self headerDataNodesDo: [ :node |
-		node onUninstalledIn: holder.
+		node onUninstalledIn: elementBar.
 		detached add: node.
 		innerNodeContainer detachChild: node ].
 	self headerNodeHolders reset.
 	" then rebuild current nodes according to current selection "
-	newNodes := holder selectionModel selectedIndexesCollect: [ :idx |
+	newNodes := elementBar selectionModel selectedIndexesCollect: [ :idx |
 		| node selectedData |
-		node := self newHeaderNode.
-		selectedData := holder dataAccessor at: idx.
-		node headerNodeHolder
+		node := self newNode.
+		selectedData := elementBar dataAccessor at: idx.
+		node barHolder
 			position: idx;
 			data: selectedData.
-		self headerNodeBuilder value: node value: node headerNodeHolder.
-		self headerNodeHolders add: node headerNodeHolder.
+		self nodeBuilder value: node value: node barHolder.
+		self headerNodeHolders add: node barHolder.
 		node ].
 	self addAllDataNodes: newNodes.
 	detached do: [ :node | innerNodeContainer removeDetachedChild: node].
@@ -267,7 +267,7 @@ ToMultipleSelectHeaderNodeContainerElement >> refresh [
 ]
 
 { #category : #accessing }
-ToMultipleSelectHeaderNodeContainerElement >> textInputElement [ 
+ToMultipleSelectionElementBarNodeContainerElement >> textInputElement [ 
 
 	^ textInputElement 
 ]

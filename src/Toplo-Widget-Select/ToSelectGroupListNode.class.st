@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSelectGroupListNode,
 	#superclass : #ToSelectListNode,
-	#category : #'Toplo-Widget-Select-Node'
+	#category : #'Toplo-Widget-Select-List'
 }
 
 { #category : #skin }

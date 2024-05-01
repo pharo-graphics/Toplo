@@ -3,7 +3,7 @@ Class {
 	#superclass : #ToNode,
 	#traits : 'TToElement',
 	#classTraits : 'TToElement classTrait',
-	#category : #'Toplo-Widget-Select-Node'
+	#category : #'Toplo-Widget-Select-List'
 }
 
 { #category : #initialization }

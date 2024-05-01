@@ -3,16 +3,12 @@ Class {
 	#superclass : #ToElement,
 	#instVars : [
 		'windowManager',
-		'filtrable',
-		'nodeWrapping',
 		'selectionModel',
 		'hideSelected',
 		'iconContainer',
 		'headerElement',
 		'maxSelectedCount',
-		'dataAccessor',
-		'nodeScrolling',
-		'multipleSelection'
+		'dataAccessor'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -30,7 +26,7 @@ ToSelectElement >> addGroup: anObject withData: aCollection [
 { #category : #'accessing selection' }
 ToSelectElement >> allowSelectedCount: aNumber [
 
-	^ self maxSelectedCount isZero or: [ aNumber <= self maxSelectedCount ]
+	^ maxSelectedCount isZero or: [ aNumber <= maxSelectedCount ]
 ]
 
 { #category : #'accessing selection' }
@@ -44,7 +40,7 @@ ToSelectElement >> assertMaxSelectedCount: aNumber [
 { #category : #'accessing selection' }
 ToSelectElement >> checkHideSelectionFromListElement [
 
-	self hideSelected ifFalse: [ ^ self ].
+	hideSelected ifFalse: [ ^ self ].
 	self listElement dataAccessor withIndexDo: [ :d :localIndex |
 		| originalIndex |
 		originalIndex := self sieve dataPositionIndex at: d.
@@ -61,7 +57,7 @@ ToSelectElement >> checkHideSelectionFromListElement [
 ToSelectElement >> checkMaxSelectedCountFromListElement [
 
 	| unselectableSM groupeSM |
-	self maxSelectedCount isZero ifTrue: [ ^ self ].
+	maxSelectedCount isZero ifTrue: [ ^ self ].
 	
 	unselectableSM := self listElement unselectableSelectionModel.
 	groupeSM := self listElement groupSelectionModel.
@@ -73,7 +69,7 @@ ToSelectElement >> checkMaxSelectedCountFromListElement [
 		| originalIndex |
 		originalIndex := self sieve dataPositionIndex at: d.
 		(groupeSM containsIndex: localIndex) ifFalse: [
-			self selectionModel selectedIndexesCount < self maxSelectedCount
+			self selectionModel selectedIndexesCount < maxSelectedCount
 				ifTrue: [ unselectableSM deselectIndex: localIndex ]
 				ifFalse: [
 					(self selectionModel containsIndex: originalIndex) ifFalse: [
@@ -163,17 +159,15 @@ ToSelectElement >> filterStringChanged [
 { #category : #accessing }
 ToSelectElement >> filtrable [
 
-	^ filtrable 
+	^ headerElement filtrable 
 ]
 
 { #category : #accessing }
 ToSelectElement >> filtrable: aBoolean [
 
-	filtrable = aBoolean ifTrue: [ ^ self ].
-	filtrable := aBoolean.
 	headerElement filtrable: aBoolean.
 	iconContainer forFiltering: aBoolean.
-	filtrable
+	aBoolean
 		ifTrue: [ self textInputElement beEditable ]
 		ifFalse: [ self textInputElement beReadonly ].
 	self requestNewSkin
@@ -241,17 +235,13 @@ ToSelectElement >> initialize [
 	super initialize.
 
 	hideSelected := false.
-	nodeWrapping := true.
-	nodeScrolling := false.
 	maxSelectedCount := 0.
 
-			
 	" for the popup "
 	windowManager := self newWindowManager.	
-	filtrable := true.
 	
-	self iconContainer: self newIconContainer.
 	self installHeaderElement.
+	self iconContainer: self newIconContainer.
 	self selectionModel: self sieve selectionModel.
 	self dataAccessor: ToObservableCollection new.
 	
@@ -280,7 +270,7 @@ ToSelectElement >> inputTextField [
 ToSelectElement >> installHeaderElement [
 
 	headerElement := self newHeaderElement.
-	self addChild: headerElement before: self iconContainer
+	self addChild: headerElement at: 1
 ]
 
 { #category : #testing }
@@ -292,7 +282,7 @@ ToSelectElement >> isFiltrable [
 { #category : #testing }
 ToSelectElement >> isMultipleSelection [ 
 
-	^ multipleSelection 
+	^ headerElement isMultipleSelection 
 ]
 
 { #category : #testing }
@@ -329,8 +319,6 @@ ToSelectElement >> maxSelectedCount: aNumber [
 { #category : #accessing }
 ToSelectElement >> multipleSelection: aBoolean [
 
-	multipleSelection = aBoolean ifTrue: [ ^ self ].
-	multipleSelection := aBoolean.
 	self headerElement multipleSelection: aBoolean.
 	self requestNewSkin
 ]
@@ -373,28 +361,24 @@ ToSelectElement >> newWindowManager [
 { #category : #accessing }
 ToSelectElement >> nodeScrolling [
 
-	^ nodeScrolling 
+	^ headerElement nodeScrolling 
 ]
 
 { #category : #accessing }
 ToSelectElement >> nodeScrolling: aBoolean [
 
-	nodeScrolling = aBoolean ifTrue: [ ^ self ].
-	nodeScrolling := aBoolean.
 	headerElement nodeScrolling: aBoolean
 ]
 
 { #category : #accessing }
 ToSelectElement >> nodeWrapping [
 
-	^ nodeWrapping 
+	^ headerElement nodeWrapping 
 ]
 
 { #category : #accessing }
 ToSelectElement >> nodeWrapping: aBoolean [
 
-	nodeWrapping = aBoolean ifTrue: [ ^ self ].
-	nodeWrapping := aBoolean.
 	headerElement nodeWrapping: aBoolean
 ]
 

@@ -3,10 +3,12 @@ Class {
 	#superclass : #ToSelectHeaderNodeContainerElement,
 	#instVars : [
 		'nodeWrapping',
+		'nodeScrolling',
 		'textInputElement',
 		'headerNodeHolders',
 		'previousHeaderWidth',
-		'nodeScrolling'
+		'innerNodeContainer',
+		'scrollable'
 	],
 	#category : #'Toplo-Widget-Select-Node'
 }
@@ -20,7 +22,10 @@ ToMultipleSelectHeaderNodeContainerElement >> addAllDataNodes: aNodeCollection [
 { #category : #adding }
 ToMultipleSelectHeaderNodeContainerElement >> addDataNode: aNode [
 
-	self addChild: aNode before: self textInputElement
+	nodeWrapping
+		ifTrue: [
+		innerNodeContainer addChild: aNode before: textInputElement ]
+		ifFalse: [ innerNodeContainer addChild: aNode ]
 ]
 
 { #category : #layout }
@@ -52,7 +57,7 @@ ToMultipleSelectHeaderNodeContainerElement >> checkVisibleNodes [
 	showerHolder node: showerNode.
 	showerNode headerNodeHolder: showerHolder.
 	invisibleNodes do: [ :node |
-		self detachChild: node.
+		innerNodeContainer detachChild: node.
 		headerNodeHolders remove: node headerNodeHolder ].
 	headerNodeHolders add: showerHolder.
 	showerNode middleContainer addChild: (ToLabel text:
@@ -64,7 +69,7 @@ ToMultipleSelectHeaderNodeContainerElement >> checkVisibleNodes [
 ToMultipleSelectHeaderNodeContainerElement >> computedHeaderWidth [
 
 	^ (holder measuredBounds inParent: holder) width
-	  - holder textInputElement measuredWidth
+	  - textInputElement measuredWidth
 ]
 
 { #category : #initialization }
@@ -148,21 +153,43 @@ ToMultipleSelectHeaderNodeContainerElement >> nodesCount [
 ToMultipleSelectHeaderNodeContainerElement >> onInstalledIn: aHolder [
 
 	super onInstalledIn: aHolder.
-	self layout: (nodeWrapping
-			 ifTrue: [ BlFlowLayout horizontal ]
-			 ifFalse: [ BlLinearLayout horizontal ]).
+	self layout: BlLinearLayout horizontal.
 	self
 		vFitContent;
+		hMatchParent;
 		constraintsDo: [ :c | c linear vertical alignCenter ].
-	nodeScrolling
-		ifTrue: [ self hFitContent ]
-		ifFalse: [ self hMatchParent ].
-	" The textField is added whatever the mode to draw the placeholder text if any.
+
+	innerNodeContainer := ToElement new.
+	innerNodeContainer layout: (nodeWrapping
+			 ifTrue: [ BlFlowLayout horizontal ]
+			 ifFalse: [ BlLinearLayout horizontal ]).
+	innerNodeContainer constraintsDo: [ :c |
+		c linear vertical alignCenter.
+		c flow vertical alignCenter.
+		nodeWrapping
+			ifTrue: [ c horizontal matchParent ]
+			ifFalse: [ c horizontal fitContent ].
+		c vertical fitContent ].
+
+	scrollable := innerNodeContainer asScrollableElement.
+	scrollable constraintsDo: [ :c |
+		c linear vertical alignCenter.
+		c flow vertical alignCenter.
+		c vertical fitContent.
+		c horizontal matchParent ].
+	" In case of wrapping, the textField is added whatever the mode to draw the placeholder text if any.
 	In case of read-only mode, the textfield is set as read-only by the mode "
+	self addChild: scrollable.
+
 	textInputElement := ToSelectTextInputElement new.
 	textInputElement onInstalledIn: aHolder.
 	textInputElement hFitContent.
-	self addChild: textInputElement.
+	textInputElement constraintsDo: [ :c |
+		c linear vertical alignCenter.
+		c flow vertical alignCenter ].
+	nodeWrapping
+		ifTrue: [ innerNodeContainer addChild: textInputElement ]
+		ifFalse: [ self addChild: textInputElement ].
 	self initializeFakeNode
 ]
 
@@ -205,6 +232,8 @@ ToMultipleSelectHeaderNodeContainerElement >> onUninstalledIn: aSelect [
 	fakeNode onUninstalledIn: holder.
 	fakeNode removeFromParent.
 	fakeNode := nil.
+	innerNodeContainer removeFromParent.
+	innerNodeContainer := nil.
 	super onUninstalledIn: aSelect.
 
 ]
@@ -218,7 +247,7 @@ ToMultipleSelectHeaderNodeContainerElement >> refresh [
 	self headerDataNodesDo: [ :node |
 		node onUninstalledIn: holder.
 		detached add: node.
-		self detachChild: node ].
+		innerNodeContainer detachChild: node ].
 	self headerNodeHolders reset.
 	" then rebuild current nodes according to current selection "
 	newNodes := holder selectionModel selectedIndexesCollect: [ :idx |
@@ -232,7 +261,9 @@ ToMultipleSelectHeaderNodeContainerElement >> refresh [
 		self headerNodeHolders add: node headerNodeHolder.
 		node ].
 	self addAllDataNodes: newNodes.
-	detached do: [ :node | self removeDetachedChild: node]
+	detached do: [ :node | innerNodeContainer removeDetachedChild: node].
+	textInputElement requestLayout.
+	scrollable requestLayout 
 ]
 
 { #category : #accessing }

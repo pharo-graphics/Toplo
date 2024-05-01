@@ -62,7 +62,6 @@ ToSelectHeaderNodeContainerElement >> headerNodeBuilder: aValuable [
 { #category : #accessing }
 ToSelectHeaderNodeContainerElement >> headerNodeClass [ 
 
-	" lazy because asking for it may require the mode to be set "
 	^ headerNodeClass ifNil: [ 	headerNodeClass := self defaultHeaderNodeClass ]
 ]
 
@@ -88,11 +87,13 @@ ToSelectHeaderNodeContainerElement >> initializeFakeNode [
 	fakeNode ifNotNil: [ :fn |
 		fn onUninstalledIn: self.
 		fn removeFromParent ].
+
 	fakeNode := self newHeaderNode.
 	fakeNode id: #fakeNode.
 	fakeNode onInstalledIn: holder.
 	fakeNode headerNodeHolder
 		data: fakeDataItem.
+
 	self headerNodeBuilder value: fakeNode value: fakeNode headerNodeHolder.
 	fakeNode width: 0.
 	fakeNode constraintsDo: [ :c |

@@ -9,8 +9,7 @@ Class {
 		'dataAccessor',
 		'nodeWrapping',
 		'nodeScrolling',
-		'multipleSelection',
-		'scrollable'
+		'multipleSelection'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -72,17 +71,13 @@ ToElementBar >> isSingleSelection [
 { #category : #accessing }
 ToElementBar >> multipleSelection: aBoolean [
 
-	multipleSelection := aBoolean.
+	multipleSelection :=  aBoolean.
 	headerNodeContainer ifNotNil: [
-		headerNodeContainer onUninstalledIn: self ].
-	scrollable ifNotNil: [ scrollable removeFromParent ].
+		headerNodeContainer onUninstalledIn: self.
+		headerNodeContainer removeFromParent ].
 	headerNodeContainer := self newHeaderNodeContainer.
 	headerNodeContainer onInstalledIn: self.
-	scrollable := headerNodeContainer asScrollableElement.
-	scrollable constraintsDo: [ :c |
-		c horizontal matchParent.
-		c vertical fitContent ].
-	self addChild: scrollable
+	self addChild: headerNodeContainer
 ]
 
 { #category : #'instance creation' }

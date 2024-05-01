@@ -1448,6 +1448,7 @@ ToSandBox class >> example_SelectMultiFiltrableScrolling [
 	select := ToSelectElement new.
 	select inspect.
 	select nodeScrolling: true.
+	select nodeWrapping: false.
 	select hideSelected: false.
 	select dataAccessor addAll: self statesOfAmerica.
 	select multipleSelection: true.

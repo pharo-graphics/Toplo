@@ -15,6 +15,12 @@ ToSelectHeaderElement >> filterString [
 ]
 
 { #category : #accessing }
+ToSelectHeaderElement >> filtrable [
+
+	^ filtrable
+]
+
+{ #category : #accessing }
 ToSelectHeaderElement >> filtrable: aBoolean [
 
 	filtrable := aBoolean

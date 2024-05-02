@@ -16,11 +16,13 @@ ToSelectEventHandler >> collectionFilteredEvent: anEvent [
 ]
 
 { #category : #'element handlers' }
-ToSelectEventHandler >> elementAddedToSceneGraphEvent: anEvent [
+ToSelectEventHandler >> elementBarSelectionChanged: anEvent [
 
 	| select |
 	select := anEvent currentTarget.
-	select notifySelectionChanged 
+	select showHidePlaceholder.
+	select onSelectionChanged.
+	anEvent consume
 ]
 
 { #category : #'element handlers' }
@@ -35,8 +37,7 @@ ToSelectEventHandler >> elementExtentChangedEvent: anEvent [
 ToSelectEventHandler >> eventsToHandle [
 
 	^ super eventsToHandle , {
-		  BlElementAddedToSceneGraphEvent.
-		  ToSelectSelectionChanged.
+		  ToElementBarSelectionChanged.
 		  ToCollectionFilteredEvent.
 		  BlElementExtentChangedEvent.
 		  ToSelectInputTextFieldUpdatedEvent }
@@ -47,16 +48,6 @@ ToSelectEventHandler >> selectInputTextFieldUpdatedEvent: anEvent [
 
 	anEvent currentTarget showHidePlaceholder.
 	anEvent currentTarget filterStringChanged.
-]
-
-{ #category : #'element handlers' }
-ToSelectEventHandler >> selectSelectionChanged: anEvent [
-
-	| select |
-	select := anEvent currentTarget.
-	select showHidePlaceholder.
-	select onSelectionChanged.
-	anEvent consume
 ]
 
 { #category : #'event handling' }

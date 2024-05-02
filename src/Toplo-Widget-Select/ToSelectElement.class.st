@@ -22,13 +22,13 @@ ToSelectElement >> addGroup: anObject withData: aCollection [
 	self dataAccessor addAll: aCollection
 ]
 
-{ #category : #'accessing selection' }
+{ #category : #'accessing - selection' }
 ToSelectElement >> allowSelectedCount: aNumber [
 
 	^ maxSelectedCount isZero or: [ aNumber <= maxSelectedCount ]
 ]
 
-{ #category : #'accessing selection' }
+{ #category : #'accessing - selection' }
 ToSelectElement >> assertMaxSelectedCount: aNumber [
 
 	(self allowSelectedCount: aNumber) ifFalse: [
@@ -36,7 +36,7 @@ ToSelectElement >> assertMaxSelectedCount: aNumber [
 				 Error signal: 'Max selected count reached' ]) ]
 ]
 
-{ #category : #'accessing selection' }
+{ #category : #'accessing - selection' }
 ToSelectElement >> checkHideSelectionFromListElement [
 
 	hideSelected ifFalse: [ ^ self ].
@@ -49,10 +49,11 @@ ToSelectElement >> checkHideSelectionFromListElement [
 		self listElement selectionModel
 			transferSelectionFromIndex: localIndex
 			toIndex: originalIndex
-			in: self selectionModel ]
+			in: self selectionModel ].
+	self listElement dataSource notifyChanged.
 ]
 
-{ #category : #'accessing selection' }
+{ #category : #'accessing - selection' }
 ToSelectElement >> checkMaxSelectedCountFromListElement [
 
 	| unselectableSM groupeSM |
@@ -82,13 +83,13 @@ ToSelectElement >> checkMaxSelectedCountFromListElement [
 	self listElement dataSource notifyChanged
 ]
 
-{ #category : #'accessing window' }
+{ #category : #'accessing - window' }
 ToSelectElement >> closeWindow [
 
 	^ self windowManager closeWindow
 ]
 
-{ #category : #'accessing window' }
+{ #category : #'accessing - window' }
 ToSelectElement >> currentWindow [ 
 
 	^ self windowManager currentWindow
@@ -110,26 +111,22 @@ ToSelectElement >> dataAccessor: aDataAccessor [
 
 ]
 
-{ #category : #'accessing selection' }
+{ #category : #'accessing - selection' }
 ToSelectElement >> deselectAll [
 
-	self selectionModel deselectAll.
-	self notifySelectionChanged
+	self elementBar deselectAll
 ]
 
-{ #category : #'accessing selection' }
+{ #category : #'accessing - selection' }
 ToSelectElement >> deselectIndex: anIndex [
 
-	self selectionModel deselectIndex: anIndex.
-	self notifySelectionChanged.
-
+	self elementBar deselectIndex: anIndex
 ]
 
-{ #category : #'accessing selection' }
+{ #category : #'accessing - selection' }
 ToSelectElement >> deselectIndexes: anArray [
 
-	self selectionModel deselectIndexes: anArray.
-	self notifySelectionChanged 
+	self elementBar deselectIndexes: anArray
 ]
 
 { #category : #accessing }
@@ -150,7 +147,7 @@ ToSelectElement >> fakeNode [
 	^ self childWithId: #fakeNode ifNone: [  ]
 ]
 
-{ #category : #'accessing selection' }
+{ #category : #'accessing - selection' }
 ToSelectElement >> filterStringChanged [
 
 	self pattern: self elementBar filterString
@@ -261,25 +258,25 @@ ToSelectElement >> isSingleSelection [
 	^ self isMultipleSelection not
 ]
 
-{ #category : #'accessing list' }
+{ #category : #'accessing - list' }
 ToSelectElement >> listDataNodeBuilder: aBuilder [
 
 	self windowManager listDataNodeBuilder: aBuilder
 ]
 
-{ #category : #'accessing list' }
+{ #category : #'accessing - list' }
 ToSelectElement >> listElement [
 
 	^ self windowManager listElement
 ]
 
-{ #category : #'accessing list' }
+{ #category : #'accessing - list' }
 ToSelectElement >> listGroupNodeBuilder: aBuilder [
 
 	self windowManager listGroupNodeBuilder: aBuilder
 ]
 
-{ #category : #'accessing list' }
+{ #category : #'accessing - list' }
 ToSelectElement >> listNodeBuilder: aValuable [
 
 	self listElement nodeBuilder: aValuable
@@ -305,7 +302,7 @@ ToSelectElement >> multipleSelection: aBoolean [
 	self requestNewSkin
 ]
 
-{ #category : #initialization }
+{ #category : #'instance creation' }
 ToSelectElement >> newElementBar [
 
 	^ ToSelectElementBar new
@@ -315,7 +312,7 @@ ToSelectElement >> newElementBar [
 		  yourself
 ]
 
-{ #category : #initialization }
+{ #category : #'instance creation' }
 ToSelectElement >> newIconContainer [
 
 	^ ToSelectIconContainer new forFiltering: self isFiltrable 
@@ -333,7 +330,7 @@ ToSelectElement >> newShortcutsStore [
 	^ ToSelectShortcutsStore new
 ]
 
-{ #category : #initialization }
+{ #category : #'instance creation' }
 ToSelectElement >> newWindowManager [
 
 	| wm |
@@ -384,13 +381,13 @@ ToSelectElement >> nodeWrapping: aBoolean [
 	self elementBar nodeWrapping: aBoolean
 ]
 
-{ #category : #'accessing selection' }
+{ #category : #'accessing - selection' }
 ToSelectElement >> notifySelectionChanged [
 
-	self dispatchEvent: ToSelectSelectionChanged new
+	self elementBar notifySelectionChanged
 ]
 
-{ #category : #'accessing selection' }
+{ #category : #'accessing - selection' }
 ToSelectElement >> onSelectionChanged [
 
 	| toRemove listData |
@@ -406,7 +403,7 @@ ToSelectElement >> onSelectionChanged [
 	self onSelectionChangedInListElement
 ]
 
-{ #category : #'accessing selection' }
+{ #category : #'accessing - selection' }
 ToSelectElement >> onSelectionChangedInListElement [
 
 	self showHidePlaceholder.
@@ -458,37 +455,37 @@ ToSelectElement >> placeholderText: aText [
 	self elementBar placeholderText: aText
 ]
 
-{ #category : #'accessing list' }
+{ #category : #'accessing - list' }
 ToSelectElement >> popupMaxHeight: aNumber [
 
 	self windowManager maxHeight: aNumber
 ]
 
-{ #category : #'accessing list' }
+{ #category : #'accessing - list' }
 ToSelectElement >> popupMinHeight: aNumber [
 
 	self windowManager minHeight: aNumber
 ]
 
-{ #category : #'accessing list' }
+{ #category : #'accessing - list' }
 ToSelectElement >> popupPositionHook: aValuable [
 
 	self windowManager positionHook: aValuable
 ]
 
-{ #category : #'accessing list' }
+{ #category : #'accessing - list' }
 ToSelectElement >> popupSizeHook: aValuable [
 
 	self windowManager sizeHook: aValuable
 ]
 
-{ #category : #'accessing window' }
+{ #category : #'accessing - window' }
 ToSelectElement >> popupWindowEvent: anEvent [ 
 
 	^ self windowManager popupWindowEvent: anEvent 
 ]
 
-{ #category : #'accessing selection' }
+{ #category : #'accessing - selection' }
 ToSelectElement >> selectIndex: anIndex [
 
 	| selectedAfter |
@@ -496,46 +493,40 @@ ToSelectElement >> selectIndex: anIndex [
 		                 stream nextPut: anIndex.
 		                 stream nextPutAll: self selectedIndexes ].
 	self assertMaxSelectedCount: selectedAfter asSet size.
-	self selectionModel selectIndex: anIndex.
-	self notifySelectionChanged
+	self elementBar selectIndex: anIndex
 ]
 
-{ #category : #'accessing selection' }
+{ #category : #'accessing - selection' }
 ToSelectElement >> selectIndexes: aCollection [
 
 	| selectedAfter |
 	selectedAfter := Array streamContents: [ :stream |
 		                 stream nextPutAll: aCollection.
 		                 stream nextPutAll: self selectedIndexes ].
-	self selectionModel selectIndexes: aCollection.
-	self notifySelectionChanged
+	self elementBar selectIndexes: aCollection
 ]
 
-{ #category : #'accessing selection' }
+{ #category : #'accessing - selection' }
 ToSelectElement >> selectOnlyIndex: anIndex [
 
 	self assertMaxSelectedCount: 1.
-	self selectionModel deselectAll.
-	self selectionModel selectIndex: anIndex.
-	self notifySelectionChanged
+	self elementBar selectOnlyIndex: anIndex
 ]
 
-{ #category : #'accessing selection' }
+{ #category : #'accessing - selection' }
 ToSelectElement >> selectOnlyIndexes: aCollection [
 
 	self assertMaxSelectedCount: aCollection asSet size.
-	self selectionModel deselectAll.
-	self selectionModel selectIndexes: aCollection.
-	self notifySelectionChanged
+	self elementBar selectOnlyIndexes: aCollection
 ]
 
-{ #category : #'accessing selection' }
+{ #category : #'accessing - selection' }
 ToSelectElement >> selectedData [
 
 	^ self selectionModel selectedIndexesCollect: [ :idx | self dataAccessor at: idx ]
 ]
 
-{ #category : #'accessing selection' }
+{ #category : #'accessing - selection' }
 ToSelectElement >> selectedIndexes [
 
 	^ self selectionModel selectedIndexes
@@ -560,14 +551,14 @@ ToSelectElement >> selectionModel: aSelectionModel [
 	self iconContainer selectionModel: aSelectionModel
 ]
 
-{ #category : #'accessing list' }
+{ #category : #'accessing - list' }
 ToSelectElement >> setGroupIndex: anIndex [
 
 	self listElement groupSelecter selectIndex: anIndex.
 	self listElement unselectableSelecter selectIndex: anIndex
 ]
 
-{ #category : #'accessing list' }
+{ #category : #'accessing - list' }
 ToSelectElement >> setGroupIndexes: anIntegerCollection [
 
 	self listElement groupSelectionModel deselectAll.

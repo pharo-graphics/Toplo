@@ -35,7 +35,6 @@ ToSelectElementBar >> initialize [
 	super initialize.
 	filtrable := true.
 	nodeWrapping := true.
-
 	self id: #elementBar
 ]
 

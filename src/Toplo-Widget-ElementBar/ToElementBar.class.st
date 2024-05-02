@@ -27,6 +27,28 @@ ToElementBar >> dataAccessor: aDataAccessor [
 	dataAccessor := aDataAccessor
 ]
 
+{ #category : #'accessing - selection' }
+ToElementBar >> deselectAll [
+
+	self selectionModel deselectAll.
+	self notifySelectionChanged
+]
+
+{ #category : #'accessing - selection' }
+ToElementBar >> deselectIndex: anIndex [
+
+	self selectionModel deselectIndex: anIndex.
+	self notifySelectionChanged.
+
+]
+
+{ #category : #'accessing - selection' }
+ToElementBar >> deselectIndexes: anArray [
+
+	self selectionModel deselectIndexes: anArray.
+	self notifySelectionChanged 
+]
+
 { #category : #accessing }
 ToElementBar >> fakeDataItem: aDataItem [
 
@@ -46,7 +68,8 @@ ToElementBar >> initialize [
 		vFitContent;
 		hMatchParent;
 		constraintsDo: [ :c | c linear vertical alignCenter ].
-		
+
+	self addEventHandler: ToElementBarEventHandler new.
 	self addEventHandlerOn: ToPlaceholderShownEvent do: [ :event |
 		self flag: 'The width of 8 should be handled via a skin'.
 		event placeholder padding: (BlInsets left: 8).
@@ -137,13 +160,59 @@ ToElementBar >> nodeWrapping: aBoolean [
 	nodeContainer nodeWrapping: aBoolean
 ]
 
+{ #category : #'accessing - selection' }
+ToElementBar >> notifySelectionChanged [
+
+	self fireEvent: ToElementBarSelectionChanged new
+]
+
+{ #category : #'accessing - selection' }
+ToElementBar >> onSelectionChanged [
+]
+
+{ #category : #accessing }
+ToElementBar >> refreshNodes [
+
+	
+]
+
 { #category : #removing }
 ToElementBar >> removeNode: aNode [
 
 	| index |
 	index := aNode holder position.
 	self selectionModel deselectIndex: index.
-	self fireEvent: ToSelectSelectionChanged new
+	self fireEvent: ToElementBarSelectionChanged new
+]
+
+{ #category : #'accessing - selection' }
+ToElementBar >> selectIndex: anIndex [
+
+	self selectionModel selectIndex: anIndex.
+	self notifySelectionChanged
+]
+
+{ #category : #'accessing - selection' }
+ToElementBar >> selectIndexes: aCollection [
+
+	self selectionModel selectIndexes: aCollection.
+	self notifySelectionChanged
+]
+
+{ #category : #'accessing - selection' }
+ToElementBar >> selectOnlyIndex: anIndex [
+
+	self selectionModel deselectAll.
+	self selectionModel selectIndex: anIndex.
+	self notifySelectionChanged
+]
+
+{ #category : #'accessing - selection' }
+ToElementBar >> selectOnlyIndexes: aCollection [
+
+	self selectionModel deselectAll.
+	self selectionModel selectIndexes: aCollection.
+	self notifySelectionChanged
 ]
 
 { #category : #accessing }
@@ -156,4 +225,13 @@ ToElementBar >> selectionModel [
 ToElementBar >> selectionModel: aSelectionModel [
 
 	selectionModel := aSelectionModel
+]
+
+{ #category : #private }
+ToElementBar >> showHidePlaceholder [
+
+	self selectionModel ifEmpty: [
+		
+			^ self  showPlaceholder ].
+	self  hidePlaceholder
 ]

@@ -4,8 +4,8 @@ Class {
 	#instVars : [
 		'listElement',
 		'sieve',
-		'dataNodeBuilder',
-		'groupNodeBuilder'
+		'listGroupNodeBuilder',
+		'listDataNodeBuilder'
 	],
 	#category : #'Toplo-Widget-Select-List'
 }
@@ -13,13 +13,7 @@ Class {
 { #category : #accessing }
 ToSelectListWindowManager >> dataNodeBuilder [
 
-	^ dataNodeBuilder
-]
-
-{ #category : #accessing }
-ToSelectListWindowManager >> dataNodeBuilder: aValuable [
-
-	dataNodeBuilder := aValuable
+	^ listDataNodeBuilder
 ]
 
 { #category : #initialization }
@@ -66,8 +60,8 @@ ToSelectListWindowManager >> defaultNodeBuilder [
 
 	^ [ :node :holder | | nodebuilder |
 		nodebuilder := holder isGroup
-		  ifTrue: [ self groupNodeBuilder]
-		  ifFalse: [ self dataNodeBuilder].
+		  ifTrue: [  listGroupNodeBuilder]
+		  ifFalse: [ listDataNodeBuilder].
 	  nodebuilder value: node value: holder ] 
 ]
 
@@ -100,30 +94,30 @@ ToSelectListWindowManager >> elementEventHandlerClass [
 	^ ToSelectEventHandler
 ]
 
-{ #category : #accessing }
-ToSelectListWindowManager >> groupNodeBuilder [
-
-	^ groupNodeBuilder
-]
-
-{ #category : #accessing }
-ToSelectListWindowManager >> groupNodeBuilder: aValuable [
-
-	groupNodeBuilder := aValuable
-]
-
 { #category : #initialization }
 ToSelectListWindowManager >> initialize [ 
 
 	super initialize.
-	dataNodeBuilder := self defaultDataNodeBuilder.
-	groupNodeBuilder := self defaultGroupNodeBuilder 
+	listDataNodeBuilder := self defaultDataNodeBuilder.
+	listGroupNodeBuilder := self defaultGroupNodeBuilder 
+]
+
+{ #category : #accessing }
+ToSelectListWindowManager >> listDataNodeBuilder: aValuable [
+
+	listDataNodeBuilder := aValuable
 ]
 
 { #category : #accessing }
 ToSelectListWindowManager >> listElement [
 
 	^ listElement 
+]
+
+{ #category : #accessing }
+ToSelectListWindowManager >> listGroupNodeBuilder: aValuable [
+
+	listGroupNodeBuilder := aValuable
 ]
 
 { #category : #accessing }

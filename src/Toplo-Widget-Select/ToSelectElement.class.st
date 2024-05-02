@@ -97,23 +97,17 @@ ToSelectElement >> currentWindow [
 { #category : #accessing }
 ToSelectElement >> dataAccessor [ 
 
-	^ self headerElement dataAccessor
+	^ self elementBar dataAccessor
 ]
 
 { #category : #accessing }
 ToSelectElement >> dataAccessor: aDataAccessor [
 
-	self headerElement dataAccessor: aDataAccessor.
+	self elementBar dataAccessor: aDataAccessor.
 	aDataAccessor addEventHandler:
 		(ToObservableCollectionMirrorUpdater new mirror:
 			 windowManager listElement dataAccessor).
 
-]
-
-{ #category : #'accessing list' }
-ToSelectElement >> dataNodeBuilder: aBuilder [
-
-	self windowManager dataNodeBuilder: aBuilder
 ]
 
 { #category : #'accessing selection' }
@@ -139,9 +133,15 @@ ToSelectElement >> deselectIndexes: anArray [
 ]
 
 { #category : #accessing }
+ToSelectElement >> elementBar [
+
+	^ triplet middleElement
+]
+
+{ #category : #accessing }
 ToSelectElement >> fakeDataItem: aDataItem [
 
-	self headerElement fakeDataItem: aDataItem
+	self elementBar fakeDataItem: aDataItem
 ]
 
 { #category : #private }
@@ -153,33 +153,21 @@ ToSelectElement >> fakeNode [
 { #category : #'accessing selection' }
 ToSelectElement >> filterStringChanged [
 
-	self pattern: self headerElement filterString
+	self pattern: self elementBar filterString
 ]
 
 { #category : #accessing }
 ToSelectElement >> filtrable [
 
-	^ self headerElement filtrable 
+	^ self elementBar filtrable 
 ]
 
 { #category : #accessing }
 ToSelectElement >> filtrable: aBoolean [
 
-	self headerElement filtrable: aBoolean.
+	self elementBar filtrable: aBoolean.
 	self iconContainer forFiltering: aBoolean.
 	self requestNewSkin
-]
-
-{ #category : #'accessing list' }
-ToSelectElement >> groupNodeBuilder: aBuilder [
-
-	self windowManager groupNodeBuilder: aBuilder
-]
-
-{ #category : #accessing }
-ToSelectElement >> headerElement [
-
-	^ triplet middleElement
 ]
 
 { #category : #accessing }
@@ -264,7 +252,7 @@ ToSelectElement >> isFiltrable [
 { #category : #testing }
 ToSelectElement >> isMultipleSelection [ 
 
-	^ self headerElement isMultipleSelection 
+	^ self elementBar isMultipleSelection 
 ]
 
 { #category : #testing }
@@ -274,9 +262,21 @@ ToSelectElement >> isSingleSelection [
 ]
 
 { #category : #'accessing list' }
+ToSelectElement >> listDataNodeBuilder: aBuilder [
+
+	self windowManager listDataNodeBuilder: aBuilder
+]
+
+{ #category : #'accessing list' }
 ToSelectElement >> listElement [
 
 	^ self windowManager listElement
+]
+
+{ #category : #'accessing list' }
+ToSelectElement >> listGroupNodeBuilder: aBuilder [
+
+	self windowManager listGroupNodeBuilder: aBuilder
 ]
 
 { #category : #'accessing list' }
@@ -301,7 +301,7 @@ ToSelectElement >> maxSelectedCount: aNumber [
 { #category : #accessing }
 ToSelectElement >> multipleSelection: aBoolean [
 
-	self headerElement multipleSelection: aBoolean.
+	self elementBar multipleSelection: aBoolean.
 	self requestNewSkin
 ]
 
@@ -345,7 +345,7 @@ ToSelectElement >> newWindowManager [
 { #category : #accessing }
 ToSelectElement >> nodeAutoDistribution: aBoolean [
 
-	self headerElement nodeAutoDistribution: aBoolean
+	self elementBar nodeAutoDistribution: aBoolean
 ]
 
 { #category : #accessing }
@@ -357,31 +357,31 @@ ToSelectElement >> nodeBuilder: aValuable [
 { #category : #accessing }
 ToSelectElement >> nodeContainer [
 
-	^ self headerElement nodeContainer
+	^ self elementBar nodeContainer
 ]
 
 { #category : #accessing }
 ToSelectElement >> nodeScrolling [
 
-	^ self headerElement nodeScrolling 
+	^ self elementBar nodeScrolling 
 ]
 
 { #category : #accessing }
 ToSelectElement >> nodeScrolling: aBoolean [
 
-	self headerElement nodeScrolling: aBoolean
+	self elementBar nodeScrolling: aBoolean
 ]
 
 { #category : #accessing }
 ToSelectElement >> nodeWrapping [
 
-	^ self headerElement nodeWrapping 
+	^ self elementBar nodeWrapping 
 ]
 
 { #category : #accessing }
 ToSelectElement >> nodeWrapping: aBoolean [
 
-	self headerElement nodeWrapping: aBoolean
+	self elementBar nodeWrapping: aBoolean
 ]
 
 { #category : #'accessing selection' }
@@ -422,13 +422,13 @@ ToSelectElement >> onSelectionChangedInListElement [
 { #category : #window }
 ToSelectElement >> onWindowClosed [
 
-	self headerElement onWindowClosed
+	self elementBar onWindowClosed
 ]
 
 { #category : #window }
 ToSelectElement >> onWindowOpened [
 
-	self headerElement onWindowOpened
+	self elementBar onWindowOpened
 ]
 
 { #category : #accessing }
@@ -448,14 +448,14 @@ ToSelectElement >> placeholderBuilder: aValuable [
 	" aValuable takes 2 args: 1 the placeholder to build, 2 the element. 
 	If nil, the current builder is removed"
 
-	self headerElement placeholderBuilder: aValuable
+	self elementBar placeholderBuilder: aValuable
 ]
 
 { #category : #'t - element with placeholder' }
 ToSelectElement >> placeholderText: aText [
 	"The text to be shown when no data is selected "
 
-	self headerElement placeholderText: aText
+	self elementBar placeholderText: aText
 ]
 
 { #category : #'accessing list' }
@@ -550,13 +550,13 @@ ToSelectElement >> selecter [
 { #category : #accessing }
 ToSelectElement >> selectionModel [
 
-	^ self headerElement selectionModel
+	^ self elementBar selectionModel
 ]
 
 { #category : #accessing }
 ToSelectElement >> selectionModel: aSelectionModel [
 
-	self headerElement selectionModel: aSelectionModel.
+	self elementBar selectionModel: aSelectionModel.
 	self iconContainer selectionModel: aSelectionModel
 ]
 
@@ -581,8 +581,8 @@ ToSelectElement >> showHidePlaceholder [
 
 	self selectionModel ifEmpty: [
 		self inputTextField text ifEmpty: [
-			^ self headerElement showPlaceholder ] ].
-	self headerElement hidePlaceholder
+			^ self elementBar showPlaceholder ] ].
+	self elementBar hidePlaceholder
 ]
 
 { #category : #accessing }

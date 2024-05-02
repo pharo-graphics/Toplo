@@ -194,8 +194,8 @@ ToMultipleSelectionElementBarNodeContainerElement >> onLayout: aBounds context: 
 ToMultipleSelectionElementBarNodeContainerElement >> onNodeDistributionChange [
 
 	nodeScrolling ifTrue: [ ^ self ].
-	nodeAutoDistribution ifTrue: [ 
-	self nodesDo: [ :n | n autoDistribute ] ]
+	nodeAutoDistribution ifTrue: [
+		self nodesDo: [ :n | n autoDistribute ] ]
 ]
 
 { #category : #accessing }

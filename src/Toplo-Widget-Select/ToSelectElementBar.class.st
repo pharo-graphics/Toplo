@@ -36,7 +36,7 @@ ToSelectElementBar >> initialize [
 	filtrable := true.
 	nodeWrapping := true.
 
-	self id: #headerElement
+	self id: #elementBar
 ]
 
 { #category : #testing }

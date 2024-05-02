@@ -25,7 +25,7 @@ ToListElementSieve >> currentDataWithIndexDo: aBlock [
 
 	self currentData do: [ :d |
 		| idx |
-		idx := self dataPositionIndex at: d.
+		idx := dataPositionIndex at: d.
 		aBlock value: d value: idx ]
 ]
 
@@ -35,7 +35,7 @@ ToListElementSieve >> currentIndexesDo: aBlock [
 
 	self currentData do: [ :d |
 		| idx |
-		idx := self dataPositionIndex at: d.
+		idx := dataPositionIndex at: d.
 		aBlock value: idx ]
 ]
 

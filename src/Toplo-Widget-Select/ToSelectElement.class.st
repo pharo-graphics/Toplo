@@ -77,7 +77,9 @@ ToSelectElement >> checkMaxSelectedCountFromListElement [
 		self listElement selectionModel
 			transferSelectionFromIndex: localIndex
 			toIndex: originalIndex
-			in: self selectionModel ]
+			in: self selectionModel ].
+		
+	self listElement dataSource notifyChanged
 ]
 
 { #category : #'accessing window' }
@@ -165,9 +167,6 @@ ToSelectElement >> filtrable: aBoolean [
 
 	self headerElement filtrable: aBoolean.
 	self iconContainer forFiltering: aBoolean.
-	aBoolean
-		ifTrue: [ self textInputElement beEditable ]
-		ifFalse: [ self textInputElement beReadonly ].
 	self requestNewSkin
 ]
 
@@ -410,7 +409,7 @@ ToSelectElement >> onSelectionChangedInListElement [
 	self checkHideSelectionFromListElement.
 	self checkMaxSelectedCountFromListElement.
 
-	self listElement dataSource notifyChanged.
+	self listElement notifyPrimarySelectionDirty.
 	self nodeContainer requestLayout
 ]
 

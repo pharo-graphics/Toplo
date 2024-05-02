@@ -11,6 +11,12 @@ Class {
 	#category : #'Toplo-Widget-ElementBar'
 }
 
+{ #category : #adding }
+ToElementBarNodeContainerElement >> addFakeNode [
+
+	self subclassResponsibility 
+]
+
 { #category : #initialization }
 ToElementBarNodeContainerElement >> defaultNodeBuilder [
 
@@ -27,17 +33,11 @@ ToElementBarNodeContainerElement >> defaultNodeClass [
 ToElementBarNodeContainerElement >> fakeDataItem: aData [
 
 	fakeDataItem := aData.
-	self initializeFakeNode 
-]
-
-{ #category : #accessing }
-ToElementBarNodeContainerElement >> filterString [ 
-
-	^ self textInputElement filterString
+	self installFakeNode 
 ]
 
 { #category : #initialization }
-ToElementBarNodeContainerElement >> initializeFakeNode [
+ToElementBarNodeContainerElement >> installFakeNode [
 	" the fake node is added when no data is selected to ensure a 
 	suitable minimum height according to the node class, the node builder 
 	and the data kind."
@@ -54,17 +54,12 @@ ToElementBarNodeContainerElement >> initializeFakeNode [
 
 	self nodeBuilder value: fakeNode value: fakeNode barHolder.
 	fakeNode width: 0.
+	fakeNode margin: BlInsets empty.
 	fakeNode constraintsDo: [ :c |
 		c flow vertical alignCenter.
 		c linear vertical alignCenter ].
-	" add the fake node if the selection is empty (to keep a constant minimum height )"
-	self addChild: fakeNode
-]
-
-{ #category : #accessing }
-ToElementBarNodeContainerElement >> inputTextField [
-
-	^ self textInputElement inputTextField
+	" add the fake node (to keep a constant minimum height )"
+	self addFakeNode
 ]
 
 { #category : #initialization }
@@ -105,7 +100,7 @@ ToElementBarNodeContainerElement >> nodeBuilder: aValuable [
 	and the select node holder as second argument"
 	
 	nodeBuilder := aValuable.
-	self initializeFakeNode
+	self installFakeNode
 ]
 
 { #category : #accessing }
@@ -118,7 +113,7 @@ ToElementBarNodeContainerElement >> nodeClass [
 ToElementBarNodeContainerElement >> nodeClass: aNodeClass [
 
 	nodeClass := aNodeClass.
-	self initializeFakeNode
+	self installFakeNode
 ]
 
 { #category : #initialization }
@@ -171,10 +166,4 @@ ToElementBarNodeContainerElement >> refresh [
 ToElementBarNodeContainerElement >> selectedDataTextField [
 
 	^ self textInputElement selectedDataTextField
-]
-
-{ #category : #accessing }
-ToElementBarNodeContainerElement >> textInputElement [ 
-
-	^ self subclassResponsibility 
 ]

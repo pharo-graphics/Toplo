@@ -46,7 +46,8 @@ ToElementBar >> initialize [
 		constraintsDo: [ :c | c linear vertical alignCenter ].
 		
 	self addEventHandlerOn: ToPlaceholderShownEvent do: [ :event |
-		event placeholder padding: (BlInsets left: 5).
+		self flag: 'The width of 8 should be handled via a skin'.
+		event placeholder padding: (BlInsets left: 8).
 		event placeholder layout alignCenterLeft ]
 ]
 
@@ -75,18 +76,28 @@ ToElementBar >> multipleSelection: aBoolean [
 ]
 
 { #category : #'instance creation' }
+ToElementBar >> newMultipleSelectionNodeContainer [
+
+	^  ToMultipleSelectionElementBarNodeContainerElement new
+]
+
+{ #category : #'instance creation' }
 ToElementBar >> newNodeContainer [
 
-	| containerClass |
-	containerClass := self isMultipleSelection
-		                  ifTrue: [
-		                  ToMultipleSelectionElementBarNodeContainerElement ]
-		                  ifFalse: [
-		                  ToSingleSelectionElementBarNodeContainerElement ].
-	^ containerClass new
+	| container |
+	container := self isMultipleSelection
+		             ifTrue: [ self newMultipleSelectionNodeContainer ]
+		             ifFalse: [ self newSingleSelectionNodeContainer ].
+	^ container
 		  nodeWrapping: nodeWrapping;
 		  nodeScrolling: nodeScrolling;
 		  yourself
+]
+
+{ #category : #'instance creation' }
+ToElementBar >> newSingleSelectionNodeContainer [
+
+	^  ToSingleSelectionElementBarNodeContainerElement new
 ]
 
 { #category : #accessing }

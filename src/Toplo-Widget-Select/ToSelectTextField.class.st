@@ -12,7 +12,7 @@ ToSelectTextField >> headerNodeBefore [
 
 	| headerNodeholders |
 	" the strategy must be a multiple one "
-	headerNodeholders := headerNodeContainer headerNodeHolders.
+	headerNodeholders := headerNodeContainer nodeHolders.
 	headerNodeholders ifNotEmpty: [
 		^ headerNodeholders last node ].
 	^ nil

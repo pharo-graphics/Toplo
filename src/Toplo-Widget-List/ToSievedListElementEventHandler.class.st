@@ -11,18 +11,12 @@ Class {
 }
 
 { #category : #'api - hooks' }
-ToSievedListElementEventHandler >> buildIndexedDataFrom: aListElement [
+ToSievedListElementEventHandler >> buildDataPositionIndexFrom: aListElement [
 
 
 	dataPositionIndex removeAll.
 	aListElement dataAccessor withIndexDo: [ :aData :idx |
 		dataPositionIndex at: aData put: idx ]
-]
-
-{ #category : #accessing }
-ToSievedListElementEventHandler >> dataPositionIndex [
-
-	^ dataPositionIndex 
 ]
 
 { #category : #accessing }
@@ -47,21 +41,21 @@ ToSievedListElementEventHandler >> eventsToHandle [
 ToSievedListElementEventHandler >> infiniteDataSourceChanged: anEvent [
 
 	sieve pattern ifNotEmpty: [ ^ self ].
-	self buildIndexedDataFrom: anEvent currentTarget
+	self buildDataPositionIndexFrom: anEvent currentTarget
 ]
 
 { #category : #'data source events handling' }
 ToSievedListElementEventHandler >> infiniteDataSourceItemRangeChanged: anEvent [
 
 	sieve pattern ifNotEmpty: [ ^ self ].
-	self buildIndexedDataFrom: anEvent currentTarget
+	self buildDataPositionIndexFrom: anEvent currentTarget
 ]
 
 { #category : #'data source events handling' }
 ToSievedListElementEventHandler >> infiniteDataSourceItemRangeInserted: anEvent [
 
 	sieve pattern ifNotEmpty: [ ^ self ].
-	self buildIndexedDataFrom: anEvent currentTarget
+	self buildDataPositionIndexFrom: anEvent currentTarget
 ]
 
 { #category : #'data source events handling' }
@@ -128,7 +122,7 @@ ToSievedListElementEventHandler >> onInstalledIn: aListElement [
 	super onInstalledIn: aListElement.
 	sieveSelectionModel := sieve selectionModel.
 	self dataPositionIndex: sieve dataPositionIndex.
-	self buildIndexedDataFrom: aListElement
+	self buildDataPositionIndexFrom: aListElement
 ]
 
 { #category : #accessing }

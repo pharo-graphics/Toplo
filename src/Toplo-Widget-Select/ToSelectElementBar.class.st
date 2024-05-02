@@ -23,7 +23,10 @@ ToSelectElementBar >> filtrable [
 { #category : #accessing }
 ToSelectElementBar >> filtrable: aBoolean [
 
-	filtrable := aBoolean
+	filtrable := aBoolean.
+	aBoolean
+		ifTrue: [ self textInputElement beEditable ]
+		ifFalse: [ self textInputElement beReadonly ].
 ]
 
 { #category : #initialization }
@@ -47,6 +50,12 @@ ToSelectElementBar >> multipleSelection: aBoolean [
 
 	super multipleSelection: aBoolean.
 	windowManager listElement selectionMode multiple: aBoolean
+]
+
+{ #category : #'instance creation' }
+ToSelectElementBar >> newMultipleSelectionNodeContainer [
+
+	^  ToSelectMultipleElementBarNodeContainerElement new
 ]
 
 { #category : #'instance creation' }

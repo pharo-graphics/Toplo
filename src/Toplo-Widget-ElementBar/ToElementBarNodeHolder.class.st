@@ -1,39 +1,39 @@
 Class {
 	#name : #ToElementBarNodeHolder,
-	#superclass : #Object,
+	#superclass : #ToAbstractElementBarNodeHolder,
 	#instVars : [
-		'node',
-		'elementBar'
+		'dataItem',
+		'position'
 	],
 	#category : #'Toplo-Widget-ElementBar'
 }
 
 { #category : #accessing }
-ToElementBarNodeHolder >> elementBar [
+ToElementBarNodeHolder >> dataItem [
 
-	^ elementBar
+	^ dataItem
 ]
 
 { #category : #accessing }
-ToElementBarNodeHolder >> elementBar: anElementBar [
+ToElementBarNodeHolder >> dataItem: anObject [
 
-	elementBar := anElementBar
-]
-
-{ #category : #accessing }
-ToElementBarNodeHolder >> node [
-
-	^ node
-]
-
-{ #category : #accessing }
-ToElementBarNodeHolder >> node: aSelectNode [
-
-	node := aSelectNode
+	dataItem := anObject
 ]
 
 { #category : #accessing }
 ToElementBarNodeHolder >> nodesCount [
 
-	^ self subclassResponsibility
+	^ 1
+]
+
+{ #category : #accessing }
+ToElementBarNodeHolder >> position [
+
+	^ position
+]
+
+{ #category : #accessing }
+ToElementBarNodeHolder >> position: anInteger [
+
+	position := anInteger
 ]

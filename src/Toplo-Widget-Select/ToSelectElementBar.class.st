@@ -55,15 +55,14 @@ ToSelectElementBar >> multipleSelection: aBoolean [
 { #category : #'instance creation' }
 ToSelectElementBar >> newMultipleSelectionNodeContainer [
 
-	^  ToSelectMultipleElementBarNodeContainerElement new
+	^  ToMultipleSelectNodeContainerElement new
 ]
 
 { #category : #'instance creation' }
-ToSelectElementBar >> newNodeContainer [
+ToSelectElementBar >> newSingleSelectionNodeContainer [
 
-	^ super newNodeContainer
-		  id: #nodeContainer;
-		  yourself
+	^  ToSingleSelectNodeContainerElement new
+
 ]
 
 { #category : #window }

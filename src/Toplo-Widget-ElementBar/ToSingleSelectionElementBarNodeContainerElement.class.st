@@ -2,7 +2,6 @@ Class {
 	#name : #ToSingleSelectionElementBarNodeContainerElement,
 	#superclass : #ToElementBarNodeContainerElement,
 	#instVars : [
-		'refreshInputTextTask',
 		'node'
 	],
 	#category : #'Toplo-Widget-ElementBar'
@@ -20,24 +19,6 @@ ToSingleSelectionElementBarNodeContainerElement >> defaultNodeBuilder [
 	^ [ :aSelectNode :aNodeHolder | ]
 ]
 
-{ #category : #initialization }
-ToSingleSelectionElementBarNodeContainerElement >> defaultNodeClass [ 
-
-	^  ToSingleSelectNode
-]
-
-{ #category : #accessing }
-ToSingleSelectionElementBarNodeContainerElement >> filterString [ 
-
-	^ self textInputElement filterString
-]
-
-{ #category : #accessing }
-ToSingleSelectionElementBarNodeContainerElement >> inputTextField [
-
-	^ self textInputElement inputTextField
-]
-
 { #category : #'api - hooks' }
 ToSingleSelectionElementBarNodeContainerElement >> onInstalledIn: anElementBar [
 
@@ -48,7 +29,7 @@ ToSingleSelectionElementBarNodeContainerElement >> onInstalledIn: anElementBar [
 		hMatchParent;
 		constraintsDo: [ :c | c linear vertical alignCenter ].
 	node := self newNode.
-	self nodeBuilder value: node value: node barHolder.
+	self nodeBuilder value: node value: node holder.
 	self addChild: node.
 	node onInstalledIn: anElementBar.
 	self installFakeNode
@@ -72,7 +53,7 @@ ToSingleSelectionElementBarNodeContainerElement >> onUninstalledIn: anElementBar
 ToSingleSelectionElementBarNodeContainerElement >> refresh [
 
 	| nodeHolder idx selectedData |
-	nodeHolder := node barHolder.
+	nodeHolder := node holder.
 	elementBar selectionModel isEmpty
 		ifTrue: [
 			idx := 0.
@@ -84,21 +65,5 @@ ToSingleSelectionElementBarNodeContainerElement >> refresh [
 				                ifFalse: [  ] ].
 	nodeHolder
 		position: idx;
-		data: selectedData.
-
-	self refreshInputTextElementWithSelectedData: selectedData
-]
-
-{ #category : #accessing }
-ToSingleSelectionElementBarNodeContainerElement >> refreshInputTextElementWithSelectedData: aData [
-
-	self inputTextField text: ''.
-	self selectedDataTextField text:
-		(aData ifNil: [ '' ] ifNotNil: [ :d | d asString ])
-]
-
-{ #category : #accessing }
-ToSingleSelectionElementBarNodeContainerElement >> textInputElement [
-
-	^ node textInputElement
+		dataItem: selectedData
 ]

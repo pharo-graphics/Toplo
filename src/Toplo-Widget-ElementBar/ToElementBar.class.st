@@ -91,6 +91,7 @@ ToElementBar >> newNodeContainer [
 	^ container
 		  nodeWrapping: nodeWrapping;
 		  nodeScrolling: nodeScrolling;
+		  id: #nodeContainer;
 		  yourself
 ]
 
@@ -124,7 +125,7 @@ ToElementBar >> nodeWrapping: aBoolean [
 ToElementBar >> removeNode: aNode [
 
 	| index |
-	index := aNode barHolder position.
+	index := aNode holder position.
 	self selectionModel deselectIndex: index.
 	self fireEvent: ToSelectSelectionChanged new
 ]

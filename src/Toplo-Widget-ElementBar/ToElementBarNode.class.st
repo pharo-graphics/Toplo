@@ -11,15 +11,15 @@ Class {
 }
 
 { #category : #accessing }
-ToElementBarNode >> barHolder [
+ToElementBarNode >> holder [
 
 	^ holder 
 ]
 
 { #category : #accessing }
-ToElementBarNode >> barHolder: aHeaderNodeHolder [
+ToElementBarNode >> holder: aElementNodeHolder [
 
-	holder := aHeaderNodeHolder
+	holder := aElementNodeHolder
 ]
 
 { #category : #initialization }
@@ -51,7 +51,7 @@ ToElementBarNode >> isFullyVisible [
 
 	| intersection bnds pbnds bar |
 	self measuredWidth isZero ifTrue: [ ^ true ].
-	bar := self barHolder elementBar.
+	bar := self holder elementBar.
 	bnds := (self measuredBounds inParent: bar) asRectangle.
 	pbnds := bar measuredBounds asRectangle.
 	pbnds := pbnds withRight: pbnds right - bar textInputElement measuredWidth.
@@ -82,7 +82,7 @@ ToElementBarNode >> removeFromBar [
 	Second, if the data is not one of the actual list element data, remove the data through the select "
 
 	|  bar  |
-	bar := self barHolder elementBar.
+	bar := self holder elementBar.
 	bar removeNode: self
 ]
 

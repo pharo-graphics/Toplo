@@ -20,13 +20,15 @@ ToElementBarNodeContainerElement >> addFakeNode [
 { #category : #initialization }
 ToElementBarNodeContainerElement >> defaultNodeBuilder [
 
-	^ self subclassResponsibility 
+	^ [ :aBarNode :aNodeHolder |
+	  aBarNode middleContainer addChild:
+		  (ToLabel text: aNodeHolder dataItem asString) ]
 ]
 
 { #category : #initialization }
 ToElementBarNodeContainerElement >> defaultNodeClass [
 
-	^ self subclassResponsibility 
+	^ ToElementBarNode
 ]
 
 { #category : #accessing }
@@ -49,10 +51,10 @@ ToElementBarNodeContainerElement >> installFakeNode [
 	fakeNode := self newNode.
 	fakeNode id: #fakeNode.
 	fakeNode onInstalledIn: elementBar.
-	fakeNode barHolder
-		data: fakeDataItem.
+	fakeNode holder
+		dataItem: fakeDataItem.
 
-	self nodeBuilder value: fakeNode value: fakeNode barHolder.
+	self nodeBuilder value: fakeNode value: fakeNode holder.
 	fakeNode width: 0.
 	fakeNode margin: BlInsets empty.
 	fakeNode constraintsDo: [ :c |
@@ -68,12 +70,12 @@ ToElementBarNodeContainerElement >> newNode [
 	| node nodeHolder |
 	node := self nodeClass new.
 	nodeHolder := self newNodeHolder.
-	node barHolder: nodeHolder.
+	node holder: nodeHolder.
 	nodeHolder
 		node: node;
 		position: 0;
 		elementBar: elementBar;
-		data: nil.
+		dataItem: nil.
 		
 	^ node
 ]
@@ -119,7 +121,7 @@ ToElementBarNodeContainerElement >> nodeClass: aNodeClass [
 { #category : #initialization }
 ToElementBarNodeContainerElement >> nodeHolderClass [ 
 
-	^ ToSimpleElementBarNodeHolder
+	^ ToElementBarNodeHolder
 ]
 
 { #category : #accessing }

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToCompositeElementBarNodeHolder,
-	#superclass : #ToElementBarNodeHolder,
+	#superclass : #ToAbstractElementBarNodeHolder,
 	#instVars : [
 		'holders'
 	],

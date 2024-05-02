@@ -1,5 +1,5 @@
 Class {
-	#name : #ToSelectMultipleElementBarNodeContainerElement,
+	#name : #ToMultipleSelectNodeContainerElement,
 	#superclass : #ToMultipleSelectionElementBarNodeContainerElement,
 	#instVars : [
 		'textInputElement'
@@ -7,20 +7,35 @@ Class {
 	#category : #'Toplo-Widget-Select-Node'
 }
 
+{ #category : #initialization }
+ToMultipleSelectNodeContainerElement >> defaultNodeBuilder [
+
+	^ [ :aSelectNode :aNodeHolder |
+	  aSelectNode beRemovable.
+	  aSelectNode middleContainer addChild:
+		  (ToLabel text: aNodeHolder dataItem asString) ]
+]
+
+{ #category : #initialization }
+ToMultipleSelectNodeContainerElement >> defaultNodeClass [ 
+
+	^ ToMultipleSelectNode
+]
+
 { #category : #accessing }
-ToSelectMultipleElementBarNodeContainerElement >> filterString [ 
+ToMultipleSelectNodeContainerElement >> filterString [ 
 
 	^ self textInputElement filterString
 ]
 
 { #category : #accessing }
-ToSelectMultipleElementBarNodeContainerElement >> inputTextField [
+ToMultipleSelectNodeContainerElement >> inputTextField [
 
 	^ self textInputElement inputTextField
 ]
 
 { #category : #'api - hooks' }
-ToSelectMultipleElementBarNodeContainerElement >> onInstalledIn: anElementBar [
+ToMultipleSelectNodeContainerElement >> onInstalledIn: anElementBar [
 
 	super onInstalledIn: anElementBar.
 	textInputElement := ToSelectTextInputElement new.
@@ -30,12 +45,12 @@ ToSelectMultipleElementBarNodeContainerElement >> onInstalledIn: anElementBar [
 		c linear vertical alignCenter.
 		c flow vertical alignCenter ].
 	nodeWrapping
-		ifTrue: [ innerNodeContainer addChild: textInputElement ]
+		ifTrue: [ innerNodeContainer addChild: textInputElement after: fakeNode ]
 		ifFalse: [ self addChild: textInputElement ]
 ]
 
 { #category : #'api - hooks' }
-ToSelectMultipleElementBarNodeContainerElement >> onUninstalledIn: anElementBar [
+ToMultipleSelectNodeContainerElement >> onUninstalledIn: anElementBar [
 
 	textInputElement onUninstalledIn: anElementBar.
 	textInputElement removeFromParent.
@@ -45,7 +60,7 @@ ToSelectMultipleElementBarNodeContainerElement >> onUninstalledIn: anElementBar 
 ]
 
 { #category : #accessing }
-ToSelectMultipleElementBarNodeContainerElement >> refresh [
+ToMultipleSelectNodeContainerElement >> refresh [
 	" first remove all data nodes "
 	
 	super refresh.
@@ -53,7 +68,7 @@ ToSelectMultipleElementBarNodeContainerElement >> refresh [
 ]
 
 { #category : #accessing }
-ToSelectMultipleElementBarNodeContainerElement >> textInputElement [ 
+ToMultipleSelectNodeContainerElement >> textInputElement [ 
 
 	^ textInputElement 
 ]

@@ -54,32 +54,17 @@ ToMultipleSelectionElementBarNodeContainerElement >> checkVisibleNodes [
 	invisibleNodes do: [ :node | node onUninstalledIn: elementBar ].
 	showerHolder := ToCompositeElementBarNodeHolder new elementBar: elementBar.
 	showerHolder holders:
-		(invisibleNodes collect: [ :node | node barHolder ]).
+		(invisibleNodes collect: [ :node | node holder ]).
 	showerNode := ToElementBarNode new.
 	showerHolder node: showerNode.
-	showerNode barHolder: showerHolder.
+	showerNode holder: showerHolder.
 	invisibleNodes do: [ :node |
 		innerNodeContainer detachChild: node.
-		nodeHolders remove: node barHolder ].
+		nodeHolders remove: node holder ].
 	nodeHolders add: showerHolder.
 	showerNode middleContainer addChild: (ToLabel text:
 			 '+ ' , (self nodesCount - visibleNodes size) asString , ' ...').
 	self addDataNode: showerNode
-]
-
-{ #category : #initialization }
-ToMultipleSelectionElementBarNodeContainerElement >> defaultNodeBuilder [
-
-	^ [ :aSelectNode :aNodeHolder |
-	  aSelectNode beRemovable.
-	  aSelectNode middleContainer addChild:
-		  (ToLabel text: aNodeHolder data asString) ]
-]
-
-{ #category : #initialization }
-ToMultipleSelectionElementBarNodeContainerElement >> defaultNodeClass [ 
-
-	^ ToMultipleSelectNode
 ]
 
 { #category : #layout }
@@ -236,11 +221,11 @@ ToMultipleSelectionElementBarNodeContainerElement >> refresh [
 		| node selectedData |
 		node := self newNode.
 		selectedData := elementBar dataAccessor at: idx.
-		node barHolder
+		node holder
 			position: idx;
-			data: selectedData.
-		self nodeBuilder value: node value: node barHolder.
-		self nodeHolders add: node barHolder.
+			dataItem: selectedData.
+		self nodeBuilder value: node value: node holder.
+		self nodeHolders add: node holder.
 		node ].
 	self addAllDataNodes: newNodes.
 	detached do: [ :node | innerNodeContainer removeDetachedChild: node].

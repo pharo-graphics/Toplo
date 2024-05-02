@@ -11,7 +11,7 @@ Class {
 { #category : #accessing }
 ToSelectElementBar >> filterString [ 
 
-	^ nodeContainer filterString
+	^ self nodeContainer filterString
 ]
 
 { #category : #accessing }
@@ -91,7 +91,7 @@ ToSelectElementBar >> sieve [
 { #category : #accessing }
 ToSelectElementBar >> textInputElement [ 
 
-	^ nodeContainer textInputElement
+	^ self nodeContainer textInputElement
 ]
 
 { #category : #accessing }

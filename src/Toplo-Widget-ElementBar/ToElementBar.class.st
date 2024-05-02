@@ -1,8 +1,8 @@
 Class {
 	#name : #ToElementBar,
 	#superclass : #ToElement,
-	#traits : 'TToElementWithPlaceholder',
-	#classTraits : 'TToElementWithPlaceholder classTrait',
+	#traits : 'TToElementWithPlaceholder + TToElementWithTripletElement',
+	#classTraits : 'TToElementWithPlaceholder classTrait + TToElementWithTripletElement classTrait',
 	#instVars : [
 		'selectionModel',
 		'dataAccessor',
@@ -10,7 +10,7 @@ Class {
 		'nodeScrolling',
 		'nodeAutoDistribution',
 		'multipleSelection',
-		'nodeContainer'
+		'triplet'
 	],
 	#category : #'Toplo-Widget-ElementBar'
 }
@@ -52,7 +52,7 @@ ToElementBar >> deselectIndexes: anArray [
 { #category : #accessing }
 ToElementBar >> fakeDataItem: aDataItem [
 
-	nodeContainer fakeDataItem: aDataItem
+	self nodeContainer fakeDataItem: aDataItem
 ]
 
 { #category : #initialization }
@@ -63,6 +63,14 @@ ToElementBar >> initialize [
 	nodeWrapping := true.
 	nodeScrolling := false.
 	nodeAutoDistribution := false.
+	triplet := ToTripletElement new.
+	triplet
+		vFitContent;
+		hMatchParent.
+	triplet middleContainer constraintsDo: [ :c |
+		c vertical fitContent.
+		c horizontal matchParent ].
+	self addChild: triplet.
 
 	self
 		vFitContent;
@@ -92,12 +100,11 @@ ToElementBar >> isSingleSelection [
 ToElementBar >> multipleSelection: aBoolean [
 
 	multipleSelection :=  aBoolean.
-	nodeContainer ifNotNil: [
-		nodeContainer onUninstalledIn: self.
-		nodeContainer removeFromParent ].
-	nodeContainer := self newNodeContainer.
-	nodeContainer onInstalledIn: self.
-	self addChild: nodeContainer
+	self nodeContainer ifNotNil: [
+		self nodeContainer onUninstalledIn: self.
+		].
+	self middleElement: self newNodeContainer.
+	self nodeContainer onInstalledIn: self
 ]
 
 { #category : #'instance creation' }
@@ -137,27 +144,27 @@ ToElementBar >> nodeAutoDistribution [
 ToElementBar >> nodeAutoDistribution: aBoolean [
 
 	nodeAutoDistribution := aBoolean.
-	nodeContainer nodeAutoDistribution: aBoolean
+	self nodeContainer nodeAutoDistribution: aBoolean
 ]
 
 { #category : #accessing }
 ToElementBar >> nodeContainer [
 
-	^ nodeContainer 
+	^ self middleElement 
 ]
 
 { #category : #accessing }
 ToElementBar >> nodeScrolling: aBoolean [
 
 	nodeScrolling := aBoolean.
-	nodeContainer nodeScrolling: aBoolean
+	self nodeContainer nodeScrolling: aBoolean
 ]
 
 { #category : #accessing }
 ToElementBar >> nodeWrapping: aBoolean [
 
 	nodeWrapping := aBoolean.
-	nodeContainer nodeWrapping: aBoolean
+	self nodeContainer nodeWrapping: aBoolean
 ]
 
 { #category : #'accessing - selection' }
@@ -234,4 +241,10 @@ ToElementBar >> showHidePlaceholder [
 		
 			^ self  showPlaceholder ].
 	self  hidePlaceholder
+]
+
+{ #category : #'t - element with triplet element' }
+ToElementBar >> tripletElement [
+
+	^ triplet
 ]

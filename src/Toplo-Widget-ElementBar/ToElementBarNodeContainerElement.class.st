@@ -87,6 +87,11 @@ ToElementBarNodeContainerElement >> newNodeHolder [
 ]
 
 { #category : #accessing }
+ToElementBarNodeContainerElement >> nodeAutoDistribution: aBoolean [
+
+]
+
+{ #category : #accessing }
 ToElementBarNodeContainerElement >> nodeBuilder [
 
 	" see the mutator method  "

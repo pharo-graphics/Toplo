@@ -8,6 +8,7 @@ Class {
 		'dataAccessor',
 		'nodeWrapping',
 		'nodeScrolling',
+		'nodeAutoDistribution',
 		'multipleSelection',
 		'nodeContainer'
 	],
@@ -39,6 +40,7 @@ ToElementBar >> initialize [
 	multipleSelection := false.
 	nodeWrapping := true.
 	nodeScrolling := false.
+	nodeAutoDistribution := false.
 
 	self
 		vFitContent;
@@ -91,6 +93,7 @@ ToElementBar >> newNodeContainer [
 	^ container
 		  nodeWrapping: nodeWrapping;
 		  nodeScrolling: nodeScrolling;
+		  nodeAutoDistribution: nodeAutoDistribution;
 		  id: #nodeContainer;
 		  yourself
 ]
@@ -99,6 +102,19 @@ ToElementBar >> newNodeContainer [
 ToElementBar >> newSingleSelectionNodeContainer [
 
 	^  ToSingleSelectionElementBarNodeContainerElement new
+]
+
+{ #category : #accessing }
+ToElementBar >> nodeAutoDistribution [
+
+	^ nodeAutoDistribution
+]
+
+{ #category : #accessing }
+ToElementBar >> nodeAutoDistribution: aBoolean [
+
+	nodeAutoDistribution := aBoolean.
+	nodeContainer nodeAutoDistribution: aBoolean
 ]
 
 { #category : #accessing }

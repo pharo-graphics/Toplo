@@ -4,6 +4,7 @@ Class {
 	#instVars : [
 		'nodeWrapping',
 		'nodeScrolling',
+		'nodeAutoDistribution',
 		'innerNodeContainer',
 		'scrollable',
 		'nodeHolders',
@@ -21,7 +22,8 @@ ToMultipleSelectionElementBarNodeContainerElement >> addAllDataNodes: aNodeColle
 { #category : #adding }
 ToMultipleSelectionElementBarNodeContainerElement >> addDataNode: aNode [
 
-	innerNodeContainer addChild: aNode before: fakeNode 
+	elementBar nodeAutoDistribution ifTrue: [ aNode autoDistribute ].
+	innerNodeContainer addChild: aNode before: fakeNode
 ]
 
 { #category : #adding }
@@ -81,6 +83,19 @@ ToMultipleSelectionElementBarNodeContainerElement >> initialize [
 	nodeWrapping := true.
 	nodeScrolling := false
 
+]
+
+{ #category : #accessing }
+ToMultipleSelectionElementBarNodeContainerElement >> nodeAutoDistribution [
+
+	^ nodeAutoDistribution
+]
+
+{ #category : #accessing }
+ToMultipleSelectionElementBarNodeContainerElement >> nodeAutoDistribution: aBoolean [
+
+	nodeAutoDistribution := aBoolean.
+	self onNodeDistributionChange
 ]
 
 { #category : #enumerating }
@@ -148,7 +163,10 @@ ToMultipleSelectionElementBarNodeContainerElement >> onInstalledIn: anElementBar
 		c flow vertical alignCenter.
 		nodeWrapping
 			ifTrue: [ c horizontal matchParent ]
-			ifFalse: [ c horizontal fitContent ].
+			ifFalse: [
+				nodeAutoDistribution
+					ifTrue: [ c horizontal matchParent ]
+					ifFalse: [ c horizontal fitContent ] ].
 		c vertical fitContent ].
 
 	scrollable := innerNodeContainer asScrollableElement.
@@ -170,6 +188,14 @@ ToMultipleSelectionElementBarNodeContainerElement >> onLayout: aBounds context: 
 	nodeWrapping ifTrue: [ ^ self ].
 	nodeScrolling ifTrue: [ ^ self ].
 	self checkVisibleNodes
+]
+
+{ #category : #accessing }
+ToMultipleSelectionElementBarNodeContainerElement >> onNodeDistributionChange [
+
+	nodeScrolling ifTrue: [ ^ self ].
+	nodeAutoDistribution ifTrue: [ 
+	self nodesDo: [ :n | n autoDistribute ] ]
 ]
 
 { #category : #accessing }

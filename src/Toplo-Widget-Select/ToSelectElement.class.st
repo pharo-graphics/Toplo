@@ -343,6 +343,12 @@ ToSelectElement >> newWindowManager [
 ]
 
 { #category : #accessing }
+ToSelectElement >> nodeAutoDistribution: aBoolean [
+
+	self headerElement nodeAutoDistribution: aBoolean
+]
+
+{ #category : #accessing }
 ToSelectElement >> nodeBuilder: aValuable [
 
 	self nodeContainer nodeBuilder: aValuable

@@ -1419,6 +1419,54 @@ ToSandBox class >> example_SelectMultiFiltrable [
 ]
 
 { #category : #select }
+ToSandBox class >> example_SelectMultiFiltrableAutoDistribution [
+
+	| select innerWindow |
+	select := ToSelectElement new.
+	select inspect.
+	select maxSelectedCount: 6.
+	select nodeWrapping: false.
+	select nodeAutoDistribution: true.
+	select hideSelected: false.
+	select dataAccessor addAll: self statesOfAmerica.
+	select multipleSelection: true.
+	select filtrable: true.
+	select popupMaxHeight: 200.
+	select placeholderText:
+		('Select states' asRopedText foreground: Color red).
+	innerWindow := ToInnerWindow new.
+	select windowManager anchorRoot: innerWindow root.
+	select hMatchParent.
+	innerWindow pane addChild: select.
+	innerWindow height: 600.
+	innerWindow openInSpace
+]
+
+{ #category : #select }
+ToSandBox class >> example_SelectMultiFiltrableAutoDistributionWithMax [
+
+	| select innerWindow |
+	select := ToSelectElement new.
+	select inspect.
+	select maxSelectedCount: 4.
+	select nodeWrapping: false.
+	select nodeAutoDistribution: true.
+	select hideSelected: false.
+	select dataAccessor addAll: self statesOfAmerica.
+	select multipleSelection: true.
+	select filtrable: true.
+	select popupMaxHeight: 200.
+	select placeholderText:
+		('Select states' asRopedText foreground: Color red).
+	innerWindow := ToInnerWindow new.
+	select windowManager anchorRoot: innerWindow root.
+	select hMatchParent.
+	innerWindow pane addChild: select.
+	innerWindow height: 600.
+	innerWindow openInSpace
+]
+
+{ #category : #select }
 ToSandBox class >> example_SelectMultiFiltrableNoWrapping [
 
 	| select innerWindow |
@@ -1426,6 +1474,30 @@ ToSandBox class >> example_SelectMultiFiltrableNoWrapping [
 	select inspect.
 	select maxSelectedCount: 6.
 	select nodeWrapping: false.
+	select hideSelected: false.
+	select dataAccessor addAll: self statesOfAmerica.
+	select multipleSelection: true.
+	select filtrable: true.
+	select popupMaxHeight: 200.
+	select placeholderText:
+		('Select states' asRopedText foreground: Color red).
+	innerWindow := ToInnerWindow new.
+	select windowManager anchorRoot: innerWindow root.
+	select hMatchParent.
+	innerWindow pane addChild: select.
+	innerWindow height: 600.
+	innerWindow openInSpace
+]
+
+{ #category : #select }
+ToSandBox class >> example_SelectMultiFiltrableNotWrappingAutoDistribution [
+
+	| select innerWindow |
+	select := ToSelectElement new.
+	select inspect.
+	"select maxSelectedCount: 6."
+	select nodeWrapping: false.
+	select nodeAutoDistribution: true.
 	select hideSelected: false.
 	select dataAccessor addAll: self statesOfAmerica.
 	select multipleSelection: true.
@@ -1513,6 +1585,30 @@ ToSandBox class >> example_SelectMultiFiltrableWithMax [
 	| select  |
 	select := self example_SelectMultiFiltrable.
 	select maxSelectedCount: 4
+]
+
+{ #category : #select }
+ToSandBox class >> example_SelectMultiFiltrableWrappingAutoDistribution [
+
+	| select innerWindow |
+	select := ToSelectElement new.
+	select inspect.
+	"select maxSelectedCount: 6."
+	select nodeWrapping: true.
+	select nodeAutoDistribution: true.
+	select hideSelected: false.
+	select dataAccessor addAll: self statesOfAmerica.
+	select multipleSelection: true.
+	select filtrable: true.
+	select popupMaxHeight: 200.
+	select placeholderText:
+		('Select states' asRopedText foreground: Color red).
+	innerWindow := ToInnerWindow new.
+	select windowManager anchorRoot: innerWindow root.
+	select hMatchParent.
+	innerWindow pane addChild: select.
+	innerWindow height: 600.
+	innerWindow openInSpace
 ]
 
 { #category : #select }

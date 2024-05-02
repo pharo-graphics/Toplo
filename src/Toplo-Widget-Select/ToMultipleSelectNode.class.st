@@ -32,7 +32,7 @@ ToMultipleSelectNode >> addRemoveButton [
 			 do: [ :event | event consume ]).
 
 	but id: #removeButton.
-	self endContainer addChild: but
+	self startContainer addChild: but
 ]
 
 { #category : #configurating }

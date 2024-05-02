@@ -10,6 +10,18 @@ Class {
 	#category : #'Toplo-Widget-ElementBar'
 }
 
+{ #category : #layout }
+ToElementBarNode >> autoDistribute [
+
+	self startFlexible: true.
+	self endFlexible: true.
+	self tripletElement constraintsDo: [ :c | c horizontal matchParent ].
+	self constraintsDo: [ :c |
+		c horizontal matchParent.
+		c linear weight: 1.
+		c flow weight: 1 ]
+]
+
 { #category : #accessing }
 ToElementBarNode >> holder [
 

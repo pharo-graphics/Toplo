@@ -83,3 +83,11 @@ ToMultipleSelectNode >> removeRemoveButton [
 	but := self endContainer childWithId: #removeButton.
 	but removeFromParent
 ]
+
+{ #category : #layout }
+ToMultipleSelectNode >> rightWidthGap [
+
+	| bar |
+	bar := self holder elementBar.
+	^ bar textInputElement measuredWidth
+]

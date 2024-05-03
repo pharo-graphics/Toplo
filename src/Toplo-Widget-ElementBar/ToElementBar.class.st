@@ -58,7 +58,7 @@ ToElementBar >> fakeDataItem: aDataItem [
 ToElementBar >> initialize [
 
 	super initialize.
-	multipleSelection := false.
+	multipleSelection := self multipleSelectionByDefault.
 	nodeWrapping := true.
 	nodeScrolling := false.
 	nodeAutoDistribution := false.
@@ -76,6 +76,15 @@ ToElementBar >> initialize [
 		event placeholder layout alignCenterLeft ]
 ]
 
+{ #category : #accessing }
+ToElementBar >> installNodeContainer [
+
+	self nodeContainer ifNotNil: [
+		self nodeContainer onUninstalledIn: self ].
+	self middleElement: self newNodeContainer.
+	self nodeContainer onInstalledIn: self
+]
+
 { #category : #testing }
 ToElementBar >> isMultipleSelection [
 
@@ -91,18 +100,20 @@ ToElementBar >> isSingleSelection [
 { #category : #accessing }
 ToElementBar >> multipleSelection: aBoolean [
 
-	multipleSelection :=  aBoolean.
-	self nodeContainer ifNotNil: [
-		self nodeContainer onUninstalledIn: self.
-		].
-	self middleElement: self newNodeContainer.
-	self nodeContainer onInstalledIn: self
+	multipleSelection := aBoolean.
+	self installNodeContainer
+]
+
+{ #category : #initialization }
+ToElementBar >> multipleSelectionByDefault [ 
+
+	^ false
 ]
 
 { #category : #'instance creation' }
 ToElementBar >> newMultipleSelectionNodeContainer [
 
-	^  ToMultipleSelectionElementBarNodeContainerElement new
+	^  ToMultipleSelectionElementBarContainerElement new
 ]
 
 { #category : #'instance creation' }
@@ -123,7 +134,7 @@ ToElementBar >> newNodeContainer [
 { #category : #'instance creation' }
 ToElementBar >> newSingleSelectionNodeContainer [
 
-	^  ToSingleSelectionElementBarNodeContainerElement new
+	^  ToSingleSelectionElementBarContainerElement new
 ]
 
 { #category : #accessing }
@@ -179,6 +190,7 @@ ToElementBar >> notifySelectionChanged [
 
 { #category : #'accessing - selection' }
 ToElementBar >> onSelectionChanged [
+
 ]
 
 { #category : #accessing }
@@ -244,4 +256,10 @@ ToElementBar >> showHidePlaceholder [
 	self selectionModel ifEmpty: [
 			^ self  showPlaceholder ].
 	self  hidePlaceholder
+]
+
+{ #category : #initialization }
+ToElementBar >> singleByDefault [
+
+	^ self multipleSelectionByDefault not
 ]

@@ -2338,6 +2338,17 @@ ToSandBox class >> example_TripletElementWithIconAndText_startFlexible_startAlig
 	^ but
 ]
 
+{ #category : #triplet }
+ToSandBox class >> example_TripletElementWithIconAndText_vertical [
+
+	| but  |
+	but := self tripletWithText.
+	but beVertical.
+	but inspect.
+	but openInSpace.
+	^ but
+]
+
 { #category : #list }
 ToSandBox class >> example_TwoCoordinateLists [
 
@@ -2774,6 +2785,24 @@ ToSandBox class >> example_menuBar2 [
 
 	frame pane addChild: bar.
 	frame openInSpace
+]
+
+{ #category : #'multiple node bar' }
+ToSandBox class >> example_multipleNodeBar [
+
+	| bar |
+	bar := ToMultipleNodeBar new.
+	bar dataAccessor: ToObservableCollection new.
+	bar dataAccessor addAll:
+		(ToSandBox statesOfAmerica copyFrom: 1 to: 6).
+	bar selectionModel: ToSelectionModel new.
+	bar nodeWrapping: true.
+	bar nodeScrolling: false.
+	bar nodeAutoDistribution: false.
+	bar nodeContainer refresh.
+	bar openInInnerWindow.
+	bar border: Color red.
+	bar selectionModel selectIndex: 3
 ]
 
 { #category : #window }

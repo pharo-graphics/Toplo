@@ -57,7 +57,7 @@ ToElementBarNode >> isFullyVisible [
 	bar := self holder elementBar.
 	bnds := (self measuredBounds inParent: bar nodeContainer) asRectangle.
 	pbnds := bar nodeContainer measuredBounds asRectangle.
-	pbnds := pbnds withRight: pbnds right - bar textInputElement measuredWidth.
+	pbnds := pbnds withRight: pbnds right - self rightWidthGap.
 	intersection := bnds intersect: pbnds.
 	^ intersection = bnds
 ]
@@ -87,4 +87,10 @@ ToElementBarNode >> removeFromBar [
 	|  bar  |
 	bar := self holder elementBar.
 	bar removeNode: self
+]
+
+{ #category : #layout }
+ToElementBarNode >> rightWidthGap [
+
+	^ 0
 ]

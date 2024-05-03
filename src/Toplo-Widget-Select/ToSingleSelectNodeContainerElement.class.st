@@ -1,6 +1,6 @@
 Class {
 	#name : #ToSingleSelectNodeContainerElement,
-	#superclass : #ToSingleSelectionElementBarNodeContainerElement,
+	#superclass : #ToSingleSelectionElementBarContainerElement,
 	#category : #'Toplo-Widget-Select-Node'
 }
 
@@ -25,7 +25,20 @@ ToSingleSelectNodeContainerElement >> inputTextField [
 { #category : #accessing }
 ToSingleSelectNodeContainerElement >> refresh [
 
-	super refresh.
+	| nodeHolder idx selectedData |
+	nodeHolder := node holder.
+	elementBar selectionModel isEmpty
+		ifTrue: [
+			idx := 0.
+			selectedData := nil ]
+		ifFalse: [
+			idx := elementBar selectionModel firstIndex.
+			selectedData := idx <= elementBar dataAccessor size
+				                ifTrue: [ elementBar dataAccessor at: idx ]
+				                ifFalse: [  ] ].
+	nodeHolder
+		position: idx;
+		dataItem: selectedData.
 	self refreshInputTextElementWithSelectedData
 ]
 

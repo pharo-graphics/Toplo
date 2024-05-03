@@ -181,7 +181,8 @@ ToSelectElement >> initialize [
 	self selectionModel: self sieve selectionModel.
 	self dataAccessor: ToObservableCollection new.
 
-	self multipleSelection: false.
+	"self multipleSelection: false."
+	self installNodeContainer.
 
 	self layout: BlLinearLayout horizontal.
 	self fitContent.
@@ -199,6 +200,14 @@ ToSelectElement >> initialize [
 ToSelectElement >> inputTextField [ 
 
 	^ self nodeContainer inputTextField
+]
+
+{ #category : #accessing }
+ToSelectElement >> installNodeContainer [ 
+
+	super installNodeContainer.
+	windowManager listElement selectionMode multiple: self isMultipleSelection.
+	self requestNewSkin 
 ]
 
 { #category : #testing }
@@ -236,14 +245,6 @@ ToSelectElement >> maxSelectedCount: aNumber [
 
 	maxSelectedCount := aNumber.
 	self iconContainer maxSelectedCount: aNumber
-]
-
-{ #category : #accessing }
-ToSelectElement >> multipleSelection: aBoolean [
-
-	super multipleSelection: aBoolean.
-	windowManager listElement selectionMode multiple: aBoolean.
-	self requestNewSkin 
 ]
 
 { #category : #'instance creation' }
@@ -296,7 +297,6 @@ ToSelectElement >> nodeBuilder: aValuable [
 ToSelectElement >> onSelectionChanged [
 
 	| toRemove listData |
-	super onSelectionChanged.
 	listData := self listElement dataAccessor.
 	toRemove := Array streamContents: [ :stream |
 		            listData withIndexDo: [ :d :localIndex |

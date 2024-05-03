@@ -12,7 +12,6 @@ ToSingleSelectNode >> installRawStyle [
 
 	super installRawStyle.
 	self background: Color transparent.
-	self middleContainer padding: (BlInsets right: 3).
 	self padding: (BlInsets vertical: 4)
 ]
 

@@ -16,16 +16,6 @@ ToSelectEventHandler >> collectionFilteredEvent: anEvent [
 ]
 
 { #category : #'element handlers' }
-ToSelectEventHandler >> elementBarSelectionChanged: anEvent [
-
-	| select |
-	select := anEvent currentTarget.
-	select showHidePlaceholder.
-	select onSelectionChanged.
-	anEvent consume
-]
-
-{ #category : #'element handlers' }
 ToSelectEventHandler >> elementExtentChangedEvent: anEvent [
 
 	windowManager currentWindow ifNil: [ ^ self ].
@@ -37,7 +27,6 @@ ToSelectEventHandler >> elementExtentChangedEvent: anEvent [
 ToSelectEventHandler >> eventsToHandle [
 
 	^ super eventsToHandle , {
-		  ToElementBarSelectionChanged.
 		  ToCollectionFilteredEvent.
 		  BlElementExtentChangedEvent.
 		  ToSelectInputTextFieldUpdatedEvent }

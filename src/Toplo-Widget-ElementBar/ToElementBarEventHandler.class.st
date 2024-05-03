@@ -18,7 +18,8 @@ ToElementBarEventHandler >> elementBarSelectionChanged: anEvent [
 	| bar |
 	bar := anEvent currentTarget.
 	bar showHidePlaceholder.
-	bar onSelectionChanged
+	bar onSelectionChanged.
+
 ]
 
 { #category : #'api - accessing' }

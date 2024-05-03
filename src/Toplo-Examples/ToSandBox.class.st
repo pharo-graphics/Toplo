@@ -1245,7 +1245,7 @@ ToSandBox class >> example_RadioButtonWithIndeterminate [
 ToSandBox class >> example_SelectMonoFiltrable [
 
 	| select innerWindow phtext |
-	select := ToSelectElement new.
+	select := ToSelectElementBar new.
 	select  inspect.
 	select listElement placeholderMinHeight: 35.
 	phtext := ('No Data' asRopedText
@@ -1279,7 +1279,7 @@ ToSandBox class >> example_SelectMonoFiltrable [
 ToSandBox class >> example_SelectMonoFiltrableWithGroups [
 
 	| select innerWindow phtext |
-	select := ToSelectElement new.
+	select := ToSelectElementBar new.
 	"select listElement inspect."
 	select listElement placeholderMinHeight: 35.
 	phtext := ('No Data' asRopedText
@@ -1312,7 +1312,7 @@ ToSandBox class >> example_SelectMonoFiltrableWithGroups [
 ToSandBox class >> example_SelectMonoFiltrableWithHideSelected [
 
 	| select innerWindow phtext |
-	select := ToSelectElement new.
+	select := ToSelectElementBar new.
 	select hideSelected: true.
 	select listElement placeholderMinHeight: 35.
 	phtext := ('No Data' asRopedText
@@ -1346,7 +1346,7 @@ ToSandBox class >> example_SelectMonoFiltrableWithHideSelected [
 ToSandBox class >> example_SelectMonoNotFiltrable [
 
 	| select innerWindow |
-	select := ToSelectElement new.
+	select := ToSelectElementBar new.
 	select inspect.
 	select filtrable: false.
 	select dataAccessor addAll: self statesOfAmerica.
@@ -1365,7 +1365,7 @@ ToSandBox class >> example_SelectMonoNotFiltrable [
 ToSandBox class >> example_SelectMonoNotFiltrableWithGroups [
 
 	| select innerWindow phtext |
-	select := ToSelectElement new.
+	select := ToSelectElementBar new.
 	select inspect.
 	select listElement placeholderMinHeight: 35.
 	phtext := ('No Data' asRopedText
@@ -1398,7 +1398,7 @@ ToSandBox class >> example_SelectMonoNotFiltrableWithGroups [
 ToSandBox class >> example_SelectMultiFiltrable [
 
 	| select innerWindow |
-	select := ToSelectElement new.
+	select := ToSelectElementBar new.
 	select listElement withRowNumbers.
 	select inspect.
 	select hideSelected: false.
@@ -1422,9 +1422,8 @@ ToSandBox class >> example_SelectMultiFiltrable [
 ToSandBox class >> example_SelectMultiFiltrableAutoDistribution [
 
 	| select innerWindow |
-	select := ToSelectElement new.
+	select := ToSelectElementBar new.
 	select inspect.
-	select maxSelectedCount: 6.
 	select nodeWrapping: false.
 	select nodeAutoDistribution: true.
 	select hideSelected: false.
@@ -1446,7 +1445,7 @@ ToSandBox class >> example_SelectMultiFiltrableAutoDistribution [
 ToSandBox class >> example_SelectMultiFiltrableAutoDistributionWithMax [
 
 	| select innerWindow |
-	select := ToSelectElement new.
+	select := ToSelectElementBar new.
 	select inspect.
 	select maxSelectedCount: 4.
 	select nodeWrapping: false.
@@ -1470,7 +1469,7 @@ ToSandBox class >> example_SelectMultiFiltrableAutoDistributionWithMax [
 ToSandBox class >> example_SelectMultiFiltrableNoWrapping [
 
 	| select innerWindow |
-	select := ToSelectElement new.
+	select := ToSelectElementBar new.
 	select inspect.
 	select maxSelectedCount: 6.
 	select nodeWrapping: false.
@@ -1493,9 +1492,8 @@ ToSandBox class >> example_SelectMultiFiltrableNoWrapping [
 ToSandBox class >> example_SelectMultiFiltrableNotWrappingAutoDistribution [
 
 	| select innerWindow |
-	select := ToSelectElement new.
+	select := ToSelectElementBar new.
 	select inspect.
-	"select maxSelectedCount: 6."
 	select nodeWrapping: false.
 	select nodeAutoDistribution: true.
 	select hideSelected: false.
@@ -1517,7 +1515,7 @@ ToSandBox class >> example_SelectMultiFiltrableNotWrappingAutoDistribution [
 ToSandBox class >> example_SelectMultiFiltrableScrolling [
 
 	| select innerWindow |
-	select := ToSelectElement new.
+	select := ToSelectElementBar new.
 	select inspect.
 	select nodeScrolling: true.
 	select nodeWrapping: false.
@@ -1540,7 +1538,7 @@ ToSandBox class >> example_SelectMultiFiltrableScrolling [
 ToSandBox class >> example_SelectMultiFiltrableWithHideSelected [
 
 	| select innerWindow |
-	select := ToSelectElement new.
+	select := ToSelectElementBar new.
 	select inspect.
 	select hideSelected: true.
 	select dataAccessor updateAllWith: self statesOfAmerica.
@@ -1562,7 +1560,7 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected [
 ToSandBox class >> example_SelectMultiFiltrableWithHideSelected2 [
 
 	| select innerWindow |
-	select := ToSelectElement new.
+	select := ToSelectElementBar new.
 	select hideSelected: true.
 	select dataAccessor addAll: {'Apples'.'Nails'. 'Bananas'. 'Helicopter'}.
 	select multipleSelection: true.
@@ -1591,7 +1589,7 @@ ToSandBox class >> example_SelectMultiFiltrableWithMax [
 ToSandBox class >> example_SelectMultiFiltrableWrappingAutoDistribution [
 
 	| select innerWindow |
-	select := ToSelectElement new.
+	select := ToSelectElementBar new.
 	select inspect.
 	"select maxSelectedCount: 6."
 	select nodeWrapping: true.
@@ -1615,7 +1613,7 @@ ToSandBox class >> example_SelectMultiFiltrableWrappingAutoDistribution [
 ToSandBox class >> example_SelectMultiNotFiltrable [
 
 	| select innerWindow |
-	select := ToSelectElement new.
+	select := ToSelectElementBar new.
 	select maxSelectedCount: 4.
 	select filtrable: false.
 	select dataAccessor addAll: self statesOfAmerica.
@@ -2966,7 +2964,7 @@ ToSandBox class >> example_scaledImage [
 ToSandBox class >> example_selectWith5Nodes [
 
 	| select innerWindow |
-	select := ToSelectElement new.
+	select := ToSelectElementBar new.
 	select listElement nodeBuilder: [ :node :holder |
 		node addChild: (ToLabel text: holder dataItem asString) hMatchParent ].
 	innerWindow := ToInnerWindow new.
@@ -4388,7 +4386,7 @@ ToSandBox class >> path_sharp_electric_bike_SVG [
 ToSandBox class >> selectWithEditingMultiSelection [
 
 	| select phtext |
-	select := ToSelectElement new.
+	select := ToSelectElementBar new.
 	phtext := ('No Data' asRopedText
 		           foreground: Color lightGray;
 		           yourself)

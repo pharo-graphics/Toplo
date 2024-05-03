@@ -37,7 +37,7 @@ ToMultipleSelectionElementBarNodeContainerElement >> checkVisibleNodes [
 
 	| invisibleNodes visibleNodes showerNode showerHolder currentHeaderWidth |
 	self ensurePreviousMeasuredBarWidth.
-	currentHeaderWidth := self measuredBounds width.
+	currentHeaderWidth := self measuredWidth.
 	currentHeaderWidth > previousMeasuredBarWidth ifTrue: [
 		previousMeasuredBarWidth := currentHeaderWidth.
 		self enqueueTask: (BlTaskAction new action: [ self refresh ]).
@@ -73,7 +73,7 @@ ToMultipleSelectionElementBarNodeContainerElement >> checkVisibleNodes [
 ToMultipleSelectionElementBarNodeContainerElement >> ensurePreviousMeasuredBarWidth [
 
 	previousMeasuredBarWidth ifNil: [
-		previousMeasuredBarWidth := self measuredBounds width  ]
+		previousMeasuredBarWidth := self measuredWidth  ]
 ]
 
 { #category : #initialization }

@@ -64,8 +64,8 @@ ToElementBarNode >> isFullyVisible [
 	| intersection bnds pbnds bar |
 	self measuredWidth isZero ifTrue: [ ^ true ].
 	bar := self holder elementBar.
-	bnds := (self measuredBounds inParent: bar) asRectangle.
-	pbnds := bar measuredBounds asRectangle.
+	bnds := (self measuredBounds inParent: bar nodeContainer) asRectangle.
+	pbnds := bar nodeContainer measuredBounds asRectangle.
 	pbnds := pbnds withRight: pbnds right - bar textInputElement measuredWidth.
 	intersection := bnds intersect: pbnds.
 	^ intersection = bnds

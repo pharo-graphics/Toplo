@@ -4,10 +4,7 @@ Class {
 	#traits : 'TToElementWithTripletElement',
 	#classTraits : 'TToElementWithTripletElement classTrait',
 	#instVars : [
-		'triplet',
-		'windowManager',
-		'hideSelected',
-		'maxSelectedCount'
+		'triplet'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -26,14 +23,6 @@ ToSelectElement >> addGroup: anObject withData: aCollection [
 ToSelectElement >> allowSelectedCount: aNumber [
 
 	^ maxSelectedCount isZero or: [ aNumber <= maxSelectedCount ]
-]
-
-{ #category : #'accessing - selection' }
-ToSelectElement >> assertMaxSelectedCount: aNumber [
-
-	(self allowSelectedCount: aNumber) ifFalse: [
-		self enqueueTask: (BlTaskAction new action: [
-				 Error signal: 'Max selected count reached' ]) ]
 ]
 
 { #category : #'accessing - selection' }
@@ -83,18 +72,6 @@ ToSelectElement >> checkMaxSelectedCountFromListElement [
 	self listElement dataSource notifyChanged
 ]
 
-{ #category : #'accessing - window' }
-ToSelectElement >> closeWindow [
-
-	^ self windowManager closeWindow
-]
-
-{ #category : #'accessing - window' }
-ToSelectElement >> currentWindow [ 
-
-	^ self windowManager currentWindow
-]
-
 { #category : #accessing }
 ToSelectElement >> dataAccessor [ 
 
@@ -139,12 +116,6 @@ ToSelectElement >> elementBar [
 ToSelectElement >> fakeDataItem: aDataItem [
 
 	self elementBar fakeDataItem: aDataItem
-]
-
-{ #category : #private }
-ToSelectElement >> fakeNode [
-
-	^ self childWithId: #fakeNode ifNone: [  ]
 ]
 
 { #category : #'accessing - selection' }
@@ -234,12 +205,6 @@ ToSelectElement >> initialize [
 	self listElement addEventHandler: sharedEventsDistributor
 ]
 
-{ #category : #accessing }
-ToSelectElement >> inputTextField [ 
-
-	^ self nodeContainer inputTextField
-]
-
 { #category : #testing }
 ToSelectElement >> isFiltrable [
 
@@ -259,40 +224,9 @@ ToSelectElement >> isSingleSelection [
 ]
 
 { #category : #'accessing - list' }
-ToSelectElement >> listDataNodeBuilder: aBuilder [
-
-	self windowManager listDataNodeBuilder: aBuilder
-]
-
-{ #category : #'accessing - list' }
-ToSelectElement >> listElement [
-
-	^ self windowManager listElement
-]
-
-{ #category : #'accessing - list' }
 ToSelectElement >> listGroupNodeBuilder: aBuilder [
 
 	self windowManager listGroupNodeBuilder: aBuilder
-]
-
-{ #category : #'accessing - list' }
-ToSelectElement >> listNodeBuilder: aValuable [
-
-	self listElement nodeBuilder: aValuable
-]
-
-{ #category : #accessing }
-ToSelectElement >> maxSelectedCount [
-
-	^ maxSelectedCount
-]
-
-{ #category : #accessing }
-ToSelectElement >> maxSelectedCount: aNumber [
-
-	maxSelectedCount := aNumber.
-	self iconContainer maxSelectedCount: aNumber
 ]
 
 { #category : #accessing }
@@ -312,108 +246,16 @@ ToSelectElement >> newElementBar [
 		  yourself
 ]
 
-{ #category : #'instance creation' }
-ToSelectElement >> newIconContainer [
-
-	^ ToSelectIconContainer new forFiltering: self isFiltrable 
-]
-
-{ #category : #skin }
-ToSelectElement >> newRawSkin [ 
-
-	^ ToSelectElementSkin new
-]
-
-{ #category : #'instance creation' }
-ToSelectElement >> newShortcutsStore [ 
-
-	^ ToSelectShortcutsStore new
-]
-
-{ #category : #'instance creation' }
-ToSelectElement >> newWindowManager [
-
-	| wm |
-	wm := ToSelectListWindowManager new.
-	wm onInstalledIn: self.
-	^ wm
-]
-
-{ #category : #accessing }
-ToSelectElement >> nodeAutoDistribution: aBoolean [
-
-	self elementBar nodeAutoDistribution: aBoolean
-]
-
-{ #category : #accessing }
-ToSelectElement >> nodeBuilder: aValuable [
-
-	self nodeContainer nodeBuilder: aValuable
-]
-
 { #category : #accessing }
 ToSelectElement >> nodeContainer [
 
 	^ self elementBar nodeContainer
 ]
 
-{ #category : #accessing }
-ToSelectElement >> nodeScrolling [
-
-	^ self elementBar nodeScrolling 
-]
-
-{ #category : #accessing }
-ToSelectElement >> nodeScrolling: aBoolean [
-
-	self elementBar nodeScrolling: aBoolean
-]
-
-{ #category : #accessing }
-ToSelectElement >> nodeWrapping [
-
-	^ self elementBar nodeWrapping 
-]
-
-{ #category : #accessing }
-ToSelectElement >> nodeWrapping: aBoolean [
-
-	self elementBar nodeWrapping: aBoolean
-]
-
 { #category : #'accessing - selection' }
 ToSelectElement >> notifySelectionChanged [
 
 	self elementBar notifySelectionChanged
-]
-
-{ #category : #'accessing - selection' }
-ToSelectElement >> onSelectionChanged [
-
-	| toRemove listData |
-	listData := self listElement dataAccessor.
-	toRemove := Array streamContents: [ :stream |
-		            listData withIndexDo: [ :d :localIndex |
-			            | originalIndex |
-			            originalIndex := self sieve dataPositionIndex at: d.
-			            (self selectionModel containsIndex: originalIndex)
-				            ifFalse: [ stream nextPut: localIndex ] ] ].
-
-	self listElement selectionModel deselectIndexes: toRemove.
-	self onSelectionChangedInListElement
-]
-
-{ #category : #'accessing - selection' }
-ToSelectElement >> onSelectionChangedInListElement [
-
-	self showHidePlaceholder.
-	self nodeContainer refresh.
-
-	self checkHideSelectionFromListElement.
-	self checkMaxSelectedCountFromListElement.
-
-	self listElement notifyPrimarySelectionDirty.
-	self nodeContainer requestLayout
 ]
 
 { #category : #window }
@@ -432,57 +274,6 @@ ToSelectElement >> onWindowOpened [
 ToSelectElement >> pattern [
 
 	^ self sieve pattern
-]
-
-{ #category : #accessing }
-ToSelectElement >> pattern: aPattern [
-
-	self sieve pattern: aPattern
-]
-
-{ #category : #'t - element with placeholder' }
-ToSelectElement >> placeholderBuilder: aValuable [
-	" aValuable takes 2 args: 1 the placeholder to build, 2 the element. 
-	If nil, the current builder is removed"
-
-	self elementBar placeholderBuilder: aValuable
-]
-
-{ #category : #'t - element with placeholder' }
-ToSelectElement >> placeholderText: aText [
-	"The text to be shown when no data is selected "
-
-	self elementBar placeholderText: aText
-]
-
-{ #category : #'accessing - list' }
-ToSelectElement >> popupMaxHeight: aNumber [
-
-	self windowManager maxHeight: aNumber
-]
-
-{ #category : #'accessing - list' }
-ToSelectElement >> popupMinHeight: aNumber [
-
-	self windowManager minHeight: aNumber
-]
-
-{ #category : #'accessing - list' }
-ToSelectElement >> popupPositionHook: aValuable [
-
-	self windowManager positionHook: aValuable
-]
-
-{ #category : #'accessing - list' }
-ToSelectElement >> popupSizeHook: aValuable [
-
-	self windowManager sizeHook: aValuable
-]
-
-{ #category : #'accessing - window' }
-ToSelectElement >> popupWindowEvent: anEvent [ 
-
-	^ self windowManager popupWindowEvent: anEvent 
 ]
 
 { #category : #'accessing - selection' }
@@ -567,15 +358,6 @@ ToSelectElement >> setGroupIndexes: anIntegerCollection [
 	self listElement unselectableSelecter selectIndexes: anIntegerCollection
 ]
 
-{ #category : #private }
-ToSelectElement >> showHidePlaceholder [
-
-	self selectionModel ifEmpty: [
-		self inputTextField text ifEmpty: [
-			^ self elementBar showPlaceholder ] ].
-	self elementBar hidePlaceholder
-]
-
 { #category : #accessing }
 ToSelectElement >> sieve [ 
 
@@ -592,12 +374,6 @@ ToSelectElement >> textInputElement [
 ToSelectElement >> tripletElement [ 
 
 	^ triplet
-]
-
-{ #category : #private }
-ToSelectElement >> updateSelectedCountLabel [
-
-	self iconContainer updateSelectedCountLabel
 ]
 
 { #category : #accessing }

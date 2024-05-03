@@ -154,10 +154,22 @@ ToElementBar >> nodeContainer [
 ]
 
 { #category : #accessing }
+ToElementBar >> nodeScrolling [
+
+	^ nodeScrolling 
+]
+
+{ #category : #accessing }
 ToElementBar >> nodeScrolling: aBoolean [
 
 	nodeScrolling := aBoolean.
 	self nodeContainer nodeScrolling: aBoolean
+]
+
+{ #category : #accessing }
+ToElementBar >> nodeWrapping [
+
+	^ nodeWrapping 
 ]
 
 { #category : #accessing }
@@ -170,7 +182,7 @@ ToElementBar >> nodeWrapping: aBoolean [
 { #category : #'accessing - selection' }
 ToElementBar >> notifySelectionChanged [
 
-	self fireEvent: ToElementBarSelectionChanged new
+	self dispatchEvent: ToElementBarSelectionChanged new
 ]
 
 { #category : #'accessing - selection' }
@@ -238,7 +250,6 @@ ToElementBar >> selectionModel: aSelectionModel [
 ToElementBar >> showHidePlaceholder [
 
 	self selectionModel ifEmpty: [
-		
 			^ self  showPlaceholder ].
 	self  hidePlaceholder
 ]

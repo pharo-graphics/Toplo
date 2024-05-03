@@ -1,5 +1,5 @@
 Class {
-	#name : #ToSelectElementBar,
+	#name : #ToSelectElement,
 	#superclass : #ToElementBar,
 	#instVars : [
 		'filtrable',
@@ -11,7 +11,7 @@ Class {
 }
 
 { #category : #'accessing - list' }
-ToSelectElementBar >> addGroup: anObject withData: aCollection [
+ToSelectElement >> addGroup: anObject withData: aCollection [
 
 	| grpIdx |
 	self dataAccessor add: anObject.
@@ -21,13 +21,13 @@ ToSelectElementBar >> addGroup: anObject withData: aCollection [
 ]
 
 { #category : #'accessing - selection' }
-ToSelectElementBar >> allowSelectedCount: aNumber [
+ToSelectElement >> allowSelectedCount: aNumber [
 
 	^ maxSelectedCount isZero or: [ aNumber <= maxSelectedCount ]
 ]
 
 { #category : #'accessing - selection' }
-ToSelectElementBar >> assertMaxSelectedCount: aNumber [
+ToSelectElement >> assertMaxSelectedCount: aNumber [
 
 	(self allowSelectedCount: aNumber) ifFalse: [
 		self enqueueTask: (BlTaskAction new action: [
@@ -35,7 +35,7 @@ ToSelectElementBar >> assertMaxSelectedCount: aNumber [
 ]
 
 { #category : #'accessing - selection' }
-ToSelectElementBar >> checkHideSelectionFromListElement [
+ToSelectElement >> checkHideSelectionFromListElement [
 
 	hideSelected ifFalse: [ ^ self ].
 	self listElement dataAccessor withIndexDo: [ :d :localIndex |
@@ -52,7 +52,7 @@ ToSelectElementBar >> checkHideSelectionFromListElement [
 ]
 
 { #category : #'accessing - selection' }
-ToSelectElementBar >> checkMaxSelectedCountFromListElement [
+ToSelectElement >> checkMaxSelectedCountFromListElement [
 
 	| unselectableSM groupeSM |
 	maxSelectedCount isZero ifTrue: [ ^ self ].
@@ -82,19 +82,19 @@ ToSelectElementBar >> checkMaxSelectedCountFromListElement [
 ]
 
 { #category : #'accessing - window' }
-ToSelectElementBar >> closeWindow [
+ToSelectElement >> closeWindow [
 
 	^ self windowManager closeWindow
 ]
 
 { #category : #'accessing - window' }
-ToSelectElementBar >> currentWindow [ 
+ToSelectElement >> currentWindow [ 
 
 	^ self windowManager currentWindow
 ]
 
 { #category : #accessing }
-ToSelectElementBar >> dataAccessor: aDataAccessor [
+ToSelectElement >> dataAccessor: aDataAccessor [
 
 	super dataAccessor: aDataAccessor.
 	aDataAccessor addEventHandler:
@@ -103,31 +103,31 @@ ToSelectElementBar >> dataAccessor: aDataAccessor [
 ]
 
 { #category : #private }
-ToSelectElementBar >> fakeNode [
+ToSelectElement >> fakeNode [
 
 	^ self childWithId: #fakeNode ifNone: [  ]
 ]
 
 { #category : #accessing }
-ToSelectElementBar >> filterString [ 
+ToSelectElement >> filterString [ 
 
 	^ self nodeContainer filterString
 ]
 
 { #category : #'accessing - selection' }
-ToSelectElementBar >> filterStringChanged [
+ToSelectElement >> filterStringChanged [
 
 	self pattern: self filterString
 ]
 
 { #category : #accessing }
-ToSelectElementBar >> filtrable [
+ToSelectElement >> filtrable [
 
 	^ filtrable
 ]
 
 { #category : #accessing }
-ToSelectElementBar >> filtrable: aBoolean [
+ToSelectElement >> filtrable: aBoolean [
 
 	filtrable := aBoolean.
 	aBoolean
@@ -136,25 +136,25 @@ ToSelectElementBar >> filtrable: aBoolean [
 ]
 
 { #category : #accessing }
-ToSelectElementBar >> hideSelected [
+ToSelectElement >> hideSelected [
 
 	^ hideSelected 
 ]
 
 { #category : #accessing }
-ToSelectElementBar >> hideSelected: aBoolean [
+ToSelectElement >> hideSelected: aBoolean [
 
 	hideSelected := aBoolean
 ]
 
 { #category : #accessing }
-ToSelectElementBar >> iconContainer [
+ToSelectElement >> iconContainer [
 
 	^ triplet endElement
 ]
 
 { #category : #accessing }
-ToSelectElementBar >> iconContainer: anIconContainer [
+ToSelectElement >> iconContainer: anIconContainer [
 
 	self iconContainer = anIconContainer ifTrue: [ ^ self ].
 	self iconContainer ifNotNil: [
@@ -164,7 +164,7 @@ ToSelectElementBar >> iconContainer: anIconContainer [
 ]
 
 { #category : #initialization }
-ToSelectElementBar >> initialize [
+ToSelectElement >> initialize [
 
 	| sharedEventsDistributor |
 	super initialize.
@@ -196,50 +196,50 @@ ToSelectElementBar >> initialize [
 ]
 
 { #category : #accessing }
-ToSelectElementBar >> inputTextField [ 
+ToSelectElement >> inputTextField [ 
 
 	^ self nodeContainer inputTextField
 ]
 
 { #category : #testing }
-ToSelectElementBar >> isFiltrable [ 
+ToSelectElement >> isFiltrable [ 
 
 	^ filtrable
 ]
 
 { #category : #'accessing - list' }
-ToSelectElementBar >> listDataNodeBuilder: aBuilder [
+ToSelectElement >> listDataNodeBuilder: aBuilder [
 
 	self windowManager listDataNodeBuilder: aBuilder
 ]
 
 { #category : #'accessing - list' }
-ToSelectElementBar >> listElement [
+ToSelectElement >> listElement [
 
 	^ self windowManager listElement
 ]
 
 { #category : #'accessing - list' }
-ToSelectElementBar >> listNodeBuilder: aValuable [
+ToSelectElement >> listNodeBuilder: aValuable [
 
 	self listElement nodeBuilder: aValuable
 ]
 
 { #category : #accessing }
-ToSelectElementBar >> maxSelectedCount [
+ToSelectElement >> maxSelectedCount [
 
 	^ maxSelectedCount
 ]
 
 { #category : #accessing }
-ToSelectElementBar >> maxSelectedCount: aNumber [
+ToSelectElement >> maxSelectedCount: aNumber [
 
 	maxSelectedCount := aNumber.
 	self iconContainer maxSelectedCount: aNumber
 ]
 
 { #category : #accessing }
-ToSelectElementBar >> multipleSelection: aBoolean [
+ToSelectElement >> multipleSelection: aBoolean [
 
 	super multipleSelection: aBoolean.
 	windowManager listElement selectionMode multiple: aBoolean.
@@ -247,38 +247,38 @@ ToSelectElementBar >> multipleSelection: aBoolean [
 ]
 
 { #category : #'instance creation' }
-ToSelectElementBar >> newIconContainer [
+ToSelectElement >> newIconContainer [
 
 	^ ToSelectIconContainer new forFiltering: self isFiltrable 
 ]
 
 { #category : #'instance creation' }
-ToSelectElementBar >> newMultipleSelectionNodeContainer [
+ToSelectElement >> newMultipleSelectionNodeContainer [
 
 	^  ToMultipleSelectNodeContainerElement new
 ]
 
 { #category : #skin }
-ToSelectElementBar >> newRawSkin [ 
+ToSelectElement >> newRawSkin [ 
 
 	^ ToSelectElementSkin new
 ]
 
 { #category : #'instance creation' }
-ToSelectElementBar >> newShortcutsStore [ 
+ToSelectElement >> newShortcutsStore [ 
 
 	^ ToSelectShortcutsStore new
 ]
 
 { #category : #'instance creation' }
-ToSelectElementBar >> newSingleSelectionNodeContainer [
+ToSelectElement >> newSingleSelectionNodeContainer [
 
 	^  ToSingleSelectNodeContainerElement new
 
 ]
 
 { #category : #'instance creation' }
-ToSelectElementBar >> newWindowManager [
+ToSelectElement >> newWindowManager [
 
 	| wm |
 	wm := ToSelectListWindowManager new.
@@ -287,13 +287,13 @@ ToSelectElementBar >> newWindowManager [
 ]
 
 { #category : #accessing }
-ToSelectElementBar >> nodeBuilder: aValuable [
+ToSelectElement >> nodeBuilder: aValuable [
 
 	self nodeContainer nodeBuilder: aValuable
 ]
 
 { #category : #'accessing - selection' }
-ToSelectElementBar >> onSelectionChanged [
+ToSelectElement >> onSelectionChanged [
 
 	| toRemove listData |
 	super onSelectionChanged.
@@ -310,7 +310,7 @@ ToSelectElementBar >> onSelectionChanged [
 ]
 
 { #category : #'accessing - selection' }
-ToSelectElementBar >> onSelectionChangedInListElement [
+ToSelectElement >> onSelectionChangedInListElement [
 
 	self showHidePlaceholder.
 	self nodeContainer refresh.
@@ -323,81 +323,81 @@ ToSelectElementBar >> onSelectionChangedInListElement [
 ]
 
 { #category : #window }
-ToSelectElementBar >> onWindowClosed [
+ToSelectElement >> onWindowClosed [
 
 	self nodeContainer onWindowClosed
 ]
 
 { #category : #window }
-ToSelectElementBar >> onWindowOpened [
+ToSelectElement >> onWindowOpened [
 
 	self nodeContainer onWindowOpened
 ]
 
 { #category : #accessing }
-ToSelectElementBar >> pattern [
+ToSelectElement >> pattern [
 
 	^ self sieve pattern
 ]
 
 { #category : #accessing }
-ToSelectElementBar >> pattern: aPattern [
+ToSelectElement >> pattern: aPattern [
 
 	self sieve pattern: aPattern
 ]
 
 { #category : #'accessing - list' }
-ToSelectElementBar >> popupMaxHeight: aNumber [
+ToSelectElement >> popupMaxHeight: aNumber [
 
 	self windowManager maxHeight: aNumber
 ]
 
 { #category : #'accessing - list' }
-ToSelectElementBar >> popupMinHeight: aNumber [
+ToSelectElement >> popupMinHeight: aNumber [
 
 	self windowManager minHeight: aNumber
 ]
 
 { #category : #'accessing - list' }
-ToSelectElementBar >> popupPositionHook: aValuable [
+ToSelectElement >> popupPositionHook: aValuable [
 
 	self windowManager positionHook: aValuable
 ]
 
 { #category : #'accessing - list' }
-ToSelectElementBar >> popupSizeHook: aValuable [
+ToSelectElement >> popupSizeHook: aValuable [
 
 	self windowManager sizeHook: aValuable
 ]
 
 { #category : #'accessing - window' }
-ToSelectElementBar >> popupWindowEvent: anEvent [ 
+ToSelectElement >> popupWindowEvent: anEvent [ 
 
 	^ self windowManager popupWindowEvent: anEvent 
 ]
 
 { #category : #'accessing - selection' }
-ToSelectElementBar >> selecter [
+ToSelectElement >> selecter [
 
 	^ self listElement selecter
 ]
 
 { #category : #accessing }
-ToSelectElementBar >> selectionModel: aSelectionModel [
+ToSelectElement >> selectionModel: aSelectionModel [
 
 	super selectionModel: aSelectionModel.
 	self iconContainer selectionModel: aSelectionModel
 ]
 
 { #category : #'accessing - list' }
-ToSelectElementBar >> setGroupIndex: anIndex [
+ToSelectElement >> setGroupIndex: anIndex [
 
 	self listElement groupSelecter selectIndex: anIndex.
 	self listElement unselectableSelecter selectIndex: anIndex
 ]
 
 { #category : #private }
-ToSelectElementBar >> showHidePlaceholder [
+ToSelectElement >> showHidePlaceholder [
 
 	self selectionModel ifEmpty: [
 		self inputTextField text ifEmpty: [
@@ -406,31 +406,31 @@ ToSelectElementBar >> showHidePlaceholder [
 ]
 
 { #category : #accessing }
-ToSelectElementBar >> sieve [
+ToSelectElement >> sieve [
 
 	^ windowManager sieve
 ]
 
 { #category : #accessing }
-ToSelectElementBar >> textInputElement [ 
+ToSelectElement >> textInputElement [ 
 
 	^ self nodeContainer textInputElement
 ]
 
 { #category : #private }
-ToSelectElementBar >> updateSelectedCountLabel [
+ToSelectElement >> updateSelectedCountLabel [
 
 	self iconContainer updateSelectedCountLabel
 ]
 
 { #category : #accessing }
-ToSelectElementBar >> windowManager [
+ToSelectElement >> windowManager [
 
 	^ windowManager
 ]
 
 { #category : #accessing }
-ToSelectElementBar >> windowManager: aSelectWindowManager [
+ToSelectElement >> windowManager: aSelectWindowManager [
 
 	windowManager := aSelectWindowManager 
 ]

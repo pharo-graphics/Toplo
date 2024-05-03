@@ -32,6 +32,12 @@ ToElementBarNodeContainerElement >> defaultNodeClass [
 ]
 
 { #category : #accessing }
+ToElementBarNodeContainerElement >> elementBar [
+
+	^ elementBar
+]
+
+{ #category : #accessing }
 ToElementBarNodeContainerElement >> fakeDataItem: aData [
 
 	fakeDataItem := aData.
@@ -50,10 +56,7 @@ ToElementBarNodeContainerElement >> installFakeNode [
 
 	fakeNode := self newNode.
 	fakeNode id: #fakeNode.
-	fakeNode onInstalledIn: elementBar.
-	fakeNode holder
-		dataItem: fakeDataItem.
-
+	fakeNode holder dataItem: fakeDataItem.
 	self nodeBuilder value: fakeNode value: fakeNode holder.
 	fakeNode width: 0.
 	fakeNode margin: BlInsets empty.
@@ -62,6 +65,18 @@ ToElementBarNodeContainerElement >> installFakeNode [
 		c linear vertical alignCenter ].
 	" add the fake node (to keep a constant minimum height )"
 	self addFakeNode
+]
+
+{ #category : #testing }
+ToElementBarNodeContainerElement >> isMultipleSelection [ 
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #testing }
+ToElementBarNodeContainerElement >> isSingleSelection [ 
+
+	^ self isMultipleSelection not
 ]
 
 { #category : #initialization }
@@ -76,6 +91,7 @@ ToElementBarNodeContainerElement >> newNode [
 		position: 0;
 		elementBar: elementBar;
 		dataItem: nil.
+	node onInstalledIn: self.
 		
 	^ node
 ]

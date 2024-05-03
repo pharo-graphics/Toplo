@@ -19,6 +19,12 @@ ToSingleSelectionElementBarNodeContainerElement >> defaultNodeBuilder [
 	^ [ :aSelectNode :aNodeHolder | ]
 ]
 
+{ #category : #testing }
+ToSingleSelectionElementBarNodeContainerElement >> isMultipleSelection [ 
+
+	^ false
+]
+
 { #category : #'api - hooks' }
 ToSingleSelectionElementBarNodeContainerElement >> onInstalledIn: anElementBar [
 
@@ -31,7 +37,6 @@ ToSingleSelectionElementBarNodeContainerElement >> onInstalledIn: anElementBar [
 	node := self newNode.
 	self nodeBuilder value: node value: node holder.
 	self addChild: node.
-	node onInstalledIn: anElementBar.
 	self installFakeNode
 ]
 

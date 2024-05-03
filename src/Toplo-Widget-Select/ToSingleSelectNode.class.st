@@ -22,8 +22,8 @@ ToSingleSelectNode >> onInstalledIn: anElementBar [
 	super onInstalledIn: anElementBar.
 	self hMatchParent.
 	self vFitContent.
-	triplet hMatchParent.
-	triplet middleContainer constraintsDo: [ :c |
+	self hMatchParent.
+	self middleContainer constraintsDo: [ :c |
 		c horizontal matchParent ].
 	textInputElement := ToSelectTextInputElement new.
 	textInputElement onInstalledIn: anElementBar.

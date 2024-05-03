@@ -2,13 +2,13 @@
 A ToSelectTest is a test class for testing the behavior of ToSelect
 "
 Class {
-	#name : #ToSelectTest,
+	#name : #ToSelectElementTest,
 	#superclass : #TestCase,
 	#category : #'Toplo-Widget-Select-Tests-Core'
 }
 
 { #category : #accessing }
-ToSelectTest >> statesOfAmerica [
+ToSelectElementTest >> statesOfAmerica [
 
 	^ { #Alabama. #Alaska. #Arizona. #Arkansas. #California. #Colorado.
 		#Connecticut. #Delaware. #Florida. #Georgia. #Hawaii. #Idaho. #'Illinois Indiana'.
@@ -22,7 +22,7 @@ ToSelectTest >> statesOfAmerica [
 ]
 
 { #category : #tests }
-ToSelectTest >> testMonoFiltrable [
+ToSelectElementTest >> testMonoFiltrable [
 
 	| select |
 	select := ToSelectElement new.
@@ -33,7 +33,7 @@ ToSelectTest >> testMonoFiltrable [
 ]
 
 { #category : #tests }
-ToSelectTest >> testMonoNotFiltrable [
+ToSelectElementTest >> testMonoNotFiltrable [
 
 	| select |
 	select := ToSelectElement new.
@@ -45,7 +45,7 @@ ToSelectTest >> testMonoNotFiltrable [
 ]
 
 { #category : #tests }
-ToSelectTest >> testMultiFiltrable [
+ToSelectElementTest >> testMultiFiltrable [
 
 	| select |
 	select := ToSelectElement new.
@@ -56,7 +56,7 @@ ToSelectTest >> testMultiFiltrable [
 ]
 
 { #category : #tests }
-ToSelectTest >> testMultiNotFiltrable [
+ToSelectElementTest >> testMultiNotFiltrable [
 
 	| select |
 	select := ToSelectElement new.

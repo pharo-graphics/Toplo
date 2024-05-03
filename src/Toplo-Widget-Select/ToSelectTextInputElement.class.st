@@ -101,7 +101,7 @@ ToSelectTextInputElement >> newTextFieldIn: aHolder [
 
 	| textField |
 	textField := ToSelectTextField new.
-	textField headerNodeContainer: aHolder nodeContainer.
+	textField headerNodeContainer: aHolder.
 	aHolder isSingleSelection ifTrue: [
 		textField withLineWrapping.
 		textField hMatchParent ].
@@ -133,7 +133,7 @@ ToSelectTextInputElement >> onFilterTextUpdated: anEvent [
 ToSelectTextInputElement >> onInstalledIn: aHolder [
 
 	forMultipleSelection := aHolder isMultipleSelection.
-	forFiltering := aHolder isFiltrable.
+	forFiltering := aHolder elementBar isFiltrable.
 	selectedDataTextField := self newTextFieldIn: aHolder.
 	selectedDataTextField beReadonlyWithSelection.
 	inputTextField := self newTextFieldIn: aHolder.
@@ -141,7 +141,7 @@ ToSelectTextInputElement >> onInstalledIn: aHolder [
 	inputTextField id: #inputTextField.
 	self addChild: selectedDataTextField.
 	self addChild: inputTextField.
-	aHolder isFiltrable
+	aHolder elementBar isFiltrable
 		ifTrue: [ self beEditable ]
 		ifFalse: [ self beReadonly ].
 	inputTextField addEventHandler: (BlEventHandler

@@ -1,10 +1,8 @@
 Class {
 	#name : #ToElementBarNode,
-	#superclass : #ToElement,
-	#traits : 'TToElementWithTripletElement',
+	#superclass : #ToTripletElement,
 	#classTraits : 'TToElementWithTripletElement classTrait',
 	#instVars : [
-		'triplet',
 		'holder'
 	],
 	#category : #'Toplo-Widget-ElementBar'
@@ -15,7 +13,6 @@ ToElementBarNode >> autoDistribute [
 
 	self startFlexible: true.
 	self endFlexible: true.
-	self tripletElement constraintsDo: [ :c | c horizontal matchParent ].
 	self constraintsDo: [ :c |
 		c horizontal matchParent.
 		c linear weight: 1.
@@ -38,13 +35,7 @@ ToElementBarNode >> holder: aElementNodeHolder [
 ToElementBarNode >> initialize [
 
 	super initialize.
-	self applySkinInstallerOnFirstRequest: true.
-	self layout: BlLinearLayout horizontal.
-	triplet := ToTripletElement new.
-	self addChild: triplet.
-	self childrenDo: [ :child |
-		child constraintsDo: [ :c | c linear vertical alignCenter ] ].
-	self fitContent
+	self applySkinInstallerOnFirstRequest: true
 ]
 
 { #category : #skin }
@@ -96,10 +87,4 @@ ToElementBarNode >> removeFromBar [
 	|  bar  |
 	bar := self holder elementBar.
 	bar removeNode: self
-]
-
-{ #category : #'t - element with triplet element' }
-ToElementBarNode >> tripletElement [
-
-	^ triplet
 ]

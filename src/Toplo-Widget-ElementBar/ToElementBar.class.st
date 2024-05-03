@@ -1,16 +1,15 @@
 Class {
 	#name : #ToElementBar,
-	#superclass : #ToElement,
-	#traits : 'TToElementWithPlaceholder + TToElementWithTripletElement',
-	#classTraits : 'TToElementWithPlaceholder classTrait + TToElementWithTripletElement classTrait',
+	#superclass : #ToTripletElement,
+	#traits : 'TToElementWithPlaceholder',
+	#classTraits : 'TToElementWithPlaceholder classTrait',
 	#instVars : [
 		'selectionModel',
 		'dataAccessor',
 		'nodeWrapping',
 		'nodeScrolling',
 		'nodeAutoDistribution',
-		'multipleSelection',
-		'triplet'
+		'multipleSelection'
 	],
 	#category : #'Toplo-Widget-ElementBar'
 }
@@ -63,24 +62,17 @@ ToElementBar >> initialize [
 	nodeWrapping := true.
 	nodeScrolling := false.
 	nodeAutoDistribution := false.
-	triplet := ToTripletElement new.
-	triplet
-		vFitContent;
-		hMatchParent.
-	triplet middleContainer constraintsDo: [ :c |
-		c vertical fitContent.
-		c horizontal matchParent ].
-	self addChild: triplet.
-
 	self
 		vFitContent;
-		hMatchParent;
-		constraintsDo: [ :c | c linear vertical alignCenter ].
+		hMatchParent.
+	self middleContainer constraintsDo: [ :c |
+		c vertical fitContent.
+		c horizontal matchParent ].
 
 	self addEventHandler: ToElementBarEventHandler new.
 	self addEventHandlerOn: ToPlaceholderShownEvent do: [ :event |
 		self flag: 'The width of 8 should be handled via a skin'.
-		event placeholder padding: (BlInsets left: 8).
+		event placeholder padding: (BlInsets left: 14).
 		event placeholder layout alignCenterLeft ]
 ]
 
@@ -252,10 +244,4 @@ ToElementBar >> showHidePlaceholder [
 	self selectionModel ifEmpty: [
 			^ self  showPlaceholder ].
 	self  hidePlaceholder
-]
-
-{ #category : #'t - element with triplet element' }
-ToElementBar >> tripletElement [
-
-	^ triplet
 ]

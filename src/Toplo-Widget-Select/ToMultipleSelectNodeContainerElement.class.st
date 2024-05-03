@@ -39,7 +39,7 @@ ToMultipleSelectNodeContainerElement >> onInstalledIn: anElementBar [
 
 	super onInstalledIn: anElementBar.
 	textInputElement := ToSelectTextInputElement new.
-	textInputElement onInstalledIn: anElementBar.
+	textInputElement onInstalledIn: self.
 	textInputElement hFitContent.
 	textInputElement constraintsDo: [ :c |
 		c linear vertical alignCenter.

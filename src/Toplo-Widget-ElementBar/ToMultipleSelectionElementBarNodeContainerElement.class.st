@@ -85,6 +85,12 @@ ToMultipleSelectionElementBarNodeContainerElement >> initialize [
 
 ]
 
+{ #category : #testing }
+ToMultipleSelectionElementBarNodeContainerElement >> isMultipleSelection [ 
+
+	^ true
+]
+
 { #category : #accessing }
 ToMultipleSelectionElementBarNodeContainerElement >> nodeAutoDistribution [
 
@@ -158,6 +164,7 @@ ToMultipleSelectionElementBarNodeContainerElement >> onInstalledIn: anElementBar
 	innerNodeContainer layout: (nodeWrapping
 			 ifTrue: [ BlFlowLayout horizontal ]
 			 ifFalse: [ BlLinearLayout horizontal ]).
+
 	innerNodeContainer constraintsDo: [ :c |
 		c linear vertical alignCenter.
 		c flow vertical alignCenter.
@@ -175,6 +182,7 @@ ToMultipleSelectionElementBarNodeContainerElement >> onInstalledIn: anElementBar
 		c flow vertical alignCenter.
 		c vertical fitContent.
 		c horizontal matchParent ].
+
 	" The textField is added whatever the mode to draw the placeholder text if any.
 	In case of read-only mode, the textfield is set as read-only by the mode "
 	self addChild: scrollable.

@@ -150,7 +150,7 @@ ToSelectElement >> hideSelected: aBoolean [
 { #category : #accessing }
 ToSelectElement >> iconContainer [
 
-	^ triplet endElement
+	^ self endElement
 ]
 
 { #category : #accessing }
@@ -402,7 +402,7 @@ ToSelectElement >> showHidePlaceholder [
 	self selectionModel ifEmpty: [
 		self inputTextField text ifEmpty: [
 			^ self showPlaceholder ] ].
-	^ super showHidePlaceholder
+	self hidePlaceholder
 ]
 
 { #category : #accessing }

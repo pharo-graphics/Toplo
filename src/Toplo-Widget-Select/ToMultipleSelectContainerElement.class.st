@@ -1,6 +1,6 @@
 Class {
-	#name : #ToMultipleSelectNodeContainerElement,
-	#superclass : #ToMultipleSelectionElementBarContainerElement,
+	#name : #ToMultipleSelectContainerElement,
+	#superclass : #ToElementBarContainerElement,
 	#instVars : [
 		'textInputElement'
 	],
@@ -8,28 +8,19 @@ Class {
 }
 
 { #category : #initialization }
-ToMultipleSelectNodeContainerElement >> defaultNodeBuilder [
-
-	^ [ :aSelectNode :aNodeHolder |
-	  aSelectNode beRemovable.
-	  aSelectNode middleContainer addChild:
-		  (ToLabel text: aNodeHolder dataItem asString) ]
-]
-
-{ #category : #initialization }
-ToMultipleSelectNodeContainerElement >> defaultNodeClass [ 
+ToMultipleSelectContainerElement >> defaultNodeClass [ 
 
 	^ ToMultipleSelectNode
 ]
 
 { #category : #accessing }
-ToMultipleSelectNodeContainerElement >> filterString [ 
+ToMultipleSelectContainerElement >> filterString [ 
 
 	^ self textInputElement filterString
 ]
 
 { #category : #layout }
-ToMultipleSelectNodeContainerElement >> haveInvisibleNodes: aCollectionOfInvisibleNodes [
+ToMultipleSelectContainerElement >> haveInvisibleNodes: aCollectionOfInvisibleNodes [
 
 	| visibleNodes invisibleNodes showerHolder showerNode lab |
 	visibleNodes := self nodesSelect: [ :n | n isFullyVisible ].
@@ -58,13 +49,31 @@ ToMultipleSelectNodeContainerElement >> haveInvisibleNodes: aCollectionOfInvisib
 ]
 
 { #category : #accessing }
-ToMultipleSelectNodeContainerElement >> inputTextField [
+ToMultipleSelectContainerElement >> inputTextField [
 
 	^ self textInputElement inputTextField
 ]
 
+{ #category : #testing }
+ToMultipleSelectContainerElement >> isSingleNode [ 
+
+	^ false
+]
+
+{ #category : #initialization }
+ToMultipleSelectContainerElement >> nodeBuilder [
+	" return a valuable that is used to build a bar node element from a data. 
+	aValuable take the bar node element to build as first argument 
+	and its holder as second argument"
+
+	^ [ :aSelectNode :aNodeHolder |
+	  aSelectNode beRemovable.
+	  aSelectNode middleContainer addChild:
+		  (ToLabel text: aNodeHolder dataItem asString) ]
+]
+
 { #category : #'api - hooks' }
-ToMultipleSelectNodeContainerElement >> onInstalledIn: anElementBar [
+ToMultipleSelectContainerElement >> onInstalledIn: anElementBar [
 
 	super onInstalledIn: anElementBar.
 	textInputElement := ToSelectTextInputElement new.
@@ -79,7 +88,7 @@ ToMultipleSelectNodeContainerElement >> onInstalledIn: anElementBar [
 ]
 
 { #category : #'api - hooks' }
-ToMultipleSelectNodeContainerElement >> onUninstalledIn: anElementBar [
+ToMultipleSelectContainerElement >> onUninstalledIn: anElementBar [
 
 	textInputElement onUninstalledIn: anElementBar.
 	textInputElement removeFromParent.
@@ -89,7 +98,7 @@ ToMultipleSelectNodeContainerElement >> onUninstalledIn: anElementBar [
 ]
 
 { #category : #accessing }
-ToMultipleSelectNodeContainerElement >> refresh [
+ToMultipleSelectContainerElement >> refresh [
 	" first remove all data nodes "
 	| detached newNodes |
 	detached := OrderedCollection new.
@@ -116,7 +125,7 @@ ToMultipleSelectNodeContainerElement >> refresh [
 ]
 
 { #category : #accessing }
-ToMultipleSelectNodeContainerElement >> textInputElement [ 
+ToMultipleSelectContainerElement >> textInputElement [ 
 
 	^ textInputElement 
 ]

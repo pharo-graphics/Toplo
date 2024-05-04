@@ -1,11 +1,11 @@
 Class {
-	#name : #ToMultipleNodeBarContainerElement,
-	#superclass : #ToMultipleSelectionElementBarContainerElement,
+	#name : #ToNodeBarContainerElement,
+	#superclass : #ToElementBarContainerElement,
 	#category : #'Toplo-Widget-ElementBar'
 }
 
 { #category : #accessing }
-ToMultipleNodeBarContainerElement >> refresh [
+ToNodeBarContainerElement >> refresh [
 	" first remove all data nodes "
 	| detached newNodes |
 	detached := OrderedCollection new.

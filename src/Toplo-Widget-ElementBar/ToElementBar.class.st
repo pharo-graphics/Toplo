@@ -4,12 +4,10 @@ Class {
 	#traits : 'TToElementWithPlaceholder',
 	#classTraits : 'TToElementWithPlaceholder classTrait',
 	#instVars : [
-		'selectionModel',
 		'dataAccessor',
 		'nodeWrapping',
 		'nodeScrolling',
-		'nodeAutoDistribution',
-		'multipleSelection'
+		'nodeAutoDistribution'
 	],
 	#category : #'Toplo-Widget-ElementBar'
 }
@@ -58,7 +56,6 @@ ToElementBar >> fakeDataItem: aDataItem [
 ToElementBar >> initialize [
 
 	super initialize.
-	multipleSelection := self multipleSelectionByDefault.
 	nodeWrapping := true.
 	nodeScrolling := false.
 	nodeAutoDistribution := false.
@@ -85,44 +82,11 @@ ToElementBar >> installNodeContainer [
 	self nodeContainer onInstalledIn: self
 ]
 
-{ #category : #testing }
-ToElementBar >> isMultipleSelection [
-
-	^ multipleSelection 
-]
-
-{ #category : #testing }
-ToElementBar >> isSingleSelection [
-
-	^ self isMultipleSelection not
-]
-
-{ #category : #accessing }
-ToElementBar >> multipleSelection: aBoolean [
-
-	multipleSelection := aBoolean.
-	self installNodeContainer
-]
-
-{ #category : #initialization }
-ToElementBar >> multipleSelectionByDefault [ 
-
-	^ false
-]
-
-{ #category : #'instance creation' }
-ToElementBar >> newMultipleSelectionNodeContainer [
-
-	^  ToMultipleSelectionElementBarContainerElement new
-]
-
 { #category : #'instance creation' }
 ToElementBar >> newNodeContainer [
 
 	| container |
-	container := self isMultipleSelection
-		             ifTrue: [ self newMultipleSelectionNodeContainer ]
-		             ifFalse: [ self newSingleSelectionNodeContainer ].
+	container := self nodeContainerClass new.
 	^ container
 		  nodeWrapping: nodeWrapping;
 		  nodeScrolling: nodeScrolling;
@@ -131,10 +95,10 @@ ToElementBar >> newNodeContainer [
 		  yourself
 ]
 
-{ #category : #'instance creation' }
-ToElementBar >> newSingleSelectionNodeContainer [
+{ #category : #skin }
+ToElementBar >> newRawSkin [ 
 
-	^  ToSingleSelectionElementBarContainerElement new
+	^ ToElementBarSkin new
 ]
 
 { #category : #accessing }
@@ -154,6 +118,12 @@ ToElementBar >> nodeAutoDistribution: aBoolean [
 ToElementBar >> nodeContainer [
 
 	^ self middleElement 
+]
+
+{ #category : #'instance creation' }
+ToElementBar >> nodeContainerClass [
+
+	^ self subclassResponsibility 
 ]
 
 { #category : #accessing }
@@ -182,6 +152,12 @@ ToElementBar >> nodeWrapping: aBoolean [
 	self nodeContainer nodeWrapping: aBoolean
 ]
 
+{ #category : #accessing }
+ToElementBar >> nodes [
+
+	^ self nodeContainer nodes
+]
+
 { #category : #'accessing - selection' }
 ToElementBar >> notifySelectionChanged [
 
@@ -193,10 +169,10 @@ ToElementBar >> onSelectionChanged [
 
 ]
 
-{ #category : #accessing }
-ToElementBar >> refreshNodes [
+{ #category : #private }
+ToElementBar >> refresh [
 
-	
+	self nodeContainer refresh
 ]
 
 { #category : #removing }
@@ -241,25 +217,13 @@ ToElementBar >> selectOnlyIndexes: aCollection [
 { #category : #accessing }
 ToElementBar >> selectionModel [
 
-	^ selectionModel
-]
-
-{ #category : #accessing }
-ToElementBar >> selectionModel: aSelectionModel [
-
-	selectionModel := aSelectionModel
+	^ self subclassResponsibility 
 ]
 
 { #category : #private }
 ToElementBar >> showHidePlaceholder [
 
-	self selectionModel ifEmpty: [
+	self nodes ifEmpty: [
 			^ self  showPlaceholder ].
 	self  hidePlaceholder
-]
-
-{ #category : #initialization }
-ToElementBar >> singleByDefault [
-
-	^ self multipleSelectionByDefault not
 ]

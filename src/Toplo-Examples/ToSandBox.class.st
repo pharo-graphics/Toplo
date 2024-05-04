@@ -2787,22 +2787,19 @@ ToSandBox class >> example_menuBar2 [
 	frame openInSpace
 ]
 
-{ #category : #'multiple node bar' }
-ToSandBox class >> example_multipleNodeBar [
+{ #category : #'node bar' }
+ToSandBox class >> example_nodeBar [
 
 	| bar |
-	bar := ToMultipleNodeBar new.
+	bar := ToNodeBar new.
 	bar dataAccessor: ToObservableCollection new.
 	bar dataAccessor addAll:
 		(ToSandBox statesOfAmerica copyFrom: 1 to: 6).
-	bar selectionModel: ToSelectionModel new.
-	bar nodeWrapping: true.
+	bar nodeWrapping: false.
 	bar nodeScrolling: false.
-	bar nodeAutoDistribution: false.
+	bar nodeAutoDistribution: true.
 	bar nodeContainer refresh.
-	bar openInInnerWindow.
-	bar border: Color red.
-	bar selectionModel selectIndex: 3
+	bar openInInnerWindow
 ]
 
 { #category : #window }

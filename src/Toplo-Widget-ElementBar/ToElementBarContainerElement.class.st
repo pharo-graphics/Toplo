@@ -1,7 +1,10 @@
 Class {
-	#name : #ToMultipleSelectionElementBarContainerElement,
-	#superclass : #ToElementBarNodeContainerElement,
+	#name : #ToElementBarContainerElement,
+	#superclass : #ToElement,
 	#instVars : [
+		'fakeNode',
+		'fakeDataItem',
+		'elementBar',
 		'nodeWrapping',
 		'nodeScrolling',
 		'nodeAutoDistribution',
@@ -14,26 +17,26 @@ Class {
 }
 
 { #category : #adding }
-ToMultipleSelectionElementBarContainerElement >> addAllDataNodes: aNodeCollection [
+ToElementBarContainerElement >> addAllDataNodes: aNodeCollection [
 
 	aNodeCollection do: [ :n | self addDataNode: n ]
 ]
 
 { #category : #adding }
-ToMultipleSelectionElementBarContainerElement >> addDataNode: aNode [
+ToElementBarContainerElement >> addDataNode: aNode [
 
 	elementBar nodeAutoDistribution ifTrue: [ aNode autoDistribute ].
 	innerNodeContainer addChild: aNode before: fakeNode
 ]
 
 { #category : #adding }
-ToMultipleSelectionElementBarContainerElement >> addFakeNode [
+ToElementBarContainerElement >> addFakeNode [
 
 	innerNodeContainer addChild: fakeNode
 ]
 
 { #category : #layout }
-ToMultipleSelectionElementBarContainerElement >> checkVisibleNodes [
+ToElementBarContainerElement >> checkVisibleNodes [
 
 	| invisibleNodes currentHeaderWidth |
 	self ensurePreviousMeasuredBarWidth.
@@ -52,19 +55,38 @@ ToMultipleSelectionElementBarContainerElement >> checkVisibleNodes [
 	self haveInvisibleNodes: invisibleNodes
 ]
 
+{ #category : #initialization }
+ToElementBarContainerElement >> defaultNodeClass [
+
+	^ ToElementBarNode
+]
+
+{ #category : #accessing }
+ToElementBarContainerElement >> elementBar [
+
+	^ elementBar
+]
+
 { #category : #layout }
-ToMultipleSelectionElementBarContainerElement >> ensurePreviousMeasuredBarWidth [
+ToElementBarContainerElement >> ensurePreviousMeasuredBarWidth [
 
 	previousMeasuredBarWidth ifNil: [
 		previousMeasuredBarWidth := self measuredWidth  ]
 ]
 
+{ #category : #accessing }
+ToElementBarContainerElement >> fakeDataItem: aData [
+
+	fakeDataItem := aData.
+	self installFakeNode 
+]
+
 { #category : #layout }
-ToMultipleSelectionElementBarContainerElement >> haveInvisibleNodes: invisibleNodes [
+ToElementBarContainerElement >> haveInvisibleNodes: invisibleNodes [
 ]
 
 { #category : #initialization }
-ToMultipleSelectionElementBarContainerElement >> initialize [
+ToElementBarContainerElement >> initialize [
 
 	super initialize.
 	nodeWrapping := true.
@@ -72,48 +94,119 @@ ToMultipleSelectionElementBarContainerElement >> initialize [
 
 ]
 
-{ #category : #testing }
-ToMultipleSelectionElementBarContainerElement >> isMultipleSelection [ 
+{ #category : #initialization }
+ToElementBarContainerElement >> installFakeNode [
+	" the fake node is added when no data is selected to ensure a 
+	suitable minimum height according to the node class, the node builder 
+	and the data kind."
+ 
+	fakeNode ifNotNil: [ :fn |
+		fn onUninstalledIn: self.
+		fn removeFromParent ].
 
-	^ true
+	fakeNode := self newNode.
+	fakeNode id: #fakeNode.
+	fakeNode holder dataItem: fakeDataItem.
+	self nodeBuilder value: fakeNode value: fakeNode holder.
+	fakeNode width: 0.
+	fakeNode margin: BlInsets empty.
+	fakeNode constraintsDo: [ :c |
+		c flow vertical alignCenter.
+		c linear vertical alignCenter ].
+	" add the fake node (to keep a constant minimum height )"
+	self addFakeNode
+]
+
+{ #category : #initialization }
+ToElementBarContainerElement >> newNode [
+
+	| node nodeHolder |
+	node := self nodeClass new.
+	nodeHolder := self newNodeHolder.
+	node holder: nodeHolder.
+	nodeHolder
+		node: node;
+		position: 0;
+		elementBar: elementBar;
+		dataItem: nil.
+	node onInstalledIn: self.
+		
+	^ node
+]
+
+{ #category : #initialization }
+ToElementBarContainerElement >> newNodeHolder [
+
+	^ self nodeHolderClass new elementBar: elementBar; yourself
 ]
 
 { #category : #accessing }
-ToMultipleSelectionElementBarContainerElement >> nodeAutoDistribution [
+ToElementBarContainerElement >> nodeAutoDistribution [
 
 	^ nodeAutoDistribution
 ]
 
 { #category : #accessing }
-ToMultipleSelectionElementBarContainerElement >> nodeAutoDistribution: aBoolean [
+ToElementBarContainerElement >> nodeAutoDistribution: aBoolean [
 
 	nodeAutoDistribution := aBoolean.
 	self onNodeDistributionChange
 ]
 
-{ #category : #enumerating }
-ToMultipleSelectionElementBarContainerElement >> nodeHolders [
+{ #category : #accessing }
+ToElementBarContainerElement >> nodeBuilder [
+	
+	" return a valuable that is used to build a bar node element from a data. 
+	aValuable take the bar node element to build as first argument 
+	and its holder as second argument"
+
+	^ [ :aBarNode :aNodeHolder |
+	  aBarNode middleContainer addChild:
+		  (ToLabel text: aNodeHolder dataItem asString) ]
+]
+
+{ #category : #accessing }
+ToElementBarContainerElement >> nodeClass [ 
+
+	^ self defaultNodeClass
+]
+
+{ #category : #initialization }
+ToElementBarContainerElement >> nodeHolderClass [ 
+
+	^ ToElementBarNodeHolder
+]
+
+{ #category : #accessing }
+ToElementBarContainerElement >> nodeHolders [
 
 	^ nodeHolders ifNil: [
 		  nodeHolders := OrderedCollection new ]
 ]
 
 { #category : #accessing }
-ToMultipleSelectionElementBarContainerElement >> nodeScrolling: aBoolean [
+ToElementBarContainerElement >> nodeScrolling: aBoolean [
 
 	nodeScrolling := aBoolean.
 	self onNodeScrollingChange  
 ]
 
 { #category : #accessing }
-ToMultipleSelectionElementBarContainerElement >> nodeWrapping: aBoolean [
+ToElementBarContainerElement >> nodeWrapping: aBoolean [
 
 	nodeWrapping := aBoolean.
 	self onNodeWrappingChange  
 ]
 
 { #category : #accessing }
-ToMultipleSelectionElementBarContainerElement >> nodesCount [
+ToElementBarContainerElement >> nodes [
+
+	^ self nodeHolders collect: [ :h | h node ]
+
+]
+
+{ #category : #accessing }
+ToElementBarContainerElement >> nodesCount [
 
 	| count |
 	count := 0.
@@ -123,13 +216,13 @@ ToMultipleSelectionElementBarContainerElement >> nodesCount [
 ]
 
 { #category : #enumerating }
-ToMultipleSelectionElementBarContainerElement >> nodesDo: aBlock [
+ToElementBarContainerElement >> nodesDo: aBlock [
 
 	self nodeHolders do: [ :nodeHolder |	aBlock value: nodeHolder node ].
 ]
 
 { #category : #enumerating }
-ToMultipleSelectionElementBarContainerElement >> nodesSelect: aBlock [
+ToElementBarContainerElement >> nodesSelect: aBlock [
 
 	^ Array streamContents: [ :stream |
 		  self nodeHolders do: [ :nodeHolder |
@@ -138,9 +231,9 @@ ToMultipleSelectionElementBarContainerElement >> nodesSelect: aBlock [
 ]
 
 { #category : #'api - hooks' }
-ToMultipleSelectionElementBarContainerElement >> onInstalledIn: anElementBar [
+ToElementBarContainerElement >> onInstalledIn: anElementBar [
 
-	super onInstalledIn: anElementBar.
+	elementBar := anElementBar.
 
 	self layout: BlLinearLayout horizontal.
 	self
@@ -175,7 +268,7 @@ ToMultipleSelectionElementBarContainerElement >> onInstalledIn: anElementBar [
 ]
 
 { #category : #layout }
-ToMultipleSelectionElementBarContainerElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
+ToElementBarContainerElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 
 	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
 	nodeWrapping ifTrue: [ ^ self ].
@@ -184,7 +277,7 @@ ToMultipleSelectionElementBarContainerElement >> onLayout: aBounds context: aBlE
 ]
 
 { #category : #accessing }
-ToMultipleSelectionElementBarContainerElement >> onNodeDistributionChange [
+ToElementBarContainerElement >> onNodeDistributionChange [
 
 	nodeScrolling ifTrue: [ ^ self ].
 	nodeAutoDistribution ifTrue: [
@@ -192,7 +285,7 @@ ToMultipleSelectionElementBarContainerElement >> onNodeDistributionChange [
 ]
 
 { #category : #accessing }
-ToMultipleSelectionElementBarContainerElement >> onNodeScrollingChange [
+ToElementBarContainerElement >> onNodeScrollingChange [
 
 	innerNodeContainer ifNil: [ ^ self ].
 	nodeScrolling
@@ -203,7 +296,7 @@ ToMultipleSelectionElementBarContainerElement >> onNodeScrollingChange [
 ]
 
 { #category : #accessing }
-ToMultipleSelectionElementBarContainerElement >> onNodeWrappingChange [
+ToElementBarContainerElement >> onNodeWrappingChange [
 
 	innerNodeContainer ifNil: [ ^ self ].
 	innerNodeContainer layout: (nodeWrapping
@@ -212,17 +305,41 @@ ToMultipleSelectionElementBarContainerElement >> onNodeWrappingChange [
 ]
 
 { #category : #'api - hooks' }
-ToMultipleSelectionElementBarContainerElement >> onUninstalledIn: anElementBar [
+ToElementBarContainerElement >> onUninstalledIn: anElementBar [
 
 	self nodesDo: [ :node |
 		node onUninstalledIn: anElementBar.
 		node removeFromParent ].
 	self nodeHolders reset.
-	fakeNode onUninstalledIn: anElementBar.
-	fakeNode removeFromParent.
-	fakeNode := nil.
+	fakeNode ifNotNil: [ 
+		fakeNode onUninstalledIn: anElementBar.
+		fakeNode removeFromParent.
+		fakeNode := nil ].
 	innerNodeContainer removeFromParent.
 	innerNodeContainer := nil.
-	super onUninstalledIn: anElementBar.
+	elementBar := nil
+]
 
+{ #category : #window }
+ToElementBarContainerElement >> onWindowClosed [
+
+	self textInputElement onWindowClosed
+]
+
+{ #category : #window }
+ToElementBarContainerElement >> onWindowOpened [
+
+	self textInputElement onWindowOpened
+]
+
+{ #category : #accessing }
+ToElementBarContainerElement >> refresh [
+
+	self subclassResponsibility 
+]
+
+{ #category : #accessing }
+ToElementBarContainerElement >> selectedDataTextField [
+
+	^ self textInputElement selectedDataTextField
 ]

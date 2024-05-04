@@ -5,7 +5,8 @@ Class {
 		'filtrable',
 		'windowManager',
 		'hideSelected',
-		'maxSelectedCount'
+		'maxSelectedCount',
+		'multipleSelection'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -159,6 +160,7 @@ ToSelectElement >> iconContainer: anIconContainer [
 	self iconContainer = anIconContainer ifTrue: [ ^ self ].
 	self iconContainer ifNotNil: [
 		self iconContainer onUninstalledIn: self ].
+	anIconContainer selectionModel: self selectionModel.
 	self endElement: anIconContainer.
 	anIconContainer onInstalledIn: self
 ]
@@ -173,16 +175,14 @@ ToSelectElement >> initialize [
 	nodeWrapping := true.
 	hideSelected := false.
 	maxSelectedCount := 0.
-
+	
 	" for the popup "
 	windowManager := self newWindowManager.
 
 	self iconContainer: self newIconContainer.
-	self selectionModel: self sieve selectionModel.
 	self dataAccessor: ToObservableCollection new.
 
-	"self multipleSelection: false."
-	self installNodeContainer.
+	self multipleSelection: self multipleSelectionByDefault.
 
 	self layout: BlLinearLayout horizontal.
 	self fitContent.
@@ -216,6 +216,12 @@ ToSelectElement >> isFiltrable [
 	^ filtrable
 ]
 
+{ #category : #testing }
+ToSelectElement >> isMultipleSelection [
+
+	^ multipleSelection 
+]
+
 { #category : #'accessing - list' }
 ToSelectElement >> listDataNodeBuilder: aBuilder [
 
@@ -247,16 +253,23 @@ ToSelectElement >> maxSelectedCount: aNumber [
 	self iconContainer maxSelectedCount: aNumber
 ]
 
+{ #category : #'accessing - selection' }
+ToSelectElement >> multipleSelection: aBoolean [
+
+	multipleSelection := aBoolean.
+	self installNodeContainer
+]
+
+{ #category : #initialization }
+ToSelectElement >> multipleSelectionByDefault [ 
+
+	^ false
+]
+
 { #category : #'instance creation' }
 ToSelectElement >> newIconContainer [
 
 	^ ToSelectIconContainer new forFiltering: self isFiltrable 
-]
-
-{ #category : #'instance creation' }
-ToSelectElement >> newMultipleSelectionNodeContainer [
-
-	^  ToMultipleSelectNodeContainerElement new
 ]
 
 { #category : #skin }
@@ -272,13 +285,6 @@ ToSelectElement >> newShortcutsStore [
 ]
 
 { #category : #'instance creation' }
-ToSelectElement >> newSingleSelectionNodeContainer [
-
-	^  ToSingleSelectNodeContainerElement new
-
-]
-
-{ #category : #'instance creation' }
 ToSelectElement >> newWindowManager [
 
 	| wm |
@@ -291,6 +297,14 @@ ToSelectElement >> newWindowManager [
 ToSelectElement >> nodeBuilder: aValuable [
 
 	self nodeContainer nodeBuilder: aValuable
+]
+
+{ #category : #'instance creation' }
+ToSelectElement >> nodeContainerClass [
+
+	^ self isMultipleSelection
+		  ifTrue: [ ToMultipleSelectContainerElement ]
+		  ifFalse: [ ToSingleSelectContainerElement ]
 ]
 
 { #category : #'accessing - selection' }
@@ -383,10 +397,16 @@ ToSelectElement >> selecter [
 ]
 
 { #category : #accessing }
+ToSelectElement >> selectionModel [
+
+	^ self sieve selectionModel.
+
+]
+
+{ #category : #accessing }
 ToSelectElement >> selectionModel: aSelectionModel [
 
-	super selectionModel: aSelectionModel.
-	self iconContainer selectionModel: aSelectionModel
+	self iconContainer selectionModel: self selectionModel
 ]
 
 { #category : #'accessing - list' }
@@ -409,6 +429,12 @@ ToSelectElement >> showHidePlaceholder [
 ToSelectElement >> sieve [
 
 	^ windowManager sieve
+]
+
+{ #category : #initialization }
+ToSelectElement >> singleByDefault [
+
+	^ self multipleSelectionByDefault not
 ]
 
 { #category : #accessing }

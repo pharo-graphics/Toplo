@@ -16,25 +16,25 @@ ToSingleSelectNode >> installRawStyle [
 ]
 
 { #category : #'api - hooks' }
-ToSingleSelectNode >> onInstalledIn: anElementBar [
+ToSingleSelectNode >> onInstalledIn: aNodeContainer [
 
-	super onInstalledIn: anElementBar.
+	super onInstalledIn: aNodeContainer.
 	self hMatchParent.
 	self vFitContent.
 	self hMatchParent.
 	self middleContainer constraintsDo: [ :c |
 		c horizontal matchParent ].
 	textInputElement := ToSelectTextInputElement new.
-	textInputElement onInstalledIn: anElementBar.
+	textInputElement onInstalledIn: aNodeContainer.
 	self middleContainer addChild: textInputElement
 ]
 
 { #category : #'api - hooks' }
-ToSingleSelectNode >> onUninstalledIn: anElementBar [
+ToSingleSelectNode >> onUninstalledIn: aNodeContainer [
 
-	textInputElement onUninstalledIn: anElementBar.
+	textInputElement onUninstalledIn: aNodeContainer.
 	self middleContainer removeChild: textInputElement.
-	super onUninstalledIn: anElementBar.
+	super onUninstalledIn: aNodeContainer.
 
 ]
 

@@ -1,25 +1,8 @@
 Class {
 	#name : #ToSelectElementSkin,
-	#superclass : #ToGeneralButtonSkin,
+	#superclass : #ToElementBarSkin,
 	#category : #'Toplo-Widget-Select-Core'
 }
-
-{ #category : #'event handling' }
-ToSelectElementSkin >> hoveredLookEvent: anEvent [
-
-	super hoveredLookEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e mouseCursor: Cursor normal ]
-]
-
-{ #category : #'event handling' }
-ToSelectElementSkin >> installLookEvent: anEvent [
-
-	super installLookEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e shortcuts: (self shortcutsToInstallIn: e).
-		e installShortcuts ]
-]
 
 { #category : #'accessing - shortcuts' }
 ToSelectElementSkin >> shortcutsToInstallIn: aSelect [
@@ -88,12 +71,4 @@ ToSelectElementSkin >> shortcutsToInstallIn: aSelect [
 							          previousSelectableIndexToScrollTo.
 						   listElement secondarySelecter selectIndex: idx.
 						   listElement secondarySelecter scrollToIndex: idx ]) ] ]
-]
-
-{ #category : #'event handling' }
-ToSelectElementSkin >> uninstallLookEvent: anEvent [
-
-	super uninstallLookEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e uninstallShortcuts ]
 ]

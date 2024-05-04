@@ -69,12 +69,12 @@ ToElementBarNode >> isRemovable [
 ]
 
 { #category : #'api - hooks' }
-ToElementBarNode >> onInstalledIn: anElementBar [
+ToElementBarNode >> onInstalledIn: aNodeContainer [
 
 ]
 
 { #category : #'api - hooks' }
-ToElementBarNode >> onUninstalledIn: anElementBar [
+ToElementBarNode >> onUninstalledIn: aNodeContainer [
 
 ]
 

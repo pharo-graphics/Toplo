@@ -5,8 +5,8 @@ Class {
 		'selectedDataTextField',
 		'inputTextField',
 		'installedInputTextFieldTextEventHandler',
-		'forMultipleSelection',
-		'forFiltering'
+		'forFiltering',
+		'forMultipleNodes'
 	],
 	#category : #'Toplo-Widget-Select-Node'
 }
@@ -91,9 +91,9 @@ ToSelectTextInputElement >> isForFiltering [
 ]
 
 { #category : #testing }
-ToSelectTextInputElement >> isForMultipleSelection [
+ToSelectTextInputElement >> isForMultipleNodes [
 
-	^ forMultipleSelection 
+	^ forMultipleNodes 
 ]
 
 { #category : #initialization }
@@ -102,7 +102,7 @@ ToSelectTextInputElement >> newTextFieldIn: aHolder [
 	| textField |
 	textField := ToSelectTextField new.
 	textField headerNodeContainer: aHolder.
-	aHolder isSingleSelection ifTrue: [
+	aHolder isSingleNode ifTrue: [
 		textField withLineWrapping.
 		textField hMatchParent ].
 	^ textField
@@ -130,27 +130,27 @@ ToSelectTextInputElement >> onFilterTextUpdated: anEvent [
 ]
 
 { #category : #'api - hooks' }
-ToSelectTextInputElement >> onInstalledIn: aHolder [
+ToSelectTextInputElement >> onInstalledIn: aNodeContainer [
 
-	forMultipleSelection := aHolder isMultipleSelection.
-	forFiltering := aHolder elementBar isFiltrable.
-	selectedDataTextField := self newTextFieldIn: aHolder.
+	forMultipleNodes := aNodeContainer isSingleNode not.
+	forFiltering := aNodeContainer elementBar isFiltrable.
+	selectedDataTextField := self newTextFieldIn: aNodeContainer.
 	selectedDataTextField beReadonlyWithSelection.
-	inputTextField := self newTextFieldIn: aHolder.
+	inputTextField := self newTextFieldIn: aNodeContainer.
 	selectedDataTextField id: #selectedDataTextField.
 	inputTextField id: #inputTextField.
 	self addChild: selectedDataTextField.
 	self addChild: inputTextField.
-	aHolder elementBar isFiltrable
+	aNodeContainer elementBar isFiltrable
 		ifTrue: [ self beEditable ]
 		ifFalse: [ self beReadonly ].
 	inputTextField addEventHandler: (BlEventHandler
 			 on: BlMouseDownEvent
-			 do: [ :event | aHolder windowManager popupWindowEvent: event ])
+			 do: [ :event | aNodeContainer elementBar windowManager popupWindowEvent: event ])
 ]
 
 { #category : #'api - hooks' }
-ToSelectTextInputElement >> onUninstalledIn: aHolder [
+ToSelectTextInputElement >> onUninstalledIn: aNodeContainer [
 
 	self removeChildren 
 ]
@@ -158,7 +158,7 @@ ToSelectTextInputElement >> onUninstalledIn: aHolder [
 { #category : #window }
 ToSelectTextInputElement >> onWindowClosed [
 
-	self isForMultipleSelection ifFalse: [
+	self isForMultipleNodes ifFalse: [
 		self selectedDataTextField visibility: BlVisibility visible.
 		self selectedDataTextField text foreground: Color black ].
 	self isForFiltering ifTrue: [ self inputTextField requestFocus ]
@@ -167,7 +167,7 @@ ToSelectTextInputElement >> onWindowClosed [
 { #category : #window }
 ToSelectTextInputElement >> onWindowOpened [
 
-	self isForMultipleSelection ifFalse: [
+	self isForMultipleNodes ifFalse: [
 		self selectedDataTextField text foreground: Color lightGray ].
 	self isForFiltering
 		ifTrue: [ self inputTextField requestFocus ]

@@ -7,13 +7,6 @@ Class {
 	#category : #'Toplo-Widget-ElementBar'
 }
 
-{ #category : #initialization }
-ToNodeBar >> initialize [ 
-
-	super initialize.
-	self installNodeContainer
-]
-
 { #category : #'instance creation' }
 ToNodeBar >> nodeContainerClass [ 
 

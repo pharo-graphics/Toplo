@@ -95,9 +95,7 @@ ToSingleSelectContainerElement >> onUninstalledIn: anElementBar [
 	node onUninstalledIn: anElementBar.
 	node removeFromParent.
 	node := nil.
-	fakeNode onUninstalledIn: anElementBar.
-	fakeNode removeFromParent.
-	fakeNode := nil.
+	self uninstallFakeNode.
 	super onUninstalledIn: anElementBar.
 
 

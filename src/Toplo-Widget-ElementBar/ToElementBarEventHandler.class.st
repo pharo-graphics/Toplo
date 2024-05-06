@@ -9,6 +9,7 @@ ToElementBarEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 
 	| bar |
 	bar := anEvent currentTarget.
+	bar refresh.
 	bar notifySelectionChanged 
 ]
 

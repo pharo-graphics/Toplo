@@ -40,6 +40,7 @@ ToElementBarContainerElement >> elementBar [
 ToElementBarContainerElement >> fakeDataItem: aData [
 
 	fakeDataItem := aData.
+	self uninstallFakeNode.
 	self installFakeNode 
 ]
 
@@ -165,4 +166,16 @@ ToElementBarContainerElement >> refresh [
 ToElementBarContainerElement >> selectedDataTextField [
 
 	^ self textInputElement selectedDataTextField
+]
+
+{ #category : #initialization }
+ToElementBarContainerElement >> uninstallFakeNode [
+	" the fake node is added when no data is selected to ensure a 
+	suitable minimum height according to the node class, the node builder 
+	and the data kind."
+
+	fakeNode ifNotNil: [ :fn |
+		fn onUninstalledIn: self.
+		fn removeFromParent ].
+	fakeNode := nil
 ]

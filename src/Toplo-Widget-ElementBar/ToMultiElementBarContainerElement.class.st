@@ -205,11 +205,10 @@ ToMultiElementBarContainerElement >> onUninstalledIn: anElementBar [
 		node onUninstalledIn: anElementBar.
 		node removeFromParent ].
 	self nodeHolders reset.
-	fakeNode ifNotNil: [ 
-		fakeNode onUninstalledIn: anElementBar.
-		fakeNode removeFromParent.
-		fakeNode := nil ].
+	self uninstallFakeNode.
 	innerNodeContainer removeFromParent.
 	innerNodeContainer := nil.
+	scrollable removeFromParent.
+	scrollable := nil.
 	super onUninstalledIn: anElementBar
 ]

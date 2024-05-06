@@ -2790,20 +2790,77 @@ ToSandBox class >> example_menuBar2 [
 { #category : #'node bar' }
 ToSandBox class >> example_nodeBar [
 
-	| bar |
+	| bar mainPane barPane confPane verticalSwitch wrappingSwitch scrollingSwitch |
+	mainPane := ToPane horizontal.
+	mainPane matchParent.
+	mainPane padding: (BlInsets all: 5).
+	confPane := ToPane vertical.
+	confPane width: 150.
+	barPane := ToPane vertical.
+	barPane matchParent.
+	mainPane addChildren: {
+			confPane.
+			barPane }.
 	bar := ToNodeBar new.
-	bar inspect.
-	bar dataAccessor: ToObservableCollection new.
+
+	bar hMatchParent.
+	bar vFitContent.
+
+	barPane addChild: bar.
 	bar dataAccessor addAll:
 		(ToSandBox statesOfAmerica copyFrom: 1 to: 6).
-	bar nodeWrapping: true.
+	
+	verticalSwitch := ToSwitchButton new labelText: 'Vertical'.
+	verticalSwitch endToStart: true.
+	verticalSwitch startFlexible: true.
+	verticalSwitch hMatchParent.
+
+	verticalSwitch addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :event |
+				 | v |
+				 v := event current.
+				 v
+					 ifTrue: [
+						 bar hFitContent.
+						 bar vMatchParent ]
+					 ifFalse: [
+						 bar hMatchParent.
+						 bar vFitContent ].
+				 bar vertical: v ]).
+	confPane addChild: verticalSwitch.
+	
+	wrappingSwitch := ToSwitchButton new labelText: 'Wrapping'.
+	wrappingSwitch endToStart: true.
+	wrappingSwitch startFlexible: true.
+	wrappingSwitch hMatchParent.
+	wrappingSwitch checked: true.
+	confPane addChild: wrappingSwitch.
+	wrappingSwitch addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :event |
+				 | v |
+				 v := event current.
+				bar nodeWrapping: v ]).	
+	scrollingSwitch := ToSwitchButton new labelText: 'Scrolling'.
+	scrollingSwitch endToStart: true.
+	scrollingSwitch startFlexible: true.
+	scrollingSwitch hMatchParent.
+
+	confPane addChild: scrollingSwitch.
+	scrollingSwitch addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :event |
+				 | v |
+				 v := event current.
+				bar nodeScrolling: v ]).
+
 	bar nodeScrolling: false.
 	bar nodeAutoDistribution: false.
-	bar horizontal: false.
-
+	bar inspect.
 
 	bar nodeContainer refresh.
-	bar openInInnerWindow
+	mainPane openInSpace
 ]
 
 { #category : #window }

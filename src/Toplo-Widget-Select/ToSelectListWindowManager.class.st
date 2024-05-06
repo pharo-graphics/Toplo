@@ -166,6 +166,10 @@ ToSelectListWindowManager >> onInstalledIn: anElement [
 	listElement := self newListElement.
 	listElement select: self element.
 
+	self element dataAccessor addEventHandler:
+		(ToObservableCollectionMirrorUpdater new mirror:
+			 listElement dataAccessor).
+
 	listElement addEventHandler: (ToSelectListElementEventHandler new
 			 select: self element;
 			 yourself).
@@ -180,9 +184,7 @@ ToSelectListWindowManager >> onInstalledIn: anElement [
 	sieve := ToListElementSieve new.
 	sieve onInstalledIn: listElement.
 
-	listElement nodeHolderFactory: [
-		ToSelectListNodeHolder new
-			yourself ]
+	listElement nodeHolderFactory: [ ToSelectListNodeHolder new yourself ]
 ]
 
 { #category : #'api - hooks' }

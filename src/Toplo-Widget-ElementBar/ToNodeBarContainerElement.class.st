@@ -25,6 +25,5 @@ ToNodeBarContainerElement >> refresh [
 		self nodeHolders add: node holder.
 		node ].
 	self addAllDataNodes: newNodes.
-	detached do: [ :node | innerNodeContainer removeDetachedChild: node].
-	scrollable requestLayout
+	detached do: [ :node | innerNodeContainer removeDetachedChild: node]
 ]

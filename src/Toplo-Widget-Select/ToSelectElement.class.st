@@ -178,9 +178,7 @@ ToSelectElement >> initialize [
 	
 	" for the popup "
 	windowManager := self newWindowManager.
-
 	self iconContainer: self newIconContainer.
-	self dataAccessor: ToObservableCollection new.
 
 	self multipleSelection: self multipleSelectionByDefault.
 
@@ -257,7 +255,7 @@ ToSelectElement >> maxSelectedCount: aNumber [
 ToSelectElement >> multipleSelection: aBoolean [
 
 	multipleSelection := aBoolean.
-	self installNodeContainer
+	self refresh
 ]
 
 { #category : #initialization }

@@ -59,13 +59,7 @@ ToElementBar >> initialize [
 	nodeWrapping := true.
 	nodeScrolling := false.
 	nodeAutoDistribution := false.
-	self
-		vFitContent;
-		hMatchParent.
-	self middleContainer constraintsDo: [ :c |
-		c vertical fitContent.
-		c horizontal matchParent ].
-
+	self dataAccessor: ToObservableCollection new.
 	self addEventHandler: ToElementBarEventHandler new.
 	self addEventHandlerOn: ToPlaceholderShownEvent do: [ :event |
 		self flag: 'The width of 8 should be handled via a skin'.
@@ -81,12 +75,8 @@ ToElementBar >> installNodeContainer [
 	self middleElement: self newNodeContainer.
 		self isHorizontal
 		ifTrue: [
-			self vFitContent.
-			self hMatchParent.
 			self middleContainer constraintsDo: [:c | c horizontal matchParent. c vertical fitContent ] ]
 		ifFalse: [
-			self hFitContent.
-			self vMatchParent.
 			self middleContainer constraintsDo: [:c | c vertical matchParent. c horizontal fitContent]  ].
 	self nodeContainer onInstalledIn: self
 ]
@@ -117,7 +107,7 @@ ToElementBar >> nodeAutoDistribution [
 ToElementBar >> nodeAutoDistribution: aBoolean [
 
 	nodeAutoDistribution := aBoolean.
-	self installNodeContainer.
+	self refresh
 ]
 
 { #category : #accessing }
@@ -142,7 +132,7 @@ ToElementBar >> nodeScrolling [
 ToElementBar >> nodeScrolling: aBoolean [
 
 	nodeScrolling := aBoolean.
-	self installNodeContainer 
+	self refresh
 ]
 
 { #category : #accessing }
@@ -155,7 +145,7 @@ ToElementBar >> nodeWrapping [
 ToElementBar >> nodeWrapping: aBoolean [
 
 	nodeWrapping := aBoolean.
-	self installNodeContainer 
+	self refresh
 ]
 
 { #category : #accessing }
@@ -173,7 +163,7 @@ ToElementBar >> notifySelectionChanged [
 { #category : #layout }
 ToElementBar >> onLayoutOrientationChanged [
 
-	self installNodeContainer 
+	self refresh
 ]
 
 { #category : #'accessing - selection' }
@@ -181,10 +171,12 @@ ToElementBar >> onSelectionChanged [
 
 ]
 
-{ #category : #private }
+{ #category : #initialization }
 ToElementBar >> refresh [
 
+	self installNodeContainer.
 	self nodeContainer refresh
+	
 ]
 
 { #category : #removing }

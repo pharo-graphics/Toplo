@@ -2792,12 +2792,16 @@ ToSandBox class >> example_nodeBar [
 
 	| bar |
 	bar := ToNodeBar new.
+	bar inspect.
 	bar dataAccessor: ToObservableCollection new.
 	bar dataAccessor addAll:
 		(ToSandBox statesOfAmerica copyFrom: 1 to: 6).
-	bar nodeWrapping: false.
+	bar nodeWrapping: true.
 	bar nodeScrolling: false.
-	bar nodeAutoDistribution: true.
+	bar nodeAutoDistribution: false.
+	bar horizontal: false.
+
+
 	bar nodeContainer refresh.
 	bar openInInnerWindow
 ]

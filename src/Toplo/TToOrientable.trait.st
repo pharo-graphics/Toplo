@@ -6,10 +6,7 @@ Trait {
 { #category : #'t - orientable - orientation' }
 TToOrientable >> beHorizontal [
 
-	self isHorizontal ifTrue: [ ^ self ].
-	self layoutStrategy beHorizontal.
-	self dispatchEvent: ToLayoutOrientationChangedEvent new.
-	self launchRequestLayout 
+	self horizontal: true
 ]
 
 { #category : #'t - orientable - direction' }
@@ -29,10 +26,7 @@ TToOrientable >> beRightToLeft [
 { #category : #'t - orientable - orientation' }
 TToOrientable >> beVertical [
 
-	self isVertical ifTrue: [ ^ self ].
-	self layoutStrategy beVertical.
-	self dispatchEvent: ToLayoutOrientationChangedEvent new.
-	self launchRequestLayout	
+	self vertical: true
 ]
 
 { #category : #'t - orientable - accessing' }
@@ -55,8 +49,14 @@ TToOrientable >> direction: aDirection [
 TToOrientable >> horizontal: aBoolean [
 
 	aBoolean
-		ifTrue: [ self beHorizontal ]
-		ifFalse: [ self beVertical ]
+		ifTrue: [
+			self isHorizontal ifTrue: [ ^ self ].
+			self layoutStrategy beHorizontal ]
+		ifFalse: [
+			self isVertical ifTrue: [ ^ self ].
+			self layoutStrategy beVertical ].
+	self dispatchEvent: ToLayoutOrientationChangedEvent new.
+	self launchRequestLayout
 ]
 
 { #category : #'t - orientable - orientation' }

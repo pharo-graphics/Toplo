@@ -21,7 +21,6 @@ ToSingleSelectNode >> onInstalledIn: aNodeContainer [
 	super onInstalledIn: aNodeContainer.
 	self hMatchParent.
 	self vFitContent.
-	self hMatchParent.
 	self middleContainer constraintsDo: [ :c |
 		c horizontal matchParent ].
 	textInputElement := ToSelectTextInputElement new.

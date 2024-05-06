@@ -1,6 +1,6 @@
 Class {
 	#name : #ToNodeBarContainerElement,
-	#superclass : #ToElementBarContainerElement,
+	#superclass : #ToMultiElementBarContainerElement,
 	#category : #'Toplo-Widget-ElementBar'
 }
 

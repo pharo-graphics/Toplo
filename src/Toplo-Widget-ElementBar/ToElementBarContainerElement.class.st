@@ -1,33 +1,16 @@
 Class {
 	#name : #ToElementBarContainerElement,
 	#superclass : #ToElement,
+	#traits : 'TToOrientable',
+	#classTraits : 'TToOrientable classTrait',
 	#instVars : [
 		'fakeNode',
 		'fakeDataItem',
 		'elementBar',
-		'nodeWrapping',
-		'nodeScrolling',
-		'nodeAutoDistribution',
-		'innerNodeContainer',
-		'scrollable',
-		'nodeHolders',
-		'previousMeasuredBarWidth'
+		'innerNodeContainer'
 	],
 	#category : #'Toplo-Widget-ElementBar'
 }
-
-{ #category : #adding }
-ToElementBarContainerElement >> addAllDataNodes: aNodeCollection [
-
-	aNodeCollection do: [ :n | self addDataNode: n ]
-]
-
-{ #category : #adding }
-ToElementBarContainerElement >> addDataNode: aNode [
-
-	elementBar nodeAutoDistribution ifTrue: [ aNode autoDistribute ].
-	innerNodeContainer addChild: aNode before: fakeNode
-]
 
 { #category : #adding }
 ToElementBarContainerElement >> addFakeNode [
@@ -35,24 +18,10 @@ ToElementBarContainerElement >> addFakeNode [
 	innerNodeContainer addChild: fakeNode
 ]
 
-{ #category : #layout }
-ToElementBarContainerElement >> checkVisibleNodes [
+{ #category : #initialization }
+ToElementBarContainerElement >> defaultLayout [
 
-	| invisibleNodes currentHeaderWidth |
-	self ensurePreviousMeasuredBarWidth.
-	currentHeaderWidth := self measuredWidth.
-	currentHeaderWidth > previousMeasuredBarWidth ifTrue: [
-		previousMeasuredBarWidth := currentHeaderWidth.
-		self enqueueTask: (BlTaskAction new action: [ self refresh ]).
-		^ self ].
-	(self nodeHolders size = 1 and: [
-		 self nodeHolders first nodesCount > 1 ]) ifTrue: [ ^ self ].
-
-	previousMeasuredBarWidth := currentHeaderWidth.
-	invisibleNodes := self nodesSelect: [ :n |
-		                  n isFullyVisible not ].
-	invisibleNodes ifEmpty: [ ^ self ].
-	self haveInvisibleNodes: invisibleNodes
+	^ BlLinearLayout new
 ]
 
 { #category : #initialization }
@@ -67,13 +36,6 @@ ToElementBarContainerElement >> elementBar [
 	^ elementBar
 ]
 
-{ #category : #layout }
-ToElementBarContainerElement >> ensurePreviousMeasuredBarWidth [
-
-	previousMeasuredBarWidth ifNil: [
-		previousMeasuredBarWidth := self measuredWidth  ]
-]
-
 { #category : #accessing }
 ToElementBarContainerElement >> fakeDataItem: aData [
 
@@ -81,25 +43,12 @@ ToElementBarContainerElement >> fakeDataItem: aData [
 	self installFakeNode 
 ]
 
-{ #category : #layout }
-ToElementBarContainerElement >> haveInvisibleNodes: invisibleNodes [
-]
-
-{ #category : #initialization }
-ToElementBarContainerElement >> initialize [
-
-	super initialize.
-	nodeWrapping := true.
-	nodeScrolling := false
-
-]
-
 { #category : #initialization }
 ToElementBarContainerElement >> installFakeNode [
 	" the fake node is added when no data is selected to ensure a 
 	suitable minimum height according to the node class, the node builder 
 	and the data kind."
- 
+
 	fakeNode ifNotNil: [ :fn |
 		fn onUninstalledIn: self.
 		fn removeFromParent ].
@@ -108,13 +57,32 @@ ToElementBarContainerElement >> installFakeNode [
 	fakeNode id: #fakeNode.
 	fakeNode holder dataItem: fakeDataItem.
 	self nodeBuilder value: fakeNode value: fakeNode holder.
-	fakeNode width: 0.
+	self isHorizontal
+		ifTrue: [
+			fakeNode width: 0.
+			fakeNode constraintsDo: [ :c |
+				c vertical matchParent.
+				c flow vertical alignCenter.
+				c linear vertical alignCenter ] ]
+		ifFalse: [
+			fakeNode height: 0.
+			fakeNode constraintsDo: [ :c |
+				c horizontal matchParent.
+				c flow horizontal alignCenter.
+				c linear horizontal alignCenter ] ].
+
 	fakeNode margin: BlInsets empty.
-	fakeNode constraintsDo: [ :c |
-		c flow vertical alignCenter.
-		c linear vertical alignCenter ].
+
 	" add the fake node (to keep a constant minimum height )"
 	self addFakeNode
+]
+
+{ #category : #'t - orientable - accessing' }
+ToElementBarContainerElement >> layoutStrategy [
+
+	^ self layout
+
+	
 ]
 
 { #category : #initialization }
@@ -141,19 +109,6 @@ ToElementBarContainerElement >> newNodeHolder [
 ]
 
 { #category : #accessing }
-ToElementBarContainerElement >> nodeAutoDistribution [
-
-	^ nodeAutoDistribution
-]
-
-{ #category : #accessing }
-ToElementBarContainerElement >> nodeAutoDistribution: aBoolean [
-
-	nodeAutoDistribution := aBoolean.
-	self onNodeDistributionChange
-]
-
-{ #category : #accessing }
 ToElementBarContainerElement >> nodeBuilder [
 	
 	" return a valuable that is used to build a bar node element from a data. 
@@ -177,159 +132,27 @@ ToElementBarContainerElement >> nodeHolderClass [
 	^ ToElementBarNodeHolder
 ]
 
-{ #category : #accessing }
-ToElementBarContainerElement >> nodeHolders [
-
-	^ nodeHolders ifNil: [
-		  nodeHolders := OrderedCollection new ]
-]
-
-{ #category : #accessing }
-ToElementBarContainerElement >> nodeScrolling: aBoolean [
-
-	nodeScrolling := aBoolean.
-	self onNodeScrollingChange  
-]
-
-{ #category : #accessing }
-ToElementBarContainerElement >> nodeWrapping: aBoolean [
-
-	nodeWrapping := aBoolean.
-	self onNodeWrappingChange  
-]
-
-{ #category : #accessing }
-ToElementBarContainerElement >> nodes [
-
-	^ self nodeHolders collect: [ :h | h node ]
-
-]
-
-{ #category : #accessing }
-ToElementBarContainerElement >> nodesCount [
-
-	| count |
-	count := 0.
-	self nodeHolders do: [ :nodeHolder |
-		count := count + nodeHolder nodesCount ].
-	^ count
-]
-
-{ #category : #enumerating }
-ToElementBarContainerElement >> nodesDo: aBlock [
-
-	self nodeHolders do: [ :nodeHolder |	aBlock value: nodeHolder node ].
-]
-
-{ #category : #enumerating }
-ToElementBarContainerElement >> nodesSelect: aBlock [
-
-	^ Array streamContents: [ :stream |
-		  self nodeHolders do: [ :nodeHolder |
-			  (aBlock value: nodeHolder node) ifTrue: [
-				  stream nextPut: nodeHolder node ] ] ]
-]
-
 { #category : #'api - hooks' }
 ToElementBarContainerElement >> onInstalledIn: anElementBar [
 
 	elementBar := anElementBar.
-
-	self layout: BlLinearLayout horizontal.
-	self
-		vFitContent;
-		hMatchParent;
-		constraintsDo: [ :c | c linear vertical alignCenter ].
-
-	innerNodeContainer := ToElement new.
-	innerNodeContainer layout: (nodeWrapping
-			 ifTrue: [ BlFlowLayout horizontal ]
-			 ifFalse: [ BlLinearLayout horizontal ]).
-
-	innerNodeContainer constraintsDo: [ :c |
-		c linear vertical alignCenter.
-		c flow vertical alignCenter.
-		c vertical fitContent ].
-	
-	self onNodeWrappingChange.
-	self onNodeScrollingChange.
-
-	scrollable := innerNodeContainer asScrollableElement.
-	scrollable constraintsDo: [ :c |
-		c linear vertical alignCenter.
-		c flow vertical alignCenter.
-		c vertical fitContent.
-		c horizontal matchParent ].
-
-	" The textField is added whatever the mode to draw the placeholder text if any.
-	In case of read-only mode, the textfield is set as read-only by the mode "
-	self addChild: scrollable.
-	self installFakeNode
-]
-
-{ #category : #layout }
-ToElementBarContainerElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
-
-	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
-	nodeWrapping ifTrue: [ ^ self ].
-	nodeScrolling ifTrue: [ ^ self ].
-	self checkVisibleNodes
-]
-
-{ #category : #accessing }
-ToElementBarContainerElement >> onNodeDistributionChange [
-
-	nodeScrolling ifTrue: [ ^ self ].
-	nodeAutoDistribution ifTrue: [
-		self nodesDo: [ :n | n autoDistribute ] ]
-]
-
-{ #category : #accessing }
-ToElementBarContainerElement >> onNodeScrollingChange [
-
-	innerNodeContainer ifNil: [ ^ self ].
-	nodeScrolling
+	self isHorizontal
 		ifTrue: [
-		innerNodeContainer constraintsDo: [ :c | c horizontal fitContent ] ]
+			self
+				vFitContent;
+				hMatchParent;
+				constraintsDo: [ :c | c linear vertical alignCenter ] ]
 		ifFalse: [
-		innerNodeContainer constraintsDo: [ :c | c horizontal matchParent ] ]
-]
-
-{ #category : #accessing }
-ToElementBarContainerElement >> onNodeWrappingChange [
-
-	innerNodeContainer ifNil: [ ^ self ].
-	innerNodeContainer layout: (nodeWrapping
-			 ifTrue: [ BlFlowLayout horizontal ]
-			 ifFalse: [ BlLinearLayout horizontal ])
+			self
+				hFitContent;
+				vMatchParent;
+				constraintsDo: [ :c | c linear horizontal alignCenter ] ]
 ]
 
 { #category : #'api - hooks' }
 ToElementBarContainerElement >> onUninstalledIn: anElementBar [
 
-	self nodesDo: [ :node |
-		node onUninstalledIn: anElementBar.
-		node removeFromParent ].
-	self nodeHolders reset.
-	fakeNode ifNotNil: [ 
-		fakeNode onUninstalledIn: anElementBar.
-		fakeNode removeFromParent.
-		fakeNode := nil ].
-	innerNodeContainer removeFromParent.
-	innerNodeContainer := nil.
 	elementBar := nil
-]
-
-{ #category : #window }
-ToElementBarContainerElement >> onWindowClosed [
-
-	self textInputElement onWindowClosed
-]
-
-{ #category : #window }
-ToElementBarContainerElement >> onWindowOpened [
-
-	self textInputElement onWindowOpened
 ]
 
 { #category : #accessing }

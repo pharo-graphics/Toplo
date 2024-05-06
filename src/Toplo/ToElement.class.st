@@ -34,8 +34,15 @@ ToElement >> inVerticalPane [
 ToElement >> initialize [
 
 	super initialize.
+	self layout: self defaultLayout.
 	self initializeForToplo.
 	self applySkinInstallerOnFirstRequest: false.
+]
+
+{ #category : #converting }
+ToElement >> newScrollableParent [
+
+	^ ToScrollableElement new
 ]
 
 { #category : #'t  - layout resizeable' }

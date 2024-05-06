@@ -14,7 +14,9 @@ ToElementBarNode >> autoDistribute [
 	self startFlexible: true.
 	self endFlexible: true.
 	self constraintsDo: [ :c |
-		c horizontal matchParent.
+		self holder elementBar isHorizontal
+			ifTrue: [ c horizontal matchParent ]
+			ifFalse: [ c vertical matchParent ].
 		c linear weight: 1.
 		c flow weight: 1 ]
 ]

@@ -1,10 +1,10 @@
 Class {
 	#name : #ToMultipleSelectContainerElement,
-	#superclass : #ToElementBarContainerElement,
+	#superclass : #ToMultiElementBarContainerElement,
 	#instVars : [
 		'textInputElement'
 	],
-	#category : #'Toplo-Widget-Select-Node'
+	#category : #'Toplo-Widget-Select-Core'
 }
 
 { #category : #initialization }
@@ -76,6 +76,7 @@ ToMultipleSelectContainerElement >> nodeBuilder [
 ToMultipleSelectContainerElement >> onInstalledIn: anElementBar [
 
 	super onInstalledIn: anElementBar.
+
 	textInputElement := ToSelectTextInputElement new.
 	textInputElement onInstalledIn: self.
 	textInputElement hFitContent.
@@ -95,6 +96,18 @@ ToMultipleSelectContainerElement >> onUninstalledIn: anElementBar [
 	textInputElement := nil.
 	super onUninstalledIn: anElementBar.
 
+]
+
+{ #category : #window }
+ToMultipleSelectContainerElement >> onWindowClosed [
+
+	self textInputElement onWindowClosed
+]
+
+{ #category : #window }
+ToMultipleSelectContainerElement >> onWindowOpened [
+
+	self textInputElement onWindowOpened
 ]
 
 { #category : #accessing }

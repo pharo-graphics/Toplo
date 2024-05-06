@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'node'
 	],
-	#category : #'Toplo-Widget-Select-Node'
+	#category : #'Toplo-Widget-Select-Core'
 }
 
 { #category : #adding }
@@ -25,6 +25,10 @@ ToSingleSelectContainerElement >> filterString [
 	^ self textInputElement filterString
 ]
 
+{ #category : #'t - orientable - orientation' }
+ToSingleSelectContainerElement >> horizontal: aBoolean [
+]
+
 { #category : #accessing }
 ToSingleSelectContainerElement >> inputTextField [
 
@@ -38,6 +42,12 @@ ToSingleSelectContainerElement >> isSingleNode [
 ]
 
 { #category : #accessing }
+ToSingleSelectContainerElement >> nodeAutoDistribution: aBoolean [
+
+
+]
+
+{ #category : #accessing }
 ToSingleSelectContainerElement >> nodeBuilder [
 	" return a valuable that is used to build a bar node element from a data. 
 	aValuable take the bar node element to build as first argument 
@@ -46,11 +56,29 @@ ToSingleSelectContainerElement >> nodeBuilder [
 	^ [ :aSelectNode :aNodeHolder |  ]
 ]
 
+{ #category : #accessing }
+ToSingleSelectContainerElement >> nodeScrolling: aBoolean [
+
+
+]
+
+{ #category : #accessing }
+ToSingleSelectContainerElement >> nodeWrapping: aBoolean [
+
+
+]
+
+{ #category : #enumerating }
+ToSingleSelectContainerElement >> nodesDo: aBlock [
+
+	node ifNil: [ ^ self ].
+	aBlock value: node
+]
+
 { #category : #'api - hooks' }
 ToSingleSelectContainerElement >> onInstalledIn: anElementBar [
 
 	super onInstalledIn: anElementBar.
-	self layout: BlFrameLayout new.
 	self
 		vFitContent;
 		hMatchParent;
@@ -73,6 +101,18 @@ ToSingleSelectContainerElement >> onUninstalledIn: anElementBar [
 	super onUninstalledIn: anElementBar.
 
 
+]
+
+{ #category : #window }
+ToSingleSelectContainerElement >> onWindowClosed [
+
+	self textInputElement onWindowClosed
+]
+
+{ #category : #window }
+ToSingleSelectContainerElement >> onWindowOpened [
+
+	self textInputElement onWindowOpened
 ]
 
 { #category : #accessing }

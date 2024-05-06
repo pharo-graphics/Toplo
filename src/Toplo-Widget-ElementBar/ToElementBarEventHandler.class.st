@@ -27,5 +27,12 @@ ToElementBarEventHandler >> eventsToHandle [
 
 	^ {
 		  BlElementAddedToSceneGraphEvent.
-		  ToElementBarSelectionChanged }
+		  ToElementBarSelectionChanged.
+		  ToLayoutOrientationChangedEvent }
+]
+
+{ #category : #'element handlers' }
+ToElementBarEventHandler >> layoutOrientationChangedEvent: anEvent [
+
+	anEvent currentTarget onLayoutOrientationChanged
 ]

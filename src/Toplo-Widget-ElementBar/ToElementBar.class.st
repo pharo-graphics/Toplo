@@ -73,12 +73,21 @@ ToElementBar >> initialize [
 		event placeholder layout alignCenterLeft ]
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 ToElementBar >> installNodeContainer [
 
 	self nodeContainer ifNotNil: [
 		self nodeContainer onUninstalledIn: self ].
 	self middleElement: self newNodeContainer.
+		self isHorizontal
+		ifTrue: [
+			self vFitContent.
+			self hMatchParent.
+			self middleContainer constraintsDo: [:c | c horizontal matchParent. c vertical fitContent ] ]
+		ifFalse: [
+			self hFitContent.
+			self vMatchParent.
+			self middleContainer constraintsDo: [:c | c vertical matchParent. c horizontal fitContent]  ].
 	self nodeContainer onInstalledIn: self
 ]
 
@@ -86,13 +95,10 @@ ToElementBar >> installNodeContainer [
 ToElementBar >> newNodeContainer [
 
 	| container |
-	container := self nodeContainerClass new.
+	container := self nodeContainerClass new id: #nodeContainer;
+		  yourself.
+	container horizontal: self isHorizontal.
 	^ container
-		  nodeWrapping: nodeWrapping;
-		  nodeScrolling: nodeScrolling;
-		  nodeAutoDistribution: nodeAutoDistribution;
-		  id: #nodeContainer;
-		  yourself
 ]
 
 { #category : #skin }
@@ -111,7 +117,7 @@ ToElementBar >> nodeAutoDistribution [
 ToElementBar >> nodeAutoDistribution: aBoolean [
 
 	nodeAutoDistribution := aBoolean.
-	self nodeContainer nodeAutoDistribution: aBoolean
+	self installNodeContainer.
 ]
 
 { #category : #accessing }
@@ -136,7 +142,7 @@ ToElementBar >> nodeScrolling [
 ToElementBar >> nodeScrolling: aBoolean [
 
 	nodeScrolling := aBoolean.
-	self nodeContainer nodeScrolling: aBoolean
+	self installNodeContainer 
 ]
 
 { #category : #accessing }
@@ -149,7 +155,7 @@ ToElementBar >> nodeWrapping [
 ToElementBar >> nodeWrapping: aBoolean [
 
 	nodeWrapping := aBoolean.
-	self nodeContainer nodeWrapping: aBoolean
+	self installNodeContainer 
 ]
 
 { #category : #accessing }
@@ -162,6 +168,12 @@ ToElementBar >> nodes [
 ToElementBar >> notifySelectionChanged [
 
 	self dispatchEvent: ToElementBarSelectionChanged new
+]
+
+{ #category : #layout }
+ToElementBar >> onLayoutOrientationChanged [
+
+	self installNodeContainer 
 ]
 
 { #category : #'accessing - selection' }

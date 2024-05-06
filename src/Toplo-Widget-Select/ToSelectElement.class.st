@@ -94,15 +94,6 @@ ToSelectElement >> currentWindow [
 	^ self windowManager currentWindow
 ]
 
-{ #category : #accessing }
-ToSelectElement >> dataAccessor: aDataAccessor [
-
-	super dataAccessor: aDataAccessor.
-	aDataAccessor addEventHandler:
-		(ToObservableCollectionMirrorUpdater new mirror:
-			 windowManager listElement dataAccessor)
-]
-
 { #category : #private }
 ToSelectElement >> fakeNode [
 

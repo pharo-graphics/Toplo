@@ -27,7 +27,6 @@ ToSelectEventHandler >> elementExtentChangedEvent: anEvent [
 ToSelectEventHandler >> eventsToHandle [
 
 	^ super eventsToHandle , {
-		  ToCollectionFilteredEvent.
 		  BlElementExtentChangedEvent.
 		  ToSelectInputTextFieldUpdatedEvent }
 ]

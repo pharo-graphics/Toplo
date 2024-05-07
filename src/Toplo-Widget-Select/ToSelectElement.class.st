@@ -163,7 +163,6 @@ ToSelectElement >> initialize [
 	super initialize.
 	self id: #selectElement.
 	filtrable := true.
-	nodeWrapping := true.
 	hideSelected := false.
 	maxSelectedCount := 0.
 	
@@ -173,9 +172,9 @@ ToSelectElement >> initialize [
 
 	self multipleSelection: self multipleSelectionByDefault.
 
-	self layout: BlLinearLayout horizontal.
+"	self layout: BlLinearLayout horizontal.
 	self fitContent.
-
+"
 	sharedEventsDistributor := BlSharedEventDistributor new.
 	sharedEventsDistributor
 		adjustMousePosition: false;

@@ -23,6 +23,10 @@ ToMultipleSelectContainerElement >> filterString [
 ToMultipleSelectContainerElement >> haveInvisibleNodes: aCollectionOfInvisibleNodes [
 
 	| visibleNodes invisibleNodes showerHolder showerNode lab |
+	" in case of composite node at first it means that 
+	there is no more visible node to cumulate in a composite node"
+	(self nodeHolders size = 1 and: [
+		 self nodeHolders first nodesCount > 1 ]) ifTrue: [ ^ self ].
 	visibleNodes := self nodesSelect: [ :n | n isFullyVisible ].
 	invisibleNodes := aCollectionOfInvisibleNodes.
 	visibleNodes ifNotEmpty: [
@@ -30,6 +34,7 @@ ToMultipleSelectContainerElement >> haveInvisibleNodes: aCollectionOfInvisibleNo
 			                  visibleNodes last.
 		visibleNodes := visibleNodes copyWithout: visibleNodes last ].
 	invisibleNodes do: [ :node | node onUninstalledIn: elementBar ].
+	" now cumulate invisible nodes in a composite holder "
 	showerHolder := ToCompositeElementBarNodeHolder new.
 	showerHolder elementBar: elementBar.
 	showerHolder holders:

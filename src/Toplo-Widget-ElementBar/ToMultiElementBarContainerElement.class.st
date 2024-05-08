@@ -35,12 +35,8 @@ ToMultiElementBarContainerElement >> checkVisibleNodes [
 		previousMeasuredBarWidth := currentHeaderWidth.
 		self enqueueTask: (BlTaskAction new action: [ self refresh ]).
 		^ self ].
-	(self nodeHolders size = 1 and: [
-		 self nodeHolders first nodesCount > 1 ]) ifTrue: [ ^ self ].
-
 	previousMeasuredBarWidth := currentHeaderWidth.
-	invisibleNodes := self nodesSelect: [ :n |
-		                  n isFullyVisible not ].
+	invisibleNodes := self nodesSelect: [ :n | n isFullyVisible not ].
 	invisibleNodes ifEmpty: [ ^ self ].
 	self haveInvisibleNodes: invisibleNodes
 ]
@@ -137,7 +133,7 @@ ToMultiElementBarContainerElement >> onInstalledIn: anElementBar [
 	nodeWrapping := anElementBar nodeWrapping.
 	nodeAutoDistribution := anElementBar nodeAutoDistribution.
 
-	innerNodeContainer := ToElement new.
+	innerNodeContainer := ToPane new.
 
 	self isHorizontal
 		ifTrue: [

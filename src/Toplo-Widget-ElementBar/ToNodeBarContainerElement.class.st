@@ -14,7 +14,7 @@ ToNodeBarContainerElement >> refresh [
 		detached add: node.
 		innerNodeContainer detachChild: node ].
 	self nodeHolders reset.
-	" then rebuild current nodes according to current selection "
+	" then rebuild current nodes "
 	newNodes := elementBar dataAccessor withIndexCollect: [ :data :idx |
 		| node |
 		node := self newNode.

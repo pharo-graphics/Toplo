@@ -97,12 +97,12 @@ ToSelectTextInputElement >> isForMultipleNodes [
 ]
 
 { #category : #initialization }
-ToSelectTextInputElement >> newTextFieldIn: aHolder [
+ToSelectTextInputElement >> newTextFieldIn: aNodeContainer [
 
 	| textField |
 	textField := ToSelectTextField new.
-	textField headerNodeContainer: aHolder.
-	aHolder isSingleNode ifTrue: [
+	textField headerNodeContainer: aNodeContainer.
+	aNodeContainer isSingleNode ifTrue: [
 		textField withLineWrapping.
 		textField hMatchParent ].
 	^ textField
@@ -152,6 +152,7 @@ ToSelectTextInputElement >> onInstalledIn: aNodeContainer [
 { #category : #'api - hooks' }
 ToSelectTextInputElement >> onUninstalledIn: aNodeContainer [
 
+	self uninstallInputTextFieldEventHandlers.
 	self removeChildren 
 ]
 

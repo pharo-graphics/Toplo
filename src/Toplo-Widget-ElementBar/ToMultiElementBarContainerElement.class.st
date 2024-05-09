@@ -57,7 +57,13 @@ ToMultiElementBarContainerElement >> initialize [
 
 	super initialize.
 	nodeWrapping := true.
-	nodeScrolling := false
+	nodeScrolling := false.
+
+	innerNodeContainer := ToPane new.
+	scrollable := innerNodeContainer asScrollableElement.
+	self addChild: scrollable
+
+
 
 ]
 
@@ -133,8 +139,6 @@ ToMultiElementBarContainerElement >> onInstalledIn: anElementBar [
 	nodeWrapping := anElementBar nodeWrapping.
 	nodeAutoDistribution := anElementBar nodeAutoDistribution.
 
-	innerNodeContainer := ToPane new.
-
 	self isHorizontal
 		ifTrue: [
 			innerNodeContainer layout: (nodeWrapping
@@ -158,9 +162,7 @@ ToMultiElementBarContainerElement >> onInstalledIn: anElementBar [
 				nodeScrolling
 					ifTrue: [ c vertical fitContent ]
 					ifFalse: [ c vertical matchParent ] ] ].
-
-	scrollable := innerNodeContainer asScrollableElement.
-
+			
 	self isHorizontal
 		ifTrue: [
 			scrollable constraintsDo: [ :c |
@@ -181,7 +183,6 @@ ToMultiElementBarContainerElement >> onInstalledIn: anElementBar [
 
 	" The textField is added whatever the mode to draw the placeholder text if any.
 	In case of read-only mode, the textfield is set as read-only by the mode "
-	self addChild: scrollable.
 	self installFakeNode
 ]
 
@@ -202,9 +203,5 @@ ToMultiElementBarContainerElement >> onUninstalledIn: anElementBar [
 		node removeFromParent ].
 	self nodeHolders reset.
 	self uninstallFakeNode.
-	innerNodeContainer removeFromParent.
-	innerNodeContainer := nil.
-	scrollable removeFromParent.
-	scrollable := nil.
 	super onUninstalledIn: anElementBar
 ]

@@ -53,6 +53,14 @@ ToMultipleSelectContainerElement >> haveInvisibleNodes: aCollectionOfInvisibleNo
 	self addDataNode: showerNode
 ]
 
+{ #category : #initialization }
+ToMultipleSelectContainerElement >> initialize [ 
+
+	super initialize.
+	textInputElement := ToSelectTextInputElement new.
+
+]
+
 { #category : #accessing }
 ToMultipleSelectContainerElement >> inputTextField [
 
@@ -82,7 +90,6 @@ ToMultipleSelectContainerElement >> onInstalledIn: anElementBar [
 
 	super onInstalledIn: anElementBar.
 
-	textInputElement := ToSelectTextInputElement new.
 	textInputElement onInstalledIn: self.
 	textInputElement hFitContent.
 	textInputElement constraintsDo: [ :c |
@@ -97,8 +104,6 @@ ToMultipleSelectContainerElement >> onInstalledIn: anElementBar [
 ToMultipleSelectContainerElement >> onUninstalledIn: anElementBar [
 
 	textInputElement onUninstalledIn: anElementBar.
-	textInputElement removeFromParent.
-	textInputElement := nil.
 	super onUninstalledIn: anElementBar.
 
 ]

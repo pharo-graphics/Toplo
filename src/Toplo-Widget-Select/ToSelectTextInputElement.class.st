@@ -6,7 +6,8 @@ Class {
 		'inputTextField',
 		'installedInputTextFieldTextEventHandler',
 		'forFiltering',
-		'forMultipleNodes'
+		'forMultipleNodes',
+		'windowHandler'
 	],
 	#category : #'Toplo-Widget-Select-Node'
 }
@@ -144,16 +145,28 @@ ToSelectTextInputElement >> onInstalledIn: aNodeContainer [
 	aNodeContainer elementBar isFiltrable
 		ifTrue: [ self beEditable ]
 		ifFalse: [ self beReadonly ].
-	inputTextField addEventHandler: (BlEventHandler
-			 on: BlMouseDownEvent
-			 do: [ :event | aNodeContainer elementBar windowManager popupWindowEvent: event ])
+
+	" Window handler open the window on text input.
+	the window stays invisible until the sieve is applied to avoid inconfortable effect 
+	(the window is first opened with unsieved content then the content is changed with sieve result).
+	The window is set as visible in ToSelectListElement>>applyDataSourceSieveCommand: "
+	windowHandler := BlEventHandler
+		                 on: BlTextInputEvent
+		                 do: [ :event |
+			                 event text ifNotEmpty: [
+				                 event text asString first isAlphaNumeric ifTrue: [
+					                 aNodeContainer elementBar windowManager
+						                 popupWindowHiddenEvent: event ] ] ].
+	inputTextField infinite addEventHandler: windowHandler
 ]
 
 { #category : #'api - hooks' }
 ToSelectTextInputElement >> onUninstalledIn: aNodeContainer [
 
 	self uninstallInputTextFieldEventHandlers.
-	self removeChildren 
+	inputTextField infinite removeEventHandler: windowHandler.
+	windowHandler := nil.
+	self removeChildren
 ]
 
 { #category : #window }

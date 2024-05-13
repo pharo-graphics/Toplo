@@ -214,6 +214,16 @@ ToSelectListWindowManager >> onWindowOpened [
 	self element onWindowOpened
 ]
 
+{ #category : #'window handling' }
+ToSelectListWindowManager >> popupWindowHiddenEvent: anEvent [
+
+	(currentWindow notNil and: [ currentWindow isOpened ]) ifTrue: [
+		^ self ].
+	currentWindow ifNil: [ self newWindowEvent: anEvent ].
+	currentWindow visibility: BlVisibility hidden.
+	currentWindow popupEvent: anEvent
+]
+
 { #category : #accessing }
 ToSelectListWindowManager >> sieve [ 
 

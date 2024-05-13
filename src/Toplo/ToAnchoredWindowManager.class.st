@@ -226,10 +226,9 @@ ToAnchoredWindowManager >> onWindowRemoved [
 { #category : #'mouse handlers' }
 ToAnchoredWindowManager >> popupWindowEvent: anEvent [
 
-	currentWindow ifNotNil: [
-		currentWindow isOpened ifTrue: [ currentWindow close ].
+	(currentWindow notNil and: [ currentWindow isOpened ]) ifTrue: [
 		^ self ].
-	self newWindowEvent: anEvent.
+	currentWindow ifNil: [ self newWindowEvent: anEvent ].
 	currentWindow popupEvent: anEvent
 ]
 

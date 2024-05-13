@@ -30,6 +30,12 @@ ToTokensModel >> selector [
 	^ 'defaultTokenProperties'
 ]
 
+{ #category : #asserting }
+ToTokensModel >> shouldCompile [ 
+
+	^ self strategy shouldCompile
+]
+
 { #category : #accessing }
 ToTokensModel >> strategy [
 

@@ -10,7 +10,8 @@ Class {
 		'tokensPresenter',
 		'tokenAll',
 		'tokenNo',
-		'tokenNew'
+		'tokenNew',
+		'tokenInherit'
 	],
 	#category : #'Toplo-IDE-theme-editor-presenter-themeInfos'
 }
@@ -39,8 +40,9 @@ ToThemeEditorThemeInfos >> defaultLayout [
 		  expand: false;
 		  add: self themeClassInput expand: false;
 		  add: self tokenAll expand: false;
-		 add: self tokenNew expand: false;
-		 add: self tokenNo expand: false;
+		  add: self tokenNew expand: false;
+		  add: self tokenInherit expand: false;
+		  add: self tokenNo expand: false;
 		  add: self saveButton expand: false;
 		  add: self inspectButton expand: false;
 		  add: self notebook expand: true;
@@ -75,12 +77,18 @@ ToThemeEditorThemeInfos >> initializePresenters [
 		            label: 'Save all tokens in theme.';
 		            yourself.
 	tokenNew := SpRadioButtonPresenter new
-		            label: 'Save only the tokens not in parents theme.';
+		            label: 'Save only the new and modified tokens.';
 		            yourself.
-	tokenNo := SpRadioButtonPresenter new
-		           label: 'Do not save the tokens.';
+	tokenInherit := SpRadioButtonPresenter new
+		           label: 'Inherit tokens from parent.';
 		           yourself.
-	tokenAll associatedRadioButtons: { tokenNew . tokenNo }
+	tokenNo := SpRadioButtonPresenter new
+		           label: 'Do not modify the tokens method.';
+		           yourself.
+	tokenAll associatedRadioButtons: {
+			tokenNew.
+			tokenNo.
+			tokenInherit }
 ]
 
 { #category : #layout }
@@ -107,11 +115,12 @@ ToThemeEditorThemeInfos >> saveCurrentTheme [
 	| model |
 	model := ToThemeModel new
 		         theme: self theme;
-					tokens: self tokensPresenter controller tokens;
+		         tokens: self tokensPresenter controller tokens;
 		         yourself.
 	self tokenAll state ifTrue: [ model doNotHeritToken ].
 	self tokenNew state ifTrue: [ model onlyDifferentTokens ].
-	self tokenNo state ifTrue: [ model doHeritToken ].
+	self tokenInherit state ifTrue: [ model doHeritToken ].
+	self tokenNo state ifTrue: [ model doNotModifyToken ].
 	model compileOnCurrentTheme
 ]
 
@@ -138,6 +147,11 @@ ToThemeEditorThemeInfos >> themeClassInput [
 { #category : #initialization }
 ToThemeEditorThemeInfos >> tokenAll [
 	^ tokenAll
+]
+
+{ #category : #initialization }
+ToThemeEditorThemeInfos >> tokenInherit [
+	^ tokenInherit
 ]
 
 { #category : #initialization }

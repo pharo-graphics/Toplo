@@ -66,6 +66,7 @@ ToThemeModel >> compileStyleRulesOn: aTheme [
 ToThemeModel >> compileTokensOn: aTheme [
 
 	| formatedSourceCode expr tokenStream |
+	self tokensModel shouldCompile ifFalse: [ ^ self ].
 	tokenStream := String new writeStream.
 	self tokensModel asSourceCodeOn: tokenStream.
 	expr := RBParser parseMethod: tokenStream contents expandMacros.
@@ -87,6 +88,12 @@ ToThemeModel >> doHeritToken [
 ToThemeModel >> doNotHeritToken [
 
 	self tokensModel strategy: ToTokensDoNotHeritFromParentStrategy new
+]
+
+{ #category : #'as yet unclassified' }
+ToThemeModel >> doNotModifyToken [
+
+	self tokensModel strategy: ToTokensDoNotCompileStrategy new
 ]
 
 { #category : #initialization }

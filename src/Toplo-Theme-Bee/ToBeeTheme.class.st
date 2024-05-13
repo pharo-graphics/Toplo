@@ -627,6 +627,17 @@ ToBeeTheme >> declareNoBorder [
 				width: (e valueOfTokenNamed: #'line-width') ]
 ]
 
+{ #category : #'rules declaring - pane' }
+ToBeeTheme >> declarePaneRules [
+
+	self
+		select: ToPane asTypeSelector || (self id: #'space-root')
+		style: [
+			self
+				write: (self property: #background)
+				with: [ :e | e valueOfTokenNamed: #'background-color' ] ]
+]
+
 { #category : #'rules declaring - button' }
 ToBeeTheme >> declarePrimaryButtonRules [
 
@@ -662,15 +673,6 @@ ToBeeTheme >> declarePrimaryButtonRules [
 				declareLabelStyleWithTokenDefault: #'color-text-light-solid'
 				tokenHover: #'color-text-light-solid'
 				tokenPressed: #'color-text-light-solid' ]
-]
-
-{ #category : #'rules declaring - pane' }
-ToBeeTheme >> declareRootPaneRules [
-
-	self select: (self id: #'space-root') style: [
-		self
-			write: (self property: #background)
-			with: [ :e | e valueOfTokenNamed: #'background-color' ] ]
 ]
 
 { #category : #'rules declaring - button' }
@@ -736,7 +738,7 @@ ToBeeTheme >> defaultElementStampsFor: anElement [
 ToBeeTheme >> initializeStyleRules [ 
 
 	super initializeStyleRules.
-	self declareRootPaneRules.
+	self declarePaneRules.
 	self declareLabelRules.
 	self declareIconInLabeledIconRules.
 	self declareButtonRules.

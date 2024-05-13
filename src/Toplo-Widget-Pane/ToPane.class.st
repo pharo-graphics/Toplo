@@ -51,13 +51,6 @@ ToPane >> defaultLayout [
 ]
 
 { #category : #skin }
-ToPane >> installBeeStyle [ 
-
-	super installBeeStyle.
-	self background: (self valueOfTokenNamed: #'background-color')
-]
-
-{ #category : #skin }
 ToPane >> installRawStyle [ 
 
 	super installRawStyle.

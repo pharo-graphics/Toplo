@@ -13,8 +13,7 @@ ToSelectListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 	super applyDataSourceSieveCommand: aDataSourceCommand.
 	select checkHideSelectionFromListElement.
 	select checkMaxSelectedCountFromListElement.
-	" the window can be invisible if opened from the text input element 
-	to ensure that the sieve is applied before being visible
+	" the window can be opened but invisible if opened from the text input element.
 	see ToSelectTextInputElement>>onInstalledIn:"
 	select currentWindow ifNotNil: [:w | w visibility: BlVisibility visible  ]
 ]

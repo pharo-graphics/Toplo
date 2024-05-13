@@ -10,3 +10,9 @@ ToTokensStrategy >> asSourceCodeWith: aCollection [
 	self shouldBeImplemented
 	
 ]
+
+{ #category : #asserting }
+ToTokensStrategy >> shouldCompile [
+
+	^ true
+]

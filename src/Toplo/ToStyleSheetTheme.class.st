@@ -23,8 +23,13 @@ ToStyleSheetTheme >> accept: aVisitor [
 
 { #category : #styling }
 ToStyleSheetTheme >> applicableListenersFor: anElement [
-	" for an element, several writers can be found. These writers 
-	are found with #rawWritersFor:. After, for each property only the last writers is kept"
+	" for an element, several listeners can be found (actions and writers). These listeners 
+	are found with #unsortedApplicableListenersFor:. 
+	After, the result collection contains :
+	- all actions 
+	- for each property only the last writer 
+	- and then all supplements.
+	"
 
 	| unsortedListeners supplement uniqueListeners eventClassIndex lookEventActions |
 	anElement isAttachedToSceneGraph ifFalse: [ ^ #(  ) ].
@@ -79,6 +84,15 @@ ToStyleSheetTheme >> applicableRulesFor: anElement [
 	^ Array streamContents: [:str | 
 		rootRules do:[ :r | (r copyWithOnlyApplicableRuleFor: anElement inTheme: self) 
 			ifNotNil:[ :anApplicableRule | str nextPut: anApplicableRule ] ] ]
+]
+
+{ #category : #styling }
+ToStyleSheetTheme >> applicableWritersFor: anElement [
+	" for an element, several writers can be found. These writers 
+	are found with #rawWritersFor:. After, for each property only the last writers is kept"
+
+	^ (self applicableListenersFor: anElement) select: [ :l |
+		  l isPropertyWriter ]
 ]
 
 { #category : #initialization }

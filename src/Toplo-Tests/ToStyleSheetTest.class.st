@@ -37,6 +37,35 @@ ToStyleSheetTest >> testInitialize [
 	self assert: sheet inherits.
 ]
 
+{ #category : #'writable property tests' }
+ToStyleSheetTest >> testMyOutskirts [
+
+	| e styleSheet theme writers |
+	styleSheet := ToStyleSheet new
+		              inherits: false;
+		              yourself.
+
+	theme := ToStyleSheetTheme new.
+
+	styleSheet addWritableProperty: (ToPseudoProperty
+			   name: #myOutskirts
+			   reader: [ :elem | elem outskirts ]
+			   writer: [ :elem :v | elem outskirts: v ]).
+	styleSheet select: styleSheet any style: [ :sr |
+		sr write: (styleSheet property: #myOutskirts) with: BlOutskirts centered].
+
+	e := ToElement new.
+	e outskirts: BlOutskirts inside.
+	e localTheme: theme.
+	e styleSheet: styleSheet.
+	space root addChild: e.
+	space applyAllSkinPhases.
+
+	writers := theme applicableWritersFor: e.
+	self assert: writers size equals: 1.
+	self assert: e outskirts equals: BlOutskirts centered
+]
+
 { #category : #tests }
 ToStyleSheetTest >> testOnInstalledIn [
 
@@ -80,4 +109,29 @@ ToStyleSheetTest >> testOnUninstalledIn [
 	self assert: e skinManager skinUninstaller notNil.
 	self assert: child skinManager skinUninstaller notNil.
 
+]
+
+{ #category : #'writable property tests' }
+ToStyleSheetTest >> testOutskirts [
+
+	| e styleSheet theme writers |
+	styleSheet := ToStyleSheet new
+		              inherits: false;
+		              yourself.
+
+	theme := ToStyleSheetTheme new.
+
+	styleSheet select: styleSheet any style: [ :sr |
+		sr write: (styleSheet property: #outskirts) with: BlOutskirts centered].
+
+	e := ToElement new.
+	e outskirts: BlOutskirts inside.
+	e localTheme: theme.
+	e styleSheet: styleSheet.
+	space root addChild: e.
+	space applyAllSkinPhases.
+
+	writers := theme applicableWritersFor: e.
+	self assert: writers size equals: 1.
+	self assert: e outskirts equals: BlOutskirts centered
 ]

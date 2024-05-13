@@ -29,66 +29,81 @@ ToStyleSheet class >> defaultWritablePropertyList [
 		  (ToFeatureProperty name: #icon).
 		  (ToFeatureProperty name: #label).
 		  (ToFeatureProperty name: #justified).
+		  (ToFeatureProperty name: #outskirts).
 
-			"buttons"
-			(ToPseudoProperty new name: #'button-label-text-foreground';
+		  "buttons"
+		  (ToPseudoProperty new
+			   name: #'button-label-text-foreground';
 			   writer: [ :e :v |
-				   e label ifNotNil:[ 
-						e label text attributes: { (BlTextForegroundAttribute paint: v) }.
-				  	 	e label textChanged]
-				]).
-			
-			"others"
-		  (ToPseudoProperty name: #'background-color'
-			   reader: [ :e | e background paint ifNotNil: [ :f | f color ] ifNil:[ Color transparent ] ]
+				   e label ifNotNil: [
+						   e label text attributes:
+								   { (BlTextForegroundAttribute paint: v) }.
+						   e label textChanged ] ]).
+
+		  "others"
+		  (ToPseudoProperty
+			   name: #'background-color'
+			   reader: [ :e |
+				   e background paint
+					   ifNotNil: [ :f | f color ]
+					   ifNil: [ Color transparent ] ]
 			   writer: [ :e :v | e background: v ]).
-			
-		  (ToPseudoProperty  name: #'border-with-builder'
+
+		  (ToPseudoProperty
+			   name: #'border-with-builder'
 			   reader: [ :e | e border ]
 			   writer: [ :e :v | e border: v build ]).
-			
-		  (ToPseudoProperty new name: #'text-attributes-with-builder';
+
+		  (ToPseudoProperty new
+			   name: #'text-attributes-with-builder';
 			   writer: [ :e :v |
 				   e text attributes: v attributes.
 				   e textChanged ]).
-			
-		  (ToPseudoProperty new name: #'label-text-background';
+
+		  (ToPseudoProperty new
+			   name: #'label-text-background';
 			   writer: [ :e :v |
 				   e text attributes: { (BlTextBackgroundAttribute paint: v) }.
 				   e textChanged ]).
-			
-		  (ToPseudoProperty new name: #'label-text-foreground';
+
+		  (ToPseudoProperty new
+			   name: #'label-text-foreground';
 			   writer: [ :e :v |
 				   e text attributes: { (BlTextForegroundAttribute paint: v) }.
 				   e textChanged ]).
-			
+
 		  (ToFeatureProperty new name: #innerImage).
-		
+
 		  (ToFeatureProperty new name: #iconImage).
-		
-		  (ToPseudoProperty new name: #'image-inner-form-color';
+
+		  (ToPseudoProperty new
+			   name: #'image-inner-form-color';
 			   writer: [ :e :v |
 				   e
 					   withInnerFormDo: [ :form |
 						   e innerImage:
 								   (form collectColors: [ :color | v alpha: color alpha ]) ]
 					   ifNone: [  ] ]).
-				
+
 		  (ToFeatureProperty name: #layout).
-		
-		  (ToPseudoProperty name: #'layout-direction'
+
+		  (ToPseudoProperty
+			   name: #'layout-direction'
 			   reader: [ :e | e layout direction ]
 			   writer: [ :e :v | e layout direction: v ]).
-			
-		  (ToPseudoProperty name: #'layout-orientation'
+
+		  (ToPseudoProperty
+			   name: #'layout-orientation'
 			   reader: [ :e | e layout orientation ]
 			   writer: [ :e :v | e layout orientation: v ]).
-			
-		  (ToPseudoProperty name: #'layout-interspace'
+
+		  (ToPseudoProperty
+			   name: #'layout-interspace'
 			   reader: [ :e | e layout interspace ]
 			   writer: [ :e :v | e layout interspace: v ]).
-			
-		  (ToPseudoProperty name: #'layout-constraints'
+
+		  (ToPseudoProperty
+			   name: #'layout-constraints'
 			   reader: [ :e | e constraints ]
 			   writer: [ :e :v | v value: e constraints ]) }
 ]

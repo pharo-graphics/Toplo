@@ -276,6 +276,24 @@ ToAnchoredWindowManager >> windowClass [
 ]
 
 { #category : #accessing }
+ToAnchoredWindowManager >> windowCloseRequestClass [
+
+	^ ToWindowCloseRequest 
+]
+
+{ #category : #accessing }
+ToAnchoredWindowManager >> windowClosedEventClass [
+
+	^ ToWindowClosedEvent 
+]
+
+{ #category : #accessing }
+ToAnchoredWindowManager >> windowOpenedEventClass [
+
+	^ ToWindowOpenedEvent
+]
+
+{ #category : #accessing }
 ToAnchoredWindowManager >> windowRequestClass [
 
 	^ ToWindowOpenRequest 

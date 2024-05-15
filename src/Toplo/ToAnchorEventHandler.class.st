@@ -31,8 +31,9 @@ ToAnchorEventHandler >> elementRemovedFromSceneGraphEvent: anEvent [
 ToAnchorEventHandler >> eventsToHandle [
 
 	^ {
-		  ToWindowClosedEvent.
-		  ToWindowOpenedEvent.
+		  windowManager windowCloseRequestClass.
+		  windowManager windowClosedEventClass.
+		  windowManager windowOpenedEventClass.
 		  BlElementRemovedFromParentEvent.
 		  BlElementRemovedFromSceneGraphEvent.
 		  BlElementPositionInSpaceChangedEvent }

@@ -47,13 +47,13 @@ ToAnchoredWindow >> close [
 { #category : #accessing }
 ToAnchoredWindow >> closeRequestClass [
 
-	^ ToWindowCloseRequest 
+	^ windowManager windowCloseRequestClass
 ]
 
 { #category : #accessing }
 ToAnchoredWindow >> closedEventClass [
 
-	^ ToWindowClosedEvent 
+	^ windowManager windowClosedEventClass
 ]
 
 { #category : #accessing }
@@ -120,7 +120,7 @@ ToAnchoredWindow >> manager: aWindowHandler [
 { #category : #accessing }
 ToAnchoredWindow >> openedEventClass [
 
-	^ ToWindowOpenedEvent 
+	^ windowManager windowOpenedEventClass
 ]
 
 { #category : #'api - displaying' }

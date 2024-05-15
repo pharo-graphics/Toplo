@@ -30,6 +30,18 @@ ToContextMenuWindowManager >> windowClass [
 ]
 
 { #category : #accessing }
+ToContextMenuWindowManager >> windowClosedEventClass [
+
+	^ ToContextMenuClosedEvent 
+]
+
+{ #category : #accessing }
+ToContextMenuWindowManager >> windowOpenedEventClass [ 
+
+	^ ToContextMenuOpenedEvent  
+]
+
+{ #category : #accessing }
 ToContextMenuWindowManager >> windowRequestClass [
 
 	^ ToContextMenuRequest 

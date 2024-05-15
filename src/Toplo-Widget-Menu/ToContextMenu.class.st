@@ -43,12 +43,6 @@ ToContextMenu >> closeWindow [
 	self close
 ]
 
-{ #category : #accessing }
-ToContextMenu >> closedEventClass [
-
-	^ ToContextMenuClosedEvent 
-]
-
 { #category : #'t - menu item holder - testing' }
 ToContextMenu >> hasItems [ 
 
@@ -89,12 +83,6 @@ ToContextMenu >> items [
 ToContextMenu >> menuWindow [
 
 	^ super menuWindow
-]
-
-{ #category : #accessing }
-ToContextMenu >> openedEventClass [
-
-	^ ToContextMenuOpenedEvent 
 ]
 
 { #category : #'t - menu window model' }

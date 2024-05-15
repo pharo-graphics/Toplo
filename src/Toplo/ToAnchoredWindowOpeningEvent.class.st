@@ -1,6 +1,6 @@
 Class {
-	#name : #ToWindowOpeningEvent,
-	#superclass : #ToWindowElementEvent,
+	#name : #ToAnchoredWindowOpeningEvent,
+	#superclass : #ToAnchoredWindowEvent,
 	#instVars : [
 		'sourceEvent'
 	],
@@ -8,13 +8,13 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-ToWindowOpeningEvent >> sourceEvent [
+ToAnchoredWindowOpeningEvent >> sourceEvent [
 
 	^ sourceEvent
 ]
 
 { #category : #'as yet unclassified' }
-ToWindowOpeningEvent >> sourceEvent: anEvent [
+ToAnchoredWindowOpeningEvent >> sourceEvent: anEvent [
 
 	sourceEvent := anEvent
 ]

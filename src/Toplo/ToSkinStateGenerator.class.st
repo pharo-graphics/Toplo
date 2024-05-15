@@ -147,8 +147,8 @@ ToSkinStateGenerator >> eventsToHandle [
 		  BlMousePickOutsideEvent.
 		  BlMouseEnterEvent.
 		  BlMouseLeaveEvent.
-		  ToWindowOpenedEvent.
-		  ToWindowClosedEvent.
+		  ToAnchoredWindowOpenedEvent.
+		  ToAnchoredWindowClosedEvent.
 		  ToListNodeSelectedEvent }
 ]
 

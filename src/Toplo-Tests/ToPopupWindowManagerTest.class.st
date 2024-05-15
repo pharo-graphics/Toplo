@@ -40,7 +40,7 @@ ToPopupWindowManagerTest >> testAutoClosePickOutsideEventClass [
 	self assert: windowManager currentWindow isOpened.
 	closed := false.
 	windowManager currentWindow addEventHandler: (BlEventHandler
-			 on: ToWindowClosedEvent
+			 on: ToAnchoredWindowClosedEvent
 			 do: [ :anEvent | closed := true ]).
 	event := BlMouseUpEvent primary position: 0 @ 0.
 	e dispatchEvent: event asMouseOutsideEvent.
@@ -70,7 +70,7 @@ ToPopupWindowManagerTest >> testAutoClosePickOutsideEventClass2 [
 	self assert: windowManager currentWindow isOpened.
 	closed := false.
 	windowManager currentWindow addEventHandler: (BlEventHandler
-			 on: ToWindowClosedEvent
+			 on: ToAnchoredWindowClosedEvent
 			 do: [ :anEvent | closed := true ]).
 	event := BlMouseDownEvent primary position: 0 @ 0.
 	e dispatchEvent: event asMouseOutsideEvent.
@@ -100,7 +100,7 @@ ToPopupWindowManagerTest >> testAutoClosePickOutsideEventClass3 [
 	self assert: windowManager currentWindow isOpened.
 	closed := false.
 	windowManager currentWindow addEventHandler: (BlEventHandler
-			 on: ToWindowClosedEvent
+			 on: ToAnchoredWindowClosedEvent
 			 do: [ :anEvent | closed := true ]).
 	event := BlMouseUpEvent primary position: 0 @ 0.
 	e dispatchEvent: event asMouseOutsideEvent.
@@ -130,7 +130,7 @@ ToPopupWindowManagerTest >> testAutoClosePickOutsideEventClass4 [
 	self assert: windowManager currentWindow isOpened.
 	closed := false.
 	windowManager currentWindow addEventHandler: (BlEventHandler
-			 on: ToWindowClosedEvent
+			 on: ToAnchoredWindowClosedEvent
 			 do: [ :anEvent | closed := true ]).
 	event := BlMouseDownEvent primary position: 0 @ 0.
 	e dispatchEvent: event asMouseOutsideEvent.
@@ -211,7 +211,7 @@ ToPopupWindowManagerTest >> testMouseUpInElementEvent [
 	self assert: windowManager currentWindow isOpened.
 	closed := false.
 	windowManager currentWindow addEventHandler: (BlEventHandler
-			 on: ToWindowClosedEvent
+			 on: ToAnchoredWindowClosedEvent
 			 do: [ :event | closed := true ]).
 	(windowManager autoCloseOnMouseUpDelay + 1 milliSecond) wait.
 	BlSpace simulateMouseUpOn: e.
@@ -238,7 +238,7 @@ ToPopupWindowManagerTest >> testMouseUpInElementEventAfterLongDelayShouldCloseWi
 	self assert: windowManager currentWindow isOpened.
 	closed := false.
 	windowManager currentWindow addEventHandler: (BlEventHandler
-			 on: ToWindowClosedEvent
+			 on: ToAnchoredWindowClosedEvent
 			 do: [ :event | closed := true ]).
 	(windowManager autoCloseOnMouseUpDelay + 1 milliSecond) wait.
 	BlSpace simulateMouseUpOn: e.
@@ -268,7 +268,7 @@ ToPopupWindowManagerTest >> testNoAutoCloseEvenAfterLongDelay [
 	windowManager autoCloseOnMouseUpDelay: nil.
 	self assert: windowManager autoCloseOnMouseUpDelay isNil.
 	windowManager currentWindow addEventHandler: (BlEventHandler
-			 on: ToWindowClosedEvent
+			 on: ToAnchoredWindowClosedEvent
 			 do: [ :event | closed := true ]).
 	" use an huge waiting time "
 	(5000 milliSecond) wait.

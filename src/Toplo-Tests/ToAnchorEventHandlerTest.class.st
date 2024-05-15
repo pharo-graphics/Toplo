@@ -53,7 +53,7 @@ ToAnchorEventHandlerTest >> testElementRemovedFromParentEvent [
 	win popup.
 	closed := false.
 	win addEventHandler: (BlEventHandler
-			 on: ToWindowClosedEvent
+			 on: ToAnchoredWindowClosedEvent
 			 do: [ closed := true ]).
 	self waitTestingSpaces.
 	self assert: win isOpened.

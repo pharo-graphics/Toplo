@@ -300,16 +300,16 @@ ToAnchoredWindowTest >> testPopupEventNotInSpace [
 	win := windowHandler newWindowEvent: nil.
 	self assert: win hasAssociateElement.
 	win addEventHandler: (BlEventHandler
-			 on: ToWindowOpenedEvent
+			 on: ToAnchoredWindowOpenedEvent
 			 do: [ :event | openEventFromWindow := event ]).
 	e addEventHandler: (BlEventHandler
-			 on: ToWindowOpenedEvent
+			 on: ToAnchoredWindowOpenedEvent
 			 do: [ :event | openEventFromWidget := event ]).
 	win addEventHandler: (BlEventHandler
-			 on: ToWindowClosedEvent
+			 on: ToAnchoredWindowClosedEvent
 			 do: [ :event | closeEventFromWindow := event ]).
 	e addEventHandler: (BlEventHandler
-			 on: ToWindowClosedEvent
+			 on: ToAnchoredWindowClosedEvent
 			 do: [ :event | closeEventFromWidget := event ]).
 
 	self should: [ win popup ] raise: Error.

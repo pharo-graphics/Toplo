@@ -163,7 +163,6 @@ ToAnchoredWindowManager >> newElementEventHandler [
 ToAnchoredWindowManager >> newWindowEvent: anEvent [
 
 	| request |
-
 	self currentWindow ifNotNil: [
 		^ Error signal: 'Asking for a window building twice' ].
 	self element ifNil: [
@@ -171,6 +170,7 @@ ToAnchoredWindowManager >> newWindowEvent: anEvent [
 	self builder ifNil: [
 		^ Error signal: 'A window builder is required for building a window' ].
 	request := self windowRequestClass new
+		           windowManager: self;
 		           sourceEvent: anEvent;
 		           yourself.
 	self element dispatchEvent: request.
@@ -278,23 +278,23 @@ ToAnchoredWindowManager >> windowClass [
 { #category : #accessing }
 ToAnchoredWindowManager >> windowCloseRequestClass [
 
-	^ ToWindowCloseRequest 
+	^ ToAnchoredWindowCloseRequest 
 ]
 
 { #category : #accessing }
 ToAnchoredWindowManager >> windowClosedEventClass [
 
-	^ ToWindowClosedEvent 
+	^ ToAnchoredWindowClosedEvent 
 ]
 
 { #category : #accessing }
 ToAnchoredWindowManager >> windowOpenedEventClass [
 
-	^ ToWindowOpenedEvent
+	^ ToAnchoredWindowOpenedEvent
 ]
 
 { #category : #accessing }
 ToAnchoredWindowManager >> windowRequestClass [
 
-	^ ToWindowOpenRequest 
+	^ ToAnchoredWindowOpenRequest 
 ]

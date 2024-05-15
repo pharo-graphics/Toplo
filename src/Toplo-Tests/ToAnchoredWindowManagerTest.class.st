@@ -205,16 +205,16 @@ ToAnchoredWindowManagerTest >> testElement [
 	" a window handler can be used only for one window  "
 	self should: [ windowManager newWindowEvent: nil ] raise: Error.
 	win addEventHandler: (BlEventHandler
-			 on: ToWindowOpenedEvent
+			 on: ToAnchoredWindowOpenedEvent
 			 do: [ :event | openEventFromWindow := event ]).
 	e addEventHandler: (BlEventHandler
-			 on: ToWindowOpenedEvent
+			 on: ToAnchoredWindowOpenedEvent
 			 do: [ :event | openEventFromWidget := event ]).
 	win addEventHandler: (BlEventHandler
-			 on: ToWindowClosedEvent
+			 on: ToAnchoredWindowClosedEvent
 			 do: [ :event | closeEventFromWindow := event ]).
 	e addEventHandler: (BlEventHandler
-			 on: ToWindowClosedEvent
+			 on: ToAnchoredWindowClosedEvent
 			 do: [ :event | closeEventFromWidget := event ]).
 	self assert: win element equals: e.
 
@@ -458,5 +458,5 @@ ToAnchoredWindowManagerTest >> testWindowRequestClass [
 
 	| windowManager |
 	windowManager := ToAnchoredWindowManager new builder: [ :anchWin :element | ].
-	self assert: windowManager windowRequestClass identicalTo: ToWindowOpenRequest
+	self assert: windowManager windowRequestClass identicalTo: ToAnchoredWindowOpenRequest
 ]

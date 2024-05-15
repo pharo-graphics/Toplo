@@ -66,20 +66,22 @@ ToAnchoredWindow >> defaultElevation [
 ToAnchoredWindow >> dispatchCloseRequest [
 
 	| event |
-	event := self closeRequestClass new.
-	self element ifNotNil: [:e | e dispatchEvent: event copy ].
-	self dispatchEvent: event.
-
+	event := self closeRequestClass new
+		         windowManager: windowManager;
+		         yourself.
+	self element ifNotNil: [ :e | e dispatchEvent: event copy ].
+	self dispatchEvent: event
 ]
 
 { #category : #'api - displaying' }
 ToAnchoredWindow >> dispatchClosedEvent [
 
 	| event |
-	event := self closedEventClass new.
-	self element ifNotNil: [:e | e dispatchEvent: event copy ].
-	self dispatchEvent: event.
-
+	event := self closedEventClass new
+		         windowManager: windowManager;
+		         yourself.
+	self element ifNotNil: [ :e | e dispatchEvent: event copy ].
+	self dispatchEvent: event
 ]
 
 { #category : #'api - displaying' }
@@ -87,6 +89,7 @@ ToAnchoredWindow >> dispatchOpenedEvent: anEvent [
 
 	| event |
 	event := self openedEventClass new
+		         windowManager: windowManager;
 		         sourceEvent: anEvent;
 		         yourself.
 	self dispatchEvent: event.

@@ -76,6 +76,21 @@ ToListPrimarySelectionElementEventHandler >> previousSelectionElementsFrom: aTar
 ]
 
 { #category : #'selection managing' }
+ToListPrimarySelectionElementEventHandler >> removePreviousSelectionElementsFrom: target [
+
+	| selectionModel nodesArray |
+	super removePreviousSelectionElementsFrom: target.
+	selectionModel := self selectionModelFrom: target.
+	" no need to dispatch ToListNodeSelectedEvent here. It should be done in #addNewSelectionElementsFrom: "
+	selectionModel ifNotEmpty: [ ^ self ].
+	nodesArray := target infinite children asArray.
+	nodesArray do: [ :node |
+		node dispatchEvent: (ToListNodeSelectedEvent new
+				 listElement: target;
+				 selected: (selectionModel containsIndex: node holder position)) ]
+]
+
+{ #category : #'selection managing' }
 ToListPrimarySelectionElementEventHandler >> selectionElementClassFrom: aTarget [
 
 	^ aTarget selectionMode elementClass

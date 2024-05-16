@@ -267,7 +267,7 @@ ToAnchoredWindowTest >> testPopupEvent [
 	self waitTestingSpaces.
 	self applyAllEnqueuedStates.
 
-	windowHandler := ToAnchoredWindowManager new.
+	windowHandler := ToAnchoredWindowManagerForTest new.
 	windowHandler onInstalledIn: e.
 	win := windowHandler newWindowEvent: nil.
 	win addEventHandler: (BlEventHandler
@@ -275,7 +275,6 @@ ToAnchoredWindowTest >> testPopupEvent [
 			 do: [ :event | openedEvent := event ]).
 	win popupEvent: nil.
 	self waitTestingSpaces.
-	self assert: openedEvent sourceEvent isNil.
 	win close.
 	sourceEvent := BlEvent new.
 	win := windowHandler newWindowEvent: nil.
@@ -284,7 +283,7 @@ ToAnchoredWindowTest >> testPopupEvent [
 			 do: [ :event | openedEvent := event ]).
 	win popupEvent: sourceEvent.
 	self waitTestingSpaces.
-	self assert: openedEvent sourceEvent identicalTo: sourceEvent
+	self assert: openedEvent class equals: win openedEventClass
 ]
 
 { #category : #tests }

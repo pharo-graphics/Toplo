@@ -16,3 +16,15 @@ ToOverlayWindowManager >> elementEventHandlerClass [
 
 	^ ToOverlayedEventHandler 
 ]
+
+{ #category : #accessing }
+ToOverlayWindowManager >> windowClosedEventClass [
+
+	^ ToOverlayWindowClosedEvent
+]
+
+{ #category : #accessing }
+ToOverlayWindowManager >> windowOpenedEventClass [
+
+	^ ToOverlayWindowOpenedEvent
+]

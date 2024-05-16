@@ -73,6 +73,18 @@ ToElementWithPopupEventHandler >> pickOutsideEvent: anEvent [
 	windowManager currentWindowDo: [:w | w close ]
 ]
 
+{ #category : #'window opening - closing handlers' }
+ToElementWithPopupEventHandler >> popupWindowClosedEvent: anEvent [
+
+	self windowClosedEvent: anEvent
+]
+
+{ #category : #'window opening - closing handlers' }
+ToElementWithPopupEventHandler >> popupWindowOpenedEvent: anEvent [
+
+	self windowOpenedEvent: anEvent
+]
+
 { #category : #accessing }
 ToElementWithPopupEventHandler >> target [
 

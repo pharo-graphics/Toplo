@@ -1,6 +1,6 @@
 Class {
 	#name : #ToAnchoredWindowEvent,
-	#superclass : #BlEvent,
+	#superclass : #ToWindowEvent,
 	#instVars : [
 		'windowManager'
 	],

@@ -182,7 +182,6 @@ ToAnchoredWindowManager >> newWindowEvent: anEvent [
 ToAnchoredWindowManager >> newWindowOpenRequestEventFromSourceEvent: anEvent [
 
 	^ self windowOpenRequestClass new
-		  windowManager: self;
 		  yourself
 ]
 
@@ -277,7 +276,7 @@ ToAnchoredWindowManager >> windowClass [
 { #category : #accessing }
 ToAnchoredWindowManager >> windowClosedEventClass [
 
-	^ ToAnchoredWindowClosedEvent 
+	^ self subclassResponsibility  
 ]
 
 { #category : #accessing }
@@ -289,5 +288,5 @@ ToAnchoredWindowManager >> windowOpenRequestClass [
 { #category : #accessing }
 ToAnchoredWindowManager >> windowOpenedEventClass [
 
-	^ ToAnchoredWindowOpenedEvent
+	^ self subclassResponsibility 
 ]

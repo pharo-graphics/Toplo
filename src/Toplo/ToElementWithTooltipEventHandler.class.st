@@ -65,6 +65,18 @@ ToElementWithTooltipEventHandler >> prepareDelayedPopupTooltipFromEvent: anEvent
 		anEvent currentTarget enqueueTask: openTooltipTask
 ]
 
+{ #category : #'window opening - closing handlers' }
+ToElementWithTooltipEventHandler >> tooltipWindowClosedEvent: anEvent [
+
+	self windowClosedEvent: anEvent
+]
+
+{ #category : #'window opening - closing handlers' }
+ToElementWithTooltipEventHandler >> tooltipWindowOpenedEvent: anEvent [
+
+	self windowOpenedEvent: anEvent
+]
+
 { #category : #private }
 ToElementWithTooltipEventHandler >> unqueueTooltipTaskIn: anElement [
 

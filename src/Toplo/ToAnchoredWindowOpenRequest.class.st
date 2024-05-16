@@ -1,6 +1,6 @@
 Class {
 	#name : #ToAnchoredWindowOpenRequest,
-	#superclass : #ToAnchoredWindowEvent,
+	#superclass : #BlEvent,
 	#category : #'Toplo-Core-Window'
 }
 

@@ -292,8 +292,6 @@ ToSelectionModelTest >> testSelectAll [
 ToSelectionModelTest >> testSelectAllThenDeselectOneByOne [
 
 	| s |
-	self skip.
-	self flag: 'Reported as a BlCompositeSelection issue (see issue #489 and BlCompositeSelectionTest)'.
 	s := ToSelectionModel new itemCountGetter: 48.
 	s selectIndexes: (1 to: 48).
 	s deselectIndex: 26.

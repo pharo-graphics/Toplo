@@ -10,20 +10,20 @@ Class {
 { #category : #'event handling' }
 ToAnchorEventHandler >> elementPositionInSpaceChangedEvent: anEvent [
 
-	windowManager currentWindow ifNil: [ ^ self ].
-	windowManager applyPositionHookFromEvent: anEvent
+	self windowManager currentWindowDo: [ :w |
+		w applyPositionHookFromEvent: anEvent ]
 ]
 
 { #category : #'element handlers' }
 ToAnchorEventHandler >> elementRemovedFromParentEvent: anEvent [
 
-	windowManager currentWindowDo: [:cw | cw close ]
+	self windowManager currentWindowDo: [ :cw | cw close ]
 ]
 
 { #category : #'element handlers' }
 ToAnchorEventHandler >> elementRemovedFromSceneGraphEvent: anEvent [
 
-	windowManager currentWindowDo: [ :cw |
+	self windowManager currentWindowDo: [ :cw |
 		cw isOpened ifTrue: [ cw close ] ]
 ]
 
@@ -31,7 +31,6 @@ ToAnchorEventHandler >> elementRemovedFromSceneGraphEvent: anEvent [
 ToAnchorEventHandler >> eventsToHandle [
 
 	^ {
-		  windowManager windowCloseRequestClass.
 		  windowManager windowClosedEventClass.
 		  windowManager windowOpenedEventClass.
 		  BlElementRemovedFromParentEvent.
@@ -40,17 +39,16 @@ ToAnchorEventHandler >> eventsToHandle [
 ]
 
 { #category : #'event handling' }
-ToAnchorEventHandler >> windowCloseRequest: aRequest [
-
-	aRequest windowManager = windowManager ifFalse: [ ^ self ].
-	windowManager onCloseRequest
-]
-
-{ #category : #'event handling' }
 ToAnchorEventHandler >> windowClosedEvent: anEvent [
 
 	anEvent windowManager = windowManager ifFalse: [ ^ self ].
 	windowManager onWindowClosed 
+]
+
+{ #category : #'api - accessing' }
+ToAnchorEventHandler >> windowManager [
+
+	^ windowManager
 ]
 
 { #category : #'api - accessing' }

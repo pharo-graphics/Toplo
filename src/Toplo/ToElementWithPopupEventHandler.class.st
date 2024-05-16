@@ -13,8 +13,7 @@ ToElementWithPopupEventHandler >> eventsToHandle [
 	^ super eventsToHandle , {
 		  BlMouseUpEvent.
 		  BlMouseDownEvent.
-		  windowManager autoClosePickOutsideEventClass.
-		  BlElementRemovedFromParentEvent }
+		  windowManager autoClosePickOutsideEventClass}
 ]
 
 { #category : #'mouse handlers' }

@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #accessing }
-ToListElementContextMenuWindowManager >> windowRequestClass [
+ToListElementContextMenuWindowManager >> windowOpenRequestClass [
 
 	^ ToListElementContextMenuRequest
 ]

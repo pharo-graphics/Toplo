@@ -454,9 +454,9 @@ ToAnchoredWindowManagerTest >> testWindowClass [
 ]
 
 { #category : #tests }
-ToAnchoredWindowManagerTest >> testWindowRequestClass [
+ToAnchoredWindowManagerTest >> testWindowOpenRequestClass [
 
 	| windowManager |
 	windowManager := ToAnchoredWindowManager new builder: [ :anchWin :element | ].
-	self assert: windowManager windowRequestClass identicalTo: ToAnchoredWindowOpenRequest
+	self assert: windowManager windowOpenRequestClass identicalTo: ToAnchoredWindowOpenRequest
 ]

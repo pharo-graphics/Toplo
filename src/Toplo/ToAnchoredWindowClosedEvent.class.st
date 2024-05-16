@@ -1,11 +1,11 @@
 Class {
 	#name : #ToAnchoredWindowClosedEvent,
-	#superclass : #ToAnchoredWindowClosingEvent,
+	#superclass : #ToAnchoredWindowEvent,
 	#category : #'Toplo-Core-Window'
 }
 
 { #category : #sending }
 ToAnchoredWindowClosedEvent >> sendTo: anObject [
 
-	anObject windowClosedEvent: self
+	Error signal: 'Abstract event'
 ]

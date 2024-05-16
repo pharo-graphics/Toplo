@@ -149,6 +149,8 @@ ToSkinStateGenerator >> eventsToHandle [
 		  BlMouseLeaveEvent.
 		  ToAnchoredWindowOpenedEvent.
 		  ToAnchoredWindowClosedEvent.
+		  ToMenuWindowOpenedEvent.
+		  ToMenuWindowClosedEvent.
 		  ToListNodeSelectedEvent }
 ]
 
@@ -378,6 +380,18 @@ ToSkinStateGenerator >> leaved: aBoolean [
 ToSkinStateGenerator >> listNodeSelectedEvent: anEvent [
 
 	self generateSelectionStateFromEvent: anEvent
+]
+
+{ #category : #'window opening - closing handlers' }
+ToSkinStateGenerator >> menuWindowClosedEvent: anEvent [
+
+	self generateClosedStateFromEvent: anEvent
+]
+
+{ #category : #'window opening - closing handlers' }
+ToSkinStateGenerator >> menuWindowOpenedEvent: anEvent [
+
+	self generateOpenedStateFromEvent: anEvent
 ]
 
 { #category : #'mouse handlers' }

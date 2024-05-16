@@ -1,11 +1,11 @@
 Class {
 	#name : #ToAnchoredWindowOpenedEvent,
-	#superclass : #ToAnchoredWindowOpeningEvent,
+	#superclass : #ToAnchoredWindowEvent,
 	#category : #'Toplo-Core-Window'
 }
 
 { #category : #sending }
 ToAnchoredWindowOpenedEvent >> sendTo: anObject [
 
-	anObject windowOpenedEvent: self
+	Error signal: 'Abstract event'
 ]

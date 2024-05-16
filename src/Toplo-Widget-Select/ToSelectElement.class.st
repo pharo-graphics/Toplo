@@ -171,10 +171,6 @@ ToSelectElement >> initialize [
 	self iconContainer: self newIconContainer.
 
 	self multipleSelection: self multipleSelectionByDefault.
-
-"	self layout: BlLinearLayout horizontal.
-	self fitContent.
-"
 	sharedEventsDistributor := BlSharedEventDistributor new.
 	sharedEventsDistributor
 		adjustMousePosition: false;
@@ -245,7 +241,7 @@ ToSelectElement >> maxSelectedCount: aNumber [
 ToSelectElement >> multipleSelection: aBoolean [
 
 	multipleSelection := aBoolean.
-	self refresh
+	self installNodeContainerAndRefresh
 ]
 
 { #category : #initialization }
@@ -298,17 +294,18 @@ ToSelectElement >> nodeContainerClass [
 { #category : #'accessing - selection' }
 ToSelectElement >> onSelectionChanged [
 
-	| toRemove listData |
+	| listData |
 	listData := self listElement dataAccessor.
-	toRemove := Array streamContents: [ :stream |
-		            listData withIndexDo: [ :d :localIndex |
-			            | originalIndex |
-			            originalIndex := self sieve dataPositionIndex at: d.
-			            (self selectionModel containsIndex: originalIndex)
-				            ifFalse: [ stream nextPut: localIndex ] ] ].
-
-	self listElement selectionModel deselectIndexes: toRemove.
-	self onSelectionChangedInListElement
+	" update list according to my selection model"
+	listData withIndexDo: [ :d :localIndex |
+		| originalIndex |
+		originalIndex := self sieve dataPositionIndex at: d.
+		self selectionModel
+			transferSelectionFromIndex: originalIndex
+			toIndex: localIndex
+			in: self listElement selectionModel ].
+	self refresh.
+	self listElement notifyPrimarySelectionDirty
 ]
 
 { #category : #'accessing - selection' }
@@ -382,13 +379,6 @@ ToSelectElement >> popupWindowEvent: anEvent [
 ToSelectElement >> selecter [
 
 	^ self listElement selecter
-]
-
-{ #category : #accessing }
-ToSelectElement >> selectionModel [
-
-	^ self sieve selectionModel.
-
 ]
 
 { #category : #accessing }

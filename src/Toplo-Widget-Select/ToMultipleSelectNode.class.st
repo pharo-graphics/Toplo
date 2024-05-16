@@ -76,6 +76,17 @@ ToMultipleSelectNode >> removable: aBoolean [
 	
 ]
 
+{ #category : #private }
+ToMultipleSelectNode >> removeFromBar [
+	" 
+	First, try to remove the node by deselecting the corresponding list node in the list (if found). 
+	Second, if the data is not one of the actual list element data, remove the data through the select "
+
+	|  bar  |
+	bar := self holder elementBar.
+	bar removeNode: self
+]
+
 { #category : #'private configurating' }
 ToMultipleSelectNode >> removeRemoveButton [
 

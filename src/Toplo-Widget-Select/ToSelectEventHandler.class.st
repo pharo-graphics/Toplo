@@ -5,17 +5,6 @@ Class {
 }
 
 { #category : #'element handlers' }
-ToSelectEventHandler >> collectionFilteredEvent: anEvent [
-
-	| select |
-	select := anEvent currentTarget.
-
-	windowManager currentWindow ifNil: [
-		select textInputElement filterString ifNotEmpty: [
-			select popupWindowEvent: anEvent ] ]
-]
-
-{ #category : #'element handlers' }
 ToSelectEventHandler >> elementExtentChangedEvent: anEvent [
 
 	windowManager currentWindow ifNil: [ ^ self ].

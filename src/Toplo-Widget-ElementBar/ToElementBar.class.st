@@ -7,7 +7,8 @@ Class {
 		'dataAccessor',
 		'nodeWrapping',
 		'nodeScrolling',
-		'nodeAutoDistribution'
+		'nodeAutoDistribution',
+		'selectionModel'
 	],
 	#category : #'Toplo-Widget-ElementBar'
 }
@@ -60,9 +61,12 @@ ToElementBar >> initialize [
 	nodeScrolling := false.
 	nodeAutoDistribution := false.
 	self dataAccessor: ToObservableCollection new.
+	selectionModel := ToPrimarySelectionModel new
+		                  itemCountGetter: [ self dataAccessor size ];
+		                  yourself.
 	self addEventHandler: ToElementBarEventHandler new.
 	self addEventHandlerOn: ToPlaceholderShownEvent do: [ :event |
-		self flag: 'The width of 8 should be handled via a skin'.
+		self flag: 'The width of 14???. It should be handled via a skin'.
 		event placeholder padding: (BlInsets left: 14).
 		event placeholder layout alignCenterLeft ]
 ]
@@ -73,12 +77,23 @@ ToElementBar >> installNodeContainer [
 	self nodeContainer ifNotNil: [
 		self nodeContainer onUninstalledIn: self ].
 	self middleElement: self newNodeContainer.
-		self isHorizontal
+	self isHorizontal
 		ifTrue: [
-			self middleContainer constraintsDo: [:c | c horizontal matchParent. c vertical fitContent ] ]
+			self middleContainer constraintsDo: [ :c |
+				c horizontal matchParent.
+				c vertical fitContent ] ]
 		ifFalse: [
-			self middleContainer constraintsDo: [:c | c vertical matchParent. c horizontal fitContent]  ].
+			self middleContainer constraintsDo: [ :c |
+				c vertical matchParent.
+				c horizontal fitContent ] ].
 	self nodeContainer onInstalledIn: self
+]
+
+{ #category : #'accessing - selection' }
+ToElementBar >> installNodeContainerAndRefresh [
+
+	self installNodeContainer.
+	self refresh
 ]
 
 { #category : #'instance creation' }
@@ -107,7 +122,7 @@ ToElementBar >> nodeAutoDistribution [
 ToElementBar >> nodeAutoDistribution: aBoolean [
 
 	nodeAutoDistribution := aBoolean.
-	self refresh
+	self installNodeContainerAndRefresh
 ]
 
 { #category : #accessing }
@@ -132,7 +147,7 @@ ToElementBar >> nodeScrolling [
 ToElementBar >> nodeScrolling: aBoolean [
 
 	nodeScrolling := aBoolean.
-	self refresh
+	self installNodeContainerAndRefresh
 ]
 
 { #category : #accessing }
@@ -145,7 +160,7 @@ ToElementBar >> nodeWrapping [
 ToElementBar >> nodeWrapping: aBoolean [
 
 	nodeWrapping := aBoolean.
-	self refresh
+	self installNodeContainerAndRefresh
 ]
 
 { #category : #accessing }
@@ -163,7 +178,7 @@ ToElementBar >> notifySelectionChanged [
 { #category : #layout }
 ToElementBar >> onLayoutOrientationChanged [
 
-	self refresh
+	self installNodeContainerAndRefresh
 ]
 
 { #category : #'accessing - selection' }
@@ -171,20 +186,20 @@ ToElementBar >> onSelectionChanged [
 
 ]
 
-{ #category : #initialization }
+{ #category : #'accessing - selection' }
 ToElementBar >> refresh [
 
-	self installNodeContainer.
 	self nodeContainer refresh
-	
 ]
 
-{ #category : #removing }
+{ #category : #'accessing - selection' }
 ToElementBar >> removeNode: aNode [
 
 	| index |
 	index := aNode holder position.
+	'removeNode: ' trace. index traceCr.
 	self selectionModel deselectIndex: index.
+	self onSelectionChanged.
 	self fireEvent: ToElementBarSelectionChanged new
 ]
 
@@ -221,7 +236,7 @@ ToElementBar >> selectOnlyIndexes: aCollection [
 { #category : #accessing }
 ToElementBar >> selectionModel [
 
-	^ self subclassResponsibility 
+	^ selectionModel 
 ]
 
 { #category : #private }

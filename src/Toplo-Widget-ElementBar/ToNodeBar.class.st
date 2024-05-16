@@ -1,9 +1,6 @@
 Class {
 	#name : #ToNodeBar,
 	#superclass : #ToElementBar,
-	#instVars : [
-		'selectionModel'
-	],
 	#category : #'Toplo-Widget-ElementBar'
 }
 
@@ -11,10 +8,4 @@ Class {
 ToNodeBar >> nodeContainerClass [ 
 
 	^ ToNodeBarContainerElement
-]
-
-{ #category : #accessing }
-ToNodeBar >> selectionModel [
-
-	^ selectionModel
 ]

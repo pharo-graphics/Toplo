@@ -361,6 +361,18 @@ ToSkinStateGenerator >> keyDownEvent: anEvent [
 ToSkinStateGenerator >> keyUpEvent: anEvent [
 ]
 
+{ #category : #'window opening - closing handlers' }
+ToSkinStateGenerator >> labelEditorClosedEvent: anEvent [
+
+	self generateClosedStateFromEvent: anEvent
+]
+
+{ #category : #'window opening - closing handlers' }
+ToSkinStateGenerator >> labelEditorOpenedEvent: anEvent [
+
+	self generateOpenedStateFromEvent: anEvent
+]
+
 { #category : #accessing }
 ToSkinStateGenerator >> leaved [
 

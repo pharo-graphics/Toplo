@@ -41,7 +41,6 @@ ToSelectEventHandler >> selectInputTextFieldUpdatedEvent: anEvent [
 { #category : #'event handling' }
 ToSelectEventHandler >> windowClosedEvent: anEvent [
 
-	anEvent windowManager = windowManager ifFalse: [ ^ self ].
 	super windowClosedEvent: anEvent.
 	anEvent currentTarget iconContainer dispatchEvent: anEvent
 ]
@@ -49,7 +48,6 @@ ToSelectEventHandler >> windowClosedEvent: anEvent [
 { #category : #'event handling' }
 ToSelectEventHandler >> windowOpenedEvent: anEvent [
 
-	anEvent windowManager = windowManager ifFalse: [ ^ self ].
 	super windowOpenedEvent: anEvent.
 	anEvent currentTarget iconContainer dispatchEvent: anEvent
 ]

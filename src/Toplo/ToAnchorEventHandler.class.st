@@ -41,7 +41,6 @@ ToAnchorEventHandler >> eventsToHandle [
 { #category : #'event handling' }
 ToAnchorEventHandler >> windowClosedEvent: anEvent [
 
-	anEvent windowManager = windowManager ifFalse: [ ^ self ].
 	windowManager onWindowClosed 
 ]
 
@@ -60,6 +59,5 @@ ToAnchorEventHandler >> windowManager: aWindowManager [
 { #category : #'event handling' }
 ToAnchorEventHandler >> windowOpenedEvent: anEvent [
 
-	anEvent windowManager = windowManager ifFalse: [ ^ self ].
 	windowManager onWindowOpened
 ]

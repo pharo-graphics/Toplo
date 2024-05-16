@@ -13,8 +13,7 @@ ToElementWithPopupEventHandler >> eventsToHandle [
 	^ super eventsToHandle , {
 		  BlMouseUpEvent.
 		  BlMouseDownEvent.
-		  windowManager autoClosePickOutsideEventClass.
-		  BlElementRemovedFromParentEvent }
+		  windowManager autoClosePickOutsideEventClass}
 ]
 
 { #category : #'mouse handlers' }
@@ -72,6 +71,18 @@ ToElementWithPopupEventHandler >> pickOutsideEvent: anEvent [
 	" ok, mouseUp outside the element and outside of the popup window "
 	anEvent consume.
 	windowManager currentWindowDo: [:w | w close ]
+]
+
+{ #category : #'window opening - closing handlers' }
+ToElementWithPopupEventHandler >> popupWindowClosedEvent: anEvent [
+
+	self windowClosedEvent: anEvent
+]
+
+{ #category : #'window opening - closing handlers' }
+ToElementWithPopupEventHandler >> popupWindowOpenedEvent: anEvent [
+
+	self windowOpenedEvent: anEvent
 ]
 
 { #category : #accessing }

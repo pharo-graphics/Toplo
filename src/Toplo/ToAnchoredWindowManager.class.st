@@ -169,10 +169,7 @@ ToAnchoredWindowManager >> newWindowEvent: anEvent [
 		^ Error signal: 'An element is required for building a window' ].
 	self builder ifNil: [
 		^ Error signal: 'A window builder is required for building a window' ].
-	request := self windowRequestClass new
-		           windowManager: self;
-		           sourceEvent: anEvent;
-		           yourself.
+	request := self newWindowOpenRequestEventFromSourceEvent: anEvent.
 	self element dispatchEvent: request.
 	self currentWindow: (self windowClass new
 			 manager: self;
@@ -182,9 +179,10 @@ ToAnchoredWindowManager >> newWindowEvent: anEvent [
 ]
 
 { #category : #'window handling' }
-ToAnchoredWindowManager >> onCloseRequest [
+ToAnchoredWindowManager >> newWindowOpenRequestEventFromSourceEvent: anEvent [
 
-	
+	^ self windowOpenRequestClass new
+		  yourself
 ]
 
 { #category : #'api - hooks' }
@@ -276,25 +274,19 @@ ToAnchoredWindowManager >> windowClass [
 ]
 
 { #category : #accessing }
-ToAnchoredWindowManager >> windowCloseRequestClass [
+ToAnchoredWindowManager >> windowClosedEventClass [
 
-	^ ToAnchoredWindowCloseRequest 
+	^ self subclassResponsibility  
 ]
 
 { #category : #accessing }
-ToAnchoredWindowManager >> windowClosedEventClass [
+ToAnchoredWindowManager >> windowOpenRequestClass [
 
-	^ ToAnchoredWindowClosedEvent 
+	^ ToAnchoredWindowOpenRequest 
 ]
 
 { #category : #accessing }
 ToAnchoredWindowManager >> windowOpenedEventClass [
 
-	^ ToAnchoredWindowOpenedEvent
-]
-
-{ #category : #accessing }
-ToAnchoredWindowManager >> windowRequestClass [
-
-	^ ToAnchoredWindowOpenRequest 
+	^ self subclassResponsibility 
 ]

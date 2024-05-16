@@ -16,7 +16,7 @@ ToMenuWindowManager >> defaultPositionHook [
 { #category : #accessing }
 ToMenuWindowManager >> elementEventHandlerClass [ 
 
-	^ ToMenuEventHandler
+	^ ToMenuWindowEventHandler
 ]
 
 { #category : #'theme event handling' }
@@ -35,4 +35,18 @@ ToMenuWindowManager >> toThemeUninstalled: aTheme [
 ToMenuWindowManager >> windowClass [
 
 	^ ToMenuWindow 
+]
+
+{ #category : #accessing }
+ToMenuWindowManager >> windowClosedEventClass [
+
+	^ ToMenuWindowClosedEvent 
+	
+]
+
+{ #category : #accessing }
+ToMenuWindowManager >> windowOpenedEventClass [
+
+	^ ToMenuWindowOpenedEvent 
+	
 ]

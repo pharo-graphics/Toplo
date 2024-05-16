@@ -15,3 +15,15 @@ ToOverlayedEventHandler >> eventsToHandle [
 
 	^ super eventsToHandle , { BlElementExtentChangedEvent }
 ]
+
+{ #category : #'window opening - closing handlers' }
+ToOverlayedEventHandler >> overlayWindowClosedEvent: anEvent [
+
+	self windowClosedEvent: anEvent
+]
+
+{ #category : #'window opening - closing handlers' }
+ToOverlayedEventHandler >> overlayWindowOpenedEvent: anEvent [
+
+	self windowOpenedEvent: anEvent
+]

@@ -38,16 +38,9 @@ ToAnchoredWindow >> checkBeforePopupEvent: anEvent [
 ToAnchoredWindow >> close [
 
 	openTask ifNotNil: [ :t | self anchorRoot dequeueTask: openTask].
-	self dispatchCloseRequest.
 	super close.
 	self root removeChildren.
 	self dispatchClosedEvent
-]
-
-{ #category : #accessing }
-ToAnchoredWindow >> closeRequestClass [
-
-	^ windowManager windowCloseRequestClass
 ]
 
 { #category : #accessing }
@@ -60,17 +53,6 @@ ToAnchoredWindow >> closedEventClass [
 ToAnchoredWindow >> defaultElevation [
 
 	^ BlRelativeElevation elevation: (SmallInteger maxVal - 900)
-]
-
-{ #category : #'api - displaying' }
-ToAnchoredWindow >> dispatchCloseRequest [
-
-	| event |
-	event := self closeRequestClass new
-		         windowManager: windowManager;
-		         yourself.
-	self element ifNotNil: [ :e | e dispatchEvent: event copy ].
-	self dispatchEvent: event
 ]
 
 { #category : #'api - displaying' }
@@ -90,7 +72,6 @@ ToAnchoredWindow >> dispatchOpenedEvent: anEvent [
 	| event |
 	event := self openedEventClass new
 		         windowManager: windowManager;
-		         sourceEvent: anEvent;
 		         yourself.
 	self dispatchEvent: event.
 	self element dispatchEvent: event copy

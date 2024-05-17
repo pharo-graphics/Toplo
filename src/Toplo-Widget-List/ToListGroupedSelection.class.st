@@ -8,6 +8,6 @@ Class {
 ToListGroupedSelection >> nextPutNodeGroupsFrom: aListElement selectionModel: aSelectionModel in: aStream [
 
 	aStream nextPutAll:
-		(aListElement infinite nodeGroupsSatisfying: [ :n |
+		(aListElement nodeContainer nodeGroupsSatisfying: [ :n |
 			 (aSelectionModel containsIndex: n holder position) and: [ n height > 0 ] ])
 ]

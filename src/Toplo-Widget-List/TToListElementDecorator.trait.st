@@ -6,12 +6,6 @@ Trait {
 	#category : #'Toplo-Widget-List-Core'
 }
 
-{ #category : #'t - infinite accessing' }
-TToListElementDecorator >> dataSourceManager [
-	
-	^ next dataSourceManager
-]
-
 { #category : #'t - infinite scrolled event' }
 TToListElementDecorator >> disableScrolledEvent [
 
@@ -28,12 +22,6 @@ TToListElementDecorator >> enableScrolledEvent [
 TToListElementDecorator >> findElementHolderForDataSourcePosition: anInteger [
 
 	^ self next findElementHolderForDataSourcePosition: anInteger
-]
-
-{ #category : #'t - infinite accessing' }
-TToListElementDecorator >> infinite [
-
-	^ self next infinite
 ]
 
 { #category : #'t - accessing constraints' }
@@ -67,9 +55,9 @@ TToListElementDecorator >> nodeAt: anIndex [
 ]
 
 { #category : #'t - infinite accessing' }
-TToListElementDecorator >> nodeHolderFactory: aValuable [
+TToListElementDecorator >> nodeContainer [
 
-	self next nodeHolderFactory: aValuable
+	^ self next nodeContainer
 ]
 
 { #category : #'t - infinite accessing' }

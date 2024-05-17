@@ -375,12 +375,6 @@ ToSelectElement >> popupWindowEvent: anEvent [
 	^ self windowManager popupWindowEvent: anEvent 
 ]
 
-{ #category : #'accessing - selection' }
-ToSelectElement >> selecter [
-
-	^ self listElement selecter
-]
-
 { #category : #accessing }
 ToSelectElement >> selectionModel: aSelectionModel [
 

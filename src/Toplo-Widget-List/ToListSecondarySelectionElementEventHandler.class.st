@@ -43,7 +43,7 @@ ToListSecondarySelectionElementEventHandler >> mouseMoveEvent: anEvent [
 	| target infinite globalPosition childNode |
 	anEvent anyButtonPressed ifTrue: [ ^ self ].
 	target := anEvent currentTarget.
-	infinite := target infinite.
+	infinite := target nodeContainer.
 	globalPosition := anEvent position.
 
 	childNode := infinite children

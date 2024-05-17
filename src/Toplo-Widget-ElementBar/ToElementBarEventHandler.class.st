@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Widget-ElementBar'
 }
 
-{ #category : #'element handlers' }
+{ #category : #'element events handling' }
 ToElementBarEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 
 	| bar |

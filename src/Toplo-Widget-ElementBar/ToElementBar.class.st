@@ -8,7 +8,7 @@ Class {
 		'nodeWrapping',
 		'nodeScrolling',
 		'nodeAutoDistribution',
-		'selectionModel'
+		'selectionMode'
 	],
 	#category : #'Toplo-Widget-ElementBar'
 }
@@ -23,6 +23,12 @@ ToElementBar >> dataAccessor [
 ToElementBar >> dataAccessor: aDataAccessor [
 
 	dataAccessor := aDataAccessor
+]
+
+{ #category : #'instance creation' }
+ToElementBar >> defaultSelectionMode [
+
+	^ ToListSelectionMode primary
 ]
 
 { #category : #'accessing - selection' }
@@ -61,9 +67,7 @@ ToElementBar >> initialize [
 	nodeScrolling := false.
 	nodeAutoDistribution := false.
 	self dataAccessor: ToObservableCollection new.
-	selectionModel := ToPrimarySelectionModel new
-		                  itemCountGetter: [ self dataAccessor size ];
-		                  yourself.
+	self selectionMode: self defaultSelectionMode.
 	self addEventHandler: ToElementBarEventHandler new.
 	self addEventHandlerOn: ToPlaceholderShownEvent do: [ :event |
 		self flag: 'The width of 14???. It should be handled via a skin'.
@@ -104,6 +108,12 @@ ToElementBar >> newNodeContainer [
 		  yourself.
 	container horizontal: self isHorizontal.
 	^ container
+]
+
+{ #category : #'instance creation' }
+ToElementBar >> newPrimarySelectionModel [
+
+	^ ToPrimarySelectionModel new
 ]
 
 { #category : #skin }
@@ -234,9 +244,27 @@ ToElementBar >> selectOnlyIndexes: aCollection [
 ]
 
 { #category : #accessing }
+ToElementBar >> selecter [ 
+
+	^ selectionMode selecter
+]
+
+{ #category : #accessing }
+ToElementBar >> selectionMode: aSelectionMode [
+
+	selectionMode ifNotNil: [
+		selectionMode onUninstalledIn: self ].
+	selectionMode := aSelectionMode.
+	selectionMode ifNotNil: [
+		selectionMode onInstalledIn: self ].
+	self dispatchEvent: ToListPrimarySelectionModeChangedEvent new.
+	self requestNewSkin
+]
+
+{ #category : #accessing }
 ToElementBar >> selectionModel [
 
-	^ selectionModel 
+	^ selectionMode selectionModel
 ]
 
 { #category : #private }

@@ -7,19 +7,10 @@ Class {
 	#category : #'Toplo-Widget-Select-List'
 }
 
-{ #category : #'element handlers' }
-ToSelectListElementEventHandler >> collectionFilteredEvent: anEvent [
-
-	select currentWindow ifNil: [
-		select textInputElement filterString ifNotEmpty: [
-			select popupWindowEvent: anEvent ] ]
-]
-
 { #category : #'api - accessing' }
 ToSelectListElementEventHandler >> eventsToHandle [
 
 	^ {
-		  ToCollectionFilteredEvent.
 		  ToSieveSelectionChangedEvent }
 ]
 

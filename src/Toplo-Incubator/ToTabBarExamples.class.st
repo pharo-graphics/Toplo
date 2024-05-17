@@ -13,7 +13,7 @@ ToTabBarExamples class >> example_header10Tab [
 	header background: Color yellow.
 	header hMatchParent.
 	header tabs vFitContent.
-	header tabs infinite vFitContent.
+	header tabs nodeContainer vFitContent.
 	header beHorizontal.
 	header openInSpace.
 	header inspect.

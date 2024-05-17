@@ -49,12 +49,6 @@ ToSelectionModelHolderForTest >> eventDispatcher [
 	^ eventDispatcher
 ]
 
-{ #category : #accessing }
-ToSelectionModelHolderForTest >> infinite [
-
-	^ infinite
-]
-
 { #category : #initialization }
 ToSelectionModelHolderForTest >> initialize [
 
@@ -91,6 +85,12 @@ ToSelectionModelHolderForTest >> multiSelectionSelecter [
 	^ (ToCompositeSelecter
 		   selectionModel: self selectionModel
 		   operator: operator) multiple: true
+]
+
+{ #category : #accessing }
+ToSelectionModelHolderForTest >> nodeContainer [
+
+	^ infinite
 ]
 
 { #category : #accessing }

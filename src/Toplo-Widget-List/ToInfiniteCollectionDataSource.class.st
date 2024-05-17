@@ -68,6 +68,5 @@ ToInfiniteCollectionDataSource >> onDetached: anInfiniteElement [
 ToInfiniteCollectionDataSource >> sharedEvents [
 
 	^ super sharedEvents , {
-		  ToInfiniteDataSourceEmptinessChangedEvent.
 		  ToObservableCollectionEvent }
 ]

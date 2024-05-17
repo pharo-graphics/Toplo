@@ -16,9 +16,8 @@ ToBasicListElementEventHandler >> doubleClickEvent: anEvent [
 	| target |
 	target := anEvent currentTarget.
 	" first, inform the node that a double click is received "
-	target infinite childrenDo: [ :node |
+	target nodeContainer childrenDo: [ :node |
 		node dispatchEvent: (ToListDoubleClickEvent new
-				 listElement: target;
 				 sourceEvent: anEvent;
 				 yourself) ].
 	target dispatchEvent: (ToListStrongSelectionEvent new
@@ -48,11 +47,13 @@ ToBasicListElementEventHandler >> eventsToHandle [
 	^ {
 		  BlElementAddedToSceneGraphEvent.
 		  BlElementScrolledEvent.
-		  BlInfiniteElementAttachedEvent.
 		  BlInfiniteElementDetachedEvent.
 
 		  BlMouseDownEvent.
 		  BlDoubleClickEvent.
+		
+		  ToListNodeAddedEvent.
+		  ToListNodeRemovedEvent.
 
 		  " data source "
 		  ToListDataSourceItemsChangeEvent.
@@ -67,7 +68,7 @@ ToBasicListElementEventHandler >> infiniteDataSourceEmptinessChangedEvent: anEve
 
 	| target |
 	target := anEvent currentTarget.
-	target enqueueTask: (BlTaskAction new action: [self showHidePlaceholderIn: target ])
+	self showHidePlaceholderIn: target
 ]
 
 { #category : #'infinite event handling' }
@@ -99,25 +100,6 @@ ToBasicListElementEventHandler >> infiniteDataSourceItemsFiltered: anEvent [
 ]
 
 { #category : #'infinite event handling' }
-ToBasicListElementEventHandler >> infiniteElementAttachedEvent: anEvent [
-
-	| listElement node |
-	listElement := anEvent currentTarget.
-	node := anEvent element.
-	listElement selectionMode onAddedNode: anEvent element
-]
-
-{ #category : #'infinite event handling' }
-ToBasicListElementEventHandler >> infiniteElementDetachedEvent: anEvent [
-
-	| node listElement |
-	node := anEvent element.
-	listElement := anEvent currentTarget.
-	listElement selectionMode onRemovedNode: node.
-	node holder unbindDataItem
-]
-
-{ #category : #'infinite event handling' }
 ToBasicListElementEventHandler >> listDataSourceItemsAddedEvent: anEvent [
 
 	| target |
@@ -136,6 +118,25 @@ ToBasicListElementEventHandler >> listDataSourceItemsRemovedEvent: anEvent [
 	target selecter
 		shiftSelection: anEvent itemCount negated
 		from: anEvent position
+]
+
+{ #category : #'infinite event handling' }
+ToBasicListElementEventHandler >> listNodeAddedEvent: anEvent [
+
+	| listElement node |
+	listElement := anEvent currentTarget.
+	node := anEvent node.
+	listElement selectionMode onAddedNode: anEvent node
+]
+
+{ #category : #'infinite event handling' }
+ToBasicListElementEventHandler >> listNodeRemovedEvent: anEvent [
+
+	| node listElement |
+	node := anEvent node.
+	listElement := anEvent currentTarget.
+	listElement selectionMode onRemovedNode: node.
+	node holder unbindDataItem
 ]
 
 { #category : #'infinite event handling' }

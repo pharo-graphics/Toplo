@@ -4,7 +4,6 @@ Class {
 	#traits : 'TBlLayoutResizable',
 	#classTraits : 'TBlLayoutResizable classTrait',
 	#instVars : [
-		'nodeHolderFactory',
 		'listElement'
 	],
 	#category : #'Toplo-Widget-List-Infinite'
@@ -15,7 +14,6 @@ ToInfiniteElement class >> onListElement: aListElement [
 
 	^ self basicNew
 		  listElement: aListElement;
-		  nodeHolderFactory: aListElement defaultNodeHolderFactory;
 		  initialize
 ]
 
@@ -41,6 +39,12 @@ ToInfiniteElement >> defaultDataSource [
 ToInfiniteElement >> defaultDataSourceManager [
 
 	^ ToInfiniteDataSourceManager new
+]
+
+{ #category : #initialization }
+ToInfiniteElement >> defaultDataSourceObserver [
+	"Return class, actuall instantiation happens in initialize"
+	^ ToInfiniteDataSourceObserver
 ]
 
 { #category : #initialization }
@@ -75,16 +79,11 @@ ToInfiniteElement >> enableScrolledEvent [
 	self eventDispatcher enableScrolledEvent 
 ]
 
-{ #category : #'t - infinite accessing' }
-ToInfiniteElement >> infinite [ 
-
-	^ self
-]
-
 { #category : #initialization }
 ToInfiniteElement >> initialize [
 
 	super initialize.
+	self addEventHandler: ToInfiniteElementEventHandler new.
 	self matchParent
 ]
 
@@ -103,7 +102,7 @@ ToInfiniteElement >> listElement: aListElement [
 { #category : #'instance creation' }
 ToInfiniteElement >> newNodeHolderFromDataSource: aDataSource [
 
-	^ self nodeHolderFactory cull: aDataSource
+	^ listElement nodeManager newNodeHolder
 ]
 
 { #category : #'accessing - nodes' }
@@ -114,6 +113,12 @@ ToInfiniteElement >> nodeAt: anIndex [
 	^ (self findElementHolderForDataSourcePosition: anIndex)
 		  ifNotNil: [ :holder | holder itemElement ]
 		  ifNil: [  ]
+]
+
+{ #category : #'t - infinite accessing' }
+ToInfiniteElement >> nodeContainer [ 
+
+	^ self
 ]
 
 { #category : #'accessing - children' }
@@ -139,20 +144,6 @@ ToInfiniteElement >> nodeGroupsSatisfying: aBlock [
 						  stream nextPut: g.
 						  g := OrderedCollection new ] ] ].
 		  g ifNotEmpty: [ stream nextPut: g ] ]
-]
-
-{ #category : #'accessing - nodes' }
-ToInfiniteElement >> nodeHolderFactory [
-
-	"aValuable that takes the data source as argument and returns a node holder instance "
-	^ nodeHolderFactory
-]
-
-{ #category : #'accessing - nodes' }
-ToInfiniteElement >> nodeHolderFactory: aValuable [
-
-	"aValuable that takes the data source as argument and returns a node holder instance "
-	nodeHolderFactory := aValuable
 ]
 
 { #category : #'t - resizeable' }

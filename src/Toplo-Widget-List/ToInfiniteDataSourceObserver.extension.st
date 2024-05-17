@@ -1,7 +1,7 @@
-Extension { #name : #BlInfiniteElementDataSourceObserver }
+Extension { #name : #ToInfiniteDataSourceObserver }
 
 { #category : #'*Toplo-Widget-List' }
-BlInfiniteElementDataSourceObserver >> infiniteDataSourceItemsFiltered: anEvent [
+ToInfiniteDataSourceObserver >> infiniteDataSourceItemsFiltered: anEvent [
 
 	self assertNotInLayoutOrScroll.
 	
@@ -9,11 +9,12 @@ BlInfiniteElementDataSourceObserver >> infiniteDataSourceItemsFiltered: anEvent 
 		onItemsFiltered: anEvent position
 		itemCount: anEvent itemCount.
 
-	self triggerUpdateProcessor
+	self triggerUpdateProcessor.
+	infiniteElement listElement dispatchEvent: anEvent copy
 ]
 
 { #category : #'*Toplo-Widget-List' }
-BlInfiniteElementDataSourceObserver >> infiniteDataSourceItemsSieved: anEvent [
+ToInfiniteDataSourceObserver >> infiniteDataSourceItemsSieved: anEvent [
 	self assertNotInLayoutOrScroll.
 	
 	infiniteElement dataSourceManager
@@ -21,5 +22,6 @@ BlInfiniteElementDataSourceObserver >> infiniteDataSourceItemsSieved: anEvent [
 		itemCount: anEvent itemCount
 		with: anEvent sieve.
 
-	self triggerUpdateProcessor
+	self triggerUpdateProcessor.
+	infiniteElement listElement dispatchEvent: anEvent copy
 ]

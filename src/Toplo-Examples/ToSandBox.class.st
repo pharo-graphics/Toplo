@@ -8,7 +8,7 @@ Class {
 ToSandBox class >> example_BasicListWithAllClasses3 [
 
 	| l |
-	l := ToBasicListElement new nodeBuilder: [ :node :holder |
+	l := ToListElement new nodeBuilder: [ :node :holder |
 		     | icn lab |
 		     icn := holder dataItem hasComment
 			            ifTrue: [ #class ]
@@ -29,7 +29,7 @@ ToSandBox class >> example_BasicListWithAllClasses3 [
 	l dataAccessor addAll: Smalltalk globals allClasses.
 	l withRowNumbers.
 	l inspect.
-	l infinite requestFocus.
+	l nodeContainer requestFocus.
 	l openInInnerWindow
 ]
 
@@ -365,8 +365,8 @@ ToSandBox class >> example_EditableList2WithAllClassesNames [
 	l inspect.
 	l
 		nodeFactory: [ ToListClassNodeExample new ];
-		nodeBuilder: [ :node :holder |
-			node forClassNameAssoc: holder dataItem ];
+		nodeBuilder: [ :node :holder :dataItem |
+			node forClassNameAssoc: dataItem ];
 		addEventHandler: (BlEventHandler
 				 on: ToListStrongSelectionEvent
 				 do: [ :event |
@@ -383,7 +383,7 @@ ToSandBox class >> example_EditableList2WithAllClassesNames [
 		c margin: (BlInsets right: 2).
 		c ignored horizontal alignRight.
 		c ignored vertical alignBottom ].
-	vscrollBar attachTo: l infinite.
+	vscrollBar attachTo: l nodeContainer.
 	innerWin := ToInnerWindow new.
 	innerWin pane addChild: l.
 	innerWin pane addChild: vscrollBar.
@@ -805,7 +805,7 @@ ToSandBox class >> example_ListWithAllClasses3 [
 	l dataAccessor addAll: Smalltalk globals allClasses.
 	l withRowNumbers.
 	l inspect.
-	l infinite requestFocus.
+	l nodeContainer requestFocus.
 	l openInInnerWindow
 ]
 
@@ -1045,7 +1045,7 @@ ToSandBox class >> example_ListWithIndexedColors [
 		c margin: (BlInsets right: 2).
 		c ignored horizontal alignRight.
 		c ignored vertical alignBottom ].
-	vscrollBar attachTo: l infinite.
+	vscrollBar attachTo: l nodeContainer.
 	space := BlSpace new.
 	space root addChild: l.
 	space root addChild: vscrollBar.
@@ -1138,9 +1138,9 @@ ToSandBox class >> example_PicsumPhotosGallery [
 		        matchParent;
 		        yourself.
 	list
-		nodeHolderFactory: [ ToPicsumPhotosGalleryImageHolder new ];
+		nodeHolderClass: ToPicsumPhotosGalleryImageHolder;
 		nodeFactory: [ ToPicsumPhotosGalleryImageNode new ];
-		nodeBuilder: [ :node :holder | node labelString: holder dataItem id ].
+		nodeBuilder: [ :node :holder :dataItem | node labelString: dataItem id ].
 	list selectionMode beneathOption: ToListSelectionOption none.
 	list selectionMode overOption: ToListSelectionOption separate.
 	list selectionMode elementClass: ToPicsumPhotosGallerySelectionElement.
@@ -1161,7 +1161,7 @@ ToSandBox class >> example_PicsumPhotosGallery [
 		c margin: (BlInsets left: 10).
 		c ignored horizontal alignRight.
 		c ignored vertical alignBottom ].
-	vscrollBar attachTo: list infinite.
+	vscrollBar attachTo: list nodeContainer.
 
 	space := BlSpace new
 		         extent: 200 @ 600;

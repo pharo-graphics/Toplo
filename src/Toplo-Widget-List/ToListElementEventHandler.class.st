@@ -59,15 +59,15 @@ ToListElementEventHandler >> listUnselectableSelectionChangedEvent: anEvent [
 	| listElement |
 	listElement := anEvent currentTarget.
 	listElement isAttachedToSceneGraph ifFalse: [ ^ self ].
-	listElement infinite hasChildren ifFalse: [ ^ self ].
+	listElement nodeContainer hasChildren ifFalse: [ ^ self ].
 	anEvent selectionModel ifEmpty: [
 		listElement dataSource notifyChanged.
 		^ self ].
 
 	listElement selectionModel unselectableSelectionModelDo: [ :sm |
 		| firstPos lastPos |
-		firstPos := listElement infinite firstChild holder position.
-		lastPos := listElement infinite lastChild holder position.
+		firstPos := listElement nodeContainer firstChild holder position.
+		lastPos := listElement nodeContainer lastChild holder position.
 		firstPos to: lastPos do: [ :idx |
 			((listElement selectionModel containsIndex: idx) and: [
 				 sm containsIndex: idx ]) ifTrue: [

@@ -22,3 +22,10 @@ ToNode >> initialize [
 		c horizontal matchParent.
 		c vertical fitContent ]
 ]
+
+{ #category : #dependencies }
+ToNode >> release [ 
+
+	super release.
+	self removeChildren
+]

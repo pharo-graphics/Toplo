@@ -8,7 +8,7 @@ Class {
 ToListSeparateSelection >> nextPutNodeGroupsFrom: aListElement selectionModel: aSelectionModel in: aStream [
 
 	aStream nextPutAll:
-		((aListElement infinite children select: [ :node |
+		((aListElement nodeContainer children select: [ :node |
 			  (aSelectionModel containsIndex: node holder position) and: [
 				  node height > 0 ] ]) collect: [ :node | Array with: node ])
 ]

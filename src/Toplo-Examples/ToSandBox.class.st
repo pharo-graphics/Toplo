@@ -2801,7 +2801,7 @@ ToSandBox class >> example_nodeBar [
 	mainPane addChildren: {
 			confPane.
 			barPane }.
-	bar := ToNodeBar new.
+	bar := ToNodeBarDep new.
 
 	bar hMatchParent.
 	bar vFitContent.

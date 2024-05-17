@@ -47,7 +47,6 @@ ToBasicListElementEventHandler >> eventsToHandle [
 	^ {
 		  BlElementAddedToSceneGraphEvent.
 		  BlElementScrolledEvent.
-		  BlInfiniteElementDetachedEvent.
 
 		  BlMouseDownEvent.
 		  BlDoubleClickEvent.

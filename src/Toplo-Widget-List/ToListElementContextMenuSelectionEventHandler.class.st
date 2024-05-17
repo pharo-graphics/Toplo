@@ -65,12 +65,12 @@ ToListElementContextMenuSelectionEventHandler >> eventsToHandle [
 { #category : #'element handlers' }
 ToListElementContextMenuSelectionEventHandler >> listElementContextMenuRequest: anEvent [
 
-	| childNode target infinite globalPosition |
+	| childNode target nodeContainer globalPosition |
 	target := anEvent currentTarget.
-	infinite := target nodeContainer.
+	nodeContainer := target nodeContainer.
 	target disableScrolledEvent.
 	globalPosition := anEvent sourceEvent position.
-	childNode := infinite children
+	childNode := nodeContainer children
 		             detect: [ :node |
 			             node holder isSelectable and: [
 				             node containsGlobalPoint: globalPosition ] ]

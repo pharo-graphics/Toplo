@@ -162,12 +162,6 @@ ToElementBarContainerElement >> refresh [
 	self subclassResponsibility 
 ]
 
-{ #category : #accessing }
-ToElementBarContainerElement >> selectedDataTextField [
-
-	^ self textInputElement selectedDataTextField
-]
-
 { #category : #initialization }
 ToElementBarContainerElement >> uninstallFakeNode [
 	" the fake node is added when no data is selected to ensure a 

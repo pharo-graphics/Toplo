@@ -40,13 +40,13 @@ ToListSecondarySelectionElementEventHandler >> listSecondarySelectionChangedEven
 { #category : #'mouse handlers' }
 ToListSecondarySelectionElementEventHandler >> mouseMoveEvent: anEvent [
 
-	| target infinite globalPosition childNode |
+	| target nodeContainer globalPosition childNode |
 	anEvent anyButtonPressed ifTrue: [ ^ self ].
 	target := anEvent currentTarget.
-	infinite := target nodeContainer.
+	nodeContainer := target nodeContainer.
 	globalPosition := anEvent position.
 
-	childNode := infinite children
+	childNode := nodeContainer children
 		             detect: [ :node |
 			             node holder isSelectable and: [
 				             node containsGlobalPoint: globalPosition ] ]

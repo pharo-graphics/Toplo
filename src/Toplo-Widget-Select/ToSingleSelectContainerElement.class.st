@@ -142,6 +142,12 @@ ToSingleSelectContainerElement >> refreshInputTextElementWithSelectedData [
 ]
 
 { #category : #accessing }
+ToSingleSelectContainerElement >> selectedDataTextField [
+
+	^ self textInputElement selectedDataTextField
+]
+
+{ #category : #accessing }
 ToSingleSelectContainerElement >> textInputElement [
 
 	^ node textInputElement

@@ -26,6 +26,7 @@ ToNode >> initialize [
 { #category : #dependencies }
 ToNode >> release [ 
 
+	self removeChildren.
 	super release.
-	self removeChildren
+
 ]

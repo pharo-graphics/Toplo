@@ -43,9 +43,9 @@ TToListElementDecorator >> next [
 ]
 
 { #category : #'t - infinite accessing' }
-TToListElementDecorator >> next: aDecoratorOrInfinite [
+TToListElementDecorator >> next: aDecoratorOrNodeContainer [
 
-	next := aDecoratorOrInfinite
+	next := aDecoratorOrNodeContainer
 ]
 
 { #category : #'t - children - accessing' }

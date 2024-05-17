@@ -1,11 +1,11 @@
 Class {
-	#name : #ToNodeBar,
+	#name : #ToNodeBarDep,
 	#superclass : #ToElementBar,
 	#category : #'Toplo-Widget-ElementBar'
 }
 
 { #category : #'instance creation' }
-ToNodeBar >> nodeContainerClass [ 
+ToNodeBarDep >> nodeContainerClass [ 
 
-	^ ToNodeBarContainerElement
+	^ ToNodeBarContainerElementDep
 ]

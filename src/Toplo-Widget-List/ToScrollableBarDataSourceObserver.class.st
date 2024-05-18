@@ -49,7 +49,7 @@ ToScrollableBarDataSourceObserver >> infiniteDataSourceItemRangeInserted: anEven
 	innerLinearBarElement dataSourceManager
 		onItemRangeInserted: anEvent position
 		itemCount: anEvent itemCount.
-	innerLinearBarElement parentBarElement dispatchEvent: anEvent copy
+	innerLinearBarElement listElement dispatchEvent: anEvent copy
 
 ]
 

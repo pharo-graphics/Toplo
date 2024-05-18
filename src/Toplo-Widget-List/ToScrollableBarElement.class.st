@@ -2,14 +2,13 @@ Class {
 	#name : #ToScrollableBarElement,
 	#superclass : #ToScrollableElement,
 	#instVars : [
-		'horizontal',
-		'dataSource',
-		'dataSourceObserver',
-		'dataSourceManager',
-		'parentBarElement',
 		'trackElement',
 		'fakeNode',
-		'fakeDataItem'
+		'fakeDataItem',
+		'nodeScrolling',
+		'nodeWrapping',
+		'nodeAutoDistribution',
+		'horizontal'
 	],
 	#category : #'Toplo-Widget-List-InnerLinearBar'
 }
@@ -25,24 +24,41 @@ ToScrollableBarElement class >> onLinearBarElement: aLinearBarElement [
 { #category : #'accessing - children' }
 ToScrollableBarElement >> addHolders: anArray [
 
-
-	anArray do: [ :h | trackElement addChild: h node ]
+	anArray do: [ :h |
+		| node |
+		node := h node.
+		node constraintsDo: [ :c |
+			self isHorizontal
+				ifTrue: [
+					c horizontal matchParent.
+					c vertical fitContent ]
+				ifFalse: [
+					c vertical matchParent.
+					c horizontal fitContent ] ].
+		trackElement addChild: node ]
 ]
 
 { #category : #initialization }
-ToScrollableBarElement >> configurateLayout [
+ToScrollableBarElement >> configureLayoutIn: aListElement [
+
+	nodeScrolling := aListElement nodeScrolling.
+	nodeWrapping := aListElement nodeWrapping.
+	nodeAutoDistribution := aListElement nodeAutoDistribution.
+	horizontal := aListElement isHorizontal.
 
 	self isHorizontal
 		ifTrue: [
 			self constraintsDo: [ :c |
-				c horizontal matchParent.
-				c vertical fitContent.
-				c linear vertical alignCenter ] ]
+"				c linear vertical alignCenter.
+				c flow vertical alignCenter.
+"				c vertical fitContent.
+				c horizontal matchParent ] ]
 		ifFalse: [
 			self constraintsDo: [ :c |
-				c vertical matchParent.
-				c horizontal fitContent.
-				c linear horizontal alignCenter ] ].
+"				c linear horizontal alignCenter.
+				c flow horizontal alignCenter.
+"				c horizontal fitContent.
+				c vertical matchParent ] ].
 
 	self isHorizontal
 		ifTrue: [
@@ -68,63 +84,17 @@ ToScrollableBarElement >> configurateLayout [
 		self isNodeAutoDistribution ifTrue: [
 			self nodesDo: [ :n | n autoDistribute ] ] ].
 	
-	self installFakeNode
-]
-
-{ #category : #accessing }
-ToScrollableBarElement >> dataSource [
-
-	^ dataSource
-]
-
-{ #category : #accessing }
-ToScrollableBarElement >> dataSourceManager [
-
-	^ dataSourceManager 
-]
-
-{ #category : #initialization }
-ToScrollableBarElement >> defaultDataSource [ 
-
-	^ parentBarElement dataSource.
-]
-
-{ #category : #initialization }
-ToScrollableBarElement >> defaultDataSourceManager [
-
-	^ ToScrollableBarDataSourceManager new
-		  scrollableBarElement: self;
-		  yourself
-]
-
-{ #category : #initialization }
-ToScrollableBarElement >> defaultDataSourceObserver [
-	"Return class, actuall instantiation happens in initialize"
-
-	^ ToScrollableBarDataSourceObserver
+	"self installFakeNode"
 ]
 
 { #category : #initialization }
 ToScrollableBarElement >> initialize [ 
 
 	super initialize.
-	self background: (Color yellow alpha: 0.2).
-	self initializeDataSource.
-	self id: #scrollable.
 	trackElement := ToElement new.
 	trackElement id: #track.
 	self addChild: trackElement.
 	self matchParent
-]
-
-{ #category : #initialization }
-ToScrollableBarElement >> initializeDataSource [
-
-	dataSource := self defaultDataSource.
-	dataSource onAttached: self.
-	dataSourceObserver := self defaultDataSourceObserver on: self.
-	dataSource addEventHandler: dataSourceObserver.
-	dataSourceManager := self defaultDataSourceManager
 ]
 
 { #category : #initialization }
@@ -164,78 +134,29 @@ ToScrollableBarElement >> installFakeNode [
 { #category : #testing }
 ToScrollableBarElement >> isHorizontal [
 
-	^ parentBarElement isHorizontal
+	^ horizontal
 ]
 
 { #category : #testing }
 ToScrollableBarElement >> isNodeAutoDistribution [
 
-	^ parentBarElement nodeAutoDistribution
+	^ nodeAutoDistribution
 ]
 
 { #category : #testing }
 ToScrollableBarElement >> isNodeScrolling [
 
-	^ parentBarElement nodeScrolling
+	^ nodeScrolling
 ]
 
 { #category : #testing }
 ToScrollableBarElement >> isNodeWrapping [
 
-	^ parentBarElement nodeWrapping
-]
-
-{ #category : #accessing }
-ToScrollableBarElement >> listElement [
-
-	^ self parentBarElement 
-]
-
-{ #category : #'instance creation' }
-ToScrollableBarElement >> newNodeHolderFromDataSource: aDataSource [
-
-	^ parentBarElement nodeManager newNodeHolder
-]
-
-{ #category : #'t - infinite accessing' }
-ToScrollableBarElement >> nodeContainer [
-
-	^ self
+	^ nodeWrapping
 ]
 
 { #category : #'accessing - children' }
 ToScrollableBarElement >> nodesDo: aBlock [
 
 	trackElement childrenDo: [ :node | aBlock value: node]
-]
-
-{ #category : #accessing }
-ToScrollableBarElement >> parentBarElement [
-
-	^ parentBarElement
-]
-
-{ #category : #accessing }
-ToScrollableBarElement >> parentBarElement: anObject [
-
-	parentBarElement := anObject
-]
-
-{ #category : #'accessing - children' }
-ToScrollableBarElement >> selectableNodeContainingGlobalPosition: aPoint [
-
-	self nodesDo: [ :node |
-		(node holder isSelectable and: [ node containsGlobalPoint: aPoint ])
-			ifTrue: [ ^ node ] ].
-	^ nil
-]
-
-{ #category : #'t - infinite accessing' }
-ToScrollableBarElement >> stopScroll [
-	"Stop any current scroll in progress, such as one started by
-		- #smoothScrollBy:
-		- #fling:
-		- or a touch-initiated fling"
-
-	
 ]

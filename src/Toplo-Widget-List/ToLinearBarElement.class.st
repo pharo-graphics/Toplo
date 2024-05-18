@@ -10,6 +10,21 @@ Class {
 }
 
 { #category : #initialization }
+ToLinearBarElement >> configureLayout [
+
+	self isHorizontal
+		ifTrue: [
+			self constraintsDo: [ :c |
+				c horizontal matchParent.
+				c vertical fitContent ] ]
+		ifFalse: [
+			self constraintsDo: [ :c |
+				c vertical matchParent.
+				c horizontal fitContent ] ].
+	self nodeContainer configureLayoutIn: self
+]
+
+{ #category : #initialization }
 ToLinearBarElement >> defaultDataSource [
 
 	^ ToInfiniteCollectionDataSource new
@@ -24,7 +39,7 @@ ToLinearBarElement >> defaultEventHandler [
 { #category : #initialization }
 ToLinearBarElement >> defaultNodeContainer [
 
-	^ ToScrollableBarElement onLinearBarElement: self
+	^ ToLinearBarInnerElement onLinearBarElement: self
 ]
 
 { #category : #accessing }
@@ -33,20 +48,28 @@ ToLinearBarElement >> fakeDataItem: aDataItem [
 	self nodeContainer fakeDataItem: aDataItem
 ]
 
+{ #category : #'t - orientable - orientation' }
+ToLinearBarElement >> horizontal: aBoolean [
+
+	super horizontal: aBoolean.
+	self  configureLayout
+]
+
 { #category : #initialization }
 ToLinearBarElement >> initialize [
 
 	super initialize.
 	nodeWrapping := true.
-	nodeScrolling := false.
+	nodeScrolling := true.
 	nodeAutoDistribution := false.
+	self installNodeContainer  
 
 ]
 
 { #category : #initialization }
 ToLinearBarElement >> installNodeContainer [
 
-	self nodeContainer configurateLayout
+	self configureLayout
 ]
 
 { #category : #accessing }
@@ -59,7 +82,7 @@ ToLinearBarElement >> nodeAutoDistribution [
 ToLinearBarElement >> nodeAutoDistribution: aBoolean [
 
 	nodeAutoDistribution := aBoolean.
-	self nodeContainer configurateLayout
+	self configureLayout
 ]
 
 { #category : #accessing }
@@ -72,7 +95,7 @@ ToLinearBarElement >> nodeScrolling [
 ToLinearBarElement >> nodeScrolling: aBoolean [
 
 	nodeScrolling := aBoolean.
-	self nodeContainer configurateLayout
+	self configureLayout
 ]
 
 { #category : #accessing }
@@ -85,5 +108,12 @@ ToLinearBarElement >> nodeWrapping [
 ToLinearBarElement >> nodeWrapping: aBoolean [
 
 	nodeWrapping := aBoolean.
-	self nodeContainer configurateLayout
+	self configureLayout
+]
+
+{ #category : #'t - orientable - orientation' }
+ToLinearBarElement >> vertical: aBoolean [
+
+	super vertical: aBoolean.
+	self configureLayout
 ]

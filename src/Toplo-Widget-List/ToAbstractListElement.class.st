@@ -1,8 +1,8 @@
 Class {
 	#name : #ToAbstractListElement,
 	#superclass : #ToElement,
-	#traits : 'TToListElementDecorator + TToElementWithPlaceholder',
-	#classTraits : 'TToListElementDecorator classTrait + TToElementWithPlaceholder classTrait',
+	#traits : 'TToListElementDecorator + TToElementWithPlaceholder + TToOrientable',
+	#classTraits : 'TToListElementDecorator classTrait + TToElementWithPlaceholder classTrait + TToOrientable classTrait',
 	#instVars : [
 		'overContainer',
 		'beneathContainer',
@@ -52,18 +52,6 @@ ToAbstractListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 					in: self selectionModel ] ]
 		ifEmpty: [
 		self selectionModel copySelectionFrom: sieve selectionModel ]
-]
-
-{ #category : #orientation }
-ToAbstractListElement >> beHorizontal [
-
-	self nodeContainer layout beHorizontal
-]
-
-{ #category : #orientation }
-ToAbstractListElement >> beVertical [
-
-	self nodeContainer layout beVertical
 ]
 
 { #category : #accessing }
@@ -194,12 +182,6 @@ ToAbstractListElement >> hiddenSelecter [
 	^ self selecter subSelecterWithId: #hidden
 ]
 
-{ #category : #orientation }
-ToAbstractListElement >> horizontal: aBoolean [
-
-	self vertical: aBoolean not
-]
-
 { #category : #initialization }
 ToAbstractListElement >> initialize [
 
@@ -242,28 +224,24 @@ ToAbstractListElement >> initializeDataSource [
 	self dataSource: self defaultDataSource
 ]
 
-{ #category : #orientation }
-ToAbstractListElement >> isHorizontal [
-
-	^ self nodeContainer layout isHorizontal
-]
-
 { #category : #testing }
 ToAbstractListElement >> isMultipleSelection [
 
 	^ self selectionMode isMultipleSelection
 ]
 
-{ #category : #orientation }
-ToAbstractListElement >> isVertical [
-
-	^ self nodeContainer layout isVertical
-]
-
 { #category : #accessing }
 ToAbstractListElement >> itemCount [
 
 	^ self dataSource itemCount
+]
+
+{ #category : #'t - orientable - accessing' }
+ToAbstractListElement >> layoutStrategy [
+
+	^ self nodeContainer layout
+
+	
 ]
 
 { #category : #'instance creation' }
@@ -468,14 +446,6 @@ ToAbstractListElement >> unselectableSelecter [
 ToAbstractListElement >> unselectableSelectionModel [
 
 	^ self unselectableSelecter selectionModel
-]
-
-{ #category : #orientation }
-ToAbstractListElement >> vertical: aBoolean [
-
-	aBoolean
-		ifTrue: [ self beVertical ]
-		ifFalse: [ self beHorizontal ]
 ]
 
 { #category : #'additional selecters' }

@@ -1086,8 +1086,8 @@ ToSandBox class >> example_NodeContainerWithStatesOfAmerica [
 	l addEventHandler: (BlEventHandler
 			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :evt | evt traceCr ]).
-
-	"l dataAccessor addAll: self statesOfAmerica."
+	l horizontal: true.
+	l dataAccessor addAll: self statesOfAmerica.
 	l inspect.
 	l openInSpace
 ]
@@ -2815,7 +2815,7 @@ ToSandBox class >> example_nodeBar [
 	mainPane addChildren: {
 			confPane.
 			barPane }.
-	bar := ToNodeBarDep new.
+	bar := ToLinearBarElement new.
 
 	bar hMatchParent.
 	bar vFitContent.
@@ -2873,7 +2873,7 @@ ToSandBox class >> example_nodeBar [
 	bar nodeAutoDistribution: false.
 	bar inspect.
 
-	bar nodeContainer refresh.
+	"bar nodeContainer refresh."
 	mainPane openInSpace
 ]
 

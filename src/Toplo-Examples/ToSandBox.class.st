@@ -1078,6 +1078,19 @@ ToSandBox class >> example_ListWithPanes [
 	list openInSpace
 ]
 
+{ #category : #list }
+ToSandBox class >> example_NodeContainerWithStatesOfAmerica [
+
+	| l |
+	l := ToLinearBarElement new.
+	l addEventHandler: (BlEventHandler
+			 on: ToListPrimarySelectionChangedEvent
+			 do: [ :evt | evt traceCr ]).
+
+	l dataAccessor addAll: self statesOfAmerica.
+	l openInSpace
+]
+
 { #category : #menu }
 ToSandBox class >> example_OpenSaveSaveAsCloseWithSubmenu [
 

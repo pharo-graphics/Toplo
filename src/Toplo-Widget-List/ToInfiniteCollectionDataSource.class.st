@@ -58,15 +58,9 @@ ToInfiniteCollectionDataSource >> onBindHolder: anElementHolder at: aPosition [
 ToInfiniteCollectionDataSource >> onDetached: anInfiniteElement [
 
 	self removeEventHandler: dataEventHandler.
+	dataEventHandler := nil.
 	super onDetached: anInfiniteElement.
 
 
 	
-]
-
-{ #category : #hooks }
-ToInfiniteCollectionDataSource >> sharedEvents [
-
-	^ super sharedEvents , {
-		  ToObservableCollectionEvent }
 ]

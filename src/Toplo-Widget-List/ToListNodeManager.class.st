@@ -52,7 +52,11 @@ ToListNodeManager >> newNodeHolder [
 { #category : #'instance creation' }
 ToListNodeManager >> newNodeInHolder: aNodeHolder [
 
-	^ nodeFactory cull: aNodeHolder
+	| node infiniteConstraints |
+	node := nodeFactory cull: aNodeHolder.
+	infiniteConstraints := node constraints infinite.
+	infiniteConstraints holder: aNodeHolder.
+	^ node
 ]
 
 { #category : #accessing }

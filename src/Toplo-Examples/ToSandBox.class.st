@@ -1087,7 +1087,8 @@ ToSandBox class >> example_NodeContainerWithStatesOfAmerica [
 			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :evt | evt traceCr ]).
 
-	l dataAccessor addAll: self statesOfAmerica.
+	"l dataAccessor addAll: self statesOfAmerica."
+	l inspect.
 	l openInSpace
 ]
 

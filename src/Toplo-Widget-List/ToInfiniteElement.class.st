@@ -124,7 +124,7 @@ ToInfiniteElement >> nodeContainer [
 { #category : #'accessing - children' }
 ToInfiniteElement >> nodeContainingGlobalPosition: aPoint [
 
-	self childrenDo: [ :node |
+	self nodesDo: [ :node |
 		(node containsGlobalPoint: aPoint) ifTrue: [ ^ node ] ].
 	^ nil
 ]
@@ -144,6 +144,12 @@ ToInfiniteElement >> nodeGroupsSatisfying: aBlock [
 						  stream nextPut: g.
 						  g := OrderedCollection new ] ] ].
 		  g ifNotEmpty: [ stream nextPut: g ] ]
+]
+
+{ #category : #'accessing - children' }
+ToInfiniteElement >> nodesDo: aBlock [
+
+	self childrenDo: [ :node | aBlock value: node ]
 ]
 
 { #category : #'t - resizeable' }
@@ -200,6 +206,15 @@ ToInfiniteElement >> scrollToIndexAtTop: anIndex [
 	"As a result, item at anIndex is positionned at the top of the listElement"
 
 	self scrollToPosition: anIndex offset: self layout computeExtraLayoutSpace y.
+]
+
+{ #category : #'accessing - children' }
+ToInfiniteElement >> selectableNodeContainingGlobalPosition: aPoint [
+
+	self nodesDo: [ :node |
+		(node holder isSelectable and: [ node containsGlobalPoint: aPoint ])
+			ifTrue: [ ^ node ] ].
+	^ nil
 ]
 
 { #category : #'view - configuration' }

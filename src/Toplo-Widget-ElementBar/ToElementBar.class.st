@@ -207,7 +207,6 @@ ToElementBar >> removeNode: aNode [
 
 	| index |
 	index := aNode holder position.
-	'removeNode: ' trace. index traceCr.
 	self selectionModel deselectIndex: index.
 	self onSelectionChanged.
 	self fireEvent: ToElementBarSelectionChanged new

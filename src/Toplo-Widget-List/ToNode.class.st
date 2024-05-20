@@ -7,22 +7,6 @@ Class {
 }
 
 { #category : #initialization }
-ToNode >> configureLayoutIn: aListElement [
-
-	aListElement isHorizontal
-		ifTrue: [
-			'H' traceCr.
-			self constraintsDo: [ :c |
-				c horizontal matchParent.
-				c vertical fitContent ] ]
-		ifFalse: [
-			'V' traceCr.
-			self constraintsDo: [ :c |
-				c vertical fitContent.
-				c horizontal fitContent ] ]
-]
-
-{ #category : #initialization }
 ToNode >> defaultLayout [ 
 
 	^ BlLinearLayout vertical

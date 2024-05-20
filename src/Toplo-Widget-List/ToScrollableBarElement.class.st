@@ -65,16 +65,16 @@ ToScrollableBarElement >> configureLayoutIn: aListElement [
 
 	self isHorizontal
 		ifTrue: [
-			self constraintsDo: [ :c |
-"				c linear vertical alignCenter.
+			self constraintsDo: [ :c | "				c linear vertical alignCenter.
 				c flow vertical alignCenter.
-"				c vertical fitContent.
+"
+				c vertical fitContent.
 				c horizontal matchParent ] ]
 		ifFalse: [
-			self constraintsDo: [ :c |
-"				c linear horizontal alignCenter.
+			self constraintsDo: [ :c | "				c linear horizontal alignCenter.
 				c flow horizontal alignCenter.
-"				c horizontal fitContent.
+"
+				c horizontal fitContent.
 				c vertical matchParent ] ].
 
 	self isHorizontal
@@ -100,8 +100,11 @@ ToScrollableBarElement >> configureLayoutIn: aListElement [
 	self isNodeScrolling ifFalse: [
 		self isNodeAutoDistribution ifTrue: [
 			self nodesDo: [ :n | n autoDistribute ] ] ].
-	
-	self nodesDo: [ :n | n configureLayoutIn: aListElement ].
+
+	"self nodesDo: [ :n |
+		n constraintsDo: [ :c |
+			c horizontal fitContent.
+			c vertical fitContent ] ]"
 	"self installFakeNode"
 ]
 

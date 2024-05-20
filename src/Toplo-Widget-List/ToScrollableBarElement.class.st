@@ -38,6 +38,23 @@ ToScrollableBarElement >> addHolders: anArray [
 		trackElement addChild: node ]
 ]
 
+{ #category : #'accessing - children' }
+ToScrollableBarElement >> addHolders: anArray at: aPosition [
+
+	anArray reverseDo: [ :h |
+		| node |
+		node := h node.
+		node constraintsDo: [ :c |
+			self isHorizontal
+				ifTrue: [
+					c horizontal matchParent.
+					c vertical fitContent ]
+				ifFalse: [
+					c vertical fitContent.
+					c horizontal fitContent ] ].
+		trackElement addChild: node at: aPosition]
+]
+
 { #category : #initialization }
 ToScrollableBarElement >> configureLayoutIn: aListElement [
 
@@ -84,6 +101,7 @@ ToScrollableBarElement >> configureLayoutIn: aListElement [
 		self isNodeAutoDistribution ifTrue: [
 			self nodesDo: [ :n | n autoDistribute ] ] ].
 	
+	self nodesDo: [ :n | n configureLayoutIn: aListElement ].
 	"self installFakeNode"
 ]
 

@@ -31,7 +31,7 @@ ToScrollableBarDataSourceManager >> onItemRangeInserted: aPositionStart itemCoun
 				           bindHolder: holder
 				           at: offsetPosition.
 			           stream nextPut: holder ] ].
-	innerLinearBarElement addHolders: holders
+	innerLinearBarElement addHolders: holders at: aPositionStart
 ]
 
 { #category : #'items - hooks' }

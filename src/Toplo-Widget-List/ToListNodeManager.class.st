@@ -19,6 +19,7 @@ ToListNodeManager >> builderNode: aNode inHolder: aNodeHolder [
 ToListNodeManager >> defaultNodeBuilder [
 
 	^ [ :node :holder :dataItem |
+	  node configureLayoutIn: holder listElement.
 	  node addChild: (ToLabel text: dataItem asString) hMatchParent ]
 ]
 

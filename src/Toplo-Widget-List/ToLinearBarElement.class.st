@@ -52,7 +52,7 @@ ToLinearBarElement >> fakeDataItem: aDataItem [
 ToLinearBarElement >> horizontal: aBoolean [
 
 	super horizontal: aBoolean.
-	self  configureLayout
+	self configureLayout
 ]
 
 { #category : #initialization }

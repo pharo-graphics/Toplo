@@ -25,6 +25,12 @@ ToLinearBarInnerElement >> addHolders: anArray [
 	scrollable addHolders: anArray
 ]
 
+{ #category : #adding }
+ToLinearBarInnerElement >> addHolders: anArray at: aPosition [
+
+	scrollable addHolders: anArray at: aPosition
+]
+
 { #category : #initialization }
 ToLinearBarInnerElement >> configureLayoutIn: aListElement [
 

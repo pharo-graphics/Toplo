@@ -57,7 +57,7 @@ ToMultipleSelectContainerElement >> haveInvisibleNodes: aCollectionOfInvisibleNo
 ToMultipleSelectContainerElement >> initialize [ 
 
 	super initialize.
-	textInputElement := ToSelectTextInputElement new.
+	textInputElement := ToMultiSelectTextInputElement new.
 
 ]
 

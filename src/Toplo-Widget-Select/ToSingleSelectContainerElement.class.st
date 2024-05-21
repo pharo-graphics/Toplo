@@ -1,8 +1,12 @@
 Class {
 	#name : #ToSingleSelectContainerElement,
-	#superclass : #ToElementBarContainerElement,
+	#superclass : #ToElement,
 	#instVars : [
-		'node'
+		'fakeNode',
+		'fakeDataItem',
+		'node',
+		'selectElement',
+		'selectedIndex'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -14,9 +18,23 @@ ToSingleSelectContainerElement >> addFakeNode [
 ]
 
 { #category : #initialization }
+ToSingleSelectContainerElement >> defaultLayout [
+
+	^ BlLinearLayout new
+]
+
+{ #category : #initialization }
 ToSingleSelectContainerElement >> defaultNodeClass [ 
 
 	^ ToSingleSelectNode
+]
+
+{ #category : #accessing }
+ToSingleSelectContainerElement >> fakeDataItem: aData [
+
+	fakeDataItem := aData.
+	self uninstallFakeNode.
+	self installFakeNode 
 ]
 
 { #category : #accessing }
@@ -25,14 +43,33 @@ ToSingleSelectContainerElement >> filterString [
 	^ self textInputElement filterString
 ]
 
-{ #category : #'t - orientable - orientation' }
-ToSingleSelectContainerElement >> horizontal: aBoolean [
-]
-
 { #category : #accessing }
 ToSingleSelectContainerElement >> inputTextField [
 
 	^ self textInputElement inputTextField
+]
+
+{ #category : #initialization }
+ToSingleSelectContainerElement >> installFakeNode [
+	" the fake node is added when no data is selected to ensure a 
+	suitable minimum height according to the node class, the node builder 
+	and the data kind."
+
+	fakeNode ifNotNil: [ :fn |
+		fn onUninstalledIn: self.
+		fn removeFromParent ].
+
+	fakeNode := self newNode.
+	fakeNode id: #fakeNode.
+	fakeNode width: 0.
+	fakeNode constraintsDo: [ :c |
+		c vertical matchParent.
+		c linear vertical alignCenter ].
+
+	fakeNode margin: BlInsets empty.
+
+	" add the fake node (to keep a constant minimum height )"
+	self addFakeNode
 ]
 
 { #category : #testing }
@@ -41,62 +78,49 @@ ToSingleSelectContainerElement >> isSingleNode [
 	^ true
 ]
 
-{ #category : #accessing }
-ToSingleSelectContainerElement >> nodeAutoDistribution: aBoolean [
+{ #category : #initialization }
+ToSingleSelectContainerElement >> newNode [
 
-
+	| newNode nodeHolder |
+	newNode := self nodeClass new.
+	newNode onInstalledIn: self.
+		
+	^ newNode
 ]
 
 { #category : #accessing }
-ToSingleSelectContainerElement >> nodeBuilder [
-	" return a valuable that is used to build a bar node element from a data. 
-	aValuable take the bar node element to build as first argument 
-	and its holder as second argument"
+ToSingleSelectContainerElement >> nodeClass [ 
 
-	^ [ :aSelectNode :aNodeHolder |  ]
+	^ self defaultNodeClass
 ]
 
-{ #category : #accessing }
-ToSingleSelectContainerElement >> nodeScrolling: aBoolean [
+{ #category : #initialization }
+ToSingleSelectContainerElement >> nodeHolderClass [ 
 
-
-]
-
-{ #category : #accessing }
-ToSingleSelectContainerElement >> nodeWrapping: aBoolean [
-
-
-]
-
-{ #category : #enumerating }
-ToSingleSelectContainerElement >> nodesDo: aBlock [
-
-	node ifNil: [ ^ self ].
-	aBlock value: node
+	^ ToElementBarNodeHolder
 ]
 
 { #category : #'api - hooks' }
-ToSingleSelectContainerElement >> onInstalledIn: anElementBar [
+ToSingleSelectContainerElement >> onInstalledIn: aSelectElement [
 
-	super onInstalledIn: anElementBar.
+	selectElement := aSelectElement.
 	self
 		vFitContent;
 		hMatchParent;
 		constraintsDo: [ :c | c linear vertical alignCenter ].
 	node := self newNode.
-	self nodeBuilder value: node value: node holder.
 	self addChild: node.
 	self installFakeNode
 ]
 
 { #category : #'api - hooks' }
-ToSingleSelectContainerElement >> onUninstalledIn: anElementBar [
+ToSingleSelectContainerElement >> onUninstalledIn: aSelectElement [
 
-	node onUninstalledIn: anElementBar.
+	node onUninstalledIn: aSelectElement.
 	node removeFromParent.
 	node := nil.
 	self uninstallFakeNode.
-	super onUninstalledIn: anElementBar.
+	selectElement := nil.
 
 
 ]
@@ -116,29 +140,28 @@ ToSingleSelectContainerElement >> onWindowOpened [
 { #category : #accessing }
 ToSingleSelectContainerElement >> refresh [
 
-	| nodeHolder idx selectedData |
-	nodeHolder := node holder.
-	elementBar selectionModel isEmpty
+	| nodeHolder  |
+	selectedIndex := selectElement selectionModel isEmpty
 		ifTrue: [
-			idx := 0.
-			selectedData := nil ]
+			0 ]
 		ifFalse: [
-			idx := elementBar selectionModel firstIndex.
-			selectedData := idx <= elementBar dataAccessor size
-				                ifTrue: [ elementBar dataAccessor at: idx ]
-				                ifFalse: [  ] ].
-	nodeHolder
-		position: idx;
-		dataItem: selectedData.
+			selectElement selectionModel firstIndex].
 	self refreshInputTextElementWithSelectedData
 ]
 
 { #category : #accessing }
 ToSingleSelectContainerElement >> refreshInputTextElementWithSelectedData [
 
+	| t |
 	self inputTextField text: ''.
-	self selectedDataTextField text:
-		(node holder dataItem ifNil: [ '' ] ifNotNil: [ :d | d asString ])
+	t := selectedIndex isZero ifTrue: [ '' ] ifFalse: [ selectElement dataAccessor at: selectedIndex ].
+	self selectedDataTextField text: t
+]
+
+{ #category : #accessing }
+ToSingleSelectContainerElement >> selectElement [
+
+	^ selectElement
 ]
 
 { #category : #accessing }
@@ -151,4 +174,16 @@ ToSingleSelectContainerElement >> selectedDataTextField [
 ToSingleSelectContainerElement >> textInputElement [
 
 	^ node textInputElement
+]
+
+{ #category : #initialization }
+ToSingleSelectContainerElement >> uninstallFakeNode [
+	" the fake node is added when no data is selected to ensure a 
+	suitable minimum height according to the node class, the node builder 
+	and the data kind."
+
+	fakeNode ifNotNil: [ :fn |
+		fn onUninstalledIn: self.
+		fn removeFromParent ].
+	fakeNode := nil
 ]

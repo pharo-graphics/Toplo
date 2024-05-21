@@ -1,32 +1,33 @@
 Class {
-	#name : #ToSelectTextInputElement,
-	#superclass : #ToElement,
+	#name : #ToMultiSelectTextInputElement,
+	#superclass : #ToSelectTextInputElement,
 	#instVars : [
-		'selectedDataTextField',
-		'inputTextField',
-		'installedInputTextFieldTextEventHandler',
-		'forFiltering',
-		'windowPopupHandler'
+		'forMultipleNodes'
 	],
 	#category : #'Toplo-Widget-Select-Node'
 }
 
 { #category : #initialization }
-ToSelectTextInputElement >> beEditable [
+ToMultiSelectTextInputElement >> beEditable [
 
 	self inputTextField beEditable.
 	self installInputTextFieldEventHandlers
 ]
 
 { #category : #initialization }
-ToSelectTextInputElement >> beReadonly [
+ToMultiSelectTextInputElement >> beReadonly [
 
 	self uninstallInputTextFieldEventHandlers.
 	self inputTextField beReadonlyWithoutSelection
 ]
 
 { #category : #private }
-ToSelectTextInputElement >> checkSingleSelectPlaceholderText [
+ToMultiSelectTextInputElement >> checkMultipleSelectPlaceholderText [
+	
+]
+
+{ #category : #private }
+ToMultiSelectTextInputElement >> checkSingleSelectPlaceholderText [
 	" In case of single selection, the selectedDataTextField can contain 
 	either the placeholder text or the selected data string"
 
@@ -39,13 +40,13 @@ ToSelectTextInputElement >> checkSingleSelectPlaceholderText [
 ]
 
 { #category : #accessing }
-ToSelectTextInputElement >> filterString [
+ToMultiSelectTextInputElement >> filterString [
 
 	^ self inputTextField text asString
 ]
 
 { #category : #initialization }
-ToSelectTextInputElement >> initialize [ 
+ToMultiSelectTextInputElement >> initialize [ 
 
 	super initialize.
 	self id: #textInputElement.
@@ -59,13 +60,13 @@ ToSelectTextInputElement >> initialize [
 ]
 
 { #category : #accessing }
-ToSelectTextInputElement >> inputTextField [
+ToMultiSelectTextInputElement >> inputTextField [
 
 	^ inputTextField
 ]
 
 { #category : #initialization }
-ToSelectTextInputElement >> installInputTextFieldEventHandlers [
+ToMultiSelectTextInputElement >> installInputTextFieldEventHandlers [
 
 	installedInputTextFieldTextEventHandler ifNotNil: [ ^ self ].
 	installedInputTextFieldTextEventHandler := OrderedCollection new.
@@ -80,13 +81,19 @@ ToSelectTextInputElement >> installInputTextFieldEventHandlers [
 ]
 
 { #category : #testing }
-ToSelectTextInputElement >> isForFiltering [
+ToMultiSelectTextInputElement >> isForFiltering [
 
 	^ forFiltering 
 ]
 
+{ #category : #testing }
+ToMultiSelectTextInputElement >> isForMultipleNodes [
+
+	^ forMultipleNodes 
+]
+
 { #category : #initialization }
-ToSelectTextInputElement >> newTextFieldIn: aNodeContainer [
+ToMultiSelectTextInputElement >> newTextFieldIn: aNodeContainer [
 
 	| textField |
 	textField := ToSelectTextField new.
@@ -98,15 +105,17 @@ ToSelectTextInputElement >> newTextFieldIn: aNodeContainer [
 ]
 
 { #category : #private }
-ToSelectTextInputElement >> onFilterTextReplaced: anEvent [
+ToMultiSelectTextInputElement >> onFilterTextReplaced: anEvent [
 
 	self fireEvent: ToSelectInputTextFieldUpdatedEvent new.
 	self parent sieve pattern: self filterString.
-	self checkSingleSelectPlaceholderText
+	self parent isMultipleSelection
+		ifTrue: [ self checkMultipleSelectPlaceholderText ]
+		ifFalse: [ self checkSingleSelectPlaceholderText ]
 ]
 
 { #category : #private }
-ToSelectTextInputElement >> onFilterTextUpdated: anEvent [
+ToMultiSelectTextInputElement >> onFilterTextUpdated: anEvent [
 
 	self fireEvent: ToSelectInputTextFieldUpdatedEvent new.
 	self inputTextField text
@@ -117,9 +126,10 @@ ToSelectTextInputElement >> onFilterTextUpdated: anEvent [
 ]
 
 { #category : #'api - hooks' }
-ToSelectTextInputElement >> onInstalledIn: aNodeContainer [
+ToMultiSelectTextInputElement >> onInstalledIn: aNodeContainer [
 
-	forFiltering := aNodeContainer selectElement isFiltrable.
+	forMultipleNodes := aNodeContainer isSingleNode not.
+	forFiltering := aNodeContainer elementBar isFiltrable.
 	selectedDataTextField := self newTextFieldIn: aNodeContainer.
 	selectedDataTextField beReadonlyWithSelection.
 	inputTextField := self newTextFieldIn: aNodeContainer.
@@ -127,7 +137,7 @@ ToSelectTextInputElement >> onInstalledIn: aNodeContainer [
 	inputTextField id: #inputTextField.
 	self addChild: selectedDataTextField.
 	self addChild: inputTextField.
-	aNodeContainer selectElement isFiltrable
+	aNodeContainer elementBar isFiltrable
 		ifTrue: [ self beEditable ]
 		ifFalse: [ self beReadonly ].
 
@@ -140,13 +150,13 @@ ToSelectTextInputElement >> onInstalledIn: aNodeContainer [
 		                 do: [ :event |
 			                 event text ifNotEmpty: [
 				                 event text asString first isAlphaNumeric ifTrue: [
-					                 aNodeContainer selectElement windowManager
+					                 aNodeContainer elementBar windowManager
 						                 popupWindowHiddenEvent: event ] ] ].
 	inputTextField infinite addEventHandler: windowPopupHandler
 ]
 
 { #category : #'api - hooks' }
-ToSelectTextInputElement >> onUninstalledIn: aNodeContainer [
+ToMultiSelectTextInputElement >> onUninstalledIn: aNodeContainer [
 
 	self uninstallInputTextFieldEventHandlers.
 	inputTextField infinite removeEventHandler: windowPopupHandler.
@@ -155,31 +165,32 @@ ToSelectTextInputElement >> onUninstalledIn: aNodeContainer [
 ]
 
 { #category : #window }
-ToSelectTextInputElement >> onWindowClosed [
+ToMultiSelectTextInputElement >> onWindowClosed [
 
-	self selectedDataTextField visibility: BlVisibility visible.
-	self selectedDataTextField text foreground: Color black.
+	self isForMultipleNodes ifFalse: [
+		self selectedDataTextField visibility: BlVisibility visible.
+		self selectedDataTextField text foreground: Color black ].
 	self isForFiltering ifTrue: [ self inputTextField requestFocus ]
 ]
 
 { #category : #window }
-ToSelectTextInputElement >> onWindowOpened [
+ToMultiSelectTextInputElement >> onWindowOpened [
 
-	
-	self selectedDataTextField text foreground: Color lightGray.
+	self isForMultipleNodes ifFalse: [
+		self selectedDataTextField text foreground: Color lightGray ].
 	self isForFiltering
 		ifTrue: [ self inputTextField requestFocus ]
 		ifFalse: [ self parent requestFocus ]
 ]
 
 { #category : #accessing }
-ToSelectTextInputElement >> selectedDataTextField [
+ToMultiSelectTextInputElement >> selectedDataTextField [
 
 	^ selectedDataTextField
 ]
 
 { #category : #initialization }
-ToSelectTextInputElement >> uninstallInputTextFieldEventHandlers [
+ToMultiSelectTextInputElement >> uninstallInputTextFieldEventHandlers [
 
 	installedInputTextFieldTextEventHandler ifNil: [ ^ self ].
 	installedInputTextFieldTextEventHandler do: [ :h |

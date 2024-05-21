@@ -1,34 +1,32 @@
 Class {
-	#name : #ToSelectListWindowManager,
-	#superclass : #ToPopupWindowManager,
+	#name : #ToMultiSelectListWindowManager,
+	#superclass : #ToSelectListWindowManager,
 	#instVars : [
-		'listElement',
-		'sieve',
-		'listDataNodeBuilder'
+		'listGroupNodeBuilder'
 	],
 	#category : #'Toplo-Widget-Select-List'
 }
 
 { #category : #accessing }
-ToSelectListWindowManager >> dataNodeBuilder [
+ToMultiSelectListWindowManager >> dataNodeBuilder [
 
 	^ listDataNodeBuilder
 ]
 
 { #category : #initialization }
-ToSelectListWindowManager >> defaultAutoCloseOnMouseUpDelay [
+ToMultiSelectListWindowManager >> defaultAutoCloseOnMouseUpDelay [
 
 	^ nil
 ]
 
 { #category : #initialization }
-ToSelectListWindowManager >> defaultAutoClosePickOutsideEventClass [
+ToMultiSelectListWindowManager >> defaultAutoClosePickOutsideEventClass [
 
 	^ BlMouseDownOutsideEvent
 ]
 
 { #category : #initialization }
-ToSelectListWindowManager >> defaultDataNodeBuilder [
+ToMultiSelectListWindowManager >> defaultDataNodeBuilder [
 
 	^ [ :node :holder |
 	  node addChild:
@@ -36,101 +34,115 @@ ToSelectListWindowManager >> defaultDataNodeBuilder [
 ]
 
 { #category : #initialization }
-ToSelectListWindowManager >> defaultGroupNodeBuilder [
+ToMultiSelectListWindowManager >> defaultGroupNodeBuilder [
 
 	^ [ :node :holder |
 	  node addChild: (ToAttributedLabel text: holder dataItem asString) hMatchParent ]
 ]
 
 { #category : #initialization }
-ToSelectListWindowManager >> defaultMaxHeight [
+ToMultiSelectListWindowManager >> defaultMaxHeight [
 
 	^ 300
 ]
 
 { #category : #initialization }
-ToSelectListWindowManager >> defaultMinHeight [
+ToMultiSelectListWindowManager >> defaultMinHeight [
 
 	^ 0
 ]
 
 { #category : #initialization }
-ToSelectListWindowManager >> defaultNodeBuilder [
+ToMultiSelectListWindowManager >> defaultNodeBuilder [
 
-	^ [ :node :holder | listDataNodeBuilder value: node value: holder ]
+	^ [ :node :holder | | nodebuilder |
+		nodebuilder := holder isGroup
+		  ifTrue: [  listGroupNodeBuilder]
+		  ifFalse: [ listDataNodeBuilder].
+	  nodebuilder value: node value: holder ] 
 ]
 
 { #category : #initialization }
-ToSelectListWindowManager >> defaultNodeFactory [
+ToMultiSelectListWindowManager >> defaultNodeFactory [
 
-	^ [ :theHolder | ToSelectDataListNode new ]
+	^ [ :theHolder |
+	  theHolder isGroup
+		  ifTrue: [ ToSelectGroupListNode new ]
+		  ifFalse: [ ToSelectDataListNode new ] ]
 ]
 
 { #category : #initialization }
-ToSelectListWindowManager >> defaultPositionHook [
+ToMultiSelectListWindowManager >> defaultPositionHook [
 
 	^ [ :window :theElement :event |
 	  window position: (theElement bounds inParent: self anchorRoot) bounds bottomLeft ]
 ]
 
 { #category : #initialization }
-ToSelectListWindowManager >> defaultSizeHook [
+ToMultiSelectListWindowManager >> defaultSizeHook [
 
 	^ [ :theWindow :theElement :event |
 	  theWindow width: theElement measuredWidth]
 ]
 
 { #category : #accessing }
-ToSelectListWindowManager >> elementEventHandlerClass [ 
+ToMultiSelectListWindowManager >> elementEventHandlerClass [ 
 
 	^ ToSelectEventHandler
 ]
 
 { #category : #initialization }
-ToSelectListWindowManager >> initialize [ 
+ToMultiSelectListWindowManager >> initialize [ 
 
 	super initialize.
-	listDataNodeBuilder := self defaultDataNodeBuilder
+	listDataNodeBuilder := self defaultDataNodeBuilder.
+	listGroupNodeBuilder := self defaultGroupNodeBuilder 
 ]
 
 { #category : #accessing }
-ToSelectListWindowManager >> listDataNodeBuilder: aValuable [
+ToMultiSelectListWindowManager >> listDataNodeBuilder: aValuable [
 
 	listDataNodeBuilder := aValuable
 ]
 
 { #category : #accessing }
-ToSelectListWindowManager >> listElement [
+ToMultiSelectListWindowManager >> listElement [
 
 	^ listElement 
 ]
 
 { #category : #accessing }
-ToSelectListWindowManager >> maxHeight [
+ToMultiSelectListWindowManager >> listGroupNodeBuilder: aValuable [
+
+	listGroupNodeBuilder := aValuable
+]
+
+{ #category : #accessing }
+ToMultiSelectListWindowManager >> maxHeight [
 
 	^ listElement maxHeight
 ]
 
 { #category : #accessing }
-ToSelectListWindowManager >> maxHeight: aNumber [
+ToMultiSelectListWindowManager >> maxHeight: aNumber [
 
 	listElement maxHeight: aNumber
 ]
 
 { #category : #accessing }
-ToSelectListWindowManager >> minHeight [
+ToMultiSelectListWindowManager >> minHeight [
 
 	^ listElement minHeight
 ]
 
 { #category : #accessing }
-ToSelectListWindowManager >> minHeight: aNumber [
+ToMultiSelectListWindowManager >> minHeight: aNumber [
 
 	listElement minHeight: aNumber
 ]
 
 { #category : #initialization }
-ToSelectListWindowManager >> newListElement [
+ToMultiSelectListWindowManager >> newListElement [
 
 	| newListElement |
 	newListElement := ToSelectListElement new.
@@ -145,11 +157,15 @@ ToSelectListWindowManager >> newListElement [
 ]
 
 { #category : #'api - hooks' }
-ToSelectListWindowManager >> onInstalledIn: anElement [
+ToMultiSelectListWindowManager >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	listElement := self newListElement.
 	listElement select: self element.
+
+	self element dataAccessor addEventHandler:
+		(ToObservableCollectionMirrorUpdater new mirror:
+			 listElement dataAccessor).
 
 	listElement addEventHandler: (ToSelectListElementEventHandler new
 			 select: self element;
@@ -165,11 +181,11 @@ ToSelectListWindowManager >> onInstalledIn: anElement [
 	sieve := ToListElementSieve new.
 	sieve onInstalledIn: listElement.
 
-	listElement nodeHolderClass: ToSelectListNodeHolder
+	listElement nodeHolderClass: ToMultiSelectListNodeHolder
 ]
 
 { #category : #'api - hooks' }
-ToSelectListWindowManager >> onUninstalledIn: anElement [
+ToMultiSelectListWindowManager >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
 	sieve onInstalledIn: listElement.
@@ -179,7 +195,7 @@ ToSelectListWindowManager >> onUninstalledIn: anElement [
 ]
 
 { #category : #'window handling' }
-ToSelectListWindowManager >> onWindowClosed [
+ToMultiSelectListWindowManager >> onWindowClosed [
 
 	super onWindowClosed.
 	" if case one of my children has focus "
@@ -189,14 +205,14 @@ ToSelectListWindowManager >> onWindowClosed [
 ]
 
 { #category : #'window handling' }
-ToSelectListWindowManager >> onWindowOpened [
+ToMultiSelectListWindowManager >> onWindowOpened [
 
 	super onWindowOpened.
 	self element onWindowOpened
 ]
 
 { #category : #'window handling' }
-ToSelectListWindowManager >> popupWindowHiddenEvent: anEvent [
+ToMultiSelectListWindowManager >> popupWindowHiddenEvent: anEvent [
 
 	(currentWindow notNil and: [ currentWindow isOpened ]) ifTrue: [
 		^ self ].
@@ -206,13 +222,13 @@ ToSelectListWindowManager >> popupWindowHiddenEvent: anEvent [
 ]
 
 { #category : #accessing }
-ToSelectListWindowManager >> sieve [ 
+ToMultiSelectListWindowManager >> sieve [ 
 
 	^ sieve
 ]
 
 { #category : #accessing }
-ToSelectListWindowManager >> windowClass [
+ToMultiSelectListWindowManager >> windowClass [
 
 	^ ToSelectListWindow 
 ]

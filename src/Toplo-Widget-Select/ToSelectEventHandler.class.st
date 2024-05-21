@@ -4,6 +4,14 @@ Class {
 	#category : #'Toplo-Widget-Select-Core'
 }
 
+{ #category : #'event handling' }
+ToSelectEventHandler >> elementAddedToSceneGraphEvent: anEvent [
+
+	| select |
+	select := anEvent currentTarget.
+	select onSelectionChangedInListElement 
+]
+
 { #category : #'element handlers' }
 ToSelectEventHandler >> elementExtentChangedEvent: anEvent [
 
@@ -16,6 +24,7 @@ ToSelectEventHandler >> elementExtentChangedEvent: anEvent [
 ToSelectEventHandler >> eventsToHandle [
 
 	^ super eventsToHandle , {
+		  BlElementAddedToSceneGraphEvent.
 		  BlElementExtentChangedEvent.
 		  ToSelectInputTextFieldUpdatedEvent }
 ]

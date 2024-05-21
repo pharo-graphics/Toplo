@@ -1,86 +1,14 @@
 Class {
 	#name : #ToSelectElement,
-	#superclass : #ToElementBar,
+	#superclass : #ToTripletElement,
+	#traits : 'TToElementWithPlaceholder',
+	#classTraits : 'TToElementWithPlaceholder classTrait',
 	#instVars : [
 		'filtrable',
-		'windowManager',
-		'hideSelected',
-		'maxSelectedCount',
-		'multipleSelection'
+		'windowManager'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
-
-{ #category : #'accessing - list' }
-ToSelectElement >> addGroup: anObject withData: aCollection [
-
-	| grpIdx |
-	self dataAccessor add: anObject.
-	grpIdx := self dataAccessor itemCount.
-	self setGroupIndex: grpIdx.
-	self dataAccessor addAll: aCollection
-]
-
-{ #category : #'accessing - selection' }
-ToSelectElement >> allowSelectedCount: aNumber [
-
-	^ maxSelectedCount isZero or: [ aNumber <= maxSelectedCount ]
-]
-
-{ #category : #'accessing - selection' }
-ToSelectElement >> assertMaxSelectedCount: aNumber [
-
-	(self allowSelectedCount: aNumber) ifFalse: [
-		self enqueueTask: (BlTaskAction new action: [
-				 Error signal: 'Max selected count reached' ]) ]
-]
-
-{ #category : #'accessing - selection' }
-ToSelectElement >> checkHideSelectionFromListElement [
-
-	hideSelected ifFalse: [ ^ self ].
-	self listElement dataAccessor withIndexDo: [ :d :localIndex |
-		| originalIndex |
-		originalIndex := self sieve dataPositionIndex at: d.
-		(self listElement selectionModel containsIndex: localIndex)
-			ifTrue: [ self listElement selectionModel hideIndex: localIndex ]
-			ifFalse: [ self listElement selectionModel unhideIndex: localIndex ].
-		self listElement selectionModel
-			transferSelectionFromIndex: localIndex
-			toIndex: originalIndex
-			in: self selectionModel ].
-	self listElement dataSource notifyChanged.
-]
-
-{ #category : #'accessing - selection' }
-ToSelectElement >> checkMaxSelectedCountFromListElement [
-
-	| unselectableSM groupeSM |
-	maxSelectedCount isZero ifTrue: [ ^ self ].
-	
-	unselectableSM := self listElement unselectableSelectionModel.
-	groupeSM := self listElement groupSelectionModel.
-
-	self updateSelectedCountLabel.
-
-	self assertMaxSelectedCount: self selectionModel selectedIndexesCount.
-	self listElement dataAccessor withIndexDo: [ :d :localIndex |
-		| originalIndex |
-		originalIndex := self sieve dataPositionIndex at: d.
-		(groupeSM containsIndex: localIndex) ifFalse: [
-			self selectionModel selectedIndexesCount < maxSelectedCount
-				ifTrue: [ unselectableSM deselectIndex: localIndex ]
-				ifFalse: [
-					(self selectionModel containsIndex: originalIndex) ifFalse: [
-						unselectableSM selectIndex: localIndex ] ] ].
-
-		self listElement selectionModel
-			transferSelectionFromIndex: localIndex
-			toIndex: originalIndex
-			in: self selectionModel ].
-		
-	self listElement dataSource notifyChanged
-]
 
 { #category : #'accessing - window' }
 ToSelectElement >> closeWindow [
@@ -92,6 +20,12 @@ ToSelectElement >> closeWindow [
 ToSelectElement >> currentWindow [ 
 
 	^ self windowManager currentWindow
+]
+
+{ #category : #'accessing - list' }
+ToSelectElement >> dataAccessor [
+
+	^ self listElement dataAccessor
 ]
 
 { #category : #private }
@@ -128,18 +62,6 @@ ToSelectElement >> filtrable: aBoolean [
 ]
 
 { #category : #accessing }
-ToSelectElement >> hideSelected [
-
-	^ hideSelected 
-]
-
-{ #category : #accessing }
-ToSelectElement >> hideSelected: aBoolean [
-
-	hideSelected := aBoolean
-]
-
-{ #category : #accessing }
 ToSelectElement >> iconContainer [
 
 	^ self endElement
@@ -151,7 +73,6 @@ ToSelectElement >> iconContainer: anIconContainer [
 	self iconContainer = anIconContainer ifTrue: [ ^ self ].
 	self iconContainer ifNotNil: [
 		self iconContainer onUninstalledIn: self ].
-	anIconContainer selectionModel: self selectionModel.
 	self endElement: anIconContainer.
 	anIconContainer onInstalledIn: self
 ]
@@ -159,25 +80,19 @@ ToSelectElement >> iconContainer: anIconContainer [
 { #category : #initialization }
 ToSelectElement >> initialize [
 
-	| sharedEventsDistributor |
 	super initialize.
 	self id: #selectElement.
 	filtrable := true.
-	hideSelected := false.
-	maxSelectedCount := 0.
 	
 	" for the popup "
 	windowManager := self newWindowManager.
 	self iconContainer: self newIconContainer.
-
-	self multipleSelection: self multipleSelectionByDefault.
-	sharedEventsDistributor := BlSharedEventDistributor new.
-	sharedEventsDistributor
-		adjustMousePosition: false;
-		shareEvents: { ToCollectionFilteredEvent }.
-
-	self addEventHandler: sharedEventsDistributor.
-	self listElement addEventHandler: sharedEventsDistributor
+	self installNodeContainerAndRefresh.
+	
+	self addEventHandlerOn: ToPlaceholderShownEvent do: [ :event |
+		self flag: 'The width of 16???. Why ? Anyway, it should be handled via a skin'.
+		event placeholder padding: (BlInsets left: 16).
+		event placeholder layout alignCenterLeft ]
 ]
 
 { #category : #accessing }
@@ -186,24 +101,31 @@ ToSelectElement >> inputTextField [
 	^ self nodeContainer inputTextField
 ]
 
-{ #category : #accessing }
-ToSelectElement >> installNodeContainer [ 
+{ #category : #initialization }
+ToSelectElement >> installNodeContainer [
 
-	super installNodeContainer.
-	windowManager listElement selectionMode multiple: self isMultipleSelection.
-	self requestNewSkin 
+	self nodeContainer ifNotNil: [
+		self nodeContainer onUninstalledIn: self ].
+	self middleElement: self newNodeContainer.
+	self middleContainer constraintsDo: [ :c |
+		c horizontal matchParent.
+		c vertical fitContent ].
+	self nodeContainer onInstalledIn: self.
+	self listElement selectionMode multiple: false.
+	self requestNewSkin
+]
+
+{ #category : #initialization }
+ToSelectElement >> installNodeContainerAndRefresh [
+
+	self installNodeContainer.
+	self refresh
 ]
 
 { #category : #testing }
 ToSelectElement >> isFiltrable [ 
 
 	^ filtrable
-]
-
-{ #category : #testing }
-ToSelectElement >> isMultipleSelection [
-
-	^ multipleSelection 
 ]
 
 { #category : #'accessing - list' }
@@ -218,42 +140,19 @@ ToSelectElement >> listElement [
 	^ self windowManager listElement
 ]
 
-{ #category : #'accessing - list' }
-ToSelectElement >> listNodeBuilder: aValuable [
-
-	self listElement nodeBuilder: aValuable
-]
-
-{ #category : #accessing }
-ToSelectElement >> maxSelectedCount [
-
-	^ maxSelectedCount
-]
-
-{ #category : #accessing }
-ToSelectElement >> maxSelectedCount: aNumber [
-
-	maxSelectedCount := aNumber.
-	self iconContainer maxSelectedCount: aNumber
-]
-
-{ #category : #'accessing - selection' }
-ToSelectElement >> multipleSelection: aBoolean [
-
-	multipleSelection := aBoolean.
-	self installNodeContainerAndRefresh
-]
-
-{ #category : #initialization }
-ToSelectElement >> multipleSelectionByDefault [ 
-
-	^ false
-]
-
 { #category : #'instance creation' }
 ToSelectElement >> newIconContainer [
 
 	^ ToSelectIconContainer new forFiltering: self isFiltrable 
+]
+
+{ #category : #'instance creation' }
+ToSelectElement >> newNodeContainer [
+
+	| container |
+	container := self nodeContainerClass new.
+	container id: #nodeContainer.
+	^ container
 ]
 
 { #category : #skin }
@@ -283,29 +182,16 @@ ToSelectElement >> nodeBuilder: aValuable [
 	self nodeContainer nodeBuilder: aValuable
 ]
 
+{ #category : #accessing }
+ToSelectElement >> nodeContainer [
+
+	^ self middleElement 
+]
+
 { #category : #'instance creation' }
 ToSelectElement >> nodeContainerClass [
 
-	^ self isMultipleSelection
-		  ifTrue: [ ToMultipleSelectContainerElement ]
-		  ifFalse: [ ToSingleSelectContainerElement ]
-]
-
-{ #category : #'accessing - selection' }
-ToSelectElement >> onSelectionChanged [
-
-	| listData |
-	listData := self listElement dataAccessor.
-	" update list according to my selection model"
-	listData withIndexDo: [ :d :localIndex |
-		| originalIndex |
-		originalIndex := self sieve dataPositionIndex at: d.
-		self selectionModel
-			transferSelectionFromIndex: originalIndex
-			toIndex: localIndex
-			in: self listElement selectionModel ].
-	self refresh.
-	self listElement notifyPrimarySelectionDirty
+	^ ToSingleSelectContainerElement
 ]
 
 { #category : #'accessing - selection' }
@@ -313,10 +199,6 @@ ToSelectElement >> onSelectionChangedInListElement [
 
 	self showHidePlaceholder.
 	self nodeContainer refresh.
-
-	self checkHideSelectionFromListElement.
-	self checkMaxSelectedCountFromListElement.
-
 	self listElement notifyPrimarySelectionDirty.
 	self nodeContainer requestLayout
 ]
@@ -376,16 +258,21 @@ ToSelectElement >> popupWindowEvent: anEvent [
 ]
 
 { #category : #accessing }
-ToSelectElement >> selectionModel: aSelectionModel [
+ToSelectElement >> refresh [
 
-	self iconContainer selectionModel: self selectionModel
+	self nodeContainer refresh
 ]
 
-{ #category : #'accessing - list' }
-ToSelectElement >> setGroupIndex: anIndex [
+{ #category : #'accessing - selection' }
+ToSelectElement >> selecter [
 
-	self listElement groupSelecter selectIndex: anIndex.
-	self listElement unselectableSelecter selectIndex: anIndex
+	^ self listElement selecter
+]
+
+{ #category : #'accessing - selection' }
+ToSelectElement >> selectionModel [
+
+	^ self listElement selectionModel
 ]
 
 { #category : #private }
@@ -401,12 +288,6 @@ ToSelectElement >> showHidePlaceholder [
 ToSelectElement >> sieve [
 
 	^ windowManager sieve
-]
-
-{ #category : #initialization }
-ToSelectElement >> singleByDefault [
-
-	^ self multipleSelectionByDefault not
 ]
 
 { #category : #accessing }

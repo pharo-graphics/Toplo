@@ -1,5 +1,5 @@
 Class {
-	#name : #ToElementBar,
+	#name : #ToElementBarDep,
 	#superclass : #ToTripletElement,
 	#traits : 'TToElementWithPlaceholder',
 	#classTraits : 'TToElementWithPlaceholder classTrait',
@@ -14,32 +14,32 @@ Class {
 }
 
 { #category : #accessing }
-ToElementBar >> dataAccessor [
+ToElementBarDep >> dataAccessor [
 
 	^ dataAccessor
 ]
 
 { #category : #accessing }
-ToElementBar >> dataAccessor: aDataAccessor [
+ToElementBarDep >> dataAccessor: aDataAccessor [
 
 	dataAccessor := aDataAccessor
 ]
 
 { #category : #'instance creation' }
-ToElementBar >> defaultSelectionMode [
+ToElementBarDep >> defaultSelectionMode [
 
 	^ ToListSelectionMode primary
 ]
 
 { #category : #'accessing - selection' }
-ToElementBar >> deselectAll [
+ToElementBarDep >> deselectAll [
 
 	self selectionModel deselectAll.
 	self notifySelectionChanged
 ]
 
 { #category : #'accessing - selection' }
-ToElementBar >> deselectIndex: anIndex [
+ToElementBarDep >> deselectIndex: anIndex [
 
 	self selectionModel deselectIndex: anIndex.
 	self notifySelectionChanged.
@@ -47,20 +47,20 @@ ToElementBar >> deselectIndex: anIndex [
 ]
 
 { #category : #'accessing - selection' }
-ToElementBar >> deselectIndexes: anArray [
+ToElementBarDep >> deselectIndexes: anArray [
 
 	self selectionModel deselectIndexes: anArray.
 	self notifySelectionChanged 
 ]
 
 { #category : #accessing }
-ToElementBar >> fakeDataItem: aDataItem [
+ToElementBarDep >> fakeDataItem: aDataItem [
 
 	self nodeContainer fakeDataItem: aDataItem
 ]
 
 { #category : #initialization }
-ToElementBar >> initialize [
+ToElementBarDep >> initialize [
 
 	super initialize.
 	nodeWrapping := true.
@@ -76,7 +76,7 @@ ToElementBar >> initialize [
 ]
 
 { #category : #initialization }
-ToElementBar >> installNodeContainer [
+ToElementBarDep >> installNodeContainer [
 
 	self nodeContainer ifNotNil: [
 		self nodeContainer onUninstalledIn: self ].
@@ -94,14 +94,14 @@ ToElementBar >> installNodeContainer [
 ]
 
 { #category : #'accessing - selection' }
-ToElementBar >> installNodeContainerAndRefresh [
+ToElementBarDep >> installNodeContainerAndRefresh [
 
 	self installNodeContainer.
 	self refresh
 ]
 
 { #category : #'instance creation' }
-ToElementBar >> newNodeContainer [
+ToElementBarDep >> newNodeContainer [
 
 	| container |
 	container := self nodeContainerClass new id: #nodeContainer;
@@ -111,99 +111,99 @@ ToElementBar >> newNodeContainer [
 ]
 
 { #category : #'instance creation' }
-ToElementBar >> newPrimarySelectionModel [
+ToElementBarDep >> newPrimarySelectionModel [
 
 	^ ToPrimarySelectionModel new
 ]
 
 { #category : #skin }
-ToElementBar >> newRawSkin [ 
+ToElementBarDep >> newRawSkin [ 
 
 	^ ToElementBarSkin new
 ]
 
 { #category : #accessing }
-ToElementBar >> nodeAutoDistribution [
+ToElementBarDep >> nodeAutoDistribution [
 
 	^ nodeAutoDistribution
 ]
 
 { #category : #accessing }
-ToElementBar >> nodeAutoDistribution: aBoolean [
+ToElementBarDep >> nodeAutoDistribution: aBoolean [
 
 	nodeAutoDistribution := aBoolean.
 	self installNodeContainerAndRefresh
 ]
 
 { #category : #accessing }
-ToElementBar >> nodeContainer [
+ToElementBarDep >> nodeContainer [
 
 	^ self middleElement 
 ]
 
 { #category : #'instance creation' }
-ToElementBar >> nodeContainerClass [
+ToElementBarDep >> nodeContainerClass [
 
 	^ self subclassResponsibility 
 ]
 
 { #category : #accessing }
-ToElementBar >> nodeScrolling [
+ToElementBarDep >> nodeScrolling [
 
 	^ nodeScrolling 
 ]
 
 { #category : #accessing }
-ToElementBar >> nodeScrolling: aBoolean [
+ToElementBarDep >> nodeScrolling: aBoolean [
 
 	nodeScrolling := aBoolean.
 	self installNodeContainerAndRefresh
 ]
 
 { #category : #accessing }
-ToElementBar >> nodeWrapping [
+ToElementBarDep >> nodeWrapping [
 
 	^ nodeWrapping 
 ]
 
 { #category : #accessing }
-ToElementBar >> nodeWrapping: aBoolean [
+ToElementBarDep >> nodeWrapping: aBoolean [
 
 	nodeWrapping := aBoolean.
 	self installNodeContainerAndRefresh
 ]
 
 { #category : #accessing }
-ToElementBar >> nodes [
+ToElementBarDep >> nodes [
 
 	^ self nodeContainer nodes
 ]
 
 { #category : #'accessing - selection' }
-ToElementBar >> notifySelectionChanged [
+ToElementBarDep >> notifySelectionChanged [
 
 	self dispatchEvent: ToElementBarSelectionChanged new
 ]
 
 { #category : #layout }
-ToElementBar >> onLayoutOrientationChanged [
+ToElementBarDep >> onLayoutOrientationChanged [
 
 	self installNodeContainerAndRefresh
 ]
 
 { #category : #'accessing - selection' }
-ToElementBar >> onSelectionChanged [
+ToElementBarDep >> onSelectionChanged [
 
 ]
 
 { #category : #'accessing - selection' }
-ToElementBar >> refresh [
+ToElementBarDep >> refresh [
 
 	self nodeContainer refresh
 ]
 
 { #category : #'accessing - selection' }
-ToElementBar >> removeNode: aNode [
+ToElementBarDep >> removeNode: aNode [
 
 	| index |
 	index := aNode holder position.
@@ -213,21 +213,21 @@ ToElementBar >> removeNode: aNode [
 ]
 
 { #category : #'accessing - selection' }
-ToElementBar >> selectIndex: anIndex [
+ToElementBarDep >> selectIndex: anIndex [
 
 	self selectionModel selectIndex: anIndex.
 	self notifySelectionChanged
 ]
 
 { #category : #'accessing - selection' }
-ToElementBar >> selectIndexes: aCollection [
+ToElementBarDep >> selectIndexes: aCollection [
 
 	self selectionModel selectIndexes: aCollection.
 	self notifySelectionChanged
 ]
 
 { #category : #'accessing - selection' }
-ToElementBar >> selectOnlyIndex: anIndex [
+ToElementBarDep >> selectOnlyIndex: anIndex [
 
 	self selectionModel deselectAll.
 	self selectionModel selectIndex: anIndex.
@@ -235,7 +235,7 @@ ToElementBar >> selectOnlyIndex: anIndex [
 ]
 
 { #category : #'accessing - selection' }
-ToElementBar >> selectOnlyIndexes: aCollection [
+ToElementBarDep >> selectOnlyIndexes: aCollection [
 
 	self selectionModel deselectAll.
 	self selectionModel selectIndexes: aCollection.
@@ -243,13 +243,13 @@ ToElementBar >> selectOnlyIndexes: aCollection [
 ]
 
 { #category : #accessing }
-ToElementBar >> selecter [ 
+ToElementBarDep >> selecter [ 
 
 	^ selectionMode selecter
 ]
 
 { #category : #accessing }
-ToElementBar >> selectionMode: aSelectionMode [
+ToElementBarDep >> selectionMode: aSelectionMode [
 
 	selectionMode ifNotNil: [
 		selectionMode onUninstalledIn: self ].
@@ -261,13 +261,13 @@ ToElementBar >> selectionMode: aSelectionMode [
 ]
 
 { #category : #accessing }
-ToElementBar >> selectionModel [
+ToElementBarDep >> selectionModel [
 
 	^ selectionMode selectionModel
 ]
 
 { #category : #private }
-ToElementBar >> showHidePlaceholder [
+ToElementBarDep >> showHidePlaceholder [
 
 	self nodes ifEmpty: [
 			^ self  showPlaceholder ].

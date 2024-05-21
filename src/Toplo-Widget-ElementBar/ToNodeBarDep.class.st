@@ -1,6 +1,6 @@
 Class {
 	#name : #ToNodeBarDep,
-	#superclass : #ToElementBar,
+	#superclass : #ToElementBarDep,
 	#category : #'Toplo-Widget-ElementBar'
 }
 

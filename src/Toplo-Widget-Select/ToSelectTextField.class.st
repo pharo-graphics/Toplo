@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'headerNodeContainer'
 	],
-	#category : #'Toplo-Widget-Select-Node'
+	#category : #'Toplo-Widget-Select-textInput'
 }
 
 { #category : #accessing }

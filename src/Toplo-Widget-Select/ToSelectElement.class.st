@@ -7,7 +7,7 @@ Class {
 		'filtrable',
 		'windowManager'
 	],
-	#category : #'Toplo-Widget-Select-Core'
+	#category : #'Toplo-Widget-Select-Single'
 }
 
 { #category : #'accessing - window' }
@@ -26,12 +26,6 @@ ToSelectElement >> currentWindow [
 ToSelectElement >> dataAccessor [
 
 	^ self listElement dataAccessor
-]
-
-{ #category : #private }
-ToSelectElement >> fakeNode [
-
-	^ self childWithId: #fakeNode ifNone: [  ]
 ]
 
 { #category : #accessing }
@@ -70,11 +64,7 @@ ToSelectElement >> iconContainer [
 { #category : #accessing }
 ToSelectElement >> iconContainer: anIconContainer [
 
-	self iconContainer = anIconContainer ifTrue: [ ^ self ].
-	self iconContainer ifNotNil: [
-		self iconContainer onUninstalledIn: self ].
-	self endElement: anIconContainer.
-	anIconContainer onInstalledIn: self
+	self endElement: anIconContainer
 ]
 
 { #category : #initialization }
@@ -191,7 +181,13 @@ ToSelectElement >> nodeContainer [
 { #category : #'instance creation' }
 ToSelectElement >> nodeContainerClass [
 
-	^ ToSingleSelectContainerElement
+	^ ToSelectNodeContainerElement
+]
+
+{ #category : #accessing }
+ToSelectElement >> nodeFactory: aValuable [
+
+	self nodeContainer nodeFactory: aValuable
 ]
 
 { #category : #'accessing - selection' }
@@ -294,12 +290,6 @@ ToSelectElement >> sieve [
 ToSelectElement >> textInputElement [ 
 
 	^ self nodeContainer textInputElement
-]
-
-{ #category : #private }
-ToSelectElement >> updateSelectedCountLabel [
-
-	self iconContainer updateSelectedCountLabel
 ]
 
 { #category : #accessing }

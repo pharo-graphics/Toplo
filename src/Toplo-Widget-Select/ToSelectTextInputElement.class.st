@@ -8,7 +8,7 @@ Class {
 		'forFiltering',
 		'windowPopupHandler'
 	],
-	#category : #'Toplo-Widget-Select-Node'
+	#category : #'Toplo-Widget-Select-textInput'
 }
 
 { #category : #initialization }

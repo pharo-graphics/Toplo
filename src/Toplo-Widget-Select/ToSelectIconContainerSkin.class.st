@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSelectIconContainerSkin,
 	#superclass : #ToRawSkin,
-	#category : #'Toplo-Widget-Select-Core'
+	#category : #'Toplo-Widget-Select-Single'
 }
 
 { #category : #'event handling' }
@@ -33,7 +33,7 @@ ToSelectIconContainerSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e iconHolder padding: (BlInsets horizontal: 5).
+		e middleContainer padding: (BlInsets horizontal: 5).
 		e icon ifNil: [ e icon: self popupClosedIcon ] ]
 ]
 

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'removable'
 	],
-	#category : #'Toplo-Widget-Select-Node'
+	#category : #'Toplo-Widget-Select-Multi'
 }
 
 { #category : #'private configurating' }

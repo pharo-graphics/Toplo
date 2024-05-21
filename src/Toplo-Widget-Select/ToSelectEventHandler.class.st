@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSelectEventHandler,
 	#superclass : #ToElementWithPopupEventHandler,
-	#category : #'Toplo-Widget-Select-Core'
+	#category : #'Toplo-Widget-Select-Single'
 }
 
 { #category : #'event handling' }
@@ -34,18 +34,4 @@ ToSelectEventHandler >> selectInputTextFieldUpdatedEvent: anEvent [
 
 	anEvent currentTarget showHidePlaceholder.
 	anEvent currentTarget filterStringChanged.
-]
-
-{ #category : #'event handling' }
-ToSelectEventHandler >> windowClosedEvent: anEvent [
-
-	super windowClosedEvent: anEvent.
-	anEvent currentTarget iconContainer dispatchEvent: anEvent
-]
-
-{ #category : #'event handling' }
-ToSelectEventHandler >> windowOpenedEvent: anEvent [
-
-	super windowOpenedEvent: anEvent.
-	anEvent currentTarget iconContainer dispatchEvent: anEvent
 ]

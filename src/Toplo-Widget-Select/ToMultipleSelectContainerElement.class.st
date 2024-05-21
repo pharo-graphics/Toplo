@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'textInputElement'
 	],
-	#category : #'Toplo-Widget-Select-Core'
+	#category : #'Toplo-Widget-Select-Multi'
 }
 
 { #category : #initialization }

@@ -8,7 +8,7 @@ Class {
 		'maxSelectedCount',
 		'multipleSelection'
 	],
-	#category : #'Toplo-Widget-Select-Core'
+	#category : #'Toplo-Widget-Select-Multi'
 }
 
 { #category : #'accessing - list' }
@@ -253,7 +253,7 @@ ToMultiSelectElement >> multipleSelectionByDefault [
 { #category : #'instance creation' }
 ToMultiSelectElement >> newIconContainer [
 
-	^ ToSelectIconContainer new forFiltering: self isFiltrable 
+	^ ToMultiSelectIconContainer new forFiltering: self isFiltrable 
 ]
 
 { #category : #skin }

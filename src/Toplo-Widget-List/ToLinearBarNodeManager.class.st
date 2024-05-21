@@ -2,8 +2,7 @@ Class {
 	#name : #ToLinearBarNodeManager,
 	#superclass : #ToAbstractListNodeManager,
 	#instVars : [
-		'fakeDataItem',
-		'fakeNode'
+		'fakeDataItem'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -30,14 +29,14 @@ ToLinearBarNodeManager >> fakeDataItem: anObject [
 	fakeDataItem := anObject
 ]
 
-{ #category : #accessing }
-ToLinearBarNodeManager >> fakeNode [
+{ #category : #'instance creation' }
+ToLinearBarNodeManager >> newFakeNodeInHolder: anHolder [
 
+	| fakeNode |
+	anHolder dataItem: fakeDataItem.
+	fakeNode := self newNodeInHolder: anHolder.
+	self buildNode: fakeNode inHolder: anHolder.
+	anHolder node: fakeNode.
 	^ fakeNode
-]
 
-{ #category : #accessing }
-ToLinearBarNodeManager >> fakeNode: aNode [
-
-	fakeNode := aNode
 ]

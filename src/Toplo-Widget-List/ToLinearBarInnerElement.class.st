@@ -122,10 +122,7 @@ ToLinearBarInnerElement >> installFakeNode [
 	fakeNode ifNotNil: [ :fn | fn removeFromParent ].
 	holder := self dataSource createHolder: self.
 	holder infiniteElement: self.
-	holder dataItem: fakeDataItem.
-	fakeNode := self listElement nodeManager newNodeInHolder: holder.
-	self listElement nodeManager builderNode: fakeNode inHolder: holder.
-	holder node: fakeNode.
+	fakeNode := self listElement nodeManager newFakeNodeInHolder: holder.
 	fakeNode id: #fakeNode.
 	fakeNode background: Color red.
 	self isHorizontal

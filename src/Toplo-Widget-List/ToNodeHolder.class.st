@@ -14,7 +14,7 @@ ToNodeHolder >> bindDataItem: aDataItem [
 	nodeManager := self listElement nodeManager.
 	self dataItem: aDataItem. 
 	self node: (nodeManager newNodeInHolder: self).
-	nodeManager builderNode: self node inHolder: self.
+	nodeManager buildNode: self node inHolder: self.
 	self node enabled: self isEnabled.
 	self isHidden ifTrue: [ self node height: 0 ]
 ]

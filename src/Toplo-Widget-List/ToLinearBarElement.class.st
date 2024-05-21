@@ -42,6 +42,12 @@ ToLinearBarElement >> defaultNodeContainer [
 	^ ToLinearBarInnerElement onLinearBarElement: self
 ]
 
+{ #category : #initialization }
+ToLinearBarElement >> defaultNodeManagerClass [
+
+	^ ToLinearBarNodeManager 
+]
+
 { #category : #accessing }
 ToLinearBarElement >> fakeDataItem: aDataItem [
 
@@ -62,8 +68,7 @@ ToLinearBarElement >> initialize [
 	nodeWrapping := true.
 	nodeScrolling := true.
 	nodeAutoDistribution := false.
-	self installNodeContainer  
-
+	self installNodeContainer
 ]
 
 { #category : #initialization }

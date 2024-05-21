@@ -4,7 +4,6 @@ Class {
 	#instVars : [
 		'trackElement',
 		'fakeNode',
-		'fakeDataItem',
 		'nodeScrolling',
 		'nodeWrapping',
 		'nodeAutoDistribution',
@@ -22,37 +21,17 @@ ToScrollableBarElement class >> onLinearBarElement: aLinearBarElement [
 ]
 
 { #category : #'accessing - children' }
-ToScrollableBarElement >> addHolders: anArray [
+ToScrollableBarElement >> addAllHolders: anArray at: aPosition [
 
-	anArray do: [ :h |
-		| node |
-		node := h node.
-		node constraintsDo: [ :c |
-			self isHorizontal
-				ifTrue: [
-					c horizontal matchParent.
-					c vertical fitContent ]
-				ifFalse: [
-					c vertical matchParent.
-					c horizontal fitContent ] ].
-		trackElement addChild: node ]
+	anArray reverseDo: [ :h | self addHolder: h at: aPosition]
 ]
 
 { #category : #'accessing - children' }
-ToScrollableBarElement >> addHolders: anArray at: aPosition [
+ToScrollableBarElement >> addHolder: anHolder at: aPosition [
 
-	anArray reverseDo: [ :h |
-		| node |
-		node := h node.
-		node constraintsDo: [ :c |
-			self isHorizontal
-				ifTrue: [
-					c horizontal matchParent.
-					c vertical fitContent ]
-				ifFalse: [
-					c vertical fitContent.
-					c horizontal fitContent ] ].
-		trackElement addChild: node at: aPosition]
+	| node |
+	node := anHolder node.
+	trackElement addChild: node at: aPosition
 ]
 
 { #category : #initialization }
@@ -65,15 +44,11 @@ ToScrollableBarElement >> configureLayoutIn: aListElement [
 
 	self isHorizontal
 		ifTrue: [
-			self constraintsDo: [ :c | "				c linear vertical alignCenter.
-				c flow vertical alignCenter.
-"
+			self constraintsDo: [ :c | 
 				c vertical fitContent.
 				c horizontal matchParent ] ]
 		ifFalse: [
-			self constraintsDo: [ :c | "				c linear horizontal alignCenter.
-				c flow horizontal alignCenter.
-"
+			self constraintsDo: [ :c |
 				c horizontal fitContent.
 				c vertical matchParent ] ].
 
@@ -99,13 +74,13 @@ ToScrollableBarElement >> configureLayoutIn: aListElement [
 
 	self isNodeScrolling ifFalse: [
 		self isNodeAutoDistribution ifTrue: [
-			self nodesDo: [ :n | n autoDistribute ] ] ].
+			self nodesDo: [ :n | n autoDistribute ] ] ]
+]
 
-	"self nodesDo: [ :n |
-		n constraintsDo: [ :c |
-			c horizontal fitContent.
-			c vertical fitContent ] ]"
-	"self installFakeNode"
+{ #category : #accessing }
+ToScrollableBarElement >> fakeNode: aNode [
+
+	fakeNode := aNode
 ]
 
 { #category : #initialization }
@@ -116,40 +91,6 @@ ToScrollableBarElement >> initialize [
 	trackElement id: #track.
 	self addChild: trackElement.
 	self matchParent
-]
-
-{ #category : #initialization }
-ToScrollableBarElement >> installFakeNode [
-	" the fake node is added when no data is selected to ensure a 
-	suitable minimum height according to the node class, the node builder 
-	and the data kind."
-
-	fakeNode ifNotNil: [ :fn |
-		fn onUninstalledIn: self.
-		fn removeFromParent ].
-
-	fakeNode := self newNode.
-	fakeNode id: #fakeNode.
-	fakeNode holder dataItem: fakeDataItem.
-	self nodeBuilder value: fakeNode value: fakeNode holder.
-	self isHorizontal
-		ifTrue: [
-			fakeNode width: 0.
-			fakeNode constraintsDo: [ :c |
-				c vertical matchParent.
-				c flow vertical alignCenter.
-				c linear vertical alignCenter ] ]
-		ifFalse: [
-			fakeNode height: 0.
-			fakeNode constraintsDo: [ :c |
-				c horizontal matchParent.
-				c flow horizontal alignCenter.
-				c linear horizontal alignCenter ] ].
-
-	fakeNode margin: BlInsets empty.
-
-	" add the fake node (to keep a constant minimum height )"
-	trackElement addChild: fakeNode
 ]
 
 { #category : #testing }
@@ -179,5 +120,6 @@ ToScrollableBarElement >> isNodeWrapping [
 { #category : #'accessing - children' }
 ToScrollableBarElement >> nodesDo: aBlock [
 
-	trackElement childrenDo: [ :node | aBlock value: node]
+	trackElement childrenDo: [ :node |
+		node = fakeNode ifFalse: [ aBlock value: node ] ]
 ]

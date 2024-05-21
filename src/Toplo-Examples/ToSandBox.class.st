@@ -10,6 +10,9 @@ ToSandBox class >> example_BasicListWithAllClasses3 [
 	| l |
 	l := ToListElement new nodeBuilder: [ :node :holder |
 		     | icn lab |
+		     node constraintsDo: [ :c |
+			     c horizontal matchParent.
+			     c vertical fitContent ].
 		     icn := holder dataItem hasComment
 			            ifTrue: [ #class ]
 			            ifFalse: [ #uncommentedClass ].
@@ -2823,7 +2826,7 @@ ToSandBox class >> example_nodeBar [
 	barPane addChild: bar.
 	bar dataAccessor addAll:
 		(ToSandBox statesOfAmerica copyFrom: 1 to: 6).
-	
+
 	verticalSwitch := ToSwitchButton new labelText: 'Vertical'.
 	verticalSwitch endToStart: true.
 	verticalSwitch startFlexible: true.
@@ -2843,7 +2846,7 @@ ToSandBox class >> example_nodeBar [
 						 bar vFitContent ].
 				 bar vertical: v ]).
 	confPane addChild: verticalSwitch.
-	
+
 	wrappingSwitch := ToSwitchButton new labelText: 'Wrapping'.
 	wrappingSwitch endToStart: true.
 	wrappingSwitch startFlexible: true.
@@ -2855,7 +2858,7 @@ ToSandBox class >> example_nodeBar [
 			 do: [ :event |
 				 | v |
 				 v := event current.
-				bar nodeWrapping: v ]).	
+				 bar nodeWrapping: v ]).
 	scrollingSwitch := ToSwitchButton new labelText: 'Scrolling'.
 	scrollingSwitch endToStart: true.
 	scrollingSwitch startFlexible: true.
@@ -2867,7 +2870,7 @@ ToSandBox class >> example_nodeBar [
 			 do: [ :event |
 				 | v |
 				 v := event current.
-				bar nodeScrolling: v ]).
+				 bar nodeScrolling: v ]).
 
 	bar nodeScrolling: false.
 	bar nodeAutoDistribution: false.

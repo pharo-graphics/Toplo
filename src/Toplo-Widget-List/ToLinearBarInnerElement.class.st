@@ -6,7 +6,9 @@ Class {
 		'dataSource',
 		'dataSourceObserver',
 		'dataSourceManager',
-		'scrollable'
+		'scrollable',
+		'fakeDataItem',
+		'fakeNode'
 	],
 	#category : #'Toplo-Widget-List-InnerLinearBar'
 }
@@ -20,15 +22,9 @@ ToLinearBarInnerElement class >> onLinearBarElement: aLinearBarElement [
 ]
 
 { #category : #adding }
-ToLinearBarInnerElement >> addHolders: anArray [
+ToLinearBarInnerElement >> addAllHolders: anArray at: aPosition [
 
-	scrollable addHolders: anArray
-]
-
-{ #category : #adding }
-ToLinearBarInnerElement >> addHolders: anArray at: aPosition [
-
-	scrollable addHolders: anArray at: aPosition
+	scrollable addAllHolders: anArray at: aPosition
 ]
 
 { #category : #initialization }
@@ -39,16 +35,19 @@ ToLinearBarInnerElement >> configureLayoutIn: aListElement [
 			self hMatchParent.
 			self vFitContent.
 			self middleContainer constraintsDo: [ :c |
+				c linear vertical alignCenter.
 				c horizontal matchParent.
 				c vertical fitContent ] ]
 		ifFalse: [
 			self vMatchParent.
 			self hFitContent.
 			self middleContainer constraintsDo: [ :c |
+				c linear horizontal alignCenter.
 				c vertical matchParent.
 				c horizontal fitContent ] ].
 
-	scrollable configureLayoutIn: aListElement
+	scrollable configureLayoutIn: aListElement.
+	self installFakeNode
 ]
 
 { #category : #accessing }
@@ -84,6 +83,13 @@ ToLinearBarInnerElement >> defaultDataSourceObserver [
 	^ ToScrollableBarDataSourceObserver
 ]
 
+{ #category : #accessing }
+ToLinearBarInnerElement >> fakeDataItem: anObject [
+
+	fakeDataItem := anObject. 
+	self installFakeNode.
+]
+
 { #category : #initialization }
 ToLinearBarInnerElement >> initialize [ 
 
@@ -104,6 +110,42 @@ ToLinearBarInnerElement >> initializeDataSource [
 	dataSourceObserver := self defaultDataSourceObserver on: self.
 	dataSource addEventHandler: dataSourceObserver.
 	dataSourceManager := self defaultDataSourceManager
+]
+
+{ #category : #initialization }
+ToLinearBarInnerElement >> installFakeNode [
+	" the fake node is added in case of an empty data source to ensure a 
+	suitable minimum height according to the node class, the node builder 
+	and the data kind."
+
+	| holder |
+	fakeNode ifNotNil: [ :fn | fn removeFromParent ].
+	holder := self dataSource createHolder: self.
+	holder infiniteElement: self.
+	holder dataItem: fakeDataItem.
+	fakeNode := self listElement nodeManager newNodeInHolder: holder.
+	self listElement nodeManager builderNode: fakeNode inHolder: holder.
+	holder node: fakeNode.
+	fakeNode id: #fakeNode.
+	fakeNode background: Color red.
+	self isHorizontal
+		ifTrue: [
+			fakeNode width: 0.
+			fakeNode constraintsDo: [ :c |
+				c vertical matchParent.
+				c flow vertical alignCenter.
+				c linear vertical alignCenter ] ]
+		ifFalse: [
+			fakeNode height: 0.
+			fakeNode constraintsDo: [ :c |
+				c horizontal matchParent.
+				c flow horizontal alignCenter.
+				c linear horizontal alignCenter ] ].
+
+	fakeNode margin: BlInsets empty.
+
+	" add the fake node (to keep a constant minimum size ) "
+	scrollable addHolder: holder at: dataSource itemCount + 1 
 ]
 
 { #category : #accessing }
@@ -151,6 +193,20 @@ ToLinearBarInnerElement >> nodeGroupsSatisfying: aBlock [
 ToLinearBarInnerElement >> nodesDo: aBlock [
 
 	scrollable nodesDo: aBlock
+]
+
+{ #category : #'data source updates' }
+ToLinearBarInnerElement >> onItemRangeInserted: aPositionStart itemCount: anItemCount [
+
+	| holder offsetPosition holders |
+	holders := Array streamContents: [ :stream |
+		           1 to: anItemCount do: [ :idx |
+			           holder := self dataSource createHolder: self.
+			           offsetPosition := aPositionStart + idx - 1.
+			           holder infiniteElement: self.
+			           self dataSource bindHolder: holder at: offsetPosition.
+			           stream nextPut: holder ] ].
+	self addAllHolders: holders at: aPositionStart
 ]
 
 { #category : #'accessing - children' }

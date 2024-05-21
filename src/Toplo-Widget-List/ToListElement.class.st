@@ -22,6 +22,12 @@ ToListElement >> defaultNodeContainer [
 	^ ToInfiniteElement onListElement: self
 ]
 
+{ #category : #initialization }
+ToListElement >> defaultNodeManagerClass [
+
+	^ ToListNodeManager  
+]
+
 { #category : #skin }
 ToListElement >> newRawSkin [ 
 

@@ -13,32 +13,21 @@ ToScrollableBarDataSourceManager >> innerLinearBarElement: aScrollableBarElement
 	innerLinearBarElement := aScrollableBarElement 
 ]
 
-{ #category : #'items - hooks' }
+{ #category : #'data source updates' }
 ToScrollableBarDataSourceManager >> onItemRangeChanged: aPositionStart itemCount: anItemCount [
 ]
 
-{ #category : #'items - hooks' }
+{ #category : #'data source updates' }
 ToScrollableBarDataSourceManager >> onItemRangeInserted: aPositionStart itemCount: anItemCount [
 
-	| holder offsetPosition holders |
-	holders := Array streamContents: [ :stream |
-		           1 to: anItemCount do: [ :idx |
-			           holder := innerLinearBarElement dataSource
-				                     createHolder: innerLinearBarElement.
-			           offsetPosition := aPositionStart + idx - 1.
-			           holder infiniteElement: innerLinearBarElement.
-			           innerLinearBarElement dataSource
-				           bindHolder: holder
-				           at: offsetPosition.
-			           stream nextPut: holder ] ].
-	innerLinearBarElement addHolders: holders at: aPositionStart
+	innerLinearBarElement onItemRangeInserted: aPositionStart itemCount: anItemCount
 ]
 
-{ #category : #'items - hooks' }
+{ #category : #'data source updates' }
 ToScrollableBarDataSourceManager >> onItemRangeRemoved: aPositionStart itemCount: anItemCount [
 ]
 
-{ #category : #'items - hooks' }
+{ #category : #'data source updates' }
 ToScrollableBarDataSourceManager >> onItemsChanged [
 
 

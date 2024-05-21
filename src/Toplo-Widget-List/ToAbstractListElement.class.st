@@ -143,7 +143,7 @@ ToAbstractListElement >> defaultNodeManager [
 { #category : #initialization }
 ToAbstractListElement >> defaultNodeManagerClass [
 
-	^ ToListNodeManager   
+	^ self subclassResponsibility   
 ]
 
 { #category : #initialization }

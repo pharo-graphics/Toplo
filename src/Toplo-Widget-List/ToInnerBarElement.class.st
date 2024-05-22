@@ -96,7 +96,7 @@ ToInnerBarElement >> defaultDataSourceObserver [
 ]
 
 { #category : #initialization }
-ToInnerBarElement >> initialize [ 
+ToInnerBarElement >> initialize [
 
 	super initialize.
 	self initializeDataSource.
@@ -104,6 +104,12 @@ ToInnerBarElement >> initialize [
 	scrollable := ToScrollableBarElement new.
 	scrollable id: #scrollable.
 	self middleElement: scrollable.
+	scrollable
+		addEventHandlerOn: BlElementScrolledEvent
+		do: [ :event | self dispatchEvent: event copy ].
+	scrollable
+		addEventHandlerOn: ToInfiniteScrollFinishedEvent
+		do: [ :event | self dispatchEvent: event copy ].
 	self addEventHandler: ToInfiniteElementEventHandler new.
 
 	self matchParent

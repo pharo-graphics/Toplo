@@ -84,6 +84,23 @@ ToScrollableBarElement >> configureLayoutIn: aListElement [
 		self nodesDo: [ :n | n autoDistribute: self isNodeAutoDistribution ] ]
 ]
 
+{ #category : #'private - commands' }
+ToScrollableBarElement >> consumePendingDataSourceCommands [
+]
+
+{ #category : #initialization }
+ToScrollableBarElement >> defaultEventHandler [ 
+
+	^ ToScrollableElementEventHandler new
+]
+
+{ #category : #initialization }
+ToScrollableBarElement >> defaultScrollFlinger [
+
+	"Return class, actuall instantiation happens in initialize"
+	^ ToInfiniteScrollFlinger
+]
+
 { #category : #initialization }
 ToScrollableBarElement >> initialize [ 
 
@@ -153,6 +170,20 @@ ToScrollableBarElement >> nodesWithIndexDo: aBlock [
 		aBlock value: node value: node holder position ]
 ]
 
+{ #category : #'hooks - layout' }
+ToScrollableBarElement >> onEnterLayoutOrScroll [
+]
+
+{ #category : #'children add/remove' }
+ToScrollableBarElement >> onExitLayoutOrScroll [
+]
+
+{ #category : #'children add/remove' }
+ToScrollableBarElement >> prefetchingAllowed [
+
+	^ false
+]
+
 { #category : #'accessing - children' }
 ToScrollableBarElement >> removeAllNodes: anArray [
 
@@ -165,4 +196,48 @@ ToScrollableBarElement >> removeNode: aNode [
 	aNode
 		release;
 		removeFromParent
+]
+
+{ #category : #'children add/remove' }
+ToScrollableBarElement >> repositionShadowingElements [
+]
+
+{ #category : #scrolling }
+ToScrollableBarElement >> smoothScrollBy: aPoint [
+	"Animate a scroll by the given amount of pixels along either axis"
+	| dX dY aContent |
+
+	self hasScrolledElement
+		ifFalse: [ ^ self ].
+
+	aContent := self scrolledElement.
+
+	dX := aPoint x.
+	dY := aPoint y negated.
+	
+	self canScrollHorizontally
+			ifTrue: [
+			| aNewPosition aMinPosition aMaxPosition aNewClampedPosition |
+			
+			aNewPosition := self scrollPosition x + dX.
+			aMinPosition := (self width - aContent width) min: 0.0.
+			aMaxPosition := 0.0.
+			aNewClampedPosition := (aNewPosition max: aMinPosition) min: aMaxPosition.
+			
+			dX := aNewClampedPosition - self scrollPosition x ]
+		ifFalse: [ dX := 0.0 ].
+	
+	self canScrollVertically
+		ifTrue: [
+			| aNewPosition aMinPosition aMaxPosition aNewClampedPosition |
+			
+			aNewPosition := self scrollPosition y + dY.
+			aMinPosition := (self height - aContent height) min: 0.0.
+			aMaxPosition := 0.0.
+			aNewClampedPosition := (aNewPosition max: aMinPosition) min: aMaxPosition.
+			dY := aNewClampedPosition - self scrollPosition y ]
+		ifFalse: [ dY := 0.0 ].
+	
+	(dX isZero and: [ dY isZero ])
+		ifFalse: [ scrollFlinger smoothScrollBy: dX @ dY]
 ]

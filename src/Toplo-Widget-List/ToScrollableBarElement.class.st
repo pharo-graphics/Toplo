@@ -125,6 +125,13 @@ ToScrollableBarElement >> isNodeWrapping [
 ]
 
 { #category : #'accessing - children' }
+ToScrollableBarElement >> nodes [
+
+	^ Array streamContents: [ :stream |
+		  self nodesDo: [ :node | stream nextPut: node ] ]
+]
+
+{ #category : #'accessing - children' }
 ToScrollableBarElement >> nodesDo: aBlock [
 
 	trackElement childrenDo: [ :node |
@@ -144,4 +151,18 @@ ToScrollableBarElement >> nodesWithIndexDo: aBlock [
 
 	self nodesDo: [ :node |
 		aBlock value: node value: node holder position ]
+]
+
+{ #category : #'accessing - children' }
+ToScrollableBarElement >> removeAllNodes: anArray [
+
+	anArray reverseDo: [ :node | self removeNode: node ]
+]
+
+{ #category : #'accessing - children' }
+ToScrollableBarElement >> removeNode: aNode [
+
+	aNode
+		release;
+		removeFromParent
 ]

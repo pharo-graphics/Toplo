@@ -19,10 +19,11 @@ ToInnerBarElement class >> onBarElement: aBarElement [
 		  initialize
 ]
 
-{ #category : #adding }
+{ #category : #'accessing - nodes' }
 ToInnerBarElement >> addAllHolders: anArray at: aPosition [
 
-	scrollable addAllHolders: anArray at: aPosition
+	scrollable addAllHolders: anArray at: aPosition.
+	anArray do: [ :h | self notifyChildAttached: h node  ]
 ]
 
 { #category : #private }
@@ -103,6 +104,8 @@ ToInnerBarElement >> initialize [
 	scrollable := ToScrollableBarElement new.
 	scrollable id: #scrollable.
 	self middleElement: scrollable.
+	self addEventHandler: ToInfiniteElementEventHandler new.
+
 	self matchParent
 ]
 
@@ -191,28 +194,42 @@ ToInnerBarElement >> nodeGroupsSatisfying: aBlock [
 		  g ifNotEmpty: [ stream nextPut: g ] ]
 ]
 
-{ #category : #enumerating }
+{ #category : #accessing }
+ToInnerBarElement >> nodes [
+
+	^ scrollable nodes
+]
+
+{ #category : #'node enumerating' }
 ToInnerBarElement >> nodesDo: aBlock [
 
 	scrollable nodesDo: aBlock
 ]
 
-{ #category : #enumerating }
+{ #category : #'node enumerating' }
 ToInnerBarElement >> nodesSelect: aBlock [
 
 	^ scrollable nodesSelect: aBlock
 ]
 
-{ #category : #enumerating }
+{ #category : #'node enumerating' }
 ToInnerBarElement >> nodesWithIndexDo: aBlock [
 
 	scrollable nodesWithIndexDo: aBlock
 ]
 
-{ #category : #'data source notification' }
-ToInnerBarElement >> notifyChanged [
-self halt.
-	dataSource notifyChanged
+{ #category : #notifying }
+ToInnerBarElement >> notifyChildAttached: anElement [
+	"Notify all event handlers that element is attached to the inner bar"
+
+	self dispatchEvent: (BlInfiniteElementAttachedEvent element: anElement)
+]
+
+{ #category : #notifying }
+ToInnerBarElement >> notifyChildDetached: anElement [
+	"Notify all event handlers that element is detached from the inner bar"
+
+	self dispatchEvent: (BlInfiniteElementDetachedEvent element: anElement)
 ]
 
 { #category : #'data source updates' }
@@ -239,6 +256,7 @@ ToInnerBarElement >> onItemRangeInserted: aPositionStart itemCount: anItemCount 
 			           stream nextPut: holder ] ].
 	self addAllHolders: holders at: aPositionStart.
 	self updatePositions
+
 ]
 
 { #category : #'data source updates' }
@@ -249,10 +267,7 @@ ToInnerBarElement >> onItemRangeRemoved: aPositionStart itemCount: anItemCount [
 		         node holder position
 			         between: aPositionStart
 			         and: aPositionStart + anItemCount - 1].
-	nodes reverseDo: [ :n |
-		n
-			release;
-			removeFromParent ].
+	self removeAllNodes: nodes.
 	self updatePositions
 
 ]
@@ -262,11 +277,7 @@ ToInnerBarElement >> onItemsChanged [
 
 	| holders |
 
-	self nodesDo: [ :node |
-		node
-			release;
-			removeFromParent ].
-
+	self removeAllNodes: self nodes.
 	holders := Array streamContents: [ :stream |
 		           | holder |
 		           1 to: self dataSource itemCount do: [ :idx |
@@ -274,7 +285,9 @@ ToInnerBarElement >> onItemsChanged [
 			           holder infiniteElement: self.
 			           self dataSource bindHolder: holder at: idx.
 			           stream nextPut: holder ] ].
-	self addAllHolders: holders at: 1
+	self addAllHolders: holders at: 1.
+	self updatePositions
+
 ]
 
 { #category : #layout }
@@ -282,6 +295,13 @@ ToInnerBarElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 
 	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
 	self checkVisibleNodes
+]
+
+{ #category : #'accessing - nodes' }
+ToInnerBarElement >> removeAllNodes: anArray [ 
+
+	scrollable removeAllNodes: anArray.
+	anArray do: [ :node | self notifyChildDetached: node  ]
 ]
 
 { #category : #'accessing - children' }

@@ -2730,7 +2730,7 @@ ToSandBox class >> example_nodeBar [
 	barPane addChild: bar.
 	"bar dataAccessor addAll:
 		(ToSandBox statesOfAmerica ""copyFrom: 1 to: 20"")."
-	bar dataAccessor addAll: ((Smalltalk globals allClasses) copyFrom: 1 to: 500).
+	bar dataAccessor addAll: ((Smalltalk globals allClasses) copyFrom: 1 to: 150).
 
 	verticalSwitch := ToSwitchButton new labelText: 'Vertical'.
 	verticalSwitch endToStart: true.

@@ -92,6 +92,7 @@ ToScrollableBarElement >> consumePendingDataSourceCommands [
 ToScrollableBarElement >> defaultEventHandler [ 
 
 	^ ToScrollableElementEventHandler new
+	"^ BlScrollableElementEventHandler new"
 ]
 
 { #category : #initialization }

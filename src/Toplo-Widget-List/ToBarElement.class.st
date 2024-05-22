@@ -89,6 +89,8 @@ ToBarElement >> horizontal: aBoolean [
 ToBarElement >> initialize [
 
 	super initialize.
+	selectionMode beneathOption: ToListSelectionOption separate.
+	selectionMode overOption: ToListSelectionOption separate.
 	nodeWrapping := true.
 	nodeScrolling := true.
 	nodeAutoDistribution := false.

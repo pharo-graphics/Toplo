@@ -146,10 +146,25 @@ ToInfiniteElement >> nodeGroupsSatisfying: aBlock [
 		  g ifNotEmpty: [ stream nextPut: g ] ]
 ]
 
-{ #category : #'accessing - children' }
+{ #category : #'node enumerating' }
 ToInfiniteElement >> nodesDo: aBlock [
 
 	self childrenDo: [ :node | aBlock value: node ]
+]
+
+{ #category : #'node enumerating' }
+ToInfiniteElement >> nodesSelect: aBlock [
+
+	^ Array streamContents: [ :stream |
+		  self nodesDo: [ :node |
+			  (aBlock value: node) ifTrue: [ stream nextPut: node ] ] ]
+]
+
+{ #category : #'node enumerating' }
+ToInfiniteElement >> nodesWithIndexDo: aBlock [
+
+	self nodesDo: [ :node |
+		aBlock value: node value: node holder position ]
 ]
 
 { #category : #'t - resizeable' }

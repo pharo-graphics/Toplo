@@ -1,5 +1,5 @@
 Class {
-	#name : #ToObservableCollectionInfiniteElementTest,
+	#name : #ToInfiniteCollectionDataSourceTest,
 	#superclass : #ToParameterizedHostTest,
 	#instVars : [
 		'l'
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #running }
-ToObservableCollectionInfiniteElementTest >> setUp [
+ToInfiniteCollectionDataSourceTest >> setUp [
 
 	super setUp.
 	l := ToInfiniteElement onListElement: ToListElement new.
@@ -18,7 +18,7 @@ ToObservableCollectionInfiniteElementTest >> setUp [
 ]
 
 { #category : #accessing }
-ToObservableCollectionInfiniteElementTest >> statesOfAmerica [
+ToInfiniteCollectionDataSourceTest >> statesOfAmerica [
 
 	^ { #Alabama. #Alaska. #Arizona. #Arkansas. #California. #Colorado.
 		#Connecticut. #Delaware. #Florida. #Georgia. #Hawaii. #Idaho. #'Illinois Indiana'.
@@ -32,7 +32,7 @@ ToObservableCollectionInfiniteElementTest >> statesOfAmerica [
 ]
 
 { #category : #tests }
-ToObservableCollectionInfiniteElementTest >> testEmptyInfinite [
+ToInfiniteCollectionDataSourceTest >> testEmptyInfinite [
 
 	l fitContent.
 	l forceLayout.
@@ -45,7 +45,7 @@ ToObservableCollectionInfiniteElementTest >> testEmptyInfinite [
 ]
 
 { #category : #tests }
-ToObservableCollectionInfiniteElementTest >> testInfiniteWithOneElement [
+ToInfiniteCollectionDataSourceTest >> testInfiniteWithOneElement [
 
 	l dataSource collection add: self statesOfAmerica first.
 	l matchParent.
@@ -56,10 +56,10 @@ ToObservableCollectionInfiniteElementTest >> testInfiniteWithOneElement [
 ]
 
 { #category : #tests }
-ToObservableCollectionInfiniteElementTest >> testRangeChangedNotification [
+ToInfiniteCollectionDataSourceTest >> testRangeChangedNotification [
 
 	| rangeEvent |
-	l addEventHandler: (BlEventHandler
+	l dataSource addEventHandler: (BlEventHandler
 			 on: BlInfiniteDataSourceItemRangeChanged
 			 do: [ :event | rangeEvent := event ]).
 	l dataSource addAll: self statesOfAmerica.
@@ -82,10 +82,10 @@ ToObservableCollectionInfiniteElementTest >> testRangeChangedNotification [
 ]
 
 { #category : #tests }
-ToObservableCollectionInfiniteElementTest >> testRangeInsertedNotification [
+ToInfiniteCollectionDataSourceTest >> testRangeInsertedNotification [
 
 	| rangeEvent |
-	l addEventHandler: (BlEventHandler
+	l dataSource addEventHandler: (BlEventHandler
 			 on: BlInfiniteDataSourceItemRangeInserted
 			 do: [ :event | rangeEvent := event ]).
 	l dataSource addAll: self statesOfAmerica.
@@ -99,11 +99,11 @@ ToObservableCollectionInfiniteElementTest >> testRangeInsertedNotification [
 ]
 
 { #category : #tests }
-ToObservableCollectionInfiniteElementTest >> testRangeRemovedNotification [
+ToInfiniteCollectionDataSourceTest >> testRangeRemovedNotification [
 
 	| rangeEvent |
 	
-	l addEventHandler: (BlEventHandler
+	l dataSource addEventHandler: (BlEventHandler
 			 on: BlInfiniteDataSourceItemRangeRemoved
 			 do: [ :event | rangeEvent := event ]).
 	l dataSource addAll: self statesOfAmerica.
@@ -130,7 +130,7 @@ ToObservableCollectionInfiniteElementTest >> testRangeRemovedNotification [
 ]
 
 { #category : #tests }
-ToObservableCollectionInfiniteElementTest >> testWithData [
+ToInfiniteCollectionDataSourceTest >> testWithData [
 
 	l dataSource addAll: self statesOfAmerica.
 	self assert: l dataSource size equals: self statesOfAmerica size.

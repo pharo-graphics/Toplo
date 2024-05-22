@@ -25,23 +25,20 @@ ToSelectElementTest >> statesOfAmerica [
 ToSelectElementTest >> testMonoFiltrable [
 
 	| select |
-	select := ToMultiSelectElement new.
+	select := ToSelectElement new.
 	select filtrable: true.
-	select multipleSelection: false.
-	self assert: select isFiltrable.
-	self deny: select isMultipleSelection
+	self assert: select isFiltrable
 ]
 
 { #category : #tests }
 ToSelectElementTest >> testMonoNotFiltrable [
 
 	| select |
-	select := ToMultiSelectElement new.
+	select := ToSelectElement new.
 	select filtrable: false.
 
-	select multipleSelection: false.
 	self deny: select isFiltrable.
-	self deny: select isMultipleSelection
+
 ]
 
 { #category : #tests }

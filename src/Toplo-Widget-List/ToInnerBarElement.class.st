@@ -12,10 +12,10 @@ Class {
 }
 
 { #category : #'instance creation' }
-ToInnerBarElement class >> onLinearBarElement: aLinearBarElement [
+ToInnerBarElement class >> onBarElement: aBarElement [
 
 	^ self basicNew
-		  listElement: aLinearBarElement;
+		  listElement: aBarElement;
 		  initialize
 ]
 
@@ -83,7 +83,7 @@ ToInnerBarElement >> defaultDataSource [
 ToInnerBarElement >> defaultDataSourceManager [
 
 	^ ToScrollableBarDataSourceManager new
-		  innerLinearBarElement: self;
+		  innerBarElement: self;
 		  yourself
 ]
 
@@ -129,6 +129,7 @@ ToInnerBarElement >> installFakeNode [
 	fakeNode := self listElement nodeManager newFakeNodeInHolder: holder.
 	fakeNode id: #fakeNode.
 	fakeNode background: Color red.
+	fakeNode constraintsDo: [ :c | c ignoreByLayout ].
 	self isHorizontal
 		ifTrue: [
 			fakeNode width: 0.
@@ -202,10 +203,27 @@ ToInnerBarElement >> nodesSelect: aBlock [
 	^ scrollable nodesSelect: aBlock
 ]
 
+{ #category : #enumerating }
+ToInnerBarElement >> nodesWithIndexDo: aBlock [
+
+	scrollable nodesWithIndexDo: aBlock
+]
+
 { #category : #'data source notification' }
 ToInnerBarElement >> notifyChanged [
-
+self halt.
 	dataSource notifyChanged
+]
+
+{ #category : #'data source updates' }
+ToInnerBarElement >> onItemRangeChanged: aPositionStart itemCount: anItemCount [
+
+	self nodesDo: [ :node |
+		(node holder position
+			 between: aPositionStart
+			 and: aPositionStart + anItemCount - 1) ifTrue: [
+			node holder changeDataItem: (dataSource at: node holder position) ] ].
+	self requestLayout 
 ]
 
 { #category : #'data source updates' }
@@ -219,7 +237,44 @@ ToInnerBarElement >> onItemRangeInserted: aPositionStart itemCount: anItemCount 
 			           holder infiniteElement: self.
 			           self dataSource bindHolder: holder at: offsetPosition.
 			           stream nextPut: holder ] ].
-	self addAllHolders: holders at: aPositionStart
+	self addAllHolders: holders at: aPositionStart.
+	self updatePositions
+]
+
+{ #category : #'data source updates' }
+ToInnerBarElement >> onItemRangeRemoved: aPositionStart itemCount: anItemCount [
+
+	| nodes |
+	nodes := self nodesSelect: [ :node |
+		         node holder position
+			         between: aPositionStart
+			         and: aPositionStart + anItemCount - 1].
+	nodes reverseDo: [ :n |
+		n
+			release;
+			removeFromParent ].
+	self updatePositions
+
+]
+
+{ #category : #'data source updates' }
+ToInnerBarElement >> onItemsChanged [
+
+	| holders |
+
+	self nodesDo: [ :node |
+		node
+			release;
+			removeFromParent ].
+
+	holders := Array streamContents: [ :stream |
+		           | holder |
+		           1 to: self dataSource itemCount do: [ :idx |
+			           holder := self dataSource createHolder: self.
+			           holder infiniteElement: self.
+			           self dataSource bindHolder: holder at: idx.
+			           stream nextPut: holder ] ].
+	self addAllHolders: holders at: 1
 ]
 
 { #category : #layout }
@@ -246,4 +301,11 @@ ToInnerBarElement >> stopScroll [
 		- or a touch-initiated fling"
 
 	
+]
+
+{ #category : #'data source updates' }
+ToInnerBarElement >> updatePositions [
+
+	self nodesWithIndexDo: [ :node :idx |
+		node holder bindAtPosition: idx ]
 ]

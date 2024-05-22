@@ -2711,12 +2711,12 @@ ToSandBox class >> example_menuBar2 [
 { #category : #'node bar' }
 ToSandBox class >> example_nodeBar [
 
-	| bar mainPane barPane confPane verticalSwitch wrappingSwitch scrollingSwitch autoDistributionSwitch |
+	| bar mainPane barPane confPane verticalSwitch wrappingSwitch scrollingSwitch autoDistributionSwitch sameWidthSwitch |
 	mainPane := ToPane horizontal.
 	mainPane matchParent.
 	mainPane padding: (BlInsets all: 5).
 	confPane := ToPane vertical.
-	confPane width: 200.
+	confPane width: 230.
 	barPane := ToPane vertical.
 	barPane matchParent.
 	mainPane addChildren: {
@@ -2763,6 +2763,19 @@ ToSandBox class >> example_nodeBar [
 				 | v |
 				 v := event current.
 				 bar nodeWrapping: v ]).
+	sameWidthSwitch := ToSwitchButton new labelText: 'uniform element width'.
+	sameWidthSwitch endToStart: true.
+	sameWidthSwitch startFlexible: true.
+	sameWidthSwitch hMatchParent.
+	sameWidthSwitch checked: false.
+	confPane addChild: sameWidthSwitch.
+	sameWidthSwitch addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :event |
+				 | v |
+				 v := event current.
+				 bar flowLineUniformWidth: v ]).
+			
 	scrollingSwitch := ToSwitchButton new labelText: 'Scrolling'.
 	scrollingSwitch endToStart: true.
 	scrollingSwitch startFlexible: true.

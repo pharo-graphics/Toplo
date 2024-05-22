@@ -20,6 +20,18 @@ ToNodeHolder >> bindDataItem: aDataItem [
 ]
 
 { #category : #accessing }
+ToNodeHolder >> changeDataItem: aDataItem [
+
+	| nodeManager |
+	nodeManager := self listElement nodeManager.
+	self dataItem: aDataItem.
+	self node release.
+	nodeManager buildNode: self node inHolder: self.
+	self node enabled: self isEnabled.
+	self isHidden ifTrue: [ self node height: 0 ]
+]
+
+{ #category : #accessing }
 ToNodeHolder >> data [
 
 

@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'nodeWrapping',
 		'nodeScrolling',
-		'nodeAutoDistribution'
+		'nodeAutoDistribution',
+		'flowLineUniformWidth'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -28,7 +29,8 @@ ToBarElement >> configureLayout [
 				c vertical matchParent.
 				c horizontal fitContent ] ].
 	self nodeContainer configureLayoutIn: self.
-	self checkVisibleNodes 
+	self checkVisibleNodes.
+	self requestLayout
 ]
 
 { #category : #initialization }
@@ -46,7 +48,7 @@ ToBarElement >> defaultEventHandler [
 { #category : #initialization }
 ToBarElement >> defaultNodeContainer [
 
-	^ ToInnerBarElement onLinearBarElement: self
+	^ ToInnerBarElement onBarElement: self
 ]
 
 { #category : #initialization }
@@ -59,6 +61,21 @@ ToBarElement >> defaultNodeManagerClass [
 ToBarElement >> fakeDataItem: aDataItem [
 
 	self nodeContainer fakeDataItem: aDataItem
+]
+
+{ #category : #accessing }
+ToBarElement >> flowLineUniformWidth [
+
+	^ flowLineUniformWidth
+]
+
+{ #category : #accessing }
+ToBarElement >> flowLineUniformWidth: aBoolean [
+
+	flowLineUniformWidth := aBoolean.
+	self configureLayout.
+	dataSource notifyChanged
+
 ]
 
 { #category : #'t - orientable - orientation' }
@@ -75,6 +92,7 @@ ToBarElement >> initialize [
 	nodeWrapping := true.
 	nodeScrolling := true.
 	nodeAutoDistribution := false.
+	flowLineUniformWidth := false.
 	self installNodeContainer
 ]
 
@@ -93,6 +111,7 @@ ToBarElement >> nodeAutoDistribution [
 { #category : #accessing }
 ToBarElement >> nodeAutoDistribution: aBoolean [
 
+	nodeAutoDistribution = aBoolean ifTrue: [ ^ self ].
 	nodeAutoDistribution := aBoolean.
 	self configureLayout
 ]

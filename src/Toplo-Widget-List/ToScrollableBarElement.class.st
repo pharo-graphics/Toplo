@@ -6,19 +6,12 @@ Class {
 		'nodeScrolling',
 		'nodeWrapping',
 		'nodeAutoDistribution',
+		'flowLineUniformWidth',
 		'horizontal',
 		'fakeNode'
 	],
 	#category : #'Toplo-Widget-List-InnerBar'
 }
-
-{ #category : #'instance creation' }
-ToScrollableBarElement class >> onLinearBarElement: aLinearBarElement [
-
-	^ self basicNew
-		  parentBarElement: aLinearBarElement;
-		  initialize
-]
 
 { #category : #'accessing - children' }
 ToScrollableBarElement >> addAllHolders: anArray at: aPosition [
@@ -30,7 +23,8 @@ ToScrollableBarElement >> addAllHolders: anArray at: aPosition [
 ToScrollableBarElement >> addFakeNode: aNode [
 
 	fakeNode ifNotNil: [ fakeNode removeFromParent ].
-	self addChild: aNode at: 1
+	fakeNode := aNode.
+	trackElement addChild: aNode at: 1
 ]
 
 { #category : #'accessing - children' }
@@ -38,7 +32,7 @@ ToScrollableBarElement >> addHolder: anHolder at: aPosition [
 
 	| node |
 	node := anHolder node.
-	trackElement addChild: node at: aPosition
+	trackElement addChild: node at: aPosition + 1
 ]
 
 { #category : #initialization }
@@ -48,6 +42,7 @@ ToScrollableBarElement >> configureLayoutIn: aListElement [
 	nodeWrapping := aListElement nodeWrapping.
 	nodeAutoDistribution := aListElement nodeAutoDistribution.
 	horizontal := aListElement isHorizontal.
+	flowLineUniformWidth := aListElement flowLineUniformWidth.
 
 	self isHorizontal
 		ifTrue: [
@@ -60,9 +55,12 @@ ToScrollableBarElement >> configureLayoutIn: aListElement [
 				c vertical matchParent ] ].
 
 	self isHorizontal
-		ifTrue: [
+		ifTrue: [ 
 			trackElement layout: (self isNodeWrapping
-					 ifTrue: [ BlFlowLayout horizontal ]
+					 ifTrue: [
+						 BlFlowLayout horizontal
+							 lineUniformWidth: self isFlowLineUniformWidth;
+							 yourself ]
 					 ifFalse: [ BlLinearLayout horizontal ]).
 			trackElement constraintsDo: [ :c |
 				c vertical fitContent.
@@ -71,7 +69,10 @@ ToScrollableBarElement >> configureLayoutIn: aListElement [
 					ifFalse: [ c horizontal matchParent ] ] ]
 		ifFalse: [
 			trackElement layout: (self isNodeWrapping
-					 ifTrue: [ BlFlowLayout vertical ]
+					 ifTrue: [
+						 BlFlowLayout vertical
+							 lineUniformWidth: self isFlowLineUniformWidth;
+							 yourself ]
 					 ifFalse: [ BlLinearLayout vertical ]).
 			trackElement constraintsDo: [ :c |
 				c horizontal fitContent.
@@ -91,6 +92,12 @@ ToScrollableBarElement >> initialize [
 	trackElement id: #track.
 	self addChild: trackElement.
 	self matchParent
+]
+
+{ #category : #testing }
+ToScrollableBarElement >> isFlowLineUniformWidth [
+
+	^ flowLineUniformWidth 
 ]
 
 { #category : #testing }
@@ -120,7 +127,8 @@ ToScrollableBarElement >> isNodeWrapping [
 { #category : #'accessing - children' }
 ToScrollableBarElement >> nodesDo: aBlock [
 
-	trackElement childrenDo: [ :node | aBlock value: node ]
+	trackElement childrenDo: [ :node |
+		node = fakeNode ifFalse: [ aBlock value: node ] ]
 ]
 
 { #category : #'accessing - children' }
@@ -129,4 +137,11 @@ ToScrollableBarElement >> nodesSelect: aBlock [
 	^ Array streamContents: [ :stream |
 		  self nodesDo: [ :node |
 			  (aBlock value: node) ifTrue: [ stream nextPut: node ] ] ]
+]
+
+{ #category : #'accessing - children' }
+ToScrollableBarElement >> nodesWithIndexDo: aBlock [
+
+	self nodesDo: [ :node |
+		aBlock value: node value: node holder position ]
 ]

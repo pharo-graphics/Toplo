@@ -17,6 +17,12 @@ ToBarNode >> autoDistribute: aBoolean [
 ]
 
 { #category : #initialization }
+ToBarNode >> initialize [ 
+
+	super initialize
+]
+
+{ #category : #initialization }
 ToBarNode >> setInitialLayoutConstraints [
 
 	self constraintsDo: [ :c |

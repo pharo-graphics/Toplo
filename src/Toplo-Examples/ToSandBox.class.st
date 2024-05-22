@@ -2763,7 +2763,7 @@ ToSandBox class >> example_nodeBar [
 				 | v |
 				 v := event current.
 				 bar nodeWrapping: v ]).
-	sameWidthSwitch := ToSwitchButton new labelText: 'uniform element width'.
+	sameWidthSwitch := ToSwitchButton new labelText: 'Uniform element width'.
 	sameWidthSwitch endToStart: true.
 	sameWidthSwitch startFlexible: true.
 	sameWidthSwitch hMatchParent.

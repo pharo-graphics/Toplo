@@ -1,6 +1,6 @@
 Class {
 	#name : #ToSelectElementSkin,
-	#superclass : #ToElementBarSkin,
+	#superclass : #ToElementBarSkinDep,
 	#category : #'Toplo-Widget-Select-Single'
 }
 

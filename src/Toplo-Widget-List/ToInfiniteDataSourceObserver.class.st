@@ -1,7 +1,7 @@
 Class {
 	#name : #ToInfiniteDataSourceObserver,
 	#superclass : #BlInfiniteElementDataSourceObserver,
-	#category : #'Toplo-Widget-List-Infinite'
+	#category : #'Toplo-Widget-List-InnerInfinite'
 }
 
 { #category : #'event handling' }
@@ -39,7 +39,7 @@ ToInfiniteDataSourceObserver >> infiniteDataSourceItemRangeRemoved: anEvent [
 	infiniteElement listElement dispatchEvent: anEvent copy
 ]
 
-{ #category : #'*Toplo-Widget-List' }
+{ #category : #'event handling' }
 ToInfiniteDataSourceObserver >> infiniteDataSourceItemsFiltered: anEvent [
 
 	self assertNotInLayoutOrScroll.
@@ -52,7 +52,7 @@ ToInfiniteDataSourceObserver >> infiniteDataSourceItemsFiltered: anEvent [
 	infiniteElement listElement dispatchEvent: anEvent copy
 ]
 
-{ #category : #'*Toplo-Widget-List' }
+{ #category : #'event handling' }
 ToInfiniteDataSourceObserver >> infiniteDataSourceItemsSieved: anEvent [
 	self assertNotInLayoutOrScroll.
 	

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'infinite'
 	],
-	#category : #'Toplo-Widget-List-Infinite'
+	#category : #'Toplo-Widget-List-InnerInfinite'
 }
 
 { #category : #'data events handling' }

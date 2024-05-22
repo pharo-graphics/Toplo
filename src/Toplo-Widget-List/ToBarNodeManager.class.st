@@ -1,5 +1,5 @@
 Class {
-	#name : #ToLinearBarNodeManager,
+	#name : #ToBarNodeManager,
 	#superclass : #ToAbstractListNodeManager,
 	#instVars : [
 		'fakeDataItem'
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #initialization }
-ToLinearBarNodeManager >> defaultNodeBuilder [
+ToBarNodeManager >> defaultNodeBuilder [
 
 	^ [ :node :holder :dataItem |
 	  node addChild: (ToLabel text: dataItem asString) hMatchParent.
@@ -17,20 +17,26 @@ ToLinearBarNodeManager >> defaultNodeBuilder [
 		  c vertical fitContent ] ]
 ]
 
+{ #category : #initialization }
+ToBarNodeManager >> defaultNodeFactory [
+
+	^ [ :holder | ToBarNode new ]
+]
+
 { #category : #accessing }
-ToLinearBarNodeManager >> fakeDataItem [
+ToBarNodeManager >> fakeDataItem [
 
 	^ fakeDataItem
 ]
 
 { #category : #accessing }
-ToLinearBarNodeManager >> fakeDataItem: anObject [
+ToBarNodeManager >> fakeDataItem: anObject [
 
 	fakeDataItem := anObject
 ]
 
 { #category : #'instance creation' }
-ToLinearBarNodeManager >> newFakeNodeInHolder: anHolder [
+ToBarNodeManager >> newFakeNodeInHolder: anHolder [
 
 	| fakeNode |
 	anHolder dataItem: fakeDataItem.

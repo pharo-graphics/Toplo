@@ -1,20 +1,18 @@
 Class {
-	#name : #ToLinearBarInnerElement,
+	#name : #ToInnerBarElement,
 	#superclass : #ToTripletElement,
 	#instVars : [
 		'listElement',
 		'dataSource',
 		'dataSourceObserver',
 		'dataSourceManager',
-		'scrollable',
-		'fakeDataItem',
-		'fakeNode'
+		'scrollable'
 	],
-	#category : #'Toplo-Widget-List-InnerLinearBar'
+	#category : #'Toplo-Widget-List-InnerBar'
 }
 
 { #category : #'instance creation' }
-ToLinearBarInnerElement class >> onLinearBarElement: aLinearBarElement [
+ToInnerBarElement class >> onLinearBarElement: aLinearBarElement [
 
 	^ self basicNew
 		  listElement: aLinearBarElement;
@@ -22,13 +20,26 @@ ToLinearBarInnerElement class >> onLinearBarElement: aLinearBarElement [
 ]
 
 { #category : #adding }
-ToLinearBarInnerElement >> addAllHolders: anArray at: aPosition [
+ToInnerBarElement >> addAllHolders: anArray at: aPosition [
 
 	scrollable addAllHolders: anArray at: aPosition
 ]
 
+{ #category : #private }
+ToInnerBarElement >> checkVisibleNodes [
+
+	| invisibleNodes  |
+	scrollable isNodeWrapping ifTrue: [ ^ self ].
+	scrollable isNodeScrolling ifTrue: [ ^ self ].
+	scrollable isNodeAutoDistribution ifTrue: [ ^ self ].
+	invisibleNodes := self nodesSelect: [ :n | n isFullyVisible not ].
+	listElement dispatchEvent: (ToBarNodeVisibilityEvent new
+			 invisibleNodes: invisibleNodes;
+			 yourself)
+]
+
 { #category : #initialization }
-ToLinearBarInnerElement >> configureLayoutIn: aListElement [
+ToInnerBarElement >> configureLayoutIn: aListElement [
 
 	self isHorizontal
 		ifTrue: [
@@ -51,25 +62,25 @@ ToLinearBarInnerElement >> configureLayoutIn: aListElement [
 ]
 
 { #category : #accessing }
-ToLinearBarInnerElement >> dataSource [
+ToInnerBarElement >> dataSource [
 
 	^ dataSource
 ]
 
 { #category : #accessing }
-ToLinearBarInnerElement >> dataSourceManager [
+ToInnerBarElement >> dataSourceManager [
 
 	^ dataSourceManager 
 ]
 
 { #category : #initialization }
-ToLinearBarInnerElement >> defaultDataSource [ 
+ToInnerBarElement >> defaultDataSource [ 
 
 	^ listElement dataSource.
 ]
 
 { #category : #initialization }
-ToLinearBarInnerElement >> defaultDataSourceManager [
+ToInnerBarElement >> defaultDataSourceManager [
 
 	^ ToScrollableBarDataSourceManager new
 		  innerLinearBarElement: self;
@@ -77,21 +88,14 @@ ToLinearBarInnerElement >> defaultDataSourceManager [
 ]
 
 { #category : #initialization }
-ToLinearBarInnerElement >> defaultDataSourceObserver [
+ToInnerBarElement >> defaultDataSourceObserver [
 	"Return class, actuall instantiation happens in initialize"
 
 	^ ToScrollableBarDataSourceObserver
 ]
 
-{ #category : #accessing }
-ToLinearBarInnerElement >> fakeDataItem: anObject [
-
-	fakeDataItem := anObject. 
-	self installFakeNode.
-]
-
 { #category : #initialization }
-ToLinearBarInnerElement >> initialize [ 
+ToInnerBarElement >> initialize [ 
 
 	super initialize.
 	self initializeDataSource.
@@ -103,7 +107,7 @@ ToLinearBarInnerElement >> initialize [
 ]
 
 { #category : #initialization }
-ToLinearBarInnerElement >> initializeDataSource [
+ToInnerBarElement >> initializeDataSource [
 
 	dataSource := self defaultDataSource.
 	dataSource onAttached: self.
@@ -113,15 +117,15 @@ ToLinearBarInnerElement >> initializeDataSource [
 ]
 
 { #category : #initialization }
-ToLinearBarInnerElement >> installFakeNode [
+ToInnerBarElement >> installFakeNode [
 	" the fake node is added in case of an empty data source to ensure a 
 	suitable minimum height according to the node class, the node builder 
 	and the data kind."
 
-	| holder |
-	fakeNode ifNotNil: [ :fn | fn removeFromParent ].
-	holder := self dataSource createHolder: self.
+	| holder fakeNode |
+	holder := dataSource createHolder: self.
 	holder infiniteElement: self.
+	holder bindAtPosition: 0.
 	fakeNode := self listElement nodeManager newFakeNodeInHolder: holder.
 	fakeNode id: #fakeNode.
 	fakeNode background: Color red.
@@ -142,35 +146,35 @@ ToLinearBarInnerElement >> installFakeNode [
 	fakeNode margin: BlInsets empty.
 
 	" add the fake node (to keep a constant minimum size ) "
-	scrollable addHolder: holder at: dataSource itemCount + 1 
+	scrollable addFakeNode: fakeNode
 ]
 
 { #category : #accessing }
-ToLinearBarInnerElement >> listElement [
+ToInnerBarElement >> listElement [
 
 	^ listElement
 ]
 
 { #category : #accessing }
-ToLinearBarInnerElement >> listElement: aListElement [
+ToInnerBarElement >> listElement: aListElement [
 
 	listElement := aListElement
 ]
 
 { #category : #'instance creation' }
-ToLinearBarInnerElement >> newNodeHolderFromDataSource: aDataSource [
+ToInnerBarElement >> newNodeHolderFromDataSource: aDataSource [
 
 	^ self listElement nodeManager newNodeHolder
 ]
 
 { #category : #'t - infinite accessing' }
-ToLinearBarInnerElement >> nodeContainer [
+ToInnerBarElement >> nodeContainer [
 
 	^ self
 ]
 
 { #category : #'accessing - nodes' }
-ToLinearBarInnerElement >> nodeGroupsSatisfying: aBlock [
+ToInnerBarElement >> nodeGroupsSatisfying: aBlock [
 	" return an array of collection. Each collection contains a list of adjacent selected nodes "
 
 	^ Array streamContents: [ :stream |
@@ -187,13 +191,25 @@ ToLinearBarInnerElement >> nodeGroupsSatisfying: aBlock [
 ]
 
 { #category : #enumerating }
-ToLinearBarInnerElement >> nodesDo: aBlock [
+ToInnerBarElement >> nodesDo: aBlock [
 
 	scrollable nodesDo: aBlock
 ]
 
+{ #category : #enumerating }
+ToInnerBarElement >> nodesSelect: aBlock [
+
+	^ scrollable nodesSelect: aBlock
+]
+
+{ #category : #'data source notification' }
+ToInnerBarElement >> notifyChanged [
+
+	dataSource notifyChanged
+]
+
 { #category : #'data source updates' }
-ToLinearBarInnerElement >> onItemRangeInserted: aPositionStart itemCount: anItemCount [
+ToInnerBarElement >> onItemRangeInserted: aPositionStart itemCount: anItemCount [
 
 	| holder offsetPosition holders |
 	holders := Array streamContents: [ :stream |
@@ -206,8 +222,15 @@ ToLinearBarInnerElement >> onItemRangeInserted: aPositionStart itemCount: anItem
 	self addAllHolders: holders at: aPositionStart
 ]
 
+{ #category : #layout }
+ToInnerBarElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
+
+	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
+	self checkVisibleNodes
+]
+
 { #category : #'accessing - children' }
-ToLinearBarInnerElement >> selectableNodeContainingGlobalPosition: aPoint [
+ToInnerBarElement >> selectableNodeContainingGlobalPosition: aPoint [
 
 	self nodesDo: [ :node |
 		(node holder isSelectable and: [ node containsGlobalPoint: aPoint ])
@@ -216,7 +239,7 @@ ToLinearBarInnerElement >> selectableNodeContainingGlobalPosition: aPoint [
 ]
 
 { #category : #'t - infinite accessing' }
-ToLinearBarInnerElement >> stopScroll [
+ToInnerBarElement >> stopScroll [
 	"Stop any current scroll in progress, such as one started by
 		- #smoothScrollBy:
 		- #fling:

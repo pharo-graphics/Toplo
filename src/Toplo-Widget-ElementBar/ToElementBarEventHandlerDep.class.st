@@ -1,11 +1,11 @@
 Class {
-	#name : #ToElementBarEventHandler,
+	#name : #ToElementBarEventHandlerDep,
 	#superclass : #BlCustomEventHandler,
 	#category : #'Toplo-Widget-ElementBar'
 }
 
 { #category : #'element events handling' }
-ToElementBarEventHandler >> elementAddedToSceneGraphEvent: anEvent [
+ToElementBarEventHandlerDep >> elementAddedToSceneGraphEvent: anEvent [
 
 	| bar |
 	bar := anEvent currentTarget.
@@ -14,7 +14,7 @@ ToElementBarEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 ]
 
 { #category : #'element handlers' }
-ToElementBarEventHandler >> elementBarSelectionChanged: anEvent [
+ToElementBarEventHandlerDep >> elementBarSelectionChanged: anEvent [
 
 	| bar |
 	bar := anEvent currentTarget.
@@ -24,16 +24,16 @@ ToElementBarEventHandler >> elementBarSelectionChanged: anEvent [
 ]
 
 { #category : #'api - accessing' }
-ToElementBarEventHandler >> eventsToHandle [
+ToElementBarEventHandlerDep >> eventsToHandle [
 
 	^ {
 		  BlElementAddedToSceneGraphEvent.
-		  ToElementBarSelectionChanged.
+		  ToElementBarSelectionChangedDep.
 		  ToLayoutOrientationChangedEvent }
 ]
 
 { #category : #'element handlers' }
-ToElementBarEventHandler >> layoutOrientationChangedEvent: anEvent [
+ToElementBarEventHandlerDep >> layoutOrientationChangedEvent: anEvent [
 
 	anEvent currentTarget onLayoutOrientationChanged
 ]

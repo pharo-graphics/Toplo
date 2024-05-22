@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'innerLinearBarElement'
 	],
-	#category : #'Toplo-Widget-List-InnerLinearBar'
+	#category : #'Toplo-Widget-List-InnerBar'
 }
 
 { #category : #'instance creation' }
@@ -18,7 +18,7 @@ ToScrollableBarDataSourceObserver class >> on: anInnerLinearBarElement [
 ToScrollableBarDataSourceObserver >> infiniteDataSourceChanged: anEvent [
 
 	innerLinearBarElement dataSourceManager onItemsChanged.
-	innerLinearBarElement parentBarElement dispatchEvent: anEvent copy
+	innerLinearBarElement listElement dispatchEvent: anEvent copy
 
 ]
 

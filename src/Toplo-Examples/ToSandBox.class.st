@@ -1085,7 +1085,7 @@ ToSandBox class >> example_ListWithPanes [
 ToSandBox class >> example_NodeContainerWithStatesOfAmerica [
 
 	| l |
-	l := ToLinearBarElement new.
+	l := ToBarElement new.
 	l addEventHandler: (BlEventHandler
 			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :evt | evt traceCr ]).
@@ -2711,18 +2711,18 @@ ToSandBox class >> example_menuBar2 [
 { #category : #'node bar' }
 ToSandBox class >> example_nodeBar [
 
-	| bar mainPane barPane confPane verticalSwitch wrappingSwitch scrollingSwitch |
+	| bar mainPane barPane confPane verticalSwitch wrappingSwitch scrollingSwitch autoDistributionSwitch |
 	mainPane := ToPane horizontal.
 	mainPane matchParent.
 	mainPane padding: (BlInsets all: 5).
 	confPane := ToPane vertical.
-	confPane width: 150.
+	confPane width: 200.
 	barPane := ToPane vertical.
 	barPane matchParent.
 	mainPane addChildren: {
 			confPane.
 			barPane }.
-	bar := ToLinearBarElement new.
+	bar := ToBarElement new.
 
 	bar hMatchParent.
 	bar vFitContent.
@@ -2776,6 +2776,24 @@ ToSandBox class >> example_nodeBar [
 				 v := event current.
 				 bar nodeScrolling: v ]).
 
+	autoDistributionSwitch := ToSwitchButton new labelText:
+		                          'Auto-distribution'.
+	autoDistributionSwitch endToStart: true.
+	autoDistributionSwitch startFlexible: true.
+	autoDistributionSwitch hMatchParent.
+
+	confPane addChild: autoDistributionSwitch.
+	autoDistributionSwitch addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :event |
+				 | v |
+				 v := event current.
+				 bar nodeAutoDistribution: v ]).
+
+	bar
+		addEventHandlerOn: ToBarNodeVisibilityEvent
+		do: [ :event |
+		event invisibleNodes ifNotEmpty: [ :in | in traceCr ] ].
 	bar nodeScrolling: false.
 	bar nodeAutoDistribution: false.
 	bar inspect.

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'innerLinearBarElement'
 	],
-	#category : #'Toplo-Widget-List-InnerLinearBar'
+	#category : #'Toplo-Widget-List-InnerBar'
 }
 
 { #category : #accessing }

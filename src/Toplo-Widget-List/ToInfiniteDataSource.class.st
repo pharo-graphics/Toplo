@@ -1,7 +1,7 @@
 Class {
 	#name : #ToInfiniteDataSource,
 	#superclass : #BlInfiniteDataSource,
-	#category : #'Toplo-Widget-List-Infinite'
+	#category : #'Toplo-Widget-List-InnerInfinite'
 }
 
 { #category : #accessing }

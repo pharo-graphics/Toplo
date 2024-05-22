@@ -1,5 +1,5 @@
 Class {
-	#name : #ToLinearBarElement,
+	#name : #ToBarElement,
 	#superclass : #ToAbstractListElement,
 	#instVars : [
 		'nodeWrapping',
@@ -9,8 +9,14 @@ Class {
 	#category : #'Toplo-Widget-List-Core'
 }
 
+{ #category : #layout }
+ToBarElement >> checkVisibleNodes [ 
+
+	self nodeContainer checkVisibleNodes 
+]
+
 { #category : #initialization }
-ToLinearBarElement >> configureLayout [
+ToBarElement >> configureLayout [
 
 	self isHorizontal
 		ifTrue: [
@@ -21,48 +27,49 @@ ToLinearBarElement >> configureLayout [
 			self constraintsDo: [ :c |
 				c vertical matchParent.
 				c horizontal fitContent ] ].
-	self nodeContainer configureLayoutIn: self
+	self nodeContainer configureLayoutIn: self.
+	self checkVisibleNodes 
 ]
 
 { #category : #initialization }
-ToLinearBarElement >> defaultDataSource [
+ToBarElement >> defaultDataSource [
 
 	^ ToInfiniteCollectionDataSource new
 ]
 
 { #category : #initialization }
-ToLinearBarElement >> defaultEventHandler [
+ToBarElement >> defaultEventHandler [
 
 	^ ToListElementEventHandler new
 ]
 
 { #category : #initialization }
-ToLinearBarElement >> defaultNodeContainer [
+ToBarElement >> defaultNodeContainer [
 
-	^ ToLinearBarInnerElement onLinearBarElement: self
+	^ ToInnerBarElement onLinearBarElement: self
 ]
 
 { #category : #initialization }
-ToLinearBarElement >> defaultNodeManagerClass [
+ToBarElement >> defaultNodeManagerClass [
 
-	^ ToLinearBarNodeManager 
+	^ ToBarNodeManager 
 ]
 
 { #category : #accessing }
-ToLinearBarElement >> fakeDataItem: aDataItem [
+ToBarElement >> fakeDataItem: aDataItem [
 
 	self nodeContainer fakeDataItem: aDataItem
 ]
 
 { #category : #'t - orientable - orientation' }
-ToLinearBarElement >> horizontal: aBoolean [
+ToBarElement >> horizontal: aBoolean [
 
 	super horizontal: aBoolean.
 	self configureLayout
 ]
 
 { #category : #initialization }
-ToLinearBarElement >> initialize [
+ToBarElement >> initialize [
 
 	super initialize.
 	nodeWrapping := true.
@@ -72,52 +79,52 @@ ToLinearBarElement >> initialize [
 ]
 
 { #category : #initialization }
-ToLinearBarElement >> installNodeContainer [
+ToBarElement >> installNodeContainer [
 
 	self configureLayout
 ]
 
 { #category : #accessing }
-ToLinearBarElement >> nodeAutoDistribution [
+ToBarElement >> nodeAutoDistribution [
 
 	^ nodeAutoDistribution
 ]
 
 { #category : #accessing }
-ToLinearBarElement >> nodeAutoDistribution: aBoolean [
+ToBarElement >> nodeAutoDistribution: aBoolean [
 
 	nodeAutoDistribution := aBoolean.
 	self configureLayout
 ]
 
 { #category : #accessing }
-ToLinearBarElement >> nodeScrolling [
+ToBarElement >> nodeScrolling [
 
 	^ nodeScrolling 
 ]
 
 { #category : #accessing }
-ToLinearBarElement >> nodeScrolling: aBoolean [
+ToBarElement >> nodeScrolling: aBoolean [
 
 	nodeScrolling := aBoolean.
 	self configureLayout
 ]
 
 { #category : #accessing }
-ToLinearBarElement >> nodeWrapping [
+ToBarElement >> nodeWrapping [
 
 	^ nodeWrapping 
 ]
 
 { #category : #accessing }
-ToLinearBarElement >> nodeWrapping: aBoolean [
+ToBarElement >> nodeWrapping: aBoolean [
 
 	nodeWrapping := aBoolean.
 	self configureLayout
 ]
 
 { #category : #'t - orientable - orientation' }
-ToLinearBarElement >> vertical: aBoolean [
+ToBarElement >> vertical: aBoolean [
 
 	super vertical: aBoolean.
 	self configureLayout

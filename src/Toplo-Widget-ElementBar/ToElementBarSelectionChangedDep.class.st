@@ -1,11 +1,11 @@
 Class {
-	#name : #ToElementBarSelectionChanged,
+	#name : #ToElementBarSelectionChangedDep,
 	#superclass : #BlEvent,
 	#category : #'Toplo-Widget-ElementBar'
 }
 
 { #category : #sending }
-ToElementBarSelectionChanged >> sendTo: anObject [
+ToElementBarSelectionChangedDep >> sendTo: anObject [
 
 	anObject elementBarSelectionChanged: self
 ]

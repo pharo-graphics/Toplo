@@ -68,7 +68,7 @@ ToElementBarDep >> initialize [
 	nodeAutoDistribution := false.
 	self dataAccessor: ToObservableCollection new.
 	self selectionMode: self defaultSelectionMode.
-	self addEventHandler: ToElementBarEventHandler new.
+	self addEventHandler: ToElementBarEventHandlerDep new.
 	self addEventHandlerOn: ToPlaceholderShownEvent do: [ :event |
 		self flag: 'The width of 14???. It should be handled via a skin'.
 		event placeholder padding: (BlInsets left: 14).
@@ -119,7 +119,7 @@ ToElementBarDep >> newPrimarySelectionModel [
 { #category : #skin }
 ToElementBarDep >> newRawSkin [ 
 
-	^ ToElementBarSkin new
+	^ ToElementBarSkinDep new
 ]
 
 { #category : #accessing }
@@ -182,7 +182,7 @@ ToElementBarDep >> nodes [
 { #category : #'accessing - selection' }
 ToElementBarDep >> notifySelectionChanged [
 
-	self dispatchEvent: ToElementBarSelectionChanged new
+	self dispatchEvent: ToElementBarSelectionChangedDep new
 ]
 
 { #category : #layout }
@@ -209,7 +209,7 @@ ToElementBarDep >> removeNode: aNode [
 	index := aNode holder position.
 	self selectionModel deselectIndex: index.
 	self onSelectionChanged.
-	self fireEvent: ToElementBarSelectionChanged new
+	self fireEvent: ToElementBarSelectionChangedDep new
 ]
 
 { #category : #'accessing - selection' }

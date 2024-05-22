@@ -3,13 +3,13 @@ Class {
 	#superclass : #ToScrollableElement,
 	#instVars : [
 		'trackElement',
-		'fakeNode',
 		'nodeScrolling',
 		'nodeWrapping',
 		'nodeAutoDistribution',
-		'horizontal'
+		'horizontal',
+		'fakeNode'
 	],
-	#category : #'Toplo-Widget-List-InnerLinearBar'
+	#category : #'Toplo-Widget-List-InnerBar'
 }
 
 { #category : #'instance creation' }
@@ -24,6 +24,13 @@ ToScrollableBarElement class >> onLinearBarElement: aLinearBarElement [
 ToScrollableBarElement >> addAllHolders: anArray at: aPosition [
 
 	anArray reverseDo: [ :h | self addHolder: h at: aPosition]
+]
+
+{ #category : #'accessing - children' }
+ToScrollableBarElement >> addFakeNode: aNode [
+
+	fakeNode ifNotNil: [ fakeNode removeFromParent ].
+	self addChild: aNode at: 1
 ]
 
 { #category : #'accessing - children' }
@@ -44,7 +51,7 @@ ToScrollableBarElement >> configureLayoutIn: aListElement [
 
 	self isHorizontal
 		ifTrue: [
-			self constraintsDo: [ :c | 
+			self constraintsDo: [ :c |
 				c vertical fitContent.
 				c horizontal matchParent ] ]
 		ifFalse: [
@@ -73,14 +80,7 @@ ToScrollableBarElement >> configureLayoutIn: aListElement [
 					ifFalse: [ c vertical matchParent ] ] ].
 
 	self isNodeScrolling ifFalse: [
-		self isNodeAutoDistribution ifTrue: [
-			self nodesDo: [ :n | n autoDistribute ] ] ]
-]
-
-{ #category : #accessing }
-ToScrollableBarElement >> fakeNode: aNode [
-
-	fakeNode := aNode
+		self nodesDo: [ :n | n autoDistribute: self isNodeAutoDistribution ] ]
 ]
 
 { #category : #initialization }
@@ -120,6 +120,13 @@ ToScrollableBarElement >> isNodeWrapping [
 { #category : #'accessing - children' }
 ToScrollableBarElement >> nodesDo: aBlock [
 
-	trackElement childrenDo: [ :node |
-		node = fakeNode ifFalse: [ aBlock value: node ] ]
+	trackElement childrenDo: [ :node | aBlock value: node ]
+]
+
+{ #category : #'accessing - children' }
+ToScrollableBarElement >> nodesSelect: aBlock [
+
+	^ Array streamContents: [ :stream |
+		  self nodesDo: [ :node |
+			  (aBlock value: node) ifTrue: [ stream nextPut: node ] ] ]
 ]

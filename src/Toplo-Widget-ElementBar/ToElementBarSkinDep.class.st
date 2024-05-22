@@ -1,11 +1,11 @@
 Class {
-	#name : #ToElementBarSkin,
+	#name : #ToElementBarSkinDep,
 	#superclass : #ToGeneralButtonSkin,
 	#category : #'Toplo-Widget-ElementBar'
 }
 
 { #category : #'event handling' }
-ToElementBarSkin >> hoveredLookEvent: anEvent [
+ToElementBarSkinDep >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -13,7 +13,7 @@ ToElementBarSkin >> hoveredLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToElementBarSkin >> installLookEvent: anEvent [
+ToElementBarSkinDep >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -22,13 +22,13 @@ ToElementBarSkin >> installLookEvent: anEvent [
 ]
 
 { #category : #'accessing - shortcuts' }
-ToElementBarSkin >> shortcutsToInstallIn: aSelect [
+ToElementBarSkinDep >> shortcutsToInstallIn: aSelect [
 
 	^ Array streamContents: [ :stream |  ]
 ]
 
 { #category : #'event handling' }
-ToElementBarSkin >> uninstallLookEvent: anEvent [
+ToElementBarSkinDep >> uninstallLookEvent: anEvent [
 
 	super uninstallLookEvent: anEvent.
 	anEvent elementDo: [ :e |

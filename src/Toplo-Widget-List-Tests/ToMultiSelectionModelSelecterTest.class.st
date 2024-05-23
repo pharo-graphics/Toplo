@@ -83,7 +83,7 @@ ToMultiSelectionModelSelecterTest >> testSelectAndScrollToIndex [
 
 	selecter selectIndex: 2.
 	selecter selectIndex: 10.
-	selecter scrollToIndex: 10.
+	selecter scrollToDataSourcePosition: 10.
 	self waitTestingSpaces.
 	self
 		assert: holder selectionModel selectedIndexes asSet
@@ -99,7 +99,7 @@ ToMultiSelectionModelSelecterTest >> testSelectAndScrollToNext [
 	self waitTestingSpaces.
 	selecter selectIndex: selecter nextSelectableIndex.
 	self waitTestingSpaces.
-	selecter scrollToIndex: selecter currentIndex.
+	selecter scrollToDataSourcePosition: selecter currentIndex.
 	self waitTestingSpaces.
 	self
 		assert: holder selectionModel selectedIndexes asSet
@@ -114,14 +114,14 @@ ToMultiSelectionModelSelecterTest >> testSelectAndScrollToNextDeselected [
 	selecter deselectAll.
 	selecter selectIndex: 2.
 	self waitTestingSpaces.
-	selecter selectIndex:  selecter nextDeselectedIndex.
-	selecter scrollToIndex:  selecter currentIndex.
+	selecter selectIndex: selecter nextDeselectedIndex.
+	selecter scrollToDataSourcePosition: selecter currentIndex.
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes equals: #( 2 3 ).
 	self assert: selecter currentIndex equals: 3.
-	selecter selectIndex:  selecter nextDeselectedIndex.
+	selecter selectIndex: selecter nextDeselectedIndex.
 	self waitTestingSpaces.
-	selecter scrollToIndex:  selecter currentIndex.
+	selecter scrollToDataSourcePosition: selecter currentIndex.
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes equals: #( 2 3 4 ).
 	self assert: selecter currentIndex equals: 4.
@@ -135,7 +135,7 @@ ToMultiSelectionModelSelecterTest >> testSelectAndScrollToPrevious [
 	self waitTestingSpaces.
 	selecter selectIndex: selecter previousSelectableIndex.
 	self waitTestingSpaces.
-	selecter scrollToIndex: selecter currentIndex.
+	selecter scrollToDataSourcePosition: selecter currentIndex.
 	self waitTestingSpaces.
 	self
 		assert: holder selectionModel selectedIndexes asSet
@@ -151,12 +151,12 @@ ToMultiSelectionModelSelecterTest >> testSelectAndScrollToPreviousDeselected [
 	selecter selectIndex: 2.
 	self waitTestingSpaces.
 	selecter selectIndex: selecter previousDeselectedIndex.
-	selecter scrollToIndex:  selecter currentIndex.
+	selecter scrollToDataSourcePosition: selecter currentIndex.
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes equals: #( 1 2 ).
 	self assert: selecter currentIndex equals: 1.
 	selecter selectIndex: selecter previousDeselectedIndex.
-	selecter scrollToIndex:  selecter currentIndex.
+	selecter scrollToDataSourcePosition: selecter currentIndex.
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes equals: #( 1 2 ).
 	self assert: selecter currentIndex equals: 1.
@@ -217,7 +217,7 @@ ToMultiSelectionModelSelecterTest >> testSelectNextOnLastIndex [
 		equals: holder dataSource itemCount.
 	selecter selectIndex: selecter nextSelectableIndex.
 	self waitTestingSpaces.
-	selecter scrollToIndex: selecter currentIndex.
+	selecter scrollToDataSourcePosition: selecter currentIndex.
 	self waitTestingSpaces.
 	self
 		assert: holder selectionModel selectedIndexes asSet
@@ -253,11 +253,11 @@ ToMultiSelectionModelSelecterTest >> testSelectPreviousOnFirstIndex [
 	self assert: selecter currentIndex equals: 1.
 	selecter selectIndex: selecter previousSelectableIndex.
 	self waitTestingSpaces.
-	selecter scrollToIndex: selecter currentIndex.
+	selecter scrollToDataSourcePosition: selecter currentIndex.
 	self waitTestingSpaces.
-	self
-		assert: holder selectionModel selectedIndexes 
-		equals: { 1. holder dataSource itemCount } .
+	self assert: holder selectionModel selectedIndexes equals: {
+			1.
+			holder dataSource itemCount }.
 	self
 		assert: selecter currentIndex
 		equals: holder dataSource itemCount.

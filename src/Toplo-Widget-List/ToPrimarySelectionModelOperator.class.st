@@ -4,10 +4,10 @@ Class {
 	#category : #'Toplo-Widget-List-Command-Selection'
 }
 
-{ #category : #'private command application' }
+{ #category : #'command operations' }
 ToPrimarySelectionModelOperator >> listScrollCommand: aCommand in: aTarget [
 
-	aTarget scrollToIndex: aCommand index
+	aTarget scrollToDataSourcePosition: aCommand index
 ]
 
 { #category : #'private command application' }

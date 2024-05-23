@@ -15,7 +15,7 @@ ToSecondarySelectionModelOperator >> listScrollCommand: aCommand in: aTarget [
 		sp mouseProcessor lastMouseMoveEvent ifNotNil: [ :e |
 			e consume ] ].
 	
-	aTarget scrollToIndex: aCommand index
+	aTarget scrollToDataSourcePosition: aCommand index
 ]
 
 { #category : #'private command application' }

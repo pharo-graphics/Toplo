@@ -133,7 +133,7 @@ ToListElementTest >> testEmptyListAddOrRemovePreviousInSelection [
 	l forceLayout.
 	self assert: l selectionModel isEmpty.
 	l selecter selectIndex: l selecter previousSelectableIndex.
-	l selecter scrollToIndex: l selecter currentIndex.
+	l selecter scrollToDataSourcePosition: l selecter currentIndex.
 	self assert: l selecter currentIndex isZero
 ]
 
@@ -166,7 +166,7 @@ ToListElementTest >> testEmptyListSelectPreviousInSelection [
 	l forceLayout.
 	l selecter selectIndex: l selecter previousSelectableIndex.
 	l selecter selectIndex: l selecter previousSelectableIndex.
-	l selecter scrollToIndex: l selecter currentIndex.
+	l selecter scrollToDataSourcePosition: l selecter currentIndex.
 	self assert: l selecter currentIndex isZero.
 	self assert: l selectionModel isEmpty
 ]
@@ -338,13 +338,17 @@ ToListElementTest >> testSelectAndScrollToNext [
 		assert: l selectionModel selectedIndexes asArray
 		equals: #( 2 4 ).
 	l selecter selectIndex: l selecter nextSelectableIndex.
-	l selecter scrollToIndex: l selecter currentIndex.
+	l selecter scrollToDataSourcePosition: l selecter currentIndex.
 	self assert: l selecter currentIndex equals: 3.
-	self assert: l selectionModel selectedIndexes asArray equals: #( 2 3 4).
+	self
+		assert: l selectionModel selectedIndexes asArray
+		equals: #( 2 3 4 ).
 	l selecter selectIndex: l selecter nextSelectableIndex.
-	l selecter scrollToIndex: l selecter currentIndex.
+	l selecter scrollToDataSourcePosition: l selecter currentIndex.
 	self assert: l selecter currentIndex equals: 4.
-	self assert: l selectionModel selectedIndexes asArray equals: #( 2 3 4 )
+	self
+		assert: l selectionModel selectedIndexes asArray
+		equals: #( 2 3 4 )
 ]
 
 { #category : #'test selection - select next/previous' }
@@ -359,13 +363,17 @@ ToListElementTest >> testSelectAndScrollToPrevious [
 	self assert: l selecter currentIndex equals: 4.
 	self assert: l selectionModel selectedIndexes asArray equals: #( 4 ).
 	l selecter selectIndex: l selecter previousSelectableIndex.
-	l selecter scrollToIndex: l selecter currentIndex.
+	l selecter scrollToDataSourcePosition: l selecter currentIndex.
 	self assert: l selecter currentIndex equals: 3.
-	self assert: l selectionModel selectedIndexes asArray equals: #( 3 4 ).
+	self
+		assert: l selectionModel selectedIndexes asArray
+		equals: #( 3 4 ).
 	l selecter selectIndex: l selecter previousSelectableIndex.
-	l selecter scrollToIndex: l selecter currentIndex.
+	l selecter scrollToDataSourcePosition: l selecter currentIndex.
 	self assert: l selecter currentIndex equals: 2.
-	self assert: l selectionModel selectedIndexes asArray equals: #( 2 3 4)
+	self
+		assert: l selectionModel selectedIndexes asArray
+		equals: #( 2 3 4 )
 ]
 
 { #category : #'test selection - adding/removing' }

@@ -126,7 +126,7 @@ ToSelectionModelHolderForTest >> scrollIndex [
 ]
 
 { #category : #accessing }
-ToSelectionModelHolderForTest >> scrollToIndex: anIndex [
+ToSelectionModelHolderForTest >> scrollToDataSourcePosition: anIndex [
 
 	scrollIndex := anIndex
 ]

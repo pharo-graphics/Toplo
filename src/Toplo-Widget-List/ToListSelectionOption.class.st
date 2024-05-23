@@ -22,6 +22,24 @@ ToListSelectionOption class >> separate [
 	^ ToListSeparateSelection new
 ]
 
+{ #category : #testing }
+ToListSelectionOption >> isGrouped [
+
+	^ false
+]
+
+{ #category : #testing }
+ToListSelectionOption >> isNone [
+
+	^ false
+]
+
+{ #category : #testing }
+ToListSelectionOption >> isSeparate [
+
+	^ false
+]
+
 { #category : #'nodes collecting' }
 ToListSelectionOption >> nextPutNodeGroupsFrom: aListElement selectionModel: aSelectionModel in: aStream [
 

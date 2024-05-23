@@ -20,7 +20,7 @@ ToMultipleSelectContainerElement >> filterString [
 ]
 
 { #category : #layout }
-ToMultipleSelectContainerElement >> haveInvisibleNodes: aCollectionOfInvisibleNodes [
+ToMultipleSelectContainerElement >> haveFullyInvisibleNodes: aCollectionOfInvisibleNodes [
 
 	| visibleNodes invisibleNodes showerHolder showerNode lab |
 	" in case of composite node at first it means that 

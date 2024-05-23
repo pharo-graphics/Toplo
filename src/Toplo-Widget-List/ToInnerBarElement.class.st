@@ -27,7 +27,7 @@ ToInnerBarElement >> addAllHolders: anArray at: aPosition [
 ]
 
 { #category : #private }
-ToInnerBarElement >> checkVisibleNodes [
+ToInnerBarElement >> checkFullyVisibleNodes [
 
 	| invisibleNodes  |
 	scrollable isNodeWrapping ifTrue: [ ^ self ].
@@ -93,6 +93,18 @@ ToInnerBarElement >> defaultDataSourceObserver [
 	"Return class, actuall instantiation happens in initialize"
 
 	^ ToScrollableBarDataSourceObserver
+]
+
+{ #category : #'node enumerating' }
+ToInnerBarElement >> fullyVisibleNodesDo: aBlock [
+
+	scrollable fullyVisibleNodesDo: aBlock
+]
+
+{ #category : #'node enumerating' }
+ToInnerBarElement >> fullyVisibleNodesSelect: aBlock [
+
+	^ scrollable fullyVisibleNodesSelect: aBlock
 ]
 
 { #category : #initialization }
@@ -190,7 +202,7 @@ ToInnerBarElement >> nodeGroupsSatisfying: aBlock [
 	^ Array streamContents: [ :stream |
 		  | g |
 		  g := OrderedCollection new.
-		  self nodesDo: [ :node |
+		  self partlyVisibleNodesDo: [ :node |
 			  (aBlock value: node)
 				  ifTrue: [ g add: node ]
 				  ifFalse: [
@@ -243,7 +255,7 @@ ToInnerBarElement >> onItemRangeChanged: aPositionStart itemCount: anItemCount [
 
 	self nodesDo: [ :node |
 		(node holder position
-			 between: aPositionStart
+			 between: aPositionStart 
 			 and: aPositionStart + anItemCount - 1) ifTrue: [
 			node holder changeDataItem: (dataSource at: node holder position) ] ].
 	self requestLayout 
@@ -271,7 +283,7 @@ ToInnerBarElement >> onItemRangeRemoved: aPositionStart itemCount: anItemCount [
 	| nodes |
 	nodes := self nodesSelect: [ :node |
 		         node holder position
-			         between: aPositionStart
+			         between: aPositionStart 
 			         and: aPositionStart + anItemCount - 1].
 	self removeAllNodes: nodes.
 	self updatePositions
@@ -300,7 +312,19 @@ ToInnerBarElement >> onItemsChanged [
 ToInnerBarElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 
 	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
-	self checkVisibleNodes
+	self checkFullyVisibleNodes
+]
+
+{ #category : #'node enumerating' }
+ToInnerBarElement >> partlyVisibleNodesDo: aBlock [
+
+	scrollable partlyVisibleNodesDo: aBlock
+]
+
+{ #category : #'node enumerating' }
+ToInnerBarElement >> partlyVisibleNodesSelect: aBlock [
+
+	^ scrollable partlyVisibleNodesSelect: aBlock
 ]
 
 { #category : #'accessing - nodes' }
@@ -332,6 +356,9 @@ ToInnerBarElement >> stopScroll [
 { #category : #'data source updates' }
 ToInnerBarElement >> updatePositions [
 
-	self nodesWithIndexDo: [ :node :idx |
-		node holder bindAtPosition: idx ]
+	| pos |
+	pos := 0.
+	self nodesDo: [ :node |
+		pos := pos + 1.
+		node holder bindAtPosition: pos ]
 ]

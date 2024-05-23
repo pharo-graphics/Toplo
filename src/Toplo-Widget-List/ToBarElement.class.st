@@ -11,9 +11,9 @@ Class {
 }
 
 { #category : #layout }
-ToBarElement >> checkVisibleNodes [ 
+ToBarElement >> checkFullyVisibleNodes [ 
 
-	self nodeContainer checkVisibleNodes 
+	self nodeContainer checkFullyVisibleNodes 
 ]
 
 { #category : #initialization }
@@ -29,7 +29,7 @@ ToBarElement >> configureLayout [
 				c vertical matchParent.
 				c horizontal fitContent ] ].
 	self nodeContainer configureLayoutIn: self.
-	self checkVisibleNodes.
+	self checkFullyVisibleNodes.
 	self requestLayout
 ]
 
@@ -74,7 +74,7 @@ ToBarElement >> flowLineUniformWidth: aBoolean [
 
 	flowLineUniformWidth := aBoolean.
 	self configureLayout.
-	dataSource notifyChanged
+	self notifyDataSourceChanged
 
 ]
 
@@ -116,6 +116,29 @@ ToBarElement >> nodeAutoDistribution: aBoolean [
 	nodeAutoDistribution = aBoolean ifTrue: [ ^ self ].
 	nodeAutoDistribution := aBoolean.
 	self configureLayout
+]
+
+{ #category : #accessing }
+ToBarElement >> nodeBuilder: aValuable [
+
+	super nodeBuilder: aValuable.
+	self notifyDataSourceChanged
+]
+
+{ #category : #accessing }
+ToBarElement >> nodeFactory: aValuable [
+	" aValuable that takes a node holder as unique argument and which running results in a new node "
+
+	super nodeFactory: aValuable.
+	self notifyDataSourceChanged
+]
+
+{ #category : #accessing }
+ToBarElement >> nodeHolderClass: aNodeHolderClass [
+	" aValuable that takes a node holder as unique argument and which running results in a new node "
+
+	super nodeHolderClass: aNodeHolderClass.
+	self notifyDataSourceChanged
 ]
 
 { #category : #accessing }

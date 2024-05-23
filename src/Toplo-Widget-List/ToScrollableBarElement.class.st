@@ -102,6 +102,22 @@ ToScrollableBarElement >> defaultScrollFlinger [
 	^ ToInfiniteScrollFlinger
 ]
 
+{ #category : #'accessing - children' }
+ToScrollableBarElement >> fullyVisibleNodesDo: aBlock [
+
+	self nodesDo: [ :node |
+		node isFullyVisible ifTrue: [ aBlock value: node ] ]
+]
+
+{ #category : #'accessing - children' }
+ToScrollableBarElement >> fullyVisibleNodesSelect: aBlock [
+
+	^ Array streamContents: [ :stream |
+		  self nodesDo: [ :node |
+			  node isFullyVisible ifTrue: [
+				  (aBlock value: node) ifTrue: [ stream nextPut: node ] ] ] ]
+]
+
 { #category : #initialization }
 ToScrollableBarElement >> initialize [ 
 
@@ -168,18 +184,33 @@ ToScrollableBarElement >> nodesSelect: aBlock [
 ToScrollableBarElement >> nodesWithIndexDo: aBlock [
 
 	self nodesDo: [ :node |
-		aBlock value: node value: node holder position ]
+		aBlock value: node value: node holder position]
 ]
 
 { #category : #'hooks - layout' }
 ToScrollableBarElement >> onEnterLayoutOrScroll [
 ]
 
-{ #category : #'children add/remove' }
+{ #category : #'hooks - layout' }
 ToScrollableBarElement >> onExitLayoutOrScroll [
 ]
 
-{ #category : #'children add/remove' }
+{ #category : #'accessing - children' }
+ToScrollableBarElement >> partlyVisibleNodesDo: aBlock [
+
+	self nodesDo: [ :node |
+		node isPartlyVisible ifTrue: [ aBlock value: node ] ]
+]
+
+{ #category : #'accessing - children' }
+ToScrollableBarElement >> partlyVisibleNodesSelect: aBlock [
+
+	^ Array streamContents: [ :stream |
+		  self partlyVisibleNodesDo: [ :node |
+			  (aBlock value: node) ifTrue: [ stream nextPut: node ] ] ]
+]
+
+{ #category : #'hooks - layout' }
 ToScrollableBarElement >> prefetchingAllowed [
 
 	^ false
@@ -199,7 +230,7 @@ ToScrollableBarElement >> removeNode: aNode [
 		removeFromParent
 ]
 
-{ #category : #'children add/remove' }
+{ #category : #'hooks - layout' }
 ToScrollableBarElement >> repositionShadowingElements [
 ]
 

@@ -54,6 +54,27 @@ ToElementBarNode >> installRawStyle [
 { #category : #layout }
 ToElementBarNode >> isFullyVisible [
 
+	| bnds bar |
+	bar := self holder elementBar.
+	bnds := (self measuredBounds inParent: bar nodeContainer) asRectangle.
+	^ self nodeContainerIntersection = bnds
+]
+
+{ #category : #layout }
+ToElementBarNode >> isPartlyVisible [
+
+	^ self nodeContainerIntersection isZero not
+]
+
+{ #category : #testing }
+ToElementBarNode >> isRemovable [
+
+	^ false
+]
+
+{ #category : #layout }
+ToElementBarNode >> nodeContainerIntersection [
+
 	| intersection bnds pbnds bar |
 	self measuredWidth isZero ifTrue: [ ^ true ].
 	bar := self holder elementBar.
@@ -61,13 +82,7 @@ ToElementBarNode >> isFullyVisible [
 	pbnds := bar nodeContainer measuredBounds asRectangle.
 	pbnds := pbnds withRight: pbnds right - self rightWidthGap.
 	intersection := bnds intersect: pbnds.
-	^ intersection = bnds
-]
-
-{ #category : #testing }
-ToElementBarNode >> isRemovable [
-
-	^ false
+	^ intersection 
 ]
 
 { #category : #'api - hooks' }

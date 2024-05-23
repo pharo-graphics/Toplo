@@ -26,7 +26,7 @@ ToMultiElementBarContainerElement >> addDataNode: aNode [
 ]
 
 { #category : #layout }
-ToMultiElementBarContainerElement >> checkVisibleNodes [
+ToMultiElementBarContainerElement >> checkFullyVisibleNodes [
 
 	| invisibleNodes currentHeaderWidth |
 	self ensurePreviousMeasuredBarWidth.
@@ -38,7 +38,7 @@ ToMultiElementBarContainerElement >> checkVisibleNodes [
 	previousMeasuredBarWidth := currentHeaderWidth.
 	invisibleNodes := self nodesSelect: [ :n | n isFullyVisible not ].
 	invisibleNodes ifEmpty: [ ^ self ].
-	self haveInvisibleNodes: invisibleNodes
+	self haveFullyInvisibleNodes: invisibleNodes
 ]
 
 { #category : #layout }
@@ -49,7 +49,7 @@ ToMultiElementBarContainerElement >> ensurePreviousMeasuredBarWidth [
 ]
 
 { #category : #layout }
-ToMultiElementBarContainerElement >> haveInvisibleNodes: invisibleNodes [
+ToMultiElementBarContainerElement >> haveFullyInvisibleNodes: invisibleNodes [
 ]
 
 { #category : #initialization }
@@ -192,7 +192,7 @@ ToMultiElementBarContainerElement >> onLayout: aBounds context: aBlElementBounds
 	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
 	nodeWrapping ifTrue: [ ^ self ].
 	nodeScrolling ifTrue: [ ^ self ].
-	self checkVisibleNodes
+	self checkFullyVisibleNodes
 ]
 
 { #category : #'api - hooks' }

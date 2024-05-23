@@ -273,7 +273,7 @@ ToAbstractListElement >> newSelectionModel [
 { #category : #accessing }
 ToAbstractListElement >> nodeBuilder: aValuable [
 
-	"aValuable takes 2 args: first, the node to build and second, its holder in the list element "
+	"aValuable takes 3 args: first, the node to build and second, its holder in the list element and the data item"
 	nodeManager nodeBuilder: aValuable
 ]
 
@@ -294,6 +294,13 @@ ToAbstractListElement >> nodeHolderClass: aNodeHolderClass [
 ToAbstractListElement >> nodeManager [ 
 
 	^ nodeManager
+]
+
+{ #category : #'event firing' }
+ToAbstractListElement >> notifyDataSourceChanged [
+
+	
+	self dataSource notifyChanged
 ]
 
 { #category : #'event firing' }

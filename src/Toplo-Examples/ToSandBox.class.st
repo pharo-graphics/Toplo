@@ -2226,11 +2226,25 @@ ToSandBox class >> example_TripletElementWithIconAndText_endAlignment [
 
 	| but  |
 	but := self example_TripletElementWithIconAndText.
-	but startAlignment: 50.
 	but endAlignment: 50.
 	but border: Color red.
 	but vFitContent.
 	but hFitContent.
+	^ but
+]
+
+{ #category : #triplet }
+ToSandBox class >> example_TripletElementWithIconAndText_flexible_Interspace [
+
+	| but  |
+	but := self example_TripletElementWithIconAndText.
+	but startInterspace: 30.
+	but endInterspace: 30.
+	but startFlexible: true.
+	but endFlexible: true.
+	but border: Color red.
+	but vFitContent.
+	but hMatchParent.
 	^ but
 ]
 
@@ -2252,7 +2266,20 @@ ToSandBox class >> example_TripletElementWithIconAndText_startFlexible_startAlig
 	| but  |
 	but := self example_TripletElementWithIconAndText.
 	but startFlexible: true.
-	but startAlignment: 30.
+	but startAlignment: 60.
+	but border: Color red.
+	but vFitContent.
+	but hMatchParent.
+	^ but
+]
+
+{ #category : #triplet }
+ToSandBox class >> example_TripletElementWithIconAndText_startFlexible_startInterspace [
+
+	| but  |
+	but := self example_TripletElementWithIconAndText.
+	but startInterspace: 30.
+	but startFlexible: true.
 	but border: Color red.
 	but vFitContent.
 	but hMatchParent.
@@ -2723,14 +2750,26 @@ ToSandBox class >> example_nodeBar [
 			confPane.
 			barPane }.
 	bar := ToBarElement new.
-
-	bar hMatchParent.
+	bar nodeBuilder: [ :node :holder :dataItem |
+		| triplet |
+		triplet := ToTripletElement new.
+		triplet horizontal: true.
+		triplet startFlexible: true.
+		triplet startInterspace: 10.
+		triplet startElement: (ToLabel text: holder position asString).
+		triplet middleElement: (ToLabel text: dataItem asString).
+		node addChild: triplet.
+		node constraintsDo: [ :c |
+			c horizontal fitContent.
+			c vertical fitContent ] ].
+   bar hMatchParent.
 	bar vFitContent.
 
 	barPane addChild: bar.
+	bar dataAccessor addAll:
+		(ToSandBox statesOfAmerica "copyFrom: 1 to: 20").
 	"bar dataAccessor addAll:
-		(ToSandBox statesOfAmerica ""copyFrom: 1 to: 20"")."
-	bar dataAccessor addAll: ((Smalltalk globals allClasses) copyFrom: 1 to: 150).
+		(Smalltalk globals allClasses copyFrom: 1 to: 800)."
 
 	verticalSwitch := ToSwitchButton new labelText: 'Vertical'.
 	verticalSwitch endToStart: true.
@@ -2764,7 +2803,8 @@ ToSandBox class >> example_nodeBar [
 				 | v |
 				 v := event current.
 				 bar nodeWrapping: v ]).
-	sameWidthSwitch := ToSwitchButton new labelText: 'Uniform element width'.
+	sameWidthSwitch := ToSwitchButton new labelText:
+		                   'Uniform element width'.
 	sameWidthSwitch endToStart: true.
 	sameWidthSwitch startFlexible: true.
 	sameWidthSwitch hMatchParent.
@@ -2776,7 +2816,7 @@ ToSandBox class >> example_nodeBar [
 				 | v |
 				 v := event current.
 				 bar flowLineUniformWidth: v ]).
-			
+
 	scrollingSwitch := ToSwitchButton new labelText: 'Scrolling'.
 	scrollingSwitch endToStart: true.
 	scrollingSwitch startFlexible: true.

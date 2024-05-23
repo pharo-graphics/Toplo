@@ -12,13 +12,33 @@ Class {
 		'startElement',
 		'middleElement',
 		'endElement',
-		'endFlexible',
 		'startFlexible',
+		'endFlexible',
+		'endGap',
+		'startGap',
 		'startAlignment',
-		'endAlignment'
+		'endAlignment',
+		'endInterspace',
+		'startInterspace'
 	],
 	#category : #'Toplo-Core'
 }
+
+{ #category : #layout }
+ToTripletElement >> configureLayout [
+
+	self isHorizontal
+		ifTrue: [
+			self startGap size: startInterspace @ 0.
+			self endGap  size: endInterspace @ 0.
+			self endElement ifNotNil: [ :ee |
+				ee constraints frame horizontal alignRight ] ]
+		ifFalse: [
+			self startGap size: 0 @ startInterspace.
+			self endGap size: 0 @ endInterspace.
+			self endElement ifNotNil: [ :ee |
+				ee constraints frame vertical alignBottom ] ]
+]
 
 { #category : #initialization }
 ToTripletElement >> defaultEventHandler [
@@ -94,7 +114,7 @@ ToTripletElement >> endFlexible [
 ToTripletElement >> endFlexible: aBoolean [
 
 	endFlexible = aBoolean ifTrue: [ ^ self ].
-	endFlexible := aBoolean.	
+	endFlexible := aBoolean.
 	endFlexible
 		ifTrue: [
 			self endFiller constraintsDo: [ :c |
@@ -104,6 +124,25 @@ ToTripletElement >> endFlexible: aBoolean [
 			self endFiller constraintsDo: [ :c |
 				c vertical fitContent.
 				c horizontal fitContent ] ]
+]
+
+{ #category : #accessing }
+ToTripletElement >> endGap [
+
+	^ endGap
+]
+
+{ #category : #accessing }
+ToTripletElement >> endInterspace [
+
+	^ endInterspace
+]
+
+{ #category : #accessing }
+ToTripletElement >> endInterspace: aNumber [
+
+	endInterspace := aNumber.
+	self requestLayout
 ]
 
 { #category : #testing }
@@ -128,50 +167,39 @@ ToTripletElement >> hasStartElement [
 ToTripletElement >> initialize [
 
 	super initialize.
-	
+
 	startFlexible := false.
 	endFlexible := false.
-	startFiller := BlElement new
-		          size: 0 @ 0;
-		          id: #'start-filler';
-		          layout: BlFrameLayout new;
-		          constraintsDo: [ :c |
-			          c horizontal fitContent.
-			          c vertical fitContent ];
-		          yourself.
-	endFiller := BlElement new
-		          size: 0 @ 0;
-		          id: #'end-filler';
-		          layout: BlFrameLayout new;
-		          constraintsDo: [ :c |
-			          c horizontal fitContent.
-			          c vertical fitContent ];
-		          yourself.
-	startContainer := BlElement new
-		                 constraintsDo: [ :c |
-			                 c horizontal fitContent.
-			                 c vertical fitContent ];
-		                 id: #'start-container';
-		                 layout: BlFrameLayout new;
-		                 yourself.
-	middleContainer := BlElement new
-		                  constraintsDo: [ :c |
-			                  c horizontal fitContent.
-			                  c vertical fitContent ];
-		                  id: #'middle-container';
-		                  layout: BlFrameLayout new;
+	startInterspace := 0.
+	endInterspace := 0.
+	startGap := self newFiller
+		               id: #'start-gap';
+		               yourself.
+	endGap := self newFiller
+		             id: #'end-gap';
+		             yourself.
+
+	startFiller := self newFiller
+		               id: #'start-filler';
+		               yourself.
+	endFiller := self newFiller
+		             id: #'end-filler';
+		             yourself.
+	startContainer := self newInnerContainer
+		                  id: #'start-container';
 		                  yourself.
-	endContainer := BlElement new
-		                  constraintsDo: [ :c |
-			                  c horizontal fitContent.
-			                  c vertical fitContent ];
-		                  id: #'end-container';
-		                  layout: BlFrameLayout new;
-		                  yourself.
+	middleContainer := self newInnerContainer
+		                   id: #'middle-container';
+		                   yourself.
+	endContainer := self newInnerContainer
+		                id: #'end-container';
+		                yourself.
 	self addChild: startContainer.
+	self addChild: startGap.
 	self addChild: startFiller.
 	self addChild: middleContainer.
 	self addChild: endFiller.
+	self addChild: endGap.
 	self addChild: endContainer.
 	self fitContent.
 	self addEventHandler: self defaultEventHandler
@@ -236,16 +264,33 @@ ToTripletElement >> middleElement: anElement [
 	middleContainer addChild: anElement
 ]
 
+{ #category : #'instance creation' }
+ToTripletElement >> newFiller [
+
+	^ BlElement new
+		  size: 0 @ 0;
+		  layout: BlLinearLayout new;
+		  constraintsDo: [ :c |
+			  c horizontal fitContent.
+			  c vertical fitContent ];
+		  yourself
+]
+
+{ #category : #'instance creation' }
+ToTripletElement >> newInnerContainer [
+
+	^ BlElement new
+		  constraintsDo: [ :c |
+			  c horizontal fitContent.
+			  c vertical fitContent ];
+		  layout: BlLinearLayout new;
+		  yourself
+]
+
 { #category : #layout }
 ToTripletElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 
-	self isHorizontal
-		ifTrue: [
-			self endElement ifNotNil: [ :ee |
-				ee constraints frame horizontal alignRight ] ]
-		ifFalse: [
-			self endElement ifNotNil: [ :ee |
-				ee constraints frame vertical alignBottom ] ].
+	self configureLayout.
 	super onLayout: aBounds context: aBlElementBoundsUpdateContext
 ]
 
@@ -320,4 +365,23 @@ ToTripletElement >> startFlexible: aBoolean [
 			self startFiller constraintsDo: [ :c |
 				c vertical fitContent.
 				c horizontal fitContent ] ]
+]
+
+{ #category : #accessing }
+ToTripletElement >> startGap [
+
+	^ startGap
+]
+
+{ #category : #accessing }
+ToTripletElement >> startInterspace [
+
+	^ startInterspace
+]
+
+{ #category : #accessing }
+ToTripletElement >> startInterspace: aNumber [
+
+	startInterspace := aNumber.
+	self requestLayout
 ]

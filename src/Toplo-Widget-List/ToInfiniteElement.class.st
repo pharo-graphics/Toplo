@@ -79,6 +79,18 @@ ToInfiniteElement >> enableScrolledEvent [
 	self eventDispatcher enableScrolledEvent 
 ]
 
+{ #category : #'node enumerating' }
+ToInfiniteElement >> fullyVisibleNodesDo: aBlock [
+
+	self nodesDo: aBlock
+]
+
+{ #category : #'node enumerating' }
+ToInfiniteElement >> fullyVisibleNodesSelect: aBlock [
+
+	^ self nodesSelect: aBlock
+]
+
 { #category : #initialization }
 ToInfiniteElement >> initialize [
 
@@ -136,7 +148,7 @@ ToInfiniteElement >> nodeGroupsSatisfying: aBlock [
 	^ Array streamContents: [ :stream |
 		  | g |
 		  g := OrderedCollection new.
-		  self childrenDo: [ :node |
+		  self partlyVisibleNodesDo: [ :node |
 			  (aBlock value: node)
 				  ifTrue: [ g add: node ]
 				  ifFalse: [
@@ -165,6 +177,12 @@ ToInfiniteElement >> nodesWithIndexDo: aBlock [
 
 	self nodesDo: [ :node |
 		aBlock value: node value: node holder position ]
+]
+
+{ #category : #'node enumerating' }
+ToInfiniteElement >> partlyVisibleNodesDo: aBlock [
+
+	self nodesDo: aBlock
 ]
 
 { #category : #'t - resizeable' }

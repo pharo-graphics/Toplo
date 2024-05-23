@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
+{ #category : #testing }
+ToListGroupedSelection >> isGrouped [ 
+
+	^ true
+]
+
 { #category : #'nodes collecting' }
 ToListGroupedSelection >> nextPutNodeGroupsFrom: aListElement selectionModel: aSelectionModel in: aStream [
 

@@ -38,7 +38,7 @@ ToNodeBarContainerElement >> addFakeNode [
 ]
 
 { #category : #layout }
-ToNodeBarContainerElement >> checkVisibleNodes [
+ToNodeBarContainerElement >> checkFullyVisibleNodes [
 
 	| invisibleNodes currentHeaderWidth |
 	self ensurePreviousMeasuredBarWidth.
@@ -50,7 +50,7 @@ ToNodeBarContainerElement >> checkVisibleNodes [
 	previousMeasuredBarWidth := currentHeaderWidth.
 	invisibleNodes := self nodesSelect: [ :n | n isFullyVisible not ].
 	invisibleNodes ifEmpty: [ ^ self ].
-	self haveInvisibleNodes: invisibleNodes
+	self haveFullyInvisibleNodes: invisibleNodes
 ]
 
 { #category : #initialization }
@@ -87,7 +87,7 @@ ToNodeBarContainerElement >> fakeDataItem: aData [
 ]
 
 { #category : #layout }
-ToNodeBarContainerElement >> haveInvisibleNodes: invisibleNodes [
+ToNodeBarContainerElement >> haveFullyInvisibleNodes: invisibleNodes [
 ]
 
 { #category : #initialization }
@@ -330,7 +330,7 @@ ToNodeBarContainerElement >> onLayout: aBounds context: aBlElementBoundsUpdateCo
 	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
 	nodeWrapping ifTrue: [ ^ self ].
 	nodeScrolling ifTrue: [ ^ self ].
-	self checkVisibleNodes
+	self checkFullyVisibleNodes
 ]
 
 { #category : #'api - hooks' }

@@ -804,10 +804,10 @@ ToSandBox class >> example_ListWithAllClasses3 [
 	l addEventHandler: (BlEventHandler
 			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :evt | evt traceCr ]).
+	l selectionMode beneathOption animationDuration: 150 milliSeconds.
 
 	l dataAccessor addAll: Smalltalk globals allClasses.
 	l withRowNumbers.
-	l inspect.
 	l nodeContainer requestFocus.
 	l openInInnerWindow
 ]
@@ -2739,12 +2739,12 @@ ToSandBox class >> example_menuBar2 [
 { #category : #'node bar' }
 ToSandBox class >> example_nodeBar [
 
-	| bar mainPane barPane confPane verticalSwitch wrappingSwitch scrollingSwitch autoDistributionSwitch sameWidthSwitch |
+	| bar mainPane barPane confPane verticalSwitch wrappingSwitch scrollingSwitch autoDistributionSwitch sameWidthSwitch selectionAnimationSwitch |
 	mainPane := ToPane horizontal.
 	mainPane matchParent.
 	mainPane padding: (BlInsets all: 5).
 	confPane := ToPane vertical.
-	confPane width: 230.
+	confPane width: 250.
 	barPane := ToPane vertical.
 	barPane matchParent.
 	mainPane addChildren: {
@@ -2763,12 +2763,11 @@ ToSandBox class >> example_nodeBar [
 		node constraintsDo: [ :c |
 			c horizontal fitContent.
 			c vertical fitContent ] ].
-   bar hMatchParent.
+	bar hMatchParent.
 	bar vFitContent.
 
 	barPane addChild: bar.
-	bar dataAccessor addAll:
-		(ToSandBox statesOfAmerica "copyFrom: 1 to: 20").
+	bar dataAccessor addAll: ToSandBox statesOfAmerica. "copyFrom: 1 to: 20"
 	"bar dataAccessor addAll:
 		(Smalltalk globals allClasses copyFrom: 1 to: 800)."
 
@@ -2845,6 +2844,22 @@ ToSandBox class >> example_nodeBar [
 				 v := event current.
 				 bar nodeAutoDistribution: v ]).
 
+	selectionAnimationSwitch := ToSwitchButton new labelText:
+		                            'Animate selection transition'.
+	selectionAnimationSwitch endToStart: true.
+	selectionAnimationSwitch startFlexible: true.
+	selectionAnimationSwitch hMatchParent.
+
+	confPane addChild: selectionAnimationSwitch.
+	selectionAnimationSwitch addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :event |
+				 | v |
+				 v := event current.
+				 bar selectionMode beneathOption animationDuration: (v
+						  ifTrue: [ 150 milliSeconds ]
+						  ifFalse: [ 0 milliSeconds ]) ]).
+
 	bar
 		addEventHandlerOn: ToBarNodeVisibilityEvent
 		do: [ :event |
@@ -2853,7 +2868,6 @@ ToSandBox class >> example_nodeBar [
 	bar nodeAutoDistribution: false.
 	bar inspect.
 
-	"bar nodeContainer refresh."
 	mainPane openInSpace
 ]
 

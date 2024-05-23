@@ -5,14 +5,26 @@ Class {
 }
 
 { #category : #'selection managing' }
+ToListSelectionElementEventHandler >> addNewSelectionElements: aSelectionElementArray from: target [
+
+	aSelectionElementArray do: [ :e |
+		self addSelectionElement: e from: target ]
+]
+
+{ #category : #'selection managing' }
 ToListSelectionElementEventHandler >> addNewSelectionElementsFrom: target [
 
 	| newSelElements |
 	newSelElements := self newSelectionElementsFrom: target.
-	newSelElements do: [ :e |
-		e beneath
-			ifTrue: [ target addBeneathSelectionElement: e ]
-			ifFalse: [ target addOverSelectionElement: e ] ]
+	self addNewSelectionElements: newSelElements from: target
+]
+
+{ #category : #'selection managing' }
+ToListSelectionElementEventHandler >> addSelectionElement: aSelectionElement from: target [
+
+	aSelectionElement beneath
+		ifTrue: [ target addBeneathSelectionElement: aSelectionElement ]
+		ifFalse: [ target addOverSelectionElement: aSelectionElement ]
 ]
 
 { #category : #'selection managing' }

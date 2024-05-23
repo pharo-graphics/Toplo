@@ -1,6 +1,9 @@
 Class {
 	#name : #ToListSelectionOption,
 	#superclass : #Object,
+	#instVars : [
+		'animationDuration'
+	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
@@ -20,6 +23,31 @@ ToListSelectionOption class >> none [
 ToListSelectionOption class >> separate [
 
 	^ ToListSeparateSelection new
+]
+
+{ #category : #accessing }
+ToListSelectionOption >> animate [
+
+	^ animationDuration asMilliSeconds > 0
+]
+
+{ #category : #accessing }
+ToListSelectionOption >> animationDuration [
+
+	^ animationDuration
+]
+
+{ #category : #accessing }
+ToListSelectionOption >> animationDuration: aDuration [
+
+	animationDuration := aDuration
+]
+
+{ #category : #initialization }
+ToListSelectionOption >> initialize [ 
+
+	super initialize.
+	animationDuration := 0 milliSeconds 
 ]
 
 { #category : #testing }

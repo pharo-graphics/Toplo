@@ -95,6 +95,15 @@ ToListSelectionElement >> positionFrom: aPoint [
 ]
 
 { #category : #private }
+ToListSelectionElement >> positionFromNodes [
+	" return my futur position from my list of adjacent nodes. "
+
+	| bnds |
+	bnds := self boundsFromNodes.
+	^ self positionFrom: bnds origin
+]
+
+{ #category : #private }
 ToListSelectionElement >> sizeFrom: aPoint [
 
 	^ aPoint

@@ -90,7 +90,7 @@ ToBarElement >> initialize [
 
 	super initialize.
 	selectionMode beneathOption: ToListSelectionOption separate.
-	selectionMode overOption: ToListSelectionOption separate.
+	selectionMode overOption: ToListSelectionOption none.
 	nodeWrapping := true.
 	nodeScrolling := true.
 	nodeAutoDistribution := false.

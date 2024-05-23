@@ -95,6 +95,29 @@ ToInnerBarElement >> defaultDataSourceObserver [
 	^ ToScrollableBarDataSourceObserver
 ]
 
+{ #category : #'t - infinite scrolled event' }
+ToInnerBarElement >> disableScrolledEvent [
+
+	scrollable disableScrolledEvent
+]
+
+{ #category : #'t - infinite scrolled event' }
+ToInnerBarElement >> enableScrolledEvent [
+
+	scrollable enableScrolledEvent
+]
+
+{ #category : #'t - children - accessing' }
+ToInnerBarElement >> findElementHolderForDataSourcePosition: aPosition [
+	"Return the holder for the node in the given position of the data set"
+
+	self nodesDo: [ :aNode |
+		| holder |
+		holder := aNode holder.
+		holder position = aPosition ifTrue: [ ^ holder ] ].
+	^ nil
+]
+
 { #category : #'node enumerating' }
 ToInnerBarElement >> fullyVisibleNodesDo: aBlock [
 
@@ -187,6 +210,16 @@ ToInnerBarElement >> listElement: aListElement [
 ToInnerBarElement >> newNodeHolderFromDataSource: aDataSource [
 
 	^ self listElement nodeManager newNodeHolder
+]
+
+{ #category : #accessing }
+ToInnerBarElement >> nodeAt: anIndex [
+
+	" return the holder for the data at anIndex according to currently viewed data range. 
+	Returns nil if anIndex is not currently viewed in the infinite element"
+	^ (self findElementHolderForDataSourcePosition: anIndex)
+		  ifNotNil: [ :holder | holder itemElement ]
+		  ifNil: [  ]
 ]
 
 { #category : #'t - infinite accessing' }
@@ -334,6 +367,26 @@ ToInnerBarElement >> removeAllNodes: anArray [
 	anArray do: [ :node | self notifyChildDetached: node  ]
 ]
 
+{ #category : #'t - infinite accessing' }
+ToInnerBarElement >> scrollDeltaFromDataSourcePosition: anIndex [
+
+	| node bnds pad |
+	node := self nodeAt: anIndex.
+	node ifNil: [ ^ nil ].
+	bnds := node measuredBounds inParent: listElement.
+	pad := listElement isHorizontal
+		       ifTrue: [ listElement padding left ]
+		       ifFalse: [ listElement padding top ].
+	^ bnds position - pad
+]
+
+{ #category : #'t - infinite accessing' }
+ToInnerBarElement >> scrollToDataSourcePosition: anIndex [
+
+	(self scrollDeltaFromDataSourcePosition: anIndex) ifNotNil: [ :p |
+		scrollable scrollBy: p x negated @ p y ]
+]
+
 { #category : #'accessing - children' }
 ToInnerBarElement >> selectableNodeContainingGlobalPosition: aPoint [
 
@@ -344,11 +397,20 @@ ToInnerBarElement >> selectableNodeContainingGlobalPosition: aPoint [
 ]
 
 { #category : #'t - infinite accessing' }
+ToInnerBarElement >> smoothScrollToDataSourcePosition: anIndex [
+
+	(self scrollDeltaFromDataSourcePosition: anIndex) ifNotNil: [ :p |
+		scrollable smoothScrollBy: p x negated @ p y ]
+]
+
+{ #category : #'t - infinite accessing' }
 ToInnerBarElement >> stopScroll [
 	"Stop any current scroll in progress, such as one started by
 		- #smoothScrollBy:
 		- #fling:
 		- or a touch-initiated fling"
+		
+	scrollable stopScrollersInternal
 
 	
 ]

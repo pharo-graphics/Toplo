@@ -1,8 +1,5 @@
 Trait {
 	#name : #TToListElementDecorator,
-	#instVars : [
-		'next'
-	],
 	#category : #'Toplo-Widget-List-Core'
 }
 
@@ -39,13 +36,7 @@ TToListElementDecorator >> minHeight: aHeight [
 { #category : #'t - infinite accessing' }
 TToListElementDecorator >> next [
 
-	^ next
-]
-
-{ #category : #'t - infinite accessing' }
-TToListElementDecorator >> next: aDecoratorOrNodeContainer [
-
-	next := aDecoratorOrNodeContainer
+	^ self explicitRequirement
 ]
 
 { #category : #'t - children - accessing' }
@@ -68,30 +59,32 @@ TToListElementDecorator >> scrollToDataSourcePosition: anIndex [
 
 { #category : #'t - infinite accessing' }
 TToListElementDecorator >> scrollToIndex: anIndex [
+	self
+		deprecated: 'Use scrollToDataSourcePosition: instead'
+		transformWith: '`@receiver scrollToIndex: `@argument'
+			-> '`@receiver scrollToDataSourcePosition: `@argument'.
 
-	self next scrollToIndex: anIndex
+	self scrollToDataSourcePosition: anIndex
 ]
 
 { #category : #'t - infinite accessing' }
 TToListElementDecorator >> scrollToIndexAtTop: anIndex [
 
-	self next scrollToIndexAtTop: anIndex
+	self
+		deprecated: 'Use scrollToDataSourcePosition: instead'
+		transformWith: '`@receiver scrollToIndexAtTop: `@argument'
+			-> '`@receiver scrollToDataSourcePosition: `@argument'.
+	self scrollToDataSourcePosition: anIndex
+]
+
+{ #category : #'t - infinite accessing' }
+TToListElementDecorator >> smoothScrollToDataSourcePosition: anIndex [
+
+	self next smoothScrollToDataSourcePosition: anIndex
 ]
 
 { #category : #'t - infinite accessing' }
 TToListElementDecorator >> stopScroll [
 
 	self next stopScroll 
-]
-
-{ #category : #'t - infinite accessing' }
-TToListElementDecorator >> withDecoration: aDecorationClass [
-
-	self next withDecoration: aDecorationClass
-]
-
-{ #category : #'t - infinite accessing' }
-TToListElementDecorator >> withRowNumbers [ 
-
-	self next withRowNumbers 
 ]

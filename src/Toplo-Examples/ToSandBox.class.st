@@ -856,6 +856,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 
 	| l selectionMenu menuFactory phtext |
 	l := ToListElement new.
+	l inspect.
 	l withDisabledSelecter.
 	l withUnselectableSelecter.
 	l withHiddenSelecter.

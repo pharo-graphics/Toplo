@@ -1,11 +1,11 @@
 Class {
-	#name : #ToScrollableElementEventHandler,
+	#name : #ToScrollableBarEventHandler,
 	#superclass : #BlEventListener,
 	#category : #'Toplo-Widget-List-InnerBar'
 }
 
 { #category : #'mouse handlers' }
-ToScrollableElementEventHandler >> mouseWheelEvent: anEvent [
+ToScrollableBarEventHandler >> mouseWheelEvent: anEvent [
 	
 	"I implement touch support, so ignore fake mouse wheel events"
 	anEvent isTouch

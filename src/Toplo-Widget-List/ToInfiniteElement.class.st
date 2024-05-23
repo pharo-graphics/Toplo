@@ -212,12 +212,9 @@ ToInfiniteElement >> resizableConstraintsDo: aBlock [
 ToInfiniteElement >> scrollToDataSourcePosition: anIndex [
 	"Request a scrollable widget to scroll to an item (logical or physical) at a given index,
 	which can, for example, be a data source position or child index"
+	"As a result, item at anIndex is positionned at the top of the listElement"
 
-	self scrollToPosition: anIndex.
-
-	"aWish smooth
-		ifTrue: [ self listElement smoothScrollToPosition: aWish index ]
-		ifFalse: [ self listElement scrollToPosition: aWish index ]"
+	self scrollToPosition: anIndex offset: self layout computeExtraLayoutSpace y.
 ]
 
 { #category : #private }
@@ -225,11 +222,12 @@ ToInfiniteElement >> scrollToIndex: anIndex [
 	"Request a scrollable widget to scroll to an item (logical or physical) at a given index,
 	which can, for example, be a data source position or child index"
 
-	self scrollToPosition: anIndex.
+	self
+		deprecated: 'Use scrollToDataSourcePosition: instead'
+		transformWith: '`@receiver scrollToIndex: `@argument'
+			-> '`@receiver scrollToDataSourcePosition: `@argument'.
 
-	"aWish smooth
-		ifTrue: [ self listElement smoothScrollToPosition: aWish index ]
-		ifFalse: [ self listElement scrollToPosition: aWish index ]"
+	self scrollToDataSourcePosition: anIndex
 ]
 
 { #category : #private }
@@ -237,8 +235,12 @@ ToInfiniteElement >> scrollToIndexAtTop: anIndex [
 	"Request a scrollable widget to scroll to an item (logical or physical) at a given index,
 	which can, for example, be a data source position or child index"
 	"As a result, item at anIndex is positionned at the top of the listElement"
+	self
+		deprecated: 'Use scrollToDataSourcePosition: instead'
+		transformWith: '`@receiver scrollToIndexAtTop: `@argument'
+			-> '`@receiver scrollToDataSourcePosition: `@argument'.
 
-	self scrollToPosition: anIndex offset: self layout computeExtraLayoutSpace y.
+	self scrollToDataSourcePosition: anIndex
 ]
 
 { #category : #'accessing - children' }
@@ -248,6 +250,14 @@ ToInfiniteElement >> selectableNodeContainingGlobalPosition: aPoint [
 		(node holder isSelectable and: [ node containsGlobalPoint: aPoint ])
 			ifTrue: [ ^ node ] ].
 	^ nil
+]
+
+{ #category : #private }
+ToInfiniteElement >> smoothScrollToDataSourcePosition: anIndex [
+	"Request a scrollable widget to scroll to an item (logical or physical) at a given index,
+	which can, for example, be a data source position or child index"
+
+	self smoothScrollToPosition: anIndex
 ]
 
 { #category : #'view - configuration' }

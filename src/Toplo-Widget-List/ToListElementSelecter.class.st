@@ -255,7 +255,7 @@ ToListElementSelecter >> previousSelectableIndexToScrollTo [
 ]
 
 { #category : #operations }
-ToListElementSelecter >> scrollToIndex: anIndex [
+ToListElementSelecter >> scrollToDataSourcePosition: anIndex [
 
 	enabled ifFalse: [ ^ self ].
 	selectionModel itemCount >= anIndex ifTrue: [
@@ -263,6 +263,17 @@ ToListElementSelecter >> scrollToIndex: anIndex [
 				 operator: operator;
 				 index: anIndex;
 				 yourself) ]
+]
+
+{ #category : #operations }
+ToListElementSelecter >> scrollToIndex: anIndex [
+
+	self
+		deprecated: 'Use scrollToDataSourcePosition: instead'
+		transformWith: '`@receiver scrollToIndex: `@argument'
+			-> '`@receiver scrollToDataSourcePosition: `@argument'.
+
+	self scrollToDataSourcePosition: anIndex
 ]
 
 { #category : #operations }

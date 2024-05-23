@@ -39,14 +39,16 @@ ToNode >> isFullyVisible [
 { #category : #testing }
 ToNode >> isPartlyVisible [
 
-	^ self nodeContainerIntersection isZero not
+	^ self nodeContainerIntersection
+		  ifNotNil: [ :i | i isZero not ]
+		  ifNil: [ false ]
 ]
 
 { #category : #testing }
 ToNode >> nodeContainerIntersection [
 
 	| intersection bnds pbnds list |
-	self measuredWidth isZero ifTrue: [ ^ true ].
+	self measuredWidth isZero ifTrue: [ ^ nil ].
 	list := self holder listElement.
 	bnds := (self measuredBounds inParent: list nodeContainer) asRectangle.
 	pbnds := list nodeContainer measuredBounds asRectangle.

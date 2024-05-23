@@ -4,6 +4,7 @@ Class {
 	#traits : 'TToListElementDecorator + TToElementWithPlaceholder + TToOrientable',
 	#classTraits : 'TToListElementDecorator classTrait + TToElementWithPlaceholder classTrait + TToOrientable classTrait',
 	#instVars : [
+		'next',
 		'overContainer',
 		'beneathContainer',
 		'selectionMode',
@@ -187,8 +188,8 @@ ToAbstractListElement >> initialize [
 
 	super initialize.
 	self initializeDataSource.
+	next := self defaultNodeContainer.
 	nodeManager := self defaultNodeManager.
-	self next: self defaultNodeContainer.
 	self next elevation: (BlRelativeElevation elevation: 10).
 
 	beneathContainer := ToOverlayElement new.
@@ -268,6 +269,12 @@ ToAbstractListElement >> newSelectionModel [
 	^ ToSelectionModel new
 		  itemCountGetter: [ self dataSource itemCount ];
 		  yourself
+]
+
+{ #category : #'t - infinite accessing' }
+ToAbstractListElement >> next [
+
+	^ next
 ]
 
 { #category : #accessing }
@@ -366,6 +373,16 @@ ToAbstractListElement >> primarySelectionElements [
 		  beneathContainer childrenDo: [ :child |
 			  (child isKindOf: self selectionMode elementClass) ifTrue: [
 				  stream nextPut: child ] ] ]
+]
+
+{ #category : #'t - infinite accessing' }
+ToAbstractListElement >> scrollToIndexAtTop: anIndex [
+
+	self
+		deprecated: 'Use scrollToDataSourcePosition: instead'
+		transformWith: '`@receiver scrollToIndexAtTop: `@argument'
+			-> '`@receiver scrollToDataSourcePosition: `@argument'.
+	self scrollToDataSourcePosition: anIndex
 ]
 
 { #category : #accessing }

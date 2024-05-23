@@ -91,7 +91,7 @@ ToScrollableBarElement >> consumePendingDataSourceCommands [
 { #category : #initialization }
 ToScrollableBarElement >> defaultEventHandler [ 
 
-	^ ToScrollableElementEventHandler new
+	^ ToScrollableBarEventHandler new
 	"^ BlScrollableElementEventHandler new"
 ]
 
@@ -100,6 +100,25 @@ ToScrollableBarElement >> defaultScrollFlinger [
 
 	"Return class, actuall instantiation happens in initialize"
 	^ ToInfiniteScrollFlinger
+]
+
+{ #category : #'t - infinite scrolled event' }
+ToScrollableBarElement >> disableScrolledEvent [
+
+	self eventDispatcher disableScrolledEvent 
+]
+
+{ #category : #'t - infinite scrolled event' }
+ToScrollableBarElement >> enableScrolledEvent [
+
+	self eventDispatcher enableScrolledEvent
+]
+
+{ #category : #'accessing - children' }
+ToScrollableBarElement >> fullyVisibleNodes [
+
+	^ Array streamContents: [ :stream |
+		  self fullyVisibleNodesDo: [ :node | stream nextPut: node ] ]
 ]
 
 { #category : #'accessing - children' }
@@ -230,10 +249,6 @@ ToScrollableBarElement >> removeNode: aNode [
 		removeFromParent
 ]
 
-{ #category : #'hooks - layout' }
-ToScrollableBarElement >> repositionShadowingElements [
-]
-
 { #category : #scrolling }
 ToScrollableBarElement >> smoothScrollBy: aPoint [
 	"Animate a scroll by the given amount of pixels along either axis"
@@ -272,4 +287,10 @@ ToScrollableBarElement >> smoothScrollBy: aPoint [
 	
 	(dX isZero and: [ dY isZero ])
 		ifFalse: [ scrollFlinger smoothScrollBy: dX @ dY]
+]
+
+{ #category : #scrolling }
+ToScrollableBarElement >> stopScrollersInternal [ 
+
+	scrollFlinger stop
 ]

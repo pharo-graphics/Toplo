@@ -77,12 +77,12 @@ ToSandBox class >> example_BoundsTransition [
 	e enqueueTask: (BlTaskAction new action: [
 			 | anim |
 			 anim := BlParallelAnimation withAll: {
-					         (BlColorTransition new
+					         "(BlColorTransition new
 						          duration: 3000 milliSeconds;
 						          from: Color veryLightGray;
 						          to: Color black;
 						          onStepDo: [ :aColor :target |
-							          target background: aColor ]).
+							          target background: aColor ])."
 					         (ToPointTransition new
 						          from: 10 @ 10;
 						          to: 300 @ 100;

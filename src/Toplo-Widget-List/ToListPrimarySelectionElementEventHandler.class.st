@@ -2,61 +2,17 @@ Class {
 	#name : #ToListPrimarySelectionElementEventHandler,
 	#superclass : #ToListSelectionElementEventHandler,
 	#instVars : [
-		'differedUpdateTask',
-		'previousSelection'
+		'differedUpdateTask'
 	],
 	#category : #'Toplo-Widget-List-Selection-Element'
 }
 
 { #category : #'selection managing' }
-ToListPrimarySelectionElementEventHandler >> addNewSelectionElement: aSelElement withAnimationFrom: aTarget [
-
-	| targetBounds fromBounds anim |
-	fromBounds := previousSelection boundsFromNodes.
-	targetBounds := aSelElement boundsFromNodes.
-	aSelElement position: previousSelection position.
-	aSelElement size: previousSelection size.
-	self addSelectionElement: aSelElement from: aTarget.
-	anim := BlParallelAnimation withAll: {
-			        (ToPointTransition new
-				         from: fromBounds position;
-				         to: targetBounds position;
-				         duration: aSelElement option animationDuration;
-				         onStepDo: [ :aPosition :target |
-					         aSelElement position: aPosition ]).
-			        (ToPointTransition new
-				         from: fromBounds extent;
-				         to: targetBounds extent;
-				         duration: aSelElement option animationDuration;
-				         onStepDo: [ :aSize :target | aSelElement size: aSize ]).
-			        (BlColorTransition new
-				         duration: aSelElement option animationDuration;
-				         from: aSelElement background paint color;
-				         to: aSelElement background paint color;
-				         onStepDo: [ :aColor :target | target background: aColor ]) }.
-	anim onFinishedDo: [
-		aSelElement position: targetBounds position.
-		aSelElement size: targetBounds extent ].
-	aSelElement addAnimation: anim
-]
-
-{ #category : #'selection managing' }
 ToListPrimarySelectionElementEventHandler >> addNewSelectionElementsFrom: target [
 
-	| selectionModel nodesArray |
+	| selectionModel nodesArray  |
+	super addNewSelectionElementsFrom: target.
 	selectionModel := self selectionModelFrom: target.
-	previousSelection
-		ifNil: [ super addNewSelectionElementsFrom: target ]
-		ifNotNil: [
-			| newSelElements |
-			newSelElements := self newSelectionElementsFrom: target.
-			newSelElements size = 1
-				ifTrue: [
-					self
-						addNewSelectionElement: newSelElements first
-						withAnimationFrom: target ]
-				ifFalse: [
-				self addNewSelectionElements: newSelElements from: target ] ].
 	" Dispatch the event that is used by the skin state generator to generate the selection state "
 	nodesArray := target nodeContainer children asArray.
 	nodesArray do: [ :node |
@@ -116,12 +72,7 @@ ToListPrimarySelectionElementEventHandler >> listPrimarySelectionDirtyEvent: anE
 { #category : #'selection managing' }
 ToListPrimarySelectionElementEventHandler >> previousSelectionElementsFrom: aTarget [
 
-	| prev |
-	prev := aTarget primarySelectionElements.
-	previousSelection := (prev size = 1 and: [ prev first option animate ])
-		                     ifTrue: [ prev first ]
-		                     ifFalse: [ nil ].
-	^ prev
+	^ aTarget primarySelectionElements
 ]
 
 { #category : #'selection managing' }

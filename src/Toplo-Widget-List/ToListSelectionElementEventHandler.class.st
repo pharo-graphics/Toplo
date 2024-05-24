@@ -1,8 +1,44 @@
 Class {
 	#name : #ToListSelectionElementEventHandler,
 	#superclass : #BlCustomEventHandler,
+	#instVars : [
+		'previousSelectionElements'
+	],
 	#category : #'Toplo-Widget-List-Selection-Element'
 }
+
+{ #category : #'selection managing' }
+ToListSelectionElementEventHandler >> addNewSelectionElement: aSelElement withAnimationFrom: aTarget [
+
+	| targetBounds fromBounds anim prevSelectionElement |
+	prevSelectionElement := previousSelectionElements first.
+	fromBounds := prevSelectionElement boundsFromNodes.
+	targetBounds := aSelElement boundsFromNodes.
+	aSelElement position: prevSelectionElement position.
+	aSelElement size: prevSelectionElement size.
+	self addSelectionElement: aSelElement from: aTarget.
+	anim := BlParallelAnimation withAll: {
+			        (ToPointTransition new
+				         from: fromBounds position;
+				         to: targetBounds position;
+				         duration: aSelElement option animationDuration;
+				         onStepDo: [ :aPosition :target |
+					         aSelElement position: aPosition ]).
+			        (ToPointTransition new
+				         from: fromBounds extent;
+				         to: targetBounds extent;
+				         duration: aSelElement option animationDuration;
+				         onStepDo: [ :aSize :target | aSelElement size: aSize ]).
+			        (BlColorTransition new
+				         duration: aSelElement option animationDuration;
+				         from: aSelElement background paint color;
+				         to: aSelElement background paint color;
+				         onStepDo: [ :aColor :target | target background: aColor ]) }.
+	anim onFinishedDo: [
+		aSelElement position: targetBounds position.
+		aSelElement size: targetBounds extent ].
+	aSelElement addAnimation: anim
+]
 
 { #category : #'selection managing' }
 ToListSelectionElementEventHandler >> addNewSelectionElements: aSelectionElementArray from: target [
@@ -16,7 +52,13 @@ ToListSelectionElementEventHandler >> addNewSelectionElementsFrom: target [
 
 	| newSelElements |
 	newSelElements := self newSelectionElementsFrom: target.
-	self addNewSelectionElements: newSelElements from: target
+	(self canAnimateNewSelectionWith: newSelElements)
+		ifTrue: [
+			self
+				addNewSelectionElement: newSelElements first
+				withAnimationFrom: target ]
+		ifFalse: [
+		self addNewSelectionElements: newSelElements from: target ]
 ]
 
 { #category : #'selection managing' }
@@ -25,6 +67,31 @@ ToListSelectionElementEventHandler >> addSelectionElement: aSelectionElement fro
 	aSelectionElement beneath
 		ifTrue: [ target addBeneathSelectionElement: aSelectionElement ]
 		ifFalse: [ target addOverSelectionElement: aSelectionElement ]
+]
+
+{ #category : #testing }
+ToListSelectionElementEventHandler >> canAnimateNewSelectionWith: aSelectionElementArray [
+
+	" a selection transition animation can occur only from one node to one another node.
+	As an example, the animation is not possible in case of several selected nodes "
+
+	| prevSelectionElement newSelectionElement |
+	previousSelectionElements ifNil: [ ^ false ].
+	previousSelectionElements size = 1 ifFalse: [ ^ false ].
+	prevSelectionElement := previousSelectionElements first.
+	prevSelectionElement option animate ifFalse: [ ^ false ].
+	prevSelectionElement nodes size = 1 ifFalse: [ ^ false ].
+	prevSelectionElement nodes first isAttachedToSceneGraph ifFalse: [
+		^ false ].
+
+	aSelectionElementArray size = 1 ifFalse: [ ^ false ].
+	newSelectionElement := aSelectionElementArray first.
+	newSelectionElement option animate ifFalse: [ ^ false ].
+	newSelectionElement nodes size = 1 ifFalse: [ ^ false ].
+	newSelectionElement nodes first = prevSelectionElement nodes first
+		ifTrue: [ ^ false ].
+
+	^ true
 ]
 
 { #category : #'selection managing' }
@@ -100,10 +167,8 @@ ToListSelectionElementEventHandler >> previousSelectionElementsFrom: aTarget [
 { #category : #'selection managing' }
 ToListSelectionElementEventHandler >> removePreviousSelectionElementsFrom: target [
 	
-	| previous |
-	previous := self previousSelectionElementsFrom: target.
-	previous do: [ :s | s removeFromParent ].
-
+	previousSelectionElements := self previousSelectionElementsFrom: target.
+	previousSelectionElements do: [ :s | s removeFromParent ]
 ]
 
 { #category : #'selection managing' }

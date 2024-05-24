@@ -30,7 +30,7 @@ ToPointTransition >> duration [
 	of composite animations it is computed on-fly based on durations of their sub-animations.
 	Note: My duration should not take my own delay into account"
 
-	^ rawTransition duration
+	^ duration
 ]
 
 { #category : #accessing }
@@ -49,8 +49,6 @@ ToPointTransition >> from: aPoint [
 ToPointTransition >> initStart [
 
 	super initStart.
-	
-
 	rawTransition add: (BlNumberTransition new
 			 duration: duration;
 			 from: from x;

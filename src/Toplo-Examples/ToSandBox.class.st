@@ -76,24 +76,42 @@ ToSandBox class >> example_BoundsTransition [
 	e background: Color blue.
 	e enqueueTask: (BlTaskAction new action: [
 			 | anim |
+			 anim := ToBoundsTransition new
+				         from: (10 @ 10 extent: 10 @ 10);
+				         to: (300 @ 100 extent: 300 @ 400);
+				         duration: 6 seconds;
+				         onStepDo: [ :aRectangle :target |
+					         target position: aRectangle origin.
+					         target size: aRectangle extent ].
+			 anim onFinishedDo: [ e background: Color red ].
+			 e addAnimation: anim.
+			 anim delay: 3 seconds ]).
+
+	e openInSpace
+]
+
+{ #category : #transitions }
+ToSandBox class >> example_BoundsTransitionWithParallelAnimation [
+
+	| e |
+	e := BlElement new.
+	e size: 30 @ 30.
+	e background: Color blue.
+	e enqueueTask: (BlTaskAction new action: [
+			 | anim |
 			 anim := BlParallelAnimation withAll: {
-					         "(BlColorTransition new
-						          duration: 3000 milliSeconds;
-						          from: Color veryLightGray;
-						          to: Color black;
-						          onStepDo: [ :aColor :target |
-							          target background: aColor ])."
 					         (ToPointTransition new
 						          from: 10 @ 10;
 						          to: 300 @ 100;
-						          duration: 2 seconds;
+						          duration: 6 seconds;
 						          onStepDo: [ :aPosition :target |
 							          target position: aPosition ]).
 					         (ToPointTransition new
 						          from: 10 @ 10;
 						          to: 300 @ 400;
-						          duration: 2 seconds;
+						          duration: 3 seconds;
 						          onStepDo: [ :aSize :target | target size: aSize ]) }.
+			 anim onFinishedDo: [ e background: Color red ].
 			 e addAnimation: anim ]).
 	e openInSpace
 ]
@@ -1011,7 +1029,23 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 				                labelText: 'Show all';
 				                whenClickedDo: [ :event |
 					                target hiddenSelecter deselectAll ];
-				                yourself) ].
+				                yourself).
+		               target selectionMode beneathOption animate
+			               ifTrue: [
+				               menu addItem: (ToMenuItem new
+						                labelText: 'stop selection transition animation';
+						                whenClickedDo: [ :event |
+							                target selectionMode beneathOption
+								                animationDuration: 0 milliSeconds ];
+						                yourself) ]
+			               ifFalse: [
+				               menu addItem: (ToMenuItem new
+						                labelText:
+							                'start selection transition animation';
+						                whenClickedDo: [ :event |
+							                target selectionMode beneathOption
+								                animationDuration: 200 milliSeconds ];
+						                yourself) ] ].
 	               selectedIndexes ifNotEmpty: [
 		               selectionMenu := ToMenu new.
 		               selectionMenu label: (ToLabel new text: 'Selection').
@@ -1365,8 +1399,8 @@ ToSandBox class >> example_RawParallelTransition [
 					 (BlNumberTransition new
 						  duration: 2 seconds;
 						  from: 20;
-						  to: 80).
-					 }.
+						  to: 80) }.
+			 "anim duration: 2 second."
 			 anim onStepDo: [ :anArray |
 				 e position: anArray first @ anArray second.
 				 e size: anArray third @ anArray fourth ].

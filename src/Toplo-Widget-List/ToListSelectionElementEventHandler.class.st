@@ -17,23 +17,13 @@ ToListSelectionElementEventHandler >> addNewSelectionElement: aSelElement withAn
 	aSelElement position: prevSelectionElement position.
 	aSelElement size: prevSelectionElement size.
 	self addSelectionElement: aSelElement from: aTarget.
-	anim := BlParallelAnimation withAll: {
-			        (ToPointTransition new
-				         from: fromBounds position;
-				         to: targetBounds position;
-				         duration: aSelElement option animationDuration;
-				         onStepDo: [ :aPosition :target |
-					         aSelElement position: aPosition ]).
-			        (ToPointTransition new
-				         from: fromBounds extent;
-				         to: targetBounds extent;
-				         duration: aSelElement option animationDuration;
-				         onStepDo: [ :aSize :target | aSelElement size: aSize ]).
-			        (BlColorTransition new
-				         duration: aSelElement option animationDuration;
-				         from: aSelElement background paint color;
-				         to: aSelElement background paint color;
-				         onStepDo: [ :aColor :target | target background: aColor ]) }.
+	anim := ToBoundsTransition new
+		        from: fromBounds;
+		        to: targetBounds;
+		        duration: aSelElement option animationDuration;
+		        onStepDo: [ :anArray :target |
+			        aSelElement position: anArray origin.
+			        aSelElement size: anArray extent ].
 	anim onFinishedDo: [
 		aSelElement position: targetBounds position.
 		aSelElement size: targetBounds extent ].
@@ -71,25 +61,24 @@ ToListSelectionElementEventHandler >> addSelectionElement: aSelectionElement fro
 
 { #category : #testing }
 ToListSelectionElementEventHandler >> canAnimateNewSelectionWith: aSelectionElementArray [
-
 	" a selection transition animation can occur only from one node to one another node.
-	As an example, the animation is not possible in case of several selected nodes "
+	- the animation is not possible in case of several selected nodes
+	- the previous and the new selection element should cover different nodes
+	- the animate option must be on  "
 
 	| prevSelectionElement newSelectionElement |
 	previousSelectionElements ifNil: [ ^ false ].
 	previousSelectionElements size = 1 ifFalse: [ ^ false ].
 	prevSelectionElement := previousSelectionElements first.
 	prevSelectionElement option animate ifFalse: [ ^ false ].
-	prevSelectionElement nodes size = 1 ifFalse: [ ^ false ].
-	prevSelectionElement nodes first isAttachedToSceneGraph ifFalse: [
-		^ false ].
+	(prevSelectionElement nodes anySatisfy: [ :node |
+		 node isAttachedToSceneGraph not ]) ifTrue: [ ^ false ].
 
 	aSelectionElementArray size = 1 ifFalse: [ ^ false ].
 	newSelectionElement := aSelectionElementArray first.
 	newSelectionElement option animate ifFalse: [ ^ false ].
-	newSelectionElement nodes size = 1 ifFalse: [ ^ false ].
-	newSelectionElement nodes first = prevSelectionElement nodes first
-		ifTrue: [ ^ false ].
+	(newSelectionElement nodes anySatisfy: [ :node |
+		 prevSelectionElement nodes includes: node ]) ifTrue: [ ^ false ].
 
 	^ true
 ]
@@ -103,12 +92,14 @@ ToListSelectionElementEventHandler >> differUpdateSelectionFrom: target [
 { #category : #'element handlers' }
 ToListSelectionElementEventHandler >> elementExtentChangedEvent: anEvent [
 
+	previousSelectionElements := nil.
 	self updateSelectionFromEvent: anEvent
 ]
 
 { #category : #'element handlers' }
 ToListSelectionElementEventHandler >> elementScrolledEvent: anEvent [
 
+	previousSelectionElements := nil.
 	self updateSelectionFromEvent: anEvent
 ]
 

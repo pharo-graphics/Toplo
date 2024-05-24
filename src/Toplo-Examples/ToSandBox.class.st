@@ -36,6 +36,68 @@ ToSandBox class >> example_BasicListWithAllClasses3 [
 	l openInInnerWindow
 ]
 
+{ #category : #transitions }
+ToSandBox class >> example_BoundsAndBackgroundTransition [
+
+	| e |
+	e := BlElement new.
+	e enqueueTask: (BlTaskAction new action: [
+			 | anim |
+			 anim := BlParallelAnimation withAll: {
+					         (ToPointTransition new
+						          from: 10 @ 10;
+						          to: 300 @ 200;
+						          duration: 1 seconds;
+						          onStepDo: [ :aSize :target | target size: aSize ]).
+					         (ToPointTransition new
+						          from: 10 @ 10;
+						          to: 100 @ 80;
+						          duration: 2 seconds;
+						          onStepDo: [ :aPosition :target |
+							          target position: aPosition ]).
+					         (BlColorTransition new
+						          duration: 1 seconds;
+						          from: Color veryLightGray;
+						          to: Color black;
+						          onStepDo: [ :aColor :target |
+							          target background: aColor ]) }.
+			 anim onFinishedDo: [ e background: Color red ].
+			 "anim delay: 1 seconds."
+			 e addAnimation: anim ]).
+	e openInSpace
+]
+
+{ #category : #transitions }
+ToSandBox class >> example_BoundsTransition [
+
+	| e |
+	e := BlElement new.
+	e size: 30 @ 30.
+	e background: Color blue.
+	e enqueueTask: (BlTaskAction new action: [
+			 | anim |
+			 anim := BlParallelAnimation withAll: {
+					         (BlColorTransition new
+						          duration: 3000 milliSeconds;
+						          from: Color veryLightGray;
+						          to: Color black;
+						          onStepDo: [ :aColor :target |
+							          target background: aColor ]).
+					         (ToPointTransition new
+						          from: 10 @ 10;
+						          to: 300 @ 100;
+						          duration: 2 seconds;
+						          onStepDo: [ :aPosition :target |
+							          target position: aPosition ]).
+					         (ToPointTransition new
+						          from: 10 @ 10;
+						          to: 300 @ 400;
+						          duration: 2 seconds;
+						          onStepDo: [ :aSize :target | target size: aSize ]) }.
+			 e addAnimation: anim ]).
+	e openInSpace
+]
+
 { #category : #'button-dep' }
 ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheet [
 
@@ -1190,6 +1252,25 @@ ToSandBox class >> example_PicsumPhotosGallery [
 	space show
 ]
 
+{ #category : #transitions }
+ToSandBox class >> example_PointTransition [
+
+	| e |
+	e := BlElement new.
+	e size: 30 @ 30.
+	e background: Color blue.
+	e enqueueTask: (BlTaskAction new action: [
+			 | anim |
+			 anim := ToPointTransition new.
+			 anim from: 10 @ 10.
+			 anim to: 300 @ 400.
+			 anim duration: 2 seconds.
+			 anim onStepDo: [ :aPosition :target | target position: aPosition ].
+			 anim delay: 200 milliSeconds.
+			 e addAnimation: anim ]).
+	e openInSpace
+]
+
 { #category : #window }
 ToSandBox class >> example_Popup1 [
 
@@ -1257,6 +1338,42 @@ ToSandBox class >> example_RadioButtonWithIndeterminate [
 	but labelText: 'Radio'.
 	but inspect.
 	but openInSpace
+]
+
+{ #category : #transitions }
+ToSandBox class >> example_RawParallelTransition [
+
+	| e |
+	e := BlElement new.
+	e background: Color red.
+	e enqueueTask: (BlTaskAction new action: [
+			 | anim |
+			 anim := ToRawParallelTransition new.
+			 anim addAll: {
+					 (BlNumberTransition new
+						  duration: 1 second;
+						  from: 10;
+						  to: 100).
+					 (BlNumberTransition new
+						  duration: 800 milliSeconds;
+						  from: 10;
+						  to: 300).
+					 (BlNumberTransition new
+						  duration: 500 milliSeconds;
+						  from: 20;
+						  to: 100).
+					 (BlNumberTransition new
+						  duration: 2 seconds;
+						  from: 20;
+						  to: 80).
+					 }.
+			 anim onStepDo: [ :anArray |
+				 e position: anArray first @ anArray second.
+				 e size: anArray third @ anArray fourth ].
+			 anim delay: 200 milliSeconds.
+			 e addAnimation: anim ]).
+
+	e openInSpace
 ]
 
 { #category : #select }
@@ -2857,7 +2974,7 @@ ToSandBox class >> example_nodeBar [
 				 | v |
 				 v := event current.
 				 bar selectionMode beneathOption animationDuration: (v
-						  ifTrue: [ 150 milliSeconds ]
+						  ifTrue: [ 200 milliSeconds ]
 						  ifFalse: [ 0 milliSeconds ]) ]).
 
 	bar

@@ -11,27 +11,33 @@ Class {
 { #category : #'selection managing' }
 ToListPrimarySelectionElementEventHandler >> addNewSelectionElement: aSelElement withAnimationFrom: aTarget [
 
-	| targetPosition xAnim yAnim xyAnim |
-	targetPosition := aSelElement positionFromNodes.
+	| targetBounds fromBounds anim |
+	fromBounds := previousSelection boundsFromNodes.
+	targetBounds := aSelElement boundsFromNodes.
 	aSelElement position: previousSelection position.
+	aSelElement size: previousSelection size.
 	self addSelectionElement: aSelElement from: aTarget.
-	xAnim := BlNumberTransition new
-		         duration: aSelElement option animationDuration;
-		         from: previousSelection position x;
-		         to: targetPosition x;
-		         onStepDo: [ :number :anElement |
-			         aSelElement position: number @ aSelElement position y ].
-	yAnim := BlNumberTransition new
-		         duration: aSelElement option animationDuration;
-		         from: previousSelection position y;
-		         to: targetPosition y;
-		         onStepDo: [ :number :anElement |
-			         aSelElement position: aSelElement position x @ number ].
-	xyAnim := BlParallelAnimation withAll: {
-			          xAnim.
-			          yAnim }.
-	xyAnim onFinishedDo: [ aSelElement position: targetPosition ].
-	aTarget addAnimation: xyAnim
+	anim := BlParallelAnimation withAll: {
+			        (ToPointTransition new
+				         from: fromBounds position;
+				         to: targetBounds position;
+				         duration: aSelElement option animationDuration;
+				         onStepDo: [ :aPosition :target |
+					         aSelElement position: aPosition ]).
+			        (ToPointTransition new
+				         from: fromBounds extent;
+				         to: targetBounds extent;
+				         duration: aSelElement option animationDuration;
+				         onStepDo: [ :aSize :target | aSelElement size: aSize ]).
+			        (BlColorTransition new
+				         duration: aSelElement option animationDuration;
+				         from: aSelElement background paint color;
+				         to: aSelElement background paint color;
+				         onStepDo: [ :aColor :target | target background: aColor ]) }.
+	anim onFinishedDo: [
+		aSelElement position: targetBounds position.
+		aSelElement size: targetBounds extent ].
+	aSelElement addAnimation: anim
 ]
 
 { #category : #'selection managing' }

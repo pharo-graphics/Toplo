@@ -206,7 +206,6 @@ ToAbstractListElement >> initialize [
 	self addEventHandler: self defaultEventHandler.
 
 	self addChild: self next.
-	"self installSharedEventDistributors."
 	
 	self contextMenuWindowManagerClass: ToListElementContextMenuWindowManager.
 	self addEventHandler: ToListPrimarySelectionElementEventHandler new.

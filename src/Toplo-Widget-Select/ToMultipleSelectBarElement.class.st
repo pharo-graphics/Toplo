@@ -1,26 +1,47 @@
 Class {
-	#name : #ToMultipleSelectContainerElement,
-	#superclass : #ToMultiElementBarContainerElement,
+	#name : #ToMultipleSelectBarElement,
+	#superclass : #ToBarElement,
 	#instVars : [
+		'fakeNode',
+		'nodeBar',
 		'textInputElement'
 	],
 	#category : #'Toplo-Widget-Select-Multi'
 }
 
+{ #category : #adding }
+ToMultipleSelectBarElement >> addAllDataNodes: aNodeCollection [
+
+	aNodeCollection do: [ :n | self addDataNode: n ]
+]
+
+{ #category : #adding }
+ToMultipleSelectBarElement >> addDataNode: aNode [
+
+	self listElement nodeAutoDistribution ifTrue: [ aNode autoDistribute ].
+	self dataAccessor add: aNode
+]
+
+{ #category : #adding }
+ToMultipleSelectBarElement >> addFakeNode [
+
+	self addChild: fakeNode
+]
+
 { #category : #initialization }
-ToMultipleSelectContainerElement >> defaultNodeClass [ 
+ToMultipleSelectBarElement >> defaultNodeClass [ 
 
 	^ ToMultipleSelectNode
 ]
 
 { #category : #accessing }
-ToMultipleSelectContainerElement >> filterString [ 
+ToMultipleSelectBarElement >> filterString [ 
 
 	^ self textInputElement filterString
 ]
 
 { #category : #layout }
-ToMultipleSelectContainerElement >> haveFullyInvisibleNodes: aCollectionOfInvisibleNodes [
+ToMultipleSelectBarElement >> haveFullyInvisibleNodes: aCollectionOfInvisibleNodes [
 
 	| visibleNodes invisibleNodes showerHolder showerNode lab |
 	" in case of composite node at first it means that 
@@ -54,27 +75,28 @@ ToMultipleSelectContainerElement >> haveFullyInvisibleNodes: aCollectionOfInvisi
 ]
 
 { #category : #initialization }
-ToMultipleSelectContainerElement >> initialize [ 
+ToMultipleSelectBarElement >> initialize [ 
 
 	super initialize.
+	nodeBar := ToBarElement new.
 	textInputElement := ToMultiSelectTextInputElement new.
 
 ]
 
 { #category : #accessing }
-ToMultipleSelectContainerElement >> inputTextField [
+ToMultipleSelectBarElement >> inputTextField [
 
 	^ self textInputElement inputTextField
 ]
 
 { #category : #testing }
-ToMultipleSelectContainerElement >> isSingleNode [ 
+ToMultipleSelectBarElement >> isSingleNode [ 
 
 	^ false
 ]
 
 { #category : #initialization }
-ToMultipleSelectContainerElement >> nodeBuilder [
+ToMultipleSelectBarElement >> nodeBuilder [
 	" return a valuable that is used to build a bar node element from a data. 
 	aValuable take the bar node element to build as first argument 
 	and its holder as second argument"
@@ -85,43 +107,47 @@ ToMultipleSelectContainerElement >> nodeBuilder [
 		  (ToLabel text: aNodeHolder dataItem asString) ]
 ]
 
+{ #category : #accessing }
+ToMultipleSelectBarElement >> nodesCount [
+
+	| count |
+	count := 0.
+	self nodeHolders do: [ :nodeHolder |
+		count := count + nodeHolder nodesCount ].
+	^ count
+]
+
 { #category : #'api - hooks' }
-ToMultipleSelectContainerElement >> onInstalledIn: anElementBar [
+ToMultipleSelectBarElement >> onInstalledIn: aSelectElement [
 
-	super onInstalledIn: anElementBar.
-
-	textInputElement onInstalledIn: self.
+	textInputElement onInstalledIn: aSelectElement.
 	textInputElement hFitContent.
 	textInputElement constraintsDo: [ :c |
 		c linear vertical alignCenter.
 		c flow vertical alignCenter ].
-	nodeWrapping
-		ifTrue: [ innerNodeContainer addChild: textInputElement after: fakeNode ]
-		ifFalse: [ self addChild: textInputElement ]
+	self addChild: textInputElement
 ]
 
 { #category : #'api - hooks' }
-ToMultipleSelectContainerElement >> onUninstalledIn: anElementBar [
+ToMultipleSelectBarElement >> onUninstalledIn: aSelectElement [
 
-	textInputElement onUninstalledIn: anElementBar.
-	super onUninstalledIn: anElementBar.
-
+	textInputElement onUninstalledIn: aSelectElement
 ]
 
 { #category : #window }
-ToMultipleSelectContainerElement >> onWindowClosed [
+ToMultipleSelectBarElement >> onWindowClosed [
 
 	self textInputElement onWindowClosed
 ]
 
 { #category : #window }
-ToMultipleSelectContainerElement >> onWindowOpened [
+ToMultipleSelectBarElement >> onWindowOpened [
 
 	self textInputElement onWindowOpened
 ]
 
 { #category : #accessing }
-ToMultipleSelectContainerElement >> refresh [
+ToMultipleSelectBarElement >> refresh [
 	" first remove all data nodes "
 	| detached newNodes |
 	detached := OrderedCollection new.
@@ -148,7 +174,19 @@ ToMultipleSelectContainerElement >> refresh [
 ]
 
 { #category : #accessing }
-ToMultipleSelectContainerElement >> textInputElement [ 
+ToMultipleSelectBarElement >> textInputElement [ 
 
 	^ textInputElement 
+]
+
+{ #category : #initialization }
+ToMultipleSelectBarElement >> uninstallFakeNode [
+	" the fake node is added when no data is selected to ensure a 
+	suitable minimum height according to the node class, the node builder 
+	and the data kind."
+
+	fakeNode ifNotNil: [ :fn |
+		fn onUninstalledIn: self.
+		fn removeFromParent ].
+	fakeNode := nil
 ]

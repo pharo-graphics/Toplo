@@ -71,13 +71,12 @@ ToSelectElement >> iconContainer: anIconContainer [
 ToSelectElement >> initialize [
 
 	super initialize.
-	self id: #selectElement.
 	filtrable := true.
 	
 	" for the popup "
 	windowManager := self newWindowManager.
-	self iconContainer: self newIconContainer.
 	self installNodeContainerAndRefresh.
+	self iconContainer: self newIconContainer.
 	
 	self addEventHandlerOn: ToPlaceholderShownEvent do: [ :event |
 		self flag: 'The width of 16???. Why ? Anyway, it should be handled via a skin'.
@@ -128,6 +127,12 @@ ToSelectElement >> listDataNodeBuilder: aBuilder [
 ToSelectElement >> listElement [
 
 	^ self windowManager listElement
+]
+
+{ #category : #'accessing - list' }
+ToSelectElement >> listNodeBuilder: aValuable [
+
+	self listElement nodeBuilder: aValuable
 ]
 
 { #category : #'instance creation' }
@@ -256,7 +261,7 @@ ToSelectElement >> popupWindowEvent: anEvent [
 { #category : #accessing }
 ToSelectElement >> refresh [
 
-	self nodeContainer refresh
+	"self nodeContainer refresh"
 ]
 
 { #category : #'accessing - selection' }

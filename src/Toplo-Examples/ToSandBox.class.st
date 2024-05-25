@@ -79,13 +79,13 @@ ToSandBox class >> example_BoundsTransition [
 			 anim := ToBoundsTransition new
 				         from: (10 @ 10 extent: 10 @ 10);
 				         to: (300 @ 100 extent: 300 @ 400);
-				         duration: 6 seconds;
+				         duration: 3000 milliSeconds;
 				         onStepDo: [ :aRectangle :target |
 					         target position: aRectangle origin.
 					         target size: aRectangle extent ].
 			 anim onFinishedDo: [ e background: Color red ].
 			 e addAnimation: anim.
-			 anim delay: 3 seconds ]).
+			 anim delay: 100 milliSeconds ]).
 
 	e openInSpace
 ]
@@ -1476,7 +1476,6 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	select inspect.
 	select hideSelected: false.
 	select dataAccessor addAll: self statesOfAmerica.
-	select multipleSelection: true.
 	select filtrable: true.
 	select popupMaxHeight: 200.
 	select placeholderText:

@@ -1,12 +1,9 @@
 Class {
 	#name : #ToMultiSelectElement,
-	#superclass : #ToElementBarDep,
+	#superclass : #ToSelectElement,
 	#instVars : [
-		'filtrable',
-		'windowManager',
 		'hideSelected',
-		'maxSelectedCount',
-		'multipleSelection'
+		'maxSelectedCount'
 	],
 	#category : #'Toplo-Widget-Select-Multi'
 }
@@ -82,51 +79,6 @@ ToMultiSelectElement >> checkMaxSelectedCountFromListElement [
 	self listElement dataSource notifyChanged
 ]
 
-{ #category : #'accessing - window' }
-ToMultiSelectElement >> closeWindow [
-
-	^ self windowManager closeWindow
-]
-
-{ #category : #'accessing - window' }
-ToMultiSelectElement >> currentWindow [ 
-
-	^ self windowManager currentWindow
-]
-
-{ #category : #private }
-ToMultiSelectElement >> fakeNode [
-
-	^ self childWithId: #fakeNode ifNone: [  ]
-]
-
-{ #category : #accessing }
-ToMultiSelectElement >> filterString [ 
-
-	^ self nodeContainer filterString
-]
-
-{ #category : #'accessing - selection' }
-ToMultiSelectElement >> filterStringChanged [
-
-	self pattern: self filterString
-]
-
-{ #category : #accessing }
-ToMultiSelectElement >> filtrable [
-
-	^ filtrable
-]
-
-{ #category : #accessing }
-ToMultiSelectElement >> filtrable: aBoolean [
-
-	filtrable := aBoolean.
-	aBoolean
-		ifTrue: [ self textInputElement beEditable ]
-		ifFalse: [ self textInputElement beReadonly ].
-]
-
 { #category : #accessing }
 ToMultiSelectElement >> hideSelected [
 
@@ -140,88 +92,29 @@ ToMultiSelectElement >> hideSelected: aBoolean [
 ]
 
 { #category : #accessing }
-ToMultiSelectElement >> iconContainer [
-
-	^ self endElement
-]
-
-{ #category : #accessing }
 ToMultiSelectElement >> iconContainer: anIconContainer [
 
 	self iconContainer = anIconContainer ifTrue: [ ^ self ].
 	self iconContainer ifNotNil: [
 		self iconContainer onUninstalledIn: self ].
 	anIconContainer selectionModel: self selectionModel.
-	self endElement: anIconContainer.
-	anIconContainer onInstalledIn: self
+	self endElement: anIconContainer
 ]
 
 { #category : #initialization }
 ToMultiSelectElement >> initialize [
 
-	| sharedEventsDistributor |
 	super initialize.
-	self id: #selectElement.
-	filtrable := true.
 	hideSelected := false.
-	maxSelectedCount := 0.
-	
-	" for the popup "
-	windowManager := self newWindowManager.
-	self iconContainer: self newIconContainer.
-
-	self multipleSelection: self multipleSelectionByDefault.
-	sharedEventsDistributor := BlSharedEventDistributor new.
-	sharedEventsDistributor
-		adjustMousePosition: false;
-		shareEvents: { ToCollectionFilteredEvent }.
-
-	self addEventHandler: sharedEventsDistributor.
-	self listElement addEventHandler: sharedEventsDistributor
+	maxSelectedCount := 0
 ]
 
-{ #category : #accessing }
-ToMultiSelectElement >> inputTextField [ 
-
-	^ self nodeContainer inputTextField
-]
-
-{ #category : #accessing }
+{ #category : #initialization }
 ToMultiSelectElement >> installNodeContainer [ 
 
 	super installNodeContainer.
-	windowManager listElement selectionMode multiple: self isMultipleSelection.
+	self listElement selectionMode multiple: true.
 	self requestNewSkin 
-]
-
-{ #category : #testing }
-ToMultiSelectElement >> isFiltrable [ 
-
-	^ filtrable
-]
-
-{ #category : #testing }
-ToMultiSelectElement >> isMultipleSelection [
-
-	^ multipleSelection 
-]
-
-{ #category : #'accessing - list' }
-ToMultiSelectElement >> listDataNodeBuilder: aBuilder [
-
-	self windowManager listDataNodeBuilder: aBuilder
-]
-
-{ #category : #'accessing - list' }
-ToMultiSelectElement >> listElement [
-
-	^ self windowManager listElement
-]
-
-{ #category : #'accessing - list' }
-ToMultiSelectElement >> listNodeBuilder: aValuable [
-
-	self listElement nodeBuilder: aValuable
 ]
 
 { #category : #accessing }
@@ -237,58 +130,16 @@ ToMultiSelectElement >> maxSelectedCount: aNumber [
 	self iconContainer maxSelectedCount: aNumber
 ]
 
-{ #category : #'accessing - selection' }
-ToMultiSelectElement >> multipleSelection: aBoolean [
-
-	multipleSelection := aBoolean.
-	self installNodeContainerAndRefresh
-]
-
-{ #category : #initialization }
-ToMultiSelectElement >> multipleSelectionByDefault [ 
-
-	^ false
-]
-
 { #category : #'instance creation' }
 ToMultiSelectElement >> newIconContainer [
 
 	^ ToMultiSelectIconContainer new forFiltering: self isFiltrable 
 ]
 
-{ #category : #skin }
-ToMultiSelectElement >> newRawSkin [ 
-
-	^ ToSelectElementSkin new
-]
-
 { #category : #'instance creation' }
-ToMultiSelectElement >> newShortcutsStore [ 
+ToMultiSelectElement >> newNodeContainer [ 
 
-	^ ToSelectShortcutsStore new
-]
-
-{ #category : #'instance creation' }
-ToMultiSelectElement >> newWindowManager [
-
-	| wm |
-	wm := ToSelectListWindowManager new.
-	wm onInstalledIn: self.
-	^ wm
-]
-
-{ #category : #accessing }
-ToMultiSelectElement >> nodeBuilder: aValuable [
-
-	self nodeContainer nodeBuilder: aValuable
-]
-
-{ #category : #'instance creation' }
-ToMultiSelectElement >> nodeContainerClass [
-
-	^ self isMultipleSelection
-		  ifTrue: [ ToMultipleSelectContainerElement ]
-		  ifFalse: [ ToSingleSelectContainerElement ]
+	^ ToMultipleSelectBarElement new
 ]
 
 { #category : #'accessing - selection' }
@@ -312,7 +163,7 @@ ToMultiSelectElement >> onSelectionChanged [
 ToMultiSelectElement >> onSelectionChangedInListElement [
 
 	self showHidePlaceholder.
-	self nodeContainer refresh.
+	self refresh.
 
 	self checkHideSelectionFromListElement.
 	self checkMaxSelectedCountFromListElement.
@@ -321,64 +172,10 @@ ToMultiSelectElement >> onSelectionChangedInListElement [
 	self nodeContainer requestLayout
 ]
 
-{ #category : #window }
-ToMultiSelectElement >> onWindowClosed [
+{ #category : #'accessing - selection' }
+ToMultiSelectElement >> selectionModel [
 
-	self nodeContainer onWindowClosed
-]
-
-{ #category : #window }
-ToMultiSelectElement >> onWindowOpened [
-
-	self nodeContainer onWindowOpened
-]
-
-{ #category : #accessing }
-ToMultiSelectElement >> pattern [
-
-	^ self sieve pattern
-]
-
-{ #category : #accessing }
-ToMultiSelectElement >> pattern: aPattern [
-
-	self sieve pattern: aPattern
-]
-
-{ #category : #'accessing - list' }
-ToMultiSelectElement >> popupMaxHeight: aNumber [
-
-	self windowManager maxHeight: aNumber
-]
-
-{ #category : #'accessing - list' }
-ToMultiSelectElement >> popupMinHeight: aNumber [
-
-	self windowManager minHeight: aNumber
-]
-
-{ #category : #'accessing - list' }
-ToMultiSelectElement >> popupPositionHook: aValuable [
-
-	self windowManager positionHook: aValuable
-]
-
-{ #category : #'accessing - list' }
-ToMultiSelectElement >> popupSizeHook: aValuable [
-
-	self windowManager sizeHook: aValuable
-]
-
-{ #category : #'accessing - window' }
-ToMultiSelectElement >> popupWindowEvent: anEvent [ 
-
-	^ self windowManager popupWindowEvent: anEvent 
-]
-
-{ #category : #accessing }
-ToMultiSelectElement >> selectionModel: aSelectionModel [
-
-	self iconContainer selectionModel: self selectionModel
+	^ self nodeContainer selectionModel
 ]
 
 { #category : #'accessing - list' }
@@ -389,46 +186,7 @@ ToMultiSelectElement >> setGroupIndex: anIndex [
 ]
 
 { #category : #private }
-ToMultiSelectElement >> showHidePlaceholder [
-
-	self selectionModel ifEmpty: [
-		self inputTextField text ifEmpty: [
-			^ self showPlaceholder ] ].
-	self hidePlaceholder
-]
-
-{ #category : #accessing }
-ToMultiSelectElement >> sieve [
-
-	^ windowManager sieve
-]
-
-{ #category : #initialization }
-ToMultiSelectElement >> singleByDefault [
-
-	^ self multipleSelectionByDefault not
-]
-
-{ #category : #accessing }
-ToMultiSelectElement >> textInputElement [ 
-
-	^ self nodeContainer textInputElement
-]
-
-{ #category : #private }
 ToMultiSelectElement >> updateSelectedCountLabel [
 
 	self iconContainer updateSelectedCountLabel
-]
-
-{ #category : #accessing }
-ToMultiSelectElement >> windowManager [
-
-	^ windowManager
-]
-
-{ #category : #accessing }
-ToMultiSelectElement >> windowManager: aSelectWindowManager [
-
-	windowManager := aSelectWindowManager 
 ]

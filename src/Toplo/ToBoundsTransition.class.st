@@ -49,6 +49,8 @@ ToBoundsTransition >> from: anObject [
 ToBoundsTransition >> initStart [
 
 	super initStart.
+	stepPosition := from origin.
+	stepSize := from extent.
 	parallelAnimation addAll: {
 			(ToPointTransition new
 				 from: from origin;

@@ -98,9 +98,6 @@ ToMultiSelectTextInputElement >> newTextFieldIn: aNodeContainer [
 	| textField |
 	textField := ToSelectTextField new.
 	textField headerNodeContainer: aNodeContainer.
-	aNodeContainer isSingleNode ifTrue: [
-		textField withLineWrapping.
-		textField hMatchParent ].
 	^ textField
 ]
 
@@ -128,8 +125,8 @@ ToMultiSelectTextInputElement >> onFilterTextUpdated: anEvent [
 { #category : #'api - hooks' }
 ToMultiSelectTextInputElement >> onInstalledIn: aNodeContainer [
 
-	forMultipleNodes := aNodeContainer isSingleNode not.
-	forFiltering := aNodeContainer elementBar isFiltrable.
+	forMultipleNodes := true.
+	forFiltering := aNodeContainer isFiltrable.
 	selectedDataTextField := self newTextFieldIn: aNodeContainer.
 	selectedDataTextField beReadonlyWithSelection.
 	inputTextField := self newTextFieldIn: aNodeContainer.
@@ -137,7 +134,7 @@ ToMultiSelectTextInputElement >> onInstalledIn: aNodeContainer [
 	inputTextField id: #inputTextField.
 	self addChild: selectedDataTextField.
 	self addChild: inputTextField.
-	aNodeContainer elementBar isFiltrable
+	aNodeContainer isFiltrable
 		ifTrue: [ self beEditable ]
 		ifFalse: [ self beReadonly ].
 
@@ -150,7 +147,7 @@ ToMultiSelectTextInputElement >> onInstalledIn: aNodeContainer [
 		                 do: [ :event |
 			                 event text ifNotEmpty: [
 				                 event text asString first isAlphaNumeric ifTrue: [
-					                 aNodeContainer elementBar windowManager
+					                 aNodeContainer windowManager
 						                 popupWindowHiddenEvent: event ] ] ].
 	inputTextField infinite addEventHandler: windowPopupHandler
 ]

@@ -36,6 +36,49 @@ ToSandBox class >> example_BasicListWithAllClasses3 [
 	l openInInnerWindow
 ]
 
+{ #category : #'as yet unclassified' }
+ToSandBox class >> example_BoundsAnimationExplicitFrom [
+	"The starting bounds are explicitly set via accessors."
+
+    | e anim |
+    e := BlElement new.
+    e background: Color blue.
+
+    anim := ToBoundsExplicitStartAnimation new
+        easing: BlQuinticInterpolator new;
+       from: (50 @ 500 extent: 10 @ 10)
+       to: (300 @ 50 extent: 300 @ 400);
+       duration: 2 seconds;
+         yourself.
+    anim onFinishedDo: [ e background: Color red ].
+    e addAnimation: anim.
+
+    e openInSpace
+]
+
+{ #category : #'as yet unclassified' }
+ToSandBox class >> example_BoundsAnimationImplicitFrom [
+	"This is relative, and requires that bounds are already measured when animation starts."
+
+    | e anim |
+    e := BlElement new.
+    e background: Color blue.
+    e position: 300 @ 500.
+	 e size: 200 @ 100.
+	
+	e forceLayout.
+
+    anim := ToBoundsImplicitStartAnimation new
+       easing: BlQuinticInterpolator new;
+       to: (50 @ 50 extent: 100 @ 300);
+       duration: 2 seconds;
+       yourself.
+    anim onFinishedDo: [ e background: Color red ].
+    e addAnimation: anim.
+
+    e openInSpace
+]
+
 { #category : #'button-dep' }
 ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheet [
 

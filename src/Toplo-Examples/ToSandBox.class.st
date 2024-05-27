@@ -32,7 +32,7 @@ ToSandBox class >> example_BasicListWithAllClasses3 [
 	l dataAccessor addAll: Smalltalk globals allClasses.
 	l withRowNumbers.
 	l inspect.
-	l nodeContainer requestFocus.
+	l innerContainer requestFocus.
 	l openInInnerWindow
 ]
 
@@ -466,7 +466,7 @@ ToSandBox class >> example_EditableList2WithAllClassesNames [
 		c margin: (BlInsets right: 2).
 		c ignored horizontal alignRight.
 		c ignored vertical alignBottom ].
-	vscrollBar attachTo: l nodeContainer.
+	vscrollBar attachTo: l innerContainer.
 	innerWin := ToInnerWindow new.
 	innerWin pane addChild: l.
 	innerWin pane addChild: vscrollBar.
@@ -817,7 +817,7 @@ ToSandBox class >> example_List2WithSelectionHistory [
 			historyList }.
 
 	statesList addEventHandler:
-		(ToListSelectionHistoryEventHandlerExample2 new historyList:
+		(ToListSelectionHistoryEventHandlerExample new historyList:
 			 historyList).
 	statesList addEventHandler: (BlEventHandler
 			 on: ToPrimarySelectionCommandAppliedEvent
@@ -888,7 +888,7 @@ ToSandBox class >> example_ListWithAllClasses3 [
 
 	l dataAccessor addAll: Smalltalk globals allClasses.
 	l withRowNumbers.
-	l nodeContainer requestFocus.
+	l innerContainer requestFocus.
 	l openInInnerWindow
 ]
 
@@ -1145,7 +1145,7 @@ ToSandBox class >> example_ListWithIndexedColors [
 		c margin: (BlInsets right: 2).
 		c ignored horizontal alignRight.
 		c ignored vertical alignBottom ].
-	vscrollBar attachTo: l nodeContainer.
+	vscrollBar attachTo: l innerContainer.
 	space := BlSpace new.
 	space root addChild: l.
 	space root addChild: vscrollBar.
@@ -1275,7 +1275,7 @@ ToSandBox class >> example_PicsumPhotosGallery [
 		c margin: (BlInsets left: 10).
 		c ignored horizontal alignRight.
 		c ignored vertical alignBottom ].
-	vscrollBar attachTo: list nodeContainer.
+	vscrollBar attachTo: list innerContainer.
 
 	space := BlSpace new
 		         extent: 200 @ 600;
@@ -1431,9 +1431,9 @@ ToSandBox class >> example_SelectMonoFiltrable [
 	select filtrable: true.
 	select dataAccessor addAll: self statesOfAmerica.
 	select selecter selectIndex: 2.
-	select nodeBuilder: [ :theNode :theHolder :theDataItem |
-		theNode background: Color lightGray.
-		theNode selectedDataTextField text:
+	select dataItemViewBuilder: [ :theView :theDataItem |
+		theView background: Color lightGray.
+		theView selectedDataTextField text:
 			(theDataItem ifNil: [ '' ] ifNotNil: [ :d | d asString ]) ].
 		
 	select placeholderText:
@@ -2906,8 +2906,8 @@ ToSandBox class >> example_nodeBar [
 		triplet := ToTripletElement new.
 		triplet horizontal: true.
 		triplet startFlexible: true.
-		triplet startInterspace: 10.
-		triplet startElement: (ToLabel text: holder position asString).
+		triplet startInterspace: 0.
+		triplet startElement: (ToLabel text: (holder position asString, ': ')).
 		triplet middleElement: (ToLabel text: dataItem asString).
 		node addChild: triplet.
 		node constraintsDo: [ :c |

@@ -81,15 +81,15 @@ ToMultiSelectTextInputElement >> installInputTextFieldEventHandlers [
 ]
 
 { #category : #testing }
-ToMultiSelectTextInputElement >> isForFiltering [
-
-	^ forFiltering 
-]
-
-{ #category : #testing }
 ToMultiSelectTextInputElement >> isForMultipleNodes [
 
 	^ forMultipleNodes 
+]
+
+{ #category : #testing }
+ToMultiSelectTextInputElement >> isSelectFiltrable [
+
+	^ forFiltering 
 ]
 
 { #category : #initialization }
@@ -167,7 +167,7 @@ ToMultiSelectTextInputElement >> onWindowClosed [
 	self isForMultipleNodes ifFalse: [
 		self selectedDataTextField visibility: BlVisibility visible.
 		self selectedDataTextField text foreground: Color black ].
-	self isForFiltering ifTrue: [ self inputTextField requestFocus ]
+	self isSelectFiltrable ifTrue: [ self inputTextField requestFocus ]
 ]
 
 { #category : #window }
@@ -175,7 +175,7 @@ ToMultiSelectTextInputElement >> onWindowOpened [
 
 	self isForMultipleNodes ifFalse: [
 		self selectedDataTextField text foreground: Color lightGray ].
-	self isForFiltering
+	self isSelectFiltrable
 		ifTrue: [ self inputTextField requestFocus ]
 		ifFalse: [ self parent requestFocus ]
 ]

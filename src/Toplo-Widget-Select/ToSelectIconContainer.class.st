@@ -34,7 +34,7 @@ ToSelectIconContainer >> initialize [
 ]
 
 { #category : #testing }
-ToSelectIconContainer >> isForFiltering [ 
+ToSelectIconContainer >> isSelectFiltrable [ 
 
 	^ forFiltering
 ]

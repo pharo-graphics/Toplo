@@ -68,6 +68,12 @@ ToSelectionModelHolderForTest >> initialize [
 ]
 
 { #category : #accessing }
+ToSelectionModelHolderForTest >> innerContainer [
+
+	^ infinite
+]
+
+{ #category : #accessing }
 ToSelectionModelHolderForTest >> itemCount [
 
 	^ self dataSource itemCount
@@ -85,12 +91,6 @@ ToSelectionModelHolderForTest >> multiSelectionSelecter [
 	^ (ToCompositeSelecter
 		   selectionModel: self selectionModel
 		   operator: operator) multiple: true
-]
-
-{ #category : #accessing }
-ToSelectionModelHolderForTest >> nodeContainer [
-
-	^ infinite
 ]
 
 { #category : #accessing }

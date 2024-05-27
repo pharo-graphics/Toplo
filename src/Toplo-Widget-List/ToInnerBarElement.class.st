@@ -160,6 +160,12 @@ ToInnerBarElement >> initializeDataSource [
 	dataSourceManager := self defaultDataSourceManager
 ]
 
+{ #category : #'t - infinite accessing' }
+ToInnerBarElement >> innerContainer [
+
+	^ self
+]
+
 { #category : #initialization }
 ToInnerBarElement >> installFakeNode [
 	" the fake node is added in case of an empty data source to ensure a 
@@ -220,12 +226,6 @@ ToInnerBarElement >> nodeAt: anIndex [
 	^ (self findElementHolderForDataSourcePosition: anIndex)
 		  ifNotNil: [ :holder | holder itemElement ]
 		  ifNil: [  ]
-]
-
-{ #category : #'t - infinite accessing' }
-ToInnerBarElement >> nodeContainer [
-
-	^ self
 ]
 
 { #category : #'accessing - nodes' }

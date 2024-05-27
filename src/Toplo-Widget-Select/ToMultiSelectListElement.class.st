@@ -31,9 +31,6 @@ ToMultiSelectListElement >> groupSelectionModel [
 ToMultiSelectListElement >> initialize [
 
 	super initialize.
-	self withUnselectableSelecter.
-	self withHiddenSelecter.
-	self withDisabledSelecter.
 	self
 		withAdditionalSelecterWithId: #group
 		withEventClass: ToSelectGroupSelectionChangedEvent.
@@ -41,20 +38,11 @@ ToMultiSelectListElement >> initialize [
 	self selectionMode requestFocusOnMouseDown: false
 ]
 
-{ #category : #skin }
-ToMultiSelectListElement >> newRawSkin [ 
-
-	^ ToBasicListElementSkin new
-]
-
 { #category : #accessing }
-ToMultiSelectListElement >> select [
+ToMultiSelectListElement >> selectElement: aSelectElement [
 
-	^ select
-]
-
-{ #category : #accessing }
-ToMultiSelectListElement >> select: aSelect [
-
-	select := aSelect
+	super selectElement: aSelectElement.
+	"self addEventHandler: (ToMultiSelectSelectionObserver new
+			 selectElement: aSelectElement;
+			 yourself)"
 ]

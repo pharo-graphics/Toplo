@@ -122,9 +122,9 @@ ToAlbumAutocompletionEventHandler >> newListElement [
 	"newListElement withDecoration: ToAutocompleteListSideBackgroundDecoration."
 	newListElement nodeBuilder: self defaultNodeBuilder.
 	newListElement fontSize: self defaultFontSize.
-	newListElement nodeContainer maxHeight: self defaultMaxHeight.
-	newListElement nodeContainer minHeight: self defaultMinHeight.
-	newListElement nodeContainer vFitContent.
+	newListElement innerContainer maxHeight: self defaultMaxHeight.
+	newListElement innerContainer minHeight: self defaultMinHeight.
+	newListElement innerContainer vFitContent.
 	newListElement vFitContent.
 	newListElement hMatchParent.
 	^ newListElement

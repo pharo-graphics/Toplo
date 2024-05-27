@@ -13,7 +13,7 @@ Class {
 { #category : #layout }
 ToBarElement >> checkFullyVisibleNodes [ 
 
-	self nodeContainer checkFullyVisibleNodes 
+	self innerContainer checkFullyVisibleNodes 
 ]
 
 { #category : #initialization }
@@ -28,7 +28,7 @@ ToBarElement >> configureLayout [
 			self constraintsDo: [ :c |
 				c vertical matchParent.
 				c horizontal fitContent ] ].
-	self nodeContainer configureLayoutIn: self.
+	self innerContainer configureLayoutIn: self.
 	self checkFullyVisibleNodes.
 	self requestLayout
 ]
@@ -40,13 +40,7 @@ ToBarElement >> defaultDataSource [
 ]
 
 { #category : #initialization }
-ToBarElement >> defaultEventHandler [
-
-	^ ToListElementEventHandler new
-]
-
-{ #category : #initialization }
-ToBarElement >> defaultNodeContainer [
+ToBarElement >> defaultInnerNodeContainer [
 
 	^ ToInnerBarElement onBarElement: self
 ]
@@ -60,7 +54,7 @@ ToBarElement >> defaultNodeManagerClass [
 { #category : #accessing }
 ToBarElement >> fakeDataItem: aDataItem [
 
-	self nodeContainer fakeDataItem: aDataItem
+	self innerContainer fakeDataItem: aDataItem
 ]
 
 { #category : #accessing }
@@ -95,11 +89,11 @@ ToBarElement >> initialize [
 	nodeScrolling := true.
 	nodeAutoDistribution := false.
 	flowLineUniformWidth := false.
-	self installNodeContainer
+	self installInnerContainer
 ]
 
 { #category : #initialization }
-ToBarElement >> installNodeContainer [
+ToBarElement >> installInnerContainer [
 
 	self configureLayout
 ]

@@ -14,6 +14,6 @@ ToListGroupedSelection >> isGrouped [
 ToListGroupedSelection >> nextPutNodeGroupsFrom: aListElement selectionModel: aSelectionModel in: aStream [
 
 	aStream nextPutAll:
-		(aListElement nodeContainer nodeGroupsSatisfying: [ :n |
+		(aListElement innerContainer nodeGroupsSatisfying: [ :n |
 			 (aSelectionModel containsIndex: n holder position) and: [ n height > 0 ] ])
 ]

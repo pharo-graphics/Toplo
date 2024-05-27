@@ -77,7 +77,7 @@ ToTabBarElement >> initialize [
 	
 	tabs nodeFactory: [ ToTabNode new ].
 	tabs matchParent.
-	tabs nodeContainer matchParent.
+	tabs innerContainer matchParent.
 	tabRowContainer addChild: tabs.
 	tabRowContainer matchParent.
 	startContainer := ToPane new

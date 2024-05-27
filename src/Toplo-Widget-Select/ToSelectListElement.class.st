@@ -34,13 +34,7 @@ ToSelectListElement >> newRawSkin [
 ]
 
 { #category : #accessing }
-ToSelectListElement >> select [
+ToSelectListElement >> selectElement: aSelectElement [
 
-	^ select
-]
-
-{ #category : #accessing }
-ToSelectListElement >> select: aSelect [
-
-	select := aSelect
+	select := aSelectElement
 ]

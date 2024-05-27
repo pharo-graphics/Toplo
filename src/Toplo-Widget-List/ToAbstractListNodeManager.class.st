@@ -24,7 +24,7 @@ ToAbstractListNodeManager >> defaultNodeBuilder [
 { #category : #initialization }
 ToAbstractListNodeManager >> defaultNodeFactory [
 
-	^ [ :holder | ToNode new ]
+	^ [ :holder | ToListNode new ]
 ]
 
 { #category : #initialization }

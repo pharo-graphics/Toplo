@@ -36,13 +36,6 @@ ToSelectListWindowManager >> defaultDataNodeBuilder [
 ]
 
 { #category : #initialization }
-ToSelectListWindowManager >> defaultGroupNodeBuilder [
-
-	^ [ :node :holder |
-	  node addChild: (ToAttributedLabel text: holder dataItem asString) hMatchParent ]
-]
-
-{ #category : #initialization }
 ToSelectListWindowManager >> defaultMaxHeight [
 
 	^ 300
@@ -105,6 +98,12 @@ ToSelectListWindowManager >> listElement [
 	^ listElement 
 ]
 
+{ #category : #initialization }
+ToSelectListWindowManager >> listElementClass [
+
+	^ ToSelectListElement
+]
+
 { #category : #accessing }
 ToSelectListWindowManager >> maxHeight [
 
@@ -133,15 +132,22 @@ ToSelectListWindowManager >> minHeight: aNumber [
 ToSelectListWindowManager >> newListElement [
 
 	| newListElement |
-	newListElement := ToSelectListElement new.
+	newListElement := self listElementClass new.
+	newListElement selectionMode multiple: false.
 	newListElement nodeFactory: self defaultNodeFactory.
 	newListElement nodeBuilder: self defaultNodeBuilder.
-	newListElement nodeContainer maxHeight: self defaultMaxHeight.
-	newListElement nodeContainer minHeight: self defaultMinHeight.
-	newListElement nodeContainer vFitContent.
+	newListElement innerContainer maxHeight: self defaultMaxHeight.
+	newListElement innerContainer minHeight: self defaultMinHeight.
+	newListElement innerContainer vFitContent.
 	newListElement vFitContent.
 	newListElement hMatchParent.
 	^ newListElement
+]
+
+{ #category : #'api - hooks' }
+ToSelectListWindowManager >> nodeHolderClass [
+
+	^ ToSelectListNodeHolder
 ]
 
 { #category : #'api - hooks' }
@@ -149,7 +155,7 @@ ToSelectListWindowManager >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	listElement := self newListElement.
-	listElement select: self element.
+	listElement selectElement: self element.
 
 	listElement addEventHandler: (ToSelectListElementEventHandler new
 			 select: self element;
@@ -165,7 +171,7 @@ ToSelectListWindowManager >> onInstalledIn: anElement [
 	sieve := ToListElementSieve new.
 	sieve onInstalledIn: listElement.
 
-	listElement nodeHolderClass: ToSelectListNodeHolder
+	listElement nodeHolderClass: self nodeHolderClass
 ]
 
 { #category : #'api - hooks' }

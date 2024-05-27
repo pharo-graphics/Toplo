@@ -50,7 +50,7 @@ ToSelectIconContainerSkin >> openedLookEvent: anEvent [
 
 	super openedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e icon: (e isForFiltering
+		e icon: (e isSelectFiltrable
 			 ifTrue: [ self searchIcon ]
 			 ifFalse: [ self popupOpenedIcon ]) ].
 ]

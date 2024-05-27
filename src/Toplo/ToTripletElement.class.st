@@ -185,15 +185,17 @@ ToTripletElement >> initialize [
 	endFiller := self newFiller
 		             id: #'end-filler';
 		             yourself.
-	startContainer := self newInnerContainer
+		
+	startContainer := self newBaseContainer
 		                  id: #'start-container';
 		                  yourself.
-	middleContainer := self newInnerContainer
+	middleContainer := self newBaseContainer
 		                   id: #'middle-container';
 		                   yourself.
-	endContainer := self newInnerContainer
+	endContainer := self newBaseContainer
 		                id: #'end-container';
 		                yourself.
+		
 	self addChild: startContainer.
 	self addChild: startGap.
 	self addChild: startFiller.
@@ -265,6 +267,17 @@ ToTripletElement >> middleElement: anElement [
 ]
 
 { #category : #'instance creation' }
+ToTripletElement >> newBaseContainer [
+
+	^ BlElement new
+		  constraintsDo: [ :c |
+			  c horizontal fitContent.
+			  c vertical fitContent ];
+		  layout: BlLinearLayout new;
+		  yourself
+]
+
+{ #category : #'instance creation' }
 ToTripletElement >> newFiller [
 
 	^ BlElement new
@@ -273,17 +286,6 @@ ToTripletElement >> newFiller [
 		  constraintsDo: [ :c |
 			  c horizontal fitContent.
 			  c vertical fitContent ];
-		  yourself
-]
-
-{ #category : #'instance creation' }
-ToTripletElement >> newInnerContainer [
-
-	^ BlElement new
-		  constraintsDo: [ :c |
-			  c horizontal fitContent.
-			  c vertical fitContent ];
-		  layout: BlLinearLayout new;
 		  yourself
 ]
 

@@ -5,8 +5,8 @@ Class {
 		'selectedDataTextField',
 		'inputTextField',
 		'installedInputTextFieldTextEventHandler',
-		'forFiltering',
-		'windowPopupHandler'
+		'windowPopupHandler',
+		'selectFiltrable'
 	],
 	#category : #'Toplo-Widget-Select-textInput'
 }
@@ -80,9 +80,9 @@ ToSelectTextInputElement >> installInputTextFieldEventHandlers [
 ]
 
 { #category : #testing }
-ToSelectTextInputElement >> isForFiltering [
+ToSelectTextInputElement >> isSelectFiltrable [
 
-	^ forFiltering 
+	^ selectFiltrable 
 ]
 
 { #category : #initialization }
@@ -119,7 +119,7 @@ ToSelectTextInputElement >> onFilterTextUpdated: anEvent [
 { #category : #'api - hooks' }
 ToSelectTextInputElement >> onInstalledIn: aNodeContainer [
 
-	forFiltering := aNodeContainer selectElement isFiltrable.
+	selectFiltrable := aNodeContainer isFiltrable.
 	selectedDataTextField := self newTextFieldIn: aNodeContainer.
 	selectedDataTextField beReadonlyWithSelection.
 	inputTextField := self newTextFieldIn: aNodeContainer.
@@ -127,7 +127,7 @@ ToSelectTextInputElement >> onInstalledIn: aNodeContainer [
 	inputTextField id: #inputTextField.
 	self addChild: selectedDataTextField.
 	self addChild: inputTextField.
-	aNodeContainer selectElement isFiltrable
+	aNodeContainer isFiltrable
 		ifTrue: [ self beEditable ]
 		ifFalse: [ self beReadonly ].
 
@@ -140,7 +140,7 @@ ToSelectTextInputElement >> onInstalledIn: aNodeContainer [
 		                 do: [ :event |
 			                 event text ifNotEmpty: [
 				                 event text asString first isAlphaNumeric ifTrue: [
-					                 aNodeContainer selectElement windowManager
+					                 aNodeContainer windowManager
 						                 popupWindowHiddenEvent: event ] ] ].
 	inputTextField infinite addEventHandler: windowPopupHandler
 ]
@@ -159,7 +159,7 @@ ToSelectTextInputElement >> onWindowClosed [
 
 	self selectedDataTextField visibility: BlVisibility visible.
 	self selectedDataTextField text foreground: Color black.
-	self isForFiltering ifTrue: [ self inputTextField requestFocus ]
+	self isSelectFiltrable ifTrue: [ self inputTextField requestFocus ]
 ]
 
 { #category : #window }
@@ -167,9 +167,18 @@ ToSelectTextInputElement >> onWindowOpened [
 
 	
 	self selectedDataTextField text foreground: Color lightGray.
-	self isForFiltering
+	self isSelectFiltrable
 		ifTrue: [ self inputTextField requestFocus ]
 		ifFalse: [ self parent requestFocus ]
+]
+
+{ #category : #accessing }
+ToSelectTextInputElement >> selectFiltrable: aBoolean [
+
+	selectFiltrable := aBoolean.
+	aBoolean
+		ifTrue: [ self beEditable ]
+		ifFalse: [ self beReadonly ].
 ]
 
 { #category : #accessing }

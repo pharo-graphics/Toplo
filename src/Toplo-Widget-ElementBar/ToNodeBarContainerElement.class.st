@@ -62,7 +62,7 @@ ToNodeBarContainerElement >> defaultLayout [
 { #category : #initialization }
 ToNodeBarContainerElement >> defaultNodeClass [
 
-	^ ToElementBarNode
+	^ ToMultiSelectNodeContent
 ]
 
 { #category : #accessing }
@@ -203,7 +203,7 @@ ToNodeBarContainerElement >> nodeClass [
 { #category : #initialization }
 ToNodeBarContainerElement >> nodeHolderClass [ 
 
-	^ ToElementBarNodeHolder
+	^ ToSelectInnerNodeHolder
 ]
 
 { #category : #accessing }
@@ -346,8 +346,26 @@ ToNodeBarContainerElement >> onUninstalledIn: anElementBar [
 
 { #category : #accessing }
 ToNodeBarContainerElement >> refresh [
-
-	self subclassResponsibility 
+	" first remove all data nodes "
+	| detached newNodes |
+	detached := OrderedCollection new.
+	self nodesDo: [ :node |
+		node onUninstalledIn: elementBar.
+		detached add: node.
+		innerNodeContainer detachChild: node ].
+	self nodeHolders reset.
+	" then rebuild current nodes "
+	newNodes := elementBar dataAccessor withIndexCollect: [ :data :idx |
+		| node |
+		node := self newNode.
+		node holder
+			position: idx;
+			dataItem: data.
+		self nodeBuilder value: node value: node holder.
+		self nodeHolders add: node holder.
+		node ].
+	self addAllDataNodes: newNodes.
+	detached do: [ :node | innerNodeContainer removeDetachedChild: node]
 ]
 
 { #category : #initialization }

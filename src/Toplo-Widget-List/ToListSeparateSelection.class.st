@@ -14,7 +14,7 @@ ToListSeparateSelection >> isSeparate [
 ToListSeparateSelection >> nextPutNodeGroupsFrom: aListElement selectionModel: aSelectionModel in: aStream [
 
 	aStream nextPutAll:
-		((aListElement nodeContainer partlyVisibleNodesSelect: [ :node | 
+		((aListElement innerContainer partlyVisibleNodesSelect: [ :node | 
 			  (aSelectionModel containsIndex: node holder position) and: [
 				  node height > 0 ] ]) collect: [ :node | Array with: node ])
 ]

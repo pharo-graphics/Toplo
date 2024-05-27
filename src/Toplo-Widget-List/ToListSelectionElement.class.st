@@ -28,7 +28,7 @@ ToListSelectionElement >> boundsFromNodes [
 	first constraints horizontal isMatchParent
 		ifTrue: [
 			| w |
-			w := listElement nodeContainer bounds width
+			w := listElement innerContainer bounds width
 			     + listElement padding right.
 			corner := w @ bottom corner y ]
 		ifFalse: [ corner := bottom corner ].

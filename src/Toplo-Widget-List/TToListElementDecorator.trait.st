@@ -21,6 +21,12 @@ TToListElementDecorator >> findElementHolderForDataSourcePosition: anInteger [
 	^ self next findElementHolderForDataSourcePosition: anInteger
 ]
 
+{ #category : #'t - infinite accessing' }
+TToListElementDecorator >> innerContainer [
+
+	^ self next innerContainer
+]
+
 { #category : #'t - accessing constraints' }
 TToListElementDecorator >> maxHeight: aHeight [
 
@@ -43,12 +49,6 @@ TToListElementDecorator >> next [
 TToListElementDecorator >> nodeAt: anIndex [
 
 	^ self next nodeAt: anIndex
-]
-
-{ #category : #'t - infinite accessing' }
-TToListElementDecorator >> nodeContainer [
-
-	^ self next nodeContainer
 ]
 
 { #category : #'t - infinite accessing' }

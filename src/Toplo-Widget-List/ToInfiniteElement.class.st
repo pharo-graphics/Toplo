@@ -99,6 +99,12 @@ ToInfiniteElement >> initialize [
 	self matchParent
 ]
 
+{ #category : #'t - infinite accessing' }
+ToInfiniteElement >> innerContainer [ 
+
+	^ self
+]
+
 { #category : #accessing }
 ToInfiniteElement >> listElement [
 
@@ -125,12 +131,6 @@ ToInfiniteElement >> nodeAt: anIndex [
 	^ (self findElementHolderForDataSourcePosition: anIndex)
 		  ifNotNil: [ :holder | holder itemElement ]
 		  ifNil: [  ]
-]
-
-{ #category : #'t - infinite accessing' }
-ToInfiniteElement >> nodeContainer [ 
-
-	^ self
 ]
 
 { #category : #'accessing - children' }
@@ -183,6 +183,14 @@ ToInfiniteElement >> nodesWithIndexDo: aBlock [
 ToInfiniteElement >> partlyVisibleNodesDo: aBlock [
 
 	self nodesDo: aBlock
+]
+
+{ #category : #'node enumerating' }
+ToInfiniteElement >> partlyVisibleNodesSelect: aBlock [
+
+	^ Array streamContents: [ :stream |
+		  self partlyVisibleNodesDo: [ :node |
+			  (aBlock value: node) ifTrue: [ stream nextPut: node ] ] ]
 ]
 
 { #category : #'t - resizeable' }

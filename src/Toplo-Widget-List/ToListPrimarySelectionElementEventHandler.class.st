@@ -14,7 +14,7 @@ ToListPrimarySelectionElementEventHandler >> addNewSelectionElementsFrom: target
 	super addNewSelectionElementsFrom: target.
 	selectionModel := self selectionModelFrom: target.
 	" Dispatch the event that is used by the skin state generator to generate the selection state "
-	nodesArray := target nodeContainer children asArray.
+	nodesArray := target innerContainer children asArray.
 	nodesArray do: [ :node |
 		node dispatchEvent: (ToListNodeSelectedEvent new
 				 listElement: target;
@@ -83,7 +83,7 @@ ToListPrimarySelectionElementEventHandler >> removePreviousSelectionElementsFrom
 	selectionModel := self selectionModelFrom: target.
 	" no need to dispatch ToListNodeSelectedEvent here. It should be done in #addNewSelectionElementsFrom: "
 	selectionModel ifNotEmpty: [ ^ self ].
-	nodesArray := target nodeContainer children asArray.
+	nodesArray := target innerContainer children asArray.
 	nodesArray do: [ :node |
 		node dispatchEvent: (ToListNodeSelectedEvent new
 				 listElement: target;

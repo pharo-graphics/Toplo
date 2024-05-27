@@ -29,9 +29,21 @@ ToSelectElement >> dataAccessor [
 ]
 
 { #category : #accessing }
+ToSelectElement >> dataItemViewBuilder: aValuable [
+
+	self innerContainer dataItemViewBuilder: aValuable
+]
+
+{ #category : #accessing }
+ToSelectElement >> dataItemViewFactory: aValuable [
+
+	self innerContainer dataItemViewFactory: aValuable
+]
+
+{ #category : #accessing }
 ToSelectElement >> filterString [ 
 
-	^ self nodeContainer filterString
+	^ self innerContainer filterString
 ]
 
 { #category : #'accessing - selection' }
@@ -50,9 +62,7 @@ ToSelectElement >> filtrable [
 ToSelectElement >> filtrable: aBoolean [
 
 	filtrable := aBoolean.
-	aBoolean
-		ifTrue: [ self textInputElement beEditable ]
-		ifFalse: [ self textInputElement beReadonly ].
+	self innerContainer filtrable: aBoolean
 ]
 
 { #category : #accessing }
@@ -75,8 +85,9 @@ ToSelectElement >> initialize [
 	
 	" for the popup "
 	windowManager := self newWindowManager.
-	self installNodeContainerAndRefresh.
+	windowManager onInstalledIn: self.
 	self iconContainer: self newIconContainer.
+	self installInnerContainer.
 	
 	self addEventHandlerOn: ToPlaceholderShownEvent do: [ :event |
 		self flag: 'The width of 16???. Why ? Anyway, it should be handled via a skin'.
@@ -85,30 +96,34 @@ ToSelectElement >> initialize [
 ]
 
 { #category : #accessing }
+ToSelectElement >> innerContainer [
+
+	^ self middleElement 
+]
+
+{ #category : #'instance creation' }
+ToSelectElement >> innerContainerClass [
+
+	^ ToSelectInnerContainerElement
+]
+
+{ #category : #accessing }
 ToSelectElement >> inputTextField [ 
 
-	^ self nodeContainer inputTextField
+	^ self innerContainer inputTextField
 ]
 
 { #category : #initialization }
-ToSelectElement >> installNodeContainer [
+ToSelectElement >> installInnerContainer [
 
-	self nodeContainer ifNotNil: [
-		self nodeContainer onUninstalledIn: self ].
-	self middleElement: self newNodeContainer.
+	self innerContainer ifNotNil: [
+		self innerContainer onUninstalledIn: self ].
+	self middleElement: self newInnerContainer.
 	self middleContainer constraintsDo: [ :c |
 		c horizontal matchParent.
 		c vertical fitContent ].
-	self nodeContainer onInstalledIn: self.
-	self listElement selectionMode multiple: false.
+	self innerContainer onInstalledIn: self.
 	self requestNewSkin
-]
-
-{ #category : #initialization }
-ToSelectElement >> installNodeContainerAndRefresh [
-
-	self installNodeContainer.
-	self refresh
 ]
 
 { #category : #testing }
@@ -142,11 +157,11 @@ ToSelectElement >> newIconContainer [
 ]
 
 { #category : #'instance creation' }
-ToSelectElement >> newNodeContainer [
+ToSelectElement >> newInnerContainer [
 
 	| container |
-	container := self nodeContainerClass new.
-	container id: #nodeContainer.
+	container := self innerContainerClass new.
+	container id: #innerContainer.
 	^ container
 ]
 
@@ -165,55 +180,25 @@ ToSelectElement >> newShortcutsStore [
 { #category : #'instance creation' }
 ToSelectElement >> newWindowManager [
 
-	| wm |
-	wm := ToSelectListWindowManager new.
-	wm onInstalledIn: self.
-	^ wm
-]
-
-{ #category : #accessing }
-ToSelectElement >> nodeBuilder: aValuable [
-
-	self nodeContainer nodeBuilder: aValuable
-]
-
-{ #category : #accessing }
-ToSelectElement >> nodeContainer [
-
-	^ self middleElement 
-]
-
-{ #category : #'instance creation' }
-ToSelectElement >> nodeContainerClass [
-
-	^ ToSelectNodeContainerElement
-]
-
-{ #category : #accessing }
-ToSelectElement >> nodeFactory: aValuable [
-
-	self nodeContainer nodeFactory: aValuable
+	^ ToSelectListWindowManager new
 ]
 
 { #category : #'accessing - selection' }
 ToSelectElement >> onSelectionChangedInListElement [
 
-	self showHidePlaceholder.
-	self nodeContainer refresh.
-	self listElement notifyPrimarySelectionDirty.
-	self nodeContainer requestLayout
+	self innerContainer onSelectionChangedInSelectElement: self
 ]
 
 { #category : #window }
 ToSelectElement >> onWindowClosed [
 
-	self nodeContainer onWindowClosed
+	self innerContainer onWindowClosed
 ]
 
 { #category : #window }
 ToSelectElement >> onWindowOpened [
 
-	self nodeContainer onWindowOpened
+	self innerContainer onWindowOpened
 ]
 
 { #category : #accessing }
@@ -261,7 +246,7 @@ ToSelectElement >> popupWindowEvent: anEvent [
 { #category : #accessing }
 ToSelectElement >> refresh [
 
-	"self nodeContainer refresh"
+	self innerContainer refresh
 ]
 
 { #category : #'accessing - selection' }
@@ -294,7 +279,7 @@ ToSelectElement >> sieve [
 { #category : #accessing }
 ToSelectElement >> textInputElement [ 
 
-	^ self nodeContainer textInputElement
+	^ self innerContainer textInputElement
 ]
 
 { #category : #accessing }

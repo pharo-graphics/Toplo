@@ -1,6 +1,6 @@
 Class {
 	#name : #ToClassNameViewExample,
-	#superclass : #ToNode,
+	#superclass : #ToListNode,
 	#category : #'Toplo-Examples'
 }
 

@@ -16,7 +16,7 @@ ToListElementEventHandler >> doubleClickEvent: anEvent [
 	| target |
 	target := anEvent currentTarget.
 	" first, inform the node that a double click is received "
-	target nodeContainer childrenDo: [ :node |
+	target innerContainer childrenDo: [ :node |
 		node dispatchEvent: (ToListDoubleClickEvent new
 				 sourceEvent: anEvent;
 				 yourself) ].
@@ -194,15 +194,15 @@ ToListElementEventHandler >> listUnselectableSelectionChangedEvent: anEvent [
 	| listElement |
 	listElement := anEvent currentTarget.
 	listElement isAttachedToSceneGraph ifFalse: [ ^ self ].
-	listElement nodeContainer hasChildren ifFalse: [ ^ self ].
+	listElement innerContainer hasChildren ifFalse: [ ^ self ].
 	anEvent selectionModel ifEmpty: [
 		listElement dataSource notifyChanged.
 		^ self ].
 
 	listElement selectionModel unselectableSelectionModelDo: [ :sm |
 		| firstPos lastPos |
-		firstPos := listElement nodeContainer firstChild holder position.
-		lastPos := listElement nodeContainer lastChild holder position.
+		firstPos := listElement innerContainer firstChild holder position.
+		lastPos := listElement innerContainer lastChild holder position.
 		firstPos to: lastPos do: [ :idx |
 			((listElement selectionModel containsIndex: idx) and: [
 				 sm containsIndex: idx ]) ifTrue: [

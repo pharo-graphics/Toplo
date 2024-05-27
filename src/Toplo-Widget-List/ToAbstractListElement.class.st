@@ -120,6 +120,12 @@ ToAbstractListElement >> defaultDataSource [
 { #category : #initialization }
 ToAbstractListElement >> defaultEventHandler [
 
+	^ ToListElementEventHandler new
+]
+
+{ #category : #initialization }
+ToAbstractListElement >> defaultInnerNodeContainer [ 
+
 	^ self subclassResponsibility 
 ]
 
@@ -127,12 +133,6 @@ ToAbstractListElement >> defaultEventHandler [
 ToAbstractListElement >> defaultLayout [
 
 	^ BlFrameLayout new
-]
-
-{ #category : #initialization }
-ToAbstractListElement >> defaultNodeContainer [ 
-
-	^ self subclassResponsibility 
 ]
 
 { #category : #initialization }
@@ -188,7 +188,7 @@ ToAbstractListElement >> initialize [
 
 	super initialize.
 	self initializeDataSource.
-	next := self defaultNodeContainer.
+	next := self defaultInnerNodeContainer.
 	nodeManager := self defaultNodeManager.
 	self next elevation: (BlRelativeElevation elevation: 10).
 
@@ -239,7 +239,7 @@ ToAbstractListElement >> itemCount [
 { #category : #'t - orientable - accessing' }
 ToAbstractListElement >> layoutStrategy [
 
-	^ self nodeContainer layout
+	^ self innerContainer layout
 
 	
 ]
@@ -359,7 +359,7 @@ ToAbstractListElement >> overContainer [
 { #category : #'t - element with placeholder' }
 ToAbstractListElement >> placeholderElevation [
 
-	^ self nodeContainer elevation
+	^ self innerContainer elevation
 ]
 
 { #category : #accessing }

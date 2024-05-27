@@ -1,6 +1,6 @@
 Class {
 	#name : #ToListClassNodeExample,
-	#superclass : #ToNode,
+	#superclass : #ToListNode,
 	#traits : 'TToElement',
 	#classTraits : 'TToElement classTrait',
 	#instVars : [

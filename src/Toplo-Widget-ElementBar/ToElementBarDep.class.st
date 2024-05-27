@@ -56,7 +56,7 @@ ToElementBarDep >> deselectIndexes: anArray [
 { #category : #accessing }
 ToElementBarDep >> fakeDataItem: aDataItem [
 
-	self nodeContainer fakeDataItem: aDataItem
+	self innerContainer fakeDataItem: aDataItem
 ]
 
 { #category : #initialization }
@@ -75,12 +75,24 @@ ToElementBarDep >> initialize [
 		event placeholder layout alignCenterLeft ]
 ]
 
-{ #category : #initialization }
-ToElementBarDep >> installNodeContainer [
+{ #category : #accessing }
+ToElementBarDep >> innerContainer [
 
-	self nodeContainer ifNotNil: [
-		self nodeContainer onUninstalledIn: self ].
-	self middleElement: self newNodeContainer.
+	^ self middleElement 
+]
+
+{ #category : #'instance creation' }
+ToElementBarDep >> innerContainerClass [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #initialization }
+ToElementBarDep >> installInnerContainer [
+
+	self innerContainer ifNotNil: [
+		self innerContainer onUninstalledIn: self ].
+	self middleElement: self newInnerContainer.
 	self isHorizontal
 		ifTrue: [
 			self middleContainer constraintsDo: [ :c |
@@ -90,21 +102,21 @@ ToElementBarDep >> installNodeContainer [
 			self middleContainer constraintsDo: [ :c |
 				c vertical matchParent.
 				c horizontal fitContent ] ].
-	self nodeContainer onInstalledIn: self
+	self innerContainer onInstalledIn: self
 ]
 
 { #category : #'accessing - selection' }
-ToElementBarDep >> installNodeContainerAndRefresh [
+ToElementBarDep >> installInnerContainerAndRefresh [
 
-	self installNodeContainer.
+	self installInnerContainer.
 	self refresh
 ]
 
 { #category : #'instance creation' }
-ToElementBarDep >> newNodeContainer [
+ToElementBarDep >> newInnerContainer [
 
 	| container |
-	container := self nodeContainerClass new id: #nodeContainer;
+	container := self innerContainerClass new id: #innerContainer;
 		  yourself.
 	container horizontal: self isHorizontal.
 	^ container
@@ -132,19 +144,7 @@ ToElementBarDep >> nodeAutoDistribution [
 ToElementBarDep >> nodeAutoDistribution: aBoolean [
 
 	nodeAutoDistribution := aBoolean.
-	self installNodeContainerAndRefresh
-]
-
-{ #category : #accessing }
-ToElementBarDep >> nodeContainer [
-
-	^ self middleElement 
-]
-
-{ #category : #'instance creation' }
-ToElementBarDep >> nodeContainerClass [
-
-	^ self subclassResponsibility 
+	self installInnerContainerAndRefresh
 ]
 
 { #category : #accessing }
@@ -157,7 +157,7 @@ ToElementBarDep >> nodeScrolling [
 ToElementBarDep >> nodeScrolling: aBoolean [
 
 	nodeScrolling := aBoolean.
-	self installNodeContainerAndRefresh
+	self installInnerContainerAndRefresh
 ]
 
 { #category : #accessing }
@@ -170,13 +170,13 @@ ToElementBarDep >> nodeWrapping [
 ToElementBarDep >> nodeWrapping: aBoolean [
 
 	nodeWrapping := aBoolean.
-	self installNodeContainerAndRefresh
+	self installInnerContainerAndRefresh
 ]
 
 { #category : #accessing }
 ToElementBarDep >> nodes [
 
-	^ self nodeContainer nodes
+	^ self innerContainer nodes
 ]
 
 { #category : #'accessing - selection' }
@@ -188,7 +188,7 @@ ToElementBarDep >> notifySelectionChanged [
 { #category : #layout }
 ToElementBarDep >> onLayoutOrientationChanged [
 
-	self installNodeContainerAndRefresh
+	self installInnerContainerAndRefresh
 ]
 
 { #category : #'accessing - selection' }
@@ -199,7 +199,7 @@ ToElementBarDep >> onSelectionChanged [
 { #category : #'accessing - selection' }
 ToElementBarDep >> refresh [
 
-	self nodeContainer refresh
+	self innerContainer refresh
 ]
 
 { #category : #'accessing - selection' }

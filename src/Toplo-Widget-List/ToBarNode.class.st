@@ -1,29 +1,11 @@
 Class {
 	#name : #ToBarNode,
-	#superclass : #ToNode,
+	#superclass : #ToListNode,
 	#category : #'Toplo-Widget-List-Node'
 }
 
 { #category : #initialization }
-ToBarNode >> autoDistribute: aBoolean [
-
-	aBoolean
-		ifTrue: [
-			self constraintsDo: [ :c |
-				self holder listElement isHorizontal
-					ifTrue: [ c horizontal matchParent ]
-					ifFalse: [ c vertical matchParent ] ] ]
-		ifFalse: [ self setInitialLayoutConstraints ]
-]
-
-{ #category : #initialization }
-ToBarNode >> initialize [ 
-
-	super initialize
-]
-
-{ #category : #initialization }
-ToBarNode >> setInitialLayoutConstraints [
+ToBarNode >> setInitialConfiguration [
 
 	self constraintsDo: [ :c |
 		c horizontal fitContent.

@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #'instance creation' }
-ToNodeBarDep >> nodeContainerClass [ 
+ToNodeBarDep >> innerContainerClass [ 
 
-	^ ToNodeBarContainerElementDep
+	^ ToNodeBarContainerElement
 ]

@@ -216,6 +216,7 @@ ToAnchoredWindowManager >> onWindowOpened [
 { #category : #'window handling' }
 ToAnchoredWindowManager >> onWindowRemoved [
 
+	self currentWindow ifNil: [ ^self ].
 	self currentWindow root removeChildren.
 	currentWindow manager: nil.
 	currentWindow := nil

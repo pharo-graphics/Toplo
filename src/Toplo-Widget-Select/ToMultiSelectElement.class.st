@@ -109,10 +109,16 @@ ToMultiSelectElement >> initialize [
 	maxSelectedCount := 0
 ]
 
-{ #category : #initialization }
-ToMultiSelectElement >> installNodeContainer [ 
+{ #category : #'instance creation' }
+ToMultiSelectElement >> innerContainerClass [
 
-	super installNodeContainer.
+	^ ToMultiSelectInnerContainerElement
+]
+
+{ #category : #initialization }
+ToMultiSelectElement >> installInnerContainer [ 
+
+	super installInnerContainer.
 	self listElement selectionMode multiple: true.
 	self requestNewSkin 
 ]
@@ -137,9 +143,9 @@ ToMultiSelectElement >> newIconContainer [
 ]
 
 { #category : #'instance creation' }
-ToMultiSelectElement >> newNodeContainer [ 
+ToMultiSelectElement >> newWindowManager [
 
-	^ ToMultipleSelectBarElement new
+	^ ToMultiSelectListWindowManager new
 ]
 
 { #category : #'accessing - selection' }
@@ -159,23 +165,10 @@ ToMultiSelectElement >> onSelectionChanged [
 	self listElement notifyPrimarySelectionDirty
 ]
 
-{ #category : #'accessing - selection' }
-ToMultiSelectElement >> onSelectionChangedInListElement [
+{ #category : #accessing }
+ToMultiSelectElement >> refresh [
 
-	self showHidePlaceholder.
-	self refresh.
-
-	self checkHideSelectionFromListElement.
-	self checkMaxSelectedCountFromListElement.
-
-	self listElement notifyPrimarySelectionDirty.
-	self nodeContainer requestLayout
-]
-
-{ #category : #'accessing - selection' }
-ToMultiSelectElement >> selectionModel [
-
-	^ self nodeContainer selectionModel
+	super refresh 
 ]
 
 { #category : #'accessing - list' }

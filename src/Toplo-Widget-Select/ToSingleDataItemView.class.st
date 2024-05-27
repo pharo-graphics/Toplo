@@ -7,26 +7,18 @@ Class {
 	#category : #'Toplo-Widget-Select-Single'
 }
 
-{ #category : #initialization }
-ToSingleDataItemView >> initialize [
-
-	super initialize.
-	textInputElement := self textInputElementClass new.
-	self addChild: textInputElement
-]
-
 { #category : #'api - hooks' }
 ToSingleDataItemView >> onInstalledIn: anInnerContainer [
 
 	super onInstalledIn: anInnerContainer.
-	textInputElement onInstalledIn: anInnerContainer
+	textInputElement := anInnerContainer textInputElement
 
 ]
 
 { #category : #'api - hooks' }
 ToSingleDataItemView >> onUninstalledIn: anInnerContainer [
 
-	textInputElement onUninstalledIn: anInnerContainer.
+	textInputElement := nil.
 	super onUninstalledIn: anInnerContainer
 ]
 
@@ -40,10 +32,4 @@ ToSingleDataItemView >> selectedDataTextField [
 ToSingleDataItemView >> textInputElement [ 
 
 	^ textInputElement 
-]
-
-{ #category : #accessing }
-ToSingleDataItemView >> textInputElementClass [
-
-	^ ToSelectTextInputElement 
 ]

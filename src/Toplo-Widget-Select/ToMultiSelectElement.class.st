@@ -119,7 +119,6 @@ ToMultiSelectElement >> innerContainerClass [
 ToMultiSelectElement >> installInnerContainer [ 
 
 	super installInnerContainer.
-	self listElement selectionMode multiple: true.
 	self requestNewSkin 
 ]
 

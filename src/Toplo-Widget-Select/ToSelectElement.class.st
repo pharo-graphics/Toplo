@@ -138,7 +138,7 @@ ToSelectElement >> innerContainer [
 { #category : #'instance creation' }
 ToSelectElement >> innerContainerClass [
 
-	^ ToSelectInnerContainerElement
+	^ ToSingleSelectInnerContainerElement
 ]
 
 { #category : #accessing }

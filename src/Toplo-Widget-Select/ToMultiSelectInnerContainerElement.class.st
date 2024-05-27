@@ -1,8 +1,7 @@
 Class {
 	#name : #ToMultiSelectInnerContainerElement,
-	#superclass : #ToElement,
+	#superclass : #ToSelectInnerContainerElement,
 	#instVars : [
-		'textInputElement',
 		'barElement'
 	],
 	#category : #'Toplo-Widget-Select-Multi'
@@ -19,6 +18,12 @@ ToMultiSelectInnerContainerElement >> addDataNode: aNode [
 
 	barElement nodeAutoDistribution ifTrue: [ aNode autoDistribute ].
 	barElement dataAccessor add: aNode
+]
+
+{ #category : #initialization }
+ToMultiSelectInnerContainerElement >> addFakeDataItemView [
+
+	barElement fakeDataItem: fakeDataItemView 
 ]
 
 { #category : #accessing }
@@ -86,9 +91,7 @@ ToMultiSelectInnerContainerElement >> initialize [
 
 	super initialize.
 	barElement := ToBarElement new.
-	barElement nodeBuilder: self nodeBuilder.
-	self fitContent.
-	textInputElement := ToMultiSelectTextInputElement new
+	barElement nodeBuilder: self nodeBuilder
 ]
 
 { #category : #accessing }
@@ -120,14 +123,18 @@ ToMultiSelectInnerContainerElement >> nodesCount [
 { #category : #'api - hooks' }
 ToMultiSelectInnerContainerElement >> onInstalledIn: aSelectElement [
 
+	super onInstalledIn: aSelectElement.
 	self hMatchParent.
+	self vFitContent.
 	self addChild: barElement.
-	textInputElement onInstalledIn: aSelectElement.
+	barElement hMatchParent.
+	barElement vFitContent.
 	textInputElement hFitContent.
 	textInputElement constraintsDo: [ :c |
 		c linear vertical alignCenter.
 		c flow vertical alignCenter ].
 	self addChild: textInputElement
+
 ]
 
 { #category : #'accessing - selection' }
@@ -145,7 +152,10 @@ ToMultiSelectInnerContainerElement >> onSelectionChangedInSelectElement: aMultiS
 { #category : #'api - hooks' }
 ToMultiSelectInnerContainerElement >> onUninstalledIn: aSelectElement [
 
-	textInputElement onUninstalledIn: aSelectElement
+	self removeChild: barElement.
+	self removeChild: textInputElement.
+	barElement := nil.
+	super onUninstalledIn: aSelectElement
 ]
 
 { #category : #window }
@@ -218,4 +228,10 @@ ToMultiSelectInnerContainerElement >> refreshBarElement [
 ToMultiSelectInnerContainerElement >> textInputElement [ 
 
 	^ textInputElement 
+]
+
+{ #category : #initialization }
+ToMultiSelectInnerContainerElement >> textInputElementClass [
+
+	^ ToMultiSelectTextInputElement
 ]

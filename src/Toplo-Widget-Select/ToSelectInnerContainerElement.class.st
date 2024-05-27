@@ -3,49 +3,24 @@ Class {
 	#superclass : #ToElement,
 	#instVars : [
 		'fakeDataItem',
+		'fakeDataItemView',
+		'dataItemView',
 		'filtrable',
 		'windowManager',
 		'selectionModel',
 		'dataAccessor',
-		'fakeDataItemView',
 		'dataItemViewBuilder',
-		'dataItemViewFactory',
-		'dataItemView'
+		'dataItemViewFactory'
 	],
 	#category : #'Toplo-Widget-Select-Single'
 }
 
 { #category : #accessing }
-ToSelectInnerContainerElement >> dataAccessor: aDataAccessor [
-
-	dataAccessor := aDataAccessor
-]
-
-{ #category : #accessing }
 ToSelectInnerContainerElement >> dataItemViewBuilder: aValuable [
 
 	" aValuable takes 2 args: the dataItemView and the selected dataItem "
-	dataItemViewBuilder := aValuable
-]
-
-{ #category : #accessing }
-ToSelectInnerContainerElement >> dataItemViewFactory: aValuable [
-
-	dataItemViewFactory := aValuable
-]
-
-{ #category : #initialization }
-ToSelectInnerContainerElement >> defaultDataItemViewBuilder [
-
-	^ [ :theView :theDataItem |
-	  theView selectedDataTextField text:
-		  (theDataItem ifNil: [ '' ] ifNotNil: [ :d | d asString ]) ]
-]
-
-{ #category : #initialization }
-ToSelectInnerContainerElement >> defaultDataItemViewFactory [
-
-	^ [ ToSingleDataItemView new ]
+	dataItemViewBuilder := aValuable.
+	self refresh
 ]
 
 { #category : #initialization }
@@ -65,14 +40,6 @@ ToSelectInnerContainerElement >> filtrable: aBoolean [
 
 	filtrable := aBoolean.
 	self textInputElement selectFiltrable: aBoolean
-]
-
-{ #category : #initialization }
-ToSelectInnerContainerElement >> initialize [
-
-	super initialize.
-	dataItemViewFactory := self defaultDataItemViewFactory.
-	dataItemViewBuilder := self defaultDataItemViewBuilder.
 ]
 
 { #category : #accessing }
@@ -110,12 +77,6 @@ ToSelectInnerContainerElement >> isFiltrable [
 	^ filtrable
 ]
 
-{ #category : #testing }
-ToSelectInnerContainerElement >> isSingleNode [
-
-	^ true
-]
-
 { #category : #initialization }
 ToSelectInnerContainerElement >> newDatatItemViewInSelect: aSelectElement [
 
@@ -132,6 +93,8 @@ ToSelectInnerContainerElement >> onInstalledIn: aSelectElement [
 		vFitContent;
 		hMatchParent;
 		constraintsDo: [ :c | c linear vertical alignCenter ].
+	dataItemViewFactory := aSelectElement dataItemViewFactory.
+	dataItemViewBuilder := aSelectElement dataItemViewBuilder.
 	filtrable := aSelectElement isFiltrable.
 	windowManager := aSelectElement windowManager.
 	selectionModel := aSelectElement selectionModel.
@@ -145,7 +108,7 @@ ToSelectInnerContainerElement >> onInstalledIn: aSelectElement [
 	self installFakeDataItemViewIn: aSelectElement
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'accessing - selection' }
 ToSelectInnerContainerElement >> onSelectionChangedInSelectElement: aSelectElement [
 
 	aSelectElement showHidePlaceholder.

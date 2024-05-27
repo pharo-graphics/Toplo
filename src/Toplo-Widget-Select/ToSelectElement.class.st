@@ -5,7 +5,9 @@ Class {
 	#classTraits : 'TToElementWithPlaceholder classTrait',
 	#instVars : [
 		'filtrable',
-		'windowManager'
+		'windowManager',
+		'dataItemViewFactory',
+		'dataItemViewBuilder'
 	],
 	#category : #'Toplo-Widget-Select-Single'
 }
@@ -29,15 +31,43 @@ ToSelectElement >> dataAccessor [
 ]
 
 { #category : #accessing }
+ToSelectElement >> dataItemViewBuilder [
+
+	^ dataItemViewBuilder
+]
+
+{ #category : #accessing }
 ToSelectElement >> dataItemViewBuilder: aValuable [
 
+	dataItemViewBuilder := aValuable.
 	self innerContainer dataItemViewBuilder: aValuable
+]
+
+{ #category : #accessing }
+ToSelectElement >> dataItemViewFactory [
+
+	^ dataItemViewFactory
 ]
 
 { #category : #accessing }
 ToSelectElement >> dataItemViewFactory: aValuable [
 
-	self innerContainer dataItemViewFactory: aValuable
+	dataItemViewFactory := aValuable.
+	self installInnerContainer 
+]
+
+{ #category : #initialization }
+ToSelectElement >> defaultDataItemViewBuilder [
+
+	^ [ :theView :theDataItem |
+	  theView selectedDataTextField text:
+		  (theDataItem ifNil: [ '' ] ifNotNil: [ :d | d asString ]) ]
+]
+
+{ #category : #initialization }
+ToSelectElement >> defaultDataItemViewFactory [
+
+	^ [ ToSingleDataItemView new ]
 ]
 
 { #category : #accessing }
@@ -83,9 +113,13 @@ ToSelectElement >> initialize [
 	super initialize.
 	filtrable := true.
 	
+	dataItemViewFactory := self defaultDataItemViewFactory.
+	dataItemViewBuilder := self defaultDataItemViewBuilder.
+	
 	" for the popup "
 	windowManager := self newWindowManager.
 	windowManager onInstalledIn: self.
+	
 	self iconContainer: self newIconContainer.
 	self installInnerContainer.
 	

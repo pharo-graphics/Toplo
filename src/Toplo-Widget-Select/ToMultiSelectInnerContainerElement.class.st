@@ -97,12 +97,6 @@ ToMultiSelectInnerContainerElement >> inputTextField [
 	^ self textInputElement inputTextField
 ]
 
-{ #category : #testing }
-ToMultiSelectInnerContainerElement >> isSingleNode [ 
-
-	^ false
-]
-
 { #category : #initialization }
 ToMultiSelectInnerContainerElement >> nodeBuilder [
 	" return a valuable that is used to build a bar node element from a data. 

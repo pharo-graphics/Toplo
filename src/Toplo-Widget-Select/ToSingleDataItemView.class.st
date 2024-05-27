@@ -11,7 +11,7 @@ Class {
 ToSingleDataItemView >> initialize [
 
 	super initialize.
-	textInputElement := ToSelectTextInputElement new.
+	textInputElement := self textInputElementClass new.
 	self addChild: textInputElement
 ]
 
@@ -40,4 +40,10 @@ ToSingleDataItemView >> selectedDataTextField [
 ToSingleDataItemView >> textInputElement [ 
 
 	^ textInputElement 
+]
+
+{ #category : #accessing }
+ToSingleDataItemView >> textInputElementClass [
+
+	^ ToSelectTextInputElement 
 ]

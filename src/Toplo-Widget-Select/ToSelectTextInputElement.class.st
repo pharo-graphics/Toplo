@@ -26,7 +26,7 @@ ToSelectTextInputElement >> beReadonly [
 ]
 
 { #category : #private }
-ToSelectTextInputElement >> checkSingleSelectPlaceholderText [
+ToSelectTextInputElement >> checkPlaceholderText [
 	" In case of single selection, the selectedDataTextField can contain 
 	either the placeholder text or the selected data string"
 
@@ -38,6 +38,13 @@ ToSelectTextInputElement >> checkSingleSelectPlaceholderText [
 		self selectedDataTextField visibility: BlVisibility hidden ]
 ]
 
+{ #category : #initialization }
+ToSelectTextInputElement >> configureTextField: aTextField [
+
+	aTextField withLineWrapping.
+	aTextField hMatchParent
+]
+
 { #category : #accessing }
 ToSelectTextInputElement >> filterString [
 
@@ -45,7 +52,7 @@ ToSelectTextInputElement >> filterString [
 ]
 
 { #category : #initialization }
-ToSelectTextInputElement >> initialize [ 
+ToSelectTextInputElement >> initialize [
 
 	super initialize.
 	self id: #textInputElement.
@@ -91,9 +98,7 @@ ToSelectTextInputElement >> newTextFieldIn: aNodeContainer [
 	| textField |
 	textField := ToSelectTextField new.
 	textField headerNodeContainer: aNodeContainer.
-	aNodeContainer isSingleNode ifTrue: [
-		textField withLineWrapping.
-		textField hMatchParent ].
+	self configureTextField: textField.
 	^ textField
 ]
 
@@ -102,7 +107,7 @@ ToSelectTextInputElement >> onFilterTextReplaced: anEvent [
 
 	self fireEvent: ToSelectInputTextFieldUpdatedEvent new.
 	self parent sieve pattern: self filterString.
-	self checkSingleSelectPlaceholderText
+	self checkPlaceholderText
 ]
 
 { #category : #private }
@@ -122,8 +127,8 @@ ToSelectTextInputElement >> onInstalledIn: aNodeContainer [
 	selectFiltrable := aNodeContainer isFiltrable.
 	selectedDataTextField := self newTextFieldIn: aNodeContainer.
 	selectedDataTextField beReadonlyWithSelection.
-	inputTextField := self newTextFieldIn: aNodeContainer.
 	selectedDataTextField id: #selectedDataTextField.
+	inputTextField := self newTextFieldIn: aNodeContainer.
 	inputTextField id: #inputTextField.
 	self addChild: selectedDataTextField.
 	self addChild: inputTextField.
@@ -151,6 +156,8 @@ ToSelectTextInputElement >> onUninstalledIn: aNodeContainer [
 	self uninstallInputTextFieldEventHandlers.
 	inputTextField infinite removeEventHandler: windowPopupHandler.
 	windowPopupHandler := nil.
+	selectedDataTextField := nil.
+	inputTextField := nil.
 	self removeChildren
 ]
 
@@ -163,9 +170,8 @@ ToSelectTextInputElement >> onWindowClosed [
 ]
 
 { #category : #window }
-ToSelectTextInputElement >> onWindowOpened [
-
-	
+ToSelectTextInputElement >> onWindowOpened [		
+		
 	self selectedDataTextField text foreground: Color lightGray.
 	self isSelectFiltrable
 		ifTrue: [ self inputTextField requestFocus ]

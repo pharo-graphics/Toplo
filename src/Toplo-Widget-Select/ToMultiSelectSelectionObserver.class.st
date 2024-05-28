@@ -18,11 +18,14 @@ ToMultiSelectSelectionObserver >> addIndexesSelectionCommand: aCommand [
 { #category : #'event handling' }
 ToMultiSelectSelectionObserver >> addIntervalSelectionCommand: aCommand [
 
-	| dataItem |
+	|  holder dataItemView |
 	aCommand operation deselectAllBefore ifTrue: [
 		selectElement dataAccessor removeAll ].
-	dataItem := selectElement listElement dataAccessor at: aCommand to.
-	selectElement innerContainer barElement dataAccessor add: (ToLabel text: dataItem asString)
+	holder := selectElement listElement findElementHolderForDataSourcePosition: aCommand to.
+	dataItemView := selectElement dataItemViewFactory value.
+	dataItemView onInstalledIn: selectElement innerContainer.
+	selectElement dataItemViewBuilder cull: dataItemView cull: holder cull: holder dataItem.
+	selectElement innerContainer barElement dataAccessor add: dataItemView
 ]
 
 { #category : #'event handling' }

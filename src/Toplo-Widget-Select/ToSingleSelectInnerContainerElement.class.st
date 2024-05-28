@@ -8,9 +8,9 @@ Class {
 }
 
 { #category : #initialization }
-ToSingleSelectInnerContainerElement >> addFakeDataItemView [
+ToSingleSelectInnerContainerElement >> addFakeView [
 
-	self addChild: fakeDataItemView 
+	self addChild: fakeView 
 ]
 
 { #category : #'api - hooks' }
@@ -47,9 +47,9 @@ ToSingleSelectInnerContainerElement >> refresh [
 ]
 
 { #category : #initialization }
-ToSingleSelectInnerContainerElement >> removeFakeDataItemView [
+ToSingleSelectInnerContainerElement >> removeFakeView [
 
-	self removeChild: fakeDataItemView 
+	self removeChild: fakeView 
 ]
 
 { #category : #initialization }

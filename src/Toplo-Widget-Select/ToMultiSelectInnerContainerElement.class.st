@@ -21,9 +21,9 @@ ToMultiSelectInnerContainerElement >> addDataNode: aNode [
 ]
 
 { #category : #initialization }
-ToMultiSelectInnerContainerElement >> addFakeDataItemView [
+ToMultiSelectInnerContainerElement >> addFakeView [
 
-	barElement fakeDataItem: fakeDataItemView 
+	barElement fakeDataItem: fakeView 
 ]
 
 { #category : #accessing }
@@ -124,11 +124,7 @@ ToMultiSelectInnerContainerElement >> nodesCount [
 ToMultiSelectInnerContainerElement >> onInstalledIn: aSelectElement [
 
 	super onInstalledIn: aSelectElement.
-	self hMatchParent.
-	self vFitContent.
 	self addChild: barElement.
-	barElement hMatchParent.
-	barElement vFitContent.
 	textInputElement hFitContent.
 	textInputElement constraintsDo: [ :c |
 		c linear vertical alignCenter.

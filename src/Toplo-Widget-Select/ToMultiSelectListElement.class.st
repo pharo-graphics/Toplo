@@ -42,7 +42,7 @@ ToMultiSelectListElement >> initialize [
 ToMultiSelectListElement >> selectElement: aSelectElement [
 
 	super selectElement: aSelectElement.
-	"self addEventHandler: (ToMultiSelectSelectionObserver new
+	self addEventHandler: (ToMultiSelectSelectionObserver new
 			 selectElement: aSelectElement;
-			 yourself)"
+			 yourself)
 ]

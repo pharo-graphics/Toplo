@@ -67,7 +67,7 @@ ToSelectElement >> defaultDataItemViewBuilder [
 { #category : #initialization }
 ToSelectElement >> defaultDataItemViewFactory [
 
-	^ [ ToSingleDataItemView new ]
+	^ [ ToSingleSelectDataItemView new ]
 ]
 
 { #category : #accessing }

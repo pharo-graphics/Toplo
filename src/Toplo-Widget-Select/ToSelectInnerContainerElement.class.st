@@ -3,20 +3,20 @@ Class {
 	#superclass : #ToElement,
 	#instVars : [
 		'fakeDataItem',
-		'fakeDataItemView',
 		'filtrable',
 		'windowManager',
 		'selectionModel',
 		'dataAccessor',
 		'dataItemViewBuilder',
 		'dataItemViewFactory',
-		'textInputElement'
+		'textInputElement',
+		'fakeView'
 	],
 	#category : #'Toplo-Widget-Select-Single'
 }
 
 { #category : #initialization }
-ToSelectInnerContainerElement >> addFakeDataItemView [
+ToSelectInnerContainerElement >> addFakeView [
 
 	self subclassResponsibility 
 ]
@@ -55,26 +55,24 @@ ToSelectInnerContainerElement >> inputTextField [
 ]
 
 { #category : #initialization }
-ToSelectInnerContainerElement >> installFakeDataItemViewIn: aSelectElement [
+ToSelectInnerContainerElement >> installFakeViewIn: aSelectElement [
 	" the fake node is added when no data is selected to ensure a 
 	suitable minimum height according to the node class, the node builder 
 	and the data kind."
 
-	fakeDataItemView ifNotNil: [ :fn |
+	fakeView ifNotNil: [ :fn |
 		fn onUninstalledIn: self.
 		fn removeFromParent ].
 
-	fakeDataItemView := self newDatatItemViewInSelect: aSelectElement.
-	fakeDataItemView onInstalledIn: self.
-	dataItemViewBuilder cull: fakeDataItemView cull: fakeDataItem.
-	fakeDataItemView id: #fakeNode.
-	fakeDataItemView width: 0.
-	fakeDataItemView constraintsDo: [ :c |
-		c vertical matchParent.
-		c linear vertical alignCenter ].
+	fakeView := self newDatatItemViewInSelect: aSelectElement.
+	fakeView onInstalledIn: self.
+	dataItemViewBuilder cull: fakeView cull: nil cull: fakeDataItem.
+	fakeView id: #fakeNode.
+	fakeView width: 0.
+
 
 	" add the fake node (to keep a constant minimum height )"
-	self addFakeDataItemView
+	self addFakeView
 ]
 
 { #category : #testing }
@@ -107,7 +105,7 @@ ToSelectInnerContainerElement >> onInstalledIn: aSelectElement [
 	dataAccessor := aSelectElement dataAccessor.
 	textInputElement := self textInputElementClass new.
 	textInputElement onInstalledIn: self.
-	self installFakeDataItemViewIn: aSelectElement
+	self installFakeViewIn: aSelectElement
 ]
 
 { #category : #'accessing - selection' }
@@ -124,7 +122,7 @@ ToSelectInnerContainerElement >> onUninstalledIn: aSelectElement [
 
 	selectionModel := nil.
 	dataAccessor := nil.
-	self uninstallFakeDataItemViewIn: aSelectElement.
+	self uninstallFakeViewIn: aSelectElement.
 	textInputElement onInstalledIn: self.
 
 ]
@@ -148,7 +146,7 @@ ToSelectInnerContainerElement >> refresh [
 ]
 
 { #category : #initialization }
-ToSelectInnerContainerElement >> removeFakeDataItemView [
+ToSelectInnerContainerElement >> removeFakeView [
 
 	self subclassResponsibility 
 ]
@@ -178,14 +176,14 @@ ToSelectInnerContainerElement >> textInputElementClass [
 ]
 
 { #category : #initialization }
-ToSelectInnerContainerElement >> uninstallFakeDataItemViewIn: aSelectElement [
+ToSelectInnerContainerElement >> uninstallFakeViewIn: aSelectElement [
 	" the fake node is added when no data is selected to ensure a 
 	suitable minimum height according to the node class, the node builder 
 	and the data kind."
 
-	fakeDataItemView onUninstalledIn: self.
-	self removeFakeDataItemView.
-	fakeDataItemView := nil
+	fakeView onUninstalledIn: self.
+	self removeFakeView.
+	fakeView := nil
 ]
 
 { #category : #accessing }

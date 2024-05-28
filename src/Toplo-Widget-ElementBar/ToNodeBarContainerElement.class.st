@@ -62,7 +62,7 @@ ToNodeBarContainerElement >> defaultLayout [
 { #category : #initialization }
 ToNodeBarContainerElement >> defaultNodeClass [
 
-	^ ToMultiSelectNodeContent
+	^ ToMultiSelectDataItemViewContent
 ]
 
 { #category : #accessing }

@@ -1,5 +1,5 @@
 Class {
-	#name : #ToSingleDataItemView,
+	#name : #ToSingleSelectDataItemView,
 	#superclass : #ToSelectDataItemView,
 	#instVars : [
 		'textInputElement'
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #'api - hooks' }
-ToSingleDataItemView >> onInstalledIn: anInnerContainer [
+ToSingleSelectDataItemView >> onInstalledIn: anInnerContainer [
 
 	super onInstalledIn: anInnerContainer.
 	textInputElement := anInnerContainer textInputElement
@@ -16,20 +16,20 @@ ToSingleDataItemView >> onInstalledIn: anInnerContainer [
 ]
 
 { #category : #'api - hooks' }
-ToSingleDataItemView >> onUninstalledIn: anInnerContainer [
+ToSingleSelectDataItemView >> onUninstalledIn: anInnerContainer [
 
 	textInputElement := nil.
 	super onUninstalledIn: anInnerContainer
 ]
 
 { #category : #accessing }
-ToSingleDataItemView >> selectedDataTextField [
+ToSingleSelectDataItemView >> selectedDataTextField [
 
 	^ textInputElement selectedDataTextField
 ]
 
 { #category : #accessing }
-ToSingleDataItemView >> textInputElement [ 
+ToSingleSelectDataItemView >> textInputElement [ 
 
 	^ textInputElement 
 ]

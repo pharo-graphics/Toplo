@@ -54,7 +54,9 @@ ToBarElement >> defaultNodeManagerClass [
 { #category : #accessing }
 ToBarElement >> fakeDataItem: aDataItem [
 
-	self innerContainer fakeDataItem: aDataItem
+	nodeManager fakeDataItem: aDataItem.
+	self configureLayout
+	
 ]
 
 { #category : #accessing }

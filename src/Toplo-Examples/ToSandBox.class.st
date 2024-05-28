@@ -70,22 +70,19 @@ ToSandBox class >> example_BoundsAndBackgroundTransition [
 { #category : #transitions }
 ToSandBox class >> example_BoundsTransition [
 
-	| e |
+	| e anim |
 	e := BlElement new.
 	e size: 30 @ 30.
 	e background: Color blue.
-	e enqueueTask: (BlTaskAction new action: [
-			 | anim |
-			 anim := ToBoundsTransition new
-				         from: (10 @ 10 extent: 10 @ 10);
-				         to: (300 @ 100 extent: 300 @ 400);
-				         duration: 3000 milliSeconds;
-				         onStepDo: [ :aRectangle :target |
-					         target position: aRectangle origin.
-					         target size: aRectangle extent ].
-			 anim onFinishedDo: [ e background: Color red ].
-			 e addAnimation: anim.
-			 anim delay: 100 milliSeconds ]).
+
+	anim := BlBoundsTransition new
+		        from: (10 @ 10 extent: 10 @ 10)
+		        to: (300 @ 100 extent: 300 @ 400);
+		        duration: 300 milliSeconds.
+	anim easing: BlQuinticInterpolator new.
+	anim onFinishedDo: [ e background: Color red ].
+	e addAnimation: anim.
+	anim delay: 100 milliSeconds.
 
 	e openInSpace
 ]
@@ -2903,6 +2900,7 @@ ToSandBox class >> example_nodeBar [
 	bar := ToBarElement new.
 	bar nodeBuilder: [ :node :holder :dataItem |
 		| triplet |
+		node padding: (BlInsets all: 3).
 		triplet := ToTripletElement new.
 		triplet horizontal: true.
 		triplet startFlexible: true.

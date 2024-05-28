@@ -67,7 +67,7 @@ ToSelectElement >> defaultDataItemViewBuilder [
 { #category : #initialization }
 ToSelectElement >> defaultDataItemViewFactory [
 
-	^ [ ToSingleDataItemView new ]
+	^ [ ToSingleSelectDataItemView new ]
 ]
 
 { #category : #accessing }
@@ -138,7 +138,7 @@ ToSelectElement >> innerContainer [
 { #category : #'instance creation' }
 ToSelectElement >> innerContainerClass [
 
-	^ ToSelectInnerContainerElement
+	^ ToSingleSelectInnerContainerElement
 ]
 
 { #category : #accessing }

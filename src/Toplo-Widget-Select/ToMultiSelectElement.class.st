@@ -79,6 +79,24 @@ ToMultiSelectElement >> checkMaxSelectedCountFromListElement [
 	self listElement dataSource notifyChanged
 ]
 
+{ #category : #initialization }
+ToMultiSelectElement >> defaultDataItemViewBuilder [
+
+	^ [ :theView :theHolder :theDataItem |
+	  | lab content |
+	  lab := theDataItem ifNil: [ '' ] ifNotNil: [ :d | d asString ].
+	  content := ToMultiSelectDataItemViewContent new.
+	  content holderInList: theHolder.
+	  content middleElement: (ToLabel text: lab).
+	  theView addChild: content ]
+]
+
+{ #category : #initialization }
+ToMultiSelectElement >> defaultDataItemViewFactory [
+
+	^ [ ToMultiSelectDataItemView new ]
+]
+
 { #category : #accessing }
 ToMultiSelectElement >> hideSelected [
 
@@ -113,14 +131,6 @@ ToMultiSelectElement >> initialize [
 ToMultiSelectElement >> innerContainerClass [
 
 	^ ToMultiSelectInnerContainerElement
-]
-
-{ #category : #initialization }
-ToMultiSelectElement >> installInnerContainer [ 
-
-	super installInnerContainer.
-	self listElement selectionMode multiple: true.
-	self requestNewSkin 
 ]
 
 { #category : #accessing }

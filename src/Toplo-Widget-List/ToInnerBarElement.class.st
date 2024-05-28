@@ -178,23 +178,19 @@ ToInnerBarElement >> installFakeNode [
 	holder bindAtPosition: 0.
 	fakeNode := self listElement nodeManager newFakeNodeInHolder: holder.
 	fakeNode id: #fakeNode.
-	fakeNode background: Color red.
-	fakeNode constraintsDo: [ :c | c ignoreByLayout ].
 	self isHorizontal
 		ifTrue: [
-			fakeNode width: 0.
 			fakeNode constraintsDo: [ :c |
-				c vertical matchParent.
+				c horizontal exact: 0.
+				c vertical fitContent.
 				c flow vertical alignCenter.
 				c linear vertical alignCenter ] ]
 		ifFalse: [
-			fakeNode height: 0.
 			fakeNode constraintsDo: [ :c |
-				c horizontal matchParent.
+				c vertical exact: 0.
+				c horizontal fitContent.
 				c flow horizontal alignCenter.
 				c linear horizontal alignCenter ] ].
-
-	fakeNode margin: BlInsets empty.
 
 	" add the fake node (to keep a constant minimum size ) "
 	scrollable addFakeNode: fakeNode

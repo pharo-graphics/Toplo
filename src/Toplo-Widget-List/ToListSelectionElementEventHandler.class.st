@@ -14,9 +14,8 @@ ToListSelectionElementEventHandler >> addNewSelectionElement: aSelElement withAn
 	prevSelectionElement := previousSelectionElements first.
 	fromBounds := prevSelectionElement boundsFromNodes.
 	targetBounds := aSelElement boundsFromNodes.
-	aSelElement position: prevSelectionElement position.
-	aSelElement size: prevSelectionElement size.
-	self addSelectionElement: aSelElement from: aTarget.
+	aSelElement position: fromBounds origin.
+	aSelElement size: fromBounds extent.
 	anim := ToBoundsTransition new
 		        from: fromBounds;
 		        to: targetBounds;
@@ -27,7 +26,9 @@ ToListSelectionElementEventHandler >> addNewSelectionElement: aSelElement withAn
 	anim onFinishedDo: [
 		aSelElement position: targetBounds position.
 		aSelElement size: targetBounds extent ].
-	aSelElement addAnimation: anim
+	aSelElement addAnimation: anim.
+	self addSelectionElement: aSelElement from: aTarget.
+
 ]
 
 { #category : #'selection managing' }

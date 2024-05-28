@@ -42,6 +42,7 @@ ToBarNodeManager >> newFakeNodeInHolder: anHolder [
 	anHolder dataItem: fakeDataItem.
 	fakeNode := self newNodeInHolder: anHolder.
 	self buildNode: fakeNode inHolder: anHolder.
+	fakeNode margin: BlInsets empty.
 	anHolder node: fakeNode.
 	^ fakeNode
 

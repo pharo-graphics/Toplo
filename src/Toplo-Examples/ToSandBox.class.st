@@ -1540,7 +1540,6 @@ ToSandBox class >> example_SelectMultiFiltrableNoWrapping [
 	select nodeWrapping: false.
 	select hideSelected: false.
 	select dataAccessor addAll: self statesOfAmerica.
-	select multipleSelection: true.
 	select filtrable: true.
 	select popupMaxHeight: 200.
 	select placeholderText:
@@ -1586,7 +1585,6 @@ ToSandBox class >> example_SelectMultiFiltrableScrolling [
 	select nodeWrapping: false.
 	select hideSelected: false.
 	select dataAccessor addAll: self statesOfAmerica.
-	select multipleSelection: true.
 	select filtrable: true.
 	select popupMaxHeight: 200.
 	select placeholderText:

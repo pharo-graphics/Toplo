@@ -2,23 +2,11 @@ Class {
 	#name : #ToMultiSelectInnerContainerElement,
 	#superclass : #ToSelectInnerContainerElement,
 	#instVars : [
-		'barElement'
+		'barElement',
+		'selectListElement'
 	],
 	#category : #'Toplo-Widget-Select-Multi'
 }
-
-{ #category : #adding }
-ToMultiSelectInnerContainerElement >> addAllDataNodes: aNodeCollection [
-
-	aNodeCollection do: [ :n | self addDataNode: n ]
-]
-
-{ #category : #adding }
-ToMultiSelectInnerContainerElement >> addDataNode: aNode [
-
-	barElement nodeAutoDistribution ifTrue: [ aNode autoDistribute ].
-	barElement dataAccessor add: aNode
-]
 
 { #category : #accessing }
 ToMultiSelectInnerContainerElement >> barElement [ 
@@ -80,30 +68,24 @@ ToMultiSelectInnerContainerElement >> haveFullyInvisibleNodes: aCollectionOfInvi
 	self addDataNode: showerNode
 ]
 
-{ #category : #initialization }
-ToMultiSelectInnerContainerElement >> initialize [
-
-	super initialize.
-	barElement := ToBarElement new.
-	barElement nodeBuilder: self nodeBuilder
-]
-
 { #category : #accessing }
 ToMultiSelectInnerContainerElement >> inputTextField [
 
 	^ self textInputElement inputTextField
 ]
 
-{ #category : #initialization }
-ToMultiSelectInnerContainerElement >> nodeBuilder [
-	" 
-	In a select, a data ietm is a view built 
-	return a valuable that is used to build a bar node element from a data. 
-	aValuable take the bar node element to build as first argument 
-	its holder as second argument and the dataItemView as third argument"
+{ #category : #accessing }
+ToMultiSelectInnerContainerElement >> nodeScrolling: aBoolean [
 
-	^ [ :aNode :aNodeHolder :anInnerNode |
-	  aNode addChild: anInnerNode ]
+	barElement nodeScrolling: aBoolean
+
+]
+
+{ #category : #accessing }
+ToMultiSelectInnerContainerElement >> nodeWrapping: aBoolean [
+
+	barElement nodeWrapping: aBoolean
+
 ]
 
 { #category : #accessing }
@@ -120,20 +102,13 @@ ToMultiSelectInnerContainerElement >> nodesCount [
 ToMultiSelectInnerContainerElement >> onInstalledIn: aSelectElement [
 
 	super onInstalledIn: aSelectElement.
+	selectListElement := aSelectElement listElement.
 	textInputElement := self textInputElementClass new.
 	textInputElement onInstalledIn: self.
-
+	
+	barElement := ToMultiSelectBarElement new.
 	self addChild: barElement.
-	
-	" add the fake node (to keep a constant minimum height )"
-	fakeView := dataItemViewFactory value.
-	fakeView selectElement: aSelectElement.
-	fakeView onInstalledIn: self.
-	dataItemViewBuilder cull: fakeView cull: nil cull: fakeDataItem.
-	fakeView id: #fakeNode.
-	fakeView width: 0.
-	barElement fakeDataItem: fakeView.
-	
+
 	textInputElement hFitContent.
 	textInputElement constraintsDo: [ :c |
 		c linear vertical alignCenter.
@@ -146,7 +121,7 @@ ToMultiSelectInnerContainerElement >> onInstalledIn: aSelectElement [
 ToMultiSelectInnerContainerElement >> onSelectionChangedInSelectElement: aMultiSelectElement [
 
 	aMultiSelectElement showHidePlaceholder.
-	self refreshBarElement.
+	self refresh.
 	self checkHideSelectionFromListElement.
 	self checkMaxSelectedCountFromListElement.
 
@@ -160,10 +135,9 @@ ToMultiSelectInnerContainerElement >> onUninstalledIn: aSelectElement [
 	self removeChild: barElement.
 	self removeChild: textInputElement.
 	barElement := nil.
-	fakeView onUninstalledIn: self.
-	fakeView := nil.
 	textInputElement onInstalledIn: self.
 	textInputElement := nil.
+	selectListElement := nil.
 	super onUninstalledIn: aSelectElement
 ]
 
@@ -182,37 +156,21 @@ ToMultiSelectInnerContainerElement >> onWindowOpened [
 { #category : #accessing }
 ToMultiSelectInnerContainerElement >> refresh [
 	" first remove all data nodes "
-	| detached newNodes |
-	true ifTrue: [ ^ self ].
-	detached := OrderedCollection new.
-	barElement dataAccessor do: [ :node |
-		detached add: node.
-	].
-	" then rebuild current nodes according to current selection "
-	newNodes := barElement selectionModel selectedIndexesCollect: [ :idx |
-		| node selectedData |
-		node := self newNode.
-		selectedData := barElement dataAccessor at: idx.
-		node holder
-			position: idx;
-			dataItem: selectedData.
-		self nodeBuilder value: node value: node holder.
-		self nodeHolders add: node holder.
-		node ].
-	self addAllDataNodes: newNodes.
-	"detached do: [ :node | innerNodeContainer removeDetachedChild: node]."
-	barElement requestLayout.
-	textInputElement requestLayout
+
+	| sieve |
+	barElement selecter deselectAll.
+	barElement dataAccessor removeAll.
+	sieve := windowManager sieve.
+	sieve selectionModel selectedIndexesDo: [ :idx |
+		barElement dataAccessor add: (sieve originalData at: idx) ]
 ]
 
 { #category : #accessing }
-ToMultiSelectInnerContainerElement >> refreshBarElement [
+ToMultiSelectInnerContainerElement >> refreshOld [
 	" first remove all data nodes "
 	| detached newNodes |
-	
+	true ifTrue: [ ^ self ].
 	detached := OrderedCollection new.
-	
-	" data items of the node bar are instances of ToMultiSelectNodeContent "
 	barElement dataAccessor do: [ :node |
 		detached add: node.
 	].

@@ -9,3 +9,15 @@ ToMultiSelectBarElement >> defaultEventHandler [
 
 	^ ToMultiSelectBarEventHandler new
 ]
+
+{ #category : #initialization }
+ToMultiSelectBarElement >> defaultNodeManager [
+
+	^ ToMultiSelectBarNodeManager new
+]
+
+{ #category : #skin }
+ToMultiSelectBarElement >> newRawSkin [ 
+
+	^ ToMultiSelectBarElementSkin new
+]

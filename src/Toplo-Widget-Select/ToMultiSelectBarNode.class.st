@@ -1,6 +1,8 @@
 Class {
-	#name : #ToMultiSelectDataItemViewContent,
+	#name : #ToMultiSelectBarNode,
 	#superclass : #ToTripletElement,
+	#traits : 'TToEnableable + TToListNode',
+	#classTraits : 'TToEnableable classTrait + TToListNode classTrait',
 	#instVars : [
 		'removable',
 		'holderInList'
@@ -9,7 +11,7 @@ Class {
 }
 
 { #category : #'private configurating' }
-ToMultiSelectDataItemViewContent >> addRemoveButton [
+ToMultiSelectBarNode >> addRemoveButton [
 
 	| but |
 	but := ToButton new.
@@ -37,12 +39,12 @@ ToMultiSelectDataItemViewContent >> addRemoveButton [
 ]
 
 { #category : #layout }
-ToMultiSelectDataItemViewContent >> autoDistribute [
+ToMultiSelectBarNode >> autoDistribute [
 
 	self startFlexible: true.
 	self endFlexible: true.
 	self constraintsDo: [ :c |
-		self holder elementBar isHorizontal
+		holderInList elementBar isHorizontal
 			ifTrue: [ c horizontal matchParent ]
 			ifFalse: [ c vertical matchParent ].
 		c linear weight: 1.
@@ -50,62 +52,51 @@ ToMultiSelectDataItemViewContent >> autoDistribute [
 ]
 
 { #category : #configurating }
-ToMultiSelectDataItemViewContent >> beRemovable [
+ToMultiSelectBarNode >> beRemovable [
 
 	self removable: true
 ]
 
 { #category : #configurating }
-ToMultiSelectDataItemViewContent >> beUnremovable [
+ToMultiSelectBarNode >> beUnremovable [
 
 	self removable: false
 ]
 
 { #category : #accessing }
-ToMultiSelectDataItemViewContent >> holderInList: anHolder [
+ToMultiSelectBarNode >> holderInList: anHolder [
 
 	holderInList := anHolder
 ]
 
 { #category : #initialization }
-ToMultiSelectDataItemViewContent >> initialize [
+ToMultiSelectBarNode >> initialize [
 
 	super initialize.
 	self applySkinInstallerOnFirstRequest: true.
-	removable := true.
+	removable := true
 ]
 
 { #category : #skin }
-ToMultiSelectDataItemViewContent >> installRawStyle [ 
+ToMultiSelectBarNode >> installRawStyle [ 
 
 	super installRawStyle.
-	"self middleContainer padding: (BlInsets left: 3 right: 3).
-	self padding: (BlInsets horizontal: 2 vertical: 4)."
-	"self margin: (BlInsets all: 2)."
+	removable ifTrue: [ self addRemoveButton  ].
+	self middleContainer padding: (BlInsets left: 3 right: 3).
+	self padding: (BlInsets horizontal: 2 vertical: 2).
+	self margin: (BlInsets all: 2).
 	self geometry: (BlRoundedRectangleGeometry cornerRadius: 4).
 	self background: (Color lightGray alpha: 0.3)
 ]
 
-{ #category : #layout }
-ToMultiSelectDataItemViewContent >> isFullyVisible [
-
-	holderInList node isFullyVisible
-]
-
-{ #category : #layout }
-ToMultiSelectDataItemViewContent >> isPartlyVisible [
-
-	^ holderInList node isPartlyVisible
-]
-
 { #category : #testing }
-ToMultiSelectDataItemViewContent >> isRemovable [
+ToMultiSelectBarNode >> isRemovable [
 
 	^ removable
 ]
 
 { #category : #accessing }
-ToMultiSelectDataItemViewContent >> removable: aBoolean [
+ToMultiSelectBarNode >> removable: aBoolean [
 
 	removable = aBoolean ifTrue: [ ^ self ].
 	removable ifTrue: [ self removeRemoveButton ].
@@ -115,13 +106,13 @@ ToMultiSelectDataItemViewContent >> removable: aBoolean [
 ]
 
 { #category : #'private configurating' }
-ToMultiSelectDataItemViewContent >> removeButton [
+ToMultiSelectBarNode >> removeButton [
 
 	^ self childWithId: #removeButton ifNone: [  ]
 ]
 
 { #category : #private }
-ToMultiSelectDataItemViewContent >> removeFromBar [
+ToMultiSelectBarNode >> removeFromBar [
 	" 
 	First, try to remove the node by deselecting the corresponding list node in the list (if found). 
 	Second, if the data is not one of the actual list element data, remove the data through the select "
@@ -130,7 +121,7 @@ ToMultiSelectDataItemViewContent >> removeFromBar [
 ]
 
 { #category : #'private configurating' }
-ToMultiSelectDataItemViewContent >> removeRemoveButton [
+ToMultiSelectBarNode >> removeRemoveButton [
 
 	| but |
 	but := self removeButton.
@@ -139,7 +130,7 @@ ToMultiSelectDataItemViewContent >> removeRemoveButton [
 ]
 
 { #category : #layout }
-ToMultiSelectDataItemViewContent >> rightWidthGap [
+ToMultiSelectBarNode >> rightWidthGap [
 
 	| bar |
 	bar := self holder elementBar.

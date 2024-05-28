@@ -1,20 +1,30 @@
 Class {
-	#name : #ToListElementSkin,
+	#name : #ToMultiSelectBarElementSkin,
 	#superclass : #ToBasicListElementSkin,
-	#category : #'Toplo-Widget-List-Core'
+	#category : #'Toplo-Widget-Select-Multi'
 }
 
 { #category : #'event handling' }
-ToListElementSkin >> installLookEvent: anEvent [
+ToMultiSelectBarElementSkin >> focusedLookEvent: anEvent [
+
+	super focusedLookEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e border: BlBorder empty ]
+]
+
+{ #category : #'event handling' }
+ToMultiSelectBarElementSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e | 
+		e border: BlBorder empty.
+		e padding: BlInsets empty.
 		e shortcuts: (self shortcutsToInstallIn: e).
 		e installShortcuts ]
 ]
 
 { #category : #'accessing - shortcuts' }
-ToListElementSkin >> shortcutsToInstallIn: aListElement [
+ToMultiSelectBarElementSkin >> shortcutsToInstallIn: aListElement [
 
 	^ Array streamContents: [ :stream |
 		
@@ -59,7 +69,15 @@ ToListElementSkin >> shortcutsToInstallIn: aListElement [
 ]
 
 { #category : #'event handling' }
-ToListElementSkin >> uninstallLookEvent: anEvent [
+ToMultiSelectBarElementSkin >> unfocusedLookEvent: anEvent [
+
+	super unfocusedLookEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e border: BlBorder empty ]
+]
+
+{ #category : #'event handling' }
+ToMultiSelectBarElementSkin >> uninstallLookEvent: anEvent [
 
 	super uninstallLookEvent: anEvent.
 	anEvent elementDo: [ :e | e uninstallShortcuts ]

@@ -88,7 +88,7 @@ ToBarElement >> initialize [
 	selectionMode beneathOption: ToListSelectionOption separate.
 	selectionMode overOption: ToListSelectionOption none.
 	nodeWrapping := true.
-	nodeScrolling := true.
+	nodeScrolling := false.
 	nodeAutoDistribution := false.
 	flowLineUniformWidth := false.
 	self installInnerContainer

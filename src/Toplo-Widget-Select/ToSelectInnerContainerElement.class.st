@@ -2,26 +2,14 @@ Class {
 	#name : #ToSelectInnerContainerElement,
 	#superclass : #ToElement,
 	#instVars : [
-		'fakeDataItem',
 		'filtrable',
 		'windowManager',
 		'selectionModel',
 		'dataAccessor',
-		'dataItemViewBuilder',
-		'dataItemViewFactory',
-		'textInputElement',
-		'fakeView'
+		'textInputElement'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
-
-{ #category : #accessing }
-ToSelectInnerContainerElement >> dataItemViewBuilder: aValuable [
-
-	" aValuable takes 3 args: the dataItemView, the holder in the list element and the selected dataItem "
-	dataItemViewBuilder := aValuable.
-	self refresh
-]
 
 { #category : #initialization }
 ToSelectInnerContainerElement >> defaultLayout [
@@ -62,23 +50,16 @@ ToSelectInnerContainerElement >> onInstalledIn: aSelectElement [
 		hMatchParent;
 		constraintsDo: [ :c | c linear vertical alignCenter ].
 
-	dataItemViewFactory := aSelectElement dataItemViewFactory.
-	dataItemViewBuilder := aSelectElement dataItemViewBuilder.
-
 	filtrable := aSelectElement isFiltrable.
 	windowManager := aSelectElement windowManager.
 	selectionModel := aSelectElement selectionModel.
-	dataAccessor := aSelectElement dataAccessor.
-
+	dataAccessor := aSelectElement dataAccessor
 ]
 
 { #category : #'accessing - selection' }
 ToSelectInnerContainerElement >> onSelectionChangedInSelectElement: aSelectElement [
 
-	aSelectElement showHidePlaceholder.
-	self refresh.
-	aSelectElement listElement notifyPrimarySelectionDirty.
-	self requestLayout
+	self subclassResponsibility 
 ]
 
 { #category : #'api - hooks' }

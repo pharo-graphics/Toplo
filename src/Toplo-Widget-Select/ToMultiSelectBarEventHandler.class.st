@@ -11,5 +11,5 @@ ToMultiSelectBarEventHandler >> barNodeVisibilityEvent: anEvent [
 { #category : #'api - accessing' }
 ToMultiSelectBarEventHandler >> eventsToHandle [ 
 
-	super eventsToHandle , { ToBarNodeVisibilityEvent }
+	^ super eventsToHandle , { ToBarNodeVisibilityEvent }
 ]

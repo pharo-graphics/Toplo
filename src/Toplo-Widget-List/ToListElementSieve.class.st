@@ -20,7 +20,7 @@ ToListElementSieve >> currentData [
 ]
 
 { #category : #enumerating }
-ToListElementSieve >> currentDataWithIndexDo: aBlock [
+ToListElementSieve >> currentDataWithOriginalIndexDo: aBlock [
 	" aBlock takes a data an its index as arguments "
 
 	self currentData do: [ :d |

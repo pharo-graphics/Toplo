@@ -4,6 +4,18 @@ Class {
 	#category : #'Toplo-Widget-Select-Single'
 }
 
+{ #category : #accessing }
+ToSingleSelectElement >> dataItemViewBuilder: aValuable [
+
+	self innerContainer dataItemViewBuilder: aValuable
+]
+
+{ #category : #accessing }
+ToSingleSelectElement >> dataItemViewFactory: aValuable [
+
+	self innerContainer dataItemViewFactory: aValuable
+]
+
 { #category : #initialization }
 ToSingleSelectElement >> defaultDataItemViewBuilder [
 

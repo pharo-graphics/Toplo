@@ -5,9 +5,7 @@ Class {
 	#classTraits : 'TToElementWithPlaceholder classTrait',
 	#instVars : [
 		'filtrable',
-		'windowManager',
-		'dataItemViewFactory',
-		'dataItemViewBuilder'
+		'windowManager'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -28,44 +26,6 @@ ToSelectElement >> currentWindow [
 ToSelectElement >> dataAccessor [
 
 	^ self listElement dataAccessor
-]
-
-{ #category : #accessing }
-ToSelectElement >> dataItemViewBuilder [
-
-	^ dataItemViewBuilder
-]
-
-{ #category : #accessing }
-ToSelectElement >> dataItemViewBuilder: aValuable [
-
-	dataItemViewBuilder := aValuable.
-	self innerContainer dataItemViewBuilder: aValuable
-]
-
-{ #category : #accessing }
-ToSelectElement >> dataItemViewFactory [
-
-	^ dataItemViewFactory
-]
-
-{ #category : #accessing }
-ToSelectElement >> dataItemViewFactory: aValuable [
-
-	dataItemViewFactory := aValuable.
-	self installInnerContainer 
-]
-
-{ #category : #initialization }
-ToSelectElement >> defaultDataItemViewBuilder [
-
-	^ self subclassResponsibility 
-]
-
-{ #category : #initialization }
-ToSelectElement >> defaultDataItemViewFactory [
-
-	^ self subclassResponsibility 
 ]
 
 { #category : #accessing }
@@ -110,10 +70,7 @@ ToSelectElement >> initialize [
 
 	super initialize.
 	filtrable := true.
-	
-	dataItemViewFactory := self defaultDataItemViewFactory.
-	dataItemViewBuilder := self defaultDataItemViewBuilder.
-	
+		
 	" for the popup "
 	windowManager := self newWindowManager.
 	windowManager onInstalledIn: self.

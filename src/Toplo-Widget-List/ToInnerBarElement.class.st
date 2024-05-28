@@ -59,6 +59,7 @@ ToInnerBarElement >> configureLayoutIn: aListElement [
 				c horizontal fitContent ] ].
 
 	scrollable configureLayoutIn: aListElement.
+	self uninstallFakeNode.
 	self installFakeNode
 ]
 
@@ -409,6 +410,16 @@ ToInnerBarElement >> stopScroll [
 	scrollable stopScrollersInternal
 
 	
+]
+
+{ #category : #initialization }
+ToInnerBarElement >> uninstallFakeNode [
+	" the fake node is added in case of an empty data source to ensure a 
+	suitable minimum height according to the node class, the node builder 
+	and the data kind."
+
+	" remove the fake node (to keep a constant minimum size ) "
+	scrollable removeFakeNode
 ]
 
 { #category : #'data source updates' }

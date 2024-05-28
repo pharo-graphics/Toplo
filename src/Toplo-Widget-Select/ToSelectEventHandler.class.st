@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSelectEventHandler,
 	#superclass : #ToElementWithPopupEventHandler,
-	#category : #'Toplo-Widget-Select-Single'
+	#category : #'Toplo-Widget-Select-Core'
 }
 
 { #category : #'event handling' }

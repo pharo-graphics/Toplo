@@ -20,12 +20,6 @@ ToMultiSelectInnerContainerElement >> addDataNode: aNode [
 	barElement dataAccessor add: aNode
 ]
 
-{ #category : #initialization }
-ToMultiSelectInnerContainerElement >> addFakeView [
-
-	barElement fakeDataItem: fakeView 
-]
-
 { #category : #accessing }
 ToMultiSelectInnerContainerElement >> barElement [ 
 
@@ -102,9 +96,11 @@ ToMultiSelectInnerContainerElement >> inputTextField [
 
 { #category : #initialization }
 ToMultiSelectInnerContainerElement >> nodeBuilder [
-	" return a valuable that is used to build a bar node element from a data. 
+	" 
+	In a select, a data ietm is a view built 
+	return a valuable that is used to build a bar node element from a data. 
 	aValuable take the bar node element to build as first argument 
-	and its holder as second argument"
+	its holder as second argument and the dataItemView as third argument"
 
 	^ [ :aNode :aNodeHolder :anInnerNode |
 	  aNode addChild: anInnerNode ]
@@ -124,7 +120,20 @@ ToMultiSelectInnerContainerElement >> nodesCount [
 ToMultiSelectInnerContainerElement >> onInstalledIn: aSelectElement [
 
 	super onInstalledIn: aSelectElement.
+	textInputElement := self textInputElementClass new.
+	textInputElement onInstalledIn: self.
+
 	self addChild: barElement.
+	
+	" add the fake node (to keep a constant minimum height )"
+	fakeView := dataItemViewFactory value.
+	fakeView selectElement: aSelectElement.
+	fakeView onInstalledIn: self.
+	dataItemViewBuilder cull: fakeView cull: nil cull: fakeDataItem.
+	fakeView id: #fakeNode.
+	fakeView width: 0.
+	barElement fakeDataItem: fakeView.
+	
 	textInputElement hFitContent.
 	textInputElement constraintsDo: [ :c |
 		c linear vertical alignCenter.
@@ -151,6 +160,10 @@ ToMultiSelectInnerContainerElement >> onUninstalledIn: aSelectElement [
 	self removeChild: barElement.
 	self removeChild: textInputElement.
 	barElement := nil.
+	fakeView onUninstalledIn: self.
+	fakeView := nil.
+	textInputElement onInstalledIn: self.
+	textInputElement := nil.
 	super onUninstalledIn: aSelectElement
 ]
 

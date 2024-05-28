@@ -1,5 +1,5 @@
 Class {
 	#name : #ToMultiSelectDataItemView,
 	#superclass : #ToSelectDataItemView,
-	#category : #'Toplo-Widget-Select-Single'
+	#category : #'Toplo-Widget-Select-Multi'
 }

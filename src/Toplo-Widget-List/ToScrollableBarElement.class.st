@@ -242,6 +242,13 @@ ToScrollableBarElement >> removeAllNodes: anArray [
 ]
 
 { #category : #'accessing - children' }
+ToScrollableBarElement >> removeFakeNode [
+
+	fakeNode ifNotNil: [ fakeNode removeFromParent ].
+	fakeNode := nil
+]
+
+{ #category : #'accessing - children' }
 ToScrollableBarElement >> removeNode: aNode [
 
 	aNode

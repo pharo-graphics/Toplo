@@ -74,12 +74,13 @@ ToSandBox class >> example_BoundsTransition [
 	e := BlElement new.
 	e size: 30 @ 30.
 	e background: Color blue.
-
-	anim := BlBoundsTransition new
-		        from: (10 @ 10 extent: 10 @ 10)
+	anim := ToBoundsTransition new
+		        from: (10 @ 10 extent: 10 @ 10);
 		        to: (300 @ 100 extent: 300 @ 400);
-		        duration: 300 milliSeconds.
-	anim easing: BlQuinticInterpolator new.
+		        duration: 3000 milliSeconds;
+		        onStepDo: [ :aRectangle :target |
+			        target position: aRectangle origin.
+			        target size: aRectangle extent ].
 	anim onFinishedDo: [ e background: Color red ].
 	e addAnimation: anim.
 	anim delay: 100 milliSeconds.
@@ -1411,7 +1412,7 @@ ToSandBox class >> example_RawParallelTransition [
 ToSandBox class >> example_SelectMonoFiltrable [
 
 	| select innerWindow phtext |
-	select := ToSelectElement new.
+	select := ToSingleSelectElement new.
 	select inspect.
 	select listElement placeholderMinHeight: 35.
 	phtext := ('No Data' asRopedText
@@ -1428,11 +1429,6 @@ ToSandBox class >> example_SelectMonoFiltrable [
 	select filtrable: true.
 	select dataAccessor addAll: self statesOfAmerica.
 	select selecter selectIndex: 2.
-	select dataItemViewBuilder: [ :theView :theDataItem |
-		theView background: Color lightGray.
-		theView selectedDataTextField text:
-			(theDataItem ifNil: [ '' ] ifNotNil: [ :d | d asString ]) ].
-		
 	select placeholderText:
 		('Select a state' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
@@ -1449,7 +1445,7 @@ ToSandBox class >> example_SelectMonoFiltrable [
 ToSandBox class >> example_SelectMonoNotFiltrable [
 
 	| select innerWindow |
-	select := ToSelectElement new.
+	select := ToSingleSelectElement new.
 	select inspect.
 	select filtrable: false.
 	select dataAccessor addAll: self statesOfAmerica.

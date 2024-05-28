@@ -11,8 +11,9 @@ Class {
 ToSingleSelectDataItemView >> onInstalledIn: anInnerContainer [
 
 	super onInstalledIn: anInnerContainer.
-	textInputElement := anInnerContainer textInputElement
 
+	self middleContainer constraintsDo: [ :c | c horizontal matchParent ].
+	textInputElement := anInnerContainer textInputElement
 ]
 
 { #category : #'api - hooks' }

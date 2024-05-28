@@ -1,10 +1,10 @@
 Class {
 	#name : #ToSelectDataItemView,
-	#superclass : #ToElement,
+	#superclass : #ToTripletElement,
 	#instVars : [
 		'selectElement'
 	],
-	#category : #'Toplo-Widget-Select-Single'
+	#category : #'Toplo-Widget-Select-Core'
 }
 
 { #category : #initialization }
@@ -29,6 +29,7 @@ ToSelectDataItemView >> installRawStyle [
 
 { #category : #'api - hooks' }
 ToSelectDataItemView >> onInstalledIn: anInnerContainer [
+
 ]
 
 { #category : #'api - hooks' }

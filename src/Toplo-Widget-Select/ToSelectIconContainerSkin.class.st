@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSelectIconContainerSkin,
 	#superclass : #ToRawSkin,
-	#category : #'Toplo-Widget-Select-Single'
+	#category : #'Toplo-Widget-Select-Core'
 }
 
 { #category : #'event handling' }

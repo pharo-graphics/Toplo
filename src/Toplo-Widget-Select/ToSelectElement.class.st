@@ -9,7 +9,7 @@ Class {
 		'dataItemViewFactory',
 		'dataItemViewBuilder'
 	],
-	#category : #'Toplo-Widget-Select-Single'
+	#category : #'Toplo-Widget-Select-Core'
 }
 
 { #category : #'accessing - window' }
@@ -59,15 +59,13 @@ ToSelectElement >> dataItemViewFactory: aValuable [
 { #category : #initialization }
 ToSelectElement >> defaultDataItemViewBuilder [
 
-	^ [ :theView :theDataItem |
-	  theView selectedDataTextField text:
-		  (theDataItem ifNil: [ '' ] ifNotNil: [ :d | d asString ]) ]
+	^ self subclassResponsibility 
 ]
 
 { #category : #initialization }
 ToSelectElement >> defaultDataItemViewFactory [
 
-	^ [ ToSingleSelectDataItemView new ]
+	^ self subclassResponsibility 
 ]
 
 { #category : #accessing }
@@ -138,7 +136,7 @@ ToSelectElement >> innerContainer [
 { #category : #'instance creation' }
 ToSelectElement >> innerContainerClass [
 
-	^ ToSingleSelectInnerContainerElement
+	^ self subclassResponsibility 
 ]
 
 { #category : #accessing }

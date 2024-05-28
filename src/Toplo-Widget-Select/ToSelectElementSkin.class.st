@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSelectElementSkin,
 	#superclass : #ToElementBarSkinDep,
-	#category : #'Toplo-Widget-Select-Single'
+	#category : #'Toplo-Widget-Select-Core'
 }
 
 { #category : #'accessing - shortcuts' }

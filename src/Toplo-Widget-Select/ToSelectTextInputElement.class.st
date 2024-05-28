@@ -27,22 +27,14 @@ ToSelectTextInputElement >> beReadonly [
 
 { #category : #private }
 ToSelectTextInputElement >> checkPlaceholderText [
-	" In case of single selection, the selectedDataTextField can contain 
-	either the placeholder text or the selected data string"
 
-	self inputTextField text
-		ifEmpty: [
-		self selectedDataTextField visibility: BlVisibility visible.
-		self selectedDataTextField text foreground: Color lightGray ]
-		ifNotEmpty: [
-		self selectedDataTextField visibility: BlVisibility hidden ]
+	self subclassResponsibility 
 ]
 
 { #category : #initialization }
 ToSelectTextInputElement >> configureTextField: aTextField [
 
-	aTextField withLineWrapping.
-	aTextField hMatchParent
+	self subclassResponsibility 
 ]
 
 { #category : #accessing }
@@ -84,12 +76,6 @@ ToSelectTextInputElement >> installInputTextFieldEventHandlers [
 			 do: [ :event | self onFilterTextUpdated: event ]).
 	installedInputTextFieldTextEventHandler do: [ :h |
 		self inputTextField addEventHandler: h ]
-]
-
-{ #category : #testing }
-ToSelectTextInputElement >> isSelectFiltrable [
-
-	^ selectFiltrable 
 ]
 
 { #category : #initialization }
@@ -166,14 +152,14 @@ ToSelectTextInputElement >> onWindowClosed [
 
 	self selectedDataTextField visibility: BlVisibility visible.
 	self selectedDataTextField text foreground: Color black.
-	self isSelectFiltrable ifTrue: [ self inputTextField requestFocus ]
+	selectFiltrable ifTrue: [ self inputTextField requestFocus ]
 ]
 
 { #category : #window }
 ToSelectTextInputElement >> onWindowOpened [		
 		
 	self selectedDataTextField text foreground: Color lightGray.
-	self isSelectFiltrable
+	selectFiltrable
 		ifTrue: [ self inputTextField requestFocus ]
 		ifFalse: [ self parent requestFocus ]
 ]

@@ -34,7 +34,7 @@ ToSelectElementTest >> testMonoFiltrable [
 ToSelectElementTest >> testMonoNotFiltrable [
 
 	| select |
-	select := ToSelectElement new.
+	select := ToSingleSelectElement new.
 	select filtrable: false.
 
 	self deny: select isFiltrable.
@@ -47,7 +47,6 @@ ToSelectElementTest >> testMultiFiltrable [
 	| select |
 	select := ToMultiSelectElement new.
 	select filtrable: true.
-	select multipleSelection: true.
 	self assert: select isFiltrable.
 	self assert: select isMultipleSelection
 ]
@@ -58,7 +57,6 @@ ToSelectElementTest >> testMultiNotFiltrable [
 	| select |
 	select := ToMultiSelectElement new.
 	select filtrable: false.
-	select multipleSelection: true.
 	self deny: select isFiltrable.
 	self assert: select isMultipleSelection
 ]

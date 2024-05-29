@@ -17,5 +17,5 @@ ToMultiSelectBarNodeManager >> defaultNodeBuilder [
 { #category : #initialization }
 ToMultiSelectBarNodeManager >> defaultNodeFactory [
 
-	^ [ ToMultiSelectBarNode new ]
+	^ [ :holder | ToMultiSelectBarNode new ]
 ]

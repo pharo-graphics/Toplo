@@ -132,7 +132,7 @@ ToAbstractListElement >> defaultInnerNodeContainer [
 { #category : #initialization }
 ToAbstractListElement >> defaultLayout [
 
-	^ BlFrameLayout new
+	^ BlLinearLayout new
 ]
 
 { #category : #initialization }
@@ -193,10 +193,10 @@ ToAbstractListElement >> initialize [
 	self next elevation: (BlRelativeElevation elevation: 10).
 
 	beneathContainer := ToOverlayElement new.
-	beneathContainer attachTo: self.
+	beneathContainer attachTo: self innerContainer.
 	beneathContainer elevation: (BlRelativeElevation elevation: 5).  
 	overContainer := ToOverlayElement new.
-	overContainer attachTo: self.
+	overContainer attachTo: self innerContainer.
 	overContainer elevation: (BlRelativeElevation elevation: 15). 
 	self addChildren: { beneathContainer. overContainer }.
 

@@ -31,7 +31,7 @@ ToSelectElement >> dataAccessor [
 { #category : #accessing }
 ToSelectElement >> filterString [ 
 
-	^ self innerContainer filterString
+	^ self textInputElement filterString
 ]
 
 { #category : #'accessing - selection' }
@@ -50,7 +50,7 @@ ToSelectElement >> filtrable [
 ToSelectElement >> filtrable: aBoolean [
 
 	filtrable := aBoolean.
-	self innerContainer filtrable: aBoolean
+	self textInputElement selectFiltrable: aBoolean
 ]
 
 { #category : #accessing }
@@ -121,6 +121,12 @@ ToSelectElement >> isFiltrable [
 	^ filtrable
 ]
 
+{ #category : #testing }
+ToSelectElement >> isMultipleSelection [ 
+
+	^ self innerContainer isMultipleSelection
+]
+
 { #category : #'accessing - list' }
 ToSelectElement >> listDataNodeBuilder: aBuilder [
 
@@ -150,6 +156,7 @@ ToSelectElement >> newInnerContainer [
 
 	| container |
 	container := self innerContainerClass new.
+	container selectElement: self.
 	container id: #innerContainer.
 	^ container
 ]
@@ -175,19 +182,19 @@ ToSelectElement >> newWindowManager [
 { #category : #'accessing - selection' }
 ToSelectElement >> onSelectionChangedInListElement [
 
-	self innerContainer onSelectionChangedInSelectElement: self
+	self innerContainer onSelectionChangedInSelectElement
 ]
 
 { #category : #window }
 ToSelectElement >> onWindowClosed [
 
-	self innerContainer onWindowClosed
+	self textInputElement onWindowClosed
 ]
 
 { #category : #window }
 ToSelectElement >> onWindowOpened [
 
-	self innerContainer onWindowOpened
+	self textInputElement onWindowOpened
 ]
 
 { #category : #accessing }
@@ -247,7 +254,7 @@ ToSelectElement >> selecter [
 { #category : #'accessing - selection' }
 ToSelectElement >> selectionModel [
 
-	^ self listElement selectionModel
+	^ self sieve selectionModel
 ]
 
 { #category : #private }

@@ -212,7 +212,7 @@ ToInnerBarElement >> listElement: aListElement [
 { #category : #'instance creation' }
 ToInnerBarElement >> newNodeHolderFromDataSource: aDataSource [
 
-	^ self listElement nodeManager newNodeHolder
+	^ listElement nodeManager newNodeHolder
 ]
 
 { #category : #accessing }

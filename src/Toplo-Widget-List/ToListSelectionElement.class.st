@@ -29,7 +29,7 @@ ToListSelectionElement >> boundsFromNodes [
 		ifTrue: [
 			| w |
 			w := listElement innerContainer bounds width
-			     + listElement padding right.
+			     "+ listElement padding right".
 			corner := w @ bottom corner y ]
 		ifFalse: [ corner := bottom corner ].
 
@@ -41,7 +41,7 @@ ToListSelectionElement >> boundsFromNodes [
 ToListSelectionElement >> boundsOfNode: aNode [
 	" compute local node bounds "
 
-	^ (aNode bounds inSpace inChild: listElement) bounds
+	^ (aNode bounds inSpace inChild: listElement innerContainer) bounds
 ]
 
 { #category : #private }

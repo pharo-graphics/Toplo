@@ -6,7 +6,8 @@ Class {
 		'inputTextField',
 		'installedInputTextFieldTextEventHandler',
 		'windowPopupHandler',
-		'selectFiltrable'
+		'selectFiltrable',
+		'windowManager'
 	],
 	#category : #'Toplo-Widget-Select-textInput'
 }
@@ -111,6 +112,7 @@ ToSelectTextInputElement >> onFilterTextUpdated: anEvent [
 ToSelectTextInputElement >> onInstalledIn: aNodeContainer [
 
 	selectFiltrable := aNodeContainer isFiltrable.
+	windowManager := aNodeContainer windowManager.
 	selectedDataTextField := self newTextFieldIn: aNodeContainer.
 	selectedDataTextField beReadonlyWithSelection.
 	selectedDataTextField id: #selectedDataTextField.
@@ -131,7 +133,7 @@ ToSelectTextInputElement >> onInstalledIn: aNodeContainer [
 		                 do: [ :event |
 			                 event text ifNotEmpty: [
 				                 event text asString first isAlphaNumeric ifTrue: [
-					                 aNodeContainer windowManager
+					                 windowManager
 						                 popupWindowHiddenEvent: event ] ] ].
 	inputTextField infinite addEventHandler: windowPopupHandler
 ]

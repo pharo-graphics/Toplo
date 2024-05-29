@@ -25,7 +25,7 @@ ToSelectElementTest >> statesOfAmerica [
 ToSelectElementTest >> testMonoFiltrable [
 
 	| select |
-	select := ToSelectElement new.
+	select := ToSingleSelectElement new.
 	select filtrable: true.
 	self assert: select isFiltrable
 ]

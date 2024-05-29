@@ -78,15 +78,23 @@ ToMultiSelectBarNode >> initialize [
 ]
 
 { #category : #skin }
-ToMultiSelectBarNode >> installRawStyle [ 
+ToMultiSelectBarNode >> installRawStyle [
 
 	super installRawStyle.
-	removable ifTrue: [ self addRemoveButton  ].
+	removable ifTrue: [ self addRemoveButton ].
 	self middleContainer padding: (BlInsets left: 3 right: 3).
 	self padding: (BlInsets horizontal: 2 vertical: 2).
-	self margin: (BlInsets all: 2).
+	self isFakeNode
+		ifTrue: [ self margin: (BlInsets vertical: 2) ]
+		ifFalse: [ self margin: (BlInsets all: 2) ].
 	self geometry: (BlRoundedRectangleGeometry cornerRadius: 4).
 	self background: (Color lightGray alpha: 0.3)
+]
+
+{ #category : #testing }
+ToMultiSelectBarNode >> isFakeNode [
+
+	^ self holder position isZero
 ]
 
 { #category : #testing }
@@ -114,10 +122,10 @@ ToMultiSelectBarNode >> removeButton [
 { #category : #private }
 ToMultiSelectBarNode >> removeFromBar [
 	" 
-	First, try to remove the node by deselecting the corresponding list node in the list (if found). 
+	First, remove the node by deselecting the corresponding list node in the list (if found). 
 	Second, if the data is not one of the actual list element data, remove the data through the select "
 
-	holderInList listElement selecter deselectIndex: holderInList position
+	self holder listElement dataAccessor removeAt: self holder position
 ]
 
 { #category : #'private configurating' }

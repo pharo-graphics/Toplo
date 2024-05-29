@@ -1,8 +1,15 @@
 Class {
 	#name : #ToSelectElementSkin,
-	#superclass : #ToElementBarSkinDep,
+	#superclass : #ToListElementSkin,
 	#category : #'Toplo-Widget-Select-Core'
 }
+
+{ #category : #'event handling' }
+ToSelectElementSkin >> installLookEvent: anEvent [
+
+	super installLookEvent: anEvent.
+	anEvent elementDo: [ :e |  ]
+]
 
 { #category : #'accessing - shortcuts' }
 ToSelectElementSkin >> shortcutsToInstallIn: aSelect [
@@ -71,4 +78,11 @@ ToSelectElementSkin >> shortcutsToInstallIn: aSelect [
 							          previousSelectableIndexToScrollTo.
 						   listElement secondarySelecter selectIndex: idx.
 						   listElement secondarySelecter scrollToDataSourcePosition: idx ]) ] ]
+]
+
+{ #category : #'event handling' }
+ToSelectElementSkin >> uninstallLookEvent: anEvent [
+
+	super uninstallLookEvent: anEvent.
+	anEvent elementDo: [ :e |  ]
 ]

@@ -1,7 +1,11 @@
 Class {
 	#name : #ToSingleSelectInnerContainerElement,
-	#superclass : #ToSelectInnerContainerElement,
+	#superclass : #ToElement,
+	#traits : 'TToSelectInnerContainerElement',
+	#classTraits : 'TToSelectInnerContainerElement classTrait',
 	#instVars : [
+		'selectElement',
+		'textInputElement',
 		'fakeDataItem',
 		'dataItemView',
 		'dataItemViewFactory',
@@ -31,10 +35,25 @@ ToSingleSelectInnerContainerElement >> dataItemViewFactory [
 	^ dataItemViewFactory
 ]
 
-{ #category : #'api - hooks' }
+{ #category : #initialization }
+ToSingleSelectInnerContainerElement >> initialize [
+
+	super initialize.
+	self
+		vFitContent;
+		hMatchParent;
+		constraintsDo: [ :c | c linear vertical alignCenter ]
+]
+
+{ #category : #'t - select inner container' }
+ToSingleSelectInnerContainerElement >> isMultipleSelection [ 
+
+	^ false
+]
+
+{ #category : #'t - select inner container' }
 ToSingleSelectInnerContainerElement >> onInstalledIn: aSelectElement [
 
-	super onInstalledIn: aSelectElement.
 	textInputElement := self textInputElementClass new.
 	textInputElement onInstalledIn: self.
 
@@ -58,16 +77,7 @@ ToSingleSelectInnerContainerElement >> onInstalledIn: aSelectElement [
 	self addChild: dataItemView
 ]
 
-{ #category : #'accessing - selection' }
-ToSingleSelectInnerContainerElement >> onSelectionChangedInSelectElement: aSelectElement [
-
-	aSelectElement showHidePlaceholder.
-	self refresh.
-	aSelectElement listElement notifyPrimarySelectionDirty.
-	self requestLayout
-]
-
-{ #category : #'api - hooks' }
+{ #category : #'t - select inner container' }
 ToSingleSelectInnerContainerElement >> onUninstalledIn: aSelectElement [
 
 	dataItemView middleElement: nil.
@@ -82,20 +92,40 @@ ToSingleSelectInnerContainerElement >> onUninstalledIn: aSelectElement [
 	super 	onUninstalledIn: aSelectElement
 ]
 
-{ #category : #accessing }
+{ #category : #'t - select inner container' }
 ToSingleSelectInnerContainerElement >> refresh [
 
-	| selectedIndex dataItem |
+	| selectedIndex dataItem selectionModel originalData |
+	selectionModel := self windowManager sieve selectionModel.
+	originalData := self windowManager sieve originalData.
 	selectedIndex := selectionModel isEmpty
 		                 ifTrue: [ 0 ]
 		                 ifFalse: [
 		                 selectionModel firstIndex ].
 	self inputTextField text: ''.
-	selectedIndex isZero ifFalse: [ dataItem := dataAccessor at: selectedIndex ].
+	selectedIndex isZero ifFalse: [ dataItem := originalData at: selectedIndex ].
 	dataItemViewBuilder cull: dataItemView cull: dataItem
 ]
 
-{ #category : #initialization }
+{ #category : #'t - select inner container' }
+ToSingleSelectInnerContainerElement >> selectElement [
+
+	^ selectElement
+]
+
+{ #category : #'t - select inner container' }
+ToSingleSelectInnerContainerElement >> selectElement: aSelectElement [
+
+	selectElement := aSelectElement  
+]
+
+{ #category : #'t - select inner container' }
+ToSingleSelectInnerContainerElement >> textInputElement [
+
+	^ textInputElement 
+]
+
+{ #category : #'t - select inner container' }
 ToSingleSelectInnerContainerElement >> textInputElementClass [
 
 	^ ToSingleSelectTextInputElement 

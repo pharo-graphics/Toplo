@@ -19,6 +19,7 @@ ToMultiSelectBarElementSkin >> installLookEvent: anEvent [
 	anEvent elementDo: [ :e | 
 		e border: BlBorder empty.
 		e padding: BlInsets empty.
+		e margin: BlInsets empty.
 		e shortcuts: (self shortcutsToInstallIn: e).
 		e installShortcuts ]
 ]

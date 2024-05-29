@@ -1680,7 +1680,6 @@ ToSandBox class >> example_SelectMultiNotFiltrable [
 	select maxSelectedCount: 4.
 	select filtrable: false.
 	select dataAccessor addAll: self statesOfAmerica.
-	select multipleSelection: true.
 	select placeholderText:
 		('Select states' asRopedText foreground: Color red).
 	select listElement nodeBuilder: [ :node :holder |

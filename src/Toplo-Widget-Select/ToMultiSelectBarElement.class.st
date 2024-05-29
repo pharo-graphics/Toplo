@@ -88,28 +88,6 @@ ToMultiSelectBarElement >> nodesCount [
 ]
 
 { #category : #'t - select inner container' }
-ToMultiSelectBarElement >> onInstalledIn: aSelectElement [
-
-	textInputElement := self textInputElementClass new.
-	textInputElement onInstalledIn: self.
-	
-	textInputElement hFitContent.
-	textInputElement constraintsDo: [ :c |
-		c linear vertical alignCenter.
-		c flow vertical alignCenter ].
-	self addChild: textInputElement
-
-]
-
-{ #category : #'t - select inner container' }
-ToMultiSelectBarElement >> onUninstalledIn: aSelectElement [
-
-	self removeChild: textInputElement.
-	textInputElement onInstalledIn: self.
-	textInputElement := nil
-]
-
-{ #category : #'t - select inner container' }
 ToMultiSelectBarElement >> refresh [
 	" first remove all data nodes "
 
@@ -159,7 +137,16 @@ ToMultiSelectBarElement >> selectElement [
 { #category : #'t - select inner container' }
 ToMultiSelectBarElement >> selectElement: aSelectElement [
 
-	selectElement := aSelectElement
+	selectElement := aSelectElement.
+	textInputElement := self textInputElementClass new.
+	textInputElement onInstalledIn: self.
+	
+	textInputElement hFitContent.
+	textInputElement constraintsDo: [ :c |
+		c linear vertical alignCenter.
+		c flow vertical alignCenter ].
+	self addChild: textInputElement
+
 ]
 
 { #category : #'t - select inner container' }

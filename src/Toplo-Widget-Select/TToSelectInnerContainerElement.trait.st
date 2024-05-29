@@ -22,24 +22,12 @@ TToSelectInnerContainerElement >> isMultipleSelection [
 ]
 
 { #category : #'t - select inner container' }
-TToSelectInnerContainerElement >> onInstalledIn: aSelectElement [
-
-	self explicitRequirement 
-]
-
-{ #category : #'t - select inner container' }
 TToSelectInnerContainerElement >> onSelectionChangedInSelectElement [
 
 	self selectElement showHidePlaceholder.
 	self refresh.
 	self selectElement listElement notifyPrimarySelectionDirty.
 	self requestLayout
-]
-
-{ #category : #'t - select inner container' }
-TToSelectInnerContainerElement >> onUninstalledIn: aSelectElement [
-
-	self explicitRequirement
 ]
 
 { #category : #'t - select inner container' }

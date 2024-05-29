@@ -105,13 +105,11 @@ ToSelectElement >> inputTextField [
 { #category : #initialization }
 ToSelectElement >> installInnerContainer [
 
-	self innerContainer ifNotNil: [
-		self innerContainer onUninstalledIn: self ].
+	self innerContainer ifNotNil: [ BlImmutableObjectChangeError signal ].
 	self middleElement: self newInnerContainer.
 	self middleContainer constraintsDo: [ :c |
 		c horizontal matchParent.
 		c vertical fitContent ].
-	self innerContainer onInstalledIn: self.
 	self requestNewSkin
 ]
 

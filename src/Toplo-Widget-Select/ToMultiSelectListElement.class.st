@@ -27,7 +27,7 @@ ToMultiSelectListElement >> groupSelectionModel [
 	^ self groupSelecter selectionModel
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'accessing - selection' }
 ToMultiSelectListElement >> hideSelection [
 
 	self dataAccessor withIndexDo: [ :d :localIndex |

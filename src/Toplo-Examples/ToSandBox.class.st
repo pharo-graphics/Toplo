@@ -1562,7 +1562,6 @@ ToSandBox class >> example_SelectMultiFiltrableNotWrappingAutoDistribution [
 	select nodeAutoDistribution: true.
 	select hideSelected: false.
 	select dataAccessor addAll: self statesOfAmerica.
-	select multipleSelection: true.
 	select filtrable: true.
 	select popupMaxHeight: 200.
 	select placeholderText:
@@ -1657,7 +1656,6 @@ ToSandBox class >> example_SelectMultiFiltrableWrappingAutoDistribution [
 	select nodeAutoDistribution: true.
 	select hideSelected: false.
 	select dataAccessor addAll: self statesOfAmerica.
-	select multipleSelection: true.
 	select filtrable: true.
 	select popupMaxHeight: 200.
 	select placeholderText:
@@ -3216,7 +3214,6 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWithAllClassNames [
 	| select innerWindow space |
 	select := self selectWithEditingMultiSelection.
 	select filtrable: true.
-	select multipleSelection: true.
 	
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.

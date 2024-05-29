@@ -199,11 +199,11 @@ ToListElementSelecter >> nextSelectableIndexToScrollTo [
 ]
 
 { #category : #'api - hooks' }
-ToListElementSelecter >> onInstalledIn: anElement [
+ToListElementSelecter >> onInstalledIn: anEventTarget [
 ]
 
 { #category : #'api - hooks' }
-ToListElementSelecter >> onUninstalledIn: anElement [
+ToListElementSelecter >> onUninstalledIn: anEventTarget [
 ]
 
 { #category : #accessing }

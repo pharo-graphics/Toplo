@@ -46,7 +46,7 @@ ToAbstractListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 			start to: start + count - 1 do: [ :localIndex |
 				| d originalIndex |
 				d := self dataAccessor at: localIndex.
-				originalIndex := sieve dataPositionIndex at: d.
+				originalIndex := sieve originalIndexOf: d.
 				sieve selectionModel
 					transferSelectionFromIndex: originalIndex
 					toIndex: localIndex
@@ -341,7 +341,7 @@ ToAbstractListElement >> offsetPositionRecordsForFilter: aStartPosition itemCoun
 		ifNotEmpty: [
 			self dataAccessor withIndexDo: [ :d :localIndex |
 				| originalIndex |
-				originalIndex := aSieve dataPositionIndex at: d.
+				originalIndex := aSieve originalIndexOf: d.
 				aSieve selectionModel
 					transferSelectionFromIndex: originalIndex
 					toIndex: localIndex

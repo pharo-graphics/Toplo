@@ -244,12 +244,6 @@ ToSelectElement >> refresh [
 ]
 
 { #category : #'accessing - selection' }
-ToSelectElement >> selecter [
-
-	^ self listElement selecter
-]
-
-{ #category : #'accessing - selection' }
 ToSelectElement >> selectionModel [
 
 	^ self sieve selectionModel

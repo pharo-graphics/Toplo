@@ -13,16 +13,16 @@ ToSecondarySelecter >> newOperator [
 	^ ToSecondarySelectionModelOperator new
 ]
 
-{ #category : #'instance creation' }
-ToSecondarySelecter >> newSelectionModelInElement: anElement [
-
-	^ anElement newSecondarySelectionModel
-]
-
 { #category : #accessing }
 ToSecondarySelecter >> primarySelecter: aPrimarySelecter [
 
 	primarySelecter := aPrimarySelecter
+]
+
+{ #category : #accessing }
+ToSecondarySelecter >> selectionModelInEventTarget: anEventTarget [
+
+	^ anEventTarget newSecondarySelectionModel
 ]
 
 { #category : #accessing }

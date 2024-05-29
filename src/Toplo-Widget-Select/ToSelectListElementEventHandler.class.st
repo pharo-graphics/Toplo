@@ -26,9 +26,7 @@ ToSelectListElementEventHandler >> sieveSelectionChangedEvent: anEvent [
 	| listElement sieve |
 	listElement := anEvent currentTarget.
 	sieve := select sieve.
-	listElement dataAccessor withIndexDo: [ :d :localIndex |
-		| originalIndex |
-		originalIndex := sieve dataPositionIndex at: d.
+	sieve currentDataWithLocalAndOriginalIndexDo: [ :d :localIndex :originalIndex |
 		listElement selectionModel
 			transferSelectionFromIndex: localIndex
 			toIndex: originalIndex

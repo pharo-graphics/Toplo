@@ -19,47 +19,15 @@ ToMultiSelectElement >> addGroup: anObject withData: aCollection [
 ]
 
 { #category : #'accessing - selection' }
-ToMultiSelectElement >> allowSelectedCount: aNumber [
+ToMultiSelectElement >> checkHideSelectionFromListElement [
 
-	^ maxSelectedCount isZero or: [ aNumber <= maxSelectedCount ]
-]
-
-{ #category : #'accessing - selection' }
-ToMultiSelectElement >> assertMaxSelectedCount: aNumber [
-
-	(self allowSelectedCount: aNumber) ifFalse: [
-		self enqueueTask: (BlTaskAction new action: [
-				 Error signal: 'Max selected count reached' ]) ]
+	self innerContainer checkHideSelectionFromListElement
 ]
 
 { #category : #'accessing - selection' }
 ToMultiSelectElement >> checkMaxSelectedCountFromListElement [
 
-	| unselectableSM groupeSM |
-	maxSelectedCount isZero ifTrue: [ ^ self ].
-	
-	unselectableSM := self listElement unselectableSelectionModel.
-	groupeSM := self listElement groupSelectionModel.
-
-	self updateSelectedCountLabel.
-
-	self assertMaxSelectedCount: self selectionModel selectedIndexesCount.
-	self listElement dataAccessor withIndexDo: [ :d :localIndex |
-		| originalIndex |
-		originalIndex := self sieve dataPositionIndex at: d.
-		(groupeSM containsIndex: localIndex) ifFalse: [
-			self selectionModel selectedIndexesCount < maxSelectedCount
-				ifTrue: [ unselectableSM deselectIndex: localIndex ]
-				ifFalse: [
-					(self selectionModel containsIndex: originalIndex) ifFalse: [
-						unselectableSM selectIndex: localIndex ] ] ].
-
-		self listElement selectionModel
-			transferSelectionFromIndex: localIndex
-			toIndex: originalIndex
-			in: self selectionModel ].
-		
-	self listElement dataSource notifyChanged
+	self innerContainer checkMaxSelectedCountFromListElement
 ]
 
 { #category : #accessing }
@@ -149,7 +117,7 @@ ToMultiSelectElement >> onSelectionChanged [
 	" update list according to my selection model"
 	listData withIndexDo: [ :d :localIndex |
 		| originalIndex |
-		originalIndex := self sieve dataPositionIndex at: d.
+		originalIndex := self sieve originalIndexOf: d.
 		self selectionModel
 			transferSelectionFromIndex: originalIndex
 			toIndex: localIndex

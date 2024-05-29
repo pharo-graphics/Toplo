@@ -30,9 +30,10 @@ ToMultiSelectListElement >> groupSelectionModel [
 { #category : #'accessing - selection' }
 ToMultiSelectListElement >> hideSelection [
 
-	self dataAccessor withIndexDo: [ :d :localIndex |
-		| originalIndex |
-		originalIndex := self sieve dataPositionIndex at: d.
+	self sieve currentDataWithLocalAndOriginalIndexDo: [
+		:d
+		:localIndex
+		:originalIndex |
 		(self selectionModel containsIndex: localIndex)
 			ifTrue: [ self selectionModel hideIndex: localIndex ]
 			ifFalse: [ self selectionModel unhideIndex: localIndex ] ].

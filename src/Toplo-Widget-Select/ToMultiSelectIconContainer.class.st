@@ -3,19 +3,20 @@ Class {
 	#superclass : #ToSelectIconContainer,
 	#instVars : [
 		'selectionModel',
-		'selectedCountLabel',
 		'maxSelectedCount'
 	],
 	#category : #'Toplo-Widget-Select-Multi'
 }
 
-{ #category : #'api - hooks' }
+{ #category : #initialization }
 ToMultiSelectIconContainer >> initialize [
 
+	| selectedCountLabel |
 	super initialize.
 	selectedCountLabel := ToLabel new.
 	selectedCountLabel constraintsDo: [ :c | c linear vertical alignCenter ].
-	self addChild: selectedCountLabel
+	self startElement: selectedCountLabel.
+	self startContainer padding: (BlInsets left: 2)
 ]
 
 { #category : #accessing }
@@ -27,7 +28,7 @@ ToMultiSelectIconContainer >> maxSelectedCount: aNumber [
 { #category : #accessing }
 ToMultiSelectIconContainer >> selectedCountLabel [
 
-	^ selectedCountLabel 
+	^ self startElement
 ]
 
 { #category : #accessing }
@@ -40,7 +41,7 @@ ToMultiSelectIconContainer >> selectionModel: aSelectionModel [
 ToMultiSelectIconContainer >> updateSelectedCountLabel [
 
 	maxSelectedCount isZero ifTrue: [ ^ self ].
-	selectedCountLabel text:
+	self selectedCountLabel text:
 		selectionModel selectedIndexesCount asString , ' / '
 		, maxSelectedCount asString
 ]

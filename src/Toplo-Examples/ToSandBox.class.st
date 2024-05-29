@@ -1428,7 +1428,7 @@ ToSandBox class >> example_SelectMonoFiltrable [
 
 	select filtrable: true.
 	select dataAccessor addAll: self statesOfAmerica.
-	select selecter selectIndex: 2.
+	select listElement selecter selectIndex: 2.
 	select placeholderText:
 		('Select a state' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
@@ -1517,7 +1517,7 @@ ToSandBox class >> example_SelectMultiFiltrableAutoDistributionWithMax [
 	select nodeAutoDistribution: true.
 	select hideSelected: false.
 	select dataAccessor addAll: self statesOfAmerica.
-	select multipleSelection: true.
+
 	select filtrable: true.
 	select popupMaxHeight: 200.
 	select placeholderText:
@@ -1707,6 +1707,7 @@ ToSandBox class >> example_SieveOnList2WithStatesOfAmerica [
 
 	sieve := ToListElementSieve new.
 	sieve onInstalledIn: listElement.
+	sieve inspect.
 	listElement dataAccessor addAll: data.
 
 	filterField addEventHandler: (BlEventHandler

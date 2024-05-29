@@ -19,30 +19,30 @@ ToCompositeSelecter >> newOperator [
 	^ self subclassResponsibility 
 ]
 
-{ #category : #'instance creation' }
-ToCompositeSelecter >> newSelectionModelInElement: anElement [
+{ #category : #'api - hooks' }
+ToCompositeSelecter >> onInstalledIn: anEventTarget [
+
+	super onInstalledIn: anEventTarget.
+	operator := self newOperator.
+	operator onInstalledIn: anEventTarget.
+	selectionModel := self selectionModelInEventTarget: anEventTarget.
+	selectionModel onInstalledIn: anEventTarget
+]
+
+{ #category : #'api - hooks' }
+ToCompositeSelecter >> onUninstalledIn: anEventTarget [
+
+	operator onUninstalledIn: anEventTarget.
+	operator := nil.
+	selectionModel onUninstalledIn: anEventTarget.
+	selectionModel := nil.
+	super onUninstalledIn: anEventTarget
+]
+
+{ #category : #accessing }
+ToCompositeSelecter >> selectionModelInEventTarget: anEventTarget [
 
 	^ self subclassResponsibility 
-]
-
-{ #category : #'api - hooks' }
-ToCompositeSelecter >> onInstalledIn: anElement [
-
-	super onInstalledIn: anElement.
-	operator := self newOperator.
-	operator onInstalledIn: anElement.
-	selectionModel := self newSelectionModelInElement: anElement.
-	selectionModel onInstalledIn: anElement
-]
-
-{ #category : #'api - hooks' }
-ToCompositeSelecter >> onUninstalledIn: anElement [
-
-	operator onUninstalledIn: anElement.
-	operator := nil.
-	selectionModel onUninstalledIn: anElement.
-	selectionModel := nil.
-	super onUninstalledIn: anElement.
 ]
 
 { #category : #accessing }

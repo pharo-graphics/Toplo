@@ -14,6 +14,7 @@ ToPrimarySelectionModelOperator >> listScrollCommand: aCommand in: aTarget [
 ToPrimarySelectionModelOperator >> notifySelectionChangedAfter: aCommand in: aTarget [
 
 	| preNotification eventToNotify |
+
 	aCommand selectionChanged ifFalse: [ ^ self ].
 
 	aTarget dispatchEvent: (ToPrimarySelectionCommandAppliedEvent new

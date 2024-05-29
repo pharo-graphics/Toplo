@@ -14,6 +14,7 @@ Class {
 ToElementCommandEventHandler >> elementCommandAddedEvent: aCommandAddedEvent [
 
 	| element |
+
 	element := aCommandAddedEvent currentTarget.
 	element isAttachedToSceneGraph ifFalse: [
 		aCommandAddedEvent command applyIn: element.

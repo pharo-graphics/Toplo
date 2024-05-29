@@ -47,9 +47,3 @@ ToCommandOperator >> onUninstalledIn: anEventTarget [
 
 	element := nil
 ]
-
-{ #category : #accessing }
-ToCommandOperator >> sharedEvents [ 
-
-	^ { ToElementCommandAddedEvent }
-]

@@ -11,6 +11,20 @@ Class {
 }
 
 { #category : #'accessing - selection' }
+ToMultiSelectBarElement >> allowSelectedCount: aNumber [
+
+	^ selectElement maxSelectedCount isZero or: [ aNumber <= selectElement maxSelectedCount ]
+]
+
+{ #category : #'accessing - selection' }
+ToMultiSelectBarElement >> assertMaxSelectedCount: aNumber [
+
+	(self allowSelectedCount: aNumber) ifFalse: [
+		self enqueueTask: (BlTaskAction new action: [
+				 Error signal: 'Max selected count reached' ]) ]
+]
+
+{ #category : #'accessing - selection' }
 ToMultiSelectBarElement >> checkHideSelectionFromListElement [
 
 	selectElement hideSelected ifFalse: [ ^ self ].
@@ -19,6 +33,31 @@ ToMultiSelectBarElement >> checkHideSelectionFromListElement [
 
 { #category : #'accessing - selection' }
 ToMultiSelectBarElement >> checkMaxSelectedCountFromListElement [
+
+	| sM unselectableSM groupeSM maxSelectedCount selectedIndexCount |
+	maxSelectedCount := selectElement maxSelectedCount.
+	selectElement maxSelectedCount isZero ifTrue: [ ^ self ].
+
+	unselectableSM := self listElement unselectableSelectionModel.
+	groupeSM := self listElement groupSelectionModel.
+	sM := self listElement selectionModel.
+
+	selectElement updateSelectedCountLabel.
+	selectedIndexCount := self sieve selectionModel selectedIndexesCount.
+
+	self assertMaxSelectedCount: selectedIndexCount.
+	self sieve currentDataWithLocalAndOriginalIndexDo: [
+		:d
+		:localIndex
+		:originalIndex |
+		(groupeSM containsIndex: localIndex) ifFalse: [
+			selectedIndexCount < maxSelectedCount
+				ifTrue: [ unselectableSM deselectIndex: localIndex ]
+				ifFalse: [
+					(selectElement selectionModel containsIndex: originalIndex)
+						ifFalse: [ unselectableSM selectIndex: localIndex ] ] ] ].
+
+	self listElement notifyDataSourceChanged
 ]
 
 { #category : #initialization }

@@ -114,11 +114,3 @@ ToSelectionModelOperator >> selectionModelShiftCommand: aShiftCommand in: aEvent
 		"aEventTarget dataSource notifyChanged" ]
 
 ]
-
-{ #category : #accessing }
-ToSelectionModelOperator >> sharedEvents [
-
-	^ super sharedEvents , {
-		  ToPrimarySelectionCommandAppliedEvent.
-		  ToListPrimarySelectionChangedEvent }
-]

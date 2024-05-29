@@ -20,12 +20,6 @@ ToPrimarySelecter >> newOperator [
 	^ ToPrimarySelectionModelOperator new
 ]
 
-{ #category : #'instance creation' }
-ToPrimarySelecter >> newSelectionModelInElement: anElement [
-
-	^ anElement newPrimarySelectionModel
-]
-
 { #category : #accessing }
 ToPrimarySelecter >> recordSubSelecter: aSelecter [
 
@@ -38,6 +32,12 @@ ToPrimarySelecter >> recordSubSelecter: aSelecter [
 		at: aSelecter uniqueId
 		put: aSelecter.
 	self selectionModel recordSubSelectionModel: aSelecter selectionModel
+]
+
+{ #category : #accessing }
+ToPrimarySelecter >> selectionModelInEventTarget: anEventTarget [
+
+	^ anEventTarget newPrimarySelectionModel
 ]
 
 { #category : #accessing }

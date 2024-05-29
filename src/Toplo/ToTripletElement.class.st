@@ -385,5 +385,5 @@ ToTripletElement >> startInterspace [
 ToTripletElement >> startInterspace: aNumber [
 
 	startInterspace := aNumber.
-	self requestLayout
+	self configureLayout
 ]

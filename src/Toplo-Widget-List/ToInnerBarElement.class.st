@@ -39,9 +39,10 @@ ToInnerBarElement >> checkFullyVisibleNodes [
 			 yourself)
 ]
 
-{ #category : #initialization }
-ToInnerBarElement >> configureLayoutIn: aListElement [
+{ #category : #layout }
+ToInnerBarElement >> configureLayout [
 
+	super configureLayout.
 	self isHorizontal
 		ifTrue: [
 			self hMatchParent.
@@ -58,7 +59,7 @@ ToInnerBarElement >> configureLayoutIn: aListElement [
 				c vertical matchParent.
 				c horizontal fitContent ] ].
 
-	scrollable configureLayoutIn: aListElement.
+	scrollable configureLayoutIn: listElement.
 	self uninstallFakeNode.
 	self installFakeNode
 ]

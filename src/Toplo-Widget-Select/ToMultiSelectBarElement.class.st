@@ -12,6 +12,9 @@ Class {
 
 { #category : #'accessing - selection' }
 ToMultiSelectBarElement >> checkHideSelectionFromListElement [
+
+	selectElement hideSelected ifFalse: [ ^ self ].
+	self listElement hideSelection
 ]
 
 { #category : #'accessing - selection' }
@@ -69,6 +72,12 @@ ToMultiSelectBarElement >> haveFullyInvisibleNodes: aCollectionOfInvisibleNodes 
 ToMultiSelectBarElement >> isMultipleSelection [ 
 
 	^ true
+]
+
+{ #category : #accessing }
+ToMultiSelectBarElement >> listElement [
+
+	^ selectElement listElement
 ]
 
 { #category : #skin }
@@ -147,6 +156,12 @@ ToMultiSelectBarElement >> selectElement: aSelectElement [
 		c flow vertical alignCenter ].
 	self addChild: textInputElement
 
+]
+
+{ #category : #accessing }
+ToMultiSelectBarElement >> sieve [ 
+
+	^ selectElement sieve
 ]
 
 { #category : #'t - select inner container' }

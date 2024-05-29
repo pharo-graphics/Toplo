@@ -9,9 +9,7 @@ ToMultiSelectBarNodeManager >> defaultNodeBuilder [
 
 	^ [ :node :holder :dataItem |
 	  node middleElement: (ToLabel text: dataItem asString).
-	  node constraintsDo: [ :c |
-		  c horizontal fitContent.
-		  c vertical fitContent ] ]
+	  node autoDistribute: holder listElement nodeAutoDistribution ]
 ]
 
 { #category : #initialization }

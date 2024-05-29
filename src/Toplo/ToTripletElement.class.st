@@ -292,7 +292,7 @@ ToTripletElement >> newFiller [
 { #category : #layout }
 ToTripletElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 
-	self configureLayout.
+	"self configureLayout."
 	super onLayout: aBounds context: aBlElementBoundsUpdateContext
 ]
 

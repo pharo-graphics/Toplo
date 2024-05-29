@@ -33,23 +33,6 @@ ToMultiSelectElement >> assertMaxSelectedCount: aNumber [
 ]
 
 { #category : #'accessing - selection' }
-ToMultiSelectElement >> checkHideSelectionFromListElement [
-
-	hideSelected ifFalse: [ ^ self ].
-	self listElement dataAccessor withIndexDo: [ :d :localIndex |
-		| originalIndex |
-		originalIndex := self sieve dataPositionIndex at: d.
-		(self listElement selectionModel containsIndex: localIndex)
-			ifTrue: [ self listElement selectionModel hideIndex: localIndex ]
-			ifFalse: [ self listElement selectionModel unhideIndex: localIndex ].
-		self listElement selectionModel
-			transferSelectionFromIndex: localIndex
-			toIndex: originalIndex
-			in: self selectionModel ].
-	self listElement dataSource notifyChanged.
-]
-
-{ #category : #'accessing - selection' }
 ToMultiSelectElement >> checkMaxSelectedCountFromListElement [
 
 	| unselectableSM groupeSM |
@@ -138,6 +121,12 @@ ToMultiSelectElement >> newIconContainer [
 ToMultiSelectElement >> newWindowManager [
 
 	^ ToMultiSelectListWindowManager new
+]
+
+{ #category : #accessing }
+ToMultiSelectElement >> nodeAutoDistribution: aBoolean [
+
+	self innerContainer nodeAutoDistribution: aBoolean
 ]
 
 { #category : #accessing }

@@ -1490,10 +1490,10 @@ ToSandBox class >> example_SelectMultiFiltrableAutoDistribution [
 	select := ToMultiSelectElement new.
 	select inspect.
 	select nodeWrapping: false.
-	select nodeAutoDistribution: true.
 	select hideSelected: false.
 	select dataAccessor addAll: self statesOfAmerica.
-	select multipleSelection: true.
+	select nodeAutoDistribution: true.
+
 	select filtrable: true.
 	select popupMaxHeight: 200.
 	select placeholderText:
@@ -1605,7 +1605,6 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected [
 	select inspect.
 	select hideSelected: true.
 	select dataAccessor updateAllWith: self statesOfAmerica.
-	select multipleSelection: true.
 	select filtrable: true.
 	select popupMaxHeight: 200.
 	select placeholderText:
@@ -1626,7 +1625,6 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected2 [
 	select := ToMultiSelectElement new.
 	select hideSelected: true.
 	select dataAccessor addAll: {'Apples'.'Nails'. 'Bananas'. 'Helicopter'}.
-	select multipleSelection: true.
 	select filtrable: true.
 	select popupMaxHeight: 200.
 	select placeholderText:

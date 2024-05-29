@@ -2,7 +2,7 @@ Class {
 	#name : #ToSelectListElement,
 	#superclass : #ToListElement,
 	#instVars : [
-		'select'
+		'selectElement'
 	],
 	#category : #'Toplo-Widget-Select-List'
 }
@@ -13,7 +13,7 @@ ToSelectListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 	super applyDataSourceSieveCommand: aDataSourceCommand.
 	" the window can be opened but invisible if opened from the text input element.
 	see ToSelectTextInputElement>>onInstalledIn:"
-	select currentWindow ifNotNil: [:w | w visibility: BlVisibility visible  ]
+	selectElement currentWindow ifNotNil: [:w | w visibility: BlVisibility visible  ]
 ]
 
 { #category : #initialization }
@@ -36,5 +36,5 @@ ToSelectListElement >> newRawSkin [
 { #category : #accessing }
 ToSelectListElement >> selectElement: aSelectElement [
 
-	select := aSelectElement
+	selectElement := aSelectElement
 ]

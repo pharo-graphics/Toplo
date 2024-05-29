@@ -28,9 +28,8 @@ ToBarElement >> configureLayout [
 			self constraintsDo: [ :c |
 				c vertical matchParent.
 				c horizontal fitContent ] ].
-	self innerContainer configureLayoutIn: self.
-	self checkFullyVisibleNodes.
-	self requestLayout
+	self innerContainer configureLayout.
+	self checkFullyVisibleNodes
 ]
 
 { #category : #initialization }
@@ -111,7 +110,7 @@ ToBarElement >> nodeAutoDistribution: aBoolean [
 
 	nodeAutoDistribution = aBoolean ifTrue: [ ^ self ].
 	nodeAutoDistribution := aBoolean.
-	self configureLayout
+	self configureLayout.
 ]
 
 { #category : #accessing }

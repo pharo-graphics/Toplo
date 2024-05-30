@@ -16,7 +16,7 @@ ToElementCommandApplicationTask >> applyAll [
 	[ commandQueue isEmpty ] whileFalse: [
 		| nextInQueue |
 		nextInQueue := commandQueue removeFirst.
-		nextInQueue applyIn: element ]
+		nextInQueue notifyIn: element ]
 ]
 
 { #category : #'api - running' }

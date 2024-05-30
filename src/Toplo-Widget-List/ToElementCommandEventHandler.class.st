@@ -1,6 +1,6 @@
 Class {
 	#name : #ToElementCommandEventHandler,
-	#superclass : #BlCustomEventHandler,
+	#superclass : #ToCommandEventHandler,
 	#classTraits : 'TBlEventTarget classTrait',
 	#instVars : [
 		'commandQueue',
@@ -17,7 +17,7 @@ ToElementCommandEventHandler >> elementCommandAddedEvent: aCommandAddedEvent [
 
 	element := aCommandAddedEvent currentTarget.
 	element isAttachedToSceneGraph ifFalse: [
-		aCommandAddedEvent command applyIn: element.
+		aCommandAddedEvent command notifyIn: element.
 		^ self ].
 	commandQueue add: aCommandAddedEvent command.
 	element dispatchEvent: ToElementCommandApplicationTaskActivationEvent new.
@@ -33,7 +33,8 @@ ToElementCommandEventHandler >> elementCommandApplicationTaskActivationEvent: aC
 { #category : #'api - accessing' }
 ToElementCommandEventHandler >> eventsToHandle [
 
-	^ { ToElementCommandAddedEvent. ToElementCommandApplicationTaskActivationEvent }
+	^ super eventsToHandle
+	  , { ToElementCommandApplicationTaskActivationEvent }
 ]
 
 { #category : #'api - hooks' }

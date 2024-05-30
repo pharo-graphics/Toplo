@@ -1,6 +1,6 @@
 Class {
 	#name : #ToSelectionModelOperator,
-	#superclass : #ToCommandOperator,
+	#superclass : #ToListCommandOperator,
 	#category : #'Toplo-Widget-List-Command-Selection'
 }
 
@@ -31,13 +31,13 @@ ToSelectionModelOperator >> addWholeSelectionCommand: aCommand [
 ]
 
 { #category : #'command application' }
-ToSelectionModelOperator >> applyCommand: aCommand in: aTarget [
+ToSelectionModelOperator >> applyCommand: aCommand [
 
 	| previousModel |
 	previousModel := aCommand selectionModel copy.
-	super applyCommand: aCommand in: aTarget.
+	super applyCommand: aCommand.
 	aCommand selectionChanged: previousModel ~= aCommand selectionModel.
-	self notifySelectionChangedAfter: aCommand in: aTarget
+	self notifySelectionChangedAfter: aCommand 
 ]
 
 { #category : #accessing }
@@ -69,7 +69,7 @@ ToSelectionModelOperator >> intervalsIn: aCollection [
 ]
 
 { #category : #'private command application' }
-ToSelectionModelOperator >> notifySelectionChangedAfter: aCommand in: aTarget [
+ToSelectionModelOperator >> notifySelectionChangedAfter: aCommand [ 
 
 	self subclassResponsibility 
 ]
@@ -96,13 +96,13 @@ ToSelectionModelOperator >> removeWholeSelectionCommand: aCommand [
 ]
 
 { #category : #'command operations' }
-ToSelectionModelOperator >> selectionModelCopyFromCommand: aCopyFromCommand in: aTarget [
+ToSelectionModelOperator >> selectionModelCopyFromCommand: aCopyFromCommand [ 
 
 	aCopyFromCommand selectionModel copySelectionFrom:  aCopyFromCommand sourceSelectionModel
 ]
 
 { #category : #'command operations' }
-ToSelectionModelOperator >> selectionModelShiftCommand: aShiftCommand in: aEventTarget [
+ToSelectionModelOperator >> selectionModelShiftCommand: aShiftCommand [ 
 
 	aShiftCommand selectionModel shift: aShiftCommand itemCount from: aShiftCommand fromIndex.
 	" Must take car of unselectable items: "

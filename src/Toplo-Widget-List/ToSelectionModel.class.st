@@ -200,15 +200,9 @@ ToSelectionModel >> nextSelectableIndexStartingAt: anIndex [
 ]
 
 { #category : #'api - hooks' }
-ToSelectionModel >> onInstalledIn: anElement [
+ToSelectionModel >> on: anElement [
 
 	itemCountGetter := [ anElement itemCount ]
-]
-
-{ #category : #'api - hooks' }
-ToSelectionModel >> onUninstalledIn: anElement [
-
-	itemCountGetter := nil
 ]
 
 { #category : #copying }

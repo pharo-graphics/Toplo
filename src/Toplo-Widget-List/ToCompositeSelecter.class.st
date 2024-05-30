@@ -13,38 +13,6 @@ ToCompositeSelecter class >> selectionModel: aSelectionModel operator: anOperato
 		  yourself
 ]
 
-{ #category : #'instance creation' }
-ToCompositeSelecter >> newOperator [ 
-
-	^ self subclassResponsibility 
-]
-
-{ #category : #'api - hooks' }
-ToCompositeSelecter >> onInstalledIn: anEventTarget [
-
-	super onInstalledIn: anEventTarget.
-	operator := self newOperator.
-	operator onInstalledIn: anEventTarget.
-	selectionModel := self selectionModelInEventTarget: anEventTarget.
-	selectionModel onInstalledIn: anEventTarget
-]
-
-{ #category : #'api - hooks' }
-ToCompositeSelecter >> onUninstalledIn: anEventTarget [
-
-	operator onUninstalledIn: anEventTarget.
-	operator := nil.
-	selectionModel onUninstalledIn: anEventTarget.
-	selectionModel := nil.
-	super onUninstalledIn: anEventTarget
-]
-
-{ #category : #accessing }
-ToCompositeSelecter >> selectionModelInEventTarget: anEventTarget [
-
-	^ self subclassResponsibility 
-]
-
 { #category : #accessing }
 ToCompositeSelecter >> subSelecterIndex [
 

@@ -7,11 +7,11 @@ Class {
 	#category : #'Toplo-Widget-List-Command-Selection'
 }
 
-{ #category : #hook }
-ToIndexesSelectionCommand >> applyOn: anOperator in: aTarget [
+{ #category : #'private - hook' }
+ToIndexesSelectionCommand >> applyOn: anOperator [ 
 
 	self operation applyIndexesSelection: self on: anOperator.
-	super applyOn: anOperator in: aTarget
+	super applyOn: anOperator
 ]
 
 { #category : #accessing }

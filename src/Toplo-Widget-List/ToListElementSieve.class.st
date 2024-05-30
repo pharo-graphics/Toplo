@@ -1,8 +1,8 @@
 Class {
 	#name : #ToListElementSieve,
 	#superclass : #Object,
-	#traits : 'TBlEventTarget',
-	#classTraits : 'TBlEventTarget classTrait',
+	#traits : 'TBlEventTarget + TToPrenotificationTarget',
+	#classTraits : 'TBlEventTarget classTrait + TToPrenotificationTarget classTrait',
 	#instVars : [
 		'queryRunner',
 		'originalData',
@@ -12,7 +12,9 @@ Class {
 		'selectionHandler',
 		'sharedHandler',
 		'eventDispatcher',
-		'originalIndexMap'
+		'originalIndexMap',
+		'sieveEventHandler',
+		'commandEventHandler'
 	],
 	#category : #'Toplo-Widget-List-Sieve'
 }
@@ -66,12 +68,6 @@ ToListElementSieve >> initialize [
 	eventDispatcher := BlDirectEventDispatcher on: self
 ]
 
-{ #category : #testing }
-ToListElementSieve >> isAttachedToSceneGraph [
-
-	^ false
-]
-
 { #category : #accessing }
 ToListElementSieve >> isInstalled [
 
@@ -85,9 +81,8 @@ ToListElementSieve >> onInstalledIn: aListElement [
 	originalData ifNotNil: [
 		^ (BlImmutableObjectChangeError object: self) signal ].
 	originalIndexMap := IdentityDictionary new.
-	
 	selectionModel := aListElement selectionModel duplicate.
-	
+
 	originalData := aListElement dataAccessor newMirror.
 	queryRunner := ToObservableCollectionFilter new.
 	queryRunner onInstalledIn: originalData.
@@ -95,21 +90,29 @@ ToListElementSieve >> onInstalledIn: aListElement [
 	" initialization of the current result with the current pattern "
 	self updateCurrentData.
 	sharedHandler := BlSharedEventDistributor new.
-	sharedHandler shareEvents: { ToObservableCollectionFilterResultEvent }.
+	sharedHandler shareEvents:
+		{ ToObservableCollectionFilterResultEvent }.
 	originalData addEventHandler: sharedHandler.
 	aListElement addEventHandler: sharedHandler.
 
 	selectionHandler := ToSievedListElementEventHandler new.
 	selectionHandler sieve: self.
 	aListElement addEventHandler: selectionHandler.
-	
-	selecter := ToAdditionalPrimarySelecter new.
+
+	sieveEventHandler := ToSieveEventHandler new
+		                     listElement: aListElement;
+		                     yourself.
+	commandEventHandler := ToDirectCommandEventHandler new.
+	selecter := ToCompositeSelecter new.
 	selecter
-		  enabled: true;
-		  multiple: aListElement isMultipleSelection.
+		selectionModel: self selectionModel;
+		operator: sieveEventHandler;
+		enabled: true;
+		multiple: aListElement isMultipleSelection.
 	selecter onInstalledIn: self.
-	self addEventHandler: ToSieveEventHandler new.
-	self addEventHandler: ToElementCommandEventHandler new
+
+	self addEventHandler: sieveEventHandler.
+	self addEventHandler: commandEventHandler
 ]
 
 { #category : #'api - hooks' }
@@ -120,6 +123,10 @@ ToListElementSieve >> onUninstalledIn: aListElement [
 	queryRunner onUninstalledIn: originalData.
 	originalData removeEventHandler: sharedHandler.
 	aListElement removeEventHandler: sharedHandler.
+	self removeEventHandler: sieveEventHandler.
+	self removeEventHandler: commandEventHandler.
+	sieveEventHandler := nil.
+	commandEventHandler := nil.
 	sharedHandler := nil.
 	originalData unmirrored.
 	originalData := nil.

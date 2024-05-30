@@ -7,11 +7,11 @@ Class {
 	#category : #'Toplo-Widget-List-Command-Selection'
 }
 
-{ #category : #hook }
-ToSelectionModelCopyFromCommand >> applyOn: anOperator in: aTarget [
+{ #category : #'private - hook' }
+ToSelectionModelCopyFromCommand >> applyOn: anOperator [
 
-	anOperator selectionModelCopyFromCommand: self in: aTarget.
-	super applyOn: anOperator in: aTarget
+	anOperator selectionModelCopyFromCommand: self.
+	super applyOn: anOperator 
 ]
 
 { #category : #accessing }

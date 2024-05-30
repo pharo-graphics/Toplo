@@ -10,6 +10,15 @@ ToListElementEventHandler >> collectionUpdateAllRequest: anEvent [
 	anEvent currentTarget selectionModel resetAll
 ]
 
+{ #category : #'list element handling' }
+ToListElementEventHandler >> commandPreApplicationEvent: anEvent [
+
+	"a place to check a selection command send from the selecter"
+	"example: 
+		(anEvent currentTarget allowApplicationOfCommand: anEvent command)
+		ifFalse: [ anEvent deny ]"
+]
+
 { #category : #'mouse handlers' }
 ToListElementEventHandler >> doubleClickEvent: anEvent [
 
@@ -54,6 +63,8 @@ ToListElementEventHandler >> eventsToHandle [
 		  ToListNodeAddedEvent.
 		  ToListNodeRemovedEvent.
 
+		  ToCommandPreApplicationEvent.
+
 		  " data source "
 		  ToListDataSourceItemsChangeEvent.
 		  ToCollectionUpdateAllRequest.
@@ -63,8 +74,7 @@ ToListElementEventHandler >> eventsToHandle [
 
 		  ToListHiddenSelectionChangedEvent.
 		  ToListUnselectableSelectionChangedEvent.
-		  ToListDisabledSelectionChangedEvent.
-		  ToListClickOnNodePreNotificationEvent }
+		  ToListDisabledSelectionChangedEvent }
 ]
 
 { #category : #'infinite event handling' }
@@ -101,15 +111,6 @@ ToListElementEventHandler >> infiniteDataSourceItemRangeRemoved: anEvent [
 
 { #category : #'list element handling' }
 ToListElementEventHandler >> infiniteDataSourceItemsFiltered: anEvent [
-]
-
-{ #category : #'element events handling' }
-ToListElementEventHandler >> listClickOnNodePreNotificationEvent: anEvent [
-
-	| listElement node |
-	listElement := anEvent currentTarget.
-	node := anEvent sourceEvent sourceEvent currentTarget.
-	node holder isSelectable ifFalse: [ anEvent sourceEvent: nil ]
 ]
 
 { #category : #'infinite event handling' }

@@ -125,7 +125,7 @@ ToElementBarDep >> newInnerContainer [
 { #category : #'instance creation' }
 ToElementBarDep >> newPrimarySelectionModel [
 
-	^ ToPrimarySelectionModel new
+	^ ToPrimarySelectionModel new on: self
 ]
 
 { #category : #skin }

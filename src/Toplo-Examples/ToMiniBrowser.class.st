@@ -143,7 +143,6 @@ ToMiniBrowser >> initialize [
 	packages addEventHandler: (BlEventHandler
 			 on: ToListStrongSelectionEvent
 			 do: [ :event | event traceCr ]).
-	packages selecter operator inspect.
 
 	packagesPane margin: (BlInsets all: 2).
 	packagesPane addChild: packages.

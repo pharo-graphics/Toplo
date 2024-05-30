@@ -33,10 +33,9 @@ ToAdditionalSelecter >> initialize [
 ToAdditionalSelecter >> onInstalledIn: anEventTarget [
 
 	super onInstalledIn: anEventTarget.
-	selectionModel onInstalledIn: anEventTarget.
+	selectionModel on: anEventTarget.
 	selectionModel uniqueId: uniqueId.
 	operator := ToAdditionalSelectionModelOperator new eventClass: eventClass.
-	operator onInstalledIn: anEventTarget.
 	parentSelecter recordSubSelecter: self
 
 ]
@@ -47,7 +46,6 @@ ToAdditionalSelecter >> onUninstalledIn: anEventTarget [
 	parentSelecter unrecordSubSelecter: self.
 	operator onUninstalledIn: anEventTarget.
 	operator := nil.
-	selectionModel onUninstalledIn: anEventTarget.
 	selectionModel := nil.
 	parentSelecter unrecordSubSelecter: self.
 	super onUninstalledIn: anEventTarget

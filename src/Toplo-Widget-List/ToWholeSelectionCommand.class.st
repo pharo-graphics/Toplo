@@ -7,11 +7,11 @@ Class {
 	#category : #'Toplo-Widget-List-Command-Selection'
 }
 
-{ #category : #hook }
-ToWholeSelectionCommand >> applyOn: anOperator in: aTarget [
+{ #category : #'private - hook' }
+ToWholeSelectionCommand >> applyOn: anOperator [
 
 	self operation applyWholeSelection: self on: anOperator.
-	super applyOn: anOperator in: aTarget
+	super applyOn: anOperator
 ]
 
 { #category : #accessing }

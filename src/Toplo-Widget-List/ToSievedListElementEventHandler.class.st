@@ -87,8 +87,8 @@ ToSievedListElementEventHandler >> listPrimarySelectionChangePreNotificationEven
 					in: sieveSelectionModel ] ].
 
 	" dispatch a specific, different from the primary selection change event that will be sent after.
-	It is useful for sieve list user that relies on the sieve internal selection to adapt themeself according 
-	to the sieve selection"
+	It is useful for sieve list user that relies on the sieve internal selection to adapt themeself 
+	according to the sieve selection"
 	listElement dispatchEvent: (ToSieveSelectionChangedEvent new
 			 sieve: sieve;
 			 selectionModel: sieveSelectionModel;

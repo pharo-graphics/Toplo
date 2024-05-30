@@ -8,11 +8,11 @@ Class {
 	#category : #'Toplo-Widget-List-Command-Selection'
 }
 
-{ #category : #hook }
-ToIntervalSelectionCommand >> applyOn: anOperator in: aTarget [
+{ #category : #'private - hook' }
+ToIntervalSelectionCommand >> applyOn: anOperator [ 
 
 	self operation applyIntervalSelection: self on: anOperator.
-	super applyOn: anOperator in: aTarget
+	super applyOn: anOperator
 ]
 
 { #category : #accessing }

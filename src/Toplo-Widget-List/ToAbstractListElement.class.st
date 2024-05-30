@@ -10,7 +10,8 @@ Class {
 		'selectionMode',
 		'secondarySelectionMode',
 		'dataSource',
-		'nodeManager'
+		'nodeManager',
+		'commandChecker'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -25,6 +26,12 @@ ToAbstractListElement >> addBeneathSelectionElement: aSelectionElement [
 ToAbstractListElement >> addOverSelectionElement: aSelectionElement [
 
 	overContainer addChild: aSelectionElement
+]
+
+{ #category : #'private - commands' }
+ToAbstractListElement >> allowApplicationOfCommand: aCommand [
+
+	^ self commandChecker allowCommand: aCommand
 ]
 
 { #category : #'private - commands' }
@@ -59,6 +66,12 @@ ToAbstractListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 ToAbstractListElement >> beneathContainer [
 
 	^ beneathContainer
+]
+
+{ #category : #accessing }
+ToAbstractListElement >> commandChecker [
+
+	^ commandChecker
 ]
 
 { #category : #accessing }
@@ -109,6 +122,12 @@ ToAbstractListElement >> dataUpdater [
 			'`@receiver dataUpdater'
 				-> '`@receiver dataAccessor'.
 	^ self dataAccessor
+]
+
+{ #category : #initialization }
+ToAbstractListElement >> defaultCommandCheckerClass [
+
+	^ ToListElementCommandChecker 
 ]
 
 { #category : #initialization }
@@ -188,6 +207,7 @@ ToAbstractListElement >> initialize [
 
 	super initialize.
 	self initializeDataSource.
+	self initializeCommandChecker.
 	next := self defaultInnerNodeContainer.
 	nodeManager := self defaultNodeManager.
 	self next elevation: (BlRelativeElevation elevation: 10).
@@ -216,6 +236,13 @@ ToAbstractListElement >> initialize [
 	self addEventHandler: self defaultSecondarySelectionEventHandler.
 	
 	self matchParent
+]
+
+{ #category : #initialization }
+ToAbstractListElement >> initializeCommandChecker [
+
+	commandChecker := self defaultCommandCheckerClass new.
+	commandChecker listElement: self
 ]
 
 { #category : #initialization }
@@ -248,6 +275,8 @@ ToAbstractListElement >> layoutStrategy [
 ToAbstractListElement >> newPrimarySelectionModel [
 
 	^ ToPrimarySelectionModel new
+		  on: self;
+		  yourself
 ]
 
 { #category : #skin }
@@ -260,6 +289,8 @@ ToAbstractListElement >> newRawSkin [
 ToAbstractListElement >> newSecondarySelectionModel [
 
 	^ self selectionModel newSecondarySelectionModel
+		  on: self;
+		  yourself
 ]
 
 { #category : #'instance creation' }
@@ -316,9 +347,7 @@ ToAbstractListElement >> notifyDataSourceItemsChanged: aDataSourceEvent [
 	preNotification := ToListDataSourceItemsChangePreNotificationEvent new
 		                   sourceEvent: aDataSourceEvent;
 		                   yourself.
-	self dispatchEvent: preNotification.
-	preNotification sourceEvent ifNil: [ ^ self ].
-	self dispatchEvent: preNotification sourceEvent
+	self dispatchPreNotificationEvent: preNotification
 ]
 
 { #category : #'event firing' }
@@ -372,16 +401,6 @@ ToAbstractListElement >> primarySelectionElements [
 		  beneathContainer childrenDo: [ :child |
 			  (child isKindOf: self selectionMode elementClass) ifTrue: [
 				  stream nextPut: child ] ] ]
-]
-
-{ #category : #'t - infinite accessing' }
-ToAbstractListElement >> scrollToIndexAtTop: anIndex [
-
-	self
-		deprecated: 'Use scrollToDataSourcePosition: instead'
-		transformWith: '`@receiver scrollToIndexAtTop: `@argument'
-			-> '`@receiver scrollToDataSourcePosition: `@argument'.
-	self scrollToDataSourcePosition: anIndex
 ]
 
 { #category : #accessing }

@@ -8,11 +8,11 @@ Class {
 	#category : #'Toplo-Widget-List-Command-Selection'
 }
 
-{ #category : #hook }
-ToSelectionModelShiftCommand >> applyOn: anOperator in: aTarget [
+{ #category : #'private - hook' }
+ToSelectionModelShiftCommand >> applyOn: anOperator [
 
-	anOperator selectionModelShiftCommand: self in: aTarget.
-	super applyOn: anOperator in: aTarget
+	anOperator selectionModelShiftCommand: self.
+	super applyOn: anOperator
 ]
 
 { #category : #accessing }

@@ -33,6 +33,7 @@ ToSelectionModelOperatorTest >> testAddCommand [
 
 	operator addCommand: (cmd := ToWholeSelectionCommand new
 			        operator: operator;
+			target: holder;
 			selectionModel: holder selectionModel;
 			        operation: ToAddSelectionOperation new;
 			        yourself).
@@ -47,13 +48,15 @@ ToSelectionModelOperatorTest >> testDeselectTo [
 	| cmd |
 	holder selectionModel selectIndex: holder itemCount + 1.
 	self assert: holder selectionModel selectedIndexes equals: #( 1001 ).
-	operator addCommand: (cmd := ToIntervalSelectionCommand new
-			        operator: operator;
-			        selectionModel: holder selectionModel;
-			        from: 1;
-			        to: holder itemCount + 1;
-			        operation: ToRemoveSelectionOperation new;
-			        yourself).
+	operator
+		addCommand: (cmd := ToIntervalSelectionCommand new
+				        operator: operator;
+				        selectionModel: holder selectionModel;
+				        from: 1;
+				        target: holder;
+				        to: holder itemCount + 1;
+				        operation: ToRemoveSelectionOperation new;
+				        yourself).
 	self waitTestingSpaces.
 	self assert: holder selectionModel isEmpty
 ]
@@ -70,6 +73,7 @@ ToSelectionModelOperatorTest >> testDeselectToWithChangedItemCount [
 	self assert: holder selectionModel itemCount equals: 0.
 	operator addCommand: (cmd := ToIntervalSelectionCommand new
 			        operator: operator;
+			        target: holder;
 			        selectionModel: holder selectionModel;
 			        from: 1;
 			        to: to;

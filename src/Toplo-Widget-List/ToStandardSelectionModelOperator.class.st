@@ -7,14 +7,6 @@ Class {
 	#category : #'Toplo-Widget-List-Command-Selection'
 }
 
-{ #category : #'instance creation' }
-ToStandardSelectionModelOperator class >> on: anElement [ 
-
-	^ self new
-		  onInstalledIn: anElement;
-		  yourself
-]
-
 { #category : #'command operations' }
 ToStandardSelectionModelOperator >> addIndexesSelectionCommand: aCommand [
 
@@ -86,8 +78,8 @@ ToStandardSelectionModelOperator >> removeWholeSelectionCommand: aCommand [
 ]
 
 { #category : #'command operations' }
-ToStandardSelectionModelOperator >> selectionModelCopyFromCommand: aCopyFromCommand in: aTarget [
+ToStandardSelectionModelOperator >> selectionModelCopyFromCommand: aCopyFromCommand [ 
 
-	super selectionModelCopyFromCommand: aCopyFromCommand in: aTarget.
+	super selectionModelCopyFromCommand: aCopyFromCommand.
 	self changeCurrentIndexWith: 0
 ]

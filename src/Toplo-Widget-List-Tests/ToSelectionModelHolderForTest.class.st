@@ -1,13 +1,12 @@
 Class {
 	#name : #ToSelectionModelHolderForTest,
 	#superclass : #BlElement,
-	#traits : 'TBlEventTarget',
-	#classTraits : 'TBlEventTarget classTrait',
+	#traits : 'TBlEventTarget + TToPrenotificationTarget',
+	#classTraits : 'TBlEventTarget classTrait + TToPrenotificationTarget classTrait',
 	#instVars : [
 		'selectionModel',
 		'dataSource',
 		'successfulCommand',
-		'data',
 		'scrollIndex',
 		'selecter',
 		'operator',
@@ -49,12 +48,6 @@ ToSelectionModelHolderForTest >> eventDispatcher [
 	^ eventDispatcher
 ]
 
-{ #category : #accessing }
-ToSelectionModelHolderForTest >> infinite [
-
-	^ infinite
-]
-
 { #category : #initialization }
 ToSelectionModelHolderForTest >> initialize [
 
@@ -63,14 +56,22 @@ ToSelectionModelHolderForTest >> initialize [
 	infinite := ToInfiniteElement onListElement: ToListElement new.
 	self addChild: infinite.
 	selectionModel := self defaultSelectionModel.
-	selectionModel onInstalledIn: self.
+	selectionModel on: self.
 	unselectableSelectionModel := self defaultSelectionModel.
-	unselectableSelectionModel onInstalledIn: self.
-	self addEventHandler: ToElementCommandEventHandler new.
-	operator := ToPrimarySelectionModelOperator on: self.
+	unselectableSelectionModel on: self.
+	operator := ToPrimarySelectionModelOperator new.
+	operator addEventHandler: (ToElementCommandEventHandler new
+			 element: self;
+			 yourself).
 	self addEventHandler: (BlEventHandler
 			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :event | self successfulCommand: true ])
+]
+
+{ #category : #accessing }
+ToSelectionModelHolderForTest >> innerContainer [
+
+	^ infinite
 ]
 
 { #category : #accessing }
@@ -88,9 +89,13 @@ ToSelectionModelHolderForTest >> layoutCritical: aBlock [
 { #category : #accessing }
 ToSelectionModelHolderForTest >> multiSelectionSelecter [
 
-	^ (ToCompositeSelecter
-		   selectionModel: self selectionModel
-		   operator: operator) multiple: true
+	| s |
+	s := ToCompositeSelecter
+		     selectionModel: self selectionModel
+		     operator: operator.
+	s multiple: true.
+	s eventTarget: self.
+	^ s
 ]
 
 { #category : #accessing }
@@ -116,7 +121,7 @@ ToSelectionModelHolderForTest >> notifyUnselectableSelectionChanged: anEvent [
 { #category : #accessing }
 ToSelectionModelHolderForTest >> operator [
 
-	^ ToPrimarySelectionModelOperator on: self
+	^ operator
 ]
 
 { #category : #accessing }
@@ -126,7 +131,7 @@ ToSelectionModelHolderForTest >> scrollIndex [
 ]
 
 { #category : #accessing }
-ToSelectionModelHolderForTest >> scrollToIndex: anIndex [
+ToSelectionModelHolderForTest >> scrollToDataSourcePosition: anIndex [
 
 	scrollIndex := anIndex
 ]
@@ -146,9 +151,13 @@ ToSelectionModelHolderForTest >> selectionModel [
 { #category : #accessing }
 ToSelectionModelHolderForTest >> singleSelectionSelecter [
 
-	^ (ToCompositeSelecter
-		   selectionModel: self selectionModel
-		   operator: operator) multiple: false
+	| s |
+	s := ToCompositeSelecter
+		     selectionModel: self selectionModel
+		     operator: operator.
+	s multiple: false.
+	s eventTarget: self.
+	^ s
 ]
 
 { #category : #accessing }

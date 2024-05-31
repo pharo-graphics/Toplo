@@ -7,11 +7,23 @@ Class {
 	#category : #'Toplo-Widget-List-Command-Selection'
 }
 
-{ #category : #hook }
-ToSelectionModelCopyFromCommand >> applyOn: anOperator in: aTarget [
+{ #category : #'private - hook' }
+ToSelectionModelCopyFromCommand >> applyOn: anOperator [
 
-	anOperator selectionModelCopyFromCommand: self in: aTarget.
-	super applyOn: anOperator in: aTarget
+	" ask the operator passed as argument to actually apply the command. "
+
+	self
+		deprecated: 'Use applyOnOperator: instead'
+		transformWith: '`@receiver applyOn: `@argument'
+			-> '`@receiver applyOnOperator: `@argument'.
+	self applyOnOperator: anOperator
+]
+
+{ #category : #'private - hook' }
+ToSelectionModelCopyFromCommand >> applyOnOperator: anOperator [
+
+	anOperator selectionModelCopyFromCommand: self.
+	super applyOnOperator: anOperator 
 ]
 
 { #category : #accessing }

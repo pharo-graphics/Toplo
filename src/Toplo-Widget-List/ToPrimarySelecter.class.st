@@ -14,18 +14,6 @@ ToPrimarySelecter >> initialize [
 	subSelecterIndex := IdentityDictionary new
 ]
 
-{ #category : #'instance creation' }
-ToPrimarySelecter >> newOperator [
-	
-	^ ToPrimarySelectionModelOperator new
-]
-
-{ #category : #'instance creation' }
-ToPrimarySelecter >> newSelectionModelInElement: anElement [
-
-	^ anElement newPrimarySelectionModel
-]
-
 { #category : #accessing }
 ToPrimarySelecter >> recordSubSelecter: aSelecter [
 

@@ -111,7 +111,7 @@ ToMiniBrowser >> initialize [
 	packages := ToListElement new
 		            id: #packages;
 		            nodeBuilder: [ :node :holder |
-							node ensureCanManageSkin.
+			            node ensureCanManageSkin.
 			            node addChild: (ToLabel new
 						             text: holder dataItem name;
 						             defaultRawSkin: ToLabelInListElementSkin new;
@@ -143,7 +143,6 @@ ToMiniBrowser >> initialize [
 	packages addEventHandler: (BlEventHandler
 			 on: ToListStrongSelectionEvent
 			 do: [ :event | event traceCr ]).
-	packages selecter operator inspect.
 
 	packagesPane margin: (BlInsets all: 2).
 	packagesPane addChild: packages.

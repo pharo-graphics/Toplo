@@ -30,28 +30,35 @@ ToAdditionalSelecter >> initialize [
 ]
 
 { #category : #'api - hooks' }
-ToAdditionalSelecter >> onInstalledIn: anElement [
+ToAdditionalSelecter >> onInstalledIn: anEventTarget [
 
-	super onInstalledIn: anElement.
-	selectionModel onInstalledIn: anElement.
+
+	super onInstalledIn: anEventTarget.
+	selectionModel on: anEventTarget.
 	selectionModel uniqueId: uniqueId.
-	operator := ToAdditionalSelectionModelOperator new eventClass: eventClass.
-	operator onInstalledIn: anElement.
 	parentSelecter recordSubSelecter: self
 
 ]
 
 { #category : #'api - hooks' }
-ToAdditionalSelecter >> onUninstalledIn: anElement [
+ToAdditionalSelecter >> onUninstalledIn: anEventTarget [
 
 	parentSelecter unrecordSubSelecter: self.
-	operator onUninstalledIn: anElement.
+	operator onUninstalledIn: anEventTarget.
 	operator := nil.
-	selectionModel onUninstalledIn: anElement.
 	selectionModel := nil.
 	parentSelecter unrecordSubSelecter: self.
-	super onUninstalledIn: anElement
+	super onUninstalledIn: anEventTarget
 
+]
+
+{ #category : #accessing }
+ToAdditionalSelecter >> operator [
+
+	^ operator ifNil: [
+		  operator := ToAdditionalSelectionModelOperator new
+			              eventClass: eventClass;
+			              yourself ]
 ]
 
 { #category : #accessing }

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToInfiniteDataSourceManager,
 	#superclass : #BlInfiniteDataSourceManager,
-	#category : #'Toplo-Widget-List-Infinite'
+	#category : #'Toplo-Widget-List-InnerInfinite'
 }
 
 { #category : #'data source updates' }

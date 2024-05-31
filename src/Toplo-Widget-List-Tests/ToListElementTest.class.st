@@ -133,7 +133,7 @@ ToListElementTest >> testEmptyListAddOrRemovePreviousInSelection [
 	l forceLayout.
 	self assert: l selectionModel isEmpty.
 	l selecter selectIndex: l selecter previousSelectableIndex.
-	l selecter scrollToIndex: l selecter currentIndex.
+	l selecter scrollToDataSourcePosition: l selecter currentIndex.
 	self assert: l selecter currentIndex isZero
 ]
 
@@ -166,7 +166,7 @@ ToListElementTest >> testEmptyListSelectPreviousInSelection [
 	l forceLayout.
 	l selecter selectIndex: l selecter previousSelectableIndex.
 	l selecter selectIndex: l selecter previousSelectableIndex.
-	l selecter scrollToIndex: l selecter currentIndex.
+	l selecter scrollToDataSourcePosition: l selecter currentIndex.
 	self assert: l selecter currentIndex isZero.
 	self assert: l selectionModel isEmpty
 ]
@@ -307,17 +307,17 @@ ToListElementTest >> testRemoveAll [
 	| l |
 	l := ToListElement new.
 	space root addChild: l.
-	l infinite size: 800 @ 600.
+	l innerContainer size: 800 @ 600.
 	l fitContent.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	self waitTestingSpaces.
-	self assert: l infinite children size equals: 5.
+	self assert: l innerContainer children size equals: 5.
 	l selecter selectOnlyIndex: 2.
 	self waitTestingSpaces.
 	self assert: l selectionModel selectedIndexes equals: #( 2 ).
 	l dataAccessor removeAll.
 	self waitTestingSpaces.
-	self assert: l infinite children size equals: 0.
+	self assert: l innerContainer children size equals: 0.
 	self assert: l selectionModel selectedIndexes isEmpty
 ]
 
@@ -338,13 +338,17 @@ ToListElementTest >> testSelectAndScrollToNext [
 		assert: l selectionModel selectedIndexes asArray
 		equals: #( 2 4 ).
 	l selecter selectIndex: l selecter nextSelectableIndex.
-	l selecter scrollToIndex: l selecter currentIndex.
+	l selecter scrollToDataSourcePosition: l selecter currentIndex.
 	self assert: l selecter currentIndex equals: 3.
-	self assert: l selectionModel selectedIndexes asArray equals: #( 2 3 4).
+	self
+		assert: l selectionModel selectedIndexes asArray
+		equals: #( 2 3 4 ).
 	l selecter selectIndex: l selecter nextSelectableIndex.
-	l selecter scrollToIndex: l selecter currentIndex.
+	l selecter scrollToDataSourcePosition: l selecter currentIndex.
 	self assert: l selecter currentIndex equals: 4.
-	self assert: l selectionModel selectedIndexes asArray equals: #( 2 3 4 )
+	self
+		assert: l selectionModel selectedIndexes asArray
+		equals: #( 2 3 4 )
 ]
 
 { #category : #'test selection - select next/previous' }
@@ -359,13 +363,17 @@ ToListElementTest >> testSelectAndScrollToPrevious [
 	self assert: l selecter currentIndex equals: 4.
 	self assert: l selectionModel selectedIndexes asArray equals: #( 4 ).
 	l selecter selectIndex: l selecter previousSelectableIndex.
-	l selecter scrollToIndex: l selecter currentIndex.
+	l selecter scrollToDataSourcePosition: l selecter currentIndex.
 	self assert: l selecter currentIndex equals: 3.
-	self assert: l selectionModel selectedIndexes asArray equals: #( 3 4 ).
+	self
+		assert: l selectionModel selectedIndexes asArray
+		equals: #( 3 4 ).
 	l selecter selectIndex: l selecter previousSelectableIndex.
-	l selecter scrollToIndex: l selecter currentIndex.
+	l selecter scrollToDataSourcePosition: l selecter currentIndex.
 	self assert: l selecter currentIndex equals: 2.
-	self assert: l selectionModel selectedIndexes asArray equals: #( 2 3 4)
+	self
+		assert: l selectionModel selectedIndexes asArray
+		equals: #( 2 3 4 )
 ]
 
 { #category : #'test selection - adding/removing' }
@@ -394,10 +402,10 @@ ToListElementTest >> testSelectionUpdatedAfterInsert1 [
 	self assert: l selectionModel selectedIndexes equals: { 3 }.
 	self assert: l selecter currentIndex equals: 3.
 	l forceLayout.
-	self assert: l infinite children size equals: 5.
+	self assert: l innerContainer children size equals: 5.
 	l dataAccessor addAllFirst: (self statesOfAmerica copyFrom: 6 to: 10).
 	self assert: l dataAccessor size equals: 10.
-	self assert: l infinite children size equals: 5.
+	self assert: l innerContainer children size equals: 5.
 	sp := l inSpace.
 	sp pulse.
 	self assert: l selectionModel lastIndex equals: 8

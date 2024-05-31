@@ -5,11 +5,11 @@ Class {
 		'selectedDataTextField',
 		'inputTextField',
 		'installedInputTextFieldTextEventHandler',
-		'forFiltering',
-		'forMultipleNodes',
-		'windowPopupHandler'
+		'windowPopupHandler',
+		'selectFiltrable',
+		'windowManager'
 	],
-	#category : #'Toplo-Widget-Select-Node'
+	#category : #'Toplo-Widget-Select-textInput'
 }
 
 { #category : #initialization }
@@ -27,21 +27,15 @@ ToSelectTextInputElement >> beReadonly [
 ]
 
 { #category : #private }
-ToSelectTextInputElement >> checkMultipleSelectPlaceholderText [
-	
+ToSelectTextInputElement >> checkPlaceholderText [
+
+	self subclassResponsibility 
 ]
 
-{ #category : #private }
-ToSelectTextInputElement >> checkSingleSelectPlaceholderText [
-	" In case of single selection, the selectedDataTextField can contain 
-	either the placeholder text or the selected data string"
+{ #category : #initialization }
+ToSelectTextInputElement >> configureTextField: aTextField [
 
-	self inputTextField text
-		ifEmpty: [
-		self selectedDataTextField visibility: BlVisibility visible.
-		self selectedDataTextField text foreground: Color lightGray ]
-		ifNotEmpty: [
-		self selectedDataTextField visibility: BlVisibility hidden ]
+	self subclassResponsibility 
 ]
 
 { #category : #accessing }
@@ -51,7 +45,7 @@ ToSelectTextInputElement >> filterString [
 ]
 
 { #category : #initialization }
-ToSelectTextInputElement >> initialize [ 
+ToSelectTextInputElement >> initialize [
 
 	super initialize.
 	self id: #textInputElement.
@@ -85,27 +79,13 @@ ToSelectTextInputElement >> installInputTextFieldEventHandlers [
 		self inputTextField addEventHandler: h ]
 ]
 
-{ #category : #testing }
-ToSelectTextInputElement >> isForFiltering [
-
-	^ forFiltering 
-]
-
-{ #category : #testing }
-ToSelectTextInputElement >> isForMultipleNodes [
-
-	^ forMultipleNodes 
-]
-
 { #category : #initialization }
 ToSelectTextInputElement >> newTextFieldIn: aNodeContainer [
 
 	| textField |
 	textField := ToSelectTextField new.
 	textField headerNodeContainer: aNodeContainer.
-	aNodeContainer isSingleNode ifTrue: [
-		textField withLineWrapping.
-		textField hMatchParent ].
+	self configureTextField: textField.
 	^ textField
 ]
 
@@ -114,9 +94,7 @@ ToSelectTextInputElement >> onFilterTextReplaced: anEvent [
 
 	self fireEvent: ToSelectInputTextFieldUpdatedEvent new.
 	self parent sieve pattern: self filterString.
-	self parent isMultipleSelection
-		ifTrue: [ self checkMultipleSelectPlaceholderText ]
-		ifFalse: [ self checkSingleSelectPlaceholderText ]
+	self checkPlaceholderText
 ]
 
 { #category : #private }
@@ -133,16 +111,16 @@ ToSelectTextInputElement >> onFilterTextUpdated: anEvent [
 { #category : #'api - hooks' }
 ToSelectTextInputElement >> onInstalledIn: aNodeContainer [
 
-	forMultipleNodes := aNodeContainer isSingleNode not.
-	forFiltering := aNodeContainer elementBar isFiltrable.
+	selectFiltrable := aNodeContainer isFiltrable.
+	windowManager := aNodeContainer windowManager.
 	selectedDataTextField := self newTextFieldIn: aNodeContainer.
 	selectedDataTextField beReadonlyWithSelection.
-	inputTextField := self newTextFieldIn: aNodeContainer.
 	selectedDataTextField id: #selectedDataTextField.
+	inputTextField := self newTextFieldIn: aNodeContainer.
 	inputTextField id: #inputTextField.
 	self addChild: selectedDataTextField.
 	self addChild: inputTextField.
-	aNodeContainer elementBar isFiltrable
+	aNodeContainer isFiltrable
 		ifTrue: [ self beEditable ]
 		ifFalse: [ self beReadonly ].
 
@@ -155,7 +133,7 @@ ToSelectTextInputElement >> onInstalledIn: aNodeContainer [
 		                 do: [ :event |
 			                 event text ifNotEmpty: [
 				                 event text asString first isAlphaNumeric ifTrue: [
-					                 aNodeContainer elementBar windowManager
+					                 windowManager
 						                 popupWindowHiddenEvent: event ] ] ].
 	inputTextField infinite addEventHandler: windowPopupHandler
 ]
@@ -166,26 +144,35 @@ ToSelectTextInputElement >> onUninstalledIn: aNodeContainer [
 	self uninstallInputTextFieldEventHandlers.
 	inputTextField infinite removeEventHandler: windowPopupHandler.
 	windowPopupHandler := nil.
+	selectedDataTextField := nil.
+	inputTextField := nil.
 	self removeChildren
 ]
 
 { #category : #window }
 ToSelectTextInputElement >> onWindowClosed [
 
-	self isForMultipleNodes ifFalse: [
-		self selectedDataTextField visibility: BlVisibility visible.
-		self selectedDataTextField text foreground: Color black ].
-	self isForFiltering ifTrue: [ self inputTextField requestFocus ]
+	self selectedDataTextField visibility: BlVisibility visible.
+	self selectedDataTextField text foreground: Color black.
+	selectFiltrable ifTrue: [ self inputTextField requestFocus ]
 ]
 
 { #category : #window }
-ToSelectTextInputElement >> onWindowOpened [
-
-	self isForMultipleNodes ifFalse: [
-		self selectedDataTextField text foreground: Color lightGray ].
-	self isForFiltering
+ToSelectTextInputElement >> onWindowOpened [		
+		
+	self selectedDataTextField text foreground: Color lightGray.
+	selectFiltrable
 		ifTrue: [ self inputTextField requestFocus ]
 		ifFalse: [ self parent requestFocus ]
+]
+
+{ #category : #accessing }
+ToSelectTextInputElement >> selectFiltrable: aBoolean [
+
+	selectFiltrable := aBoolean.
+	aBoolean
+		ifTrue: [ self beEditable ]
+		ifFalse: [ self beReadonly ].
 ]
 
 { #category : #accessing }

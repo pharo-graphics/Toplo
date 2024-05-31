@@ -1,14 +1,17 @@
 Class {
 	#name : #ToAbstractListElement,
 	#superclass : #ToElement,
-	#traits : 'TToListElementDecorator + TToElementWithPlaceholder',
-	#classTraits : 'TToListElementDecorator classTrait + TToElementWithPlaceholder classTrait',
+	#traits : 'TToListElementDecorator + TToElementWithPlaceholder + TToOrientable',
+	#classTraits : 'TToListElementDecorator classTrait + TToElementWithPlaceholder classTrait + TToOrientable classTrait',
 	#instVars : [
-		'selectionMode',
-		'sharedEventDistributors',
-		'dataSource',
+		'next',
 		'overContainer',
-		'beneathContainer'
+		'beneathContainer',
+		'selectionMode',
+		'secondarySelectionMode',
+		'dataSource',
+		'nodeManager',
+		'commandChecker'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -23,6 +26,12 @@ ToAbstractListElement >> addBeneathSelectionElement: aSelectionElement [
 ToAbstractListElement >> addOverSelectionElement: aSelectionElement [
 
 	overContainer addChild: aSelectionElement
+]
+
+{ #category : #'private - commands' }
+ToAbstractListElement >> allowApplicationOfCommand: aCommand [
+
+	^ self commandChecker allowCommand: aCommand
 ]
 
 { #category : #'private - commands' }
@@ -44,7 +53,7 @@ ToAbstractListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 			start to: start + count - 1 do: [ :localIndex |
 				| d originalIndex |
 				d := self dataAccessor at: localIndex.
-				originalIndex := sieve dataPositionIndex at: d.
+				originalIndex := sieve originalIndexOf: d.
 				sieve selectionModel
 					transferSelectionFromIndex: originalIndex
 					toIndex: localIndex
@@ -53,22 +62,16 @@ ToAbstractListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 		self selectionModel copySelectionFrom: sieve selectionModel ]
 ]
 
-{ #category : #orientation }
-ToAbstractListElement >> beHorizontal [
-
-	self infinite layout beHorizontal
-]
-
-{ #category : #orientation }
-ToAbstractListElement >> beVertical [
-
-	self infinite layout beVertical
-]
-
 { #category : #accessing }
 ToAbstractListElement >> beneathContainer [
 
 	^ beneathContainer
+]
+
+{ #category : #accessing }
+ToAbstractListElement >> commandChecker [
+
+	^ commandChecker
 ]
 
 { #category : #accessing }
@@ -94,7 +97,7 @@ ToAbstractListElement >> data [
 { #category : #accessing }
 ToAbstractListElement >> dataAccessor [
 
-	^ self subclassResponsibility 
+	^ self dataSource dataAccessor
 ]
 
 { #category : #accessing }
@@ -122,6 +125,12 @@ ToAbstractListElement >> dataUpdater [
 ]
 
 { #category : #initialization }
+ToAbstractListElement >> defaultCommandCheckerClass [
+
+	^ ToListElementCommandChecker 
+]
+
+{ #category : #initialization }
 ToAbstractListElement >> defaultDataSource [ 
 
 	^ self subclassResponsibility 
@@ -130,11 +139,11 @@ ToAbstractListElement >> defaultDataSource [
 { #category : #initialization }
 ToAbstractListElement >> defaultEventHandler [
 
-	^ self subclassResponsibility 
+	^ ToListElementEventHandler new
 ]
 
 { #category : #initialization }
-ToAbstractListElement >> defaultInfiniteElement [ 
+ToAbstractListElement >> defaultInnerContainer [ 
 
 	^ self subclassResponsibility 
 ]
@@ -142,43 +151,31 @@ ToAbstractListElement >> defaultInfiniteElement [
 { #category : #initialization }
 ToAbstractListElement >> defaultLayout [
 
-	^ BlFrameLayout new
+	^ BlLinearLayout new
 ]
 
 { #category : #initialization }
-ToAbstractListElement >> defaultNodeBuilder [
+ToAbstractListElement >> defaultNodeManager [
 
-	^ self subclassResponsibility 
+	^ self defaultNodeManagerClass new
 ]
 
 { #category : #initialization }
-ToAbstractListElement >> defaultNodeFactory [
+ToAbstractListElement >> defaultNodeManagerClass [
 
-	^ self subclassResponsibility 
+	^ self subclassResponsibility   
 ]
 
 { #category : #initialization }
-ToAbstractListElement >> defaultNodeHolderBuilder [
+ToAbstractListElement >> defaultSecondarySelectionEventHandler [
 
-	^ self subclassResponsibility 
+	^ ToListSecondarySelectionElementEventHandler new
 ]
 
 { #category : #initialization }
-ToAbstractListElement >> defaultNodeHolderFactory [
+ToAbstractListElement >> defaultSecondarySelectionMode [
 
-	^ self subclassResponsibility 
-]
-
-{ #category : #initialization }
-ToAbstractListElement >> defaultNodeHolderReleaser [
-
-	^ self subclassResponsibility 
-]
-
-{ #category : #initialization }
-ToAbstractListElement >> defaultNodeReleaser [
-
-	^ self subclassResponsibility 
+	^ ToListSelectionMode secondary
 ]
 
 { #category : #initialization }
@@ -187,53 +184,62 @@ ToAbstractListElement >> defaultSelectionMode [
 	^ ToListSelectionMode primary
 ]
 
-{ #category : #orientation }
-ToAbstractListElement >> horizontal: aBoolean [
+{ #category : #accessing }
+ToAbstractListElement >> disabledSelecter [ 
 
-	self vertical: aBoolean not
+	^ self selecter subSelecterWithId: #disabled
 ]
 
-{ #category : #initialization }
-ToAbstractListElement >> infiniteSharedEvents [
+{ #category : #accessing }
+ToAbstractListElement >> disabledSelectionModel [
 
-	^ {
-		  BlInfiniteElementAttachedEvent.
-		  BlInfiniteElementDetachedEvent.
-		  BlElementScrolledEvent }
+	^ self selectionModel disabledSelectionModel
+]
+
+{ #category : #accessing }
+ToAbstractListElement >> hiddenSelecter [ 
+
+	^ self selecter subSelecterWithId: #hidden
 ]
 
 { #category : #initialization }
 ToAbstractListElement >> initialize [
 
 	super initialize.
+	nodeManager := self defaultNodeManager.
+	
 	self initializeDataSource.
-	self next: self defaultInfiniteElement.
-	self next elevation: (BlRelativeElevation elevation: 10).
+	self initializeCommandChecker.
+	self initializeInnerContainer.
 
 	beneathContainer := ToOverlayElement new.
-	beneathContainer attachTo: self.
+	beneathContainer attachTo: self innerContainer.
 	beneathContainer elevation: (BlRelativeElevation elevation: 5).  
 	overContainer := ToOverlayElement new.
-	overContainer attachTo: self.
+	overContainer attachTo: self innerContainer.
 	overContainer elevation: (BlRelativeElevation elevation: 15). 
 	self addChildren: { beneathContainer. overContainer }.
-
-
 
 	self layout: self defaultLayout.	
 
 	self selectionMode: self defaultSelectionMode.
 	self addEventHandler: self defaultEventHandler.
-
-	self addChild: self next.
-	self installSharedEventDistributors.
 	
 	self contextMenuWindowManagerClass: ToListElementContextMenuWindowManager.
 	self addEventHandler: ToListPrimarySelectionElementEventHandler new.
 	self addEventHandler:	ToListElementContextMenuSelectionEventHandler new.
-	self addEventHandler: ToElementCommandEventHandler new.
+		
+	self secondarySelectionMode: self defaultSecondarySelectionMode.
+	self addEventHandler: self defaultSecondarySelectionEventHandler.
 	
 	self matchParent
+]
+
+{ #category : #initialization }
+ToAbstractListElement >> initializeCommandChecker [
+
+	commandChecker := self defaultCommandCheckerClass new.
+	commandChecker listElement: self
 ]
 
 { #category : #initialization }
@@ -243,28 +249,12 @@ ToAbstractListElement >> initializeDataSource [
 ]
 
 { #category : #initialization }
-ToAbstractListElement >> installSharedEventDistributors [
-	"installs shared event distributors between the list element, the selection strategy,
-	the infinite, the data and the data source. 
-	This gives the possibility to directly add event handlers on shared events :
-		self when: ToInfiniteSelectionChangedEvent do: [ bla bla ] 
-		instead of 
-		self infinite when: ToSelectionChangedEvent do: [ bla bla ] "
+ToAbstractListElement >> initializeInnerContainer [
 
-	| infiniteSharedHandler |
-	infiniteSharedHandler := BlSharedEventDistributor new
-		                         shareEvents: self infiniteSharedEvents;
-		                         yourself.
-	sharedEventDistributors := { infiniteSharedHandler }.
-	sharedEventDistributors do: [ :handler | self addEventHandler: handler ].
-	self infinite addEventHandler: infiniteSharedHandler.
-	self addEventHandler: infiniteSharedHandler
-]
+	next := self defaultInnerContainer.
+	self next elevation: (BlRelativeElevation elevation: 10).
+	self addChild: self next.
 
-{ #category : #orientation }
-ToAbstractListElement >> isHorizontal [
-
-	^ self infinite layout isHorizontal
 ]
 
 { #category : #testing }
@@ -273,22 +263,26 @@ ToAbstractListElement >> isMultipleSelection [
 	^ self selectionMode isMultipleSelection
 ]
 
-{ #category : #orientation }
-ToAbstractListElement >> isVertical [
-
-	^ self infinite layout isVertical
-]
-
 { #category : #accessing }
 ToAbstractListElement >> itemCount [
 
 	^ self dataSource itemCount
 ]
 
+{ #category : #'t - orientable - accessing' }
+ToAbstractListElement >> layoutStrategy [
+
+	^ self innerContainer layout
+
+	
+]
+
 { #category : #'instance creation' }
 ToAbstractListElement >> newPrimarySelectionModel [
 
-	^ self subclassResponsibility 
+	^ ToPrimarySelectionModel new
+		  on: self;
+		  yourself
 ]
 
 { #category : #skin }
@@ -298,47 +292,58 @@ ToAbstractListElement >> newRawSkin [
 ]
 
 { #category : #'instance creation' }
+ToAbstractListElement >> newSecondarySelectionModel [
+
+	^ self selectionModel newSecondarySelectionModel
+		  on: self;
+		  yourself
+]
+
+{ #category : #'instance creation' }
 ToAbstractListElement >> newSelectionModel [
 
-	^ self subclassResponsibility 
+	^ ToSelectionModel new
+		  itemCountGetter: [ self dataSource itemCount ];
+		  yourself
+]
+
+{ #category : #'t - infinite accessing' }
+ToAbstractListElement >> next [
+
+	^ next
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> nodeBuilder [
+ToAbstractListElement >> nodeBuilder: aValuable [
 
-	"aValuable takes 3 args: (1), the node to build (2) ts holder in the list element (3) the associated data "
-
-	^ self subclassResponsibility 
+	"aValuable takes 3 args: first, the node to build and second, its holder in the list element and the data item"
+	nodeManager nodeBuilder: aValuable
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> nodeFactory [
-	" returns aValuable that takes a node holder as unique argument and which running results in a new node "
+ToAbstractListElement >> nodeFactory: aValuable [
+	" aValuable that takes a node holder as unique argument and which running results in a new node "
 
-	^ self subclassResponsibility 
+	nodeManager nodeFactory: aValuable
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> nodeHolderBuilder [
+ToAbstractListElement >> nodeHolderClass: aNodeHolderClass [
 
-	"aValuable takes 1 arg: the holder to build "
-
-	^ self subclassResponsibility 
+	nodeManager nodeHolderClass: aNodeHolderClass
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> nodeHolderReleaser [
+ToAbstractListElement >> nodeManager [ 
 
-	"aValuable takes 1 arg: the holder to release "
-
-	^ self subclassResponsibility 
+	^ nodeManager
 ]
 
-{ #category : #accessing }
-ToAbstractListElement >> nodeReleaser [
-	"aValuable takes 2 args: first, the ToNode to release and second, its holder in the list element "
+{ #category : #'event firing' }
+ToAbstractListElement >> notifyDataSourceChanged [
 
-	^ self subclassResponsibility
+	
+	self dataSource notifyChanged
 ]
 
 { #category : #'event firing' }
@@ -348,9 +353,7 @@ ToAbstractListElement >> notifyDataSourceItemsChanged: aDataSourceEvent [
 	preNotification := ToListDataSourceItemsChangePreNotificationEvent new
 		                   sourceEvent: aDataSourceEvent;
 		                   yourself.
-	self dispatchEvent: preNotification.
-	preNotification sourceEvent ifNil: [ ^ self ].
-	self dispatchEvent: preNotification sourceEvent
+	self dispatchPreNotificationEvent: preNotification
 ]
 
 { #category : #'event firing' }
@@ -373,7 +376,7 @@ ToAbstractListElement >> offsetPositionRecordsForFilter: aStartPosition itemCoun
 		ifNotEmpty: [
 			self dataAccessor withIndexDo: [ :d :localIndex |
 				| originalIndex |
-				originalIndex := aSieve dataPositionIndex at: d.
+				originalIndex := aSieve originalIndexOf: d.
 				aSieve selectionModel
 					transferSelectionFromIndex: originalIndex
 					toIndex: localIndex
@@ -391,7 +394,7 @@ ToAbstractListElement >> overContainer [
 { #category : #'t - element with placeholder' }
 ToAbstractListElement >> placeholderElevation [
 
-	^ self infinite elevation
+	^ self innerContainer elevation
 ]
 
 { #category : #accessing }
@@ -407,9 +410,48 @@ ToAbstractListElement >> primarySelectionElements [
 ]
 
 { #category : #accessing }
+ToAbstractListElement >> secondarySelecter [ 
+
+	^ self secondarySelectionMode selecter
+]
+
+{ #category : #accessing }
+ToAbstractListElement >> secondarySelectionElements [
+
+	^ Array streamContents: [ :stream |
+		  overContainer childrenDo: [ :child |
+			  (child isKindOf: secondarySelectionMode elementClass) ifTrue: [
+				  stream nextPut: child ] ].
+		  beneathContainer childrenDo: [ :child |
+			  (child isKindOf: secondarySelectionMode elementClass) ifTrue: [
+				  stream nextPut: child ] ] ]
+]
+
+{ #category : #accessing }
+ToAbstractListElement >> secondarySelectionMode [
+
+	^ secondarySelectionMode
+]
+
+{ #category : #accessing }
+ToAbstractListElement >> secondarySelectionMode: aSelectionMode [
+
+	secondarySelectionMode ifNotNil: [ secondarySelectionMode onUninstalledIn: self ].
+	secondarySelectionMode := aSelectionMode.
+	secondarySelectionMode ifNotNil: [ secondarySelectionMode onInstalledIn: self ].
+	self dispatchEvent: ToListSecondarySelectionModeChangedEvent new
+]
+
+{ #category : #accessing }
+ToAbstractListElement >> secondarySelectionModel [
+
+	^ self secondarySelectionMode selectionModel
+]
+
+{ #category : #accessing }
 ToAbstractListElement >> selecter [ 
 
-	^ self selectionMode selecter
+	^ selectionMode selecter
 ]
 
 { #category : #accessing }
@@ -433,7 +475,7 @@ ToAbstractListElement >> selectionMode: aSelectionMode [
 { #category : #accessing }
 ToAbstractListElement >> selectionModel [
 
-	^ self selectionMode selectionModel
+	^ selectionMode selectionModel
 ]
 
 { #category : #'private - commands' }
@@ -442,23 +484,71 @@ ToAbstractListElement >> sieveResultWith: aSieve [
 	self dataAccessor sieveResultWith: aSieve
 ]
 
-{ #category : #initialization }
-ToAbstractListElement >> uninstallSharedEventDistributors [
-	" see installSharedEventDistributor "
+{ #category : #accessing }
+ToAbstractListElement >> unselectableSelecter [
 
-	sharedEventDistributors ifNil: [ ^ self ].
-
-	sharedEventDistributors do: [ :handler |
-		self removeEventHandler: handler.
-		self infinite removeEventHandlersSuchThat: [ :h | handler = h ] ].
-
-	sharedEventDistributors := nil
+	^ self selecter subSelecterWithId: #unselectable
 ]
 
-{ #category : #orientation }
-ToAbstractListElement >> vertical: aBoolean [
+{ #category : #accessing }
+ToAbstractListElement >> unselectableSelectionModel [
 
-	aBoolean
-		ifTrue: [ self beVertical ]
-		ifFalse: [ self beHorizontal ]
+	^ self unselectableSelecter selectionModel
+]
+
+{ #category : #'additional selecters' }
+ToAbstractListElement >> withAdditionalSelecterWithId: aSymbol withEventClass: anEventClass [
+
+	| additional |
+	additional := ToAdditionalSelecter new.
+	additional uniqueId: aSymbol.
+	additional eventClass: anEventClass.
+	additional parentSelecter: self selecter.
+	additional onInstalledIn: self.
+	^ additional
+	
+
+]
+
+{ #category : #'additional selecters' }
+ToAbstractListElement >> withDisabledSelecter [
+
+	self withAdditionalSelecterWithId: #disabled withEventClass: ToListDisabledSelectionChangedEvent
+	
+
+]
+
+{ #category : #'additional selecters' }
+ToAbstractListElement >> withHiddenSelecter [
+
+	self withAdditionalSelecterWithId: #hidden withEventClass: ToListHiddenSelectionChangedEvent
+
+]
+
+{ #category : #'additional selecters' }
+ToAbstractListElement >> withUnselectableSelecter [
+
+	self withAdditionalSelecterWithId: #unselectable withEventClass: ToListUnselectableSelectionChangedEvent
+
+]
+
+{ #category : #'additional selecters' }
+ToAbstractListElement >> withoutDisabledSelecter [
+
+	(self selecter subSelecterWithId: #disabled) ifNotNil: [ :selecter |
+		selecter onUninstalledIn: self ]
+]
+
+{ #category : #'additional selecters' }
+ToAbstractListElement >> withoutHiddenSelecter [
+
+	(self selecter subSelecterWithId: #hidden) ifNotNil: [ :selecter |
+		selecter onUninstalledIn: self ]
+]
+
+{ #category : #'additional selecters' }
+ToAbstractListElement >> withoutUnselectableSelecter [
+
+	(self selecter subSelecterWithId: #unselectable) ifNotNil: [ :selecter |
+		selecter onUninstalledIn: self ]
 ]

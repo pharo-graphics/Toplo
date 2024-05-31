@@ -1,9 +1,6 @@
 Class {
 	#name : #ToListElementSkin,
 	#superclass : #ToBasicListElementSkin,
-	#instVars : [
-		'installedShortcuts'
-	],
 	#category : #'Toplo-Widget-List-Core'
 }
 
@@ -26,7 +23,7 @@ ToListElementSkin >> shortcutsToInstallIn: aListElement [
 				   action: [ :aShortcutEvent :aShortcut |
 					   | idx |
 					   idx := aListElement selecter nextSelectableIndexToScrollTo.
-					   aListElement selecter scrollToIndex: idx.
+					   aListElement selecter scrollToDataSourcePosition: idx.
 					   aListElement selecter selectOnlyIndex: idx ]).
 
 		  stream nextPut: (BlShortcutWithAction new
@@ -34,7 +31,7 @@ ToListElementSkin >> shortcutsToInstallIn: aListElement [
 				   action: [ :aShortcutEvent :aShortcut |
 					   | idx |
 					   idx := aListElement selecter previousSelectableIndexToScrollTo.
-					   aListElement selecter scrollToIndex: idx.
+					   aListElement selecter scrollToDataSourcePosition: idx.
 					   aListElement selecter selectOnlyIndex: idx ]).
 
 		  aListElement isMultipleSelection ifTrue: [
@@ -50,7 +47,7 @@ ToListElementSkin >> shortcutsToInstallIn: aListElement [
 						   | idx |
 						   idx := aListElement selecter nextDeselectedIndex.
 						   aListElement selecter selectIndex: idx.
-						   aListElement selecter scrollToIndex: idx ]).
+						   aListElement selecter scrollToDataSourcePosition: idx ]).
 
 			  stream nextPut: (BlShortcutWithAction new
 					   combination: BlKeyCombination builder shift arrowUp build;
@@ -58,7 +55,7 @@ ToListElementSkin >> shortcutsToInstallIn: aListElement [
 						   | idx |
 						   idx := aListElement selecter previousDeselectedIndex.
 						   aListElement selecter selectIndex: idx.
-						   aListElement selecter scrollToIndex: idx ]) ] ]
+						   aListElement selecter scrollToDataSourcePosition: idx ]) ] ]
 ]
 
 { #category : #'event handling' }

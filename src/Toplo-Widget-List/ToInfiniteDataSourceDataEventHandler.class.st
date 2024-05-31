@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'infinite'
 	],
-	#category : #'Toplo-Widget-List-Infinite'
+	#category : #'Toplo-Widget-List-InnerInfinite'
 }
 
 { #category : #'data events handling' }
@@ -25,13 +25,6 @@ ToInfiniteDataSourceDataEventHandler >> collectionAllUpdatedEvent: anEvent [
 ToInfiniteDataSourceDataEventHandler >> collectionEmptinessEvent: anEvent [
 
 	infinite dispatchEvent: (ToInfiniteDataSourceEmptinessChangedEvent new)
-]
-
-{ #category : #'data events handling' }
-ToInfiniteDataSourceDataEventHandler >> collectionFilterRequest: anEvent [
-
-	"infinite dataSource notifyItemsRemoved: anEvent interval"
-	
 ]
 
 { #category : #'data events handling' }

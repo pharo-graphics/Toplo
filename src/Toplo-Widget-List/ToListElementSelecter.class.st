@@ -2,10 +2,12 @@ Class {
 	#name : #ToListElementSelecter,
 	#superclass : #Object,
 	#instVars : [
+		'eventTarget',
 		'enabled',
 		'operator',
 		'selectionModel',
-		'multiple'
+		'multiple',
+		'operatorEventHandler'
 	],
 	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
@@ -14,14 +16,9 @@ Class {
 ToListElementSelecter >> addCommand: aCommand [
 
 	enabled ifFalse: [ ^ self ].
-	operator addCommand: aCommand
-]
-
-{ #category : #adding }
-ToListElementSelecter >> addSelectionCommand: aCommand [
-
 	aCommand selectionModel: selectionModel.
-	self addCommand: aCommand
+	aCommand target: eventTarget.
+	operator addCommand: aCommand 
 ]
 
 { #category : #accessing }
@@ -45,8 +42,7 @@ ToListElementSelecter >> containsIndex: anIndex [
 { #category : #copying }
 ToListElementSelecter >> copySelectionFrom: aSourceSelectionModel [
 
-	self addSelectionCommand: (ToSelectionModelCopyFromCommand new
-			 operator: operator;
+	self addCommand: (ToSelectionModelCopyFromCommand new
 			 sourceSelectionModel: aSourceSelectionModel;
 			 yourself)
 ]
@@ -62,8 +58,7 @@ ToListElementSelecter >> currentIndex [
 { #category : #operations }
 ToListElementSelecter >> deselectAll [
 
-	self addSelectionCommand: (ToWholeSelectionCommand new
-			 operator: operator;
+	self addCommand: (ToWholeSelectionCommand new
 			 operation: ToRemoveSelectionOperation new;
 			 yourself)
 ]
@@ -71,8 +66,7 @@ ToListElementSelecter >> deselectAll [
 { #category : #operations }
 ToListElementSelecter >> deselectIndex: anIndex [
 
-	self addSelectionCommand: (ToIntervalSelectionCommand new
-			 operator:  operator;
+	self addCommand: (ToIntervalSelectionCommand new
 			 from: anIndex to: anIndex;
 			 operation: ToRemoveSelectionOperation new)
 ]
@@ -80,8 +74,7 @@ ToListElementSelecter >> deselectIndex: anIndex [
 { #category : #operations }
 ToListElementSelecter >> deselectIndex: aStartIndex to: anEndIndex [
 
-	self addSelectionCommand: (ToIntervalSelectionCommand new
-			 operator: operator;
+	self addCommand: (ToIntervalSelectionCommand new
 			 from: aStartIndex to: anEndIndex;
 			 operation: ToRemoveSelectionOperation new)
 ]
@@ -89,8 +82,7 @@ ToListElementSelecter >> deselectIndex: aStartIndex to: anEndIndex [
 { #category : #operations }
 ToListElementSelecter >> deselectIndexes: anArray [
 
-	self addSelectionCommand: (ToIndexesSelectionCommand new
-			 operator: operator;
+	self addCommand: (ToIndexesSelectionCommand new
 			 indexes: anArray;
 			 operation: ToRemoveSelectionOperation new)
 ]
@@ -117,6 +109,12 @@ ToListElementSelecter >> enabled [
 ToListElementSelecter >> enabled: aBoolean [
 
 	enabled := aBoolean
+]
+
+{ #category : #accessing }
+ToListElementSelecter >> eventTarget: anEventTarget [
+
+	eventTarget := anEventTarget 
 ]
 
 { #category : #initialization }
@@ -199,11 +197,24 @@ ToListElementSelecter >> nextSelectableIndexToScrollTo [
 ]
 
 { #category : #'api - hooks' }
-ToListElementSelecter >> onInstalledIn: anElement [
+ToListElementSelecter >> onInstalledIn: anEventTarget [
+
+	" the argument is passed as the target of commands.
+	It receives the selection change event after the application of commands "
+
+	eventTarget := anEventTarget.
+	operatorEventHandler := ToElementCommandEventHandler new
+		                        element: eventTarget;
+		                        yourself.
+	" operator can be lazily initialized. use the getter here "
+	self operator addEventHandler: operatorEventHandler
 ]
 
 { #category : #'api - hooks' }
-ToListElementSelecter >> onUninstalledIn: anElement [
+ToListElementSelecter >> onUninstalledIn: anEventTarget [
+
+	eventTarget := nil.
+	operator removeEventHandler: operatorEventHandler
 ]
 
 { #category : #accessing }
@@ -255,22 +266,32 @@ ToListElementSelecter >> previousSelectableIndexToScrollTo [
 ]
 
 { #category : #operations }
-ToListElementSelecter >> scrollToIndex: anIndex [
+ToListElementSelecter >> scrollToDataSourcePosition: anIndex [
 
 	enabled ifFalse: [ ^ self ].
 	selectionModel itemCount >= anIndex ifTrue: [
-		self addSelectionCommand: (ToListScrollCommand new
-				 operator: operator;
+		self addCommand: (ToScrollCommand new
+				 target: eventTarget;
 				 index: anIndex;
 				 yourself) ]
+]
+
+{ #category : #operations }
+ToListElementSelecter >> scrollToIndex: anIndex [
+
+	self
+		deprecated: 'Use scrollToDataSourcePosition: instead'
+		transformWith: '`@receiver scrollToIndex: `@argument'
+			-> '`@receiver scrollToDataSourcePosition: `@argument'.
+
+	self scrollToDataSourcePosition: anIndex
 ]
 
 { #category : #operations }
 ToListElementSelecter >> selectAll [
 
 	self isMultipleSelection ifFalse: [ ToInvalidElementCommand signal ].
-	self addSelectionCommand: (ToWholeSelectionCommand new
-			 operator: operator;
+	self addCommand: (ToWholeSelectionCommand new
 			 operation: ToAddSelectionOperation new;
 			 yourself)
 ]
@@ -278,8 +299,7 @@ ToListElementSelecter >> selectAll [
 { #category : #operations }
 ToListElementSelecter >> selectIndex: anIndex [
 
-	self addSelectionCommand: (ToIntervalSelectionCommand new
-			 operator: operator;
+	self addCommand: (ToIntervalSelectionCommand new
 			 from: anIndex to: anIndex;
 			 operation: (ToAddSelectionOperation new
 					  deselectAllBefore: self isSingleSelection;
@@ -295,8 +315,7 @@ ToListElementSelecter >> selectIndex: aStartIndex to: anEndIndex [
 		self selectIndex: aStartIndex.
 		^ self ].
 
-	self addSelectionCommand: (ToIntervalSelectionCommand new
-			 operator: operator;
+	self addCommand: (ToIntervalSelectionCommand new
 			 from: aStartIndex to: anEndIndex;
 			 operation: ToAddSelectionOperation new)
 ]
@@ -311,8 +330,7 @@ ToListElementSelecter >> selectIndexes: anArray [
 		self selectIndex: anArray first.
 		^ self ].
 
-	self addSelectionCommand: (ToIndexesSelectionCommand new
-			 operator: operator;
+	self addCommand: (ToIndexesSelectionCommand new
 			 indexes: anArray;
 			 operation: ToAddSelectionOperation new)
 ]
@@ -320,8 +338,7 @@ ToListElementSelecter >> selectIndexes: anArray [
 { #category : #operations }
 ToListElementSelecter >> selectOnlyIndex: anIndex [
 
-	self addSelectionCommand: (ToIntervalSelectionCommand new
-			 operator: operator;
+	self addCommand: (ToIntervalSelectionCommand new
 			 from: anIndex to: anIndex;
 			 operation: (ToAddSelectionOperation new
 					  deselectAllBefore: true;
@@ -335,13 +352,11 @@ ToListElementSelecter >> selectOnlyIndexes: anArray [
 		anArray size > 1 ifTrue: [ ^ ToInvalidElementCommand signal ] ].
 
 	anArray ifEmpty: [
-		self addSelectionCommand: (ToWholeSelectionCommand new
-				 operator: operator;
+		self addCommand: (ToWholeSelectionCommand new
 				 operation: ToRemoveSelectionOperation new).
 		^ self ].
 
-	self addSelectionCommand: (ToIndexesSelectionCommand new
-			 operator: operator;
+	self addCommand: (ToIndexesSelectionCommand new
 			 indexes: anArray;
 			 operation: (ToAddSelectionOperation new
 					  deselectAllBefore: true;
@@ -369,8 +384,7 @@ ToListElementSelecter >> selectionModel: aSelectionModel [
 { #category : #operations }
 ToListElementSelecter >> shiftSelection: anInteger from: anIndex [
 
-	self addSelectionCommand: (ToSelectionModelShiftCommand new
-			 operator: operator;
+	self addCommand: (ToSelectionModelShiftCommand new
 			 itemCount: anInteger;
 			 fromIndex: anIndex;
 			 yourself)

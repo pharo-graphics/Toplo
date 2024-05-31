@@ -1,6 +1,6 @@
 Class {
 	#name : #ToPicsumPhotosGalleryImageNode,
-	#superclass : #ToNode,
+	#superclass : #ToListNode,
 	#instVars : [
 		'label'
 	],

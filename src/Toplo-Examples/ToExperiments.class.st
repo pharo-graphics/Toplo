@@ -414,7 +414,7 @@ ToExperiments class >> example_LinearLayoutFillWithMatchParent [
 		         background: Color gray;
 		         size: 300 @ 100;
 		         layout: BlLinearLayout new;
-		         constraintsDo: [ :c | 
+		         constraintsDo: [ :c |
 			         c horizontal matchParent.
 			         c vertical fitContent ].
 	frame layout cellSpacing: 10.
@@ -426,11 +426,12 @@ ToExperiments class >> example_LinearLayoutFillWithMatchParent [
 	fill := BlElement new
 		        background: Color yellow;
 		        height: 20;
-		        constraintsDo: [ :c | 
-			        c horizontal
-				        matchParent.
-				      c minWidth: 50 ].
-	fill when: BlElementExtentChangedEvent do: [ :ann | fill width traceCr ].
+		        constraintsDo: [ :c |
+			        c horizontal matchParent.
+			        c minWidth: 50 ].
+	fill
+		addEventHandlerOn: BlElementExtentChangedEvent
+		do: [ :ann | fill width traceCr ].
 	right := BlElement new
 		         background: Color red;
 		         width: 100;

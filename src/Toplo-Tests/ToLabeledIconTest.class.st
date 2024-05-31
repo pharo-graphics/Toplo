@@ -215,11 +215,11 @@ ToLabeledIconTest >> testInterspace [
 	li := ToLabeledIcon new.
 	li startInterspace: 10.
 	li forceLayout.
-	self assert: li size equals: 10 asPoint.
+	self assert: li size equals: 10@0.
 	li vFitContent.
 	li forceLayout.
 	self assert: li width equals: 10.
-	self assert: li height equals: 10.
+	self assert: li height equals: 0.
 	li label: (ToLabel text: 'X').
 	li forceLayout.
 	self assert: li height equals: li label height.	

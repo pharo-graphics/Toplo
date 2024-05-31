@@ -1,8 +1,15 @@
 Class {
 	#name : #ToSelectElementSkin,
-	#superclass : #ToElementBarSkin,
+	#superclass : #ToListElementSkin,
 	#category : #'Toplo-Widget-Select-Core'
 }
+
+{ #category : #'event handling' }
+ToSelectElementSkin >> installLookEvent: anEvent [
+
+	super installLookEvent: anEvent.
+	anEvent elementDo: [ :e |  ]
+]
 
 { #category : #'accessing - shortcuts' }
 ToSelectElementSkin >> shortcutsToInstallIn: aSelect [
@@ -18,7 +25,7 @@ ToSelectElementSkin >> shortcutsToInstallIn: aSelect [
 					   idx := listElement secondarySelecter
 						          nextSelectableIndexToScrollTo.
 					   listElement secondarySelecter selectOnlyIndex: idx.
-					   listElement secondarySelecter scrollToIndex: idx.
+					   listElement secondarySelecter scrollToDataSourcePosition: idx.
 					   aSelect windowManager currentWindow ifNil: [
 							   aSelect popupWindowEvent: aShortcutEvent ] ]).
 
@@ -28,7 +35,7 @@ ToSelectElementSkin >> shortcutsToInstallIn: aSelect [
 					   | idx |
 					   idx := listElement secondarySelecter
 						          previousSelectableIndexToScrollTo.
-					   listElement secondarySelecter scrollToIndex: idx.
+					   listElement secondarySelecter scrollToDataSourcePosition: idx.
 					   listElement secondarySelecter selectOnlyIndex: idx ]).
 
 		  stream nextPut: (BlShortcutWithAction new
@@ -61,7 +68,7 @@ ToSelectElementSkin >> shortcutsToInstallIn: aSelect [
 						   idx := listElement secondarySelecter
 							          nextSelectableIndexToScrollTo.
 						   listElement secondarySelecter selectIndex: idx.
-						   listElement secondarySelecter scrollToIndex: idx ]).
+						   listElement secondarySelecter scrollToDataSourcePosition: idx ]).
 
 			  stream nextPut: (BlShortcutWithAction new
 					   combination: BlKeyCombination builder shift arrowUp build;
@@ -70,5 +77,12 @@ ToSelectElementSkin >> shortcutsToInstallIn: aSelect [
 						   idx := listElement secondarySelecter
 							          previousSelectableIndexToScrollTo.
 						   listElement secondarySelecter selectIndex: idx.
-						   listElement secondarySelecter scrollToIndex: idx ]) ] ]
+						   listElement secondarySelecter scrollToDataSourcePosition: idx ]) ] ]
+]
+
+{ #category : #'event handling' }
+ToSelectElementSkin >> uninstallLookEvent: anEvent [
+
+	super uninstallLookEvent: anEvent.
+	anEvent elementDo: [ :e |  ]
 ]

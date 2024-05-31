@@ -2,10 +2,23 @@ Class {
 	#name : #ToListNodeSelectedEvent,
 	#superclass : #ToListNodeEvent,
 	#instVars : [
+		'listElement',
 		'selected'
 	],
 	#category : #'Toplo-Widget-List-Node'
 }
+
+{ #category : #accessing }
+ToListNodeSelectedEvent >> listElement [
+
+	^ listElement
+]
+
+{ #category : #accessing }
+ToListNodeSelectedEvent >> listElement: aListElement [
+
+	listElement := aListElement
+]
 
 { #category : #accessing }
 ToListNodeSelectedEvent >> selected [

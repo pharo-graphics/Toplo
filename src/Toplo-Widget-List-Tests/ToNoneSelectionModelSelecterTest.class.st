@@ -100,7 +100,7 @@ ToNoneSelectionModelSelecterTest >> testSelectAndScrollToIndex [
 	selecter selectIndex: 2.
 	self waitTestingSpaces.
 	selecter selectIndex: 10.
-	selecter scrollToIndex: 10.
+	selecter scrollToDataSourcePosition: 10.
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes isEmpty.
 	self assert: selecter currentIndex equals: 0.
@@ -113,7 +113,7 @@ ToNoneSelectionModelSelecterTest >> testSelectAndScrollToNext [
 	selecter selectIndex: 2.
 	self waitTestingSpaces.
 	selecter selectIndex: selecter nextSelectableIndex.
-	selecter scrollToIndex: selecter currentIndex.
+	selecter scrollToDataSourcePosition: selecter currentIndex.
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes isEmpty.
 	self assert: selecter currentIndex equals: 0.
@@ -127,12 +127,12 @@ ToNoneSelectionModelSelecterTest >> testSelectAndScrollToNextDeselected [
 	selecter selectIndex: 2.
 	self waitTestingSpaces.
 	selecter selectIndex: selecter nextDeselectedIndex.
-	selecter scrollToIndex: selecter currentIndex.
+	selecter scrollToDataSourcePosition: selecter currentIndex.
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes isEmpty.
 	self assert: selecter currentIndex equals: 0.
 	selecter selectIndex: selecter nextDeselectedIndex.
-	selecter scrollToIndex: selecter currentIndex.
+	selecter scrollToDataSourcePosition: selecter currentIndex.
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes isEmpty.
 	self assert: selecter currentIndex equals: 0.
@@ -145,7 +145,7 @@ ToNoneSelectionModelSelecterTest >> testSelectAndScrollToPrevious [
 	selecter selectIndex: 2.
 	self waitTestingSpaces.
 	selecter selectIndex: selecter previousSelectableIndex.
-	selecter scrollToIndex: selecter currentIndex.
+	selecter scrollToDataSourcePosition: selecter currentIndex.
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes isEmpty.
 	self assert: selecter currentIndex equals: 0.
@@ -159,12 +159,12 @@ ToNoneSelectionModelSelecterTest >> testSelectAndScrollToPreviousDeselected [
 	selecter selectIndex: 2.
 	self waitTestingSpaces.
 	selecter selectIndex: selecter previousDeselectedIndex.
-	selecter scrollToIndex:  selecter currentIndex.
+	selecter scrollToDataSourcePosition: selecter currentIndex.
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes isEmpty.
 	self assert: selecter currentIndex equals: 0.
 	selecter selectIndex: selecter previousDeselectedIndex.
-	selecter scrollToIndex:  selecter currentIndex.
+	selecter scrollToDataSourcePosition: selecter currentIndex.
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes isEmpty.
 	self assert: selecter currentIndex equals: 0.
@@ -219,7 +219,7 @@ ToNoneSelectionModelSelecterTest >> testSelectNextOnLastIndex [
 	self waitTestingSpaces.
 	self assert: selecter currentIndex equals: 0.
 	selecter selectIndex: selecter nextSelectableIndex.
-	selecter scrollToIndex: selecter currentIndex.
+	selecter scrollToDataSourcePosition: selecter currentIndex.
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes isEmpty.
 	self assert: selecter currentIndex equals: 0.
@@ -252,7 +252,7 @@ ToNoneSelectionModelSelecterTest >> testSelectPreviousOnFirstIndex [
 	self waitTestingSpaces.
 	self assert: selecter currentIndex equals: 0.
 	selecter selectIndex: selecter previousSelectableIndex.
-	selecter scrollToIndex: selecter currentIndex.
+	selecter scrollToDataSourcePosition: selecter currentIndex.
 	self waitTestingSpaces.
 	self assert: holder selectionModel selectedIndexes isEmpty.
 	self assert: selecter currentIndex equals: 0.

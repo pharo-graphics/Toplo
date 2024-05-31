@@ -1,11 +1,10 @@
 Class {
 	#name : #ToCommandOperator,
 	#superclass : #Object,
-	#classTraits : 'TBlEventTarget classTrait',
+	#traits : 'TBlEventTarget + TToPrenotificationTarget',
+	#classTraits : 'TBlEventTarget classTrait + TToPrenotificationTarget classTrait',
 	#instVars : [
-		'eventDispatcher',
-		'sharedEventDistributor',
-		'element'
+		'eventDispatcher'
 	],
 	#category : #'Toplo-Widget-List-Command-Selection'
 }
@@ -14,42 +13,27 @@ Class {
 ToCommandOperator >> addCommand: aCommand [
 
 	self dispatchEvent: (ToElementCommandAddedEvent new
-			 command: aCommand
-			 yourself)
+			 operator: self;
+			 command: aCommand yourself)
 ]
 
 { #category : #'command application' }
-ToCommandOperator >> applyCommand: aCommand in: aTarget [ 
-	
-	aCommand applyOn: aCommand operator in: aTarget
+ToCommandOperator >> applyCommand: aCommand [
+
+	aCommand applyOnOperator: self
 ]
 
-{ #category : #'event management' }
-ToCommandOperator >> dispatchEvent: anEvent [
-	"I only call my event dispatcher, so the event can be only handled by my event handlers/filters"
+{ #category : #'event management accessing' }
+ToCommandOperator >> eventDispatcher [
+	"Return an object responsible for event dispatching"
+	<return: #BlDirectEventDispatcher>
 
-	element dispatchEvent: anEvent
+	^ eventDispatcher
 ]
 
-{ #category : #'command operations' }
-ToCommandOperator >> listScrollCommand: aCommand in: aTarget [
+{ #category : #initialization }
+ToCommandOperator >> initialize [ 
 
-]
-
-{ #category : #'api - hooks' }
-ToCommandOperator >> onInstalledIn: anElement [
-
-	element := anElement 
-]
-
-{ #category : #'api - hooks' }
-ToCommandOperator >> onUninstalledIn: anEventTarget [
-
-	element := nil
-]
-
-{ #category : #accessing }
-ToCommandOperator >> sharedEvents [ 
-
-	^ { ToElementCommandAddedEvent }
+	super initialize.
+	eventDispatcher := BlDirectEventDispatcher on: self
 ]

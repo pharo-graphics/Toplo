@@ -9,14 +9,11 @@ ToPicsumPhotosGallerySelectionSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		| im cont bar w bnds |
-		w := 5.
-		bnds := e boundsFromNodes.
-		e position: bnds origin - (w @ 0).
-		e size: bnds extent + (w @ 0).
+		| im cont bar w  |
+		w := 3.
+		e background: (Color yellow alpha: 0.1).
 		bar := BlElement new
 			       width: w;
-			       margin: (BlInsets left: 1);
 			       yourself.
 		bar background: Color yellow.
 		bar constraintsDo: [ :c |

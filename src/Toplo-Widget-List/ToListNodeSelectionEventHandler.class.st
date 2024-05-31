@@ -18,11 +18,19 @@ ToListNodeSelectionEventHandler >> clickEvent: anEvent [
 { #category : #'api - accessing' }
 ToListNodeSelectionEventHandler >> eventsToHandle [
 
-	^ { ToListDoubleClickEvent. BlPrimaryClickEvent. BlPrimaryMouseDownEvent. ToListClickOnNodeEvent  }
+	^ { ToListDoubleClickEvent. BlPrimaryClickEvent. BlPrimaryMouseDownEvent. ToListClickOnNodePreNotificationEvent. ToListClickOnNodeEvent  }
 ]
 
 { #category : #'events handling' }
 ToListNodeSelectionEventHandler >> listClickOnNodeEvent: anEvent [
+]
+
+{ #category : #'mouse handlers' }
+ToListNodeSelectionEventHandler >> listClickOnNodePreNotificationEvent: anEvent [
+
+	| node |
+	node := anEvent currentTarget.
+	node holder isSelectable ifFalse: [ anEvent deny ]
 ]
 
 { #category : #'mouse handlers' }
@@ -42,19 +50,15 @@ ToListNodeSelectionEventHandler >> mouseDownEvent: anEvent [
 { #category : #'mouse handlers' }
 ToListNodeSelectionEventHandler >> notifyClickOnNodeFromEvent: anEvent [
 
-	| node listElement preNotification eventToNotify |
+	| node preNotification eventToNotify |
 	node := anEvent currentTarget.
-	listElement := node holder listElement.
 	eventToNotify := ToListClickOnNodeEvent new
 		                 sourceEvent: anEvent;
 		                 yourself.
 	preNotification := ToListClickOnNodePreNotificationEvent new
-		                   node: node;
 		                   sourceEvent: eventToNotify;
 		                   yourself.
-	listElement dispatchEvent: preNotification.
-	preNotification sourceEvent ifNil: [ ^ self ].
-	node dispatchEvent: eventToNotify
+	node dispatchPreNotificationEvent: preNotification
 ]
 
 { #category : #'mouse handlers' }

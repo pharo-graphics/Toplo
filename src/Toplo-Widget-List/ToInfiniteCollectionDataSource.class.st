@@ -7,7 +7,7 @@ Class {
 		'dataEventHandler',
 		'data'
 	],
-	#category : #'Toplo-Widget-List-Infinite'
+	#category : #'Toplo-Widget-List-InnerInfinite'
 }
 
 { #category : #accessing }
@@ -58,16 +58,9 @@ ToInfiniteCollectionDataSource >> onBindHolder: anElementHolder at: aPosition [
 ToInfiniteCollectionDataSource >> onDetached: anInfiniteElement [
 
 	self removeEventHandler: dataEventHandler.
+	dataEventHandler := nil.
 	super onDetached: anInfiniteElement.
 
 
 	
-]
-
-{ #category : #hooks }
-ToInfiniteCollectionDataSource >> sharedEvents [
-
-	^ super sharedEvents , {
-		  ToInfiniteDataSourceEmptinessChangedEvent.
-		  ToObservableCollectionEvent }
 ]

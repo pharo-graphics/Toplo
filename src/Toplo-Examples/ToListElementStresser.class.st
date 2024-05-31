@@ -299,7 +299,7 @@ ToListElementStresser >> minListSize [
 { #category : #initialization }
 ToListElementStresser >> newListElement [ 
 
-	^ ToBasicListElement new
+	^ ToListElement new
 ]
 
 { #category : #initialization }

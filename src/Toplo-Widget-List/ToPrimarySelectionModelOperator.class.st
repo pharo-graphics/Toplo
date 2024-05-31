@@ -5,18 +5,14 @@ Class {
 }
 
 { #category : #'private command application' }
-ToPrimarySelectionModelOperator >> listScrollCommand: aCommand in: aTarget [
-
-	aTarget scrollToIndex: aCommand index
-]
-
-{ #category : #'private command application' }
-ToPrimarySelectionModelOperator >> notifySelectionChangedAfter: aCommand in: aTarget [
+ToPrimarySelectionModelOperator >> notifySelectionChangedAfter: aCommand [
 
 	| preNotification eventToNotify |
+	
 	aCommand selectionChanged ifFalse: [ ^ self ].
-
-	aTarget dispatchEvent: (ToPrimarySelectionCommandAppliedEvent new
+	aCommand target dispatchEvent:
+		(ToPrimarySelectionCommandAppliedEvent new
+			 operator: self;
 			 command: aCommand;
 			 yourself).
 
@@ -28,8 +24,12 @@ ToPrimarySelectionModelOperator >> notifySelectionChangedAfter: aCommand in: aTa
 		                   new
 		                   sourceEvent: eventToNotify;
 		                   yourself.
-	
-	aTarget dispatchEvent: preNotification.
-	preNotification sourceEvent ifNil: [ ^ self ].
-	aTarget dispatchEvent: eventToNotify
+
+	aCommand target dispatchPreNotificationEvent: preNotification
+]
+
+{ #category : #'command operations' }
+ToPrimarySelectionModelOperator >> scrollCommand: aCommand [ 
+
+	aCommand target scrollToDataSourcePosition: aCommand index
 ]

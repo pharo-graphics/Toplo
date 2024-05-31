@@ -212,15 +212,20 @@ ToListSelectionMode >> onClickEvent: anEvent onNode: aNode [
 { #category : #'api - hooks' }
 ToListSelectionMode >> onInstalledIn: anElement [
 
-	selecter := self isPrimarySelectionMode 
-		ifTrue: [ ToPrimarySelecter new ]
-		ifFalse: [ ToSecondarySelecter new ].
+	selecter := self isPrimarySelectionMode
+		            ifTrue: [
+			            ToPrimarySelecter
+				            selectionModel: anElement newPrimarySelectionModel
+				            operator: ToPrimarySelectionModelOperator new ]
+		            ifFalse: [
+			            ToSecondarySelecter
+				            selectionModel: anElement newSecondarySelectionModel
+				            operator: ToSecondarySelectionModelOperator new ].
 
 	selecter
-		  enabled: self enabled;
-		  multiple: self isMultipleSelection.
-		
-	selecter onInstalledIn: anElement
+		onInstalledIn: anElement;
+		enabled: self enabled;
+		multiple: self isMultipleSelection
 ]
 
 { #category : #'event handling' }

@@ -23,9 +23,10 @@ ToImportedIconProvider class >> iconNamed: aName ifAbsent: aBlock [
 { #category : #'_private - utilities' }
 ToImportedIconProvider class >> listElementWithAllIconsInProviderClass: aProviderClass [
 
-	| l icProvider styles |
+	| l icProvider styles assocs |
 	icProvider := aProviderClass new.
 	l := ToListElement new.
+	l vertical: true.
 	l withRowNumbers.
 	l selectionMode beneathOption: ToListSelectionOption none.
 	l selectionMode overOption: ToListSelectionOption grouped.
@@ -34,14 +35,17 @@ ToImportedIconProvider class >> listElementWithAllIconsInProviderClass: aProvide
 
 	styles := ToIconStyle allSubclasses asArray sort: [ :a :b |
 		          a name < b name ].
-	styles do: [ :style |
+	assocs := Array streamContents: [ :stream | 
+		styles do: [ :style |
 		| s |
 		s := ('_' , style prefix , '_loaded') asSymbol.
 		(icProvider class respondsTo: s) ifTrue: [
 			| iconNames |
 			iconNames := (icProvider class perform: s) sort.
-			l dataAccessor addAll: (iconNames collect: [ :n | n -> style ]) ] ].
+			stream nextPutAll: (iconNames collect: [ :n | n -> style ]) ] ] ].
 
+	l dataAccessor addAll: assocs.
+	
 	l nodeBuilder: [ :node :holder |
 		| styleLab stylePane iclab iclabPane imPane iconStyle iconName |
 		iconStyle := holder dataItem value.
@@ -71,6 +75,7 @@ ToImportedIconProvider class >> listElementWithAllIconsInProviderClass: aProvide
 				imPane }.
 		node childrenDo: [ :child |
 			child constraintsDo: [ :c | c linear vertical alignCenter ] ] ].
+
 	^ l
 ]
 

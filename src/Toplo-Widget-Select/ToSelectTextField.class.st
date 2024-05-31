@@ -4,18 +4,13 @@ Class {
 	#instVars : [
 		'headerNodeContainer'
 	],
-	#category : #'Toplo-Widget-Select-Node'
+	#category : #'Toplo-Widget-Select-textInput'
 }
 
 { #category : #accessing }
 ToSelectTextField >> headerNodeBefore [
 
-	| headerNodeholders |
-	" the strategy must be a multiple one "
-	headerNodeholders := headerNodeContainer nodeHolders.
-	headerNodeholders ifNotEmpty: [
-		^ headerNodeholders last node ].
-	^ nil
+	^ headerNodeContainer nodes ifEmpty: [] ifNotEmpty: [:nodes | nodes last]
 ]
 
 { #category : #accessing }

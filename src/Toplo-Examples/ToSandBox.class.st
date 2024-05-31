@@ -885,6 +885,7 @@ ToSandBox class >> example_ListWithAllClasses3 [
 	l selectionMode beneathOption animationDuration: 150 milliSeconds.
 
 	l dataAccessor addAll: Smalltalk globals allClasses.
+	l selecter selectIndex: 3.
 	l withRowNumbers.
 	l innerContainer requestFocus.
 	l openInInnerWindow

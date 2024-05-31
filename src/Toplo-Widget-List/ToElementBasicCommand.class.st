@@ -6,7 +6,6 @@ Class {
 	#name : #ToElementBasicCommand,
 	#superclass : #Object,
 	#instVars : [
-		'operator',
 		'target'
 	],
 	#category : #'Toplo-Widget-List-Command-support'
@@ -20,30 +19,18 @@ ToElementBasicCommand >> applyOn: anOperator [
 ]
 
 { #category : #hook }
-ToElementBasicCommand >> notifyIn: aTarget [
+ToElementBasicCommand >> notifyAddedInOperator: anOperator forTarget: aTarget [
 	" dispatch to the target to check the command and accept/deny the command application "
 
 	| applicationEvent preNotification |
 	applicationEvent := ToElementCommandApplicationEvent new
+		                    operator: anOperator;
 		                    command: self;
-		                    operator: self operator;
 		                    yourself.
 	preNotification := ToCommandPreApplicationEvent new
 		                   sourceEvent: applicationEvent;
 		                   yourself.
-	aTarget dispatchPreNotificationEvent: preNotification
-]
-
-{ #category : #accessing }
-ToElementBasicCommand >> operator [
-
-	^ operator
-]
-
-{ #category : #accessing }
-ToElementBasicCommand >> operator: aSelectionModelOperator [
-
-	operator := aSelectionModelOperator
+	anOperator dispatchPreNotificationEvent: preNotification
 ]
 
 { #category : #accessing }

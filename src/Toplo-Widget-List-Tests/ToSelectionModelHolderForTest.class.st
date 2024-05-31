@@ -59,8 +59,10 @@ ToSelectionModelHolderForTest >> initialize [
 	selectionModel on: self.
 	unselectableSelectionModel := self defaultSelectionModel.
 	unselectableSelectionModel on: self.
-	self addEventHandler: ToElementCommandEventHandler new.
 	operator := ToPrimarySelectionModelOperator new.
+	operator addEventHandler: (ToElementCommandEventHandler new
+			 element: self;
+			 yourself).
 	self addEventHandler: (BlEventHandler
 			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :event | self successfulCommand: true ])
@@ -119,7 +121,7 @@ ToSelectionModelHolderForTest >> notifyUnselectableSelectionChanged: anEvent [
 { #category : #accessing }
 ToSelectionModelHolderForTest >> operator [
 
-	^ ToPrimarySelectionModelOperator new
+	^ operator
 ]
 
 { #category : #accessing }

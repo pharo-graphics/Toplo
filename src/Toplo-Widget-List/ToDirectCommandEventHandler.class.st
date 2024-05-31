@@ -7,7 +7,7 @@ Class {
 { #category : #'event handling' }
 ToDirectCommandEventHandler >> elementCommandAddedEvent: aCommandAddedEvent [
 
-	| element |
-	element := aCommandAddedEvent currentTarget.
-	aCommandAddedEvent command notifyIn: element
+	aCommandAddedEvent command
+		notifyAddedInOperator: aCommandAddedEvent currentTarget
+		forTarget: element
 ]

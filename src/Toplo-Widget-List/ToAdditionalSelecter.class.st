@@ -32,10 +32,10 @@ ToAdditionalSelecter >> initialize [
 { #category : #'api - hooks' }
 ToAdditionalSelecter >> onInstalledIn: anEventTarget [
 
+
 	super onInstalledIn: anEventTarget.
 	selectionModel on: anEventTarget.
 	selectionModel uniqueId: uniqueId.
-	operator := ToAdditionalSelectionModelOperator new eventClass: eventClass.
 	parentSelecter recordSubSelecter: self
 
 ]
@@ -50,6 +50,15 @@ ToAdditionalSelecter >> onUninstalledIn: anEventTarget [
 	parentSelecter unrecordSubSelecter: self.
 	super onUninstalledIn: anEventTarget
 
+]
+
+{ #category : #accessing }
+ToAdditionalSelecter >> operator [
+
+	^ operator ifNil: [
+		  operator := ToAdditionalSelectionModelOperator new
+			              eventClass: eventClass;
+			              yourself ]
 ]
 
 { #category : #accessing }

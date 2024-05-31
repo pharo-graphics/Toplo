@@ -2,8 +2,17 @@ Class {
 	#name : #ToCommandEventHandler,
 	#superclass : #BlCustomEventHandler,
 	#classTraits : 'TBlEventTarget classTrait',
+	#instVars : [
+		'element'
+	],
 	#category : #'Toplo-Widget-List-Command-support'
 }
+
+{ #category : #accessing }
+ToCommandEventHandler >> element: anElement [
+
+	element := anElement
+]
 
 { #category : #'event handling' }
 ToCommandEventHandler >> elementCommandAddedEvent: aCommandAddedEvent [
@@ -14,7 +23,7 @@ ToCommandEventHandler >> elementCommandAddedEvent: aCommandAddedEvent [
 { #category : #'event handling' }
 ToCommandEventHandler >> elementCommandApplicationEvent: anEvent [
 
-	anEvent operator
+	anEvent currentTarget
 		applyCommand: anEvent command
 ]
 

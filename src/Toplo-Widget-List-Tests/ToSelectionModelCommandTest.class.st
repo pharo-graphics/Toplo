@@ -50,7 +50,7 @@ ToSelectionModelCommandTest >> addWholeSelectionCommand: aCommand [
 { #category : #'command application' }
 ToSelectionModelCommandTest >> applyCommand: aCommand [
 
-	aCommand applyOn: aCommand operator
+	aCommand applyOn: self
 ]
 
 { #category : #'event management' }
@@ -124,10 +124,10 @@ ToSelectionModelCommandTest >> setUp [
 ToSelectionModelCommandTest >> testAddIndexesSelectionCommand [
 
 	| cmd |
-	cmd := ToIndexesSelectionCommand new operator: self.
+	cmd := ToIndexesSelectionCommand new.
 	cmd indexes: #(1).
 	cmd operation: ToAddSelectionOperation new.
-	cmd notifyIn: self.
+	cmd notifyAddedInOperator: self forTarget: self.
 	self assert: self addIndexesCommand equals: cmd
 ]
 
@@ -135,10 +135,10 @@ ToSelectionModelCommandTest >> testAddIndexesSelectionCommand [
 ToSelectionModelCommandTest >> testAddIntervalSelectionCommand [
 
 	| cmd |
-	cmd := ToIntervalSelectionCommand new operator: self.
+	cmd := ToIntervalSelectionCommand new.
 	cmd from: 1 to: 2.
 	cmd operation: ToAddSelectionOperation new.
-	cmd notifyIn: self.
+	cmd notifyAddedInOperator: self forTarget: self.
 	self assert: self addIntervalCommand equals: cmd
 ]
 
@@ -146,9 +146,9 @@ ToSelectionModelCommandTest >> testAddIntervalSelectionCommand [
 ToSelectionModelCommandTest >> testAddWholeSelectionCommand [
 
 	| cmd |
-	cmd := ToWholeSelectionCommand new operator: self.
+	cmd := ToWholeSelectionCommand new.
 	cmd operation: ToAddSelectionOperation new.
-	cmd notifyIn: self.
+	cmd notifyAddedInOperator: self forTarget: self..
 	self assert: self wholeSelectionCommand equals: cmd
 ]
 
@@ -156,10 +156,10 @@ ToSelectionModelCommandTest >> testAddWholeSelectionCommand [
 ToSelectionModelCommandTest >> testRemoveIndexesSelectionCommand [
 
 	| cmd |
-	cmd := ToIndexesSelectionCommand new operator: self.
+	cmd := ToIndexesSelectionCommand new.
 	cmd indexes: #(1).
 	cmd operation: ToRemoveSelectionOperation new.
-	cmd notifyIn: self.
+	cmd notifyAddedInOperator: self forTarget: self.
 	self assert: self removeIndexesCommand equals: cmd
 ]
 
@@ -167,10 +167,10 @@ ToSelectionModelCommandTest >> testRemoveIndexesSelectionCommand [
 ToSelectionModelCommandTest >> testRemoveIntervalSelectionCommand [
 
 	| cmd |
-	cmd := ToIntervalSelectionCommand new operator: self.
+	cmd := ToIntervalSelectionCommand new.
 	cmd from: 1 to: 2.
 	cmd operation: ToRemoveSelectionOperation new.
-	cmd notifyIn: self.
+	cmd notifyAddedInOperator: self forTarget: self.
 	self assert: self removeIntervalCommmand equals: cmd
 ]
 
@@ -178,9 +178,9 @@ ToSelectionModelCommandTest >> testRemoveIntervalSelectionCommand [
 ToSelectionModelCommandTest >> testRemoveWholeSelectionCommand [
 
 	| cmd |
-	cmd := ToWholeSelectionCommand new operator: self.
+	cmd := ToWholeSelectionCommand new.
 	cmd operation: ToRemoveSelectionOperation new.
-	cmd notifyIn: self.
+	cmd notifyAddedInOperator: self forTarget: self.
 	self assert: self noSelectionCommand equals: cmd
 ]
 

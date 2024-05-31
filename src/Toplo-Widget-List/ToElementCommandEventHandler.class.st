@@ -13,51 +13,64 @@ Class {
 { #category : #'event handling' }
 ToElementCommandEventHandler >> elementCommandAddedEvent: aCommandAddedEvent [
 
-	| element |
-
-	element := aCommandAddedEvent currentTarget.
 	element isAttachedToSceneGraph ifFalse: [
-		aCommandAddedEvent command notifyIn: element.
+		aCommandAddedEvent command
+			notifyAddedInOperator: aCommandAddedEvent operator
+			forTarget: element.
 		^ self ].
+
 	commandQueue add: aCommandAddedEvent command.
-	element dispatchEvent: ToElementCommandApplicationTaskActivationEvent new.
-	element spaceDo: [ :sp | sp requestNextPulse ] 
+	aCommandAddedEvent currentTarget dispatchEvent:
+		ToCommandApplicationTaskActivationEvent new.
+	element spaceDo: [ :sp | sp requestNextPulse ]
 ]
 
 { #category : #'event handling' }
 ToElementCommandEventHandler >> elementCommandApplicationTaskActivationEvent: aCommandsApplicationRequestEvent [
 
-	self postApplicationTaskIn: aCommandsApplicationRequestEvent currentTarget
+	self postApplicationTask
 ]
 
 { #category : #'api - accessing' }
 ToElementCommandEventHandler >> eventsToHandle [
 
 	^ super eventsToHandle
-	  , { ToElementCommandApplicationTaskActivationEvent }
+	  , { ToCommandApplicationTaskActivationEvent }
 ]
 
 { #category : #'api - hooks' }
-ToElementCommandEventHandler >> onInstalledIn: anElement [
+ToElementCommandEventHandler >> onInstalledIn: anOperator [
 
-	super onInstalledIn: anElement.
+	super onInstalledIn: anOperator.
 
 	commandQueue := OrderedCollection new.
-	applicationTask := ToElementCommandApplicationTask new
+	applicationTask := ToCommandApplicationTask new
+		                   operator: anOperator;
 		                   commandQueue: commandQueue;
-		                   element: anElement;
+		                   element: element;
 		                   finishedAction: [ queued := false ];
 		                   yourself.
 	queued := false
 ]
 
 { #category : #'api - hooks' }
-ToElementCommandEventHandler >> onUninstalledIn: anElement [
+ToElementCommandEventHandler >> onUninstalledIn: anOperator [
 
-	super onUninstalledIn: anElement.
+	super onUninstalledIn: anOperator.
 
 	commandQueue := nil.
 	applicationTask := nil.
+]
+
+{ #category : #'event handling' }
+ToElementCommandEventHandler >> postApplicationTask [
+	"Post children update runnable to consume update operations"
+	queued ifTrue: [ ^ self ].
+	queued := true.
+	" Allow re-lauching of the same task"
+	applicationTask setNew.
+	" enqueue the update task "
+	element enqueueTask: applicationTask
 ]
 
 { #category : #'event handling' }

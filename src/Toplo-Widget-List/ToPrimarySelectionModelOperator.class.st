@@ -5,13 +5,13 @@ Class {
 }
 
 { #category : #'private command application' }
-ToPrimarySelectionModelOperator >> notifySelectionChangedAfter: aCommand [ 
+ToPrimarySelectionModelOperator >> notifySelectionChangedAfter: aCommand [
 
 	| preNotification eventToNotify |
-
 	aCommand selectionChanged ifFalse: [ ^ self ].
-
-	aCommand target dispatchEvent: (ToPrimarySelectionCommandAppliedEvent new
+	aCommand target dispatchEvent:
+		(ToPrimarySelectionCommandAppliedEvent new
+			 operator: self;
 			 command: aCommand;
 			 yourself).
 
@@ -23,8 +23,8 @@ ToPrimarySelectionModelOperator >> notifySelectionChangedAfter: aCommand [
 		                   new
 		                   sourceEvent: eventToNotify;
 		                   yourself.
-	
-	aCommand target  dispatchPreNotificationEvent: preNotification
+
+	aCommand target dispatchPreNotificationEvent: preNotification
 ]
 
 { #category : #'command operations' }

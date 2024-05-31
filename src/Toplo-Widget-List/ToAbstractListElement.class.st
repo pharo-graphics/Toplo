@@ -230,7 +230,6 @@ ToAbstractListElement >> initialize [
 	self contextMenuWindowManagerClass: ToListElementContextMenuWindowManager.
 	self addEventHandler: ToListPrimarySelectionElementEventHandler new.
 	self addEventHandler:	ToListElementContextMenuSelectionEventHandler new.
-	self addEventHandler: ToElementCommandEventHandler new.
 		
 	self secondarySelectionMode: self defaultSecondarySelectionMode.
 	self addEventHandler: self defaultSecondarySelectionEventHandler.

@@ -103,16 +103,16 @@ ToListElementSieve >> onInstalledIn: aListElement [
 		                     listElement: aListElement;
 		                     yourself.
 	commandEventHandler := ToDirectCommandEventHandler new.
-	selecter := ToCompositeSelecter new.
+	"selecter := ToCompositeSelecter new.
 	selecter
 		selectionModel: self selectionModel;
 		operator: sieveEventHandler;
 		enabled: true;
 		multiple: aListElement isMultipleSelection.
-	selecter onInstalledIn: self.
+	selecter onInstalledIn: sieveEventHandler.
 
 	self addEventHandler: sieveEventHandler.
-	self addEventHandler: commandEventHandler
+	self addEventHandler: commandEventHandler"
 ]
 
 { #category : #'api - hooks' }

@@ -1,57 +1,67 @@
 Class {
-	#name : #ToElementCommandApplicationTask,
+	#name : #ToCommandApplicationTask,
 	#superclass : #BlTask,
 	#instVars : [
 		'commandQueue',
 		'finishedAction',
 		'element',
+		'operator',
 		'posponedRequestTask'
 	],
 	#category : #'Toplo-Widget-List-Command-support'
 }
 
 { #category : #'api - running' }
-ToElementCommandApplicationTask >> applyAll [
+ToCommandApplicationTask >> applyAll [
 
 	[ commandQueue isEmpty ] whileFalse: [
 		| nextInQueue |
 		nextInQueue := commandQueue removeFirst.
-		nextInQueue notifyIn: element ]
+		nextInQueue
+			notifyAddedInOperator: operator
+			forTarget: nextInQueue target ]
 ]
 
 { #category : #'api - running' }
-ToElementCommandApplicationTask >> canApplyCommands [
+ToCommandApplicationTask >> canApplyCommands [
 
 	^ element isAttachedToSceneGraph
 ]
 
 { #category : #initialization }
-ToElementCommandApplicationTask >> commandQueue: anOrderedCollection [
+ToCommandApplicationTask >> commandQueue: anOrderedCollection [
 	
 	commandQueue := anOrderedCollection
 ]
 
 { #category : #accessing }
-ToElementCommandApplicationTask >> element: anElement [
+ToCommandApplicationTask >> element: anElement [
 
 	element := anElement
 ]
 
 { #category : #accessing }
-ToElementCommandApplicationTask >> finishedAction: aValuable [
+ToCommandApplicationTask >> finishedAction: aValuable [
 
 	finishedAction := aValuable
 ]
 
+{ #category : #accessing }
+ToCommandApplicationTask >> operator: anOperator [
+
+	operator := anOperator
+]
+
 { #category : #'api - running' }
-ToElementCommandApplicationTask >> run [
+ToCommandApplicationTask >> run [
 
 	self canApplyCommands ifFalse: [
 		finishedAction value.
 		posponedRequestTask ifNotNil: [ ^ self ].
 		posponedRequestTask := BlTaskAction new.
 		posponedRequestTask action: [
-			element dispatchEvent: ToElementCommandApplicationTaskActivationEvent new ].
+			operator dispatchEvent:
+				ToCommandApplicationTaskActivationEvent new ].
 		element enqueueTask: posponedRequestTask.
 		^ self ].
 

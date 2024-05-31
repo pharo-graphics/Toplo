@@ -10,11 +10,11 @@ Class {
 }
 
 { #category : #'command application' }
-ToSieveEventHandler >> addCommand: aCommand [ 
+ToSieveEventHandler >> addCommand: aCommand [
 
 	aCommand target dispatchEvent: (ToElementCommandAddedEvent new
-			 command: aCommand
-			 yourself)
+			 operator: self;
+			 command: aCommand yourself)
 ]
 
 { #category : #'command operations' }
@@ -39,7 +39,7 @@ ToSieveEventHandler >> addWholeSelectionCommand: aCommand [
 { #category : #'command application' }
 ToSieveEventHandler >> applyCommand: aCommand [ 
 
-	aCommand applyOn: aCommand operator
+	aCommand applyOn: self
 ]
 
 { #category : #'api - accessing' }

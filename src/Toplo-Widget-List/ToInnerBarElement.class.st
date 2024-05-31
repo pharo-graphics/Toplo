@@ -26,10 +26,10 @@ ToInnerBarElement >> addAllHolders: anArray at: aPosition [
 	anArray do: [ :h | self notifyChildAttached: h node  ]
 ]
 
-{ #category : #private }
+{ #category : #layout }
 ToInnerBarElement >> checkFullyVisibleNodes [
 
-	| invisibleNodes  |
+	| invisibleNodes |
 	scrollable isNodeWrapping ifTrue: [ ^ self ].
 	scrollable isNodeScrolling ifTrue: [ ^ self ].
 	scrollable isNodeAutoDistribution ifTrue: [ ^ self ].
@@ -120,7 +120,7 @@ ToInnerBarElement >> enableScrolledEvent [
 	scrollable enableScrolledEvent
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - nodes' }
 ToInnerBarElement >> fakeNode [ 
 
 	^ self childWithId: #fakeNode
@@ -220,7 +220,7 @@ ToInnerBarElement >> newNodeHolderFromDataSource: aDataSource [
 	^ listElement nodeManager newNodeHolder
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - nodes' }
 ToInnerBarElement >> nodeAt: anIndex [
 
 	" return the holder for the data at anIndex according to currently viewed data range. 
@@ -247,7 +247,7 @@ ToInnerBarElement >> nodeGroupsSatisfying: aBlock [
 		  g ifNotEmpty: [ stream nextPut: g ] ]
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - nodes' }
 ToInnerBarElement >> nodes [
 
 	^ scrollable nodes

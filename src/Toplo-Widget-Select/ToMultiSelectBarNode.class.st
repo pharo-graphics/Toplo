@@ -14,6 +14,7 @@ ToMultiSelectBarNode >> addRemoveButton [
 
 	| but |
 	but := ToButton new.
+	but applySkinInstallerOnFirstRequest: true.
 	but defaultRawSkin: ToSelectNodeInnerCloseButtonSkin new.
 	but icon: (ToImage inner: (self iconNamed: #windowClose)).
 	but constraintsDo: [ :c | c linear vertical alignCenter ].
@@ -61,7 +62,7 @@ ToMultiSelectBarNode >> initialize [
 ToMultiSelectBarNode >> installRawStyle [
 
 	super installRawStyle.
-	removable ifTrue: [ self addRemoveButton ].
+	self isRemovable ifTrue: [ self addRemoveButton ].
 	self middleContainer padding: (BlInsets left: 3 right: 3).
 	self padding: (BlInsets horizontal: 2 vertical: 2).
 	self isFakeNode
@@ -80,7 +81,13 @@ ToMultiSelectBarNode >> isFakeNode [
 { #category : #testing }
 ToMultiSelectBarNode >> isRemovable [
 
-	^ removable
+	^ removable and: [  self nodesCount = 1 ]
+]
+
+{ #category : #accessing }
+ToMultiSelectBarNode >> nodesCount [ 
+
+	^ self holder dataItem nodesCount
 ]
 
 { #category : #accessing }
@@ -89,7 +96,7 @@ ToMultiSelectBarNode >> removable: aBoolean [
 	removable = aBoolean ifTrue: [ ^ self ].
 	removable ifTrue: [ self removeRemoveButton ].
 	removable := aBoolean.
-	removable ifTrue: [ self addRemoveButton ]
+	self isRemovable ifTrue: [ self addRemoveButton ]
 	
 ]
 
@@ -105,7 +112,7 @@ ToMultiSelectBarNode >> removeFromBar [
 	First, remove the node by deselecting the corresponding list node in the list (if found). 
 	Second, if the data is not one of the actual list element data, remove the data through the select "
 
-	self holder listElement selectElement selecter deselectIndex: self holder dataItem
+	self holder selecter deselectIndex: self holder dataItem index
 ]
 
 { #category : #'private configurating' }

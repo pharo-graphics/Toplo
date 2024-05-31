@@ -117,6 +117,12 @@ TToObservableCollection >> allSatisfy: aBlock [
 	^ self collection allSatisfy: aBlock
 ]
 
+{ #category : #'t - observable collection - enumerating' }
+TToObservableCollection >> anySatisfy: aBlock [
+
+	^ self collection anySatisfy: aBlock
+]
+
 { #category : #'t - observable collection - converting' }
 TToObservableCollection >> asArray [
 

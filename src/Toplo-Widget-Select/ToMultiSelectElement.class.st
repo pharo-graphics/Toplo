@@ -132,12 +132,6 @@ ToMultiSelectElement >> onSelectionChanged [
 	self listElement notifyPrimarySelectionDirty
 ]
 
-{ #category : #accessing }
-ToMultiSelectElement >> refresh [
-
-	super refresh 
-]
-
 { #category : #'accessing - list' }
 ToMultiSelectElement >> setGroupIndex: anIndex [
 

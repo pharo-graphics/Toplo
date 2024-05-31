@@ -81,49 +81,40 @@ ToMultiSelectBarElement >> defaultNodeManager [
 ]
 
 { #category : #layout }
-ToMultiSelectBarElement >> haveFullyInvisibleNodes: aCollectionOfInvisibleNodes [
+ToMultiSelectBarElement >> haveFullyInvisibleNodes: theInvisibleNodes [
 
-	| visibleNodes invisibleNodes showerHolder showerNode lab nodeHolders |
-	self flag: 'ToDo or Remove'.
+	| visibleNodes invisibleNodes shower finalCount |
+	
 	" in case of composite node at first it means that 
 	there is no more visible node to cumulate in a composite node"
-	(self nodeHolders size = 1 and: [
-		 self nodeHolders first nodesCount > 1 ]) ifTrue: [ ^ self ].
+	(self nodes size = 1 and: [
+		 self nodes first nodesCount > 1 ]) ifTrue: [ ^ self ].
+	
 	visibleNodes := self nodesSelect: [ :n | n isFullyVisible ].
-	invisibleNodes := aCollectionOfInvisibleNodes.
+	invisibleNodes := theInvisibleNodes copy.
 	visibleNodes ifNotEmpty: [
-		invisibleNodes := aCollectionOfInvisibleNodes copyWith:
-			                  visibleNodes last.
+		invisibleNodes := theInvisibleNodes copyWith: visibleNodes last.
 		visibleNodes := visibleNodes copyWithout: visibleNodes last ].
-	invisibleNodes do: [ :node | node onUninstalledIn: self ].
+	
 	" now cumulate invisible nodes in a composite holder "
-	showerHolder := ToMultiSelectCompositeInnerNodeHolder new.
-	showerHolder elementBar: self.
-	showerHolder holders:
-		(invisibleNodes collect: [ :node | node holder ]).
-	showerNode := self defaultNodeClass new.
-	showerHolder node: showerNode.
-	showerNode holder: showerHolder.
-	invisibleNodes do: [ :node |
-		self innerContainer detachChild: node.
-		nodeHolders remove: node holder ].
-	nodeHolders add: showerHolder.
-	lab := ToLabel text:
-		       '+ ' , (self nodesCount - visibleNodes size) asString
-		       , ' ...'.
-	showerNode middleContainer addChild: lab.
-	self addDataNode: showerNode
+	shower := ToMultiSelectCompositeDataItem new.
+	shower bar: self.
+	shower dataItems: (invisibleNodes collect: [:n | n holder dataItem]).
+	finalCount := self nodesCount - visibleNodes size.
+	shower content: '+ ' , finalCount asString, ' ...'.
+	invisibleNodes do: [ :node | self dataAccessor removeAt: node holder position ].	
+	self dataAccessor add: shower 
 ]
 
 { #category : #initialization }
-ToMultiSelectBarElement >> initialize [ 
+ToMultiSelectBarElement >> initialize [
 
 	super initialize.
-	self installTextInputElement 
+	self initializeTextInputElement
 ]
 
 { #category : #'t - select inner container' }
-ToMultiSelectBarElement >> installTextInputElement [
+ToMultiSelectBarElement >> initializeTextInputElement [
 
 	textInputElement := self textInputElementClass new.
 	textInputElement onInstalledIn: self.
@@ -165,9 +156,21 @@ ToMultiSelectBarElement >> nodesCount [
 
 	| count |
 	count := 0.
-	self nodeHolders do: [ :nodeHolder |
-		count := count + nodeHolder nodesCount ].
+	self nodesDo: [ :node |
+		count := count + node nodesCount ].
 	^ count
+]
+
+{ #category : #accessing }
+ToMultiSelectBarElement >> nodesDo: aBlock [
+
+	self innerContainer nodesDo: aBlock
+]
+
+{ #category : #accessing }
+ToMultiSelectBarElement >> nodesSelect: aBlock [
+
+	^ self innerContainer nodesSelect: aBlock
 ]
 
 { #category : #'t - select inner container' }
@@ -179,10 +182,9 @@ ToMultiSelectBarElement >> refresh [
 	self dataAccessor removeAll.
 	sieve := self windowManager sieve.
 	sieve selectionModel selectedIndexesDo: [ :idx |
-		self dataAccessor add: idx ].
+		self dataAccessor add: (ToMultiSelectDataItem index: idx) ].
 	self checkHideSelectionFromListElement.
-	self checkMaxSelectedCountFromListElement.
-
+	self checkMaxSelectedCountFromListElement
 ]
 
 { #category : #accessing }

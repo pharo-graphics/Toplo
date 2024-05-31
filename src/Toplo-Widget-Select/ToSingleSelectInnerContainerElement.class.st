@@ -60,7 +60,14 @@ ToSingleSelectInnerContainerElement >> initialize [
 		
 	self installFakeNode.
 	self installDataView.
-	self installTextInputElement 
+	self initializeTextInputElement 
+]
+
+{ #category : #'t - select inner container' }
+ToSingleSelectInnerContainerElement >> initializeTextInputElement [ 
+
+	textInputElement := self textInputElementClass new.
+	textInputElement onInstalledIn: self
 ]
 
 { #category : #'t - select inner container' }
@@ -86,13 +93,6 @@ ToSingleSelectInnerContainerElement >> installFakeNode [
 	fakeView width: 0.
 	self addChild: fakeView.
 
-]
-
-{ #category : #'t - select inner container' }
-ToSingleSelectInnerContainerElement >> installTextInputElement [ 
-
-	textInputElement := self textInputElementClass new.
-	textInputElement onInstalledIn: self
 ]
 
 { #category : #'t - select inner container' }

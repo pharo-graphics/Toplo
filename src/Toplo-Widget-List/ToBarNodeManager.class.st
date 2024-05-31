@@ -39,7 +39,7 @@ ToBarNodeManager >> fakeDataItem: anObject [
 ToBarNodeManager >> newFakeNodeInHolder: anHolder [
 
 	| fakeNode |
-	anHolder dataItem: (fakeDataItem ifNil: [0]).
+	anHolder dataItem: (ToMultiSelectDataItem index: (fakeDataItem ifNil: [0])).
 	fakeNode := self newNodeInHolder: anHolder.
 	self buildNode: fakeNode inHolder: anHolder.
 	fakeNode margin: BlInsets empty.

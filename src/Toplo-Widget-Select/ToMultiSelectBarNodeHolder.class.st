@@ -29,6 +29,12 @@ ToMultiSelectBarNodeHolder >> selectElement [
 ]
 
 { #category : #accessing }
+ToMultiSelectBarNodeHolder >> selecter [
+
+	^  self selectElement selecter
+]
+
+{ #category : #accessing }
 ToMultiSelectBarNodeHolder >> sieve [
 
 	^  self barElement sieve

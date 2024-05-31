@@ -7,8 +7,12 @@ Class {
 { #category : #initialization }
 ToMultiSelectBarNodeManager >> defaultNodeBuilder [
 
-	^ [ :node :holder :dataItem |
-	  node middleElement: (ToLabel text: dataItem asString).
+	^ [ :node :holder :indexInList |
+	  | d |
+	  d := indexInList isZero
+		       ifTrue: [ self fakeDataItem ]
+		       ifFalse: [ holder dataAccessor at: indexInList ].
+	  node middleElement: (ToLabel text: d asString).
 	  node autoDistribute: holder listElement nodeAutoDistribution ]
 ]
 
@@ -16,4 +20,10 @@ ToMultiSelectBarNodeManager >> defaultNodeBuilder [
 ToMultiSelectBarNodeManager >> defaultNodeFactory [
 
 	^ [ :holder | ToMultiSelectBarNode new ]
+]
+
+{ #category : #initialization }
+ToMultiSelectBarNodeManager >> defaultNodeHolderClass [ 
+
+	^ ToMultiSelectBarNodeHolder
 ]

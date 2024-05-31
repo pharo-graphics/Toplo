@@ -8,6 +8,7 @@ Class {
 ToPrimarySelectionModelOperator >> notifySelectionChangedAfter: aCommand [
 
 	| preNotification eventToNotify |
+	
 	aCommand selectionChanged ifFalse: [ ^ self ].
 	aCommand target dispatchEvent:
 		(ToPrimarySelectionCommandAppliedEvent new

@@ -39,7 +39,7 @@ ToBarElement >> defaultDataSource [
 ]
 
 { #category : #initialization }
-ToBarElement >> defaultInnerNodeContainer [
+ToBarElement >> defaultInnerContainer [
 
 	^ ToInnerBarElement onBarElement: self
 ]
@@ -90,19 +90,20 @@ ToBarElement >> initialize [
 	nodeScrolling := false.
 	nodeAutoDistribution := false.
 	flowLineUniformWidth := false.
-	self installInnerContainer
+	self configureLayout
 ]
 
 { #category : #initialization }
-ToBarElement >> installInnerContainer [
+ToBarElement >> initializeInnerContainer [
 
-	self configureLayout
+	super initializeInnerContainer.
+	self innerContainer installFakeNode
 ]
 
 { #category : #accessing }
 ToBarElement >> nodeAutoDistribution [
 
-	^ nodeAutoDistribution
+	^ nodeAutoDistribution ifNil: [ nodeAutoDistribution := false ]
 ]
 
 { #category : #accessing }

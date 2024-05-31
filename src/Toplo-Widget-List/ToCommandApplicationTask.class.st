@@ -17,9 +17,7 @@ ToCommandApplicationTask >> applyAll [
 	[ commandQueue isEmpty ] whileFalse: [
 		| nextInQueue |
 		nextInQueue := commandQueue removeFirst.
-		nextInQueue
-			notifyAddedInOperator: operator
-			forTarget: nextInQueue target ]
+		nextInQueue notifyAddedInOperator: operator ]
 ]
 
 { #category : #'api - running' }

@@ -15,6 +15,14 @@ Class {
 	#category : #'Toplo-Widget-Select-Single'
 }
 
+{ #category : #'instance creation' }
+ToSingleSelectInnerContainerElement class >> onSelectElement: aSelectElement [
+
+	^ self basicNew
+		  selectElement: aSelectElement;
+		  initialize
+]
+
 { #category : #accessing }
 ToSingleSelectInnerContainerElement >> dataItemViewBuilder [
 
@@ -42,7 +50,49 @@ ToSingleSelectInnerContainerElement >> initialize [
 	self
 		vFitContent;
 		hMatchParent;
-		constraintsDo: [ :c | c linear vertical alignCenter ]
+		constraintsDo: [ :c | c linear vertical alignCenter ].
+
+	textInputElement := self textInputElementClass new.
+	textInputElement onInstalledIn: self.
+
+	dataItemViewFactory := selectElement defaultDataItemViewFactory.
+	dataItemViewBuilder := selectElement defaultDataItemViewBuilder.
+		
+	self installFakeNode.
+	self installDataView.
+	self installTextInputElement 
+]
+
+{ #category : #'t - select inner container' }
+ToSingleSelectInnerContainerElement >> installDataView [
+		
+	" add the unique view for the selected data item "
+	dataItemView := dataItemViewFactory value.
+	dataItemView selectElement: selectElement.
+	dataItemView onInstalledIn: self.
+	dataItemView middleElement: textInputElement.
+	self addChild: dataItemView
+]
+
+{ #category : #'t - select inner container' }
+ToSingleSelectInnerContainerElement >> installFakeNode [
+		
+	" add the fake node (to keep a constant minimum height )"
+	fakeView := dataItemViewFactory value. 
+	fakeView selectElement: selectElement.
+	fakeView onInstalledIn: self.
+	dataItemViewBuilder cull: fakeView cull: nil cull: fakeDataItem.
+	fakeView id: #fakeNode.
+	fakeView width: 0.
+	self addChild: fakeView.
+
+]
+
+{ #category : #'t - select inner container' }
+ToSingleSelectInnerContainerElement >> installTextInputElement [ 
+
+	textInputElement := self textInputElementClass new.
+	textInputElement onInstalledIn: self
 ]
 
 { #category : #'t - select inner container' }
@@ -75,28 +125,7 @@ ToSingleSelectInnerContainerElement >> selectElement [
 { #category : #'t - select inner container' }
 ToSingleSelectInnerContainerElement >> selectElement: aSelectElement [
 
-	selectElement := aSelectElement .
-	textInputElement := self textInputElementClass new.
-	textInputElement onInstalledIn: self.
-
-	dataItemViewFactory := aSelectElement defaultDataItemViewFactory.
-	dataItemViewBuilder := aSelectElement defaultDataItemViewBuilder.
-		
-	" add the fake node (to keep a constant minimum height )"
-	fakeView := dataItemViewFactory value. 
-	fakeView selectElement: aSelectElement.
-	fakeView onInstalledIn: self.
-	dataItemViewBuilder cull: fakeView cull: nil cull: fakeDataItem.
-	fakeView id: #fakeNode.
-	fakeView width: 0.
-	self addChild: fakeView.
-
-	" add the unique view for the selected data item "
-	dataItemView := dataItemViewFactory value.
-	dataItemView selectElement: aSelectElement.
-	dataItemView onInstalledIn: self.
-	dataItemView middleElement: textInputElement.
-	self addChild: dataItemView
+	selectElement := aSelectElement
 ]
 
 { #category : #'t - select inner container' }

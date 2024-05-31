@@ -199,6 +199,9 @@ ToListElementSelecter >> nextSelectableIndexToScrollTo [
 { #category : #'api - hooks' }
 ToListElementSelecter >> onInstalledIn: anEventTarget [
 
+	" the argument is passed as the target of commands.
+	It receives the selection change event after the application of commands "
+
 	eventTarget := anEventTarget.
 	operatorEventHandler := ToElementCommandEventHandler new
 		                        element: eventTarget;

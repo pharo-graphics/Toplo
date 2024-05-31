@@ -10,6 +10,14 @@ Class {
 	#category : #'Toplo-Widget-Select-Multi'
 }
 
+{ #category : #'instance creation' }
+ToMultiSelectBarElement class >> onSelectElement: aSelectElement [
+
+	^ self basicNew
+		  selectElement: aSelectElement;
+		  initialize
+]
+
 { #category : #'accessing - selection' }
 ToMultiSelectBarElement >> allowSelectedCount: aNumber [
 
@@ -107,6 +115,27 @@ ToMultiSelectBarElement >> haveFullyInvisibleNodes: aCollectionOfInvisibleNodes 
 	self addDataNode: showerNode
 ]
 
+{ #category : #initialization }
+ToMultiSelectBarElement >> initialize [ 
+
+	super initialize.
+	self installTextInputElement 
+]
+
+{ #category : #'t - select inner container' }
+ToMultiSelectBarElement >> installTextInputElement [
+
+	textInputElement := self textInputElementClass new.
+	textInputElement onInstalledIn: self.
+	
+	textInputElement hFitContent.
+	textInputElement constraintsDo: [ :c |
+		c linear vertical alignCenter.
+		c flow vertical alignCenter ].
+	self addChild: textInputElement
+
+]
+
 { #category : #'t - select inner container' }
 ToMultiSelectBarElement >> isMultipleSelection [ 
 
@@ -123,6 +152,12 @@ ToMultiSelectBarElement >> listElement [
 ToMultiSelectBarElement >> newRawSkin [ 
 
 	^ ToMultiSelectBarElementSkin new
+]
+
+{ #category : #accessing }
+ToMultiSelectBarElement >> nodes [
+
+	^ self innerContainer nodes
 ]
 
 { #category : #accessing }
@@ -144,7 +179,7 @@ ToMultiSelectBarElement >> refresh [
 	self dataAccessor removeAll.
 	sieve := self windowManager sieve.
 	sieve selectionModel selectedIndexesDo: [ :idx |
-		self dataAccessor add: (sieve originalData at: idx) ].
+		self dataAccessor add: idx ].
 	self checkHideSelectionFromListElement.
 	self checkMaxSelectedCountFromListElement.
 
@@ -185,16 +220,7 @@ ToMultiSelectBarElement >> selectElement [
 { #category : #'t - select inner container' }
 ToMultiSelectBarElement >> selectElement: aSelectElement [
 
-	selectElement := aSelectElement.
-	textInputElement := self textInputElementClass new.
-	textInputElement onInstalledIn: self.
-	
-	textInputElement hFitContent.
-	textInputElement constraintsDo: [ :c |
-		c linear vertical alignCenter.
-		c flow vertical alignCenter ].
-	self addChild: textInputElement
-
+	selectElement := aSelectElement
 ]
 
 { #category : #accessing }

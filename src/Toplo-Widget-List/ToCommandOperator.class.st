@@ -18,9 +18,9 @@ ToCommandOperator >> addCommand: aCommand [
 ]
 
 { #category : #'command application' }
-ToCommandOperator >> applyCommand: aCommand [ 
-	
-	aCommand applyOn: self
+ToCommandOperator >> applyCommand: aCommand [
+
+	aCommand applyOnOperator: self
 ]
 
 { #category : #'event management accessing' }

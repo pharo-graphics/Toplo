@@ -114,6 +114,12 @@ ToScrollableBarElement >> enableScrolledEvent [
 	self eventDispatcher enableScrolledEvent
 ]
 
+{ #category : #accessing }
+ToScrollableBarElement >> fakeNode [ 
+
+	^ fakeNode
+]
+
 { #category : #'accessing - children' }
 ToScrollableBarElement >> fullyVisibleNodes [
 

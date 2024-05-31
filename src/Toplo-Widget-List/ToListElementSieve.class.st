@@ -68,6 +68,12 @@ ToListElementSieve >> initialize [
 	eventDispatcher := BlDirectEventDispatcher on: self
 ]
 
+{ #category : #testing }
+ToListElementSieve >> isAttachedToSceneGraph [
+
+	^ false
+]
+
 { #category : #accessing }
 ToListElementSieve >> isInstalled [
 
@@ -103,16 +109,15 @@ ToListElementSieve >> onInstalledIn: aListElement [
 		                     listElement: aListElement;
 		                     yourself.
 	commandEventHandler := ToDirectCommandEventHandler new.
-	"selecter := ToCompositeSelecter new.
+	selecter := ToPrimarySelecter
+				            selectionModel: self selectionModel
+				            operator: ToPrimarySelectionModelOperator new.
 	selecter
-		selectionModel: self selectionModel;
-		operator: sieveEventHandler;
 		enabled: true;
 		multiple: aListElement isMultipleSelection.
-	selecter onInstalledIn: sieveEventHandler.
+	selecter onInstalledIn: self.
 
-	self addEventHandler: sieveEventHandler.
-	self addEventHandler: commandEventHandler"
+	self addEventHandler: sieveEventHandler
 ]
 
 { #category : #'api - hooks' }

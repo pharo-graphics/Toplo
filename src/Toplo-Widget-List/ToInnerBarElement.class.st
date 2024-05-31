@@ -58,10 +58,21 @@ ToInnerBarElement >> configureLayout [
 				c linear horizontal alignCenter.
 				c vertical matchParent.
 				c horizontal fitContent ] ].
+	self isHorizontal
+		ifTrue: [
+			self fakeNode constraintsDo: [ :c |
+				c horizontal exact: 0.
+				c vertical fitContent.
+				c flow vertical alignCenter.
+				c linear vertical alignCenter ] ]
+		ifFalse: [
+			self fakeNode constraintsDo: [ :c |
+				c vertical exact: 0.
+				c horizontal fitContent.
+				c flow horizontal alignCenter.
+				c linear horizontal alignCenter ] ].
 
-	scrollable configureLayoutIn: listElement.
-	self uninstallFakeNode.
-	self installFakeNode
+	scrollable configureLayoutIn: listElement
 ]
 
 { #category : #accessing }
@@ -107,6 +118,12 @@ ToInnerBarElement >> disableScrolledEvent [
 ToInnerBarElement >> enableScrolledEvent [
 
 	scrollable enableScrolledEvent
+]
+
+{ #category : #accessing }
+ToInnerBarElement >> fakeNode [ 
+
+	^ self childWithId: #fakeNode
 ]
 
 { #category : #'t - children - accessing' }
@@ -180,19 +197,6 @@ ToInnerBarElement >> installFakeNode [
 	holder bindAtPosition: 0.
 	fakeNode := self listElement nodeManager newFakeNodeInHolder: holder.
 	fakeNode id: #fakeNode.
-	self isHorizontal
-		ifTrue: [
-			fakeNode constraintsDo: [ :c |
-				c horizontal exact: 0.
-				c vertical fitContent.
-				c flow vertical alignCenter.
-				c linear vertical alignCenter ] ]
-		ifFalse: [
-			fakeNode constraintsDo: [ :c |
-				c vertical exact: 0.
-				c horizontal fitContent.
-				c flow horizontal alignCenter.
-				c linear horizontal alignCenter ] ].
 
 	" add the fake node (to keep a constant minimum size ) "
 	scrollable addFakeNode: fakeNode

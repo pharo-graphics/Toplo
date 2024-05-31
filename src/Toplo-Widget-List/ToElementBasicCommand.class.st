@@ -16,10 +16,22 @@ ToElementBasicCommand >> applyOn: anOperator [
 
 	" ask the operator passed as argument to actually apply the command. "
 
+	self
+		deprecated: 'Use applyOnOperator: instead'
+		transformWith: '`@receiver applyOn: `@argument'
+			-> '`@receiver applyOnOperator: `@argument'.
+	self applyOnOperator: anOperator
+
+]
+
+{ #category : #'private - hook' }
+ToElementBasicCommand >> applyOnOperator: anOperator [
+
+	" ask the operator passed as argument to actually apply the command. "
 ]
 
 { #category : #hook }
-ToElementBasicCommand >> notifyAddedInOperator: anOperator forTarget: aTarget [
+ToElementBasicCommand >> notifyAddedInOperator: anOperator [
 	" dispatch to the target to check the command and accept/deny the command application "
 
 	| applicationEvent preNotification |

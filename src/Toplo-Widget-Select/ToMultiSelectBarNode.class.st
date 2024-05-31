@@ -4,8 +4,7 @@ Class {
 	#traits : 'TToEnableable + TToListNode',
 	#classTraits : 'TToEnableable classTrait + TToListNode classTrait',
 	#instVars : [
-		'removable',
-		'holderInList'
+		'removable'
 	],
 	#category : #'Toplo-Widget-Select-Multi'
 }
@@ -38,19 +37,6 @@ ToMultiSelectBarNode >> addRemoveButton [
 	self startElement: but
 ]
 
-{ #category : #layout }
-ToMultiSelectBarNode >> autoDistribute [
-
-	self startFlexible: true.
-	self endFlexible: true.
-	self constraintsDo: [ :c |
-		holderInList elementBar isHorizontal
-			ifTrue: [ c horizontal matchParent ]
-			ifFalse: [ c vertical matchParent ].
-		c linear weight: 1.
-		c flow weight: 1 ]
-]
-
 { #category : #configurating }
 ToMultiSelectBarNode >> beRemovable [
 
@@ -61,12 +47,6 @@ ToMultiSelectBarNode >> beRemovable [
 ToMultiSelectBarNode >> beUnremovable [
 
 	self removable: false
-]
-
-{ #category : #accessing }
-ToMultiSelectBarNode >> holderInList: anHolder [
-
-	holderInList := anHolder
 ]
 
 { #category : #initialization }
@@ -125,7 +105,7 @@ ToMultiSelectBarNode >> removeFromBar [
 	First, remove the node by deselecting the corresponding list node in the list (if found). 
 	Second, if the data is not one of the actual list element data, remove the data through the select "
 
-	self holder listElement dataAccessor removeAt: self holder position
+	self holder listElement selectElement selecter deselectIndex: self holder dataItem
 ]
 
 { #category : #'private configurating' }

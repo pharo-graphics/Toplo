@@ -143,7 +143,7 @@ ToAbstractListElement >> defaultEventHandler [
 ]
 
 { #category : #initialization }
-ToAbstractListElement >> defaultInnerNodeContainer [ 
+ToAbstractListElement >> defaultInnerContainer [ 
 
 	^ self subclassResponsibility 
 ]
@@ -206,11 +206,11 @@ ToAbstractListElement >> hiddenSelecter [
 ToAbstractListElement >> initialize [
 
 	super initialize.
+	nodeManager := self defaultNodeManager.
+	
 	self initializeDataSource.
 	self initializeCommandChecker.
-	next := self defaultInnerNodeContainer.
-	nodeManager := self defaultNodeManager.
-	self next elevation: (BlRelativeElevation elevation: 10).
+	self initializeInnerContainer.
 
 	beneathContainer := ToOverlayElement new.
 	beneathContainer attachTo: self innerContainer.
@@ -224,8 +224,6 @@ ToAbstractListElement >> initialize [
 
 	self selectionMode: self defaultSelectionMode.
 	self addEventHandler: self defaultEventHandler.
-
-	self addChild: self next.
 	
 	self contextMenuWindowManagerClass: ToListElementContextMenuWindowManager.
 	self addEventHandler: ToListPrimarySelectionElementEventHandler new.
@@ -248,6 +246,15 @@ ToAbstractListElement >> initializeCommandChecker [
 ToAbstractListElement >> initializeDataSource [ 
 
 	self dataSource: self defaultDataSource
+]
+
+{ #category : #initialization }
+ToAbstractListElement >> initializeInnerContainer [
+
+	next := self defaultInnerContainer.
+	self next elevation: (BlRelativeElevation elevation: 10).
+	self addChild: self next.
+
 ]
 
 { #category : #testing }

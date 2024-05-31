@@ -1429,7 +1429,7 @@ ToSandBox class >> example_SelectMonoFiltrable [
 
 	select filtrable: true.
 	select dataAccessor addAll: self statesOfAmerica.
-	select listElement selecter selectIndex: 2.
+	select selecter selectIndex: 2.
 	select placeholderText:
 		('Select a state' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.

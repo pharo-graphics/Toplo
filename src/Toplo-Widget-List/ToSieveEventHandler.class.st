@@ -3,44 +3,11 @@ Class {
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'listElement',
-		'dataPositionIndex',
-		'sieveSelectionModel'
+		'sieveSelectionModel',
+		'originalIndexMap'
 	],
 	#category : #'Toplo-Widget-List-Sieve'
 }
-
-{ #category : #'command application' }
-ToSieveEventHandler >> addCommand: aCommand [
-
-	aCommand target dispatchEvent: (ToElementCommandAddedEvent new
-			 operator: self;
-			 command: aCommand yourself)
-]
-
-{ #category : #'command operations' }
-ToSieveEventHandler >> addIndexesSelectionCommand: aCommand [
-
-	self operator applyCommand: aCommand
-]
-
-{ #category : #'command operations' }
-ToSieveEventHandler >> addIntervalSelectionCommand: aCommand [
-
-	aCommand operator: self operator.
-	self operator applyCommand: aCommand
-]
-
-{ #category : #'command operations' }
-ToSieveEventHandler >> addWholeSelectionCommand: aCommand [
-
-
-]
-
-{ #category : #'command application' }
-ToSieveEventHandler >> applyCommand: aCommand [ 
-
-	aCommand applyOn: self
-]
 
 { #category : #'api - accessing' }
 ToSieveEventHandler >> eventsToHandle [
@@ -55,14 +22,30 @@ ToSieveEventHandler >> listElement: aSievedListElement [
 
 { #category : #'api - accessing' }
 ToSieveEventHandler >> listPrimarySelectionChangePreNotificationEvent: aPreNotification [
-
-'listPrimarySelectionChangePreNotificationEvent:' traceCr
 ]
 
 { #category : #'api - accessing' }
 ToSieveEventHandler >> listPrimarySelectionChangedEvent: anEvent [
 
-'listPrimarySelectionChangedEvent:' traceCr
+	anEvent currentTarget pattern
+		ifEmpty: [
+		listElement selectionModel copySelectionFrom: sieveSelectionModel ]
+		ifNotEmpty: [
+			listElement dataAccessor withIndexDo: [ :d :localIndex |
+				| originalIndex |
+				originalIndex := originalIndexMap at: d.
+				sieveSelectionModel
+					transferSelectionFromIndex: originalIndex
+					toIndex: localIndex
+					in: listElement selectionModel ] ].
+
+	" dispatch a specific, different from the primary selection change event that will be sent after.
+	It is useful for sieve list user that relies on the sieve internal selection to adapt themeself 
+	according to the sieve selection"
+	listElement dispatchEvent: (ToSieveSelectionChangedEvent new
+			 sieve: anEvent currentTarget;
+			 selectionModel: sieveSelectionModel;
+			 yourself)
 ]
 
 { #category : #'api - hooks' }
@@ -70,44 +53,5 @@ ToSieveEventHandler >> onInstalledIn: aSieve [
 
 	super onInstalledIn: aSieve.
 	sieveSelectionModel := aSieve selectionModel.
-	dataPositionIndex := aSieve originalIndexMap
-]
-
-{ #category : #'command operations' }
-ToSieveEventHandler >> operator [
-
-	^ listElement selecter operator 
-]
-
-{ #category : #'command operations' }
-ToSieveEventHandler >> removeIndexesSelectionCommand: aCommand [
-
-
-]
-
-{ #category : #'command operations' }
-ToSieveEventHandler >> removeIntervalSelectionCommand: aCommand [
-
-
-]
-
-{ #category : #'command operations' }
-ToSieveEventHandler >> removeWholeSelectionCommand: aCommand [
-
-
-]
-
-{ #category : #'command operations' }
-ToSieveEventHandler >> scrollCommand: aCommand [ 
-]
-
-{ #category : #'command operations' }
-ToSieveEventHandler >> selectionModelCopyFromCommand: aCopyFromCommand [ 
-
-
-]
-
-{ #category : #'command operations' }
-ToSieveEventHandler >> selectionModelShiftCommand: aCommand [ 
-
+	originalIndexMap := aSieve originalIndexMap
 ]

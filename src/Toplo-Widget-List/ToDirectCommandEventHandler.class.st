@@ -9,5 +9,4 @@ ToDirectCommandEventHandler >> elementCommandAddedEvent: aCommandAddedEvent [
 
 	aCommandAddedEvent command
 		notifyAddedInOperator: aCommandAddedEvent currentTarget
-		forTarget: element
 ]

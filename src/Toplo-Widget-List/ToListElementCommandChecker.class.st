@@ -30,7 +30,7 @@ ToListElementCommandChecker >> addWholeSelectionCommand: aCommand [
 ToListElementCommandChecker >> allowCommand: aCommand [
 
 	result := true.
-	aCommand applyOn: self.
+	aCommand applyOnOperator: self.
 	^ result
 ]
 

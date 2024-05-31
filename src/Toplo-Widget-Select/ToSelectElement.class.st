@@ -153,8 +153,7 @@ ToSelectElement >> newIconContainer [
 ToSelectElement >> newInnerContainer [
 
 	| container |
-	container := self innerContainerClass new.
-	container selectElement: self.
+	container := self innerContainerClass onSelectElement: self.
 	container id: #innerContainer.
 	^ container
 ]
@@ -241,6 +240,12 @@ ToSelectElement >> popupWindowEvent: anEvent [
 ToSelectElement >> refresh [
 
 	self innerContainer refresh
+]
+
+{ #category : #accessing }
+ToSelectElement >> selecter [ 
+
+	^ self sieve selecter
 ]
 
 { #category : #'accessing - selection' }

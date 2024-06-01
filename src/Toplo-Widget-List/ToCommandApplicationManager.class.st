@@ -20,7 +20,7 @@ ToCommandApplicationManager >> commandAppliedEventClass [
 { #category : #'command application' }
 ToCommandApplicationManager >> notifyCommandApplied: aCommand inOperator: anOperator [
 
-	anOperator dispatchEvent: (self commandAppliedEventClass new
+	anOperator dispatchEvent: (ToElementCommandAppliedEvent new
 			 command: aCommand;
 			 yourself)
 ]

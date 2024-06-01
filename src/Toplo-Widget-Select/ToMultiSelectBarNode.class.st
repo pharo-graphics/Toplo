@@ -124,14 +124,6 @@ ToMultiSelectBarNode >> removeRemoveButton [
 	but removeFromParent
 ]
 
-{ #category : #layout }
-ToMultiSelectBarNode >> rightWidthGap [
-
-	| bar |
-	bar := self holder elementBar.
-	^ bar textInputElement measuredWidth
-]
-
 { #category : #'t - list node' }
 ToMultiSelectBarNode >> setInitialConfiguration [
 

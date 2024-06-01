@@ -15,7 +15,7 @@ ToElementCommandEventHandler >> elementCommandAddedEvent: aCommandAddedEvent [
 
 	element isAttachedToSceneGraph ifFalse: [
 		aCommandAddedEvent command notifyAddedInOperator:
-			aCommandAddedEvent operator.
+			aCommandAddedEvent currentTarget.
 		^ self ].
 
 	commandQueue add: aCommandAddedEvent command.

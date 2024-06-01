@@ -13,7 +13,6 @@ Class {
 ToCommandOperator >> addCommand: aCommand [
 
 	self dispatchEvent: (ToElementCommandAddedEvent new
-			 operator: self;
 			 command: aCommand yourself)
 ]
 

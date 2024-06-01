@@ -186,7 +186,7 @@ ToInnerBarElement >> innerContainer [
 ]
 
 { #category : #initialization }
-ToInnerBarElement >> installFakeNode [
+ToInnerBarElement >> installFakeDataView [
 	" the fake node is added in case of an empty data source to ensure a 
 	suitable minimum height according to the node class, the node builder 
 	and the data kind."

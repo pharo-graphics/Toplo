@@ -52,15 +52,13 @@ ToSingleSelectInnerContainerElement >> initialize [
 		hMatchParent;
 		constraintsDo: [ :c | c linear vertical alignCenter ].
 
-	textInputElement := self textInputElementClass new.
-	textInputElement onInstalledIn: self.
-
 	dataItemViewFactory := selectElement defaultDataItemViewFactory.
 	dataItemViewBuilder := selectElement defaultDataItemViewBuilder.
 		
-	self installFakeNode.
+	self initializeTextInputElement.
+	self installFakeDataView.
 	self installDataView.
-	self initializeTextInputElement 
+
 ]
 
 { #category : #'t - select inner container' }
@@ -74,22 +72,19 @@ ToSingleSelectInnerContainerElement >> initializeTextInputElement [
 ToSingleSelectInnerContainerElement >> installDataView [
 		
 	" add the unique view for the selected data item "
-	dataItemView := dataItemViewFactory value.
-	dataItemView selectElement: selectElement.
-	dataItemView onInstalledIn: self.
+	dataItemView := self newDataView.
 	dataItemView middleElement: textInputElement.
+	dataItemView id: #dataView.
 	self addChild: dataItemView
 ]
 
 { #category : #'t - select inner container' }
-ToSingleSelectInnerContainerElement >> installFakeNode [
+ToSingleSelectInnerContainerElement >> installFakeDataView [
 		
 	" add the fake node (to keep a constant minimum height )"
-	fakeView := dataItemViewFactory value. 
-	fakeView selectElement: selectElement.
-	fakeView onInstalledIn: self.
+	fakeView := self newDataView.
 	dataItemViewBuilder cull: fakeView cull: nil cull: fakeDataItem.
-	fakeView id: #fakeNode.
+	fakeView id: #fakeDataView.
 	fakeView width: 0.
 	self addChild: fakeView.
 
@@ -99,6 +94,14 @@ ToSingleSelectInnerContainerElement >> installFakeNode [
 ToSingleSelectInnerContainerElement >> isMultipleSelection [ 
 
 	^ false
+]
+
+{ #category : #'t - select inner container' }
+ToSingleSelectInnerContainerElement >> newDataView [
+
+	^ (dataItemViewFactory cull: self)
+		  container: self;
+		  yourself
 ]
 
 { #category : #'t - select inner container' }

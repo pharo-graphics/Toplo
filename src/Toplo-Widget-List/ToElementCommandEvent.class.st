@@ -2,8 +2,7 @@ Class {
 	#name : #ToElementCommandEvent,
 	#superclass : #BlEvent,
 	#instVars : [
-		'command',
-		'operator'
+		'command'
 	],
 	#category : #'Toplo-Widget-List-Command-support'
 }
@@ -18,16 +17,4 @@ ToElementCommandEvent >> command [
 ToElementCommandEvent >> command: aSelectionCommand [
 
 	command := aSelectionCommand
-]
-
-{ #category : #accessing }
-ToElementCommandEvent >> operator [
-
-	^ operator
-]
-
-{ #category : #accessing }
-ToElementCommandEvent >> operator: anOperator [
-
-	operator := anOperator
 ]

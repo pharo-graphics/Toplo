@@ -12,7 +12,6 @@ ToPrimarySelectionModelOperator >> notifySelectionChangedAfter: aCommand [
 	aCommand selectionChanged ifFalse: [ ^ self ].
 	aCommand target dispatchEvent:
 		(ToPrimarySelectionCommandAppliedEvent new
-			 operator: self;
 			 command: aCommand;
 			 yourself).
 

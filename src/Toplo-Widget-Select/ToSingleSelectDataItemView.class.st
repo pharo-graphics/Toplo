@@ -2,11 +2,16 @@ Class {
 	#name : #ToSingleSelectDataItemView,
 	#superclass : #ToTripletElement,
 	#instVars : [
-		'textInputElement',
-		'selectElement'
+		'container'
 	],
 	#category : #'Toplo-Widget-Select-Single'
 }
+
+{ #category : #'api - hooks' }
+ToSingleSelectDataItemView >> container: aContainer [
+
+	container := aContainer
+]
 
 { #category : #initialization }
 ToSingleSelectDataItemView >> initialize [
@@ -15,7 +20,8 @@ ToSingleSelectDataItemView >> initialize [
 	self applySkinInstallerOnFirstRequest: true.
 	self constraintsDo: [ :c |
 		c horizontal matchParent.
-		c vertical fitContent ]
+		c vertical fitContent ].
+	self middleContainer constraintsDo: [ :c | c horizontal matchParent ]
 ]
 
 { #category : #skin }
@@ -27,33 +33,8 @@ ToSingleSelectDataItemView >> installRawStyle [
 
 ]
 
-{ #category : #'api - hooks' }
-ToSingleSelectDataItemView >> onInstalledIn: anInnerContainer [
-
-	self middleContainer constraintsDo: [ :c | c horizontal matchParent ].
-	textInputElement := anInnerContainer textInputElement
-]
-
-{ #category : #'api - hooks' }
-ToSingleSelectDataItemView >> onUninstalledIn: anInnerContainer [
-
-	textInputElement := nil
-]
-
-{ #category : #accessing }
-ToSingleSelectDataItemView >> selectElement: aSelectElement [
-
-	selectElement := aSelectElement
-]
-
 { #category : #accessing }
 ToSingleSelectDataItemView >> selectedDataTextField [
 
-	^ textInputElement selectedDataTextField
-]
-
-{ #category : #accessing }
-ToSingleSelectDataItemView >> textInputElement [ 
-
-	^ textInputElement 
+	^ container textInputElement selectedDataTextField
 ]

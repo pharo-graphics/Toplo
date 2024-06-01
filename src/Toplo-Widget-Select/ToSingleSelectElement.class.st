@@ -27,7 +27,7 @@ ToSingleSelectElement >> defaultDataItemViewBuilder [
 { #category : #initialization }
 ToSingleSelectElement >> defaultDataItemViewFactory [
 
-	^ [ ToSingleSelectDataItemView new ]
+	^ [ :container | ToSingleSelectDataItemView new ]
 ]
 
 { #category : #'instance creation' }

@@ -36,7 +36,6 @@ ToElementBasicCommand >> notifyAddedInOperator: anOperator [
 
 	| applicationEvent preNotification |
 	applicationEvent := ToElementCommandApplicationEvent new
-		                    operator: anOperator;
 		                    command: self;
 		                    yourself.
 	preNotification := ToCommandPreApplicationEvent new

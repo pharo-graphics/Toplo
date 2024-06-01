@@ -179,14 +179,8 @@ ToInnerBarElement >> initializeDataSource [
 	dataSourceManager := self defaultDataSourceManager
 ]
 
-{ #category : #'t - infinite accessing' }
-ToInnerBarElement >> innerContainer [
-
-	^ self
-]
-
 { #category : #initialization }
-ToInnerBarElement >> installFakeDataView [
+ToInnerBarElement >> initializeFakeDataView [
 	" the fake node is added in case of an empty data source to ensure a 
 	suitable minimum height according to the node class, the node builder 
 	and the data kind."
@@ -200,6 +194,12 @@ ToInnerBarElement >> installFakeDataView [
 
 	" add the fake node (to keep a constant minimum size ) "
 	scrollable addFakeNode: fakeNode
+]
+
+{ #category : #'t - infinite accessing' }
+ToInnerBarElement >> innerContainer [
+
+	^ self
 ]
 
 { #category : #accessing }

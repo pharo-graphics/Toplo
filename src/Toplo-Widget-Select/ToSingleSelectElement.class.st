@@ -5,19 +5,19 @@ Class {
 }
 
 { #category : #accessing }
-ToSingleSelectElement >> dataItemViewBuilder: aValuable [
+ToSingleSelectElement >> dataViewBuilder: aValuable [
 
-	self innerContainer dataItemViewBuilder: aValuable
+	self innerContainer dataViewBuilder: aValuable
 ]
 
 { #category : #accessing }
-ToSingleSelectElement >> dataItemViewFactory: aValuable [
+ToSingleSelectElement >> dataViewFactory: aValuable [
 
-	self innerContainer dataItemViewFactory: aValuable
+	self innerContainer dataViewFactory: aValuable
 ]
 
 { #category : #initialization }
-ToSingleSelectElement >> defaultDataItemViewBuilder [
+ToSingleSelectElement >> defaultDataViewBuilder [
 
 	^ [ :theView :theDataItem |
 	  theView selectedDataTextField text:
@@ -25,7 +25,7 @@ ToSingleSelectElement >> defaultDataItemViewBuilder [
 ]
 
 { #category : #initialization }
-ToSingleSelectElement >> defaultDataItemViewFactory [
+ToSingleSelectElement >> defaultDataViewFactory [
 
 	^ [ :container | ToSingleSelectDataItemView new ]
 ]

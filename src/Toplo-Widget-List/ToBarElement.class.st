@@ -97,7 +97,7 @@ ToBarElement >> initialize [
 ToBarElement >> initializeInnerContainer [
 
 	super initializeInnerContainer.
-	self innerContainer installFakeDataView
+	self innerContainer initializeFakeDataView
 ]
 
 { #category : #accessing }

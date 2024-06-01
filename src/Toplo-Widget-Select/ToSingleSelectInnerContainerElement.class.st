@@ -6,11 +6,11 @@ Class {
 	#instVars : [
 		'selectElement',
 		'textInputElement',
-		'fakeDataItem',
-		'dataItemView',
-		'dataItemViewFactory',
-		'dataItemViewBuilder',
-		'fakeView'
+		'fakeDataView',
+		'dataView',
+		'fakeData',
+		'dataViewFactory',
+		'dataViewBuilder'
 	],
 	#category : #'Toplo-Widget-Select-Single'
 }
@@ -24,23 +24,23 @@ ToSingleSelectInnerContainerElement class >> onSelectElement: aSelectElement [
 ]
 
 { #category : #accessing }
-ToSingleSelectInnerContainerElement >> dataItemViewBuilder [
+ToSingleSelectInnerContainerElement >> dataViewBuilder [
 
-	^ dataItemViewBuilder
+	^ dataViewBuilder
 ]
 
 { #category : #accessing }
-ToSingleSelectInnerContainerElement >> dataItemViewBuilder: aValuable [
+ToSingleSelectInnerContainerElement >> dataViewBuilder: aValuable [
 
 	" aValuable takes 3 args: the dataItemView, the holder in the list element and the selected dataItem "
-	dataItemViewBuilder := aValuable.
+	dataViewBuilder := aValuable.
 	self refresh
 ]
 
 { #category : #accessing }
-ToSingleSelectInnerContainerElement >> dataItemViewFactory [
+ToSingleSelectInnerContainerElement >> dataViewFactory [
 
-	^ dataItemViewFactory
+	^ dataViewFactory
 ]
 
 { #category : #initialization }
@@ -52,12 +52,34 @@ ToSingleSelectInnerContainerElement >> initialize [
 		hMatchParent;
 		constraintsDo: [ :c | c linear vertical alignCenter ].
 
-	dataItemViewFactory := selectElement defaultDataItemViewFactory.
-	dataItemViewBuilder := selectElement defaultDataItemViewBuilder.
+	dataViewFactory := selectElement defaultDataViewFactory.
+	dataViewBuilder := selectElement defaultDataViewBuilder.
 		
 	self initializeTextInputElement.
-	self installFakeDataView.
-	self installDataView.
+	self initializeFakeDataView.
+	self initializeDataView.
+
+]
+
+{ #category : #'t - select inner container' }
+ToSingleSelectInnerContainerElement >> initializeDataView [
+		
+	" add the unique view for the selected data item "
+	dataView := self newDataView.
+	dataView middleElement: textInputElement.
+	dataView id: #dataView.
+	self addChild: dataView
+]
+
+{ #category : #'t - select inner container' }
+ToSingleSelectInnerContainerElement >> initializeFakeDataView [
+		
+	" add the fake node (to keep a constant minimum height )"
+	fakeDataView := self newDataView.
+	dataViewBuilder cull: fakeDataView cull: nil cull: fakeData.
+	fakeDataView id: #fakeDataView.
+	fakeDataView width: 0.
+	self addChild: fakeDataView.
 
 ]
 
@@ -69,28 +91,6 @@ ToSingleSelectInnerContainerElement >> initializeTextInputElement [
 ]
 
 { #category : #'t - select inner container' }
-ToSingleSelectInnerContainerElement >> installDataView [
-		
-	" add the unique view for the selected data item "
-	dataItemView := self newDataView.
-	dataItemView middleElement: textInputElement.
-	dataItemView id: #dataView.
-	self addChild: dataItemView
-]
-
-{ #category : #'t - select inner container' }
-ToSingleSelectInnerContainerElement >> installFakeDataView [
-		
-	" add the fake node (to keep a constant minimum height )"
-	fakeView := self newDataView.
-	dataItemViewBuilder cull: fakeView cull: nil cull: fakeDataItem.
-	fakeView id: #fakeDataView.
-	fakeView width: 0.
-	self addChild: fakeView.
-
-]
-
-{ #category : #'t - select inner container' }
 ToSingleSelectInnerContainerElement >> isMultipleSelection [ 
 
 	^ false
@@ -99,7 +99,7 @@ ToSingleSelectInnerContainerElement >> isMultipleSelection [
 { #category : #'t - select inner container' }
 ToSingleSelectInnerContainerElement >> newDataView [
 
-	^ (dataItemViewFactory cull: self)
+	^ (dataViewFactory cull: self)
 		  container: self;
 		  yourself
 ]
@@ -116,7 +116,7 @@ ToSingleSelectInnerContainerElement >> refresh [
 		                 selectionModel firstIndex ].
 	self inputTextField text: ''.
 	selectedIndex isZero ifFalse: [ dataItem := originalData at: selectedIndex ].
-	dataItemViewBuilder cull: dataItemView cull: dataItem
+	dataViewBuilder cull: dataView cull: dataItem
 ]
 
 { #category : #'t - select inner container' }

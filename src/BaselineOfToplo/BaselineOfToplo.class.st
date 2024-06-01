@@ -132,7 +132,7 @@ BaselineOfToplo >> registerPackages: spec [
 			
 	spec package: #'Toplo-Widget-Select' with: [
 		spec requires:
-			#( #Toplo #'Toplo-Widget-ElementBar' #'Toplo-Widget-Album' #'Toplo-Widget-Button'
+			#( #Toplo #'Toplo-Widget-List' #'Toplo-Widget-Album' #'Toplo-Widget-Button'
 			   #'Toplo-Widget-Image' #'Toplo-Widget-Menu' #'Toplo-Theme') ].
 
 	spec package: #'Toplo-Widget-Select-Tests' with: [

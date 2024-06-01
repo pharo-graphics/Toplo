@@ -2,7 +2,7 @@ Class {
 	#name : #ToListCommandOperator,
 	#superclass : #ToCommandOperator,
 	#classTraits : 'TBlEventTarget classTrait',
-	#category : #'Toplo-Widget-List-Command-Selection'
+	#category : #'Toplo-Widget-List-Command-Operator'
 }
 
 { #category : #'command operations' }

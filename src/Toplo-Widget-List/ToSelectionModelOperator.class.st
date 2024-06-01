@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSelectionModelOperator,
 	#superclass : #ToListCommandOperator,
-	#category : #'Toplo-Widget-List-Command-Selection'
+	#category : #'Toplo-Widget-List-Command-Operator'
 }
 
 { #category : #'command operations' }

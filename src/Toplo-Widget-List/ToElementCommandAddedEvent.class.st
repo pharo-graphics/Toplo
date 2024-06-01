@@ -1,7 +1,7 @@
 Class {
 	#name : #ToElementCommandAddedEvent,
 	#superclass : #ToElementCommandEvent,
-	#category : #'Toplo-Widget-List-Command-support'
+	#category : #'Toplo-Widget-List-Command'
 }
 
 { #category : #sending }

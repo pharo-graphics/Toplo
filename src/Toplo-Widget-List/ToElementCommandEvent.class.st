@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'command'
 	],
-	#category : #'Toplo-Widget-List-Command-support'
+	#category : #'Toplo-Widget-List-Command'
 }
 
 { #category : #accessing }

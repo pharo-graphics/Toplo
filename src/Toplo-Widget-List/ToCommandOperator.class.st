@@ -4,9 +4,10 @@ Class {
 	#traits : 'TBlEventTarget + TToPrenotificationTarget',
 	#classTraits : 'TBlEventTarget classTrait + TToPrenotificationTarget classTrait',
 	#instVars : [
+		'commandApplicationManager',
 		'eventDispatcher'
 	],
-	#category : #'Toplo-Widget-List-Command-Selection'
+	#category : #'Toplo-Widget-List-Command-Operator'
 }
 
 { #category : #accessing }
@@ -19,7 +20,19 @@ ToCommandOperator >> addCommand: aCommand [
 { #category : #'command application' }
 ToCommandOperator >> applyCommand: aCommand [
 
-	aCommand applyOnOperator: self
+	commandApplicationManager applyCommand: aCommand inOperator: self
+]
+
+{ #category : #accessing }
+ToCommandOperator >> commandApplicationManager: aCommandApplicationManager [
+
+	commandApplicationManager := aCommandApplicationManager 
+]
+
+{ #category : #initialization }
+ToCommandOperator >> commandApplicationManagerClass [
+
+	^ ToCommandApplicationManager
 ]
 
 { #category : #'event management accessing' }
@@ -34,5 +47,12 @@ ToCommandOperator >> eventDispatcher [
 ToCommandOperator >> initialize [ 
 
 	super initialize.
+	commandApplicationManager := self newCommandApplicationManager.
 	eventDispatcher := BlDirectEventDispatcher on: self
+]
+
+{ #category : #initialization }
+ToCommandOperator >> newCommandApplicationManager [
+
+	^ self commandApplicationManagerClass new
 ]

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'indexes'
 	],
-	#category : #'Toplo-Widget-List-Command-Selection'
+	#category : #'Toplo-Widget-List-Command'
 }
 
 { #category : #'private - hook' }

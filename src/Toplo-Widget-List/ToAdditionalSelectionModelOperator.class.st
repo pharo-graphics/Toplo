@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'eventClass'
 	],
-	#category : #'Toplo-Widget-List-Command-Selection'
+	#category : #'Toplo-Widget-List-Command-Operator'
 }
 
 { #category : #accessing }

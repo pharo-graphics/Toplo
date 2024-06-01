@@ -1,7 +1,7 @@
 Class {
 	#name : #ToPrimarySelectionModelOperator,
 	#superclass : #ToStandardSelectionModelOperator,
-	#category : #'Toplo-Widget-List-Command-Selection'
+	#category : #'Toplo-Widget-List-Command-Operator'
 }
 
 { #category : #'private command application' }

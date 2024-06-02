@@ -16,14 +16,14 @@ ToWholeSelectionCommand >> applyOn: anOperator [
 		deprecated: 'Use applyOnOperator: instead'
 		transformWith: '`@receiver applyOn: `@argument'
 			-> '`@receiver applyOnOperator: `@argument'.
-	self applyOnOperator: anOperator
+	self applyWithOperator: anOperator
 ]
 
 { #category : #'private - hook' }
-ToWholeSelectionCommand >> applyOnOperator: anOperator [
+ToWholeSelectionCommand >> applyWithOperator: anOperator [
 
 	self operation applyWholeSelection: self on: anOperator.
-	super applyOnOperator: anOperator
+	super applyWithOperator: anOperator
 ]
 
 { #category : #accessing }

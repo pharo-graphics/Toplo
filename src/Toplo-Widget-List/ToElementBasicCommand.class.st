@@ -20,12 +20,12 @@ ToElementBasicCommand >> applyOn: anOperator [
 		deprecated: 'Use applyOnOperator: instead'
 		transformWith: '`@receiver applyOn: `@argument'
 			-> '`@receiver applyOnOperator: `@argument'.
-	self applyOnOperator: anOperator
+	self applyWithOperator: anOperator
 
 ]
 
 { #category : #'private - hook' }
-ToElementBasicCommand >> applyOnOperator: anOperator [
+ToElementBasicCommand >> applyWithOperator: anOperator [
 
 	" ask the operator passed as argument to actually apply the command. "
 ]

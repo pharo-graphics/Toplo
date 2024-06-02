@@ -4,8 +4,8 @@ Class {
 	#category : #'Toplo-Widget-List-Command'
 }
 
-{ #category : #'private command application' }
-ToSecondarySelectionCommandApplicationManager >> notifyCommandApplied: aCommand inOperator: anOperator [
+{ #category : #'command application' }
+ToSecondarySelectionCommandApplicationManager >> notifyCommandApplied: aCommand withOperator: anOperator [
 
 	aCommand target dispatchEvent:
 		(ToListSecondarySelectionChangedEvent new

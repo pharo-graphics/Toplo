@@ -17,14 +17,14 @@ ToSelectionModelShiftCommand >> applyOn: anOperator [
 		deprecated: 'Use applyOnOperator: instead'
 		transformWith: '`@receiver applyOn: `@argument'
 			-> '`@receiver applyOnOperator: `@argument'.
-	self applyOnOperator: anOperator
+	self applyWithOperator: anOperator
 ]
 
 { #category : #'private - hook' }
-ToSelectionModelShiftCommand >> applyOnOperator: anOperator [
+ToSelectionModelShiftCommand >> applyWithOperator: anOperator [
 
 	anOperator selectionModelShiftCommand: self.
-	super applyOnOperator: anOperator
+	super applyWithOperator: anOperator
 ]
 
 { #category : #accessing }

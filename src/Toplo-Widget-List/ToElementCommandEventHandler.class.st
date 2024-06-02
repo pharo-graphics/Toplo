@@ -71,15 +71,3 @@ ToElementCommandEventHandler >> postApplicationTask [
 	" enqueue the update task "
 	element enqueueTask: applicationTask
 ]
-
-{ #category : #'event handling' }
-ToElementCommandEventHandler >> postApplicationTaskIn: anElement [
-	"Post children update runnable to consume update operations"
-	
-	queued ifTrue: [ ^ self ].
-	queued := true.
-	" Allow re-lauching of the same task"
-	applicationTask setNew.
-	" enqueue the update task "
-	anElement enqueueTask: applicationTask
-]

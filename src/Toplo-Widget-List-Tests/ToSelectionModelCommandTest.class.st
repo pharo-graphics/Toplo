@@ -50,7 +50,7 @@ ToSelectionModelCommandTest >> addWholeSelectionCommand: aCommand [
 { #category : #'command application' }
 ToSelectionModelCommandTest >> applyCommand: aCommand [
 
-	aCommand applyOnOperator: self
+	aCommand applyWithOperator: self
 ]
 
 { #category : #'event management' }

@@ -19,10 +19,9 @@ ToAdditionalSelectionCommandApplicationManager >> eventClass: anEventClass [
 	eventClass := anEventClass
 ]
 
-{ #category : #'private command application' }
-ToAdditionalSelectionCommandApplicationManager >> notifyCommandApplied: aCommand inOperator: anOperator [
+{ #category : #'command application' }
+ToAdditionalSelectionCommandApplicationManager >> notifyCommandApplied: aCommand withOperator: anOperator [
 
-	previousModel = aCommand selectionModel ifTrue: [ ^ self ].
 	aCommand target dispatchEvent: (self eventClass new
 			 selectionModel: aCommand selectionModel;
 			 yourself)

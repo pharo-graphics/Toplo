@@ -58,7 +58,7 @@ ToListSelectionHistoryEventHandlerExample >> historyList: aList [
 ToListSelectionHistoryEventHandlerExample >> primarySelectionCommandAppliedEvent: aCommandAppliedEvent [
 
 	currentTarget := aCommandAppliedEvent currentTarget.
-	aCommandAppliedEvent command applyOnOperator: self.
+	aCommandAppliedEvent command applyWithOperator: self.
 	currentTarget := nil
 ]
 

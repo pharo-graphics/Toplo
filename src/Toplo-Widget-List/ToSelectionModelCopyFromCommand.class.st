@@ -16,14 +16,14 @@ ToSelectionModelCopyFromCommand >> applyOn: anOperator [
 		deprecated: 'Use applyOnOperator: instead'
 		transformWith: '`@receiver applyOn: `@argument'
 			-> '`@receiver applyOnOperator: `@argument'.
-	self applyOnOperator: anOperator
+	self applyWithOperator: anOperator
 ]
 
 { #category : #'private - hook' }
-ToSelectionModelCopyFromCommand >> applyOnOperator: anOperator [
+ToSelectionModelCopyFromCommand >> applyWithOperator: anOperator [
 
 	anOperator selectionModelCopyFromCommand: self.
-	super applyOnOperator: anOperator 
+	super applyWithOperator: anOperator 
 ]
 
 { #category : #accessing }

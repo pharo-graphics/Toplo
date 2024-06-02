@@ -17,14 +17,14 @@ ToIntervalSelectionCommand >> applyOn: anOperator [
 		deprecated: 'Use applyOnOperator: instead'
 		transformWith: '`@receiver applyOn: `@argument'
 			-> '`@receiver applyOnOperator: `@argument'.
-	self applyOnOperator: anOperator
+	self applyWithOperator: anOperator
 ]
 
 { #category : #'private - hook' }
-ToIntervalSelectionCommand >> applyOnOperator: anOperator [ 
+ToIntervalSelectionCommand >> applyWithOperator: anOperator [ 
 
 	self operation applyIntervalSelection: self on: anOperator.
-	super applyOnOperator: anOperator
+	super applyWithOperator: anOperator
 ]
 
 { #category : #accessing }

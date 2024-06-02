@@ -10,15 +10,6 @@ ToListElementEventHandler >> collectionUpdateAllRequest: anEvent [
 	anEvent currentTarget selectionModel resetAll
 ]
 
-{ #category : #'list element handling' }
-ToListElementEventHandler >> commandPreApplicationEvent: anEvent [
-
-	"a place to check a selection command send from the selecter"
-	"example: 
-		(anEvent currentTarget allowApplicationOfCommand: anEvent command)
-		ifFalse: [ anEvent deny ]"
-]
-
 { #category : #'mouse handlers' }
 ToListElementEventHandler >> doubleClickEvent: anEvent [
 
@@ -62,8 +53,6 @@ ToListElementEventHandler >> eventsToHandle [
 
 		  ToListNodeAddedEvent.
 		  ToListNodeRemovedEvent.
-
-		  ToCommandPreApplicationEvent.
 
 		  " data source "
 		  ToListDataSourceItemsChangeEvent.

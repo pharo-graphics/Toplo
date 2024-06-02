@@ -4,8 +4,8 @@ Class {
 	#category : #'Toplo-Widget-List-Command'
 }
 
-{ #category : #'private command application' }
-ToPrimarySelectionCommandApplicationManager >> notifyCommandApplied: aCommand inOperator: anOperator [
+{ #category : #'command application' }
+ToPrimarySelectionCommandApplicationManager >> notifyCommandApplied: aCommand withOperator: anOperator [
 
 	| preNotification eventToNotify |
 	

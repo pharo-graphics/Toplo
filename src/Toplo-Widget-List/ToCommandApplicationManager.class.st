@@ -5,20 +5,14 @@ Class {
 }
 
 { #category : #'command application' }
-ToCommandApplicationManager >> applyCommand: aCommand inOperator: anOperator [
+ToCommandApplicationManager >> applyCommand: aCommand withOperator: anOperator [
 
-	aCommand applyOnOperator: anOperator.
-	self notifyCommandApplied: aCommand  inOperator: anOperator
+	aCommand applyWithOperator: anOperator.
+	self notifyCommandApplied: aCommand  withOperator: anOperator
 ]
 
 { #category : #'command application' }
-ToCommandApplicationManager >> commandAppliedEventClass [
-
-	^ ToElementCommandAppliedEvent
-]
-
-{ #category : #'command application' }
-ToCommandApplicationManager >> notifyCommandApplied: aCommand inOperator: anOperator [
+ToCommandApplicationManager >> notifyCommandApplied: aCommand withOperator: anOperator [
 
 	anOperator dispatchEvent: (ToElementCommandAppliedEvent new
 			 command: aCommand;

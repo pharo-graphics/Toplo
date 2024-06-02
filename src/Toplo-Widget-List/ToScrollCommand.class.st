@@ -16,14 +16,14 @@ ToScrollCommand >> applyOn: anOperator [
 		deprecated: 'Use applyOnOperator: instead'
 		transformWith: '`@receiver applyOn: `@argument'
 			-> '`@receiver applyOnOperator: `@argument'.
-	self applyOnOperator: anOperator
+	self applyWithOperator: anOperator
 ]
 
 { #category : #'private - hook' }
-ToScrollCommand >> applyOnOperator: anOperator [ 
+ToScrollCommand >> applyWithOperator: anOperator [ 
 
 	anOperator scrollCommand: self.
-	super applyOnOperator: anOperator
+	super applyWithOperator: anOperator
 ]
 
 { #category : #accessing }

@@ -20,7 +20,7 @@ ToCommandOperator >> addCommand: aCommand [
 { #category : #'command application' }
 ToCommandOperator >> applyCommand: aCommand [
 
-	commandApplicationManager applyCommand: aCommand inOperator: self
+	commandApplicationManager applyCommand: aCommand withOperator: self
 ]
 
 { #category : #accessing }

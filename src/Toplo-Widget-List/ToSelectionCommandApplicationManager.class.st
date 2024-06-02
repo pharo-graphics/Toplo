@@ -8,11 +8,11 @@ Class {
 }
 
 { #category : #'command application' }
-ToSelectionCommandApplicationManager >> applyCommand: aCommand inOperator: anOperator [
+ToSelectionCommandApplicationManager >> applyCommand: aCommand withOperator: anOperator [
 
 	previousModel := aCommand selectionModel copy.
-	aCommand applyOnOperator: anOperator.
+	aCommand applyWithOperator: anOperator.
 	aCommand selectionChanged: previousModel ~= aCommand selectionModel.
 	aCommand selectionChanged ifFalse: [ ^ self ].
-	self notifyCommandApplied: aCommand  inOperator: anOperator
+	self notifyCommandApplied: aCommand  withOperator: anOperator
 ]

@@ -5,6 +5,7 @@
 (ToImportedIconProvider listElementWithAllIconsInProviderClass: ToMaterialDesignMapsIconProvider ) openInSpace.
 
 (ToIconSharpStyle iconNamed: '18mp' inProvider: ToMaterialDesignImageIconProvider) matchParent; openInSpace.
+(ToIconFilledStyle iconNamed: 'argiculture' inProvider: ToMaterialDesignImageIconProvider) matchParent; openInSpace.
 "
 Class {
 	#name : #ToMaterialDesignIconProvider,

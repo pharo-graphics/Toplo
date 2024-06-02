@@ -1,5 +1,15 @@
 "
-ToAntDesignIconProviderGenerator  generateIconProviderClassesFromSrcDirectotyNamed: 'ant\_svg'
+If you want to test the svg file importer, you can generate the icon provider classes.
+
+To generate the icon providers classes:
+**For Ant design**
+- ```ToAntDesignIconProviderGenerator  generateIconProviderClassesFromSrcDirectotyNamed: 'ant_svg'```
+- ant_svg should be the directory name where ant icons are stored
+- Then open the list with all loadable icons with:  ```(ToImportedIconProvider listElementWithAllIconsInProviderClass: ToAntDesignIconProvider  ) openInSpace.```
+- To open a particular icon by its name, send #iconNamed:inProvider: to the icon style of the icon : ```(ToIconFilledStyle iconNamed: 'alert' inProvider: ToAntDesignIconProvider) matchParent; openInSpace.```
+- have a look at the ToAntDesignIconProvider class side. As an example, you have the #\_filled\_unloadable method that returns the array of all icon files of the filled style that the svg converter can't read (there are errors while reading the svg file)
+
+[ant-design-icons.zip](https://github.com/user-attachments/files/15526663/ant-design-icons.zip)
 "
 Class {
 	#name : #ToAntDesignIconProviderGenerator,

@@ -1,6 +1,22 @@
 "
-ToMaterialDesignIconProviderGenerator generateIconProviderClassesFromSrcDirectotyNamed: 'material\_design\_src'.
+**For Material design:**
+- remove all ToMaterialDesignIconProvider subclasses
+- take care to keep ToMaterialDesignIconProvider
+``` ToMaterialDesignIconProviderGenerator generateIconProviderClassesFromSrcDirectotyNamed: 'material_design_src'.```
+- 18 ToMaterialDesignIconProvider subclasses are generated, one class for each material design icon family (root direct subdirectory)
+- Each ToMaterialDesignIconProvider class has the icon of one material_design_src direct subdirectory.
+- You can view all the icons of a particular provider class as with the ant icons:
+```
+(ToImportedIconProvider listElementWithAllIconsInProviderClass: ToMaterialDesignAlertIconProvider ) openInSpace.
+(ToImportedIconProvider listElementWithAllIconsInProviderClass: ToMaterialDesignCommunicationIconProvider ) openInSpace.
+(ToImportedIconProvider listElementWithAllIconsInProviderClass: ToMaterialDesignContentIconProvider ) openInSpace.
+(ToImportedIconProvider listElementWithAllIconsInProviderClass: ToMaterialDesignMapsIconProvider ) openInSpace.
+```
+- As for Ant, one can open a particular icon by its name:
+```(ToIconSharpStyle iconNamed: '18mp' inProvider: ToMaterialDesignImageIconProvider) matchParent; openInSpace```.
 
+Have a look at https://marella.me/material-design-icons/demo/svg/ to see  the correct rendering of Material design icons and to compare with what we get in Pharo
+[material_design_src.zip](https://github.com/user-attachments/files/15526690/material_design_src.zip)
 "
 Class {
 	#name : #ToMaterialDesignIconProviderGenerator,

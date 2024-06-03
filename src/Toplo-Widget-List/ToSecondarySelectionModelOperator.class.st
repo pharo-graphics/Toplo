@@ -4,17 +4,6 @@ Class {
 	#category : #'Toplo-Widget-List-Command-Operator'
 }
 
-{ #category : #'private command application' }
-ToSecondarySelectionModelOperator >> notifySelectionChangedAfter: aCommand [ 
-
-	aCommand selectionChanged ifFalse: [ ^ self ].
-
-	aCommand target dispatchEvent:
-		(ToListSecondarySelectionChangedEvent new
-			 selectionModel: aCommand selectionModel;
-			 yourself)
-]
-
 { #category : #'command operations' }
 ToSecondarySelectionModelOperator >> scrollCommand: aCommand [ 
 	" "

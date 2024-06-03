@@ -33,6 +33,12 @@ ToListElementSelecter >> beSingleSelection [
 	self multiple: false
 ]
 
+{ #category : #accessing }
+ToListElementSelecter >> commandApplicationManagerClass [
+
+	^ ToCommandApplicationManager
+]
+
 { #category : #testing }
 ToListElementSelecter >> containsIndex: anIndex [
 
@@ -155,6 +161,12 @@ ToListElementSelecter >> multiple: aBoolean [
 	multiple := aBoolean
 ]
 
+{ #category : #initialization }
+ToListElementSelecter >> newCommandApplicationManager [
+
+	^ self commandApplicationManagerClass new
+]
+
 { #category : #private }
 ToListElementSelecter >> nextDeselectedIndex [
 
@@ -207,7 +219,8 @@ ToListElementSelecter >> onInstalledIn: anEventTarget [
 		                        element: eventTarget;
 		                        yourself.
 	" operator can be lazily initialized. use the getter here "
-	self operator addEventHandler: operatorEventHandler
+	self operator addEventHandler: operatorEventHandler.
+	self operator commandApplicationManager: self newCommandApplicationManager 
 ]
 
 { #category : #'api - hooks' }

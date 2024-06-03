@@ -30,16 +30,6 @@ ToSelectionModelOperator >> addWholeSelectionCommand: aCommand [
 	aCommand selectionModel selectAll
 ]
 
-{ #category : #'command application' }
-ToSelectionModelOperator >> applyCommand: aCommand [
-
-	| previousModel |
-	previousModel := aCommand selectionModel copy.
-	super applyCommand: aCommand.
-	aCommand selectionChanged: previousModel ~= aCommand selectionModel.
-	self notifySelectionChangedAfter: aCommand 
-]
-
 { #category : #accessing }
 ToSelectionModelOperator >> currentIndex: anIndex [
 ]
@@ -66,12 +56,6 @@ ToSelectionModelOperator >> intervalsIn: aCollection [
 							  g := idx to: idx ] ].
 			  prev := idx ].
 		  g ifNotNil: [ stream nextPut: g ] ]
-]
-
-{ #category : #'private command application' }
-ToSelectionModelOperator >> notifySelectionChangedAfter: aCommand [ 
-
-	self subclassResponsibility 
 ]
 
 { #category : #'command operations' }

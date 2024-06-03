@@ -1,8 +1,8 @@
 Class {
 	#name : #ToCommandOperator,
 	#superclass : #Object,
-	#traits : 'TBlEventTarget + TToPrenotificationTarget',
-	#classTraits : 'TBlEventTarget classTrait + TToPrenotificationTarget classTrait',
+	#traits : 'TBlEventTarget',
+	#classTraits : 'TBlEventTarget classTrait',
 	#instVars : [
 		'commandApplicationManager',
 		'eventDispatcher'
@@ -29,12 +29,6 @@ ToCommandOperator >> commandApplicationManager: aCommandApplicationManager [
 	commandApplicationManager := aCommandApplicationManager 
 ]
 
-{ #category : #initialization }
-ToCommandOperator >> commandApplicationManagerClass [
-
-	^ ToCommandApplicationManager
-]
-
 { #category : #'event management accessing' }
 ToCommandOperator >> eventDispatcher [
 	"Return an object responsible for event dispatching"
@@ -47,12 +41,5 @@ ToCommandOperator >> eventDispatcher [
 ToCommandOperator >> initialize [ 
 
 	super initialize.
-	commandApplicationManager := self newCommandApplicationManager.
 	eventDispatcher := BlDirectEventDispatcher on: self
-]
-
-{ #category : #initialization }
-ToCommandOperator >> newCommandApplicationManager [
-
-	^ self commandApplicationManagerClass new
 ]

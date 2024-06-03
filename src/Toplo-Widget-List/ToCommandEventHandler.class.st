@@ -23,7 +23,7 @@ ToCommandEventHandler >> elementCommandAddedEvent: aCommandAddedEvent [
 { #category : #'event handling' }
 ToCommandEventHandler >> elementCommandApplicationEvent: anEvent [
 
-	anEvent currentTarget
+	anEvent currentTarget 
 		applyCommand: anEvent command
 ]
 

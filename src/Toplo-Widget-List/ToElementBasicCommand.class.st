@@ -34,14 +34,11 @@ ToElementBasicCommand >> applyWithOperator: anOperator [
 ToElementBasicCommand >> notifyAddedInOperator: anOperator [
 	" dispatch to the target to check the command and accept/deny the command application "
 
-	| applicationEvent preNotification |
+	| applicationEvent  |
 	applicationEvent := ToElementCommandApplicationEvent new
 		                    command: self;
 		                    yourself.
-	preNotification := ToCommandPreApplicationEvent new
-		                   sourceEvent: applicationEvent;
-		                   yourself.
-	anOperator dispatchPreNotificationEvent: preNotification
+	anOperator dispatchEvent: applicationEvent
 ]
 
 { #category : #accessing }

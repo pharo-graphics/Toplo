@@ -10,6 +10,12 @@ Class {
 }
 
 { #category : #accessing }
+ToAdditionalSelecter >> commandApplicationManagerClass [
+
+	^ ToAdditionalSelectionCommandApplicationManager
+]
+
+{ #category : #accessing }
 ToAdditionalSelecter >> eventClass [
 
 	^ eventClass
@@ -27,6 +33,12 @@ ToAdditionalSelecter >> initialize [
 
 	super initialize.
 	selectionModel := ToAdditionalSelectionModel new
+]
+
+{ #category : #initialization }
+ToAdditionalSelecter >> newCommandApplicationManager [ 
+
+	^ super newCommandApplicationManager eventClass: eventClass
 ]
 
 { #category : #'api - hooks' }
@@ -56,9 +68,7 @@ ToAdditionalSelecter >> onUninstalledIn: anEventTarget [
 ToAdditionalSelecter >> operator [
 
 	^ operator ifNil: [
-		  operator := ToAdditionalSelectionModelOperator new
-			              eventClass: eventClass;
-			              yourself ]
+		  operator := ToSelectionModelOperator new ]
 ]
 
 { #category : #accessing }

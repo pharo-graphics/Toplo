@@ -7,6 +7,12 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
 
+{ #category : #accessing }
+ToPrimarySelecter >> commandApplicationManagerClass [
+
+	^ ToPrimarySelectionCommandApplicationManager
+]
+
 { #category : #initialization }
 ToPrimarySelecter >> initialize [ 
 

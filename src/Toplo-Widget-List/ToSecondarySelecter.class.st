@@ -8,6 +8,12 @@ Class {
 }
 
 { #category : #accessing }
+ToSecondarySelecter >> commandApplicationManagerClass [
+
+	^ ToSecondarySelectionCommandApplicationManager
+]
+
+{ #category : #accessing }
 ToSecondarySelecter >> primarySelecter: aPrimarySelecter [
 
 	primarySelecter := aPrimarySelecter 

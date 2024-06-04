@@ -220,9 +220,10 @@ ToInfiniteElement >> resizableConstraintsDo: aBlock [
 ToInfiniteElement >> scrollToDataSourcePosition: anIndex [
 	"Request a scrollable widget to scroll to an item (logical or physical) at a given index,
 	which can, for example, be a data source position or child index"
-	"As a result, item at anIndex is positionned at the top of the listElement"
+	"As a result, if the item at anIndex is not already visible, 
+	it is positionned at the top or at the bottom of the listElement "
 
-	self scrollToPosition: anIndex offset: self layout computeExtraLayoutSpace y.
+	self scrollToPosition: anIndex 
 ]
 
 { #category : #private }

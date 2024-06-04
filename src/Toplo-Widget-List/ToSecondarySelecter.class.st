@@ -7,22 +7,19 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
 
-{ #category : #'instance creation' }
-ToSecondarySelecter >> newOperator [
-	
-	^ ToSecondarySelectionModelOperator new
-]
+{ #category : #'command application' }
+ToSecondarySelecter >> commandApplied: aCommand [ 
 
-{ #category : #'instance creation' }
-ToSecondarySelecter >> newSelectionModelInElement: anElement [
-
-	^ anElement newSecondarySelectionModel
+	eventTarget dispatchEvent:
+		(ToListSecondarySelectionChangedEvent new
+			 selectionModel: aCommand selectionModel;
+			 yourself)
 ]
 
 { #category : #accessing }
 ToSecondarySelecter >> primarySelecter: aPrimarySelecter [
 
-	primarySelecter := aPrimarySelecter
+	primarySelecter := aPrimarySelecter 
 ]
 
 { #category : #accessing }

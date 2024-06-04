@@ -1,0 +1,40 @@
+Class {
+	#name : #ToSingleSelectDataItemView,
+	#superclass : #ToTripletElement,
+	#instVars : [
+		'container'
+	],
+	#category : #'Toplo-Widget-Select-Single'
+}
+
+{ #category : #'api - hooks' }
+ToSingleSelectDataItemView >> container: aContainer [
+
+	container := aContainer
+]
+
+{ #category : #initialization }
+ToSingleSelectDataItemView >> initialize [
+
+	super initialize.
+	self applySkinInstallerOnFirstRequest: true.
+	self constraintsDo: [ :c |
+		c horizontal matchParent.
+		c vertical fitContent ].
+	self middleContainer constraintsDo: [ :c | c horizontal matchParent ]
+]
+
+{ #category : #skin }
+ToSingleSelectDataItemView >> installRawStyle [
+
+	super installRawStyle.
+	self padding: (BlInsets horizontal: 3 vertical: 2).
+	self background: Color transparent.
+
+]
+
+{ #category : #accessing }
+ToSingleSelectDataItemView >> selectedDataTextField [
+
+	^ container textInputElement selectedDataTextField
+]

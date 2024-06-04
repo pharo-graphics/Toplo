@@ -33,6 +33,14 @@ ToListFrontSelectionElement >> initialize [
 ]
 
 { #category : #accessing }
+ToListFrontSelectionElement >> option [
+
+	^ beneath
+		  ifTrue: [ listElement selectionMode beneathOption ]
+		  ifFalse: [ listElement selectionMode overOption ]
+]
+
+{ #category : #accessing }
 ToListFrontSelectionElement >> selectionMode [
 
 	^ self subclassResponsibility 

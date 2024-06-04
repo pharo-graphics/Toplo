@@ -23,6 +23,14 @@ ToContextMenuWindowManager >> initialize [
 	self useSecondaryMouseButton
 ]
 
+{ #category : #'window handling' }
+ToContextMenuWindowManager >> newWindowOpenRequestEventFromSourceEvent: anEvent [
+
+	^ (super newWindowOpenRequestEventFromSourceEvent: anEvent)
+		  sourceEvent: anEvent;
+		  yourself
+]
+
 { #category : #accessing }
 ToContextMenuWindowManager >> windowClass [
 
@@ -30,7 +38,19 @@ ToContextMenuWindowManager >> windowClass [
 ]
 
 { #category : #accessing }
-ToContextMenuWindowManager >> windowRequestClass [
+ToContextMenuWindowManager >> windowClosedEventClass [
+
+	^ ToContextMenuClosedEvent 
+]
+
+{ #category : #accessing }
+ToContextMenuWindowManager >> windowOpenRequestClass [
 
 	^ ToContextMenuRequest 
+]
+
+{ #category : #accessing }
+ToContextMenuWindowManager >> windowOpenedEventClass [ 
+
+	^ ToContextMenuOpenedEvent  
 ]

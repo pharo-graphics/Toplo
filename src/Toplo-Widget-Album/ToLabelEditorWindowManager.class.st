@@ -14,6 +14,12 @@ ToLabelEditorWindowManager >> defaultPositionHook [
 		  @ theLabel editor padding top ]
 ]
 
+{ #category : #accessing }
+ToLabelEditorWindowManager >> elementEventHandlerClass [
+
+	^ ToLabelEditorEventHandler 
+]
+
 { #category : #initialization }
 ToLabelEditorWindowManager >> initialize [
 
@@ -30,4 +36,16 @@ ToLabelEditorWindowManager >> initialize [
 ToLabelEditorWindowManager >> windowClass [
 
 	^ ToLabelEditorWindow 
+]
+
+{ #category : #accessing }
+ToLabelEditorWindowManager >> windowClosedEventClass [
+
+	^ ToLabelEditorClosedEvent
+]
+
+{ #category : #accessing }
+ToLabelEditorWindowManager >> windowOpenedEventClass [
+
+	^ ToLabelEditorOpenedEvent
 ]

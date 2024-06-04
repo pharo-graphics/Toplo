@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSelectNodeInnerCloseButtonSkin,
 	#superclass : #ToRawSkin,
-	#category : #'Toplo-Widget-Select-Node'
+	#category : #'Toplo-Widget-Select-Multi'
 }
 
 { #category : #'event handling' }

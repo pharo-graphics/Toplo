@@ -50,3 +50,15 @@ ToTooltipWindowManager >> windowClass [
 
 	^ ToTooltipWindow 
 ]
+
+{ #category : #accessing }
+ToTooltipWindowManager >> windowClosedEventClass [
+
+	^ ToTooltipWindowClosedEvent
+]
+
+{ #category : #accessing }
+ToTooltipWindowManager >> windowOpenedEventClass [
+
+	^ ToTooltipWindowOpenedEvent
+]

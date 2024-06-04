@@ -4,14 +4,26 @@ Class {
 	#instVars : [
 		'maxIndex'
 	],
-	#category : #'Toplo-Widget-List-Command-Selection'
+	#category : #'Toplo-Widget-List-Command'
 }
 
-{ #category : #hook }
-ToWholeSelectionCommand >> applyOn: anOperator in: aTarget [
+{ #category : #'private - hook' }
+ToWholeSelectionCommand >> applyOn: anOperator [
+
+	" ask the operator passed as argument to actually apply the command. "
+
+	self
+		deprecated: 'Use applyOnOperator: instead'
+		transformWith: '`@receiver applyOn: `@argument'
+			-> '`@receiver applyOnOperator: `@argument'.
+	self applyWithOperator: anOperator
+]
+
+{ #category : #'private - hook' }
+ToWholeSelectionCommand >> applyWithOperator: anOperator [
 
 	self operation applyWholeSelection: self on: anOperator.
-	super applyOn: anOperator in: aTarget
+	super applyWithOperator: anOperator
 ]
 
 { #category : #accessing }

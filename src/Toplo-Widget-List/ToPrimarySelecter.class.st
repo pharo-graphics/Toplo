@@ -7,23 +7,33 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
 
+{ #category : #'command application' }
+ToPrimarySelecter >> commandApplied: aCommand [ 
+
+	| preNotification eventToNotify |
+	
+	eventTarget dispatchEvent:
+		(ToPrimarySelectionCommandAppliedEvent new
+			 command: aCommand;
+			 yourself).
+
+	eventToNotify := ToListPrimarySelectionChangedEvent new
+		                 selectionModel: aCommand selectionModel;
+		                 yourself.
+
+	preNotification := ToListPrimarySelectionChangePreNotificationEvent
+		                   new
+		                   sourceEvent: eventToNotify;
+		                   yourself.
+		
+	eventTarget dispatchPreNotificationEvent: preNotification
+]
+
 { #category : #initialization }
 ToPrimarySelecter >> initialize [ 
 
 	super initialize.
 	subSelecterIndex := IdentityDictionary new
-]
-
-{ #category : #'instance creation' }
-ToPrimarySelecter >> newOperator [
-	
-	^ ToPrimarySelectionModelOperator new
-]
-
-{ #category : #'instance creation' }
-ToPrimarySelecter >> newSelectionModelInElement: anElement [
-
-	^ anElement newPrimarySelectionModel
 ]
 
 { #category : #accessing }

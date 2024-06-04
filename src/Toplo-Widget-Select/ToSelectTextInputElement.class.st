@@ -5,10 +5,11 @@ Class {
 		'selectedDataTextField',
 		'inputTextField',
 		'installedInputTextFieldTextEventHandler',
-		'forFiltering',
-		'forMultipleNodes'
+		'windowPopupHandler',
+		'selectFiltrable',
+		'windowManager'
 	],
-	#category : #'Toplo-Widget-Select-Node'
+	#category : #'Toplo-Widget-Select-textInput'
 }
 
 { #category : #initialization }
@@ -26,21 +27,15 @@ ToSelectTextInputElement >> beReadonly [
 ]
 
 { #category : #private }
-ToSelectTextInputElement >> checkMultipleSelectPlaceholderText [
-	
+ToSelectTextInputElement >> checkPlaceholderText [
+
+	self subclassResponsibility 
 ]
 
-{ #category : #private }
-ToSelectTextInputElement >> checkSingleSelectPlaceholderText [
-	" In case of single selection, the selectedDataTextField can contain 
-	either the placeholder text or the selected data string"
+{ #category : #initialization }
+ToSelectTextInputElement >> configureTextField: aTextField [
 
-	self inputTextField text
-		ifEmpty: [
-		self selectedDataTextField visibility: BlVisibility visible.
-		self selectedDataTextField text foreground: Color lightGray ]
-		ifNotEmpty: [
-		self selectedDataTextField visibility: BlVisibility hidden ]
+	self subclassResponsibility 
 ]
 
 { #category : #accessing }
@@ -50,7 +45,7 @@ ToSelectTextInputElement >> filterString [
 ]
 
 { #category : #initialization }
-ToSelectTextInputElement >> initialize [ 
+ToSelectTextInputElement >> initialize [
 
 	super initialize.
 	self id: #textInputElement.
@@ -84,27 +79,13 @@ ToSelectTextInputElement >> installInputTextFieldEventHandlers [
 		self inputTextField addEventHandler: h ]
 ]
 
-{ #category : #testing }
-ToSelectTextInputElement >> isForFiltering [
-
-	^ forFiltering 
-]
-
-{ #category : #testing }
-ToSelectTextInputElement >> isForMultipleNodes [
-
-	^ forMultipleNodes 
-]
-
 { #category : #initialization }
-ToSelectTextInputElement >> newTextFieldIn: aHolder [
+ToSelectTextInputElement >> newTextFieldIn: aNodeContainer [
 
 	| textField |
 	textField := ToSelectTextField new.
-	textField headerNodeContainer: aHolder.
-	aHolder isSingleNode ifTrue: [
-		textField withLineWrapping.
-		textField hMatchParent ].
+	textField headerNodeContainer: aNodeContainer.
+	self configureTextField: textField.
 	^ textField
 ]
 
@@ -113,9 +94,7 @@ ToSelectTextInputElement >> onFilterTextReplaced: anEvent [
 
 	self fireEvent: ToSelectInputTextFieldUpdatedEvent new.
 	self parent sieve pattern: self filterString.
-	self parent isMultipleSelection
-		ifTrue: [ self checkMultipleSelectPlaceholderText ]
-		ifFalse: [ self checkSingleSelectPlaceholderText ]
+	self checkPlaceholderText
 ]
 
 { #category : #private }
@@ -132,46 +111,68 @@ ToSelectTextInputElement >> onFilterTextUpdated: anEvent [
 { #category : #'api - hooks' }
 ToSelectTextInputElement >> onInstalledIn: aNodeContainer [
 
-	forMultipleNodes := aNodeContainer isSingleNode not.
-	forFiltering := aNodeContainer elementBar isFiltrable.
+	selectFiltrable := aNodeContainer isFiltrable.
+	windowManager := aNodeContainer windowManager.
 	selectedDataTextField := self newTextFieldIn: aNodeContainer.
 	selectedDataTextField beReadonlyWithSelection.
-	inputTextField := self newTextFieldIn: aNodeContainer.
 	selectedDataTextField id: #selectedDataTextField.
+	inputTextField := self newTextFieldIn: aNodeContainer.
 	inputTextField id: #inputTextField.
 	self addChild: selectedDataTextField.
 	self addChild: inputTextField.
-	aNodeContainer elementBar isFiltrable
+	aNodeContainer isFiltrable
 		ifTrue: [ self beEditable ]
 		ifFalse: [ self beReadonly ].
-	inputTextField addEventHandler: (BlEventHandler
-			 on: BlMouseDownEvent
-			 do: [ :event | aNodeContainer elementBar windowManager popupWindowEvent: event ])
+
+	" Window handler open the window on text input.
+	the window stays invisible until the sieve is applied to avoid inconfortable effect 
+	(the window is first opened with unsieved content then the content is changed with sieve result).
+	The window is set as visible in ToSelectListElement>>applyDataSourceSieveCommand: "
+	windowPopupHandler := BlEventHandler
+		                 on: BlTextInputEvent
+		                 do: [ :event |
+			                 event text ifNotEmpty: [
+				                 event text asString first isAlphaNumeric ifTrue: [
+					                 windowManager
+						                 popupWindowHiddenEvent: event ] ] ].
+	inputTextField infinite addEventHandler: windowPopupHandler
 ]
 
 { #category : #'api - hooks' }
 ToSelectTextInputElement >> onUninstalledIn: aNodeContainer [
 
-	self removeChildren 
+	self uninstallInputTextFieldEventHandlers.
+	inputTextField infinite removeEventHandler: windowPopupHandler.
+	windowPopupHandler := nil.
+	selectedDataTextField := nil.
+	inputTextField := nil.
+	self removeChildren
 ]
 
 { #category : #window }
 ToSelectTextInputElement >> onWindowClosed [
 
-	self isForMultipleNodes ifFalse: [
-		self selectedDataTextField visibility: BlVisibility visible.
-		self selectedDataTextField text foreground: Color black ].
-	self isForFiltering ifTrue: [ self inputTextField requestFocus ]
+	self selectedDataTextField visibility: BlVisibility visible.
+	self selectedDataTextField text foreground: Color black.
+	selectFiltrable ifTrue: [ self inputTextField requestFocus ]
 ]
 
 { #category : #window }
-ToSelectTextInputElement >> onWindowOpened [
-
-	self isForMultipleNodes ifFalse: [
-		self selectedDataTextField text foreground: Color lightGray ].
-	self isForFiltering
+ToSelectTextInputElement >> onWindowOpened [		
+		
+	self selectedDataTextField text foreground: Color lightGray.
+	selectFiltrable
 		ifTrue: [ self inputTextField requestFocus ]
 		ifFalse: [ self parent requestFocus ]
+]
+
+{ #category : #accessing }
+ToSelectTextInputElement >> selectFiltrable: aBoolean [
+
+	selectFiltrable := aBoolean.
+	aBoolean
+		ifTrue: [ self beEditable ]
+		ifFalse: [ self beReadonly ].
 ]
 
 { #category : #accessing }

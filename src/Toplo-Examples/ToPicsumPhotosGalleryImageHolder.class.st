@@ -48,17 +48,17 @@ ToPicsumPhotosGalleryImageHolder >> loadImage [
 ]
 
 { #category : #accessing }
+ToPicsumPhotosGalleryImageHolder >> release [ 
+
+	self terminateLoader.
+	super release
+]
+
+{ #category : #accessing }
 ToPicsumPhotosGalleryImageHolder >> terminateLoader [
 
 	loader ifNotNil: #terminate.
 	loader := nil
-]
-
-{ #category : #accessing }
-ToPicsumPhotosGalleryImageHolder >> unbindDataItem [
-
-	self terminateLoader.
-	super unbindDataItem
 ]
 
 { #category : #accessing }

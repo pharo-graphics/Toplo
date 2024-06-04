@@ -29,11 +29,11 @@ ToParameterizedHostTest >> setUp [
 ToParameterizedHostTest >> testingSpace: aSpace showThenDo: aBlock [
 
 	aSpace show.
-	aSpace when: BlSpaceShownEvent doOnce: [ :event |
-		BlSpace pulseUntilEmptyTaskQueue: aSpace timeout: 200 milliSeconds.
-		aBlock cull: event.
-		aSpace close ].
-	
+	BlSpace
+		pulseUntilSpaceOpenedAndEmptyTaskQueue: aSpace
+		timeout: 200 milliSeconds.
+	aBlock value.
+	aSpace close
 ]
 
 { #category : #tests }

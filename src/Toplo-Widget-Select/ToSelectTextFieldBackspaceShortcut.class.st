@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSelectTextFieldBackspaceShortcut,
 	#superclass : #AlbEditorDeleteOneLetterBeforeCursorShortcut,
-	#category : #'Toplo-Widget-Select-Node'
+	#category : #'Toplo-Widget-Select-textInput'
 }
 
 { #category : #evaluation }

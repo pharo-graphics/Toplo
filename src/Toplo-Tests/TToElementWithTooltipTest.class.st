@@ -228,7 +228,7 @@ TToElementWithTooltipTest >> testTooltipRequestEvent [
 	e tooltip: [:win :theRequest | win root addChild: tt. request := theRequest].
 	self assert: e hasTooltip.
 	ttwin := e newTooltipWindowEvent: nil.
-	self assert: request class identicalTo: ttwin manager windowRequestClass.
+	self assert: request class identicalTo: ttwin manager windowOpenRequestClass.
 	self assert: request target identicalTo: e
 ]
 

@@ -147,8 +147,7 @@ ToSkinStateGenerator >> eventsToHandle [
 		  BlMousePickOutsideEvent.
 		  BlMouseEnterEvent.
 		  BlMouseLeaveEvent.
-		  ToWindowOpenedEvent.
-		  ToWindowClosedEvent.
+		  ToWindowEvent.
 		  ToListNodeSelectedEvent }
 ]
 
@@ -362,6 +361,18 @@ ToSkinStateGenerator >> keyDownEvent: anEvent [
 ToSkinStateGenerator >> keyUpEvent: anEvent [
 ]
 
+{ #category : #'window opening - closing handlers' }
+ToSkinStateGenerator >> labelEditorClosedEvent: anEvent [
+
+	self generateClosedStateFromEvent: anEvent
+]
+
+{ #category : #'window opening - closing handlers' }
+ToSkinStateGenerator >> labelEditorOpenedEvent: anEvent [
+
+	self generateOpenedStateFromEvent: anEvent
+]
+
 { #category : #accessing }
 ToSkinStateGenerator >> leaved [
 
@@ -378,6 +389,18 @@ ToSkinStateGenerator >> leaved: aBoolean [
 ToSkinStateGenerator >> listNodeSelectedEvent: anEvent [
 
 	self generateSelectionStateFromEvent: anEvent
+]
+
+{ #category : #'window opening - closing handlers' }
+ToSkinStateGenerator >> menuWindowClosedEvent: anEvent [
+
+	self generateClosedStateFromEvent: anEvent
+]
+
+{ #category : #'window opening - closing handlers' }
+ToSkinStateGenerator >> menuWindowOpenedEvent: anEvent [
+
+	self generateOpenedStateFromEvent: anEvent
 ]
 
 { #category : #'mouse handlers' }
@@ -509,6 +532,30 @@ ToSkinStateGenerator >> otherMouseDownEvent: anEvent [
 
 { #category : #'mouse handlers' }
 ToSkinStateGenerator >> otherMouseUpEvent: anEvent [
+]
+
+{ #category : #'window opening - closing handlers' }
+ToSkinStateGenerator >> overlayWindowClosedEvent: anEvent [
+
+	self generateClosedStateFromEvent: anEvent
+]
+
+{ #category : #'window opening - closing handlers' }
+ToSkinStateGenerator >> overlayWindowOpenedEvent: anEvent [
+
+	self generateOpenedStateFromEvent: anEvent
+]
+
+{ #category : #'window opening - closing handlers' }
+ToSkinStateGenerator >> popupWindowClosedEvent: anEvent [
+
+	self generateClosedStateFromEvent: anEvent
+]
+
+{ #category : #'window opening - closing handlers' }
+ToSkinStateGenerator >> popupWindowOpenedEvent: anEvent [
+
+	self generateOpenedStateFromEvent: anEvent
 ]
 
 { #category : #accessing }
@@ -648,6 +695,18 @@ ToSkinStateGenerator >> stopTasks: anEvent [
 ToSkinStateGenerator >> target [
 
 	^ target
+]
+
+{ #category : #'window opening - closing handlers' }
+ToSkinStateGenerator >> tooltipWindowClosedEvent: anEvent [
+
+	self generateClosedStateFromEvent: anEvent
+]
+
+{ #category : #'window opening - closing handlers' }
+ToSkinStateGenerator >> tooltipWindowOpenedEvent: anEvent [
+
+	self generateOpenedStateFromEvent: anEvent
 ]
 
 { #category : #'api - event managing' }

@@ -77,24 +77,6 @@ ToAlbumAutocompletionEventHandler >> defaultNodeBuilder [
 			   yourself) hMatchParent ]
 ]
 
-{ #category : #initialization }
-ToAlbumAutocompletionEventHandler >> defaultNodeFactory [
-
-	^ [ :holder | ToNode new ]
-]
-
-{ #category : #initialization }
-ToAlbumAutocompletionEventHandler >> defaultNodeHolderBuilder [
-
-	^ [ :holder :boundDataItem | holder dataItem: boundDataItem ]
-]
-
-{ #category : #initialization }
-ToAlbumAutocompletionEventHandler >> defaultNodeHolderFactory [
-
-	^ [ :dataSource | ToNodeHolder new ]
-]
-
 { #category : #'api - accessing' }
 ToAlbumAutocompletionEventHandler >> eventsToHandle [
 
@@ -138,14 +120,11 @@ ToAlbumAutocompletionEventHandler >> newListElement [
 	| newListElement |
 	newListElement := ToAlbumAutocompletionListElement new.
 	"newListElement withDecoration: ToAutocompleteListSideBackgroundDecoration."
-	newListElement nodeHolderFactory: self defaultNodeHolderFactory.
-	newListElement nodeHolderBuilder: self defaultNodeHolderBuilder.
-	newListElement nodeFactory: self defaultNodeFactory.
 	newListElement nodeBuilder: self defaultNodeBuilder.
 	newListElement fontSize: self defaultFontSize.
-	newListElement infinite maxHeight: self defaultMaxHeight.
-	newListElement infinite minHeight: self defaultMinHeight.
-	newListElement infinite vFitContent.
+	newListElement innerContainer maxHeight: self defaultMaxHeight.
+	newListElement innerContainer minHeight: self defaultMinHeight.
+	newListElement innerContainer vFitContent.
 	newListElement vFitContent.
 	newListElement hMatchParent.
 	^ newListElement

@@ -2,17 +2,22 @@ Class {
 	#name : #ToStandardSelectionModelOperator,
 	#superclass : #ToSelectionModelOperator,
 	#instVars : [
-		'currentIndex'
+		'currentIndex',
+		'primary'
 	],
-	#category : #'Toplo-Widget-List-Command-Selection'
+	#category : #'Toplo-Widget-List-Command-Operator'
 }
 
 { #category : #'instance creation' }
-ToStandardSelectionModelOperator class >> on: anElement [ 
+ToStandardSelectionModelOperator class >> primary [
 
-	^ self new
-		  onInstalledIn: anElement;
-		  yourself
+	^ self new primary: true
+]
+
+{ #category : #'instance creation' }
+ToStandardSelectionModelOperator class >> secondary [
+
+	^ self new primary: false
 ]
 
 { #category : #'command operations' }
@@ -58,10 +63,17 @@ ToStandardSelectionModelOperator >> currentIndex: anIndex [
 ]
 
 { #category : #initialization }
-ToStandardSelectionModelOperator >> initialize [
+ToStandardSelectionModelOperator >> initialize [ 
 
 	super initialize.
-	currentIndex := 0
+	currentIndex := 0.
+	primary := true
+]
+
+{ #category : #accessing }
+ToStandardSelectionModelOperator >> primary: aBoolean [
+
+	primary := aBoolean
 ]
 
 { #category : #'command operations' }
@@ -86,8 +98,26 @@ ToStandardSelectionModelOperator >> removeWholeSelectionCommand: aCommand [
 ]
 
 { #category : #'command operations' }
-ToStandardSelectionModelOperator >> selectionModelCopyFromCommand: aCopyFromCommand in: aTarget [
+ToStandardSelectionModelOperator >> scrollCommand: aCommand [
 
-	super selectionModelCopyFromCommand: aCopyFromCommand in: aTarget.
+	| target index |
+	target := aCommand target.
+	index := aCommand index.
+
+	" In case of a secondary selection, to ensure that wrap-around when scrolling works as expected. 
+	If not done, the wrap-around comme back to the last mouse move event position"
+	primary ifFalse: [
+		target spaceDo: [ :sp |
+			sp mouseProcessor lastMouseMoveEvent ifNotNil: [ :e | e consume ] ] ].
+
+	aCommand towardEnd
+		ifTrue: [ target scrollTowardEndToDataSourcePosition: index ]
+		ifFalse: [ target scrollTowardStartToDataSourcePosition: index ]
+]
+
+{ #category : #'command operations' }
+ToStandardSelectionModelOperator >> selectionModelCopyFromCommand: aCopyFromCommand [ 
+
+	super selectionModelCopyFromCommand: aCopyFromCommand.
 	self changeCurrentIndexWith: 0
 ]

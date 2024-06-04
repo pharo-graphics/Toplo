@@ -5,14 +5,26 @@ Class {
 		'fromIndex',
 		'itemCount'
 	],
-	#category : #'Toplo-Widget-List-Command-Selection'
+	#category : #'Toplo-Widget-List-Command'
 }
 
-{ #category : #hook }
-ToSelectionModelShiftCommand >> applyOn: anOperator in: aTarget [
+{ #category : #'private - hook' }
+ToSelectionModelShiftCommand >> applyOn: anOperator [
 
-	anOperator selectionModelShiftCommand: self in: aTarget.
-	super applyOn: anOperator in: aTarget
+	" ask the operator passed as argument to actually apply the command. "
+
+	self
+		deprecated: 'Use applyOnOperator: instead'
+		transformWith: '`@receiver applyOn: `@argument'
+			-> '`@receiver applyOnOperator: `@argument'.
+	self applyWithOperator: anOperator
+]
+
+{ #category : #'private - hook' }
+ToSelectionModelShiftCommand >> applyWithOperator: anOperator [
+
+	anOperator selectionModelShiftCommand: self.
+	super applyWithOperator: anOperator
 ]
 
 { #category : #accessing }

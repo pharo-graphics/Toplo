@@ -17,7 +17,7 @@ ToAnchorEventHandlerTest >> testElementPositionInSpaceChangedEvent [
 	e size: 10 asPoint.
 	self waitTestingSpaces.
 
-	windowManager := ToAnchoredWindowManager new builder: [
+	windowManager := ToAnchoredWindowManagerForTest new builder: [
 		                 :anchWin
 		                 :element |  ].
 	windowManager onInstalledIn: e.
@@ -45,7 +45,7 @@ ToAnchorEventHandlerTest >> testElementRemovedFromParentEvent [
 	e size: 10 asPoint.
 	self waitTestingSpaces.
 
-	windowManager := ToAnchoredWindowManager new builder: [
+	windowManager := ToAnchoredWindowManagerForTest new builder: [
 		                 :anchWin
 		                 :element |  ].
 	windowManager onInstalledIn: e.
@@ -53,7 +53,7 @@ ToAnchorEventHandlerTest >> testElementRemovedFromParentEvent [
 	win popup.
 	closed := false.
 	win addEventHandler: (BlEventHandler
-			 on: ToWindowClosedEvent
+			 on: windowManager windowClosedEventClass
 			 do: [ closed := true ]).
 	self waitTestingSpaces.
 	self assert: win isOpened.

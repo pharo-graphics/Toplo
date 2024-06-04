@@ -9,6 +9,14 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
 
+{ #category : #'command application' }
+ToAdditionalSelecter >> commandApplied: aCommand [ 
+
+	eventTarget dispatchEvent: (self eventClass new
+			 selectionModel: aCommand selectionModel;
+			 yourself)
+]
+
 { #category : #accessing }
 ToAdditionalSelecter >> eventClass [
 
@@ -26,31 +34,26 @@ ToAdditionalSelecter >> eventClass: anEventClass [
 ToAdditionalSelecter >> initialize [
 
 	super initialize.
+	operator := ToSelectionModelOperator new.
 	selectionModel := ToAdditionalSelectionModel new
 ]
 
 { #category : #'api - hooks' }
-ToAdditionalSelecter >> onInstalledIn: anElement [
+ToAdditionalSelecter >> onInstalledIn: anEventTarget [
 
-	super onInstalledIn: anElement.
-	selectionModel onInstalledIn: anElement.
+
+	super onInstalledIn: anEventTarget.
+	selectionModel on: anEventTarget.
 	selectionModel uniqueId: uniqueId.
-	operator := ToAdditionalSelectionModelOperator new eventClass: eventClass.
-	operator onInstalledIn: anElement.
 	parentSelecter recordSubSelecter: self
 
 ]
 
 { #category : #'api - hooks' }
-ToAdditionalSelecter >> onUninstalledIn: anElement [
+ToAdditionalSelecter >> onUninstalledIn: anEventTarget [
 
 	parentSelecter unrecordSubSelecter: self.
-	operator onUninstalledIn: anElement.
-	operator := nil.
-	selectionModel onUninstalledIn: anElement.
-	selectionModel := nil.
-	parentSelecter unrecordSubSelecter: self.
-	super onUninstalledIn: anElement
+	super onUninstalledIn: anEventTarget
 
 ]
 

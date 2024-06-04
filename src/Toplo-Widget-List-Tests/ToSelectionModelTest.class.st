@@ -222,7 +222,7 @@ ToSelectionModelTest >> testIsEmpty [
 ToSelectionModelTest >> testItemCount [
 
 	| s |
-	s := ToSelectionModel new onInstalledIn: self.
+	s := ToSelectionModel new on: self.
 	self assert: s itemCount equals: self itemCount.
 	s underlyingModel selectIndex: 1.
 	s assert: (s containsIndex: 1)
@@ -232,7 +232,7 @@ ToSelectionModelTest >> testItemCount [
 ToSelectionModelTest >> testItemCountGetter [
 
 	| s |
-	s := ToSelectionModel new onInstalledIn: self.
+	s := ToSelectionModel new on: self.
 	self assert: s itemCount equals: s itemCountGetter value.
 	s itemCountGetter: [ 1000 ].
 	self assert: s itemCount equals: 1000.
@@ -255,24 +255,13 @@ ToSelectionModelTest >> testLastIndex [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testOnInstalledIn [
+ToSelectionModelTest >> testOn [
 
 	| s |
 	s := ToSelectionModel new.
-	s onInstalledIn: self.
+	s on: self.
 	self assert: s itemCountGetter notNil.
 	self assert: s itemCountGetter value equals: self itemCount 
-]
-
-{ #category : #tests }
-ToSelectionModelTest >> testOnUninstalledIn [
-
-	| s |
-	s := ToSelectionModel new.
-	s onInstalledIn: self.
-	s onUninstalledIn: self.
-	self should: [ s itemCountGetter ] raise: Error.
-	self should: [ s itemCount ] raise: Error
 ]
 
 { #category : #tests }
@@ -292,8 +281,6 @@ ToSelectionModelTest >> testSelectAll [
 ToSelectionModelTest >> testSelectAllThenDeselectOneByOne [
 
 	| s |
-	self skip.
-	self flag: 'Reported as a BlCompositeSelection issue (see issue #489 and BlCompositeSelectionTest)'.
 	s := ToSelectionModel new itemCountGetter: 48.
 	s selectIndexes: (1 to: 48).
 	s deselectIndex: 26.
@@ -420,7 +407,7 @@ ToSelectionModelTest >> testSelectedIndexesDo [
 ToSelectionModelTest >> testSelectedItemCount [
 
 	| s |
-	s := ToSelectionModel new onInstalledIn: self.
+	s := ToSelectionModel new on: self.
 	self assert: s selectedIndexesCount equals: 0.
 	s selectIndex: 1.
 	self assert: s selectedIndexesCount equals: 1.

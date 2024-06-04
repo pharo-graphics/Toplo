@@ -4,10 +4,9 @@ Class {
 	#traits : 'TBlLayoutResizable',
 	#classTraits : 'TBlLayoutResizable classTrait',
 	#instVars : [
-		'nodeHolderFactory',
 		'listElement'
 	],
-	#category : #'Toplo-Widget-List-Infinite'
+	#category : #'Toplo-Widget-List-InnerInfinite'
 }
 
 { #category : #'instance creation' }
@@ -15,7 +14,6 @@ ToInfiniteElement class >> onListElement: aListElement [
 
 	^ self basicNew
 		  listElement: aListElement;
-		  nodeHolderFactory: aListElement defaultNodeHolderFactory;
 		  initialize
 ]
 
@@ -41,6 +39,12 @@ ToInfiniteElement >> defaultDataSource [
 ToInfiniteElement >> defaultDataSourceManager [
 
 	^ ToInfiniteDataSourceManager new
+]
+
+{ #category : #initialization }
+ToInfiniteElement >> defaultDataSourceObserver [
+	"Return class, actuall instantiation happens in initialize"
+	^ ToInfiniteDataSourceObserver
 ]
 
 { #category : #initialization }
@@ -75,17 +79,30 @@ ToInfiniteElement >> enableScrolledEvent [
 	self eventDispatcher enableScrolledEvent 
 ]
 
-{ #category : #'t - infinite accessing' }
-ToInfiniteElement >> infinite [ 
+{ #category : #'node enumerating' }
+ToInfiniteElement >> fullyVisibleNodesDo: aBlock [
 
-	^ self
+	self nodesDo: aBlock
+]
+
+{ #category : #'node enumerating' }
+ToInfiniteElement >> fullyVisibleNodesSelect: aBlock [
+
+	^ self nodesSelect: aBlock
 ]
 
 { #category : #initialization }
 ToInfiniteElement >> initialize [
 
 	super initialize.
+	self addEventHandler: ToInfiniteElementEventHandler new.
 	self matchParent
+]
+
+{ #category : #'t - infinite accessing' }
+ToInfiniteElement >> innerContainer [ 
+
+	^ self
 ]
 
 { #category : #accessing }
@@ -103,7 +120,7 @@ ToInfiniteElement >> listElement: aListElement [
 { #category : #'instance creation' }
 ToInfiniteElement >> newNodeHolderFromDataSource: aDataSource [
 
-	^ self nodeHolderFactory cull: aDataSource
+	^ listElement nodeManager newNodeHolder
 ]
 
 { #category : #'accessing - nodes' }
@@ -119,7 +136,7 @@ ToInfiniteElement >> nodeAt: anIndex [
 { #category : #'accessing - children' }
 ToInfiniteElement >> nodeContainingGlobalPosition: aPoint [
 
-	self childrenDo: [ :node |
+	self nodesDo: [ :node |
 		(node containsGlobalPoint: aPoint) ifTrue: [ ^ node ] ].
 	^ nil
 ]
@@ -131,7 +148,7 @@ ToInfiniteElement >> nodeGroupsSatisfying: aBlock [
 	^ Array streamContents: [ :stream |
 		  | g |
 		  g := OrderedCollection new.
-		  self childrenDo: [ :node |
+		  self partlyVisibleNodesDo: [ :node |
 			  (aBlock value: node)
 				  ifTrue: [ g add: node ]
 				  ifFalse: [
@@ -141,18 +158,39 @@ ToInfiniteElement >> nodeGroupsSatisfying: aBlock [
 		  g ifNotEmpty: [ stream nextPut: g ] ]
 ]
 
-{ #category : #'accessing - nodes' }
-ToInfiniteElement >> nodeHolderFactory [
+{ #category : #'node enumerating' }
+ToInfiniteElement >> nodesDo: aBlock [
 
-	"aValuable that takes the data source as argument and returns a node holder instance "
-	^ nodeHolderFactory
+	self childrenDo: [ :node | aBlock value: node ]
 ]
 
-{ #category : #'accessing - nodes' }
-ToInfiniteElement >> nodeHolderFactory: aValuable [
+{ #category : #'node enumerating' }
+ToInfiniteElement >> nodesSelect: aBlock [
 
-	"aValuable that takes the data source as argument and returns a node holder instance "
-	nodeHolderFactory := aValuable
+	^ Array streamContents: [ :stream |
+		  self nodesDo: [ :node |
+			  (aBlock value: node) ifTrue: [ stream nextPut: node ] ] ]
+]
+
+{ #category : #'node enumerating' }
+ToInfiniteElement >> nodesWithIndexDo: aBlock [
+
+	self nodesDo: [ :node |
+		aBlock value: node value: node holder position ]
+]
+
+{ #category : #'node enumerating' }
+ToInfiniteElement >> partlyVisibleNodesDo: aBlock [
+
+	self nodesDo: aBlock
+]
+
+{ #category : #'node enumerating' }
+ToInfiniteElement >> partlyVisibleNodesSelect: aBlock [
+
+	^ Array streamContents: [ :stream |
+		  self partlyVisibleNodesDo: [ :node |
+			  (aBlock value: node) ifTrue: [ stream nextPut: node ] ] ]
 ]
 
 { #category : #'t - resizeable' }
@@ -182,12 +220,10 @@ ToInfiniteElement >> resizableConstraintsDo: aBlock [
 ToInfiniteElement >> scrollToDataSourcePosition: anIndex [
 	"Request a scrollable widget to scroll to an item (logical or physical) at a given index,
 	which can, for example, be a data source position or child index"
+	"As a result, if the item at anIndex is not already visible, 
+	it is positionned at the top or at the bottom of the listElement "
 
-	self scrollToPosition: anIndex.
-
-	"aWish smooth
-		ifTrue: [ self listElement smoothScrollToPosition: aWish index ]
-		ifFalse: [ self listElement scrollToPosition: aWish index ]"
+	self scrollToPosition: anIndex 
 ]
 
 { #category : #private }
@@ -195,11 +231,12 @@ ToInfiniteElement >> scrollToIndex: anIndex [
 	"Request a scrollable widget to scroll to an item (logical or physical) at a given index,
 	which can, for example, be a data source position or child index"
 
-	self scrollToPosition: anIndex.
+	self
+		deprecated: 'Use scrollToDataSourcePosition: instead'
+		transformWith: '`@receiver scrollToIndex: `@argument'
+			-> '`@receiver scrollToDataSourcePosition: `@argument'.
 
-	"aWish smooth
-		ifTrue: [ self listElement smoothScrollToPosition: aWish index ]
-		ifFalse: [ self listElement scrollToPosition: aWish index ]"
+	self scrollToDataSourcePosition: anIndex
 ]
 
 { #category : #private }
@@ -207,8 +244,49 @@ ToInfiniteElement >> scrollToIndexAtTop: anIndex [
 	"Request a scrollable widget to scroll to an item (logical or physical) at a given index,
 	which can, for example, be a data source position or child index"
 	"As a result, item at anIndex is positionned at the top of the listElement"
+	self
+		deprecated: 'Use scrollToDataSourcePosition: instead'
+		transformWith: '`@receiver scrollToIndexAtTop: `@argument'
+			-> '`@receiver scrollToDataSourcePosition: `@argument'.
 
-	self scrollToPosition: anIndex offset: self layout computeExtraLayoutSpace y.
+	self scrollToDataSourcePosition: anIndex
+]
+
+{ #category : #private }
+ToInfiniteElement >> scrollTowardEndToDataSourcePosition: anIndex [
+	"Request a scrollable widget to scroll to an item (logical or physical) at a given index,
+	which can, for example, be a data source position or child index"
+	"As a result, if the item at anIndex is not already visible, 
+	it is positionned at the top or at the bottom of the listElement "
+
+	self scrollToPosition: anIndex 
+]
+
+{ #category : #private }
+ToInfiniteElement >> scrollTowardStartToDataSourcePosition: anIndex [
+	"Request a scrollable widget to scroll to an item (logical or physical) at a given index,
+	which can, for example, be a data source position or child index"
+	"As a result, if the item at anIndex is not already visible, 
+	it is positionned at the top or at the bottom of the listElement "
+
+	self scrollToPosition: anIndex 
+]
+
+{ #category : #'accessing - children' }
+ToInfiniteElement >> selectableNodeContainingGlobalPosition: aPoint [
+
+	self nodesDo: [ :node |
+		(node holder isSelectable and: [ node containsGlobalPoint: aPoint ])
+			ifTrue: [ ^ node ] ].
+	^ nil
+]
+
+{ #category : #private }
+ToInfiniteElement >> smoothScrollToDataSourcePosition: anIndex [
+	"Request a scrollable widget to scroll to an item (logical or physical) at a given index,
+	which can, for example, be a data source position or child index"
+
+	self smoothScrollToPosition: anIndex
 ]
 
 { #category : #'view - configuration' }

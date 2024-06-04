@@ -7,12 +7,14 @@ Class {
 { #category : #'element handlers' }
 ToElementWithContextMenuEventHandler >> contextMenuClosedEvent: anEvent [
 
+	anEvent windowManager = windowManager ifFalse: [ ^ self ].
 	windowManager onWindowClosed 
 ]
 
 { #category : #'element handlers' }
 ToElementWithContextMenuEventHandler >> contextMenuOpenedEvent: anEvent [
 
+	anEvent windowManager = windowManager ifFalse: [ ^ self ].
 	windowManager onWindowOpened
 ]
 

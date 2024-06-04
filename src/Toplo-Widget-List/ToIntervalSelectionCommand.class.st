@@ -5,14 +5,26 @@ Class {
 		'from',
 		'to'
 	],
-	#category : #'Toplo-Widget-List-Command-Selection'
+	#category : #'Toplo-Widget-List-Command'
 }
 
-{ #category : #hook }
-ToIntervalSelectionCommand >> applyOn: anOperator in: aTarget [
+{ #category : #'private - hook' }
+ToIntervalSelectionCommand >> applyOn: anOperator [
+
+	" ask the operator passed as argument to actually apply the command. "
+
+	self
+		deprecated: 'Use applyOnOperator: instead'
+		transformWith: '`@receiver applyOn: `@argument'
+			-> '`@receiver applyOnOperator: `@argument'.
+	self applyWithOperator: anOperator
+]
+
+{ #category : #'private - hook' }
+ToIntervalSelectionCommand >> applyWithOperator: anOperator [ 
 
 	self operation applyIntervalSelection: self on: anOperator.
-	super applyOn: anOperator in: aTarget
+	super applyWithOperator: anOperator
 ]
 
 { #category : #accessing }

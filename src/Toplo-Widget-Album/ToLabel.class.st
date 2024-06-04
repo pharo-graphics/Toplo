@@ -28,8 +28,7 @@ ToLabel >> addEditorEvent: anEvent [
 	self editor selecter
 		all;
 		apply.
-	self editorBuilder value: self editor value: self.
-	self dispatchEvent: ToLabelEditorOpenedEvent new
+	self editorBuilder value: self editor value: self
 ]
 
 { #category : #'text decoration applying' }
@@ -290,9 +289,7 @@ ToLabel >> removeEditor [
 
 	self currentEditorFrame close.
 	self innerElement visibility: BlVisibility visible.
-	self cleanUpUserData.
-	self dispatchEvent: ToLabelEditorClosedEvent new
-
+	self cleanUpUserData
 ]
 
 { #category : #'private-change' }

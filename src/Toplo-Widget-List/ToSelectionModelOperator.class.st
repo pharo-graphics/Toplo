@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSelectionModelOperator,
-	#superclass : #ToCommandOperator,
-	#category : #'Toplo-Widget-List-Command-Selection'
+	#superclass : #ToListCommandOperator,
+	#category : #'Toplo-Widget-List-Command-Operator'
 }
 
 { #category : #'command operations' }
@@ -28,16 +28,6 @@ ToSelectionModelOperator >> addIntervalSelectionCommand: aCommand [
 ToSelectionModelOperator >> addWholeSelectionCommand: aCommand [
 
 	aCommand selectionModel selectAll
-]
-
-{ #category : #'command application' }
-ToSelectionModelOperator >> applyCommand: aCommand in: aTarget [
-
-	| previousModel |
-	previousModel := aCommand selectionModel copy.
-	super applyCommand: aCommand in: aTarget.
-	aCommand selectionChanged: previousModel ~= aCommand selectionModel.
-	self notifySelectionChangedAfter: aCommand in: aTarget
 ]
 
 { #category : #accessing }
@@ -68,12 +58,6 @@ ToSelectionModelOperator >> intervalsIn: aCollection [
 		  g ifNotNil: [ stream nextPut: g ] ]
 ]
 
-{ #category : #'private command application' }
-ToSelectionModelOperator >> notifySelectionChangedAfter: aCommand in: aTarget [
-
-	self subclassResponsibility 
-]
-
 { #category : #'command operations' }
 ToSelectionModelOperator >> removeIndexesSelectionCommand: aCommand [
 
@@ -96,13 +80,13 @@ ToSelectionModelOperator >> removeWholeSelectionCommand: aCommand [
 ]
 
 { #category : #'command operations' }
-ToSelectionModelOperator >> selectionModelCopyFromCommand: aCopyFromCommand in: aTarget [
+ToSelectionModelOperator >> selectionModelCopyFromCommand: aCopyFromCommand [ 
 
 	aCopyFromCommand selectionModel copySelectionFrom:  aCopyFromCommand sourceSelectionModel
 ]
 
 { #category : #'command operations' }
-ToSelectionModelOperator >> selectionModelShiftCommand: aShiftCommand in: aEventTarget [
+ToSelectionModelOperator >> selectionModelShiftCommand: aShiftCommand [ 
 
 	aShiftCommand selectionModel shift: aShiftCommand itemCount from: aShiftCommand fromIndex.
 	" Must take car of unselectable items: "
@@ -113,12 +97,4 @@ ToSelectionModelOperator >> selectionModelShiftCommand: aShiftCommand in: aEvent
 	aShiftCommand fromIndex <= aShiftCommand selectionModel itemCount ifTrue: [
 		"aEventTarget dataSource notifyChanged" ]
 
-]
-
-{ #category : #accessing }
-ToSelectionModelOperator >> sharedEvents [
-
-	^ super sharedEvents , {
-		  ToPrimarySelectionCommandAppliedEvent.
-		  ToListPrimarySelectionChangedEvent }
 ]

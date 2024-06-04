@@ -32,7 +32,7 @@ ToListElementContextMenuSelectionEventHandler >> contextMenuClosedEvent: anEvent
 ToListElementContextMenuSelectionEventHandler >> contextMenuSelectionOverPrimaryIn: aListElement [
 
 	| adjacentNodeGroups |
-	adjacentNodeGroups := aListElement infinite nodeGroupsSatisfying: [
+	adjacentNodeGroups := aListElement innerContainer nodeGroupsSatisfying: [
 		                      :n | n holder isSelected ].
 	adjacentNodeGroups do: [ :group |
 		| deco |
@@ -65,12 +65,12 @@ ToListElementContextMenuSelectionEventHandler >> eventsToHandle [
 { #category : #'element handlers' }
 ToListElementContextMenuSelectionEventHandler >> listElementContextMenuRequest: anEvent [
 
-	| childNode target infinite globalPosition |
+	| childNode target nodeContainer globalPosition |
 	target := anEvent currentTarget.
-	infinite := target infinite.
+	nodeContainer := target innerContainer.
 	target disableScrolledEvent.
 	globalPosition := anEvent sourceEvent position.
-	childNode := infinite children
+	childNode := nodeContainer children
 		             detect: [ :node |
 			             node holder isSelectable and: [
 				             node containsGlobalPoint: globalPosition ] ]

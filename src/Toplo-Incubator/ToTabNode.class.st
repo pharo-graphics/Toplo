@@ -1,6 +1,6 @@
 Class {
 	#name : #ToTabNode,
-	#superclass : #ToNode,
+	#superclass : #ToListNode,
 	#traits : 'TToElement',
 	#classTraits : 'TToElement classTrait',
 	#category : #'Toplo-Incubator'

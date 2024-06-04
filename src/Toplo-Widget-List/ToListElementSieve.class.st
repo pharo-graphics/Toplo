@@ -1,14 +1,20 @@
 Class {
 	#name : #ToListElementSieve,
 	#superclass : #Object,
+	#traits : 'TBlEventTarget + TToPrenotificationTarget',
+	#classTraits : 'TBlEventTarget classTrait + TToPrenotificationTarget classTrait',
 	#instVars : [
 		'queryRunner',
 		'originalData',
 		'currentData',
 		'selectionModel',
+		'selecter',
 		'selectionHandler',
 		'sharedHandler',
-		'dataPositionIndex'
+		'eventDispatcher',
+		'originalIndexMap',
+		'sieveEventHandler',
+		'commandEventHandler'
 	],
 	#category : #'Toplo-Widget-List-Sieve'
 }
@@ -20,23 +26,23 @@ ToListElementSieve >> currentData [
 ]
 
 { #category : #enumerating }
-ToListElementSieve >> currentDataWithIndexDo: aBlock [
+ToListElementSieve >> currentDataWithLocalAndOriginalIndexDo: aBlock [
+	" aBlock takes a data, its local index and its original index "
+
+	self currentData withIndexDo: [ :d :localIndex |
+		| originalIndex |
+		originalIndex := originalIndexMap at: d.
+		aBlock value: d value: localIndex value: originalIndex ]
+]
+
+{ #category : #enumerating }
+ToListElementSieve >> currentDataWithOriginalIndexDo: aBlock [
 	" aBlock takes a data an its index as arguments "
 
 	self currentData do: [ :d |
 		| idx |
-		idx := dataPositionIndex at: d.
+		idx := originalIndexMap at: d.
 		aBlock value: d value: idx ]
-]
-
-{ #category : #enumerating }
-ToListElementSieve >> currentIndexesDo: aBlock [
-	" aBlock takes an index as argument "
-
-	self currentData do: [ :d |
-		| idx |
-		idx := dataPositionIndex at: d.
-		aBlock value: idx ]
 ]
 
 { #category : #accessing }
@@ -47,10 +53,19 @@ ToListElementSieve >> dataFilter: aValuable [
 		aValuable value: item value: pattern ]
 ]
 
-{ #category : #accessing }
-ToListElementSieve >> dataPositionIndex [
+{ #category : #'event management accessing' }
+ToListElementSieve >> eventDispatcher [
+	"Return an object responsible for event dispatching"
+	<return: #BlDirectEventDispatcher>
 
-	^ dataPositionIndex 
+	^ eventDispatcher
+]
+
+{ #category : #initialization }
+ToListElementSieve >> initialize [ 
+
+	super initialize.
+	eventDispatcher := BlDirectEventDispatcher on: self
 ]
 
 { #category : #accessing }
@@ -65,10 +80,9 @@ ToListElementSieve >> onInstalledIn: aListElement [
 
 	originalData ifNotNil: [
 		^ (BlImmutableObjectChangeError object: self) signal ].
-	dataPositionIndex := IdentityDictionary new.
-	
+	originalIndexMap := IdentityDictionary new.
 	selectionModel := aListElement selectionModel duplicate.
-	
+
 	originalData := aListElement dataAccessor newMirror.
 	queryRunner := ToObservableCollectionFilter new.
 	queryRunner onInstalledIn: originalData.
@@ -76,13 +90,27 @@ ToListElementSieve >> onInstalledIn: aListElement [
 	" initialization of the current result with the current pattern "
 	self updateCurrentData.
 	sharedHandler := BlSharedEventDistributor new.
-	sharedHandler shareEvents: { ToObservableCollectionFilterResultEvent }.
+	sharedHandler shareEvents:
+		{ ToObservableCollectionFilterResultEvent }.
 	originalData addEventHandler: sharedHandler.
 	aListElement addEventHandler: sharedHandler.
 
 	selectionHandler := ToSievedListElementEventHandler new.
 	selectionHandler sieve: self.
-	aListElement addEventHandler: selectionHandler
+	aListElement addEventHandler: selectionHandler.
+
+	sieveEventHandler := ToSieveEventHandler new
+		                     listElement: aListElement;
+		                     yourself.
+	selecter := ToPrimarySelecter
+				            selectionModel: self selectionModel
+				            operator: ToStandardSelectionModelOperator new.
+	selecter
+		enabled: true;
+		multiple: aListElement isMultipleSelection.
+	selecter onInstalledIn: self.
+
+	self addEventHandler: sieveEventHandler
 ]
 
 { #category : #'api - hooks' }
@@ -93,6 +121,10 @@ ToListElementSieve >> onUninstalledIn: aListElement [
 	queryRunner onUninstalledIn: originalData.
 	originalData removeEventHandler: sharedHandler.
 	aListElement removeEventHandler: sharedHandler.
+	self removeEventHandler: sieveEventHandler.
+	self removeEventHandler: commandEventHandler.
+	sieveEventHandler := nil.
+	commandEventHandler := nil.
 	sharedHandler := nil.
 	originalData unmirrored.
 	originalData := nil.
@@ -107,6 +139,18 @@ ToListElementSieve >> originalData [
 ]
 
 { #category : #accessing }
+ToListElementSieve >> originalIndexMap [
+
+	^ originalIndexMap 
+]
+
+{ #category : #accessing }
+ToListElementSieve >> originalIndexOf: anObject [
+
+	^ originalIndexMap at: anObject ifAbsent: [  ]
+]
+
+{ #category : #accessing }
 ToListElementSieve >> pattern [
 
 	^ queryRunner pattern
@@ -117,6 +161,12 @@ ToListElementSieve >> pattern: aPattern [
 
 	queryRunner
 		pattern: aPattern
+]
+
+{ #category : #accessing }
+ToListElementSieve >> selecter [ 
+
+	^ selecter
 ]
 
 { #category : #accessing }

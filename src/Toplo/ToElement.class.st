@@ -1,8 +1,8 @@
 Class {
 	#name : #ToElement,
 	#superclass : #BlElement,
-	#traits : 'TBlLayoutResizable + TToElement + TToEnableable + TToElementWithTooltip + TToElementWithContextMenu',
-	#classTraits : 'TBlLayoutResizable classTrait + TToElement classTrait + TToEnableable classTrait + TToElementWithTooltip classTrait + TToElementWithContextMenu classTrait',
+	#traits : 'TBlLayoutResizable + TToElement + TToEnableable + TToElementWithTooltip + TToElementWithContextMenu + TToPrenotificationTarget',
+	#classTraits : 'TBlLayoutResizable classTrait + TToElement classTrait + TToEnableable classTrait + TToElementWithTooltip classTrait + TToElementWithContextMenu classTrait + TToPrenotificationTarget classTrait',
 	#category : #'Toplo-Core'
 }
 
@@ -34,8 +34,15 @@ ToElement >> inVerticalPane [
 ToElement >> initialize [
 
 	super initialize.
+	self layout: self defaultLayout.
 	self initializeForToplo.
 	self applySkinInstallerOnFirstRequest: false.
+]
+
+{ #category : #converting }
+ToElement >> newScrollableParent [
+
+	^ ToScrollableElement new
 ]
 
 { #category : #'t  - layout resizeable' }

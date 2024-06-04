@@ -2,7 +2,7 @@ Class {
 	#name : #ToSelectListElement,
 	#superclass : #ToListElement,
 	#instVars : [
-		'select'
+		'selectElement'
 	],
 	#category : #'Toplo-Widget-Select-List'
 }
@@ -11,20 +11,9 @@ Class {
 ToSelectListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 	" update the selection according to the sieve selection model"
 	super applyDataSourceSieveCommand: aDataSourceCommand.
-	select checkHideSelectionFromListElement.
-	select checkMaxSelectedCountFromListElement.
-]
-
-{ #category : #accessing }
-ToSelectListElement >> groupSelecter [
-
-	^ self selecter subSelecterWithId: #group
-]
-
-{ #category : #accessing }
-ToSelectListElement >> groupSelectionModel [
-
-	^ self groupSelecter selectionModel
+	" the window can be opened but invisible if opened from the text input element.
+	see ToSelectTextInputElement>>onInstalledIn:"
+	selectElement currentWindow ifNotNil: [:w | w visibility: BlVisibility visible  ]
 ]
 
 { #category : #initialization }
@@ -34,9 +23,6 @@ ToSelectListElement >> initialize [
 	self withUnselectableSelecter.
 	self withHiddenSelecter.
 	self withDisabledSelecter.
-	self
-		withAdditionalSelecterWithId: #group
-		withEventClass: ToSelectGroupSelectionChangedEvent.
 	self selectionMode selectOnMouseDown: true.
 	self selectionMode requestFocusOnMouseDown: false
 ]
@@ -48,13 +34,7 @@ ToSelectListElement >> newRawSkin [
 ]
 
 { #category : #accessing }
-ToSelectListElement >> select [
+ToSelectListElement >> selectElement: aSelectElement [
 
-	^ select
-]
-
-{ #category : #accessing }
-ToSelectListElement >> select: aSelect [
-
-	select := aSelect
+	selectElement := aSelectElement
 ]

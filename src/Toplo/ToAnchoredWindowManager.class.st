@@ -163,16 +163,13 @@ ToAnchoredWindowManager >> newElementEventHandler [
 ToAnchoredWindowManager >> newWindowEvent: anEvent [
 
 	| request |
-
 	self currentWindow ifNotNil: [
 		^ Error signal: 'Asking for a window building twice' ].
 	self element ifNil: [
 		^ Error signal: 'An element is required for building a window' ].
 	self builder ifNil: [
 		^ Error signal: 'A window builder is required for building a window' ].
-	request := self windowRequestClass new
-		           sourceEvent: anEvent;
-		           yourself.
+	request := self newWindowOpenRequestEventFromSourceEvent: anEvent.
 	self element dispatchEvent: request.
 	self currentWindow: (self windowClass new
 			 manager: self;
@@ -182,9 +179,10 @@ ToAnchoredWindowManager >> newWindowEvent: anEvent [
 ]
 
 { #category : #'window handling' }
-ToAnchoredWindowManager >> onCloseRequest [
+ToAnchoredWindowManager >> newWindowOpenRequestEventFromSourceEvent: anEvent [
 
-	
+	^ self windowOpenRequestClass new
+		  yourself
 ]
 
 { #category : #'api - hooks' }
@@ -218,6 +216,7 @@ ToAnchoredWindowManager >> onWindowOpened [
 { #category : #'window handling' }
 ToAnchoredWindowManager >> onWindowRemoved [
 
+	self currentWindow ifNil: [ ^self ].
 	self currentWindow root removeChildren.
 	currentWindow manager: nil.
 	currentWindow := nil
@@ -226,10 +225,9 @@ ToAnchoredWindowManager >> onWindowRemoved [
 { #category : #'mouse handlers' }
 ToAnchoredWindowManager >> popupWindowEvent: anEvent [
 
-	currentWindow ifNotNil: [
-		currentWindow isOpened ifTrue: [ currentWindow close ].
+	(currentWindow notNil and: [ currentWindow isOpened ]) ifTrue: [
 		^ self ].
-	self newWindowEvent: anEvent.
+	currentWindow ifNil: [ self newWindowEvent: anEvent ].
 	currentWindow popupEvent: anEvent
 ]
 
@@ -277,7 +275,19 @@ ToAnchoredWindowManager >> windowClass [
 ]
 
 { #category : #accessing }
-ToAnchoredWindowManager >> windowRequestClass [
+ToAnchoredWindowManager >> windowClosedEventClass [
 
-	^ ToWindowOpenRequest 
+	^ self subclassResponsibility  
+]
+
+{ #category : #accessing }
+ToAnchoredWindowManager >> windowOpenRequestClass [
+
+	^ ToAnchoredWindowOpenRequest 
+]
+
+{ #category : #accessing }
+ToAnchoredWindowManager >> windowOpenedEventClass [
+
+	^ self subclassResponsibility 
 ]

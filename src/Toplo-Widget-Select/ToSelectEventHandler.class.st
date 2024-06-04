@@ -4,15 +4,12 @@ Class {
 	#category : #'Toplo-Widget-Select-Core'
 }
 
-{ #category : #'element handlers' }
-ToSelectEventHandler >> collectionFilteredEvent: anEvent [
+{ #category : #'event handling' }
+ToSelectEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 
 	| select |
 	select := anEvent currentTarget.
-
-	windowManager currentWindow ifNil: [
-		select textInputElement filterString ifNotEmpty: [
-			select popupWindowEvent: anEvent ] ]
+	select onSelectionChangedInListElement 
 ]
 
 { #category : #'element handlers' }
@@ -27,7 +24,7 @@ ToSelectEventHandler >> elementExtentChangedEvent: anEvent [
 ToSelectEventHandler >> eventsToHandle [
 
 	^ super eventsToHandle , {
-		  ToCollectionFilteredEvent.
+		  BlElementAddedToSceneGraphEvent.
 		  BlElementExtentChangedEvent.
 		  ToSelectInputTextFieldUpdatedEvent }
 ]
@@ -37,18 +34,4 @@ ToSelectEventHandler >> selectInputTextFieldUpdatedEvent: anEvent [
 
 	anEvent currentTarget showHidePlaceholder.
 	anEvent currentTarget filterStringChanged.
-]
-
-{ #category : #'event handling' }
-ToSelectEventHandler >> windowClosedEvent: anEvent [
-
-	super windowClosedEvent: anEvent.
-	anEvent currentTarget iconContainer dispatchEvent: anEvent
-]
-
-{ #category : #'event handling' }
-ToSelectEventHandler >> windowOpenedEvent: anEvent [
-
-	super windowOpenedEvent: anEvent.
-	anEvent currentTarget iconContainer dispatchEvent: anEvent
 ]

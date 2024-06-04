@@ -1,6 +1,6 @@
 Class {
 	#name : #ToListClassNodeExample,
-	#superclass : #ToNode,
+	#superclass : #ToListNode,
 	#traits : 'TToElement',
 	#classTraits : 'TToElement classTrait',
 	#instVars : [
@@ -43,11 +43,14 @@ ToListClassNodeExample >> forClassNameAssoc: aClassNameAssoc [
 ]
 
 { #category : #initialization }
-ToListClassNodeExample >> initialize [ 
+ToListClassNodeExample >> initialize [
 
 	super initialize.
 	" to have editable node on mouse still pressed one need toplo state generator "
-	self initializeForToplo 
+	self initializeForToplo.
+	self constraintsDo: [ :c |
+		c horizontal matchParent.
+		c vertical fitContent ]
 ]
 
 { #category : #accessing }

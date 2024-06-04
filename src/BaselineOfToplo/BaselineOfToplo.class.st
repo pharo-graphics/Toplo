@@ -28,11 +28,11 @@ BaselineOfToplo >> dependencies: spec [
 
 	spec
 		baseline: 'Bloc'
-		with: [ spec repository: 'github://pharo-graphics/Bloc:master/src' ].
+		with: [ spec repository: 'github://pharo-graphics/Bloc:dev/src' ].
 
 	spec
 		baseline: 'Album'
-		with: [ spec repository: 'github://pharo-graphics/Album:master/src' ]
+		with: [ spec repository: 'github://pharo-graphics/Album:dev/src' ]
 ]
 
 { #category : #baselines }
@@ -129,10 +129,10 @@ BaselineOfToplo >> registerPackages: spec [
 			   #'Toplo-Widget-Select'
 			   #'Toplo-Widget-Image' #'Toplo-Widget-InnerWindow'
 			   #'Toplo-Widget-List' #'Toplo-Widget-Menu' #'Toplo-Widget-Pane' ) ].		
-	
+			
 	spec package: #'Toplo-Widget-Select' with: [
 		spec requires:
-			#( #Toplo #'Toplo-Widget-Album' #'Toplo-Widget-Button'
+			#( #Toplo #'Toplo-Widget-List' #'Toplo-Widget-Album' #'Toplo-Widget-Button'
 			   #'Toplo-Widget-Image' #'Toplo-Widget-Menu' #'Toplo-Theme') ].
 
 	spec package: #'Toplo-Widget-Select-Tests' with: [
@@ -159,10 +159,6 @@ BaselineOfToplo >> registerPackages: spec [
 		package: #'Toplo-Theme-Examples'
 		with: [ spec requires: #( #'Toplo-Theme-Bee' ) ].
 
-	spec
-		package: #'Toplo-Widget-ElementBar'
-		with: [ spec requires: #(  ) ].
-		
 	spec
 		package: #'Toplo-Imported-Icons-AntDesign'
 		with: [ spec requires: #(  ) ].	

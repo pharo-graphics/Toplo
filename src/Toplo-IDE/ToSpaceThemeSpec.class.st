@@ -49,7 +49,7 @@ ToSpaceThemeSpec >> initialize [
 
 	super initialize.
 	themeChangedEventHandler := BlEventHandler
-		                            on: ToThemeChangedEvent
+		                            on: ToThemeInstalledEvent
 		                            do: [
 			                            self updateSpace ]
 ]

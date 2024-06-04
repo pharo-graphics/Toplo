@@ -1,5 +1,5 @@
 Class {
 	#name : #ToInvalidElementCommand,
 	#superclass : #Error,
-	#category : #'Toplo-Widget-List-Command-support'
+	#category : #'Toplo-Widget-List-Command'
 }

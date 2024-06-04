@@ -8,8 +8,11 @@ Class {
 ToSandBox class >> example_BasicListWithAllClasses3 [
 
 	| l |
-	l := ToBasicListElement new nodeBuilder: [ :node :holder |
+	l := ToListElement new nodeBuilder: [ :node :holder |
 		     | icn lab |
+		     node constraintsDo: [ :c |
+			     c horizontal matchParent.
+			     c vertical fitContent ].
 		     icn := holder dataItem hasComment
 			            ifTrue: [ #class ]
 			            ifFalse: [ #uncommentedClass ].
@@ -29,8 +32,86 @@ ToSandBox class >> example_BasicListWithAllClasses3 [
 	l dataAccessor addAll: Smalltalk globals allClasses.
 	l withRowNumbers.
 	l inspect.
-	l infinite requestFocus.
+	l innerContainer requestFocus.
 	l openInInnerWindow
+]
+
+{ #category : #transitions }
+ToSandBox class >> example_BoundsAndBackgroundTransition [
+
+	| e |
+	e := BlElement new.
+	e enqueueTask: (BlTaskAction new action: [
+			 | anim |
+			 anim := BlParallelAnimation withAll: {
+					         (ToPointTransition new
+						          from: 10 @ 10;
+						          to: 300 @ 200;
+						          duration: 1 seconds;
+						          onStepDo: [ :aSize :target | target size: aSize ]).
+					         (ToPointTransition new
+						          from: 10 @ 10;
+						          to: 100 @ 80;
+						          duration: 2 seconds;
+						          onStepDo: [ :aPosition :target |
+							          target position: aPosition ]).
+					         (BlColorTransition new
+						          duration: 1 seconds;
+						          from: Color veryLightGray;
+						          to: Color black;
+						          onStepDo: [ :aColor :target |
+							          target background: aColor ]) }.
+			 anim onFinishedDo: [ e background: Color red ].
+			 "anim delay: 1 seconds."
+			 e addAnimation: anim ]).
+	e openInSpace
+]
+
+{ #category : #transitions }
+ToSandBox class >> example_BoundsTransition [
+
+	| e anim |
+	e := BlElement new.
+	e size: 30 @ 30.
+	e background: Color blue.
+	anim := ToBoundsTransition new
+		        from: (10 @ 10 extent: 10 @ 10);
+		        to: (300 @ 100 extent: 300 @ 400);
+		        duration: 3000 milliSeconds;
+		        onStepDo: [ :aRectangle :target |
+			        target position: aRectangle origin.
+			        target size: aRectangle extent ].
+	anim onFinishedDo: [ e background: Color red ].
+	e addAnimation: anim.
+	anim delay: 100 milliSeconds.
+
+	e openInSpace
+]
+
+{ #category : #transitions }
+ToSandBox class >> example_BoundsTransitionWithParallelAnimation [
+
+	| e |
+	e := BlElement new.
+	e size: 30 @ 30.
+	e background: Color blue.
+	e enqueueTask: (BlTaskAction new action: [
+			 | anim |
+			 anim := BlParallelAnimation withAll: {
+					         (ToPointTransition new
+						          from: 10 @ 10;
+						          to: 300 @ 100;
+						          duration: 6 seconds;
+						          onStepDo: [ :aPosition :target |
+							          target position: aPosition ]).
+					         (ToPointTransition new
+						          from: 10 @ 10;
+						          to: 300 @ 400;
+						          duration: 3 seconds;
+						          onStepDo: [ :aSize :target | target size: aSize ]) }.
+			 anim onFinishedDo: [ e background: Color red ].
+			 e addAnimation: anim ]).
+	e openInSpace
 ]
 
 { #category : #'button-dep' }
@@ -365,8 +446,8 @@ ToSandBox class >> example_EditableList2WithAllClassesNames [
 	l inspect.
 	l
 		nodeFactory: [ ToListClassNodeExample new ];
-		nodeBuilder: [ :node :holder |
-			node forClassNameAssoc: holder dataItem ];
+		nodeBuilder: [ :node :holder :dataItem |
+			node forClassNameAssoc: dataItem ];
 		addEventHandler: (BlEventHandler
 				 on: ToListStrongSelectionEvent
 				 do: [ :event |
@@ -383,7 +464,7 @@ ToSandBox class >> example_EditableList2WithAllClassesNames [
 		c margin: (BlInsets right: 2).
 		c ignored horizontal alignRight.
 		c ignored vertical alignBottom ].
-	vscrollBar attachTo: l infinite.
+	vscrollBar attachTo: l innerContainer.
 	innerWin := ToInnerWindow new.
 	innerWin pane addChild: l.
 	innerWin pane addChild: vscrollBar.
@@ -734,7 +815,7 @@ ToSandBox class >> example_List2WithSelectionHistory [
 			historyList }.
 
 	statesList addEventHandler:
-		(ToListSelectionHistoryEventHandlerExample2 new historyList:
+		(ToListSelectionHistoryEventHandlerExample new historyList:
 			 historyList).
 	statesList addEventHandler: (BlEventHandler
 			 on: ToPrimarySelectionCommandAppliedEvent
@@ -801,11 +882,12 @@ ToSandBox class >> example_ListWithAllClasses3 [
 	l addEventHandler: (BlEventHandler
 			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :evt | evt traceCr ]).
+	l selectionMode beneathOption animationDuration: 150 milliSeconds.
 
 	l dataAccessor addAll: Smalltalk globals allClasses.
+	l selecter selectIndex: 3.
 	l withRowNumbers.
-	l inspect.
-	l infinite requestFocus.
+	l innerContainer requestFocus.
 	l openInInnerWindow
 ]
 
@@ -853,6 +935,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 
 	| l selectionMenu menuFactory phtext |
 	l := ToListElement new.
+	l inspect.
 	l withDisabledSelecter.
 	l withUnselectableSelecter.
 	l withHiddenSelecter.
@@ -945,7 +1028,23 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 				                labelText: 'Show all';
 				                whenClickedDo: [ :event |
 					                target hiddenSelecter deselectAll ];
-				                yourself) ].
+				                yourself).
+		               target selectionMode beneathOption animate
+			               ifTrue: [
+				               menu addItem: (ToMenuItem new
+						                labelText: 'stop selection transition animation';
+						                whenClickedDo: [ :event |
+							                target selectionMode beneathOption
+								                animationDuration: 0 milliSeconds ];
+						                yourself) ]
+			               ifFalse: [
+				               menu addItem: (ToMenuItem new
+						                labelText:
+							                'start selection transition animation';
+						                whenClickedDo: [ :event |
+							                target selectionMode beneathOption
+								                animationDuration: 200 milliSeconds ];
+						                yourself) ] ].
 	               selectedIndexes ifNotEmpty: [
 		               selectionMenu := ToMenu new.
 		               selectionMenu label: (ToLabel new text: 'Selection').
@@ -1045,7 +1144,7 @@ ToSandBox class >> example_ListWithIndexedColors [
 		c margin: (BlInsets right: 2).
 		c ignored horizontal alignRight.
 		c ignored vertical alignBottom ].
-	vscrollBar attachTo: l infinite.
+	vscrollBar attachTo: l innerContainer.
 	space := BlSpace new.
 	space root addChild: l.
 	space root addChild: vscrollBar.
@@ -1076,6 +1175,20 @@ ToSandBox class >> example_ListWithPanes [
 			        node addChild: blContent ].
 	list dataAccessor addAll: (1 to: 1000).
 	list openInSpace
+]
+
+{ #category : #list }
+ToSandBox class >> example_NodeContainerWithStatesOfAmerica [
+
+	| l |
+	l := ToBarElement new.
+	l addEventHandler: (BlEventHandler
+			 on: ToListPrimarySelectionChangedEvent
+			 do: [ :evt | evt traceCr ]).
+	l horizontal: true.
+	l dataAccessor addAll: self statesOfAmerica.
+	l inspect.
+	l openInSpace
 ]
 
 { #category : #menu }
@@ -1138,9 +1251,9 @@ ToSandBox class >> example_PicsumPhotosGallery [
 		        matchParent;
 		        yourself.
 	list
-		nodeHolderFactory: [ ToPicsumPhotosGalleryImageHolder new ];
+		nodeHolderClass: ToPicsumPhotosGalleryImageHolder;
 		nodeFactory: [ ToPicsumPhotosGalleryImageNode new ];
-		nodeBuilder: [ :node :holder | node labelString: holder dataItem id ].
+		nodeBuilder: [ :node :holder :dataItem | node labelString: dataItem id ].
 	list selectionMode beneathOption: ToListSelectionOption none.
 	list selectionMode overOption: ToListSelectionOption separate.
 	list selectionMode elementClass: ToPicsumPhotosGallerySelectionElement.
@@ -1161,7 +1274,7 @@ ToSandBox class >> example_PicsumPhotosGallery [
 		c margin: (BlInsets left: 10).
 		c ignored horizontal alignRight.
 		c ignored vertical alignBottom ].
-	vscrollBar attachTo: list infinite.
+	vscrollBar attachTo: list innerContainer.
 
 	space := BlSpace new
 		         extent: 200 @ 600;
@@ -1170,6 +1283,25 @@ ToSandBox class >> example_PicsumPhotosGallery [
 	space root addChild: list.
 	space root addChild: vscrollBar.
 	space show
+]
+
+{ #category : #transitions }
+ToSandBox class >> example_PointTransition [
+
+	| e |
+	e := BlElement new.
+	e size: 30 @ 30.
+	e background: Color blue.
+	e enqueueTask: (BlTaskAction new action: [
+			 | anim |
+			 anim := ToPointTransition new.
+			 anim from: 10 @ 10.
+			 anim to: 300 @ 400.
+			 anim duration: 2 seconds.
+			 anim onStepDo: [ :aPosition :target | target position: aPosition ].
+			 anim delay: 200 milliSeconds.
+			 e addAnimation: anim ]).
+	e openInSpace
 ]
 
 { #category : #window }
@@ -1241,12 +1373,48 @@ ToSandBox class >> example_RadioButtonWithIndeterminate [
 	but openInSpace
 ]
 
+{ #category : #transitions }
+ToSandBox class >> example_RawParallelTransition [
+
+	| e |
+	e := BlElement new.
+	e background: Color red.
+	e enqueueTask: (BlTaskAction new action: [
+			 | anim |
+			 anim := ToRawParallelTransition new.
+			 anim addAll: {
+					 (BlNumberTransition new
+						  duration: 1 second;
+						  from: 10;
+						  to: 100).
+					 (BlNumberTransition new
+						  duration: 800 milliSeconds;
+						  from: 10;
+						  to: 300).
+					 (BlNumberTransition new
+						  duration: 500 milliSeconds;
+						  from: 20;
+						  to: 100).
+					 (BlNumberTransition new
+						  duration: 2 seconds;
+						  from: 20;
+						  to: 80) }.
+			 "anim duration: 2 second."
+			 anim onStepDo: [ :anArray |
+				 e position: anArray first @ anArray second.
+				 e size: anArray third @ anArray fourth ].
+			 anim delay: 200 milliSeconds.
+			 e addAnimation: anim ]).
+
+	e openInSpace
+]
+
 { #category : #select }
 ToSandBox class >> example_SelectMonoFiltrable [
 
 	| select innerWindow phtext |
-	select := ToSelectElement new.
-	select  inspect.
+	select := ToSingleSelectElement new.
+	select inspect.
 	select listElement placeholderMinHeight: 35.
 	phtext := ('No Data' asRopedText
 		           foreground: Color lightGray;
@@ -1262,74 +1430,6 @@ ToSandBox class >> example_SelectMonoFiltrable [
 	select filtrable: true.
 	select dataAccessor addAll: self statesOfAmerica.
 	select selecter selectIndex: 2.
-
-	select placeholderText:
-		('Select a state' asRopedText foreground: Color red).
-	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
-	select width: 300.
-	select position: 50 @ 50.
-	select inputTextField requestFocus.
-	innerWindow pane addChild: select.
-	innerWindow height: 500.
-	innerWindow openInSpace
-]
-
-{ #category : #select }
-ToSandBox class >> example_SelectMonoFiltrableWithGroups [
-
-	| select innerWindow phtext |
-	select := ToSelectElement new.
-	"select listElement inspect."
-	select listElement placeholderMinHeight: 35.
-	phtext := ('No Data' asRopedText
-		           foreground: Color lightGray;
-		           yourself)
-		          fontSize: 24;
-		          yourself.
-	select listElement placeholderBuilder: [ :placeholder :e |
-		| lab |
-		placeholder layout alignCenter.
-		lab := ToAttributedLabel text: phtext.
-		placeholder addChild: lab ].
-
-	select filtrable: true.
-	self statesOfAmericaWithGroups do: [ :assoc | select addGroup: assoc key withData: assoc value].
-
-	select placeholderText:
-		('Select a state' asRopedText foreground: Color red).
-	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
-	select width: 300.
-	select position: 50 @ 50.
-	select inputTextField requestFocus.
-	innerWindow pane addChild: select.
-	innerWindow height: 500.
-	innerWindow openInSpace
-]
-
-{ #category : #select }
-ToSandBox class >> example_SelectMonoFiltrableWithHideSelected [
-
-	| select innerWindow phtext |
-	select := ToSelectElement new.
-	select hideSelected: true.
-	select listElement placeholderMinHeight: 35.
-	phtext := ('No Data' asRopedText
-		           foreground: Color lightGray;
-		           yourself)
-		          fontSize: 24;
-		          yourself.
-	select listElement placeholderBuilder: [ :placeholder :e |
-		| lab |
-		placeholder layout alignCenter.
-		lab := ToAttributedLabel text: phtext.
-		placeholder addChild: lab ].
-
-	select filtrable: true.
-	select dataAccessor addAll: self statesOfAmerica.
-	select selecter selectIndex: 2.
-
 	select placeholderText:
 		('Select a state' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
@@ -1346,7 +1446,7 @@ ToSandBox class >> example_SelectMonoFiltrableWithHideSelected [
 ToSandBox class >> example_SelectMonoNotFiltrable [
 
 	| select innerWindow |
-	select := ToSelectElement new.
+	select := ToSingleSelectElement new.
 	select inspect.
 	select filtrable: false.
 	select dataAccessor addAll: self statesOfAmerica.
@@ -1365,7 +1465,7 @@ ToSandBox class >> example_SelectMonoNotFiltrable [
 ToSandBox class >> example_SelectMonoNotFiltrableWithGroups [
 
 	| select innerWindow phtext |
-	select := ToSelectElement new.
+	select := ToMultiSelectElement new.
 	select inspect.
 	select listElement placeholderMinHeight: 35.
 	phtext := ('No Data' asRopedText
@@ -1380,7 +1480,11 @@ ToSandBox class >> example_SelectMonoNotFiltrableWithGroups [
 		placeholder addChild: lab ].
 
 	select filtrable: false.
-	self statesOfAmericaWithGroups do: [ :assoc | select addGroup: assoc key withData: assoc value].
+	self statesOfAmericaWithGroups do: [ :assoc |
+		select dataAccessor add: assoc key.
+		select dataAccessor itemCount.
+		select setGroupIndex: select dataAccessor itemCount.
+		select dataAccessor addAll: assoc value ].
 
 	select placeholderText:
 		('Select a state' asRopedText foreground: Color red).
@@ -1398,12 +1502,11 @@ ToSandBox class >> example_SelectMonoNotFiltrableWithGroups [
 ToSandBox class >> example_SelectMultiFiltrable [
 
 	| select innerWindow |
-	select := ToSelectElement new.
+	select := ToMultiSelectElement new.
 	select listElement withRowNumbers.
 	select inspect.
 	select hideSelected: false.
 	select dataAccessor addAll: self statesOfAmerica.
-	select multipleSelection: true.
 	select filtrable: true.
 	select popupMaxHeight: 200.
 	select placeholderText:
@@ -1422,13 +1525,13 @@ ToSandBox class >> example_SelectMultiFiltrable [
 ToSandBox class >> example_SelectMultiFiltrableAutoDistribution [
 
 	| select innerWindow |
-	select := ToSelectElement new.
+	select := ToMultiSelectElement new.
 	select inspect.
 	select nodeWrapping: false.
-	select nodeAutoDistribution: true.
 	select hideSelected: false.
 	select dataAccessor addAll: self statesOfAmerica.
-	select multipleSelection: true.
+	select nodeAutoDistribution: true.
+
 	select filtrable: true.
 	select popupMaxHeight: 200.
 	select placeholderText:
@@ -1445,14 +1548,14 @@ ToSandBox class >> example_SelectMultiFiltrableAutoDistribution [
 ToSandBox class >> example_SelectMultiFiltrableAutoDistributionWithMax [
 
 	| select innerWindow |
-	select := ToSelectElement new.
+	select := ToMultiSelectElement new.
 	select inspect.
 	select maxSelectedCount: 4.
 	select nodeWrapping: false.
 	select nodeAutoDistribution: true.
 	select hideSelected: false.
 	select dataAccessor addAll: self statesOfAmerica.
-	select multipleSelection: true.
+
 	select filtrable: true.
 	select popupMaxHeight: 200.
 	select placeholderText:
@@ -1469,13 +1572,12 @@ ToSandBox class >> example_SelectMultiFiltrableAutoDistributionWithMax [
 ToSandBox class >> example_SelectMultiFiltrableNoWrapping [
 
 	| select innerWindow |
-	select := ToSelectElement new.
+	select := ToMultiSelectElement new.
 	select inspect.
 	select maxSelectedCount: 6.
 	select nodeWrapping: false.
 	select hideSelected: false.
 	select dataAccessor addAll: self statesOfAmerica.
-	select multipleSelection: true.
 	select filtrable: true.
 	select popupMaxHeight: 200.
 	select placeholderText:
@@ -1492,13 +1594,12 @@ ToSandBox class >> example_SelectMultiFiltrableNoWrapping [
 ToSandBox class >> example_SelectMultiFiltrableNotWrappingAutoDistribution [
 
 	| select innerWindow |
-	select := ToSelectElement new.
+	select := ToMultiSelectElement new.
 	select inspect.
 	select nodeWrapping: false.
 	select nodeAutoDistribution: true.
 	select hideSelected: false.
 	select dataAccessor addAll: self statesOfAmerica.
-	select multipleSelection: true.
 	select filtrable: true.
 	select popupMaxHeight: 200.
 	select placeholderText:
@@ -1515,13 +1616,12 @@ ToSandBox class >> example_SelectMultiFiltrableNotWrappingAutoDistribution [
 ToSandBox class >> example_SelectMultiFiltrableScrolling [
 
 	| select innerWindow |
-	select := ToSelectElement new.
+	select := ToMultiSelectElement new.
 	select inspect.
 	select nodeScrolling: true.
 	select nodeWrapping: false.
 	select hideSelected: false.
 	select dataAccessor addAll: self statesOfAmerica.
-	select multipleSelection: true.
 	select filtrable: true.
 	select popupMaxHeight: 200.
 	select placeholderText:
@@ -1538,11 +1638,10 @@ ToSandBox class >> example_SelectMultiFiltrableScrolling [
 ToSandBox class >> example_SelectMultiFiltrableWithHideSelected [
 
 	| select innerWindow |
-	select := ToSelectElement new.
+	select := ToMultiSelectElement new.
 	select inspect.
 	select hideSelected: true.
 	select dataAccessor updateAllWith: self statesOfAmerica.
-	select multipleSelection: true.
 	select filtrable: true.
 	select popupMaxHeight: 200.
 	select placeholderText:
@@ -1560,10 +1659,9 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected [
 ToSandBox class >> example_SelectMultiFiltrableWithHideSelected2 [
 
 	| select innerWindow |
-	select := ToSelectElement new.
+	select := ToMultiSelectElement new.
 	select hideSelected: true.
 	select dataAccessor addAll: {'Apples'.'Nails'. 'Bananas'. 'Helicopter'}.
-	select multipleSelection: true.
 	select filtrable: true.
 	select popupMaxHeight: 200.
 	select placeholderText:
@@ -1589,14 +1687,13 @@ ToSandBox class >> example_SelectMultiFiltrableWithMax [
 ToSandBox class >> example_SelectMultiFiltrableWrappingAutoDistribution [
 
 	| select innerWindow |
-	select := ToSelectElement new.
+	select := ToMultiSelectElement new.
 	select inspect.
 	"select maxSelectedCount: 6."
 	select nodeWrapping: true.
 	select nodeAutoDistribution: true.
 	select hideSelected: false.
 	select dataAccessor addAll: self statesOfAmerica.
-	select multipleSelection: true.
 	select filtrable: true.
 	select popupMaxHeight: 200.
 	select placeholderText:
@@ -1613,11 +1710,10 @@ ToSandBox class >> example_SelectMultiFiltrableWrappingAutoDistribution [
 ToSandBox class >> example_SelectMultiNotFiltrable [
 
 	| select innerWindow |
-	select := ToSelectElement new.
+	select := ToMultiSelectElement new.
 	select maxSelectedCount: 4.
 	select filtrable: false.
 	select dataAccessor addAll: self statesOfAmerica.
-	select multipleSelection: true.
 	select placeholderText:
 		('Select states' asRopedText foreground: Color red).
 	select listElement nodeBuilder: [ :node :holder |
@@ -1649,6 +1745,7 @@ ToSandBox class >> example_SieveOnList2WithStatesOfAmerica [
 
 	sieve := ToListElementSieve new.
 	sieve onInstalledIn: listElement.
+	sieve inspect.
 	listElement dataAccessor addAll: data.
 
 	filterField addEventHandler: (BlEventHandler
@@ -2305,11 +2402,25 @@ ToSandBox class >> example_TripletElementWithIconAndText_endAlignment [
 
 	| but  |
 	but := self example_TripletElementWithIconAndText.
-	but startAlignment: 50.
 	but endAlignment: 50.
 	but border: Color red.
 	but vFitContent.
 	but hFitContent.
+	^ but
+]
+
+{ #category : #triplet }
+ToSandBox class >> example_TripletElementWithIconAndText_flexible_Interspace [
+
+	| but  |
+	but := self example_TripletElementWithIconAndText.
+	but startInterspace: 30.
+	but endInterspace: 30.
+	but startFlexible: true.
+	but endFlexible: true.
+	but border: Color red.
+	but vFitContent.
+	but hMatchParent.
 	^ but
 ]
 
@@ -2331,7 +2442,20 @@ ToSandBox class >> example_TripletElementWithIconAndText_startFlexible_startAlig
 	| but  |
 	but := self example_TripletElementWithIconAndText.
 	but startFlexible: true.
-	but startAlignment: 30.
+	but startAlignment: 60.
+	but border: Color red.
+	but vFitContent.
+	but hMatchParent.
+	^ but
+]
+
+{ #category : #triplet }
+ToSandBox class >> example_TripletElementWithIconAndText_startFlexible_startInterspace [
+
+	| but  |
+	but := self example_TripletElementWithIconAndText.
+	but startInterspace: 30.
+	but startFlexible: true.
 	but border: Color red.
 	but vFitContent.
 	but hMatchParent.
@@ -2790,16 +2914,137 @@ ToSandBox class >> example_menuBar2 [
 { #category : #'node bar' }
 ToSandBox class >> example_nodeBar [
 
-	| bar |
-	bar := ToNodeBar new.
-	bar dataAccessor: ToObservableCollection new.
+	| bar mainPane barPane confPane verticalSwitch wrappingSwitch scrollingSwitch autoDistributionSwitch sameWidthSwitch selectionAnimationSwitch |
+	mainPane := ToPane horizontal.
+	mainPane matchParent.
+	mainPane padding: (BlInsets all: 5).
+	confPane := ToPane vertical.
+	confPane width: 250.
+	barPane := ToPane vertical.
+	barPane matchParent.
+	mainPane addChildren: {
+			confPane.
+			barPane }.
+	bar := ToBarElement new.
+	bar nodeBuilder: [ :node :holder :dataItem |
+		| triplet |
+		node padding: (BlInsets all: 3).
+		triplet := ToTripletElement new.
+		triplet horizontal: true.
+		triplet startFlexible: true.
+		triplet startInterspace: 0.
+		triplet startElement: (ToLabel text: (holder position asString, ': ')).
+		triplet middleElement: (ToLabel text: dataItem asString).
+		node addChild: triplet.
+		node constraintsDo: [ :c |
+			c horizontal fitContent.
+			c vertical fitContent ] ].
+	bar hMatchParent.
+	bar vFitContent.
+
+	barPane addChild: bar.
+	"bar dataAccessor addAll: ToSandBox statesOfAmerica." "copyFrom: 1 to: 20"
 	bar dataAccessor addAll:
-		(ToSandBox statesOfAmerica copyFrom: 1 to: 6).
-	bar nodeWrapping: false.
+		(Smalltalk globals allClasses copyFrom: 1 to: 800).
+
+	verticalSwitch := ToSwitchButton new labelText: 'Vertical'.
+	verticalSwitch endToStart: true.
+	verticalSwitch startFlexible: true.
+	verticalSwitch hMatchParent.
+
+	verticalSwitch addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :event |
+				 | v |
+				 v := event current.
+				 v
+					 ifTrue: [
+						 bar hFitContent.
+						 bar vMatchParent ]
+					 ifFalse: [
+						 bar hMatchParent.
+						 bar vFitContent ].
+				 bar vertical: v ]).
+	confPane addChild: verticalSwitch.
+
+	wrappingSwitch := ToSwitchButton new labelText: 'Wrapping'.
+	wrappingSwitch endToStart: true.
+	wrappingSwitch startFlexible: true.
+	wrappingSwitch hMatchParent.
+	wrappingSwitch checked: true.
+	confPane addChild: wrappingSwitch.
+	wrappingSwitch addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :event |
+				 | v |
+				 v := event current.
+				 bar nodeWrapping: v ]).
+	sameWidthSwitch := ToSwitchButton new labelText:
+		                   'Uniform element width'.
+	sameWidthSwitch endToStart: true.
+	sameWidthSwitch startFlexible: true.
+	sameWidthSwitch hMatchParent.
+	sameWidthSwitch checked: false.
+	confPane addChild: sameWidthSwitch.
+	sameWidthSwitch addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :event |
+				 | v |
+				 v := event current.
+				 bar flowLineUniformWidth: v ]).
+
+	scrollingSwitch := ToSwitchButton new labelText: 'Scrolling'.
+	scrollingSwitch endToStart: true.
+	scrollingSwitch startFlexible: true.
+	scrollingSwitch hMatchParent.
+
+	confPane addChild: scrollingSwitch.
+	scrollingSwitch addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :event |
+				 | v |
+				 v := event current.
+				 bar nodeScrolling: v ]).
+
+	autoDistributionSwitch := ToSwitchButton new labelText:
+		                          'Auto-distribution'.
+	autoDistributionSwitch endToStart: true.
+	autoDistributionSwitch startFlexible: true.
+	autoDistributionSwitch hMatchParent.
+
+	confPane addChild: autoDistributionSwitch.
+	autoDistributionSwitch addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :event |
+				 | v |
+				 v := event current.
+				 bar nodeAutoDistribution: v ]).
+
+	selectionAnimationSwitch := ToSwitchButton new labelText:
+		                            'Animate selection transition'.
+	selectionAnimationSwitch endToStart: true.
+	selectionAnimationSwitch startFlexible: true.
+	selectionAnimationSwitch hMatchParent.
+
+	confPane addChild: selectionAnimationSwitch.
+	selectionAnimationSwitch addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :event |
+				 | v |
+				 v := event current.
+				 bar selectionMode beneathOption animationDuration: (v
+						  ifTrue: [ 200 milliSeconds ]
+						  ifFalse: [ 0 milliSeconds ]) ]).
+
+	bar
+		addEventHandlerOn: ToBarNodeVisibilityEvent
+		do: [ :event |
+		event invisibleNodes ifNotEmpty: [ :in | in traceCr ] ].
 	bar nodeScrolling: false.
-	bar nodeAutoDistribution: true.
-	bar nodeContainer refresh.
-	bar openInInnerWindow
+	bar nodeAutoDistribution: false.
+	bar inspect.
+
+	mainPane openInSpace
 ]
 
 { #category : #window }
@@ -2990,7 +3235,7 @@ ToSandBox class >> example_scaledImage [
 ToSandBox class >> example_selectWith5Nodes [
 
 	| select innerWindow |
-	select := ToSelectElement new.
+	select := ToMultiSelectElement new.
 	select listElement nodeBuilder: [ :node :holder |
 		node addChild: (ToLabel text: holder dataItem asString) hMatchParent ].
 	innerWindow := ToInnerWindow new.
@@ -3008,7 +3253,6 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWithAllClassNames [
 	| select innerWindow space |
 	select := self selectWithEditingMultiSelection.
 	select filtrable: true.
-	select multipleSelection: true.
 	
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
@@ -4412,7 +4656,7 @@ ToSandBox class >> path_sharp_electric_bike_SVG [
 ToSandBox class >> selectWithEditingMultiSelection [
 
 	| select phtext |
-	select := ToSelectElement new.
+	select := ToMultiSelectElement new.
 	phtext := ('No Data' asRopedText
 		           foreground: Color lightGray;
 		           yourself)

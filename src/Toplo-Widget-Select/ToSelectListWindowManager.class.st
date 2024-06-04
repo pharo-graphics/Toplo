@@ -4,7 +4,6 @@ Class {
 	#instVars : [
 		'listElement',
 		'sieve',
-		'listGroupNodeBuilder',
 		'listDataNodeBuilder'
 	],
 	#category : #'Toplo-Widget-Select-List'
@@ -37,13 +36,6 @@ ToSelectListWindowManager >> defaultDataNodeBuilder [
 ]
 
 { #category : #initialization }
-ToSelectListWindowManager >> defaultGroupNodeBuilder [
-
-	^ [ :node :holder |
-	  node addChild: (ToAttributedLabel text: holder dataItem asString) hMatchParent ]
-]
-
-{ #category : #initialization }
 ToSelectListWindowManager >> defaultMaxHeight [
 
 	^ 300
@@ -58,20 +50,13 @@ ToSelectListWindowManager >> defaultMinHeight [
 { #category : #initialization }
 ToSelectListWindowManager >> defaultNodeBuilder [
 
-	^ [ :node :holder | | nodebuilder |
-		nodebuilder := holder isGroup
-		  ifTrue: [  listGroupNodeBuilder]
-		  ifFalse: [ listDataNodeBuilder].
-	  nodebuilder value: node value: holder ] 
+	^ [ :node :holder | listDataNodeBuilder value: node value: holder ]
 ]
 
 { #category : #initialization }
 ToSelectListWindowManager >> defaultNodeFactory [
 
-	^ [ :theHolder |
-	  theHolder isGroup
-		  ifTrue: [ ToSelectGroupListNode new ]
-		  ifFalse: [ ToSelectDataListNode new ] ]
+	^ [ :theHolder | ToSelectDataListNode new ]
 ]
 
 { #category : #initialization }
@@ -98,8 +83,7 @@ ToSelectListWindowManager >> elementEventHandlerClass [
 ToSelectListWindowManager >> initialize [ 
 
 	super initialize.
-	listDataNodeBuilder := self defaultDataNodeBuilder.
-	listGroupNodeBuilder := self defaultGroupNodeBuilder 
+	listDataNodeBuilder := self defaultDataNodeBuilder
 ]
 
 { #category : #accessing }
@@ -114,10 +98,10 @@ ToSelectListWindowManager >> listElement [
 	^ listElement 
 ]
 
-{ #category : #accessing }
-ToSelectListWindowManager >> listGroupNodeBuilder: aValuable [
+{ #category : #initialization }
+ToSelectListWindowManager >> listElementClass [
 
-	listGroupNodeBuilder := aValuable
+	^ ToSelectListElement
 ]
 
 { #category : #accessing }
@@ -148,15 +132,22 @@ ToSelectListWindowManager >> minHeight: aNumber [
 ToSelectListWindowManager >> newListElement [
 
 	| newListElement |
-	newListElement := ToSelectListElement new.
+	newListElement := self listElementClass new.
+	newListElement selectionMode multiple: false.
 	newListElement nodeFactory: self defaultNodeFactory.
 	newListElement nodeBuilder: self defaultNodeBuilder.
-	newListElement infinite maxHeight: self defaultMaxHeight.
-	newListElement infinite minHeight: self defaultMinHeight.
-	newListElement infinite vFitContent.
+	newListElement innerContainer maxHeight: self defaultMaxHeight.
+	newListElement innerContainer minHeight: self defaultMinHeight.
+	newListElement innerContainer vFitContent.
 	newListElement vFitContent.
 	newListElement hMatchParent.
 	^ newListElement
+]
+
+{ #category : #'api - hooks' }
+ToSelectListWindowManager >> nodeHolderClass [
+
+	^ ToSelectListNodeHolder
 ]
 
 { #category : #'api - hooks' }
@@ -164,7 +155,7 @@ ToSelectListWindowManager >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	listElement := self newListElement.
-	listElement select: self element.
+	listElement selectElement: self element.
 
 	listElement addEventHandler: (ToSelectListElementEventHandler new
 			 select: self element;
@@ -180,9 +171,7 @@ ToSelectListWindowManager >> onInstalledIn: anElement [
 	sieve := ToListElementSieve new.
 	sieve onInstalledIn: listElement.
 
-	listElement nodeHolderFactory: [
-		ToSelectListNodeHolder new
-			yourself ]
+	listElement nodeHolderClass: self nodeHolderClass
 ]
 
 { #category : #'api - hooks' }
@@ -210,6 +199,16 @@ ToSelectListWindowManager >> onWindowOpened [
 
 	super onWindowOpened.
 	self element onWindowOpened
+]
+
+{ #category : #'window handling' }
+ToSelectListWindowManager >> popupWindowHiddenEvent: anEvent [
+
+	(currentWindow notNil and: [ currentWindow isOpened ]) ifTrue: [
+		^ self ].
+	currentWindow ifNil: [ self newWindowEvent: anEvent ].
+	currentWindow visibility: BlVisibility hidden.
+	currentWindow popupEvent: anEvent
 ]
 
 { #category : #accessing }

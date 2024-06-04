@@ -414,7 +414,7 @@ ToExperiments class >> example_LinearLayoutFillWithMatchParent [
 		         background: Color gray;
 		         size: 300 @ 100;
 		         layout: BlLinearLayout new;
-		         constraintsDo: [ :c | 
+		         constraintsDo: [ :c |
 			         c horizontal matchParent.
 			         c vertical fitContent ].
 	frame layout cellSpacing: 10.
@@ -426,11 +426,12 @@ ToExperiments class >> example_LinearLayoutFillWithMatchParent [
 	fill := BlElement new
 		        background: Color yellow;
 		        height: 20;
-		        constraintsDo: [ :c | 
-			        c horizontal
-				        matchParent.
-				      c minWidth: 50 ].
-	fill when: BlElementExtentChangedEvent do: [ :ann | fill width traceCr ].
+		        constraintsDo: [ :c |
+			        c horizontal matchParent.
+			        c minWidth: 50 ].
+	fill
+		addEventHandlerOn: BlElementExtentChangedEvent
+		do: [ :ann | fill width traceCr ].
 	right := BlElement new
 		         background: Color red;
 		         width: 100;
@@ -1119,52 +1120,46 @@ ToExperiments class >> example_strategy [
 
 { #category : #frame }
 ToExperiments class >> example_testTwoChildrenOnOppositeSidesWithSpan [
+
 	<gtExample>
 	| parent left span right |
 	parent := BlElement new.
 	parent background: (Color gray alpha: 0.3).
 	parent layout: BlLinearLayout horizontal.
-	parent
-		constraintsDo: [ :c | 
-			c horizontal matchParent.
-			c vertical fitContent ].
+	parent constraintsDo: [ :c |
+		c horizontal matchParent.
+		c vertical fitContent ].
 	left := BlElement new.
 	left background: (Color red alpha: 0.3).
 	left border: (BlBorder paint: Color red width: 1).
 	left margin: (BlInsets all: 5).
-	left
-		constraintsDo: [ :c | 
-			c horizontal exact: 200.
-			c vertical exact: 50.
-			c grid vertical alignCenter.
-			c grid horizontal alignLeft ].
+	left constraintsDo: [ :c |
+		c horizontal exact: 200.
+		c vertical exact: 50.
+		c grid vertical alignCenter.
+		c grid horizontal alignLeft ].
 	span := BlElement new.
-	span
-		border:
-			(BlBorder builder dashed
-				width: 1;
-				paint: Color gray;
-				build).
+	span border: (BlBorder builder dashed
+			 width: 1;
+			 paint: Color gray;
+			 build).
 	span margin: (BlInsets all: 5).
-	span
-		constraintsDo: [ :c | 
-			c horizontal matchParent.
-			c vertical matchParent ].
+	span constraintsDo: [ :c |
+		c horizontal matchParent.
+		c vertical matchParent ].
 	right := BlElement new.
 	right margin: (BlInsets all: 5).
 	right background: (Color blue alpha: 0.3).
 	right border: (BlBorder paint: Color blue width: 1).
-	right
-		constraintsDo: [ :c | 
-			c horizontal exact: 300.
-			c vertical exact: 30.
-			c linear vertical alignCenter ].
-	parent
-		addChildren:
-			{left.
+	right constraintsDo: [ :c |
+		c horizontal exact: 300.
+		c vertical exact: 30.
+		c linear vertical alignCenter ].
+	parent addChildren: {
+			left.
 			span.
-			right}.
-	^ parent openInOBlSpace 
+			right }.
+	^ parent openInSpace
 ]
 
 { #category : #multistate }

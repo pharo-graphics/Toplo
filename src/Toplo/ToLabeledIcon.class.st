@@ -45,26 +45,6 @@ ToLabeledIcon >> endIcon: anElement [
 	self endElement: anElement
 ]
 
-{ #category : #accessing }
-ToLabeledIcon >> endInterspace [
-
-	| fc |
-	fc := self endFiller constraints.
-	^ fc minWidth @ fc minHeight
-]
-
-{ #category : #accessing }
-ToLabeledIcon >> endInterspace: aPoint [
-
-	| size |
-	size := aPoint asPoint.
-	self endInterspace = size ifTrue: [ ^ self ].
-	self endFiller constraints
-		minWidth: size x;
-		minHeight: size y.
-	self endFiller requestLayout
-]
-
 { #category : #configurating }
 ToLabeledIcon >> endToStart: aBoolean [
 
@@ -187,26 +167,6 @@ ToLabeledIcon >> labelText: aText [
 		self label: nil.
 		^ self ].
 	self label: (ToLabel text: aText asRopedText).
-]
-
-{ #category : #accessing }
-ToLabeledIcon >> startInterspace [
-
-	| fc |
-	fc := self startFiller constraints.
-	^ fc minWidth @ fc minHeight
-]
-
-{ #category : #accessing }
-ToLabeledIcon >> startInterspace: aPoint [
-
-	| size |
-	size := aPoint asPoint.
-	self startInterspace = size ifTrue: [ ^ self ].
-	self startFiller constraints
-		minWidth: size x;
-		minHeight: size y.
-	self startFiller requestLayout
 ]
 
 { #category : #configurating }

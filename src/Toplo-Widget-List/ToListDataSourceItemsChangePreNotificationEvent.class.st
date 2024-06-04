@@ -1,6 +1,6 @@
 Class {
 	#name : #ToListDataSourceItemsChangePreNotificationEvent,
-	#superclass : #ToListChangePreNotificationEvent,
+	#superclass : #ToPreNotificationEvent,
 	#category : #'Toplo-Widget-List-Selection-Events'
 }
 

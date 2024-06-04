@@ -23,7 +23,13 @@ ToSelecterEventTargetStub >> scrollIndex [
 ]
 
 { #category : #'t - infinite accessing' }
-ToSelecterEventTargetStub >> scrollToDataSourcePosition: aPosition [
+ToSelecterEventTargetStub >> scrollTowardEndToDataSourcePosition: aPosition [
+
+	scrollIndex := aPosition
+]
+
+{ #category : #'t - infinite accessing' }
+ToSelecterEventTargetStub >> scrollTowardStartToDataSourcePosition: aPosition [
 
 	scrollIndex := aPosition
 ]

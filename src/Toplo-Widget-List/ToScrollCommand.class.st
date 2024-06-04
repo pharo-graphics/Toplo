@@ -3,7 +3,8 @@ Class {
 	#superclass : #ToListElementCommand,
 	#instVars : [
 		'target',
-		'index'
+		'index',
+		'towardEnd'
 	],
 	#category : #'Toplo-Widget-List-Command'
 }
@@ -27,6 +28,13 @@ ToScrollCommand >> index: anIndex [
 	index := anIndex
 ]
 
+{ #category : #initialization }
+ToScrollCommand >> initialize [ 
+
+	super initialize.
+	towardEnd := true
+]
+
 { #category : #accessing }
 ToScrollCommand >> target [
 
@@ -37,4 +45,16 @@ ToScrollCommand >> target [
 ToScrollCommand >> target: aTarget [
 
 	target := aTarget
+]
+
+{ #category : #accessing }
+ToScrollCommand >> towardEnd [
+
+	^ towardEnd
+]
+
+{ #category : #accessing }
+ToScrollCommand >> towardEnd: aBoolean [
+
+	towardEnd := aBoolean
 ]

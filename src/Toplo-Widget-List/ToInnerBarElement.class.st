@@ -375,6 +375,35 @@ ToInnerBarElement >> scrollDeltaFromDataSourcePosition: anIndex [
 	| node bnds pad |
 	node := self nodeAt: anIndex.
 	node ifNil: [ ^ nil ].
+	node isFullyVisible ifTrue: [ ^ nil ].
+	bnds := node measuredBounds inParent: listElement.
+	pad := listElement isHorizontal
+		       ifTrue: [ listElement padding left ]
+		       ifFalse: [ listElement padding top ].
+	^ bnds position - pad
+]
+
+{ #category : #'t - infinite accessing' }
+ToInnerBarElement >> scrollDeltaTowardEndFromDataSourcePosition: anIndex [
+
+	| node bnds pad |
+	node := self nodeAt: anIndex.
+	node ifNil: [ ^ nil ].
+	node isFullyVisible ifTrue: [ ^ nil ].
+	bnds := node measuredBounds inParent: listElement.
+	pad := listElement isHorizontal
+		       ifTrue: [ listElement padding left ]
+		       ifFalse: [ listElement padding top ].
+	^ bnds position - listElement height + bnds height + (pad * 2)
+]
+
+{ #category : #'t - infinite accessing' }
+ToInnerBarElement >> scrollDeltaTowardStartFromDataSourcePosition: anIndex [
+
+	| node bnds pad |
+	node := self nodeAt: anIndex.
+	node ifNil: [ ^ nil ].
+	node isFullyVisible ifTrue: [ ^ nil ].
 	bnds := node measuredBounds inParent: listElement.
 	pad := listElement isHorizontal
 		       ifTrue: [ listElement padding left ]
@@ -385,7 +414,21 @@ ToInnerBarElement >> scrollDeltaFromDataSourcePosition: anIndex [
 { #category : #'t - infinite accessing' }
 ToInnerBarElement >> scrollToDataSourcePosition: anIndex [
 
-	(self scrollDeltaFromDataSourcePosition: anIndex) ifNotNil: [ :p |
+	(self scrollDeltaTowardEndFromDataSourcePosition: anIndex) ifNotNil: [ :p |
+		scrollable scrollBy: p x negated @ p y ]
+]
+
+{ #category : #'t - infinite accessing' }
+ToInnerBarElement >> scrollTowardEndToDataSourcePosition: anIndex [
+
+	(self scrollDeltaTowardEndFromDataSourcePosition: anIndex) ifNotNil: [ :p |
+		scrollable scrollBy: p x negated @ p y ]
+]
+
+{ #category : #'t - infinite accessing' }
+ToInnerBarElement >> scrollTowardStartToDataSourcePosition: anIndex [
+
+	(self scrollDeltaTowardStartFromDataSourcePosition: anIndex) ifNotNil: [ :p |
 		scrollable scrollBy: p x negated @ p y ]
 ]
 

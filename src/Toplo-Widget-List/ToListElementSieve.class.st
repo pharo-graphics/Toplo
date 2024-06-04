@@ -104,7 +104,7 @@ ToListElementSieve >> onInstalledIn: aListElement [
 		                     yourself.
 	selecter := ToPrimarySelecter
 				            selectionModel: self selectionModel
-				            operator: ToPrimarySelectionModelOperator new.
+				            operator: ToStandardSelectionModelOperator new.
 	selecter
 		enabled: true;
 		multiple: aListElement isMultipleSelection.

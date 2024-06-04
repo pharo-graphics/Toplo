@@ -295,6 +295,30 @@ ToListElementSelecter >> scrollToIndex: anIndex [
 ]
 
 { #category : #operations }
+ToListElementSelecter >> scrollTowardEndToDataSourcePosition: anIndex [
+
+	enabled ifFalse: [ ^ self ].
+	selectionModel itemCount >= anIndex ifTrue: [
+		self addCommand: (ToScrollCommand new
+				 towardEnd: true;
+				 target: eventTarget;
+				 index: anIndex;
+				 yourself) ]
+]
+
+{ #category : #operations }
+ToListElementSelecter >> scrollTowardStartToDataSourcePosition: anIndex [
+
+	enabled ifFalse: [ ^ self ].
+	selectionModel itemCount >= anIndex ifTrue: [
+		self addCommand: (ToScrollCommand new
+				 towardEnd: false;
+				 target: eventTarget;
+				 index: anIndex;
+				 yourself) ]
+]
+
+{ #category : #operations }
 ToListElementSelecter >> selectAll [
 
 	self isMultipleSelection ifFalse: [ ToInvalidElementCommand signal ].

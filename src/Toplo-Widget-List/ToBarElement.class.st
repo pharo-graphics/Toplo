@@ -100,6 +100,12 @@ ToBarElement >> initializeInnerContainer [
 	self innerContainer initializeFakeDataView
 ]
 
+{ #category : #skin }
+ToBarElement >> newRawSkin [ 
+
+	^ ToListElementSkin new
+]
+
 { #category : #accessing }
 ToBarElement >> nodeAutoDistribution [
 

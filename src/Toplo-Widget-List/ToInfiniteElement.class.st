@@ -252,6 +252,26 @@ ToInfiniteElement >> scrollToIndexAtTop: anIndex [
 	self scrollToDataSourcePosition: anIndex
 ]
 
+{ #category : #private }
+ToInfiniteElement >> scrollTowardEndToDataSourcePosition: anIndex [
+	"Request a scrollable widget to scroll to an item (logical or physical) at a given index,
+	which can, for example, be a data source position or child index"
+	"As a result, if the item at anIndex is not already visible, 
+	it is positionned at the top or at the bottom of the listElement "
+
+	self scrollToPosition: anIndex 
+]
+
+{ #category : #private }
+ToInfiniteElement >> scrollTowardStartToDataSourcePosition: anIndex [
+	"Request a scrollable widget to scroll to an item (logical or physical) at a given index,
+	which can, for example, be a data source position or child index"
+	"As a result, if the item at anIndex is not already visible, 
+	it is positionned at the top or at the bottom of the listElement "
+
+	self scrollToPosition: anIndex 
+]
+
 { #category : #'accessing - children' }
 ToInfiniteElement >> selectableNodeContainingGlobalPosition: aPoint [
 

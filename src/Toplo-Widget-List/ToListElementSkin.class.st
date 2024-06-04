@@ -23,7 +23,7 @@ ToListElementSkin >> shortcutsToInstallIn: aListElement [
 				   action: [ :aShortcutEvent :aShortcut |
 					   | idx |
 					   idx := aListElement selecter nextSelectableIndexToScrollTo.
-					   aListElement selecter scrollToDataSourcePosition: idx.
+					   aListElement selecter scrollTowardEndToDataSourcePosition: idx.
 					   aListElement selecter selectOnlyIndex: idx ]).
 
 		  stream nextPut: (BlShortcutWithAction new
@@ -31,7 +31,7 @@ ToListElementSkin >> shortcutsToInstallIn: aListElement [
 				   action: [ :aShortcutEvent :aShortcut |
 					   | idx |
 					   idx := aListElement selecter previousSelectableIndexToScrollTo.
-					   aListElement selecter scrollToDataSourcePosition: idx.
+					   aListElement selecter scrollTowardStartToDataSourcePosition: idx.
 					   aListElement selecter selectOnlyIndex: idx ]).
 
 		  aListElement isMultipleSelection ifTrue: [
@@ -47,7 +47,7 @@ ToListElementSkin >> shortcutsToInstallIn: aListElement [
 						   | idx |
 						   idx := aListElement selecter nextDeselectedIndex.
 						   aListElement selecter selectIndex: idx.
-						   aListElement selecter scrollToDataSourcePosition: idx ]).
+						   aListElement selecter scrollTowardEndToDataSourcePosition: idx ]).
 
 			  stream nextPut: (BlShortcutWithAction new
 					   combination: BlKeyCombination builder shift arrowUp build;
@@ -55,7 +55,7 @@ ToListElementSkin >> shortcutsToInstallIn: aListElement [
 						   | idx |
 						   idx := aListElement selecter previousDeselectedIndex.
 						   aListElement selecter selectIndex: idx.
-						   aListElement selecter scrollToDataSourcePosition: idx ]) ] ]
+						   aListElement selecter scrollTowardStartToDataSourcePosition: idx ]) ] ]
 ]
 
 { #category : #'event handling' }

@@ -216,11 +216,11 @@ ToListSelectionMode >> onInstalledIn: anElement [
 		            ifTrue: [
 			            ToPrimarySelecter
 				            selectionModel: anElement newPrimarySelectionModel
-				            operator: ToPrimarySelectionModelOperator new ]
+				            operator: ToStandardSelectionModelOperator primary]
 		            ifFalse: [
 			            ToSecondarySelecter
 				            selectionModel: anElement newSecondarySelectionModel
-				            operator: ToSecondarySelectionModelOperator new ].
+				            operator: ToStandardSelectionModelOperator secondary ].
 
 	selecter
 		onInstalledIn: anElement;

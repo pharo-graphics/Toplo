@@ -78,6 +78,18 @@ TToListElementDecorator >> scrollToIndexAtTop: anIndex [
 ]
 
 { #category : #'t - infinite accessing' }
+TToListElementDecorator >> scrollTowardEndToDataSourcePosition: anIndex [
+
+	self next scrollTowardEndToDataSourcePosition: anIndex
+]
+
+{ #category : #'t - infinite accessing' }
+TToListElementDecorator >> scrollTowardStartToDataSourcePosition: anIndex [
+
+	self next scrollTowardStartToDataSourcePosition: anIndex
+]
+
+{ #category : #'t - infinite accessing' }
 TToListElementDecorator >> smoothScrollToDataSourcePosition: anIndex [
 
 	self next smoothScrollToDataSourcePosition: anIndex

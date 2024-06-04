@@ -16,7 +16,7 @@ ToPrimarySelecterTest >> setUp [
 	element selectionModel: ToPrimarySelectionModel new.
 	selecter := ToPrimarySelecter
 		            selectionModel: element selectionModel
-		            operator: ToPrimarySelectionModelOperator new.
+		            operator: ToStandardSelectionModelOperator primary.
 	selecter onInstalledIn: element
 ]
 

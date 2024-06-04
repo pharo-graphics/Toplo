@@ -2,23 +2,10 @@ Class {
 	#name : #ToListElementCommand,
 	#superclass : #ToElementBasicCommand,
 	#instVars : [
-		'selectionModel',
-		'selectionChanged'
+		'selectionModel'
 	],
 	#category : #'Toplo-Widget-List-Command'
 }
-
-{ #category : #accessing }
-ToListElementCommand >> selectionChanged [
-
-	^ selectionChanged ifNil: [  selectionChanged := false ]
-]
-
-{ #category : #accessing }
-ToListElementCommand >> selectionChanged: aBoolean [
-
-	selectionChanged := aBoolean
-]
 
 { #category : #accessing }
 ToListElementCommand >> selectionModel [

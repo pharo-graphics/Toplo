@@ -11,17 +11,13 @@ Class {
 
 { #category : #'api - accessing' }
 ToSieveEventHandler >> eventsToHandle [
-	^ { ToListPrimarySelectionChangedEvent. ToListPrimarySelectionChangePreNotificationEvent}
+	^ { ToListPrimarySelectionChangedEvent}
 ]
 
 { #category : #accessing }
 ToSieveEventHandler >> listElement: aSievedListElement [
 
 	listElement := aSievedListElement
-]
-
-{ #category : #'api - accessing' }
-ToSieveEventHandler >> listPrimarySelectionChangePreNotificationEvent: aPreNotification [
 ]
 
 { #category : #'api - accessing' }
@@ -45,7 +41,8 @@ ToSieveEventHandler >> listPrimarySelectionChangedEvent: anEvent [
 	listElement dispatchEvent: (ToSieveSelectionChangedEvent new
 			 sieve: anEvent currentTarget;
 			 selectionModel: sieveSelectionModel;
-			 yourself)
+			 yourself).
+	listElement dispatchEvent: ToListPrimarySelectionDirtyEvent new.
 ]
 
 { #category : #'api - hooks' }

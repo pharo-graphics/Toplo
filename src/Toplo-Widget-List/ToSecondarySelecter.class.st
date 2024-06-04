@@ -7,10 +7,13 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
 
-{ #category : #accessing }
-ToSecondarySelecter >> commandApplicationManagerClass [
+{ #category : #'command application' }
+ToSecondarySelecter >> commandApplied: aCommand [ 
 
-	^ ToSecondarySelectionCommandApplicationManager
+	eventTarget dispatchEvent:
+		(ToListSecondarySelectionChangedEvent new
+			 selectionModel: aCommand selectionModel;
+			 yourself)
 ]
 
 { #category : #accessing }

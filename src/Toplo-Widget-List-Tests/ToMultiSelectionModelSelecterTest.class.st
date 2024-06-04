@@ -2,9 +2,9 @@ Class {
 	#name : #ToMultiSelectionModelSelecterTest,
 	#superclass : #ToParameterizedHostTest,
 	#instVars : [
-		'holder',
 		'selectionChanged',
-		'selecter'
+		'selecter',
+		'element'
 	],
 	#category : #'Toplo-Widget-List-Tests-Selection-Selecter'
 }
@@ -14,13 +14,13 @@ ToMultiSelectionModelSelecterTest >> setUp [
 
 	super setUp.
 	selectionChanged := false.
-	holder := ToSelectionModelHolderForTest new.
-	space root addChild: holder.
-	holder data addAll: (1 to: 1000).
-	holder addEventHandler: (BlEventHandler
-			 on: ToListPrimarySelectionChangedEvent
-			 do: [ :event | selectionChanged := true ]).
-	selecter := holder multiSelectionSelecter
+	element := ToSelecterEventTargetStub new.
+	element selectionModel: ToPrimarySelectionModel new.
+	selecter := ToPrimarySelecter
+		            selectionModel: element selectionModel
+		            operator: ToPrimarySelectionModelOperator new.
+	selecter onInstalledIn: element.
+	selecter multiple: true
 ]
 
 { #category : #tests }
@@ -29,7 +29,7 @@ ToMultiSelectionModelSelecterTest >> testDeselectAll [
 	selecter selectIndexes: {2. 6. 9}.
 	selecter deselectAll.
 	self waitTestingSpaces.
-	self assert: holder selectionModel isEmpty
+	self assert: element selectionModel isEmpty
 ]
 
 { #category : #tests }
@@ -38,7 +38,7 @@ ToMultiSelectionModelSelecterTest >> testDeselectIndex [
 	selecter selectIndex: 2.
 	selecter deselectIndex: 2.
 	self waitTestingSpaces.
-	self assert: holder selectionModel isEmpty
+	self assert: element selectionModel isEmpty
 ]
 
 { #category : #tests }
@@ -47,17 +47,19 @@ ToMultiSelectionModelSelecterTest >> testDeselectIndexes [
 	selecter selectIndexes: {2. 6. 9}.
 	selecter deselectIndexes: {2. 6. 9}.
 	self waitTestingSpaces.
-	self assert: holder selectionModel isEmpty 
+	self assert: element selectionModel isEmpty 
 ]
 
 { #category : #tests }
 ToMultiSelectionModelSelecterTest >> testDispatchSelectionChanged [
 
 	| selChangedEvent |
-	holder addEventHandler: (BlEventHandler
+	element addEventHandler: (BlEventHandler
 			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :event | selChangedEvent := event ]).
-
+	
+		selecter selectionModel deselectAll.
+	selecter selectionModel selectedIndexes traceCr.
 	selecter selectIndexes: { 2. 6. 9 }.
 	self waitTestingSpaces.
 	self assert: selChangedEvent notNil.
@@ -74,8 +76,8 @@ ToMultiSelectionModelSelecterTest >> testSelectAll [
 
 	selecter selectAll.
 	self waitTestingSpaces.
-	self assert: holder selectionModel isNotEmpty.
-	self assert: selecter currentIndex equals: holder selectionModel itemCount
+	self assert: element selectionModel isNotEmpty.
+	self assert: selecter currentIndex equals: element selectionModel itemCount
 ]
 
 { #category : #tests }
@@ -86,10 +88,10 @@ ToMultiSelectionModelSelecterTest >> testSelectAndScrollToIndex [
 	selecter scrollToDataSourcePosition: 10.
 	self waitTestingSpaces.
 	self
-		assert: holder selectionModel selectedIndexes asSet
+		assert: element selectionModel selectedIndexes asSet
 		equals: #( 2 10 ) asSet.
 	self assert: selecter currentIndex equals: 10.
-	self assert: holder scrollIndex equals: 10
+	self assert: element scrollIndex equals: 10
 ]
 
 { #category : #tests }
@@ -102,10 +104,10 @@ ToMultiSelectionModelSelecterTest >> testSelectAndScrollToNext [
 	selecter scrollToDataSourcePosition: selecter currentIndex.
 	self waitTestingSpaces.
 	self
-		assert: holder selectionModel selectedIndexes asSet
+		assert: element selectionModel selectedIndexes asSet
 		equals: #( 2 3 ) asSet.
 	self assert: selecter currentIndex equals: 3.
-	self assert: holder scrollIndex equals: 3
+	self assert: element scrollIndex equals: 3
 ]
 
 { #category : #tests }
@@ -117,15 +119,15 @@ ToMultiSelectionModelSelecterTest >> testSelectAndScrollToNextDeselected [
 	selecter selectIndex: selecter nextDeselectedIndex.
 	selecter scrollToDataSourcePosition: selecter currentIndex.
 	self waitTestingSpaces.
-	self assert: holder selectionModel selectedIndexes equals: #( 2 3 ).
+	self assert: element selectionModel selectedIndexes equals: #( 2 3 ).
 	self assert: selecter currentIndex equals: 3.
 	selecter selectIndex: selecter nextDeselectedIndex.
 	self waitTestingSpaces.
 	selecter scrollToDataSourcePosition: selecter currentIndex.
 	self waitTestingSpaces.
-	self assert: holder selectionModel selectedIndexes equals: #( 2 3 4 ).
+	self assert: element selectionModel selectedIndexes equals: #( 2 3 4 ).
 	self assert: selecter currentIndex equals: 4.
-	self assert: holder scrollIndex equals: 4
+	self assert: element scrollIndex equals: 4
 ]
 
 { #category : #tests }
@@ -138,10 +140,10 @@ ToMultiSelectionModelSelecterTest >> testSelectAndScrollToPrevious [
 	selecter scrollToDataSourcePosition: selecter currentIndex.
 	self waitTestingSpaces.
 	self
-		assert: holder selectionModel selectedIndexes asSet
+		assert: element selectionModel selectedIndexes asSet
 		equals: #( 1 2 ) asSet.
 	self assert: selecter currentIndex equals: 1.
-	self assert: holder scrollIndex equals: 1
+	self assert: element scrollIndex equals: 1
 ]
 
 { #category : #tests }
@@ -153,14 +155,14 @@ ToMultiSelectionModelSelecterTest >> testSelectAndScrollToPreviousDeselected [
 	selecter selectIndex: selecter previousDeselectedIndex.
 	selecter scrollToDataSourcePosition: selecter currentIndex.
 	self waitTestingSpaces.
-	self assert: holder selectionModel selectedIndexes equals: #( 1 2 ).
+	self assert: element selectionModel selectedIndexes equals: #( 1 2 ).
 	self assert: selecter currentIndex equals: 1.
 	selecter selectIndex: selecter previousDeselectedIndex.
 	selecter scrollToDataSourcePosition: selecter currentIndex.
 	self waitTestingSpaces.
-	self assert: holder selectionModel selectedIndexes equals: #( 1 2 ).
+	self assert: element selectionModel selectedIndexes equals: #( 1 2 ).
 	self assert: selecter currentIndex equals: 1.
-	self assert: holder scrollIndex equals: 1
+	self assert: element scrollIndex equals: 1
 ]
 
 { #category : #tests }
@@ -168,8 +170,8 @@ ToMultiSelectionModelSelecterTest >> testSelectIndex [
 
 	selecter selectIndex: 2.
 	self waitTestingSpaces.
-	self assert: holder selectionModel selectedIndexes size equals: 1.
-	self assert: holder selectionModel selectedIndexes first equals: 2
+	self assert: element selectionModel selectedIndexes size equals: 1.
+	self assert: element selectionModel selectedIndexes first equals: 2
 ]
 
 { #category : #tests }
@@ -177,7 +179,7 @@ ToMultiSelectionModelSelecterTest >> testSelectIndex2 [
 
 	selecter selectIndex: 2.
 	self waitTestingSpaces.
-	self assert: holder selectionModel selectedIndexes first equals: 2.
+	self assert: element selectionModel selectedIndexes first equals: 2.
 	self assert: selecter currentIndex equals: 2
 ]
 
@@ -186,8 +188,8 @@ ToMultiSelectionModelSelecterTest >> testSelectIndexTo [
 
 	selecter selectIndex: 2 to: 10.
 	self waitTestingSpaces.
-	self assert: holder selectionModel selectedIndexes size equals: 9.
-	self assert: holder selectionModel selectedIndexes asSet equals: (2 to: 10) asSet
+	self assert: element selectionModel selectedIndexes size equals: 9.
+	self assert: element selectionModel selectedIndexes asSet equals: (2 to: 10) asSet
 ]
 
 { #category : #tests }
@@ -203,27 +205,27 @@ ToMultiSelectionModelSelecterTest >> testSelectIndexes [
 
 	selecter selectIndexes: {2. 6. 9}.
 	self waitTestingSpaces.
-	self assert: holder selectionModel selectedIndexes size equals: 3.
-	self assert: holder selectionModel selectedIndexes equals: {2. 6. 9} 
+	self assert: element selectionModel selectedIndexes size equals: 3.
+	self assert: element selectionModel selectedIndexes equals: {2. 6. 9} 
 ]
 
 { #category : #tests }
 ToMultiSelectionModelSelecterTest >> testSelectNextOnLastIndex [
 
-	selecter selectIndex: holder dataSource itemCount.
+	selecter selectIndex: element itemCount.
 	self waitTestingSpaces.
 	self
 		assert: selecter currentIndex
-		equals: holder dataSource itemCount.
+		equals: element  itemCount.
 	selecter selectIndex: selecter nextSelectableIndex.
 	self waitTestingSpaces.
 	selecter scrollToDataSourcePosition: selecter currentIndex.
 	self waitTestingSpaces.
 	self
-		assert: holder selectionModel selectedIndexes asSet
-		equals: { 1000. 1 } asSet.
+		assert: element selectionModel selectedIndexes asSet
+		equals: { 100. 1 } asSet.
 	self assert: selecter currentIndex equals: 1.
-	self assert: holder scrollIndex equals: 1
+	self assert: element scrollIndex equals: 1
 ]
 
 { #category : #tests }
@@ -233,7 +235,7 @@ ToMultiSelectionModelSelecterTest >> testSelectOnlyIndex [
 	selecter selectIndexes: {2. 6. 9}.
 	selecter selectOnlyIndex: 10.
 	self waitTestingSpaces.
-	self assert: holder selectionModel selectedIndexes asSet equals: {10} asSet.
+	self assert: element selectionModel selectedIndexes asSet equals: {10} asSet.
 ]
 
 { #category : #tests }
@@ -242,7 +244,7 @@ ToMultiSelectionModelSelecterTest >> testSelectOnlyIndexes [
 	selecter selectIndexes: {2. 6. 9}.
 	selecter selectOnlyIndexes: {10. 6. 20}.
 	self waitTestingSpaces.
-	self assert: holder selectionModel selectedIndexes equals: {6. 10. 20}.
+	self assert: element selectionModel selectedIndexes equals: {6. 10. 20}.
 ]
 
 { #category : #tests }
@@ -255,13 +257,13 @@ ToMultiSelectionModelSelecterTest >> testSelectPreviousOnFirstIndex [
 	self waitTestingSpaces.
 	selecter scrollToDataSourcePosition: selecter currentIndex.
 	self waitTestingSpaces.
-	self assert: holder selectionModel selectedIndexes equals: {
+	self assert: element selectionModel selectedIndexes equals: {
 			1.
-			holder dataSource itemCount }.
+			element  itemCount }.
 	self
 		assert: selecter currentIndex
-		equals: holder dataSource itemCount.
-	self assert: holder scrollIndex equals: holder dataSource itemCount
+		equals: element  itemCount.
+	self assert: element scrollIndex equals: element  itemCount
 ]
 
 { #category : #tests }
@@ -270,7 +272,7 @@ ToMultiSelectionModelSelecterTest >> testSelectThenDeselectAll [
 	selecter selectIndex: 2.
 	selecter deselectAll.
 	self waitTestingSpaces.
-	self assert: holder selectionModel selectedIndexes isEmpty.
+	self assert: element selectionModel selectedIndexes isEmpty.
 	self assert: selecter currentIndex equals: 0
 ]
 
@@ -279,17 +281,17 @@ ToMultiSelectionModelSelecterTest >> testSelectToIndex [
 
 	selecter selectIndex: 2.
 	self waitTestingSpaces.
-	self assert: holder selectionModel selectedIndexes first equals: 2.
+	self assert: element selectionModel selectedIndexes first equals: 2.
 	self assert: selecter currentIndex equals: 2.
 	selecter selectIndex: 2 to: 12.
 	self waitTestingSpaces.
-	self assert: holder selectionModel selectedIndexes first equals: 2.
-	self assert: holder selectionModel selectedIndexes last equals: 12.
+	self assert: element selectionModel selectedIndexes first equals: 2.
+	self assert: element selectionModel selectedIndexes last equals: 12.
 	self assert: selecter currentIndex equals: 12.
 	selecter selectIndex: 12 to: 2.
 	self waitTestingSpaces.
-	self assert: holder selectionModel selectedIndexes first equals: 2.
-	self assert: holder selectionModel selectedIndexes last equals: 12.
+	self assert: element selectionModel selectedIndexes first equals: 2.
+	self assert: element selectionModel selectedIndexes last equals: 12.
 	self assert: selecter currentIndex equals: 2
 
 ]
@@ -297,6 +299,8 @@ ToMultiSelectionModelSelecterTest >> testSelectToIndex [
 { #category : #tests }
 ToMultiSelectionModelSelecterTest >> testSelectionChanged [
 
+	selectionChanged := false.
+	element addEventHandlerOn: ToListPrimarySelectionChangedEvent  do: [ selectionChanged := true ].
 	selecter selectIndexes: {2. 6. 9}.
 	self waitTestingSpaces.
 	self assert: selectionChanged. 
@@ -307,6 +311,7 @@ ToMultiSelectionModelSelecterTest >> testSelectionChanged [
 ToMultiSelectionModelSelecterTest >> testSelectionChangedOnDeselectAll [
 
 	selectionChanged := false.
+	element addEventHandlerOn: ToListPrimarySelectionChangedEvent  do: [ selectionChanged := true ].
 	selecter selectIndexes: {2. 6. 9}.
 	self waitTestingSpaces.
 	selecter deselectAll.
@@ -318,6 +323,7 @@ ToMultiSelectionModelSelecterTest >> testSelectionChangedOnDeselectAll [
 ToMultiSelectionModelSelecterTest >> testSelectionChangedOnDeselectAll2 [
 
 	selectionChanged := false.
+	element addEventHandlerOn: ToListPrimarySelectionChangedEvent  do: [ selectionChanged := true ].
 	selecter selectIndexes: {2. 6. 9}.
 	self waitTestingSpaces.
 	selecter deselectAll.

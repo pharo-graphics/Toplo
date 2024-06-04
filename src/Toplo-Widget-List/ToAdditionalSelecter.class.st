@@ -9,10 +9,12 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
 
-{ #category : #accessing }
-ToAdditionalSelecter >> commandApplicationManagerClass [
+{ #category : #'command application' }
+ToAdditionalSelecter >> commandApplied: aCommand [ 
 
-	^ ToAdditionalSelectionCommandApplicationManager
+	eventTarget dispatchEvent: (self eventClass new
+			 selectionModel: aCommand selectionModel;
+			 yourself)
 ]
 
 { #category : #accessing }
@@ -32,13 +34,8 @@ ToAdditionalSelecter >> eventClass: anEventClass [
 ToAdditionalSelecter >> initialize [
 
 	super initialize.
+	operator := ToSelectionModelOperator new.
 	selectionModel := ToAdditionalSelectionModel new
-]
-
-{ #category : #initialization }
-ToAdditionalSelecter >> newCommandApplicationManager [ 
-
-	^ super newCommandApplicationManager eventClass: eventClass
 ]
 
 { #category : #'api - hooks' }
@@ -56,19 +53,8 @@ ToAdditionalSelecter >> onInstalledIn: anEventTarget [
 ToAdditionalSelecter >> onUninstalledIn: anEventTarget [
 
 	parentSelecter unrecordSubSelecter: self.
-	operator onUninstalledIn: anEventTarget.
-	operator := nil.
-	selectionModel := nil.
-	parentSelecter unrecordSubSelecter: self.
 	super onUninstalledIn: anEventTarget
 
-]
-
-{ #category : #accessing }
-ToAdditionalSelecter >> operator [
-
-	^ operator ifNil: [
-		  operator := ToSelectionModelOperator new ]
 ]
 
 { #category : #accessing }

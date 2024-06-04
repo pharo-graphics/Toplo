@@ -26,7 +26,6 @@ TToSelectInnerContainerElement >> onSelectionChangedInSelectElement [
 
 	self selectElement showHidePlaceholder.
 	self refresh.
-	self selectElement listElement notifyPrimarySelectionDirty.
 	self requestLayout
 ]
 

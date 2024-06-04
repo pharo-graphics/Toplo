@@ -2,22 +2,11 @@ Class {
 	#name : #ToScrollCommand,
 	#superclass : #ToListElementCommand,
 	#instVars : [
+		'target',
 		'index'
 	],
 	#category : #'Toplo-Widget-List-Command'
 }
-
-{ #category : #'private - hook' }
-ToScrollCommand >> applyOn: anOperator [
-
-	" ask the operator passed as argument to actually apply the command. "
-
-	self
-		deprecated: 'Use applyOnOperator: instead'
-		transformWith: '`@receiver applyOn: `@argument'
-			-> '`@receiver applyOnOperator: `@argument'.
-	self applyWithOperator: anOperator
-]
 
 { #category : #'private - hook' }
 ToScrollCommand >> applyWithOperator: anOperator [ 
@@ -36,4 +25,16 @@ ToScrollCommand >> index [
 ToScrollCommand >> index: anIndex [
 
 	index := anIndex
+]
+
+{ #category : #accessing }
+ToScrollCommand >> target [
+
+	^ target
+]
+
+{ #category : #accessing }
+ToScrollCommand >> target: aTarget [
+
+	target := aTarget
 ]

@@ -7,10 +7,26 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
 
-{ #category : #accessing }
-ToPrimarySelecter >> commandApplicationManagerClass [
+{ #category : #'command application' }
+ToPrimarySelecter >> commandApplied: aCommand [ 
 
-	^ ToPrimarySelectionCommandApplicationManager
+	| preNotification eventToNotify |
+	
+	eventTarget dispatchEvent:
+		(ToPrimarySelectionCommandAppliedEvent new
+			 command: aCommand;
+			 yourself).
+
+	eventToNotify := ToListPrimarySelectionChangedEvent new
+		                 selectionModel: aCommand selectionModel;
+		                 yourself.
+
+	preNotification := ToListPrimarySelectionChangePreNotificationEvent
+		                   new
+		                   sourceEvent: eventToNotify;
+		                   yourself.
+		
+	eventTarget dispatchPreNotificationEvent: preNotification
 ]
 
 { #category : #initialization }

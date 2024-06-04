@@ -6,8 +6,7 @@ Class {
 		'enabled',
 		'operator',
 		'selectionModel',
-		'multiple',
-		'operatorEventHandler'
+		'multiple'
 	],
 	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
@@ -16,9 +15,18 @@ Class {
 ToListElementSelecter >> addCommand: aCommand [
 
 	enabled ifFalse: [ ^ self ].
+	self applyCommand: aCommand
+]
+
+{ #category : #'command application' }
+ToListElementSelecter >> applyCommand: aCommand [
+
+	| previousModel |
 	aCommand selectionModel: selectionModel.
-	aCommand target: eventTarget.
-	operator addCommand: aCommand 
+	previousModel := selectionModel copy.
+	aCommand applyWithOperator: operator.
+	previousModel = aCommand selectionModel ifTrue: [ ^ self ].
+	self commandApplied: aCommand
 ]
 
 { #category : #accessing }
@@ -33,10 +41,10 @@ ToListElementSelecter >> beSingleSelection [
 	self multiple: false
 ]
 
-{ #category : #accessing }
-ToListElementSelecter >> commandApplicationManagerClass [
+{ #category : #'command application' }
+ToListElementSelecter >> commandApplied: aCommand [
 
-	^ ToCommandApplicationManager
+	self subclassResponsibility 
 ]
 
 { #category : #testing }
@@ -161,12 +169,6 @@ ToListElementSelecter >> multiple: aBoolean [
 	multiple := aBoolean
 ]
 
-{ #category : #initialization }
-ToListElementSelecter >> newCommandApplicationManager [
-
-	^ self commandApplicationManagerClass new
-]
-
 { #category : #private }
 ToListElementSelecter >> nextDeselectedIndex [
 
@@ -210,24 +212,16 @@ ToListElementSelecter >> nextSelectableIndexToScrollTo [
 
 { #category : #'api - hooks' }
 ToListElementSelecter >> onInstalledIn: anEventTarget [
-
 	" the argument is passed as the target of commands.
 	It receives the selection change event after the application of commands "
 
-	eventTarget := anEventTarget.
-	operatorEventHandler := ToElementCommandEventHandler new
-		                        element: eventTarget;
-		                        yourself.
-	" operator can be lazily initialized. use the getter here "
-	self operator addEventHandler: operatorEventHandler.
-	self operator commandApplicationManager: self newCommandApplicationManager 
+	eventTarget := anEventTarget
 ]
 
 { #category : #'api - hooks' }
 ToListElementSelecter >> onUninstalledIn: anEventTarget [
 
-	eventTarget := nil.
-	operator removeEventHandler: operatorEventHandler
+	eventTarget := nil
 ]
 
 { #category : #accessing }

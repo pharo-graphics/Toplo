@@ -8,7 +8,7 @@ Class {
 		'operator',
 		'posponedRequestTask'
 	],
-	#category : #'Toplo-Widget-List-Command-support'
+	#category : #'Toplo-Widget-List-Command-Support-not-used'
 }
 
 { #category : #'api - running' }
@@ -17,7 +17,7 @@ ToCommandApplicationTask >> applyAll [
 	[ commandQueue isEmpty ] whileFalse: [
 		| nextInQueue |
 		nextInQueue := commandQueue removeFirst.
-		nextInQueue notifyAddedInOperator: operator ]
+		operator dispatchApplicationRequestOfCommand: nextInQueue ]
 ]
 
 { #category : #'api - running' }

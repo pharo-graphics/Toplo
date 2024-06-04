@@ -1,6 +1,6 @@
 Class {
 	#name : #ToListCommandOperator,
-	#superclass : #ToCommandOperator,
+	#superclass : #Object,
 	#classTraits : 'TBlEventTarget classTrait',
 	#category : #'Toplo-Widget-List-Command-Operator'
 }

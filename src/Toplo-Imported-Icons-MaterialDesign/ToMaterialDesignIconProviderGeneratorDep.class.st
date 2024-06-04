@@ -119,7 +119,7 @@ ToMaterialDesignIconProviderGeneratorDep class >> generateIconProviderClassesFro
 				                            , 'IconProvider'.
 				            cat := 'Toplo-Imported-Icons-MaterialDesign' asSymbol.
 				            builder
-					            superclass: ToMaterialDesignIconProviderDep;
+					            superclass: ToMaterialDesignIconProvider;
 					            name: newClassName;
 					            category: cat ].
 			newClass class

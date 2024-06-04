@@ -1462,43 +1462,6 @@ ToSandBox class >> example_SelectMonoNotFiltrable [
 ]
 
 { #category : #select }
-ToSandBox class >> example_SelectMonoNotFiltrableWithGroups [
-
-	| select innerWindow phtext |
-	select := ToMultiSelectElement new.
-	select inspect.
-	select listElement placeholderMinHeight: 35.
-	phtext := ('No Data' asRopedText
-		           foreground: Color lightGray;
-		           yourself)
-		          fontSize: 24;
-		          yourself.
-	select listElement placeholderBuilder: [ :placeholder :e |
-		| lab |
-		placeholder layout alignCenter.
-		lab := ToAttributedLabel text: phtext.
-		placeholder addChild: lab ].
-
-	select filtrable: false.
-	self statesOfAmericaWithGroups do: [ :assoc |
-		select dataAccessor add: assoc key.
-		select dataAccessor itemCount.
-		select setGroupIndex: select dataAccessor itemCount.
-		select dataAccessor addAll: assoc value ].
-
-	select placeholderText:
-		('Select a state' asRopedText foreground: Color red).
-	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
-	select width: 300.
-	select position: 50 @ 50.
-	select inputTextField requestFocus.
-	innerWindow pane addChild: select.
-	innerWindow height: 500.
-	innerWindow openInSpace
-]
-
-{ #category : #select }
 ToSandBox class >> example_SelectMultiFiltrable [
 
 	| select innerWindow |
@@ -1723,6 +1686,43 @@ ToSandBox class >> example_SelectMultiNotFiltrable [
 	select width: 300.
 	select position: 50 @ 50.
 
+	innerWindow pane addChild: select.
+	innerWindow height: 500.
+	innerWindow openInSpace
+]
+
+{ #category : #select }
+ToSandBox class >> example_SelectMultiNotFiltrableWithGroups [
+
+	| select innerWindow phtext |
+	select := ToMultiSelectElement new.
+	select inspect.
+	select listElement placeholderMinHeight: 35.
+	phtext := ('No Data' asRopedText
+		           foreground: Color lightGray;
+		           yourself)
+		          fontSize: 24;
+		          yourself.
+	select listElement placeholderBuilder: [ :placeholder :e |
+		| lab |
+		placeholder layout alignCenter.
+		lab := ToAttributedLabel text: phtext.
+		placeholder addChild: lab ].
+
+	select filtrable: false.
+	self statesOfAmericaWithGroups do: [ :assoc |
+		select dataAccessor add: assoc key.
+		select dataAccessor itemCount.
+		select setGroupIndex: select dataAccessor itemCount.
+		select dataAccessor addAll: assoc value ].
+
+	select placeholderText:
+		('Select a state' asRopedText foreground: Color red).
+	innerWindow := ToInnerWindow new.
+	select windowManager anchorRoot: innerWindow root.
+	select width: 300.
+	select position: 50 @ 50.
+	select inputTextField requestFocus.
 	innerWindow pane addChild: select.
 	innerWindow height: 500.
 	innerWindow openInSpace

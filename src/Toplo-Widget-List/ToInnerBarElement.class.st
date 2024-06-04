@@ -386,15 +386,17 @@ ToInnerBarElement >> scrollDeltaFromDataSourcePosition: anIndex [
 { #category : #'t - infinite accessing' }
 ToInnerBarElement >> scrollDeltaTowardEndFromDataSourcePosition: anIndex [
 
-	| node bnds pad |
+	| node bnds offset padding |
 	node := self nodeAt: anIndex.
 	node ifNil: [ ^ nil ].
 	node isFullyVisible ifTrue: [ ^ nil ].
 	bnds := node measuredBounds inParent: listElement.
-	pad := listElement isHorizontal
-		       ifTrue: [ listElement padding left ]
-		       ifFalse: [ listElement padding top ].
-	^ bnds position - listElement height + bnds height + (pad * 2)
+	padding := listElement padding.
+	offset := listElement isHorizontal
+		          ifTrue: [ padding right - listElement width + bnds width ]
+		          ifFalse: [
+		          padding bottom - listElement height + bnds height ].
+	^ bnds position + offset
 ]
 
 { #category : #'t - infinite accessing' }

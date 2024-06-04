@@ -22,6 +22,10 @@ ToImportedIconProvider class >> iconNamed: aName ifAbsent: aBlock [
 
 { #category : #'_private - utilities' }
 ToImportedIconProvider class >> listElementWithAllIconsInProviderClass: aProviderClass [
+	"
+	(ToImportedIconProvider  listElementWithAllIconsInProviderClass: ToAntDesignIconProvider) openInSpace.
+(ToImportedIconProvider  listElementWithAllIconsInProviderClass: ToMaterialDesignIconProvider) openInSpace
+	"
 
 	| l icProvider styles assocs |
 	icProvider := aProviderClass new.
@@ -35,17 +39,18 @@ ToImportedIconProvider class >> listElementWithAllIconsInProviderClass: aProvide
 
 	styles := ToIconStyle allSubclasses asArray sort: [ :a :b |
 		          a name < b name ].
-	assocs := Array streamContents: [ :stream | 
-		styles do: [ :style |
-		| s |
-		s := ('_' , style prefix , '_loaded') asSymbol.
-		(icProvider class respondsTo: s) ifTrue: [
-			| iconNames |
-			iconNames := (icProvider class perform: s) sort.
-			stream nextPutAll: (iconNames collect: [ :n | n -> style ]) ] ] ].
+	assocs := Array streamContents: [ :stream |
+		          styles do: [ :style |
+			          | s |
+			          s := ('_' , style prefix , '_loaded') asSymbol.
+			          (icProvider class respondsTo: s) ifTrue: [
+				          | iconNames |
+				          iconNames := (icProvider class perform: s) sort.
+				          stream nextPutAll:
+					          (iconNames collect: [ :n | n -> style ]) ] ] ].
 
 	l dataAccessor addAll: assocs.
-	
+
 	l nodeBuilder: [ :node :holder |
 		| styleLab stylePane iclab iclabPane imPane iconStyle iconName |
 		iconStyle := holder dataItem value.

@@ -69,7 +69,15 @@ ToMultiSelectBarNode >> installRawStyle [
 		ifTrue: [ self margin: (BlInsets vertical: 2) ]
 		ifFalse: [ self margin: (BlInsets all: 2) ].
 	self geometry: (BlRoundedRectangleGeometry cornerRadius: 4).
-	self background: (Color lightGray alpha: 0.3)
+	self background: (Color lightGray alpha: 0.3).
+	self holder dataItem isComposite ifTrue: [
+		self tooltipBuilder: [ :win :theElement |
+			| pane |
+			pane := ToPane vertical.
+			self holder dataItem dataItems do: [ :item | | t |
+				t := self holder dataAccessor at: item index.
+				pane addChild: (ToLabel text: t asString) ].
+			win root addChild: pane ] ]
 ]
 
 { #category : #testing }

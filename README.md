@@ -1,6 +1,6 @@
 [![License](https://img.shields.io/github/license/pharo-graphics/Toplo.svg)](./LICENSE)
 ![toplo](https://github.com/pharo-graphics/Toplo/assets/49183340/57963fee-ed86-4ee0-99e1-7c39e9a9cdf9)
-[![Tests](https://github.com/pharo-graphics/Toplo/actions/workflows/test.yml/badge.svg)](https://github.com/pharo-graphics/Toplo/actions/workflows/test.yml)
+[![Tests](https://github.com/pharo-graphics/Toplo/actions/workflows/tests.yml/badge.svg)](https://github.com/pharo-graphics/Toplo/actions/workflows/tests.yml)
 
 # Toplo
 

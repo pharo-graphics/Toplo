@@ -1465,7 +1465,7 @@ ToSandBox class >> example_SelectMonoNotFiltrable [
 ToSandBox class >> example_SelectMonoNotFiltrableWithGroups [
 
 	| select innerWindow phtext |
-	select := ToSingleSelectElement new.
+	select := ToMultiSelectElement new.
 	select inspect.
 	select listElement placeholderMinHeight: 35.
 	phtext := ('No Data' asRopedText
@@ -1480,7 +1480,11 @@ ToSandBox class >> example_SelectMonoNotFiltrableWithGroups [
 		placeholder addChild: lab ].
 
 	select filtrable: false.
-	self statesOfAmericaWithGroups do: [ :assoc | select addGroup: assoc key withData: assoc value].
+	self statesOfAmericaWithGroups do: [ :assoc |
+		select dataAccessor add: assoc key.
+		select dataAccessor itemCount.
+		select setGroupIndex: select dataAccessor itemCount.
+		select dataAccessor addAll: assoc value ].
 
 	select placeholderText:
 		('Select a state' asRopedText foreground: Color red).

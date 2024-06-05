@@ -13,7 +13,7 @@ ToNodeHolder >> bindDataItem: aDataItem [
 	| nodeManager |
 	nodeManager := self listElement nodeManager.
 	self dataItem: aDataItem. 
-	self node: (nodeManager newNodeInHolder: self).
+	self node: (nodeManager newNodeForHolder: self).
 	nodeManager buildNode: self node inHolder: self.
 	self node enabled: self isEnabled.
 	self isHidden ifTrue: [ self node height: 0 ]
@@ -122,7 +122,8 @@ ToNodeHolder >> release [
 ToNodeHolder >> unbindDataItem [
 
 	| nodeManager |
-	nodeManager := self listElement nodeManager.	
+	nodeManager := self listElement nodeManager.
+	nodeManager unbindNode: self node.
 	self node release.
 	self release
 

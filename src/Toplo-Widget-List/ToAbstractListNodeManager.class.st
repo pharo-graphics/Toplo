@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'nodeHolderClass',
 		'nodeFactory',
-		'nodeBuilder'
+		'nodeBuilder',
+		'nodeUnbinder'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -34,28 +35,35 @@ ToAbstractListNodeManager >> defaultNodeHolderClass [
 ]
 
 { #category : #initialization }
+ToAbstractListNodeManager >> defaultNodeUnbinder [
+
+	^ [:node | ]
+]
+
+{ #category : #initialization }
 ToAbstractListNodeManager >> initialize [ 
 
 	super initialize.
 	nodeHolderClass := self defaultNodeHolderClass.
 	nodeBuilder := self defaultNodeBuilder.
-	nodeFactory := self defaultNodeFactory
+	nodeFactory := self defaultNodeFactory.
+	nodeUnbinder := self defaultNodeUnbinder 
 ]
 
 { #category : #'instance creation' }
-ToAbstractListNodeManager >> newNodeHolder [
-
-	^ nodeHolderClass new
-]
-
-{ #category : #'instance creation' }
-ToAbstractListNodeManager >> newNodeInHolder: aNodeHolder [
+ToAbstractListNodeManager >> newNodeForHolder: aNodeHolder [
 
 	| node infiniteConstraints |
 	node := nodeFactory cull: aNodeHolder.
 	infiniteConstraints := node constraints infinite.
 	infiniteConstraints holder: aNodeHolder.
 	^ node
+]
+
+{ #category : #'instance creation' }
+ToAbstractListNodeManager >> newNodeHolder [
+
+	^ nodeHolderClass new
 ]
 
 { #category : #accessing }
@@ -76,4 +84,10 @@ ToAbstractListNodeManager >> nodeFactory: aValuable [
 ToAbstractListNodeManager >> nodeHolderClass: aNodeHolderClass [
 
 	nodeHolderClass := aNodeHolderClass
+]
+
+{ #category : #initialization }
+ToAbstractListNodeManager >> unbindNode: aNode [
+
+	nodeUnbinder value: aNode
 ]

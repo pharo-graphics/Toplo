@@ -36,14 +36,12 @@ ToBarNodeManager >> fakeDataItem: anObject [
 ]
 
 { #category : #'instance creation' }
-ToBarNodeManager >> newFakeNodeInHolder: anHolder [
+ToBarNodeManager >> newFakeNodeForHolder: anHolder [
 
 	| fakeNode |
-	anHolder dataItem: (ToMultiSelectDataItem index: (fakeDataItem ifNil: [0])).
-	fakeNode := self newNodeInHolder: anHolder.
+	fakeNode := self newNodeForHolder: anHolder.
 	self buildNode: fakeNode inHolder: anHolder.
 	fakeNode margin: BlInsets empty.
 	anHolder node: fakeNode.
 	^ fakeNode
-
 ]

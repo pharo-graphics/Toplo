@@ -33,3 +33,11 @@ ToMultiSelectBarNodeManager >> defaultNodeHolderClass [
 
 	^ ToMultiSelectBarNodeHolder
 ]
+
+{ #category : #'instance creation' }
+ToMultiSelectBarNodeManager >> newFakeNodeForHolder: anHolder [
+
+	anHolder dataItem: (ToMultiSelectDataItem index: (fakeDataItem ifNil: [0])).
+	^ super newFakeNodeForHolder: anHolder
+
+]

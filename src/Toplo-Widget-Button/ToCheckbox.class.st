@@ -30,9 +30,9 @@ ToCheckbox >> rawChecked [
 ]
 
 { #category : #'t - checkable - accessing' }
-ToCheckbox >> rawChecked: anObject [
+ToCheckbox >> rawChecked: aBoolean [
 
-	checked := anObject
+	checked := aBoolean
 ]
 
 { #category : #'t - checkable - group' }
@@ -44,7 +44,7 @@ ToCheckbox >> rawGroup [
 { #category : #'t - checkable - group' }
 ToCheckbox >> rawGroup: aGroup [
 
-	group = aGroup ifNil: [ ^ self ].
+	group = aGroup ifTrue: [ ^ self ].
 	group := aGroup
 ]
 

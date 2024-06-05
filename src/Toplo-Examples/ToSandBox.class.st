@@ -2928,7 +2928,6 @@ ToSandBox class >> example_nodeBar [
 	bar := ToBarElement new.
 	bar nodeBuilder: [ :node :holder :dataItem |
 		| triplet |
-		node padding: (BlInsets all: 3).
 		triplet := ToTripletElement new.
 		triplet horizontal: true.
 		triplet startFlexible: true.
@@ -2936,16 +2935,14 @@ ToSandBox class >> example_nodeBar [
 		triplet startElement: (ToLabel text: (holder position asString, ': ')).
 		triplet middleElement: (ToLabel text: dataItem asString).
 		node addChild: triplet.
-		node constraintsDo: [ :c |
-			c horizontal fitContent.
-			c vertical fitContent ] ].
-	bar hMatchParent.
+		 ].
+	
 	bar vFitContent.
 
 	barPane addChild: bar.
-	"bar dataAccessor addAll: ToSandBox statesOfAmerica." "copyFrom: 1 to: 20"
-	bar dataAccessor addAll:
-		(Smalltalk globals allClasses copyFrom: 1 to: 800).
+	bar dataAccessor addAll: ToSandBox statesOfAmerica. "copyFrom: 1 to: 20"
+	"bar dataAccessor addAll:
+		(Smalltalk globals allClasses copyFrom: 1 to: 800)."
 
 	verticalSwitch := ToSwitchButton new labelText: 'Vertical'.
 	verticalSwitch endToStart: true.
@@ -3229,6 +3226,29 @@ ToSandBox class >> example_scaledImage [
 				         ifFalse: [ 0.5 ] ] ].
 	im border: (BlBorder paint: Color black width: 2).
 	im openInSpace
+]
+
+{ #category : #segmented }
+ToSandBox class >> example_segmented [
+
+	| seg |
+	seg := ToSegmentedElement new.
+	seg segmentAccessor add:
+		(ToLabeledIcon new label: (ToLabel text: 'Daily')).
+	seg segmentAccessor add:
+		(ToLabeledIcon new label: (ToLabel text: 'Weekly')).
+	seg segmentAccessor add:
+		(ToLabeledIcon new label: (ToLabel text: 'Monthly')).
+	seg segmentAccessor add:
+		(ToLabeledIcon new label: (ToLabel text: 'Quaterly')).
+	seg segmentAccessor add:
+		(ToLabeledIcon new label: (ToLabel text: 'Yearly')).
+	"seg hFitContent."
+	"seg width: 300."
+	seg selectionMode beneathOption animationDuration: 200 milliSeconds.
+	seg selectionMode multiple: false.
+	seg openInSpace.
+	seg inspect
 ]
 
 { #category : #select }

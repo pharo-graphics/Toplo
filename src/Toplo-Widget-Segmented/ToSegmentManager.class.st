@@ -33,3 +33,11 @@ ToSegmentManager >> fakeElement: anElement [
 	
 	self fakeDataItem: anElement
 ]
+
+{ #category : #'instance creation' }
+ToSegmentManager >> newFakeNodeForHolder: anHolder [
+
+	anHolder dataItem: (ToLabeledIcon new labelText: self fakeDataItem asString).
+	^ super newFakeNodeForHolder: anHolder
+
+]

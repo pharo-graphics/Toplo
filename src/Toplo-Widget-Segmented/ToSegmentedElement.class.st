@@ -1,13 +1,31 @@
 Class {
 	#name : #ToSegmentedElement,
 	#superclass : #ToBarElement,
+	#instVars : [
+		'group'
+	],
 	#category : #'Toplo-Widget-Segmented'
 }
+
+{ #category : #accessing }
+ToSegmentedElement >> checkingStrategy: aCheckableGroupCheckingStrategy [
+
+	group strategy: aCheckableGroupCheckingStrategy
+	
+]
 
 { #category : #initialization }
 ToSegmentedElement >> defaultNodeManagerClass [ 
 
 	^ ToSegmentManager 
+]
+
+{ #category : #initialization }
+ToSegmentedElement >> initialize [ 
+
+	super initialize.
+	group := ToCheckableGroup new.
+	self selectionMode selectOnMouseDown: true
 ]
 
 { #category : #accessing }

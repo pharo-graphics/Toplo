@@ -17,6 +17,13 @@ ToCheckbox >> indeterminateBar [
 	^ self childWithId: #'indeterminate-bar' ifNone: [  ]
 ]
 
+{ #category : #initialization }
+ToCheckbox >> initialize [
+
+	super initialize.
+	self initializeCheckable 
+]
+
 { #category : #skin }
 ToCheckbox >> newRawSkin [ 
 

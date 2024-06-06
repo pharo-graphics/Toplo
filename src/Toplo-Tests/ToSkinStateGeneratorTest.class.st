@@ -23,7 +23,7 @@ ToSkinStateGeneratorTest >> newElementInSpace [
 ]
 
 { #category : #tests }
-ToSkinStateGeneratorTest >> testCheckableCheckedEvent [
+ToSkinStateGeneratorTest >> testCheckableCheckEvent [
 
 	self testGenerateCheckStateFromEvent 
 ]

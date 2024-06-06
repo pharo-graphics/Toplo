@@ -3245,6 +3245,7 @@ ToSandBox class >> example_segmented [
 		(ToLabeledIcon new label: (ToLabel text: 'Yearly')).
 	"seg hFitContent."
 	"seg width: 300."
+	"seg checkingStrategy: ToCheckableGroupStrictStrategy new."
 	seg selectionMode beneathOption animationDuration: 200 milliSeconds.
 	seg selectionMode multiple: false.
 	seg openInSpace.

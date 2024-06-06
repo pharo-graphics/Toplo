@@ -38,10 +38,10 @@ ToCheckableGroup >> buttons [
 ]
 
 { #category : #'check-uncheck-request' }
-ToCheckableGroup >> checkRequestEvent: aCheckRequest [
+ToCheckableGroup >> checkChangePreNotification: aPreCheckableChangedEvent [
 
-	aCheckRequest checked isSymbol ifTrue: [ ^ self ].
-	checkingStrategy checkRequestEvent: aCheckRequest in: self.
+	aPreCheckableChangedEvent checked isSymbol ifTrue: [ ^ self ].
+	checkingStrategy checkChangePreNotification: aPreCheckableChangedEvent in: self.
 
 ]
 

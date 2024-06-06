@@ -11,15 +11,17 @@ ToCheckableGroupStrictStrategy >> allowUnchecking [
 ]
 
 { #category : #testing }
-ToCheckableGroupStrictStrategy >> checkRequestEvent: aCheckRequest in: aGroup [
+ToCheckableGroupStrictStrategy >> checkChangePreNotification: aPreCheckableChangedEvent in: aGroup [
 	" do not allow to uncheck a button by checking it "
 
-	(aCheckRequest checked not and: [
-		 aCheckRequest currentTarget checked ]) ifTrue: [
-		aCheckRequest checked: true.
+	| target checked |
+	target := aPreCheckableChangedEvent currentTarget.
+	checked := aPreCheckableChangedEvent checked.
+	(checked not and: [ target checked ]) ifTrue: [
+		aPreCheckableChangedEvent deny.
 		^ self ].
 	" ok, the button is unchecked -> uncheck others then check it"
-	aGroup uncheckAllExcept: aCheckRequest currentTarget
+	aGroup uncheckAllExcept: target
 ]
 
 { #category : #notifications }

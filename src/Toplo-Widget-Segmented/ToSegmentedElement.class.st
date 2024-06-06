@@ -10,7 +10,7 @@ Class {
 { #category : #accessing }
 ToSegmentedElement >> checkingStrategy: aCheckableGroupCheckingStrategy [
 
-	group strategy: aCheckableGroupCheckingStrategy
+	group checkingStrategy: aCheckableGroupCheckingStrategy
 	
 ]
 

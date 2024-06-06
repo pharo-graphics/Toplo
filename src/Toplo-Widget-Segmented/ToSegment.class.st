@@ -10,6 +10,13 @@ Class {
 	#category : #'Toplo-Widget-Segmented'
 }
 
+{ #category : #initialization }
+ToSegment >> initialize [
+
+	super initialize.
+	self initializeCheckable 
+]
+
 { #category : #'t - checkable - accessing' }
 ToSegment >> rawChecked [
 

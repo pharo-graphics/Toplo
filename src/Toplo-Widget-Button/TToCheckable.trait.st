@@ -1,27 +1,7 @@
 Trait {
 	#name : #TToCheckable,
-	#category : #'Toplo-Widget-Button-Core'
+	#category : #'Toplo-Widget-Button-Checkable'
 }
-
-{ #category : #'t - checkable - group private' }
-TToCheckable >> addCheckableEventHandlers [
-
-	| requestHandler changedHandler |
-	requestHandler := BlEventHandler
-		                  on: ToCheckableCheckRequest
-		                  do: [ :event | 
-			                  self group ifNotNil: [ :grp |
-				                  grp checkRequestEvent: event ] ].
-	changedHandler := BlEventHandler
-		                  on: ToCheckableChangedEvent
-		                  do: [ :event |
-			                  self group ifNotNil: [ :grp |
-				                  grp checkableChangedEvent: event ] ].
-	self userData at: #requestHandler put: requestHandler.
-	self userData at: #changedHandler put: changedHandler.
-	self addEventHandler: requestHandler.
-	self addEventHandler: changedHandler
-]
 
 { #category : #'t - checkable - group' }
 TToCheckable >> addToGroup: aGroup [
@@ -45,20 +25,19 @@ TToCheckable >> checked [
 { #category : #'t - checkable - accessing' }
 TToCheckable >> checked: aBooleanOrIndeterminate [
 
-	| current request |
+	| current preNotification |
 	aBooleanOrIndeterminate ifNil: [ Error signal: 'nil not allowed' ].
-	(aBooleanOrIndeterminate isSymbol and: [ self withIndeterminate not ]) ifTrue: [
-		Error signal:
-			'a symbol not allowed except when indeterminate is explicitly allowed ' ].
+	(aBooleanOrIndeterminate isSymbol and: [ self withIndeterminate not ])
+		ifTrue: [
+			Error signal:
+				'a symbol not allowed except when indeterminate is explicitly allowed ' ].
 	self isDisabled ifTrue: [ ^ self ].
 	current := self rawChecked.
-	request := ToCheckableCheckRequest new.
-	request checked: aBooleanOrIndeterminate.
-	self
-		dispatchEvent: request;
-		privateChecked: request checked.
-	current = self checked ifTrue: [ ^ self ].
-	self dispatchEvent: ToCheckableChangedEvent new
+	preNotification := ToPreCheckableChangedEvent new sourceEvent:
+		                   (ToCheckableChangedEvent new
+			                    checked: aBooleanOrIndeterminate;
+			                    yourself).
+	self dispatchPreNotificationEvent: preNotification 
 ]
 
 { #category : #'t - checkable - group' }
@@ -73,10 +52,13 @@ TToCheckable >> group: aCheckableGroup [
 	self withIndeterminate ifTrue: [
 		Error signal:
 			'Invalid checkable use: indeterminate state is not allowed with a checkable group' ].
-	self rawGroup: aCheckableGroup.
-	aCheckableGroup
-		ifNil: [ self removeCheckableEventHandlers ]
-		ifNotNil: [ self addCheckableEventHandlers ]
+	self rawGroup: aCheckableGroup
+]
+
+{ #category : #'t - checkable  - protocol' }
+TToCheckable >> initializeCheckable [
+
+	self addEventHandler: self newCheckableEventHandler 
 ]
 
 { #category : #'t - checkable - testing' }
@@ -97,6 +79,12 @@ TToCheckable >> isUnchecked [
 
 	" since checked can be nil, test is with = "
 	^ self checked = false
+]
+
+{ #category : #'t - checkable  - protocol' }
+TToCheckable >> newCheckableEventHandler [
+
+	^ ToCheckableEventHandler new
 ]
 
 { #category : #'t - checkable - private protocol' }
@@ -143,20 +131,6 @@ TToCheckable >> rawGroup [
 TToCheckable >> rawGroup: aGroup [
 
 	^ self explicitRequirement 
-]
-
-{ #category : #'t - checkable - group private' }
-TToCheckable >> removeCheckableEventHandlers [
-
-	| requestHandler changedHandler |
-	requestHandler := self userData at: #requestHandler ifAbsent: [  ].
-	changedHandler := self userData at: #changedHandler ifAbsent: [  ].
-	requestHandler ifNotNil: [
-		self removeEventHandler: requestHandler.
-		self userData removeKey: #requestHandler ].
-	changedHandler ifNotNil: [
-		self removeEventHandler: changedHandler.
-		self userData removeKey: #changedHandler ]
 ]
 
 { #category : #'t - checkable - group' }

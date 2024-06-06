@@ -25,14 +25,16 @@ ToSwitchButton >> handleCheckedBuilder: aValuable [
 { #category : #initialization }
 ToSwitchButton >> initialize [
 
-	| handler |
 	super initialize.
 	self icon: ToSwitchIcon new.
-	handler := BlEventHandler
-		           on: ToCheckableCheckEvent
-		           do: [ :event | self icon checked: event current].
-	self addEventHandler: handler.
+	self initializeCheckable.
 	self checked: false
+]
+
+{ #category : #'t - checkable  - protocol' }
+ToSwitchButton >> newCheckableEventHandler [
+
+	^ ToSwitchButtonEventHandler new
 ]
 
 { #category : #skin }

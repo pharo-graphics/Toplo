@@ -18,7 +18,7 @@ ToCheckableGroupCheckingStrategy >> allowUnchecking [
 ]
 
 { #category : #testing }
-ToCheckableGroupCheckingStrategy >> checkRequestEvent: aCheckRequest in: aGroup [
+ToCheckableGroupCheckingStrategy >> checkChangePreNotification: aPreCheckableChangedEvent in: aGroup [
 
 	self subclassResponsibility 
 ]

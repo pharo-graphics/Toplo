@@ -19,6 +19,13 @@ ToSkinStateGenerator >> blurEvent: anEvent [
 ]
 
 { #category : #'checkable event handling' }
+ToSkinStateGenerator >> checkableCheckEvent: anEvent [
+	"ToCheclableCheckEvent can be send either because of a click or because the checkable as been checked programmatically"
+
+	self generateCheckStateFromEvent: anEvent
+]
+
+{ #category : #'checkable event handling' }
 ToSkinStateGenerator >> checkableCheckedEvent: anEvent [
 	"ToCheclableCheckEvent can be send either because of a click or because the checkable as been checked programmatically"
 

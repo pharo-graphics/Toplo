@@ -5,5 +5,5 @@ Class {
 }
 
 { #category : #testing }
-ToCheckableGroupNoneStrategy >> checkRequestEvent: aCheckRequest in: aGroup [
+ToCheckableGroupNoneStrategy >> checkChangePreNotification: aPreCheckableChangedEvent in: aGroup [
 ]

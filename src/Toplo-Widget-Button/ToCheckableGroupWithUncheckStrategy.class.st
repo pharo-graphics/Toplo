@@ -5,8 +5,8 @@ Class {
 }
 
 { #category : #testing }
-ToCheckableGroupWithUncheckStrategy >> checkRequestEvent: aCheckRequest in: aGroup [
+ToCheckableGroupWithUncheckStrategy >> checkChangePreNotification: aPreCheckableChangedEvent in: aGroup [
 
-	aCheckRequest checked ifTrue: [ 
-		aGroup uncheckAllExcept: aCheckRequest currentTarget ]
+	aPreCheckableChangedEvent checked ifTrue: [ 
+		aGroup uncheckAllExcept: aPreCheckableChangedEvent currentTarget ]
 ]

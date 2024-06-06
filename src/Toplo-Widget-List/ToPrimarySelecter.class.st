@@ -21,12 +21,12 @@ ToPrimarySelecter >> commandApplied: aCommand [
 		                 selectionModel: aCommand selectionModel;
 		                 yourself.
 
-	preNotification := ToListPrimarySelectionChangePreNotificationEvent
+	preNotification := ToListPrimarySelectionChangeUnanimityRequestEvent
 		                   new
 		                   sourceEvent: eventToNotify;
 		                   yourself.
 		
-	eventTarget dispatchPreNotificationEvent: preNotification
+	eventTarget dispatchUnanimityRequest: preNotification
 ]
 
 { #category : #initialization }

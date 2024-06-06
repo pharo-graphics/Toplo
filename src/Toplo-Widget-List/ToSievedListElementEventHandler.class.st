@@ -28,7 +28,7 @@ ToSievedListElementEventHandler >> eventsToHandle [
 		  BlInfiniteDataSourceItemRangeChanged.
 		  BlInfiniteDataSourceItemRangeInserted.
 		  BlInfiniteDataSourceItemRangeRemoved.
-		  ToListPrimarySelectionChangePreNotificationEvent }
+		  ToListPrimarySelectionChangeUnanimityRequestEvent }
 ]
 
 { #category : #'data source events handling' }
@@ -59,7 +59,7 @@ ToSievedListElementEventHandler >> infiniteDataSourceItemRangeRemoved: anEvent [
 ]
 
 { #category : #'element handlers' }
-ToSievedListElementEventHandler >> listPrimarySelectionChangePreNotificationEvent: aPreNotification [
+ToSievedListElementEventHandler >> listPrimarySelectionChangeUnanimityRequestEvent: aPreNotification [
 	" the list selection change event is about to be dispatched.
 	I take care of the sieve internal selectionSet according to the list element selection model"
 

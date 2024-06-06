@@ -83,7 +83,7 @@ ToListElementEventHandler >> infiniteDataSourceItemRangeInserted: anEvent [
 		                         itemCount: anEvent itemCount;
 		                         position: anEvent position;
 		                         yourself.
-	target notifyDataSourceItemsChanged: dataSourceChangeEvent
+	target notifyDataSourceItemChanged: dataSourceChangeEvent
 ]
 
 { #category : #'infinite event handling' }
@@ -95,7 +95,7 @@ ToListElementEventHandler >> infiniteDataSourceItemRangeRemoved: anEvent [
 		                         itemCount: anEvent itemCount;
 		                         position: anEvent position;
 		                         yourself.
-	target notifyDataSourceItemsChanged: dataSourceChangeEvent
+	target notifyDataSourceItemChanged: dataSourceChangeEvent
 ]
 
 { #category : #'list element handling' }

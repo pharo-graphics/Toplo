@@ -1,8 +1,8 @@
 Class {
 	#name : #ToListNode,
 	#superclass : #BlElement,
-	#traits : 'TToEnableable + TToListNode + TToPrenotificationTarget',
-	#classTraits : 'TToEnableable classTrait + TToListNode classTrait + TToPrenotificationTarget classTrait',
+	#traits : 'TToEnableable + TToListNode + TToUnanimityRequestTarget',
+	#classTraits : 'TToEnableable classTrait + TToListNode classTrait + TToUnanimityRequestTarget classTrait',
 	#category : #'Toplo-Widget-List-Node'
 }
 

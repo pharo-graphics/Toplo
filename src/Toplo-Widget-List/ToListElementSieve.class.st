@@ -1,8 +1,8 @@
 Class {
 	#name : #ToListElementSieve,
 	#superclass : #Object,
-	#traits : 'TBlEventTarget + TToPrenotificationTarget',
-	#classTraits : 'TBlEventTarget classTrait + TToPrenotificationTarget classTrait',
+	#traits : 'TBlEventTarget + TToUnanimityRequestTarget',
+	#classTraits : 'TBlEventTarget classTrait + TToUnanimityRequestTarget classTrait',
 	#instVars : [
 		'queryRunner',
 		'originalData',

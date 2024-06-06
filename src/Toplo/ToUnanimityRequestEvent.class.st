@@ -1,5 +1,5 @@
 Class {
-	#name : #ToPreNotificationEvent,
+	#name : #ToUnanimityRequestEvent,
 	#superclass : #BlEvent,
 	#instVars : [
 		'sourceEvent'
@@ -8,29 +8,29 @@ Class {
 }
 
 { #category : #visiting }
-ToPreNotificationEvent >> accept [
+ToUnanimityRequestEvent >> accept [
 ]
 
 { #category : #visiting }
-ToPreNotificationEvent >> accepted [
+ToUnanimityRequestEvent >> accepted [
 
 	^ sourceEvent notNil
 ]
 
 { #category : #visiting }
-ToPreNotificationEvent >> deny [
+ToUnanimityRequestEvent >> deny [
 
 	sourceEvent := nil
 ]
 
 { #category : #accessing }
-ToPreNotificationEvent >> sourceEvent [
+ToUnanimityRequestEvent >> sourceEvent [
 
 	^ sourceEvent
 ]
 
 { #category : #accessing }
-ToPreNotificationEvent >> sourceEvent: aSelectionChangedEvent [
+ToUnanimityRequestEvent >> sourceEvent: aSelectionChangedEvent [
 
 	sourceEvent := aSelectionChangedEvent
 ]

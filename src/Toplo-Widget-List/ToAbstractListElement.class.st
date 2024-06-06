@@ -347,13 +347,13 @@ ToAbstractListElement >> notifyDataSourceChanged [
 ]
 
 { #category : #'event firing' }
-ToAbstractListElement >> notifyDataSourceItemsChanged: aDataSourceEvent [
+ToAbstractListElement >> notifyDataSourceItemChanged: aDataSourceEvent [
 
 	| preNotification |
-	preNotification := ToListDataSourceItemsChangePreNotificationEvent new
+	preNotification := ToListDataSourceItemChangeUnanimityRequestEvent new
 		                   sourceEvent: aDataSourceEvent;
 		                   yourself.
-	self dispatchPreNotificationEvent: preNotification
+	self dispatchUnanimityRequest: preNotification
 ]
 
 { #category : #'event firing' }

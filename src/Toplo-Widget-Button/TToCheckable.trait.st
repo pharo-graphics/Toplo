@@ -33,11 +33,11 @@ TToCheckable >> checked: aBooleanOrIndeterminate [
 				'a symbol not allowed except when indeterminate is explicitly allowed ' ].
 	self isDisabled ifTrue: [ ^ self ].
 	current := self rawChecked.
-	preNotification := ToPreCheckableChangedEvent new sourceEvent:
+	preNotification := ToCheckableChangeUnanimityRequestEvent new sourceEvent:
 		                   (ToCheckableChangedEvent new
 			                    checked: aBooleanOrIndeterminate;
 			                    yourself).
-	self dispatchPreNotificationEvent: preNotification 
+	self dispatchUnanimityRequest: preNotification 
 ]
 
 { #category : #'t - checkable - group' }

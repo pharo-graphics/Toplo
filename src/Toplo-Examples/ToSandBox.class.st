@@ -2914,17 +2914,8 @@ ToSandBox class >> example_menuBar2 [
 { #category : #'node bar' }
 ToSandBox class >> example_nodeBar [
 
-	| bar mainPane barPane confPane verticalSwitch wrappingSwitch scrollingSwitch autoDistributionSwitch sameWidthSwitch selectionAnimationSwitch |
-	mainPane := ToPane horizontal.
-	mainPane matchParent.
-	mainPane padding: (BlInsets all: 5).
-	confPane := ToPane vertical.
-	confPane width: 250.
-	barPane := ToPane vertical.
-	barPane matchParent.
-	mainPane addChildren: {
-			confPane.
-			barPane }.
+	| bar dashBoard  |
+
 	bar := ToBarElement new.
 	bar nodeBuilder: [ :node :holder :dataItem |
 		| triplet |
@@ -2938,110 +2929,13 @@ ToSandBox class >> example_nodeBar [
 		 ].
 	
 	bar vFitContent.
-
-	barPane addChild: bar.
+	dashBoard := self nodeBarDashBoardFor: bar.
+	
 	bar dataAccessor addAll: ToSandBox statesOfAmerica. "copyFrom: 1 to: 20"
 	"bar dataAccessor addAll:
 		(Smalltalk globals allClasses copyFrom: 1 to: 800)."
-
-	verticalSwitch := ToSwitchButton new labelText: 'Vertical'.
-	verticalSwitch endToStart: true.
-	verticalSwitch startFlexible: true.
-	verticalSwitch hMatchParent.
-
-	verticalSwitch addEventHandler: (BlEventHandler
-			 on: ToCheckableCheckEvent
-			 do: [ :event |
-				 | v |
-				 v := event current.
-				 v
-					 ifTrue: [
-						 bar hFitContent.
-						 bar vMatchParent ]
-					 ifFalse: [
-						 bar hMatchParent.
-						 bar vFitContent ].
-				 bar vertical: v ]).
-	confPane addChild: verticalSwitch.
-
-	wrappingSwitch := ToSwitchButton new labelText: 'Wrapping'.
-	wrappingSwitch endToStart: true.
-	wrappingSwitch startFlexible: true.
-	wrappingSwitch hMatchParent.
-	wrappingSwitch checked: true.
-	confPane addChild: wrappingSwitch.
-	wrappingSwitch addEventHandler: (BlEventHandler
-			 on: ToCheckableCheckEvent
-			 do: [ :event |
-				 | v |
-				 v := event current.
-				 bar nodeWrapping: v ]).
-	sameWidthSwitch := ToSwitchButton new labelText:
-		                   'Uniform element width'.
-	sameWidthSwitch endToStart: true.
-	sameWidthSwitch startFlexible: true.
-	sameWidthSwitch hMatchParent.
-	sameWidthSwitch checked: false.
-	confPane addChild: sameWidthSwitch.
-	sameWidthSwitch addEventHandler: (BlEventHandler
-			 on: ToCheckableCheckEvent
-			 do: [ :event |
-				 | v |
-				 v := event current.
-				 bar flowLineUniformWidth: v ]).
-
-	scrollingSwitch := ToSwitchButton new labelText: 'Scrolling'.
-	scrollingSwitch endToStart: true.
-	scrollingSwitch startFlexible: true.
-	scrollingSwitch hMatchParent.
-
-	confPane addChild: scrollingSwitch.
-	scrollingSwitch addEventHandler: (BlEventHandler
-			 on: ToCheckableCheckEvent
-			 do: [ :event |
-				 | v |
-				 v := event current.
-				 bar nodeScrolling: v ]).
-
-	autoDistributionSwitch := ToSwitchButton new labelText:
-		                          'Auto-distribution'.
-	autoDistributionSwitch endToStart: true.
-	autoDistributionSwitch startFlexible: true.
-	autoDistributionSwitch hMatchParent.
-
-	confPane addChild: autoDistributionSwitch.
-	autoDistributionSwitch addEventHandler: (BlEventHandler
-			 on: ToCheckableCheckEvent
-			 do: [ :event |
-				 | v |
-				 v := event current.
-				 bar nodeAutoDistribution: v ]).
-
-	selectionAnimationSwitch := ToSwitchButton new labelText:
-		                            'Animate selection transition'.
-	selectionAnimationSwitch endToStart: true.
-	selectionAnimationSwitch startFlexible: true.
-	selectionAnimationSwitch hMatchParent.
-
-	confPane addChild: selectionAnimationSwitch.
-	selectionAnimationSwitch addEventHandler: (BlEventHandler
-			 on: ToCheckableCheckEvent
-			 do: [ :event |
-				 | v |
-				 v := event current.
-				 bar selectionMode beneathOption animationDuration: (v
-						  ifTrue: [ 200 milliSeconds ]
-						  ifFalse: [ 0 milliSeconds ]) ]).
-
-	bar
-		addEventHandlerOn: ToBarNodeVisibilityEvent
-		do: [ :event |
-		event invisibleNodes ifNotEmpty: [ :in | in traceCr ] ].
-	bar nodeScrolling: false.
-	bar nodeAutoDistribution: false.
 	bar inspect.
-
-	mainPane openInSpace
+	dashBoard openInSpace
 ]
 
 { #category : #window }
@@ -3231,7 +3125,7 @@ ToSandBox class >> example_scaledImage [
 { #category : #segmented }
 ToSandBox class >> example_segmented [
 
-	| seg |
+	| seg dashBoard |
 	seg := ToSegmentedElement new.
 	seg segmentAccessor add:
 		(ToLabeledIcon new label: (ToLabel text: 'Daily')).
@@ -3246,10 +3140,10 @@ ToSandBox class >> example_segmented [
 	"seg hFitContent."
 	"seg width: 300."
 	"seg checkingStrategy: ToCheckableGroupStrictStrategy new."
-	seg selectionMode beneathOption animationDuration: 200 milliSeconds.
+
 	seg selectionMode multiple: false.
-	seg openInSpace.
-	seg inspect
+	dashBoard := self nodeBarDashBoardFor: seg.
+	dashBoard openInSpace.
 ]
 
 { #category : #select }
@@ -4590,6 +4484,128 @@ ToSandBox class >> labeledIconlWithIconAndText [
 { #category : #accessing }
 ToSandBox class >> methodText [
 	^ self  class sourceCodeAt: #example_CodeEditor
+]
+
+{ #category : #'node bar' }
+ToSandBox class >> nodeBarDashBoardFor: aNodeBar [
+
+	| mainPane barPane confPane verticalSwitch wrappingSwitch scrollingSwitch autoDistributionSwitch sameWidthSwitch selectionAnimationSwitch |
+	mainPane := ToPane horizontal.
+	mainPane matchParent.
+	mainPane padding: (BlInsets all: 5).
+	confPane := ToPane vertical.
+	confPane width: 250.
+	barPane := ToPane vertical.
+	barPane matchParent.
+	mainPane addChildren: {
+			confPane.
+			barPane }.
+
+	barPane addChild: aNodeBar.
+
+	verticalSwitch := ToSwitchButton new labelText: 'Vertical'.
+	verticalSwitch endToStart: true.
+	verticalSwitch startFlexible: true.
+	verticalSwitch hMatchParent.
+
+	verticalSwitch addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :event |
+				 | v |
+				 v := event current.
+				 v
+					 ifTrue: [
+						 aNodeBar hFitContent.
+						 aNodeBar vMatchParent ]
+					 ifFalse: [
+						 aNodeBar hMatchParent.
+						 aNodeBar vFitContent ].
+				 aNodeBar vertical: v ]).
+	confPane addChild: verticalSwitch.
+
+	wrappingSwitch := ToSwitchButton new labelText: 'Wrapping'.
+	wrappingSwitch endToStart: true.
+	wrappingSwitch startFlexible: true.
+	wrappingSwitch hMatchParent.
+	confPane addChild: wrappingSwitch.
+
+	sameWidthSwitch := ToSwitchButton new labelText:
+		                   'Uniform element width'.
+	sameWidthSwitch endToStart: true.
+	sameWidthSwitch startFlexible: true.
+	sameWidthSwitch hMatchParent.
+	sameWidthSwitch checked: false.
+	confPane addChild: sameWidthSwitch.
+
+	scrollingSwitch := ToSwitchButton new labelText: 'Scrolling'.
+	scrollingSwitch endToStart: true.
+	scrollingSwitch startFlexible: true.
+	scrollingSwitch hMatchParent.
+
+	confPane addChild: scrollingSwitch.
+
+	wrappingSwitch addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :event |
+				 | v |
+				 v := event current.
+				 aNodeBar nodeWrapping: v.
+				 sameWidthSwitch enabled: v.
+				 scrollingSwitch disabled: v ]).
+
+	sameWidthSwitch addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :event |
+				 | v |
+				 v := event current.
+				 aNodeBar flowLineUniformWidth: v ]).
+
+	scrollingSwitch addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :event |
+				 | v |
+				 v := event current.
+				 aNodeBar nodeScrolling: v ]).
+
+	autoDistributionSwitch := ToSwitchButton new labelText:
+		                          'Auto-distribution'.
+	autoDistributionSwitch endToStart: true.
+	autoDistributionSwitch startFlexible: true.
+	autoDistributionSwitch hMatchParent.
+
+	confPane addChild: autoDistributionSwitch.
+	autoDistributionSwitch addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :event |
+				 | v |
+				 v := event current.
+				 aNodeBar nodeAutoDistribution: v ]).
+
+	selectionAnimationSwitch := ToSwitchButton new labelText:
+		                            'Animate selection transition'.
+	selectionAnimationSwitch endToStart: true.
+	selectionAnimationSwitch startFlexible: true.
+	selectionAnimationSwitch hMatchParent.
+
+	confPane addChild: selectionAnimationSwitch.
+	selectionAnimationSwitch addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :event |
+				 | v |
+				 v := event current.
+				 aNodeBar selectionMode beneathOption animationDuration: (v
+						  ifTrue: [ 200 milliSeconds ]
+						  ifFalse: [ 0 milliSeconds ]) ]).
+
+	aNodeBar
+		addEventHandlerOn: ToBarNodeVisibilityEvent
+		do: [ :event |
+		event invisibleNodes ifNotEmpty: [ :in | in traceCr ] ].
+
+	
+	wrappingSwitch checked: true.
+
+	^ mainPane
 ]
 
 { #category : #accessing }

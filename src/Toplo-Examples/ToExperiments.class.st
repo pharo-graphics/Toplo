@@ -1079,10 +1079,17 @@ ToExperiments class >> example_rotationAnimation [
 
 { #category : #space }
 ToExperiments class >> example_space [
-| space |
-space := BlSpace new "extent: 50@50;" position: 1000@800; toBack; fullscreen: true ; resizable: false; borderless: true.
-space show.
-space inspect
+
+	| space |
+	space := BlSpace new
+		         position: 2000 @ 1000;
+		         "toBack;"
+					resizable: false;
+		         borderless: true;
+		         extent: 50 @ 50.
+	space root background: Color red.
+	space show.
+	space inspect
 ]
 
 { #category : #'popup strategy' }

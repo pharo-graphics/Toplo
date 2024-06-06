@@ -18,23 +18,22 @@ ToListSelectionElement >> boundsFrom: aBounds [
 ToListSelectionElement >> boundsFromNodes [
 	" compute my bounds from my list of adjacent nodes. "
 
-	| first last top bottom corner |
+	| first last startBnds endBnds corner |
 	first := nodes first.
 	last := nodes last.
-	top := self boundsOfNode: first.
-	bottom := first = last
-		          ifTrue: [ top ]
-		          ifFalse: [ self boundsOfNode: last ].
-	first constraints horizontal isMatchParent
+	startBnds := self boundsOfNode: first.
+	endBnds := first = last
+		           ifTrue: [ startBnds ]
+		           ifFalse: [ self boundsOfNode: last ].
+	(listElement isVertical and: [
+		 first constraints horizontal isMatchParent ])
 		ifTrue: [
 			| w |
-			w := listElement innerContainer bounds width
-			     "+ listElement padding right".
-			corner := w @ bottom corner y ]
-		ifFalse: [ corner := bottom corner ].
+			w := listElement innerContainer bounds width.
+			corner := w @ endBnds corner y ]
+		ifFalse: [ corner := endBnds corner ].
 
-	^ self boundsFrom:
-		  (BlBounds origin: top origin corner: corner)
+	^ self boundsFrom: (BlBounds origin: startBnds origin corner: corner)
 ]
 
 { #category : #private }

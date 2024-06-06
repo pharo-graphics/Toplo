@@ -101,6 +101,14 @@ ToAnchoredWindow >> manager: aWindowHandler [
 	windowManager := aWindowHandler 
 ]
 
+{ #category : #'api - displaying' }
+ToAnchoredWindow >> open [
+	self flag: 'TODO'.
+	(true or: [ self useMorphicHost ]) ifFalse: [ ^ self ].
+	self anchorRoot addChild: self.
+	^ self
+]
+
 { #category : #accessing }
 ToAnchoredWindow >> openedEventClass [
 
@@ -130,7 +138,7 @@ ToAnchoredWindow >> popupEvent: anEvent [
 	openTask ifNotNil: [ ^ self ].
 	openTask := BlTaskAction new action: [
 		            self isOpened ifFalse: [
-			            self anchorRoot addChild: self.
+			            self open.
 			            self localTheme ifNil: [
 				            self localTheme: self element lookupTheme ].
 			            popupTimestamp := DateAndTime now.
@@ -145,4 +153,10 @@ ToAnchoredWindow >> popupEvent: anEvent [
 ToAnchoredWindow >> popupTimestamp [
 
 	^ popupTimestamp 
+]
+
+{ #category : #testing }
+ToAnchoredWindow >> useMorphicHost [ 
+
+	^ BlHost preferableHostClass = BlMorphicWindowHost
 ]

@@ -51,16 +51,12 @@ BaselineOfToplo >> registerPackages: spec [
 	"Core"
 
 	spec package: #Toplo with: [ spec requires: #( #Bloc ) ].
-	spec package: #'Toplo-Tests' with: [
-		spec requires:
-			#( #Toplo ) ].
+	spec package: #'Toplo-Tests' with: [ spec requires: #( #Toplo ) ].
 
-	spec
-		package: #'Toplo-Theme'
-		with: [ spec requires: #( #Toplo ) ].
+	spec package: #'Toplo-Theme' with: [ spec requires: #( #Toplo ) ].
 	spec
 		package: #'Toplo-Theme-Tests'
-		with: [ spec requires: #( #Toplo #'Toplo-Theme') ].
+		with: [ spec requires: #( #Toplo #'Toplo-Theme' ) ].
 
 	spec package: #'Toplo-Widget-Album' with: [
 		spec requires:
@@ -68,22 +64,23 @@ BaselineOfToplo >> registerPackages: spec [
 
 	spec
 		package: #'Toplo-Widget-Album-Tests'
-		with: [ spec requires: #(#'Toplo-Widget-Album') ].
+		with: [ spec requires: #( #'Toplo-Widget-Album' ) ].
 
 	spec
 		package: #'Toplo-Widget-Button'
-		with: [ spec requires: #( #Toplo #'Toplo-Widget-Image' #'Toplo-Theme') ].
+		with: [
+		spec requires: #( #Toplo #'Toplo-Widget-Image' #'Toplo-Theme' ) ].
 	spec
 		package: #'Toplo-Widget-Button-Tests'
 		with: [ spec requires: #( #Toplo #'Toplo-Widget-Button' ) ].
 
 	spec
 		package: #'Toplo-Widget-Image'
-		with: [ spec requires: #( #Toplo #'Toplo-Theme') ].
+		with: [ spec requires: #( #Toplo #'Toplo-Theme' ) ].
 
 	spec
 		package: #'Toplo-Widget-Image-Tests'
-		with: [ spec requires: #( #Toplo #'Toplo-Widget-Image') ].
+		with: [ spec requires: #( #Toplo #'Toplo-Widget-Image' ) ].
 
 	spec package: #'Toplo-Widget-InnerWindow' with: [
 		spec requires:
@@ -92,72 +89,74 @@ BaselineOfToplo >> registerPackages: spec [
 
 	spec package: #'Toplo-Widget-List' with: [
 		spec requires:
-			#( #Toplo #'Toplo-Widget-Pane' #'Toplo-Widget-Button' #'Toplo-Theme') ].
+			#( #Toplo #'Toplo-Widget-Pane' #'Toplo-Widget-Button'
+			   #'Toplo-Theme' ) ].
 
-	spec package: #'Toplo-Widget-List-Tests' with: [
-		spec requires:
-			#( #Toplo #'Toplo-Widget-List') ].
+	spec
+		package: #'Toplo-Widget-List-Tests'
+		with: [ spec requires: #( #Toplo #'Toplo-Widget-List' ) ].
 
 	spec
 		package: #'Toplo-Widget-Menu'
-		with: [ spec requires: #( #Toplo #'Toplo-Widget-Button' #'Toplo-Theme') ].
-		
+		with: [
+			spec requires: #( #Toplo #'Toplo-Widget-Button'
+			   #'Toplo-Theme' ) ].
+
 	spec
 		package: #'Toplo-Widget-Menu-Tests'
-		with: [ spec requires: #( #Toplo #'Toplo-Widget-Menu') ].
+		with: [ spec requires: #( #Toplo #'Toplo-Widget-Menu' ) ].
 
 	spec
 		package: #'Toplo-Widget-Pane'
-		with: [ spec requires: #( #Toplo #'Toplo-Theme') ].
+		with: [ spec requires: #( #Toplo #'Toplo-Theme' ) ].
 
 	"Incubator"
 	spec package: #'Toplo-Incubator' with: [
 		spec requires:
 			#( #Toplo #'Toplo-Widget-Album' #'Toplo-Widget-Button'
-			   #'Toplo-Widget-Image' #'Toplo-Theme') ].
+			   #'Toplo-Widget-Image' #'Toplo-Theme' ) ].
 
 	spec package: #'Toplo-Demo' with: [
 		spec requires:
-			#( #Toplo #'Toplo-Widget-Album'
-				#'Toplo-Widget-Button' #'Toplo-Widget-Image'
-				#'Toplo-Widget-List' #'Toplo-Widget-Pane' ) ].
+			#( #Toplo #'Toplo-Widget-Album' #'Toplo-Widget-Button'
+			   #'Toplo-Widget-Image' #'Toplo-Widget-List' #'Toplo-Widget-Pane' ) ].
 
 	spec package: #'Toplo-Examples' with: [
 		spec requires:
-			#( #Toplo #'Toplo-Widget-Album' 
-			   #'Toplo-Widget-Button' 
-			   #'Toplo-Widget-Select'
-			   #'Toplo-Widget-Image' #'Toplo-Widget-InnerWindow'
-			   #'Toplo-Widget-List' #'Toplo-Widget-Menu' #'Toplo-Widget-Pane' ) ].		
-			
-	spec package: #'Toplo-Widget-Select' with: [
-		spec requires:
-			#( #Toplo #'Toplo-Widget-List' #'Toplo-Widget-Album' #'Toplo-Widget-Button'
-			   #'Toplo-Widget-Image' #'Toplo-Widget-Menu' #'Toplo-Theme') ].
+			#( #Toplo #'Toplo-Widget-Album' #'Toplo-Widget-Button'
+			   #'Toplo-Widget-Select' #'Toplo-Widget-Image'
+			   #'Toplo-Widget-InnerWindow' #'Toplo-Widget-List'
+			   #'Toplo-Widget-Menu' #'Toplo-Widget-Pane' #'Toplo-Widget-Segmented' ) ].
 
-	spec package: #'Toplo-Widget-Select-Tests' with: [
-		spec requires:
-			#( #Toplo #'Toplo-Widget-Select' ) ].
-	
-	spec package: #'Toplo-Widget-TabPane' with: [
-		spec requires:
-			#( #Toplo #'Toplo-Widget-Pane' ) ].
-		
+	spec package: #'Toplo-Widget-Select' with: [
+		spec requires: #( #Toplo #'Toplo-Widget-List' #'Toplo-Widget-Album'
+			   #'Toplo-Widget-Button' #'Toplo-Widget-Image'
+			   #'Toplo-Widget-Menu' #'Toplo-Theme' ) ].
+
+	spec
+		package: #'Toplo-Widget-Select-Tests'
+		with: [ spec requires: #( #Toplo #'Toplo-Widget-Select' ) ].
+
+	spec
+		package: #'Toplo-Widget-TabPane'
+		with: [ spec requires: #( #Toplo #'Toplo-Widget-Pane' ) ].
+
 	spec package: #'Toplo-Widget-Segmented' with: [
 		spec requires:
 			#( #Toplo #'Toplo-Widget-Button' #'Toplo-Widget-List' ) ].
 
-	spec package: #'Toplo-Widget-TabPane-Tests' with: [
-		spec requires:
-			#( #Toplo #'Toplo-Widget-TabPane' ) ].
-	
 	spec
-		package: #'Toplo-Theme-Bee'
-		with: [ spec requires: #( #'Toplo-Theme' #'Toplo-Widget-Button'  #'Toplo-Widget-Album'  #'Toplo-Widget-Image'  #'Toplo-Widget-Pane') ].
+		package: #'Toplo-Widget-TabPane-Tests'
+		with: [ spec requires: #( #Toplo #'Toplo-Widget-TabPane' ) ].
+
+	spec package: #'Toplo-Theme-Bee' with: [
+		spec requires:
+			#( #'Toplo-Theme' #'Toplo-Widget-Button' #'Toplo-Widget-Album'
+			   #'Toplo-Widget-Image' #'Toplo-Widget-Pane' ) ].
 
 	spec
 		package: #'Toplo-Theme-Bee-Tests'
-		with: [ spec requires: #( #Toplo #'Toplo-Theme-Bee') ].
+		with: [ spec requires: #( #Toplo #'Toplo-Theme-Bee' ) ].
 
 	spec
 		package: #'Toplo-Theme-Examples'
@@ -165,9 +164,9 @@ BaselineOfToplo >> registerPackages: spec [
 
 	spec
 		package: #'Toplo-Imported-Icons-AntDesign'
-		with: [ spec requires: #(  ) ].	
+		with: [ spec requires: #(  ) ].
 
 	spec
 		package: #'Toplo-Imported-Icons-MaterialDesign'
-		with: [ spec requires: #(  ) ].	
+		with: [ spec requires: #(  ) ]
 ]

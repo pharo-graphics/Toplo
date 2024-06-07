@@ -1,3 +1,20 @@
+"
+| w content |
+w := ToIncWindowElement new.
+w position: 500 asPoint.
+w size: 200 @ 100.
+content := (ToElement new matchParent; padding: (BlInsets all: 2); yourself).
+content background: (Color yellow).
+content size: 100 asPoint.
+content position: 30 asPoint.
+w root addChild: content.
+w borderless: true.
+w resizable: false.
+w open.
+w inspect.
+
+
+"
 Class {
 	#name : #ToIncWindowElement,
 	#superclass : #ToElement,

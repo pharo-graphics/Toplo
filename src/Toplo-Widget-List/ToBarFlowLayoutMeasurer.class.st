@@ -7,19 +7,21 @@ Class {
 { #category : #measure }
 ToBarFlowLayoutMeasurer >> measure: anElement with: anExtentSpec [
 
-	| measureAgain |
-
+	| measureAgain lwidth |
 	super measure: anElement with: anExtentSpec.
 	layout lineUniformWidth ifFalse: [ ^ self ].
 	measureAgain := false.
+	lwidth := 0.
 	lines do: [ :aLine |
-		| lwidth |
-		lwidth := 0.
-		aLine children do: [ :aChild | lwidth := lwidth max: aChild width ].
 		aLine children do: [ :aChild |
-			aChild width: lwidth.
+			lwidth := lwidth max: aChild width.
 			aChild element measuredWidth = lwidth ifFalse: [
-				measureAgain := true ].
-			aChild element width: lwidth ] ].
-	measureAgain ifTrue: [ self measure: anElement with: anExtentSpec ]
+				measureAgain := true ] ] ].
+	measureAgain ifFalse: [ ^ self ].
+	lines do: [ :aLine |
+		aLine children do: [ :aChild |
+			aChild element holder position isZero ifFalse: [
+				aChild width: lwidth.
+				aChild element constraints horizontal exact: lwidth ] ] ].
+	self measure: anElement with: anExtentSpec
 ]

@@ -8,6 +8,12 @@ Class {
 	#category : #'Toplo-Incubator'
 }
 
+{ #category : #accessing }
+ToIncWindowElement >> borderless: aBoolean [
+
+	wspace borderless: aBoolean
+]
+
 { #category : #'api - displaying' }
 ToIncWindowElement >> close [
 
@@ -32,7 +38,7 @@ ToIncWindowElement >> defaultRootElement [
 	^ ToElement new
 		  id: self defaultRootId;
 		  layout: self defaultRootLayout;
-		  fitContent
+		  matchParent
 ]
 
 { #category : #initialization }
@@ -44,7 +50,7 @@ ToIncWindowElement >> defaultRootId [
 { #category : #initialization }
 ToIncWindowElement >> defaultRootLayout [
 
-	^ BlLinearLayout vertical 
+	^ BlBasicLayout new
 
 ]
 
@@ -60,6 +66,7 @@ ToIncWindowElement >> initialize [
 	rootElement := self defaultRootElement.
 	self addChild: rootElement.
 	self initializeRootElement.
+	self matchParent.
 	wspace := BlSpace new
 ]
 
@@ -103,6 +110,19 @@ ToIncWindowElement >> open [
 	wspace show
 ]
 
+{ #category : #'api - bounds' }
+ToIncWindowElement >> position: aPoint [
+
+	super position: 0@0.
+	wspace position: aPoint
+]
+
+{ #category : #accessing }
+ToIncWindowElement >> resizable: aBoolean [
+
+	wspace resizable: aBoolean
+]
+
 { #category : #accessing }
 ToIncWindowElement >> root [
 	"Return my current root element.
@@ -135,6 +155,13 @@ ToIncWindowElement >> rootLayout: aLayout [
 
 	self root layout: aLayout
 
+]
+
+{ #category : #'api - bounds' }
+ToIncWindowElement >> size: aPoint [
+
+	"super position: 0@0."
+	wspace extent: aPoint
 ]
 
 { #category : #'api - displaying' }

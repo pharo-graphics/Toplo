@@ -61,6 +61,8 @@ ToListElementEventHandler >> eventsToHandle [
 		  BlInfiniteDataSourceItemRangeInserted.
 		  BlInfiniteDataSourceItemRangeRemoved.
 
+		  ToListPrimarySelectionModeChangedEvent.
+		  ToSelecterChangedEvent.
 		  ToListHiddenSelectionChangedEvent.
 		  ToListUnselectableSelectionChangedEvent.
 		  ToListDisabledSelectionChangedEvent }
@@ -213,6 +215,16 @@ ToListElementEventHandler >> mouseDownEvent: anEvent [
 	target hasFocus ifTrue: [ ^ self ].
 	target requestFocus.
 	anEvent consume
+]
+
+{ #category : #'infinite event handling' }
+ToListElementEventHandler >> selecterChangedEvent: anEvent [
+
+	| target |
+	target := anEvent currentTarget.
+	" don't use the selecter because it can be disabled "
+	target selectionModel deselectAll.
+	target notifyPrimarySelectionDirty 
 ]
 
 { #category : #'list element handling' }

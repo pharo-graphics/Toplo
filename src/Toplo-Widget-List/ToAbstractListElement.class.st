@@ -131,6 +131,12 @@ ToAbstractListElement >> defaultCommandCheckerClass [
 ]
 
 { #category : #initialization }
+ToAbstractListElement >> defaultContextMenuWindowManagerClass [
+
+		^ ToListElementContextMenuWindowManager
+]
+
+{ #category : #initialization }
 ToAbstractListElement >> defaultDataSource [ 
 
 	^ self subclassResponsibility 
@@ -164,12 +170,6 @@ ToAbstractListElement >> defaultNodeManager [
 ToAbstractListElement >> defaultNodeManagerClass [
 
 	^ self subclassResponsibility   
-]
-
-{ #category : #initialization }
-ToAbstractListElement >> defaultSecondarySelectionEventHandler [
-
-	^ ToListSecondarySelectionElementEventHandler new
 ]
 
 { #category : #initialization }
@@ -225,12 +225,12 @@ ToAbstractListElement >> initialize [
 	self selectionMode: self defaultSelectionMode.
 	self addEventHandler: self defaultEventHandler.
 	
-	self contextMenuWindowManagerClass: ToListElementContextMenuWindowManager.
-	self addEventHandler: ToListPrimarySelectionElementEventHandler new.
-	self addEventHandler:	ToListElementContextMenuSelectionEventHandler new.
+	self contextMenuWindowManagerClass: self defaultContextMenuWindowManagerClass.
+	self addEventHandler: self newPrimarySelectionEventHandler.
+	self addEventHandler:	self newContextMenuEventHandler.
 		
 	self secondarySelectionMode: self defaultSecondarySelectionMode.
-	self addEventHandler: self defaultSecondarySelectionEventHandler.
+	self addEventHandler: self newSecondarySelectionEventHandler.
 	
 	self matchParent
 ]
@@ -278,6 +278,18 @@ ToAbstractListElement >> layoutStrategy [
 ]
 
 { #category : #'instance creation' }
+ToAbstractListElement >> newContextMenuEventHandler [
+
+	^ ToListElementContextMenuSelectionEventHandler new
+]
+
+{ #category : #'instance creation' }
+ToAbstractListElement >> newPrimarySelectionEventHandler [
+
+	^  ToListPrimarySelectionElementEventHandler new
+]
+
+{ #category : #'instance creation' }
 ToAbstractListElement >> newPrimarySelectionModel [
 
 	^ ToPrimarySelectionModel new
@@ -289,6 +301,12 @@ ToAbstractListElement >> newPrimarySelectionModel [
 ToAbstractListElement >> newRawSkin [ 
 
 	^ ToBasicListElementSkin new
+]
+
+{ #category : #'instance creation' }
+ToAbstractListElement >> newSecondarySelectionEventHandler [
+
+	^ ToListSecondarySelectionElementEventHandler new
 ]
 
 { #category : #'instance creation' }

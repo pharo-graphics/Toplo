@@ -10,10 +10,7 @@ ToSegmentManager >> defaultNodeBuilder [
 	^ [ :segment :holder :element |
 	  element removeFromParent.
 	  element constraintsDo: [ :c | c horizontal matchParent ].
-	  segment addChild: element.
-	  segment constraintsDo: [ :c |
-		  c horizontal fitContent.
-		  c vertical fitContent ] ]
+	  segment addChild: element ]
 ]
 
 { #category : #initialization }

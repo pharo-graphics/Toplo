@@ -45,7 +45,7 @@ ToChoiceMenuInSpaceTest >> testWithStructuredDataWithStrictStrategy [
 	space root addChild: cb.
 
 	cb addEventHandler: (BlEventHandler
-			 on: ToChoiceSelectedIndexChangeEvent
+			 on: ToChoiceChangedEvent
 			 do: [ cb selectedData ifNotNil: [:data | space toTheme: (data value new) ] ] ).
 			
 	cb selectIndex: 1.

@@ -113,16 +113,20 @@ ToListElementSelecter >> enable [
 	self enabled: true
 ]
 
-{ #category : #protocol }
+{ #category : #accessing }
 ToListElementSelecter >> enabled [
 
 	^ enabled
 ]
 
-{ #category : #protocol }
+{ #category : #accessing }
 ToListElementSelecter >> enabled: aBoolean [
 
-	enabled := aBoolean
+	enabled = aBoolean ifTrue: [ ^ self ].
+	enabled := aBoolean.
+	eventTarget dispatchEvent: ToSelecterChangedEvent new.
+
+
 ]
 
 { #category : #accessing }
@@ -166,7 +170,9 @@ ToListElementSelecter >> multiple [
 { #category : #accessing }
 ToListElementSelecter >> multiple: aBoolean [
 
-	multiple := aBoolean
+	multiple = aBoolean ifTrue: [ ^ self ].
+	multiple := aBoolean.
+	eventTarget dispatchEvent: ToSelecterChangedEvent new
 ]
 
 { #category : #private }

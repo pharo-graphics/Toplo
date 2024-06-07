@@ -104,12 +104,13 @@ ToChoiceMenu >> initialize [
 	super initialize.
 	defaultSelectedIndex := 0.
 	dataToTextConverter := [ :i | i ].
-	self privateData: self newDataCollection.
+
 	" a group with unchecking strategy by default "
 	group := ToCheckableGroup new withUncheckingStrategy.
 	group addEventHandler: (BlEventHandler
 			 on: ToCheckableGroupChangedEvent
-			 do: [ :event | self checkableGroupChangedEvent: event ])
+			 do: [ :event | self checkableGroupChangedEvent: event ]).
+	self privateData: self newDataCollection.
 ]
 
 { #category : #'private - accessing' }
@@ -145,7 +146,10 @@ ToChoiceMenu >> newRawSkin [
 { #category : #'private - notifications' }
 ToChoiceMenu >> notifyChanged [
 
-	self dispatchEvent: ToChoiceChangedEvent new
+	self dispatchEvent: (ToChoiceChangedEvent new
+			 selectedData: self selectedData;
+			 selectedIndex: self selectedIndex;
+			 yourself)
 ]
 
 { #category : #'hooks - children' }

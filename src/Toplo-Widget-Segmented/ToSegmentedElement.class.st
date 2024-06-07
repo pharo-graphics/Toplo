@@ -1,18 +1,8 @@
 Class {
 	#name : #ToSegmentedElement,
 	#superclass : #ToBarElement,
-	#instVars : [
-		'group'
-	],
 	#category : #'Toplo-Widget-Segmented'
 }
-
-{ #category : #accessing }
-ToSegmentedElement >> checkingStrategy: aCheckableGroupCheckingStrategy [
-
-	group checkingStrategy: aCheckableGroupCheckingStrategy
-	
-]
 
 { #category : #initialization }
 ToSegmentedElement >> defaultInnerContainer [
@@ -26,12 +16,10 @@ ToSegmentedElement >> defaultNodeManagerClass [
 	^ ToSegmentManager 
 ]
 
-{ #category : #initialization }
-ToSegmentedElement >> initialize [ 
+{ #category : #'instance creation' }
+ToSegmentedElement >> newPrimarySelectionEventHandler [
 
-	super initialize.
-	group := ToCheckableGroup new.
-	self selectionMode selectOnMouseDown: true
+	^ ToSegmentedPrimarySelectionElementEventHandler new
 ]
 
 { #category : #accessing }

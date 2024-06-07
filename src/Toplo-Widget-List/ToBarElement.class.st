@@ -103,7 +103,7 @@ ToBarElement >> initializeInnerContainer [
 { #category : #skin }
 ToBarElement >> newRawSkin [ 
 
-	^ ToListElementSkin new
+	^ ToBarElementSkin new
 ]
 
 { #category : #accessing }

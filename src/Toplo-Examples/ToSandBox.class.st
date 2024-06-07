@@ -7,7 +7,7 @@ Class {
 { #category : #bar }
 ToSandBox class >> barDashBoardFor: aNodeBar [
 
-	| mainPane barPane confPane verticalSwitch wrappingSwitch scrollingSwitch autoDistributionSwitch sameWidthSwitch selectionAnimationSwitch |
+	| mainPane barPane confPane verticalSwitch wrappingSwitch scrollingSwitch autoDistributionSwitch sameWidthSwitch selectionAnimationSwitch selectionModeContainer selectionModeGroup buttons selectOnMouseDownSwitch |
 	mainPane := ToPane horizontal.
 	mainPane matchParent.
 	mainPane padding: (BlInsets all: 5).
@@ -120,8 +120,57 @@ ToSandBox class >> barDashBoardFor: aNodeBar [
 		do: [ :event |
 		event invisibleNodes ifNotEmpty: [ :in | in traceCr ] ].
 
-	
 	wrappingSwitch checked: true.
+
+	selectOnMouseDownSwitch := ToSwitchButton new labelText:
+		                           'Select on mouse down'.
+	selectOnMouseDownSwitch endToStart: true.
+	selectOnMouseDownSwitch startFlexible: true.
+	selectOnMouseDownSwitch hMatchParent.
+
+	confPane addChild: selectOnMouseDownSwitch.
+	selectOnMouseDownSwitch addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :event |
+			 aNodeBar selectionMode selectOnMouseDown: event current ]).
+
+	wrappingSwitch checked: true.
+
+	selectionModeGroup := ToCheckableGroup new.
+	buttons := OrderedCollection new.
+	{ #Multiple. #Single. #Disabled } do: [ :mode |
+		| chb |
+		chb := ToCheckbox new
+			       labelText: mode asString;
+			       id: mode.
+		buttons add: chb ].
+
+	selectionModeGroup addAll: buttons.
+	selectionModeGroup addEventHandler: (BlEventHandler
+			 on: ToCheckableGroupChangedEvent
+			 do: [ :event |
+				 | mode |
+				 mode := event checkedButtons first id asSymbol.
+				 aNodeBar selectionMode enabled: mode ~= #Disabled.
+				 mode = #Multiple
+					 ifTrue: [ aNodeBar selectionMode multiple: true ]
+					 ifFalse: [
+					 mode = #Single ifTrue: [ aNodeBar selectionMode multiple: false ] ] ]).
+	buttons second checked: true.
+	selectionModeContainer := ToPane vertical.
+	selectionModeContainer
+		hMatchParent;
+		vFitContent.
+	selectionModeContainer addChild: (ToLabel text: 'Selection mode').
+	selectionModeContainer layout cellSpacing: 5.
+	selectionModeContainer addChildren: selectionModeGroup buttons.
+	confPane addChild: selectionModeContainer.
+
+	aNodeBar
+		addEventHandlerOn: ToBarNodeVisibilityEvent
+		do: [ :event |
+		event invisibleNodes ifNotEmpty: [ :in | in traceCr ] ].
+
 
 	^ mainPane
 ]
@@ -2183,6 +2232,28 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 	container openInSpace
 ]
 
+{ #category : #segmented }
+ToSandBox class >> example_SpToggleButton [
+
+	| seg dashBoard |
+	seg := ToSegmentedElement new.
+	seg nodeWrapping: false.
+	seg vertical: true.
+	seg hMatchParent.
+	seg segmentAccessor add:
+		(ToLabeledIcon  new label: (ToLabel text: 'Button 1')).
+	seg segmentAccessor add:
+		(ToLabeledIcon new label: (ToLabel text: 'Button 2')).
+	seg segmentAccessor add:
+		(ToLabeledIcon new label: (ToLabel text: 'Button 3')).
+	seg selectionMode multiple: false.
+
+	"dashBoard := self barDashBoardFor: seg.
+	dashBoard openInSpace."
+	seg inspect.
+	seg openInSpace
+]
+
 { #category : #'button-dep' }
 ToSandBox class >> example_StyleSheetSandbox [
 
@@ -2759,7 +2830,7 @@ ToSandBox class >> example_choiceButtonWithStructuredData [
 			('Native SDL' -> BlOSWindowSDL2Host) }.
 
 	choice addEventHandler: (BlEventHandler
-			 on: ToChoiceSelectedIndexChangeEvent
+			 on: ToChoiceChangedEvent
 			 do: [ self inform: choice selectedData asString ]).
 	win pane addChild: choice.
 	win openInSpace
@@ -2781,7 +2852,7 @@ ToSandBox class >> example_choiceButtonWithUncheckingStrategy [
 			 text: t).
 	choice dataToTextConverter: [ :assoc | assoc key ].
 	choice addEventHandler: (BlEventHandler
-			 on: ToChoiceSelectedIndexChangeEvent
+			 on: ToChoiceChangedEvent
 			 do: [ self inform: choice selectedData value asString ]).
 	choice data addAll: {
 			('Morphic SDL' -> BlMorphicWindowHost).
@@ -3671,7 +3742,7 @@ ToSandBox class >> example_themeSelectPlusCheckbox [
 	themeSelect selectIndex: 2.
 
 	themeSelect addEventHandler: (BlEventHandler
-			 on: ToChoiceSelectedIndexChangeEvent
+			 on: ToChoiceChangedEvent
 			 do: [ space toTheme: themeSelect selectedData value new ]).
 
 	themePane addChild: themeSelect.

@@ -142,7 +142,7 @@ ToTripletElement >> endInterspace [
 ToTripletElement >> endInterspace: aNumber [
 
 	endInterspace := aNumber.
-	self requestLayout
+	self configureLayout
 ]
 
 { #category : #testing }

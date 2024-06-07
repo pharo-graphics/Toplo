@@ -124,6 +124,7 @@ ToListElementSelecter >> enabled: aBoolean [
 
 	enabled = aBoolean ifTrue: [ ^ self ].
 	enabled := aBoolean.
+	eventTarget ifNil: [ ^ self ].
 	eventTarget dispatchEvent: ToSelecterChangedEvent new.
 
 
@@ -172,6 +173,7 @@ ToListElementSelecter >> multiple: aBoolean [
 
 	multiple = aBoolean ifTrue: [ ^ self ].
 	multiple := aBoolean.
+	eventTarget ifNil: [ ^ self ].
 	eventTarget dispatchEvent: ToSelecterChangedEvent new
 ]
 

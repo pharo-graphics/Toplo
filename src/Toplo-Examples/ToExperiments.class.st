@@ -229,28 +229,30 @@ ToExperiments class >> example_ExperimentForMultilineLabel5 [
 	text := self embeddedFontsText.
 
 	root := BlElement new
-		        constraintsDo: [ :c | 
+		        constraintsDo: [ :c |
 			        c vertical fitContent.
 			        c horizontal fitContent ];
 		        layout: BlLinearLayout vertical alignCenter.
 	itor := text iterator.
-	[ itor hasNext ] whileTrue: [ 
-		itor nextLineIndicesDo: [ :aLineStart :aLineEnd :aLineDelimiterEnd | 
+	[ itor hasNext ] whileTrue: [
+		itor nextLineIndicesDo: [ :aLineStart :aLineEnd :aLineDelimiterEnd |
 			| sub cutted lineElement |
 			sub := text from: aLineStart to: aLineEnd.
 			cutted := ToTextScissor new cut: sub.
-			cutted ifEmpty: [ 
+			cutted ifEmpty: [
 				cutted := Array with:
 					          (BlText empty attributes: sub iterator attributes) ].
 			lineElement := BlElement new
 				               layout: BlFlowLayout new;
-				               constraintsDo: [ :c | 
+				               constraintsDo: [ :c |
 					               c horizontal fitContent.
 					               c vertical fitContent ];
-				               addChildren: (cutted collect: [ :w | w asElement editorMeasurement ]).
+				               addChildren:
+					               (cutted collect: [ :w |
+							                w asElement editorMeasurement ]).
 			root addChild: lineElement ] ].
 
-	root openInOBlSpace
+	root openInSpace
 ]
 
 { #category : #frame }

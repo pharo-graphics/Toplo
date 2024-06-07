@@ -2,7 +2,6 @@ Class {
 	#name : #ToBasicWindowElement,
 	#superclass : #ToElement,
 	#instVars : [
-		'wspace',
 		'rootElement'
 	],
 	#category : #'Toplo-Core-Window'

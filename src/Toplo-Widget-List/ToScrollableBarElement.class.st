@@ -58,7 +58,7 @@ ToScrollableBarElement >> configureLayoutIn: aListElement [
 		ifTrue: [ 
 			trackElement layout: (self isNodeWrapping
 					 ifTrue: [
-						 BlFlowLayout horizontal
+						 ToBarFlowLayout horizontal
 							 lineUniformWidth: self isFlowLineUniformWidth;
 							 yourself ]
 					 ifFalse: [ BlLinearLayout horizontal ]).
@@ -70,7 +70,7 @@ ToScrollableBarElement >> configureLayoutIn: aListElement [
 		ifFalse: [
 			trackElement layout: (self isNodeWrapping
 					 ifTrue: [
-						 BlFlowLayout vertical
+						 ToBarFlowLayout vertical
 							 lineUniformWidth: self isFlowLineUniformWidth;
 							 yourself ]
 					 ifFalse: [ BlLinearLayout vertical ]).

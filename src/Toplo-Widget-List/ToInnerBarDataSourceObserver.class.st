@@ -1,5 +1,5 @@
 Class {
-	#name : #ToScrollableBarDataSourceObserver,
+	#name : #ToInnerBarDataSourceObserver,
 	#superclass : #BlInfiniteDataSourceObserver,
 	#instVars : [
 		'innerBarElement'
@@ -8,14 +8,14 @@ Class {
 }
 
 { #category : #'instance creation' }
-ToScrollableBarDataSourceObserver class >> on: anInnerLinearBarElement [
+ToInnerBarDataSourceObserver class >> on: anInnerLinearBarElement [
 	^ self new
 		initializeWith: anInnerLinearBarElement;
 		yourself
 ]
 
 { #category : #'event handling' }
-ToScrollableBarDataSourceObserver >> infiniteDataSourceChanged: anEvent [
+ToInnerBarDataSourceObserver >> infiniteDataSourceChanged: anEvent [
 
 	innerBarElement dataSourceManager onItemsChanged.
 	innerBarElement listElement dispatchEvent: anEvent copy
@@ -23,7 +23,7 @@ ToScrollableBarDataSourceObserver >> infiniteDataSourceChanged: anEvent [
 ]
 
 { #category : #'event handling' }
-ToScrollableBarDataSourceObserver >> infiniteDataSourceItemRangeChanged: anEvent [
+ToInnerBarDataSourceObserver >> infiniteDataSourceItemRangeChanged: anEvent [
 
 	innerBarElement dataSourceManager
 		onItemRangeChanged: anEvent position
@@ -33,7 +33,7 @@ ToScrollableBarDataSourceObserver >> infiniteDataSourceItemRangeChanged: anEvent
 ]
 
 { #category : #'event handling' }
-ToScrollableBarDataSourceObserver >> infiniteDataSourceItemRangeEvent: anEvent [
+ToInnerBarDataSourceObserver >> infiniteDataSourceItemRangeEvent: anEvent [
 
 	anEvent position to: anEvent position + anEvent itemCount - 1 do: [ :anIndex |
 		| anElementHolder |
@@ -44,7 +44,7 @@ ToScrollableBarDataSourceObserver >> infiniteDataSourceItemRangeEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToScrollableBarDataSourceObserver >> infiniteDataSourceItemRangeInserted: anEvent [
+ToInnerBarDataSourceObserver >> infiniteDataSourceItemRangeInserted: anEvent [
 
 	innerBarElement dataSourceManager
 		onItemRangeInserted: anEvent position
@@ -54,7 +54,7 @@ ToScrollableBarDataSourceObserver >> infiniteDataSourceItemRangeInserted: anEven
 ]
 
 { #category : #'event handling' }
-ToScrollableBarDataSourceObserver >> infiniteDataSourceItemRangeRemoved: anEvent [
+ToInnerBarDataSourceObserver >> infiniteDataSourceItemRangeRemoved: anEvent [
 
 	innerBarElement dataSourceManager
 		onItemRangeRemoved: anEvent position
@@ -64,7 +64,7 @@ ToScrollableBarDataSourceObserver >> infiniteDataSourceItemRangeRemoved: anEvent
 ]
 
 { #category : #'event handling' }
-ToScrollableBarDataSourceObserver >> infiniteDataSourceItemsFiltered: anEvent [
+ToInnerBarDataSourceObserver >> infiniteDataSourceItemsFiltered: anEvent [
 
 	innerBarElement dataSourceManager
 		onItemsFiltered: anEvent position
@@ -73,7 +73,7 @@ ToScrollableBarDataSourceObserver >> infiniteDataSourceItemsFiltered: anEvent [
 ]
 
 { #category : #'event handling' }
-ToScrollableBarDataSourceObserver >> infiniteDataSourceItemsSieved: anEvent [
+ToInnerBarDataSourceObserver >> infiniteDataSourceItemsSieved: anEvent [
 	
 	innerBarElement dataSourceManager
 		onItemsSieved: anEvent position
@@ -83,7 +83,7 @@ ToScrollableBarDataSourceObserver >> infiniteDataSourceItemsSieved: anEvent [
 ]
 
 { #category : #initialization }
-ToScrollableBarDataSourceObserver >> initializeWith: anInnerLinearBarElement [
+ToInnerBarDataSourceObserver >> initializeWith: anInnerLinearBarElement [
 	
 	self
 		assert: [ innerBarElement isNil ]

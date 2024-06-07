@@ -1,5 +1,5 @@
 Class {
-	#name : #ToScrollableBarDataSourceManager,
+	#name : #ToInnerBarDataSourceManager,
 	#superclass : #Object,
 	#instVars : [
 		'innerBarElement'
@@ -8,31 +8,31 @@ Class {
 }
 
 { #category : #accessing }
-ToScrollableBarDataSourceManager >> innerBarElement: anInnerBarElement [
+ToInnerBarDataSourceManager >> innerBarElement: anInnerBarElement [
 
 	innerBarElement := anInnerBarElement
 ]
 
 { #category : #'data source updates' }
-ToScrollableBarDataSourceManager >> onItemRangeChanged: aPositionStart itemCount: anItemCount [
+ToInnerBarDataSourceManager >> onItemRangeChanged: aPositionStart itemCount: anItemCount [
 
 	innerBarElement onItemRangeChanged: aPositionStart itemCount: anItemCount
 ]
 
 { #category : #'data source updates' }
-ToScrollableBarDataSourceManager >> onItemRangeInserted: aPositionStart itemCount: anItemCount [
+ToInnerBarDataSourceManager >> onItemRangeInserted: aPositionStart itemCount: anItemCount [
 
 	innerBarElement onItemRangeInserted: aPositionStart itemCount: anItemCount
 ]
 
 { #category : #'data source updates' }
-ToScrollableBarDataSourceManager >> onItemRangeRemoved: aPositionStart itemCount: anItemCount [
+ToInnerBarDataSourceManager >> onItemRangeRemoved: aPositionStart itemCount: anItemCount [
 
 	innerBarElement onItemRangeRemoved: aPositionStart itemCount: anItemCount
 ]
 
 { #category : #'data source updates' }
-ToScrollableBarDataSourceManager >> onItemsChanged [
+ToInnerBarDataSourceManager >> onItemsChanged [
 
 	innerBarElement onItemsChanged
 ]

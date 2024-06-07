@@ -96,7 +96,7 @@ ToInnerBarElement >> defaultDataSource [
 { #category : #initialization }
 ToInnerBarElement >> defaultDataSourceManager [
 
-	^ ToScrollableBarDataSourceManager new
+	^ ToInnerBarDataSourceManager new
 		  innerBarElement: self;
 		  yourself
 ]
@@ -105,7 +105,7 @@ ToInnerBarElement >> defaultDataSourceManager [
 ToInnerBarElement >> defaultDataSourceObserver [
 	"Return class, actuall instantiation happens in initialize"
 
-	^ ToScrollableBarDataSourceObserver
+	^ ToInnerBarDataSourceObserver
 ]
 
 { #category : #'t - infinite scrolled event' }

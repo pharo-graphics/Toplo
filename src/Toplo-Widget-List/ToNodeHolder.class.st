@@ -8,6 +8,12 @@ Class {
 }
 
 { #category : #accessing }
+ToNodeHolder >> barElement [
+
+	^ self listElement
+]
+
+{ #category : #accessing }
 ToNodeHolder >> bindDataItem: aDataItem [
 
 	| nodeManager |

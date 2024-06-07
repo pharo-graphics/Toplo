@@ -15,6 +15,12 @@ ToSegmentedElement >> checkingStrategy: aCheckableGroupCheckingStrategy [
 ]
 
 { #category : #initialization }
+ToSegmentedElement >> defaultInnerContainer [
+
+	^ ToSegmentedInnerBarElement onBarElement: self
+]
+
+{ #category : #initialization }
 ToSegmentedElement >> defaultNodeManagerClass [ 
 
 	^ ToSegmentManager 

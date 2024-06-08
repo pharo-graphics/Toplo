@@ -10,7 +10,7 @@ ToTripletElementEventHandler >> eventsToHandle [
 	^ {
 		  ToLayoutDirectionChangedEvent.
 		  ToLayoutOrientationChangedEvent.
-		  ToLayoutConstraintsChangedEvent }
+		  BlLayoutConstraintsChangedEvent }
 ]
 
 { #category : #'events handling' }

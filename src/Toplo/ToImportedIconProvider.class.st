@@ -21,14 +21,14 @@ ToImportedIconProvider class >> iconNamed: aName ifAbsent: aBlock [
 ]
 
 { #category : #'_private - utilities' }
-ToImportedIconProvider class >> listElementWithAllIconsInProviderClass: aProviderClass [
+ToImportedIconProvider class >> listElementWithAllIcons [
 	"
-	(ToImportedIconProvider  listElementWithAllIconsInProviderClass: ToAntDesignIconProvider) openInSpace.
-(ToImportedIconProvider  listElementWithAllIconsInProviderClass: ToMaterialDesignIconProvider) openInSpace
+	ToMaterialDesignIconProvider listElementWithAllIcons openInSpace.
+	ToAntDesignIconProvider listElementWithAllIcons openInSpace.
 	"
 
 	| l icProvider styles assocs |
-	icProvider := aProviderClass new.
+	icProvider := self new.
 	l := ToListElement new.
 	l vertical: true.
 	l withRowNumbers.

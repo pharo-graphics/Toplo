@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #'event handling' }
-ToCheckableEventHandler >> CheckableChangeUnanimityRequestEvent: anEvent [
+ToCheckableEventHandler >> checkableChangeUnanimityRequestEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.

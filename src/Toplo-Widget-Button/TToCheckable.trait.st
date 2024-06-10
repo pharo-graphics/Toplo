@@ -6,8 +6,14 @@ Trait {
 { #category : #'t - checkable - group' }
 TToCheckable >> addToGroup: aGroup [
 
-	aGroup add: self.
-	self group: aGroup 
+	self
+		deprecated: 'send #registerInGroup: instead'
+		transformWith:
+		'`@receiver addToGroup: `@arg'
+		-> '`@receiver registerInGroup: `@arg'.
+
+
+	self registerInGroup: aGroup
 ]
 
 { #category : #'t - checkable  - protocol' }
@@ -134,9 +140,23 @@ TToCheckable >> rawGroup: aGroup [
 ]
 
 { #category : #'t - checkable - group' }
+TToCheckable >> registerInGroup: aGroup [
+
+	aGroup add: self.
+	self group: aGroup
+]
+
+{ #category : #'t - checkable - group' }
 TToCheckable >> removeFromGroup [
 
-	self group remove: self
+	self
+		deprecated: 'send #unregisterFromGroup instead'
+		transformWith:
+		'`@receiver removeFromGroup'
+		-> '`@receiver unregisterFromGroup'.
+
+
+	self unregisterFromGroup
 ]
 
 { #category : #'t - checkable - private protocol' }
@@ -149,6 +169,12 @@ TToCheckable >> switchToNextCheckState [
 TToCheckable >> uncheck [
 
 	self checked: false
+]
+
+{ #category : #'t - checkable - group' }
+TToCheckable >> unregisterFromGroup [
+
+	self group remove: self
 ]
 
 { #category : #'t - checkable  - protocol' }

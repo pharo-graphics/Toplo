@@ -11,7 +11,7 @@ Class {
 	#category : #'Toplo-Widget-Button-Checkable'
 }
 
-{ #category : #'adding / removing' }
+{ #category : #'registering / unregistering' }
 ToCheckableGroup >> add: aCheckable [
 	self
 		deprecated: 'send #register: instead'
@@ -21,7 +21,7 @@ ToCheckableGroup >> add: aCheckable [
 	self register: aCheckable
 ]
 
-{ #category : #'adding / removing' }
+{ #category : #'registering / unregistering' }
 ToCheckableGroup >> addAll: aCollection [
 
 	self
@@ -42,7 +42,7 @@ ToCheckableGroup >> buttons [
 	^ self registeredCheckables
 ]
 
-{ #category : #'check-uncheck-request' }
+{ #category : #'checking / unchecking request' }
 ToCheckableGroup >> checkChangePreNotification: aPreCheckableChangedEvent [
 
 	aPreCheckableChangedEvent checked isSymbol ifTrue: [ ^ self ].
@@ -50,7 +50,7 @@ ToCheckableGroup >> checkChangePreNotification: aPreCheckableChangedEvent [
 
 ]
 
-{ #category : #'check-uncheck-request' }
+{ #category : #'checking / unchecking request' }
 ToCheckableGroup >> checkableChangedEvent: aCheckedEvent [
 
 	self notifyChanged
@@ -121,13 +121,13 @@ ToCheckableGroup >> notifyChanged [
 			 yourself)
 ]
 
-{ #category : #'adding / removing' }
+{ #category : #'registering / unregistering' }
 ToCheckableGroup >> register: aCheckable [
 
 	registeredCheckables add: aCheckable
 ]
 
-{ #category : #'adding / removing' }
+{ #category : #'registering / unregistering' }
 ToCheckableGroup >> registerAll: aCollection [
 
 	registeredCheckables addAll: aCollection
@@ -139,7 +139,7 @@ ToCheckableGroup >> registeredCheckables [
 	^ registeredCheckables
 ]
 
-{ #category : #'adding / removing' }
+{ #category : #'registering / unregistering' }
 ToCheckableGroup >> remove: aCheckable [
 
 	self
@@ -149,7 +149,7 @@ ToCheckableGroup >> remove: aCheckable [
 	self unregister: aCheckable 
 ]
 
-{ #category : #'adding / removing' }
+{ #category : #'registering / unregistering' }
 ToCheckableGroup >> removeAll [
 
 	self
@@ -160,13 +160,13 @@ ToCheckableGroup >> removeAll [
 	self unregisterAll
 ]
 
-{ #category : #'check-uncheck-request' }
+{ #category : #'checking / unchecking request' }
 ToCheckableGroup >> uncheckAll [
 
 	self checkedList do: [ :b | b privateChecked: false ]
 ]
 
-{ #category : #'check-uncheck-request' }
+{ #category : #'checking / unchecking request' }
 ToCheckableGroup >> uncheckAllExcept: aButton [
 
 	(self registeredCheckables select: [ :b |
@@ -190,13 +190,13 @@ ToCheckableGroup >> uncheckedList [
 	^ registeredCheckables reject: [ :b | b checked ]
 ]
 
-{ #category : #'adding / removing' }
+{ #category : #'registering / unregistering' }
 ToCheckableGroup >> unregister: aCheckable [
 
 	registeredCheckables remove: aCheckable
 ]
 
-{ #category : #'adding / removing' }
+{ #category : #'registering / unregistering' }
 ToCheckableGroup >> unregisterAll [
 
 	registeredCheckables removeAll

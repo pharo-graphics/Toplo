@@ -140,7 +140,7 @@ ToSandBox class >> barDashBoardFor: aBar [
 			       id: mode.
 		buttons add: chb ].
 
-	selectionModeGroup addAll: buttons.
+	selectionModeGroup registerAll: buttons.
 	selectionModeGroup addEventHandler: (BlEventHandler
 			 on: ToCheckableGroupChangedEvent
 			 do: [ :event |
@@ -158,7 +158,8 @@ ToSandBox class >> barDashBoardFor: aBar [
 		vFitContent.
 	selectionModeContainer addChild: (ToLabel text: 'Selection mode').
 	selectionModeContainer layout cellSpacing: 5.
-	selectionModeContainer addChildren: selectionModeGroup buttons.
+	selectionModeContainer addChildren:
+		selectionModeGroup registeredCheckables.
 	confPane addChild: selectionModeContainer.
 
 	aBar

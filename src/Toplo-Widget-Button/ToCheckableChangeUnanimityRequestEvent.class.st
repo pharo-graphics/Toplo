@@ -13,5 +13,5 @@ ToCheckableChangeUnanimityRequestEvent >> checked [
 { #category : #sending }
 ToCheckableChangeUnanimityRequestEvent >> sendTo: anObject [
 
-	anObject CheckableChangeUnanimityRequestEvent: self
+	anObject checkableChangeUnanimityRequestEvent: self
 ]

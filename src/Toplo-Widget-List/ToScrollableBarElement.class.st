@@ -67,7 +67,6 @@ ToScrollableBarElement >> configureTrackLayoutIn: aListElement [
 	trackElement constraintsDo: [ :c |
 	self isHorizontal
 		ifTrue: [
-			
 				c vertical fitContent.
 				self isNodeWrapping
 					ifTrue: [ c horizontal matchParent ]

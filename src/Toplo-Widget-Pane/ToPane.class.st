@@ -79,17 +79,3 @@ ToPane >> removeDividers [
 	self removeChildren: (self children select: [ :child |
 		child isKindOf: ToDivider ])
 ]
-
-{ #category : #'api - resizer' }
-ToPane >> transposeResizer [
-
-	self constraintsDo: [ :c |
-		c horizontal isMatchParent
-			ifTrue: [ c horizontal fitContent ]
-			ifFalse: [
-			c horizontal isFitContent ifTrue: [ c horizontal matchParent ] ].
-		c vertical isMatchParent
-			ifTrue: [ c vertical fitContent ]
-			ifFalse: [
-			c vertical isFitContent ifTrue: [ c vertical matchParent ] ] ]
-]

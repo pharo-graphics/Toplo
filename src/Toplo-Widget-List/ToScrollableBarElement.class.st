@@ -54,34 +54,36 @@ ToScrollableBarElement >> configureLayoutIn: aListElement [
 				c horizontal fitContent.
 				c vertical matchParent ] ].
 
-	self isHorizontal
-		ifTrue: [ 
-			trackElement layout: (self isNodeWrapping
-					 ifTrue: [
-						 ToBarFlowLayout horizontal
-							 lineUniformWidth: self isFlowLineUniformWidth;
-							 yourself ]
-					 ifFalse: [ BlLinearLayout horizontal ]).
-			trackElement constraintsDo: [ :c |
-				c vertical fitContent.
-				self isNodeScrolling
-					ifTrue: [ c horizontal fitContent ]
-					ifFalse: [ c horizontal matchParent ] ] ]
-		ifFalse: [
-			trackElement layout: (self isNodeWrapping
-					 ifTrue: [
-						 ToBarFlowLayout vertical
-							 lineUniformWidth: self isFlowLineUniformWidth;
-							 yourself ]
-					 ifFalse: [ BlLinearLayout vertical ]).
-			trackElement constraintsDo: [ :c |
-				c horizontal fitContent.
-				self isNodeScrolling
-					ifTrue: [ c vertical fitContent ]
-					ifFalse: [ c vertical matchParent ] ] ].
+	self configureTrackLayoutIn: aListElement.
 
 	self isNodeScrolling ifFalse: [
 		self nodesDo: [ :n | n autoDistribute: self isNodeAutoDistribution ] ]
+]
+
+{ #category : #initialization }
+ToScrollableBarElement >> configureTrackLayoutIn: aListElement [
+
+	trackElement layout: self newTrackLayout.
+	trackElement constraintsDo: [ :c |
+	self isHorizontal
+		ifTrue: [
+			
+				c vertical fitContent.
+				self isNodeWrapping
+					ifTrue: [ c horizontal matchParent ]
+					ifFalse: [
+						self isNodeScrolling
+							ifTrue: [ c horizontal fitContent ]
+							ifFalse: [ c horizontal matchParent ] ] ] 
+		ifFalse: [
+			
+				c horizontal fitContent.
+				self isNodeWrapping
+					ifTrue: [ c vertical matchParent ]
+					ifFalse: [
+						self isNodeScrolling
+							ifTrue: [ c vertical fitContent ]
+							ifFalse: [ c vertical matchParent ] ] ] ]
 ]
 
 { #category : #'private - commands' }
@@ -144,7 +146,7 @@ ToScrollableBarElement >> fullyVisibleNodesSelect: aBlock [
 ]
 
 { #category : #initialization }
-ToScrollableBarElement >> initialize [ 
+ToScrollableBarElement >> initialize [
 
 	super initialize.
 	trackElement := ToElement new.
@@ -181,6 +183,20 @@ ToScrollableBarElement >> isNodeScrolling [
 ToScrollableBarElement >> isNodeWrapping [
 
 	^ nodeWrapping
+]
+
+{ #category : #initialization }
+ToScrollableBarElement >> newTrackLayout [
+
+	^ self isNodeWrapping
+		  ifTrue: [
+			(self isHorizontal ifTrue: [ ToBarFlowLayout horizontal ] ifFalse: [ ToBarFlowLayout vertical ])
+				  lineUniformWidth: self isFlowLineUniformWidth;
+				  yourself ]
+		  ifFalse: [
+			  self isHorizontal
+				  ifTrue: [ BlLinearLayout horizontal ]
+				  ifFalse: [ BlLinearLayout vertical ] ]
 ]
 
 { #category : #'accessing - children' }

@@ -1,5 +1,5 @@
 Class {
-	#name : #ToNodeHolder,
+	#name : #ToListNodeHolder,
 	#superclass : #BlInfiniteHolder,
 	#instVars : [
 		'dataItem'
@@ -8,37 +8,20 @@ Class {
 }
 
 { #category : #accessing }
-ToNodeHolder >> barElement [
-
-	^ self listElement
-]
-
-{ #category : #accessing }
-ToNodeHolder >> bindDataItem: aDataItem [
+ToListNodeHolder >> bindDataItem: aDataItem [
 
 	| nodeManager |
-	nodeManager := self listElement nodeManager.
-	self dataItem: aDataItem. 
+	nodeManager := self nodeManager.
+	self dataItem: aDataItem.
 	self node: (nodeManager newNodeForHolder: self).
 	nodeManager buildNode: self node inHolder: self.
+	nodeManager constraintNode: self node.
 	self node enabled: self isEnabled.
 	self isHidden ifTrue: [ self node height: 0 ]
 ]
 
 { #category : #accessing }
-ToNodeHolder >> changeDataItem: aDataItem [
-
-	| nodeManager |
-	nodeManager := self listElement nodeManager.
-	self dataItem: aDataItem.
-	self node release.
-	nodeManager buildNode: self node inHolder: self.
-	self node enabled: self isEnabled.
-	self isHidden ifTrue: [ self node height: 0 ]
-]
-
-{ #category : #accessing }
-ToNodeHolder >> data [
+ToListNodeHolder >> data [
 
 
 	self
@@ -49,43 +32,43 @@ ToNodeHolder >> data [
 ]
 
 { #category : #accessing }
-ToNodeHolder >> dataItem [
+ToListNodeHolder >> dataItem [
 
 	^ dataItem
 ]
 
 { #category : #accessing }
-ToNodeHolder >> dataItem: aData [ 
+ToListNodeHolder >> dataItem: aData [ 
 
 	dataItem := aData
 ]
 
 { #category : #testing }
-ToNodeHolder >> isDisabled [
+ToListNodeHolder >> isDisabled [
 
 	^ self listElement selectionModel isDisabledIndex: self position
 ]
 
 { #category : #testing }
-ToNodeHolder >> isEnabled [
+ToListNodeHolder >> isEnabled [
 
 	^ self isDisabled not
 ]
 
 { #category : #testing }
-ToNodeHolder >> isHidden [
+ToListNodeHolder >> isHidden [
 
 	^ self listElement selectionModel isHiddenIndex: self position
 ]
 
 { #category : #testing }
-ToNodeHolder >> isSelectable [
+ToListNodeHolder >> isSelectable [
 
 	^ self isUnselectable not
 ]
 
 { #category : #testing }
-ToNodeHolder >> isSelected [
+ToListNodeHolder >> isSelected [
 
 	^ self listElement
 		  ifNil: [ false ]
@@ -93,31 +76,37 @@ ToNodeHolder >> isSelected [
 ]
 
 { #category : #testing }
-ToNodeHolder >> isUnselectable [
+ToListNodeHolder >> isUnselectable [
 
 	^ self listElement selectionModel isUnselectableIndex: self position
 ]
 
 { #category : #accessing }
-ToNodeHolder >> listElement [
+ToListNodeHolder >> listElement [
 
 	^ infiniteElement listElement
 ]
 
 { #category : #accessing }
-ToNodeHolder >> node [
+ToListNodeHolder >> node [
 
 	^ self itemElement 
 ]
 
 { #category : #accessing }
-ToNodeHolder >> node: aNode [
+ToListNodeHolder >> node: aNode [
 
 	itemElement := aNode
 ]
 
+{ #category : #accessing }
+ToListNodeHolder >> nodeManager [ 
+
+	^ self listElement nodeManager
+]
+
 { #category : #dependencies }
-ToNodeHolder >> release [
+ToListNodeHolder >> release [
 
 	super release.
 	dataItem := nil
@@ -125,7 +114,7 @@ ToNodeHolder >> release [
 ]
 
 { #category : #accessing }
-ToNodeHolder >> unbindDataItem [
+ToListNodeHolder >> unbindDataItem [
 
 	| nodeManager |
 	nodeManager := self listElement nodeManager.

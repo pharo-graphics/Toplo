@@ -37,6 +37,12 @@ ToImportedIconProvider class >> listElementWithAllIcons [
 	l secondarySelectionMode beneathOption: ToListSelectionOption none.
 	l secondarySelectionMode overOption: ToListSelectionOption separate.
 
+	l addEventHandler: (BlEventHandler
+			 on: ToListStrongSelectionEvent
+			 do: [ :event |
+				 (event indexes collect: [ :idx | l dataAccessor at: idx]) traceCr ]).
+
+
 	styles := ToIconStyle allSubclasses asArray sort: [ :a :b |
 		          a name < b name ].
 	assocs := Array streamContents: [ :stream |

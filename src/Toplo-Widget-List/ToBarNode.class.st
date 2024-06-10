@@ -13,16 +13,14 @@ ToBarNode >> initialize [
 	self initializeForToplo 
 ]
 
+{ #category : #testing }
+ToBarNode >> isFakeNode [ 
+
+	^ self holder listElement fakeNode = self
+]
+
 { #category : #skin }
 ToBarNode >> newRawSkin [ 
 
 	^ ToBarNodeSkin new
-]
-
-{ #category : #'t - list node' }
-ToBarNode >> setInitialConfiguration [
-
-	self constraintsDo: [ :c |
-		c horizontal fitContent.
-		c vertical fitContent ]
 ]

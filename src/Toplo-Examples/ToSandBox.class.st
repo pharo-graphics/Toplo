@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #bar }
-ToSandBox class >> barDashBoardFor: aNodeBar [
+ToSandBox class >> barDashBoardFor: aBar [
 
 	| mainPane barPane confPane verticalSwitch wrappingSwitch scrollingSwitch autoDistributionSwitch sameWidthSwitch selectionAnimationSwitch selectionModeContainer selectionModeGroup buttons selectOnMouseDownSwitch |
 	mainPane := ToPane horizontal.
@@ -19,7 +19,7 @@ ToSandBox class >> barDashBoardFor: aNodeBar [
 			confPane.
 			barPane }.
 
-	barPane addChild: aNodeBar.
+	barPane addChild: aBar.
 
 	verticalSwitch := ToSwitchButton new labelText: 'Vertical'.
 	verticalSwitch endToStart: true.
@@ -33,12 +33,12 @@ ToSandBox class >> barDashBoardFor: aNodeBar [
 				 v := event current.
 				 v
 					 ifTrue: [
-						 aNodeBar hFitContent.
-						 aNodeBar vMatchParent ]
+						 aBar hFitContent.
+						 aBar vMatchParent ]
 					 ifFalse: [
-						 aNodeBar hMatchParent.
-						 aNodeBar vFitContent ].
-				 aNodeBar vertical: v ]).
+						 aBar hMatchParent.
+						 aBar vFitContent ].
+				 aBar vertical: v ]).
 	confPane addChild: verticalSwitch.
 
 	wrappingSwitch := ToSwitchButton new labelText: 'Wrapping'.
@@ -67,7 +67,7 @@ ToSandBox class >> barDashBoardFor: aNodeBar [
 			 do: [ :event |
 				 | v |
 				 v := event current.
-				 aNodeBar nodeWrapping: v.
+				 aBar nodeWrapping: v.
 				 sameWidthSwitch enabled: v.
 				 scrollingSwitch disabled: v ]).
 
@@ -76,14 +76,14 @@ ToSandBox class >> barDashBoardFor: aNodeBar [
 			 do: [ :event |
 				 | v |
 				 v := event current.
-				 aNodeBar flowLineUniformWidth: v ]).
+				 aBar flowLineUniformWidth: v ]).
 
 	scrollingSwitch addEventHandler: (BlEventHandler
 			 on: ToCheckableCheckEvent
 			 do: [ :event |
 				 | v |
 				 v := event current.
-				 aNodeBar nodeScrolling: v ]).
+				 aBar nodeScrolling: v ]).
 
 	autoDistributionSwitch := ToSwitchButton new labelText:
 		                          'Auto-distribution'.
@@ -97,7 +97,7 @@ ToSandBox class >> barDashBoardFor: aNodeBar [
 			 do: [ :event |
 				 | v |
 				 v := event current.
-				 aNodeBar nodeAutoDistribution: v ]).
+				 aBar nodeAutoDistribution: v ]).
 
 	selectionAnimationSwitch := ToSwitchButton new labelText:
 		                            'Animate selection transition'.
@@ -111,14 +111,9 @@ ToSandBox class >> barDashBoardFor: aNodeBar [
 			 do: [ :event |
 				 | v |
 				 v := event current.
-				 aNodeBar selectionMode beneathOption animationDuration: (v
+				 aBar selectionMode beneathOption animationDuration: (v
 						  ifTrue: [ 200 milliSeconds ]
 						  ifFalse: [ 0 milliSeconds ]) ]).
-
-	aNodeBar
-		addEventHandlerOn: ToBarNodeVisibilityEvent
-		do: [ :event |
-		event invisibleNodes ifNotEmpty: [ :in | in traceCr ] ].
 
 	wrappingSwitch checked: true.
 
@@ -132,7 +127,7 @@ ToSandBox class >> barDashBoardFor: aNodeBar [
 	selectOnMouseDownSwitch addEventHandler: (BlEventHandler
 			 on: ToCheckableCheckEvent
 			 do: [ :event |
-			 aNodeBar selectionMode selectOnMouseDown: event current ]).
+			 aBar selectionMode selectOnMouseDown: event current ]).
 
 	wrappingSwitch checked: true.
 
@@ -150,12 +145,12 @@ ToSandBox class >> barDashBoardFor: aNodeBar [
 			 on: ToCheckableGroupChangedEvent
 			 do: [ :event |
 				 | mode |
-				 mode := event checkedButtons first id asSymbol.
-				 aNodeBar selectionMode enabled: mode ~= #Disabled.
+				 mode := event checkedList first id asSymbol.
+				 aBar selectionMode enabled: mode ~= #Disabled.
 				 mode = #Multiple
-					 ifTrue: [ aNodeBar selectionMode multiple: true ]
+					 ifTrue: [ aBar selectionMode multiple: true ]
 					 ifFalse: [
-					 mode = #Single ifTrue: [ aNodeBar selectionMode multiple: false ] ] ]).
+					 mode = #Single ifTrue: [ aBar selectionMode multiple: false ] ] ]).
 	buttons second checked: true.
 	selectionModeContainer := ToPane vertical.
 	selectionModeContainer
@@ -166,11 +161,10 @@ ToSandBox class >> barDashBoardFor: aNodeBar [
 	selectionModeContainer addChildren: selectionModeGroup buttons.
 	confPane addChild: selectionModeContainer.
 
-	aNodeBar
+	aBar
 		addEventHandlerOn: ToBarNodeVisibilityEvent
 		do: [ :event |
 		event invisibleNodes ifNotEmpty: [ :in | in traceCr ] ].
-
 
 	^ mainPane
 ]
@@ -375,12 +369,12 @@ ToSandBox class >> example_CheckboxGroupAndNoneStrategy [
 			       id: idx asString.
 		buttons add: chb ].
 	buttons second checked: true.
-	group addAll: buttons.
+	group registerAll: buttons.
 	group addEventHandler: (BlEventHandler
 			 on: ToCheckableGroupChangedEvent
 			 do: [ :event |
-				 ('checked: ' , event checkedButtons asString , ' unchecked: '
-				  , event uncheckedButtons asString) traceCr ]).
+				 ('checked: ' , event checkedList asString , ' unchecked: '
+				  , event uncheckedList asString) traceCr ]).
 
 	container := ToElement new.
 	container constraintsDo: [ :c |
@@ -390,7 +384,7 @@ ToSandBox class >> example_CheckboxGroupAndNoneStrategy [
 	container layout: BlLinearLayout vertical.
 	container layout cellSpacing: 5.
 
-	container addChildren: group buttons.
+	container addChildren: group registeredCheckables.
 	container openInSpace
 ]
 
@@ -408,12 +402,12 @@ ToSandBox class >> example_CheckboxGroupAndStrictStrategy [
 			       id: idx asString.
 		buttons add: chb ].
 	buttons second checked: true.
-	group addAll: buttons.
+	group registerAll: buttons.
 	group addEventHandler: (BlEventHandler
 			 on: ToCheckableGroupChangedEvent
 			 do: [ :event |
-				 ('checked: ' , event checkedButtons asString , ' unchecked: '
-				  , event uncheckedButtons asString) traceCr ]).
+				 ('checked: ' , event checkedList asString , ' unchecked: '
+				  , event uncheckedList asString) traceCr ]).
 
 	container := ToElement new.
 	container constraintsDo: [ :c |
@@ -423,7 +417,7 @@ ToSandBox class >> example_CheckboxGroupAndStrictStrategy [
 	container layout: BlLinearLayout vertical.
 	container layout cellSpacing: 5.
 
-	container addChildren: group buttons.
+	container addChildren: group registeredCheckables.
 	container openInSpace
 ]
 
@@ -442,12 +436,12 @@ ToSandBox class >> example_CheckboxGroupAndUnckekingStrategy [
 			       id: idx asString.
 		buttons add: chb ].
 	buttons second checked: true.
-	group addAll: buttons.
+	group registerAll: buttons.
 	group addEventHandler: (BlEventHandler
 			 on: ToCheckableGroupChangedEvent
 			 do: [ :event |
-				 ('checked: ' , event checkedButtons asString , ' unchecked: '
-				  , event uncheckedButtons asString) traceCr ]).
+				 ('checked: ' , event checkedList asString , ' unchecked: '
+				  , event uncheckedList asString) traceCr ]).
 
 	container := ToElement new.
 	container constraintsDo: [ :c |
@@ -457,7 +451,7 @@ ToSandBox class >> example_CheckboxGroupAndUnckekingStrategy [
 	container layout: BlLinearLayout vertical.
 	container layout cellSpacing: 5.
 
-	container addChildren: group buttons.
+	container addChildren: group registeredCheckables.
 	container openInSpace
 ]
 
@@ -505,8 +499,8 @@ ToSandBox class >> example_CheckboxStartFlexibleWithGroup [
 	group addEventHandler: (BlEventHandler
 			 on: ToCheckableGroupChangedEvent
 			 do: [ :event |
-				 ('checked: ' , event checkedButtons asString , ' unchecked: '
-				  , event uncheckedButtons asString) traceCr ]).
+				 ('checked: ' , event checkedList asString , ' unchecked: '
+				  , event uncheckedList asString) traceCr ]).
 
 	container := ToElement new.
 	container background: Color veryLightGray.
@@ -551,9 +545,9 @@ ToSandBox class >> example_CheckboxVerticalGroupHorizontal [
 	container layout: BlLinearLayout horizontal.
 	container addChildren: group buttons.
 	group when: ToCheckableGroupChangedEvent do: [ :event |
-		('checked: ' , event checkedButtons asString , ' unchecked: '
-		 , event uncheckedButtons asString) traceCr ].
-	container openInInnerWindow 
+		('checked: ' , event checkedList asString , ' unchecked: '
+		 , event uncheckedList asString) traceCr ].
+	container openInInnerWindow
 ]
 
 { #category : #checkbox }
@@ -1637,6 +1631,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 
 	| select innerWindow |
 	select := ToMultiSelectElement new.
+	select nodeWrapping: true.
 	select listElement withRowNumbers.
 	select inspect.
 	select hideSelected: false.
@@ -1662,7 +1657,6 @@ ToSandBox class >> example_SelectMultiFiltrableAutoDistribution [
 	select := ToMultiSelectElement new.
 	select inspect.
 	select nodeWrapping: false.
-	select hideSelected: false.
 	select dataAccessor addAll: self statesOfAmerica.
 	select nodeAutoDistribution: true.
 
@@ -2237,21 +2231,24 @@ ToSandBox class >> example_SpToggleButton [
 
 	| seg dashBoard |
 	seg := ToSegmentedElement new.
-	seg nodeWrapping: false.
-	seg vertical: true.
-	seg hMatchParent.
 	seg segmentAccessor add:
-		(ToLabeledIcon  new label: (ToLabel text: 'Button 1')).
+		((ToButton new label: (ToLabel text: 'Button 1'))
+			 tooltipString: 'Button 1';
+			 whenClickedDo: [ :event | event currentTarget traceCr ];
+			 yourself).
 	seg segmentAccessor add:
-		(ToLabeledIcon new label: (ToLabel text: 'Button 2')).
+		((ToButton new label: (ToLabel text: 'Button 2'))  tooltipString: 'Button 2';
+			 whenClickedDo: [ :event | event currentTarget traceCr ];
+			 yourself).
 	seg segmentAccessor add:
-		(ToLabeledIcon new label: (ToLabel text: 'Button 3')).
+		((ToButton new label: (ToLabel text: 'Button 3'))  tooltipString: 'Button 3';
+			 whenClickedDo: [ :event | event currentTarget traceCr ];
+			 yourself).
 	seg selectionMode multiple: false.
 
-	"dashBoard := self barDashBoardFor: seg.
-	dashBoard openInSpace."
-	seg inspect.
-	seg openInSpace
+	dashBoard := self barDashBoardFor: seg.
+	dashBoard openInSpace.
+	seg inspect
 ]
 
 { #category : #'button-dep' }
@@ -2340,14 +2337,17 @@ ToSandBox class >> example_ToButtonSkins [
 	allButtons := OrderedCollection new.
 
 	space root layout: (BlLinearLayout vertical cellSpacing: 10).
-	topBar := ToMenuBar new beHorizontal; hMatchParent; vFitContent.
+	topBar := ToMenuBar new
+		          beHorizontal;
+		          hMatchParent;
+		          vFitContent.
 	topBar layout cellSpacing: 10.
 
 	themeSwitcher := ToChoiceMenu new.
 	themeSwitcher width: 150.
 	themeSwitcher data addAll: {
 			ToBeeTheme new.
-			ToBeeDarkTheme new. }.
+			ToBeeDarkTheme new }.
 
 	themeSwitcher whenSelectedIndexChangedDo: [
 		space toTheme: themeSwitcher selectedData new ].
@@ -2355,10 +2355,8 @@ ToSandBox class >> example_ToButtonSkins [
 	topBar addChild: themeSwitcher.
 
 	enablementSwitcher := ToSwitchIcon new.
-	enablementSwitcher switchBarOnElement:
-		((ToLabel text: 'Enabled')).
-	enablementSwitcher switchBarOffElement:
-		((ToLabel text: 'Disabled')).
+	enablementSwitcher switchBarOnElement: (ToLabel text: 'Enabled').
+	enablementSwitcher switchBarOffElement: (ToLabel text: 'Disabled').
 	enablementSwitcher check.
 	enablementSwitcher
 		when: ToCheckableCheckEvent
@@ -2368,7 +2366,7 @@ ToSandBox class >> example_ToButtonSkins [
 	topBar addChild: enablementSwitcher.
 
 	buttonBar := ToPane vertical vFitContent.
-	 
+
 	sizingGroup := ToCheckableGroup new.
 	smallSizingRadio := ToRadioButton new labelText: 'Small'.
 	smallSizingRadio userData at: #sizing put: #'small-sizing'.
@@ -2383,7 +2381,7 @@ ToSandBox class >> example_ToButtonSkins [
 			largeSizingRadio }.
 	sizingGroup when: ToCheckableGroupChangedEvent do: [ :event |
 		| choice sizing |
-		choice := event checkedButtons anyOne.
+		choice := event uncheckedList anyOne.
 		sizing := choice userData at: #sizing.
 		allButtons do: [ :but | but sizing: sizing ] ].
 
@@ -2392,7 +2390,7 @@ ToSandBox class >> example_ToButtonSkins [
 			middleSizingRadio.
 			largeSizingRadio }.
 	topBar addChild: buttonBar.
-	
+
 	buttonBar := ToPane vertical vFitContent.
 
 	shapingGroup := ToCheckableGroup new.
@@ -2401,7 +2399,7 @@ ToSandBox class >> example_ToButtonSkins [
 	defaultShapingRadio := ToRadioButton new labelText: 'Default shape'.
 	defaultShapingRadio userData at: #shaping put: #'default-shaping'.
 	roundShapingRadio := ToRadioButton new labelText: 'Round'.
-	roundShapingRadio userData at: #shaping put: #'round'.
+	roundShapingRadio userData at: #shaping put: #round.
 	defaultShapingRadio checked: true.
 	shapingGroup addAll: {
 			circleShapingRadio.
@@ -2409,7 +2407,7 @@ ToSandBox class >> example_ToButtonSkins [
 			roundShapingRadio }.
 	shapingGroup when: ToCheckableGroupChangedEvent do: [ :event |
 		| choice shaping |
-		choice := event checkedButtons anyOne.
+		choice := event uncheckedList anyOne.
 		shaping := choice userData at: #shaping.
 		allButtons do: [ :but | but shaping: shaping ] ].
 
@@ -2417,32 +2415,38 @@ ToSandBox class >> example_ToButtonSkins [
 			circleShapingRadio.
 			defaultShapingRadio.
 			roundShapingRadio }.
-	
+
 	topBar addChild: buttonBar.
-	
-	directionSwitcher := ToSwitchIcon new labelText: 'Icon first'; beEndToStart; yourself.
+
+	directionSwitcher := ToSwitchIcon new
+		                     labelText: 'Icon first';
+		                     beEndToStart;
+		                     yourself.
 	directionSwitcher check.
-	directionSwitcher
-		when: ToCheckableCheckEvent
-		do: [ :event | allButtons do: [ :b | b startToEnd: event target isChecked ] ].
+	directionSwitcher when: ToCheckableCheckEvent do: [ :event |
+		allButtons do: [ :b | b startToEnd: event target isChecked ] ].
 	topBar addChild: directionSwitcher.
-	
-	orientationSwitcher := ToSwitchIcon new labelText: 'Horizontal'; beEndToStart; yourself.
+
+	orientationSwitcher := ToSwitchIcon new
+		                       labelText: 'Horizontal';
+		                       beEndToStart;
+		                       yourself.
 	orientationSwitcher check.
-	orientationSwitcher
-		when: ToCheckableCheckEvent
-		do: [ :event | allButtons do: [ :b | b horizontal: event target isChecked ] ].
+	orientationSwitcher when: ToCheckableCheckEvent do: [ :event |
+		allButtons do: [ :b | b horizontal: event target isChecked ] ].
 	topBar addChild: orientationSwitcher.
-	
+
 	topBar childrenDo: [ :child |
 		child constraintsDo: [ :c | c linear vertical alignCenter ] ].
 
-	circleShapingRadio 
-		when: ToCheckableCheckEvent 
-		do: [ :event | 
-			event current 
-				ifTrue: [ directionSwitcher enabled: false. orientationSwitcher  enabled: false] 
-				ifFalse: [ directionSwitcher enabled: true. orientationSwitcher  enabled: true ] ].	
+	circleShapingRadio when: ToCheckableCheckEvent do: [ :event |
+		event current
+			ifTrue: [
+				directionSwitcher enabled: false.
+				orientationSwitcher enabled: false ]
+			ifFalse: [
+				directionSwitcher enabled: true.
+				orientationSwitcher enabled: true ] ].
 
 	space root addChild: topBar.
 
@@ -2451,21 +2455,11 @@ ToSandBox class >> example_ToButtonSkins [
 		              ToThemeIcons searchOutlined16x16 ].
 	buttonSpecsBuilder := [
 	                      {
-		                      {
-			                      'Primary'.
-			                      #primary }.
-		                      {
-			                      'Default'.
-			                      #default }.
-		                      {
-			                      'Dashed'.
-			                      #dashed }.
-		                      {
-			                      'Text'.
-			                      #text }.
-		                      {
-			                      'Link'.
-			                      #link } } ].
+		                      { 'Primary'. #primary }.
+		                      { 'Default'. #default }.
+		                      { 'Dashed'. #dashed }.
+		                      { 'Text'. #text }.
+		                      { 'Link'. #link } } ].
 
 	" Line 1 "
 	pane := ToPane horizontal.
@@ -4525,8 +4519,8 @@ ToSandBox class >> example_withCustomMenuItems [
 	grp addEventHandler: (BlEventHandler
 			 on: ToCheckableGroupChangedEvent
 			 do: [ :event |
-				 ('checked: ' , event checkedButtons asString , ' unchecked: '
-				  , event uncheckedButtons asString) traceCr ]).
+				 ('checked: ' , event checkedList asString , ' unchecked: '
+				  , event uncheckedList asString) traceCr ]).
 
 	menu addSeparator.
 
@@ -4563,8 +4557,8 @@ ToSandBox class >> example_withCustomMenuItems [
 	grp addEventHandler: (BlEventHandler
 			 on: ToCheckableGroupChangedEvent
 			 do: [ :event |
-				 ('checked: ' , event checkedButtons asString , ' unchecked: '
-				  , event uncheckedButtons asString) traceCr ]).
+				 ('checked: ' , event checkedList asString , ' unchecked: '
+				  , event uncheckedList asString) traceCr ]).
 
 	menu addSeparator.
 
@@ -4627,7 +4621,7 @@ ToSandBox class >> experiment_intervalCollection [
 ]
 
 { #category : #checkbox }
-ToSandBox class >> group [ 
+ToSandBox class >> group [
 
 	| group container |
 	group := ToCheckableGroup new.
@@ -4646,8 +4640,8 @@ ToSandBox class >> group [
 	container layout cellSpacing: 2.
 	container addChildren: group buttons.
 	group when: ToCheckableGroupChangedEvent do: [ :event |
-		('checked: ' , event checkedButtons asString , ' unchecked: '
-		 , event uncheckedButtons asString) traceCr ].
+		('checked: ' , event uncheckedList asString , ' unchecked: '
+		 , event uncheckedList asString) traceCr ].
 	ToInnerWindow new
 		in: [ :f | f root addChild: container ];
 		openInSpace

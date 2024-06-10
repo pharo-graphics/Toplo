@@ -580,7 +580,7 @@ ToSkinStateGenerator >> pressed: aBoolean [
 { #category : #'mouse handlers' }
 ToSkinStateGenerator >> primaryClickEvent: anEvent [
 
-	target switchToNextCheckStateOnClick.
+	target switchToNextCheckState.
 	self generateClickedStateFromEvent: anEvent
 ]
 

@@ -140,7 +140,7 @@ TToCheckable >> removeFromGroup [
 ]
 
 { #category : #'t - checkable - private protocol' }
-TToCheckable >> switchToNextCheckStateOnClick [
+TToCheckable >> switchToNextCheckState [
 
 	self checked: self nextCheckValue 
 ]

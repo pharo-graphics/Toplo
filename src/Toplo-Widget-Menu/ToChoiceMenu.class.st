@@ -27,7 +27,7 @@ ToChoiceMenu >> checkableGroupChangedEvent: anEvent [
 { #category : #'private - accessing' }
 ToChoiceMenu >> checkedMenuItem [
 
-	^ group buttons
+	^ group registeredCheckables
 		  detect: [ :btn | btn isChecked ]
 		  ifNone: [  ]
 ]
@@ -116,7 +116,7 @@ ToChoiceMenu >> initialize [
 { #category : #'private - accessing' }
 ToChoiceMenu >> menuItemFromData: anObject [
 
-	^ group buttons
+	^ group registeredCheckables
 		  detect: [ :btn | btn data = anObject ]
 		  ifNone: [  ]
 ]

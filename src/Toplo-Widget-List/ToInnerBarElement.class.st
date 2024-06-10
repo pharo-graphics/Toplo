@@ -6,7 +6,8 @@ Class {
 		'dataSource',
 		'dataSourceObserver',
 		'dataSourceManager',
-		'scrollable'
+		'scrollable',
+		'fakeNode'
 	],
 	#category : #'Toplo-Widget-List-InnerBar'
 }
@@ -15,7 +16,7 @@ Class {
 ToInnerBarElement class >> onBarElement: aBarElement [
 
 	^ self basicNew
-		  listElement: aBarElement;
+		  onBarElement: aBarElement;
 		  initialize
 ]
 
@@ -45,15 +46,11 @@ ToInnerBarElement >> configureLayout [
 	super configureLayout.
 	self isHorizontal
 		ifTrue: [
-			self hMatchParent.
-			self vFitContent.
 			self middleContainer constraintsDo: [ :c |
 				c linear vertical alignCenter.
 				c horizontal matchParent.
 				c vertical fitContent ] ]
 		ifFalse: [
-			self vMatchParent.
-			self hFitContent.
 			self middleContainer constraintsDo: [ :c |
 				c linear horizontal alignCenter.
 				c vertical matchParent.
@@ -121,9 +118,9 @@ ToInnerBarElement >> enableScrolledEvent [
 ]
 
 { #category : #'accessing - nodes' }
-ToInnerBarElement >> fakeNode [ 
+ToInnerBarElement >> fakeNode [
 
-	^ self childWithId: #fakeNode
+	^ fakeNode
 ]
 
 { #category : #'t - children - accessing' }
@@ -153,6 +150,11 @@ ToInnerBarElement >> fullyVisibleNodesSelect: aBlock [
 ToInnerBarElement >> initialize [
 
 	super initialize.
+
+	self
+		addEventHandlerOn: ToMainResizerChangedEvent
+		do: [ :event | event sendTo: self ].
+		
 	self initializeDataSource.
 	self id: #innerElement.
 	scrollable := ToScrollableBarElement new.
@@ -185,11 +187,11 @@ ToInnerBarElement >> initializeFakeDataView [
 	suitable minimum height according to the node class, the node builder 
 	and the data kind."
 
-	| holder fakeNode |
+	| holder |
 	holder := dataSource createHolder: self.
 	holder infiniteElement: self.
 	holder bindAtPosition: 0.
-	fakeNode := self listElement nodeManager newFakeNodeForHolder: holder.
+	fakeNode := self nodeManager newFakeNodeForHolder: holder.
 	fakeNode id: #fakeNode.
 
 	" add the fake node (to keep a constant minimum size ) "
@@ -212,6 +214,30 @@ ToInnerBarElement >> listElement [
 ToInnerBarElement >> listElement: aListElement [
 
 	listElement := aListElement
+]
+
+{ #category : #layout }
+ToInnerBarElement >> mainResizerChangedEvent: aMainResizerChangedEvent [
+
+	| root hResizer vResizer |
+	root := aMainResizerChangedEvent root.
+	hResizer := root constraints horizontal resizer.
+	vResizer := root constraints vertical resizer.
+	hResizer isFitContent
+		ifTrue: [
+			self hFitContent.
+			self middleContainer constraintsDo: [ :c | c horizontal fitContent ] ]
+		ifFalse: [
+			self hMatchParent.
+			self middleContainer constraintsDo: [ :c |
+				c horizontal matchParent ] ].
+	vResizer isFitContent
+		ifTrue: [
+			self vFitContent.
+			self middleContainer constraintsDo: [ :c | c vertical fitContent ] ]
+		ifFalse: [
+			self vMatchParent.
+			self middleContainer constraintsDo: [ :c | c vertical matchParent ] ]
 ]
 
 { #category : #'instance creation' }
@@ -245,6 +271,12 @@ ToInnerBarElement >> nodeGroupsSatisfying: aBlock [
 						  stream nextPut: g.
 						  g := OrderedCollection new ] ] ].
 		  g ifNotEmpty: [ stream nextPut: g ] ]
+]
+
+{ #category : #accessing }
+ToInnerBarElement >> nodeManager [
+
+	^ self listElement nodeManager
 ]
 
 { #category : #'accessing - nodes' }
@@ -283,6 +315,13 @@ ToInnerBarElement >> notifyChildDetached: anElement [
 	"Notify all event handlers that element is detached from the inner bar"
 
 	self dispatchEvent: (BlInfiniteElementDetachedEvent element: anElement)
+]
+
+{ #category : #initialization }
+ToInnerBarElement >> onBarElement: aListElement [
+
+	listElement ifNotNil: [ BlImmutableObjectChangeError signal ].
+	self listElement: aListElement
 ]
 
 { #category : #'data source updates' }

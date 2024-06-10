@@ -4,8 +4,7 @@ Class {
 	#instVars : [
 		'nodeHolderClass',
 		'nodeFactory',
-		'nodeBuilder',
-		'nodeUnbinder'
+		'nodeBuilder'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -14,6 +13,14 @@ Class {
 ToAbstractListNodeManager >> buildNode: aNode inHolder: aNodeHolder [
 
 	nodeBuilder cull: aNode cull: aNodeHolder cull: aNodeHolder dataItem.
+]
+
+{ #category : #initialization }
+ToAbstractListNodeManager >> constraintNode: aNode [
+
+	aNode constraintsDo: [ :c |
+		  c horizontal matchParent.
+		  c vertical fitContent ] 
 ]
 
 { #category : #initialization }
@@ -31,23 +38,16 @@ ToAbstractListNodeManager >> defaultNodeFactory [
 { #category : #initialization }
 ToAbstractListNodeManager >> defaultNodeHolderClass [
 
-	^ ToNodeHolder
+	^ self subclassResponsibility 
 ]
 
 { #category : #initialization }
-ToAbstractListNodeManager >> defaultNodeUnbinder [
-
-	^ [:node | ]
-]
-
-{ #category : #initialization }
-ToAbstractListNodeManager >> initialize [ 
+ToAbstractListNodeManager >> initialize [
 
 	super initialize.
 	nodeHolderClass := self defaultNodeHolderClass.
 	nodeBuilder := self defaultNodeBuilder.
-	nodeFactory := self defaultNodeFactory.
-	nodeUnbinder := self defaultNodeUnbinder 
+	nodeFactory := self defaultNodeFactory
 ]
 
 { #category : #'instance creation' }
@@ -89,5 +89,5 @@ ToAbstractListNodeManager >> nodeHolderClass: aNodeHolderClass [
 { #category : #initialization }
 ToAbstractListNodeManager >> unbindNode: aNode [
 
-	nodeUnbinder value: aNode
+
 ]

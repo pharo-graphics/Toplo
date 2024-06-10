@@ -75,9 +75,7 @@ ToploDemoPresenter >> demo2 [
 ToploDemoPresenter >> demo3 [
 
 	<demo>
-
 	| containerElement radioButtonLightTheme radioButtonDarkTheme checkableGroup |
-	
 	(containerElement := ToElement new)
 		constraintsDo: [ :constraints |
 			constraints horizontal matchParent.
@@ -87,14 +85,19 @@ ToploDemoPresenter >> demo3 [
 	(radioButtonLightTheme := ToRadioButton new)
 		labelText: 'Light theme';
 		checked: true.
-	(radioButtonDarkTheme := ToRadioButton new)
-		labelText: 'Dark theme'.
+	(radioButtonDarkTheme := ToRadioButton new) labelText: 'Dark theme'.
 	(checkableGroup := ToCheckableGroup new)
 		withStrictCheckingStrategy;
-		addAll: { radioButtonLightTheme. radioButtonDarkTheme };
-		addEventHandler: (BlEventHandler on: ToCheckableGroupChangedEvent do: [ :event |
-			containerElement space toTheme: ((event checkedButtons anyOne = radioButtonLightTheme)
-				ifTrue: [ ToRawTheme new ] ifFalse: [ ToRawDarkTheme new ]) ]).
+		addAll: {
+				radioButtonLightTheme.
+				radioButtonDarkTheme };
+		addEventHandler: (BlEventHandler
+				 on: ToCheckableGroupChangedEvent
+				 do: [ :event |
+					 containerElement space toTheme:
+							 (event uncheckedList anyOne = radioButtonLightTheme
+								  ifTrue: [ ToRawTheme new ]
+								  ifFalse: [ ToRawDarkTheme new ]) ]).
 	containerElement addChildren: checkableGroup buttons.
 	^ containerElement
 ]

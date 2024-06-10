@@ -12,6 +12,30 @@ ToElement >> defaultLayout [
 	^ BlFrameLayout new
 ]
 
+{ #category : #'as yet unclassified' }
+ToElement >> dispatchMainLayoutDirectionChanged [
+
+	| event |
+	event := ToMainLayoutDirectionChangedEvent new root: self.
+	self withAllChildrenBreadthFirstDo: [ :e | e dispatchEvent: event ]
+]
+
+{ #category : #'as yet unclassified' }
+ToElement >> dispatchMainLayoutOrientationChanged [
+
+	| event |
+	event := ToMainLayoutOrientationChangedEvent new root: self.
+	self withAllChildrenBreadthFirstDo: [ :e | e dispatchEvent: event ]
+]
+
+{ #category : #'as yet unclassified' }
+ToElement >> dispatchMainResizerChanged [
+
+	| event |
+	event := ToMainResizerChangedEvent new root: self.
+	self withAllChildrenBreadthFirstDo: [ :e | e dispatchEvent: event ]
+]
+
 { #category : #utilities }
 ToElement >> inHorizontalPane [
 

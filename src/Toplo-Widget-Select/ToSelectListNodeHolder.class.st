@@ -1,6 +1,6 @@
 Class {
 	#name : #ToSelectListNodeHolder,
-	#superclass : #ToNodeHolder,
+	#superclass : #ToListNodeHolder,
 	#category : #'Toplo-Widget-Select-List'
 }
 

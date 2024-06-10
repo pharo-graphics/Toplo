@@ -10,3 +10,9 @@ ToListNodeManager >> defaultNodeBuilder [
 	^ [ :node :holder :dataItem |
 	  node addChild: (ToLabel text: dataItem asString) hMatchParent ]
 ]
+
+{ #category : #initialization }
+ToListNodeManager >> defaultNodeHolderClass [
+
+	^ ToListNodeHolder
+]

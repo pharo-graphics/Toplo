@@ -38,8 +38,7 @@ ToTabPaneHeader >> body [
 { #category : #initialization }
 ToTabPaneHeader >> checkableGroupChangedEvent: anEvent [
 
-	anEvent uncheckedButtons do: [ :but | ].
-	anEvent checkedButtons do: [ :but | ].
+	anEvent checkedList do: [ :but |  ]
 ]
 
 { #category : #accessing }
@@ -104,9 +103,8 @@ ToTabPaneHeader >> initialize [
 { #category : #'add-remove' }
 ToTabPaneHeader >> onTabAdded: aButton [
 
-	self group add: aButton.
-	self tabs add: aButton.
-	
+	self group register: aButton.
+	self tabs add: aButton
 ]
 
 { #category : #'add-remove' }
@@ -121,7 +119,7 @@ ToTabPaneHeader >> onTabRemoved: aTab [
 		         ifFalse: [ 0 ].
 
 	self tabs remove: aTab.
-	self group remove: aTab.
+	self group unregister: aTab.
 	index > 0 ifFalse: [ ^ self ].
 	self tabs ifEmpty: [ ^ self ].
 

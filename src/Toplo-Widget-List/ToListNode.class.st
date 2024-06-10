@@ -17,5 +17,17 @@ ToListNode >> initialize [
 
 	super initialize.
 	self layout: self defaultLayout.
-	self setInitialConfiguration 
+	self addEventHandler: self newEventHandler 
+]
+
+{ #category : #testing }
+ToListNode >> isSelected [
+
+	^ self holder isSelected
+]
+
+{ #category : #'instance creation' }
+ToListNode >> newEventHandler [
+
+	^ ToListNodeEventHandler new
 ]

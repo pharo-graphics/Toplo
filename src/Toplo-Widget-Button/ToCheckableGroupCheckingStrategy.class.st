@@ -24,28 +24,51 @@ ToCheckableGroupCheckingStrategy >> checkChangePreNotification: aPreCheckableCha
 ]
 
 { #category : #notifications }
+ToCheckableGroupCheckingStrategy >> onAddEvent: aCollectionChangeEvent in: aGroup [
+
+	aCollectionChangeEvent interval do: [ :idx |
+		| aCheckable |
+		aCheckable := aGroup registeredCheckables at: idx.
+		self register: aCheckable in: aGroup ]
+]
+
+{ #category : #notifications }
 ToCheckableGroupCheckingStrategy >> onButtonAdded: aCheckable in: aGroup [
 
-	aCheckable group: aGroup
+	self
+		deprecated: 'send #register:in: instead'
+		transformWith: '`@receiver onButtonAdded: `@arg1 in: `@arg2'
+			-> '`@receiver register: `@arg1 in: `@arg2'.
+
+	self register: aCheckable in: aGroup
 ]
 
 { #category : #notifications }
 ToCheckableGroupCheckingStrategy >> onButtonRemoved: aCheckable in: aGroup [
 
-	aCheckable group: nil
+	self
+		deprecated: 'send #unregister:in: instead'
+		transformWith: '`@receiver onButtonRemoved: `@arg1 in: `@arg2'
+			-> '`@receiver unregister: `@arg1 from: `@arg2'.
+
+	self unregister: aCheckable from: aGroup
 ]
 
 { #category : #notifications }
-ToCheckableGroupCheckingStrategy >> onButtonsAddEvent: aCollectionChangeEvent in: aGroup [
-
-	aCollectionChangeEvent interval do: [ :idx | | aCheckable |
-		aCheckable := aGroup buttons at: idx.
-		self onButtonAdded: aCheckable in: aGroup]
-]
-
-{ #category : #notifications }
-ToCheckableGroupCheckingStrategy >> onButtonsRemoveEvent: aCollectionChangeEvent in: aGroup [
+ToCheckableGroupCheckingStrategy >> onRemoveEvent: aCollectionChangeEvent in: aGroup [
 
 	aCollectionChangeEvent removed do: [ :checkable |
-		self onButtonRemoved: checkable in: aGroup ]
+		self unregister: checkable from: aGroup ]
+]
+
+{ #category : #notifications }
+ToCheckableGroupCheckingStrategy >> register: aCheckable in: aGroup [
+
+	aCheckable group: aGroup
+]
+
+{ #category : #notifications }
+ToCheckableGroupCheckingStrategy >> unregister: aCheckable from: aGroup [
+
+	aCheckable group: nil
 ]

@@ -12,7 +12,7 @@ TToListNode >> autoDistribute: aBoolean [
 				self holder listElement isHorizontal
 					ifTrue: [ c horizontal matchParent ]
 					ifFalse: [ c vertical matchParent ] ] ]
-		ifFalse: [ self setInitialConfiguration ]
+		ifFalse: [ "self setInitialConfiguration" ]
 ]
 
 { #category : #'t - list node' }
@@ -49,13 +49,4 @@ TToListNode >> nodeContainerIntersection [
 	pbnds := pbnds withRight: pbnds right - self endWidthGap.
 	intersection := bnds intersect: pbnds.
 	^ intersection 
-]
-
-{ #category : #'t - list node' }
-TToListNode >> setInitialConfiguration [
-
-	self padding: (BlInsets horizontal: 4).
-	self constraintsDo: [ :c |
-		c horizontal matchParent.
-		c vertical fitContent ]
 ]

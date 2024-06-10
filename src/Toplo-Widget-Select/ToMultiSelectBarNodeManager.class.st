@@ -19,7 +19,7 @@ ToMultiSelectBarNodeManager >> defaultNodeBuilder [
 		  ifFalse: [ t := dataItem content ].
 
 	  node middleElement: (ToLabel text: t).
-	  node autoDistribute: holder listElement nodeAutoDistribution ]
+	 " node autoDistribute: holder listElement nodeAutoDistribution" ]
 ]
 
 { #category : #initialization }

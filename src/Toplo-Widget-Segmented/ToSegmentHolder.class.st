@@ -1,11 +1,11 @@
 Class {
 	#name : #ToSegmentHolder,
-	#superclass : #ToNodeHolder,
+	#superclass : #ToBarNodeHolder,
 	#category : #'Toplo-Widget-Segmented'
 }
 
 { #category : #accessing }
 ToSegmentHolder >> segmentedElement [
 
-	^ self listElement
+	^ self barElement
 ]

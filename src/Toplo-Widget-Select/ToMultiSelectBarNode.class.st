@@ -131,12 +131,3 @@ ToMultiSelectBarNode >> removeRemoveButton [
 	but ifNil: [ ^ self ].
 	but removeFromParent
 ]
-
-{ #category : #'t - list node' }
-ToMultiSelectBarNode >> setInitialConfiguration [
-
-	self padding: (BlInsets horizontal: 4).
-	self constraintsDo: [ :c |
-		c horizontal fitContent.
-		c vertical fitContent ]
-]

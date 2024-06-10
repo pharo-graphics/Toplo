@@ -207,31 +207,33 @@ ToAbstractListElement >> initialize [
 
 	super initialize.
 	nodeManager := self defaultNodeManager.
-	
+
 	self initializeDataSource.
 	self initializeCommandChecker.
 	self initializeInnerContainer.
 
 	beneathContainer := ToOverlayElement new.
 	beneathContainer attachTo: self innerContainer.
-	beneathContainer elevation: (BlRelativeElevation elevation: 5).  
+	beneathContainer elevation: (BlRelativeElevation elevation: 5).
 	overContainer := ToOverlayElement new.
 	overContainer attachTo: self innerContainer.
-	overContainer elevation: (BlRelativeElevation elevation: 15). 
-	self addChildren: { beneathContainer. overContainer }.
+	overContainer elevation: (BlRelativeElevation elevation: 15).
+	self addChildren: {
+			beneathContainer.
+			overContainer }.
 
-	self layout: self defaultLayout.	
+	self layout: self defaultLayout.
 
 	self selectionMode: self defaultSelectionMode.
 	self addEventHandler: self defaultEventHandler.
-	
+
 	self contextMenuWindowManagerClass: self defaultContextMenuWindowManagerClass.
 	self addEventHandler: self newPrimarySelectionEventHandler.
-	self addEventHandler:	self newContextMenuEventHandler.
-		
+	self addEventHandler: self newContextMenuEventHandler.
+
 	self secondarySelectionMode: self defaultSecondarySelectionMode.
 	self addEventHandler: self newSecondarySelectionEventHandler.
-	
+
 	self matchParent
 ]
 

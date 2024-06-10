@@ -6,6 +6,14 @@ Class {
 	#category : #'Toplo-Widget-List-Node'
 }
 
+{ #category : #accessing }
+ToListNode >> clickEventHandlerClasses [
+
+	^ self holder listElement isMultipleSelection
+		  ifTrue: [ { ToListNodeMultiSelectionClickEventHandler } ]
+		  ifFalse: [ { ToListNodeSingleSelectionClickEventHandler } ]
+]
+
 { #category : #'t - list node' }
 ToListNode >> defaultLayout [ 
 

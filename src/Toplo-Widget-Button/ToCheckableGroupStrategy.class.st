@@ -6,25 +6,25 @@ aStrategy can be Strong, WithUncheck or None
 
 "
 Class {
-	#name : #ToCheckableGroupCheckingStrategy,
+	#name : #ToCheckableGroupStrategy,
 	#superclass : #Object,
 	#category : #'Toplo-Widget-Button-Checkable'
 }
 
 { #category : #testing }
-ToCheckableGroupCheckingStrategy >> allowUnchecking [
+ToCheckableGroupStrategy >> allowUnchecking [
 
 	^ true
 ]
 
 { #category : #testing }
-ToCheckableGroupCheckingStrategy >> checkChangePreNotification: aPreCheckableChangedEvent in: aGroup [
+ToCheckableGroupStrategy >> checkChangePreNotification: aPreCheckableChangedEvent in: aGroup [
 
 	self subclassResponsibility 
 ]
 
 { #category : #notifications }
-ToCheckableGroupCheckingStrategy >> onAddEvent: aCollectionChangeEvent in: aGroup [
+ToCheckableGroupStrategy >> onAddEvent: aCollectionChangeEvent in: aGroup [
 
 	aCollectionChangeEvent interval do: [ :idx |
 		| aCheckable |
@@ -33,7 +33,7 @@ ToCheckableGroupCheckingStrategy >> onAddEvent: aCollectionChangeEvent in: aGrou
 ]
 
 { #category : #notifications }
-ToCheckableGroupCheckingStrategy >> onButtonAdded: aCheckable in: aGroup [
+ToCheckableGroupStrategy >> onButtonAdded: aCheckable in: aGroup [
 
 	self
 		deprecated: 'send #register:in: instead'
@@ -44,7 +44,7 @@ ToCheckableGroupCheckingStrategy >> onButtonAdded: aCheckable in: aGroup [
 ]
 
 { #category : #notifications }
-ToCheckableGroupCheckingStrategy >> onButtonRemoved: aCheckable in: aGroup [
+ToCheckableGroupStrategy >> onButtonRemoved: aCheckable in: aGroup [
 
 	self
 		deprecated: 'send #unregister:in: instead'
@@ -55,20 +55,20 @@ ToCheckableGroupCheckingStrategy >> onButtonRemoved: aCheckable in: aGroup [
 ]
 
 { #category : #notifications }
-ToCheckableGroupCheckingStrategy >> onRemoveEvent: aCollectionChangeEvent in: aGroup [
+ToCheckableGroupStrategy >> onRemoveEvent: aCollectionChangeEvent in: aGroup [
 
 	aCollectionChangeEvent removed do: [ :checkable |
 		self unregister: checkable from: aGroup ]
 ]
 
 { #category : #notifications }
-ToCheckableGroupCheckingStrategy >> register: aCheckable in: aGroup [
+ToCheckableGroupStrategy >> register: aCheckable in: aGroup [
 
 	aCheckable group: aGroup
 ]
 
 { #category : #notifications }
-ToCheckableGroupCheckingStrategy >> unregister: aCheckable from: aGroup [
+ToCheckableGroupStrategy >> unregister: aCheckable from: aGroup [
 
 	aCheckable group: nil
 ]

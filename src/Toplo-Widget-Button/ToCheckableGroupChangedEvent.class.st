@@ -43,6 +43,12 @@ ToCheckableGroupChangedEvent >> checkedList: aCollection [
 	checkedList := aCollection
 ]
 
+{ #category : #sending }
+ToCheckableGroupChangedEvent >> sendTo: anObject [
+
+	anObject checkableGroupChangedEvent: self
+]
+
 { #category : #accessing }
 ToCheckableGroupChangedEvent >> uncheckedButtons [
 

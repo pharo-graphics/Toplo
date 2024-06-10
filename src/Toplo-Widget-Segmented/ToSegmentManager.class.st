@@ -34,12 +34,6 @@ ToSegmentManager >> defaultNodeHolderClass [
 	^ ToSegmentHolder
 ]
 
-{ #category : #accessing }
-ToSegmentManager >> fakeElement: anElement [
-	
-	self fakeDataItem: anElement
-]
-
 { #category : #'instance creation' }
 ToSegmentManager >> newFakeNodeForHolder: anHolder [
 

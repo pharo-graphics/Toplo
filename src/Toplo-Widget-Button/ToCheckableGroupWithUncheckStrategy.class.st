@@ -1,6 +1,6 @@
 Class {
 	#name : #ToCheckableGroupWithUncheckStrategy,
-	#superclass : #ToCheckableGroupCheckingStrategy,
+	#superclass : #ToCheckableGroupStrategy,
 	#category : #'Toplo-Widget-Button-Checkable'
 }
 

@@ -16,6 +16,19 @@ ToSegmentedElement >> defaultNodeManagerClass [
 	^ ToSegmentManager 
 ]
 
+{ #category : #initialization }
+ToSegmentedElement >> defaultSelectionMode [
+
+	^ ToSegmentedSelectionMode primary
+]
+
+{ #category : #initialization }
+ToSegmentedElement >> initialize [
+
+	super initialize.
+	self selectionMode multiple: true
+]
+
 { #category : #'instance creation' }
 ToSegmentedElement >> newPrimarySelectionEventHandler [
 

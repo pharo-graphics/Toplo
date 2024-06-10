@@ -18,6 +18,12 @@ ToUnanimityRequestEvent >> accepted [
 ]
 
 { #category : #visiting }
+ToUnanimityRequestEvent >> denied [
+
+	^ self accepted not
+]
+
+{ #category : #visiting }
 ToUnanimityRequestEvent >> deny [
 
 	sourceEvent := nil

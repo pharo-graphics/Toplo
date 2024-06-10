@@ -186,27 +186,47 @@ ToListSelectionMode >> multiple: aBoolean [
 ]
 
 { #category : #accessing }
-ToListSelectionMode >> nodeEventHandlerClasses [
-
-	^ self isMultipleSelection
-		  ifTrue: [ { ToListNodeMultiSelectionClickEventHandler } ]
-		  ifFalse: [ { ToListNodeSingleSelectionClickEventHandler } ]
-]
-
-{ #category : #accessing }
 ToListSelectionMode >> onAddedNode: aNode [
 
-	self nodeEventHandlerClasses do: [ :cls | aNode addEventHandler: cls new ]
+	aNode clickEventHandlerClasses do: [ :cls |
+		aNode addEventHandler: cls new ]
 ]
 
 { #category : #'event handling' }
 ToListSelectionMode >> onClickEvent: anEvent onNode: aNode [
+	" implement the default/standard selection/deselection protocol"
 
 	self isDisabled ifTrue: [ ^ self ].
-	self isMultipleSelection ifTrue: [
-		self onMultiSelectionClickEvent: anEvent onNode: aNode.
+
+	" Multiple selection "
+	self isMultipleSelection ifTrue: [ 
+		
+		" SHIFT "
+		anEvent sourceEvent modifiers isShift ifTrue: [
+			| curr |
+			curr := self selecter currentIndex.
+			self selecter selectIndex: curr to: aNode holder position.
+			^ self ].
+		" CMD-CTRL "
+		(anEvent sourceEvent modifiers isPrimaryModifier or: [
+			 self selectOnMouseDown ]) ifTrue: [
+			self selectOrDeselectOnNode: aNode.
+			^ self ].
+		" No modifier"
+		self selecter selectOnlyIndex: aNode holder position.
 		^ self ].
-	self onSingleSelectionClickEvent: anEvent onNode: aNode
+
+	" Single selection "
+	" CMD-CTRL  "
+	(anEvent sourceEvent modifiers isPrimaryModifier or: [
+		 self selectOnMouseDown ]) ifTrue: [
+		| index |
+		index := aNode holder position.
+		(self selectionModel containsIndex: index) ifTrue: [
+			^ self selecter deselectIndex: index ] ].
+
+	" No modifier"
+	self selecter selectOnlyIndex: aNode holder position
 ]
 
 { #category : #'api - hooks' }
@@ -228,40 +248,13 @@ ToListSelectionMode >> onInstalledIn: anElement [
 		multiple: self isMultipleSelection
 ]
 
-{ #category : #'event handling' }
-ToListSelectionMode >> onMultiSelectionClickEvent: anEvent onNode: aNode [
-
-	anEvent sourceEvent modifiers isShift ifTrue: [
-		| curr |
-		curr := self selecter currentIndex.
-		self selecter selectIndex: curr to: aNode holder position.
-		^ self ].
-	(anEvent sourceEvent modifiers isPrimaryModifier or: [
-		 self selectOnMouseDown ]) ifTrue: [
-		self selectOrDeselectOnNode: aNode.
-		^ self ].
-	self selecter selectOnlyIndex: aNode holder position
-]
-
 { #category : #accessing }
 ToListSelectionMode >> onRemovedNode: aNode [
 
 	(aNode eventDispatcher handlers select: [ :handler |
-		 self nodeEventHandlerClasses anySatisfy: [ :cls |
-			 cls inheritsFrom: ToListNodeSelectionEventHandler ] ]) do: [ :handler |
+		 aNode clickEventHandlerClasses anySatisfy: [ :cls |
+			 handler class = cls ] ]) do: [ :handler |
 		aNode removeEventHandler: handler ]
-]
-
-{ #category : #'event handling' }
-ToListSelectionMode >> onSingleSelectionClickEvent: anEvent onNode: aNode [
-
-	(anEvent sourceEvent modifiers isPrimaryModifier or: [
-		 self selectOnMouseDown ]) ifTrue: [
-		| index |
-		index := aNode holder position.
-		(self selectionModel containsIndex: index) ifTrue: [
-			^ self selecter deselectIndex: index ] ].
-	self selecter selectOnlyIndex: aNode holder position
 ]
 
 { #category : #'api - hooks' }

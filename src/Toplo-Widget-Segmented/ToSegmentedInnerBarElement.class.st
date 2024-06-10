@@ -8,7 +8,9 @@ Class {
 ToSegmentedInnerBarElement >> initialize [
 
 	super initialize.
-	self addEventHandlerOn: ToMainLayoutOrientationChangedEvent do: [ :event | event sendTo: self ]
+	self
+		addEventHandlerOn: ToMainLayoutOrientationChangedEvent
+		do: [ :event | event sendTo: self ]
 ]
 
 { #category : #layout }

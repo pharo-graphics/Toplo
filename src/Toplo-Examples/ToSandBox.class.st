@@ -151,7 +151,7 @@ ToSandBox class >> barDashBoardFor: aBar [
 					 ifTrue: [ aBar selectionMode multiple: true ]
 					 ifFalse: [
 					 mode = #Single ifTrue: [ aBar selectionMode multiple: false ] ] ]).
-	buttons second checked: true.
+	buttons first checked: true.
 	selectionModeContainer := ToPane vertical.
 	selectionModeContainer
 		hMatchParent;
@@ -2230,25 +2230,51 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 { #category : #segmented }
 ToSandBox class >> example_SpToggleButton [
 
-	| seg dashBoard |
+	| seg dashBoard rootPane feedbackPane maj |
 	seg := ToSegmentedElement new.
 	seg segmentAccessor add:
-		((ToButton new label: (ToLabel text: 'Button 1'))
+		((ToLabeledIcon new label: (ToLabel text: 'Button 1'))
 			 tooltipString: 'Button 1';
-			 whenClickedDo: [ :event | event currentTarget traceCr ];
 			 yourself).
 	seg segmentAccessor add:
-		((ToButton new label: (ToLabel text: 'Button 2'))  tooltipString: 'Button 2';
-			 whenClickedDo: [ :event | event currentTarget traceCr ];
+		((ToLabeledIcon new label: (ToLabel text: 'Button 2'))
+			 tooltipString: 'Button 2';
 			 yourself).
 	seg segmentAccessor add:
-		((ToButton new label: (ToLabel text: 'Button 3'))  tooltipString: 'Button 3';
-			 whenClickedDo: [ :event | event currentTarget traceCr ];
+		((ToLabeledIcon new label: (ToLabel text: 'Button 3'))
+			 tooltipString: 'Button 3';
 			 yourself).
-	seg selectionMode multiple: false.
+	
+	seg dataAccessor do: [ :e | 			 e startFlexible: true;
+			 endFlexible: true;
+			 hMatchParent].
 
 	dashBoard := self barDashBoardFor: seg.
-	dashBoard openInSpace.
+	feedbackPane := ToPane horizontal.
+	feedbackPane layout alignCenter.
+	maj := [
+	       | t |
+	       feedbackPane removeChildren.
+	       t := String streamContents: [ :stream |
+		            seg dataAccessor withIndexDo: [ :e :idx |
+			            stream
+				            nextPutAll: e label text asString;
+				            nextPutAll: ': '.
+			            (seg selectionModel containsIndex: idx)
+				            ifTrue: [ stream nextPutAll: 'V' ]
+				            ifFalse: [ stream nextPutAll: 'X' ].
+			            stream nextPutAll: ' '.
+			            idx < seg dataAccessor itemCount ifTrue: [
+				            stream nextPutAll: '- ' ] ] ].
+	       feedbackPane addChild: (ToLabel text: t) ].
+	seg addEventHandlerOn: ToListPrimarySelectionChangedEvent do: maj.
+	seg addEventHandlerOn: BlElementAddedToSceneGraphEvent do: maj.
+	rootPane := ToPane vertical.
+	rootPane matchParent.
+	rootPane addChildren: {
+			dashBoard.
+			feedbackPane }.
+	rootPane openInSpace.
 	seg inspect
 ]
 

@@ -3,7 +3,7 @@ Trait {
 	#category : #'Toplo-Widget-List-Node'
 }
 
-{ #category : #initialization }
+{ #category : #'t - list node' }
 TToListNode >> autoDistribute: aBoolean [
 
 	aBoolean
@@ -16,9 +16,23 @@ TToListNode >> autoDistribute: aBoolean [
 ]
 
 { #category : #'t - list node' }
+TToListNode >> clickEventHandlerClasses [
+
+	^ self holder listElement isMultipleSelection
+		  ifTrue: [ { ToListNodeMultiSelectionClickEventHandler } ]
+		  ifFalse: [ { ToListNodeSingleSelectionClickEventHandler } ]
+]
+
+{ #category : #'t - list node' }
 TToListNode >> endWidthGap [
 
 	^ 0
+]
+
+{ #category : #'t - list node' }
+TToListNode >> isFake [
+
+	^ self holder listElement fakeNode = self
 ]
 
 { #category : #'t - list node' }

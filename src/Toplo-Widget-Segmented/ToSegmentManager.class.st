@@ -4,10 +4,18 @@ Class {
 	#category : #'Toplo-Widget-Segmented'
 }
 
+{ #category : #'instance creation' }
+ToSegmentManager >> buildFakeNode: aFakeNode inHolder: anHolder [
+
+	anHolder dataItem:
+		(ToLabeledIcon new labelText: self fakeDataItem asString).
+	super buildFakeNode: aFakeNode inHolder: anHolder
+]
+
 { #category : #initialization }
 ToSegmentManager >> constraintNode: aSegment [
 
-	super constraintNode: aSegment.
+	super constraintNode: aSegment
 	"aSegment constraintsDo: [ :c |
 		c vertical fitContent.
 		aSegment holder segmentedElement isHorizontal
@@ -18,28 +26,21 @@ ToSegmentManager >> constraintNode: aSegment [
 { #category : #initialization }
 ToSegmentManager >> defaultNodeBuilder [
 
-	^ [ :segment :holder :element |
+	^ [ :segment :holder :element | segment isFake ifFalse: [segment registerInGroup: holder segmentedElement group].
 	  segment addChild: element ]
 ]
 
 { #category : #initialization }
 ToSegmentManager >> defaultNodeFactory [
 
-	^ [ :holder | ToSegment new ]
+	^ [ :holder |
+	  ToSegment new ]
 ]
 
 { #category : #initialization }
 ToSegmentManager >> defaultNodeHolderClass [
 
 	^ ToSegmentHolder
-]
-
-{ #category : #'instance creation' }
-ToSegmentManager >> newFakeNodeForHolder: anHolder [
-
-	anHolder dataItem: (ToLabeledIcon new labelText: self fakeDataItem asString).
-	^ super newFakeNodeForHolder: anHolder
-
 ]
 
 { #category : #initialization }

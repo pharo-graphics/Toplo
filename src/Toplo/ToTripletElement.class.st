@@ -30,7 +30,7 @@ ToTripletElement >> configureLayout [
 	self isHorizontal
 		ifTrue: [
 			self startGap size: startInterspace @ 0.
-			self endGap  size: endInterspace @ 0.
+			self endGap size: endInterspace @ 0.
 			self endElement ifNotNil: [ :ee |
 				ee constraints frame horizontal alignRight ] ]
 		ifFalse: [

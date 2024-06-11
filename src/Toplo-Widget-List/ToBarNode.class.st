@@ -13,12 +13,6 @@ ToBarNode >> initialize [
 	self initializeForToplo 
 ]
 
-{ #category : #testing }
-ToBarNode >> isFakeNode [ 
-
-	^ self holder listElement fakeNode = self
-]
-
 { #category : #skin }
 ToBarNode >> newRawSkin [ 
 

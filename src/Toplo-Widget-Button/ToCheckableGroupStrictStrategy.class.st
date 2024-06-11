@@ -5,23 +5,20 @@ Class {
 }
 
 { #category : #testing }
-ToCheckableGroupStrictStrategy >> allowUnchecking [
+ToCheckableGroupStrictStrategy >> allowChangeWith: aCheckValue in: aGroup forCheckable: aCheckable [
+	" do not allow to uncheck a button by checking it "
 
-	^ false
+	(aCheckValue not and: [ aCheckable checked ]) ifTrue: [
+		^ false ].
+	" ok, the button is unchecked -> uncheck others then check it"
+	aGroup uncheckAllExcept: aCheckable.
+	^ true
 ]
 
 { #category : #testing }
-ToCheckableGroupStrictStrategy >> checkChangePreNotification: aPreCheckableChangedEvent in: aGroup [
-	" do not allow to uncheck a button by checking it "
+ToCheckableGroupStrictStrategy >> allowUnchecking [
 
-	| target checked |
-	target := aPreCheckableChangedEvent currentTarget.
-	checked := aPreCheckableChangedEvent checked.
-	(checked not and: [ target checked ]) ifTrue: [
-		aPreCheckableChangedEvent deny.
-		^ self ].
-	" ok, the button is unchecked -> uncheck others then check it"
-	aGroup uncheckAllExcept: target
+	^ false
 ]
 
 { #category : #notifications }

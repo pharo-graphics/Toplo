@@ -446,12 +446,6 @@ BlElement >> styleSheetChain [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> switchToNextCheckState [
-
-	" introduced here to avoid questionable condition for the management of the click event "
-]
-
-{ #category : #'*Toplo' }
 BlElement >> textAttributesBuilder [
 
 	^ self skinManager textAttributesBuilder

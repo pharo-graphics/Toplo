@@ -12,6 +12,14 @@ ToUnanimityRequestEvent >> accept [
 ]
 
 { #category : #visiting }
+ToUnanimityRequestEvent >> accept: aBoolean [
+
+	aBoolean ifFalse: [ self deny ]
+
+	
+]
+
+{ #category : #visiting }
 ToUnanimityRequestEvent >> accepted [
 
 	^ sourceEvent notNil

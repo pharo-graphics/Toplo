@@ -8,7 +8,7 @@ Class {
 ToListNodeEventHandler >> constraintNode: aNode [
 
 	| nodeManager |
-	aNode isFakeNode ifTrue: [ ^ self ].
+	aNode isFake ifTrue: [ ^ self ].
 	nodeManager := aNode holder nodeManager.
 	nodeManager constraintNode: aNode
 ]

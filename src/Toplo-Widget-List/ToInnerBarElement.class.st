@@ -191,7 +191,8 @@ ToInnerBarElement >> initializeFakeDataView [
 	holder := dataSource createHolder: self.
 	holder infiniteElement: self.
 	holder bindAtPosition: 0.
-	fakeNode := self nodeManager newFakeNodeForHolder: holder.
+	fakeNode := self nodeManager newNodeForHolder: holder.
+	self nodeManager buildFakeNode: fakeNode inHolder: holder.
 	fakeNode id: #fakeNode.
 
 	" add the fake node (to keep a constant minimum size ) "

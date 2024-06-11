@@ -16,7 +16,7 @@ ToListElementEventHandler >> doubleClickEvent: anEvent [
 	| target |
 	target := anEvent currentTarget.
 	" first, inform the node that a double click is received "
-	target innerContainer childrenDo: [ :node |
+	target innerContainer nodesDo: [ :node |
 		node dispatchEvent: (ToListDoubleClickEvent new
 				 sourceEvent: anEvent;
 				 yourself) ].

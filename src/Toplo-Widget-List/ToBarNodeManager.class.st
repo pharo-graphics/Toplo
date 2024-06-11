@@ -7,6 +7,19 @@ Class {
 	#category : #'Toplo-Widget-List-Core'
 }
 
+{ #category : #'instance creation' }
+ToBarNodeManager >> buildFakeNode: aFakeNode inHolder: anHolder [
+
+	self buildNode: aFakeNode inHolder: anHolder.
+	self constraintNode: aFakeNode.
+	aFakeNode constraintsDo: [ :c |
+		aFakeNode holder listElement isHorizontal
+			ifTrue: [ c horizontal exact: 0 ]
+			ifFalse: [ c vertical exact: 0 ] ].
+	aFakeNode margin: BlInsets empty.
+	anHolder node: aFakeNode
+]
+
 { #category : #initialization }
 ToBarNodeManager >> constraintNode: aNode [
 
@@ -49,20 +62,4 @@ ToBarNodeManager >> fakeDataItem [
 ToBarNodeManager >> fakeDataItem: anObject [
 
 	fakeDataItem := anObject
-]
-
-{ #category : #'instance creation' }
-ToBarNodeManager >> newFakeNodeForHolder: anHolder [
-
-	| fakeNode |
-	fakeNode := self newNodeForHolder: anHolder.
-	self buildNode: fakeNode inHolder: anHolder.
-	self constraintNode: fakeNode.
-	fakeNode constraintsDo: [ :c |
-		fakeNode holder listElement isHorizontal
-			ifTrue: [ c horizontal exact: 0 ]
-			ifFalse: [ c vertical exact: 0 ] ].
-	fakeNode margin: BlInsets empty.
-	anHolder node: fakeNode.
-	^ fakeNode
 ]

@@ -32,6 +32,21 @@ ToCheckableGroup >> addAll: aCollection [
 	self registerAll: aCollection
 ]
 
+{ #category : #'checking / unchecking request' }
+ToCheckableGroup >> allowChangeWith: aCheckValue forCheckable: target [
+
+	^ (checkingStrategy
+			 allowChangeWith: aCheckValue
+			 in: self
+			 forCheckable: target)
+]
+
+{ #category : #testing }
+ToCheckableGroup >> allowUnchecking [
+
+	^ checkingStrategy allowUnchecking
+]
+
 { #category : #accessing }
 ToCheckableGroup >> buttons [
 	
@@ -40,14 +55,6 @@ ToCheckableGroup >> buttons [
 						-> '`@receiver registeredCheckables'.
 
 	^ self registeredCheckables
-]
-
-{ #category : #'checking / unchecking request' }
-ToCheckableGroup >> checkChangePreNotification: aPreCheckableChangedEvent [
-
-	aPreCheckableChangedEvent checked isSymbol ifTrue: [ ^ self ].
-	checkingStrategy checkChangePreNotification: aPreCheckableChangedEvent in: self.
-
 ]
 
 { #category : #'checking / unchecking request' }
@@ -98,6 +105,12 @@ ToCheckableGroup >> eventDispatcher [
 	<return: #BlDirectEventDispatcher>
 
 	^ eventDispatcher
+]
+
+{ #category : #testing }
+ToCheckableGroup >> hasNoneStrategy [
+
+	^ checkingStrategy isNoneStrategy 
 ]
 
 { #category : #initialization }
@@ -202,19 +215,19 @@ ToCheckableGroup >> unregisterAll [
 	registeredCheckables removeAll
 ]
 
-{ #category : #accessing }
+{ #category : #'checking protocol' }
 ToCheckableGroup >> withStrictCheckingStrategy [
 
 	self checkingStrategy: ToCheckableGroupStrictStrategy new
 ]
 
-{ #category : #accessing }
+{ #category : #'checking protocol' }
 ToCheckableGroup >> withUncheckingStrategy [
 
 	self checkingStrategy: ToCheckableGroupWithUncheckStrategy new
 ]
 
-{ #category : #accessing }
+{ #category : #'checking protocol' }
 ToCheckableGroup >> withoutCheckingStrategy [
 
 	self checkingStrategy: ToCheckableGroupNoneStrategy new

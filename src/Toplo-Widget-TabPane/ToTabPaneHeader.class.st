@@ -1,6 +1,8 @@
 Class {
 	#name : #ToTabPaneHeader,
 	#superclass : #ToPane,
+	#traits : 'TToCheckableGroupHolder',
+	#classTraits : 'TToCheckableGroupHolder classTrait',
 	#instVars : [
 		'tabsPane',
 		'group',
@@ -41,18 +43,6 @@ ToTabPaneHeader >> checkableGroupChangedEvent: anEvent [
 	anEvent checkedList do: [ :but |  ]
 ]
 
-{ #category : #accessing }
-ToTabPaneHeader >> checkingStrategy [
-
-	^ self group checkingStrategy
-]
-
-{ #category : #accessing }
-ToTabPaneHeader >> checkingStrategy: aCheckingStrategy [
-
-	^ self group checkingStrategy: aCheckingStrategy
-]
-
 { #category : #initialization }
 ToTabPaneHeader >> defaultPositioningStrategy [
 
@@ -69,12 +59,6 @@ ToTabPaneHeader >> endContainer [
 ToTabPaneHeader >> endFiller [
 
 	^ endFiller
-]
-
-{ #category : #accessing }
-ToTabPaneHeader >> group [
-
-	^ group
 ]
 
 { #category : #initialization }
@@ -140,6 +124,18 @@ ToTabPaneHeader >> positioningStrategy: anObject [
 
 	positioningStrategy := anObject.
 	self applyPositioning 
+]
+
+{ #category : #'t - checkable group holder' }
+ToTabPaneHeader >> rawGroup [
+
+	^ group
+]
+
+{ #category : #'t - checkable group holder' }
+ToTabPaneHeader >> rawGroup: aGroup [
+
+	self shouldNotImplement 
 ]
 
 { #category : #'add-remove' }

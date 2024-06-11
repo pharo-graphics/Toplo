@@ -94,10 +94,10 @@ TToElementWithLabeledIcon >> endInterspace [
 ]
 
 { #category : #'t - element with labeled icon - accessing' }
-TToElementWithLabeledIcon >> endInterspace: aPoint [
+TToElementWithLabeledIcon >> endInterspace: aNumber [
 
-	self endInterspace = aPoint asPoint ifTrue: [ ^ self ].
-	self labeledIcon endInterspace: aPoint asPoint
+	self endInterspace = aNumber ifTrue: [ ^ self ].
+	self labeledIcon endInterspace: aNumber
 ]
 
 { #category : #'t - element with labeled icon - accessing' }
@@ -320,10 +320,10 @@ TToElementWithLabeledIcon >> startInterspace [
 ]
 
 { #category : #'t - element with labeled icon - accessing' }
-TToElementWithLabeledIcon >> startInterspace: aPoint [
+TToElementWithLabeledIcon >> startInterspace: aNumber [
 
-	self startInterspace = aPoint asPoint ifTrue: [ ^ self ].
-	self labeledIcon startInterspace: aPoint asPoint
+	self startInterspace = aNumber ifTrue: [ ^ self ].
+	self labeledIcon startInterspace: aNumber
 ]
 
 { #category : #'t - element with labeled icon - accessing' }

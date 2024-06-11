@@ -5,15 +5,6 @@ Class {
 }
 
 { #category : #'event handling' }
-ToCheckableEventHandler >> checkableChangeUnanimityRequestEvent: anEvent [
-
-	| target |
-	target := anEvent currentTarget.
-	target group ifNotNil: [ :grp | grp checkChangePreNotification: anEvent ].
-	anEvent accepted ifTrue: [ target privateChecked: anEvent checked ]
-]
-
-{ #category : #'event handling' }
 ToCheckableEventHandler >> checkableChangedEvent: anEvent [
 
 	| target |
@@ -21,8 +12,16 @@ ToCheckableEventHandler >> checkableChangedEvent: anEvent [
 	target group ifNotNil: [ :grp | grp checkableChangedEvent: anEvent ]
 ]
 
+{ #category : #'event handling' }
+ToCheckableEventHandler >> clickEvent: anEvent [
+
+	| target |
+	target := anEvent currentTarget.
+	target switchToNextCheckState 
+]
+
 { #category : #'api - accessing' }
 ToCheckableEventHandler >> eventsToHandle [
 
-	^ { ToCheckableChangeUnanimityRequestEvent. ToCheckableChangedEvent }
+	^ { ToCheckableChangedEvent. BlClickEvent  }
 ]

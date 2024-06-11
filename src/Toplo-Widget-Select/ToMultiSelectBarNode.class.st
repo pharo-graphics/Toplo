@@ -65,7 +65,7 @@ ToMultiSelectBarNode >> installRawStyle [
 	self isRemovable ifTrue: [ self addRemoveButton ].
 	self middleContainer padding: (BlInsets left: 3 right: 3).
 	self padding: (BlInsets horizontal: 2 vertical: 2).
-	self isFakeNode
+	self isFake
 		ifTrue: [ self margin: (BlInsets vertical: 2) ]
 		ifFalse: [ self margin: (BlInsets all: 2) ].
 	self geometry: (BlRoundedRectangleGeometry cornerRadius: 4).
@@ -78,12 +78,6 @@ ToMultiSelectBarNode >> installRawStyle [
 				t := self holder dataAccessor at: item index.
 				pane addChild: (ToLabel text: t asString) ].
 			win root addChild: pane ] ]
-]
-
-{ #category : #testing }
-ToMultiSelectBarNode >> isFakeNode [
-
-	^ self holder position isZero
 ]
 
 { #category : #testing }

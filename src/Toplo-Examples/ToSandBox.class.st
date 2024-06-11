@@ -527,6 +527,21 @@ ToSandBox class >> example_CheckboxUnchecked [
 ]
 
 { #category : #checkbox }
+ToSandBox class >> example_CheckboxVertical [
+
+	| chb |
+	ToTheme cleanUp.
+	chb := ToCheckbox new label: (ToLabel text: 'Checkbox').
+	chb beVertical.
+	chb addEventHandler: (BlEventHandler
+			 on: ToElementLookEvent
+			 do: [ :evt | evt target = chb ifTrue: [ evt traceCr ] ]).
+	chb checked: true.
+	chb openInInnerWindow.
+	chb inspect
+]
+
+{ #category : #checkbox }
 ToSandBox class >> example_CheckboxVerticalGroupHorizontal [
 
 	| group container |
@@ -538,14 +553,14 @@ ToSandBox class >> example_CheckboxVerticalGroupHorizontal [
 			       labelText: idx asString;
 			       id: idx asString.
 		chb beStartToEnd.
-		group add: chb ].
+		group register: chb ].
 
-	group buttons second checked: true.
+	group registeredCheckables second checked: true.
 	container := ToElement new.
 	container matchParent.
 	container layout: BlLinearLayout horizontal.
-	container addChildren: group buttons.
-	group when: ToCheckableGroupChangedEvent do: [ :event |
+	container addChildren: group registeredCheckables.
+	group addEventHandlerOn: ToCheckableGroupChangedEvent do: [ :event |
 		('checked: ' , event checkedList asString , ' unchecked: '
 		 , event uncheckedList asString) traceCr ].
 	container openInInnerWindow
@@ -557,7 +572,7 @@ ToSandBox class >> example_CheckboxWithExactWidth [
 	| chb |
 	ToTheme cleanUp.
 	chb := ToCheckbox new
-		       startInterspace: 100 @ 0;
+		       startInterspace: 100;
 		       labelText: 'Checkbox' asString.
 	chb openInInnerWindow
 ]
@@ -840,10 +855,10 @@ ToSandBox class >> example_LabeledIconlWithIconAndText [
 { #category : #'labeled icon' }
 ToSandBox class >> example_LabeledIconlWithIconAndText_interspace [
 
-	| but  |
+	| but |
 	but := self example_LabeledIconlWithIconAndText.
 	but border: Color black.
-	but startInterspace: 100 asPoint.
+	but startInterspace: 100.
 	^ but
 ]
 
@@ -2233,21 +2248,26 @@ ToSandBox class >> example_SpToggleButton [
 	| seg dashBoard rootPane feedbackPane maj |
 	seg := ToSegmentedElement new.
 	seg segmentAccessor add:
-		((ToLabeledIcon new label: (ToLabel text: 'Button 1'))
+		((ToButton new label: (ToLabel text: 'Button 1'))
 			 tooltipString: 'Button 1';
+			 whenClickedDo: [ :event | event currentTarget label text traceCr ];
 			 yourself).
 	seg segmentAccessor add:
-		((ToLabeledIcon new label: (ToLabel text: 'Button 2'))
+		((ToButton new label: (ToLabel text: 'Button 2'))
 			 tooltipString: 'Button 2';
+			 whenClickedDo: [ :event | event currentTarget label text traceCr ];
 			 yourself).
 	seg segmentAccessor add:
-		((ToLabeledIcon new label: (ToLabel text: 'Button 3'))
+		((ToButton new label: (ToLabel text: 'Button 3'))
 			 tooltipString: 'Button 3';
+			 whenClickedDo: [ :event | event currentTarget label text traceCr ];
 			 yourself).
-	
-	seg dataAccessor do: [ :e | 			 e startFlexible: true;
-			 endFlexible: true;
-			 hMatchParent].
+
+	seg dataAccessor do: [ :e |
+		e
+			startFlexible: true;
+			endFlexible: true;
+			hMatchParent ].
 
 	dashBoard := self barDashBoardFor: seg.
 	feedbackPane := ToPane horizontal.
@@ -2267,6 +2287,14 @@ ToSandBox class >> example_SpToggleButton [
 			            idx < seg dataAccessor itemCount ifTrue: [
 				            stream nextPutAll: '- ' ] ] ].
 	       feedbackPane addChild: (ToLabel text: t) ].
+	seg addEventHandler: (BlEventHandler
+			 on: ToListStrongSelectionEvent
+			 do: [ :event |
+				 ' double click ' trace.
+				 event indexes traceCr ]).
+
+	seg withUncheckingStrategy.
+	"seg withoutCheckingStrategy."
 	seg addEventHandlerOn: ToListPrimarySelectionChangedEvent do: maj.
 	seg addEventHandlerOn: BlElementAddedToSceneGraphEvent do: maj.
 	rootPane := ToPane vertical.
@@ -3344,12 +3372,15 @@ ToSandBox class >> example_segmented [
 		(ToSegmentContentExample new label: (ToLabel text: 'Quaterly')).
 	seg segmentAccessor add:
 		(ToSegmentContentExample new label: (ToLabel text: 'Yearly')).
-
+	seg group
+		addEventHandlerOn: ToCheckableGroupChangedEvent
+		do: [ :event |
+			event traceCr ].
 	seg inspect.
 	seg selectionMode multiple: false.
 
 	dashBoard := self barDashBoardFor: seg.
-	dashBoard openInSpace.
+	dashBoard openInSpace
 ]
 
 { #category : #select }

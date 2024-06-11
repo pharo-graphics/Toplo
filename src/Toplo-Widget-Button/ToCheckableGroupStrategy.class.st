@@ -12,15 +12,21 @@ Class {
 }
 
 { #category : #testing }
+ToCheckableGroupStrategy >> allowChangeWith: aCheckValue in: aGroup forCheckable: aCheckable [
+
+	self subclassResponsibility
+]
+
+{ #category : #testing }
 ToCheckableGroupStrategy >> allowUnchecking [
 
 	^ true
 ]
 
 { #category : #testing }
-ToCheckableGroupStrategy >> checkChangePreNotification: aPreCheckableChangedEvent in: aGroup [
+ToCheckableGroupStrategy >> isNoneStrategy [
 
-	self subclassResponsibility 
+	^ false
 ]
 
 { #category : #notifications }

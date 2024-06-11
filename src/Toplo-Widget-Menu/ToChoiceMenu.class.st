@@ -1,6 +1,8 @@
 Class {
 	#name : #ToChoiceMenu,
 	#superclass : #ToMenu,
+	#traits : 'TToCheckableGroupHolder',
+	#classTraits : 'TToCheckableGroupHolder classTrait',
 	#instVars : [
 		'group',
 		'data',
@@ -86,12 +88,6 @@ ToChoiceMenu >> defaultSelectedIndex: anInteger [
 			self selectIndex: self defaultSelectedIndex ] ]
 ]
 
-{ #category : #accessing }
-ToChoiceMenu >> group [
-
-	^ group
-]
-
 { #category : #'private - accessing' }
 ToChoiceMenu >> indexOfData: aData [
 
@@ -170,6 +166,18 @@ ToChoiceMenu >> privateData: anObservableCollection [
 	self notifyChanged
 ]
 
+{ #category : #'t - checkable group holder' }
+ToChoiceMenu >> rawGroup [
+
+	^ group
+]
+
+{ #category : #'t - checkable group holder' }
+ToChoiceMenu >> rawGroup: aGroup [
+
+	self shouldNotImplement 
+]
+
 { #category : #'adding / removing' }
 ToChoiceMenu >> removeData: anObject [
 
@@ -224,16 +232,4 @@ ToChoiceMenu >> updateLabel [
 		self label: self defaultLabel.
 		^ self ].
 	self label: nil
-]
-
-{ #category : #accessing }
-ToChoiceMenu >> withStrictCheckingStrategy [
-
-	self group withStrictCheckingStrategy
-]
-
-{ #category : #accessing }
-ToChoiceMenu >> withUncheckingStrategy [
-
-	self group withUncheckingStrategy
 ]

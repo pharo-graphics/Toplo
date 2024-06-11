@@ -5,5 +5,15 @@ Class {
 }
 
 { #category : #testing }
-ToCheckableGroupNoneStrategy >> checkChangePreNotification: aPreCheckableChangedEvent in: aGroup [
+ToCheckableGroupNoneStrategy >> allowChangeWith: aCheckValue in: aGroup forCheckable: aCheckable [
+
+	^ true
+
+	
+]
+
+{ #category : #testing }
+ToCheckableGroupNoneStrategy >> isNoneStrategy [
+
+	^ true
 ]

@@ -114,6 +114,18 @@ ToListNodeHolder >> release [
 ]
 
 { #category : #accessing }
+ToListNodeHolder >> selecter [ 
+
+	^ self listElement selecter
+]
+
+{ #category : #accessing }
+ToListNodeHolder >> selectionModel [
+
+	^ self listElement selectionModel
+]
+
+{ #category : #accessing }
 ToListNodeHolder >> unbindDataItem [
 
 	| nodeManager |

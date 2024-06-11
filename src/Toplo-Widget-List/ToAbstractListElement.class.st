@@ -197,6 +197,12 @@ ToAbstractListElement >> disabledSelectionModel [
 ]
 
 { #category : #accessing }
+ToAbstractListElement >> fakeNode [
+
+	^ nil
+]
+
+{ #category : #accessing }
 ToAbstractListElement >> hiddenSelecter [ 
 
 	^ self selecter subSelecterWithId: #hidden

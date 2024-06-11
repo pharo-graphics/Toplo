@@ -1,6 +1,6 @@
 Class {
 	#name : #ToSegmentedSelectionMode,
-	#superclass : #ToListSelectionMode,
+	#superclass : #ToAbstractListSelectionMode,
 	#category : #'Toplo-Widget-Segmented'
 }
 

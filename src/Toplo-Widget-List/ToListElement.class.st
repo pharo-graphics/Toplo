@@ -24,6 +24,12 @@ ToListElement >> defaultNodeManagerClass [
 	^ ToListNodeManager  
 ]
 
+{ #category : #testing }
+ToListElement >> isMultipleSelection [
+
+	^ self selectionMode isMultipleSelection
+]
+
 { #category : #skin }
 ToListElement >> newRawSkin [ 
 

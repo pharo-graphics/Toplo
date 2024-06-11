@@ -265,12 +265,6 @@ ToAbstractListElement >> initializeInnerContainer [
 
 ]
 
-{ #category : #testing }
-ToAbstractListElement >> isMultipleSelection [
-
-	^ self selectionMode isMultipleSelection
-]
-
 { #category : #accessing }
 ToAbstractListElement >> itemCount [
 

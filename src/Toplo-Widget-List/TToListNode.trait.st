@@ -12,27 +12,18 @@ TToListNode >> autoDistribute: aBoolean [
 				self holder listElement isHorizontal
 					ifTrue: [ c horizontal matchParent ]
 					ifFalse: [ c vertical matchParent ] ] ]
-		ifFalse: [ "self setInitialConfiguration" ]
 ]
 
 { #category : #'t - list node' }
 TToListNode >> clickEventHandlerClasses [
 
-	^ self holder listElement isMultipleSelection
-		  ifTrue: [ { ToListNodeMultiSelectionClickEventHandler } ]
-		  ifFalse: [ { ToListNodeSingleSelectionClickEventHandler } ]
+	self explicitRequirement 
 ]
 
 { #category : #'t - list node' }
 TToListNode >> endWidthGap [
 
 	^ 0
-]
-
-{ #category : #'t - list node' }
-TToListNode >> isFake [
-
-	^ self holder listElement fakeNode = self
 ]
 
 { #category : #'t - list node' }

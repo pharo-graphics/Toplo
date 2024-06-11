@@ -27,12 +27,6 @@ ToSegmentedElement >> defaultSelectionMode [
 	^ ToSegmentedSelectionMode primary
 ]
 
-{ #category : #initialization }
-ToSegmentedElement >> initialize [
-
-	super initialize
-]
-
 { #category : #'t - checkable group holder' }
 ToSegmentedElement >> rawGroup [
 

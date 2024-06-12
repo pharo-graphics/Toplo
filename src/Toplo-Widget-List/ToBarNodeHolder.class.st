@@ -17,8 +17,5 @@ ToBarNodeHolder >> changeDataItem: aDataItem [
 	nodeManager := self nodeManager.
 	nodeManager unbindNode: self node.
 	self dataItem: aDataItem.
-	nodeManager buildNode: self node inHolder: self.
-	nodeManager constraintNode: self node.
-	self node enabled: self isEnabled.
-	self isHidden ifTrue: [ self node height: 0 ]
+	self build
 ]

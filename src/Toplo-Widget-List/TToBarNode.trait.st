@@ -6,12 +6,11 @@ Trait {
 { #category : #'t - bar node' }
 TToBarNode >> autoDistribute: aBoolean [
 
-	aBoolean
-		ifTrue: [
-			self constraintsDo: [ :c |
-				self holder listElement isHorizontal
-					ifTrue: [ c horizontal matchParent ]
-					ifFalse: [ c vertical matchParent ] ] ]
+	aBoolean ifTrue: [
+		self constraintsDo: [ :c |
+			self holder listElement isHorizontal
+				ifTrue: [ c horizontal matchParent ]
+				ifFalse: [ c vertical matchParent ] ] ]
 ]
 
 { #category : #'t - bar node' }

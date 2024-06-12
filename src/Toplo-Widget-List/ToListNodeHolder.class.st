@@ -14,6 +14,14 @@ ToListNodeHolder >> bindDataItem: aDataItem [
 	nodeManager := self nodeManager.
 	self dataItem: aDataItem.
 	self node: (nodeManager newNodeForHolder: self).
+	self build
+]
+
+{ #category : #accessing }
+ToListNodeHolder >> build [
+
+	| nodeManager |
+	nodeManager := self nodeManager.
 	nodeManager buildNode: self node inHolder: self.
 	nodeManager constraintNode: self node.
 	self node enabled: self isEnabled.

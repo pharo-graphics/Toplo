@@ -6,8 +6,7 @@ Class {
 		'dataSource',
 		'dataSourceObserver',
 		'dataSourceManager',
-		'scrollable',
-		'fakeNode'
+		'scrollable'
 	],
 	#category : #'Toplo-Widget-List-InnerBar'
 }
@@ -120,7 +119,7 @@ ToInnerBarElement >> enableScrolledEvent [
 { #category : #'accessing - nodes' }
 ToInnerBarElement >> fakeNode [
 
-	^ fakeNode
+	^ scrollable fakeNode
 ]
 
 { #category : #'t - children - accessing' }
@@ -187,7 +186,7 @@ ToInnerBarElement >> initializeFakeDataView [
 	suitable minimum height according to the node class, the node builder 
 	and the data kind."
 
-	| holder |
+	| holder fakeNode |
 	holder := dataSource createHolder: self.
 	holder infiniteElement: self.
 	holder bindAtPosition: 0.

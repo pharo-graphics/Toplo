@@ -19,6 +19,14 @@ ToBarNode >> initialize [
 	self initializeForToplo 
 ]
 
+{ #category : #'t - bar node' }
+ToBarNode >> isPartlyVisible [
+
+	^ self nodeContainerIntersection
+		  ifNotNil: [ :i | i > 0 ]
+		  ifNil: [ false ]
+]
+
 { #category : #skin }
 ToBarNode >> newRawSkin [ 
 

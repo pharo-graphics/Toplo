@@ -18,5 +18,5 @@ TToSegmentContentElement >> segmentHolder [
 { #category : #'t - segment content element' }
 TToSegmentContentElement >> segmentedElement [
 
-	^ self parent holder segmentedElement
+	^ self segmentHolder segmentedElement
 ]

@@ -38,11 +38,13 @@ TToOrientable >> direction [
 { #category : #'t - orientable - accessing' }
 TToOrientable >> direction: aDirection [
 
-	(self layoutStrategy direction isLeftToRight and: [ aDirection isLeftToRight]) ifTrue: [ ^ self ].
-	(self layoutStrategy direction isRightToLeft and: [ aDirection isRightToLeft]) ifTrue: [ ^ self ].
+	(self layoutStrategy direction isLeftToRight and: [
+		 aDirection isLeftToRight ]) ifTrue: [ ^ self ].
+	(self layoutStrategy direction isRightToLeft and: [
+		 aDirection isRightToLeft ]) ifTrue: [ ^ self ].
 	self layoutStrategy direction: aDirection.
 	self dispatchEvent: ToLayoutDirectionChangedEvent new.
-	self launchRequestLayout
+	self requestLayout
 ]
 
 { #category : #'t - orientable - orientation' }
@@ -56,7 +58,7 @@ TToOrientable >> horizontal: aBoolean [
 			self isVertical ifTrue: [ ^ self ].
 			self layoutStrategy beVertical ].
 	self dispatchEvent: ToLayoutOrientationChangedEvent new.
-	self launchRequestLayout
+	self requestLayout
 ]
 
 { #category : #'t - orientable - orientation' }
@@ -83,13 +85,6 @@ TToOrientable >> isVertical [
 	^ self isHorizontal not
 ]
 
-{ #category : #'t - orientable - private' }
-TToOrientable >> launchRequestLayout [
-
-	self childrenDo: [ :child | child requestLayout ].
-	self requestLayout
-]
-
 { #category : #'t - orientable - accessing' }
 TToOrientable >> layoutStrategy [
 
@@ -114,11 +109,13 @@ TToOrientable >> orientation [
 { #category : #'t - orientable - accessing' }
 TToOrientable >> orientation: aBlLayoutOrientation [
 
-	(self layoutStrategy orientation isHorizontal and: [ aBlLayoutOrientation isHorizontal]) ifTrue: [ ^ self ].
-	(self layoutStrategy orientation isVertical and: [ aBlLayoutOrientation isVertical]) ifTrue: [ ^ self ].
+	(self layoutStrategy orientation isHorizontal and: [
+		 aBlLayoutOrientation isHorizontal ]) ifTrue: [ ^ self ].
+	(self layoutStrategy orientation isVertical and: [
+		 aBlLayoutOrientation isVertical ]) ifTrue: [ ^ self ].
 	self layoutStrategy orientation: aBlLayoutOrientation.
 	self dispatchEvent: ToLayoutOrientationChangedEvent new.
-	self launchRequestLayout
+	self requestLayout
 ]
 
 { #category : #'t - orientable - direction' }

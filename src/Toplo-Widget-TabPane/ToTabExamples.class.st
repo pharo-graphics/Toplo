@@ -267,11 +267,14 @@ ToTabExamples class >> example_tabPaneInTabPane [
 
 	| tabPane tab |
 	tabPane := ToTabPane new.
-	tabPane group when: ToCheckableGroupChangedEvent do: [ :event | event traceCr ].
+	tabPane group
+		addEventHandlerOn: ToCheckableGroupChangedEvent
+		do: [ :event | event traceCr ].
 	1 to: 3 do: [ :index |
 		tab := ToTab new.
 		tab labelText: 'Tab ' , index asString.
-		tab paneBuilder: [ :pane :theTabPane | pane addChild: self subTabPane withHeaderOnLeftTop ].
+		tab paneBuilder: [ :pane :theTabPane |
+			pane addChild: self subTabPane withHeaderOnLeftTop ].
 		tabPane addTab: tab ].
 	tabPane openInSpace
 ]

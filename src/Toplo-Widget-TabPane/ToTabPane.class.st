@@ -255,15 +255,15 @@ ToTabPane >> withStrictCheckingStrategy [
 ]
 
 { #category : #configuration }
-ToTabPane >> withUncheckingStrategy [
-
-	self group withUncheckingStrategy
-]
-
-{ #category : #configuration }
 ToTabPane >> withVerticalBody [
 
 	self body beVertical
+]
+
+{ #category : #configuration }
+ToTabPane >> withWeakCheckingStrategy [
+
+	self group withWeakCheckingStrategy
 ]
 
 { #category : #configuration }

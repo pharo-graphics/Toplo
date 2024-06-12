@@ -52,6 +52,18 @@ TToElementWithTripletElement >> endFlexible: aBoolean [
 ]
 
 { #category : #'t - element with triplet element' }
+TToElementWithTripletElement >> flexible [
+
+	^ self tripletElement flexible
+]
+
+{ #category : #'t - element with triplet element' }
+TToElementWithTripletElement >> flexible: aBoolean [
+
+	self tripletElement flexible: aBoolean
+]
+
+{ #category : #'t - element with triplet element' }
 TToElementWithTripletElement >> hasEndElement [
 
 	^ self tripletElement endElement notNil

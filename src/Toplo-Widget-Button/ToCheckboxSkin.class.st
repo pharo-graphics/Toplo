@@ -67,9 +67,13 @@ ToCheckboxSkin >> installLookEvent: anEvent [
 		e startInterspace: 10.
 		e iconImage: ((e valueOfTokenNamed: #'checkbox-image-builder') value).
 		e icon geometry: (self iconGeometryIn: e).
-		e border: (e valueOfTokenNamed: #'color-border-checkable').		
+		e border: Color black. (e valueOfTokenNamed: #'color-border-checkable').		
 		e icon border: (e valueOfTokenNamed: #'color-border').
-		e padding: (BlInsets vertical: (e valueOfTokenNamed: #'padding-content-V-S')) ]
+		e padding: (BlInsets
+				 top: (e valueOfTokenNamed: #'padding-content-V')
+				 left: (e valueOfTokenNamed: #'padding-XS')
+				 bottom: (e valueOfTokenNamed: #'padding-content-V')
+				 right: (e valueOfTokenNamed: #'padding-XS')) ]
 	
 ]
 

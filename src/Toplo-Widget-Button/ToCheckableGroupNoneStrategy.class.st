@@ -1,9 +1,19 @@
 Class {
 	#name : #ToCheckableGroupNoneStrategy,
-	#superclass : #ToCheckableGroupCheckingStrategy,
+	#superclass : #ToCheckableGroupStrategy,
 	#category : #'Toplo-Widget-Button-Checkable'
 }
 
 { #category : #testing }
-ToCheckableGroupNoneStrategy >> checkChangePreNotification: aPreCheckableChangedEvent in: aGroup [
+ToCheckableGroupNoneStrategy >> allowChangeWith: aCheckValue in: aGroup forCheckable: aCheckable [
+
+	^ true
+
+	
+]
+
+{ #category : #testing }
+ToCheckableGroupNoneStrategy >> isNoneStrategy [
+
+	^ true
 ]

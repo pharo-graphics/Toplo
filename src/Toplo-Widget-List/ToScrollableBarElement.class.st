@@ -2,13 +2,7 @@ Class {
 	#name : #ToScrollableBarElement,
 	#superclass : #ToScrollableElement,
 	#instVars : [
-		'trackElement',
-		'nodeScrolling',
-		'nodeWrapping',
-		'nodeAutoDistribution',
-		'flowLineUniformWidth',
-		'horizontal',
-		'fakeNode'
+		'trackElement'
 	],
 	#category : #'Toplo-Widget-List-InnerBar'
 }
@@ -16,35 +10,25 @@ Class {
 { #category : #'accessing - children' }
 ToScrollableBarElement >> addAllHolders: anArray at: aPosition [
 
-	anArray reverseDo: [ :h | self addHolder: h at: aPosition]
+	trackElement addAllHolders: anArray at: aPosition
 ]
 
 { #category : #'accessing - children' }
 ToScrollableBarElement >> addFakeNode: aNode [
 
-	fakeNode ifNotNil: [ fakeNode removeFromParent ].
-	fakeNode := aNode.
-	trackElement addChild: aNode at: 1
+	trackElement addFakeNode: aNode
 ]
 
 { #category : #'accessing - children' }
 ToScrollableBarElement >> addHolder: anHolder at: aPosition [
 
-	| node |
-	node := anHolder node.
-	trackElement addChild: node at: aPosition + 1
+	trackElement addHolder: anHolder at: aPosition
 ]
 
 { #category : #initialization }
 ToScrollableBarElement >> configureLayoutIn: aListElement [
 
-	nodeScrolling := aListElement nodeScrolling.
-	nodeWrapping := aListElement nodeWrapping.
-	nodeAutoDistribution := aListElement nodeAutoDistribution.
-	horizontal := aListElement isHorizontal.
-	flowLineUniformWidth := aListElement flowLineUniformWidth.
-
-	self isHorizontal
+	aListElement isHorizontal
 		ifTrue: [
 			self constraintsDo: [ :c |
 				c vertical fitContent.
@@ -54,34 +38,7 @@ ToScrollableBarElement >> configureLayoutIn: aListElement [
 				c horizontal fitContent.
 				c vertical matchParent ] ].
 
-	self isHorizontal
-		ifTrue: [ 
-			trackElement layout: (self isNodeWrapping
-					 ifTrue: [
-						 ToBarFlowLayout horizontal
-							 lineUniformWidth: self isFlowLineUniformWidth;
-							 yourself ]
-					 ifFalse: [ BlLinearLayout horizontal ]).
-			trackElement constraintsDo: [ :c |
-				c vertical fitContent.
-				self isNodeScrolling
-					ifTrue: [ c horizontal fitContent ]
-					ifFalse: [ c horizontal matchParent ] ] ]
-		ifFalse: [
-			trackElement layout: (self isNodeWrapping
-					 ifTrue: [
-						 ToBarFlowLayout vertical
-							 lineUniformWidth: self isFlowLineUniformWidth;
-							 yourself ]
-					 ifFalse: [ BlLinearLayout vertical ]).
-			trackElement constraintsDo: [ :c |
-				c horizontal fitContent.
-				self isNodeScrolling
-					ifTrue: [ c vertical fitContent ]
-					ifFalse: [ c vertical matchParent ] ] ].
-
-	self isNodeScrolling ifFalse: [
-		self nodesDo: [ :n | n autoDistribute: self isNodeAutoDistribution ] ]
+	trackElement configureLayoutIn: aListElement 
 ]
 
 { #category : #'private - commands' }
@@ -117,99 +74,82 @@ ToScrollableBarElement >> enableScrolledEvent [
 { #category : #accessing }
 ToScrollableBarElement >> fakeNode [ 
 
-	^ fakeNode
+	^ trackElement fakeNode
 ]
 
 { #category : #'accessing - children' }
 ToScrollableBarElement >> fullyVisibleNodes [
 
-	^ Array streamContents: [ :stream |
-		  self fullyVisibleNodesDo: [ :node | stream nextPut: node ] ]
+	^ trackElement fullyVisibleNodes
 ]
 
 { #category : #'accessing - children' }
 ToScrollableBarElement >> fullyVisibleNodesDo: aBlock [
 
-	self nodesDo: [ :node |
-		node isFullyVisible ifTrue: [ aBlock value: node ] ]
+	trackElement fullyVisibleNodesDo: aBlock
 ]
 
 { #category : #'accessing - children' }
 ToScrollableBarElement >> fullyVisibleNodesSelect: aBlock [
 
-	^ Array streamContents: [ :stream |
-		  self nodesDo: [ :node |
-			  node isFullyVisible ifTrue: [
-				  (aBlock value: node) ifTrue: [ stream nextPut: node ] ] ] ]
+	^ trackElement fullyVisibleNodesSelect: aBlock
 ]
 
 { #category : #initialization }
-ToScrollableBarElement >> initialize [ 
+ToScrollableBarElement >> initialize [
 
 	super initialize.
-	trackElement := ToElement new.
+	trackElement := ToScrollableBarTrackElement new.
 	trackElement id: #track.
-	self addChild: trackElement.
-	self matchParent
-]
-
-{ #category : #testing }
-ToScrollableBarElement >> isFlowLineUniformWidth [
-
-	^ flowLineUniformWidth 
+	self addChild: trackElement
 ]
 
 { #category : #testing }
 ToScrollableBarElement >> isHorizontal [
 
-	^ horizontal
+	^ trackElement isHorizontal 
 ]
 
 { #category : #testing }
 ToScrollableBarElement >> isNodeAutoDistribution [
 
-	^ nodeAutoDistribution
+	^ trackElement isNodeAutoDistribution
 ]
 
 { #category : #testing }
 ToScrollableBarElement >> isNodeScrolling [
 
-	^ nodeScrolling
+	^ trackElement isNodeScrolling
 ]
 
 { #category : #testing }
 ToScrollableBarElement >> isNodeWrapping [
 
-	^ nodeWrapping
+	^ trackElement isNodeWrapping
 ]
 
 { #category : #'accessing - children' }
 ToScrollableBarElement >> nodes [
 
-	^ Array streamContents: [ :stream |
-		  self nodesDo: [ :node | stream nextPut: node ] ]
+	^ trackElement nodes
 ]
 
 { #category : #'accessing - children' }
 ToScrollableBarElement >> nodesDo: aBlock [
 
-	trackElement childrenDo: [ :node |
-		node = fakeNode ifFalse: [ aBlock value: node ] ]
+	trackElement nodesDo: aBlock
 ]
 
 { #category : #'accessing - children' }
 ToScrollableBarElement >> nodesSelect: aBlock [
 
-	^ Array streamContents: [ :stream |
-		  self nodesDo: [ :node |
-			  (aBlock value: node) ifTrue: [ stream nextPut: node ] ] ]
+	^ trackElement nodesSelect: aBlock 
 ]
 
 { #category : #'accessing - children' }
 ToScrollableBarElement >> nodesWithIndexDo: aBlock [
 
-	self nodesDo: [ :node |
-		aBlock value: node value: node holder position]
+	trackElement nodesWithIndexDo: aBlock
 ]
 
 { #category : #'hooks - layout' }
@@ -223,16 +163,13 @@ ToScrollableBarElement >> onExitLayoutOrScroll [
 { #category : #'accessing - children' }
 ToScrollableBarElement >> partlyVisibleNodesDo: aBlock [
 
-	self nodesDo: [ :node |
-		node isPartlyVisible ifTrue: [ aBlock value: node ] ]
+	trackElement partlyVisibleNodesDo: aBlock
 ]
 
 { #category : #'accessing - children' }
 ToScrollableBarElement >> partlyVisibleNodesSelect: aBlock [
 
-	^ Array streamContents: [ :stream |
-		  self partlyVisibleNodesDo: [ :node |
-			  (aBlock value: node) ifTrue: [ stream nextPut: node ] ] ]
+	^ trackElement partlyVisibleNodesSelect: aBlock
 ]
 
 { #category : #'hooks - layout' }
@@ -244,22 +181,19 @@ ToScrollableBarElement >> prefetchingAllowed [
 { #category : #'accessing - children' }
 ToScrollableBarElement >> removeAllNodes: anArray [
 
-	anArray reverseDo: [ :node | self removeNode: node ]
+	trackElement removeAllNodes: anArray
 ]
 
 { #category : #'accessing - children' }
 ToScrollableBarElement >> removeFakeNode [
 
-	fakeNode ifNotNil: [ fakeNode removeFromParent ].
-	fakeNode := nil
+	trackElement removeFakeNode
 ]
 
 { #category : #'accessing - children' }
 ToScrollableBarElement >> removeNode: aNode [
 
-	aNode
-		release;
-		removeFromParent
+	trackElement removeNode: aNode 
 ]
 
 { #category : #scrolling }

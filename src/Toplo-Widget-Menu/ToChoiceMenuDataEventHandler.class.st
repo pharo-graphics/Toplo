@@ -22,7 +22,7 @@ ToChoiceMenuDataEventHandler >> collectionAddEvent: anEvent [
 		            choiceMenu newMenuItemFromData:
 			            (anEvent currentTarget at: idx) ].
 	choiceMenu addAllItems: newItems.
-	choiceMenu group addAll: newItems
+	choiceMenu group registerAll: newItems
 ]
 
 { #category : #'data events handling' }
@@ -43,7 +43,7 @@ ToChoiceMenuDataEventHandler >> collectionRemoveRequest: aRequest [
 		| item |
 		item := choiceMenu menuItemFromData: d.
 		choiceMenu removeItem: item.
-		choiceMenu group remove: item ]
+		choiceMenu group unregister: item ]
 ]
 
 { #category : #'data events handling' }

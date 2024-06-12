@@ -1,6 +1,8 @@
 Class {
 	#name : #ToTabPaneHeader,
 	#superclass : #ToPane,
+	#traits : 'TToCheckableGroupHolder',
+	#classTraits : 'TToCheckableGroupHolder classTrait',
 	#instVars : [
 		'tabsPane',
 		'group',
@@ -38,20 +40,7 @@ ToTabPaneHeader >> body [
 { #category : #initialization }
 ToTabPaneHeader >> checkableGroupChangedEvent: anEvent [
 
-	anEvent uncheckedButtons do: [ :but | ].
-	anEvent checkedButtons do: [ :but | ].
-]
-
-{ #category : #accessing }
-ToTabPaneHeader >> checkingStrategy [
-
-	^ self group checkingStrategy
-]
-
-{ #category : #accessing }
-ToTabPaneHeader >> checkingStrategy: aCheckingStrategy [
-
-	^ self group checkingStrategy: aCheckingStrategy
+	anEvent checkedList do: [ :but |  ]
 ]
 
 { #category : #initialization }
@@ -70,12 +59,6 @@ ToTabPaneHeader >> endContainer [
 ToTabPaneHeader >> endFiller [
 
 	^ endFiller
-]
-
-{ #category : #accessing }
-ToTabPaneHeader >> group [
-
-	^ group
 ]
 
 { #category : #initialization }
@@ -104,9 +87,8 @@ ToTabPaneHeader >> initialize [
 { #category : #'add-remove' }
 ToTabPaneHeader >> onTabAdded: aButton [
 
-	self group add: aButton.
-	self tabs add: aButton.
-	
+	self group register: aButton.
+	self tabs add: aButton
 ]
 
 { #category : #'add-remove' }
@@ -121,7 +103,7 @@ ToTabPaneHeader >> onTabRemoved: aTab [
 		         ifFalse: [ 0 ].
 
 	self tabs remove: aTab.
-	self group remove: aTab.
+	self group unregister: aTab.
 	index > 0 ifFalse: [ ^ self ].
 	self tabs ifEmpty: [ ^ self ].
 
@@ -142,6 +124,18 @@ ToTabPaneHeader >> positioningStrategy: anObject [
 
 	positioningStrategy := anObject.
 	self applyPositioning 
+]
+
+{ #category : #'t - checkable group holder' }
+ToTabPaneHeader >> rawGroup [
+
+	^ group
+]
+
+{ #category : #'t - checkable group holder' }
+ToTabPaneHeader >> rawGroup: aGroup [
+
+	self shouldNotImplement 
 ]
 
 { #category : #'add-remove' }

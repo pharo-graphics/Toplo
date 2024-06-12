@@ -35,12 +35,13 @@ ToInnerBarDataSourceObserver >> infiniteDataSourceItemRangeChanged: anEvent [
 { #category : #'event handling' }
 ToInnerBarDataSourceObserver >> infiniteDataSourceItemRangeEvent: anEvent [
 
-	anEvent position to: anEvent position + anEvent itemCount - 1 do: [ :anIndex |
+	anEvent position to: anEvent position + anEvent itemCount - 1 do: [
+		:anIndex |
 		| anElementHolder |
-		anElementHolder := (innerBarElement findElementHolderForDataSourcePosition: anIndex).
+		anElementHolder := innerBarElement
+			                   findElementHolderForDataSourcePosition: anIndex.
 		anElementHolder ifNotNil: [ anEvent event sendTo: anElementHolder ] ].
-	innerBarElement parentBarElement dispatchEvent: anEvent copy
-
+	innerBarElement listElement dispatchEvent: anEvent copy
 ]
 
 { #category : #'event handling' }

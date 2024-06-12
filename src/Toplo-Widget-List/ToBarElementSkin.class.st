@@ -1,6 +1,6 @@
 Class {
 	#name : #ToBarElementSkin,
-	#superclass : #ToListElementSkin,
+	#superclass : #ToBasicListElementSkin,
 	#category : #'Toplo-Widget-List-Core'
 }
 

@@ -5,21 +5,27 @@ Class {
 }
 
 { #category : #bar }
-ToSandBox class >> barDashBoardFor: aNodeBar [
+ToSandBox class >> barDashBoardFor: aBar [
 
-	| mainPane barPane confPane verticalSwitch wrappingSwitch scrollingSwitch autoDistributionSwitch sameWidthSwitch selectionAnimationSwitch selectionModeContainer selectionModeGroup buttons selectOnMouseDownSwitch |
+	| mainPane barPane confPane verticalSwitch wrappingSwitch scrollingSwitch autoDistributionSwitch sameWidthSwitch selectionAnimationSwitch selectOnMouseDownSwitch inspectButton |
 	mainPane := ToPane horizontal.
 	mainPane matchParent.
-	mainPane padding: (BlInsets all: 5).
+
 	confPane := ToPane vertical.
+	confPane padding: (BlInsets all: 5).
 	confPane width: 250.
+	confPane border: Color lightGray.
 	barPane := ToPane vertical.
 	barPane matchParent.
 	mainPane addChildren: {
 			confPane.
 			barPane }.
 
-	barPane addChild: aNodeBar.
+	barPane addChild: aBar.
+	
+	inspectButton := ToButton new labelText: 'Inspect'.
+	inspectButton whenClickedDo: [ aBar inspect ].
+	confPane addChild: inspectButton.
 
 	verticalSwitch := ToSwitchButton new labelText: 'Vertical'.
 	verticalSwitch endToStart: true.
@@ -33,12 +39,12 @@ ToSandBox class >> barDashBoardFor: aNodeBar [
 				 v := event current.
 				 v
 					 ifTrue: [
-						 aNodeBar hFitContent.
-						 aNodeBar vMatchParent ]
+						 aBar hFitContent.
+						 aBar vMatchParent ]
 					 ifFalse: [
-						 aNodeBar hMatchParent.
-						 aNodeBar vFitContent ].
-				 aNodeBar vertical: v ]).
+						 aBar hMatchParent.
+						 aBar vFitContent ].
+				 aBar vertical: v ]).
 	confPane addChild: verticalSwitch.
 
 	wrappingSwitch := ToSwitchButton new labelText: 'Wrapping'.
@@ -67,7 +73,7 @@ ToSandBox class >> barDashBoardFor: aNodeBar [
 			 do: [ :event |
 				 | v |
 				 v := event current.
-				 aNodeBar nodeWrapping: v.
+				 aBar nodeWrapping: v.
 				 sameWidthSwitch enabled: v.
 				 scrollingSwitch disabled: v ]).
 
@@ -76,14 +82,14 @@ ToSandBox class >> barDashBoardFor: aNodeBar [
 			 do: [ :event |
 				 | v |
 				 v := event current.
-				 aNodeBar flowLineUniformWidth: v ]).
+				 aBar flowLineUniformWidth: v ]).
 
 	scrollingSwitch addEventHandler: (BlEventHandler
 			 on: ToCheckableCheckEvent
 			 do: [ :event |
 				 | v |
 				 v := event current.
-				 aNodeBar nodeScrolling: v ]).
+				 aBar nodeScrolling: v ]).
 
 	autoDistributionSwitch := ToSwitchButton new labelText:
 		                          'Auto-distribution'.
@@ -97,7 +103,7 @@ ToSandBox class >> barDashBoardFor: aNodeBar [
 			 do: [ :event |
 				 | v |
 				 v := event current.
-				 aNodeBar nodeAutoDistribution: v ]).
+				 aBar nodeAutoDistribution: v ]).
 
 	selectionAnimationSwitch := ToSwitchButton new labelText:
 		                            'Animate selection transition'.
@@ -111,14 +117,9 @@ ToSandBox class >> barDashBoardFor: aNodeBar [
 			 do: [ :event |
 				 | v |
 				 v := event current.
-				 aNodeBar selectionMode beneathOption animationDuration: (v
+				 aBar selectionMode beneathOption animationDuration: (v
 						  ifTrue: [ 200 milliSeconds ]
 						  ifFalse: [ 0 milliSeconds ]) ]).
-
-	aNodeBar
-		addEventHandlerOn: ToBarNodeVisibilityEvent
-		do: [ :event |
-		event invisibleNodes ifNotEmpty: [ :in | in traceCr ] ].
 
 	wrappingSwitch checked: true.
 
@@ -132,47 +133,50 @@ ToSandBox class >> barDashBoardFor: aNodeBar [
 	selectOnMouseDownSwitch addEventHandler: (BlEventHandler
 			 on: ToCheckableCheckEvent
 			 do: [ :event |
-			 aNodeBar selectionMode selectOnMouseDown: event current ]).
+			 aBar selectionMode selectOnMouseDown: event current ]).
 
 	wrappingSwitch checked: true.
 
-	selectionModeGroup := ToCheckableGroup new.
+	aBar
+		addEventHandlerOn: ToBarNodeVisibilityEvent
+		do: [ :event |
+		event invisibleNodes ifNotEmpty: [ :in | in traceCr ] ].
+
+	^ mainPane
+]
+
+{ #category : #segmented }
+ToSandBox class >> checkingStrategyChooserFor: aSegmented [
+
+	| buttons checkingStrategyContainer checkingStrategyGroup |
+	checkingStrategyGroup := ToCheckableGroup new.
 	buttons := OrderedCollection new.
-	{ #Multiple. #Single. #Disabled } do: [ :mode |
+	{ #Strict. #Weak. #None } do: [ :mode |
 		| chb |
 		chb := ToCheckbox new
 			       labelText: mode asString;
 			       id: mode.
 		buttons add: chb ].
 
-	selectionModeGroup addAll: buttons.
-	selectionModeGroup addEventHandler: (BlEventHandler
+	checkingStrategyGroup registerAll: buttons.
+	checkingStrategyGroup addEventHandler: (BlEventHandler
 			 on: ToCheckableGroupChangedEvent
 			 do: [ :event |
 				 | mode |
-				 mode := event checkedButtons first id asSymbol.
-				 aNodeBar selectionMode enabled: mode ~= #Disabled.
-				 mode = #Multiple
-					 ifTrue: [ aNodeBar selectionMode multiple: true ]
+				 mode := event checkedList first id asSymbol.
+				 
+				 mode = #Strict
+					 ifTrue: [ aSegmented withStrictCheckingStrategy ]
 					 ifFalse: [
-					 mode = #Single ifTrue: [ aNodeBar selectionMode multiple: false ] ] ]).
-	buttons second checked: true.
-	selectionModeContainer := ToPane vertical.
-	selectionModeContainer
-		hMatchParent;
-		vFitContent.
-	selectionModeContainer addChild: (ToLabel text: 'Selection mode').
-	selectionModeContainer layout cellSpacing: 5.
-	selectionModeContainer addChildren: selectionModeGroup buttons.
-	confPane addChild: selectionModeContainer.
-
-	aNodeBar
-		addEventHandlerOn: ToBarNodeVisibilityEvent
-		do: [ :event |
-		event invisibleNodes ifNotEmpty: [ :in | in traceCr ] ].
-
-
-	^ mainPane
+					 mode = #Weak ifTrue: [ aSegmented withWeakCheckingStrategy  ] ifFalse: [ aSegmented withoutCheckingStrategy ] ] ]).
+	buttons first checked: true.
+	checkingStrategyContainer := ToPane vertical.
+	checkingStrategyContainer hMatchParent.
+	checkingStrategyContainer addChild: (ToLabel text: 'Checking strategy').
+	checkingStrategyContainer layout cellSpacing: 5.
+	checkingStrategyContainer addChildren:
+		checkingStrategyGroup registeredCheckables.
+	^ checkingStrategyContainer
 ]
 
 { #category : #list }
@@ -200,9 +204,10 @@ ToSandBox class >> example_BasicListWithAllClasses3 [
 			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :evt | evt traceCr ]).
 
-	l dataAccessor addAll: Smalltalk globals allClasses.
 	l withRowNumbers.
-	l inspect.
+	l dataAccessor addAll: Smalltalk globals allClasses.
+	l selecter selectIndex: 10.
+
 	l innerContainer requestFocus.
 	l openInInnerWindow
 ]
@@ -375,12 +380,12 @@ ToSandBox class >> example_CheckboxGroupAndNoneStrategy [
 			       id: idx asString.
 		buttons add: chb ].
 	buttons second checked: true.
-	group addAll: buttons.
+	group registerAll: buttons.
 	group addEventHandler: (BlEventHandler
 			 on: ToCheckableGroupChangedEvent
 			 do: [ :event |
-				 ('checked: ' , event checkedButtons asString , ' unchecked: '
-				  , event uncheckedButtons asString) traceCr ]).
+				 ('checked: ' , event checkedList asString , ' unchecked: '
+				  , event uncheckedList asString) traceCr ]).
 
 	container := ToElement new.
 	container constraintsDo: [ :c |
@@ -390,7 +395,7 @@ ToSandBox class >> example_CheckboxGroupAndNoneStrategy [
 	container layout: BlLinearLayout vertical.
 	container layout cellSpacing: 5.
 
-	container addChildren: group buttons.
+	container addChildren: group registeredCheckables.
 	container openInSpace
 ]
 
@@ -408,12 +413,12 @@ ToSandBox class >> example_CheckboxGroupAndStrictStrategy [
 			       id: idx asString.
 		buttons add: chb ].
 	buttons second checked: true.
-	group addAll: buttons.
+	group registerAll: buttons.
 	group addEventHandler: (BlEventHandler
 			 on: ToCheckableGroupChangedEvent
 			 do: [ :event |
-				 ('checked: ' , event checkedButtons asString , ' unchecked: '
-				  , event uncheckedButtons asString) traceCr ]).
+				 ('checked: ' , event checkedList asString , ' unchecked: '
+				  , event uncheckedList asString) traceCr ]).
 
 	container := ToElement new.
 	container constraintsDo: [ :c |
@@ -423,7 +428,7 @@ ToSandBox class >> example_CheckboxGroupAndStrictStrategy [
 	container layout: BlLinearLayout vertical.
 	container layout cellSpacing: 5.
 
-	container addChildren: group buttons.
+	container addChildren: group registeredCheckables.
 	container openInSpace
 ]
 
@@ -432,7 +437,7 @@ ToSandBox class >> example_CheckboxGroupAndUnckekingStrategy [
 
 	| group container buttons |
 	group := ToCheckableGroup new.
-	group withUncheckingStrategy.
+	group withWeakCheckingStrategy.
 	buttons := OrderedCollection new.
 	1 to: 4 do: [ :idx |
 		| chb |
@@ -442,12 +447,12 @@ ToSandBox class >> example_CheckboxGroupAndUnckekingStrategy [
 			       id: idx asString.
 		buttons add: chb ].
 	buttons second checked: true.
-	group addAll: buttons.
+	group registerAll: buttons.
 	group addEventHandler: (BlEventHandler
 			 on: ToCheckableGroupChangedEvent
 			 do: [ :event |
-				 ('checked: ' , event checkedButtons asString , ' unchecked: '
-				  , event uncheckedButtons asString) traceCr ]).
+				 ('checked: ' , event checkedList asString , ' unchecked: '
+				  , event uncheckedList asString) traceCr ]).
 
 	container := ToElement new.
 	container constraintsDo: [ :c |
@@ -457,7 +462,7 @@ ToSandBox class >> example_CheckboxGroupAndUnckekingStrategy [
 	container layout: BlLinearLayout vertical.
 	container layout cellSpacing: 5.
 
-	container addChildren: group buttons.
+	container addChildren: group registeredCheckables.
 	container openInSpace
 ]
 
@@ -505,8 +510,8 @@ ToSandBox class >> example_CheckboxStartFlexibleWithGroup [
 	group addEventHandler: (BlEventHandler
 			 on: ToCheckableGroupChangedEvent
 			 do: [ :event |
-				 ('checked: ' , event checkedButtons asString , ' unchecked: '
-				  , event uncheckedButtons asString) traceCr ]).
+				 ('checked: ' , event checkedList asString , ' unchecked: '
+				  , event uncheckedList asString) traceCr ]).
 
 	container := ToElement new.
 	container background: Color veryLightGray.
@@ -532,6 +537,21 @@ ToSandBox class >> example_CheckboxUnchecked [
 ]
 
 { #category : #checkbox }
+ToSandBox class >> example_CheckboxVertical [
+
+	| chb |
+	ToTheme cleanUp.
+	chb := ToCheckbox new label: (ToLabel text: 'Checkbox').
+	chb beVertical.
+	chb addEventHandler: (BlEventHandler
+			 on: ToElementLookEvent
+			 do: [ :evt | evt target = chb ifTrue: [ evt traceCr ] ]).
+	chb checked: true.
+	chb openInInnerWindow.
+	chb inspect
+]
+
+{ #category : #checkbox }
 ToSandBox class >> example_CheckboxVerticalGroupHorizontal [
 
 	| group container |
@@ -543,17 +563,17 @@ ToSandBox class >> example_CheckboxVerticalGroupHorizontal [
 			       labelText: idx asString;
 			       id: idx asString.
 		chb beStartToEnd.
-		group add: chb ].
+		group register: chb ].
 
-	group buttons second checked: true.
+	group registeredCheckables second checked: true.
 	container := ToElement new.
 	container matchParent.
 	container layout: BlLinearLayout horizontal.
-	container addChildren: group buttons.
-	group when: ToCheckableGroupChangedEvent do: [ :event |
-		('checked: ' , event checkedButtons asString , ' unchecked: '
-		 , event uncheckedButtons asString) traceCr ].
-	container openInInnerWindow 
+	container addChildren: group registeredCheckables.
+	group addEventHandlerOn: ToCheckableGroupChangedEvent do: [ :event |
+		('checked: ' , event checkedList asString , ' unchecked: '
+		 , event uncheckedList asString) traceCr ].
+	container openInInnerWindow
 ]
 
 { #category : #checkbox }
@@ -562,7 +582,7 @@ ToSandBox class >> example_CheckboxWithExactWidth [
 	| chb |
 	ToTheme cleanUp.
 	chb := ToCheckbox new
-		       startInterspace: 100 @ 0;
+		       startInterspace: 100;
 		       labelText: 'Checkbox' asString.
 	chb openInInnerWindow
 ]
@@ -845,10 +865,10 @@ ToSandBox class >> example_LabeledIconlWithIconAndText [
 { #category : #'labeled icon' }
 ToSandBox class >> example_LabeledIconlWithIconAndText_interspace [
 
-	| but  |
+	| but |
 	but := self example_LabeledIconlWithIconAndText.
 	but border: Color black.
-	but startInterspace: 100 asPoint.
+	but startInterspace: 100.
 	^ but
 ]
 
@@ -1637,6 +1657,8 @@ ToSandBox class >> example_SelectMultiFiltrable [
 
 	| select innerWindow |
 	select := ToMultiSelectElement new.
+	select nodeWrapping: true.
+	select innerContainer selectionMode beneathOption animationDuration: 200 milliSeconds.
 	select listElement withRowNumbers.
 	select inspect.
 	select hideSelected: false.
@@ -1662,7 +1684,6 @@ ToSandBox class >> example_SelectMultiFiltrableAutoDistribution [
 	select := ToMultiSelectElement new.
 	select inspect.
 	select nodeWrapping: false.
-	select hideSelected: false.
 	select dataAccessor addAll: self statesOfAmerica.
 	select nodeAutoDistribution: true.
 
@@ -2235,23 +2256,54 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 { #category : #segmented }
 ToSandBox class >> example_SpToggleButton [
 
-	| seg dashBoard |
+	| seg dashBoard rootPane feedbackPane maj |
 	seg := ToSegmentedElement new.
-	seg nodeWrapping: false.
-	seg vertical: true.
-	seg hMatchParent.
-	seg segmentAccessor add:
-		(ToLabeledIcon  new label: (ToLabel text: 'Button 1')).
-	seg segmentAccessor add:
-		(ToLabeledIcon new label: (ToLabel text: 'Button 2')).
-	seg segmentAccessor add:
-		(ToLabeledIcon new label: (ToLabel text: 'Button 3')).
-	seg selectionMode multiple: false.
+	1 to: 10 do: [ :n | | lab |
+		lab := 'Button ', n asString.
+		seg segmentAccessor add:
+		((ToButton new label: (ToLabel text: lab))
+			 tooltipString: lab;
+			 whenClickedDo: [ :event | event currentTarget label text traceCr ];
+			 yourself)].
 
-	"dashBoard := self barDashBoardFor: seg.
-	dashBoard openInSpace."
-	seg inspect.
-	seg openInSpace
+	seg dataAccessor do: [ :e |
+		e
+			flexible: true; hMatchParent].
+
+	dashBoard := self segmentedDashBoardFor: seg.
+
+	feedbackPane := ToPane horizontal.
+	feedbackPane layout alignCenter.
+	maj := [
+	       | t |
+	       feedbackPane removeChildren.
+	       t := String streamContents: [ :stream |
+		            seg dataAccessor withIndexDo: [ :e :idx |
+			            stream
+				            nextPutAll: e label text asString;
+				            nextPutAll: ': '.
+			            (seg selectionModel containsIndex: idx)
+				            ifTrue: [ stream nextPutAll: 'V' ]
+				            ifFalse: [ stream nextPutAll: 'X' ].
+			            stream nextPutAll: ' '.
+			            idx < seg dataAccessor itemCount ifTrue: [
+				            stream nextPutAll: '- ' ] ] ].
+	       feedbackPane addChild: (ToLabel text: t) ].
+
+	seg addEventHandler: (BlEventHandler
+			 on: ToListStrongSelectionEvent
+			 do: [ :event |
+				 ' double click ' trace.
+				 event indexes traceCr ]).
+
+	seg addEventHandlerOn: ToListPrimarySelectionChangedEvent do: maj.
+	seg addEventHandlerOn: BlElementAddedToSceneGraphEvent do: maj.
+	rootPane := ToPane vertical.
+	rootPane matchParent.
+	rootPane addChildren: {
+			dashBoard.
+			feedbackPane }.
+	rootPane openInSpace
 ]
 
 { #category : #'button-dep' }
@@ -2340,14 +2392,17 @@ ToSandBox class >> example_ToButtonSkins [
 	allButtons := OrderedCollection new.
 
 	space root layout: (BlLinearLayout vertical cellSpacing: 10).
-	topBar := ToMenuBar new beHorizontal; hMatchParent; vFitContent.
+	topBar := ToMenuBar new
+		          beHorizontal;
+		          hMatchParent;
+		          vFitContent.
 	topBar layout cellSpacing: 10.
 
 	themeSwitcher := ToChoiceMenu new.
 	themeSwitcher width: 150.
 	themeSwitcher data addAll: {
 			ToBeeTheme new.
-			ToBeeDarkTheme new. }.
+			ToBeeDarkTheme new }.
 
 	themeSwitcher whenSelectedIndexChangedDo: [
 		space toTheme: themeSwitcher selectedData new ].
@@ -2355,10 +2410,8 @@ ToSandBox class >> example_ToButtonSkins [
 	topBar addChild: themeSwitcher.
 
 	enablementSwitcher := ToSwitchIcon new.
-	enablementSwitcher switchBarOnElement:
-		((ToLabel text: 'Enabled')).
-	enablementSwitcher switchBarOffElement:
-		((ToLabel text: 'Disabled')).
+	enablementSwitcher switchBarOnElement: (ToLabel text: 'Enabled').
+	enablementSwitcher switchBarOffElement: (ToLabel text: 'Disabled').
 	enablementSwitcher check.
 	enablementSwitcher
 		when: ToCheckableCheckEvent
@@ -2368,7 +2421,7 @@ ToSandBox class >> example_ToButtonSkins [
 	topBar addChild: enablementSwitcher.
 
 	buttonBar := ToPane vertical vFitContent.
-	 
+
 	sizingGroup := ToCheckableGroup new.
 	smallSizingRadio := ToRadioButton new labelText: 'Small'.
 	smallSizingRadio userData at: #sizing put: #'small-sizing'.
@@ -2383,7 +2436,7 @@ ToSandBox class >> example_ToButtonSkins [
 			largeSizingRadio }.
 	sizingGroup when: ToCheckableGroupChangedEvent do: [ :event |
 		| choice sizing |
-		choice := event checkedButtons anyOne.
+		choice := event uncheckedList anyOne.
 		sizing := choice userData at: #sizing.
 		allButtons do: [ :but | but sizing: sizing ] ].
 
@@ -2392,7 +2445,7 @@ ToSandBox class >> example_ToButtonSkins [
 			middleSizingRadio.
 			largeSizingRadio }.
 	topBar addChild: buttonBar.
-	
+
 	buttonBar := ToPane vertical vFitContent.
 
 	shapingGroup := ToCheckableGroup new.
@@ -2401,7 +2454,7 @@ ToSandBox class >> example_ToButtonSkins [
 	defaultShapingRadio := ToRadioButton new labelText: 'Default shape'.
 	defaultShapingRadio userData at: #shaping put: #'default-shaping'.
 	roundShapingRadio := ToRadioButton new labelText: 'Round'.
-	roundShapingRadio userData at: #shaping put: #'round'.
+	roundShapingRadio userData at: #shaping put: #round.
 	defaultShapingRadio checked: true.
 	shapingGroup addAll: {
 			circleShapingRadio.
@@ -2409,7 +2462,7 @@ ToSandBox class >> example_ToButtonSkins [
 			roundShapingRadio }.
 	shapingGroup when: ToCheckableGroupChangedEvent do: [ :event |
 		| choice shaping |
-		choice := event checkedButtons anyOne.
+		choice := event uncheckedList anyOne.
 		shaping := choice userData at: #shaping.
 		allButtons do: [ :but | but shaping: shaping ] ].
 
@@ -2417,32 +2470,38 @@ ToSandBox class >> example_ToButtonSkins [
 			circleShapingRadio.
 			defaultShapingRadio.
 			roundShapingRadio }.
-	
+
 	topBar addChild: buttonBar.
-	
-	directionSwitcher := ToSwitchIcon new labelText: 'Icon first'; beEndToStart; yourself.
+
+	directionSwitcher := ToSwitchIcon new
+		                     labelText: 'Icon first';
+		                     beEndToStart;
+		                     yourself.
 	directionSwitcher check.
-	directionSwitcher
-		when: ToCheckableCheckEvent
-		do: [ :event | allButtons do: [ :b | b startToEnd: event target isChecked ] ].
+	directionSwitcher when: ToCheckableCheckEvent do: [ :event |
+		allButtons do: [ :b | b startToEnd: event target isChecked ] ].
 	topBar addChild: directionSwitcher.
-	
-	orientationSwitcher := ToSwitchIcon new labelText: 'Horizontal'; beEndToStart; yourself.
+
+	orientationSwitcher := ToSwitchIcon new
+		                       labelText: 'Horizontal';
+		                       beEndToStart;
+		                       yourself.
 	orientationSwitcher check.
-	orientationSwitcher
-		when: ToCheckableCheckEvent
-		do: [ :event | allButtons do: [ :b | b horizontal: event target isChecked ] ].
+	orientationSwitcher when: ToCheckableCheckEvent do: [ :event |
+		allButtons do: [ :b | b horizontal: event target isChecked ] ].
 	topBar addChild: orientationSwitcher.
-	
+
 	topBar childrenDo: [ :child |
 		child constraintsDo: [ :c | c linear vertical alignCenter ] ].
 
-	circleShapingRadio 
-		when: ToCheckableCheckEvent 
-		do: [ :event | 
-			event current 
-				ifTrue: [ directionSwitcher enabled: false. orientationSwitcher  enabled: false] 
-				ifFalse: [ directionSwitcher enabled: true. orientationSwitcher  enabled: true ] ].	
+	circleShapingRadio when: ToCheckableCheckEvent do: [ :event |
+		event current
+			ifTrue: [
+				directionSwitcher enabled: false.
+				orientationSwitcher enabled: false ]
+			ifFalse: [
+				directionSwitcher enabled: true.
+				orientationSwitcher enabled: true ] ].
 
 	space root addChild: topBar.
 
@@ -2451,21 +2510,11 @@ ToSandBox class >> example_ToButtonSkins [
 		              ToThemeIcons searchOutlined16x16 ].
 	buttonSpecsBuilder := [
 	                      {
-		                      {
-			                      'Primary'.
-			                      #primary }.
-		                      {
-			                      'Default'.
-			                      #default }.
-		                      {
-			                      'Dashed'.
-			                      #dashed }.
-		                      {
-			                      'Text'.
-			                      #text }.
-		                      {
-			                      'Link'.
-			                      #link } } ].
+		                      { 'Primary'. #primary }.
+		                      { 'Default'. #default }.
+		                      { 'Dashed'. #dashed }.
+		                      { 'Text'. #text }.
+		                      { 'Link'. #link } } ].
 
 	" Line 1 "
 	pane := ToPane horizontal.
@@ -2701,7 +2750,7 @@ ToSandBox class >> example_TwoCoordinateLists [
 { #category : #bar }
 ToSandBox class >> example_bar [
 
-	| bar dashBoard |
+	| bar dashBoard rootPane selectionModeBoard |
 	bar := ToBarElement new.
 	bar nodeFactory: [ :holder | ToBarNodeExample new ].
 	bar nodeBuilder: [ :node :holder :dataItem |
@@ -2710,12 +2759,20 @@ ToSandBox class >> example_bar [
 
 	bar vFitContent.
 	dashBoard := self barDashBoardFor: bar.
+	selectionModeBoard := self selectionModeChooserFor: bar.
+	dashBoard constraints linear weight: 0.75.
+	selectionModeBoard constraints linear weight: 0.25.
+	rootPane := ToPane vertical.
+	rootPane padding: (BlInsets all: 5).
+	rootPane matchParent.
+	rootPane addChild: dashBoard.
+	rootPane addChild: selectionModeBoard.
+	rootPane addDividers.
 
 	bar dataAccessor addAll: ToSandBox statesOfAmerica. "copyFrom: 1 to: 20"
 	"bar dataAccessor addAll:
 		(Smalltalk globals allClasses copyFrom: 1 to: 800)."
-	bar inspect.
-	dashBoard openInSpace
+	rootPane openInSpace
 ]
 
 { #category : #button }
@@ -2801,7 +2858,7 @@ ToSandBox class >> example_choiceButtonWithPlaceholder [
 
 	choice := ToChoiceMenu new.
 	"choice width: 250."
-	choice withUncheckingStrategy.
+	choice withWeakCheckingStrategy.
 	choice data addAll: { 'OS-X'. 'Windows'. 'Linux' }.
 	choice defaultLabel:
 		(ToAttributedLabel text: ('Invalid choice' asRopedText
@@ -2837,12 +2894,12 @@ ToSandBox class >> example_choiceButtonWithStructuredData [
 ]
 
 { #category : #'choice menu' }
-ToSandBox class >> example_choiceButtonWithUncheckingStrategy [
+ToSandBox class >> example_choiceButtonWithWeakStrategy [
 
 	| win choice t |
 	win := ToInnerWindow new title: 'Some host'.
 	choice := ToChoiceMenu new hMatchParent.
-	choice withUncheckingStrategy.
+	choice withWeakCheckingStrategy.
 	t := 'No selection...' asRopedText , String cr asRopedText
 	     , ('Please choose an host from the list' asRopedText
 			      foreground: Color lightGray;
@@ -3323,12 +3380,13 @@ ToSandBox class >> example_segmented [
 		(ToSegmentContentExample new label: (ToLabel text: 'Quaterly')).
 	seg segmentAccessor add:
 		(ToSegmentContentExample new label: (ToLabel text: 'Yearly')).
-
+	seg group
+		addEventHandlerOn: ToCheckableGroupChangedEvent
+		do: [ :event | event traceCr ].
 	seg inspect.
-	seg selectionMode multiple: false.
 
-	dashBoard := self barDashBoardFor: seg.
-	dashBoard openInSpace.
+	dashBoard := self segmentedDashBoardFor: seg.
+	dashBoard openInSpace
 ]
 
 { #category : #select }
@@ -4517,7 +4575,7 @@ ToSandBox class >> example_withCustomMenuItems [
 		        labelText: 'Left';
 		        id: #left.
 	center checked: true.
-	grp addAll: {
+	grp registerAll: {
 			right.
 			center.
 			left }.
@@ -4525,8 +4583,8 @@ ToSandBox class >> example_withCustomMenuItems [
 	grp addEventHandler: (BlEventHandler
 			 on: ToCheckableGroupChangedEvent
 			 do: [ :event |
-				 ('checked: ' , event checkedButtons asString , ' unchecked: '
-				  , event uncheckedButtons asString) traceCr ]).
+				 ('checked: ' , event checkedList asString , ' unchecked: '
+				  , event uncheckedList asString) traceCr ]).
 
 	menu addSeparator.
 
@@ -4540,7 +4598,7 @@ ToSandBox class >> example_withCustomMenuItems [
 			 margin: (BlInsets
 					  top: 2;
 					  bottom: 4)).
-	menu addAllItems: grp buttons.
+	menu addAllItems: grp registeredCheckables.
 
 	grp := ToCheckableGroup new.
 	right := ToRadioMenuItem new
@@ -4556,15 +4614,15 @@ ToSandBox class >> example_withCustomMenuItems [
 		        labelText: 'Left';
 		        id: #left.
 	center checked: true.
-	grp addAll: {
+	grp registerAll: {
 			right.
 			center.
 			left }.
 	grp addEventHandler: (BlEventHandler
 			 on: ToCheckableGroupChangedEvent
 			 do: [ :event |
-				 ('checked: ' , event checkedButtons asString , ' unchecked: '
-				  , event uncheckedButtons asString) traceCr ]).
+				 ('checked: ' , event checkedList asString , ' unchecked: '
+				  , event uncheckedList asString) traceCr ]).
 
 	menu addSeparator.
 
@@ -4578,7 +4636,7 @@ ToSandBox class >> example_withCustomMenuItems [
 			 margin: (BlInsets
 					  top: 2;
 					  bottom: 4)).
-	menu addAllItems: grp buttons.
+	menu addAllItems: grp registeredCheckables.
 	menu addSeparator.
 	textField := ToTextField new
 		             placeholderBuilder: [ :thePlaceholder :theElement |
@@ -4627,7 +4685,7 @@ ToSandBox class >> experiment_intervalCollection [
 ]
 
 { #category : #checkbox }
-ToSandBox class >> group [ 
+ToSandBox class >> group [
 
 	| group container |
 	group := ToCheckableGroup new.
@@ -4646,8 +4704,8 @@ ToSandBox class >> group [
 	container layout cellSpacing: 2.
 	container addChildren: group buttons.
 	group when: ToCheckableGroupChangedEvent do: [ :event |
-		('checked: ' , event checkedButtons asString , ' unchecked: '
-		 , event uncheckedButtons asString) traceCr ].
+		('checked: ' , event uncheckedList asString , ' unchecked: '
+		 , event uncheckedList asString) traceCr ].
 	ToInnerWindow new
 		in: [ :f | f root addChild: container ];
 		openInSpace
@@ -4752,6 +4810,22 @@ ToSandBox class >> path_sharp_electric_bike_SVG [
 	^ '<svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24"><g><rect fill="none" height="24" width="24"/></g><g><g><path d="M19,7h-0.82L16,1h-4v2h2.6l1.46,4h-4.81l-0.36-1H12V4H7v2h1.75l1.82,5H9.9C9.46,8.77,7.59,7.12,5.25,7.01 C2.45,6.87,0,9.2,0,12c0,2.8,2.2,5,5,5c2.46,0,4.45-1.69,4.9-4h4.2c0.44,2.23,2.31,3.88,4.65,3.99c2.8,0.13,5.25-2.19,5.25-5 C24,9.2,21.8,7,19,7z M7.82,13c-0.4,1.17-1.49,2-2.82,2c-1.68,0-3-1.32-3-3s1.32-3,3-3c1.33,0,2.42,0.83,2.82,2H5v2H7.82z M14.1,11h-1.4l-0.73-2H15C14.56,9.58,14.24,10.25,14.1,11z M19,15c-1.68,0-3-1.32-3-3c0-0.93,0.41-1.73,1.05-2.28l0.96,2.64 l1.88-0.68l-0.97-2.67C18.94,9.01,18.97,9,19,9c1.68,0,3,1.32,3,3S20.68,15,19,15z"/><polygon points="11,20 7,20 13,23 13,21 17,21 11,18"/></g></g></svg>'
 ]
 
+{ #category : #segmented }
+ToSandBox class >> segmentedDashBoardFor: aSegmented [
+
+	| barDashBoard checkingStrategyBoard rootPane |
+	barDashBoard := self barDashBoardFor: aSegmented.
+	checkingStrategyBoard := self checkingStrategyChooserFor: aSegmented.
+
+	rootPane := ToPane vertical.
+	rootPane matchParent.
+	rootPane addChild: barDashBoard.
+	rootPane addChild: checkingStrategyBoard.
+	rootPane addDividers.
+
+	^ rootPane
+]
+
 { #category : #select }
 ToSandBox class >> selectWithEditingMultiSelection [
 
@@ -4791,6 +4865,41 @@ ToSandBox class >> selectWithEditingMultiSelection [
 					 event client text: ''.
 					 target listElement selection selectIndex: idx ] ]).
 	^ select
+]
+
+{ #category : #bar }
+ToSandBox class >> selectionModeChooserFor: aBar [
+
+	| selectionModeGroup buttons selectionModeContainer |
+	selectionModeGroup := ToCheckableGroup new.
+	buttons := OrderedCollection new.
+	{ #Multiple. #Single. #Disabled } do: [ :mode |
+		| chb |
+		chb := ToCheckbox new
+			       labelText: mode asString;
+			       id: mode.
+		buttons add: chb ].
+
+	selectionModeGroup registerAll: buttons.
+	selectionModeGroup addEventHandler: (BlEventHandler
+			 on: ToCheckableGroupChangedEvent
+			 do: [ :event |
+				 | mode |
+				 mode := event checkedList first id asSymbol.
+				 aBar selectionMode enabled: mode ~= #Disabled.
+				 mode = #Multiple
+					 ifTrue: [ aBar selectionMode multiple: true ]
+					 ifFalse: [
+					 mode = #Single ifTrue: [ aBar selectionMode multiple: false ] ] ]).
+	buttons first checked: true.
+	selectionModeContainer := ToPane vertical.
+	selectionModeContainer border: Color lightGray.
+	selectionModeContainer padding: (BlInsets all: 5).
+	selectionModeContainer hMatchParent.
+	selectionModeContainer addChild: (ToLabel text: 'Selection mode').
+	selectionModeContainer addChildren:
+		selectionModeGroup registeredCheckables.
+	^ selectionModeContainer
 ]
 
 { #category : #accessing }

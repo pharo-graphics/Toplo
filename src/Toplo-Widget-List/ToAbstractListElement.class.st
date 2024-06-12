@@ -197,6 +197,12 @@ ToAbstractListElement >> disabledSelectionModel [
 ]
 
 { #category : #accessing }
+ToAbstractListElement >> fakeNode [
+
+	^ nil
+]
+
+{ #category : #accessing }
 ToAbstractListElement >> hiddenSelecter [ 
 
 	^ self selecter subSelecterWithId: #hidden
@@ -207,31 +213,33 @@ ToAbstractListElement >> initialize [
 
 	super initialize.
 	nodeManager := self defaultNodeManager.
-	
+
 	self initializeDataSource.
 	self initializeCommandChecker.
 	self initializeInnerContainer.
 
 	beneathContainer := ToOverlayElement new.
 	beneathContainer attachTo: self innerContainer.
-	beneathContainer elevation: (BlRelativeElevation elevation: 5).  
+	beneathContainer elevation: (BlRelativeElevation elevation: 5).
 	overContainer := ToOverlayElement new.
 	overContainer attachTo: self innerContainer.
-	overContainer elevation: (BlRelativeElevation elevation: 15). 
-	self addChildren: { beneathContainer. overContainer }.
+	overContainer elevation: (BlRelativeElevation elevation: 15).
+	self addChildren: {
+			beneathContainer.
+			overContainer }.
 
-	self layout: self defaultLayout.	
+	self layout: self defaultLayout.
 
 	self selectionMode: self defaultSelectionMode.
 	self addEventHandler: self defaultEventHandler.
-	
+
 	self contextMenuWindowManagerClass: self defaultContextMenuWindowManagerClass.
 	self addEventHandler: self newPrimarySelectionEventHandler.
-	self addEventHandler:	self newContextMenuEventHandler.
-		
+	self addEventHandler: self newContextMenuEventHandler.
+
 	self secondarySelectionMode: self defaultSecondarySelectionMode.
 	self addEventHandler: self newSecondarySelectionEventHandler.
-	
+
 	self matchParent
 ]
 
@@ -255,12 +263,6 @@ ToAbstractListElement >> initializeInnerContainer [
 	self next elevation: (BlRelativeElevation elevation: 10).
 	self addChild: self next.
 
-]
-
-{ #category : #testing }
-ToAbstractListElement >> isMultipleSelection [
-
-	^ self selectionMode isMultipleSelection
 ]
 
 { #category : #accessing }

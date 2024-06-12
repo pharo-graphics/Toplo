@@ -1,6 +1,8 @@
 Class {
 	#name : #ToChoiceMenu,
 	#superclass : #ToMenu,
+	#traits : 'TToCheckableGroupHolder',
+	#classTraits : 'TToCheckableGroupHolder classTrait',
 	#instVars : [
 		'group',
 		'data',
@@ -27,7 +29,7 @@ ToChoiceMenu >> checkableGroupChangedEvent: anEvent [
 { #category : #'private - accessing' }
 ToChoiceMenu >> checkedMenuItem [
 
-	^ group buttons
+	^ group registeredCheckables
 		  detect: [ :btn | btn isChecked ]
 		  ifNone: [  ]
 ]
@@ -86,12 +88,6 @@ ToChoiceMenu >> defaultSelectedIndex: anInteger [
 			self selectIndex: self defaultSelectedIndex ] ]
 ]
 
-{ #category : #accessing }
-ToChoiceMenu >> group [
-
-	^ group
-]
-
 { #category : #'private - accessing' }
 ToChoiceMenu >> indexOfData: aData [
 
@@ -105,8 +101,8 @@ ToChoiceMenu >> initialize [
 	defaultSelectedIndex := 0.
 	dataToTextConverter := [ :i | i ].
 
-	" a group with unchecking strategy by default "
-	group := ToCheckableGroup new withUncheckingStrategy.
+	" a group with weak strategy that allows deselection by default "
+	group := ToCheckableGroup new withWeakCheckingStrategy.
 	group addEventHandler: (BlEventHandler
 			 on: ToCheckableGroupChangedEvent
 			 do: [ :event | self checkableGroupChangedEvent: event ]).
@@ -116,7 +112,7 @@ ToChoiceMenu >> initialize [
 { #category : #'private - accessing' }
 ToChoiceMenu >> menuItemFromData: anObject [
 
-	^ group buttons
+	^ group registeredCheckables
 		  detect: [ :btn | btn data = anObject ]
 		  ifNone: [  ]
 ]
@@ -168,6 +164,18 @@ ToChoiceMenu >> privateData: anObservableCollection [
 	data := anObservableCollection.
 	data addEventHandler: (ToChoiceMenuDataEventHandler new choiceMenu: self; yourself).
 	self notifyChanged
+]
+
+{ #category : #'t - checkable group holder' }
+ToChoiceMenu >> rawGroup [
+
+	^ group
+]
+
+{ #category : #'t - checkable group holder' }
+ToChoiceMenu >> rawGroup: aGroup [
+
+	self shouldNotImplement 
 ]
 
 { #category : #'adding / removing' }
@@ -224,16 +232,4 @@ ToChoiceMenu >> updateLabel [
 		self label: self defaultLabel.
 		^ self ].
 	self label: nil
-]
-
-{ #category : #accessing }
-ToChoiceMenu >> withStrictCheckingStrategy [
-
-	self group withStrictCheckingStrategy
-]
-
-{ #category : #accessing }
-ToChoiceMenu >> withUncheckingStrategy [
-
-	self group withUncheckingStrategy
 ]

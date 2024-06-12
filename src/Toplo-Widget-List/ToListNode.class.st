@@ -1,21 +1,20 @@
 Class {
 	#name : #ToListNode,
-	#superclass : #BlElement,
-	#traits : 'TToEnableable + TToListNode + TToUnanimityRequestTarget',
+	#superclass : #ToAbstractListNode,
 	#classTraits : 'TToEnableable classTrait + TToListNode classTrait + TToUnanimityRequestTarget classTrait',
 	#category : #'Toplo-Widget-List-Node'
 }
 
 { #category : #'t - list node' }
-ToListNode >> defaultLayout [ 
+ToListNode >> clickEventHandlerClasses [
 
-	^ BlLinearLayout vertical
+	^ self holder listElement isMultipleSelection
+		  ifTrue: [ { ToListNodeMultiSelectionClickEventHandler } ]
+		  ifFalse: [ { ToListNodeSingleSelectionClickEventHandler } ]
 ]
 
-{ #category : #initialization }
-ToListNode >> initialize [
+{ #category : #'instance creation' }
+ToListNode >> newEventHandler [
 
-	super initialize.
-	self layout: self defaultLayout.
-	self setInitialConfiguration 
+	^ ToListNodeEventHandler new
 ]

@@ -1,6 +1,11 @@
 Class {
 	#name : #ToSegmentedElement,
 	#superclass : #ToBarElement,
+	#traits : 'TToCheckableGroupHolder',
+	#classTraits : 'TToCheckableGroupHolder classTrait',
+	#instVars : [
+		'group'
+	],
 	#category : #'Toplo-Widget-Segmented'
 }
 
@@ -16,10 +21,22 @@ ToSegmentedElement >> defaultNodeManagerClass [
 	^ ToSegmentManager 
 ]
 
-{ #category : #'instance creation' }
-ToSegmentedElement >> newPrimarySelectionEventHandler [
+{ #category : #initialization }
+ToSegmentedElement >> defaultSelectionMode [
 
-	^ ToSegmentedPrimarySelectionElementEventHandler new
+	^ ToSegmentedSelectionMode primary
+]
+
+{ #category : #'t - checkable group holder' }
+ToSegmentedElement >> rawGroup [
+
+	^ group ifNil: [ group := ToCheckableGroup new ]
+]
+
+{ #category : #'t - checkable group holder' }
+ToSegmentedElement >> rawGroup: aGroup [
+
+	self shouldNotImplement 
 ]
 
 { #category : #accessing }

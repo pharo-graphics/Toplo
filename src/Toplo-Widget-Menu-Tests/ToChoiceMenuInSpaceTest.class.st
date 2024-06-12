@@ -40,35 +40,39 @@ ToChoiceMenuInSpaceTest >> testWithStructuredDataWithStrictStrategy [
 	cb defaultSelectedIndex: 2.
 	cb dataToTextConverter: [ :assoc | assoc key ].
 	cb data addAll: (d := {
-			('Bee Theme' -> ToBeeTheme).
-			('Raw Theme' -> ToRawTheme) }).
+			      ('Bee Theme' -> ToBeeTheme).
+			      ('Raw Theme' -> ToRawTheme) }).
 	space root addChild: cb.
 
 	cb addEventHandler: (BlEventHandler
 			 on: ToChoiceChangedEvent
-			 do: [ cb selectedData ifNotNil: [:data | space toTheme: (data value new) ] ] ).
-			
+			 do: [
+			 cb selectedData ifNotNil: [ :data | space toTheme: data value new ] ]).
+
 	cb selectIndex: 1.
 	self waitTestingSpaces.
 	self assert: cb selectedData value identicalTo: ToBeeTheme.
 	self assert: cb label text asString equals: d first key.
-	self should: [cb selectData: nil] raise: Error.
+	self should: [ cb selectData: nil ] raise: Error.
 	self assert: cb selectedIndex equals: 1.
 	self assert: cb label text asString equals: d first key.
-	self assert: (cb group buttons select: [ :b | b checked ]) size equals: 1
+	self
+		assert:
+		(cb group registeredCheckables select: [ :b | b checked ]) size
+		equals: 1
 ]
 
 { #category : #tests }
-ToChoiceMenuInSpaceTest >> testWithStructuredDataWithUncheckingStrategy [
+ToChoiceMenuInSpaceTest >> testWithStructuredDataWithWeakStrategy [
 
 	| cb d |
 	cb := ToChoiceMenu new.
-	cb withUncheckingStrategy.
+	cb withWeakCheckingStrategy.
 	space root addChild: cb.
 	cb dataToTextConverter: [ :assoc | assoc key ].
 	cb data addAll: (d := {
-			('Bee Theme' -> ToBeeTheme).
-			('Raw Theme' -> ToRawTheme) }).
+			      ('Bee Theme' -> ToBeeTheme).
+			      ('Raw Theme' -> ToRawTheme) }).
 	cb selectIndex: 1.
 	self waitTestingSpaces.
 	self assert: cb selectedData value identicalTo: ToBeeTheme.
@@ -76,5 +80,6 @@ ToChoiceMenuInSpaceTest >> testWithStructuredDataWithUncheckingStrategy [
 	cb selectData: nil.
 	self assert: cb selectedData isNil.
 	self assert: cb label isNil.
-	self assert: (cb group buttons noneSatisfy: [ :b | b checked ])
+	self assert:
+		(cb group registeredCheckables noneSatisfy: [ :b | b checked ])
 ]

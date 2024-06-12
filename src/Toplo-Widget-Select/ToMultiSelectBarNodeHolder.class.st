@@ -1,14 +1,8 @@
 Class {
 	#name : #ToMultiSelectBarNodeHolder,
-	#superclass : #ToNodeHolder,
+	#superclass : #ToBarNodeHolder,
 	#category : #'Toplo-Widget-Select-Multi'
 }
-
-{ #category : #accessing }
-ToMultiSelectBarNodeHolder >> barElement [
-
-	^  self listElement
-]
 
 { #category : #accessing }
 ToMultiSelectBarNodeHolder >> dataAccessor [
@@ -32,6 +26,12 @@ ToMultiSelectBarNodeHolder >> selectElement [
 ToMultiSelectBarNodeHolder >> selecter [
 
 	^  self selectElement selecter
+]
+
+{ #category : #accessing }
+ToMultiSelectBarNodeHolder >> selectionModel [
+
+	^ self selectElement selectionModel
 ]
 
 { #category : #accessing }

@@ -39,8 +39,7 @@ ToListSelectionElement >> boundsFromNodes [
 { #category : #private }
 ToListSelectionElement >> boundsOfNode: aNode [
 	" compute local node bounds "
-
-	^ (aNode bounds inSpace inChild: listElement innerContainer) bounds
+	^ (aNode measuredBounds inSpace inChild: listElement innerContainer) bounds
 ]
 
 { #category : #private }

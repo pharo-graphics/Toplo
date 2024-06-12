@@ -4,6 +4,14 @@ Class {
 	#category : #'Toplo-Widget-Select-Multi'
 }
 
+{ #category : #'instance creation' }
+ToMultiSelectBarNodeManager >> buildFakeNode: aFakeNode inHolder: anHolder [
+
+	anHolder dataItem:
+		(ToMultiSelectDataItem index: (fakeDataItem ifNil: [ 0 ])).
+	super buildFakeNode: aFakeNode inHolder: anHolder
+]
+
 { #category : #initialization }
 ToMultiSelectBarNodeManager >> defaultNodeBuilder [
 
@@ -19,7 +27,7 @@ ToMultiSelectBarNodeManager >> defaultNodeBuilder [
 		  ifFalse: [ t := dataItem content ].
 
 	  node middleElement: (ToLabel text: t).
-	  node autoDistribute: holder listElement nodeAutoDistribution ]
+	 " node autoDistribute: holder listElement nodeAutoDistribution" ]
 ]
 
 { #category : #initialization }
@@ -32,12 +40,4 @@ ToMultiSelectBarNodeManager >> defaultNodeFactory [
 ToMultiSelectBarNodeManager >> defaultNodeHolderClass [ 
 
 	^ ToMultiSelectBarNodeHolder
-]
-
-{ #category : #'instance creation' }
-ToMultiSelectBarNodeManager >> newFakeNodeForHolder: anHolder [
-
-	anHolder dataItem: (ToMultiSelectDataItem index: (fakeDataItem ifNil: [0])).
-	^ super newFakeNodeForHolder: anHolder
-
 ]

@@ -6,8 +6,20 @@ Trait {
 { #category : #'t - checkable - group' }
 TToCheckable >> addToGroup: aGroup [
 
-	aGroup add: self.
-	self group: aGroup 
+	self
+		deprecated: 'send #registerInGroup: instead'
+		transformWith:
+		'`@receiver addToGroup: `@arg'
+		-> '`@receiver registerInGroup: `@arg'.
+
+
+	self registerInGroup: aGroup
+]
+
+{ #category : #'t - checkable - testing' }
+TToCheckable >> allowUnchecking [
+
+	^ self group isNil or: [ self group allowUnchecking ]
 ]
 
 { #category : #'t - checkable  - protocol' }
@@ -25,7 +37,7 @@ TToCheckable >> checked [
 { #category : #'t - checkable - accessing' }
 TToCheckable >> checked: aBooleanOrIndeterminate [
 
-	| current preNotification |
+	| current |
 	aBooleanOrIndeterminate ifNil: [ Error signal: 'nil not allowed' ].
 	(aBooleanOrIndeterminate isSymbol and: [ self withIndeterminate not ])
 		ifTrue: [
@@ -33,11 +45,14 @@ TToCheckable >> checked: aBooleanOrIndeterminate [
 				'a symbol not allowed except when indeterminate is explicitly allowed ' ].
 	self isDisabled ifTrue: [ ^ self ].
 	current := self rawChecked.
-	preNotification := ToCheckableChangeUnanimityRequestEvent new sourceEvent:
-		                   (ToCheckableChangedEvent new
-			                    checked: aBooleanOrIndeterminate;
-			                    yourself).
-	self dispatchUnanimityRequest: preNotification 
+	self group ifNotNil: [ :grp |
+		(grp allowChangeWith: aBooleanOrIndeterminate forCheckable: self)
+			ifFalse: [ ^ self ] ].
+	aBooleanOrIndeterminate = current ifTrue: [ ^ self ].
+	self privateChecked: aBooleanOrIndeterminate.
+	self dispatchEvent: (ToCheckableChangedEvent new
+			 checked: self rawChecked;
+			 yourself)
 ]
 
 { #category : #'t - checkable - group' }
@@ -53,6 +68,12 @@ TToCheckable >> group: aCheckableGroup [
 		Error signal:
 			'Invalid checkable use: indeterminate state is not allowed with a checkable group' ].
 	self rawGroup: aCheckableGroup
+]
+
+{ #category : #'t - checkable - testing' }
+TToCheckable >> hasNoneStrategy [
+
+	^ self group isNil or: [ self group hasNoneStrategy ]
 ]
 
 { #category : #'t - checkable  - protocol' }
@@ -134,13 +155,27 @@ TToCheckable >> rawGroup: aGroup [
 ]
 
 { #category : #'t - checkable - group' }
+TToCheckable >> registerInGroup: aGroup [
+
+	aGroup register: self.
+	self group: aGroup
+]
+
+{ #category : #'t - checkable - group' }
 TToCheckable >> removeFromGroup [
 
-	self group remove: self
+	self
+		deprecated: 'send #unregisterFromGroup instead'
+		transformWith:
+		'`@receiver removeFromGroup'
+		-> '`@receiver unregisterFromGroup'.
+
+
+	self unregisterFromGroup
 ]
 
 { #category : #'t - checkable - private protocol' }
-TToCheckable >> switchToNextCheckStateOnClick [
+TToCheckable >> switchToNextCheckState [
 
 	self checked: self nextCheckValue 
 ]
@@ -149,6 +184,12 @@ TToCheckable >> switchToNextCheckStateOnClick [
 TToCheckable >> uncheck [
 
 	self checked: false
+]
+
+{ #category : #'t - checkable - group' }
+TToCheckable >> unregisterFromGroup [
+
+	self group remove: self
 ]
 
 { #category : #'t - checkable  - protocol' }

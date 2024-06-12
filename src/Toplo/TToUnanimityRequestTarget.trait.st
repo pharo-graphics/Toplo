@@ -7,6 +7,6 @@ Trait {
 TToUnanimityRequestTarget >> dispatchUnanimityRequest: anUnanimityRequestEvent [
 
 	self dispatchEvent: anUnanimityRequestEvent.
-	anUnanimityRequestEvent sourceEvent ifNil: [ ^ self ].
+	anUnanimityRequestEvent denied ifTrue: [ ^ self ].
 	self dispatchEvent: anUnanimityRequestEvent sourceEvent
 ]

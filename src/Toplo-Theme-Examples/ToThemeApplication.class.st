@@ -137,12 +137,11 @@ ToThemeApplication >> intializeStampButtons [
 	group := ToCheckableGroup new
 		         withStrictCheckingStrategy;
 		         yourself.
-	{ #normal. #danger. #success. #warning } do: [
-		:stampText |
+	{ #normal. #danger. #success. #warning } do: [ :stampText |
 		| button |
 		button := ToCheckbox new
 			          labelText: stampText;
-			          addToGroup: group;
+			          registerInGroup: group;
 			          constraintsDo: [ :c | c horizontal matchParent ];
 			          whenClickedDo: [
 				          self panelModels do: [ :each |

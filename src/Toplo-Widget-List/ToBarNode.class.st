@@ -1,10 +1,16 @@
 Class {
 	#name : #ToBarNode,
-	#superclass : #ToListNode,
-	#traits : 'TToElement',
-	#classTraits : 'TToElement classTrait',
+	#superclass : #ToAbstractListNode,
+	#traits : 'TToElement + TToBarNode',
+	#classTraits : 'TToElement classTrait + TToBarNode classTrait',
 	#category : #'Toplo-Widget-List-Node'
 }
+
+{ #category : #'t - list node' }
+ToBarNode >> clickEventHandlerClasses [
+
+	^  { ToListNodeMultiSelectionClickEventHandler } 
+]
 
 { #category : #initialization }
 ToBarNode >> initialize [ 
@@ -13,16 +19,16 @@ ToBarNode >> initialize [
 	self initializeForToplo 
 ]
 
+{ #category : #'t - list node' }
+ToBarNode >> isPartlyVisible [
+
+	^ self nodeContainerIntersection
+		  ifNotNil: [ :i | i isZero not ]
+		  ifNil: [ false ]
+]
+
 { #category : #skin }
 ToBarNode >> newRawSkin [ 
 
 	^ ToBarNodeSkin new
-]
-
-{ #category : #'t - list node' }
-ToBarNode >> setInitialConfiguration [
-
-	self constraintsDo: [ :c |
-		c horizontal fitContent.
-		c vertical fitContent ]
 ]

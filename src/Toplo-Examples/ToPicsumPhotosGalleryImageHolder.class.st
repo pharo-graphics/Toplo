@@ -1,6 +1,6 @@
 Class {
 	#name : #ToPicsumPhotosGalleryImageHolder,
-	#superclass : #ToNodeHolder,
+	#superclass : #ToListNodeHolder,
 	#instVars : [
 		'loader'
 	],

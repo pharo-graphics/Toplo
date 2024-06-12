@@ -24,6 +24,18 @@ ToListElement >> defaultNodeManagerClass [
 	^ ToListNodeManager  
 ]
 
+{ #category : #'private - invalidation' }
+ToListElement >> invalidateItemDecorations [
+
+	self notifyPrimarySelectionDirty
+]
+
+{ #category : #testing }
+ToListElement >> isMultipleSelection [
+
+	^ self selectionMode isMultipleSelection
+]
+
 { #category : #skin }
 ToListElement >> newRawSkin [ 
 

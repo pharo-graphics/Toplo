@@ -7,20 +7,6 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Element'
 }
 
-{ #category : #'selection managing' }
-ToListPrimarySelectionElementEventHandler >> addNewSelectionElementsFrom: target [
-
-	| selectionModel nodesArray  |
-	super addNewSelectionElementsFrom: target.
-	selectionModel := self selectionModelFrom: target.
-	" Dispatch the event that is used by the skin state generator to generate the selection state "
-	nodesArray := target innerContainer children asArray.
-	nodesArray do: [ :node |
-		node dispatchEvent: (ToListNodeSelectedEvent new
-				 listElement: target;
-				 selected: (selectionModel containsIndex: node holder position)) ]
-]
-
 { #category : #'element handlers' }
 ToListPrimarySelectionElementEventHandler >> blurEvent: anEvent [
 
@@ -35,9 +21,8 @@ ToListPrimarySelectionElementEventHandler >> differUpdateSelectionFrom: anElemen
 
 	differedUpdateTask ifNotNil: [ ^ self ].
 	differedUpdateTask := BlTaskAction new action: [
-		                       anElement dispatchEvent:
-			                       ToListPrimarySelectionDirtyEvent new.
-		                       differedUpdateTask := nil ].
+		                      anElement notifyPrimarySelectionDirty.
+		                      differedUpdateTask := nil ].
 	anElement enqueueTask: differedUpdateTask
 ]
 

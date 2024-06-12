@@ -25,13 +25,6 @@ ToSkinStateGenerator >> checkableCheckEvent: anEvent [
 	self generateCheckStateFromEvent: anEvent
 ]
 
-{ #category : #'checkable event handling' }
-ToSkinStateGenerator >> checkableCheckedEvent: anEvent [
-	"ToCheclableCheckEvent can be send either because of a click or because the checkable as been checked programmatically"
-
-	self generateCheckStateFromEvent: anEvent
-]
-
 { #category : #'mouse handlers' }
 ToSkinStateGenerator >> clickAbortedEvent: anEvent [
 
@@ -580,7 +573,6 @@ ToSkinStateGenerator >> pressed: aBoolean [
 { #category : #'mouse handlers' }
 ToSkinStateGenerator >> primaryClickEvent: anEvent [
 
-	target switchToNextCheckStateOnClick.
 	self generateClickedStateFromEvent: anEvent
 ]
 

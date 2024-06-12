@@ -21,13 +21,11 @@ ToBarElement >> configureLayout [
 
 	self isHorizontal
 		ifTrue: [
-			self constraintsDo: [ :c |
-				c horizontal matchParent.
-				c vertical fitContent ] ]
+			self hMatchParent.
+			self vFitContent ]
 		ifFalse: [
-			self constraintsDo: [ :c |
-				c vertical matchParent.
-				c horizontal fitContent ] ].
+			self vMatchParent.
+			self hFitContent ].
 	self innerContainer configureLayout.
 	self checkFullyVisibleNodes
 ]
@@ -59,9 +57,15 @@ ToBarElement >> fakeDataItem: aDataItem [
 ]
 
 { #category : #accessing }
+ToBarElement >> fakeNode [
+
+	^ self innerContainer fakeNode
+]
+
+{ #category : #accessing }
 ToBarElement >> flowLineUniformWidth [
 
-	^ flowLineUniformWidth
+	^ flowLineUniformWidth ifNil: [ flowLineUniformWidth := false ]
 ]
 
 { #category : #accessing }
@@ -86,10 +90,6 @@ ToBarElement >> initialize [
 	super initialize.
 	selectionMode beneathOption: ToListSelectionOption separate.
 	selectionMode overOption: ToListSelectionOption none.
-	nodeWrapping := true.
-	nodeScrolling := false.
-	nodeAutoDistribution := false.
-	flowLineUniformWidth := false.
 	self configureLayout
 ]
 
@@ -146,7 +146,7 @@ ToBarElement >> nodeHolderClass: aNodeHolderClass [
 { #category : #accessing }
 ToBarElement >> nodeScrolling [
 
-	^ nodeScrolling 
+	^ nodeScrolling ifNil: [ nodeScrolling := false ]
 ]
 
 { #category : #accessing }
@@ -159,7 +159,7 @@ ToBarElement >> nodeScrolling: aBoolean [
 { #category : #accessing }
 ToBarElement >> nodeWrapping [
 
-	^ nodeWrapping 
+	^ nodeWrapping ifNil: [ nodeWrapping := false ]
 ]
 
 { #category : #accessing }

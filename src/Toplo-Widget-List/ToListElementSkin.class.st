@@ -18,36 +18,22 @@ ToListElementSkin >> shortcutsToInstallIn: aListElement [
 
 	^ Array streamContents: [ :stream |
 		
-		  stream nextPut: (BlShortcutWithAction new
-				   combination: BlKeyCombination builder arrowDown build;
-				   action: [ :aShortcutEvent :aShortcut |
-					   | idx |
-					   idx := aListElement selecter nextSelectableIndexToScrollTo.
-					   aListElement selecter scrollTowardEndToDataSourcePosition: idx.
-					   aListElement selecter selectOnlyIndex: idx ]).
-
-		  stream nextPut: (BlShortcutWithAction new
-				   combination: BlKeyCombination builder arrowUp build;
-				   action: [ :aShortcutEvent :aShortcut |
-					   | idx |
-					   idx := aListElement selecter previousSelectableIndexToScrollTo.
-					   aListElement selecter scrollTowardStartToDataSourcePosition: idx.
-					   aListElement selecter selectOnlyIndex: idx ]).
-
+		  stream nextPutAll: (super shortcutsToInstallIn: aListElement).
+		
 		  aListElement isMultipleSelection ifTrue: [
-			
 			  stream nextPut: (BlShortcutWithAction new
 					   combination: BlKeyCombination primaryA;
 					   action: [ :aShortcutEvent :aShortcut |
 						   aListElement selecter selectAll ]).
-					
+
 			  stream nextPut: (BlShortcutWithAction new
 					   combination: BlKeyCombination builder shift arrowDown build;
 					   action: [ :aShortcutEvent :aShortcut |
 						   | idx |
 						   idx := aListElement selecter nextDeselectedIndex.
 						   aListElement selecter selectIndex: idx.
-						   aListElement selecter scrollTowardEndToDataSourcePosition: idx ]).
+						   aListElement selecter scrollTowardEndToDataSourcePosition:
+								   idx ]).
 
 			  stream nextPut: (BlShortcutWithAction new
 					   combination: BlKeyCombination builder shift arrowUp build;
@@ -55,7 +41,8 @@ ToListElementSkin >> shortcutsToInstallIn: aListElement [
 						   | idx |
 						   idx := aListElement selecter previousDeselectedIndex.
 						   aListElement selecter selectIndex: idx.
-						   aListElement selecter scrollTowardStartToDataSourcePosition: idx ]) ] ]
+						   aListElement selecter scrollTowardStartToDataSourcePosition:
+								   idx ]) ] ]
 ]
 
 { #category : #'event handling' }

@@ -29,26 +29,26 @@ ToListNodeMultiSelectionClickEventHandler >> launchClick: aBlock event: anEvent 
 	listElement := node holder listElement.
 	mode := listElement selectionMode.
 
-	(listElement isFocused not and: [listElement selectionMode requestFocusOnMouseDown]) ifTrue: [
+	(listElement isFocused not and: [
+		 listElement selectionMode requestFocusOnMouseDown ]) ifTrue: [
 		listElement requestFocus.
 		mode preserveSelectionOnFocused ifTrue: [
-			self terminateClickLauncher.
+			self terminateClickLauncherOnNode: node.
 			^ self ] ].
 
 	" do not try double click if ctrl or Cmd or shift is pressed "
 	(holder isSelected not or: [
 		 anEvent sourceEvent modifiers isPrimaryModifier or: [
 			 anEvent sourceEvent modifiers isShift ] ]) ifTrue: [
-		self terminateClickLauncher.
+		self terminateClickLauncherOnNode: node.
 		^ aBlock value ].
 
 	" Already have a click launcher "
 	self hasClickLauncher ifTrue: [ ^ self ].
-	
+
 	" no click launcher for only one selected node "
 	" Avoid selection size computation if all is selected "
-	(mode selectedIndexesCount > 0)
-		ifFalse: [ ^ aBlock value ].
+	mode selectedIndexesCount > 0 ifFalse: [ ^ aBlock value ].
 
 	self clickLauncher: ([
 		 (listElement valueOfTokenNamed: #'double-click-delay') asDelay wait.
@@ -58,7 +58,7 @@ ToListNodeMultiSelectionClickEventHandler >> launchClick: aBlock event: anEvent 
 			 named: self class name)
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : #'events handling' }
 ToListNodeMultiSelectionClickEventHandler >> listClickOnNodeEvent: anEvent [
 
 	super listClickOnNodeEvent: anEvent.
@@ -68,28 +68,25 @@ ToListNodeMultiSelectionClickEventHandler >> listClickOnNodeEvent: anEvent [
 
 { #category : #'mouse handlers' }
 ToListNodeMultiSelectionClickEventHandler >> listDoubleClickEvent: anEvent [
-
-	self terminateClickLauncher.
+	
+	self terminateClickLauncherOnNode: anEvent currentTarget.
 	super listDoubleClickEvent: anEvent
 ]
 
 { #category : #'selection events' }
 ToListNodeMultiSelectionClickEventHandler >> onClickOnNodeEvent: anEvent [
 
-
 	| listElement node holder mode |
-
 	node := anEvent currentTarget.
-	holder := node holder.	
+	holder := node holder.
 	listElement := node holder listElement.
 	mode := listElement selectionMode.
-
 	mode onClickEvent: anEvent onNode: node
 ]
 
 { #category : #'events handling' }
-ToListNodeMultiSelectionClickEventHandler >> terminateClickLauncher [
+ToListNodeMultiSelectionClickEventHandler >> terminateClickLauncherOnNode: aNode [
 
 	clickLauncher ifNotNil: #terminate.
-	clickLauncher := nil.
+	clickLauncher := nil
 ]

@@ -28,6 +28,30 @@ ToBasicListElementSkin >> installLookEvent: anEvent [
 		e outskirts: BlOutskirts inside ]
 ]
 
+{ #category : #'accessing - shortcuts' }
+ToBasicListElementSkin >> shortcutsToInstallIn: aListElement [
+
+	^ Array streamContents: [ :stream |
+		  stream nextPut: (BlShortcutWithAction new
+				   combination: BlKeyCombination builder arrowDown build;
+				   action: [ :aShortcutEvent :aShortcut |
+					   | idx |
+					   idx := aListElement selecter nextSelectableIndexToScrollTo.
+					   aListElement selecter scrollTowardEndToDataSourcePosition: idx.
+					   aListElement selecter selectOnlyIndex: idx ]).
+
+		  stream nextPut: (BlShortcutWithAction new
+				   combination: BlKeyCombination builder arrowUp build;
+				   action: [ :aShortcutEvent :aShortcut |
+					   | idx |
+					   idx := aListElement selecter previousSelectableIndexToScrollTo.
+					   aListElement selecter scrollTowardStartToDataSourcePosition:
+							   idx.
+					   aListElement selecter selectOnlyIndex: idx ]).
+
+		   ]
+]
+
 { #category : #'event handling' }
 ToBasicListElementSkin >> unfocusedLookEvent: anEvent [
 

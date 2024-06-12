@@ -7,12 +7,14 @@ Class {
 { #category : #bar }
 ToSandBox class >> barDashBoardFor: aBar [
 
-	| mainPane barPane confPane verticalSwitch wrappingSwitch scrollingSwitch autoDistributionSwitch sameWidthSwitch selectionAnimationSwitch selectOnMouseDownSwitch |
+	| mainPane barPane confPane verticalSwitch wrappingSwitch scrollingSwitch autoDistributionSwitch sameWidthSwitch selectionAnimationSwitch selectOnMouseDownSwitch inspectButton |
 	mainPane := ToPane horizontal.
 	mainPane matchParent.
-	mainPane padding: (BlInsets all: 5).
+
 	confPane := ToPane vertical.
+	confPane padding: (BlInsets all: 5).
 	confPane width: 250.
+	confPane border: Color lightGray.
 	barPane := ToPane vertical.
 	barPane matchParent.
 	mainPane addChildren: {
@@ -20,6 +22,10 @@ ToSandBox class >> barDashBoardFor: aBar [
 			barPane }.
 
 	barPane addChild: aBar.
+	
+	inspectButton := ToButton new labelText: 'Inspect'.
+	inspectButton whenClickedDo: [ aBar inspect ].
+	confPane addChild: inspectButton.
 
 	verticalSwitch := ToSwitchButton new labelText: 'Vertical'.
 	verticalSwitch endToStart: true.
@@ -2299,8 +2305,7 @@ ToSandBox class >> example_SpToggleButton [
 	rootPane addChildren: {
 			dashBoard.
 			feedbackPane }.
-	rootPane openInSpace.
-	seg inspect
+	rootPane openInSpace
 ]
 
 { #category : #'button-dep' }
@@ -2757,11 +2762,10 @@ ToSandBox class >> example_bar [
 	bar vFitContent.
 	dashBoard := self barDashBoardFor: bar.
 	selectionModeBoard := self selectionModeChooserFor: bar.
-	selectionModeBoard border: Color lightGray.
-	selectionModeBoard padding: (BlInsets all: 10).
 	dashBoard constraints linear weight: 0.75.
 	selectionModeBoard constraints linear weight: 0.25.
 	rootPane := ToPane vertical.
+	rootPane padding: (BlInsets all: 5).
 	rootPane matchParent.
 	rootPane addChild: dashBoard.
 	rootPane addChild: selectionModeBoard.
@@ -2770,7 +2774,6 @@ ToSandBox class >> example_bar [
 	bar dataAccessor addAll: ToSandBox statesOfAmerica. "copyFrom: 1 to: 20"
 	"bar dataAccessor addAll:
 		(Smalltalk globals allClasses copyFrom: 1 to: 800)."
-	bar inspect.
 	rootPane openInSpace
 ]
 
@@ -4574,7 +4577,7 @@ ToSandBox class >> example_withCustomMenuItems [
 		        labelText: 'Left';
 		        id: #left.
 	center checked: true.
-	grp addAll: {
+	grp registerAll: {
 			right.
 			center.
 			left }.
@@ -4597,7 +4600,7 @@ ToSandBox class >> example_withCustomMenuItems [
 			 margin: (BlInsets
 					  top: 2;
 					  bottom: 4)).
-	menu addAllItems: grp buttons.
+	menu addAllItems: grp registeredCheckables.
 
 	grp := ToCheckableGroup new.
 	right := ToRadioMenuItem new
@@ -4613,7 +4616,7 @@ ToSandBox class >> example_withCustomMenuItems [
 		        labelText: 'Left';
 		        id: #left.
 	center checked: true.
-	grp addAll: {
+	grp registerAll: {
 			right.
 			center.
 			left }.
@@ -4635,7 +4638,7 @@ ToSandBox class >> example_withCustomMenuItems [
 			 margin: (BlInsets
 					  top: 2;
 					  bottom: 4)).
-	menu addAllItems: grp buttons.
+	menu addAllItems: grp registeredCheckables.
 	menu addSeparator.
 	textField := ToTextField new
 		             placeholderBuilder: [ :thePlaceholder :theElement |
@@ -4892,9 +4895,10 @@ ToSandBox class >> selectionModeChooserFor: aBar [
 					 mode = #Single ifTrue: [ aBar selectionMode multiple: false ] ] ]).
 	buttons first checked: true.
 	selectionModeContainer := ToPane vertical.
+	selectionModeContainer border: Color lightGray.
+	selectionModeContainer padding: (BlInsets all: 5).
 	selectionModeContainer hMatchParent.
 	selectionModeContainer addChild: (ToLabel text: 'Selection mode').
-	selectionModeContainer layout cellSpacing: 5.
 	selectionModeContainer addChildren:
 		selectionModeGroup registeredCheckables.
 	^ selectionModeContainer

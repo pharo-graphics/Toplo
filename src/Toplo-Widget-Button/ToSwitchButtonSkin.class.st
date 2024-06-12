@@ -41,9 +41,9 @@ ToSwitchButtonSkin >> installLookEvent: anEvent [
 		e border: BlBorder empty.
 		e padding: (BlInsets
 				 top: (e valueOfTokenNamed: #'padding-content-V')
-				 left: (e valueOfTokenNamed: #'padding-content-H')
+				 left: (e valueOfTokenNamed: #'padding-XS')
 				 bottom: (e valueOfTokenNamed: #'padding-content-V')
-				 right: (e valueOfTokenNamed: #'padding-content-H')) ]
+				 right: (e valueOfTokenNamed: #'padding-XS')) ]
 ]
 
 { #category : #'event handling' }

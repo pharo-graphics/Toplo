@@ -18,13 +18,20 @@ ToInfiniteElementEventHandler >> eventsToHandle [
 		  ToInfiniteDataSourceEmptinessChangedEvent.
 		  BlInfiniteElementAttachedEvent.
 		  BlInfiniteElementDetachedEvent.
-		  BlElementScrolledEvent }
+		  BlElementScrolledEvent.
+		  BlInfiniteDecorationBoundsChangedEvent }
 ]
 
 { #category : #'infinite event handling' }
 ToInfiniteElementEventHandler >> infiniteDataSourceEmptinessChangedEvent: anEvent [
 
 	anEvent currentTarget listElement dispatchEvent: anEvent copy
+]
+
+{ #category : #'infinite event handling' }
+ToInfiniteElementEventHandler >> infiniteDecorationBoundsChangedEvent: anEvent [
+
+	anEvent currentTarget listElement notifyPrimarySelectionDirty 
 ]
 
 { #category : #'infinite event handling' }

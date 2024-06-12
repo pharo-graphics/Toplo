@@ -7,27 +7,6 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Element'
 }
 
-{ #category : #'selection managing' }
-ToListPrimarySelectionElementEventHandler >> addNewSelectionElementsFrom: target [
-
-	| newSelElements |
-	
-	newSelElements := self newSelectionElementsFrom: target.
-	
-	(self canAnimateNewSelectionWith: newSelElements)
-		ifTrue: [
-			self
-				addNewSelectionElement: newSelElements first
-				withAnimationFrom: target ]
-		ifFalse: [
-		self addNewSelectionElements: newSelElements from: target ].
-
-	newSelElements ifEmpty: [ ^ self ].
-	previousSelectionBounds := newSelElements first boundsFromNodes
-		                           merge:
-		                           newSelElements last boundsFromNodes
-]
-
 { #category : #'element handlers' }
 ToListPrimarySelectionElementEventHandler >> blurEvent: anEvent [
 
@@ -42,9 +21,8 @@ ToListPrimarySelectionElementEventHandler >> differUpdateSelectionFrom: anElemen
 
 	differedUpdateTask ifNotNil: [ ^ self ].
 	differedUpdateTask := BlTaskAction new action: [
-		                       anElement dispatchEvent:
-			                       ToListPrimarySelectionDirtyEvent new.
-		                       differedUpdateTask := nil ].
+		                      anElement notifyPrimarySelectionDirty.
+		                      differedUpdateTask := nil ].
 	anElement enqueueTask: differedUpdateTask
 ]
 

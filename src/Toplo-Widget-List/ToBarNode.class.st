@@ -1,8 +1,8 @@
 Class {
 	#name : #ToBarNode,
 	#superclass : #ToAbstractListNode,
-	#traits : 'TToElement',
-	#classTraits : 'TToElement classTrait',
+	#traits : 'TToElement + TToBarNode',
+	#classTraits : 'TToElement classTrait + TToBarNode classTrait',
 	#category : #'Toplo-Widget-List-Node'
 }
 
@@ -17,12 +17,6 @@ ToBarNode >> initialize [
 
 	super initialize.
 	self initializeForToplo 
-]
-
-{ #category : #'t - list node' }
-ToBarNode >> isFake [
-
-	^ self holder listElement fakeNode = self
 ]
 
 { #category : #skin }

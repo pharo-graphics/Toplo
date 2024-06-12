@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMultiSelectBarNode,
 	#superclass : #ToTripletElement,
-	#traits : 'TToEnableable + TToListNode',
-	#classTraits : 'TToEnableable classTrait + TToListNode classTrait',
+	#traits : 'TToEnableable + TToListNode + TToBarNode',
+	#classTraits : 'TToEnableable classTrait + TToListNode classTrait + TToBarNode classTrait',
 	#instVars : [
 		'removable'
 	],
@@ -48,6 +48,12 @@ ToMultiSelectBarNode >> beRemovable [
 ToMultiSelectBarNode >> beUnremovable [
 
 	self removable: false
+]
+
+{ #category : #'t - list node' }
+ToMultiSelectBarNode >> clickEventHandlerClasses [
+
+	^  { ToListNodeMultiSelectionClickEventHandler } 
 ]
 
 { #category : #initialization }

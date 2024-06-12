@@ -198,9 +198,10 @@ ToSandBox class >> example_BasicListWithAllClasses3 [
 			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :evt | evt traceCr ]).
 
-	l dataAccessor addAll: Smalltalk globals allClasses.
 	l withRowNumbers.
-	l inspect.
+	l dataAccessor addAll: Smalltalk globals allClasses.
+	l selecter selectIndex: 10.
+
 	l innerContainer requestFocus.
 	l openInInnerWindow
 ]
@@ -1651,6 +1652,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	| select innerWindow |
 	select := ToMultiSelectElement new.
 	select nodeWrapping: true.
+	select innerContainer selectionMode beneathOption animationDuration: 200 milliSeconds.
 	select listElement withRowNumbers.
 	select inspect.
 	select hideSelected: false.

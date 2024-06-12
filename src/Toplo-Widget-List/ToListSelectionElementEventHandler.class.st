@@ -89,14 +89,15 @@ ToListSelectionElementEventHandler >> differUpdateSelectionFrom: target [
 { #category : #'element handlers' }
 ToListSelectionElementEventHandler >> elementExtentChangedEvent: anEvent [
 
+	previousSelectionBounds := nil.
 	self updateSelectionFromEvent: anEvent
 ]
 
 { #category : #'element handlers' }
 ToListSelectionElementEventHandler >> elementScrolledEvent: anEvent [
-	"previousSelectionBounds := nil."
 
 	anEvent delta isZero ifTrue: [ ^ self ].
+	previousSelectionBounds := nil.
 	self updateSelectionFromEvent: anEvent
 ]
 

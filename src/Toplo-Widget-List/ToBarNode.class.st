@@ -19,11 +19,11 @@ ToBarNode >> initialize [
 	self initializeForToplo 
 ]
 
-{ #category : #'t - bar node' }
+{ #category : #'t - list node' }
 ToBarNode >> isPartlyVisible [
 
 	^ self nodeContainerIntersection
-		  ifNotNil: [ :i | i > 0 ]
+		  ifNotNil: [ :i | i isZero not ]
 		  ifNil: [ false ]
 ]
 

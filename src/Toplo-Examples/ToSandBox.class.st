@@ -2268,9 +2268,7 @@ ToSandBox class >> example_SpToggleButton [
 
 	seg dataAccessor do: [ :e |
 		e
-			startFlexible: true;
-			endFlexible: true;
-			hMatchParent ].
+			flexible: true; hMatchParent].
 
 	dashBoard := self segmentedDashBoardFor: seg.
 

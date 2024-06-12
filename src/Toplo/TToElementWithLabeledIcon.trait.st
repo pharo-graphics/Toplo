@@ -107,6 +107,18 @@ TToElementWithLabeledIcon >> endToStart: aBoolean [
 ]
 
 { #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> flexible [
+
+	^ self labeledIcon flexible
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> flexible: aBoolean [
+
+	self labeledIcon flexible: aBoolean
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
 TToElementWithLabeledIcon >> hasEndElement [
 
 	^ self labeledIcon hasEndElement

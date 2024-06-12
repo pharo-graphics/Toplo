@@ -145,6 +145,19 @@ ToTripletElement >> endInterspace: aNumber [
 	self configureLayout
 ]
 
+{ #category : #accessing }
+ToTripletElement >> flexible [
+
+	^ self startFlexible and: [ self endFlexible ]
+]
+
+{ #category : #accessing }
+ToTripletElement >> flexible: aBoolean [
+
+	self startFlexible: aBoolean.
+	self endFlexible: aBoolean
+]
+
 { #category : #testing }
 ToTripletElement >> hasEndElement [
 

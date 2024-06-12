@@ -34,7 +34,7 @@ ToChoiceMenuTest >> testCheckUncheckWithUncheckStrategy [
 
 	| cb d1 d2 d3 |
 	cb := ToChoiceMenu new.
-	cb withUncheckingStrategy.
+	cb withWeakCheckingStrategy.
 	d1 := '#1'.
 	d2 := '#2'.
 	d3 := '#3'.
@@ -58,7 +58,7 @@ ToChoiceMenuTest >> testDefaultLabel2 [
 
 	| cb |
 	cb := ToChoiceMenu new.
-	cb withUncheckingStrategy.
+	cb withWeakCheckingStrategy.
 	cb data addAll: { 'A'. 'B' }.
 	cb defaultLabel: (ToLabel text: 'X').
 	self assert: cb label text asString equals: 'X'.
@@ -76,7 +76,7 @@ ToChoiceMenuTest >> testDefaultLabel3 [
 
 	| cb |
 	cb := ToChoiceMenu new.
-	cb withUncheckingStrategy.
+	cb withWeakCheckingStrategy.
 	cb data addAll: { 'A'. 'B' }.
 	cb defaultLabel: (ToLabel text: 'X').
 	self assert: cb label text asString equals: 'X'.
@@ -84,7 +84,7 @@ ToChoiceMenuTest >> testDefaultLabel3 [
 	self assert: cb group registeredCheckables first checked.
 	self assert: cb selectedData identicalTo: cb data first.
 	self assert: cb label text asString equals: 'A'.
-	" Unchecking strategy does allow unchecking "
+	" Weak strategy does allow unchecking "
 	cb selectData: nil.
 	self assert: cb group registeredCheckables first checked not.
 	self assert: cb label text equals: cb defaultLabel text.
@@ -165,7 +165,7 @@ ToChoiceMenuTest >> testRemoveWithSeparator [
 
 	| cb d1 d2 d3 |
 	cb := ToChoiceMenu new.
-	cb withUncheckingStrategy.
+	cb withWeakCheckingStrategy.
 	d1 := '#1'.
 	d2 := '#2'.
 	d3 := '#3'.
@@ -267,7 +267,7 @@ ToChoiceMenuTest >> testRemoveWithStrictUncheckingStrategy [
 
 	| cb d1 d2 d3 |
 	cb := ToChoiceMenu new.
-	cb withUncheckingStrategy.
+	cb withWeakCheckingStrategy.
 	d1 := '#1'.
 	d2 := '#2'.
 	d3 := '#3'.
@@ -410,11 +410,11 @@ ToChoiceMenuTest >> testWithStrictStrategy [
 ]
 
 { #category : #tests }
-ToChoiceMenuTest >> testWithUncheckStrategy [
+ToChoiceMenuTest >> testWithWeakStrategy [
 
 	| cb d1 d2 d3 |
 	cb := ToChoiceMenu new.
-	cb withUncheckingStrategy.
+	cb withWeakCheckingStrategy.
 	d1 := '#1'.
 	d2 := '#2'.
 	d3 := '#3'.

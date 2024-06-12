@@ -18,7 +18,7 @@ ToSegment >> initialize [
 	super initialize.
 	self initializeCheckable.
 	" in case my content handles a click event (e.g a button), the rule is as follow:
-	- if the strategy allows unchecking (None strategy or with unchecking strategy), then
+	- if the strategy allows unchecking (None strategy or with weak strategy), then
 	the click event is handled normally, the content receives the click event whatever my check state 
 	- if the strategy is strict, the click event is handled by the content only in case I'm not yet checked 
 	"

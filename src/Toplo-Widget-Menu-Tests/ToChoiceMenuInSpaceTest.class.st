@@ -63,11 +63,11 @@ ToChoiceMenuInSpaceTest >> testWithStructuredDataWithStrictStrategy [
 ]
 
 { #category : #tests }
-ToChoiceMenuInSpaceTest >> testWithStructuredDataWithUncheckingStrategy [
+ToChoiceMenuInSpaceTest >> testWithStructuredDataWithWeakStrategy [
 
 	| cb d |
 	cb := ToChoiceMenu new.
-	cb withUncheckingStrategy.
+	cb withWeakCheckingStrategy.
 	space root addChild: cb.
 	cb dataToTextConverter: [ :assoc | assoc key ].
 	cb data addAll: (d := {

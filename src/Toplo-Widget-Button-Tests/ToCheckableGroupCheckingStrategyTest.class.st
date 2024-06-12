@@ -76,7 +76,7 @@ ToCheckableGroupCheckingStrategyTest >> testStrictStrategy [
 ]
 
 { #category : #tests }
-ToCheckableGroupCheckingStrategyTest >> testWithUncheckStrategy [
+ToCheckableGroupCheckingStrategyTest >> testWithWeakStrategy [
 
 	| group |
 	group := ToCheckableGroup new.
@@ -84,10 +84,10 @@ ToCheckableGroupCheckingStrategyTest >> testWithUncheckStrategy [
 		| chb |
 		chb := ToCheckbox new.
 		group register: chb ].
-	group checkingStrategy: ToCheckableGroupWithUncheckStrategy new.
+	group checkingStrategy: ToCheckableGroupWeakStrategy new.
 	self assert:
 		(group checkingStrategy isKindOf:
-			 ToCheckableGroupWithUncheckStrategy).
+			 ToCheckableGroupWeakStrategy).
 	group registeredCheckables first check.
 	self assert: group registeredCheckables first checked.
 	self assert:

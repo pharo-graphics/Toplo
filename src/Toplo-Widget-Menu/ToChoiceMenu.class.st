@@ -101,8 +101,8 @@ ToChoiceMenu >> initialize [
 	defaultSelectedIndex := 0.
 	dataToTextConverter := [ :i | i ].
 
-	" a group with unchecking strategy by default "
-	group := ToCheckableGroup new withUncheckingStrategy.
+	" a group with weak strategy that allows deselection by default "
+	group := ToCheckableGroup new withWeakCheckingStrategy.
 	group addEventHandler: (BlEventHandler
 			 on: ToCheckableGroupChangedEvent
 			 do: [ :event | self checkableGroupChangedEvent: event ]).

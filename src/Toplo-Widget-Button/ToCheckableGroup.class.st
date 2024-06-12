@@ -222,9 +222,9 @@ ToCheckableGroup >> withStrictCheckingStrategy [
 ]
 
 { #category : #'checking protocol' }
-ToCheckableGroup >> withUncheckingStrategy [
+ToCheckableGroup >> withWeakCheckingStrategy [
 
-	self checkingStrategy: ToCheckableGroupWithUncheckStrategy new
+	self checkingStrategy: ToCheckableGroupWeakStrategy new
 ]
 
 { #category : #'checking protocol' }

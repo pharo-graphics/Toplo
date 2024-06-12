@@ -94,9 +94,9 @@ TToCheckableGroupHolder >> withStrictCheckingStrategy [
 ]
 
 { #category : #'t - checkable group holder' }
-TToCheckableGroupHolder >> withUncheckingStrategy [
+TToCheckableGroupHolder >> withWeakCheckingStrategy [
 
-	self  checkingStrategy: ToCheckableGroupWithUncheckStrategy new
+	self  checkingStrategy: ToCheckableGroupWeakStrategy new
 ]
 
 { #category : #'t - checkable group holder' }

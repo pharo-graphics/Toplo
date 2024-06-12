@@ -162,7 +162,7 @@ ToSandBox class >> checkingStrategyChooserFor: aSegmented [
 				 mode = #Strict
 					 ifTrue: [ aSegmented withStrictCheckingStrategy ]
 					 ifFalse: [
-					 mode = #Weak ifTrue: [ aSegmented withUncheckingStrategy  ] ifFalse: [ aSegmented withoutCheckingStrategy ] ] ]).
+					 mode = #Weak ifTrue: [ aSegmented withWeakCheckingStrategy  ] ifFalse: [ aSegmented withoutCheckingStrategy ] ] ]).
 	buttons first checked: true.
 	checkingStrategyContainer := ToPane vertical.
 	checkingStrategyContainer hMatchParent.
@@ -431,7 +431,7 @@ ToSandBox class >> example_CheckboxGroupAndUnckekingStrategy [
 
 	| group container buttons |
 	group := ToCheckableGroup new.
-	group withUncheckingStrategy.
+	group withWeakCheckingStrategy.
 	buttons := OrderedCollection new.
 	1 to: 4 do: [ :idx |
 		| chb |
@@ -2857,7 +2857,7 @@ ToSandBox class >> example_choiceButtonWithPlaceholder [
 
 	choice := ToChoiceMenu new.
 	"choice width: 250."
-	choice withUncheckingStrategy.
+	choice withWeakCheckingStrategy.
 	choice data addAll: { 'OS-X'. 'Windows'. 'Linux' }.
 	choice defaultLabel:
 		(ToAttributedLabel text: ('Invalid choice' asRopedText
@@ -2893,12 +2893,12 @@ ToSandBox class >> example_choiceButtonWithStructuredData [
 ]
 
 { #category : #'choice menu' }
-ToSandBox class >> example_choiceButtonWithUncheckingStrategy [
+ToSandBox class >> example_choiceButtonWithWeakStrategy [
 
 	| win choice t |
 	win := ToInnerWindow new title: 'Some host'.
 	choice := ToChoiceMenu new hMatchParent.
-	choice withUncheckingStrategy.
+	choice withWeakCheckingStrategy.
 	t := 'No selection...' asRopedText , String cr asRopedText
 	     , ('Please choose an host from the list' asRopedText
 			      foreground: Color lightGray;

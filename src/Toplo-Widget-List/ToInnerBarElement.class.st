@@ -6,7 +6,7 @@ Class {
 		'dataSource',
 		'dataSourceObserver',
 		'dataSourceManager',
-		'scrollable'
+		'scrollableElement'
 	],
 	#category : #'Toplo-Widget-List-InnerBar'
 }
@@ -19,10 +19,16 @@ ToInnerBarElement class >> onBarElement: aBarElement [
 		  initialize
 ]
 
+{ #category : #visiting }
+ToInnerBarElement >> accept: aVisitor [
+
+	aVisitor visitInnerBarElement: self
+]
+
 { #category : #'accessing - nodes' }
 ToInnerBarElement >> addAllHolders: anArray at: aPosition [
 
-	scrollable addAllHolders: anArray at: aPosition.
+	scrollableElement addAllHolders: anArray at: aPosition.
 	anArray do: [ :h | self notifyChildAttached: h node  ]
 ]
 
@@ -30,45 +36,13 @@ ToInnerBarElement >> addAllHolders: anArray at: aPosition [
 ToInnerBarElement >> checkFullyVisibleNodes [
 
 	| invisibleNodes |
-	scrollable isNodeWrapping ifTrue: [ ^ self ].
-	scrollable isNodeScrolling ifTrue: [ ^ self ].
-	scrollable isNodeAutoDistribution ifTrue: [ ^ self ].
+	scrollableElement isNodeWrapping ifTrue: [ ^ self ].
+	scrollableElement isNodeScrolling ifTrue: [ ^ self ].
+	scrollableElement isNodeAutoDistribution ifTrue: [ ^ self ].
 	invisibleNodes := self nodesSelect: [ :n | n isFullyVisible not ].
 	listElement dispatchEvent: (ToBarNodeVisibilityEvent new
 			 invisibleNodes: invisibleNodes;
 			 yourself)
-]
-
-{ #category : #layout }
-ToInnerBarElement >> configureLayout [
-
-	super configureLayout.
-	self isHorizontal
-		ifTrue: [
-			self middleContainer constraintsDo: [ :c |
-				c linear vertical alignCenter.
-				c horizontal matchParent.
-				c vertical fitContent ] ]
-		ifFalse: [
-			self middleContainer constraintsDo: [ :c |
-				c linear horizontal alignCenter.
-				c vertical matchParent.
-				c horizontal fitContent ] ].
-	self isHorizontal
-		ifTrue: [
-			self fakeNode constraintsDo: [ :c |
-				c horizontal exact: 0.
-				c vertical fitContent.
-				c flow vertical alignCenter.
-				c linear vertical alignCenter ] ]
-		ifFalse: [
-			self fakeNode constraintsDo: [ :c |
-				c vertical exact: 0.
-				c horizontal fitContent.
-				c flow horizontal alignCenter.
-				c linear horizontal alignCenter ] ].
-
-	scrollable configureLayoutIn: listElement
 ]
 
 { #category : #accessing }
@@ -107,19 +81,19 @@ ToInnerBarElement >> defaultDataSourceObserver [
 { #category : #'t - infinite scrolled event' }
 ToInnerBarElement >> disableScrolledEvent [
 
-	scrollable disableScrolledEvent
+	scrollableElement disableScrolledEvent
 ]
 
 { #category : #'t - infinite scrolled event' }
 ToInnerBarElement >> enableScrolledEvent [
 
-	scrollable enableScrolledEvent
+	scrollableElement enableScrolledEvent
 ]
 
 { #category : #'accessing - nodes' }
 ToInnerBarElement >> fakeNode [
 
-	^ scrollable fakeNode
+	^ scrollableElement fakeNode
 ]
 
 { #category : #'t - children - accessing' }
@@ -136,13 +110,13 @@ ToInnerBarElement >> findElementHolderForDataSourcePosition: aPosition [
 { #category : #'node enumerating' }
 ToInnerBarElement >> fullyVisibleNodesDo: aBlock [
 
-	scrollable fullyVisibleNodesDo: aBlock
+	scrollableElement fullyVisibleNodesDo: aBlock
 ]
 
 { #category : #'node enumerating' }
 ToInnerBarElement >> fullyVisibleNodesSelect: aBlock [
 
-	^ scrollable fullyVisibleNodesSelect: aBlock
+	^ scrollableElement fullyVisibleNodesSelect: aBlock
 ]
 
 { #category : #initialization }
@@ -150,19 +124,15 @@ ToInnerBarElement >> initialize [
 
 	super initialize.
 
-	self
-		addEventHandlerOn: ToMainResizerChangedEvent
-		do: [ :event | event sendTo: self ].
-		
 	self initializeDataSource.
 	self id: #innerElement.
-	scrollable := ToScrollableBarElement new.
-	scrollable id: #scrollable.
-	self middleElement: scrollable.
-	scrollable
+	scrollableElement := self scrollableBarElementClass new.
+	scrollableElement id: #scrollable.
+	self middleElement: scrollableElement.
+	scrollableElement
 		addEventHandlerOn: BlElementScrolledEvent
 		do: [ :event | self dispatchEvent: event copy ].
-	scrollable
+	scrollableElement
 		addEventHandlerOn: ToInfiniteScrollFinishedEvent
 		do: [ :event | self dispatchEvent: event copy ].
 	self addEventHandler: ToInfiniteElementEventHandler new.
@@ -195,7 +165,7 @@ ToInnerBarElement >> initializeFakeDataView [
 	fakeNode id: #fakeNode.
 
 	" add the fake node (to keep a constant minimum size ) "
-	scrollable addFakeNode: fakeNode
+	scrollableElement addFakeNode: fakeNode
 ]
 
 { #category : #'t - infinite accessing' }
@@ -214,30 +184,6 @@ ToInnerBarElement >> listElement [
 ToInnerBarElement >> listElement: aListElement [
 
 	listElement := aListElement
-]
-
-{ #category : #layout }
-ToInnerBarElement >> mainResizerChangedEvent: aMainResizerChangedEvent [
-
-	| root hResizer vResizer |
-	root := aMainResizerChangedEvent root.
-	hResizer := root constraints horizontal resizer.
-	vResizer := root constraints vertical resizer.
-	hResizer isFitContent
-		ifTrue: [
-			self hFitContent.
-			self middleContainer constraintsDo: [ :c | c horizontal fitContent ] ]
-		ifFalse: [
-			self hMatchParent.
-			self middleContainer constraintsDo: [ :c |
-				c horizontal matchParent ] ].
-	vResizer isFitContent
-		ifTrue: [
-			self vFitContent.
-			self middleContainer constraintsDo: [ :c | c vertical fitContent ] ]
-		ifFalse: [
-			self vMatchParent.
-			self middleContainer constraintsDo: [ :c | c vertical matchParent ] ]
 ]
 
 { #category : #'instance creation' }
@@ -282,25 +228,25 @@ ToInnerBarElement >> nodeManager [
 { #category : #'accessing - nodes' }
 ToInnerBarElement >> nodes [
 
-	^ scrollable nodes
+	^ scrollableElement nodes
 ]
 
 { #category : #'node enumerating' }
 ToInnerBarElement >> nodesDo: aBlock [
 
-	scrollable nodesDo: aBlock
+	scrollableElement nodesDo: aBlock
 ]
 
 { #category : #'node enumerating' }
 ToInnerBarElement >> nodesSelect: aBlock [
 
-	^ scrollable nodesSelect: aBlock
+	^ scrollableElement nodesSelect: aBlock
 ]
 
 { #category : #'node enumerating' }
 ToInnerBarElement >> nodesWithIndexDo: aBlock [
 
-	scrollable nodesWithIndexDo: aBlock
+	scrollableElement nodesWithIndexDo: aBlock
 ]
 
 { #category : #notifying }
@@ -392,19 +338,19 @@ ToInnerBarElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 { #category : #'node enumerating' }
 ToInnerBarElement >> partlyVisibleNodesDo: aBlock [
 
-	scrollable partlyVisibleNodesDo: aBlock
+	scrollableElement partlyVisibleNodesDo: aBlock
 ]
 
 { #category : #'node enumerating' }
 ToInnerBarElement >> partlyVisibleNodesSelect: aBlock [
 
-	^ scrollable partlyVisibleNodesSelect: aBlock
+	^ scrollableElement partlyVisibleNodesSelect: aBlock
 ]
 
 { #category : #'accessing - nodes' }
 ToInnerBarElement >> removeAllNodes: anArray [ 
 
-	scrollable removeAllNodes: anArray.
+	scrollableElement removeAllNodes: anArray.
 	anArray do: [ :node | self notifyChildDetached: node  ]
 ]
 
@@ -456,21 +402,33 @@ ToInnerBarElement >> scrollDeltaTowardStartFromDataSourcePosition: anIndex [
 ToInnerBarElement >> scrollToDataSourcePosition: anIndex [
 
 	(self scrollDeltaTowardEndFromDataSourcePosition: anIndex) ifNotNil: [ :p |
-		scrollable scrollBy: p x negated @ p y ]
+		scrollableElement scrollBy: p x negated @ p y ]
 ]
 
 { #category : #'t - infinite accessing' }
 ToInnerBarElement >> scrollTowardEndToDataSourcePosition: anIndex [
 
 	(self scrollDeltaTowardEndFromDataSourcePosition: anIndex) ifNotNil: [ :p |
-		scrollable scrollBy: p x negated @ p y ]
+		scrollableElement scrollBy: p x negated @ p y ]
 ]
 
 { #category : #'t - infinite accessing' }
 ToInnerBarElement >> scrollTowardStartToDataSourcePosition: anIndex [
 
 	(self scrollDeltaTowardStartFromDataSourcePosition: anIndex) ifNotNil: [ :p |
-		scrollable scrollBy: p x negated @ p y ]
+		scrollableElement scrollBy: p x negated @ p y ]
+]
+
+{ #category : #initialization }
+ToInnerBarElement >> scrollableBarElementClass [ 
+
+	^ ToScrollableBarElement
+]
+
+{ #category : #accessing }
+ToInnerBarElement >> scrollableElement [
+
+	^ scrollableElement
 ]
 
 { #category : #'accessing - children' }
@@ -486,7 +444,7 @@ ToInnerBarElement >> selectableNodeContainingGlobalPosition: aPoint [
 ToInnerBarElement >> smoothScrollToDataSourcePosition: anIndex [
 
 	(self scrollDeltaFromDataSourcePosition: anIndex) ifNotNil: [ :p |
-		scrollable smoothScrollBy: p x negated @ p y ]
+		scrollableElement smoothScrollBy: p x negated @ p y ]
 ]
 
 { #category : #'t - infinite accessing' }
@@ -496,7 +454,7 @@ ToInnerBarElement >> stopScroll [
 		- #fling:
 		- or a touch-initiated fling"
 		
-	scrollable stopScrollersInternal
+	scrollableElement stopScrollersInternal
 
 	
 ]
@@ -508,7 +466,7 @@ ToInnerBarElement >> uninstallFakeNode [
 	and the data kind."
 
 	" remove the fake node (to keep a constant minimum size ) "
-	scrollable removeFakeNode
+	scrollableElement removeFakeNode
 ]
 
 { #category : #'data source updates' }

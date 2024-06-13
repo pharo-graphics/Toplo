@@ -2291,15 +2291,19 @@ ToSandBox class >> example_SpToggleButton [
 	| seg dashBoard rootPane feedbackPane maj |
 	seg := ToSegmentedElement new.
 	seg matchParent.
-	1 to: 10 do: [ :n | | lab |
-		lab := 'Button ', n asString.
-		seg segmentAccessor add:
-		((ToButton new label: (ToLabel text: lab))
-			 tooltipString: lab;
-			 whenClickedDo: [ :event | event currentTarget label text traceCr ];
-			flexible: true;
-			hMatchParent;
-			 yourself)].
+	1 to: 10 do: [ :n |
+		| lab |
+		lab := 'Button ' , n asString.
+		seg segmentAccessor add: ((ToButton new label: (ToLabel text: lab))
+				 tooltipString: lab;
+				 whenClickedDo: [ :event | event currentTarget label text traceCr ];
+				 hMatchParent;
+				 vMatchParent;
+				 flexible: true;
+				 constraintsDo: [ :c |
+					 c linear vertical alignCenter.
+					 c linear horizontal alignCenter ];
+				 yourself) ].
 
 	dashBoard := self segmentedDashBoardFor: seg.
 

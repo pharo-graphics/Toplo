@@ -16,6 +16,9 @@ ToButton >> initialize [
 	super initialize.
 	labeledIcon := ToLabeledIcon new.
 	self addChild: labeledIcon.
+	labeledIcon constraintsDo: [ :c |
+		c linear vertical alignCenter.
+		c linear horizontal alignCenter ].
 	self fitContent
 ]
 

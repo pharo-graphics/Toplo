@@ -7,6 +7,12 @@ Class {
 	#category : #'Toplo-Widget-List-InnerBar'
 }
 
+{ #category : #visiting }
+ToScrollableBarElement >> accept: aVisitor [
+
+	aVisitor visitScrollableBarElement: self
+]
+
 { #category : #'accessing - children' }
 ToScrollableBarElement >> addAllHolders: anArray at: aPosition [
 
@@ -23,22 +29,6 @@ ToScrollableBarElement >> addFakeNode: aNode [
 ToScrollableBarElement >> addHolder: anHolder at: aPosition [
 
 	trackElement addHolder: anHolder at: aPosition
-]
-
-{ #category : #initialization }
-ToScrollableBarElement >> configureLayoutIn: aListElement [
-
-	aListElement isHorizontal
-		ifTrue: [
-			self constraintsDo: [ :c |
-				c vertical fitContent.
-				c horizontal matchParent ] ]
-		ifFalse: [
-			self constraintsDo: [ :c |
-				c horizontal fitContent.
-				c vertical matchParent ] ].
-
-	trackElement configureLayoutIn: aListElement 
 ]
 
 { #category : #'private - commands' }
@@ -99,7 +89,7 @@ ToScrollableBarElement >> fullyVisibleNodesSelect: aBlock [
 ToScrollableBarElement >> initialize [
 
 	super initialize.
-	trackElement := ToScrollableBarTrackElement new.
+	trackElement := self scrollableBarTrackElementClass new.
 	trackElement id: #track.
 	self addChild: trackElement
 ]
@@ -196,6 +186,12 @@ ToScrollableBarElement >> removeNode: aNode [
 	trackElement removeNode: aNode 
 ]
 
+{ #category : #initialization }
+ToScrollableBarElement >> scrollableBarTrackElementClass [
+
+	^ ToScrollableBarTrackElement 
+]
+
 { #category : #scrolling }
 ToScrollableBarElement >> smoothScrollBy: aPoint [
 	"Animate a scroll by the given amount of pixels along either axis"
@@ -240,4 +236,10 @@ ToScrollableBarElement >> smoothScrollBy: aPoint [
 ToScrollableBarElement >> stopScrollersInternal [ 
 
 	scrollFlinger stop
+]
+
+{ #category : #accessing }
+ToScrollableBarElement >> trackElement [
+
+	^ trackElement 
 ]

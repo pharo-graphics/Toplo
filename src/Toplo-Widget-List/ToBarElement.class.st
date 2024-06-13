@@ -10,24 +10,24 @@ Class {
 	#category : #'Toplo-Widget-List-Core'
 }
 
+{ #category : #visiting }
+ToBarElement >> accept: aVisitor [
+
+	aVisitor visitBarElement: self
+]
+
 { #category : #layout }
 ToBarElement >> checkFullyVisibleNodes [ 
 
 	self innerContainer checkFullyVisibleNodes 
 ]
 
-{ #category : #initialization }
-ToBarElement >> configureLayout [
+{ #category : #layout }
+ToBarElement >> configure [
 
-	self isHorizontal
-		ifTrue: [
-			self hMatchParent.
-			self vFitContent ]
-		ifFalse: [
-			self vMatchParent.
-			self hFitContent ].
-	self innerContainer configureLayout.
-	self checkFullyVisibleNodes
+	self accept: self layoutConfigurator.
+	self checkFullyVisibleNodes.
+	self requestLayout
 ]
 
 { #category : #initialization }
@@ -52,7 +52,7 @@ ToBarElement >> defaultNodeManagerClass [
 ToBarElement >> fakeDataItem: aDataItem [
 
 	nodeManager fakeDataItem: aDataItem.
-	self configureLayout
+	self configure
 	
 ]
 
@@ -72,7 +72,7 @@ ToBarElement >> flowLineUniformWidth [
 ToBarElement >> flowLineUniformWidth: aBoolean [
 
 	flowLineUniformWidth := aBoolean.
-	self configureLayout.
+	self configure.
 	self notifyDataSourceChanged
 
 ]
@@ -81,7 +81,7 @@ ToBarElement >> flowLineUniformWidth: aBoolean [
 ToBarElement >> horizontal: aBoolean [
 
 	super horizontal: aBoolean.
-	self configureLayout
+	self configure
 ]
 
 { #category : #initialization }
@@ -90,7 +90,7 @@ ToBarElement >> initialize [
 	super initialize.
 	selectionMode beneathOption: ToListSelectionOption separate.
 	selectionMode overOption: ToListSelectionOption none.
-	self configureLayout
+	self configure
 ]
 
 { #category : #initialization }
@@ -98,6 +98,12 @@ ToBarElement >> initializeInnerContainer [
 
 	super initializeInnerContainer.
 	self innerContainer initializeFakeDataView
+]
+
+{ #category : #layout }
+ToBarElement >> layoutConfigurator [
+
+	^ ToBarLayoutConfigurator new
 ]
 
 { #category : #skin }
@@ -117,7 +123,7 @@ ToBarElement >> nodeAutoDistribution: aBoolean [
 
 	nodeAutoDistribution = aBoolean ifTrue: [ ^ self ].
 	nodeAutoDistribution := aBoolean.
-	self configureLayout.
+	self configure
 ]
 
 { #category : #accessing }
@@ -153,7 +159,7 @@ ToBarElement >> nodeScrolling [
 ToBarElement >> nodeScrolling: aBoolean [
 
 	nodeScrolling := aBoolean.
-	self configureLayout
+	self configure
 ]
 
 { #category : #accessing }
@@ -166,12 +172,12 @@ ToBarElement >> nodeWrapping [
 ToBarElement >> nodeWrapping: aBoolean [
 
 	nodeWrapping := aBoolean.
-	self configureLayout
+	self configure
 ]
 
 { #category : #'t - orientable - orientation' }
 ToBarElement >> vertical: aBoolean [
 
 	super vertical: aBoolean.
-	self configureLayout
+	self configure
 ]

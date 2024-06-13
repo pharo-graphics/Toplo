@@ -12,9 +12,3 @@ ToListNode >> clickEventHandlerClasses [
 		  ifTrue: [ { ToListNodeMultiSelectionClickEventHandler } ]
 		  ifFalse: [ { ToListNodeSingleSelectionClickEventHandler } ]
 ]
-
-{ #category : #'instance creation' }
-ToListNode >> newEventHandler [
-
-	^ ToListNodeEventHandler new
-]

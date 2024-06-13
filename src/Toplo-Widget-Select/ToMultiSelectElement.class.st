@@ -66,12 +66,6 @@ ToMultiSelectElement >> innerContainerClass [
 	^ ToMultiSelectBarElement
 ]
 
-{ #category : #initialization }
-ToMultiSelectElement >> installInnerContainer [ 
-
-	super installInnerContainer
-]
-
 { #category : #accessing }
 ToMultiSelectElement >> maxSelectedCount [
 

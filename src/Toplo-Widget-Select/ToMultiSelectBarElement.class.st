@@ -187,32 +187,6 @@ ToMultiSelectBarElement >> refresh [
 	self checkMaxSelectedCountFromListElement
 ]
 
-{ #category : #accessing }
-ToMultiSelectBarElement >> refreshOld [
-	" first remove all data nodes "
-	| detached newNodes |
-	true ifTrue: [ ^ self ].
-	detached := OrderedCollection new.
-	self dataAccessor do: [ :node |
-		detached add: node.
-	].
-	" then rebuild current nodes according to current selection "
-	newNodes := self selectionModel selectedIndexesCollect: [ :idx |
-		| node selectedData |
-		node := self newNode.
-		selectedData := self dataAccessor at: idx.
-		node holder
-			position: idx;
-			dataItem: selectedData.
-		self nodeBuilder value: node value: node holder.
-		self nodeHolders add: node holder.
-		node ].
-	self addAllDataNodes: newNodes.
-	"detached do: [ :node | innerNodeContainer removeDetachedChild: node]."
-	self requestLayout.
-	textInputElement requestLayout
-]
-
 { #category : #'t - select inner container' }
 ToMultiSelectBarElement >> selectElement [
 

@@ -16,7 +16,10 @@ ToListNodeEventHandler >> constraintNode: aNode [
 { #category : #'api - accessing' }
 ToListNodeEventHandler >> eventsToHandle [
 
-	^ { ToMainLayoutDirectionChangedEvent. ToMainLayoutOrientationChangedEvent. ToMainResizerChangedEvent }
+	^ {
+		  ToMainLayoutDirectionChangedEvent.
+		  ToMainLayoutOrientationChangedEvent.
+		  ToMainResizerChangedEvent }
 ]
 
 { #category : #layout }

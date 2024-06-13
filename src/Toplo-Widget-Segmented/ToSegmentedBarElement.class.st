@@ -4,14 +4,26 @@ Class {
 	#category : #'Toplo-Widget-Segmented'
 }
 
-{ #category : #initialization }
-ToSegmentedBarElement >> defaultInnerContainer [
+{ #category : #visiting }
+ToSegmentedBarElement >> accept: aVisitor [
 
-	^ ToSegmentedInnerBarElement onBarElement: self
+	aVisitor visitSegmentedBarElement: self
+]
+
+{ #category : #testing }
+ToSegmentedBarElement >> canMatchParentHorizontallyInVerticalSegmented [
+
+	^ nodeWrapping not
 ]
 
 { #category : #initialization }
 ToSegmentedBarElement >> defaultNodeManagerClass [ 
 
 	^ ToSegmentNodeManager 
+]
+
+{ #category : #layout }
+ToSegmentedBarElement >> layoutConfigurator [ 
+
+	^ ToSegmentedConfigurator new
 ]

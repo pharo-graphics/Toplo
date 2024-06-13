@@ -7,11 +7,11 @@ Class {
 { #category : #bar }
 ToSandBox class >> barDashBoardFor: aBar [
 
-	| mainPane barPane confPane verticalSwitch wrappingSwitch scrollingSwitch autoDistributionSwitch sameWidthSwitch selectionAnimationSwitch selectOnMouseDownSwitch inspectButton |
+	| mainPane barPane confPane |
 	mainPane := ToPane horizontal.
 	mainPane matchParent.
 
-	confPane := ToPane vertical.
+	confPane := self configurationBoardFor: aBar.
 	confPane padding: (BlInsets all: 5).
 	confPane width: 250.
 	confPane border: Color lightGray.
@@ -22,6 +22,72 @@ ToSandBox class >> barDashBoardFor: aBar [
 			barPane }.
 
 	barPane addChild: aBar.
+	aBar
+		addEventHandlerOn: ToBarNodeVisibilityEvent
+		do: [ :event |
+		event invisibleNodes ifNotEmpty: [ :in | in traceCr ] ].
+
+	^ mainPane
+]
+
+{ #category : #bar }
+ToSandBox class >> checkableBarDashBoardFor: aCheckableBar [
+
+	| barDashBoard checkingStrategyBoard rootPane |
+	barDashBoard := self barDashBoardFor: aCheckableBar.
+	checkingStrategyBoard := self checkingStrategyChooserFor: aCheckableBar.
+
+	rootPane := ToPane vertical.
+	rootPane matchParent.
+	rootPane addChild: barDashBoard.
+	rootPane addChild: checkingStrategyBoard.
+	rootPane addDividers.
+
+	^ rootPane
+]
+
+{ #category : #bar }
+ToSandBox class >> checkingStrategyChooserFor: aCheckableBar [
+
+	| buttons checkingStrategyContainer checkingStrategyGroup |
+	checkingStrategyGroup := ToCheckableGroup new.
+	buttons := OrderedCollection new.
+	{ #Strict. #Weak. #None } do: [ :mode |
+		| chb |
+		chb := ToCheckbox new
+			       labelText: mode asString;
+			       id: mode.
+		buttons add: chb ].
+
+	checkingStrategyGroup registerAll: buttons.
+	checkingStrategyGroup addEventHandler: (BlEventHandler
+			 on: ToCheckableGroupChangedEvent
+			 do: [ :event |
+				 | mode |
+				 mode := event checkedList first id asSymbol.
+				 
+				 mode = #Strict
+					 ifTrue: [ aCheckableBar withStrictCheckingStrategy ]
+					 ifFalse: [
+					 mode = #Weak ifTrue: [ aCheckableBar withWeakCheckingStrategy  ] ifFalse: [ aCheckableBar withoutCheckingStrategy ] ] ]).
+	buttons first checked: true.
+	checkingStrategyContainer := ToPane vertical.
+	checkingStrategyContainer hMatchParent.
+	checkingStrategyContainer addChild: (ToLabel text: 'Checking strategy').
+	checkingStrategyContainer layout cellSpacing: 5.
+	checkingStrategyContainer addChildren:
+		checkingStrategyGroup registeredCheckables.
+	^ checkingStrategyContainer
+]
+
+{ #category : #bar }
+ToSandBox class >> configurationBoardFor: aBar [
+
+	| confPane verticalSwitch wrappingSwitch scrollingSwitch autoDistributionSwitch sameWidthSwitch selectionAnimationSwitch selectOnMouseDownSwitch inspectButton |
+	confPane := ToPane vertical.
+	confPane padding: (BlInsets all: 5).
+	confPane width: 250.
+	confPane border: Color lightGray.
 	
 	inspectButton := ToButton new labelText: 'Inspect'.
 	inspectButton whenClickedDo: [ aBar inspect ].
@@ -142,57 +208,7 @@ ToSandBox class >> barDashBoardFor: aBar [
 		do: [ :event |
 		event invisibleNodes ifNotEmpty: [ :in | in traceCr ] ].
 
-	^ mainPane
-]
-
-{ #category : #bar }
-ToSandBox class >> checkableBarDashBoardFor: aSegmented [
-
-	| barDashBoard checkingStrategyBoard rootPane |
-	barDashBoard := self barDashBoardFor: aSegmented.
-	checkingStrategyBoard := self checkingStrategyChooserFor: aSegmented.
-
-	rootPane := ToPane vertical.
-	rootPane matchParent.
-	rootPane addChild: barDashBoard.
-	rootPane addChild: checkingStrategyBoard.
-	rootPane addDividers.
-
-	^ rootPane
-]
-
-{ #category : #bar }
-ToSandBox class >> checkingStrategyChooserFor: aSegmented [
-
-	| buttons checkingStrategyContainer checkingStrategyGroup |
-	checkingStrategyGroup := ToCheckableGroup new.
-	buttons := OrderedCollection new.
-	{ #Strict. #Weak. #None } do: [ :mode |
-		| chb |
-		chb := ToCheckbox new
-			       labelText: mode asString;
-			       id: mode.
-		buttons add: chb ].
-
-	checkingStrategyGroup registerAll: buttons.
-	checkingStrategyGroup addEventHandler: (BlEventHandler
-			 on: ToCheckableGroupChangedEvent
-			 do: [ :event |
-				 | mode |
-				 mode := event checkedList first id asSymbol.
-				 
-				 mode = #Strict
-					 ifTrue: [ aSegmented withStrictCheckingStrategy ]
-					 ifFalse: [
-					 mode = #Weak ifTrue: [ aSegmented withWeakCheckingStrategy  ] ifFalse: [ aSegmented withoutCheckingStrategy ] ] ]).
-	buttons first checked: true.
-	checkingStrategyContainer := ToPane vertical.
-	checkingStrategyContainer hMatchParent.
-	checkingStrategyContainer addChild: (ToLabel text: 'Checking strategy').
-	checkingStrategyContainer layout cellSpacing: 5.
-	checkingStrategyContainer addChildren:
-		checkingStrategyGroup registeredCheckables.
-	^ checkingStrategyContainer
+	^ confPane
 ]
 
 { #category : #list }
@@ -2273,20 +2289,19 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 ToSandBox class >> example_SpToggleButton [
 
 	| seg dashBoard rootPane feedbackPane maj |
-	seg := ToCheckableBarElement new.
+	seg := ToSegmentedElement new.
+	seg matchParent.
 	1 to: 10 do: [ :n | | lab |
 		lab := 'Button ', n asString.
 		seg segmentAccessor add:
 		((ToButton new label: (ToLabel text: lab))
 			 tooltipString: lab;
 			 whenClickedDo: [ :event | event currentTarget label text traceCr ];
+			flexible: true;
+			hMatchParent;
 			 yourself)].
 
-	seg dataAccessor do: [ :e |
-		e
-			flexible: true; hMatchParent].
-
-	dashBoard := self checkableBarDashBoardFor: seg.
+	dashBoard := self segmentedDashBoardFor: seg.
 
 	feedbackPane := ToPane horizontal.
 	feedbackPane layout alignCenter.
@@ -2294,7 +2309,7 @@ ToSandBox class >> example_SpToggleButton [
 	       | t |
 	       feedbackPane removeChildren.
 	       t := String streamContents: [ :stream |
-		            seg dataAccessor withIndexDo: [ :e :idx |
+		            seg segmentAccessor withIndexDo: [ :e :idx |
 			            stream
 				            nextPutAll: e label text asString;
 				            nextPutAll: ': '.
@@ -2302,18 +2317,18 @@ ToSandBox class >> example_SpToggleButton [
 				            ifTrue: [ stream nextPutAll: 'V' ]
 				            ifFalse: [ stream nextPutAll: 'X' ].
 			            stream nextPutAll: ' '.
-			            idx < seg dataAccessor itemCount ifTrue: [
+			            idx < seg segmentAccessor itemCount ifTrue: [
 				            stream nextPutAll: '- ' ] ] ].
 	       feedbackPane addChild: (ToLabel text: t) ].
 
-	seg addEventHandler: (BlEventHandler
+	seg bar addEventHandler: (BlEventHandler
 			 on: ToListStrongSelectionEvent
 			 do: [ :event |
 				 ' double click ' trace.
 				 event indexes traceCr ]).
 
-	seg addEventHandlerOn: ToListPrimarySelectionChangedEvent do: maj.
-	seg addEventHandlerOn: BlElementAddedToSceneGraphEvent do: maj.
+	seg bar addEventHandlerOn: ToListPrimarySelectionChangedEvent do: maj.
+	seg bar addEventHandlerOn: BlElementAddedToSceneGraphEvent do: maj.
 	rootPane := ToPane vertical.
 	rootPane matchParent.
 	rootPane addChildren: {
@@ -2869,24 +2884,23 @@ ToSandBox class >> example_buttonWithLabel [
 { #category : #bar }
 ToSandBox class >> example_checkableBar [
 
-	| seg dashBoard |
-	seg := ToCheckableBarElement new.
-	seg segmentAccessor add:
+	| checkableBar dashBoard |
+	checkableBar := ToCheckableBarElement new.
+	checkableBar checkableElementAccessor add:
 		(ToSegmentContentExample new label: (ToLabel text: 'Daily')).
-	seg segmentAccessor add:
+	checkableBar checkableElementAccessor add:
 		(ToSegmentContentExample new label: (ToLabel text: 'Weekly')).
-	seg segmentAccessor add:
+	checkableBar checkableElementAccessor add:
 		(ToSegmentContentExample new label: (ToLabel text: 'Monthly')).
-	seg segmentAccessor add:
+	checkableBar checkableElementAccessor add:
 		(ToSegmentContentExample new label: (ToLabel text: 'Quaterly')).
-	seg segmentAccessor add:
+	checkableBar checkableElementAccessor add:
 		(ToSegmentContentExample new label: (ToLabel text: 'Yearly')).
-	seg group
+	checkableBar group
 		addEventHandlerOn: ToCheckableGroupChangedEvent
 		do: [ :event | event traceCr ].
-	seg inspect.
 
-	dashBoard := self checkableBarDashBoardFor: seg.
+	dashBoard := self checkableBarDashBoardFor: checkableBar.
 	dashBoard openInSpace
 ]
 
@@ -4824,6 +4838,31 @@ ToSandBox class >> path_sharp_electric_bike_SVG [
 
 	<sampleInstance>
 	^ '<svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24"><g><rect fill="none" height="24" width="24"/></g><g><g><path d="M19,7h-0.82L16,1h-4v2h2.6l1.46,4h-4.81l-0.36-1H12V4H7v2h1.75l1.82,5H9.9C9.46,8.77,7.59,7.12,5.25,7.01 C2.45,6.87,0,9.2,0,12c0,2.8,2.2,5,5,5c2.46,0,4.45-1.69,4.9-4h4.2c0.44,2.23,2.31,3.88,4.65,3.99c2.8,0.13,5.25-2.19,5.25-5 C24,9.2,21.8,7,19,7z M7.82,13c-0.4,1.17-1.49,2-2.82,2c-1.68,0-3-1.32-3-3s1.32-3,3-3c1.33,0,2.42,0.83,2.82,2H5v2H7.82z M14.1,11h-1.4l-0.73-2H15C14.56,9.58,14.24,10.25,14.1,11z M19,15c-1.68,0-3-1.32-3-3c0-0.93,0.41-1.73,1.05-2.28l0.96,2.64 l1.88-0.68l-0.97-2.67C18.94,9.01,18.97,9,19,9c1.68,0,3,1.32,3,3S20.68,15,19,15z"/><polygon points="11,20 7,20 13,23 13,21 17,21 11,18"/></g></g></svg>'
+]
+
+{ #category : #segmented }
+ToSandBox class >> segmentedDashBoardFor: aSegmentedElement [
+
+	| mainPane barPane confPane checkingStrategyPane |
+	mainPane := ToPane horizontal.
+	mainPane matchParent.
+
+	confPane := self configurationBoardFor: aSegmentedElement bar.
+	confPane padding: (BlInsets all: 5).
+	confPane width: 250.
+	confPane border: Color lightGray.
+	barPane := ToPane vertical.
+	barPane matchParent.
+	
+	checkingStrategyPane := self checkingStrategyChooserFor: aSegmentedElement.
+	confPane addChild: checkingStrategyPane.
+	
+	mainPane addChildren: {
+			confPane.
+			barPane }.
+	barPane addChild: aSegmentedElement.
+
+	^ mainPane
 ]
 
 { #category : #select }

@@ -12,7 +12,7 @@ ToElement >> defaultLayout [
 	^ BlFrameLayout new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #layout }
 ToElement >> dispatchMainLayoutDirectionChanged [
 
 	| event |
@@ -20,7 +20,7 @@ ToElement >> dispatchMainLayoutDirectionChanged [
 	self withAllChildrenBreadthFirstDo: [ :e | e dispatchEvent: event ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #layout }
 ToElement >> dispatchMainLayoutOrientationChanged [
 
 	| event |
@@ -28,7 +28,7 @@ ToElement >> dispatchMainLayoutOrientationChanged [
 	self withAllChildrenBreadthFirstDo: [ :e | e dispatchEvent: event ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #layout }
 ToElement >> dispatchMainResizerChanged [
 
 	| event |

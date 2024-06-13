@@ -9,6 +9,13 @@ Class {
 	#category : #'Toplo-Widget-CheckableBar'
 }
 
+{ #category : #accessing }
+ToCheckableBarElement >> checkableElementAccessor [
+	"according to the specific vocabulary - the data items are checkables of the checkable bar element "
+
+	^ self dataAccessor
+]
+
 { #category : #initialization }
 ToCheckableBarElement >> defaultInnerContainer [
 
@@ -37,11 +44,4 @@ ToCheckableBarElement >> rawGroup [
 ToCheckableBarElement >> rawGroup: aGroup [
 
 	self shouldNotImplement 
-]
-
-{ #category : #accessing }
-ToCheckableBarElement >> segmentAccessor [
-	"according to the specific vocabulary - the data items are segments of the segmented element "
-
-	^ self dataAccessor
 ]

@@ -65,5 +65,5 @@ ToSegmentContentExample >> label: aLabel [
 { #category : #initialization }
 ToSegmentContentExample >> removeFromBar [
 
-	self segmentedElement segmentAccessor removeAt: self positionInSegmentedElement
+	self checkableBarElement checkableElementAccessor removeAt: self positionInSegmentedElement
 ]

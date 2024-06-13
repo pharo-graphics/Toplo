@@ -8,6 +8,12 @@ Class {
 	#category : #'Toplo-Widget-CheckableBar'
 }
 
+{ #category : #accessing }
+ToCheckableNodeHolder >> checkableBarElement [
+
+	^ self barElement
+]
+
 { #category : #'t - checkable - accessing' }
 ToCheckableNodeHolder >> checked [
 
@@ -22,6 +28,12 @@ ToCheckableNodeHolder >> checked: aBoolean [
 ]
 
 { #category : #accessing }
+ToCheckableNodeHolder >> contentElement [
+
+	^ self dataItem
+]
+
+{ #category : #accessing }
 ToCheckableNodeHolder >> group [
 
 	^ group
@@ -31,12 +43,6 @@ ToCheckableNodeHolder >> group [
 ToCheckableNodeHolder >> group: aCheckableGroup [
 
 	group := aCheckableGroup
-]
-
-{ #category : #accessing }
-ToCheckableNodeHolder >> segmentedElement [
-
-	^ self barElement
 ]
 
 { #category : #'t - checkable - accessing' }

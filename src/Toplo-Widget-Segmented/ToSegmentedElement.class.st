@@ -43,6 +43,12 @@ ToSegmentedElement >> segmentAccessor [
 ]
 
 { #category : #accessing }
+ToSegmentedElement >> selecter [
+
+	^ bar selecter
+]
+
+{ #category : #accessing }
 ToSegmentedElement >> selectionModel [
 
 	^ bar selectionModel 

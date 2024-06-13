@@ -23,7 +23,8 @@ ToScrollableBarTrackElement >> addFakeNode: aNode [
 
 	fakeNode ifNotNil: [ fakeNode removeFromParent ].
 	fakeNode := aNode.
-	self addChild: aNode at: 1
+	self addChild: aNode at: 1.
+
 ]
 
 { #category : #adding }

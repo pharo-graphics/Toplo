@@ -17,12 +17,6 @@ ToCheckableBarElement >> checkableElementAccessor [
 ]
 
 { #category : #initialization }
-ToCheckableBarElement >> defaultInnerContainer [
-
-	^ ToCheckableInnerBarElement onBarElement: self
-]
-
-{ #category : #initialization }
 ToCheckableBarElement >> defaultNodeManagerClass [ 
 
 	^ ToCheckableNodeManager 

@@ -5,6 +5,12 @@ Class {
 }
 
 { #category : #initialization }
+ToSegmentedBarElement >> defaultInnerContainer [
+
+	^ ToSegmentedInnerBarElement onBarElement: self
+]
+
+{ #category : #initialization }
 ToSegmentedBarElement >> defaultNodeManagerClass [ 
 
 	^ ToSegmentNodeManager 

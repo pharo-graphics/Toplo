@@ -141,9 +141,14 @@ BaselineOfToplo >> registerPackages: spec [
 		package: #'Toplo-Widget-TabPane'
 		with: [ spec requires: #( #Toplo #'Toplo-Widget-Pane' ) ].
 
-	spec package: #'Toplo-Widget-Segmented' with: [
+
+	spec package: #'Toplo-Widget-CheckableBar' with: [
 		spec requires:
 			#( #Toplo #'Toplo-Widget-Button' #'Toplo-Widget-List' ) ].
+
+	spec package: #'Toplo-Widget-Segmented' with: [
+		spec requires:
+			#( #Toplo #'Toplo-Widget-CheckableBar' ) ].
 
 	spec
 		package: #'Toplo-Widget-TabPane-Tests'

@@ -1,11 +1,11 @@
 Class {
-	#name : #ToSegmentedInnerBarElement,
+	#name : #ToCheckableInnerBarElement,
 	#superclass : #ToInnerBarElement,
-	#category : #'Toplo-Widget-Segmented'
+	#category : #'Toplo-Widget-CheckableBar'
 }
 
 { #category : #initialization }
-ToSegmentedInnerBarElement >> initialize [
+ToCheckableInnerBarElement >> initialize [
 
 	super initialize.
 	self
@@ -14,5 +14,5 @@ ToSegmentedInnerBarElement >> initialize [
 ]
 
 { #category : #layout }
-ToSegmentedInnerBarElement >> mainLayoutOrientationChangedEvent: anEvent [
+ToCheckableInnerBarElement >> mainLayoutOrientationChangedEvent: anEvent [
 ]

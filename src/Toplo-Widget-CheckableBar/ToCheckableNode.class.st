@@ -1,19 +1,19 @@
 Class {
-	#name : #ToSegment,
+	#name : #ToCheckableNode,
 	#superclass : #ToBarNode,
 	#traits : 'TToCheckable',
 	#classTraits : 'TToCheckable classTrait',
-	#category : #'Toplo-Widget-Segmented'
+	#category : #'Toplo-Widget-CheckableBar'
 }
 
 { #category : #accessing }
-ToSegment >> content [ 
+ToCheckableNode >> content [ 
 
 	^ self firstChild
 ]
 
 { #category : #initialization }
-ToSegment >> initialize [
+ToCheckableNode >> initialize [
 
 	super initialize.
 	self initializeCheckable.
@@ -28,50 +28,50 @@ ToSegment >> initialize [
 ]
 
 { #category : #'t - checkable  - protocol' }
-ToSegment >> newCheckableEventHandler [
+ToCheckableNode >> newCheckableEventHandler [
 
-	^ ToSegmentEventHandler new
+	^ ToCheckableNodeEventHandler new
 ]
 
 { #category : #'t - checkable - accessing' }
-ToSegment >> rawChecked [
+ToCheckableNode >> rawChecked [
 
 	^ self holder checked
 ]
 
 { #category : #'t - checkable - accessing' }
-ToSegment >> rawChecked: anObject [
+ToCheckableNode >> rawChecked: anObject [
 
 	self holder checked: anObject
 ]
 
 { #category : #'t - checkable - group' }
-ToSegment >> rawGroup [
+ToCheckableNode >> rawGroup [
 
 	^ self holder group
 ]
 
 { #category : #'t - checkable - group' }
-ToSegment >> rawGroup: aGroup [
+ToCheckableNode >> rawGroup: aGroup [
 
 	self holder group: aGroup
 ]
 
 { #category : #'t - checkable - private protocol' }
-ToSegment >> switchToNextCheckState [
+ToCheckableNode >> switchToNextCheckState [
 	" redefined here because the check state is driven by the selection "
 
 	self checked: self isChecked not
 ]
 
 { #category : #'t - checkable  - protocol' }
-ToSegment >> withIndeterminate [
+ToCheckableNode >> withIndeterminate [
 
 	^ false
 ]
 
 { #category : #'t - checkable  - protocol' }
-ToSegment >> withIndeterminate: aBoolean [
+ToCheckableNode >> withIndeterminate: aBoolean [
 
 	self shouldNotImplement 
 ]

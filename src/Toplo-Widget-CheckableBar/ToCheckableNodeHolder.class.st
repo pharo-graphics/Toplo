@@ -1,46 +1,46 @@
 Class {
-	#name : #ToSegmentHolder,
+	#name : #ToCheckableNodeHolder,
 	#superclass : #ToBarNodeHolder,
 	#instVars : [
 		'checked',
 		'group'
 	],
-	#category : #'Toplo-Widget-Segmented'
+	#category : #'Toplo-Widget-CheckableBar'
 }
 
 { #category : #'t - checkable - accessing' }
-ToSegmentHolder >> checked [
+ToCheckableNodeHolder >> checked [
 
 	^ checked ifNil: [ checked := false ]
 ]
 
 { #category : #'t - checkable - accessing' }
-ToSegmentHolder >> checked: aBoolean [
+ToCheckableNodeHolder >> checked: aBoolean [
 
 	checked := aBoolean
 
 ]
 
 { #category : #accessing }
-ToSegmentHolder >> group [
+ToCheckableNodeHolder >> group [
 
 	^ group
 ]
 
 { #category : #accessing }
-ToSegmentHolder >> group: aCheckableGroup [
+ToCheckableNodeHolder >> group: aCheckableGroup [
 
 	group := aCheckableGroup
 ]
 
 { #category : #accessing }
-ToSegmentHolder >> segmentedElement [
+ToCheckableNodeHolder >> segmentedElement [
 
 	^ self barElement
 ]
 
 { #category : #'t - checkable - accessing' }
-ToSegmentHolder >> updateSelection [
+ToCheckableNodeHolder >> updateSelection [
 
 	checked ifTrue: [
 		self selecter selectIndex: self position.

@@ -1,11 +1,11 @@
 Class {
-	#name : #ToSegmentManager,
+	#name : #ToCheckableNodeManager,
 	#superclass : #ToBarNodeManager,
-	#category : #'Toplo-Widget-Segmented'
+	#category : #'Toplo-Widget-CheckableBar'
 }
 
 { #category : #'instance creation' }
-ToSegmentManager >> buildFakeNode: aFakeNode inHolder: anHolder [
+ToCheckableNodeManager >> buildFakeNode: aFakeNode inHolder: anHolder [
 
 	anHolder dataItem:
 		(ToLabeledIcon new labelText: self fakeDataItem asString).
@@ -13,7 +13,7 @@ ToSegmentManager >> buildFakeNode: aFakeNode inHolder: anHolder [
 ]
 
 { #category : #initialization }
-ToSegmentManager >> constraintNode: aSegment [
+ToCheckableNodeManager >> constraintNode: aSegment [
 
 	super constraintNode: aSegment
 	"aSegment constraintsDo: [ :c |
@@ -24,27 +24,27 @@ ToSegmentManager >> constraintNode: aSegment [
 ]
 
 { #category : #initialization }
-ToSegmentManager >> defaultNodeBuilder [
+ToCheckableNodeManager >> defaultNodeBuilder [
 
 	^ [ :segment :holder :element | segment isFake ifFalse: [segment registerInGroup: holder segmentedElement group].
 	  segment addChild: element ]
 ]
 
 { #category : #initialization }
-ToSegmentManager >> defaultNodeFactory [
+ToCheckableNodeManager >> defaultNodeFactory [
 
 	^ [ :holder |
-	  ToSegment new ]
+	  ToCheckableNode new ]
 ]
 
 { #category : #initialization }
-ToSegmentManager >> defaultNodeHolderClass [
+ToCheckableNodeManager >> defaultNodeHolderClass [
 
-	^ ToSegmentHolder
+	^ ToCheckableNodeHolder
 ]
 
 { #category : #initialization }
-ToSegmentManager >> unbindNode: aNode [
+ToCheckableNodeManager >> unbindNode: aNode [
 
 	aNode holder dataItem removeFromParent
 ]

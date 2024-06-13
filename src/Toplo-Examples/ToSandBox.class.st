@@ -145,7 +145,23 @@ ToSandBox class >> barDashBoardFor: aBar [
 	^ mainPane
 ]
 
-{ #category : #segmented }
+{ #category : #bar }
+ToSandBox class >> checkableBarDashBoardFor: aSegmented [
+
+	| barDashBoard checkingStrategyBoard rootPane |
+	barDashBoard := self barDashBoardFor: aSegmented.
+	checkingStrategyBoard := self checkingStrategyChooserFor: aSegmented.
+
+	rootPane := ToPane vertical.
+	rootPane matchParent.
+	rootPane addChild: barDashBoard.
+	rootPane addChild: checkingStrategyBoard.
+	rootPane addDividers.
+
+	^ rootPane
+]
+
+{ #category : #bar }
 ToSandBox class >> checkingStrategyChooserFor: aSegmented [
 
 	| buttons checkingStrategyContainer checkingStrategyGroup |
@@ -2257,7 +2273,7 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 ToSandBox class >> example_SpToggleButton [
 
 	| seg dashBoard rootPane feedbackPane maj |
-	seg := ToSegmentedElement new.
+	seg := ToCheckableBarElement new.
 	1 to: 10 do: [ :n | | lab |
 		lab := 'Button ', n asString.
 		seg segmentAccessor add:
@@ -2270,7 +2286,7 @@ ToSandBox class >> example_SpToggleButton [
 		e
 			flexible: true; hMatchParent].
 
-	dashBoard := self segmentedDashBoardFor: seg.
+	dashBoard := self checkableBarDashBoardFor: seg.
 
 	feedbackPane := ToPane horizontal.
 	feedbackPane layout alignCenter.
@@ -2850,6 +2866,30 @@ ToSandBox class >> example_buttonWithLabel [
 	^ but
 ]
 
+{ #category : #bar }
+ToSandBox class >> example_checkableBar [
+
+	| seg dashBoard |
+	seg := ToCheckableBarElement new.
+	seg segmentAccessor add:
+		(ToSegmentContentExample new label: (ToLabel text: 'Daily')).
+	seg segmentAccessor add:
+		(ToSegmentContentExample new label: (ToLabel text: 'Weekly')).
+	seg segmentAccessor add:
+		(ToSegmentContentExample new label: (ToLabel text: 'Monthly')).
+	seg segmentAccessor add:
+		(ToSegmentContentExample new label: (ToLabel text: 'Quaterly')).
+	seg segmentAccessor add:
+		(ToSegmentContentExample new label: (ToLabel text: 'Yearly')).
+	seg group
+		addEventHandlerOn: ToCheckableGroupChangedEvent
+		do: [ :event | event traceCr ].
+	seg inspect.
+
+	dashBoard := self checkableBarDashBoardFor: seg.
+	dashBoard openInSpace
+]
+
 { #category : #'choice menu' }
 ToSandBox class >> example_choiceButtonWithPlaceholder [
 
@@ -3363,30 +3403,6 @@ ToSandBox class >> example_scaledImage [
 				         ifFalse: [ 0.5 ] ] ].
 	im border: (BlBorder paint: Color black width: 2).
 	im openInSpace
-]
-
-{ #category : #segmented }
-ToSandBox class >> example_segmented [
-
-	| seg dashBoard |
-	seg := ToSegmentedElement new.
-	seg segmentAccessor add:
-		(ToSegmentContentExample new label: (ToLabel text: 'Daily')).
-	seg segmentAccessor add:
-		(ToSegmentContentExample new label: (ToLabel text: 'Weekly')).
-	seg segmentAccessor add:
-		(ToSegmentContentExample new label: (ToLabel text: 'Monthly')).
-	seg segmentAccessor add:
-		(ToSegmentContentExample new label: (ToLabel text: 'Quaterly')).
-	seg segmentAccessor add:
-		(ToSegmentContentExample new label: (ToLabel text: 'Yearly')).
-	seg group
-		addEventHandlerOn: ToCheckableGroupChangedEvent
-		do: [ :event | event traceCr ].
-	seg inspect.
-
-	dashBoard := self segmentedDashBoardFor: seg.
-	dashBoard openInSpace
 ]
 
 { #category : #select }
@@ -4808,22 +4824,6 @@ ToSandBox class >> path_sharp_electric_bike_SVG [
 
 	<sampleInstance>
 	^ '<svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24"><g><rect fill="none" height="24" width="24"/></g><g><g><path d="M19,7h-0.82L16,1h-4v2h2.6l1.46,4h-4.81l-0.36-1H12V4H7v2h1.75l1.82,5H9.9C9.46,8.77,7.59,7.12,5.25,7.01 C2.45,6.87,0,9.2,0,12c0,2.8,2.2,5,5,5c2.46,0,4.45-1.69,4.9-4h4.2c0.44,2.23,2.31,3.88,4.65,3.99c2.8,0.13,5.25-2.19,5.25-5 C24,9.2,21.8,7,19,7z M7.82,13c-0.4,1.17-1.49,2-2.82,2c-1.68,0-3-1.32-3-3s1.32-3,3-3c1.33,0,2.42,0.83,2.82,2H5v2H7.82z M14.1,11h-1.4l-0.73-2H15C14.56,9.58,14.24,10.25,14.1,11z M19,15c-1.68,0-3-1.32-3-3c0-0.93,0.41-1.73,1.05-2.28l0.96,2.64 l1.88-0.68l-0.97-2.67C18.94,9.01,18.97,9,19,9c1.68,0,3,1.32,3,3S20.68,15,19,15z"/><polygon points="11,20 7,20 13,23 13,21 17,21 11,18"/></g></g></svg>'
-]
-
-{ #category : #segmented }
-ToSandBox class >> segmentedDashBoardFor: aSegmented [
-
-	| barDashBoard checkingStrategyBoard rootPane |
-	barDashBoard := self barDashBoardFor: aSegmented.
-	checkingStrategyBoard := self checkingStrategyChooserFor: aSegmented.
-
-	rootPane := ToPane vertical.
-	rootPane matchParent.
-	rootPane addChild: barDashBoard.
-	rootPane addChild: checkingStrategyBoard.
-	rootPane addDividers.
-
-	^ rootPane
 ]
 
 { #category : #select }

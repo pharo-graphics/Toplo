@@ -1,11 +1,11 @@
 Class {
-	#name : #ToSegmentEventHandler,
+	#name : #ToCheckableNodeEventHandler,
 	#superclass : #ToCheckableEventHandler,
-	#category : #'Toplo-Widget-Segmented'
+	#category : #'Toplo-Widget-CheckableBar'
 }
 
 { #category : #'checkable event handling' }
-ToSegmentEventHandler >> checkableCheckEvent: anEvent [
+ToCheckableNodeEventHandler >> checkableCheckEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
@@ -13,13 +13,13 @@ ToSegmentEventHandler >> checkableCheckEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToSegmentEventHandler >> clickEvent: anEvent [
+ToCheckableNodeEventHandler >> clickEvent: anEvent [
 
 	" do nothing here because the selection is managed by the list elemnt "
 ]
 
 { #category : #'api - accessing' }
-ToSegmentEventHandler >> eventsToHandle [ 
+ToCheckableNodeEventHandler >> eventsToHandle [ 
 
 	^ super eventsToHandle , { ToCheckableCheckEvent }
 ]

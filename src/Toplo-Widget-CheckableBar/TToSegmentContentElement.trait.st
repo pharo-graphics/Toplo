@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToSegmentContentElement,
-	#category : #'Toplo-Widget-Segmented'
+	#category : #'Toplo-Widget-CheckableBar'
 }
 
 { #category : #'t - segment content element' }

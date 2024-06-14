@@ -22,9 +22,9 @@ ToCheckableNode >> initialize [
 	the click event is handled normally, the content receives the click event whatever my check state 
 	- if the strategy is strict, the click event is handled by the content only in case I'm not yet checked 
 	"
-	self addEventFilterOn: BlClickEvent do: [ :event |
-		self allowUnchecking ifFalse: [
-			self isChecked ifTrue: [ event consume ] ] ]
+	
+	"self addEventHandlerOn: ToClickableActionRequestEvent do: [ :event |
+			event accept: self isChecked not ]"
 ]
 
 { #category : #'t - checkable  - protocol' }

@@ -4,6 +4,10 @@ Trait {
 }
 
 { #category : #'t - clickable' }
+TToClickable >> clickEvent: anEvent [
+]
+
+{ #category : #'t - clickable' }
 TToClickable >> clickEventClass [
 
 	^ self rawClickEventClass ifNil: [ BlPrimaryClickEvent ]
@@ -25,6 +29,12 @@ TToClickable >> clickHandler [
 TToClickable >> clickHandler: anEventHandler [
 
 	self explicitRequirement 
+]
+
+{ #category : #'t - clickable' }
+TToClickable >> newClickHandlerWith: aBlock [
+
+	^ ToClickableActionEventHandler action: aBlock
 ]
 
 { #category : #'t - clickable' }
@@ -54,8 +64,6 @@ TToClickable >> whenClickedDo: aBlock [
 
 	" only one official handler "
 	self removeClickHandler.
-	self clickHandler: (BlEventHandler
-			 on: self clickEventClass
-			 do: [ :event | self isEnabled ifTrue: [ aBlock cull: event ] ]).
+	self clickHandler: (self newClickHandlerWith: aBlock).
 	self addEventHandler: self clickHandler
 ]

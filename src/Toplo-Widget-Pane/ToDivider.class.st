@@ -230,7 +230,6 @@ ToDivider >> newRawSkin [
 { #category : #layout }
 ToDivider >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 
-
 	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
 	self isHorizontal
 		ifTrue: [ self layoutInVerticalPane ]

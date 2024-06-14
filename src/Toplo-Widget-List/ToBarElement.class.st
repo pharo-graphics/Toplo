@@ -23,7 +23,7 @@ ToBarElement >> checkFullyVisibleNodes [
 ]
 
 { #category : #layout }
-ToBarElement >> configure [
+ToBarElement >> configureLayout [
 
 	self accept: self layoutConfigurator.
 	self checkFullyVisibleNodes.
@@ -52,7 +52,7 @@ ToBarElement >> defaultNodeManagerClass [
 ToBarElement >> fakeDataItem: aDataItem [
 
 	nodeManager fakeDataItem: aDataItem.
-	self configure
+	self configureLayout
 	
 ]
 
@@ -72,7 +72,7 @@ ToBarElement >> flowLineUniformWidth [
 ToBarElement >> flowLineUniformWidth: aBoolean [
 
 	flowLineUniformWidth := aBoolean.
-	self configure.
+	self configureLayout.
 	self notifyDataSourceChanged
 
 ]
@@ -81,7 +81,7 @@ ToBarElement >> flowLineUniformWidth: aBoolean [
 ToBarElement >> horizontal: aBoolean [
 
 	super horizontal: aBoolean.
-	self configure
+	self configureLayout
 ]
 
 { #category : #initialization }
@@ -90,7 +90,7 @@ ToBarElement >> initialize [
 	super initialize.
 	selectionMode beneathOption: ToListSelectionOption separate.
 	selectionMode overOption: ToListSelectionOption none.
-	self configure
+	self configureLayout
 ]
 
 { #category : #initialization }
@@ -123,7 +123,7 @@ ToBarElement >> nodeAutoDistribution: aBoolean [
 
 	nodeAutoDistribution = aBoolean ifTrue: [ ^ self ].
 	nodeAutoDistribution := aBoolean.
-	self configure
+	self configureLayout
 ]
 
 { #category : #accessing }
@@ -159,7 +159,7 @@ ToBarElement >> nodeScrolling [
 ToBarElement >> nodeScrolling: aBoolean [
 
 	nodeScrolling := aBoolean.
-	self configure
+	self configureLayout
 ]
 
 { #category : #accessing }
@@ -172,12 +172,18 @@ ToBarElement >> nodeWrapping [
 ToBarElement >> nodeWrapping: aBoolean [
 
 	nodeWrapping := aBoolean.
-	self configure
+	self configureLayout
+]
+
+{ #category : #layout }
+ToBarElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
+
+	super onLayout: aBounds context: aBlElementBoundsUpdateContext
 ]
 
 { #category : #'t - orientable - orientation' }
 ToBarElement >> vertical: aBoolean [
 
 	super vertical: aBoolean.
-	self configure
+	self configureLayout
 ]

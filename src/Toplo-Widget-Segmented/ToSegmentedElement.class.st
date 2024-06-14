@@ -53,9 +53,3 @@ ToSegmentedElement >> selectionModel [
 
 	^ bar selectionModel 
 ]
-
-{ #category : #'t - checkable group holder' }
-ToSegmentedElement >> withStrictCheckingStrategy [
-
-	self checkingStrategy: ToCheckableGroupStrictStrategy new
-]

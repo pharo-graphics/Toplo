@@ -34,7 +34,8 @@ ToUnanimityRequestEvent >> denied [
 { #category : #visiting }
 ToUnanimityRequestEvent >> deny [
 
-	sourceEvent := nil
+	sourceEvent := nil.
+	self consume
 ]
 
 { #category : #accessing }

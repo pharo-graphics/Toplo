@@ -1,6 +1,8 @@
 Class {
 	#name : #ToOverlayElement,
 	#superclass : #BlOverlayElement,
+	#traits : 'TBlLayoutResizable',
+	#classTraits : 'TBlLayoutResizable classTrait',
 	#instVars : [
 		'positionHook',
 		'sizeHook'

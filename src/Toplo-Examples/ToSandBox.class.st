@@ -385,6 +385,9 @@ ToSandBox class >> example_CheckboxChecked [
 	chb addEventHandler: (BlEventHandler
 			 on: ToElementLookEvent
 			 do: [ :evt | evt target = chb ifTrue: [ evt traceCr ] ]).
+	chb whenClickedDo: [ :event |
+		event currentTarget isChecked traceCr.
+		event traceCr ].
 	chb checked: true.
 	chb openInInnerWindow.
 	chb inspect
@@ -2287,7 +2290,7 @@ ToSandBox class >> example_SpToggleButton [
 	1 to: 10 do: [ :n |
 		| lab |
 		lab := 'Button ' , n asString.
-		seg segmentAccessor add: ((ToButton new label: (ToLabel text: lab))
+		seg segmentAccessor add: ((ToToggleButton new label: (ToLabel text: lab))
 				 tooltipString: lab;
 				 whenClickedDo: [ :event | event currentTarget label text traceCr ];
 				 withNullSkin;
@@ -2804,6 +2807,7 @@ ToSandBox class >> example_buttonWith2Icons [
 
 	| but  |
 	but := self example_buttonWithIcon.
+	but whenClickedDo: [ :event | event traceCr ].
 	but label: (ToLabel text: 'Button with 2 icons').
 	but endElement: (ToImage inner: ToThemeIcons searchOutlined16x16).
 	^ but
@@ -2817,6 +2821,22 @@ ToSandBox class >> example_buttonWith2IconsVertical [
 	but label: (ToLabel text: 'Button with 2 icons').
 	but endElement: (ToImage inner: ToThemeIcons searchOutlined16x16).
 	but beVertical.
+	^ but
+]
+
+{ #category : #button }
+ToSandBox class >> example_buttonWithActionControl [
+
+	| but count |
+	but := ToButton new.
+	but label: (ToLabel text: 'Button with label').
+	count := 0.
+	but whenClickedDo: [ :event | self inform: 'Action runned' ].
+	but addEventHandlerOn: ToClickableActionRequestEvent do: [ :event |
+		count := count + 1.
+		event accept: count odd.
+		event denied ifTrue: [ self inform: 'Action denied' ] ].
+	but openInSpace.
 	^ but
 ]
 

@@ -10,3 +10,11 @@ TToUnanimityRequestTarget >> dispatchUnanimityRequest: anUnanimityRequestEvent [
 	anUnanimityRequestEvent denied ifTrue: [ ^ self ].
 	self dispatchEvent: anUnanimityRequestEvent sourceEvent
 ]
+
+{ #category : #'t - prenotification target' }
+TToUnanimityRequestTarget >> fireUnanimityRequest: anUnanimityRequestEvent [
+
+	self fireEvent: anUnanimityRequestEvent.
+	anUnanimityRequestEvent denied ifTrue: [ ^ self ].
+	self dispatchEvent: anUnanimityRequestEvent sourceEvent
+]

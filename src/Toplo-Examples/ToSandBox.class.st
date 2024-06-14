@@ -94,7 +94,6 @@ ToSandBox class >> configurationBoardFor: aBar [
 	confPane addChild: inspectButton.
 
 	verticalSwitch := ToSwitchButton new labelText: 'Vertical'.
-	verticalSwitch endToStart: true.
 	verticalSwitch startFlexible: true.
 	verticalSwitch hMatchParent.
 
@@ -114,21 +113,18 @@ ToSandBox class >> configurationBoardFor: aBar [
 	confPane addChild: verticalSwitch.
 
 	wrappingSwitch := ToSwitchButton new labelText: 'Wrapping'.
-	wrappingSwitch endToStart: true.
 	wrappingSwitch startFlexible: true.
 	wrappingSwitch hMatchParent.
 	confPane addChild: wrappingSwitch.
 
 	sameWidthSwitch := ToSwitchButton new labelText:
 		                   'Uniform element width'.
-	sameWidthSwitch endToStart: true.
 	sameWidthSwitch startFlexible: true.
 	sameWidthSwitch hMatchParent.
 	sameWidthSwitch checked: false.
 	confPane addChild: sameWidthSwitch.
 
 	scrollingSwitch := ToSwitchButton new labelText: 'Scrolling'.
-	scrollingSwitch endToStart: true.
 	scrollingSwitch startFlexible: true.
 	scrollingSwitch hMatchParent.
 
@@ -159,7 +155,6 @@ ToSandBox class >> configurationBoardFor: aBar [
 
 	autoDistributionSwitch := ToSwitchButton new labelText:
 		                          'Auto-distribution'.
-	autoDistributionSwitch endToStart: true.
 	autoDistributionSwitch startFlexible: true.
 	autoDistributionSwitch hMatchParent.
 
@@ -173,7 +168,6 @@ ToSandBox class >> configurationBoardFor: aBar [
 
 	selectionAnimationSwitch := ToSwitchButton new labelText:
 		                            'Animate selection transition'.
-	selectionAnimationSwitch endToStart: true.
 	selectionAnimationSwitch startFlexible: true.
 	selectionAnimationSwitch hMatchParent.
 
@@ -191,7 +185,6 @@ ToSandBox class >> configurationBoardFor: aBar [
 
 	selectOnMouseDownSwitch := ToSwitchButton new labelText:
 		                           'Select on mouse down'.
-	selectOnMouseDownSwitch endToStart: true.
 	selectOnMouseDownSwitch startFlexible: true.
 	selectOnMouseDownSwitch hMatchParent.
 
@@ -3534,6 +3527,7 @@ ToSandBox class >> example_switchButton [
 	| th  |
 	th := ToSwitchButton new.
 	th checked: true.
+	th wishedTrackSize: 100@30.
 	th openInSpace
 ]
 
@@ -3542,6 +3536,7 @@ ToSandBox class >> example_switchButton2 [
 
 	| th sp |
 	th := ToSwitchButton new.
+	th wishedTrackSize: 100@30.
 	th checkedContainer addChild:
 		((ToImage inner: (self iconNamed: #glamorousAccept)) formColor:
 			 Color white).
@@ -3560,6 +3555,8 @@ ToSandBox class >> example_switchButton3 [
 
 	| but onLab offLab onHandleIm handler |
 	but := ToSwitchButton new.
+	but inspect.
+	but wishedTrackSize: 300@50.
 	but endToStart: true.
 	but startFlexible: true.
 	but hMatchParent.
@@ -3586,6 +3583,19 @@ ToSandBox class >> example_switchButton3 [
 	"but disable."
 	"but inspect."
 	but openInSpace
+]
+
+{ #category : #'switch button' }
+ToSandBox class >> example_switchButtonWithSize [
+
+	| th  |
+	th := ToSwitchButton new.
+	th labelText: 'Wished size is for the button track, it doesn''t include the label size'.
+	th startInterspace: 10.
+	th wishedTrackSize: 100@30.
+	th checked: true.
+	th inspect.
+	th openInSpace
 ]
 
 { #category : #'text field' }

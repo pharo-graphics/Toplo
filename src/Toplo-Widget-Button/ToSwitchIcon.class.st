@@ -13,7 +13,9 @@ Class {
 		'checkedSide',
 		'uncheckedSide',
 		'handleDisabledBuilder',
-		'firstMeasureDone'
+		'firstMeasureDone',
+		'handleWidth',
+		'wishedSize'
 	],
 	#category : #'Toplo-Widget-Button-Switch'
 }
@@ -22,7 +24,6 @@ Class {
 ToSwitchIcon >> applySize: aPoint [
 	" given my expected size, adapt the size of my handle and of onSide and offSide "
 
-	| handleWidth  |
 	self geometry: (BlRoundedRectangleGeometry cornerRadius: aPoint y / 2).
 	handleWidth := aPoint y - (self defaultHandleMarginWidth * 2).
 	self handle size: handleWidth asPoint
@@ -64,6 +65,12 @@ ToSwitchIcon >> defaultSize [
 ToSwitchIcon >> firstMeasureDone [
 
 	^ firstMeasureDone
+]
+
+{ #category : #accessing }
+ToSwitchIcon >> firstMeasureDone: aBoolean [
+
+	firstMeasureDone := aBoolean
 ]
 
 { #category : #accessing }
@@ -124,6 +131,7 @@ ToSwitchIcon >> handleUncheckedBuilder: aValuable [
 ToSwitchIcon >> initialize [
 
 	super initialize.
+	wishedSize := self defaultSize.
 	self applySkinInstallerOnFirstRequest: false.
 	self layout: BlBasicLayout new.
 	track := self newTrack.
@@ -158,7 +166,7 @@ ToSwitchIcon >> initialize [
 			c frame horizontal alignCenter ] ].
 	
 	self addChild: track.
-	self size: self defaultSize.
+	self size: wishedSize.
 	self checked: false.
 	firstMeasureDone := false.
 ]
@@ -206,24 +214,45 @@ ToSwitchIcon >> onChildAddedInSideContainer [
 { #category : #layout }
 ToSwitchIcon >> onMeasure: anExtentMeasurementSpec [
 
-	| expectedSize sideContainerSize |
+	| finalSize sideContainerSize |
 	super onMeasure: anExtentMeasurementSpec.
 	sideContainerSize := (self checkedContainer measuredWidth max:
 		                      self uncheckedContainer measuredWidth)
 	                     @ (self checkedContainer measuredHeight max:
 			                      self uncheckedContainer measuredHeight).
-	expectedSize := sideContainerSize x + 8 + sideContainerSize y
-	                @ (sideContainerSize y + 2) max: self defaultSize.
+	finalSize := sideContainerSize x + 8 + sideContainerSize y
+	             @ (sideContainerSize y + 2) max: wishedSize.
 	anExtentMeasurementSpec widthSpec size:
-		(expectedSize x max: anExtentMeasurementSpec widthSpec size).
+		(finalSize x max: anExtentMeasurementSpec widthSpec size).
 	anExtentMeasurementSpec heightSpec size:
-		(expectedSize y max: anExtentMeasurementSpec heightSpec size).
-	self size = expectedSize ifFalse: [ self applySize: expectedSize ].
+		(finalSize y max: anExtentMeasurementSpec heightSpec size).
+	self size = finalSize ifFalse: [
+		self applySize: finalSize.
+		firstMeasureDone := false.
+		self requestNewSkin  ].
 	super onMeasure: anExtentMeasurementSpec.
 	firstMeasureDone ifTrue: [ ^ self ].
 	self switch: self isChecked.
 	firstMeasureDone := true
+]
 
+{ #category : #layout }
+ToSwitchIcon >> showSide [
+
+	self isChecked
+		ifTrue: [
+			uncheckedSide visibility: BlVisibility hidden.
+			checkedSide visibility: BlVisibility visible ]
+		ifFalse: [
+			checkedSide visibility: BlVisibility hidden.
+			uncheckedSide visibility: BlVisibility visible ]
+]
+
+{ #category : #'api - bounds' }
+ToSwitchIcon >> size: aPoint [
+
+	self wishedSize: aPoint.
+	super size: aPoint
 ]
 
 { #category : #layout }
@@ -237,13 +266,15 @@ ToSwitchIcon >> switch: aBoolean [
 { #category : #layout }
 ToSwitchIcon >> switchChecked [
 
-	self track position: self trackOnExpectedPosition 
+	self track position: self trackOnExpectedPosition.
+	self showSide
 ]
 
 { #category : #layout }
 ToSwitchIcon >> switchUnchecked [
 
-	self track position: self trackOffExpectedPosition 
+	self track position: self trackOffExpectedPosition.
+	self showSide
 ]
 
 { #category : #accessing }
@@ -261,7 +292,7 @@ ToSwitchIcon >> trackOffExpectedPosition [
 { #category : #layout }
 ToSwitchIcon >> trackOnExpectedPosition [
 
-	^ self measuredWidth - self handle measuredWidth
+	^ self measuredWidth - handleWidth
 	  - checkedSide measuredWidth - (self defaultHandleMarginWidth * 2) @ 0
 ]
 
@@ -287,4 +318,10 @@ ToSwitchIcon >> updateHandleContent [
 				ifFalse: [
 					self handleUncheckedBuilder ifNotNil: [ :b |
 						b value: self handle value: self ] ] ]
+]
+
+{ #category : #accessing }
+ToSwitchIcon >> wishedSize: aPoint [
+
+	wishedSize := aPoint
 ]

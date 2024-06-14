@@ -60,6 +60,7 @@ ToSwitchIconSkin >> switchWithAnimation: aSwitchButton [
 
 	| anim posAnim colorAnim color toPos |
 	color := aSwitchButton background paint color.
+	aSwitchButton showSide.
 	toPos := aSwitchButton isChecked
 		         ifTrue: [ aSwitchButton trackOnExpectedPosition ]
 		         ifFalse: [ aSwitchButton trackOffExpectedPosition ].

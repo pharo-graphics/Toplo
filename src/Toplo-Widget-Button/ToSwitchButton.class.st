@@ -5,7 +5,8 @@ Class {
 	#classTraits : 'TToCheckable classTrait',
 	#instVars : [
 		'group',
-		'checked'
+		'checked',
+		'wishedTrackSize'
 	],
 	#category : #'Toplo-Widget-Button-Switch'
 }
@@ -43,6 +44,17 @@ ToSwitchButton >> newRawSkin [
 	^ ToSwitchButtonSkin new
 ]
 
+{ #category : #layout }
+ToSwitchButton >> onMeasure: anExtentMeasurementSpec [
+
+	wishedTrackSize ifNotNil: [
+		self icon size:
+			wishedTrackSize - (self padding left + self padding right
+			 @ (self padding top + self padding bottom)) ].
+
+	super onMeasure: anExtentMeasurementSpec
+]
+
 { #category : #'t - checkable - accessing' }
 ToSwitchButton >> rawChecked [
 
@@ -68,9 +80,22 @@ ToSwitchButton >> rawGroup: aGroup [
 ]
 
 { #category : #accessing }
+ToSwitchButton >> track [
+
+	^ self icon
+]
+
+{ #category : #accessing }
 ToSwitchButton >> uncheckedContainer [ 
 
 	^ self icon uncheckedContainer
+]
+
+{ #category : #accessing }
+ToSwitchButton >> wishedTrackSize: aPoint [
+
+	wishedTrackSize := aPoint.
+	self requestLayout
 ]
 
 { #category : #'t - checkable  - protocol' }

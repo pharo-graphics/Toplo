@@ -2297,12 +2297,8 @@ ToSandBox class >> example_SpToggleButton [
 		seg segmentAccessor add: ((ToButton new label: (ToLabel text: lab))
 				 tooltipString: lab;
 				 whenClickedDo: [ :event | event currentTarget label text traceCr ];
-				 hMatchParent;
-				 vMatchParent;
+				 withNullSkin;
 				 flexible: true;
-				 constraintsDo: [ :c |
-					 c linear vertical alignCenter.
-					 c linear horizontal alignCenter ];
 				 yourself) ].
 
 	dashBoard := self segmentedDashBoardFor: seg.

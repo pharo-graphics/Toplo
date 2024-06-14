@@ -4,7 +4,6 @@ Class {
 	#traits : 'TToElementWithLabeledIcon',
 	#classTraits : 'TToElementWithLabeledIcon classTrait',
 	#instVars : [
-		'tripletElement',
 		'labeledIcon'
 	],
 	#category : #'Toplo-Widget-Button-Core'
@@ -18,7 +17,9 @@ ToButton >> initialize [
 	self addChild: labeledIcon.
 	labeledIcon constraintsDo: [ :c |
 		c linear vertical alignCenter.
-		c linear horizontal alignCenter ].
+		c linear horizontal alignCenter.
+		c frame vertical alignCenter.
+		c frame horizontal alignCenter ].
 	self fitContent
 ]
 

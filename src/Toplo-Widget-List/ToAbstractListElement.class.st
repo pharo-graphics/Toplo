@@ -369,11 +369,11 @@ ToAbstractListElement >> notifyDataSourceChanged [
 { #category : #'event firing' }
 ToAbstractListElement >> notifyDataSourceItemChanged: aDataSourceEvent [
 
-	| preNotification |
-	preNotification := ToListDataSourceItemChangeUnanimityRequestEvent new
-		                   sourceEvent: aDataSourceEvent;
-		                   yourself.
-	self dispatchUnanimityRequest: preNotification
+	| request |
+	request := ToListDataSourceItemChangeRequestEvent new
+		           requestedAction: [ self dispatchEvent: aDataSourceEvent ];
+		           yourself.
+	self dispatchAuthorisationRequest: request
 ]
 
 { #category : #'event firing' }

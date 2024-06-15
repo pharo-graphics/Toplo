@@ -1,6 +1,6 @@
 Class {
 	#name : #ToClickableActionRequestEvent,
-	#superclass : #ToUnanimityRequestEvent,
+	#superclass : #ToAuthorisationRequestEvent,
 	#category : #'Toplo-Widget-Button-Core'
 }
 

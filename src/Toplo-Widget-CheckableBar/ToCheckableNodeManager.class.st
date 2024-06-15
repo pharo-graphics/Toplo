@@ -18,10 +18,10 @@ ToCheckableNodeManager >> buildFakeNode: aFakeNode inHolder: anHolder [
 { #category : #initialization }
 ToCheckableNodeManager >> defaultNodeBuilder [
 
-	^ [ :segment :holder :contentElement |
-	  segment isFake ifFalse: [
-		  segment registerInGroup: holder checkableBarElement group ].
-	  segment addChild: contentElement ]
+	^ [ :node :holder :contentElement |
+	  node isFake ifFalse: [
+		  contentElement registerInGroup: holder checkableBarElement group ].
+	  node addChild: contentElement ]
 ]
 
 { #category : #initialization }
@@ -40,6 +40,8 @@ ToCheckableNodeManager >> defaultNodeHolderClass [
 { #category : #initialization }
 ToCheckableNodeManager >> unbindNode: aNode [
 
+	aNode isFake ifFalse: [
+		  aNode content unregisterFromGroup ].
 	aNode holder contentElement removeFromParent.
 	super unbindNode: aNode
 ]

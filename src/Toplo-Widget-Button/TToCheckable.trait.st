@@ -189,7 +189,7 @@ TToCheckable >> uncheck [
 { #category : #'t - checkable - group' }
 TToCheckable >> unregisterFromGroup [
 
-	self group remove: self
+	self group unregister: self
 ]
 
 { #category : #'t - checkable  - protocol' }

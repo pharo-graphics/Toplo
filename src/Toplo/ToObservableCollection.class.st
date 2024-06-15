@@ -1,8 +1,8 @@
 Class {
 	#name : #ToObservableCollection,
 	#superclass : #Object,
-	#traits : 'TBlEventTarget + TToObservableCollection',
-	#classTraits : 'TBlEventTarget classTrait + TToObservableCollection classTrait',
+	#traits : 'TBlEventTarget + TToObservableCollection + TToAuthorisationRequestTarget',
+	#classTraits : 'TBlEventTarget classTrait + TToObservableCollection classTrait + TToAuthorisationRequestTarget classTrait',
 	#instVars : [
 		'collection',
 		'eventDispatcher'
@@ -46,12 +46,4 @@ ToObservableCollection >> initialize [
 ToObservableCollection >> postCopy [
 
 	collection := self collection copy
-]
-
-{ #category : #'t - observable collection - initialization' }
-ToObservableCollection >> updateAllWith: aCollection [
-
-	self notifyUpdateAllChangeAround: [
-		self collection reset.
-		self collection addAll: aCollection ]
 ]

@@ -2287,7 +2287,7 @@ ToSandBox class >> example_SpToggleButton [
 	| seg dashBoard rootPane feedbackPane maj |
 	seg := ToSegmentedElement new.
 	seg matchParent.
-	1 to: 10 do: [ :n |
+	1 to: 4 do: [ :n |
 		| lab |
 		lab := 'Button ' , n asString.
 		seg segmentAccessor add: ((ToToggleButton new label: (ToLabel text: lab))
@@ -2310,8 +2310,9 @@ ToSandBox class >> example_SpToggleButton [
 				            nextPutAll: e label text asString;
 				            nextPutAll: ': '.
 			            (seg selectionModel containsIndex: idx)
-				            ifTrue: [ stream nextPutAll: 'V' ]
-				            ifFalse: [ stream nextPutAll: 'X' ].
+				            ifTrue: [ stream nextPutAll: 'V ' ]
+				            ifFalse: [ stream nextPutAll: 'X ' ].
+							stream nextPutAll: e checked asString.
 			            stream nextPutAll: ' '.
 			            idx < seg segmentAccessor itemCount ifTrue: [
 				            stream nextPutAll: '- ' ] ] ].
@@ -2912,6 +2913,26 @@ ToSandBox class >> example_checkableBar [
 	checkableBar group
 		addEventHandlerOn: ToCheckableGroupChangedEvent
 		do: [ :event | event traceCr ].
+
+	dashBoard := self checkableBarDashBoardFor: checkableBar.
+	dashBoard openInSpace
+]
+
+{ #category : #bar }
+ToSandBox class >> example_checkableBarWithCheckboxes [
+
+	| checkableBar dashBoard |
+	checkableBar := ToCheckableBarElement new.
+	checkableBar checkableElementAccessor add:
+		(ToCheckbox new label: (ToLabel text: 'Daily')).
+	checkableBar checkableElementAccessor add:
+		(ToCheckbox new label: (ToLabel text: 'Weekly')).
+	checkableBar checkableElementAccessor add:
+		(ToCheckbox new label: (ToLabel text: 'Monthly')).
+	checkableBar checkableElementAccessor add:
+		(ToCheckbox new label: (ToLabel text: 'Quaterly')).
+	checkableBar checkableElementAccessor add:
+		(ToCheckbox new label: (ToLabel text: 'Yearly')).
 
 	dashBoard := self checkableBarDashBoardFor: checkableBar.
 	dashBoard openInSpace

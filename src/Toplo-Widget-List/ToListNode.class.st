@@ -1,7 +1,7 @@
 Class {
 	#name : #ToListNode,
 	#superclass : #ToAbstractListNode,
-	#classTraits : 'TToEnableable classTrait + TToListNode classTrait + TToUnanimityRequestTarget classTrait',
+	#classTraits : 'TToEnableable classTrait + TToListNode classTrait + TToAuthorisationRequestTarget classTrait',
 	#category : #'Toplo-Widget-List-Node'
 }
 

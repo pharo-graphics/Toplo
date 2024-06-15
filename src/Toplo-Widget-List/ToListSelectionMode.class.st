@@ -2,7 +2,10 @@ Class {
 	#name : #ToListSelectionMode,
 	#superclass : #ToAbstractListSelectionMode,
 	#instVars : [
-		'multiple'
+		'multiple',
+		'requestFocusOnMouseDown',
+		'preserveSelectionOnFocused',
+		'selectOnMouseDown'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
@@ -33,6 +36,17 @@ ToListSelectionMode class >> secondary [
 	^ secondary
 ]
 
+{ #category : #testing }
+ToListSelectionMode >> allowRequestFocusOnMouseDown [
+
+	| max |
+	self isDisabled ifTrue: [ ^ self requestFocusOnMouseDown ].
+	max := self maxSelectedIndexesForSelectionPreserving.
+	self selectedIndexesCount > max ifTrue: [
+		self preserveSelectionOnFocused ifTrue: [ ^ false ] ].
+	^ self requestFocusOnMouseDown
+]
+
 { #category : #accessing }
 ToListSelectionMode >> beMultipleSelection [
 
@@ -49,6 +63,9 @@ ToListSelectionMode >> beSingleSelection [
 ToListSelectionMode >> initialize [
 
 	super initialize.
+	requestFocusOnMouseDown := true.
+	preserveSelectionOnFocused := true.
+	selectOnMouseDown := false.
 	multiple := true
 ]
 
@@ -124,6 +141,42 @@ ToListSelectionMode >> onInstalledIn: anElement [
 	super onInstalledIn: anElement.
 	selecter
 		multiple: self isMultipleSelection
+]
+
+{ #category : #accessing }
+ToListSelectionMode >> preserveSelectionOnFocused [
+
+	^ preserveSelectionOnFocused
+]
+
+{ #category : #accessing }
+ToListSelectionMode >> preserveSelectionOnFocused: aBoolean [
+
+	preserveSelectionOnFocused := aBoolean
+]
+
+{ #category : #accessing }
+ToListSelectionMode >> requestFocusOnMouseDown [
+
+	^ requestFocusOnMouseDown
+]
+
+{ #category : #accessing }
+ToListSelectionMode >> requestFocusOnMouseDown: aBoolean [
+
+	requestFocusOnMouseDown := aBoolean 
+]
+
+{ #category : #accessing }
+ToListSelectionMode >> selectOnMouseDown [
+
+	^ selectOnMouseDown
+]
+
+{ #category : #accessing }
+ToListSelectionMode >> selectOnMouseDown: aBoolean [
+
+	selectOnMouseDown := aBoolean
 ]
 
 { #category : #'event handling' }

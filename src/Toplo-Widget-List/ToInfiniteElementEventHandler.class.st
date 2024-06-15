@@ -1,6 +1,9 @@
 Class {
 	#name : #ToInfiniteElementEventHandler,
 	#superclass : #BlCustomEventHandler,
+	#instVars : [
+		'previousDecorationSize'
+	],
 	#category : #'Toplo-Widget-List-InnerInfinite'
 }
 
@@ -31,7 +34,22 @@ ToInfiniteElementEventHandler >> infiniteDataSourceEmptinessChangedEvent: anEven
 { #category : #'infinite event handling' }
 ToInfiniteElementEventHandler >> infiniteDecorationBoundsChangedEvent: anEvent [
 
-	anEvent currentTarget listElement notifyPrimarySelectionDirty 
+	| s decoration insets |
+	decoration := anEvent decoration.
+	insets := decoration decorationInsets.
+	(insets left > 0 or: [ insets right > 0 ]) ifTrue: [
+		s := anEvent decoration computedBounds width.
+		previousDecorationSize = s ifTrue: [ ^ self ].
+		previousDecorationSize := s.
+		anEvent currentTarget listElement notifyPrimarySelectionDirty.
+		^ self ].
+	
+	(insets top > 0 or: [ insets bottom > 0 ]) ifFalse: [ ^ self ].
+	s := anEvent decoration computedBounds height.
+	previousDecorationSize = s ifTrue: [ ^ self ].
+	previousDecorationSize := s.
+	anEvent currentTarget listElement notifyPrimarySelectionDirty.
+	^ self
 ]
 
 { #category : #'infinite event handling' }

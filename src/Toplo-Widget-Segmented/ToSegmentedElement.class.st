@@ -1,8 +1,8 @@
 Class {
 	#name : #ToSegmentedElement,
 	#superclass : #ToElement,
-	#traits : 'TToCheckableGroupHolder',
-	#classTraits : 'TToCheckableGroupHolder classTrait',
+	#traits : 'TToCheckableHolder',
+	#classTraits : 'TToCheckableHolder classTrait',
 	#instVars : [
 		'bar'
 	],
@@ -24,13 +24,13 @@ ToSegmentedElement >> initialize [
 	
 ]
 
-{ #category : #'t - checkable group holder' }
+{ #category : #'t - checkable holder' }
 ToSegmentedElement >> rawGroup [ 
 
 	^ bar rawGroup
 ]
 
-{ #category : #'t - checkable group holder' }
+{ #category : #'t - checkable holder' }
 ToSegmentedElement >> rawGroup: aGroup [
 
 	bar rawGroup: aGroup

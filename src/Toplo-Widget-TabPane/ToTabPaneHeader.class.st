@@ -1,8 +1,8 @@
 Class {
 	#name : #ToTabPaneHeader,
 	#superclass : #ToPane,
-	#traits : 'TToCheckableGroupHolder',
-	#classTraits : 'TToCheckableGroupHolder classTrait',
+	#traits : 'TToCheckableHolder',
+	#classTraits : 'TToCheckableHolder classTrait',
 	#instVars : [
 		'tabsPane',
 		'group',
@@ -126,13 +126,13 @@ ToTabPaneHeader >> positioningStrategy: anObject [
 	self applyPositioning 
 ]
 
-{ #category : #'t - checkable group holder' }
+{ #category : #'t - checkable holder' }
 ToTabPaneHeader >> rawGroup [
 
 	^ group
 ]
 
-{ #category : #'t - checkable group holder' }
+{ #category : #'t - checkable holder' }
 ToTabPaneHeader >> rawGroup: aGroup [
 
 	self shouldNotImplement 

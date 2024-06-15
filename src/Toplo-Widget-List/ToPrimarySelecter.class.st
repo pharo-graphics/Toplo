@@ -8,25 +8,24 @@ Class {
 }
 
 { #category : #'command application' }
-ToPrimarySelecter >> commandApplied: aCommand [ 
+ToPrimarySelecter >> commandApplied: aCommand [
 
-	| preNotification eventToNotify |
-	
+	| req |
 	eventTarget dispatchEvent:
 		(ToPrimarySelectionCommandAppliedEvent new
 			 command: aCommand;
 			 yourself).
 
-	eventToNotify := ToListPrimarySelectionChangedEvent new
-		                 selectionModel: aCommand selectionModel;
-		                 yourself.
 
-	preNotification := ToListPrimarySelectionChangeUnanimityRequestEvent
-		                   new
-		                   sourceEvent: eventToNotify;
-		                   yourself.
-		
-	eventTarget dispatchUnanimityRequest: preNotification
+	req := ToListPrimarySelectionChangeRequestEvent new
+		       requestedAction: [
+			       eventTarget dispatchEvent:
+					       (ToListPrimarySelectionChangedEvent new
+						        selectionModel: aCommand selectionModel;
+						        yourself) ];
+		       yourself.
+
+	eventTarget dispatchAuthorisationRequest: req
 ]
 
 { #category : #initialization }

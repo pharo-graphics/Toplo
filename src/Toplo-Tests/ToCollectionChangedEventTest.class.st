@@ -33,7 +33,7 @@ ToCollectionChangedEventTest >> testAddRequestAddEvent [
 				 requestCount := requestCount + 1.
 				 candidates := request candidates.
 				 reqInterval := request interval.
-				 request accepted: validate ]).
+				 request authorized: validate ]).
 	ocol addEventHandler: (BlEventHandler
 			 on: ToCollectionAddEvent
 			 do: [ :event |
@@ -77,7 +77,7 @@ ToCollectionChangedEventTest >> testFilterRequestFilterEvent [
 			 do: [ :request |
 				 requestCount := requestCount + 1.
 				 reqInterval := request interval.
-				 request accepted: validate ]).
+				 request authorized: validate ]).
 	ocol addEventHandler: (BlEventHandler
 			 on: ToCollectionFilteredEvent
 			 do: [ :event |
@@ -124,7 +124,7 @@ ToCollectionChangedEventTest >> testRemoveRequestRemoveEvent [
 			 do: [ :request |
 				 requestCount := requestCount + 1.
 				 reqInterval := request interval.
-				 request accepted: validate ]).
+				 request authorized: validate ]).
 	ocol addEventHandler: (BlEventHandler
 			 on: ToCollectionRemoveEvent
 			 do: [ :event |
@@ -166,7 +166,7 @@ ToCollectionChangedEventTest >> testUpdateAllRequestUpdateAllEvent [
 			 do: [ :request |
 				 requestCount := requestCount + 1.
 				 reqInterval := request interval.
-				 request accepted: validate ]).
+				 request authorized: validate ]).
 	ocol addEventHandler: (BlEventHandler
 			 on: ToCollectionAllUpdatedEvent
 			 do: [ :event |
@@ -204,7 +204,7 @@ ToCollectionChangedEventTest >> testUpdateRequestUpdateEvent [
 			 do: [ :request |
 				 requestCount := requestCount + 1.
 				 reqInterval := request interval.
-				 request accepted: validate ]).
+				 request authorized: validate ]).
 	ocol addEventHandler: (BlEventHandler
 			 on: ToCollectionUpdateEvent
 			 do: [ :event |

@@ -31,7 +31,8 @@ ToSkinStateGenerator >> clickAbortedEvent: anEvent [
 	(anEvent upEvent target hasInParentChain: target) ifFalse: [ ^ self ].
 	anEvent target: target.
 	anEvent currentTarget: target.
-	anEvent processor fireClickEventFrom: anEvent
+	anEvent processor fireClickEventFrom: anEvent.
+	anEvent consume.
 ]
 
 { #category : #'mouse handlers' }

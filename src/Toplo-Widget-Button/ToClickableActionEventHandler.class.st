@@ -45,10 +45,13 @@ ToClickableActionEventHandler >> handleEvent: anEvent [
 { #category : #'event handling' }
 ToClickableActionEventHandler >> receiveClickEvent: anEvent [
 
-	| unanimityRequest |
-	unanimityRequest := ToClickableActionRequestEvent new sourceEvent:
-		                    ToClickableRunActionEvent new.
-	anEvent currentTarget fireUnanimityRequest: unanimityRequest
+	| req target |
+	target := anEvent currentTarget.
+	req := ToClickableActionRequestEvent new
+		       requestedAction: [
+			       target fireEvent: ToClickableRunActionEvent new ];
+		       yourself.
+	target fireAuthorisationRequest: req
 ]
 
 { #category : #'api - event managing' }

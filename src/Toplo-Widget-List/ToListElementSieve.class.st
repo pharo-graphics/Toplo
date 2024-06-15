@@ -1,8 +1,8 @@
 Class {
 	#name : #ToListElementSieve,
 	#superclass : #Object,
-	#traits : 'TBlEventTarget + TToUnanimityRequestTarget',
-	#classTraits : 'TBlEventTarget classTrait + TToUnanimityRequestTarget classTrait',
+	#traits : 'TBlEventTarget + TToAuthorisationRequestTarget',
+	#classTraits : 'TBlEventTarget classTrait + TToAuthorisationRequestTarget classTrait',
 	#instVars : [
 		'queryRunner',
 		'originalData',

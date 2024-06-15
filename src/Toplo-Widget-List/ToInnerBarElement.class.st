@@ -161,11 +161,12 @@ ToInnerBarElement >> initializeFakeDataView [
 	holder infiniteElement: self.
 	holder bindAtPosition: 0.
 	fakeNode := self nodeManager newNodeForHolder: holder.
+	" add the fake node (to keep a constant minimum size ) "
+	scrollableElement addFakeNode: fakeNode.
 	self nodeManager buildFakeNode: fakeNode inHolder: holder.
 	fakeNode id: #fakeNode.
 
-	" add the fake node (to keep a constant minimum size ) "
-	scrollableElement addFakeNode: fakeNode
+
 ]
 
 { #category : #'t - infinite accessing' }

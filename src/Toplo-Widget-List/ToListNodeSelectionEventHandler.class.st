@@ -18,7 +18,7 @@ ToListNodeSelectionEventHandler >> clickEvent: anEvent [
 { #category : #'api - accessing' }
 ToListNodeSelectionEventHandler >> eventsToHandle [
 
-	^ { ToListDoubleClickEvent. BlPrimaryClickEvent. BlPrimaryMouseDownEvent. ToListClickOnNodeUnanimityRequestEvent. ToListClickOnNodeEvent  }
+	^ { ToListDoubleClickEvent. BlPrimaryClickEvent. BlPrimaryMouseDownEvent. ToListClickOnNodeRequestEvent. ToListClickOnNodeEvent  }
 ]
 
 { #category : #'events handling' }
@@ -26,12 +26,12 @@ ToListNodeSelectionEventHandler >> listClickOnNodeEvent: anEvent [
 ]
 
 { #category : #'mouse handlers' }
-ToListNodeSelectionEventHandler >> listClickOnNodeUnanimityRequestEvent: aListClickOnNodeUnanimityRequestEvent [
+ToListNodeSelectionEventHandler >> listClickOnNodeRequestEvent: aListClickOnNodeRequestEvent [
 
 	| node |
-	node := aListClickOnNodeUnanimityRequestEvent currentTarget.
+	node := aListClickOnNodeRequestEvent currentTarget.
 	node holder isSelectable ifFalse: [
-		aListClickOnNodeUnanimityRequestEvent deny ]
+		aListClickOnNodeRequestEvent deny ]
 ]
 
 { #category : #'mouse handlers' }
@@ -51,15 +51,15 @@ ToListNodeSelectionEventHandler >> mouseDownEvent: anEvent [
 { #category : #'mouse handlers' }
 ToListNodeSelectionEventHandler >> notifyClickOnNodeFromEvent: anEvent [
 
-	| node preNotification eventToNotify |
+	| node req |
 	node := anEvent currentTarget.
-	eventToNotify := ToListClickOnNodeEvent new
-		                 sourceEvent: anEvent;
-		                 yourself.
-	preNotification := ToListClickOnNodeUnanimityRequestEvent new
-		                   sourceEvent: eventToNotify;
-		                   yourself.
-	node dispatchUnanimityRequest: preNotification
+	req := ToListClickOnNodeRequestEvent new
+		       requestedAction: [
+			       node dispatchEvent: (ToListClickOnNodeEvent new
+						        sourceEvent: anEvent;
+						        yourself) ];
+		       yourself.
+	node dispatchAuthorisationRequest: req
 ]
 
 { #category : #'mouse handlers' }

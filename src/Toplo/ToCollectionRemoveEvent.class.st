@@ -1,6 +1,6 @@
 Class {
 	#name : #ToCollectionRemoveEvent,
-	#superclass : #ToCollectionAfterChangeEvent,
+	#superclass : #ToCollectionChangedEvent,
 	#instVars : [
 		'removed'
 	],

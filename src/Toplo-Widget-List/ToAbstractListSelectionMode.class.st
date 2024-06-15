@@ -7,9 +7,6 @@ Class {
 		'elementClass',
 		'selecter',
 		'primary',
-		'requestFocusOnMouseDown',
-		'preserveSelectionOnFocused',
-		'selectOnMouseDown',
 		'enabled'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
@@ -39,17 +36,6 @@ ToAbstractListSelectionMode class >> secondary [
 	secondary primary: false.
 	secondary initialize.
 	^ secondary
-]
-
-{ #category : #testing }
-ToAbstractListSelectionMode >> allowRequestFocusOnMouseDown [
-
-	| max |
-	self isDisabled ifTrue: [ ^ self requestFocusOnMouseDown ].
-	max := self maxSelectedIndexesForSelectionPreserving.
-	self selectedIndexesCount > max ifTrue: [
-		self preserveSelectionOnFocused ifTrue: [ ^ false ] ].
-	^ self requestFocusOnMouseDown
 ]
 
 { #category : #accessing }
@@ -118,9 +104,6 @@ ToAbstractListSelectionMode >> initialize [
 	beneathOption := ToListSelectionOption grouped.
 	overOption := ToListSelectionOption none.
 	elementClass := self defaultElementClass.
-	requestFocusOnMouseDown := true.
-	preserveSelectionOnFocused := true.
-	selectOnMouseDown := false.
 	enabled := true
 ]
 
@@ -148,24 +131,11 @@ ToAbstractListSelectionMode >> itemCount [
 	^ self selectionModel itemCount
 ]
 
-{ #category : #testing }
-ToAbstractListSelectionMode >> maxSelectedIndexesForSelectionPreserving [
-
-	^ 0
-]
-
 { #category : #accessing }
 ToAbstractListSelectionMode >> onAddedNode: aNode [
 
 	aNode clickEventHandlerClasses do: [ :cls |
 		aNode addEventHandler: cls new ]
-]
-
-{ #category : #'event handling' }
-ToAbstractListSelectionMode >> onClickEvent: anEvent onNode: aNode [
-	" implement the default/standard selection/deselection protocol"
-
-	self subclassResponsibility 
 ]
 
 { #category : #'api - hooks' }
@@ -221,47 +191,11 @@ ToAbstractListSelectionMode >> overOption: aListSelectionOption [
 ]
 
 { #category : #accessing }
-ToAbstractListSelectionMode >> preserveSelectionOnFocused [
-
-	^ preserveSelectionOnFocused
-]
-
-{ #category : #accessing }
-ToAbstractListSelectionMode >> preserveSelectionOnFocused: aBoolean [
-
-	preserveSelectionOnFocused := aBoolean
-]
-
-{ #category : #accessing }
 ToAbstractListSelectionMode >> primary: aBoolean [
 
 	selecter ifNotNil: [ Error signal: 'The selecter kind can''t be changed' ].
 	primary := aBoolean
 
-]
-
-{ #category : #accessing }
-ToAbstractListSelectionMode >> requestFocusOnMouseDown [
-
-	^ requestFocusOnMouseDown
-]
-
-{ #category : #accessing }
-ToAbstractListSelectionMode >> requestFocusOnMouseDown: aBoolean [
-
-	requestFocusOnMouseDown := aBoolean 
-]
-
-{ #category : #accessing }
-ToAbstractListSelectionMode >> selectOnMouseDown [
-
-	^ selectOnMouseDown
-]
-
-{ #category : #accessing }
-ToAbstractListSelectionMode >> selectOnMouseDown: aBoolean [
-
-	selectOnMouseDown := aBoolean
 ]
 
 { #category : #accessing }

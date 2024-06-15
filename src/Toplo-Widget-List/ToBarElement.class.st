@@ -26,7 +26,6 @@ ToBarElement >> checkFullyVisibleNodes [
 ToBarElement >> configureLayout [
 
 	self accept: self layoutConfigurator.
-	self checkFullyVisibleNodes.
 	self requestLayout
 ]
 

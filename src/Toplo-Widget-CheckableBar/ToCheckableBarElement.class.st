@@ -1,8 +1,8 @@
 Class {
 	#name : #ToCheckableBarElement,
 	#superclass : #ToBarElement,
-	#traits : 'TToCheckableGroupHolder',
-	#classTraits : 'TToCheckableGroupHolder classTrait',
+	#traits : 'TToCheckableHolder',
+	#classTraits : 'TToCheckableHolder classTrait',
 	#instVars : [
 		'group'
 	],
@@ -17,6 +17,12 @@ ToCheckableBarElement >> checkableElementAccessor [
 ]
 
 { #category : #initialization }
+ToCheckableBarElement >> defaultEventHandler [
+
+	^ ToCheckableBarEventHandler new
+]
+
+{ #category : #initialization }
 ToCheckableBarElement >> defaultNodeManagerClass [ 
 
 	^ ToCheckableNodeManager 
@@ -28,13 +34,22 @@ ToCheckableBarElement >> defaultSelectionMode [
 	^ ToCheckableBarSelectionMode primary
 ]
 
-{ #category : #'t - checkable group holder' }
+{ #category : #initialization }
+ToCheckableBarElement >> initialize [
+
+	super initialize.
+	self group
+		addEventHandlerOn: ToCheckableGroupChangedEvent
+		do: [ :event | self dispatchEvent: event ]
+]
+
+{ #category : #'t - checkable holder' }
 ToCheckableBarElement >> rawGroup [
 
 	^ group ifNil: [ group := ToCheckableGroup new ]
 ]
 
-{ #category : #'t - checkable group holder' }
+{ #category : #'t - checkable holder' }
 ToCheckableBarElement >> rawGroup: aGroup [
 
 	self shouldNotImplement 

@@ -1,8 +1,8 @@
 Class {
 	#name : #ToChoiceMenu,
 	#superclass : #ToMenu,
-	#traits : 'TToCheckableGroupHolder',
-	#classTraits : 'TToCheckableGroupHolder classTrait',
+	#traits : 'TToCheckableHolder',
+	#classTraits : 'TToCheckableHolder classTrait',
 	#instVars : [
 		'group',
 		'data',
@@ -166,13 +166,13 @@ ToChoiceMenu >> privateData: anObservableCollection [
 	self notifyChanged
 ]
 
-{ #category : #'t - checkable group holder' }
+{ #category : #'t - checkable holder' }
 ToChoiceMenu >> rawGroup [
 
 	^ group
 ]
 
-{ #category : #'t - checkable group holder' }
+{ #category : #'t - checkable holder' }
 ToChoiceMenu >> rawGroup: aGroup [
 
 	self shouldNotImplement 

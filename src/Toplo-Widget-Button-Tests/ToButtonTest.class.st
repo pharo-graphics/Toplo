@@ -1,6 +1,6 @@
 Class {
 	#name : #ToButtonTest,
-	#superclass : #TestCase,
+	#superclass : #ToParameterizedHostTest,
 	#category : #'Toplo-Widget-Button-Tests-Core'
 }
 
@@ -18,6 +18,62 @@ ToButtonTest >> testButton [
 
 	self assert: button icon isNil.
 	self assert: button label isNil
+]
+
+{ #category : #'click handler' }
+ToButtonTest >> testClickAborted [
+
+	| but count |
+	count := 0.
+	but := ToButton new.
+	but labelText: 'XXXXX'.
+	but icon: (ToImage inner: (BlElement new
+				  size: 30 @ 30;
+				  background: Color blue;
+				  yourself)).
+	but matchParent.
+	but whenClickedDo: [ count := count + 1 ].
+	space root addChild: but.
+	BlSpace simulateMouseDownOn: but.
+	BlSpace simulateMouseUpOn: but icon.
+	self waitTestingSpaces.
+	self assert: count equals: 1.
+	BlSpace simulateMouseDownOn: but icon.
+	BlSpace simulateMouseUpOn: but.
+	self waitTestingSpaces.
+	self assert: count equals: 2.
+	BlSpace simulateMouseDownOn: but label.
+	BlSpace simulateMouseUpOn: but.
+	self waitTestingSpaces.
+	self assert: count equals: 3.
+	BlSpace simulateMouseDownOn: but.
+	BlSpace simulateMouseUpOn: but label.
+	self waitTestingSpaces.
+	self assert: count equals: 4.
+
+
+
+
+]
+
+{ #category : #'click handler' }
+ToButtonTest >> testClickAborted2 [
+
+	| but count |
+	count := 0.
+	but := ToButton new.
+	but labelText: 'XXXXX'.
+	but icon: (ToImage inner: (BlElement new
+				  size: 30 @ 30;
+				  background: Color blue;
+				  yourself)).
+	but matchParent.
+	but whenClickedDo: [ count := count + 1 ].
+	space root addChild: but.
+	BlSpace simulateMouseDownOn: but label.
+	BlSpace simulateMouseUpOn: but icon.
+	self waitTestingSpaces.
+	self assert: count equals: 1
 ]
 
 { #category : #'click handler' }
@@ -85,4 +141,19 @@ ToButtonTest >> testClickWithoutHandler [
 	but := ToButton new.
 	but dispatchEvent: BlMouseUpEvent primary asClickEvent.
 	
+]
+
+{ #category : #'click handler' }
+ToButtonTest >> testWhenClickedDo [
+
+	| but count |
+	count := 0.
+	but := ToButton new.
+	but matchParent.
+	but whenClickedDo: [ count := count + 1 ].
+	space root addChild: but.
+	BlSpace simulateMouseDownOn: but.
+	BlSpace simulateMouseUpOn: but.
+	self waitTestingSpaces.
+	self assert: count equals: 1
 ]

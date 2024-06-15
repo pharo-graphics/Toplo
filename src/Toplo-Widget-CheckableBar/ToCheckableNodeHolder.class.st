@@ -1,10 +1,6 @@
 Class {
 	#name : #ToCheckableNodeHolder,
 	#superclass : #ToBarNodeHolder,
-	#instVars : [
-		'checked',
-		'group'
-	],
 	#category : #'Toplo-Widget-CheckableBar'
 }
 
@@ -17,14 +13,14 @@ ToCheckableNodeHolder >> checkableBarElement [
 { #category : #'t - checkable - accessing' }
 ToCheckableNodeHolder >> checked [
 
-	^ checked ifNil: [ checked := false ]
+	^ self contentElement checked
 ]
 
 { #category : #'t - checkable - accessing' }
 ToCheckableNodeHolder >> checked: aBoolean [
 
-	checked := aBoolean
-
+	self contentElement checked: aBoolean.
+	self updateSelection
 ]
 
 { #category : #accessing }
@@ -33,22 +29,16 @@ ToCheckableNodeHolder >> contentElement [
 	^ self dataItem
 ]
 
-{ #category : #accessing }
-ToCheckableNodeHolder >> group [
+{ #category : #'t - checkable - accessing' }
+ToCheckableNodeHolder >> isChecked [ 
 
-	^ group
-]
-
-{ #category : #accessing }
-ToCheckableNodeHolder >> group: aCheckableGroup [
-
-	group := aCheckableGroup
+	^ self checked
 ]
 
 { #category : #'t - checkable - accessing' }
 ToCheckableNodeHolder >> updateSelection [
 
-	checked ifTrue: [
+	self contentElement checked ifTrue: [
 		self selecter selectIndex: self position.
 		^ self ].
 	self selecter deselectIndex: self position

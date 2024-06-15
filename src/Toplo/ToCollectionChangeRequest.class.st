@@ -1,20 +1,20 @@
 Class {
 	#name : #ToCollectionChangeRequest,
-	#superclass : #ToObservableCollectionChangeEvent,
+	#superclass : #ToAuthorisationRequestEvent,
 	#instVars : [
-		'accepted'
+		'interval'
 	],
 	#category : #'Toplo-Core-Collection'
 }
 
 { #category : #accessing }
-ToCollectionChangeRequest >> accepted [
+ToCollectionChangeRequest >> interval [
 
-	^ accepted ifNil: [ accepted := true ]
+	^ interval
 ]
 
 { #category : #accessing }
-ToCollectionChangeRequest >> accepted: anObject [
+ToCollectionChangeRequest >> interval: anObject [
 
-	accepted := anObject
+	interval := anObject
 ]

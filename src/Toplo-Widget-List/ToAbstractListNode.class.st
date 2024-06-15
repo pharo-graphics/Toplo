@@ -1,8 +1,8 @@
 Class {
 	#name : #ToAbstractListNode,
 	#superclass : #BlElement,
-	#traits : 'TToEnableable + TToListNode + TToUnanimityRequestTarget + TBlLayoutResizable',
-	#classTraits : 'TToEnableable classTrait + TToListNode classTrait + TToUnanimityRequestTarget classTrait + TBlLayoutResizable classTrait',
+	#traits : 'TToEnableable + TToListNode + TToAuthorisationRequestTarget + TBlLayoutResizable',
+	#classTraits : 'TToEnableable classTrait + TToListNode classTrait + TToAuthorisationRequestTarget classTrait + TBlLayoutResizable classTrait',
 	#category : #'Toplo-Widget-List-Node'
 }
 

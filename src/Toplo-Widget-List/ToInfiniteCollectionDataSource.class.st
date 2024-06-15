@@ -1,8 +1,8 @@
 Class {
 	#name : #ToInfiniteCollectionDataSource,
 	#superclass : #ToInfiniteDataSource,
-	#traits : 'TToObservableCollection',
-	#classTraits : 'TToObservableCollection classTrait',
+	#traits : 'TToObservableCollection + TToAuthorisationRequestTarget',
+	#classTraits : 'TToObservableCollection classTrait + TToAuthorisationRequestTarget classTrait',
 	#instVars : [
 		'dataEventHandler',
 		'data'

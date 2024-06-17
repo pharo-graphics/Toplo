@@ -11,9 +11,13 @@ ToListGroupedSelection >> isGrouped [
 ]
 
 { #category : #'nodes collecting' }
-ToListGroupedSelection >> nextPutNodeGroupsFrom: aListElement selectionModel: aSelectionModel in: aStream [
+ToListGroupedSelection >> nextPutSelectionGroupsFrom: aListElement in: aStream [
 
 	aStream nextPutAll:
-		(aListElement innerContainer nodeGroupsSatisfying: [ :n |
-			 (aSelectionModel containsIndex: n holder position) and: [ n height > 0 ] ])
+		((aListElement innerContainer nodeGroupsSatisfying: [ :n |
+			  (selectionMode selectionModel containsIndex: n holder position) and: [
+				  n height > 0 ] ]) collect: [ :arr |
+			 ToNeighboringSelection new
+				 selectionOption: self;
+				 nodes: arr ])
 ]

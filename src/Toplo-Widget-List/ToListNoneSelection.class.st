@@ -11,5 +11,5 @@ ToListNoneSelection >> isNone [
 ]
 
 { #category : #'nodes collecting' }
-ToListNoneSelection >> nextPutNodeGroupsFrom: aListElement selectionModel: aSelectionModel  in: aStream [
+ToListNoneSelection >> nextPutSelectionGroupsFrom: aListElement in: aStream [
 ]

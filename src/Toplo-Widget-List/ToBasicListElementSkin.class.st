@@ -17,6 +17,8 @@ ToBasicListElementSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
+		e shortcuts: (self shortcutsToInstallIn: e).
+		e installShortcuts.
 		e border: (e valueOfTokenNamed: #'color-border').
 		e background: (e valueOfTokenNamed: #'color-bg-container').
 		e padding: (BlInsets

@@ -10,6 +10,7 @@ Class {
 { #category : #'infinite event handling' }
 ToInfiniteElementEventHandler >> elementScrolledEvent: anEvent [
 
+	"anEvent delta isZero ifTrue: [ ^ self ]."
 	anEvent currentTarget listElement dispatchEvent: anEvent copy
 ]
 

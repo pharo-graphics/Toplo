@@ -8,9 +8,7 @@ Class {
 ToListElementSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
-	anEvent elementDo: [ :e | 
-		e shortcuts: (self shortcutsToInstallIn: e).
-		e installShortcuts ]
+	anEvent elementDo: [ :e |  ]
 ]
 
 { #category : #'accessing - shortcuts' }

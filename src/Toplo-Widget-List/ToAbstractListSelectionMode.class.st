@@ -4,7 +4,6 @@ Class {
 	#instVars : [
 		'beneathOption',
 		'overOption',
-		'elementClass',
 		'selecter',
 		'primary',
 		'enabled'
@@ -39,6 +38,12 @@ ToAbstractListSelectionMode class >> secondary [
 ]
 
 { #category : #accessing }
+ToAbstractListSelectionMode >> benathElementClass: aSelectionElementClass [
+
+	beneathOption elementClass: aSelectionElementClass
+]
+
+{ #category : #accessing }
 ToAbstractListSelectionMode >> beneathOption [
 
 	^ beneathOption
@@ -47,7 +52,8 @@ ToAbstractListSelectionMode >> beneathOption [
 { #category : #accessing }
 ToAbstractListSelectionMode >> beneathOption: aListSelectionOption [
 
-	beneathOption := aListSelectionOption
+	beneathOption := aListSelectionOption.
+	beneathOption selectionMode: self.
 ]
 
 { #category : #initialization }
@@ -62,18 +68,6 @@ ToAbstractListSelectionMode >> defaultElementClass [
 ToAbstractListSelectionMode >> disable [
 
 	self enabled: false
-]
-
-{ #category : #accessing }
-ToAbstractListSelectionMode >> elementClass [
-
-	^ elementClass 
-]
-
-{ #category : #accessing }
-ToAbstractListSelectionMode >> elementClass: aSelectionElementClass [
-
-	elementClass := aSelectionElementClass
 ]
 
 { #category : #accessing }
@@ -97,13 +91,32 @@ ToAbstractListSelectionMode >> enabled: aBoolean [
 	selecter enabled: aBoolean
 ]
 
+{ #category : #private }
+ToAbstractListSelectionMode >> forgetPreviousSelectionState [
+	" return a collection with instances of ToListPrimarySelectionElement "
+
+	beneathOption groupHolder forgetPreviousState.
+	overOption groupHolder forgetPreviousState.
+]
+
+{ #category : #configuring }
+ToAbstractListSelectionMode >> groupedBeneathSelection [
+
+	beneathOption := ToListSelectionOption groupedForMode: self
+]
+
+{ #category : #configuring }
+ToAbstractListSelectionMode >> groupedOverSelection [
+
+	overOption := ToListSelectionOption groupedForMode: self
+]
+
 { #category : #initialization }
 ToAbstractListSelectionMode >> initialize [
 
 	super initialize.
-	beneathOption := ToListSelectionOption grouped.
-	overOption := ToListSelectionOption none.
-	elementClass := self defaultElementClass.
+	beneathOption := ToListSelectionOption groupedForMode: self.
+	overOption := ToListSelectionOption noneForMode: self.
 	enabled := true
 ]
 
@@ -129,6 +142,18 @@ ToAbstractListSelectionMode >> isPrimarySelectionMode [
 ToAbstractListSelectionMode >> itemCount [
 
 	^ self selectionModel itemCount
+]
+
+{ #category : #configuring }
+ToAbstractListSelectionMode >> noneBeneathSelection [
+
+	beneathOption := ToListSelectionOption noneForMode: self
+]
+
+{ #category : #configuring }
+ToAbstractListSelectionMode >> noneOverSelection [
+
+	overOption := ToListSelectionOption noneForMode: self
 ]
 
 { #category : #accessing }
@@ -179,6 +204,12 @@ ToAbstractListSelectionMode >> operator [
 ]
 
 { #category : #accessing }
+ToAbstractListSelectionMode >> overElementClass: aSelectionElementClass [
+
+	overOption elementClass: aSelectionElementClass
+]
+
+{ #category : #accessing }
 ToAbstractListSelectionMode >> overOption [
 
 	^ overOption
@@ -187,7 +218,8 @@ ToAbstractListSelectionMode >> overOption [
 { #category : #accessing }
 ToAbstractListSelectionMode >> overOption: aListSelectionOption [
 
-	overOption := aListSelectionOption
+	overOption := aListSelectionOption.
+	beneathOption selectionMode: self.
 ]
 
 { #category : #accessing }
@@ -216,8 +248,44 @@ ToAbstractListSelectionMode >> selecter [
 	^ selecter 
 ]
 
+{ #category : #private }
+ToAbstractListSelectionMode >> selectionElementsFrom: aListElement [
+	" return a collection with instances of ToListPrimarySelectionElement "
+
+	beneathOption groupHolder checkSelectionFrom: aListElement.
+	overOption groupHolder checkSelectionFrom: aListElement.
+
+	^ Array streamContents: [ :stream |
+		  stream nextPutAll:
+			  (beneathOption groupHolder collectSelectionElementsFrom:
+				   aListElement).
+		  stream nextPutAll:
+			  (overOption groupHolder collectSelectionElementsFrom:
+				   aListElement) ]
+]
+
 { #category : #accessing }
 ToAbstractListSelectionMode >> selectionModel [
 
 	^ selecter selectionModel
+]
+
+{ #category : #configuring }
+ToAbstractListSelectionMode >> separateBeneathSelection [
+
+	beneathOption := ToListSelectionOption separateForMode: self
+]
+
+{ #category : #configuring }
+ToAbstractListSelectionMode >> separateOverSelection [
+
+	overOption := ToListSelectionOption separateForMode: self
+]
+
+{ #category : #private }
+ToAbstractListSelectionMode >> updateSelectionFrom: aListElement [
+	" return a collection with instances of ToListPrimarySelectionElement "
+
+	beneathOption groupHolder updateSelectionFrom: aListElement.
+	overOption groupHolder updateSelectionFrom: aListElement
 ]

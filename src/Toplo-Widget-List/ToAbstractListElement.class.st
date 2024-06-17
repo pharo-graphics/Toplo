@@ -428,10 +428,10 @@ ToAbstractListElement >> primarySelectionElements [
 
 	^ Array streamContents: [ :stream |
 		  overContainer childrenDo: [ :child |
-			  (child isKindOf: ToListSelectionElement) ifTrue: [
+			  (child isKindOf: ToListPrimarySelectionElement) ifTrue: [
 				  stream nextPut: child ] ].
 		  beneathContainer childrenDo: [ :child |
-			  (child isKindOf: ToListSelectionElement) ifTrue: [
+			  (child isKindOf: ToListPrimarySelectionElement) ifTrue: [
 				  stream nextPut: child ] ] ]
 ]
 
@@ -446,10 +446,10 @@ ToAbstractListElement >> secondarySelectionElements [
 
 	^ Array streamContents: [ :stream |
 		  overContainer childrenDo: [ :child |
-			  (child isKindOf: ToListSelectionElement) ifTrue: [
+			  (child isKindOf: ToListSecondarySelectionElement) ifTrue: [
 				  stream nextPut: child ] ].
 		  beneathContainer childrenDo: [ :child |
-			  (child isKindOf: ToListSelectionElement) ifTrue: [
+			  (child isKindOf: ToListSecondarySelectionElement) ifTrue: [
 				  stream nextPut: child ] ] ]
 ]
 

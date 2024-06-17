@@ -10,7 +10,7 @@ Class {
 { #category : #comparing }
 ToSeparateSelection >> = other [
 
-	^ node holder dataItem = other node holder dataItem
+	^ node holder position = other node holder position
 ]
 
 { #category : #comparing }

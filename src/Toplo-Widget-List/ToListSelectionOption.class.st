@@ -58,7 +58,7 @@ ToListSelectionOption >> animationDuration: aDuration [
 { #category : #accessing }
 ToListSelectionOption >> elementClass [
 
-	^ elementClass ifNil: [ selectionMode defaultElementClass ]
+	^ elementClass ifNil: [ elementClass := selectionMode defaultElementClass ]
 ]
 
 { #category : #accessing }

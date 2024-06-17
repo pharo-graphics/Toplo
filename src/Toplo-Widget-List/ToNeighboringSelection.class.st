@@ -10,8 +10,8 @@ Class {
 { #category : #comparing }
 ToNeighboringSelection >> = other [
 
-	^ (nodes collect: [ :n | n holder dataItem ])
-	  = (other nodes collect: [ :n | n holder dataItem ])
+	^ (nodes collect: [ :n | n holder position ])
+	  = (other nodes collect: [ :n | n holder position ])
 ]
 
 { #category : #comparing }

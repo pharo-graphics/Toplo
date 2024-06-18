@@ -9,6 +9,10 @@ Trait {
 }
 
 { #category : #'t - accessing' }
+TToProgress >> isInfinite: aBoolean [
+]
+
+{ #category : #'t - accessing' }
 TToProgress >> progressBar [
 
 	^ progressBar

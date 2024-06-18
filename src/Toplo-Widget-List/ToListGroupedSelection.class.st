@@ -18,6 +18,6 @@ ToListGroupedSelection >> nextPutSelectionGroupsFrom: aListElement in: aStream [
 			  (selectionMode selectionModel containsIndex: n holder position) and: [
 				  n height > 0 ] ]) collect: [ :arr |
 			 ToNeighboringSelection new
-				 selectionOption: self;
+				 option: self;
 				 nodes: arr ])
 ]

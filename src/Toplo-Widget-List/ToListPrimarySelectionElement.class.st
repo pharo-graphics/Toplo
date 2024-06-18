@@ -25,10 +25,3 @@ ToListPrimarySelectionElement >> selectionMode [
 
 	^ listElement selectionMode
 ]
-
-{ #category : #private }
-ToListPrimarySelectionElement >> updateListElement [
-
-	"self halt."
-	super updateListElement
-]

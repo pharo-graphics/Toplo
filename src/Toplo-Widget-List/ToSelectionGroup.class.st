@@ -3,15 +3,30 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'selectionElement',
-		'selectionOption'
+		'option'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
 { #category : #accessing }
+ToSelectionGroup >> createSelectionElementFrom: aListElement [
+
+	selectionElement := option newSelectionElement.
+	selectionElement listElement: aListElement.
+	selectionElement nodes: self nodes.
+	^ selectionElement
+]
+
+{ #category : #accessing }
 ToSelectionGroup >> nodes [
 
 	^ self subclassResponsibility 
+]
+
+{ #category : #accessing }
+ToSelectionGroup >> option: aSelectionOption [
+
+	option := aSelectionOption
 ]
 
 { #category : #private }
@@ -23,20 +38,7 @@ ToSelectionGroup >> removeSelectionElement [
 ]
 
 { #category : #accessing }
-ToSelectionGroup >> selectionElementFrom: aListElement [
+ToSelectionGroup >> selectionElement [
 
 	^ selectionElement
-		  ifNil: [
-			  selectionElement := selectionOption newSelectionElement.
-			  selectionElement listElement: aListElement.
-			  selectionElement nodes: self nodes ]
-		  ifNotNil: [
-			  selectionElement
-				  yourself ]
-]
-
-{ #category : #accessing }
-ToSelectionGroup >> selectionOption: aSelectionOption [
-
-	selectionOption := aSelectionOption
 ]

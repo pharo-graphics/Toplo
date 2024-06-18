@@ -411,6 +411,10 @@ ToAbstractListElement >> offsetPositionRecordsForFilter: aStartPosition itemCoun
 		self selectionModel copySelectionFrom: aSieve selectionModel ]
 ]
 
+{ #category : #'hooks - scrolling' }
+ToAbstractListElement >> onScrolled: aPoint [
+]
+
 { #category : #accessing }
 ToAbstractListElement >> overContainer [
 

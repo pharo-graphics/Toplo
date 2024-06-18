@@ -7,19 +7,6 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
-{ #category : #comparing }
-ToNeighboringSelection >> = other [
-
-	^ (nodes collect: [ :n | n holder position ])
-	  = (other nodes collect: [ :n | n holder position ])
-]
-
-{ #category : #comparing }
-ToNeighboringSelection >> hash [
-
-	^ super hash bitXor: nodes hash
-]
-
 { #category : #accessing }
 ToNeighboringSelection >> nodes [
 

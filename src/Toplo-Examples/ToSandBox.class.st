@@ -1101,11 +1101,8 @@ ToSandBox class >> example_ListWithAllClasses3 [
 				      icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
 				      startInterspace: 10;
 				      hMatchParent) ].
-	l addEventHandler: (BlEventHandler
-			 on: ToListPrimarySelectionChangedEvent
-			 do: [ :evt | evt traceCr ]).
-	l selectionMode beneathOption animationDuration: 150 milliSeconds.
-	l secondarySelectionMode beneathOption animationDuration: 150 milliSeconds.
+	l selectionMode beneathOption animationDuration: 200 milliSeconds.
+	"l secondarySelectionMode beneathOption animationDuration: 150 milliSeconds."
 
 	l dataAccessor addAll: Smalltalk globals allClasses.
 	l selecter selectIndex: 3.

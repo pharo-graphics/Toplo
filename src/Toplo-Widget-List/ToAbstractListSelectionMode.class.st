@@ -252,8 +252,8 @@ ToAbstractListSelectionMode >> selecter [
 ToAbstractListSelectionMode >> selectionElementsFrom: aListElement [
 	" return a collection with instances of ToListPrimarySelectionElement "
 
-	beneathOption groupHolder checkSelectionFrom: aListElement.
-	overOption groupHolder checkSelectionFrom: aListElement.
+	beneathOption groupHolder renewSelectionFrom: aListElement.
+	overOption groupHolder renewSelectionFrom: aListElement.
 
 	^ Array streamContents: [ :stream |
 		  stream nextPutAll:

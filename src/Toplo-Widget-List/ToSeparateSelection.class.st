@@ -7,18 +7,6 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
-{ #category : #comparing }
-ToSeparateSelection >> = other [
-
-	^ node holder position = other node holder position
-]
-
-{ #category : #comparing }
-ToSeparateSelection >> hash [
-
-	^ super hash bitXor: node hash
-]
-
 { #category : #accessing }
 ToSeparateSelection >> node [
 

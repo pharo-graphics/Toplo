@@ -29,15 +29,20 @@ ToTripletElement >> configureLayout [
 
 	self isHorizontal
 		ifTrue: [
-			self startGap size: startInterspace @ 0.
-			self endGap size: endInterspace @ 0.
+			self startGap size = (startInterspace @ 0) ifFalse: [
+				self startGap size: startInterspace @ 0 ].
+			self endGap size = (endInterspace @ 0) ifFalse: [
+				self endGap size: endInterspace @ 0 ].
 			self endElement ifNotNil: [ :ee |
 				ee constraints frame horizontal alignRight ] ]
 		ifFalse: [
-			self startGap size: 0 @ startInterspace.
-			self endGap size: 0 @ endInterspace.
+			self startGap size = (0 @ startInterspace) ifFalse: [
+				self startGap size: 0 @ startInterspace ].
+			self endGap size = (0 @ endInterspace) ifFalse: [
+				self endGap size: 0 @ endInterspace ].
 			self endElement ifNotNil: [ :ee |
-				ee constraints frame vertical alignBottom ] ]
+				ee constraints frame vertical alignBottom ] ].
+
 ]
 
 { #category : #initialization }
@@ -142,7 +147,7 @@ ToTripletElement >> endInterspace [
 ToTripletElement >> endInterspace: aNumber [
 
 	endInterspace := aNumber.
-	self configureLayout
+	self requestLayout
 ]
 
 { #category : #accessing }
@@ -305,7 +310,7 @@ ToTripletElement >> newFiller [
 { #category : #layout }
 ToTripletElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 
-	"self configureLayout."
+	self configureLayout.
 	super onLayout: aBounds context: aBlElementBoundsUpdateContext
 ]
 
@@ -398,5 +403,5 @@ ToTripletElement >> startInterspace [
 ToTripletElement >> startInterspace: aNumber [
 
 	startInterspace := aNumber.
-	self configureLayout
+	self requestLayout
 ]

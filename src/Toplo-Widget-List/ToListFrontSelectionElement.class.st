@@ -49,9 +49,7 @@ ToListFrontSelectionElement >> selectionMode [
 { #category : #private }
 ToListFrontSelectionElement >> updateListElement [
 
-	" a SelectionElement can already added "
-	self hasParent ifTrue: [ ^ self ].
-	
+	" a SelectionElement can already added "	
 	beneath
 		ifTrue: [ listElement addBeneathSelectionElement: self ]
 		ifFalse: [ listElement addOverSelectionElement: self ]

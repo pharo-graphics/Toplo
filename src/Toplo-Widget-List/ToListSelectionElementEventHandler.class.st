@@ -4,25 +4,10 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Element'
 }
 
-{ #category : #'selection managing' }
-ToListSelectionElementEventHandler >> animateSelectionUpdate: aSelElement [
+{ #category : #'element handlers' }
+ToListSelectionElementEventHandler >> boundsUpdaterHasChangesDuringLayoutEvent: anEvent [
 
-	| targetBounds anim |
-	targetBounds := aSelElement boundsFromNodes.
-	aSelElement position: previousSelectionBounds origin.
-	aSelElement size: previousSelectionBounds extent.
-	anim := ToBoundsTransition new
-		        from: previousSelectionBounds;
-		        to: targetBounds;
-		        duration: aSelElement option animationDuration;
-		        onStepDo: [ :anArray :target |
-			        aSelElement position: anArray origin.
-			        aSelElement size: anArray extent ].
-	anim onFinishedDo: [
-		aSelElement position: targetBounds position.
-		aSelElement size: targetBounds extent ].
-	aSelElement addAnimation: anim.
-	aSelElement updateListElement
+	self refreshSelectionFromEvent: anEvent
 ]
 
 { #category : #'selection managing' }
@@ -40,13 +25,14 @@ ToListSelectionElementEventHandler >> elementExtentChangedEvent: anEvent [
 { #category : #'element handlers' }
 ToListSelectionElementEventHandler >> elementScrolledEvent: anEvent [
 
-	self updateSelectionFromEvent: anEvent
+	self refreshSelectionFromEvent: anEvent
 ]
 
 { #category : #'api - accessing' }
 ToListSelectionElementEventHandler >> eventsToHandle [
 
 	^ {
+		  BlBoundsUpdaterHasChangesDuringLayoutEvent.
 		  BlElementExtentChangedEvent.
 		  BlElementScrolledEvent }
 ]
@@ -65,24 +51,6 @@ ToListSelectionElementEventHandler >> refreshSelectionFromEvent: anEvent [
 ToListSelectionElementEventHandler >> selectionModeFrom: aTarget [
 
 	^ self subclassResponsibility
-]
-
-{ #category : #'selection managing' }
-ToListSelectionElementEventHandler >> updateSelectionElementFrom: aTarget [
-
-	| selElements selectionMode |
-	selectionMode := self selectionModeFrom: aTarget.
-	selElements := selectionMode selectionElementsFrom: aTarget.
-	(self canAnimateSelectionUpdateWith: selElements)
-		ifTrue: [
-			self animateSelectionUpdate: selElements first ]
-		ifFalse: [ selElements do: [ :sel | sel updateListElement ] ].
-
-	selElements ifEmpty: [
-		previousSelectionBounds := nil.
-		^ self ].
-	previousSelectionBounds := selElements first boundsFromNodes merge:
-		                           selElements last boundsFromNodes
 ]
 
 { #category : #'selection managing' }

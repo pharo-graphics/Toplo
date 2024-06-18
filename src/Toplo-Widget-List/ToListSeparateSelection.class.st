@@ -18,6 +18,6 @@ ToListSeparateSelection >> nextPutSelectionGroupsFrom: aListElement in: aStream 
 			  (selectionMode selectionModel containsIndex: node holder position) and: [
 				  node height > 0 ] ]) collect: [ :node |
 			 ToSeparateSelection new
-				 selectionOption: self;
+				 option: self;
 				 node: node ])
 ]

@@ -51,7 +51,7 @@ ToListPrimarySelectionElementEventHandler >> listPrimarySelectionChangedEvent: a
 { #category : #'element handlers' }
 ToListPrimarySelectionElementEventHandler >> listPrimarySelectionDirtyEvent: anEvent [
 
-	self refreshSelectionFromEvent: anEvent
+	self updateSelectionFromEvent: anEvent
 ]
 
 { #category : #'selection managing' }

@@ -49,9 +49,7 @@ ToBasicListElementSkin >> shortcutsToInstallIn: aListElement [
 					   idx := aListElement selecter previousSelectableIndexToScrollTo.
 					   aListElement selecter scrollTowardStartToDataSourcePosition:
 							   idx.
-					   aListElement selecter selectOnlyIndex: idx ]).
-
-		   ]
+					   aListElement selecter selectOnlyIndex: idx ]) ]
 ]
 
 { #category : #'event handling' }

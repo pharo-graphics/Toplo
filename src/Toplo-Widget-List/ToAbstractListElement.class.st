@@ -265,6 +265,12 @@ ToAbstractListElement >> initializeInnerContainer [
 
 ]
 
+{ #category : #testing }
+ToAbstractListElement >> isMultipleSelection [
+
+	^ self selectionMode isMultipleSelection
+]
+
 { #category : #accessing }
 ToAbstractListElement >> itemCount [
 
@@ -405,6 +411,10 @@ ToAbstractListElement >> offsetPositionRecordsForFilter: aStartPosition itemCoun
 		self selectionModel copySelectionFrom: aSieve selectionModel ]
 ]
 
+{ #category : #'hooks - scrolling' }
+ToAbstractListElement >> onScrolled: aPoint [
+]
+
 { #category : #accessing }
 ToAbstractListElement >> overContainer [
 
@@ -422,10 +432,10 @@ ToAbstractListElement >> primarySelectionElements [
 
 	^ Array streamContents: [ :stream |
 		  overContainer childrenDo: [ :child |
-			  (child isKindOf: self selectionMode elementClass) ifTrue: [
+			  (child isKindOf: ToListPrimarySelectionElement) ifTrue: [
 				  stream nextPut: child ] ].
 		  beneathContainer childrenDo: [ :child |
-			  (child isKindOf: self selectionMode elementClass) ifTrue: [
+			  (child isKindOf: ToListPrimarySelectionElement) ifTrue: [
 				  stream nextPut: child ] ] ]
 ]
 
@@ -440,10 +450,10 @@ ToAbstractListElement >> secondarySelectionElements [
 
 	^ Array streamContents: [ :stream |
 		  overContainer childrenDo: [ :child |
-			  (child isKindOf: secondarySelectionMode elementClass) ifTrue: [
+			  (child isKindOf: ToListSecondarySelectionElement) ifTrue: [
 				  stream nextPut: child ] ].
 		  beneathContainer childrenDo: [ :child |
-			  (child isKindOf: secondarySelectionMode elementClass) ifTrue: [
+			  (child isKindOf: ToListSecondarySelectionElement) ifTrue: [
 				  stream nextPut: child ] ] ]
 ]
 

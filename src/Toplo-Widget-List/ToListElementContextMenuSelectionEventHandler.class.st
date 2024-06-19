@@ -12,6 +12,7 @@ ToListElementContextMenuSelectionEventHandler >> addContextMenuSelectionIn: aLis
 	deco := ToListContextMenuSelectionElement new
 		        listElement: aListElement;
 		        nodes: (Array with: aChildNode);
+		        computeBounds;
 		        yourself.
 	aListElement overContainer addChild: deco
 ]
@@ -32,13 +33,15 @@ ToListElementContextMenuSelectionEventHandler >> contextMenuClosedEvent: anEvent
 ToListElementContextMenuSelectionEventHandler >> contextMenuSelectionOverPrimaryIn: aListElement [
 
 	| adjacentNodeGroups |
-	adjacentNodeGroups := aListElement innerContainer nodeGroupsSatisfying: [
-		                      :n | n holder isSelected ].
+	adjacentNodeGroups := aListElement innerContainer
+		                      nodeGroupsSatisfying: [ :n |
+		                      n holder isSelected ].
 	adjacentNodeGroups do: [ :group |
 		| deco |
 		deco := ToListContextMenuSelectionElement new
 			        listElement: aListElement;
 			        nodes: group;
+			        computeBounds;
 			        yourself.
 		aListElement overContainer addChild: deco ]
 ]

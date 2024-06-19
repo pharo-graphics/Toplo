@@ -70,7 +70,7 @@ ToInnerBarDataSourceObserver >> infiniteDataSourceItemsFiltered: anEvent [
 	innerBarElement dataSourceManager
 		onItemsFiltered: anEvent position
 		itemCount: anEvent itemCount.
-	innerBarElement parentBarElement dispatchEvent: anEvent copy
+	innerBarElement listElement dispatchEvent: anEvent copy
 ]
 
 { #category : #'event handling' }
@@ -80,7 +80,7 @@ ToInnerBarDataSourceObserver >> infiniteDataSourceItemsSieved: anEvent [
 		onItemsSieved: anEvent position
 		itemCount: anEvent itemCount
 		with: anEvent sieve.
-	innerBarElement parentBarElement dispatchEvent: anEvent copy
+	innerBarElement listElement dispatchEvent: anEvent copy
 ]
 
 { #category : #initialization }

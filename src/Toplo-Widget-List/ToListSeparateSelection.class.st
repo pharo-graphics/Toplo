@@ -11,10 +11,13 @@ ToListSeparateSelection >> isSeparate [
 ]
 
 { #category : #'nodes collecting' }
-ToListSeparateSelection >> nextPutNodeGroupsFrom: aListElement selectionModel: aSelectionModel in: aStream [
+ToListSeparateSelection >> nextPutSelectionGroupsFrom: aListElement in: aStream [
 
 	aStream nextPutAll:
-		((aListElement innerContainer partlyVisibleNodesSelect: [ :node | 
-			  (aSelectionModel containsIndex: node holder position) and: [
-				  node height > 0 ] ]) collect: [ :node | Array with: node ])
+		((aListElement innerContainer partlyVisibleNodesSelect: [ :node |
+			  (selectionMode selectionModel containsIndex: node holder position) and: [
+				  node height > 0 ] ]) collect: [ :node |
+			 ToSeparateSelection new
+				 option: self;
+				 node: node ])
 ]

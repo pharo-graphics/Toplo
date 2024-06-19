@@ -179,6 +179,9 @@ ToSandBox class >> configurationBoardFor: aBar [
 				 v := event current.
 				 aBar selectionMode beneathOption animationDuration: (v
 						  ifTrue: [ 200 milliSeconds ]
+						  ifFalse: [ 0 milliSeconds ]).
+				aBar secondarySelectionMode beneathOption animationDuration: (v
+						  ifTrue: [ 150 milliSeconds ]
 						  ifFalse: [ 0 milliSeconds ]) ]).
 
 	wrappingSwitch checked: true.
@@ -1098,10 +1101,8 @@ ToSandBox class >> example_ListWithAllClasses3 [
 				      icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
 				      startInterspace: 10;
 				      hMatchParent) ].
-	l addEventHandler: (BlEventHandler
-			 on: ToListPrimarySelectionChangedEvent
-			 do: [ :evt | evt traceCr ]).
-	l selectionMode beneathOption animationDuration: 150 milliSeconds.
+	l selectionMode beneathOption animationDuration: 200 milliSeconds.
+	"l secondarySelectionMode beneathOption animationDuration: 150 milliSeconds."
 
 	l dataAccessor addAll: Smalltalk globals allClasses.
 	l selecter selectIndex: 3.
@@ -1469,13 +1470,14 @@ ToSandBox class >> example_PicsumPhotosGallery [
 	list := ToListElement new
 		        matchParent;
 		        yourself.
+		list inspect.
 	list
 		nodeHolderClass: ToPicsumPhotosGalleryImageHolder;
 		nodeFactory: [ ToPicsumPhotosGalleryImageNode new ];
 		nodeBuilder: [ :node :holder :dataItem | node labelString: dataItem id ].
-	list selectionMode beneathOption: ToListSelectionOption none.
-	list selectionMode overOption: ToListSelectionOption separate.
-	list selectionMode elementClass: ToPicsumPhotosGallerySelectionElement.
+	list selectionMode noneBeneathSelection.
+	list selectionMode separateOverSelection.
+	list selectionMode overElementClass: ToPicsumPhotosGallerySelectionElement.
 
 	[
 	| allImagesData |
@@ -2784,7 +2786,6 @@ ToSandBox class >> example_bar [
 	bar nodeBuilder: [ :node :holder :dataItem |
 		node label:
 			(ToLabel text: holder position asString , ': ' , dataItem asString) ].
-
 	bar vFitContent.
 	dashBoard := self barDashBoardFor: bar.
 	selectionModeBoard := self selectionModeChooserFor: bar.

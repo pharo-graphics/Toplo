@@ -186,6 +186,12 @@ ToInfiniteElement >> nodesWithIndexDo: aBlock [
 		aBlock value: node value: node holder position ]
 ]
 
+{ #category : #'hooks - scrolling' }
+ToInfiniteElement >> onScrolled: aPoint [
+
+	listElement onScrolled: aPoint
+]
+
 { #category : #'node enumerating' }
 ToInfiniteElement >> partlyVisibleNodesDo: aBlock [
 

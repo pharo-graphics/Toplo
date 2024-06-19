@@ -22,13 +22,13 @@ ToTripletElementEventHandler >> layoutConstraintsChangedEvent: anEvent [
 { #category : #'events handling' }
 ToTripletElementEventHandler >> layoutDirectionChangedEvent: anEvent [
 
-	anEvent currentTarget configureLayout.
+	anEvent currentTarget requestLayout.
 	anEvent currentTarget requestNewSkin
 ]
 
 { #category : #'events handling' }
 ToTripletElementEventHandler >> layoutOrientationChangedEvent: anEvent [
 
-	anEvent currentTarget configureLayout.
+	anEvent currentTarget requestLayout.
 	anEvent currentTarget ensuredSkinManager requestInstallSkinIn: anEvent currentTarget
 ]

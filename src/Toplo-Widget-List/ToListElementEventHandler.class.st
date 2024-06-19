@@ -37,7 +37,7 @@ ToListElementEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 { #category : #'element handlers' }
 ToListElementEventHandler >> elementScrolledEvent: anEvent [
 
-	anEvent delta isZero ifTrue: [ ^ self ].
+	"anEvent delta isZero ifTrue: [ ^ self ]."
 	anEvent currentTarget spaceDo: [ :sp | sp mouseProcessor handleLastMouseMove ]
 ]
 

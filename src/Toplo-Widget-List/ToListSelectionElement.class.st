@@ -82,8 +82,8 @@ ToListSelectionElement >> nodes [
 { #category : #accessing }
 ToListSelectionElement >> nodes: aCollection [
 
-	nodes := aCollection.
-	self computeBounds
+	nodes := aCollection."
+	self computeBounds"
 ]
 
 { #category : #private }

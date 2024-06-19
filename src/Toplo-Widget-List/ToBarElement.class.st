@@ -87,8 +87,8 @@ ToBarElement >> horizontal: aBoolean [
 ToBarElement >> initialize [
 
 	super initialize.
-	selectionMode beneathOption: ToListSelectionOption separate.
-	selectionMode overOption: ToListSelectionOption none.
+	selectionMode separateBeneathSelection.
+	selectionMode noneOverSelection.
 	self configureLayout
 ]
 

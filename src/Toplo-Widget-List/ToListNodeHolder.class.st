@@ -137,6 +137,7 @@ ToListNodeHolder >> selectionModel [
 ToListNodeHolder >> unbindDataItem [
 
 	| nodeManager |
+	
 	nodeManager := self listElement nodeManager.
 	nodeManager unbindNode: self node.
 	self node release.

@@ -8,8 +8,21 @@ Class {
 }
 
 { #category : #'infinite event handling' }
+ToInfiniteElementEventHandler >> boundsUpdaterHasChangesDuringLayoutEvent: anEvent [
+
+	anEvent currentTarget listElement dispatchEvent: anEvent copy
+]
+
+{ #category : #'infinite event handling' }
+ToInfiniteElementEventHandler >> elementLayoutComputedEvent: anEvent [
+
+	anEvent currentTarget listElement dispatchEvent: anEvent copy
+]
+
+{ #category : #'infinite event handling' }
 ToInfiniteElementEventHandler >> elementScrolledEvent: anEvent [
 
+	anEvent delta = (0 @ 0) ifTrue: [ ^ self ].
 	anEvent currentTarget listElement dispatchEvent: anEvent copy
 ]
 
@@ -22,7 +35,8 @@ ToInfiniteElementEventHandler >> eventsToHandle [
 		  BlInfiniteElementAttachedEvent.
 		  BlInfiniteElementDetachedEvent.
 		  BlElementScrolledEvent.
-		  BlInfiniteDecorationBoundsChangedEvent }
+		  BlInfiniteDecorationBoundsChangedEvent.
+		  BlBoundsUpdaterHasChangesDuringLayoutEvent }
 ]
 
 { #category : #'infinite event handling' }

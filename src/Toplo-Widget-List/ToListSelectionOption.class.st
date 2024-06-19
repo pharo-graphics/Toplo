@@ -2,27 +2,39 @@ Class {
 	#name : #ToListSelectionOption,
 	#superclass : #Object,
 	#instVars : [
-		'animationDuration'
+		'animationDuration',
+		'selectionMode',
+		'elementClass',
+		'groupHolder'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
 { #category : #'instance creation' }
-ToListSelectionOption class >> grouped [ 
+ToListSelectionOption class >> groupedForMode: aSelectionMode [
 
-	^ ToListGroupedSelection new
+	^ ToListGroupedSelection basicNew
+		  selectionMode: aSelectionMode;
+		  initialize;
+		  yourself
 ]
 
 { #category : #'instance creation' }
-ToListSelectionOption class >> none [ 
+ToListSelectionOption class >> noneForMode: aSelectionMode [
 
-	^ ToListNoneSelection new
+	^ ToListNoneSelection basicNew
+		  selectionMode: aSelectionMode;
+		  initialize;
+		  yourself
 ]
 
 { #category : #'instance creation' }
-ToListSelectionOption class >> separate [
+ToListSelectionOption class >> separateForMode: aSelectionMode [
 
-	^ ToListSeparateSelection new
+	^ ToListSeparateSelection basicNew
+		  selectionMode: aSelectionMode;
+		  initialize;
+		  yourself
 ]
 
 { #category : #accessing }
@@ -43,11 +55,38 @@ ToListSelectionOption >> animationDuration: aDuration [
 	animationDuration := aDuration
 ]
 
+{ #category : #accessing }
+ToListSelectionOption >> elementClass [
+
+	^ elementClass ifNil: [ elementClass := selectionMode defaultElementClass ]
+]
+
+{ #category : #accessing }
+ToListSelectionOption >> elementClass: aSelectionElementClass [
+
+	elementClass := aSelectionElementClass
+]
+
+{ #category : #accessing }
+ToListSelectionOption >> groupHolder [ 
+
+	^ groupHolder 
+]
+
 { #category : #initialization }
 ToListSelectionOption >> initialize [ 
 
 	super initialize.
-	animationDuration := 0 milliSeconds 
+	animationDuration := 0 milliSecond.
+	groupHolder := ToSelectionGroupHolder new.
+	groupHolder option: self.
+
+]
+
+{ #category : #testing }
+ToListSelectionOption >> isBeneath [
+
+	^ selectionMode beneathOption = self 
 ]
 
 { #category : #testing }
@@ -63,13 +102,43 @@ ToListSelectionOption >> isNone [
 ]
 
 { #category : #testing }
+ToListSelectionOption >> isOver [
+
+	^ self isBeneath not
+]
+
+{ #category : #testing }
+ToListSelectionOption >> isPrimary [
+
+	^ selectionMode isPrimarySelectionMode
+]
+
+{ #category : #testing }
 ToListSelectionOption >> isSeparate [
 
 	^ false
 ]
 
+{ #category : #'instance creation' }
+ToListSelectionOption >> newSelectionElement [
+
+	^ self elementClass beneath: self isBeneath
+]
+
 { #category : #'nodes collecting' }
-ToListSelectionOption >> nextPutNodeGroupsFrom: aListElement selectionModel: aSelectionModel in: aStream [
+ToListSelectionOption >> nextPutSelectionGroupsFrom: aListElement in: aStream [
 
 	self subclassResponsibility 
+]
+
+{ #category : #accessing }
+ToListSelectionOption >> selectionMode [
+
+	^ selectionMode 
+]
+
+{ #category : #accessing }
+ToListSelectionOption >> selectionMode: aSelectionMode [
+
+	selectionMode := aSelectionMode
 ]

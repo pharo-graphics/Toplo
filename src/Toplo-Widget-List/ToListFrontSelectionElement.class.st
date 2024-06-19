@@ -45,3 +45,12 @@ ToListFrontSelectionElement >> selectionMode [
 
 	^ self subclassResponsibility 
 ]
+
+{ #category : #private }
+ToListFrontSelectionElement >> updateListElement [
+
+	" a SelectionElement can already added "	
+	beneath
+		ifTrue: [ listElement addBeneathSelectionElement: self ]
+		ifFalse: [ listElement addOverSelectionElement: self ]
+]

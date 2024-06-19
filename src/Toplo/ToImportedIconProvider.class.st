@@ -32,10 +32,10 @@ ToImportedIconProvider class >> listElementWithAllIcons [
 	l := ToListElement new.
 	l vertical: true.
 	l withRowNumbers.
-	l selectionMode beneathOption: ToListSelectionOption none.
-	l selectionMode overOption: ToListSelectionOption grouped.
-	l secondarySelectionMode beneathOption: ToListSelectionOption none.
-	l secondarySelectionMode overOption: ToListSelectionOption separate.
+	l selectionMode noneBeneathSelection.
+	l selectionMode groupedOverSelection.
+	l secondarySelectionMode noneBeneathSelection.
+	l secondarySelectionMode separateOverSelection.
 
 	l addEventHandler: (BlEventHandler
 			 on: ToListStrongSelectionEvent

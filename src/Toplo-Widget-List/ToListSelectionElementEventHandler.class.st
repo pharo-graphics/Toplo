@@ -43,8 +43,7 @@ ToListSelectionElementEventHandler >> refreshSelectionFromEvent: anEvent [
 	| target |
 	target := anEvent currentTarget.
 	(self selectionModeFrom: target)
-		forgetPreviousSelectionState;
-		updateSelectionFrom: target
+		refreshSelectionFrom: target
 ]
 
 { #category : #'selection managing' }

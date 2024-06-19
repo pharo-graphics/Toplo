@@ -195,7 +195,7 @@ ToSelectionModel >> newUnderlyingModel [
 { #category : #accessing }
 ToSelectionModel >> nextSelectableIndexStartingAt: anIndex [
 
-	anIndex < self itemCount ifTrue: [ ^ anIndex ].
+	anIndex <= self itemCount ifTrue: [ ^ anIndex ].
 	^ 0
 ]
 

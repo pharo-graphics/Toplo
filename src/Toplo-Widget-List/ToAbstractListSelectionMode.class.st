@@ -91,14 +91,6 @@ ToAbstractListSelectionMode >> enabled: aBoolean [
 	selecter enabled: aBoolean
 ]
 
-{ #category : #private }
-ToAbstractListSelectionMode >> forgetPreviousSelectionState [
-	" return a collection with instances of ToListPrimarySelectionElement "
-
-	beneathOption groupHolder forgetPreviousState.
-	overOption groupHolder forgetPreviousState.
-]
-
 { #category : #configuring }
 ToAbstractListSelectionMode >> groupedBeneathSelection [
 
@@ -230,6 +222,14 @@ ToAbstractListSelectionMode >> primary: aBoolean [
 
 ]
 
+{ #category : #private }
+ToAbstractListSelectionMode >> refreshSelectionFrom: aListElement [
+	" return a collection with instances of ToListPrimarySelectionElement "
+
+	beneathOption groupHolder refreshSelectionFrom: aListElement.
+	overOption groupHolder refreshSelectionFrom: aListElement
+]
+
 { #category : #accessing }
 ToAbstractListSelectionMode >> selectedIndexes [
 
@@ -246,22 +246,6 @@ ToAbstractListSelectionMode >> selectedIndexesCount [
 ToAbstractListSelectionMode >> selecter [
 
 	^ selecter 
-]
-
-{ #category : #private }
-ToAbstractListSelectionMode >> selectionElementsFrom: aListElement [
-	" return a collection with instances of ToListPrimarySelectionElement "
-
-	beneathOption groupHolder renewSelectionFrom: aListElement.
-	overOption groupHolder renewSelectionFrom: aListElement.
-
-	^ Array streamContents: [ :stream |
-		  stream nextPutAll:
-			  (beneathOption groupHolder collectSelectionElementsFrom:
-				   aListElement).
-		  stream nextPutAll:
-			  (overOption groupHolder collectSelectionElementsFrom:
-				   aListElement) ]
 ]
 
 { #category : #accessing }

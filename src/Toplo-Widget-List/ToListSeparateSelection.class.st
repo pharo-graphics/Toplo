@@ -16,7 +16,7 @@ ToListSeparateSelection >> nextPutSelectionGroupsFrom: aListElement in: aStream 
 	aStream nextPutAll:
 		((aListElement innerContainer partlyVisibleNodesSelect: [ :node |
 			  (selectionMode selectionModel containsIndex: node holder position) and: [
-				  node height > 0 ] ]) collect: [ :node |
+				  node holder isHidden not ] ]) collect: [ :node |
 			 ToSeparateSelection new
 				 option: self;
 				 node: node ])

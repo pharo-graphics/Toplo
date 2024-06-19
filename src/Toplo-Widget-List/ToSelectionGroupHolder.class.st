@@ -48,6 +48,14 @@ ToSelectionGroupHolder >> option: aSelectionOption [
 ]
 
 { #category : #'private - selection updating' }
+ToSelectionGroupHolder >> refreshSelectionFrom: aListElement [
+
+	self
+		forgetPreviousState;
+		updateSelectionFrom: aListElement
+]
+
+{ #category : #'private - selection updating' }
 ToSelectionGroupHolder >> rememberStateWith: aCollectionOfSelectionElements [
 
 	previousSelectionBounds := aCollectionOfSelectionElements first boundsFromNodes merge:

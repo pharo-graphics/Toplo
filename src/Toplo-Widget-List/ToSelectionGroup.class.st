@@ -2,19 +2,20 @@ Class {
 	#name : #ToSelectionGroup,
 	#superclass : #Object,
 	#instVars : [
-		'selectionElement',
-		'option'
+		'option',
+		'cachedSelectionElement'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
-{ #category : #accessing }
+{ #category : #'private - selection element' }
 ToSelectionGroup >> createSelectionElementFrom: aListElement [
 
-	selectionElement := option newSelectionElement.
-	selectionElement listElement: aListElement.
-	selectionElement nodes: self nodes.
-	^ selectionElement
+	cachedSelectionElement ifNotNil: [ 'My SelectionElement should have been removed before being created' traceCr ].
+	cachedSelectionElement := option newSelectionElement.
+	cachedSelectionElement listElement: aListElement.
+	cachedSelectionElement nodes: self nodes.
+	^ cachedSelectionElement
 ]
 
 { #category : #accessing }
@@ -29,16 +30,10 @@ ToSelectionGroup >> option: aSelectionOption [
 	option := aSelectionOption
 ]
 
-{ #category : #private }
+{ #category : #'private - selection element' }
 ToSelectionGroup >> removeSelectionElement [
 
-	selectionElement ifNil: [ ^ self ].
-	selectionElement removeFromParent.
-	selectionElement := nil
-]
-
-{ #category : #accessing }
-ToSelectionGroup >> selectionElement [
-
-	^ selectionElement
+	cachedSelectionElement ifNil: [ ^ self ].
+	cachedSelectionElement removeFromParent.
+	cachedSelectionElement := nil
 ]

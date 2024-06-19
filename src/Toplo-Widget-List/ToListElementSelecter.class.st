@@ -187,15 +187,18 @@ ToListElementSelecter >> nextDeselectedIndex [
 ToListElementSelecter >> nextSelectableIndex [
 
 	enabled ifFalse: [ ^ 0 ].
-	self currentIndex isZero
-		ifTrue: [
-			selectionModel itemCount isZero ifTrue: [ ^ 0 ].
-			^ self nextSelectableIndexStartingAt: 1 ]
-		ifFalse: [
-			self currentIndex
-			< (self previousSelectableIndexStartingAt: selectionModel itemCount)
-				ifFalse: [ ^ self nextSelectableIndexStartingAt: 1 ] ].
-	^ self nextSelectableIndexStartingAt: self currentIndex + 1
+
+	^ self currentIndex isZero
+		  ifTrue: [
+			  selectionModel itemCount isZero
+				  ifTrue: [ 0 ]
+				  ifFalse: [ self nextSelectableIndexStartingAt: 1 ] ]
+		  ifFalse: [
+			  | next |
+			  next := self nextSelectableIndexStartingAt: self currentIndex + 1.
+			  next isZero
+				  ifTrue: [ self nextSelectableIndexStartingAt: 1 ]
+				  ifFalse: [ next ] ]
 ]
 
 { #category : #private }

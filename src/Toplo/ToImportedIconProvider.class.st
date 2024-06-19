@@ -76,6 +76,8 @@ ToImportedIconProvider class >> listElementWithAllIcons [
 		stylePane addChild: styleLab.
 		imPane := ToPane new layout: BlFrameLayout new.
 		imPane fitContent.
+		imPane withNullSkin.
+		imPane background: (Color veryVeryLightGray).
 		imPane addChild:
 			((iconStyle iconNamed: iconName inProvider: icProvider)
 				 size: 24 asPoint;

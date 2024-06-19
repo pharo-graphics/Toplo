@@ -223,11 +223,11 @@ ToAbstractListSelectionMode >> primary: aBoolean [
 ]
 
 { #category : #private }
-ToAbstractListSelectionMode >> refreshSelectionFrom: aListElement [
+ToAbstractListSelectionMode >> refreshSelectionIn: aListElement [
 	" return a collection with instances of ToListPrimarySelectionElement "
 
-	beneathOption groupHolder refreshSelectionFrom: aListElement.
-	overOption groupHolder refreshSelectionFrom: aListElement
+	beneathOption groupHolder refreshSelectionIn: aListElement.
+	overOption groupHolder refreshSelectionIn: aListElement
 ]
 
 { #category : #accessing }
@@ -267,9 +267,9 @@ ToAbstractListSelectionMode >> separateOverSelection [
 ]
 
 { #category : #private }
-ToAbstractListSelectionMode >> updateSelectionFrom: aListElement [
+ToAbstractListSelectionMode >> updateSelectionIn: aListElement [
 	" return a collection with instances of ToListPrimarySelectionElement "
 
-	beneathOption groupHolder updateSelectionFrom: aListElement.
-	overOption groupHolder updateSelectionFrom: aListElement
+	beneathOption groupHolder updateSelectionIn: aListElement.
+	overOption groupHolder updateSelectionIn: aListElement
 ]

@@ -59,7 +59,7 @@ ToListSecondarySelectionElementEventHandler >> mouseMoveEvent: anEvent [
 ]
 
 { #category : #'selection managing' }
-ToListSecondarySelectionElementEventHandler >> selectionModeFrom: aTarget [
+ToListSecondarySelectionElementEventHandler >> selectionModeIn: aTarget [
 
 	^ aTarget secondarySelectionMode
 ]

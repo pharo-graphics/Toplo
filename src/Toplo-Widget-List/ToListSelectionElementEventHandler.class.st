@@ -42,12 +42,12 @@ ToListSelectionElementEventHandler >> refreshSelectionFromEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	(self selectionModeFrom: target)
-		refreshSelectionFrom: target
+	(self selectionModeIn: target)
+		refreshSelectionIn: target
 ]
 
 { #category : #'selection managing' }
-ToListSelectionElementEventHandler >> selectionModeFrom: aTarget [
+ToListSelectionElementEventHandler >> selectionModeIn: aTarget [
 
 	^ self subclassResponsibility
 ]
@@ -60,5 +60,5 @@ ToListSelectionElementEventHandler >> updateSelectionFromEvent: anEvent [
 	target isAttachedToSceneGraph ifFalse: [
 		self differUpdateSelectionFrom: target.
 		^ self ].
-	(self selectionModeFrom: target) updateSelectionFrom: target.
+	(self selectionModeIn: target) updateSelectionIn: target.
 ]

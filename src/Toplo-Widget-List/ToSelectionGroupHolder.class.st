@@ -57,7 +57,7 @@ ToSelectionGroupHolder >> canAnimateSelectionUpdate [
 ]
 
 { #category : #enumerating }
-ToSelectionGroupHolder >> collectSelectionElementsFrom: aListElement [
+ToSelectionGroupHolder >> collectSelectionElementsIn: aListElement [
 
 	^ groups collect: [ :grp |
 		  grp createSelectionElementFrom: aListElement ]
@@ -89,9 +89,9 @@ ToSelectionGroupHolder >> option: aSelectionOption [
 ]
 
 { #category : #'private - selection updating' }
-ToSelectionGroupHolder >> refreshSelectionFrom: aListElement [
+ToSelectionGroupHolder >> refreshSelectionIn: aListElement [
 
-	self updateSelectionFrom: aListElement withAnimation: false
+	self updateSelectionIn: aListElement withAnimation: false
 ]
 
 { #category : #'private - selection updating' }
@@ -109,7 +109,7 @@ ToSelectionGroupHolder >> removeSelectionElements [
 ]
 
 { #category : #'private - selection updating' }
-ToSelectionGroupHolder >> renewSelectionFrom: aListElement [
+ToSelectionGroupHolder >> renewSelectionIn: aListElement [
 
 	self removeSelectionElements.
 	groups := Array streamContents: [ :stream |
@@ -117,18 +117,18 @@ ToSelectionGroupHolder >> renewSelectionFrom: aListElement [
 ]
 
 { #category : #'private - selection updating' }
-ToSelectionGroupHolder >> updateSelectionFrom: aListElement [
+ToSelectionGroupHolder >> updateSelectionIn: aListElement [
 
-	self updateSelectionFrom: aListElement withAnimation: true
+	self updateSelectionIn: aListElement withAnimation: true
 ]
 
 { #category : #'private - selection updating' }
-ToSelectionGroupHolder >> updateSelectionFrom: aListElement withAnimation: animationRequested [
+ToSelectionGroupHolder >> updateSelectionIn: aListElement withAnimation: animationRequested [
 
 	| selElements |
 	animationRequested ifFalse: [ self forgetPreviousState ].
-	self renewSelectionFrom: aListElement.
-	selElements := self collectSelectionElementsFrom: aListElement.
+	self renewSelectionIn: aListElement.
+	selElements := self collectSelectionElementsIn: aListElement.
 	self addSelectionElements: selElements.
 	selElements ifEmpty: [
 		self forgetPreviousState.

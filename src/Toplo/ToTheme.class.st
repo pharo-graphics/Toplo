@@ -100,6 +100,9 @@ ToTheme class >> defaultTokenProperties [
 			   name: #'color-border-disabled'
 			   value: (Color black alpha: 0.2)).
 		  (ToTokenProperty
+			   name: #'color-border-indeterminate'
+			   value: self defaultColorPrimary lighter ).
+		  (ToTokenProperty
 			   name: #'color-error-bg'
 			   value: (Color fromHexString: '#fff2f0')).
 		  (ToTokenProperty
@@ -134,6 +137,18 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty
 			   name: #'color-primary-pressed'
 			   value: self defaultColorPrimary darker darker).
+		  (ToTokenProperty
+			   name: #'color-primary-checked'
+			   value: self defaultColorPrimary).
+		  (ToTokenProperty
+			   name: #'text-color-primary-checked'
+			   value: Color white).
+		  (ToTokenProperty
+			   name: #'color-primary-unchecked'
+			   value: (Color fromHexString: '#ffffff')).
+		  (ToTokenProperty
+			   name: #'color-primary-indeterminate'
+			   value: (self defaultColorPrimary alpha: 0.5)).
 		  (ToTokenProperty
 			   name: #'color-primary-hover'
 			   value: self defaultColorPrimary lighter lighter).

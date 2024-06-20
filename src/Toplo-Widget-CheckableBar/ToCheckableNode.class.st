@@ -5,12 +5,6 @@ Class {
 	#category : #'Toplo-Widget-CheckableBar'
 }
 
-{ #category : #accessing }
-ToCheckableNode >> checked: aBoolean [
-
-	self holder checked: aBoolean
-]
-
 { #category : #'t - list node' }
 ToCheckableNode >> clickEventHandlerClasses [
 

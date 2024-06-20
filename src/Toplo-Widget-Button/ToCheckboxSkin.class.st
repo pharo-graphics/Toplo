@@ -9,7 +9,7 @@ ToCheckboxSkin >> checkedLookEvent: anEvent [
 
 	super checkedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e icon innerImage border: (BlBorder paint: (e valueOfTokenNamed: #'color-primary') width: 6).
+		e icon innerImage border: (BlBorder paint: (e valueOfTokenNamed: #'color-primary-checked') width: 6).
 		e indeterminateBar background: Color transparent ]
 ]
 

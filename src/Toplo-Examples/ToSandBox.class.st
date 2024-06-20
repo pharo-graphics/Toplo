@@ -65,15 +65,17 @@ ToSandBox class >> checkingStrategyChooserFor: aCheckableBar [
 			 do: [ :event |
 				 | mode |
 				 mode := event checkedList first id asSymbol.
-				 
 				 mode = #Strict
 					 ifTrue: [ aCheckableBar withStrictCheckingStrategy ]
 					 ifFalse: [
-					 mode = #Weak ifTrue: [ aCheckableBar withWeakCheckingStrategy  ] ifFalse: [ aCheckableBar withoutCheckingStrategy ] ] ]).
+						 mode = #Weak
+							 ifTrue: [ aCheckableBar withWeakCheckingStrategy ]
+							 ifFalse: [ aCheckableBar withoutCheckingStrategy ] ] ]).
 	buttons first checked: true.
 	checkingStrategyContainer := ToPane vertical.
 	checkingStrategyContainer hMatchParent.
-	checkingStrategyContainer addChild: (ToLabel text: 'Checking strategy').
+	checkingStrategyContainer addChild:
+		(ToLabel text: 'Checking strategy').
 	checkingStrategyContainer layout cellSpacing: 5.
 	checkingStrategyContainer addChildren:
 		checkingStrategyGroup registeredCheckables.
@@ -234,7 +236,7 @@ ToSandBox class >> example_BasicListWithAllClasses3 [
 
 	l withRowNumbers.
 	l dataAccessor addAll: Smalltalk globals allClasses.
-	l selecter selectIndex: 10.
+	l selecter selectIndexes: #(10 12 3).
 
 	l innerContainer requestFocus.
 	l openInInnerWindow
@@ -1107,7 +1109,7 @@ ToSandBox class >> example_ListWithAllClasses3 [
 	l dataAccessor addAll: Smalltalk globals allClasses.
 	l selecter selectIndex: 3.
 	l withRowNumbers.
-	l innerContainer requestFocus.
+	"l requestFocus."
 	l openInInnerWindow
 ]
 
@@ -2295,7 +2297,6 @@ ToSandBox class >> example_SpToggleButton [
 		seg segmentAccessor add: ((ToToggleButton new label: (ToLabel text: lab))
 				 tooltipString: lab;
 				 whenClickedDo: [ :event | event currentTarget label text traceCr ];
-				 withNullSkin;
 				 flexible: true;
 				 yourself) ].
 
@@ -2326,8 +2327,8 @@ ToSandBox class >> example_SpToggleButton [
 				 ' double click ' trace.
 				 event indexes traceCr ]).
 
-	seg bar addEventHandlerOn: ToListPrimarySelectionChangedEvent do: maj.
-	seg bar addEventHandlerOn: BlElementAddedToSceneGraphEvent do: maj.
+	seg addEventHandlerOn: ToListPrimarySelectionChangedEvent do: maj.
+	seg addEventHandlerOn: BlElementAddedToSceneGraphEvent do: maj.
 	rootPane := ToPane vertical.
 	rootPane matchParent.
 	rootPane addChildren: {
@@ -2658,6 +2659,48 @@ ToSandBox class >> example_ToButtonWithDefaultSkin0 [
 	space show.
 ]
 
+{ #category : #'toggle button' }
+ToSandBox class >> example_ToggleButton [
+
+	| toggle |
+	ToTheme cleanUp.
+	toggle := ToToggleButton new label: (ToLabel text: 'Toggle button').
+	toggle icon: (ToImage new innerImage: (self iconNamed: #solidMenu)).
+	toggle checked: false.
+	toggle openInInnerWindow.
+	toggle inspect
+]
+
+{ #category : #'toggle button' }
+ToSandBox class >> example_ToggleButtonChecked [
+
+	| toggle |
+	ToTheme cleanUp.
+	toggle := ToToggleButton new label: (ToLabel text: 'Toggle button').
+	toggle icon: (ToImage new innerImage: (self iconNamed: #solidMenu)).
+	toggle addEventHandler: (BlEventHandler
+			 on: ToElementLookEvent
+			 do: [ :evt | evt target = toggle ifTrue: [ evt traceCr ] ]).
+	toggle whenClickedDo: [ :event |
+		event currentTarget isChecked traceCr.
+		event traceCr ].
+	toggle checked: true.
+	toggle openInInnerWindow.
+	toggle inspect
+]
+
+{ #category : #'toggle button' }
+ToSandBox class >> example_ToggleButtonWithIndeterminate [
+
+	| toggle |
+	ToTheme cleanUp.
+	toggle := ToToggleButton new label: (ToLabel text: 'Toggle button').
+	toggle icon: (ToImage new innerImage: (self iconNamed: #solidMenu)).
+	toggle withIndeterminate: true.
+	toggle openInInnerWindow.
+	toggle inspect
+]
+
 { #category : #triplet }
 ToSandBox class >> example_TripletElementWithIconAndText [
 
@@ -2894,29 +2937,6 @@ ToSandBox class >> example_buttonWithLabel [
 	but label: (ToLabel text: 'Button with label').
 	but openInSpace.
 	^ but
-]
-
-{ #category : #bar }
-ToSandBox class >> example_checkableBar [
-
-	| checkableBar dashBoard |
-	checkableBar := ToCheckableBarElement new.
-	checkableBar checkableElementAccessor add:
-		(ToSegmentContentExample new label: (ToLabel text: 'Daily')).
-	checkableBar checkableElementAccessor add:
-		(ToSegmentContentExample new label: (ToLabel text: 'Weekly')).
-	checkableBar checkableElementAccessor add:
-		(ToSegmentContentExample new label: (ToLabel text: 'Monthly')).
-	checkableBar checkableElementAccessor add:
-		(ToSegmentContentExample new label: (ToLabel text: 'Quaterly')).
-	checkableBar checkableElementAccessor add:
-		(ToSegmentContentExample new label: (ToLabel text: 'Yearly')).
-	checkableBar group
-		addEventHandlerOn: ToCheckableGroupChangedEvent
-		do: [ :event | event traceCr ].
-
-	dashBoard := self checkableBarDashBoardFor: checkableBar.
-	dashBoard openInSpace
 ]
 
 { #category : #bar }

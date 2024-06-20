@@ -62,6 +62,7 @@ ToGeneralButtonSkin >> leavedLookEvent: anEvent [
 
 	super leavedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
+		e mouseCursor: Cursor normal.
 		e border: (BlBorder
 				 paint: (e valueOfTokenNamed: #'color-border')
 				 width: (e valueOfTokenNamed: #'line-width')).

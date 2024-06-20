@@ -1,8 +1,8 @@
 Class {
 	#name : #ToSegmentContentExample,
 	#superclass : #ToElement,
-	#traits : 'TToSegmentContentElement',
-	#classTraits : 'TToSegmentContentElement classTrait',
+	#traits : 'TToSegmentedNodeContentElement',
+	#classTraits : 'TToSegmentedNodeContentElement classTrait',
 	#instVars : [
 		'triplet'
 	],

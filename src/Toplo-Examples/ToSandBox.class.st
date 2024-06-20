@@ -22,11 +22,6 @@ ToSandBox class >> barDashBoardFor: aBar [
 			barPane }.
 
 	barPane addChild: aBar.
-	aBar
-		addEventHandlerOn: ToBarNodeVisibilityEvent
-		do: [ :event |
-		event invisibleNodes ifNotEmpty: [ :in | in traceCr ] ].
-
 	^ mainPane
 ]
 
@@ -2285,58 +2280,6 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 	container openInSpace
 ]
 
-{ #category : #segmented }
-ToSandBox class >> example_SpToggleButton [
-
-	| seg dashBoard rootPane feedbackPane maj |
-	seg := ToSegmentedElement new.
-	seg matchParent.
-	1 to: 4 do: [ :n |
-		| lab |
-		lab := 'Button ' , n asString.
-		seg segmentAccessor add: ((ToToggleButton new label: (ToLabel text: lab))
-				 tooltipString: lab;
-				 whenClickedDo: [ :event | event currentTarget label text traceCr ];
-				 flexible: true;
-				 yourself) ].
-
-	dashBoard := self segmentedDashBoardFor: seg.
-
-	feedbackPane := ToPane horizontal.
-	feedbackPane layout alignCenter.
-	maj := [
-	       | t |
-	       feedbackPane removeChildren.
-	       t := String streamContents: [ :stream |
-		            seg segmentAccessor withIndexDo: [ :e :idx |
-			            stream
-				            nextPutAll: e label text asString;
-				            nextPutAll: ': '.
-			            (seg selectionModel containsIndex: idx)
-				            ifTrue: [ stream nextPutAll: 'V ' ]
-				            ifFalse: [ stream nextPutAll: 'X ' ].
-							stream nextPutAll: e checked asString.
-			            stream nextPutAll: ' '.
-			            idx < seg segmentAccessor itemCount ifTrue: [
-				            stream nextPutAll: '- ' ] ] ].
-	       feedbackPane addChild: (ToLabel text: t) ].
-
-	seg bar addEventHandler: (BlEventHandler
-			 on: ToListStrongSelectionEvent
-			 do: [ :event |
-				 ' double click ' trace.
-				 event indexes traceCr ]).
-
-	seg addEventHandlerOn: ToListPrimarySelectionChangedEvent do: maj.
-	seg addEventHandlerOn: BlElementAddedToSceneGraphEvent do: maj.
-	rootPane := ToPane vertical.
-	rootPane matchParent.
-	rootPane addChildren: {
-			dashBoard.
-			feedbackPane }.
-	rootPane openInSpace
-]
-
 { #category : #'button-dep' }
 ToSandBox class >> example_StyleSheetSandbox [
 
@@ -2939,26 +2882,6 @@ ToSandBox class >> example_buttonWithLabel [
 	^ but
 ]
 
-{ #category : #bar }
-ToSandBox class >> example_checkableBarWithCheckboxes [
-
-	| checkableBar dashBoard |
-	checkableBar := ToCheckableBarElement new.
-	checkableBar checkableElementAccessor add:
-		(ToCheckbox new label: (ToLabel text: 'Daily')).
-	checkableBar checkableElementAccessor add:
-		(ToCheckbox new label: (ToLabel text: 'Weekly')).
-	checkableBar checkableElementAccessor add:
-		(ToCheckbox new label: (ToLabel text: 'Monthly')).
-	checkableBar checkableElementAccessor add:
-		(ToCheckbox new label: (ToLabel text: 'Quaterly')).
-	checkableBar checkableElementAccessor add:
-		(ToCheckbox new label: (ToLabel text: 'Yearly')).
-
-	dashBoard := self checkableBarDashBoardFor: checkableBar.
-	dashBoard openInSpace
-]
-
 { #category : #'choice menu' }
 ToSandBox class >> example_choiceButtonWithPlaceholder [
 
@@ -3472,6 +3395,78 @@ ToSandBox class >> example_scaledImage [
 				         ifFalse: [ 0.5 ] ] ].
 	im border: (BlBorder paint: Color black width: 2).
 	im openInSpace
+]
+
+{ #category : #segmented }
+ToSandBox class >> example_segmentedWithCheckboxes [
+
+	| checkableBar dashBoard |
+	checkableBar := ToSegmentedElement new.
+	checkableBar checkableElementAccessor add:
+		(ToCheckbox new label: (ToLabel text: 'Daily')).
+	checkableBar checkableElementAccessor add:
+		(ToCheckbox new label: (ToLabel text: 'Weekly')).
+	checkableBar checkableElementAccessor add:
+		(ToCheckbox new label: (ToLabel text: 'Monthly')).
+	checkableBar checkableElementAccessor add:
+		(ToCheckbox new label: (ToLabel text: 'Quaterly')).
+	checkableBar checkableElementAccessor add:
+		(ToCheckbox new label: (ToLabel text: 'Yearly')).
+
+	dashBoard := self segmentedDashBoardFor: checkableBar.
+	dashBoard openInSpace
+]
+
+{ #category : #segmented }
+ToSandBox class >> example_segmentedWithToggleButton [
+
+	| seg dashBoard rootPane feedbackPane maj |
+	seg := ToSegmentedElement new.
+	seg matchParent.
+	1 to: 4 do: [ :n |
+		| lab |
+		lab := 'Button ' , n asString.
+		seg segmentAccessor add: ((ToToggleButton new label: (ToLabel text: lab))
+				 tooltipString: lab;
+				 whenClickedDo: [ :event | event currentTarget label text traceCr ];
+				 flexible: true;
+				 yourself) ].
+
+	dashBoard := self segmentedDashBoardFor: seg.
+
+	feedbackPane := ToPane horizontal.
+	feedbackPane layout alignCenter.
+	maj := [
+	       | t |
+	       feedbackPane removeChildren.
+	       t := String streamContents: [ :stream |
+		            seg segmentAccessor withIndexDo: [ :e :idx |
+			            stream
+				            nextPutAll: e label text asString;
+				            nextPutAll: ': '.
+			            (seg selectionModel containsIndex: idx)
+				            ifTrue: [ stream nextPutAll: 'V ' ]
+				            ifFalse: [ stream nextPutAll: 'X ' ].
+							stream nextPutAll: e checked asString.
+			            stream nextPutAll: ' '.
+			            idx < seg segmentAccessor itemCount ifTrue: [
+				            stream nextPutAll: '- ' ] ] ].
+	       feedbackPane addChild: (ToLabel text: t) ].
+
+	seg addEventHandler: (BlEventHandler
+			 on: ToListStrongSelectionEvent
+			 do: [ :event |
+				 ' double click ' trace.
+				 event indexes traceCr ]).
+
+	seg addEventHandlerOn: ToListPrimarySelectionChangedEvent do: maj.
+	seg addEventHandlerOn: BlElementAddedToSceneGraphEvent do: maj.
+	rootPane := ToPane vertical.
+	rootPane matchParent.
+	rootPane addChildren: {
+			dashBoard.
+			feedbackPane }.
+	rootPane openInSpace
 ]
 
 { #category : #select }
@@ -4513,7 +4508,6 @@ ToSandBox class >> example_toLabel_Multiline2_Centered [
 	lab1 matchParent.
 	lab2 matchParent.
 	lab1 innerElement constraintsDo: [:c | c frame horizontal alignCenter].
-
 	lab2 innerElement constraintsDo: [:c | c frame horizontal alignCenter].
 	lab1 innerElement layout alignCenter.
 	lab2 innerElement layout alignCenter.
@@ -4919,7 +4913,7 @@ ToSandBox class >> segmentedDashBoardFor: aSegmentedElement [
 	mainPane := ToPane horizontal.
 	mainPane matchParent.
 
-	confPane := self configurationBoardFor: aSegmentedElement bar.
+	confPane := self configurationBoardFor: aSegmentedElement.
 	confPane padding: (BlInsets all: 5).
 	confPane width: 250.
 	confPane border: Color lightGray.

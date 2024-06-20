@@ -1,22 +1,22 @@
 Trait {
-	#name : #TToSegmentContentElement,
+	#name : #TToSegmentedNodeContentElement,
 	#category : #'Toplo-Widget-Segmented'
 }
 
 { #category : #'t - segment content element' }
-TToSegmentContentElement >> checkableBarElement [
+TToSegmentedNodeContentElement >> checkableBarElement [
 
 	^ self segmentHolder checkableBarElement
 ]
 
 { #category : #'t - segment content element' }
-TToSegmentContentElement >> positionInSegmentedElement [
+TToSegmentedNodeContentElement >> positionInSegmentedElement [
 
 	^ self segmentHolder position
 ]
 
 { #category : #'t - segment content element' }
-TToSegmentContentElement >> segmentHolder [
+TToSegmentedNodeContentElement >> segmentHolder [
 
 	^ self parent holder
 ]

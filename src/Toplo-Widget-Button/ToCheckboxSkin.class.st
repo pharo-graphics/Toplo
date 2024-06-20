@@ -31,7 +31,7 @@ ToCheckboxSkin >> enabledLookEvent: anEvent [
 	super enabledLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: (BlBorder empty).
-		e background: e defaultBackground.
+		e background: (e valueOfTokenNamed: #'color-bg-container').
 		e icon border: (e valueOfTokenNamed: #'color-border') ]
 ]
 

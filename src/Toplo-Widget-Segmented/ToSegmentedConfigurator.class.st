@@ -42,7 +42,7 @@ ToSegmentedConfigurator >> visitScrollableBarTrackElement: aScrollableTrackEleme
 ]
 
 { #category : #visiting }
-ToSegmentedConfigurator >> visitSegmentedBarElement: aSegmentedBarElement [
+ToSegmentedConfigurator >> visitSegmentedElement: aSegmentedBarElement [
 
 	self visitBarElement: aSegmentedBarElement.
 	aSegmentedBarElement isHorizontal ifTrue: [ ^ self ].

@@ -1,55 +1,82 @@
 Class {
 	#name : #ToSegmentedElement,
-	#superclass : #ToElement,
+	#superclass : #ToBarElement,
 	#traits : 'TToCheckableHolder',
 	#classTraits : 'TToCheckableHolder classTrait',
 	#instVars : [
-		'bar'
+		'group'
 	],
 	#category : #'Toplo-Widget-Segmented'
 }
 
-{ #category : #accessing }
-ToSegmentedElement >> bar [
+{ #category : #visiting }
+ToSegmentedElement >> accept: aVisitor [
 
-	^ bar
+	aVisitor visitSegmentedElement: self
+]
+
+{ #category : #testing }
+ToSegmentedElement >> canMatchParentHorizontallyInVerticalSegmented [
+
+	^ nodeWrapping not
+]
+
+{ #category : #accessing }
+ToSegmentedElement >> checkableElementAccessor [
+	"according to the specific vocabulary - the data items are checkables of the checkable bar element "
+
+	^ self dataAccessor
 ]
 
 { #category : #initialization }
-ToSegmentedElement >> initialize [ 
+ToSegmentedElement >> defaultEventHandler [
+
+	^ ToSegmentedEventHandler new
+]
+
+{ #category : #initialization }
+ToSegmentedElement >> defaultNodeManagerClass [ 
+
+	^ ToSegmentedNodeManager 
+]
+
+{ #category : #initialization }
+ToSegmentedElement >> defaultSelectionMode [
+
+	^ ToSegmentedSelectionMode primary
+]
+
+{ #category : #initialization }
+ToSegmentedElement >> initialize [
 
 	super initialize.
-	bar := ToSegmentedBarElement new.
-	self addChild: bar
-	
+	self group
+		addEventHandlerOn: ToCheckableGroupChangedEvent
+		do: [ :event | self dispatchEvent: event ].
+	self selectionMode noneBeneathSelection
+]
+
+{ #category : #layout }
+ToSegmentedElement >> layoutConfigurator [ 
+
+	^ ToSegmentedConfigurator new
 ]
 
 { #category : #'t - checkable holder' }
-ToSegmentedElement >> rawGroup [ 
+ToSegmentedElement >> rawGroup [
 
-	^ bar rawGroup
+	^ group ifNil: [ group := ToCheckableGroup new ]
 ]
 
 { #category : #'t - checkable holder' }
 ToSegmentedElement >> rawGroup: aGroup [
 
-	bar rawGroup: aGroup
+	self shouldNotImplement 
 ]
 
 { #category : #accessing }
 ToSegmentedElement >> segmentAccessor [
+	"according to the specific vocabulary - the data items are checkables of the checkable bar element "
 
-	^ bar checkableElementAccessor
-]
-
-{ #category : #accessing }
-ToSegmentedElement >> selecter [
-
-	^ bar selecter
-]
-
-{ #category : #accessing }
-ToSegmentedElement >> selectionModel [
-
-	^ bar selectionModel 
+	^ self dataAccessor
 ]

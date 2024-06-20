@@ -7,6 +7,13 @@ Class {
 	#category : #'Toplo-Core-States'
 }
 
+{ #category : #'look event sending' }
+ToFocusState >> applyOn: anElement [
+
+	anElement focused: focused.
+	super applyOn: anElement
+]
+
 { #category : #accessing }
 ToFocusState >> focused [
 

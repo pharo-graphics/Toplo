@@ -11,43 +11,28 @@ Class {
 }
 
 { #category : #'private - selection updating' }
-ToSelectionGroupHolder >> addSelectionElements: aSelectionElementArray [
+ToSelectionGroupHolder >> addSelectionElement: aSelectionElement in: aListElement [
 
-	| first |
-	animation ifNotNil: [
-		animation isRunning ifTrue: [ animation stop ].
-		animation := nil ].
-	aSelectionElementArray ifEmpty: [ ^ self ].
-	self canAnimateSelectionUpdate
+	aSelectionElement computeBoundsIn: aListElement.
+	self isBeneath
 		ifTrue: [
-			| targetBounds startBounds |
-			'animate' traceCr.
-			first := aSelectionElementArray first.
-			first position: previousSelectionBounds origin.
-			first size: previousSelectionBounds extent.
-			startBounds := previousSelectionBounds.
-			targetBounds := first boundsFromNodes.
-			animation := ToBoundsTransition new
-				             from: startBounds;
-				             to: targetBounds;
-				             duration: option animationDuration;
-				             onStepDo: [ :anArray :target |
-					             first position: anArray origin.
-					             first size: anArray extent ].
-			first addAnimation: animation.
-			first updateListElement.
-			self addSelectionElements: aSelectionElementArray startingAt: 2 ]
-		ifFalse: [
-		self addSelectionElements: aSelectionElementArray startingAt: 1 ]
+		aListElement addBeneathSelectionElement: aSelectionElement ]
+		ifFalse: [ aListElement addOverSelectionElement: aSelectionElement ]
 ]
 
 { #category : #'private - selection updating' }
-ToSelectionGroupHolder >> addSelectionElements: aSelectionElementArray startingAt: aPosition [
+ToSelectionGroupHolder >> addSelectionElements: aSelectionElementArray in: aListElement startingAt: aPosition [
 
-	aPosition to: aSelectionElementArray size do: [ :p |
-	(aSelectionElementArray at: p) computeBounds ].
-	aPosition to: aSelectionElementArray size do: [ :p |
-	(aSelectionElementArray at: p) updateListElement ]
+	| elements |
+	elements := aSelectionElementArray
+		            copyFrom: aPosition
+		            to: aSelectionElementArray size.
+
+	elements do: [ :aSelectionElement |
+		aSelectionElement computeBoundsIn: aListElement ].
+	self isBeneath
+		ifTrue: [ aListElement addBeneathSelectionElements: elements ]
+		ifFalse: [ aListElement addOverSelectionElements: elements ]
 ]
 
 { #category : #'private - selection updating' }
@@ -57,10 +42,10 @@ ToSelectionGroupHolder >> canAnimateSelectionUpdate [
 ]
 
 { #category : #enumerating }
-ToSelectionGroupHolder >> collectSelectionElementsIn: aListElement [
+ToSelectionGroupHolder >> collectNewSelectionElementsIn: aListElement [
 
 	^ groups collect: [ :grp |
-		  grp createSelectionElementFrom: aListElement ]
+		  grp createSelectionElementFor: aListElement ]
 ]
 
 { #category : #'private - selection updating' }
@@ -82,6 +67,12 @@ ToSelectionGroupHolder >> initialize [
 	groups := #()
 ]
 
+{ #category : #testing }
+ToSelectionGroupHolder >> isBeneath [ 
+
+	^ option isBeneath 
+]
+
 { #category : #accessing }
 ToSelectionGroupHolder >> option: aSelectionOption [
 
@@ -95,10 +86,12 @@ ToSelectionGroupHolder >> refreshSelectionIn: aListElement [
 ]
 
 { #category : #'private - selection updating' }
-ToSelectionGroupHolder >> rememberStateWith: aCollectionOfSelectionElements [
+ToSelectionGroupHolder >> rememberStateWith: aCollectionOfSelectionElements in: aListElement [
 
-	previousSelectionBounds := aCollectionOfSelectionElements first boundsFromNodes merge:
-		                           aCollectionOfSelectionElements last boundsFromNodes
+	previousSelectionBounds := (aCollectionOfSelectionElements first
+		                            boundsFromNodesIn: aListElement) merge:
+		                           (aCollectionOfSelectionElements last
+			                            boundsFromNodesIn: aListElement)
 ]
 
 { #category : #'private - selection updating' }
@@ -128,10 +121,53 @@ ToSelectionGroupHolder >> updateSelectionIn: aListElement withAnimation: animati
 	| selElements |
 	animationRequested ifFalse: [ self forgetPreviousState ].
 	self renewSelectionIn: aListElement.
-	selElements := self collectSelectionElementsIn: aListElement.
-	self addSelectionElements: selElements.
-	selElements ifEmpty: [
+	selElements := self collectNewSelectionElementsIn: aListElement.
+	self updateSelectionWith: selElements in: aListElement.
+	"selElements ifEmpty: [
 		self forgetPreviousState.
+		^ self ]."
+	selElements ifEmpty: [ ^ self ].
+	animationRequested ifTrue: [ self rememberStateWith: selElements in: aListElement]
+]
+
+{ #category : #'private - selection updating' }
+ToSelectionGroupHolder >> updateSelectionWith: aSelectionElementArray in: aListElement [
+
+	| first |
+	animation ifNotNil: [
+		animation isRunning ifTrue: [ animation stop ].
+		animation := nil ].
+
+	aSelectionElementArray ifEmpty: [ ^ self ].
+
+	(self canAnimateSelectionUpdate and: [
+		 aSelectionElementArray size = 1 ]) ifTrue: [
+		| targetBounds startBounds |
+		first := aSelectionElementArray first.
+		first position: previousSelectionBounds origin.
+		first size: previousSelectionBounds extent.
+		startBounds := previousSelectionBounds.
+		targetBounds := first boundsFromNodesIn: aListElement.
+		animation := ToBoundsTransition new
+			             from: startBounds;
+			             to: targetBounds;
+			             duration: option animationDuration;
+			             onStepDo: [ :anArray :target |
+				             first position: anArray origin.
+				             first size: anArray extent ].
+		first addAnimation: animation.
+		" directly add the selection element without computing its bounds "
+		self isBeneath
+			ifTrue: [ aListElement addBeneathSelectionElement: first ]
+			ifFalse: [ aListElement addOverSelectionElement: first ].
+		" add others "
+		self
+			addSelectionElements: aSelectionElementArray
+			in: aListElement
+			startingAt: 2.
 		^ self ].
-	animationRequested ifTrue: [ self rememberStateWith: selElements ]
+	self
+		addSelectionElements: aSelectionElementArray
+		in: aListElement
+		startingAt: 1
 ]

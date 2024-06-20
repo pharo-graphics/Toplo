@@ -120,9 +120,9 @@ ToListSelectionOption >> isSeparate [
 ]
 
 { #category : #'instance creation' }
-ToListSelectionOption >> newSelectionElement [
+ToListSelectionOption >> newSelectionElementFor: aListElement [
 
-	^ self elementClass beneath: self isBeneath
+	^ self elementClass selectionOption: self focused: aListElement hasFocus
 ]
 
 { #category : #'nodes collecting' }

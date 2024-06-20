@@ -1101,8 +1101,8 @@ ToSandBox class >> example_ListWithAllClasses3 [
 				      icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
 				      startInterspace: 10;
 				      hMatchParent) ].
-	"l selectionMode separateBeneathSelection."
-	"l selectionMode beneathOption animationDuration: 200 milliSeconds."
+	l selectionMode separateBeneathSelection.
+	l selectionMode beneathOption animationDuration: 200 milliSeconds.
 	"l secondarySelectionMode beneathOption animationDuration: 150 milliSeconds."
 	l dataAccessor addAll: Smalltalk globals allClasses.
 	l selecter selectIndex: 3.

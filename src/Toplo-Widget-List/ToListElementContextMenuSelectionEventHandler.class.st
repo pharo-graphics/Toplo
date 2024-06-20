@@ -10,9 +10,8 @@ ToListElementContextMenuSelectionEventHandler >> addContextMenuSelectionIn: aLis
 
 	| deco |
 	deco := ToListContextMenuSelectionElement new
-		        listElement: aListElement;
 		        nodes: (Array with: aChildNode);
-		        computeBounds;
+		        computeBoundsIn: aListElement;
 		        yourself.
 	aListElement overContainer addChild: deco
 ]
@@ -39,9 +38,8 @@ ToListElementContextMenuSelectionEventHandler >> contextMenuSelectionOverPrimary
 	adjacentNodeGroups do: [ :group |
 		| deco |
 		deco := ToListContextMenuSelectionElement new
-			        listElement: aListElement;
 			        nodes: group;
-			        computeBounds;
+			        computeBoundsIn: aListElement;
 			        yourself.
 		aListElement overContainer addChild: deco ]
 ]
@@ -51,7 +49,7 @@ ToListElementContextMenuSelectionEventHandler >> elementExtentChangedEvent: anEv
 
 	| target |
 	target := anEvent currentTarget.
-	target contextMenuSelectionElements  do: [ :s | s computeBounds ].
+	target contextMenuSelectionElements  do: [ :s | s computeBoundsIn: target ].
 ]
 
 { #category : #'api - accessing' }

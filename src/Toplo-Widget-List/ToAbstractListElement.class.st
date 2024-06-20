@@ -23,9 +23,21 @@ ToAbstractListElement >> addBeneathSelectionElement: aSelectionElement [
 ]
 
 { #category : #'private - selection elements' }
+ToAbstractListElement >> addBeneathSelectionElements: anArray [
+
+	beneathContainer addChildren: anArray
+]
+
+{ #category : #'private - selection elements' }
 ToAbstractListElement >> addOverSelectionElement: aSelectionElement [
 
 	overContainer addChild: aSelectionElement
+]
+
+{ #category : #'private - selection elements' }
+ToAbstractListElement >> addOverSelectionElements: anArray [
+
+	overContainer addChildren: anArray
 ]
 
 { #category : #'private - commands' }

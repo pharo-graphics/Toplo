@@ -8,49 +8,22 @@ Class {
 }
 
 { #category : #accessing }
-ToListFrontSelectionElement class >> beneath: aBoolean [
+ToListFrontSelectionElement class >> selectionOption: aSelectionOption focused: aBoolean [
 
-	^ self new beneath: aBoolean
+	^ self new
+		  selectionOption: aSelectionOption;
+		  focused: aBoolean;
+		  yourself
 ]
 
 { #category : #accessing }
-ToListFrontSelectionElement >> beneath [
+ToListFrontSelectionElement >> isBeneath [
 
-	^ beneath
-]
-
-{ #category : #accessing }
-ToListFrontSelectionElement >> beneath: aBoolean [
-
-	beneath := aBoolean
-]
-
-{ #category : #initialization }
-ToListFrontSelectionElement >> initialize [ 
-
-	super initialize.
-	beneath := true
-]
-
-{ #category : #accessing }
-ToListFrontSelectionElement >> option [
-
-	^ beneath
-		  ifTrue: [ listElement selectionMode beneathOption ]
-		  ifFalse: [ listElement selectionMode overOption ]
+	^ selectionOption isBeneath 
 ]
 
 { #category : #accessing }
 ToListFrontSelectionElement >> selectionMode [
 
-	^ self subclassResponsibility 
-]
-
-{ #category : #private }
-ToListFrontSelectionElement >> updateListElement [
-
-	" a SelectionElement can already added "	
-	beneath
-		ifTrue: [ listElement addBeneathSelectionElement: self ]
-		ifFalse: [ listElement addOverSelectionElement: self ]
+	^ selectionOption selectionMode
 ]

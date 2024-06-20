@@ -15,7 +15,7 @@ Class {
 { #category : #'focus events handling' }
 ToSkinStateGenerator >> blurEvent: anEvent [
 
-	self generateFocusStateFromEvent: anEvent
+	self generateBlurStateFromEvent: anEvent
 ]
 
 { #category : #'checkable event handling' }
@@ -159,6 +159,20 @@ ToSkinStateGenerator >> focusEvent: anEvent [
 ]
 
 { #category : #'state generating' }
+ToSkinStateGenerator >> generateBlurStateFromEvent: anEvent [
+
+	target skinManager
+		addSkinStateGeneration: [
+			target withAllChildrenBreadthFirstDo: [ :child |
+				child skinManagerDo: [ :sm |
+					sm
+						enqueueSkinState:
+						(ToFocusState new focused: false; yourself)
+						in: target ] ] ]
+		in: target
+]
+
+{ #category : #'state generating' }
 ToSkinStateGenerator >> generateCheckStateFromEvent: anEvent [
 
 	target skinManagerDo: [ :sm |
@@ -234,7 +248,7 @@ ToSkinStateGenerator >> generateFocusStateFromEvent: anEvent [
 				child skinManagerDo: [ :sm |
 					sm
 						enqueueSkinState:
-						(ToFocusState new focused: target hasFocus yourself)
+						(ToFocusState new focused: true; yourself)
 						in: target ] ] ]
 		in: target
 ]

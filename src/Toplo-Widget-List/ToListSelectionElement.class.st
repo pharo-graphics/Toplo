@@ -2,7 +2,7 @@ Class {
 	#name : #ToListSelectionElement,
 	#superclass : #ToElement,
 	#instVars : [
-		'listElement',
+		'selectionOption',
 		'nodes'
 	],
 	#category : #'Toplo-Widget-List-Selection-Element'
@@ -15,21 +15,21 @@ ToListSelectionElement >> boundsFrom: aBounds [
 ]
 
 { #category : #private }
-ToListSelectionElement >> boundsFromNodes [
+ToListSelectionElement >> boundsFromNodesIn: aListElement [
 	" compute my bounds from my list of adjacent nodes. "
 
 	| first last startBnds endBnds corner |
 	first := nodes first.
 	last := nodes last.
-	startBnds := self boundsOfNode: first.
+	startBnds := self boundsOfNode: first in: aListElement.
 	endBnds := first = last
 		           ifTrue: [ startBnds ]
-		           ifFalse: [ self boundsOfNode: last ].
-	(listElement isVertical and: [
+		           ifFalse: [ self boundsOfNode: last in: aListElement].
+	(aListElement isVertical and: [
 		 first constraints horizontal isMatchParent ])
 		ifTrue: [
 			| w |
-			w := listElement innerContainer bounds width.
+			w := aListElement innerContainer bounds width.
 			corner := w @ endBnds corner y ]
 		ifFalse: [ corner := endBnds corner ].
 
@@ -37,17 +37,17 @@ ToListSelectionElement >> boundsFromNodes [
 ]
 
 { #category : #private }
-ToListSelectionElement >> boundsOfNode: aNode [
+ToListSelectionElement >> boundsOfNode: aNode in: aListElement [
 	" compute local node bounds "
-	^ (aNode measuredBounds inSpace inChild: listElement innerContainer) bounds
+	^ (aNode measuredBounds inSpace inChild: aListElement innerContainer) bounds
 ]
 
 { #category : #private }
-ToListSelectionElement >> computeBounds [
+ToListSelectionElement >> computeBoundsIn: aListElement [
 	" compute my bounds from my list of adjacent nodes. "
 
 	| bnds |
-	bnds := self boundsFromNodes.
+	bnds := self boundsFromNodesIn: aListElement.
 	self position: (self positionFrom: bnds origin).
 	self size: (self sizeFrom: bnds extent)
 ]
@@ -62,18 +62,6 @@ ToListSelectionElement >> initialize [
 ]
 
 { #category : #accessing }
-ToListSelectionElement >> listElement [
-
-	^ listElement
-]
-
-{ #category : #accessing }
-ToListSelectionElement >> listElement: aListElement [
-
-	listElement := aListElement
-]
-
-{ #category : #accessing }
 ToListSelectionElement >> nodes [
 
 	^ nodes
@@ -82,8 +70,7 @@ ToListSelectionElement >> nodes [
 { #category : #accessing }
 ToListSelectionElement >> nodes: aCollection [
 
-	nodes := aCollection."
-	self computeBounds"
+	nodes := aCollection
 ]
 
 { #category : #private }
@@ -92,13 +79,16 @@ ToListSelectionElement >> positionFrom: aPoint [
 	^ aPoint
 ]
 
-{ #category : #private }
-ToListSelectionElement >> positionFromNodes [
-	" return my futur position from my list of adjacent nodes. "
+{ #category : #accessing }
+ToListSelectionElement >> selectionOption [
 
-	| bnds |
-	bnds := self boundsFromNodes.
-	^ self positionFrom: bnds origin
+	^ selectionOption
+]
+
+{ #category : #accessing }
+ToListSelectionElement >> selectionOption: aSelectionOption [
+
+	selectionOption := aSelectionOption
 ]
 
 { #category : #private }

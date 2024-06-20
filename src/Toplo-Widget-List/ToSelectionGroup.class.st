@@ -9,11 +9,10 @@ Class {
 }
 
 { #category : #'private - selection element' }
-ToSelectionGroup >> createSelectionElementFrom: aListElement [
+ToSelectionGroup >> createSelectionElementFor: aListElement [
 
 	cachedSelectionElement ifNotNil: [ 'My SelectionElement should have been removed before being created' traceCr ].
-	cachedSelectionElement := option newSelectionElement.
-	cachedSelectionElement listElement: aListElement.
+	cachedSelectionElement := option newSelectionElementFor: aListElement.
 	cachedSelectionElement nodes: self nodes.
 	^ cachedSelectionElement
 ]

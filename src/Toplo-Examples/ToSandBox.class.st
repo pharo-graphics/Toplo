@@ -2891,7 +2891,7 @@ ToSandBox class >> example_choiceButtonWithPlaceholder [
 	choice withWeakCheckingStrategy.
 	choice data addAll: { 'OS-X'. 'Windows'. 'Linux' }.
 	choice defaultLabel:
-		(ToAttributedLabel text: ('Invalid choice' asRopedText
+		(ToLabel text: ('Invalid choice' asRopedText
 				  foreground: Color red;
 				  yourself)) withNullSkin.
 	win pane addChild: choice.
@@ -4503,10 +4503,16 @@ ToSandBox class >> example_toLabel_Multiline2_Centered [
 		        outskirts: BlOutskirts inside.
 	lab1 beMultiLine.
 	lab2 beMultiLine.
-	lab1 matchParent.
-	lab2 matchParent.
-	lab1 innerElement constraintsDo: [:c | c frame horizontal alignCenter].
-	lab2 innerElement constraintsDo: [:c | c frame horizontal alignCenter].
+	lab1
+		hMatchParent;
+		vFitContent.
+	lab2
+		hMatchParent;
+		vFitContent.
+	lab1 innerElement constraintsDo: [ :c |
+		c frame horizontal alignCenter ].
+	lab2 innerElement constraintsDo: [ :c |
+		c frame horizontal alignCenter ].
 	lab1 innerElement layout alignCenter.
 	lab2 innerElement layout alignCenter.
 	lab1 isEditable: true.
@@ -4520,6 +4526,17 @@ ToSandBox class >> example_toLabel_Multiline2_Centered [
 			lab1.
 			lab2 }.
 	space := container openInSpace
+]
+
+{ #category : #label }
+ToSandBox class >> example_toLabel_editableMultiline [
+
+	| lab |
+	lab := ToLabel new text: 'First line' , String cr , 'Second line'.
+	lab beMultiLine.
+	lab hMatchParent.
+	lab isEditable: true.
+	lab openInSpace
 ]
 
 { #category : #'button-dep' }

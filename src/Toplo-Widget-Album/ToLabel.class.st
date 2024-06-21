@@ -71,7 +71,7 @@ ToLabel >> beReadOnly [
 { #category : #'private-editing' }
 ToLabel >> cleanUpUserData [
 
-	self userData removeKey: #editor
+	self userData removeKey: #editor ifAbsent: [  ]
 ]
 
 { #category : #'private-editing' }
@@ -287,7 +287,7 @@ ToLabel >> privateText: aText [
 { #category : #'private-editing' }
 ToLabel >> removeEditor [
 
-	self currentEditorFrame close.
+	self currentEditorFrame ifNotNil: [:w | w close].
 	self innerElement visibility: BlVisibility visible.
 	self cleanUpUserData
 ]

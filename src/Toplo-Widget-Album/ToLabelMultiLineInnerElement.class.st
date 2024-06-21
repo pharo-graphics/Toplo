@@ -35,7 +35,7 @@ ToLabelMultiLineInnerElement >> initialize [
 
 	super initialize.
 
-	lines := OrderedCollection new.
+	lines := #(  ).
 	self constraintsDo: [ :c |
 		c vertical fitContent.
 		c horizontal fitContent ].
@@ -121,7 +121,10 @@ ToLabelMultiLineInnerElement >> text: aBlText [
 { #category : #'event handling' }
 ToLabelMultiLineInnerElement >> textChanged [
 
-	(text isNotEmpty and: [ lines isEmpty ]) ifTrue: [
+	lines ifNotEmpty: [
+		self removeChildren: lines.
+		lines := #(  ) ].
+	text isNotEmpty ifTrue: [
 		lines := self splitText.
 		self addChildren: lines ].
 	lines do: [ :l | l childrenDo: [ :child | child textChanged ] ]

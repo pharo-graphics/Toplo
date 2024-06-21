@@ -34,19 +34,11 @@ ToListElementEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 	self showHidePlaceholderIn: target
 ]
 
-{ #category : #'element handlers' }
-ToListElementEventHandler >> elementScrolledEvent: anEvent [
-
-	"anEvent delta isZero ifTrue: [ ^ self ]."
-	anEvent currentTarget spaceDo: [ :sp | sp mouseProcessor handleLastMouseMove ]
-]
-
 { #category : #'api - accessing' }
 ToListElementEventHandler >> eventsToHandle [
 
 	^ {
 		  BlElementAddedToSceneGraphEvent.
-		  BlElementScrolledEvent.
 
 		  BlMouseDownEvent.
 		  BlDoubleClickEvent.

@@ -5,9 +5,9 @@ Class {
 }
 
 { #category : #'element handlers' }
-ToListSelectionElementEventHandler >> boundsUpdaterHasChangesDuringLayoutEvent: anEvent [
+ToListSelectionElementEventHandler >> boundsHasChangedDuringScrollingEvent: anEvent [
 
-	self refreshSelectionFromEvent: anEvent
+	self updateSelectionFromEvent: anEvent
 ]
 
 { #category : #'selection managing' }
@@ -32,7 +32,7 @@ ToListSelectionElementEventHandler >> elementScrolledEvent: anEvent [
 ToListSelectionElementEventHandler >> eventsToHandle [
 
 	^ {
-		  BlBoundsUpdaterHasChangesDuringLayoutEvent.
+		  BlBoundsHasChangedDuringScrollingEvent.
 		  BlElementExtentChangedEvent.
 		  BlElementScrolledEvent }
 ]

@@ -82,6 +82,7 @@ ToSelectionGroupHolder >> option: aSelectionOption [
 { #category : #'private - selection updating' }
 ToSelectionGroupHolder >> refreshSelectionIn: aListElement [
 
+	self forgetPreviousState.
 	self updateSelectionIn: aListElement withAnimation: false
 ]
 
@@ -119,13 +120,9 @@ ToSelectionGroupHolder >> updateSelectionIn: aListElement [
 ToSelectionGroupHolder >> updateSelectionIn: aListElement withAnimation: animationRequested [
 
 	| selElements |
-	animationRequested ifFalse: [ self forgetPreviousState ].
 	self renewSelectionIn: aListElement.
 	selElements := self collectNewSelectionElementsIn: aListElement.
 	self updateSelectionWith: selElements in: aListElement.
-	"selElements ifEmpty: [
-		self forgetPreviousState.
-		^ self ]."
 	selElements ifEmpty: [ ^ self ].
 	animationRequested ifTrue: [ self rememberStateWith: selElements in: aListElement]
 ]
@@ -134,10 +131,6 @@ ToSelectionGroupHolder >> updateSelectionIn: aListElement withAnimation: animati
 ToSelectionGroupHolder >> updateSelectionWith: aSelectionElementArray in: aListElement [
 
 	| first |
-	animation ifNotNil: [
-		animation isRunning ifTrue: [ animation stop ].
-		animation := nil ].
-
 	aSelectionElementArray ifEmpty: [ ^ self ].
 
 	(self canAnimateSelectionUpdate and: [
@@ -148,13 +141,17 @@ ToSelectionGroupHolder >> updateSelectionWith: aSelectionElementArray in: aListE
 		first size: previousSelectionBounds extent.
 		startBounds := previousSelectionBounds.
 		targetBounds := first boundsFromNodesIn: aListElement.
+
 		animation := ToBoundsTransition new
 			             from: startBounds;
 			             to: targetBounds;
 			             duration: option animationDuration;
 			             onStepDo: [ :anArray :target |
 				             first position: anArray origin.
-				             first size: anArray extent ].
+				             first size: anArray extent ];
+			             onFinishedDo: [
+				             first position: targetBounds position.
+				             first size: targetBounds extent ].
 		first addAnimation: animation.
 		" directly add the selection element without computing its bounds "
 		self isBeneath

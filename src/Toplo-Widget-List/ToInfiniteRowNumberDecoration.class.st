@@ -14,6 +14,12 @@ ToInfiniteRowNumberDecoration >> aeBackgroundBoundsOn: aeCanvas in: anInfiniteEl
 	^ ((bnds origin x - hgap) @ (bnds origin y - vgap)) extent: bnds width @ (bnds height + (vgap * 2))
 ]
 
+{ #category : #initialization }
+ToInfiniteRowNumberDecoration >> defaultWidth [
+
+	^ 25
+]
+
 { #category : #geometry }
 ToInfiniteRowNumberDecoration >> numberLeftGap [
 

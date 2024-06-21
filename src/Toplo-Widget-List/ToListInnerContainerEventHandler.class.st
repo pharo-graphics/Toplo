@@ -1,33 +1,27 @@
 Class {
-	#name : #ToInfiniteElementEventHandler,
+	#name : #ToListInnerContainerEventHandler,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'previousDecorationSize'
 	],
-	#category : #'Toplo-Widget-List-InnerInfinite'
+	#category : #'Toplo-Widget-List-Core'
 }
 
 { #category : #'infinite event handling' }
-ToInfiniteElementEventHandler >> boundsUpdaterHasChangesDuringLayoutEvent: anEvent [
+ToListInnerContainerEventHandler >> boundsHasChangedDuringScrollingEvent: anEvent [
 
-	anEvent currentTarget listElement dispatchEvent: anEvent copy
+	anEvent currentTarget listElement dispatchEvent: anEvent
 ]
 
 { #category : #'infinite event handling' }
-ToInfiniteElementEventHandler >> elementLayoutComputedEvent: anEvent [
-
-	anEvent currentTarget listElement dispatchEvent: anEvent copy
-]
-
-{ #category : #'infinite event handling' }
-ToInfiniteElementEventHandler >> elementScrolledEvent: anEvent [
+ToListInnerContainerEventHandler >> elementScrolledEvent: anEvent [
 
 	anEvent delta = (0 @ 0) ifTrue: [ ^ self ].
-	anEvent currentTarget listElement dispatchEvent: anEvent copy
+	anEvent currentTarget listElement dispatchEvent: anEvent 
 ]
 
 { #category : #'api - accessing' }
-ToInfiniteElementEventHandler >> eventsToHandle [
+ToListInnerContainerEventHandler >> eventsToHandle [
 
 	^ {
 		  ToInfiniteScrollFinishedEvent.
@@ -35,18 +29,18 @@ ToInfiniteElementEventHandler >> eventsToHandle [
 		  BlInfiniteElementAttachedEvent.
 		  BlInfiniteElementDetachedEvent.
 		  BlElementScrolledEvent.
-		  BlInfiniteDecorationBoundsChangedEvent.
-		  BlBoundsUpdaterHasChangesDuringLayoutEvent }
+		  BlBoundsHasChangedDuringScrollingEvent }
 ]
 
 { #category : #'infinite event handling' }
-ToInfiniteElementEventHandler >> infiniteDataSourceEmptinessChangedEvent: anEvent [
+ToListInnerContainerEventHandler >> infiniteDataSourceEmptinessChangedEvent: anEvent [
 
-	anEvent currentTarget listElement dispatchEvent: anEvent copy
+	anEvent currentTarget listElement dispatchEvent: anEvent 
 ]
 
 { #category : #'infinite event handling' }
-ToInfiniteElementEventHandler >> infiniteDecorationBoundsChangedEvent: anEvent [
+ToListInnerContainerEventHandler >> infiniteDecorationBoundsChangedEvent: anEvent [
+	" not used here but kept for the record "
 
 	| s decoration insets |
 	decoration := anEvent decoration.
@@ -57,17 +51,17 @@ ToInfiniteElementEventHandler >> infiniteDecorationBoundsChangedEvent: anEvent [
 		previousDecorationSize := s.
 		anEvent currentTarget listElement notifyPrimarySelectionDirty.
 		^ self ].
-	
+
 	(insets top > 0 or: [ insets bottom > 0 ]) ifFalse: [ ^ self ].
 	s := anEvent decoration computedBounds height.
 	previousDecorationSize = s ifTrue: [ ^ self ].
 	previousDecorationSize := s.
-	anEvent currentTarget listElement notifyPrimarySelectionDirty.
+	"anEvent currentTarget listElement notifyPrimarySelectionDirty."
 	^ self
 ]
 
 { #category : #'infinite event handling' }
-ToInfiniteElementEventHandler >> infiniteElementAttachedEvent: anEvent [
+ToListInnerContainerEventHandler >> infiniteElementAttachedEvent: anEvent [
 
 	anEvent currentTarget listElement dispatchEvent:
 		(ToListNodeAddedEvent new
@@ -76,7 +70,7 @@ ToInfiniteElementEventHandler >> infiniteElementAttachedEvent: anEvent [
 ]
 
 { #category : #'infinite event handling' }
-ToInfiniteElementEventHandler >> infiniteElementDetachedEvent: anEvent [
+ToListInnerContainerEventHandler >> infiniteElementDetachedEvent: anEvent [
 
 	anEvent currentTarget listElement dispatchEvent:
 		(ToListNodeRemovedEvent new
@@ -85,7 +79,7 @@ ToInfiniteElementEventHandler >> infiniteElementDetachedEvent: anEvent [
 ]
 
 { #category : #'infinite event handling' }
-ToInfiniteElementEventHandler >> infiniteScrollFinishedEvent: anEvent [
+ToListInnerContainerEventHandler >> infiniteScrollFinishedEvent: anEvent [
 
-	anEvent currentTarget listElement dispatchEvent: anEvent copy
+	anEvent currentTarget listElement dispatchEvent: anEvent
 ]

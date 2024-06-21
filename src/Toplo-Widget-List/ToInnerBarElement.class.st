@@ -126,16 +126,10 @@ ToInnerBarElement >> initialize [
 
 	self initializeDataSource.
 	self id: #innerElement.
-	scrollableElement := self scrollableBarElementClass new.
+	scrollableElement := self newScrollableBarElement.
 	scrollableElement id: #scrollable.
-	self middleElement: scrollableElement.
-	scrollableElement
-		addEventHandlerOn: BlElementScrolledEvent
-		do: [ :event | self dispatchEvent: event copy ].
-	scrollableElement
-		addEventHandlerOn: ToInfiniteScrollFinishedEvent
-		do: [ :event | self dispatchEvent: event copy ].
-	self addEventHandler: ToInfiniteElementEventHandler new.
+	self middleElement: scrollableElement.		
+	self addEventHandler: ToListInnerContainerEventHandler new.
 
 	self matchParent
 ]
@@ -191,6 +185,12 @@ ToInnerBarElement >> listElement: aListElement [
 ToInnerBarElement >> newNodeHolderFromDataSource: aDataSource [
 
 	^ listElement nodeManager newNodeHolder
+]
+
+{ #category : #initialization }
+ToInnerBarElement >> newScrollableBarElement [
+
+	^ ToScrollableBarElement onInnerBarElement: self.
 ]
 
 { #category : #'accessing - nodes' }
@@ -418,12 +418,6 @@ ToInnerBarElement >> scrollTowardStartToDataSourcePosition: anIndex [
 
 	(self scrollDeltaTowardStartFromDataSourcePosition: anIndex) ifNotNil: [ :p |
 		scrollableElement scrollBy: p x negated @ p y ]
-]
-
-{ #category : #initialization }
-ToInnerBarElement >> scrollableBarElementClass [ 
-
-	^ ToScrollableBarElement
 ]
 
 { #category : #accessing }

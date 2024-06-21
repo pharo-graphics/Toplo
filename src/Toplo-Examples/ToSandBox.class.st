@@ -210,9 +210,7 @@ ToSandBox class >> example_BasicListWithAllClasses3 [
 	| l |
 	l := ToListElement new nodeBuilder: [ :node :holder |
 		     | icn lab |
-		     node constraintsDo: [ :c |
-			     c horizontal matchParent.
-			     c vertical fitContent ].
+		     
 		     icn := holder dataItem hasComment
 			            ifTrue: [ #class ]
 			            ifFalse: [ #uncommentedClass ].

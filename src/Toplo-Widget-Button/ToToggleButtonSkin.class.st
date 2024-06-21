@@ -71,9 +71,10 @@ ToToggleButtonSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
+		e layout alignCenter.
 		e mouseCursor: Cursor normal.
-		e geometry: (BlRoundedRectangleGeometry cornerRadius:
-				 (e valueOfTokenNamed: 'border-radius')).
+		"e geometry: (BlRoundedRectangleGeometry cornerRadius:
+				 (e valueOfTokenNamed: 'border-radius'))."
 		e border: (BlBorder
 				 paint: (e valueOfTokenNamed: #'color-border')
 				 width: (e valueOfTokenNamed: #'line-width')).

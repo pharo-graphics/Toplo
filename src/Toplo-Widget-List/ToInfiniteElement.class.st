@@ -95,7 +95,7 @@ ToInfiniteElement >> fullyVisibleNodesSelect: aBlock [
 ToInfiniteElement >> initialize [
 
 	super initialize.
-	self addEventHandler: ToInfiniteElementEventHandler new.
+	self addEventHandler: ToListInnerContainerEventHandler new.
 	self matchParent
 ]
 

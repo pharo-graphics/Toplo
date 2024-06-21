@@ -2,10 +2,19 @@ Class {
 	#name : #ToScrollableBarElement,
 	#superclass : #ToScrollableElement,
 	#instVars : [
-		'trackElement'
+		'trackElement',
+		'parentBar'
 	],
 	#category : #'Toplo-Widget-List-InnerBar'
 }
+
+{ #category : #'instance creation' }
+ToScrollableBarElement class >> onInnerBarElement: anInnerBarElement [
+
+	^ self basicNew
+		  onInnerBarElement: anInnerBarElement;
+		  initialize
+]
 
 { #category : #visiting }
 ToScrollableBarElement >> accept: aVisitor [
@@ -38,8 +47,7 @@ ToScrollableBarElement >> consumePendingDataSourceCommands [
 { #category : #initialization }
 ToScrollableBarElement >> defaultEventHandler [ 
 
-	^ ToScrollableBarEventHandler new
-	"^ BlScrollableElementEventHandler new"
+	^ ToScrollableBarEventHandler new parentBar: parentBar 
 ]
 
 { #category : #initialization }
@@ -148,6 +156,12 @@ ToScrollableBarElement >> onEnterLayoutOrScroll [
 
 { #category : #'hooks - layout' }
 ToScrollableBarElement >> onExitLayoutOrScroll [
+]
+
+{ #category : #initialization }
+ToScrollableBarElement >> onInnerBarElement: anInnerBarElement [
+
+	parentBar := anInnerBarElement
 ]
 
 { #category : #'accessing - children' }

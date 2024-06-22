@@ -459,7 +459,7 @@ ToSandBox class >> example_CheckboxGroupAndStrictStrategy [
 ]
 
 { #category : #checkbox }
-ToSandBox class >> example_CheckboxGroupAndUnckekingStrategy [
+ToSandBox class >> example_CheckboxGroupAndWeakStrategy [
 
 	| group container buttons |
 	group := ToCheckableGroup new.
@@ -2628,6 +2628,30 @@ ToSandBox class >> example_ToggleButtonChecked [
 	toggle checked: true.
 	toggle openInInnerWindow.
 	toggle inspect
+]
+
+{ #category : #'toggle button' }
+ToSandBox class >> example_ToggleButtonGroupAndWeakStrategy [
+
+	| group groupContainer |
+	group := ToCheckableGroup new.
+	group withWeakCheckingStrategy.
+	{ 'Monday'. 'Tuesday'. 'Wednesday'. 'Thursday'. 'Friday' } do: [ :day |
+		group register: (ToToggleButton new
+				 labelText: day;
+				 hMatchParent;
+				 yourself) ].
+	group registeredCheckables second checked: true.
+	group addEventHandler: (BlEventHandler
+			 on: ToCheckableGroupChangedEvent
+			 do: [ :event |
+				 ('checked: ' , event checkedList asString , ' unchecked: '
+				  , event uncheckedList asString) traceCr ]).
+
+	groupContainer := ToPane vertical.
+	groupContainer width: 150.
+	groupContainer addChildren: group registeredCheckables.
+	groupContainer openInSpace
 ]
 
 { #category : #'toggle button' }

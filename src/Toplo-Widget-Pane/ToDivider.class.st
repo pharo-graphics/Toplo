@@ -198,8 +198,7 @@ ToDivider >> measureInHorizontalPane [
 	
 	firstH := self topTarget measuredBounds height "- (self topTarget constraints margin top + self topTarget constraints margin bottom)".
 	secondH := self bottomTarget measuredBounds height "- (self bottomTarget constraints margin top + self bottomTarget constraints margin bottom)".
-	
-	self measuredExtent: self thickness @ (firstH max: secondH).	
+	self measuredExtent: self thickness @ (firstH max: secondH).
 	w := self weightFromWidth: self firstTarget measuredWidth.
 	self firstTarget constraints linear weight: w.
 	w := self weightFromWidth: self secondTarget measuredWidth.
@@ -213,7 +212,6 @@ ToDivider >> measureInVerticalPane [
 	
 	firstW := self topTarget measuredWidth "- (self topTarget constraints margin left + self topTarget constraints margin right)".
 	secondW := self bottomTarget measuredWidth "- (self bottomTarget constraints margin left + self bottomTarget constraints margin right)".
-
 	self measuredExtent: (firstW max: secondW) @ self thickness.
 	w := self weightFromWidth: self firstTarget measuredHeight.
 	self firstTarget constraints linear weight: w.
@@ -240,6 +238,8 @@ ToDivider >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 ToDivider >> onMeasure: anExtentMeasurementSpec [
 
 	super onMeasure: anExtentMeasurementSpec.
+	self isAttachedToSceneGraph ifFalse: [ ^ self ].
+	self pane width isZero ifTrue: [ ^ self ].
 	self isHorizontal
 		ifTrue: [ self measureInVerticalPane ]
 		ifFalse: [ self measureInHorizontalPane ]
@@ -316,6 +316,5 @@ ToDivider >> topTarget [
 { #category : #accessing }
 ToDivider >> weightFromWidth: aWidth [
 
-	self pane width isZero ifTrue: [ ^ 1 ].
 	^ aWidth / self pane width
 ]

@@ -2797,8 +2797,8 @@ ToSandBox class >> example_bar [
 	bar vFitContent.
 	dashBoard := self barDashBoardFor: bar.
 	selectionModeBoard := self selectionModeChooserFor: bar.
-	dashBoard constraints linear weight: 0.75.
-	selectionModeBoard constraints linear weight: 0.25.
+	dashBoard constraints linear weight: 0.82.
+	selectionModeBoard constraints linear weight: 0.18.
 	rootPane := ToPane vertical.
 	rootPane padding: (BlInsets all: 5).
 	rootPane matchParent.
@@ -2808,7 +2808,7 @@ ToSandBox class >> example_bar [
 
 	bar dataAccessor addAll: ToSandBox statesOfAmerica. "copyFrom: 1 to: 20"
 	"bar dataAccessor addAll:
-		(Smalltalk globals allClasses copyFrom: 1 to: 800)."
+		(Smalltalk globals allClasses copyFrom: 1 to: 1800)."
 	rootPane openInSpace
 ]
 
@@ -4633,6 +4633,27 @@ ToSandBox class >> example_verticalPaneWithDivider [
 	pane addChild: btn.
 	pane addDividers.
 	pane openInInnerWindow 
+]
+
+{ #category : #pane }
+ToSandBox class >> example_verticalPaneWithDividerAndSubpanesWithWeight [
+
+	| rootPane firstPane secondPane |
+	rootPane := ToPane horizontal.
+	firstPane := ToPane vertical withNullSkin.
+	secondPane := ToPane vertical withNullSkin.
+	firstPane background: Color blue.
+	secondPane background: Color red.
+	rootPane matchParent.
+	firstPane matchParent.
+	secondPane matchParent.
+	firstPane constraintsDo: [ :c | c linear weight: 0.25 ].
+	secondPane constraintsDo: [ :c | c linear weight: 0.75 ].
+	rootPane addChildren: {
+			firstPane.
+			secondPane }.
+	rootPane addDividers.
+	rootPane openInSpace
 ]
 
 { #category : #menu }

@@ -3,6 +3,9 @@ Class {
 	#superclass : #ToElement,
 	#traits : 'TToOrientable + TToPasteUpPane + TToElementWithPlaceholder',
 	#classTraits : 'TToOrientable classTrait + TToPasteUpPane classTrait + TToElementWithPlaceholder classTrait',
+	#instVars : [
+		'lockedWidth'
+	],
 	#category : #'Toplo-Widget-Pane'
 }
 
@@ -50,6 +53,19 @@ ToPane >> defaultLayout [
 	^ BlLinearLayout new 
 ]
 
+{ #category : #dividers }
+ToPane >> dividers [
+
+	^ self children select: [ :child | child isKindOf: ToDivider ]
+]
+
+{ #category : #initialization }
+ToPane >> initialize [ 
+
+	super initialize.
+	lockedWidth := false
+]
+
 { #category : #skin }
 ToPane >> installRawStyle [ 
 
@@ -65,6 +81,18 @@ ToPane >> layoutStrategy [
 
 ]
 
+{ #category : #accessing }
+ToPane >> lockedWidth [
+
+	lockedWidth 
+]
+
+{ #category : #accessing }
+ToPane >> lockedWidth: aBoolean [
+
+	lockedWidth := aBoolean
+]
+
 { #category : #layout }
 ToPane >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 
@@ -76,6 +104,5 @@ ToPane >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 { #category : #dividers }
 ToPane >> removeDividers [
 
-	self removeChildren: (self children select: [ :child |
-		child isKindOf: ToDivider ])
+	self removeChildren: self dividers
 ]

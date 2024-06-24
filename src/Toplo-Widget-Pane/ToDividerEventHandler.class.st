@@ -17,7 +17,7 @@ ToDividerEventHandler >> appliedDragDeltaFromPosition: aPoint [
 
 	| dragDelta |
 	dragDelta := aPoint - startPosition.
-	(self divider isVertical and: [ self pane isLeftToRight ]) ifTrue: [
+	( divider isVertical and: [ self pane isLeftToRight ]) ifTrue: [
 		dragDelta := dragDelta negated ].
 	^ dragDelta
 ]
@@ -42,21 +42,21 @@ ToDividerEventHandler >> dragEvent: anEvent [
 
 	self
 		dragEvent: anEvent
-		target: self firstTarget
+		resizedElement: self firstResizedElement
 		bounds: firstTargetBounds
 		by: dragDelta.
 
 	self
 		dragEvent: anEvent
-		target: self secondTarget
+		resizedElement: self secondResizedElement
 		bounds: secondTargetBounds
 		by: dragDelta negated.
 
-	self divider requestLayout
+	 divider requestLayout
 ]
 
 { #category : #'dnd handlers' }
-ToDividerEventHandler >> dragEvent: anEvent target: aTarget bounds: aTargetBounds by: aDelta [
+ToDividerEventHandler >> dragEvent: anEvent resizedElement: aResizedElement bounds: aTargetBounds by: aDelta [
 
 	| targetOriginalBounds widthChanged heightChanged |
 	targetOriginalBounds := aTargetBounds copy.
@@ -65,8 +65,8 @@ ToDividerEventHandler >> dragEvent: anEvent target: aTarget bounds: aTargetBound
 	widthChanged := aTargetBounds width ~= targetOriginalBounds width.
 	heightChanged := aTargetBounds height ~= targetOriginalBounds height.
 
-	aTarget globalBoundsToLocal: aTargetBounds.
-	aTarget localBoundsToParent: aTargetBounds.
+	aResizedElement globalBoundsToLocal: aTargetBounds.
+	aResizedElement localBoundsToParent: aTargetBounds.
 
 	(widthChanged or: [ heightChanged ]) ifFalse: [ ^ self ].
 
@@ -74,13 +74,13 @@ ToDividerEventHandler >> dragEvent: anEvent target: aTarget bounds: aTargetBound
 	widthChanged ifTrue: [
 		self
 			horizontalDragEvent: anEvent
-			target: aTarget
+			resizedElement: aResizedElement
 			width: aTargetBounds width ].
 
 	heightChanged ifTrue: [
 		self
 			verticalDragEvent: anEvent
-			target: aTarget
+			resizedElement: aResizedElement
 			height: aTargetBounds height ]
 ]
 
@@ -95,9 +95,9 @@ ToDividerEventHandler >> dragStartEvent: anEvent [
 
 	"element's original bounds"
 	startBounds := {
-		               self firstTarget bounds.
-		               self secondTarget bounds } collect: [ :bnds |
-		               bnds inSpace bounds copy ]
+		               self firstResizedElement bounds.
+		               self secondResizedElement bounds } collect: [ :bnds |
+		               bnds inSpace bounds ]
 ]
 
 { #category : #'api - accessing' }
@@ -107,28 +107,34 @@ ToDividerEventHandler >> eventsToHandle [
 ]
 
 { #category : #accessing }
-ToDividerEventHandler >> firstTarget [
+ToDividerEventHandler >> firstResizedElement [
 
-	^ self divider firstTarget
+	^  divider firstResizedElement
 ]
 
 { #category : #'dnd handlers' }
-ToDividerEventHandler >> horizontalDragEvent: anEvent target: aTarget width: aWidth [
+ToDividerEventHandler >> horizontalDragEvent: anEvent resizedElement: aResizedElement width: aWidth [
 
-	aTarget constraints horizontal resizer isExact
-		ifTrue: [
-			(aTarget == self leftTarget or: [ anEvent modifiers isShift ])
-				ifTrue: [ aTarget width: aWidth ] ]
-		ifFalse: [
-			| w |
-			w := self weightFromWidth: aWidth.
-			aTarget constraints linear weight: w ]
+	| w other |
+	other := self otherResizedElementFrom: aResizedElement.
+	((aResizedElement = self firstResizedElement and: [
+		  other constraints horizontal resizer isExact ]) or: [
+		 anEvent modifiers isShift ]) ifTrue: [
+		aResizedElement width: aWidth.
+		^ self ].
+	"((aResizedElement = self secondResizedElement and: [
+		  aResizedElement constraints horizontal resizer isExact ]) and: [
+		 anEvent modifiers isShift ]) ifTrue: [
+		aResizedElement width: aWidth.
+		^ self ]."
+	w := self resizedElementWeightFromWidth: aWidth.
+	aResizedElement constraints linear weight: w
 ]
 
 { #category : #accessing }
-ToDividerEventHandler >> leftTarget [
+ToDividerEventHandler >> leftResizedElement [
 
-	^ self divider leftTarget
+	^  divider leftResizedElement
 ]
 
 { #category : #accessing }
@@ -141,24 +147,34 @@ ToDividerEventHandler >> minimumExtent [
 ToDividerEventHandler >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	
+
 	divider := anElement.
-	
-	paneExtentHandler := BlEventHandler on: BlElementExtentChangedEvent do: [ :event | self divider requestLayout ].	
-	firstTargetPositionChangeHandler := BlEventHandler on: BlElementPositionChangedEvent do: [ self divider requestLayout ].	
-	secondTargetPositionChangeHandler := BlEventHandler on: BlElementPositionChangedEvent do: [ self divider requestLayout ].
-	
-	anElement pane addEventHandler: paneExtentHandler.
-	anElement firstTarget addEventHandler: firstTargetPositionChangeHandler.
-	anElement secondTarget addEventHandler: secondTargetPositionChangeHandler.
+
+	paneExtentHandler := BlEventHandler
+		                     on: BlElementExtentChangedEvent
+		                     do: [ :event | divider requestLayout ].
+	firstTargetPositionChangeHandler := BlEventHandler
+		                                    on:
+		                                    BlElementPositionChangedEvent
+		                                    do: [ divider requestLayout ].
+	secondTargetPositionChangeHandler := BlEventHandler
+		                                     on:
+		                                     BlElementPositionChangedEvent
+		                                     do: [ divider requestLayout ].
+
+	anElement container addEventHandler: paneExtentHandler.
+	anElement firstResizedElement addEventHandler:
+		firstTargetPositionChangeHandler.
+	anElement secondResizedElement addEventHandler:
+		secondTargetPositionChangeHandler
 ]
 
 { #category : #'api - hooks' }
 ToDividerEventHandler >> onUninstalledIn: anElement [
 
 	anElement pane removeEventHandler: paneExtentHandler.
-	anElement firstTarget removeEventHandler: firstTargetPositionChangeHandler.
-	anElement secondTarget removeEventHandler: secondTargetPositionChangeHandler.
+	anElement firstResizedElement removeEventHandler: firstTargetPositionChangeHandler.
+	anElement secondResizedElement removeEventHandler: secondTargetPositionChangeHandler.
 	
 	divider := nil.
 	
@@ -167,48 +183,56 @@ ToDividerEventHandler >> onUninstalledIn: anElement [
 ]
 
 { #category : #accessing }
+ToDividerEventHandler >> otherResizedElementFrom: aResizedElement [
+
+	^ aResizedElement = self firstResizedElement
+		  ifTrue: [ self secondResizedElement ]
+		  ifFalse: [ self firstResizedElement ]
+]
+
+{ #category : #accessing }
 ToDividerEventHandler >> pane [
 
-	^ self divider pane
+	^ divider container
 ]
 
 { #category : #resizer }
 ToDividerEventHandler >> resizeBounds: aBlBounds by: aPoint [
 
-	self divider isHorizontal
+	 divider isHorizontal
 		ifTrue: [
 			aBlBounds extent: (aBlBounds extent + (0.0 @ aPoint y) max: self minimumExtent) ]
 		ifFalse: [
 			aBlBounds extent: (aBlBounds extent + (aPoint x negated @ 0.0) max: self minimumExtent) ]
 ]
 
-{ #category : #accessing }
-ToDividerEventHandler >> secondTarget [
+{ #category : #'dnd handlers' }
+ToDividerEventHandler >> resizedElementWeightFromWidth: aWidth [
 
-	^ self divider secondTarget
+	^  divider resizedElementWeightFromWidth: aWidth
 ]
 
 { #category : #accessing }
-ToDividerEventHandler >> topTarget [
+ToDividerEventHandler >> secondResizedElement [
 
-	^ self divider topTarget
+	^  divider secondResizedElement
+]
+
+{ #category : #accessing }
+ToDividerEventHandler >> topResizedElement [
+
+	^  divider topResizedElement
 ]
 
 { #category : #'dnd handlers' }
-ToDividerEventHandler >> verticalDragEvent: anEvent target: aTarget height: aHeight [
+ToDividerEventHandler >> verticalDragEvent: anEvent resizedElement: aResizedElement height: aHeight [
 
-	aTarget constraints vertical resizer isExact
-		ifTrue: [
-			(aTarget == self topTarget or: [ anEvent modifiers isShift ])
-				ifTrue: [ aTarget height: aHeight ] ]
-		ifFalse: [
-			| w |
-			w := self weightFromWidth: aHeight.
-			aTarget constraints linear weight: w ]
-]
-
-{ #category : #'dnd handlers' }
-ToDividerEventHandler >> weightFromWidth: aWidth [
-
-	^ self divider weightFromWidth: aWidth
+	| w |
+	(aResizedElement constraints vertical resizer isExact or: [
+		 anEvent modifiers isShift ]) ifTrue: [
+		aResizedElement = self topResizedElement ifTrue: [
+			aResizedElement height: aHeight.
+			^ self ] ].
+	w := self resizedElementWeightFromWidth: aHeight.
+	aResizedElement constraints linear weight: w
 ]

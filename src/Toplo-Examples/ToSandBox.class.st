@@ -210,7 +210,6 @@ ToSandBox class >> example_BasicListWithAllClasses3 [
 	| l |
 	l := ToListElement new nodeBuilder: [ :node :holder |
 		     | icn lab |
-		     
 		     icn := holder dataItem hasComment
 			            ifTrue: [ #class ]
 			            ifFalse: [ #uncommentedClass ].
@@ -3118,20 +3117,23 @@ ToSandBox class >> example_horizontalPaneWithDivider [
 	pane := ToPane horizontal.
 	pane matchParent.
 	e1 := ToElement new
+		      id: #'1';
 		      margin: (BlInsets all: 3);
 		      background: (Color random alpha: 0.2);
-		      vMatchParent;
-		      width: 100.
+		      ";
+		      width: 100"matchParent.
 	e2 := ToElement new
+		      id: #'2';
 		      margin: (BlInsets all: 3);
 		      background: (Color random alpha: 0.2);
-		      vMatchParent;
-		      width: 200.
+				matchParent";
+		      width: 200".
 	e3 := ToElement new
+		      id: #'3';
 		      margin: (BlInsets all: 3);
 		      background: (Color random alpha: 0.2);
-		      vMatchParent;
-		      width: 50.
+		      ";
+		      width: 50"matchParent.
 	pane addChildren: {
 			e1.
 			e2.
@@ -3144,6 +3146,9 @@ ToSandBox class >> example_horizontalPaneWithDivider [
 	pane addChild: btn.
 
 	pane addDividers.
+	pane dividers first weight: 10.
+	pane dividers second weight: 5.
+	pane dividers third weight: 0.5.
 	pane openInSpace
 ]
 
@@ -4601,6 +4606,56 @@ ToSandBox class >> example_twoSubPanesWithDivider [
 ]
 
 { #category : #pane }
+ToSandBox class >> example_verticalPaneWith1Dividers [
+
+	| rootPane firstPane secondPane |
+	rootPane := ToPane horizontal.
+	firstPane := ToPane vertical withNullSkin margin: (BlInsets all: 3).
+	secondPane := ToPane vertical withNullSkin margin: (BlInsets all: 3).
+	firstPane background: Color blue.
+	secondPane background: Color red.
+	rootPane vMatchParent.
+	rootPane width: 400.
+	firstPane matchParent.
+	secondPane matchParent.
+	secondPane width: 100.
+	rootPane addChildren: {
+			firstPane.
+			secondPane }.
+	rootPane addDividers.
+	"rootPane dividers first weight: 0.3."
+	rootPane openInSpace
+]
+
+{ #category : #pane }
+ToSandBox class >> example_verticalPaneWith2Dividers [
+
+	| rootPane firstPane secondPane thirdPane |
+	rootPane := ToPane horizontal.
+	firstPane := ToPane vertical withNullSkin margin: (BlInsets all: 3); id: #'1'.
+	secondPane := ToPane vertical withNullSkin margin: (BlInsets all: 3); id: #'2'.
+	thirdPane := ToPane vertical withNullSkin margin: (BlInsets all: 3); id: #'3'.
+	firstPane background: Color blue.
+	secondPane background: Color red.
+	thirdPane background: Color yellow.
+	rootPane vMatchParent.
+	rootPane width: 400.
+	firstPane matchParent.
+	secondPane matchParent.
+	"secondPane width: 100."
+	thirdPane matchParent.
+	thirdPane width: 50.
+
+	rootPane addChildren: {
+			firstPane.
+			secondPane.
+			thirdPane }.
+	rootPane addDividers.
+	"rootPane dividers first weight: 0.3."
+	rootPane openInSpace
+]
+
+{ #category : #pane }
 ToSandBox class >> example_verticalPaneWithDivider [
 
 	| pane e1 e2 e3 btn |
@@ -4647,12 +4702,11 @@ ToSandBox class >> example_verticalPaneWithDividerAndSubpanesWithWeight [
 	rootPane matchParent.
 	firstPane matchParent.
 	secondPane matchParent.
-	firstPane constraintsDo: [ :c | c linear weight: 0.25 ].
-	secondPane constraintsDo: [ :c | c linear weight: 0.75 ].
 	rootPane addChildren: {
 			firstPane.
 			secondPane }.
 	rootPane addDividers.
+	rootPane dividers first weight: 0.3.
 	rootPane openInSpace
 ]
 

@@ -3,10 +3,10 @@ Class {
 	#superclass : #ToElement,
 	#instVars : [
 		'thickness',
-		'pane',
-		'firstTarget',
-		'secondTarget',
-		'hgap'
+		'hasBeenLayouted',
+		'container',
+		'firstResizedElement',
+		'secondResizedElement'
 	],
 	#category : #'Toplo-Widget-Pane'
 }
@@ -15,9 +15,9 @@ Class {
 ToDivider class >> between: aFirstElement and: aSecondElement in: aPane [
 
 	^ self basicNew
-		  pane: aPane;
-		  firstTarget: aFirstElement;
-		  secondTarget: aSecondElement;
+		  container: aPane;
+		  firstResizedElement: aFirstElement;
+		  secondResizedElement: aSecondElement;
 		  initialize;
 		  yourself
 ]
@@ -29,9 +29,40 @@ ToDivider class >> new [
 ]
 
 { #category : #accessing }
-ToDivider >> bottomTarget [
+ToDivider >> bottomResizedElement [
 
-	^ self topTarget == self firstTarget ifTrue: [ self secondTarget  ] ifFalse: [ self firstTarget ]
+	^ self topResizedElement = self firstResizedElement
+		  ifTrue: [ self secondResizedElement ]
+		  ifFalse: [ self firstResizedElement ]
+]
+
+{ #category : #layout }
+ToDivider >> canApplyLayoutOnPanes [
+
+	^ self isAttachedToSceneGraph and: [ self container width isZero not ]
+]
+
+{ #category : #layout }
+ToDivider >> checkFirstLayout [
+
+	hasBeenLayouted ifFalse: [
+		| w |
+		w := self constraints linear weight.
+		w ~= 1 ifTrue: [ 
+			self firstResizedElement constraints linear weight: w ] ].
+	hasBeenLayouted := true
+]
+
+{ #category : #accessing }
+ToDivider >> container [
+
+	^ container
+]
+
+{ #category : #accessing }
+ToDivider >> container: aPane [
+
+	container := aPane
 ]
 
 { #category : #initialization }
@@ -58,7 +89,7 @@ ToDivider >> defaultGeometry [
 	^ BlRoundedRectangleGeometry cornerRadius: 2
 ]
 
-{ #category : #'t - widget - initialization' }
+{ #category : #initialization }
 ToDivider >> defaultLayout [
 
 	^ BlBasicLayout new 
@@ -89,15 +120,15 @@ ToDivider >> draggedBackground [
 ]
 
 { #category : #accessing }
-ToDivider >> firstTarget [
+ToDivider >> firstResizedElement [
 
-	^ firstTarget
+	^ firstResizedElement
 ]
 
 { #category : #accessing }
-ToDivider >> firstTarget: anElement [
+ToDivider >> firstResizedElement: anElement [
 
-	firstTarget := anElement
+	firstResizedElement := anElement
 ]
 
 { #category : #skin }
@@ -116,6 +147,7 @@ ToDivider >> hoveredBorder [
 ToDivider >> initialize [
 
 	super initialize.
+	hasBeenLayouted := false.
 	self thickness: self defaultThickness.
 	self constraintsDo: [ :c | c ignoreByLayout ].
 	self addEventHandler: self defaultEventHandler 
@@ -134,7 +166,7 @@ ToDivider >> installRawStyle [
 { #category : #testing }
 ToDivider >> isHorizontal [
 
-	^ self pane isVertical
+	^ self container isVertical
 ]
 
 { #category : #testing }
@@ -148,75 +180,97 @@ ToDivider >> layoutInHorizontalPane [
 
 	| firstY secondY gap firstX secondX position |
 	
-	firstX := self leftTarget measuredBounds inParent right + self leftTarget constraints margin right.
-	secondX := self rightTarget measuredBounds inParent left - self rightTarget constraints margin left.
+	firstX := self leftResizedElement measuredBounds inParent right + self leftResizedElement constraints margin right.
+	firstY := self leftResizedElement measuredBounds inParent top + self leftResizedElement constraints margin top.
+
+	secondX := self rightResizedElement measuredBounds inParent left - self rightResizedElement constraints margin left.	
+	secondY := self rightResizedElement measuredBounds inParent top + self rightResizedElement constraints margin top.
 	
-	firstY := self leftTarget measuredBounds inParent top + self leftTarget constraints margin top.
-	secondY := self rightTarget measuredBounds inParent top + self rightTarget constraints margin top.
 	gap := (((secondX - firstX)  - (self thickness )) / 2).
 	position := (firstX + gap) @ (firstY min: secondY).
 	
 	self constraints position: position.
-	self measuredBounds position: position.
-	
-	
-
-
+	self measuredBounds position: position
 ]
 
 { #category : #layout }
-ToDivider >> layoutInVerticalPane [
+ToDivider >> layoutInHorizontalPaneWithContext: aContext [
+
+	| firstY secondY gap firstX secondX position |
+	
+	firstX := self leftResizedElement measuredBounds inParent right + self leftResizedElement constraints margin right.
+	firstY := self leftResizedElement measuredBounds inParent top + self leftResizedElement constraints margin top.
+
+	secondX := self rightResizedElement measuredBounds inParent left - self rightResizedElement constraints margin left.	
+	secondY := self rightResizedElement measuredBounds inParent top + self rightResizedElement constraints margin top.
+	
+	gap := (((secondX - firstX)  - (self thickness )) / 2).
+	position := (firstX + gap) @ (firstY min: secondY).
+
+	self constraints position: position.
+	self measuredBounds position: position
+]
+
+{ #category : #layout }
+ToDivider >> layoutInVerticalPaneWithContext: aContext [
 
 	| firstY secondY gap firstX secondX x position |
-	
-	firstY := self topTarget bounds bottom + self topTarget constraints margin bottom.
-	secondY := self bottomTarget bounds top - self bottomTarget constraints margin bottom.
+	firstY := self topResizedElement bounds bottom
+	          + self topResizedElement constraints margin bottom.
+	secondY := self bottomResizedElement bounds top
+	           - self bottomResizedElement constraints margin bottom.
 
-	firstX := self topTarget bounds left "+ self topTarget constraints margin left".
-	secondX := self bottomTarget bounds left "+ self bottomTarget constraints margin left".
+	firstX := self topResizedElement bounds left + self topResizedElement constraints margin left.
+	secondX := self bottomResizedElement bounds left + self bottomResizedElement constraints margin left.
 
-	gap := (secondY - firstY / 2) - (self thickness / 2).
-	x := self pane direction isLeftToRight
+	gap := secondY - firstY / 2 - (self thickness / 2).
+	x := self container direction isLeftToRight
 		     ifTrue: [ firstX max: secondX ]
 		     ifFalse: [ firstX min: secondX ].
-	
+
 	position := x @ firstY + gap.
 	self constraints position: position.
 	self measuredBounds position: position
 ]
 
 { #category : #accessing }
-ToDivider >> leftTarget [
+ToDivider >> leftResizedElement [
 
-	^ (self firstTarget bounds left < self secondTarget bounds left) ifTrue: [ self firstTarget  ] ifFalse: [ self secondTarget  ]
+	^ self firstResizedElement bounds left < self secondResizedElement bounds left
+		  ifTrue: [ self firstResizedElement ]
+		  ifFalse: [ self secondResizedElement ]
 ]
 
 { #category : #layout }
-ToDivider >> measureInHorizontalPane [
+ToDivider >> measureInHorizontalPane: anExtentMeasurementSpec [
 
 	| firstH secondH w |
-	
-	firstH := self topTarget measuredBounds height "- (self topTarget constraints margin top + self topTarget constraints margin bottom)".
-	secondH := self bottomTarget measuredBounds height "- (self bottomTarget constraints margin top + self bottomTarget constraints margin bottom)".
+	firstH := self topResizedElement measuredBounds height. "- (self topTarget constraints margin top + self topTarget constraints margin bottom)"
+	secondH := self bottomResizedElement measuredBounds height. "- (self bottomTarget constraints margin top + self bottomTarget constraints margin bottom)"
 	self measuredExtent: self thickness @ (firstH max: secondH).
-	w := self weightFromWidth: self firstTarget measuredWidth.
-	self firstTarget constraints linear weight: w.
-	w := self weightFromWidth: self secondTarget measuredWidth.
-	self secondTarget constraints linear weight: w
+	w := self resizedElementWeightFromWidth: self firstResizedElement measuredWidth.
+	(self firstResizedElement constraints linear weight closeTo: w) ifFalse: [
+		self firstResizedElement constraintsDo: [ :c | c linear weight: w ] ].
+	self weight: w.
+	w := self resizedElementWeightFromWidth: self secondResizedElement measuredWidth.
+	(self secondResizedElement constraints linear weight closeTo: w) ifFalse: [
+		self secondResizedElement constraintsDo: [ :c | c linear weight: w ] ]
 ]
 
 { #category : #layout }
-ToDivider >> measureInVerticalPane [
+ToDivider >> measureInVerticalPane: anExtentMeasurementSpec [
 
 	| firstW secondW w |
-	
-	firstW := self topTarget measuredWidth "- (self topTarget constraints margin left + self topTarget constraints margin right)".
-	secondW := self bottomTarget measuredWidth "- (self bottomTarget constraints margin left + self bottomTarget constraints margin right)".
+	firstW := self topResizedElement measuredWidth. "- (self topTarget constraints margin left + self topTarget constraints margin right)"
+	secondW := self bottomResizedElement measuredWidth. "- (self bottomTarget constraints margin left + self bottomTarget constraints margin right)"
 	self measuredExtent: (firstW max: secondW) @ self thickness.
-	w := self weightFromWidth: self firstTarget measuredHeight.
-	self firstTarget constraints linear weight: w.
-	w := self weightFromWidth: self secondTarget measuredHeight.
-	self secondTarget constraints linear weight: w
+	w := self resizedElementWeightFromWidth: self firstResizedElement measuredHeight.
+	(self firstResizedElement constraints linear weight closeTo: w) ifFalse: [
+		self firstResizedElement constraintsDo: [ :c | c linear weight: w ] ].
+	self weight: w.
+	w := self resizedElementWeightFromWidth: self secondResizedElement measuredHeight.
+	(self secondResizedElement constraints linear weight closeTo: w) ifFalse: [
+		self secondResizedElement constraintsDo: [ :c | c linear weight: w ] ]
 ]
 
 { #category : #skin }
@@ -228,33 +282,47 @@ ToDivider >> newRawSkin [
 { #category : #layout }
 ToDivider >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 
-	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
+	self canApplyLayoutOnPanes ifFalse: [ ^ self ].
+	self checkFirstLayout.
 	self isHorizontal
-		ifTrue: [ self layoutInVerticalPane ]
-		ifFalse: [ self layoutInHorizontalPane ]
+		ifTrue: [ self layoutInVerticalPaneWithContext: aBlElementBoundsUpdateContext ]
+		ifFalse: [ self layoutInHorizontalPaneWithContext: aBlElementBoundsUpdateContext ].
+	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
+
 ]
 
 { #category : #layout }
 ToDivider >> onMeasure: anExtentMeasurementSpec [
 
+
 	super onMeasure: anExtentMeasurementSpec.
-	self isAttachedToSceneGraph ifFalse: [ ^ self ].
-	self pane width isZero ifTrue: [ ^ self ].
+	self canApplyLayoutOnPanes ifFalse: [ ^ self ].
+
 	self isHorizontal
-		ifTrue: [ self measureInVerticalPane ]
-		ifFalse: [ self measureInHorizontalPane ]
+		ifTrue: [ self measureInVerticalPane: anExtentMeasurementSpec]
+		ifFalse: [ self measureInHorizontalPane: anExtentMeasurementSpec ].
+	
+
+	
 ]
 
 { #category : #accessing }
 ToDivider >> pane [
 
-	^ pane
+	self
+		deprecated: 'Please use #container instead'
+		transformWith: '`@rcvr pane' -> '`@rcvr container'.
+	^ self container
 ]
 
 { #category : #accessing }
 ToDivider >> pane: aPane [
 
-	pane := aPane
+	self
+		deprecated: 'Please use #container: instead'
+		transformWith: '`@rcvr pane: `@arg' -> '`@rcvr container: `@arg'.
+
+	self container: aPane
 ]
 
 { #category : #skin }
@@ -269,6 +337,12 @@ ToDivider >> pressedBorder [
 	^ self defaultBorder
 ]
 
+{ #category : #accessing }
+ToDivider >> resizedElementWeightFromWidth: aWidth [
+
+	^ aWidth / self container width
+]
+
 { #category : #skin }
 ToDivider >> resizerCursor [
 
@@ -278,21 +352,23 @@ ToDivider >> resizerCursor [
 ]
 
 { #category : #accessing }
-ToDivider >> rightTarget [
+ToDivider >> rightResizedElement [
 
-	^ self leftTarget == self firstTarget ifTrue: [ self secondTarget  ] ifFalse: [ self firstTarget ]
+	^ self leftResizedElement = self firstResizedElement
+		  ifTrue: [ self secondResizedElement ]
+		  ifFalse: [ self firstResizedElement ]
 ]
 
 { #category : #accessing }
-ToDivider >> secondTarget [
+ToDivider >> secondResizedElement [
 
-	^ secondTarget
+	^ secondResizedElement
 ]
 
 { #category : #accessing }
-ToDivider >> secondTarget: anElement [
+ToDivider >> secondResizedElement: anElement [
 
-	secondTarget := anElement
+	secondResizedElement := anElement
 ]
 
 { #category : #accessing }
@@ -308,13 +384,21 @@ ToDivider >> thickness: aNumber [
 ]
 
 { #category : #accessing }
-ToDivider >> topTarget [
+ToDivider >> topResizedElement [
 
-	^ (self firstTarget bounds top < self secondTarget bounds top) ifTrue: [ self firstTarget  ] ifFalse: [ self secondTarget  ]
+	^ self firstResizedElement bounds top < self secondResizedElement bounds top
+		  ifTrue: [ self firstResizedElement ]
+		  ifFalse: [ self secondResizedElement ]
 ]
 
 { #category : #accessing }
-ToDivider >> weightFromWidth: aWidth [
+ToDivider >> weight [
 
-	^ aWidth / self pane width
+	^ self constraints linear weight
+]
+
+{ #category : #accessing }
+ToDivider >> weight: aFloat [
+
+	self constraints linear weight: aFloat
 ]

@@ -48,8 +48,8 @@ ToListSelectionElement >> computeBoundsIn: aListElement [
 
 	| bnds |
 	bnds := self boundsFromNodesIn: aListElement.
-	self position: (self positionFrom: bnds origin).
-	self size: (self sizeFrom: bnds extent)
+	self position: (self positionFrom: bnds origin in: aListElement).
+	self size: (self sizeFrom: bnds extent in: aListElement)
 ]
 
 { #category : #initialization }
@@ -74,7 +74,7 @@ ToListSelectionElement >> nodes: aCollection [
 ]
 
 { #category : #private }
-ToListSelectionElement >> positionFrom: aPoint [
+ToListSelectionElement >> positionFrom: aPoint in: aListElement [
 
 	^ aPoint
 ]
@@ -92,7 +92,7 @@ ToListSelectionElement >> selectionOption: aSelectionOption [
 ]
 
 { #category : #private }
-ToListSelectionElement >> sizeFrom: aPoint [
+ToListSelectionElement >> sizeFrom: aPoint in: aListElement [
 
 	^ aPoint
 ]

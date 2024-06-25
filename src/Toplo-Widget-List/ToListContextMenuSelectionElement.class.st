@@ -29,3 +29,15 @@ ToListContextMenuSelectionElement >> newRawSkin [
 
 	^ ToListContextMenuSelectionElementSkin new
 ]
+
+{ #category : #private }
+ToListContextMenuSelectionElement >> positionFrom: aPoint in: aListElement [
+
+	^ aPoint - (aListElement padding left / 2 @ 0)
+]
+
+{ #category : #private }
+ToListContextMenuSelectionElement >> sizeFrom: aPoint in: aListElement [
+
+	^ aPoint + (aListElement padding right / 2 @ 0)
+]

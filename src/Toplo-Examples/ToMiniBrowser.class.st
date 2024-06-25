@@ -2,7 +2,6 @@ Class {
 	#name : #ToMiniBrowser,
 	#superclass : #Object,
 	#instVars : [
-		'mainPane',
 		'packages',
 		'classes',
 		'protocols',
@@ -86,20 +85,73 @@ ToMiniBrowser >> finalProtocolsFrom: aListOfProtocols forClass: aClass [
 ]
 
 { #category : #initialization }
-ToMiniBrowser >> initialize [
+ToMiniBrowser >> mainPane [
 
-	| classesPane packagesPane classesButtonPane sideToggle pkgFilterField pkgSieve packageBottomPane listsPane |
-	super initialize.
+	| pane |
+	pane := ToPane new beVertical.
+	pane addChild: self newPackageToSelectorListPane.
+	pane addChild: self newCodePane.
+	pane matchParent.
+	pane layout cellSpacing: 3.
+	pane addDividers.
+	^ pane
+]
 
-	listsPane := ToPane new
-		             id: #listPane;
-		             margin: (BlInsets top: 0 bottom: 5).
-	listsPane layout: (BlLinearLayout horizontal cellSpacing: 0).
-	listsPane matchParent.
+{ #category : #initialization }
+ToMiniBrowser >> newClassPane [
 
-	mainPane := ToPane new beVertical.
-	mainPane matchParent.
+	| classesPane classesButtonPane sideToggle |
+	classes := ToListElement new
+		           id: #classes;
+		           nodeBuilder: [ :node :holder |
+			           node addChild: (ToClassNameViewExample new
+						            class: holder dataItem position: holder position;
+						            yourself) ].
 
+	classes addEventHandler: (BlEventHandler
+			 on: ToListPrimarySelectionChangedEvent
+			 do: [ :event | self classSelectionChangedEvent: event ]).
+
+	classesPane := ToPane new
+		               id: #classesPane;
+		               beVertical;
+		               matchParent.
+	classesPane addChild: classes.
+	classesButtonPane := ToPane new
+		                     hMatchParent;
+		                     vFitContent.
+	classesButtonPane addChild: (sideToggle := ToCheckbox new
+			               label: (ToLabel text: 'Class side');
+			               hMatchParent;
+			               yourself).
+	classesPane addChild: classesButtonPane.
+
+	sideToggle checked: self classSide.
+	sideToggle addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :event |
+				 classSide := event current.
+				 self refreshClassSelectionWithSelectedIndexes:
+					 classes selectionModel selectedIndexes ]).
+	^ classesPane
+]
+
+{ #category : #initialization }
+ToMiniBrowser >> newCodePane [
+
+	codePane := ToAlbum new withRowNumbers.
+	codePane styler: BlRBTextStyler new.
+
+	codePane contextMenuBuilder: [ :codeMenu :element |
+		codeMenu addItem: (ToMenuItem new labelText: 'Accept') ].
+
+	^ codePane
+]
+
+{ #category : #initialization }
+ToMiniBrowser >> newPackagePane [
+
+	| packagesPane pkgFilterField pkgSieve packageBottomPane |
 	packagesPane := ToPane new
 		                id: #packagesPane;
 		                beVertical;
@@ -108,6 +160,7 @@ ToMiniBrowser >> initialize [
 	pkgFilterField := ToTextField new.
 	pkgFilterField placeholderText:
 		('Packages filter' asRopedText foreground: Color lightGray).
+
 	packages := ToListElement new
 		            id: #packages;
 		            nodeBuilder: [ :node :holder |
@@ -117,6 +170,7 @@ ToMiniBrowser >> initialize [
 						             defaultRawSkin: ToLabelInListElementSkin new;
 						             hMatchParent;
 						             yourself) ].
+
 	pkgSieve := ToListElementSieve new.
 	pkgSieve onInstalledIn: packages.
 
@@ -135,16 +189,12 @@ ToMiniBrowser >> initialize [
 	packageBottomPane := ToPane new
 		                     hMatchParent;
 		                     vFitContent.
-	packageBottomPane
-		addChild: pkgFilterField;
-		margin: (BlInsets top: 5);
-		padding: (BlInsets all: 0).
+	packageBottomPane addChild: pkgFilterField.
 
 	packages addEventHandler: (BlEventHandler
 			 on: ToListStrongSelectionEvent
 			 do: [ :event | event traceCr ]).
 
-	packagesPane margin: (BlInsets all: 2).
 	packagesPane addChild: packages.
 	packagesPane addChild: packageBottomPane.
 
@@ -155,76 +205,21 @@ ToMiniBrowser >> initialize [
 		(RPackage organizer packages asSortedCollection: [ :p1 :p2 |
 			 p1 name < p2 name ]).
 
-	classes := ToListElement new
-		           id: #classes;
-		           nodeBuilder: [ :node :holder |
-			           node addChild: (ToClassNameViewExample new
-						            class: holder dataItem position: holder position;
-						            yourself) ].
+	^ packagesPane
+]
 
-	classes addEventHandler: (BlEventHandler
-			 on: ToListPrimarySelectionChangedEvent
-			 do: [ :event | self classSelectionChangedEvent: event ]).
+{ #category : #initialization }
+ToMiniBrowser >> newPackageToSelectorListPane [
 
-	classesPane := ToPane new
-		               id: #classesPane;
-		               beVertical;
-		               matchParent.
-	classesPane margin: (BlInsets all: 2).
-	classesPane addChild: classes.
-	classesButtonPane := ToPane new
-		                     hMatchParent;
-		                     vFitContent.
-	classesButtonPane addChild: (sideToggle := ToCheckbox new
-			               label: (ToLabel text: 'Class side');
-			               margin: (BlInsets top: 5);
-			               padding: (BlInsets all: 0)).
-	classesPane addChild: classesButtonPane.
+	| listsPane packagesPane classesPane |
+	listsPane := ToPane new id: #listPane.
+	listsPane matchParent.
+	listsPane layout cellSpacing: 3.
 
-	sideToggle checked: self classSide.
-	sideToggle addEventHandler: (BlEventHandler
-			 on: ToCheckableCheckEvent
-			 do: [ :event |
-				 classSide := event current.
-				 self refreshClassSelectionWithSelectedIndexes:
-					 classes selectionModel selectedIndexes ]).
-
-	protocols := ToListElement new
-		             id: #protocols;
-		             nodeBuilder: [ :node :holder |
-			             node addChild: (ToLabel new
-						              text: holder dataItem value name;
-						              defaultRawSkin: ToLabelInListElementSkin new;
-						              hMatchParent) ].
-	protocols margin: (BlInsets all: 2).
-
-	protocols addEventHandler: (BlEventHandler
-			 on: ToListPrimarySelectionChangedEvent
-			 do: [ :event | self protocolSelectionChangedEvent: event ]).
-
-	selectors := ToListElement new
-		             id: #selectors;
-		             nodeBuilder: [ :node :holder |
-			             node addChild: (ToLabel new
-						              text: holder dataItem value asString;
-						              defaultRawSkin: ToLabelInListElementSkin new;
-						              hMatchParent) ].
-
-	selectors margin: (BlInsets all: 2).
-	selectors addEventHandler: (BlEventHandler
-			 on: ToListPrimarySelectionChangedEvent
-			 do: [ :event | self selectorSelectionChangedEvent: event ]).
-
-	codePane := ToAlbum new withRowNumbers.
-	codePane styler: BlRBTextStyler new.
-	codePane margin: (BlInsets
-			 top: 8
-			 left: 3
-			 bottom: 3
-			 right: 3).
-
-	codePane contextMenuBuilder: [ :codeMenu :element |
-		codeMenu addItem: (ToMenuItem new labelText: 'Accept') ].
+	packagesPane := self newPackagePane.
+	classesPane := self newClassPane.
+	protocols := self newProtocolPane.
+	selectors := self newSelectorPane.
 
 	packages withRowNumbers.
 	classes withRowNumbers.
@@ -237,15 +232,47 @@ ToMiniBrowser >> initialize [
 	listsPane addChild: selectors.
 	listsPane addDividers.
 
-	mainPane addChild: listsPane.
-	mainPane addChild: codePane.
-	mainPane addDividers
+	^ listsPane
+]
+
+{ #category : #initialization }
+ToMiniBrowser >> newProtocolPane [
+
+	protocols := ToListElement new
+		             id: #protocols;
+		             nodeBuilder: [ :node :holder |
+			             node addChild: (ToLabel new
+						              text: holder dataItem value name;
+						              defaultRawSkin: ToLabelInListElementSkin new;
+						              hMatchParent) ].
+
+	protocols addEventHandler: (BlEventHandler
+			 on: ToListPrimarySelectionChangedEvent
+			 do: [ :event | self protocolSelectionChangedEvent: event ]).
+	^ protocols
+]
+
+{ #category : #initialization }
+ToMiniBrowser >> newSelectorPane [
+
+	selectors := ToListElement new
+		             id: #selectors;
+		             nodeBuilder: [ :node :holder |
+			             node addChild: (ToLabel new
+						              text: holder dataItem value asString;
+						              defaultRawSkin: ToLabelInListElementSkin new;
+						              hMatchParent) ].
+
+	selectors addEventHandler: (BlEventHandler
+			 on: ToListPrimarySelectionChangedEvent
+			 do: [ :event | self selectorSelectionChangedEvent: event ]).
+	^ selectors
 ]
 
 { #category : #opening }
 ToMiniBrowser >> open [
 
-	mainPane openInSpace title: 'Mini browser'
+	self mainPane openInSpace title: 'Mini browser'
 ]
 
 { #category : #initialization }

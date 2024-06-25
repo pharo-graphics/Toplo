@@ -90,3 +90,9 @@ ToPane >> removeDividers [
 
 	self removeChildren: self dividers
 ]
+
+{ #category : #dividers }
+ToPane >> subpanes [
+
+	^ self children select: [ :child | child isKindOf: ToPane ]
+]

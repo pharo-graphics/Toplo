@@ -28,7 +28,7 @@ ToTheme class >> defaultCheckboxBlankImage [
 	bar geometry: (BlRoundedRectangleGeometry cornerRadius: 2).
 	im := BlElement new id: #'icon-image'.
 	im layout: BlFrameLayout new.
-	im size: 16 asPoint.
+	im size: 14 asPoint.
 	im addChild: bar.
 	im addAllStamps: #( #'inner-image' #unchecked ).
 	^ im

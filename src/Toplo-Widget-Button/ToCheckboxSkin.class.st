@@ -9,7 +9,7 @@ ToCheckboxSkin >> checkedLookEvent: anEvent [
 
 	super checkedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e icon innerImage border: (BlBorder paint: (e valueOfTokenNamed: #'color-primary-checked') width: 6).
+		e icon innerImage border: (BlBorder paint: (e valueOfTokenNamed: #'color-primary-checked') width: 5).
 		e indeterminateBar background: Color transparent ]
 ]
 
@@ -19,7 +19,6 @@ ToCheckboxSkin >> disabledLookEvent: anEvent [
 	super disabledLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e background: Color transparent.
-		e border: BlBorder empty.		
 		e icon innerImage border: (e valueOfTokenNamed: #'color-border-disabled').
 		e icon border: (e valueOfTokenNamed: #'color-border-disabled').
 		e indeterminateBar background: Color transparent ]
@@ -30,7 +29,7 @@ ToCheckboxSkin >> enabledLookEvent: anEvent [
 
 	super enabledLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e border: (BlBorder empty).
+		e border: (e valueOfTokenNamed: #'color-border-checkable').
 		e background: (e valueOfTokenNamed: #'color-bg-container').
 		e icon border: (e valueOfTokenNamed: #'color-border') ]
 ]
@@ -40,7 +39,6 @@ ToCheckboxSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
 	anEvent elementDo: [ :e | 
-		e border: (BlBorder empty).		
 		e icon border: (BlBorder paint: (e valueOfTokenNamed: #'color-primary') width: 1) ]
 ]
 
@@ -63,26 +61,20 @@ ToCheckboxSkin >> indeterminateLookEvent: anEvent [
 ToCheckboxSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
-	anEvent elementDo: [ :e | 
+	anEvent elementDo: [ :e |
 		e startInterspace: 10.
-		e iconImage: ((e valueOfTokenNamed: #'checkbox-image-builder') value).
+		e border: (e valueOfTokenNamed: #'color-border-checkable').
+		e iconImage: (e valueOfTokenNamed: #'checkbox-image-builder') value.
 		e icon geometry: (self iconGeometryIn: e).
-		e border: Color black. (e valueOfTokenNamed: #'color-border-checkable').		
-		e icon border: (e valueOfTokenNamed: #'color-border').
-		e padding: (BlInsets
-				 top: (e valueOfTokenNamed: #'padding-content-V')
-				 left: (e valueOfTokenNamed: #'padding-XS')
-				 bottom: (e valueOfTokenNamed: #'padding-content-V')
-				 right: (e valueOfTokenNamed: #'padding-XS')) ]
-	
+		e icon border: (e valueOfTokenNamed: #'color-border') ]
 ]
 
 { #category : #'event handling' }
 ToCheckboxSkin >> leavedLookEvent: anEvent [
 
 	super leavedLookEvent: anEvent.
-	anEvent elementDo: [ :e | 
-		e border: (BlBorder empty).		
+	anEvent elementDo: [ :e |
+		e border: (e valueOfTokenNamed: #'color-border-checkable').
 		e icon border: (e valueOfTokenNamed: #'color-border') ]
 ]
 

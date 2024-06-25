@@ -9,8 +9,8 @@ ToInfiniteRowNumberDecoration >> aeBackgroundBoundsOn: aeCanvas in: anInfiniteEl
 
 	| bnds hgap vgap |
 	bnds := super aeBackgroundBoundsOn: aeCanvas in: anInfiniteElement.
-	hgap := (anInfiniteElement listElement padding left) - 1.
-	vgap := (anInfiniteElement listElement padding top) - 1.
+	hgap := (anInfiniteElement listElement padding left).
+	vgap := (anInfiniteElement listElement padding top).
 	^ ((bnds origin x - hgap) @ (bnds origin y - vgap)) extent: bnds width @ (bnds height + (vgap * 2))
 ]
 

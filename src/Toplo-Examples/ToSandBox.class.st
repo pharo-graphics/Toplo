@@ -4669,14 +4669,13 @@ ToSandBox class >> example_verticalPaneWith3Dividers [
 	thirdPane background: Color yellow.
 	fourthPane background: Color gray.
 	rootPane matchParent.
-	rootPane vFitContent.
-	"rootPane width: 600."
+	rootPane height: 1000.
 	firstPane matchParent.
-	firstPane minHeight: 100.
+	firstPane height: 50.
 	secondPane matchParent.
-	secondPane height: 100.
+	secondPane height: 6.
 	thirdPane matchParent.
-	thirdPane height: 50.
+	thirdPane height: 5.
 	fourthPane matchParent.
 	fourthPane height: 50.
 
@@ -4686,7 +4685,7 @@ ToSandBox class >> example_verticalPaneWith3Dividers [
 			thirdPane.
 			fourthPane }.
 	rootPane addDividers.
-	"rootPane dividers first weight: 0.3."
+	rootPane dividers first weight: 0.3.
 	rootPane asScrollableElement openInSpace
 ]
 

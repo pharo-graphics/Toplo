@@ -54,8 +54,10 @@ ToAlbumSkin >> installLookEvent: anEvent [
 		e margin: BlInsets empty.
 		e outskirts: BlOutskirts inside.
 		e padding: (BlInsets
-				 horizontal: (e valueOfTokenNamed: #'text-editor-padding-H')
-				 vertical: (e valueOfTokenNamed: #'text-editor-padding-V')) ]
+				 top: (e valueOfTokenNamed: #'padding-content-V')
+				 left: (e valueOfTokenNamed: #'padding-XS')
+				 bottom: (e valueOfTokenNamed: #'padding-content-V')
+				 right: (e valueOfTokenNamed: #'padding-XS')) ]
 ]
 
 { #category : #'event handling' }

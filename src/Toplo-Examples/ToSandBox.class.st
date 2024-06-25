@@ -4642,7 +4642,7 @@ ToSandBox class >> example_verticalPaneWith2Dividers [
 	rootPane width: 400.
 	firstPane matchParent.
 	secondPane matchParent.
-	"secondPane width: 100."
+	secondPane width: 100.
 	thirdPane matchParent.
 	thirdPane width: 50.
 
@@ -4653,6 +4653,41 @@ ToSandBox class >> example_verticalPaneWith2Dividers [
 	rootPane addDividers.
 	"rootPane dividers first weight: 0.3."
 	rootPane openInSpace
+]
+
+{ #category : #pane }
+ToSandBox class >> example_verticalPaneWith3Dividers [
+
+	| rootPane firstPane secondPane thirdPane fourthPane |
+	rootPane := ToPane vertical.
+	firstPane := ToPane vertical withNullSkin margin: (BlInsets all: 3); id: #'1'.
+	secondPane := ToPane vertical withNullSkin margin: (BlInsets all: 3); id: #'2'.
+	thirdPane := ToPane vertical withNullSkin margin: (BlInsets all: 3); id: #'3'.
+	fourthPane := ToPane vertical withNullSkin margin: (BlInsets all: 3); id: #'3'.
+	firstPane background: Color blue.
+	secondPane background: Color red.
+	thirdPane background: Color yellow.
+	fourthPane background: Color gray.
+	rootPane matchParent.
+	rootPane vFitContent.
+	"rootPane width: 600."
+	firstPane matchParent.
+	firstPane minHeight: 100.
+	secondPane matchParent.
+	secondPane height: 100.
+	thirdPane matchParent.
+	thirdPane height: 50.
+	fourthPane matchParent.
+	fourthPane height: 50.
+
+	rootPane addChildren: {
+			firstPane.
+			secondPane.
+			thirdPane.
+			fourthPane }.
+	rootPane addDividers.
+	"rootPane dividers first weight: 0.3."
+	rootPane asScrollableElement openInSpace
 ]
 
 { #category : #pane }

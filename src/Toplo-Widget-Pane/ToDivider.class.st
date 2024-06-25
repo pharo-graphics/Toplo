@@ -3,10 +3,10 @@ Class {
 	#superclass : #ToElement,
 	#instVars : [
 		'thickness',
-		'hasBeenLayouted',
 		'container',
 		'firstResizedElement',
-		'secondResizedElement'
+		'secondResizedElement',
+		'firstLayoutDone'
 	],
 	#category : #'Toplo-Widget-Pane'
 }
@@ -45,12 +45,12 @@ ToDivider >> canApplyLayoutOnPanes [
 { #category : #layout }
 ToDivider >> checkFirstLayout [
 
-	hasBeenLayouted ifFalse: [
+	firstLayoutDone ifFalse: [
 		| w |
 		w := self constraints linear weight.
 		w ~= 1 ifTrue: [ 
 			self firstResizedElement constraints linear weight: w ] ].
-	hasBeenLayouted := true
+	firstLayoutDone := true
 ]
 
 { #category : #accessing }
@@ -147,7 +147,7 @@ ToDivider >> hoveredBorder [
 ToDivider >> initialize [
 
 	super initialize.
-	hasBeenLayouted := false.
+	firstLayoutDone := false.
 	self thickness: self defaultThickness.
 	self constraintsDo: [ :c | c ignoreByLayout ].
 	self addEventHandler: self defaultEventHandler 
@@ -173,24 +173,6 @@ ToDivider >> isHorizontal [
 ToDivider >> isVertical [
 
 	^ self isHorizontal not
-]
-
-{ #category : #layout }
-ToDivider >> layoutInHorizontalPane [
-
-	| firstY secondY gap firstX secondX position |
-	
-	firstX := self leftResizedElement measuredBounds inParent right + self leftResizedElement constraints margin right.
-	firstY := self leftResizedElement measuredBounds inParent top + self leftResizedElement constraints margin top.
-
-	secondX := self rightResizedElement measuredBounds inParent left - self rightResizedElement constraints margin left.	
-	secondY := self rightResizedElement measuredBounds inParent top + self rightResizedElement constraints margin top.
-	
-	gap := (((secondX - firstX)  - (self thickness )) / 2).
-	position := (firstX + gap) @ (firstY min: secondY).
-	
-	self constraints position: position.
-	self measuredBounds position: position
 ]
 
 { #category : #layout }

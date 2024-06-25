@@ -3,9 +3,6 @@ Class {
 	#superclass : #ToElement,
 	#traits : 'TToOrientable + TToPasteUpPane + TToElementWithPlaceholder',
 	#classTraits : 'TToOrientable classTrait + TToPasteUpPane classTrait + TToElementWithPlaceholder classTrait',
-	#instVars : [
-		'lockedWidth'
-	],
 	#category : #'Toplo-Widget-Pane'
 }
 
@@ -62,8 +59,7 @@ ToPane >> dividers [
 { #category : #initialization }
 ToPane >> initialize [ 
 
-	super initialize.
-	lockedWidth := false
+	super initialize
 ]
 
 { #category : #skin }
@@ -79,18 +75,6 @@ ToPane >> layoutStrategy [
 	^ self layout
 
 
-]
-
-{ #category : #accessing }
-ToPane >> lockedWidth [
-
-	lockedWidth 
-]
-
-{ #category : #accessing }
-ToPane >> lockedWidth: aBoolean [
-
-	lockedWidth := aBoolean
 ]
 
 { #category : #layout }

@@ -30,7 +30,7 @@ ToPicsumPhotosGallerySelectionSkin >> installLookEvent: anEvent [
 			c vertical fitContent.
 			c horizontal fitContent ].
 		im := ToImage inner: self pathCheckSVG.
-		im size: 18 asPoint.
+		im size: 28 asPoint.
 		im background: Color yellow.
 		im geometry: BlCircleGeometry new.
 		cont padding: (BlInsets all: 8).

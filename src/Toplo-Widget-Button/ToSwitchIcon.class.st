@@ -131,6 +131,7 @@ ToSwitchIcon >> handleUncheckedBuilder: aValuable [
 ToSwitchIcon >> initialize [
 
 	super initialize.
+	self id: #'switchIcon'.
 	wishedSize := self defaultSize.
 	self applySkinInstallerOnFirstRequest: false.
 	self layout: BlBasicLayout new.

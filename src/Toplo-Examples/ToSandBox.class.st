@@ -71,7 +71,7 @@ ToSandBox class >> checkingStrategyChooserFor: aCheckableBar [
 	checkingStrategyContainer hMatchParent.
 	checkingStrategyContainer addChild:
 		(ToLabel text: 'Checking strategy').
-	checkingStrategyContainer layout cellSpacing: 5.
+	checkingStrategyContainer layout cellSpacing: 0.
 	checkingStrategyContainer addChildren:
 		checkingStrategyGroup registeredCheckables.
 	^ checkingStrategyContainer
@@ -85,7 +85,7 @@ ToSandBox class >> configurationBoardFor: aBar [
 	confPane padding: (BlInsets all: 5).
 	confPane width: 250.
 	confPane border: Color lightGray.
-	
+
 	inspectButton := ToButton new labelText: 'Inspect'.
 	inspectButton whenClickedDo: [ aBar inspect ].
 	confPane addChild: inspectButton.
@@ -177,14 +177,15 @@ ToSandBox class >> configurationBoardFor: aBar [
 				 aBar selectionMode beneathOption animationDuration: (v
 						  ifTrue: [ 200 milliSeconds ]
 						  ifFalse: [ 0 milliSeconds ]).
-				aBar secondarySelectionMode beneathOption animationDuration: (v
+				 aBar secondarySelectionMode beneathOption animationDuration: (v
 						  ifTrue: [ 150 milliSeconds ]
 						  ifFalse: [ 0 milliSeconds ]) ]).
 
 	wrappingSwitch checked: true.
 
-	selectOnMouseDownSwitch := ToSwitchButton new labelText:
-		                           'Select on mouse down'.
+	selectOnMouseDownSwitch := ToSwitchButton new
+		                           labelText: 'Select on mouse down';
+		                           id: #selectOnMouseDownSwitch.
 	selectOnMouseDownSwitch startFlexible: true.
 	selectOnMouseDownSwitch hMatchParent.
 
@@ -3429,16 +3430,9 @@ ToSandBox class >> example_segmentedWithCheckboxes [
 
 	| checkableBar dashBoard |
 	checkableBar := ToSegmentedElement new.
-	checkableBar checkableElementAccessor add:
-		(ToCheckbox new label: (ToLabel text: 'Daily')).
-	checkableBar checkableElementAccessor add:
-		(ToCheckbox new label: (ToLabel text: 'Weekly')).
-	checkableBar checkableElementAccessor add:
-		(ToCheckbox new label: (ToLabel text: 'Monthly')).
-	checkableBar checkableElementAccessor add:
-		(ToCheckbox new label: (ToLabel text: 'Quaterly')).
-	checkableBar checkableElementAccessor add:
-		(ToCheckbox new label: (ToLabel text: 'Yearly')).
+	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
+		checkableBar checkableElementAccessor add:
+			(ToCheckbox new label: (ToLabel text: l)) ].
 
 	dashBoard := self segmentedDashBoardFor: checkableBar.
 	dashBoard openInSpace
@@ -3450,11 +3444,9 @@ ToSandBox class >> example_segmentedWithToggleButton [
 	| seg dashBoard rootPane feedbackPane maj |
 	seg := ToSegmentedElement new.
 	seg matchParent.
-	1 to: 4 do: [ :n |
-		| lab |
-		lab := 'Button ' , n asString.
-		seg segmentAccessor add: ((ToToggleButton new label: (ToLabel text: lab))
-				 tooltipString: lab;
+	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
+		seg segmentAccessor add:
+			((ToToggleButton new label: (ToLabel text: l))
 				 whenClickedDo: [ :event | event currentTarget label text traceCr ];
 				 flexible: true;
 				 yourself) ].
@@ -3474,7 +3466,7 @@ ToSandBox class >> example_segmentedWithToggleButton [
 			            (seg selectionModel containsIndex: idx)
 				            ifTrue: [ stream nextPutAll: 'V ' ]
 				            ifFalse: [ stream nextPutAll: 'X ' ].
-							stream nextPutAll: e checked asString.
+			            stream nextPutAll: e checked asString.
 			            stream nextPutAll: ' '.
 			            idx < seg segmentAccessor itemCount ifTrue: [
 				            stream nextPutAll: '- ' ] ] ].
@@ -3608,10 +3600,14 @@ ToSandBox class >> example_stillPressedEvent [
 { #category : #'switch button' }
 ToSandBox class >> example_switchButton [
 
-	| th  |
+	| th |
 	th := ToSwitchButton new.
+	th
+		addEventHandlerOn: ToElementLookEvent
+		do: [ :event | event traceCr ].
 	th checked: true.
-	th wishedTrackSize: 100@30.
+	th wishedTrackSize: 100 @ 30.
+	th inspect.
 	th openInSpace
 ]
 
@@ -5062,6 +5058,7 @@ ToSandBox class >> segmentedDashBoardFor: aSegmentedElement [
 	mainPane matchParent.
 
 	confPane := self configurationBoardFor: aSegmentedElement.
+	(confPane childWithId: #selectOnMouseDownSwitch) disable.
 	confPane padding: (BlInsets all: 5).
 	confPane width: 250.
 	confPane border: Color lightGray.
@@ -5147,7 +5144,7 @@ ToSandBox class >> selectionModeChooserFor: aBar [
 	buttons first checked: true.
 	selectionModeContainer := ToPane vertical.
 	selectionModeContainer border: Color lightGray.
-	selectionModeContainer padding: (BlInsets all: 5).
+	selectionModeContainer padding: (BlInsets all: 2).
 	selectionModeContainer hMatchParent.
 	selectionModeContainer addChild: (ToLabel text: 'Selection mode').
 	selectionModeContainer addChildren:

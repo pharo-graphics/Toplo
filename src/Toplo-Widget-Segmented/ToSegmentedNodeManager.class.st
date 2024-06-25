@@ -27,8 +27,7 @@ ToSegmentedNodeManager >> constraintNode: aNode [
 			c linear horizontal alignCenter.
 			c horizontal matchParent.
 			c vertical matchParent ] ].
-	seg isHorizontal ifTrue: [ ^ self ].
-	seg canMatchParentHorizontallyInVerticalSegmented ifFalse: [ ^ self ].
+	seg wantsHMatchParent ifFalse: [ ^ self ].
 	aNode constraintsDo: [ :c | c horizontal matchParent ]
 ]
 

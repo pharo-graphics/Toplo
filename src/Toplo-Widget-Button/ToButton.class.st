@@ -23,13 +23,6 @@ ToButton >> initialize [
 	self fitContent
 ]
 
-{ #category : #skin }
-ToButton >> installRawStyle [
-
-	super installRawStyle.
-	self labeledIcon hMatchParent
-]
-
 { #category : #'t - element with labeled icon - accessing' }
 ToButton >> labeledIcon [ 
 

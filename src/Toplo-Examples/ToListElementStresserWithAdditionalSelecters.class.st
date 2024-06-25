@@ -1,6 +1,11 @@
 Class {
 	#name : #ToListElementStresserWithAdditionalSelecters,
 	#superclass : #ToListElementStresser,
+	#instVars : [
+		'maxUnselectableIntervals',
+		'maxHiddenIntervals',
+		'maxDisabledIntervals'
+	],
 	#category : #'Toplo-Examples'
 }
 
@@ -125,6 +130,15 @@ ToListElementStresserWithAdditionalSelecters >> actionUnselectableIndexesIn: aLi
 ]
 
 { #category : #initialization }
+ToListElementStresserWithAdditionalSelecters >> initialize [ 
+
+	super initialize.
+	maxUnselectableIntervals := 0.
+	maxHiddenIntervals := 0.
+	maxDisabledIntervals := 0
+]
+
+{ #category : #initialization }
 ToListElementStresserWithAdditionalSelecters >> newListElement [
 
 	^ ToListElement new
@@ -143,4 +157,30 @@ ToListElementStresserWithAdditionalSelecters >> selectActionsToRun [
 	^ (super selectActionsToRun)
 	  , (self class superclass selectors select: [ :selector |
 			   selector beginsWith: #action ])
+]
+
+{ #category : #initialization }
+ToListElementStresserWithAdditionalSelecters >> selectionResultsTextOn: aListElement [
+
+	| nb t |
+	t := super selectionResultsTextOn: aListElement.
+	nb := aListElement unselectableSelectionModel underlyingModel
+		      intervals size.
+	maxUnselectableIntervals := nb max: maxUnselectableIntervals.
+	t := t , ' < unselectable ' , nb asString , '/'
+	  , maxUnselectableIntervals asString , ' >'.
+	
+	nb := aListElement hiddenSelectionModel underlyingModel
+		      intervals size.
+	maxHiddenIntervals := nb max: maxHiddenIntervals.
+	t := t , ' < hidden ' , nb asString , '/'
+	  , maxHiddenIntervals asString , ' >'.
+	
+	nb := aListElement disabledSelectionModel underlyingModel
+		      intervals size.
+	maxDisabledIntervals := nb max: maxDisabledIntervals.
+	t := t , ' < disabled ' , nb asString , '/'
+	  , maxDisabledIntervals asString , ' >'.
+	
+	^ t
 ]

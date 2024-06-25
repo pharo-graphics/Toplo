@@ -12,17 +12,20 @@ ToSwitchIconSkin >> checkedLookEvent: anEvent [
 		e updateHandleContent.
 		e background: (e valueOfTokenNamed: #'switch-checked-background').
 		" don't animate if the first measure is not done since the animation depends on size"
-		e firstMeasureDone ifTrue: [ self switchWithAnimation: e ] ]
+		(e firstMeasureDone and: [ e isEnabled ]) ifTrue: [
+			self switchWithAnimation: e ] ]
 ]
 
 { #category : #'event handling' }
 ToSwitchIconSkin >> disabledLookEvent: anEvent [
 
 	super disabledLookEvent: anEvent.
+
 	anEvent elementDo: [ :e |
 		e updateHandleContent.
 		e background: (e valueOfTokenNamed: #'switch-disabled-background').
-		e handle background: (e valueOfTokenNamed: #'switch-handle-disabled-background') ]
+		e handle background:
+			(e valueOfTokenNamed: #'switch-handle-disabled-background') ]
 ]
 
 { #category : #'event handling' }
@@ -51,8 +54,7 @@ ToSwitchIconSkin >> installLookEvent: anEvent [
 ToSwitchIconSkin >> leavedLookEvent: anEvent [
 
 	super leavedLookEvent: anEvent.
-	anEvent elementDo: [ :e |
-		 ]
+	anEvent elementDo: [ :e |  ]
 ]
 
 { #category : #'event handling' }

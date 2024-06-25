@@ -220,6 +220,12 @@ ToAbstractListElement >> hiddenSelecter [
 	^ self selecter subSelecterWithId: #hidden
 ]
 
+{ #category : #accessing }
+ToAbstractListElement >> hiddenSelectionModel [  
+
+	^ self selectionModel hiddenSelectionModel 
+]
+
 { #category : #initialization }
 ToAbstractListElement >> initialize [
 

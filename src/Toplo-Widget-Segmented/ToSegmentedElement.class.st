@@ -15,12 +15,6 @@ ToSegmentedElement >> accept: aVisitor [
 	aVisitor visitSegmentedElement: self
 ]
 
-{ #category : #testing }
-ToSegmentedElement >> canMatchParentHorizontallyInVerticalSegmented [
-
-	^ nodeWrapping not
-]
-
 { #category : #accessing }
 ToSegmentedElement >> checkableElementAccessor [
 	"according to the specific vocabulary - the data items are checkables of the checkable bar element "
@@ -79,4 +73,10 @@ ToSegmentedElement >> segmentAccessor [
 	"according to the specific vocabulary - the data items are checkables of the checkable bar element "
 
 	^ self dataAccessor
+]
+
+{ #category : #testing }
+ToSegmentedElement >> wantsHMatchParent [
+
+	^ self isVertical and: [ nodeWrapping not ]
 ]

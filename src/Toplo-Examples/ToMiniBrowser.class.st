@@ -102,11 +102,10 @@ ToMiniBrowser >> newClassPane [
 
 	| classesPane classesButtonPane sideToggle |
 	classes := ToListElement new
+		           nodeFactory: [ ToClassNameViewExample new ];
 		           id: #classes;
 		           nodeBuilder: [ :node :holder |
-			           node addChild: (ToClassNameViewExample new
-						            class: holder dataItem position: holder position;
-						            yourself) ].
+			           node class: holder dataItem position: holder position ].
 
 	classes addEventHandler: (BlEventHandler
 			 on: ToListPrimarySelectionChangedEvent
@@ -163,7 +162,6 @@ ToMiniBrowser >> newPackagePane [
 	packages := ToListElement new
 		            id: #packages;
 		            nodeBuilder: [ :node :holder |
-			            node ensureCanManageSkin.
 			            node addChild: (ToLabel new
 						             text: holder dataItem name;
 						             defaultRawSkin: ToLabelInListElementSkin new;

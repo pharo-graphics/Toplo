@@ -7,7 +7,8 @@ Class {
 		'maxRound',
 		'rand',
 		'counter',
-		'listIdentifiers'
+		'listIdentifiers',
+		'maxPrimaryIntervals'
 	],
 	#category : #'Toplo-Examples'
 }
@@ -202,6 +203,7 @@ ToListElementStresser >> initialize [
 	super initialize.
 
 	counter := 0.
+	maxPrimaryIntervals := 0.
 	rand := Random new.
 
 	tabsPanel := ToTabPane new.
@@ -292,7 +294,7 @@ ToListElementStresser >> maxTab: anObject [
 { #category : #accessing }
 ToListElementStresser >> minListSize [
 
-	^ 50
+	^ 500
 
 ]
 
@@ -303,9 +305,28 @@ ToListElementStresser >> newListElement [
 ]
 
 { #category : #initialization }
+ToListElementStresser >> newSelectionBoardOn: aListElement [
+
+	| pane lab |
+	pane := ToPane horizontal.
+	pane padding: (BlInsets all: 3).
+	pane addChild: (lab := ToLabel new).
+	aListElement
+		addEventHandlerOn: ToListSelectionChangedEvent
+		do: [ :event |
+			| nb |
+			nb := aListElement selectionModel underlyingModel intervals size.
+			lab text: (self selectionResultsTextOn: aListElement) ].
+	^ pane
+]
+
+{ #category : #initialization }
 ToListElementStresser >> newStressedListNumber: aNumber [
 
-	| list process size ident priority suffix sieve |
+	| list process size ident priority suffix sieve pane |
+	
+	pane := ToPane vertical.
+	pane matchParent.
 
 	list := self newListElement.
 	sieve := ToListElementSieve new.
@@ -357,7 +378,10 @@ ToListElementStresser >> newStressedListNumber: aNumber [
 			process terminate.
 			sieve isInstalled ifTrue: [ sieve onUninstalledIn: list ] ].
 
-	^ list -> (listIdentifiers at: aNumber)
+	pane addChild: list.
+	pane addChild: (self newSelectionBoardOn: list).
+	
+	^ pane -> (listIdentifiers at: aNumber)
 ]
 
 { #category : #private }
@@ -382,10 +406,7 @@ ToListElementStresser >> nextProcessPriorityForListNumber: aNumber [
 { #category : #private }
 ToListElementStresser >> nextSizeForListNumber: aNumber [
 
-	^ aNumber even
-		  ifTrue: [ rand nextIntegerBetween: 1 and: self minListSize ]
-		  ifFalse: [
-		  rand nextIntegerBetween: self minListSize and: self maxListSize ]
+	^ rand nextIntegerBetween: self minListSize and: self maxListSize
 ]
 
 { #category : #running }
@@ -456,6 +477,16 @@ ToListElementStresser >> runInHost: aBlOSWindowHost [
 ToListElementStresser >> selectActionsToRun [
 
 	^ self class selectors select: [ :selector | selector beginsWith: #action ]
+]
+
+{ #category : #initialization }
+ToListElementStresser >> selectionResultsTextOn: aListElement [
+
+	| nb |
+	nb := aListElement selectionModel underlyingModel intervals size.
+	maxPrimaryIntervals := nb max: maxPrimaryIntervals.
+	^ 'Intervals: < primary ' , nb asString , '/'
+	  , maxPrimaryIntervals asString , ' >'
 ]
 
 { #category : #accessing }

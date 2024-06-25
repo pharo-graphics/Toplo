@@ -5,17 +5,10 @@ Class {
 }
 
 { #category : #visiting }
-ToSegmentedConfigurator >> canMatchParentHorizontallyInVerticalSegmented [
-
-	^ barElement canMatchParentHorizontallyInVerticalSegmented
-]
-
-{ #category : #visiting }
 ToSegmentedConfigurator >> visitInnerBarElement: anInnerBarElement [
 
 	super visitInnerBarElement: anInnerBarElement.
-	anInnerBarElement isHorizontal ifTrue: [ ^ self ].
-	self canMatchParentHorizontallyInVerticalSegmented ifFalse: [ ^ self ].
+	self wantsHMatchParent ifFalse: [ ^ self ].
 	anInnerBarElement hMatchParent.
 	anInnerBarElement middleContainer constraintsDo: [ :c |
 		c horizontal matchParent ]
@@ -25,8 +18,7 @@ ToSegmentedConfigurator >> visitInnerBarElement: anInnerBarElement [
 ToSegmentedConfigurator >> visitScrollableBarElement: aScrollableBarElement [
 
 	super visitScrollableBarElement: aScrollableBarElement.
-	aScrollableBarElement isHorizontal ifTrue: [ ^ self ].
-	self canMatchParentHorizontallyInVerticalSegmented ifFalse: [ ^ self ].
+	self wantsHMatchParent ifFalse: [ ^ self ].
 	aScrollableBarElement hMatchParent
 ]
 
@@ -35,17 +27,20 @@ ToSegmentedConfigurator >> visitScrollableBarTrackElement: aScrollableTrackEleme
 
 	super visitScrollableBarTrackElement: aScrollableTrackElement.
 	aScrollableTrackElement constraintsDo: [ :c |
-		aScrollableTrackElement isHorizontal ifFalse: [
-			self canMatchParentHorizontallyInVerticalSegmented ifFalse: [
-				^ self ].
-			c horizontal matchParent ] ]
+		self wantsHMatchParent ifFalse: [ ^ self ].
+		c horizontal matchParent ]
 ]
 
 { #category : #visiting }
 ToSegmentedConfigurator >> visitSegmentedElement: aSegmentedBarElement [
 
 	self visitBarElement: aSegmentedBarElement.
-	aSegmentedBarElement isHorizontal ifTrue: [ ^ self ].
-	self canMatchParentHorizontallyInVerticalSegmented ifFalse: [ ^ self ].
+	self wantsHMatchParent ifFalse: [ ^ self ].
 	aSegmentedBarElement hMatchParent
+]
+
+{ #category : #visiting }
+ToSegmentedConfigurator >> wantsHMatchParent [
+
+	^ barElement wantsHMatchParent
 ]

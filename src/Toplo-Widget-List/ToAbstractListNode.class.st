@@ -1,8 +1,8 @@
 Class {
 	#name : #ToAbstractListNode,
-	#superclass : #BlElement,
-	#traits : 'TToEnableable + TToListNode + TToAuthorisationRequestTarget + TBlLayoutResizable',
-	#classTraits : 'TToEnableable classTrait + TToListNode classTrait + TToAuthorisationRequestTarget classTrait + TBlLayoutResizable classTrait',
+	#superclass : #ToElement,
+	#traits : 'TToListNode',
+	#classTraits : 'TToListNode classTrait',
 	#category : #'Toplo-Widget-List-Node'
 }
 
@@ -16,6 +16,7 @@ ToAbstractListNode >> defaultLayout [
 ToAbstractListNode >> initialize [
 
 	super initialize.
+	self applySkinInstallerOnFirstRequest: true.
 	self layout: self defaultLayout.
 	self addEventHandler: self newEventHandler 
 ]

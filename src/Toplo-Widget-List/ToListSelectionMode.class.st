@@ -105,9 +105,7 @@ ToListSelectionMode >> onClickEvent: anEvent onNode: aNode [
 	self isDisabled ifTrue: [ ^ self ].
 
 	" Multiple selection "
-	self isMultipleSelection ifTrue: [ 
-		
-		" SHIFT "
+	self isMultipleSelection ifTrue: [ " SHIFT "
 		anEvent sourceEvent modifiers isShift ifTrue: [
 			| curr |
 			curr := self selecter currentIndex.
@@ -115,7 +113,7 @@ ToListSelectionMode >> onClickEvent: anEvent onNode: aNode [
 			^ self ].
 		" CMD-CTRL "
 		(anEvent sourceEvent modifiers isPrimaryModifier or: [
-			 self selectOnMouseDown ]) ifTrue: [
+			 selectOnMouseDown ]) ifTrue: [
 			self selectOrDeselectOnNode: aNode.
 			^ self ].
 		" No modifier"
@@ -125,7 +123,7 @@ ToListSelectionMode >> onClickEvent: anEvent onNode: aNode [
 	" Single selection "
 	" CMD-CTRL  "
 	(anEvent sourceEvent modifiers isPrimaryModifier or: [
-		 self selectOnMouseDown ]) ifTrue: [
+		 selectOnMouseDown ]) ifTrue: [
 		| index |
 		index := aNode holder position.
 		(self selectionModel containsIndex: index) ifTrue: [

@@ -39,7 +39,7 @@ ToLabelTest >> testBeMultiline [
 ToLabelTest >> testSkinUpdatedAfterTextChanged [
 	" test if changing the text of a ToLabel do rebuild its skin  "
 
-	| label theme hugeFontSize attributes fontSizeAttr prevAttributes attrItor |
+	| label theme hugeFontSize attributes fontSizeAttr prevAttributes  |
 	hugeFontSize := 60.
 
 	" declare a specific style sheet theme with one property to change the defont font size "
@@ -70,8 +70,7 @@ ToLabelTest >> testSkinUpdatedAfterTextChanged [
 	label addStamp: #HUGE.
 
 	space applyAllSkinPhases.
-	attrItor := label text iterator.
-	fontSizeAttr := attrItor
+	fontSizeAttr := label text iterator
 		                detectAttribute: [ :a |
 		                a isKindOf: BlFontSizeDefaultAttribute ]
 		                ifFound: [ :a | a ]
@@ -86,8 +85,7 @@ ToLabelTest >> testSkinUpdatedAfterTextChanged [
 	prevAttributes := attributes.
 	attributes := label text attributesAt: 1.
 	self assert: prevAttributes ~~ attributes.
-	attrItor := label text iterator.
-	fontSizeAttr := attrItor
+	fontSizeAttr := label text iterator
 		                detectAttribute: [ :a |
 		                a isKindOf: BlFontSizeDefaultAttribute ]
 		                ifFound: [ :a | a ]

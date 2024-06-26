@@ -69,7 +69,7 @@ ToSelectionGroupHolder >> canAnimateSelectionUpdate [
 ]
 
 { #category : #enumerating }
-ToSelectionGroupHolder >> collectNewSelectionElementsIn: aListElement [
+ToSelectionGroupHolder >> collectNewSelectionElementsFrom: aListElement [
 
 	^ groups collect: [ :grp |
 		  grp createSelectionElementIn: aListElement ]
@@ -117,7 +117,7 @@ ToSelectionGroupHolder >> option: aSelectionOption [
 ToSelectionGroupHolder >> refreshSelectionIn: aListElement [
 
 	self forgetPreviousState.
-	self updateSelectionIn: aListElement withAnimation: false
+	self updateSelectionIn: aListElement
 ]
 
 { #category : #'private - selection updating' }
@@ -139,24 +139,16 @@ ToSelectionGroupHolder >> removeSelectionElements [
 { #category : #'private - selection updating' }
 ToSelectionGroupHolder >> updateSelectionIn: aListElement [
 
-	self updateSelectionIn: aListElement withAnimation: true
-]
-
-{ #category : #'private - selection updating' }
-ToSelectionGroupHolder >> updateSelectionIn: aListElement withAnimation: animationRequested [
-
-	| prevGroups groupsChanged |
-	
+	| prevGroups |
 	prevGroups := groups.
 	groups := option collectSelectionGroupsFrom: aListElement.
-	
-	groupsChanged := (self groups: prevGroups equals: groups) not.
-	groupsChanged ifFalse: [ ^ self ].
-	
+
+	(self groups: prevGroups equals: groups) ifTrue: [ ^ self ].
+
 	self removeSelectionElements.
 	option isPrimary ifTrue: [ aListElement notifyNodesSelection ].
-	
-	selectionElements := self collectNewSelectionElementsIn: aListElement.
+
+	selectionElements := self collectNewSelectionElementsFrom: aListElement.
 	self addSelectionElementsIn: aListElement.
 	selectionElements ifEmpty: [ ^ self ].
 	self rememberStateIn: aListElement

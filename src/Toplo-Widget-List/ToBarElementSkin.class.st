@@ -13,9 +13,17 @@ ToBarElementSkin >> focusedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToBarElementSkin >> installLookEvent: anEvent [
+ToBarElementSkin >> focusedSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super focusedSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e border: BlBorder empty ]
+]
+
+{ #category : #'event handling' }
+ToBarElementSkin >> installSkinEvent: anEvent [
+
+	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e padding: BlInsets empty.
 		e border: BlBorder empty.
@@ -54,9 +62,9 @@ ToBarElementSkin >> shortcutsToInstallIn: aListElement [
 ]
 
 { #category : #'event handling' }
-ToBarElementSkin >> unfocusedLookEvent: anEvent [
+ToBarElementSkin >> unfocusedSkinEvent: anEvent [
 
-	super unfocusedLookEvent: anEvent.
+	super unfocusedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: BlBorder empty ]
 ]

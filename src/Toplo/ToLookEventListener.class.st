@@ -22,7 +22,7 @@ ToLookEventListener >> canReceiveEvent: aLookEvent [
 { #category : #accessing }
 ToLookEventListener >> eventClass [
 
-	^ eventClass ifNil: [ eventClass := ToInstallLookEvent  ]
+	^ eventClass ifNil: [ eventClass := ToInstallSkinEvent  ]
 ]
 
 { #category : #accessing }

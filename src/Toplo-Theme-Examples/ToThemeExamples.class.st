@@ -322,7 +322,7 @@ ToThemeExamples class >> example_WithLateBoundPropertyWriter [
 				 e textChanged ]).
 	styleSheet select: ToLabel asTypeSelector style: [ :sr |
 		sr
-			when: ToInstallLookEvent
+			when: ToInstallSkinEvent
 			write: #textBuilder asWritableProperty
 			with: [ :e |
 				e textAttributesBuilder defaultFontName: 'American Typewriter'.

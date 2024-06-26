@@ -31,19 +31,19 @@ ToStyleSheetApplicationTest >> testButtonLabelSkin0 [
 		style: [ :sr |
 			sr write: prop with: [ :e | e valueOfTokenNamed: #'color-error' ].
 			sr
-				when: ToDisabledLookEvent
+				when: ToDisabledSkinEvent
 				write: prop
 				with: [ :e | e valueOfTokenNamed: #'color-text-disabled' ].
 			sr
-				when: ToInstallLookEvent
+				when: ToInstallSkinEvent
 				write: prop
 				with: [ :e | e valueOfTokenNamed: #'color-error' ].
 			sr
-				when: ToHoveredLookEvent
+				when: ToHoveredSkinEvent
 				write: prop
 				with: [ :e | e valueOfTokenNamed: #'color-error-hover' ].
 			sr
-				when: ToPressedLookEvent
+				when: ToPressedSkinEvent
 				write: prop
 				with: [ :e | e valueOfTokenNamed: #'color-error-pressed' ] ].
 
@@ -97,26 +97,26 @@ ToStyleSheetApplicationTest >> testButtonSkin0 [
 			| p |
 			p := ToFeatureProperty new name: #background.
 			sr
-				when: ToDisabledLookEvent
+				when: ToDisabledSkinEvent
 				write: p
 				with: [ :e | e valueOfTokenNamed: #'color-bg-container-disabled' ].
 
 			p := ToFeatureProperty new name: #border.
 
 			sr
-				when: ToDisabledLookEvent
+				when: ToDisabledSkinEvent
 				write: p
 				with: [ :e | e valueOfTokenNamed: #'color-border-disabled' ].
 			sr
-				when: ToInstallLookEvent
+				when: ToInstallSkinEvent
 				write: p
 				with: [ :e | e valueOfTokenNamed: #'color-border' ].
 			sr
-				when: ToHoveredLookEvent
+				when: ToHoveredSkinEvent
 				write: p
 				with: [ :e | e valueOfTokenNamed: #'color-primary-hover' ].
 			sr
-				when: ToPressedLookEvent
+				when: ToPressedSkinEvent
 				write: p
 				with: [ :e | e valueOfTokenNamed: #'color-primary-pressed' ] ].
 
@@ -134,19 +134,19 @@ ToStyleSheetApplicationTest >> testButtonSkin0 [
 				e textChanged ].
 
 			sr
-				when: ToDisabledLookEvent
+				when: ToDisabledSkinEvent
 				write: tp
 				with: [ :e | e valueOfTokenNamed: #'color-text-disabled' ].
 			sr
-				when: ToInstallLookEvent
+				when: ToInstallSkinEvent
 				write: tp
 				with: [ :e | e valueOfTokenNamed: #'color-error' ].
 			sr
-				when: ToHoveredLookEvent
+				when: ToHoveredSkinEvent
 				write: tp
 				with: [ :e | e valueOfTokenNamed: #'color-error-hover' ].
 			sr
-				when: ToPressedLookEvent
+				when: ToPressedSkinEvent
 				write: tp
 				with: [ :e | e valueOfTokenNamed: #'color-error-pressed' ] ].
 
@@ -260,10 +260,10 @@ ToStyleSheetApplicationTest >> testSkinWith2LookEventActionOnSameLookEventEvent 
 	" here the border should be blue because only the last one is applied (for the same event) "
 	styleSheet select: (ToIdSelector new id: #a) style: [ :sr |
 		sr
-			when: ToInstallLookEvent
+			when: ToInstallSkinEvent
 			do: [ :e | e border: (BlBorder paint: Color red width: 3) ].
 		sr
-			when: ToInstallLookEvent
+			when: ToInstallSkinEvent
 			do: [ :e | e border: (BlBorder paint: Color blue width: 1) ] ].
 
 	elem := ToElement new.
@@ -292,7 +292,7 @@ ToStyleSheetApplicationTest >> testSkinWithAnUniversalRule [
 
 	styleSheet select: ToUniversalSelector new style: [ :sr |
 		sr
-			when: ToInstallLookEvent
+			when: ToInstallSkinEvent
 			write: (ToFeatureProperty new name: #background)
 			with: Color red ].
 	elem := ToElement new.
@@ -323,7 +323,7 @@ ToStyleSheetApplicationTest >> testSkinWithChildRule [
 				 (ToStampSelector new addStamp: #parent))
 		style: [ :sr |
 			sr
-				when: ToInstallLookEvent
+				when: ToInstallSkinEvent
 				write: (ToFeatureProperty new name: #border)
 				with: (BlBorder paint: Color red width: 3) ].
 
@@ -366,7 +366,7 @@ ToStyleSheetApplicationTest >> testSkinWithChildRule2 [
 				 atDepth: 2)
 		style: [ :sr |
 			sr
-				when: ToInstallLookEvent
+				when: ToInstallSkinEvent
 				write: (ToFeatureProperty new name: #border)
 				with: (BlBorder paint: Color red width: 3) ].
 
@@ -466,7 +466,7 @@ ToStyleSheetApplicationTest >> testSkinWithLookEventAction2 [
 
 	styleSheet select: (ToIdSelector new id: #a) style: [ :sr |
 		sr
-			when: ToInstallLookEvent
+			when: ToInstallSkinEvent
 			do: [ :e | e border: (BlBorder paint: Color red width: 3) ] ].
 
 	elem := ToElement new.
@@ -502,7 +502,7 @@ ToStyleSheetApplicationTest >> testSkinWithLookEventActionMixedWithWriter [
 			write: (ToFeatureProperty new name: #border)
 			with: (BlBorder paint: Color blue width: 1).
 		sr
-			when: ToInstallLookEvent
+			when: ToInstallSkinEvent
 			do: [ :e | e border: (BlBorder paint: Color red width: 3) ] ].
 
 	elem := ToElement new.
@@ -535,11 +535,11 @@ ToStyleSheetApplicationTest >> testStyleSheetStyle0 [
 	styleSheet select: #button asStampSelector style: [ :sr |
 		sr write: (styleSheet property: #background) with: Color white.
 		sr
-			when: ToInstallLookEvent
+			when: ToInstallSkinEvent
 			write: (styleSheet property: #background)
 			with: [ :e | Color black ].
 		sr
-			when: ToDisabledLookEvent
+			when: ToDisabledSkinEvent
 			write: (styleSheet property: #background)
 			with: [ :e | e valueOfTokenNamed: #'color-bg-container-disabled' ] ].
 
@@ -572,16 +572,16 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules0 [
 		sr select: #danger asStampSelector style: [
 			sr write: (styleSheet property: #background) with: Color red.
 			sr
-				when: ToDisabledLookEvent
+				when: ToDisabledSkinEvent
 				write: (styleSheet property: #background)
 				with: [ :e | Color red alpha: 0.1 ] ].
 		sr write: (styleSheet property: #background) with: Color white.
 		sr
-			when: ToInstallLookEvent
+			when: ToInstallSkinEvent
 			write: (styleSheet property: #background)
 			with: [ :e | Color black ].
 		sr
-			when: ToDisabledLookEvent
+			when: ToDisabledSkinEvent
 			write: (styleSheet property: #background)
 			with: [ :e | Color lightGray ] ].
 
@@ -1071,7 +1071,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules4 [
 					   atDepth: 2) withChild: #childchild2 asStampSelector atDepth: 2))
 		style: [ :sr |
 			sr
-				when: ToInstallLookEvent
+				when: ToInstallSkinEvent
 				write: (styleSheet property: #background)
 				with: [ :e | Color red ] ].
 	styleSheet script
@@ -1081,7 +1081,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules4 [
 					   atDepth: 2) withChild: #childchild2 asStampSelector atDepth: 2))
 		style: [ :sr |
 			sr
-				when: ToInstallLookEvent
+				when: ToInstallSkinEvent
 				write: (styleSheet property: #background)
 				with: [ :e | Color blue ] ].
 

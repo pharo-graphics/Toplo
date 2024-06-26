@@ -5,42 +5,42 @@ Class {
 }
 
 { #category : #'event handling' }
-ToSelectIconContainerSkin >> closedLookEvent: anEvent [
+ToSelectIconContainerSkin >> closedSkinEvent: anEvent [
 
-	super closedLookEvent: anEvent.
+	super closedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e icon: self popupClosedIcon   ].
 ]
 
 { #category : #'event handling' }
-ToSelectIconContainerSkin >> disabledLookEvent: anEvent [
+ToSelectIconContainerSkin >> disabledSkinEvent: anEvent [
 
-	super disabledLookEvent: anEvent.
+	super disabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor normal  ].
 ]
 
 { #category : #'event handling' }
-ToSelectIconContainerSkin >> hoveredLookEvent: anEvent [
+ToSelectIconContainerSkin >> hoveredSkinEvent: anEvent [
 
-	super hoveredLookEvent: anEvent.
+	super hoveredSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor webLink  ].
 ]
 
 { #category : #'event handling' }
-ToSelectIconContainerSkin >> installLookEvent: anEvent [
+ToSelectIconContainerSkin >> installSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e middleContainer padding: (BlInsets horizontal: 5).
 		e icon ifNil: [ e icon: self popupClosedIcon ] ]
 ]
 
 { #category : #'event handling' }
-ToSelectIconContainerSkin >> leavedLookEvent: anEvent [
+ToSelectIconContainerSkin >> leavedSkinEvent: anEvent [
 
-	super leavedLookEvent: anEvent.
+	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor normal  ].
 ]
@@ -80,8 +80,8 @@ ToSelectIconContainerSkin >> searchIcon [
 ]
 
 { #category : #'event handling' }
-ToSelectIconContainerSkin >> uninstallLookEvent: anEvent [
+ToSelectIconContainerSkin >> uninstallSkinEvent: anEvent [
 
-	super uninstallLookEvent: anEvent.
+	super uninstallSkinEvent: anEvent.
 	anEvent elementDo: [ :e | ]
 ]

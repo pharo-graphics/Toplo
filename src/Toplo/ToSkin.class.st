@@ -7,7 +7,7 @@ Class {
 { #category : #'api - accessing' }
 ToSkin >> eventsToHandle [
 
-	^ { ToElementLookEvent }
+	^ { ToSkinEvent }
 ]
 
 { #category : #testing }

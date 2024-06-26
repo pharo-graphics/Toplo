@@ -5,9 +5,9 @@ Class {
 }
 
 { #category : #'event handling' }
-ToGeneralButtonMenuItemSkin >> disabledLookEvent: anEvent [
+ToGeneralButtonMenuItemSkin >> disabledSkinEvent: anEvent [
 
-	super disabledLookEvent: anEvent.
+	super disabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor normal.
 		e border: (BlBorder paint: (e valueOfTokenNamed: #'color-border-disabled') width: (e valueOfTokenNamed: #'line-width')).
@@ -15,27 +15,27 @@ ToGeneralButtonMenuItemSkin >> disabledLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToGeneralButtonMenuItemSkin >> enabledLookEvent: anEvent [
+ToGeneralButtonMenuItemSkin >> enabledSkinEvent: anEvent [
 
-	super enabledLookEvent: anEvent.
+	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: (BlBorder paint: (Color transparent) width: (e valueOfTokenNamed: #'line-width')).
 		e background: (e valueOfTokenNamed: #'color-bg-container') ]
 ]
 
 { #category : #'event handling' }
-ToGeneralButtonMenuItemSkin >> hoveredLookEvent: anEvent [
+ToGeneralButtonMenuItemSkin >> hoveredSkinEvent: anEvent [
 
-	super hoveredLookEvent: anEvent.
+	super hoveredSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor webLink.
 		e border: (BlBorder paint: (e valueOfTokenNamed: #'color-primary-hover') width: (e valueOfTokenNamed: #'line-width')) ]
 ]
 
 { #category : #'event handling' }
-ToGeneralButtonMenuItemSkin >> installLookEvent: anEvent [
+ToGeneralButtonMenuItemSkin >> installSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e vFitContent.
 		e mouseCursor: Cursor normal.
@@ -50,9 +50,9 @@ ToGeneralButtonMenuItemSkin >> installLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToGeneralButtonMenuItemSkin >> leavedLookEvent: anEvent [
+ToGeneralButtonMenuItemSkin >> leavedSkinEvent: anEvent [
 
-	super leavedLookEvent: anEvent.
+	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: (BlBorder paint: (Color transparent) width: (e valueOfTokenNamed: #'line-width')).
 		e background: (e valueOfTokenNamed: #'color-bg-container') ]

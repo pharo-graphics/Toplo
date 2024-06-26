@@ -5,9 +5,9 @@ Class {
 }
 
 { #category : #'event handling' }
-ToListElementSkin >> installLookEvent: anEvent [
+ToListElementSkin >> installSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |  ]
 ]
 
@@ -44,8 +44,8 @@ ToListElementSkin >> shortcutsToInstallIn: aListElement [
 ]
 
 { #category : #'event handling' }
-ToListElementSkin >> uninstallLookEvent: anEvent [
+ToListElementSkin >> uninstallSkinEvent: anEvent [
 
-	super uninstallLookEvent: anEvent.
+	super uninstallSkinEvent: anEvent.
 	anEvent elementDo: [ :e | e uninstallShortcuts ]
 ]

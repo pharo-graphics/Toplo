@@ -13,9 +13,17 @@ ToBasicListElementSkin >> focusedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToBasicListElementSkin >> installLookEvent: anEvent [
+ToBasicListElementSkin >> focusedSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super focusedSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e border: (e valueOfTokenNamed: #'color-primary') ]
+]
+
+{ #category : #'event handling' }
+ToBasicListElementSkin >> installSkinEvent: anEvent [
+
+	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e shortcuts: (self shortcutsToInstallIn: e).
 		e installShortcuts.
@@ -53,9 +61,9 @@ ToBasicListElementSkin >> shortcutsToInstallIn: aListElement [
 ]
 
 { #category : #'event handling' }
-ToBasicListElementSkin >> unfocusedLookEvent: anEvent [
+ToBasicListElementSkin >> unfocusedSkinEvent: anEvent [
 
-	super unfocusedLookEvent: anEvent.
+	super unfocusedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: (e valueOfTokenNamed: #'color-border') ]
 ]

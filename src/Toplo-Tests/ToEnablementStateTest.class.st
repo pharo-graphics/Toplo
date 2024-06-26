@@ -11,13 +11,13 @@ ToEnablementStateTest >> testApplyOn [
 	e := ToElement new.
 	space root addChild: e.
 	e addEventHandler: (BlEventHandler
-			 on: ToEnabledLookEvent
+			 on: ToEnabledSkinEvent
 			 do: [ :event | receivedEnabledEvt := event ]).
 	e addEventHandler: (BlEventHandler
-			 on: ToDisabledLookEvent
+			 on: ToDisabledSkinEvent
 			 do: [ :event | receivedDisabledEvt := event ]).
 	e skinManager applySkinReinstallIn: e.
-	self assert: (receivedEnabledEvt isKindOf: ToEnabledLookEvent)
+	self assert: (receivedEnabledEvt isKindOf: ToEnabledSkinEvent)
 ]
 
 { #category : #running }
@@ -28,13 +28,13 @@ ToEnablementStateTest >> testApplyOn2 [
 	e enable.
 	space root addChild: e.
 	e addEventHandler: (BlEventHandler
-			 on: ToEnabledLookEvent
+			 on: ToEnabledSkinEvent
 			 do: [ :event | receivedEnabledEvt := event ]).
 	e addEventHandler: (BlEventHandler
-			 on: ToDisabledLookEvent
+			 on: ToDisabledSkinEvent
 			 do: [ :event | receivedDisabledEvt := event ]).
 	e skinManager applySkinReinstallIn: e.
-	self assert: (receivedEnabledEvt isKindOf: ToEnabledLookEvent)
+	self assert: (receivedEnabledEvt isKindOf: ToEnabledSkinEvent)
 ]
 
 { #category : #running }
@@ -45,13 +45,13 @@ ToEnablementStateTest >> testApplyOn3 [
 	space root addChild: e.
 	e enable.
 	e addEventHandler: (BlEventHandler
-			 on: ToEnabledLookEvent
+			 on: ToEnabledSkinEvent
 			 do: [ :event | receivedEnabledEvt := event ]).
 	e addEventHandler: (BlEventHandler
-			 on: ToDisabledLookEvent
+			 on: ToDisabledSkinEvent
 			 do: [ :event | receivedDisabledEvt := event ]).
 	e skinManager applySkinReinstallIn: e.
-	self assert: (receivedEnabledEvt isKindOf: ToEnabledLookEvent)
+	self assert: (receivedEnabledEvt isKindOf: ToEnabledSkinEvent)
 ]
 
 { #category : #running }
@@ -62,13 +62,13 @@ ToEnablementStateTest >> testApplyOnWhenDisabled [
 	e disable.
 	space root addChild: e.
 	e addEventHandler: (BlEventHandler
-			 on: ToEnabledLookEvent
+			 on: ToEnabledSkinEvent
 			 do: [ :event | receivedEnabledEvt := event ]).
 	e addEventHandler: (BlEventHandler
-			 on: ToDisabledLookEvent
+			 on: ToDisabledSkinEvent
 			 do: [ :event | receivedDisabledEvt := event ]).
 	e skinManager applySkinReinstallIn: e.
-	self assert: (receivedDisabledEvt isKindOf: ToDisabledLookEvent)
+	self assert: (receivedDisabledEvt isKindOf: ToDisabledSkinEvent)
 ]
 
 { #category : #running }
@@ -79,13 +79,13 @@ ToEnablementStateTest >> testApplyOnWhenDisabled2 [
 	space root addChild: e.
 	e disable.
 	e addEventHandler: (BlEventHandler
-			 on: ToEnabledLookEvent
+			 on: ToEnabledSkinEvent
 			 do: [ :event | receivedEnabledEvt := event ]).
 	e addEventHandler: (BlEventHandler
-			 on: ToDisabledLookEvent
+			 on: ToDisabledSkinEvent
 			 do: [ :event | receivedDisabledEvt := event ]).
 	e skinManager applySkinReinstallIn: e.
-	self assert: (receivedDisabledEvt isKindOf: ToDisabledLookEvent)
+	self assert: (receivedDisabledEvt isKindOf: ToDisabledSkinEvent)
 ]
 
 { #category : #tests }
@@ -108,9 +108,9 @@ ToEnablementStateTest >> testLookEvent [
 
 	| state  |
 	state := ToEnablementState new enabled: true.
-	self assert: (state lookEvent isKindOf: ToEnabledLookEvent).
+	self assert: (state lookEvent isKindOf: ToEnabledSkinEvent).
 	state := ToEnablementState new enabled: false.
-	self assert: (state lookEvent isKindOf: ToDisabledLookEvent) 
+	self assert: (state lookEvent isKindOf: ToDisabledSkinEvent) 
 
 	
 ]

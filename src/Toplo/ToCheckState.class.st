@@ -23,9 +23,9 @@ ToCheckState >> checked: aBooleanOrIndeterminate [
 ToCheckState >> lookEventClass [
 
 	^ self checked isSymbol
-		  ifTrue: [ ToIndeterminateLookEvent ]
+		  ifTrue: [ ToIndeterminateSkinEvent ]
 		  ifFalse: [
 			  self checked
-				  ifTrue: [ ToCheckedLookEvent ]
-				  ifFalse: [ ToUncheckedLookEvent ] ]
+				  ifTrue: [ ToCheckedSkinEvent ]
+				  ifFalse: [ ToUncheckedSkinEvent ] ]
 ]

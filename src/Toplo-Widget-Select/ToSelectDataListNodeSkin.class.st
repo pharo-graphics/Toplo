@@ -8,15 +8,15 @@ Class {
 }
 
 { #category : #'event handling' }
-ToSelectDataListNodeSkin >> deselectedLookEvent: anEvent [
+ToSelectDataListNodeSkin >> deselectedSkinEvent: anEvent [
 
-	super deselectedLookEvent: anEvent.
+	super deselectedSkinEvent: anEvent.
 	anEvent elementDo: [ :e | ]
 ]
 
 { #category : #'event handling' }
-ToSelectDataListNodeSkin >> selectedLookEvent: anEvent [
+ToSelectDataListNodeSkin >> selectedSkinEvent: anEvent [
 
-	super selectedLookEvent: anEvent.
+	super selectedSkinEvent: anEvent.
 	anEvent elementDo: [ :e | ]
 ]

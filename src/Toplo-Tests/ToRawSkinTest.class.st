@@ -12,7 +12,7 @@ ToRawSkinTest >> instanciableLookEventClasses [
 	" returns all look event classes that implement #sendTo: "
 
 	^ Array streamContents: [ :str |
-		  ToElementLookEvent allSubclasses do: [ :cls |
+		  ToSkinEvent allSubclasses do: [ :cls |
 			  cls localMethods do: [ :cm |
 				  cm selector asSymbol = #sendTo: ifTrue: [ str nextPut: cls ] ] ] ]
 ]

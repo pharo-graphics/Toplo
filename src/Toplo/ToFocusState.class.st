@@ -23,6 +23,6 @@ ToFocusState >> focused: aValuable [
 ToFocusState >> lookEventClass [
 
 	^ self focused value
-		  ifTrue: [ ToFocusedLookEvent ]
-		  ifFalse: [ ToUnfocusedLookEvent ]
+		  ifTrue: [ ToFocusedSkinEvent ]
+		  ifFalse: [ ToUnfocusedSkinEvent ]
 ]

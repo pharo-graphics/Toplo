@@ -5,18 +5,18 @@ Class {
 }
 
 { #category : #'event handling' }
-ToCheckMenuItemSkin >> checkedLookEvent: anEvent [
+ToCheckMenuItemSkin >> checkedSkinEvent: anEvent [
 
-	super checkedLookEvent: anEvent.
+	super checkedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e icon innerImage border: (BlBorder paint: (e valueOfTokenNamed: #'color-primary') width: 6).
 		e indeterminateBar background: Color transparent ]
 ]
 
 { #category : #'event handling' }
-ToCheckMenuItemSkin >> disabledLookEvent: anEvent [
+ToCheckMenuItemSkin >> disabledSkinEvent: anEvent [
 
-	super disabledLookEvent: anEvent.
+	super disabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e background: Color transparent.
 		e border: BlBorder empty.		
@@ -26,9 +26,9 @@ ToCheckMenuItemSkin >> disabledLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToCheckMenuItemSkin >> enabledLookEvent: anEvent [
+ToCheckMenuItemSkin >> enabledSkinEvent: anEvent [
 
-	super enabledLookEvent: anEvent.
+	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: (BlBorder empty).
 		e background: e defaultBackground.
@@ -36,9 +36,9 @@ ToCheckMenuItemSkin >> enabledLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToCheckMenuItemSkin >> hoveredLookEvent: anEvent [
+ToCheckMenuItemSkin >> hoveredSkinEvent: anEvent [
 
-	super hoveredLookEvent: anEvent.
+	super hoveredSkinEvent: anEvent.
 	anEvent elementDo: [ :e | 
 		e border: (BlBorder empty).		
 		e mouseCursor: Cursor webLink.
@@ -52,18 +52,18 @@ ToCheckMenuItemSkin >> iconGeometryIn: aCheckbox [
 ]
 
 { #category : #'event handling' }
-ToCheckMenuItemSkin >> indeterminateLookEvent: anEvent [
+ToCheckMenuItemSkin >> indeterminateSkinEvent: anEvent [
 
-	super indeterminateLookEvent: anEvent.
+	super indeterminateSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e icon innerImage border: (BlBorder paint: (e valueOfTokenNamed: #'color-primary') width: 0).
 		e indeterminateBar background: (e valueOfTokenNamed: #'color-primary')]
 ]
 
 { #category : #'event handling' }
-ToCheckMenuItemSkin >> installLookEvent: anEvent [
+ToCheckMenuItemSkin >> installSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e | 
 		e iconImage: ((e valueOfTokenNamed: #'checkbox-image-builder') value).
 		e icon geometry: (self iconGeometryIn: e).
@@ -75,9 +75,9 @@ ToCheckMenuItemSkin >> installLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToCheckMenuItemSkin >> leavedLookEvent: anEvent [
+ToCheckMenuItemSkin >> leavedSkinEvent: anEvent [
 
-	super leavedLookEvent: anEvent.
+	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e | 
 		e border: (BlBorder empty).		
 		e icon border: (e valueOfTokenNamed: #'color-border') ]
@@ -92,9 +92,9 @@ ToCheckMenuItemSkin >> pressedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToCheckMenuItemSkin >> uncheckedLookEvent: anEvent [
+ToCheckMenuItemSkin >> uncheckedSkinEvent: anEvent [
 
-	super uncheckedLookEvent: anEvent.
+	super uncheckedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e icon innerImage border: (BlBorder paint: (e valueOfTokenNamed: #'color-primary') width: 0).
 		e indeterminateBar background: Color transparent ]

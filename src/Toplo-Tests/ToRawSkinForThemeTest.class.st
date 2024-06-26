@@ -5,17 +5,17 @@ Class {
 }
 
 { #category : #'event handling' }
-ToRawSkinForThemeTest >> installLookEvent: anEvent [
+ToRawSkinForThemeTest >> installSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e background: (e valueOfTokenNamed: #'color-primary') ]
 ]
 
 { #category : #'event handling' }
-ToRawSkinForThemeTest >> uninstallLookEvent: anEvent [
+ToRawSkinForThemeTest >> uninstallSkinEvent: anEvent [
 
-	super uninstallLookEvent: anEvent.
+	super uninstallSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e background: BlBackground transparent ]
 ]

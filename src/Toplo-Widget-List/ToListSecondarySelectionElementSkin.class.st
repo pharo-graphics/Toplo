@@ -5,9 +5,9 @@ Class {
 }
 
 { #category : #'event handling' }
-ToListSecondarySelectionElementSkin >> installLookEvent: anEvent [
+ToListSecondarySelectionElementSkin >> installSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e geometry:
 			(BlRoundedRectangleGeometry

@@ -24,8 +24,8 @@ ToSelectionState >> focused: aBoolean [
 ToSelectionState >> lookEventClass [
 
 	^ self selected
-		  ifTrue: [ ToSelectedLookEvent ]
-		  ifFalse: [ ToDeselectedLookEvent ]
+		  ifTrue: [ ToSelectedSkinEvent ]
+		  ifFalse: [ ToDeselectedSkinEvent ]
 ]
 
 { #category : #accessing }

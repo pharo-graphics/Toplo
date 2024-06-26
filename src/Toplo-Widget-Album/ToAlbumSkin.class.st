@@ -28,9 +28,16 @@ ToAlbumSkin >> focusedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToAlbumSkin >> hoveredLookEvent: anEvent [
+ToAlbumSkin >> focusedSkinEvent: anEvent [
 
-	super hoveredLookEvent: anEvent.
+	super focusedSkinEvent: anEvent.
+	anEvent elementDo: [ :e | e border: (self focusBorderIn: e) ]
+]
+
+{ #category : #'event handling' }
+ToAlbumSkin >> hoveredSkinEvent: anEvent [
+
+	super hoveredSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e isEditable
 			ifTrue: [ e mouseCursor: Cursor overEditableText ]
@@ -38,9 +45,9 @@ ToAlbumSkin >> hoveredLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToAlbumSkin >> installLookEvent: anEvent [
+ToAlbumSkin >> installSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		(e hasStamp: #placeholder) ifTrue: [
 			e text
@@ -61,15 +68,15 @@ ToAlbumSkin >> installLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToAlbumSkin >> leavedLookEvent: anEvent [
+ToAlbumSkin >> leavedSkinEvent: anEvent [
 
-	super leavedLookEvent: anEvent.
+	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e | e mouseCursor: Cursor normal ]
 ]
 
 { #category : #'event handling' }
-ToAlbumSkin >> unfocusedLookEvent: anEvent [
+ToAlbumSkin >> unfocusedSkinEvent: anEvent [
 
-	super unfocusedLookEvent: anEvent.
+	super unfocusedSkinEvent: anEvent.
 	anEvent elementDo: [ :e | e border: (self blurBorderIn: e) ]
 ]

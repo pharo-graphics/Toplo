@@ -5,18 +5,18 @@ Class {
 }
 
 { #category : #'event handling' }
-ToSelectNodeInnerCloseButtonSkin >> hoveredLookEvent: anEvent [
+ToSelectNodeInnerCloseButtonSkin >> hoveredSkinEvent: anEvent [
 
-	super hoveredLookEvent: anEvent.
+	super hoveredSkinEvent: anEvent.
 	anEvent elementDo: [ :e | 
 		e mouseCursor: Cursor webLink.
 		e border: (Color red alpha: 0.5) ]
 ]
 
 { #category : #'event handling' }
-ToSelectNodeInnerCloseButtonSkin >> installLookEvent: anEvent [
+ToSelectNodeInnerCloseButtonSkin >> installSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e icon formColor: Color lightGray.
 		e vFitContent.
@@ -26,9 +26,9 @@ ToSelectNodeInnerCloseButtonSkin >> installLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToSelectNodeInnerCloseButtonSkin >> leavedLookEvent: anEvent [
+ToSelectNodeInnerCloseButtonSkin >> leavedSkinEvent: anEvent [
 
-	super leavedLookEvent: anEvent.
+	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor normal.
 		e border: BlBorder empty ]

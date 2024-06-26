@@ -19,9 +19,23 @@ ToListPrimarySelectionElementSkin >> focusedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToListPrimarySelectionElementSkin >> installLookEvent: anEvent [
+ToListPrimarySelectionElementSkin >> focusedSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super focusedSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e isBeneath
+			ifTrue: [
+				e background:
+					(e valueOfTokenNamed: #'color-primary-selection-focused') ]
+			ifFalse: [
+				e background:
+					(e valueOfTokenNamed: #'color-primary-selection-over-focused') ] ]
+]
+
+{ #category : #'event handling' }
+ToListPrimarySelectionElementSkin >> installSkinEvent: anEvent [
+
+	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:
 				 (e valueOfTokenNamed: #'border-radius-SM')).
@@ -52,9 +66,9 @@ ToListPrimarySelectionElementSkin >> installLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToListPrimarySelectionElementSkin >> unfocusedLookEvent: anEvent [
+ToListPrimarySelectionElementSkin >> unfocusedSkinEvent: anEvent [
 
-	super unfocusedLookEvent: anEvent.
+	super unfocusedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		 e isBeneath
 			ifTrue: [

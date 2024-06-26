@@ -5,9 +5,9 @@ Class {
 }
 
 { #category : #'event handling' }
-ToListContextMenuSelectionElementSkin >> installLookEvent: anEvent [
+ToListContextMenuSelectionElementSkin >> installSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e geometry:
 			(BlRoundedRectangleGeometry

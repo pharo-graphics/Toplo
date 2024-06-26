@@ -5,16 +5,16 @@ Class {
 }
 
 { #category : #'event handling' }
-ToTabInnerCloseButtonSkin >> hoveredLookEvent: anEvent [
+ToTabInnerCloseButtonSkin >> hoveredSkinEvent: anEvent [
 
-	super hoveredLookEvent: anEvent.
+	super hoveredSkinEvent: anEvent.
 	anEvent elementDo: [ :e | e border: (Color red alpha: 0.5) ]
 ]
 
 { #category : #'event handling' }
-ToTabInnerCloseButtonSkin >> installLookEvent: anEvent [
+ToTabInnerCloseButtonSkin >> installSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e vFitContent.
 		e geometry: BlCircleGeometry new.
@@ -23,8 +23,8 @@ ToTabInnerCloseButtonSkin >> installLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToTabInnerCloseButtonSkin >> leavedLookEvent: anEvent [
+ToTabInnerCloseButtonSkin >> leavedSkinEvent: anEvent [
 
-	super leavedLookEvent: anEvent.
+	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e | e border: BlBorder empty ]
 ]

@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-Widget-List-Core'
 }
 
+{ #category : #'event handling' }
+ToListElementEventHandler >> blurEvent: anEvent [
+
+	anEvent currentTarget notifyNodesSelection
+]
+
 { #category : #'infinite event handling' }
 ToListElementEventHandler >> collectionUpdateAllRequest: anEvent [
 
@@ -38,6 +44,8 @@ ToListElementEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 ToListElementEventHandler >> eventsToHandle [
 
 	^ {
+		  BlFocusEvent.
+		  BlBlurEvent.
 		  BlElementAddedToSceneGraphEvent.
 
 		  BlMouseDownEvent.
@@ -52,7 +60,7 @@ ToListElementEventHandler >> eventsToHandle [
 		  ToInfiniteDataSourceEmptinessChangedEvent.
 		  BlInfiniteDataSourceItemRangeInserted.
 		  BlInfiniteDataSourceItemRangeRemoved.
-		
+
 		  BlLayoutConstraintsChangedEvent.
 		  ToLayoutOrientationChangedEvent.
 		  ToLayoutDirectionChangedEvent.
@@ -62,6 +70,12 @@ ToListElementEventHandler >> eventsToHandle [
 		  ToListHiddenSelectionChangedEvent.
 		  ToListUnselectableSelectionChangedEvent.
 		  ToListDisabledSelectionChangedEvent }
+]
+
+{ #category : #'event handling' }
+ToListElementEventHandler >> focusEvent: anEvent [
+
+	anEvent currentTarget notifyNodesSelection
 ]
 
 { #category : #'infinite event handling' }

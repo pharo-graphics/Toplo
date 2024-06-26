@@ -107,7 +107,8 @@ ToSelectionGroupHolder >> renewSelectionIn: aListElement [
 
 	self removeSelectionElements.
 	groups := Array streamContents: [ :stream |
-		                 option nextPutSelectionGroupsFrom: aListElement in: stream ]
+		                 option nextPutSelectionGroupsFrom: aListElement in: stream ].
+	aListElement notifyNodesSelection
 ]
 
 { #category : #'private - selection updating' }

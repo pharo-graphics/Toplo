@@ -7,5 +7,5 @@ Class {
 { #category : #'look event sending' }
 ToInstallState >> lookEventClass [
 
-	^ ToInstallLookEvent
+	^ ToInstallSkinEvent
 ]

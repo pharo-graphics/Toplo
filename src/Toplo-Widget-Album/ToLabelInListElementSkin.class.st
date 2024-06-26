@@ -5,19 +5,20 @@ Class {
 }
 
 { #category : #'event handling' }
-ToLabelInListElementSkin >> deselectedLookEvent: anEvent [
+ToLabelInListElementSkin >> deselectedSkinEvent: anEvent [
 
-	super deselectedLookEvent: anEvent.
+	super deselectedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e textAttributesBuilder foreground: (e valueOfTokenNamed: #'label-in-list-foreground-deselected').
+		e textAttributesBuilder foreground:
+			(e valueOfTokenNamed: #'label-in-list-foreground-deselected').
 		e applyAttributesBuilder.
 		e textChanged ]
 ]
 
 { #category : #'event handling' }
-ToLabelInListElementSkin >> selectedLookEvent: anEvent [
+ToLabelInListElementSkin >> selectedSkinEvent: anEvent [
 
-	super selectedLookEvent: anEvent.
+	super selectedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		| tokname |
 		tokname := anEvent focused

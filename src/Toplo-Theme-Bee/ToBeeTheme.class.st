@@ -81,21 +81,21 @@ ToBeeTheme >> declareBackgroundStyleWithTokenDefault: aDefaultColorToken tokenHo
 		                       duration: 150 milliSeconds.
 
 	self
-		when: ToInstallLookEvent
+		when: ToInstallSkinEvent
 		write: (self property: #'background-color')
 		with: [ :e | e valueOfTokenNamed: aDefaultColorToken ].
 	self
-		when: ToLeavedLookEvent
+		when: ToLeavedSkinEvent
 		write: (self property: #'background-color')
 		with: [ :e | e valueOfTokenNamed: aDefaultColorToken ]
 		animation: backgroundColorAnim.
 	self
-		when: ToHoveredLookEvent
+		when: ToHoveredSkinEvent
 		write: (self property: #'background-color')
 		with: [ :e | e valueOfTokenNamed: aHoverColorToken ]
 		animation: backgroundColorAnim.
 	self
-		when: ToPressedLookEvent
+		when: ToPressedSkinEvent
 		write: (self property: #'background-color')
 		with: [ :e | e valueOfTokenNamed: aPressedColorToken ]
 		animation: backgroundColorAnim
@@ -110,7 +110,7 @@ ToBeeTheme >> declareBorderStyleWithTokenDefault: aDefaultColorToken tokenHover:
 	borderEffectAnim := ToPropertyBorderEffectTransitionAnimation new
 		                    duration: 350 milliSeconds.
 	self
-		when: ToInstallLookEvent
+		when: ToInstallSkinEvent
 		write: (self property: #border)
 		with: [ :e |
 			BlBorderBuilder new
@@ -118,7 +118,7 @@ ToBeeTheme >> declareBorderStyleWithTokenDefault: aDefaultColorToken tokenHover:
 				width: (e valueOfTokenNamed: #'line-width');
 				build ].
 	self
-		when: ToLeavedLookEvent
+		when: ToLeavedSkinEvent
 		write: (self property: #border)
 		with: [ :e |
 			BlBorderBuilder new
@@ -127,7 +127,7 @@ ToBeeTheme >> declareBorderStyleWithTokenDefault: aDefaultColorToken tokenHover:
 				build ]
 		animation: borderColorAnim.
 	self
-		when: ToHoveredLookEvent
+		when: ToHoveredSkinEvent
 		write: (self property: #border)
 		with: [ :e |
 			BlBorderBuilder new
@@ -136,7 +136,7 @@ ToBeeTheme >> declareBorderStyleWithTokenDefault: aDefaultColorToken tokenHover:
 				build ]
 		animation: borderColorAnim.
 	self
-		when: ToClickedLookEvent
+		when: ToClickedSkinEvent
 		write: (self property: #border)
 		with: [ :e |
 			BlBorderBuilder new
@@ -145,7 +145,7 @@ ToBeeTheme >> declareBorderStyleWithTokenDefault: aDefaultColorToken tokenHover:
 				build ]
 		animation: borderEffectAnim.
 	self
-		when: ToPressedLookEvent
+		when: ToPressedSkinEvent
 		write: (self property: #border)
 		with: [ :e |
 			BlBorderBuilder new
@@ -172,14 +172,14 @@ ToBeeTheme >> declareButtonRules [
 ToBeeTheme >> declareCommonButtonRules [
 
 		self
-			when: ToHoveredLookEvent
+			when: ToHoveredSkinEvent
 			write: (self property: #mouseCursor)
 			with: [ :e |
 				e isEnabled
 					ifTrue: [ Cursor webLink ]
 					ifFalse: [  ] ].
 		self
-			when: ToLeavedLookEvent
+			when: ToLeavedSkinEvent
 			write: (self property: #mouseCursor)
 			with: nil.
 
@@ -228,7 +228,7 @@ ToBeeTheme >> declareDashedBorderStyleWithTokenDefault: aDefaultColorToken token
 	borderEffectAnim := ToPropertyBorderEffectTransitionAnimation new
 		                    duration: 350 milliSeconds.
 	self
-		when: ToInstallLookEvent
+		when: ToInstallSkinEvent
 		write: (self property: #border)
 		with: [ :e |
 			BlBorderBuilder new
@@ -237,7 +237,7 @@ ToBeeTheme >> declareDashedBorderStyleWithTokenDefault: aDefaultColorToken token
 				dashArray: (e valueOfTokenNamed: #'dash-array');
 				build ].
 	self
-		when: ToLeavedLookEvent
+		when: ToLeavedSkinEvent
 		write: (self property: #border)
 		with: [ :e |
 			BlBorderBuilder new
@@ -247,7 +247,7 @@ ToBeeTheme >> declareDashedBorderStyleWithTokenDefault: aDefaultColorToken token
 				build ]
 		animation: borderColorAnim.
 	self
-		when: ToHoveredLookEvent
+		when: ToHoveredSkinEvent
 		write: (self property: #border)
 		with: [ :e |
 			BlBorderBuilder new
@@ -257,7 +257,7 @@ ToBeeTheme >> declareDashedBorderStyleWithTokenDefault: aDefaultColorToken token
 				build ]
 		animation: borderColorAnim.
 	self
-		when: ToClickedLookEvent
+		when: ToClickedSkinEvent
 		write: (self property: #border)
 		with: [ :e |
 			BlBorderBuilder new
@@ -267,7 +267,7 @@ ToBeeTheme >> declareDashedBorderStyleWithTokenDefault: aDefaultColorToken token
 				build ]
 		animation: borderEffectAnim.
 	self
-		when: ToPressedLookEvent
+		when: ToPressedSkinEvent
 		write: (self property: #border)
 		with: [ :e |
 			BlBorderBuilder new
@@ -282,7 +282,7 @@ ToBeeTheme >> declareDashedButtonRules [
 
 	self select: #( #dashed ) asStampSelector style: [
 		self
-			when: ToDisabledLookEvent
+			when: ToDisabledSkinEvent
 			write: (self property: #border)
 			with: [ :e |
 				BlBorderBuilder new
@@ -309,11 +309,11 @@ ToBeeTheme >> declareDefaultButtonRules [
 	"Button background and border"
 	"Background"
 	self
-		when: ToDisabledLookEvent
+		when: ToDisabledSkinEvent
 		write: (self property: #'background-color')
 		with: [ :e | e valueOfTokenNamed: #'color-bg-container-disabled' ].
 	self
-		when: ToInstallLookEvent
+		when: ToInstallSkinEvent
 		write: (self property: #'background-color')
 		with: [ :e | e valueOfTokenNamed: #'color-bg-container' ].
 
@@ -323,7 +323,7 @@ ToBeeTheme >> declareDefaultButtonRules [
 			 || #text asStampSelector || #link asStampSelector) not
 		style: [
 			self
-				when: ToDisabledLookEvent
+				when: ToDisabledSkinEvent
 				write: (self property: #border)
 				with: [ :e |
 					BlBorder
@@ -343,7 +343,7 @@ ToBeeTheme >> declareDefaultButtonRules [
 	"Label"
 	self select: #link asStampSelector not style: [
 		self
-			when: ToDisabledLookEvent
+			when: ToDisabledSkinEvent
 			write: (self property: #'button-label-text-foreground')
 			with: [ :e | e valueOfTokenNamed: #'color-text-disabled' ].
 		self select: #danger asStampSelector not style: [
@@ -388,7 +388,7 @@ ToBeeTheme >> declareLabelRules [
 					yourself ].
 
 		self
-			when: ToDisabledLookEvent
+			when: ToDisabledSkinEvent
 			write: (self property: #'text-attributes-with-builder')
 			with: [ :e |
 				e textAttributesBuilder foreground:
@@ -500,23 +500,23 @@ ToBeeTheme >> declareLabelRules [
 ToBeeTheme >> declareLabelStyleWithTokenDefault: aDefaultColorToken tokenHover: aHoverColorToken tokenPressed: aTokenColorToken [
 
 	self
-		when: ToDisabledLookEvent
+		when: ToDisabledSkinEvent
 		write: (self property: #'button-label-text-foreground')
 		with: [ :e | e valueOfTokenNamed: #'color-text-disabled' ].
 	self
-		when: ToInstallLookEvent
+		when: ToInstallSkinEvent
 		write: (self property: #'button-label-text-foreground')
 		with: [ :e | e valueOfTokenNamed: aDefaultColorToken ].
 	self
-		when: ToLeavedLookEvent
+		when: ToLeavedSkinEvent
 		write: (self property: #'button-label-text-foreground')
 		with: [ :e | e valueOfTokenNamed: aDefaultColorToken ].
 	self
-		when: ToHoveredLookEvent
+		when: ToHoveredSkinEvent
 		write: (self property: #'button-label-text-foreground')
 		with: [ :e | e valueOfTokenNamed: aHoverColorToken ].
 	self
-		when: ToPressedLookEvent
+		when: ToPressedSkinEvent
 		write: (self property: #'button-label-text-foreground')
 		with: [ :e | e valueOfTokenNamed: aTokenColorToken ]
 ]
@@ -584,7 +584,7 @@ ToBeeTheme >> declareLinkButtonRules [
 	self select: #link asStampSelector style: [ "Border"
 		self declareNoBorder.
 		self
-			when: ToDisabledLookEvent
+			when: ToDisabledSkinEvent
 			write: (self property: #'background-color')
 			with: [ :e | Color transparent ].
 
@@ -605,21 +605,21 @@ ToBeeTheme >> declareLinkButtonRules [
 ToBeeTheme >> declareNoBorder [
 
 	self
-		when: ToInstallLookEvent
+		when: ToInstallSkinEvent
 		write: (self property: #'border')
 		with: [ :e |
 			BlBorder
 				paint: Color transparent
 				width: (e valueOfTokenNamed: #'line-width') ].
 	self
-		when: ToLeavedLookEvent
+		when: ToLeavedSkinEvent
 		write: (self property: #'border')
 		with: [ :e |
 			BlBorder
 				paint: Color transparent
 				width: (e valueOfTokenNamed: #'line-width') ].
 	self
-		when: ToDisabledLookEvent
+		when: ToDisabledSkinEvent
 		write: (self property: #'border')
 		with: [ :e |
 			BlBorder
@@ -645,7 +645,7 @@ ToBeeTheme >> declarePrimaryButtonRules [
 		select: #primary asStampSelector
 		style: [ "Background and border"
 			self
-				when: ToDisabledLookEvent
+				when: ToDisabledSkinEvent
 				write: (self property: #'background-color')
 				with: [ :e | e valueOfTokenNamed: #'color-bg-container-disabled' ].
 
@@ -681,7 +681,7 @@ ToBeeTheme >> declareTextButtonRules [
 	self select: #text asStampSelector style: [ "Border"
 		self declareNoBorder.
 		self
-		when: ToDisabledLookEvent
+		when: ToDisabledSkinEvent
 		write: (self property: #'background-color')
 		with: [ :e | Color transparent ].
 

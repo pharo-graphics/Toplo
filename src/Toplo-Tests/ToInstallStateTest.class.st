@@ -10,10 +10,10 @@ ToInstallStateTest >> testApplyOn [
 	| e stateEvt receivedEvt |
 	e := ToElement new.
 	e addEventHandler: (BlEventHandler
-			 on: ToInstallLookEvent
+			 on: ToInstallSkinEvent
 			 do: [ :event | receivedEvt := event ]).
 	(stateEvt := ToInstallState new) applyOn: e.
-	self assert: (receivedEvt isKindOf: ToInstallLookEvent)
+	self assert: (receivedEvt isKindOf: ToInstallSkinEvent)
 ]
 
 { #category : #running }
@@ -36,7 +36,7 @@ ToInstallStateTest >> testLookEvent [
 
 	| state  |
 	state := ToInstallState new.
-	self assert: (state lookEvent isKindOf: ToInstallLookEvent) 
+	self assert: (state lookEvent isKindOf: ToInstallSkinEvent) 
 	
 ]
 

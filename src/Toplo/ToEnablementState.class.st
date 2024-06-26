@@ -23,6 +23,6 @@ ToEnablementState >> enabled: aBoolean [
 ToEnablementState >> lookEventClass [
 
 	^ self enabled
-		  ifTrue: [ ToEnabledLookEvent ]
-		  ifFalse: [ ToDisabledLookEvent ]
+		  ifTrue: [ ToEnabledSkinEvent ]
+		  ifFalse: [ ToDisabledSkinEvent ]
 ]

@@ -9,9 +9,9 @@ ToLookEventActionTest >> testCanReceiveEvent [
 
 	| action |
 	action := ToLookEventAction new.
-	action eventClass: ToHoveredLookEvent.
-	self assert: (action canReceiveEvent: ToHoveredLookEvent new).
-	self deny: (action canReceiveEvent: ToLeavedLookEvent new)
+	action eventClass: ToHoveredSkinEvent.
+	self assert: (action canReceiveEvent: ToHoveredSkinEvent new).
+	self deny: (action canReceiveEvent: ToLeavedSkinEvent new)
 ]
 
 { #category : #tests }
@@ -37,14 +37,14 @@ ToLookEventActionTest >> testReceiveEvent [
 	| w action evt |
 	w := BlElement new.
 	w background: Color red.
-	evt := ToHoveredLookEvent new currentTarget: w.
+	evt := ToHoveredSkinEvent new currentTarget: w.
 	action := ToLookEventAction new.
-	action eventClass: ToHoveredLookEvent.
+	action eventClass: ToHoveredSkinEvent.
 	action action: [ :e | e background: Color blue ].
 	self assert: w background paint color equals: Color red.
 	action receiveEvent: evt.
 	self assert: w background paint color equals: Color blue.
-	evt := ToLeavedLookEvent new currentTarget: w.
+	evt := ToLeavedSkinEvent new currentTarget: w.
 	action receiveEvent: evt.
 	self assert: w background paint color equals: Color blue
 

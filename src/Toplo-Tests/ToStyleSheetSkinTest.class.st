@@ -103,12 +103,12 @@ ToStyleSheetSkinTest >> testPropertyWriterOrderMatter [
 		                       #'layout-direction'.
 	layoutProp := self writablePropertyIndex propertyNamed: #layout.
 	directionWriter := ToPropertyWriter new
-		                   eventClass: ToInstallLookEvent;
+		                   eventClass: ToInstallSkinEvent;
 		                   property: layoutDirectionProp;
 		                   value: BlLayoutDirection rightToLeft;
 		                   yourself.
 	layoutWriter := ToPropertyWriter new
-		                eventClass: ToInstallLookEvent;
+		                eventClass: ToInstallSkinEvent;
 		                property: layoutProp;
 		                value: BlLinearLayout new;
 		                yourself.
@@ -149,7 +149,7 @@ ToStyleSheetSkinTest >> testSupplementWriter [
 	borderProp := self writablePropertyIndex propertyNamed: #border.
 	skin lookEventListeners: {
 			(ToPropertyWriter new
-				 eventClass: ToInstallLookEvent;
+				 eventClass: ToInstallSkinEvent;
 				 property: backgroundProp;
 				 value: Color blue;
 				 yourself).
@@ -158,7 +158,7 @@ ToStyleSheetSkinTest >> testSupplementWriter [
 				 value: [ :e | Color yellow ];
 				 yourself).
 			(ToPropertyWriter new
-				 eventClass: ToInstallLookEvent;
+				 eventClass: ToInstallSkinEvent;
 				 property: borderProp;
 				 value: [ :e |
 					 borderBuilder
@@ -166,7 +166,7 @@ ToStyleSheetSkinTest >> testSupplementWriter [
 						 build ] yourself).
 			(ToPropertyWriter new
 				 supplement: true;
-				 eventClass: ToInstallLookEvent;
+				 eventClass: ToInstallSkinEvent;
 				 property: borderProp;
 				 value: [ :e |
 					 borderBuilder
@@ -193,18 +193,18 @@ ToStyleSheetSkinTest >> testWithAnimationOn2EventClasses [
 	skin lookEventListeners: {
 			(ToPropertyWriter new
 				 property: prop;
-				 eventClass: ToInstallLookEvent;
+				 eventClass: ToInstallSkinEvent;
 				 value: Color white;
 				 yourself).
 			(ToPropertyWriter new
 				 property: prop;
-				 eventClass: ToHoveredLookEvent;
+				 eventClass: ToHoveredSkinEvent;
 				 value: Color black;
 				 animation: animation;
 				 yourself).
 			(ToPropertyWriter new
 				 property: prop;
-				 eventClass: ToLeavedLookEvent;
+				 eventClass: ToLeavedSkinEvent;
 				 value: Color white;
 				 animation: animation;
 				 yourself) }.
@@ -217,14 +217,14 @@ ToStyleSheetSkinTest >> testWithAnimationOn2EventClasses [
 
 	w skinManager
 		enqueueSkinState:
-		(ToTransientState lookEvent: ToHoveredLookEvent new)
+		(ToTransientState lookEvent: ToHoveredSkinEvent new)
 		in: w.
 	animation onFinishedDo: [ :x |
 		self assert: w background paint color equals: Color black.
 
 		w skinManager
 			enqueueSkinState:
-			(ToTransientState lookEvent: ToLeavedLookEvent new)
+			(ToTransientState lookEvent: ToLeavedSkinEvent new)
 			in: w.
 		animation onFinishedDo: [ :xx |
 			self assert: w background paint color equals: Color white ] ]
@@ -282,7 +282,7 @@ ToStyleSheetSkinTest >> testWithTwoWritersTwoEventClasses [
 	borderProp := self writablePropertyIndex propertyNamed: #border.
 	skin lookEventListeners: {
 			(ToPropertyWriter new
-				 eventClass: ToInstallLookEvent;
+				 eventClass: ToInstallSkinEvent;
 				 property: backgroundProp;
 				 value: Color blue;
 				 yourself).
@@ -291,7 +291,7 @@ ToStyleSheetSkinTest >> testWithTwoWritersTwoEventClasses [
 				 value: Color yellow;
 				 yourself).
 			(ToPropertyWriter new
-				 eventClass: ToInstallLookEvent;
+				 eventClass: ToInstallSkinEvent;
 				 property: borderProp;
 				 value: Color red;
 				 yourself) }.

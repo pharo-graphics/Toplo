@@ -5,9 +5,9 @@ Class {
 }
 
 { #category : #'event handling' }
-ToButtonSkin >> disabledLookEvent: anEvent [
+ToButtonSkin >> disabledSkinEvent: anEvent [
 
-	super disabledLookEvent: anEvent.
+	super disabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic |
 			ic formColor: (e valueOfTokenNamed: #'color-text-disabled') ].
@@ -20,9 +20,9 @@ ToButtonSkin >> disabledLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToButtonSkin >> enabledLookEvent: anEvent [
+ToButtonSkin >> enabledSkinEvent: anEvent [
 
-	super enabledLookEvent: anEvent.
+	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic | ic formColor: (e valueOfTokenNamed: #'color-text') ].
 		e endElementDo: [ :ic | ic formColor: (e valueOfTokenNamed: #'color-text') ].
@@ -34,9 +34,9 @@ ToButtonSkin >> enabledLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToButtonSkin >> hoveredLookEvent: anEvent [
+ToButtonSkin >> hoveredSkinEvent: anEvent [
 
-	super hoveredLookEvent: anEvent.
+	super hoveredSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic |
 			ic formColor: (e valueOfTokenNamed: #'color-primary') ].
@@ -49,9 +49,9 @@ ToButtonSkin >> hoveredLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToButtonSkin >> installLookEvent: anEvent [
+ToButtonSkin >> installSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		(e hasIcon and: [ e hasLabel ])
 			ifTrue: [ e startInterspace: 10 ]
@@ -69,9 +69,9 @@ ToButtonSkin >> installLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToButtonSkin >> leavedLookEvent: anEvent [
+ToButtonSkin >> leavedSkinEvent: anEvent [
 
-	super leavedLookEvent: anEvent.
+	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic | ic formColor: (e valueOfTokenNamed: #'color-text') ].
 		e endElementDo: [ :ic | ic formColor: (e valueOfTokenNamed: #'color-text') ].

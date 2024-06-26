@@ -27,7 +27,7 @@ ToListClassNodeExample >> forClassNameAssoc: aClassNameAssoc [
 	self
 		stillPressedStartDelay: 400 milliSeconds;
 		addEventHandler: (BlEventHandler
-				 on: ToStillPressedLookEvent
+				 on: ToStillPressedSkinEvent
 				 do: [ :event |
 					 event consume.
 					 event currentTarget label addEditorEvent: event ]);

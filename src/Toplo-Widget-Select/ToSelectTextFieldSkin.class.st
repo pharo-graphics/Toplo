@@ -17,9 +17,9 @@ ToSelectTextFieldSkin >> focusBorderIn: anAlbum [
 ]
 
 { #category : #'event handling' }
-ToSelectTextFieldSkin >> installLookEvent: anEvent [
+ToSelectTextFieldSkin >> installSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e background: BlBackground transparent ]
 ]

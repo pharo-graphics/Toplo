@@ -10,14 +10,14 @@ ToFocusStateTest >> testApplyOn [
 	| e state focusedEvt unfocusedEvt |
 	e := ToElement new.
 	e addEventHandler: (BlEventHandler
-			 on: ToFocusedLookEvent
+			 on: ToFocusedSkinEvent
 			 do: [ :event | focusedEvt := event ]).
 	e addEventHandler: (BlEventHandler
-			 on: ToUnfocusedLookEvent
+			 on: ToUnfocusedSkinEvent
 			 do: [ :event | unfocusedEvt := event ]).
 	state := ToFocusState new focused: true.
 	state applyOn: e.
-	self assert: (focusedEvt isKindOf: ToFocusedLookEvent).
+	self assert: (focusedEvt isKindOf: ToFocusedSkinEvent).
 	self assert: unfocusedEvt isNil
 ]
 
@@ -27,14 +27,14 @@ ToFocusStateTest >> testApplyOnUnfocused [
 	| e state focusedEvt unfocusedEvt |
 	e := ToElement new.
 	e addEventHandler: (BlEventHandler
-			 on: ToFocusedLookEvent
+			 on: ToFocusedSkinEvent
 			 do: [ :event | focusedEvt := event ]).
 	e addEventHandler: (BlEventHandler
-			 on: ToUnfocusedLookEvent
+			 on: ToUnfocusedSkinEvent
 			 do: [ :event | unfocusedEvt := event ]).
 	state := ToFocusState new focused: false.
 	state applyOn: e.
-	self assert: (unfocusedEvt isKindOf: ToUnfocusedLookEvent).
+	self assert: (unfocusedEvt isKindOf: ToUnfocusedSkinEvent).
 	self assert: focusedEvt isNil
 ]
 
@@ -48,17 +48,17 @@ ToFocusStateTest >> testApplyOnWhenDisabled [
 	e := ToElement new.
 	e disable.
 	e addEventHandler: (BlEventHandler
-			 on: ToFocusedLookEvent
+			 on: ToFocusedSkinEvent
 			 do: [ :event | focusedEvt := event ]).
 	e addEventHandler: (BlEventHandler
-			 on: ToUnfocusedLookEvent
+			 on: ToUnfocusedSkinEvent
 			 do: [ :event | unfocusedEvt := event ]).
 	state := ToFocusState new focused: true.
 	state applyOn: e.
-	self assert: (focusedEvt isKindOf: ToFocusedLookEvent).
+	self assert: (focusedEvt isKindOf: ToFocusedSkinEvent).
 	state := ToFocusState new focused: false.
 	state applyOn: e.
-	self assert: (unfocusedEvt isKindOf: ToUnfocusedLookEvent)
+	self assert: (unfocusedEvt isKindOf: ToUnfocusedSkinEvent)
 ]
 
 { #category : #running }
@@ -66,9 +66,9 @@ ToFocusStateTest >> testLookEvent [
 
 	| state  |
 	state := ToFocusState new focused: true.
-	self assert: (state lookEvent isKindOf: ToFocusedLookEvent).
+	self assert: (state lookEvent isKindOf: ToFocusedSkinEvent).
 	state := ToFocusState new focused: false.
-	self assert: (state lookEvent isKindOf: ToUnfocusedLookEvent ) 
+	self assert: (state lookEvent isKindOf: ToUnfocusedSkinEvent ) 
 
 	
 ]

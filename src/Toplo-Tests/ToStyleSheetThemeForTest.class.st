@@ -13,14 +13,14 @@ ToStyleSheetThemeForTest >> declareElementRules [
 		style: [  " 5 writers - but only 3 of them remain (override) "
 			self write: (self property: #background) with: Color white.
 			self write: (self property: #background) withAll: {
-					(ToHoveredLookEvent -> Color blue).
-					(ToLeavedLookEvent -> Color red) }.
+					(ToHoveredSkinEvent -> Color blue).
+					(ToLeavedSkinEvent -> Color red) }.
 			self
-				when: ToHoveredLookEvent
+				when: ToHoveredSkinEvent
 				write: (self property: #background)
 				with: Color yellow.
 			self
-				when: ToLeavedLookEvent
+				when: ToLeavedSkinEvent
 				write: (self property: #background)
 				with: Color brown ]
 ]

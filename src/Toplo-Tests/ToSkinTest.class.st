@@ -13,8 +13,8 @@ ToSkinTest >> testEventsToHandle [
 	| skin |
 	skin := ToSkin new.
 	self assert: (skin eventsToHandle allSatisfy: [ :evtCls |
-			 evtCls == ToElementLookEvent or: [
-				 evtCls inheritsFrom: ToElementLookEvent ] ])
+			 evtCls == ToSkinEvent or: [
+				 evtCls inheritsFrom: ToSkinEvent ] ])
 ]
 
 { #category : #tests }

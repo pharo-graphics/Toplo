@@ -5,9 +5,9 @@ Class {
 }
 
 { #category : #'event handling' }
-ToSpaceRootSkin >> installLookEvent: anEvent [
+ToSpaceRootSkin >> installSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super installSkinEvent: anEvent.
 
 	anEvent elementDo: [ :e |
 		e background: (e valueOfTokenNamed: #'background-color') ]

@@ -7,5 +7,5 @@ Class {
 { #category : #accessing }
 ToUninstallState >> lookEventClass [
 
-	^ ToUninstallLookEvent
+	^ ToUninstallSkinEvent
 ]

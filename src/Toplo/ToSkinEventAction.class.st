@@ -1,6 +1,6 @@
 Class {
-	#name : #ToLookEventAction,
-	#superclass : #ToLookEventListener,
+	#name : #ToSkinEventAction,
+	#superclass : #ToSkinEventListener,
 	#instVars : [
 		'action'
 	],
@@ -8,44 +8,44 @@ Class {
 }
 
 { #category : #visiting }
-ToLookEventAction >> accept: aVisitor [
+ToSkinEventAction >> accept: aVisitor [
 
-	aVisitor visitLookEventAction: self
+	aVisitor visitSkinEventAction: self
 ]
 
 { #category : #accessing }
-ToLookEventAction >> action [
+ToSkinEventAction >> action [
 
 	^ action
 ]
 
 { #category : #accessing }
-ToLookEventAction >> action: aValuable [
+ToSkinEventAction >> action: aValuable [
 
 	" aValuable takes an element as unique argument "
 	action := aValuable
 ]
 
 { #category : #'look event handling' }
-ToLookEventAction >> applyOn: anObject [
+ToSkinEventAction >> applyOn: anObject [
 
 	self action value: anObject
 ]
 
 { #category : #testing }
-ToLookEventAction >> isAction [
+ToSkinEventAction >> isAction [
 
 	^ true
 ]
 
 { #category : #testing }
-ToLookEventAction >> isSupplement [ 
+ToSkinEventAction >> isSupplement [ 
 
 	^ false
 ]
 
 { #category : #accessing }
-ToLookEventAction >> property [
+ToSkinEventAction >> property [
 
 	^ ToNullProperty uniqueInstance 
 ]

@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'selector',
 		'subStyleRules',
-		'lookEventListeners'
+		'skinEventListeners'
 	],
 	#category : #'Toplo-Core-StyleSheet'
 }
@@ -75,20 +75,20 @@ ToStyleRule >> initialize [
 ToStyleRule >> putApplicableListenersForElement: anElement forTheme: aTheme in: aStream [
 
 	(self canBeAppliedTo: anElement inTheme: aTheme) ifFalse: [ ^ self ].
-	aStream nextPutAll: self lookEventListeners.
+	aStream nextPutAll: self skinEventListeners.
 	self styleRules do: [ :r | r putApplicableListenersForElement: anElement forTheme: aTheme in: aStream ] 
 ]
 
-{ #category : #'t - look event listener registry' }
-ToStyleRule >> rawLookEventListeners [
+{ #category : #'t - skin event listener registry' }
+ToStyleRule >> rawSkinEventListeners [
 
-	^ lookEventListeners
+	^ skinEventListeners
 ]
 
-{ #category : #'t - look event listener registry' }
-ToStyleRule >> rawLookEventListeners: aLookEventListenerCollection [
+{ #category : #'t - skin event listener registry' }
+ToStyleRule >> rawSkinEventListeners: aSkinEventListenerCollection [
 
-	lookEventListeners := aLookEventListenerCollection
+	skinEventListeners := aSkinEventListenerCollection
 ]
 
 { #category : #'t - style rules holder' }

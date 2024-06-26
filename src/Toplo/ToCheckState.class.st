@@ -20,7 +20,7 @@ ToCheckState >> checked: aBooleanOrIndeterminate [
 ]
 
 { #category : #accessing }
-ToCheckState >> lookEventClass [
+ToCheckState >> skinEventClass [
 
 	^ self checked isSymbol
 		  ifTrue: [ ToIndeterminateSkinEvent ]

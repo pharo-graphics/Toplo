@@ -32,15 +32,6 @@ ToUninstallStateTest >> testCanBeEnqueuedFromElementInQueue [
 ]
 
 { #category : #running }
-ToUninstallStateTest >> testLookEvent [
-
-	| state  |
-	state := ToUninstallState new.
-	self assert: (state lookEvent isKindOf: ToUninstallSkinEvent) 
-	
-]
-
-{ #category : #running }
 ToUninstallStateTest >> testRequestEnqueueFromElementInQueue [
 
 	| e state |
@@ -52,4 +43,13 @@ ToUninstallStateTest >> testRequestEnqueueFromElementInQueue [
 				requestEnqueueFromElement: e
 				inQueue: e skinManager skinStateQueue ]
 		raise: Error
+]
+
+{ #category : #running }
+ToUninstallStateTest >> testSkinEvent [
+
+	| state  |
+	state := ToUninstallState new.
+	self assert: (state skinEvent isKindOf: ToUninstallSkinEvent) 
+	
 ]

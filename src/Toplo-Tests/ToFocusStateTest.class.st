@@ -62,13 +62,13 @@ ToFocusStateTest >> testApplyOnWhenDisabled [
 ]
 
 { #category : #running }
-ToFocusStateTest >> testLookEvent [
+ToFocusStateTest >> testSkinEvent [
 
 	| state  |
 	state := ToFocusState new focused: true.
-	self assert: (state lookEvent isKindOf: ToFocusedSkinEvent).
+	self assert: (state skinEvent isKindOf: ToFocusedSkinEvent).
 	state := ToFocusState new focused: false.
-	self assert: (state lookEvent isKindOf: ToUnfocusedSkinEvent ) 
+	self assert: (state skinEvent isKindOf: ToUnfocusedSkinEvent ) 
 
 	
 ]

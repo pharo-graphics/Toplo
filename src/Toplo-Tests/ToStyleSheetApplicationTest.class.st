@@ -65,7 +65,7 @@ ToStyleSheetApplicationTest >> testButtonLabelSkin0 [
 	writers := theme applicableListenersFor: button label.
 	self assert: writers size equals: 4.
 
-	labelSkin lookEventListeners: writers.
+	labelSkin skinEventListeners: writers.
 	button label defaultSkin: labelSkin.
 	button label skinManager applySkinReinstallIn: button label.
 	attributes := button label text attributesAt: 1.
@@ -158,7 +158,7 @@ ToStyleSheetApplicationTest >> testButtonSkin0 [
 	writers := theme applicableListenersFor: button.
 	self assert: writers size equals: 5.
 	skin := ToBeeSkin new.
-	skin lookEventListeners: writers.
+	skin skinEventListeners: writers.
 	button defaultSkin: nil.
 	self assert: button skinManager installedSkin isNil.
 	button defaultSkin: skin.
@@ -184,7 +184,7 @@ ToStyleSheetApplicationTest >> testButtonSkin0 [
 	writers := theme applicableListenersFor: button label.
 	self assert: writers size equals: nb + 4.
 
-	labelSkin lookEventListeners: writers.
+	labelSkin skinEventListeners: writers.
 	label defaultSkin: labelSkin.
 	label skinManager applySkinReinstallIn: label.
 	attributes := button label text attributesAt: 1.
@@ -231,7 +231,7 @@ ToStyleSheetApplicationTest >> testButtonSkinWithInterspace [
 	writers := theme applicableListenersFor: elem.
 	self assert: writers size equals: 2.
 	skin := ToStyleSheetSkin new.
-	skin lookEventListeners: writers.
+	skin skinEventListeners: writers.
 	elem defaultSkin: skin.
 	elem skinManager applySkinReinstallIn: elem.
 	self assert: (elem layout isKindOf: BlLinearLayout).
@@ -248,7 +248,7 @@ ToStyleSheetApplicationTest >> testEmptyStyleSheet [
 ]
 
 { #category : #tests }
-ToStyleSheetApplicationTest >> testSkinWith2LookEventActionOnSameLookEventEvent [
+ToStyleSheetApplicationTest >> testSkinWith2SkinEventActionOnSameSkinEventEvent [
 
 	| elem listeners skin styleSheet theme |
 	styleSheet := ToStyleSheet new
@@ -273,7 +273,7 @@ ToStyleSheetApplicationTest >> testSkinWith2LookEventActionOnSameLookEventEvent 
 	listeners := theme applicableListenersFor: elem.
 	self assert: listeners size equals: 1.
 	skin := ToStyleSheetSkin new.
-	skin lookEventListeners: listeners.
+	skin skinEventListeners: listeners.
 	elem defaultSkin: skin.
 	elem skinManager applySkinReinstallIn: elem.
 	self assert: elem border width equals: 1.
@@ -301,7 +301,7 @@ ToStyleSheetApplicationTest >> testSkinWithAnUniversalRule [
 	writers := theme applicableListenersFor: elem.
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
-	skin lookEventListeners: writers.
+	skin skinEventListeners: writers.
 	elem defaultSkin: skin.
 	elem skinManager applySkinReinstallIn: elem.
 	self assert: elem background paint color equals: Color red
@@ -339,7 +339,7 @@ ToStyleSheetApplicationTest >> testSkinWithChildRule [
 	writers := theme applicableListenersFor: child.
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
-	skin lookEventListeners: writers.
+	skin skinEventListeners: writers.
 	child defaultSkin: skin.
 	parent skinManager applySkinReinstallIn: parent.
 	child skinManager applySkinReinstallIn: child.
@@ -383,7 +383,7 @@ ToStyleSheetApplicationTest >> testSkinWithChildRule2 [
 	writers := theme applicableListenersFor: child.
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
-	skin lookEventListeners: writers.
+	skin skinEventListeners: writers.
 	child defaultSkin: skin.
 	parent skinManager applySkinReinstallIn: parent.
 	child skinManager applySkinReinstallIn: child.
@@ -416,7 +416,7 @@ ToStyleSheetApplicationTest >> testSkinWithIdRule [
 	writers := theme applicableListenersFor: elem.
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
-	skin lookEventListeners: writers.
+	skin skinEventListeners: writers.
 	elem defaultSkin: skin.
 	elem skinManager applySkinReinstallIn: elem.
 	self assert: elem border width equals: 3.
@@ -425,7 +425,7 @@ ToStyleSheetApplicationTest >> testSkinWithIdRule [
 ]
 
 { #category : #tests }
-ToStyleSheetApplicationTest >> testSkinWithLookEventAction [
+ToStyleSheetApplicationTest >> testSkinWithSkinEventAction [
 
 	| elem listeners skin styleSheet theme |
 	styleSheet := ToStyleSheet new
@@ -446,7 +446,7 @@ ToStyleSheetApplicationTest >> testSkinWithLookEventAction [
 	listeners := theme applicableListenersFor: elem.
 	self assert: listeners size equals: 1.
 	skin := ToStyleSheetSkin new.
-	skin lookEventListeners: listeners.
+	skin skinEventListeners: listeners.
 	elem defaultSkin: skin.
 	elem skinManager applySkinReinstallIn: elem.
 	self assert: elem border width equals: 3.
@@ -455,7 +455,7 @@ ToStyleSheetApplicationTest >> testSkinWithLookEventAction [
 ]
 
 { #category : #tests }
-ToStyleSheetApplicationTest >> testSkinWithLookEventAction2 [
+ToStyleSheetApplicationTest >> testSkinWithSkinEventAction2 [
 
 	| elem listeners skin styleSheet theme |
 	styleSheet := ToStyleSheet new
@@ -478,7 +478,7 @@ ToStyleSheetApplicationTest >> testSkinWithLookEventAction2 [
 	listeners := theme applicableListenersFor: elem.
 	self assert: listeners size equals: 1.
 	skin := ToStyleSheetSkin new.
-	skin lookEventListeners: listeners.
+	skin skinEventListeners: listeners.
 	elem defaultSkin: skin.
 	elem skinManager applySkinReinstallIn: elem.
 	self assert: elem border width equals: 3.
@@ -487,7 +487,7 @@ ToStyleSheetApplicationTest >> testSkinWithLookEventAction2 [
 ]
 
 { #category : #tests }
-ToStyleSheetApplicationTest >> testSkinWithLookEventActionMixedWithWriter [
+ToStyleSheetApplicationTest >> testSkinWithSkinEventActionMixedWithWriter [
 
 	| elem listeners skin styleSheet theme |
 	styleSheet := ToStyleSheet new
@@ -496,7 +496,7 @@ ToStyleSheetApplicationTest >> testSkinWithLookEventActionMixedWithWriter [
 
 	theme := ToStyleSheetTheme new.
 
-	" here the border should be blue even the lookEventAction is added after "
+	" here the border should be blue even the skinEventAction is added after "
 	styleSheet select: (ToIdSelector new id: #a) style: [ :sr |
 		sr
 			write: (ToFeatureProperty new name: #border)
@@ -514,7 +514,7 @@ ToStyleSheetApplicationTest >> testSkinWithLookEventActionMixedWithWriter [
 	listeners := theme applicableListenersFor: elem.
 	self assert: listeners size equals: 2.
 	skin := ToStyleSheetSkin new.
-	skin lookEventListeners: listeners.
+	skin skinEventListeners: listeners.
 	elem defaultSkin: skin.
 	elem skinManager applySkinReinstallIn: elem.
 	self assert: elem border width equals: 1.
@@ -551,7 +551,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyle0 [
 	writers := theme applicableListenersFor: button.
 	self assert: writers size equals: 2.
 	skin := ToStyleSheetSkin new.
-	skin lookEventListeners: writers.
+	skin skinEventListeners: writers.
 	button defaultSkin: skin.
 	button skinManager applySkinReinstallIn: button.
 	self assert: button background paint isColorPaint.
@@ -593,7 +593,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules0 [
 	writers := theme applicableListenersFor: button.
 	self assert: writers size equals: 2.
 	skin := ToStyleSheetSkin new.
-	skin lookEventListeners: writers.
+	skin skinEventListeners: writers.
 	button defaultSkin: skin.
 	button skinManager applySkinReinstallIn: button.
 	self assert: button background paint isColorPaint.
@@ -602,7 +602,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules0 [
 	button addStamp: #danger.
 	writers := theme applicableListenersFor: button.
 	skin := ToStyleSheetSkin new.
-	skin lookEventListeners: writers.
+	skin skinEventListeners: writers.
 	button defaultSkin: skin.
 	button skinManager applySkinReinstallIn: button.
 
@@ -655,7 +655,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules1 [
 	writers := theme applicableListenersFor: child.
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
-	skin lookEventListeners: writers.
+	skin skinEventListeners: writers.
 	child defaultSkin: skin.
 	child skinManager applySkinReinstallIn: child.
 	self assert: child background paint isColorPaint.
@@ -704,7 +704,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules2 [
 	writers := theme applicableListenersFor: child.
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
-	skin lookEventListeners: writers.
+	skin skinEventListeners: writers.
 	child defaultSkin: skin.
 
 	child skinManager applySkinReinstallIn: child.
@@ -754,7 +754,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules22 [
 	writers := theme applicableListenersFor: child.
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
-	skin lookEventListeners: writers.
+	skin skinEventListeners: writers.
 	child defaultSkin: skin.
 	child skinManager applySkinReinstallIn: child.
 
@@ -805,7 +805,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules3 [
 	writers := theme applicableListenersFor: child.
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
-	skin lookEventListeners: writers.
+	skin skinEventListeners: writers.
 	child defaultSkin: skin.
 
 	child skinManager applySkinReinstallIn: child.
@@ -856,7 +856,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules32 [
 	writers := theme applicableListenersFor: child.
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
-	skin lookEventListeners: writers.
+	skin skinEventListeners: writers.
 	child defaultSkin: skin.
 
 	child skinManager applySkinReinstallIn: child.
@@ -910,7 +910,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules33 [
 	writers := theme applicableListenersFor: child.
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
-	skin lookEventListeners: writers.
+	skin skinEventListeners: writers.
 	child defaultSkin: skin.
 
 	child skinManager applySkinReinstallIn: child.
@@ -948,7 +948,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules1 [
 	writers := theme applicableListenersFor: child.
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
-	skin lookEventListeners: writers.
+	skin skinEventListeners: writers.
 	child defaultSkin: skin.
 
 	child skinManager applySkinReinstallIn: child.
@@ -989,7 +989,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules2 [
 	writers := theme applicableListenersFor: child.
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
-	skin lookEventListeners: writers.
+	skin skinEventListeners: writers.
 	child defaultSkin: skin.
 
 	child skinManager applySkinReinstallIn: child.
@@ -1034,7 +1034,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules3 [
 	writers := theme applicableListenersFor: child.
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
-	skin lookEventListeners: writers.
+	skin skinEventListeners: writers.
 	child defaultSkin: skin.
 
 	child skinManager applySkinReinstallIn: child.
@@ -1088,7 +1088,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules4 [
 	writers := theme applicableListenersFor: child.
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
-	skin lookEventListeners: writers.
+	skin skinEventListeners: writers.
 	child defaultSkin: skin.
 
 	child skinManager applySkinReinstallIn: child.
@@ -1100,7 +1100,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules4 [
 	writers := theme applicableListenersFor: child.
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
-	skin lookEventListeners: writers.
+	skin skinEventListeners: writers.
 	child defaultSkin: skin.
 	child skinManager applySkinReinstallIn: child.
 	self assert: child background paint isColorPaint.

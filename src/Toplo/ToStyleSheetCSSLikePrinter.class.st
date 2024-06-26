@@ -155,7 +155,7 @@ ToStyleSheetCSSLikePrinter >> printStyleRuleCSS: aStyleRule on: aStream hangSele
 	aStream space; nextPutAll: '{'; cr.
 
 	"print body"
-	aStyleRule lookEventListeners do:[ :w | 
+	aStyleRule skinEventListeners do:[ :w | 
 		aStream tab.
 		w printOn: aStream.
 		aStream cr.

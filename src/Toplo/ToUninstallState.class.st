@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #accessing }
-ToUninstallState >> lookEventClass [
+ToUninstallState >> skinEventClass [
 
 	^ ToUninstallSkinEvent
 ]

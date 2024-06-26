@@ -32,15 +32,6 @@ ToInstallStateTest >> testCanBeEnqueuedFromElementInQueue [
 ]
 
 { #category : #running }
-ToInstallStateTest >> testLookEvent [
-
-	| state  |
-	state := ToInstallState new.
-	self assert: (state lookEvent isKindOf: ToInstallSkinEvent) 
-	
-]
-
-{ #category : #running }
 ToInstallStateTest >> testRequestEnqueueFromElementInQueue [
 
 	| e state |
@@ -52,4 +43,13 @@ ToInstallStateTest >> testRequestEnqueueFromElementInQueue [
 				requestEnqueueFromElement: e
 				inQueue: e skinManager skinStateQueue ]
 		raise: Error
+]
+
+{ #category : #running }
+ToInstallStateTest >> testSkinEvent [
+
+	| state  |
+	state := ToInstallState new.
+	self assert: (state skinEvent isKindOf: ToInstallSkinEvent) 
+	
 ]

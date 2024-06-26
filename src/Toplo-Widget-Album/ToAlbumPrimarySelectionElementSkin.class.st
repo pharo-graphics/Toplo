@@ -5,14 +5,6 @@ Class {
 }
 
 { #category : #'event handling' }
-ToAlbumPrimarySelectionElementSkin >> focusedLookEvent: anEvent [
-
-	super focusedLookEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e background: (e valueOfTokenNamed: #'color-primary-selection-focused') ]
-]
-
-{ #category : #'event handling' }
 ToAlbumPrimarySelectionElementSkin >> focusedSkinEvent: anEvent [
 
 	super focusedSkinEvent: anEvent.

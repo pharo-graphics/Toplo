@@ -8,7 +8,7 @@ Class {
 ToLookEventActionTest >> testCanReceiveEvent [
 
 	| action |
-	action := ToLookEventAction new.
+	action := ToSkinEventAction new.
 	action eventClass: ToHoveredSkinEvent.
 	self assert: (action canReceiveEvent: ToHoveredSkinEvent new).
 	self deny: (action canReceiveEvent: ToLeavedSkinEvent new)
@@ -18,7 +18,7 @@ ToLookEventActionTest >> testCanReceiveEvent [
 ToLookEventActionTest >> testIsSupplement [
 
 	| action |
-	action := ToLookEventAction new.
+	action := ToSkinEventAction new.
 	self deny: action isSupplement
 ]
 
@@ -26,7 +26,7 @@ ToLookEventActionTest >> testIsSupplement [
 ToLookEventActionTest >> testProperty [
 
 	| action |
-	action := ToLookEventAction new.
+	action := ToSkinEventAction new.
 	self assert: action property identicalTo: ToNullProperty uniqueInstance 
 
 ]
@@ -38,7 +38,7 @@ ToLookEventActionTest >> testReceiveEvent [
 	w := BlElement new.
 	w background: Color red.
 	evt := ToHoveredSkinEvent new currentTarget: w.
-	action := ToLookEventAction new.
+	action := ToSkinEventAction new.
 	action eventClass: ToHoveredSkinEvent.
 	action action: [ :e | e background: Color blue ].
 	self assert: w background paint color equals: Color red.

@@ -103,18 +103,6 @@ ToEnablementStateTest >> testCanBeEnqueuedFromElementInQueue [
 		raise: Error
 ]
 
-{ #category : #running }
-ToEnablementStateTest >> testLookEvent [
-
-	| state  |
-	state := ToEnablementState new enabled: true.
-	self assert: (state lookEvent isKindOf: ToEnabledSkinEvent).
-	state := ToEnablementState new enabled: false.
-	self assert: (state lookEvent isKindOf: ToDisabledSkinEvent) 
-
-	
-]
-
 { #category : #tests }
 ToEnablementStateTest >> testRequestEnqueueFromElementInQueue [
 
@@ -127,4 +115,16 @@ ToEnablementStateTest >> testRequestEnqueueFromElementInQueue [
 				requestEnqueueFromElement: e
 				inQueue: e skinManager skinStateQueue ]
 		raise: Error
+]
+
+{ #category : #running }
+ToEnablementStateTest >> testSkinEvent [
+
+	| state  |
+	state := ToEnablementState new enabled: true.
+	self assert: (state skinEvent isKindOf: ToEnabledSkinEvent).
+	state := ToEnablementState new enabled: false.
+	self assert: (state skinEvent isKindOf: ToDisabledSkinEvent) 
+
+	
 ]

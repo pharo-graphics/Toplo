@@ -81,16 +81,6 @@ ToThemeToSourceCodeVisitor >> visitIdSelector: aSelector [
 ]
 
 { #category : #visiting }
-ToThemeToSourceCodeVisitor >> visitLookEventAction: aToLookEventAction [ 
-
-	self nextPut: 'self when: '.
-	self nextPut: aToLookEventAction eventClass printString.
-	self nextPut: ' do: '.
-	self nextPut: aToLookEventAction action printString.
-	self nextPut: '.<r>'.
-]
-
-{ #category : #visiting }
 ToThemeToSourceCodeVisitor >> visitNotSelector: aSelector [
 
 	self nextPut: '('.
@@ -197,12 +187,22 @@ ToThemeToSourceCodeVisitor >> visitSiblingSelector: aSelector [
 ]
 
 { #category : #visiting }
+ToThemeToSourceCodeVisitor >> visitSkinEventAction: aToSkinEventAction [
+
+	self nextPut: 'self when: '.
+	self nextPut: aToSkinEventAction eventClass printString.
+	self nextPut: ' do: '.
+	self nextPut: aToSkinEventAction action printString.
+	self nextPut: '.<r>'
+]
+
+{ #category : #visiting }
 ToThemeToSourceCodeVisitor >> visitStyleRule: aToStyleRule [
 
 	self nextPut: 'self select: ('.
 	aToStyleRule selector accept: self.
 	self nextPut: ') style: [<r>'.
-	aToStyleRule lookEventListeners do: [ :each | each accept: self ].
+	aToStyleRule skinEventListeners do: [ :each | each accept: self ].
 	aToStyleRule styleRules do: [ :each | each accept: self ].
 	self nextPut: '].<r>'
 ]

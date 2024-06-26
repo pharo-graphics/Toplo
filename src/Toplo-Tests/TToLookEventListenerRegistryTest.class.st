@@ -8,50 +8,41 @@ Class {
 }
 
 { #category : #tests }
-TToLookEventListenerRegistryTest >> testAddAllLookEventListeners [
+TToLookEventListenerRegistryTest >> testAddAllSkinEventListeners [
 
 	| e |
 	e := ToPropertyWritersHolderElementForTest new.
-	self assert: e lookEventListeners size equals: 0.
-	e addLookEventListener: ToPropertyWriter new.
-	self assert: e lookEventListeners size equals: 1.
-	e addAllLookEventListeners: { ToPropertyWriter new. ToPropertyWriter new }.
-	self assert: e lookEventListeners size equals: 3.
+	self assert: e skinEventListeners size equals: 0.
+	e addSkinEventListener: ToPropertyWriter new.
+	self assert: e skinEventListeners size equals: 1.
+	e addAllSkinEventListeners: { ToPropertyWriter new. ToPropertyWriter new }.
+	self assert: e skinEventListeners size equals: 3.
 
 	
 ]
 
 { #category : #tests }
-TToLookEventListenerRegistryTest >> testAddLookEventListener [
+TToLookEventListenerRegistryTest >> testAddSkinEventListener [
 
 	| e |
 	e := ToPropertyWritersHolderElementForTest new.
-	self assert: e lookEventListeners size equals: 0.
-	e addLookEventListener: ToPropertyWriter new.
-	self assert: e lookEventListeners size equals: 1
+	self assert: e skinEventListeners size equals: 0.
+	e addSkinEventListener: ToPropertyWriter new.
+	self assert: e skinEventListeners size equals: 1
 ]
 
 { #category : #tests }
-TToLookEventListenerRegistryTest >> testLookEventListeners [
+TToLookEventListenerRegistryTest >> testRemoveAllSkinEventListeners [
 
 	| e |
 	e := ToPropertyWritersHolderElementForTest new.
-	self assert: e lookEventListeners size equals: 0.
-
-]
-
-{ #category : #tests }
-TToLookEventListenerRegistryTest >> testRemoveAllLookEventListeners [
-
-	| e |
-	e := ToPropertyWritersHolderElementForTest new.
-	self assert: e lookEventListeners size equals: 0.
-	e addAllLookEventListeners: { ToPropertyWriter new . ToPropertyWriter new }.
-	self assert: e lookEventListeners size equals: 2.
-	e removeAllLookEventListeners: { e lookEventListeners first }.
-	self assert: e lookEventListeners size equals: 1.
-	self should: [ e removeAllLookEventListeners: { ToPropertyWriter new } ] raise: NotFound.
-	self assert: e lookEventListeners size equals: 1.
+	self assert: e skinEventListeners size equals: 0.
+	e addAllSkinEventListeners: { ToPropertyWriter new . ToPropertyWriter new }.
+	self assert: e skinEventListeners size equals: 2.
+	e removeAllSkinEventListeners: { e skinEventListeners first }.
+	self assert: e skinEventListeners size equals: 1.
+	self should: [ e removeAllSkinEventListeners: { ToPropertyWriter new } ] raise: NotFound.
+	self assert: e skinEventListeners size equals: 1.
 
 
 
@@ -59,19 +50,19 @@ TToLookEventListenerRegistryTest >> testRemoveAllLookEventListeners [
 ]
 
 { #category : #tests }
-TToLookEventListenerRegistryTest >> testRemoveLookEventListener [
+TToLookEventListenerRegistryTest >> testRemoveSkinEventListener [
 
 	| e first second |
 	e := ToPropertyWritersHolderElementForTest new.
-	self assert: e lookEventListeners size equals: 0.
-	e addAllLookEventListeners: { first := ToPropertyWriter new . second := ToPropertyWriter new }.
-	self assert: e lookEventListeners size equals: 2.
-	e removeLookEventListener: first.
-	self assert: e lookEventListeners size equals: 1.
-	e removeLookEventListener: second.
-	self assert: e lookEventListeners size equals: 0.
-	self should: [ e removeLookEventListener: first ] raise: NotFound.
-	self assert: e lookEventListeners size equals: 0.
+	self assert: e skinEventListeners size equals: 0.
+	e addAllSkinEventListeners: { first := ToPropertyWriter new . second := ToPropertyWriter new }.
+	self assert: e skinEventListeners size equals: 2.
+	e removeSkinEventListener: first.
+	self assert: e skinEventListeners size equals: 1.
+	e removeSkinEventListener: second.
+	self assert: e skinEventListeners size equals: 0.
+	self should: [ e removeSkinEventListener: first ] raise: NotFound.
+	self assert: e skinEventListeners size equals: 0.
 
 
 
@@ -79,10 +70,19 @@ TToLookEventListenerRegistryTest >> testRemoveLookEventListener [
 ]
 
 { #category : #tests }
-TToLookEventListenerRegistryTest >> testlookEventListenerIndex [
+TToLookEventListenerRegistryTest >> testSkinEventListenerIndex [
 
 	| e |
 	e := ToPropertyWritersHolderElementForTest new.
-	self assert: e lookEventListeners notNil.
-	self assert: e lookEventListeners size equals: 0
+	self assert: e skinEventListeners notNil.
+	self assert: e skinEventListeners size equals: 0
+]
+
+{ #category : #tests }
+TToLookEventListenerRegistryTest >> testSkinEventListeners [
+
+	| e |
+	e := ToPropertyWritersHolderElementForTest new.
+	self assert: e skinEventListeners size equals: 0.
+
 ]

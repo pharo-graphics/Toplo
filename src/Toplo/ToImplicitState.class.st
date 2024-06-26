@@ -5,21 +5,21 @@ Class {
 }
 
 { #category : #accessing }
-ToImplicitState >> lookEvent [
+ToImplicitState >> newSkinEvent [
 
-	^ self newLookEvent 
-]
-
-{ #category : #accessing }
-ToImplicitState >> lookEventClass [
-
-	^ self subclassResponsibility 
-]
-
-{ #category : #accessing }
-ToImplicitState >> newLookEvent [
-
-	^ self lookEventClass new
+	^ self skinEventClass new
 		  fromState: self;
 		  yourself
+]
+
+{ #category : #accessing }
+ToImplicitState >> skinEvent [
+
+	^ self newSkinEvent 
+]
+
+{ #category : #accessing }
+ToImplicitState >> skinEventClass [
+
+	^ self subclassResponsibility 
 ]

@@ -9,7 +9,7 @@ ToIntrinsicStateTest >> testApplyOn [
 
 	| e state  |
 	e := ToElement new.
-	state := ToIntrinsicStateForTest new.
+	state := ToIntrinsicStateStub new.
 	state applyOn: e
 ]
 
@@ -18,14 +18,14 @@ ToIntrinsicStateTest >> testApplyOnEnqueueFromElementInQueue [
 
 	| e nextInQueue firstValState secondValState |
 	e := ToElement new.
-	firstValState := ToIntrinsicStateForTest new val: #firstVal.
+	firstValState := ToIntrinsicStateStub new val: #firstVal.
 	firstValState
 		requestEnqueueFromElement: e
 		inQueue: e skinManager skinStateQueue.
 	" no, the state is not enqueued since a ToInstallState has not been enqueued before "
 	self deny: firstValState canBeEnqueued.
 	self assert: e skinManager skinStateQueue nextStates isEmpty.
-	secondValState := ToIntrinsicStateForTest new val: #secondVal.
+	secondValState := ToIntrinsicStateStub new val: #secondVal.
 	e skinManager skinStateQueue enqueueInstallStateForElement: e.
 	secondValState
 		requestEnqueueFromElement: e
@@ -78,31 +78,19 @@ ToIntrinsicStateTest >> testApplyOnWhenDisabled [
 	self assert: (uncheckedEvt isKindOf: ToUncheckedSkinEvent)
 ]
 
-{ #category : #running }
-ToIntrinsicStateTest >> testLookEvent [
-
-	| state  |
-	state := ToCheckState new checked: true.
-	self assert: (state lookEvent isKindOf: ToCheckedSkinEvent).
-	state := ToCheckState new checked: false.
-	self assert: (state lookEvent isKindOf: ToUncheckedSkinEvent) 
-
-	
-]
-
 { #category : #tests }
 ToIntrinsicStateTest >> testRequestEnqueueFromElementInQueue [
 
 	| e state nextInQueue firstValState secondValState |
 	e := ToElement new.
-	state := ToIntrinsicStateForTest new val: #firstVal.
+	state := ToIntrinsicStateStub new val: #firstVal.
 	state
 		requestEnqueueFromElement: e
 		inQueue: e skinManager skinStateQueue.
 	" no, the state is not enqueued since a ToInstallState has not been enqueued before "
 	self deny: state canBeEnqueued.
 	self assert: e skinManager skinStateQueue nextStates isEmpty.
-	state := ToIntrinsicStateForTest new val: #secondVal.
+	state := ToIntrinsicStateStub new val: #secondVal.
 	e skinManager skinStateQueue enqueueInstallStateForElement: e.
 	state
 		requestEnqueueFromElement: e
@@ -111,17 +99,29 @@ ToIntrinsicStateTest >> testRequestEnqueueFromElementInQueue [
 	nextInQueue := e skinManager skinStateQueue nextStates nextOrNil.
 	self assert: (nextInQueue isKindOf: ToInstallState).
 	nextInQueue := e skinManager skinStateQueue nextStates nextOrNil.
-	self assert: (nextInQueue isKindOf: ToIntrinsicStateForTest).
+	self assert: (nextInQueue isKindOf: ToIntrinsicStateStub).
 	" the previously enqueued state was for #firstVal "
 	firstValState := nextInQueue.
 	self assert: nextInQueue val equals: #firstVal.
 	nextInQueue := e skinManager skinStateQueue nextStates nextOrNil.
 	self assert: (nextInQueue isKindOf: ToEnablementState).
 	nextInQueue := e skinManager skinStateQueue nextStates nextOrNil.
-	self assert: (nextInQueue isKindOf: ToIntrinsicStateForTest).
+	self assert: (nextInQueue isKindOf: ToIntrinsicStateStub).
 	" the last enqueued state is for #secondVal "
 	secondValState := nextInQueue.
 	self assert: nextInQueue val equals: #secondVal.
 	nextInQueue := e skinManager skinStateQueue nextStates nextOrNil.
 	self assert: nextInQueue isNil
+]
+
+{ #category : #running }
+ToIntrinsicStateTest >> testSkinEvent [
+
+	| state  |
+	state := ToCheckState new checked: true.
+	self assert: (state skinEvent isKindOf: ToCheckedSkinEvent).
+	state := ToCheckState new checked: false.
+	self assert: (state skinEvent isKindOf: ToUncheckedSkinEvent) 
+
+	
 ]

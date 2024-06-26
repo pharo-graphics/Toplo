@@ -3,59 +3,59 @@ Trait {
 	#category : #'Toplo-Core-StyleSheet'
 }
 
-{ #category : #'t - look event listener registry' }
-TToLookEventListenerRegistry >> addAllLookEventListeners: aListenerCollection [
+{ #category : #'t - skin event listener registry' }
+TToLookEventListenerRegistry >> addAllSkinEventListeners: aListenerCollection [
 
-	self lookEventListeners addAll: aListenerCollection
+	self skinEventListeners addAll: aListenerCollection
 ]
 
-{ #category : #'t - look event listener registry' }
-TToLookEventListenerRegistry >> addLookEventListener: aListener [
+{ #category : #'t - skin event listener registry' }
+TToLookEventListenerRegistry >> addSkinEventListener: aListener [
 
-	self lookEventListeners add: aListener
+	self skinEventListeners add: aListener
 ]
 
-{ #category : #'t - look event listener registry' }
-TToLookEventListenerRegistry >> lookEventListeners [
-
-	^ self rawLookEventListeners ifNil: [
-		  self rawLookEventListeners: OrderedCollection new.
-		  self rawLookEventListeners ]
-]
-
-{ #category : #'t - look event listener registry' }
-TToLookEventListenerRegistry >> lookEventListeners: aLookEventListenerCollection [
-
-	self removeAllLookEventListeners.
-	self addAllLookEventListeners: aLookEventListenerCollection
-]
-
-{ #category : #'t - look event listener registry' }
-TToLookEventListenerRegistry >> rawLookEventListeners [
+{ #category : #'t - skin event listener registry' }
+TToLookEventListenerRegistry >> rawSkinEventListeners [
 
 	^ self explicitRequirement 
 ]
 
-{ #category : #'t - look event listener registry' }
-TToLookEventListenerRegistry >> rawLookEventListeners: aLookEventListenerCollection [
+{ #category : #'t - skin event listener registry' }
+TToLookEventListenerRegistry >> rawSkinEventListeners: aSkinEventListenerCollection [
 
 	self explicitRequirement
 ]
 
-{ #category : #'t - look event listener registry' }
-TToLookEventListenerRegistry >> removeAllLookEventListeners [
+{ #category : #'t - skin event listener registry' }
+TToLookEventListenerRegistry >> removeAllSkinEventListeners [
 
-	self removeAllLookEventListeners: self lookEventListeners 
+	self removeAllSkinEventListeners: self skinEventListeners 
 ]
 
-{ #category : #'t - look event listener registry' }
-TToLookEventListenerRegistry >> removeAllLookEventListeners: aListenerCollection [
+{ #category : #'t - skin event listener registry' }
+TToLookEventListenerRegistry >> removeAllSkinEventListeners: aListenerCollection [
 
-	self lookEventListeners removeAll: aListenerCollection
+	self skinEventListeners removeAll: aListenerCollection
 ]
 
-{ #category : #'t - look event listener registry' }
-TToLookEventListenerRegistry >> removeLookEventListener: aListener [
+{ #category : #'t - skin event listener registry' }
+TToLookEventListenerRegistry >> removeSkinEventListener: aListener [
 
-	self lookEventListeners remove: aListener
+	self skinEventListeners remove: aListener
+]
+
+{ #category : #'t - skin event listener registry' }
+TToLookEventListenerRegistry >> skinEventListeners [
+
+	^ self rawSkinEventListeners ifNil: [
+		  self rawSkinEventListeners: OrderedCollection new.
+		  self rawSkinEventListeners ]
+]
+
+{ #category : #'t - skin event listener registry' }
+TToLookEventListenerRegistry >> skinEventListeners: anEventListenerCollection [
+
+	self removeAllSkinEventListeners.
+	self addAllSkinEventListeners: anEventListenerCollection
 ]

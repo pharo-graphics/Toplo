@@ -2240,6 +2240,21 @@ ToSandBox class >> example_SimpleOpenSaveSaveAsClose [
 	container openInSpace
 ]
 
+{ #category : #'look event' }
+ToSandBox class >> example_SkinEventTrace [
+
+	| but |
+	but := ToButton new.
+	but icon: (ToImage new innerImage: (self iconNamed: #solidMenu)).
+	but label: (ToLabel text: 'Button with label').
+	but addEventHandler: (BlEventHandler
+			 on: ToSkinEvent
+			 do: [ :evt | evt target = but ifTrue: [ evt traceCr ] ]).
+	but stillPressedStartDelay: 3000 milliSeconds.
+	but inspect.
+	but openInSpace
+]
+
 { #category : #image }
 ToSandBox class >> example_Smalltalk_ui_icons [
 
@@ -3151,21 +3166,6 @@ ToSandBox class >> example_horizontalPaneWithDivider [
 	pane dividers second weight: 5.
 	pane dividers third weight: 0.5.
 	pane openInSpace
-]
-
-{ #category : #'look event' }
-ToSandBox class >> example_lookEventTrace [
-
-	| but |
-	but := ToButton new.
-	but icon: (ToImage new innerImage: (self iconNamed: #solidMenu)).
-	but label: (ToLabel text: 'Button with label').
-	but addEventHandler: (BlEventHandler
-			 on: ToSkinEvent
-			 do: [ :evt | evt target = but ifTrue: [ evt traceCr ] ]).
-	but stillPressedStartDelay: 3000 milliSeconds.
-	but inspect.
-	but openInSpace
 ]
 
 { #category : #'context menu + menubar' }

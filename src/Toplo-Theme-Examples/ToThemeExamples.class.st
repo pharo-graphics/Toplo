@@ -489,7 +489,7 @@ ToThemeExamples class >> example_oneButton [
 	space := BlSpace new.
 	space toTheme: ToBeeTheme new.
 	defaultButton := ToButton new.
-	"defaultButton when: ToElementLookEvent do: [ :evt | evt traceCr ]."
+	"defaultButton when: ToElementSkinEvent do: [ :evt | evt traceCr ]."
 	defaultButton addStamp: #'primary'.
 	defaultButton labelText: 'Default button'.
 	space root addChild: defaultButton.

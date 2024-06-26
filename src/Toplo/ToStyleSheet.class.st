@@ -152,12 +152,6 @@ ToStyleSheet >> initialize [
 ToStyleSheet >> initializeStyleRules [
 ]
 
-{ #category : #'t - stylesheet scripter' }
-ToStyleSheet >> lookEventListenerHolder [ 
-
-	^ self script
-]
-
 { #category : #initialization }
 ToStyleSheet >> onInstalledIn: anElement [
 
@@ -194,6 +188,12 @@ ToStyleSheet >> rawWritablePropertyIndex: aPropertyIndex [
 ToStyleSheet >> script [
 
 	^ styleScript
+]
+
+{ #category : #'t - stylesheet scripter' }
+ToStyleSheet >> skinEventListenerHolder [ 
+
+	^ self script
 ]
 
 { #category : #accessing }

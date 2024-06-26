@@ -1,5 +1,5 @@
 Class {
-	#name : #ToIntrinsicStateForTest,
+	#name : #ToIntrinsicStateStub,
 	#superclass : #ToIntrinsicState,
 	#instVars : [
 		'applyCount',
@@ -10,53 +10,53 @@ Class {
 }
 
 { #category : #accessing }
-ToIntrinsicStateForTest >> applyCount [
+ToIntrinsicStateStub >> applyCount [
 
 	^ applyCount
 ]
 
 { #category : #accessing }
-ToIntrinsicStateForTest >> canBeEnqueued [
+ToIntrinsicStateStub >> canBeEnqueued [
 
 	^ canBeEnqueued
 ]
 
 { #category : #initialization }
-ToIntrinsicStateForTest >> initialize [ 
+ToIntrinsicStateStub >> initialize [ 
 
 	super initialize.
 	applyCount := 0
 ]
 
-{ #category : #accessing }
-ToIntrinsicStateForTest >> lookEventClass [
-
-	^ ToIntrinsicLookEventForTest
-]
-
 { #category : #'look event sending' }
-ToIntrinsicStateForTest >> onAppliedOn: anElement [
+ToIntrinsicStateStub >> onAppliedOn: anElement [
 
 	super onAppliedOn: anElement.
 	applyCount := applyCount + 1
 ]
 
 { #category : #'look event sending' }
-ToIntrinsicStateForTest >> requestEnqueueFromElement: anElement inQueue: aStateQueue [
+ToIntrinsicStateStub >> requestEnqueueFromElement: anElement inQueue: aStateQueue [
 
 	canBeEnqueued := self canBeEnqueuedFromElement: anElement inQueue: aStateQueue.
 	super requestEnqueueFromElement: anElement inQueue: aStateQueue
 ]
 
 { #category : #accessing }
-ToIntrinsicStateForTest >> val [
+ToIntrinsicStateStub >> skinEventClass [
+
+	^ ToIntrinsicSkinEventStub
+]
+
+{ #category : #accessing }
+ToIntrinsicStateStub >> val [
 
 	^ val
 
 ]
 
 { #category : #accessing }
-ToIntrinsicStateForTest >> val: anObject [
+ToIntrinsicStateStub >> val: anObject [
 
 	val := anObject
 

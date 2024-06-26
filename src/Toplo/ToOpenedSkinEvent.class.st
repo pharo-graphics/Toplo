@@ -7,5 +7,5 @@ Class {
 { #category : #sending }
 ToOpenedSkinEvent >> sendTo: anObject [
 
-	anObject openedLookEvent: self
+	anObject openedSkinEvent: self
 ]

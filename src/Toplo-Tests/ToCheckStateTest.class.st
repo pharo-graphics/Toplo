@@ -60,13 +60,13 @@ ToCheckStateTest >> testApplyOnWhenDisabled [
 ]
 
 { #category : #running }
-ToCheckStateTest >> testLookEvent [
+ToCheckStateTest >> testSkinEvent [
 
 	| state  |
 	state := ToCheckState new checked: true.
-	self assert: (state lookEvent isKindOf: ToCheckedSkinEvent).
+	self assert: (state skinEvent isKindOf: ToCheckedSkinEvent).
 	state := ToCheckState new checked: false.
-	self assert: (state lookEvent isKindOf: ToUncheckedSkinEvent) 
+	self assert: (state skinEvent isKindOf: ToUncheckedSkinEvent) 
 
 	
 ]

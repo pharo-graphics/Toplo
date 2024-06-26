@@ -26,12 +26,6 @@ ToDemo1 class >> example1 [
 
 	| dem |
 	dem := ToDemo1 new.
-	" setup the default skin ->
-	ask to install it.
-	then run:
-	ToDemo1>>installRawStyle then 
-	ToDemo1Skin>>installLookEvent:
-	"
 	dem defaultRawSkin: ToDemoSkin1 new.
 	dem openInSpace
 ]

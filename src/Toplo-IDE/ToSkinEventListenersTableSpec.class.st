@@ -1,5 +1,5 @@
 Class {
-	#name : #ToLookEventListenersTableSpec,
+	#name : #ToSkinEventListenersTableSpec,
 	#superclass : #SpPresenter,
 	#instVars : [
 		'table',
@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #layout }
-ToLookEventListenersTableSpec >> defaultLayout [
+ToSkinEventListenersTableSpec >> defaultLayout [
 
 	^ SpBoxLayout newHorizontal
 		  add: self table;
@@ -17,18 +17,18 @@ ToLookEventListenersTableSpec >> defaultLayout [
 ]
 
 { #category : #defaults }
-ToLookEventListenersTableSpec >> iconForEventListener: anEventListener [
+ToSkinEventListenersTableSpec >> iconForEventListener: anEventListener [
 
 	self skin ifNil: [ ^ self iconNamed: #blank ].
 	(self skin isKindOf: ToStyleSheetSkin)
 		ifFalse: [ ^ self iconNamed: #blank ].
-	^ (self skin lookEventListeners includes: anEventListener)
+	^ (self skin skinEventListeners includes: anEventListener)
 		  ifTrue: [ ^ self iconNamed: #smallOk ]
 		  ifFalse: [ ^ self iconNamed: #smallCancel ]
 ]
 
 { #category : #'initialization - deprecated' }
-ToLookEventListenersTableSpec >> initializePresenter [
+ToSkinEventListenersTableSpec >> initializePresenter [
 
 	table := SpTablePresenter new
 		         beResizable;
@@ -67,25 +67,25 @@ ToLookEventListenersTableSpec >> initializePresenter [
 ]
 
 { #category : #accessing }
-ToLookEventListenersTableSpec >> lookEventListeners: aCollection [
-
-	self table items: aCollection
-]
-
-{ #category : #accessing }
-ToLookEventListenersTableSpec >> skin [
+ToSkinEventListenersTableSpec >> skin [
 
 	^ skin
 ]
 
 { #category : #accessing }
-ToLookEventListenersTableSpec >> skin: aSkin [
+ToSkinEventListenersTableSpec >> skin: aSkin [
 
 	skin := aSkin
 ]
 
 { #category : #accessing }
-ToLookEventListenersTableSpec >> table [
+ToSkinEventListenersTableSpec >> skinEventListeners: aCollection [
+
+	self table items: aCollection
+]
+
+{ #category : #accessing }
+ToSkinEventListenersTableSpec >> table [
 
 	^ table
 ]

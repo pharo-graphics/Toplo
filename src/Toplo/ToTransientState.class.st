@@ -2,49 +2,49 @@ Class {
 	#name : #ToTransientState,
 	#superclass : #ToElementState,
 	#instVars : [
-		'lookEvent'
+		'skinEvent'
 	],
 	#category : #'Toplo-Core-States'
 }
 
 { #category : #accessing }
-ToTransientState class >> lookEvent: aLookEvent [
+ToTransientState class >> skinEvent: aSkinEvent [
 
 	^ self new
-		  lookEvent: aLookEvent;
+		  skinEvent: aSkinEvent;
 		  yourself
 ]
 
 { #category : #'look event sending' }
 ToTransientState >> applyOn: anElement [
 
-	lookEvent ifNil: [ Error signal: 'An explicit state must provide its own look event instance' ].
+	skinEvent ifNil: [ Error signal: 'An explicit state must provide its own skin event instance' ].
 	super applyOn: anElement
-]
-
-{ #category : #accessing }
-ToTransientState >> lookEvent [
-
-	^ lookEvent 
-]
-
-{ #category : #accessing }
-ToTransientState >> lookEvent: aLookEvent [
-
-	lookEvent := aLookEvent
 ]
 
 { #category : #'look event sending' }
 ToTransientState >> onAppliedOn: anElement [
 
 	super onAppliedOn: anElement.
-	lookEvent isConsumed ifTrue: [ self sourceEvent consume ].
-	lookEvent := nil
+	skinEvent isConsumed ifTrue: [ self sourceEvent consume ].
+	skinEvent := nil
 
+]
+
+{ #category : #accessing }
+ToTransientState >> skinEvent [
+
+	^ skinEvent 
+]
+
+{ #category : #accessing }
+ToTransientState >> skinEvent: aSkinEvent [
+
+	skinEvent := aSkinEvent
 ]
 
 { #category : #accessing }
 ToTransientState >> sourceEvent [
 
-	^ self lookEvent sourceEvent
+	^ self skinEvent sourceEvent
 ]

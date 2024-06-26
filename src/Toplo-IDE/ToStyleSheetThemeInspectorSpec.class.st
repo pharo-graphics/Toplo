@@ -98,7 +98,7 @@ ToStyleSheetThemeInspectorSpec >> selectedItemInTreeChanged: aStyleRule [
 	arrayOfSpecRules reverseDo: [ :each |
 		layoutForRules
 			add: each
-			height: 50 + (each styleRule lookEventListeners size * 20) ].
+			height: 50 + (each styleRule skinEventListeners size * 20) ].
 	self scrollSection child: (SpPresenter new
 			 layout: layoutForRules;
 			 yourself)

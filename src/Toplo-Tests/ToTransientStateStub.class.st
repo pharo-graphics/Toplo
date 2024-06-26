@@ -1,5 +1,5 @@
 Class {
-	#name : #ToTransientStateForTest,
+	#name : #ToTransientStateStub,
 	#superclass : #ToTransientState,
 	#instVars : [
 		'applyCount',
@@ -9,33 +9,33 @@ Class {
 }
 
 { #category : #accessing }
-ToTransientStateForTest >> applyCount [
+ToTransientStateStub >> applyCount [
 
 	^ applyCount
 ]
 
 { #category : #accessing }
-ToTransientStateForTest >> canBeEnqueued [
+ToTransientStateStub >> canBeEnqueued [
 
 	^ canBeEnqueued
 ]
 
 { #category : #initialization }
-ToTransientStateForTest >> initialize [ 
+ToTransientStateStub >> initialize [ 
 
 	super initialize.
 	applyCount := 0
 ]
 
 { #category : #'look event sending' }
-ToTransientStateForTest >> onAppliedOn: anElement [
+ToTransientStateStub >> onAppliedOn: anElement [
 
 	super onAppliedOn: anElement.
 	applyCount := applyCount + 1
 ]
 
 { #category : #'look event sending' }
-ToTransientStateForTest >> requestEnqueueFromElement: anElement inQueue: aStateQueue [
+ToTransientStateStub >> requestEnqueueFromElement: anElement inQueue: aStateQueue [
 
 	canBeEnqueued := self canBeEnqueuedFromElement: anElement inQueue: aStateQueue.
 	super requestEnqueueFromElement: anElement inQueue: aStateQueue

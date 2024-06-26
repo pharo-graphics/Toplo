@@ -12,7 +12,7 @@ TToStyleRuleScripter >> action: aValuable [
 { #category : #'t - stylesheet scripter - syntactic sugar' }
 TToStyleRuleScripter >> any [
 
-	^ self lookEventListenerHolder newUniversalSelector
+	^ self skinEventListenerHolder newUniversalSelector
 ]
 
 { #category : #'t - stylesheet scripter' }
@@ -42,15 +42,15 @@ TToStyleRuleScripter >> id: aSymbol [
 ]
 
 { #category : #'t - stylesheet scripter' }
-TToStyleRuleScripter >> lookEventListenerHolder [ 
+TToStyleRuleScripter >> select: aStyleSelector style: aBlock [
 
-	^ self explicitRequirement 
+	self skinEventListenerHolder pushStyleRuleFor: aStyleSelector styleWith: aBlock
 ]
 
 { #category : #'t - stylesheet scripter' }
-TToStyleRuleScripter >> select: aStyleSelector style: aBlock [
+TToStyleRuleScripter >> skinEventListenerHolder [ 
 
-	self lookEventListenerHolder pushStyleRuleFor: aStyleSelector styleWith: aBlock
+	^ self explicitRequirement 
 ]
 
 { #category : #'t - stylesheet scripter' }
@@ -69,19 +69,19 @@ TToStyleRuleScripter >> type: aClass [
 ]
 
 { #category : #'t - stylesheet scripter' }
-TToStyleRuleScripter >> when: aLookEventClass do: aValuable [
+TToStyleRuleScripter >> when: aSkinEventClass do: aValuable [
 
-	self lookEventListenerHolder addLookEventListener: (ToLookEventAction new
-			 eventClass: aLookEventClass;
+	self skinEventListenerHolder addSkinEventListener: (ToSkinEventAction new
+			 eventClass: aSkinEventClass;
 			 action: aValuable;
 			 yourself)
 ]
 
 { #category : #'t - stylesheet scripter' }
-TToStyleRuleScripter >> when: aLookEventClass supplement: aWritableProperty with: aValuableOrObject [
+TToStyleRuleScripter >> when: aSkinEventClass supplement: aWritableProperty with: aValuableOrObject [
 
-	self lookEventListenerHolder addLookEventListener: (ToPropertyWriter new
-			 eventClass: aLookEventClass;
+	self skinEventListenerHolder addSkinEventListener: (ToPropertyWriter new
+			 eventClass: aSkinEventClass;
 			 property: aWritableProperty;
 			 value: aValuableOrObject;
 			 supplement: true;
@@ -89,11 +89,11 @@ TToStyleRuleScripter >> when: aLookEventClass supplement: aWritableProperty with
 ]
 
 { #category : #'t - stylesheet scripter' }
-TToStyleRuleScripter >> when: aLookEventClass supplement: aWriteableProperty with: aValuableOrObject animation: aPropertyAnimation [
+TToStyleRuleScripter >> when: aSkinEventClass supplement: aWriteableProperty with: aValuableOrObject animation: aPropertyAnimation [
 
-	self lookEventListenerHolder addLookEventListener:
+	self skinEventListenerHolder addSkinEventListener:
 		(ToPropertyWriter new
-			 eventClass: aLookEventClass;
+			 eventClass: aSkinEventClass;
 			 property: aWriteableProperty;
 			 value: aValuableOrObject;
 			 animation: aPropertyAnimation;
@@ -102,20 +102,20 @@ TToStyleRuleScripter >> when: aLookEventClass supplement: aWriteableProperty wit
 ]
 
 { #category : #'t - stylesheet scripter' }
-TToStyleRuleScripter >> when: aLookEventClass write: aProperty with: aValuableOrObject [
+TToStyleRuleScripter >> when: aSkinEventClass write: aProperty with: aValuableOrObject [
 
 	self
-		when: aLookEventClass
+		when: aSkinEventClass
 		write: aProperty
 		with: aValuableOrObject
 		animation: nil
 ]
 
 { #category : #'t - stylesheet scripter' }
-TToStyleRuleScripter >> when: aLookEventClass write: aWriteableProperty with: aValuableOrObject animation: aPropertyAnimation [
+TToStyleRuleScripter >> when: aSkinEventClass write: aWriteableProperty with: aValuableOrObject animation: aPropertyAnimation [
 
-	self lookEventListenerHolder addLookEventListener: (ToPropertyWriter new
-			 eventClass: aLookEventClass;
+	self skinEventListenerHolder addSkinEventListener: (ToPropertyWriter new
+			 eventClass: aSkinEventClass;
 			 property: aWriteableProperty;
 			 value: aValuableOrObject;
 			 animation: aPropertyAnimation;

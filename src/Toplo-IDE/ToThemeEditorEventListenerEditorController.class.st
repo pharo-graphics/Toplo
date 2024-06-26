@@ -22,7 +22,7 @@ ToThemeEditorEventListenerEditorController >> actionPresenter [
 { #category : #'as yet unclassified' }
 ToThemeEditorEventListenerEditorController >> allEventClasses [
 
-	^ allEventClasses ifNil: [allEventClasses := ToElementLookEvent allSubclasses reject: [ :each | each isAbstract ]]
+	^ allEventClasses ifNil: [allEventClasses := ToSkinEvent allSubclasses reject: [ :each | each isAbstract ]]
 ]
 
 { #category : #'as yet unclassified' }
@@ -96,7 +96,7 @@ ToThemeEditorEventListenerEditorController >> nullPresenter [
 ToThemeEditorEventListenerEditorController >> populateEventClassDropList: aSpDropListPresenter [
 
 	aSpDropListPresenter items: self allEventClasses.
-		(ToElementLookEvent allSubclasses reject: [ :each | each isAbstract ])
+		(ToSkinEvent allSubclasses reject: [ :each | each isAbstract ])
 ]
 
 { #category : #testing }

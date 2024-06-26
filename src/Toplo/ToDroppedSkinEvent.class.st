@@ -7,5 +7,5 @@ Class {
 { #category : #sending }
 ToDroppedSkinEvent >> sendTo: anObject [
 
-	anObject droppedLookEvent: self
+	anObject droppedSkinEvent: self
 ]

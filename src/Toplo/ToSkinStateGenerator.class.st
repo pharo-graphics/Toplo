@@ -68,12 +68,12 @@ ToSkinStateGenerator >> dragEndEvent: anEvent [
 	target skinManager
 		addSkinStateGeneration: [
 			self dragged: false.
-			self enqueueTransientStateFromLookEvent:
+			self enqueueTransientStateFromSkinEvent:
 				(ToReleasedSkinEvent sourceEvent: anEvent).
 			self leaved ifFalse: [
 				self leaved: true.
 				target isEnabled ifTrue: [
-					self enqueueTransientStateFromLookEvent:
+					self enqueueTransientStateFromSkinEvent:
 						(ToLeavedSkinEvent sourceEvent: anEvent) ] ] ]
 		in: target
 ]
@@ -121,12 +121,12 @@ ToSkinStateGenerator >> dropEvent: anEvent [
 ]
 
 { #category : #'state generating' }
-ToSkinStateGenerator >> enqueueTransientStateFromLookEvent: aLookEvent [
+ToSkinStateGenerator >> enqueueTransientStateFromSkinEvent: aSkinEvent [
 
 	target skinManagerDo: [ :sm |
 		sm
 			enqueueSkinState: (ToTransientState new
-					 lookEvent: aLookEvent;
+					 skinEvent: aSkinEvent;
 					 yourself)
 			in: target ]
 ]
@@ -192,7 +192,7 @@ ToSkinStateGenerator >> generateClickedStateFromEvent: anEvent [
 
 	target skinManager
 		addSkinStateGeneration: [
-			self enqueueTransientStateFromLookEvent:
+			self enqueueTransientStateFromSkinEvent:
 				(ToClickedSkinEvent sourceEvent: anEvent) ]
 		in: target
 ]
@@ -202,7 +202,7 @@ ToSkinStateGenerator >> generateClosedStateFromEvent: anEvent [
 
 	target skinManager
 		addSkinStateGeneration: [
-			self enqueueTransientStateFromLookEvent:
+			self enqueueTransientStateFromSkinEvent:
 				(ToClosedSkinEvent sourceEvent: anEvent) ]
 		in: target
 ]
@@ -213,7 +213,7 @@ ToSkinStateGenerator >> generateDragStartedStateFromEvent: anEvent [
 	target skinManager
 		addSkinStateGeneration: [
 			self dragged: true.
-			self enqueueTransientStateFromLookEvent:
+			self enqueueTransientStateFromSkinEvent:
 				(ToDragStartedSkinEvent sourceEvent: anEvent) ]
 		in: target
 ]
@@ -224,7 +224,7 @@ ToSkinStateGenerator >> generateDraggedStateFromEvent: anEvent [
 	target skinManager
 		addDraggedSkinStateGeneration: [
 			self dragged ifTrue: [
-				self enqueueTransientStateFromLookEvent:
+				self enqueueTransientStateFromSkinEvent:
 					(ToDraggedSkinEvent sourceEvent: anEvent) ] ]
 		for: target
 ]
@@ -234,7 +234,7 @@ ToSkinStateGenerator >> generateDroppedStateFromEvent: anEvent [
 
 	target skinManager
 		addSkinStateGeneration: [
-			self enqueueTransientStateFromLookEvent:
+			self enqueueTransientStateFromSkinEvent:
 				(ToDroppedSkinEvent sourceEvent: anEvent) ]
 		in: target
 ]
@@ -262,7 +262,7 @@ ToSkinStateGenerator >> generateHoveredStateFromEvent: anEvent [
 			self dragged ifFalse: [
 				self startStillHoveredEvent: anEvent.
 				target isEnabled ifTrue: [
-					self enqueueTransientStateFromLookEvent:
+					self enqueueTransientStateFromSkinEvent:
 						(ToHoveredSkinEvent sourceEvent: anEvent) ] ] ]
 		in: target
 ]
@@ -276,7 +276,7 @@ ToSkinStateGenerator >> generateLeavedStateFromEvent: anEvent [
 				self leaved ifFalse: [
 					self leaved: true.
 					target isEnabled ifTrue: [
-						self enqueueTransientStateFromLookEvent:
+						self enqueueTransientStateFromSkinEvent:
 							(ToLeavedSkinEvent sourceEvent: anEvent) ] ] ] ]
 		in: target
 ]
@@ -286,7 +286,7 @@ ToSkinStateGenerator >> generateOpenedStateFromEvent: anEvent [
 
 	target skinManager
 		addSkinStateGeneration: [
-			self enqueueTransientStateFromLookEvent:
+			self enqueueTransientStateFromSkinEvent:
 				(ToOpenedSkinEvent sourceEvent: anEvent) ]
 		in: target
 ]
@@ -297,7 +297,7 @@ ToSkinStateGenerator >> generatePressedStateFromEvent: anEvent [
 	target skinManager
 		addSkinStateGeneration: [
 			self pressed: true.
-			self enqueueTransientStateFromLookEvent:
+			self enqueueTransientStateFromSkinEvent:
 				(ToPressedSkinEvent sourceEvent: anEvent).
 			self startStillPressedEvent: anEvent ]
 		in: target
@@ -309,7 +309,7 @@ ToSkinStateGenerator >> generateReleasedStateFromEvent: anEvent [
 	target skinManager
 		addSkinStateGeneration: [
 			self dragged: false.
-			self enqueueTransientStateFromLookEvent:
+			self enqueueTransientStateFromSkinEvent:
 				(ToReleasedSkinEvent sourceEvent: anEvent) ]
 		in: target
 ]
@@ -335,7 +335,7 @@ ToSkinStateGenerator >> generateStillHoveredStateFromEvent: anEvent [
 
 	target skinManager
 		addSkinStateGeneration: [
-			self enqueueTransientStateFromLookEvent:
+			self enqueueTransientStateFromSkinEvent:
 				(ToStillHoveredSkinEvent sourceEvent: anEvent) ]
 		in: target
 ]
@@ -345,7 +345,7 @@ ToSkinStateGenerator >> generateStillPressedStateFromEvent: anEvent [
 
 	target skinManager
 		addSkinStateGeneration: [
-			self enqueueTransientStateFromLookEvent:
+			self enqueueTransientStateFromSkinEvent:
 				(ToStillPressedSkinEvent sourceEvent: anEvent) ]
 		in: target
 ]
@@ -503,13 +503,13 @@ ToSkinStateGenerator >> mouseUpOutsideEvent: anEvent [
 				ifFalse: [
 					self dragged: false.
 					wasPressed ifTrue: [
-						self enqueueTransientStateFromLookEvent:
+						self enqueueTransientStateFromSkinEvent:
 							(ToReleasedSkinEvent sourceEvent: anEvent) ].
 
 					self leaved ifFalse: [
 						self leaved: true.
 						target isEnabled ifTrue: [
-							self enqueueTransientStateFromLookEvent:
+							self enqueueTransientStateFromSkinEvent:
 								(ToLeavedSkinEvent sourceEvent: anEvent) ] ] ] ]
 		in: target
 ]
@@ -603,10 +603,10 @@ ToSkinStateGenerator >> primaryMouseUpEvent: anEvent [
 	target skinManager addSkinStateGeneration: [
 		self dragged: false.
 		self leaved: false.
-		self enqueueTransientStateFromLookEvent: (ToReleasedSkinEvent sourceEvent: anEvent).
+		self enqueueTransientStateFromSkinEvent: (ToReleasedSkinEvent sourceEvent: anEvent).
 		target isEnabled ifTrue: [
 			self startStillHoveredEvent: anEvent.
-			self enqueueTransientStateFromLookEvent:
+			self enqueueTransientStateFromSkinEvent:
 				(ToHoveredSkinEvent sourceEvent: anEvent) ] ] in: target
 ]
 

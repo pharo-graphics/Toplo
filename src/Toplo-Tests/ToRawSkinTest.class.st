@@ -8,23 +8,23 @@ Class {
 }
 
 { #category : #tests }
-ToRawSkinTest >> instanciableLookEventClasses [
+ToRawSkinTest >> collectInstanciableSkinEventClasses [
 	" returns all look event classes that implement #sendTo: "
 
 	^ Array streamContents: [ :str |
-		  ToElementLookEvent allSubclasses do: [ :cls |
+		  ToSkinEvent allSubclasses do: [ :cls |
 			  cls localMethods do: [ :cm |
 				  cm selector asSymbol = #sendTo: ifTrue: [ str nextPut: cls ] ] ] ]
 ]
 
 { #category : #tests }
-ToRawSkinTest >> testHasAllNecessaryLookEventHandlingMethods [
+ToRawSkinTest >> testHasAllNecessarySkinEventHandlingMethods [
 
-	| lookEventClasses lookEventSelectors |
+	| skinEventClasses skinEventSelectors |
 	" collect all look event classes "
-	lookEventClasses := self instanciableLookEventClasses.
+	skinEventClasses := self collectInstanciableSkinEventClasses.
 	" collect all selectors that a raw skin class must implement "
-	lookEventSelectors := lookEventClasses collect: [ :cls |
+	skinEventSelectors := skinEventClasses collect: [ :cls |
 		                      | n |
 		                      n := (cls name asString
 			                            copyFrom: 3
@@ -33,19 +33,19 @@ ToRawSkinTest >> testHasAllNecessaryLookEventHandlingMethods [
 			                      at: 1 put: n first asLowercase;
 			                      yourself ].
 	" check that ToRawSkin has all necessary methods "
-	lookEventSelectors do: [ :s |
+	skinEventSelectors do: [ :s |
 		self assert: (ToRawSkin canUnderstand: s asSymbol) ]
 ]
 
 { #category : #tests }
-ToRawSkinTest >> testIsAbleToHandleAnyLookEvent [
+ToRawSkinTest >> testIsAbleToHandleAnySkinEvent [
 
-	| e skin instanciableLookEventClasses |
+	| e skin instanciableSkinEventClasses |
 	e := ToElement new.
 	skin := ToRawSkinForTest new.
 	e addEventHandler: skin.
-	instanciableLookEventClasses := self instanciableLookEventClasses.
-	instanciableLookEventClasses do: [ :cls |
+	instanciableSkinEventClasses := self collectInstanciableSkinEventClasses.
+	instanciableSkinEventClasses do: [ :cls |
 		e dispatchEvent: cls new.
 		self assert: (skin receivedCountForClass: cls) equals: 1 ]
 ]

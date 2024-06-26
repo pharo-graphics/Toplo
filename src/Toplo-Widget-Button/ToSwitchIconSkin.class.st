@@ -5,9 +5,9 @@ Class {
 }
 
 { #category : #'event handling' }
-ToSwitchIconSkin >> checkedLookEvent: anEvent [
+ToSwitchIconSkin >> checkedSkinEvent: anEvent [
 
-	super checkedLookEvent: anEvent.
+	super checkedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e updateHandleContent.
 		e background: (e valueOfTokenNamed: #'switch-checked-background').
@@ -17,9 +17,9 @@ ToSwitchIconSkin >> checkedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToSwitchIconSkin >> disabledLookEvent: anEvent [
+ToSwitchIconSkin >> disabledSkinEvent: anEvent [
 
-	super disabledLookEvent: anEvent.
+	super disabledSkinEvent: anEvent.
 
 	anEvent elementDo: [ :e |
 		e updateHandleContent.
@@ -29,31 +29,31 @@ ToSwitchIconSkin >> disabledLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToSwitchIconSkin >> enabledLookEvent: anEvent [
+ToSwitchIconSkin >> enabledSkinEvent: anEvent [
 
-	super enabledLookEvent: anEvent.
+	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e handle background: (e valueOfTokenNamed: #'switch-handle-enabled-background') ]
 ]
 
 { #category : #'event handling' }
-ToSwitchIconSkin >> hoveredLookEvent: anEvent [
+ToSwitchIconSkin >> hoveredSkinEvent: anEvent [
 
-	super hoveredLookEvent: anEvent.
+	super hoveredSkinEvent: anEvent.
 	anEvent elementDo: [ :e |  ]
 ]
 
 { #category : #'event handling' }
-ToSwitchIconSkin >> installLookEvent: anEvent [
+ToSwitchIconSkin >> installSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e | ]
 ]
 
 { #category : #'event handling' }
-ToSwitchIconSkin >> leavedLookEvent: anEvent [
+ToSwitchIconSkin >> leavedSkinEvent: anEvent [
 
-	super leavedLookEvent: anEvent.
+	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |  ]
 ]
 
@@ -89,9 +89,9 @@ ToSwitchIconSkin >> switchWithAnimation: aSwitchButton [
 ]
 
 { #category : #'event handling' }
-ToSwitchIconSkin >> uncheckedLookEvent: anEvent [
+ToSwitchIconSkin >> uncheckedSkinEvent: anEvent [
 
-	super uncheckedLookEvent: anEvent.
+	super uncheckedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e updateHandleContent.
 		e background: (e valueOfTokenNamed: #'switch-unchecked-background').

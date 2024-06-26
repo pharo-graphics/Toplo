@@ -34,8 +34,8 @@ ToThemeEditorEventsListenerListPresenterTest >> setUp [
 	super setUp.
 
 	styleRule := ToStyleRule new
-		             addLookEventListener: ToPropertyWriter new;
-		             addLookEventListener: ToPropertyWriter new;
+		             addSkinEventListener: ToPropertyWriter new;
+		             addSkinEventListener: ToPropertyWriter new;
 		             yourself.
 	presenter := ToThemeEditorEventsListenerListPresenter new.
 
@@ -59,15 +59,15 @@ ToThemeEditorEventsListenerListPresenterTest >> testActionAddButtonWithNilTheme 
 	| previousEventListeners |
 	controller theme: nil.
 	self assert: self presenter eventListenersList items size equals: 2.
-	previousEventListeners := self styleRule lookEventListeners copy.
+	previousEventListeners := self styleRule skinEventListeners copy.
 	self presenter buttonAdd click.
 	self assert: self presenter eventListenersList items size equals: 3.
-	self assert: self styleRule lookEventListeners size equals: 3.
+	self assert: self styleRule skinEventListeners size equals: 3.
 	self deny: (previousEventListeners includes:
 			 self presenter eventListenersList selectedItem).
 	self assert:
 		(self presenter eventListenersList selectedItem isKindOf:
-			 ToLookEventAction)
+			 ToSkinEventAction)
 ]
 
 { #category : #tests }
@@ -76,10 +76,10 @@ ToThemeEditorEventsListenerListPresenterTest >> testActionAddButtonWithToStyleSh
 	| previousEventListeners |
 	controller theme: ToStyleSheetTheme new.
 	self assert: self presenter eventListenersList items size equals: 2.
-	previousEventListeners := self styleRule lookEventListeners copy.
+	previousEventListeners := self styleRule skinEventListeners copy.
 	self presenter buttonAdd click.
 	self assert: self presenter eventListenersList items size equals: 3.
-	self assert: self styleRule lookEventListeners size equals: 3.
+	self assert: self styleRule skinEventListeners size equals: 3.
 	self deny: (previousEventListeners includes:
 			 self presenter eventListenersList selectedItem).
 	self assert:
@@ -92,13 +92,13 @@ ToThemeEditorEventsListenerListPresenterTest >> testActionRemoveButton [
 
 	| eventListenerToRemove eventListenerKeep  |
 	self assert: self presenter eventListenersList items size equals: 2.
-	eventListenerToRemove := self styleRule lookEventListeners second.
-	eventListenerKeep:= self styleRule lookEventListeners first.
+	eventListenerToRemove := self styleRule skinEventListeners second.
+	eventListenerKeep:= self styleRule skinEventListeners first.
 	self presenter eventListenersList selectItem: eventListenerToRemove.
 	self presenter buttonRemove click.
 	self assert: self presenter eventListenersList items size equals: 1.
-	self assert: self styleRule lookEventListeners size equals: 1.
-	self assert: eventListenerKeep equals: self styleRule lookEventListeners first.
+	self assert: self styleRule skinEventListeners size equals: 1.
+	self assert: eventListenerKeep equals: self styleRule skinEventListeners first.
 	self assert: eventListenerKeep equals: self presenter eventListenersList selectedItem.
 ]
 
@@ -107,7 +107,7 @@ ToThemeEditorEventsListenerListPresenterTest >> testInitializePresenters [
 
 	self assert: self presenter buttonAdd isEnabled.
 	self assert: self presenter buttonRemove isEnabled.
-	self assert: self presenter eventListenersList selectedItem equals: self styleRule lookEventListeners first.
+	self assert: self presenter eventListenersList selectedItem equals: self styleRule skinEventListeners first.
 	self assert: self presenter eventListenersList items size equals: 2
 ]
 
@@ -118,5 +118,5 @@ ToThemeEditorEventsListenerListPresenterTest >> testSelectedEventListenerChanged
 	self presenter eventListenersList selectIndex: 2 .
 	self
 		assert: self observer eventListener
-		equals: (self styleRule lookEventListeners at: 2)
+		equals: (self styleRule skinEventListeners at: 2)
 ]

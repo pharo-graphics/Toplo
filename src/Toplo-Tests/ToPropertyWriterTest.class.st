@@ -58,9 +58,9 @@ ToPropertyWriterTest >> testCanReceiveEvent [
 
 	| propWriter |
 	propWriter := ToPropertyWriter new.
-	propWriter eventClass: ToHoveredLookEvent.
-	self assert: (propWriter canReceiveEvent: ToHoveredLookEvent new).
-	self deny: (propWriter canReceiveEvent: ToLeavedLookEvent new)
+	propWriter eventClass: ToHoveredSkinEvent.
+	self assert: (propWriter canReceiveEvent: ToHoveredSkinEvent new).
+	self deny: (propWriter canReceiveEvent: ToLeavedSkinEvent new)
 ]
 
 { #category : #tests }
@@ -68,8 +68,8 @@ ToPropertyWriterTest >> testEventClass [
 
 	| propWriter |
 	propWriter := ToPropertyWriter new.
-	propWriter eventClass: ToHoveredLookEvent.
-	self assert: propWriter eventClass identicalTo: ToHoveredLookEvent
+	propWriter eventClass: ToHoveredSkinEvent.
+	self assert: propWriter eventClass identicalTo: ToHoveredSkinEvent
 ]
 
 { #category : #tests }
@@ -102,7 +102,7 @@ ToPropertyWriterTest >> testReceiveDefaultEventWithFeaturePropertyWithRawValue [
 	propWriter property: prop.
 	propWriter value: Color blue.
 	target := BlElement new.
-	propWriter receiveEvent: (ToInstallLookEvent new currentTarget: target).
+	propWriter receiveEvent: (ToInstallSkinEvent new currentTarget: target).
 	self assert: target background paint color equals: Color blue.
 ]
 
@@ -112,15 +112,15 @@ ToPropertyWriterTest >> testReceiveEvent [
 	| w propWriter evt |
 	w := BlElement new.
 	w background: Color red.
-	evt := ToHoveredLookEvent new currentTarget: w.
+	evt := ToHoveredSkinEvent new currentTarget: w.
 	propWriter := ToPropertyWriter new.
-	propWriter eventClass: ToHoveredLookEvent.
+	propWriter eventClass: ToHoveredSkinEvent.
 	propWriter property: (ToFeatureProperty new name: #background).
 	propWriter value: (BlBackground paint: Color blue).
 	self assert: w background paint color equals: Color red.
 	propWriter receiveEvent: evt.
 	self assert: w background paint color equals: Color blue.
-	evt := ToLeavedLookEvent new currentTarget: w.
+	evt := ToLeavedSkinEvent new currentTarget: w.
 	propWriter receiveEvent: evt.
 	self assert: w background paint color equals: Color blue
 
@@ -139,7 +139,7 @@ ToPropertyWriterTest >> testReceiveEventWithFeaturePropertyWithAnimationWithRawV
 	propWriter := ToPropertyWriter new.
 	propWriter property: prop.
 	propWriter value: Color blue.
-	propWriter eventClass: ToHoveredLookEvent.
+	propWriter eventClass: ToHoveredSkinEvent.
 	propWriter animation: (anim := ToBackgroundColorAnimationForTest new property: prop).
 	target := BlElement new.
 	space root addChild: target.
@@ -149,7 +149,7 @@ ToPropertyWriterTest >> testReceiveEventWithFeaturePropertyWithAnimationWithRawV
 		self assert: (target background isKindOf: BlPaintBackground).
 		self assert: target background paint color equals: Color blue.
 		self assert: (prop read: target) equals: target background ].
-	propWriter receiveEvent: (ToHoveredLookEvent new currentTarget: target).
+	propWriter receiveEvent: (ToHoveredSkinEvent new currentTarget: target).
 	" have to wait animation termination ".
 	self waitTestingSpaces.
 	self assert: wasHere.
@@ -165,7 +165,7 @@ ToPropertyWriterTest >> testReceiveEventWithFeaturePropertyWithAnimationWithValu
 	propWriter := ToPropertyWriter new.
 	propWriter property: prop.
 	propWriter value: [ :e | target2 := e. Color blue].
-	propWriter eventClass: ToHoveredLookEvent.
+	propWriter eventClass: ToHoveredSkinEvent.
 	propWriter animation: (anim := ToBackgroundColorAnimationForTest new property: prop).
 	target := BlElement new.
 	space root addChild: target.
@@ -175,7 +175,7 @@ ToPropertyWriterTest >> testReceiveEventWithFeaturePropertyWithAnimationWithValu
 		self assert: (target background isKindOf: BlPaintBackground).
 		self assert: target background paint color equals: Color blue.
 		self assert: (prop read: target) equals: target background. ].
-	propWriter receiveEvent: (ToHoveredLookEvent new currentTarget: target).
+	propWriter receiveEvent: (ToHoveredSkinEvent new currentTarget: target).
 	" the valuable value is interpreted ** before ** animation running "
 	self assert: target2 identicalTo: target.
 	" have to wait animation termination "
@@ -196,8 +196,8 @@ ToPropertyWriterTest >> testReceiveEventWithFeaturePropertyWithRawValue [
 	propWriter property: prop.
 	propWriter value: Color blue.
 	target := BlElement new.
-	propWriter eventClass: ToInstallLookEvent.
-	propWriter receiveEvent: (ToInstallLookEvent new currentTarget: target).
+	propWriter eventClass: ToInstallSkinEvent.
+	propWriter receiveEvent: (ToInstallSkinEvent new currentTarget: target).
 	self assert: target background paint color equals: Color blue.
 ]
 
@@ -211,8 +211,8 @@ ToPropertyWriterTest >> testReceiveEventWithFeaturePropertyWithValuable [
 	propWriter := ToPropertyWriter new.
 	propWriter property: prop.
 	propWriter value: [:e | target2 := e. Color blue].
-	propWriter eventClass: ToInstallLookEvent.
-	propWriter receiveEvent: (ToInstallLookEvent new currentTarget: target).
+	propWriter eventClass: ToInstallSkinEvent.
+	propWriter receiveEvent: (ToInstallSkinEvent new currentTarget: target).
 	self assert: target2 identicalTo: target.
 	self assert: (target background isKindOf: BlPaintBackground).
 	self assert: target background paint color equals: Color blue.
@@ -409,10 +409,10 @@ ToPropertyWriterTest >> testWriterFailsWithPseudoPropertyWithWrongWriter [
 	prop writer: [ :e :v | e fontName: v ].
 
 	propWriter := ToPropertyWriter new property: prop.
-	propWriter eventClass: ToInstallLookEvent.
+	propWriter eventClass: ToInstallSkinEvent.
 	propWriter value: Color white.
 
-	installEvent := ToInstallLookEvent new currentTarget: w.
+	installEvent := ToInstallSkinEvent new currentTarget: w.
 	self should: [ propWriter receiveEvent: installEvent ] raise: MessageNotUnderstood
 ]
 
@@ -423,8 +423,8 @@ ToPropertyWriterTest >> testWriterNeedProperty [
 
 	w := ToElement new.
 	writer := ToPropertyWriter new property: nil.
-	writer eventClass: ToInstallLookEvent.
+	writer eventClass: ToInstallSkinEvent.
 	writer value: [ :e | e background: Color white ].
-	event := ToInstallLookEvent new currentTarget: w.
+	event := ToInstallSkinEvent new currentTarget: w.
 	self should: [ writer receiveEvent: event ] raise: MessageNotUnderstood 
 ]

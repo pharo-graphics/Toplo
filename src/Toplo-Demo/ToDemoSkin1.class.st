@@ -11,9 +11,9 @@ Class {
 }
 
 { #category : #'event handling' }
-ToDemoSkin1 >> installLookEvent: anEvent [
+ToDemoSkin1 >> installSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e | 
 		e background: Color blue.
 		e size: 50 @ 50 ]

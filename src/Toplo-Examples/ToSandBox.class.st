@@ -381,7 +381,7 @@ ToSandBox class >> example_CheckboxChecked [
 	ToTheme cleanUp.
 	chb := ToCheckbox new label: (ToLabel text: 'Checkbox').
 	chb addEventHandler: (BlEventHandler
-			 on: ToElementLookEvent
+			 on: ToSkinEvent
 			 do: [ :evt | evt target = chb ifTrue: [ evt traceCr ] ]).
 	chb whenClickedDo: [ :event |
 		event currentTarget isChecked traceCr.
@@ -570,7 +570,7 @@ ToSandBox class >> example_CheckboxVertical [
 	chb := ToCheckbox new label: (ToLabel text: 'Checkbox').
 	chb beVertical.
 	chb addEventHandler: (BlEventHandler
-			 on: ToElementLookEvent
+			 on: ToSkinEvent
 			 do: [ :evt | evt target = chb ifTrue: [ evt traceCr ] ]).
 	chb checked: true.
 	chb openInInnerWindow.
@@ -1185,7 +1185,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 				lab beEditable.
 				lab stillPressedStartDelay: 800 milliSeconds.
 				lab addEventHandler: (BlEventHandler
-						 on: ToStillPressedLookEvent
+						 on: ToStillPressedSkinEvent
 						 do: [ :event |
 							 event consume.
 							 lab addEditorEvent: event ]).
@@ -2240,6 +2240,21 @@ ToSandBox class >> example_SimpleOpenSaveSaveAsClose [
 	container openInSpace
 ]
 
+{ #category : #'look event' }
+ToSandBox class >> example_SkinEventTrace [
+
+	| but |
+	but := ToButton new.
+	but icon: (ToImage new innerImage: (self iconNamed: #solidMenu)).
+	but label: (ToLabel text: 'Button with label').
+	but addEventHandler: (BlEventHandler
+			 on: ToSkinEvent
+			 do: [ :evt | evt target = but ifTrue: [ evt traceCr ] ]).
+	but stillPressedStartDelay: 3000 milliSeconds.
+	but inspect.
+	but openInSpace
+]
+
 { #category : #image }
 ToSandBox class >> example_Smalltalk_ui_icons [
 
@@ -2620,7 +2635,7 @@ ToSandBox class >> example_ToggleButtonChecked [
 	toggle := ToToggleButton new label: (ToLabel text: 'Toggle button').
 	toggle icon: (ToImage new innerImage: (self iconNamed: #solidMenu)).
 	toggle addEventHandler: (BlEventHandler
-			 on: ToElementLookEvent
+			 on: ToSkinEvent
 			 do: [ :evt | evt target = toggle ifTrue: [ evt traceCr ] ]).
 	toggle whenClickedDo: [ :event |
 		event currentTarget isChecked traceCr.
@@ -3153,21 +3168,6 @@ ToSandBox class >> example_horizontalPaneWithDivider [
 	pane openInSpace
 ]
 
-{ #category : #'look event' }
-ToSandBox class >> example_lookEventTrace [
-
-	| but |
-	but := ToButton new.
-	but icon: (ToImage new innerImage: (self iconNamed: #solidMenu)).
-	but label: (ToLabel text: 'Button with label').
-	but addEventHandler: (BlEventHandler
-			 on: ToElementLookEvent
-			 do: [ :evt | evt target = but ifTrue: [ evt traceCr ] ]).
-	but stillPressedStartDelay: 3000 milliSeconds.
-	but inspect.
-	but openInSpace
-]
-
 { #category : #'context menu + menubar' }
 ToSandBox class >> example_menuBar1 [
 
@@ -3557,7 +3557,7 @@ ToSandBox class >> example_stillHoveredEvent [
 	e border: Color black.
 	count := 0.
 	e addEventHandler: (BlEventHandler
-			 on: ToStillHoveredLookEvent
+			 on: ToStillHoveredSkinEvent
 			 do: [ :event |
 				 lab text: count asString asRopedText.
 				 count := count + 1.
@@ -3584,7 +3584,7 @@ ToSandBox class >> example_stillPressedEvent [
 	count := 0.
 	color := Color white alpha: 0.3.
 	e addEventHandler: (BlEventHandler
-			 on: ToStillPressedLookEvent
+			 on: ToStillPressedSkinEvent
 			 do: [ :event |
 				 e background: color.
 				 lab text: count asString asRopedText.
@@ -3603,7 +3603,7 @@ ToSandBox class >> example_switchButton [
 	| th |
 	th := ToSwitchButton new.
 	th
-		addEventHandlerOn: ToElementLookEvent
+		addEventHandlerOn: ToSkinEvent
 		do: [ :event | event traceCr ].
 	th checked: true.
 	th wishedTrackSize: 100 @ 30.
@@ -3642,7 +3642,7 @@ ToSandBox class >> example_switchButton3 [
 	but hMatchParent.
 	but labelText: ('Something' asRopedText fontSize: 44).
 	handler := BlEventHandler
-		           on: ToElementLookEvent
+		           on: ToSkinEvent
 		           do: [ :event | event traceCr ].
 	but addEventHandler: handler.
 	onLab := ToLabel text: ('In' asRopedText foreground: Color white; fontSize: 44).
@@ -4364,7 +4364,7 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 			beEditable;
 			stillHoveredStartDelay: 800 milliSeconds;
 			addEventHandler: (BlEventHandler
-					 on: ToStillHoveredLookEvent
+					 on: ToStillHoveredSkinEvent
 					 do: [ :event |
 						 event consume.
 						 event currentTarget addEditorEvent: event ]).

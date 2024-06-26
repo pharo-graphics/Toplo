@@ -5,9 +5,9 @@ Class {
 }
 
 { #category : #'event handling' }
-ToMenuItemSkin >> disabledLookEvent: anEvent [
+ToMenuItemSkin >> disabledSkinEvent: anEvent [
 
-	super disabledLookEvent: anEvent.
+	super disabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic | ic formColor: (e valueOfTokenNamed: #'color-text-disabled') ].
 		e labelDo: [ :lab |
@@ -16,9 +16,9 @@ ToMenuItemSkin >> disabledLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToMenuItemSkin >> enabledLookEvent: anEvent [
+ToMenuItemSkin >> enabledSkinEvent: anEvent [
 
-	super enabledLookEvent: anEvent.
+	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic | ic formColor: (e valueOfTokenNamed: #'color-text') ].
 		e labelDo: [ :lab |
@@ -27,9 +27,9 @@ ToMenuItemSkin >> enabledLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToMenuItemSkin >> hoveredLookEvent: anEvent [
+ToMenuItemSkin >> hoveredSkinEvent: anEvent [
 
-	super hoveredLookEvent: anEvent.
+	super hoveredSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic | ic formColor: (e valueOfTokenNamed: #'color-primary') ].
 		e labelDo: [ :lab |
@@ -38,9 +38,9 @@ ToMenuItemSkin >> hoveredLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToMenuItemSkin >> installLookEvent: anEvent [
+ToMenuItemSkin >> installSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e labeledIcon hMatchParent.
 		e isTopMenu ifFalse: [
@@ -57,9 +57,9 @@ ToMenuItemSkin >> installLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToMenuItemSkin >> leavedLookEvent: anEvent [
+ToMenuItemSkin >> leavedSkinEvent: anEvent [
 
-	super leavedLookEvent: anEvent.
+	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |	
 		e iconDo: [ :ic | ic formColor: (e valueOfTokenNamed: #'color-text') ].
 		e labelDo: [ :lab |
@@ -68,9 +68,9 @@ ToMenuItemSkin >> leavedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToMenuItemSkin >> pressedLookEvent: anEvent [
+ToMenuItemSkin >> pressedSkinEvent: anEvent [
 
-	super pressedLookEvent: anEvent.
+	super pressedSkinEvent: anEvent.
 	anEvent elementDo: [ :e | 	
 		e iconDo: [ :ic | ic formColor: (e valueOfTokenNamed: #'color-primary-pressed') ].
 		e labelDo: [ :lab |

@@ -17,31 +17,31 @@ ToStyleScriptTest >> testAction [
 ]
 
 { #category : #tests }
-ToStyleScriptTest >> testAddLookEventListener [
-
-	| styleScript styleRule writer |
-	styleScript := ToStyleScript new.
-	styleScript select: #button style: [ :theStyleScript |
-		theStyleScript addLookEventListener: (ToPropertyWriter new
-				 property: (ToFeatureProperty new name: #size);
-				 value: 40 asPoint;
-				 yourself) ].
-	styleRule := styleScript styleRules first.
-	self assert: styleRule lookEventListeners size equals: 1.
-	writer := styleRule lookEventListeners first.
-	self assert: (writer property isKindOf: ToFeatureProperty).
-	self assert: writer property name equals: #size.
-	self assert: writer value equals: 40 asPoint
-]
-
-{ #category : #tests }
 ToStyleScriptTest >> testAddPropertyWriter1 [
 
 	| styleScript |
 	styleScript := ToStyleScript new.
 	" can't add a property write outside a select:style: block because 
 	there is no access to any style rule outside a select:style: block"
-	self should: [styleScript addLookEventListener: ToPropertyWriter new] raise: Error
+	self should: [styleScript addSkinEventListener: ToPropertyWriter new] raise: Error
+]
+
+{ #category : #tests }
+ToStyleScriptTest >> testAddSkinEventListener [
+
+	| styleScript styleRule writer |
+	styleScript := ToStyleScript new.
+	styleScript select: #button style: [ :theStyleScript |
+		theStyleScript addSkinEventListener: (ToPropertyWriter new
+				 property: (ToFeatureProperty new name: #size);
+				 value: 40 asPoint;
+				 yourself) ].
+	styleRule := styleScript styleRules first.
+	self assert: styleRule skinEventListeners size equals: 1.
+	writer := styleRule skinEventListeners first.
+	self assert: (writer property isKindOf: ToFeatureProperty).
+	self assert: writer property name equals: #size.
+	self assert: writer value equals: 40 asPoint
 ]
 
 { #category : #tests }
@@ -242,10 +242,10 @@ ToStyleScriptTest >> testSupplementWith [
 	self assert: styleScript styleRules size equals: 1.
 	styleRule := styleScript styleRules first.
 	self assert: wasHere.
-	self assert: styleRule lookEventListeners size equals: 1.
-	writer := styleRule lookEventListeners first.
+	self assert: styleRule skinEventListeners size equals: 1.
+	writer := styleRule skinEventListeners first.
 	self assert: writer supplement.
-	self assert: writer eventClass equals: ToInstallLookEvent.
+	self assert: writer eventClass equals: ToInstallSkinEvent.
 	self assert: (writer property isKindOf: ToPseudoProperty).
 	self assert: writer property name equals: #'border-with-builder'.
 	self assert: (writer value isKindOf: BlockClosure)
@@ -260,15 +260,15 @@ ToStyleScriptTest >> testWhenDo [
 	styleScript select: #button style: [ :theStyleScript |
 		wasHere := true.
 		theStyleScript
-			when: ToEnabledLookEvent
+			when: ToEnabledSkinEvent
 			do: [ :e | e size: 40 asPoint ]].
 	self assert: styleScript styleRules size equals: 1.
 	styleRule := styleScript styleRules first.
 	self assert: wasHere.
-	self assert: styleRule lookEventListeners size equals: 1.
-	listener := styleRule lookEventListeners first.
+	self assert: styleRule skinEventListeners size equals: 1.
+	listener := styleRule skinEventListeners first.
 	self deny: listener isSupplement.
-	self assert: listener eventClass identicalTo: ToEnabledLookEvent
+	self assert: listener eventClass identicalTo: ToEnabledSkinEvent
 ]
 
 { #category : #tests }
@@ -280,7 +280,7 @@ ToStyleScriptTest >> testWhenSupplementWith [
 	styleScript select: #button style: [ :theStyleScript |
 		wasHere := true.
 		theStyleScript
-			when: ToHoveredLookEvent
+			when: ToHoveredSkinEvent
 			supplement: (ToPseudoProperty
 					 name: #'border-with-builder'
 					 reader: [ :e | e border ]
@@ -292,10 +292,10 @@ ToStyleScriptTest >> testWhenSupplementWith [
 	self assert: styleScript styleRules size equals: 1.
 	styleRule := styleScript styleRules first.
 	self assert: wasHere.
-	self assert: styleRule lookEventListeners size equals: 1.
-	writer := styleRule lookEventListeners first.
+	self assert: styleRule skinEventListeners size equals: 1.
+	writer := styleRule skinEventListeners first.
 	self assert: writer supplement.
-	self assert: writer eventClass equals: ToHoveredLookEvent.
+	self assert: writer eventClass equals: ToHoveredSkinEvent.
 	self assert: (writer property isKindOf: ToPseudoProperty).
 	self assert: writer property name equals: #'border-with-builder'.
 	self assert: (writer value isKindOf: BlockClosure)
@@ -310,16 +310,16 @@ ToStyleScriptTest >> testWhenWriteWith [
 	styleScript select: #button style: [ :theStyleScript |
 		wasHere := true.
 		theStyleScript
-			when: ToEnabledLookEvent
+			when: ToEnabledSkinEvent
 			write: (ToFeatureProperty new name: #size)
 			with: [ :e | 40 asPoint ] ].
 	self assert: styleScript styleRules size equals: 1.
 	styleRule := styleScript styleRules first.
 	self assert: wasHere.
-	self assert: styleRule lookEventListeners size equals: 1.
-	writer := styleRule lookEventListeners first.
+	self assert: styleRule skinEventListeners size equals: 1.
+	writer := styleRule skinEventListeners first.
 	self deny: writer supplement.
-	self assert: writer eventClass identicalTo: ToEnabledLookEvent
+	self assert: writer eventClass identicalTo: ToEnabledSkinEvent
 ]
 
 { #category : #tests }
@@ -331,17 +331,17 @@ ToStyleScriptTest >> testWhenWriteWithAnimation [
 	styleScript select: #button style: [ :theStyleScript |
 		wasHere := true.
 		theStyleScript
-			when: ToHoveredLookEvent
+			when: ToHoveredSkinEvent
 			write: (ToFeatureProperty new name: #background)
 			with: Color red
 			animation: ToPropertyColorTransitionAnimation new ].
 	self assert: styleScript styleRules size equals: 1.
 	styleRule := styleScript styleRules first.
 	self assert: wasHere.
-	self assert: styleRule lookEventListeners size equals: 1.
-	writer := styleRule lookEventListeners first.
+	self assert: styleRule skinEventListeners size equals: 1.
+	writer := styleRule skinEventListeners first.
 	self deny: writer supplement.
-	self assert: writer eventClass identicalTo: ToHoveredLookEvent.
+	self assert: writer eventClass identicalTo: ToHoveredSkinEvent.
 	self assert: (writer property isKindOf: ToFeatureProperty).
 	self assert:
 		(writer animation isKindOf: ToPropertyColorTransitionAnimation)
@@ -409,10 +409,10 @@ ToStyleScriptTest >> testWriteWith [
 	self assert: styleScript styleRules size equals: 1.
 	styleRule := styleScript styleRules first.
 	self assert: wasHere.
-	self assert: styleRule lookEventListeners size equals: 1.
-	writer := styleRule lookEventListeners first.
+	self assert: styleRule skinEventListeners size equals: 1.
+	writer := styleRule skinEventListeners first.
 	self deny: writer supplement.
-	self assert: writer eventClass equals: ToInstallLookEvent.
+	self assert: writer eventClass equals: ToInstallSkinEvent.
 	self assert: (writer property isKindOf: ToFeatureProperty).
 	self assert: writer property name equals: #size.
 	self assert: writer value equals: 40 asPoint
@@ -432,13 +432,13 @@ ToStyleScriptTest >> testWriteWith2 [
 	self assert: styleScript styleRules size equals: 1.
 	styleRule := styleScript styleRules first.
 	self assert: wasHere.
-	self assert: styleRule lookEventListeners size equals: 1.
-	writer := styleRule lookEventListeners first.
+	self assert: styleRule skinEventListeners size equals: 1.
+	writer := styleRule skinEventListeners first.
 	self deny: writer supplement.
 	self assert: (writer property isKindOf: ToFeatureProperty).
 	self assert: writer property name equals: #size.
 	self assert: (writer value isKindOf: BlockClosure).
-	self assert: writer eventClass identicalTo: ToInstallLookEvent
+	self assert: writer eventClass identicalTo: ToInstallSkinEvent
 ]
 
 { #category : #tests }
@@ -459,21 +459,21 @@ ToStyleScriptTest >> testWriteWith3 [
 				with: Color red ] ].
 	self assert: styleScript styleRules size equals: 1.
 	styleRule := styleScript styleRules first.
-	self assert: styleRule lookEventListeners size equals: 2.
+	self assert: styleRule skinEventListeners size equals: 2.
 	self
-		assert: styleRule lookEventListeners first eventClass
-		identicalTo: ToInstallLookEvent.
+		assert: styleRule skinEventListeners first eventClass
+		identicalTo: ToInstallSkinEvent.
 	self
-		assert: styleRule lookEventListeners second eventClass
-		identicalTo: ToInstallLookEvent.
+		assert: styleRule skinEventListeners second eventClass
+		identicalTo: ToInstallSkinEvent.
 
 	self assert: styleRule styleRules size equals: 1.
 	dangerRule := styleRule styleRules first.
 	self assert: (dangerRule selector isKindOf: ToStampSelector).
-	self assert: dangerRule lookEventListeners size equals: 1.
-	dangerWriter := dangerRule lookEventListeners first.
+	self assert: dangerRule skinEventListeners size equals: 1.
+	dangerWriter := dangerRule skinEventListeners first.
 	self deny: dangerWriter supplement.
-	self assert: dangerWriter eventClass identicalTo: ToInstallLookEvent.
+	self assert: dangerWriter eventClass identicalTo: ToInstallSkinEvent.
 	self assert: (dangerWriter property isKindOf: ToFeatureProperty).
 	self assert: dangerWriter property name equals: #border.
 	self assert: dangerWriter value equals: Color red

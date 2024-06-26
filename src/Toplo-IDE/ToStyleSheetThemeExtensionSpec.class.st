@@ -33,8 +33,8 @@ ToStyleSheetThemeExtensionSpec >> iconForSelector: aStyleRule [
 		^ self noElementNoSkinIcon ].
 	self skin ifNotNil: [
 		(self skin isKindOf: ToStyleSheetSkin) ifFalse: [ ^ self notStyleSheetSkin ].
-		(aStyleRule lookEventListeners includesAny:
-			 self skin lookEventListeners) ifTrue: [
+		(aStyleRule skinEventListeners includesAny:
+			 self skin skinEventListeners) ifTrue: [
 			^ self skinAndStyleRuleIcon ] ].
 	self element ifNotNil: [
 		(ToSelectorInterpreter new

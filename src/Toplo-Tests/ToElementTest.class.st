@@ -101,7 +101,7 @@ ToElementTest >> testDefaultSkin [
 	" no change "
 	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
 	self assert: e skinManager installedSkin isNil.
-	self assert: (sk receivedCountForClass: ToInstallLookEvent) equals: 0.
+	self assert: (sk receivedCountForClass: ToInstallSkinEvent) equals: 0.
 	e skinManager applySkinReinstallIn: e.
 	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
 	self assert: e skinManager installedSkin identicalTo: sk.
@@ -110,18 +110,18 @@ ToElementTest >> testDefaultSkin [
 		(e eventDispatcher handlers select: [ :h | h isKindOf: ToSkin ])
 			size
 		equals: 1.
-	self assert: (sk receivedCountForClass: ToInstallLookEvent) equals: 1.
+	self assert: (sk receivedCountForClass: ToInstallSkinEvent) equals: 1.
 	self
-		assert: (sk receivedCountForClass: ToUninstallLookEvent)
+		assert: (sk receivedCountForClass: ToUninstallSkinEvent)
 		equals: 0.
 
 	e defaultSkin: sk.
 	e ensuredSkinManager requestInstallSkinIn: e.
 	e skinManager applySkinReinstallIn: e.
 	" no change since same skin "
-	self assert: (sk receivedCountForClass: ToInstallLookEvent) equals: 1.
+	self assert: (sk receivedCountForClass: ToInstallSkinEvent) equals: 1.
 	self
-		assert: (sk receivedCountForClass: ToUninstallLookEvent)
+		assert: (sk receivedCountForClass: ToUninstallSkinEvent)
 		equals: 0.
 
 	self
@@ -139,15 +139,15 @@ ToElementTest >> testDefaultSkin [
 			size
 		equals: 1.
 
-	self assert: (sk receivedCountForClass: ToInstallLookEvent) equals: 1.
+	self assert: (sk receivedCountForClass: ToInstallSkinEvent) equals: 1.
 	self
-		assert: (sk receivedCountForClass: ToUninstallLookEvent)
+		assert: (sk receivedCountForClass: ToUninstallSkinEvent)
 		equals: 1.
 	self
-		assert: (sk2 receivedCountForClass: ToInstallLookEvent)
+		assert: (sk2 receivedCountForClass: ToInstallSkinEvent)
 		equals: 1.
 	self
-		assert: (sk2 receivedCountForClass: ToUninstallLookEvent)
+		assert: (sk2 receivedCountForClass: ToUninstallSkinEvent)
 		equals: 0
 ]
 
@@ -302,13 +302,13 @@ ToElementTest >> testSetSkin [
 	" no change "
 	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
 	self assert: e skinManager installedSkin isNil.
-	self assert: (sk receivedCountForClass: ToInstallLookEvent) equals: 0.
+	self assert: (sk receivedCountForClass: ToInstallSkinEvent) equals: 0.
 	e skinManager applySkinReinstallIn: e.
 	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
 	self assert: e skinManager installedSkin identicalTo: sk.
-	self assert: (sk receivedCountForClass: ToInstallLookEvent) equals: 1.
+	self assert: (sk receivedCountForClass: ToInstallSkinEvent) equals: 1.
 	self
-		assert: (sk receivedCountForClass: ToUninstallLookEvent)
+		assert: (sk receivedCountForClass: ToUninstallSkinEvent)
 		equals: 0.
 
 	self
@@ -321,9 +321,9 @@ ToElementTest >> testSetSkin [
 	e skinManager setDefaultSkin: (sk := ToRawSkinForTest new) in: e.
 	e skinManager applySkinReinstallIn: e.
 	self
-		assert: (sk receivedCountForClass: ToUninstallLookEvent)
+		assert: (sk receivedCountForClass: ToUninstallSkinEvent)
 		equals: 0.
-	self assert: (sk receivedCountForClass: ToInstallLookEvent) equals: 1.
+	self assert: (sk receivedCountForClass: ToInstallSkinEvent) equals: 1.
 
 	self
 		assert:
@@ -340,15 +340,15 @@ ToElementTest >> testSetSkin [
 			size
 		equals: 1.
 
-	self assert: (sk receivedCountForClass: ToInstallLookEvent) equals: 1.
+	self assert: (sk receivedCountForClass: ToInstallSkinEvent) equals: 1.
 	self
-		assert: (sk receivedCountForClass: ToUninstallLookEvent)
+		assert: (sk receivedCountForClass: ToUninstallSkinEvent)
 		equals: 1.
 	self
-		assert: (sk2 receivedCountForClass: ToInstallLookEvent)
+		assert: (sk2 receivedCountForClass: ToInstallSkinEvent)
 		equals: 1.
 	self
-		assert: (sk2 receivedCountForClass: ToUninstallLookEvent)
+		assert: (sk2 receivedCountForClass: ToUninstallSkinEvent)
 		equals: 0
 ]
 

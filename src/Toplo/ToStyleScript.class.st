@@ -11,9 +11,9 @@ Class {
 }
 
 { #category : #'private - adding' }
-ToStyleScript >> addLookEventListener: aPropertyWriter [
+ToStyleScript >> addSkinEventListener: aPropertyWriter [
 
-	ruleStack top addLookEventListener: aPropertyWriter
+	ruleStack top addSkinEventListener: aPropertyWriter
 ]
 
 { #category : #initialization }
@@ -22,12 +22,6 @@ ToStyleScript >> initialize [
 	super initialize.
 	ruleStack := Stack new.
 	styleRules := #(  )
-]
-
-{ #category : #'t - stylesheet scripter' }
-ToStyleScript >> lookEventListenerHolder [ 
-
-	^ self 
 ]
 
 { #category : #'rules declaring' }
@@ -72,4 +66,10 @@ ToStyleScript >> ruleStack [
 ToStyleScript >> rules [
 
 	^ self styleRules 
+]
+
+{ #category : #'t - stylesheet scripter' }
+ToStyleScript >> skinEventListenerHolder [ 
+
+	^ self 
 ]

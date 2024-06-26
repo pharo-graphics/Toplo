@@ -5,18 +5,18 @@ Class {
 }
 
 { #category : #'event handling' }
-ToDemoButterflySkin1 >> hoveredLookEvent: anEvent [
+ToDemoButterflySkin1 >> hoveredSkinEvent: anEvent [
 
-	super hoveredLookEvent: anEvent.
+	super hoveredSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e background: Color white.
 		e border: (BlBorder paint: Color blue width: 4) ]
 ]
 
 { #category : #'event handling' }
-ToDemoButterflySkin1 >> installLookEvent: anEvent [
+ToDemoButterflySkin1 >> installSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e geometry: BlCircleGeometry new.
 		e background: Color lightGray.
@@ -24,9 +24,9 @@ ToDemoButterflySkin1 >> installLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToDemoButterflySkin1 >> leavedLookEvent: anEvent [
+ToDemoButterflySkin1 >> leavedSkinEvent: anEvent [
 
-	super leavedLookEvent: anEvent.
+	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e background: Color lightGray.
 		e border: (BlBorder paint: Color yellow width: 4) ]

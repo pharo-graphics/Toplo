@@ -5,17 +5,17 @@ Class {
 }
 
 { #category : #'event handling' }
-ToDividerSkin >> dragStartedLookEvent: anEvent [
+ToDividerSkin >> dragStartedSkinEvent: anEvent [
 
-	super dragStartedLookEvent: anEvent.
+	super dragStartedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: e resizerCursor ]
 ]
 
 { #category : #'event handling' }
-ToDividerSkin >> draggedLookEvent: anEvent [
+ToDividerSkin >> draggedSkinEvent: anEvent [
 
-	super draggedLookEvent: anEvent.
+	super draggedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: e resizerCursor.
 		e border: e hoveredBorder.
@@ -23,9 +23,9 @@ ToDividerSkin >> draggedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToDividerSkin >> hoveredLookEvent: anEvent [
+ToDividerSkin >> hoveredSkinEvent: anEvent [
 
-	super hoveredLookEvent: anEvent.
+	super hoveredSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: e resizerCursor.
 		e border: e hoveredBorder.
@@ -33,27 +33,27 @@ ToDividerSkin >> hoveredLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToDividerSkin >> installLookEvent: anEvent [
+ToDividerSkin >> installSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: e defaultBorder.
 		e background: e defaultBackground ]
 ]
 
 { #category : #'event handling' }
-ToDividerSkin >> leavedLookEvent: anEvent [
+ToDividerSkin >> leavedSkinEvent: anEvent [
 
-	super leavedLookEvent: anEvent.
+	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: e defaultBorder.
 		e background: e defaultBackground ]
 ]
 
 { #category : #'event handling' }
-ToDividerSkin >> pressedLookEvent: anEvent [
+ToDividerSkin >> pressedSkinEvent: anEvent [
 
-	super pressedLookEvent: anEvent.
+	super pressedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: e resizerCursor.
 		e border: e pressedBorder.
@@ -61,9 +61,9 @@ ToDividerSkin >> pressedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToDividerSkin >> releasedLookEvent: anEvent [
+ToDividerSkin >> releasedSkinEvent: anEvent [
 
-	super releasedLookEvent: anEvent.
+	super releasedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor normal.
 		e border: e defaultBorder.

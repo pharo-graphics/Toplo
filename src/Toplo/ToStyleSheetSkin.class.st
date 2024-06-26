@@ -4,7 +4,7 @@ Class {
 	#traits : 'TToLookEventListenerRegistry',
 	#classTraits : 'TToLookEventListenerRegistry classTrait',
 	#instVars : [
-		'lookEventListeners'
+		'skinEventListeners'
 	],
 	#category : #'Toplo-Core-StyleSheet'
 }
@@ -15,20 +15,20 @@ ToStyleSheetSkin >> handleEvent: anEvent [
 	anEvent sendToStyleSheetSkin: self
 ]
 
-{ #category : #'t - look event listener registry' }
-ToStyleSheetSkin >> rawLookEventListeners [
+{ #category : #'t - skin event listener registry' }
+ToStyleSheetSkin >> rawSkinEventListeners [
 
-	^ lookEventListeners
+	^ skinEventListeners
 ]
 
-{ #category : #'t - look event listener registry' }
-ToStyleSheetSkin >> rawLookEventListeners: aLookEventListenerCollection [
+{ #category : #'t - skin event listener registry' }
+ToStyleSheetSkin >> rawSkinEventListeners: aSkinEventListenerCollection [
 
-	lookEventListeners := aLookEventListenerCollection
+	skinEventListeners := aSkinEventListenerCollection
 ]
 
 { #category : #'hook - event managing' }
 ToStyleSheetSkin >> sendEventToPropertyWriters: anEvent [
 
-	self lookEventListeners do: [ :s | s receiveEvent: anEvent  ] 
+	self skinEventListeners do: [ :s | s receiveEvent: anEvent  ] 
 ]

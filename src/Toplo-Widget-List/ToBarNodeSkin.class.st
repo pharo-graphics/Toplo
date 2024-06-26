@@ -5,9 +5,10 @@ Class {
 }
 
 { #category : #'event handling' }
-ToBarNodeSkin >> installLookEvent: anEvent [
+ToBarNodeSkin >> installSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
+		e background: BlBackground transparent.
 		e padding: (BlInsets all: 3) ]
 ]

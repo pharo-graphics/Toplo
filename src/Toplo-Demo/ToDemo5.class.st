@@ -14,7 +14,7 @@ ToDemo5 class >> example0 [
 	dem2 := ToDemo5 new.
 	dem2 defaultButterflySkin: ToDemoButterflySkin2 new.
 	dem2 addEventHandler: (BlEventHandler
-			 on: ToElementLookEvent
+			 on: ToSkinEvent
 			 do: [ :evt | evt target = dem2 ifTrue: [ evt traceCr ] ]).
 	pane addChild: dem1.
 	pane addChild: dem2.

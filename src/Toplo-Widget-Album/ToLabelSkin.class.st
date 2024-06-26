@@ -5,9 +5,9 @@ Class {
 }
 
 { #category : #'event handling' }
-ToLabelSkin >> installLookEvent: anEvent [
+ToLabelSkin >> installSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e textAttributesBuilder 
 			weight: (e valueOfTokenNamed: #'font-weight-strong');

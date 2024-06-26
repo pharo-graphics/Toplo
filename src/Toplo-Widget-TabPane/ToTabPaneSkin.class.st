@@ -5,9 +5,9 @@ Class {
 }
 
 { #category : #'event handling' }
-ToTabPaneSkin >> installLookEvent: anEvent [
+ToTabPaneSkin >> installSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: (BlBorder
 				 paint: (e valueOfTokenNamed: #'color-border')

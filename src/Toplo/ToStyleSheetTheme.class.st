@@ -31,7 +31,7 @@ ToStyleSheetTheme >> applicableListenersFor: anElement [
 	- and then all supplements.
 	"
 
-	| unsortedListeners supplement uniqueListeners eventClassIndex lookEventActions |
+	| unsortedListeners supplement uniqueListeners eventClassIndex actions |
 	anElement isAttachedToSceneGraph ifFalse: [ ^ #(  ) ].
 
 	" get all subscriptions for anElement "
@@ -40,7 +40,7 @@ ToStyleSheetTheme >> applicableListenersFor: anElement [
 	" keep only the last writers for each property except those which are declared as supplement"
 	eventClassIndex := IdentityDictionary new.
 	supplement := OrderedCollection new.
-	lookEventActions := OrderedCollection new.
+	actions := OrderedCollection new.
 
 	" first build a 2 level index : the first level key is the eventClass, the second level key is the property "
 	unsortedListeners do: [ :w |
@@ -58,7 +58,7 @@ ToStyleSheetTheme >> applicableListenersFor: anElement [
 			                   indexByProperty
 				                   at: ToNullProperty uniqueInstance
 				                   ifPresent: [ :listener |
-				                   lookEventActions add: listener ].
+				                   actions add: listener ].
 
 			                   indexByProperty
 				                   removeKey: ToNullProperty uniqueInstance
@@ -68,7 +68,7 @@ ToStyleSheetTheme >> applicableListenersFor: anElement [
 			                   str nextPutAll: indexByProperty values ] ].
 
 	^ Array streamContents: [ :str |
-		  str nextPutAll: lookEventActions.
+		  str nextPutAll: actions.
 		  str nextPutAll: uniqueListeners.
 		  str nextPutAll: supplement ]
 ]
@@ -113,19 +113,13 @@ ToStyleSheetTheme >> initialize [
 ToStyleSheetTheme >> initializeStyleRules [
 ]
 
-{ #category : #'t - stylesheet scripter' }
-ToStyleSheetTheme >> lookEventListenerHolder [ 
-
-	^ self styleSheet script
-]
-
 { #category : #accessing }
 ToStyleSheetTheme >> newSkinInstanceFor: anElement [
 
 	| skin |
 	skin := (self skinClassFor: anElement) new.
 	(self applicableListenersFor: anElement) ifNotEmpty: [ :writers |
-		skin lookEventListeners: writers ].
+		skin skinEventListeners: writers ].
 	^ skin
 ]
 
@@ -180,6 +174,12 @@ ToStyleSheetTheme >> setUpElement: anElement [
 ToStyleSheetTheme >> skinClassFor: anElement [
 
 	^ ToStyleSheetSkin
+]
+
+{ #category : #'t - stylesheet scripter' }
+ToStyleSheetTheme >> skinEventListenerHolder [ 
+
+	^ self styleSheet script
 ]
 
 { #category : #accessing }

@@ -5,27 +5,27 @@ Class {
 }
 
 { #category : #'event handling' }
-ToDemoSkin2 >> hoveredLookEvent: anEvent [
+ToDemoSkin2 >> hoveredSkinEvent: anEvent [
 
-	super hoveredLookEvent: anEvent.
+	super hoveredSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e background: Color red.
 		e border: (BlBorder paint: Color blue width: 4) ]
 ]
 
 { #category : #'event handling' }
-ToDemoSkin2 >> installLookEvent: anEvent [
+ToDemoSkin2 >> installSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e background: Color blue.
 		e border: (BlBorder paint: Color black width: 1) ]
 ]
 
 { #category : #'event handling' }
-ToDemoSkin2 >> leavedLookEvent: anEvent [
+ToDemoSkin2 >> leavedSkinEvent: anEvent [
 
-	super leavedLookEvent: anEvent.
+	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e background: Color white.
 		e border: (BlBorder paint: Color red width: 1)  ]

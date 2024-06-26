@@ -59,7 +59,7 @@ ToStyleSheetPrinter >> printStyleRule: aStyleRule on: aStream [
 	aStream nextPutAll: '{'.
 
 	"print body"
-	aStyleRule lookEventListeners do: [ :w |
+	aStyleRule skinEventListeners do: [ :w |
 		self crIndentOn: aStream.
 		w printOn: aStream ].
 

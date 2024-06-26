@@ -9,5 +9,5 @@ ToStyleSheetSkin >> inspectorDisplayColor [
 { #category : #'*Toplo-IDE' }
 ToStyleSheetSkin >> styleSheetRulesCount [
 
-	^ self lookEventListeners size.
+	^ self skinEventListeners size.
 ]

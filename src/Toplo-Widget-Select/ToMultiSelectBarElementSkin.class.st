@@ -5,17 +5,17 @@ Class {
 }
 
 { #category : #'event handling' }
-ToMultiSelectBarElementSkin >> focusedLookEvent: anEvent [
+ToMultiSelectBarElementSkin >> focusedSkinEvent: anEvent [
 
-	super focusedLookEvent: anEvent.
+	super focusedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: BlBorder empty ]
 ]
 
 { #category : #'event handling' }
-ToMultiSelectBarElementSkin >> installLookEvent: anEvent [
+ToMultiSelectBarElementSkin >> installSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e | 
 		e border: BlBorder empty.
 		e padding: BlInsets empty.
@@ -70,16 +70,16 @@ ToMultiSelectBarElementSkin >> shortcutsToInstallIn: aListElement [
 ]
 
 { #category : #'event handling' }
-ToMultiSelectBarElementSkin >> unfocusedLookEvent: anEvent [
+ToMultiSelectBarElementSkin >> unfocusedSkinEvent: anEvent [
 
-	super unfocusedLookEvent: anEvent.
+	super unfocusedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: BlBorder empty ]
 ]
 
 { #category : #'event handling' }
-ToMultiSelectBarElementSkin >> uninstallLookEvent: anEvent [
+ToMultiSelectBarElementSkin >> uninstallSkinEvent: anEvent [
 
-	super uninstallLookEvent: anEvent.
+	super uninstallSkinEvent: anEvent.
 	anEvent elementDo: [ :e | e uninstallShortcuts ]
 ]

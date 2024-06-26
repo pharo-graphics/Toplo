@@ -15,94 +15,94 @@ ToRawSkinForTest >> addReceivedEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToRawSkinForTest >> checkedLookEvent: anEvent [
+ToRawSkinForTest >> checkedSkinEvent: anEvent [
 
-	super checkedLookEvent: anEvent.
+	super checkedSkinEvent: anEvent.
 	self addReceivedEvent: anEvent
 ]
 
 { #category : #'event handling' }
-ToRawSkinForTest >> clickedLookEvent: anEvent [
+ToRawSkinForTest >> clickedSkinEvent: anEvent [
 
-	super clickedLookEvent: anEvent.
-	self addReceivedEvent: anEvent
-
-]
-
-{ #category : #'event handling' }
-ToRawSkinForTest >> closedLookEvent: anEvent [
-
-	super closedLookEvent: anEvent.
-	self addReceivedEvent: anEvent
-]
-
-{ #category : #'event handling' }
-ToRawSkinForTest >> deselectedLookEvent: anEvent [
-
-	super deselectedLookEvent: anEvent.
+	super clickedSkinEvent: anEvent.
 	self addReceivedEvent: anEvent
 
 ]
 
 { #category : #'event handling' }
-ToRawSkinForTest >> disabledLookEvent: anEvent [
+ToRawSkinForTest >> closedSkinEvent: anEvent [
 
-	super disabledLookEvent: anEvent.
+	super closedSkinEvent: anEvent.
+	self addReceivedEvent: anEvent
+]
+
+{ #category : #'event handling' }
+ToRawSkinForTest >> deselectedSkinEvent: anEvent [
+
+	super deselectedSkinEvent: anEvent.
 	self addReceivedEvent: anEvent
 
 ]
 
 { #category : #'event handling' }
-ToRawSkinForTest >> dragStartedLookEvent: anEvent [
+ToRawSkinForTest >> disabledSkinEvent: anEvent [
 
-	super dragStartedLookEvent: anEvent.
+	super disabledSkinEvent: anEvent.
 	self addReceivedEvent: anEvent
 
 ]
 
 { #category : #'event handling' }
-ToRawSkinForTest >> draggedLookEvent: anEvent [
+ToRawSkinForTest >> dragStartedSkinEvent: anEvent [
 
-	super draggedLookEvent: anEvent.
-	self addReceivedEvent: anEvent
-]
-
-{ #category : #'event handling' }
-ToRawSkinForTest >> droppedLookEvent: anEvent [
-
-	super droppedLookEvent: anEvent.
+	super dragStartedSkinEvent: anEvent.
 	self addReceivedEvent: anEvent
 
 ]
 
 { #category : #'event handling' }
-ToRawSkinForTest >> enabledLookEvent: anEvent [
+ToRawSkinForTest >> draggedSkinEvent: anEvent [
 
-	super enabledLookEvent: anEvent.
+	super draggedSkinEvent: anEvent.
+	self addReceivedEvent: anEvent
+]
+
+{ #category : #'event handling' }
+ToRawSkinForTest >> droppedSkinEvent: anEvent [
+
+	super droppedSkinEvent: anEvent.
 	self addReceivedEvent: anEvent
 
 ]
 
 { #category : #'event handling' }
-ToRawSkinForTest >> focusedLookEvent: anEvent [
+ToRawSkinForTest >> enabledSkinEvent: anEvent [
 
-	super focusedLookEvent: anEvent.
+	super enabledSkinEvent: anEvent.
 	self addReceivedEvent: anEvent
 
 ]
 
 { #category : #'event handling' }
-ToRawSkinForTest >> hoveredLookEvent: anEvent [
+ToRawSkinForTest >> focusedSkinEvent: anEvent [
 
-	super hoveredLookEvent: anEvent.
+	super focusedSkinEvent: anEvent.
 	self addReceivedEvent: anEvent
 
 ]
 
 { #category : #'event handling' }
-ToRawSkinForTest >> indeterminateLookEvent: anEvent [
+ToRawSkinForTest >> hoveredSkinEvent: anEvent [
 
-	super indeterminateLookEvent: anEvent.
+	super hoveredSkinEvent: anEvent.
+	self addReceivedEvent: anEvent
+
+]
+
+{ #category : #'event handling' }
+ToRawSkinForTest >> indeterminateSkinEvent: anEvent [
+
+	super indeterminateSkinEvent: anEvent.
 	self addReceivedEvent: anEvent
 
 ]
@@ -115,33 +115,33 @@ ToRawSkinForTest >> initialize [
 ]
 
 { #category : #'event handling' }
-ToRawSkinForTest >> installLookEvent: anEvent [
+ToRawSkinForTest >> installSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super installSkinEvent: anEvent.
 	self addReceivedEvent: anEvent
 
 ]
 
 { #category : #'event handling' }
-ToRawSkinForTest >> leavedLookEvent: anEvent [
+ToRawSkinForTest >> leavedSkinEvent: anEvent [
 
-	super leavedLookEvent: anEvent.
+	super leavedSkinEvent: anEvent.
 	self addReceivedEvent: anEvent
 
 ]
 
 { #category : #'event handling' }
-ToRawSkinForTest >> openedLookEvent: anEvent [
+ToRawSkinForTest >> openedSkinEvent: anEvent [
 
-	super openedLookEvent: anEvent.
+	super openedSkinEvent: anEvent.
 	self addReceivedEvent: anEvent
 
 ]
 
 { #category : #'event handling' }
-ToRawSkinForTest >> pressedLookEvent: anEvent [
+ToRawSkinForTest >> pressedSkinEvent: anEvent [
 
-	super pressedLookEvent: anEvent.
+	super pressedSkinEvent: anEvent.
 	self addReceivedEvent: anEvent
 
 ]
@@ -162,54 +162,53 @@ ToRawSkinForTest >> receivedEvents [
 ]
 
 { #category : #'event handling' }
-ToRawSkinForTest >> releasedLookEvent: anEvent [
+ToRawSkinForTest >> releasedSkinEvent: anEvent [
 
-	super releasedLookEvent: anEvent.
+	super releasedSkinEvent: anEvent.
 	self addReceivedEvent: anEvent
 
 ]
 
 { #category : #'event handling' }
-ToRawSkinForTest >> selectedLookEvent: anEvent [
+ToRawSkinForTest >> selectedSkinEvent: anEvent [
 
-	super selectedLookEvent: anEvent.
+	super selectedSkinEvent: anEvent.
+	self addReceivedEvent: anEvent
+]
+
+{ #category : #'event handling' }
+ToRawSkinForTest >> stillHoveredSkinEvent: anEvent [
+
+	super stillHoveredSkinEvent: anEvent.
+	self addReceivedEvent: anEvent
+]
+
+{ #category : #'event handling' }
+ToRawSkinForTest >> stillPressedSkinEvent: anEvent [
+
+	super stillPressedSkinEvent: anEvent.
+	self addReceivedEvent: anEvent
+]
+
+{ #category : #'event handling' }
+ToRawSkinForTest >> uncheckedSkinEvent: anEvent [
+
+	super uncheckedSkinEvent: anEvent.
 	self addReceivedEvent: anEvent
 
 ]
 
 { #category : #'event handling' }
-ToRawSkinForTest >> stillHoveredLookEvent: anEvent [
+ToRawSkinForTest >> unfocusedSkinEvent: anEvent [
 
-	super stillHoveredLookEvent: anEvent.
-	self addReceivedEvent: anEvent
-]
-
-{ #category : #'event handling' }
-ToRawSkinForTest >> stillPressedLookEvent: anEvent [
-
-	super stillPressedLookEvent: anEvent.
-	self addReceivedEvent: anEvent
-]
-
-{ #category : #'event handling' }
-ToRawSkinForTest >> uncheckedLookEvent: anEvent [
-
-	super uncheckedLookEvent: anEvent.
+	super unfocusedSkinEvent: anEvent.
 	self addReceivedEvent: anEvent
 
 ]
 
 { #category : #'event handling' }
-ToRawSkinForTest >> unfocusedLookEvent: anEvent [
+ToRawSkinForTest >> uninstallSkinEvent: anEvent [
 
-	super unfocusedLookEvent: anEvent.
-	self addReceivedEvent: anEvent
-
-]
-
-{ #category : #'event handling' }
-ToRawSkinForTest >> uninstallLookEvent: anEvent [
-
-	super uninstallLookEvent: anEvent.
+	super uninstallSkinEvent: anEvent.
 	self addReceivedEvent: anEvent
 ]

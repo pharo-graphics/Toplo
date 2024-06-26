@@ -4,19 +4,19 @@ Class {
 	#traits : 'TToLookEventListenerRegistry',
 	#classTraits : 'TToLookEventListenerRegistry classTrait',
 	#instVars : [
-		'lookEventListeners'
+		'skinEventListeners'
 	],
 	#category : #'Toplo-Tests-Core-StyleSheet'
 }
 
-{ #category : #'t - look event listener registry' }
-ToPropertyWritersHolderElementForTest >> rawLookEventListeners [
+{ #category : #'t - skin event listener registry' }
+ToPropertyWritersHolderElementForTest >> rawSkinEventListeners [
 
-	^ lookEventListeners
+	^ skinEventListeners
 ]
 
-{ #category : #'t - look event listener registry' }
-ToPropertyWritersHolderElementForTest >> rawLookEventListeners: aLookEventListenerCollection [
+{ #category : #'t - skin event listener registry' }
+ToPropertyWritersHolderElementForTest >> rawSkinEventListeners: aSkinEventListenerCollection [
 
-	lookEventListeners := aLookEventListenerCollection
+	skinEventListeners := aSkinEventListenerCollection
 ]

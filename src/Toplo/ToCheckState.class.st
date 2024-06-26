@@ -20,12 +20,12 @@ ToCheckState >> checked: aBooleanOrIndeterminate [
 ]
 
 { #category : #accessing }
-ToCheckState >> lookEventClass [
+ToCheckState >> skinEventClass [
 
 	^ self checked isSymbol
-		  ifTrue: [ ToIndeterminateLookEvent ]
+		  ifTrue: [ ToIndeterminateSkinEvent ]
 		  ifFalse: [
 			  self checked
-				  ifTrue: [ ToCheckedLookEvent ]
-				  ifFalse: [ ToUncheckedLookEvent ] ]
+				  ifTrue: [ ToCheckedSkinEvent ]
+				  ifFalse: [ ToUncheckedSkinEvent ] ]
 ]

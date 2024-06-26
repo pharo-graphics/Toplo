@@ -10,10 +10,10 @@ ToInstallStateTest >> testApplyOn [
 	| e stateEvt receivedEvt |
 	e := ToElement new.
 	e addEventHandler: (BlEventHandler
-			 on: ToInstallLookEvent
+			 on: ToInstallSkinEvent
 			 do: [ :event | receivedEvt := event ]).
 	(stateEvt := ToInstallState new) applyOn: e.
-	self assert: (receivedEvt isKindOf: ToInstallLookEvent)
+	self assert: (receivedEvt isKindOf: ToInstallSkinEvent)
 ]
 
 { #category : #running }
@@ -32,15 +32,6 @@ ToInstallStateTest >> testCanBeEnqueuedFromElementInQueue [
 ]
 
 { #category : #running }
-ToInstallStateTest >> testLookEvent [
-
-	| state  |
-	state := ToInstallState new.
-	self assert: (state lookEvent isKindOf: ToInstallLookEvent) 
-	
-]
-
-{ #category : #running }
 ToInstallStateTest >> testRequestEnqueueFromElementInQueue [
 
 	| e state |
@@ -52,4 +43,13 @@ ToInstallStateTest >> testRequestEnqueueFromElementInQueue [
 				requestEnqueueFromElement: e
 				inQueue: e skinManager skinStateQueue ]
 		raise: Error
+]
+
+{ #category : #running }
+ToInstallStateTest >> testSkinEvent [
+
+	| state  |
+	state := ToInstallState new.
+	self assert: (state skinEvent isKindOf: ToInstallSkinEvent) 
+	
 ]

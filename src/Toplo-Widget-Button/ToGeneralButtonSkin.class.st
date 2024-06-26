@@ -5,9 +5,9 @@ Class {
 }
 
 { #category : #'event handling' }
-ToGeneralButtonSkin >> disabledLookEvent: anEvent [
+ToGeneralButtonSkin >> disabledSkinEvent: anEvent [
 
-	super disabledLookEvent: anEvent.
+	super disabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor normal.
 		e border: (BlBorder
@@ -17,9 +17,9 @@ ToGeneralButtonSkin >> disabledLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToGeneralButtonSkin >> enabledLookEvent: anEvent [
+ToGeneralButtonSkin >> enabledSkinEvent: anEvent [
 
-	super enabledLookEvent: anEvent.
+	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: (BlBorder
 				 paint: (e valueOfTokenNamed: #'color-border')
@@ -28,9 +28,9 @@ ToGeneralButtonSkin >> enabledLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToGeneralButtonSkin >> hoveredLookEvent: anEvent [
+ToGeneralButtonSkin >> hoveredSkinEvent: anEvent [
 
-	super hoveredLookEvent: anEvent.
+	super hoveredSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor webLink.
 		e border: (BlBorder
@@ -39,9 +39,9 @@ ToGeneralButtonSkin >> hoveredLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToGeneralButtonSkin >> installLookEvent: anEvent [
+ToGeneralButtonSkin >> installSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor normal.
 		e background: (e valueOfTokenNamed: #'color-bg-container').
@@ -58,9 +58,9 @@ ToGeneralButtonSkin >> installLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToGeneralButtonSkin >> leavedLookEvent: anEvent [
+ToGeneralButtonSkin >> leavedSkinEvent: anEvent [
 
-	super leavedLookEvent: anEvent.
+	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor normal.
 		e border: (BlBorder
@@ -70,9 +70,9 @@ ToGeneralButtonSkin >> leavedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToGeneralButtonSkin >> pressedLookEvent: anEvent [
+ToGeneralButtonSkin >> pressedSkinEvent: anEvent [
 
-	super pressedLookEvent: anEvent.
+	super pressedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: (BlBorder
 				 paint: (e valueOfTokenNamed: #'color-primary-pressed')

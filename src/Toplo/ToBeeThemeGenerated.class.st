@@ -119,7 +119,7 @@ ToBeeThemeGenerated >> initializeStyleRules [
   self initializeToLabeledIconStyleRules.
   self initializeToLabelStyleRules.
   self initializeToButtonStyleRules.
-  self select: #'space-root' asIdSelector style: [ self when: ToInstallLookEvent write: (self property: #background) with: [:e |  e valueOfTokenNamed: #'background-color' ] animation: nil ]
+  self select: #'space-root' asIdSelector style: [ self when: ToInstallSkinEvent write: (self property: #background) with: [:e |  e valueOfTokenNamed: #'background-color' ] animation: nil ]
 ]
 
 { #category : #'initialization - generated' }
@@ -128,63 +128,63 @@ ToBeeThemeGenerated >> initializeToButtonStyleRules [
 
 	By: YannLEGOFF
 	2024-02-15 16:53:33"
-  self select: ToButton asTypeSelector style: [ self when: ToHoveredLookEvent write: (self property: #mouseCursor) with: [:e |  e isEnabled ifTrue: [ Cursor webLink ] ifFalse: [  ] ] animation: nil.
-        self when: ToLeavedLookEvent write: (self property: #mouseCursor) with: nil animation: nil.
-        self when: ToDisabledLookEvent write: (self property: #'background-color') with: [:e |  e valueOfTokenNamed: #'color-bg-container-disabled' ] animation: nil.
-        self when: ToInstallLookEvent write: (self property: #'background-color') with: [:e |  e valueOfTokenNamed: #'color-bg-container' ] animation: nil.
-        self when: ToInstallLookEvent write: (self property: #height) with: [:e |  e valueOfTokenNamed: #'control-height' ] animation: nil.
-        self when: ToInstallLookEvent write: (self property: #geometry) with: [:e |  BlRoundedRectangleGeometry cornerRadius: (e valueOfTokenNamed: 'border-radius') ] animation: nil.
-        self when: ToUninstallLookEvent write: (self property: #'background-color') with: [:e |  e valueOfTokenNamed: #'color-bg-container' ] animation: nil.
-        self when: ToUninstallLookEvent write: (self property: #height) with: [:e |  e valueOfTokenNamed: #'control-height' ] animation: nil.
-        self when: ToUninstallLookEvent write: (self property: #geometry) with: [:e |  BlRoundedRectangleGeometry cornerRadius: (e valueOfTokenNamed: 'border-radius') ] animation: nil.
-        self when: ToInstallLookEvent write: (self property: #'border-with-builder') with: [:e |  e borderBuilder
+  self select: ToButton asTypeSelector style: [ self when: ToHoveredSkinEvent write: (self property: #mouseCursor) with: [:e |  e isEnabled ifTrue: [ Cursor webLink ] ifFalse: [  ] ] animation: nil.
+        self when: ToLeavedSkinEvent write: (self property: #mouseCursor) with: nil animation: nil.
+        self when: ToDisabledSkinEvent write: (self property: #'background-color') with: [:e |  e valueOfTokenNamed: #'color-bg-container-disabled' ] animation: nil.
+        self when: ToInstallSkinEvent write: (self property: #'background-color') with: [:e |  e valueOfTokenNamed: #'color-bg-container' ] animation: nil.
+        self when: ToInstallSkinEvent write: (self property: #height) with: [:e |  e valueOfTokenNamed: #'control-height' ] animation: nil.
+        self when: ToInstallSkinEvent write: (self property: #geometry) with: [:e |  BlRoundedRectangleGeometry cornerRadius: (e valueOfTokenNamed: 'border-radius') ] animation: nil.
+        self when: ToUninstallSkinEvent write: (self property: #'background-color') with: [:e |  e valueOfTokenNamed: #'color-bg-container' ] animation: nil.
+        self when: ToUninstallSkinEvent write: (self property: #height) with: [:e |  e valueOfTokenNamed: #'control-height' ] animation: nil.
+        self when: ToUninstallSkinEvent write: (self property: #geometry) with: [:e |  BlRoundedRectangleGeometry cornerRadius: (e valueOfTokenNamed: 'border-radius') ] animation: nil.
+        self when: ToInstallSkinEvent write: (self property: #'border-with-builder') with: [:e |  e borderBuilder
                  dashArray: #();
                  paint: (e valueOfTokenNamed: #'color-border');
                  width: (e valueOfTokenNamed: #'border-width-primary-selection') ] animation: nil.
-        self when: ToUninstallLookEvent supplement: (self property: #'border-with-builder') with: [:e |  e borderBuilder
+        self when: ToUninstallSkinEvent supplement: (self property: #'border-with-builder') with: [:e |  e borderBuilder
                  dashArray: #();
                  paint: (e valueOfTokenNamed: #'color-border');
                  width: (e valueOfTokenNamed: #'border-width-primary-selection') ] animation: nil.
-        self when: ToHoveredLookEvent write: (self property: #'button-label-text-foreground') with: [:e |  e valueOfTokenNamed: #'color-primary-hover' ] animation: nil.
-        self when: ToHoveredLookEvent write: (self property: #'border-with-builder') with: [:e |  e borderBuilder paint: (e valueOfTokenNamed: #'color-primary-hover') ] animation: nil.
-        self when: ToLeavedLookEvent write: (self property: #'border-with-builder') with: [:e |  e borderBuilder
+        self when: ToHoveredSkinEvent write: (self property: #'button-label-text-foreground') with: [:e |  e valueOfTokenNamed: #'color-primary-hover' ] animation: nil.
+        self when: ToHoveredSkinEvent write: (self property: #'border-with-builder') with: [:e |  e borderBuilder paint: (e valueOfTokenNamed: #'color-primary-hover') ] animation: nil.
+        self when: ToLeavedSkinEvent write: (self property: #'border-with-builder') with: [:e |  e borderBuilder
                  dashArray: #();
                  paint: (e valueOfTokenNamed: #'color-border');
                  width: (e valueOfTokenNamed: #'border-width-primary-selection') ] animation: nil.
-        self when: ToInstallLookEvent write: (self property: #'button-label-text-foreground') with: [:e |  e valueOfTokenNamed: #'color-text' ] animation: nil.
-        self when: ToUninstallLookEvent write: (self property: #'button-label-text-foreground') with: [:e |  e valueOfTokenNamed: #'color-text' ] animation: nil.
-        self when: ToLeavedLookEvent write: (self property: #'button-label-text-foreground') with: [:e |  e valueOfTokenNamed: #'color-text' ] animation: nil.
-        self when: ToPressedLookEvent write: (self property: #'border-with-builder') with: [:e |  e borderBuilder paint: (e valueOfTokenNamed: #'color-primary-pressed') ] animation: nil.
-        self when: ToPressedLookEvent write: (self property: #'button-label-text-foreground') with: [:e |  e valueOfTokenNamed: #'color-primary-pressed' ] animation: nil.
-        self select: #'small-sizing' asStampSelector style: [ self when: ToInstallLookEvent write: (self property: #height) with: [:e |  e valueOfTokenNamed: #'control-height-small' ] animation: nil.
-              self when: ToInstallLookEvent write: (self property: #geometry) with: [:e |  BlRoundedRectangleGeometry cornerRadius: (e valueOfTokenNamed: 'border-radius-small') ] animation: nil ].
-        self select: #'large-sizing' asStampSelector style: [ self when: ToInstallLookEvent write: (self property: #height) with: [:e |  e valueOfTokenNamed: #'control-height-large' ] animation: nil.
-              self when: ToInstallLookEvent write: (self property: #geometry) with: [:e |  BlRoundedRectangleGeometry cornerRadius: (e valueOfTokenNamed: 'border-radius-large') ] animation: nil ].
-        self select: #round asStampSelector style: [ self when: ToInstallLookEvent write: (self property: #geometry) with: [:e |  BlRoundedRectangleGeometry cornerRadius: e requestedHeight ] animation: nil ].
-        self select: #text asStampSelector || #link asStampSelector style: [ self when: ToInstallLookEvent supplement: (self property: #'border-with-builder') with: [:e |  e borderBuilder paint: Color transparent ] animation: nil.
-              self when: ToHoveredLookEvent supplement: (self property: #'border-with-builder') with: [:e |  e borderBuilder paint: Color transparent ] animation: nil.
-              self when: ToLeavedLookEvent supplement: (self property: #'border-with-builder') with: [:e |  e borderBuilder paint: Color transparent ] animation: nil.
-              self when: ToPressedLookEvent supplement: (self property: #'border-with-builder') with: [:e |  e borderBuilder paint: Color transparent ] animation: nil ].
-        self select: #primary asStampSelector style: [ self when: ToInstallLookEvent supplement: (self property: #'border-with-builder') with: [:e |  e borderBuilder paint: (e valueOfTokenNamed: #'color-primary') ] animation: nil.
-              self when: ToInstallLookEvent write: (self property: #'background-color') with: [:e |  e valueOfTokenNamed: #'color-primary' ] animation: nil.
-              self when: ToInstallLookEvent write: (self property: #'button-label-text-foreground') with: [:e |  e valueOfTokenNamed: #'color-primary-text' ] animation: nil.
-              self when: ToPressedLookEvent write: (self property: #'button-label-text-foreground') with: [:e |  e valueOfTokenNamed: #'color-primary-text' ] animation: nil.
-              self when: ToHoveredLookEvent write: (self property: #'button-label-text-foreground') with: [:e |  e valueOfTokenNamed: #'color-primary-text' ] animation: nil.
-              self when: ToLeavedLookEvent write: (self property: #'button-label-text-foreground') with: [:e |  e valueOfTokenNamed: #'color-primary-text' ] animation: nil.
-              self when: ToLeavedLookEvent supplement: (self property: #'border-with-builder') with: [:e |  e borderBuilder paint: (e valueOfTokenNamed: #'color-primary') ] animation: nil.
-              self when: ToHoveredLookEvent write: (self property: #'background-color') with: [:e |  e valueOfTokenNamed: #'color-primary-hover' ] animation: nil.
-              self when: ToLeavedLookEvent write: (self property: #'background-color') with: [:e |  e valueOfTokenNamed: #'color-primary' ] animation: nil.
-              self when: ToPressedLookEvent write: (self property: #'background-color') with: [:e |  e valueOfTokenNamed: #'color-primary-pressed' ] animation: nil ].
-        self select: #dashed asStampSelector style: [ self when: ToInstallLookEvent supplement: (self property: #'border-with-builder') with: [:e |  e borderBuilder dashArray: (e valueOfTokenNamed: #'dash-array') ] animation: nil.
-              self when: ToHoveredLookEvent supplement: (self property: #'border-with-builder') with: [:e |  e borderBuilder dashArray: (e valueOfTokenNamed: #'dash-array') ] animation: nil.
-              self when: ToLeavedLookEvent supplement: (self property: #'border-with-builder') with: [:e |  e borderBuilder dashArray: (e valueOfTokenNamed: #'dash-array') ] animation: nil ].
-        self select: #text asStampSelector style: [ self when: ToLeavedLookEvent write: (self property: #'background-color') with: [:e |  e valueOfTokenNamed: #'color-bg-container' ] animation: nil.
-              self when: ToPressedLookEvent write: (self property: #'background-color') with: [:e |  e valueOfTokenNamed: #'color-bg-text-hover' ] animation: nil.
-              self when: ToHoveredLookEvent write: (self property: #'background-color') with: [:e |  e valueOfTokenNamed: #'color-bg-text-active' ] animation: nil.
-              self when: ToHoveredLookEvent write: (self property: #'button-label-text-foreground') with: [:e |  e valueOfTokenNamed: #'color-text' ] animation: nil.
-              self when: ToPressedLookEvent write: (self property: #'button-label-text-foreground') with: [:e |  e valueOfTokenNamed: #'color-text' ] animation: nil ].
-        self select: #link asStampSelector style: [ self when: ToInstallLookEvent write: (self property: #'button-label-text-foreground') with: [:e |  e valueOfTokenNamed: #'color-primary' ] animation: nil.
-              self when: ToLeavedLookEvent write: (self property: #'button-label-text-foreground') with: [:e |  e valueOfTokenNamed: #'color-primary' ] animation: nil ] ]
+        self when: ToInstallSkinEvent write: (self property: #'button-label-text-foreground') with: [:e |  e valueOfTokenNamed: #'color-text' ] animation: nil.
+        self when: ToUninstallSkinEvent write: (self property: #'button-label-text-foreground') with: [:e |  e valueOfTokenNamed: #'color-text' ] animation: nil.
+        self when: ToLeavedSkinEvent write: (self property: #'button-label-text-foreground') with: [:e |  e valueOfTokenNamed: #'color-text' ] animation: nil.
+        self when: ToPressedSkinEvent write: (self property: #'border-with-builder') with: [:e |  e borderBuilder paint: (e valueOfTokenNamed: #'color-primary-pressed') ] animation: nil.
+        self when: ToPressedSkinEvent write: (self property: #'button-label-text-foreground') with: [:e |  e valueOfTokenNamed: #'color-primary-pressed' ] animation: nil.
+        self select: #'small-sizing' asStampSelector style: [ self when: ToInstallSkinEvent write: (self property: #height) with: [:e |  e valueOfTokenNamed: #'control-height-small' ] animation: nil.
+              self when: ToInstallSkinEvent write: (self property: #geometry) with: [:e |  BlRoundedRectangleGeometry cornerRadius: (e valueOfTokenNamed: 'border-radius-small') ] animation: nil ].
+        self select: #'large-sizing' asStampSelector style: [ self when: ToInstallSkinEvent write: (self property: #height) with: [:e |  e valueOfTokenNamed: #'control-height-large' ] animation: nil.
+              self when: ToInstallSkinEvent write: (self property: #geometry) with: [:e |  BlRoundedRectangleGeometry cornerRadius: (e valueOfTokenNamed: 'border-radius-large') ] animation: nil ].
+        self select: #round asStampSelector style: [ self when: ToInstallSkinEvent write: (self property: #geometry) with: [:e |  BlRoundedRectangleGeometry cornerRadius: e requestedHeight ] animation: nil ].
+        self select: #text asStampSelector || #link asStampSelector style: [ self when: ToInstallSkinEvent supplement: (self property: #'border-with-builder') with: [:e |  e borderBuilder paint: Color transparent ] animation: nil.
+              self when: ToHoveredSkinEvent supplement: (self property: #'border-with-builder') with: [:e |  e borderBuilder paint: Color transparent ] animation: nil.
+              self when: ToLeavedSkinEvent supplement: (self property: #'border-with-builder') with: [:e |  e borderBuilder paint: Color transparent ] animation: nil.
+              self when: ToPressedSkinEvent supplement: (self property: #'border-with-builder') with: [:e |  e borderBuilder paint: Color transparent ] animation: nil ].
+        self select: #primary asStampSelector style: [ self when: ToInstallSkinEvent supplement: (self property: #'border-with-builder') with: [:e |  e borderBuilder paint: (e valueOfTokenNamed: #'color-primary') ] animation: nil.
+              self when: ToInstallSkinEvent write: (self property: #'background-color') with: [:e |  e valueOfTokenNamed: #'color-primary' ] animation: nil.
+              self when: ToInstallSkinEvent write: (self property: #'button-label-text-foreground') with: [:e |  e valueOfTokenNamed: #'color-primary-text' ] animation: nil.
+              self when: ToPressedSkinEvent write: (self property: #'button-label-text-foreground') with: [:e |  e valueOfTokenNamed: #'color-primary-text' ] animation: nil.
+              self when: ToHoveredSkinEvent write: (self property: #'button-label-text-foreground') with: [:e |  e valueOfTokenNamed: #'color-primary-text' ] animation: nil.
+              self when: ToLeavedSkinEvent write: (self property: #'button-label-text-foreground') with: [:e |  e valueOfTokenNamed: #'color-primary-text' ] animation: nil.
+              self when: ToLeavedSkinEvent supplement: (self property: #'border-with-builder') with: [:e |  e borderBuilder paint: (e valueOfTokenNamed: #'color-primary') ] animation: nil.
+              self when: ToHoveredSkinEvent write: (self property: #'background-color') with: [:e |  e valueOfTokenNamed: #'color-primary-hover' ] animation: nil.
+              self when: ToLeavedSkinEvent write: (self property: #'background-color') with: [:e |  e valueOfTokenNamed: #'color-primary' ] animation: nil.
+              self when: ToPressedSkinEvent write: (self property: #'background-color') with: [:e |  e valueOfTokenNamed: #'color-primary-pressed' ] animation: nil ].
+        self select: #dashed asStampSelector style: [ self when: ToInstallSkinEvent supplement: (self property: #'border-with-builder') with: [:e |  e borderBuilder dashArray: (e valueOfTokenNamed: #'dash-array') ] animation: nil.
+              self when: ToHoveredSkinEvent supplement: (self property: #'border-with-builder') with: [:e |  e borderBuilder dashArray: (e valueOfTokenNamed: #'dash-array') ] animation: nil.
+              self when: ToLeavedSkinEvent supplement: (self property: #'border-with-builder') with: [:e |  e borderBuilder dashArray: (e valueOfTokenNamed: #'dash-array') ] animation: nil ].
+        self select: #text asStampSelector style: [ self when: ToLeavedSkinEvent write: (self property: #'background-color') with: [:e |  e valueOfTokenNamed: #'color-bg-container' ] animation: nil.
+              self when: ToPressedSkinEvent write: (self property: #'background-color') with: [:e |  e valueOfTokenNamed: #'color-bg-text-hover' ] animation: nil.
+              self when: ToHoveredSkinEvent write: (self property: #'background-color') with: [:e |  e valueOfTokenNamed: #'color-bg-text-active' ] animation: nil.
+              self when: ToHoveredSkinEvent write: (self property: #'button-label-text-foreground') with: [:e |  e valueOfTokenNamed: #'color-text' ] animation: nil.
+              self when: ToPressedSkinEvent write: (self property: #'button-label-text-foreground') with: [:e |  e valueOfTokenNamed: #'color-text' ] animation: nil ].
+        self select: #link asStampSelector style: [ self when: ToInstallSkinEvent write: (self property: #'button-label-text-foreground') with: [:e |  e valueOfTokenNamed: #'color-primary' ] animation: nil.
+              self when: ToLeavedSkinEvent write: (self property: #'button-label-text-foreground') with: [:e |  e valueOfTokenNamed: #'color-primary' ] animation: nil ] ]
 ]
 
 { #category : #'initialization - generated' }
@@ -193,52 +193,52 @@ ToBeeThemeGenerated >> initializeToLabelStyleRules [
 
 	By: YannLEGOFF
 	2024-02-15 16:53:33"
-  self select: ToLabel asTypeSelector style: [ self when: ToInstallLookEvent write: (self property: #'text-attributes-with-builder') with: [:e |  e textAttributesBuilder
+  self select: ToLabel asTypeSelector style: [ self when: ToInstallSkinEvent write: (self property: #'text-attributes-with-builder') with: [:e |  e textAttributesBuilder
                  weight: (e valueOfTokenNamed: #'font-weight-strong');
                  defaultFontName: (e valueOfTokenNamed: #'font-family-code');
                  defaultFontSize: (e valueOfTokenNamed: #'font-size');
                  lineSpacing: (e valueOfTokenNamed: #'line-height');
                  yourself ] animation: nil.
-        self when: ToDisabledLookEvent write: (self property: #'text-attributes-with-builder') with: [:e |  e textAttributesBuilder foreground: (e valueOfTokenNamed: #'color-text-disabled') ] animation: nil.
-        self select: #H1 asStampSelector style: [ self when: ToInstallLookEvent write: (self property: #'text-attributes-with-builder') with: [:e |  e textAttributesBuilder
+        self when: ToDisabledSkinEvent write: (self property: #'text-attributes-with-builder') with: [:e |  e textAttributesBuilder foreground: (e valueOfTokenNamed: #'color-text-disabled') ] animation: nil.
+        self select: #H1 asStampSelector style: [ self when: ToInstallSkinEvent write: (self property: #'text-attributes-with-builder') with: [:e |  e textAttributesBuilder
                        defaultFontSize: (e valueOfTokenNamed: #'font-size-H1');
                        lineSpacing: (e valueOfTokenNamed: #'line-height-H1');
                        yourself ] animation: nil ].
-        self select: #H2 asStampSelector style: [ self when: ToInstallLookEvent write: (self property: #'text-attributes-with-builder') with: [:e |  e textAttributesBuilder
+        self select: #H2 asStampSelector style: [ self when: ToInstallSkinEvent write: (self property: #'text-attributes-with-builder') with: [:e |  e textAttributesBuilder
                        defaultFontSize: (e valueOfTokenNamed: #'font-size-H2');
                        lineSpacing: (e valueOfTokenNamed: #'line-height-H2');
                        yourself ] animation: nil ].
-        self select: #H3 asStampSelector style: [ self when: ToInstallLookEvent write: (self property: #'text-attributes-with-builder') with: [:e |  e textAttributesBuilder
+        self select: #H3 asStampSelector style: [ self when: ToInstallSkinEvent write: (self property: #'text-attributes-with-builder') with: [:e |  e textAttributesBuilder
                        defaultFontSize: (e valueOfTokenNamed: #'font-size-H3');
                        lineSpacing: (e valueOfTokenNamed: #'line-height-H3');
                        yourself ] animation: nil ].
-        self select: #H4 asStampSelector style: [ self when: ToInstallLookEvent write: (self property: #'text-attributes-with-builder') with: [:e |  e textAttributesBuilder
+        self select: #H4 asStampSelector style: [ self when: ToInstallSkinEvent write: (self property: #'text-attributes-with-builder') with: [:e |  e textAttributesBuilder
                        defaultFontSize: (e valueOfTokenNamed: #'font-size-H4');
                        lineSpacing: (e valueOfTokenNamed: #'line-height-H4');
                        yourself ] animation: nil ].
-        self select: #H5 asStampSelector style: [ self when: ToInstallLookEvent write: (self property: #'text-attributes-with-builder') with: [:e |  e textAttributesBuilder
+        self select: #H5 asStampSelector style: [ self when: ToInstallSkinEvent write: (self property: #'text-attributes-with-builder') with: [:e |  e textAttributesBuilder
                        defaultFontSize: (e valueOfTokenNamed: #'font-size-H5');
                        lineSpacing: (e valueOfTokenNamed: #'line-height-H5');
                        yourself ] animation: nil ].
-        self select: #default asStampSelector style: [ self when: ToInstallLookEvent write: (self property: #'text-attributes-with-builder') with: [:e |  e textAttributesBuilder
+        self select: #default asStampSelector style: [ self when: ToInstallSkinEvent write: (self property: #'text-attributes-with-builder') with: [:e |  e textAttributesBuilder
                        foreground: (e valueOfTokenNamed: #'color-text');
                        yourself ] animation: nil ].
-        self select: #danger asStampSelector style: [ self when: ToInstallLookEvent write: (self property: #'text-attributes-with-builder') with: [:e |  e textAttributesBuilder
+        self select: #danger asStampSelector style: [ self when: ToInstallSkinEvent write: (self property: #'text-attributes-with-builder') with: [:e |  e textAttributesBuilder
                        foreground: (e valueOfTokenNamed: #'color-error');
                        yourself ] animation: nil ].
-        self select: #link asStampSelector style: [ self when: ToInstallLookEvent write: (self property: #'text-attributes-with-builder') with: [:e |  e textAttributesBuilder
+        self select: #link asStampSelector style: [ self when: ToInstallSkinEvent write: (self property: #'text-attributes-with-builder') with: [:e |  e textAttributesBuilder
                        foreground: (e valueOfTokenNamed: #'color-link');
                        yourself ] animation: nil ].
-        self select: #primary asStampSelector style: [ self when: ToInstallLookEvent write: (self property: #'text-attributes-with-builder') with: [:e |  e textAttributesBuilder
+        self select: #primary asStampSelector style: [ self when: ToInstallSkinEvent write: (self property: #'text-attributes-with-builder') with: [:e |  e textAttributesBuilder
                        foreground: (e valueOfTokenNamed: #'color-text-light-solid');
                        yourself ] animation: nil ].
-        self select: #secondary asStampSelector style: [ self when: ToInstallLookEvent write: (self property: #'text-attributes-with-builder') with: [:e |  e textAttributesBuilder
+        self select: #secondary asStampSelector style: [ self when: ToInstallSkinEvent write: (self property: #'text-attributes-with-builder') with: [:e |  e textAttributesBuilder
                        foreground: (e valueOfTokenNamed: #'color-text-secondary');
                        yourself ] animation: nil ].
-        self select: #success asStampSelector style: [ self when: ToInstallLookEvent write: (self property: #'text-attributes-with-builder') with: [:e |  e textAttributesBuilder
+        self select: #success asStampSelector style: [ self when: ToInstallSkinEvent write: (self property: #'text-attributes-with-builder') with: [:e |  e textAttributesBuilder
                        foreground: (e valueOfTokenNamed: #'color-success');
                        yourself ] animation: nil ].
-        self select: #warning asStampSelector style: [ self when: ToInstallLookEvent write: (self property: #'text-attributes-with-builder') with: [:e |  e textAttributesBuilder
+        self select: #warning asStampSelector style: [ self when: ToInstallSkinEvent write: (self property: #'text-attributes-with-builder') with: [:e |  e textAttributesBuilder
                        foreground: (e valueOfTokenNamed: #'color-warning');
                        yourself ] animation: nil ] ]
 ]
@@ -249,11 +249,11 @@ ToBeeThemeGenerated >> initializeToLabeledIconStyleRules [
 
 	By: YannLEGOFF
 	2024-02-15 16:53:33"
-  self select: ToLabeledIcon asTypeSelector style: [ self when: ToInstallLookEvent write: (self property: #layout) with: [:e |  BlLinearLayout horizontal ] animation: nil.
-        self when: ToInstallLookEvent write: (self property: #'layout-constraints') with: [:e |  [:c |  c horizontal fitContent.
+  self select: ToLabeledIcon asTypeSelector style: [ self when: ToInstallSkinEvent write: (self property: #layout) with: [:e |  BlLinearLayout horizontal ] animation: nil.
+        self when: ToInstallSkinEvent write: (self property: #'layout-constraints') with: [:e |  [:c |  c horizontal fitContent.
               c vertical fitContent.
               c linear vertical alignCenter.
               c linear horizontal alignCenter ] ] animation: nil.
-        self select: ((ToUniversalSelector new withParent: ToButton asTypeSelector atDepth: 1) withParent: #'icon-first' asStampSelector atDepth: 1) style: [ self when: ToInstallLookEvent write: (self property: #'layout-direction') with: [:e |  BlLayoutDirection leftToRight ] animation: nil ].
-        self select: ((ToUniversalSelector new withParent: ToButton asTypeSelector atDepth: 1) withParent: #'label-first' asStampSelector atDepth: 1) style: [ self when: ToInstallLookEvent write: (self property: #'layout-direction') with: [:e |  BlLayoutDirection rightToLeft ] animation: nil ] ]
+        self select: ((ToUniversalSelector new withParent: ToButton asTypeSelector atDepth: 1) withParent: #'icon-first' asStampSelector atDepth: 1) style: [ self when: ToInstallSkinEvent write: (self property: #'layout-direction') with: [:e |  BlLayoutDirection leftToRight ] animation: nil ].
+        self select: ((ToUniversalSelector new withParent: ToButton asTypeSelector atDepth: 1) withParent: #'label-first' asStampSelector atDepth: 1) style: [ self when: ToInstallSkinEvent write: (self property: #'layout-direction') with: [:e |  BlLayoutDirection rightToLeft ] animation: nil ] ]
 ]

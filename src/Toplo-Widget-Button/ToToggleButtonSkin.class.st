@@ -5,9 +5,9 @@ Class {
 }
 
 { #category : #'event handling' }
-ToToggleButtonSkin >> checkedLookEvent: anEvent [
+ToToggleButtonSkin >> checkedSkinEvent: anEvent [
 
-	super checkedLookEvent: anEvent.
+	super checkedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e background: (e valueOfTokenNamed: #'color-primary-checked').
 		e iconDo: [ :ic | ic formColor: (e valueOfTokenNamed: #'text-color-primary-checked') ].
@@ -19,9 +19,9 @@ ToToggleButtonSkin >> checkedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToToggleButtonSkin >> disabledLookEvent: anEvent [
+ToToggleButtonSkin >> disabledSkinEvent: anEvent [
 
-	super disabledLookEvent: anEvent.
+	super disabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic |
 			ic formColor: (e valueOfTokenNamed: #'color-text-disabled') ].
@@ -35,16 +35,16 @@ ToToggleButtonSkin >> disabledLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToToggleButtonSkin >> enabledLookEvent: anEvent [
+ToToggleButtonSkin >> enabledSkinEvent: anEvent [
 
-	super enabledLookEvent: anEvent.
+	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |  ]
 ]
 
 { #category : #'event handling' }
-ToToggleButtonSkin >> hoveredLookEvent: anEvent [
+ToToggleButtonSkin >> hoveredSkinEvent: anEvent [
 
-	super hoveredLookEvent: anEvent.
+	super hoveredSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor webLink.
 		e border: (BlBorder
@@ -53,9 +53,9 @@ ToToggleButtonSkin >> hoveredLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToToggleButtonSkin >> indeterminateLookEvent: anEvent [
+ToToggleButtonSkin >> indeterminateSkinEvent: anEvent [
 
-	super indeterminateLookEvent: anEvent.
+	super indeterminateSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e background: (e valueOfTokenNamed: #'color-primary-indeterminate').
 		e iconDo: [ :ic | ic formColor: (e valueOfTokenNamed: #'color-text') ].
@@ -67,9 +67,9 @@ ToToggleButtonSkin >> indeterminateLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToToggleButtonSkin >> installLookEvent: anEvent [
+ToToggleButtonSkin >> installSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e layout alignCenter.
 		e mouseCursor: Cursor normal.
@@ -92,9 +92,9 @@ ToToggleButtonSkin >> installLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToToggleButtonSkin >> leavedLookEvent: anEvent [
+ToToggleButtonSkin >> leavedSkinEvent: anEvent [
 
-	super leavedLookEvent: anEvent.
+	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor normal.
 		e border: (BlBorder
@@ -103,9 +103,9 @@ ToToggleButtonSkin >> leavedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToToggleButtonSkin >> uncheckedLookEvent: anEvent [
+ToToggleButtonSkin >> uncheckedSkinEvent: anEvent [
 
-	super uncheckedLookEvent: anEvent.
+	super uncheckedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e background: (e valueOfTokenNamed: #'color-primary-unchecked').
 		e iconDo: [ :ic | ic formColor: (e valueOfTokenNamed: #'color-text') ].

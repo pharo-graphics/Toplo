@@ -25,72 +25,6 @@ ToStyleSheetSkinTest >> setUp [
 ]
 
 { #category : #'test with accessors' }
-ToStyleSheetSkinTest >> testLookEventAction [
-
-	| w skin action |
-	w := ToElement new.
-	space root addChild: w.
-	skin := ToStyleSheetSkin new.
-	action := ToLookEventAction new action: [ :e |
-		          e background: Color blue ].
-	skin lookEventListeners: { action }.
-	self assert: skin lookEventListeners size equals: 1.
-	self assert: skin lookEventListeners first identicalTo: action.
-	w defaultSkin: skin.
-	w skinManager applySkinReinstallIn: w.
-
-	self assert: w background paint color equals: Color blue
-]
-
-{ #category : #'test with accessors' }
-ToStyleSheetSkinTest >> testLookEventActionMixedWithWriter [
-
-	| w skin action prop propWriter |
-	w := ToElement new.
-	space root addChild: w.
-	action := ToLookEventAction new action: [ :e |
-		          e background: Color red ].
-	prop := self writablePropertyIndex propertyNamed: #background.
-	propWriter := ToPropertyWriter new
-		              property: prop;
-		              value: Color blue;
-		              yourself.
-	skin := ToStyleSheetSkin new.
-	" LookEventAction instances must be before all PropertyWriter instances. 
-	This must be ensured by the skin building procedure"
-	skin lookEventListeners: {
-			action.
-			propWriter }.
-	self assert: skin lookEventListeners size equals: 2.
-	self assert: skin lookEventListeners first identicalTo: action.
-	self assert: skin lookEventListeners second identicalTo: propWriter.
-	w defaultSkin: skin.
-	w skinManager applySkinReinstallIn: w.
-	self assert: w background paint color equals: Color blue
-]
-
-{ #category : #'test with accessors' }
-ToStyleSheetSkinTest >> testLookEventListeners [
-
-	| w skin prop propWriter |
-	w := ToElement new.
-	space root addChild: w.
-	skin := ToStyleSheetSkin new.
-	prop := self writablePropertyIndex propertyNamed: #background.
-	propWriter := ToPropertyWriter new
-		              property: prop;
-		              value: Color blue;
-		              yourself.
-	skin lookEventListeners: { propWriter }.
-	self assert: skin lookEventListeners size equals: 1.
-	self assert: skin lookEventListeners first identicalTo: propWriter.
-	w defaultSkin: skin.
-	w skinManager applySkinReinstallIn: w.
-
-	self assert: w background paint color equals: Color blue
-]
-
-{ #category : #'test with accessors' }
 ToStyleSheetSkinTest >> testPropertyWriterOrderMatter [
 
 	| w skin layoutDirectionProp layoutProp layoutWriter directionWriter |
@@ -103,16 +37,16 @@ ToStyleSheetSkinTest >> testPropertyWriterOrderMatter [
 		                       #'layout-direction'.
 	layoutProp := self writablePropertyIndex propertyNamed: #layout.
 	directionWriter := ToPropertyWriter new
-		                   eventClass: ToInstallLookEvent;
+		                   eventClass: ToInstallSkinEvent;
 		                   property: layoutDirectionProp;
 		                   value: BlLayoutDirection rightToLeft;
 		                   yourself.
 	layoutWriter := ToPropertyWriter new
-		                eventClass: ToInstallLookEvent;
+		                eventClass: ToInstallSkinEvent;
 		                property: layoutProp;
 		                value: BlLinearLayout new;
 		                yourself.
-	skin lookEventListeners: {
+	skin skinEventListeners: {
 			directionWriter.
 			layoutWriter }.
 
@@ -126,7 +60,7 @@ ToStyleSheetSkinTest >> testPropertyWriterOrderMatter [
 		raise: MessageNotUnderstood.
 
 	" Now change writers order and it should be ok "
-	skin lookEventListeners: {
+	skin skinEventListeners: {
 			layoutWriter.
 			directionWriter }.
 
@@ -134,6 +68,72 @@ ToStyleSheetSkinTest >> testPropertyWriterOrderMatter [
 	w skinManagerDo: [ :sm | sm applyEnqueuedStatesIn: w ].
 	self assert: (w layout isKindOf: BlLinearLayout).
 	self assert: w layout direction isRightToLeft
+]
+
+{ #category : #'test with accessors' }
+ToStyleSheetSkinTest >> testSkinEventAction [
+
+	| w skin action |
+	w := ToElement new.
+	space root addChild: w.
+	skin := ToStyleSheetSkin new.
+	action := ToSkinEventAction new action: [ :e |
+		          e background: Color blue ].
+	skin skinEventListeners: { action }.
+	self assert: skin skinEventListeners size equals: 1.
+	self assert: skin skinEventListeners first identicalTo: action.
+	w defaultSkin: skin.
+	w skinManager applySkinReinstallIn: w.
+
+	self assert: w background paint color equals: Color blue
+]
+
+{ #category : #'test with accessors' }
+ToStyleSheetSkinTest >> testSkinEventActionMixedWithWriter [
+
+	| w skin action prop propWriter |
+	w := ToElement new.
+	space root addChild: w.
+	action := ToSkinEventAction new action: [ :e |
+		          e background: Color red ].
+	prop := self writablePropertyIndex propertyNamed: #background.
+	propWriter := ToPropertyWriter new
+		              property: prop;
+		              value: Color blue;
+		              yourself.
+	skin := ToStyleSheetSkin new.
+	" SkinEventAction instances must be before all PropertyWriter instances. 
+	This must be ensured by the skin building procedure"
+	skin skinEventListeners: {
+			action.
+			propWriter }.
+	self assert: skin skinEventListeners size equals: 2.
+	self assert: skin skinEventListeners first identicalTo: action.
+	self assert: skin skinEventListeners second identicalTo: propWriter.
+	w defaultSkin: skin.
+	w skinManager applySkinReinstallIn: w.
+	self assert: w background paint color equals: Color blue
+]
+
+{ #category : #'test with accessors' }
+ToStyleSheetSkinTest >> testSkinEventListeners [
+
+	| w skin prop propWriter |
+	w := ToElement new.
+	space root addChild: w.
+	skin := ToStyleSheetSkin new.
+	prop := self writablePropertyIndex propertyNamed: #background.
+	propWriter := ToPropertyWriter new
+		              property: prop;
+		              value: Color blue;
+		              yourself.
+	skin skinEventListeners: { propWriter }.
+	self assert: skin skinEventListeners size equals: 1.
+	self assert: skin skinEventListeners first identicalTo: propWriter.
+	w defaultSkin: skin.
+	w skinManager applySkinReinstallIn: w.
+
+	self assert: w background paint color equals: Color blue
 ]
 
 { #category : #'test with accessors' }
@@ -147,9 +147,9 @@ ToStyleSheetSkinTest >> testSupplementWriter [
 	backgroundProp := self writablePropertyIndex propertyNamed:
 		                  #background.
 	borderProp := self writablePropertyIndex propertyNamed: #border.
-	skin lookEventListeners: {
+	skin skinEventListeners: {
 			(ToPropertyWriter new
-				 eventClass: ToInstallLookEvent;
+				 eventClass: ToInstallSkinEvent;
 				 property: backgroundProp;
 				 value: Color blue;
 				 yourself).
@@ -158,7 +158,7 @@ ToStyleSheetSkinTest >> testSupplementWriter [
 				 value: [ :e | Color yellow ];
 				 yourself).
 			(ToPropertyWriter new
-				 eventClass: ToInstallLookEvent;
+				 eventClass: ToInstallSkinEvent;
 				 property: borderProp;
 				 value: [ :e |
 					 borderBuilder
@@ -166,7 +166,7 @@ ToStyleSheetSkinTest >> testSupplementWriter [
 						 build ] yourself).
 			(ToPropertyWriter new
 				 supplement: true;
-				 eventClass: ToInstallLookEvent;
+				 eventClass: ToInstallSkinEvent;
 				 property: borderProp;
 				 value: [ :e |
 					 borderBuilder
@@ -190,21 +190,21 @@ ToStyleSheetSkinTest >> testWithAnimationOn2EventClasses [
 	animation := ToPropertyColorTransitionAnimation new.
 	prop := self writablePropertyIndex propertyNamed: #'background-color'.
 
-	skin lookEventListeners: {
+	skin skinEventListeners: {
 			(ToPropertyWriter new
 				 property: prop;
-				 eventClass: ToInstallLookEvent;
+				 eventClass: ToInstallSkinEvent;
 				 value: Color white;
 				 yourself).
 			(ToPropertyWriter new
 				 property: prop;
-				 eventClass: ToHoveredLookEvent;
+				 eventClass: ToHoveredSkinEvent;
 				 value: Color black;
 				 animation: animation;
 				 yourself).
 			(ToPropertyWriter new
 				 property: prop;
-				 eventClass: ToLeavedLookEvent;
+				 eventClass: ToLeavedSkinEvent;
 				 value: Color white;
 				 animation: animation;
 				 yourself) }.
@@ -217,14 +217,14 @@ ToStyleSheetSkinTest >> testWithAnimationOn2EventClasses [
 
 	w skinManager
 		enqueueSkinState:
-		(ToTransientState lookEvent: ToHoveredLookEvent new)
+		(ToTransientState skinEvent: ToHoveredSkinEvent new)
 		in: w.
 	animation onFinishedDo: [ :x |
 		self assert: w background paint color equals: Color black.
 
 		w skinManager
 			enqueueSkinState:
-			(ToTransientState lookEvent: ToLeavedLookEvent new)
+			(ToTransientState skinEvent: ToLeavedSkinEvent new)
 			in: w.
 		animation onFinishedDo: [ :xx |
 			self assert: w background paint color equals: Color white ] ]
@@ -254,7 +254,7 @@ ToStyleSheetSkinTest >> testWithTwoWriters [
 	backgroundProp := self writablePropertyIndex propertyNamed:
 		                  #background.
 	borderProp := self writablePropertyIndex propertyNamed: #border.
-	skin lookEventListeners: {
+	skin skinEventListeners: {
 			(ToPropertyWriter new
 				 property: backgroundProp;
 				 value: Color blue;
@@ -280,9 +280,9 @@ ToStyleSheetSkinTest >> testWithTwoWritersTwoEventClasses [
 	backgroundProp := self writablePropertyIndex propertyNamed:
 		                  #background.
 	borderProp := self writablePropertyIndex propertyNamed: #border.
-	skin lookEventListeners: {
+	skin skinEventListeners: {
 			(ToPropertyWriter new
-				 eventClass: ToInstallLookEvent;
+				 eventClass: ToInstallSkinEvent;
 				 property: backgroundProp;
 				 value: Color blue;
 				 yourself).
@@ -291,7 +291,7 @@ ToStyleSheetSkinTest >> testWithTwoWritersTwoEventClasses [
 				 value: Color yellow;
 				 yourself).
 			(ToPropertyWriter new
-				 eventClass: ToInstallLookEvent;
+				 eventClass: ToInstallSkinEvent;
 				 property: borderProp;
 				 value: Color red;
 				 yourself) }.

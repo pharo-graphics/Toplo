@@ -39,7 +39,7 @@ ToStyleRuleInspectorSpec >> initializePresenter [
 		                 icon: (self iconNamed: #smallInspectIt);
 		                 action: [ self styleRule inspect ];
 		                 yourself.
-	propertiesTable := ToLookEventListenersTableSpec new.
+	propertiesTable := ToSkinEventListenersTableSpec new.
 	selectorIcon := SpImagePresenter new image: (self iconNamed: #blank); yourself.
 ]
 
@@ -96,7 +96,7 @@ ToStyleRuleInspectorSpec >> styleRule: aStyleRule [
 	aStyleRule selector accept: printer.
 	self selectorLabel label: printer contents.
 
-	self propertiesTable lookEventListeners:
-		aStyleRule lookEventListeners.
+	self propertiesTable skinEventListeners:
+		aStyleRule skinEventListeners.
 	self selectorIcon image: (self iconForSelector: aStyleRule)
 ]

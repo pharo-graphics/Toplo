@@ -5,9 +5,9 @@ Class {
 }
 
 { #category : #'event handling' }
-ToPicsumPhotosGallerySelectionSkin >> installLookEvent: anEvent [
+ToPicsumPhotosGallerySelectionSkin >> installSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		| im cont bar w  |
 		w := 3.

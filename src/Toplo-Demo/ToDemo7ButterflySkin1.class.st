@@ -5,9 +5,9 @@ Class {
 }
 
 { #category : #'event handling' }
-ToDemo7ButterflySkin1 >> installLookEvent: anEvent [
+ToDemo7ButterflySkin1 >> installSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: Color red.
 		e fitContent.

@@ -10,14 +10,14 @@ ToCheckStateTest >> testApplyOn [
 	| e state checkedEvt uncheckedEvt |
 	e := ToElement new.
 	e addEventHandler: (BlEventHandler
-			 on: ToCheckedLookEvent
+			 on: ToCheckedSkinEvent
 			 do: [ :event | checkedEvt := event ]).
 	e addEventHandler: (BlEventHandler
-			 on: ToUncheckedLookEvent
+			 on: ToUncheckedSkinEvent
 			 do: [ :event | uncheckedEvt := event ]).
 	state := ToCheckState new checked: true.
 	state applyOn: e.
-	self assert: (checkedEvt isKindOf: ToCheckedLookEvent)
+	self assert: (checkedEvt isKindOf: ToCheckedSkinEvent)
 ]
 
 { #category : #running }
@@ -26,14 +26,14 @@ ToCheckStateTest >> testApplyOnUnchecked [
 	| e state checkedEvt uncheckedEvt |
 	e := ToElement new.
 	e addEventHandler: (BlEventHandler
-			 on: ToCheckedLookEvent
+			 on: ToCheckedSkinEvent
 			 do: [ :event | checkedEvt := event ]).
 	e addEventHandler: (BlEventHandler
-			 on: ToUncheckedLookEvent
+			 on: ToUncheckedSkinEvent
 			 do: [ :event | uncheckedEvt := event ]).
 	state := ToCheckState new checked: false.
 	state applyOn: e.
-	self assert: (uncheckedEvt isKindOf: ToUncheckedLookEvent)
+	self assert: (uncheckedEvt isKindOf: ToUncheckedSkinEvent)
 ]
 
 { #category : #running }
@@ -46,27 +46,27 @@ ToCheckStateTest >> testApplyOnWhenDisabled [
 	e := ToElement new.
 	e disable.
 	e addEventHandler: (BlEventHandler
-			 on: ToCheckedLookEvent
+			 on: ToCheckedSkinEvent
 			 do: [ :event | checkedEvt := event ]).
 	e addEventHandler: (BlEventHandler
-			 on: ToUncheckedLookEvent
+			 on: ToUncheckedSkinEvent
 			 do: [ :event | uncheckedEvt := event ]).
 	state := ToCheckState new checked: true.
 	state applyOn: e.
-	self assert: (checkedEvt isKindOf: ToCheckedLookEvent).
+	self assert: (checkedEvt isKindOf: ToCheckedSkinEvent).
 	state := ToCheckState new checked: false.
 	state applyOn: e.
-	self assert: (uncheckedEvt isKindOf: ToUncheckedLookEvent)
+	self assert: (uncheckedEvt isKindOf: ToUncheckedSkinEvent)
 ]
 
 { #category : #running }
-ToCheckStateTest >> testLookEvent [
+ToCheckStateTest >> testSkinEvent [
 
 	| state  |
 	state := ToCheckState new checked: true.
-	self assert: (state lookEvent isKindOf: ToCheckedLookEvent).
+	self assert: (state skinEvent isKindOf: ToCheckedSkinEvent).
 	state := ToCheckState new checked: false.
-	self assert: (state lookEvent isKindOf: ToUncheckedLookEvent) 
+	self assert: (state skinEvent isKindOf: ToUncheckedSkinEvent) 
 
 	
 ]

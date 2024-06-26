@@ -5,9 +5,9 @@ Class {
 }
 
 { #category : #'event handling' }
-ToListPrimarySelectionElementSkin >> focusedLookEvent: anEvent [
+ToListPrimarySelectionElementSkin >> focusedSkinEvent: anEvent [
 
-	super focusedLookEvent: anEvent.
+	super focusedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e isBeneath
 			ifTrue: [
@@ -19,9 +19,9 @@ ToListPrimarySelectionElementSkin >> focusedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToListPrimarySelectionElementSkin >> installLookEvent: anEvent [
+ToListPrimarySelectionElementSkin >> installSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:
 				 (e valueOfTokenNamed: #'border-radius-SM')).
@@ -52,9 +52,9 @@ ToListPrimarySelectionElementSkin >> installLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToListPrimarySelectionElementSkin >> unfocusedLookEvent: anEvent [
+ToListPrimarySelectionElementSkin >> unfocusedSkinEvent: anEvent [
 
-	super unfocusedLookEvent: anEvent.
+	super unfocusedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		 e isBeneath
 			ifTrue: [

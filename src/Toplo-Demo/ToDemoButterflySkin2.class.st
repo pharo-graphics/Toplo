@@ -5,17 +5,17 @@ Class {
 }
 
 { #category : #'event handling' }
-ToDemoButterflySkin2 >> hoveredLookEvent: anEvent [
+ToDemoButterflySkin2 >> hoveredSkinEvent: anEvent [
 
-	super hoveredLookEvent: anEvent.
+	super hoveredSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e background: (e valueOfTokenNamed: #'color-success') ]
 ]
 
 { #category : #'event handling' }
-ToDemoButterflySkin2 >> installLookEvent: anEvent [
+ToDemoButterflySkin2 >> installSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		| im |
 		e layout: BlFrameLayout new.
@@ -31,17 +31,17 @@ ToDemoButterflySkin2 >> installLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToDemoButterflySkin2 >> leavedLookEvent: anEvent [
+ToDemoButterflySkin2 >> leavedSkinEvent: anEvent [
 
-	super leavedLookEvent: anEvent.
+	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e background: (e valueOfTokenNamed: #'color-primary') ]
 ]
 
 { #category : #'event handling' }
-ToDemoButterflySkin2 >> uninstallLookEvent: anEvent [
+ToDemoButterflySkin2 >> uninstallSkinEvent: anEvent [
 
-	super uninstallLookEvent: anEvent.
+	super uninstallSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e removeChildren ]
 ]

@@ -5,34 +5,34 @@ Class {
 }
 
 { #category : #'event handling' }
-ToSwitchButtonSkin >> disabledLookEvent: anEvent [
+ToSwitchButtonSkin >> disabledSkinEvent: anEvent [
 
-	super disabledLookEvent: anEvent.
+	super disabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor normal.
 		e background: (e valueOfTokenNamed: #'color-bg-container-disabled') ]
 ]
 
 { #category : #'event handling' }
-ToSwitchButtonSkin >> enabledLookEvent: anEvent [
+ToSwitchButtonSkin >> enabledSkinEvent: anEvent [
 
-	super enabledLookEvent: anEvent.
+	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e background: Color transparent ]
 ]
 
 { #category : #'event handling' }
-ToSwitchButtonSkin >> hoveredLookEvent: anEvent [
+ToSwitchButtonSkin >> hoveredSkinEvent: anEvent [
 
-	super hoveredLookEvent: anEvent.
+	super hoveredSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor webLink ]
 ]
 
 { #category : #'event handling' }
-ToSwitchButtonSkin >> installLookEvent: anEvent [
+ToSwitchButtonSkin >> installSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e labeledIcon hMatchParent.
 		e vFitContent.
@@ -48,16 +48,16 @@ ToSwitchButtonSkin >> installLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToSwitchButtonSkin >> leavedLookEvent: anEvent [
+ToSwitchButtonSkin >> leavedSkinEvent: anEvent [
 
-	super leavedLookEvent: anEvent.
+	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor normal ]
 ]
 
 { #category : #'event handling' }
-ToSwitchButtonSkin >> pressedLookEvent: anEvent [
+ToSwitchButtonSkin >> pressedSkinEvent: anEvent [
 
-	super pressedLookEvent: anEvent.
+	super pressedSkinEvent: anEvent.
 	anEvent elementDo: [ :e | ]
 ]

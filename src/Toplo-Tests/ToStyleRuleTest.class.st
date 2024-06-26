@@ -325,8 +325,8 @@ ToStyleRuleTest >> testPutApplicableListenersForElementForThemeIn [
 			           forTheme: nil
 			           in: stream ].
 	self assert: listeners isEmpty.
-	rule addLookEventListener: (w1 := ToPropertyWriter new).
-	subRule addLookEventListener: (w2 := ToPropertyWriter new).
+	rule addSkinEventListener: (w1 := ToPropertyWriter new).
+	subRule addSkinEventListener: (w2 := ToPropertyWriter new).
 	listeners := Array streamContents: [ :stream |
 		                      rule
 			                      putApplicableListenersForElement: e

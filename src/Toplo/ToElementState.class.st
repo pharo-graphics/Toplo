@@ -7,7 +7,7 @@ Class {
 { #category : #'look event sending' }
 ToElementState >> applyOn: anElement [
 
-	anElement dispatchEvent: self lookEvent.
+	anElement dispatchEvent: self skinEvent.
 	self onAppliedOn: anElement
 ]
 
@@ -15,12 +15,6 @@ ToElementState >> applyOn: anElement [
 ToElementState >> canBeEnqueuedFromElement: anElement inQueue: aStateQueue [
 
 	^ aStateQueue hasInstallStateEnqueued
-]
-
-{ #category : #accessing }
-ToElementState >> lookEvent [
-
-	^ self subclassResponsibility 
 ]
 
 { #category : #'look event sending' }
@@ -33,4 +27,10 @@ ToElementState >> requestEnqueueFromElement: anElement inQueue: aStateQueue [
 
 	(self canBeEnqueuedFromElement: anElement inQueue: aStateQueue) ifTrue: [
 		aStateQueue enqueueState: self for: anElement ]
+]
+
+{ #category : #accessing }
+ToElementState >> skinEvent [
+
+	^ self subclassResponsibility 
 ]

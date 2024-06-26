@@ -5,17 +5,17 @@ Class {
 }
 
 { #category : #'event handling' }
-ToBasicListElementSkin >> focusedLookEvent: anEvent [
+ToBasicListElementSkin >> focusedSkinEvent: anEvent [
 
-	super focusedLookEvent: anEvent.
+	super focusedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: (e valueOfTokenNamed: #'color-primary') ]
 ]
 
 { #category : #'event handling' }
-ToBasicListElementSkin >> installLookEvent: anEvent [
+ToBasicListElementSkin >> installSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e shortcuts: (self shortcutsToInstallIn: e).
 		e installShortcuts.
@@ -53,9 +53,9 @@ ToBasicListElementSkin >> shortcutsToInstallIn: aListElement [
 ]
 
 { #category : #'event handling' }
-ToBasicListElementSkin >> unfocusedLookEvent: anEvent [
+ToBasicListElementSkin >> unfocusedSkinEvent: anEvent [
 
-	super unfocusedLookEvent: anEvent.
+	super unfocusedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: (e valueOfTokenNamed: #'color-border') ]
 ]

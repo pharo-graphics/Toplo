@@ -31,7 +31,7 @@ ToThemeEditorEventListenerSpecializedPropertyPresenterTest >> testEventListener2
 	| presenter |
 	presenter := ToThemeEditorEventListenerSpecializedPropertyPresenter
 		             new.
-	presenter eventListener: ToLookEventAction new.
+	presenter eventListener: ToSkinEventAction new.
 	self
 		assert: presenter animationInput text
 		equals: presenter textForAnimationInputWhenAction.

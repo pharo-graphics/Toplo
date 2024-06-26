@@ -5,40 +5,40 @@ Class {
 }
 
 { #category : #'event handling' }
-ToAlbumPrimarySelectionElementSkin >> focusedLookEvent: anEvent [
+ToAlbumPrimarySelectionElementSkin >> focusedSkinEvent: anEvent [
 
-	super focusedLookEvent: anEvent.
+	super focusedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e background: (e valueOfTokenNamed: #'color-primary-selection-focused') ]
 ]
 
 { #category : #'event handling' }
-ToAlbumPrimarySelectionElementSkin >> hoveredLookEvent: anEvent [
+ToAlbumPrimarySelectionElementSkin >> hoveredSkinEvent: anEvent [
 
-	super hoveredLookEvent: anEvent.
+	super hoveredSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		 e border: (e valueOfTokenNamed: #'color-primary-selection-focused') ]
 ]
 
 { #category : #'event handling' }
-ToAlbumPrimarySelectionElementSkin >> installLookEvent: anEvent [
+ToAlbumPrimarySelectionElementSkin >> installSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e | e border: (e valueOfTokenNamed: #'color-primary-selection-focused') ]
 ]
 
 { #category : #'event handling' }
-ToAlbumPrimarySelectionElementSkin >> leavedLookEvent: anEvent [
+ToAlbumPrimarySelectionElementSkin >> leavedSkinEvent: anEvent [
 
-	super leavedLookEvent: anEvent.
+	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		 e border: BlBorder empty ]
 ]
 
 { #category : #'event handling' }
-ToAlbumPrimarySelectionElementSkin >> unfocusedLookEvent: anEvent [
+ToAlbumPrimarySelectionElementSkin >> unfocusedSkinEvent: anEvent [
 
-	super unfocusedLookEvent: anEvent.
+	super unfocusedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e background: (e valueOfTokenNamed: #'color-primary-selection-unfocused') ]
 ]

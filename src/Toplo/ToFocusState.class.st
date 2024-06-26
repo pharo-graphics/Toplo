@@ -20,9 +20,9 @@ ToFocusState >> focused: aValuable [
 ]
 
 { #category : #accessing }
-ToFocusState >> lookEventClass [
+ToFocusState >> skinEventClass [
 
 	^ self focused value
-		  ifTrue: [ ToFocusedLookEvent ]
-		  ifFalse: [ ToUnfocusedLookEvent ]
+		  ifTrue: [ ToFocusedSkinEvent ]
+		  ifFalse: [ ToUnfocusedSkinEvent ]
 ]

@@ -5,17 +5,17 @@ Class {
 }
 
 { #category : #'event handling' }
-ToTabSkin >> checkedLookEvent: anEvent [
+ToTabSkin >> checkedSkinEvent: anEvent [
 
-	super checkedLookEvent: anEvent.
+	super checkedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e background: e selectedBackground ]
 ]
 
 { #category : #'event handling' }
-ToTabSkin >> hoveredLookEvent: anEvent [
+ToTabSkin >> hoveredSkinEvent: anEvent [
 
-	super hoveredLookEvent: anEvent.
+	super hoveredSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor webLink.
 		e border: (BlBorder paint: (e valueOfTokenNamed: #'color-primary-hover') width: (e valueOfTokenNamed: #'line-width')).
@@ -25,9 +25,9 @@ ToTabSkin >> hoveredLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToTabSkin >> installLookEvent: anEvent [
+ToTabSkin >> installSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e | 
 		e vFitContent.
 		e border: (BlBorder paint: (e valueOfTokenNamed: #'color-border') width: (e valueOfTokenNamed: #'line-width')).
@@ -40,9 +40,9 @@ ToTabSkin >> installLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToTabSkin >> leavedLookEvent: anEvent [
+ToTabSkin >> leavedSkinEvent: anEvent [
 
-	super leavedLookEvent: anEvent.
+	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e | 
 		e isChecked ifFalse: [e background: e defaultBackground].
 		e border: (BlBorder paint: (e valueOfTokenNamed: #'color-border') width: (e valueOfTokenNamed: #'line-width')).
@@ -51,16 +51,16 @@ ToTabSkin >> leavedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToTabSkin >> pressedLookEvent: anEvent [
+ToTabSkin >> pressedSkinEvent: anEvent [
 
 	anEvent elementDo: [ :e | e isChecked ifTrue: [ ^ self ] ].
-	super pressedLookEvent: anEvent
+	super pressedSkinEvent: anEvent
 ]
 
 { #category : #'event handling' }
-ToTabSkin >> uncheckedLookEvent: anEvent [
+ToTabSkin >> uncheckedSkinEvent: anEvent [
 
-	super uncheckedLookEvent: anEvent.
+	super uncheckedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e background: e defaultBackground ]
 ]

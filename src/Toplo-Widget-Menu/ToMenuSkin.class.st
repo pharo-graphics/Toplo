@@ -5,9 +5,9 @@ Class {
 }
 
 { #category : #'event handling' }
-ToMenuSkin >> installLookEvent: anEvent [
+ToMenuSkin >> installSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e parentMenuDo: [ :pm |
 			pm items do: [ :it |
@@ -31,8 +31,8 @@ ToMenuSkin >> installLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToMenuSkin >> uninstallLookEvent: anEvent [
+ToMenuSkin >> uninstallSkinEvent: anEvent [
 
-	super uninstallLookEvent: anEvent.
+	super uninstallSkinEvent: anEvent.
 	anEvent elementDo: [ :e | e endElement removeChildren ]
 ]

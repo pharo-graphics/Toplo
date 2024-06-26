@@ -1,6 +1,6 @@
 Class {
 	#name : #ToPropertyWriter,
-	#superclass : #ToLookEventListener,
+	#superclass : #ToSkinEventListener,
 	#instVars : [
 		'property',
 		'value',

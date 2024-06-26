@@ -12,7 +12,7 @@ ToBeetleTheme >> initializeStyleRules [
 
  		" installation rules "
 		self
-			when: ToInstallLookEvent
+			when: ToInstallSkinEvent
 			write: (self property: #background)
 			with: [ :e | Color lightGray ].
 		self write: (self property: #geometry) with: BlCircleGeometry new.
@@ -27,21 +27,21 @@ ToBeetleTheme >> initializeStyleRules [
 
 		" hovered rules "
 		self
-			when: ToHoveredLookEvent
+			when: ToHoveredSkinEvent
 			write: (self property: #background)
 			with: Color white.
 		self
-			when: ToHoveredLookEvent
+			when: ToHoveredSkinEvent
 			write: (self property: #border)
 			with: (BlBorder paint: Color blue width: 4).
 
 		" leaved rules "
 		self
-			when: ToLeavedLookEvent
+			when: ToLeavedSkinEvent
 			write: (self property: #background)
 			with: Color lightGray.
 		self
-			when: ToLeavedLookEvent
+			when: ToLeavedSkinEvent
 			write: (self property: #border)
 			with: (BlBorder paint: Color yellow width: 4) ]
 ]

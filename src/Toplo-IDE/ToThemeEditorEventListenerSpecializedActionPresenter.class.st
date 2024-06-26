@@ -61,7 +61,7 @@ ToThemeEditorEventListenerSpecializedActionPresenter >> makeNewEventListener [
 	action argumentCount = 1 ifFalse: [
 		ToThemeEditorWrongObjectError new signal:
 			'Expected a block closure with 1 argument.' ].
-	^ ToLookEventAction new
+	^ ToSkinEventAction new
 		  action: action;
 		  yourself
 ]

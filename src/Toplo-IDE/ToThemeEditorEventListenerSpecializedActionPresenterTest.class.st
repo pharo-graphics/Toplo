@@ -31,15 +31,15 @@ ToThemeEditorEventListenerSpecializedActionPresenterTest >> testEventListener3 [
 
 	| presenter |
 	presenter := ToThemeEditorEventListenerSpecializedActionPresenter new.
-	presenter eventListener: (ToLookEventAction new
+	presenter eventListener: (ToSkinEventAction new
 			 action: [ :test1 |  ];
 			 yourself).
 	self assert: presenter actionInput text equals: '[ :test1 |  ]'.
-	presenter eventListener: (ToLookEventAction new
+	presenter eventListener: (ToSkinEventAction new
 			 action: [ :test2 |  ];
 			 yourself).
 	self assert: presenter actionInput text equals: '[ :test2 |  ]'.
-	presenter eventListener: (ToLookEventAction new
+	presenter eventListener: (ToSkinEventAction new
 			 action: [ :test3 | nil toto titi tutu ];
 			 yourself).
 	self
@@ -54,7 +54,7 @@ ToThemeEditorEventListenerSpecializedActionPresenterTest >> testMakeNewEventList
 	presenter := ToThemeEditorEventListenerSpecializedActionPresenter new.
 	presenter actionInput text: '[ :helloWorld | ]'.
 	eventListener := presenter makeNewEventListener.
-	self assert: eventListener class equals: ToLookEventAction.
+	self assert: eventListener class equals: ToSkinEventAction.
 	self assert: (eventListener action isKindOf: BlockClosure).
 	self assert: eventListener action argumentCount equals: 1.
 	self

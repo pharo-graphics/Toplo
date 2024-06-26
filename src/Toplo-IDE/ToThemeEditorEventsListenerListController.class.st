@@ -17,7 +17,7 @@ ToThemeEditorEventsListenerListController >> addEventListener [
 	| newEventListener |
 	self styleRule ifNil: [ ^ self ].
 	newEventListener := self defaultEventListner.
-	self styleRule addLookEventListener: newEventListener.
+	self styleRule addSkinEventListener: newEventListener.
 	self updatePresenterOn: newEventListener
 ]
 
@@ -25,15 +25,15 @@ ToThemeEditorEventsListenerListController >> addEventListener [
 ToThemeEditorEventsListenerListController >> allEventListeners [
 
 	self styleRule ifNil: [ ^ {  } ].
-	^ self styleRule lookEventListeners
+	^ self styleRule skinEventListeners
 ]
 
 { #category : #'as yet unclassified' }
 ToThemeEditorEventsListenerListController >> defaultEventListner [
-	self theme ifNil: [ ^ ToLookEventAction new action: [ :e | ]; yourself ].
+	self theme ifNil: [ ^ ToSkinEventAction new action: [ :e | ]; yourself ].
 	^ ToPropertyWriter new
 		                    value: [ :e |  ];
-		                    eventClass: ToInstallLookEvent;
+		                    eventClass: ToSkinEvent;
 		                    property: self defaultProperty;
 		                    yourself.
 ]
@@ -74,7 +74,7 @@ self styleRule ifNil: [ ^ self ].
 		property: anEventListener property;
 		supplement: anEventListener isSupplement;
 		yourself.
-	self styleRule addLookEventListener: newEventListener.
+	self styleRule addSkinEventListener: newEventListener.
 	self updatePresenterOn: newEventListener
 ]
 
@@ -107,15 +107,15 @@ ToThemeEditorEventsListenerListController >> isTriggerSelectedRuleChanged [
 ToThemeEditorEventsListenerListController >> removeEventListener: anEventListener [
 
 	self styleRule ifNil: [ ^ self ].
-	self styleRule removeLookEventListener: anEventListener.
+	self styleRule removeSkinEventListener: anEventListener.
 	self styleRule: self styleRule
 ]
 
 { #category : #'as yet unclassified' }
 ToThemeEditorEventsListenerListController >> replaceEventListener: anOldEventListener with: aNewEventListener [
 
-	self styleRule removeLookEventListener: anOldEventListener.
-	self styleRule addLookEventListener: aNewEventListener.
+	self styleRule removeSkinEventListener: anOldEventListener.
+	self styleRule addSkinEventListener: aNewEventListener.
 	self updatePresenterOn: aNewEventListener
 ]
 
@@ -164,9 +164,9 @@ ToThemeEditorEventsListenerListController >> theme: anObject [
 ]
 
 { #category : #initialization }
-ToThemeEditorEventsListenerListController >> updatePresenterOn: aToLookEventAction [
+ToThemeEditorEventsListenerListController >> updatePresenterOn: aToSkinEventAction [
 
 	self doNotTriggerSelectedRuleChangedWhile: [
 		self presenter updatePresenter ].
-	self presenter eventListenersList selectItem: aToLookEventAction
+	self presenter eventListenersList selectItem: aToSkinEventAction
 ]

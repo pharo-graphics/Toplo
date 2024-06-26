@@ -10,10 +10,10 @@ ToUninstallStateTest >> testApplyOn [
 	| e stateEvt receivedEvt |
 	e := ToElement new.
 	e addEventHandler: (BlEventHandler
-			 on: ToUninstallLookEvent
+			 on: ToUninstallSkinEvent
 			 do: [ :event | receivedEvt := event ]).
 	(stateEvt := ToUninstallState new) applyOn: e.
-	self assert: (receivedEvt isKindOf: ToUninstallLookEvent)
+	self assert: (receivedEvt isKindOf: ToUninstallSkinEvent)
 ]
 
 { #category : #running }
@@ -32,15 +32,6 @@ ToUninstallStateTest >> testCanBeEnqueuedFromElementInQueue [
 ]
 
 { #category : #running }
-ToUninstallStateTest >> testLookEvent [
-
-	| state  |
-	state := ToUninstallState new.
-	self assert: (state lookEvent isKindOf: ToUninstallLookEvent) 
-	
-]
-
-{ #category : #running }
 ToUninstallStateTest >> testRequestEnqueueFromElementInQueue [
 
 	| e state |
@@ -52,4 +43,13 @@ ToUninstallStateTest >> testRequestEnqueueFromElementInQueue [
 				requestEnqueueFromElement: e
 				inQueue: e skinManager skinStateQueue ]
 		raise: Error
+]
+
+{ #category : #running }
+ToUninstallStateTest >> testSkinEvent [
+
+	| state  |
+	state := ToUninstallState new.
+	self assert: (state skinEvent isKindOf: ToUninstallSkinEvent) 
+	
 ]

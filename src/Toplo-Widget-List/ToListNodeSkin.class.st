@@ -5,9 +5,9 @@ Class {
 }
 
 { #category : #'event handling' }
-ToListNodeSkin >> installLookEvent: anEvent [
+ToListNodeSkin >> installSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e padding: (BlInsets
 				 horizontal: (e valueOfTokenNamed: #'list-node-padding-H')

@@ -330,7 +330,8 @@ ToLabel >> text: aBlTextOrString [
 { #category : #'event handling' }
 ToLabel >> textChanged [
 
-	self innerElement textChanged
+	self innerElement textChanged.
+	self requestNewSkin
 ]
 
 { #category : #accessing }

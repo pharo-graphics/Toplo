@@ -294,7 +294,7 @@ ToListElementStresser >> maxTab: anObject [
 { #category : #accessing }
 ToListElementStresser >> minListSize [
 
-	^ 500
+	^ 50
 
 ]
 
@@ -403,10 +403,13 @@ ToListElementStresser >> nextProcessPriorityForListNumber: aNumber [
 	^ priorities at: aNumber \\ priorities size + 1
 ]
 
-{ #category : #private }
+{ #category : #accessing }
 ToListElementStresser >> nextSizeForListNumber: aNumber [
 
-	^ rand nextIntegerBetween: self minListSize and: self maxListSize
+	^ aNumber even
+		  ifTrue: [ rand nextIntegerBetween: 1 and: self minListSize ]
+		  ifFalse: [
+		  rand nextIntegerBetween: self minListSize and: self maxListSize ]
 ]
 
 { #category : #running }
@@ -415,8 +418,7 @@ ToListElementStresser >> processEndInList: aList number: aNumber [
 	| tab |
 	tab := self tabsPanel tabs at: aNumber.
 	self tabsPanel enqueueTask: (BlTaskAction new action: [
-			 tab firstChild text foreground: Color green muchDarker.
-			 tab firstChild textChanged ])
+			 tab firstChild text foreground: Color green muchDarker ])
 ]
 
 { #category : #running }
@@ -428,8 +430,7 @@ ToListElementStresser >> processingRound: aRound inList: aList number: aNumber [
 	     , ('/' , self maxRound asString , ']') asRopedText.
 
 	self tabsPanel enqueueTask: (BlTaskAction new action: [
-			 (tab childAt: 2) text: s.
-			 (tab childAt: 2) textChanged ]).
+			 (tab childAt: 2) text: s ]).
 
 	self tabsPanel enqueueTask: (BlTaskAction new action: [
 			 self selectActionsToRun shuffled do: [ :act |

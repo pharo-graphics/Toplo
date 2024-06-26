@@ -182,7 +182,7 @@ ToStyleSheetTheme >> skinEventListenerHolder [
 	^ self styleSheet script
 ]
 
-{ #category : #accessing }
+{ #category : #styling }
 ToStyleSheetTheme >> styleSheet [
 
 	^ styleSheet

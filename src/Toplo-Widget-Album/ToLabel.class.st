@@ -34,6 +34,7 @@ ToLabel >> addEditorEvent: anEvent [
 { #category : #'text decoration applying' }
 ToLabel >> applyAttributesBuilder [
 
+	self text ifNil: [ ^ self ].
 	self attributesBuilder applyOn: self text
 ]
 
@@ -279,9 +280,48 @@ ToLabel >> newRawSkin [
 ]
 
 { #category : #'private-change' }
+ToLabel >> onStringsInserted: aString [
+
+	self textChanged
+]
+
+{ #category : #'private-change' }
+ToLabel >> onTextAttributeAdded: aBlTextAttributeAdded [
+
+	self textChanged
+
+]
+
+{ #category : #'private-change' }
+ToLabel >> onTextAttributesRemoved: aBlTextAttributesRemoved [
+
+	self textChanged
+
+]
+
+{ #category : #'private-change' }
+ToLabel >> onTextsDeleted: aString [
+
+	self textChanged
+]
+
+{ #category : #'private-change' }
 ToLabel >> privateText: aText [
 
-	self innerElement text: aText
+	self innerElement text: aText.
+	self text
+		when: BlTextStringsInserted
+		send: #onStringsInserted:
+		to: self.
+	self text when: BlTextsDeleted send: #onTextsDeleted: to: self.
+	self text
+		when: BlTextAttributeAdded
+		send: #onTextAttributeAdded:
+		to: self.
+	self text
+		when: BlTextAttributesRemoved
+		send: #onTextAttributesRemoved:
+		to: self
 ]
 
 { #category : #'private-editing' }
@@ -322,16 +362,19 @@ ToLabel >> text: aBlTextOrString [
 
 	| newText |
 	self text = aBlTextOrString ifTrue: [ ^ self ].
+	" unsubscribe previous text "
+	self text ifNotNil: [self text unsubscribe: self].
+	" subscribe to internal text state change (insertion/deletion/attribute change) "
 	newText := (aBlTextOrString ifNil: [ self defaultText ]) asRopedText.
 	self privateText: newText.
-	self dispatchEvent: (ToLabelTextReplacedEvent new text: self text)
+	self dispatchEvent: (ToLabelTextReplacedEvent new text: self text).
+	self requestNewSkin
 ]
 
-{ #category : #'event handling' }
+{ #category : #'private-change' }
 ToLabel >> textChanged [
 
-	self innerElement textChanged.
-	self requestNewSkin
+	self innerElement textChanged
 ]
 
 { #category : #accessing }

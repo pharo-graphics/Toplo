@@ -3,7 +3,7 @@ A ToLabelTest is a test class for testing the behavior of ToLabel
 "
 Class {
 	#name : #ToLabelTest,
-	#superclass : #TestCase,
+	#superclass : #ToTestCaseWithSpace,
 	#category : #'Toplo-Widget-Album-Tests-Label'
 }
 
@@ -33,6 +33,68 @@ ToLabelTest >> testBeMultiline [
 	lab beMultiLine.
 	self assert: (lab innerElement isKindOf: ToLabelMultiLineInnerElement).
 
+]
+
+{ #category : #tests }
+ToLabelTest >> testSkinUpdatedAfterTextChanged [
+	" test if changing the text of a ToLabel do rebuild its skin  "
+
+	| label theme hugeFontSize attributes fontSizeAttr prevAttributes attrItor |
+	hugeFontSize := 60.
+
+	" declare a specific style sheet theme with one property to change the defont font size "
+	theme := ToStyleSheetTheme new.
+	theme styleSheet addWritableProperty: (ToPseudoProperty new
+			 name: #'text-attributes-with-builder';
+			 writer: [ :e :v | e text attributes: v attributes ]).
+
+	theme select: #HUGE asStampSelector style: [ :sr |
+		sr
+			write: (theme property: #'text-attributes-with-builder')
+			with: [ :e |
+				e textAttributesBuilder
+					defaultFontSize: hugeFontSize;
+					yourself ] ].
+
+	space toTheme: theme.
+	label := ToLabel text: 'Hello'.
+	space root addChild: label.
+
+	space applyAllSkinPhases.
+	attributes := label text attributesAt: 1.
+
+	" no attribute because there is no rule that can be applied"
+	self assert: attributes isEmpty.
+
+	"adding a stamp should renew the skin (and then take the stamp into account)"
+	label addStamp: #HUGE.
+
+	space applyAllSkinPhases.
+	attrItor := label text iterator.
+	fontSizeAttr := attrItor
+		                detectAttribute: [ :a |
+		                a isKindOf: BlFontSizeDefaultAttribute ]
+		                ifFound: [ :a | a ]
+		                ifNone: [
+		                self fail:
+			                'should have a BlFontSizeDefaultAttribute' ].
+
+	self assert: fontSizeAttr size equals: hugeFontSize.
+	" changing the text should renew the skin (and then take the stamp into account again)"
+	label text: 'Goodbye'.
+	space applyAllSkinPhases.
+	prevAttributes := attributes.
+	attributes := label text attributesAt: 1.
+	self assert: prevAttributes ~~ attributes.
+	attrItor := label text iterator.
+	fontSizeAttr := attrItor
+		                detectAttribute: [ :a |
+		                a isKindOf: BlFontSizeDefaultAttribute ]
+		                ifFound: [ :a | a ]
+		                ifNone: [
+		                self fail:
+			                'should have a BlFontSizeDefaultAttribute' ].
+	self assert: fontSizeAttr size equals: hugeFontSize
 ]
 
 { #category : #tests }

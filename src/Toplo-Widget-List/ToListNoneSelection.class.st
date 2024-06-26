@@ -4,12 +4,14 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
+{ #category : #'nodes collecting' }
+ToListNoneSelection >> currentSelectionGroupsFrom: aListElement [
+
+	^ #(  )
+]
+
 { #category : #testing }
 ToListNoneSelection >> isNone [ 
 
 	^ true
-]
-
-{ #category : #'nodes collecting' }
-ToListNoneSelection >> nextPutSelectionGroupsFrom: aListElement in: aStream [
 ]

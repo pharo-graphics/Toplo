@@ -18,6 +18,5 @@ ToLabelSkin >> installSkinEvent: anEvent [
 		e isDisabled ifTrue: [
 			e textAttributesBuilder foreground: (e valueOfTokenNamed: #'color-text-disabled') ].
 		e hasText ifFalse: [ ^ self ].
-		e applyAttributesBuilder.
-		e textChanged ]
+		e applyAttributesBuilder ]
 ]

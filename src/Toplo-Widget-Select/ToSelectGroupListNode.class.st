@@ -20,6 +20,5 @@ ToSelectGroupListNode >> installRawStyle [
 	label := self firstChild.
 	label text
 		foreground: Color lightGray;
-		light.
-	label textChanged
+		light
 ]

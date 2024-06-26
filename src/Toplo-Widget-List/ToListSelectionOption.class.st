@@ -55,6 +55,18 @@ ToListSelectionOption >> animationDuration: aDuration [
 	animationDuration := aDuration
 ]
 
+{ #category : #'nodes collecting' }
+ToListSelectionOption >> collectSelectionGroupsFrom: aListElement [
+
+	^ self currentSelectionGroupsFrom: aListElement
+]
+
+{ #category : #'nodes collecting' }
+ToListSelectionOption >> currentSelectionGroupsFrom: aListElement [
+
+	self subclassResponsibility 
+]
+
 { #category : #accessing }
 ToListSelectionOption >> elementClass [
 
@@ -79,8 +91,7 @@ ToListSelectionOption >> initialize [
 	super initialize.
 	animationDuration := 0 milliSecond.
 	groupHolder := ToSelectionGroupHolder new.
-	groupHolder option: self.
-
+	groupHolder option: self
 ]
 
 { #category : #testing }
@@ -123,12 +134,6 @@ ToListSelectionOption >> isSeparate [
 ToListSelectionOption >> newSelectionElementFor: aListElement [
 
 	^ self elementClass selectionOption: self focused: aListElement isFocused
-]
-
-{ #category : #'nodes collecting' }
-ToListSelectionOption >> nextPutSelectionGroupsFrom: aListElement in: aStream [
-
-	self subclassResponsibility 
 ]
 
 { #category : #accessing }

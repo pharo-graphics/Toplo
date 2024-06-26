@@ -37,8 +37,7 @@ ToStyleSheet class >> defaultWritablePropertyList [
 			   writer: [ :e :v |
 				   e label ifNotNil: [
 						   e label text attributes:
-								   { (BlTextForegroundAttribute paint: v) }.
-						   e label textChanged ] ]).
+								   { (BlTextForegroundAttribute paint: v) } ] ]).
 
 		  "others"
 		  (ToPseudoProperty
@@ -56,21 +55,17 @@ ToStyleSheet class >> defaultWritablePropertyList [
 
 		  (ToPseudoProperty new
 			   name: #'text-attributes-with-builder';
-			   writer: [ :e :v |
-				   e text attributes: v attributes.
-				   e textChanged ]).
+			   writer: [ :e :v | e text attributes: v attributes ]).
 
 		  (ToPseudoProperty new
 			   name: #'label-text-background';
 			   writer: [ :e :v |
-				   e text attributes: { (BlTextBackgroundAttribute paint: v) }.
-				   e textChanged ]).
+				   e text attributes: { (BlTextBackgroundAttribute paint: v) } ]).
 
 		  (ToPseudoProperty new
 			   name: #'label-text-foreground';
 			   writer: [ :e :v |
-				   e text attributes: { (BlTextForegroundAttribute paint: v) }.
-				   e textChanged ]).
+				   e text attributes: { (BlTextForegroundAttribute paint: v) } ]).
 
 		  (ToFeatureProperty new name: #innerImage).
 

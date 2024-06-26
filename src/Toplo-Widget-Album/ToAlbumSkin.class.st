@@ -45,8 +45,7 @@ ToAlbumSkin >> installSkinEvent: anEvent [
 		(e hasStamp: #placeholder) ifTrue: [
 			e text
 				fontSize: 24;
-				foreground: Color gray lighter;
-				textChanged ].
+				foreground: Color gray lighter ].
 		e border: (self blurBorderIn: e).
 		e background: (e valueOfTokenNamed: #'color-bg-container').
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:

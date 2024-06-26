@@ -7,7 +7,7 @@ Class {
 { #category : #'element handlers' }
 ToListSelectionElementEventHandler >> boundsHasChangedDuringScrollingEvent: anEvent [
 
-	self updateSelectionFromEvent: anEvent
+	self refreshSelectionFromEvent: anEvent
 ]
 
 { #category : #'selection managing' }

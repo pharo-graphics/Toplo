@@ -10,12 +10,11 @@ ToToggleButtonSkin >> checkedSkinEvent: anEvent [
 	super checkedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e background: (e valueOfTokenNamed: #'color-primary-checked').
-		e iconDo: [ :ic | ic formColor: (e valueOfTokenNamed: #'text-color-primary-checked') ].
+		e iconDo: [ :ic |
+			ic formColor: (e valueOfTokenNamed: #'text-color-primary-checked') ].
 		e labelDo: [ :lab |
-			lab text attributes:
-				{ (BlTextForegroundAttribute paint:
-					 (e valueOfTokenNamed: #'text-color-primary-checked')) }.
-			lab textChanged ] ]
+			lab text attributes: { (BlTextForegroundAttribute paint:
+					 (e valueOfTokenNamed: #'text-color-primary-checked')) } ] ]
 ]
 
 { #category : #'event handling' }
@@ -30,8 +29,7 @@ ToToggleButtonSkin >> disabledSkinEvent: anEvent [
 		e background: (e valueOfTokenNamed: #'color-bg-container-disabled').
 		e labelDo: [ :lab |
 			lab text attributes: { (BlTextForegroundAttribute paint:
-					 (e valueOfTokenNamed: #'color-text-disabled')) }.
-			lab textChanged ] ]
+					 (e valueOfTokenNamed: #'color-text-disabled')) } ] ]
 ]
 
 { #category : #'event handling' }
@@ -58,12 +56,11 @@ ToToggleButtonSkin >> indeterminateSkinEvent: anEvent [
 	super indeterminateSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e background: (e valueOfTokenNamed: #'color-primary-indeterminate').
-		e iconDo: [ :ic | ic formColor: (e valueOfTokenNamed: #'color-text') ].
+		e iconDo: [ :ic |
+			ic formColor: (e valueOfTokenNamed: #'color-text') ].
 		e labelDo: [ :lab |
-			lab text attributes:
-				{ (BlTextForegroundAttribute paint:
-					 (e valueOfTokenNamed: #'color-text')) }.
-			lab textChanged ] ]
+			lab text attributes: { (BlTextForegroundAttribute paint:
+					 (e valueOfTokenNamed: #'color-text')) } ] ]
 ]
 
 { #category : #'event handling' }
@@ -108,10 +105,9 @@ ToToggleButtonSkin >> uncheckedSkinEvent: anEvent [
 	super uncheckedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e background: (e valueOfTokenNamed: #'color-primary-unchecked').
-		e iconDo: [ :ic | ic formColor: (e valueOfTokenNamed: #'color-text') ].
+		e iconDo: [ :ic |
+			ic formColor: (e valueOfTokenNamed: #'color-text') ].
 		e labelDo: [ :lab |
-			lab text attributes:
-				{ (BlTextForegroundAttribute paint:
-					 (e valueOfTokenNamed: #'color-text')) }.
-			lab textChanged ] ]
+			lab text attributes: { (BlTextForegroundAttribute paint:
+					 (e valueOfTokenNamed: #'color-text')) } ] ]
 ]

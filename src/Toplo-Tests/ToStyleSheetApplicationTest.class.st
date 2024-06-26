@@ -19,9 +19,7 @@ ToStyleSheetApplicationTest >> testButtonLabelSkin0 [
 	prop := ToPseudoProperty new name: #'text-attributes'.
 	prop writer: [ :e :v |
 		e text attributes:
-			(BlTextAttributesBuilder new foreground: v) attributes.
-		e textChanged ].
-
+			(BlTextAttributesBuilder new foreground: v) attributes ].
 
 	styleSheet
 		select: ((ToStampSelector new addStamp: #'button-label')
@@ -130,8 +128,7 @@ ToStyleSheetApplicationTest >> testButtonSkin0 [
 			tp := ToPseudoProperty new name: #'text-attributes'.
 			tp writer: [ :e :v |
 				e text attributes:
-					(BlTextAttributesBuilder new foreground: v) attributes.
-				e textChanged ].
+					(BlTextAttributesBuilder new foreground: v) attributes ].
 
 			sr
 				when: ToDisabledSkinEvent

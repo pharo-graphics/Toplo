@@ -532,7 +532,7 @@ ToSandBox class >> example_CheckboxStartFlexibleWithGroup [
 			       id: idx asString.
 		buttons add: chb ].
 	buttons second checked: true.
-	group addAll: buttons.
+	group registerAll: buttons.
 	group addEventHandler: (BlEventHandler
 			 on: ToCheckableGroupChangedEvent
 			 do: [ :event |
@@ -546,7 +546,7 @@ ToSandBox class >> example_CheckboxStartFlexibleWithGroup [
 	container layout: BlLinearLayout vertical.
 	container layout cellSpacing: 5.
 
-	container addChildren: group buttons.
+	container addChildren: group registeredCheckables.
 	container openInSpace
 ]
 
@@ -660,7 +660,10 @@ ToSandBox class >> example_EditableList2WithAllClassesNames [
 	| l vscrollBar space innerWin |
 	l := ToListElement new.
 	l beVertical.
-	l inspect.
+	l withDisabledSelecter.
+	l withUnselectableSelecter.
+	l withHiddenSelecter.
+
 	l
 		nodeFactory: [ ToListClassNodeExample new ];
 		nodeBuilder: [ :node :holder :dataItem |
@@ -1150,7 +1153,6 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 
 	| l selectionMenu menuFactory phtext |
 	l := ToListElement new.
-	l inspect.
 	l withDisabledSelecter.
 	l withUnselectableSelecter.
 	l withHiddenSelecter.
@@ -1175,7 +1177,6 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 
 	l nodeBuilder: [ :node :holder |
 		| lab t |
-		node ensureCanManageSkin.
 		t := holder dataItem.
 		lab := ToLabel text: t.
 		lab defaultRawSkin: ToLabelInListElementSkin new.
@@ -1203,11 +1204,11 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 		node addChild: (ToLabeledIcon new
 				 label: lab;
 				 hMatchParent) ].
-	l addEventHandler: (BlEventHandler
+	"l addEventHandler: (BlEventHandler
 			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :event |
 				 self class name trace.
-				 ' list selection changed' traceCr ]).
+				 ' list selection changed' traceCr ])."
 	l addEventHandler: (BlEventHandler
 			 on: ToListStrongSelectionEvent
 			 do: [ :event |
@@ -3431,8 +3432,10 @@ ToSandBox class >> example_segmentedWithCheckboxes [
 	| checkableBar dashBoard |
 	checkableBar := ToSegmentedElement new.
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
-		checkableBar checkableElementAccessor add:
-			(ToCheckbox new label: (ToLabel text: l)) ].
+		checkableBar checkableElementAccessor add: (ToCheckbox new
+				 label: (ToLabel text: l);
+				 startFlexible: true;
+				 yourself) ].
 
 	dashBoard := self segmentedDashBoardFor: checkableBar.
 	dashBoard openInSpace
@@ -4761,9 +4764,9 @@ ToSandBox class >> example_withCheckBox [
 		        id: #left.
 	center checked: true.
 
-	grp add: right button.
-	grp add: center button.
-	grp add: left button.
+	grp register: right button.
+	grp register: center button.
+	grp register: left button.
 
 	menu addSeparator.
 	menu addAllItems: {

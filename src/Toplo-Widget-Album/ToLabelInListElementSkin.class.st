@@ -11,8 +11,7 @@ ToLabelInListElementSkin >> deselectedSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e textAttributesBuilder foreground:
 			(e valueOfTokenNamed: #'label-in-list-foreground-deselected').
-		e applyAttributesBuilder.
-		e textChanged ]
+		e applyAttributesBuilder ]
 ]
 
 { #category : #'event handling' }
@@ -26,6 +25,5 @@ ToLabelInListElementSkin >> selectedSkinEvent: anEvent [
 			           ifFalse: [
 			           #'label-in-list-foreground-selected-unfocused' ].
 		e textAttributesBuilder foreground: (e valueOfTokenNamed: tokname).
-		e applyAttributesBuilder.
-		e textChanged ]
+		e applyAttributesBuilder ]
 ]

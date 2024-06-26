@@ -16,6 +16,5 @@ ToLabelInTooltipSkin >> installSkinEvent: anEvent [
 			lineSpacing: (e valueOfTokenNamed: #'line-height');
 			foreground: (e valueOfTokenNamed: #'text-foreground-in-tooltip').
 		e hasText ifFalse: [ ^ self ].
-		e applyAttributesBuilder.
-		e textChanged ]
+		e applyAttributesBuilder ]
 ]

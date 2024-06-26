@@ -5,28 +5,55 @@ Class {
 		'groups',
 		'option',
 		'previousSelectionBounds',
-		'animation'
+		'animation',
+		'selectionElements'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
 { #category : #'private - selection updating' }
-ToSelectionGroupHolder >> addSelectionElement: aSelectionElement in: aListElement [
+ToSelectionGroupHolder >> addSelectionElementsIn: aListElement [
 
-	aSelectionElement computeBoundsIn: aListElement.
-	self isBeneath
-		ifTrue: [
-		aListElement addBeneathSelectionElement: aSelectionElement ]
-		ifFalse: [ aListElement addOverSelectionElement: aSelectionElement ]
+	| first |
+	selectionElements ifEmpty: [ ^ self ].
+
+	(self canAnimateSelectionUpdate and: [
+		 selectionElements size = 1 ]) ifTrue: [
+		| targetBounds startBounds |
+		first := selectionElements first.
+		first position: previousSelectionBounds origin.
+		first size: previousSelectionBounds extent.
+		startBounds := previousSelectionBounds.
+		targetBounds := first boundsFromNodesIn: aListElement.
+
+		animation := ToBoundsTransition new
+			             from: startBounds;
+			             to: targetBounds;
+			             duration: option animationDuration;
+			             onStepDo: [ :anArray :target |
+				             first position: anArray origin.
+				             first size: anArray extent ];
+			             onFinishedDo: [
+				             first position: targetBounds position.
+				             first size: targetBounds extent ].
+		first addAnimation: animation.
+		" directly add the selection element without computing its bounds "
+		self isBeneath
+			ifTrue: [ aListElement addBeneathSelectionElement: first ]
+			ifFalse: [ aListElement addOverSelectionElement: first ].
+		" add others "
+		self addSelectionElementsIn: aListElement startingAt: 2.
+		^ self ].
+	self addSelectionElementsIn: aListElement startingAt: 1
 ]
 
 { #category : #'private - selection updating' }
-ToSelectionGroupHolder >> addSelectionElements: aSelectionElementArray in: aListElement startingAt: aPosition [
+ToSelectionGroupHolder >> addSelectionElementsIn: aListElement startingAt: aPosition [
 
 	| elements |
-	elements := aSelectionElementArray
+	elements := selectionElements 
 		            copyFrom: aPosition
-		            to: aSelectionElementArray size.
+		            to: selectionElements size.
 
 	elements do: [ :aSelectionElement |
 		aSelectionElement computeBoundsIn: aListElement ].
@@ -45,26 +72,33 @@ ToSelectionGroupHolder >> canAnimateSelectionUpdate [
 ToSelectionGroupHolder >> collectNewSelectionElementsIn: aListElement [
 
 	^ groups collect: [ :grp |
-		  grp createSelectionElementFor: aListElement ]
+		  grp createSelectionElementIn: aListElement ]
 ]
 
 { #category : #'private - selection updating' }
 ToSelectionGroupHolder >> forgetPreviousState [
 
-	previousSelectionBounds := nil
+	previousSelectionBounds := nil.
+	self removeSelectionElements.
+	groups := #(  )
 ]
 
-{ #category : #accessing }
-ToSelectionGroupHolder >> groups [
+{ #category : #'private - selection updating' }
+ToSelectionGroupHolder >> groups: aGroups equals: otherGroup [
 
-	^ groups
+	aGroups == otherGroup ifTrue: [ ^ true ].
+	aGroups size ~= otherGroup size ifTrue: [ ^ false ].
+	aGroups withIndexDo: [ :g :idx |
+		g = (otherGroup at: idx) ifFalse: [ ^ false ] ].
+	^ true
 ]
 
 { #category : #initialization }
-ToSelectionGroupHolder >> initialize [ 
+ToSelectionGroupHolder >> initialize [
 
 	super initialize.
-	groups := #()
+	groups := #(  ).
+	selectionElements := #(  )
 ]
 
 { #category : #testing }
@@ -87,28 +121,19 @@ ToSelectionGroupHolder >> refreshSelectionIn: aListElement [
 ]
 
 { #category : #'private - selection updating' }
-ToSelectionGroupHolder >> rememberStateWith: aCollectionOfSelectionElements in: aListElement [
+ToSelectionGroupHolder >> rememberStateIn: aListElement [
 
-	previousSelectionBounds := (aCollectionOfSelectionElements first
+	previousSelectionBounds := (selectionElements first
 		                            boundsFromNodesIn: aListElement) merge:
-		                           (aCollectionOfSelectionElements last
+		                           (selectionElements last
 			                            boundsFromNodesIn: aListElement)
 ]
 
 { #category : #'private - selection updating' }
 ToSelectionGroupHolder >> removeSelectionElements [
 
-	groups ifNotNil: [ groups do: [ :grp | grp removeSelectionElement ] ].
-	groups := #(  )
-]
+	selectionElements do: [ :s | s removeFromParent ].
 
-{ #category : #'private - selection updating' }
-ToSelectionGroupHolder >> renewSelectionIn: aListElement [
-
-	self removeSelectionElements.
-	groups := Array streamContents: [ :stream |
-		                 option nextPutSelectionGroupsFrom: aListElement in: stream ].
-	aListElement notifyNodesSelection
 ]
 
 { #category : #'private - selection updating' }
@@ -120,52 +145,19 @@ ToSelectionGroupHolder >> updateSelectionIn: aListElement [
 { #category : #'private - selection updating' }
 ToSelectionGroupHolder >> updateSelectionIn: aListElement withAnimation: animationRequested [
 
-	| selElements |
-	self renewSelectionIn: aListElement.
-	selElements := self collectNewSelectionElementsIn: aListElement.
-	self updateSelectionWith: selElements in: aListElement.
-	selElements ifEmpty: [ ^ self ].
-	animationRequested ifTrue: [ self rememberStateWith: selElements in: aListElement]
-]
-
-{ #category : #'private - selection updating' }
-ToSelectionGroupHolder >> updateSelectionWith: aSelectionElementArray in: aListElement [
-
-	| first |
-	aSelectionElementArray ifEmpty: [ ^ self ].
-
-	(self canAnimateSelectionUpdate and: [
-		 aSelectionElementArray size = 1 ]) ifTrue: [
-		| targetBounds startBounds |
-		first := aSelectionElementArray first.
-		first position: previousSelectionBounds origin.
-		first size: previousSelectionBounds extent.
-		startBounds := previousSelectionBounds.
-		targetBounds := first boundsFromNodesIn: aListElement.
-
-		animation := ToBoundsTransition new
-			             from: startBounds;
-			             to: targetBounds;
-			             duration: option animationDuration;
-			             onStepDo: [ :anArray :target |
-				             first position: anArray origin.
-				             first size: anArray extent ];
-			             onFinishedDo: [
-				             first position: targetBounds position.
-				             first size: targetBounds extent ].
-		first addAnimation: animation.
-		" directly add the selection element without computing its bounds "
-		self isBeneath
-			ifTrue: [ aListElement addBeneathSelectionElement: first ]
-			ifFalse: [ aListElement addOverSelectionElement: first ].
-		" add others "
-		self
-			addSelectionElements: aSelectionElementArray
-			in: aListElement
-			startingAt: 2.
-		^ self ].
-	self
-		addSelectionElements: aSelectionElementArray
-		in: aListElement
-		startingAt: 1
+	| prevGroups groupsChanged |
+	
+	prevGroups := groups.
+	groups := option collectSelectionGroupsFrom: aListElement.
+	
+	groupsChanged := (self groups: prevGroups equals: groups) not.
+	groupsChanged ifFalse: [ ^ self ].
+	
+	self removeSelectionElements.
+	option isPrimary ifTrue: [ aListElement notifyNodesSelection ].
+	
+	selectionElements := self collectNewSelectionElementsIn: aListElement.
+	self addSelectionElementsIn: aListElement.
+	selectionElements ifEmpty: [ ^ self ].
+	self rememberStateIn: aListElement
 ]

@@ -10,6 +10,41 @@ Class {
 	#category : #'Toplo-Widget-Album-Label'
 }
 
+{ #category : #'private - text splitting' }
+ToLabelMultiLineInnerElement >> collectNewLines [
+
+	^ Array streamContents: [ :stream |
+		  | itor lineElement |
+		  text
+			  ifEmpty: [
+				  | textElement |
+				  textElement := self newTextElement.
+				  textElement text:
+					  ('' asRopedText attributes: text iterator attributes).
+				  lineElement := self newLineElement
+					                 addChild: textElement;
+					                 yourself.
+				  stream nextPut: lineElement ]
+			  ifNotEmpty: [
+				  itor := text iterator.
+				  [ itor hasNext ] whileTrue: [
+					  itor nextLineIndicesDo: [ :aLineStart :aLineEnd :aLineDelimiterEnd |
+						  | sub cutted |
+						  sub := text from: aLineStart to: aLineEnd.
+						  cutted := ToTextScissor new cut: sub.
+						  cutted ifEmpty: [
+							  cutted := Array with:
+								            (BlText empty attributes: sub iterator attributes) ].
+						  lineElement := self newLineElement
+							                 addChildren: (cutted collect: [ :w |
+										                  | textElement |
+										                  textElement := self newTextElement.
+										                  textElement text: w.
+										                  textElement ]);
+							                 yourself.
+						  stream nextPut: lineElement ] ] ] ]
+]
+
 { #category : #'api - editor' }
 ToLabelMultiLineInnerElement >> editorShortcutsIn: aLabel [
 
@@ -72,36 +107,13 @@ ToLabelMultiLineInnerElement >> newTextElement [
 { #category : #'private - text splitting' }
 ToLabelMultiLineInnerElement >> splitText [
 
-	^ Array streamContents: [ :stream |
-		  | itor lineElement |
-		  text
-			  ifEmpty: [
-				  | textElement |
-				  textElement := self newTextElement.
-				  textElement text:
-					  ('' asRopedText attributes: text iterator attributes).
-				  lineElement := self newLineElement
-					                 addChild: textElement;
-					                 yourself.
-				  stream nextPut: lineElement ]
-			  ifNotEmpty: [
-				  itor := text iterator.
-				  [ itor hasNext ] whileTrue: [
-					  itor nextLineIndicesDo: [ :aLineStart :aLineEnd :aLineDelimiterEnd |
-						  | sub cutted |
-						  sub := text from: aLineStart to: aLineEnd.
-						  cutted := ToTextScissor new cut: sub.
-						  cutted ifEmpty: [
-							  cutted := Array with:
-								            (BlText empty attributes: sub iterator attributes) ].
-						  lineElement := self newLineElement
-							                 addChildren: (cutted collect: [ :w |
-										                  | textElement |
-										                  textElement := self newTextElement.
-										                  textElement text: w.
-										                  textElement ]);
-							                 yourself.
-						  stream nextPut: lineElement ] ] ] ]
+	lines ifNotEmpty: [
+		self removeChildren: lines.
+		lines := #(  ) ].
+	text ifNil: [ ^ self ].
+	text isNotEmpty ifFalse: [ ^ self ].
+	lines := self collectNewLines.
+	self addChildren: lines
 ]
 
 { #category : #accessing }
@@ -115,17 +127,11 @@ ToLabelMultiLineInnerElement >> text: aBlText [
 
 	text = aBlText ifTrue: [ ^ self ].
 	text := aBlText.
-	self textChanged
+	self splitText
 ]
 
 { #category : #'event handling' }
 ToLabelMultiLineInnerElement >> textChanged [
 
-	lines ifNotEmpty: [
-		self removeChildren: lines.
-		lines := #(  ) ].
-	text isNotEmpty ifTrue: [
-		lines := self splitText.
-		self addChildren: lines ].
 	lines do: [ :l | l childrenDo: [ :child | child textChanged ] ]
 ]

@@ -317,9 +317,7 @@ ToThemeExamples class >> example_WithLateBoundPropertyWriter [
 		              yourself.
 	styleSheet addWritableProperty: (ToPseudoProperty new
 			 name: #textBuilder;
-			 writer: [ :e :v |
-				 e text attributes: v attributes.
-				 e textChanged ]).
+			 writer: [ :e :v | e text attributes: v attributes ]).
 	styleSheet select: ToLabel asTypeSelector style: [ :sr |
 		sr
 			when: ToInstallSkinEvent
@@ -332,11 +330,9 @@ ToThemeExamples class >> example_WithLateBoundPropertyWriter [
 	lab := ToLabel new.
 	lab text: 'Hello My World'.
 	parent := ToElement new matchParent.
-	parent
-		addEventHandlerOn: ToThemePreInstallEvent 
-		do: [ :event |
-			event currentTarget lookupTheme addTokenProperty:
-				(ToTokenProperty name: #'my-red-color' value: Color red) ].
+	parent addEventHandlerOn: ToThemePreInstallEvent do: [ :event |
+		event currentTarget lookupTheme addTokenProperty:
+			(ToTokenProperty name: #'my-red-color' value: Color red) ].
 	parent localTheme: ToBeeTheme new.
 	lab styleSheet: styleSheet.
 

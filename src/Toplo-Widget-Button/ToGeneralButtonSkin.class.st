@@ -70,9 +70,9 @@ ToGeneralButtonSkin >> leavedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToGeneralButtonSkin >> pressedLookEvent: anEvent [
+ToGeneralButtonSkin >> pressedSkinEvent: anEvent [
 
-	super pressedLookEvent: anEvent.
+	super pressedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: (BlBorder
 				 paint: (e valueOfTokenNamed: #'color-primary-pressed')

@@ -84,9 +84,9 @@ ToCheckMenuItemSkin >> leavedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToCheckMenuItemSkin >> pressedLookEvent: anEvent [
+ToCheckMenuItemSkin >> pressedSkinEvent: anEvent [
 
-	super pressedLookEvent: anEvent.
+	super pressedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: BlBorder empty ]
 ]

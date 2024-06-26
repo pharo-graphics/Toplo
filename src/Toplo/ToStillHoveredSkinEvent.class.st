@@ -7,5 +7,5 @@ Class {
 { #category : #sending }
 ToStillHoveredSkinEvent >> sendTo: anObject [
 
-	anObject stillHoveredLookEvent: self
+	anObject stillHoveredSkinEvent: self
 ]

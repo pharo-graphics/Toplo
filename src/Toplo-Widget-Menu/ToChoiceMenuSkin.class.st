@@ -57,9 +57,9 @@ ToChoiceMenuSkin >> leavedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToChoiceMenuSkin >> pressedLookEvent: anEvent [
+ToChoiceMenuSkin >> pressedSkinEvent: anEvent [
 
-	super pressedLookEvent: anEvent.
+	super pressedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: (BlBorder
 				 paint: (e valueOfTokenNamed: #'color-primary-pressed')

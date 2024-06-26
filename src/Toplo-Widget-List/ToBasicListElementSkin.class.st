@@ -5,14 +5,6 @@ Class {
 }
 
 { #category : #'event handling' }
-ToBasicListElementSkin >> focusedLookEvent: anEvent [
-
-	super focusedLookEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e border: (e valueOfTokenNamed: #'color-primary') ]
-]
-
-{ #category : #'event handling' }
 ToBasicListElementSkin >> focusedSkinEvent: anEvent [
 
 	super focusedSkinEvent: anEvent.

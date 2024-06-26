@@ -5,14 +5,6 @@ Class {
 }
 
 { #category : #'event handling' }
-ToMultiSelectBarElementSkin >> focusedLookEvent: anEvent [
-
-	super focusedLookEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e border: BlBorder empty ]
-]
-
-{ #category : #'event handling' }
 ToMultiSelectBarElementSkin >> focusedSkinEvent: anEvent [
 
 	super focusedSkinEvent: anEvent.

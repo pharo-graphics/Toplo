@@ -59,9 +59,9 @@ ToGeneralButtonMenuItemSkin >> leavedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToGeneralButtonMenuItemSkin >> pressedLookEvent: anEvent [
+ToGeneralButtonMenuItemSkin >> pressedSkinEvent: anEvent [
 
-	super pressedLookEvent: anEvent.
+	super pressedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: (BlBorder paint: (e valueOfTokenNamed: #'color-primary-pressed') width: (e valueOfTokenNamed: #'line-width')) ]
 ]

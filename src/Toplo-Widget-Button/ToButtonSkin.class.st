@@ -83,9 +83,9 @@ ToButtonSkin >> leavedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToButtonSkin >> pressedLookEvent: anEvent [
+ToButtonSkin >> pressedSkinEvent: anEvent [
 
-	super pressedLookEvent: anEvent.
+	super pressedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic |
 			ic formColor: (e valueOfTokenNamed: #'color-primary-pressed') ].

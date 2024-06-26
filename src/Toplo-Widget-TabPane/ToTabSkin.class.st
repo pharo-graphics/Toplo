@@ -51,10 +51,10 @@ ToTabSkin >> leavedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToTabSkin >> pressedLookEvent: anEvent [
+ToTabSkin >> pressedSkinEvent: anEvent [
 
 	anEvent elementDo: [ :e | e isChecked ifTrue: [ ^ self ] ].
-	super pressedLookEvent: anEvent
+	super pressedSkinEvent: anEvent
 ]
 
 { #category : #'event handling' }

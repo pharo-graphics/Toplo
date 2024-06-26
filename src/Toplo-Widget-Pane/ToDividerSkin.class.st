@@ -51,9 +51,9 @@ ToDividerSkin >> leavedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToDividerSkin >> pressedLookEvent: anEvent [
+ToDividerSkin >> pressedSkinEvent: anEvent [
 
-	super pressedLookEvent: anEvent.
+	super pressedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: e resizerCursor.
 		e border: e pressedBorder.
@@ -61,9 +61,9 @@ ToDividerSkin >> pressedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToDividerSkin >> releasedLookEvent: anEvent [
+ToDividerSkin >> releasedSkinEvent: anEvent [
 
-	super releasedLookEvent: anEvent.
+	super releasedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor normal.
 		e border: e defaultBorder.

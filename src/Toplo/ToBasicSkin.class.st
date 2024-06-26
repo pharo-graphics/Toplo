@@ -231,18 +231,49 @@ ToBasicSkin >> leavedSkinEvent: anEvent [
 { #category : #'event handling' }
 ToBasicSkin >> openedLookEvent: anEvent [
 
+	self
+		deprecated: 'use openedSkinEvent: instead'
+		transformWith:
+		'`@rcv openedLookEvent: `@arg' -> '`@rcv openedSkinEvent: `@arg'.
+
+	self openedSkinEvent: anEvent
+
+]
+
+{ #category : #'event handling' }
+ToBasicSkin >> openedSkinEvent: anEvent [
 
 ]
 
 { #category : #'event handling' }
 ToBasicSkin >> pressedLookEvent: anEvent [
 
+	self
+		deprecated: 'use pressedSkinEvent: instead'
+		transformWith:
+		'`@rcv pressedLookEvent: `@arg' -> '`@rcv pressedSkinEvent: `@arg'.
+
+	self pressedSkinEvent: anEvent
+]
+
+{ #category : #'event handling' }
+ToBasicSkin >> pressedSkinEvent: anEvent [
 
 ]
 
 { #category : #'event handling' }
 ToBasicSkin >> releasedLookEvent: anEvent [
 
+	self
+		deprecated: 'use releasedSkinEvent: instead'
+		transformWith:
+		'`@rcv releasedLookEvent: `@arg' -> '`@rcv releasedSkinEvent: `@arg'.
+
+	self releasedSkinEvent: anEvent
+]
+
+{ #category : #'event handling' }
+ToBasicSkin >> releasedSkinEvent: anEvent [
 
 ]
 
@@ -265,10 +296,32 @@ ToBasicSkin >> selectedSkinEvent: anEvent [
 { #category : #'event handling' }
 ToBasicSkin >> stillHoveredLookEvent: anEvent [
 
+	self
+		deprecated: 'use stillHoveredSkinEvent: instead'
+		transformWith:
+		'`@rcv stillHoveredLookEvent: `@arg' -> '`@rcv stillHoveredSkinEvent: `@arg'.
+
+	self stillHoveredSkinEvent: anEvent
+]
+
+{ #category : #'event handling' }
+ToBasicSkin >> stillHoveredSkinEvent: anEvent [
+
 ]
 
 { #category : #'event handling' }
 ToBasicSkin >> stillPressedLookEvent: anEvent [
+
+	self
+		deprecated: 'use stillPressedSkinEvent: instead'
+		transformWith:
+		'`@rcv stillPressedLookEvent: `@arg' -> '`@rcv stillPressedSkinEvent: `@arg'.
+
+	self stillPressedSkinEvent: anEvent
+]
+
+{ #category : #'event handling' }
+ToBasicSkin >> stillPressedSkinEvent: anEvent [
 
 ]
 

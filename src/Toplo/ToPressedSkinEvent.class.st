@@ -7,5 +7,5 @@ Class {
 { #category : #sending }
 ToPressedSkinEvent >> sendTo: anObject [
 
-	anObject pressedLookEvent: self
+	anObject pressedSkinEvent: self
 ]

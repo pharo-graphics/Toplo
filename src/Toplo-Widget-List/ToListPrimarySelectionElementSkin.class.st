@@ -5,20 +5,6 @@ Class {
 }
 
 { #category : #'event handling' }
-ToListPrimarySelectionElementSkin >> focusedLookEvent: anEvent [
-
-	super focusedLookEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e isBeneath
-			ifTrue: [
-				e background:
-					(e valueOfTokenNamed: #'color-primary-selection-focused') ]
-			ifFalse: [
-				e background:
-					(e valueOfTokenNamed: #'color-primary-selection-over-focused') ] ]
-]
-
-{ #category : #'event handling' }
 ToListPrimarySelectionElementSkin >> focusedSkinEvent: anEvent [
 
 	super focusedSkinEvent: anEvent.

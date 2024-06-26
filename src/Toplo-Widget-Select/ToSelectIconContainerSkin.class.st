@@ -46,9 +46,9 @@ ToSelectIconContainerSkin >> leavedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToSelectIconContainerSkin >> openedLookEvent: anEvent [
+ToSelectIconContainerSkin >> openedSkinEvent: anEvent [
 
-	super openedLookEvent: anEvent.
+	super openedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e icon: (e isSelectFiltrable
 			 ifTrue: [ self searchIcon ]

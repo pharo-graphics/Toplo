@@ -84,14 +84,6 @@ ToRawSkinForTest >> enabledSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToRawSkinForTest >> focusedLookEvent: anEvent [
-
-	super focusedLookEvent: anEvent.
-	self addReceivedEvent: anEvent
-
-]
-
-{ #category : #'event handling' }
 ToRawSkinForTest >> focusedSkinEvent: anEvent [
 
 	super focusedSkinEvent: anEvent.
@@ -139,17 +131,17 @@ ToRawSkinForTest >> leavedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToRawSkinForTest >> openedLookEvent: anEvent [
+ToRawSkinForTest >> openedSkinEvent: anEvent [
 
-	super openedLookEvent: anEvent.
+	super openedSkinEvent: anEvent.
 	self addReceivedEvent: anEvent
 
 ]
 
 { #category : #'event handling' }
-ToRawSkinForTest >> pressedLookEvent: anEvent [
+ToRawSkinForTest >> pressedSkinEvent: anEvent [
 
-	super pressedLookEvent: anEvent.
+	super pressedSkinEvent: anEvent.
 	self addReceivedEvent: anEvent
 
 ]
@@ -170,9 +162,9 @@ ToRawSkinForTest >> receivedEvents [
 ]
 
 { #category : #'event handling' }
-ToRawSkinForTest >> releasedLookEvent: anEvent [
+ToRawSkinForTest >> releasedSkinEvent: anEvent [
 
-	super releasedLookEvent: anEvent.
+	super releasedSkinEvent: anEvent.
 	self addReceivedEvent: anEvent
 
 ]
@@ -185,16 +177,16 @@ ToRawSkinForTest >> selectedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToRawSkinForTest >> stillHoveredLookEvent: anEvent [
+ToRawSkinForTest >> stillHoveredSkinEvent: anEvent [
 
-	super stillHoveredLookEvent: anEvent.
+	super stillHoveredSkinEvent: anEvent.
 	self addReceivedEvent: anEvent
 ]
 
 { #category : #'event handling' }
-ToRawSkinForTest >> stillPressedLookEvent: anEvent [
+ToRawSkinForTest >> stillPressedSkinEvent: anEvent [
 
-	super stillPressedLookEvent: anEvent.
+	super stillPressedSkinEvent: anEvent.
 	self addReceivedEvent: anEvent
 ]
 

@@ -56,8 +56,8 @@ ToSwitchButtonSkin >> leavedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToSwitchButtonSkin >> pressedLookEvent: anEvent [
+ToSwitchButtonSkin >> pressedSkinEvent: anEvent [
 
-	super pressedLookEvent: anEvent.
+	super pressedSkinEvent: anEvent.
 	anEvent elementDo: [ :e | ]
 ]

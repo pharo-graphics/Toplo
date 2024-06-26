@@ -23,7 +23,7 @@ ToSkinEvent >> fromState: aState [
 { #category : #sending }
 ToSkinEvent >> sendTo: anObject [
 
-	anObject skinEvent: self
+	
 ]
 
 { #category : #sending }

@@ -21,13 +21,6 @@ ToAlbumSkin >> focusBorderIn: anAlbum [
 ]
 
 { #category : #'event handling' }
-ToAlbumSkin >> focusedLookEvent: anEvent [
-
-	super focusedLookEvent: anEvent.
-	anEvent elementDo: [ :e | e border: (self focusBorderIn: e) ]
-]
-
-{ #category : #'event handling' }
 ToAlbumSkin >> focusedSkinEvent: anEvent [
 
 	super focusedSkinEvent: anEvent.

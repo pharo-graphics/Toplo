@@ -5,14 +5,6 @@ Class {
 }
 
 { #category : #'event handling' }
-ToBarElementSkin >> focusedLookEvent: anEvent [
-
-	super focusedLookEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e border: BlBorder empty ]
-]
-
-{ #category : #'event handling' }
 ToBarElementSkin >> focusedSkinEvent: anEvent [
 
 	super focusedSkinEvent: anEvent.

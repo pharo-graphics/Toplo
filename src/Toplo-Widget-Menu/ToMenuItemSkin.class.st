@@ -68,9 +68,9 @@ ToMenuItemSkin >> leavedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToMenuItemSkin >> pressedLookEvent: anEvent [
+ToMenuItemSkin >> pressedSkinEvent: anEvent [
 
-	super pressedLookEvent: anEvent.
+	super pressedSkinEvent: anEvent.
 	anEvent elementDo: [ :e | 	
 		e iconDo: [ :ic | ic formColor: (e valueOfTokenNamed: #'color-primary-pressed') ].
 		e labelDo: [ :lab |

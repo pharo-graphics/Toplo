@@ -6,7 +6,7 @@ Class {
 	#category : #'Toplo-Examples'
 }
 
-{ #category : #'api - editor' }
+{ #category : #'t - label inner element' }
 ToLabelInnerElementExample >> editorShortcutsIn: aLabel [
 
 	^ { (BlShortcutWithAction new
@@ -23,19 +23,19 @@ ToLabelInnerElementExample >> editorShortcutsIn: aLabel [
 			 yourself) }
 ]
 
-{ #category : #'api - editor' }
+{ #category : #'t - label inner element' }
 ToLabelInnerElementExample >> newEditorIn: aLabel [
 
 	^ BlElement new background: Color yellow; yourself 
 ]
 
-{ #category : #'api - text accessing' }
+{ #category : #'t - label inner element' }
 ToLabelInnerElementExample >> text [
 
 	^ 'My text'
 ]
 
-{ #category : #'api - text accessing' }
+{ #category : #'t - label inner element' }
 ToLabelInnerElementExample >> text: aText [
 
 	

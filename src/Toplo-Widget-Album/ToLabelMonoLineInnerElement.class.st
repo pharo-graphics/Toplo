@@ -1,12 +1,12 @@
 Class {
 	#name : #ToLabelMonoLineInnerElement,
 	#superclass : #BlTextElement,
-	#traits : 'TToLabelInnerElement + TBlLayoutResizable',
-	#classTraits : 'TToLabelInnerElement classTrait + TBlLayoutResizable classTrait',
+	#traits : 'TToLabelInnerElement',
+	#classTraits : 'TToLabelInnerElement classTrait',
 	#category : #'Toplo-Widget-Album-Label'
 }
 
-{ #category : #'api - editor' }
+{ #category : #'t - label inner element' }
 ToLabelMonoLineInnerElement >> editorShortcutsIn: aLabel [
 
 	^ { (BlShortcutWithAction new
@@ -33,7 +33,7 @@ ToLabelMonoLineInnerElement >> initialize [
 	self preventMouseEvents
 ]
 
-{ #category : #'api - editor' }
+{ #category : #'t - label inner element' }
 ToLabelMonoLineInnerElement >> newEditorIn: aLabel [
 
 	| ed |
@@ -42,15 +42,14 @@ ToLabelMonoLineInnerElement >> newEditorIn: aLabel [
 	^ ed
 ]
 
-{ #category : #'api - text accessing' }
+{ #category : #'t - label inner element' }
 ToLabelMonoLineInnerElement >> text [
 
 	^ super text
 ]
 
-{ #category : #'api - text accessing' }
+{ #category : #'t - label inner element' }
 ToLabelMonoLineInnerElement >> text: aText [
 
-	super text: aText.
-	self forceLocalLayout 
+	super text: aText
 ]

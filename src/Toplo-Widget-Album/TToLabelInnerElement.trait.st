@@ -3,25 +3,25 @@ Trait {
 	#category : #'Toplo-Widget-Album-Label'
 }
 
-{ #category : #'api - editor' }
+{ #category : #'t - label inner element' }
 TToLabelInnerElement >> editorShortcutsIn: aLabel [
 
 	^ self explicitRequirement 
 ]
 
-{ #category : #'api - editor' }
+{ #category : #'t - label inner element' }
 TToLabelInnerElement >> newEditorIn: aLabel [
 
 	^ self explicitRequirement 
 ]
 
-{ #category : #'api - text accessing' }
+{ #category : #'t - label inner element' }
 TToLabelInnerElement >> text [
 
 	^ self explicitRequirement 
 ]
 
-{ #category : #'api - text accessing' }
+{ #category : #'t - label inner element' }
 TToLabelInnerElement >> text: aText [
 
 	^ self explicitRequirement 

@@ -44,9 +44,6 @@ ToBeeThemeGenerated class >> defaultTokenProperties [
   (ToTokenProperty name: #'color-text-heading' value: (Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.8784313725490196)) . 
   (ToTokenProperty name: #'color-text-light-solid' value: Color white) . 
   (ToTokenProperty name: #'color-text-secondary' value: (Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.4470588235294118)) . 
-  (ToTokenProperty name: #'label-in-list-foreground-selected-focused' value: Color white) . 
-  (ToTokenProperty name: #'label-in-list-foreground-selected-unfocused' value: (Color r: 0.08602150537634409 g: 0.4662756598240469 b: 1.0 alpha: 1.0)) . 
-  (ToTokenProperty name: #'label-in-list-foreground-deselected' value: Color black) . 
   (ToTokenProperty name: #'text-foreground-in-tooltip' value: (Color r: 0.19257086999022482 g: 0.20039100684261973 b: 0.2238514173998045 alpha: 1.0)) . 
   (ToTokenProperty name: #'dash-array' value: #(3 3)) . 
   (ToTokenProperty name: #'font-family-code' value: 'SFMono-Regular') . 

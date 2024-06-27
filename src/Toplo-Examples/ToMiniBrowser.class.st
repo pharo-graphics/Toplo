@@ -164,7 +164,6 @@ ToMiniBrowser >> newPackagePane [
 		            nodeBuilder: [ :node :holder |
 			            node addChild: (ToLabel new
 						             text: holder dataItem name;
-						             defaultRawSkin: ToLabelInListElementSkin new;
 						             hMatchParent;
 						             yourself) ].
 
@@ -240,7 +239,6 @@ ToMiniBrowser >> newProtocolPane [
 		             nodeBuilder: [ :node :holder |
 			             node addChild: (ToLabel new
 						              text: holder dataItem value name;
-						              defaultRawSkin: ToLabelInListElementSkin new;
 						              hMatchParent) ].
 
 	protocols addEventHandler: (BlEventHandler
@@ -255,10 +253,9 @@ ToMiniBrowser >> newSelectorPane [
 	selectors := ToListElement new
 		             id: #selectors;
 		             nodeBuilder: [ :node :holder |
-			             node addChild: (ToLabel new
-						              text: holder dataItem value asString;
-						              defaultRawSkin: ToLabelInListElementSkin new;
-						              hMatchParent) ].
+			             node addChild:
+					             (ToLabel text: holder dataItem value asString)
+						             hMatchParent ].
 
 	selectors addEventHandler: (BlEventHandler
 			 on: ToListPrimarySelectionChangedEvent

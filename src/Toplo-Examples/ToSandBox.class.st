@@ -1175,11 +1175,9 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 			       yourself.
 		placeholder addChild: lab ].
 
-	l nodeBuilder: [ :node :holder |
-		| lab t |
-		t := holder dataItem.
-		lab := ToLabel text: t.
-		lab defaultRawSkin: ToLabelInListElementSkin new.
+	l nodeBuilder: [ :node :holder :dataItem |
+		| lab |
+		lab := ToLabel text: dataItem.
 		lab beMultiLine.
 		holder isSelectable
 			ifTrue: [
@@ -1204,19 +1202,11 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 		node addChild: (ToLabeledIcon new
 				 label: lab;
 				 hMatchParent) ].
-	"l addEventHandler: (BlEventHandler
-			 on: ToListPrimarySelectionChangedEvent
-			 do: [ :event |
-				 self class name trace.
-				 ' list selection changed' traceCr ])."
 	l addEventHandler: (BlEventHandler
 			 on: ToListStrongSelectionEvent
 			 do: [ :event |
-				 | r |
-				 self class name trace.
-				 ' double click' traceCr.
-				 r := event indexes collect: [ :idx | idx asString , ':XXXXXX' ].
-				 r do: [ :e | l dataAccessor addFirst: e ] ]).
+				 self inform:
+					 'Double click on: ' , (event indexes asString contractTo: 150) ]).
 	menuFactory := [ :menu :request |
 	               | selectedIndexes target |
 	               target := request currentTarget.
@@ -1225,8 +1215,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 			                labelText: 'Add initial Items';
 			                whenClickedDo: [ :event |
 				                target dataAccessor addAll:
-						                ((1 to: 20000) collect: [ :p |
-								                 p asString , ' AAAAAAAAAAA' ]) ]).
+						                (String loremIpsum: 20000) substrings ]).
 	               menu addItem: (ToMenuItem new
 			                labelText: 'Inspect list';
 			                whenClickedDo: [ :event | target inspect ]).
@@ -1316,7 +1305,9 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 					                | idx |
 					                idx := selectedIndexes first.
 					                target dataAccessor
-						                add: idx asString , ':XXXXXX'
+						                add:
+							                String loremIpsum substrings first
+							                , ' (inserted before)'
 						                beforeIndex: idx ];
 				                yourself).
 		               selectionMenu addItem: (ToMenuItem new
@@ -1325,7 +1316,9 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 					                | idx |
 					                idx := selectedIndexes last.
 					                target dataAccessor
-						                add: idx asString , ':XXXXXX'
+						                add:
+							                String loremIpsum substrings first
+							                , ' (inserted after)'
 						                afterIndex: idx ];
 				                yourself).
 		               selectionMenu addSeparator.
@@ -3082,17 +3075,14 @@ ToSandBox class >> example_contactList [
 			        matchParent.
 		line addChild: (ToLabel new
 				 text: holder dataItem name;
-				 defaultRawSkin: ToLabelInListElementSkin new;
 				 width: 100;
 				 margin: (BlInsets right: 10)).
 		line addChild: (ToLabel new
 				 text: holder dataItem phoneNumber;
-				 defaultRawSkin: ToLabelInListElementSkin new;
 				 width: 100;
 				 margin: (BlInsets right: 10)).
 		line addChild: (ToLabel new
 				 text: holder dataItem address;
-				 defaultRawSkin: ToLabelInListElementSkin new;
 				 width: 200;
 				 margin: (BlInsets right: 10)).
 		line addChild: ToElement new matchParent.

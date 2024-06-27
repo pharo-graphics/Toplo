@@ -1,8 +1,6 @@
 Class {
 	#name : #ToListClassNodeExample,
 	#superclass : #ToListNode,
-	#traits : 'TToElement',
-	#classTraits : 'TToElement classTrait',
 	#instVars : [
 		'label'
 	],
@@ -19,8 +17,6 @@ ToListClassNodeExample >> forClassNameAssoc: aClassNameAssoc [
 	icon := Smalltalk ui icons iconNamed: isel.
 
 	label := ToLabel new.
-	label editorBuilder: [ :ed :lab | ed text foreground: Color black  ].
-	label defaultRawSkin: ToLabelInListElementSkin new.
 	label
 		text: aClassNameAssoc value;
 		beEditable.
@@ -40,17 +36,6 @@ ToListClassNodeExample >> forClassNameAssoc: aClassNameAssoc [
 			 iconImage: icon;
 			 startInterspace: 10;
 			 hMatchParent)
-]
-
-{ #category : #initialization }
-ToListClassNodeExample >> initialize [
-
-	super initialize.
-	" to have editable node on mouse still pressed one need toplo state generator "
-	self initializeForToplo.
-	self constraintsDo: [ :c |
-		c horizontal matchParent.
-		c vertical fitContent ]
 ]
 
 { #category : #accessing }

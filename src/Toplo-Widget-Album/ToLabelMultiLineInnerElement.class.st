@@ -45,7 +45,7 @@ ToLabelMultiLineInnerElement >> collectNewLines [
 						  stream nextPut: lineElement ] ] ] ]
 ]
 
-{ #category : #'api - editor' }
+{ #category : #'t - label inner element' }
 ToLabelMultiLineInnerElement >> editorShortcutsIn: aLabel [
 
 	^ { 
@@ -78,7 +78,7 @@ ToLabelMultiLineInnerElement >> initialize [
 	self preventMouseEvents
 ]
 
-{ #category : #'api - editor' }
+{ #category : #'t - label inner element' }
 ToLabelMultiLineInnerElement >> newEditorIn: aLabel [
 
 	| ed |
@@ -110,19 +110,19 @@ ToLabelMultiLineInnerElement >> splitText [
 	lines ifNotEmpty: [
 		self removeChildren: lines.
 		lines := #(  ) ].
-	text ifNil: [ ^ self ].
-	text isNotEmpty ifFalse: [ ^ self ].
+	"text ifNil: [ ^ self ]."
+	text ifEmpty: [ ^ self ].
 	lines := self collectNewLines.
 	self addChildren: lines
 ]
 
-{ #category : #accessing }
+{ #category : #'t - label inner element' }
 ToLabelMultiLineInnerElement >> text [
 
 	^ text 
 ]
 
-{ #category : #accessing }
+{ #category : #'t - label inner element' }
 ToLabelMultiLineInnerElement >> text: aBlText [
 
 	text = aBlText ifTrue: [ ^ self ].

@@ -177,13 +177,13 @@ ToTheme class >> defaultTokenProperties [
 			   name: #'color-text-secondary'
 			   value: (Color black alpha: 0.45)).
 		  (ToTokenProperty
-			   name: #'label-in-list-foreground-selected-focused'
+			   name: #'label-selected-focused'
 			   value: Color white).
 		  (ToTokenProperty
-			   name: #'label-in-list-foreground-selected-unfocused'
+			   name: #'label-selected-unfocused'
 			   value: self defaultColorPrimary).
 		  (ToTokenProperty
-			   name: #'label-in-list-foreground-deselected'
+			   name: #'label-foreground-deselected'
 			   value: Color black).
 		  (ToTokenProperty
 			   name: #'text-foreground-in-tooltip'

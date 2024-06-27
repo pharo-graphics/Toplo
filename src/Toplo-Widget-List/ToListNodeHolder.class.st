@@ -2,7 +2,8 @@ Class {
 	#name : #ToListNodeHolder,
 	#superclass : #BlInfiniteHolder,
 	#instVars : [
-		'dataItem'
+		'dataItem',
+		'wasSelected'
 	],
 	#category : #'Toplo-Widget-List-Node'
 }
@@ -49,6 +50,28 @@ ToListNodeHolder >> dataItem [
 ToListNodeHolder >> dataItem: aData [ 
 
 	dataItem := aData
+]
+
+{ #category : #'selection notification' }
+ToListNodeHolder >> ensureNotifySelected [
+
+	self isSelected ifFalse: [ ^ self ].
+	self node dispatchEvent: (ToListNodeSelectedEvent new
+			 listElement: self listElement;
+			 selected: true)
+]
+
+{ #category : #accessing }
+ToListNodeHolder >> forgetSelection [
+
+	wasSelected := false
+]
+
+{ #category : #initialization }
+ToListNodeHolder >> initialize [ 
+
+	super initialize.
+	wasSelected := false
 ]
 
 { #category : #testing }
@@ -113,12 +136,36 @@ ToListNodeHolder >> nodeManager [
 	^ self listElement nodeManager
 ]
 
+{ #category : #'selection notification' }
+ToListNodeHolder >> notifyDeselected [
+
+	(wasSelected and: [ self isSelected not ]) ifFalse: [ ^ self ].
+	self node dispatchEvent: (ToListNodeSelectedEvent new
+			 listElement: self listElement;
+			 selected: false)
+]
+
+{ #category : #'selection notification' }
+ToListNodeHolder >> notifySelected [
+
+	(wasSelected not and: [ self isSelected ]) ifFalse: [ ^ self ].
+	self node dispatchEvent: (ToListNodeSelectedEvent new
+			 listElement: self listElement;
+			 selected: true)
+]
+
 { #category : #dependencies }
 ToListNodeHolder >> release [
 
 	super release.
 	dataItem := nil
 
+]
+
+{ #category : #accessing }
+ToListNodeHolder >> rememberSelection [
+
+	wasSelected := self isSelected 
 ]
 
 { #category : #accessing }
@@ -143,4 +190,16 @@ ToListNodeHolder >> unbindDataItem [
 	self node release.
 	self release
 
+]
+
+{ #category : #accessing }
+ToListNodeHolder >> wasSelected [
+
+	^ wasSelected
+]
+
+{ #category : #accessing }
+ToListNodeHolder >> wasSelected: aBoolean [
+
+	wasSelected := aBoolean
 ]

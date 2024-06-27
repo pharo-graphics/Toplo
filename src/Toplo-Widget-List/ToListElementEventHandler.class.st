@@ -7,7 +7,7 @@ Class {
 { #category : #'event handling' }
 ToListElementEventHandler >> blurEvent: anEvent [
 
-	anEvent currentTarget notifyNodesSelection
+	self syncNodesSelectionIn: anEvent currentTarget 
 ]
 
 { #category : #'infinite event handling' }
@@ -75,7 +75,7 @@ ToListElementEventHandler >> eventsToHandle [
 { #category : #'event handling' }
 ToListElementEventHandler >> focusEvent: anEvent [
 
-	anEvent currentTarget notifyNodesSelection
+	self syncNodesSelectionIn: anEvent currentTarget 
 ]
 
 { #category : #'infinite event handling' }
@@ -260,4 +260,11 @@ ToListElementEventHandler >> showHidePlaceholderIn: aListElement [
 
 	aListElement dataAccessor ifEmpty: [ ^ aListElement showPlaceholder ].
 	aListElement hidePlaceholder
+]
+
+{ #category : #'list element handling' }
+ToListElementEventHandler >> syncNodesSelectionIn: aListElement [
+
+	aListElement innerContainer nodesDo: [ :node |
+		node holder ensureNotifySelected  ]
 ]

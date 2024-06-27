@@ -408,36 +408,6 @@ ToAbstractListElement >> notifyDataSourceItemsFiltered: aDataSourceEvent [
 ]
 
 { #category : #'event firing' }
-ToAbstractListElement >> notifyNodesDeselected [
-
-	self innerContainer nodesDo: [ :node |
-		(self selectionModel containsIndex: node holder position) ifFalse: [
-			node dispatchEvent: (ToListNodeSelectedEvent new
-					 listElement: self;
-					 selected: false) ] ]
-]
-
-{ #category : #'event firing' }
-ToAbstractListElement >> notifyNodesSelected [
-
-	self innerContainer nodesDo: [ :node |
-		(self selectionModel containsIndex: node holder position) ifTrue: [
-			node dispatchEvent: (ToListNodeSelectedEvent new
-					 listElement: self;
-					 selected: true) ] ]
-]
-
-{ #category : #'event firing' }
-ToAbstractListElement >> notifyNodesSelection [
-
-	self innerContainer nodesDo: [ :node |
-		node dispatchEvent: (ToListNodeSelectedEvent new
-				 listElement: self;
-				 selected:
-					 (self selectionModel containsIndex: node holder position)) ]
-]
-
-{ #category : #'event firing' }
 ToAbstractListElement >> notifyPrimarySelectionDirty [
 
 	self dispatchEvent: ToListPrimarySelectionDirtyEvent new

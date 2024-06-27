@@ -74,6 +74,12 @@ ToListElementSieve >> isInstalled [
 	^ originalData notNil
 ]
 
+{ #category : #'instance creation' }
+ToListElementSieve >> newCommandApplierEventHandler [ 
+
+	^ ToDirectCommandApplierEventHandler new
+]
+
 { #category : #'api - hooks' }
 ToListElementSieve >> onInstalledIn: aListElement [
 	" install the sieve on the listElement "

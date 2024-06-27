@@ -192,14 +192,6 @@ ToListElementSelecter >> multiple: aBoolean [
 	eventTarget dispatchEvent: ToSelecterChangedEvent new
 ]
 
-{ #category : #'api - hooks' }
-ToListElementSelecter >> newCommandApplierEventHandler [ 
-
-	^ ToElementCommandApplierEventHandler new
-			 element: eventTarget;
-			 yourself
-]
-
 { #category : #private }
 ToListElementSelecter >> nextDeselectedIndex [
 
@@ -250,7 +242,7 @@ ToListElementSelecter >> onInstalledIn: anEventTarget [
 	It receives the selection change event after the application of commands "
 
 	eventTarget := anEventTarget.
-	commandApplierEventHandler := self newCommandApplierEventHandler.
+	commandApplierEventHandler := eventTarget newCommandApplierEventHandler.
 	self addEventHandler: commandApplierEventHandler
 ]
 

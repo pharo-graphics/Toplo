@@ -20,9 +20,10 @@ ToElementCommandApplierEventHandler >> element: anElement [
 { #category : #'event handling' }
 ToElementCommandApplierEventHandler >> elementCommandAddedEvent: aCommandAddedEvent [
 
-	"element isAttachedToSceneGraph ifFalse: [
-		aCommandAddedEvent currentTarget dispatchApplicationRequestOfCommand: aCommandAddedEvent command.
-		^ self ]."
+	element isAttachedToSceneGraph ifFalse: [
+		aCommandAddedEvent currentTarget applyCommand:
+			aCommandAddedEvent command.
+		^ self ].
 
 	commandQueue add: aCommandAddedEvent command.
 	aCommandAddedEvent currentTarget dispatchEvent:

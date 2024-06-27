@@ -304,6 +304,14 @@ ToAbstractListElement >> layoutStrategy [
 ]
 
 { #category : #'instance creation' }
+ToAbstractListElement >> newCommandApplierEventHandler [ 
+
+	^ ToElementCommandApplierEventHandler new
+			 element: self;
+			 yourself
+]
+
+{ #category : #'instance creation' }
 ToAbstractListElement >> newContextMenuEventHandler [
 
 	^ ToListElementContextMenuSelectionEventHandler new

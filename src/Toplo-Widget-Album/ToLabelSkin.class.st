@@ -9,9 +9,21 @@ ToLabelSkin >> deselectedSkinEvent: anEvent [
 
 	super deselectedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e textAttributesBuilder foreground:
-			(e valueOfTokenNamed: #'label-foreground-deselected').
-		e applyAttributesBuilder ]
+		| tokname from to transition |
+		"tokname := anEvent focused
+			           ifTrue: [ #'label-selected-focused' ]
+			           ifFalse: [ #'label-selected-unfocused' ]."
+		to := e valueOfTokenNamed: #'label-foreground-deselected'.
+		e text foreground: to.
+		"from := e valueOfTokenNamed: tokname.
+		transition := BlColorTransition new
+			              duration: 100 milliSeconds;
+			              from: from;
+			              to: to;
+			              onStepDo: [ :aColor :anElement |
+				              anElement text foreground: aColor ];
+			              onFinishedDo: [ e text foreground: to ].
+		e addAnimation: transition" ]
 ]
 
 { #category : #'event handling' }
@@ -53,10 +65,19 @@ ToLabelSkin >> selectedSkinEvent: anEvent [
 
 	super selectedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		| tokname |
+		| tokname from to transition |
 		tokname := anEvent focused
 			           ifTrue: [ #'label-selected-focused' ]
 			           ifFalse: [ #'label-selected-unfocused' ].
-		e textAttributesBuilder foreground: (e valueOfTokenNamed: tokname).
-		e applyAttributesBuilder ]
+		"from := e valueOfTokenNamed: #'label-foreground-deselected'.
+		to := e valueOfTokenNamed: tokname.
+		transition := BlColorTransition new
+			              duration: 100 milliSeconds;
+			              from: from;
+			              to: to;
+			              onStepDo: [ :aColor :anElement |
+				              anElement text foreground: aColor ];
+			              onFinishedDo: [ e text foreground: to ].
+		e addAnimation: transition"
+		e text foreground: (e valueOfTokenNamed: tokname) ]
 ]

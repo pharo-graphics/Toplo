@@ -12,42 +12,6 @@ Class {
 }
 
 { #category : #'private - selection updating' }
-ToSelectionGroupHolder >> addSelectionElementsIn: aListElement [
-
-	| first |
-	selectionElements ifEmpty: [ ^ self ].
-
-	(self canAnimateSelectionUpdate and: [
-		 selectionElements size = 1 ]) ifTrue: [
-		| targetBounds startBounds |
-		first := selectionElements first.
-		first position: previousSelectionBounds origin.
-		first size: previousSelectionBounds extent.
-		startBounds := previousSelectionBounds.
-		targetBounds := first boundsFromNodesIn: aListElement.
-
-		animation := ToBoundsTransition new
-			             from: startBounds;
-			             to: targetBounds;
-			             duration: option animationDuration;
-			             onStepDo: [ :anArray :target |
-				             first position: anArray origin.
-				             first size: anArray extent ];
-			             onFinishedDo: [
-				             first position: targetBounds position.
-				             first size: targetBounds extent ].
-		first addAnimation: animation.
-		" directly add the selection element without computing its bounds "
-		self isBeneath
-			ifTrue: [ aListElement addBeneathSelectionElement: first ]
-			ifFalse: [ aListElement addOverSelectionElement: first ].
-		" add others "
-		self addSelectionElementsIn: aListElement startingAt: 2.
-		^ self ].
-	self addSelectionElementsIn: aListElement startingAt: 1
-]
-
-{ #category : #'private - selection updating' }
 ToSelectionGroupHolder >> addSelectionElementsIn: aListElement startingAt: aPosition [
 
 	| elements |
@@ -60,6 +24,47 @@ ToSelectionGroupHolder >> addSelectionElementsIn: aListElement startingAt: aPosi
 	self isBeneath
 		ifTrue: [ aListElement addBeneathSelectionElements: elements ]
 		ifFalse: [ aListElement addOverSelectionElements: elements ]
+]
+
+{ #category : #'private - selection updating' }
+ToSelectionGroupHolder >> addSelectionIn: aListElement [
+
+	| first |
+
+	self notifyNodesDeselectedIn: aListElement.
+	
+	selectionElements ifEmpty: [ ^ self ].
+
+	(self canAnimateSelectionUpdate and: [ selectionElements size = 1 ])
+		ifTrue: [
+			| targetBounds startBounds |
+			first := selectionElements first.
+			first position: previousSelectionBounds origin.
+			first size: previousSelectionBounds extent.
+			startBounds := previousSelectionBounds.
+			targetBounds := first boundsFromNodesIn: aListElement.
+
+			animation := ToBoundsTransition new
+				             from: startBounds;
+				             to: targetBounds;
+				             duration: option animationDuration;
+				             onStepDo: [ :anArray :target |
+					             first position: anArray origin.
+					             first size: anArray extent ];
+				             onFinishedDo: [
+					             first position: targetBounds position.
+					             first size: targetBounds extent.
+					self notifyNodesSelectedIn: aListElement. ].
+			first addAnimation: animation.
+			" directly add the selection element without computing its bounds "
+			self isBeneath
+				ifTrue: [ aListElement addBeneathSelectionElement: first ]
+				ifFalse: [ aListElement addOverSelectionElement: first ].
+			" add others "
+			self addSelectionElementsIn: aListElement startingAt: 2.
+			^ self ].
+	self addSelectionElementsIn: aListElement startingAt: 1.
+	self notifyNodesSelectedIn: aListElement
 ]
 
 { #category : #'private - selection updating' }
@@ -79,7 +84,7 @@ ToSelectionGroupHolder >> collectNewSelectionElementsFrom: aListElement [
 ToSelectionGroupHolder >> forgetPreviousState [
 
 	previousSelectionBounds := nil.
-	self removeSelectionElements.
+	self removeSelection.
 	groups := #(  )
 ]
 
@@ -107,6 +112,24 @@ ToSelectionGroupHolder >> isBeneath [
 	^ option isBeneath 
 ]
 
+{ #category : #'private - selection updating' }
+ToSelectionGroupHolder >> notifyNodesDeselectedIn: aListElement [
+
+	option isPrimary ifTrue: [ aListElement notifyNodesDeselected ]
+]
+
+{ #category : #'private - selection updating' }
+ToSelectionGroupHolder >> notifyNodesSelectedIn: aListElement [
+
+	option isPrimary ifTrue: [ aListElement notifyNodesSelected ]
+]
+
+{ #category : #'private - selection updating' }
+ToSelectionGroupHolder >> notifyNodesSelectionIn: aListElement [
+
+	option isPrimary ifTrue: [ aListElement notifyNodesSelection ]
+]
+
 { #category : #accessing }
 ToSelectionGroupHolder >> option: aSelectionOption [
 
@@ -130,7 +153,7 @@ ToSelectionGroupHolder >> rememberStateIn: aListElement [
 ]
 
 { #category : #'private - selection updating' }
-ToSelectionGroupHolder >> removeSelectionElements [
+ToSelectionGroupHolder >> removeSelection [
 
 	selectionElements do: [ :s | s removeFromParent ].
 
@@ -142,14 +165,11 @@ ToSelectionGroupHolder >> updateSelectionIn: aListElement [
 	| prevGroups |
 	prevGroups := groups.
 	groups := option collectSelectionGroupsFrom: aListElement.
-
 	(self groups: prevGroups equals: groups) ifTrue: [ ^ self ].
-
-	self removeSelectionElements.
-	option isPrimary ifTrue: [ aListElement notifyNodesSelection ].
-
+	self removeSelection.
 	selectionElements := self collectNewSelectionElementsFrom: aListElement.
-	self addSelectionElementsIn: aListElement.
+	self addSelectionIn: aListElement.
+	"self notifyNodesSelectionIn: aListElement."
 	selectionElements ifEmpty: [ ^ self ].
 	self rememberStateIn: aListElement
 ]

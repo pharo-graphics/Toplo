@@ -241,7 +241,7 @@ ToSelectionModel >> selectIndex: anIndex [
 ToSelectionModel >> selectIndex: aFirstIndex to: aSecondIndex [
 
 	| from to |
-	from := aFirstIndex min: aSecondIndex.
+	from := (aFirstIndex min: aSecondIndex) max: 1.
 	to := aFirstIndex max: aSecondIndex.
 	underlyingModel selectIndex: from  to: to
 ]

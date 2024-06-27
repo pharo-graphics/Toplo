@@ -10,6 +10,15 @@ Class {
 }
 
 { #category : #running }
+ToListElementStresserWithAdditionalSelecters class >> run [
+
+	<script>
+
+	self new run
+
+]
+
+{ #category : #running }
 ToListElementStresserWithAdditionalSelecters class >> runInSDL [
 
 	<script>

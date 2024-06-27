@@ -18,6 +18,6 @@ ToTextFieldPlaceholder >> installRawStyle [
 	self flag:
 		'Have to dig why a + 1 is required here to have the placeholder content exactly at the same x-ordinate than the first edited character'.
 	self padding: (BlInsets
-			 horizontal: (self valueOfTokenNamed: #'text-editor-padding-H') + 1
+			 horizontal: (self valueOfTokenNamed: #'padding-XS') + 2
 			 vertical: (self valueOfTokenNamed: #'text-editor-padding-V'))
 ]

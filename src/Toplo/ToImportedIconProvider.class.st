@@ -32,10 +32,6 @@ ToImportedIconProvider class >> listElementWithAllIcons [
 	l := ToListElement new.
 	l vertical: true.
 	l withRowNumbers.
-	l selectionMode noneBeneathSelection.
-	l selectionMode groupedOverSelection.
-	l secondarySelectionMode noneBeneathSelection.
-	l secondarySelectionMode separateOverSelection.
 
 	l addEventHandler: (BlEventHandler
 			 on: ToListStrongSelectionEvent
@@ -45,6 +41,7 @@ ToImportedIconProvider class >> listElementWithAllIcons [
 
 	styles := ToIconStyle allSubclasses asArray sort: [ :a :b |
 		          a name < b name ].
+	
 	assocs := Array streamContents: [ :stream |
 		          styles do: [ :style |
 			          | s |
@@ -62,10 +59,10 @@ ToImportedIconProvider class >> listElementWithAllIcons [
 		iconStyle := holder dataItem value.
 		iconName := holder dataItem key.
 		node layout: BlLinearLayout horizontal.
-		iclabPane := ToPane new layout: BlFrameLayout new.
+		iclabPane := ToElement new layout: BlFrameLayout new.
 		iclabPane vFitContent.
 		iclabPane width: 150.
-		stylePane := ToPane new layout: BlFrameLayout new.
+		stylePane := ToElement new layout: BlFrameLayout new.
 		stylePane vFitContent.
 		stylePane width: 60.
 		iclab := ToLabel text: iconName.
@@ -74,7 +71,7 @@ ToImportedIconProvider class >> listElementWithAllIcons [
 		styleLab := ToLabel text: iconStyle prefix.
 		styleLab constraintsDo: [ :c | c frame vertical alignCenter ].
 		stylePane addChild: styleLab.
-		imPane := ToPane new layout: BlFrameLayout new.
+		imPane := ToElement new layout: BlFrameLayout new.
 		imPane fitContent.
 		imPane withNullSkin.
 		imPane background: (Color veryVeryLightGray).

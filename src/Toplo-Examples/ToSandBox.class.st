@@ -1202,11 +1202,13 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 		node addChild: (ToLabeledIcon new
 				 label: lab;
 				 hMatchParent) ].
+			
 	l addEventHandler: (BlEventHandler
 			 on: ToListStrongSelectionEvent
 			 do: [ :event |
 				 self inform:
 					 'Double click on: ' , (event indexes asString contractTo: 150) ]).
+				
 	menuFactory := [ :menu :request |
 	               | selectedIndexes target |
 	               target := request currentTarget.
@@ -3778,11 +3780,13 @@ ToSandBox class >> example_textFieldWithPlaceholder [
 	t := ToTextField new withSaveCapability.
 	t inspect.
 	text := ''.
-	t placeholderBuilder: [:thePlaceholder :myself | thePlaceholder addChild: (ToAttributedLabel text: (('Enter to accept' asRopedText) foreground: Color lightGray)) ].
+	t placeholderBuilder: [ :thePlaceholder :myself |
+		thePlaceholder addChild: (ToAttributedLabel text:
+				 ('Enter to accept' asRopedText foreground: Color lightGray)) ].
 	t whenSaveRequestedDo: [ :saveRequested |
-		saveRequested client text ifNotEmpty: [ 
-		saveRequested client saveResult: true.
-		text := saveRequested client text copy ]].
+		saveRequested client text ifNotEmpty: [
+			saveRequested client saveResult: true.
+			text := saveRequested client text copy ] ].
 	t whenCancelRequestedDo: [ :cancelRequested |
 		cancelRequested client text: text copy ].
 	t showPlaceholder.

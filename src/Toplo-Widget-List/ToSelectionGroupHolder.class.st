@@ -189,5 +189,5 @@ ToSelectionGroupHolder >> updateSelectionIn: aListElement [
 	selectionElements := self collectNewSelectionElementsFrom:
 		                     aListElement.
 	self addSelectionIn: aListElement.
-	self rememberSelectionBoundsIn: aListElement  
+	self rememberSelectionBoundsIn: aListElement
 ]

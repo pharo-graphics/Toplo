@@ -16,6 +16,12 @@ ToListSelectionElementEventHandler >> differUpdateSelectionFrom: target [
 	self subclassResponsibility 
 ]
 
+{ #category : #'event handling' }
+ToListSelectionElementEventHandler >> elementAddedToSceneGraphEvent: anEvent [
+
+	anEvent target notifyDataSourceChanged 
+]
+
 { #category : #'element handlers' }
 ToListSelectionElementEventHandler >> elementExtentChangedEvent: anEvent [
 
@@ -32,6 +38,7 @@ ToListSelectionElementEventHandler >> elementScrolledEvent: anEvent [
 ToListSelectionElementEventHandler >> eventsToHandle [
 
 	^ {
+		  BlElementAddedToSceneGraphEvent.
 		  BlBoundsHasChangedDuringScrollingEvent.
 		  BlElementExtentChangedEvent.
 		  BlElementScrolledEvent }

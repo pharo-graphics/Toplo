@@ -2,14 +2,21 @@ Class {
 	#name : #ToCommandApplicationTask,
 	#superclass : #BlTask,
 	#instVars : [
+		'applier',
 		'commandQueue',
 		'finishedAction',
 		'element',
 		'operator',
 		'posponedRequestTask'
 	],
-	#category : #'Toplo-Widget-List-Command-Support-not-used'
+	#category : #'Toplo-Widget-List-Command-Support'
 }
+
+{ #category : #accessing }
+ToCommandApplicationTask >> applier: anObject [
+
+	applier := anObject
+]
 
 { #category : #'api - running' }
 ToCommandApplicationTask >> applyAll [
@@ -17,7 +24,7 @@ ToCommandApplicationTask >> applyAll [
 	[ commandQueue isEmpty ] whileFalse: [
 		| nextInQueue |
 		nextInQueue := commandQueue removeFirst.
-		operator dispatchApplicationRequestOfCommand: nextInQueue ]
+		applier applyCommand: nextInQueue ]
 ]
 
 { #category : #'api - running' }
@@ -58,7 +65,7 @@ ToCommandApplicationTask >> run [
 		posponedRequestTask ifNotNil: [ ^ self ].
 		posponedRequestTask := BlTaskAction new.
 		posponedRequestTask action: [
-			operator dispatchEvent:
+			applier dispatchEvent:
 				ToCommandApplicationTaskActivationEvent new ].
 		element enqueueTask: posponedRequestTask.
 		^ self ].

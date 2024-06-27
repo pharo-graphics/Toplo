@@ -58,7 +58,7 @@ ToListNodeHolder >> ensureNotifySelected [
 	self isSelected ifFalse: [ ^ self ].
 	self node dispatchEvent: (ToListNodeSelectedEvent new
 			 listElement: self listElement;
-			 selected: true)
+			 selected: true).
 ]
 
 { #category : #accessing }

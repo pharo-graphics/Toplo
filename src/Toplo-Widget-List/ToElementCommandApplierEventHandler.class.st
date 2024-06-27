@@ -1,6 +1,6 @@
 Class {
-	#name : #ToElementCommandManagerEventHandler,
-	#superclass : #ToCommandManagerEventHandler,
+	#name : #ToElementCommandApplierEventHandler,
+	#superclass : #ToCommandApplierEventHandler,
 	#classTraits : 'TBlEventTarget classTrait',
 	#instVars : [
 		'element',
@@ -8,21 +8,21 @@ Class {
 		'applicationTask',
 		'queued'
 	],
-	#category : #'Toplo-Widget-List-Command-Support-not-used'
+	#category : #'Toplo-Widget-List-Command-Support'
 }
 
 { #category : #accessing }
-ToElementCommandManagerEventHandler >> element: anElement [
+ToElementCommandApplierEventHandler >> element: anElement [
 
 	element := anElement
 ]
 
 { #category : #'event handling' }
-ToElementCommandManagerEventHandler >> elementCommandAddedEvent: aCommandAddedEvent [
+ToElementCommandApplierEventHandler >> elementCommandAddedEvent: aCommandAddedEvent [
 
-	element isAttachedToSceneGraph ifFalse: [
+	"element isAttachedToSceneGraph ifFalse: [
 		aCommandAddedEvent currentTarget dispatchApplicationRequestOfCommand: aCommandAddedEvent command.
-		^ self ].
+		^ self ]."
 
 	commandQueue add: aCommandAddedEvent command.
 	aCommandAddedEvent currentTarget dispatchEvent:
@@ -31,19 +31,19 @@ ToElementCommandManagerEventHandler >> elementCommandAddedEvent: aCommandAddedEv
 ]
 
 { #category : #'event handling' }
-ToElementCommandManagerEventHandler >> elementCommandApplicationRequest: anEvent [
+ToElementCommandApplierEventHandler >> elementCommandApplicationRequest: anEvent [
 
 	anEvent currentTarget applyCommand: anEvent command
 ]
 
 { #category : #'event handling' }
-ToElementCommandManagerEventHandler >> elementCommandApplicationTaskActivationEvent: aCommandsApplicationRequestEvent [
+ToElementCommandApplierEventHandler >> elementCommandApplicationTaskActivationEvent: aCommandsApplicationRequestEvent [
 
 	self postApplicationTask
 ]
 
 { #category : #'api - accessing' }
-ToElementCommandManagerEventHandler >> eventsToHandle [
+ToElementCommandApplierEventHandler >> eventsToHandle [
 
 	^ super eventsToHandle , {
 		  ToElementCommandApplicationRequest.
@@ -51,13 +51,14 @@ ToElementCommandManagerEventHandler >> eventsToHandle [
 ]
 
 { #category : #'api - hooks' }
-ToElementCommandManagerEventHandler >> onInstalledIn: anOperator [
+ToElementCommandApplierEventHandler >> onInstalledIn: aSelecter [
 
-	super onInstalledIn: anOperator.
+	super onInstalledIn: aSelecter.
 
 	commandQueue := OrderedCollection new.
 	applicationTask := ToCommandApplicationTask new
-		                   operator: anOperator;
+		                   operator: aSelecter operator;
+		                   applier: aSelecter;
 		                   commandQueue: commandQueue;
 		                   element: element;
 		                   finishedAction: [ queued := false ];
@@ -66,16 +67,16 @@ ToElementCommandManagerEventHandler >> onInstalledIn: anOperator [
 ]
 
 { #category : #'api - hooks' }
-ToElementCommandManagerEventHandler >> onUninstalledIn: anOperator [
+ToElementCommandApplierEventHandler >> onUninstalledIn: aSelecter [
 
-	super onUninstalledIn: anOperator.
+	super onUninstalledIn: aSelecter.
 
 	commandQueue := nil.
 	applicationTask := nil.
 ]
 
 { #category : #'event handling' }
-ToElementCommandManagerEventHandler >> postApplicationTask [
+ToElementCommandApplierEventHandler >> postApplicationTask [
 	"Post children update runnable to consume update operations"
 	queued ifTrue: [ ^ self ].
 	queued := true.

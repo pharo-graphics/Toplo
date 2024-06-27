@@ -1,7 +1,7 @@
 Class {
 	#name : #ToCommandApplicationTaskActivationEvent,
 	#superclass : #BlEvent,
-	#category : #'Toplo-Widget-List-Command-Support-not-used'
+	#category : #'Toplo-Widget-List-Command-Support'
 }
 
 { #category : #sending }

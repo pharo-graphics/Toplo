@@ -1,12 +1,16 @@
 Class {
 	#name : #ToListElementSelecter,
 	#superclass : #Object,
+	#traits : 'TBlEventTarget',
+	#classTraits : 'TBlEventTarget classTrait',
 	#instVars : [
 		'eventTarget',
 		'enabled',
 		'operator',
 		'selectionModel',
-		'multiple'
+		'multiple',
+		'eventDispatcher',
+		'commandApplierEventHandler'
 	],
 	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
@@ -15,7 +19,9 @@ Class {
 ToListElementSelecter >> addCommand: aCommand [
 
 	enabled ifFalse: [ ^ self ].
-	self applyCommand: aCommand
+	self dispatchEvent: (ToElementCommandAddedEvent new
+			 command: aCommand;
+			 yourself)
 ]
 
 { #category : #'command application' }
@@ -130,6 +136,15 @@ ToListElementSelecter >> enabled: aBoolean [
 
 ]
 
+{ #category : #'event management accessing' }
+ToListElementSelecter >> eventDispatcher [
+	"Return an object responsible for event dispatching"
+
+	<return: #BlDirectEventDispatcher>
+	^ eventDispatcher ifNil: [
+		  eventDispatcher := BlDirectEventDispatcher on: self ]
+]
+
 { #category : #accessing }
 ToListElementSelecter >> eventTarget: anEventTarget [
 
@@ -175,6 +190,14 @@ ToListElementSelecter >> multiple: aBoolean [
 	multiple := aBoolean.
 	eventTarget ifNil: [ ^ self ].
 	eventTarget dispatchEvent: ToSelecterChangedEvent new
+]
+
+{ #category : #'api - hooks' }
+ToListElementSelecter >> newCommandApplierEventHandler [ 
+
+	^ ToElementCommandApplierEventHandler new
+			 element: eventTarget;
+			 yourself
 ]
 
 { #category : #private }
@@ -226,13 +249,17 @@ ToListElementSelecter >> onInstalledIn: anEventTarget [
 	" the argument is passed as the target of commands.
 	It receives the selection change event after the application of commands "
 
-	eventTarget := anEventTarget
+	eventTarget := anEventTarget.
+	commandApplierEventHandler := self newCommandApplierEventHandler.
+	self addEventHandler: commandApplierEventHandler
 ]
 
 { #category : #'api - hooks' }
 ToListElementSelecter >> onUninstalledIn: anEventTarget [
 
-	eventTarget := nil
+	eventTarget := nil.
+	self removeEventHandler: commandApplierEventHandler.
+	commandApplierEventHandler := nil
 ]
 
 { #category : #accessing }

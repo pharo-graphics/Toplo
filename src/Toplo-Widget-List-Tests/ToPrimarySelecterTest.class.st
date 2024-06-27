@@ -13,6 +13,8 @@ ToPrimarySelecterTest >> setUp [
 
 	super setUp.
 	element := ToSelecterEventTargetStub new.
+	space root addChild: element.
+
 	element selectionModel: ToPrimarySelectionModel new.
 	selecter := ToPrimarySelecter
 		            selectionModel: element selectionModel
@@ -32,6 +34,7 @@ ToPrimarySelecterTest >> testAddCommand [
 	selecter addCommand: (cmd := ToWholeSelectionCommand new
 			        operation: ToAddSelectionOperation new;
 			        yourself).
+	self waitTestingSpaces.
 	self assert: element selectionModel isNotEmpty.
 	self assert: selChangedEvent notNil
 ]
@@ -47,6 +50,7 @@ ToPrimarySelecterTest >> testDeselectTo [
 			        to: element itemCount + 1;
 			        operation: ToRemoveSelectionOperation new;
 			        yourself).
+	self waitTestingSpaces.
 	self assert: element selectionModel isEmpty
 ]
 
@@ -65,6 +69,7 @@ ToPrimarySelecterTest >> testDeselectToWithChangedItemCount [
 			        to: to;
 			        operation: ToRemoveSelectionOperation new;
 			        yourself).
+	self waitTestingSpaces.
 	self assert: element selectionModel isEmpty
 ]
 

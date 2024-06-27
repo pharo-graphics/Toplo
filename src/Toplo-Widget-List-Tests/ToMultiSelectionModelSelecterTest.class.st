@@ -15,6 +15,7 @@ ToMultiSelectionModelSelecterTest >> setUp [
 	super setUp.
 	selectionChanged := false.
 	element := ToSelecterEventTargetStub new.
+	space root addChild: element.
 	element selectionModel: ToPrimarySelectionModel new.
 	selecter := ToPrimarySelecter
 		            selectionModel: element selectionModel

@@ -15,6 +15,7 @@ ToSingleSelectionModelSelecterTest >> setUp [
 	super setUp.
 	selectionChanged := false.
 	element := ToSelecterEventTargetStub new.
+	space root addChild: element.
 	element selectionModel: ToPrimarySelectionModel new.
 	selecter := ToPrimarySelecter
 		            selectionModel: element selectionModel
@@ -219,6 +220,7 @@ ToSingleSelectionModelSelecterTest >> testSelectIndexes [
 ToSingleSelectionModelSelecterTest >> testSelectNextOnLastIndex [
 
 	selecter selectIndex: element itemCount.
+	self waitTestingSpaces.
 	self
 		assert: selecter currentIndex
 		equals: element itemCount.
@@ -253,6 +255,7 @@ ToSingleSelectionModelSelecterTest >> testSelectOnlyIndexes [
 ToSingleSelectionModelSelecterTest >> testSelectPreviousOnFirstIndex [
 
 	selecter selectIndex: 1.
+	self waitTestingSpaces.
 	self assert: selecter currentIndex equals: 1.
 	selecter selectIndex: selecter previousSelectableIndex.
 	self waitTestingSpaces.
@@ -293,6 +296,7 @@ ToSingleSelectionModelSelecterTest >> testSelectionChanged [
 	selectionChanged := false.
 	element addEventHandlerOn: ToListPrimarySelectionChangedEvent  do: [ selectionChanged := true ].
 	selecter selectIndex: 2.
+	self waitTestingSpaces.
 	
 	self assert: selectionChanged. 
 

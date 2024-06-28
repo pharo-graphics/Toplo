@@ -146,7 +146,7 @@ ToAlbumAutocompletionEventHandler >> onInstalledIn: anElement [
 		selectors select: [ :m |
 			m beginsWith: thePattern caseSensitive: true ] ].
 
-	windowManager := ToAnchoredWindowManager new.
+	windowManager := ToPopupWindowManager new.
 	windowManager onInstalledIn: anElement.
 	windowManager builder: [ :anchWin :element |
 		anchWin root hMatchParent.

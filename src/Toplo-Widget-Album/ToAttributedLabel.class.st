@@ -10,3 +10,10 @@ ToAttributedLabel >> initialize [
 	super initialize.
 	self withNullSkin
 ]
+
+{ #category : #styling }
+ToAttributedLabel >> styleWith: aBlock [
+
+	aBlock cull: self.
+	self style
+]

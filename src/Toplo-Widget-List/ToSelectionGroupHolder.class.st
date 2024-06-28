@@ -38,7 +38,6 @@ ToSelectionGroupHolder >> addSelectionIn: aListElement [
 		ifFalse: [
 			self addSelectionElementsIn: aListElement startingAt: 1.
 			self notifyNodesSelectedIn: aListElement.
-			self rememberSelectionStateIn: aListElement.
 			^ self ].
 
 	startBounds := previousSelectionBounds.
@@ -77,8 +76,8 @@ ToSelectionGroupHolder >> boundsAnimationFrom: startBounds to: finalBounds onSel
 			  aSelectionElement size: finalBounds extent.
 			  option isPrimary ifTrue: [
 					  aSelectionElement whenLayoutedDoOnce: [
-							  aSelectionElement nodes do: [ :n | n holder notifySelected ].
-							  self rememberSelectionStateIn: aListElement ] ] ]
+							  aSelectionElement nodes do: [ :n |
+									  n holder ensureNotifySelected ] ] ] ]
 ]
 
 { #category : #'private - selection updating' }
@@ -95,11 +94,27 @@ ToSelectionGroupHolder >> collectNewSelectionElementsFrom: aListElement [
 ]
 
 { #category : #'private - selection updating' }
+ToSelectionGroupHolder >> forgetPreviousBoundsIn: aListElement [
+
+	previousSelectionBounds := nil.
+	self removeSelection.
+	groups := #(  )
+]
+
+{ #category : #'private - selection updating' }
 ToSelectionGroupHolder >> forgetPreviousStateIn: aListElement [
 
 	previousSelectionBounds := nil.
 	self removeSelection.
 	groups := #(  )
+]
+
+{ #category : #'private - selection updating' }
+ToSelectionGroupHolder >> forgetSelectionStateIn: aListElement [
+
+	option isPrimary ifTrue: [
+		aListElement innerContainer nodesDo: [ :node |
+			node holder forgetSelection ] ].
 ]
 
 { #category : #'private - selection updating' }
@@ -149,7 +164,8 @@ ToSelectionGroupHolder >> option: aSelectionOption [
 { #category : #'private - selection updating' }
 ToSelectionGroupHolder >> refreshSelectionIn: aListElement [
 
-	self forgetPreviousStateIn: aListElement.
+	self forgetPreviousBoundsIn: aListElement.
+	self forgetSelectionStateIn: aListElement.
 	self updateSelectionIn: aListElement
 ]
 
@@ -179,15 +195,22 @@ ToSelectionGroupHolder >> removeSelection [
 ]
 
 { #category : #'private - selection updating' }
-ToSelectionGroupHolder >> updateSelectionIn: aListElement [
+ToSelectionGroupHolder >> selectionGroupsChangedIn: aListElement [
 
-	| prevGroups |
-	prevGroups := groups.
-	groups := option collectSelectionGroupsFrom: aListElement.
-	(self groups: prevGroups equals: groups) ifTrue: [ ^ self ].
 	self removeSelection.
 	selectionElements := self collectNewSelectionElementsFrom:
 		                     aListElement.
 	self addSelectionIn: aListElement.
 	self rememberSelectionBoundsIn: aListElement
+]
+
+{ #category : #'private - selection updating' }
+ToSelectionGroupHolder >> updateSelectionIn: aListElement [
+
+	| prevGroups |
+	prevGroups := groups.
+	groups := option collectSelectionGroupsFrom: aListElement.
+	(self groups: prevGroups equals: groups) ifFalse: [
+		self selectionGroupsChangedIn: aListElement ].
+	self rememberSelectionStateIn: aListElement
 ]

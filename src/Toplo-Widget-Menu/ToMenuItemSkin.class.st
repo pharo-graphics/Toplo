@@ -36,8 +36,8 @@ ToMenuItemSkin >> hoveredSkinEvent: anEvent [
 		e iconDo: [ :ic |
 			ic formColor: (e valueOfTokenNamed: #'color-primary') ].
 		e labelDo: [ :lab |
-			lab text attributes: { (BlTextForegroundAttribute paint:
-					 (e valueOfTokenNamed: #'color-primary')) } ] ]
+			lab foreground: (e valueOfTokenNamed: #'color-primary').
+			lab applyStyle ] ]
 ]
 
 { #category : #'event handling' }

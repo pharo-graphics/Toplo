@@ -19,7 +19,7 @@ ToListSelectionElementEventHandler >> differUpdateSelectionFrom: target [
 { #category : #'event handling' }
 ToListSelectionElementEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 
-	anEvent target notifyDataSourceChanged 
+	self updateSelectionFromEvent: anEvent 
 ]
 
 { #category : #'element handlers' }

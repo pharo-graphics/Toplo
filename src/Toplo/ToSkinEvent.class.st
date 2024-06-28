@@ -4,12 +4,6 @@ Class {
 	#category : #'Toplo-Core-SkinEvents'
 }
 
-{ #category : #testing }
-ToSkinEvent class >> isAbstract [
-
-	^ self == ToSkinEvent
-]
-
 { #category : #accessing }
 ToSkinEvent >> elementDo: aBlock [
 

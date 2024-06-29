@@ -4,7 +4,6 @@ Class {
 	#instVars : [
 		'borderBuilder',
 		'installedSkin',
-		'textAttributesBuilder',
 		'removeFromSceneGraphHandler'
 	],
 	#category : #'Toplo-Core-Skin'
@@ -45,12 +44,6 @@ ToInstalledSkinContext >> installedSkin [
 ToInstalledSkinContext >> installedSkin: aSkin [
 
 	installedSkin := aSkin
-]
-
-{ #category : #accessing }
-ToInstalledSkinContext >> textAttributesBuilder [
-
-	^ textAttributesBuilder ifNil: [ textAttributesBuilder := BlTextAttributesBuilder new ]
 ]
 
 { #category : #accessing }

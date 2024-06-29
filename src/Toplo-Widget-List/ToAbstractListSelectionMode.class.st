@@ -125,7 +125,7 @@ ToAbstractListSelectionMode >> isEnabled [
 ]
 
 { #category : #testing }
-ToAbstractListSelectionMode >> isPrimarySelectionMode [
+ToAbstractListSelectionMode >> isPrimary [
 
 	^ primary
 ]
@@ -158,16 +158,17 @@ ToAbstractListSelectionMode >> onAddedNode: aNode [
 { #category : #'api - hooks' }
 ToAbstractListSelectionMode >> onInstalledIn: anElement [
 
-	selecter := self isPrimarySelectionMode
+	selecter := self isPrimary
 		            ifTrue: [
-			            ToPrimarySelecter
-				            selectionModel: anElement newPrimarySelectionModel
-				            operator: ToStandardSelectionModelOperator primary ]
+			            ToListSelecter
+				            compositeOnSelectionModel:
+				            anElement newPrimarySelectionModel
+				            withEventClass: ToListPrimarySelectionChangedEvent ]
 		            ifFalse: [
-			            ToSecondarySelecter
-				            selectionModel: anElement newSecondarySelectionModel
-				            operator: ToStandardSelectionModelOperator secondary ].
-
+			            ToListSelecter
+				            basicOnSelectionModel:
+				            anElement newSecondarySelectionModel
+				            withEventClass: ToListSecondarySelectionChangedEvent ].
 	selecter
 		onInstalledIn: anElement;
 		enabled: self enabled

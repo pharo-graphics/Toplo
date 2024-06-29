@@ -108,9 +108,9 @@ ToListElementSieve >> onInstalledIn: aListElement [
 	sieveEventHandler := ToSieveEventHandler new
 		                     listElement: aListElement;
 		                     yourself.
-	selecter := ToPrimarySelecter
-				            selectionModel: self selectionModel
-				            operator: ToStandardSelectionModelOperator new.
+	selecter := ToListSelecter
+		            compositeOnSelectionModel: self selectionModel
+		            withEventClass: ToListPrimarySelectionChangedEvent.
 	selecter
 		enabled: true;
 		multiple: aListElement isMultipleSelection.

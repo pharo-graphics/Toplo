@@ -1,19 +1,25 @@
 Class {
 	#name : #ToSelectionModelOperator,
-	#superclass : #ToListCommandOperator,
-	#category : #'Toplo-Widget-List-Command-Operator'
+	#superclass : #Object,
+	#instVars : [
+		'currentIndex'
+	],
+	#category : #'Toplo-Widget-List-Command'
 }
 
 { #category : #'command operations' }
 ToSelectionModelOperator >> addIndexesSelectionCommand: aCommand [
 
 	| intervals |
-	aCommand indexes ifEmpty: [ ^ self ].
+	aCommand indexes ifEmpty: [
+		self changeCurrentIndexWith: 0.
+		^ self ].
 	aCommand operation deselectAllBefore ifTrue: [
 		aCommand selectionModel deselectAll ].
 	intervals := self intervalsIn: aCommand indexes.
 	intervals do: [ :i |
-		aCommand selectionModel selectIndex: i first to: i last ]
+		aCommand selectionModel selectIndex: i first to: i last ].
+	self changeCurrentIndexWith: aCommand indexes last
 ]
 
 { #category : #'command operations' }
@@ -21,17 +27,40 @@ ToSelectionModelOperator >> addIntervalSelectionCommand: aCommand [
 
 	aCommand operation deselectAllBefore ifTrue: [
 		aCommand selectionModel deselectAll ].
-	aCommand selectionModel selectIndex: aCommand from to: aCommand to
+	aCommand selectionModel selectIndex: aCommand from to: aCommand to.
+	self changeCurrentIndexWith: aCommand to
 ]
 
 { #category : #'command operations' }
 ToSelectionModelOperator >> addWholeSelectionCommand: aCommand [
 
-	aCommand selectionModel selectAll
+	aCommand selectionModel selectAll.
+	self changeCurrentIndexWith: aCommand selectionModel itemCount
+]
+
+{ #category : #accessing }
+ToSelectionModelOperator >> changeCurrentIndexWith: anIndex [
+
+	self currentIndex: anIndex
+]
+
+{ #category : #accessing }
+ToSelectionModelOperator >> currentIndex [
+
+	^ currentIndex
 ]
 
 { #category : #accessing }
 ToSelectionModelOperator >> currentIndex: anIndex [
+
+	currentIndex := anIndex
+]
+
+{ #category : #initialization }
+ToSelectionModelOperator >> initialize [ 
+
+	super initialize.
+	currentIndex := 0
 ]
 
 { #category : #private }
@@ -62,6 +91,7 @@ ToSelectionModelOperator >> intervalsIn: aCollection [
 ToSelectionModelOperator >> removeIndexesSelectionCommand: aCommand [
 
 	| intervals |
+	self changeCurrentIndexWith: 0.
 	aCommand indexes ifEmpty: [ ^ self ].
 	intervals := self intervalsIn: aCommand indexes.
 	intervals do: [ :i | aCommand selectionModel deselectIndex: i first to: i last ]
@@ -70,19 +100,34 @@ ToSelectionModelOperator >> removeIndexesSelectionCommand: aCommand [
 { #category : #'command operations' }
 ToSelectionModelOperator >> removeIntervalSelectionCommand: aCommand [
 
-	aCommand selectionModel deselectIndex: aCommand from to: aCommand to
+	aCommand selectionModel deselectIndex: aCommand from to: aCommand to.
+	self changeCurrentIndexWith: (aCommand from min: aCommand to)
 ]
 
 { #category : #'command operations' }
 ToSelectionModelOperator >> removeWholeSelectionCommand: aCommand [
 
-	aCommand selectionModel deselectAll
+	aCommand selectionModel deselectAll.
+	self changeCurrentIndexWith: 0
+]
+
+{ #category : #'command operations' }
+ToSelectionModelOperator >> scrollCommand: aCommand [
+
+	| target index |
+	target := aCommand target.
+	index := aCommand index.
+
+	aCommand towardEnd
+		ifTrue: [ target scrollTowardEndToDataSourcePosition: index ]
+		ifFalse: [ target scrollTowardStartToDataSourcePosition: index ]
 ]
 
 { #category : #'command operations' }
 ToSelectionModelOperator >> selectionModelCopyFromCommand: aCopyFromCommand [ 
 
-	aCopyFromCommand selectionModel copySelectionFrom:  aCopyFromCommand sourceSelectionModel
+	aCopyFromCommand selectionModel copySelectionFrom:  aCopyFromCommand sourceSelectionModel.
+	self changeCurrentIndexWith: 0
 ]
 
 { #category : #'command operations' }

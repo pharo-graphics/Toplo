@@ -74,10 +74,10 @@ ToSelectionGroupHolder >> boundsAnimationFrom: startBounds to: finalBounds onSel
 		  onFinishedDo: [
 			  aSelectionElement position: finalBounds position.
 			  aSelectionElement size: finalBounds extent.
-			  option isPrimary ifTrue: [
-					  aSelectionElement whenLayoutedDoOnce: [
-							  aSelectionElement nodes do: [ :n |
-									  n holder ensureNotifySelected ] ] ] ]
+
+			  aSelectionElement whenLayoutedDoOnce: [
+					  aSelectionElement nodes do: [ :n |
+							  n holder ensureNotifySelected ] ] ]
 ]
 
 { #category : #'private - selection updating' }
@@ -112,9 +112,8 @@ ToSelectionGroupHolder >> forgetPreviousStateIn: aListElement [
 { #category : #'private - selection updating' }
 ToSelectionGroupHolder >> forgetSelectionStateIn: aListElement [
 
-	option isPrimary ifTrue: [
-		aListElement innerContainer nodesDo: [ :node |
-			node holder forgetSelection ] ].
+	aListElement innerContainer nodesDo: [ :node |
+		node holder forgetSelection ]
 ]
 
 { #category : #'private - selection updating' }
@@ -144,14 +143,12 @@ ToSelectionGroupHolder >> isBeneath [
 { #category : #'private - selection updating' }
 ToSelectionGroupHolder >> notifyNodesDeselectedIn: aListElement [
 
-	option isPrimary ifFalse: [ ^ self ].
 	aListElement innerContainer nodesDo: [ :n | n holder notifyDeselected ]
 ]
 
 { #category : #'private - selection updating' }
 ToSelectionGroupHolder >> notifyNodesSelectedIn: aListElement [
 
-	option isPrimary ifFalse: [ ^ self ].
 	aListElement innerContainer nodesDo: [ :n | n holder notifySelected ]
 ]
 
@@ -182,9 +179,8 @@ ToSelectionGroupHolder >> rememberSelectionBoundsIn: aListElement [
 { #category : #'private - selection updating' }
 ToSelectionGroupHolder >> rememberSelectionStateIn: aListElement [
 
-	option isPrimary ifTrue: [
-		aListElement innerContainer nodesDo: [ :node |
-			node holder rememberSelection ] ].
+	aListElement innerContainer nodesDo: [ :node |
+		node holder rememberSelection ]
 ]
 
 { #category : #'private - selection updating' }

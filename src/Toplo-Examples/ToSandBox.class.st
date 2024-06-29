@@ -1037,7 +1037,7 @@ ToSandBox class >> example_List2WithSelectionHistory [
 		(ToListSelectionHistoryEventHandlerExample new historyList:
 			 historyList).
 	statesList addEventHandler: (BlEventHandler
-			 on: ToPrimarySelectionCommandAppliedEvent
+			 on: ToSelectionCommandAppliedEvent
 			 do: [ :event | event traceCr ]).
 
 	pane
@@ -5248,7 +5248,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 				                whenClickedDo: [ :event |
 					                target hiddenSelecter deselectAll ];
 				                yourself).
-		               target selectionMode beneathOption animate
+		               target selectionMode beneathOption isAnimated
 			               ifTrue: [
 				               menu addItem: (ToMenuItem new
 						                labelText: 'stop selection transition animation';

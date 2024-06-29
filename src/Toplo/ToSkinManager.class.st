@@ -8,7 +8,8 @@ Class {
 		'applySkinInstallerOnFirstRequest',
 		'styleSheet',
 		'registeredThemeClasses',
-		'skinStateQueue'
+		'skinStateQueue',
+		'textAttributesBuilder'
 	],
 	#category : #'Toplo-Core-Skin'
 }
@@ -436,7 +437,7 @@ ToSkinManager >> styleSheet: anObject [
 { #category : #'accessing - builders' }
 ToSkinManager >> textAttributesBuilder [
 
-	^ self skinContext textAttributesBuilder
+	^ textAttributesBuilder ifNil: [ textAttributesBuilder := BlTextAttributesBuilder new ]
 ]
 
 { #category : #'accessing - token property' }

@@ -1,40 +1,17 @@
 Class {
 	#name : #ToAdditionalSelecter,
-	#superclass : #ToListElementSelecter,
+	#superclass : #ToListSelecter,
 	#instVars : [
-		'eventClass',
 		'uniqueId',
 		'parentSelecter'
 	],
 	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
 
-{ #category : #'command application' }
-ToAdditionalSelecter >> commandApplied: aCommand [ 
-
-	eventTarget dispatchEvent: (self eventClass new
-			 selectionModel: aCommand selectionModel;
-			 yourself)
-]
-
-{ #category : #accessing }
-ToAdditionalSelecter >> eventClass [
-
-	^ eventClass
-]
-
-{ #category : #accessing }
-ToAdditionalSelecter >> eventClass: anEventClass [
-
-	eventClass ifNotNil: [ BlImmutableObjectChangeError signal ].
-	eventClass := anEventClass
-]
-
 { #category : #initialization }
 ToAdditionalSelecter >> initialize [
 
 	super initialize.
-	operator := ToSelectionModelOperator new.
 	selectionModel := ToAdditionalSelectionModel new
 ]
 

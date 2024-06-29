@@ -15,5 +15,5 @@ ToAttributedLabel >> initialize [
 ToAttributedLabel >> styleWith: aBlock [
 
 	aBlock cull: self.
-	self style
+	self applyStyle
 ]

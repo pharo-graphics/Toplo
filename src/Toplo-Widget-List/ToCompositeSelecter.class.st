@@ -1,26 +1,49 @@
 Class {
 	#name : #ToCompositeSelecter,
-	#superclass : #ToListElementSelecter,
+	#superclass : #ToListSelecter,
+	#instVars : [
+		'subSelecterIndex'
+	],
 	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
 
-{ #category : #'instance creation' }
-ToCompositeSelecter class >> selectionModel: aSelectionModel operator: anOperator [
+{ #category : #initialization }
+ToCompositeSelecter >> initialize [ 
 
-	^ self new
-		  selectionModel: aSelectionModel;
-		  operator: anOperator;
-		  yourself
+	super initialize.
+	subSelecterIndex := IdentityDictionary new
+]
+
+{ #category : #accessing }
+ToCompositeSelecter >> recordSubSelecter: aSelecter [
+
+	aSelecter ifNil: [ ^ self ].
+	subSelecterIndex 
+		at: aSelecter uniqueId
+		ifPresent: [
+		Error signal: 'A selecter with the same id already exists' ].
+	subSelecterIndex
+		at: aSelecter uniqueId
+		put: aSelecter.
+	self selectionModel recordSubSelectionModel: aSelecter selectionModel
 ]
 
 { #category : #accessing }
 ToCompositeSelecter >> subSelecterIndex [
 
-	^ self subclassResponsibility 
+	^ subSelecterIndex
 ]
 
 { #category : #accessing }
 ToCompositeSelecter >> subSelecterWithId: anUniqueId [
 
-	^ self subSelecterIndex  at: anUniqueId ifAbsent: [  ]
+	^ subSelecterIndex  at: anUniqueId ifAbsent: [  ]
+]
+
+{ #category : #accessing }
+ToCompositeSelecter >> unrecordSubSelecter: aSelecter [
+
+	aSelecter ifNil: [ ^ self ].
+	subSelecterIndex removeKey:	aSelecter uniqueId.
+	self selectionModel unrecordSubSelectionModel: aSelecter selectionModel
 ]

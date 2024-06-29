@@ -80,8 +80,7 @@ ToInstalledSkinContextTest >> testTextAttributesBuilder [
 	|  e  |
 	e := BlElement new.
 	e ensureHaveSkinManager.
-	e skinManager ensureHaveSkinContext.
-	self assert: e skinManager skinContext textAttributesBuilder notNil
+	self assert: e skinManager textAttributesBuilder notNil
 ]
 
 { #category : #tests }

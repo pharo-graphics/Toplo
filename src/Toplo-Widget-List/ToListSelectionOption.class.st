@@ -38,12 +38,6 @@ ToListSelectionOption class >> separateForMode: aSelectionMode [
 ]
 
 { #category : #accessing }
-ToListSelectionOption >> animate [
-
-	^ animationDuration asMilliSeconds > 0
-]
-
-{ #category : #accessing }
 ToListSelectionOption >> animationDuration [
 
 	^ animationDuration
@@ -94,6 +88,12 @@ ToListSelectionOption >> initialize [
 	groupHolder option: self
 ]
 
+{ #category : #accessing }
+ToListSelectionOption >> isAnimated [
+
+	^ animationDuration asMilliSeconds > 0
+]
+
 { #category : #testing }
 ToListSelectionOption >> isBeneath [
 
@@ -116,12 +116,6 @@ ToListSelectionOption >> isNone [
 ToListSelectionOption >> isOver [
 
 	^ self isBeneath not
-]
-
-{ #category : #testing }
-ToListSelectionOption >> isPrimary [
-
-	^ selectionMode isPrimarySelectionMode
 ]
 
 { #category : #testing }

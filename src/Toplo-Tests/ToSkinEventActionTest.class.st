@@ -1,11 +1,11 @@
 Class {
-	#name : #ToLookEventActionTest,
+	#name : #ToSkinEventActionTest,
 	#superclass : #ToTestCaseWithSpace,
 	#category : #'Toplo-Tests-Core-StyleSheet'
 }
 
 { #category : #tests }
-ToLookEventActionTest >> testCanReceiveEvent [
+ToSkinEventActionTest >> testCanReceiveEvent [
 
 	| action |
 	action := ToSkinEventAction new.
@@ -15,7 +15,7 @@ ToLookEventActionTest >> testCanReceiveEvent [
 ]
 
 { #category : #tests }
-ToLookEventActionTest >> testIsSupplement [
+ToSkinEventActionTest >> testIsSupplement [
 
 	| action |
 	action := ToSkinEventAction new.
@@ -23,7 +23,7 @@ ToLookEventActionTest >> testIsSupplement [
 ]
 
 { #category : #tests }
-ToLookEventActionTest >> testProperty [
+ToSkinEventActionTest >> testProperty [
 
 	| action |
 	action := ToSkinEventAction new.
@@ -32,7 +32,7 @@ ToLookEventActionTest >> testProperty [
 ]
 
 { #category : #tests }
-ToLookEventActionTest >> testReceiveEvent [
+ToSkinEventActionTest >> testReceiveEvent [
 
 	| w action evt |
 	w := BlElement new.

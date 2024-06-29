@@ -556,14 +556,12 @@ ToAbstractListElement >> unselectableSelectionModel [
 ToAbstractListElement >> withAdditionalSelecterWithId: aSymbol withEventClass: anEventClass [
 
 	| additional |
-	additional := ToAdditionalSelecter new.
-	additional uniqueId: aSymbol.
-	additional eventClass: anEventClass.
-	additional parentSelecter: self selecter.
+	additional := ToListSelecter
+		              additionalNamed: aSymbol
+		              inParentSelecter: self selecter
+		              withEventClass: anEventClass.
 	additional onInstalledIn: self.
 	^ additional
-	
-
 ]
 
 { #category : #'additional selecters' }

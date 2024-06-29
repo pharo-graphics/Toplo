@@ -28,7 +28,7 @@ ToSievedListElementEventHandler >> eventsToHandle [
 		  BlInfiniteDataSourceItemRangeChanged.
 		  BlInfiniteDataSourceItemRangeInserted.
 		  BlInfiniteDataSourceItemRangeRemoved.
-		  ToListPrimarySelectionChangeRequestEvent }
+		  ToListSelectionChangeRequestEvent }
 ]
 
 { #category : #'data source events handling' }
@@ -59,25 +59,28 @@ ToSievedListElementEventHandler >> infiniteDataSourceItemRangeRemoved: anEvent [
 ]
 
 { #category : #'element handlers' }
-ToSievedListElementEventHandler >> listPrimarySelectionChangeRequestEvent: aPreNotification [
+ToSievedListElementEventHandler >> listSelectionChangeRequestEvent: aPreNotification [
 	" the list selection change event is about to be dispatched.
 	I take care of the sieve internal selectionSet according to the list element selection model"
 
-	|  listElement listSelModel |
+	| listElement listSelModel |
 	listElement := aPreNotification currentTarget.
+	listSelModel := listElement selectionModel.
+	" first check if the request is for the primary selection model "
+	listSelModel = aPreNotification selectionModel ifFalse: [ ^ self ].
 
 	" reset the selection in case of single selection mode "
 	aPreNotification currentTarget isMultipleSelection ifFalse: [
 		sieveSelectionModel deselectAll ].
 
-	listSelModel := listElement selectionModel.
+
 
 	" the selection set is updated according to the pattern:
 	- if empty, the whole selection set is set from the whole list element selection model 
 	- if not empty, the selection set is computed according to the current list node list "
 	sieve pattern
-		ifEmpty: [ sieveSelectionModel copySelectionFrom:  listSelModel ]
-		ifNotEmpty: [ 
+		ifEmpty: [ sieveSelectionModel copySelectionFrom: listSelModel ]
+		ifNotEmpty: [
 			listElement dataAccessor withIndexDo: [ :d :localIndex |
 				| originalIndex |
 				originalIndex := dataPositionIndex at: d.
@@ -92,8 +95,7 @@ ToSievedListElementEventHandler >> listPrimarySelectionChangeRequestEvent: aPreN
 	listElement dispatchEvent: (ToSieveSelectionChangedEvent new
 			 sieve: sieve;
 			 selectionModel: sieveSelectionModel;
-			 yourself).
-
+			 yourself)
 ]
 
 { #category : #'element handlers' }

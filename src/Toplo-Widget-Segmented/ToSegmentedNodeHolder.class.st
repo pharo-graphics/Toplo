@@ -4,12 +4,6 @@ Class {
 	#category : #'Toplo-Widget-Segmented'
 }
 
-{ #category : #accessing }
-ToSegmentedNodeHolder >> checkableBarElement [
-
-	^ self barElement
-]
-
 { #category : #'t - checkable - accessing' }
 ToSegmentedNodeHolder >> checked [
 
@@ -33,6 +27,12 @@ ToSegmentedNodeHolder >> contentElement [
 ToSegmentedNodeHolder >> isChecked [ 
 
 	^ self checked
+]
+
+{ #category : #accessing }
+ToSegmentedNodeHolder >> segmentedBarElement [
+
+	^ self barElement
 ]
 
 { #category : #'t - checkable - accessing' }

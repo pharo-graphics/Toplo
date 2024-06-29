@@ -4,12 +4,6 @@ Trait {
 }
 
 { #category : #'t - segment content element' }
-TToSegmentedNodeContentElement >> checkableBarElement [
-
-	^ self segmentHolder checkableBarElement
-]
-
-{ #category : #'t - segment content element' }
 TToSegmentedNodeContentElement >> positionInSegmentedElement [
 
 	^ self segmentHolder position
@@ -19,4 +13,10 @@ TToSegmentedNodeContentElement >> positionInSegmentedElement [
 TToSegmentedNodeContentElement >> segmentHolder [
 
 	^ self parent holder
+]
+
+{ #category : #'t - segment content element' }
+TToSegmentedNodeContentElement >> segmentedBarElement [
+
+	^ self segmentHolder segmentedBarElement
 ]

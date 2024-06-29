@@ -20,8 +20,9 @@ ToSegmentedNodeManager >> constraintNode: aNode [
 
 	| seg |
 	super constraintNode: aNode.
-	seg := aNode holder checkableBarElement.
+	seg := aNode holder segmentedBarElement.
 	aNode childrenDo: [ :child |
+		child background: BlTransparentBackground uniqueInstance.
 		child constraintsDo: [ :c |
 			c linear vertical alignCenter.
 			c linear horizontal alignCenter.
@@ -36,7 +37,7 @@ ToSegmentedNodeManager >> defaultNodeBuilder [
 
 	^ [ :node :holder :contentElement |
 	  node isFake ifFalse: [
-		  contentElement registerInGroup: holder checkableBarElement group.
+		  contentElement registerInGroup: holder segmentedBarElement group.
 		  contentElement constraints infinite holder: holder ].
 	"contentElement withNullSkin."
 	  node addChild: contentElement ]

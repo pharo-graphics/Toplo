@@ -82,6 +82,10 @@ ToBeeThemeGenerated class >> defaultTokenProperties [
   (ToTokenProperty name: #'list-padding-V' value: 1) . 
   (ToTokenProperty name: #'list-node-padding-H' value: 2) . 
   (ToTokenProperty name: #'list-node-padding-V' value: 1) . 
+  (ToTokenProperty name: #'bar-node-padding-H' value: 3) . 
+  (ToTokenProperty name: #'bar-node-padding-V' value: 2) . 
+  (ToTokenProperty name: #'segmented-node-padding-H' value: 0) . 
+  (ToTokenProperty name: #'segmented-node-padding-V' value: 0) . 
   (ToTokenProperty name: #'text-editor-padding-H' value: 3) . 
   (ToTokenProperty name: #'text-editor-padding-V' value: 2) . 
   (ToTokenProperty name: #'checkbox-image-builder' value: [ self defaultCheckboxBlankImage ]) . 

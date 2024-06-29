@@ -101,7 +101,7 @@ ToTheme class >> defaultTokenProperties [
 			   value: (Color black alpha: 0.2)).
 		  (ToTokenProperty
 			   name: #'color-border-indeterminate'
-			   value: self defaultColorPrimary lighter ).
+			   value: self defaultColorPrimary lighter).
 		  (ToTokenProperty
 			   name: #'color-error-bg'
 			   value: (Color fromHexString: '#fff2f0')).
@@ -235,12 +235,15 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'list-padding-V' value: 6).
 		  (ToTokenProperty name: #'list-node-padding-H' value: 3).
 		  (ToTokenProperty name: #'list-node-padding-V' value: 1).
+		  (ToTokenProperty name: #'bar-node-padding-H' value: 3).
+		  (ToTokenProperty name: #'bar-node-padding-V' value: 2).
+		  (ToTokenProperty name: #'segmented-node-padding-H' value: 0).
+		  (ToTokenProperty name: #'segmented-node-padding-V' value: 0).
+		  (ToTokenProperty name: #'segmented-border-radius' value: 12).
 
 		  (ToTokenProperty name: #'text-editor-padding-H' value: 3).
 		  (ToTokenProperty name: #'text-editor-padding-V' value: 2).
-		  (ToTokenProperty
-			   name: #'menu-item-start-alignment'
-			   value: 25).
+		  (ToTokenProperty name: #'menu-item-start-alignment' value: 25).
 		  (ToTokenProperty
 			   name: #'checkbox-image-builder'
 			   value: [ self defaultCheckboxBlankImage ]).

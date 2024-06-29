@@ -52,6 +52,12 @@ ToListNodeHolder >> dataItem: aData [
 	dataItem := aData
 ]
 
+{ #category : #accessing }
+ToListNodeHolder >> dataSource [
+
+	^ self listElement dataSource
+]
+
 { #category : #'selection notification' }
 ToListNodeHolder >> ensureNotifySelected [
 

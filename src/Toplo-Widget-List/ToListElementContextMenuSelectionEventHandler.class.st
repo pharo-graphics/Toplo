@@ -71,7 +71,7 @@ ToListElementContextMenuSelectionEventHandler >> listElementContextMenuRequest: 
 	nodeContainer := target innerContainer.
 	target disableScrolledEvent.
 	globalPosition := anEvent sourceEvent position.
-	childNode := nodeContainer children
+	childNode := nodeContainer nodes
 		             detect: [ :node |
 			             node holder isSelectable and: [
 				             node containsGlobalPoint: globalPosition ] ]

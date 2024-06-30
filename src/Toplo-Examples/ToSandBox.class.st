@@ -991,7 +991,7 @@ ToSandBox class >> example_List2WithAllClassesMono [
 
 	| l |
 	l := ToListElement new.
-	l selectionMode: ToListSelectionMode primary beSingleSelection.
+	l selectionMode beSingleSelection.
 	l dataAccessor addAll:
 		(Smalltalk globals allClasses collect: [ :cls | cls name ]).
 	l openInSpace
@@ -1014,7 +1014,7 @@ ToSandBox class >> example_List2WithAllClassesNone [
 
 	| l |
 	l := ToListElement new.
-	l selectionMode: ToListSelectionMode primary disable.
+	l selectionMode disable.
 	l dataAccessor addAll:
 		(Smalltalk globals allClasses collect: [ :cls | cls name ]).
 	l openInSpace
@@ -1100,7 +1100,7 @@ ToSandBox class >> example_ListWithAllClasses3 [
 				      hMatchParent) ].
 	l selectionMode separateBeneathSelection.
 	l selectionMode beneathOption animationDuration: 200 milliSeconds.
-	"l secondarySelectionMode beneathOption animationDuration: 150 milliSeconds."
+	l secondarySelectionMode beneathOption animationDuration: 150 milliSeconds.
 	l dataAccessor addAll: Smalltalk globals allClasses.
 	l selecter selectIndex: 3.
 	l withRowNumbers.
@@ -1970,8 +1970,7 @@ ToSandBox class >> example_SieveOnList2With_AllMethods_MonoSelection [
 	| listElement assoc |
 	assoc := self example_SieveOnList2With_AllMethods.
 	listElement := assoc key.
-	listElement selectionMode:
-		ToListSelectionMode primary beSingleSelection
+	listElement selectionMode beSingleSelection
 ]
 
 { #category : #list }
@@ -2624,6 +2623,13 @@ ToSandBox class >> example_bar [
 	bar nodeBuilder: [ :node :holder :dataItem |
 		node label:
 			(ToLabel text: holder position asString , ': ' , dataItem asString) ].
+	bar contextMenu: [ :menu :request |
+	               | selectedIndexes target |
+	               target := request currentTarget.
+	               selectedIndexes := request selectedIndexes.
+	               menu addItem: (ToMenuItem new
+			                labelText: 'Inspect list';
+			                whenClickedDo: [ :event | target inspect ])].
 	bar vFitContent.
 	dashBoard := self barDashBoardFor: bar.
 	selectionModeBoard := self selectionModeChooserFor: bar.

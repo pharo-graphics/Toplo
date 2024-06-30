@@ -57,9 +57,3 @@ ToListSecondarySelectionElementEventHandler >> mouseMoveEvent: anEvent [
 		^ self ].
 	target secondarySelecter selectOnlyIndex: childNode holder position
 ]
-
-{ #category : #'selection managing' }
-ToListSecondarySelectionElementEventHandler >> selectionModeIn: aTarget [
-
-	^ aTarget secondarySelectionMode
-]

@@ -2,7 +2,6 @@ Class {
 	#name : #ToListSelectionElement,
 	#superclass : #ToElement,
 	#instVars : [
-		'selectionOption',
 		'nodes'
 	],
 	#category : #'Toplo-Widget-List-Selection-Element'
@@ -77,18 +76,6 @@ ToListSelectionElement >> nodes: aCollection [
 ToListSelectionElement >> positionFrom: aPoint in: aListElement [
 
 	^ aPoint
-]
-
-{ #category : #accessing }
-ToListSelectionElement >> selectionOption [
-
-	^ selectionOption
-]
-
-{ #category : #accessing }
-ToListSelectionElement >> selectionOption: aSelectionOption [
-
-	selectionOption := aSelectionOption
 ]
 
 { #category : #private }

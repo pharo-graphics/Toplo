@@ -2,8 +2,7 @@ Class {
 	#name : #ToListNodeHolder,
 	#superclass : #BlInfiniteHolder,
 	#instVars : [
-		'dataItem',
-		'wasSelected'
+		'dataItem'
 	],
 	#category : #'Toplo-Widget-List-Node'
 }
@@ -56,28 +55,6 @@ ToListNodeHolder >> dataItem: aData [
 ToListNodeHolder >> dataSource [
 
 	^ self listElement dataSource
-]
-
-{ #category : #'selection notification' }
-ToListNodeHolder >> ensureNotifySelected [
-
-	self isSelected ifFalse: [ ^ self ].
-	self node dispatchEvent: (ToListNodeSelectedEvent new
-			 listElement: self listElement;
-			 selected: true).
-]
-
-{ #category : #accessing }
-ToListNodeHolder >> forgetSelection [
-
-	wasSelected := false
-]
-
-{ #category : #initialization }
-ToListNodeHolder >> initialize [ 
-
-	super initialize.
-	wasSelected := false
 ]
 
 { #category : #testing }
@@ -145,7 +122,7 @@ ToListNodeHolder >> nodeManager [
 { #category : #'selection notification' }
 ToListNodeHolder >> notifyDeselected [
 
-	(wasSelected and: [ self isSelected not ]) ifFalse: [ ^ self ].
+	self isSelected ifTrue: [ ^ self ].
 	self node dispatchEvent: (ToListNodeSelectedEvent new
 			 listElement: self listElement;
 			 selected: false)
@@ -154,7 +131,7 @@ ToListNodeHolder >> notifyDeselected [
 { #category : #'selection notification' }
 ToListNodeHolder >> notifySelected [
 
-	(wasSelected not and: [ self isSelected ]) ifFalse: [ ^ self ].
+	self isSelected ifFalse: [ ^ self ].
 	self node dispatchEvent: (ToListNodeSelectedEvent new
 			 listElement: self listElement;
 			 selected: true)
@@ -166,12 +143,6 @@ ToListNodeHolder >> release [
 	super release.
 	dataItem := nil
 
-]
-
-{ #category : #accessing }
-ToListNodeHolder >> rememberSelection [
-
-	wasSelected := self isSelected 
 ]
 
 { #category : #accessing }
@@ -196,16 +167,4 @@ ToListNodeHolder >> unbindDataItem [
 	self node release.
 	self release
 
-]
-
-{ #category : #accessing }
-ToListNodeHolder >> wasSelected [
-
-	^ wasSelected
-]
-
-{ #category : #accessing }
-ToListNodeHolder >> wasSelected: aBoolean [
-
-	wasSelected := aBoolean
 ]

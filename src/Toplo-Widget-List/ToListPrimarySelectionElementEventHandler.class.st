@@ -36,9 +36,3 @@ ToListPrimarySelectionElementEventHandler >> listPrimarySelectionDirtyEvent: anE
 
 	self updateSelectionFromEvent: anEvent
 ]
-
-{ #category : #'selection managing' }
-ToListPrimarySelectionElementEventHandler >> selectionModeIn: aTarget [
-
-	^ aTarget selectionMode
-]

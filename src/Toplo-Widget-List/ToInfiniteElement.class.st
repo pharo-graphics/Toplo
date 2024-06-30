@@ -166,6 +166,12 @@ ToInfiniteElement >> nodeGroupsSatisfying: aBlock [
 ]
 
 { #category : #'node enumerating' }
+ToInfiniteElement >> nodes [
+
+	^ self children
+]
+
+{ #category : #'node enumerating' }
 ToInfiniteElement >> nodesDo: aBlock [
 
 	self childrenDo: [ :node | aBlock value: node ]

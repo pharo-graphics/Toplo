@@ -2,45 +2,27 @@ Class {
 	#name : #ToAbstractListSelectionMode,
 	#superclass : #Object,
 	#instVars : [
+		'listEventHandlers',
+		'selecter',
+		'enabled',
+		'elementClass',
 		'beneathOption',
 		'overOption',
-		'selecter',
-		'primary',
-		'enabled'
+		'multiple'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
-{ #category : #'instance creation' }
-ToAbstractListSelectionMode class >> new [
+{ #category : #accessing }
+ToAbstractListSelectionMode >> beMultipleSelection [
 
-	^ self shouldNotImplement
-]
-
-{ #category : #'instance creation' }
-ToAbstractListSelectionMode class >> primary [
-
-	| primary |
-	primary := self basicNew.
-	primary primary: true.
-	primary initialize.
-	^ primary
-]
-
-{ #category : #'instance creation' }
-ToAbstractListSelectionMode class >> secondary [
-
-	| secondary |
-	secondary := self basicNew.
-	secondary primary: false.
-	secondary initialize.
-	^ secondary
+	self multiple: true
 ]
 
 { #category : #accessing }
-ToAbstractListSelectionMode >> benathElementClass: aSelectionElementClass [
+ToAbstractListSelectionMode >> beSingleSelection [
 
-	beneathOption elementClass: aSelectionElementClass
+	self multiple: false
 ]
 
 { #category : #accessing }
@@ -50,24 +32,21 @@ ToAbstractListSelectionMode >> beneathOption [
 ]
 
 { #category : #accessing }
-ToAbstractListSelectionMode >> beneathOption: aListSelectionOption [
-
-	beneathOption := aListSelectionOption.
-	beneathOption selectionMode: self.
-]
-
-{ #category : #initialization }
-ToAbstractListSelectionMode >> defaultElementClass [
-
-	^ primary
-		  ifTrue: [ ToListPrimarySelectionElement ]
-		  ifFalse: [ ToListSecondarySelectionElement ]
-]
-
-{ #category : #accessing }
 ToAbstractListSelectionMode >> disable [
 
 	self enabled: false
+]
+
+{ #category : #accessing }
+ToAbstractListSelectionMode >> elementClass [
+
+	^ elementClass 
+]
+
+{ #category : #accessing }
+ToAbstractListSelectionMode >> elementClass: aSelectionElementClass [
+
+	elementClass := aSelectionElementClass
 ]
 
 { #category : #accessing }
@@ -91,25 +70,13 @@ ToAbstractListSelectionMode >> enabled: aBoolean [
 	selecter enabled: aBoolean
 ]
 
-{ #category : #configuring }
-ToAbstractListSelectionMode >> groupedBeneathSelection [
-
-	beneathOption := ToListSelectionOption groupedForMode: self
-]
-
-{ #category : #configuring }
-ToAbstractListSelectionMode >> groupedOverSelection [
-
-	overOption := ToListSelectionOption groupedForMode: self
-]
-
 { #category : #initialization }
 ToAbstractListSelectionMode >> initialize [
 
 	super initialize.
-	beneathOption := ToListSelectionOption groupedForMode: self.
-	overOption := ToListSelectionOption noneForMode: self.
-	enabled := true
+	listEventHandlers := #().
+	enabled := true.
+	multiple := true
 ]
 
 { #category : #testing }
@@ -125,9 +92,9 @@ ToAbstractListSelectionMode >> isEnabled [
 ]
 
 { #category : #testing }
-ToAbstractListSelectionMode >> isPrimary [
+ToAbstractListSelectionMode >> isMultipleSelection [
 
-	^ primary
+	^ multiple
 ]
 
 { #category : #accessing }
@@ -136,16 +103,43 @@ ToAbstractListSelectionMode >> itemCount [
 	^ self selectionModel itemCount
 ]
 
+{ #category : #accessing }
+ToAbstractListSelectionMode >> listEventHandlers: anEventHandlerArray [
+
+	listEventHandlers := anEventHandlerArray
+]
+
+{ #category : #accessing }
+ToAbstractListSelectionMode >> multiple [
+
+	^ multiple
+]
+
+{ #category : #accessing }
+ToAbstractListSelectionMode >> multiple: aBoolean [
+
+	multiple = aBoolean ifTrue: [ ^ self ].
+	multiple := aBoolean.
+	selecter ifNil: [ ^ self ].
+	selecter multiple: aBoolean
+]
+
 { #category : #configuring }
 ToAbstractListSelectionMode >> noneBeneathSelection [
 
-	beneathOption := ToListSelectionOption noneForMode: self
+	beneathOption := (ToListSelectionOption noneForMode: self)
+		                 selectionContainer:
+			                 beneathOption selectionContainer;
+		                 yourself
 ]
 
 { #category : #configuring }
 ToAbstractListSelectionMode >> noneOverSelection [
 
-	overOption := ToListSelectionOption noneForMode: self
+	overOption := (ToListSelectionOption noneForMode: self)
+		                 selectionContainer:
+			                 overOption selectionContainer;
+		                 yourself
 ]
 
 { #category : #accessing }
@@ -158,20 +152,17 @@ ToAbstractListSelectionMode >> onAddedNode: aNode [
 { #category : #'api - hooks' }
 ToAbstractListSelectionMode >> onInstalledIn: anElement [
 
-	selecter := self isPrimary
-		            ifTrue: [
-			            ToListSelecter
-				            compositeOnSelectionModel:
-				            anElement newPrimarySelectionModel
-				            withEventClass: ToListPrimarySelectionChangedEvent ]
-		            ifFalse: [
-			            ToListSelecter
-				            basicOnSelectionModel:
-				            anElement newSecondarySelectionModel
-				            withEventClass: ToListSecondarySelectionChangedEvent ].
+	beneathOption := (ToListSelectionOption groupedForMode: self)
+		                 selectionContainer: anElement beneathContainer;
+		                 yourself.
+	overOption := (ToListSelectionOption noneForMode: self)
+		              selectionContainer: anElement overContainer;
+		              yourself.
 	selecter
 		onInstalledIn: anElement;
-		enabled: self enabled
+		enabled: self enabled;
+		multiple: multiple.
+	listEventHandlers do: [ :h | anElement addEventHandler: h ]
 ]
 
 { #category : #accessing }
@@ -186,6 +177,7 @@ ToAbstractListSelectionMode >> onRemovedNode: aNode [
 { #category : #'api - hooks' }
 ToAbstractListSelectionMode >> onUninstalledIn: anElement [
 
+	listEventHandlers do: [ :h | anElement removeEventHandler: h ].
 	selecter onUninstalledIn: anElement.
 	selecter := nil
 ]
@@ -208,27 +200,12 @@ ToAbstractListSelectionMode >> overOption [
 	^ overOption
 ]
 
-{ #category : #accessing }
-ToAbstractListSelectionMode >> overOption: aListSelectionOption [
-
-	overOption := aListSelectionOption.
-	beneathOption selectionMode: self.
-]
-
-{ #category : #accessing }
-ToAbstractListSelectionMode >> primary: aBoolean [
-
-	selecter ifNotNil: [ Error signal: 'The selecter kind can''t be changed' ].
-	primary := aBoolean
-
-]
-
 { #category : #private }
 ToAbstractListSelectionMode >> refreshSelectionIn: aListElement [
 	" return a collection with instances of ToListPrimarySelectionElement "
 
 	beneathOption groupHolder refreshSelectionIn: aListElement.
-	overOption groupHolder refreshSelectionIn: aListElement
+	overOption groupHolder refreshSelectionIn: aListElement.
 ]
 
 { #category : #accessing }
@@ -250,6 +227,12 @@ ToAbstractListSelectionMode >> selecter [
 ]
 
 { #category : #accessing }
+ToAbstractListSelectionMode >> selecter: aSelecter [
+
+	selecter := aSelecter
+]
+
+{ #category : #accessing }
 ToAbstractListSelectionMode >> selectionModel [
 
 	^ selecter selectionModel
@@ -258,13 +241,18 @@ ToAbstractListSelectionMode >> selectionModel [
 { #category : #configuring }
 ToAbstractListSelectionMode >> separateBeneathSelection [
 
-	beneathOption := ToListSelectionOption separateForMode: self
+	
+	beneathOption := (ToListSelectionOption separateForMode: self)
+		              selectionContainer: beneathOption selectionContainer;
+		              yourself
 ]
 
 { #category : #configuring }
 ToAbstractListSelectionMode >> separateOverSelection [
 
-	overOption := ToListSelectionOption separateForMode: self
+	overOption := (ToListSelectionOption separateForMode: self)
+		              selectionContainer: overOption selectionContainer;
+		              yourself
 ]
 
 { #category : #private }

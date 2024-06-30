@@ -3,9 +3,10 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'animationDuration',
-		'selectionMode',
 		'elementClass',
-		'groupHolder'
+		'selectionContainer',
+		'groupHolder',
+		'selectionMode'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
@@ -13,28 +14,37 @@ Class {
 { #category : #'instance creation' }
 ToListSelectionOption class >> groupedForMode: aSelectionMode [
 
-	^ ToListGroupedSelection basicNew
+	^ ToListGroupedSelection new
 		  selectionMode: aSelectionMode;
-		  initialize;
 		  yourself
 ]
 
 { #category : #'instance creation' }
 ToListSelectionOption class >> noneForMode: aSelectionMode [
 
-	^ ToListNoneSelection basicNew
+	^ ToListNoneSelection new
 		  selectionMode: aSelectionMode;
-		  initialize;
 		  yourself
 ]
 
 { #category : #'instance creation' }
 ToListSelectionOption class >> separateForMode: aSelectionMode [
 
-	^ ToListSeparateSelection basicNew
+	^ ToListSeparateSelection new
 		  selectionMode: aSelectionMode;
-		  initialize;
 		  yourself
+]
+
+{ #category : #'instance creation' }
+ToListSelectionOption >> addSelectionElement: aSelectionElement [
+
+	selectionContainer addChild: aSelectionElement
+]
+
+{ #category : #'instance creation' }
+ToListSelectionOption >> addSelectionElements: aSelectionElementArray [
+
+	selectionContainer addChildren: aSelectionElementArray
 ]
 
 { #category : #accessing }
@@ -64,7 +74,7 @@ ToListSelectionOption >> currentSelectionGroupsFrom: aListElement [
 { #category : #accessing }
 ToListSelectionOption >> elementClass [
 
-	^ elementClass ifNil: [ elementClass := selectionMode defaultElementClass ]
+	^ elementClass ifNil: [ elementClass := selectionMode elementClass ]
 ]
 
 { #category : #accessing }
@@ -77,6 +87,12 @@ ToListSelectionOption >> elementClass: aSelectionElementClass [
 ToListSelectionOption >> groupHolder [ 
 
 	^ groupHolder 
+]
+
+{ #category : #accessing }
+ToListSelectionOption >> groupHolder: aGroupHolder [
+
+	groupHolder := aGroupHolder 
 ]
 
 { #category : #initialization }
@@ -97,7 +113,7 @@ ToListSelectionOption >> isAnimated [
 { #category : #testing }
 ToListSelectionOption >> isBeneath [
 
-	^ selectionMode beneathOption = self 
+	^ selectionContainer isBeneath
 ]
 
 { #category : #testing }
@@ -128,6 +144,18 @@ ToListSelectionOption >> isSeparate [
 ToListSelectionOption >> newSelectionElementFor: aListElement [
 
 	^ self elementClass selectionOption: self focused: aListElement isFocused
+]
+
+{ #category : #accessing }
+ToListSelectionOption >> selectionContainer [
+
+	^ selectionContainer
+]
+
+{ #category : #accessing }
+ToListSelectionOption >> selectionContainer: anElement [
+
+	selectionContainer := anElement
 ]
 
 { #category : #accessing }

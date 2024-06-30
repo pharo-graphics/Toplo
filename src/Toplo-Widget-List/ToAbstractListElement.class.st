@@ -187,13 +187,36 @@ ToAbstractListElement >> defaultNodeManagerClass [
 { #category : #initialization }
 ToAbstractListElement >> defaultSecondarySelectionMode [
 
-	^ ToListSelectionMode secondary
+	^ ToListSelectionMode new
+		  in: [ :mode |
+			  mode listEventHandlers:
+					  { (self newSecondarySelectionEventHandler selectionMode: mode) } ];
+		  selecter: (ToListSelecter
+				   basicOnSelectionModel: self newSecondarySelectionModel
+				   withEventClass: ToListSecondarySelectionChangedEvent);
+		  elementClass: ToListSecondarySelectionElement;
+		  yourself
 ]
 
 { #category : #initialization }
 ToAbstractListElement >> defaultSelectionMode [
 
-	^ ToListSelectionMode primary
+	^ self defaultSelectionModeClass new
+		  in: [ :mode |
+			  mode listEventHandlers: {
+						  (self newPrimarySelectionEventHandler selectionMode: mode).
+						  self newContextMenuEventHandler } ];
+		  selecter: (ToListSelecter
+				   compositeOnSelectionModel: self newPrimarySelectionModel
+				   withEventClass: ToListPrimarySelectionChangedEvent);
+		  elementClass: ToListPrimarySelectionElement;
+		  yourself
+]
+
+{ #category : #initialization }
+ToAbstractListElement >> defaultSelectionModeClass [
+
+	^ ToListSelectionMode
 ]
 
 { #category : #accessing }
@@ -248,15 +271,10 @@ ToAbstractListElement >> initialize [
 
 	self layout: self defaultLayout.
 
-	self selectionMode: self defaultSelectionMode.
 	self addEventHandler: self defaultEventHandler.
-
+	self selectionMode: self defaultSelectionMode.
 	self contextMenuWindowManagerClass: self defaultContextMenuWindowManagerClass.
-	self addEventHandler: self newPrimarySelectionEventHandler.
-	self addEventHandler: self newContextMenuEventHandler.
-
 	self secondarySelectionMode: self defaultSecondarySelectionMode.
-	self addEventHandler: self newSecondarySelectionEventHandler.
 
 	self matchParent
 ]
@@ -320,7 +338,7 @@ ToAbstractListElement >> newContextMenuEventHandler [
 { #category : #'instance creation' }
 ToAbstractListElement >> newPrimarySelectionEventHandler [
 
-	^  ToListPrimarySelectionElementEventHandler new
+	^ ToListPrimarySelectionElementEventHandler new
 ]
 
 { #category : #'instance creation' }

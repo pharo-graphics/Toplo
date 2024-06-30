@@ -21,9 +21,8 @@ ToSelectionGroupHolder >> addSelectionElementsIn: aListElement startingAt: aPosi
 
 	elements do: [ :aSelectionElement |
 		aSelectionElement computeBoundsIn: aListElement ].
-	self isBeneath
-		ifTrue: [ aListElement addBeneathSelectionElements: elements ]
-		ifFalse: [ aListElement addOverSelectionElements: elements ]
+
+	option addSelectionElements: elements 
 ]
 
 { #category : #'private - selection updating' }
@@ -54,9 +53,7 @@ ToSelectionGroupHolder >> addSelectionIn: aListElement [
 
 	first addAnimation: animation.
 	" directly add the selection element without computing its bounds "
-	self isBeneath
-		ifTrue: [ aListElement addBeneathSelectionElement: first ]
-		ifFalse: [ aListElement addOverSelectionElement: first ].
+	option addSelectionElement: first.
 	" add others "
 	self addSelectionElementsIn: aListElement startingAt: 2
 ]
@@ -74,10 +71,9 @@ ToSelectionGroupHolder >> boundsAnimationFrom: startBounds to: finalBounds onSel
 		  onFinishedDo: [
 			  aSelectionElement position: finalBounds position.
 			  aSelectionElement size: finalBounds extent.
-
 			  aSelectionElement whenLayoutedDoOnce: [
 					  aSelectionElement nodes do: [ :n |
-							  n holder ensureNotifySelected ] ] ]
+							  n holder notifySelected ] ] ]
 ]
 
 { #category : #'private - selection updating' }
@@ -110,13 +106,6 @@ ToSelectionGroupHolder >> forgetPreviousStateIn: aListElement [
 ]
 
 { #category : #'private - selection updating' }
-ToSelectionGroupHolder >> forgetSelectionStateIn: aListElement [
-
-	aListElement innerContainer nodesDo: [ :node |
-		node holder forgetSelection ]
-]
-
-{ #category : #'private - selection updating' }
 ToSelectionGroupHolder >> groups: aGroups equals: otherGroup [
 
 	aGroups == otherGroup ifTrue: [ ^ true ].
@@ -132,12 +121,6 @@ ToSelectionGroupHolder >> initialize [
 	super initialize.
 	groups := #(  ).
 	selectionElements := #(  )
-]
-
-{ #category : #testing }
-ToSelectionGroupHolder >> isBeneath [ 
-
-	^ option isBeneath 
 ]
 
 { #category : #'private - selection updating' }
@@ -162,7 +145,6 @@ ToSelectionGroupHolder >> option: aSelectionOption [
 ToSelectionGroupHolder >> refreshSelectionIn: aListElement [
 
 	self forgetPreviousBoundsIn: aListElement.
-	self forgetSelectionStateIn: aListElement.
 	self updateSelectionIn: aListElement
 ]
 
@@ -174,13 +156,6 @@ ToSelectionGroupHolder >> rememberSelectionBoundsIn: aListElement [
 		                            boundsFromNodesIn: aListElement) merge:
 		                           (selectionElements last
 			                            boundsFromNodesIn: aListElement)
-]
-
-{ #category : #'private - selection updating' }
-ToSelectionGroupHolder >> rememberSelectionStateIn: aListElement [
-
-	aListElement innerContainer nodesDo: [ :node |
-		node holder rememberSelection ]
 ]
 
 { #category : #'private - selection updating' }
@@ -207,6 +182,5 @@ ToSelectionGroupHolder >> updateSelectionIn: aListElement [
 	prevGroups := groups.
 	groups := option collectSelectionGroupsFrom: aListElement.
 	(self groups: prevGroups equals: groups) ifFalse: [
-		self selectionGroupsChangedIn: aListElement ].
-	self rememberSelectionStateIn: aListElement
+		self selectionGroupsChangedIn: aListElement ]
 ]

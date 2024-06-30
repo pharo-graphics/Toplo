@@ -14,6 +14,18 @@ ToListInnerContainerEventHandler >> boundsHasChangedDuringScrollingEvent: anEven
 ]
 
 { #category : #'infinite event handling' }
+ToListInnerContainerEventHandler >> elementAddedToSceneGraphEvent:  anEvent [
+
+	"anEvent currentTarget listElement notifyPrimarySelectionDirty"
+]
+
+{ #category : #'infinite event handling' }
+ToListInnerContainerEventHandler >> elementPositionChangedEvent: anEvent [
+
+	anEvent currentTarget listElement notifyPrimarySelectionDirty
+]
+
+{ #category : #'infinite event handling' }
 ToListInnerContainerEventHandler >> elementScrolledEvent: anEvent [
 
 	anEvent delta = (0 @ 0) ifTrue: [ ^ self ].
@@ -24,11 +36,13 @@ ToListInnerContainerEventHandler >> elementScrolledEvent: anEvent [
 ToListInnerContainerEventHandler >> eventsToHandle [
 
 	^ {
+		  BlElementAddedToSceneGraphEvent.
 		  ToInfiniteScrollFinishedEvent.
 		  ToInfiniteDataSourceEmptinessChangedEvent.
 		  BlInfiniteElementAttachedEvent.
 		  BlInfiniteElementDetachedEvent.
 		  BlElementScrolledEvent.
+		  BlElementPositionChangedEvent.
 		  BlBoundsHasChangedDuringScrollingEvent }
 ]
 

@@ -18,6 +18,18 @@ ToOverlayElement >> extentFrom: anExtent [
 		  ifNotNil: [ sizeHook value: referenceElement value: anExtent ]
 ]
 
+{ #category : #testing }
+ToOverlayElement >> isBeneath [ 
+
+	^ self elevation < referenceElement elevation
+]
+
+{ #category : #testing }
+ToOverlayElement >> isOver [
+
+	^ self elevation > referenceElement elevation
+]
+
 { #category : #'hook - geometry' }
 ToOverlayElement >> positionFrom: aPosition [
 

@@ -40,19 +40,18 @@ ToploDemoPresenter >> demo2 [
 
 	<demo>
 	| list colorAssociations |
-	(list := ToListElement new)
-		selectionMode: ToListSelectionMode primary disable;
-		nodeBuilder: [ :node :holder |
-			node addChild: (ToLabeledIcon new
-						 label: (ToLabel new
-								  text: holder dataItem key;
-								  yourself);
-						 icon: (ToElement new
-								  size: 50 @ 20;
-								  background: holder dataItem value;
-								  yourself);
-						 startInterspace: 3;
-						 yourself) ].
+	(list := ToListElement new) nodeBuilder: [ :node :holder |
+		node addChild: (ToLabeledIcon new
+				 label: (ToLabel new
+						  text: holder dataItem key;
+						  yourself);
+				 icon: (ToElement new
+						  size: 50 @ 20;
+						  background: holder dataItem value;
+						  yourself);
+				 startInterspace: 3;
+				 yourself) ].
+	list selectionMode disable.
 	colorAssociations := Array streamContents: [ :stream |
 		                     Color registeredColorNames sorted do: [
 			                     :colorName |

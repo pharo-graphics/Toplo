@@ -35,9 +35,9 @@ ToSegmentedElement >> defaultNodeManagerClass [
 ]
 
 { #category : #initialization }
-ToSegmentedElement >> defaultSelectionMode [
+ToSegmentedElement >> defaultSelectionModeClass [
 
-	^ ToSegmentedSelectionMode primary
+	^ ToSegmentedSelectionMode
 ]
 
 { #category : #initialization }

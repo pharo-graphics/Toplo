@@ -1,6 +1,9 @@
 Class {
 	#name : #ToListSelectionElementEventHandler,
 	#superclass : #BlCustomEventHandler,
+	#instVars : [
+		'selectionMode'
+	],
 	#category : #'Toplo-Widget-List-Selection-Element'
 }
 
@@ -47,23 +50,22 @@ ToListSelectionElementEventHandler >> refreshSelectionFromEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	(self selectionModeIn: target)
-		refreshSelectionIn: target
+	selectionMode refreshSelectionIn: target
 ]
 
-{ #category : #'selection managing' }
-ToListSelectionElementEventHandler >> selectionModeIn: aTarget [
+{ #category : #accessing }
+ToListSelectionElementEventHandler >> selectionMode: aSelectionMode [
 
-	^ self subclassResponsibility
+	selectionMode := aSelectionMode
 ]
 
 { #category : #'selection managing' }
 ToListSelectionElementEventHandler >> updateSelectionFromEvent: anEvent [
 
-	|  target  |
+	| target |
 	target := anEvent currentTarget.
 	target isAttachedToSceneGraph ifFalse: [
 		self differUpdateSelectionFrom: target.
 		^ self ].
-	(self selectionModeIn: target) updateSelectionIn: target.
+	selectionMode updateSelectionIn: target
 ]

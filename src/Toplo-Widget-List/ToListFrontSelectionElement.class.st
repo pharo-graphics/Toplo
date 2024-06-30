@@ -2,7 +2,7 @@ Class {
 	#name : #ToListFrontSelectionElement,
 	#superclass : #ToListSelectionElement,
 	#instVars : [
-		'beneath'
+		'selectionOption'
 	],
 	#category : #'Toplo-Widget-List-Selection-Element'
 }
@@ -19,11 +19,23 @@ ToListFrontSelectionElement class >> selectionOption: aSelectionOption focused: 
 { #category : #accessing }
 ToListFrontSelectionElement >> isBeneath [
 
-	^ selectionOption isBeneath 
+	^ selectionOption isBeneath
 ]
 
 { #category : #accessing }
 ToListFrontSelectionElement >> selectionMode [
 
 	^ selectionOption selectionMode
+]
+
+{ #category : #accessing }
+ToListFrontSelectionElement >> selectionOption [
+
+	^ selectionOption
+]
+
+{ #category : #accessing }
+ToListFrontSelectionElement >> selectionOption: aSelectionOption [
+
+	selectionOption := aSelectionOption
 ]

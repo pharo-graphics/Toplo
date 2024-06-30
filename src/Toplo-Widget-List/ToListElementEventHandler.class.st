@@ -266,5 +266,5 @@ ToListElementEventHandler >> showHidePlaceholderIn: aListElement [
 ToListElementEventHandler >> syncNodesSelectionIn: aListElement [
 
 	aListElement innerContainer nodesDo: [ :node |
-		node holder ensureNotifySelected  ]
+		node holder notifySelected  ]
 ]

@@ -107,7 +107,7 @@ ToListElementTest >> testEmptyListAddOrRemoveNextInSelection [
 
 	| l |
 	l := ToListElement new.
-	l selectionMode: ToListSelectionMode primary.
+
 	l fitContent.
 	self assert: l dataAccessor isEmpty.
 	l forceLayout.
@@ -121,7 +121,6 @@ ToListElementTest >> testEmptyListAddOrRemovePreviousInSelection [
 
 	| l |
 	l := ToListElement new.
-	l selectionMode: ToListSelectionMode primary.
 	l fitContent.
 	self assert: l dataAccessor isEmpty.
 	l forceLayout.

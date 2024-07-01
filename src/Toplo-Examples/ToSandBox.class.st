@@ -3348,7 +3348,7 @@ ToSandBox class >> example_preservingPane [
 		but := ToTab new.
 		but closable: true.
 		but labelText: 'Button ' , index asString.
-		but paneBuilder: [ :pane :theNoteBook | pane background: Color random ].
+		but paneBuilder: [ :pane :theNoteBook | pane withNullSkin; background: Color random ].
 		nb addTab: but ].
 	nb openInSpace
 ]

@@ -51,25 +51,30 @@ ToListContextMenuSelectionElementEventHandler >> listElementContextMenuRequest: 
 		             ifNone: [  ].
 
 	" if no child is found -> just deselect all "
-	selectionModel := target newPrimarySelectionModel.
+	selectionModel := target selectionModel duplicate.
+	" copy the selection to have unabled, hidden and unselectable selection passed to the menu builder "
+	selectionModel copySelectionFrom: target selectionModel.
 	" pass the selection model to the event for the context menu window builder.
 	see ToAnchoredWindowManager>>newWindowEvent: "
 	anEvent selectionModel: selectionModel.
 	childNode
-		ifNil: [ target contextMenuSelecter deselectAll ]
+		ifNil: [
+			selectionModel deselectAll.
+			target contextMenuSelecter deselectAll ]
 		ifNotNil: [
 			childNode holder isSelected
 				ifTrue: [ " the detected node is selected -> 
 					the context menu is over all selected nodes"
-					selectionModel copySelectionFrom: target selectionModel.
 					target contextMenuSelecter selectIndexes:
 						selectionModel selectedIndexes.
-					anEvent selectionModel: target selectionModel]
+					anEvent selectionModel: selectionModel ]
 				ifFalse: [ " the detected node is not selected -> 
 					the context menu is only over the detected node "
-					selectionModel selectIndex: childNode holder position.
-					target contextMenuSelecter selectIndex: childNode holder position.
-					 ] ]
+					selectionModel
+						deselectAll;
+						selectIndex: childNode holder position.
+					target contextMenuSelecter selectOnlyIndex:
+						childNode holder position ] ]
 ]
 
 { #category : #'element handlers' }

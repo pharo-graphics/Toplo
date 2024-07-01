@@ -14,6 +14,12 @@ ToListElementContextMenuRequest >> selectedIndexes [
 ]
 
 { #category : #accessing }
+ToListElementContextMenuRequest >> selectionModel [
+
+	^ selectionModel
+]
+
+{ #category : #accessing }
 ToListElementContextMenuRequest >> selectionModel: aSelectionModel [
 
 	selectionModel := aSelectionModel

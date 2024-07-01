@@ -5230,16 +5230,17 @@ ToSandBox class >> listWithEditableAndContextMenu [
 		node addChild: (ToLabeledIcon new
 				 label: lab;
 				 hMatchParent) ].
-			
+
 	l addEventHandler: (BlEventHandler
 			 on: ToListStrongSelectionEvent
 			 do: [ :event |
 				 self inform:
 					 'Double click on: ' , (event indexes asString contractTo: 150) ]).
-				
+
 	menuFactory := [ :menu :request |
-	               | selectedIndexes target |
+	               | selectionModel selectedIndexes target |
 	               target := request currentTarget.
+	               selectionModel := request selectionModel.
 	               selectedIndexes := request selectedIndexes.
 	               menu addItem: (ToMenuItem new
 			                labelText: 'Add initial Items';
@@ -5306,6 +5307,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 					                whenClickedDo: [ :event | node inspect ];
 					                yourself).
 			               selectionMenu addSeparator ].
+
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Enable/Disable';
 				                whenClickedDo: [ :event |

@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'requestFocusOnMouseDown',
 		'preserveSelectionOnFocused',
-		'selectOnMouseDown'
+		'selectOnMouseDown',
+		'multiple'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
@@ -20,13 +21,32 @@ ToListSelectionMode >> allowRequestFocusOnMouseDown [
 	^ self requestFocusOnMouseDown
 ]
 
+{ #category : #accessing }
+ToListSelectionMode >> beMultipleSelection [
+
+	self multiple: true
+]
+
+{ #category : #accessing }
+ToListSelectionMode >> beSingleSelection [
+
+	self multiple: false
+]
+
 { #category : #initialization }
 ToListSelectionMode >> initialize [
 
 	super initialize.
 	requestFocusOnMouseDown := true.
 	preserveSelectionOnFocused := true.
-	selectOnMouseDown := false
+	selectOnMouseDown := false.
+	multiple := true
+]
+
+{ #category : #testing }
+ToListSelectionMode >> isMultipleSelection [
+
+	^ multiple
 ]
 
 { #category : #testing }
@@ -35,6 +55,28 @@ ToListSelectionMode >> maxSelectedIndexesForSelectionPreserving [
 	^ self isMultipleSelection
 		       ifTrue: [ 1 ]
 		       ifFalse: [ 0 ]
+]
+
+{ #category : #accessing }
+ToListSelectionMode >> multiple [
+
+	^ multiple
+]
+
+{ #category : #accessing }
+ToListSelectionMode >> multiple: aBoolean [
+
+	multiple = aBoolean ifTrue: [ ^ self ].
+	multiple := aBoolean.
+	selecter ifNil: [ ^ self ].
+	selecter multiple: aBoolean
+]
+
+{ #category : #accessing }
+ToListSelectionMode >> onAddedNode: aNode [
+
+	aNode clickEventHandlerClasses do: [ :cls |
+		aNode addEventHandler: cls new ]
 ]
 
 { #category : #'event handling' }
@@ -70,6 +112,15 @@ ToListSelectionMode >> onClickEvent: anEvent onNode: aNode [
 
 	" No modifier"
 	self selecter selectOnlyIndex: aNode holder position
+]
+
+{ #category : #accessing }
+ToListSelectionMode >> onRemovedNode: aNode [
+
+	(aNode eventDispatcher handlers select: [ :handler |
+		 aNode clickEventHandlerClasses anySatisfy: [ :cls |
+			 handler class = cls ] ]) do: [ :handler |
+		aNode removeEventHandler: handler ]
 ]
 
 { #category : #accessing }

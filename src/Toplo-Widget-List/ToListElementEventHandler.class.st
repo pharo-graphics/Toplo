@@ -66,6 +66,7 @@ ToListElementEventHandler >> eventsToHandle [
 		  ToLayoutDirectionChangedEvent.
 
 		  ToListPrimarySelectionModeChangedEvent.
+		  ToListSecondarySelectionModeChangedEvent.
 		  ToSelecterChangedEvent.
 		  ToListHiddenSelectionChangedEvent.
 		  ToListUnselectableSelectionChangedEvent.
@@ -205,7 +206,13 @@ ToListElementEventHandler >> listNodeRemovedEvent: anEvent [
 { #category : #'infinite event handling' }
 ToListElementEventHandler >> listPrimarySelectionModeChangedEvent: anEvent [
 
-	anEvent currentTarget selectionModel deselectAll 
+	anEvent currentTarget selecter deselectAll 
+]
+
+{ #category : #'infinite event handling' }
+ToListElementEventHandler >> listSecondarySelectionModeChangedEvent: anEvent [
+
+	anEvent currentTarget secondarySelecter deselectAll 
 ]
 
 { #category : #'list element handling' }

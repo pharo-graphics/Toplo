@@ -2,27 +2,65 @@ Class {
 	#name : #ToAbstractListSelectionMode,
 	#superclass : #Object,
 	#instVars : [
-		'listEventHandlers',
+		'listEventHandler',
 		'selecter',
 		'enabled',
 		'elementClass',
 		'beneathOption',
-		'overOption',
-		'multiple'
+		'overOption'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
-{ #category : #accessing }
-ToAbstractListSelectionMode >> beMultipleSelection [
+{ #category : #configuring }
+ToAbstractListSelectionMode >> beGroupedBeneathSelection [
 
-	self multiple: true
+	beneathOption := (ToListSelectionOption groupedForMode: self)
+		              selectionContainer: beneathOption selectionContainer;
+		              yourself
 ]
 
-{ #category : #accessing }
-ToAbstractListSelectionMode >> beSingleSelection [
+{ #category : #configuring }
+ToAbstractListSelectionMode >> beGroupedOverSelection [
 
-	self multiple: false
+	overOption := (ToListSelectionOption groupedForMode: self)
+		              selectionContainer: overOption selectionContainer;
+		              yourself
+]
+
+{ #category : #configuring }
+ToAbstractListSelectionMode >> beNoneBeneathSelection [
+
+	beneathOption := (ToListSelectionOption noneForMode: self)
+		                 selectionContainer:
+			                 beneathOption selectionContainer;
+		                 yourself
+]
+
+{ #category : #configuring }
+ToAbstractListSelectionMode >> beNoneOverSelection [
+
+	overOption := (ToListSelectionOption noneForMode: self)
+		                 selectionContainer:
+			                 overOption selectionContainer;
+		                 yourself
+]
+
+{ #category : #configuring }
+ToAbstractListSelectionMode >> beSeparateBeneathSelection [
+
+	
+	beneathOption := (ToListSelectionOption separateForMode: self)
+		              selectionContainer: beneathOption selectionContainer;
+		              yourself
+]
+
+{ #category : #configuring }
+ToAbstractListSelectionMode >> beSeparateOverSelection [
+
+	overOption := (ToListSelectionOption separateForMode: self)
+		              selectionContainer: overOption selectionContainer;
+		              yourself
 ]
 
 { #category : #accessing }
@@ -74,9 +112,19 @@ ToAbstractListSelectionMode >> enabled: aBoolean [
 ToAbstractListSelectionMode >> initialize [
 
 	super initialize.
-	listEventHandlers := #().
-	enabled := true.
-	multiple := true
+	enabled := true
+]
+
+{ #category : #'api - hooks' }
+ToAbstractListSelectionMode >> installDefaultOptionsIn: anElement [
+
+	beneathOption := (ToListSelectionOption groupedForMode: self)
+		                 selectionContainer: anElement beneathContainer;
+		                 yourself.
+	overOption := (ToListSelectionOption noneForMode: self)
+		              selectionContainer: anElement overContainer;
+		              yourself.
+
 ]
 
 { #category : #testing }
@@ -94,7 +142,7 @@ ToAbstractListSelectionMode >> isEnabled [
 { #category : #testing }
 ToAbstractListSelectionMode >> isMultipleSelection [
 
-	^ multiple
+	^ self subclassResponsibility 
 ]
 
 { #category : #accessing }
@@ -104,80 +152,26 @@ ToAbstractListSelectionMode >> itemCount [
 ]
 
 { #category : #accessing }
-ToAbstractListSelectionMode >> listEventHandlers: anEventHandlerArray [
+ToAbstractListSelectionMode >> listEventHandler: anEventHandler [
 
-	listEventHandlers := anEventHandlerArray
-]
-
-{ #category : #accessing }
-ToAbstractListSelectionMode >> multiple [
-
-	^ multiple
-]
-
-{ #category : #accessing }
-ToAbstractListSelectionMode >> multiple: aBoolean [
-
-	multiple = aBoolean ifTrue: [ ^ self ].
-	multiple := aBoolean.
-	selecter ifNil: [ ^ self ].
-	selecter multiple: aBoolean
-]
-
-{ #category : #configuring }
-ToAbstractListSelectionMode >> noneBeneathSelection [
-
-	beneathOption := (ToListSelectionOption noneForMode: self)
-		                 selectionContainer:
-			                 beneathOption selectionContainer;
-		                 yourself
-]
-
-{ #category : #configuring }
-ToAbstractListSelectionMode >> noneOverSelection [
-
-	overOption := (ToListSelectionOption noneForMode: self)
-		                 selectionContainer:
-			                 overOption selectionContainer;
-		                 yourself
-]
-
-{ #category : #accessing }
-ToAbstractListSelectionMode >> onAddedNode: aNode [
-
-	aNode clickEventHandlerClasses do: [ :cls |
-		aNode addEventHandler: cls new ]
+	listEventHandler := anEventHandler
 ]
 
 { #category : #'api - hooks' }
 ToAbstractListSelectionMode >> onInstalledIn: anElement [
 
-	beneathOption := (ToListSelectionOption groupedForMode: self)
-		                 selectionContainer: anElement beneathContainer;
-		                 yourself.
-	overOption := (ToListSelectionOption noneForMode: self)
-		              selectionContainer: anElement overContainer;
-		              yourself.
+	self installDefaultOptionsIn: anElement.
 	selecter
 		onInstalledIn: anElement;
 		enabled: self enabled;
-		multiple: multiple.
-	listEventHandlers do: [ :h | anElement addEventHandler: h ]
-]
-
-{ #category : #accessing }
-ToAbstractListSelectionMode >> onRemovedNode: aNode [
-
-	(aNode eventDispatcher handlers select: [ :handler |
-		 aNode clickEventHandlerClasses anySatisfy: [ :cls |
-			 handler class = cls ] ]) do: [ :handler |
-		aNode removeEventHandler: handler ]
+		multiple: self isMultipleSelection.
+	anElement addEventHandler: listEventHandler
 ]
 
 { #category : #'api - hooks' }
 ToAbstractListSelectionMode >> onUninstalledIn: anElement [
 
-	listEventHandlers do: [ :h | anElement removeEventHandler: h ].
+	anElement removeEventHandler: listEventHandler.
 	selecter onUninstalledIn: anElement.
 	selecter := nil
 ]
@@ -236,23 +230,6 @@ ToAbstractListSelectionMode >> selecter: aSelecter [
 ToAbstractListSelectionMode >> selectionModel [
 
 	^ selecter selectionModel
-]
-
-{ #category : #configuring }
-ToAbstractListSelectionMode >> separateBeneathSelection [
-
-	
-	beneathOption := (ToListSelectionOption separateForMode: self)
-		              selectionContainer: beneathOption selectionContainer;
-		              yourself
-]
-
-{ #category : #configuring }
-ToAbstractListSelectionMode >> separateOverSelection [
-
-	overOption := (ToListSelectionOption separateForMode: self)
-		              selectionContainer: overOption selectionContainer;
-		              yourself
 ]
 
 { #category : #private }

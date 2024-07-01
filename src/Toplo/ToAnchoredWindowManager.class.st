@@ -170,7 +170,13 @@ ToAnchoredWindowManager >> newWindowEvent: anEvent [
 	self builder ifNil: [
 		^ Error signal: 'A window builder is required for building a window' ].
 	request := self newWindowOpenRequestEventFromSourceEvent: anEvent.
+	
+	" dispatch the event. handlers can eventually feed the event with additional data 
+	that can be used by the builder "
 	self element dispatchEvent: request.
+	
+	" the event is dispatched, eventually updated with additional data, 
+	the widow can be created	then built"
 	self currentWindow: (self windowClass new
 			 manager: self;
 			 yourself).
@@ -182,7 +188,6 @@ ToAnchoredWindowManager >> newWindowEvent: anEvent [
 ToAnchoredWindowManager >> newWindowOpenRequestEventFromSourceEvent: anEvent [
 
 	^ self windowOpenRequestClass new
-		  yourself
 ]
 
 { #category : #'api - hooks' }

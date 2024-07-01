@@ -47,7 +47,7 @@ ToSegmentedElement >> initialize [
 	self group
 		addEventHandlerOn: ToCheckableGroupChangedEvent
 		do: [ :event | self dispatchEvent: event ].
-	self selectionMode noneBeneathSelection
+	self selectionMode beNoneBeneathSelection
 ]
 
 { #category : #layout }

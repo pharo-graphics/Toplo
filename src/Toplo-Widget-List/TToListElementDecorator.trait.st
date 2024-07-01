@@ -51,6 +51,12 @@ TToListElementDecorator >> nodeAt: anIndex [
 	^ self next nodeAt: anIndex
 ]
 
+{ #category : #'t - children - accessing' }
+TToListElementDecorator >> nodes [
+
+	^ self next nodes
+]
+
 { #category : #'t - infinite accessing' }
 TToListElementDecorator >> scrollToDataSourcePosition: anIndex [
 

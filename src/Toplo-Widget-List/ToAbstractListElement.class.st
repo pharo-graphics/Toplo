@@ -9,6 +9,7 @@ Class {
 		'beneathContainer',
 		'selectionMode',
 		'secondarySelectionMode',
+		'contextMenuSelectionMode',
 		'dataSource',
 		'nodeManager',
 		'commandChecker'
@@ -87,12 +88,38 @@ ToAbstractListElement >> commandChecker [
 ]
 
 { #category : #accessing }
+ToAbstractListElement >> contextMenuSelecter [ 
+
+	^ self contextMenuSelectionMode selecter
+]
+
+{ #category : #accessing }
 ToAbstractListElement >> contextMenuSelectionElements [
 
 	^ Array streamContents: [ :stream |
 		  self overContainer childrenDo: [ :child |
 			  (child isKindOf: ToListContextMenuSelectionElement) ifTrue: [
 				  stream nextPut: child ] ] ]
+]
+
+{ #category : #accessing }
+ToAbstractListElement >> contextMenuSelectionMode [
+
+	^ contextMenuSelectionMode
+]
+
+{ #category : #accessing }
+ToAbstractListElement >> contextMenuSelectionMode: aSelectionMode [
+
+	contextMenuSelectionMode ifNotNil: [ contextMenuSelectionMode onUninstalledIn: self ].
+	contextMenuSelectionMode := aSelectionMode.
+	contextMenuSelectionMode ifNotNil: [ contextMenuSelectionMode onInstalledIn: self ]
+]
+
+{ #category : #accessing }
+ToAbstractListElement >> contextMenuSelectionModel [
+
+	^ self contextMenuSelecter selectionModel
 ]
 
 { #category : #accessing }
@@ -143,6 +170,20 @@ ToAbstractListElement >> defaultCommandCheckerClass [
 ]
 
 { #category : #initialization }
+ToAbstractListElement >> defaultContextMenuSelectionMode [
+
+	^ ToListContextMenuSelectionMode new
+		  in: [ :mode |
+			  mode listEventHandler:
+					  (self newContextMenuSelectionEventHandler selectionMode: mode) ];
+		  selecter: (ToListSelecter
+				   basicOnSelectionModel: self newSelectionModel
+				   withEventClass: ToListContextMenuSelectionChangedEvent);
+		  elementClass: ToListContextMenuSelectionElement;
+		  yourself
+]
+
+{ #category : #initialization }
 ToAbstractListElement >> defaultContextMenuWindowManagerClass [
 
 		^ ToListElementContextMenuWindowManager
@@ -189,8 +230,8 @@ ToAbstractListElement >> defaultSecondarySelectionMode [
 
 	^ ToListSelectionMode new
 		  in: [ :mode |
-			  mode listEventHandlers:
-					  { (self newSecondarySelectionEventHandler selectionMode: mode) } ];
+			  mode listEventHandler:
+					  (self newSecondarySelectionEventHandler selectionMode: mode) ];
 		  selecter: (ToListSelecter
 				   basicOnSelectionModel: self newSecondarySelectionModel
 				   withEventClass: ToListSecondarySelectionChangedEvent);
@@ -203,9 +244,8 @@ ToAbstractListElement >> defaultSelectionMode [
 
 	^ self defaultSelectionModeClass new
 		  in: [ :mode |
-			  mode listEventHandlers: {
-						  (self newPrimarySelectionEventHandler selectionMode: mode).
-						  self newContextMenuEventHandler } ];
+			  mode listEventHandler:
+					  (self newPrimarySelectionEventHandler selectionMode: mode) ];
 		  selecter: (ToListSelecter
 				   compositeOnSelectionModel: self newPrimarySelectionModel
 				   withEventClass: ToListPrimarySelectionChangedEvent);
@@ -275,6 +315,7 @@ ToAbstractListElement >> initialize [
 	self selectionMode: self defaultSelectionMode.
 	self contextMenuWindowManagerClass: self defaultContextMenuWindowManagerClass.
 	self secondarySelectionMode: self defaultSecondarySelectionMode.
+	self contextMenuSelectionMode: self defaultContextMenuSelectionMode.
 
 	self matchParent
 ]
@@ -330,9 +371,9 @@ ToAbstractListElement >> newCommandApplierEventHandler [
 ]
 
 { #category : #'instance creation' }
-ToAbstractListElement >> newContextMenuEventHandler [
+ToAbstractListElement >> newContextMenuSelectionEventHandler [
 
-	^ ToListElementContextMenuSelectionEventHandler new
+	^ ToListContextMenuSelectionElementEventHandler new
 ]
 
 { #category : #'instance creation' }

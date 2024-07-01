@@ -2,7 +2,7 @@ Class {
 	#name : #ToListElementContextMenuRequest,
 	#superclass : #ToContextMenuRequest,
 	#instVars : [
-		'selection'
+		'selectionModel'
 	],
 	#category : #'Toplo-Widget-List-Context-menu'
 }
@@ -10,13 +10,13 @@ Class {
 { #category : #accessing }
 ToListElementContextMenuRequest >> selectedIndexes [
 
-	^ self selection indices
+	^ selectionModel selectedIndexes
 ]
 
 { #category : #accessing }
-ToListElementContextMenuRequest >> selection [
+ToListElementContextMenuRequest >> selectionModel: aSelectionModel [
 
-	^ selection ifNil: [ selection := ToIntervalCollection new ]
+	selectionModel := aSelectionModel
 ]
 
 { #category : #sending }

@@ -223,6 +223,7 @@ ToSandBox class >> example_BasicListWithAllClasses3 [
 				      icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
 				      startInterspace: 10;
 				      hMatchParent) ].
+	l inspect.
 	l addEventHandler: (BlEventHandler
 			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :evt | evt traceCr ]).
@@ -1098,7 +1099,7 @@ ToSandBox class >> example_ListWithAllClasses3 [
 				      icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
 				      startInterspace: 10;
 				      hMatchParent) ].
-	l selectionMode separateBeneathSelection.
+	l selectionMode beSeparateBeneathSelection.
 	l selectionMode beneathOption animationDuration: 200 milliSeconds.
 	l secondarySelectionMode beneathOption animationDuration: 150 milliSeconds.
 	l dataAccessor addAll: Smalltalk globals allClasses.
@@ -1283,8 +1284,8 @@ ToSandBox class >> example_PicsumPhotosGallery [
 		nodeHolderClass: ToPicsumPhotosGalleryImageHolder;
 		nodeFactory: [ ToPicsumPhotosGalleryImageNode new ];
 		nodeBuilder: [ :node :holder :dataItem | node labelString: dataItem id ].
-	list selectionMode noneBeneathSelection.
-	list selectionMode separateOverSelection.
+	list selectionMode beNoneBeneathSelection.
+	list selectionMode beSeparateOverSelection.
 	list selectionMode overElementClass: ToPicsumPhotosGallerySelectionElement.
 
 	[
@@ -2623,13 +2624,22 @@ ToSandBox class >> example_bar [
 	bar nodeBuilder: [ :node :holder :dataItem |
 		node label:
 			(ToLabel text: holder position asString , ': ' , dataItem asString) ].
+
 	bar contextMenu: [ :menu :request |
-	               | selectedIndexes target |
-	               target := request currentTarget.
-	               selectedIndexes := request selectedIndexes.
-	               menu addItem: (ToMenuItem new
-			                labelText: 'Inspect list';
-			                whenClickedDo: [ :event | target inspect ])].
+		| selectedIndexes target |
+		target := request currentTarget.
+		selectedIndexes := request selectedIndexes.
+		menu addItem: (ToMenuItem new
+				 labelText: 'Inspect list';
+				 whenClickedDo: [ :event | target inspect ]).
+		selectedIndexes ifNotEmpty: [
+			menu addItem: (ToMenuItem new
+					 labelText: 'Inspect selected nodes';
+					 whenClickedDo: [
+						 Array withAll:
+								 (selectedIndexes collect: [ :idx | target nodeAt: idx ])
+									 inspect ]) ] ].
+
 	bar vFitContent.
 	dashBoard := self barDashBoardFor: bar.
 	selectionModeBoard := self selectionModeChooserFor: bar.

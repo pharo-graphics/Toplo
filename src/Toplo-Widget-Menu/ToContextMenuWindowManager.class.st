@@ -25,6 +25,7 @@ ToContextMenuWindowManager >> initialize [
 
 { #category : #'window handling' }
 ToContextMenuWindowManager >> newWindowOpenRequestEventFromSourceEvent: anEvent [
+	" request from the ToElementContextMenuEventHandler>>mouseDownEvent: "
 
 	^ (super newWindowOpenRequestEventFromSourceEvent: anEvent)
 		  sourceEvent: anEvent;

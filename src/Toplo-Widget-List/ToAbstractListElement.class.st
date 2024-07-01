@@ -228,7 +228,7 @@ ToAbstractListElement >> defaultNodeManagerClass [
 { #category : #initialization }
 ToAbstractListElement >> defaultSecondarySelectionMode [
 
-	^ ToListSelectionMode new
+	^ ToListSecondarySelectionMode new
 		  in: [ :mode |
 			  mode listEventHandler:
 					  (self newSecondarySelectionEventHandler selectionMode: mode) ];

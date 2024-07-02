@@ -43,6 +43,8 @@ ToListContextMenuSelectionElementEventHandler >> listElementContextMenuRequest: 
 	target disableScrolledEvent.
 	globalPosition := anEvent sourceEvent position.
 
+	target isWithContextMenuSelection ifFalse: [ ^ self ].
+
 	" find de node at the event position "
 	childNode := nodeContainer nodes
 		             detect: [ :node |
@@ -50,15 +52,9 @@ ToListContextMenuSelectionElementEventHandler >> listElementContextMenuRequest: 
 				             node containsGlobalPoint: globalPosition ] ]
 		             ifNone: [  ].
 
-	" if no child is found -> just deselect all "
-	selectionModel := target selectionModel duplicate.
-	" copy the selection to have unabled, hidden and unselectable selection passed to the menu builder "
-	selectionModel copySelectionFrom: target selectionModel.
-	" pass the selection model to the event for the context menu window builder.
-	see ToAnchoredWindowManager>>newWindowEvent: "
-	anEvent selectionModel: selectionModel.
+	selectionModel := anEvent selectionModel.
 	childNode
-		ifNil: [
+		ifNil: [ " no found node -> just deselectAll "
 			selectionModel deselectAll.
 			target contextMenuSelecter deselectAll ]
 		ifNotNil: [

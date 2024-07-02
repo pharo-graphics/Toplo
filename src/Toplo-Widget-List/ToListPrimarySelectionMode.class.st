@@ -1,5 +1,5 @@
 Class {
-	#name : #ToListSelectionMode,
+	#name : #ToListPrimarySelectionMode,
 	#superclass : #ToAbstractListSelectionMode,
 	#instVars : [
 		'requestFocusOnMouseDown',
@@ -11,7 +11,7 @@ Class {
 }
 
 { #category : #testing }
-ToListSelectionMode >> allowRequestFocusOnMouseDown [
+ToListPrimarySelectionMode >> allowRequestFocusOnMouseDown [
 
 	| max |
 	self isDisabled ifTrue: [ ^ self requestFocusOnMouseDown ].
@@ -22,19 +22,19 @@ ToListSelectionMode >> allowRequestFocusOnMouseDown [
 ]
 
 { #category : #accessing }
-ToListSelectionMode >> beMultipleSelection [
+ToListPrimarySelectionMode >> beMultipleSelection [
 
 	self multiple: true
 ]
 
 { #category : #accessing }
-ToListSelectionMode >> beSingleSelection [
+ToListPrimarySelectionMode >> beSingleSelection [
 
 	self multiple: false
 ]
 
 { #category : #initialization }
-ToListSelectionMode >> initialize [
+ToListPrimarySelectionMode >> initialize [
 
 	super initialize.
 	requestFocusOnMouseDown := true.
@@ -44,13 +44,13 @@ ToListSelectionMode >> initialize [
 ]
 
 { #category : #testing }
-ToListSelectionMode >> isMultipleSelection [
+ToListPrimarySelectionMode >> isMultipleSelection [
 
 	^ multiple
 ]
 
 { #category : #testing }
-ToListSelectionMode >> maxSelectedIndexesForSelectionPreserving [
+ToListPrimarySelectionMode >> maxSelectedIndexesForSelectionPreserving [
 
 	^ self isMultipleSelection
 		       ifTrue: [ 1 ]
@@ -58,13 +58,13 @@ ToListSelectionMode >> maxSelectedIndexesForSelectionPreserving [
 ]
 
 { #category : #accessing }
-ToListSelectionMode >> multiple [
+ToListPrimarySelectionMode >> multiple [
 
 	^ multiple
 ]
 
 { #category : #accessing }
-ToListSelectionMode >> multiple: aBoolean [
+ToListPrimarySelectionMode >> multiple: aBoolean [
 
 	multiple = aBoolean ifTrue: [ ^ self ].
 	multiple := aBoolean.
@@ -73,14 +73,14 @@ ToListSelectionMode >> multiple: aBoolean [
 ]
 
 { #category : #accessing }
-ToListSelectionMode >> onAddedNode: aNode [
+ToListPrimarySelectionMode >> onAddedNode: aNode [
 
 	aNode clickEventHandlerClasses do: [ :cls |
 		aNode addEventHandler: cls new ]
 ]
 
 { #category : #'event handling' }
-ToListSelectionMode >> onClickEvent: anEvent onNode: aNode [
+ToListPrimarySelectionMode >> onClickEvent: anEvent onNode: aNode [
 	" implement the default/standard selection/deselection protocol"
 
 	self isDisabled ifTrue: [ ^ self ].
@@ -115,7 +115,7 @@ ToListSelectionMode >> onClickEvent: anEvent onNode: aNode [
 ]
 
 { #category : #accessing }
-ToListSelectionMode >> onRemovedNode: aNode [
+ToListPrimarySelectionMode >> onRemovedNode: aNode [
 
 	(aNode eventDispatcher handlers select: [ :handler |
 		 aNode clickEventHandlerClasses anySatisfy: [ :cls |
@@ -124,43 +124,43 @@ ToListSelectionMode >> onRemovedNode: aNode [
 ]
 
 { #category : #accessing }
-ToListSelectionMode >> preserveSelectionOnFocused [
+ToListPrimarySelectionMode >> preserveSelectionOnFocused [
 
 	^ preserveSelectionOnFocused
 ]
 
 { #category : #accessing }
-ToListSelectionMode >> preserveSelectionOnFocused: aBoolean [
+ToListPrimarySelectionMode >> preserveSelectionOnFocused: aBoolean [
 
 	preserveSelectionOnFocused := aBoolean
 ]
 
 { #category : #accessing }
-ToListSelectionMode >> requestFocusOnMouseDown [
+ToListPrimarySelectionMode >> requestFocusOnMouseDown [
 
 	^ requestFocusOnMouseDown
 ]
 
 { #category : #accessing }
-ToListSelectionMode >> requestFocusOnMouseDown: aBoolean [
+ToListPrimarySelectionMode >> requestFocusOnMouseDown: aBoolean [
 
 	requestFocusOnMouseDown := aBoolean 
 ]
 
 { #category : #accessing }
-ToListSelectionMode >> selectOnMouseDown [
+ToListPrimarySelectionMode >> selectOnMouseDown [
 
 	^ selectOnMouseDown
 ]
 
 { #category : #accessing }
-ToListSelectionMode >> selectOnMouseDown: aBoolean [
+ToListPrimarySelectionMode >> selectOnMouseDown: aBoolean [
 
 	selectOnMouseDown := aBoolean
 ]
 
 { #category : #'event handling' }
-ToListSelectionMode >> selectOrDeselectOnNode: aNode [
+ToListPrimarySelectionMode >> selectOrDeselectOnNode: aNode [
 
 	| index target |
 	index := aNode holder position.

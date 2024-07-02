@@ -35,6 +35,12 @@ ToAdditionalSelecter >> onUninstalledIn: anEventTarget [
 ]
 
 { #category : #accessing }
+ToAdditionalSelecter >> parentSelecter [
+
+	^ parentSelecter 
+]
+
+{ #category : #accessing }
 ToAdditionalSelecter >> parentSelecter: aCompositeSelecter [
 
 	parentSelecter ifNotNil: [ BlImmutableObjectChangeError signal ].

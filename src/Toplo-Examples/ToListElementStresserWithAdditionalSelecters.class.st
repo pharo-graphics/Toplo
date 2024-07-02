@@ -150,14 +150,19 @@ ToListElementStresserWithAdditionalSelecters >> initialize [
 { #category : #initialization }
 ToListElementStresserWithAdditionalSelecters >> newListElement [
 
-	^ ToListElement new
-		  withHiddenSelecter;
-		  withUnselectableSelecter;
-		  withDisabledSelecter;
-			nodeBuilder: [ :node :holder |
-		holder isUnselectable ifTrue: [ node background: Color red ].
-		node addChild: (ToLabel text: holder dataItem asString) hMatchParent ];
-		  yourself
+	| l |
+	l := ToListElement new
+		     withHiddenSelecter;
+		     withUnselectableSelecter;
+		     withDisabledSelecter;
+		     nodeBuilder: [ :node :holder |
+			     node addChild:
+					     (ToLabel text: holder dataItem asString) hMatchParent ];
+		     yourself.
+	l disabledSelectionMode onInstalledIn: l.
+	l unselectableSelectionMode onInstalledIn: l.
+
+	^ l
 ]
 
 { #category : #running }

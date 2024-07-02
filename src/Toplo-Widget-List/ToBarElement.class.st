@@ -89,6 +89,7 @@ ToBarElement >> initialize [
 	super initialize.
 	selectionMode beSeparateBeneathSelection.
 	selectionMode beNoneOverSelection.
+	contextMenuSelectionMode beSeparateOverSelection.
 	self configureLayout
 ]
 

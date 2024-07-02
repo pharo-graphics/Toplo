@@ -477,6 +477,12 @@ ToListSelecter >> selectedIndexes [
 ]
 
 { #category : #accessing }
+ToListSelecter >> selectionChangedEventClass [
+
+	^ selectionChangedEventClass
+]
+
+{ #category : #accessing }
 ToListSelecter >> selectionChangedEventClass: anEventClass [
 
 	selectionChangedEventClass ifNotNil: [ BlImmutableObjectChangeError signal ].

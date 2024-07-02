@@ -39,5 +39,5 @@ ToListContextMenuSelectionElement >> positionFrom: aPoint in: aListElement [
 { #category : #private }
 ToListContextMenuSelectionElement >> sizeFrom: aPoint in: aListElement [
 
-	^ aPoint + (aListElement padding right / 2 @ 0)
+	^ aPoint + ((aListElement padding left / 2) + (aListElement padding right / 2) @ 0)
 ]

@@ -48,6 +48,7 @@ ToSelectionGroup >> computeSelectionElementBoundsIn: aListElement [
 ToSelectionGroup >> createSelectionElementIn: aListElement [
 
 	cachedSelectionElement := option newSelectionElementFor: aListElement.
+	cachedSelectionElement nodes: self nodes.
 	self computeSelectionElementBoundsIn: aListElement
 ]
 

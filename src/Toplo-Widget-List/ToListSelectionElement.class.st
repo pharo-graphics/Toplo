@@ -2,19 +2,11 @@ Class {
 	#name : #ToListSelectionElement,
 	#superclass : #ToElement,
 	#instVars : [
-		'selectionOption'
+		'selectionOption',
+		'nodes'
 	],
 	#category : #'Toplo-Widget-List-Selection-Element'
 }
-
-{ #category : #accessing }
-ToListSelectionElement class >> selectionOption: aSelectionOption focused: aBoolean [
-
-	^ self new
-		  selectionOption: aSelectionOption;
-		  focused: aBoolean;
-		  yourself
-]
 
 { #category : #initialization }
 ToListSelectionElement >> initialize [
@@ -29,6 +21,18 @@ ToListSelectionElement >> initialize [
 ToListSelectionElement >> isBeneath [
 
 	^ selectionOption isBeneath
+]
+
+{ #category : #accessing }
+ToListSelectionElement >> nodes [
+
+	^ nodes
+]
+
+{ #category : #accessing }
+ToListSelectionElement >> nodes: aNodeArray [
+
+	nodes := aNodeArray
 ]
 
 { #category : #private }

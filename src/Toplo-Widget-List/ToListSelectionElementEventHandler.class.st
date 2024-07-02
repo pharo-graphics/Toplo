@@ -7,6 +7,12 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Element'
 }
 
+{ #category : #accessing }
+ToListSelectionElementEventHandler class >> selectionMode: aSelectionMode [
+
+	^ self new selectionMode: aSelectionMode
+]
+
 { #category : #'element handlers' }
 ToListSelectionElementEventHandler >> boundsHasChangedDuringScrollingEvent: anEvent [
 

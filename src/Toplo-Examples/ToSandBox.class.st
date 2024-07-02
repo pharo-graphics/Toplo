@@ -1286,7 +1286,7 @@ ToSandBox class >> example_PicsumPhotosGallery [
 		nodeBuilder: [ :node :holder :dataItem | node labelString: dataItem id ].
 	list selectionMode beNoneBeneathSelection.
 	list selectionMode beSeparateOverSelection.
-	list selectionMode overElementClass: ToPicsumPhotosGallerySelectionElement.
+	list selectionMode overElementBuilder: [ ToPicsumPhotosGallerySelectionElement new ].
 
 	[
 	| allImagesData |
@@ -5225,8 +5225,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 				lab addEventHandler: (BlEventHandler
 						 on: ToLabelTextReplacedEvent
 						 do: [
-						 l dataAccessor at: holder position put: lab text asString ]) ]
-			ifFalse: [ node background: (Color red alpha: 0.5) ].
+						 l dataAccessor at: holder position put: lab text asString ]) ].
 		node addChild: (ToLabeledIcon new
 				 label: lab;
 				 hMatchParent) ].

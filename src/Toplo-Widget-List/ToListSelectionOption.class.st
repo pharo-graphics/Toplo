@@ -3,10 +3,10 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'animationDuration',
-		'elementClass',
 		'selectionContainer',
 		'groupHolder',
-		'selectionMode'
+		'selectionMode',
+		'elementBuilder'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
@@ -72,15 +72,15 @@ ToListSelectionOption >> currentSelectionGroupsFrom: aListElement [
 ]
 
 { #category : #accessing }
-ToListSelectionOption >> elementClass [
+ToListSelectionOption >> elementBuilder [
 
-	^ elementClass ifNil: [ elementClass := selectionMode elementClass ]
+	^ elementBuilder ifNil: [ elementBuilder := selectionMode elementBuilder ]
 ]
 
 { #category : #accessing }
-ToListSelectionOption >> elementClass: aSelectionElementClass [
+ToListSelectionOption >> elementBuilder: aSelectionElementBuilderValuable [
 
-	elementClass := aSelectionElementClass
+	elementBuilder := aSelectionElementBuilderValuable
 ]
 
 { #category : #accessing }
@@ -143,7 +143,11 @@ ToListSelectionOption >> isSeparate [
 { #category : #'instance creation' }
 ToListSelectionOption >> newSelectionElementFor: aListElement [
 
-	^ self elementClass selectionOption: self focused: aListElement isFocused
+	" elementBuilder is lazy "
+	^ self elementBuilder value
+		  selectionOption: self;
+		  focused: aListElement isFocused;
+		  yourself
 ]
 
 { #category : #accessing }

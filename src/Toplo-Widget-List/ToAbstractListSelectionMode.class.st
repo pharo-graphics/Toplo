@@ -5,7 +5,7 @@ Class {
 		'listEventHandler',
 		'selecter',
 		'enabled',
-		'elementClass',
+		'elementBuilder',
 		'beneathOption',
 		'overOption'
 	],
@@ -64,6 +64,12 @@ ToAbstractListSelectionMode >> beSeparateOverSelection [
 ]
 
 { #category : #accessing }
+ToAbstractListSelectionMode >> beneathElementBuilder: aSelectionElementBuilderValuable [
+
+	beneathOption elementBuilder: aSelectionElementBuilderValuable
+]
+
+{ #category : #accessing }
 ToAbstractListSelectionMode >> beneathOption [
 
 	^ beneathOption
@@ -76,15 +82,15 @@ ToAbstractListSelectionMode >> disable [
 ]
 
 { #category : #accessing }
-ToAbstractListSelectionMode >> elementClass [
+ToAbstractListSelectionMode >> elementBuilder [
 
-	^ elementClass 
+	^ elementBuilder
 ]
 
 { #category : #accessing }
-ToAbstractListSelectionMode >> elementClass: aSelectionElementClass [
+ToAbstractListSelectionMode >> elementBuilder: aSelectionElementBuilderValuable [
 
-	elementClass := aSelectionElementClass
+	elementBuilder := aSelectionElementBuilderValuable
 ]
 
 { #category : #accessing }
@@ -127,6 +133,15 @@ ToAbstractListSelectionMode >> installDefaultOptionsIn: anElement [
 
 ]
 
+{ #category : #'api - hooks' }
+ToAbstractListSelectionMode >> installSelecterIn: anElement [
+
+	selecter
+		onInstalledIn: anElement;
+		enabled: self enabled;
+		multiple: self isMultipleSelection
+]
+
 { #category : #testing }
 ToAbstractListSelectionMode >> isDisabled [
 
@@ -161,10 +176,7 @@ ToAbstractListSelectionMode >> listEventHandler: anEventHandler [
 ToAbstractListSelectionMode >> onInstalledIn: anElement [
 
 	self installDefaultOptionsIn: anElement.
-	selecter
-		onInstalledIn: anElement;
-		enabled: self enabled;
-		multiple: self isMultipleSelection.
+	self installSelecterIn: anElement.
 	anElement addEventHandler: listEventHandler
 ]
 
@@ -172,7 +184,7 @@ ToAbstractListSelectionMode >> onInstalledIn: anElement [
 ToAbstractListSelectionMode >> onUninstalledIn: anElement [
 
 	anElement removeEventHandler: listEventHandler.
-	selecter onUninstalledIn: anElement.
+	self uninstallSelecterIn: anElement.
 	selecter := nil
 ]
 
@@ -183,9 +195,9 @@ ToAbstractListSelectionMode >> operator [
 ]
 
 { #category : #accessing }
-ToAbstractListSelectionMode >> overElementClass: aSelectionElementClass [
+ToAbstractListSelectionMode >> overElementBuilder: aSelectionElementBuilderValuable [
 
-	overOption elementClass: aSelectionElementClass
+	overOption elementBuilder: aSelectionElementBuilderValuable
 ]
 
 { #category : #accessing }
@@ -230,6 +242,13 @@ ToAbstractListSelectionMode >> selecter: aSelecter [
 ToAbstractListSelectionMode >> selectionModel [
 
 	^ selecter selectionModel
+]
+
+{ #category : #'api - hooks' }
+ToAbstractListSelectionMode >> uninstallSelecterIn: anElement [
+
+	selecter onUninstalledIn: anElement.
+	selecter := nil
 ]
 
 { #category : #private }

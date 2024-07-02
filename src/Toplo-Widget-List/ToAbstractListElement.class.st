@@ -12,7 +12,8 @@ Class {
 		'contextMenuSelectionMode',
 		'dataSource',
 		'nodeManager',
-		'commandChecker'
+		'commandChecker',
+		'withContextMenuSelection'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -39,6 +40,14 @@ ToAbstractListElement >> addOverSelectionElement: aSelectionElement [
 ToAbstractListElement >> addOverSelectionElements: anArray [
 
 	overContainer addChildren: anArray
+]
+
+{ #category : #initialization }
+ToAbstractListElement >> additionalModeSelecter: aSelecter elementBuilder: aSelectionElementBuilderValuable [
+
+	^ ToListAdditionalSelectionMode
+		  selecter: aSelecter
+		  elementBuilder: aSelectionElementBuilderValuable
 ]
 
 { #category : #'private - commands' }
@@ -179,7 +188,7 @@ ToAbstractListElement >> defaultContextMenuSelectionMode [
 		  selecter: (ToListSelecter
 				   basicOnSelectionModel: self newSelectionModel
 				   withEventClass: ToListContextMenuSelectionChangedEvent);
-		  elementClass: ToListContextMenuSelectionElement;
+		  elementBuilder: [ ToListContextMenuSelectionElement new ];
 		  yourself
 ]
 
@@ -235,7 +244,7 @@ ToAbstractListElement >> defaultSecondarySelectionMode [
 		  selecter: (ToListSelecter
 				   basicOnSelectionModel: self newSecondarySelectionModel
 				   withEventClass: ToListSecondarySelectionChangedEvent);
-		  elementClass: ToListSecondarySelectionElement;
+		  elementBuilder: [ ToListSecondarySelectionElement new ];
 		  yourself
 ]
 
@@ -249,20 +258,28 @@ ToAbstractListElement >> defaultSelectionMode [
 		  selecter: (ToListSelecter
 				   compositeOnSelectionModel: self newPrimarySelectionModel
 				   withEventClass: ToListPrimarySelectionChangedEvent);
-		  elementClass: ToListPrimarySelectionElement;
+		  elementBuilder: [ ToListPrimarySelectionElement new ];
 		  yourself
 ]
 
 { #category : #initialization }
 ToAbstractListElement >> defaultSelectionModeClass [
 
-	^ ToListSelectionMode
+	^ ToListPrimarySelectionMode
 ]
 
 { #category : #accessing }
 ToAbstractListElement >> disabledSelecter [ 
 
 	^ self selecter subSelecterWithId: #disabled
+]
+
+{ #category : #initialization }
+ToAbstractListElement >> disabledSelectionMode [
+
+	^ self
+		  additionalModeSelecter: self disabledSelecter
+		  elementBuilder: [ ToListDisabledSelectionElement new ]
 ]
 
 { #category : #accessing }
@@ -294,15 +311,18 @@ ToAbstractListElement >> initialize [
 
 	super initialize.
 	nodeManager := self defaultNodeManager.
+	withContextMenuSelection := true.
 
 	self initializeDataSource.
 	self initializeCommandChecker.
 	self initializeInnerContainer.
 
 	beneathContainer := ToOverlayElement new.
+	beneathContainer clipChildren: false.
 	beneathContainer attachTo: self innerContainer.
 	beneathContainer elevation: (BlRelativeElevation elevation: 5).
 	overContainer := ToOverlayElement new.
+	overContainer clipChildren: false.
 	overContainer attachTo: self innerContainer.
 	overContainer elevation: (BlRelativeElevation elevation: 15).
 	self addChildren: {
@@ -346,6 +366,12 @@ ToAbstractListElement >> initializeInnerContainer [
 ToAbstractListElement >> isMultipleSelection [
 
 	^ self selectionMode isMultipleSelection
+]
+
+{ #category : #accessing }
+ToAbstractListElement >> isWithContextMenuSelection [
+
+	^ withContextMenuSelection
 ]
 
 { #category : #accessing }
@@ -605,6 +631,14 @@ ToAbstractListElement >> unselectableSelecter [
 	^ self selecter subSelecterWithId: #unselectable
 ]
 
+{ #category : #initialization }
+ToAbstractListElement >> unselectableSelectionMode [
+
+	^ self
+		  additionalModeSelecter: self unselectableSelecter
+		  elementBuilder: [ ToListUnselectableSelectionElement new ]
+]
+
 { #category : #accessing }
 ToAbstractListElement >> unselectableSelectionModel [
 
@@ -621,6 +655,12 @@ ToAbstractListElement >> withAdditionalSelecterWithId: aSymbol withEventClass: a
 		              withEventClass: anEventClass.
 	additional onInstalledIn: self.
 	^ additional
+]
+
+{ #category : #accessing }
+ToAbstractListElement >> withContextMenuSelection: aBoolean [
+
+	withContextMenuSelection := aBoolean
 ]
 
 { #category : #'additional selecters' }

@@ -278,6 +278,9 @@ ToTheme class >> defaultTokenProperties [
 
 		  (ToTokenProperty name: #'border-width-primary-selection' value: 1).
 		  (ToTokenProperty
+			   name: #'border-color-danger-selection'
+			   value: Color red).
+		  (ToTokenProperty
 			   name: #'border-color-primary-selection'
 			   value: self defaultColorPrimary).
 		  (ToTokenProperty

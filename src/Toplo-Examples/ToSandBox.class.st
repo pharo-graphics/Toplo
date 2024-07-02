@@ -1151,8 +1151,24 @@ ToSandBox class >> example_ListWithAllClassesAsButton [
 { #category : #list }
 ToSandBox class >> example_ListWithEditableAndContextMenu [
 
-	| l |
+	| l unselectableMode |
 	l := self listWithEditableAndContextMenu.
+	unselectableMode := ToListAdditionalSelectionMode
+		                    selecter: l unselectableSelecter
+		                    elementBuilder: [
+			                    ToListBasicAdditionalSelectionElement new
+				                    positionHook: [ :p :li |
+					                    p - (li padding left / 2 @ 1) ];
+				                    sizeHook: [ :p :li |
+					                    p
+					                    +
+						                    (li padding left / 2
+						                     + (li padding right / 2) @ 2) ];
+				                    defaultSkin:
+					                    ToListUnselectableSelectionElementExempleSkin
+						                    new ].
+	l disabledSelectionMode onInstalledIn: l.
+	unselectableMode onInstalledIn: l.
 	l openInInnerWindow
 ]
 

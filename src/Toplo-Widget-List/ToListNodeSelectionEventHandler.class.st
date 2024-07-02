@@ -12,13 +12,19 @@ ToListNodeSelectionEventHandler >> clickEvent: anEvent [
 	listElement := node holder listElement.
 	mode := listElement selectionMode.
 	mode selectOnMouseDown ifTrue: [ ^ self ].
-	self notifyClickOnNodeFromEvent: anEvent
+	self notifyClickOnNodeFromEvent: anEvent.
+	anEvent consume
 ]
 
 { #category : #'api - accessing' }
 ToListNodeSelectionEventHandler >> eventsToHandle [
 
-	^ { ToListDoubleClickEvent. BlPrimaryClickEvent. BlPrimaryMouseDownEvent. ToListClickOnNodeRequestEvent. ToListClickOnNodeEvent  }
+	^ {
+		  ToListDoubleClickEvent.
+		  BlPrimaryClickEvent.
+		  BlPrimaryMouseDownEvent.
+		  ToListClickOnNodeRequestEvent.
+		  ToListClickOnNodeEvent }
 ]
 
 { #category : #'events handling' }

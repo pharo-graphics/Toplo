@@ -1,6 +1,8 @@
 Class {
 	#name : #ToListElementEventHandler,
 	#superclass : #BlCustomEventHandler,
+	#traits : 'TToListElementEventHandler',
+	#classTraits : 'TToListElementEventHandler classTrait',
 	#category : #'Toplo-Widget-List-Core'
 }
 
@@ -8,6 +10,16 @@ Class {
 ToListElementEventHandler >> blurEvent: anEvent [
 
 	self syncNodesSelectionIn: anEvent currentTarget 
+]
+
+{ #category : #'event handling' }
+ToListElementEventHandler >> clickEvent: anEvent [
+
+	anEvent isConsumed ifTrue: [ ^ self ].
+	anEvent ifPrimary: [ self primaryClickEvent: anEvent ]
+		  secondary: [ self secondaryClickEvent: anEvent ]
+		  middle: [ self middleClickEvent: anEvent ]
+		  other: [ self otherClickEvent: anEvent ]
 ]
 
 { #category : #'infinite event handling' }
@@ -49,6 +61,7 @@ ToListElementEventHandler >> eventsToHandle [
 		  BlElementAddedToSceneGraphEvent.
 
 		  BlMouseDownEvent.
+		  BlClickEvent.
 		  BlDoubleClickEvent.
 
 		  ToListNodeAddedEvent.
@@ -67,6 +80,7 @@ ToListElementEventHandler >> eventsToHandle [
 
 		  ToListPrimarySelectionModeChangedEvent.
 		  ToListSecondarySelectionModeChangedEvent.
+		  ToListHiddenSelectionChangedEvent.
 		  ToSelecterChangedEvent }
 ]
 
@@ -152,6 +166,12 @@ ToListElementEventHandler >> listDataSourceItemsRemovedEvent: anEvent [
 ]
 
 { #category : #'infinite event handling' }
+ToListElementEventHandler >> listHiddenSelectionChangedEvent: anEvent [
+
+	anEvent currentTarget notifyDataSourceChanged 
+]
+
+{ #category : #'infinite event handling' }
 ToListElementEventHandler >> listNodeAddedEvent: anEvent [
 
 	| listElement node |
@@ -182,6 +202,10 @@ ToListElementEventHandler >> listSecondarySelectionModeChangedEvent: anEvent [
 	anEvent currentTarget secondarySelecter deselectAll 
 ]
 
+{ #category : #'event handling' }
+ToListElementEventHandler >> middleClickEvent: anEvent [
+]
+
 { #category : #'mouse handlers' }
 ToListElementEventHandler >> mouseDownEvent: anEvent [
 
@@ -189,9 +213,30 @@ ToListElementEventHandler >> mouseDownEvent: anEvent [
 	anEvent isConsumed ifTrue: [ ^ self ].
 	target := anEvent currentTarget.
 	target stopScroll.
+	self
+		withTargetNodeFromEvent: anEvent
+		do: [ :node | node dispatchEvent: anEvent copy ].
 	target hasFocus ifTrue: [ ^ self ].
 	target requestFocus.
 	anEvent consume
+]
+
+{ #category : #'event handling' }
+ToListElementEventHandler >> otherClickEvent: anEvent [
+]
+
+{ #category : #'event handling' }
+ToListElementEventHandler >> primaryClickEvent: anEvent [
+
+	| target |
+	target := anEvent currentTarget.
+	self
+		withTargetNodeFromEvent: anEvent
+		do: [ :node | node dispatchEvent: anEvent copy ]
+]
+
+{ #category : #'event handling' }
+ToListElementEventHandler >> secondaryClickEvent: anEvent [
 ]
 
 { #category : #'infinite event handling' }

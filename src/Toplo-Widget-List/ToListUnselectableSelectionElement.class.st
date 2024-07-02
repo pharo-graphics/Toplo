@@ -13,11 +13,11 @@ ToListUnselectableSelectionElement >> newRawSkin [
 { #category : #private }
 ToListUnselectableSelectionElement >> positionFrom: aPoint in: aListElement [
 
-	^ aPoint - (aListElement padding left / 2 @ 1)
+	^ aPoint - (aListElement padding left / 2 @ 0)
 ]
 
 { #category : #private }
 ToListUnselectableSelectionElement >> sizeFrom: aPoint in: aListElement [
 
-	^ aPoint + ((aListElement padding left / 2) + (aListElement padding right / 2) @ 2)
+	^ aPoint + ((aListElement padding left / 2) + (aListElement padding right / 2) @ 0)
 ]

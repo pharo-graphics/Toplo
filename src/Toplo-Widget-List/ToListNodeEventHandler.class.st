@@ -24,9 +24,8 @@ ToListNodeEventHandler >> eventsToHandle [
 
 { #category : #layout }
 ToListNodeEventHandler >> mainLayoutDirectionChangedEvent: anEvent [
-	self constraintNode: anEvent currentTarget
 
-	
+	self constraintNode: anEvent currentTarget
 ]
 
 { #category : #layout }
@@ -38,7 +37,6 @@ ToListNodeEventHandler >> mainLayoutOrientationChangedEvent: anEvent [
 
 { #category : #layout }
 ToListNodeEventHandler >> mainResizerChangedEvent: anEvent [
-	self constraintNode: anEvent currentTarget
 
-	
+	self constraintNode: anEvent currentTarget
 ]

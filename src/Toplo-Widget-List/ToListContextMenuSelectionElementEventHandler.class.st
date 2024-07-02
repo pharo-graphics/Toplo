@@ -1,6 +1,8 @@
 Class {
 	#name : #ToListContextMenuSelectionElementEventHandler,
 	#superclass : #ToListSelectionElementEventHandler,
+	#traits : 'TToListElementEventHandler',
+	#classTraits : 'TToListElementEventHandler classTrait',
 	#category : #'Toplo-Widget-List-Selection-Element'
 }
 
@@ -42,11 +44,9 @@ ToListContextMenuSelectionElementEventHandler >> listElementContextMenuRequest: 
 	target isWithContextMenuSelection ifFalse: [ ^ self ].
 
 	" find de node at the event position "
-	childNode := nodeContainer nodes
-		             detect: [ :node |
-			             node holder isSelectable and: [
-				             node containsGlobalPoint: globalPosition ] ]
-		             ifNone: [  ].
+	self
+		withTargetNodeFromEvent: anEvent sourceEvent
+		do: [ :node | childNode := node ].
 
 	selectionModel := anEvent selectionModel.
 	childNode

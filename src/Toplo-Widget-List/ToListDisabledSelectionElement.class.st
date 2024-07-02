@@ -13,11 +13,11 @@ ToListDisabledSelectionElement >> newRawSkin [
 { #category : #private }
 ToListDisabledSelectionElement >> positionFrom: aPoint in: aListElement [
 
-	^ aPoint - (aListElement padding left / 2 @ 1)
+	^ aPoint - (aListElement padding left / 2 @ 0)
 ]
 
 { #category : #private }
 ToListDisabledSelectionElement >> sizeFrom: aPoint in: aListElement [
 
-	^ aPoint + ((aListElement padding left / 2) + (aListElement padding right / 2) @ 2)
+	^ aPoint + ((aListElement padding left / 2) + (aListElement padding right / 2) @ 0)
 ]

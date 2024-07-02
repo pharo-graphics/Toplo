@@ -53,7 +53,7 @@ ToSelectElementSkin >> shortcutsToInstallIn: aSelect [
 					   listElement selecter selectIndexes: selIdxes.
 					   listElement selecter deselectIndexes: deselIdxes ]).
 
-		  listElement isMultipleSelection ifTrue: [
+		  listElement secondarySelectionMode isMultipleSelection ifTrue: [
 			  aSelect isFiltrable ifTrue: [
 				  stream nextPut: ToSelectTextFieldBackspaceShortcut new ].
 			  stream nextPut: (BlShortcutWithAction new

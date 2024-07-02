@@ -76,7 +76,8 @@ ToMultiSelectElement >> maxSelectedCount [
 ToMultiSelectElement >> maxSelectedCount: aNumber [
 
 	maxSelectedCount := aNumber.
-	self iconContainer maxSelectedCount: aNumber
+	self iconContainer maxSelectedCount: aNumber.
+	self listElement secondarySelectionMode multiple: aNumber = 0
 ]
 
 { #category : #'instance creation' }

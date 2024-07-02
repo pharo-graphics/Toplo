@@ -28,6 +28,12 @@ ToScrollCommand >> index: anIndex [
 	index := anIndex
 ]
 
+{ #category : #accessing }
+ToScrollCommand >> indexes [ 
+
+	^ Array with: index
+]
+
 { #category : #initialization }
 ToScrollCommand >> initialize [ 
 

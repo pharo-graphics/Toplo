@@ -77,20 +77,19 @@ ToListSelecter >> beSingleSelection [
 ]
 
 { #category : #'command application' }
-ToListSelecter >> commandApplied: aCommand [ 
+ToListSelecter >> commandApplied: aCommand [
 
 	| req |
-	eventTarget dispatchEvent:
-		(ToSelectionCommandAppliedEvent new
+	eventTarget dispatchEvent: (ToSelectionCommandAppliedEvent new
 			 command: aCommand;
 			 yourself).
 
 	req := ToListSelectionChangeRequestEvent new
 		       selectionModel: aCommand selectionModel;
 		       requestedAction: [
-			       eventTarget dispatchEvent:
-					       (selectionChangedEventClass new
+			       eventTarget dispatchEvent: (selectionChangedEventClass new
 						        selectionModel: aCommand selectionModel;
+						        touchedIndexes: aCommand indexes;
 						        yourself) ];
 		       yourself.
 
@@ -514,4 +513,12 @@ ToListSelecter >> shiftSelection: anInteger from: anIndex [
 ToListSelecter >> sideIdx: aGap [
 
 	^ enabled ifFalse: [ 0 ] ifTrue: [ selectionModel sideIdx: aGap startingAt: self currentIndex ]
+]
+
+{ #category : #operations }
+ToListSelecter >> switchIndexSelection: anIndex [
+
+	(self containsIndex: anIndex)
+		ifTrue: [ self deselectIndex: anIndex ]
+		ifFalse: [ self selectIndex: anIndex ]
 ]

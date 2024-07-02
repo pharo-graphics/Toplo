@@ -7,9 +7,8 @@ Class {
 { #category : #'nodes collecting' }
 ToListGroupedSelection >> currentSelectionGroupsFrom: aListElement [
 
-	^ (aListElement innerContainer nodeGroupsSatisfying: [ :n |
-		   (selectionMode selectionModel containsIndex: n holder position)
-			   and: [ n holder isHidden not ] ]) collect: [ :arr |
+	^ (aListElement innerContainer nodeGroupsSatisfying: [ :node |
+		   selectionMode isSelectableNode: node ]) collect: [ :arr |
 		  ToNeighboringSelection new
 			  option: self;
 			  nodes: arr ]

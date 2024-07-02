@@ -1,9 +1,6 @@
 Class {
 	#name : #ToWholeSelectionCommand,
 	#superclass : #ToSelectionModelAddRemoveCommand,
-	#instVars : [
-		'maxIndex'
-	],
 	#category : #'Toplo-Widget-List-Command'
 }
 
@@ -27,13 +24,7 @@ ToWholeSelectionCommand >> applyWithOperator: anOperator [
 ]
 
 { #category : #accessing }
-ToWholeSelectionCommand >> maxIndex [
+ToWholeSelectionCommand >> indexes [ 
 
-	^ maxIndex
-]
-
-{ #category : #accessing }
-ToWholeSelectionCommand >> maxIndex: anIndex [
-
-	maxIndex := anIndex
+	^ 1 to: selectionModel itemCount
 ]

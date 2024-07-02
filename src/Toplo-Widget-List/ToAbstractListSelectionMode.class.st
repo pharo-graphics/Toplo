@@ -160,6 +160,20 @@ ToAbstractListSelectionMode >> isMultipleSelection [
 	^ self subclassResponsibility 
 ]
 
+{ #category : #testing }
+ToAbstractListSelectionMode >> isPrimary [
+
+	^ false
+]
+
+{ #category : #testing }
+ToAbstractListSelectionMode >> isSelectableNode: aNode [
+
+
+	^ (self selectionModel containsIndex: aNode holder position)
+			   and: [ aNode holder isHidden not ]
+]
+
 { #category : #accessing }
 ToAbstractListSelectionMode >> itemCount [
 

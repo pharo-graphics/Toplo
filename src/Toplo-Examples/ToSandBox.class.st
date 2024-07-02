@@ -1151,24 +1151,8 @@ ToSandBox class >> example_ListWithAllClassesAsButton [
 { #category : #list }
 ToSandBox class >> example_ListWithEditableAndContextMenu [
 
-	| l unselectableMode |
+	| l |
 	l := self listWithEditableAndContextMenu.
-	unselectableMode := ToListAdditionalSelectionMode
-		                    selecter: l unselectableSelecter
-		                    elementBuilder: [
-			                    ToListBasicAdditionalSelectionElement new
-				                    positionHook: [ :p :li |
-					                    p - (li padding left / 2 @ 1) ];
-				                    sizeHook: [ :p :li |
-					                    p
-					                    +
-						                    (li padding left / 2
-						                     + (li padding right / 2) @ 2) ];
-				                    defaultSkin:
-					                    ToListUnselectableSelectionElementExempleSkin
-						                    new ].
-	l disabledSelectionMode onInstalledIn: l.
-	unselectableMode onInstalledIn: l.
 	l openInInnerWindow
 ]
 
@@ -5200,6 +5184,13 @@ ToSandBox class >> listWithEditableAndContextMenu [
 	l withDisabledSelecter.
 	l withUnselectableSelecter.
 	l withHiddenSelecter.
+	l newDisabledSelectionMode onInstalledIn: l.
+	l newUnselectableSelectionMode
+		elementBuilder: [
+			ToListUnselectableSelectionElement new defaultSkin:
+					ToListUnselectableSelectionElementExempleSkin new ];
+		onInstalledIn: l;
+		beSeparateOverSelection.
 
 	phtext := (('Invoke the context menu ' , String cr
 	            , 'with a right-click' , String cr
@@ -5223,25 +5214,23 @@ ToSandBox class >> listWithEditableAndContextMenu [
 		| lab |
 		lab := ToLabel text: dataItem.
 		lab beMultiLine.
-		holder isSelectable
-			ifTrue: [
-				lab beEditable.
-				lab stillPressedStartDelay: 800 milliSeconds.
-				lab addEventHandler: (BlEventHandler
-						 on: ToStillPressedSkinEvent
-						 do: [ :event |
-							 event consume.
-							 lab addEditorEvent: event ]).
-				lab addEventHandler: (BlEventHandler
-						 on: ToLabelEditorOpenedEvent
-						 do: [ l disableScrolledEvent ]).
-				lab addEventHandler: (BlEventHandler
-						 on: ToLabelEditorClosedEvent
-						 do: [ l enableScrolledEvent ]).
-				lab addEventHandler: (BlEventHandler
-						 on: ToLabelTextReplacedEvent
-						 do: [
-						 l dataAccessor at: holder position put: lab text asString ]) ].
+		holder isSelectable ifTrue: [
+			lab beEditable.
+			lab stillPressedStartDelay: 800 milliSeconds.
+			lab addEventHandler: (BlEventHandler
+					 on: ToStillPressedSkinEvent
+					 do: [ :event |
+						 event consume.
+						 lab addEditorEvent: event ]).
+			lab addEventHandler: (BlEventHandler
+					 on: ToLabelEditorOpenedEvent
+					 do: [ l disableScrolledEvent ]).
+			lab addEventHandler: (BlEventHandler
+					 on: ToLabelEditorClosedEvent
+					 do: [ l enableScrolledEvent ]).
+			lab addEventHandler: (BlEventHandler
+					 on: ToLabelTextReplacedEvent
+					 do: [ l dataAccessor at: holder position put: lab text asString ]) ].
 		node addChild: (ToLabeledIcon new
 				 label: lab;
 				 hMatchParent) ].
@@ -5253,10 +5242,10 @@ ToSandBox class >> listWithEditableAndContextMenu [
 					 'Double click on: ' , (event indexes asString contractTo: 150) ]).
 
 	menuFactory := [ :menu :request |
-	               | selectionModel selectedIndexes target |
+	               | selectionModel indexes target |
 	               target := request currentTarget.
 	               selectionModel := request selectionModel.
-	               selectedIndexes := request selectedIndexes.
+	               indexes := request selectedIndexes.
 	               menu addItem: (ToMenuItem new
 			                labelText: 'Add initial Items';
 			                whenClickedDo: [ :event |
@@ -5296,12 +5285,12 @@ ToSandBox class >> listWithEditableAndContextMenu [
 							                target selectionMode beneathOption
 								                animationDuration: 200 milliSeconds ];
 						                yourself) ] ].
-	               selectedIndexes ifNotEmpty: [
+	               indexes ifNotEmpty: [
 		               selectionMenu := ToMenu new.
 		               selectionMenu label: (ToLabel new text: 'Selection').
-		               selectedIndexes size = 1 ifTrue: [
+		               indexes size = 1 ifTrue: [
 			               | node idx label |
-			               idx := selectedIndexes first.
+			               idx := indexes first.
 			               node := l nodeAt: idx.
 			               label := node firstChild label.
 			               selectionMenu addItem: (ToMenuItem new
@@ -5326,31 +5315,27 @@ ToSandBox class >> listWithEditableAndContextMenu [
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Enable/Disable';
 				                whenClickedDo: [ :event |
-					                selectedIndexes do: [ :idx |
-							                (target disabledSelectionModel containsIndex:
-									                 idx)
-								                ifTrue: [
-									                target disabledSelecter deselectIndex: idx ]
-								                ifFalse: [
-									                target disabledSelecter selectIndex: idx ] ] ];
+					                indexes do: [ :idx |
+							                target disabledSelecter switchIndexSelection:
+									                idx ] ];
 				                yourself).
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Set unselectable';
 				                whenClickedDo: [ :event |
-					                selectedIndexes do: [ :idx |
+					                indexes do: [ :idx |
 							                target unselectableSelecter selectIndex: idx ] ];
 				                yourself).
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Hide';
 				                whenClickedDo: [ :event |
-					                selectedIndexes do: [ :idx |
+					                indexes do: [ :idx |
 							                target hiddenSelecter selectIndex: idx ] ];
 				                yourself).
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Insert before';
 				                whenClickedDo: [ :event |
 					                | idx |
-					                idx := selectedIndexes first.
+					                idx := indexes first.
 					                target dataAccessor
 						                add:
 							                String loremIpsum substrings first
@@ -5361,7 +5346,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 				                labelText: 'Insert after';
 				                whenClickedDo: [ :event |
 					                | idx |
-					                idx := selectedIndexes last.
+					                idx := indexes last.
 					                target dataAccessor
 						                add:
 							                String loremIpsum substrings first
@@ -5372,7 +5357,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Remove';
 				                whenClickedDo: [ :event |
-					                selectedIndexes reverseDo: [ :idx |
+					                indexes reverseDo: [ :idx |
 							                target dataAccessor removeAt: idx ] ];
 				                yourself).
 		               menu addSeparator.

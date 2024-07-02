@@ -13,10 +13,6 @@ ToListContextMenuSelectionElementEventHandler >> contextMenuClosedEvent: anEvent
 	target contextMenuSelecter deselectAll
 ]
 
-{ #category : #'selection managing' }
-ToListContextMenuSelectionElementEventHandler >> differUpdateSelectionFrom: anElement [
-]
-
 { #category : #'api - accessing' }
 ToListContextMenuSelectionElementEventHandler >> eventsToHandle [
 

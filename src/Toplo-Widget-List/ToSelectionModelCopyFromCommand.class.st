@@ -27,6 +27,12 @@ ToSelectionModelCopyFromCommand >> applyWithOperator: anOperator [
 ]
 
 { #category : #accessing }
+ToSelectionModelCopyFromCommand >> indexes [ 
+
+	^ 1 to: sourceSelectionModel itemCount
+]
+
+{ #category : #accessing }
 ToSelectionModelCopyFromCommand >> sourceSelectionModel [
 
 	^ sourceSelectionModel

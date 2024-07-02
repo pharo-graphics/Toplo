@@ -8,6 +8,12 @@ Class {
 }
 
 { #category : #accessing }
+ToListElementCommand >> indexes [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #accessing }
 ToListElementCommand >> selectionModel [
 
 	^ selectionModel

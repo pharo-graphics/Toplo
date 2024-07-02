@@ -159,8 +159,8 @@ ToListElementStresserWithAdditionalSelecters >> newListElement [
 			     node addChild:
 					     (ToLabel text: holder dataItem asString) hMatchParent ];
 		     yourself.
-	l disabledSelectionMode onInstalledIn: l.
-	l unselectableSelectionMode onInstalledIn: l.
+	l newDisabledSelectionMode onInstalledIn: l.
+	l newUnselectableSelectionMode onInstalledIn: l.
 
 	^ l
 ]

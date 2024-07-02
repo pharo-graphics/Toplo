@@ -2,7 +2,8 @@ Class {
 	#name : #ToListSelectionChangedEvent,
 	#superclass : #ToListElementEvent,
 	#instVars : [
-		'selectionModel'
+		'selectionModel',
+		'touchedIndexes'
 	],
 	#category : #'Toplo-Widget-List-Selection-Events'
 }
@@ -23,4 +24,16 @@ ToListSelectionChangedEvent >> selectionModel [
 ToListSelectionChangedEvent >> selectionModel: anObject [
 
 	selectionModel := anObject
+]
+
+{ #category : #accessing }
+ToListSelectionChangedEvent >> touchedIndexes [
+
+	^ touchedIndexes
+]
+
+{ #category : #accessing }
+ToListSelectionChangedEvent >> touchedIndexes: aCollection [
+
+	touchedIndexes := aCollection
 ]

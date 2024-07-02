@@ -274,14 +274,6 @@ ToAbstractListElement >> disabledSelecter [
 	^ self selecter subSelecterWithId: #disabled
 ]
 
-{ #category : #initialization }
-ToAbstractListElement >> disabledSelectionMode [
-
-	^ self
-		  additionalModeSelecter: self disabledSelecter
-		  elementBuilder: [ ToListDisabledSelectionElement new ]
-]
-
 { #category : #accessing }
 ToAbstractListElement >> disabledSelectionModel [
 
@@ -402,6 +394,14 @@ ToAbstractListElement >> newContextMenuSelectionEventHandler [
 	^ ToListContextMenuSelectionElementEventHandler new
 ]
 
+{ #category : #initialization }
+ToAbstractListElement >> newDisabledSelectionMode [
+
+	^ self
+		  additionalModeSelecter: self disabledSelecter
+		  elementBuilder: [ ToListDisabledSelectionElement new ]
+]
+
 { #category : #'instance creation' }
 ToAbstractListElement >> newPrimarySelectionEventHandler [
 
@@ -441,6 +441,19 @@ ToAbstractListElement >> newSelectionModel [
 
 	^ ToSelectionModel new
 		  itemCountGetter: [ self dataSource itemCount ];
+		  yourself
+]
+
+{ #category : #initialization }
+ToAbstractListElement >> newUnselectableSelectionMode [
+
+	^ ToListAdditionalSelectionMode new
+		  in: [ :mode |
+			  mode listEventHandler:
+					  (ToListUnselectableSelectionElementEventHandler selectionMode:
+							   mode) ];
+		  selecter: self unselectableSelecter;
+		  elementBuilder: [ ToListUnselectableSelectionElement new ];
 		  yourself
 ]
 
@@ -629,14 +642,6 @@ ToAbstractListElement >> sieveResultWith: aSieve [
 ToAbstractListElement >> unselectableSelecter [
 
 	^ self selecter subSelecterWithId: #unselectable
-]
-
-{ #category : #initialization }
-ToAbstractListElement >> unselectableSelectionMode [
-
-	^ self
-		  additionalModeSelecter: self unselectableSelecter
-		  elementBuilder: [ ToListUnselectableSelectionElement new ]
 ]
 
 { #category : #accessing }

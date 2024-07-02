@@ -15,10 +15,6 @@ ToListBasicAdditionalSelectionElementEventHandler class >> selectionMode: aSelec
 		  yourself
 ]
 
-{ #category : #'selection managing' }
-ToListBasicAdditionalSelectionElementEventHandler >> differUpdateSelectionFrom: target [
-]
-
 { #category : #'api - accessing' }
 ToListBasicAdditionalSelectionElementEventHandler >> eventsToHandle [
 
@@ -38,13 +34,17 @@ ToListBasicAdditionalSelectionElementEventHandler >> handleEvent: anEvent [
 { #category : #'element handlers' }
 ToListBasicAdditionalSelectionElementEventHandler >> listAdditionalSelectionChangedEvent: anEvent [
 
+	| touchedIndexes target |
+	touchedIndexes := anEvent touchedIndexes.
+	target := anEvent currentTarget.
+
 	self refreshSelectionFromEvent: anEvent.
-	self flag: 'To check because notifying change to the data source is time consuming'.
-	anEvent currentTarget dataSource notifyChanged.
-	self flag: 'Normaly, notifying change to the only concerned items should be enough'.
-	"anEvent selectionModel selectedIndexesIntervalsDo: [ :interval |
-		anEvent currentTarget dataSource notifyItemsChanged:
-			(interval first to: interval last) ]"
+
+	touchedIndexes size >= (target nodes size)
+		ifTrue: [ target notifyDataSourceChanged ]
+		ifFalse: [
+			touchedIndexes do: [ :idx |
+				target dataSource notifyItemsChanged: (idx to: idx) ] ]
 ]
 
 { #category : #accessing }

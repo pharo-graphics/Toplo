@@ -53,6 +53,12 @@ ToIntervalSelectionCommand >> from: aFromIndex to: aToIndex [
 ]
 
 { #category : #accessing }
+ToIntervalSelectionCommand >> indexes [ 
+
+	^ self computedInterval 
+]
+
+{ #category : #accessing }
 ToIntervalSelectionCommand >> to [
 
 	^ to

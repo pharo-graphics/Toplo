@@ -50,6 +50,19 @@ ToListPrimarySelectionMode >> isMultipleSelection [
 ]
 
 { #category : #testing }
+ToListPrimarySelectionMode >> isPrimary [ 
+
+	^ true
+]
+
+{ #category : #testing }
+ToListPrimarySelectionMode >> isSelectableNode: aNode [
+
+	^ aNode holder isSelectable and:
+		  (self selectionModel containsIndex: aNode holder position)
+]
+
+{ #category : #testing }
 ToListPrimarySelectionMode >> maxSelectedIndexesForSelectionPreserving [
 
 	^ self isMultipleSelection

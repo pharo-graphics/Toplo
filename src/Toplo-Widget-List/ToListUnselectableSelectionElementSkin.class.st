@@ -15,9 +15,10 @@ ToListUnselectableSelectionElementSkin >> installSkinEvent: anEvent [
 		border := BlBorderBuilder new
 			          paint:
 				          (e valueOfTokenNamed: #'border-color-danger-selection');
-			          width:
-				          (e valueOfTokenNamed: #'border-width-primary-selection');
+			          width: 2;
 			          dashArray: (e valueOfTokenNamed: #'dash-array');
 			          build.
-		e border: border ]
+		e border: border.
+		e background:
+			((e valueOfTokenNamed: #'border-color-danger-selection') alpha: 0.1) ]
 ]

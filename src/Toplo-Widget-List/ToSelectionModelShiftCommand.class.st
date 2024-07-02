@@ -40,6 +40,12 @@ ToSelectionModelShiftCommand >> fromIndex: anIndex [
 ]
 
 { #category : #accessing }
+ToSelectionModelShiftCommand >> indexes [ 
+
+	^ fromIndex to: fromIndex + itemCount - 1
+]
+
+{ #category : #accessing }
 ToSelectionModelShiftCommand >> itemCount [
 
 	^ itemCount

@@ -22,7 +22,6 @@ ToListSelectionElementEventHandler >> boundsHasChangedDuringScrollingEvent: anEv
 { #category : #'selection managing' }
 ToListSelectionElementEventHandler >> differUpdateSelectionFrom: target [
 
-	self subclassResponsibility 
 ]
 
 { #category : #'event handling' }

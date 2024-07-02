@@ -27,6 +27,12 @@ TToListElementDecorator >> innerContainer [
 	^ self next innerContainer
 ]
 
+{ #category : #'t - infinite accessing' }
+TToListElementDecorator >> layoutPositionsRange [
+
+	^ self next layoutPositionsRange
+]
+
 { #category : #'t - accessing constraints' }
 TToListElementDecorator >> maxHeight: aHeight [
 

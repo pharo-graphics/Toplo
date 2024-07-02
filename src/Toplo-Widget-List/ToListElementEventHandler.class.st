@@ -67,10 +67,7 @@ ToListElementEventHandler >> eventsToHandle [
 
 		  ToListPrimarySelectionModeChangedEvent.
 		  ToListSecondarySelectionModeChangedEvent.
-		  ToSelecterChangedEvent.
-		  ToListHiddenSelectionChangedEvent.
-		  ToListUnselectableSelectionChangedEvent.
-		  ToListDisabledSelectionChangedEvent }
+		  ToSelecterChangedEvent }
 ]
 
 { #category : #'event handling' }
@@ -154,36 +151,6 @@ ToListElementEventHandler >> listDataSourceItemsRemovedEvent: anEvent [
 		from: anEvent position
 ]
 
-{ #category : #'list element handling' }
-ToListElementEventHandler >> listDisabledSelectionChangedEvent: anEvent [
-
-	| listElement |
-	listElement := anEvent currentTarget.
-	listElement isAttachedToSceneGraph ifFalse: [ ^ self ].
-
-	anEvent selectionModel ifEmpty: [
-		listElement dataSource notifyChanged.
-		^ self ].
-	anEvent selectionModel selectedIndexesIntervalsDo: [ :interval |
-		listElement dataSource notifyItemsChanged:
-			(interval first to: interval last) ]
-]
-
-{ #category : #'list element handling' }
-ToListElementEventHandler >> listHiddenSelectionChangedEvent: anEvent [
-
-	| listElement |
-	listElement := anEvent currentTarget.
-	listElement isAttachedToSceneGraph ifFalse: [ ^ self ].
-
-	anEvent selectionModel ifEmpty: [
-		listElement dataSource notifyChanged.
-		^ self ].
-	anEvent selectionModel selectedIndexesIntervalsDo: [ :interval |
-		listElement dataSource notifyItemsChanged:
-			(interval first to: interval last) ]
-]
-
 { #category : #'infinite event handling' }
 ToListElementEventHandler >> listNodeAddedEvent: anEvent [
 
@@ -213,31 +180,6 @@ ToListElementEventHandler >> listPrimarySelectionModeChangedEvent: anEvent [
 ToListElementEventHandler >> listSecondarySelectionModeChangedEvent: anEvent [
 
 	anEvent currentTarget secondarySelecter deselectAll 
-]
-
-{ #category : #'list element handling' }
-ToListElementEventHandler >> listUnselectableSelectionChangedEvent: anEvent [
-
-	| listElement |
-	listElement := anEvent currentTarget.
-	listElement isAttachedToSceneGraph ifFalse: [ ^ self ].
-	listElement innerContainer hasChildren ifFalse: [ ^ self ].
-	anEvent selectionModel ifEmpty: [
-		listElement dataSource notifyChanged.
-		^ self ].
-
-	listElement selectionModel unselectableSelectionModelDo: [ :sm |
-		| firstPos lastPos |
-		firstPos := listElement innerContainer firstChild holder position.
-		lastPos := listElement innerContainer lastChild holder position.
-		firstPos to: lastPos do: [ :idx |
-			((listElement selectionModel containsIndex: idx) and: [
-				 sm containsIndex: idx ]) ifTrue: [
-				listElement selecter deselectIndex: idx ] ] ].
-
-	anEvent selectionModel selectedIndexesIntervalsDo: [ :interval |
-		listElement dataSource notifyItemsChanged:
-			(interval first to: interval last) ]
 ]
 
 { #category : #'mouse handlers' }

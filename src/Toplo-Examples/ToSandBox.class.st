@@ -3506,6 +3506,7 @@ ToSandBox class >> example_segmentedWithCheckboxes [
 		checkableBar checkableElementAccessor add: (ToCheckbox new
 				 label: (ToLabel text: l);
 				 startFlexible: true;
+				 beEndToStart;
 				 yourself) ].
 
 	dashBoard := self segmentedDashBoardFor: checkableBar.

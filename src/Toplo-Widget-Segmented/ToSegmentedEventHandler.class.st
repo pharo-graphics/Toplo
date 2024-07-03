@@ -1,6 +1,6 @@
 Class {
 	#name : #ToSegmentedEventHandler,
-	#superclass : #ToListElementEventHandler,
+	#superclass : #BlCustomEventHandler,
 	#category : #'Toplo-Widget-Segmented'
 }
 
@@ -21,6 +21,6 @@ ToSegmentedEventHandler >> checkableGroupChangedEvent: anEvent [
 { #category : #'api - accessing' }
 ToSegmentedEventHandler >> eventsToHandle [
 
-	^ super eventsToHandle, { ToCheckableGroupChangedEvent }
+	^ { ToCheckableGroupChangedEvent }
 
 ]

@@ -281,7 +281,7 @@ ToListElementStresser >> maxListSize [
 { #category : #accessing }
 ToListElementStresser >> maxRound [
 
-	^ maxRound ifNil: [ maxRound := 15000 ]
+	^ maxRound ifNil: [ maxRound := 6000 ]
 ]
 
 { #category : #accessing }

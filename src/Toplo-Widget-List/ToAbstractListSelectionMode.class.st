@@ -222,7 +222,6 @@ ToAbstractListSelectionMode >> overOption [
 
 { #category : #private }
 ToAbstractListSelectionMode >> refreshSelectionIn: aListElement [
-	" return a collection with instances of ToListPrimarySelectionElement "
 
 	beneathOption groupHolder refreshSelectionIn: aListElement.
 	overOption groupHolder refreshSelectionIn: aListElement.
@@ -267,7 +266,6 @@ ToAbstractListSelectionMode >> uninstallSelecterIn: anElement [
 
 { #category : #private }
 ToAbstractListSelectionMode >> updateSelectionIn: aListElement [
-	" return a collection with instances of ToListPrimarySelectionElement "
 
 	beneathOption groupHolder updateSelectionIn: aListElement.
 	overOption groupHolder updateSelectionIn: aListElement

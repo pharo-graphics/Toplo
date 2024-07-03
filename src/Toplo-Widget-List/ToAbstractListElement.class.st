@@ -381,11 +381,9 @@ ToAbstractListElement >> layoutStrategy [
 ]
 
 { #category : #'instance creation' }
-ToAbstractListElement >> newCommandApplierEventHandler [ 
-
-	^ ToElementCommandApplierEventHandler new
-			 element: self;
-			 yourself
+ToAbstractListElement >> newCommandApplierEventHandler [
+	
+	^ self subclassResponsibility 
 ]
 
 { #category : #'instance creation' }

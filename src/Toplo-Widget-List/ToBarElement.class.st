@@ -106,6 +106,15 @@ ToBarElement >> layoutConfigurator [
 	^ ToBarLayoutConfigurator new
 ]
 
+{ #category : #'instance creation' }
+ToBarElement >> newCommandApplierEventHandler [
+
+	^ ToElementCommandApplierEventHandler new
+			 element: self;
+			 yourself
+
+]
+
 { #category : #skin }
 ToBarElement >> newRawSkin [ 
 

@@ -32,3 +32,18 @@ ToInfiniteDataSourceManager >> onItemsSieved: aPositionStart itemCount: anItemCo
 
 	^ pendingCommands notEmpty
 ]
+
+{ #category : #'data source updates' }
+ToInfiniteDataSourceManager >> onSelecterCommand: aCommand appliedBy: anApplier [
+	"Return true if pending commands should be processed,
+	otherwise false"
+
+	"Register add command"
+
+	pendingCommands add: (ToSelecterCommandApplication new
+			 applier: anApplier;
+			 command: aCommand;
+			 yourself).
+
+	^ pendingCommands notEmpty
+]

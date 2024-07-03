@@ -64,3 +64,15 @@ ToInfiniteDataSourceObserver >> infiniteDataSourceItemsSieved: anEvent [
 	self triggerUpdateProcessor.
 	infiniteElement listElement dispatchEvent: anEvent copy
 ]
+
+{ #category : #'event handling' }
+ToInfiniteDataSourceObserver >> selecterCommandApplicationRequest: anEvent [
+
+	self assertNotInLayoutOrScroll.
+	
+	infiniteElement dataSourceManager
+		onSelecterCommand: anEvent command appliedBy: anEvent applier.
+
+	self triggerUpdateProcessor.
+	infiniteElement listElement dispatchEvent: anEvent copy
+]

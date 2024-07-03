@@ -213,9 +213,9 @@ ToListElementEventHandler >> mouseDownEvent: anEvent [
 	anEvent isConsumed ifTrue: [ ^ self ].
 	target := anEvent currentTarget.
 	target stopScroll.
-	self
-		withTargetNodeFromEvent: anEvent
-		do: [ :node | node dispatchEvent: anEvent copy ].
+	self withTargetNodeFromEvent: anEvent do: [ :node |
+		node dispatchEvent: anEvent copy.
+		anEvent consume ].
 	target hasFocus ifTrue: [ ^ self ].
 	target requestFocus.
 	anEvent consume

@@ -336,6 +336,7 @@ ToAbstractListElement >> newDisabledSelectionMode [
 
 	^ ToListAdditionalSelectionMode
 		  selecter: self disabledSelecter
+		  listEventHandler: ToListDisabledSelectionElementEventHandler new
 		  elementBuilder: [ ToListDisabledSelectionElement new ]
 ]
 
@@ -384,14 +385,11 @@ ToAbstractListElement >> newSelectionModel [
 { #category : #'instance creation' }
 ToAbstractListElement >> newUnselectableSelectionMode [
 
-	^ ToListAdditionalSelectionMode new
-		  in: [ :mode |
-			  mode listEventHandler:
-					  (ToListUnselectableSelectionElementEventHandler selectionMode:
-							   mode) ];
-		  selecter: self unselectableSelecter;
-		  elementBuilder: [ ToListUnselectableSelectionElement new ];
-		  yourself
+	^ ToListAdditionalSelectionMode
+		  selecter: self unselectableSelecter
+		  listEventHandler:
+		  ToListUnselectableSelectionElementEventHandler new
+		  elementBuilder: [ ToListUnselectableSelectionElement new ]
 ]
 
 { #category : #'t - infinite accessing' }

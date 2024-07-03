@@ -201,14 +201,14 @@ ToListElementStresser >> finishedInAllTabs [
 
 	^ tabsPanel tabs allSatisfy: [ :tab |
 		  | list |
-		  list := tab innerPane childWithId: #list.
+		  list := tab userData at: #list.
 		  list userData at: #finishedStress ]
 ]
 
 { #category : #initialization }
 ToListElementStresser >> initialize [
 
-	| tabSelectionProcess resizeSpaceProcess |
+	| tabSelectionProcess |
 	super initialize.
 
 	counter := 0.
@@ -219,14 +219,17 @@ ToListElementStresser >> initialize [
 	listIdentifiers := Array new: self maxTab.
 
 	1 to: self maxTab do: [ :i |
-		| listAndNameAssoc tab |
-		listAndNameAssoc := self newStressedListNumber: i.
+		| paneListAssoc tab list ident |
+		paneListAssoc := self newStressedListNumber: i.
+		list := paneListAssoc value.
+		ident := list userData at: #identifier.
 		tab := ToTab new.
-		tab labelText: listAndNameAssoc value.
+		tab userData at: #list put: list.
+		tab labelText: ident.
 		tab firstChild withNullSkin.
 		tab addChild: ToLabel new withNullSkin at: 2.
 		tab paneBuilder: [ :pane :theTabPane |
-			pane addChild: listAndNameAssoc key ].
+			pane addChild: paneListAssoc key ].
 		tabsPanel addTab: tab ].
 
 	tabSelectionProcess := [
@@ -240,29 +243,17 @@ ToListElementStresser >> initialize [
 		                       self tabsPanel enqueueTask:
 			                       (BlTaskAction new action: [
 				                        (self tabsPanel tabs at: idx) check ]).
-		                       "self resizeSpace."
-		                       3 seconds wait ] ] newProcess.
-
-	resizeSpaceProcess := [
-	                      1 to: self maxRound do: [ :round | "self resizeSpace."
-	                      1 seconds wait ] ] newProcess.
+		                       1 seconds wait ] ] newProcess.
 
 	tabSelectionProcess name: self class name.
 	tabSelectionProcess priority: Processor systemBackgroundPriority.
 
-	resizeSpaceProcess name: self class name.
-	resizeSpaceProcess priority: Processor systemBackgroundPriority.
-
 	self tabsPanel
 		addEventHandlerOn: BlElementAddedToSceneGraphEvent
-		do: [ :event |
-			tabSelectionProcess resume.
-			resizeSpaceProcess resume ].
+		do: [ :event | tabSelectionProcess resume ].
 	self tabsPanel
 		addEventHandlerOn: BlElementRemovedFromSceneGraphEvent
-		do: [ :event |
-			tabSelectionProcess terminate.
-			resizeSpaceProcess terminate ]
+		do: [ :event | tabSelectionProcess terminate ]
 ]
 
 { #category : #accessing }
@@ -392,8 +383,9 @@ ToListElementStresser >> newStressedListNumber: aNumber [
 
 	pane addChild: list.
 	pane addChild: (self newSelectionBoardOn: list).
+	list userData at: #identifier put: (ident asRopedText bold , suffix asRopedText).
 
-	^ pane -> (listIdentifiers at: aNumber)
+	^ pane -> list
 ]
 
 { #category : #private }
@@ -443,9 +435,7 @@ ToListElementStresser >> processingRound: aRound inList: aList number: aNumber [
 	     , ('/' , self maxRound asString , ']') asRopedText.
 
 	self tabsPanel enqueueTask: (BlTaskAction new action: [
-			 (tab childAt: 2) text: s ]).
-
-	self tabsPanel enqueueTask: (BlTaskAction new action: [
+			 (tab childAt: 2) text: s.
 			 self selectActionsToRun shuffled do: [ :act |
 				 self perform: act with: aList ] ])
 ]
@@ -496,10 +486,11 @@ ToListElementStresser >> selectActionsToRun [
 { #category : #initialization }
 ToListElementStresser >> selectionResultsTextOn: aListElement [
 
-	| nb |
+	| nb nbTasks|
+	nbTasks := self tabsPanel space taskQueue tasks size.
 	nb := aListElement selectionModel underlyingModel intervals size.
 	maxPrimaryIntervals := nb max: maxPrimaryIntervals.
-	^ 'Intervals: < primary ' , nb asString , '/'
+	^ 'Tasks: ', nbTasks asString, ' Intervals: < primary ' , nb asString , '/'
 	  , maxPrimaryIntervals asString , ' >'
 ]
 

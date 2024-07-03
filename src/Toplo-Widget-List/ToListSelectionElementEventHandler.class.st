@@ -24,10 +24,6 @@ ToListSelectionElementEventHandler >> differUpdateSelectionFrom: target [
 
 ]
 
-{ #category : #'event handling' }
-ToListSelectionElementEventHandler >> elementAddedToSceneGraphEvent: anEvent [
-]
-
 { #category : #'element handlers' }
 ToListSelectionElementEventHandler >> elementExtentChangedEvent: anEvent [
 
@@ -44,7 +40,6 @@ ToListSelectionElementEventHandler >> elementScrolledEvent: anEvent [
 ToListSelectionElementEventHandler >> eventsToHandle [
 
 	^ {
-		  BlElementAddedToSceneGraphEvent.
 		  BlBoundsHasChangedDuringScrollingEvent.
 		  BlElementExtentChangedEvent.
 		  BlElementScrolledEvent }

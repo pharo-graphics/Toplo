@@ -5295,6 +5295,11 @@ ToSandBox class >> listWithEditableAndContextMenu [
 			               node := l nodeAt: idx.
 			               label := node firstChild label.
 			               selectionMenu addItem: (ToMenuItem new
+					                labelText: 'Inspect node';
+					                whenClickedDo: [ :event |
+						                node inspect];
+					                yourself).
+			               selectionMenu addItem: (ToMenuItem new
 					                labelText: 'Edit';
 					                whenClickedDo: [ :event |
 						                label addEditorEvent: nil ];

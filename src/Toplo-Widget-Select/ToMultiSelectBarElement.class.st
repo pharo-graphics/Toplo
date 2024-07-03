@@ -87,9 +87,8 @@ ToMultiSelectBarElement >> haveFullyInvisibleNodes: theInvisibleNodes [
 	
 	" in case of composite node at first it means that 
 	there is no more visible node to cumulate in a composite node"
-	(self nodes size = 1 and: [
-		 self nodes first nodesCount > 1 ]) ifTrue: [ ^ self ].
-	
+	(self nodes size = 1 "and: [
+		  self nodes first nodesCount > 1 ]") ifTrue: [ ^ self ].
 	visibleNodes := self nodesSelect: [ :n | n isFullyVisible ].
 	invisibleNodes := theInvisibleNodes copy.
 	visibleNodes ifNotEmpty: [

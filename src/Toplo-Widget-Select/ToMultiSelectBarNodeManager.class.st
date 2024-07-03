@@ -17,14 +17,14 @@ ToMultiSelectBarNodeManager >> defaultNodeBuilder [
 
 	^ [ :node :holder :dataItem |
 	  | d index t |
-	  dataItem nodesCount = 1
-		  ifTrue: [
+	  dataItem isComposite
+		  ifFalse: [
 			  index := dataItem index.
 			  d := index isZero
 				       ifTrue: [ self fakeDataItem ]
 				       ifFalse: [ holder dataAccessor at: index ].
 			  t := d asString ]
-		  ifFalse: [ t := dataItem content ].
+		  ifTrue: [ t := dataItem content ].
 
 	  node middleElement: (ToLabel text: t).
 	 " node autoDistribute: holder listElement nodeAutoDistribution" ]

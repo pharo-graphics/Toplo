@@ -51,6 +51,15 @@ ToMultiSelectListElement >> initialize [
 	self selectionMode requestFocusOnMouseDown: false
 ]
 
+{ #category : #'instance creation' }
+ToMultiSelectListElement >> newCommandApplierEventHandler [
+
+	^ ToElementCommandApplierEventHandler new
+			 element: self;
+			 yourself
+
+]
+
 { #category : #accessing }
 ToMultiSelectListElement >> selectElement: aSelectElement [
 

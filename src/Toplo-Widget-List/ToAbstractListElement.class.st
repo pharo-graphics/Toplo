@@ -5,8 +5,6 @@ Class {
 	#classTraits : 'TToListElementDecorator classTrait + TToElementWithPlaceholder classTrait + TToOrientable classTrait',
 	#instVars : [
 		'next',
-		'overContainer',
-		'beneathContainer',
 		'selectionMode',
 		'secondarySelectionMode',
 		'contextMenuSelectionMode',
@@ -17,38 +15,6 @@ Class {
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
-
-{ #category : #'private - selection elements' }
-ToAbstractListElement >> addBeneathSelectionElement: aSelectionElement [
-
-	beneathContainer addChild: aSelectionElement
-]
-
-{ #category : #'private - selection elements' }
-ToAbstractListElement >> addBeneathSelectionElements: anArray [
-
-	beneathContainer addChildren: anArray
-]
-
-{ #category : #'private - selection elements' }
-ToAbstractListElement >> addOverSelectionElement: aSelectionElement [
-
-	overContainer addChild: aSelectionElement
-]
-
-{ #category : #'private - selection elements' }
-ToAbstractListElement >> addOverSelectionElements: anArray [
-
-	overContainer addChildren: anArray
-]
-
-{ #category : #initialization }
-ToAbstractListElement >> additionalModeSelecter: aSelecter elementBuilder: aSelectionElementBuilderValuable [
-
-	^ ToListAdditionalSelectionMode
-		  selecter: aSelecter
-		  elementBuilder: aSelectionElementBuilderValuable
-]
 
 { #category : #'private - commands' }
 ToAbstractListElement >> allowApplicationOfCommand: aCommand [
@@ -85,12 +51,6 @@ ToAbstractListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> beneathContainer [
-
-	^ beneathContainer
-]
-
-{ #category : #accessing }
 ToAbstractListElement >> commandChecker [
 
 	^ commandChecker
@@ -100,15 +60,6 @@ ToAbstractListElement >> commandChecker [
 ToAbstractListElement >> contextMenuSelecter [ 
 
 	^ self contextMenuSelectionMode selecter
-]
-
-{ #category : #accessing }
-ToAbstractListElement >> contextMenuSelectionElements [
-
-	^ Array streamContents: [ :stream |
-		  self overContainer childrenDo: [ :child |
-			  (child isKindOf: ToListContextMenuSelectionElement) ifTrue: [
-				  stream nextPut: child ] ] ]
 ]
 
 { #category : #accessing }
@@ -309,18 +260,6 @@ ToAbstractListElement >> initialize [
 	self initializeCommandChecker.
 	self initializeInnerContainer.
 
-	beneathContainer := ToOverlayElement new.
-	beneathContainer clipChildren: false.
-	beneathContainer attachTo: self innerContainer.
-	beneathContainer elevation: (BlRelativeElevation elevation: 5).
-	overContainer := ToOverlayElement new.
-	overContainer clipChildren: false.
-	overContainer attachTo: self innerContainer.
-	overContainer elevation: (BlRelativeElevation elevation: 15).
-	self addChildren: {
-			beneathContainer.
-			overContainer }.
-
 	self layout: self defaultLayout.
 
 	self addEventHandler: self defaultEventHandler.
@@ -392,11 +331,11 @@ ToAbstractListElement >> newContextMenuSelectionEventHandler [
 	^ ToListContextMenuSelectionElementEventHandler new
 ]
 
-{ #category : #initialization }
+{ #category : #'instance creation' }
 ToAbstractListElement >> newDisabledSelectionMode [
 
-	^ self
-		  additionalModeSelecter: self disabledSelecter
+	^ ToListAdditionalSelectionMode
+		  selecter: self disabledSelecter
 		  elementBuilder: [ ToListDisabledSelectionElement new ]
 ]
 
@@ -442,7 +381,7 @@ ToAbstractListElement >> newSelectionModel [
 		  yourself
 ]
 
-{ #category : #initialization }
+{ #category : #'instance creation' }
 ToAbstractListElement >> newUnselectableSelectionMode [
 
 	^ ToListAdditionalSelectionMode new
@@ -537,12 +476,6 @@ ToAbstractListElement >> offsetPositionRecordsForFilter: aStartPosition itemCoun
 ToAbstractListElement >> onScrolled: aPoint [
 ]
 
-{ #category : #accessing }
-ToAbstractListElement >> overContainer [
-
-	^ overContainer
-]
-
 { #category : #'t - element with placeholder' }
 ToAbstractListElement >> placeholderElevation [
 
@@ -550,33 +483,9 @@ ToAbstractListElement >> placeholderElevation [
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> primarySelectionElements [
-
-	^ Array streamContents: [ :stream |
-		  overContainer childrenDo: [ :child |
-			  (child isKindOf: ToListPrimarySelectionElement) ifTrue: [
-				  stream nextPut: child ] ].
-		  beneathContainer childrenDo: [ :child |
-			  (child isKindOf: ToListPrimarySelectionElement) ifTrue: [
-				  stream nextPut: child ] ] ]
-]
-
-{ #category : #accessing }
 ToAbstractListElement >> secondarySelecter [ 
 
 	^ self secondarySelectionMode selecter
-]
-
-{ #category : #accessing }
-ToAbstractListElement >> secondarySelectionElements [
-
-	^ Array streamContents: [ :stream |
-		  overContainer childrenDo: [ :child |
-			  (child isKindOf: ToListSecondarySelectionElement) ifTrue: [
-				  stream nextPut: child ] ].
-		  beneathContainer childrenDo: [ :child |
-			  (child isKindOf: ToListSecondarySelectionElement) ifTrue: [
-				  stream nextPut: child ] ] ]
 ]
 
 { #category : #accessing }

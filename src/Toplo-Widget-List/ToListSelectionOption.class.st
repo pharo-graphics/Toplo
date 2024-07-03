@@ -2,6 +2,7 @@ Class {
 	#name : #ToListSelectionOption,
 	#superclass : #Object,
 	#instVars : [
+		'beneath',
 		'animationDuration',
 		'selectionContainer',
 		'groupHolder',
@@ -59,6 +60,12 @@ ToListSelectionOption >> animationDuration: aDuration [
 	animationDuration := aDuration
 ]
 
+{ #category : #accessing }
+ToListSelectionOption >> beneath: aBoolean [
+
+	beneath := aBoolean
+]
+
 { #category : #'nodes collecting' }
 ToListSelectionOption >> collectSelectionGroupsFrom: aListElement [
 
@@ -113,7 +120,7 @@ ToListSelectionOption >> isAnimated [
 { #category : #testing }
 ToListSelectionOption >> isBeneath [
 
-	^ selectionContainer isBeneath
+	^ beneath
 ]
 
 { #category : #testing }
@@ -140,6 +147,16 @@ ToListSelectionOption >> isSeparate [
 	^ false
 ]
 
+{ #category : #'api - hooks' }
+ToListSelectionOption >> newInnerContainerIn: anElement [
+
+	| container |
+	container := ToOverlayElement new.
+	container clipChildren: false.
+	container attachTo: anElement innerContainer.
+	^ container
+]
+
 { #category : #'instance creation' }
 ToListSelectionOption >> newSelectionElementFor: aListElement [
 
@@ -150,6 +167,24 @@ ToListSelectionOption >> newSelectionElementFor: aListElement [
 		  yourself
 ]
 
+{ #category : #'api - hooks' }
+ToListSelectionOption >> onInstalledIn: anElement [
+
+	| elevation |
+	selectionContainer := self newInnerContainerIn: anElement.
+	elevation := beneath
+		             ifTrue: [ BlRelativeElevation elevation: 5 ]
+		             ifFalse: [ BlRelativeElevation elevation: 15 ].
+	selectionContainer elevation: elevation.
+	anElement addChild: selectionContainer
+]
+
+{ #category : #'api - hooks' }
+ToListSelectionOption >> onUninstalledIn: anElement [
+
+	selectionContainer removeFromParent
+]
+
 { #category : #accessing }
 ToListSelectionOption >> selectionContainer [
 
@@ -157,9 +192,16 @@ ToListSelectionOption >> selectionContainer [
 ]
 
 { #category : #accessing }
-ToListSelectionOption >> selectionContainer: anElement [
+ToListSelectionOption >> selectionContainer: aSelectionContainer [
 
-	selectionContainer := anElement
+	selectionContainer := aSelectionContainer
+]
+
+{ #category : #accessing }
+ToListSelectionOption >> selectionElements [
+
+	^ selectionContainer children select: [ :child |
+		  child isKindOf: ToListSelectionElement ]
 ]
 
 { #category : #accessing }

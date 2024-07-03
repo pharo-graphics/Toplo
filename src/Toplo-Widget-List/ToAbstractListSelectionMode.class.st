@@ -16,14 +16,17 @@ Class {
 ToAbstractListSelectionMode >> beGroupedBeneathSelection [
 
 	beneathOption := (ToListSelectionOption groupedForMode: self)
-		              selectionContainer: beneathOption selectionContainer;
-		              yourself
+		                 beneath: true;
+		                 selectionContainer:
+			                 beneathOption selectionContainer;
+		                 yourself
 ]
 
 { #category : #configuring }
 ToAbstractListSelectionMode >> beGroupedOverSelection [
 
 	overOption := (ToListSelectionOption groupedForMode: self)
+		              beneath: false;
 		              selectionContainer: overOption selectionContainer;
 		              yourself
 ]
@@ -32,6 +35,7 @@ ToAbstractListSelectionMode >> beGroupedOverSelection [
 ToAbstractListSelectionMode >> beNoneBeneathSelection [
 
 	beneathOption := (ToListSelectionOption noneForMode: self)
+		                 beneath: true;
 		                 selectionContainer:
 			                 beneathOption selectionContainer;
 		                 yourself
@@ -41,24 +45,26 @@ ToAbstractListSelectionMode >> beNoneBeneathSelection [
 ToAbstractListSelectionMode >> beNoneOverSelection [
 
 	overOption := (ToListSelectionOption noneForMode: self)
-		                 selectionContainer:
-			                 overOption selectionContainer;
-		                 yourself
+		              beneath: false;
+		              selectionContainer: overOption selectionContainer;
+		              yourself
 ]
 
 { #category : #configuring }
 ToAbstractListSelectionMode >> beSeparateBeneathSelection [
 
-	
 	beneathOption := (ToListSelectionOption separateForMode: self)
-		              selectionContainer: beneathOption selectionContainer;
-		              yourself
+		                 beneath: true;
+		                 selectionContainer:
+			                 beneathOption selectionContainer;
+		                 yourself
 ]
 
 { #category : #configuring }
 ToAbstractListSelectionMode >> beSeparateOverSelection [
 
 	overOption := (ToListSelectionOption separateForMode: self)
+		              beneath: false;
 		              selectionContainer: overOption selectionContainer;
 		              yourself
 ]
@@ -125,11 +131,14 @@ ToAbstractListSelectionMode >> initialize [
 ToAbstractListSelectionMode >> installDefaultOptionsIn: anElement [
 
 	beneathOption := (ToListSelectionOption groupedForMode: self)
-		                 selectionContainer: anElement beneathContainer;
+		                 beneath: true;
 		                 yourself.
 	overOption := (ToListSelectionOption noneForMode: self)
-		              selectionContainer: anElement overContainer;
+		              beneath: false;
 		              yourself.
+	beneathOption onInstalledIn: anElement.
+	overOption onInstalledIn: anElement.
+
 
 ]
 
@@ -199,6 +208,7 @@ ToAbstractListSelectionMode >> onUninstalledIn: anElement [
 
 	anElement removeEventHandler: listEventHandler.
 	self uninstallSelecterIn: anElement.
+	self uninstallDefaultOptionsIn: anElement.
 	selecter := nil
 ]
 
@@ -252,9 +262,26 @@ ToAbstractListSelectionMode >> selecter: aSelecter [
 ]
 
 { #category : #accessing }
+ToAbstractListSelectionMode >> selectionElements [
+
+	^ Array streamContents: [ :stream |
+		  stream nextPutAll: beneathOption selectionElements.
+		  stream nextPutAll: overOption selectionElements ]
+]
+
+{ #category : #accessing }
 ToAbstractListSelectionMode >> selectionModel [
 
 	^ selecter selectionModel
+]
+
+{ #category : #'api - hooks' }
+ToAbstractListSelectionMode >> uninstallDefaultOptionsIn: anElement [
+
+	beneathOption onUninstalledIn: anElement.
+	overOption onUninstalledIn: anElement
+
+
 ]
 
 { #category : #'api - hooks' }

@@ -25,11 +25,14 @@ ToListAdditionalSelectionMode class >> selecter: aSelecter elementBuilder: aSele
 ToListAdditionalSelectionMode >> installDefaultOptionsIn: anElement [
 
 	overOption := (ToListSelectionOption groupedForMode: self)
-		                 selectionContainer: anElement overContainer;
+		                 beneath: false;
 		                 yourself.
 	beneathOption := (ToListSelectionOption noneForMode: self)
-		              selectionContainer: anElement beneathContainer;
+		              beneath: true;
 		              yourself.
+	beneathOption onInstalledIn: anElement.
+	overOption onInstalledIn: anElement.
+
 
 ]
 

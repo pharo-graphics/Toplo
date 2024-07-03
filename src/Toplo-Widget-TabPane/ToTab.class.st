@@ -102,6 +102,12 @@ ToTab >> innerCloseButton [
 	^ self childWithId: #innerCloseButton ifNone: [  ]
 ]
 
+{ #category : #accessing }
+ToTab >> innerPane [
+
+	^ innerPane
+]
+
 { #category : #skin }
 ToTab >> installRawStyle [
 

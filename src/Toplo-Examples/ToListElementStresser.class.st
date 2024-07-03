@@ -196,6 +196,15 @@ ToListElementStresser >> afterRoundInList: aList [
 	self interRoundWaitDuration wait 
 ]
 
+{ #category : #running }
+ToListElementStresser >> finishedInAllTabs [
+
+	^ tabsPanel tabs allSatisfy: [ :tab |
+		  | list |
+		  list := tab innerPane childWithId: #list.
+		  list userData at: #finishedStress ]
+]
+
 { #category : #initialization }
 ToListElementStresser >> initialize [
 
@@ -221,20 +230,22 @@ ToListElementStresser >> initialize [
 		tabsPanel addTab: tab ].
 
 	tabSelectionProcess := [
-	                       1 to: self maxRound do: [ :round |
+	                       | round |
+	                       round := 0.
+	                       [ self finishedInAllTabs ] whileFalse: [
 		                       | idx |
+		                       round := round + 1.
 		                       idx := (round \\ self maxTab + 1 max: 1)
 			                              min: self maxTab.
 		                       self tabsPanel enqueueTask:
 			                       (BlTaskAction new action: [
 				                        (self tabsPanel tabs at: idx) check ]).
 		                       "self resizeSpace."
-		                       1 seconds wait ] ] newProcess.
+		                       3 seconds wait ] ] newProcess.
 
 	resizeSpaceProcess := [
-	                      1 to: self maxRound do: [ :round |
-		                      "self resizeSpace."
-		                      1 seconds wait ] ] newProcess.
+	                      1 to: self maxRound do: [ :round | "self resizeSpace."
+	                      1 seconds wait ] ] newProcess.
 
 	tabSelectionProcess name: self class name.
 	tabSelectionProcess priority: Processor systemBackgroundPriority.
@@ -324,11 +335,11 @@ ToListElementStresser >> newSelectionBoardOn: aListElement [
 ToListElementStresser >> newStressedListNumber: aNumber [
 
 	| list process size ident priority suffix sieve pane |
-	
 	pane := ToPane vertical.
 	pane matchParent.
 
 	list := self newListElement.
+	list id: #list.
 	sieve := ToListElementSieve new.
 	list userData at: #sieve put: sieve.
 
@@ -358,6 +369,7 @@ ToListElementStresser >> newStressedListNumber: aNumber [
 	process := [
 	           | round |
 	           round := 0.
+	           list userData at: #finishedStress put: false.
 	           self maxRound timesRepeat: [
 		           round := round + 1.
 		           self processingRound: round inList: list number: aNumber.
@@ -380,7 +392,7 @@ ToListElementStresser >> newStressedListNumber: aNumber [
 
 	pane addChild: list.
 	pane addChild: (self newSelectionBoardOn: list).
-	
+
 	^ pane -> (listIdentifiers at: aNumber)
 ]
 
@@ -416,6 +428,7 @@ ToListElementStresser >> nextSizeForListNumber: aNumber [
 ToListElementStresser >> processEndInList: aList number: aNumber [
 
 	| tab |
+	aList userData at: #finishedStress put: true.
 	tab := self tabsPanel tabs at: aNumber.
 	self tabsPanel enqueueTask: (BlTaskAction new action: [
 			 tab firstChild text foreground: Color green muchDarker ])

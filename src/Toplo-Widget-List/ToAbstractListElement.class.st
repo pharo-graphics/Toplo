@@ -132,15 +132,16 @@ ToAbstractListElement >> defaultCommandCheckerClass [
 { #category : #initialization }
 ToAbstractListElement >> defaultContextMenuSelectionMode [
 
-	^ ToListContextMenuSelectionMode new
-		  in: [ :mode |
-			  mode listEventHandler:
-					  (self newContextMenuSelectionEventHandler selectionMode: mode) ];
-		  selecter: (ToListSelecter
-				   basicOnSelectionModel: self newSelectionModel
-				   withEventClass: ToListContextMenuSelectionChangedEvent);
-		  elementBuilder: [ ToListContextMenuSelectionElement new ];
-		  yourself
+	| mode |
+	mode := ToListContextMenuSelectionMode new.
+	mode listEventHandler:
+		(self newContextMenuSelectionEventHandler selectionMode: mode).
+	mode selecter: (ToListSelecter new
+			 selectionModel: self newSelectionModel;
+			 selectionChangedEventClass: ToListContextMenuSelectionChangedEvent;
+			 yourself).
+	mode elementBuilder: [ ToListContextMenuSelectionElement new ].
+	^ mode
 ]
 
 { #category : #initialization }
@@ -188,15 +189,18 @@ ToAbstractListElement >> defaultNodeManagerClass [
 { #category : #initialization }
 ToAbstractListElement >> defaultSecondarySelectionMode [
 
-	^ ToListSecondarySelectionMode new
-		  in: [ :mode |
-			  mode listEventHandler:
-					  (self newSecondarySelectionEventHandler selectionMode: mode) ];
-		  selecter: (ToSecondarySelecter
-				   basicOnSelectionModel: self newSecondarySelectionModel
-				   withEventClass: ToListSecondarySelectionChangedEvent);
-		  elementBuilder: [ ToListSecondarySelectionElement new ];
-		  yourself
+	| mode |
+	mode := ToListSecondarySelectionMode new.
+	mode listEventHandler:
+		(self newSecondarySelectionEventHandler selectionMode: mode).
+	mode selecter: (ToListSelecter new
+			 commandApplierEventHandler:
+				 ToDataSourceCommandApplierEventHandler new;
+			 selectionModel: self newSecondarySelectionModel;
+			 selectionChangedEventClass: ToListSecondarySelectionChangedEvent;
+			 yourself).
+	mode elementBuilder: [ ToListSecondarySelectionElement new ].
+	^ mode
 ]
 
 { #category : #initialization }
@@ -206,9 +210,10 @@ ToAbstractListElement >> defaultSelectionMode [
 		  in: [ :mode |
 			  mode listEventHandler:
 					  (self newPrimarySelectionEventHandler selectionMode: mode) ];
-		  selecter: (ToListSelecter
-				   compositeOnSelectionModel: self newPrimarySelectionModel
-				   withEventClass: ToListPrimarySelectionChangedEvent);
+		  selecter: (ToCompositeSelecter new
+				   selectionModel: self newPrimarySelectionModel;
+				   selectionChangedEventClass: ToListPrimarySelectionChangedEvent;
+				   yourself);
 		  elementBuilder: [ ToListPrimarySelectionElement new ];
 		  yourself
 ]

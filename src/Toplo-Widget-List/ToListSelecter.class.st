@@ -26,24 +26,6 @@ ToListSelecter class >> additionalNamed: aSymbol inParentSelecter: aParentSelect
 		  yourself
 ]
 
-{ #category : #'instance creation' }
-ToListSelecter class >> basicOnSelectionModel: aSelectionModel withEventClass: anEventClass [
-
-	^ self new
-		  selectionModel: aSelectionModel;
-		  selectionChangedEventClass: anEventClass;
-		  yourself
-]
-
-{ #category : #'instance creation' }
-ToListSelecter class >> compositeOnSelectionModel: aSelectionModel withEventClass: anEventClass [
-
-	^ ToCompositeSelecter new
-		  selectionModel: aSelectionModel;
-		  selectionChangedEventClass: anEventClass;
-		  yourself
-]
-
 { #category : #adding }
 ToListSelecter >> addCommand: aCommand [
 
@@ -94,6 +76,12 @@ ToListSelecter >> commandApplied: aCommand [
 		       yourself.
 
 	eventTarget dispatchAuthorisationRequest: req
+]
+
+{ #category : #accessing }
+ToListSelecter >> commandApplierEventHandler: aCommandApplierEventHandler [
+
+	commandApplierEventHandler := aCommandApplierEventHandler
 ]
 
 { #category : #testing }
@@ -201,6 +189,12 @@ ToListSelecter >> initialize [
 	multiple := true.
 	enabled := true.
 	operator := ToSelectionModelOperator new.
+	self initializeCommandApplier
+]
+
+{ #category : #initialization }
+ToListSelecter >> initializeCommandApplier [
+
 	commandApplierEventHandler := ToQueueBasedCommandApplierEventHandler new
 ]
 

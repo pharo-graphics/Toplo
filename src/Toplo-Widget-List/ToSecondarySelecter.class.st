@@ -5,9 +5,8 @@ Class {
 }
 
 { #category : #initialization }
-ToSecondarySelecter >> initialize [ 
-	
-	super initialize.
+ToSecondarySelecter >> initializeCommandApplier [ 
+
 	commandApplierEventHandler := ToDataSourceCommandApplierEventHandler new.
 
 ]

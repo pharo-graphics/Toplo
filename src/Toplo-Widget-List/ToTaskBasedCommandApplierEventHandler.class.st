@@ -2,17 +2,10 @@ Class {
 	#name : #ToTaskBasedCommandApplierEventHandler,
 	#superclass : #ToCommandApplierEventHandler,
 	#instVars : [
-		'element',
 		'weak'
 	],
 	#category : #'Toplo-Widget-List-Command-Support'
 }
-
-{ #category : #accessing }
-ToTaskBasedCommandApplierEventHandler >> element: anElement [
-
-	element := anElement
-]
 
 { #category : #'event handling' }
 ToTaskBasedCommandApplierEventHandler >> elementCommandAddedEvent: aCommandAddedEvent [

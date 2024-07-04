@@ -2,7 +2,6 @@ Class {
 	#name : #ToQueueBasedCommandApplierEventHandler,
 	#superclass : #ToCommandApplierEventHandler,
 	#instVars : [
-		'element',
 		'commandQueue',
 		'applicationTask',
 		'queued',
@@ -10,12 +9,6 @@ Class {
 	],
 	#category : #'Toplo-Widget-List-Command-Support'
 }
-
-{ #category : #accessing }
-ToQueueBasedCommandApplierEventHandler >> element: anElement [
-
-	element := anElement
-]
 
 { #category : #'event handling' }
 ToQueueBasedCommandApplierEventHandler >> elementCommandAddedEvent: aCommandAddedEvent [

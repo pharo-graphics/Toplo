@@ -12,8 +12,14 @@ Class {
 ToAdditionalSelecter >> initialize [
 
 	super initialize.
-	commandApplierEventHandler weak: false.
 	selectionModel := ToAdditionalSelectionModel new
+]
+
+{ #category : #initialization }
+ToAdditionalSelecter >> initializeCommandApplier [ 
+
+	super initializeCommandApplier.
+	commandApplierEventHandler weak: false
 ]
 
 { #category : #'api - hooks' }

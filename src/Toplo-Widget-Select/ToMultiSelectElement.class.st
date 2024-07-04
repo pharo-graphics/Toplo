@@ -86,6 +86,12 @@ ToMultiSelectElement >> newIconContainer [
 	^ ToMultiSelectIconContainer new forFiltering: self isFiltrable 
 ]
 
+{ #category : #skin }
+ToMultiSelectElement >> newRawSkin [ 
+
+	^ ToMultiSelectElementSkin new
+]
+
 { #category : #'instance creation' }
 ToMultiSelectElement >> newWindowManager [
 

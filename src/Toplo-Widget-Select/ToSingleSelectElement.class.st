@@ -6,6 +6,7 @@ Class {
 
 { #category : #accessing }
 ToSingleSelectElement >> dataViewBuilder: aValuable [
+	" aValuable takes 2 args: the dataItemView and the selected dataItem "
 
 	self innerContainer dataViewBuilder: aValuable
 ]

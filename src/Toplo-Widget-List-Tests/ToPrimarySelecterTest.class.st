@@ -16,9 +16,11 @@ ToPrimarySelecterTest >> setUp [
 	space root addChild: element.
 
 	element selectionModel: ToPrimarySelectionModel new.
-	selecter := ToListSelecter
-		            compositeOnSelectionModel: element selectionModel
-		            withEventClass: ToListPrimarySelectionChangedEvent.
+	selecter := ToCompositeSelecter new
+		            selectionModel: element selectionModel;
+		            selectionChangedEventClass:
+			            ToListPrimarySelectionChangedEvent;
+		            yourself.
 	selecter onInstalledIn: element
 ]
 

@@ -47,6 +47,15 @@ ToBarElement >> defaultNodeManagerClass [
 	^ ToBarNodeManager 
 ]
 
+{ #category : #initialization }
+ToBarElement >> defaultSecondarySelectionMode [
+
+	| mode |
+	mode := super defaultSecondarySelectionMode.
+	mode selecter commandApplierEventHandler: ToQueueBasedCommandApplierEventHandler new.
+	^ mode
+]
+
 { #category : #accessing }
 ToBarElement >> fakeDataItem: aDataItem [
 

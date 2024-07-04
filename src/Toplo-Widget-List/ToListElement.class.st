@@ -30,14 +30,6 @@ ToListElement >> invalidateItemDecorations [
 	self notifyPrimarySelectionDirty
 ]
 
-{ #category : #'instance creation' }
-ToListElement >> newCommandApplierEventHandler [
-
-	^ ToDataSourceCommandApplierEventHandler new
-		  element: self;
-		  yourself
-]
-
 { #category : #skin }
 ToListElement >> newRawSkin [ 
 

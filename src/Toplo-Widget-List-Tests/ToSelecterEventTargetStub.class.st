@@ -16,12 +16,6 @@ ToSelecterEventTargetStub >> itemCount [
 	^ 100
 ]
 
-{ #category : #'instance creation' }
-ToSelecterEventTargetStub >> newCommandApplierEventHandler [ 
-
-	^ ToDirectCommandApplierEventHandler new
-]
-
 { #category : #accessing }
 ToSelecterEventTargetStub >> scrollIndex [ 
 

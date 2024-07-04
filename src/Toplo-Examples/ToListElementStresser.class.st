@@ -267,7 +267,7 @@ ToListElementStresser >> interRoundWaitDuration [
 { #category : #accessing }
 ToListElementStresser >> maxListSize [
 
-	^ 100000
+	^ 5000
 
 ]
 

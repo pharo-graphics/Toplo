@@ -325,12 +325,6 @@ ToAbstractListElement >> layoutStrategy [
 ]
 
 { #category : #'instance creation' }
-ToAbstractListElement >> newCommandApplierEventHandler [
-	
-	^ self subclassResponsibility 
-]
-
-{ #category : #'instance creation' }
 ToAbstractListElement >> newContextMenuSelectionEventHandler [
 
 	^ ToListContextMenuSelectionElementEventHandler new

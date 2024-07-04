@@ -28,9 +28,15 @@ ToLabelMonoLineInnerElement >> editorShortcutsIn: aLabel [
 ToLabelMonoLineInnerElement >> initialize [ 
 
 	super initialize.
-	" Need Label measurement to ensure right vertical alignement with labels/menus "
-	self labelMeasurement.
 	self preventMouseEvents
+]
+
+{ #category : #initialization }
+ToLabelMonoLineInnerElement >> initializeMeasurement [
+
+	" Need Label measurement to ensure right vertical alignement with labels/menus "
+	self flag: 'To be checked'.
+	self labelMeasurement
 ]
 
 { #category : #'t - label inner element' }

@@ -18,7 +18,15 @@ ToInstalledSkinContext >> borderBuilder [
 { #category : #accessing }
 ToInstalledSkinContext >> installSkin: aSkin in: anElement [
 
-	self installedSkin: aSkin.
+	
+	
+	installedSkin = aSkin ifTrue: [ ^ self ].
+	
+	self
+		assert: [ (anElement eventDispatcher handlers includes: aSkin) not ]
+		description: [ 'The skin must not be already registered!' ].
+
+	installedSkin := aSkin.
 
 	" install the event handler that will ask for a skin uninstaller when element is removed from space"
 	removeFromSceneGraphHandler := BlEventHandler
@@ -41,15 +49,9 @@ ToInstalledSkinContext >> installedSkin [
 ]
 
 { #category : #accessing }
-ToInstalledSkinContext >> installedSkin: aSkin [
-
-	installedSkin := aSkin
-]
-
-{ #category : #accessing }
 ToInstalledSkinContext >> uninstallSkinIn: anElement [
 
 	anElement removeEventHandler: removeFromSceneGraphHandler.
-	anElement removeEventHandler: self installedSkin.
-	self installedSkin: nil
+	anElement removeEventHandler: installedSkin.
+	installedSkin := nil
 ]

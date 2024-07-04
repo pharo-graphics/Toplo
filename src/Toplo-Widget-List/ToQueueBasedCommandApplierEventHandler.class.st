@@ -1,62 +1,69 @@
 Class {
-	#name : #ToElementCommandApplierEventHandler,
+	#name : #ToQueueBasedCommandApplierEventHandler,
 	#superclass : #ToCommandApplierEventHandler,
-	#classTraits : 'TBlEventTarget classTrait',
 	#instVars : [
 		'element',
 		'commandQueue',
 		'applicationTask',
-		'queued'
+		'queued',
+		'weak'
 	],
 	#category : #'Toplo-Widget-List-Command-Support'
 }
 
 { #category : #accessing }
-ToElementCommandApplierEventHandler >> element: anElement [
+ToQueueBasedCommandApplierEventHandler >> element: anElement [
 
 	element := anElement
 ]
 
 { #category : #'event handling' }
-ToElementCommandApplierEventHandler >> elementCommandAddedEvent: aCommandAddedEvent [
+ToQueueBasedCommandApplierEventHandler >> elementCommandAddedEvent: aCommandAddedEvent [
 
-	element isAttachedToSceneGraph ifFalse: [
-		aCommandAddedEvent currentTarget applyCommand:
-			aCommandAddedEvent command.
-		^ self ].
+	weak ifTrue: [
+		element isAttachedToSceneGraph ifFalse: [
+			aCommandAddedEvent currentTarget applyCommand:
+				aCommandAddedEvent command.
+			^ self ] ].
 
-	commandQueue add: aCommandAddedEvent command.
-	aCommandAddedEvent currentTarget dispatchEvent:
-		ToCommandApplicationTaskActivationEvent new.
+	commandQueue nextPut: aCommandAddedEvent command.
+	self postApplicationTask.
 	element spaceDo: [ :sp | sp requestNextPulse ]
 ]
 
 { #category : #'event handling' }
-ToElementCommandApplierEventHandler >> elementCommandApplicationRequest: anEvent [
+ToQueueBasedCommandApplierEventHandler >> elementCommandApplicationRequest: anEvent [
 
 	anEvent currentTarget applyCommand: anEvent command
 ]
 
 { #category : #'event handling' }
-ToElementCommandApplierEventHandler >> elementCommandApplicationTaskActivationEvent: aCommandsApplicationRequestEvent [
+ToQueueBasedCommandApplierEventHandler >> elementCommandApplicationTaskActivationEvent: aCommandsApplicationRequestEvent [
 
 	self postApplicationTask
 ]
 
 { #category : #'api - accessing' }
-ToElementCommandApplierEventHandler >> eventsToHandle [
+ToQueueBasedCommandApplierEventHandler >> eventsToHandle [
 
 	^ super eventsToHandle , {
 		  ToElementCommandApplicationRequest.
 		  ToCommandApplicationTaskActivationEvent }
 ]
 
+{ #category : #initialization }
+ToQueueBasedCommandApplierEventHandler >> initialize [ 
+
+	super initialize.
+	weak := true
+]
+
 { #category : #'api - hooks' }
-ToElementCommandApplierEventHandler >> onInstalledIn: aSelecter [
+ToQueueBasedCommandApplierEventHandler >> onInstalledIn: aSelecter [
 
 	super onInstalledIn: aSelecter.
 
-	commandQueue := OrderedCollection new.
+	commandQueue := WaitfreeQueue new.
 	applicationTask := ToCommandApplicationTask new
 		                   operator: aSelecter operator;
 		                   applier: aSelecter;
@@ -68,7 +75,7 @@ ToElementCommandApplierEventHandler >> onInstalledIn: aSelecter [
 ]
 
 { #category : #'api - hooks' }
-ToElementCommandApplierEventHandler >> onUninstalledIn: aSelecter [
+ToQueueBasedCommandApplierEventHandler >> onUninstalledIn: aSelecter [
 
 	super onUninstalledIn: aSelecter.
 
@@ -77,7 +84,7 @@ ToElementCommandApplierEventHandler >> onUninstalledIn: aSelecter [
 ]
 
 { #category : #'event handling' }
-ToElementCommandApplierEventHandler >> postApplicationTask [
+ToQueueBasedCommandApplierEventHandler >> postApplicationTask [
 	"Post children update runnable to consume update operations"
 	queued ifTrue: [ ^ self ].
 	queued := true.
@@ -85,4 +92,10 @@ ToElementCommandApplierEventHandler >> postApplicationTask [
 	applicationTask setNew.
 	" enqueue the update task "
 	element enqueueTask: applicationTask
+]
+
+{ #category : #accessing }
+ToQueueBasedCommandApplierEventHandler >> weak: aBoolean [
+
+	weak := aBoolean
 ]

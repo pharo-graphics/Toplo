@@ -21,9 +21,18 @@ ToCommandApplicationTask >> applier: anObject [
 { #category : #'api - running' }
 ToCommandApplicationTask >> applyAll [
 
-	[ commandQueue isEmpty ] whileFalse: [
-		| nextInQueue |
-		nextInQueue := commandQueue removeFirst.
+	| nextInQueue |
+	
+	self canApplyCommands ifFalse: [
+		finishedAction value.
+		posponedRequestTask ifNotNil: [ ^ self ].
+		posponedRequestTask := BlTaskAction new.
+		posponedRequestTask action: [
+			applier dispatchEvent: ToCommandApplicationTaskActivationEvent new ].
+		element enqueueTask: posponedRequestTask.
+		^ self ].
+
+	[ (nextInQueue := commandQueue nextOrNil) isNotNil ] whileTrue: [
 		applier applyCommand: nextInQueue ]
 ]
 
@@ -34,9 +43,9 @@ ToCommandApplicationTask >> canApplyCommands [
 ]
 
 { #category : #initialization }
-ToCommandApplicationTask >> commandQueue: anOrderedCollection [
+ToCommandApplicationTask >> commandQueue: aQueue [
 	
-	commandQueue := anOrderedCollection
+	commandQueue := aQueue
 ]
 
 { #category : #accessing }
@@ -59,16 +68,6 @@ ToCommandApplicationTask >> operator: anOperator [
 
 { #category : #'api - running' }
 ToCommandApplicationTask >> run [
-
-	self canApplyCommands ifFalse: [
-		finishedAction value.
-		posponedRequestTask ifNotNil: [ ^ self ].
-		posponedRequestTask := BlTaskAction new.
-		posponedRequestTask action: [
-			applier dispatchEvent:
-				ToCommandApplicationTaskActivationEvent new ].
-		element enqueueTask: posponedRequestTask.
-		^ self ].
 
 	self applyAll.
 	finishedAction value

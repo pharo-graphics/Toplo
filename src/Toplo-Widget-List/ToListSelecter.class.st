@@ -201,7 +201,7 @@ ToListSelecter >> initialize [
 	multiple := true.
 	enabled := true.
 	operator := ToSelectionModelOperator new.
-	commandApplierEventHandler := ToTaskBasedCommandApplierEventHandler new
+	commandApplierEventHandler := ToQueueBasedCommandApplierEventHandler new
 ]
 
 { #category : #testing }

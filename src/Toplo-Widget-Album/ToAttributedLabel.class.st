@@ -4,11 +4,10 @@ Class {
 	#category : #'Toplo-Widget-Album-Label'
 }
 
-{ #category : #initialization }
-ToAttributedLabel >> initialize [
+{ #category : #skin }
+ToAttributedLabel >> newRawSkin [ 
 
-	super initialize.
-	self withNullSkin
+	^ ToNullSkin new
 ]
 
 { #category : #styling }

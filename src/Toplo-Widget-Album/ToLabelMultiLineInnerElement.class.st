@@ -17,32 +17,26 @@ ToLabelMultiLineInnerElement >> collectNewLines [
 		  | itor lineElement |
 		  text
 			  ifEmpty: [
-				  | textElement |
-				  textElement := self newTextElement.
-				  textElement text:
-					  ('' asRopedText attributes: text iterator attributes).
-				  lineElement := self newLineElement
-					                 addChild: textElement;
-					                 yourself.
+				  lineElement := self newLineElement.
+				  lineElement addChild: self emptyTextElement.
 				  stream nextPut: lineElement ]
 			  ifNotEmpty: [
 				  itor := text iterator.
 				  [ itor hasNext ] whileTrue: [
+					  | textElements |
+					  textElements := OrderedCollection new.
 					  itor nextLineIndicesDo: [ :aLineStart :aLineEnd :aLineDelimiterEnd |
-						  | sub cutted |
-						  sub := text from: aLineStart to: aLineEnd.
-						  cutted := ToTextScissor new cut: sub.
-						  cutted ifEmpty: [
-							  cutted := Array with:
-								            (BlText empty attributes: sub iterator attributes) ].
-						  lineElement := self newLineElement
-							                 addChildren: (cutted collect: [ :w |
-										                  | textElement |
-										                  textElement := self newTextElement.
-										                  textElement text: w.
-										                  textElement ]);
-							                 yourself.
-						  stream nextPut: lineElement ] ] ] ]
+						  | lineText cutted |
+						  lineText := text from: aLineStart to: aLineEnd.
+						  cutted := ToTextScissor new cut: lineText.
+						  cutted
+							  ifEmpty: [ textElements add: self emptyTextElement ]
+							  ifNotEmpty: [
+								  textElements addAll:
+									  (cutted collect: [ :w | self newTextElementWith: w ]) ] ].
+					  lineElement := self newLineElement.
+					  lineElement addChildren: textElements.
+					  stream nextPut: lineElement ] ] ]
 ]
 
 { #category : #'t - label inner element' }
@@ -63,6 +57,18 @@ ToLabelMultiLineInnerElement >> editorShortcutsIn: aLabel [
 			   description: 'Escape from text editing';
 			   name: 'Escape';
 			   yourself) }
+]
+
+{ #category : #'private - text splitting' }
+ToLabelMultiLineInnerElement >> emptyLineText [
+
+	^ BlText empty attributes: text iterator attributes
+]
+
+{ #category : #'private - text splitting' }
+ToLabelMultiLineInnerElement >> emptyTextElement [
+
+	^ self newTextElementWith: self emptyLineText
 ]
 
 { #category : #initialization }
@@ -101,7 +107,13 @@ ToLabelMultiLineInnerElement >> newLineElement [
 { #category : #'private - text splitting' }
 ToLabelMultiLineInnerElement >> newTextElement [
 
-	^ BlTextElement new labelMeasurement
+	^ ToLabelMultiLineTextElement new 
+]
+
+{ #category : #'private - text splitting' }
+ToLabelMultiLineInnerElement >> newTextElementWith: aText [
+
+	^ ToLabelMultiLineTextElement new text: aText; yourself
 ]
 
 { #category : #'private - text splitting' }

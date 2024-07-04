@@ -54,7 +54,7 @@ ToMultiSelectListElement >> initialize [
 { #category : #'instance creation' }
 ToMultiSelectListElement >> newCommandApplierEventHandler [
 
-	^ ToElementCommandApplierEventHandler new
+	^ ToQueueBasedCommandApplierEventHandler new
 			 element: self;
 			 yourself
 

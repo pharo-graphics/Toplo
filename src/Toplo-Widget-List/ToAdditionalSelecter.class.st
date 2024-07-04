@@ -12,6 +12,7 @@ Class {
 ToAdditionalSelecter >> initialize [
 
 	super initialize.
+	commandApplierEventHandler weak: false.
 	selectionModel := ToAdditionalSelectionModel new
 ]
 

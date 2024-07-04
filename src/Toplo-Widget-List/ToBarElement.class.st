@@ -109,7 +109,7 @@ ToBarElement >> layoutConfigurator [
 { #category : #'instance creation' }
 ToBarElement >> newCommandApplierEventHandler [
 
-	^ ToElementCommandApplierEventHandler new
+	^ ToQueueBasedCommandApplierEventHandler new
 			 element: self;
 			 yourself
 

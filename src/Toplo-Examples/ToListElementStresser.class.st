@@ -8,7 +8,8 @@ Class {
 		'rand',
 		'counter',
 		'listIdentifiers',
-		'maxPrimaryIntervals'
+		'maxPrimaryIntervals',
+		'maxNbTasks'
 	],
 	#category : #'Toplo-Examples'
 }
@@ -213,6 +214,7 @@ ToListElementStresser >> initialize [
 
 	counter := 0.
 	maxPrimaryIntervals := 0.
+	maxNbTasks := 0.
 	rand := Random new.
 
 	tabsPanel := ToTabPane new.
@@ -486,11 +488,12 @@ ToListElementStresser >> selectActionsToRun [
 { #category : #initialization }
 ToListElementStresser >> selectionResultsTextOn: aListElement [
 
-	| nb nbTasks|
+	| nb nbTasks |
 	nbTasks := self tabsPanel space taskQueue tasks size.
+	maxNbTasks := maxNbTasks max: nbTasks.
 	nb := aListElement selectionModel underlyingModel intervals size.
 	maxPrimaryIntervals := nb max: maxPrimaryIntervals.
-	^ 'Tasks: ', nbTasks asString, ' Intervals: < primary ' , nb asString , '/'
+	^ 'Tasks: ', nbTasks asString, '/', maxNbTasks asString, ' -  Intervals: < primary ' , nb asString , '/'
 	  , maxPrimaryIntervals asString , ' >'
 ]
 

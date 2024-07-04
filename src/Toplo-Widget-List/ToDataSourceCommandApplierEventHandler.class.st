@@ -20,7 +20,6 @@ ToDataSourceCommandApplierEventHandler >> elementCommandAddedEvent: aCommandAdde
 		aCommandAddedEvent currentTarget applyCommand:
 			aCommandAddedEvent command.
 		^ self ].
-
 	element dataSource
 		notifySelecterCommandApplicationRequest: aCommandAddedEvent command
 		from: aCommandAddedEvent currentTarget.

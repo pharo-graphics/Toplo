@@ -192,7 +192,7 @@ ToAbstractListElement >> defaultSecondarySelectionMode [
 		  in: [ :mode |
 			  mode listEventHandler:
 					  (self newSecondarySelectionEventHandler selectionMode: mode) ];
-		  selecter: (ToListSelecter
+		  selecter: (ToCompositeSelecter
 				   basicOnSelectionModel: self newSecondarySelectionModel
 				   withEventClass: ToListSecondarySelectionChangedEvent);
 		  elementBuilder: [ ToListSecondarySelectionElement new ];

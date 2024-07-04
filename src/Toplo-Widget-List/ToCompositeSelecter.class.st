@@ -11,6 +11,7 @@ Class {
 ToCompositeSelecter >> initialize [ 
 
 	super initialize.
+	commandApplierEventHandler := ToDataSourceCommandApplierEventHandler new.
 	subSelecterIndex := IdentityDictionary new
 ]
 

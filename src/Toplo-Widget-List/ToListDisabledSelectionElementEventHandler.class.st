@@ -13,10 +13,9 @@ ToListDisabledSelectionElementEventHandler >> eventsToHandle [
 { #category : #'infinite event handling' }
 ToListDisabledSelectionElementEventHandler >> listDisabledSelectionChangedEvent: anEvent [
 
-	| touchedIndexes target nodes |
+	| touchedIndexes target  |
 	touchedIndexes := anEvent touchedIndexes.
 	target := anEvent currentTarget.
 	self refreshSelectionFromEvent: anEvent.
-	nodes := target nodes.
 	target notifyDataSourceChanged
 ]

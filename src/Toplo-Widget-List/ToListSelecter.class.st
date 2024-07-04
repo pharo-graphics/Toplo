@@ -201,7 +201,7 @@ ToListSelecter >> initialize [
 	multiple := true.
 	enabled := true.
 	operator := ToSelectionModelOperator new.
-
+	commandApplierEventHandler := ToTaskBasedCommandApplierEventHandler new
 ]
 
 { #category : #testing }
@@ -287,7 +287,7 @@ ToListSelecter >> onInstalledIn: anEventTarget [
 	It receives the selection change event after the application of commands "
 
 	eventTarget := anEventTarget.
-	commandApplierEventHandler := eventTarget newCommandApplierEventHandler.
+	commandApplierEventHandler element: anEventTarget.
 	self addEventHandler: commandApplierEventHandler
 ]
 

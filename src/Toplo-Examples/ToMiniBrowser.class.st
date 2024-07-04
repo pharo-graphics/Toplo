@@ -139,7 +139,7 @@ ToMiniBrowser >> newClassPane [
 ToMiniBrowser >> newCodePane [
 
 	codePane := ToAlbum new withRowNumbers.
-	codePane styler: BlRBTextStyler new.
+	codePane styler: BlPharoCodeStyler new.
 	codePane contextMenuBuilder: [ :codeMenu :element |
 		codeMenu addItem: (ToMenuItem new labelText: 'Accept') ].
 

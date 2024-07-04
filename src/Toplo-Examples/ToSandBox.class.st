@@ -631,7 +631,10 @@ ToSandBox class >> example_CodeEditor [
 	text := self methodText asRopedText fontName: 'Source Code Pro'.
 	album := ToAlbum new.
 	album inspect.
-	album styler: (BlRBTextStyler new classOrMetaClass: self class).
+	album styler:
+		(BlPharoCodeStyler new
+			classOrMetaClass: self class;
+			yourself).
 	album text: text copy.
 	album withSaveCapability.
 	album withRowNumbers.

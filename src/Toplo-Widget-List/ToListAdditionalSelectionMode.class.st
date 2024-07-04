@@ -21,6 +21,19 @@ ToListAdditionalSelectionMode class >> selecter: aSelecter elementBuilder: aSele
 		  yourself
 ]
 
+{ #category : #'instance creation' }
+ToListAdditionalSelectionMode class >> selecter: aSelecter listEventHandler: aListEventHandler elementBuilder: aSelectionElementBuilderValuable [
+
+	^ self new
+		  in: [ :mode |
+			  mode listEventHandler: (aListEventHandler
+						   selectionMode: mode;
+						   yourself) ];
+		  selecter: aSelecter;
+		  elementBuilder: aSelectionElementBuilderValuable;
+		  yourself
+]
+
 { #category : #'api - hooks' }
 ToListAdditionalSelectionMode >> installDefaultOptionsIn: anElement [
 

@@ -32,7 +32,7 @@ ToSingleSelectInnerContainerElement >> dataViewBuilder [
 { #category : #accessing }
 ToSingleSelectInnerContainerElement >> dataViewBuilder: aValuable [
 
-	" aValuable takes 3 args: the dataItemView, the holder in the list element and the selected dataItem "
+	" aValuable takes 2 args: the dataItemView and the selected dataItem "
 	dataViewBuilder := aValuable.
 	self refresh
 ]
@@ -107,16 +107,21 @@ ToSingleSelectInnerContainerElement >> newDataView [
 { #category : #'t - select inner container' }
 ToSingleSelectInnerContainerElement >> refresh [
 
-	| selectedIndex dataItem selectionModel originalData |
+	| selectedIndex dataItem selectionModel originalData newResultView |
 	selectionModel := self windowManager sieve selectionModel.
 	originalData := self windowManager sieve originalData.
 	selectedIndex := selectionModel isEmpty
 		                 ifTrue: [ 0 ]
-		                 ifFalse: [
-		                 selectionModel firstIndex ].
+		                 ifFalse: [ selectionModel firstIndex ].
 	self inputTextField text: ''.
-	selectedIndex isZero ifFalse: [ dataItem := originalData at: selectedIndex ].
-	dataViewBuilder cull: dataView cull: dataItem
+	dataView startContainer removeChildren.
+	newResultView := ToSingleSelectResultView new
+		                 textInputElement: textInputElement;
+		                 yourself.
+	dataView startContainer addChild: newResultView.
+	selectedIndex isZero ifTrue: [ ^ self ].
+	dataItem := originalData at: selectedIndex.
+	dataViewBuilder cull: newResultView cull: dataItem
 ]
 
 { #category : #'t - select inner container' }

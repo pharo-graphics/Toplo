@@ -47,6 +47,15 @@ ToBarElement >> defaultNodeManagerClass [
 	^ ToBarNodeManager 
 ]
 
+{ #category : #initialization }
+ToBarElement >> defaultSecondarySelectionMode [
+
+	| mode |
+	mode := super defaultSecondarySelectionMode.
+	mode selecter commandApplierEventHandler: ToQueueBasedCommandApplierEventHandler new.
+	^ mode
+]
+
 { #category : #accessing }
 ToBarElement >> fakeDataItem: aDataItem [
 
@@ -109,7 +118,7 @@ ToBarElement >> layoutConfigurator [
 { #category : #'instance creation' }
 ToBarElement >> newCommandApplierEventHandler [
 
-	^ ToElementCommandApplierEventHandler new
+	^ ToQueueBasedCommandApplierEventHandler new
 			 element: self;
 			 yourself
 

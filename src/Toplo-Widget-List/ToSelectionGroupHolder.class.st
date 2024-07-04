@@ -175,6 +175,7 @@ ToSelectionGroupHolder >> updateSelectionIn: aListElement [
 
 	| newGroups |
 	option isNone ifTrue: [ ^ self ].
+	"'updateSelectionIn: ' trace. option selectionMode selecter selectionChangedEventClass traceCr."
 	newGroups := option collectSelectionGroupsFrom: aListElement.
 	(self groups: groups equals: newGroups) ifTrue: [ ^ self ].
 	self newGroups: newGroups in: aListElement

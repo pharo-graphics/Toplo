@@ -20,6 +20,6 @@ ToSingleSelectTextInputElement >> checkPlaceholderText [
 { #category : #initialization }
 ToSingleSelectTextInputElement >> configureTextField: aTextField [
 
-	aTextField withLineWrapping.
+	aTextField withoutLineWrapping.
 	aTextField hMatchParent
 ]

@@ -51,33 +51,7 @@ ToSelectElementSkin >> shortcutsToInstallIn: aSelect [
 										   ifTrue: [ deselIdxes add: idx ]
 										   ifFalse: [ selIdxes add: idx ] ] ].
 					   listElement selecter selectIndexes: selIdxes.
-					   listElement selecter deselectIndexes: deselIdxes ]).
-
-		  listElement secondarySelectionMode isMultipleSelection ifTrue: [
-			  aSelect isFiltrable ifTrue: [
-				  stream nextPut: ToSelectTextFieldBackspaceShortcut new ].
-			  stream nextPut: (BlShortcutWithAction new
-					   combination: BlKeyCombination primaryA;
-					   action: [ :aShortcutEvent :aShortcut |
-						   listElement secondarySelecter selectAll ]).
-
-			  stream nextPut: (BlShortcutWithAction new
-					   combination: BlKeyCombination builder shift arrowDown build;
-					   action: [ :aShortcutEvent :aShortcut |
-						   | idx |
-						   idx := listElement secondarySelecter
-							          nextSelectableIndexToScrollTo.
-						   listElement secondarySelecter selectIndex: idx.
-						   listElement secondarySelecter scrollToDataSourcePosition: idx ]).
-
-			  stream nextPut: (BlShortcutWithAction new
-					   combination: BlKeyCombination builder shift arrowUp build;
-					   action: [ :aShortcutEvent :aShortcut |
-						   | idx |
-						   idx := listElement secondarySelecter
-							          previousSelectableIndexToScrollTo.
-						   listElement secondarySelecter selectIndex: idx.
-						   listElement secondarySelecter scrollToDataSourcePosition: idx ]) ] ]
+					   listElement selecter deselectIndexes: deselIdxes ]) ]
 ]
 
 { #category : #'event handling' }

@@ -1,8 +1,8 @@
 Class {
 	#name : #ToAlbumPrimarySelectionElement,
 	#superclass : #AlbPrimarySelectionElement,
-	#traits : 'TToElement',
-	#classTraits : 'TToElement classTrait',
+	#traits : 'TToElement + TToEnableable',
+	#classTraits : 'TToElement classTrait + TToEnableable classTrait',
 	#category : #'Toplo-Widget-Album-TextPane'
 }
 

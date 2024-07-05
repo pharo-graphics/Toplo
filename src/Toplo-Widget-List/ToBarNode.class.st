@@ -1,8 +1,8 @@
 Class {
 	#name : #ToBarNode,
 	#superclass : #ToAbstractListNode,
-	#traits : 'TToElement + TToBarNode',
-	#classTraits : 'TToElement classTrait + TToBarNode classTrait',
+	#traits : 'TToBarNode',
+	#classTraits : 'TToBarNode classTrait',
 	#category : #'Toplo-Widget-List-Node'
 }
 
@@ -23,14 +23,6 @@ ToBarNode >> initialize [
 
 	super initialize.
 	self initializeForToplo 
-]
-
-{ #category : #'t - list node' }
-ToBarNode >> isPartlyVisible [
-
-	^ self nodeContainerIntersection
-		  ifNotNil: [ :i | i isZero not ]
-		  ifNil: [ false ]
 ]
 
 { #category : #skin }

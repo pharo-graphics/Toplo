@@ -1,8 +1,6 @@
 Class {
 	#name : #ToSelectListNode,
 	#superclass : #ToListNode,
-	#traits : 'TToElement',
-	#classTraits : 'TToElement classTrait',
 	#category : #'Toplo-Widget-Select-List'
 }
 

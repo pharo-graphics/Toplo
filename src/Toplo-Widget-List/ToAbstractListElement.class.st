@@ -210,7 +210,7 @@ ToAbstractListElement >> defaultSelectionMode [
 		  in: [ :mode |
 			  mode listEventHandler:
 					  (self newPrimarySelectionEventHandler selectionMode: mode) ];
-		  selecter: (ToCompositeSelecter new
+		  selecter: (ToPrimarySelecter new
 				   selectionModel: self newPrimarySelectionModel;
 				   selectionChangedEventClass: ToListPrimarySelectionChangedEvent;
 				   yourself);

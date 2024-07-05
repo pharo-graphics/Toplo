@@ -105,7 +105,7 @@ ToWorkspaceExample >> initializeCodeEditor [
 			thePlaceholder addChild: lab.
 			thePlaceholder preventMeAndChildrenMouseEvents ];
 		styler: (BlPharoCodeStyler new
-				 isForWorkspace: true;
+				 isScripting: true;
 				 workspace: self;
 				 fontName: AeFontManager defaultCodeFontFamilyName;
 				 yourself);

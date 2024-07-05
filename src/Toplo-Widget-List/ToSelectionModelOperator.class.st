@@ -133,13 +133,5 @@ ToSelectionModelOperator >> selectionModelCopyFromCommand: aCopyFromCommand [
 { #category : #'command operations' }
 ToSelectionModelOperator >> selectionModelShiftCommand: aShiftCommand [ 
 
-	aShiftCommand selectionModel shift: aShiftCommand itemCount from: aShiftCommand fromIndex.
-	" Must take car of unselectable items: "
-	" for adding items, no need to notify change because it is already done here but when
-	when removing items (itemCount < 0) one have to notify change to the datasource 
-	to correctly update the UI"
-	aShiftCommand itemCount > 0 ifTrue: [ ^ self ].
-	aShiftCommand fromIndex <= aShiftCommand selectionModel itemCount ifTrue: [
-		"aEventTarget dataSource notifyChanged" ]
-
+	aShiftCommand selectionModel shift: aShiftCommand itemCount from: aShiftCommand fromIndex
 ]

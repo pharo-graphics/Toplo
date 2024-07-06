@@ -3298,22 +3298,31 @@ ToSandBox class >> example_horizontalPaneWithDivider [
 ToSandBox class >> example_menuBar1 [
 
 	| win bar fileMenu |
-	win := ToInnerWindow new title: 'Menu bar example'.
+	win := ToInnerWindow new.
+	win title: 'Menu bar example'.
 	win width: 600.
 
 	bar := ToMenuBar new
-		       hMatchParent;
-		       vFitContent.
+		hMatchParent;
+		vFitContent;
+		yourself.
+
 	bar addMenu: (fileMenu := ToMenu new
 			 labelText: 'File').
-	fileMenu addItem: (ToMenuItem new label: (ToLabel new text: 'Open')).
+	fileMenu addItem: (ToMenuItem new labelText: 'Open'; yourself).
 	fileMenu padding: (BlInsets all: 10).
+
 	bar addFiller.
-	bar addMenu: (ToMenu new
-			 labelText: 'Help';
-			 tooltipString: 'help stuffs').
-	bar when: BlMouseDownEvent do: [ :event | event target traceCr ].
+	bar addMenu:
+		(ToMenu new
+			labelText: 'Help';
+			tooltipString: 'help stuffs';
+			yourself).
+	bar
+		addEventHandlerOn: BlMouseDownEvent
+		do: [ :event | event target traceCr ].
 	bar border: (BlBorder paint: Color red).
+
 	win pane addChild: bar.
 	win openInSpace
 ]

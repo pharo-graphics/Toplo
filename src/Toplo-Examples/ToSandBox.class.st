@@ -206,6 +206,25 @@ ToSandBox class >> configurationBoardFor: aBar [
 ]
 
 { #category : #list }
+ToSandBox class >> example_2ListsWithEditableAndContextMenu [
+
+	| win1 win2 l1 l2 space |
+	l1 := self listWithEditableAndContextMenu.
+	l2 := self listWithEditableAndContextMenu.
+	
+	win1 := ToInnerWindow new.
+	win1 pane addChild: l1.
+	win2 := ToInnerWindow new.
+	win2 pane addChild: l2.
+	
+	space := BlSpace new.
+	space root addChild: win1.
+	space root addChild: win2.
+	space show
+
+]
+
+{ #category : #list }
 ToSandBox class >> example_BasicListWithAllClasses3 [
 
 	| l |
@@ -631,31 +650,54 @@ ToSandBox class >> example_CodeEditor [
 	text := self methodText asRopedText fontName: 'Source Code Pro'.
 	album := ToAlbum new.
 	album inspect.
-	album styler:
-		(BlPharoCodeStyler new
-			classOrMetaClass: self class;
-			yourself).
+	album styler: (BlPharoCodeStyler new
+			 classOrMetaClass: self class;
+			 yourself).
 	album text: text copy.
 	album withSaveCapability.
 	album withRowNumbers.
-	album whenSaveRequestedDo: [ :saveRequested | saveRequested accepted: true ].
-	album whenCancelRequestedDo: [ :cancelRequested | cancelRequested client text: text copy ].
-	
-	menuBuilder := [ :menu :request | | element |
-		element := request currentTarget.
-		menu addItem: (ToMenuItem new labelText: 'Select all'; whenClickedDo: [:event  | element selecter all; apply ]; yourself).
-		menu addItem: (ToMenuItem new labelText: 'Copy'; whenClickedDo: [:event  | element editor copySelected ]; yourself).
-		menu addItem: (ToMenuItem new labelText: 'Cut'; whenClickedDo: [:event  | element editor cutSelected ]; yourself).
-		menu addItem: (ToMenuItem new labelText: 'Paste'; whenClickedDo: [:event  | element editor paste ]; yourself).
-		menu addSeparator.
-		menu addItem: (ToMenuItem new labelText: 'Accept'; whenClickedDo: [:event  | element requestSave ]; yourself).
-		menu addSeparator.
-		menu addItem: (ToMenuItem new labelText: 'Cancel'; whenClickedDo: [:event  | element requestCancel ]; yourself) ].
-	album contextMenu: menuBuilder. 
+	album whenSaveRequestedDo: [ :saveRequested |
+		saveRequested accepted: true ].
+	album whenCancelRequestedDo: [ :cancelRequested |
+		cancelRequested client text: text copy ].
+
+	menuBuilder := [ :menu :request |
+	               | element |
+	               element := request currentTarget.
+	               menu addItem: (ToMenuItem new
+			                labelText: 'Select all';
+			                whenClickedDo: [ :event |
+				                element selecter
+					                all;
+					                apply ];
+			                yourself).
+	               menu addItem: (ToMenuItem new
+			                labelText: 'Copy';
+			                whenClickedDo: [ :event |
+				                element editor copySelected ];
+			                yourself).
+	               menu addItem: (ToMenuItem new
+			                labelText: 'Cut';
+			                whenClickedDo: [ :event |
+				                element editor cutSelected ];
+			                yourself).
+	               menu addItem: (ToMenuItem new
+			                labelText: 'Paste';
+			                whenClickedDo: [ :event | element editor paste ];
+			                yourself).
+	               menu addSeparator.
+	               menu addItem: (ToMenuItem new
+			                labelText: 'Accept';
+			                whenClickedDo: [ :event | element requestSave ];
+			                yourself).
+	               menu addSeparator.
+	               menu addItem: (ToMenuItem new
+			                labelText: 'Cancel';
+			                whenClickedDo: [ :event | element requestCancel ];
+			                yourself) ].
+	album contextMenu: menuBuilder.
 	album cursorColor: Color black.
 	album openInSpace
-
-
 ]
 
 { #category : #list }
@@ -1447,6 +1489,7 @@ ToSandBox class >> example_SelectIconMonoFiltrable [
 
 	| select phtext icProvider styles iconDescs |
 	select := ToSingleSelectElement new.
+	select inspect.
 	select listElement placeholderMinHeight: 35.
 	phtext := ('No Icon' asRopedText
 		           foreground: Color lightGray;

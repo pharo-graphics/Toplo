@@ -13,9 +13,11 @@ ToListDisabledSelectionElementEventHandler >> eventsToHandle [
 { #category : #'infinite event handling' }
 ToListDisabledSelectionElementEventHandler >> listDisabledSelectionChangedEvent: anEvent [
 
-	| touchedIndexes target  |
-	touchedIndexes := anEvent touchedIndexes.
+	| touchedIntervals target  |
+	touchedIntervals := anEvent touchedIntervals.
 	target := anEvent currentTarget.
 	self refreshSelectionFromEvent: anEvent.
-	target notifyDataSourceChanged
+	'listDisabledSelectionChangedEvent: ' trace. anEvent touchedIntervals traceCr.
+	touchedIntervals do: [ :int |
+		target dataSource notifyItemsChanged: int ]
 ]

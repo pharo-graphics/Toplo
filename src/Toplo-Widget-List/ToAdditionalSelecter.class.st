@@ -18,8 +18,9 @@ ToAdditionalSelecter >> initialize [
 { #category : #initialization }
 ToAdditionalSelecter >> initializeCommandApplier [ 
 
-	super initializeCommandApplier.
-	commandApplierEventHandler weak: true
+	super initializeCommandApplier
+	"commandApplierEventHandler := ToQueueBasedCommandApplierEventHandler new."
+	"commandApplierEventHandler weak: true"
 ]
 
 { #category : #'api - hooks' }

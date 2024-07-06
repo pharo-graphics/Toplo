@@ -113,7 +113,8 @@ ToSingleSelectInnerContainerElement >> refresh [
 	selectedIndex := selectionModel isEmpty
 		                 ifTrue: [ 0 ]
 		                 ifFalse: [ selectionModel firstIndex ].
-	self inputTextField text: ''.
+	self inputTextField text: '' asRopedText.
+	self selectedDataTextField text: '' asRopedText.
 	dataView startContainer removeChildren.
 	newResultView := ToSingleSelectResultView new
 		                 textInputElement: textInputElement;
@@ -121,7 +122,9 @@ ToSingleSelectInnerContainerElement >> refresh [
 	dataView startContainer addChild: newResultView.
 	selectedIndex isZero ifTrue: [ ^ self ].
 	dataItem := originalData at: selectedIndex.
-	dataViewBuilder cull: newResultView cull: dataItem
+
+	dataViewBuilder cull: newResultView cull: dataItem.
+	self selectedDataTextField text foreground: Color black.
 ]
 
 { #category : #'t - select inner container' }

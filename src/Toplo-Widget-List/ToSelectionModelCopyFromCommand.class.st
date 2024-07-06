@@ -33,6 +33,12 @@ ToSelectionModelCopyFromCommand >> indexes [
 ]
 
 { #category : #accessing }
+ToSelectionModelCopyFromCommand >> intervals [ 
+
+	^ Array with: (1 to: sourceSelectionModel itemCount)
+]
+
+{ #category : #accessing }
 ToSelectionModelCopyFromCommand >> sourceSelectionModel [
 
 	^ sourceSelectionModel

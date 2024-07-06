@@ -48,6 +48,12 @@ TToSelectInnerContainerElement >> selectElement: aSelectElement [
 ]
 
 { #category : #'t - select inner container' }
+TToSelectInnerContainerElement >> selectedDataTextField [
+
+	^ self textInputElement selectedDataTextField
+]
+
+{ #category : #'t - select inner container' }
 TToSelectInnerContainerElement >> textInputElement [
 
 	self explicitRequirement 

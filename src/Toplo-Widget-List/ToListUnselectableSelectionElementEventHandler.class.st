@@ -26,5 +26,7 @@ ToListUnselectableSelectionElementEventHandler >> listUnselectableSelectionChang
 	target := anEvent currentTarget.
 	self refreshSelectionFromEvent: anEvent.
 	target selecter deselectIndexes: touchedIndexes.
-	target secondarySelecter deselectAll
+	target secondarySelecter deselectAll.
+	anEvent touchedIntervals do: [ :int |
+		target dataSource notifyItemsChanged: int ]
 ]

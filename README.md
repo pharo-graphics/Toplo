@@ -10,7 +10,7 @@ Toplo is a widget framework for [Pharo](https://www.pharo.org) on top of [Bloc](
 
 ## Documentation
 
-You can get started on Bloc, Toplo and Style Sheets [this wiki page](doc/StyleSheets.md).
+You can get started on **Bloc**, **Toplo** and **Style Sheets** on [this page](doc/StyleSheets.md).
 
 
 ## Install

@@ -7,29 +7,20 @@
 
 Toplo is a widget framework for [Pharo](https://www.pharo.org) on top of [Bloc](https://github.com/pharo-graphics/Bloc). 
 
-## Installation
 
-Install the stable version of Toplo in current stable [Pharo](https://www.pharo.org) with:
+## Documentation
 
-```Smalltalk
-EpMonitor disableDuring: [
-  Author useAuthor: 'Load' during: [
-    [ Metacello new baseline: 'Toplo'; repository: 'github://pharo-graphics/Toplo:master/src';
-        onConflictUseIncoming;
-        ignoreImage;
-        load.
-    ] on: MCMergeOrLoadWarning do: [ :warning | warning load ].
-  ].
-]
-```
+You can get started on Bloc, Toplo and Style Sheets [this wiki page](doc/StyleSheets.md).
 
-Add Toplo to your project Baseline with:
 
-```Smalltalk
-spec baseline: 'Toplo' with: [ spec repository: 'github://pharo-graphics/Toplo:master/src' ].
-```
+## Install
 
-Replace `master` with `dev` to work on the branch for development.
+The project can be loaded as usual via Metacello, using the `BaselineOfToplo` specification. To copy/paste a loading script, see the [wiki page](../../wiki/Install).
+
+
+## Branches & Contributions
+
+We describe our contribution workflow & branch name convention in [this wiki page](../../wiki/Branches-and-versions).
 
 
 ## Look and Feel features (work in progress)

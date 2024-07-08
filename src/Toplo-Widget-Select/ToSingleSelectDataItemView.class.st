@@ -17,10 +17,14 @@ ToSingleSelectDataItemView >> container: aContainer [
 ToSingleSelectDataItemView >> initialize [
 
 	super initialize.
+
 	self applySkinInstallerOnFirstRequest: true.
 	self constraintsDo: [ :c |
 		c horizontal matchParent.
-		c vertical fitContent ].
+		c vertical fitContent.
+		c frame vertical alignCenter.
+		c flow vertical alignCenter.
+		c linear vertical alignCenter ].
 	self middleContainer constraintsDo: [ :c | c horizontal matchParent ]
 ]
 

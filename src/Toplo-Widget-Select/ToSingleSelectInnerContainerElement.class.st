@@ -43,6 +43,15 @@ ToSingleSelectInnerContainerElement >> dataViewFactory [
 	^ dataViewFactory
 ]
 
+{ #category : #accessing }
+ToSingleSelectInnerContainerElement >> fakeData: aData [
+
+	fakeData := aData.
+	fakeDataView ifNotNil: [
+		self removeFakeDataView.
+		self initializeFakeDataView ]
+]
+
 { #category : #initialization }
 ToSingleSelectInnerContainerElement >> initialize [
 
@@ -56,8 +65,8 @@ ToSingleSelectInnerContainerElement >> initialize [
 	dataViewBuilder := selectElement defaultDataViewBuilder.
 		
 	self initializeTextInputElement.
-	self initializeFakeDataView.
 	self initializeDataView.
+	self initializeFakeDataView.
 
 ]
 
@@ -76,10 +85,10 @@ ToSingleSelectInnerContainerElement >> initializeFakeDataView [
 		
 	" add the fake node (to keep a constant minimum height )"
 	fakeDataView := self newDataView.
-	dataViewBuilder cull: fakeDataView cull: nil cull: fakeData.
+	dataViewBuilder cull: fakeDataView cull: fakeData.
 	fakeDataView id: #fakeDataView.
 	fakeDataView width: 0.
-	self addChild: fakeDataView.
+	self addChild: fakeDataView before: dataView.
 
 ]
 
@@ -126,6 +135,13 @@ ToSingleSelectInnerContainerElement >> refresh [
 	
 	dataItem := originalData at: selectedIndex.
 	dataViewBuilder cull: newResultView cull: dataItem
+]
+
+{ #category : #'t - select inner container' }
+ToSingleSelectInnerContainerElement >> removeFakeDataView [
+		
+	self removeChild: fakeDataView
+
 ]
 
 { #category : #'t - select inner container' }

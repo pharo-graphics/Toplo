@@ -1489,8 +1489,8 @@ ToSandBox class >> example_SelectIconMonoFiltrable [
 
 	| select phtext icProvider styles iconDescs |
 	select := ToSingleSelectElement new.
-	select inspect.
 	select listElement placeholderMinHeight: 35.
+	select listElement withRowNumbers.
 	phtext := ('No Icon' asRopedText
 		           foreground: Color lightGray;
 		           yourself)
@@ -1561,8 +1561,10 @@ ToSandBox class >> example_SelectIconMonoFiltrable [
 		imPane fitContent.
 		imPane withNullSkin.
 		imPane background: Color veryLightGray.
-		imPane addChild: (iconDesc icon size: 24 asPoint).
+		imPane addChild: (iconDesc icon size: 48 asPoint).
 		dataItemView addChild: imPane ].
+	
+	select fakeData: iconDescs first.
 
 	select sieve dataFilter: [ :iconDesc :pattern |
 		(iconDesc style prefix beginsWith: pattern caseSensitive: true) or: [

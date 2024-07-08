@@ -27,7 +27,7 @@ ToScrollableBarTrackElement >> addAllHolders: anArray at: aPosition [
 { #category : #adding }
 ToScrollableBarTrackElement >> addFakeNode: aNode [
 
-	fakeNode ifNotNil: [ fakeNode removeFromParent ].
+	fakeNode ifNotNil: [ self removeFakeNode ].
 	fakeNode := aNode.
 	self addChild: aNode at: 1.
 

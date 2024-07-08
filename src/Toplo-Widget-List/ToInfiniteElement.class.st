@@ -280,7 +280,7 @@ ToInfiniteElement >> scrollTowardStartToDataSourcePosition: anIndex [
 ToInfiniteElement >> selectableNodeContainingGlobalPosition: aPoint [
 
 	self nodesDo: [ :node |
-		(node holder isSelectable and: [ node containsGlobalPoint: aPoint ])
+		((node containsGlobalPoint: aPoint) and: [ node holder isSelectable ])
 			ifTrue: [ ^ node ] ].
 	^ nil
 ]

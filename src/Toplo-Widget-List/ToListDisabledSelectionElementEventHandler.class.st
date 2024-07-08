@@ -17,7 +17,6 @@ ToListDisabledSelectionElementEventHandler >> listDisabledSelectionChangedEvent:
 	touchedIntervals := anEvent touchedIntervals.
 	target := anEvent currentTarget.
 	self refreshSelectionFromEvent: anEvent.
-	'listDisabledSelectionChangedEvent: ' trace. anEvent touchedIntervals traceCr.
 	touchedIntervals do: [ :int |
 		target dataSource notifyItemsChanged: int ]
 ]

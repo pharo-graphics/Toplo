@@ -18,7 +18,7 @@ ToAbstractListNode >> initialize [
 	super initialize.
 	self applySkinInstallerOnFirstRequest: true.
 	self layout: self defaultLayout.
-	self addEventHandler: self newEventHandler 
+	self addEventHandler: self newEventHandler
 ]
 
 { #category : #testing }

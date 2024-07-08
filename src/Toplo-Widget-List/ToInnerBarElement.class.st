@@ -153,6 +153,7 @@ ToInnerBarElement >> initializeFakeDataView [
 	| holder fakeNode |
 	holder := dataSource createHolder: self.
 	holder infiniteElement: self.
+	holder dataItem: self nodeManager fakeDataItem.
 	holder bindAtPosition: 0.
 	fakeNode := self nodeManager newNodeForHolder: holder.
 	" add the fake node (to keep a constant minimum size ) "
@@ -430,7 +431,7 @@ ToInnerBarElement >> scrollableElement [
 ToInnerBarElement >> selectableNodeContainingGlobalPosition: aPoint [
 
 	self nodesDo: [ :node |
-		(node holder isSelectable and: [ node containsGlobalPoint: aPoint ])
+		((node containsGlobalPoint: aPoint) and: [ node holder isSelectable ])
 			ifTrue: [ ^ node ] ].
 	^ nil
 ]

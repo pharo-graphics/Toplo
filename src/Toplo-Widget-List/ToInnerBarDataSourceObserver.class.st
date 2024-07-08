@@ -99,9 +99,5 @@ ToInnerBarDataSourceObserver >> selecterCommandApplicationRequest: aCommandAppli
 	| command applier |
 	command := aCommandApplicationRequest command.
 	applier := aCommandApplicationRequest applier.
-	innerBarElement isAttachedToSceneGraph ifFalse: [
-		applier applyCommand: command.
-		^ self ].
-	innerBarElement whenLayoutedDoOnce: [ 
-	 applier applyCommand: command ]
+	applier applyCommand: command
 ]

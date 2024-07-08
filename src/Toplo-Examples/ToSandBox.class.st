@@ -1554,9 +1554,16 @@ ToSandBox class >> example_SelectIconMonoFiltrable [
 			child constraintsDo: [ :c | c linear vertical alignCenter ] ] ].
 
 	select dataViewBuilder: [ :dataItemView :iconDesc |
+		| imPane |
 		dataItemView selectedDataTextField text:
 			iconDesc style prefix , ' ' , iconDesc name.
-		dataItemView addChild: (iconDesc icon size: 24 asPoint) ].
+		imPane := ToElement new layout: BlFrameLayout new.
+		imPane fitContent.
+		imPane withNullSkin.
+		imPane background: Color veryLightGray.
+		imPane addChild: (iconDesc icon size: 24 asPoint).
+		dataItemView addChild: imPane ].
+
 	select sieve dataFilter: [ :iconDesc :pattern |
 		(iconDesc style prefix beginsWith: pattern caseSensitive: true) or: [
 			iconDesc name beginsWith: pattern caseSensitive: true ] ].

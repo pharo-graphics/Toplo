@@ -152,18 +152,18 @@ ToSelectTextInputElement >> onUninstalledIn: aNodeContainer [
 { #category : #window }
 ToSelectTextInputElement >> onWindowClosed [
 
-	"self selectedDataTextField visibility: BlVisibility visible.
+	self selectedDataTextField visibility: BlVisibility visible.
 	self selectedDataTextField text foreground: Color black.
-	selectFiltrable ifTrue: [ self inputTextField requestFocus ]"
+	selectFiltrable ifTrue: [ self inputTextField requestFocus ]
 ]
 
 { #category : #window }
 ToSelectTextInputElement >> onWindowOpened [		
 		
-	"self selectedDataTextField text foreground: Color lightGray.
+	self selectedDataTextField text foreground: Color lightGray.
 	selectFiltrable
 		ifTrue: [ self inputTextField requestFocus ]
-		ifFalse: [ self parent requestFocus ]"
+		ifFalse: [ self parent requestFocus ]
 ]
 
 { #category : #accessing }

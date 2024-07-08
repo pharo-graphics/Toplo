@@ -1,8 +1,32 @@
 Class {
 	#name : #ToInfiniteDataSourceManager,
 	#superclass : #BlInfiniteDataSourceManager,
+	#instVars : [
+		'finalStepCommands'
+	],
 	#category : #'Toplo-Widget-List-InnerInfinite'
 }
+
+{ #category : #'commands processing' }
+ToInfiniteDataSourceManager >> consumeFinalStepCommandsIn: anInfiniteElement [
+	"Skip pre-processing and perform all pending commands in one pass."
+
+	"we still consume finale step updates (if there is)."
+
+	[ finalStepCommands isEmpty ] whileFalse: [
+		| cmd |
+		cmd := finalStepCommands removeFirst.
+		self dispatchCommand: cmd to: anInfiniteElement.
+		self onCommandProcessed: cmd in: anInfiniteElement.
+		self recycleCommand: cmd ].
+]
+
+{ #category : #initialization }
+ToInfiniteDataSourceManager >> initialize [
+	super initialize.
+	
+	finalStepCommands := OrderedCollection new.
+]
 
 { #category : #'data source updates' }
 ToInfiniteDataSourceManager >> onItemsFiltered: aPositionStart itemCount: anItemCount [
@@ -10,12 +34,12 @@ ToInfiniteDataSourceManager >> onItemsFiltered: aPositionStart itemCount: anItem
 	otherwise false"
 
 	"Register add command"
-	pendingCommands add: (ToInfiniteDataSourceFilterCommand new
+	finalStepCommands add: (ToInfiniteDataSourceFilterCommand new
 			 positionStart: aPositionStart;
 			 itemCount: anItemCount;
 			 yourself).
 
-	^ pendingCommands notEmpty
+	^ finalStepCommands notEmpty
 ]
 
 { #category : #'data source updates' }
@@ -24,13 +48,13 @@ ToInfiniteDataSourceManager >> onItemsSieved: aPositionStart itemCount: anItemCo
 	otherwise false"
 
 	"Register add command"
-	pendingCommands add: (ToInfiniteDataSourceSieveCommand new
+	finalStepCommands add: (ToInfiniteDataSourceSieveCommand new
 			 positionStart: aPositionStart;
 			 itemCount: anItemCount;
 			 sieve: aSieve;
 			 yourself).
 
-	^ pendingCommands notEmpty
+	^ finalStepCommands notEmpty
 ]
 
 { #category : #'data source updates' }
@@ -40,10 +64,10 @@ ToInfiniteDataSourceManager >> onSelecterCommand: aCommand appliedBy: anApplier 
 
 	"Register add command"
 
-	pendingCommands add: (ToSelecterCommandApplication new
+	finalStepCommands add: (ToSelecterCommandApplication new
 			 applier: anApplier;
 			 command: aCommand;
 			 yourself).
 
-	^ pendingCommands notEmpty
+	^ true
 ]

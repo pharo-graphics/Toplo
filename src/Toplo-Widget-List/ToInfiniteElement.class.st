@@ -73,6 +73,14 @@ ToInfiniteElement >> disableScrolledEvent [
 	self eventDispatcher disableScrolledEvent 
 ]
 
+{ #category : #layout }
+ToInfiniteElement >> dispatchLayoutFinalStep [
+
+	dataSourceManager consumeFinalStepCommandsIn: self.
+	super dispatchLayoutFinalStep.
+
+]
+
 { #category : #'scrolled event' }
 ToInfiniteElement >> enableScrolledEvent [
 

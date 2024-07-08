@@ -34,17 +34,14 @@ ToListBasicAdditionalSelectionElementEventHandler >> handleEvent: anEvent [
 { #category : #'element handlers' }
 ToListBasicAdditionalSelectionElementEventHandler >> listAdditionalSelectionChangedEvent: anEvent [
 
-	| touchedIndexes target |
-	touchedIndexes := anEvent touchedIndexes.
+	| touchedIntervals target |
+	touchedIntervals := anEvent touchedIntervals.
 	target := anEvent currentTarget.
 
 	self refreshSelectionFromEvent: anEvent.
 
-	touchedIndexes size >= (target nodes size)
-		ifTrue: [ target notifyDataSourceChanged ]
-		ifFalse: [
-			touchedIndexes do: [ :idx |
-				target dataSource notifyItemsChanged: (idx to: idx) ] ]
+	touchedIntervals do: [ :int |
+		target dataSource notifyItemsChanged: int ]
 ]
 
 { #category : #accessing }

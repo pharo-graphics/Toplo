@@ -73,6 +73,14 @@ ToInfiniteElement >> disableScrolledEvent [
 	self eventDispatcher disableScrolledEvent 
 ]
 
+{ #category : #layout }
+ToInfiniteElement >> dispatchLayoutFinalStep [
+
+	super dispatchLayoutFinalStep.
+	dataSourceManager consumeFinalStepCommandsIn: self.
+
+]
+
 { #category : #'scrolled event' }
 ToInfiniteElement >> enableScrolledEvent [
 
@@ -272,7 +280,7 @@ ToInfiniteElement >> scrollTowardStartToDataSourcePosition: anIndex [
 ToInfiniteElement >> selectableNodeContainingGlobalPosition: aPoint [
 
 	self nodesDo: [ :node |
-		(node holder isSelectable and: [ node containsGlobalPoint: aPoint ])
+		((node containsGlobalPoint: aPoint) and: [ node holder isSelectable ])
 			ifTrue: [ ^ node ] ].
 	^ nil
 ]

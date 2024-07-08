@@ -28,3 +28,9 @@ ToWholeSelectionCommand >> indexes [
 
 	^ 1 to: selectionModel itemCount
 ]
+
+{ #category : #accessing }
+ToWholeSelectionCommand >> intervals [ 
+
+	^ Array with: (1 to: selectionModel itemCount)
+]

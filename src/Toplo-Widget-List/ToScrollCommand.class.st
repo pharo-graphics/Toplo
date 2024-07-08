@@ -42,6 +42,12 @@ ToScrollCommand >> initialize [
 ]
 
 { #category : #accessing }
+ToScrollCommand >> intervals [
+
+	^ Array with: (index to: index)
+]
+
+{ #category : #accessing }
 ToScrollCommand >> target [
 
 	^ target

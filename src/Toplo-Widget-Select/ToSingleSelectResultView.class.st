@@ -11,7 +11,9 @@ Class {
 ToSingleSelectResultView >> initialize [ 
 
 	super initialize.
-	self matchParent
+	self layout: BlFrameLayout new.
+	self hMatchParent.
+	self vFitContent
 ]
 
 { #category : #accessing }

@@ -20,15 +20,8 @@ ToListSecondarySelectionElementEventHandler >> elementScrolledEvent: anEvent [
 ToListSecondarySelectionElementEventHandler >> eventsToHandle [
 
 	^ super eventsToHandle, {
-		  ToInfiniteScrollFinishedEvent.
 		  ToListSecondarySelectionChangedEvent.
 		  BlMouseMoveEvent }
-]
-
-{ #category : #'mouse handlers' }
-ToListSecondarySelectionElementEventHandler >> infiniteScrollFinishedEvent: anEvent [
-
-	self updateSelectionFromEvent: anEvent
 ]
 
 { #category : #'mouse handlers' }

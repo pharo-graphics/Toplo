@@ -3,7 +3,8 @@ Class {
 	#superclass : #ToListElementEvent,
 	#instVars : [
 		'selectionModel',
-		'touchedIndexes'
+		'touchedIndexes',
+		'touchedIntervals'
 	],
 	#category : #'Toplo-Widget-List-Selection-Events'
 }
@@ -36,4 +37,16 @@ ToListSelectionChangedEvent >> touchedIndexes [
 ToListSelectionChangedEvent >> touchedIndexes: aCollection [
 
 	touchedIndexes := aCollection
+]
+
+{ #category : #accessing }
+ToListSelectionChangedEvent >> touchedIntervals [
+
+	^ touchedIntervals 
+]
+
+{ #category : #accessing }
+ToListSelectionChangedEvent >> touchedIntervals: aCollection [
+
+	touchedIntervals := aCollection
 ]

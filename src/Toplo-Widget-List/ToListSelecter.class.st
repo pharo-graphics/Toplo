@@ -72,6 +72,7 @@ ToListSelecter >> commandApplied: aCommand [
 			       eventTarget dispatchEvent: (selectionChangedEventClass new
 						        selectionModel: aCommand selectionModel;
 						        touchedIndexes: aCommand indexes;
+						        touchedIntervals: aCommand intervals;
 						        yourself) ];
 		       yourself.
 
@@ -195,7 +196,9 @@ ToListSelecter >> initialize [
 { #category : #initialization }
 ToListSelecter >> initializeCommandApplier [
 
-	commandApplierEventHandler := ToQueueBasedCommandApplierEventHandler new
+	commandApplierEventHandler := ToDataSourceCommandApplierEventHandler new.
+	"commandApplierEventHandler := ToDirectCommandApplierEventHandler new."
+	"commandApplierEventHandler := ToQueueBasedCommandApplierEventHandler new"
 ]
 
 { #category : #testing }

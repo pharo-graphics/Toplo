@@ -4,14 +4,6 @@ Class {
 	#category : #'Toplo-Widget-Select-List'
 }
 
-{ #category : #initialization }
-ToSelectListNode >> initialize [ 
-
-	super initialize.
-	self initializeForToplo.
-	self applySkinInstallerOnFirstRequest: true
-]
-
 { #category : #accessing }
 ToSelectListNode >> isGroup [
 

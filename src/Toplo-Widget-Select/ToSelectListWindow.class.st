@@ -15,9 +15,3 @@ ToSelectListWindow >> installRawStyle [
 	because scrolling and moving the mouse inside trigger a lot of redrawing"
 	"self effect: (self valueOfTokenNamed: #'effect-window')"
 ]
-
-{ #category : #'api - compositing' }
-ToSelectListWindow >> wantsSeparateCompositingLayer [
-
-	^ true
-]

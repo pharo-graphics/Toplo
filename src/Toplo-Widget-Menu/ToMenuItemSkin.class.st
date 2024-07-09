@@ -12,8 +12,7 @@ ToMenuItemSkin >> disabledSkinEvent: anEvent [
 		e iconDo: [ :ic |
 			ic formColor: (e valueOfTokenNamed: #'color-text-disabled') ].
 		e labelDo: [ :lab |
-			lab text attributes: { (BlTextForegroundAttribute paint:
-					 (e valueOfTokenNamed: #'color-text-disabled')) } ] ]
+			lab foreground: (e valueOfTokenNamed: #'color-text-disabled') ] ]
 ]
 
 { #category : #'event handling' }
@@ -24,8 +23,7 @@ ToMenuItemSkin >> enabledSkinEvent: anEvent [
 		e iconDo: [ :ic |
 			ic formColor: (e valueOfTokenNamed: #'color-text') ].
 		e labelDo: [ :lab |
-			lab text attributes: { (BlTextForegroundAttribute paint:
-					 (e valueOfTokenNamed: #'color-text')) } ] ]
+			lab foreground: (e valueOfTokenNamed: #'color-text') ] ]
 ]
 
 { #category : #'event handling' }
@@ -36,8 +34,7 @@ ToMenuItemSkin >> hoveredSkinEvent: anEvent [
 		e iconDo: [ :ic |
 			ic formColor: (e valueOfTokenNamed: #'color-primary') ].
 		e labelDo: [ :lab |
-			lab foreground: (e valueOfTokenNamed: #'color-primary').
-			lab applyStyle ] ]
+			lab foreground: (e valueOfTokenNamed: #'color-primary') ] ]
 ]
 
 { #category : #'event handling' }
@@ -54,8 +51,7 @@ ToMenuItemSkin >> installSkinEvent: anEvent [
 		e iconDo: [ :ic |
 			ic formColor: (e valueOfTokenNamed: #'color-text') ].
 		e labelDo: [ :lab |
-			lab text attributes: { (BlTextForegroundAttribute paint:
-					 (e valueOfTokenNamed: #'color-text')) } ] ]
+			lab foreground: (e valueOfTokenNamed: #'color-text') ] ]
 ]
 
 { #category : #'event handling' }
@@ -66,8 +62,7 @@ ToMenuItemSkin >> leavedSkinEvent: anEvent [
 		e iconDo: [ :ic |
 			ic formColor: (e valueOfTokenNamed: #'color-text') ].
 		e labelDo: [ :lab |
-			lab text attributes: { (BlTextForegroundAttribute paint:
-					 (e valueOfTokenNamed: #'color-text')) } ] ]
+			lab foreground: (e valueOfTokenNamed: #'color-text') ] ]
 ]
 
 { #category : #'event handling' }
@@ -78,6 +73,5 @@ ToMenuItemSkin >> pressedSkinEvent: anEvent [
 		e iconDo: [ :ic |
 			ic formColor: (e valueOfTokenNamed: #'color-primary-pressed') ].
 		e labelDo: [ :lab |
-			lab text attributes: { (BlTextForegroundAttribute paint:
-					 (e valueOfTokenNamed: #'color-primary-pressed')) } ] ]
+			lab foreground: (e valueOfTokenNamed: #'color-primary-pressed') ] ]
 ]

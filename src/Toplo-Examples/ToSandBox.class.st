@@ -915,9 +915,8 @@ ToSandBox class >> example_FilterOnList2WithStatesOfAmerica [
 
 	listElement placeholderBuilder: [ :ph :e |
 		| lab |
-		lab := (ToAttributedLabel text: 'No Data') styleWith: [ :l |
-				        l foreground: Color lightGray;
-				        fontSize: 24]; yourself.
+		lab := (ToLabel text: 'No Data') foreground: Color lightGray;
+				        fontSize: 24; yourself.
 		lab matchParent.
 		ph addChild: lab ].
 
@@ -1734,8 +1733,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 		200 milliSeconds.
 	select listElement withRowNumbers.
 	select innerContainer nodeBuilder: [ :node :holder :dataItem | 
-		node middleElement: (ToLabel new
-				 withNullSkin;
+		node middleElement: (ToAttributedLabel new
 				 text: dataItem asString;
 				 foreground: Color random;
 				 yourself) ].
@@ -2110,7 +2108,7 @@ ToSandBox class >> example_SieveOnList2With_AllClassNames [
 	filterField placeholderBuilder: [ :placeholder :e |
 		placeholder addChild:
 			((ToAttributedLabel text: ' Method name filter')
-				 styleWith: [ :l | l foreground: Color lightGray ];
+				 foreground: Color lightGray;
 				 yourself) ].
 
 	sieve := ToListElementSieve new.
@@ -2137,11 +2135,11 @@ ToSandBox class >> example_SieveOnList2With_AllClassNames [
 	listElement placeholderBuilder: [ :ph :e |
 		| lab |
 		ph layout alignCenter.
-		lab := (ToAttributedLabel text: 'No Data') styleWith: [ :l |
-			       l
+		lab := (ToAttributedLabel text: 'No Data') 
+			      
 				       foreground: Color lightGray;
 				       fontSize: 24;
-				       yourself ].
+				       yourself.
 		ph addChild: lab ].
 
 	pane addChild: listElement.
@@ -2193,11 +2191,10 @@ ToSandBox class >> example_SieveOnList2With_AllMethods [
 	listElement placeholderBuilder: [ :ph :e |
 		| lab |
 		ph layout alignCenter.
-		lab := (ToAttributedLabel text: 'No Data') styleWith: [ :l |
-			       l
+		lab := (ToAttributedLabel text: 'No Data') 
 				       foreground: Color lightGray;
 				       fontSize: 24;
-				       yourself ].
+				       yourself.
 		ph addChild: lab ].
 	pane addChild: listElement.
 	pane addChild: filterField.
@@ -2252,11 +2249,10 @@ ToSandBox class >> example_SieveOnList2With_AllMethods_OnCR [
 	listElement placeholderBuilder: [ :ph :e |
 		| lab |
 		ph layout alignCenter.
-		lab := (ToAttributedLabel text: 'No Data') styleWith: [ :l |
-			       l
+		lab := (ToAttributedLabel text: 'No Data') 
 				       foreground: Color lightGray;
 				       fontSize: 24;
-				       yourself ].
+				       yourself.
 		ph addChild: lab ].
 	pane addChild: listElement.
 	pane addChild: filterField.
@@ -3002,9 +2998,9 @@ ToSandBox class >> example_choiceButtonWithPlaceholder [
 	choice withWeakCheckingStrategy.
 	choice data addAll: { 'OS-X'. 'Windows'. 'Linux' }.
 	choice defaultLabel:
-		(ToLabel text: ('Invalid choice' asRopedText
-				  foreground: Color red;
-				  yourself)) withNullSkin.
+		((ToAttributedLabel text: 'Invalid choice' asRopedText)
+			 foreground: Color red;
+			 yourself).
 	win pane addChild: choice.
 	win openInSpace
 ]
@@ -4219,7 +4215,7 @@ ToSandBox class >> example_textFieldWithPlaceholder2 [
 	t placeholderBuilder: [ :placeholder :e |
 		placeholder addChild: (ToAttributedLabel new
 				 text: 'Enter text';
-				 styleWith: [ :l | l foreground: Color veryLightGray ];
+				 foreground: Color veryLightGray;
 				 yourself) ].
 	t whenSaveRequestedDo: [ :saveRequested |
 		saveRequested accepted: true.
@@ -4768,21 +4764,22 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeave [
 ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 
 	| but |
-	self flag: 'not working as expected'.
+	self flag: 'Check the elevation of the editor'.
 	but := ToButton new.
 	but labelText: 'Button with editable tooltip'.
 	but closeTooltipWindowOnMouseLeave: false.
 	but tooltipBuilder: [ :win :theElement |
 		| lab |
-		lab := ToLabel text: ' keep mouse pressed to edit ' asRopedText.
+		lab := ToLabel text: ' keep mouse over with shift key to edit / Return to accept' asRopedText.
 		lab
 			beEditable;
 			stillHoveredStartDelay: 800 milliSeconds;
 			addEventHandler: (BlEventHandler
 					 on: ToStillHoveredSkinEvent
 					 do: [ :event |
-						 event consume.
-						 event currentTarget addEditorEvent: event ]).
+						 event sourceEvent modifiers isShift ifTrue: [
+								 event consume.
+								 event currentTarget addEditorEvent: event ] ]).
 		win root addChild: lab ].
 	but whenClickedDo: [ :ann | self inform: 'Button clicked' ].
 	but openInSpace
@@ -5289,11 +5286,10 @@ ToSandBox class >> example_withCustomMenuItems [
 	menu addSeparator.
 
 	lbl := ToAttributedLabel text: 'Radio button icon first'.
-	lbl styleWith: [ :l |
-		l
+	lbl 
 			italic;
 			fontSize: 12;
-			foreground: Color blue ].
+			foreground: Color blue.
 
 	menu addItem: (ToCustomMenuItem new
 			 innerElement: lbl;

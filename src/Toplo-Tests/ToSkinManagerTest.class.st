@@ -871,12 +871,12 @@ ToSkinManagerTest >> testStyleSheet [
 ]
 
 { #category : #tests }
-ToSkinManagerTest >> testTextAttributesBuilder [
+ToSkinManagerTest >> testTextAttributesBuilderIn [
 
 	| e |
 	e := ToElement new.
 	e skinManagerDo: [ :skm | skm ensureHaveSkinContext ].
-	self assert: e skinManager textAttributesBuilder notNil
+	self assert: e textAttributesBuilder notNil
 ]
 
 { #category : #tests }

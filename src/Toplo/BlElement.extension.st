@@ -255,6 +255,12 @@ BlElement >> newSkinManager [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> newTextAttributesBuilder [
+
+	^ BlTextAttributesBuilder new
+]
+
+{ #category : #'*Toplo' }
 BlElement >> openInInnerWindow [
 
 	| frame |
@@ -448,7 +454,7 @@ BlElement >> styleSheetChain [
 { #category : #'*Toplo' }
 BlElement >> textAttributesBuilder [
 
-	^ self skinManager textAttributesBuilder
+	^ self skinManager textAttributesBuilderIn: self
 ]
 
 { #category : #'*Toplo' }

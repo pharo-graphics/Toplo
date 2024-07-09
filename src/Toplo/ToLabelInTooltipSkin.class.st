@@ -15,6 +15,5 @@ ToLabelInTooltipSkin >> installSkinEvent: anEvent [
 			defaultFontSize: (e valueOfTokenNamed: #'font-size-in-tooltip');
 			lineSpacing: (e valueOfTokenNamed: #'line-height');
 			foreground: (e valueOfTokenNamed: #'text-foreground-in-tooltip').
-		e hasText ifFalse: [ ^ self ].
 		e applyStyle ]
 ]

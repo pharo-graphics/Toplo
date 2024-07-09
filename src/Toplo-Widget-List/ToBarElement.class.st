@@ -52,7 +52,7 @@ ToBarElement >> defaultSecondarySelectionMode [
 
 	| mode |
 	mode := super defaultSecondarySelectionMode.
-	mode selecter commandApplierEventHandler: ToQueueBasedCommandApplierEventHandler new.
+	"mode selecter commandApplierEventHandler: ToQueueBasedCommandApplierEventHandler new."
 	^ mode
 ]
 

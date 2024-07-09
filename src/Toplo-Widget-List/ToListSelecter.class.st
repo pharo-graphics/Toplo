@@ -66,8 +66,8 @@ ToListSelecter >> commandApplied: aCommand [
 			 command: aCommand;
 			 yourself).
 
-	req := ToListSelectionChangeRequestEvent new
-		       selectionModel: aCommand selectionModel;
+	req := ToListSelectionCommandAppliedEvent new
+		       command: aCommand;
 		       requestedAction: [
 			       eventTarget dispatchEvent: (selectionChangedEventClass new
 						        selectionModel: aCommand selectionModel;
@@ -198,7 +198,7 @@ ToListSelecter >> initializeCommandApplier [
 
 	commandApplierEventHandler := ToDataSourceCommandApplierEventHandler new.
 	"commandApplierEventHandler := ToDirectCommandApplierEventHandler new."
-	"commandApplierEventHandler := ToQueueBasedCommandApplierEventHandler new"
+	commandApplierEventHandler := ToQueueBasedCommandApplierEventHandler new
 ]
 
 { #category : #testing }

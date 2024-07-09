@@ -23,26 +23,31 @@ ToSieveEventHandler >> listElement: aSievedListElement [
 { #category : #'api - accessing' }
 ToSieveEventHandler >> listPrimarySelectionChangedEvent: anEvent [
 
+	| touchedIndexes |
 	anEvent currentTarget pattern
 		ifEmpty: [
-		listElement selectionModel copySelectionFrom: sieveSelectionModel ]
+			touchedIndexes := anEvent touchedIndexes.
+			listElement selectionModel copySelectionFrom: sieveSelectionModel ]
 		ifNotEmpty: [
-			listElement dataAccessor withIndexDo: [ :d :localIndex |
+			touchedIndexes := OrderedCollection new.
+			listElement dataAccessor withIndexDo: [ :dataItem :localIndex |
 				| originalIndex |
-				originalIndex := originalIndexMap at: d.
+				originalIndex := originalIndexMap at: dataItem.
+				touchedIndexes add: originalIndex.
 				sieveSelectionModel
 					transferSelectionFromIndex: originalIndex
 					toIndex: localIndex
-					in: listElement selectionModel ] ].
+					in: listElement selectionModel ]  ].
 
 	" dispatch a specific, different from the primary selection change event that will be sent after.
 	It is useful for sieve list user that relies on the sieve internal selection to adapt themeself 
 	according to the sieve selection"
 	listElement dispatchEvent: (ToSieveSelectionChangedEvent new
 			 sieve: anEvent currentTarget;
+			 touchedIndexes: touchedIndexes asArray;
 			 selectionModel: sieveSelectionModel;
 			 yourself).
-	listElement dispatchEvent: ToListPrimarySelectionDirtyEvent new.
+	listElement dispatchEvent: ToListPrimarySelectionDirtyEvent new
 ]
 
 { #category : #'api - hooks' }

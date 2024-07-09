@@ -71,8 +71,7 @@ ToSelectionGroupHolder >> boundsAnimationFrom: startBounds to: finalBounds onGro
 			  theSelectionElement position: finalBounds position.
 			  theSelectionElement size: finalBounds extent.
 			  theSelectionElement whenLayoutedDoOnce: [
-					  aGroup nodes do: [ :n |
-							  n holder notifySelected ] ] ]
+					  self notifyNodesSelectedIn: aListElement. ] ]
 ]
 
 { #category : #'private - selection updating' }
@@ -125,12 +124,14 @@ ToSelectionGroupHolder >> newGroups: aGroupArray in: aListElement [
 { #category : #'private - selection updating' }
 ToSelectionGroupHolder >> notifyNodesDeselectedIn: aListElement [
 
+	option triggerSelectionState ifFalse: [ ^ self ].
 	aListElement innerContainer nodesDo: [ :n | n holder notifyDeselected ]
 ]
 
 { #category : #'private - selection updating' }
 ToSelectionGroupHolder >> notifyNodesSelectedIn: aListElement [
 
+	option triggerSelectionState ifFalse: [ ^ self ].
 	aListElement innerContainer nodesDo: [ :n | n holder notifySelected ]
 ]
 

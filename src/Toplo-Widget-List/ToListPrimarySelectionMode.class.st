@@ -43,6 +43,14 @@ ToListPrimarySelectionMode >> initialize [
 	multiple := true
 ]
 
+{ #category : #'api - hooks' }
+ToListPrimarySelectionMode >> installDefaultOptionsIn: anElement [
+
+	super installDefaultOptionsIn: anElement.
+	beneathOption triggerSelectionState: true
+	
+]
+
 { #category : #testing }
 ToListPrimarySelectionMode >> isMultipleSelection [
 

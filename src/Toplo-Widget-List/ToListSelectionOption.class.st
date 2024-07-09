@@ -3,6 +3,7 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'beneath',
+		'triggerSelectionState',
 		'animationDuration',
 		'selectionContainer',
 		'groupHolder',
@@ -39,12 +40,14 @@ ToListSelectionOption class >> separateForMode: aSelectionMode [
 { #category : #'instance creation' }
 ToListSelectionOption >> addSelectionElement: aSelectionElement [
 
+	self isNone ifTrue: [ ^ self ].
 	selectionContainer addChild: aSelectionElement
 ]
 
 { #category : #'instance creation' }
 ToListSelectionOption >> addSelectionElements: aSelectionElementArray [
 
+	self isNone ifTrue: [ ^ self ].
 	selectionContainer addChildren: aSelectionElementArray
 ]
 
@@ -106,6 +109,7 @@ ToListSelectionOption >> groupHolder: aGroupHolder [
 ToListSelectionOption >> initialize [ 
 
 	super initialize.
+	triggerSelectionState := false.
 	animationDuration := 0 milliSecond.
 	groupHolder := ToSelectionGroupHolder new.
 	groupHolder option: self
@@ -171,6 +175,7 @@ ToListSelectionOption >> newSelectionElementFor: aListElement [
 ToListSelectionOption >> onInstalledIn: anElement [
 
 	| elevation |
+	self isNone ifTrue: [ ^ self ].
 	selectionContainer := self newInnerContainerIn: anElement.
 	elevation := beneath
 		             ifTrue: [ BlRelativeElevation elevation: 5 ]
@@ -182,6 +187,7 @@ ToListSelectionOption >> onInstalledIn: anElement [
 { #category : #'api - hooks' }
 ToListSelectionOption >> onUninstalledIn: anElement [
 
+	selectionContainer ifNil: [ ^ self ].
 	selectionContainer removeFromParent
 ]
 
@@ -214,4 +220,16 @@ ToListSelectionOption >> selectionMode [
 ToListSelectionOption >> selectionMode: aSelectionMode [
 
 	selectionMode := aSelectionMode
+]
+
+{ #category : #testing }
+ToListSelectionOption >> triggerSelectionState [
+
+	^ triggerSelectionState
+]
+
+{ #category : #accessing }
+ToListSelectionOption >> triggerSelectionState: aBoolean [
+
+	triggerSelectionState := aBoolean
 ]

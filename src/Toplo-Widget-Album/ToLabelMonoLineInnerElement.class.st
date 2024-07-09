@@ -48,6 +48,15 @@ ToLabelMonoLineInnerElement >> newEditorIn: aLabel [
 	^ ed
 ]
 
+{ #category : #layout }
+ToLabelMonoLineInnerElement >> requestLayout: xc [
+
+	super requestLayout: xc.
+
+	"Prev = self ifTrue: [ 	self class name trace. ' ' trace. self traceCr. self haltOnCount: 3 ].
+	Prev := self"
+]
+
 { #category : #'t - label inner element' }
 ToLabelMonoLineInnerElement >> text [
 

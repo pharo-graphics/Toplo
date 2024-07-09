@@ -176,6 +176,13 @@ ToSelectElement >> newWindowManager [
 	^ ToSelectListWindowManager new
 ]
 
+{ #category : #layout }
+ToSelectElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
+
+	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
+	"self class name trace. ' ' trace. 'onLayout: context:' traceCr"
+]
+
 { #category : #'accessing - selection' }
 ToSelectElement >> onSelectionChangedInListElement [
 
@@ -240,6 +247,12 @@ ToSelectElement >> popupWindowEvent: anEvent [
 ToSelectElement >> refresh [
 
 	self innerContainer refresh
+]
+
+{ #category : #layout }
+ToSelectElement >> requestLayout: x [
+
+	super requestLayout: x.
 ]
 
 { #category : #accessing }

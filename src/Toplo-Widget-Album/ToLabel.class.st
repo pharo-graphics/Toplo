@@ -7,7 +7,8 @@ Class {
 		'isEditable',
 		'innerElement',
 		'lineMode',
-		'frameManager'
+		'frameManager',
+		'currText'
 	],
 	#category : #'Toplo-Widget-Album-Label'
 }
@@ -63,13 +64,13 @@ ToLabel >> beEditable [
 { #category : #initialization }
 ToLabel >> beMonoLine [
 
-	self restoreTextAfter: [ self lineMode: ToLabelMonoLineMode new ]
+	self restoreTextAfter: [ self lineMode: ToLabelLineMode mono ]
 ]
 
 { #category : #initialization }
 ToLabel >> beMultiLine [
 
-	self restoreTextAfter: [ self lineMode: ToLabelMultiLineMode new ]
+	self restoreTextAfter: [ self lineMode: ToLabelLineMode multi ]
 ]
 
 { #category : #accessing }
@@ -99,7 +100,7 @@ ToLabel >> defaultEventHandler [
 { #category : #initialization }
 ToLabel >> defaultLineMode [
 
-	^ ToLabelMonoLineMode new
+	^ ToLabelLineMode mono
 ]
 
 { #category : #initialization }
@@ -289,14 +290,18 @@ ToLabel >> newRawSkin [
 ]
 
 { #category : #'private-change' }
-ToLabel >> onStringsInserted: aString [
+ToLabel >> onStringsInserted: aBlTextStringsInserted [
 
+	aBlTextStringsInserted strings ifEmpty: [ ^ self ].
+	currText := self text copy.
 	self textChanged
 ]
 
 { #category : #'private-change' }
 ToLabel >> onTextAttributeAdded: aBlTextAttributeAdded [
 	
+	currText rope = self text rope ifTrue: [ ^ self ].
+	currText := self text copy.
 	self textChanged
 
 ]
@@ -304,6 +309,8 @@ ToLabel >> onTextAttributeAdded: aBlTextAttributeAdded [
 { #category : #'private-change' }
 ToLabel >> onTextAttributesRemoved: aBlTextAttributesRemoved [
 
+	currText rope = self text rope ifTrue: [ ^ self ].
+	currText := self text copy.
 	self textChanged
 
 ]
@@ -311,6 +318,8 @@ ToLabel >> onTextAttributesRemoved: aBlTextAttributesRemoved [
 { #category : #'private-change' }
 ToLabel >> onTextsDeleted: aString [
 
+	aString ifEmpty: [ ^ self ].
+	currText := self text copy.
 	self textChanged
 ]
 
@@ -318,6 +327,7 @@ ToLabel >> onTextsDeleted: aString [
 ToLabel >> privateText: aText [
 
 	self innerElement text: aText.
+	currText:= self text copy.
 	self text
 		when: BlTextStringsInserted
 		send: #onStringsInserted:

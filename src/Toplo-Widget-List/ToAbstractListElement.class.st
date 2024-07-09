@@ -193,9 +193,7 @@ ToAbstractListElement >> defaultSecondarySelectionMode [
 	mode := ToListSecondarySelectionMode new.
 	mode listEventHandler:
 		(self newSecondarySelectionEventHandler selectionMode: mode).
-	mode selecter: (ToListSelecter new
-			 commandApplierEventHandler:
-				 ToDataSourceCommandApplierEventHandler new;
+	mode selecter: (ToSecondarySelecter new
 			 selectionModel: self newSecondarySelectionModel;
 			 selectionChangedEventClass: ToListSecondarySelectionChangedEvent;
 			 yourself).
@@ -435,6 +433,7 @@ ToAbstractListElement >> notifyDataSourceItemChanged: aDataSourceEvent [
 
 	| request |
 	request := ToListDataSourceItemChangeRequestEvent new
+		           dataSourceEvent: aDataSourceEvent;
 		           requestedAction: [ self dispatchEvent: aDataSourceEvent ];
 		           yourself.
 	self dispatchAuthorisationRequest: request

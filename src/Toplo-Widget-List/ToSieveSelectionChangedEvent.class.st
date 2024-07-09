@@ -3,7 +3,8 @@ Class {
 	#superclass : #BlEvent,
 	#instVars : [
 		'sieve',
-		'selectionModel'
+		'selectionModel',
+		'touchedIndexes'
 	],
 	#category : #'Toplo-Widget-List-Sieve'
 }
@@ -36,4 +37,16 @@ ToSieveSelectionChangedEvent >> sieve [
 ToSieveSelectionChangedEvent >> sieve: aSieve [
 
 	sieve := aSieve
+]
+
+{ #category : #accessing }
+ToSieveSelectionChangedEvent >> touchedIndexes [
+
+	^ touchedIndexes
+]
+
+{ #category : #accessing }
+ToSieveSelectionChangedEvent >> touchedIndexes: aCollection [
+
+	touchedIndexes := aCollection
 ]

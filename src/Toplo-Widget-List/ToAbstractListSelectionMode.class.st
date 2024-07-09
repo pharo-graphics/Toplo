@@ -17,6 +17,8 @@ ToAbstractListSelectionMode >> beGroupedBeneathSelection [
 
 	beneathOption := (ToListSelectionOption groupedForMode: self)
 		                 beneath: true;
+		                 triggerSelectionState:
+			                 beneathOption triggerSelectionState;
 		                 selectionContainer:
 			                 beneathOption selectionContainer;
 		                 yourself
@@ -27,6 +29,8 @@ ToAbstractListSelectionMode >> beGroupedOverSelection [
 
 	overOption := (ToListSelectionOption groupedForMode: self)
 		              beneath: false;
+		              triggerSelectionState:
+			              beneathOption triggerSelectionState;
 		              selectionContainer: overOption selectionContainer;
 		              yourself
 ]
@@ -36,6 +40,8 @@ ToAbstractListSelectionMode >> beNoneBeneathSelection [
 
 	beneathOption := (ToListSelectionOption noneForMode: self)
 		                 beneath: true;
+		                 triggerSelectionState:
+			                 beneathOption triggerSelectionState;
 		                 selectionContainer:
 			                 beneathOption selectionContainer;
 		                 yourself
@@ -46,6 +52,8 @@ ToAbstractListSelectionMode >> beNoneOverSelection [
 
 	overOption := (ToListSelectionOption noneForMode: self)
 		              beneath: false;
+		              triggerSelectionState:
+			              beneathOption triggerSelectionState;
 		              selectionContainer: overOption selectionContainer;
 		              yourself
 ]
@@ -55,6 +63,8 @@ ToAbstractListSelectionMode >> beSeparateBeneathSelection [
 
 	beneathOption := (ToListSelectionOption separateForMode: self)
 		                 beneath: true;
+		                 triggerSelectionState:
+			                 beneathOption triggerSelectionState;
 		                 selectionContainer:
 			                 beneathOption selectionContainer;
 		                 yourself
@@ -65,6 +75,8 @@ ToAbstractListSelectionMode >> beSeparateOverSelection [
 
 	overOption := (ToListSelectionOption separateForMode: self)
 		              beneath: false;
+		              triggerSelectionState:
+			              beneathOption triggerSelectionState;
 		              selectionContainer: overOption selectionContainer;
 		              yourself
 ]

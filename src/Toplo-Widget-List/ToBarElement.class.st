@@ -60,6 +60,8 @@ ToBarElement >> defaultSecondarySelectionMode [
 ToBarElement >> fakeDataItem: aDataItem [
 
 	nodeManager fakeDataItem: aDataItem.
+	self uninstallFakeNode.
+	self installFakeNode.
 	self configureLayout
 	
 ]
@@ -106,7 +108,13 @@ ToBarElement >> initialize [
 ToBarElement >> initializeInnerContainer [
 
 	super initializeInnerContainer.
-	self innerContainer initializeFakeDataView
+	self installFakeNode
+]
+
+{ #category : #initialization }
+ToBarElement >> installFakeNode [
+
+	self innerContainer installFakeNode
 ]
 
 { #category : #layout }
@@ -174,7 +182,7 @@ ToBarElement >> nodeScrolling: aBoolean [
 { #category : #accessing }
 ToBarElement >> nodeWrapping [
 
-	^ nodeWrapping ifNil: [ nodeWrapping := false ]
+	^ nodeWrapping ifNil: [ nodeWrapping := true ]
 ]
 
 { #category : #accessing }
@@ -188,6 +196,12 @@ ToBarElement >> nodeWrapping: aBoolean [
 ToBarElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 
 	super onLayout: aBounds context: aBlElementBoundsUpdateContext
+]
+
+{ #category : #initialization }
+ToBarElement >> uninstallFakeNode [
+
+	self innerContainer uninstallFakeNode
 ]
 
 { #category : #'t - orientable - orientation' }

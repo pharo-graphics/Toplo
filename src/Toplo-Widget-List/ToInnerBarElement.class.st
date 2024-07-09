@@ -144,8 +144,14 @@ ToInnerBarElement >> initializeDataSource [
 	dataSourceManager := self defaultDataSourceManager
 ]
 
+{ #category : #'t - infinite accessing' }
+ToInnerBarElement >> innerContainer [
+
+	^ self
+]
+
 { #category : #initialization }
-ToInnerBarElement >> initializeFakeDataView [
+ToInnerBarElement >> installFakeNode [
 	" the fake node is added in case of an empty data source to ensure a 
 	suitable minimum height according to the node class, the node builder 
 	and the data kind."
@@ -162,12 +168,6 @@ ToInnerBarElement >> initializeFakeDataView [
 	fakeNode id: #fakeNode.
 
 
-]
-
-{ #category : #'t - infinite accessing' }
-ToInnerBarElement >> innerContainer [
-
-	^ self
 ]
 
 { #category : #accessing }

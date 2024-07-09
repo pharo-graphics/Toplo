@@ -318,7 +318,7 @@ ToLabel >> onTextAttributesRemoved: aBlTextAttributesRemoved [
 { #category : #'private-change' }
 ToLabel >> onTextsDeleted: aString [
 
-	aString ifEmpty: [ ^ self ].
+	aString ifEmpty: [  ^ self ].
 	currText := self text copy.
 	self textChanged
 ]

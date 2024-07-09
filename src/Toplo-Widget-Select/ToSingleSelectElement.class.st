@@ -32,9 +32,9 @@ ToSingleSelectElement >> defaultDataViewFactory [
 ]
 
 { #category : #accessing }
-ToSingleSelectElement >> fakeData: aData [
+ToSingleSelectElement >> fakeDataItem: aData [
 
-	self innerContainer fakeData: aData
+	self innerContainer fakeDataItem: aData
 ]
 
 { #category : #'instance creation' }

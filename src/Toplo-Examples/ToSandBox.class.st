@@ -25,6 +25,80 @@ ToSandBox class >> barDashBoardFor: aBar [
 	^ mainPane
 ]
 
+{ #category : #select }
+ToSandBox class >> buildSelectListElementIn: aSelectElement withIconProvider: anIconProviderClass [
+
+	|  phtext icProvider styles iconDescs |
+	aSelectElement listElement placeholderMinHeight: 35.
+	aSelectElement listElement withRowNumbers.
+	phtext := ('No Icon' asRopedText
+		           foreground: Color lightGray;
+		           yourself)
+		          fontSize: 24;
+		          yourself.
+	aSelectElement listElement placeholderBuilder: [ :placeholder :e |
+		| lab |
+		placeholder layout alignCenter.
+		lab := ToAttributedLabel text: phtext.
+		placeholder addChild: lab ].
+
+	icProvider := anIconProviderClass.
+	styles := ToIconStyle allSubclasses asArray sort: [ :a :b |
+		          a name < b name ].
+
+	iconDescs := Array streamContents: [ :stream |
+		             styles do: [ :style |
+			             | s |
+			             s := ('_' , style prefix , '_loaded') asSymbol.
+			             (icProvider respondsTo: s) ifTrue: [
+				             | iconNames |
+				             iconNames := (icProvider perform: s) sort.
+				             iconNames do: [ :n |
+					             stream nextPut: (ToIconDescExample new
+							              name: n;
+							              style: style;
+							              provider: icProvider;
+							              yourself) ] ] ] ].
+
+	aSelectElement listElement nodeBuilder: [ :node :holder :iconDesc |
+		| styleLab stylePane iclab iclabPane imPane iconStyle iconName icon |
+		iconStyle := iconDesc style.
+		iconName := iconDesc name.
+		icon := iconDesc icon.
+		node layout: BlLinearLayout horizontal.
+		iclabPane := ToElement new layout: BlFrameLayout new.
+		iclabPane vFitContent.
+		iclabPane hMatchParent.
+		stylePane := ToElement new layout: BlFrameLayout new.
+		stylePane vFitContent.
+		stylePane width: 60.
+		iclab := ToLabel text: iconName.
+		iclab constraintsDo: [ :c | c frame vertical alignCenter ].
+		iclabPane addChild: iclab.
+		styleLab := ToLabel text: iconStyle prefix.
+		styleLab constraintsDo: [ :c | c frame vertical alignCenter ].
+		stylePane addChild: styleLab.
+		imPane := ToElement new layout: BlFrameLayout new.
+		imPane fitContent.
+		imPane withNullSkin.
+		imPane background: Color veryVeryLightGray.
+		imPane addChild: (icon
+				 size: 24 asPoint;
+				 yourself).
+		node addChildren: {
+				stylePane.
+				iclabPane.
+				imPane }.
+		node childrenDo: [ :child |
+			child constraintsDo: [ :c | c linear vertical alignCenter ] ] ].
+
+	aSelectElement sieve dataFilter: [ :iconDesc :pattern |
+		(iconDesc style prefix beginsWith: pattern caseSensitive: true) or: [
+			iconDesc name beginsWith: pattern caseSensitive: true ] ].
+
+	aSelectElement dataAccessor addAll: iconDescs
+]
+
 { #category : #bar }
 ToSandBox class >> checkableBarDashBoardFor: aCheckableBar [
 
@@ -1485,73 +1559,13 @@ ToSandBox class >> example_RawParallelTransition [
 ]
 
 { #category : #select }
-ToSandBox class >> example_SelectIconMonoFiltrable [
+ToSandBox class >> example_SelectAntDesignIconMonoFiltrable [
 
-	| select phtext icProvider styles iconDescs |
+	| select   |
 	select := ToSingleSelectElement new.
-	select listElement placeholderMinHeight: 35.
-	select listElement withRowNumbers.
-	phtext := ('No Icon' asRopedText
-		           foreground: Color lightGray;
-		           yourself)
-		          fontSize: 24;
-		          yourself.
-	select listElement placeholderBuilder: [ :placeholder :e |
-		| lab |
-		placeholder layout alignCenter.
-		lab := ToAttributedLabel text: phtext.
-		placeholder addChild: lab ].
+	self buildSelectListElementIn: select withIconProvider: ToAntDesignIconProvider.
 
 	select filtrable: true.
-	icProvider := ToAntDesignIconProvider.
-	styles := ToIconStyle allSubclasses asArray sort: [ :a :b |
-		          a name < b name ].
-
-	iconDescs := Array streamContents: [ :stream |
-		             styles do: [ :style |
-			             | s |
-			             s := ('_' , style prefix , '_loaded') asSymbol.
-			             (icProvider respondsTo: s) ifTrue: [
-				             | iconNames |
-				             iconNames := (icProvider perform: s) sort.
-				             iconNames do: [ :n |
-					             stream nextPut: (ToIconDescExample new
-							              name: n;
-							              style: style;
-							              provider: icProvider;
-							              yourself) ] ] ] ].
-
-	select listElement nodeBuilder: [ :node :holder :iconDesc |
-		| styleLab stylePane iclab iclabPane imPane iconStyle iconName icon |
-		iconStyle := iconDesc style.
-		iconName := iconDesc name.
-		icon := iconDesc icon.
-		node layout: BlLinearLayout horizontal.
-		iclabPane := ToElement new layout: BlFrameLayout new.
-		iclabPane vFitContent.
-		iclabPane hMatchParent.
-		stylePane := ToElement new layout: BlFrameLayout new.
-		stylePane vFitContent.
-		stylePane width: 60.
-		iclab := ToLabel text: iconName.
-		iclab constraintsDo: [ :c | c frame vertical alignCenter ].
-		iclabPane addChild: iclab.
-		styleLab := ToLabel text: iconStyle prefix.
-		styleLab constraintsDo: [ :c | c frame vertical alignCenter ].
-		stylePane addChild: styleLab.
-		imPane := ToElement new layout: BlFrameLayout new.
-		imPane fitContent.
-		imPane withNullSkin.
-		imPane background: Color veryVeryLightGray.
-		imPane addChild: (icon
-				 size: 24 asPoint;
-				 yourself).
-		node addChildren: {
-				stylePane.
-				iclabPane.
-				imPane }.
-		node childrenDo: [ :child |
-			child constraintsDo: [ :c | c linear vertical alignCenter ] ] ].
 
 	select dataViewBuilder: [ :dataItemView :iconDesc |
 		| imPane |
@@ -1564,19 +1578,98 @@ ToSandBox class >> example_SelectIconMonoFiltrable [
 		imPane addChild: (iconDesc icon size: 48 asPoint).
 		dataItemView addChild: imPane ].
 	
-	select fakeData: iconDescs first.
+	select fakeDataItem: select dataAccessor first.
 
-	select sieve dataFilter: [ :iconDesc :pattern |
-		(iconDesc style prefix beginsWith: pattern caseSensitive: true) or: [
-			iconDesc name beginsWith: pattern caseSensitive: true ] ].
-
-	select dataAccessor addAll: iconDescs.
 	select hMatchParent.
 	select placeholderText:
 		('Select an icon' asRopedText foreground: Color red).
 
 	select inputTextField requestFocus.
 	select openInSpace
+]
+
+{ #category : #select }
+ToSandBox class >> example_SelectAntDesignIconMultiFiltrable [
+
+	| select   |
+	select := ToMultiSelectElement new.
+	self buildSelectListElementIn: select withIconProvider: ToAntDesignIconProvider.
+
+	select filtrable: true.
+
+	select nodeBuilder: [ :node :holder :iconDesc|
+		| imPane |
+		imPane := ToElement new layout: BlFrameLayout new.
+		imPane fitContent.
+		imPane withNullSkin.
+		imPane background: Color veryLightGray.
+		imPane addChild: (iconDesc icon size: 48 asPoint).
+		node middleElement: imPane ].
+	select fakeDataItem: select dataAccessor first.
+	select hMatchParent.
+	select placeholderText:
+		('Select icons' asRopedText foreground: Color red).
+
+	select inputTextField requestFocus.
+	select openInSpace.
+	select inspect
+]
+
+{ #category : #select }
+ToSandBox class >> example_SelectMaterialDesignIconMonoFiltrable [
+
+	| select   |
+	select := ToSingleSelectElement new.
+	self buildSelectListElementIn: select withIconProvider: ToMaterialDesignIconProvider.
+
+	select filtrable: true.
+
+	select dataViewBuilder: [ :dataItemView :iconDesc |
+		| imPane |
+		dataItemView selectedDataTextField text:
+			iconDesc style prefix , ' ' , iconDesc name.
+		imPane := ToElement new layout: BlFrameLayout new.
+		imPane fitContent.
+		imPane withNullSkin.
+		imPane background: Color veryLightGray.
+		imPane addChild: (iconDesc icon size: 48 asPoint).
+		dataItemView addChild: imPane ].
+	
+	select fakeDataItem: select dataAccessor first.
+
+	select hMatchParent.
+	select placeholderText:
+		('Select an icon' asRopedText foreground: Color red).
+
+	select inputTextField requestFocus.
+	select openInSpace
+]
+
+{ #category : #select }
+ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
+
+	| select   |
+	select := ToMultiSelectElement new.
+	self buildSelectListElementIn: select withIconProvider: ToMaterialDesignIconProvider.
+
+	select filtrable: true.
+
+	select nodeBuilder: [ :node :holder :iconDesc|
+		| imPane |
+		imPane := ToElement new layout: BlFrameLayout new.
+		imPane fitContent.
+		imPane withNullSkin.
+		imPane background: Color veryLightGray.
+		imPane addChild: (iconDesc icon size: 48 asPoint).
+		node middleElement: imPane ].
+	select fakeDataItem: select dataAccessor first.
+	select hMatchParent.
+	select placeholderText:
+		('Select icons' asRopedText foreground: Color red).
+
+	select inputTextField requestFocus.
+	select openInSpace.
+	select inspect
 ]
 
 { #category : #select }
@@ -1637,8 +1730,15 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	| select innerWindow |
 	select := ToMultiSelectElement new.
 	select nodeWrapping: true.
-	select innerContainer selectionMode beneathOption animationDuration: 200 milliSeconds.
+	select innerContainer selectionMode beneathOption animationDuration:
+		200 milliSeconds.
 	select listElement withRowNumbers.
+	select innerContainer nodeBuilder: [ :node :holder :dataItem | 
+		node middleElement: (ToLabel new
+				 withNullSkin;
+				 text: dataItem asString;
+				 foreground: Color random;
+				 yourself) ].
 	select inspect.
 	select hideSelected: false.
 	select dataAccessor addAll: self statesOfAmerica.

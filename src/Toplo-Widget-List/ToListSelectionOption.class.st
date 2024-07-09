@@ -175,7 +175,6 @@ ToListSelectionOption >> newSelectionElementFor: aListElement [
 ToListSelectionOption >> onInstalledIn: anElement [
 
 	| elevation |
-	self isNone ifTrue: [ ^ self ].
 	selectionContainer := self newInnerContainerIn: anElement.
 	elevation := beneath
 		             ifTrue: [ BlRelativeElevation elevation: 5 ]

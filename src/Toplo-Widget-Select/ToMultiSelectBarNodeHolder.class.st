@@ -11,12 +11,6 @@ ToMultiSelectBarNodeHolder >> dataAccessor [
 ]
 
 { #category : #accessing }
-ToMultiSelectBarNodeHolder >> fakeDataItem [
-
-	^  self selectElement nodeManager fakeDataItem
-]
-
-{ #category : #accessing }
 ToMultiSelectBarNodeHolder >> selectElement [
 
 	^  self barElement selectElement

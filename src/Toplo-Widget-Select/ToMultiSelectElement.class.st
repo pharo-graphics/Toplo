@@ -31,6 +31,12 @@ ToMultiSelectElement >> checkMaxSelectedCountFromListElement [
 ]
 
 { #category : #accessing }
+ToMultiSelectElement >> fakeDataItem: aDataItem [
+
+	self innerContainer fakeDataItem: aDataItem
+]
+
+{ #category : #accessing }
 ToMultiSelectElement >> hideSelected [
 
 	^ hideSelected 
@@ -102,6 +108,12 @@ ToMultiSelectElement >> newWindowManager [
 ToMultiSelectElement >> nodeAutoDistribution: aBoolean [
 
 	self innerContainer nodeAutoDistribution: aBoolean
+]
+
+{ #category : #accessing }
+ToMultiSelectElement >> nodeBuilder: aValuable [
+
+	self innerContainer nodeBuilder: aValuable
 ]
 
 { #category : #accessing }

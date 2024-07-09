@@ -109,11 +109,11 @@ ToMultiSelectBarElement >> haveFullyInvisibleNodes: theInvisibleNodes [
 ToMultiSelectBarElement >> initialize [
 
 	super initialize.
-	self initializeTextInputElement
+	self installTextInputElement
 ]
 
 { #category : #'t - select inner container' }
-ToMultiSelectBarElement >> initializeTextInputElement [
+ToMultiSelectBarElement >> installTextInputElement [
 
 	textInputElement := self textInputElementClass new.
 	textInputElement onInstalledIn: self.

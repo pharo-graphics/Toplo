@@ -8,9 +8,9 @@ Class {
 		'textInputElement',
 		'fakeDataView',
 		'dataView',
-		'fakeData',
 		'dataViewFactory',
-		'dataViewBuilder'
+		'dataViewBuilder',
+		'fakeDataItem'
 	],
 	#category : #'Toplo-Widget-Select-Single'
 }
@@ -44,12 +44,12 @@ ToSingleSelectInnerContainerElement >> dataViewFactory [
 ]
 
 { #category : #accessing }
-ToSingleSelectInnerContainerElement >> fakeData: aData [
+ToSingleSelectInnerContainerElement >> fakeDataItem: aData [
 
-	fakeData := aData.
+	fakeDataItem := aData.
 	fakeDataView ifNotNil: [
-		self removeFakeDataView.
-		self initializeFakeDataView ]
+		self uninstallFakeDataView.
+		self installFakeDataView ]
 ]
 
 { #category : #initialization }
@@ -64,14 +64,14 @@ ToSingleSelectInnerContainerElement >> initialize [
 	dataViewFactory := selectElement defaultDataViewFactory.
 	dataViewBuilder := selectElement defaultDataViewBuilder.
 		
-	self initializeTextInputElement.
-	self initializeDataView.
-	self initializeFakeDataView.
+	self installTextInputElement.
+	self installDataView.
+	self installFakeDataView.
 
 ]
 
 { #category : #'t - select inner container' }
-ToSingleSelectInnerContainerElement >> initializeDataView [
+ToSingleSelectInnerContainerElement >> installDataView [
 		
 	" add the unique view for the selected data item "
 	dataView := self newDataView.
@@ -81,11 +81,11 @@ ToSingleSelectInnerContainerElement >> initializeDataView [
 ]
 
 { #category : #'t - select inner container' }
-ToSingleSelectInnerContainerElement >> initializeFakeDataView [
+ToSingleSelectInnerContainerElement >> installFakeDataView [
 		
 	" add the fake node (to keep a constant minimum height )"
 	fakeDataView := self newDataView.
-	dataViewBuilder cull: fakeDataView cull: fakeData.
+	dataViewBuilder cull: fakeDataView cull: fakeDataItem.
 	fakeDataView id: #fakeDataView.
 	fakeDataView width: 0.
 	self addChild: fakeDataView before: dataView.
@@ -93,7 +93,7 @@ ToSingleSelectInnerContainerElement >> initializeFakeDataView [
 ]
 
 { #category : #'t - select inner container' }
-ToSingleSelectInnerContainerElement >> initializeTextInputElement [ 
+ToSingleSelectInnerContainerElement >> installTextInputElement [ 
 
 	textInputElement := self textInputElementClass new.
 	textInputElement onInstalledIn: self
@@ -138,13 +138,6 @@ ToSingleSelectInnerContainerElement >> refresh [
 ]
 
 { #category : #'t - select inner container' }
-ToSingleSelectInnerContainerElement >> removeFakeDataView [
-		
-	self removeChild: fakeDataView
-
-]
-
-{ #category : #'t - select inner container' }
 ToSingleSelectInnerContainerElement >> selectElement [
 
 	^ selectElement
@@ -166,4 +159,11 @@ ToSingleSelectInnerContainerElement >> textInputElement [
 ToSingleSelectInnerContainerElement >> textInputElementClass [
 
 	^ ToSingleSelectTextInputElement 
+]
+
+{ #category : #'t - select inner container' }
+ToSingleSelectInnerContainerElement >> uninstallFakeDataView [
+		
+	self removeChild: fakeDataView
+
 ]

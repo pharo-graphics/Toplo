@@ -15,3 +15,9 @@ ToListNoneSelection >> isNone [
 
 	^ true
 ]
+
+{ #category : #accessing }
+ToListNoneSelection >> selectionElements [
+
+	^ #(  )
+]

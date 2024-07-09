@@ -40,12 +40,14 @@ ToListSelectionOption class >> separateForMode: aSelectionMode [
 { #category : #'instance creation' }
 ToListSelectionOption >> addSelectionElement: aSelectionElement [
 
+	self isNone ifTrue: [ ^ self ].
 	selectionContainer addChild: aSelectionElement
 ]
 
 { #category : #'instance creation' }
 ToListSelectionOption >> addSelectionElements: aSelectionElementArray [
 
+	self isNone ifTrue: [ ^ self ].
 	selectionContainer addChildren: aSelectionElementArray
 ]
 

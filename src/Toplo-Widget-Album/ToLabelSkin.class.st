@@ -15,7 +15,6 @@ ToLabelSkin >> deselectedSkinEvent: anEvent [
 			           ifFalse: [ #'label-selected-unfocused' ]."
 		to := e valueOfTokenNamed: #'label-foreground-deselected'.
 		e foreground: to.
-		e applyStyle
 		"from := e valueOfTokenNamed: tokname.
 		transition := BlColorTransition new
 			              duration: 100 milliSeconds;
@@ -32,8 +31,7 @@ ToLabelSkin >> disabledSkinEvent: anEvent [
 
 	super disabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e foreground: (e valueOfTokenNamed: #'color-text-disabled').
-		e applyStyle ]
+		e foreground: (e valueOfTokenNamed: #'color-text-disabled') ]
 ]
 
 { #category : #'event handling' }
@@ -84,6 +82,5 @@ ToLabelSkin >> selectedSkinEvent: anEvent [
 				              anElement text foreground: aColor ];
 			              onFinishedDo: [ e text foreground: to ].
 		e addAnimation: transition"
-		e foreground: to.
-		e applyStyle ]
+		e foreground: to ]
 ]

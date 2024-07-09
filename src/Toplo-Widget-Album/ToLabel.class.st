@@ -289,6 +289,12 @@ ToLabel >> newRawSkin [
 	^ ToLabelSkin new
 ]
 
+{ #category : #accessing }
+ToLabel >> newTextAttributesBuilder [
+	
+	^ ToLabelAttributesBuilder onLabel: self
+]
+
 { #category : #'private-change' }
 ToLabel >> onStringsInserted: aBlTextStringsInserted [
 

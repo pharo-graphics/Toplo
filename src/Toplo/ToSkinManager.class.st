@@ -435,9 +435,9 @@ ToSkinManager >> styleSheet: anObject [
 ]
 
 { #category : #'accessing - builders' }
-ToSkinManager >> textAttributesBuilder [
+ToSkinManager >> textAttributesBuilderIn: anElement [
 
-	^ textAttributesBuilder ifNil: [ textAttributesBuilder := BlTextAttributesBuilder new ]
+	^ textAttributesBuilder ifNil: [ textAttributesBuilder := anElement newTextAttributesBuilder ]
 ]
 
 { #category : #'accessing - token property' }

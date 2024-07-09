@@ -58,10 +58,10 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty
 			   name: #'animation-window-opening'
 			   value: [ :win |
-				   win opacity: 0.3.
+				   win opacity: 0.1.
 				   win addAnimation:
-					   ((BlOpacityAnimation new opacity: 1.8) duration:
-						    600 milliSeconds) ]).
+					   ((BlOpacityAnimation new opacity: 1.9) duration:
+						    900 milliSeconds) ]).
 
 		  (ToTokenProperty
 			   name: #'effect-window'

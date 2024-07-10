@@ -227,6 +227,12 @@ ToLabel >> isEditable: aBoolean [
 	self initializeEditorFrameBuilder
 ]
 
+{ #category : #testing }
+ToLabel >> isFrozen [
+
+	^ false
+]
+
 { #category : #accessing }
 ToLabel >> isMonoLine [
 
@@ -298,6 +304,7 @@ ToLabel >> newTextAttributesBuilder [
 { #category : #'private-change' }
 ToLabel >> onStringsInserted: aBlTextStringsInserted [
 
+	self isFrozen ifTrue: [ ^ self ].
 	aBlTextStringsInserted strings ifEmpty: [ ^ self ].
 	currText := self text copy.
 	self textChanged
@@ -306,6 +313,7 @@ ToLabel >> onStringsInserted: aBlTextStringsInserted [
 { #category : #'private-change' }
 ToLabel >> onTextAttributeAdded: aBlTextAttributeAdded [
 	
+	self isFrozen ifTrue: [ ^ self ].
 	currText rope = self text rope ifTrue: [ ^ self ].
 	currText := self text copy.
 	self textChanged
@@ -315,6 +323,7 @@ ToLabel >> onTextAttributeAdded: aBlTextAttributeAdded [
 { #category : #'private-change' }
 ToLabel >> onTextAttributesRemoved: aBlTextAttributesRemoved [
 
+	self isFrozen ifTrue: [ ^ self ].
 	currText rope = self text rope ifTrue: [ ^ self ].
 	currText := self text copy.
 	self textChanged
@@ -324,6 +333,7 @@ ToLabel >> onTextAttributesRemoved: aBlTextAttributesRemoved [
 { #category : #'private-change' }
 ToLabel >> onTextsDeleted: aString [
 
+	self isFrozen ifTrue: [ ^ self ].
 	aString ifEmpty: [  ^ self ].
 	currText := self text copy.
 	self textChanged
@@ -397,6 +407,7 @@ ToLabel >> text [
 ToLabel >> text: aBlTextOrString [
 
 	| newText |
+	self isFrozen ifTrue: [ ^ self ].
 	self text = aBlTextOrString ifTrue: [ ^ self ].
 	" unsubscribe previous text "
 	self text ifNotNil: [self text unsubscribe: self].

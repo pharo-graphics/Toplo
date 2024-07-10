@@ -3000,6 +3000,7 @@ ToSandBox class >> example_choiceButtonWithPlaceholder [
 	choice defaultLabel:
 		((ToAttributedLabel text: 'Invalid choice' asRopedText)
 			 foreground: Color red;
+			 freeze;
 			 yourself).
 	win pane addChild: choice.
 	win openInSpace
@@ -3043,7 +3044,8 @@ ToSandBox class >> example_choiceButtonWithWeakStrategy [
 			      fontSize: 12).
 	choice defaultLabel: (ToAttributedLabel new
 			 beMultiLine;
-			 text: t).
+			 text: t;
+			 freeze).
 	choice dataToTextConverter: [ :assoc | assoc key ].
 	choice addEventHandler: (BlEventHandler
 			 on: ToChoiceChangedEvent

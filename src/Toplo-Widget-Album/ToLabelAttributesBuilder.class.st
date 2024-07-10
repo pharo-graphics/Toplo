@@ -15,7 +15,8 @@ ToLabelAttributesBuilder class >> onLabel: aLabel [
 
 { #category : #accessing }
 ToLabelAttributesBuilder >> attribute: aTextAttribute [
-			
+
+	label isFrozen ifTrue: [ ^ self ].
 	(self hasAttribute: aTextAttribute)
 		ifTrue: [ ^ self ].
 	super attribute: aTextAttribute.

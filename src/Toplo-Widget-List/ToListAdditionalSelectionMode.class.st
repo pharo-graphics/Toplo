@@ -7,35 +7,8 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
-{ #category : #'instance creation' }
-ToListAdditionalSelectionMode class >> selecter: aSelecter elementBuilder: aSelectionElementBuilderValuable [
-
-	^ self new
-		  in: [ :mode |
-			  mode listEventHandler:
-					  (ToListBasicAdditionalSelectionElementEventHandler
-						   selectionMode: mode
-						   selectionChangedEventClass: aSelecter selectionChangedEventClass) ];
-		  selecter: aSelecter;
-		  elementBuilder: aSelectionElementBuilderValuable;
-		  yourself
-]
-
-{ #category : #'instance creation' }
-ToListAdditionalSelectionMode class >> selecter: aSelecter listEventHandler: aListEventHandler elementBuilder: aSelectionElementBuilderValuable [
-
-	^ self new
-		  in: [ :mode |
-			  mode listEventHandler: (aListEventHandler
-						   selectionMode: mode;
-						   yourself) ];
-		  selecter: aSelecter;
-		  elementBuilder: aSelectionElementBuilderValuable;
-		  yourself
-]
-
 { #category : #'api - hooks' }
-ToListAdditionalSelectionMode >> installDefaultOptionsIn: anElement [
+ToListAdditionalSelectionMode >> installOptionsIn: anElement [
 
 	overOption := (ToListSelectionOption groupedForMode: self)
 		                 beneath: false;

@@ -93,6 +93,12 @@ ToAbstractListSelectionMode >> beneathOption [
 	^ beneathOption
 ]
 
+{ #category : #initialization }
+ToAbstractListSelectionMode >> defaultListEventHandlerClass [
+
+	^ self subclassResponsibility 
+]
+
 { #category : #accessing }
 ToAbstractListSelectionMode >> disable [
 
@@ -140,7 +146,18 @@ ToAbstractListSelectionMode >> initialize [
 ]
 
 { #category : #'api - hooks' }
-ToAbstractListSelectionMode >> installDefaultOptionsIn: anElement [
+ToAbstractListSelectionMode >> installListEventHandlerIn: anElement [
+
+	listEventHandler := self newListEventHandler.
+	listEventHandler selectionMode: self.
+	anElement addEventHandler: listEventHandler
+
+	
+
+]
+
+{ #category : #'api - hooks' }
+ToAbstractListSelectionMode >> installOptionsIn: anElement [
 
 	beneathOption := (ToListSelectionOption groupedForMode: self)
 		                 beneath: true;
@@ -207,21 +224,26 @@ ToAbstractListSelectionMode >> listEventHandler: anEventHandler [
 	listEventHandler := anEventHandler
 ]
 
+{ #category : #'instance creation' }
+ToAbstractListSelectionMode >> newListEventHandler [
+
+	^ self defaultListEventHandlerClass new 
+]
+
 { #category : #'api - hooks' }
 ToAbstractListSelectionMode >> onInstalledIn: anElement [
 
-	self installDefaultOptionsIn: anElement.
+	self installOptionsIn: anElement.
 	self installSelecterIn: anElement.
-	anElement addEventHandler: listEventHandler
+	self installListEventHandlerIn: anElement
 ]
 
 { #category : #'api - hooks' }
 ToAbstractListSelectionMode >> onUninstalledIn: anElement [
 
-	anElement removeEventHandler: listEventHandler.
+	self uninstallListEventHandlerIn: anElement.
 	self uninstallSelecterIn: anElement.
-	self uninstallDefaultOptionsIn: anElement.
-	selecter := nil
+	self uninstallOptionsIn: anElement
 ]
 
 { #category : #accessing }
@@ -288,7 +310,18 @@ ToAbstractListSelectionMode >> selectionModel [
 ]
 
 { #category : #'api - hooks' }
-ToAbstractListSelectionMode >> uninstallDefaultOptionsIn: anElement [
+ToAbstractListSelectionMode >> uninstallListEventHandlerIn: anElement [
+
+	listEventHandler selectionMode: nil.
+	anElement removeEventHandler: listEventHandler.
+	listEventHandler := nil
+
+	
+
+]
+
+{ #category : #'api - hooks' }
+ToAbstractListSelectionMode >> uninstallOptionsIn: anElement [
 
 	beneathOption onUninstalledIn: anElement.
 	overOption onUninstalledIn: anElement

@@ -8,6 +8,12 @@ Class {
 }
 
 { #category : #initialization }
+ToListSecondarySelectionMode >> defaultListEventHandlerClass [
+
+	^ ToListSecondarySelectionElementEventHandler 
+]
+
+{ #category : #initialization }
 ToListSecondarySelectionMode >> initialize [
 
 	super initialize.

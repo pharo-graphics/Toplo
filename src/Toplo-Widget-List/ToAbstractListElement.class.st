@@ -134,8 +134,6 @@ ToAbstractListElement >> defaultContextMenuSelectionMode [
 
 	| mode |
 	mode := ToListContextMenuSelectionMode new.
-	mode listEventHandler:
-		(self newContextMenuSelectionEventHandler selectionMode: mode).
 	mode selecter: (ToListSelecter new
 			 selectionModel: self newSelectionModel;
 			 selectionChangedEventClass: ToListContextMenuSelectionChangedEvent;
@@ -147,7 +145,7 @@ ToAbstractListElement >> defaultContextMenuSelectionMode [
 { #category : #initialization }
 ToAbstractListElement >> defaultContextMenuWindowManagerClass [
 
-		^ ToListElementContextMenuWindowManager
+	^ ToListElementContextMenuWindowManager
 ]
 
 { #category : #initialization }
@@ -187,27 +185,9 @@ ToAbstractListElement >> defaultNodeManagerClass [
 ]
 
 { #category : #initialization }
-ToAbstractListElement >> defaultSecondarySelectionMode [
+ToAbstractListElement >> defaultPrimarySelectionMode [
 
-	| mode |
-	mode := ToListSecondarySelectionMode new.
-	mode listEventHandler:
-		(self newSecondarySelectionEventHandler selectionMode: mode).
-	mode selecter: (ToSecondarySelecter new
-			 selectionModel: self newSecondarySelectionModel;
-			 selectionChangedEventClass: ToListSecondarySelectionChangedEvent;
-			 yourself).
-	mode elementBuilder: [ ToListSecondarySelectionElement new ].
-	^ mode
-]
-
-{ #category : #initialization }
-ToAbstractListElement >> defaultSelectionMode [
-
-	^ self defaultSelectionModeClass new
-		  in: [ :mode |
-			  mode listEventHandler:
-					  (self newPrimarySelectionEventHandler selectionMode: mode) ];
+	^ self defaultPrimarySelectionModeClass new
 		  selecter: (ToPrimarySelecter new
 				   selectionModel: self newPrimarySelectionModel;
 				   selectionChangedEventClass: ToListPrimarySelectionChangedEvent;
@@ -217,9 +197,22 @@ ToAbstractListElement >> defaultSelectionMode [
 ]
 
 { #category : #initialization }
-ToAbstractListElement >> defaultSelectionModeClass [
+ToAbstractListElement >> defaultPrimarySelectionModeClass [
 
 	^ ToListPrimarySelectionMode
+]
+
+{ #category : #initialization }
+ToAbstractListElement >> defaultSecondarySelectionMode [
+
+	| mode |
+	mode := ToListSecondarySelectionMode new.
+	mode selecter: (ToSecondarySelecter new
+			 selectionModel: self newSecondarySelectionModel;
+			 selectionChangedEventClass: ToListSecondarySelectionChangedEvent;
+			 yourself).
+	mode elementBuilder: [ ToListSecondarySelectionElement new ].
+	^ mode
 ]
 
 { #category : #accessing }
@@ -266,7 +259,7 @@ ToAbstractListElement >> initialize [
 	self layout: self defaultLayout.
 
 	self addEventHandler: self defaultEventHandler.
-	self selectionMode: self defaultSelectionMode.
+	self selectionMode: self defaultPrimarySelectionMode.
 	self contextMenuWindowManagerClass: self defaultContextMenuWindowManagerClass.
 	self secondarySelectionMode: self defaultSecondarySelectionMode.
 	self contextMenuSelectionMode: self defaultContextMenuSelectionMode.
@@ -323,24 +316,11 @@ ToAbstractListElement >> layoutStrategy [
 ]
 
 { #category : #'instance creation' }
-ToAbstractListElement >> newContextMenuSelectionEventHandler [
-
-	^ ToListContextMenuSelectionElementEventHandler new
-]
-
-{ #category : #'instance creation' }
 ToAbstractListElement >> newDisabledSelectionMode [
 
-	^ ToListAdditionalSelectionMode
-		  selecter: self disabledSelecter
-		  listEventHandler: ToListDisabledSelectionElementEventHandler new
+	^ ToListDisabledSelectionMode new
+		  selecter: self disabledSelecter;
 		  elementBuilder: [ ToListDisabledSelectionElement new ]
-]
-
-{ #category : #'instance creation' }
-ToAbstractListElement >> newPrimarySelectionEventHandler [
-
-	^ ToListPrimarySelectionElementEventHandler new
 ]
 
 { #category : #'instance creation' }
@@ -355,12 +335,6 @@ ToAbstractListElement >> newPrimarySelectionModel [
 ToAbstractListElement >> newRawSkin [ 
 
 	^ ToBasicListElementSkin new
-]
-
-{ #category : #'instance creation' }
-ToAbstractListElement >> newSecondarySelectionEventHandler [
-
-	^ ToListSecondarySelectionElementEventHandler new
 ]
 
 { #category : #'instance creation' }
@@ -382,10 +356,8 @@ ToAbstractListElement >> newSelectionModel [
 { #category : #'instance creation' }
 ToAbstractListElement >> newUnselectableSelectionMode [
 
-	^ ToListAdditionalSelectionMode
-		  selecter: self unselectableSelecter
-		  listEventHandler:
-		  ToListUnselectableSelectionElementEventHandler new
+	^ ToListUnselectableSelectionMode new
+		  selecter: self unselectableSelecter;
 		  elementBuilder: [ ToListUnselectableSelectionElement new ]
 ]
 

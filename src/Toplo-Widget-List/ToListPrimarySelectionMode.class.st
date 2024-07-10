@@ -34,6 +34,12 @@ ToListPrimarySelectionMode >> beSingleSelection [
 ]
 
 { #category : #initialization }
+ToListPrimarySelectionMode >> defaultListEventHandlerClass [
+
+	^ ToListPrimarySelectionElementEventHandler 
+]
+
+{ #category : #initialization }
 ToListPrimarySelectionMode >> initialize [
 
 	super initialize.
@@ -44,9 +50,9 @@ ToListPrimarySelectionMode >> initialize [
 ]
 
 { #category : #'api - hooks' }
-ToListPrimarySelectionMode >> installDefaultOptionsIn: anElement [
+ToListPrimarySelectionMode >> installOptionsIn: anElement [
 
-	super installDefaultOptionsIn: anElement.
+	super installOptionsIn: anElement.
 	beneathOption triggerSelectionState: true
 	
 ]

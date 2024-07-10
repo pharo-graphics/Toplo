@@ -4,8 +4,14 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
+{ #category : #initialization }
+ToListContextMenuSelectionMode >> defaultListEventHandlerClass [
+
+	^ ToListContextMenuSelectionElementEventHandler 
+]
+
 { #category : #'api - hooks' }
-ToListContextMenuSelectionMode >> installDefaultOptionsIn: anElement [
+ToListContextMenuSelectionMode >> installOptionsIn: anElement [
 
 	overOption := (ToListSelectionOption groupedForMode: self)
 		                 beneath: false;

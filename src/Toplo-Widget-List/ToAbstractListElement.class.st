@@ -56,7 +56,7 @@ ToAbstractListElement >> commandChecker [
 	^ commandChecker
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing selecters' }
 ToAbstractListElement >> contextMenuSelecter [ 
 
 	^ self contextMenuSelectionMode selecter
@@ -74,12 +74,6 @@ ToAbstractListElement >> contextMenuSelectionMode: aSelectionMode [
 	contextMenuSelectionMode ifNotNil: [ contextMenuSelectionMode onUninstalledIn: self ].
 	contextMenuSelectionMode := aSelectionMode.
 	contextMenuSelectionMode ifNotNil: [ contextMenuSelectionMode onInstalledIn: self ]
-]
-
-{ #category : #accessing }
-ToAbstractListElement >> contextMenuSelectionModel [
-
-	^ self contextMenuSelecter selectionModel
 ]
 
 { #category : #accessing }
@@ -215,7 +209,7 @@ ToAbstractListElement >> defaultSecondarySelectionMode [
 	^ mode
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing selecters' }
 ToAbstractListElement >> disabledSelecter [ 
 
 	^ self selecter subSelecterWithId: #disabled
@@ -233,7 +227,7 @@ ToAbstractListElement >> fakeNode [
 	^ nil
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing selecters' }
 ToAbstractListElement >> hiddenSelecter [ 
 
 	^ self selecter subSelecterWithId: #hidden
@@ -450,7 +444,7 @@ ToAbstractListElement >> placeholderElevation [
 	^ self innerContainer elevation
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing selecters' }
 ToAbstractListElement >> secondarySelecter [ 
 
 	^ self secondarySelectionMode selecter
@@ -477,7 +471,7 @@ ToAbstractListElement >> secondarySelectionModel [
 	^ self secondarySelectionMode selectionModel
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing selecters' }
 ToAbstractListElement >> selecter [ 
 
 	^ selectionMode selecter
@@ -513,7 +507,7 @@ ToAbstractListElement >> sieveResultWith: aSieve [
 	self dataAccessor sieveResultWith: aSieve
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing selecters' }
 ToAbstractListElement >> unselectableSelecter [
 
 	^ self selecter subSelecterWithId: #unselectable
@@ -525,7 +519,7 @@ ToAbstractListElement >> unselectableSelectionModel [
 	^ self unselectableSelecter selectionModel
 ]
 
-{ #category : #'additional selecters' }
+{ #category : #'configuring selecters' }
 ToAbstractListElement >> withAdditionalSelecterWithId: aSymbol withEventClass: anEventClass [
 
 	| additional |
@@ -543,7 +537,7 @@ ToAbstractListElement >> withContextMenuSelection: aBoolean [
 	withContextMenuSelection := aBoolean
 ]
 
-{ #category : #'additional selecters' }
+{ #category : #'configuring selecters' }
 ToAbstractListElement >> withDisabledSelecter [
 
 	self withAdditionalSelecterWithId: #disabled withEventClass: ToListDisabledSelectionChangedEvent
@@ -551,35 +545,35 @@ ToAbstractListElement >> withDisabledSelecter [
 
 ]
 
-{ #category : #'additional selecters' }
+{ #category : #'configuring selecters' }
 ToAbstractListElement >> withHiddenSelecter [
 
 	self withAdditionalSelecterWithId: #hidden withEventClass: ToListHiddenSelectionChangedEvent
 
 ]
 
-{ #category : #'additional selecters' }
+{ #category : #'configuring selecters' }
 ToAbstractListElement >> withUnselectableSelecter [
 
 	self withAdditionalSelecterWithId: #unselectable withEventClass: ToListUnselectableSelectionChangedEvent
 
 ]
 
-{ #category : #'additional selecters' }
+{ #category : #'configuring selecters' }
 ToAbstractListElement >> withoutDisabledSelecter [
 
 	(self selecter subSelecterWithId: #disabled) ifNotNil: [ :selecter |
 		selecter onUninstalledIn: self ]
 ]
 
-{ #category : #'additional selecters' }
+{ #category : #'configuring selecters' }
 ToAbstractListElement >> withoutHiddenSelecter [
 
 	(self selecter subSelecterWithId: #hidden) ifNotNil: [ :selecter |
 		selecter onUninstalledIn: self ]
 ]
 
-{ #category : #'additional selecters' }
+{ #category : #'configuring selecters' }
 ToAbstractListElement >> withoutUnselectableSelecter [
 
 	(self selecter subSelecterWithId: #unselectable) ifNotNil: [ :selecter |

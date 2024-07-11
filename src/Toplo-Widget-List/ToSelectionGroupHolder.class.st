@@ -150,7 +150,6 @@ ToSelectionGroupHolder >> refreshGroupsIn: aListElement [
 { #category : #'private - selection updating' }
 ToSelectionGroupHolder >> refreshSelectionIn: aListElement [
 
-	option isNone ifTrue: [ ^ self ].
 	self forgetPreviousBoundsIn: aListElement.
 	self removeSelectionIn: aListElement.
 	self refreshGroupsIn: aListElement.
@@ -175,7 +174,6 @@ ToSelectionGroupHolder >> removeSelectionIn: aListElement [
 ToSelectionGroupHolder >> updateSelectionIn: aListElement [
 
 	| newGroups |
-	option isNone ifTrue: [ ^ self ].
 	"option selectionMode selecter selectionChangedEventClass = ToListContextMenuSelectionChangedEvent ifTrue: [ self haltOnce ]."
 	"'updateSelectionIn: ' trace. option selectionMode selecter selectionChangedEventClass traceCr."
 	newGroups := option collectSelectionGroupsFrom: aListElement.

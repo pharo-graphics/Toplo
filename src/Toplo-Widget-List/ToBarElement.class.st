@@ -47,15 +47,6 @@ ToBarElement >> defaultNodeManagerClass [
 	^ ToBarNodeManager 
 ]
 
-{ #category : #initialization }
-ToBarElement >> defaultSecondarySelectionMode [
-
-	| mode |
-	mode := super defaultSecondarySelectionMode.
-	"mode selecter commandApplierEventHandler: ToQueueBasedCommandApplierEventHandler new."
-	^ mode
-]
-
 { #category : #accessing }
 ToBarElement >> fakeDataItem: aDataItem [
 
@@ -98,9 +89,14 @@ ToBarElement >> horizontal: aBoolean [
 ToBarElement >> initialize [
 
 	super initialize.
-	selectionMode beSeparateBeneathSelection.
-	selectionMode beNoneOverSelection.
-	contextMenuSelectionMode beSeparateOverSelection.
+	selectionMode option: ((ToListSelectionOption separateForMode: selectionMode)
+			 beneath: true;
+			 triggerSelectionState: true;
+			 yourself).
+	contextMenuSelectionMode option:
+		((ToListSelectionOption separateForMode: contextMenuSelectionMode)
+			 beneath: false;
+			 yourself).
 	self configureLayout
 ]
 

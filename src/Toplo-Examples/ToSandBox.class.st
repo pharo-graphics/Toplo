@@ -248,10 +248,10 @@ ToSandBox class >> configurationBoardFor: aBar [
 			 do: [ :event |
 				 | v |
 				 v := event current.
-				 aBar selectionMode beneathOption animationDuration: (v
+				 aBar selectionMode option animationDuration: (v
 						  ifTrue: [ 200 milliSeconds ]
 						  ifFalse: [ 0 milliSeconds ]).
-				 aBar secondarySelectionMode beneathOption animationDuration: (v
+				 aBar secondarySelectionMode option animationDuration: (v
 						  ifTrue: [ 150 milliSeconds ]
 						  ifFalse: [ 0 milliSeconds ]) ]).
 
@@ -780,10 +780,6 @@ ToSandBox class >> example_EditableList2WithAllClassesNames [
 	| l vscrollBar space innerWin |
 	l := ToListElement new.
 	l beVertical.
-	l withDisabledSelecter.
-	l withUnselectableSelecter.
-	l withHiddenSelecter.
-
 	l
 		nodeFactory: [ ToListClassNodeExample new ];
 		nodeBuilder: [ :node :holder :dataItem |
@@ -1217,9 +1213,8 @@ ToSandBox class >> example_ListWithAllClasses3 [
 				      icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
 				      startInterspace: 10;
 				      hMatchParent) ].
-	l selectionMode beSeparateBeneathSelection.
-	l selectionMode beneathOption animationDuration: 200 milliSeconds.
-	l secondarySelectionMode beneathOption animationDuration: 150 milliSeconds.
+	l selectionMode option animationDuration: 200 milliSeconds.
+	l secondarySelectionMode option animationDuration: 150 milliSeconds.
 	l dataAccessor addAll: Smalltalk globals allClasses.
 	l selecter selectIndex: 3.
 	l withRowNumbers.
@@ -1397,22 +1392,27 @@ ToSandBox class >> example_PicsumPhotosGallery [
 	list := ToListElement new
 		        matchParent;
 		        yourself.
-		list inspect.
+	list inspect.
 	list
 		nodeHolderClass: ToPicsumPhotosGalleryImageHolder;
 		nodeFactory: [ ToPicsumPhotosGalleryImageNode new ];
-		nodeBuilder: [ :node :holder :dataItem | node labelString: dataItem id ].
-	list selectionMode beNoneBeneathSelection.
-	list selectionMode beSeparateOverSelection.
-	list selectionMode overElementBuilder: [ ToPicsumPhotosGallerySelectionElement new ].
+		nodeBuilder: [ :node :holder :dataItem |
+			node labelString: dataItem id ].
+	list selectionMode option:
+		((ToListSelectionOption separateForMode: list selectionMode)
+			 beneath: false;
+			 triggerSelectionState: true;
+			 yourself).
+	list selectionMode elementBuilder: [
+		ToPicsumPhotosGallerySelectionElement new ].
 
 	[
 	| allImagesData |
 	allImagesData := (STONJSON fromString:
-		           'https://picsum.photos/list' asUrl retrieveContents)
-		          collect: [ :aDictionary |
-			          ToPicsumPhotosGalleryImageData fromDictionary:
-				          aDictionary ].
+		                  'https://picsum.photos/list' asUrl
+			                  retrieveContents) collect: [ :aDictionary |
+		                 ToPicsumPhotosGalleryImageData fromDictionary:
+			                 aDictionary ].
 	allImagesData sort: [ :a :b | a id > b id ].
 	list dataAccessor addAll: allImagesData ] fork.
 
@@ -1729,7 +1729,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	| select innerWindow |
 	select := ToMultiSelectElement new.
 	select nodeWrapping: true.
-	select innerContainer selectionMode beneathOption animationDuration:
+	select innerContainer selectionMode option animationDuration:
 		200 milliSeconds.
 	select listElement withRowNumbers.
 	select innerContainer nodeBuilder: [ :node :holder :dataItem | 
@@ -5429,16 +5429,15 @@ ToSandBox class >> listWithEditableAndContextMenu [
 
 	| l selectionMenu menuFactory phtext |
 	l := ToListElement new.
-	l withDisabledSelecter.
-	l withUnselectableSelecter.
-	l withHiddenSelecter.
-	l newDisabledSelectionMode onInstalledIn: l.
+	l newHiddenSelectionMode onInstalledIn: l.
+	l newDisabledSelectionMode
+		elementBuilder: [ ToListDisabledSelectionElement new ];
+		onInstalledIn: l.
 	l newUnselectableSelectionMode
 		elementBuilder: [
 			ToListUnselectableSelectionElement new defaultSkin:
 					ToListUnselectableSelectionElementExempleSkin new ];
-		onInstalledIn: l;
-		beSeparateOverSelection.
+		onInstalledIn: l.
 
 	phtext := (('Invoke the context menu ' , String cr
 	            , 'with a right-click' , String cr
@@ -5517,12 +5516,12 @@ ToSandBox class >> listWithEditableAndContextMenu [
 				                whenClickedDo: [ :event |
 					                target hiddenSelecter deselectAll ];
 				                yourself).
-		               target selectionMode beneathOption isAnimated
+		               target selectionMode option isAnimated
 			               ifTrue: [
 				               menu addItem: (ToMenuItem new
 						                labelText: 'stop selection transition animation';
 						                whenClickedDo: [ :event |
-							                target selectionMode beneathOption
+							                target selectionMode option
 								                animationDuration: 0 milliSeconds ];
 						                yourself) ]
 			               ifFalse: [
@@ -5530,7 +5529,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 						                labelText:
 							                'start selection transition animation';
 						                whenClickedDo: [ :event |
-							                target selectionMode beneathOption
+							                target selectionMode option
 								                animationDuration: 200 milliSeconds ];
 						                yourself) ] ].
 	               indexes ifNotEmpty: [
@@ -5543,8 +5542,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 			               label := node firstChild label.
 			               selectionMenu addItem: (ToMenuItem new
 					                labelText: 'Inspect node';
-					                whenClickedDo: [ :event |
-						                node inspect];
+					                whenClickedDo: [ :event | node inspect ];
 					                yourself).
 			               selectionMenu addItem: (ToMenuItem new
 					                labelText: 'Edit';

@@ -5,28 +5,47 @@ Class {
 }
 
 { #category : #initialization }
-ToListContextMenuSelectionMode >> defaultListEventHandlerClass [
+ToListContextMenuSelectionMode >> defaultElementBuilder [ 
 
-	^ ToListContextMenuSelectionElementEventHandler 
+	^ [ ToListContextMenuSelectionElement new ]
 ]
 
 { #category : #'api - hooks' }
-ToListContextMenuSelectionMode >> installOptionsIn: anElement [
+ToListContextMenuSelectionMode >> defaultOption [
 
-	overOption := (ToListSelectionOption groupedForMode: self)
-		                 beneath: false;
-		                 yourself.
-	beneathOption := (ToListSelectionOption noneForMode: self)
-		              beneath: true;
-		              yourself.
-	beneathOption onInstalledIn: anElement.
-	overOption onInstalledIn: anElement.
-
-
+	^ (ToListSelectionOption groupedForMode: self)
+		  beneath: false;
+		  yourself
 ]
 
 { #category : #testing }
 ToListContextMenuSelectionMode >> isMultipleSelection [
 
 	^ true
+]
+
+{ #category : #initialization }
+ToListContextMenuSelectionMode >> listEventHandlerClass [
+
+	^ ToListContextMenuSelectionElementEventHandler 
+]
+
+{ #category : #'instance creation' }
+ToListContextMenuSelectionMode >> newSelecter [
+
+	^ ToListSelecter new
+		  selectionChangedEventClass: self selectionChangedEventClass;
+		  yourself
+]
+
+{ #category : #'api - hooks' }
+ToListContextMenuSelectionMode >> newSelectionModel [
+
+	^ listElement newSelectionModel
+]
+
+{ #category : #'instance creation' }
+ToListContextMenuSelectionMode >> selectionChangedEventClass [ 
+
+	^ ToListContextMenuSelectionChangedEvent
 ]

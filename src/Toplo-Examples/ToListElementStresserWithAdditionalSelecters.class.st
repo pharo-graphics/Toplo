@@ -152,9 +152,6 @@ ToListElementStresserWithAdditionalSelecters >> newListElement [
 
 	| l |
 	l := ToListElement new
-		     withHiddenSelecter;
-		     withUnselectableSelecter;
-		     withDisabledSelecter;
 		     nodeBuilder: [ :node :holder :dataItem |
 			     | lab |
 			     lab := ToLabel text: dataItem.
@@ -164,8 +161,9 @@ ToListElementStresserWithAdditionalSelecters >> newListElement [
 			     holder isDisabled ifTrue: [
 					     node background: (Color veryLightGray alpha: 0.5) ] ];
 		     yourself.
-	"l newDisabledSelectionMode onInstalledIn: l.
-	l newUnselectableSelectionMode onInstalledIn: l."
+	l newDisabledSelectionMode onInstalledIn: l.
+	l newUnselectableSelectionMode onInstalledIn: l.
+	l newHiddenSelectionMode onInstalledIn: l.
 
 	^ l
 ]

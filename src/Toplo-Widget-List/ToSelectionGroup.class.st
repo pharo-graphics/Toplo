@@ -47,7 +47,7 @@ ToSelectionGroup >> computeSelectionElementBoundsIn: aListElement [
 { #category : #'private - selection element' }
 ToSelectionGroup >> createSelectionElementIn: aListElement [
 
-	cachedSelectionElement := option newSelectionElementFor: aListElement.
+	cachedSelectionElement := option newSelectionElement.
 	cachedSelectionElement nodes: self nodes.
 	self computeSelectionElementBoundsIn: aListElement
 ]

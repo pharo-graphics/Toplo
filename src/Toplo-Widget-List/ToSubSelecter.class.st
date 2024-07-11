@@ -1,5 +1,5 @@
 Class {
-	#name : #ToAdditionalSelecter,
+	#name : #ToSubSelecter,
 	#superclass : #ToListSelecter,
 	#instVars : [
 		'uniqueId',
@@ -9,14 +9,7 @@ Class {
 }
 
 { #category : #initialization }
-ToAdditionalSelecter >> initialize [
-
-	super initialize.
-	selectionModel := ToAdditionalSelectionModel new
-]
-
-{ #category : #initialization }
-ToAdditionalSelecter >> initializeCommandApplier [ 
+ToSubSelecter >> initializeCommandApplier [ 
 
 	super initializeCommandApplier
 	"commandApplierEventHandler := ToQueueBasedCommandApplierEventHandler new."
@@ -24,18 +17,17 @@ ToAdditionalSelecter >> initializeCommandApplier [
 ]
 
 { #category : #'api - hooks' }
-ToAdditionalSelecter >> onInstalledIn: anEventTarget [
+ToSubSelecter >> onInstalledIn: anEventTarget [
 
 
 	super onInstalledIn: anEventTarget.
-	selectionModel on: anEventTarget.
 	selectionModel uniqueId: uniqueId.
 	parentSelecter recordSubSelecter: self
 
 ]
 
 { #category : #'api - hooks' }
-ToAdditionalSelecter >> onUninstalledIn: anEventTarget [
+ToSubSelecter >> onUninstalledIn: anEventTarget [
 
 	parentSelecter unrecordSubSelecter: self.
 	super onUninstalledIn: anEventTarget
@@ -43,26 +35,26 @@ ToAdditionalSelecter >> onUninstalledIn: anEventTarget [
 ]
 
 { #category : #accessing }
-ToAdditionalSelecter >> parentSelecter [
+ToSubSelecter >> parentSelecter [
 
 	^ parentSelecter 
 ]
 
 { #category : #accessing }
-ToAdditionalSelecter >> parentSelecter: aCompositeSelecter [
+ToSubSelecter >> parentSelecter: aCompositeSelecter [
 
 	parentSelecter ifNotNil: [ BlImmutableObjectChangeError signal ].
 	parentSelecter := aCompositeSelecter
 ]
 
 { #category : #accessing }
-ToAdditionalSelecter >> uniqueId [
+ToSubSelecter >> uniqueId [
 
 	^ uniqueId
 ]
 
 { #category : #accessing }
-ToAdditionalSelecter >> uniqueId: aSymbol [
+ToSubSelecter >> uniqueId: aSymbol [
 
 	uniqueId ifNotNil: [ BlImmutableObjectChangeError signal ].
 	uniqueId := aSymbol

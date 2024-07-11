@@ -16,16 +16,6 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
 
-{ #category : #'instance creation' }
-ToListSelecter class >> additionalNamed: aSymbol inParentSelecter: aParentSelecter withEventClass: anEventClass [
-
-	^ ToAdditionalSelecter new
-		  uniqueId: aSymbol;
-		  selectionChangedEventClass: anEventClass;
-		  parentSelecter: aParentSelecter;
-		  yourself
-]
-
 { #category : #adding }
 ToListSelecter >> addCommand: aCommand [
 
@@ -283,6 +273,7 @@ ToListSelecter >> onInstalledIn: anEventTarget [
 	" the argument is passed as the target of commands.
 	It receives the selection change event after the application of commands "
 
+	selectionModel on: anEventTarget.
 	eventTarget := anEventTarget.
 	commandApplierEventHandler element: anEventTarget.
 	self addEventHandler: commandApplierEventHandler

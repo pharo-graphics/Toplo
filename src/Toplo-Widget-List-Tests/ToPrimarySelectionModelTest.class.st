@@ -32,7 +32,7 @@ ToPrimarySelectionModelTest >> testDuplicate [
 
 	| s sub dup |
 	s := ToPrimarySelectionModel new.
-	sub := ToAdditionalSelectionModel new uniqueId: #sub.
+	sub := ToSubSelectionModel new uniqueId: #sub.
 	s recordSubSelectionModel: sub.
 	s selectIndex: 10.
 	sub selectIndex: 2.
@@ -48,7 +48,7 @@ ToPrimarySelectionModelTest >> testRecordSubSelectionModel [
 
 	| s sub |
 	s := ToPrimarySelectionModel new.
-	sub := ToAdditionalSelectionModel new uniqueId: #sub.
+	sub := ToSubSelectionModel new uniqueId: #sub.
 	s recordSubSelectionModel: sub.
 	s selectIndex: 10.
 	sub selectIndex: 2.

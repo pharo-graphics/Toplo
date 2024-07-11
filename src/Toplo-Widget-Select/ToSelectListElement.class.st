@@ -20,9 +20,9 @@ ToSelectListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 ToSelectListElement >> initialize [
 
 	super initialize.
-	self withUnselectableSelecter.
-	self withHiddenSelecter.
-	self withDisabledSelecter.
+	self newUnselectableSelectionMode onInstalledIn: self.
+	self newHiddenSelectionMode onInstalledIn: self.
+	self newDisabledSelectionMode onInstalledIn: self.
 	self selectionMode selectOnMouseDown: true.
 	self selectionMode requestFocusOnMouseDown: false
 ]

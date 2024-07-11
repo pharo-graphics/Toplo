@@ -7,8 +7,7 @@ Class {
 		'animationDuration',
 		'selectionContainer',
 		'groupHolder',
-		'selectionMode',
-		'elementBuilder'
+		'selectionMode'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
@@ -17,14 +16,6 @@ Class {
 ToListSelectionOption class >> groupedForMode: aSelectionMode [
 
 	^ ToListGroupedSelection new
-		  selectionMode: aSelectionMode;
-		  yourself
-]
-
-{ #category : #'instance creation' }
-ToListSelectionOption class >> noneForMode: aSelectionMode [
-
-	^ ToListNoneSelection new
 		  selectionMode: aSelectionMode;
 		  yourself
 ]
@@ -40,14 +31,12 @@ ToListSelectionOption class >> separateForMode: aSelectionMode [
 { #category : #'instance creation' }
 ToListSelectionOption >> addSelectionElement: aSelectionElement [
 
-	self isNone ifTrue: [ ^ self ].
 	selectionContainer addChild: aSelectionElement
 ]
 
 { #category : #'instance creation' }
 ToListSelectionOption >> addSelectionElements: aSelectionElementArray [
 
-	self isNone ifTrue: [ ^ self ].
 	selectionContainer addChildren: aSelectionElementArray
 ]
 
@@ -79,18 +68,6 @@ ToListSelectionOption >> collectSelectionGroupsFrom: aListElement [
 ToListSelectionOption >> currentSelectionGroupsFrom: aListElement [
 
 	self subclassResponsibility 
-]
-
-{ #category : #accessing }
-ToListSelectionOption >> elementBuilder [
-
-	^ elementBuilder ifNil: [ elementBuilder := selectionMode elementBuilder ]
-]
-
-{ #category : #accessing }
-ToListSelectionOption >> elementBuilder: aSelectionElementBuilderValuable [
-
-	elementBuilder := aSelectionElementBuilderValuable
 ]
 
 { #category : #accessing }
@@ -162,13 +139,9 @@ ToListSelectionOption >> newInnerContainerIn: anElement [
 ]
 
 { #category : #'instance creation' }
-ToListSelectionOption >> newSelectionElementFor: aListElement [
+ToListSelectionOption >> newSelectionElement [
 
-	" elementBuilder is lazy "
-	^ self elementBuilder value
-		  selectionOption: self;
-		  focused: aListElement isFocused;
-		  yourself
+	^ selectionMode newSelectionElement
 ]
 
 { #category : #'api - hooks' }
@@ -207,12 +180,6 @@ ToListSelectionOption >> selectionElements [
 
 	^ selectionContainer children select: [ :child |
 		  child isKindOf: ToListSelectionElement ]
-]
-
-{ #category : #accessing }
-ToListSelectionOption >> selectionMode [
-
-	^ selectionMode 
 ]
 
 { #category : #accessing }

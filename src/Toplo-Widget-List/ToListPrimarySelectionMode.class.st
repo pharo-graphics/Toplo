@@ -34,9 +34,17 @@ ToListPrimarySelectionMode >> beSingleSelection [
 ]
 
 { #category : #initialization }
-ToListPrimarySelectionMode >> defaultListEventHandlerClass [
+ToListPrimarySelectionMode >> defaultElementBuilder [ 
 
-	^ ToListPrimarySelectionElementEventHandler 
+	^ [ ToListPrimarySelectionElement new ]
+]
+
+{ #category : #'api - hooks' }
+ToListPrimarySelectionMode >> defaultOption [
+
+	^ (ToListSelectionOption groupedForMode: self)
+		  beneath: true;
+		  triggerSelectionState: true yourself
 ]
 
 { #category : #initialization }
@@ -47,14 +55,6 @@ ToListPrimarySelectionMode >> initialize [
 	preserveSelectionOnFocused := true.
 	selectOnMouseDown := false.
 	multiple := true
-]
-
-{ #category : #'api - hooks' }
-ToListPrimarySelectionMode >> installOptionsIn: anElement [
-
-	super installOptionsIn: anElement.
-	beneathOption triggerSelectionState: true
-	
 ]
 
 { #category : #testing }
@@ -72,8 +72,14 @@ ToListPrimarySelectionMode >> isPrimary [
 { #category : #testing }
 ToListPrimarySelectionMode >> isSelectableNode: aNode [
 
-	^ aNode holder isSelectable and:
-		  (self selectionModel containsIndex: aNode holder position)
+	^ aNode holder isSelectable and: [
+		  self selectionModel containsIndex: aNode holder position ]
+]
+
+{ #category : #initialization }
+ToListPrimarySelectionMode >> listEventHandlerClass [
+
+	^ ToListPrimarySelectionElementEventHandler 
 ]
 
 { #category : #testing }
@@ -97,6 +103,20 @@ ToListPrimarySelectionMode >> multiple: aBoolean [
 	multiple := aBoolean.
 	selecter ifNil: [ ^ self ].
 	selecter multiple: aBoolean
+]
+
+{ #category : #'instance creation' }
+ToListPrimarySelectionMode >> newSelecter [
+
+	^ ToPrimarySelecter new
+		  selectionChangedEventClass: self selectionChangedEventClass;
+		  yourself
+]
+
+{ #category : #'api - hooks' }
+ToListPrimarySelectionMode >> newSelectionModel [
+
+	^ listElement newPrimarySelectionModel 
 ]
 
 { #category : #accessing }
@@ -195,4 +215,10 @@ ToListPrimarySelectionMode >> selectOrDeselectOnNode: aNode [
 	(target selectionModel containsIndex: index)
 		ifTrue: [ self selecter deselectIndex: index ]
 		ifFalse: [ self selecter selectIndex: index ]
+]
+
+{ #category : #'instance creation' }
+ToListPrimarySelectionMode >> selectionChangedEventClass [ 
+
+	^ ToListPrimarySelectionChangedEvent
 ]

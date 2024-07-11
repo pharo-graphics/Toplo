@@ -1,5 +1,5 @@
 Class {
-	#name : #ToAdditionalSelectionModel,
+	#name : #ToSubSelectionModel,
 	#superclass : #ToSelectionModel,
 	#instVars : [
 		'uniqueId'
@@ -8,13 +8,13 @@ Class {
 }
 
 { #category : #accessing }
-ToAdditionalSelectionModel >> uniqueId [
+ToSubSelectionModel >> uniqueId [
 
 	^ uniqueId
 ]
 
 { #category : #accessing }
-ToAdditionalSelectionModel >> uniqueId: aSymbol [
+ToSubSelectionModel >> uniqueId: aSymbol [
 
 	uniqueId := aSymbol
 ]

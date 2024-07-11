@@ -45,7 +45,7 @@ ToMultiSelectListElement >> initialize [
 
 	super initialize.
 	self
-		withAdditionalSelecterWithId: #group
+		withSubSelecterWithId: #group
 		withEventClass: ToSelectGroupSelectionChangedEvent.
 	self selectionMode selectOnMouseDown: true.
 	self selectionMode requestFocusOnMouseDown: false

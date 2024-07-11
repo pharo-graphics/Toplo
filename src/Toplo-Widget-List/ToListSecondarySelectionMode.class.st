@@ -8,9 +8,17 @@ Class {
 }
 
 { #category : #initialization }
-ToListSecondarySelectionMode >> defaultListEventHandlerClass [
+ToListSecondarySelectionMode >> defaultElementBuilder [
 
-	^ ToListSecondarySelectionElementEventHandler 
+	^ [ ToListSecondarySelectionElement new ]
+]
+
+{ #category : #'api - hooks' }
+ToListSecondarySelectionMode >> defaultOption [
+
+	^ (ToListSelectionOption groupedForMode: self)
+		  beneath: true;
+		  yourself
 ]
 
 { #category : #initialization }
@@ -26,6 +34,12 @@ ToListSecondarySelectionMode >> isMultipleSelection [
 	^ multiple
 ]
 
+{ #category : #initialization }
+ToListSecondarySelectionMode >> listEventHandlerClass [
+
+	^ ToListSecondarySelectionElementEventHandler 
+]
+
 { #category : #accessing }
 ToListSecondarySelectionMode >> multiple: aBoolean [
 
@@ -33,4 +47,24 @@ ToListSecondarySelectionMode >> multiple: aBoolean [
 	multiple := aBoolean.
 	selecter ifNil: [ ^ self ].
 	selecter multiple: aBoolean
+]
+
+{ #category : #'instance creation' }
+ToListSecondarySelectionMode >> newSelecter [
+
+	^ ToSecondarySelecter new
+		  selectionChangedEventClass: self selectionChangedEventClass;
+		  yourself
+]
+
+{ #category : #'api - hooks' }
+ToListSecondarySelectionMode >> newSelectionModel [
+
+	^ listElement newSecondarySelectionModel 
+]
+
+{ #category : #'instance creation' }
+ToListSecondarySelectionMode >> selectionChangedEventClass [ 
+
+	^ ToListSecondarySelectionChangedEvent
 ]

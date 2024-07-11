@@ -16,6 +16,18 @@ ToSelectListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 	selectElement currentWindow ifNotNil: [:w | w visibility: BlVisibility visible  ]
 ]
 
+{ #category : #accessing }
+ToSelectListElement >> groupSelecter [
+
+	^ self selecter subSelecterWithId: #group
+]
+
+{ #category : #accessing }
+ToSelectListElement >> groupSelectionModel [
+
+	^ self groupSelecter selectionModel
+]
+
 { #category : #initialization }
 ToSelectListElement >> initialize [
 
@@ -23,6 +35,10 @@ ToSelectListElement >> initialize [
 	self newUnselectableSelectionMode onInstalledIn: self.
 	self newHiddenSelectionMode onInstalledIn: self.
 	self newDisabledSelectionMode onInstalledIn: self.
+	self
+		withSubSelecterWithId: #group
+		withEventClass: ToSelectGroupSelectionChangedEvent.
+
 	self selectionMode selectOnMouseDown: true.
 	self selectionMode requestFocusOnMouseDown: false
 ]
@@ -37,4 +53,10 @@ ToSelectListElement >> newRawSkin [
 ToSelectListElement >> selectElement: aSelectElement [
 
 	selectElement := aSelectElement
+]
+
+{ #category : #accessing }
+ToSelectListElement >> sieve [
+
+	^ selectElement sieve
 ]

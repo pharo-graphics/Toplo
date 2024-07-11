@@ -61,9 +61,15 @@ ToListSelectionElementEventHandler >> selectionMode: aSelectionMode [
 
 { #category : #'selection managing' }
 ToListSelectionElementEventHandler >> updateSelectionFromEvent: anEvent [
+	" the selection has changed but the touched indexes is empty means 
+	that a selection element remains for removed indexes"
 
 	| target |
 	target := anEvent currentTarget.
+	anEvent touchedIndexes ifEmpty: [
+		self refreshSelectionFromEvent: anEvent.
+		^ self ].
+
 	target isAttachedToSceneGraph ifFalse: [
 		self differUpdateSelectionFrom: target.
 		^ self ].

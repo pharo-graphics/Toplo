@@ -27,7 +27,7 @@ ToListPrimarySelectionElementEventHandler >> eventsToHandle [
 
 { #category : #'element handlers' }
 ToListPrimarySelectionElementEventHandler >> listPrimarySelectionChangedEvent: anEvent [
-"self halt."
+
 	self updateSelectionFromEvent: anEvent
 ]
 

@@ -47,7 +47,7 @@ ToSieveEventHandler >> listPrimarySelectionChangedEvent: anEvent [
 			 touchedIndexes: touchedIndexes asArray;
 			 selectionModel: sieveSelectionModel;
 			 yourself).
-	listElement dispatchEvent: ToListPrimarySelectionDirtyEvent new
+	listElement notifyPrimarySelectionDirty
 ]
 
 { #category : #'api - hooks' }

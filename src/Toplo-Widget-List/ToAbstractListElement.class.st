@@ -393,7 +393,9 @@ ToAbstractListElement >> notifyDataSourceItemsFiltered: aDataSourceEvent [
 { #category : #'event firing' }
 ToAbstractListElement >> notifyPrimarySelectionDirty [
 
-	self dispatchEvent: ToListPrimarySelectionDirtyEvent new
+	self dispatchEvent: (ToListPrimarySelectionDirtyEvent new
+			 itemCount: self itemCount;
+			 yourself)
 ]
 
 { #category : #'private - commands' }

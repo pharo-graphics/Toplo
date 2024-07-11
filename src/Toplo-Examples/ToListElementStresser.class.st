@@ -412,10 +412,11 @@ ToListElementStresser >> nextProcessPriorityForListNumber: aNumber [
 { #category : #accessing }
 ToListElementStresser >> nextSizeForListNumber: aNumber [
 
-	^ aNumber even
+	"^ aNumber even
 		  ifTrue: [ rand nextIntegerBetween: 1 and: self minListSize ]
 		  ifFalse: [
-		  rand nextIntegerBetween: self minListSize and: self maxListSize ]
+		  rand nextIntegerBetween: self minListSize and: self maxListSize ]"
+	^ 2000
 ]
 
 { #category : #running }

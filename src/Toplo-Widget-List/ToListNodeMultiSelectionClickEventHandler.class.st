@@ -51,7 +51,7 @@ ToListNodeMultiSelectionClickEventHandler >> launchClick: aBlock event: anEvent 
 	mode selectedIndexesCount > 0 ifFalse: [ ^ aBlock value ].
 
 	self clickLauncher: ([
-		 (listElement valueOfTokenNamed: #'double-click-delay') asDelay wait.
+		 (listElement valueOfTokenNamed: #'toplo-double-click-delay') asDelay wait.
 		 aBlock value.
 		 self clickLauncher: nil ]
 			 forkAt: Processor highIOPriority

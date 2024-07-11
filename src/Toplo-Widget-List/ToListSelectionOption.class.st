@@ -183,6 +183,12 @@ ToListSelectionOption >> selectionElements [
 ]
 
 { #category : #accessing }
+ToListSelectionOption >> selectionMode [
+
+	^ selectionMode
+]
+
+{ #category : #accessing }
 ToListSelectionOption >> selectionMode: aSelectionMode [
 
 	selectionMode := aSelectionMode

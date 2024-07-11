@@ -100,6 +100,9 @@ ToListElementEventHandler >> infiniteDataSourceEmptinessChangedEvent: anEvent [
 
 { #category : #'infinite event handling' }
 ToListElementEventHandler >> infiniteDataSourceItemRangeInserted: anEvent [
+	" when data source elements are added (before the layout). 
+	Pay attention that a sieve will handle also this event ** before ** the list element 
+	is actually layouted (and visually up-to-date)."
 
 	| target dataSourceChangeEvent |
 	target := anEvent currentTarget.
@@ -112,6 +115,9 @@ ToListElementEventHandler >> infiniteDataSourceItemRangeInserted: anEvent [
 
 { #category : #'infinite event handling' }
 ToListElementEventHandler >> infiniteDataSourceItemRangeRemoved: anEvent [
+	" when data source elements are removed (before the layout). 
+	Pay attention that a sieve will handle also this event ** before ** the list element 
+	is actually layouted (and visually up-to-date)."
 
 	| target dataSourceChangeEvent |
 	target := anEvent currentTarget.

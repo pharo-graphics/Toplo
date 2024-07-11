@@ -174,7 +174,7 @@ ToSelectionGroupHolder >> removeSelectionIn: aListElement [
 ToSelectionGroupHolder >> updateSelectionIn: aListElement [
 
 	| newGroups |
-	"option selectionMode selecter selectionChangedEventClass = ToListContextMenuSelectionChangedEvent ifTrue: [ self haltOnce ]."
+	"option selectionMode selecter selectionChangedEventClass = ToListDisabledSelectionChangedEvent ifTrue: [self haltOnce]."
 	"'updateSelectionIn: ' trace. option selectionMode selecter selectionChangedEventClass traceCr."
 	newGroups := option collectSelectionGroupsFrom: aListElement.
 	(self groups: groups equals: newGroups) ifTrue: [ ^ self ].

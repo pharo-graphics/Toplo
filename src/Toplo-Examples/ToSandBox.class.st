@@ -1399,11 +1399,11 @@ ToSandBox class >> example_PicsumPhotosGallery [
 		nodeBuilder: [ :node :holder :dataItem |
 			node labelString: dataItem id ].
 	list selectionMode option:
-		((ToListSelectionOption separateForMode: list selectionMode)
+		((ToListSelectionOption separate)
 			 beneath: false;
 			 triggerSelectionState: true;
 			 yourself).
-	list selectionMode elementBuilder: [
+	list selectionMode elementBuilder: [ 
 		ToPicsumPhotosGallerySelectionElement new ].
 
 	[

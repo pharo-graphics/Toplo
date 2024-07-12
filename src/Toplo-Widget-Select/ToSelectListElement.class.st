@@ -32,9 +32,9 @@ ToSelectListElement >> groupSelectionModel [
 ToSelectListElement >> initialize [
 
 	super initialize.
-	self newUnselectableSelectionMode onInstalledIn: self.
-	self newHiddenSelectionMode onInstalledIn: self.
-	self newDisabledSelectionMode onInstalledIn: self.
+	self withUnselectableSelecter.
+	self withHiddenSelecter.
+	self withDisabledSelecter .
 	self
 		withSubSelecterWithId: #group
 		withEventClass: ToSelectGroupSelectionChangedEvent.

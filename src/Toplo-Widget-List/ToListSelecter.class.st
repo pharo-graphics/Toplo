@@ -56,6 +56,8 @@ ToListSelecter >> commandApplied: aCommand [
 			 command: aCommand;
 			 yourself).
 
+	selectionChangedEventClass ifNil: [ ^ self ].
+	
 	req := ToListSelectionCommandAppliedEvent new
 		       command: aCommand;
 		       requestedAction: [
@@ -464,15 +466,8 @@ ToListSelecter >> selectedIndexes [
 ]
 
 { #category : #accessing }
-ToListSelecter >> selectionChangedEventClass [
-
-	^ selectionChangedEventClass
-]
-
-{ #category : #accessing }
 ToListSelecter >> selectionChangedEventClass: anEventClass [
 
-	selectionChangedEventClass ifNotNil: [ BlImmutableObjectChangeError signal ].
 	selectionChangedEventClass := anEventClass
 ]
 

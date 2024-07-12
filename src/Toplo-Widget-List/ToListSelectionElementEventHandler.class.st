@@ -2,16 +2,10 @@ Class {
 	#name : #ToListSelectionElementEventHandler,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
-		'selectionMode'
+		'selectionGroupHolder'
 	],
 	#category : #'Toplo-Widget-List-Selection-Element'
 }
-
-{ #category : #accessing }
-ToListSelectionElementEventHandler class >> selectionMode: aSelectionMode [
-
-	^ self new selectionMode: aSelectionMode
-]
 
 { #category : #'element handlers' }
 ToListSelectionElementEventHandler >> boundsHasChangedDuringScrollingEvent: anEvent [
@@ -50,13 +44,13 @@ ToListSelectionElementEventHandler >> refreshSelectionFromEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	selectionMode refreshSelectionIn: target
+	selectionGroupHolder refreshSelectionIn: target
 ]
 
 { #category : #accessing }
-ToListSelectionElementEventHandler >> selectionMode: aSelectionMode [
+ToListSelectionElementEventHandler >> selectionGroupHolder: aSelectionGroupHolder [
 
-	selectionMode := aSelectionMode
+	selectionGroupHolder := aSelectionGroupHolder
 ]
 
 { #category : #'selection managing' }
@@ -73,5 +67,5 @@ ToListSelectionElementEventHandler >> updateSelectionFromEvent: anEvent [
 	target isAttachedToSceneGraph ifFalse: [
 		self differUpdateSelectionFrom: target.
 		^ self ].
-	selectionMode updateSelectionIn: target
+	selectionGroupHolder updateSelectionIn: target
 ]

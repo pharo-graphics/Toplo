@@ -8,9 +8,8 @@ Class {
 ToListSeparateSelection >> currentSelectionGroupsFrom: aListElement [
 
 	^ (aListElement innerContainer partlyVisibleNodesSelect: [ :node |
-		   selectionMode isSelectableNode: node ]) collect: [ :node |
+		   selectionModel containsIndex: node holder position ]) collect: [ :node |
 		  ToSeparateSelection new
-			  option: self;
 			  node: node ]
 ]
 

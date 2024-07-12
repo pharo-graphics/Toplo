@@ -8,9 +8,8 @@ Class {
 ToListGroupedSelection >> currentSelectionGroupsFrom: aListElement [
 
 	^ (aListElement innerContainer nodeGroupsSatisfying: [ :node |
-		   selectionMode isSelectableNode: node ]) collect: [ :arr |
+		   selectionModel containsIndex: node holder position ]) collect: [ :arr |
 		  ToNeighboringSelection new
-			  option: self;
 			  nodes: arr ]
 ]
 

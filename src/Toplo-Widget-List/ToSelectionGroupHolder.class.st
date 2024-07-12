@@ -4,6 +4,7 @@ Class {
 	#instVars : [
 		'groups',
 		'option',
+		'mode',
 		'previousSelectionBounds',
 		'animation'
 	],
@@ -84,7 +85,7 @@ ToSelectionGroupHolder >> canAnimateSelectionUpdate [
 ToSelectionGroupHolder >> createSelectionElementsFrom: aListElement [
 
 	groups do: [ :grp |
-		  grp refreshSelectionElementIn: aListElement ]
+		  grp refreshSelectionElementIn: aListElement option: option]
 ]
 
 { #category : #'private - selection updating' }
@@ -109,6 +110,12 @@ ToSelectionGroupHolder >> initialize [
 
 	super initialize.
 	groups := #(  )
+]
+
+{ #category : #accessing }
+ToSelectionGroupHolder >> mode: aListSelectionMode [
+
+	mode := aListSelectionMode
 ]
 
 { #category : #'private - selection updating' }

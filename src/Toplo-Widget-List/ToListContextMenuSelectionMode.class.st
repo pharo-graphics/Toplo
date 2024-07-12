@@ -10,18 +10,12 @@ ToListContextMenuSelectionMode >> defaultElementBuilder [
 	^ [ ToListContextMenuSelectionElement new ]
 ]
 
-{ #category : #'api - hooks' }
+{ #category : #initialization }
 ToListContextMenuSelectionMode >> defaultOption [
 
-	^ (ToListSelectionOption groupedForMode: self)
+	^ (ToListSelectionOption grouped)
 		  beneath: false;
 		  yourself
-]
-
-{ #category : #testing }
-ToListContextMenuSelectionMode >> isMultipleSelection [
-
-	^ true
 ]
 
 { #category : #initialization }
@@ -31,17 +25,17 @@ ToListContextMenuSelectionMode >> listEventHandlerClass [
 ]
 
 { #category : #'instance creation' }
-ToListContextMenuSelectionMode >> newSelecter [
+ToListContextMenuSelectionMode >> newListEventHandler [
 
-	^ ToListSelecter new
-		  selectionChangedEventClass: self selectionChangedEventClass;
-		  yourself
+	^ ToListContextMenuSelectionElementEventHandler new 
 ]
 
-{ #category : #'api - hooks' }
-ToListContextMenuSelectionMode >> newSelectionModel [
+{ #category : #'instance creation' }
+ToListContextMenuSelectionMode >> newSelecter [
 
-	^ listElement newSelectionModel
+	^ super newSelecter
+		  selectionChangedEventClass: self selectionChangedEventClass;
+		  yourself
 ]
 
 { #category : #'instance creation' }

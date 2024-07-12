@@ -4,12 +4,6 @@ Class {
 	#category : #'Toplo-Widget-Segmented'
 }
 
-{ #category : #testing }
-ToSegmentedSelectionMode >> isMultipleSelection [
-	
-	^ true
-]
-
 { #category : #'instance creation' }
 ToSegmentedSelectionMode >> listEventHandlerClass [
 
@@ -17,9 +11,15 @@ ToSegmentedSelectionMode >> listEventHandlerClass [
 ]
 
 { #category : #'instance creation' }
+ToSegmentedSelectionMode >> newListEventHandler [
+
+	^ ToListPrimarySelectionElementEventHandler new
+]
+
+{ #category : #'instance creation' }
 ToSegmentedSelectionMode >> newSelecter [
 
-	^ ToListSelecter new
+	^ super newSelecter
 		  selectionChangedEventClass: self selectionChangedEventClass;
 		  yourself
 ]

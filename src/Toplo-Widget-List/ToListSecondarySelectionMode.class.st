@@ -13,10 +13,10 @@ ToListSecondarySelectionMode >> defaultElementBuilder [
 	^ [ ToListSecondarySelectionElement new ]
 ]
 
-{ #category : #'api - hooks' }
+{ #category : #initialization }
 ToListSecondarySelectionMode >> defaultOption [
 
-	^ (ToListSelectionOption groupedForMode: self)
+	^ (ToListSelectionOption grouped)
 		  beneath: true;
 		  yourself
 ]
@@ -47,6 +47,12 @@ ToListSecondarySelectionMode >> multiple: aBoolean [
 	multiple := aBoolean.
 	selecter ifNil: [ ^ self ].
 	selecter multiple: aBoolean
+]
+
+{ #category : #'instance creation' }
+ToListSecondarySelectionMode >> newListEventHandler [
+
+	^ ToListSecondarySelectionElementEventHandler new
 ]
 
 { #category : #'instance creation' }

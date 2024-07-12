@@ -15,12 +15,6 @@ ToListSubSelectionMode class >> parentMode: aSelectionMode [
 		  initialize
 ]
 
-{ #category : #testing }
-ToListSubSelectionMode >> isMultipleSelection [
-
-	^ true
-]
-
 { #category : #'instance creation' }
 ToListSubSelectionMode >> newSelecter [
 

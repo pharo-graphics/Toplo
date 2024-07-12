@@ -2,6 +2,7 @@ Class {
 	#name : #ToListSelectionOption,
 	#superclass : #Object,
 	#instVars : [
+		'grouped',
 		'beneath',
 		'triggerSelectionState',
 		'animationDuration',
@@ -17,13 +18,13 @@ Class {
 { #category : #'instance creation' }
 ToListSelectionOption class >> grouped [
 
-	^ ToListGroupedSelection new
+	^ self new grouped: true
 ]
 
 { #category : #'instance creation' }
 ToListSelectionOption class >> separate [
 
-	^ ToListSeparateSelection new
+	^ self new grouped: false
 ]
 
 { #category : #'instance creation' }
@@ -65,7 +66,15 @@ ToListSelectionOption >> collectSelectionGroupsFrom: aListElement [
 { #category : #'nodes collecting' }
 ToListSelectionOption >> currentSelectionGroupsFrom: aListElement [
 
-	self subclassResponsibility 
+	^ grouped
+		  ifTrue: [
+			  (aListElement innerContainer nodeGroupsSatisfying: [ :node |
+				   selectionModel containsIndex: node holder position ]) collect: [
+				  :arr | ToNeighboringSelection new nodes: arr ] ]
+		  ifFalse: [
+			  (aListElement innerContainer nodesSelect: [ :node |
+				   selectionModel containsIndex: node holder position ]) collect: [
+				  :node | ToSeparateSelection new node: node ] ]
 ]
 
 { #category : #accessing }
@@ -78,6 +87,12 @@ ToListSelectionOption >> elementBuilder: aSelectionElementBuilderValuable [
 ToListSelectionOption >> groupHolder [ 
 
 	^ groupHolder 
+]
+
+{ #category : #accessing }
+ToListSelectionOption >> grouped: aBoolean [
+
+	grouped := aBoolean
 ]
 
 { #category : #initialization }
@@ -103,7 +118,7 @@ ToListSelectionOption >> isBeneath [
 { #category : #testing }
 ToListSelectionOption >> isGrouped [
 
-	^ false
+	^ grouped
 ]
 
 { #category : #testing }
@@ -115,7 +130,7 @@ ToListSelectionOption >> isOver [
 { #category : #testing }
 ToListSelectionOption >> isSeparate [
 
-	^ false
+	^ self isGrouped not
 ]
 
 { #category : #'instance creation' }

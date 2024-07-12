@@ -25,9 +25,9 @@ ToSegmentedSelectionMode >> newSelecter [
 ]
 
 { #category : #'instance creation' }
-ToSegmentedSelectionMode >> newSelectionModel [
+ToSegmentedSelectionMode >> newSelectionModelIn: aListElement [
 
-	^ listElement newPrimarySelectionModel
+	^ aListElement newPrimarySelectionModel
 ]
 
 { #category : #'instance creation' }

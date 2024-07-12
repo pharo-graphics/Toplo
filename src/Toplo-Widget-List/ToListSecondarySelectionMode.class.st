@@ -63,10 +63,10 @@ ToListSecondarySelectionMode >> newSelecter [
 		  yourself
 ]
 
-{ #category : #'api - hooks' }
-ToListSecondarySelectionMode >> newSelectionModel [
+{ #category : #'instance creation' }
+ToListSecondarySelectionMode >> newSelectionModelIn: aListElement [
 
-	^ listElement newSecondarySelectionModel 
+	^ aListElement newSecondarySelectionModel 
 ]
 
 { #category : #'instance creation' }

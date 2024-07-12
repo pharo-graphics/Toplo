@@ -89,14 +89,13 @@ ToBarElement >> horizontal: aBoolean [
 ToBarElement >> initialize [
 
 	super initialize.
-	selectionMode option: ((ToListSelectionOption separate)
-			 beneath: true;
-			 triggerSelectionState: true;
-			 yourself).
-	contextMenuSelectionMode option:
-		((ToListSelectionOption separate)
-			 beneath: false;
-			 yourself).
+	selectionMode option
+		grouped: false;
+		beneath: true;
+		triggerSelectionState: true.
+	contextMenuSelectionMode option
+		grouped: false;
+		beneath: false.
 	self configureLayout
 ]
 

@@ -113,10 +113,10 @@ ToListPrimarySelectionMode >> newSelecter [
 		  yourself
 ]
 
-{ #category : #'api - hooks' }
-ToListPrimarySelectionMode >> newSelectionModel [
+{ #category : #'instance creation' }
+ToListPrimarySelectionMode >> newSelectionModelIn: aListElement [
 
-	^ listElement newPrimarySelectionModel 
+	^ aListElement newPrimarySelectionModel 
 ]
 
 { #category : #accessing }

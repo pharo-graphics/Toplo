@@ -2,10 +2,8 @@ Class {
 	#name : #ToAbstractListSelectionMode,
 	#superclass : #Object,
 	#instVars : [
-		'listElement',
 		'selecter',
 		'enabled',
-		'elementBuilder',
 		'option'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
@@ -20,7 +18,7 @@ ToAbstractListSelectionMode >> defaultElementBuilder [
 { #category : #initialization }
 ToAbstractListSelectionMode >> defaultOption [
 
-	^ (ToListSelectionOption separate)
+	^ ToListSelectionOption separate
 		  beneath: false;
 		  yourself
 ]
@@ -29,19 +27,6 @@ ToAbstractListSelectionMode >> defaultOption [
 ToAbstractListSelectionMode >> disable [
 
 	self enabled: false
-]
-
-{ #category : #accessing }
-ToAbstractListSelectionMode >> elementBuilder [
-
-	^ elementBuilder 
-]
-
-{ #category : #accessing }
-ToAbstractListSelectionMode >> elementBuilder: aSelectionElementBuilderValuable [
-
-	elementBuilder := aSelectionElementBuilderValuable.
-	self optionDo: [ :opt | opt elementBuilder: aSelectionElementBuilderValuable ]
 ]
 
 { #category : #accessing }
@@ -69,25 +54,17 @@ ToAbstractListSelectionMode >> enabled: aBoolean [
 ToAbstractListSelectionMode >> initialize [
 
 	super initialize.
-	enabled := true.
-	elementBuilder := self defaultElementBuilder 
+	enabled := true
 ]
 
 { #category : #'api - hooks' }
-ToAbstractListSelectionMode >> installDefaultOption [
-
-	option := self defaultOption.
-	option onInstalledIn: self
-]
-
-{ #category : #'api - hooks' }
-ToAbstractListSelectionMode >> installSelecter [
+ToAbstractListSelectionMode >> installSelecterIn: aListElement [
 
 	selecter := self newSelecter.
 	selecter ifNil: [ ^ self ].
-	selecter selectionModel: self newSelectionModel.
+	selecter selectionModel: (self newSelectionModelIn: aListElement).
 	selecter
-		onInstalledIn: listElement;
+		onInstalledIn: aListElement;
 		enabled: self enabled;
 		multiple: self isMultipleSelection
 ]
@@ -122,16 +99,10 @@ ToAbstractListSelectionMode >> itemCount [
 	^ self selectionModel itemCount
 ]
 
-{ #category : #accessing }
-ToAbstractListSelectionMode >> listElement [ 
-
-	^ listElement 
-]
-
 { #category : #'instance creation' }
 ToAbstractListSelectionMode >> newListEventHandler [
 
-	^ nil
+	^ self subclassResponsibility 
 ]
 
 { #category : #'instance creation' }
@@ -141,28 +112,33 @@ ToAbstractListSelectionMode >> newSelecter [
 ]
 
 { #category : #'instance creation' }
-ToAbstractListSelectionMode >> newSelectionModel [
+ToAbstractListSelectionMode >> newSelectionModelIn: aListElement [
 
-	^ listElement newSelectionModel
+	^ aListElement newSelectionModel
 ]
 
 { #category : #'api - hooks' }
-ToAbstractListSelectionMode >> onInstalledIn: anElement [
+ToAbstractListSelectionMode >> onInstalledIn: aListElement [
 
-	listElement ifNotNil: [ Error signal: 'A selection mode can be installed only once' ].
-	listElement := anElement.
-	self installSelecter.
+	option ifNotNil: [
+		Error signal: 'A selection mode can be installed only once' ].
+
+	self installSelecterIn: aListElement.
+
 	option := self defaultOption.
-	option onInstalledIn: self
+	option
+		elementBuilder: self defaultElementBuilder;
+		selectionModel: self selectionModel;
+		listEventHandler: self newListEventHandler.
+	option onInstalledIn: aListElement
 ]
 
 { #category : #'api - hooks' }
-ToAbstractListSelectionMode >> onUninstalledIn: anElement [
+ToAbstractListSelectionMode >> onUninstalledIn: aListElement [
 
-	option onUninstalledIn: self.
-	self uninstallSelecter.
-	option := nil.
-	listElement := nil
+	option onUninstalledIn: aListElement.
+	self uninstallSelecterIn: aListElement.
+	option := nil
 ]
 
 { #category : #accessing }
@@ -175,21 +151,6 @@ ToAbstractListSelectionMode >> operator [
 ToAbstractListSelectionMode >> option [
 
 	^ option 
-]
-
-{ #category : #accessing }
-ToAbstractListSelectionMode >> option: aListSelectionOption [
-
-	option onUninstalledIn: self.
-	option := aListSelectionOption.
-	option onInstalledIn: self
-]
-
-{ #category : #accessing }
-ToAbstractListSelectionMode >> optionDo: aBlock [
-
-	option ifNil: [ ^ self ].
-	aBlock value: option 
 ]
 
 { #category : #accessing }
@@ -219,7 +180,7 @@ ToAbstractListSelectionMode >> selecter: aSelecter [
 { #category : #'instance creation' }
 ToAbstractListSelectionMode >> selectionChangedEventClass [ 
 
-	^ nil
+	^ self subclassResponsibility 
 ]
 
 { #category : #accessing }
@@ -235,8 +196,8 @@ ToAbstractListSelectionMode >> selectionModel [
 ]
 
 { #category : #'api - hooks' }
-ToAbstractListSelectionMode >> uninstallSelecter [
+ToAbstractListSelectionMode >> uninstallSelecterIn: aListElement [
 
-	selecter onUninstalledIn: listElement.
+	selecter onUninstalledIn: aListElement.
 	selecter := nil
 ]

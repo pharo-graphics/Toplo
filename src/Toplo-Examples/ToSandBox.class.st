@@ -1398,13 +1398,11 @@ ToSandBox class >> example_PicsumPhotosGallery [
 		nodeFactory: [ ToPicsumPhotosGalleryImageNode new ];
 		nodeBuilder: [ :node :holder :dataItem |
 			node labelString: dataItem id ].
-	list selectionMode option:
-		((ToListSelectionOption separate)
-			 beneath: false;
-			 triggerSelectionState: true;
-			 yourself).
-	list selectionMode elementBuilder: [ 
-		ToPicsumPhotosGallerySelectionElement new ].
+	list selectionMode option
+		grouped: false;
+		beneath: false;
+		triggerSelectionState: true;
+		elementBuilder: [ ToPicsumPhotosGallerySelectionElement new ].
 
 	[
 	| allImagesData |
@@ -5427,17 +5425,21 @@ ToSandBox class >> labeledIconlWithIconAndText [
 { #category : #list }
 ToSandBox class >> listWithEditableAndContextMenu [
 
-	| l selectionMenu menuFactory phtext |
+	| l selectionMenu menuFactory phtext disabledMode unselectableMode |
 	l := ToListElement new.
+
 	l newHiddenSelectionMode onInstalledIn: l.
-	l newDisabledSelectionMode
-		elementBuilder: [ ToListDisabledSelectionElement new ];
-		onInstalledIn: l.
-	l newUnselectableSelectionMode
-		elementBuilder: [
-			ToListUnselectableSelectionElement new defaultSkin:
-					ToListUnselectableSelectionElementExempleSkin new ];
-		onInstalledIn: l.
+	disabledMode := l newDisabledSelectionMode.
+	disabledMode onInstalledIn: l.
+	disabledMode option elementBuilder: [
+		ToListDisabledSelectionElement new ].
+	
+	unselectableMode := l newUnselectableSelectionMode.
+	unselectableMode onInstalledIn: l.
+
+	unselectableMode option elementBuilder: [
+		ToListUnselectableSelectionElement new defaultSkin:
+			ToListUnselectableSelectionElementExempleSkin new ].
 
 	phtext := (('Invoke the context menu ' , String cr
 	            , 'with a right-click' , String cr
@@ -5521,16 +5523,16 @@ ToSandBox class >> listWithEditableAndContextMenu [
 				               menu addItem: (ToMenuItem new
 						                labelText: 'stop selection transition animation';
 						                whenClickedDo: [ :event |
-							                target selectionMode option
-								                animationDuration: 0 milliSeconds ];
+							                target selectionMode option animationDuration:
+									                0 milliSeconds ];
 						                yourself) ]
 			               ifFalse: [
 				               menu addItem: (ToMenuItem new
 						                labelText:
 							                'start selection transition animation';
 						                whenClickedDo: [ :event |
-							                target selectionMode option
-								                animationDuration: 200 milliSeconds ];
+							                target selectionMode option animationDuration:
+									                200 milliSeconds ];
 						                yourself) ] ].
 	               indexes ifNotEmpty: [
 		               selectionMenu := ToMenu new.

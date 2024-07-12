@@ -25,8 +25,8 @@ ToListSubSelectionMode >> newSelecter [
 		  yourself
 ]
 
-{ #category : #'api - hooks' }
-ToListSubSelectionMode >> newSelectionModel [
+{ #category : #'instance creation' }
+ToListSubSelectionMode >> newSelectionModelIn: aListElement [
 
 	^ ToSubSelectionModel new
 ]

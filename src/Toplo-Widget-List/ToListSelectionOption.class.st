@@ -138,6 +138,12 @@ ToListSelectionOption >> isSeparate [
 	^ self isGrouped not
 ]
 
+{ #category : #accessing }
+ToListSelectionOption >> listEventHandler: aListEventHandler [
+
+	listEventHandler := aListEventHandler
+]
+
 { #category : #'instance creation' }
 ToListSelectionOption >> newSelectionContainerIn: anElement [
 
@@ -162,25 +168,21 @@ ToListSelectionOption >> newSelectionElementIn: aListElement [
 ]
 
 { #category : #'api - hooks' }
-ToListSelectionOption >> onInstalledIn: aSelectionMode [
+ToListSelectionOption >> onInstalledIn: aListElement [
 
-	elementBuilder := aSelectionMode elementBuilder.
-	selectionModel := aSelectionMode selectionModel.
 	groupHolder := ToSelectionGroupHolder new.
 	groupHolder option: self.
-	
-	listEventHandler := aSelectionMode newListEventHandler.
 	listEventHandler selectionGroupHolder: groupHolder.
-	aSelectionMode listElement addEventHandler: listEventHandler.
+	aListElement addEventHandler: listEventHandler.
 
-	selectionContainer := self newSelectionContainerIn: aSelectionMode listElement.
-	aSelectionMode listElement addChild: selectionContainer
+	selectionContainer := self newSelectionContainerIn: aListElement.
+	aListElement addChild: selectionContainer
 ]
 
 { #category : #'api - hooks' }
-ToListSelectionOption >> onUninstalledIn: aSelectionMode [
+ToListSelectionOption >> onUninstalledIn: aListElement [
 
-	aSelectionMode listElement removeEventHandler: listEventHandler.
+	aListElement removeEventHandler: listEventHandler.
 	selectionContainer removeFromParent.
 	selectionContainer := nil.
 	listEventHandler := nil.
@@ -206,6 +208,12 @@ ToListSelectionOption >> selectionElements [
 
 	^ selectionContainer children select: [ :child |
 		  child isKindOf: ToListSelectionElement ]
+]
+
+{ #category : #accessing }
+ToListSelectionOption >> selectionModel: aSelectionModel [
+
+	selectionModel := aSelectionModel
 ]
 
 { #category : #testing }

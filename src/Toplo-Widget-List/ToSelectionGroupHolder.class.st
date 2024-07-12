@@ -4,7 +4,6 @@ Class {
 	#instVars : [
 		'groups',
 		'option',
-		'mode',
 		'previousSelectionBounds',
 		'animation'
 	],
@@ -110,12 +109,6 @@ ToSelectionGroupHolder >> initialize [
 
 	super initialize.
 	groups := #(  )
-]
-
-{ #category : #accessing }
-ToSelectionGroupHolder >> mode: aListSelectionMode [
-
-	mode := aListSelectionMode
 ]
 
 { #category : #'private - selection updating' }

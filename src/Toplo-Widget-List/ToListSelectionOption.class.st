@@ -54,7 +54,12 @@ ToListSelectionOption >> animationDuration: aDuration [
 { #category : #accessing }
 ToListSelectionOption >> beneath: aBoolean [
 
-	beneath := aBoolean
+	beneath := aBoolean.
+	selectionContainer ifNotNil: [ | elevation |
+	elevation := beneath
+		             ifTrue: [ BlRelativeElevation elevation: 5 ]
+		             ifFalse: [ BlRelativeElevation elevation: 15 ].
+	selectionContainer elevation: elevation ]
 ]
 
 { #category : #'nodes collecting' }
@@ -163,7 +168,6 @@ ToListSelectionOption >> onInstalledIn: aSelectionMode [
 	selectionModel := aSelectionMode selectionModel.
 	groupHolder := ToSelectionGroupHolder new.
 	groupHolder option: self.
-	groupHolder mode: aSelectionMode.
 	
 	listEventHandler := aSelectionMode newListEventHandler.
 	listEventHandler selectionGroupHolder: groupHolder.

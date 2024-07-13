@@ -141,7 +141,7 @@ ToAnchoredWindow >> popupEvent: anEvent [
 			            self open.
 			            self localTheme ifNil: [
 				            self localTheme: self element lookupTheme ].
-			            popupTimestamp := DateAndTime now.
+			            popupTimestamp := self space time now.
 			            self dispatchOpenedEvent: anEvent ].
 		            self toFront.
 		            self checkBeforePopupEvent: anEvent.

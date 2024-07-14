@@ -31,5 +31,5 @@ ToSelectListElementEventHandler >> sieveSelectionChangedEvent: anEvent [
 			transferSelectionFromIndex: localIndex
 			toIndex: originalIndex
 			in: select selectionModel ].
-	select onSelectionChangedInListElement
+	select onSelectionChangedInListElement: anEvent
 ]

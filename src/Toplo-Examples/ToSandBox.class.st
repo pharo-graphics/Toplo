@@ -1666,7 +1666,7 @@ ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
 
 	select inputTextField requestFocus.
 	select openInSpace.
-	select inspect
+	"select inspect"
 ]
 
 { #category : #select }

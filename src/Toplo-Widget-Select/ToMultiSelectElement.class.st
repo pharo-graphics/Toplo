@@ -3,7 +3,8 @@ Class {
 	#superclass : #ToSelectElement,
 	#instVars : [
 		'hideSelected',
-		'maxSelectedCount'
+		'maxSelectedCount',
+		'keepListOrder'
 	],
 	#category : #'Toplo-Widget-Select-Multi'
 }
@@ -63,13 +64,21 @@ ToMultiSelectElement >> initialize [
 
 	super initialize.
 	hideSelected := false.
-	maxSelectedCount := 0
+	maxSelectedCount := 0.
+	keepListOrder := false
+	
 ]
 
 { #category : #'instance creation' }
 ToMultiSelectElement >> innerContainerClass [
 
 	^ ToMultiSelectBarElement
+]
+
+{ #category : #accessing }
+ToMultiSelectElement >> keepListOrder: aBoolean [
+
+	keepListOrder := aBoolean
 ]
 
 { #category : #accessing }
@@ -126,23 +135,6 @@ ToMultiSelectElement >> nodeScrolling: aBoolean [
 ToMultiSelectElement >> nodeWrapping: aBoolean [
 
 	self innerContainer nodeWrapping: aBoolean
-]
-
-{ #category : #'accessing - selection' }
-ToMultiSelectElement >> onSelectionChanged [
-
-	| listData |
-	listData := self listElement dataAccessor.
-	" update list according to my selection model"
-	listData withIndexDo: [ :d :localIndex |
-		| originalIndex |
-		originalIndex := self sieve originalIndexOf: d.
-		self selectionModel
-			transferSelectionFromIndex: originalIndex
-			toIndex: localIndex
-			in: self listElement selectionModel ].
-	self refresh.
-	self listElement notifyPrimarySelectionDirty
 ]
 
 { #category : #'accessing - list' }

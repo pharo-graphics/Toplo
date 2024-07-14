@@ -18,6 +18,20 @@ ToMultiSelectBarElement class >> onSelectElement: aSelectElement [
 		  initialize
 ]
 
+{ #category : #private }
+ToMultiSelectBarElement >> addedIndexesFromListElement: anArray [
+	" first remove all data nodes "
+
+	| sieve |
+	self selecter deselectAll.
+	self dataAccessor removeAll.
+	sieve := self windowManager sieve.
+	sieve selectionModel selectedIndexesDo: [ :idx |
+		self dataAccessor add: (ToMultiSelectDataItem index: idx) ].
+	self checkHideSelectionFromListElement.
+	self checkMaxSelectedCountFromListElement
+]
+
 { #category : #'accessing - selection' }
 ToMultiSelectBarElement >> allowSelectedCount: aNumber [
 
@@ -97,7 +111,6 @@ ToMultiSelectBarElement >> haveFullyInvisibleNodes: theInvisibleNodes [
 	
 	" now cumulate invisible nodes in a composite holder "
 	shower := ToMultiSelectCompositeDataItem new.
-	shower bar: self.
 	shower dataItems: (invisibleNodes collect: [:n | n holder dataItem]).
 	finalCount := self nodesCount - visibleNodes size.
 	shower content: '+ ' , finalCount asString, ' ...'.
@@ -174,6 +187,20 @@ ToMultiSelectBarElement >> nodesSelect: aBlock [
 
 { #category : #'t - select inner container' }
 ToMultiSelectBarElement >> refresh [
+	" first remove all data nodes "
+
+	| sieve |
+	self selecter deselectAll.
+	self dataAccessor removeAll.
+	sieve := self windowManager sieve.
+	sieve selectionModel selectedIndexesDo: [ :idx |
+		self dataAccessor add: (ToMultiSelectDataItem index: idx) ].
+	self checkHideSelectionFromListElement.
+	self checkMaxSelectedCountFromListElement
+]
+
+{ #category : #private }
+ToMultiSelectBarElement >> removedIndexesFromListElement: anArray [
 	" first remove all data nodes "
 
 	| sieve |

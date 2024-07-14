@@ -184,9 +184,9 @@ ToSelectElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 ]
 
 { #category : #'accessing - selection' }
-ToSelectElement >> onSelectionChangedInListElement [
+ToSelectElement >> onSelectionChangedInListElement: anEvent [
 
-	self innerContainer onSelectionChangedInSelectElement
+	self innerContainer onSelectionChangedInSelectElement: anEvent
 ]
 
 { #category : #window }

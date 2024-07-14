@@ -22,9 +22,19 @@ TToSelectInnerContainerElement >> isMultipleSelection [
 ]
 
 { #category : #'t - select inner container' }
-TToSelectInnerContainerElement >> onSelectionChangedInSelectElement [
+TToSelectInnerContainerElement >> onSelectionChangedInSelectElement: anEvent [
+
+	| added removed |
 
 	self selectElement showHidePlaceholder.
+	added := anEvent touchedIndexes select: [ :idx |
+		         self selectionModel containsIndex: idx ].
+	removed := anEvent touchedIndexes select: [ :idx |
+		           (self selectionModel containsIndex: idx) not ].
+	
+	self removedIndexesFromListElement: removed.
+	self addedIndexesFromListElement: added.
+
 	self refresh.
 	self requestLayout
 ]

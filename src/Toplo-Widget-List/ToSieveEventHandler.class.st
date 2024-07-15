@@ -22,6 +22,8 @@ ToSieveEventHandler >> listElement: aSievedListElement [
 
 { #category : #'api - accessing' }
 ToSieveEventHandler >> listPrimarySelectionChangedEvent: anEvent [
+	" I'm sent when the selecter of my sieve is used directly for a selection operation
+	as an example, to intialize some selected elements programmatically "
 
 	| touchedIndexes |
 	anEvent currentTarget pattern
@@ -37,13 +39,14 @@ ToSieveEventHandler >> listPrimarySelectionChangedEvent: anEvent [
 				sieveSelectionModel
 					transferSelectionFromIndex: originalIndex
 					toIndex: localIndex
-					in: listElement selectionModel ]  ].
+					in: listElement selectionModel ] ].
 
 	" dispatch a specific, different from the primary selection change event that will be sent after.
 	It is useful for sieve list user that relies on the sieve internal selection to adapt themeself 
 	according to the sieve selection"
 	listElement dispatchEvent: (ToSieveSelectionChangedEvent new
 			 sieve: anEvent currentTarget;
+			 sourceCommand: anEvent command;
 			 touchedIndexes: touchedIndexes asArray;
 			 selectionModel: sieveSelectionModel;
 			 yourself).

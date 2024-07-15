@@ -69,6 +69,7 @@ ToMultiSelectBarNode >> installRawStyle [
 
 	super installRawStyle.
 	self isRemovable ifTrue: [ self addRemoveButton ].
+	self constraintsDo: [ :c | c linear vertical alignCenter ].
 	self middleContainer padding: (BlInsets left: 3 right: 3).
 	self padding: (BlInsets horizontal: 2 vertical: 2).
 	self isFake

@@ -21,3 +21,15 @@ ToRemoveSelectionOperation >> applyWholeSelection: aSelectionCommand on: anObjec
 
 	anObject removeWholeSelectionCommand: aSelectionCommand
 ]
+
+{ #category : #testing }
+ToRemoveSelectionOperation >> isAdd [ 
+
+	^ false
+]
+
+{ #category : #testing }
+ToRemoveSelectionOperation >> isRemove [
+
+	^ true
+]

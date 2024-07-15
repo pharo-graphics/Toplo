@@ -1152,7 +1152,7 @@ ToSandBox class >> example_List2WithSelectionHistory [
 		(ToListSelectionHistoryEventHandlerExample new historyList:
 			 historyList).
 	statesList addEventHandler: (BlEventHandler
-			 on: ToSelectionCommandAppliedEvent
+			 on: ToListSelectionCommandAppliedEvent
 			 do: [ :event | event traceCr ]).
 
 	pane
@@ -1647,6 +1647,8 @@ ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
 
 	| select   |
 	select := ToMultiSelectElement new.
+	select nodeWrapping: false.
+	select keepPickOrder: true.
 	self buildSelectListElementIn: select withIconProvider: ToMaterialDesignIconProvider.
 
 	select filtrable: true.
@@ -1665,8 +1667,7 @@ ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
 		('Select icons' asRopedText foreground: Color red).
 
 	select inputTextField requestFocus.
-	select openInSpace.
-	"select inspect"
+	select openInSpace
 ]
 
 { #category : #select }
@@ -1689,7 +1690,7 @@ ToSandBox class >> example_SelectMonoFiltrable [
 
 	select filtrable: true.
 	select dataAccessor addAll: self statesOfAmerica.
-	select selecter selectIndex: 2.
+	"select selecter selectIndex: 2."
 	select placeholderText:
 		('Select a state' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
@@ -1746,6 +1747,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	select windowManager anchorRoot: innerWindow root.
 	select width: 300.
 	select position: 50 @ 10.
+	select selecter selectIndex: 2.
 	innerWindow pane addChild: select.
 	innerWindow height: 600.
 	innerWindow openInSpace.
@@ -1805,6 +1807,28 @@ ToSandBox class >> example_SelectMultiFiltrableNoWrapping [
 	select := ToMultiSelectElement new.
 	select inspect.
 	select maxSelectedCount: 6.
+	select nodeWrapping: false.
+	select hideSelected: false.
+	select dataAccessor addAll: self statesOfAmerica.
+	select filtrable: true.
+	select popupMaxHeight: 200.
+	select placeholderText:
+		('Select states' asRopedText foreground: Color red).
+	innerWindow := ToInnerWindow new.
+	select windowManager anchorRoot: innerWindow root.
+	select hMatchParent.
+	innerWindow pane addChild: select.
+	innerWindow height: 600.
+	innerWindow openInSpace
+]
+
+{ #category : #select }
+ToSandBox class >> example_SelectMultiFiltrableNoWrappingKeepPickOrder [
+
+	| select innerWindow |
+	select := ToMultiSelectElement new.
+	select inspect.
+	select keepPickOrder: true.
 	select nodeWrapping: false.
 	select hideSelected: false.
 	select dataAccessor addAll: self statesOfAmerica.

@@ -39,7 +39,7 @@ ToListSelectionHistoryEventHandlerExample >> addWholeSelectionCommand: aCommand 
 { #category : #'api - accessing' }
 ToListSelectionHistoryEventHandlerExample >> eventsToHandle [
 
-	^ { ToSelectionCommandAppliedEvent }
+	^ { ToListSelectionCommandAppliedEvent }
 ]
 
 { #category : #accessing }
@@ -52,6 +52,17 @@ ToListSelectionHistoryEventHandlerExample >> historyList [
 ToListSelectionHistoryEventHandlerExample >> historyList: aList [
 
 	historyList := aList
+]
+
+{ #category : #'event handling' }
+ToListSelectionHistoryEventHandlerExample >> listSelectionCommandAppliedEvent: aCommandAppliedEvent [
+
+	currentTarget := aCommandAppliedEvent currentTarget.
+	" check that the command is applied on the primary selection model "
+	aCommandAppliedEvent selectionModel
+	= currentTarget selectionModel ifFalse: [ ^ self ].
+	aCommandAppliedEvent command applyWithOperator: self.
+	currentTarget := nil
 ]
 
 { #category : #'event handling' }
@@ -73,15 +84,4 @@ ToListSelectionHistoryEventHandlerExample >> removeIntervalSelectionCommand: aCo
 ToListSelectionHistoryEventHandlerExample >> removeWholeSelectionCommand: aCommand [
 
 	historyList dataAccessor removeAll
-]
-
-{ #category : #'event handling' }
-ToListSelectionHistoryEventHandlerExample >> selectionCommandAppliedEvent: aCommandAppliedEvent [
-
-	currentTarget := aCommandAppliedEvent currentTarget.
-	" check that the command is applied on the primary selection model "
-	aCommandAppliedEvent command selectionModel
-	= currentTarget selectionModel ifFalse: [ ^ self ].
-	aCommandAppliedEvent command applyWithOperator: self.
-	currentTarget := nil
 ]

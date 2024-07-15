@@ -36,3 +36,15 @@ ToAddSelectionOperation >> deselectAllBefore: aBoolean [
 
 	deselectAllBefore := aBoolean
 ]
+
+{ #category : #testing }
+ToAddSelectionOperation >> isAdd [ 
+
+	^ true
+]
+
+{ #category : #testing }
+ToAddSelectionOperation >> isRemove [
+
+	^ false
+]

@@ -3,6 +3,7 @@ Class {
 	#superclass : #ToAbstractMultiSelectDataItem,
 	#instVars : [
 		'dataItems',
+		'indexes',
 		'content'
 	],
 	#category : #'Toplo-Widget-Select-Multi'
@@ -29,7 +30,25 @@ ToMultiSelectCompositeDataItem >> dataItems [
 { #category : #accessing }
 ToMultiSelectCompositeDataItem >> dataItems: aCollection [
 
-	dataItems := aCollection
+	dataItems := aCollection asArray
+]
+
+{ #category : #accessing }
+ToMultiSelectCompositeDataItem >> index [
+
+	^ -1
+]
+
+{ #category : #accessing }
+ToMultiSelectCompositeDataItem >> indexes [
+
+	^ indexes
+]
+
+{ #category : #accessing }
+ToMultiSelectCompositeDataItem >> indexes: aCollection [
+
+	indexes := aCollection asArray
 ]
 
 { #category : #testing }
@@ -40,10 +59,6 @@ ToMultiSelectCompositeDataItem >> isComposite [
 
 { #category : #accessing }
 ToMultiSelectCompositeDataItem >> nodesCount [ 
-
-	| count |
-	count := 0.
-	dataItems do: [ :d |
-		count := count + d nodesCount ].
-	^ count
+	
+	^ dataItems size
 ]

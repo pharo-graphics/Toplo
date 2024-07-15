@@ -9,6 +9,12 @@ Class {
 	#category : #'Toplo-Examples'
 }
 
+{ #category : #converting }
+ToIconDescExample >> asString [
+
+	^ style prefix, ' ', name
+]
+
 { #category : #accessing }
 ToIconDescExample >> icon [
 

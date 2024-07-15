@@ -2,7 +2,8 @@ Class {
 	#name : #ToMultiSelectDataItem,
 	#superclass : #ToAbstractMultiSelectDataItem,
 	#instVars : [
-		'index'
+		'index',
+		'pickOrder'
 	],
 	#category : #'Toplo-Widget-Select-Multi'
 }
@@ -26,7 +27,25 @@ ToMultiSelectDataItem >> index: anInteger [
 ]
 
 { #category : #accessing }
+ToMultiSelectDataItem >> indexes [
+
+	^ Array with: index
+]
+
+{ #category : #accessing }
 ToMultiSelectDataItem >> nodesCount [
 
 	^ 1
+]
+
+{ #category : #accessing }
+ToMultiSelectDataItem >> pickOrder [
+
+	^ pickOrder
+]
+
+{ #category : #accessing }
+ToMultiSelectDataItem >> pickOrder: anInteger [
+
+	pickOrder := anInteger
 ]

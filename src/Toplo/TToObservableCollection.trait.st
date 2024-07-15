@@ -536,6 +536,18 @@ TToObservableCollection >> removeAll [
 ]
 
 { #category : #'t - observable collection - removing' }
+TToObservableCollection >> removeAllSuchThat: aBlock [
+
+	| s indexes |
+	s := self collection size.
+	s isZero ifTrue: [ ^ self ].
+	indexes := Array streamContents: [ :stream |
+		           self collection withIndexDo: [ :elem :idx |
+			           (aBlock value: elem) ifTrue: [ stream nextPut: idx ] ] ].
+	indexes do: [ :idx | self removeAt: idx ]
+]
+
+{ #category : #'t - observable collection - removing' }
 TToObservableCollection >> removeAt: removedIndex [
 
 	| interval removed |

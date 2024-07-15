@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'hideSelected',
 		'maxSelectedCount',
-		'keepListOrder'
+		'keepPickOrder'
 	],
 	#category : #'Toplo-Widget-Select-Multi'
 }
@@ -64,9 +64,7 @@ ToMultiSelectElement >> initialize [
 
 	super initialize.
 	hideSelected := false.
-	maxSelectedCount := 0.
-	keepListOrder := false
-	
+	maxSelectedCount := 0
 ]
 
 { #category : #'instance creation' }
@@ -76,9 +74,15 @@ ToMultiSelectElement >> innerContainerClass [
 ]
 
 { #category : #accessing }
-ToMultiSelectElement >> keepListOrder: aBoolean [
+ToMultiSelectElement >> keepPickOrder [
 
-	keepListOrder := aBoolean
+	^ keepPickOrder ifNil: [ keepPickOrder := false ]
+]
+
+{ #category : #accessing }
+ToMultiSelectElement >> keepPickOrder: aBoolean [
+
+	keepPickOrder := aBoolean
 ]
 
 { #category : #accessing }

@@ -7,6 +7,12 @@ Class {
 	#category : #'Toplo-Widget-List-Command'
 }
 
+{ #category : #testing }
+ToSelectionCommandAppliedEvent class >> isDeprecated [ 
+
+	^ true
+]
+
 { #category : #accessing }
 ToSelectionCommandAppliedEvent >> command [
 

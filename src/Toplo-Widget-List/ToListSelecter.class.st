@@ -52,17 +52,13 @@ ToListSelecter >> beSingleSelection [
 ToListSelecter >> commandApplied: aCommand [
 
 	| req |
-	eventTarget dispatchEvent: (ToSelectionCommandAppliedEvent new
-			 command: aCommand;
-			 yourself).
-
+	selectionChangedEventClass ifNil: [ ^ self ].
+	
 	req := ToListSelectionCommandAppliedEvent new
 		       command: aCommand;
 		       requestedAction: [
 			       eventTarget dispatchEvent: (selectionChangedEventClass new
-						        selectionModel: aCommand selectionModel;
-						        touchedIndexes: aCommand indexes;
-						        touchedIntervals: aCommand intervals;
+						        command: aCommand;
 						        yourself) ];
 		       yourself.
 
@@ -464,15 +460,8 @@ ToListSelecter >> selectedIndexes [
 ]
 
 { #category : #accessing }
-ToListSelecter >> selectionChangedEventClass [
-
-	^ selectionChangedEventClass
-]
-
-{ #category : #accessing }
 ToListSelecter >> selectionChangedEventClass: anEventClass [
 
-	selectionChangedEventClass ifNotNil: [ BlImmutableObjectChangeError signal ].
 	selectionChangedEventClass := anEventClass
 ]
 

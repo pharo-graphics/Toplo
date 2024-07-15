@@ -4,18 +4,16 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
-{ #category : #'api - hooks' }
-ToListUnselectableSelectionMode >> defaultOption [
-
-	^ (ToListSelectionOption separateForMode: self)
-		  beneath: false;
-		  yourself
-]
-
 { #category : #initialization }
 ToListUnselectableSelectionMode >> listEventHandlerClass [
 
 	^ ToListUnselectableSelectionElementEventHandler 
+]
+
+{ #category : #'instance creation' }
+ToListUnselectableSelectionMode >> newListEventHandler [
+
+	^ ToListUnselectableSelectionElementEventHandler new
 ]
 
 { #category : #'instance creation' }

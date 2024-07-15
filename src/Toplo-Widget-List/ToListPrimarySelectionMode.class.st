@@ -39,12 +39,13 @@ ToListPrimarySelectionMode >> defaultElementBuilder [
 	^ [ ToListPrimarySelectionElement new ]
 ]
 
-{ #category : #'api - hooks' }
+{ #category : #initialization }
 ToListPrimarySelectionMode >> defaultOption [
 
-	^ (ToListSelectionOption groupedForMode: self)
+	^ (ToListSelectionOption grouped)
 		  beneath: true;
-		  triggerSelectionState: true yourself
+		  triggerSelectionState: true;
+		 yourself
 ]
 
 { #category : #initialization }
@@ -67,13 +68,6 @@ ToListPrimarySelectionMode >> isMultipleSelection [
 ToListPrimarySelectionMode >> isPrimary [ 
 
 	^ true
-]
-
-{ #category : #testing }
-ToListPrimarySelectionMode >> isSelectableNode: aNode [
-
-	^ aNode holder isSelectable and: [
-		  self selectionModel containsIndex: aNode holder position ]
 ]
 
 { #category : #initialization }
@@ -106,6 +100,12 @@ ToListPrimarySelectionMode >> multiple: aBoolean [
 ]
 
 { #category : #'instance creation' }
+ToListPrimarySelectionMode >> newListEventHandler [
+
+	^ ToListPrimarySelectionElementEventHandler new
+]
+
+{ #category : #'instance creation' }
 ToListPrimarySelectionMode >> newSelecter [
 
 	^ ToPrimarySelecter new
@@ -113,10 +113,10 @@ ToListPrimarySelectionMode >> newSelecter [
 		  yourself
 ]
 
-{ #category : #'api - hooks' }
-ToListPrimarySelectionMode >> newSelectionModel [
+{ #category : #'instance creation' }
+ToListPrimarySelectionMode >> newSelectionModelIn: aListElement [
 
-	^ listElement newPrimarySelectionModel 
+	^ aListElement newPrimarySelectionModel 
 ]
 
 { #category : #accessing }

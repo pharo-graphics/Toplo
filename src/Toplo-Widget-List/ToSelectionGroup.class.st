@@ -2,7 +2,6 @@ Class {
 	#name : #ToSelectionGroup,
 	#superclass : #Object,
 	#instVars : [
-		'option',
 		'cachedSelectionElement',
 		'preComputedBounds'
 	],
@@ -45,9 +44,9 @@ ToSelectionGroup >> computeSelectionElementBoundsIn: aListElement [
 ]
 
 { #category : #'private - selection element' }
-ToSelectionGroup >> createSelectionElementIn: aListElement [
+ToSelectionGroup >> createSelectionElementIn: aListElement option: aSelectionOption [
 
-	cachedSelectionElement := option newSelectionElement.
+	cachedSelectionElement := aSelectionOption newSelectionElementIn: aListElement.
 	cachedSelectionElement nodes: self nodes.
 	self computeSelectionElementBoundsIn: aListElement
 ]
@@ -59,22 +58,16 @@ ToSelectionGroup >> nodes [
 ]
 
 { #category : #accessing }
-ToSelectionGroup >> option: aSelectionOption [
-
-	option := aSelectionOption
-]
-
-{ #category : #accessing }
 ToSelectionGroup >> preComputedBounds [
 
 	^ preComputedBounds  
 ]
 
 { #category : #'private - selection element' }
-ToSelectionGroup >> refreshSelectionElementIn: aListElement [
+ToSelectionGroup >> refreshSelectionElementIn: aListElement option: aSelectionOption [
 
 	cachedSelectionElement ifNil: [
-		self createSelectionElementIn: aListElement.
+		self createSelectionElementIn: aListElement option: aSelectionOption.
 		^ self ].
 	self computeSelectionElementBoundsIn: aListElement.
 	cachedSelectionElement := self updatedSelectionElementIn: aListElement

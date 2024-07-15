@@ -161,9 +161,15 @@ ToListElementStresserWithAdditionalSelecters >> newListElement [
 			     holder isDisabled ifTrue: [
 					     node background: (Color veryLightGray alpha: 0.5) ] ];
 		     yourself.
+	"
 	l newDisabledSelectionMode onInstalledIn: l.
 	l newUnselectableSelectionMode onInstalledIn: l.
-	l newHiddenSelectionMode onInstalledIn: l.
+	l withHiddenSelecter.
+	"
+	l
+		withHiddenSelecter;
+		withUnselectableSelecter;
+		withDisabledSelecter.
 
 	^ l
 ]

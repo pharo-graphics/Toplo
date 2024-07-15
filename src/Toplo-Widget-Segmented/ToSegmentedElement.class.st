@@ -46,8 +46,7 @@ ToSegmentedElement >> initialize [
 	super initialize.
 	self group
 		addEventHandlerOn: ToCheckableGroupChangedEvent
-		do: [ :event | self dispatchEvent: event ].
-	self selectionMode option: nil
+		do: [ :event | self dispatchEvent: event ]
 ]
 
 { #category : #layout }

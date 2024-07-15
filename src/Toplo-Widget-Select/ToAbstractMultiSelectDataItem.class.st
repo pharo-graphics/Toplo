@@ -1,22 +1,13 @@
 Class {
 	#name : #ToAbstractMultiSelectDataItem,
 	#superclass : #Object,
-	#instVars : [
-		'bar'
-	],
 	#category : #'Toplo-Widget-Select-Multi'
 }
 
 { #category : #accessing }
-ToAbstractMultiSelectDataItem >> bar [
+ToAbstractMultiSelectDataItem >> indexes [
 
-	^ bar
-]
-
-{ #category : #accessing }
-ToAbstractMultiSelectDataItem >> bar: aBarElement [
-
-	bar := aBarElement
+	^ self subclassResponsibility 
 ]
 
 { #category : #testing }

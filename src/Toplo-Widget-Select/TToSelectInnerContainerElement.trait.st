@@ -22,9 +22,8 @@ TToSelectInnerContainerElement >> isMultipleSelection [
 ]
 
 { #category : #'t - select inner container' }
-TToSelectInnerContainerElement >> onSelectionChangedInSelectElement [
+TToSelectInnerContainerElement >> onSelectionChangedInSelectElement: anEvent [
 
-	self selectElement showHidePlaceholder.
 	self refresh.
 	self requestLayout
 ]

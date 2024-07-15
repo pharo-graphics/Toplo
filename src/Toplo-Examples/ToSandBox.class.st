@@ -1152,7 +1152,7 @@ ToSandBox class >> example_List2WithSelectionHistory [
 		(ToListSelectionHistoryEventHandlerExample new historyList:
 			 historyList).
 	statesList addEventHandler: (BlEventHandler
-			 on: ToSelectionCommandAppliedEvent
+			 on: ToListSelectionCommandAppliedEvent
 			 do: [ :event | event traceCr ]).
 
 	pane
@@ -1398,13 +1398,11 @@ ToSandBox class >> example_PicsumPhotosGallery [
 		nodeFactory: [ ToPicsumPhotosGalleryImageNode new ];
 		nodeBuilder: [ :node :holder :dataItem |
 			node labelString: dataItem id ].
-	list selectionMode option:
-		((ToListSelectionOption separateForMode: list selectionMode)
-			 beneath: false;
-			 triggerSelectionState: true;
-			 yourself).
-	list selectionMode elementBuilder: [
-		ToPicsumPhotosGallerySelectionElement new ].
+	list selectionMode option
+		grouped: false;
+		beneath: false;
+		triggerSelectionState: true;
+		elementBuilder: [ ToPicsumPhotosGallerySelectionElement new ].
 
 	[
 	| allImagesData |
@@ -1649,6 +1647,8 @@ ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
 
 	| select   |
 	select := ToMultiSelectElement new.
+	select nodeWrapping: false.
+	select keepPickOrder: true.
 	self buildSelectListElementIn: select withIconProvider: ToMaterialDesignIconProvider.
 
 	select filtrable: true.
@@ -1667,8 +1667,7 @@ ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
 		('Select icons' asRopedText foreground: Color red).
 
 	select inputTextField requestFocus.
-	select openInSpace.
-	select inspect
+	select openInSpace
 ]
 
 { #category : #select }
@@ -1691,7 +1690,7 @@ ToSandBox class >> example_SelectMonoFiltrable [
 
 	select filtrable: true.
 	select dataAccessor addAll: self statesOfAmerica.
-	select selecter selectIndex: 2.
+	"select selecter selectIndex: 2."
 	select placeholderText:
 		('Select a state' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
@@ -1748,6 +1747,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	select windowManager anchorRoot: innerWindow root.
 	select width: 300.
 	select position: 50 @ 10.
+	select selecter selectIndex: 2.
 	innerWindow pane addChild: select.
 	innerWindow height: 600.
 	innerWindow openInSpace.
@@ -1807,6 +1807,28 @@ ToSandBox class >> example_SelectMultiFiltrableNoWrapping [
 	select := ToMultiSelectElement new.
 	select inspect.
 	select maxSelectedCount: 6.
+	select nodeWrapping: false.
+	select hideSelected: false.
+	select dataAccessor addAll: self statesOfAmerica.
+	select filtrable: true.
+	select popupMaxHeight: 200.
+	select placeholderText:
+		('Select states' asRopedText foreground: Color red).
+	innerWindow := ToInnerWindow new.
+	select windowManager anchorRoot: innerWindow root.
+	select hMatchParent.
+	innerWindow pane addChild: select.
+	innerWindow height: 600.
+	innerWindow openInSpace
+]
+
+{ #category : #select }
+ToSandBox class >> example_SelectMultiFiltrableNoWrappingKeepPickOrder [
+
+	| select innerWindow |
+	select := ToMultiSelectElement new.
+	select inspect.
+	select keepPickOrder: true.
 	select nodeWrapping: false.
 	select hideSelected: false.
 	select dataAccessor addAll: self statesOfAmerica.
@@ -5427,17 +5449,21 @@ ToSandBox class >> labeledIconlWithIconAndText [
 { #category : #list }
 ToSandBox class >> listWithEditableAndContextMenu [
 
-	| l selectionMenu menuFactory phtext |
+	| l selectionMenu menuFactory phtext disabledMode unselectableMode |
 	l := ToListElement new.
+
 	l newHiddenSelectionMode onInstalledIn: l.
-	l newDisabledSelectionMode
-		elementBuilder: [ ToListDisabledSelectionElement new ];
-		onInstalledIn: l.
-	l newUnselectableSelectionMode
-		elementBuilder: [
-			ToListUnselectableSelectionElement new defaultSkin:
-					ToListUnselectableSelectionElementExempleSkin new ];
-		onInstalledIn: l.
+	disabledMode := l newDisabledSelectionMode.
+	disabledMode onInstalledIn: l.
+	disabledMode option elementBuilder: [
+		ToListDisabledSelectionElement new ].
+	
+	unselectableMode := l newUnselectableSelectionMode.
+	unselectableMode onInstalledIn: l.
+
+	unselectableMode option elementBuilder: [
+		ToListUnselectableSelectionElement new defaultSkin:
+			ToListUnselectableSelectionElementExempleSkin new ].
 
 	phtext := (('Invoke the context menu ' , String cr
 	            , 'with a right-click' , String cr
@@ -5521,16 +5547,16 @@ ToSandBox class >> listWithEditableAndContextMenu [
 				               menu addItem: (ToMenuItem new
 						                labelText: 'stop selection transition animation';
 						                whenClickedDo: [ :event |
-							                target selectionMode option
-								                animationDuration: 0 milliSeconds ];
+							                target selectionMode option animationDuration:
+									                0 milliSeconds ];
 						                yourself) ]
 			               ifFalse: [
 				               menu addItem: (ToMenuItem new
 						                labelText:
 							                'start selection transition animation';
 						                whenClickedDo: [ :event |
-							                target selectionMode option
-								                animationDuration: 200 milliSeconds ];
+							                target selectionMode option animationDuration:
+									                200 milliSeconds ];
 						                yourself) ] ].
 	               indexes ifNotEmpty: [
 		               selectionMenu := ToMenu new.

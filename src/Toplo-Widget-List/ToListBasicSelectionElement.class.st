@@ -1,5 +1,5 @@
 Class {
-	#name : #ToListBasicAdditionalSelectionElement,
+	#name : #ToListBasicSelectionElement,
 	#superclass : #ToListSelectionElement,
 	#instVars : [
 		'positionHook',
@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #initialization }
-ToListBasicAdditionalSelectionElement >> initialize [ 
+ToListBasicSelectionElement >> initialize [ 
 
 	super initialize.
 	positionHook := [ :aPoint :aListElement | aPoint ].
@@ -17,25 +17,25 @@ ToListBasicAdditionalSelectionElement >> initialize [
 ]
 
 { #category : #private }
-ToListBasicAdditionalSelectionElement >> positionFrom: aPoint in: aListElement [
+ToListBasicSelectionElement >> positionFrom: aPoint in: aListElement [
 
 	^ positionHook value: aPoint value: aListElement
 ]
 
 { #category : #accessing }
-ToListBasicAdditionalSelectionElement >> positionHook: aValuable [
+ToListBasicSelectionElement >> positionHook: aValuable [
 
 	positionHook := aValuable 
 ]
 
 { #category : #private }
-ToListBasicAdditionalSelectionElement >> sizeFrom: aPoint in: aListElement [
+ToListBasicSelectionElement >> sizeFrom: aPoint in: aListElement [
 
 	^ sizeHook value: aPoint value: aListElement
 ]
 
 { #category : #accessing }
-ToListBasicAdditionalSelectionElement >> sizeHook: aValuable [
+ToListBasicSelectionElement >> sizeHook: aValuable [
 
 	sizeHook := aValuable 
 ]

@@ -19,16 +19,14 @@ ToMultiSelectBarElementSkin >> installSkinEvent: anEvent [
 	anEvent elementDo: [ :e | 
 		e border: BlBorder empty.
 		e padding: BlInsets empty.
-		e margin: BlInsets empty.
-		e shortcuts: (self shortcutsToInstallIn: e).
-		e installShortcuts ]
+		e margin: BlInsets empty ]
 ]
 
 { #category : #'accessing - shortcuts' }
 ToMultiSelectBarElementSkin >> shortcutsToInstallIn: aListElement [
 
 	^ Array streamContents: [ :stream |
-		
+
 		  stream nextPut: (BlShortcutWithAction new
 				   combination: BlKeyCombination builder arrowDown build;
 				   action: [ :aShortcutEvent :aShortcut |
@@ -46,12 +44,11 @@ ToMultiSelectBarElementSkin >> shortcutsToInstallIn: aListElement [
 					   aListElement selecter selectOnlyIndex: idx ]).
 
 		  aListElement isMultipleSelection ifTrue: [
-			
 			  stream nextPut: (BlShortcutWithAction new
 					   combination: BlKeyCombination primaryA;
 					   action: [ :aShortcutEvent :aShortcut |
 						   aListElement selecter selectAll ]).
-					
+
 			  stream nextPut: (BlShortcutWithAction new
 					   combination: BlKeyCombination builder shift arrowDown build;
 					   action: [ :aShortcutEvent :aShortcut |

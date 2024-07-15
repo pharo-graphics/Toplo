@@ -7,14 +7,6 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Element'
 }
 
-{ #category : #accessing }
-ToListHiddenSelectionElementEventHandler class >> selectionMode: aSelectionMode selectionChangedEventClass: anEventClass [
-
-	^ (self selectionMode: aSelectionMode)
-		  selectionChangedEventClass: anEventClass;
-		  yourself
-]
-
 { #category : #'api - accessing' }
 ToListHiddenSelectionElementEventHandler >> eventsToHandle [
 

@@ -4,14 +4,6 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Element'
 }
 
-{ #category : #accessing }
-ToListUnselectableSelectionElementEventHandler class >> selectionMode: aSelectionMode selectionChangedEventClass: anEventClass [
-
-	^ (self selectionMode: aSelectionMode)
-		  selectionChangedEventClass: anEventClass;
-		  yourself
-]
-
 { #category : #'api - accessing' }
 ToListUnselectableSelectionElementEventHandler >> eventsToHandle [
 

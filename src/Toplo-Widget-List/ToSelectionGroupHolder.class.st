@@ -84,7 +84,7 @@ ToSelectionGroupHolder >> canAnimateSelectionUpdate [
 ToSelectionGroupHolder >> createSelectionElementsFrom: aListElement [
 
 	groups do: [ :grp |
-		  grp refreshSelectionElementIn: aListElement ]
+		  grp refreshSelectionElementIn: aListElement option: option]
 ]
 
 { #category : #'private - selection updating' }

@@ -5,7 +5,8 @@ Class {
 	#classTraits : 'TToSelectInnerContainerElement classTrait',
 	#instVars : [
 		'selectElement',
-		'textInputElement'
+		'textInputElement',
+		'pickCount'
 	],
 	#category : #'Toplo-Widget-Select-Multi'
 }
@@ -84,32 +85,37 @@ ToMultiSelectBarElement >> defaultNodeManager [
 ToMultiSelectBarElement >> haveFullyInvisibleNodes: theInvisibleNodes [
 
 	| visibleNodes invisibleNodes shower finalCount |
-	
 	" in case of composite node at first it means that 
 	there is no more visible node to cumulate in a composite node"
-	(self nodes size = 1 "and: [
-		  self nodes first nodesCount > 1 ]") ifTrue: [ ^ self ].
+	self nodes size = 1 ifTrue: [ ^ self ]. 
+	
 	visibleNodes := self nodesSelect: [ :n | n isFullyVisible ].
 	invisibleNodes := theInvisibleNodes copy.
 	visibleNodes ifNotEmpty: [
 		invisibleNodes := theInvisibleNodes copyWith: visibleNodes last.
 		visibleNodes := visibleNodes copyWithout: visibleNodes last ].
-	
+
 	" now cumulate invisible nodes in a composite holder "
 	shower := ToMultiSelectCompositeDataItem new.
-	shower bar: self.
-	shower dataItems: (invisibleNodes collect: [:n | n holder dataItem]).
+	shower dataItems:
+		(invisibleNodes collect: [ :n | n holder dataItem ]).
+	shower indexes: (Array streamContents: [ :stream |
+			 invisibleNodes do: [ :node |
+				 stream nextPutAll: node holder dataItem indexes ] ]).
+
 	finalCount := self nodesCount - visibleNodes size.
-	shower content: '+ ' , finalCount asString, ' ...'.
-	invisibleNodes do: [ :node | self dataAccessor removeAt: node holder position ].	
-	self dataAccessor add: shower 
+	shower content: '+ ' , finalCount asString , ' ...'.
+	invisibleNodes do: [ :node |
+		self dataAccessor removeAt: node holder position ].
+	self dataAccessor add: shower
 ]
 
 { #category : #initialization }
 ToMultiSelectBarElement >> initialize [
 
 	super initialize.
-	self installTextInputElement
+	self installTextInputElement.
+	pickCount := 0.
 ]
 
 { #category : #'t - select inner container' }
@@ -173,15 +179,50 @@ ToMultiSelectBarElement >> nodesSelect: aBlock [
 ]
 
 { #category : #'t - select inner container' }
+ToMultiSelectBarElement >> onSelectionChangedInSelectElement: anEvent [
+
+	self refresh.
+	self requestLayout
+]
+
+{ #category : #'t - select inner container' }
 ToMultiSelectBarElement >> refresh [
 	" first remove all data nodes "
 
-	| sieve |
+	| sieve previousDataItems newItems |
+	self selectElement showHidePlaceholder.
+
 	self selecter deselectAll.
+	" copy the previous items "
+	previousDataItems := self dataAccessor asOrderedCollection.
+	newItems := OrderedCollection new.
+
+	" take care of a possible composite that represents a list of items "
+	previousDataItems ifNotEmpty: [
+		| last |
+		last := previousDataItems last.
+		last isComposite ifTrue: [
+			previousDataItems removeLast.
+			previousDataItems addAll: last dataItems ] ].
+
 	self dataAccessor removeAll.
+
 	sieve := self windowManager sieve.
 	sieve selectionModel selectedIndexesDo: [ :idx |
-		self dataAccessor add: (ToMultiSelectDataItem index: idx) ].
+		| new previous |
+		new := ToMultiSelectDataItem index: idx.
+		previous := previousDataItems
+			            detect: [ :item | item index = idx ]
+			            ifNone: [  ].
+		previous ifNotNil: [ new pickOrder: previous pickOrder ] ifNil: [
+			pickCount := pickCount + 1.
+			new pickOrder: pickCount ].
+		newItems add: new ].
+
+	selectElement keepPickOrder ifTrue: [
+		newItems sort: [ :a :b | a pickOrder < b pickOrder ] ].
+	self dataAccessor addAll: newItems.
+
 	self checkHideSelectionFromListElement.
 	self checkMaxSelectedCountFromListElement
 ]

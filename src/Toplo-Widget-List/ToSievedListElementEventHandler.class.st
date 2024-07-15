@@ -97,6 +97,7 @@ ToSievedListElementEventHandler >> listSelectionCommandAppliedEvent: aPreNotific
 	according to the sieve selection"
 	listElement dispatchEvent: (ToSieveSelectionChangedEvent new
 			 sieve: sieve;
+			 sourceCommand: aPreNotification command;
 			 touchedIndexes: touchedIndexes asArray;
 			 selectionModel: sieveSelectionModel;
 			 yourself)

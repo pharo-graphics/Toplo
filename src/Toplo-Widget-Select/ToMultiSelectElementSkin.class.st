@@ -11,6 +11,7 @@ ToMultiSelectElementSkin >> shortcutsToInstallIn: aSelect [
 	listElement := aSelect listElement.
 
 	^ Array streamContents: [ :stream |
+		  stream nextPutAll: (super shortcutsToInstallIn: aSelect).
 		  aSelect isFiltrable ifTrue: [
 			  stream nextPut: ToSelectTextFieldBackspaceShortcut new ].
 		  stream nextPut: (BlShortcutWithAction new

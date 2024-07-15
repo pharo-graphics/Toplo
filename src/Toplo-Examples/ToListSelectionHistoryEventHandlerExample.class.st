@@ -59,8 +59,8 @@ ToListSelectionHistoryEventHandlerExample >> listSelectionCommandAppliedEvent: a
 
 	currentTarget := aCommandAppliedEvent currentTarget.
 	" check that the command is applied on the primary selection model "
-	aCommandAppliedEvent selectionModel
-	= currentTarget selectionModel ifFalse: [ ^ self ].
+	aCommandAppliedEvent selectionModel = currentTarget selectionModel
+		ifFalse: [ ^ self ].
 	aCommandAppliedEvent command applyWithOperator: self.
 	currentTarget := nil
 ]

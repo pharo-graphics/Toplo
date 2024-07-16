@@ -3772,7 +3772,7 @@ ToSandBox class >> example_scaledImage [
 ToSandBox class >> example_segmentedWithCheckboxes [
 
 	| checkableBar dashBoard |
-	checkableBar := ToSegmentedElement new.
+	checkableBar := ToSegmentedBarElement new.
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
 		checkableBar checkableElementAccessor add: (ToCheckbox new
 				 label: (ToLabel text: l);
@@ -3789,10 +3789,12 @@ ToSandBox class >> example_segmentedWithToggleButton [
 
 	| seg dashBoard rootPane feedbackPane maj |
 	seg := ToSegmentedElement new.
-	seg matchParent.
+	seg hMatchParent.
+	seg vFitContent.
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
 		seg segmentAccessor add:
 			((ToToggleButton new label: (ToLabel text: l))
+				 defaultRawSkin: ToToggleInSegmentedSkin new;
 				 whenClickedDo: [ :event | event currentTarget label text traceCr ];
 				 flexible: true;
 				 yourself) ].

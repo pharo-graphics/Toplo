@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-Widget-Segmented'
 }
 
+{ #category : #initialization }
+ToSegmentedSelectionMode >> defaultElementBuilder [
+
+	^ [ ToListPrimarySelectionElement new ]
+]
+
 { #category : #'instance creation' }
 ToSegmentedSelectionMode >> listEventHandlerClass [
 
@@ -28,6 +34,14 @@ ToSegmentedSelectionMode >> newSelecter [
 ToSegmentedSelectionMode >> newSelectionModelIn: aListElement [
 
 	^ aListElement newPrimarySelectionModel
+]
+
+{ #category : #accessing }
+ToSegmentedSelectionMode >> onAddedNode: aNode [
+]
+
+{ #category : #accessing }
+ToSegmentedSelectionMode >> onRemovedNode: aNode [
 ]
 
 { #category : #'instance creation' }

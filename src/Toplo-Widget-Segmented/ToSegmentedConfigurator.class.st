@@ -32,7 +32,7 @@ ToSegmentedConfigurator >> visitScrollableBarTrackElement: aScrollableTrackEleme
 ]
 
 { #category : #visiting }
-ToSegmentedConfigurator >> visitSegmentedElement: aSegmentedBarElement [
+ToSegmentedConfigurator >> visitSegmentedBarElement: aSegmentedBarElement [
 
 	self visitBarElement: aSegmentedBarElement.
 	self wantsHMatchParent ifFalse: [ ^ self ].

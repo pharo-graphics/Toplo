@@ -190,6 +190,7 @@ ToListElementEventHandler >> listNodeAddedEvent: anEvent [
 ToListElementEventHandler >> listNodeRemovedEvent: anEvent [
 
 	| node listElement |
+
 	node := anEvent node.
 	listElement := anEvent currentTarget.
 	listElement selectionMode onRemovedNode: node.
@@ -218,6 +219,7 @@ ToListElementEventHandler >> mouseDownEvent: anEvent [
 	| target |
 	anEvent isConsumed ifTrue: [ ^ self ].
 	target := anEvent currentTarget.
+	target isDisabled ifTrue: [  ^ self ].
 	target stopScroll.
 	self withTargetNodeFromEvent: anEvent do: [ :node |
 		node dispatchEvent: anEvent copy.

@@ -198,7 +198,7 @@ ToMultiSelectBarElement >> refresh [
 			previousItems removeLast.
 			previousItems addAll: last items ] ].
 
-	" reconstruct the item list. ensure the reuse of pr-existing items"
+	" reconstruct the item list. ensure the reuse of pre-existing items"
 	selectElement selectionModel selectedIndexesDo: [ :idx |
 		| new previous |
 		previous := previousItems

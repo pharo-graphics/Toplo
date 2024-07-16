@@ -108,7 +108,6 @@ ToAnchoredWindowTest >> testDispatchOpenedEvent [
 	e := ToElement new.
 	space root addChild: e.
 	self waitTestingSpaces.
-	self applyAllEnqueuedStates.
 
 	windowHandler := ToAnchoredWindowManagerForTest new.
 	windowHandler onInstalledIn: e.
@@ -165,7 +164,6 @@ ToAnchoredWindowTest >> testLocalThemeSetOnPopupEvent [
 	e := ToElement new.
 	space root addChild: e.
 	self waitTestingSpaces.
-	self applyAllEnqueuedStates.
 
 	windowHandler := ToAnchoredWindowManagerForTest new.
 	windowHandler onInstalledIn: e.
@@ -186,7 +184,6 @@ ToAnchoredWindowTest >> testLocalThemeSetOnPopupEvent2 [
 	e := ToElement new.
 	space root addChild: e.
 	self waitTestingSpaces.
-	self applyAllEnqueuedStates.
 
 	windowHandler := ToAnchoredWindowManagerForTest new.
 	windowHandler onInstalledIn: e.

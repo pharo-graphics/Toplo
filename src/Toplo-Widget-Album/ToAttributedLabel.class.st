@@ -32,6 +32,14 @@ ToAttributedLabel >> isFrozen [
 	^ frozen ifNil: [ frozen := false ]
 ]
 
+{ #category : #'private-change' }
+ToAttributedLabel >> privateText: aText [
+
+	super privateText: aText.
+	self isFrozen ifTrue: [ ^ self ].
+	self attributesBuilder applyOn: self text
+]
+
 { #category : #configuration }
 ToAttributedLabel >> unfreeze [
 

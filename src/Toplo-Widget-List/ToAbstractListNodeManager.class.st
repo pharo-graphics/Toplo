@@ -12,7 +12,7 @@ Class {
 { #category : #'instance creation' }
 ToAbstractListNodeManager >> buildNode: aNode inHolder: aNodeHolder [
 
-	nodeBuilder cull: aNode cull: aNodeHolder cull: aNodeHolder dataItem
+	nodeBuilder cull: aNode cull: aNodeHolder dataItem cull: aNodeHolder
 ]
 
 { #category : #initialization }

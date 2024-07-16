@@ -40,14 +40,14 @@ ToploDemoPresenter >> demo2 [
 
 	<demo>
 	| list colorAssociations |
-	(list := ToListElement new) nodeBuilder: [ :node :holder |
+	(list := ToListElement new) nodeBuilder: [ :node :dataItem :holder |
 		node addChild: (ToLabeledIcon new
 				 label: (ToLabel new
-						  text: holder dataItem key;
+						  text: dataItem key;
 						  yourself);
 				 icon: (ToElement new
 						  size: 50 @ 20;
-						  background: holder dataItem value;
+						  background: dataItem value;
 						  yourself);
 				 startInterspace: 3;
 				 yourself) ].

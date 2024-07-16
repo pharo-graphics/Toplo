@@ -8,11 +8,11 @@ Class {
 ToMultiSelectBarNodeManager >> buildFakeNode: aFakeNode inHolder: anHolder [
 
 	" The fake data item is always store in node with holder which position is zero "
-	anHolder dataItem: (ToMultiSelectDataItem index: 0).
+	anHolder dataItem: (ToMultiSelectItem index: 0).
 	super buildFakeNode: aFakeNode inHolder: anHolder
 ]
 
-{ #category : #initialization }
+{ #category : #'instance creation' }
 ToMultiSelectBarNodeManager >> buildNode: aNode inHolder: aNodeHolder [
 
 	| multiSelectDataItem |
@@ -24,18 +24,18 @@ ToMultiSelectBarNodeManager >> buildNode: aNode inHolder: aNodeHolder [
 			data := index isZero
 				        ifTrue: [ self fakeDataItem ]
 				        ifFalse: [ aNodeHolder dataAccessor at: index ].
-			nodeBuilder value: aNode value: aNodeHolder value: data ]
+			nodeBuilder value: aNode value: data value: aNodeHolder  ]
 		ifTrue: [
 			self defaultCompositeNodeBuilder
 				value: aNode
-				value: aNodeHolder
-				value: multiSelectDataItem ]
+				value: multiSelectDataItem
+				value: aNodeHolder ]
 ]
 
 { #category : #initialization }
 ToMultiSelectBarNodeManager >> defaultCompositeNodeBuilder [
 
-	^ [ :node :holder :compositeDataItem |
+	^ [ :node :compositeDataItem :holder |
 	  node middleElement:
 		  (ToLabel text: compositeDataItem content asString asRopedText) ]
 ]
@@ -43,7 +43,7 @@ ToMultiSelectBarNodeManager >> defaultCompositeNodeBuilder [
 { #category : #initialization }
 ToMultiSelectBarNodeManager >> defaultNodeBuilder [
 
-	^ [ :node :holder :dataItem |
+	^ [ :node :dataItem :holder |
 	  node middleElement: (ToLabel text: dataItem asString) ]
 ]
 

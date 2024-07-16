@@ -13,7 +13,7 @@ ToListElementTest >> listWithRemoveRowButtons [
 	| list |
 	list := ToListElement new.
 	space root addChild: list.
-	list nodeBuilder: [ :node :holder |
+	list nodeBuilder: [ :node :dataItem :holder |
 		| line remBut filler |
 		line := ToPane horizontal id: #row.
 		remBut := ToButton new id: #'remove-button-' , holder position asString.

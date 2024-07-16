@@ -81,7 +81,7 @@ ToMultiSelectBarNode >> installRawStyle [
 		self tooltipBuilder: [ :win :theElement |
 			| pane |
 			pane := ToPane vertical.
-			self holder dataItem dataItems do: [ :item | | t |
+			self holder dataItem items do: [ :item | | t |
 				t := self holder dataAccessor at: item index.
 				pane addChild: (ToLabel text: t asString) ].
 			win root addChild: pane ] ]

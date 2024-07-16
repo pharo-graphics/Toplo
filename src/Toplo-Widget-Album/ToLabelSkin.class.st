@@ -9,21 +9,9 @@ ToLabelSkin >> deselectedSkinEvent: anEvent [
 
 	super deselectedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		| tokname from to transition |
-		"tokname := anEvent focused
-			           ifTrue: [ #'label-selected-focused' ]
-			           ifFalse: [ #'label-selected-unfocused' ]."
+		| to |
 		to := e valueOfTokenNamed: #'label-foreground-deselected'.
-		e foreground: to.
-		"from := e valueOfTokenNamed: tokname.
-		transition := BlColorTransition new
-			              duration: 100 milliSeconds;
-			              from: from;
-			              to: to;
-			              onStepDo: [ :aColor :anElement |
-				              anElement text foreground: aColor ];
-			              onFinishedDo: [ e text foreground: to ].
-		e addAnimation: transition" ]
+		e foreground: to ]
 ]
 
 { #category : #'event handling' }
@@ -38,11 +26,10 @@ ToLabelSkin >> disabledSkinEvent: anEvent [
 ToLabelSkin >> enabledSkinEvent: anEvent [
 
 	super enabledSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		" do not change foreground here  to prevent from overwriting forground 
+	anEvent elementDo: [ :e | " do not change foreground here  to prevent from overwriting forground 
 		that has been eventually set by the SelectedSkinEvent 
 		The default foreground should be set when installing "
-		]
+		 ]
 ]
 
 { #category : #'event handling' }
@@ -67,20 +54,10 @@ ToLabelSkin >> selectedSkinEvent: anEvent [
 
 	super selectedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		| tokname from to transition |
+		| tokname to |
 		tokname := anEvent focused
 			           ifTrue: [ #'label-selected-focused' ]
 			           ifFalse: [ #'label-selected-unfocused' ].
 		to := e valueOfTokenNamed: tokname.
-		"from := e valueOfTokenNamed: #'label-foreground-deselected'.
-		
-		transition := BlColorTransition new
-			              duration: 100 milliSeconds;
-			              from: from;
-			              to: to;
-			              onStepDo: [ :aColor :anElement |
-				              anElement text foreground: aColor ];
-			              onFinishedDo: [ e text foreground: to ].
-		e addAnimation: transition"
 		e foreground: to ]
 ]

@@ -55,7 +55,7 @@ ToBarNodeManager >> constraintNode: aNode [
 { #category : #initialization }
 ToBarNodeManager >> defaultNodeBuilder [
 
-	^ [ :node :holder :dataItem |
+	^ [ :node :dataItem :holder |
 	  node addChild: (ToLabel text: dataItem asString) hMatchParent ]
 ]
 

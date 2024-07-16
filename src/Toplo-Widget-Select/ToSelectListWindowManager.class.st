@@ -30,9 +30,8 @@ ToSelectListWindowManager >> defaultAutoClosePickOutsideEventClass [
 { #category : #initialization }
 ToSelectListWindowManager >> defaultDataNodeBuilder [
 
-	^ [ :node :holder |
-	  node addChild:
-		  (ToLabel text: holder dataItem asString) hMatchParent ]
+	^ [ :node :dataItem :holder |
+	  node addChild: (ToLabel text: dataItem asString) hMatchParent ]
 ]
 
 { #category : #initialization }
@@ -50,7 +49,7 @@ ToSelectListWindowManager >> defaultMinHeight [
 { #category : #initialization }
 ToSelectListWindowManager >> defaultNodeBuilder [
 
-	^ [ :node :holder | listDataNodeBuilder value: node value: holder ]
+	^ [ :node :dataItem :holder | listDataNodeBuilder value: node value: holder ]
 ]
 
 { #category : #initialization }

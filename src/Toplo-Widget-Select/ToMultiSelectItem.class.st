@@ -1,5 +1,5 @@
 Class {
-	#name : #ToMultiSelectDataItem,
+	#name : #ToMultiSelectItem,
 	#superclass : #ToAbstractMultiSelectDataItem,
 	#instVars : [
 		'index',
@@ -9,43 +9,49 @@ Class {
 }
 
 { #category : #'instance creation' }
-ToMultiSelectDataItem class >> index: anIndex [
+ToMultiSelectItem class >> index: anIndex [
 
 	^ self new index: anIndex; yourself
 ]
 
 { #category : #accessing }
-ToMultiSelectDataItem >> index [
+ToMultiSelectItem >> index [
 
 	^ index
 ]
 
 { #category : #accessing }
-ToMultiSelectDataItem >> index: anInteger [
+ToMultiSelectItem >> index: anInteger [
 
 	index := anInteger
 ]
 
 { #category : #accessing }
-ToMultiSelectDataItem >> indexes [
+ToMultiSelectItem >> indexes [
 
 	^ Array with: index
 ]
 
 { #category : #accessing }
-ToMultiSelectDataItem >> nodesCount [
+ToMultiSelectItem >> items [
+
+	^ { self }
+]
+
+{ #category : #accessing }
+ToMultiSelectItem >> nodesCount [
 
 	^ 1
 ]
 
 { #category : #accessing }
-ToMultiSelectDataItem >> pickOrder [
+ToMultiSelectItem >> pickOrder [
 
 	^ pickOrder
 ]
 
 { #category : #accessing }
-ToMultiSelectDataItem >> pickOrder: anInteger [
+ToMultiSelectItem >> pickOrder: anInteger [
 
 	pickOrder := anInteger
 ]

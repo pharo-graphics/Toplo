@@ -152,7 +152,7 @@ ToListElementStresserWithAdditionalSelecters >> newListElement [
 
 	| l |
 	l := ToListElement new
-		     nodeBuilder: [ :node :holder :dataItem |
+		     nodeBuilder: [ :node :dataItem :holder  |
 			     | lab |
 			     lab := ToLabel text: dataItem.
 			     node addChild: lab.

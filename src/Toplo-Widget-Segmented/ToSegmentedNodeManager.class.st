@@ -35,11 +35,10 @@ ToSegmentedNodeManager >> constraintNode: aNode [
 { #category : #initialization }
 ToSegmentedNodeManager >> defaultNodeBuilder [
 
-	^ [ :node :holder :contentElement |
+	^ [ :node :contentElement :holder |
 	  node isFake ifFalse: [
 		  contentElement registerInGroup: holder segmentedBarElement group.
 		  contentElement constraints infinite holder: holder ].
-	"contentElement withNullSkin."
 	  node addChild: contentElement ]
 ]
 

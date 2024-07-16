@@ -87,8 +87,8 @@ ToMultiSelectBarElement >> haveFullyInvisibleNodes: theInvisibleNodes [
 	| visibleNodes invisibleNodes shower finalCount |
 	" in case of composite node at first it means that 
 	there is no more visible node to cumulate in a composite node"
-	self nodes size = 1 ifTrue: [ ^ self ]. 
-	
+	self nodes size = 1 ifTrue: [ ^ self ].
+
 	visibleNodes := self nodesSelect: [ :n | n isFullyVisible ].
 	invisibleNodes := theInvisibleNodes copy.
 	visibleNodes ifNotEmpty: [
@@ -96,9 +96,10 @@ ToMultiSelectBarElement >> haveFullyInvisibleNodes: theInvisibleNodes [
 		visibleNodes := visibleNodes copyWithout: visibleNodes last ].
 
 	" now cumulate invisible nodes in a composite holder "
-	shower := ToMultiSelectCompositeDataItem new.
-	shower dataItems:
-		(invisibleNodes collect: [ :n | n holder dataItem ]).
+	shower := ToMultiSelectCompositeItem new.
+	shower items: (Array streamContents: [ :stream |
+			 invisibleNodes do: [ :n |
+				 stream nextPutAll: n holder dataItem items ] ]).
 	shower indexes: (Array streamContents: [ :stream |
 			 invisibleNodes do: [ :node |
 				 stream nextPutAll: node holder dataItem indexes ] ]).
@@ -179,49 +180,45 @@ ToMultiSelectBarElement >> nodesSelect: aBlock [
 ]
 
 { #category : #'t - select inner container' }
-ToMultiSelectBarElement >> onSelectionChangedInSelectElement: anEvent [
-
-	self refresh.
-	self requestLayout
-]
-
-{ #category : #'t - select inner container' }
 ToMultiSelectBarElement >> refresh [
 	" first remove all data nodes "
 
-	| sieve previousDataItems newItems |
-	self selectElement showHidePlaceholder.
+	| previousItems newItems |
+	selectElement showHidePlaceholder.
 
 	self selecter deselectAll.
 	" copy the previous items "
-	previousDataItems := self dataAccessor asOrderedCollection.
+	previousItems := self dataAccessor asOrderedCollection.
 	newItems := OrderedCollection new.
-
 	" take care of a possible composite that represents a list of items "
-	previousDataItems ifNotEmpty: [
+	previousItems ifNotEmpty: [
 		| last |
-		last := previousDataItems last.
+		last := previousItems last.
 		last isComposite ifTrue: [
-			previousDataItems removeLast.
-			previousDataItems addAll: last dataItems ] ].
+			previousItems removeLast.
+			previousItems addAll: last items ] ].
 
-	self dataAccessor removeAll.
-
-	sieve := self windowManager sieve.
-	sieve selectionModel selectedIndexesDo: [ :idx |
+	" reconstruct the item list. ensure the reuse of pr-existing items"
+	selectElement selectionModel selectedIndexesDo: [ :idx |
 		| new previous |
-		new := ToMultiSelectDataItem index: idx.
-		previous := previousDataItems
+		previous := previousItems
 			            detect: [ :item | item index = idx ]
 			            ifNone: [  ].
-		previous ifNotNil: [ new pickOrder: previous pickOrder ] ifNil: [
-			pickCount := pickCount + 1.
-			new pickOrder: pickCount ].
+		previous
+			ifNotNil: [
+				new := previous.
+				previousItems remove: previous ]
+			ifNil: [
+				new := ToMultiSelectItem index: idx.
+				pickCount := pickCount + 1.
+				new pickOrder: pickCount ].
 		newItems add: new ].
 
 	selectElement keepPickOrder ifTrue: [
 		newItems sort: [ :a :b | a pickOrder < b pickOrder ] ].
-	self dataAccessor addAll: newItems.
+
+	" replace all in one datasource command "
+	self dataAccessor updateAllWith: newItems.
 
 	self checkHideSelectionFromListElement.
 	self checkMaxSelectedCountFromListElement

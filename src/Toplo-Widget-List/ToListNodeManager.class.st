@@ -7,7 +7,7 @@ Class {
 { #category : #initialization }
 ToListNodeManager >> defaultNodeBuilder [
 
-	^ [ :node :holder :dataItem |
+	^ [ :node :dataItem :holder |
 	  node addChild: (ToLabel text: dataItem asString) hMatchParent ]
 ]
 

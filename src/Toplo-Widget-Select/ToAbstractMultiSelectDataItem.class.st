@@ -17,6 +17,12 @@ ToAbstractMultiSelectDataItem >> isComposite [
 ]
 
 { #category : #accessing }
+ToAbstractMultiSelectDataItem >> items [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #accessing }
 ToAbstractMultiSelectDataItem >> nodesCount [
 
 	^ self subclassResponsibility

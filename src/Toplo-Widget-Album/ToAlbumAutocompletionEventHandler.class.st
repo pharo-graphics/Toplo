@@ -66,9 +66,9 @@ ToAlbumAutocompletionEventHandler >> defaultMinHeight [
 { #category : #initialization }
 ToAlbumAutocompletionEventHandler >> defaultNodeBuilder [
 
-	^ [ :node :holder |
+	^ [ :node :dataItem :holder |
 	  | text |
-	  text := holder dataItem asString asRopedText.
+	  text := dataItem asString asRopedText.
 	  text fontName: holder listElement fontName.
 	  text fontSize: holder listElement fontSize.
 	(text from: 1 to: (currentPattern size min: text size)) bold.

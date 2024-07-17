@@ -1,7 +1,7 @@
 Class {
 	#name : #ToListNodeManager,
 	#superclass : #ToAbstractListNodeManager,
-	#category : #'Toplo-Widget-List-Core'
+	#category : #'Toplo-Widget-List-Core-ListElement'
 }
 
 { #category : #initialization }

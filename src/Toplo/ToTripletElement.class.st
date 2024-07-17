@@ -207,7 +207,7 @@ ToTripletElement >> initialize [
 	startContainer := self newBaseContainer
 		                  id: #'start-container';
 		                  yourself.
-	middleContainer := self newBaseContainer
+	middleContainer := self newMiddleContainer
 		                   id: #'middle-container';
 		                   yourself.
 	endContainer := self newBaseContainer
@@ -301,6 +301,16 @@ ToTripletElement >> newFiller [
 	^ BlElement new
 		  size: 0 @ 0;
 		  layout: BlLinearLayout new;
+		  constraintsDo: [ :c |
+			  c horizontal fitContent.
+			  c vertical fitContent ];
+		  yourself
+]
+
+{ #category : #'instance creation' }
+ToTripletElement >> newMiddleContainer [
+
+	^ ToScrollableElement  new
 		  constraintsDo: [ :c |
 			  c horizontal fitContent.
 			  c vertical fitContent ];

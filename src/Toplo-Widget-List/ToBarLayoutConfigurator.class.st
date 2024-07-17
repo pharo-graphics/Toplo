@@ -9,7 +9,7 @@ Class {
 		'horizontal',
 		'flowLineUniformWidth'
 	],
-	#category : #'Toplo-Widget-List-Core'
+	#category : #'Toplo-Widget-List-Core-BarElement'
 }
 
 { #category : #visiting }

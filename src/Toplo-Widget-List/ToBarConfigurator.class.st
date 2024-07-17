@@ -1,7 +1,7 @@
 Class {
 	#name : #ToBarConfigurator,
 	#superclass : #Object,
-	#category : #'Toplo-Widget-List-Core'
+	#category : #'Toplo-Widget-List-Core-BarElement'
 }
 
 { #category : #visiting }

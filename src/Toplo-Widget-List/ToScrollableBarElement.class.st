@@ -2,8 +2,7 @@ Class {
 	#name : #ToScrollableBarElement,
 	#superclass : #ToScrollableElement,
 	#instVars : [
-		'trackElement',
-		'parentBar'
+		'trackElement'
 	],
 	#category : #'Toplo-Widget-List-InnerBar'
 }
@@ -11,9 +10,9 @@ Class {
 { #category : #'instance creation' }
 ToScrollableBarElement class >> onInnerBarElement: anInnerBarElement [
 
-	^ self basicNew
+	^ self new
 		  onInnerBarElement: anInnerBarElement;
-		  initialize
+		  yourself
 ]
 
 { #category : #visiting }
@@ -42,12 +41,6 @@ ToScrollableBarElement >> addHolder: anHolder at: aPosition [
 
 { #category : #'private - commands' }
 ToScrollableBarElement >> consumePendingDataSourceCommands [
-]
-
-{ #category : #initialization }
-ToScrollableBarElement >> defaultEventHandler [ 
-
-	^ ToScrollableBarEventHandler new parentBar: parentBar 
 ]
 
 { #category : #initialization }
@@ -91,15 +84,6 @@ ToScrollableBarElement >> fullyVisibleNodesDo: aBlock [
 ToScrollableBarElement >> fullyVisibleNodesSelect: aBlock [
 
 	^ trackElement fullyVisibleNodesSelect: aBlock
-]
-
-{ #category : #initialization }
-ToScrollableBarElement >> initialize [
-
-	super initialize.
-	trackElement := self scrollableBarTrackElementClass new.
-	trackElement id: #track.
-	self addChild: trackElement
 ]
 
 { #category : #testing }
@@ -161,7 +145,7 @@ ToScrollableBarElement >> onExitLayoutOrScroll [
 { #category : #initialization }
 ToScrollableBarElement >> onInnerBarElement: anInnerBarElement [
 
-	parentBar := anInnerBarElement
+	self addEventHandler: (ToScrollableBarEventHandler new parentBar: anInnerBarElement )
 ]
 
 { #category : #'accessing - children' }
@@ -256,4 +240,12 @@ ToScrollableBarElement >> stopScrollersInternal [
 ToScrollableBarElement >> trackElement [
 
 	^ trackElement 
+]
+
+{ #category : #accessing }
+ToScrollableBarElement >> trackElement: anElement [
+
+	trackElement = anElement ifTrue: [ ^ self ].
+	trackElement := anElement.
+	trackElement id: #track
 ]

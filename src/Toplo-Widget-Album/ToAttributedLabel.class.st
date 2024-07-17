@@ -16,7 +16,8 @@ ToAttributedLabel >> freeze [
 { #category : #accessing }
 ToAttributedLabel >> frozen: aBoolean [
 
-	frozen := aBoolean
+	frozen := aBoolean.
+	aBoolean ifFalse: [ self attributesBuilder applyOn: self text ]
 ]
 
 { #category : #initialization }

@@ -40,5 +40,5 @@ ToListSelectionChangedEvent >> touchedIndexes [
 { #category : #accessing }
 ToListSelectionChangedEvent >> touchedIntervals [
 
-	^ command touchedIntervals 
+	^ command intervals 
 ]

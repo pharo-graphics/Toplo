@@ -994,6 +994,33 @@ ToSandBox class >> example_HorizontalListWithIndexedColors [
 	space show
 ]
 
+{ #category : #list }
+ToSandBox class >> example_HugeIntegerList [
+
+	| l nbItems vscrollBar space |
+	nbItems := 10000.
+	l := ToListElement new.
+	l dataAccessor addAll: (1 to: nbItems).
+	l nodeBuilder: [ :node :anInteger |
+		node addChild:
+			(BlTextElement new text: anInteger asString asRopedText) ].
+	vscrollBar := BlVerticalScrollbarElement new.
+	vscrollBar constraintsDo: [ :c |
+		c ignoreByLayout.
+		c margin: (BlInsets left: 10).
+		c ignored horizontal alignRight.
+		c ignored vertical alignBottom ].
+	vscrollBar attachTo: l innerContainer.
+
+	space := BlSpace new
+		         extent: 100 @ 600;
+		         title: 'List with ', nbItems asString, ' integers'.
+
+	space root addChild: l.
+	space root addChild: vscrollBar.
+	space show
+]
+
 { #category : #'labeled icon' }
 ToSandBox class >> example_LabeledIconlWithIconAndText [
 
@@ -1238,15 +1265,27 @@ ToSandBox class >> example_ListWithAllClasses4 [
 { #category : #list }
 ToSandBox class >> example_ListWithAllClassesAndTraitsSorted [
 
-	| l |
+	| l vscrollBar space |
 	l := ToListElement new nodeBuilder: [ :node :dataItem :holder |
 			node ensureCanManageSkin.
 		     node addChild: (ToClassNameViewExample new
 				      class: dataItem position: holder position;
 				      yourself) ].
+	l withRowNumbers.
 	l dataAccessor addAll:
 		(Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]).
-	l openInSpace
+	vscrollBar := BlVerticalScrollbarElement new.
+	vscrollBar constraintsDo: [ :c |
+		c ignoreByLayout.
+		c margin: (BlInsets left: 10).
+		c ignored horizontal alignRight.
+		c ignored vertical alignBottom ].
+	vscrollBar attachTo: l innerContainer.
+
+	space := BlSpace new.
+	space root addChild: l.
+	space root addChild: vscrollBar.
+	space show
 ]
 
 { #category : #list }
@@ -1259,6 +1298,32 @@ ToSandBox class >> example_ListWithAllClassesAsButton [
 				      hMatchParent) ].
 	l dataAccessor addAll: Smalltalk globals allClasses.
 	l openInSpace
+]
+
+{ #category : #list }
+ToSandBox class >> example_ListWithAllMethods [
+
+	| l nbItems vscrollBar space |
+	nbItems := 10000.
+	l := ToListElement new.
+	l withRowNumbers.
+	l dataAccessor addAll: SystemNavigation default allMethods.
+	l nodeBuilder: [ :node :aMethod |
+		node addChild:
+			(BlTextElement new text: aMethod name asString asRopedText) ].
+	vscrollBar := BlVerticalScrollbarElement new.
+	vscrollBar constraintsDo: [ :c |
+		c ignoreByLayout.
+		c margin: (BlInsets left: 10).
+		c ignored horizontal alignRight.
+		c ignored vertical alignBottom ].
+	vscrollBar attachTo: l innerContainer.
+
+	space := BlSpace new.
+
+	space root addChild: l.
+	space root addChild: vscrollBar.
+	space show
 ]
 
 { #category : #list }

@@ -365,6 +365,13 @@ ToAbstractListElement >> nodeManager [
 	^ nodeManager
 ]
 
+{ #category : #accessing }
+ToAbstractListElement >> nodeUnbuilder: aValuable [
+
+	"aValuable takes 3 args: first, the node to build and second, its holder in the list element and the data item"
+	nodeManager nodeUnbuilder: aValuable
+]
+
 { #category : #'event firing' }
 ToAbstractListElement >> notifyDataSourceChanged [
 

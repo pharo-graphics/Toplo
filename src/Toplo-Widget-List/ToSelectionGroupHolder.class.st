@@ -116,6 +116,10 @@ ToSelectionGroupHolder >> newGroups: aGroupArray in: aListElement [
  
 	self removeSelectionIn: aListElement.
 	groups := aGroupArray.
+	option masked ifTrue: [ 
+		self notifyNodesDeselectedIn: aListElement.
+		self notifyNodesSelectedIn: aListElement.
+		^ self ].
 	self createSelectionElementsFrom: aListElement.
 	self addSelectionIn: aListElement.
 	self rememberSelectionBoundsIn: aListElement

@@ -2,6 +2,7 @@ Class {
 	#name : #ToListSelectionOption,
 	#superclass : #Object,
 	#instVars : [
+		'masked',
 		'grouped',
 		'beneath',
 		'triggerSelectionState',
@@ -105,7 +106,8 @@ ToListSelectionOption >> initialize [
 
 	super initialize.
 	triggerSelectionState := false.
-	animationDuration := 0 milliSecond
+	animationDuration := 0 milliSecond.
+	masked := false
 ]
 
 { #category : #accessing }
@@ -142,6 +144,18 @@ ToListSelectionOption >> isSeparate [
 ToListSelectionOption >> listEventHandler: aListEventHandler [
 
 	listEventHandler := aListEventHandler
+]
+
+{ #category : #accessing }
+ToListSelectionOption >> masked [
+
+	^ masked
+]
+
+{ #category : #accessing }
+ToListSelectionOption >> masked: aBoolean [
+
+	masked := aBoolean
 ]
 
 { #category : #'instance creation' }

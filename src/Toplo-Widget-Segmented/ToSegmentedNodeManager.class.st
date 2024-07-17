@@ -56,10 +56,10 @@ ToSegmentedNodeManager >> defaultNodeHolderClass [
 ]
 
 { #category : #initialization }
-ToSegmentedNodeManager >> unbindNode: aNode [
+ToSegmentedNodeManager >> unbuildNode: aNode [
 
 	aNode isFake ifFalse: [
 		  aNode content unregisterFromGroup ].
 	aNode holder contentElement removeFromParent.
-	super unbindNode: aNode
+	super unbuildNode: aNode
 ]

@@ -1253,12 +1253,30 @@ ToSandBox class >> example_ListWithAllClasses3 [
 ToSandBox class >> example_ListWithAllClasses4 [
 
 	| l |
-	l := ToListElement new nodeBuilder: [ :node :dataItem  :holder |
-		     node addChild: (ToCheckbox new
-				      labelText: dataItem name;
-				      startInterspace: 10) ].
+	l := ToListElement new nodeBuilder: [ :node :dataItem :holder |
+		     | cbox |
+		node traceCr.
+		     cbox := ToCheckbox new.
+		     cbox
+			     labelText: dataItem name;
+			     startInterspace: 10;
+			     hMatchParent;
+			     startFlexible: true.
+		    " node userData at: #handler put: (holder listElement
+				      addEventHandlerOn: ToListPrimarySelectionChangedEvent
+				      do: [ :event |
+					      cbox traceCr.
+					      cbox checked:
+						      (holder selectionModel containsIndex: holder position) ])."
+		     cbox checked: holder isSelected.
+		     node addChild: cbox ].
+	"l nodeUnbuilder: [ :node :dataItem :holder | node removeEventHandler: (node userData at: #handler) ]."
+	l selectionMode selectOnMouseDown: true.
+	l
+		addEventFilterOn: ToListPrimarySelectionChangedEvent
+		do: [ :event | 'list selection changed' traceCr ].
+	l selectionMode option masked: true.
 	l dataAccessor addAll: Smalltalk globals allClasses.
-	l inspect.
 	l openInSpace
 ]
 

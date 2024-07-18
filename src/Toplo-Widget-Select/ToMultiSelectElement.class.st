@@ -37,12 +37,6 @@ ToMultiSelectElement >> checkMaxSelectedCountFromListElement [
 	self innerContainer checkMaxSelectedCountFromListElement
 ]
 
-{ #category : #initialization }
-ToMultiSelectElement >> defaultEventHandler [
-
-	^ ToMultiSelectElementEventHandler new
-]
-
 { #category : #accessing }
 ToMultiSelectElement >> fakeDataItem: aDataItem [
 

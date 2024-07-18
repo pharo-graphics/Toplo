@@ -117,6 +117,10 @@ ToMultiSelectBarElement >> initialize [
 	super initialize.
 	self installTextInputElement.
 	pickCount := 0.
+	" mandatory resizer setting. 
+	Normally, should not be changed"
+	self vFitContent.
+	self hMatchParent 
 ]
 
 { #category : #'t - select inner container' }

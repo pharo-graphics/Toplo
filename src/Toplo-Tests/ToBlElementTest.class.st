@@ -89,6 +89,20 @@ ToBlElementTest >> testEnsureCanManageSkin [
 	self assert: e skinManager installedSkin notNil
 ]
 
+{ #category : #'tests - stamp' }
+ToBlElementTest >> testHasStamp [
+
+	| e |
+	e := BlElement new.
+	self deny: e hasStamp.
+
+	e addStamp: #test.
+	self assert: e hasStamp.
+
+	e removeStamp: #test.
+	self deny: e hasStamp.
+]
+
 { #category : #tests }
 ToBlElementTest >> testRequestSkin [
 

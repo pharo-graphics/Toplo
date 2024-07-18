@@ -1803,8 +1803,8 @@ ToSandBox class >> example_SelectMultiFiltrable [
 		('Select states' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
-	select width: 300.
 	select position: 50 @ 10.
+	select width: 300.
 	select selecter selectIndex: 2.
 	innerWindow pane addChild: select.
 	innerWindow height: 600.
@@ -1994,6 +1994,7 @@ ToSandBox class >> example_SelectMultiFiltrableWithMax [
 
 	| select  |
 	select := self example_SelectMultiFiltrable.
+	select hExact: 200.
 	select maxSelectedCount: 4
 ]
 
@@ -2025,8 +2026,10 @@ ToSandBox class >> example_SelectMultiNotFiltrable [
 
 	| select innerWindow |
 	select := ToMultiSelectElement new.
+	select inspect.
 	select maxSelectedCount: 4.
 	select filtrable: false.
+	select nodeWrapping: true.
 	select dataAccessor addAll: self statesOfAmerica.
 	select placeholderText:
 		('Select states' asRopedText foreground: Color red).
@@ -2034,7 +2037,7 @@ ToSandBox class >> example_SelectMultiNotFiltrable [
 		node addChild: (ToLabel text: dataItem asString) hMatchParent ].
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
-	select width: 300.
+	select hExact: 300.
 	select position: 50 @ 50.
 
 	innerWindow pane addChild: select.

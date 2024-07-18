@@ -76,8 +76,7 @@ ToMultiSelectElement >> initialize [
 
 	super initialize.
 	hideSelected := false.
-	maxSelectedCount := 0.
-	self addEventHandler: self defaultEventHandler 
+	maxSelectedCount := 0
 ]
 
 { #category : #'instance creation' }
@@ -108,8 +107,7 @@ ToMultiSelectElement >> maxSelectedCount [
 ToMultiSelectElement >> maxSelectedCount: aNumber [
 
 	maxSelectedCount := aNumber.
-	self iconContainer maxSelectedCount: aNumber.
-	self listElement secondarySelectionMode multiple: aNumber = 0
+	self iconContainer maxSelectedCount: aNumber
 ]
 
 { #category : #'instance creation' }

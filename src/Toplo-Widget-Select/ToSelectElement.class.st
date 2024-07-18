@@ -81,7 +81,11 @@ ToSelectElement >> initialize [
 	self addEventHandlerOn: ToPlaceholderShownEvent do: [ :event |
 		self flag: 'The width of 16???. Why ? Anyway, it should be handled via a skin'.
 		event placeholder padding: (BlInsets left: 16).
-		event placeholder layout alignCenterLeft ]
+		event placeholder layout alignCenterLeft ].
+
+	" a select is made to be horizontal. the following constraints 
+	must be set here to initialize the resizers properly "
+	self hMatchParent
 ]
 
 { #category : #accessing }

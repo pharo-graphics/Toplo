@@ -155,6 +155,13 @@ BlElement >> hasEnablementFlag [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> hasStamp [
+	"Return true if the BlElement has stamp (one or more), false if not"
+
+	^ self allStamps notEmpty
+]
+
+{ #category : #'*Toplo' }
 BlElement >> hasStamp: aSymbol [
 
 	^ self toStyleStore

@@ -5,7 +5,8 @@
 
 # Toplo
 
-Toplo is a widget framework for [Pharo](https://www.pharo.org) on top of [Bloc](https://github.com/pharo-graphics/Bloc). 
+Toplo is a widget framework for [Pharo](https://www.pharo.org) on top of [Bloc](https://github.com/pharo-graphics/Bloc).
+Toplo is in development. You want to contribute ? A cool way to start to contribute is to use it and add issues with tests.
 
 
 ## Documentation
@@ -19,7 +20,6 @@ The project can be loaded as usual via Metacello, using the `BaselineOfToplo` sp
 
 
 ## Branches & Contributions
-
 We describe our contribution workflow & branch name convention in [this wiki page](../../wiki/Branches-and-versions).
 
 

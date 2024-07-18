@@ -49,7 +49,7 @@ ToSelectListWindowManager >> defaultMinHeight [
 { #category : #initialization }
 ToSelectListWindowManager >> defaultNodeBuilder [
 
-	^ [ :node :dataItem :holder | listDataNodeBuilder value: node value: holder ]
+	^ [ :node :dataItem :holder | listDataNodeBuilder value: node value: dataItem value: holder ]
 ]
 
 { #category : #initialization }

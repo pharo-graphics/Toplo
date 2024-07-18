@@ -5,6 +5,16 @@ Class {
 	#category : #'Toplo-Widget-Segmented'
 }
 
+{ #category : #'t - bar node' }
+ToSegmentedNode >> autoDistribute: aBoolean [
+
+	super autoDistribute: aBoolean.
+	aBoolean ifTrue: [
+		self content constraintsDo: [ :c |
+			c horizontal matchParent.
+			c vertical matchParent ] ]
+]
+
 { #category : #'t - list node' }
 ToSegmentedNode >> clickEventHandlerClasses [
 
@@ -21,12 +31,6 @@ ToSegmentedNode >> content [
 ToSegmentedNode >> isFirst [
 
 	^ self holder position = 1
-]
-
-{ #category : #testing }
-ToSegmentedNode >> isHorizontal [
-
-	^ self holder segmentedBarElement isHorizontal
 ]
 
 { #category : #testing }

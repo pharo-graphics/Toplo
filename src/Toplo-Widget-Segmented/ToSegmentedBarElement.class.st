@@ -9,12 +9,6 @@ Class {
 	#category : #'Toplo-Widget-Segmented'
 }
 
-{ #category : #visiting }
-ToSegmentedBarElement >> accept: aVisitor [
-
-	aVisitor visitSegmentedBarElement: self
-]
-
 { #category : #accessing }
 ToSegmentedBarElement >> checkableElementAccessor [
 	"according to the specific vocabulary - the data items are checkables of the checkable bar element "
@@ -25,7 +19,7 @@ ToSegmentedBarElement >> checkableElementAccessor [
 { #category : #initialization }
 ToSegmentedBarElement >> defaultEventHandler [
 
-	^ ToSegmentedEventHandler new
+	^ ToSegmentedBarEventHandler new
 ]
 
 { #category : #initialization }
@@ -47,12 +41,6 @@ ToSegmentedBarElement >> initialize [
 	self group
 		addEventHandlerOn: ToCheckableGroupChangedEvent
 		do: [ :event | self dispatchEvent: event ]
-]
-
-{ #category : #layout }
-ToSegmentedBarElement >> layoutConfigurator [ 
-
-	^ ToSegmentedConfigurator new
 ]
 
 { #category : #skin }
@@ -78,10 +66,4 @@ ToSegmentedBarElement >> segmentAccessor [
 	"according to the specific vocabulary - the data items are checkables of the checkable bar element "
 
 	^ self dataAccessor
-]
-
-{ #category : #testing }
-ToSegmentedBarElement >> wantsHMatchParent [
-
-	^ self isVertical and: [ nodeWrapping not ]
 ]

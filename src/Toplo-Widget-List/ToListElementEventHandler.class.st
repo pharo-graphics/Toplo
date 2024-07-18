@@ -74,7 +74,7 @@ ToListElementEventHandler >> eventsToHandle [
 		  BlInfiniteDataSourceItemRangeInserted.
 		  BlInfiniteDataSourceItemRangeRemoved.
 
-		  BlLayoutConstraintsChangedEvent.
+		  BlLayoutResizerChangedEvent.
 		  ToLayoutOrientationChangedEvent.
 		  ToLayoutDirectionChangedEvent.
 
@@ -133,12 +133,6 @@ ToListElementEventHandler >> infiniteDataSourceItemsFiltered: anEvent [
 ]
 
 { #category : #'element events handling' }
-ToListElementEventHandler >> layoutConstraintsChangedEvent: anEvent [
-
-	anEvent currentTarget dispatchMainResizerChanged 
-]
-
-{ #category : #'element events handling' }
 ToListElementEventHandler >> layoutDirectionChangedEvent: anEvent [
 
 	anEvent currentTarget dispatchMainLayoutDirectionChanged
@@ -148,6 +142,12 @@ ToListElementEventHandler >> layoutDirectionChangedEvent: anEvent [
 ToListElementEventHandler >> layoutOrientationChangedEvent: anEvent [
 
 	anEvent currentTarget dispatchMainLayoutOrientationChanged 
+]
+
+{ #category : #'element events handling' }
+ToListElementEventHandler >> layoutResizerChangedEvent: anEvent [
+
+	anEvent currentTarget dispatchMainResizerChanged 
 ]
 
 { #category : #'infinite event handling' }

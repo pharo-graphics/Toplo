@@ -7,10 +7,9 @@ Trait {
 TToBarNode >> autoDistribute: aBoolean [
 
 	aBoolean ifTrue: [
-		self constraintsDo: [ :c |
-			self holder listElement isHorizontal
-				ifTrue: [ c horizontal matchParent ]
-				ifFalse: [ c vertical matchParent ] ] ]
+		self isHorizontal
+			ifTrue: [ self hMatchParent ]
+			ifFalse: [ self vMatchParent ] ]
 ]
 
 { #category : #'t - bar node' }

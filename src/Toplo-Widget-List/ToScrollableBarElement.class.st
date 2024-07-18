@@ -15,12 +15,6 @@ ToScrollableBarElement class >> onInnerBarElement: anInnerBarElement [
 		  yourself
 ]
 
-{ #category : #visiting }
-ToScrollableBarElement >> accept: aVisitor [
-
-	aVisitor visitScrollableBarElement: self
-]
-
 { #category : #'accessing - children' }
 ToScrollableBarElement >> addAllHolders: anArray at: aPosition [
 
@@ -37,6 +31,15 @@ ToScrollableBarElement >> addFakeNode: aNode [
 ToScrollableBarElement >> addHolder: anHolder at: aPosition [
 
 	trackElement addHolder: anHolder at: aPosition
+]
+
+{ #category : #layout }
+ToScrollableBarElement >> configureLayoutIn: aBarElement [
+
+	self matchParent.
+	aBarElement isHMatchParent ifFalse: [ self hFitContent ].
+	aBarElement isVMatchParent ifFalse: [ self vFitContent ].
+	trackElement configureLayoutIn: aBarElement
 ]
 
 { #category : #'private - commands' }
@@ -84,6 +87,14 @@ ToScrollableBarElement >> fullyVisibleNodesDo: aBlock [
 ToScrollableBarElement >> fullyVisibleNodesSelect: aBlock [
 
 	^ trackElement fullyVisibleNodesSelect: aBlock
+]
+
+{ #category : #initialization }
+ToScrollableBarElement >> initialize [ 
+
+	super initialize.
+	self matchParent.
+
 ]
 
 { #category : #testing }

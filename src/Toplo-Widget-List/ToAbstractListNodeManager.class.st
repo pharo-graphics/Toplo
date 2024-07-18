@@ -20,8 +20,8 @@ ToAbstractListNodeManager >> buildNode: aNode inHolder: aNodeHolder [
 ToAbstractListNodeManager >> constraintNode: aNode [
 
 	aNode constraintsDo: [ :c |
-		  c horizontal matchParent.
-		  c vertical fitContent ] 
+		c horizontal matchParent.
+		c vertical fitContent ]
 ]
 
 { #category : #initialization }

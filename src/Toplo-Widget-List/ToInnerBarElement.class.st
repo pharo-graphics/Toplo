@@ -18,12 +18,6 @@ ToInnerBarElement class >> onBarElement: aBarElement [
 		  initialize
 ]
 
-{ #category : #visiting }
-ToInnerBarElement >> accept: aVisitor [
-
-	aVisitor visitInnerBarElement: self
-]
-
 { #category : #'accessing - nodes' }
 ToInnerBarElement >> addAllHolders: anArray at: aPosition [
 
@@ -42,6 +36,15 @@ ToInnerBarElement >> checkFullyVisibleNodes [
 	listElement dispatchEvent: (ToBarNodeVisibilityEvent new
 			 invisibleNodes: invisibleNodes;
 			 yourself)
+]
+
+{ #category : #layout }
+ToInnerBarElement >> configureLayoutIn: aBarElement [
+
+	self matchParent.
+	aBarElement isHMatchParent ifFalse: [ self hFitContent ].
+	aBarElement isVMatchParent ifFalse: [ self vFitContent ].
+	self scrollableElement configureLayoutIn: aBarElement
 ]
 
 { #category : #accessing }
@@ -180,11 +183,7 @@ ToInnerBarElement >> listElement: aListElement [
 { #category : #'instance creation' }
 ToInnerBarElement >> newMiddleContainer [
 
-	^ self newScrollableBarElement 
-		  constraintsDo: [ :c |
-			  c horizontal fitContent.
-			  c vertical fitContent ];
-		  yourself
+	^ self newScrollableBarElement
 ]
 
 { #category : #'instance creation' }

@@ -16,29 +16,14 @@ ToSegmentedNodeManager >> buildFakeNode: aFakeNode inHolder: anHolder [
 ]
 
 { #category : #initialization }
-ToSegmentedNodeManager >> constraintNode: aNode [
-
-	| seg |
-	super constraintNode: aNode.
-	seg := aNode holder segmentedBarElement.
-	aNode childrenDo: [ :child |
-		child background: BlTransparentBackground uniqueInstance.
-		child constraintsDo: [ :c |
-			c linear vertical alignCenter.
-			c linear horizontal alignCenter.
-			c horizontal matchParent.
-			c vertical matchParent ] ].
-	seg wantsHMatchParent ifFalse: [ ^ self ].
-	aNode constraintsDo: [ :c | c horizontal matchParent ]
-]
-
-{ #category : #initialization }
 ToSegmentedNodeManager >> defaultNodeBuilder [
 
 	^ [ :node :contentElement :holder |
 	  node isFake ifFalse: [
 		  contentElement registerInGroup: holder segmentedBarElement group.
-		  contentElement constraints infinite holder: holder ].
+		  contentElement constraints infinite holder: holder.
+		  contentElement constraintsDo: [ :c | c horizontal matchParent ].
+		].
 	  node addChild: contentElement ]
 ]
 
@@ -60,6 +45,6 @@ ToSegmentedNodeManager >> unbuildNode: aNode [
 
 	aNode isFake ifFalse: [
 		  aNode content unregisterFromGroup ].
-	aNode holder contentElement removeFromParent.
+	aNode content removeFromParent.
 	super unbuildNode: aNode
 ]

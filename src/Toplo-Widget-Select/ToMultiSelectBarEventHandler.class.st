@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMultiSelectBarEventHandler,
-	#superclass : #ToListElementEventHandler,
+	#superclass : #ToBarElementEventHandler,
 	#category : #'Toplo-Widget-Select-Multi'
 }
 

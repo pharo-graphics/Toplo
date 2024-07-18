@@ -44,7 +44,8 @@ ToBarNodeManager >> constraintFakeNode: aNode [
 ToBarNodeManager >> constraintNode: aNode [
 
 	| bar |
-	bar := aNode holder listElement.
+	aNode isFake ifTrue: [ ^ self ].
+	bar := aNode holder barElement.
 	aNode constraintsDo: [ :c |
 		c horizontal fitContent.
 		c vertical fitContent ].

@@ -1,13 +1,25 @@
 Class {
 	#name : #ToSegmentedElement,
 	#superclass : #ToElement,
-	#traits : 'TToOrientable + TToCheckableHolder',
-	#classTraits : 'TToOrientable classTrait + TToCheckableHolder classTrait',
+	#traits : 'TToCheckableHolder + TToOrientable',
+	#classTraits : 'TToCheckableHolder classTrait + TToOrientable classTrait',
 	#instVars : [
 		'barElement'
 	],
 	#category : #'Toplo-Widget-Segmented'
 }
+
+{ #category : #accessing }
+ToSegmentedElement >> barElement [ 
+
+	^ barElement
+]
+
+{ #category : #initialization }
+ToSegmentedElement >> defaultEventHandler [
+
+	^ ToSegmentedElementEventHandler new
+]
 
 { #category : #accessing }
 ToSegmentedElement >> flowLineUniformWidth: aBoolean [
@@ -19,15 +31,18 @@ ToSegmentedElement >> flowLineUniformWidth: aBoolean [
 ToSegmentedElement >> initialize [
 
 	super initialize.
+	self layout: BlLinearLayout new.
 	barElement := ToSegmentedBarElement new.
 	barElement matchParent.
-	self addChild: barElement
+	self addChild: barElement.
+	self addEventHandler: self defaultEventHandler.
+
 ]
 
 { #category : #'t - orientable - accessing' }
 ToSegmentedElement >> layoutStrategy [
 
-	^ barElement layoutStrategy
+	^ self layout
 
 	
 ]

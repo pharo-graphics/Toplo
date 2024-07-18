@@ -19,6 +19,12 @@ ToMultiSelectElement >> addGroup: anObject withData: aCollection [
 	self dataAccessor addAll: aCollection
 ]
 
+{ #category : #accessing }
+ToMultiSelectElement >> barElement [ 
+
+	^ self innerContainer
+]
+
 { #category : #'accessing - selection' }
 ToMultiSelectElement >> checkHideSelectionFromListElement [
 
@@ -29,6 +35,12 @@ ToMultiSelectElement >> checkHideSelectionFromListElement [
 ToMultiSelectElement >> checkMaxSelectedCountFromListElement [
 
 	self innerContainer checkMaxSelectedCountFromListElement
+]
+
+{ #category : #initialization }
+ToMultiSelectElement >> defaultEventHandler [
+
+	^ ToMultiSelectElementEventHandler new
 ]
 
 { #category : #accessing }
@@ -64,7 +76,8 @@ ToMultiSelectElement >> initialize [
 
 	super initialize.
 	hideSelected := false.
-	maxSelectedCount := 0
+	maxSelectedCount := 0.
+	self addEventHandler: self defaultEventHandler 
 ]
 
 { #category : #'instance creation' }

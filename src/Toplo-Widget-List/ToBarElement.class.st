@@ -10,12 +10,6 @@ Class {
 	#category : #'Toplo-Widget-List-Core-BarElement'
 }
 
-{ #category : #visiting }
-ToBarElement >> accept: aVisitor [
-
-	aVisitor visitBarElement: self
-]
-
 { #category : #layout }
 ToBarElement >> checkFullyVisibleNodes [ 
 
@@ -25,14 +19,19 @@ ToBarElement >> checkFullyVisibleNodes [
 { #category : #layout }
 ToBarElement >> configureLayout [
 
-	self accept: self layoutConfigurator.
-	self requestLayout
+	self innerContainer configureLayoutIn: self
 ]
 
 { #category : #initialization }
 ToBarElement >> defaultDataSource [
 
 	^ ToInfiniteCollectionDataSource new
+]
+
+{ #category : #initialization }
+ToBarElement >> defaultEventHandler [
+
+	^ ToBarElementEventHandler new
 ]
 
 { #category : #initialization }
@@ -78,13 +77,6 @@ ToBarElement >> flowLineUniformWidth: aBoolean [
 
 ]
 
-{ #category : #'t - orientable - orientation' }
-ToBarElement >> horizontal: aBoolean [
-
-	super horizontal: aBoolean.
-	self configureLayout
-]
-
 { #category : #initialization }
 ToBarElement >> initialize [
 
@@ -96,6 +88,7 @@ ToBarElement >> initialize [
 	contextMenuSelectionMode option
 		grouped: false;
 		beneath: false.
+	self matchParent.
 	self configureLayout
 ]
 
@@ -110,12 +103,6 @@ ToBarElement >> initializeInnerContainer [
 ToBarElement >> installFakeNode [
 
 	self innerContainer installFakeNode
-]
-
-{ #category : #layout }
-ToBarElement >> layoutConfigurator [
-
-	^ ToBarLayoutConfigurator new
 ]
 
 { #category : #skin }
@@ -135,6 +122,8 @@ ToBarElement >> nodeAutoDistribution: aBoolean [
 
 	nodeAutoDistribution = aBoolean ifTrue: [ ^ self ].
 	nodeAutoDistribution := aBoolean.
+	" notify dataSource changed to renew all nodes "
+	self notifyDataSourceChanged.
 	self configureLayout
 ]
 
@@ -197,11 +186,4 @@ ToBarElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 ToBarElement >> uninstallFakeNode [
 
 	self innerContainer uninstallFakeNode
-]
-
-{ #category : #'t - orientable - orientation' }
-ToBarElement >> vertical: aBoolean [
-
-	super vertical: aBoolean.
-	self configureLayout
 ]

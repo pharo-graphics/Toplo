@@ -5,154 +5,7 @@ Class {
 }
 
 { #category : #bar }
-ToSandBox class >> barDashBoardFor: aBar [
-
-	| mainPane barPane confPane |
-	mainPane := ToPane horizontal.
-	mainPane matchParent.
-
-	confPane := self configurationBoardFor: aBar.
-	confPane padding: (BlInsets all: 5).
-	confPane width: 250.
-	confPane border: Color lightGray.
-	barPane := ToPane vertical.
-	barPane matchParent.
-	mainPane addChildren: {
-			confPane.
-			barPane }.
-
-	barPane addChild: aBar.
-	^ mainPane
-]
-
-{ #category : #select }
-ToSandBox class >> buildSelectListElementIn: aSelectElement withIconProvider: anIconProviderClass [
-
-	|  phtext icProvider styles iconDescs |
-	aSelectElement listElement placeholderMinHeight: 35.
-	aSelectElement listElement withRowNumbers.
-	phtext := ('No Icon' asRopedText
-		           foreground: Color lightGray;
-		           yourself)
-		          fontSize: 24;
-		          yourself.
-	aSelectElement listElement placeholderBuilder: [ :placeholder :e |
-		| lab |
-		placeholder layout alignCenter.
-		lab := ToAttributedLabel text: phtext.
-		placeholder addChild: lab ].
-
-	icProvider := anIconProviderClass.
-	styles := ToIconStyle allSubclasses asArray sort: [ :a :b |
-		          a name < b name ].
-
-	iconDescs := Array streamContents: [ :stream |
-		             styles do: [ :style |
-			             | s |
-			             s := ('_' , style prefix , '_loaded') asSymbol.
-			             (icProvider respondsTo: s) ifTrue: [
-				             | iconNames |
-				             iconNames := (icProvider perform: s) sort.
-				             iconNames do: [ :n |
-					             stream nextPut: (ToIconDescExample new
-							              name: n;
-							              style: style;
-							              provider: icProvider;
-							              yourself) ] ] ] ].
-
-	aSelectElement listElement nodeBuilder: [ :node :iconDesc :holder  |
-		| styleLab stylePane iclab iclabPane imPane iconStyle iconName icon |
-		iconStyle := iconDesc style.
-		iconName := iconDesc name.
-		icon := iconDesc icon.
-		node layout: BlLinearLayout horizontal.
-		iclabPane := ToElement new layout: BlFrameLayout new.
-		iclabPane vFitContent.
-		iclabPane hMatchParent.
-		stylePane := ToElement new layout: BlFrameLayout new.
-		stylePane vFitContent.
-		stylePane width: 60.
-		iclab := ToLabel text: iconName.
-		iclab constraintsDo: [ :c | c frame vertical alignCenter ].
-		iclabPane addChild: iclab.
-		styleLab := ToLabel text: iconStyle prefix.
-		styleLab constraintsDo: [ :c | c frame vertical alignCenter ].
-		stylePane addChild: styleLab.
-		imPane := ToElement new layout: BlFrameLayout new.
-		imPane fitContent.
-		imPane withNullSkin.
-		imPane background: Color veryVeryLightGray.
-		imPane addChild: (icon
-				 size: 24 asPoint;
-				 yourself).
-		node addChildren: {
-				stylePane.
-				iclabPane.
-				imPane }.
-		node childrenDo: [ :child |
-			child constraintsDo: [ :c | c linear vertical alignCenter ] ] ].
-
-	aSelectElement sieve dataFilter: [ :iconDesc :pattern |
-		(iconDesc style prefix beginsWith: pattern caseSensitive: true) or: [
-			iconDesc name beginsWith: pattern caseSensitive: true ] ].
-
-	aSelectElement dataAccessor addAll: iconDescs
-]
-
-{ #category : #bar }
-ToSandBox class >> checkableBarDashBoardFor: aCheckableBar [
-
-	| barDashBoard checkingStrategyBoard rootPane |
-	barDashBoard := self barDashBoardFor: aCheckableBar.
-	checkingStrategyBoard := self checkingStrategyChooserFor: aCheckableBar.
-
-	rootPane := ToPane vertical.
-	rootPane matchParent.
-	rootPane addChild: barDashBoard.
-	rootPane addChild: checkingStrategyBoard.
-	rootPane addDividers.
-
-	^ rootPane
-]
-
-{ #category : #bar }
-ToSandBox class >> checkingStrategyChooserFor: aCheckableBar [
-
-	| buttons checkingStrategyContainer checkingStrategyGroup |
-	checkingStrategyGroup := ToCheckableGroup new.
-	buttons := OrderedCollection new.
-	{ #Strict. #Weak. #None } do: [ :mode |
-		| chb |
-		chb := ToCheckbox new
-			       labelText: mode asString;
-			       id: mode.
-		buttons add: chb ].
-
-	checkingStrategyGroup registerAll: buttons.
-	checkingStrategyGroup addEventHandler: (BlEventHandler
-			 on: ToCheckableGroupChangedEvent
-			 do: [ :event |
-				 | mode |
-				 mode := event checkedList first id asSymbol.
-				 mode = #Strict
-					 ifTrue: [ aCheckableBar withStrictCheckingStrategy ]
-					 ifFalse: [
-						 mode = #Weak
-							 ifTrue: [ aCheckableBar withWeakCheckingStrategy ]
-							 ifFalse: [ aCheckableBar withoutCheckingStrategy ] ] ]).
-	buttons first checked: true.
-	checkingStrategyContainer := ToPane vertical.
-	checkingStrategyContainer hMatchParent.
-	checkingStrategyContainer addChild:
-		(ToLabel text: 'Checking strategy').
-	checkingStrategyContainer layout cellSpacing: 0.
-	checkingStrategyContainer addChildren:
-		checkingStrategyGroup registeredCheckables.
-	^ checkingStrategyContainer
-]
-
-{ #category : #bar }
-ToSandBox class >> configurationBoardFor: aBar [
+ToSandBox class >> barConfigurationBoardFor: aBar [
 
 	| confPane verticalSwitch wrappingSwitch scrollingSwitch autoDistributionSwitch sameWidthSwitch selectionAnimationSwitch selectOnMouseDownSwitch inspectButton |
 	confPane := ToPane vertical.
@@ -170,17 +23,8 @@ ToSandBox class >> configurationBoardFor: aBar [
 
 	verticalSwitch addEventHandler: (BlEventHandler
 			 on: ToCheckableCheckEvent
-			 do: [ :event |
-				 | v |
-				 v := event current.
-				 v
-					 ifTrue: [
-						 aBar hFitContent.
-						 aBar vMatchParent ]
-					 ifFalse: [
-						 aBar hMatchParent.
-						 aBar vFitContent ].
-				 aBar vertical: v ]).
+			 do: [ :event | aBar vertical: event current ]).
+
 	confPane addChild: verticalSwitch.
 
 	wrappingSwitch := ToSwitchButton new labelText: 'Wrapping'.
@@ -277,6 +121,137 @@ ToSandBox class >> configurationBoardFor: aBar [
 		event invisibleNodes ifNotEmpty: [ :in | in traceCr ] ].
 
 	^ confPane
+]
+
+{ #category : #bar }
+ToSandBox class >> barDashBoardFor: aBar [
+
+	| mainPane barPane confPane |
+	mainPane := ToPane horizontal.
+	mainPane matchParent.
+
+	confPane := self barConfigurationBoardFor: aBar.
+	confPane padding: (BlInsets all: 5).
+	confPane width: 250.
+	confPane border: Color lightGray.
+	barPane := ToPane vertical.
+	barPane matchParent.
+	mainPane addChildren: {
+			confPane.
+			barPane }.
+
+	barPane addChild: aBar.
+	^ mainPane
+]
+
+{ #category : #select }
+ToSandBox class >> buildSelectListElementIn: aSelectElement withIconProvider: anIconProviderClass [
+
+	|  phtext icProvider styles iconDescs |
+	aSelectElement listElement placeholderMinHeight: 35.
+	aSelectElement listElement withRowNumbers.
+	phtext := ('No Icon' asRopedText
+		           foreground: Color lightGray;
+		           yourself)
+		          fontSize: 24;
+		          yourself.
+	aSelectElement listElement placeholderBuilder: [ :placeholder :e |
+		| lab |
+		placeholder layout alignCenter.
+		lab := ToAttributedLabel text: phtext.
+		placeholder addChild: lab ].
+
+	icProvider := anIconProviderClass.
+	styles := ToIconStyle allSubclasses asArray sort: [ :a :b |
+		          a name < b name ].
+
+	iconDescs := Array streamContents: [ :stream |
+		             styles do: [ :style |
+			             | s |
+			             s := ('_' , style prefix , '_loaded') asSymbol.
+			             (icProvider respondsTo: s) ifTrue: [
+				             | iconNames |
+				             iconNames := (icProvider perform: s) sort.
+				             iconNames do: [ :n |
+					             stream nextPut: (ToIconDescExample new
+							              name: n;
+							              style: style;
+							              provider: icProvider;
+							              yourself) ] ] ] ].
+
+	aSelectElement listElement nodeBuilder: [ :node :iconDesc :holder  |
+		| styleLab stylePane iclab iclabPane imPane iconStyle iconName icon |
+		iconStyle := iconDesc style.
+		iconName := iconDesc name.
+		icon := iconDesc icon.
+		node layout: BlLinearLayout horizontal.
+		iclabPane := ToElement new layout: BlFrameLayout new.
+		iclabPane vFitContent.
+		iclabPane hMatchParent.
+		stylePane := ToElement new layout: BlFrameLayout new.
+		stylePane vFitContent.
+		stylePane width: 60.
+		iclab := ToLabel text: iconName.
+		iclab constraintsDo: [ :c | c frame vertical alignCenter ].
+		iclabPane addChild: iclab.
+		styleLab := ToLabel text: iconStyle prefix.
+		styleLab constraintsDo: [ :c | c frame vertical alignCenter ].
+		stylePane addChild: styleLab.
+		imPane := ToElement new layout: BlFrameLayout new.
+		imPane fitContent.
+		imPane withNullSkin.
+		imPane background: Color veryVeryLightGray.
+		imPane addChild: (icon
+				 size: 24 asPoint;
+				 yourself).
+		node addChildren: {
+				stylePane.
+				iclabPane.
+				imPane }.
+		node childrenDo: [ :child |
+			child constraintsDo: [ :c | c linear vertical alignCenter ] ] ].
+
+	aSelectElement sieve dataFilter: [ :iconDesc :pattern |
+		(iconDesc style prefix beginsWith: pattern caseSensitive: true) or: [
+			iconDesc name beginsWith: pattern caseSensitive: true ] ].
+
+	aSelectElement dataAccessor addAll: iconDescs
+]
+
+{ #category : #bar }
+ToSandBox class >> checkingStrategyChooserFor: aCheckableBar [
+
+	| buttons checkingStrategyContainer checkingStrategyGroup |
+	checkingStrategyGroup := ToCheckableGroup new.
+	buttons := OrderedCollection new.
+	{ #Strict. #Weak. #None } do: [ :mode |
+		| chb |
+		chb := ToCheckbox new
+			       labelText: mode asString;
+			       id: mode.
+		buttons add: chb ].
+
+	checkingStrategyGroup registerAll: buttons.
+	checkingStrategyGroup addEventHandler: (BlEventHandler
+			 on: ToCheckableGroupChangedEvent
+			 do: [ :event |
+				 | mode |
+				 mode := event checkedList first id asSymbol.
+				 mode = #Strict
+					 ifTrue: [ aCheckableBar withStrictCheckingStrategy ]
+					 ifFalse: [
+						 mode = #Weak
+							 ifTrue: [ aCheckableBar withWeakCheckingStrategy ]
+							 ifFalse: [ aCheckableBar withoutCheckingStrategy ] ] ]).
+	buttons first checked: true.
+	checkingStrategyContainer := ToPane vertical.
+	checkingStrategyContainer hMatchParent.
+	checkingStrategyContainer addChild:
+		(ToLabel text: 'Checking strategy').
+	checkingStrategyContainer layout cellSpacing: 0.
+	checkingStrategyContainer addChildren:
+		checkingStrategyGroup registeredCheckables.
+	^ checkingStrategyContainer
 ]
 
 { #category : #list }
@@ -2983,7 +2958,6 @@ ToSandBox class >> example_bar [
 								 (selectedIndexes collect: [ :idx | target nodeAt: idx ])
 									 inspect ]) ] ].
 
-	bar vFitContent.
 	dashBoard := self barDashBoardFor: bar.
 	selectionModeBoard := self selectionModeChooserFor: bar.
 	dashBoard constraints linear weight: 0.82.
@@ -3872,14 +3846,13 @@ ToSandBox class >> example_segmentedWithToggleButton [
 
 	| seg dashBoard rootPane feedbackPane maj |
 	seg := ToSegmentedElement new.
-	seg hMatchParent.
-	seg vFitContent.
+	seg matchParent.
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
 		seg segmentAccessor add:
 			((ToToggleButton new label: (ToLabel text: l))
 				 defaultRawSkin: ToToggleInSegmentedSkin new;
 				 whenClickedDo: [ :event | event currentTarget label text traceCr ];
-				 flexible: true;
+				" flexible: true;"
 				 yourself) ].
 
 	dashBoard := self segmentedDashBoardFor: seg.
@@ -5819,13 +5792,131 @@ ToSandBox class >> path_sharp_electric_bike_SVG [
 ]
 
 { #category : #segmented }
+ToSandBox class >> segmentedConfigurationBoardFor: aBar [
+
+	| confPane verticalSwitch wrappingSwitch scrollingSwitch autoDistributionSwitch sameWidthSwitch selectionAnimationSwitch selectOnMouseDownSwitch inspectButton |
+	confPane := ToPane vertical.
+	confPane padding: (BlInsets all: 5).
+	confPane width: 250.
+	confPane border: Color lightGray.
+
+	inspectButton := ToButton new labelText: 'Inspect'.
+	inspectButton whenClickedDo: [ aBar inspect ].
+	confPane addChild: inspectButton.
+
+	verticalSwitch := ToSwitchButton new labelText: 'Vertical'.
+	verticalSwitch startFlexible: true.
+	verticalSwitch hMatchParent.
+
+	verticalSwitch addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :event | aBar vertical: event current ]).
+	confPane addChild: verticalSwitch.
+
+	wrappingSwitch := ToSwitchButton new labelText: 'Wrapping'.
+	wrappingSwitch startFlexible: true.
+	wrappingSwitch hMatchParent.
+	confPane addChild: wrappingSwitch.
+
+	sameWidthSwitch := ToSwitchButton new labelText:
+		                   'Uniform element width'.
+	sameWidthSwitch startFlexible: true.
+	sameWidthSwitch hMatchParent.
+	sameWidthSwitch checked: false.
+	confPane addChild: sameWidthSwitch.
+
+	scrollingSwitch := ToSwitchButton new labelText: 'Scrolling'.
+	scrollingSwitch startFlexible: true.
+	scrollingSwitch hMatchParent.
+
+	confPane addChild: scrollingSwitch.
+
+	wrappingSwitch addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :event |
+				 | v |
+				 v := event current.
+				 aBar nodeWrapping: v.
+				 sameWidthSwitch enabled: v.
+				 scrollingSwitch disabled: v ]).
+
+	sameWidthSwitch addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :event |
+				 | v |
+				 v := event current.
+				 aBar flowLineUniformWidth: v ]).
+
+	scrollingSwitch addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :event |
+				 | v |
+				 v := event current.
+				 aBar nodeScrolling: v ]).
+
+	autoDistributionSwitch := ToSwitchButton new labelText:
+		                          'Auto-distribution'.
+	autoDistributionSwitch startFlexible: true.
+	autoDistributionSwitch hMatchParent.
+
+	confPane addChild: autoDistributionSwitch.
+	autoDistributionSwitch addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :event |
+				 | v |
+				 v := event current.
+				 aBar nodeAutoDistribution: v ]).
+
+	selectionAnimationSwitch := ToSwitchButton new labelText:
+		                            'Animate selection transition'.
+	selectionAnimationSwitch startFlexible: true.
+	selectionAnimationSwitch hMatchParent.
+
+	confPane addChild: selectionAnimationSwitch.
+	selectionAnimationSwitch addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :event |
+				 | v |
+				 v := event current.
+				 aBar selectionMode option animationDuration: (v
+						  ifTrue: [ 200 milliSeconds ]
+						  ifFalse: [ 0 milliSeconds ]).
+				 aBar secondarySelectionMode option animationDuration: (v
+						  ifTrue: [ 150 milliSeconds ]
+						  ifFalse: [ 0 milliSeconds ]) ]).
+
+	wrappingSwitch checked: true.
+
+	selectOnMouseDownSwitch := ToSwitchButton new
+		                           labelText: 'Select on mouse down';
+		                           id: #selectOnMouseDownSwitch.
+	selectOnMouseDownSwitch startFlexible: true.
+	selectOnMouseDownSwitch hMatchParent.
+
+	confPane addChild: selectOnMouseDownSwitch.
+	selectOnMouseDownSwitch addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :event |
+			 aBar selectionMode selectOnMouseDown: event current ]).
+
+	wrappingSwitch checked: true.
+
+	aBar
+		addEventHandlerOn: ToBarNodeVisibilityEvent
+		do: [ :event |
+		event invisibleNodes ifNotEmpty: [ :in | in traceCr ] ].
+
+	^ confPane
+]
+
+{ #category : #segmented }
 ToSandBox class >> segmentedDashBoardFor: aSegmentedElement [
 
 	| mainPane barPane confPane checkingStrategyPane |
 	mainPane := ToPane horizontal.
 	mainPane matchParent.
 
-	confPane := self configurationBoardFor: aSegmentedElement.
+	confPane := self segmentedConfigurationBoardFor: aSegmentedElement.
 	(confPane childWithId: #selectOnMouseDownSwitch) disable.
 	confPane padding: (BlInsets all: 5).
 	confPane width: 250.

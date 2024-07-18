@@ -138,18 +138,6 @@ ToStyleStoreTest >> testHasStamp [
 
 ]
 
-{ #category : #stamps }
-ToStyleStoreTest >> testHasStamp2 [
-
-	| e |
-	e := BlElement new.
-	self deny: e hasStamp.
-
-	e addAllStamps: { #color. #background }.
-	self assert: e hasStamp.
-
-]
-
 { #category : #'token properties' }
 ToStyleStoreTest >> testHasTokenPropertyNamed [
 

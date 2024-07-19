@@ -382,6 +382,19 @@ ToSandBox class >> example_BoundsTransitionWithParallelAnimation [
 	e openInSpace
 ]
 
+{ #category : #'toggle button' }
+ToSandBox class >> example_ButtonTurnedAsToggleButton [
+
+	| toggle |
+	ToTheme cleanUp.
+	toggle := ToButton new label: (ToLabel text: 'Regular button turned as Toggle button').
+	toggle checkable: true.
+	toggle icon: (ToImage new innerImage: (self iconNamed: #solidMenu)).
+	toggle checked: false.
+	toggle openInInnerWindow.
+	toggle inspect
+]
+
 { #category : #'button-dep' }
 ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheet [
 

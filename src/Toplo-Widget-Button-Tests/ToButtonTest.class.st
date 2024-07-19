@@ -21,6 +21,26 @@ ToButtonTest >> testButton [
 ]
 
 { #category : #'click handler' }
+ToButtonTest >> testCheckable [
+
+	| but handler |
+	but := ToButton new.
+	self deny: but isCheckable.
+	self assert: but rawCheckableData isNil.
+	handler := but rawCheckableEventHandler.
+	self assert: handler isNil.
+	but checkable: true.
+	self assert: but rawCheckableData notNil.
+	handler := but rawCheckableEventHandler.
+	self assert: handler notNil.
+	self assert: (but eventDispatcher handlers includes: handler).
+	but checkable: false.
+	self assert: but rawCheckableData isNil.
+	self deny: (but eventDispatcher handlers includes: handler).
+	self assert: but rawCheckableEventHandler isNil
+]
+
+{ #category : #'click handler' }
 ToButtonTest >> testClickAborted [
 
 	| but count |

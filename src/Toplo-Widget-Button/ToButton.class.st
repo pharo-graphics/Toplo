@@ -1,13 +1,39 @@
 Class {
 	#name : #ToButton,
 	#superclass : #ToGeneralButton,
-	#traits : 'TToElementWithLabeledIcon',
-	#classTraits : 'TToElementWithLabeledIcon classTrait',
+	#traits : 'TToElementWithLabeledIcon + TToCheckable',
+	#classTraits : 'TToElementWithLabeledIcon classTrait + TToCheckable classTrait',
 	#instVars : [
-		'labeledIcon'
+		'labeledIcon',
+		'optCheckableData'
 	],
 	#category : #'Toplo-Widget-Button-Core'
 }
+
+{ #category : #configuration }
+ToButton >> beCheckable [
+
+	self isCheckable ifTrue: [ ^ self ].
+	self initializeCheckable.
+	self requestNewSkin
+]
+
+{ #category : #configuration }
+ToButton >> beUncheckable [
+
+	self isCheckable ifFalse: [ ^ self ].
+	self releaseCheckable.
+	optCheckableData := nil.
+	self requestNewSkin
+]
+
+{ #category : #configuration }
+ToButton >> checkable: aBoolean [
+
+	aBoolean
+		ifTrue: [ self beCheckable ]
+		ifFalse: [ self beUncheckable ]
+]
 
 { #category : #initialization }
 ToButton >> initialize [
@@ -32,5 +58,19 @@ ToButton >> labeledIcon [
 { #category : #skin }
 ToButton >> newRawSkin [
 
-	^ ToButtonSkin new
+	^ self isCheckable
+		  ifTrue: [ ToToggleButtonSkin new ]
+		  ifFalse: [ ToButtonSkin new ]
+]
+
+{ #category : #'t - checkable - accessing' }
+ToButton >> rawCheckableData [
+
+	^ optCheckableData 
+]
+
+{ #category : #'t - checkable - accessing' }
+ToButton >> rawCheckableData: aCheckableData [
+
+	optCheckableData := aCheckableData
 ]

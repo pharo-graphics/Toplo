@@ -19,7 +19,7 @@ ToButton >> beCheckable [
 ]
 
 { #category : #configuration }
-ToButton >> beUncheckable [
+ToButton >> beNotCheckable [
 
 	self isCheckable ifFalse: [ ^ self ].
 	self releaseCheckable.
@@ -32,7 +32,7 @@ ToButton >> checkable: aBoolean [
 
 	aBoolean
 		ifTrue: [ self beCheckable ]
-		ifFalse: [ self beUncheckable ]
+		ifFalse: [ self beNotCheckable ]
 ]
 
 { #category : #initialization }

@@ -13,12 +13,6 @@ TToBarNode >> autoDistribute: aBoolean [
 ]
 
 { #category : #'t - bar node' }
-TToBarNode >> endWidthGap [
-
-	^ 0
-]
-
-{ #category : #'t - bar node' }
 TToBarNode >> isFake [
 
 	^ self holder listElement fakeNode = self
@@ -49,7 +43,7 @@ TToBarNode >> nodeContainerIntersection [
 	list := self holder listElement.
 	bnds := (self measuredBounds inParent: list innerContainer) asRectangle.
 	pbnds := list innerContainer measuredBounds asRectangle.
-	pbnds := pbnds withRight: pbnds right - self endWidthGap.
+	pbnds := pbnds withRight: pbnds right.
 	intersection := bnds intersect: pbnds.
 	^ intersection 
 ]

@@ -986,7 +986,7 @@ ToSandBox class >> example_HorizontalListWithIndexedColors [
 ToSandBox class >> example_HugeIntegerList [
 
 	| l nbItems vscrollBar space |
-	nbItems := 10000.
+	nbItems := 50000.
 	l := ToListElement new.
 	l dataAccessor addAll: (1 to: nbItems).
 	l nodeBuilder: [ :node :anInteger |

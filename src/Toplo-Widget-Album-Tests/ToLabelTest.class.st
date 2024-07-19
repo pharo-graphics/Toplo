@@ -36,18 +36,6 @@ ToLabelTest >> testBeMultiline [
 ]
 
 { #category : #tests }
-ToLabelTest >> testHorizontalAlignment [
-
-	| lab |
-	lab := ToLabel new.
-	lab text: 'A'.
-	self assert: lab horizontalAlignment class equals: BlNullHorizontalAlignment.
-	
-	lab alignCenter.
-	self assert: lab horizontalAlignment equals: BlElementAlignment horizontal center.
-]
-
-{ #category : #tests }
 ToLabelTest >> testSkinUpdatedAfterTextChanged [
 	" test if changing the text of a ToLabel do rebuild its skin  "
 
@@ -173,16 +161,4 @@ ToLabelTest >> testTextSharedWithInnerElement [
 	lab beMultiLine.
 	self deny: inner identicalTo: lab innerElement.
 	self assert: lab text identicalTo: lab innerElement text.
-]
-
-{ #category : #tests }
-ToLabelTest >> testVerticalAlignment [
-
-	| lab |
-	lab := ToLabel new.
-	lab text: 'A'.
-	self assert: lab verticalAlignment class equals: BlNullVerticalAlignment.
-	
-	lab alignCenter.
-	self assert: lab verticalAlignment equals: BlElementAlignment vertical center.
 ]

@@ -1,8 +1,8 @@
 Class {
 	#name : #ToLabel,
 	#superclass : #ToElement,
-	#traits : 'TBlAlignable + TBlTextStyleable',
-	#classTraits : 'TBlAlignable classTrait + TBlTextStyleable classTrait',
+	#traits : 'TBlTextStyleable',
+	#classTraits : 'TBlTextStyleable classTrait',
 	#instVars : [
 		'isEditable',
 		'innerElement',
@@ -98,12 +98,6 @@ ToLabel >> defaultEventHandler [
 ]
 
 { #category : #initialization }
-ToLabel >> defaultLayout [ 
-
-	^ BlLinearLayout new
-]
-
-{ #category : #initialization }
 ToLabel >> defaultLineMode [
 
 	^ ToLabelLineMode mono
@@ -158,19 +152,6 @@ ToLabel >> hasEditor [
 ToLabel >> hasText [
 
 	^ self text notNil and: [ self text isNotEmpty ]
-]
-
-{ #category : #accessing }
-ToLabel >> horizontalAlignment [
-	<return: #BlElementAlignment>
-
-	^ self layout horizontalAlignment
-]
-
-{ #category : #accessing }
-ToLabel >> horizontalAlignment: aBlElementAlignment [
-
-	self layout horizontalAlignment: aBlElementAlignment
 ]
 
 { #category : #initialization }
@@ -428,17 +409,4 @@ ToLabel >> text: aBlTextOrString [
 ToLabel >> textChanged [
 
 	self innerElement textChanged
-]
-
-{ #category : #accessing }
-ToLabel >> verticalAlignment [
-	<return: #BlElementAlignment>
-	
-	^ self layout verticalAlignment
-]
-
-{ #category : #accessing }
-ToLabel >> verticalAlignment: aBlElementAlignment [
-
-	self layout verticalAlignment: aBlElementAlignment
 ]

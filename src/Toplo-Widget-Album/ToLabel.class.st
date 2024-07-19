@@ -160,8 +160,6 @@ ToLabel >> initialize [
 	self class initializeSlots: self.
 	super initialize.
 	self applySkinInstallerOnFirstRequest: true.
-	
-	self layout: self defaultLayout.
 	self fitContent.
 
 	self lineMode: self defaultLineMode.

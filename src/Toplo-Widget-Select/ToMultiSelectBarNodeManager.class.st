@@ -36,7 +36,7 @@ ToMultiSelectBarNodeManager >> buildNode: aNode inHolder: aNodeHolder [
 ToMultiSelectBarNodeManager >> defaultCompositeNodeBuilder [
 
 	^ [ :node :compositeDataItem :holder |
-	  node middleElement:
+	  node addChild:
 		  (ToLabel text: compositeDataItem content asString asRopedText) ]
 ]
 
@@ -44,7 +44,7 @@ ToMultiSelectBarNodeManager >> defaultCompositeNodeBuilder [
 ToMultiSelectBarNodeManager >> defaultNodeBuilder [
 
 	^ [ :node :dataItem :holder |
-	  node middleElement: (ToLabel text: dataItem asString) ]
+	  node addChild: (ToTagElement new labelText: dataItem asString; hMatchParent ) ]
 ]
 
 { #category : #initialization }
@@ -57,11 +57,4 @@ ToMultiSelectBarNodeManager >> defaultNodeFactory [
 ToMultiSelectBarNodeManager >> defaultNodeHolderClass [ 
 
 	^ ToMultiSelectBarNodeHolder
-]
-
-{ #category : #initialization }
-ToMultiSelectBarNodeManager >> defaultStandardNodeBuilder [
-
-	^ [ :node :holder :dataItem |
-	  node middleElement: (ToLabel text: dataItem asString) ]
 ]

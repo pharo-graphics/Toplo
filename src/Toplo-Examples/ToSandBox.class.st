@@ -1732,7 +1732,7 @@ ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
 		imPane withNullSkin.
 		imPane background: Color veryLightGray.
 		imPane addChild: (iconDesc icon size: 48 asPoint).
-		node middleElement: imPane ].
+		node addChild: imPane ].
 	select fakeDataItem: select dataAccessor first.
 	select hMatchParent.
 	select placeholderText:
@@ -1804,7 +1804,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 		200 milliSeconds.
 	select listElement withRowNumbers.
 	select innerContainer nodeBuilder: [ :node :dataItem :holder | 
-		node middleElement: (ToAttributedLabel new
+		node addChild: (ToAttributedLabel new
 				 text: dataItem asString;
 				 foreground: Color random;
 				 yourself) ].

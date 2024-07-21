@@ -1637,15 +1637,8 @@ ToSandBox class >> example_SelectAntDesignIconMonoFiltrable [
 	select filtrable: true.
 
 	select dataViewBuilder: [ :dataItemView :iconDesc |
-		| imPane |
-		dataItemView selectedDataTextField text:
-			iconDesc style prefix , ' ' , iconDesc name.
-		imPane := ToElement new layout: BlFrameLayout new.
-		imPane fitContent.
-		imPane withNullSkin.
-		imPane background: Color veryLightGray.
-		imPane addChild: (iconDesc icon size: 48 asPoint).
-		dataItemView addChild: imPane ].
+		dataItemView selectedDataTextField text: iconDesc style prefix , ' ' , iconDesc name.
+		dataItemView addChild: ((iconDesc icon size: 48 asPoint) background: Color veryLightGray) ].
 	
 	select fakeDataItem: select dataAccessor first.
 
@@ -1667,21 +1660,14 @@ ToSandBox class >> example_SelectAntDesignIconMultiFiltrable [
 	select filtrable: true.
 
 	select nodeBuilder: [ :node :iconDesc :holder |
-		| imPane |
-		imPane := ToElement new layout: BlFrameLayout new.
-		imPane fitContent.
-		imPane withNullSkin.
-		imPane background: Color veryLightGray.
-		imPane addChild: (iconDesc icon size: 48 asPoint).
-		node middleElement: imPane ].
+		node addChild: ((iconDesc icon size: 48 asPoint) background: Color veryLightGray ) ].
 	select fakeDataItem: select dataAccessor first.
 	select hMatchParent.
 	select placeholderText:
 		('Select icons' asRopedText foreground: Color red).
 
 	select inputTextField requestFocus.
-	select openInSpace.
-	select inspect
+	select openInSpace
 ]
 
 { #category : #select }
@@ -1694,15 +1680,8 @@ ToSandBox class >> example_SelectMaterialDesignIconMonoFiltrable [
 	select filtrable: true.
 
 	select dataViewBuilder: [ :dataItemView :iconDesc |
-		| imPane |
-		dataItemView selectedDataTextField text:
-			iconDesc style prefix , ' ' , iconDesc name.
-		imPane := ToElement new layout: BlFrameLayout new.
-		imPane fitContent.
-		imPane withNullSkin.
-		imPane background: Color veryLightGray.
-		imPane addChild: (iconDesc icon size: 48 asPoint).
-		dataItemView addChild: imPane ].
+		dataItemView selectedDataTextField text: iconDesc style prefix , ' ' , iconDesc name.
+		dataItemView addChild: ((iconDesc icon size: 48 asPoint) background: Color veryLightGray) ].
 	
 	select fakeDataItem: select dataAccessor first.
 
@@ -1717,22 +1696,19 @@ ToSandBox class >> example_SelectMaterialDesignIconMonoFiltrable [
 { #category : #select }
 ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
 
-	| select   |
+	| select |
 	select := ToMultiSelectElement new.
 	select nodeWrapping: false.
 	select keepPickOrder: true.
-	self buildSelectListElementIn: select withIconProvider: ToMaterialDesignIconProvider.
+	self
+		buildSelectListElementIn: select
+		withIconProvider: ToMaterialDesignIconProvider.
 
 	select filtrable: true.
 
 	select nodeBuilder: [ :node :iconDesc :holder |
-		| imPane |
-		imPane := ToElement new layout: BlFrameLayout new.
-		imPane fitContent.
-		imPane withNullSkin.
-		imPane background: Color veryLightGray.
-		imPane addChild: (iconDesc icon size: 48 asPoint).
-		node addChild: imPane ].
+		node addChild:
+			((iconDesc icon size: 48 asPoint) background: Color veryLightGray) ].
 	select fakeDataItem: select dataAccessor first.
 	select hMatchParent.
 	select placeholderText:
@@ -1800,14 +1776,16 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	| select innerWindow |
 	select := ToMultiSelectElement new.
 	select nodeWrapping: true.
-	select innerContainer selectionMode option animationDuration:
+	select barElement selectionMode option masked: true.
+	select barElement selectionMode option animationDuration:
 		200 milliSeconds.
 	select listElement withRowNumbers.
-	select innerContainer nodeBuilder: [ :node :dataItem :holder | 
-		node addChild: (ToAttributedLabel new
-				 text: dataItem asString;
-				 foreground: Color random;
-				 yourself) ].
+	select innerContainer nodeBuilder: [ :node :dataItem :holder |
+		node addChild: (ToTagElement new label: (ToAttributedLabel new
+					  text: dataItem asString;
+					  foreground: Color random;
+					  freeze;
+					  yourself)) ].
 	select hideSelected: false.
 	select dataAccessor addAll: self statesOfAmerica.
 	select filtrable: true.

@@ -49,6 +49,12 @@ ToLabel >> applyStyle [
 ]
 
 { #category : #accessing }
+ToLabel >> attributes: anArray [
+
+	self attributesBuilder attributes: anArray
+]
+
+{ #category : #accessing }
 ToLabel >> attributesBuilder [
 	<return: #BlTextAttributesBuilder>
 	

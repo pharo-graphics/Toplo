@@ -126,7 +126,16 @@ ToAbstractListElement >> defaultCommandCheckerClass [
 { #category : #initialization }
 ToAbstractListElement >> defaultContextMenuSelectionMode [
 
-	^ ToListContextMenuSelectionMode new
+	| mode option |
+	mode := ToListContextMenuSelectionMode new.
+	option := ToListSelectionElementOption new.
+	mode option: option.
+	option
+		grouped: true;
+		beneath: false;
+		elementFactory: [ ToListContextMenuSelectionElement new ];
+		listEventHandler: ToListContextMenuSelectionElementEventHandler new.
+	^ mode
 ]
 
 { #category : #initialization }
@@ -174,7 +183,18 @@ ToAbstractListElement >> defaultNodeManagerClass [
 { #category : #initialization }
 ToAbstractListElement >> defaultPrimarySelectionMode [
 
-	^ self defaultPrimarySelectionModeClass new
+	| mode option |
+	mode := self defaultPrimarySelectionModeClass new.
+	option := ToListSelectionElementOption new.
+	option
+		grouped: true;
+		beneath: true;
+		triggerSelectionState: true;
+		elementFactory: [ ToListPrimarySelectionElement new ];
+		listEventHandler: ToListPrimarySelectionElementEventHandler new.
+	mode option: option.
+
+	^ mode
 ]
 
 { #category : #initialization }
@@ -186,7 +206,16 @@ ToAbstractListElement >> defaultPrimarySelectionModeClass [
 { #category : #initialization }
 ToAbstractListElement >> defaultSecondarySelectionMode [
 
-	^ ToListSecondarySelectionMode new
+	| mode option |
+	mode := ToListSecondarySelectionMode new.
+	option := ToListSelectionElementOption new.
+	mode option: option.
+	option
+		grouped: true;
+		beneath: true;
+		elementFactory: [ ToListSecondarySelectionElement new ];
+		listEventHandler: ToListSecondarySelectionElementEventHandler new.
+	^ mode
 ]
 
 { #category : #'accessing selecters' }
@@ -234,8 +263,8 @@ ToAbstractListElement >> initialize [
 
 	self addEventHandler: self defaultEventHandler.
 	self selectionMode: self defaultPrimarySelectionMode.
-	self contextMenuWindowManagerClass: self defaultContextMenuWindowManagerClass.
 	self secondarySelectionMode: self defaultSecondarySelectionMode.
+	self contextMenuWindowManagerClass: self defaultContextMenuWindowManagerClass.
 	self contextMenuSelectionMode: self defaultContextMenuSelectionMode.
 
 	self matchParent

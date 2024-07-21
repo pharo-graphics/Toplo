@@ -66,7 +66,7 @@ ToListElementTest >> testDataRemovedWhenNodeRemoved [
 	BlSpace simulateMouseDownOn: but.
 	BlSpace simulateMouseUpOn: but.
 	self assert: list dataAccessor isEmpty.
-	self assert: list selectionMode selectionElements isEmpty
+	self assert: list selectionMode option selectionElements isEmpty
 ]
 
 { #category : #tests }
@@ -191,13 +191,13 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved [
 	BlSpace simulateMouseUpOn: fillers first.
 	self assert: list dataAccessor size equals: 2.
 	self assert: list selectionModel selectedIndexes equals: { 1 }.
-	self assert: list selectionMode selectionElements size equals: 1.
+	self assert: list selectionMode option selectionElements size equals: 1.
 	but := remButtons at: 2.
 	BlSpace simulateMouseDownOn: but.
 	BlSpace simulateMouseUpOn: but.
 	self assert: list dataAccessor size equals: 1.
 	self assert: list selectionModel selectedIndexes equals: { 1 }.
-	self assert: list selectionMode selectionElements size equals: 1
+	self assert: list selectionMode option selectionElements size equals: 1
 ]
 
 { #category : #tests }
@@ -216,14 +216,14 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved2 [
 	self waitTestingSpaces.
 	self assert: list dataAccessor size equals: 2.
 	self assert: list selectionModel selectedIndexes equals: { 1 }.
-	self assert: list selectionMode selectionElements size equals: 1.
+	self assert: list selectionMode option selectionElements size equals: 1.
 	but := list childWithId: #'remove-button-1'.
 	BlSpace simulateMouseDownOn: but.
 	BlSpace simulateMouseUpOn: but.
 	self waitTestingSpaces.
 	self assert: list dataAccessor size equals: 1.
 	self assert: list selectionModel selectedIndexes isEmpty.
-	self assert: list selectionMode selectionElements isEmpty
+	self assert: list selectionMode option selectionElements isEmpty
 ]
 
 { #category : #tests }
@@ -242,7 +242,7 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved3 [
 	self waitTestingSpaces.
 	self assert: list dataAccessor size equals: 2.
 	self assert: list selectionModel selectedIndexes equals: { 1 }.
-	self assert: list selectionMode selectionElements size equals: 1.
+	self assert: list selectionMode option selectionElements size equals: 1.
 	but := list childWithId: #'remove-button-1'.
 	BlSpace simulateMouseDownOn: but.
 	BlSpace simulateMouseUpOn: but.
@@ -255,7 +255,7 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved3 [
 	self waitTestingSpaces.
 	self assert: list dataAccessor size equals: 0.
 	self assert: list selectionModel selectedIndexes isEmpty.
-	self assert: list selectionMode selectionElements isEmpty
+	self assert: list selectionMode option selectionElements isEmpty
 ]
 
 { #category : #tests }
@@ -280,14 +280,14 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved4 [
 	self waitTestingSpaces.
 	self assert: list dataAccessor size equals: 1.
 	self assert: list selectionModel selectedIndexes equals: { 1 }.
-	self assert: list selectionMode selectionElements size equals: 1.
+	self assert: list selectionMode option selectionElements size equals: 1.
 	but := list childWithId: #'remove-button-1'.
 	BlSpace simulateMouseDownOn: but.
 	BlSpace simulateMouseUpOn: but.
 	self waitTestingSpaces.
 	self assert: list dataAccessor size equals: 0.
 	self assert: list selectionModel selectedIndexes isEmpty.
-	self assert: list selectionMode selectionElements isEmpty
+	self assert: list selectionMode option selectionElements isEmpty
 ]
 
 { #category : #'test selection - adding/removing' }

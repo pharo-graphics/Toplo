@@ -4,18 +4,6 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
-{ #category : #initialization }
-ToListHiddenSelectionMode >> listEventHandlerClass [
-
-	^ ToListHiddenSelectionElementEventHandler
-]
-
-{ #category : #'instance creation' }
-ToListHiddenSelectionMode >> newListEventHandler [
-
-	^ ToListHiddenSelectionElementEventHandler new
-]
-
 { #category : #'instance creation' }
 ToListHiddenSelectionMode >> selectionChangedEventClass [ 
 

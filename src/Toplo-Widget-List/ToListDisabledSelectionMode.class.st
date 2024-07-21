@@ -5,18 +5,6 @@ Class {
 }
 
 { #category : #initialization }
-ToListDisabledSelectionMode >> listEventHandlerClass [
-
-	^ ToListDisabledSelectionElementEventHandler 
-]
-
-{ #category : #'instance creation' }
-ToListDisabledSelectionMode >> newListEventHandler [
-
-	^ ToListDisabledSelectionElementEventHandler new
-]
-
-{ #category : #initialization }
 ToListDisabledSelectionMode >> selectionChangedEventClass [ 
 
 	^ ToListDisabledSelectionChangedEvent

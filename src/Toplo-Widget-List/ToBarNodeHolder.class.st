@@ -19,9 +19,3 @@ ToBarNodeHolder >> changeDataItem: aDataItem [
 	self dataItem: aDataItem.
 	self build
 ]
-
-{ #category : #testing }
-ToBarNodeHolder >> isFakeHolder [
-
-	^ self barElement fakeNode = self node
-]

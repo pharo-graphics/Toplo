@@ -36,9 +36,3 @@ ToListSubSelectionMode >> parentMode: aSelectionMode [
 
 	parentMode := aSelectionMode
 ]
-
-{ #category : #accessing }
-ToListSubSelectionMode >> uniqueId [ 
-
-	^ self subclassResponsibility 
-]

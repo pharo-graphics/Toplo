@@ -8,20 +8,6 @@ Class {
 }
 
 { #category : #initialization }
-ToListSecondarySelectionMode >> defaultElementBuilder [
-
-	^ [ ToListSecondarySelectionElement new ]
-]
-
-{ #category : #initialization }
-ToListSecondarySelectionMode >> defaultOption [
-
-	^ (ToListSelectionOption grouped)
-		  beneath: true;
-		  yourself
-]
-
-{ #category : #initialization }
 ToListSecondarySelectionMode >> initialize [
 
 	super initialize.
@@ -34,12 +20,6 @@ ToListSecondarySelectionMode >> isMultipleSelection [
 	^ multiple
 ]
 
-{ #category : #initialization }
-ToListSecondarySelectionMode >> listEventHandlerClass [
-
-	^ ToListSecondarySelectionElementEventHandler 
-]
-
 { #category : #accessing }
 ToListSecondarySelectionMode >> multiple: aBoolean [
 
@@ -47,12 +27,6 @@ ToListSecondarySelectionMode >> multiple: aBoolean [
 	multiple := aBoolean.
 	selecter ifNil: [ ^ self ].
 	selecter multiple: aBoolean
-]
-
-{ #category : #'instance creation' }
-ToListSecondarySelectionMode >> newListEventHandler [
-
-	^ ToListSecondarySelectionElementEventHandler new
 ]
 
 { #category : #'instance creation' }
@@ -73,4 +47,10 @@ ToListSecondarySelectionMode >> newSelectionModelIn: aListElement [
 ToListSecondarySelectionMode >> selectionChangedEventClass [ 
 
 	^ ToListSecondarySelectionChangedEvent
+]
+
+{ #category : #accessing }
+ToListSecondarySelectionMode >> uniqueId [ 
+
+	^ #secondary
 ]

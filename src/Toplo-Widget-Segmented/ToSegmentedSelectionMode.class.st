@@ -4,24 +4,6 @@ Class {
 	#category : #'Toplo-Widget-Segmented'
 }
 
-{ #category : #initialization }
-ToSegmentedSelectionMode >> defaultElementBuilder [
-
-	^ [ ToListPrimarySelectionElement new ]
-]
-
-{ #category : #'instance creation' }
-ToSegmentedSelectionMode >> listEventHandlerClass [
-
-	^ ToListPrimarySelectionElementEventHandler 
-]
-
-{ #category : #'instance creation' }
-ToSegmentedSelectionMode >> newListEventHandler [
-
-	^ ToListPrimarySelectionElementEventHandler new
-]
-
 { #category : #'instance creation' }
 ToSegmentedSelectionMode >> newSelecter [
 

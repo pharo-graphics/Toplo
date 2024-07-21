@@ -1474,7 +1474,7 @@ ToSandBox class >> example_PicsumPhotosGallery [
 		grouped: false;
 		beneath: false;
 		triggerSelectionState: true;
-		elementBuilder: [ ToPicsumPhotosGallerySelectionElement new ].
+		elementFactory: [ ToPicsumPhotosGallerySelectionElement new ].
 
 	[
 	| allImagesData |
@@ -1940,7 +1940,7 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected [
 
 	| select innerWindow |
 	select := ToMultiSelectElement new.
-	select listElement selectionMode option elementBuilder: [
+	select listElement selectionMode option elementFactory: [
 		ToListPrimarySelectionElement new
 			withNullSkin;
 			yourself ].
@@ -5508,16 +5508,24 @@ ToSandBox class >> listWithEditableAndContextMenu [
 
 	l newHiddenSelectionMode onInstalledIn: l.
 	disabledMode := l newDisabledSelectionMode.
-	disabledMode onInstalledIn: l.
-	disabledMode option elementBuilder: [
+	disabledMode option: ToListSelectionElementOption new.
+	disabledMode option listEventHandler: ToListDisabledSelectionElementEventHandler new.
+	disabledMode option grouped: false.
+	disabledMode option beneath: false.
+	disabledMode option elementFactory: [
 		ToListDisabledSelectionElement new ].
+	disabledMode onInstalledIn: l.
+
 	
 	unselectableMode := l newUnselectableSelectionMode.
-	unselectableMode onInstalledIn: l.
-
-	unselectableMode option elementBuilder: [
+	unselectableMode option: ToListSelectionElementOption new.
+	unselectableMode option listEventHandler: ToListUnselectableSelectionElementEventHandler new.
+	unselectableMode option grouped: false.
+	unselectableMode option beneath: false.
+	unselectableMode option elementFactory: [
 		ToListUnselectableSelectionElement new defaultSkin:
 			ToListUnselectableSelectionElementExempleSkin new ].
+	unselectableMode onInstalledIn: l.
 
 	phtext := (('Invoke the context menu ' , String cr
 	            , 'with a right-click' , String cr

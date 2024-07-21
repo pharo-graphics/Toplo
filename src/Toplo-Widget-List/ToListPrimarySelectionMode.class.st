@@ -34,21 +34,6 @@ ToListPrimarySelectionMode >> beSingleSelection [
 ]
 
 { #category : #initialization }
-ToListPrimarySelectionMode >> defaultElementBuilder [ 
-
-	^ [ ToListPrimarySelectionElement new ]
-]
-
-{ #category : #initialization }
-ToListPrimarySelectionMode >> defaultOption [
-
-	^ (ToListSelectionOption grouped)
-		  beneath: true;
-		  triggerSelectionState: true;
-		 yourself
-]
-
-{ #category : #initialization }
 ToListPrimarySelectionMode >> initialize [
 
 	super initialize.
@@ -62,18 +47,6 @@ ToListPrimarySelectionMode >> initialize [
 ToListPrimarySelectionMode >> isMultipleSelection [
 
 	^ multiple
-]
-
-{ #category : #testing }
-ToListPrimarySelectionMode >> isPrimary [ 
-
-	^ true
-]
-
-{ #category : #initialization }
-ToListPrimarySelectionMode >> listEventHandlerClass [
-
-	^ ToListPrimarySelectionElementEventHandler 
 ]
 
 { #category : #testing }
@@ -97,12 +70,6 @@ ToListPrimarySelectionMode >> multiple: aBoolean [
 	multiple := aBoolean.
 	selecter ifNil: [ ^ self ].
 	selecter multiple: aBoolean
-]
-
-{ #category : #'instance creation' }
-ToListPrimarySelectionMode >> newListEventHandler [
-
-	^ ToListPrimarySelectionElementEventHandler new
 ]
 
 { #category : #'instance creation' }
@@ -221,4 +188,10 @@ ToListPrimarySelectionMode >> selectOrDeselectOnNode: aNode [
 ToListPrimarySelectionMode >> selectionChangedEventClass [ 
 
 	^ ToListPrimarySelectionChangedEvent
+]
+
+{ #category : #accessing }
+ToListPrimarySelectionMode >> uniqueId [ 
+
+	^ #primary
 ]

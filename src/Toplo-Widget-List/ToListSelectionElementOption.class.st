@@ -1,5 +1,5 @@
 Class {
-	#name : #ToListSelectionOption,
+	#name : #ToListSelectionElementOption,
 	#superclass : #Object,
 	#instVars : [
 		'masked',
@@ -11,49 +11,49 @@ Class {
 		'groupHolder',
 		'selectionModel',
 		'listEventHandler',
-		'elementBuilder'
+		'elementFactory'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
 { #category : #'instance creation' }
-ToListSelectionOption class >> grouped [
+ToListSelectionElementOption class >> grouped [
 
 	^ self new grouped: true
 ]
 
 { #category : #'instance creation' }
-ToListSelectionOption class >> separate [
+ToListSelectionElementOption class >> separate [
 
 	^ self new grouped: false
 ]
 
 { #category : #'instance creation' }
-ToListSelectionOption >> addSelectionElement: aSelectionElement [
+ToListSelectionElementOption >> addSelectionElement: aSelectionElement [
 
 	selectionContainer addChild: aSelectionElement
 ]
 
 { #category : #'instance creation' }
-ToListSelectionOption >> addSelectionElements: aSelectionElementArray [
+ToListSelectionElementOption >> addSelectionElements: aSelectionElementArray [
 
 	selectionContainer addChildren: aSelectionElementArray
 ]
 
 { #category : #accessing }
-ToListSelectionOption >> animationDuration [
+ToListSelectionElementOption >> animationDuration [
 
 	^ animationDuration
 ]
 
 { #category : #accessing }
-ToListSelectionOption >> animationDuration: aDuration [
+ToListSelectionElementOption >> animationDuration: aDuration [
 
 	animationDuration := aDuration
 ]
 
 { #category : #accessing }
-ToListSelectionOption >> beneath: aBoolean [
+ToListSelectionElementOption >> beneath: aBoolean [
 
 	beneath := aBoolean.
 	selectionContainer ifNotNil: [ | elevation |
@@ -64,13 +64,13 @@ ToListSelectionOption >> beneath: aBoolean [
 ]
 
 { #category : #'nodes collecting' }
-ToListSelectionOption >> collectSelectionGroupsFrom: aListElement [
+ToListSelectionElementOption >> collectSelectionGroupsFrom: aListElement [
 
 	^ self currentSelectionGroupsFrom: aListElement
 ]
 
 { #category : #'nodes collecting' }
-ToListSelectionOption >> currentSelectionGroupsFrom: aListElement [
+ToListSelectionElementOption >> currentSelectionGroupsFrom: aListElement [
 
 	^ grouped
 		  ifTrue: [
@@ -84,82 +84,85 @@ ToListSelectionOption >> currentSelectionGroupsFrom: aListElement [
 ]
 
 { #category : #accessing }
-ToListSelectionOption >> elementBuilder: aSelectionElementBuilderValuable [
+ToListSelectionElementOption >> elementFactory: aSelectionElementFactoryValuable [
 
-	elementBuilder := aSelectionElementBuilderValuable
+	elementFactory := aSelectionElementFactoryValuable
 ]
 
 { #category : #accessing }
-ToListSelectionOption >> groupHolder [ 
+ToListSelectionElementOption >> groupHolder [ 
 
 	^ groupHolder 
 ]
 
 { #category : #accessing }
-ToListSelectionOption >> grouped: aBoolean [
+ToListSelectionElementOption >> grouped: aBoolean [
 
 	grouped := aBoolean
 ]
 
 { #category : #initialization }
-ToListSelectionOption >> initialize [ 
+ToListSelectionElementOption >> initialize [ 
 
 	super initialize.
 	triggerSelectionState := false.
 	animationDuration := 0 milliSecond.
-	masked := false
+	masked := false.
+	groupHolder := ToSelectionGroupHolder new.
+	groupHolder option: self.
+
 ]
 
 { #category : #accessing }
-ToListSelectionOption >> isAnimated [
+ToListSelectionElementOption >> isAnimated [
 
 	^ animationDuration asMilliSeconds > 0
 ]
 
 { #category : #testing }
-ToListSelectionOption >> isBeneath [
+ToListSelectionElementOption >> isBeneath [
 
 	^ beneath
 ]
 
 { #category : #testing }
-ToListSelectionOption >> isGrouped [
+ToListSelectionElementOption >> isGrouped [
 
 	^ grouped
 ]
 
 { #category : #testing }
-ToListSelectionOption >> isOver [
+ToListSelectionElementOption >> isOver [
 
 	^ self isBeneath not
 ]
 
 { #category : #testing }
-ToListSelectionOption >> isSeparate [
+ToListSelectionElementOption >> isSeparate [
 
 	^ self isGrouped not
 ]
 
 { #category : #accessing }
-ToListSelectionOption >> listEventHandler: aListEventHandler [
+ToListSelectionElementOption >> listEventHandler: aListEventHandler [
 
 	listEventHandler := aListEventHandler
 ]
 
 { #category : #accessing }
-ToListSelectionOption >> masked [
+ToListSelectionElementOption >> masked [
 
 	^ masked
 ]
 
 { #category : #accessing }
-ToListSelectionOption >> masked: aBoolean [
+ToListSelectionElementOption >> masked: aBoolean [
 
 	masked := aBoolean
 ]
 
 { #category : #'instance creation' }
-ToListSelectionOption >> newSelectionContainerIn: anElement [
+ToListSelectionElementOption >> newSelectionContainerIn: anElement [
 
 	| container elevation |
 	container := ToOverlayElement new.
@@ -173,71 +176,61 @@ ToListSelectionOption >> newSelectionContainerIn: anElement [
 ]
 
 { #category : #'instance creation' }
-ToListSelectionOption >> newSelectionElementIn: aListElement [
+ToListSelectionElementOption >> newSelectionElementIn: aListElement [
 
-	^ elementBuilder value
+	^ elementFactory value
 		  selectionOption: self;
 		  focused: aListElement isFocused;
 		  yourself
 ]
 
 { #category : #'api - hooks' }
-ToListSelectionOption >> onInstalledIn: aListElement [
+ToListSelectionElementOption >> onInstalledIn: aListElement [
 
-	groupHolder := ToSelectionGroupHolder new.
-	groupHolder option: self.
 	listEventHandler selectionGroupHolder: groupHolder.
 	aListElement addEventHandler: listEventHandler.
-
 	selectionContainer := self newSelectionContainerIn: aListElement.
 	aListElement addChild: selectionContainer
 ]
 
 { #category : #'api - hooks' }
-ToListSelectionOption >> onUninstalledIn: aListElement [
+ToListSelectionElementOption >> onUninstalledIn: aListElement [
 
 	aListElement removeEventHandler: listEventHandler.
 	selectionContainer removeFromParent.
 	selectionContainer := nil.
 	listEventHandler := nil.
-	elementBuilder := nil.
-	selectionModel := nil.
-	groupHolder := nil
+	elementFactory := nil.
+	selectionModel := nil
 ]
 
 { #category : #accessing }
-ToListSelectionOption >> selectionContainer [
+ToListSelectionElementOption >> selectionContainer [
 
 	^ selectionContainer
 ]
 
 { #category : #accessing }
-ToListSelectionOption >> selectionContainer: aSelectionContainer [
-
-	selectionContainer := aSelectionContainer
-]
-
-{ #category : #accessing }
-ToListSelectionOption >> selectionElements [
+ToListSelectionElementOption >> selectionElements [
 
 	^ selectionContainer children select: [ :child |
 		  child isKindOf: ToListSelectionElement ]
 ]
 
 { #category : #accessing }
-ToListSelectionOption >> selectionModel: aSelectionModel [
+ToListSelectionElementOption >> selectionModel: aSelectionModel [
 
 	selectionModel := aSelectionModel
 ]
 
 { #category : #testing }
-ToListSelectionOption >> triggerSelectionState [
+ToListSelectionElementOption >> triggerSelectionState [
 
 	^ triggerSelectionState
 ]
 
 { #category : #accessing }
-ToListSelectionOption >> triggerSelectionState: aBoolean [
+ToListSelectionElementOption >> triggerSelectionState: aBoolean [
 
 	triggerSelectionState := aBoolean
 ]

@@ -15,7 +15,7 @@ TToBarNode >> autoDistribute: aBoolean [
 { #category : #'t - bar node' }
 TToBarNode >> isFake [
 
-	^ self holder isFakeHolder 
+	^ self holder listElement fakeNode = self
 ]
 
 { #category : #'t - bar node' }

@@ -1805,7 +1805,6 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	select innerContainer nodeBuilder: nodeBuilder.
 	select listElement nodeBuilder: nodeBuilder.
 
-
 	select hideSelected: false.
 	select dataAccessor addAll: self statesOfAmericaWithColor.
 	select filtrable: true.

@@ -28,6 +28,9 @@ ToMultiSelectBarNode >> installRawStyle [
 	self constraintsDo: [ :c | c linear vertical alignCenter ].
 	self geometry: (BlRoundedRectangleGeometry cornerRadius:
 			 (self valueOfTokenNamed: 'border-radius')).
+	self padding: (BlInsets
+				 horizontal: (self valueOfTokenNamed: #'bar-node-padding-H')
+				 vertical: (self valueOfTokenNamed: #'bar-node-padding-V')).
 	self holder dataItem isComposite ifTrue: [
 		self tooltipBuilder: [ :win :theElement |
 			| pane |

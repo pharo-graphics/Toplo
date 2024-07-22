@@ -12,7 +12,9 @@ TToTagElement >> addRemoveButton [
 	but defaultRawSkin: ToTagRemoveButtonSkin new.
 	but icon: (ToImage inner: (self iconNamed: #windowClose)).
 	but constraintsDo: [ :c | c linear vertical alignCenter ].
-	but whenClickedDo: [ :event | self removeFromParent ].
+	but whenClickedDo: [ :event |
+		self removeFromParent.
+		self dispatchEvent: ToTagRemovedEvent new ].
 	but id: #removeButton.
 	self icon: but
 ]

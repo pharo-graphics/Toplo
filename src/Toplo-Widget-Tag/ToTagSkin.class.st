@@ -59,14 +59,12 @@ ToTagSkin >> installSkinEvent: anEvent [
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:
 				 (e valueOfTokenNamed: 'border-radius')).
 		e padding: (BlInsets
-				 top: (e valueOfTokenNamed: #'padding-content-V')
-				 left: (e valueOfTokenNamed: #'padding-XS')
-				 bottom: (e valueOfTokenNamed: #'padding-content-V')
-				 right: (e valueOfTokenNamed: #'padding-XS')).
+				 horizontal: (e valueOfTokenNamed: #'bar-node-padding-H')
+				 vertical: (e valueOfTokenNamed: #'bar-node-padding-V')).
 		(e hasIcon and: [ e hasLabel ])
-			ifTrue: [ e startInterspace: 10 ]
+			ifTrue: [ e startInterspace: 2 ]
 			ifFalse: [ e startInterspace: 0 ].
 		(e hasEndElement and: [ e hasLabel ])
-			ifTrue: [ e endInterspace: 10 ]
+			ifTrue: [ e endInterspace: 2 ]
 			ifFalse: [ e endInterspace: 0 ] ]
 ]

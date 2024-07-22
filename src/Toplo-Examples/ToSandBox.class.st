@@ -1775,7 +1775,7 @@ ToSandBox class >> example_SelectMonoNotFiltrable [
 { #category : #select }
 ToSandBox class >> example_SelectMultiFiltrable [
 
-	| select innerWindow nodeBuilder |
+	| select innerWindow newTagFactory |
 	select := ToMultiSelectElement new.
 	select nodeWrapping: true.
 	select listElement withRowNumbers.
@@ -1785,25 +1785,40 @@ ToSandBox class >> example_SelectMultiFiltrable [
 		ToListBasicSelectionElement new defaultSkin:
 			ToMultiSelectElementCheckSkin new ].
 
-	nodeBuilder := [ :node :stateColorAssoc :holder |
-	               | tag |
-	               tag := ToTagElement new
-		                      label: (ToAttributedLabel new text: stateColorAssoc key asString);
-		                      hMatchParent;
-		                      yourself.
-	               tag
-		               addStamp: #foregroundColor
-		               withValue: (Color fromString: stateColorAssoc value).
-	               tag
-		               addStamp: #backgroundColor
-		               withValue:
-		               ((Color fromString: stateColorAssoc value)
-			                veryMuchLighter alpha: 0.5).
-	               node addChild: tag ].
+	newTagFactory := [ :stateColorAssoc |
+	                 | tag |
+	                 tag := ToTagElement new
+		                        label:
+			                        (ToAttributedLabel new text:
+					                         stateColorAssoc key asString);
+		                        hMatchParent;
+		                        yourself.
+	                 tag constraintsDo: [ :c |
+		                 c linear vertical alignCenter ].
+	                 tag
+		                 addStamp: #foregroundColor
+		                 withValue:
+		                 (Color fromString: stateColorAssoc value).
+	                 tag
+		                 addStamp: #backgroundColor
+		                 withValue:
+		                 ((Color fromString: stateColorAssoc value)
+			                  veryMuchLighter alpha: 0.5).
+	                 tag ].
 
 
-	select innerContainer nodeBuilder: nodeBuilder.
-	select listElement nodeBuilder: nodeBuilder.
+	select innerContainer nodeBuilder: [ :node :stateColorAssoc :holder |
+		| tag |
+		tag := newTagFactory value: stateColorAssoc.
+		tag addStamp: #closeIcon withValue: true.
+		tag
+			addEventHandlerOn: BlElementRemovedFromParentEvent
+			do: [ node removeFromBar ].
+		node addChild: tag ].
+
+	select listElement nodeBuilder: [ :node :stateColorAssoc :holder |
+		node addChild: (newTagFactory value: stateColorAssoc) ].
+
 
 	select hideSelected: false.
 	select dataAccessor addAll: self statesOfAmericaWithColor.

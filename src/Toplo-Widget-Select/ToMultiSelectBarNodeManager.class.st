@@ -48,7 +48,11 @@ ToMultiSelectBarNodeManager >> defaultNodeBuilder [
 	  tag := ToTagElement new
 		         labelText: dataItem asString;
 		         hMatchParent.
-	  node addChild: tag ]
+	  node addChild: tag.
+	  tag constraintsDo: [ :c | c linear vertical alignCenter ].
+	  tag
+		  addEventHandlerOn: BlElementRemovedFromParentEvent
+		  do: [ node removeFromBar ] ]
 ]
 
 { #category : #initialization }

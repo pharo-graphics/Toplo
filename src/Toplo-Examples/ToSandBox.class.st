@@ -1778,7 +1778,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	| select innerWindow newTagFactory |
 	select := ToMultiSelectElement new.
 	select nodeWrapping: true.
-	select listElement withRowNumbers.
+	select keepPickOrder: true.
 	select listElement primarySelectionMode option grouped: false.
 	select listElement primarySelectionMode option beneath: false.
 	select listElement primarySelectionMode option elementFactory: [

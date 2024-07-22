@@ -81,11 +81,11 @@ ToBarElement >> flowLineUniformWidth: aBoolean [
 ToBarElement >> initialize [
 
 	super initialize.
-	selectionMode option
+	self primarySelectionMode option
 		grouped: false;
 		beneath: true;
 		triggerSelectionState: true.
-	contextMenuSelectionMode option
+	self contextMenuSelectionMode option
 		grouped: false;
 		beneath: false.
 	self matchParent.

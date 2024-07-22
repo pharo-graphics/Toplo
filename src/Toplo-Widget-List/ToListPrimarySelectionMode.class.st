@@ -47,7 +47,7 @@ ToListPrimarySelectionMode >> initialize [
 		grouped: true;
 		beneath: true;
 		triggerSelectionState: true;
-		elementFactory: [ ToListPrimarySelectionElement new ];
+		elementFactory: [ ToListBasicSelectionElement new defaultSkin: ToListPrimarySelectionElementSkin new];
 		listEventHandler: ToListPrimarySelectionElementEventHandler new
 ]
 
@@ -196,10 +196,4 @@ ToListPrimarySelectionMode >> selectOrDeselectOnNode: aNode [
 ToListPrimarySelectionMode >> selectionChangedEventClass [ 
 
 	^ ToListPrimarySelectionChangedEvent
-]
-
-{ #category : #accessing }
-ToListPrimarySelectionMode >> uniqueId [ 
-
-	^ #primary
 ]

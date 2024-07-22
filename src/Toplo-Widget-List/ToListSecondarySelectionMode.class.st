@@ -16,7 +16,9 @@ ToListSecondarySelectionMode >> initialize [
 	option
 		grouped: true;
 		beneath: true;
-		elementFactory: [ ToListSecondarySelectionElement new ];
+		elementFactory: [
+			ToListBasicSelectionElement new defaultSkin:
+					ToListSecondarySelectionElementSkin new ];
 		listEventHandler: ToListSecondarySelectionElementEventHandler new
 ]
 
@@ -53,10 +55,4 @@ ToListSecondarySelectionMode >> newSelectionModelIn: aListElement [
 ToListSecondarySelectionMode >> selectionChangedEventClass [ 
 
 	^ ToListSecondarySelectionChangedEvent
-]
-
-{ #category : #accessing }
-ToListSecondarySelectionMode >> uniqueId [ 
-
-	^ #secondary
 ]

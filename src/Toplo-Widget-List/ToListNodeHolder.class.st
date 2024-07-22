@@ -120,20 +120,22 @@ ToListNodeHolder >> nodeManager [
 ]
 
 { #category : #'selection notification' }
-ToListNodeHolder >> notifyDeselected [
+ToListNodeHolder >> notifyDeselectedInGroupHolder: aSelectionGroupHolder [
 
 	self isSelected ifTrue: [ ^ self ].
 	self node dispatchEvent: (ToListNodeSelectedEvent new
 			 listElement: self listElement;
+			 selectionOption: aSelectionGroupHolder option;
 			 selected: false)
 ]
 
 { #category : #'selection notification' }
-ToListNodeHolder >> notifySelected [
+ToListNodeHolder >> notifySelectedInGroupHolder: aSelectionGroupHolder [
 
 	self isSelected ifFalse: [ ^ self ].
 	self node dispatchEvent: (ToListNodeSelectedEvent new
 			 listElement: self listElement;
+			 selectionOption: aSelectionGroupHolder option;
 			 selected: true)
 ]
 

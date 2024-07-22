@@ -26,15 +26,14 @@ ToMultiSelectBarNode >> installRawStyle [
 
 	super installRawStyle.
 	self constraintsDo: [ :c | c linear vertical alignCenter ].
-	self isFake
-		ifTrue: [ self margin: (BlInsets vertical: 2) ]
-		ifFalse: [ self margin: (BlInsets all: 2) ].
-	self geometry: (BlRoundedRectangleGeometry cornerRadius: 4).
+	self geometry: (BlRoundedRectangleGeometry cornerRadius:
+			 (self valueOfTokenNamed: 'border-radius')).
 	self holder dataItem isComposite ifTrue: [
 		self tooltipBuilder: [ :win :theElement |
 			| pane |
 			pane := ToPane vertical.
-			self holder dataItem items do: [ :item | | t |
+			self holder dataItem items do: [ :item |
+				| t |
 				t := self holder dataAccessor at: item index.
 				pane addChild: (ToLabel text: t asString) ].
 			win root addChild: pane ] ]

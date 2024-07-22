@@ -13,7 +13,7 @@ ToSegmentedSelectionMode >> initialize [
 		grouped: true;
 		beneath: true;
 		triggerSelectionState: true;
-		elementFactory: [ ToListPrimarySelectionElement new ];
+		elementFactory: [ ToListBasicSelectionElement new defaultSkin: ToListPrimarySelectionElementSkin new];
 		listEventHandler: ToListPrimarySelectionElementEventHandler new
 ]
 
@@ -43,10 +43,4 @@ ToSegmentedSelectionMode >> onRemovedNode: aNode [
 ToSegmentedSelectionMode >> selectionChangedEventClass [ 
 
 	^ ToListPrimarySelectionChangedEvent
-]
-
-{ #category : #accessing }
-ToSegmentedSelectionMode >> uniqueId [ 
-
-	^ #primary
 ]

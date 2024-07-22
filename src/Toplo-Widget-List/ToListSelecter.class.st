@@ -11,7 +11,8 @@ Class {
 		'multiple',
 		'eventDispatcher',
 		'commandApplierEventHandler',
-		'selectionChangedEventClass'
+		'selectionChangedEventClass',
+		'selectionOption'
 	],
 	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
@@ -53,12 +54,13 @@ ToListSelecter >> commandApplied: aCommand [
 
 	| req |
 	selectionChangedEventClass ifNil: [ ^ self ].
-	
+
 	req := ToListSelectionCommandAppliedEvent new
 		       command: aCommand;
 		       requestedAction: [
 			       eventTarget dispatchEvent: (selectionChangedEventClass new
 						        command: aCommand;
+						        selectionOption: selectionOption;
 						        yourself) ];
 		       yourself.
 
@@ -182,7 +184,7 @@ ToListSelecter >> initialize [
 { #category : #initialization }
 ToListSelecter >> initializeCommandApplier [
 
-	commandApplierEventHandler := ToDataSourceCommandApplierEventHandler new.
+	"commandApplierEventHandler := ToDataSourceCommandApplierEventHandler new."
 	"commandApplierEventHandler := ToDirectCommandApplierEventHandler new."
 	commandApplierEventHandler := ToQueueBasedCommandApplierEventHandler new
 ]
@@ -460,6 +462,12 @@ ToListSelecter >> selectedIndexes [
 ]
 
 { #category : #accessing }
+ToListSelecter >> selectionChangedEventClass [
+
+	^ selectionChangedEventClass
+]
+
+{ #category : #accessing }
 ToListSelecter >> selectionChangedEventClass: anEventClass [
 
 	selectionChangedEventClass := anEventClass
@@ -475,6 +483,12 @@ ToListSelecter >> selectionModel [
 ToListSelecter >> selectionModel: aSelectionModel [
 
 	selectionModel := aSelectionModel
+]
+
+{ #category : #accessing }
+ToListSelecter >> selectionOption: aSelectionElementOption [
+
+	selectionOption := aSelectionElementOption
 ]
 
 { #category : #operations }

@@ -18,7 +18,7 @@ ToTagRemoveButtonSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e icon formColor: Color lightGray.
+		e icon formColor: Color gray.
 		e vFitContent.
 		e geometry: BlCircleGeometry new.
 		e border: BlBorder empty.

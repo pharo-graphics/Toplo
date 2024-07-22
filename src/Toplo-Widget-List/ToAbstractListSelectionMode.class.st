@@ -2,8 +2,9 @@ Class {
 	#name : #ToAbstractListSelectionMode,
 	#superclass : #Object,
 	#instVars : [
-		'selecter',
+		'listElement',
 		'enabled',
+		'selecter',
 		'option'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
@@ -43,13 +44,13 @@ ToAbstractListSelectionMode >> initialize [
 	enabled := true
 ]
 
-{ #category : #'api - hooks' }
-ToAbstractListSelectionMode >> installSelecterIn: aListElement [
+{ #category : #initialization }
+ToAbstractListSelectionMode >> installSelecter [
 
 	selecter := self newSelecter.
-	selecter selectionModel: (self newSelectionModelIn: aListElement).
+	selecter selectionModel: (self newSelectionModelIn: listElement).
 	selecter
-		onInstalledIn: aListElement;
+		onInstalledIn: listElement;
 		enabled: self enabled;
 		multiple: self isMultipleSelection
 ]
@@ -90,21 +91,17 @@ ToAbstractListSelectionMode >> newSelectionModelIn: aListElement [
 	^ aListElement newSelectionModel
 ]
 
-{ #category : #'api - hooks' }
-ToAbstractListSelectionMode >> onInstalledIn: aListElement [
+{ #category : #initialization }
+ToAbstractListSelectionMode >> on: aListElement [
 
-	self installSelecterIn: aListElement.
+	listElement ifNotNil: [ BlImmutableObjectChangeError new signal ].
+	listElement := aListElement.
+	listElement addSelectionMode: self.
+	self installSelecter.
 	option ifNotNil: [
+		selecter selectionOption: option.
 		option selectionModel: self selectionModel.
-		option onInstalledIn: aListElement ]
-]
-
-{ #category : #'api - hooks' }
-ToAbstractListSelectionMode >> onUninstalledIn: aListElement [
-
-	option ifNotNil: [ option onUninstalledIn: aListElement ].
-	self uninstallSelecterIn: aListElement.
-	option := nil
+		option onInstalledIn: listElement ]
 ]
 
 { #category : #accessing }
@@ -122,7 +119,15 @@ ToAbstractListSelectionMode >> option [
 { #category : #accessing }
 ToAbstractListSelectionMode >> option: aSelectionOption [
 
-	option := aSelectionOption
+	option := aSelectionOption.
+	selecter ifNotNil: [ selecter option: option ]
+]
+
+{ #category : #accessing }
+ToAbstractListSelectionMode >> optionDo: aBlock [
+
+	option ifNil: [ ^ self ].
+	aBlock value: option
 ]
 
 { #category : #accessing }
@@ -161,15 +166,19 @@ ToAbstractListSelectionMode >> selectionModel [
 	^ selecter selectionModel
 ]
 
-{ #category : #'api - hooks' }
-ToAbstractListSelectionMode >> uninstallSelecterIn: aListElement [
+{ #category : #initialization }
+ToAbstractListSelectionMode >> uninstall [
 
-	selecter onUninstalledIn: aListElement.
-	selecter := nil
+	option ifNotNil: [ option onUninstalledIn: listElement ].
+	self uninstallSelecter.
+	listElement removeSelectionMode: self.
+	option := nil.
+	listElement := nil
 ]
 
-{ #category : #accessing }
-ToAbstractListSelectionMode >> uniqueId [ 
+{ #category : #initialization }
+ToAbstractListSelectionMode >> uninstallSelecter [
 
-	^ self subclassResponsibility 
+	selecter onUninstalledIn: listElement.
+	selecter := nil
 ]

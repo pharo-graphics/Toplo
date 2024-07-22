@@ -29,9 +29,3 @@ ToListContextMenuSelectionMode >> selectionChangedEventClass [
 
 	^ ToListContextMenuSelectionChangedEvent
 ]
-
-{ #category : #accessing }
-ToListContextMenuSelectionMode >> uniqueId [ 
-
-	^ #contextMenu
-]

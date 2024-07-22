@@ -24,7 +24,7 @@ ToMultiSelectBarNodeManager >> buildNode: aNode inHolder: aNodeHolder [
 			data := index isZero
 				        ifTrue: [ self fakeDataItem ]
 				        ifFalse: [ aNodeHolder dataAccessor at: index ].
-			nodeBuilder value: aNode value: data value: aNodeHolder  ]
+			nodeBuilder value: aNode value: data value: aNodeHolder ]
 		ifTrue: [
 			self defaultCompositeNodeBuilder
 				value: aNode
@@ -44,7 +44,11 @@ ToMultiSelectBarNodeManager >> defaultCompositeNodeBuilder [
 ToMultiSelectBarNodeManager >> defaultNodeBuilder [
 
 	^ [ :node :dataItem :holder |
-	  node addChild: (ToTagElement new labelText: dataItem asString; hMatchParent ) ]
+	  | tag |
+	  tag := ToTagElement new
+		         labelText: dataItem asString;
+		         hMatchParent.
+	  node addChild: tag ]
 ]
 
 { #category : #initialization }

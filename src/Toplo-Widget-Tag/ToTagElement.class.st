@@ -9,6 +9,22 @@ Class {
 	#category : #'Toplo-Widget-Tag'
 }
 
+{ #category : #initialization }
+ToTagElement >> initialize [ 
+
+	super initialize.
+	self addStamp: #bordered withValue: true.
+	self addStamp: #closeIcon withValue: false
+]
+
+{ #category : #skin }
+ToTagElement >> newRawSkin [
+
+	^ self isCheckable
+		  ifTrue: [ ToCheckableTagSkin new ]
+		  ifFalse: [ ToTagSkin new ]
+]
+
 { #category : #accessing }
 ToTagElement >> rawRemovable [
 

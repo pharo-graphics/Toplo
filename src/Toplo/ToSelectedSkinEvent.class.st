@@ -24,7 +24,8 @@ ToSelectedSkinEvent >> focused: aBoolean [
 ToSelectedSkinEvent >> fromState: aState [
 
 	super fromState: aState.
-	self focused: aState focused
+	self focused: aState focused.
+	self selectionOption: aState selectionOption
 ]
 
 { #category : #accessing }

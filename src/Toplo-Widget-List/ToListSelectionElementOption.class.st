@@ -183,14 +183,13 @@ ToListSelectionElementOption >> newSelectionElementIn: aListElement [
 
 	^ elementFactory value
 		  selectionOption: self;
-		  focused: aListElement isFocused;
+		  focused: (triggerSelectionState and: [ aListElement isFocused ]);
 		  yourself
 ]
 
 { #category : #'api - hooks' }
 ToListSelectionElementOption >> onInstalledIn: aListElement [
 
-	listEventHandler selectionGroupHolder: groupHolder.
 	aListElement addEventHandler: listEventHandler.
 	selectionContainer := self newSelectionContainerIn: aListElement.
 	aListElement addChild: selectionContainer

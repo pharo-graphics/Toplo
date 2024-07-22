@@ -1214,7 +1214,7 @@ ToSandBox class >> example_ListWithAllClasses [
 ToSandBox class >> example_ListWithAllClasses3 [
 
 	| l |
-	l := ToListElement new nodeBuilder: [ :node :dataItem  :holder |
+	l := ToListElement new nodeBuilder: [ :node :dataItem :holder |
 		     | icn lab |
 		     icn := dataItem hasComment
 			            ifTrue: [ #class ]
@@ -1228,7 +1228,7 @@ ToSandBox class >> example_ListWithAllClasses3 [
 				      icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
 				      startInterspace: 10;
 				      hMatchParent) ].
-	l selectionMode option animationDuration: 200 milliSeconds.
+	l primarySelectionMode option animationDuration: 200 milliSeconds.
 	l secondarySelectionMode option animationDuration: 150 milliSeconds.
 	l dataAccessor addAll: Smalltalk globals allClasses.
 	l selecter selectIndex: 3.
@@ -1470,11 +1470,13 @@ ToSandBox class >> example_PicsumPhotosGallery [
 		nodeFactory: [ ToPicsumPhotosGalleryImageNode new ];
 		nodeBuilder: [ :node :dataItem :holder |
 			node labelString: dataItem id ].
-	list selectionMode option
+	list primarySelectionMode option
 		grouped: false;
 		beneath: false;
 		triggerSelectionState: true;
-		elementFactory: [ ToPicsumPhotosGallerySelectionElement new ].
+		elementFactory: [
+			ToListBasicSelectionElement new defaultSkin:
+					ToPicsumPhotosGallerySelectionSkin new ].
 
 	[
 	| allImagesData |
@@ -1776,18 +1778,23 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	| select innerWindow |
 	select := ToMultiSelectElement new.
 	select nodeWrapping: true.
-	select barElement selectionMode option masked: true.
-	select barElement selectionMode option animationDuration:
-		200 milliSeconds.
 	select listElement withRowNumbers.
-	select innerContainer nodeBuilder: [ :node :dataItem :holder |
-		node addChild: (ToTagElement new label: (ToAttributedLabel new
-					  text: dataItem asString;
-					  foreground: Color random;
-					  freeze;
-					  yourself)) ].
+	select innerContainer nodeBuilder: [ :node :stateColorAssoc :holder |
+		| tag |
+		tag := ToTagElement new
+			       labelText: stateColorAssoc key asString;
+			       hMatchParent;
+			       yourself.
+		tag
+			addStamp: #foregroundColor
+			withValue: (Color fromString: stateColorAssoc value).
+		tag
+			addStamp: #backgroundColor
+			withValue:
+			((Color fromString: stateColorAssoc value) veryMuchLighter alpha: 0.5).
+		node addChild: tag ].
 	select hideSelected: false.
-	select dataAccessor addAll: self statesOfAmerica.
+	select dataAccessor addAll: self statesOfAmericaWithColor.
 	select filtrable: true.
 	select popupMaxHeight: 200.
 	select placeholderText:
@@ -1940,11 +1947,7 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected [
 
 	| select innerWindow |
 	select := ToMultiSelectElement new.
-	select listElement selectionMode option elementFactory: [
-		ToListPrimarySelectionElement new
-			withNullSkin;
-			yourself ].
-	select inspect.
+	select listElement selectionMode option masked: true.
 	select hideSelected: true.
 	select dataAccessor updateAllWith: self statesOfAmerica.
 	select filtrable: true.
@@ -5506,26 +5509,44 @@ ToSandBox class >> listWithEditableAndContextMenu [
 	| l selectionMenu menuFactory phtext disabledMode unselectableMode |
 	l := ToListElement new.
 
-	l newHiddenSelectionMode onInstalledIn: l.
+	l newHiddenSelectionMode on: l.
 	disabledMode := l newDisabledSelectionMode.
 	disabledMode option: ToListSelectionElementOption new.
-	disabledMode option listEventHandler: ToListDisabledSelectionElementEventHandler new.
+	disabledMode option listEventHandler:
+		(ToListBasicAdditionalSelectionElementEventHandler new
+			 selectionChangedEventClass:
+			 disabledMode selectionChangedEventClass).
 	disabledMode option grouped: false.
 	disabledMode option beneath: false.
 	disabledMode option elementFactory: [
-		ToListDisabledSelectionElement new ].
-	disabledMode onInstalledIn: l.
+		ToListBasicSelectionElement new defaultSkin:
+			ToListDisabledSelectionElementExampleSkin new ].
+	disabledMode on: l.
 
-	
+
 	unselectableMode := l newUnselectableSelectionMode.
 	unselectableMode option: ToListSelectionElementOption new.
-	unselectableMode option listEventHandler: ToListUnselectableSelectionElementEventHandler new.
+	
+	" or unselectableMode option listEventHandler: ToListUnselectableSelectionElementEventHandler new 
+	but the following code is kept for the record to show how to manage an additional selection mode 
+	with a selection option"
+	unselectableMode option listEventHandler: (BlEventHandler
+			 on: unselectableMode selectionChangedEventClass
+			 do: [ :event |
+				 | target |
+				 target := event currentTarget.
+				 event groupHolder updateSelectionIn: target.
+				 target selecter deselectIndexes: event touchedIndexes.
+				 target secondarySelecter deselectAll.
+				 event touchedIntervals do: [ :int |
+					 target dataSource notifyItemsChanged: int ] ]).
+			
 	unselectableMode option grouped: false.
 	unselectableMode option beneath: false.
 	unselectableMode option elementFactory: [
-		ToListUnselectableSelectionElement new defaultSkin:
-			ToListUnselectableSelectionElementExempleSkin new ].
-	unselectableMode onInstalledIn: l.
+		ToListBasicSelectionElement new defaultSkin:
+			ToListUnselectableSelectionElementExampleSkin new ].
+	unselectableMode on: l.
 
 	phtext := (('Invoke the context menu ' , String cr
 	            , 'with a right-click' , String cr
@@ -5604,7 +5625,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 				                whenClickedDo: [ :event |
 					                target hiddenSelecter deselectAll ];
 				                yourself).
-		               target selectionMode option isAnimated
+		               target primarySelectionMode option isAnimated
 			               ifTrue: [
 				               menu addItem: (ToMenuItem new
 						                labelText: 'stop selection transition animation';
@@ -5997,9 +6018,9 @@ ToSandBox class >> selectionModeChooserFor: aBar [
 			 do: [ :event |
 				 | mode |
 				 mode := event checkedList first id asSymbol.
-				 aBar selectionMode enabled: mode ~= #Disabled.
+				 aBar primarySelectionMode enabled: mode ~= #Disabled.
 				 mode = #Multiple
-					 ifTrue: [ aBar selectionMode multiple: true ]
+					 ifTrue: [ aBar primarySelectionMode multiple: true ]
 					 ifFalse: [
 					 mode = #Single ifTrue: [ aBar selectionMode multiple: false ] ] ]).
 	buttons first checked: true.
@@ -6025,6 +6046,23 @@ ToSandBox class >> statesOfAmerica [
 		#Oregon. #'Pennsylvania Rhode Island'. #'South Carolina'.
 		#'South Dakota'. #Tennessee. #Texas. #Utah. #Vermont. #Virginia.
 		#Washington. #'West Virginia'. #Wisconsin. #Wyoming }.
+]
+
+{ #category : #accessing }
+ToSandBox class >> statesOfAmericaWithColor [
+
+	| colorStrings states |
+	colorStrings := { #'1677FF'. #'722ED1'. #'13C2C2'. #'52C41A'.
+	                #EB2F96. #EB2F96. #F5222D. #FA8C16. #FADB14. #FA541C.
+	                #'2F54EB'. #FAAD14. #A0D911 }.
+	states := self statesOfAmerica.
+
+	^ Array streamContents: [ :stream |
+		  | p |
+		  p := 0.
+		  states do: [ :s |
+			  p := p + 1 \\ colorStrings size + 1.
+			  stream nextPut: s -> (colorStrings at: p) ] ]
 ]
 
 { #category : #accessing }

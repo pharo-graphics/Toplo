@@ -12,11 +12,9 @@ TToTagElement >> addRemoveButton [
 	but defaultRawSkin: ToTagRemoveButtonSkin new.
 	but icon: (ToImage inner: (self iconNamed: #windowClose)).
 	but constraintsDo: [ :c | c linear vertical alignCenter ].
-	but whenClickedDo: [ :event |
-		self removeFromParent.
-		self dispatchEvent: ToTagRemovedEvent new ].
+	but whenClickedDo: [ :event | self removeFromParent ].
 	but id: #removeButton.
-	self startElement: but
+	self icon: but
 ]
 
 { #category : #configurating }
@@ -58,4 +56,11 @@ TToTagElement >> removable: aBoolean [
 TToTagElement >> removeButton [
 
 	^ self childWithId: #removeButton ifNone: [  ]
+]
+
+{ #category : #adding }
+TToTagElement >> removeRemoveButton [
+
+	self icon: nil
+
 ]

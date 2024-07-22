@@ -27,14 +27,15 @@ ToListNodeMultiSelectionClickEventHandler >> launchClick: aBlock event: anEvent 
 	node := anEvent currentTarget.
 	holder := node holder.
 	listElement := node holder listElement.
-	mode := listElement selectionMode.
+	mode := listElement primarySelectionMode.
 
 	(listElement isFocused not and: [
-		 listElement selectionMode requestFocusOnMouseDown ]) ifTrue: [
-		listElement requestFocus.
-		mode preserveSelectionOnFocused ifTrue: [
-			self terminateClickLauncherOnNode: node.
-			^ self ] ].
+		 listElement primarySelectionMode requestFocusOnMouseDown ])
+		ifTrue: [
+			listElement requestFocus.
+			mode preserveSelectionOnFocused ifTrue: [
+				self terminateClickLauncherOnNode: node.
+				^ self ] ].
 
 	" do not try double click if ctrl or Cmd or shift is pressed "
 	(holder isSelected not or: [
@@ -51,7 +52,8 @@ ToListNodeMultiSelectionClickEventHandler >> launchClick: aBlock event: anEvent 
 	mode selectedIndexesCount > 0 ifFalse: [ ^ aBlock value ].
 
 	self clickLauncher: ([
-		 (listElement valueOfTokenNamed: #'toplo-double-click-delay') asDelay wait.
+		 (listElement valueOfTokenNamed: #'toplo-double-click-delay')
+			 asDelay wait.
 		 aBlock value.
 		 self clickLauncher: nil ]
 			 forkAt: Processor highIOPriority
@@ -80,7 +82,7 @@ ToListNodeMultiSelectionClickEventHandler >> onClickOnNodeEvent: anEvent [
 	node := anEvent currentTarget.
 	holder := node holder.
 	listElement := node holder listElement.
-	mode := listElement selectionMode.
+	mode := listElement primarySelectionMode.
 	mode onClickEvent: anEvent onNode: node
 ]
 

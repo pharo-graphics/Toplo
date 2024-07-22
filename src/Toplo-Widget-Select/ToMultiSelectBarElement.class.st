@@ -116,6 +116,11 @@ ToMultiSelectBarElement >> initialize [
 
 	super initialize.
 	self installTextInputElement.
+	
+	" no visible primary and secondary selection elements "
+	self primarySelectionMode option masked: true.
+	self secondarySelectionMode option masked: true.
+
 	pickCount := 0.
 	" mandatory resizer setting. 
 	Normally, should not be changed"

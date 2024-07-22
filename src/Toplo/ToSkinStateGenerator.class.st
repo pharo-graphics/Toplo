@@ -326,6 +326,7 @@ ToSkinStateGenerator >> generateSelectionStateFromEvent: anEvent [
 							enqueueSkinState: (ToSelectionState new
 									 selected: anEvent selected;
 									 focused: anEvent listElement isFocused;
+									 selectionOption: anEvent selectionOption;
 									 yourself)
 							in: child ] ] ] ]
 		in: target

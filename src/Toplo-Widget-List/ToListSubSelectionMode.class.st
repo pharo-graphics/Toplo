@@ -37,6 +37,12 @@ ToListSubSelectionMode >> parentMode: aSelectionMode [
 	parentMode := aSelectionMode
 ]
 
+{ #category : #'instance creation' }
+ToListSubSelectionMode >> selectionChangedEventClass [
+
+	^ selectionChangedEventClass
+]
+
 { #category : #accessing }
 ToListSubSelectionMode >> selectionChangedEventClass: anEventClass [
 

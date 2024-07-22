@@ -40,7 +40,15 @@ ToListPrimarySelectionMode >> initialize [
 	requestFocusOnMouseDown := true.
 	preserveSelectionOnFocused := true.
 	selectOnMouseDown := false.
-	multiple := true
+	multiple := true.
+
+	option := ToListSelectionElementOption new.
+	option
+		grouped: true;
+		beneath: true;
+		triggerSelectionState: true;
+		elementFactory: [ ToListPrimarySelectionElement new ];
+		listEventHandler: ToListPrimarySelectionElementEventHandler new
 ]
 
 { #category : #testing }

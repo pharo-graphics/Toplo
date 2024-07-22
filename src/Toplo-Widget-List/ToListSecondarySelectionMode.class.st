@@ -11,7 +11,13 @@ Class {
 ToListSecondarySelectionMode >> initialize [
 
 	super initialize.
-	multiple := true
+	multiple := true.
+	option := ToListSelectionElementOption new.
+	option
+		grouped: true;
+		beneath: true;
+		elementFactory: [ ToListSecondarySelectionElement new ];
+		listEventHandler: ToListSecondarySelectionElementEventHandler new
 ]
 
 { #category : #testing }

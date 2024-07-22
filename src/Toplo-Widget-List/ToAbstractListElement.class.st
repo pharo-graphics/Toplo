@@ -126,16 +126,7 @@ ToAbstractListElement >> defaultCommandCheckerClass [
 { #category : #initialization }
 ToAbstractListElement >> defaultContextMenuSelectionMode [
 
-	| mode option |
-	mode := ToListContextMenuSelectionMode new.
-	option := ToListSelectionElementOption new.
-	mode option: option.
-	option
-		grouped: true;
-		beneath: false;
-		elementFactory: [ ToListContextMenuSelectionElement new ];
-		listEventHandler: ToListContextMenuSelectionElementEventHandler new.
-	^ mode
+	^ ToListContextMenuSelectionMode new
 ]
 
 { #category : #initialization }
@@ -183,18 +174,7 @@ ToAbstractListElement >> defaultNodeManagerClass [
 { #category : #initialization }
 ToAbstractListElement >> defaultPrimarySelectionMode [
 
-	| mode option |
-	mode := self defaultPrimarySelectionModeClass new.
-	option := ToListSelectionElementOption new.
-	option
-		grouped: true;
-		beneath: true;
-		triggerSelectionState: true;
-		elementFactory: [ ToListPrimarySelectionElement new ];
-		listEventHandler: ToListPrimarySelectionElementEventHandler new.
-	mode option: option.
-
-	^ mode
+	^ self defaultPrimarySelectionModeClass new
 ]
 
 { #category : #initialization }
@@ -206,16 +186,8 @@ ToAbstractListElement >> defaultPrimarySelectionModeClass [
 { #category : #initialization }
 ToAbstractListElement >> defaultSecondarySelectionMode [
 
-	| mode option |
-	mode := ToListSecondarySelectionMode new.
-	option := ToListSelectionElementOption new.
-	mode option: option.
-	option
-		grouped: true;
-		beneath: true;
-		elementFactory: [ ToListSecondarySelectionElement new ];
-		listEventHandler: ToListSecondarySelectionElementEventHandler new.
-	^ mode
+	^ ToListSecondarySelectionMode new.
+
 ]
 
 { #category : #'accessing selecters' }

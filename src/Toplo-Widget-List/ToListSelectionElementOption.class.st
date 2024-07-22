@@ -56,11 +56,12 @@ ToListSelectionElementOption >> animationDuration: aDuration [
 ToListSelectionElementOption >> beneath: aBoolean [
 
 	beneath := aBoolean.
-	selectionContainer ifNotNil: [ | elevation |
-	elevation := beneath
-		             ifTrue: [ BlRelativeElevation elevation: 5 ]
-		             ifFalse: [ BlRelativeElevation elevation: 15 ].
-	selectionContainer elevation: elevation ]
+	selectionContainer ifNotNil: [
+		| elevation |
+		elevation := beneath
+			             ifTrue: [ BlRelativeElevation elevation: 5 ]
+			             ifFalse: [ BlRelativeElevation elevation: 15 ].
+		selectionContainer elevation: elevation ]
 ]
 
 { #category : #'nodes collecting' }
@@ -108,6 +109,8 @@ ToListSelectionElementOption >> initialize [
 	triggerSelectionState := false.
 	animationDuration := 0 milliSecond.
 	masked := false.
+	beneath := true.
+	grouped := false.
 	groupHolder := ToSelectionGroupHolder new.
 	groupHolder option: self.
 

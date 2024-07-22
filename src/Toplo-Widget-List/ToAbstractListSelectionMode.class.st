@@ -47,7 +47,6 @@ ToAbstractListSelectionMode >> initialize [
 ToAbstractListSelectionMode >> installSelecterIn: aListElement [
 
 	selecter := self newSelecter.
-	selecter ifNil: [ ^ self ].
 	selecter selectionModel: (self newSelectionModelIn: aListElement).
 	selecter
 		onInstalledIn: aListElement;

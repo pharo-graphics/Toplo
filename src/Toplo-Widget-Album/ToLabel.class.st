@@ -48,6 +48,15 @@ ToLabel >> applyStyle [
 	self attributesBuilder applyOn: self text
 ]
 
+{ #category : #converting }
+ToLabel >> asLabelOfClass: aClass [
+
+	| lab |
+	self class = aClass ifTrue: [ ^ self ].
+	lab := aClass text: self text.
+	^ lab
+]
+
 { #category : #accessing }
 ToLabel >> attributes: anArray [
 

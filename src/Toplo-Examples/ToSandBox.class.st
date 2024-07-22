@@ -1775,24 +1775,37 @@ ToSandBox class >> example_SelectMonoNotFiltrable [
 { #category : #select }
 ToSandBox class >> example_SelectMultiFiltrable [
 
-	| select innerWindow |
+	| select innerWindow nodeBuilder |
 	select := ToMultiSelectElement new.
 	select nodeWrapping: true.
 	select listElement withRowNumbers.
-	select innerContainer nodeBuilder: [ :node :stateColorAssoc :holder |
-		| tag |
-		tag := ToTagElement new
-			       labelText: stateColorAssoc key asString;
-			       hMatchParent;
-			       yourself.
-		tag
-			addStamp: #foregroundColor
-			withValue: (Color fromString: stateColorAssoc value).
-		tag
-			addStamp: #backgroundColor
-			withValue:
-			((Color fromString: stateColorAssoc value) veryMuchLighter alpha: 0.5).
-		node addChild: tag ].
+	select listElement primarySelectionMode option grouped: false.
+	select listElement primarySelectionMode option beneath: false.
+	select listElement primarySelectionMode option elementFactory: [
+		ToListBasicSelectionElement new defaultSkin:
+			ToMultiSelectElementCheckSkin new ].
+
+	nodeBuilder := [ :node :stateColorAssoc :holder |
+	               | tag |
+	               tag := ToTagElement new
+		                      label: (ToAttributedLabel new text: stateColorAssoc key asString);
+		                      hMatchParent;
+		                      yourself.
+	               tag
+		               addStamp: #foregroundColor
+		               withValue: (Color fromString: stateColorAssoc value).
+	               tag
+		               addStamp: #backgroundColor
+		               withValue:
+		               ((Color fromString: stateColorAssoc value)
+			                veryMuchLighter alpha: 0.5).
+	               node addChild: tag ].
+
+
+	select innerContainer nodeBuilder: nodeBuilder.
+	select listElement nodeBuilder: nodeBuilder.
+
+
 	select hideSelected: false.
 	select dataAccessor addAll: self statesOfAmericaWithColor.
 	select filtrable: true.

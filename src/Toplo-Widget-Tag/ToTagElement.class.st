@@ -17,6 +17,12 @@ ToTagElement >> initialize [
 	self addStamp: #closeIcon withValue: false
 ]
 
+{ #category : #'t - element with labeled icon - accessing' }
+ToTagElement >> labelClass [ 
+
+	^ ToAttributedLabel
+]
+
 { #category : #skin }
 ToTagElement >> newRawSkin [
 

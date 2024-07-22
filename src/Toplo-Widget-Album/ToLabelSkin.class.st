@@ -36,7 +36,7 @@ ToLabelSkin >> enabledSkinEvent: anEvent [
 ToLabelSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
-	anEvent elementDo: [ :e | 
+	anEvent elementDo: [ :e |
 		e textAttributesBuilder
 			weight: (e valueOfTokenNamed: #'font-weight-strong');
 			defaultFontName: (e valueOfTokenNamed: #'font-family-code');
@@ -45,7 +45,6 @@ ToLabelSkin >> installSkinEvent: anEvent [
 			foreground: (e valueOfTokenNamed: #'color-text').
 		e editorBuilder: [ :ed :lab |
 			ed text foreground: (lab valueOfTokenNamed: #'color-text') ].
-		e withStamp: #foreground do: [ :v | e foreground: v ].
 		e applyStyle ]
 ]
 

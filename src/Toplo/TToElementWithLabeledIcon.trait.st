@@ -254,14 +254,21 @@ TToElementWithLabeledIcon >> label [
 { #category : #'t - element with labeled icon - accessing' }
 TToElementWithLabeledIcon >> label: anElement [
 
-	| prevLabel |
+	| prevLabel converted |
+	converted := anElement ifNotNil: [:e | e asLabelOfClass: self labelClass ].
 	self label = anElement ifTrue: [ ^ self ].
 	prevLabel := self label.
-	self labeledIcon label: anElement.
+	self labeledIcon label: converted.
 	((prevLabel isNil and: [ self label notNil ]) or: [
 		 prevLabel notNil and: [ self label isNil ] ]) ifTrue: [ 
 		" since the skin can depend on the label "
 		self requestNewSkin ]
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> labelClass [
+
+	^ ToLabel
 ]
 
 { #category : #'t - element with labeled icon - accessing' }
@@ -292,7 +299,7 @@ TToElementWithLabeledIcon >> labelText [
 TToElementWithLabeledIcon >> labelText: aText [
 
 	aText ifNil: [ self label: nil ].
-	self label: (ToLabel text: aText asRopedText)
+	self label: (self labelClass text: aText asRopedText)
 ]
 
 { #category : #'t - element with labeled icon - accessing' }

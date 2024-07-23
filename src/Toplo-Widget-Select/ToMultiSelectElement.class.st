@@ -36,12 +36,6 @@ ToMultiSelectElement >> checkMaxSelectedCount [
 ]
 
 { #category : #accessing }
-ToMultiSelectElement >> fakeDataItem: aDataItem [
-
-	self innerContainer fakeDataItem: aDataItem
-]
-
-{ #category : #accessing }
 ToMultiSelectElement >> hideSelected [
 
 	^ hideSelected 
@@ -59,8 +53,8 @@ ToMultiSelectElement >> iconContainer: anIconContainer [
 	self iconContainer = anIconContainer ifTrue: [ ^ self ].
 	self iconContainer ifNotNil: [
 		self iconContainer onUninstalledIn: self ].
-	anIconContainer selectionModel: self selectionModel.
-	self endElement: anIconContainer
+	super iconContainer: anIconContainer.
+	anIconContainer selectionModel: self selectionModel
 ]
 
 { #category : #initialization }

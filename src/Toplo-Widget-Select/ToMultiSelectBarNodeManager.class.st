@@ -50,6 +50,7 @@ ToMultiSelectBarNodeManager >> defaultNodeBuilder [
 	  | tag |
 	  tag := ToTagElement new
 		         labelText: dataItem asString;
+		         flexible: true;
 		         hMatchParent.
 	  node addChild: tag.
 	  tag constraintsDo: [ :c | c linear vertical alignCenter ] ]

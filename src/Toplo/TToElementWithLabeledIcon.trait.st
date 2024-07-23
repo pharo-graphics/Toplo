@@ -84,7 +84,8 @@ TToElementWithLabeledIcon >> endFiller [
 { #category : #'t - element with labeled icon - accessing' }
 TToElementWithLabeledIcon >> endFlexible: aBoolean [
 
-	self labeledIcon endFlexible: aBoolean
+	self labeledIcon endFlexible: aBoolean.
+	aBoolean ifTrue: [ self labeledIcon hMatchParent ]
 ]
 
 { #category : #'t - element with labeled icon - accessing' }
@@ -115,7 +116,8 @@ TToElementWithLabeledIcon >> flexible [
 { #category : #'t - element with labeled icon - accessing' }
 TToElementWithLabeledIcon >> flexible: aBoolean [
 
-	self labeledIcon flexible: aBoolean
+	self labeledIcon flexible: aBoolean.
+	aBoolean ifTrue: [ self labeledIcon hMatchParent ]
 ]
 
 { #category : #'t - element with labeled icon - accessing' }

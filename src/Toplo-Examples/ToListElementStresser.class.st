@@ -9,7 +9,9 @@ Class {
 		'counter',
 		'listIdentifiers',
 		'maxPrimaryIntervals',
-		'maxNbTasks'
+		'maxNbTasks',
+		'endTime',
+		'startTime'
 	],
 	#category : #'Toplo-Examples'
 }
@@ -237,6 +239,7 @@ ToListElementStresser >> initialize [
 	tabSelectionProcess := [
 	                       | round |
 	                       round := 0.
+	                       startTime := DateAndTime now.
 	                       [ self finishedInAllTabs ] whileFalse: [
 		                       | idx |
 		                       round := round + 1.
@@ -245,7 +248,10 @@ ToListElementStresser >> initialize [
 		                       self tabsPanel enqueueTask:
 			                       (BlTaskAction new action: [
 				                        (self tabsPanel tabs at: idx) check ]).
-		                       1 seconds wait ] ] newProcess.
+		                       1 seconds wait ].
+	                       endTime := DateAndTime now.
+	                       (endTime - startTime) asDuration traceCr ]
+		                       newProcess.
 
 	tabSelectionProcess name: self class name.
 	tabSelectionProcess priority: Processor systemBackgroundPriority.
@@ -400,13 +406,14 @@ ToListElementStresser >> nextCounter [
 { #category : #private }
 ToListElementStresser >> nextProcessPriorityForListNumber: aNumber [
 
-	| priorities |
+	"| priorities |
 	priorities := {
 		              Processor lowestPriority.
 		              Processor userBackgroundPriority.
 		              Processor systemBackgroundPriority }.
 
-	^ priorities at: aNumber \\ priorities size + 1
+	^ priorities at: aNumber \\ priorities size + 1"
+	^ Processor userBackgroundPriority.
 ]
 
 { #category : #accessing }

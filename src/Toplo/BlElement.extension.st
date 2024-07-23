@@ -61,6 +61,13 @@ BlElement >> applySkinInstallersDeeply [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> asLabelOfClass: aClass [
+
+	" used to convert to a specific label class is I'm a ToLabel "
+	^ self
+]
+
+{ #category : #'*Toplo' }
 BlElement >> borderBuilder [
 
 	^ self skinManager borderBuilder

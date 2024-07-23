@@ -13,10 +13,10 @@ TToTagElement >> addRemoveButton [
 	but icon: (ToImage inner: (self iconNamed: #windowClose)).
 	but constraintsDo: [ :c | c linear vertical alignCenter ].
 	but whenClickedDo: [ :event |
-		self removeFromParent.
-		self dispatchEvent: ToTagRemovedEvent new ].
+		self fireEvent: ToInnerElementRemovedEvent new.
+		self removeFromParent. ].
 	but id: #removeButton.
-	self icon: but
+	self addChild: but after: self labeledIcon 
 ]
 
 { #category : #configurating }

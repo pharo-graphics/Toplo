@@ -27,9 +27,10 @@ ToMultiSelectElementCheckSkin >> installSkinEvent: anEvent [
 			        yourself.
 		im := ToImage inner: self pathCheckSVG.
 		im innerImage firstChild background: background.
+		im margin: (BlInsets right: 20).
 		im constraintsDo: [ :c |
-			c frame vertical alignTopAt: 0.3.
-			c frame horizontal alignLeftAt: 0.85 ].
+			c frame vertical alignCenter.
+			c frame horizontal alignRight ].
 		im size: 16 asPoint.
 		im background: Color transparent.
 		e layout: BlFrameLayout new.

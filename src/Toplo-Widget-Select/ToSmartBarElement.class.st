@@ -1,11 +1,7 @@
 Class {
-	#name : #ToMultiSelectBarElement,
+	#name : #ToSmartBarElement,
 	#superclass : #ToBarElement,
-	#traits : 'TToSelectInnerContainerElement',
-	#classTraits : 'TToSelectInnerContainerElement classTrait',
 	#instVars : [
-		'selectElement',
-		'textInputElement',
 		'pickCount',
 		'maxSelectedCount',
 		'keepPickOrder'
@@ -14,7 +10,7 @@ Class {
 }
 
 { #category : #'instance creation' }
-ToMultiSelectBarElement class >> onSelectElement: aSelectElement [
+ToSmartBarElement class >> onSelectElement: aSelectElement [
 
 	^ self basicNew
 		  selectElement: aSelectElement;
@@ -22,13 +18,13 @@ ToMultiSelectBarElement class >> onSelectElement: aSelectElement [
 ]
 
 { #category : #'accessing - selection' }
-ToMultiSelectBarElement >> allowSelectedCount: aNumber [
+ToSmartBarElement >> allowSelectedCount: aNumber [
 
 	^ maxSelectedCount isZero or: [ aNumber <= maxSelectedCount ]
 ]
 
 { #category : #'accessing - selection' }
-ToMultiSelectBarElement >> assertMaxSelectedCount: aNumber [
+ToSmartBarElement >> assertMaxSelectedCount: aNumber [
 
 	(self allowSelectedCount: aNumber) ifFalse: [
 		self enqueueTask: (BlTaskAction new action: [
@@ -36,54 +32,26 @@ ToMultiSelectBarElement >> assertMaxSelectedCount: aNumber [
 ]
 
 { #category : #'accessing - selection' }
-ToMultiSelectBarElement >> checkHideSelectionFromListElement [
+ToSmartBarElement >> checkMaxSelectedCount [
 
-	selectElement hideSelected ifFalse: [ ^ self ].
-	self listElement hideSelection
-]
-
-{ #category : #'accessing - selection' }
-ToMultiSelectBarElement >> checkMaxSelectedCount [
-
-	| sM unselectableSM groupeSM selectedIndexCount |
 	maxSelectedCount isZero ifTrue: [ ^ self ].
-
-	unselectableSM := self listElement unselectableSelectionModel.
-	groupeSM := self listElement groupSelectionModel.
-	sM := self listElement selectionModel.
-
-	selectElement updateSelectedCountLabel.
-	selectedIndexCount := self sieve selectionModel selectedIndexesCount.
-
-	self assertMaxSelectedCount: selectedIndexCount.
-	self sieve currentDataWithLocalAndOriginalIndexDo: [
-		:d
-		:localIndex
-		:originalIndex |
-		(groupeSM containsIndex: localIndex) ifFalse: [
-			selectedIndexCount < maxSelectedCount
-				ifTrue: [ unselectableSM deselectIndex: localIndex ]
-				ifFalse: [
-					(selectElement selectionModel containsIndex: originalIndex)
-						ifFalse: [ unselectableSM selectIndex: localIndex ] ] ] ].
-
-	self listElement notifyDataSourceChanged
+	self updateSelectedCountLabel
 ]
 
 { #category : #initialization }
-ToMultiSelectBarElement >> defaultEventHandler [ 
+ToSmartBarElement >> defaultEventHandler [ 
 
 	^ ToMultiSelectBarEventHandler new
 ]
 
 { #category : #initialization }
-ToMultiSelectBarElement >> defaultNodeManager [
+ToSmartBarElement >> defaultNodeManager [
 
 	^ ToMultiSelectBarNodeManager new
 ]
 
 { #category : #layout }
-ToMultiSelectBarElement >> haveFullyInvisibleNodes: theInvisibleNodes [
+ToSmartBarElement >> haveFullyInvisibleNodes: theInvisibleNodes [
 
 	| visibleNodes invisibleNodes shower finalCount |
 	" in case of composite node at first it means that 
@@ -113,17 +81,14 @@ ToMultiSelectBarElement >> haveFullyInvisibleNodes: theInvisibleNodes [
 ]
 
 { #category : #initialization }
-ToMultiSelectBarElement >> initialize [
+ToSmartBarElement >> initialize [
 
 	super initialize.
-	self installTextInputElement.
 	
-	" no primary and secondary selection elements "
+	" no visible primary and secondary selection elements "
 	self primarySelectionMode option masked: true.
 	self secondarySelectionMode option masked: true.
 
-	maxSelectedCount := 0.
-	keepPickOrder := false.
 	pickCount := 0.
 	" mandatory resizer setting. 
 	Normally, should not be changed"
@@ -132,65 +97,25 @@ ToMultiSelectBarElement >> initialize [
 ]
 
 { #category : #'t - select inner container' }
-ToMultiSelectBarElement >> installTextInputElement [
-
-	textInputElement := self textInputElementClass new.
-	textInputElement onInstalledIn: self.
-	
-	textInputElement hFitContent.
-	textInputElement constraintsDo: [ :c |
-		c linear vertical alignCenter.
-		c flow vertical alignCenter ].
-	self addChild: textInputElement
-
-]
-
-{ #category : #'t - select inner container' }
-ToMultiSelectBarElement >> isMultipleSelection [ 
+ToSmartBarElement >> isMultipleSelection [ 
 
 	^ true
 ]
 
-{ #category : #accessing }
-ToMultiSelectBarElement >> keepPickOrder [
-
-	^ keepPickOrder 
-]
-
-{ #category : #accessing }
-ToMultiSelectBarElement >> keepPickOrder: aBoolean [
-
-	keepPickOrder := aBoolean.
-	self refresh
-]
-
-{ #category : #accessing }
-ToMultiSelectBarElement >> listElement [
-
-	^ selectElement listElement
-]
-
-{ #category : #accessing }
-ToMultiSelectBarElement >> maxSelectedCount: aNumber [
-
-	maxSelectedCount := aNumber.
-	self refresh
-]
-
 { #category : #skin }
-ToMultiSelectBarElement >> newRawSkin [ 
+ToSmartBarElement >> newRawSkin [ 
 
 	^ ToMultiSelectBarElementSkin new
 ]
 
 { #category : #'t - children - accessing' }
-ToMultiSelectBarElement >> nodes [
+ToSmartBarElement >> nodes [
 
 	^ self innerContainer nodes
 ]
 
 { #category : #accessing }
-ToMultiSelectBarElement >> nodesCount [
+ToSmartBarElement >> nodesCount [
 
 	| count |
 	count := 0.
@@ -200,25 +125,24 @@ ToMultiSelectBarElement >> nodesCount [
 ]
 
 { #category : #accessing }
-ToMultiSelectBarElement >> nodesDo: aBlock [
+ToSmartBarElement >> nodesDo: aBlock [
 
 	self innerContainer nodesDo: aBlock
 ]
 
 { #category : #accessing }
-ToMultiSelectBarElement >> nodesSelect: aBlock [
+ToSmartBarElement >> nodesSelect: aBlock [
 
 	^ self innerContainer nodesSelect: aBlock
 ]
 
 { #category : #'t - select inner container' }
-ToMultiSelectBarElement >> refresh [
+ToSmartBarElement >> refresh [
 	" first remove all data nodes "
 
 	| previousItems newItems |
-	selectElement showHidePlaceholder.
+	self showHidePlaceholder.
 
-	self selecter deselectAll.
 	" copy the previous items "
 	previousItems := self dataAccessor asOrderedCollection.
 	newItems := OrderedCollection new.
@@ -231,7 +155,7 @@ ToMultiSelectBarElement >> refresh [
 			previousItems addAll: last items ] ].
 
 	" reconstruct the item list. ensure the reuse of pre-existing items"
-	selectElement selectionModel selectedIndexesDo: [ :idx |
+	self selectionModel selectedIndexesDo: [ :idx |
 		| new previous |
 		previous := previousItems
 			            detect: [ :item | item index = idx ]
@@ -251,38 +175,11 @@ ToMultiSelectBarElement >> refresh [
 
 	" replace all in one datasource command "
 	self dataAccessor updateAllWith: newItems.
-	self selecter selectAll.
-
-	self checkHideSelectionFromListElement.
 	self checkMaxSelectedCount
 ]
 
 { #category : #'t - select inner container' }
-ToMultiSelectBarElement >> selectElement [
-
-	^ selectElement
-]
-
-{ #category : #'t - select inner container' }
-ToMultiSelectBarElement >> selectElement: aSelectElement [
-
-	selectElement := aSelectElement
-]
-
-{ #category : #accessing }
-ToMultiSelectBarElement >> sieve [ 
-
-	^ selectElement sieve
-]
-
-{ #category : #'t - select inner container' }
-ToMultiSelectBarElement >> textInputElement [ 
-
-	^ textInputElement 
-]
-
-{ #category : #'t - select inner container' }
-ToMultiSelectBarElement >> textInputElementClass [
+ToSmartBarElement >> textInputElementClass [
 
 	^ ToMultiSelectTextInputElement
 ]

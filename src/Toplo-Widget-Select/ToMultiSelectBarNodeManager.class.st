@@ -24,7 +24,10 @@ ToMultiSelectBarNodeManager >> buildNode: aNode inHolder: aNodeHolder [
 			data := index isZero
 				        ifTrue: [ self fakeDataItem ]
 				        ifFalse: [ aNodeHolder dataAccessor at: index ].
-			nodeBuilder value: aNode value: data value: aNodeHolder ]
+			nodeBuilder value: aNode value: data value: aNodeHolder.
+			aNode addEventHandlerOn: ToInnerElementRemovedEvent do: [ :event |
+				event consume.
+				aNode removeFromBar ] ]
 		ifTrue: [
 			self defaultCompositeNodeBuilder
 				value: aNode
@@ -49,10 +52,7 @@ ToMultiSelectBarNodeManager >> defaultNodeBuilder [
 		         labelText: dataItem asString;
 		         hMatchParent.
 	  node addChild: tag.
-	  tag constraintsDo: [ :c | c linear vertical alignCenter ].
-	  tag
-		  addEventHandlerOn: BlElementRemovedFromParentEvent
-		  do: [ node removeFromBar ] ]
+	  tag constraintsDo: [ :c | c linear vertical alignCenter ] ]
 ]
 
 { #category : #initialization }

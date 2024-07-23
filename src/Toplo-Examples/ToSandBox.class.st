@@ -1243,27 +1243,16 @@ ToSandBox class >> example_ListWithAllClasses4 [
 	| l |
 	l := ToListElement new nodeBuilder: [ :node :dataItem :holder |
 		     | cbox |
-		node traceCr.
 		     cbox := ToCheckbox new.
 		     cbox
 			     labelText: dataItem name;
 			     startInterspace: 10;
 			     hMatchParent;
 			     startFlexible: true.
-		    " node userData at: #handler put: (holder listElement
-				      addEventHandlerOn: ToListPrimarySelectionChangedEvent
-				      do: [ :event |
-					      cbox traceCr.
-					      cbox checked:
-						      (holder selectionModel containsIndex: holder position) ])."
 		     cbox checked: holder isSelected.
 		     node addChild: cbox ].
-	"l nodeUnbuilder: [ :node :dataItem :holder | node removeEventHandler: (node userData at: #handler) ]."
-	l selectionMode selectOnMouseDown: true.
-	l
-		addEventFilterOn: ToListPrimarySelectionChangedEvent
-		do: [ :event | 'list selection changed' traceCr ].
-	l selectionMode option masked: true.
+	l primarySelectionMode selectOnMouseDown: true.
+	l primarySelectionMode option masked: true.
 	l dataAccessor addAll: Smalltalk globals allClasses.
 	l openInSpace
 ]
@@ -1661,8 +1650,11 @@ ToSandBox class >> example_SelectAntDesignIconMultiFiltrable [
 
 	select filtrable: true.
 
-	select nodeBuilder: [ :node :iconDesc :holder |
-		node addChild: ((iconDesc icon size: 48 asPoint) background: Color veryLightGray ) ].
+	select nodeBuilder: [ :node :iconDesc :holder | | tag |
+		tag := ToTagElement new.
+		tag icon: ((iconDesc icon size: 48 asPoint)).
+		tag addStamp: #closeIcon.
+		node addChild: tag ].
 	select fakeDataItem: select dataAccessor first.
 	select hMatchParent.
 	select placeholderText:
@@ -1708,9 +1700,11 @@ ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
 
 	select filtrable: true.
 
-	select nodeBuilder: [ :node :iconDesc :holder |
-		node addChild:
-			((iconDesc icon size: 48 asPoint) background: Color veryLightGray) ].
+	select nodeBuilder: [ :node :iconDesc :holder | | tag |
+		tag := ToTagElement new.
+		tag icon: ((iconDesc icon size: 48 asPoint)).
+		tag addStamp: #closeIcon.
+		node addChild: tag ].
 	select fakeDataItem: select dataAccessor first.
 	select hMatchParent.
 	select placeholderText:
@@ -1788,8 +1782,8 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	newTagFactory := [ :stateColorAssoc |
 	                 | tag |
 	                 tag := ToTagElement new
-		                        label:
-			                        (ToAttributedLabel new text:
+		                        labelText:
+			                        (
 					                         stateColorAssoc key asString);
 		                        hMatchParent;
 		                        yourself.
@@ -1811,9 +1805,6 @@ ToSandBox class >> example_SelectMultiFiltrable [
 		| tag |
 		tag := newTagFactory value: stateColorAssoc.
 		tag addStamp: #closeIcon withValue: true.
-		tag
-			addEventHandlerOn: BlElementRemovedFromParentEvent
-			do: [ node removeFromBar ].
 		node addChild: tag ].
 
 	select listElement nodeBuilder: [ :node :stateColorAssoc :holder |
@@ -1974,7 +1965,7 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected [
 
 	| select innerWindow |
 	select := ToMultiSelectElement new.
-	select listElement selectionMode option masked: true.
+	select listElement primarySelectionMode option masked: true.
 	select hideSelected: true.
 	select dataAccessor updateAllWith: self statesOfAmerica.
 	select filtrable: true.

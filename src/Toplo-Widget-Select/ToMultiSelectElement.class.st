@@ -2,9 +2,7 @@ Class {
 	#name : #ToMultiSelectElement,
 	#superclass : #ToSelectElement,
 	#instVars : [
-		'hideSelected',
-		'maxSelectedCount',
-		'keepPickOrder'
+		'hideSelected'
 	],
 	#category : #'Toplo-Widget-Select-Multi'
 }
@@ -32,9 +30,9 @@ ToMultiSelectElement >> checkHideSelectionFromListElement [
 ]
 
 { #category : #'accessing - selection' }
-ToMultiSelectElement >> checkMaxSelectedCountFromListElement [
+ToMultiSelectElement >> checkMaxSelectedCount [
 
-	self innerContainer checkMaxSelectedCountFromListElement
+	self innerContainer checkMaxSelectedCount
 ]
 
 { #category : #accessing }
@@ -70,7 +68,6 @@ ToMultiSelectElement >> initialize [
 
 	super initialize.
 	hideSelected := false.
-	maxSelectedCount := 0
 ]
 
 { #category : #'instance creation' }
@@ -80,28 +77,17 @@ ToMultiSelectElement >> innerContainerClass [
 ]
 
 { #category : #accessing }
-ToMultiSelectElement >> keepPickOrder [
-
-	^ keepPickOrder ifNil: [ keepPickOrder := false ]
-]
-
-{ #category : #accessing }
 ToMultiSelectElement >> keepPickOrder: aBoolean [
 
-	keepPickOrder := aBoolean
-]
-
-{ #category : #accessing }
-ToMultiSelectElement >> maxSelectedCount [
-
-	^ maxSelectedCount
+	self innerContainer keepPickOrder: aBoolean
 ]
 
 { #category : #accessing }
 ToMultiSelectElement >> maxSelectedCount: aNumber [
 
-	maxSelectedCount := aNumber.
-	self iconContainer maxSelectedCount: aNumber
+	self iconContainer maxSelectedCount: aNumber.
+	self innerContainer maxSelectedCount: aNumber.
+
 ]
 
 { #category : #'instance creation' }

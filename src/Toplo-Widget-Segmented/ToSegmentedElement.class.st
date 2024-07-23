@@ -98,7 +98,7 @@ ToSegmentedElement >> segmentAccessor [
 { #category : #accessing }
 ToSegmentedElement >> selectionMode [
 
-	^ barElement selectionMode
+	^ barElement primarySelectionMode
 ]
 
 { #category : #accessing }

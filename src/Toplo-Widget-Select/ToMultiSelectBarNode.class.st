@@ -54,6 +54,12 @@ ToMultiSelectBarNode >> nodesCount [
 	^ self holder dataItem nodesCount
 ]
 
+{ #category : #accessing }
+ToMultiSelectBarNode >> removeButton [ 
+
+	^ self childWithId: #removeButton ifNone: [  ]
+]
+
 { #category : #private }
 ToMultiSelectBarNode >> removeFromBar [
 

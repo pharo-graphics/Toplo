@@ -9,12 +9,28 @@ Class {
 	#category : #'Toplo-Widget-Tag'
 }
 
+{ #category : #'t - labeled icon' }
+ToTagElement >> icon: anElement [
+
+	self iconDo: [ :ic | ic removeStamp: #'parent-tag' ].
+	super icon: anElement.
+	self iconDo: [ :ic | ic addStamp: #'parent-tag' withValue: self ]
+]
+
 { #category : #initialization }
 ToTagElement >> initialize [ 
 
 	super initialize.
 	self addStamp: #bordered withValue: true.
 	self addStamp: #closeIcon withValue: false
+]
+
+{ #category : #'t - labeled icon' }
+ToTagElement >> label: anElement [
+
+	self labelDo: [ :lab | lab removeStamp: #'parent-tag' ].
+	super label: anElement.
+	self labelDo: [ :lab | lab addStamp: #'parent-tag' withValue: self ]
 ]
 
 { #category : #skin }

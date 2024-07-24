@@ -26,28 +26,28 @@ ToTagSkin >> enabledSkinEvent: anEvent [
 
 	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		| backgroundColor foregroundColor |
+		| backgroundColor foregroundColor defaultTokn |
+		defaultTokn := #'border-color-primary-selection'.
 		e
 			withStamp: #foregroundColor
 			do: [ :v | foregroundColor := v ]
-			ifNone: [
-				foregroundColor := e valueOfTokenNamed:
-					                   #'border-color-primary-selection' ].
+			ifNone: [ foregroundColor := e valueOfTokenNamed: defaultTokn ].
+		defaultTokn := #'color-primary-selection-unfocused'.
 		e
 			withStamp: #backgroundColor
 			do: [ :v | backgroundColor := v ]
-			ifNone: [
-				backgroundColor := e valueOfTokenNamed:
-					                   #'color-primary-selection-unfocused' ].
+			ifNone: [ backgroundColor := e valueOfTokenNamed: defaultTokn ].
+
 		e background: backgroundColor.
+
 		(e valueOfStamp: #bordered)
 			ifTrue: [
 				e border: (BlBorder
 						 paint: foregroundColor
 						 width: (e valueOfTokenNamed: #'line-width')) ]
 			ifFalse: [ e border: BlBorder empty ].
-		e labelDo: [ :lab |
-			lab withNullSkin; foreground: foregroundColor ] ]
+
+		e labelDo: [ :lab | lab defaultRawSkin: ToTagLabelSkin new ] ]
 ]
 
 { #category : #'event handling' }

@@ -35,6 +35,18 @@ ToButton >> checkable: aBoolean [
 		ifFalse: [ self beNotCheckable ]
 ]
 
+{ #category : #'t - checkable - accessing' }
+ToButton >> checkableData [
+
+	^ optCheckableData 
+]
+
+{ #category : #'t - checkable - accessing' }
+ToButton >> checkableData: aCheckableData [
+
+	optCheckableData := aCheckableData
+]
+
 { #category : #initialization }
 ToButton >> initialize [
 
@@ -75,16 +87,4 @@ ToButton >> props [
 ToButton >> props: aTripletElementProperties [
 
 	props := aTripletElementProperties
-]
-
-{ #category : #'t - checkable - accessing' }
-ToButton >> rawCheckableData [
-
-	^ optCheckableData 
-]
-
-{ #category : #'t - checkable - accessing' }
-ToButton >> rawCheckableData: aCheckableData [
-
-	optCheckableData := aCheckableData
 ]

@@ -1,8 +1,14 @@
 Class {
 	#name : #ToChoiceMenuSkin,
 	#superclass : #ToMenuSkin,
-	#category : #'Toplo-Widget-Menu-Choice menu'
+	#category : #'Toplo-Widget-Menu-Choice menu deprecated'
 }
+
+{ #category : #testing }
+ToChoiceMenuSkin class >> isDeprecated [
+
+	^ true
+]
 
 { #category : #'event handling' }
 ToChoiceMenuSkin >> disabledSkinEvent: anEvent [

@@ -10,7 +10,7 @@ ToButtonSkin >> disabledSkinEvent: anEvent [
 	super disabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic |
-			ic formColor: (e valueOfTokenNamed: #'color-text-disabled') ].
+			ic innerImageColor: (e valueOfTokenNamed: #'color-text-disabled') ].
 		e endElementDo: [ :ic |
 			ic formColor: (e valueOfTokenNamed: #'color-text-disabled') ].
 		e labelDo: [ :lab |
@@ -23,9 +23,9 @@ ToButtonSkin >> enabledSkinEvent: anEvent [
 	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic |
-			ic formColor: (e valueOfTokenNamed: #'color-text') ].
+			ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
 		e endElementDo: [ :ic |
-			ic formColor: (e valueOfTokenNamed: #'color-text') ].
+			ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
 		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-text') ] ]
 ]
@@ -36,9 +36,9 @@ ToButtonSkin >> hoveredSkinEvent: anEvent [
 	super hoveredSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic |
-			ic formColor: (e valueOfTokenNamed: #'color-primary') ].
+			ic innerImageColor: (e valueOfTokenNamed: #'color-primary') ].
 		e endElementDo: [ :ic |
-			ic formColor: (e valueOfTokenNamed: #'color-primary') ].
+			ic innerImageColor: (e valueOfTokenNamed: #'color-primary') ].
 		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-primary') ] ]
 ]
@@ -56,9 +56,9 @@ ToButtonSkin >> installSkinEvent: anEvent [
 			ifTrue: [ e endInterspace: 10 ]
 			ifFalse: [ e endInterspace: 0 ].
 		e iconDo: [ :ic |
-			ic formColor: (e valueOfTokenNamed: #'color-text') ].
+			ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
 		e endElementDo: [ :ic |
-			ic formColor: (e valueOfTokenNamed: #'color-text') ].
+			ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
 		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-text') ] ]
 ]
@@ -69,9 +69,9 @@ ToButtonSkin >> leavedSkinEvent: anEvent [
 	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic |
-			ic formColor: (e valueOfTokenNamed: #'color-text') ].
+			ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
 		e endElementDo: [ :ic |
-			ic formColor: (e valueOfTokenNamed: #'color-text') ].
+			ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
 		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-text') ] ]
 ]
@@ -82,7 +82,7 @@ ToButtonSkin >> pressedSkinEvent: anEvent [
 	super pressedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic |
-			ic formColor: (e valueOfTokenNamed: #'color-primary-pressed') ].
+			ic innerImageColor: (e valueOfTokenNamed: #'color-primary-pressed') ].
 		e endElementDo: [ :ic |
 			ic formColor: (e valueOfTokenNamed: #'color-primary-pressed') ].
 		e labelDo: [ :lab |

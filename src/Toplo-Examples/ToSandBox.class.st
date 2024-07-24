@@ -92,7 +92,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 			 do: [ :event |
 				 | v |
 				 v := event current.
-				 aBar selectionMode option animationDuration: (v
+				 aBar primarySelectionMode option animationDuration: (v
 						  ifTrue: [ 200 milliSeconds ]
 						  ifFalse: [ 0 milliSeconds ]).
 				 aBar secondarySelectionMode option animationDuration: (v
@@ -701,7 +701,7 @@ ToSandBox class >> example_CheckboxWithIndeterminate [
 
 	| but |
 	but := ToCheckbox new labelText: 'Checkbox'.
-	but withIndeterminate: true.
+	but allowIndeterminate: true.
 	but inspect.
 	but openInSpace
 ]
@@ -1576,7 +1576,7 @@ ToSandBox class >> example_RadioButtonWithIndeterminate [
 	| but |
 	ToTheme cleanUp.
 	but := ToRadioButton new.
-	but withIndeterminate: true.
+	but allowIndeterminate: true.
 	but checked: #something. " any value except a boolean (and except nil) for indeterminate state "
 	but labelText: 'Radio'.
 	but inspect.
@@ -2825,7 +2825,7 @@ ToSandBox class >> example_ToggleButtonWithIndeterminate [
 	ToTheme cleanUp.
 	toggle := ToToggleButton new label: (ToLabel text: 'Toggle button').
 	toggle icon: (ToImage new innerImage: (self iconNamed: #solidMenu)).
-	toggle withIndeterminate: true.
+	toggle allowIndeterminate: true.
 	toggle openInInnerWindow.
 	toggle inspect
 ]

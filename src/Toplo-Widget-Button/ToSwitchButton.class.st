@@ -70,7 +70,7 @@ ToSwitchButton >> wishedTrackSize: aPoint [
 	self requestLayout
 ]
 
-{ #category : #'t - checkable  - protocol' }
+{ #category : #'t - checkable - accessing' }
 ToSwitchButton >> withIndeterminate: aBoolean [
 
 	self shouldNotImplement 

@@ -16,7 +16,7 @@ TToTagElement >> addRemoveButton [
 		self fireEvent: ToInnerElementRemovedEvent new.
 		self removeFromParent. ].
 	but id: #removeButton.
-	self addChild: but after: self labeledIcon 
+	self addChild: but after: self endContainer
 ]
 
 { #category : #configurating }

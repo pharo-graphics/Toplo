@@ -692,6 +692,7 @@ ToSandBox class >> example_CheckboxWithExactWidth [
 	chb := ToCheckbox new
 		       startInterspace: 100;
 		       labelText: 'Checkbox' asString.
+		chb inspect.
 	chb openInInnerWindow
 ]
 
@@ -3022,7 +3023,7 @@ ToSandBox class >> example_buttonWithActionControl [
 	but whenClickedDo: [ :event | self inform: 'Action runned' ].
 	but addEventHandlerOn: ToClickableActionRequestEvent do: [ :event |
 		count := count + 1.
-		event accept: count odd.
+		event authorized: count odd.
 		event denied ifTrue: [ self inform: 'Action denied' ] ].
 	but openInSpace.
 	^ but
@@ -3047,8 +3048,6 @@ ToSandBox class >> example_buttonWithIconAndLabel [
 	| but  |
 	but := self example_buttonWithIcon.
 	but label: (ToLabel text: 'Button with label').
-	but hMatchParent.
-	but inspect.
 	^ but
 ]
 
@@ -4025,7 +4024,7 @@ ToSandBox class >> example_switchButton [
 		addEventHandlerOn: ToSkinEvent
 		do: [ :event | event traceCr ].
 	th checked: true.
-	th wishedTrackSize: 100 @ 30.
+	"th wishedTrackSize: 100 @ 30."
 	th inspect.
 	th openInSpace
 ]
@@ -4054,8 +4053,7 @@ ToSandBox class >> example_switchButton3 [
 
 	| but onLab offLab onHandleIm handler |
 	but := ToSwitchButton new.
-	but inspect.
-	but wishedTrackSize: 300@50.
+	but wishedTrackSize: 350@50.
 	but endToStart: true.
 	but startFlexible: true.
 	but hMatchParent.

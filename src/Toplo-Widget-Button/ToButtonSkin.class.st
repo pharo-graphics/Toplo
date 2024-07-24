@@ -47,6 +47,7 @@ ToButtonSkin >> hoveredSkinEvent: anEvent [
 ToButtonSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
+
 	anEvent elementDo: [ :e |
 		(e hasIcon and: [ e hasLabel ])
 			ifTrue: [ e startInterspace: 10 ]

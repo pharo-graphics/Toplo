@@ -26,6 +26,8 @@ TToTripletElement >> configureLayout [
 				c horizontal fitContent ] ].
 	self isHorizontal
 		ifTrue: [
+			self childrenDo: [ :child |
+				child constraints linear vertical alignCenter ].
 			self startGap size = (self startInterspace @ 0) ifFalse: [
 				self startGap size: self startInterspace @ 0 ].
 			self endGap size = (self endInterspace @ 0) ifFalse: [
@@ -33,17 +35,18 @@ TToTripletElement >> configureLayout [
 			self endElement ifNotNil: [ :ee |
 				ee constraints frame horizontal alignRight ] ]
 		ifFalse: [
+			self childrenDo: [ :child |
+				child constraints linear horizontal alignCenter ].
 			self startGap size = (0 @ self startInterspace) ifFalse: [
 				self startGap size: 0 @ self startInterspace ].
 			self endGap size = (0 @ self endInterspace) ifFalse: [
 				self endGap size: 0 @ self endInterspace ].
 			self endElement ifNotNil: [ :ee |
-				ee constraints frame vertical alignBottom ] ].
-
+				ee constraints frame vertical alignBottom ] ]
 ]
 
 { #category : #'t - triplet element - accessing' }
-TToTripletElement >> defaultEventHandler [
+TToTripletElement >> defaultTripletEventHandler [
 
 	^ ToTripletElementEventHandler new
 ]
@@ -91,6 +94,12 @@ TToTripletElement >> endElement: anElement [
 	self props endElement: anElement.
 	anElement ifNil: [ ^ self ].
 	self endContainer addChild: anElement
+]
+
+{ #category : #'t - triplet element - accessing' }
+TToTripletElement >> endElementDo: aBlock [
+
+	self endElement ifNotNil: [ :ic | aBlock value: ic ]
 ]
 
 { #category : #'t - triplet element - accessing' }
@@ -176,8 +185,8 @@ TToTripletElement >> initializeTripletElement [
 			self endFiller.
 			self endGap.
 			self endContainer }.
-
-	self addEventHandler: self defaultEventHandler.
+			
+	self addEventHandler: self defaultTripletEventHandler.
 	self fitContent
 ]
 

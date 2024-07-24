@@ -47,7 +47,7 @@ ToTagSkin >> enabledSkinEvent: anEvent [
 						 width: (e valueOfTokenNamed: #'line-width')) ]
 			ifFalse: [ e border: BlBorder empty ].
 		e labelDo: [ :lab |
-			lab foreground: foregroundColor ] ]
+			lab withNullSkin; foreground: foregroundColor ] ]
 ]
 
 { #category : #'event handling' }

@@ -1,10 +1,10 @@
 Class {
 	#name : #ToButton,
 	#superclass : #ToGeneralButton,
-	#traits : 'TToElementWithLabeledIcon + TToCheckable',
-	#classTraits : 'TToElementWithLabeledIcon classTrait + TToCheckable classTrait',
+	#traits : 'TToOrientable + TToTripletElement + TToLabeledIcon + TToCheckable',
+	#classTraits : 'TToOrientable classTrait + TToTripletElement classTrait + TToLabeledIcon classTrait + TToCheckable classTrait',
 	#instVars : [
-		'labeledIcon',
+		'props',
 		'optCheckableData'
 	],
 	#category : #'Toplo-Widget-Button-Core'
@@ -39,20 +39,15 @@ ToButton >> checkable: aBoolean [
 ToButton >> initialize [
 
 	super initialize.
-	labeledIcon := ToLabeledIcon new.
-	self addChild: labeledIcon.
-	labeledIcon constraintsDo: [ :c |
-		c linear vertical alignCenter.
-		c linear horizontal alignCenter.
-		c frame vertical alignCenter.
-		c frame horizontal alignCenter ].
-	self fitContent
+	self initializeTripletElement
 ]
 
-{ #category : #'t - element with labeled icon - accessing' }
-ToButton >> labeledIcon [ 
+{ #category : #'t - orientable - accessing' }
+ToButton >> layoutStrategy [
 
-	^ labeledIcon
+	^ self layout 
+
+	
 ]
 
 { #category : #skin }
@@ -61,6 +56,25 @@ ToButton >> newRawSkin [
 	^ self isCheckable
 		  ifTrue: [ ToToggleButtonSkin new ]
 		  ifFalse: [ ToButtonSkin new ]
+]
+
+{ #category : #layout }
+ToButton >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
+
+	self configureLayout.
+	super onLayout: aBounds context: aBlElementBoundsUpdateContext
+]
+
+{ #category : #'t - triplet element - private - accessing' }
+ToButton >> props [
+
+	^ props
+]
+
+{ #category : #'t - triplet element - private - accessing' }
+ToButton >> props: aTripletElementProperties [
+
+	props := aTripletElementProperties
 ]
 
 { #category : #'t - checkable - accessing' }

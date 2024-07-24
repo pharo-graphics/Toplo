@@ -42,7 +42,7 @@ ToMenuItemSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e labeledIcon hMatchParent.
+		"e hMatchParent."
 		e isTopMenu ifFalse: [
 			e parentMenuDo: [ :pm |
 				(pm items anySatisfy: [ :mi | mi hasIcon ]) ifTrue: [

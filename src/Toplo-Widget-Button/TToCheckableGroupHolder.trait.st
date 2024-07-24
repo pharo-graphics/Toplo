@@ -4,12 +4,6 @@ Trait {
 }
 
 { #category : #'t - checkable holder' }
-TToCheckableGroupHolder >> allowUnchecking [
-
-	^ self group allowUnchecking
-]
-
-{ #category : #'t - checkable holder' }
 TToCheckableGroupHolder >> checkedList [
 
 	^ self group checkedList

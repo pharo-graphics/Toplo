@@ -33,6 +33,18 @@ TToTagElement >> beUnremovable [
 ]
 
 { #category : #accessing }
+TToTagElement >> bordered: aBoolean [
+
+	self addStamp: #bordered withValue: aBoolean
+]
+
+{ #category : #accessing }
+TToTagElement >> closeIcon: aBoolean [
+
+	self addStamp: #closeIcon withValue: aBoolean
+]
+
+{ #category : #accessing }
 TToTagElement >> rawRemovable [
 
 	^ self explicitRequirement

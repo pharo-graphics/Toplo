@@ -125,6 +125,7 @@ ToMultiSelectBarElement >> initialize [
 	maxSelectedCount := 0.
 	keepPickOrder := false.
 	pickCount := 0.
+
 	" mandatory resizer setting. 
 	Normally, should not be changed"
 	self vFitContent.

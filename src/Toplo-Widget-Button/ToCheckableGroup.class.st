@@ -41,12 +41,6 @@ ToCheckableGroup >> allowChangeWith: aCheckValue forCheckable: target [
 			 forCheckable: target)
 ]
 
-{ #category : #testing }
-ToCheckableGroup >> allowUnchecking [
-
-	^ checkingStrategy allowUnchecking
-]
-
 { #category : #accessing }
 ToCheckableGroup >> buttons [
 	

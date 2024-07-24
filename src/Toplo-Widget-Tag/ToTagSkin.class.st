@@ -39,13 +39,14 @@ ToTagSkin >> enabledSkinEvent: anEvent [
 			ifNone: [ backgroundColor := e valueOfTokenNamed: defaultTokn ].
 
 		e background: backgroundColor.
-
-		(e valueOfStamp: #bordered)
-			ifTrue: [
-				e border: (BlBorder
-						 paint: foregroundColor
-						 width: (e valueOfTokenNamed: #'line-width')) ]
-			ifFalse: [ e border: BlBorder empty ].
+		
+		e withStamp: #bordered do: [ :v |
+			v
+				ifTrue: [
+					e border: (BlBorder
+							 paint: foregroundColor
+							 width: (e valueOfTokenNamed: #'line-width')) ]
+				ifFalse: [ e border: BlBorder empty ] ].
 
 		e labelDo: [ :lab | lab defaultRawSkin: ToTagLabelSkin new ] ]
 ]
@@ -54,8 +55,8 @@ ToTagSkin >> enabledSkinEvent: anEvent [
 ToTagSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		(e valueOfStamp: #closeIcon) ifTrue: [ e removable: true ].
+	anEvent elementDo: [ :e | 
+		e removable: (e valueOfStamp: #closeIcon).
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:
 				 (e valueOfTokenNamed: 'border-radius')).
 		e padding: (BlInsets

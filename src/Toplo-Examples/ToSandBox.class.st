@@ -1701,10 +1701,12 @@ ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
 
 	select filtrable: true.
 
-	select nodeBuilder: [ :node :iconDesc :holder | | tag |
+	select nodeBuilder: [ :node :iconDesc :holder |
+		| tag |
 		tag := ToTagElement new.
-		tag icon: ((iconDesc icon size: 48 asPoint)).
-		tag addStamp: #closeIcon.
+		tag closeIcon: true.
+		tag bordered: false.
+		tag icon: (iconDesc icon size: 48 asPoint).
 		node addChild: tag ].
 	select fakeDataItem: select dataAccessor first.
 	select hMatchParent.
@@ -1862,7 +1864,6 @@ ToSandBox class >> example_SelectMultiFiltrableAutoDistributionWithMax [
 	select nodeAutoDistribution: true.
 	select hideSelected: false.
 	select dataAccessor addAll: self statesOfAmerica.
-
 	select filtrable: true.
 	select popupMaxHeight: 200.
 	select placeholderText:

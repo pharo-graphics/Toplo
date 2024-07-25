@@ -7,24 +7,11 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Model'
 }
 
-{ #category : #copying }
-ToPrimarySelectionModel >> duplicate [ 
-
-	| cpy origSubSelectionModelIndex |
-	cpy := self copy.
-	origSubSelectionModelIndex := subSelectionModelIndex.
-	cpy subSelectionModelIndex: IdentityDictionary new.
-	subSelectionModelIndex keysAndValuesDo: [ :key :value |
-		cpy subSelectionModelIndex at: key put: value copy ].
-	^ cpy
-	
-]
-
 { #category : #initialization }
 ToPrimarySelectionModel >> initialize [
 
 	super initialize.
-	subSelectionModelIndex := IdentityDictionary new
+	subSelectionModelIndex := ToDictionaryBasedSubSelectionModelRegistry new
 ]
 
 { #category : #'instance creation' }
@@ -33,6 +20,13 @@ ToPrimarySelectionModel >> newSecondarySelectionModel [
 	^ ToSecondarySelectionModel new
 		  primarySelectionModel: self;
 		  yourself
+]
+
+{ #category : #copying }
+ToPrimarySelectionModel >> postCopy [ 
+
+	super postCopy.
+	subSelectionModelIndex := subSelectionModelIndex copy
 ]
 
 { #category : #accessing }

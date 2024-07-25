@@ -8,7 +8,7 @@ Class {
 ToCompositeSelectionModel >> copySelectionFrom: anotherSelectionModel [
 
 	super copySelectionFrom: anotherSelectionModel.
-	anotherSelectionModel subSelectionModelIndex valuesDo: [ :src |
+	anotherSelectionModel subSelectionModelIndex selectionModelsDo: [ :src |
 		(self subSelectionModelWithId: src uniqueId)
 			ifNotNil: [ :dst | dst copySelectionFrom: src ] ]
 ]
@@ -16,14 +16,14 @@ ToCompositeSelectionModel >> copySelectionFrom: anotherSelectionModel [
 { #category : #accessing }
 ToCompositeSelectionModel >> recordSubSelectionModel: aSelectionModel [
 
-	self subSelectionModelIndex at: aSelectionModel uniqueId put: aSelectionModel
+	self subSelectionModelIndex recordSubSelectionModel: aSelectionModel
 ]
 
 { #category : #updating }
 ToCompositeSelectionModel >> resetAll [
 
 	super resetAll.
-	self subSelectionModelIndex valuesDo: [ :dst | dst resetAll ]
+	self subSelectionModelIndex resetAll
 ]
 
 { #category : #accessing }
@@ -35,7 +35,7 @@ ToCompositeSelectionModel >> subSelectionModelIndex [
 { #category : #accessing }
 ToCompositeSelectionModel >> subSelectionModelWithId: anUniqueId [
 
-	^ self subSelectionModelIndex at: anUniqueId ifAbsent: [  ]
+	^ self subSelectionModelIndex subSelectionModelWithId: anUniqueId
 ]
 
 { #category : #updating }
@@ -45,7 +45,7 @@ ToCompositeSelectionModel >> transferSelectionFromIndex: anIndex toIndex: target
 		transferSelectionFromIndex: anIndex
 		toIndex: targetIndex
 		in: anotherSelectionModel.
-	self subSelectionModelIndex valuesDo: [ :dst |
+	self subSelectionModelIndex selectionModelsDo: [ :dst |
 		(anotherSelectionModel subSelectionModelWithId: dst uniqueId)
 			ifNotNil: [ :other |
 				(dst containsIndex: anIndex)
@@ -56,5 +56,5 @@ ToCompositeSelectionModel >> transferSelectionFromIndex: anIndex toIndex: target
 { #category : #accessing }
 ToCompositeSelectionModel >> unrecordSubSelectionModel: aSelectionModel [
 
-	self subSelectionModelIndex removeKey: aSelectionModel uniqueId
+	self subSelectionModelIndex unrecordSubSelectionModel: aSelectionModel
 ]

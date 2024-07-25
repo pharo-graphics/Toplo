@@ -13,7 +13,7 @@ ToFrontSelectionModel >> disableIndex: anIndex [
 { #category : #accessing }
 ToFrontSelectionModel >> disabledSelectionModel [
 
-	^ self subSelectionModelIndex at: ToListDisabledSelectionChangedEvent ifAbsent: [  ]
+	^ self subSelectionModelWithId: ToListDisabledSelectionChangedEvent
 ]
 
 { #category : #accessing }
@@ -46,7 +46,7 @@ ToFrontSelectionModel >> hasUnselectableInInterval: anInterval [
 { #category : #accessing }
 ToFrontSelectionModel >> hiddenSelectionModel [
 
-	^ self subSelectionModelIndex at: ToListHiddenSelectionChangedEvent ifAbsent: [  ]
+	^ self subSelectionModelWithId: ToListHiddenSelectionChangedEvent 
 ]
 
 { #category : #accessing }
@@ -180,7 +180,7 @@ ToFrontSelectionModel >> unselectableIndex: anIndex [
 { #category : #accessing }
 ToFrontSelectionModel >> unselectableSelectionModel [
 
-	^ self subSelectionModelIndex at: ToListUnselectableSelectionChangedEvent ifAbsent: [  ]
+	^ self subSelectionModelWithId: ToListUnselectableSelectionChangedEvent 
 ]
 
 { #category : #accessing }

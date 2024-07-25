@@ -36,7 +36,7 @@ ToPrimarySelectionModelTest >> testDuplicate [
 	s recordSubSelectionModel: sub.
 	s selectIndex: 10.
 	sub selectIndex: 2.
-	dup := s duplicate.
+	dup := s copy.
 	self assert: dup selectedIndexes equals: #( 10 ).
 	self assert: (dup subSelectionModelIndex subSelectionModelWithId: #sub) equals: sub.
 	self deny: (dup subSelectionModelIndex subSelectionModelWithId: #sub) identicalTo: sub.

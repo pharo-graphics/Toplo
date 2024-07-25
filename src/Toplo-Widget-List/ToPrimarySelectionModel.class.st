@@ -11,7 +11,7 @@ Class {
 ToPrimarySelectionModel >> initialize [
 
 	super initialize.
-	subSelectionModelIndex := ToArrayBasedSubSelectionModelRegistry new
+	subSelectionModelIndex := ToOrderedCollectionBasedSubSelectionModelRegistry new
 ]
 
 { #category : #'instance creation' }

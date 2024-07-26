@@ -242,7 +242,6 @@ ToListElementStresser >> initialize [
 	                       startTime := DateAndTime now.
 	                       [ self finishedInAllTabs ] whileFalse: [
 		                       | idx |
-		                       Smalltalk garbageCollect.
 		                       round := round + 1.
 		                       idx := (round \\ self maxTab + 1 max: 1)
 			                              min: self maxTab.
@@ -373,6 +372,7 @@ ToListElementStresser >> newStressedListNumber: aNumber [
 	           list userData at: #finishedStress put: false.
 	           self maxRound timesRepeat: [
 		           round := round + 1.
+		           (round \\ 500) isZero ifTrue: [ Smalltalk garbageCollect ].
 		           self processingRound: round inList: list number: aNumber.
 		           self afterRoundInList: list ].
 	           self processEndInList: list number: aNumber ] newProcess.
@@ -393,7 +393,9 @@ ToListElementStresser >> newStressedListNumber: aNumber [
 
 	pane addChild: list.
 	pane addChild: (self newSelectionBoardOn: list).
-	list userData at: #identifier put: (ident asRopedText bold , suffix asRopedText).
+	list userData
+		at: #identifier
+		put: ident asRopedText bold , suffix asRopedText.
 
 	^ pane -> list
 ]

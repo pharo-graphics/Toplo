@@ -242,13 +242,14 @@ ToListElementStresser >> initialize [
 	                       startTime := DateAndTime now.
 	                       [ self finishedInAllTabs ] whileFalse: [
 		                       | idx |
+		                       Smalltalk garbageCollect.
 		                       round := round + 1.
 		                       idx := (round \\ self maxTab + 1 max: 1)
 			                              min: self maxTab.
 		                       self tabsPanel enqueueTask:
 			                       (BlTaskAction new action: [
 				                        (self tabsPanel tabs at: idx) check ]).
-		                       1 seconds wait.
+		                       1 seconds wait
 		                       "Smalltalk garbageCollect" ].
 	                       endTime := DateAndTime now.
 	                       (endTime - startTime) asDuration traceCr ]

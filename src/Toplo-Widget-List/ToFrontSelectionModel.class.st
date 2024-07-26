@@ -35,14 +35,6 @@ ToFrontSelectionModel >> enableIndex: anIndex [
 	self disabledSelectionModelDo: [ :sm | sm deselectIndex: anIndex ]
 ]
 
-{ #category : #testing }
-ToFrontSelectionModel >> hasUnselectableInInterval: anInterval [
-
-	self unselectableSelectionModelDo: [ :sm |
-		^ anInterval anySatisfy: [ :idx | sm containsIndex: idx ] ].
-	^ super hasUnselectableInInterval: anInterval
-]
-
 { #category : #accessing }
 ToFrontSelectionModel >> hiddenSelectionModel [
 

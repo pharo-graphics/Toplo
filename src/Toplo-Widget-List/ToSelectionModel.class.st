@@ -32,9 +32,6 @@ ToSelectionModel >> containsIndex: anIndex [
 { #category : #copying }
 ToSelectionModel >> copySelectionFrom: anotherSelectionModel [
 
-	anotherSelectionModel ifNil: [
-		underlyingModel := self newUnderlyingModel.
-		^ self ].
 	underlyingModel := anotherSelectionModel underlyingModel copy
 ]
 

@@ -7,6 +7,13 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Model'
 }
 
+{ #category : #copying }
+ToPrimarySelectionModel >> copySelectionFrom: anotherSelectionModel [
+
+	super copySelectionFrom: anotherSelectionModel.
+	subSelectionModelIndex := anotherSelectionModel subSelectionModelIndex copy
+]
+
 { #category : #initialization }
 ToPrimarySelectionModel >> initialize [
 

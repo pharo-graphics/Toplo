@@ -4,15 +4,6 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Model'
 }
 
-{ #category : #copying }
-ToCompositeSelectionModel >> copySelectionFrom: anotherSelectionModel [
-
-	super copySelectionFrom: anotherSelectionModel.
-	anotherSelectionModel subSelectionModelIndex selectionModelsDo: [ :src |
-		(self subSelectionModelWithId: src uniqueId)
-			ifNotNil: [ :dst | dst copySelectionFrom: src ] ]
-]
-
 { #category : #accessing }
 ToCompositeSelectionModel >> recordSubSelectionModel: aSelectionModel [
 

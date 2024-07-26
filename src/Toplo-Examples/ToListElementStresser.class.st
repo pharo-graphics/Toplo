@@ -248,13 +248,14 @@ ToListElementStresser >> initialize [
 		                       self tabsPanel enqueueTask:
 			                       (BlTaskAction new action: [
 				                        (self tabsPanel tabs at: idx) check ]).
-		                       1 seconds wait ].
+		                       1 seconds wait.
+		                       "Smalltalk garbageCollect" ].
 	                       endTime := DateAndTime now.
 	                       (endTime - startTime) asDuration traceCr ]
 		                       newProcess.
 
 	tabSelectionProcess name: self class name.
-	tabSelectionProcess priority: Processor systemBackgroundPriority.
+	tabSelectionProcess priority: Processor userBackgroundPriority.
 
 	self tabsPanel
 		addEventHandlerOn: BlElementAddedToSceneGraphEvent

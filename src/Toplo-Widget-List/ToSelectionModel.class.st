@@ -32,7 +32,6 @@ ToSelectionModel >> containsIndex: anIndex [
 { #category : #copying }
 ToSelectionModel >> copySelectionFrom: anotherSelectionModel [
 
-	underlyingModel release.
 	underlyingModel := anotherSelectionModel underlyingModel copy
 ]
 

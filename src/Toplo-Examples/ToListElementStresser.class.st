@@ -372,7 +372,7 @@ ToListElementStresser >> newStressedListNumber: aNumber [
 	           list userData at: #finishedStress put: false.
 	           self maxRound timesRepeat: [
 		           round := round + 1.
-		           (round \\ 500) isZero ifTrue: [ Smalltalk garbageCollect ].
+		           (round \\ 100) isZero ifTrue: [ Smalltalk garbageCollect ].
 		           self processingRound: round inList: list number: aNumber.
 		           self afterRoundInList: list ].
 	           self processEndInList: list number: aNumber ] newProcess.

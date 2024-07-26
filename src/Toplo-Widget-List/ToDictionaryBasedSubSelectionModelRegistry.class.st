@@ -18,7 +18,6 @@ ToDictionaryBasedSubSelectionModelRegistry >> postCopy [
 	nSubs := subs copy.
 	subs keysAndValuesDo: [ :key :value |
 		nSubs at: key put: value copy ].
-	subs release.
 	subs := nSubs
 ]
 

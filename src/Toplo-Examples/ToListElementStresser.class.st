@@ -205,7 +205,7 @@ ToListElementStresser >> finishedInAllTabs [
 	^ tabsPanel tabs allSatisfy: [ :tab |
 		  | list |
 		  list := tab userData at: #list.
-		  list userData at: #finishedStress ]
+		  list userData at: #finishedStress ifAbsent: [false] ]
 ]
 
 { #category : #initialization }

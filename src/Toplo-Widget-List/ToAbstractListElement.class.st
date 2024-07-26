@@ -242,6 +242,7 @@ ToAbstractListElement >> hiddenSelectionModel [
 ToAbstractListElement >> initialize [
 
 	super initialize.
+
 	nodeManager := self defaultNodeManager.
 	withContextMenuSelection := true.
 	selectionModeMap := IdentityDictionary new.

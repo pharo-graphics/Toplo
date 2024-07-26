@@ -11,6 +11,7 @@ Class {
 ToPrimarySelectionModel >> copySelectionFrom: anotherSelectionModel [
 
 	super copySelectionFrom: anotherSelectionModel.
+	subSelectionModelIndex release.
 	subSelectionModelIndex := anotherSelectionModel subSelectionModelIndex copy
 ]
 

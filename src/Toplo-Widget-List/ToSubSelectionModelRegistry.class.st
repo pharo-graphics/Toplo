@@ -26,6 +26,15 @@ ToSubSelectionModelRegistry >> recordSubSelectionModel: aSelectionModel [
 	self subclassResponsibility 
 ]
 
+{ #category : #dependencies }
+ToSubSelectionModelRegistry >> release [ 
+
+	super release.
+	self selectionModelsDo: [ :sm | sm release ].
+	subs release.
+	subs := nil
+]
+
 { #category : #initialization }
 ToSubSelectionModelRegistry >> resetAll [
 

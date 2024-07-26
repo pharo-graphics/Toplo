@@ -18,6 +18,7 @@ ToArrayBasedSubSelectionModelRegistry >> postCopy [
 	nSubs := subs copy.
 	subs withIndexDo: [ :value :index |
 		nSubs at: index put: value copy ].
+	subs release.
 	subs := nSubs
 ]
 

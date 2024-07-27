@@ -42,13 +42,13 @@ ToListNodeHolder >> data [
 { #category : #accessing }
 ToListNodeHolder >> dataItem [
 
-	^ dataItem
+	^ dataItem ifNotNil: [ :di | di first ]
 ]
 
 { #category : #accessing }
 ToListNodeHolder >> dataItem: aData [ 
 
-	dataItem := aData
+	dataItem := aData asWeakReference
 ]
 
 { #category : #accessing }
@@ -98,7 +98,7 @@ ToListNodeHolder >> isUnselectable [
 { #category : #accessing }
 ToListNodeHolder >> listElement [
 
-	^ infiniteElement listElement
+	^ self infiniteElement listElement
 ]
 
 { #category : #accessing }

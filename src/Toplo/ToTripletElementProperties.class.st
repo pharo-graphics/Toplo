@@ -167,6 +167,20 @@ ToTripletElementProperties >> on: anElement [
 		                yourself
 ]
 
+{ #category : #dependencies }
+ToTripletElementProperties >> release [ 
+
+	super release.
+	startContainer := nil.
+	middleContainer := nil.
+	endContainer := nil.
+	startFiller := nil.
+	endFiller := nil.
+	startElement := nil.
+	middleElement := nil.
+	endElement := nil
+]
+
 { #category : #accessing }
 ToTripletElementProperties >> startAlignment [
 

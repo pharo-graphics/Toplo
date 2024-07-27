@@ -60,3 +60,11 @@ ToTripletElement >> props: aTripletElementProperties [
 	props ifNotNil: [ (BlImmutableObjectChangeError object: self) signal ].
 	props := aTripletElementProperties
 ]
+
+{ #category : #dependencies }
+ToTripletElement >> release [ 
+
+	super release.
+	props release.
+	props := nil
+]

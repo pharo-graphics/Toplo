@@ -18,7 +18,7 @@ ToPrimarySelectionModel >> copySelectionFrom: anotherSelectionModel [
 ToPrimarySelectionModel >> initialize [
 
 	super initialize.
-	subSelectionModelIndex := ToOrderedCollectionBasedSubSelectionModelRegistry new
+	subSelectionModelIndex := ToDictionaryBasedSubSelectionModelRegistry new
 ]
 
 { #category : #'instance creation' }

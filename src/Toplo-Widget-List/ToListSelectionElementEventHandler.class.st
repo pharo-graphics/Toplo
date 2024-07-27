@@ -1,42 +1,18 @@
 Class {
 	#name : #ToListSelectionElementEventHandler,
 	#superclass : #BlCustomEventHandler,
-	#instVars : [
-		'selectionGroupHolder'
-	],
 	#category : #'Toplo-Widget-List-Selection-Element'
 }
-
-{ #category : #'element handlers' }
-ToListSelectionElementEventHandler >> boundsHasChangedDuringScrollingEvent: anEvent [
-
-	self refreshSelectionFromEvent: anEvent
-]
 
 { #category : #'selection managing' }
 ToListSelectionElementEventHandler >> differUpdateSelectionFrom: target [
 
 ]
 
-{ #category : #'element handlers' }
-ToListSelectionElementEventHandler >> elementExtentChangedEvent: anEvent [
-
-	self refreshSelectionFromEvent: anEvent
-]
-
-{ #category : #'element handlers' }
-ToListSelectionElementEventHandler >> elementScrolledEvent: anEvent [
-
-	self refreshSelectionFromEvent: anEvent
-]
-
 { #category : #'api - accessing' }
 ToListSelectionElementEventHandler >> eventsToHandle [
 
-	^ {
-		  BlBoundsHasChangedDuringScrollingEvent.
-		  BlElementExtentChangedEvent.
-		  BlElementScrolledEvent }
+	^ {  }
 ]
 
 { #category : #'selection managing' }
@@ -44,13 +20,7 @@ ToListSelectionElementEventHandler >> refreshSelectionFromEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	selectionGroupHolder refreshSelectionIn: target
-]
-
-{ #category : #accessing }
-ToListSelectionElementEventHandler >> selectionGroupHolder: aSelectionGroupHolder [
-
-	selectionGroupHolder := aSelectionGroupHolder
+	anEvent groupHolder ifNotNil: [:gh | gh refreshSelectionIn: target ]
 ]
 
 { #category : #'selection managing' }
@@ -67,5 +37,6 @@ ToListSelectionElementEventHandler >> updateSelectionFromEvent: anEvent [
 	target isAttachedToSceneGraph ifFalse: [
 		self differUpdateSelectionFrom: target.
 		^ self ].
-	selectionGroupHolder updateSelectionIn: target
+
+	anEvent groupHolder updateSelectionIn: target
 ]

@@ -1,8 +1,14 @@
 Class {
 	#name : #ToChoiceMenuSkin,
 	#superclass : #ToMenuSkin,
-	#category : #'Toplo-Widget-Menu-Choice menu'
+	#category : #'Toplo-Widget-Menu-Choice menu deprecated'
 }
+
+{ #category : #testing }
+ToChoiceMenuSkin class >> isDeprecated [
+
+	^ true
+]
 
 { #category : #'event handling' }
 ToChoiceMenuSkin >> disabledSkinEvent: anEvent [
@@ -40,10 +46,10 @@ ToChoiceMenuSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e beEndToStart.
+		e icon: (ToImage inner: (self iconNamed: #bottom)).
+		e endToStart: true.
 		e startFlexible: true.
-		e startInterspace: 10.
-		e icon: (ToImage inner: (self iconNamed: #bottom)) ]
+		e startInterspace: 10 ]
 ]
 
 { #category : #'event handling' }

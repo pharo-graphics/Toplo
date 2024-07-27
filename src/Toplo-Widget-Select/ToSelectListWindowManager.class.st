@@ -132,7 +132,7 @@ ToSelectListWindowManager >> newListElement [
 
 	| newListElement |
 	newListElement := self listElementClass new.
-	newListElement selectionMode multiple: false.
+	newListElement primarySelectionMode multiple: false.
 	newListElement nodeFactory: self defaultNodeFactory.
 	newListElement nodeBuilder: self defaultNodeBuilder.
 	newListElement innerContainer maxHeight: self defaultMaxHeight.
@@ -155,6 +155,7 @@ ToSelectListWindowManager >> onInstalledIn: anElement [
 	super onInstalledIn: anElement.
 	listElement := self newListElement.
 	listElement selectElement: self element.
+	listElement focusability: BlFocusability none.
 
 	listElement addEventHandler: (ToSelectListElementEventHandler new
 			 select: self element;

@@ -92,7 +92,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 			 do: [ :event |
 				 | v |
 				 v := event current.
-				 aBar selectionMode option animationDuration: (v
+				 aBar primarySelectionMode option animationDuration: (v
 						  ifTrue: [ 200 milliSeconds ]
 						  ifFalse: [ 0 milliSeconds ]).
 				 aBar secondarySelectionMode option animationDuration: (v
@@ -692,6 +692,7 @@ ToSandBox class >> example_CheckboxWithExactWidth [
 	chb := ToCheckbox new
 		       startInterspace: 100;
 		       labelText: 'Checkbox' asString.
+		chb inspect.
 	chb openInInnerWindow
 ]
 
@@ -700,7 +701,7 @@ ToSandBox class >> example_CheckboxWithIndeterminate [
 
 	| but |
 	but := ToCheckbox new labelText: 'Checkbox'.
-	but withIndeterminate: true.
+	but allowIndeterminate: true.
 	but inspect.
 	but openInSpace
 ]
@@ -1214,7 +1215,7 @@ ToSandBox class >> example_ListWithAllClasses [
 ToSandBox class >> example_ListWithAllClasses3 [
 
 	| l |
-	l := ToListElement new nodeBuilder: [ :node :dataItem  :holder |
+	l := ToListElement new nodeBuilder: [ :node :dataItem :holder |
 		     | icn lab |
 		     icn := dataItem hasComment
 			            ifTrue: [ #class ]
@@ -1228,7 +1229,7 @@ ToSandBox class >> example_ListWithAllClasses3 [
 				      icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
 				      startInterspace: 10;
 				      hMatchParent) ].
-	l selectionMode option animationDuration: 200 milliSeconds.
+	l primarySelectionMode option animationDuration: 200 milliSeconds.
 	l secondarySelectionMode option animationDuration: 150 milliSeconds.
 	l dataAccessor addAll: Smalltalk globals allClasses.
 	l selecter selectIndex: 3.
@@ -1243,27 +1244,16 @@ ToSandBox class >> example_ListWithAllClasses4 [
 	| l |
 	l := ToListElement new nodeBuilder: [ :node :dataItem :holder |
 		     | cbox |
-		node traceCr.
 		     cbox := ToCheckbox new.
 		     cbox
 			     labelText: dataItem name;
 			     startInterspace: 10;
 			     hMatchParent;
 			     startFlexible: true.
-		    " node userData at: #handler put: (holder listElement
-				      addEventHandlerOn: ToListPrimarySelectionChangedEvent
-				      do: [ :event |
-					      cbox traceCr.
-					      cbox checked:
-						      (holder selectionModel containsIndex: holder position) ])."
 		     cbox checked: holder isSelected.
 		     node addChild: cbox ].
-	"l nodeUnbuilder: [ :node :dataItem :holder | node removeEventHandler: (node userData at: #handler) ]."
-	l selectionMode selectOnMouseDown: true.
-	l
-		addEventFilterOn: ToListPrimarySelectionChangedEvent
-		do: [ :event | 'list selection changed' traceCr ].
-	l selectionMode option masked: true.
+	l primarySelectionMode selectOnMouseDown: true.
+	l primarySelectionMode option masked: true.
 	l dataAccessor addAll: Smalltalk globals allClasses.
 	l openInSpace
 ]
@@ -1470,11 +1460,13 @@ ToSandBox class >> example_PicsumPhotosGallery [
 		nodeFactory: [ ToPicsumPhotosGalleryImageNode new ];
 		nodeBuilder: [ :node :dataItem :holder |
 			node labelString: dataItem id ].
-	list selectionMode option
+	list primarySelectionMode option
 		grouped: false;
 		beneath: false;
 		triggerSelectionState: true;
-		elementBuilder: [ ToPicsumPhotosGallerySelectionElement new ].
+		elementFactory: [
+			ToListBasicSelectionElement new defaultSkin:
+					ToPicsumPhotosGallerySelectionSkin new ].
 
 	[
 	| allImagesData |
@@ -1584,7 +1576,7 @@ ToSandBox class >> example_RadioButtonWithIndeterminate [
 	| but |
 	ToTheme cleanUp.
 	but := ToRadioButton new.
-	but withIndeterminate: true.
+	but allowIndeterminate: true.
 	but checked: #something. " any value except a boolean (and except nil) for indeterminate state "
 	but labelText: 'Radio'.
 	but inspect.
@@ -1637,15 +1629,8 @@ ToSandBox class >> example_SelectAntDesignIconMonoFiltrable [
 	select filtrable: true.
 
 	select dataViewBuilder: [ :dataItemView :iconDesc |
-		| imPane |
-		dataItemView selectedDataTextField text:
-			iconDesc style prefix , ' ' , iconDesc name.
-		imPane := ToElement new layout: BlFrameLayout new.
-		imPane fitContent.
-		imPane withNullSkin.
-		imPane background: Color veryLightGray.
-		imPane addChild: (iconDesc icon size: 48 asPoint).
-		dataItemView addChild: imPane ].
+		dataItemView selectedDataTextField text: iconDesc style prefix , ' ' , iconDesc name.
+		dataItemView addChild: ((iconDesc icon size: 48 asPoint) background: Color veryLightGray) ].
 	
 	select fakeDataItem: select dataAccessor first.
 
@@ -1666,22 +1651,18 @@ ToSandBox class >> example_SelectAntDesignIconMultiFiltrable [
 
 	select filtrable: true.
 
-	select nodeBuilder: [ :node :iconDesc :holder |
-		| imPane |
-		imPane := ToElement new layout: BlFrameLayout new.
-		imPane fitContent.
-		imPane withNullSkin.
-		imPane background: Color veryLightGray.
-		imPane addChild: (iconDesc icon size: 48 asPoint).
-		node middleElement: imPane ].
+	select nodeBuilder: [ :node :iconDesc :holder | | tag |
+		tag := ToTagElement new.
+		tag icon: ((iconDesc icon size: 48 asPoint)).
+		tag addStamp: #closeIcon.
+		node addChild: tag ].
 	select fakeDataItem: select dataAccessor first.
 	select hMatchParent.
 	select placeholderText:
 		('Select icons' asRopedText foreground: Color red).
 
 	select inputTextField requestFocus.
-	select openInSpace.
-	select inspect
+	select openInSpace
 ]
 
 { #category : #select }
@@ -1694,15 +1675,8 @@ ToSandBox class >> example_SelectMaterialDesignIconMonoFiltrable [
 	select filtrable: true.
 
 	select dataViewBuilder: [ :dataItemView :iconDesc |
-		| imPane |
-		dataItemView selectedDataTextField text:
-			iconDesc style prefix , ' ' , iconDesc name.
-		imPane := ToElement new layout: BlFrameLayout new.
-		imPane fitContent.
-		imPane withNullSkin.
-		imPane background: Color veryLightGray.
-		imPane addChild: (iconDesc icon size: 48 asPoint).
-		dataItemView addChild: imPane ].
+		dataItemView selectedDataTextField text: iconDesc style prefix , ' ' , iconDesc name.
+		dataItemView addChild: ((iconDesc icon size: 48 asPoint) background: Color veryLightGray) ].
 	
 	select fakeDataItem: select dataAccessor first.
 
@@ -1717,22 +1691,23 @@ ToSandBox class >> example_SelectMaterialDesignIconMonoFiltrable [
 { #category : #select }
 ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
 
-	| select   |
+	| select |
 	select := ToMultiSelectElement new.
 	select nodeWrapping: false.
 	select keepPickOrder: true.
-	self buildSelectListElementIn: select withIconProvider: ToMaterialDesignIconProvider.
+	self
+		buildSelectListElementIn: select
+		withIconProvider: ToMaterialDesignIconProvider.
 
 	select filtrable: true.
 
 	select nodeBuilder: [ :node :iconDesc :holder |
-		| imPane |
-		imPane := ToElement new layout: BlFrameLayout new.
-		imPane fitContent.
-		imPane withNullSkin.
-		imPane background: Color veryLightGray.
-		imPane addChild: (iconDesc icon size: 48 asPoint).
-		node middleElement: imPane ].
+		| tag |
+		tag := ToTagElement new.
+		tag closeIcon: true.
+		tag bordered: false.
+		tag icon: (iconDesc icon size: 48 asPoint).
+		node addChild: tag ].
 	select fakeDataItem: select dataAccessor first.
 	select hMatchParent.
 	select placeholderText:
@@ -1797,19 +1772,50 @@ ToSandBox class >> example_SelectMonoNotFiltrable [
 { #category : #select }
 ToSandBox class >> example_SelectMultiFiltrable [
 
-	| select innerWindow |
+	| select innerWindow newTagFactory |
 	select := ToMultiSelectElement new.
 	select nodeWrapping: true.
-	select innerContainer selectionMode option animationDuration:
-		200 milliSeconds.
-	select listElement withRowNumbers.
-	select innerContainer nodeBuilder: [ :node :dataItem :holder | 
-		node middleElement: (ToAttributedLabel new
-				 text: dataItem asString;
-				 foreground: Color random;
-				 yourself) ].
+	select keepPickOrder: true.
+	select listElement primarySelectionMode option grouped: false.
+	select listElement primarySelectionMode option beneath: false.
+	select listElement primarySelectionMode option elementFactory: [
+		ToListBasicSelectionElement new defaultSkin:
+			ToMultiSelectElementCheckSkin new ].
+
+	newTagFactory := [ :stateColorAssoc |
+	                 | tag |
+	                 tag := ToTagElement new
+		                        labelText:
+			                        (
+					                         stateColorAssoc key asString);
+		                        hMatchParent;
+		                        yourself.
+	                 tag constraintsDo: [ :c |
+		                 c linear vertical alignCenter ].
+	                 tag
+		                 addStamp: #foregroundColor
+		                 withValue:
+		                 (Color fromString: stateColorAssoc value).
+	                 tag
+		                 addStamp: #backgroundColor
+		                 withValue:
+		                 ((Color fromString: stateColorAssoc value)
+			                  veryMuchLighter alpha: 0.5).
+	                 tag ].
+
+
+	select innerContainer nodeBuilder: [ :node :stateColorAssoc :holder |
+		| tag |
+		tag := newTagFactory value: stateColorAssoc.
+		tag addStamp: #closeIcon withValue: true.
+		node addChild: tag ].
+
+	select listElement nodeBuilder: [ :node :stateColorAssoc :holder |
+		node addChild: (newTagFactory value: stateColorAssoc) ].
+
+
 	select hideSelected: false.
-	select dataAccessor addAll: self statesOfAmerica.
+	select dataAccessor addAll: self statesOfAmericaWithColor.
 	select filtrable: true.
 	select popupMaxHeight: 200.
 	select placeholderText:
@@ -1858,7 +1864,6 @@ ToSandBox class >> example_SelectMultiFiltrableAutoDistributionWithMax [
 	select nodeAutoDistribution: true.
 	select hideSelected: false.
 	select dataAccessor addAll: self statesOfAmerica.
-
 	select filtrable: true.
 	select popupMaxHeight: 200.
 	select placeholderText:
@@ -1962,11 +1967,7 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected [
 
 	| select innerWindow |
 	select := ToMultiSelectElement new.
-	select listElement selectionMode option elementBuilder: [
-		ToListPrimarySelectionElement new
-			withNullSkin;
-			yourself ].
-	select inspect.
+	select listElement primarySelectionMode option masked: true.
 	select hideSelected: true.
 	select dataAccessor updateAllWith: self statesOfAmerica.
 	select filtrable: true.
@@ -2825,7 +2826,7 @@ ToSandBox class >> example_ToggleButtonWithIndeterminate [
 	ToTheme cleanUp.
 	toggle := ToToggleButton new label: (ToLabel text: 'Toggle button').
 	toggle icon: (ToImage new innerImage: (self iconNamed: #solidMenu)).
-	toggle withIndeterminate: true.
+	toggle allowIndeterminate: true.
 	toggle openInInnerWindow.
 	toggle inspect
 ]
@@ -3023,7 +3024,7 @@ ToSandBox class >> example_buttonWithActionControl [
 	but whenClickedDo: [ :event | self inform: 'Action runned' ].
 	but addEventHandlerOn: ToClickableActionRequestEvent do: [ :event |
 		count := count + 1.
-		event accept: count odd.
+		event authorized: count odd.
 		event denied ifTrue: [ self inform: 'Action denied' ] ].
 	but openInSpace.
 	^ but
@@ -3048,8 +3049,6 @@ ToSandBox class >> example_buttonWithIconAndLabel [
 	| but  |
 	but := self example_buttonWithIcon.
 	but label: (ToLabel text: 'Button with label').
-	but hMatchParent.
-	but inspect.
 	^ but
 ]
 
@@ -4026,7 +4025,7 @@ ToSandBox class >> example_switchButton [
 		addEventHandlerOn: ToSkinEvent
 		do: [ :event | event traceCr ].
 	th checked: true.
-	th wishedTrackSize: 100 @ 30.
+	"th wishedTrackSize: 100 @ 30."
 	th inspect.
 	th openInSpace
 ]
@@ -4055,8 +4054,7 @@ ToSandBox class >> example_switchButton3 [
 
 	| but onLab offLab onHandleIm handler |
 	but := ToSwitchButton new.
-	but inspect.
-	but wishedTrackSize: 300@50.
+	but wishedTrackSize: 350@50.
 	but endToStart: true.
 	but startFlexible: true.
 	but hMatchParent.
@@ -5528,18 +5526,44 @@ ToSandBox class >> listWithEditableAndContextMenu [
 	| l selectionMenu menuFactory phtext disabledMode unselectableMode |
 	l := ToListElement new.
 
-	l newHiddenSelectionMode onInstalledIn: l.
+	l newHiddenSelectionMode on: l.
 	disabledMode := l newDisabledSelectionMode.
-	disabledMode onInstalledIn: l.
-	disabledMode option elementBuilder: [
-		ToListDisabledSelectionElement new ].
-	
-	unselectableMode := l newUnselectableSelectionMode.
-	unselectableMode onInstalledIn: l.
+	disabledMode option: ToListSelectionElementOption new.
+	disabledMode option listEventHandler:
+		(ToListBasicAdditionalSelectionElementEventHandler new
+			 selectionChangedEventClass:
+			 disabledMode selectionChangedEventClass).
+	disabledMode option grouped: false.
+	disabledMode option beneath: false.
+	disabledMode option elementFactory: [
+		ToListBasicSelectionElement new defaultSkin:
+			ToListDisabledSelectionElementExampleSkin new ].
+	disabledMode on: l.
 
-	unselectableMode option elementBuilder: [
-		ToListUnselectableSelectionElement new defaultSkin:
-			ToListUnselectableSelectionElementExempleSkin new ].
+
+	unselectableMode := l newUnselectableSelectionMode.
+	unselectableMode option: ToListSelectionElementOption new.
+	
+	" or unselectableMode option listEventHandler: ToListUnselectableSelectionElementEventHandler new 
+	but the following code is kept for the record to show how to manage an additional selection mode 
+	with a selection option"
+	unselectableMode option listEventHandler: (BlEventHandler
+			 on: unselectableMode selectionChangedEventClass
+			 do: [ :event |
+				 | target |
+				 target := event currentTarget.
+				 event groupHolder updateSelectionIn: target.
+				 target selecter deselectIndexes: event touchedIndexes.
+				 target secondarySelecter deselectAll.
+				 event touchedIntervals do: [ :int |
+					 target dataSource notifyItemsChanged: int ] ]).
+			
+	unselectableMode option grouped: false.
+	unselectableMode option beneath: false.
+	unselectableMode option elementFactory: [
+		ToListBasicSelectionElement new defaultSkin:
+			ToListUnselectableSelectionElementExampleSkin new ].
+	unselectableMode on: l.
 
 	phtext := (('Invoke the context menu ' , String cr
 	            , 'with a right-click' , String cr
@@ -5618,7 +5642,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 				                whenClickedDo: [ :event |
 					                target hiddenSelecter deselectAll ];
 				                yourself).
-		               target selectionMode option isAnimated
+		               target primarySelectionMode option isAnimated
 			               ifTrue: [
 				               menu addItem: (ToMenuItem new
 						                labelText: 'stop selection transition animation';
@@ -6011,9 +6035,9 @@ ToSandBox class >> selectionModeChooserFor: aBar [
 			 do: [ :event |
 				 | mode |
 				 mode := event checkedList first id asSymbol.
-				 aBar selectionMode enabled: mode ~= #Disabled.
+				 aBar primarySelectionMode enabled: mode ~= #Disabled.
 				 mode = #Multiple
-					 ifTrue: [ aBar selectionMode multiple: true ]
+					 ifTrue: [ aBar primarySelectionMode multiple: true ]
 					 ifFalse: [
 					 mode = #Single ifTrue: [ aBar selectionMode multiple: false ] ] ]).
 	buttons first checked: true.
@@ -6039,6 +6063,23 @@ ToSandBox class >> statesOfAmerica [
 		#Oregon. #'Pennsylvania Rhode Island'. #'South Carolina'.
 		#'South Dakota'. #Tennessee. #Texas. #Utah. #Vermont. #Virginia.
 		#Washington. #'West Virginia'. #Wisconsin. #Wyoming }.
+]
+
+{ #category : #accessing }
+ToSandBox class >> statesOfAmericaWithColor [
+
+	| colorStrings states |
+	colorStrings := { #'1677FF'. #'722ED1'. #'13C2C2'. #'52C41A'.
+	                #EB2F96. #EB2F96. #F5222D. #FA8C16. #FADB14. #FA541C.
+	                #'2F54EB'. #FAAD14. #A0D911 }.
+	states := self statesOfAmerica.
+
+	^ Array streamContents: [ :stream |
+		  | p |
+		  p := 0.
+		  states do: [ :s |
+			  p := p + 1 \\ colorStrings size + 1.
+			  stream nextPut: s -> (colorStrings at: p) ] ]
 ]
 
 { #category : #accessing }

@@ -56,7 +56,7 @@ ToQueueBasedCommandApplierEventHandler >> onInstalledIn: aSelecter [
 
 	super onInstalledIn: aSelecter.
 
-	commandQueue := WaitfreeQueue new.
+	commandQueue := ToCommandQueue new.
 	applicationTask := ToCommandApplicationTask new
 		                   operator: aSelecter operator;
 		                   applier: aSelecter;

@@ -1,8 +1,8 @@
 Class {
 	#name : #ToChoiceMenu,
 	#superclass : #ToMenu,
-	#traits : 'TToCheckableHolder',
-	#classTraits : 'TToCheckableHolder classTrait',
+	#traits : 'TToCheckableGroupHolder',
+	#classTraits : 'TToCheckableGroupHolder classTrait',
 	#instVars : [
 		'group',
 		'data',
@@ -10,8 +10,16 @@ Class {
 		'defaultLabel',
 		'defaultSelectedIndex'
 	],
-	#category : #'Toplo-Widget-Menu-Choice menu'
+	#category : #'Toplo-Widget-Menu-Choice menu deprecated'
 }
+
+{ #category : #testing }
+ToChoiceMenu class >> isDeprecated [
+
+	" use ToSelectElement instead "
+
+	^ true
+]
 
 { #category : #'adding / removing' }
 ToChoiceMenu >> addData: anObject [
@@ -167,7 +175,7 @@ ToChoiceMenu >> privateData: anObservableCollection [
 ]
 
 { #category : #'t - checkable holder' }
-ToChoiceMenu >> rawGroup [
+ToChoiceMenu >> rawGroup [ 
 
 	^ group
 ]
@@ -175,7 +183,7 @@ ToChoiceMenu >> rawGroup [
 { #category : #'t - checkable holder' }
 ToChoiceMenu >> rawGroup: aGroup [
 
-	self shouldNotImplement 
+	group := aGroup
 ]
 
 { #category : #'adding / removing' }
@@ -193,13 +201,13 @@ ToChoiceMenu >> selectData: aData [
 	aData
 		ifNil: [
 			self checkedMenuItem ifNotNil: [ :mitem |
-				mitem checked: false.
+				mitem button checked: false.
 				self checkedMenuItem ifNotNil: [
 					Error signal: 'Can''t uncheck a selected item' ] ] ]
 		ifNotNil: [
 			(self menuItemFromData: aData)
 				ifNil: [ Error signal: 'Not found data' ]
-				ifNotNil: [ :mitem | mitem checked: true ] ]
+				ifNotNil: [ :mitem | mitem button checked: true ] ]
 ]
 
 { #category : #accessing }

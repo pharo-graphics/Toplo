@@ -113,13 +113,10 @@ ToSelectionGroupHolder >> initialize [
 
 { #category : #'private - selection updating' }
 ToSelectionGroupHolder >> newGroups: aGroupArray in: aListElement [
- 
+
 	self removeSelectionIn: aListElement.
 	groups := aGroupArray.
-	option masked ifTrue: [ 
-		self notifyNodesDeselectedIn: aListElement.
-		self notifyNodesSelectedIn: aListElement.
-		^ self ].
+	option masked ifTrue: [ ^ self ].
 	self createSelectionElementsFrom: aListElement.
 	self addSelectionIn: aListElement.
 	self rememberSelectionBoundsIn: aListElement
@@ -129,14 +126,21 @@ ToSelectionGroupHolder >> newGroups: aGroupArray in: aListElement [
 ToSelectionGroupHolder >> notifyNodesDeselectedIn: aListElement [
 
 	option triggerSelectionState ifFalse: [ ^ self ].
-	aListElement innerContainer nodesDo: [ :n | n holder notifyDeselected ]
+	aListElement innerContainer nodesDo: [ :n | n holder notifyDeselectedInGroupHolder: self ]
 ]
 
 { #category : #'private - selection updating' }
 ToSelectionGroupHolder >> notifyNodesSelectedIn: aListElement [
 
 	option triggerSelectionState ifFalse: [ ^ self ].
-	aListElement innerContainer nodesDo: [ :n | n holder notifySelected ]
+	aListElement innerContainer nodesDo: [ :n |
+		n holder notifySelectedInGroupHolder: self ]
+]
+
+{ #category : #accessing }
+ToSelectionGroupHolder >> option [
+
+	^ option
 ]
 
 { #category : #accessing }

@@ -222,6 +222,14 @@ ToIntervalCollection >> postCopy [
 	intervals := intervals copy
 ]
 
+{ #category : #dependencies }
+ToIntervalCollection >> release [ 
+
+	super release.
+	intervals removeAll.
+	intervals := nil
+]
+
 { #category : #'api - selection' }
 ToIntervalCollection >> removeAll [
 

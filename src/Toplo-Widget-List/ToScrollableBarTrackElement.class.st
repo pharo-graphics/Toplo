@@ -232,7 +232,5 @@ ToScrollableBarTrackElement >> removeFakeNode [
 { #category : #removing }
 ToScrollableBarTrackElement >> removeNode: aNode [
 
-	aNode
-		release;
-		removeFromParent
+	aNode removeFromParent
 ]

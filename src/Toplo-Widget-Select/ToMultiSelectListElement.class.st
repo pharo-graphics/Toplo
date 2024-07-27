@@ -10,7 +10,7 @@ ToMultiSelectListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 
 	super applyDataSourceSieveCommand: aDataSourceCommand.
 	selectElement checkHideSelectionFromListElement.
-	selectElement checkMaxSelectedCountFromListElement.
+	selectElement checkMaxSelectedCount.
 	" the window can be opened but invisible if opened from the text input element.
 	see ToSelectTextInputElement>>onInstalledIn:"
 	selectElement currentWindow ifNotNil: [ :w |
@@ -34,6 +34,6 @@ ToMultiSelectListElement >> hideSelection [
 ToMultiSelectListElement >> initialize [
 
 	super initialize.
-	self selectionMode selectOnMouseDown: true.
-	self selectionMode requestFocusOnMouseDown: false
+	self primarySelectionMode selectOnMouseDown: true.
+	self primarySelectionMode requestFocusOnMouseDown: false
 ]

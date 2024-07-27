@@ -42,13 +42,13 @@ ToListNodeHolder >> data [
 { #category : #accessing }
 ToListNodeHolder >> dataItem [
 
-	^ dataItem
+	^ dataItem ifNotNil: [ :di | di first ]
 ]
 
 { #category : #accessing }
 ToListNodeHolder >> dataItem: aData [ 
 
-	dataItem := aData
+	dataItem := aData asWeakReference
 ]
 
 { #category : #accessing }
@@ -98,7 +98,7 @@ ToListNodeHolder >> isUnselectable [
 { #category : #accessing }
 ToListNodeHolder >> listElement [
 
-	^ infiniteElement listElement
+	^ self infiniteElement listElement
 ]
 
 { #category : #accessing }
@@ -120,20 +120,22 @@ ToListNodeHolder >> nodeManager [
 ]
 
 { #category : #'selection notification' }
-ToListNodeHolder >> notifyDeselected [
+ToListNodeHolder >> notifyDeselectedInGroupHolder: aSelectionGroupHolder [
 
 	self isSelected ifTrue: [ ^ self ].
 	self node dispatchEvent: (ToListNodeSelectedEvent new
 			 listElement: self listElement;
+			 selectionOption: aSelectionGroupHolder option;
 			 selected: false)
 ]
 
 { #category : #'selection notification' }
-ToListNodeHolder >> notifySelected [
+ToListNodeHolder >> notifySelectedInGroupHolder: aSelectionGroupHolder [
 
 	self isSelected ifFalse: [ ^ self ].
 	self node dispatchEvent: (ToListNodeSelectedEvent new
 			 listElement: self listElement;
+			 selectionOption: aSelectionGroupHolder option;
 			 selected: true)
 ]
 
@@ -163,8 +165,5 @@ ToListNodeHolder >> unbindDataItem [
 	| nodeManager |
 	
 	nodeManager := self listElement nodeManager.
-	nodeManager unbuildNode: self node.
-	self node release.
-	self release
-
+	nodeManager unbuildNode: self node
 ]

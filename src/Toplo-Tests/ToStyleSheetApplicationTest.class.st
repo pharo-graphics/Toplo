@@ -25,7 +25,7 @@ ToStyleSheetApplicationTest >> testButtonLabelSkin0 [
 		select: ((ToStampSelector new addStamp: #'button-label')
 				 withParent:
 				 (ToStampSelector new addAllStamps: #( #button #danger ))
-				 atDepth: 3)
+				 atDepth: 2)
 		style: [ :sr |
 			sr write: prop with: [ :e | e valueOfTokenNamed: #'color-error' ].
 			sr
@@ -122,7 +122,7 @@ ToStyleSheetApplicationTest >> testButtonSkin0 [
 		select: ((ToStampSelector new addStamp: #'button-label')
 				 withParent:
 				 (ToStampSelector new addAllStamps: #( #button #danger ))
-				 atDepth: 3)
+				 atDepth: 2)
 		style: [ :sr |
 			| tp |
 			tp := ToPseudoProperty new name: #'text-attributes'.

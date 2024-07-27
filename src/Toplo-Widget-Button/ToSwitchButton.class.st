@@ -7,6 +7,12 @@ Class {
 	#category : #'Toplo-Widget-Button-Switch'
 }
 
+{ #category : #'t - checkable - accessing' }
+ToSwitchButton >> allowIndeterminate: aBoolean [
+
+	self shouldNotImplement 
+]
+
 { #category : #'t - checkable  - protocol' }
 ToSwitchButton >> checkableEventHandlerClass [
 
@@ -68,10 +74,4 @@ ToSwitchButton >> wishedTrackSize: aPoint [
 
 	wishedTrackSize := aPoint.
 	self requestLayout
-]
-
-{ #category : #'t - checkable  - protocol' }
-ToSwitchButton >> withIndeterminate: aBoolean [
-
-	self shouldNotImplement 
 ]

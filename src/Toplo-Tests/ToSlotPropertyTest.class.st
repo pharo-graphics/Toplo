@@ -13,9 +13,9 @@ ToSlotPropertyTest >> testName [
 	| w prop |
 	w := ToLabeledIcon  new.
 	prop := ToSlotProperty new.
-	prop name: #middleElement.
-	self assert: (w class hasSlotNamed: #middleElement).
-	self assert: prop name equals: #middleElement.
+	prop name: #props.
+	self assert: (w class hasSlotNamed: #props).
+	self assert: prop name equals: #props.
 
 ]
 
@@ -34,23 +34,25 @@ ToSlotPropertyTest >> testRead [
 	| w prop |
 	w := ToLabeledIcon  new.
 	prop := ToSlotProperty new.
-	prop name: #middleElement.
-	self assert: (w class hasSlotNamed: #middleElement).
-	self assert: (prop read: w) equals: w label.
-	self assert: (w readSlotNamed: #middleElement) equals: w label
+	prop name: #props.
+	self assert: (w class hasSlotNamed: #props).
+	self assert: (prop read: w) equals: w props.
+	self assert: (w readSlotNamed: #props) equals: w props
 ]
 
 { #category : #tests }
 ToSlotPropertyTest >> testWrite [
 
 	| w prop |
-	w := ToLabeledIcon  new.
+	w := ToLabel new.
 	prop := ToSlotProperty new.
-	prop name: #middleElement.
-	self assert: (w class hasSlotNamed: #middleElement).
-	self assert: (prop read: w) equals: w label.
-	prop write: (ToLabel text: 'Hello') to: w.
-	self assert: (prop read: w) text asString equals: 'Hello'
+	prop name: #isEditable.
+	self assert: (w class hasSlotNamed: #isEditable).
+	self assert: (prop read: w) equals: w isEditable.
+	prop write: true to: w.
+	self assert: (prop read: w) equals: true.
+	prop write: false to: w.
+	self assert: (prop read: w) equals: false
 ]
 
 { #category : #tests }

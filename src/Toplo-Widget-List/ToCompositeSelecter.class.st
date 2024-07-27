@@ -19,11 +19,11 @@ ToCompositeSelecter >> recordSubSelecter: aSelecter [
 
 	aSelecter ifNil: [ ^ self ].
 	subSelecterIndex 
-		at: aSelecter uniqueId
+		at: aSelecter selectionChangedEventClass
 		ifPresent: [
-		Error signal: 'A selecter with the same id already exists' ].
+		Error signal: 'A selecter for the same selection already exists' ].
 	subSelecterIndex
-		at: aSelecter uniqueId
+		at: aSelecter selectionChangedEventClass
 		put: aSelecter.
 	self selectionModel recordSubSelectionModel: aSelecter selectionModel
 ]
@@ -62,7 +62,7 @@ ToCompositeSelecter >> subSelecterIndex [
 ]
 
 { #category : #accessing }
-ToCompositeSelecter >> subSelecterWithId: anUniqueId [
+ToCompositeSelecter >> subSelecterWithEventClass: anUniqueId [
 
 	^ subSelecterIndex  at: anUniqueId ifAbsent: [  ]
 ]
@@ -71,6 +71,6 @@ ToCompositeSelecter >> subSelecterWithId: anUniqueId [
 ToCompositeSelecter >> unrecordSubSelecter: aSelecter [
 
 	aSelecter ifNil: [ ^ self ].
-	subSelecterIndex removeKey:	aSelecter uniqueId.
+	subSelecterIndex removeKey:	aSelecter selectionChangedEventClass.
 	self selectionModel unrecordSubSelectionModel: aSelecter selectionModel
 ]

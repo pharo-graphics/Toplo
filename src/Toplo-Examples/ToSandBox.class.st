@@ -111,7 +111,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	selectOnMouseDownSwitch addEventHandler: (BlEventHandler
 			 on: ToCheckableCheckEvent
 			 do: [ :event |
-			 aBar selectionMode selectOnMouseDown: event current ]).
+			 aBar primarySelectionMode selectOnMouseDown: event current ]).
 
 	wrappingSwitch checked: true.
 
@@ -119,6 +119,9 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 		addEventHandlerOn: ToBarNodeVisibilityEvent
 		do: [ :event |
 		event invisibleNodes ifNotEmpty: [ :in | in traceCr ] ].
+
+	confPane addChild: (self resizerBoardFor: aBar horizontal: true).
+	confPane addChild: (self resizerBoardFor: aBar horizontal: false).
 
 	^ confPane
 ]
@@ -2955,6 +2958,7 @@ ToSandBox class >> example_bar [
 
 	| bar dashBoard rootPane selectionModeBoard |
 	bar := ToBarElement new.
+	bar addStamp: #background withValue: Color veryLightGray.
 	bar nodeFactory: [ :holder | ToBarNodeExample new ].
 	bar nodeBuilder: [ :node :dataItem :holder|
 		node label:
@@ -2977,11 +2981,11 @@ ToSandBox class >> example_bar [
 
 	dashBoard := self barDashBoardFor: bar.
 	selectionModeBoard := self selectionModeChooserFor: bar.
-	dashBoard constraints linear weight: 0.82.
-	selectionModeBoard constraints linear weight: 0.18.
+	
 	rootPane := ToPane vertical.
 	rootPane padding: (BlInsets all: 5).
 	rootPane matchParent.
+	
 	rootPane addChild: dashBoard.
 	rootPane addChild: selectionModeBoard.
 	rootPane addDividers.
@@ -5831,122 +5835,47 @@ ToSandBox class >> path_sharp_electric_bike_SVG [
 	^ '<svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24"><g><rect fill="none" height="24" width="24"/></g><g><g><path d="M19,7h-0.82L16,1h-4v2h2.6l1.46,4h-4.81l-0.36-1H12V4H7v2h1.75l1.82,5H9.9C9.46,8.77,7.59,7.12,5.25,7.01 C2.45,6.87,0,9.2,0,12c0,2.8,2.2,5,5,5c2.46,0,4.45-1.69,4.9-4h4.2c0.44,2.23,2.31,3.88,4.65,3.99c2.8,0.13,5.25-2.19,5.25-5 C24,9.2,21.8,7,19,7z M7.82,13c-0.4,1.17-1.49,2-2.82,2c-1.68,0-3-1.32-3-3s1.32-3,3-3c1.33,0,2.42,0.83,2.82,2H5v2H7.82z M14.1,11h-1.4l-0.73-2H15C14.56,9.58,14.24,10.25,14.1,11z M19,15c-1.68,0-3-1.32-3-3c0-0.93,0.41-1.73,1.05-2.28l0.96,2.64 l1.88-0.68l-0.97-2.67C18.94,9.01,18.97,9,19,9c1.68,0,3,1.32,3,3S20.68,15,19,15z"/><polygon points="11,20 7,20 13,23 13,21 17,21 11,18"/></g></g></svg>'
 ]
 
-{ #category : #segmented }
-ToSandBox class >> segmentedConfigurationBoardFor: aBar [
+{ #category : #bar }
+ToSandBox class >> resizerBoardFor: aBar horizontal: hbool [
 
-	| confPane verticalSwitch wrappingSwitch scrollingSwitch autoDistributionSwitch sameWidthSwitch selectionAnimationSwitch selectOnMouseDownSwitch inspectButton |
-	confPane := ToPane vertical.
-	confPane padding: (BlInsets all: 5).
-	confPane width: 250.
-	confPane border: Color lightGray.
+	| group buttons container t |
+	group := ToCheckableGroup new.
+	buttons := OrderedCollection new.
+	{ #matchParent. #fitContent. #exact } do: [ :r |
+		| cbox |
+		cbox := ToCheckbox new
+			        labelText: r asString;
+			        id: r.
+		buttons add: cbox ].
 
-	inspectButton := ToButton new labelText: 'Inspect'.
-	inspectButton whenClickedDo: [ aBar inspect ].
-	confPane addChild: inspectButton.
-
-	verticalSwitch := ToSwitchButton new labelText: 'Vertical'.
-	verticalSwitch startFlexible: true.
-	verticalSwitch hMatchParent.
-
-	verticalSwitch addEventHandler: (BlEventHandler
-			 on: ToCheckableCheckEvent
-			 do: [ :event | aBar vertical: event current ]).
-	confPane addChild: verticalSwitch.
-
-	wrappingSwitch := ToSwitchButton new labelText: 'Wrapping'.
-	wrappingSwitch startFlexible: true.
-	wrappingSwitch hMatchParent.
-	confPane addChild: wrappingSwitch.
-
-	sameWidthSwitch := ToSwitchButton new labelText:
-		                   'Uniform element width'.
-	sameWidthSwitch startFlexible: true.
-	sameWidthSwitch hMatchParent.
-	sameWidthSwitch checked: false.
-	confPane addChild: sameWidthSwitch.
-
-	scrollingSwitch := ToSwitchButton new labelText: 'Scrolling'.
-	scrollingSwitch startFlexible: true.
-	scrollingSwitch hMatchParent.
-
-	confPane addChild: scrollingSwitch.
-
-	wrappingSwitch addEventHandler: (BlEventHandler
-			 on: ToCheckableCheckEvent
+	group registerAll: buttons.
+	group addEventHandler: (BlEventHandler
+			 on: ToCheckableGroupChangedEvent
 			 do: [ :event |
-				 | v |
-				 v := event current.
-				 aBar nodeWrapping: v.
-				 sameWidthSwitch enabled: v.
-				 scrollingSwitch disabled: v ]).
-
-	sameWidthSwitch addEventHandler: (BlEventHandler
-			 on: ToCheckableCheckEvent
-			 do: [ :event |
-				 | v |
-				 v := event current.
-				 aBar flowLineUniformWidth: v ]).
-
-	scrollingSwitch addEventHandler: (BlEventHandler
-			 on: ToCheckableCheckEvent
-			 do: [ :event |
-				 | v |
-				 v := event current.
-				 aBar nodeScrolling: v ]).
-
-	autoDistributionSwitch := ToSwitchButton new labelText:
-		                          'Auto-distribution'.
-	autoDistributionSwitch startFlexible: true.
-	autoDistributionSwitch hMatchParent.
-
-	confPane addChild: autoDistributionSwitch.
-	autoDistributionSwitch addEventHandler: (BlEventHandler
-			 on: ToCheckableCheckEvent
-			 do: [ :event |
-				 | v |
-				 v := event current.
-				 aBar nodeAutoDistribution: v ]).
-
-	selectionAnimationSwitch := ToSwitchButton new labelText:
-		                            'Animate selection transition'.
-	selectionAnimationSwitch startFlexible: true.
-	selectionAnimationSwitch hMatchParent.
-
-	confPane addChild: selectionAnimationSwitch.
-	selectionAnimationSwitch addEventHandler: (BlEventHandler
-			 on: ToCheckableCheckEvent
-			 do: [ :event |
-				 | v |
-				 v := event current.
-				 aBar selectionMode option animationDuration: (v
-						  ifTrue: [ 200 milliSeconds ]
-						  ifFalse: [ 0 milliSeconds ]).
-				 aBar secondarySelectionMode option animationDuration: (v
-						  ifTrue: [ 150 milliSeconds ]
-						  ifFalse: [ 0 milliSeconds ]) ]).
-
-	wrappingSwitch checked: true.
-
-	selectOnMouseDownSwitch := ToSwitchButton new
-		                           labelText: 'Select on mouse down';
-		                           id: #selectOnMouseDownSwitch.
-	selectOnMouseDownSwitch startFlexible: true.
-	selectOnMouseDownSwitch hMatchParent.
-
-	confPane addChild: selectOnMouseDownSwitch.
-	selectOnMouseDownSwitch addEventHandler: (BlEventHandler
-			 on: ToCheckableCheckEvent
-			 do: [ :event |
-			 aBar selectionMode selectOnMouseDown: event current ]).
-
-	wrappingSwitch checked: true.
-
-	aBar
-		addEventHandlerOn: ToBarNodeVisibilityEvent
-		do: [ :event |
-		event invisibleNodes ifNotEmpty: [ :in | in traceCr ] ].
-
-	^ confPane
+				 | mode |
+				 mode := event checkedList first id asSymbol.
+				 mode = #matchParent
+					 ifTrue: [
+						 hbool
+							 ifTrue: [ aBar hMatchParent ]
+							 ifFalse: [ aBar vMatchParent ] ]
+					 ifFalse: [
+						 mode = #fitContent
+							 ifTrue: [
+								 hbool
+									 ifTrue: [ aBar hFitContent ]
+									 ifFalse: [ aBar vFitContent ] ]
+							 ifFalse: [  ] ] ]).
+	buttons first checked: true.
+	container := ToPane vertical.
+	container border: Color lightGray.
+	container padding: (BlInsets all: 2).
+	container hMatchParent.
+	container vFitContent.
+	t := hbool ifTrue: [ 'Horizontal' ] ifFalse: [ 'Vertical' ].
+	container addChild: (ToLabel text: t).
+	container addChildren: group registeredCheckables.
+	^ container
 ]
 
 { #category : #segmented }
@@ -5956,7 +5885,7 @@ ToSandBox class >> segmentedDashBoardFor: aSegmentedElement [
 	mainPane := ToPane horizontal.
 	mainPane matchParent.
 
-	confPane := self segmentedConfigurationBoardFor: aSegmentedElement.
+	confPane := self barConfigurationBoardFor: aSegmentedElement.
 	(confPane childWithId: #selectOnMouseDownSwitch) disable.
 	confPane padding: (BlInsets all: 5).
 	confPane width: 250.

@@ -137,6 +137,7 @@ ToElementWithPopupEventHandlerTest >> testMouseUpEvent [
 	(windowManager autoCloseOnMouseUpDelay + 1 milliSecond) wait.
 	position := e bounds inSpace center.
 	event := BlMouseUpEvent primary position: position.
+	event timestamp: e space time now.
 	e dispatchEvent: event.
 	self waitTestingSpaces.
 

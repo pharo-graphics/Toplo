@@ -1,15 +1,17 @@
 Class {
 	#name : #ToSwitchButton,
 	#superclass : #ToButton,
-	#traits : 'TToCheckable',
-	#classTraits : 'TToCheckable classTrait',
 	#instVars : [
-		'group',
-		'checked',
 		'wishedTrackSize'
 	],
 	#category : #'Toplo-Widget-Button-Switch'
 }
+
+{ #category : #'t - checkable  - protocol' }
+ToSwitchButton >> checkableEventHandlerClass [
+
+	^ ToSwitchButtonEventHandler
+]
 
 { #category : #accessing }
 ToSwitchButton >> checkedContainer [ 
@@ -32,12 +34,6 @@ ToSwitchButton >> initialize [
 	self checked: false
 ]
 
-{ #category : #'t - checkable  - protocol' }
-ToSwitchButton >> newCheckableEventHandler [
-
-	^ ToSwitchButtonEventHandler new
-]
-
 { #category : #skin }
 ToSwitchButton >> newRawSkin [ 
 
@@ -53,30 +49,6 @@ ToSwitchButton >> onMeasure: anExtentMeasurementSpec [
 			 @ (self padding top + self padding bottom)) ].
 
 	super onMeasure: anExtentMeasurementSpec
-]
-
-{ #category : #'t - checkable - accessing' }
-ToSwitchButton >> rawChecked [
-
-	^ checked
-]
-
-{ #category : #'t - checkable - accessing' }
-ToSwitchButton >> rawChecked: aBoolean [
-
-	checked := aBoolean
-]
-
-{ #category : #'t - checkable - group' }
-ToSwitchButton >> rawGroup [
-
-	^ group
-]
-
-{ #category : #'t - checkable - group' }
-ToSwitchButton >> rawGroup: aGroup [
-
-	group := aGroup
 ]
 
 { #category : #accessing }
@@ -96,12 +68,6 @@ ToSwitchButton >> wishedTrackSize: aPoint [
 
 	wishedTrackSize := aPoint.
 	self requestLayout
-]
-
-{ #category : #'t - checkable  - protocol' }
-ToSwitchButton >> withIndeterminate [
-
-	^ false
 ]
 
 { #category : #'t - checkable  - protocol' }

@@ -1,13 +1,13 @@
 Class {
 	#name : #ToListNodeManager,
 	#superclass : #ToAbstractListNodeManager,
-	#category : #'Toplo-Widget-List-Core'
+	#category : #'Toplo-Widget-List-Core-ListElement'
 }
 
 { #category : #initialization }
 ToListNodeManager >> defaultNodeBuilder [
 
-	^ [ :node :holder :dataItem |
+	^ [ :node :dataItem :holder |
 	  node addChild: (ToLabel text: dataItem asString) hMatchParent ]
 ]
 

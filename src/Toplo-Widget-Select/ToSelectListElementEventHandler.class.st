@@ -23,13 +23,5 @@ ToSelectListElementEventHandler >> select: aSelect [
 { #category : #'element handlers' }
 ToSelectListElementEventHandler >> sieveSelectionChangedEvent: anEvent [
 
-	| listElement sieve |
-	listElement := anEvent currentTarget.
-	sieve := select sieve.
-	sieve currentDataWithLocalAndOriginalIndexDo: [ :d :localIndex :originalIndex |
-		listElement selectionModel
-			transferSelectionFromIndex: localIndex
-			toIndex: originalIndex
-			in: select selectionModel ].
-	select onSelectionChangedInListElement
+	select onSelectionChangedInListElement: anEvent
 ]

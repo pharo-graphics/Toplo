@@ -104,8 +104,8 @@ ToMiniBrowser >> newClassPane [
 	classes := ToListElement new
 		           nodeFactory: [ ToClassNameViewExample new ];
 		           id: #classes;
-		           nodeBuilder: [ :node :holder |
-			           node class: holder dataItem position: holder position ].
+		           nodeBuilder: [ :node :dataItem :holder |
+			           node class: dataItem position: holder position ].
 
 	classes addEventHandler: (BlEventHandler
 			 on: ToListPrimarySelectionChangedEvent
@@ -161,9 +161,9 @@ ToMiniBrowser >> newPackagePane [
 
 	packages := ToListElement new
 		            id: #packages;
-		            nodeBuilder: [ :node :holder |
+		            nodeBuilder: [ :node :dataItem :holder |
 			            node addChild: (ToLabel new
-						             text: holder dataItem name;
+						             text: dataItem name;
 						             hMatchParent;
 						             yourself) ].
 
@@ -236,9 +236,9 @@ ToMiniBrowser >> newProtocolPane [
 
 	protocols := ToListElement new
 		             id: #protocols;
-		             nodeBuilder: [ :node :holder |
+		             nodeBuilder: [ :node :dataItem :holder |
 			             node addChild: (ToLabel new
-						              text: holder dataItem value name;
+						              text: dataItem value name;
 						              hMatchParent) ].
 
 	protocols addEventHandler: (BlEventHandler
@@ -252,9 +252,9 @@ ToMiniBrowser >> newSelectorPane [
 
 	selectors := ToListElement new
 		             id: #selectors;
-		             nodeBuilder: [ :node :holder |
+		             nodeBuilder: [ :node :dataItem :holder |
 			             node addChild:
-					             (ToLabel text: holder dataItem value asString)
+					             (ToLabel text: dataItem value asString)
 						             hMatchParent ].
 
 	selectors addEventHandler: (BlEventHandler

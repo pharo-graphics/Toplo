@@ -107,6 +107,50 @@ ToLabelTest >> testText [
 ]
 
 { #category : #tests }
+ToLabelTest >> testTextChangePreserveAttributes2 [
+	" test if changing the text of a ToLabel do rebuild its skin  "
+
+	| label hugeFontSize attributes fontSizeAttr prevAttributes |
+	hugeFontSize := 60.
+
+	label := ToLabel text: 'Hello'.
+	space root addChild: label.
+	attributes := label text attributesAt: 1.
+
+	" skin default attributes  "
+	self assert: attributes notEmpty.
+
+	label defaultFontSize: hugeFontSize.
+	space applyAllSkinPhases.
+	fontSizeAttr := label text iterator
+		                detectAttribute: [ :a |
+		                a isKindOf: BlFontSizeDefaultAttribute ]
+		                ifFound: [ :a | a ]
+		                ifNone: [
+		                self fail:
+			                'should have a BlFontSizeDefaultAttribute' ].
+	" remember taht the skin drives the look so the font size is not applied here "
+	self deny: fontSizeAttr size equals: hugeFontSize.
+	self assert: fontSizeAttr size equals: (label valueOfTokenNamed: #'font-size').
+	" changing the text should renew the skin (and then take the stamp into account again)"
+	label text: 'Goodbye'.
+	self assert: label text asString equals: 'Goodbye'.
+	prevAttributes := attributes.
+	attributes := label text attributesAt: 1.
+	self assert: prevAttributes ~~ attributes.
+	space applyAllSkinPhases.
+	fontSizeAttr := label text iterator
+		                detectAttribute: [ :a |
+		                a isKindOf: BlFontSizeDefaultAttribute ]
+		                ifFound: [ :a | a ]
+		                ifNone: [
+		                self fail:
+			                'should have a BlFontSizeDefaultAttribute' ].
+	self assert: fontSizeAttr size equals: (label valueOfTokenNamed: #'font-size').
+
+]
+
+{ #category : #tests }
 ToLabelTest >> testTextSharedWithInnerElement [
 
 	| lab inner |

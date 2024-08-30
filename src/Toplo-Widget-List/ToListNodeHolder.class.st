@@ -163,7 +163,7 @@ ToListNodeHolder >> unbindDataItem [
 	| nodeManager |
 	
 	nodeManager := self listElement nodeManager.
-	nodeManager unbindNode: self node.
+	nodeManager unbuildNode: self node.
 	self node release.
 	self release
 

@@ -12,12 +12,6 @@ Class {
 	#category : #'Toplo-Widget-List-InnerBar'
 }
 
-{ #category : #visiting }
-ToScrollableBarTrackElement >> accept: aVisitor [
-
-	aVisitor visitScrollableBarTrackElement: self
-]
-
 { #category : #adding }
 ToScrollableBarTrackElement >> addAllHolders: anArray at: aPosition [
 
@@ -27,7 +21,7 @@ ToScrollableBarTrackElement >> addAllHolders: anArray at: aPosition [
 { #category : #adding }
 ToScrollableBarTrackElement >> addFakeNode: aNode [
 
-	fakeNode ifNotNil: [ fakeNode removeFromParent ].
+	fakeNode ifNotNil: [ self removeFakeNode ].
 	fakeNode := aNode.
 	self addChild: aNode at: 1.
 
@@ -47,6 +41,30 @@ ToScrollableBarTrackElement >> artlyVisibleNodesSelect: aBlock [
 	^ Array streamContents: [ :stream |
 		  self partlyVisibleNodesDo: [ :node |
 			  (aBlock value: node) ifTrue: [ stream nextPut: node ] ] ]
+]
+
+{ #category : #layout }
+ToScrollableBarTrackElement >> configureLayoutIn: aBarElement [
+
+	nodeScrolling := aBarElement nodeScrolling.
+	nodeWrapping := aBarElement nodeWrapping.
+	nodeAutoDistribution := aBarElement nodeAutoDistribution.
+	flowLineUniformWidth := aBarElement flowLineUniformWidth.
+	self horizontal: aBarElement isHorizontal.
+
+	self layout: self newLayout.
+
+	self matchParent.
+	aBarElement isHMatchParent ifFalse: [ self hFitContent ].
+	aBarElement isVMatchParent ifFalse: [ self vFitContent ].
+
+	(nodeWrapping not and: [ nodeScrolling ]) ifTrue: [
+		self isHorizontal
+			ifTrue: [ self hFitContent ]
+			ifFalse: [ self vFitContent ] ].
+
+	aBarElement nodeManager constraintFakeNode: fakeNode.
+	self nodesDo: [ :n | aBarElement nodeManager constraintNode: n ]
 ]
 
 { #category : #accessing }
@@ -118,6 +136,22 @@ ToScrollableBarTrackElement >> isNodeScrolling [
 ToScrollableBarTrackElement >> isNodeWrapping [
 
 	^ nodeWrapping
+]
+
+{ #category : #layout }
+ToScrollableBarTrackElement >> newLayout [
+
+	^ nodeWrapping
+		  ifTrue: [
+			  (self isHorizontal
+				   ifTrue: [ ToBarFlowLayout horizontal ]
+				   ifFalse: [ ToBarFlowLayout vertical ])
+				  lineUniformWidth: flowLineUniformWidth;
+				  yourself ]
+		  ifFalse: [
+			  self isHorizontal
+				  ifTrue: [ BlLinearLayout horizontal ]
+				  ifFalse: [ BlLinearLayout vertical ] ]
 ]
 
 { #category : #accessing }

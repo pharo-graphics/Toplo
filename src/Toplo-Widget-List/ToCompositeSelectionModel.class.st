@@ -26,19 +26,6 @@ ToCompositeSelectionModel >> resetAll [
 	self subSelectionModelIndex valuesDo: [ :dst | dst resetAll ]
 ]
 
-{ #category : #updating }
-ToCompositeSelectionModel >> shift: aGap from: aStartIndex for: anEventTarget [
-
-	(aGap < 0 and: [ self itemCount >= aStartIndex ]) ifTrue: [
-		| count |
-		count := aGap abs.
-		self deselectIndex: aStartIndex to: aStartIndex + count - 1 ].
-	self subSelectionModelIndex valuesDo: [ :sm |
-		sm shift: aGap from: aStartIndex ].
-	" ** super send after **"
-	super shift: aGap from: aStartIndex for: anEventTarget
-]
-
 { #category : #accessing }
 ToCompositeSelectionModel >> subSelectionModelIndex [
 

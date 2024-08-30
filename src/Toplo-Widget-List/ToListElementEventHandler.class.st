@@ -74,7 +74,7 @@ ToListElementEventHandler >> eventsToHandle [
 		  BlInfiniteDataSourceItemRangeInserted.
 		  BlInfiniteDataSourceItemRangeRemoved.
 
-		  BlLayoutConstraintsChangedEvent.
+		  BlLayoutResizerChangedEvent.
 		  ToLayoutOrientationChangedEvent.
 		  ToLayoutDirectionChangedEvent.
 
@@ -100,6 +100,9 @@ ToListElementEventHandler >> infiniteDataSourceEmptinessChangedEvent: anEvent [
 
 { #category : #'infinite event handling' }
 ToListElementEventHandler >> infiniteDataSourceItemRangeInserted: anEvent [
+	" when data source elements are added (before the layout). 
+	Pay attention that a sieve will handle also this event ** before ** the list element 
+	is actually layouted (and visually up-to-date)."
 
 	| target dataSourceChangeEvent |
 	target := anEvent currentTarget.
@@ -112,6 +115,9 @@ ToListElementEventHandler >> infiniteDataSourceItemRangeInserted: anEvent [
 
 { #category : #'infinite event handling' }
 ToListElementEventHandler >> infiniteDataSourceItemRangeRemoved: anEvent [
+	" when data source elements are removed (before the layout). 
+	Pay attention that a sieve will handle also this event ** before ** the list element 
+	is actually layouted (and visually up-to-date)."
 
 	| target dataSourceChangeEvent |
 	target := anEvent currentTarget.
@@ -127,12 +133,6 @@ ToListElementEventHandler >> infiniteDataSourceItemsFiltered: anEvent [
 ]
 
 { #category : #'element events handling' }
-ToListElementEventHandler >> layoutConstraintsChangedEvent: anEvent [
-
-	anEvent currentTarget dispatchMainResizerChanged 
-]
-
-{ #category : #'element events handling' }
 ToListElementEventHandler >> layoutDirectionChangedEvent: anEvent [
 
 	anEvent currentTarget dispatchMainLayoutDirectionChanged
@@ -142,6 +142,12 @@ ToListElementEventHandler >> layoutDirectionChangedEvent: anEvent [
 ToListElementEventHandler >> layoutOrientationChangedEvent: anEvent [
 
 	anEvent currentTarget dispatchMainLayoutOrientationChanged 
+]
+
+{ #category : #'element events handling' }
+ToListElementEventHandler >> layoutResizerChangedEvent: anEvent [
+
+	anEvent currentTarget dispatchMainResizerChanged 
 ]
 
 { #category : #'infinite event handling' }
@@ -184,6 +190,7 @@ ToListElementEventHandler >> listNodeAddedEvent: anEvent [
 ToListElementEventHandler >> listNodeRemovedEvent: anEvent [
 
 	| node listElement |
+
 	node := anEvent node.
 	listElement := anEvent currentTarget.
 	listElement selectionMode onRemovedNode: node.
@@ -212,6 +219,7 @@ ToListElementEventHandler >> mouseDownEvent: anEvent [
 	| target |
 	anEvent isConsumed ifTrue: [ ^ self ].
 	target := anEvent currentTarget.
+	target isDisabled ifTrue: [  ^ self ].
 	target stopScroll.
 	self withTargetNodeFromEvent: anEvent do: [ :node |
 		node dispatchEvent: anEvent copy.

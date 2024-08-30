@@ -9,7 +9,7 @@ ToSelectEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 
 	| select |
 	select := anEvent currentTarget.
-	select onSelectionChangedInListElement 
+	select refresh 
 ]
 
 { #category : #'element handlers' }

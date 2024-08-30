@@ -22,7 +22,8 @@ ToMenuSkin >> installSkinEvent: anEvent [
 		e isSubmenu
 			ifTrue: [
 				e endElement addChild: (ToAttributedLabel new
-						 text: ('>' asRopedText foreground: Color lightGray);
+						 text: '>' asRopedText;
+						 foreground: Color veryLightGray;
 						 yourself) ]
 			ifFalse: [
 				(e hasIcon and: [ e hasLabel ])

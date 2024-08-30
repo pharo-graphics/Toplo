@@ -155,6 +155,13 @@ BlElement >> hasEnablementFlag [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> hasStamp [
+	"Return true if the BlElement has stamp (one or more), false if not"
+
+	^ self allStamps notEmpty
+]
+
+{ #category : #'*Toplo' }
 BlElement >> hasStamp: aSymbol [
 
 	^ self toStyleStore
@@ -252,6 +259,12 @@ BlElement >> newShortcutsStore [
 BlElement >> newSkinManager [
 
 	^ ToSkinManager new
+]
+
+{ #category : #'*Toplo' }
+BlElement >> newTextAttributesBuilder [
+
+	^ BlTextAttributesBuilder new
 ]
 
 { #category : #'*Toplo' }
@@ -448,7 +461,7 @@ BlElement >> styleSheetChain [
 { #category : #'*Toplo' }
 BlElement >> textAttributesBuilder [
 
-	^ self skinManager textAttributesBuilder
+	^ self skinManager textAttributesBuilderIn: self
 ]
 
 { #category : #'*Toplo' }

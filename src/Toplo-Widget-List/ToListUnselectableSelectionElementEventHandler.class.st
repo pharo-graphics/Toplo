@@ -4,14 +4,6 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Element'
 }
 
-{ #category : #accessing }
-ToListUnselectableSelectionElementEventHandler class >> selectionMode: aSelectionMode selectionChangedEventClass: anEventClass [
-
-	^ (self selectionMode: aSelectionMode)
-		  selectionChangedEventClass: anEventClass;
-		  yourself
-]
-
 { #category : #'api - accessing' }
 ToListUnselectableSelectionElementEventHandler >> eventsToHandle [
 
@@ -24,7 +16,9 @@ ToListUnselectableSelectionElementEventHandler >> listUnselectableSelectionChang
 	| touchedIndexes target |
 	touchedIndexes := anEvent touchedIndexes.
 	target := anEvent currentTarget.
-	self refreshSelectionFromEvent: anEvent.
+	self updateSelectionFromEvent: anEvent.
 	target selecter deselectIndexes: touchedIndexes.
-	target secondarySelecter deselectAll
+	target secondarySelecter deselectAll.
+	anEvent touchedIntervals do: [ :int |
+		target dataSource notifyItemsChanged: int ]
 ]

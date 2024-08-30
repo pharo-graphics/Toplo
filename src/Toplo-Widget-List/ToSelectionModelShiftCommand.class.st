@@ -46,6 +46,12 @@ ToSelectionModelShiftCommand >> indexes [
 ]
 
 { #category : #accessing }
+ToSelectionModelShiftCommand >> intervals [ 
+
+	^ Array with: (fromIndex to: fromIndex + itemCount - 1)
+]
+
+{ #category : #accessing }
 ToSelectionModelShiftCommand >> itemCount [
 
 	^ itemCount

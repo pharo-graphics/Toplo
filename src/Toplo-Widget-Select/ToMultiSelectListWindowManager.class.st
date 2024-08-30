@@ -10,18 +10,18 @@ Class {
 { #category : #initialization }
 ToMultiSelectListWindowManager >> defaultGroupNodeBuilder [
 
-	^ [ :node :holder |
-	  node addChild: (ToAttributedLabel text: holder dataItem asString) hMatchParent ]
+	^ [ :node :dataItem :holder |
+	  node addChild: (ToAttributedLabel text: dataItem asString) hMatchParent ]
 ]
 
 { #category : #initialization }
 ToMultiSelectListWindowManager >> defaultNodeBuilder [
 
-	^ [ :node :holder | | nodebuilder |
+	^ [ :node :dataItem :holder | | nodebuilder |
 		nodebuilder := holder isGroup
 		  ifTrue: [  listGroupNodeBuilder]
 		  ifFalse: [ listDataNodeBuilder].
-	  nodebuilder value: node value: holder ] 
+	  nodebuilder value: node value: dataItem value: holder ] 
 ]
 
 { #category : #initialization }

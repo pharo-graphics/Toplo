@@ -28,6 +28,12 @@ TToCheckable >> check [
 	self checked: true
 ]
 
+{ #category : #'t - checkable  - protocol' }
+TToCheckable >> checkableEventHandlerClass [
+
+	^ ToCheckableEventHandler
+]
+
 { #category : #'t - checkable - accessing' }
 TToCheckable >> checked [
 
@@ -55,6 +61,13 @@ TToCheckable >> checked: aBooleanOrIndeterminate [
 			 yourself)
 ]
 
+{ #category : #'t - checkable - accessing' }
+TToCheckable >> ensureCheckableData [
+
+	self rawCheckableData ifNil: [
+		self rawCheckableData: ToCheckableData new ]
+]
+
 { #category : #'t - checkable - group' }
 TToCheckable >> group [
 
@@ -79,7 +92,15 @@ TToCheckable >> hasNoneStrategy [
 { #category : #'t - checkable  - protocol' }
 TToCheckable >> initializeCheckable [
 
-	self addEventHandler: self newCheckableEventHandler 
+	self ensureCheckableData.
+	self rawCheckableEventHandler: self newCheckableEventHandler .
+	self addEventHandler: self rawCheckableEventHandler
+]
+
+{ #category : #'t - checkable - testing' }
+TToCheckable >> isCheckable [
+
+	^ self rawCheckableData notNil
 ]
 
 { #category : #'t - checkable - testing' }
@@ -105,7 +126,7 @@ TToCheckable >> isUnchecked [
 { #category : #'t - checkable  - protocol' }
 TToCheckable >> newCheckableEventHandler [
 
-	^ ToCheckableEventHandler new
+	^ self checkableEventHandlerClass new
 ]
 
 { #category : #'t - checkable - private protocol' }
@@ -131,27 +152,51 @@ TToCheckable >> privateChecked: aBooleanOrIndeterminate [
 ]
 
 { #category : #'t - checkable - accessing' }
-TToCheckable >> rawChecked [
+TToCheckable >> rawCheckableData [
 
 	^ self explicitRequirement 
 ]
 
 { #category : #'t - checkable - accessing' }
-TToCheckable >> rawChecked: anObject [
+TToCheckable >> rawCheckableData: aCheckableData [
 
-	self explicitRequirement 
+	^ self explicitRequirement 
+]
+
+{ #category : #'t - checkable - accessing' }
+TToCheckable >> rawCheckableEventHandler [
+
+	^ self rawCheckableData ifNotNil: [ :cd | cd eventHandler ]
+]
+
+{ #category : #'t - checkable - accessing' }
+TToCheckable >> rawCheckableEventHandler: anEventHandler [
+
+	self rawCheckableData eventHandler: anEventHandler
+]
+
+{ #category : #'t - checkable - accessing' }
+TToCheckable >> rawChecked [
+
+	^ self rawCheckableData ifNotNil: [ :cd | cd checked ]
+]
+
+{ #category : #'t - checkable - accessing' }
+TToCheckable >> rawChecked: aBoolean [
+
+	self rawCheckableData checked: aBoolean
 ]
 
 { #category : #'t - checkable - group' }
 TToCheckable >> rawGroup [
 
-	^ self explicitRequirement 
+	^ self rawCheckableData ifNotNil: [ :cd | cd group ]
 ]
 
 { #category : #'t - checkable - group' }
 TToCheckable >> rawGroup: aGroup [
 
-	^ self explicitRequirement 
+	self rawCheckableData group: aGroup
 ]
 
 { #category : #'t - checkable - group' }
@@ -159,6 +204,13 @@ TToCheckable >> registerInGroup: aGroup [
 
 	aGroup register: self.
 	self group: aGroup
+]
+
+{ #category : #'t - checkable  - protocol' }
+TToCheckable >> releaseCheckable [
+
+	self removeEventHandler: self rawCheckableEventHandler.
+	self rawCheckableEventHandler: nil.
 ]
 
 { #category : #'t - checkable - group' }
@@ -192,14 +244,14 @@ TToCheckable >> unregisterFromGroup [
 	self group unregister: self
 ]
 
-{ #category : #'t - checkable  - protocol' }
+{ #category : #'t - checkable - accessing' }
 TToCheckable >> withIndeterminate [
 
-	^ self explicitRequirement 
+	^ self rawCheckableData ifNotNil: [ :cd | cd withIndeterminate ]
 ]
 
-{ #category : #'t - checkable  - protocol' }
+{ #category : #'t - checkable - accessing' }
 TToCheckable >> withIndeterminate: aBoolean [
 
-	self explicitRequirement 
+	self rawCheckableData withIndeterminate: aBoolean
 ]

@@ -1,18 +1,48 @@
 Class {
 	#name : #ToAttributedLabel,
 	#superclass : #ToLabel,
+	#instVars : [
+		'frozen'
+	],
 	#category : #'Toplo-Widget-Album-Label'
 }
 
-{ #category : #skin }
-ToAttributedLabel >> newRawSkin [ 
+{ #category : #configuration }
+ToAttributedLabel >> freeze [
 
-	^ ToNullSkin new
+	self frozen: true
 ]
 
-{ #category : #styling }
-ToAttributedLabel >> styleWith: aBlock [
+{ #category : #accessing }
+ToAttributedLabel >> frozen: aBoolean [
 
-	aBlock cull: self.
-	self applyStyle
+	frozen := aBoolean.
+	aBoolean ifFalse: [ self attributesBuilder applyOn: self text ]
+]
+
+{ #category : #initialization }
+ToAttributedLabel >> initialize [ 
+
+	super initialize.
+	self defaultSkin: ToNullSkin new
+]
+
+{ #category : #testing }
+ToAttributedLabel >> isFrozen [
+
+	^ frozen ifNil: [ frozen := false ]
+]
+
+{ #category : #'private-change' }
+ToAttributedLabel >> privateText: aText [
+
+	super privateText: aText.
+	self isFrozen ifTrue: [ ^ self ].
+	self attributesBuilder applyOn: self text
+]
+
+{ #category : #configuration }
+ToAttributedLabel >> unfreeze [
+
+	self frozen: false
 ]

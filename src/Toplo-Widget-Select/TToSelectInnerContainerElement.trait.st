@@ -22,9 +22,8 @@ TToSelectInnerContainerElement >> isMultipleSelection [
 ]
 
 { #category : #'t - select inner container' }
-TToSelectInnerContainerElement >> onSelectionChangedInSelectElement [
+TToSelectInnerContainerElement >> onSelectionChangedInSelectElement: anEvent [
 
-	self selectElement showHidePlaceholder.
 	self refresh.
 	self requestLayout
 ]
@@ -45,6 +44,12 @@ TToSelectInnerContainerElement >> selectElement [
 TToSelectInnerContainerElement >> selectElement: aSelectElement [
 
 	self explicitRequirement 
+]
+
+{ #category : #'t - select inner container' }
+TToSelectInnerContainerElement >> selectedDataTextField [
+
+	^ self textInputElement selectedDataTextField
 ]
 
 { #category : #'t - select inner container' }

@@ -320,13 +320,14 @@ ToSkinStateGenerator >> generateSelectionStateFromEvent: anEvent [
 	target skinManager
 		addSkinStateGeneration: [
 			target withAllChildrenBreadthFirstDo: [ :child |
-				child skinManagerDo: [ :sm |
-					sm
-						enqueueSkinState: (ToSelectionState new
-								 selected: anEvent selected;
-								 focused: anEvent listElement isFocused;
-								 yourself)
-						in: child ] ] ]
+				(child hasStamp: #unselectable) ifFalse: [
+					child skinManagerDo: [ :sm |
+						sm
+							enqueueSkinState: (ToSelectionState new
+									 selected: anEvent selected;
+									 focused: anEvent listElement isFocused;
+									 yourself)
+							in: child ] ] ] ]
 		in: target
 ]
 

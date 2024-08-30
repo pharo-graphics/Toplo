@@ -71,8 +71,7 @@ ToSelectionGroupHolder >> boundsAnimationFrom: startBounds to: finalBounds onGro
 			  theSelectionElement position: finalBounds position.
 			  theSelectionElement size: finalBounds extent.
 			  theSelectionElement whenLayoutedDoOnce: [
-					  aGroup nodes do: [ :n |
-							  n holder notifySelected ] ] ]
+					  self notifyNodesSelectedIn: aListElement. ] ]
 ]
 
 { #category : #'private - selection updating' }
@@ -85,7 +84,7 @@ ToSelectionGroupHolder >> canAnimateSelectionUpdate [
 ToSelectionGroupHolder >> createSelectionElementsFrom: aListElement [
 
 	groups do: [ :grp |
-		  grp refreshSelectionElementIn: aListElement ]
+		  grp refreshSelectionElementIn: aListElement option: option]
 ]
 
 { #category : #'private - selection updating' }
@@ -117,6 +116,10 @@ ToSelectionGroupHolder >> newGroups: aGroupArray in: aListElement [
  
 	self removeSelectionIn: aListElement.
 	groups := aGroupArray.
+	option masked ifTrue: [ 
+		self notifyNodesDeselectedIn: aListElement.
+		self notifyNodesSelectedIn: aListElement.
+		^ self ].
 	self createSelectionElementsFrom: aListElement.
 	self addSelectionIn: aListElement.
 	self rememberSelectionBoundsIn: aListElement
@@ -125,12 +128,14 @@ ToSelectionGroupHolder >> newGroups: aGroupArray in: aListElement [
 { #category : #'private - selection updating' }
 ToSelectionGroupHolder >> notifyNodesDeselectedIn: aListElement [
 
+	option triggerSelectionState ifFalse: [ ^ self ].
 	aListElement innerContainer nodesDo: [ :n | n holder notifyDeselected ]
 ]
 
 { #category : #'private - selection updating' }
 ToSelectionGroupHolder >> notifyNodesSelectedIn: aListElement [
 
+	option triggerSelectionState ifFalse: [ ^ self ].
 	aListElement innerContainer nodesDo: [ :n | n holder notifySelected ]
 ]
 
@@ -149,7 +154,6 @@ ToSelectionGroupHolder >> refreshGroupsIn: aListElement [
 { #category : #'private - selection updating' }
 ToSelectionGroupHolder >> refreshSelectionIn: aListElement [
 
-	option isNone ifTrue: [ ^ self ].
 	self forgetPreviousBoundsIn: aListElement.
 	self removeSelectionIn: aListElement.
 	self refreshGroupsIn: aListElement.
@@ -174,7 +178,7 @@ ToSelectionGroupHolder >> removeSelectionIn: aListElement [
 ToSelectionGroupHolder >> updateSelectionIn: aListElement [
 
 	| newGroups |
-	option isNone ifTrue: [ ^ self ].
+	"option selectionMode selecter selectionChangedEventClass = ToListDisabledSelectionChangedEvent ifTrue: [self haltOnce]."
 	"'updateSelectionIn: ' trace. option selectionMode selecter selectionChangedEventClass traceCr."
 	newGroups := option collectSelectionGroupsFrom: aListElement.
 	(self groups: groups equals: newGroups) ifTrue: [ ^ self ].

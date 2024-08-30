@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToListElementWithDecoration,
-	#category : #'Toplo-Widget-List-Core'
+	#category : #'Toplo-Widget-List-Core-ListElement'
 }
 
 { #category : #'t - infinite accessing' }

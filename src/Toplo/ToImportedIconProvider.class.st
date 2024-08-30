@@ -54,10 +54,10 @@ ToImportedIconProvider class >> listElementWithAllIcons [
 
 	l dataAccessor addAll: assocs.
 
-	l nodeBuilder: [ :node :holder |
+	l nodeBuilder: [ :node :dataItem :holder |
 		| styleLab stylePane iclab iclabPane imPane iconStyle iconName |
-		iconStyle := holder dataItem value.
-		iconName := holder dataItem key.
+		iconStyle := dataItem value.
+		iconName := dataItem key.
 		node layout: BlLinearLayout horizontal.
 		iclabPane := ToElement new layout: BlFrameLayout new.
 		iclabPane vFitContent.

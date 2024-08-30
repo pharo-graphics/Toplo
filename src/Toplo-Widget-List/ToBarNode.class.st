@@ -6,12 +6,6 @@ Class {
 	#category : #'Toplo-Widget-List-Node'
 }
 
-{ #category : #visiting }
-ToBarNode >> accept: aVisitor [
-
-	aVisitor visitBarNode: self
-]
-
 { #category : #'t - list node' }
 ToBarNode >> clickEventHandlerClasses [
 

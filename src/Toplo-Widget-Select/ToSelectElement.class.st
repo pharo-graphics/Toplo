@@ -81,7 +81,11 @@ ToSelectElement >> initialize [
 	self addEventHandlerOn: ToPlaceholderShownEvent do: [ :event |
 		self flag: 'The width of 16???. Why ? Anyway, it should be handled via a skin'.
 		event placeholder padding: (BlInsets left: 16).
-		event placeholder layout alignCenterLeft ]
+		event placeholder layout alignCenterLeft ].
+
+	" a select is made to be horizontal. the following constraints 
+	must be set here to initialize the resizers properly "
+	self hMatchParent
 ]
 
 { #category : #accessing }
@@ -176,10 +180,17 @@ ToSelectElement >> newWindowManager [
 	^ ToSelectListWindowManager new
 ]
 
-{ #category : #'accessing - selection' }
-ToSelectElement >> onSelectionChangedInListElement [
+{ #category : #layout }
+ToSelectElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 
-	self innerContainer onSelectionChangedInSelectElement
+	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
+	"self class name trace. ' ' trace. 'onLayout: context:' traceCr"
+]
+
+{ #category : #'accessing - selection' }
+ToSelectElement >> onSelectionChangedInListElement: anEvent [
+
+	self innerContainer onSelectionChangedInSelectElement: anEvent
 ]
 
 { #category : #window }
@@ -240,6 +251,12 @@ ToSelectElement >> popupWindowEvent: anEvent [
 ToSelectElement >> refresh [
 
 	self innerContainer refresh
+]
+
+{ #category : #layout }
+ToSelectElement >> requestLayout: x [
+
+	super requestLayout: x.
 ]
 
 { #category : #accessing }

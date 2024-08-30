@@ -52,16 +52,12 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'border-radius-SM' value: 4).
 
 		  (ToTokenProperty
-			   name: #'double-click-delay'
-			   value: 250 milliSeconds).
-
-		  (ToTokenProperty
 			   name: #'animation-window-opening'
 			   value: [ :win |
-				   win opacity: 0.3.
+				   win opacity: 0.1.
 				   win addAnimation:
-					   ((BlOpacityAnimation new opacity: 1.8) duration:
-						    600 milliSeconds) ]).
+					   ((BlOpacityAnimation new opacity: 1.9) duration:
+						    900 milliSeconds) ]).
 
 		  (ToTokenProperty
 			   name: #'effect-window'
@@ -295,6 +291,18 @@ ToTheme class >> label [
 ]
 
 { #category : #accessing }
+ToTheme class >> technicalTokenProperties [
+	" toplo need a list of unique stamps for widget technical parameters. "
+
+	^ {
+		  (ToTokenProperty
+			   name: #'toplo-double-click-delay'
+			   value: 250 milliSeconds).
+
+		}
+]
+
+{ #category : #accessing }
 ToTheme >> addTokenProperties: aCollection [
 
 	tokenProperties addAll: aCollection
@@ -341,7 +349,8 @@ ToTheme >> icons: aThemeIcons [
 ToTheme >> initialize [ 
 
 	super initialize.
-	tokenProperties := self defaultTokenProperties asOrderedCollection
+	tokenProperties := self technicalTokenProperties asOrderedCollection.
+	tokenProperties addAll: self defaultTokenProperties asOrderedCollection
 ]
 
 { #category : #accessing }
@@ -397,6 +406,12 @@ ToTheme >> setUpElement: anElement [
 ToTheme >> styleSheet [ 
 
 	^ nil
+]
+
+{ #category : #accessing }
+ToTheme >> technicalTokenProperties [
+
+	^ self class technicalTokenProperties
 ]
 
 { #category : #accessing }

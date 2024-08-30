@@ -56,7 +56,7 @@ ToAbstractListElement >> commandChecker [
 	^ commandChecker
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing selecters' }
 ToAbstractListElement >> contextMenuSelecter [ 
 
 	^ self contextMenuSelectionMode selecter
@@ -74,12 +74,6 @@ ToAbstractListElement >> contextMenuSelectionMode: aSelectionMode [
 	contextMenuSelectionMode ifNotNil: [ contextMenuSelectionMode onUninstalledIn: self ].
 	contextMenuSelectionMode := aSelectionMode.
 	contextMenuSelectionMode ifNotNil: [ contextMenuSelectionMode onInstalledIn: self ]
-]
-
-{ #category : #accessing }
-ToAbstractListElement >> contextMenuSelectionModel [
-
-	^ self contextMenuSelecter selectionModel
 ]
 
 { #category : #accessing }
@@ -132,22 +126,13 @@ ToAbstractListElement >> defaultCommandCheckerClass [
 { #category : #initialization }
 ToAbstractListElement >> defaultContextMenuSelectionMode [
 
-	| mode |
-	mode := ToListContextMenuSelectionMode new.
-	mode listEventHandler:
-		(self newContextMenuSelectionEventHandler selectionMode: mode).
-	mode selecter: (ToListSelecter new
-			 selectionModel: self newSelectionModel;
-			 selectionChangedEventClass: ToListContextMenuSelectionChangedEvent;
-			 yourself).
-	mode elementBuilder: [ ToListContextMenuSelectionElement new ].
-	^ mode
+	^ ToListContextMenuSelectionMode new
 ]
 
 { #category : #initialization }
 ToAbstractListElement >> defaultContextMenuWindowManagerClass [
 
-		^ ToListElementContextMenuWindowManager
+	^ ToListElementContextMenuWindowManager
 ]
 
 { #category : #initialization }
@@ -187,44 +172,24 @@ ToAbstractListElement >> defaultNodeManagerClass [
 ]
 
 { #category : #initialization }
-ToAbstractListElement >> defaultSecondarySelectionMode [
+ToAbstractListElement >> defaultPrimarySelectionMode [
 
-	| mode |
-	mode := ToListSecondarySelectionMode new.
-	mode listEventHandler:
-		(self newSecondarySelectionEventHandler selectionMode: mode).
-	mode selecter: (ToListSelecter new
-			 commandApplierEventHandler:
-				 ToDataSourceCommandApplierEventHandler new;
-			 selectionModel: self newSecondarySelectionModel;
-			 selectionChangedEventClass: ToListSecondarySelectionChangedEvent;
-			 yourself).
-	mode elementBuilder: [ ToListSecondarySelectionElement new ].
-	^ mode
+	^ self defaultPrimarySelectionModeClass new
 ]
 
 { #category : #initialization }
-ToAbstractListElement >> defaultSelectionMode [
-
-	^ self defaultSelectionModeClass new
-		  in: [ :mode |
-			  mode listEventHandler:
-					  (self newPrimarySelectionEventHandler selectionMode: mode) ];
-		  selecter: (ToPrimarySelecter new
-				   selectionModel: self newPrimarySelectionModel;
-				   selectionChangedEventClass: ToListPrimarySelectionChangedEvent;
-				   yourself);
-		  elementBuilder: [ ToListPrimarySelectionElement new ];
-		  yourself
-]
-
-{ #category : #initialization }
-ToAbstractListElement >> defaultSelectionModeClass [
+ToAbstractListElement >> defaultPrimarySelectionModeClass [
 
 	^ ToListPrimarySelectionMode
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
+ToAbstractListElement >> defaultSecondarySelectionMode [
+
+	^ ToListSecondarySelectionMode new
+]
+
+{ #category : #'accessing selecters' }
 ToAbstractListElement >> disabledSelecter [ 
 
 	^ self selecter subSelecterWithId: #disabled
@@ -242,7 +207,7 @@ ToAbstractListElement >> fakeNode [
 	^ nil
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing selecters' }
 ToAbstractListElement >> hiddenSelecter [ 
 
 	^ self selecter subSelecterWithId: #hidden
@@ -268,7 +233,7 @@ ToAbstractListElement >> initialize [
 	self layout: self defaultLayout.
 
 	self addEventHandler: self defaultEventHandler.
-	self selectionMode: self defaultSelectionMode.
+	self selectionMode: self defaultPrimarySelectionMode.
 	self contextMenuWindowManagerClass: self defaultContextMenuWindowManagerClass.
 	self secondarySelectionMode: self defaultSecondarySelectionMode.
 	self contextMenuSelectionMode: self defaultContextMenuSelectionMode.
@@ -325,32 +290,21 @@ ToAbstractListElement >> layoutStrategy [
 ]
 
 { #category : #'instance creation' }
-ToAbstractListElement >> newContextMenuSelectionEventHandler [
-
-	^ ToListContextMenuSelectionElementEventHandler new
-]
-
-{ #category : #'instance creation' }
 ToAbstractListElement >> newDisabledSelectionMode [
 
-	^ ToListAdditionalSelectionMode
-		  selecter: self disabledSelecter
-		  listEventHandler: ToListDisabledSelectionElementEventHandler new
-		  elementBuilder: [ ToListDisabledSelectionElement new ]
+	^ ToListDisabledSelectionMode parentMode: self selectionMode
 ]
 
 { #category : #'instance creation' }
-ToAbstractListElement >> newPrimarySelectionEventHandler [
+ToAbstractListElement >> newHiddenSelectionMode [
 
-	^ ToListPrimarySelectionElementEventHandler new
+	^ ToListHiddenSelectionMode parentMode: self selectionMode
 ]
 
 { #category : #'instance creation' }
 ToAbstractListElement >> newPrimarySelectionModel [
 
 	^ ToPrimarySelectionModel new
-		  on: self;
-		  yourself
 ]
 
 { #category : #skin }
@@ -360,17 +314,9 @@ ToAbstractListElement >> newRawSkin [
 ]
 
 { #category : #'instance creation' }
-ToAbstractListElement >> newSecondarySelectionEventHandler [
-
-	^ ToListSecondarySelectionElementEventHandler new
-]
-
-{ #category : #'instance creation' }
 ToAbstractListElement >> newSecondarySelectionModel [
 
 	^ self selectionModel newSecondarySelectionModel
-		  on: self;
-		  yourself
 ]
 
 { #category : #'instance creation' }
@@ -384,11 +330,7 @@ ToAbstractListElement >> newSelectionModel [
 { #category : #'instance creation' }
 ToAbstractListElement >> newUnselectableSelectionMode [
 
-	^ ToListAdditionalSelectionMode
-		  selecter: self unselectableSelecter
-		  listEventHandler:
-		  ToListUnselectableSelectionElementEventHandler new
-		  elementBuilder: [ ToListUnselectableSelectionElement new ]
+	^ ToListUnselectableSelectionMode parentMode: self selectionMode
 ]
 
 { #category : #'t - infinite accessing' }
@@ -423,6 +365,13 @@ ToAbstractListElement >> nodeManager [
 	^ nodeManager
 ]
 
+{ #category : #accessing }
+ToAbstractListElement >> nodeUnbuilder: aValuable [
+
+	"aValuable takes 3 args: first, the node to build and second, its holder in the list element and the data item"
+	nodeManager nodeUnbuilder: aValuable
+]
+
 { #category : #'event firing' }
 ToAbstractListElement >> notifyDataSourceChanged [
 
@@ -435,6 +384,7 @@ ToAbstractListElement >> notifyDataSourceItemChanged: aDataSourceEvent [
 
 	| request |
 	request := ToListDataSourceItemChangeRequestEvent new
+		           dataSourceEvent: aDataSourceEvent;
 		           requestedAction: [ self dispatchEvent: aDataSourceEvent ];
 		           yourself.
 	self dispatchAuthorisationRequest: request
@@ -450,7 +400,9 @@ ToAbstractListElement >> notifyDataSourceItemsFiltered: aDataSourceEvent [
 { #category : #'event firing' }
 ToAbstractListElement >> notifyPrimarySelectionDirty [
 
-	self dispatchEvent: ToListPrimarySelectionDirtyEvent new
+	self dispatchEvent: (ToListPrimarySelectionDirtyEvent new
+			 itemCount: self itemCount;
+			 yourself)
 ]
 
 { #category : #'private - commands' }
@@ -479,7 +431,7 @@ ToAbstractListElement >> placeholderElevation [
 	^ self innerContainer elevation
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing selecters' }
 ToAbstractListElement >> secondarySelecter [ 
 
 	^ self secondarySelectionMode selecter
@@ -506,7 +458,7 @@ ToAbstractListElement >> secondarySelectionModel [
 	^ self secondarySelectionMode selectionModel
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing selecters' }
 ToAbstractListElement >> selecter [ 
 
 	^ selectionMode selecter
@@ -542,7 +494,7 @@ ToAbstractListElement >> sieveResultWith: aSieve [
 	self dataAccessor sieveResultWith: aSieve
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing selecters' }
 ToAbstractListElement >> unselectableSelecter [
 
 	^ self selecter subSelecterWithId: #unselectable
@@ -554,61 +506,63 @@ ToAbstractListElement >> unselectableSelectionModel [
 	^ self unselectableSelecter selectionModel
 ]
 
-{ #category : #'additional selecters' }
-ToAbstractListElement >> withAdditionalSelecterWithId: aSymbol withEventClass: anEventClass [
-
-	| additional |
-	additional := ToListSelecter
-		              additionalNamed: aSymbol
-		              inParentSelecter: self selecter
-		              withEventClass: anEventClass.
-	additional onInstalledIn: self.
-	^ additional
-]
-
 { #category : #accessing }
 ToAbstractListElement >> withContextMenuSelection: aBoolean [
 
 	withContextMenuSelection := aBoolean
 ]
 
-{ #category : #'additional selecters' }
+{ #category : #'configuring selecters' }
 ToAbstractListElement >> withDisabledSelecter [
 
-	self withAdditionalSelecterWithId: #disabled withEventClass: ToListDisabledSelectionChangedEvent
+	self withSubSelecterWithId: #disabled withEventClass: ToListDisabledSelectionChangedEvent
 	
 
 ]
 
-{ #category : #'additional selecters' }
+{ #category : #'configuring selecters' }
 ToAbstractListElement >> withHiddenSelecter [
 
-	self withAdditionalSelecterWithId: #hidden withEventClass: ToListHiddenSelectionChangedEvent
+	self withSubSelecterWithId: #hidden withEventClass: ToListHiddenSelectionChangedEvent
 
 ]
 
-{ #category : #'additional selecters' }
+{ #category : #'configuring selecters' }
+ToAbstractListElement >> withSubSelecterWithId: aSymbol withEventClass: anEventClass [
+
+	| sub |
+	sub := ToSubSelecter new
+		       uniqueId: aSymbol;
+		       selectionModel: ToSubSelectionModel new;
+		       selectionChangedEventClass: anEventClass;
+		       parentSelecter: self selecter;
+		       yourself.
+	sub onInstalledIn: self.
+	^ sub
+]
+
+{ #category : #'configuring selecters' }
 ToAbstractListElement >> withUnselectableSelecter [
 
-	self withAdditionalSelecterWithId: #unselectable withEventClass: ToListUnselectableSelectionChangedEvent
+	self withSubSelecterWithId: #unselectable withEventClass: ToListUnselectableSelectionChangedEvent
 
 ]
 
-{ #category : #'additional selecters' }
+{ #category : #'configuring selecters' }
 ToAbstractListElement >> withoutDisabledSelecter [
 
 	(self selecter subSelecterWithId: #disabled) ifNotNil: [ :selecter |
 		selecter onUninstalledIn: self ]
 ]
 
-{ #category : #'additional selecters' }
+{ #category : #'configuring selecters' }
 ToAbstractListElement >> withoutHiddenSelecter [
 
 	(self selecter subSelecterWithId: #hidden) ifNotNil: [ :selecter |
 		selecter onUninstalledIn: self ]
 ]
 
-{ #category : #'additional selecters' }
+{ #category : #'configuring selecters' }
 ToAbstractListElement >> withoutUnselectableSelecter [
 
 	(self selecter subSelecterWithId: #unselectable) ifNotNil: [ :selecter |

@@ -34,6 +34,21 @@ ToListPrimarySelectionMode >> beSingleSelection [
 ]
 
 { #category : #initialization }
+ToListPrimarySelectionMode >> defaultElementBuilder [ 
+
+	^ [ ToListPrimarySelectionElement new ]
+]
+
+{ #category : #initialization }
+ToListPrimarySelectionMode >> defaultOption [
+
+	^ (ToListSelectionOption grouped)
+		  beneath: true;
+		  triggerSelectionState: true;
+		 yourself
+]
+
+{ #category : #initialization }
 ToListPrimarySelectionMode >> initialize [
 
 	super initialize.
@@ -55,11 +70,10 @@ ToListPrimarySelectionMode >> isPrimary [
 	^ true
 ]
 
-{ #category : #testing }
-ToListPrimarySelectionMode >> isSelectableNode: aNode [
+{ #category : #initialization }
+ToListPrimarySelectionMode >> listEventHandlerClass [
 
-	^ aNode holder isSelectable and:
-		  (self selectionModel containsIndex: aNode holder position)
+	^ ToListPrimarySelectionElementEventHandler 
 ]
 
 { #category : #testing }
@@ -83,6 +97,26 @@ ToListPrimarySelectionMode >> multiple: aBoolean [
 	multiple := aBoolean.
 	selecter ifNil: [ ^ self ].
 	selecter multiple: aBoolean
+]
+
+{ #category : #'instance creation' }
+ToListPrimarySelectionMode >> newListEventHandler [
+
+	^ ToListPrimarySelectionElementEventHandler new
+]
+
+{ #category : #'instance creation' }
+ToListPrimarySelectionMode >> newSelecter [
+
+	^ ToPrimarySelecter new
+		  selectionChangedEventClass: self selectionChangedEventClass;
+		  yourself
+]
+
+{ #category : #'instance creation' }
+ToListPrimarySelectionMode >> newSelectionModelIn: aListElement [
+
+	^ aListElement newPrimarySelectionModel 
 ]
 
 { #category : #accessing }
@@ -181,4 +215,10 @@ ToListPrimarySelectionMode >> selectOrDeselectOnNode: aNode [
 	(target selectionModel containsIndex: index)
 		ifTrue: [ self selecter deselectIndex: index ]
 		ifFalse: [ self selecter selectIndex: index ]
+]
+
+{ #category : #'instance creation' }
+ToListPrimarySelectionMode >> selectionChangedEventClass [ 
+
+	^ ToListPrimarySelectionChangedEvent
 ]

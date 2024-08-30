@@ -22,13 +22,19 @@ ToSingleSelectElement >> defaultDataViewBuilder [
 
 	^ [ :theView :theDataItem |
 	  theView selectedDataTextField text:
-		  (theDataItem ifNil: [ '' ] ifNotNil: [ :d | d asString ]) ]
+		  (theDataItem ifNil: [ '' ] ifNotNil: [ :d | d asString ]) asRopedText ]
 ]
 
 { #category : #initialization }
 ToSingleSelectElement >> defaultDataViewFactory [
 
 	^ [ :container | ToSingleSelectDataItemView new ]
+]
+
+{ #category : #accessing }
+ToSingleSelectElement >> fakeDataItem: aData [
+
+	self innerContainer fakeDataItem: aData
 ]
 
 { #category : #'instance creation' }

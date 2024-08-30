@@ -49,10 +49,10 @@ ToAnchoredWindow >> closedEventClass [
 	^ windowManager windowClosedEventClass
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 ToAnchoredWindow >> defaultElevation [
 
-	^ BlRelativeElevation elevation: (SmallInteger maxVal - 900)
+	^ BlRelativeElevation elevation: (SmallInteger maxVal - 300)
 ]
 
 { #category : #'api - displaying' }
@@ -141,7 +141,7 @@ ToAnchoredWindow >> popupEvent: anEvent [
 			            self open.
 			            self localTheme ifNil: [
 				            self localTheme: self element lookupTheme ].
-			            popupTimestamp := DateAndTime now.
+			            popupTimestamp := self space time now.
 			            self dispatchOpenedEvent: anEvent ].
 		            self toFront.
 		            self checkBeforePopupEvent: anEvent.

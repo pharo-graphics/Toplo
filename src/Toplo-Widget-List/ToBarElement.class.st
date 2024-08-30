@@ -7,14 +7,8 @@ Class {
 		'nodeAutoDistribution',
 		'flowLineUniformWidth'
 	],
-	#category : #'Toplo-Widget-List-Core'
+	#category : #'Toplo-Widget-List-Core-BarElement'
 }
-
-{ #category : #visiting }
-ToBarElement >> accept: aVisitor [
-
-	aVisitor visitBarElement: self
-]
 
 { #category : #layout }
 ToBarElement >> checkFullyVisibleNodes [ 
@@ -25,14 +19,19 @@ ToBarElement >> checkFullyVisibleNodes [
 { #category : #layout }
 ToBarElement >> configureLayout [
 
-	self accept: self layoutConfigurator.
-	self requestLayout
+	self innerContainer configureLayoutIn: self
 ]
 
 { #category : #initialization }
 ToBarElement >> defaultDataSource [
 
 	^ ToInfiniteCollectionDataSource new
+]
+
+{ #category : #initialization }
+ToBarElement >> defaultEventHandler [
+
+	^ ToBarElementEventHandler new
 ]
 
 { #category : #initialization }
@@ -47,19 +46,12 @@ ToBarElement >> defaultNodeManagerClass [
 	^ ToBarNodeManager 
 ]
 
-{ #category : #initialization }
-ToBarElement >> defaultSecondarySelectionMode [
-
-	| mode |
-	mode := super defaultSecondarySelectionMode.
-	mode selecter commandApplierEventHandler: ToQueueBasedCommandApplierEventHandler new.
-	^ mode
-]
-
 { #category : #accessing }
 ToBarElement >> fakeDataItem: aDataItem [
 
 	nodeManager fakeDataItem: aDataItem.
+	self uninstallFakeNode.
+	self installFakeNode.
 	self configureLayout
 	
 ]
@@ -85,20 +77,18 @@ ToBarElement >> flowLineUniformWidth: aBoolean [
 
 ]
 
-{ #category : #'t - orientable - orientation' }
-ToBarElement >> horizontal: aBoolean [
-
-	super horizontal: aBoolean.
-	self configureLayout
-]
-
 { #category : #initialization }
 ToBarElement >> initialize [
 
 	super initialize.
-	selectionMode beSeparateBeneathSelection.
-	selectionMode beNoneOverSelection.
-	contextMenuSelectionMode beSeparateOverSelection.
+	selectionMode option
+		grouped: false;
+		beneath: true;
+		triggerSelectionState: true.
+	contextMenuSelectionMode option
+		grouped: false;
+		beneath: false.
+	self matchParent.
 	self configureLayout
 ]
 
@@ -106,13 +96,13 @@ ToBarElement >> initialize [
 ToBarElement >> initializeInnerContainer [
 
 	super initializeInnerContainer.
-	self innerContainer initializeFakeDataView
+	self installFakeNode
 ]
 
-{ #category : #layout }
-ToBarElement >> layoutConfigurator [
+{ #category : #initialization }
+ToBarElement >> installFakeNode [
 
-	^ ToBarLayoutConfigurator new
+	self innerContainer installFakeNode
 ]
 
 { #category : #skin }
@@ -132,6 +122,8 @@ ToBarElement >> nodeAutoDistribution: aBoolean [
 
 	nodeAutoDistribution = aBoolean ifTrue: [ ^ self ].
 	nodeAutoDistribution := aBoolean.
+	" notify dataSource changed to renew all nodes "
+	self notifyDataSourceChanged.
 	self configureLayout
 ]
 
@@ -174,7 +166,7 @@ ToBarElement >> nodeScrolling: aBoolean [
 { #category : #accessing }
 ToBarElement >> nodeWrapping [
 
-	^ nodeWrapping ifNil: [ nodeWrapping := false ]
+	^ nodeWrapping ifNil: [ nodeWrapping := true ]
 ]
 
 { #category : #accessing }
@@ -190,9 +182,8 @@ ToBarElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 	super onLayout: aBounds context: aBlElementBoundsUpdateContext
 ]
 
-{ #category : #'t - orientable - orientation' }
-ToBarElement >> vertical: aBoolean [
+{ #category : #initialization }
+ToBarElement >> uninstallFakeNode [
 
-	super vertical: aBoolean.
-	self configureLayout
+	self innerContainer uninstallFakeNode
 ]

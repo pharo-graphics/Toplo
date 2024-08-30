@@ -1,13 +1,14 @@
 Class {
 	#name : #ToLabel,
 	#superclass : #ToElement,
-	#traits : 'TBlAlignable + TBlTextStyleable',
-	#classTraits : 'TBlAlignable classTrait + TBlTextStyleable classTrait',
+	#traits : 'TBlTextStyleable',
+	#classTraits : 'TBlTextStyleable classTrait',
 	#instVars : [
 		'isEditable',
 		'innerElement',
 		'lineMode',
-		'frameManager'
+		'frameManager',
+		'currText'
 	],
 	#category : #'Toplo-Widget-Album-Label'
 }
@@ -63,13 +64,13 @@ ToLabel >> beEditable [
 { #category : #initialization }
 ToLabel >> beMonoLine [
 
-	self restoreTextAfter: [ self lineMode: ToLabelMonoLineMode new ]
+	self restoreTextAfter: [ self lineMode: ToLabelLineMode mono ]
 ]
 
 { #category : #initialization }
 ToLabel >> beMultiLine [
 
-	self restoreTextAfter: [ self lineMode: ToLabelMultiLineMode new ]
+	self restoreTextAfter: [ self lineMode: ToLabelLineMode multi ]
 ]
 
 { #category : #accessing }
@@ -99,7 +100,7 @@ ToLabel >> defaultEventHandler [
 { #category : #initialization }
 ToLabel >> defaultLineMode [
 
-	^ ToLabelMonoLineMode new
+	^ ToLabelLineMode mono
 ]
 
 { #category : #initialization }
@@ -153,27 +154,12 @@ ToLabel >> hasText [
 	^ self text notNil and: [ self text isNotEmpty ]
 ]
 
-{ #category : #accessing }
-ToLabel >> horizontalAlignment [
-	<return: #BlElementAlignment>
-
-	^ self layout horizontalAlignment
-]
-
-{ #category : #accessing }
-ToLabel >> horizontalAlignment: aBlElementAlignment [
-
-	self layout horizontalAlignment: aBlElementAlignment
-]
-
 { #category : #initialization }
 ToLabel >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
 	self applySkinInstallerOnFirstRequest: true.
-	
-	self layout: self defaultLayout.
 	self fitContent.
 
 	self lineMode: self defaultLineMode.
@@ -224,6 +210,12 @@ ToLabel >> isEditable: aBoolean [
 	isEditable = aBoolean ifTrue: [ ^ self ].
 	isEditable := aBoolean.
 	self initializeEditorFrameBuilder
+]
+
+{ #category : #testing }
+ToLabel >> isFrozen [
+
+	^ false
 ]
 
 { #category : #accessing }
@@ -288,15 +280,27 @@ ToLabel >> newRawSkin [
 	^ ToLabelSkin new
 ]
 
-{ #category : #'private-change' }
-ToLabel >> onStringsInserted: aString [
+{ #category : #accessing }
+ToLabel >> newTextAttributesBuilder [
+	
+	^ ToLabelAttributesBuilder onLabel: self
+]
 
+{ #category : #'private-change' }
+ToLabel >> onStringsInserted: aBlTextStringsInserted [
+
+	self isFrozen ifTrue: [ ^ self ].
+	aBlTextStringsInserted strings ifEmpty: [ ^ self ].
+	currText := self text copy.
 	self textChanged
 ]
 
 { #category : #'private-change' }
 ToLabel >> onTextAttributeAdded: aBlTextAttributeAdded [
 	
+	self isFrozen ifTrue: [ ^ self ].
+	currText rope = self text rope ifTrue: [ ^ self ].
+	currText := self text copy.
 	self textChanged
 
 ]
@@ -304,6 +308,9 @@ ToLabel >> onTextAttributeAdded: aBlTextAttributeAdded [
 { #category : #'private-change' }
 ToLabel >> onTextAttributesRemoved: aBlTextAttributesRemoved [
 
+	self isFrozen ifTrue: [ ^ self ].
+	currText rope = self text rope ifTrue: [ ^ self ].
+	currText := self text copy.
 	self textChanged
 
 ]
@@ -311,6 +318,9 @@ ToLabel >> onTextAttributesRemoved: aBlTextAttributesRemoved [
 { #category : #'private-change' }
 ToLabel >> onTextsDeleted: aString [
 
+	self isFrozen ifTrue: [ ^ self ].
+	aString ifEmpty: [  ^ self ].
+	currText := self text copy.
 	self textChanged
 ]
 
@@ -318,6 +328,7 @@ ToLabel >> onTextsDeleted: aString [
 ToLabel >> privateText: aText [
 
 	self innerElement text: aText.
+	currText:= self text copy.
 	self text
 		when: BlTextStringsInserted
 		send: #onStringsInserted:
@@ -381,6 +392,7 @@ ToLabel >> text [
 ToLabel >> text: aBlTextOrString [
 
 	| newText |
+	self isFrozen ifTrue: [ ^ self ].
 	self text = aBlTextOrString ifTrue: [ ^ self ].
 	" unsubscribe previous text "
 	self text ifNotNil: [self text unsubscribe: self].
@@ -395,17 +407,4 @@ ToLabel >> text: aBlTextOrString [
 ToLabel >> textChanged [
 
 	self innerElement textChanged
-]
-
-{ #category : #accessing }
-ToLabel >> verticalAlignment [
-	<return: #BlElementAlignment>
-	
-	^ self layout verticalAlignment
-]
-
-{ #category : #accessing }
-ToLabel >> verticalAlignment: aBlElementAlignment [
-
-	self layout verticalAlignment: aBlElementAlignment
 ]

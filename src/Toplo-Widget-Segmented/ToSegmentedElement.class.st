@@ -1,82 +1,108 @@
 Class {
 	#name : #ToSegmentedElement,
-	#superclass : #ToBarElement,
-	#traits : 'TToCheckableHolder',
-	#classTraits : 'TToCheckableHolder classTrait',
+	#superclass : #ToElement,
+	#traits : 'TToCheckableHolder + TToOrientable',
+	#classTraits : 'TToCheckableHolder classTrait + TToOrientable classTrait',
 	#instVars : [
-		'group'
+		'barElement'
 	],
 	#category : #'Toplo-Widget-Segmented'
 }
 
-{ #category : #visiting }
-ToSegmentedElement >> accept: aVisitor [
-
-	aVisitor visitSegmentedElement: self
-]
-
 { #category : #accessing }
-ToSegmentedElement >> checkableElementAccessor [
-	"according to the specific vocabulary - the data items are checkables of the checkable bar element "
+ToSegmentedElement >> barElement [ 
 
-	^ self dataAccessor
+	^ barElement
 ]
 
 { #category : #initialization }
 ToSegmentedElement >> defaultEventHandler [
 
-	^ ToSegmentedEventHandler new
+	^ ToSegmentedElementEventHandler new
 ]
 
-{ #category : #initialization }
-ToSegmentedElement >> defaultNodeManagerClass [ 
+{ #category : #accessing }
+ToSegmentedElement >> flowLineUniformWidth: aBoolean [
 
-	^ ToSegmentedNodeManager 
-]
-
-{ #category : #initialization }
-ToSegmentedElement >> defaultSelectionModeClass [
-
-	^ ToSegmentedSelectionMode
+	barElement flowLineUniformWidth: aBoolean
 ]
 
 { #category : #initialization }
 ToSegmentedElement >> initialize [
 
 	super initialize.
-	self group
-		addEventHandlerOn: ToCheckableGroupChangedEvent
-		do: [ :event | self dispatchEvent: event ].
-	self selectionMode beNoneBeneathSelection
+	self layout: BlLinearLayout new.
+	barElement := ToSegmentedBarElement new.
+	barElement matchParent.
+	self addChild: barElement.
+	self addEventHandler: self defaultEventHandler.
+
 ]
 
-{ #category : #layout }
-ToSegmentedElement >> layoutConfigurator [ 
+{ #category : #'t - orientable - accessing' }
+ToSegmentedElement >> layoutStrategy [
 
-	^ ToSegmentedConfigurator new
+	^ self layout
+
+	
+]
+
+{ #category : #'instance creation' }
+ToSegmentedElement >> newRawSkin [ 
+
+	^ ToSegmentedSkin new
+]
+
+{ #category : #accessing }
+ToSegmentedElement >> nodeAutoDistribution: aBoolean [
+
+	barElement nodeAutoDistribution: aBoolean
+]
+
+{ #category : #accessing }
+ToSegmentedElement >> nodeScrolling: aBoolean [
+
+	barElement nodeScrolling: aBoolean
+]
+
+{ #category : #accessing }
+ToSegmentedElement >> nodeWrapping: aBoolean [
+
+	barElement nodeWrapping: aBoolean
 ]
 
 { #category : #'t - checkable holder' }
-ToSegmentedElement >> rawGroup [
+ToSegmentedElement >> rawGroup [ 
 
-	^ group ifNil: [ group := ToCheckableGroup new ]
+	^ barElement rawGroup 
 ]
 
 { #category : #'t - checkable holder' }
 ToSegmentedElement >> rawGroup: aGroup [
 
-	self shouldNotImplement 
+	self shouldNotImplement
 ]
 
 { #category : #accessing }
-ToSegmentedElement >> segmentAccessor [
-	"according to the specific vocabulary - the data items are checkables of the checkable bar element "
+ToSegmentedElement >> secondarySelectionMode [
 
-	^ self dataAccessor
+	^ barElement secondarySelectionMode
 ]
 
-{ #category : #testing }
-ToSegmentedElement >> wantsHMatchParent [
+{ #category : #accessing }
+ToSegmentedElement >> segmentAccessor [ 
 
-	^ self isVertical and: [ nodeWrapping not ]
+	^ barElement segmentAccessor 
+]
+
+{ #category : #accessing }
+ToSegmentedElement >> selectionMode [
+
+	^ barElement selectionMode
+]
+
+{ #category : #accessing }
+ToSegmentedElement >> selectionModel [ 
+
+	^ barElement selectionModel
 ]

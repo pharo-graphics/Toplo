@@ -46,7 +46,7 @@ ToObservableCollectionMirrorUpdaterTest >> testAddAfter [
 
 	ocol updateAllWith: #( 1 2 3 4 ).
 	self assert: i notNil.
-	self assert: i equals: (1 to: 0).
+	self assert: i equals: (1 to: 4).
 
 	ocol add: 88 after: 1.
 

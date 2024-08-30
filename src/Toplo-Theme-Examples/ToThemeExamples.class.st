@@ -189,9 +189,9 @@ ToThemeExamples class >> example_BlElementWithTheme [
 	pn addChild: helloWorld.
 
 
-	listElement := ToListElement new nodeBuilder: [ :node :holder |
+	listElement := ToListElement new nodeBuilder: [ :node :dataItem :holder |
 		               |  lab |
-		               lab := holder dataItem.
+		               lab := dataItem.
 		               lab removeFromParent.
 		               lab hMatchParent.
 		               node addChild: lab ].
@@ -275,9 +275,9 @@ ToThemeExamples class >> example_ToLabelWithHeadingSkin [
 
 	space root addChild: themeSwitcher.
 
-	listElement := ToListElement new nodeBuilder: [ :node :holder |
+	listElement := ToListElement new nodeBuilder: [ :node :dataItem :holder |
 		               | lab |
-		               lab := holder dataItem.
+		               lab := dataItem.
 		               lab removeFromParent.
 		               lab hMatchParent.
 		               node addChild: lab ].

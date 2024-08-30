@@ -2,8 +2,7 @@ Class {
 	#name : #ToScrollableBarElement,
 	#superclass : #ToScrollableElement,
 	#instVars : [
-		'trackElement',
-		'parentBar'
+		'trackElement'
 	],
 	#category : #'Toplo-Widget-List-InnerBar'
 }
@@ -11,15 +10,9 @@ Class {
 { #category : #'instance creation' }
 ToScrollableBarElement class >> onInnerBarElement: anInnerBarElement [
 
-	^ self basicNew
+	^ self new
 		  onInnerBarElement: anInnerBarElement;
-		  initialize
-]
-
-{ #category : #visiting }
-ToScrollableBarElement >> accept: aVisitor [
-
-	aVisitor visitScrollableBarElement: self
+		  yourself
 ]
 
 { #category : #'accessing - children' }
@@ -40,14 +33,17 @@ ToScrollableBarElement >> addHolder: anHolder at: aPosition [
 	trackElement addHolder: anHolder at: aPosition
 ]
 
-{ #category : #'private - commands' }
-ToScrollableBarElement >> consumePendingDataSourceCommands [
+{ #category : #layout }
+ToScrollableBarElement >> configureLayoutIn: aBarElement [
+
+	self matchParent.
+	aBarElement isHMatchParent ifFalse: [ self hFitContent ].
+	aBarElement isVMatchParent ifFalse: [ self vFitContent ].
+	trackElement configureLayoutIn: aBarElement
 ]
 
-{ #category : #initialization }
-ToScrollableBarElement >> defaultEventHandler [ 
-
-	^ ToScrollableBarEventHandler new parentBar: parentBar 
+{ #category : #'private - commands' }
+ToScrollableBarElement >> consumePendingDataSourceCommands [
 ]
 
 { #category : #initialization }
@@ -94,12 +90,11 @@ ToScrollableBarElement >> fullyVisibleNodesSelect: aBlock [
 ]
 
 { #category : #initialization }
-ToScrollableBarElement >> initialize [
+ToScrollableBarElement >> initialize [ 
 
 	super initialize.
-	trackElement := self scrollableBarTrackElementClass new.
-	trackElement id: #track.
-	self addChild: trackElement
+	self matchParent.
+
 ]
 
 { #category : #testing }
@@ -161,7 +156,7 @@ ToScrollableBarElement >> onExitLayoutOrScroll [
 { #category : #initialization }
 ToScrollableBarElement >> onInnerBarElement: anInnerBarElement [
 
-	parentBar := anInnerBarElement
+	self addEventHandler: (ToScrollableBarEventHandler new parentBar: anInnerBarElement )
 ]
 
 { #category : #'accessing - children' }
@@ -256,4 +251,12 @@ ToScrollableBarElement >> stopScrollersInternal [
 ToScrollableBarElement >> trackElement [
 
 	^ trackElement 
+]
+
+{ #category : #accessing }
+ToScrollableBarElement >> trackElement: anElement [
+
+	trackElement = anElement ifTrue: [ ^ self ].
+	trackElement := anElement.
+	trackElement id: #track
 ]

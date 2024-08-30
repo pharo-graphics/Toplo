@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'fakeDataItem'
 	],
-	#category : #'Toplo-Widget-List-Core'
+	#category : #'Toplo-Widget-List-Core-BarElement'
 }
 
 { #category : #'instance creation' }
@@ -44,7 +44,8 @@ ToBarNodeManager >> constraintFakeNode: aNode [
 ToBarNodeManager >> constraintNode: aNode [
 
 	| bar |
-	bar := aNode holder listElement.
+	aNode isFake ifTrue: [ ^ self ].
+	bar := aNode holder barElement.
 	aNode constraintsDo: [ :c |
 		c horizontal fitContent.
 		c vertical fitContent ].
@@ -55,7 +56,7 @@ ToBarNodeManager >> constraintNode: aNode [
 { #category : #initialization }
 ToBarNodeManager >> defaultNodeBuilder [
 
-	^ [ :node :holder :dataItem |
+	^ [ :node :dataItem :holder |
 	  node addChild: (ToLabel text: dataItem asString) hMatchParent ]
 ]
 

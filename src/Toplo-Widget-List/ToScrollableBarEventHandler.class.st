@@ -10,12 +10,14 @@ Class {
 { #category : #'infinite event handling' }
 ToScrollableBarEventHandler >> boundsHasChangedDuringScrollingEvent: anEvent [
 
+	parentBar ifNil: [ ^ self ].
 	parentBar dispatchEvent: anEvent
 ]
 
 { #category : #'infinite event handling' }
 ToScrollableBarEventHandler >> elementScrolledEvent: anEvent [
 
+	parentBar ifNil: [ ^ self ].
 	parentBar dispatchEvent: anEvent
 ]
 
@@ -23,7 +25,6 @@ ToScrollableBarEventHandler >> elementScrolledEvent: anEvent [
 ToScrollableBarEventHandler >> eventsToHandle [
 
 	^ {
-		  BlMouseWheelEvent.
 		  BlBoundsHasChangedDuringScrollingEvent.
 		  BlElementScrolledEvent.
 		  ToInfiniteScrollFinishedEvent }
@@ -33,17 +34,6 @@ ToScrollableBarEventHandler >> eventsToHandle [
 ToScrollableBarEventHandler >> infiniteScrollFinishedEvent: anEvent [
 
 	parentBar dispatchEvent: anEvent
-]
-
-{ #category : #'mouse handlers' }
-ToScrollableBarEventHandler >> mouseWheelEvent: anEvent [
-	
-	"I implement touch support, so ignore fake mouse wheel events"
-	anEvent isTouch
-		ifTrue: [ ^ self ].
-
-	anEvent currentTarget smoothScrollBy: (anEvent vector * BlInfiniteMouseScrollListener scrollingVelocity ) negated.
-	anEvent consume
 ]
 
 { #category : #accessing }

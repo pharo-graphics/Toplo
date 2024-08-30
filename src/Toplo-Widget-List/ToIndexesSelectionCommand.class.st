@@ -37,3 +37,9 @@ ToIndexesSelectionCommand >> indexes: anArray [
 
 	indexes := anArray
 ]
+
+{ #category : #accessing }
+ToIndexesSelectionCommand >> intervals [
+
+	^ self intervalsIn: indexes
+]

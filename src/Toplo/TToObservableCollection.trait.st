@@ -369,7 +369,7 @@ TToObservableCollection >> indexOf: anElement startingAt: start ifAbsent: except
 { #category : #'t - observable collection - initialization' }
 TToObservableCollection >> initializeWith: aCollection [
 
-		self reset.
+		self collection removeAll.
 		self collection addAll: aCollection
 ]
 
@@ -533,6 +533,24 @@ TToObservableCollection >> removeAll [
 					 yourself) ]
 		removed: removed
 		interval: interval
+]
+
+{ #category : #'t - observable collection - removing' }
+TToObservableCollection >> removeAll: aCollection [
+
+	aCollection do: [ :e | self remove: e ]
+]
+
+{ #category : #'t - observable collection - removing' }
+TToObservableCollection >> removeAllSuchThat: aBlock [
+
+	| s indexes |
+	s := self collection size.
+	s isZero ifTrue: [ ^ self ].
+	indexes := Array streamContents: [ :stream |
+		           self collection withIndexDo: [ :elem :idx |
+			           (aBlock value: elem) ifTrue: [ stream nextPut: idx ] ] ].
+	indexes do: [ :idx | self removeAt: idx ]
 ]
 
 { #category : #'t - observable collection - removing' }
@@ -734,7 +752,7 @@ TToObservableCollection >> third [
 TToObservableCollection >> updateAllWith: aCollection [
 
 	| interval |
-	interval := 1 to: self size.
+	interval := 1 to: aCollection size.
 	self notifyUpdateAllChangeAround: [
 		self initializeWith: aCollection.
 		self dispatchEvent: (ToCollectionAllUpdatedEvent new

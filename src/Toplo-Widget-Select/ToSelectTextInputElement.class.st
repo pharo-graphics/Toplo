@@ -120,7 +120,7 @@ ToSelectTextInputElement >> onInstalledIn: aNodeContainer [
 	inputTextField id: #inputTextField.
 	self addChild: selectedDataTextField.
 	self addChild: inputTextField.
-	aNodeContainer isFiltrable
+	selectFiltrable
 		ifTrue: [ self beEditable ]
 		ifFalse: [ self beReadonly ].
 

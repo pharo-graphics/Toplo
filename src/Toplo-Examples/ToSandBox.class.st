@@ -5,80 +5,7 @@ Class {
 }
 
 { #category : #bar }
-ToSandBox class >> barDashBoardFor: aBar [
-
-	| mainPane barPane confPane |
-	mainPane := ToPane horizontal.
-	mainPane matchParent.
-
-	confPane := self configurationBoardFor: aBar.
-	confPane padding: (BlInsets all: 5).
-	confPane width: 250.
-	confPane border: Color lightGray.
-	barPane := ToPane vertical.
-	barPane matchParent.
-	mainPane addChildren: {
-			confPane.
-			barPane }.
-
-	barPane addChild: aBar.
-	^ mainPane
-]
-
-{ #category : #bar }
-ToSandBox class >> checkableBarDashBoardFor: aCheckableBar [
-
-	| barDashBoard checkingStrategyBoard rootPane |
-	barDashBoard := self barDashBoardFor: aCheckableBar.
-	checkingStrategyBoard := self checkingStrategyChooserFor: aCheckableBar.
-
-	rootPane := ToPane vertical.
-	rootPane matchParent.
-	rootPane addChild: barDashBoard.
-	rootPane addChild: checkingStrategyBoard.
-	rootPane addDividers.
-
-	^ rootPane
-]
-
-{ #category : #bar }
-ToSandBox class >> checkingStrategyChooserFor: aCheckableBar [
-
-	| buttons checkingStrategyContainer checkingStrategyGroup |
-	checkingStrategyGroup := ToCheckableGroup new.
-	buttons := OrderedCollection new.
-	{ #Strict. #Weak. #None } do: [ :mode |
-		| chb |
-		chb := ToCheckbox new
-			       labelText: mode asString;
-			       id: mode.
-		buttons add: chb ].
-
-	checkingStrategyGroup registerAll: buttons.
-	checkingStrategyGroup addEventHandler: (BlEventHandler
-			 on: ToCheckableGroupChangedEvent
-			 do: [ :event |
-				 | mode |
-				 mode := event checkedList first id asSymbol.
-				 mode = #Strict
-					 ifTrue: [ aCheckableBar withStrictCheckingStrategy ]
-					 ifFalse: [
-						 mode = #Weak
-							 ifTrue: [ aCheckableBar withWeakCheckingStrategy ]
-							 ifFalse: [ aCheckableBar withoutCheckingStrategy ] ] ]).
-	buttons first checked: true.
-	checkingStrategyContainer := ToPane vertical.
-	checkingStrategyContainer hMatchParent.
-	checkingStrategyContainer addChild:
-		(ToLabel text: 'Checking strategy').
-	checkingStrategyContainer layout cellSpacing: 0.
-	checkingStrategyContainer addChildren:
-		checkingStrategyGroup registeredCheckables.
-	^ checkingStrategyContainer
-]
-
-{ #category : #bar }
-ToSandBox class >> configurationBoardFor: aBar [
+ToSandBox class >> barConfigurationBoardFor: aBar [
 
 	| confPane verticalSwitch wrappingSwitch scrollingSwitch autoDistributionSwitch sameWidthSwitch selectionAnimationSwitch selectOnMouseDownSwitch inspectButton |
 	confPane := ToPane vertical.
@@ -96,17 +23,8 @@ ToSandBox class >> configurationBoardFor: aBar [
 
 	verticalSwitch addEventHandler: (BlEventHandler
 			 on: ToCheckableCheckEvent
-			 do: [ :event |
-				 | v |
-				 v := event current.
-				 v
-					 ifTrue: [
-						 aBar hFitContent.
-						 aBar vMatchParent ]
-					 ifFalse: [
-						 aBar hMatchParent.
-						 aBar vFitContent ].
-				 aBar vertical: v ]).
+			 do: [ :event | aBar vertical: event current ]).
+
 	confPane addChild: verticalSwitch.
 
 	wrappingSwitch := ToSwitchButton new labelText: 'Wrapping'.
@@ -174,10 +92,10 @@ ToSandBox class >> configurationBoardFor: aBar [
 			 do: [ :event |
 				 | v |
 				 v := event current.
-				 aBar selectionMode beneathOption animationDuration: (v
+				 aBar selectionMode option animationDuration: (v
 						  ifTrue: [ 200 milliSeconds ]
 						  ifFalse: [ 0 milliSeconds ]).
-				 aBar secondarySelectionMode beneathOption animationDuration: (v
+				 aBar secondarySelectionMode option animationDuration: (v
 						  ifTrue: [ 150 milliSeconds ]
 						  ifFalse: [ 0 milliSeconds ]) ]).
 
@@ -205,17 +123,167 @@ ToSandBox class >> configurationBoardFor: aBar [
 	^ confPane
 ]
 
+{ #category : #bar }
+ToSandBox class >> barDashBoardFor: aBar [
+
+	| mainPane barPane confPane |
+	mainPane := ToPane horizontal.
+	mainPane matchParent.
+
+	confPane := self barConfigurationBoardFor: aBar.
+	confPane padding: (BlInsets all: 5).
+	confPane width: 250.
+	confPane border: Color lightGray.
+	barPane := ToPane vertical.
+	barPane matchParent.
+	mainPane addChildren: {
+			confPane.
+			barPane }.
+
+	barPane addChild: aBar.
+	^ mainPane
+]
+
+{ #category : #select }
+ToSandBox class >> buildSelectListElementIn: aSelectElement withIconProvider: anIconProviderClass [
+
+	|  phtext icProvider styles iconDescs |
+	aSelectElement listElement placeholderMinHeight: 35.
+	aSelectElement listElement withRowNumbers.
+	phtext := ('No Icon' asRopedText
+		           foreground: Color lightGray;
+		           yourself)
+		          fontSize: 24;
+		          yourself.
+	aSelectElement listElement placeholderBuilder: [ :placeholder :e |
+		| lab |
+		placeholder layout alignCenter.
+		lab := ToAttributedLabel text: phtext.
+		placeholder addChild: lab ].
+
+	icProvider := anIconProviderClass.
+	styles := ToIconStyle allSubclasses asArray sort: [ :a :b |
+		          a name < b name ].
+
+	iconDescs := Array streamContents: [ :stream |
+		             styles do: [ :style |
+			             | s |
+			             s := ('_' , style prefix , '_loaded') asSymbol.
+			             (icProvider respondsTo: s) ifTrue: [
+				             | iconNames |
+				             iconNames := (icProvider perform: s) sort.
+				             iconNames do: [ :n |
+					             stream nextPut: (ToIconDescExample new
+							              name: n;
+							              style: style;
+							              provider: icProvider;
+							              yourself) ] ] ] ].
+
+	aSelectElement listElement nodeBuilder: [ :node :iconDesc :holder  |
+		| styleLab stylePane iclab iclabPane imPane iconStyle iconName icon |
+		iconStyle := iconDesc style.
+		iconName := iconDesc name.
+		icon := iconDesc icon.
+		node layout: BlLinearLayout horizontal.
+		iclabPane := ToElement new layout: BlFrameLayout new.
+		iclabPane vFitContent.
+		iclabPane hMatchParent.
+		stylePane := ToElement new layout: BlFrameLayout new.
+		stylePane vFitContent.
+		stylePane width: 60.
+		iclab := ToLabel text: iconName.
+		iclab constraintsDo: [ :c | c frame vertical alignCenter ].
+		iclabPane addChild: iclab.
+		styleLab := ToLabel text: iconStyle prefix.
+		styleLab constraintsDo: [ :c | c frame vertical alignCenter ].
+		stylePane addChild: styleLab.
+		imPane := ToElement new layout: BlFrameLayout new.
+		imPane fitContent.
+		imPane withNullSkin.
+		imPane background: Color veryVeryLightGray.
+		imPane addChild: (icon
+				 size: 24 asPoint;
+				 yourself).
+		node addChildren: {
+				stylePane.
+				iclabPane.
+				imPane }.
+		node childrenDo: [ :child |
+			child constraintsDo: [ :c | c linear vertical alignCenter ] ] ].
+
+	aSelectElement sieve dataFilter: [ :iconDesc :pattern |
+		(iconDesc style prefix beginsWith: pattern caseSensitive: true) or: [
+			iconDesc name beginsWith: pattern caseSensitive: true ] ].
+
+	aSelectElement dataAccessor addAll: iconDescs
+]
+
+{ #category : #bar }
+ToSandBox class >> checkingStrategyChooserFor: aCheckableBar [
+
+	| buttons checkingStrategyContainer checkingStrategyGroup |
+	checkingStrategyGroup := ToCheckableGroup new.
+	buttons := OrderedCollection new.
+	{ #Strict. #Weak. #None } do: [ :mode |
+		| chb |
+		chb := ToCheckbox new
+			       labelText: mode asString;
+			       id: mode.
+		buttons add: chb ].
+
+	checkingStrategyGroup registerAll: buttons.
+	checkingStrategyGroup addEventHandler: (BlEventHandler
+			 on: ToCheckableGroupChangedEvent
+			 do: [ :event |
+				 | mode |
+				 mode := event checkedList first id asSymbol.
+				 mode = #Strict
+					 ifTrue: [ aCheckableBar withStrictCheckingStrategy ]
+					 ifFalse: [
+						 mode = #Weak
+							 ifTrue: [ aCheckableBar withWeakCheckingStrategy ]
+							 ifFalse: [ aCheckableBar withoutCheckingStrategy ] ] ]).
+	buttons first checked: true.
+	checkingStrategyContainer := ToPane vertical.
+	checkingStrategyContainer hMatchParent.
+	checkingStrategyContainer addChild:
+		(ToLabel text: 'Checking strategy').
+	checkingStrategyContainer layout cellSpacing: 0.
+	checkingStrategyContainer addChildren:
+		checkingStrategyGroup registeredCheckables.
+	^ checkingStrategyContainer
+]
+
+{ #category : #list }
+ToSandBox class >> example_2ListsWithEditableAndContextMenu [
+
+	| win1 win2 l1 l2 space |
+	l1 := self listWithEditableAndContextMenu.
+	l2 := self listWithEditableAndContextMenu.
+	
+	win1 := ToInnerWindow new.
+	win1 pane addChild: l1.
+	win2 := ToInnerWindow new.
+	win2 pane addChild: l2.
+	
+	space := BlSpace new.
+	space root addChild: win1.
+	space root addChild: win2.
+	space show
+
+]
+
 { #category : #list }
 ToSandBox class >> example_BasicListWithAllClasses3 [
 
 	| l |
-	l := ToListElement new nodeBuilder: [ :node :holder |
+	l := ToListElement new nodeBuilder: [ :node :dataItem :holder |
 		     | icn lab |
-		     icn := holder dataItem hasComment
+		     icn :=  dataItem hasComment
 			            ifTrue: [ #class ]
 			            ifFalse: [ #uncommentedClass ].
 		     lab := ToLabel new
-			            text: holder dataItem name;
+			            text: dataItem name;
 			            beEditable;
 			            yourself.
 		     node addChild: (ToLabeledIcon new
@@ -312,6 +380,19 @@ ToSandBox class >> example_BoundsTransitionWithParallelAnimation [
 			 anim onFinishedDo: [ e background: Color red ].
 			 e addAnimation: anim ]).
 	e openInSpace
+]
+
+{ #category : #'toggle button' }
+ToSandBox class >> example_ButtonTurnedAsToggleButton [
+
+	| toggle |
+	ToTheme cleanUp.
+	toggle := ToButton new label: (ToLabel text: 'Regular button turned as Toggle button').
+	toggle checkable: true.
+	toggle icon: (ToImage new innerImage: (self iconNamed: #solidMenu)).
+	toggle checked: false.
+	toggle openInInnerWindow.
+	toggle inspect
 ]
 
 { #category : #'button-dep' }
@@ -631,31 +712,54 @@ ToSandBox class >> example_CodeEditor [
 	text := self methodText asRopedText fontName: 'Source Code Pro'.
 	album := ToAlbum new.
 	album inspect.
-	album styler:
-		(BlPharoCodeStyler new
-			classOrMetaClass: self class;
-			yourself).
+	album styler: (BlPharoCodeStyler new
+			 classOrMetaClass: self class;
+			 yourself).
 	album text: text copy.
 	album withSaveCapability.
 	album withRowNumbers.
-	album whenSaveRequestedDo: [ :saveRequested | saveRequested accepted: true ].
-	album whenCancelRequestedDo: [ :cancelRequested | cancelRequested client text: text copy ].
-	
-	menuBuilder := [ :menu :request | | element |
-		element := request currentTarget.
-		menu addItem: (ToMenuItem new labelText: 'Select all'; whenClickedDo: [:event  | element selecter all; apply ]; yourself).
-		menu addItem: (ToMenuItem new labelText: 'Copy'; whenClickedDo: [:event  | element editor copySelected ]; yourself).
-		menu addItem: (ToMenuItem new labelText: 'Cut'; whenClickedDo: [:event  | element editor cutSelected ]; yourself).
-		menu addItem: (ToMenuItem new labelText: 'Paste'; whenClickedDo: [:event  | element editor paste ]; yourself).
-		menu addSeparator.
-		menu addItem: (ToMenuItem new labelText: 'Accept'; whenClickedDo: [:event  | element requestSave ]; yourself).
-		menu addSeparator.
-		menu addItem: (ToMenuItem new labelText: 'Cancel'; whenClickedDo: [:event  | element requestCancel ]; yourself) ].
-	album contextMenu: menuBuilder. 
+	album whenSaveRequestedDo: [ :saveRequested |
+		saveRequested accepted: true ].
+	album whenCancelRequestedDo: [ :cancelRequested |
+		cancelRequested client text: text copy ].
+
+	menuBuilder := [ :menu :request |
+	               | element |
+	               element := request currentTarget.
+	               menu addItem: (ToMenuItem new
+			                labelText: 'Select all';
+			                whenClickedDo: [ :event |
+				                element selecter
+					                all;
+					                apply ];
+			                yourself).
+	               menu addItem: (ToMenuItem new
+			                labelText: 'Copy';
+			                whenClickedDo: [ :event |
+				                element editor copySelected ];
+			                yourself).
+	               menu addItem: (ToMenuItem new
+			                labelText: 'Cut';
+			                whenClickedDo: [ :event |
+				                element editor cutSelected ];
+			                yourself).
+	               menu addItem: (ToMenuItem new
+			                labelText: 'Paste';
+			                whenClickedDo: [ :event | element editor paste ];
+			                yourself).
+	               menu addSeparator.
+	               menu addItem: (ToMenuItem new
+			                labelText: 'Accept';
+			                whenClickedDo: [ :event | element requestSave ];
+			                yourself).
+	               menu addSeparator.
+	               menu addItem: (ToMenuItem new
+			                labelText: 'Cancel';
+			                whenClickedDo: [ :event | element requestCancel ];
+			                yourself) ].
+	album contextMenu: menuBuilder.
 	album cursorColor: Color black.
 	album openInSpace
-
-
 ]
 
 { #category : #list }
@@ -664,13 +768,9 @@ ToSandBox class >> example_EditableList2WithAllClassesNames [
 	| l vscrollBar space innerWin |
 	l := ToListElement new.
 	l beVertical.
-	l withDisabledSelecter.
-	l withUnselectableSelecter.
-	l withHiddenSelecter.
-
 	l
 		nodeFactory: [ ToListClassNodeExample new ];
-		nodeBuilder: [ :node :holder :dataItem |
+		nodeBuilder: [ :node :dataItem :holder |
 			node forClassNameAssoc: dataItem ];
 		addEventHandler: (BlEventHandler
 				 on: ToListStrongSelectionEvent
@@ -799,9 +899,8 @@ ToSandBox class >> example_FilterOnList2WithStatesOfAmerica [
 
 	listElement placeholderBuilder: [ :ph :e |
 		| lab |
-		lab := (ToAttributedLabel text: 'No Data') styleWith: [ :l |
-				        l foreground: Color lightGray;
-				        fontSize: 24]; yourself.
+		lab := (ToLabel text: 'No Data') foreground: Color lightGray;
+				        fontSize: 24; yourself.
 		lab matchParent.
 		ph addChild: lab ].
 
@@ -868,18 +967,45 @@ ToSandBox class >> example_GeneralButtonWithLabel [
 ToSandBox class >> example_HorizontalListWithIndexedColors [
 
 	| l space |
-	l := ToListElement new nodeBuilder: [ :node :holder |
+	l := ToListElement new nodeBuilder: [ :node :dataItem :holder |
 		     node constraintsDo: [ :c |
 			     c horizontal fitContent.
 			     c vertical fitContent ].
 		     node addChild: (ToElement new
 				      size: 70 @ 50;
-				      background: holder dataItem) ].
+				      background: dataItem) ].
 	l background: Color yellow.
 	l beHorizontal.
 	l dataAccessor addAll: Color indexedColors.
 	space := BlSpace new.
 	space root addChild: l.
+	space show
+]
+
+{ #category : #list }
+ToSandBox class >> example_HugeIntegerList [
+
+	| l nbItems vscrollBar space |
+	nbItems := 50000.
+	l := ToListElement new.
+	l dataAccessor addAll: (1 to: nbItems).
+	l nodeBuilder: [ :node :anInteger |
+		node addChild:
+			(BlTextElement new text: anInteger asString asRopedText) ].
+	vscrollBar := BlVerticalScrollbarElement new.
+	vscrollBar constraintsDo: [ :c |
+		c ignoreByLayout.
+		c margin: (BlInsets left: 10).
+		c ignored horizontal alignRight.
+		c ignored vertical alignBottom ].
+	vscrollBar attachTo: l innerContainer.
+
+	space := BlSpace new
+		         extent: 100 @ 600;
+		         title: 'List with ', nbItems asString, ' integers'.
+
+	space root addChild: l.
+	space root addChild: vscrollBar.
 	space show
 ]
 
@@ -1041,7 +1167,7 @@ ToSandBox class >> example_List2WithSelectionHistory [
 		(ToListSelectionHistoryEventHandlerExample new historyList:
 			 historyList).
 	statesList addEventHandler: (BlEventHandler
-			 on: ToSelectionCommandAppliedEvent
+			 on: ToListSelectionCommandAppliedEvent
 			 do: [ :event | event traceCr ]).
 
 	pane
@@ -1054,9 +1180,9 @@ ToSandBox class >> example_List2WithSelectionHistory [
 ToSandBox class >> example_ListOneClass [
 
 	| l |
-	l := ToListElement new nodeBuilder: [ :node :holder |
+	l := ToListElement new nodeBuilder: [ :node :dataItem  :holder |
 		     node addChild: (ToCheckbox new
-				      labelText: holder dataItem name;
+				      labelText: dataItem name;
 				      startInterspace: 10;
 				      hMatchParent) ].
 	l dataAccessor addAll: { Smalltalk globals allClasses first }.
@@ -1088,13 +1214,13 @@ ToSandBox class >> example_ListWithAllClasses [
 ToSandBox class >> example_ListWithAllClasses3 [
 
 	| l |
-	l := ToListElement new nodeBuilder: [ :node :holder |
+	l := ToListElement new nodeBuilder: [ :node :dataItem  :holder |
 		     | icn lab |
-		     icn := holder dataItem hasComment
+		     icn := dataItem hasComment
 			            ifTrue: [ #class ]
 			            ifFalse: [ #uncommentedClass ].
 		     lab := ToLabel new
-			            text: holder dataItem name;
+			            text: dataItem name;
 			            beEditable;
 			            yourself.
 		     node addChild: (ToLabeledIcon new
@@ -1102,9 +1228,8 @@ ToSandBox class >> example_ListWithAllClasses3 [
 				      icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
 				      startInterspace: 10;
 				      hMatchParent) ].
-	l selectionMode beSeparateBeneathSelection.
-	l selectionMode beneathOption animationDuration: 200 milliSeconds.
-	l secondarySelectionMode beneathOption animationDuration: 150 milliSeconds.
+	l selectionMode option animationDuration: 200 milliSeconds.
+	l secondarySelectionMode option animationDuration: 150 milliSeconds.
 	l dataAccessor addAll: Smalltalk globals allClasses.
 	l selecter selectIndex: 3.
 	l withRowNumbers.
@@ -1116,39 +1241,95 @@ ToSandBox class >> example_ListWithAllClasses3 [
 ToSandBox class >> example_ListWithAllClasses4 [
 
 	| l |
-	l := ToListElement new nodeBuilder: [ :node :holder |
-		     node addChild: (ToCheckbox new
-				      labelText: holder dataItem name;
-				      startInterspace: 10) ].
+	l := ToListElement new nodeBuilder: [ :node :dataItem :holder |
+		     | cbox |
+		node traceCr.
+		     cbox := ToCheckbox new.
+		     cbox
+			     labelText: dataItem name;
+			     startInterspace: 10;
+			     hMatchParent;
+			     startFlexible: true.
+		    " node userData at: #handler put: (holder listElement
+				      addEventHandlerOn: ToListPrimarySelectionChangedEvent
+				      do: [ :event |
+					      cbox traceCr.
+					      cbox checked:
+						      (holder selectionModel containsIndex: holder position) ])."
+		     cbox checked: holder isSelected.
+		     node addChild: cbox ].
+	"l nodeUnbuilder: [ :node :dataItem :holder | node removeEventHandler: (node userData at: #handler) ]."
+	l selectionMode selectOnMouseDown: true.
+	l
+		addEventFilterOn: ToListPrimarySelectionChangedEvent
+		do: [ :event | 'list selection changed' traceCr ].
+	l selectionMode option masked: true.
 	l dataAccessor addAll: Smalltalk globals allClasses.
-	l inspect.
 	l openInSpace
 ]
 
 { #category : #list }
 ToSandBox class >> example_ListWithAllClassesAndTraitsSorted [
 
-	| l |
-	l := ToListElement new nodeBuilder: [ :node :holder |
+	| l vscrollBar space |
+	l := ToListElement new nodeBuilder: [ :node :dataItem :holder |
 			node ensureCanManageSkin.
 		     node addChild: (ToClassNameViewExample new
-				      class: holder dataItem position: holder position;
+				      class: dataItem position: holder position;
 				      yourself) ].
+	l withRowNumbers.
 	l dataAccessor addAll:
 		(Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]).
-	l openInSpace
+	vscrollBar := BlVerticalScrollbarElement new.
+	vscrollBar constraintsDo: [ :c |
+		c ignoreByLayout.
+		c margin: (BlInsets left: 10).
+		c ignored horizontal alignRight.
+		c ignored vertical alignBottom ].
+	vscrollBar attachTo: l innerContainer.
+
+	space := BlSpace new.
+	space root addChild: l.
+	space root addChild: vscrollBar.
+	space show
 ]
 
 { #category : #list }
 ToSandBox class >> example_ListWithAllClassesAsButton [
 
 	| l |
-	l := ToListElement new nodeBuilder: [ :node :holder |
+	l := ToListElement new nodeBuilder: [ :node :dataItem :holder |
 		     node addChild: (ToButton new
-				      labelText: holder dataItem name;
+				      labelText: dataItem name;
 				      hMatchParent) ].
 	l dataAccessor addAll: Smalltalk globals allClasses.
 	l openInSpace
+]
+
+{ #category : #list }
+ToSandBox class >> example_ListWithAllMethods [
+
+	| l nbItems vscrollBar space |
+	nbItems := 10000.
+	l := ToListElement new.
+	l withRowNumbers.
+	l dataAccessor addAll: SystemNavigation default allMethods.
+	l nodeBuilder: [ :node :aMethod |
+		node addChild:
+			(BlTextElement new text: aMethod name asString asRopedText) ].
+	vscrollBar := BlVerticalScrollbarElement new.
+	vscrollBar constraintsDo: [ :c |
+		c ignoreByLayout.
+		c margin: (BlInsets left: 10).
+		c ignored horizontal alignRight.
+		c ignored vertical alignBottom ].
+	vscrollBar attachTo: l innerContainer.
+
+	space := BlSpace new.
+
+	space root addChild: l.
+	space root addChild: vscrollBar.
+	space show
 ]
 
 { #category : #list }
@@ -1163,11 +1344,11 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 ToSandBox class >> example_ListWithIndexedColors [
 
 	| l vscrollBar space |
-	l := ToListElement new nodeBuilder: [ :node :holder |
+	l := ToListElement new nodeBuilder: [ :node :dataItem :holder |
 		     node addChild: (ToLabel new
-				      text: holder dataItem asString asRopedText;
+				      text: dataItem asString asRopedText;
 				      hMatchParent;
-				      background: holder dataItem) ].
+				      background: dataItem) ].
 	l dataAccessor addAll: Color indexedColors.
 
 	vscrollBar := BlVerticalScrollbarElement new.
@@ -1189,11 +1370,11 @@ ToSandBox class >> example_ListWithPanes [
 	| list |
 	list := ToListElement new
 		        withRowNumbers;
-		        nodeBuilder: [ :node :holder |
+		        nodeBuilder: [ :node :dataItem :holder |
 			        | title blContent |
 			        title := ToLabel new
 				                 id: #title;
-				                 text: holder dataItem;
+				                 text: dataItem;
 				                 margin: (BlInsets all: 1);
 				                 padding: (BlInsets all: 1);
 				                 yourself.
@@ -1205,6 +1386,7 @@ ToSandBox class >> example_ListWithPanes [
 				        (BlRoundedRectangleGeometry cornerRadius: 6).
 			        blContent border: (BlBorder paint: Color lightGray).
 			        node addChild: blContent ].
+	list selectionMode option beneath: false.
 	list dataAccessor addAll: (1 to: 1000).
 	list openInSpace
 ]
@@ -1282,22 +1464,25 @@ ToSandBox class >> example_PicsumPhotosGallery [
 	list := ToListElement new
 		        matchParent;
 		        yourself.
-		list inspect.
+	list inspect.
 	list
 		nodeHolderClass: ToPicsumPhotosGalleryImageHolder;
 		nodeFactory: [ ToPicsumPhotosGalleryImageNode new ];
-		nodeBuilder: [ :node :holder :dataItem | node labelString: dataItem id ].
-	list selectionMode beNoneBeneathSelection.
-	list selectionMode beSeparateOverSelection.
-	list selectionMode overElementBuilder: [ ToPicsumPhotosGallerySelectionElement new ].
+		nodeBuilder: [ :node :dataItem :holder |
+			node labelString: dataItem id ].
+	list selectionMode option
+		grouped: false;
+		beneath: false;
+		triggerSelectionState: true;
+		elementBuilder: [ ToPicsumPhotosGallerySelectionElement new ].
 
 	[
 	| allImagesData |
 	allImagesData := (STONJSON fromString:
-		           'https://picsum.photos/list' asUrl retrieveContents)
-		          collect: [ :aDictionary |
-			          ToPicsumPhotosGalleryImageData fromDictionary:
-				          aDictionary ].
+		                  'https://picsum.photos/list' asUrl
+			                  retrieveContents) collect: [ :aDictionary |
+		                 ToPicsumPhotosGalleryImageData fromDictionary:
+			                 aDictionary ].
 	allImagesData sort: [ :a :b | a id > b id ].
 	list dataAccessor addAll: allImagesData ] fork.
 
@@ -1443,85 +1628,115 @@ ToSandBox class >> example_RawParallelTransition [
 ]
 
 { #category : #select }
-ToSandBox class >> example_SelectIconMonoFiltrable [
+ToSandBox class >> example_SelectAntDesignIconMonoFiltrable [
 
-	| select phtext icProvider styles iconDescs |
+	| select   |
 	select := ToSingleSelectElement new.
-	select listElement placeholderMinHeight: 35.
-	phtext := ('No Icon' asRopedText
-		           foreground: Color lightGray;
-		           yourself)
-		          fontSize: 24;
-		          yourself.
-	select listElement placeholderBuilder: [ :placeholder :e |
-		| lab |
-		placeholder layout alignCenter.
-		lab := ToAttributedLabel text: phtext.
-		placeholder addChild: lab ].
+	self buildSelectListElementIn: select withIconProvider: ToAntDesignIconProvider.
 
 	select filtrable: true.
-	icProvider := ToAntDesignIconProvider.
-	styles := ToIconStyle allSubclasses asArray sort: [ :a :b |
-		          a name < b name ].
 
-	iconDescs := Array streamContents: [ :stream |
-		             styles do: [ :style |
-			             | s |
-			             s := ('_' , style prefix , '_loaded') asSymbol.
-			             (icProvider respondsTo: s) ifTrue: [
-				             | iconNames |
-				             iconNames := (icProvider perform: s) sort.
-				             iconNames do: [ :n |
-					             stream nextPut: (ToIconDescExample new
-							              name: n;
-							              style: style;
-							              provider: icProvider;
-							              yourself) ] ] ] ].
-
-	select listElement nodeBuilder: [ :node :holder :iconDesc |
-		| styleLab stylePane iclab iclabPane imPane iconStyle iconName icon |
-		iconStyle := iconDesc style.
-		iconName := iconDesc name.
-		icon := iconDesc icon.
-		node layout: BlLinearLayout horizontal.
-		iclabPane := ToElement new layout: BlFrameLayout new.
-		iclabPane vFitContent.
-		iclabPane hMatchParent.
-		stylePane := ToElement new layout: BlFrameLayout new.
-		stylePane vFitContent.
-		stylePane width: 60.
-		iclab := ToLabel text: iconName.
-		iclab constraintsDo: [ :c | c frame vertical alignCenter ].
-		iclabPane addChild: iclab.
-		styleLab := ToLabel text: iconStyle prefix.
-		styleLab constraintsDo: [ :c | c frame vertical alignCenter ].
-		stylePane addChild: styleLab.
+	select dataViewBuilder: [ :dataItemView :iconDesc |
+		| imPane |
+		dataItemView selectedDataTextField text:
+			iconDesc style prefix , ' ' , iconDesc name.
 		imPane := ToElement new layout: BlFrameLayout new.
 		imPane fitContent.
 		imPane withNullSkin.
-		imPane background: Color veryVeryLightGray.
-		imPane addChild: (icon
-				 size: 24 asPoint;
-				 yourself).
-		node addChildren: {
-				stylePane.
-				iclabPane.
-				imPane }.
-		node childrenDo: [ :child |
-			child constraintsDo: [ :c | c linear vertical alignCenter ] ] ].
+		imPane background: Color veryLightGray.
+		imPane addChild: (iconDesc icon size: 48 asPoint).
+		dataItemView addChild: imPane ].
+	
+	select fakeDataItem: select dataAccessor first.
 
-	select dataViewBuilder: [ :dataItemView :iconDesc |
-		dataItemView selectedDataTextField text:
-			iconDesc style prefix , ' ' , iconDesc name.
-		dataItemView addChild: (iconDesc icon size: 24 asPoint) ].
-	select sieve dataFilter: [ :iconDesc :pattern |
-		(iconDesc style prefix beginsWith: pattern caseSensitive: true) or: [
-			iconDesc name beginsWith: pattern caseSensitive: true ] ].
-
-	select dataAccessor addAll: iconDescs.
 	select hMatchParent.
 	select placeholderText:
 		('Select an icon' asRopedText foreground: Color red).
+
+	select inputTextField requestFocus.
+	select openInSpace
+]
+
+{ #category : #select }
+ToSandBox class >> example_SelectAntDesignIconMultiFiltrable [
+
+	| select   |
+	select := ToMultiSelectElement new.
+	self buildSelectListElementIn: select withIconProvider: ToAntDesignIconProvider.
+
+	select filtrable: true.
+
+	select nodeBuilder: [ :node :iconDesc :holder |
+		| imPane |
+		imPane := ToElement new layout: BlFrameLayout new.
+		imPane fitContent.
+		imPane withNullSkin.
+		imPane background: Color veryLightGray.
+		imPane addChild: (iconDesc icon size: 48 asPoint).
+		node middleElement: imPane ].
+	select fakeDataItem: select dataAccessor first.
+	select hMatchParent.
+	select placeholderText:
+		('Select icons' asRopedText foreground: Color red).
+
+	select inputTextField requestFocus.
+	select openInSpace.
+	select inspect
+]
+
+{ #category : #select }
+ToSandBox class >> example_SelectMaterialDesignIconMonoFiltrable [
+
+	| select   |
+	select := ToSingleSelectElement new.
+	self buildSelectListElementIn: select withIconProvider: ToMaterialDesignIconProvider.
+
+	select filtrable: true.
+
+	select dataViewBuilder: [ :dataItemView :iconDesc |
+		| imPane |
+		dataItemView selectedDataTextField text:
+			iconDesc style prefix , ' ' , iconDesc name.
+		imPane := ToElement new layout: BlFrameLayout new.
+		imPane fitContent.
+		imPane withNullSkin.
+		imPane background: Color veryLightGray.
+		imPane addChild: (iconDesc icon size: 48 asPoint).
+		dataItemView addChild: imPane ].
+	
+	select fakeDataItem: select dataAccessor first.
+
+	select hMatchParent.
+	select placeholderText:
+		('Select an icon' asRopedText foreground: Color red).
+
+	select inputTextField requestFocus.
+	select openInSpace
+]
+
+{ #category : #select }
+ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
+
+	| select   |
+	select := ToMultiSelectElement new.
+	select nodeWrapping: false.
+	select keepPickOrder: true.
+	self buildSelectListElementIn: select withIconProvider: ToMaterialDesignIconProvider.
+
+	select filtrable: true.
+
+	select nodeBuilder: [ :node :iconDesc :holder |
+		| imPane |
+		imPane := ToElement new layout: BlFrameLayout new.
+		imPane fitContent.
+		imPane withNullSkin.
+		imPane background: Color veryLightGray.
+		imPane addChild: (iconDesc icon size: 48 asPoint).
+		node middleElement: imPane ].
+	select fakeDataItem: select dataAccessor first.
+	select hMatchParent.
+	select placeholderText:
+		('Select icons' asRopedText foreground: Color red).
 
 	select inputTextField requestFocus.
 	select openInSpace
@@ -1547,7 +1762,7 @@ ToSandBox class >> example_SelectMonoFiltrable [
 
 	select filtrable: true.
 	select dataAccessor addAll: self statesOfAmerica.
-	select selecter selectIndex: 2.
+	"select selecter selectIndex: 2."
 	select placeholderText:
 		('Select a state' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
@@ -1585,9 +1800,14 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	| select innerWindow |
 	select := ToMultiSelectElement new.
 	select nodeWrapping: true.
-	select innerContainer selectionMode beneathOption animationDuration: 200 milliSeconds.
+	select innerContainer selectionMode option animationDuration:
+		200 milliSeconds.
 	select listElement withRowNumbers.
-	select inspect.
+	select innerContainer nodeBuilder: [ :node :dataItem :holder | 
+		node middleElement: (ToAttributedLabel new
+				 text: dataItem asString;
+				 foreground: Color random;
+				 yourself) ].
 	select hideSelected: false.
 	select dataAccessor addAll: self statesOfAmerica.
 	select filtrable: true.
@@ -1596,8 +1816,9 @@ ToSandBox class >> example_SelectMultiFiltrable [
 		('Select states' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
-	select width: 300.
 	select position: 50 @ 10.
+	select width: 300.
+	select selecter selectIndex: 2.
 	innerWindow pane addChild: select.
 	innerWindow height: 600.
 	innerWindow openInSpace.
@@ -1655,8 +1876,28 @@ ToSandBox class >> example_SelectMultiFiltrableNoWrapping [
 
 	| select innerWindow |
 	select := ToMultiSelectElement new.
-	select inspect.
 	select maxSelectedCount: 6.
+	select nodeWrapping: false.
+	select hideSelected: false.
+	select dataAccessor addAll: self statesOfAmerica.
+	select filtrable: true.
+	select popupMaxHeight: 200.
+	select placeholderText:
+		('Select states' asRopedText foreground: Color red).
+	innerWindow := ToInnerWindow new.
+	select windowManager anchorRoot: innerWindow root.
+	select hMatchParent.
+	innerWindow pane addChild: select.
+	innerWindow height: 600.
+	innerWindow openInSpace
+]
+
+{ #category : #select }
+ToSandBox class >> example_SelectMultiFiltrableNoWrappingKeepPickOrder [
+
+	| select innerWindow |
+	select := ToMultiSelectElement new.
+	select keepPickOrder: true.
 	select nodeWrapping: false.
 	select hideSelected: false.
 	select dataAccessor addAll: self statesOfAmerica.
@@ -1721,6 +1962,10 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected [
 
 	| select innerWindow |
 	select := ToMultiSelectElement new.
+	select listElement selectionMode option elementBuilder: [
+		ToListPrimarySelectionElement new
+			withNullSkin;
+			yourself ].
 	select inspect.
 	select hideSelected: true.
 	select dataAccessor updateAllWith: self statesOfAmerica.
@@ -1762,6 +2007,7 @@ ToSandBox class >> example_SelectMultiFiltrableWithMax [
 
 	| select  |
 	select := self example_SelectMultiFiltrable.
+	select hExact: 200.
 	select maxSelectedCount: 4
 ]
 
@@ -1793,16 +2039,18 @@ ToSandBox class >> example_SelectMultiNotFiltrable [
 
 	| select innerWindow |
 	select := ToMultiSelectElement new.
+	select inspect.
 	select maxSelectedCount: 4.
 	select filtrable: false.
+	select nodeWrapping: true.
 	select dataAccessor addAll: self statesOfAmerica.
 	select placeholderText:
 		('Select states' asRopedText foreground: Color red).
-	select listElement nodeBuilder: [ :node :holder |
-		node addChild: (ToLabel text: holder dataItem asString) hMatchParent ].
+	select listElement nodeBuilder: [ :node :dataItem :holder |
+		node addChild: (ToLabel text: dataItem asString) hMatchParent ].
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
-	select width: 300.
+	select hExact: 300.
 	select position: 50 @ 50.
 
 	innerWindow pane addChild: select.
@@ -1958,7 +2206,7 @@ ToSandBox class >> example_SieveOnList2With_AllClassNames [
 	filterField placeholderBuilder: [ :placeholder :e |
 		placeholder addChild:
 			((ToAttributedLabel text: ' Method name filter')
-				 styleWith: [ :l | l foreground: Color lightGray ];
+				 foreground: Color lightGray;
 				 yourself) ].
 
 	sieve := ToListElementSieve new.
@@ -1970,8 +2218,8 @@ ToSandBox class >> example_SieveOnList2With_AllClassNames [
 		aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
 
 
-	listElement nodeBuilder: [ :node :holder |
-		node addChild: (ToLabel new text: holder dataItem printString) ].
+	listElement nodeBuilder: [ :node :dataItem :holder |
+		node addChild: (ToLabel new text: dataItem printString) ].
 
 	sieve dataFilter: [ :aClass :aPattern |
 		aClass name beginsWith: aPattern caseSensitive: true ].
@@ -1985,11 +2233,11 @@ ToSandBox class >> example_SieveOnList2With_AllClassNames [
 	listElement placeholderBuilder: [ :ph :e |
 		| lab |
 		ph layout alignCenter.
-		lab := (ToAttributedLabel text: 'No Data') styleWith: [ :l |
-			       l
+		lab := (ToAttributedLabel text: 'No Data') 
+			      
 				       foreground: Color lightGray;
 				       fontSize: 24;
-				       yourself ].
+				       yourself.
 		ph addChild: lab ].
 
 	pane addChild: listElement.
@@ -2026,8 +2274,8 @@ ToSandBox class >> example_SieveOnList2With_AllMethods [
 		aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
 
 
-	listElement nodeBuilder: [ :node :holder |
-		node addChild: (ToLabel new text: holder dataItem printString) ].
+	listElement nodeBuilder: [ :node :dataItem :holder |
+		node addChild: (ToLabel new text: dataItem printString) ].
 
 	sieve dataFilter: [ :aCompiledMethod :aPattern |
 		aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
@@ -2041,11 +2289,10 @@ ToSandBox class >> example_SieveOnList2With_AllMethods [
 	listElement placeholderBuilder: [ :ph :e |
 		| lab |
 		ph layout alignCenter.
-		lab := (ToAttributedLabel text: 'No Data') styleWith: [ :l |
-			       l
+		lab := (ToAttributedLabel text: 'No Data') 
 				       foreground: Color lightGray;
 				       fontSize: 24;
-				       yourself ].
+				       yourself.
 		ph addChild: lab ].
 	pane addChild: listElement.
 	pane addChild: filterField.
@@ -2084,8 +2331,8 @@ ToSandBox class >> example_SieveOnList2With_AllMethods_OnCR [
 		aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
 
 
-	listElement nodeBuilder: [ :node :holder |
-		node addChild: (ToLabel new text: holder dataItem printString) ].
+	listElement nodeBuilder: [ :node :dataItem :holder |
+		node addChild: (ToLabel new text: dataItem printString) ].
 
 	sieve dataFilter: [ :aCompiledMethod :aPattern |
 		aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
@@ -2100,11 +2347,10 @@ ToSandBox class >> example_SieveOnList2With_AllMethods_OnCR [
 	listElement placeholderBuilder: [ :ph :e |
 		| lab |
 		ph layout alignCenter.
-		lab := (ToAttributedLabel text: 'No Data') styleWith: [ :l |
-			       l
+		lab := (ToAttributedLabel text: 'No Data') 
 				       foreground: Color lightGray;
 				       fontSize: 24;
-				       yourself ].
+				       yourself.
 		ph addChild: lab ].
 	pane addChild: listElement.
 	pane addChild: filterField.
@@ -2709,7 +2955,7 @@ ToSandBox class >> example_bar [
 	| bar dashBoard rootPane selectionModeBoard |
 	bar := ToBarElement new.
 	bar nodeFactory: [ :holder | ToBarNodeExample new ].
-	bar nodeBuilder: [ :node :holder :dataItem |
+	bar nodeBuilder: [ :node :dataItem :holder|
 		node label:
 			(ToLabel text: holder position asString , ': ' , dataItem asString) ].
 
@@ -2728,7 +2974,6 @@ ToSandBox class >> example_bar [
 								 (selectedIndexes collect: [ :idx | target nodeAt: idx ])
 									 inspect ]) ] ].
 
-	bar vFitContent.
 	dashBoard := self barDashBoardFor: bar.
 	selectionModeBoard := self selectionModeChooserFor: bar.
 	dashBoard constraints linear weight: 0.82.
@@ -2850,9 +3095,10 @@ ToSandBox class >> example_choiceButtonWithPlaceholder [
 	choice withWeakCheckingStrategy.
 	choice data addAll: { 'OS-X'. 'Windows'. 'Linux' }.
 	choice defaultLabel:
-		(ToLabel text: ('Invalid choice' asRopedText
-				  foreground: Color red;
-				  yourself)) withNullSkin.
+		((ToAttributedLabel text: 'Invalid choice' asRopedText)
+			 foreground: Color red;
+			 freeze;
+			 yourself).
 	win pane addChild: choice.
 	win openInSpace
 ]
@@ -2895,7 +3141,8 @@ ToSandBox class >> example_choiceButtonWithWeakStrategy [
 			      fontSize: 12).
 	choice defaultLabel: (ToAttributedLabel new
 			 beMultiLine;
-			 text: t).
+			 text: t;
+			 freeze).
 	choice dataToTextConverter: [ :assoc | assoc key ].
 	choice addEventHandler: (BlEventHandler
 			 on: ToChoiceChangedEvent
@@ -3015,22 +3262,22 @@ ToSandBox class >> example_contactList [
 	contact phoneNumber: '0298010101'.
 	contact address: 'Brest'.
 	contacts add: contact.
-	list nodeBuilder: [ :node :holder |
+	list nodeBuilder: [ :node :dataItem :holder |
 		| line remBut |
 		node ensureCanManageSkin.
 		line := ToElement new
 			        layout: BlLinearLayout horizontal;
 			        matchParent.
 		line addChild: (ToLabel new
-				 text: holder dataItem name;
+				 text: dataItem name;
 				 width: 100;
 				 margin: (BlInsets right: 10)).
 		line addChild: (ToLabel new
-				 text: holder dataItem phoneNumber;
+				 text: dataItem phoneNumber;
 				 width: 100;
 				 margin: (BlInsets right: 10)).
 		line addChild: (ToLabel new
-				 text: holder dataItem address;
+				 text: dataItem address;
 				 width: 200;
 				 margin: (BlInsets right: 10)).
 		line addChild: ToElement new matchParent.
@@ -3598,7 +3845,7 @@ ToSandBox class >> example_scaledImage [
 ToSandBox class >> example_segmentedWithCheckboxes [
 
 	| checkableBar dashBoard |
-	checkableBar := ToSegmentedElement new.
+	checkableBar := ToSegmentedBarElement new.
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
 		checkableBar checkableElementAccessor add: (ToCheckbox new
 				 label: (ToLabel text: l);
@@ -3619,8 +3866,9 @@ ToSandBox class >> example_segmentedWithToggleButton [
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
 		seg segmentAccessor add:
 			((ToToggleButton new label: (ToLabel text: l))
+				 defaultRawSkin: ToToggleInSegmentedSkin new;
 				 whenClickedDo: [ :event | event currentTarget label text traceCr ];
-				 flexible: true;
+				" flexible: true;"
 				 yourself) ].
 
 	dashBoard := self segmentedDashBoardFor: seg.
@@ -3665,8 +3913,8 @@ ToSandBox class >> example_selectWith5Nodes [
 
 	| select innerWindow |
 	select := ToMultiSelectElement new.
-	select listElement nodeBuilder: [ :node :holder |
-		node addChild: (ToLabel text: holder dataItem asString) hMatchParent ].
+	select listElement nodeBuilder: [ :node :dataItem :holder |
+		node addChild: (ToLabel text: dataItem asString) hMatchParent ].
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
 	select width: 300.
@@ -4067,7 +4315,7 @@ ToSandBox class >> example_textFieldWithPlaceholder2 [
 	t placeholderBuilder: [ :placeholder :e |
 		placeholder addChild: (ToAttributedLabel new
 				 text: 'Enter text';
-				 styleWith: [ :l | l foreground: Color veryLightGray ];
+				 foreground: Color veryLightGray;
 				 yourself) ].
 	t whenSaveRequestedDo: [ :saveRequested |
 		saveRequested accepted: true.
@@ -4616,21 +4864,22 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeave [
 ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 
 	| but |
-	self flag: 'not working as expected'.
+	self flag: 'Check the elevation of the editor'.
 	but := ToButton new.
 	but labelText: 'Button with editable tooltip'.
 	but closeTooltipWindowOnMouseLeave: false.
 	but tooltipBuilder: [ :win :theElement |
 		| lab |
-		lab := ToLabel text: ' keep mouse pressed to edit ' asRopedText.
+		lab := ToLabel text: ' keep mouse over with shift key to edit / Return to accept' asRopedText.
 		lab
 			beEditable;
 			stillHoveredStartDelay: 800 milliSeconds;
 			addEventHandler: (BlEventHandler
 					 on: ToStillHoveredSkinEvent
 					 do: [ :event |
-						 event consume.
-						 event currentTarget addEditorEvent: event ]).
+						 event sourceEvent modifiers isShift ifTrue: [
+								 event consume.
+								 event currentTarget addEditorEvent: event ] ]).
 		win root addChild: lab ].
 	but whenClickedDo: [ :ann | self inform: 'Button clicked' ].
 	but openInSpace
@@ -5137,11 +5386,10 @@ ToSandBox class >> example_withCustomMenuItems [
 	menu addSeparator.
 
 	lbl := ToAttributedLabel text: 'Radio button icon first'.
-	lbl styleWith: [ :l |
-		l
+	lbl 
 			italic;
 			fontSize: 12;
-			foreground: Color blue ].
+			foreground: Color blue.
 
 	menu addItem: (ToCustomMenuItem new
 			 innerElement: lbl;
@@ -5277,18 +5525,21 @@ ToSandBox class >> labeledIconlWithIconAndText [
 { #category : #list }
 ToSandBox class >> listWithEditableAndContextMenu [
 
-	| l selectionMenu menuFactory phtext |
+	| l selectionMenu menuFactory phtext disabledMode unselectableMode |
 	l := ToListElement new.
-	l withDisabledSelecter.
-	l withUnselectableSelecter.
-	l withHiddenSelecter.
-	l newDisabledSelectionMode onInstalledIn: l.
-	l newUnselectableSelectionMode
-		elementBuilder: [
-			ToListUnselectableSelectionElement new defaultSkin:
-					ToListUnselectableSelectionElementExempleSkin new ];
-		onInstalledIn: l;
-		beSeparateOverSelection.
+
+	l newHiddenSelectionMode onInstalledIn: l.
+	disabledMode := l newDisabledSelectionMode.
+	disabledMode onInstalledIn: l.
+	disabledMode option elementBuilder: [
+		ToListDisabledSelectionElement new ].
+	
+	unselectableMode := l newUnselectableSelectionMode.
+	unselectableMode onInstalledIn: l.
+
+	unselectableMode option elementBuilder: [
+		ToListUnselectableSelectionElement new defaultSkin:
+			ToListUnselectableSelectionElementExempleSkin new ].
 
 	phtext := (('Invoke the context menu ' , String cr
 	            , 'with a right-click' , String cr
@@ -5308,7 +5559,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 			       yourself.
 		placeholder addChild: lab ].
 
-	l nodeBuilder: [ :node :holder :dataItem |
+	l nodeBuilder: [ :node :dataItem :holder |
 		| lab |
 		lab := ToLabel text: dataItem.
 		lab beMultiLine.
@@ -5367,21 +5618,21 @@ ToSandBox class >> listWithEditableAndContextMenu [
 				                whenClickedDo: [ :event |
 					                target hiddenSelecter deselectAll ];
 				                yourself).
-		               target selectionMode beneathOption isAnimated
+		               target selectionMode option isAnimated
 			               ifTrue: [
 				               menu addItem: (ToMenuItem new
 						                labelText: 'stop selection transition animation';
 						                whenClickedDo: [ :event |
-							                target selectionMode beneathOption
-								                animationDuration: 0 milliSeconds ];
+							                target selectionMode option animationDuration:
+									                0 milliSeconds ];
 						                yourself) ]
 			               ifFalse: [
 				               menu addItem: (ToMenuItem new
 						                labelText:
 							                'start selection transition animation';
 						                whenClickedDo: [ :event |
-							                target selectionMode beneathOption
-								                animationDuration: 200 milliSeconds ];
+							                target selectionMode option animationDuration:
+									                200 milliSeconds ];
 						                yourself) ] ].
 	               indexes ifNotEmpty: [
 		               selectionMenu := ToMenu new.
@@ -5393,8 +5644,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 			               label := node firstChild label.
 			               selectionMenu addItem: (ToMenuItem new
 					                labelText: 'Inspect node';
-					                whenClickedDo: [ :event |
-						                node inspect];
+					                whenClickedDo: [ :event | node inspect ];
 					                yourself).
 			               selectionMenu addItem: (ToMenuItem new
 					                labelText: 'Edit';
@@ -5558,13 +5808,131 @@ ToSandBox class >> path_sharp_electric_bike_SVG [
 ]
 
 { #category : #segmented }
+ToSandBox class >> segmentedConfigurationBoardFor: aBar [
+
+	| confPane verticalSwitch wrappingSwitch scrollingSwitch autoDistributionSwitch sameWidthSwitch selectionAnimationSwitch selectOnMouseDownSwitch inspectButton |
+	confPane := ToPane vertical.
+	confPane padding: (BlInsets all: 5).
+	confPane width: 250.
+	confPane border: Color lightGray.
+
+	inspectButton := ToButton new labelText: 'Inspect'.
+	inspectButton whenClickedDo: [ aBar inspect ].
+	confPane addChild: inspectButton.
+
+	verticalSwitch := ToSwitchButton new labelText: 'Vertical'.
+	verticalSwitch startFlexible: true.
+	verticalSwitch hMatchParent.
+
+	verticalSwitch addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :event | aBar vertical: event current ]).
+	confPane addChild: verticalSwitch.
+
+	wrappingSwitch := ToSwitchButton new labelText: 'Wrapping'.
+	wrappingSwitch startFlexible: true.
+	wrappingSwitch hMatchParent.
+	confPane addChild: wrappingSwitch.
+
+	sameWidthSwitch := ToSwitchButton new labelText:
+		                   'Uniform element width'.
+	sameWidthSwitch startFlexible: true.
+	sameWidthSwitch hMatchParent.
+	sameWidthSwitch checked: false.
+	confPane addChild: sameWidthSwitch.
+
+	scrollingSwitch := ToSwitchButton new labelText: 'Scrolling'.
+	scrollingSwitch startFlexible: true.
+	scrollingSwitch hMatchParent.
+
+	confPane addChild: scrollingSwitch.
+
+	wrappingSwitch addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :event |
+				 | v |
+				 v := event current.
+				 aBar nodeWrapping: v.
+				 sameWidthSwitch enabled: v.
+				 scrollingSwitch disabled: v ]).
+
+	sameWidthSwitch addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :event |
+				 | v |
+				 v := event current.
+				 aBar flowLineUniformWidth: v ]).
+
+	scrollingSwitch addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :event |
+				 | v |
+				 v := event current.
+				 aBar nodeScrolling: v ]).
+
+	autoDistributionSwitch := ToSwitchButton new labelText:
+		                          'Auto-distribution'.
+	autoDistributionSwitch startFlexible: true.
+	autoDistributionSwitch hMatchParent.
+
+	confPane addChild: autoDistributionSwitch.
+	autoDistributionSwitch addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :event |
+				 | v |
+				 v := event current.
+				 aBar nodeAutoDistribution: v ]).
+
+	selectionAnimationSwitch := ToSwitchButton new labelText:
+		                            'Animate selection transition'.
+	selectionAnimationSwitch startFlexible: true.
+	selectionAnimationSwitch hMatchParent.
+
+	confPane addChild: selectionAnimationSwitch.
+	selectionAnimationSwitch addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :event |
+				 | v |
+				 v := event current.
+				 aBar selectionMode option animationDuration: (v
+						  ifTrue: [ 200 milliSeconds ]
+						  ifFalse: [ 0 milliSeconds ]).
+				 aBar secondarySelectionMode option animationDuration: (v
+						  ifTrue: [ 150 milliSeconds ]
+						  ifFalse: [ 0 milliSeconds ]) ]).
+
+	wrappingSwitch checked: true.
+
+	selectOnMouseDownSwitch := ToSwitchButton new
+		                           labelText: 'Select on mouse down';
+		                           id: #selectOnMouseDownSwitch.
+	selectOnMouseDownSwitch startFlexible: true.
+	selectOnMouseDownSwitch hMatchParent.
+
+	confPane addChild: selectOnMouseDownSwitch.
+	selectOnMouseDownSwitch addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :event |
+			 aBar selectionMode selectOnMouseDown: event current ]).
+
+	wrappingSwitch checked: true.
+
+	aBar
+		addEventHandlerOn: ToBarNodeVisibilityEvent
+		do: [ :event |
+		event invisibleNodes ifNotEmpty: [ :in | in traceCr ] ].
+
+	^ confPane
+]
+
+{ #category : #segmented }
 ToSandBox class >> segmentedDashBoardFor: aSegmentedElement [
 
 	| mainPane barPane confPane checkingStrategyPane |
 	mainPane := ToPane horizontal.
 	mainPane matchParent.
 
-	confPane := self configurationBoardFor: aSegmentedElement.
+	confPane := self segmentedConfigurationBoardFor: aSegmentedElement.
 	(confPane childWithId: #selectOnMouseDownSwitch) disable.
 	confPane padding: (BlInsets all: 5).
 	confPane width: 250.

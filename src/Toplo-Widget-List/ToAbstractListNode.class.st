@@ -17,18 +17,17 @@ ToAbstractListNode >> initialize [
 
 	super initialize.
 	self applySkinInstallerOnFirstRequest: true.
-	self layout: self defaultLayout.
-	self addEventHandler: self newEventHandler 
+	self layout: self defaultLayout
+]
+
+{ #category : #testing }
+ToAbstractListNode >> isHorizontal [
+
+	^ self holder listElement isHorizontal
 ]
 
 { #category : #testing }
 ToAbstractListNode >> isSelected [
 
 	^ self holder isSelected
-]
-
-{ #category : #'instance creation' }
-ToAbstractListNode >> newEventHandler [
-
-	^ ToListNodeEventHandler new
 ]

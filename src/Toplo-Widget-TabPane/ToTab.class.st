@@ -4,8 +4,7 @@ Class {
 	#traits : 'TToCheckable + TToOrientable',
 	#classTraits : 'TToCheckable classTrait + TToOrientable classTrait',
 	#instVars : [
-		'checked',
-		'group',
+		'checkableData',
 		'checkHandler',
 		'innerPane',
 		'paneBuilder',
@@ -221,27 +220,15 @@ ToTab >> paneBuilder: aValuable [
 ]
 
 { #category : #'t - checkable - accessing' }
-ToTab >> rawChecked [
+ToTab >> rawCheckableData [
 
-	^ checked ifNil: [ checked := false ]
+	^ checkableData 
 ]
 
 { #category : #'t - checkable - accessing' }
-ToTab >> rawChecked: aBoolean [
+ToTab >> rawCheckableData: aCheckableData [
 
-	checked := aBoolean
-]
-
-{ #category : #'t - checkable - group' }
-ToTab >> rawGroup [
-
-	^ group
-]
-
-{ #category : #'t - checkable - group' }
-ToTab >> rawGroup: aGroup [
-
-	group := aGroup
+	checkableData := aCheckableData
 ]
 
 { #category : #'hooks - children' }
@@ -269,13 +256,13 @@ ToTab >> tabsPane [
 	^ self header parent
 ]
 
-{ #category : #'t - checkable  - protocol' }
+{ #category : #'t - checkable - accessing' }
 ToTab >> withIndeterminate [
 
 	^ false
 ]
 
-{ #category : #'t - checkable  - protocol' }
+{ #category : #'t - checkable - accessing' }
 ToTab >> withIndeterminate: aBoolean [
 
 	Error signal: 'Indeterminate not allowed'

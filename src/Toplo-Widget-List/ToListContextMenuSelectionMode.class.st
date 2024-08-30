@@ -4,23 +4,42 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
-{ #category : #'api - hooks' }
-ToListContextMenuSelectionMode >> installDefaultOptionsIn: anElement [
+{ #category : #initialization }
+ToListContextMenuSelectionMode >> defaultElementBuilder [ 
 
-	overOption := (ToListSelectionOption groupedForMode: self)
-		                 beneath: false;
-		                 yourself.
-	beneathOption := (ToListSelectionOption noneForMode: self)
-		              beneath: true;
-		              yourself.
-	beneathOption onInstalledIn: anElement.
-	overOption onInstalledIn: anElement.
-
-
+	^ [ ToListContextMenuSelectionElement new ]
 ]
 
-{ #category : #testing }
-ToListContextMenuSelectionMode >> isMultipleSelection [
+{ #category : #initialization }
+ToListContextMenuSelectionMode >> defaultOption [
 
-	^ true
+	^ (ToListSelectionOption grouped)
+		  beneath: false;
+		  yourself
+]
+
+{ #category : #initialization }
+ToListContextMenuSelectionMode >> listEventHandlerClass [
+
+	^ ToListContextMenuSelectionElementEventHandler 
+]
+
+{ #category : #'instance creation' }
+ToListContextMenuSelectionMode >> newListEventHandler [
+
+	^ ToListContextMenuSelectionElementEventHandler new 
+]
+
+{ #category : #'instance creation' }
+ToListContextMenuSelectionMode >> newSelecter [
+
+	^ super newSelecter
+		  selectionChangedEventClass: self selectionChangedEventClass;
+		  yourself
+]
+
+{ #category : #'instance creation' }
+ToListContextMenuSelectionMode >> selectionChangedEventClass [ 
+
+	^ ToListContextMenuSelectionChangedEvent
 ]

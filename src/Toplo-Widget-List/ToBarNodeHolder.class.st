@@ -15,7 +15,7 @@ ToBarNodeHolder >> changeDataItem: aDataItem [
 
 	| nodeManager |
 	nodeManager := self nodeManager.
-	nodeManager unbindNode: self node.
+	nodeManager unbuildNode: self node.
 	self dataItem: aDataItem.
 	self build
 ]

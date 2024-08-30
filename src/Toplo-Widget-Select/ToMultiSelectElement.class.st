@@ -3,7 +3,8 @@ Class {
 	#superclass : #ToSelectElement,
 	#instVars : [
 		'hideSelected',
-		'maxSelectedCount'
+		'maxSelectedCount',
+		'keepPickOrder'
 	],
 	#category : #'Toplo-Widget-Select-Multi'
 }
@@ -18,6 +19,12 @@ ToMultiSelectElement >> addGroup: anObject withData: aCollection [
 	self dataAccessor addAll: aCollection
 ]
 
+{ #category : #accessing }
+ToMultiSelectElement >> barElement [ 
+
+	^ self innerContainer
+]
+
 { #category : #'accessing - selection' }
 ToMultiSelectElement >> checkHideSelectionFromListElement [
 
@@ -28,6 +35,12 @@ ToMultiSelectElement >> checkHideSelectionFromListElement [
 ToMultiSelectElement >> checkMaxSelectedCountFromListElement [
 
 	self innerContainer checkMaxSelectedCountFromListElement
+]
+
+{ #category : #accessing }
+ToMultiSelectElement >> fakeDataItem: aDataItem [
+
+	self innerContainer fakeDataItem: aDataItem
 ]
 
 { #category : #accessing }
@@ -67,6 +80,18 @@ ToMultiSelectElement >> innerContainerClass [
 ]
 
 { #category : #accessing }
+ToMultiSelectElement >> keepPickOrder [
+
+	^ keepPickOrder ifNil: [ keepPickOrder := false ]
+]
+
+{ #category : #accessing }
+ToMultiSelectElement >> keepPickOrder: aBoolean [
+
+	keepPickOrder := aBoolean
+]
+
+{ #category : #accessing }
 ToMultiSelectElement >> maxSelectedCount [
 
 	^ maxSelectedCount
@@ -76,8 +101,7 @@ ToMultiSelectElement >> maxSelectedCount [
 ToMultiSelectElement >> maxSelectedCount: aNumber [
 
 	maxSelectedCount := aNumber.
-	self iconContainer maxSelectedCount: aNumber.
-	self listElement secondarySelectionMode multiple: aNumber = 0
+	self iconContainer maxSelectedCount: aNumber
 ]
 
 { #category : #'instance creation' }
@@ -105,6 +129,12 @@ ToMultiSelectElement >> nodeAutoDistribution: aBoolean [
 ]
 
 { #category : #accessing }
+ToMultiSelectElement >> nodeBuilder: aValuable [
+
+	self innerContainer nodeBuilder: aValuable
+]
+
+{ #category : #accessing }
 ToMultiSelectElement >> nodeScrolling: aBoolean [
 
 	self innerContainer nodeScrolling: aBoolean
@@ -114,23 +144,6 @@ ToMultiSelectElement >> nodeScrolling: aBoolean [
 ToMultiSelectElement >> nodeWrapping: aBoolean [
 
 	self innerContainer nodeWrapping: aBoolean
-]
-
-{ #category : #'accessing - selection' }
-ToMultiSelectElement >> onSelectionChanged [
-
-	| listData |
-	listData := self listElement dataAccessor.
-	" update list according to my selection model"
-	listData withIndexDo: [ :d :localIndex |
-		| originalIndex |
-		originalIndex := self sieve originalIndexOf: d.
-		self selectionModel
-			transferSelectionFromIndex: originalIndex
-			toIndex: localIndex
-			in: self listElement selectionModel ].
-	self refresh.
-	self listElement notifyPrimarySelectionDirty
 ]
 
 { #category : #'accessing - list' }

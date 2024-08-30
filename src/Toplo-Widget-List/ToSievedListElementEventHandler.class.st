@@ -28,7 +28,7 @@ ToSievedListElementEventHandler >> eventsToHandle [
 		  BlInfiniteDataSourceItemRangeChanged.
 		  BlInfiniteDataSourceItemRangeInserted.
 		  BlInfiniteDataSourceItemRangeRemoved.
-		  ToListSelectionChangeRequestEvent }
+		  ToListSelectionCommandAppliedEvent }
 ]
 
 { #category : #'data source events handling' }
@@ -59,11 +59,11 @@ ToSievedListElementEventHandler >> infiniteDataSourceItemRangeRemoved: anEvent [
 ]
 
 { #category : #'element handlers' }
-ToSievedListElementEventHandler >> listSelectionChangeRequestEvent: aPreNotification [
+ToSievedListElementEventHandler >> listSelectionCommandAppliedEvent: aPreNotification [
 	" the list selection change event is about to be dispatched.
 	I take care of the sieve internal selectionSet according to the list element selection model"
 
-	| listElement listSelModel |
+	| listElement listSelModel touchedIndexes |
 	listElement := aPreNotification currentTarget.
 	listSelModel := listElement selectionModel.
 	" first check if the request is for the primary selection model "
@@ -73,17 +73,20 @@ ToSievedListElementEventHandler >> listSelectionChangeRequestEvent: aPreNotifica
 	aPreNotification currentTarget isMultipleSelection ifFalse: [
 		sieveSelectionModel deselectAll ].
 
-
-
 	" the selection set is updated according to the pattern:
 	- if empty, the whole selection set is set from the whole list element selection model 
 	- if not empty, the selection set is computed according to the current list node list "
 	sieve pattern
-		ifEmpty: [ sieveSelectionModel copySelectionFrom: listSelModel ]
+		ifEmpty: [
+			touchedIndexes := aPreNotification command indexes.
+			sieveSelectionModel copySelectionFrom: listSelModel ]
 		ifNotEmpty: [
-			listElement dataAccessor withIndexDo: [ :d :localIndex |
-				| originalIndex |
-				originalIndex := dataPositionIndex at: d.
+			touchedIndexes := OrderedCollection new.
+			aPreNotification command indexes do: [ :localIndex |
+				| originalIndex dataItem |
+				dataItem := listElement dataAccessor at: localIndex.
+				originalIndex := dataPositionIndex at: dataItem.
+				touchedIndexes add: originalIndex.
 				listSelModel
 					transferSelectionFromIndex: localIndex
 					toIndex: originalIndex
@@ -94,6 +97,8 @@ ToSievedListElementEventHandler >> listSelectionChangeRequestEvent: aPreNotifica
 	according to the sieve selection"
 	listElement dispatchEvent: (ToSieveSelectionChangedEvent new
 			 sieve: sieve;
+			 sourceCommand: aPreNotification command;
+			 touchedIndexes: touchedIndexes asArray;
 			 selectionModel: sieveSelectionModel;
 			 yourself)
 ]

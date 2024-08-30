@@ -10,13 +10,7 @@ ToTripletElementEventHandler >> eventsToHandle [
 	^ {
 		  ToLayoutDirectionChangedEvent.
 		  ToLayoutOrientationChangedEvent.
-		  BlLayoutConstraintsChangedEvent }
-]
-
-{ #category : #'events handling' }
-ToTripletElementEventHandler >> layoutConstraintsChangedEvent: anEvent [
-
-	anEvent currentTarget requestNewSkin
+		  BlLayoutResizerChangedEvent }
 ]
 
 { #category : #'events handling' }
@@ -31,4 +25,10 @@ ToTripletElementEventHandler >> layoutOrientationChangedEvent: anEvent [
 
 	anEvent currentTarget requestLayout.
 	anEvent currentTarget ensuredSkinManager requestInstallSkinIn: anEvent currentTarget
+]
+
+{ #category : #'events handling' }
+ToTripletElementEventHandler >> layoutResizerChangedEvent: anEvent [
+
+	anEvent currentTarget requestNewSkin
 ]

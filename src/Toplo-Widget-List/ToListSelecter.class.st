@@ -16,16 +16,6 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
 
-{ #category : #'instance creation' }
-ToListSelecter class >> additionalNamed: aSymbol inParentSelecter: aParentSelecter withEventClass: anEventClass [
-
-	^ ToAdditionalSelecter new
-		  uniqueId: aSymbol;
-		  selectionChangedEventClass: anEventClass;
-		  parentSelecter: aParentSelecter;
-		  yourself
-]
-
 { #category : #adding }
 ToListSelecter >> addCommand: aCommand [
 
@@ -62,16 +52,13 @@ ToListSelecter >> beSingleSelection [
 ToListSelecter >> commandApplied: aCommand [
 
 	| req |
-	eventTarget dispatchEvent: (ToSelectionCommandAppliedEvent new
-			 command: aCommand;
-			 yourself).
-
-	req := ToListSelectionChangeRequestEvent new
-		       selectionModel: aCommand selectionModel;
+	selectionChangedEventClass ifNil: [ ^ self ].
+	
+	req := ToListSelectionCommandAppliedEvent new
+		       command: aCommand;
 		       requestedAction: [
 			       eventTarget dispatchEvent: (selectionChangedEventClass new
-						        selectionModel: aCommand selectionModel;
-						        touchedIndexes: aCommand indexes;
+						        command: aCommand;
 						        yourself) ];
 		       yourself.
 
@@ -195,6 +182,8 @@ ToListSelecter >> initialize [
 { #category : #initialization }
 ToListSelecter >> initializeCommandApplier [
 
+	commandApplierEventHandler := ToDataSourceCommandApplierEventHandler new.
+	"commandApplierEventHandler := ToDirectCommandApplierEventHandler new."
 	commandApplierEventHandler := ToQueueBasedCommandApplierEventHandler new
 ]
 
@@ -280,6 +269,7 @@ ToListSelecter >> onInstalledIn: anEventTarget [
 	" the argument is passed as the target of commands.
 	It receives the selection change event after the application of commands "
 
+	selectionModel on: anEventTarget.
 	eventTarget := anEventTarget.
 	commandApplierEventHandler element: anEventTarget.
 	self addEventHandler: commandApplierEventHandler
@@ -470,15 +460,8 @@ ToListSelecter >> selectedIndexes [
 ]
 
 { #category : #accessing }
-ToListSelecter >> selectionChangedEventClass [
-
-	^ selectionChangedEventClass
-]
-
-{ #category : #accessing }
 ToListSelecter >> selectionChangedEventClass: anEventClass [
 
-	selectionChangedEventClass ifNotNil: [ BlImmutableObjectChangeError signal ].
 	selectionChangedEventClass := anEventClass
 ]
 

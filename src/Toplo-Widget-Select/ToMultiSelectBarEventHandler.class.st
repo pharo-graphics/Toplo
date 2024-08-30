@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMultiSelectBarEventHandler,
-	#superclass : #ToListElementEventHandler,
+	#superclass : #ToBarElementEventHandler,
 	#category : #'Toplo-Widget-Select-Multi'
 }
 
@@ -16,8 +16,8 @@ ToMultiSelectBarEventHandler >> elementExtentChangedEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	(target dataSource anySatisfy: [ :item | item isComposite ]) ifFalse: [
-		^ self ].
+	(target dataSource anySatisfy: [ :item | item isComposite ])
+		ifFalse: [ ^ self ].
 	target refresh
 ]
 

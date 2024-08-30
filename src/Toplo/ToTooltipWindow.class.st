@@ -4,10 +4,10 @@ Class {
 	#category : #'Toplo-Core-Tooltip'
 }
 
-{ #category : #accessing }
+{ #category : #initialization }
 ToTooltipWindow >> defaultElevation [
 
-	^ BlRelativeElevation elevation: (SmallInteger maxVal - 300)
+	^ BlRelativeElevation elevation: (SmallInteger maxVal - 200)
 ]
 
 { #category : #initialization }

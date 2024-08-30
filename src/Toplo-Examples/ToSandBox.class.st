@@ -173,7 +173,7 @@ ToSandBox class >> buildSelectListElementIn: aSelectElement withIconProvider: an
 				             | iconNames |
 				             iconNames := (icProvider perform: s) sort.
 				             iconNames do: [ :n |
-					             stream nextPut: (ToIconDescExample new
+					             stream nextPut: (ToIconDescExampleObject new
 							              name: n;
 							              style: style;
 							              provider: icProvider;
@@ -1164,7 +1164,7 @@ ToSandBox class >> example_List2WithSelectionHistory [
 			historyList }.
 
 	statesList addEventHandler:
-		(ToListSelectionHistoryEventHandlerExample new historyList:
+		(ToListSelectionHistoryEventHandlerExamplePart new historyList:
 			 historyList).
 	statesList addEventHandler: (BlEventHandler
 			 on: ToListSelectionCommandAppliedEvent

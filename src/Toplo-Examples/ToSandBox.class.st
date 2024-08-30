@@ -120,8 +120,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 		do: [ :event |
 		event invisibleNodes ifNotEmpty: [ :in | in traceCr ] ].
 
-	confPane addChild: (self resizerBoardFor: aBar horizontal: true).
-	confPane addChild: (self resizerBoardFor: aBar horizontal: false).
+	confPane addChild: (self resizerBoardFor: aBar ).
 
 	^ confPane
 ]
@@ -129,7 +128,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 { #category : #bar }
 ToSandBox class >> barDashBoardFor: aBar [
 
-	| mainPane barPane confPane |
+	| mainPane "barPane" confPane |
 	mainPane := ToPane horizontal.
 	mainPane matchParent.
 
@@ -137,13 +136,12 @@ ToSandBox class >> barDashBoardFor: aBar [
 	confPane padding: (BlInsets all: 5).
 	confPane width: 250.
 	confPane border: Color lightGray.
-	barPane := ToPane vertical.
-	barPane matchParent.
+	"barPane := ToPane vertical."
+	"barPane matchParent."
 	mainPane addChildren: {
 			confPane.
-			barPane }.
-
-	barPane addChild: aBar.
+			aBar }.
+	"barPane addChild: aBar."
 	^ mainPane
 ]
 
@@ -2956,7 +2954,7 @@ ToSandBox class >> example_TwoCoordinateLists [
 { #category : #bar }
 ToSandBox class >> example_bar [
 
-	| bar dashBoard rootPane selectionModeBoard |
+	| bar confBoard rootPane selectionModeBoard |
 	bar := ToBarElement new.
 	bar addStamp: #background withValue: Color veryLightGray.
 	bar nodeFactory: [ :holder | ToBarNodeExample new ].
@@ -2979,15 +2977,16 @@ ToSandBox class >> example_bar [
 								 (selectedIndexes collect: [ :idx | target nodeAt: idx ])
 									 inspect ]) ] ].
 
-	dashBoard := self barDashBoardFor: bar.
+	confBoard := self barConfigurationBoardFor: bar.
 	selectionModeBoard := self selectionModeChooserFor: bar.
+	confBoard addChild: selectionModeBoard.
 	
-	rootPane := ToPane vertical.
+	rootPane := ToPane horizontal.
 	rootPane padding: (BlInsets all: 5).
 	rootPane matchParent.
 	
-	rootPane addChild: dashBoard.
-	rootPane addChild: selectionModeBoard.
+	rootPane addChild: confBoard.
+	rootPane addChild: bar.
 	rootPane addDividers.
 
 	bar dataAccessor addAll: ToSandBox statesOfAmerica. "copyFrom: 1 to: 20"
@@ -5836,46 +5835,76 @@ ToSandBox class >> path_sharp_electric_bike_SVG [
 ]
 
 { #category : #bar }
-ToSandBox class >> resizerBoardFor: aBar horizontal: hbool [
+ToSandBox class >> resizerBoardFor: aBar [
 
-	| group buttons container t |
-	group := ToCheckableGroup new.
-	buttons := OrderedCollection new.
-	{ #matchParent. #fitContent. #exact } do: [ :r |
-		| cbox |
-		cbox := ToCheckbox new
-			        labelText: r asString;
-			        id: r.
-		buttons add: cbox ].
+	| pane group buttons container |
+	pane := ToPane horizontal.
+	{ #Horizontal. #Vertical } do: [ :dir |
+		| sizeInputPane sizeInput |
+		sizeInputPane := ToPane horizontal.
+		sizeInputPane layout cellSpacing: 5.
+		sizeInputPane childrenDo: [ :child |
+			child constraints linear vertical alignCenter ].
+		sizeInputPane addChild: (ToLabel text: 'Size:').
+		sizeInput := ToTextField new
+			             withoutLineWrapping;
+			             withSaveCapability;
+			             yourself.
+		aBar addEventHandlerOn: BlElementExtentChangedEvent do: [ :event |
+			dir = #Horizontal
+				ifTrue: [ sizeInput text: aBar width asString ]
+				ifFalse: [ sizeInput text: aBar height asString ] ].
+		sizeInput whenSaveRequestedDo: [ :saveRequested |
+			| size |
+			size := saveRequested client text asString asInteger.
+			size ifNotNil: [
+				saveRequested accepted: true.
+				dir = #Horizontal
+					ifTrue: [ aBar width: size ]
+					ifFalse: [ aBar height: size ] ] ].
 
-	group registerAll: buttons.
-	group addEventHandler: (BlEventHandler
-			 on: ToCheckableGroupChangedEvent
-			 do: [ :event |
-				 | mode |
-				 mode := event checkedList first id asSymbol.
-				 mode = #matchParent
-					 ifTrue: [
-						 hbool
-							 ifTrue: [ aBar hMatchParent ]
-							 ifFalse: [ aBar vMatchParent ] ]
-					 ifFalse: [
-						 mode = #fitContent
-							 ifTrue: [
-								 hbool
-									 ifTrue: [ aBar hFitContent ]
-									 ifFalse: [ aBar vFitContent ] ]
-							 ifFalse: [  ] ] ]).
-	buttons first checked: true.
-	container := ToPane vertical.
-	container border: Color lightGray.
-	container padding: (BlInsets all: 2).
-	container hMatchParent.
-	container vFitContent.
-	t := hbool ifTrue: [ 'Horizontal' ] ifFalse: [ 'Vertical' ].
-	container addChild: (ToLabel text: t).
-	container addChildren: group registeredCheckables.
-	^ container
+		sizeInputPane addChild: sizeInput.
+		sizeInputPane childrenDo: [ :child |
+			child constraints linear vertical alignCenter ].
+
+		group := ToCheckableGroup new.
+		buttons := OrderedCollection new.
+		{ #matchParent. #fitContent. #exact } do: [ :r |
+			| cbox |
+			cbox := ToCheckbox new
+				        labelText: r asString;
+				        id: r.
+			buttons add: cbox ].
+		group registerAll: buttons.
+		group addEventHandler: (BlEventHandler
+				 on: ToCheckableGroupChangedEvent
+				 do: [ :event |
+					 | mode |
+					 sizeInputPane enabled: false.
+					 mode := event checkedList first id asSymbol.
+					 mode = #matchParent
+						 ifTrue: [
+							 dir = #Horizontal
+								 ifTrue: [ aBar hMatchParent ]
+								 ifFalse: [ aBar vMatchParent ] ]
+						 ifFalse: [
+							 mode = #fitContent
+								 ifTrue: [
+									 dir = #Horizontal
+										 ifTrue: [ aBar hFitContent ]
+										 ifFalse: [ aBar vFitContent ] ]
+								 ifFalse: [ sizeInputPane enabled: true ] ] ]).
+		buttons first checked: true.
+		container := ToPane vertical.
+		container border: Color lightGray.
+		container padding: (BlInsets all: 2).
+		container hMatchParent.
+		container vFitContent.
+		container addChild: (ToLabel text: dir asString).
+		container addChildren: group registeredCheckables.
+		container addChild: sizeInputPane.
+		pane addChild: container ].
+	^ pane
 ]
 
 { #category : #segmented }
@@ -5968,7 +5997,8 @@ ToSandBox class >> selectionModeChooserFor: aBar [
 				 mode = #Multiple
 					 ifTrue: [ aBar primarySelectionMode multiple: true ]
 					 ifFalse: [
-					 mode = #Single ifTrue: [ aBar selectionMode multiple: false ] ] ]).
+						 mode = #Single ifTrue: [
+							 aBar primarySelectionMode multiple: false ] ] ]).
 	buttons first checked: true.
 	selectionModeContainer := ToPane vertical.
 	selectionModeContainer border: Color lightGray.

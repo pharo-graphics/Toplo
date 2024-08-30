@@ -1,15 +1,18 @@
+"
+I'm part of a larger example. I'm not expected to be used as a standalone.
+"
 Class {
-	#name : #ToListSelectionHistoryEventHandlerExample,
+	#name : #ToListSelectionHistoryEventHandlerExamplePart,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'historyList',
 		'currentTarget'
 	],
-	#category : #'Toplo-Examples'
+	#category : #'Toplo-Examples-Parts'
 }
 
 { #category : #'event handling' }
-ToListSelectionHistoryEventHandlerExample >> addIndexesSelectionCommand: aCommand [
+ToListSelectionHistoryEventHandlerExamplePart >> addIndexesSelectionCommand: aCommand [
 
 	aCommand operation deselectAllBefore ifTrue: [
 		historyList data removeAll ].
@@ -17,7 +20,7 @@ ToListSelectionHistoryEventHandlerExample >> addIndexesSelectionCommand: aComman
 ]
 
 { #category : #'event handling' }
-ToListSelectionHistoryEventHandlerExample >> addIntervalSelectionCommand: aCommand [
+ToListSelectionHistoryEventHandlerExamplePart >> addIntervalSelectionCommand: aCommand [
 
 	| s |
 	aCommand operation deselectAllBefore ifTrue: [
@@ -29,7 +32,7 @@ ToListSelectionHistoryEventHandlerExample >> addIntervalSelectionCommand: aComma
 ]
 
 { #category : #'event handling' }
-ToListSelectionHistoryEventHandlerExample >> addWholeSelectionCommand: aCommand [
+ToListSelectionHistoryEventHandlerExamplePart >> addWholeSelectionCommand: aCommand [
 
 	(historyList dataAccessor includes: currentTarget dataAccessor last)
 		ifTrue: [ ^ self ].
@@ -37,25 +40,25 @@ ToListSelectionHistoryEventHandlerExample >> addWholeSelectionCommand: aCommand 
 ]
 
 { #category : #'api - accessing' }
-ToListSelectionHistoryEventHandlerExample >> eventsToHandle [
+ToListSelectionHistoryEventHandlerExamplePart >> eventsToHandle [
 
 	^ { ToListSelectionCommandAppliedEvent }
 ]
 
 { #category : #accessing }
-ToListSelectionHistoryEventHandlerExample >> historyList [
+ToListSelectionHistoryEventHandlerExamplePart >> historyList [
 
 	^ historyList
 ]
 
 { #category : #accessing }
-ToListSelectionHistoryEventHandlerExample >> historyList: aList [
+ToListSelectionHistoryEventHandlerExamplePart >> historyList: aList [
 
 	historyList := aList
 ]
 
 { #category : #'event handling' }
-ToListSelectionHistoryEventHandlerExample >> listSelectionCommandAppliedEvent: aCommandAppliedEvent [
+ToListSelectionHistoryEventHandlerExamplePart >> listSelectionCommandAppliedEvent: aCommandAppliedEvent [
 
 	currentTarget := aCommandAppliedEvent currentTarget.
 	" check that the command is applied on the primary selection model "
@@ -66,13 +69,13 @@ ToListSelectionHistoryEventHandlerExample >> listSelectionCommandAppliedEvent: a
 ]
 
 { #category : #'event handling' }
-ToListSelectionHistoryEventHandlerExample >> removeIndexesSelectionCommand: aCommand [
+ToListSelectionHistoryEventHandlerExamplePart >> removeIndexesSelectionCommand: aCommand [
 
 
 ]
 
 { #category : #'event handling' }
-ToListSelectionHistoryEventHandlerExample >> removeIntervalSelectionCommand: aCommand [
+ToListSelectionHistoryEventHandlerExamplePart >> removeIntervalSelectionCommand: aCommand [
 
 	(historyList dataAccessor includes:
 		 (currentTarget dataAccessor at: aCommand to)) ifFalse: [ ^ self ].
@@ -81,7 +84,7 @@ ToListSelectionHistoryEventHandlerExample >> removeIntervalSelectionCommand: aCo
 ]
 
 { #category : #'event handling' }
-ToListSelectionHistoryEventHandlerExample >> removeWholeSelectionCommand: aCommand [
+ToListSelectionHistoryEventHandlerExamplePart >> removeWholeSelectionCommand: aCommand [
 
 	historyList dataAccessor removeAll
 ]

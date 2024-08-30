@@ -1,11 +1,16 @@
+"
+I'm part of a larger example. I'm not expected to be opened as a standalone. 
+
+Check `ToSandBox >> example_ListWithAllClassesAndTraitsSorted` and `ToMiniBrowser`
+"
 Class {
-	#name : #ToClassNameViewExample,
+	#name : #ToClassNameViewExamplePart,
 	#superclass : #ToListNode,
-	#category : #'Toplo-Examples'
+	#category : #'Toplo-Examples-Parts'
 }
 
 { #category : #initialization }
-ToClassNameViewExample >> class: aClass position: anInteger [
+ToClassNameViewExamplePart >> class: aClass position: anInteger [
 
 	self addChild: (ToLabeledIcon new
 			 beStartToEnd;
@@ -19,20 +24,20 @@ ToClassNameViewExample >> class: aClass position: anInteger [
 ]
 
 { #category : #private }
-ToClassNameViewExample >> colorFor: index [
+ToClassNameViewExamplePart >> colorFor: index [
 
 	index odd ifTrue: [ ^ Color transparent].
 	^ Color gray alpha: 0.1
 ]
 
 { #category : #private }
-ToClassNameViewExample >> iconFor: aClass [
+ToClassNameViewExamplePart >> iconFor: aClass [
 
 	^ ToImage new innerImage: (self iconImageFor: aClass)
 ]
 
 { #category : #private }
-ToClassNameViewExample >> iconImageFor: aClass [
+ToClassNameViewExamplePart >> iconImageFor: aClass [
 
 	((aClass includesBehavior:
 		  (Smalltalk globals at: #TestCase ifAbsent: [ false ])) and: [
@@ -46,7 +51,7 @@ ToClassNameViewExample >> iconImageFor: aClass [
 ]
 
 { #category : #initialization }
-ToClassNameViewExample >> initialize [
+ToClassNameViewExamplePart >> initialize [
 
 	super initialize.
 	self constraintsDo: [ :c |

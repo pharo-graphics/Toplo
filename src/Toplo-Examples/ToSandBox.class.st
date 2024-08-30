@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSandBox,
 	#superclass : #Object,
-	#category : #'Toplo-Examples'
+	#category : #'Toplo-Examples-SandBox'
 }
 
 { #category : #bar }
@@ -173,7 +173,7 @@ ToSandBox class >> buildSelectListElementIn: aSelectElement withIconProvider: an
 				             | iconNames |
 				             iconNames := (icProvider perform: s) sort.
 				             iconNames do: [ :n |
-					             stream nextPut: (ToIconDescExample new
+					             stream nextPut: (ToIconDescExampleObject new
 							              name: n;
 							              style: style;
 							              provider: icProvider;
@@ -279,7 +279,7 @@ ToSandBox class >> example_BasicListWithAllClasses3 [
 	| l |
 	l := ToListElement new nodeBuilder: [ :node :dataItem :holder |
 		     | icn lab |
-		     icn :=  dataItem hasComment
+		     icn := dataItem hasComment
 			            ifTrue: [ #class ]
 			            ifFalse: [ #uncommentedClass ].
 		     lab := ToLabel new
@@ -291,14 +291,13 @@ ToSandBox class >> example_BasicListWithAllClasses3 [
 				      icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
 				      startInterspace: 10;
 				      hMatchParent) ].
-	l inspect.
 	l addEventHandler: (BlEventHandler
 			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :evt | evt traceCr ]).
 
 	l withRowNumbers.
 	l dataAccessor addAll: Smalltalk globals allClasses.
-	l selecter selectIndexes: #(10 12 3).
+	l selecter selectIndexes: #( 10 12 3 ).
 
 	l innerContainer requestFocus.
 	l openInInnerWindow
@@ -387,12 +386,13 @@ ToSandBox class >> example_ButtonTurnedAsToggleButton [
 
 	| toggle |
 	ToTheme cleanUp.
-	toggle := ToButton new label: (ToLabel text: 'Regular button turned as Toggle button').
+	toggle := ToButton new label:
+		          (ToLabel text: 'Regular button turned as Toggle button').
 	toggle checkable: true.
 	toggle icon: (ToImage new innerImage: (self iconNamed: #solidMenu)).
 	toggle checked: false.
 	toggle openInInnerWindow.
-	toggle inspect
+
 ]
 
 { #category : #'button-dep' }
@@ -470,7 +470,7 @@ ToSandBox class >> example_CheckboxChecked [
 		event traceCr ].
 	chb checked: true.
 	chb openInInnerWindow.
-	chb inspect
+
 ]
 
 { #category : #checkbox }
@@ -579,9 +579,8 @@ ToSandBox class >> example_CheckboxNoLabel [
 
 	| chb |
 	ToTheme cleanUp.
-	chb := ToCheckbox new .
+	chb := ToCheckbox new.
 	chb checked: true.
-	chb inspect.
 	chb openInInnerWindow
 ]
 
@@ -656,7 +655,7 @@ ToSandBox class >> example_CheckboxVertical [
 			 do: [ :evt | evt target = chb ifTrue: [ evt traceCr ] ]).
 	chb checked: true.
 	chb openInInnerWindow.
-	chb inspect
+
 ]
 
 { #category : #checkbox }
@@ -701,7 +700,6 @@ ToSandBox class >> example_CheckboxWithIndeterminate [
 	| but |
 	but := ToCheckbox new labelText: 'Checkbox'.
 	but withIndeterminate: true.
-	but inspect.
 	but openInSpace
 ]
 
@@ -711,7 +709,6 @@ ToSandBox class >> example_CodeEditor [
 	| text album menuBuilder |
 	text := self methodText asRopedText fontName: 'Source Code Pro'.
 	album := ToAlbum new.
-	album inspect.
 	album styler: (BlPharoCodeStyler new
 			 classOrMetaClass: self class;
 			 yourself).
@@ -769,7 +766,7 @@ ToSandBox class >> example_EditableList2WithAllClassesNames [
 	l := ToListElement new.
 	l beVertical.
 	l
-		nodeFactory: [ ToListClassNodeExample new ];
+		nodeFactory: [ ToListClassNodeExamplePart new ];
 		nodeBuilder: [ :node :dataItem :holder |
 			node forClassNameAssoc: dataItem ];
 		addEventHandler: (BlEventHandler
@@ -1012,10 +1009,9 @@ ToSandBox class >> example_HugeIntegerList [
 { #category : #'labeled icon' }
 ToSandBox class >> example_LabeledIconlWithIconAndText [
 
-	| but  |
+	| but |
 	but := self labeledIconlWithIconAndText.
 	but hMatchParent.
-	but inspect.
 	but openInSpace.
 	^ but
 ]
@@ -1164,7 +1160,7 @@ ToSandBox class >> example_List2WithSelectionHistory [
 			historyList }.
 
 	statesList addEventHandler:
-		(ToListSelectionHistoryEventHandlerExample new historyList:
+		(ToListSelectionHistoryEventHandlerExamplePart new historyList:
 			 historyList).
 	statesList addEventHandler: (BlEventHandler
 			 on: ToListSelectionCommandAppliedEvent
@@ -1180,13 +1176,12 @@ ToSandBox class >> example_List2WithSelectionHistory [
 ToSandBox class >> example_ListOneClass [
 
 	| l |
-	l := ToListElement new nodeBuilder: [ :node :dataItem  :holder |
+	l := ToListElement new nodeBuilder: [ :node :dataItem :holder |
 		     node addChild: (ToCheckbox new
 				      labelText: dataItem name;
 				      startInterspace: 10;
 				      hMatchParent) ].
 	l dataAccessor addAll: { Smalltalk globals allClasses first }.
-	l inspect.
 	l openInSpace
 ]
 
@@ -1274,7 +1269,7 @@ ToSandBox class >> example_ListWithAllClassesAndTraitsSorted [
 	| l vscrollBar space |
 	l := ToListElement new nodeBuilder: [ :node :dataItem :holder |
 			node ensureCanManageSkin.
-		     node addChild: (ToClassNameViewExample new
+		     node addChild: (ToClassNameViewExamplePart new
 				      class: dataItem position: holder position;
 				      yourself) ].
 	l withRowNumbers.
@@ -1378,7 +1373,7 @@ ToSandBox class >> example_ListWithPanes [
 				                 margin: (BlInsets all: 1);
 				                 padding: (BlInsets all: 1);
 				                 yourself.
-			        blContent := ToPaneNodeExample new.
+			        blContent := ToPaneNodeExamplePart new.
 			        blContent addChild: title at: 1.
 			        blContent margin: (BlInsets all: 4).
 			        blContent padding: (BlInsets all: 12).
@@ -1401,7 +1396,6 @@ ToSandBox class >> example_NodeContainerWithStatesOfAmerica [
 			 do: [ :evt | evt traceCr ]).
 	l horizontal: true.
 	l dataAccessor addAll: self statesOfAmerica.
-	l inspect.
 	l openInSpace
 ]
 
@@ -1464,7 +1458,6 @@ ToSandBox class >> example_PicsumPhotosGallery [
 	list := ToListElement new
 		        matchParent;
 		        yourself.
-	list inspect.
 	list
 		nodeHolderClass: ToPicsumPhotosGalleryImageHolder;
 		nodeFactory: [ ToPicsumPhotosGalleryImageNode new ];
@@ -1587,7 +1580,6 @@ ToSandBox class >> example_RadioButtonWithIndeterminate [
 	but withIndeterminate: true.
 	but checked: #something. " any value except a boolean (and except nil) for indeterminate state "
 	but labelText: 'Radio'.
-	but inspect.
 	but openInSpace
 ]
 
@@ -1660,9 +1652,11 @@ ToSandBox class >> example_SelectAntDesignIconMonoFiltrable [
 { #category : #select }
 ToSandBox class >> example_SelectAntDesignIconMultiFiltrable [
 
-	| select   |
+	| select |
 	select := ToMultiSelectElement new.
-	self buildSelectListElementIn: select withIconProvider: ToAntDesignIconProvider.
+	self
+		buildSelectListElementIn: select
+		withIconProvider: ToAntDesignIconProvider.
 
 	select filtrable: true.
 
@@ -1681,7 +1675,6 @@ ToSandBox class >> example_SelectAntDesignIconMultiFiltrable [
 
 	select inputTextField requestFocus.
 	select openInSpace.
-	select inspect
 ]
 
 { #category : #select }
@@ -1747,7 +1740,6 @@ ToSandBox class >> example_SelectMonoFiltrable [
 
 	| select innerWindow phtext |
 	select := ToSingleSelectElement new.
-	select inspect.
 	select listElement placeholderMinHeight: 35.
 	phtext := ('No Data' asRopedText
 		           foreground: Color lightGray;
@@ -1780,10 +1772,10 @@ ToSandBox class >> example_SelectMonoNotFiltrable [
 
 	| select innerWindow |
 	select := ToSingleSelectElement new.
-	select inspect.
 	select filtrable: false.
 	select dataAccessor addAll: self statesOfAmerica.
-	select placeholderText: ('Select a state' asRopedText foreground: Color red).
+	select placeholderText:
+		('Select a state' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
 	select windowManager anchorRoot: innerWindow root.
 	select listElement withRowNumbers.
@@ -1830,7 +1822,6 @@ ToSandBox class >> example_SelectMultiFiltrableAutoDistribution [
 
 	| select innerWindow |
 	select := ToMultiSelectElement new.
-	select inspect.
 	select nodeWrapping: false.
 	select dataAccessor addAll: self statesOfAmerica.
 	select nodeAutoDistribution: true.
@@ -1852,7 +1843,6 @@ ToSandBox class >> example_SelectMultiFiltrableAutoDistributionWithMax [
 
 	| select innerWindow |
 	select := ToMultiSelectElement new.
-	select inspect.
 	select maxSelectedCount: 4.
 	select nodeWrapping: false.
 	select nodeAutoDistribution: true.
@@ -1918,7 +1908,6 @@ ToSandBox class >> example_SelectMultiFiltrableNotWrappingAutoDistribution [
 
 	| select innerWindow |
 	select := ToMultiSelectElement new.
-	select inspect.
 	select nodeWrapping: false.
 	select nodeAutoDistribution: true.
 	select hideSelected: false.
@@ -1940,7 +1929,6 @@ ToSandBox class >> example_SelectMultiFiltrableScrolling [
 
 	| select innerWindow |
 	select := ToMultiSelectElement new.
-	select inspect.
 	select nodeScrolling: true.
 	select nodeWrapping: false.
 	select hideSelected: false.
@@ -1966,7 +1954,6 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected [
 		ToListPrimarySelectionElement new
 			withNullSkin;
 			yourself ].
-	select inspect.
 	select hideSelected: true.
 	select dataAccessor updateAllWith: self statesOfAmerica.
 	select filtrable: true.
@@ -2016,7 +2003,6 @@ ToSandBox class >> example_SelectMultiFiltrableWrappingAutoDistribution [
 
 	| select innerWindow |
 	select := ToMultiSelectElement new.
-	select inspect.
 	"select maxSelectedCount: 6."
 	select nodeWrapping: true.
 	select nodeAutoDistribution: true.
@@ -2039,7 +2025,6 @@ ToSandBox class >> example_SelectMultiNotFiltrable [
 
 	| select innerWindow |
 	select := ToMultiSelectElement new.
-	select inspect.
 	select maxSelectedCount: 4.
 	select filtrable: false.
 	select nodeWrapping: true.
@@ -2063,7 +2048,6 @@ ToSandBox class >> example_SelectMultiNotFiltrableWithGroups [
 
 	| select innerWindow phtext |
 	select := ToMultiSelectElement new.
-	select inspect.
 	select listElement placeholderMinHeight: 35.
 	phtext := ('No Data' asRopedText
 		           foreground: Color lightGray;
@@ -2112,7 +2096,6 @@ ToSandBox class >> example_SieveOnList2WithStatesOfAmerica [
 
 	sieve := ToListElementSieve new.
 	sieve onInstalledIn: listElement.
-	sieve inspect.
 	listElement dataAccessor addAll: data.
 
 	filterField addEventHandler: (BlEventHandler
@@ -2135,12 +2118,14 @@ ToSandBox class >> example_SieveOnList2WithStatesOfAmerica [
 	pane addChild: listElement.
 	pane addChild: filterField.
 	pane openInSpace.
-	^ listElement->sieve
+	^ listElement -> sieve
 ]
 
 { #category : #list }
 ToSandBox class >> example_SieveOnList2With_350000_Items [
-
+	"Pay attention this method is not super slow
+	and not part of the example tests
+	"
 	| listElement pane filterField data sieve |
 	pane := ToPane new
 		        beVertical;
@@ -2400,7 +2385,6 @@ ToSandBox class >> example_SkinEventTrace [
 			 on: ToSkinEvent
 			 do: [ :evt | evt target = but ifTrue: [ evt traceCr ] ]).
 	but stillPressedStartDelay: 3000 milliSeconds.
-	but inspect.
 	but openInSpace
 ]
 
@@ -2418,9 +2402,11 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 		| lab im node |
 		im := ToImage new innerImage: (Smalltalk ui icons iconNamed: k).
 		lab := ToLabel new text: k asString.
-		node := ToButton new icon: im; label: lab; yourself.
+		node := ToButton new
+			        icon: im;
+			        label: lab;
+			        yourself.
 		node width: 600.
-		node justified: true.
 		column addChild: node ].
 
 	root := column asScrollableElement.
@@ -2446,8 +2432,7 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 ToSandBox class >> example_StyleSheetSandbox [
 
 	| b |
-	"b := ToCheckbox new."
-	"b := ToRadioButton new."
+	"b := ToCheckbox new.""b := ToRadioButton new."
 	b := ToButton new.
 	b localTheme: ToBeeTheme new.
 
@@ -2460,7 +2445,7 @@ ToSandBox class >> example_StyleSheetSandbox [
 	b addStamp: #'icon-first'.
 	b addStamp: #'label-first'.
 	"b withStamp: #'interspace-1' -> 300."
-	
+
 	"b stampWith: #circle."
 	"b stampWith: #round."
 	"b stampWith: #link. "
@@ -2477,270 +2462,7 @@ ToSandBox class >> example_StyleSheetSandbox [
 	b openInSpace.
 	b width: 200.
 	"b size: 100 @ 100."
-
-	b inspect.
 	"b matchParent"
-]
-
-{ #category : #'button-dep' }
-ToSandBox class >> example_StyleSheetSandboxDarkTheme [
-
-	| b |
-	"b := ToCheckbox new."
-	"b := ToRadioButton new."
-	b := ToButton new.
-	"b := ToToggleButton new."
-	"b stampWith: #primary. "
-	"b stampWith: #'large-sizing'."
-	"b stampWith: #'small-sizing'."
-
-	"b stampWith: #vertical."
-	b addStamp: #'icon-first'.
-	b addStamp: #'label-first'.
-	b addStamp: #'interspace-1' -> 300.
-	"b justified: true."
-	"b stampWith: #circle."
-	"b stampWith: #round."
-	"b stampWith: #link. "
-	"b stampWith: #danger."
-	"b stampWith: #dashed."
-	b
-		iconImage: ToThemeIcons searchOutlined16x16;
-		labelText: 'Close'.
-	"b labelFirst: true."
-	"b checked: nil."
-	"b withIndeterminate: true."
-	"b innerElement border: (BlBorder paint: Color black)."
-
-	(b openInSpace) localTheme: ToBeeDarkTheme new.
-	"b width: 200."
-	"b size: 100 @ 100."
-
-	"b inspect.
-	b matchParent"
-]
-
-{ #category : #'button-dep' }
-ToSandBox class >> example_ToButtonSkins [
-
-	| space pane themeSwitcher butBuilder buttonSpecsBuilder enablementSwitcher allButtons sizingGroup smallSizingRadio middleSizingRadio largeSizingRadio shapingGroup circleShapingRadio defaultShapingRadio roundShapingRadio topBar buttonBar directionSwitcher orientationSwitcher |
-	space := BlSpace new.
-	allButtons := OrderedCollection new.
-
-	space root layout: (BlLinearLayout vertical cellSpacing: 10).
-	topBar := ToMenuBar new
-		          beHorizontal;
-		          hMatchParent;
-		          vFitContent.
-	topBar layout cellSpacing: 10.
-
-	themeSwitcher := ToChoiceMenu new.
-	themeSwitcher width: 150.
-	themeSwitcher data addAll: {
-			ToBeeTheme new.
-			ToBeeDarkTheme new }.
-
-	themeSwitcher whenSelectedIndexChangedDo: [
-		space toTheme: themeSwitcher selectedData new ].
-	themeSwitcher selectData: space toTheme class.
-	topBar addChild: themeSwitcher.
-
-	enablementSwitcher := ToSwitchIcon new.
-	enablementSwitcher switchBarOnElement: (ToLabel text: 'Enabled').
-	enablementSwitcher switchBarOffElement: (ToLabel text: 'Disabled').
-	enablementSwitcher check.
-	enablementSwitcher
-		when: ToCheckableCheckEvent
-		do: [ :event |
-		allButtons do: [ :b | b enabled: event target isChecked ] ].
-
-	topBar addChild: enablementSwitcher.
-
-	buttonBar := ToPane vertical vFitContent.
-
-	sizingGroup := ToCheckableGroup new.
-	smallSizingRadio := ToRadioButton new labelText: 'Small'.
-	smallSizingRadio userData at: #sizing put: #'small-sizing'.
-	middleSizingRadio := ToRadioButton new labelText: 'Middle'.
-	middleSizingRadio userData at: #sizing put: #'middle-sizing'.
-	largeSizingRadio := ToRadioButton new labelText: 'Large'.
-	largeSizingRadio userData at: #sizing put: #'large-sizing'.
-	middleSizingRadio checked: true.
-	sizingGroup addAll: {
-			smallSizingRadio.
-			middleSizingRadio.
-			largeSizingRadio }.
-	sizingGroup when: ToCheckableGroupChangedEvent do: [ :event |
-		| choice sizing |
-		choice := event uncheckedList anyOne.
-		sizing := choice userData at: #sizing.
-		allButtons do: [ :but | but sizing: sizing ] ].
-
-	buttonBar addChildren: {
-			smallSizingRadio.
-			middleSizingRadio.
-			largeSizingRadio }.
-	topBar addChild: buttonBar.
-
-	buttonBar := ToPane vertical vFitContent.
-
-	shapingGroup := ToCheckableGroup new.
-	circleShapingRadio := ToRadioButton new labelText: 'Circle'.
-	circleShapingRadio userData at: #shaping put: #circle.
-	defaultShapingRadio := ToRadioButton new labelText: 'Default shape'.
-	defaultShapingRadio userData at: #shaping put: #'default-shaping'.
-	roundShapingRadio := ToRadioButton new labelText: 'Round'.
-	roundShapingRadio userData at: #shaping put: #round.
-	defaultShapingRadio checked: true.
-	shapingGroup addAll: {
-			circleShapingRadio.
-			defaultShapingRadio.
-			roundShapingRadio }.
-	shapingGroup when: ToCheckableGroupChangedEvent do: [ :event |
-		| choice shaping |
-		choice := event uncheckedList anyOne.
-		shaping := choice userData at: #shaping.
-		allButtons do: [ :but | but shaping: shaping ] ].
-
-	buttonBar addChildren: {
-			circleShapingRadio.
-			defaultShapingRadio.
-			roundShapingRadio }.
-
-	topBar addChild: buttonBar.
-
-	directionSwitcher := ToSwitchIcon new
-		                     labelText: 'Icon first';
-		                     beEndToStart;
-		                     yourself.
-	directionSwitcher check.
-	directionSwitcher when: ToCheckableCheckEvent do: [ :event |
-		allButtons do: [ :b | b startToEnd: event target isChecked ] ].
-	topBar addChild: directionSwitcher.
-
-	orientationSwitcher := ToSwitchIcon new
-		                       labelText: 'Horizontal';
-		                       beEndToStart;
-		                       yourself.
-	orientationSwitcher check.
-	orientationSwitcher when: ToCheckableCheckEvent do: [ :event |
-		allButtons do: [ :b | b horizontal: event target isChecked ] ].
-	topBar addChild: orientationSwitcher.
-
-	topBar childrenDo: [ :child |
-		child constraintsDo: [ :c | c linear vertical alignCenter ] ].
-
-	circleShapingRadio when: ToCheckableCheckEvent do: [ :event |
-		event current
-			ifTrue: [
-				directionSwitcher enabled: false.
-				orientationSwitcher enabled: false ]
-			ifFalse: [
-				directionSwitcher enabled: true.
-				orientationSwitcher enabled: true ] ].
-
-	space root addChild: topBar.
-
-	butBuilder := [
-	              ToImage new innerImage:
-		              ToThemeIcons searchOutlined16x16 ].
-	buttonSpecsBuilder := [
-	                      {
-		                      { 'Primary'. #primary }.
-		                      { 'Default'. #default }.
-		                      { 'Dashed'. #dashed }.
-		                      { 'Text'. #text }.
-		                      { 'Link'. #link } } ].
-
-	" Line 1 "
-	pane := ToPane horizontal.
-	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
-
-	buttonSpecsBuilder value do: [ :arr |
-		| but |
-		but := ToButton new.
-		allButtons add: but.
-		arr second ifNotNil: [ :s | but addStamp: s ].
-		but labelText: arr first.
-		pane addChild: but ].
-
-	space root addChild: pane.
-
-	" line 2 "
-	pane := ToPane horizontal.
-	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
-
-	buttonSpecsBuilder value do: [ :arr |
-		| but |
-		but := ToButton new.
-		allButtons add: but.
-		arr second ifNotNil: [ :s | but addStamp: s ].
-		but labelText: arr first.
-		but icon: butBuilder value.
-		pane addChild: but ].
-
-	space root addChild: pane.
-
-	" line 3 "
-	pane := ToPane horizontal.
-	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
-
-	buttonSpecsBuilder value do: [ :arr |
-		| but |
-		but := ToButton new.
-		allButtons add: but.
-		arr second ifNotNil: [ :s | but addStamp: s ].
-		but icon: butBuilder value.
-		pane addChild: but ].
-
-	space root addChild: pane.
-
-	" line 4 "
-	pane := ToPane horizontal.
-	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
-
-	buttonSpecsBuilder value do: [ :arr |
-		| but |
-		but := ToButton new.
-		allButtons add: but.
-		arr second ifNotNil: [ :s | but addStamp: s ].
-		but labelText: arr first.
-		pane addChild: but ].
-
-	space root addChild: pane.
-
-	" line 5 "
-	pane := ToPane horizontal.
-	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
-
-	buttonSpecsBuilder value do: [ :arr |
-		| but |
-		but := ToButton new.
-		allButtons add: but.
-		arr second ifNotNil: [ :s | but addStamp: s ].
-		but labelText: arr first.
-		but icon: butBuilder value.
-		pane addChild: but ].
-
-	space root addChild: pane.
-
-	" line 6 "
-	pane := ToPane horizontal.
-	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
-
-	buttonSpecsBuilder value do: [ :arr |
-		| but |
-		but := ToButton new.
-		allButtons add: but.
-		arr second ifNotNil: [ :s | but addStamp: s ].
-		but icon: butBuilder value.
-		pane addChild: but ].
-
-	space root addChild: pane.
-
-	space show.
-
-	^ space
 ]
 
 { #category : #'button-dep' }
@@ -2773,7 +2495,6 @@ ToSandBox class >> example_ToggleButton [
 	toggle icon: (ToImage new innerImage: (self iconNamed: #solidMenu)).
 	toggle checked: false.
 	toggle openInInnerWindow.
-	toggle inspect
 ]
 
 { #category : #'toggle button' }
@@ -2791,7 +2512,7 @@ ToSandBox class >> example_ToggleButtonChecked [
 		event traceCr ].
 	toggle checked: true.
 	toggle openInInnerWindow.
-	toggle inspect
+
 ]
 
 { #category : #'toggle button' }
@@ -2827,16 +2548,15 @@ ToSandBox class >> example_ToggleButtonWithIndeterminate [
 	toggle icon: (ToImage new innerImage: (self iconNamed: #solidMenu)).
 	toggle withIndeterminate: true.
 	toggle openInInnerWindow.
-	toggle inspect
+
 ]
 
 { #category : #triplet }
 ToSandBox class >> example_TripletElementWithIconAndText [
 
-	| but  |
+	| but |
 	but := self tripletWithText.
 	but hMatchParent.
-	but inspect.
 	but openInSpace.
 	^ but
 ]
@@ -2909,10 +2629,9 @@ ToSandBox class >> example_TripletElementWithIconAndText_startFlexible_startInte
 { #category : #triplet }
 ToSandBox class >> example_TripletElementWithIconAndText_vertical [
 
-	| but  |
+	| but |
 	but := self tripletWithText.
 	but beVertical.
-	but inspect.
 	but openInSpace.
 	^ but
 ]
@@ -2954,7 +2673,7 @@ ToSandBox class >> example_bar [
 
 	| bar dashBoard rootPane selectionModeBoard |
 	bar := ToBarElement new.
-	bar nodeFactory: [ :holder | ToBarNodeExample new ].
+	bar nodeFactory: [ :holder | ToBarNodeExamplePart new ].
 	bar nodeBuilder: [ :node :dataItem :holder|
 		node label:
 			(ToLabel text: holder position asString , ': ' , dataItem asString) ].
@@ -3045,21 +2764,19 @@ ToSandBox class >> example_buttonWithIcon [
 { #category : #button }
 ToSandBox class >> example_buttonWithIconAndLabel [
 
-	| but  |
+	| but |
 	but := self example_buttonWithIcon.
 	but label: (ToLabel text: 'Button with label').
 	but hMatchParent.
-	but inspect.
 	^ but
 ]
 
 { #category : #button }
 ToSandBox class >> example_buttonWithIconAndLabelDisabled [
 
-	| but  |
+	| but |
 	but := self example_buttonWithIconDisabled.
 	but label: (ToLabel text: 'Button with label').
-	but inspect.
 	^ but
 ]
 
@@ -3188,7 +2905,6 @@ ToSandBox class >> example_contactList [
 	panel layout cellSpacing: 10.
 
 	list := ToListElement new.
-	list inspect.
 	list addEventHandler: (BlEventHandler
 			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :evt | evt traceCr ]).
@@ -3236,7 +2952,7 @@ ToSandBox class >> example_contactList [
 		idx := list dataAccessor
 			       detectIndex: [ :e | e name = n ]
 			       ifNone: [  ].
-		c := ToContactExample new
+		c := ToContactExampleObject new
 			     name: n;
 			     phoneNumber: p;
 			     address: a;
@@ -3252,12 +2968,12 @@ ToSandBox class >> example_contactList [
 			addressTxtF.
 			button }.
 	contacts := OrderedCollection new.
-	contact := ToContactExample new.
+	contact := ToContactExampleObject new.
 	contact name: 'Patty'.
 	contact phoneNumber: '0299041101'.
 	contact address: 'Brest'.
 	contacts add: contact.
-	contact := ToContactExample new.
+	contact := ToContactExampleObject new.
 	contact name: 'Paulie'.
 	contact phoneNumber: '0298010101'.
 	contact address: 'Brest'.
@@ -3318,7 +3034,6 @@ ToSandBox class >> example_headerOnBottomCenter [
 	| nb |
 	nb := self example_tabPane.
 	nb withHeaderOnBottomCenter.
-	nb inspect.
 	^ nb
 ]
 
@@ -3830,8 +3545,9 @@ ToSandBox class >> example_scaledImage [
 
 	| im scale |
 	scale := 0.5.
-	im := ToImage new innerImage: (Smalltalk ui icons iconNamed: #pharoBig).
-	im when: BlClickEvent do: [ :event |
+	im := ToImage new innerImage:
+		      (Smalltalk ui icons iconNamed: #pharoBig).
+	im addEventHandlerOn: BlClickEvent do: [ :event |
 		im transformDo: [ :t |
 			t topLeftOrigin scaleBy: scale.
 			scale := scale < 1.0
@@ -3947,11 +3663,10 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWithAllClassNames [
 { #category : #space }
 ToSandBox class >> example_spaceRootSkin [
 
-	| space  |
+	| space |
 	space := BlSpace new.
-	space inspect.
 	space toTheme: ToBeeDarkTheme new.
-"	themeSwitcher := ToToggleButton new
+	"	themeSwitcher := ToToggleButton new
 		      labelText: 'Theme';
 		      beLabelFirst.
 	themeSwitcher switchBarOnElement: ((ToLabel text: ('Dark' asRopedText foreground: Color white)) ).
@@ -4022,12 +3737,9 @@ ToSandBox class >> example_switchButton [
 
 	| th |
 	th := ToSwitchButton new.
-	th
-		addEventHandlerOn: ToSkinEvent
-		do: [ :event | event traceCr ].
+	th addEventHandlerOn: ToSkinEvent do: [ :event | event traceCr ].
 	th checked: true.
 	th wishedTrackSize: 100 @ 30.
-	th inspect.
 	th openInSpace
 ]
 
@@ -4055,8 +3767,7 @@ ToSandBox class >> example_switchButton3 [
 
 	| but onLab offLab onHandleIm handler |
 	but := ToSwitchButton new.
-	but inspect.
-	but wishedTrackSize: 300@50.
+	but wishedTrackSize: 300 @ 50.
 	but endToStart: true.
 	but startFlexible: true.
 	but hMatchParent.
@@ -4065,8 +3776,12 @@ ToSandBox class >> example_switchButton3 [
 		           on: ToSkinEvent
 		           do: [ :event | event traceCr ].
 	but addEventHandler: handler.
-	onLab := ToLabel text: ('In' asRopedText foreground: Color white; fontSize: 44).
-	offLab := ToLabel text: ('Out' asRopedText foreground: Color white; fontSize: 44).
+	onLab := ToLabel text: ('In' asRopedText
+			          foreground: Color white;
+			          fontSize: 44).
+	offLab := ToLabel text: ('Out' asRopedText
+			           foreground: Color white;
+			           fontSize: 44).
 	onHandleIm := ToImage inner: (but iconNamed: #glamorousAccept).
 	{
 		onLab.
@@ -4088,13 +3803,13 @@ ToSandBox class >> example_switchButton3 [
 { #category : #'switch button' }
 ToSandBox class >> example_switchButtonWithSize [
 
-	| th  |
+	| th |
 	th := ToSwitchButton new.
-	th labelText: 'Wished size is for the button track, it doesn''t include the label size'.
+	th labelText:
+		'Wished size is for the button track, it doesn''t include the label size'.
 	th startInterspace: 10.
-	th wishedTrackSize: 100@30.
+	th wishedTrackSize: 100 @ 30.
 	th checked: true.
-	th inspect.
 	th openInSpace
 ]
 
@@ -4191,7 +3906,6 @@ ToSandBox class >> example_textField0 [
 
 	| t |
 	t := ToTextField new text: 'AAAA'.
-	t inspect.
 	t background: Color yellow.
 	t openInSpace
 ]
@@ -4264,9 +3978,7 @@ ToSandBox class >> example_textFieldWithCRAction [
 ToSandBox class >> example_textFieldWithLineWrapping [
 
 	| t |
-	t := ToTextField new
-		     withLineWrapping.
-	t inspect.
+	t := ToTextField new withLineWrapping.
 	t openInSpace
 ]
 
@@ -4291,7 +4003,6 @@ ToSandBox class >> example_textFieldWithPlaceholder [
 
 	| t text |
 	t := ToTextField new withSaveCapability.
-	t inspect.
 	text := ''.
 	t placeholderBuilder: [ :thePlaceholder :myself |
 		thePlaceholder addChild: (ToAttributedLabel text:
@@ -4326,7 +4037,6 @@ ToSandBox class >> example_textFieldWithPlaceholder2 [
 		cancelRequested client text: text copy ].
 	t showPlaceholder.
 	t openInSpace.
-	t inspect
 ]
 
 { #category : #'text field' }
@@ -4399,12 +4109,7 @@ ToSandBox class >> example_themeChoiceButton2 [
 	themeSelect withStrictCheckingStrategy.
 	themeSelect defaultSelectedIndex: 1.
 	themeSelect dataToTextConverter: [ :assoc | assoc key ].
-	themeSelect data addAll: {
-			"('Bee Light' -> ToBeeTheme new).
-			('Bee Dark' -> ToBeeDarkTheme new)."
-			('Raw Light' -> ToRawTheme new).
-			"('Raw Dark' -> ToRawDarkTheme new)" }.
-themeSelect inspect.
+	themeSelect data addAll: { ('Raw Light' -> ToRawTheme new) }.
 	themeSelect addEventHandler: (BlEventHandler
 			 on: ToChoiceChangedEvent
 			 do: [ space toTheme: themeSelect selectedData value ]).
@@ -4439,7 +4144,6 @@ ToSandBox class >> example_themeSelectPlusCheckbox [
 
 	chb := ToCheckbox new label: (ToLabel text: 'Swith primary').
 	chb defaultSkin: ToCheckboxSkin new.
-	chb inspect.
 
 	space root addChild: chb.
 	space show
@@ -4449,13 +4153,12 @@ ToSandBox class >> example_themeSelectPlusCheckbox [
 ToSandBox class >> example_toAlbumAsButton [
 
 	| but |
-	but := ToAlbum new
-		       text: 'Hello world'";
-		       preventChildrenMouseEvents".
+	but := ToAlbum new text: 'Hello world'. ";
+		       preventChildrenMouseEvents"
 	but
-		when: BlPrimaryClickEvent
+		addEventHandlerOn: BlPrimaryClickEvent
 		do: [ self inform: 'Click' ].
-"	but background: Color blue."
+	"	but background: Color blue."
 	but size: 300 @ 100.
 	but openInSpace
 ]
@@ -4511,33 +4214,12 @@ ToSandBox class >> example_toBasicButton3 [
 ]
 
 { #category : #'button-dep' }
-ToSandBox class >> example_toBasicButton4 [
-
-	| but lab ico pane |
-	pane := ToPane new.
-	pane fitContent.
-	pane layout alignCenter.
-	lab := ToLabel new text: 'Make something cool happen'.
-	ico := ToImage inner: (self iconNamed: #remove).
-	pane addChildren: {
-			ico.
-			lab }.
-	but := ToGeneralButton new.
-	but addEventHandler: (ToSkinStateGenerator new target: but).
-	but matchParent.
-	but addChild: pane.
-	but layout alignCenter.
-	but whenClickedDo: [ self inform: 'clicked' ].
-	but openInSpace
-]
-
-{ #category : #'button-dep' }
 ToSandBox class >> example_toButton0 [
 
 	| but |
 	but := ToButton new.
 	but openInSpace.
-	but inspect.
+
 ]
 
 { #category : #'button-dep' }
@@ -4616,20 +4298,25 @@ ToSandBox class >> example_toButtonWithIconAndText [
 
 { #category : #'button-dep' }
 ToSandBox class >> example_toButtonWithIconAndTextAndExtra [
-
-	| but space  icon |
+	"Pay attention this method is not ok and 
+	https://github.com/pharo-graphics/Toplo/issues/194
+	and not part of the example tests
+	"
+	| but space icon |
 	but := ToButton new.
 
 	but label: (ToLabel text: 'Button').
-	icon := ToImage new innerImage: (ToThemeIcons searchOutlined16x16).
+	icon := ToImage new innerImage: ToThemeIcons searchOutlined16x16.
 	but icon: icon.
 	but effect: (BlBlurAboveEffect new radius: 20).
-	but when: BlPrimaryClickEvent do: [ :event | event currentTarget traceCr ].
+	but
+		addEventHandlerOn: BlPrimaryClickEvent
+		do: [ :event | event currentTarget traceCr ].
 	but third: ((ToLabel text: 'extra') margin: (BlInsets left: 5)).
 
 	space := BlSpace new.
 	space root addChild: but.
-	space show 
+	space show
 ]
 
 { #category : #'button-dep' }
@@ -4656,7 +4343,10 @@ ToSandBox class >> example_toButtonWithIconOnly [
 
 { #category : #'button-dep' }
 ToSandBox class >> example_toButtonWithTextAndIconHorizontal [
-
+	"Pay attention this method is not ok and 
+	https://github.com/pharo-graphics/Toplo/issues/195
+	and not part of the example tests
+	"
 	| but space count |
 	but := ToButton new.
 	but label: (ToLabel text: 'Button').
@@ -4667,17 +4357,21 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal [
 	but beRightToLeft.
 	but layout cellSpacing: 10.
 	count := 0.
-	but when: BlClickEvent do: [ :event | count := count + 1. count traceCr ].
+	but when: BlClickEvent do: [ :event |
+		count := count + 1.
+		count traceCr ].
 	but whenClickedDo: [ :ann | but icon background: Color random ].
 	space := BlSpace new.
 	space root addChild: but.
-	but inspect.
-	space show 
+	space show
 ]
 
 { #category : #'button-dep' }
 ToSandBox class >> example_toButtonWithTextAndIconHorizontal2 [
-
+	"Pay attention this method is not ok and 
+	https://github.com/pharo-graphics/Toplo/issues/195
+	and not part of the example tests
+	"
 	| but count |
 	but := ToButton new.
 	but label: (ToLabel text: 'Button').
@@ -4688,15 +4382,20 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal2 [
 	but beRightToLeft.
 	but layout cellSpacing: 10.
 	count := 0.
-	but when: BlClickEvent do: [ :event | count := count + 1. count traceCr ].
-	but openInInnerWindow 
+	but when: BlClickEvent do: [ :event |
+		count := count + 1.
+		count traceCr ].
+	but openInInnerWindow
 ]
 
 { #category : #'button-dep' }
 ToSandBox class >> example_toButtonWithTextAndIconHorizontal3 [
-
+	"Pay attention this method is not ok and 
+	https://github.com/pharo-graphics/Toplo/issues/195
+	and not part of the example tests
+	"
 	| but count pane |
-	but := ToButton new "cellSpacing: 2; padding: (BlInsets all: 4)".
+	but := ToButton new. "cellSpacing: 2; padding: (BlInsets all: 4)"
 	but label: (ToLabel text: 'Button').
 	but iconImage: (BlElement new
 			 size: 60 @ 20;
@@ -4705,9 +4404,11 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal3 [
 	but beRightToLeft.
 	but layout cellSpacing: 10.
 	count := 0.
-	but when: BlClickEvent do: [ :event | count := count + 1. count traceCr ].
+	but when: BlClickEvent do: [ :event |
+		count := count + 1.
+		count traceCr ].
 	"but whenClickedDo: [ :ann | but icon background: Color random ]."
-	pane := ToPane new size: 400@400.
+	pane := ToPane new size: 400 @ 400.
 	pane border: (BlBorder paint: Color red).
 	pane addChild: but.
 	pane openInSpace.
@@ -4774,7 +4475,6 @@ ToSandBox class >> example_toImage0 [
 
 	| im |
 	im := ToImage new.
-	im inspect.
 	im openInSpace
 ]
 
@@ -4786,7 +4486,6 @@ ToSandBox class >> example_toImage1 [
 			       size: 16 @ 16;
 			       background: (Color green alpha: 0.5);
 			       geometry: BlCircleGeometry new).
-	im inspect.
 	im openInSpace
 ]
 
@@ -4794,10 +4493,9 @@ ToSandBox class >> example_toImage1 [
 ToSandBox class >> example_toImageWithSVG [
 
 	| im |
-	im := ToImage inner: (self pathBugSVG).
+	im := ToImage inner: self pathBugSVG.
 	im matchParent.
 	im withNullSkin.
-	im inspect.
 	im openInSpace
 ]
 
@@ -4805,10 +4503,9 @@ ToSandBox class >> example_toImageWithSVG [
 ToSandBox class >> example_toImageWithSVG2 [
 
 	| im |
-	im := ToImage inner: (self pathCheckSVG).
+	im := ToImage inner: self pathCheckSVG.
 	im matchParent.
 	im withNullSkin.
-	im inspect.
 	im openInSpace
 ]
 
@@ -4816,10 +4513,9 @@ ToSandBox class >> example_toImageWithSVG2 [
 ToSandBox class >> example_toImageWithSVG4 [
 
 	| im |
-	im := ToImage inner: (self pathCloseSVG).
+	im := ToImage inner: self pathCloseSVG.
 	im matchParent.
 	im withNullSkin.
-	im inspect.
 	im openInSpace
 ]
 
@@ -4827,10 +4523,9 @@ ToSandBox class >> example_toImageWithSVG4 [
 ToSandBox class >> example_toImageWithSVG5 [
 
 	| im |
-	im := ToImage inner: (self pathAddLinkSVG).
+	im := ToImage inner: self pathAddLinkSVG.
 	im matchParent.
 	im withNullSkin.
-	im inspect.
 	im openInSpace
 ]
 
@@ -4838,11 +4533,9 @@ ToSandBox class >> example_toImageWithSVG5 [
 ToSandBox class >> example_toImageWithSVG6 [
 
 	| im |
-	im := ToImage inner: (self path_sharp_electric_bike_SVG
-).
+	im := ToImage inner: self path_sharp_electric_bike_SVG.
 	im matchParent.
 	im withNullSkin.
-	im inspect.
 	im openInSpace
 ]
 
@@ -4890,7 +4583,6 @@ ToSandBox class >> example_toLabel0 [
 
 	| lab |
 	lab := ToLabel new.
-	lab inspect.
 	lab border: (BlBorder paint: Color black).
 	lab openInSpace
 ]
@@ -5082,7 +4774,7 @@ ToSandBox class >> example_toWidgetAsButton0 [
 	| but |
 	but := ToElement new.
 	but
-		when: BlPrimaryClickEvent
+		addEventHandlerOn: BlPrimaryClickEvent
 		do: [ self inform: 'Click' ].
 	but background: Color blue.
 	but size: 50 @ 50.
@@ -5120,7 +4812,7 @@ ToSandBox class >> example_twoTabsWithLabel [
 	lab1 := ToLabel text: 'Hello'.
 	lab1 text foreground: Color red.
 	lab2 := ToLabel text: 'Goodbye'.
-	
+
 	tabsPanel := ToTabPane new.
 	tab1 := ToTab new.
 	tab1 labelText: 'Hello'.
@@ -5131,7 +4823,6 @@ ToSandBox class >> example_twoTabsWithLabel [
 	tabsPanel addTab: tab1.
 	tabsPanel addTab: tab2.
 	tabsPanel openInSpace.
-	tabsPanel inspect
 ]
 
 { #category : #tabs }

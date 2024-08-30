@@ -5,18 +5,7 @@ Class {
 }
 
 { #category : #tests }
-ToExperimentsMockTest >> testMocks [
-
-	| selectors errors |
-	errors := OrderedCollection new.
-	selectors := ToExperiments class selectors select: [ :each |
-		             each beginsWith: 'example' ].
-	self assert: selectors isNotEmpty.
-
-	selectors do: [ :each |
-		[ ToExperiments perform: each ]
-			on: Error
-			do: [ :err | errors add: each ] ].
+ToExperimentsMockTest >> closeWindows [ 
 
 	BlOSWindowSDL2Host universe closeSpaces.
 	BlOSWindowSDL2Host
@@ -28,7 +17,25 @@ ToExperimentsMockTest >> testMocks [
 		start.
 	BlSpace allInstances do: [ :each | each close ].
 	BlParallelUniverse all do: [ :each | each closeSpaces ].
-	
+
+
+]
+
+{ #category : #tests }
+ToExperimentsMockTest >> testMocks [
+
+	| selectors errors |
+	errors := OrderedCollection new.
+	selectors := ToExperiments class selectors select: [ :each |
+		             each beginsWith: 'example' ].
+	self assert: selectors isNotEmpty.
+
+	selectors do: [ :each |
+		[ ToExperiments perform: each.
+		Delay forMilliseconds: 5000.
+		self closeWindows ]
+			on: Error
+			do: [ :err | errors add: each ] ].
 
 	self
 		assert: errors isEmpty

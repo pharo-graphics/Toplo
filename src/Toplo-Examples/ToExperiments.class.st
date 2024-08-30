@@ -558,7 +558,7 @@ ToExperiments class >> example_PasteUpWithPlaceHolder [
 	blue addEventHandlerOn: BlDragStartEvent do: [ :event |
 		pblue := event position - blue position.
 		event consume ].
-	blue when: BlDragEvent do: [ :event |
+	blue addEventHandlerOn: BlDragEvent do: [ :event |
 		event consume.
 		blue position: event position - pblue.
 		blue forceLayout ].
@@ -573,41 +573,6 @@ ToExperiments class >> example_PasteUpWithPlaceHolder [
 red when: BlDragLeaveEvent do: [ :event | event consume. red background: Color red ].
 "
 			blue border: BlBorder empty ]
-]
-
-{ #category : #image }
-ToExperiments class >> example_Smalltalk_all_classes [
-
-| column root vscrollBar container space |
-	column := BlElement new
-		          layout: BlLinearLayout vertical;
-		          constraintsDo: [ :c | 
-			          c horizontal matchParent.
-			          c vertical fitContent ];
-		          yourself.
-	1 timesRepeat: [ 
-	Object allSubclassesDo: [ :cls | 
-		| lab |
-		lab := ToLabel new text: cls name asRopedText.
-		column addChild: lab ] ].
-
-	root := column asScrollableElement.
-	vscrollBar := BlVerticalScrollbarElement new.
-	vscrollBar constraintsDo: [ :c |
-			c ignoreByLayout.
-			c margin: (BlInsets right: 2).
-			c ignored horizontal alignRight.
-			c ignored vertical alignBottom]. 
-	vscrollBar attachTo: root.
-	container := BlElement new
-		          constraintsDo: [ :c | 
-			          c horizontal matchParent.
-			          c vertical matchParent ];
-		          yourself.
-	container addChild: root; addChild: vscrollBar.
-	space := BlSpace new.
-	space addChild: container.
-	space show
 ]
 
 { #category : #image }

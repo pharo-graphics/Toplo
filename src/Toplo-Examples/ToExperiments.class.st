@@ -133,7 +133,6 @@ ToExperiments class >> example_ExperimentForMultilineLabel0 [
 		           addChildren:
 			           (l collect: [ :w | w asElement editorMeasurement ]).
 	element border: (BlBorder paint: Color gray width: 1).
-	element inspect.
 	element openInSpace
 ]
 
@@ -1062,13 +1061,11 @@ ToExperiments class >> example_space [
 	| space |
 	space := BlSpace new
 		         position: 2000 @ 1000;
-		         "toBack;"
-					resizable: false;
+		         "toBack;"resizable: false;
 		         borderless: true;
 		         extent: 50 @ 50.
 	space root background: Color red.
-	space show.
-	space inspect
+	space show
 ]
 
 { #category : #frame }

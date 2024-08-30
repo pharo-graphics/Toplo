@@ -546,7 +546,7 @@ ToExperiments class >> example_PasteUpWithPlaceHolder [
 			dragged := phpane firstChild.
 			dragged position: event position - pred ] ].
 
-	container when: BlDragEndEvent do: [ :event |
+	container addEventHandlerOn: BlDragEndEvent do: [ :event |
 		event consume.
 		phpane hasChildren ifTrue: [
 			| dragged |
@@ -555,7 +555,7 @@ ToExperiments class >> example_PasteUpWithPlaceHolder [
 			phpane detachChild: dragged.
 			container attachChild: dragged ] ].
 
-	blue when: BlDragStartEvent do: [ :event |
+	blue addEventHandlerOn: BlDragStartEvent do: [ :event |
 		pblue := event position - blue position.
 		event consume ].
 	blue when: BlDragEvent do: [ :event |

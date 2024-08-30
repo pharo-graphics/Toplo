@@ -17,5 +17,8 @@ ToExperimentsMockTest >> testMocks [
 							do: [ :err | errors add: each  ]  ].
 						
 	BlSpace allInstances do: [ :each | each close ].
-	self assert: errors isEmpty.
+	BlParallelUniverse all do: [ :each | each closeSpaces ].
+	
+	self assert: errors isEmpty description: 'The following selectors are broken: ',  errors printString.
+	
 ]

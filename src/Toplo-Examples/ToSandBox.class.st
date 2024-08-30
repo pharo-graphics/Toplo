@@ -769,7 +769,7 @@ ToSandBox class >> example_EditableList2WithAllClassesNames [
 	l := ToListElement new.
 	l beVertical.
 	l
-		nodeFactory: [ ToListClassNodeExample new ];
+		nodeFactory: [ ToListClassNodeExamplePart new ];
 		nodeBuilder: [ :node :dataItem :holder |
 			node forClassNameAssoc: dataItem ];
 		addEventHandler: (BlEventHandler
@@ -1274,7 +1274,7 @@ ToSandBox class >> example_ListWithAllClassesAndTraitsSorted [
 	| l vscrollBar space |
 	l := ToListElement new nodeBuilder: [ :node :dataItem :holder |
 			node ensureCanManageSkin.
-		     node addChild: (ToClassNameViewExample new
+		     node addChild: (ToClassNameViewExamplePart new
 				      class: dataItem position: holder position;
 				      yourself) ].
 	l withRowNumbers.
@@ -1378,7 +1378,7 @@ ToSandBox class >> example_ListWithPanes [
 				                 margin: (BlInsets all: 1);
 				                 padding: (BlInsets all: 1);
 				                 yourself.
-			        blContent := ToPaneNodeExample new.
+			        blContent := ToPaneNodeExamplePart new.
 			        blContent addChild: title at: 1.
 			        blContent margin: (BlInsets all: 4).
 			        blContent padding: (BlInsets all: 12).
@@ -2954,7 +2954,7 @@ ToSandBox class >> example_bar [
 
 	| bar dashBoard rootPane selectionModeBoard |
 	bar := ToBarElement new.
-	bar nodeFactory: [ :holder | ToBarNodeExample new ].
+	bar nodeFactory: [ :holder | ToBarNodeExamplePart new ].
 	bar nodeBuilder: [ :node :dataItem :holder|
 		node label:
 			(ToLabel text: holder position asString , ': ' , dataItem asString) ].
@@ -3236,7 +3236,7 @@ ToSandBox class >> example_contactList [
 		idx := list dataAccessor
 			       detectIndex: [ :e | e name = n ]
 			       ifNone: [  ].
-		c := ToContactExample new
+		c := ToContactExampleObject new
 			     name: n;
 			     phoneNumber: p;
 			     address: a;
@@ -3252,12 +3252,12 @@ ToSandBox class >> example_contactList [
 			addressTxtF.
 			button }.
 	contacts := OrderedCollection new.
-	contact := ToContactExample new.
+	contact := ToContactExampleObject new.
 	contact name: 'Patty'.
 	contact phoneNumber: '0299041101'.
 	contact address: 'Brest'.
 	contacts add: contact.
-	contact := ToContactExample new.
+	contact := ToContactExampleObject new.
 	contact name: 'Paulie'.
 	contact phoneNumber: '0298010101'.
 	contact address: 'Brest'.

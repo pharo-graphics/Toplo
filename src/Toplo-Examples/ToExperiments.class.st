@@ -735,7 +735,7 @@ ToExperiments class >> example_drag [
 
 	e addChild: child.
 
-	child when: BlDragStartEvent do: [ :evt |
+	child addEventHandlerOn: BlDragStartEvent do: [ :evt |
 		p := evt position - child position.
 		evt consume ].
 

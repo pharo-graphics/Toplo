@@ -1,7 +1,10 @@
+"
+I'm part of the Photo gallery example. I'm not expected to be used as a standalone.
+"
 Class {
 	#name : #ToPicsumPhotosGallerySelectionSkin,
 	#superclass : #ToRawSkin,
-	#category : #'Toplo-Examples'
+	#category : #'Toplo-Examples-PhotoGalleryParts'
 }
 
 { #category : #'event handling' }

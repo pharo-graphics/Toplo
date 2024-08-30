@@ -2123,7 +2123,9 @@ ToSandBox class >> example_SieveOnList2WithStatesOfAmerica [
 
 { #category : #list }
 ToSandBox class >> example_SieveOnList2With_350000_Items [
-
+	"Pay attention this method is not super slow
+	and not part of the example tests
+	"
 	| listElement pane filterField data sieve |
 	pane := ToPane new
 		        beVertical;
@@ -4296,7 +4298,10 @@ ToSandBox class >> example_toButtonWithIconAndText [
 
 { #category : #'button-dep' }
 ToSandBox class >> example_toButtonWithIconAndTextAndExtra [
-
+	"Pay attention this method is not ok and 
+	https://github.com/pharo-graphics/Toplo/issues/194
+	and not part of the example tests
+	"
 	| but space icon |
 	but := ToButton new.
 
@@ -4338,7 +4343,10 @@ ToSandBox class >> example_toButtonWithIconOnly [
 
 { #category : #'button-dep' }
 ToSandBox class >> example_toButtonWithTextAndIconHorizontal [
-
+	"Pay attention this method is not ok and 
+	https://github.com/pharo-graphics/Toplo/issues/195
+	and not part of the example tests
+	"
 	| but space count |
 	but := ToButton new.
 	but label: (ToLabel text: 'Button').
@@ -4360,7 +4368,10 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal [
 
 { #category : #'button-dep' }
 ToSandBox class >> example_toButtonWithTextAndIconHorizontal2 [
-
+	"Pay attention this method is not ok and 
+	https://github.com/pharo-graphics/Toplo/issues/195
+	and not part of the example tests
+	"
 	| but count |
 	but := ToButton new.
 	but label: (ToLabel text: 'Button').
@@ -4371,15 +4382,20 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal2 [
 	but beRightToLeft.
 	but layout cellSpacing: 10.
 	count := 0.
-	but when: BlClickEvent do: [ :event | count := count + 1. count traceCr ].
-	but openInInnerWindow 
+	but when: BlClickEvent do: [ :event |
+		count := count + 1.
+		count traceCr ].
+	but openInInnerWindow
 ]
 
 { #category : #'button-dep' }
 ToSandBox class >> example_toButtonWithTextAndIconHorizontal3 [
-
+	"Pay attention this method is not ok and 
+	https://github.com/pharo-graphics/Toplo/issues/195
+	and not part of the example tests
+	"
 	| but count pane |
-	but := ToButton new "cellSpacing: 2; padding: (BlInsets all: 4)".
+	but := ToButton new. "cellSpacing: 2; padding: (BlInsets all: 4)"
 	but label: (ToLabel text: 'Button').
 	but iconImage: (BlElement new
 			 size: 60 @ 20;
@@ -4388,9 +4404,11 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal3 [
 	but beRightToLeft.
 	but layout cellSpacing: 10.
 	count := 0.
-	but when: BlClickEvent do: [ :event | count := count + 1. count traceCr ].
+	but when: BlClickEvent do: [ :event |
+		count := count + 1.
+		count traceCr ].
 	"but whenClickedDo: [ :ann | but icon background: Color random ]."
-	pane := ToPane new size: 400@400.
+	pane := ToPane new size: 400 @ 400.
 	pane border: (BlBorder paint: Color red).
 	pane addChild: but.
 	pane openInSpace.

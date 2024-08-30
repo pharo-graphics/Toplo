@@ -9,16 +9,29 @@ ToExperimentsMockTest >> testMocks [
 
 	| selectors errors |
 	errors := OrderedCollection new.
-	selectors := ToExperiments class selectors select: [ :each | each beginsWith: 'example' ].
-	self assert: selectors isNotEmpty.  
-		
-	selectors do: [ :each | [(ToExperiments perform: each ) ] 
-							on: Error 
-							do: [ :err | errors add: each  ]  ].
-						
+	selectors := ToExperiments class selectors select: [ :each |
+		             each beginsWith: 'example' ].
+	self assert: selectors isNotEmpty.
+
+	selectors do: [ :each |
+		[ ToExperiments perform: each ]
+			on: Error
+			do: [ :err | errors add: each ] ].
+
+	BlOSWindowSDL2Host universe closeSpaces.
+	BlOSWindowSDL2Host
+		stop;
+		start.
+	BlMorphicWindowHost universe closeSpaces.
+	BlMorphicWindowHost
+		stop;
+		start.
 	BlSpace allInstances do: [ :each | each close ].
 	BlParallelUniverse all do: [ :each | each closeSpaces ].
 	
-	self assert: errors isEmpty description: 'The following selectors are broken: ',  errors printString.
-	
+
+	self
+		assert: errors isEmpty
+		description:
+		'The following selectors are broken: ' , errors printString
 ]

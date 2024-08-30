@@ -562,13 +562,13 @@ ToExperiments class >> example_PasteUpWithPlaceHolder [
 		event consume.
 		blue position: event position - pblue.
 		blue forceLayout ].
-	blue when: BlDragEndEvent do: [ :event | event consume ].
+	blue addEventHandlerOn: BlDragEndEvent do: [ :event | event consume ].
 
 	blue
-		when: BlDragEnterEvent
+		addEventHandlerOn: BlDragEnterEvent
 		do: [ :event | blue border: (BlBorder paint: Color yellow width: 5) ].
 	blue
-		when: BlDragLeaveEvent
+		addEventHandlerOn: BlDragLeaveEvent
 		do: [ :event | "red when: BlDragEnterEvent do: [ :event | event consume. red background: Color random ].
 red when: BlDragLeaveEvent do: [ :event | event consume. red background: Color red ].
 "

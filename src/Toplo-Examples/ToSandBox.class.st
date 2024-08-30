@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSandBox,
 	#superclass : #Object,
-	#category : #'Toplo-Examples'
+	#category : #'Toplo-Examples-TopLevel'
 }
 
 { #category : #bar }

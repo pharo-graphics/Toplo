@@ -3052,6 +3052,7 @@ ToSandBox class >> example_buttonWithIconAndLabel [
 	| but  |
 	but := self example_buttonWithIcon.
 	but label: (ToLabel text: 'Button with label').
+	but whenClickedDo: [ :event | self inform: 'Action runned' ].
 	^ but
 ]
 

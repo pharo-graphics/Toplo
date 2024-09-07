@@ -37,6 +37,7 @@ ToLabelSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
+		" the default forground must be set here (and not in #enabledSkinEvent:) "
 		e textAttributesBuilder
 			weight: (e valueOfTokenNamed: #'font-weight-strong');
 			defaultFontName: (e valueOfTokenNamed: #'font-family-code');

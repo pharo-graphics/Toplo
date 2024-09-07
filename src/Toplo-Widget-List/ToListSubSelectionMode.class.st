@@ -2,8 +2,7 @@ Class {
 	#name : #ToListSubSelectionMode,
 	#superclass : #ToAbstractListSelectionMode,
 	#instVars : [
-		'parentMode',
-		'selectionChangedEventClass'
+		'parentMode'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
@@ -20,6 +19,7 @@ ToListSubSelectionMode class >> parentMode: aSelectionMode [
 ToListSubSelectionMode >> newSelecter [
 
 	^ ToSubSelecter new
+		  uniqueId: self uniqueId;
 		  selectionChangedEventClass: self selectionChangedEventClass;
 		  parentSelecter: parentMode selecter;
 		  yourself
@@ -37,14 +37,8 @@ ToListSubSelectionMode >> parentMode: aSelectionMode [
 	parentMode := aSelectionMode
 ]
 
-{ #category : #'instance creation' }
-ToListSubSelectionMode >> selectionChangedEventClass [
-
-	^ selectionChangedEventClass
-]
-
 { #category : #accessing }
-ToListSubSelectionMode >> selectionChangedEventClass: anEventClass [
+ToListSubSelectionMode >> uniqueId [ 
 
-	selectionChangedEventClass := anEventClass
+	^ self subclassResponsibility 
 ]

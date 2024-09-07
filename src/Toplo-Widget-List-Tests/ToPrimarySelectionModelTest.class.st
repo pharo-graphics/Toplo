@@ -36,11 +36,11 @@ ToPrimarySelectionModelTest >> testDuplicate [
 	s recordSubSelectionModel: sub.
 	s selectIndex: 10.
 	sub selectIndex: 2.
-	dup := s copy.
+	dup := s duplicate.
 	self assert: dup selectedIndexes equals: #( 10 ).
-	self assert: (dup subSelectionModelIndex subSelectionModelWithId: #sub) equals: sub.
-	self deny: (dup subSelectionModelIndex subSelectionModelWithId: #sub) identicalTo: sub.
-	self assert: ((dup subSelectionModelIndex subSelectionModelWithId: #sub)) selectedIndexes equals: #( 2 )
+	self assert: (dup subSelectionModelIndex at: #sub) equals: sub.
+	self deny: (dup subSelectionModelIndex at: #sub) identicalTo: sub.
+	self assert: ((dup subSelectionModelIndex at: #sub)) selectedIndexes equals: #( 2 )
 ]
 
 { #category : #tests }
@@ -53,6 +53,6 @@ ToPrimarySelectionModelTest >> testRecordSubSelectionModel [
 	s selectIndex: 10.
 	sub selectIndex: 2.
 	self assert: s selectedIndexes equals: #( 10 ).
-	self assert: (s subSelectionModelIndex subSelectionModelWithId: #sub) equals: sub.
+	self assert: (s subSelectionModelIndex at: #sub) equals: sub.
 	self assert: sub selectedIndexes equals: #( 2 )
 ]

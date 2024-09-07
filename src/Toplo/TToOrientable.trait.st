@@ -3,14 +3,6 @@ Trait {
 	#category : #'Toplo-Core'
 }
 
-{ #category : #'t - orientable - direction' }
-TToOrientable >> beEndToStart [
-
-	self isEndToStart ifTrue: [ ^ self ].
-	self leftToRight: false.
-	self requestLayout
-]
-
 { #category : #'t - orientable - orientation' }
 TToOrientable >> beHorizontal [
 
@@ -29,14 +21,6 @@ TToOrientable >> beRightToLeft [
 
 	self isRightToLeft ifTrue: [ ^ self ].
 	self direction: BlLayoutDirection rightToLeft
-]
-
-{ #category : #'t - orientable - direction' }
-TToOrientable >> beStartToEnd [
-
-	self isStartToEnd ifTrue: [ ^ self ].
-	self leftToRight: true.
-	self requestLayout
 ]
 
 { #category : #'t - orientable - orientation' }
@@ -63,12 +47,6 @@ TToOrientable >> direction: aDirection [
 	self requestLayout
 ]
 
-{ #category : #configurating }
-TToOrientable >> endToStart: aBoolean [
-
-	self startToEnd: aBoolean not
-]
-
 { #category : #'t - orientable - orientation' }
 TToOrientable >> horizontal: aBoolean [
 
@@ -81,12 +59,6 @@ TToOrientable >> horizontal: aBoolean [
 			self layoutStrategy beVertical ].
 	self dispatchEvent: ToLayoutOrientationChangedEvent new.
 	self requestLayout
-]
-
-{ #category : #'t - triplet element - testing' }
-TToOrientable >> isEndToStart [
-
-	^ self isStartToEnd not
 ]
 
 { #category : #'t - orientable - orientation' }
@@ -105,12 +77,6 @@ TToOrientable >> isLeftToRight [
 TToOrientable >> isRightToLeft [
 
 	^ self direction isRightToLeft
-]
-
-{ #category : #'t - triplet element - testing' }
-TToOrientable >> isStartToEnd [
-
-	^ self isLeftToRight
 ]
 
 { #category : #'t - orientable - orientation' }
@@ -157,14 +123,6 @@ TToOrientable >> rightToLeft: aBoolean [
 
 	aBoolean = self isRightToLeft ifTrue: [ ^ self ].
 	aBoolean ifTrue: [ self beRightToLeft ] ifFalse: [ self beLeftToRight ]
-]
-
-{ #category : #configurating }
-TToOrientable >> startToEnd: aBoolean [
-
-	aBoolean
-		ifTrue: [ self beStartToEnd ]
-		ifFalse: [ self beEndToStart ]
 ]
 
 { #category : #'t - orientable - orientation' }

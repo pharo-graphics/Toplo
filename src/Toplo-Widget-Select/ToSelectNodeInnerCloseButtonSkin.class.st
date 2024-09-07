@@ -1,11 +1,11 @@
 Class {
-	#name : #ToTagRemoveButtonSkin,
+	#name : #ToSelectNodeInnerCloseButtonSkin,
 	#superclass : #ToRawSkin,
-	#category : #'Toplo-Widget-Tag'
+	#category : #'Toplo-Widget-Select-Multi'
 }
 
 { #category : #'event handling' }
-ToTagRemoveButtonSkin >> hoveredSkinEvent: anEvent [
+ToSelectNodeInnerCloseButtonSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
 	anEvent elementDo: [ :e | 
@@ -14,19 +14,19 @@ ToTagRemoveButtonSkin >> hoveredSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToTagRemoveButtonSkin >> installSkinEvent: anEvent [
+ToSelectNodeInnerCloseButtonSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e icon innerImageColor: Color gray.
-		e fitContent.
+		e icon formColor: Color lightGray.
+		e vFitContent.
 		e geometry: BlCircleGeometry new.
 		e border: BlBorder empty.
 		e padding: BlInsets empty ]
 ]
 
 { #category : #'event handling' }
-ToTagRemoveButtonSkin >> leavedSkinEvent: anEvent [
+ToSelectNodeInnerCloseButtonSkin >> leavedSkinEvent: anEvent [
 
 	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |

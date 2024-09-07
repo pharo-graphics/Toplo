@@ -1,11 +1,11 @@
 Class {
-	#name : #ToListBasicSelectionElementSkin,
+	#name : #ToListUnselectableSelectionElementSkin,
 	#superclass : #ToRawSkin,
 	#category : #'Toplo-Widget-List-Selection-Element'
 }
 
 { #category : #'event handling' }
-ToListBasicSelectionElementSkin >> installSkinEvent: anEvent [
+ToListUnselectableSelectionElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -13,10 +13,12 @@ ToListBasicSelectionElementSkin >> installSkinEvent: anEvent [
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:
 				 (e valueOfTokenNamed: #'border-radius-SM')).
 		border := BlBorderBuilder new
-			          paint: (e valueOfTokenNamed: #'color-primary');
-			          width:
-				          (e valueOfTokenNamed: #'border-width-primary-selection');
+			          paint:
+				          (e valueOfTokenNamed: #'border-color-danger-selection');
+			          width: 2;
 			          dashArray: (e valueOfTokenNamed: #'dash-array');
 			          build.
-		e border: border ]
+		e border: border.
+		e background:
+			((e valueOfTokenNamed: #'border-color-danger-selection') alpha: 0.1) ]
 ]

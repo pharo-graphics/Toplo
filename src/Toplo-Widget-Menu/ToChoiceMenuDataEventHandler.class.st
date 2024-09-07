@@ -4,14 +4,8 @@ Class {
 	#instVars : [
 		'choiceMenu'
 	],
-	#category : #'Toplo-Widget-Menu-Choice menu deprecated'
+	#category : #'Toplo-Widget-Menu-Choice menu'
 }
-
-{ #category : #testing }
-ToChoiceMenuDataEventHandler class >> isDeprecated [
-
-	^ true
-]
 
 { #category : #accessing }
 ToChoiceMenuDataEventHandler >> choiceMenu: aChoiceMenu [

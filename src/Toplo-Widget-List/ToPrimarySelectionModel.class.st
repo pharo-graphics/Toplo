@@ -8,17 +8,23 @@ Class {
 }
 
 { #category : #copying }
-ToPrimarySelectionModel >> copySelectionFrom: anotherSelectionModel [
+ToPrimarySelectionModel >> duplicate [ 
 
-	super copySelectionFrom: anotherSelectionModel.
-	subSelectionModelIndex := anotherSelectionModel subSelectionModelIndex copy
+	| cpy origSubSelectionModelIndex |
+	cpy := self copy.
+	origSubSelectionModelIndex := subSelectionModelIndex.
+	cpy subSelectionModelIndex: IdentityDictionary new.
+	subSelectionModelIndex keysAndValuesDo: [ :key :value |
+		cpy subSelectionModelIndex at: key put: value copy ].
+	^ cpy
+	
 ]
 
 { #category : #initialization }
 ToPrimarySelectionModel >> initialize [
 
 	super initialize.
-	subSelectionModelIndex := ToDictionaryBasedSubSelectionModelRegistry new
+	subSelectionModelIndex := IdentityDictionary new
 ]
 
 { #category : #'instance creation' }
@@ -27,13 +33,6 @@ ToPrimarySelectionModel >> newSecondarySelectionModel [
 	^ ToSecondarySelectionModel new
 		  primarySelectionModel: self;
 		  yourself
-]
-
-{ #category : #copying }
-ToPrimarySelectionModel >> postCopy [ 
-
-	super postCopy.
-	subSelectionModelIndex := subSelectionModelIndex copy
 ]
 
 { #category : #accessing }

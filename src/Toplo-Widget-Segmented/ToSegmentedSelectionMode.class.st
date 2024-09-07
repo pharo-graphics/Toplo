@@ -5,16 +5,21 @@ Class {
 }
 
 { #category : #initialization }
-ToSegmentedSelectionMode >> initialize [
+ToSegmentedSelectionMode >> defaultElementBuilder [
 
-	super initialize.
-	option := ToListSelectionElementOption new.
-	option
-		grouped: true;
-		beneath: true;
-		triggerSelectionState: true;
-		elementFactory: [ ToListBasicSelectionElement new defaultSkin: ToListPrimarySelectionElementSkin new];
-		listEventHandler: ToListPrimarySelectionElementEventHandler new
+	^ [ ToListPrimarySelectionElement new ]
+]
+
+{ #category : #'instance creation' }
+ToSegmentedSelectionMode >> listEventHandlerClass [
+
+	^ ToListPrimarySelectionElementEventHandler 
+]
+
+{ #category : #'instance creation' }
+ToSegmentedSelectionMode >> newListEventHandler [
+
+	^ ToListPrimarySelectionElementEventHandler new
 ]
 
 { #category : #'instance creation' }

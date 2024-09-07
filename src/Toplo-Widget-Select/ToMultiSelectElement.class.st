@@ -2,7 +2,9 @@ Class {
 	#name : #ToMultiSelectElement,
 	#superclass : #ToSelectElement,
 	#instVars : [
-		'hideSelected'
+		'hideSelected',
+		'maxSelectedCount',
+		'keepPickOrder'
 	],
 	#category : #'Toplo-Widget-Select-Multi'
 }
@@ -30,9 +32,15 @@ ToMultiSelectElement >> checkHideSelectionFromListElement [
 ]
 
 { #category : #'accessing - selection' }
-ToMultiSelectElement >> checkMaxSelectedCount [
+ToMultiSelectElement >> checkMaxSelectedCountFromListElement [
 
-	self innerContainer checkMaxSelectedCount
+	self innerContainer checkMaxSelectedCountFromListElement
+]
+
+{ #category : #accessing }
+ToMultiSelectElement >> fakeDataItem: aDataItem [
+
+	self innerContainer fakeDataItem: aDataItem
 ]
 
 { #category : #accessing }
@@ -53,8 +61,8 @@ ToMultiSelectElement >> iconContainer: anIconContainer [
 	self iconContainer = anIconContainer ifTrue: [ ^ self ].
 	self iconContainer ifNotNil: [
 		self iconContainer onUninstalledIn: self ].
-	super iconContainer: anIconContainer.
-	anIconContainer selectionModel: self selectionModel
+	anIconContainer selectionModel: self selectionModel.
+	self endElement: anIconContainer
 ]
 
 { #category : #initialization }
@@ -62,6 +70,7 @@ ToMultiSelectElement >> initialize [
 
 	super initialize.
 	hideSelected := false.
+	maxSelectedCount := 0
 ]
 
 { #category : #'instance creation' }
@@ -71,17 +80,28 @@ ToMultiSelectElement >> innerContainerClass [
 ]
 
 { #category : #accessing }
+ToMultiSelectElement >> keepPickOrder [
+
+	^ keepPickOrder ifNil: [ keepPickOrder := false ]
+]
+
+{ #category : #accessing }
 ToMultiSelectElement >> keepPickOrder: aBoolean [
 
-	self innerContainer keepPickOrder: aBoolean
+	keepPickOrder := aBoolean
+]
+
+{ #category : #accessing }
+ToMultiSelectElement >> maxSelectedCount [
+
+	^ maxSelectedCount
 ]
 
 { #category : #accessing }
 ToMultiSelectElement >> maxSelectedCount: aNumber [
 
-	self iconContainer maxSelectedCount: aNumber.
-	self innerContainer maxSelectedCount: aNumber.
-
+	maxSelectedCount := aNumber.
+	self iconContainer maxSelectedCount: aNumber
 ]
 
 { #category : #'instance creation' }

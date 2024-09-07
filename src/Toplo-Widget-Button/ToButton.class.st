@@ -1,10 +1,10 @@
 Class {
 	#name : #ToButton,
 	#superclass : #ToGeneralButton,
-	#traits : 'TToOrientable + TToTripletElement + TToLabeledIcon + TToCheckable',
-	#classTraits : 'TToOrientable classTrait + TToTripletElement classTrait + TToLabeledIcon classTrait + TToCheckable classTrait',
+	#traits : 'TToElementWithLabeledIcon + TToCheckable',
+	#classTraits : 'TToElementWithLabeledIcon classTrait + TToCheckable classTrait',
 	#instVars : [
-		'props',
+		'labeledIcon',
 		'optCheckableData'
 	],
 	#category : #'Toplo-Widget-Button-Core'
@@ -35,31 +35,24 @@ ToButton >> checkable: aBoolean [
 		ifFalse: [ self beNotCheckable ]
 ]
 
-{ #category : #'t - checkable - accessing' }
-ToButton >> checkableData [
-
-	^ optCheckableData 
-]
-
-{ #category : #'t - checkable - accessing' }
-ToButton >> checkableData: aCheckableData [
-
-	optCheckableData := aCheckableData
-]
-
 { #category : #initialization }
 ToButton >> initialize [
 
 	super initialize.
-	self initializeTripletElement
+	labeledIcon := ToLabeledIcon new.
+	self addChild: labeledIcon.
+	labeledIcon constraintsDo: [ :c |
+		c linear vertical alignCenter.
+		c linear horizontal alignCenter.
+		c frame vertical alignCenter.
+		c frame horizontal alignCenter ].
+	self fitContent
 ]
 
-{ #category : #'t - orientable - accessing' }
-ToButton >> layoutStrategy [
+{ #category : #'t - element with labeled icon - accessing' }
+ToButton >> labeledIcon [ 
 
-	^ self layout 
-
-	
+	^ labeledIcon
 ]
 
 { #category : #skin }
@@ -70,21 +63,14 @@ ToButton >> newRawSkin [
 		  ifFalse: [ ToButtonSkin new ]
 ]
 
-{ #category : #layout }
-ToButton >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
+{ #category : #'t - checkable - accessing' }
+ToButton >> rawCheckableData [
 
-	self configureLayout.
-	super onLayout: aBounds context: aBlElementBoundsUpdateContext
+	^ optCheckableData 
 ]
 
-{ #category : #'t - triplet element - private - accessing' }
-ToButton >> props [
+{ #category : #'t - checkable - accessing' }
+ToButton >> rawCheckableData: aCheckableData [
 
-	^ props
-]
-
-{ #category : #'t - triplet element - private - accessing' }
-ToButton >> props: aTripletElementProperties [
-
-	props := aTripletElementProperties
+	optCheckableData := aCheckableData
 ]

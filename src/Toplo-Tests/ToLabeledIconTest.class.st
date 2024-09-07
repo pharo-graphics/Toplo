@@ -115,11 +115,14 @@ ToLabeledIconTest >> testIconContainerHeight [
 
 	| li |
 	li := self testWithLabelAndIcon.
-	li iconContainer height: 40.
+	li iconContainerHeight: 40.
 	li forceLayout.
 	self
 		assert: li height
-		equals: (li labelContainer height max: li iconContainer height)
+		equals: (li labelContainer height max: li iconContainer height).
+	self
+		assert: li height
+		equals: (li labelContainer height max: li iconContainerHeight)
 ]
 
 { #category : #tests }
@@ -128,11 +131,14 @@ ToLabeledIconTest >> testIconContainerHeightVertical [
 	| li |
 	li := self testWithLabelAndIcon.
 	li beVertical.
-	li iconContainer height: 40.
+	li iconContainerHeight: 40.
 	li forceLayout.
 	self
 		assert: li height
 		equals: li labelContainer height + li iconContainer height.
+	self
+		assert: li height
+		equals: li labelContainer height + li iconContainerHeight.
 	self
 		assert: li width
 		equals: (li labelContainer width max: li iconContainer width)
@@ -143,11 +149,14 @@ ToLabeledIconTest >> testIconContainerWidth [
 
 	| li |
 	li := self testWithLabelAndIcon.
-	li iconContainer width: 40.
+	li iconContainerWidth: 40.
 	li forceLayout.
 	self
 		assert: li width
 		equals: li labelContainer width + li iconContainer width.
+	self
+		assert: li width
+		equals: li labelContainer width + li iconContainerWidth.
 	self
 		assert: li height
 		equals: (li labelContainer height max: li iconContainer height)
@@ -159,11 +168,14 @@ ToLabeledIconTest >> testIconContainerWidthVertical [
 	| li |
 	li := self testWithLabelAndIcon.
 	li beVertical.
-	li iconContainer width: 40.
+	li iconContainerWidth: 40.
 	li forceLayout.
 	self
 		assert: li width
 		equals: (li labelContainer width max: li iconContainer width).
+	self
+		assert: li width
+		equals: (li labelContainer width max: li iconContainerWidth).
 	self
 		assert: li height
 		equals: li labelContainer height + li iconContainer height
@@ -355,7 +367,7 @@ ToLabeledIconTest >> testLabelText [
 	self assert: li label text asString equals: 'X'.
 	self assert: li size equals: li labelContainer size.
 	self assert: li labelText equals: 'X'.
-	li label: nil.
+	li labelText: nil.
 	li forceLayout.
 	self deny: li hasLabel.
 	self assert: li size equals: 0 asPoint.

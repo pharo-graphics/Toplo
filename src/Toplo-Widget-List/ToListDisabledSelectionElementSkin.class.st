@@ -1,11 +1,11 @@
 Class {
-	#name : #ToListDisabledSelectionElementExampleSkin,
+	#name : #ToListDisabledSelectionElementSkin,
 	#superclass : #ToRawSkin,
-	#category : #'Toplo-Examples'
+	#category : #'Toplo-Widget-List-Selection-Element'
 }
 
 { #category : #'event handling' }
-ToListDisabledSelectionElementExampleSkin >> installSkinEvent: anEvent [
+ToListDisabledSelectionElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |

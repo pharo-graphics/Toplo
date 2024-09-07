@@ -1,8 +1,8 @@
 Class {
 	#name : #ToSegmentedElement,
 	#superclass : #ToElement,
-	#traits : 'TToCheckableHolder + TToOrientable',
-	#classTraits : 'TToCheckableHolder classTrait + TToOrientable classTrait',
+	#traits : 'TToCheckableGroupHolder + TToOrientable',
+	#classTraits : 'TToCheckableGroupHolder classTrait + TToOrientable classTrait',
 	#instVars : [
 		'barElement'
 	],
@@ -98,7 +98,7 @@ ToSegmentedElement >> segmentAccessor [
 { #category : #accessing }
 ToSegmentedElement >> selectionMode [
 
-	^ barElement selectionMode
+	^ barElement primarySelectionMode
 ]
 
 { #category : #accessing }

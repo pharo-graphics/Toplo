@@ -41,12 +41,6 @@ ToCheckableGroup >> allowChangeWith: aCheckValue forCheckable: target [
 			 forCheckable: target)
 ]
 
-{ #category : #testing }
-ToCheckableGroup >> allowUnchecking [
-
-	^ checkingStrategy allowUnchecking
-]
-
 { #category : #accessing }
 ToCheckableGroup >> buttons [
 	
@@ -176,7 +170,7 @@ ToCheckableGroup >> removeAll [
 { #category : #'checking / unchecking request' }
 ToCheckableGroup >> uncheckAll [
 
-	self checkedList do: [ :b | b privateChecked: false ]
+	self checkedList do: [ :b | b checkableData privateChecked: false ]
 ]
 
 { #category : #'checking / unchecking request' }
@@ -184,7 +178,7 @@ ToCheckableGroup >> uncheckAllExcept: aButton [
 
 	(self registeredCheckables select: [ :b |
 		 b ~= aButton and: [ b checked ] ]) do: [ :b |
-		b privateChecked: false ]
+		b checkableData privateChecked: false ]
 ]
 
 { #category : #accessing }

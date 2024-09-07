@@ -7,10 +7,28 @@ Class {
 	#category : #'Toplo-Widget-Image-Core'
 }
 
+{ #category : #accessing }
+ToImage class >> formInnerImageId [
+
+	^ #form
+]
+
 { #category : #'instance creation' }
 ToImage class >> inner: anImage [
 
 	^ self new innerImage: anImage
+]
+
+{ #category : #accessing }
+ToImage class >> svgInnerImageId [
+
+	^ #svgPath 
+]
+
+{ #category : #accessing }
+ToImage class >> unknownInnerImageId [
+
+	^ #unknown
 ]
 
 { #category : #'private - conversion' }
@@ -19,12 +37,12 @@ ToImage >> convertedAsInnerImage: aSource [
 	^ aSource isString
 		  ifTrue: [
 			  (BlSvgConverter convertFromString: aSource)
-				  id: #svgPath;
+				  id: self svgInnerImageId;
 				  yourself ]
 		  ifFalse: [
 			  aSource asElement id: (aSource isForm
-					   ifTrue: [ #form ]
-					   ifFalse: [ #unknownType ]) ]
+					   ifTrue: [ self formInnerImageId ]
+					   ifFalse: [ self unknownInnerImageId ]) ]
 ]
 
 { #category : #initialization }
@@ -50,13 +68,26 @@ ToImage >> errorInnerFormNotFound [
 ]
 
 { #category : #'form accessing' }
+ToImage >> errorInnerSvgElementNotFound [
+	"Raise a NotFound exception."
+
+	NotFound signalFor: self
+]
+
+{ #category : #'form accessing' }
 ToImage >> formColor: aColor [
 
 	self
-		withInnerFormDo: [ :form |
-			self innerImage:
-				(form collectColors: [ :color | aColor alpha: color alpha ]) ]
-		ifNone: [  ]
+		deprecated: 'Use #innerImageColor:'
+		transformWith: '`@recvr formColor: `@aColor '
+			-> '`@recvr innerImageColor: `@aColor'.
+	self innerImageColor: aColor
+]
+
+{ #category : #accessing }
+ToImage >> formInnerImageId [
+
+	^ self class formInnerImageId
 ]
 
 { #category : #testing }
@@ -80,7 +111,25 @@ ToImage >> initialize [
 ToImage >> innerForm [
 	"Convenience method that returns nil if the request makes no sense or if there is no form."
 
+	self deprecated: 'Use #innerFormImage' transformWith: '`@recvr innerForm'->'`@recvr innerFormImage'.
+	^ self innerFormImage
+]
+
+{ #category : #'form accessing' }
+ToImage >> innerFormImage [
+	"Convenience method that returns nil if the request makes no sense or if there is no form."
+
 	^ self innerImage background formImage
+]
+
+{ #category : #'form accessing' }
+ToImage >> innerFormImageColor: aColor [
+
+	self
+		withInnerFormDo: [ :form |
+			self innerImage:
+				(form collectColors: [ :color | aColor alpha: color alpha ]) ]
+		ifNone: [  ]
 ]
 
 { #category : #accessing }
@@ -93,18 +142,43 @@ ToImage >> innerImage [
 ToImage >> innerImage: anImage [
 
 	| element |
-	element := anImage
-		           ifNil: [ self defaultInnerImage ]
-		           ifNotNil: [ self convertedAsInnerImage: anImage ].
 	anImage = innerImage ifTrue: [ ^ self ].
+	element := anImage ifNil: [ self defaultInnerImage ].
+	element := self convertedAsInnerImage: element.
 	self removeChildren.
 	innerImage := element.
 	self addChild: element.
 	element id ifNotNil: [ :id |
-		id asSymbol = #svgPath ifTrue: [
+		id asSymbol = self svgInnerImageId ifTrue: [
 			element constraintsDo: [ :c |
 				c horizontal matchParent.
 				c vertical matchParent ] ] ]
+]
+
+{ #category : #'form accessing' }
+ToImage >> innerImageColor: aColor [
+
+	self innerSvgImage ifNotNil: [ ^ self innerSvgImageColor: aColor ].
+	self innerFormImage ifNotNil: [ ^ self innerFormImageColor: aColor ]
+]
+
+{ #category : #'form accessing' }
+ToImage >> innerSvgImage [
+	"Convenience method that returns nil if the request makes no sense or if there is no svg image."
+
+	^ self innerImage id = self svgInnerImageId
+		  ifTrue: [ self innerImage ]
+		  ifFalse: [  ]
+]
+
+{ #category : #'form accessing' }
+ToImage >> innerSvgImageColor: aColor [
+
+	self
+		withInnerSvgElementDo: [ :e |
+			e withAllChildrenDepthFirstDo: [ :child |
+				child hasChildren ifFalse: [ child background: aColor ] ] ]
+		ifNone: [  ]
 ]
 
 { #category : #rotation }
@@ -113,6 +187,18 @@ ToImage >> rotateBy: aDegreesAngle [
 	self innerImage
 		constraintsDo: [ :c | c accountTransformation ];
 		transformDo: [ :t | t rotateBy: aDegreesAngle ]
+]
+
+{ #category : #accessing }
+ToImage >> svgInnerImageId [
+
+	^ self class svgInnerImageId
+]
+
+{ #category : #accessing }
+ToImage >> unknownInnerImageId [
+
+	^ self class unknownInnerImageId
 ]
 
 { #category : #'form accessing' }
@@ -128,5 +214,27 @@ ToImage >> withInnerFormDo: aBlock ifNone: aNoneBlock [
 	" aBlock is evaluated with the form as arguments 
 	if the result of #innerForm is not nil, else, aNoneBlock is evaluated "
 
-	self innerForm ifNil: aNoneBlock ifNotNil: [ :f | aBlock value: f ]
+	self innerFormImage
+		ifNil: [ aNoneBlock value ]
+		ifNotNil: [ :f | aBlock value: f ]
+]
+
+{ #category : #'form accessing' }
+ToImage >> withInnerSvgElementDo: aBlock [
+	" aBlock is evaluated with the svg element as arguments 
+	if the result of #innerForm is not nil "
+
+	self
+		withInnerSvgElementDo: aBlock
+		ifNone: [ self errorInnerSvgElementNotFound ]
+]
+
+{ #category : #'form accessing' }
+ToImage >> withInnerSvgElementDo: aBlock ifNone: aNoneBlock [
+	" aBlock is evaluated with the svg element as arguments 
+	if the result of #innerSvgImage is not nil, else, aNoneBlock is evaluated "
+
+	self innerSvgImage
+		ifNil: [ aNoneBlock value ]
+		ifNotNil: [ :f | aBlock value: f ]
 ]

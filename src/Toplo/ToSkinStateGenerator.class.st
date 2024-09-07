@@ -26,16 +26,6 @@ ToSkinStateGenerator >> checkableCheckEvent: anEvent [
 ]
 
 { #category : #'mouse handlers' }
-ToSkinStateGenerator >> clickAbortedEvent: anEvent [
-
-	(anEvent upEvent target hasInParentChain: target) ifFalse: [ ^ self ].
-	anEvent target: target.
-	anEvent currentTarget: target.
-	anEvent processor fireClickEventFrom: anEvent.
-	anEvent consume.
-]
-
-{ #category : #'mouse handlers' }
 ToSkinStateGenerator >> clickEvent: anEvent [
 
 	anEvent
@@ -140,7 +130,6 @@ ToSkinStateGenerator >> eventsToHandle [
 		  BlKeyboardEvent.
 		  BlBlurEvent.
 		  BlFocusEvent.
-		  BlClickAbortedEvent.
 		  BlClickEvent.
 		  BlDoubleClickEvent.
 		  BlMouseDownEvent.
@@ -326,6 +315,7 @@ ToSkinStateGenerator >> generateSelectionStateFromEvent: anEvent [
 							enqueueSkinState: (ToSelectionState new
 									 selected: anEvent selected;
 									 focused: anEvent listElement isFocused;
+									 selectionOption: anEvent selectionOption;
 									 yourself)
 							in: child ] ] ] ]
 		in: target

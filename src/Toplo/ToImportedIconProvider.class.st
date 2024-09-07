@@ -36,12 +36,13 @@ ToImportedIconProvider class >> listElementWithAllIcons [
 	l addEventHandler: (BlEventHandler
 			 on: ToListStrongSelectionEvent
 			 do: [ :event |
-				 (event indexes collect: [ :idx | l dataAccessor at: idx]) traceCr ]).
+				 (event indexes collect: [ :idx | l dataAccessor at: idx ])
+					 traceCr ]).
 
 
 	styles := ToIconStyle allSubclasses asArray sort: [ :a :b |
 		          a name < b name ].
-	
+
 	assocs := Array streamContents: [ :stream |
 		          styles do: [ :style |
 			          | s |
@@ -53,6 +54,23 @@ ToImportedIconProvider class >> listElementWithAllIcons [
 					          (iconNames collect: [ :n | n -> style ]) ] ] ].
 
 	l dataAccessor addAll: assocs.
+
+	l contextMenuBuilder: [ :menu :request |
+		| indexes target |
+		target := request currentTarget.
+		indexes := request selectedIndexes.
+		indexes size = 1 ifTrue: [
+			menu addItem: (ToMenuItem new
+					 labelText: 'Inspect image';
+					 whenClickedDo: [ :event |
+						 | dataItem element |
+						 dataItem := target dataAccessor at: indexes first.
+						 element := (dataItem value
+							             iconNamed: dataItem key
+							             inProvider: icProvider)
+							            size: 100 asPoint;
+							            yourself.
+						 element inspect ]) ] ].
 
 	l nodeBuilder: [ :node :dataItem :holder |
 		| styleLab stylePane iclab iclabPane imPane iconStyle iconName |
@@ -74,11 +92,13 @@ ToImportedIconProvider class >> listElementWithAllIcons [
 		imPane := ToElement new layout: BlFrameLayout new.
 		imPane fitContent.
 		imPane withNullSkin.
-		imPane background: (Color veryVeryLightGray).
+		imPane background: Color veryVeryLightGray.
 		imPane addChild:
 			((iconStyle iconNamed: iconName inProvider: icProvider)
 				 size: 24 asPoint;
 				 yourself).
+		imPane firstChild withAllChildrenDepthFirstDo: [ :child |
+			child hasChildren ifFalse: [ child background: Color red ] ].
 		node addChildren: {
 				stylePane.
 				iclabPane.

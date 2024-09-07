@@ -9,7 +9,9 @@ Class {
 		'counter',
 		'listIdentifiers',
 		'maxPrimaryIntervals',
-		'maxNbTasks'
+		'maxNbTasks',
+		'endTime',
+		'startTime'
 	],
 	#category : #'Toplo-Examples-Crashing Examples'
 }
@@ -203,7 +205,7 @@ ToListElementStresser >> finishedInAllTabs [
 	^ tabsPanel tabs allSatisfy: [ :tab |
 		  | list |
 		  list := tab userData at: #list.
-		  list userData at: #finishedStress ]
+		  list userData at: #finishedStress ifAbsent: [false] ]
 ]
 
 { #category : #initialization }
@@ -237,6 +239,7 @@ ToListElementStresser >> initialize [
 	tabSelectionProcess := [
 	                       | round |
 	                       round := 0.
+	                       startTime := DateAndTime now.
 	                       [ self finishedInAllTabs ] whileFalse: [
 		                       | idx |
 		                       round := round + 1.
@@ -245,10 +248,14 @@ ToListElementStresser >> initialize [
 		                       self tabsPanel enqueueTask:
 			                       (BlTaskAction new action: [
 				                        (self tabsPanel tabs at: idx) check ]).
-		                       1 seconds wait ] ] newProcess.
+		                       1 seconds wait
+		                       "Smalltalk garbageCollect" ].
+	                       endTime := DateAndTime now.
+	                       (endTime - startTime) asDuration traceCr ]
+		                       newProcess.
 
 	tabSelectionProcess name: self class name.
-	tabSelectionProcess priority: Processor systemBackgroundPriority.
+	tabSelectionProcess priority: Processor userBackgroundPriority.
 
 	self tabsPanel
 		addEventHandlerOn: BlElementAddedToSceneGraphEvent
@@ -365,6 +372,7 @@ ToListElementStresser >> newStressedListNumber: aNumber [
 	           list userData at: #finishedStress put: false.
 	           self maxRound timesRepeat: [
 		           round := round + 1.
+		           (round \\ 100) isZero ifTrue: [ Smalltalk garbageCollect ].
 		           self processingRound: round inList: list number: aNumber.
 		           self afterRoundInList: list ].
 	           self processEndInList: list number: aNumber ] newProcess.
@@ -385,7 +393,9 @@ ToListElementStresser >> newStressedListNumber: aNumber [
 
 	pane addChild: list.
 	pane addChild: (self newSelectionBoardOn: list).
-	list userData at: #identifier put: (ident asRopedText bold , suffix asRopedText).
+	list userData
+		at: #identifier
+		put: ident asRopedText bold , suffix asRopedText.
 
 	^ pane -> list
 ]
@@ -400,13 +410,14 @@ ToListElementStresser >> nextCounter [
 { #category : #private }
 ToListElementStresser >> nextProcessPriorityForListNumber: aNumber [
 
-	| priorities |
+	"| priorities |
 	priorities := {
 		              Processor lowestPriority.
 		              Processor userBackgroundPriority.
 		              Processor systemBackgroundPriority }.
 
-	^ priorities at: aNumber \\ priorities size + 1
+	^ priorities at: aNumber \\ priorities size + 1"
+	^ Processor userBackgroundPriority.
 ]
 
 { #category : #accessing }

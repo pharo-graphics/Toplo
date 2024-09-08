@@ -47,6 +47,7 @@ ToClickableActionEventHandler >> receiveClickEvent: anEvent [
 
 	| req target |
 	target := anEvent currentTarget.
+	target requestFocus.
 	req := ToClickableActionRequestEvent new
 		       requestedAction: [
 			       target fireEvent: ToClickableRunActionEvent new ];

@@ -8,15 +8,8 @@ Class {
 		'textModel',
 		'bindings'
 	],
-	#category : #'Toplo-Examples-TopLevel'
+	#category : #'Toplo-Examples'
 }
-
-{ #category : #'instance creation' }
-ToWorkspaceExample class >> open [
-
-	<script>
-	self openInHost: BlOSWindowSDL2Host new
-]
 
 { #category : #'instance creation' }
 ToWorkspaceExample class >> openInHost: aBlOSWindowHost [

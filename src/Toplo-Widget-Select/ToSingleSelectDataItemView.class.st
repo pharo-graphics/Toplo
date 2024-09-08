@@ -32,7 +32,6 @@ ToSingleSelectDataItemView >> initialize [
 ToSingleSelectDataItemView >> installRawStyle [
 
 	super installRawStyle.
-	self padding: (BlInsets horizontal: 3 vertical: 2).
 	self background: Color transparent.
 
 ]

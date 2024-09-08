@@ -11,7 +11,8 @@ ToToggleButtonSkin >> checkedSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e background: (e valueOfTokenNamed: #'color-primary-checked').
 		e iconDo: [ :ic |
-			ic formColor: (e valueOfTokenNamed: #'text-color-primary-checked') ].
+			ic innerImageColor:
+				(e valueOfTokenNamed: #'text-color-primary-checked') ].
 		e labelDo: [ :lab |
 			lab text attributes: { (BlTextForegroundAttribute paint:
 					 (e valueOfTokenNamed: #'text-color-primary-checked')) } ] ]
@@ -57,7 +58,7 @@ ToToggleButtonSkin >> indeterminateSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e background: (e valueOfTokenNamed: #'color-primary-indeterminate').
 		e iconDo: [ :ic |
-			ic formColor: (e valueOfTokenNamed: #'color-text') ].
+			ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
 		e labelDo: [ :lab |
 			lab text attributes: { (BlTextForegroundAttribute paint:
 					 (e valueOfTokenNamed: #'color-text')) } ] ]
@@ -106,7 +107,7 @@ ToToggleButtonSkin >> uncheckedSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e background: (e valueOfTokenNamed: #'color-primary-unchecked').
 		e iconDo: [ :ic |
-			ic formColor: (e valueOfTokenNamed: #'color-text') ].
+			ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
 		e labelDo: [ :lab |
 			lab text attributes: { (BlTextForegroundAttribute paint:
 					 (e valueOfTokenNamed: #'color-text')) } ] ]

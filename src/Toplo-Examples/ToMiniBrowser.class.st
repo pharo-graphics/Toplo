@@ -10,7 +10,7 @@ Class {
 		'classSide',
 		'selectedSelector'
 	],
-	#category : #'Toplo-Examples-TopLevel'
+	#category : #'Toplo-Examples'
 }
 
 { #category : #'instance creation' }
@@ -102,7 +102,7 @@ ToMiniBrowser >> newClassPane [
 
 	| classesPane classesButtonPane sideToggle |
 	classes := ToListElement new
-		           nodeFactory: [ ToClassNameViewExamplePart new ];
+		           nodeFactory: [ ToClassNameViewExample new ];
 		           id: #classes;
 		           nodeBuilder: [ :node :dataItem :holder |
 			           node class: dataItem position: holder position ].

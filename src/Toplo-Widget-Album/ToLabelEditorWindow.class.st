@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Widget-Album-Label'
 }
 
-{ #category : #initialization }
+{ #category : #accessing }
 ToLabelEditorWindow >> defaultElevation [
 
 	^ BlRelativeElevation elevation: (SmallInteger maxVal - 200)

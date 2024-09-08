@@ -1,13 +1,10 @@
-"
-I'm part of the Photo gallery example. I'm not expected to be used as a standalone.
-"
 Class {
 	#name : #ToPicsumPhotosGalleryImageHolder,
 	#superclass : #ToListNodeHolder,
 	#instVars : [
 		'loader'
 	],
-	#category : #'Toplo-Examples-PhotoGalleryParts'
+	#category : #'Toplo-Examples'
 }
 
 { #category : #accessing }

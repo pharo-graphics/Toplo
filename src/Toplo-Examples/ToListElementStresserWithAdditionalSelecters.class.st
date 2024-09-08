@@ -6,7 +6,7 @@ Class {
 		'maxHiddenIntervals',
 		'maxDisabledIntervals'
 	],
-	#category : #'Toplo-Examples-Crashing Examples'
+	#category : #'Toplo-Examples'
 }
 
 { #category : #running }
@@ -152,7 +152,7 @@ ToListElementStresserWithAdditionalSelecters >> newListElement [
 
 	| l |
 	l := ToListElement new
-		     nodeBuilder: [ :node :dataItem :holder  |
+		     nodeBuilder: [ :node :dataItem :holder |
 			     | lab |
 			     lab := ToLabel text: dataItem.
 			     node addChild: lab.
@@ -161,15 +161,10 @@ ToListElementStresserWithAdditionalSelecters >> newListElement [
 			     holder isDisabled ifTrue: [
 					     node background: (Color veryLightGray alpha: 0.5) ] ];
 		     yourself.
-	"
-	l newDisabledSelectionMode onInstalledIn: l.
-	l newUnselectableSelectionMode onInstalledIn: l.
-	l withHiddenSelecter.
-	"
-	l
-		withHiddenSelecter;
-		withUnselectableSelecter;
-		withDisabledSelecter.
+
+	l newHiddenSelectionMode on: l.
+	l newUnselectableSelectionMode on: l.
+	l newDisabledSelectionMode on: l.
 
 	^ l
 ]

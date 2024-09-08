@@ -1,7 +1,7 @@
 Class {
 	#name : #ToTextFieldPopupExperiment,
 	#superclass : #Object,
-	#category : #'Toplo-Examples-TopLevel'
+	#category : #'Toplo-Examples'
 }
 
 { #category : #'instance creation' }

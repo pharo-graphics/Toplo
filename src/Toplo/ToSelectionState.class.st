@@ -3,7 +3,8 @@ Class {
 	#superclass : #ToIntrinsicState,
 	#instVars : [
 		'selected',
-		'focused'
+		'focused',
+		'selectionOption'
 	],
 	#category : #'Toplo-Core-States'
 }
@@ -30,6 +31,18 @@ ToSelectionState >> selected [
 ToSelectionState >> selected: aBoolean [
 
 	selected := aBoolean
+]
+
+{ #category : #accessing }
+ToSelectionState >> selectionOption [
+
+	^ selectionOption
+]
+
+{ #category : #accessing }
+ToSelectionState >> selectionOption: aSelectionElementOption [
+
+	selectionOption := aSelectionElementOption
 ]
 
 { #category : #accessing }

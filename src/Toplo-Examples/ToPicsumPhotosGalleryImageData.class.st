@@ -1,6 +1,3 @@
-"
-I'm part of the Photo gallery example. I'm not expected to be used as a standalone.
-"
 Class {
 	#name : #ToPicsumPhotosGalleryImageData,
 	#superclass : #Object,
@@ -15,7 +12,7 @@ Class {
 		'id',
 		'loadedForm'
 	],
-	#category : #'Toplo-Examples-PhotoGalleryParts'
+	#category : #'Toplo-Examples'
 }
 
 { #category : #'instance creation' }

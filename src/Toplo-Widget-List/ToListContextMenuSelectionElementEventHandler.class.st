@@ -7,12 +7,21 @@ Class {
 }
 
 { #category : #'element handlers' }
+ToListContextMenuSelectionElementEventHandler >> boundsHasChangedDuringScrollingEvent: anEvent [
+
+]
+
+{ #category : #'element handlers' }
 ToListContextMenuSelectionElementEventHandler >> contextMenuClosedEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
 	target enableScrolledEvent.
 	target contextMenuSelecter deselectAll
+]
+
+{ #category : #'element handlers' }
+ToListContextMenuSelectionElementEventHandler >> elementScrolledEvent: anEvent [
 ]
 
 { #category : #'api - accessing' }

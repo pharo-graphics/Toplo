@@ -1,8 +1,8 @@
 Class {
 	#name : #ToSegmentedBarElement,
 	#superclass : #ToBarElement,
-	#traits : 'TToCheckableGroupHolder',
-	#classTraits : 'TToCheckableGroupHolder classTrait',
+	#traits : 'TToCheckableHolder',
+	#classTraits : 'TToCheckableHolder classTrait',
 	#instVars : [
 		'group'
 	],

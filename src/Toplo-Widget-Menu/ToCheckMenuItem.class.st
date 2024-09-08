@@ -1,8 +1,8 @@
 Class {
 	#name : #ToCheckMenuItem,
 	#superclass : #ToMenuItem,
-	#traits : 'TToCheckable + TToCheckableHolder',
-	#classTraits : 'TToCheckable classTrait + TToCheckableHolder classTrait',
+	#traits : 'TToElementWithCheckable',
+	#classTraits : 'TToElementWithCheckable classTrait',
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
@@ -10,8 +10,9 @@ Class {
 ToCheckMenuItem >> button: aCheckbox [
 
 	super button: aCheckbox.
-	self registerInCheckable 
-
+	self button addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :event | self dispatchEvent: event ])
 ]
 
 { #category : #initialization }
@@ -21,15 +22,16 @@ ToCheckMenuItem >> buttonClass [
 ]
 
 { #category : #'t - checkable - accessing' }
-ToCheckMenuItem >> checkableData [
+ToCheckMenuItem >> checkable [
 
-	^ self button checkableData
+	^ self button
 ]
 
 { #category : #'t - checkable - accessing' }
-ToCheckMenuItem >> checkableData: aCheckableData [
+ToCheckMenuItem >> checked: aBooleanOrNil [
+	" change the checkable state. nil means indeterminate. "
 
-	^ self shouldNotImplement 
+	self checkable checked: aBooleanOrNil
 ]
 
 { #category : #testing }
@@ -48,4 +50,16 @@ ToCheckMenuItem >> indeterminateBar [
 ToCheckMenuItem >> newRawSkin [ 
 
 	^ ToCheckMenuItemSkin new
+]
+
+{ #category : #'t - element with checkable group' }
+ToCheckMenuItem >> rawGroup [
+
+	^ self button rawGroup
+]
+
+{ #category : #'t - element with checkable group' }
+ToCheckMenuItem >> rawGroup: aGroup [
+
+	self button rawGroup: aGroup
 ]

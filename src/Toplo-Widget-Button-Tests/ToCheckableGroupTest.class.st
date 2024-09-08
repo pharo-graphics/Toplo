@@ -87,7 +87,7 @@ ToCheckableGroupTest >> testIndeterminateRaiseError [
 
 	| group btn |
 	btn := ToCheckbox new.
-	btn allowIndeterminate: true.
+	btn withIndeterminate: true.
 	group := ToCheckableGroup new.
 	self should: [ group register: btn ] raise: Error
 ]
@@ -116,15 +116,15 @@ ToCheckableGroupTest >> testSwitchToNextState [
 
 	buttons do: [ :b | pane addChild: b ].
 
-	buttons first checkableData  switchToNextCheckState.
+	buttons first switchToNextCheckState.
 	self assert: buttons first checked.
 	self assert: buttons second checked not.
 	self assert: buttons third checked not.
-	buttons second checkableData  switchToNextCheckState.
+	buttons second switchToNextCheckState.
 	self assert: buttons first checked not.
 	self assert: buttons second checked.
 	self assert: buttons third checked not.
-	buttons third checkableData  switchToNextCheckState.
+	buttons third switchToNextCheckState.
 	self assert: buttons first checked not.
 	self assert: buttons second checked not.
 	self assert: buttons third checked

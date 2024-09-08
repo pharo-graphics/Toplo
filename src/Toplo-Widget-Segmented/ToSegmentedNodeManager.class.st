@@ -22,14 +22,16 @@ ToSegmentedNodeManager >> defaultNodeBuilder [
 	  node isFake ifFalse: [
 		  contentElement registerInGroup: holder segmentedBarElement group.
 		  contentElement constraints infinite holder: holder.
-		  contentElement constraintsDo: [ :c | c horizontal matchParent ] ].
+		  contentElement constraintsDo: [ :c | c horizontal matchParent ].
+		].
 	  node addChild: contentElement ]
 ]
 
 { #category : #initialization }
 ToSegmentedNodeManager >> defaultNodeFactory [
 
-	^ [ :holder | ToSegmentedNode new ]
+	^ [ :holder |
+	  ToSegmentedNode new ]
 ]
 
 { #category : #initialization }

@@ -9,12 +9,11 @@ Class {
 }
 
 { #category : #initialization }
-ToListBasicSelectionElement >> initialize [
+ToListBasicSelectionElement >> initialize [ 
 
 	super initialize.
 	positionHook := [ :aPoint :aListElement | aPoint ].
-	sizeHook := [ :aPoint :aListElement | aPoint ].
-
+	sizeHook := [ :aPoint :aListElement | aPoint ]
 ]
 
 { #category : #private }

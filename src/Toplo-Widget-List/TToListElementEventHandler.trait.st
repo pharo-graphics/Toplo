@@ -11,7 +11,7 @@ TToListElementEventHandler >> withTargetNodeFromEvent: anEvent do: aValuable [
 	| globalPosition target childNode |
 	globalPosition := anEvent position.
 	target := anEvent currentTarget.
-	childNode := target nodes
+	childNode := target innerContainer nodes
 		             detect: [ :node |
 			             node holder isSelectable and: [
 				             node containsGlobalPoint: globalPosition ] ]

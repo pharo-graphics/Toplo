@@ -15,18 +15,6 @@ Class {
 	#category : #'Toplo-Widget-TabPane'
 }
 
-{ #category : #'t - checkable - accessing' }
-ToTab >> allowIndeterminate [
-
-	^ false
-]
-
-{ #category : #'t - checkable - accessing' }
-ToTab >> allowIndeterminate: aBoolean [
-
-	Error signal: 'Indeterminate not allowed'
-]
-
 { #category : #accessing }
 ToTab >> body [
 
@@ -40,18 +28,6 @@ ToTab >> checkableCheckEvent: event [
 		self onSelected.
 		^ self ].
 	self onDeselected 
-]
-
-{ #category : #'t - checkable - accessing' }
-ToTab >> checkableData [
-
-	^ checkableData 
-]
-
-{ #category : #'t - checkable - accessing' }
-ToTab >> checkableData: aCheckableData [
-
-	checkableData := aCheckableData
 ]
 
 { #category : #accessing }
@@ -243,6 +219,18 @@ ToTab >> paneBuilder: aValuable [
 	paneBuilder := aValuable
 ]
 
+{ #category : #'t - checkable - accessing' }
+ToTab >> rawCheckableData [
+
+	^ checkableData 
+]
+
+{ #category : #'t - checkable - accessing' }
+ToTab >> rawCheckableData: aCheckableData [
+
+	checkableData := aCheckableData
+]
+
 { #category : #'hooks - children' }
 ToTab >> removeInnerPaneFromBody [
 
@@ -266,4 +254,16 @@ ToTab >> selectedBackground [
 ToTab >> tabsPane [ 
 
 	^ self header parent
+]
+
+{ #category : #'t - checkable - accessing' }
+ToTab >> withIndeterminate [
+
+	^ false
+]
+
+{ #category : #'t - checkable - accessing' }
+ToTab >> withIndeterminate: aBoolean [
+
+	Error signal: 'Indeterminate not allowed'
 ]

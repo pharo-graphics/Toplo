@@ -5,14 +5,8 @@ Class {
 		'selectedData',
 		'selectedIndex'
 	],
-	#category : #'Toplo-Widget-Menu-Choice menu deprecated'
+	#category : #'Toplo-Widget-Menu-Choice menu'
 }
-
-{ #category : #testing }
-ToChoiceChangedEvent class >> isDeprecated [
-
-	^ true
-]
 
 { #category : #accessing }
 ToChoiceChangedEvent >> selectedData [

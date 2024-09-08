@@ -1,13 +1,11 @@
 Class {
 	#name : #ToSelectElement,
-	#superclass : #ToElement,
+	#superclass : #ToTripletElement,
 	#traits : 'TToElementWithPlaceholder',
 	#classTraits : 'TToElementWithPlaceholder classTrait',
 	#instVars : [
 		'filtrable',
-		'windowManager',
-		'iconContainer',
-		'innerContainer'
+		'windowManager'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -28,18 +26,6 @@ ToSelectElement >> currentWindow [
 ToSelectElement >> dataAccessor [
 
 	^ self listElement dataAccessor
-]
-
-{ #category : #initialization }
-ToSelectElement >> defaultLayout [ 
-
-	^ BlLinearLayout horizontal
-]
-
-{ #category : #accessing }
-ToSelectElement >> fakeDataItem: aDataItem [
-
-	self innerContainer fakeDataItem: aDataItem
 ]
 
 { #category : #accessing }
@@ -70,14 +56,13 @@ ToSelectElement >> filtrable: aBoolean [
 { #category : #accessing }
 ToSelectElement >> iconContainer [
 
-	^ iconContainer
+	^ self endElement
 ]
 
 { #category : #accessing }
 ToSelectElement >> iconContainer: anIconContainer [
 
-	iconContainer := anIconContainer.
-	iconContainer constraintsDo: [ :c | c linear vertical alignCenter ]
+	self endElement: anIconContainer
 ]
 
 { #category : #initialization }
@@ -85,43 +70,28 @@ ToSelectElement >> initialize [
 
 	super initialize.
 	filtrable := true.
-
+		
 	" for the popup "
 	windowManager := self newWindowManager.
 	windowManager onInstalledIn: self.
-
+	
 	self iconContainer: self newIconContainer.
-	self innerContainer: self newInnerContainer.
-	self addChildren: {
-			self innerContainer.
-			self iconContainer }.
-
+	self installInnerContainer.
+	
 	self addEventHandlerOn: ToPlaceholderShownEvent do: [ :event |
-		self flag:
-			'The width of 16???. Why ? Anyway, it should be handled via a skin'.
+		self flag: 'The width of 16???. Why ? Anyway, it should be handled via a skin'.
 		event placeholder padding: (BlInsets left: 16).
 		event placeholder layout alignCenterLeft ].
 
 	" a select is made to be horizontal. the following constraints 
 	must be set here to initialize the resizers properly "
-	self vFitContent.
 	self hMatchParent
 ]
 
 { #category : #accessing }
 ToSelectElement >> innerContainer [
 
-	^ innerContainer
-]
-
-{ #category : #accessing }
-ToSelectElement >> innerContainer: anInnerContainerElement [
-
-	innerContainer := anInnerContainerElement.
-	innerContainer constraintsDo: [ :c |
-		c linear vertical alignCenter.
-		c horizontal matchParent.
-		c vertical fitContent ]
+	^ self middleElement 
 ]
 
 { #category : #'instance creation' }
@@ -134,6 +104,17 @@ ToSelectElement >> innerContainerClass [
 ToSelectElement >> inputTextField [ 
 
 	^ self innerContainer inputTextField
+]
+
+{ #category : #initialization }
+ToSelectElement >> installInnerContainer [
+
+	self innerContainer ifNotNil: [ BlImmutableObjectChangeError signal ].
+	self middleElement: self newInnerContainer.
+	self middleContainer constraintsDo: [ :c |
+		c horizontal matchParent.
+		c vertical fitContent ].
+	self requestNewSkin
 ]
 
 { #category : #testing }

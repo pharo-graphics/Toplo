@@ -5,15 +5,29 @@ Class {
 }
 
 { #category : #initialization }
-ToListContextMenuSelectionMode >> initialize [
+ToListContextMenuSelectionMode >> defaultElementBuilder [ 
 
-	super initialize.
-	option := ToListSelectionElementOption new.
-	option
-		grouped: true;
-		beneath: false;
-		elementFactory: [ ToListContextMenuSelectionElement new ];
-		listEventHandler: ToListContextMenuSelectionElementEventHandler new
+	^ [ ToListContextMenuSelectionElement new ]
+]
+
+{ #category : #initialization }
+ToListContextMenuSelectionMode >> defaultOption [
+
+	^ (ToListSelectionOption grouped)
+		  beneath: false;
+		  yourself
+]
+
+{ #category : #initialization }
+ToListContextMenuSelectionMode >> listEventHandlerClass [
+
+	^ ToListContextMenuSelectionElementEventHandler 
+]
+
+{ #category : #'instance creation' }
+ToListContextMenuSelectionMode >> newListEventHandler [
+
+	^ ToListContextMenuSelectionElementEventHandler new 
 ]
 
 { #category : #'instance creation' }

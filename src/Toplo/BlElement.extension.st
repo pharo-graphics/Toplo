@@ -549,18 +549,3 @@ BlElement >> withNullSkin [
 
 	self ensuredSkinManager setDefaultSkin: ToNullSkin new in: self
 ]
-
-{ #category : #'*Toplo' }
-BlElement >> withStamp: aSymbol do: aValuable [
-
-	self withStamp: aSymbol do: aValuable ifNone: [  ]
-]
-
-{ #category : #'*Toplo' }
-BlElement >> withStamp: aSymbol do: aValuable ifNone: noneValuable [
-
-	(self hasStamp: aSymbol) ifFalse: [
-		noneValuable value.
-		^ self ].
-	aValuable value: (self valueOfStamp: aSymbol)
-]

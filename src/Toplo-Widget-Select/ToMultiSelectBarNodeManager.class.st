@@ -24,10 +24,7 @@ ToMultiSelectBarNodeManager >> buildNode: aNode inHolder: aNodeHolder [
 			data := index isZero
 				        ifTrue: [ self fakeDataItem ]
 				        ifFalse: [ aNodeHolder dataAccessor at: index ].
-			nodeBuilder value: aNode value: data value: aNodeHolder.
-			aNode addEventHandlerOn: ToInnerElementRemovedEvent do: [ :event |
-				event consume.
-				aNode removeFromBar ] ]
+			nodeBuilder value: aNode value: data value: aNodeHolder  ]
 		ifTrue: [
 			self defaultCompositeNodeBuilder
 				value: aNode
@@ -39,7 +36,7 @@ ToMultiSelectBarNodeManager >> buildNode: aNode inHolder: aNodeHolder [
 ToMultiSelectBarNodeManager >> defaultCompositeNodeBuilder [
 
 	^ [ :node :compositeDataItem :holder |
-	  node addChild:
+	  node middleElement:
 		  (ToLabel text: compositeDataItem content asString asRopedText) ]
 ]
 
@@ -47,13 +44,7 @@ ToMultiSelectBarNodeManager >> defaultCompositeNodeBuilder [
 ToMultiSelectBarNodeManager >> defaultNodeBuilder [
 
 	^ [ :node :dataItem :holder |
-	  | tag |
-	  tag := ToTagElement new
-		         labelText: dataItem asString;
-		         flexible: true;
-		         hMatchParent.
-	  node addChild: tag.
-	  tag constraintsDo: [ :c | c linear vertical alignCenter ] ]
+	  node middleElement: (ToLabel text: dataItem asString) ]
 ]
 
 { #category : #initialization }
@@ -66,4 +57,11 @@ ToMultiSelectBarNodeManager >> defaultNodeFactory [
 ToMultiSelectBarNodeManager >> defaultNodeHolderClass [ 
 
 	^ ToMultiSelectBarNodeHolder
+]
+
+{ #category : #initialization }
+ToMultiSelectBarNodeManager >> defaultStandardNodeBuilder [
+
+	^ [ :node :holder :dataItem |
+	  node middleElement: (ToLabel text: dataItem asString) ]
 ]

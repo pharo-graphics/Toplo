@@ -144,10 +144,6 @@ BaselineOfToplo >> registerPackages: spec [
 	spec package: #'Toplo-Widget-Segmented' with: [
 		spec requires:
 			#( #Toplo  #'Toplo-Widget-Button' #'Toplo-Widget-List' ) ].
-		
-	spec package: #'Toplo-Widget-Tag' with: [
-		spec requires:
-			#( #Toplo  #'Toplo-Widget-Button' ) ].
 
 	spec
 		package: #'Toplo-Widget-TabPane-Tests'

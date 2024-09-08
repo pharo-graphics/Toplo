@@ -5,23 +5,16 @@ Class {
 	#classTraits : 'TToListElementDecorator classTrait + TToElementWithPlaceholder classTrait + TToOrientable classTrait',
 	#instVars : [
 		'next',
+		'selectionMode',
+		'secondarySelectionMode',
+		'contextMenuSelectionMode',
 		'dataSource',
 		'nodeManager',
 		'commandChecker',
-		'withContextMenuSelection',
-		'selectionModeMap'
+		'withContextMenuSelection'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
-
-{ #category : #accessing }
-ToAbstractListElement >> addSelectionMode: aSelectionMode [
-
-	selectionModeMap
-		at: aSelectionMode selectionChangedEventClass
-		ifPresent: [ Error signal: 'Duplicate selection mode' ].
-	selectionModeMap at: aSelectionMode selectionChangedEventClass put: aSelectionMode
-]
 
 { #category : #'private - commands' }
 ToAbstractListElement >> allowApplicationOfCommand: aCommand [
@@ -72,14 +65,15 @@ ToAbstractListElement >> contextMenuSelecter [
 { #category : #accessing }
 ToAbstractListElement >> contextMenuSelectionMode [
 
-	^ 	self selectionModeWithEventClass: ToListContextMenuSelectionChangedEvent
+	^ contextMenuSelectionMode
 ]
 
 { #category : #accessing }
 ToAbstractListElement >> contextMenuSelectionMode: aSelectionMode [
 
-	self contextMenuSelectionMode ifNotNil: [ :m | m uninstall ].
-	aSelectionMode ifNotNil: [ aSelectionMode on: self ]
+	contextMenuSelectionMode ifNotNil: [ contextMenuSelectionMode onUninstalledIn: self ].
+	contextMenuSelectionMode := aSelectionMode.
+	contextMenuSelectionMode ifNotNil: [ contextMenuSelectionMode onInstalledIn: self ]
 ]
 
 { #category : #accessing }
@@ -192,20 +186,13 @@ ToAbstractListElement >> defaultPrimarySelectionModeClass [
 { #category : #initialization }
 ToAbstractListElement >> defaultSecondarySelectionMode [
 
-	^ ToListSecondarySelectionMode new.
-
+	^ ToListSecondarySelectionMode new
 ]
 
 { #category : #'accessing selecters' }
 ToAbstractListElement >> disabledSelecter [ 
 
-	^ self disabledSelectionMode selecter
-]
-
-{ #category : #'instance creation' }
-ToAbstractListElement >> disabledSelectionMode [
-
-	^ self selectionModeWithEventClass: ToListDisabledSelectionChangedEvent
+	^ self selecter subSelecterWithId: #disabled
 ]
 
 { #category : #accessing }
@@ -223,13 +210,7 @@ ToAbstractListElement >> fakeNode [
 { #category : #'accessing selecters' }
 ToAbstractListElement >> hiddenSelecter [ 
 
-	^ self hiddenSelectionMode selecter 
-]
-
-{ #category : #accessing }
-ToAbstractListElement >> hiddenSelectionMode [
-
-	^ self selectionModeWithEventClass: ToListHiddenSelectionChangedEvent 
+	^ self selecter subSelecterWithId: #hidden
 ]
 
 { #category : #accessing }
@@ -242,10 +223,8 @@ ToAbstractListElement >> hiddenSelectionModel [
 ToAbstractListElement >> initialize [
 
 	super initialize.
-
 	nodeManager := self defaultNodeManager.
 	withContextMenuSelection := true.
-	selectionModeMap := IdentityDictionary new.
 
 	self initializeDataSource.
 	self initializeCommandChecker.
@@ -254,11 +233,10 @@ ToAbstractListElement >> initialize [
 	self layout: self defaultLayout.
 
 	self addEventHandler: self defaultEventHandler.
-	self primarySelectionMode: self defaultPrimarySelectionMode.
+	self selectionMode: self defaultPrimarySelectionMode.
+	self contextMenuWindowManagerClass: self defaultContextMenuWindowManagerClass.
 	self secondarySelectionMode: self defaultSecondarySelectionMode.
 	self contextMenuSelectionMode: self defaultContextMenuSelectionMode.
-	self contextMenuWindowManagerClass:
-		self defaultContextMenuWindowManagerClass.
 
 	self matchParent
 ]
@@ -288,7 +266,7 @@ ToAbstractListElement >> initializeInnerContainer [
 { #category : #testing }
 ToAbstractListElement >> isMultipleSelection [
 
-	^ self primarySelectionMode isMultipleSelection
+	^ self selectionMode isMultipleSelection
 ]
 
 { #category : #accessing }
@@ -314,13 +292,13 @@ ToAbstractListElement >> layoutStrategy [
 { #category : #'instance creation' }
 ToAbstractListElement >> newDisabledSelectionMode [
 
-	^ self newSubSelectionModeWithEventClass: ToListDisabledSelectionChangedEvent
+	^ ToListDisabledSelectionMode parentMode: self selectionMode
 ]
 
 { #category : #'instance creation' }
 ToAbstractListElement >> newHiddenSelectionMode [
 
-	^ self newSubSelectionModeWithEventClass: ToListHiddenSelectionChangedEvent
+	^ ToListHiddenSelectionMode parentMode: self selectionMode
 ]
 
 { #category : #'instance creation' }
@@ -350,18 +328,9 @@ ToAbstractListElement >> newSelectionModel [
 ]
 
 { #category : #'instance creation' }
-ToAbstractListElement >> newSubSelectionModeWithEventClass: aSelectionChangedEventClass [
-
-	^ (ToListSubSelectionMode parentMode: self primarySelectionMode)
-		  selectionChangedEventClass: aSelectionChangedEventClass;
-		  yourself
-]
-
-{ #category : #'instance creation' }
 ToAbstractListElement >> newUnselectableSelectionMode [
 
-
-	^ self newSubSelectionModeWithEventClass: ToListUnselectableSelectionChangedEvent
+	^ ToListUnselectableSelectionMode parentMode: self selectionMode
 ]
 
 { #category : #'t - infinite accessing' }
@@ -432,7 +401,6 @@ ToAbstractListElement >> notifyDataSourceItemsFiltered: aDataSourceEvent [
 ToAbstractListElement >> notifyPrimarySelectionDirty [
 
 	self dispatchEvent: (ToListPrimarySelectionDirtyEvent new
-			 selectionOption: self primarySelectionMode option;
 			 itemCount: self itemCount;
 			 yourself)
 ]
@@ -463,30 +431,6 @@ ToAbstractListElement >> placeholderElevation [
 	^ self innerContainer elevation
 ]
 
-{ #category : #accessing }
-ToAbstractListElement >> primarySelectionMode [
-
-	^ self selectionModeWithEventClass: ToListPrimarySelectionChangedEvent 
-]
-
-{ #category : #accessing }
-ToAbstractListElement >> primarySelectionMode: aSelectionMode [
-
-	self primarySelectionMode ifNotNil: [ :m | m uninstall ].
-	aSelectionMode ifNotNil: [ aSelectionMode on: self ].
-	self dispatchEvent: ToListPrimarySelectionModeChangedEvent new.
-	self requestNewSkin
-]
-
-{ #category : #accessing }
-ToAbstractListElement >> removeSelectionMode: aSelectionMode [
-
-	selectionModeMap
-		at: aSelectionMode selectionChangedEventClass
-		ifAbsent: [ Error signal: 'Selection mode not found' ].
-	selectionModeMap removeKey: aSelectionMode selectionChangedEventClass
-]
-
 { #category : #'accessing selecters' }
 ToAbstractListElement >> secondarySelecter [ 
 
@@ -496,17 +440,16 @@ ToAbstractListElement >> secondarySelecter [
 { #category : #accessing }
 ToAbstractListElement >> secondarySelectionMode [
 
-	^ self selectionModeWithEventClass: ToListSecondarySelectionChangedEvent
+	^ secondarySelectionMode
 ]
 
 { #category : #accessing }
 ToAbstractListElement >> secondarySelectionMode: aSelectionMode [
 
-	self secondarySelectionMode ifNotNil: [ :m | m uninstall ].
-	aSelectionMode ifNotNil: [ aSelectionMode on: self ].
-	self dispatchEvent: ToListSecondarySelectionModeChangedEvent new.
-	self requestNewSkin.
-
+	secondarySelectionMode ifNotNil: [ secondarySelectionMode onUninstalledIn: self ].
+	secondarySelectionMode := aSelectionMode.
+	secondarySelectionMode ifNotNil: [ secondarySelectionMode onInstalledIn: self ].
+	self dispatchEvent: ToListSecondarySelectionModeChangedEvent new
 ]
 
 { #category : #accessing }
@@ -516,49 +459,33 @@ ToAbstractListElement >> secondarySelectionModel [
 ]
 
 { #category : #'accessing selecters' }
-ToAbstractListElement >> selecter [
+ToAbstractListElement >> selecter [ 
 
-	^ self primarySelectionMode selecter
+	^ selectionMode selecter
 ]
 
 { #category : #accessing }
 ToAbstractListElement >> selectionMode [
 
-	self
-		deprecated: 'use #primarySelectionMode'
-		transformWith:
-		'`@rcvr selectionMode' -> '`@rcvr primarySelectionMode'.
-	^ self primarySelectionMode
+	^ selectionMode
 ]
 
 { #category : #accessing }
 ToAbstractListElement >> selectionMode: aSelectionMode [
 
-	self
-		deprecated: 'use #primarySelectionMode:'
-		transformWith:
-		'`@rcvr selectionMode: `@arg'
-		-> '`@rcvr primarySelectionMode: `@arg'.
-
-	self primarySelectionMode: aSelectionMode
-]
-
-{ #category : #accessing }
-ToAbstractListElement >> selectionModeWithEventClass: aSelectionChangedEventClass [
-
-	^ selectionModeMap at: aSelectionChangedEventClass ifAbsent: [  ]
+	selectionMode ifNotNil: [
+		selectionMode onUninstalledIn: self ].
+	selectionMode := aSelectionMode.
+	selectionMode ifNotNil: [
+		selectionMode onInstalledIn: self ].
+	self dispatchEvent: ToListPrimarySelectionModeChangedEvent new.
+	self requestNewSkin
 ]
 
 { #category : #accessing }
 ToAbstractListElement >> selectionModel [
 
-	^ self primarySelectionMode selectionModel
-]
-
-{ #category : #accessing }
-ToAbstractListElement >> selectionModes [
-
-	^ selectionModeMap values
+	^ selectionMode selectionModel
 ]
 
 { #category : #'private - commands' }
@@ -570,13 +497,7 @@ ToAbstractListElement >> sieveResultWith: aSieve [
 { #category : #'accessing selecters' }
 ToAbstractListElement >> unselectableSelecter [
 
-	^ self unselectableSelectionMode selecter
-]
-
-{ #category : #accessing }
-ToAbstractListElement >> unselectableSelectionMode [
-
-	^ self selectionModeWithEventClass: ToListUnselectableSelectionChangedEvent 
+	^ self selecter subSelecterWithId: #unselectable
 ]
 
 { #category : #accessing }
@@ -589,4 +510,61 @@ ToAbstractListElement >> unselectableSelectionModel [
 ToAbstractListElement >> withContextMenuSelection: aBoolean [
 
 	withContextMenuSelection := aBoolean
+]
+
+{ #category : #'configuring selecters' }
+ToAbstractListElement >> withDisabledSelecter [
+
+	self withSubSelecterWithId: #disabled withEventClass: ToListDisabledSelectionChangedEvent
+	
+
+]
+
+{ #category : #'configuring selecters' }
+ToAbstractListElement >> withHiddenSelecter [
+
+	self withSubSelecterWithId: #hidden withEventClass: ToListHiddenSelectionChangedEvent
+
+]
+
+{ #category : #'configuring selecters' }
+ToAbstractListElement >> withSubSelecterWithId: aSymbol withEventClass: anEventClass [
+
+	| sub |
+	sub := ToSubSelecter new
+		       uniqueId: aSymbol;
+		       selectionModel: ToSubSelectionModel new;
+		       selectionChangedEventClass: anEventClass;
+		       parentSelecter: self selecter;
+		       yourself.
+	sub onInstalledIn: self.
+	^ sub
+]
+
+{ #category : #'configuring selecters' }
+ToAbstractListElement >> withUnselectableSelecter [
+
+	self withSubSelecterWithId: #unselectable withEventClass: ToListUnselectableSelectionChangedEvent
+
+]
+
+{ #category : #'configuring selecters' }
+ToAbstractListElement >> withoutDisabledSelecter [
+
+	(self selecter subSelecterWithId: #disabled) ifNotNil: [ :selecter |
+		selecter onUninstalledIn: self ]
+]
+
+{ #category : #'configuring selecters' }
+ToAbstractListElement >> withoutHiddenSelecter [
+
+	(self selecter subSelecterWithId: #hidden) ifNotNil: [ :selecter |
+		selecter onUninstalledIn: self ]
+]
+
+{ #category : #'configuring selecters' }
+ToAbstractListElement >> withoutUnselectableSelecter [
+
+	(self selecter subSelecterWithId: #unselectable) ifNotNil: [ :selecter |
+		selecter onUninstalledIn: self ]
 ]

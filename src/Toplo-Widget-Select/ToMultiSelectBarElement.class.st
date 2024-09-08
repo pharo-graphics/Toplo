@@ -6,9 +6,7 @@ Class {
 	#instVars : [
 		'selectElement',
 		'textInputElement',
-		'pickCount',
-		'maxSelectedCount',
-		'keepPickOrder'
+		'pickCount'
 	],
 	#category : #'Toplo-Widget-Select-Multi'
 }
@@ -24,7 +22,7 @@ ToMultiSelectBarElement class >> onSelectElement: aSelectElement [
 { #category : #'accessing - selection' }
 ToMultiSelectBarElement >> allowSelectedCount: aNumber [
 
-	^ maxSelectedCount isZero or: [ aNumber <= maxSelectedCount ]
+	^ selectElement maxSelectedCount isZero or: [ aNumber <= selectElement maxSelectedCount ]
 ]
 
 { #category : #'accessing - selection' }
@@ -43,10 +41,11 @@ ToMultiSelectBarElement >> checkHideSelectionFromListElement [
 ]
 
 { #category : #'accessing - selection' }
-ToMultiSelectBarElement >> checkMaxSelectedCount [
+ToMultiSelectBarElement >> checkMaxSelectedCountFromListElement [
 
-	| sM unselectableSM groupeSM selectedIndexCount |
-	maxSelectedCount isZero ifTrue: [ ^ self ].
+	| sM unselectableSM groupeSM maxSelectedCount selectedIndexCount |
+	maxSelectedCount := selectElement maxSelectedCount.
+	selectElement maxSelectedCount isZero ifTrue: [ ^ self ].
 
 	unselectableSM := self listElement unselectableSelectionModel.
 	groupeSM := self listElement groupSelectionModel.
@@ -117,15 +116,7 @@ ToMultiSelectBarElement >> initialize [
 
 	super initialize.
 	self installTextInputElement.
-	
-	" no primary and secondary selection elements "
-	self primarySelectionMode option masked: true.
-	self secondarySelectionMode option masked: true.
-
-	maxSelectedCount := 0.
-	keepPickOrder := false.
 	pickCount := 0.
-
 	" mandatory resizer setting. 
 	Normally, should not be changed"
 	self vFitContent.
@@ -153,29 +144,9 @@ ToMultiSelectBarElement >> isMultipleSelection [
 ]
 
 { #category : #accessing }
-ToMultiSelectBarElement >> keepPickOrder [
-
-	^ keepPickOrder 
-]
-
-{ #category : #accessing }
-ToMultiSelectBarElement >> keepPickOrder: aBoolean [
-
-	keepPickOrder := aBoolean.
-	self refresh
-]
-
-{ #category : #accessing }
 ToMultiSelectBarElement >> listElement [
 
 	^ selectElement listElement
-]
-
-{ #category : #accessing }
-ToMultiSelectBarElement >> maxSelectedCount: aNumber [
-
-	maxSelectedCount := aNumber.
-	self refresh
 ]
 
 { #category : #skin }
@@ -184,7 +155,7 @@ ToMultiSelectBarElement >> newRawSkin [
 	^ ToMultiSelectBarElementSkin new
 ]
 
-{ #category : #'t - children - accessing' }
+{ #category : #accessing }
 ToMultiSelectBarElement >> nodes [
 
 	^ self innerContainer nodes
@@ -247,15 +218,14 @@ ToMultiSelectBarElement >> refresh [
 				new pickOrder: pickCount ].
 		newItems add: new ].
 
-	keepPickOrder ifTrue: [
+	selectElement keepPickOrder ifTrue: [
 		newItems sort: [ :a :b | a pickOrder < b pickOrder ] ].
 
 	" replace all in one datasource command "
 	self dataAccessor updateAllWith: newItems.
-	self selecter selectAll.
 
 	self checkHideSelectionFromListElement.
-	self checkMaxSelectedCount
+	self checkMaxSelectedCountFromListElement
 ]
 
 { #category : #'t - select inner container' }

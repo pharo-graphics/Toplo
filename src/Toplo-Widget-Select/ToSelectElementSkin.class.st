@@ -8,7 +8,7 @@ Class {
 ToSelectElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
-	anEvent elementDo: [ :e | e padding: (BlInsets all: 1) ]
+	anEvent elementDo: [ :e |  ]
 ]
 
 { #category : #'accessing - shortcuts' }

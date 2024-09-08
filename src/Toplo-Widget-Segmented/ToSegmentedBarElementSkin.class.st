@@ -10,5 +10,5 @@ ToSegmentedBarElementSkin >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e background: BlBackground transparent.
-		e primarySelectionMode option animationDuration: 200 milliSeconds ]
+		e selectionMode option animationDuration: 200 milliSeconds ]
 ]

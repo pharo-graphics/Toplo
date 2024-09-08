@@ -2,8 +2,7 @@ Class {
 	#name : #ToDeselectedSkinEvent,
 	#superclass : #ToIntrasicSkinEvent,
 	#instVars : [
-		'focused',
-		'selectionOption'
+		'focused'
 	],
 	#category : #'Toplo-Core-SkinEvents'
 }
@@ -24,20 +23,7 @@ ToDeselectedSkinEvent >> focused: aBoolean [
 ToDeselectedSkinEvent >> fromState: aState [
 
 	super fromState: aState.
-	self focused: aState focused.
-	self selectionOption: aState selectionOption
-]
-
-{ #category : #accessing }
-ToDeselectedSkinEvent >> selectionOption [
-
-	^ selectionOption
-]
-
-{ #category : #accessing }
-ToDeselectedSkinEvent >> selectionOption: aSelectionOption [
-
-	selectionOption := aSelectionOption
+	self focused: aState focused
 ]
 
 { #category : #sending }

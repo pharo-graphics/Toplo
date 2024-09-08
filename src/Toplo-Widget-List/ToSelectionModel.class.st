@@ -32,6 +32,9 @@ ToSelectionModel >> containsIndex: anIndex [
 { #category : #copying }
 ToSelectionModel >> copySelectionFrom: anotherSelectionModel [
 
+	anotherSelectionModel ifNil: [
+		underlyingModel := self newUnderlyingModel.
+		^ self ].
 	underlyingModel := anotherSelectionModel underlyingModel copy
 ]
 
@@ -67,6 +70,12 @@ ToSelectionModel >> deselectIndexes: anArray [
 ToSelectionModel >> deselectedIndexes [
 
 	^ self allIndexes difference: self selectedIndexes
+]
+
+{ #category : #copying }
+ToSelectionModel >> duplicate [
+
+	^ self copy
 ]
 
 { #category : #accessing }
@@ -199,10 +208,8 @@ ToSelectionModel >> on: anElement [
 { #category : #copying }
 ToSelectionModel >> postCopy [
 
-	| newUnderlyingModel |
 	super postCopy.
-	newUnderlyingModel := underlyingModel copy.
-	underlyingModel := newUnderlyingModel
+	underlyingModel := underlyingModel copy
 ]
 
 { #category : #accessing }
@@ -210,14 +217,6 @@ ToSelectionModel >> previousSelectableIndexStartingAt: anIndex [
 
 	anIndex > 0 ifTrue: [ ^ anIndex ].
 	^ 0
-]
-
-{ #category : #dependencies }
-ToSelectionModel >> release [ 
-
-	super release.
-	underlyingModel release.
-	underlyingModel := nil
 ]
 
 { #category : #updating }

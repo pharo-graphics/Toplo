@@ -58,7 +58,8 @@ ToMultiSelectListWindowManager >> newListElement [
 
 	| newListElement |
 	newListElement := super newListElement.
-	newListElement primarySelectionMode multiple: true.
+	newListElement selectionMode
+		  multiple: true.
 	^ newListElement
 ]
 

@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMenuItem,
 	#superclass : #ToGeneralButtonMenuItem,
-	#traits : 'TToOrientable + TToTripletElement + TToLabeledIcon',
-	#classTraits : 'TToOrientable classTrait + TToTripletElement classTrait + TToLabeledIcon classTrait',
+	#traits : 'TToElementWithLabeledIcon',
+	#classTraits : 'TToElementWithLabeledIcon classTrait',
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
@@ -26,12 +26,21 @@ ToMenuItem >> initialize [
 	self endElement: self newRightHandSide
 ]
 
-{ #category : #'t - orientable - accessing' }
-ToMenuItem >> layoutStrategy [
+{ #category : #'t - element with labeled icon - accessing' }
+ToMenuItem >> labeledIcon [ 
 
-	^ self button layout
+	^ self button labeledIcon 
+]
 
-	
+{ #category : #initialization }
+ToMenuItem >> newFiller [
+
+	^ BlElement new
+		  constraintsDo: [ :c |
+			  c horizontal exact: 0.
+			  c vertical matchParent ];
+		  id: #filler;
+		  yourself
 ]
 
 { #category : #skin }
@@ -52,23 +61,4 @@ ToMenuItem >> newRightHandSide [
 		c linear vertical alignCenter.
 		c linear horizontal alignCenter ].
 	^ rhs
-]
-
-{ #category : #layout }
-ToMenuItem >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
-
-	self configureLayout.
-	super onLayout: aBounds context: aBlElementBoundsUpdateContext
-]
-
-{ #category : #'t - triplet element - private - accessing' }
-ToMenuItem >> props [
-
-	^ self button props
-]
-
-{ #category : #'t - triplet element - private - accessing' }
-ToMenuItem >> props: aTripletElementProperties [
-
-	self shouldNotImplement 
 ]

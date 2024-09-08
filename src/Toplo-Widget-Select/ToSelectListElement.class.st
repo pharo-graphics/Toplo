@@ -19,13 +19,7 @@ ToSelectListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 { #category : #accessing }
 ToSelectListElement >> groupSelecter [
 
-	^ self groupSelectionMode selecter
-]
-
-{ #category : #accessing }
-ToSelectListElement >> groupSelectionMode [
-
-	^ self selectionModeWithEventClass: ToSelectGroupSelectionChangedEvent
+	^ self selecter subSelecterWithId: #group
 ]
 
 { #category : #accessing }
@@ -38,19 +32,15 @@ ToSelectListElement >> groupSelectionModel [
 ToSelectListElement >> initialize [
 
 	super initialize.
-	self newUnselectableSelectionMode on: self.
-	self newHiddenSelectionMode on: self.
-	self newDisabledSelectionMode on: self.
-	self newGroupSelectionMode on: self.
+	self withUnselectableSelecter.
+	self withHiddenSelecter.
+	self withDisabledSelecter .
+	self
+		withSubSelecterWithId: #group
+		withEventClass: ToSelectGroupSelectionChangedEvent.
 
-	self primarySelectionMode selectOnMouseDown: true.
-	self primarySelectionMode requestFocusOnMouseDown: false
-]
-
-{ #category : #accessing }
-ToSelectListElement >> newGroupSelectionMode [
-
-	^ self newSubSelectionModeWithEventClass: ToSelectGroupSelectionChangedEvent
+	self selectionMode selectOnMouseDown: true.
+	self selectionMode requestFocusOnMouseDown: false
 ]
 
 { #category : #skin }

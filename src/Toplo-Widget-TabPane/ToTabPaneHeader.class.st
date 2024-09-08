@@ -1,8 +1,8 @@
 Class {
 	#name : #ToTabPaneHeader,
 	#superclass : #ToPane,
-	#traits : 'TToCheckableGroupHolder',
-	#classTraits : 'TToCheckableGroupHolder classTrait',
+	#traits : 'TToCheckableHolder',
+	#classTraits : 'TToCheckableHolder classTrait',
 	#instVars : [
 		'tabsPane',
 		'group',

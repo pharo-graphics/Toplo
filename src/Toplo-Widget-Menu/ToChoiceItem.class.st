@@ -4,14 +4,8 @@ Class {
 	#instVars : [
 		'data'
 	],
-	#category : #'Toplo-Widget-Menu-Choice menu deprecated'
+	#category : #'Toplo-Widget-Menu-Choice menu'
 }
-
-{ #category : #testing }
-ToChoiceItem class >> isDeprecated [
-
-	^ true
-]
 
 { #category : #testing }
 ToChoiceItem >> closeOnMouseEvent [
@@ -29,13 +23,4 @@ ToChoiceItem >> data [
 ToChoiceItem >> data: anObject [
 
 	data := anObject
-]
-
-{ #category : #initialization }
-ToChoiceItem >> initialize [
-
-	super initialize.
-	self  addEventHandler: (BlEventHandler
-			 on: ToCheckableChangedEvent
-			 do: [ :event | self button checked: event checked ])
 ]

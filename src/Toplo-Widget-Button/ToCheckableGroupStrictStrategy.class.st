@@ -26,7 +26,7 @@ ToCheckableGroupStrictStrategy >> onButtonAdded: aCheckable in: aGroup [
 
 	aCheckable isChecked ifTrue: [
 		(aGroup buttons select: [ :b | b ~= aCheckable and: [ b checked ] ])
-			do: [ :b | b checkableData privateChecked: false ] ].
+			do: [ :b | b privateChecked: false ] ].
 	super onButtonAdded: aCheckable in: aGroup
 ]
 
@@ -36,6 +36,6 @@ ToCheckableGroupStrictStrategy >> register: aCheckable in: aGroup [
 	aCheckable isChecked ifTrue: [
 		(aGroup registeredCheckables select: [ :b |
 			 b ~= aCheckable and: [ b checked ] ]) do: [ :b |
-			b checkableData privateChecked: false ] ].
+			b privateChecked: false ] ].
 	super register: aCheckable in: aGroup
 ]

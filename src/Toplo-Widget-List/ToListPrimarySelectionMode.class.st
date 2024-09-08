@@ -34,27 +34,46 @@ ToListPrimarySelectionMode >> beSingleSelection [
 ]
 
 { #category : #initialization }
+ToListPrimarySelectionMode >> defaultElementBuilder [ 
+
+	^ [ ToListPrimarySelectionElement new ]
+]
+
+{ #category : #initialization }
+ToListPrimarySelectionMode >> defaultOption [
+
+	^ (ToListSelectionOption grouped)
+		  beneath: true;
+		  triggerSelectionState: true;
+		 yourself
+]
+
+{ #category : #initialization }
 ToListPrimarySelectionMode >> initialize [
 
 	super initialize.
 	requestFocusOnMouseDown := true.
 	preserveSelectionOnFocused := true.
 	selectOnMouseDown := false.
-	multiple := true.
-
-	option := ToListSelectionElementOption new.
-	option
-		grouped: true;
-		beneath: true;
-		triggerSelectionState: true;
-		elementFactory: [ ToListBasicSelectionElement new defaultSkin: ToListPrimarySelectionElementSkin new];
-		listEventHandler: ToListPrimarySelectionElementEventHandler new
+	multiple := true
 ]
 
 { #category : #testing }
 ToListPrimarySelectionMode >> isMultipleSelection [
 
 	^ multiple
+]
+
+{ #category : #testing }
+ToListPrimarySelectionMode >> isPrimary [ 
+
+	^ true
+]
+
+{ #category : #initialization }
+ToListPrimarySelectionMode >> listEventHandlerClass [
+
+	^ ToListPrimarySelectionElementEventHandler 
 ]
 
 { #category : #testing }
@@ -78,6 +97,12 @@ ToListPrimarySelectionMode >> multiple: aBoolean [
 	multiple := aBoolean.
 	selecter ifNil: [ ^ self ].
 	selecter multiple: aBoolean
+]
+
+{ #category : #'instance creation' }
+ToListPrimarySelectionMode >> newListEventHandler [
+
+	^ ToListPrimarySelectionElementEventHandler new
 ]
 
 { #category : #'instance creation' }

@@ -31,6 +31,12 @@ ToSingleSelectElement >> defaultDataViewFactory [
 	^ [ :container | ToSingleSelectDataItemView new ]
 ]
 
+{ #category : #accessing }
+ToSingleSelectElement >> fakeDataItem: aData [
+
+	self innerContainer fakeDataItem: aData
+]
+
 { #category : #'instance creation' }
 ToSingleSelectElement >> innerContainerClass [
 

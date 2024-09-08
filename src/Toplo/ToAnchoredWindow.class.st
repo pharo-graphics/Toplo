@@ -49,10 +49,10 @@ ToAnchoredWindow >> closedEventClass [
 	^ windowManager windowClosedEventClass
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 ToAnchoredWindow >> defaultElevation [
 
-	^ BlRelativeElevation elevation: (SmallInteger maxVal - 900)
+	^ BlRelativeElevation elevation: (SmallInteger maxVal - 300)
 ]
 
 { #category : #'api - displaying' }

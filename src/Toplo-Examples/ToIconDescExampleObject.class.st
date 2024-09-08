@@ -1,58 +1,61 @@
+"
+I'm a dull domain object for examples.
+"
 Class {
-	#name : #ToIconDescExample,
+	#name : #ToIconDescExampleObject,
 	#superclass : #Object,
 	#instVars : [
 		'provider',
 		'style',
 		'name'
 	],
-	#category : #'Toplo-Examples'
+	#category : #'Toplo-Examples-Parts'
 }
 
 { #category : #converting }
-ToIconDescExample >> asString [
+ToIconDescExampleObject >> asString [
 
 	^ style prefix, ' ', name
 ]
 
 { #category : #accessing }
-ToIconDescExample >> icon [
+ToIconDescExampleObject >> icon [
 
 	^ style iconNamed: name inProvider: provider
 ]
 
 { #category : #accessing }
-ToIconDescExample >> name [
+ToIconDescExampleObject >> name [
 
 	^ name
 ]
 
 { #category : #accessing }
-ToIconDescExample >> name: anObject [
+ToIconDescExampleObject >> name: anObject [
 
 	name := anObject
 ]
 
 { #category : #accessing }
-ToIconDescExample >> provider [
+ToIconDescExampleObject >> provider [
 
 	^ provider
 ]
 
 { #category : #accessing }
-ToIconDescExample >> provider: anObject [
+ToIconDescExampleObject >> provider: anObject [
 
 	provider := anObject
 ]
 
 { #category : #accessing }
-ToIconDescExample >> style [
+ToIconDescExampleObject >> style [
 
 	^ style
 ]
 
 { #category : #accessing }
-ToIconDescExample >> style: anObject [
+ToIconDescExampleObject >> style: anObject [
 
 	style := anObject
 ]

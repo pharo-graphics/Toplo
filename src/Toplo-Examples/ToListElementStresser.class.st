@@ -13,7 +13,7 @@ Class {
 		'endTime',
 		'startTime'
 	],
-	#category : #'Toplo-Examples'
+	#category : #'Toplo-Examples-Crashing Examples'
 }
 
 { #category : #running }

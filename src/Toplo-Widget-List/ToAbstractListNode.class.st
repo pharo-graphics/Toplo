@@ -1,3 +1,8 @@
+"
+We have two types of list with or without infinite. This different is reflected in their children. 
+The element children of an infinite list are `ToListNode`, the other are `ToBarNode`
+
+"
 Class {
 	#name : #ToAbstractListNode,
 	#superclass : #ToElement,

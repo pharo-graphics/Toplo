@@ -1,46 +1,49 @@
+"
+I'm a stupid domain object.
+"
 Class {
-	#name : #ToContactExample,
+	#name : #ToContactExampleObject,
 	#superclass : #Object,
 	#instVars : [
 		'name',
 		'phoneNumber',
 		'address'
 	],
-	#category : #'Toplo-Examples'
+	#category : #'Toplo-Examples-Parts'
 }
 
 { #category : #accessing }
-ToContactExample >> address [
+ToContactExampleObject >> address [
 
 	^ address
 ]
 
 { #category : #accessing }
-ToContactExample >> address: anObject [
+ToContactExampleObject >> address: anObject [
 
 	address := anObject
 ]
 
 { #category : #accessing }
-ToContactExample >> name [
+ToContactExampleObject >> name [
 
 	^ name
 ]
 
 { #category : #accessing }
-ToContactExample >> name: anObject [
+ToContactExampleObject >> name: anObject [
 
 	name := anObject
 ]
 
 { #category : #accessing }
-ToContactExample >> phoneNumber [
+ToContactExampleObject >> phoneNumber [
 
 	^ phoneNumber
 ]
 
 { #category : #accessing }
-ToContactExample >> phoneNumber: anObject [
+ToContactExampleObject >> phoneNumber: anObject [
 
 	phoneNumber := anObject
 ]

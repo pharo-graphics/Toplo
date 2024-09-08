@@ -25,9 +25,10 @@ Toplo class >> newDefaultThemeInstance [
 	^ self defaultThemeClass new
 ]
 
-{ #category : #settings }
+{ #category : #initialization }
 Toplo class >> resetCanvasScaleFactor [
 
+	<script>
 	OSWorldRenderer
 		autoSetCanvasScaleFactor: false;
 		canvasScaleFactor: 1

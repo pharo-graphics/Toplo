@@ -84,7 +84,7 @@ ToButtonSkin >> pressedSkinEvent: anEvent [
 		e iconDo: [ :ic |
 			ic innerImageColor: (e valueOfTokenNamed: #'color-primary-pressed') ].
 		e endElementDo: [ :ic |
-			ic formColor: (e valueOfTokenNamed: #'color-primary-pressed') ].
+			ic innerImageColor: (e valueOfTokenNamed: #'color-primary-pressed') ].
 		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-primary-pressed') ] ]
 ]

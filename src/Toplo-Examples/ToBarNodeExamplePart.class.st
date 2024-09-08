@@ -1,14 +1,19 @@
+"
+I'm part of a larger example. I'm not expected to be opened as a standalone. 
+
+Check `ToSandBox >> example_bar`
+"
 Class {
-	#name : #ToBarNodeExample,
+	#name : #ToBarNodeExamplePart,
 	#superclass : #ToBarNode,
 	#instVars : [
 		'triplet'
 	],
-	#category : #'Toplo-Examples'
+	#category : #'Toplo-Examples-Parts'
 }
 
 { #category : #initialization }
-ToBarNodeExample >> initialize [ 
+ToBarNodeExamplePart >> initialize [ 
 
 	super initialize.
 	triplet := ToTripletElement new.
@@ -18,7 +23,7 @@ ToBarNodeExample >> initialize [
 ]
 
 { #category : #initialization }
-ToBarNodeExample >> initializeRemoveButton [
+ToBarNodeExamplePart >> initializeRemoveButton [
 
 	| but |
 	but := ToButton new.
@@ -47,19 +52,19 @@ ToBarNodeExample >> initializeRemoveButton [
 ]
 
 { #category : #accessing }
-ToBarNodeExample >> label [
+ToBarNodeExamplePart >> label [
 
 	^ triplet middleElement
 ]
 
 { #category : #accessing }
-ToBarNodeExample >> label: aLabel [
+ToBarNodeExamplePart >> label: aLabel [
 
 	triplet middleElement: aLabel
 ]
 
 { #category : #initialization }
-ToBarNodeExample >> removeFromBar [ 
+ToBarNodeExamplePart >> removeFromBar [ 
 
 	self holder barElement dataAccessor removeAt: self holder position
 ]

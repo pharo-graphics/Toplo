@@ -1,7 +1,7 @@
 Class {
 	#name : #ToLoginPage,
 	#superclass : #Object,
-	#category : #'Toplo-Examples'
+	#category : #'Toplo-Examples-TopLevel'
 }
 
 { #category : #'instance creation' }
@@ -108,7 +108,6 @@ ToLoginPage >> open [
 
 	panel addChild: groupLogin.
 	panel matchParent.
-	panel inspect.
 	space := panel openInSpace.
 	space extent: 450 @ 200.
 	space borderless: true.

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToExperiments,
 	#superclass : #Object,
-	#category : #'Toplo-Examples'
+	#category : #'Toplo-Examples-Experiments'
 }
 
 { #category : #accessing }
@@ -133,7 +133,6 @@ ToExperiments class >> example_ExperimentForMultilineLabel0 [
 		           addChildren:
 			           (l collect: [ :w | w asElement editorMeasurement ]).
 	element border: (BlBorder paint: Color gray width: 1).
-	element inspect.
 	element openInSpace
 ]
 
@@ -573,41 +572,6 @@ red when: BlDragLeaveEvent do: [ :event | event consume. red background: Color r
 ]
 
 { #category : #image }
-ToExperiments class >> example_Smalltalk_all_classes [
-
-| column root vscrollBar container space |
-	column := BlElement new
-		          layout: BlLinearLayout vertical;
-		          constraintsDo: [ :c | 
-			          c horizontal matchParent.
-			          c vertical fitContent ];
-		          yourself.
-	1 timesRepeat: [ 
-	Object allSubclassesDo: [ :cls | 
-		| lab |
-		lab := ToLabel new text: cls name asRopedText.
-		column addChild: lab ] ].
-
-	root := column asScrollableElement.
-	vscrollBar := BlVerticalScrollbarElement new.
-	vscrollBar constraintsDo: [ :c |
-			c ignoreByLayout.
-			c margin: (BlInsets right: 2).
-			c ignored horizontal alignRight.
-			c ignored vertical alignBottom]. 
-	vscrollBar attachTo: root.
-	container := BlElement new
-		          constraintsDo: [ :c | 
-			          c horizontal matchParent.
-			          c vertical matchParent ];
-		          yourself.
-	container addChild: root; addChild: vscrollBar.
-	space := BlSpace new.
-	space addChild: container.
-	space show
-]
-
-{ #category : #image }
 ToExperiments class >> example_Smalltalk_ui_icons_withElements [
 
 | column root vscrollBar container space |
@@ -825,7 +789,7 @@ ToExperiments class >> example_elements_sandbox [
 			c horizontal fitContent .
 			c vertical fitContent ].
 	sp := BlSpace new.
-	sp addChild: root.
+	sp root addChild: root.
 	sp show
 ]
 
@@ -835,10 +799,10 @@ ToExperiments class >> example_enterLeave [
 	| e1 e2 space |
 	e1 := BlElement new background: Color yellow; size: 100@60.
 	e2 := BlElement new background: Color blue; preventMouseEvents.
-	e1 when: BlMouseEnterEvent do: [ :event | e2 relocate: e1 bounds bottomRight. e1 space addChild: e2 ].
+	e1 when: BlMouseEnterEvent do: [ :event | e2 position: e1 bounds bottomRight. e1 space addChild: e2 ].
 	e1 when: BlMouseLeaveEvent do: [ :event | e1 space removeChild: e2 ].
 	space := BlSpace new.
-	space addChild: e1.
+	space root addChild: e1.
 	space show
 ]
 
@@ -1090,41 +1054,7 @@ ToExperiments class >> example_space [
 		         borderless: true;
 		         extent: 50 @ 50.
 	space root background: Color red.
-	space show.
-	space inspect
-]
-
-{ #category : #'popup strategy' }
-ToExperiments class >> example_strategy [
-
-	| win blue red |
-	win := ToInnerWindow new
-		       id: #win;
-		       background: Color gray;
-		       size: 500 @ 400;
-		       position: 100 @ 100.
-
-	blue := ToElement new
-		        id: #blue;
-		        background: Color blue;
-		        size: 50 @ 50.
-
-	red := ToElement new
-		       id: #red;
-		       background: Color red;
-		       position: 100 @ 75;
-		       size: 50 @ 50.
-
-	win root addChild: red.
-	win root addChild: blue.
-	blue constraintsDo: [ :c | c ignoreByLayout ].
-	blue anchorLeft: red leftAnchor + 10.
-	blue anchorTop: red topAnchor + 10.
-	blue anchorBottom: red bottomAnchor - 10.
-	blue anchorRight: red rightAnchor - 10.
-
-	win openInOBlSpace.
-	win relocate: 100 @ 30
+	space show
 ]
 
 { #category : #frame }

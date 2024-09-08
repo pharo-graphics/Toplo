@@ -1,14 +1,19 @@
+"
+I'm part of a larger example. I'm not expected to be opened as a standalone. 
+
+Check `ToSandBox`
+"
 Class {
-	#name : #ToListClassNodeExample,
+	#name : #ToListClassNodeExamplePart,
 	#superclass : #ToListNode,
 	#instVars : [
 		'label'
 	],
-	#category : #'Toplo-Examples'
+	#category : #'Toplo-Examples-Parts'
 }
 
 { #category : #'instance creation' }
-ToListClassNodeExample >> forClassNameAssoc: aClassNameAssoc [
+ToListClassNodeExamplePart >> forClassNameAssoc: aClassNameAssoc [
 
 	| icon isel |
 	isel := aClassNameAssoc key hasComment
@@ -39,7 +44,7 @@ ToListClassNodeExample >> forClassNameAssoc: aClassNameAssoc [
 ]
 
 { #category : #accessing }
-ToListClassNodeExample >> label [
+ToListClassNodeExamplePart >> label [
 
 	^ label
 ]

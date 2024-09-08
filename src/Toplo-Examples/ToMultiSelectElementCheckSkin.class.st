@@ -1,7 +1,7 @@
 Class {
 	#name : #ToMultiSelectElementCheckSkin,
 	#superclass : #ToRawSkin,
-	#category : #'Toplo-Examples'
+	#category : #'Toplo-Examples-Parts'
 }
 
 { #category : #'event handling' }

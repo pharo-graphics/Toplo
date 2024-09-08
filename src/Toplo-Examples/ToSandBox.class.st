@@ -2401,7 +2401,7 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 		lab := ToLabel new text: k asString.
 		node := ToButton new icon: im; label: lab; yourself.
 		node width: 600.
-		node justified: true.
+		node startFlexible: true.
 		column addChild: node ].
 
 	root := column asScrollableElement.
@@ -2421,306 +2421,6 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 		addChild: root;
 		addChild: vscrollBar.
 	container openInSpace
-]
-
-{ #category : #'button-dep' }
-ToSandBox class >> example_StyleSheetSandbox [
-
-	| b |
-	"b := ToCheckbox new."
-	"b := ToRadioButton new."
-	b := ToButton new.
-	b localTheme: ToBeeTheme new.
-
-	"b := ToToggleButton new."
-	"b stampWith: #primary. "
-	"b stampWith: #'large-sizing'."
-	"b stampWith: #'small-sizing'."
-
-	"b stampWith: #vertical."
-	b addStamp: #'icon-first'.
-	b addStamp: #'label-first'.
-	"b withStamp: #'interspace-1' -> 300."
-	
-	"b stampWith: #circle."
-	"b stampWith: #round."
-	"b stampWith: #link. "
-	"b stampWith: #danger."
-	"b stampWith: #dashed."
-	b
-		iconImage: ToThemeIcons searchOutlined16x16;
-		labelText: 'Close'.
-	"b labelFirst: true."
-	"b checked: nil."
-	"b withIndeterminate: true."
-	"b innerElement border: (BlBorder paint: Color black)."
-
-	b openInSpace.
-	b width: 200.
-	"b size: 100 @ 100."
-
-	"b matchParent"
-]
-
-{ #category : #'button-dep' }
-ToSandBox class >> example_StyleSheetSandboxDarkTheme [
-
-	| b |
-	"b := ToCheckbox new."
-	"b := ToRadioButton new."
-	b := ToButton new.
-	"b := ToToggleButton new."
-	"b stampWith: #primary. "
-	"b stampWith: #'large-sizing'."
-	"b stampWith: #'small-sizing'."
-
-	"b stampWith: #vertical."
-	b addStamp: #'icon-first'.
-	b addStamp: #'label-first'.
-	b addStamp: #'interspace-1' -> 300.
-	"b justified: true."
-	"b stampWith: #circle."
-	"b stampWith: #round."
-	"b stampWith: #link. "
-	"b stampWith: #danger."
-	"b stampWith: #dashed."
-	b
-		iconImage: ToThemeIcons searchOutlined16x16;
-		labelText: 'Close'.
-	"b labelFirst: true."
-	"b checked: nil."
-	"b withIndeterminate: true."
-	"b innerElement border: (BlBorder paint: Color black)."
-
-	(b openInSpace) localTheme: ToBeeDarkTheme new.
-	"b width: 200."
-	"b size: 100 @ 100."
-
-	"b inspect.
-	b matchParent"
-]
-
-{ #category : #'button-dep' }
-ToSandBox class >> example_ToButtonSkins [
-
-	| space pane themeSwitcher butBuilder buttonSpecsBuilder enablementSwitcher allButtons sizingGroup smallSizingRadio middleSizingRadio largeSizingRadio shapingGroup circleShapingRadio defaultShapingRadio roundShapingRadio topBar buttonBar directionSwitcher orientationSwitcher |
-	space := BlSpace new.
-	allButtons := OrderedCollection new.
-
-	space root layout: (BlLinearLayout vertical cellSpacing: 10).
-	topBar := ToMenuBar new
-		          beHorizontal;
-		          hMatchParent;
-		          vFitContent.
-	topBar layout cellSpacing: 10.
-
-	themeSwitcher := ToChoiceMenu new.
-	themeSwitcher width: 150.
-	themeSwitcher data addAll: {
-			ToBeeTheme new.
-			ToBeeDarkTheme new }.
-
-	themeSwitcher whenSelectedIndexChangedDo: [
-		space toTheme: themeSwitcher selectedData new ].
-	themeSwitcher selectData: space toTheme class.
-	topBar addChild: themeSwitcher.
-
-	enablementSwitcher := ToSwitchIcon new.
-	enablementSwitcher switchBarOnElement: (ToLabel text: 'Enabled').
-	enablementSwitcher switchBarOffElement: (ToLabel text: 'Disabled').
-	enablementSwitcher check.
-	enablementSwitcher
-		when: ToCheckableCheckEvent
-		do: [ :event |
-		allButtons do: [ :b | b enabled: event target isChecked ] ].
-
-	topBar addChild: enablementSwitcher.
-
-	buttonBar := ToPane vertical vFitContent.
-
-	sizingGroup := ToCheckableGroup new.
-	smallSizingRadio := ToRadioButton new labelText: 'Small'.
-	smallSizingRadio userData at: #sizing put: #'small-sizing'.
-	middleSizingRadio := ToRadioButton new labelText: 'Middle'.
-	middleSizingRadio userData at: #sizing put: #'middle-sizing'.
-	largeSizingRadio := ToRadioButton new labelText: 'Large'.
-	largeSizingRadio userData at: #sizing put: #'large-sizing'.
-	middleSizingRadio checked: true.
-	sizingGroup addAll: {
-			smallSizingRadio.
-			middleSizingRadio.
-			largeSizingRadio }.
-	sizingGroup when: ToCheckableGroupChangedEvent do: [ :event |
-		| choice sizing |
-		choice := event uncheckedList anyOne.
-		sizing := choice userData at: #sizing.
-		allButtons do: [ :but | but sizing: sizing ] ].
-
-	buttonBar addChildren: {
-			smallSizingRadio.
-			middleSizingRadio.
-			largeSizingRadio }.
-	topBar addChild: buttonBar.
-
-	buttonBar := ToPane vertical vFitContent.
-
-	shapingGroup := ToCheckableGroup new.
-	circleShapingRadio := ToRadioButton new labelText: 'Circle'.
-	circleShapingRadio userData at: #shaping put: #circle.
-	defaultShapingRadio := ToRadioButton new labelText: 'Default shape'.
-	defaultShapingRadio userData at: #shaping put: #'default-shaping'.
-	roundShapingRadio := ToRadioButton new labelText: 'Round'.
-	roundShapingRadio userData at: #shaping put: #round.
-	defaultShapingRadio checked: true.
-	shapingGroup addAll: {
-			circleShapingRadio.
-			defaultShapingRadio.
-			roundShapingRadio }.
-	shapingGroup when: ToCheckableGroupChangedEvent do: [ :event |
-		| choice shaping |
-		choice := event uncheckedList anyOne.
-		shaping := choice userData at: #shaping.
-		allButtons do: [ :but | but shaping: shaping ] ].
-
-	buttonBar addChildren: {
-			circleShapingRadio.
-			defaultShapingRadio.
-			roundShapingRadio }.
-
-	topBar addChild: buttonBar.
-
-	directionSwitcher := ToSwitchIcon new
-		                     labelText: 'Icon first';
-		                     beEndToStart;
-		                     yourself.
-	directionSwitcher check.
-	directionSwitcher when: ToCheckableCheckEvent do: [ :event |
-		allButtons do: [ :b | b startToEnd: event target isChecked ] ].
-	topBar addChild: directionSwitcher.
-
-	orientationSwitcher := ToSwitchIcon new
-		                       labelText: 'Horizontal';
-		                       beEndToStart;
-		                       yourself.
-	orientationSwitcher check.
-	orientationSwitcher when: ToCheckableCheckEvent do: [ :event |
-		allButtons do: [ :b | b horizontal: event target isChecked ] ].
-	topBar addChild: orientationSwitcher.
-
-	topBar childrenDo: [ :child |
-		child constraintsDo: [ :c | c linear vertical alignCenter ] ].
-
-	circleShapingRadio when: ToCheckableCheckEvent do: [ :event |
-		event current
-			ifTrue: [
-				directionSwitcher enabled: false.
-				orientationSwitcher enabled: false ]
-			ifFalse: [
-				directionSwitcher enabled: true.
-				orientationSwitcher enabled: true ] ].
-
-	space root addChild: topBar.
-
-	butBuilder := [
-	              ToImage new innerImage:
-		              ToThemeIcons searchOutlined16x16 ].
-	buttonSpecsBuilder := [
-	                      {
-		                      { 'Primary'. #primary }.
-		                      { 'Default'. #default }.
-		                      { 'Dashed'. #dashed }.
-		                      { 'Text'. #text }.
-		                      { 'Link'. #link } } ].
-
-	" Line 1 "
-	pane := ToPane horizontal.
-	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
-
-	buttonSpecsBuilder value do: [ :arr |
-		| but |
-		but := ToButton new.
-		allButtons add: but.
-		arr second ifNotNil: [ :s | but addStamp: s ].
-		but labelText: arr first.
-		pane addChild: but ].
-
-	space root addChild: pane.
-
-	" line 2 "
-	pane := ToPane horizontal.
-	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
-
-	buttonSpecsBuilder value do: [ :arr |
-		| but |
-		but := ToButton new.
-		allButtons add: but.
-		arr second ifNotNil: [ :s | but addStamp: s ].
-		but labelText: arr first.
-		but icon: butBuilder value.
-		pane addChild: but ].
-
-	space root addChild: pane.
-
-	" line 3 "
-	pane := ToPane horizontal.
-	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
-
-	buttonSpecsBuilder value do: [ :arr |
-		| but |
-		but := ToButton new.
-		allButtons add: but.
-		arr second ifNotNil: [ :s | but addStamp: s ].
-		but icon: butBuilder value.
-		pane addChild: but ].
-
-	space root addChild: pane.
-
-	" line 4 "
-	pane := ToPane horizontal.
-	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
-
-	buttonSpecsBuilder value do: [ :arr |
-		| but |
-		but := ToButton new.
-		allButtons add: but.
-		arr second ifNotNil: [ :s | but addStamp: s ].
-		but labelText: arr first.
-		pane addChild: but ].
-
-	space root addChild: pane.
-
-	" line 5 "
-	pane := ToPane horizontal.
-	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
-
-	buttonSpecsBuilder value do: [ :arr |
-		| but |
-		but := ToButton new.
-		allButtons add: but.
-		arr second ifNotNil: [ :s | but addStamp: s ].
-		but labelText: arr first.
-		but icon: butBuilder value.
-		pane addChild: but ].
-
-	space root addChild: pane.
-
-	" line 6 "
-	pane := ToPane horizontal.
-	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
-
-	buttonSpecsBuilder value do: [ :arr |
-		| but |
-		but := ToButton new.
-		allButtons add: but.
-		arr second ifNotNil: [ :s | but addStamp: s ].
-		but icon: butBuilder value.
-		pane addChild: but ].
-
-	space root addChild: pane.
-
-	space show.
-
-	^ space
 ]
 
 { #category : #'button-dep' }
@@ -3804,7 +3504,7 @@ ToSandBox class >> example_scaledImage [
 	| im scale |
 	scale := 0.5.
 	im := ToImage new innerImage: (Smalltalk ui icons iconNamed: #pharoBig).
-	im when: BlClickEvent do: [ :event |
+	im addEventHandlerOn: BlClickEvent do: [ :event |
 		im transformDo: [ :t |
 			t topLeftOrigin scaleBy: scale.
 			scale := scale < 1.0
@@ -4012,8 +3712,8 @@ ToSandBox class >> example_switchButton2 [
 		((ToImage inner: (self iconNamed: #glamorousAccept))
 			 innerImageColor: Color white).
 	th uncheckedContainer addChild:
-		((ToImage inner: (self iconNamed: #glamorousClose)) formColor:
-			 Color white).
+		((ToImage inner: (self iconNamed: #glamorousClose))
+			 innerImageColor: Color white).
 
 	th addEventHandler: (BlEventHandler
 			 on: ToCheckableCheckEvent
@@ -4416,7 +4116,7 @@ ToSandBox class >> example_toAlbumAsButton [
 		       text: 'Hello world'";
 		       preventChildrenMouseEvents".
 	but
-		when: BlPrimaryClickEvent
+		addEventHandlerOn: BlPrimaryClickEvent
 		do: [ self inform: 'Click' ].
 "	but background: Color blue."
 	but size: 300 @ 100.
@@ -4486,7 +4186,6 @@ ToSandBox class >> example_toBasicButton4 [
 			ico.
 			lab }.
 	but := ToGeneralButton new.
-	but addEventHandler: (ToSkinStateGenerator new target: but).
 	but matchParent.
 	but addChild: pane.
 	but layout alignCenter.
@@ -5047,7 +4746,7 @@ ToSandBox class >> example_toWidgetAsButton0 [
 	| but |
 	but := ToElement new.
 	but
-		when: BlPrimaryClickEvent
+		addEventHandlerOn: BlPrimaryClickEvent
 		do: [ self inform: 'Click' ].
 	but background: Color blue.
 	but size: 50 @ 50.

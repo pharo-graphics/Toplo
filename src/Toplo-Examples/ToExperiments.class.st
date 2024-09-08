@@ -95,10 +95,10 @@ ToExperiments class >> example_DragAndDropWithLinearLayout [
 	space show.
 
 	blue
-		when: BlDragEnterEvent
+		addEventHandlerOn: BlDragEnterEvent
 		do: [ :event | blue border: (BlBorder paint: Color yellow width: 5) ].
 	blue
-		when: BlDragLeaveEvent
+		addEventHandlerOn: BlDragLeaveEvent
 		do: [ :event | blue border: BlBorder empty ]
 ]
 
@@ -185,7 +185,7 @@ ToExperiments class >> example_ExperimentForMultilineLabel3 [
 				               addChildren: (cutted collect: [ :w | w asElement editorMeasurement ]).
 			root addChild: lineElement ] ].
 
-	root openInOBlSpace
+	root openInSpace
 ]
 
 { #category : #elements }
@@ -218,7 +218,7 @@ ToExperiments class >> example_ExperimentForMultilineLabel4 [
 							                w asElement editorMeasurement ]).
 			root addChild: lineElement ] ].
 
-	root openInOBlSpace
+	root openInSpace
 ]
 
 { #category : #elements }
@@ -525,7 +525,7 @@ ToExperiments class >> example_PasteUpWithPlaceHolder [
 	space root addChild: container.
 	space show.
 
-	container when: BlDragStartEvent do: [ :event |
+	container addEventHandlerOn: BlDragStartEvent do: [ :event |
 		| dragged |
 		event consume.
 		dragged := container findMouseEventTargetAt: event position.
@@ -534,14 +534,14 @@ ToExperiments class >> example_PasteUpWithPlaceHolder [
 			container detachChild: dragged.
 			phpane attachChild: dragged ] ].
 
-	container when: BlDragEvent do: [ :event |
+	container addEventHandlerOn: BlDragEvent do: [ :event |
 		event consume.
 		phpane hasChildren ifTrue: [
 			| dragged |
 			dragged := phpane firstChild.
 			dragged position: event position - pred ] ].
 
-	container when: BlDragEndEvent do: [ :event |
+	container addEventHandlerOn: BlDragEndEvent do: [ :event |
 		event consume.
 		phpane hasChildren ifTrue: [
 			| dragged |
@@ -550,24 +550,24 @@ ToExperiments class >> example_PasteUpWithPlaceHolder [
 			phpane detachChild: dragged.
 			container attachChild: dragged ] ].
 
-	blue when: BlDragStartEvent do: [ :event |
+	blue addEventHandlerOn: BlDragStartEvent do: [ :event |
 		pblue := event position - blue position.
 		event consume ].
-	blue when: BlDragEvent do: [ :event |
+	blue addEventHandlerOn: BlDragEvent do: [ :event |
 		event consume.
 		blue position: event position - pblue.
 		blue forceLayout ].
-	blue when: BlDragEndEvent do: [ :event | event consume ].
+	blue addEventHandlerOn: BlDragEndEvent do: [ :event | event consume ].
 
 	blue
-		when: BlDragEnterEvent
+		addEventHandlerOn: BlDragEnterEvent
 		do: [ :event | blue border: (BlBorder paint: Color yellow width: 5) ].
 	blue
-		when: BlDragLeaveEvent
+		addEventHandlerOn: BlDragLeaveEvent
 		do: [ :event | blue border: BlBorder empty ]
 
-	"red when: BlDragEnterEvent do: [ :event | event consume. red background: Color random ].
-red when: BlDragLeaveEvent do: [ :event | event consume. red background: Color red ].
+	"red addEventHandlerOn: BlDragEnterEvent do: [ :event | event consume. red background: Color random ].
+red addEventHandlerOn: BlDragLeaveEvent do: [ :event | event consume. red background: Color red ].
 "
 ]
 
@@ -699,15 +699,15 @@ ToExperiments class >> example_drag [
 
 	e addChild: child.
 
-	child when: BlDragStartEvent do: [ :evt |
+	child addEventHandlerOn: BlDragStartEvent do: [ :evt |
 		p := evt position - child position.
 		evt consume ].
 
 	child
-		when: BlDragEvent
+		addEventHandlerOn: BlDragEvent
 		do: [ :evt | child position: evt position - p ].
 
-	e openInNewSpace
+	e openInSpace
 ]
 
 { #category : #'mouse drag' }
@@ -799,8 +799,8 @@ ToExperiments class >> example_enterLeave [
 	| e1 e2 space |
 	e1 := BlElement new background: Color yellow; size: 100@60.
 	e2 := BlElement new background: Color blue; preventMouseEvents.
-	e1 when: BlMouseEnterEvent do: [ :event | e2 position: e1 bounds bottomRight. e1 space addChild: e2 ].
-	e1 when: BlMouseLeaveEvent do: [ :event | e1 space removeChild: e2 ].
+	e1 addEventHandlerOn: BlMouseEnterEvent do: [ :event | e2 position: e1 bounds bottomRight. e1 space root addChild: e2 ].
+	e1 addEventHandlerOn: BlMouseLeaveEvent do: [ :event | e1 space root removeChild: e2 ].
 	space := BlSpace new.
 	space root addChild: e1.
 	space show
@@ -992,7 +992,7 @@ ToExperiments class >> example_rotation [
 		c horizontal fitContent.
 		c vertical fitContent ].
 	count := 0.
-	button when: BlClickEvent do: [
+	button addEventHandlerOn: BlClickEvent do: [
 		count := count + 1.
 		handle transformDo: [ :t |
 			t normalizedOrigin: 0.25 @ 0.5.
@@ -1172,7 +1172,7 @@ ToExperiments class >> example_toggle_sliding [
 	slide := slideB value.
 	track transformDo: [ :aTransform | aTransform translateBy: slide negated @ 0 ].
 	
-	toggle when: BlClickEvent do: [
+	toggle addEventHandlerOn: BlClickEvent do: [
 		slide := slide isZero ifTrue: [slideB value] ifFalse: [0].
 		slide traceCr.
 		track transformDo: [ :aTransform | aTransform translateBy: slide negated @ 0 ] ].
@@ -1185,10 +1185,10 @@ ToExperiments class >> example_toggle_sliding_with_animation1 [
 
 	| root toggle track but left right slide |
 	root := ToElement new
-		          fitContent;
-		          border: (BlBorder paint: Color black);
-					padding: (BlInsets all: 2);
-		          layout: BlFrameLayout new.
+		        fitContent;
+		        border: (BlBorder paint: Color black);
+		        padding: (BlInsets all: 2);
+		        layout: BlFrameLayout new.
 	toggle := ToElement new
 		          vFitContent;
 		          layout: BlLinearLayout horizontal.
@@ -1196,33 +1196,49 @@ ToExperiments class >> example_toggle_sliding_with_animation1 [
 		         fitContent;
 		         border: (BlBorder paint: Color black);
 		         layout: BlLinearLayout horizontal.
-	left := BlElement new size: 30 @ 14; background: Color veryLightGray; margin: (BlInsets left: 5 right: 5).
+	left := BlElement new
+		        size: 30 @ 14;
+		        background: Color veryLightGray;
+		        margin: (BlInsets left: 5 right: 5).
 	but := BlElement new
 		       size: 14 @ 14;
-				 position: left requestedWidth @ 0;
+		       position: left requestedWidth @ 0;
 		       background: Color green;
 		       border: (BlBorder paint: Color black).
-	right := BlElement new size: 20 @ 14; background: Color pink.
-	track addChildren: { left. but. right }.
+	right := BlElement new
+		         size: 20 @ 14;
+		         background: Color pink.
+	track addChildren: {
+			left.
+			but.
+			right }.
 
-	toggle width: but requestedWidth + ((left requestedWidth + left margin left + left margin right) max: (right requestedWidth + right margin left + right margin right)).
+	toggle width: but requestedWidth
+		+ (left requestedWidth + left margin left + left margin right max:
+				 right requestedWidth + right margin left + right margin right).
 	toggle addChild: track.
 
 	"slide := ((left requestedWidth max: right requestedWidth) - toggle padding left - toggle padding right) ."
 	"track transformDo: [ :aTransform | aTransform translateBy: slide  @ 0 ]."
 	slide := 0.
-	slide := ((left requestedWidth max: right requestedWidth) - toggle padding left - toggle padding right).
-	track transformDo: [ :aTransform | aTransform translateBy: slide negated @ 0 ].
-		slide := slide isZero ifTrue: [((left requestedWidth max: right requestedWidth) - toggle padding left - toggle padding right) ] ifFalse: [0].
-		slide := ((left requestedWidth "+ left margin left + left margin right") - toggle padding left - toggle padding right).
-	
-	toggle when: BlClickEvent do: [
+	slide := (left requestedWidth max: right requestedWidth)
+	         - toggle padding left - toggle padding right.
+	track transformDo: [ :aTransform |
+		aTransform translateBy: slide negated @ 0 ].
+	slide := slide isZero
+		         ifTrue: [
+			         (left requestedWidth max: right requestedWidth)
+			         - toggle padding left - toggle padding right ]
+		         ifFalse: [ 0 ].
+	slide := left requestedWidth - toggle padding left
+	         - toggle padding right. "+ left margin left + left margin right"
+
+	toggle addEventHandlerOn: BlClickEvent do: [
 		slide traceCr.
 		track addAnimation: (BlTransformAnimation new
-					  duration: 200 milliSeconds;
-					  transformDo: [ :b | b translateBy: slide  @ 0 ]).
-		slide := slide * -1.
-		].
+				 duration: 200 milliSeconds;
+				 transformDo: [ :b | b translateBy: slide @ 0 ]).
+		slide := slide * -1 ].
 	root addChild: toggle.
 	root openInSpace
 ]
@@ -1360,7 +1376,7 @@ ToExperiments class >> example_twoChildrenMatchParentInFitContent [
 	parent addChild: child.
 	parent addChild: child2.
 	parent forceLayout.
-	^ parent openInOBlSpace 
+	^ parent openInSpace 
 ]
 
 { #category : #rotation }

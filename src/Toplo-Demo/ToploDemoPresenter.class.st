@@ -87,7 +87,7 @@ ToploDemoPresenter >> demo3 [
 	(radioButtonDarkTheme := ToRadioButton new) labelText: 'Dark theme'.
 	(checkableGroup := ToCheckableGroup new)
 		withStrictCheckingStrategy;
-		registerAll: {
+		addAll: {
 				radioButtonLightTheme.
 				radioButtonDarkTheme };
 		addEventHandler: (BlEventHandler

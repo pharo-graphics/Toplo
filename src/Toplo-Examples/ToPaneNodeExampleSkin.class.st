@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'nodeButton'
 	],
-	#category : #'Toplo-Examples-Parts'
+	#category : #'Toplo-Examples'
 }
 
 { #category : #'event handling' }

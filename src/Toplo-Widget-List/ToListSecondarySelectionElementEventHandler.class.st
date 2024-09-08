@@ -7,15 +7,6 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Element'
 }
 
-{ #category : #'element handlers' }
-ToListSecondarySelectionElementEventHandler >> elementScrolledEvent: anEvent [
-
-	super elementScrolledEvent: anEvent.
-	anEvent currentTarget spaceDo: [ :sp | 
-		sp mouseProcessor handleLastMouseMove ].
-
-]
-
 { #category : #'api - accessing' }
 ToListSecondarySelectionElementEventHandler >> eventsToHandle [
 

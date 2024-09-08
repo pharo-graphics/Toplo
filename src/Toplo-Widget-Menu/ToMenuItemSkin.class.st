@@ -21,7 +21,7 @@ ToMenuItemSkin >> enabledSkinEvent: anEvent [
 	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic |
-			ic formColor: (e valueOfTokenNamed: #'color-text') ].
+			ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
 		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-text') ] ]
 ]
@@ -32,7 +32,7 @@ ToMenuItemSkin >> hoveredSkinEvent: anEvent [
 	super hoveredSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic |
-			ic formColor: (e valueOfTokenNamed: #'color-primary') ].
+			ic innerImageColor: (e valueOfTokenNamed: #'color-primary') ].
 		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-primary') ] ]
 ]
@@ -41,15 +41,14 @@ ToMenuItemSkin >> hoveredSkinEvent: anEvent [
 ToMenuItemSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e labeledIcon hMatchParent.
+	anEvent elementDo: [ :e | "e hMatchParent."
 		e isTopMenu ifFalse: [
 			e parentMenuDo: [ :pm |
 				(pm items anySatisfy: [ :mi | mi hasIcon ]) ifTrue: [
 					e button startAlignment:
 						(e valueOfTokenNamed: #'menu-item-start-alignment') ] ] ].
 		e iconDo: [ :ic |
-			ic formColor: (e valueOfTokenNamed: #'color-text') ].
+			ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
 		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-text') ] ]
 ]
@@ -60,7 +59,7 @@ ToMenuItemSkin >> leavedSkinEvent: anEvent [
 	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic |
-			ic formColor: (e valueOfTokenNamed: #'color-text') ].
+			ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
 		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-text') ] ]
 ]
@@ -71,7 +70,7 @@ ToMenuItemSkin >> pressedSkinEvent: anEvent [
 	super pressedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic |
-			ic formColor: (e valueOfTokenNamed: #'color-primary-pressed') ].
+			ic innerImageColor: (e valueOfTokenNamed: #'color-primary-pressed') ].
 		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-primary-pressed') ] ]
 ]

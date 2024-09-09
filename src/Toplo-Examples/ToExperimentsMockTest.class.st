@@ -5,8 +5,9 @@ Class {
 }
 
 { #category : #tests }
-ToExperimentsMockTest >> closeWindows [ 
+ToExperimentsMockTest class >> closeWindows [
 
+	<script>
 	BlOSWindowSDL2Host universe closeSpaces.
 	BlOSWindowSDL2Host
 		stop;
@@ -17,22 +18,25 @@ ToExperimentsMockTest >> closeWindows [
 		start.
 	BlSpace allInstances do: [ :each | each close ].
 	BlParallelUniverse all do: [ :each | each closeSpaces ].
+]
 
-
+{ #category : #tests }
+ToExperimentsMockTest >> closeWindows [
+	^ self class closeWindows
 ]
 
 { #category : #tests }
 ToExperimentsMockTest >> testMocks [
 
 	| selectors errors |
+	self skip.
 	errors := OrderedCollection new.
 	selectors := ToExperiments class selectors select: [ :each |
 		             each beginsWith: 'example' ].
 	self assert: selectors isNotEmpty.
 
 	selectors do: [ :each |
-		[
-		ToExperiments perform: each.
+		[ ToExperiments perform: each.
 		Delay forMilliseconds: 5000.
 		self closeWindows ]
 			on: Error

@@ -429,8 +429,7 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 	mainPane addChild: themePane.
 	mainPane addChild: pane.
 	space root addChild: mainPane.
-	space show.
-	space inspect
+	space show
 ]
 
 { #category : #'examples - buttons' }

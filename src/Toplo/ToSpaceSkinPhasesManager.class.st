@@ -57,7 +57,6 @@ ToSpaceSkinPhasesManager >> applyAllSkinInstallersIn: aSpace [
 	This is normally not the case. One known case is the space root installation that induce a skin installation "
 	self needSkinInstallPass: false.
 	applyingSkinInstallers := true.
-	" First make a layout pass because installing a skin may require measured/positionned elements "
 	[ aSpace root applySkinInstallersDeeply ] ensure: [
 		applyingSkinInstallers := false ]
 ]

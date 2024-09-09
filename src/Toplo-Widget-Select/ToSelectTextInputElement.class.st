@@ -154,16 +154,14 @@ ToSelectTextInputElement >> onWindowClosed [
 
 	self selectedDataTextField visibility: BlVisibility visible.
 	self selectedDataTextField text foreground: Color black.
-	selectFiltrable ifTrue: [ self inputTextField requestFocus ]
+	self updateFocus
 ]
 
 { #category : #window }
 ToSelectTextInputElement >> onWindowOpened [		
 		
 	self selectedDataTextField text foreground: Color lightGray.
-	selectFiltrable
-		ifTrue: [ self inputTextField requestFocus ]
-		ifFalse: [ self parent requestFocus ]
+	self updateFocus
 ]
 
 { #category : #accessing }
@@ -188,4 +186,12 @@ ToSelectTextInputElement >> uninstallInputTextFieldEventHandlers [
 	installedInputTextFieldTextEventHandler do: [ :h |
 		self inputTextField removeEventHandler: h ].
 	installedInputTextFieldTextEventHandler := nil
+]
+
+{ #category : #window }
+ToSelectTextInputElement >> updateFocus [
+
+	selectFiltrable
+		ifTrue: [ self inputTextField requestFocus ]
+		ifFalse: [ self parent requestFocus ]
 ]

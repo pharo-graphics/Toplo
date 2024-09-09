@@ -3,7 +3,8 @@ Class {
 	#superclass : #ToListNodeEvent,
 	#instVars : [
 		'listElement',
-		'selected'
+		'selected',
+		'selectionOption'
 	],
 	#category : #'Toplo-Widget-List-Node'
 }
@@ -30,6 +31,18 @@ ToListNodeSelectedEvent >> selected [
 ToListNodeSelectedEvent >> selected: aBoolean [
 
 	selected := aBoolean
+]
+
+{ #category : #accessing }
+ToListNodeSelectedEvent >> selectionOption [
+
+	^ selectionOption
+]
+
+{ #category : #accessing }
+ToListNodeSelectedEvent >> selectionOption: aSelectionOption [
+
+	selectionOption := aSelectionOption
 ]
 
 { #category : #sending }

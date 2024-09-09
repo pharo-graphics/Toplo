@@ -51,7 +51,7 @@ ToploDemoPresenter >> demo2 [
 						  yourself);
 				 startInterspace: 3;
 				 yourself) ].
-	list selectionMode disable.
+	list primarySelectionMode disable.
 	colorAssociations := Array streamContents: [ :stream |
 		                     Color registeredColorNames sorted do: [
 			                     :colorName |
@@ -94,10 +94,10 @@ ToploDemoPresenter >> demo3 [
 				 on: ToCheckableGroupChangedEvent
 				 do: [ :event |
 					 containerElement space toTheme:
-							 (event uncheckedList anyOne = radioButtonLightTheme
+							 (event checkedList anyOne = radioButtonLightTheme
 								  ifTrue: [ ToRawTheme new ]
 								  ifFalse: [ ToRawDarkTheme new ]) ]).
-	containerElement addChildren: checkableGroup buttons.
+	containerElement addChildren: checkableGroup registeredCheckables.
 	^ containerElement
 ]
 

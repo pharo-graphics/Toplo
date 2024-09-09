@@ -137,9 +137,17 @@ ToSpaceSkinPhasesManagerTest >> testNeedSkinInstallPass [
 	space root addChild: e.
 	self assert: space needSkinInstallPass.
 	space applyAllSkinInstallers.
+	" the previous skin installation has armed a skin installer for the space root "
+	self assert: space needSkinInstallPass.
+	space applyAllSkinInstallers.
+	" all skin installers should have been applied "
 	self deny: space needSkinInstallPass.
 	e addStamp: #stamp.
-	self assert: space needSkinInstallPass
+	self assert: space needSkinInstallPass.
+	space applyAllSkinInstallers.
+	" all skin installers should have been applied "
+	self deny: space needSkinInstallPass.
+
 	
 
 

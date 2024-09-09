@@ -73,7 +73,7 @@ AeFontStretch: condensed expanded extraCondensed extraExpanded normal semiConden
 { #category : #'drag and drop' }
 ToExperiments class >> example_DragAndDropWithLinearLayout [
 
-	| container red blue space |
+	| container red blue space  |
 	container := ToPane new id: #container.
 	container border: Color black.
 	container matchParent.
@@ -160,33 +160,29 @@ ToExperiments class >> example_ExperimentForMultilineLabel2 [
 ToExperiments class >> example_ExperimentForMultilineLabel3 [
 
 	| root text itor |
-	text := 'Default font and size' asRopedText , String cr asRopedText
-	        , ('Source code pro 40 bold' asRopedText
-			         fontSize: 40;
-			         fontName: 'Source code pro';
-			         bold) , String cr asRopedText
-	        , (' Default font 30' asRopedText fontSize: 30).
+	text := 'Default font and size' asRopedText , String cr asRopedText , ('Source code pro 40 bold' asRopedText
+		         fontSize: 40;
+		         fontName: 'Source code pro';
+		         bold) , String cr asRopedText , (' Default font 30' asRopedText fontSize: 30).
 
 	root := BlElement new
-		        constraintsDo: [ :c |
+		        constraintsDo: [ :c | 
 			        c vertical matchParent.
 			        c horizontal matchParent ];
 		        layout: BlLinearLayout vertical.
 
 	itor := text iterator.
-	[ itor hasNext ] whileTrue: [
-		itor nextLineIndicesDo: [ :aLineStart :aLineEnd :aLineDelimiterEnd |
+	[ itor hasNext ] whileTrue: [ 
+		itor nextLineIndicesDo: [ :aLineStart :aLineEnd :aLineDelimiterEnd | 
 			| sub cutted lineElement |
 			sub := text from: aLineStart to: aLineEnd.
 			cutted := ToTextScissor new cut: sub.
 			lineElement := BlElement new
 				               layout: AlbLineFlowLayout new;
-				               constraintsDo: [ :c |
+				               constraintsDo: [ :c | 
 					               c horizontal matchParent.
 					               c vertical fitContent ];
-				               addChildren:
-					               (cutted collect: [ :w |
-							                w asElement editorMeasurement ]).
+				               addChildren: (cutted collect: [ :w | w asElement editorMeasurement ]).
 			root addChild: lineElement ] ].
 
 	root openInSpace
@@ -199,26 +195,26 @@ ToExperiments class >> example_ExperimentForMultilineLabel4 [
 	text := self embeddedFontsText.
 
 	root := BlElement new
-		        constraintsDo: [ :c |
+		        constraintsDo: [ :c | 
 			        c vertical fitContent.
 			        c horizontal fitContent ];
 		        layout: BlLinearLayout vertical.
 	itor := text iterator.
-	[ itor hasNext ] whileTrue: [
-		itor nextLineIndicesDo: [ :aLineStart :aLineEnd :aLineDelimiterEnd |
+	[ itor hasNext ] whileTrue: [ 
+		itor nextLineIndicesDo: [ :aLineStart :aLineEnd :aLineDelimiterEnd | 
 			| sub cutted lineElement |
 			sub := text from: aLineStart to: aLineEnd.
 			cutted := ToTextScissor new cut: sub.
-			cutted ifEmpty: [
+			cutted ifEmpty: [ 
 				cutted := Array with:
 					          (BlText empty attributes: sub iterator attributes) ].
 			lineElement := BlElement new
 				               layout: AlbLineFlowLayout new;
-				               constraintsDo: [ :c |
+				               constraintsDo: [ :c | 
 					               c horizontal matchParent.
 					               c vertical fitContent ];
 				               addChildren:
-					               (cutted collect: [ :w |
+					               (cutted collect: [ :w | 
 							                w asElement editorMeasurement ]).
 			root addChild: lineElement ] ].
 
@@ -568,10 +564,11 @@ ToExperiments class >> example_PasteUpWithPlaceHolder [
 		do: [ :event | blue border: (BlBorder paint: Color yellow width: 5) ].
 	blue
 		addEventHandlerOn: BlDragLeaveEvent
-		do: [ :event | "red when: BlDragEnterEvent do: [ :event | event consume. red background: Color random ].
-red when: BlDragLeaveEvent do: [ :event | event consume. red background: Color red ].
+		do: [ :event | blue border: BlBorder empty ]
+
+	"red addEventHandlerOn: BlDragEnterEvent do: [ :event | event consume. red background: Color random ].
+red addEventHandlerOn: BlDragLeaveEvent do: [ :event | event consume. red background: Color red ].
 "
-			blue border: BlBorder empty ]
 ]
 
 { #category : #image }
@@ -710,7 +707,7 @@ ToExperiments class >> example_drag [
 		addEventHandlerOn: BlDragEvent
 		do: [ :evt | child position: evt position - p ].
 
-	e openInNewSpace
+	e openInSpace
 ]
 
 { #category : #'mouse drag' }
@@ -800,18 +797,10 @@ ToExperiments class >> example_elements_sandbox [
 ToExperiments class >> example_enterLeave [
 
 	| e1 e2 space |
-	e1 := BlElement new
-		      background: Color yellow;
-		      size: 100 @ 60.
-	e2 := BlElement new
-		      background: Color blue;
-		      preventMouseEvents.
-	e1 addEventHandlerOn: BlMouseEnterEvent do: [ :event |
-		e2 relocate: e1 bounds bottomRight.
-		e1 space addChild: e2 ].
-	e1
-		addEventHandlerOn: BlMouseLeaveEvent
-		do: [ :event | e1 space removeChild: e2 ].
+	e1 := BlElement new background: Color yellow; size: 100@60.
+	e2 := BlElement new background: Color blue; preventMouseEvents.
+	e1 addEventHandlerOn: BlMouseEnterEvent do: [ :event | e2 position: e1 bounds bottomRight. e1 space root addChild: e2 ].
+	e1 addEventHandlerOn: BlMouseLeaveEvent do: [ :event | e1 space root removeChild: e2 ].
 	space := BlSpace new.
 	space root addChild: e1.
 	space show
@@ -996,8 +985,7 @@ ToExperiments class >> example_rotation [
 	container addChild: handle.
 	button := BlElement new.
 	button layout: BlFrameLayout new.
-	button addChild:
-		(BlTextElement text: 'Click to rotate by 90' asRopedText).
+	button addChild: (BlTextElement text: 'Click to rotate by 90' asRopedText).
 	button padding: (BlInsets all: 5).
 	button border: (BlBorder paint: Color gray).
 	button constraintsDo: [ :c |
@@ -1061,7 +1049,8 @@ ToExperiments class >> example_space [
 	| space |
 	space := BlSpace new
 		         position: 2000 @ 1000;
-		         "toBack;"resizable: false;
+		         "toBack;"
+					resizable: false;
 		         borderless: true;
 		         extent: 50 @ 50.
 	space root background: Color red.
@@ -1155,56 +1144,38 @@ ToExperiments class >> example_toScaling [
 { #category : #'toogle button' }
 ToExperiments class >> example_toggle_sliding [
 
-	| toggle track but left right slideB slide |
+	|  toggle track but left right slideB slide |
+
 	toggle := ToElement new
 		          vFitContent;
-		          background: Color lightBlue;
-		          "padding: (BlInsets all: 2);"border:
-			          (BlBorder paint: Color blue);
-		          geometry: (BlRoundedRectangleGeometry cornerRadius: 14);
+					background: Color lightBlue;
+					"padding: (BlInsets all: 2);"
+					border: (BlBorder paint: Color blue);
+					geometry: (BlRoundedRectangleGeometry cornerRadius: 14);
 		          layout: BlLinearLayout horizontal.
 	track := ToElement new
 		         fitContent;
 		         layout: BlLinearLayout horizontal.
-	left := BlElement new
-		        size: 17 @ 14;
-		        background: Color gray;
-		        margin: (BlInsets left: 5 right: 5).
+	left := BlElement new size: 17 @ 14; background: Color gray; margin: (BlInsets left: 5 right: 5).
 	but := BlElement new
 		       size: 14 @ 14;
-		       geometry: BlCircleGeometry new;
+				geometry: (BlCircleGeometry new);
 		       background: Color green.
-	right := BlElement new
-		         size: 17 @ 14;
-		         background: Color gray;
-		         margin: (BlInsets left: 5 right: 5).
-	track addChildren: {
-			left.
-			but.
-			right }.
+	right := BlElement new size: 17 @ 14; background: Color gray; margin: (BlInsets left: 5 right: 5).
+	track addChildren: { left. but. right }.
 
-	toggle width:
-		toggle padding left + toggle padding right + but requestedWidth
-		+ (left requestedWidth + left margin left + left margin right max:
-				 right requestedWidth + right margin left + right margin right).
+	toggle width: toggle padding left + toggle padding right + but requestedWidth + ((left requestedWidth + left margin left + left margin right) max: (right requestedWidth + right margin left + right margin right)).
 	toggle addChild: track.
 
 	slide := 0.
-	slideB := [
-	          (left requestedWidth max: right requestedWidth)
-	          - toggle padding left - toggle padding right
-	          + left margin right + left margin left "+ right margin left + right margin right" ].
+	slideB :=  [ ((left requestedWidth max: right requestedWidth) - toggle padding left - toggle padding right) + left margin right + left margin left "+ right margin left + right margin right"].
 	slide := slideB value.
-	track transformDo: [ :aTransform |
-		aTransform translateBy: slide negated @ 0 ].
-
+	track transformDo: [ :aTransform | aTransform translateBy: slide negated @ 0 ].
+	
 	toggle addEventHandlerOn: BlClickEvent do: [
-		slide := slide isZero
-			         ifTrue: [ slideB value ]
-			         ifFalse: [ 0 ].
+		slide := slide isZero ifTrue: [slideB value] ifFalse: [0].
 		slide traceCr.
-		track transformDo: [ :aTransform |
-			aTransform translateBy: slide negated @ 0 ] ].
+		track transformDo: [ :aTransform | aTransform translateBy: slide negated @ 0 ] ].
 
 	toggle openInSpace
 ]
@@ -1375,35 +1346,37 @@ ToExperiments class >> example_twoChildrenInPolygon [
 
 { #category : #frame }
 ToExperiments class >> example_twoChildrenMatchParentInFitContent [
-
 	| parent child child2 |
 	parent := BlElement new.
 	parent layout: BlLinearLayout vertical.
 	parent background: (Color gray alpha: 0.3).
 	parent padding: (BlInsets all: 25).
-	parent constraintsDo: [ :c |
-		c horizontal fitContent.
-		c vertical fitContent ].
+	parent
+		constraintsDo: [ :c | 
+			c horizontal fitContent.
+			c vertical fitContent ].
 	child := BlTextElement new.
 	child text: ('Hello world haba' asRopedText fontSize: 40).
 	child background: (Color red alpha: 0.3).
 	child margin: (BlInsets all: 5).
 	child border: (BlBorder paint: Color red width: 1).
-	child constraintsDo: [ :c |
-		c horizontal matchParent.
-		c vertical matchParent ].
+	child
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical matchParent ].
 	child2 := BlTextElement new.
 	child2 text: ('Hello' asRopedText fontSize: 15).
 	child2 background: (Color blue alpha: 0.3).
 	child2 margin: (BlInsets all: 5).
 	child2 border: (BlBorder paint: Color blue width: 1).
-	child2 constraintsDo: [ :c |
-		c horizontal matchParent.
-		c vertical matchParent ].
+	child2
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical matchParent ].
 	parent addChild: child.
 	parent addChild: child2.
 	parent forceLayout.
-	^ parent openInSpace
+	^ parent openInSpace 
 ]
 
 { #category : #rotation }

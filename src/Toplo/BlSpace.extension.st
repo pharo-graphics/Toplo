@@ -128,6 +128,7 @@ BlSpace >> toTheme [
 BlSpace >> toTheme: aTheme [
 
 	self userData at: #toTheme put: aTheme.
+	self root ensureCanManageSkin.
 	self root localTheme: aTheme
 ]
 

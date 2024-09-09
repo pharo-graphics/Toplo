@@ -12,14 +12,6 @@ Class {
 	#category : #'Toplo-Examples-Parts'
 }
 
-{ #category : #'instance creation' }
-ToBarNodeExamplePart class >> open [
-
-	<script>
-	
-	self new openInSpace
-]
-
 { #category : #initialization }
 ToBarNodeExamplePart >> initialize [ 
 

@@ -12,6 +12,12 @@ ToListElementEventHandler >> blurEvent: anEvent [
 	self syncNodesSelectionIn: anEvent currentTarget 
 ]
 
+{ #category : #'selection managing' }
+ToListElementEventHandler >> boundsHasChangedDuringScrollingEvent: anEvent [
+
+	self refreshSelectionFromEvent: anEvent
+]
+
 { #category : #'event handling' }
 ToListElementEventHandler >> clickEvent: anEvent [
 
@@ -52,6 +58,20 @@ ToListElementEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 	self showHidePlaceholderIn: target
 ]
 
+{ #category : #'selection managing' }
+ToListElementEventHandler >> elementExtentChangedEvent: anEvent [
+
+	self refreshSelectionFromEvent: anEvent
+]
+
+{ #category : #'selection managing' }
+ToListElementEventHandler >> elementScrolledEvent: anEvent [
+
+	anEvent currentTarget spaceDo: [ :sp | 
+		sp mouseProcessor handleLastMouseMove ].
+	self refreshSelectionFromEvent: anEvent.
+]
+
 { #category : #'api - accessing' }
 ToListElementEventHandler >> eventsToHandle [
 
@@ -66,6 +86,10 @@ ToListElementEventHandler >> eventsToHandle [
 
 		  ToListNodeAddedEvent.
 		  ToListNodeRemovedEvent.
+
+		  BlBoundsHasChangedDuringScrollingEvent.
+		  BlElementExtentChangedEvent.
+		  BlElementScrolledEvent.
 
 		  " data source "
 		  ToListDataSourceItemsChangeEvent.
@@ -183,17 +207,16 @@ ToListElementEventHandler >> listNodeAddedEvent: anEvent [
 	| listElement node |
 	listElement := anEvent currentTarget.
 	node := anEvent node.
-	listElement selectionMode onAddedNode: anEvent node
+	listElement primarySelectionMode onAddedNode: anEvent node
 ]
 
 { #category : #'infinite event handling' }
 ToListElementEventHandler >> listNodeRemovedEvent: anEvent [
 
 	| node listElement |
-
 	node := anEvent node.
 	listElement := anEvent currentTarget.
-	listElement selectionMode onRemovedNode: node.
+	listElement primarySelectionMode onRemovedNode: node.
 	node holder unbindDataItem
 ]
 
@@ -217,9 +240,7 @@ ToListElementEventHandler >> middleClickEvent: anEvent [
 ToListElementEventHandler >> mouseDownEvent: anEvent [
 
 	| target |
-	anEvent isConsumed ifTrue: [ ^ self ].
 	target := anEvent currentTarget.
-	target isDisabled ifTrue: [  ^ self ].
 	target stopScroll.
 	self withTargetNodeFromEvent: anEvent do: [ :node |
 		node dispatchEvent: anEvent copy.
@@ -241,6 +262,16 @@ ToListElementEventHandler >> primaryClickEvent: anEvent [
 	self
 		withTargetNodeFromEvent: anEvent
 		do: [ :node | node dispatchEvent: anEvent copy ]
+]
+
+{ #category : #'selection managing' }
+ToListElementEventHandler >> refreshSelectionFromEvent: anEvent [
+
+	| target |
+	target := anEvent currentTarget.
+	target selectionModes do: [ :mode |
+		mode optionDo: [ :option |
+			option groupHolder refreshSelectionIn: target ] ]
 ]
 
 { #category : #'event handling' }
@@ -267,6 +298,8 @@ ToListElementEventHandler >> showHidePlaceholderIn: aListElement [
 { #category : #'list element handling' }
 ToListElementEventHandler >> syncNodesSelectionIn: aListElement [
 
-	aListElement innerContainer nodesDo: [ :node |
-		node holder notifySelected  ]
+	| option |
+	option := aListElement primarySelectionMode option.
+	option masked ifTrue: [ ^ self ].
+	option groupHolder notifyNodesSelectedIn: aListElement
 ]

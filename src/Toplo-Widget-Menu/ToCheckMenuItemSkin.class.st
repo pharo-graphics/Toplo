@@ -9,7 +9,9 @@ ToCheckMenuItemSkin >> checkedSkinEvent: anEvent [
 
 	super checkedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e icon innerImage border: (BlBorder paint: (e valueOfTokenNamed: #'color-primary') width: 6).
+		e icon innerImage border: (BlBorder
+				 paint: (e valueOfTokenNamed: #'color-primary-checked')
+				 width: 5).
 		e indeterminateBar background: Color transparent ]
 ]
 
@@ -31,7 +33,7 @@ ToCheckMenuItemSkin >> enabledSkinEvent: anEvent [
 	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: (BlBorder empty).
-		e background: e defaultBackground.
+		e background: (e valueOfTokenNamed: #'color-bg-container').
 		e icon border: (e valueOfTokenNamed: #'color-border') ]
 ]
 
@@ -57,7 +59,7 @@ ToCheckMenuItemSkin >> indeterminateSkinEvent: anEvent [
 	super indeterminateSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e icon innerImage border: (BlBorder paint: (e valueOfTokenNamed: #'color-primary') width: 0).
-		e indeterminateBar background: (e valueOfTokenNamed: #'color-primary')]
+		e indeterminateBar background: (e valueOfTokenNamed: #'color-primary') ]
 ]
 
 { #category : #'event handling' }
@@ -65,10 +67,10 @@ ToCheckMenuItemSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e | 
+		e border: (e valueOfTokenNamed: #'color-border-checkable').		
 		e iconImage: ((e valueOfTokenNamed: #'checkbox-image-builder') value).
 		e icon geometry: (self iconGeometryIn: e).
 		e button startAlignment: (e valueOfTokenNamed: #'menu-item-start-alignment').
-		e border: (e valueOfTokenNamed: #'color-border-checkable').		
 		e icon border: (e valueOfTokenNamed: #'color-border') ].
 
 	
@@ -79,7 +81,7 @@ ToCheckMenuItemSkin >> leavedSkinEvent: anEvent [
 
 	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e | 
-		e border: (BlBorder empty).		
+		e border: (BlBorder empty).	
 		e icon border: (e valueOfTokenNamed: #'color-border') ]
 ]
 

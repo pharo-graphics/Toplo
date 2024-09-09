@@ -11,10 +11,11 @@ ToMultiSelectBarEventHandler >> barNodeVisibilityEvent: anEvent [
 		anEvent currentTarget haveFullyInvisibleNodes: in ]
 ]
 
-{ #category : #'element handlers' }
+{ #category : #'selection managing' }
 ToMultiSelectBarEventHandler >> elementExtentChangedEvent: anEvent [
 
 	| target |
+	super elementExtentChangedEvent: anEvent.
 	target := anEvent currentTarget.
 	(target dataSource anySatisfy: [ :item | item isComposite ])
 		ifFalse: [ ^ self ].

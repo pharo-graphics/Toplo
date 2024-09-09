@@ -34,7 +34,6 @@ ToSwitchButtonSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e labeledIcon hMatchParent.
 		e vFitContent.
 		e mouseCursor: Cursor normal.
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:

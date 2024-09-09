@@ -14,7 +14,7 @@ ToMenuWindow >> close [
 	super close
 ]
 
-{ #category : #initialization }
+{ #category : #accessing }
 ToMenuWindow >> defaultElevation [
 
 	^ BlRelativeElevation elevation: (SmallInteger maxVal - 400)

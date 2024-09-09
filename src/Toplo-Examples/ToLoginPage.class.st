@@ -31,8 +31,7 @@ ToLoginPage >> open [
 		                  beHorizontal;
 		                  hMatchParent;
 		                  vFitContent.
-	loginLabel := (ToLabel new text: 'Login :') inHorizontalPane
-		              fitContent.
+	loginLabel := (ToLabel new text: 'Login :') inHorizontalPane fitContent.
 
 	loginLabel layout alignCenterRight.
 	loginValue := ToTextField new hMatchParent.
@@ -40,22 +39,19 @@ ToLoginPage >> open [
 	loginNamePanel addChildren: {
 			loginLabel.
 			loginValue }.
-	loginNamePanel childrenDo: [ :child |
-		child constraintsDo: [ :c | c linear vertical alignCenter ] ].
+	loginNamePanel childrenDo: [ :child | child constraintsDo: [ :c | c linear vertical alignCenter ] ].
 	passwdPanel := ToPane new
 		               beHorizontal;
 		               hMatchParent;
 		               vFitContent.
-	pwLabel := (ToLabel new text: 'Password :') inHorizontalPane
-		           fitContent.
+	pwLabel := (ToLabel new text: 'Password :')  inHorizontalPane fitContent.
 	pwLabel layout alignCenterRight.
 	pwValue := ToTextField new hMatchParent.
 
 	passwdPanel addChildren: {
 			pwLabel.
 			pwValue }.
-	passwdPanel childrenDo: [ :child |
-		child constraintsDo: [ :c | c linear vertical alignCenter ] ].
+	passwdPanel childrenDo: [ :child | child constraintsDo: [ :c | c linear vertical alignCenter ] ].
 
 	" get actual pwLabel and loginLabel width then reset pwLabel and loginLabel to the max "
 	passwdPanel whenLayoutedDoOnce: [
@@ -68,9 +64,7 @@ ToLoginPage >> open [
 		            beHorizontal;
 		            hMatchParent;
 		            vFitContent.
-	btnLogin := ToButton new
-		            labelText: 'Accept';
-		            yourself.
+	btnLogin := ToButton new labelText: 'Accept'; yourself.
 	btnLogin addStamp: #primary.
 	btnLogin padding: (BlInsets
 			 top: 10

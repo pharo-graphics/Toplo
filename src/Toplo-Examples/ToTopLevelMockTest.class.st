@@ -32,7 +32,8 @@ ToTopLevelMockTest >> testMocks [
 		ToMiniBrowser.
 		ToTextFieldPopupExperiment.
 		ToWorkspaceExample } do: [ :each |
-		[ each open.
+		[
+		each open.
 		Delay forMilliseconds: 5000.
 		self closeWindows ]
 			on: Error

@@ -31,7 +31,8 @@ ToExperimentsMockTest >> testMocks [
 	self assert: selectors isNotEmpty.
 
 	selectors do: [ :each |
-		[ ToExperiments perform: each.
+		[
+		ToExperiments perform: each.
 		Delay forMilliseconds: 5000.
 		self closeWindows ]
 			on: Error

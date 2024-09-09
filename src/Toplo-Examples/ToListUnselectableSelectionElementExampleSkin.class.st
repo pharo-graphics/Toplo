@@ -1,7 +1,7 @@
 Class {
 	#name : #ToListUnselectableSelectionElementExampleSkin,
 	#superclass : #ToRawSkin,
-	#category : #'Toplo-Examples-Crashing Examples'
+	#category : #'Toplo-Examples-Parts'
 }
 
 { #category : #'event handling' }

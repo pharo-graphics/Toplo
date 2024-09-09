@@ -2397,7 +2397,7 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 		          yourself.
 	Smalltalk ui icons allIconNames do: [ :k |
 		| lab im node |
-		im := ToImage new innerImage: (Smalltalk ui icons iconNamed: k).
+		im := ToImage new innerImage: (self iconNamed: k).
 		lab := ToLabel new text: k asString.
 		node := ToButton new icon: im; label: lab; yourself.
 		node width: 600.
@@ -4206,17 +4206,20 @@ ToSandBox class >> example_toButtonOrientationChanger [
 
 	| but space iconImage count |
 	but := ToButton new.
-	but label: (ToLabel text:'Button' asRopedText bold).
+	but label: (ToLabel text: 'Button' asRopedText bold).
 	iconImage := BlElement new
 		             size: 20 @ 20;
 		             background: Color lightGray;
 		             yourself.
 	but iconImage: iconImage.
 	count := 0.
-	but whenClickedDo: [ :ann | count := count + 1. count traceCr. ann currentTarget orientation: but orientation inverted ].
+	but whenClickedDo: [ :ann |
+		count := count + 1.
+		count traceCr.
+		ann currentTarget orientation: but orientation inverted ].
 	space := BlSpace new.
 	space root addChild: but.
-	space show 
+	space show
 ]
 
 { #category : #'button-dep' }
@@ -4332,7 +4335,7 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal [
 	but beRightToLeft.
 	but layout cellSpacing: 10.
 	count := 0.
-	but when: BlClickEvent do: [ :event | count := count + 1. count traceCr ].
+	but addEventHandlerOn: BlClickEvent do: [ :event | count := count + 1. count traceCr ].
 	but whenClickedDo: [ :ann | but icon background: Color random ].
 	space := BlSpace new.
 	space root addChild: but.
@@ -4356,19 +4359,19 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal2 [
 	but beRightToLeft.
 	but layout cellSpacing: 10.
 	count := 0.
-	but when: BlClickEvent do: [ :event | count := count + 1. count traceCr ].
+	but addEventHandlerOn: BlClickEvent do: [ :event | count := count + 1. count traceCr ].
 	but openInInnerWindow 
 ]
 
 { #category : #'button-dep' }
 ToSandBox class >> example_toButtonWithTextAndIconHorizontal3 [
-
 	"Pay attention this method is not ok and 
 	https://github.com/pharo-graphics/Toplo/issues/195
 	and not part of the example tests
 	"
+
 	| but count pane |
-	but := ToButton new "cellSpacing: 2; padding: (BlInsets all: 4)".
+	but := ToButton new. "cellSpacing: 2; padding: (BlInsets all: 4)"
 	but label: (ToLabel text: 'Button').
 	but iconImage: (BlElement new
 			 size: 60 @ 20;
@@ -4377,9 +4380,11 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal3 [
 	but beRightToLeft.
 	but layout cellSpacing: 10.
 	count := 0.
-	but when: BlClickEvent do: [ :event | count := count + 1. count traceCr ].
+	but addEventHandlerOn: BlClickEvent do: [ :event |
+		count := count + 1.
+		count traceCr ].
 	"but whenClickedDo: [ :ann | but icon background: Color random ]."
-	pane := ToPane new size: 400@400.
+	pane := ToPane new size: 400 @ 400.
 	pane border: (BlBorder paint: Color red).
 	pane addChild: but.
 	pane openInSpace.

@@ -13,9 +13,9 @@ ToSlotPropertyTest >> testName [
 	| w prop |
 	w := ToLabeledIcon  new.
 	prop := ToSlotProperty new.
-	prop name: #props.
-	self assert: (w class hasSlotNamed: #props).
-	self assert: prop name equals: #props.
+	prop name: #properties.
+	self assert: (w class hasSlotNamed: #properties).
+	self assert: prop name equals: #properties.
 
 ]
 
@@ -34,10 +34,10 @@ ToSlotPropertyTest >> testRead [
 	| w prop |
 	w := ToLabeledIcon new.
 	prop := ToSlotProperty new.
-	prop name: #props.
-	self assert: (w class hasSlotNamed: #props).
+	prop name: #properties.
+	self assert: (w class hasSlotNamed: #properties).
 	self assert: (prop read: w) equals: w properties.
-	self assert: (w readSlotNamed: #props) equals: w props
+	self assert: (w readSlotNamed: #properties) equals: w properties
 ]
 
 { #category : #tests }

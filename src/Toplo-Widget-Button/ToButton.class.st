@@ -4,8 +4,8 @@ Class {
 	#traits : 'TToOrientable + TToTripletElement + TToLabeledIcon + TToCheckable',
 	#classTraits : 'TToOrientable classTrait + TToTripletElement classTrait + TToLabeledIcon classTrait + TToCheckable classTrait',
 	#instVars : [
-		'props',
-		'optCheckableData'
+		'optCheckableData',
+		'tripletProperties'
 	],
 	#category : #'Toplo-Widget-Button-Core'
 }
@@ -78,13 +78,13 @@ ToButton >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 ]
 
 { #category : #'t - triplet element - private - accessing' }
-ToButton >> props [
+ToButton >> properties [
 
-	^ props
+	^ tripletProperties
 ]
 
 { #category : #'t - triplet element - private - accessing' }
-ToButton >> props: aTripletElementProperties [
+ToButton >> properties: aTripletElementProperties [
 
-	props := aTripletElementProperties
+	tripletProperties := aTripletElementProperties
 ]

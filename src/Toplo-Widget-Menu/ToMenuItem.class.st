@@ -62,13 +62,13 @@ ToMenuItem >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 ]
 
 { #category : #'t - triplet element - private - accessing' }
-ToMenuItem >> props [
+ToMenuItem >> properties [
 
-	^ self button props
+	^ self button properties
 ]
 
 { #category : #'t - triplet element - private - accessing' }
-ToMenuItem >> props: aTripletElementProperties [
+ToMenuItem >> properties: aTripletElementProperties [
 
 	self shouldNotImplement 
 ]

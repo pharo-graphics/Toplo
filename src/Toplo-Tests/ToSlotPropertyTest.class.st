@@ -32,11 +32,11 @@ ToSlotPropertyTest >> testNew [
 ToSlotPropertyTest >> testRead [
 
 	| w prop |
-	w := ToLabeledIcon  new.
+	w := ToLabeledIcon new.
 	prop := ToSlotProperty new.
 	prop name: #props.
 	self assert: (w class hasSlotNamed: #props).
-	self assert: (prop read: w) equals: w props.
+	self assert: (prop read: w) equals: w properties.
 	self assert: (w readSlotNamed: #props) equals: w props
 ]
 

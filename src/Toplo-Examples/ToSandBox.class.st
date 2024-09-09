@@ -5560,7 +5560,8 @@ ToSandBox class >> resizerBoardFor: aBar [
 									 dir = #Horizontal
 										 ifTrue: [ aBar hFitContent ]
 										 ifFalse: [ aBar vFitContent ] ]
-								 ifFalse: [ sizeInputPane enabled: true ] ] ]).
+								 ifFalse: [
+									 sizeInputPane enabled: true] ] ]).
 		buttons first checked: true.
 		container := ToPane vertical.
 		container border: Color lightGray.

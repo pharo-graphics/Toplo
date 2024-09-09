@@ -4,7 +4,7 @@ Class {
 	#traits : 'TToOrientable + TToTripletElement',
 	#classTraits : 'TToOrientable classTrait + TToTripletElement classTrait',
 	#instVars : [
-		'props'
+		'properties'
 	],
 	#category : #'Toplo-Core'
 }
@@ -49,22 +49,22 @@ ToTripletElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 ]
 
 { #category : #'t - triplet element - private - accessing' }
-ToTripletElement >> props [
+ToTripletElement >> properties [
 
-	^ props
+	^ properties
 ]
 
 { #category : #'t - triplet element - private - accessing' }
-ToTripletElement >> props: aTripletElementProperties [
+ToTripletElement >> properties: aTripletElementProperties [
 
-	props ifNotNil: [ (BlImmutableObjectChangeError object: self) signal ].
-	props := aTripletElementProperties
+	properties ifNotNil: [ (BlImmutableObjectChangeError object: self) signal ].
+	properties := aTripletElementProperties
 ]
 
 { #category : #dependencies }
 ToTripletElement >> release [ 
 
 	super release.
-	props release.
-	props := nil
+	properties release.
+	properties := nil
 ]

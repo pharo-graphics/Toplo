@@ -77,21 +77,21 @@ TToTripletElement >> endAlignment: aNumber [
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> endContainer [
 
-	^ self props endContainer
+	^ self properties endContainer
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> endElement [
 
-	^ self props endElement
+	^ self properties endElement
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> endElement: anElement [
 
 	anElement = self endElement ifTrue: [ ^ self ].
-	self endElement ifNotNil: [ :s | s removeFromParent].
-	self props endElement: anElement.
+	self endElement ifNotNil: [ :s | s removeFromParent ].
+	self properties endElement: anElement.
 	anElement ifNil: [ ^ self ].
 	self endContainer addChild: anElement
 ]
@@ -105,38 +105,38 @@ TToTripletElement >> endElementDo: aBlock [
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> endFiller [
 
-	^ self props endFiller
+	^ self properties endFiller
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> endFlexible [
 
-	^ self props endFlexible
+	^ self properties endFlexible
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> endFlexible: aBoolean [
 
 	self endFlexible = aBoolean ifTrue: [ ^ self ].
-	self props endFlexible: aBoolean
+	self properties endFlexible: aBoolean
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> endGap [
 
-	^ self props endGap
+	^ self properties endGap
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> endInterspace [
 
-	^ self props endInterspace
+	^ self properties endInterspace
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> endInterspace: aNumber [
 
-	self props endInterspace: aNumber.
+	self properties endInterspace: aNumber.
 	self requestLayout
 ]
 
@@ -156,7 +156,7 @@ TToTripletElement >> flexible: aBoolean [
 { #category : #'t - triplet element - testing' }
 TToTripletElement >> hasEndElement [
 
-	^ self props endElement notNil
+	^ self properties endElement notNil
 ]
 
 { #category : #'t - triplet element - testing' }
@@ -174,8 +174,8 @@ TToTripletElement >> hasStartElement [
 { #category : #'t - triplet element - initialization' }
 TToTripletElement >> initializeTripletElement [
 
-	self props: ToTripletElementProperties new.
-	self props on: self.
+	self properties: ToTripletElementProperties new.
+	self properties on: self.
 
 	self addChildren: {
 			self startContainer.
@@ -185,7 +185,7 @@ TToTripletElement >> initializeTripletElement [
 			self endFiller.
 			self endGap.
 			self endContainer }.
-			
+
 	self addEventHandler: self defaultTripletEventHandler.
 	self fitContent
 ]
@@ -193,7 +193,7 @@ TToTripletElement >> initializeTripletElement [
 { #category : #'t - triplet element - testing' }
 TToTripletElement >> isEndFlexible [
 
-	^ self props endFlexible 
+	^ self properties endFlexible
 ]
 
 { #category : #'t - triplet element - testing' }
@@ -206,27 +206,27 @@ TToTripletElement >> isExact [
 { #category : #'t - triplet element - testing' }
 TToTripletElement >> isStartFlexible [
 
-	^ self props startFlexible 
+	^ self properties startFlexible
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> middleContainer [
 
-	^ self props middleContainer
+	^ self properties middleContainer
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> middleElement [
 
-	^ self props middleElement
+	^ self properties middleElement
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> middleElement: anElement [
 
 	anElement = self middleElement ifTrue: [ ^ self ].
-	self middleElement ifNotNil: [ :s | s removeFromParent].
-	self props middleElement: anElement.
+	self middleElement ifNotNil: [ :s | s removeFromParent ].
+	self properties middleElement: anElement.
 	anElement ifNil: [ ^ self ].
 	self middleContainer addChild: anElement
 ]
@@ -266,28 +266,48 @@ TToTripletElement >> newMiddleContainer [
 ]
 
 { #category : #'t - triplet element - private - accessing' }
-TToTripletElement >> props [
+TToTripletElement >> properties [
 
 	^ self explicitRequirement 
 ]
 
 { #category : #'t - triplet element - private - accessing' }
-TToTripletElement >> props: aTripletElementProperties [
+TToTripletElement >> properties: aTripletElementProperties [
 
 	self explicitRequirement 
+]
+
+{ #category : #'t - triplet element - private - accessing' }
+TToTripletElement >> props [
+
+	self
+		deprecated: 'Please use #properties instead'
+		transformWith: '`@receiver props' -> '`@receiver properties'.
+	^ self properties
+]
+
+{ #category : #'t - triplet element - private - accessing' }
+TToTripletElement >> props: aTripletElementProperties [
+
+	self
+		deprecated: 'Use #properties: instead'
+		transformWith:
+		'`@receiver props: `@argument'
+		-> '`@receiver properties: `@argument'.
+	self properties: aTripletElementProperties
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> startAlignment [
 
-	^ self props startAlignment 
+	^ self properties startAlignment
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> startAlignment: aNumber [
 
 	self startAlignment = aNumber ifTrue: [ ^ self ].
-	self props startAlignment: aNumber.
+	self properties startAlignment: aNumber.
 	self startAlignment ifNotNil: [
 		self isHorizontal
 			ifTrue: [
@@ -303,13 +323,13 @@ TToTripletElement >> startAlignment: aNumber [
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> startContainer [
 
-	^ self props startContainer
+	^ self properties startContainer
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> startElement [
 
-	^ self props startElement
+	^ self properties startElement
 ]
 
 { #category : #'t - triplet element - accessing' }
@@ -317,7 +337,7 @@ TToTripletElement >> startElement: anElement [
 
 	anElement = self startElement ifTrue: [ ^ self ].
 	self startElement ifNotNil: [ :s | s removeFromParent ].
-	self props startElement: anElement.
+	self properties startElement: anElement.
 	anElement ifNil: [ ^ self ].
 	self startContainer addChild: anElement
 ]
@@ -325,38 +345,37 @@ TToTripletElement >> startElement: anElement [
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> startFiller [
 
-	^ self props startFiller
+	^ self properties startFiller
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> startFlexible [
 
-	^ self props startFlexible 
+	^ self properties startFlexible
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> startFlexible: aBoolean [
 
 	self startFlexible = aBoolean ifTrue: [ ^ self ].
-	self props startFlexible: aBoolean.
-	
+	self properties startFlexible: aBoolean
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> startGap [
 
-	^ self props startGap
+	^ self properties startGap
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> startInterspace [
 
-	^ self props startInterspace
+	^ self properties startInterspace
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> startInterspace: aNumber [
 
-	self props startInterspace: aNumber.
+	self properties startInterspace: aNumber.
 	self requestLayout
 ]

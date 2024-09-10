@@ -11,7 +11,7 @@ Class {
 ToAlbumSkinTest >> testFocusedSkinEvent [
 
 	| a focusCount |
-	self skip.
+
 	a := ToAlbum new size: 100 asPoint.
 	space root addChild: a.
 	self deny: a hasFocus.
@@ -29,7 +29,7 @@ ToAlbumSkinTest >> testFocusedSkinEvent [
 ToAlbumSkinTest >> testUnfocusedSkinEvent [
 
 	| a1 a2 unfocusCount |
-	self skip.
+
 	a1 := ToAlbum new size: 100 asPoint.
 	a2 := ToAlbum new size: 100 asPoint.
 	space root addChild: a1.

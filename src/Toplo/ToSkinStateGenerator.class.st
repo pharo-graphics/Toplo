@@ -152,12 +152,12 @@ ToSkinStateGenerator >> generateBlurStateFromEvent: anEvent [
 
 	target skinManager
 		addSkinStateGeneration: [
-			target withAllChildrenBreadthFirstDo: [ :child |
-				child skinManagerDo: [ :sm |
-					sm
-						enqueueSkinState:
-						(ToFocusState new focused: false; yourself)
-						in: target ] ] ]
+			target skinManagerDo: [ :sm |
+				sm
+					enqueueSkinState: (ToFocusState new
+							 focused: false;
+							 yourself)
+					in: target ] ]
 		in: target
 ]
 
@@ -233,12 +233,12 @@ ToSkinStateGenerator >> generateFocusStateFromEvent: anEvent [
 
 	target skinManager
 		addSkinStateGeneration: [
-			target withAllChildrenBreadthFirstDo: [ :child |
-				child skinManagerDo: [ :sm |
-					sm
-						enqueueSkinState:
-						(ToFocusState new focused: true; yourself)
-						in: target ] ] ]
+			target skinManagerDo: [ :sm |
+				sm
+					enqueueSkinState: (ToFocusState new
+							 focused: true;
+							 yourself)
+					in: target ] ]
 		in: target
 ]
 

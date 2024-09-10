@@ -238,7 +238,7 @@ ToMiniBrowser >> newProtocolPane [
 		             id: #protocols;
 		             nodeBuilder: [ :node :dataItem :holder |
 			             node addChild: (ToLabel new
-						              text: dataItem value name;
+						              text: dataItem value;
 						              hMatchParent) ].
 
 	protocols addEventHandler: (BlEventHandler

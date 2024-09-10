@@ -74,6 +74,12 @@ ToAlbum >> flash [
 	self dispatchEvent: (ToAlbumFlashRequestedEvent new client: self)
 ]
 
+{ #category : #'private - accessing' }
+ToAlbum >> focused: aBoolean [
+
+	self infinite focused: aBoolean
+]
+
 { #category : #initialization }
 ToAlbum >> initialize [
 
@@ -104,6 +110,12 @@ ToAlbum >> initialize [
 	self infinite addEventHandler: sharedDistributor.
 	" for the styler "
 	self editor addEventHandler: sharedDistributor
+]
+
+{ #category : #'private - accessing' }
+ToAlbum >> isFocused [
+
+	^ self infinite isFocused
 ]
 
 { #category : #'t - element with placeholder' }
@@ -147,7 +159,7 @@ ToAlbum >> requestCancel [
 { #category : #'focus requesting' }
 ToAlbum >> requestFocus [
 
-	self infinite requestFocus 
+	self infinite requestFocus
 ]
 
 { #category : #'transaction hook' }

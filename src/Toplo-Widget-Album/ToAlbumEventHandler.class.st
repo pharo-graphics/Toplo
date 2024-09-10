@@ -51,7 +51,6 @@ ToAlbumEventHandler >> mouseDownEvent: anEvent [
 	target isDisabled ifTrue: [ ^ self ].
 	" copy the event, else the double click can't works "
 	target infinite dispatchEvent: anEvent copy.
-	target requestFocus.
 	anEvent consume
 ]
 

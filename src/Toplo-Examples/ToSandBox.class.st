@@ -2130,6 +2130,7 @@ ToSandBox class >> example_SieveOnList2With_350000_Items [
 	filterField := ToTextField new.
 	listElement := ToListElement new.
 	data := OrderedCollection new.
+	" pay attention that the data computation is very slow "
 	Character alphabet do: [ :c1 |
 		Character alphabet do: [ :c2 |
 			Character alphabet do: [ :c3 |
@@ -4281,23 +4282,19 @@ ToSandBox class >> example_toButtonWithIconAndText [
 { #category : #'button-dep' }
 ToSandBox class >> example_toButtonWithIconAndTextAndExtra [
 
-	"Pay attention this method is not ok and 
-	https://github.com/pharo-graphics/Toplo/issues/194
-	and not part of the example tests
-	"	
-	| but space  icon |
+	| but space |
 	but := ToButton new.
 
 	but label: (ToLabel text: 'Button').
-	icon := ToImage new innerImage: (ToThemeIcons searchOutlined16x16).
-	but icon: icon.
-	but effect: (BlBlurAboveEffect new radius: 20).
-	but addEventHandlerOn: BlPrimaryClickEvent do: [ :event | event currentTarget traceCr ].
-	but endElement: ((ToLabel text: 'extra') margin: (BlInsets left: 5)).
+	but iconImage: ToThemeIcons searchOutlined16x16.
+	but endElement: (BlElement new
+			 size: 5 @ 9;
+			 background: ToThemeIcons plainTriangle5x9;
+			 yourself).
 
 	space := BlSpace new.
 	space root addChild: but.
-	space show 
+	space show
 ]
 
 { #category : #'button-dep' }
@@ -4340,55 +4337,6 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal [
 	space := BlSpace new.
 	space root addChild: but.
 	space show 
-]
-
-{ #category : #'button-dep' }
-ToSandBox class >> example_toButtonWithTextAndIconHorizontal2 [
-
-	"Pay attention this method is not ok and 
-	https://github.com/pharo-graphics/Toplo/issues/195
-	and not part of the example tests
-	"
-	| but count |
-	but := ToButton new.
-	but label: (ToLabel text: 'Button').
-	but iconImage: (BlElement new
-			 size: 60 @ 20;
-			 background: (Color blue alpha: 0.2);
-			 yourself).
-	but beRightToLeft.
-	but layout cellSpacing: 10.
-	count := 0.
-	but addEventHandlerOn: BlClickEvent do: [ :event | count := count + 1. count traceCr ].
-	but openInInnerWindow 
-]
-
-{ #category : #'button-dep' }
-ToSandBox class >> example_toButtonWithTextAndIconHorizontal3 [
-	"Pay attention this method is not ok and 
-	https://github.com/pharo-graphics/Toplo/issues/195
-	and not part of the example tests
-	"
-
-	| but count pane |
-	but := ToButton new. "cellSpacing: 2; padding: (BlInsets all: 4)"
-	but label: (ToLabel text: 'Button').
-	but iconImage: (BlElement new
-			 size: 60 @ 20;
-			 background: (Color blue alpha: 0.2);
-			 yourself).
-	but beRightToLeft.
-	but layout cellSpacing: 10.
-	count := 0.
-	but addEventHandlerOn: BlClickEvent do: [ :event |
-		count := count + 1.
-		count traceCr ].
-	"but whenClickedDo: [ :ann | but icon background: Color random ]."
-	pane := ToPane new size: 400 @ 400.
-	pane border: (BlBorder paint: Color red).
-	pane addChild: but.
-	pane openInSpace.
-	but id: 'BUT'
 ]
 
 { #category : #'button-dep' }

@@ -7,6 +7,19 @@ Class {
 	#category : #'Toplo-Core'
 }
 
+{ #category : #initialization }
+Toplo class >> closeAllSpaces [
+
+	BlOSWindowSDL2Host universe closeSpaces.
+	BlOSWindowSDL2Host
+		stop;
+		start.
+	BlMorphicWindowHost universe closeSpaces.
+	BlMorphicWindowHost
+		stop;
+		start
+]
+
 { #category : #settings }
 Toplo class >> defaultThemeClass [
 

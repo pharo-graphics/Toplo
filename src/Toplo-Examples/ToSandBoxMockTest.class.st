@@ -36,7 +36,6 @@ ToSandBoxMockTest >> testMocks [
 
 	"
 	#example_SieveOnList2With_350000_Items produces a test time out even if we set 20 Seconds as a limit
-	this is suspicious.
 	"
 
 	self assert: sortedSelectors isNotEmpty.

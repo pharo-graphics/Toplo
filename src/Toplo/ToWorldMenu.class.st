@@ -14,15 +14,7 @@ ToWorldMenu class >> menuCleanUpUniverseOn: aBuilder [
 		label: 'Cleanup Universe';
 		help: 'Close all spaces then restart the underlying host';
 		icon: (self iconNamed: #smallDebug);
-		action: [
-			BlOSWindowSDL2Host universe closeSpaces.
-			BlOSWindowSDL2Host
-				stop;
-				start.
-			BlMorphicWindowHost universe closeSpaces.
-			BlMorphicWindowHost
-				stop;
-				start ]
+		action: [ Toplo closeAllSpaces ]
 ]
 
 { #category : #'menu - toplo' }

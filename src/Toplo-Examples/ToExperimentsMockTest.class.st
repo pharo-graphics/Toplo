@@ -5,9 +5,8 @@ Class {
 }
 
 { #category : #tests }
-ToExperimentsMockTest class >> closeWindows [
+ToExperimentsMockTest >> closeWindows [
 
-	<script>
 	BlOSWindowSDL2Host universe closeSpaces.
 	BlOSWindowSDL2Host
 		stop;
@@ -18,11 +17,6 @@ ToExperimentsMockTest class >> closeWindows [
 		start.
 	BlSpace allInstances do: [ :each | each close ].
 	BlParallelUniverse all do: [ :each | each closeSpaces ].
-]
-
-{ #category : #tests }
-ToExperimentsMockTest >> closeWindows [
-	^ self class closeWindows
 ]
 
 { #category : #tests }

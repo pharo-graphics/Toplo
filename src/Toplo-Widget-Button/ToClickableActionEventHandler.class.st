@@ -13,20 +13,20 @@ ToClickableActionEventHandler class >> action: aBlock [
 	^ self new action: aBlock
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToClickableActionEventHandler >> action: aBlock [
 
 	action := aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : #'as yet unclassified' }
 ToClickableActionEventHandler >> clickableRunActionEvent: anEvent [
 
 	anEvent currentTarget clickEvent: anEvent.
 	action cull: anEvent
 ]
 
-{ #category : #'api - accessing' }
+{ #category : #'as yet unclassified' }
 ToClickableActionEventHandler >> eventsToHandle [
 
 	^ { ToClickableRunActionEvent }
@@ -42,12 +42,11 @@ ToClickableActionEventHandler >> handleEvent: anEvent [
 	anEvent sendTo: self
 ]
 
-{ #category : #'event handling' }
+{ #category : #'as yet unclassified' }
 ToClickableActionEventHandler >> receiveClickEvent: anEvent [
 
 	| req target |
 	target := anEvent currentTarget.
-	target requestFocus.
 	req := ToClickableActionRequestEvent new
 		       requestedAction: [
 			       target fireEvent: ToClickableRunActionEvent new ];

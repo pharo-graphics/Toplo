@@ -32,6 +32,7 @@ ToGeneralButton >> defaultLayout [
 ToGeneralButton >> initialize [
 
 	super initialize.
+	self addEventHandler: ToClickableFocusEventHandler new.
 	self allowMousePickOutsideEvent
 ]
 

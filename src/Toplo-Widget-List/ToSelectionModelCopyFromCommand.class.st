@@ -8,18 +8,6 @@ Class {
 }
 
 { #category : #'private - hook' }
-ToSelectionModelCopyFromCommand >> applyOn: anOperator [
-
-	" ask the operator passed as argument to actually apply the command. "
-
-	self
-		deprecated: 'Use applyOnOperator: instead'
-		transformWith: '`@receiver applyOn: `@argument'
-			-> '`@receiver applyOnOperator: `@argument'.
-	self applyWithOperator: anOperator
-]
-
-{ #category : #'private - hook' }
 ToSelectionModelCopyFromCommand >> applyWithOperator: anOperator [
 
 	anOperator selectionModelCopyFromCommand: self.

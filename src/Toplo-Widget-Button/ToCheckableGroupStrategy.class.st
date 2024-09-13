@@ -39,28 +39,6 @@ ToCheckableGroupStrategy >> onAddEvent: aCollectionChangeEvent in: aGroup [
 ]
 
 { #category : #notifications }
-ToCheckableGroupStrategy >> onButtonAdded: aCheckable in: aGroup [
-
-	self
-		deprecated: 'send #register:in: instead'
-		transformWith: '`@receiver onButtonAdded: `@arg1 in: `@arg2'
-			-> '`@receiver register: `@arg1 in: `@arg2'.
-
-	self register: aCheckable in: aGroup
-]
-
-{ #category : #notifications }
-ToCheckableGroupStrategy >> onButtonRemoved: aCheckable in: aGroup [
-
-	self
-		deprecated: 'send #unregister:in: instead'
-		transformWith: '`@receiver onButtonRemoved: `@arg1 in: `@arg2'
-			-> '`@receiver unregister: `@arg1 from: `@arg2'.
-
-	self unregister: aCheckable from: aGroup
-]
-
-{ #category : #notifications }
 ToCheckableGroupStrategy >> onRemoveEvent: aCollectionChangeEvent in: aGroup [
 
 	aCollectionChangeEvent removed do: [ :checkable |

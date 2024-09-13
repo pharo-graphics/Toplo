@@ -288,25 +288,6 @@ ToDivider >> onMeasure: anExtentMeasurementSpec [
 	
 ]
 
-{ #category : #accessing }
-ToDivider >> pane [
-
-	self
-		deprecated: 'Please use #container instead'
-		transformWith: '`@rcvr pane' -> '`@rcvr container'.
-	^ self container
-]
-
-{ #category : #accessing }
-ToDivider >> pane: aPane [
-
-	self
-		deprecated: 'Please use #container: instead'
-		transformWith: '`@rcvr pane: `@arg' -> '`@rcvr container: `@arg'.
-
-	self container: aPane
-]
-
 { #category : #skin }
 ToDivider >> pressedBackground [
 

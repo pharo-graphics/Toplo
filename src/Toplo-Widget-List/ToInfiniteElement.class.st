@@ -231,32 +231,6 @@ ToInfiniteElement >> scrollToDataSourcePosition: anIndex [
 ]
 
 { #category : #private }
-ToInfiniteElement >> scrollToIndex: anIndex [
-	"Request a scrollable widget to scroll to an item (logical or physical) at a given index,
-	which can, for example, be a data source position or child index"
-
-	self
-		deprecated: 'Use scrollToDataSourcePosition: instead'
-		transformWith: '`@receiver scrollToIndex: `@argument'
-			-> '`@receiver scrollToDataSourcePosition: `@argument'.
-
-	self scrollToDataSourcePosition: anIndex
-]
-
-{ #category : #private }
-ToInfiniteElement >> scrollToIndexAtTop: anIndex [
-	"Request a scrollable widget to scroll to an item (logical or physical) at a given index,
-	which can, for example, be a data source position or child index"
-	"As a result, item at anIndex is positionned at the top of the listElement"
-	self
-		deprecated: 'Use scrollToDataSourcePosition: instead'
-		transformWith: '`@receiver scrollToIndexAtTop: `@argument'
-			-> '`@receiver scrollToDataSourcePosition: `@argument'.
-
-	self scrollToDataSourcePosition: anIndex
-]
-
-{ #category : #private }
 ToInfiniteElement >> scrollTowardEndToDataSourcePosition: anIndex [
 	"Request a scrollable widget to scroll to an item (logical or physical) at a given index,
 	which can, for example, be a data source position or child index"

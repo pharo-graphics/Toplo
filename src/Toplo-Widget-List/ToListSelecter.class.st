@@ -345,17 +345,6 @@ ToListSelecter >> scrollToDataSourcePosition: anIndex [
 ]
 
 { #category : #operations }
-ToListSelecter >> scrollToIndex: anIndex [
-
-	self
-		deprecated: 'Use scrollToDataSourcePosition: instead'
-		transformWith: '`@receiver scrollToIndex: `@argument'
-			-> '`@receiver scrollToDataSourcePosition: `@argument'.
-
-	self scrollToDataSourcePosition: anIndex
-]
-
-{ #category : #operations }
 ToListSelecter >> scrollTowardEndToDataSourcePosition: anIndex [
 
 	enabled ifFalse: [ ^ self ].

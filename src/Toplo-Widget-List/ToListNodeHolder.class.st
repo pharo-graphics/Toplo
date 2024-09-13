@@ -29,17 +29,6 @@ ToListNodeHolder >> build [
 ]
 
 { #category : #accessing }
-ToListNodeHolder >> data [
-
-
-	self
-		deprecated: 'Use dataItem instead'
-		transformWith: '`@receiver data' -> '`@receiver dataItem'.
-
-	^ self dataItem
-]
-
-{ #category : #accessing }
 ToListNodeHolder >> dataItem [
 
 	^ dataItem ifNotNil: [ :di | di first ]

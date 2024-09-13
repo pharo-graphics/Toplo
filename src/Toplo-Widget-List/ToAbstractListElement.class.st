@@ -83,17 +83,6 @@ ToAbstractListElement >> contextMenuSelectionMode: aSelectionMode [
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> data [
-
-	self
-		deprecated: 'Please use dataAccessor instead.'
-		transformWith:
-			'`@receiver data'
-				-> '`@receiver dataAccessor'.
-	^ self dataAccessor
-]
-
-{ #category : #accessing }
 ToAbstractListElement >> dataAccessor [
 
 	^ self dataSource dataAccessor
@@ -110,17 +99,6 @@ ToAbstractListElement >> dataSource: aDataSource [
 
 	dataSource ifNotNil: [ BlImmutableObjectChangeError signal ].
 	dataSource := aDataSource
-]
-
-{ #category : #accessing }
-ToAbstractListElement >> dataUpdater [
-
-	self
-		deprecated: 'Please use dataAccessor instead.'
-		transformWith:
-			'`@receiver dataUpdater'
-				-> '`@receiver dataAccessor'.
-	^ self dataAccessor
 ]
 
 { #category : #initialization }
@@ -519,28 +497,6 @@ ToAbstractListElement >> secondarySelectionModel [
 ToAbstractListElement >> selecter [
 
 	^ self primarySelectionMode selecter
-]
-
-{ #category : #accessing }
-ToAbstractListElement >> selectionMode [
-
-	self
-		deprecated: 'use #primarySelectionMode'
-		transformWith:
-		'`@rcvr selectionMode' -> '`@rcvr primarySelectionMode'.
-	^ self primarySelectionMode
-]
-
-{ #category : #accessing }
-ToAbstractListElement >> selectionMode: aSelectionMode [
-
-	self
-		deprecated: 'use #primarySelectionMode:'
-		transformWith:
-		'`@rcvr selectionMode: `@arg'
-		-> '`@rcvr primarySelectionMode: `@arg'.
-
-	self primarySelectionMode: aSelectionMode
 ]
 
 { #category : #accessing }

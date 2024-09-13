@@ -9,29 +9,6 @@ Class {
 }
 
 { #category : #accessing }
-ToCheckableGroupChangedEvent >> checkedButtons [
-
-	self
-		deprecated: 'send #checkedList instead'
-		transformWith:
-		'`@receiver checkedButtons' -> '`@receiver checkedList'.
-
-	^ self checkedList
-]
-
-{ #category : #accessing }
-ToCheckableGroupChangedEvent >> checkedButtons: anObject [
-
-	self
-		deprecated: 'send #checkedlist: instead'
-		transformWith:
-		'`@receiver checkedButtons: `@arg'
-		-> '`@receiver checkedList: `@arg'.
-
-	self checkedList: anObject
-]
-
-{ #category : #accessing }
 ToCheckableGroupChangedEvent >> checkedList [
 
 	^ checkedList
@@ -47,28 +24,6 @@ ToCheckableGroupChangedEvent >> checkedList: aCollection [
 ToCheckableGroupChangedEvent >> sendTo: anObject [
 
 	anObject checkableGroupChangedEvent: self
-]
-
-{ #category : #accessing }
-ToCheckableGroupChangedEvent >> uncheckedButtons [
-
-	self
-		deprecated: 'send #uncheckedList instead'
-		transformWith:
-		'`@receiver checkedButtons' -> '`@receiver uncheckedList'.
-
-	^ self uncheckedList
-]
-
-{ #category : #accessing }
-ToCheckableGroupChangedEvent >> uncheckedButtons: anObject [
-
-	self
-		deprecated: 'send #uncheckedlist: instead'
-		transformWith: '`@receiver checkedButtons: `@arg'
-			-> '`@receiver uncheckedList: `@arg'.
-
-	self uncheckedList: anObject
 ]
 
 { #category : #accessing }

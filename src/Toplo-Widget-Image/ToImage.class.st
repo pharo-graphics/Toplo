@@ -74,16 +74,6 @@ ToImage >> errorInnerSvgElementNotFound [
 	NotFound signalFor: self
 ]
 
-{ #category : #'form accessing' }
-ToImage >> formColor: aColor [
-
-	self
-		deprecated: 'Use #innerImageColor:'
-		transformWith: '`@recvr formColor: `@aColor '
-			-> '`@recvr innerImageColor: `@aColor'.
-	self innerImageColor: aColor
-]
-
 { #category : #accessing }
 ToImage >> formInnerImageId [
 
@@ -105,14 +95,6 @@ ToImage >> initialize [
 	self addChild: innerImage.
 	" I ** must be ** considered as a leaf of a UI element tree. Otherwise, click may not work on me. This is why my children are not allowed to manage mouse events. Related to https://github.com/plantec/Toplo/issues/41"
 	self preventChildrenMouseEvents
-]
-
-{ #category : #'form accessing' }
-ToImage >> innerForm [
-	"Convenience method that returns nil if the request makes no sense or if there is no form."
-
-	self deprecated: 'Use #innerFormImage' transformWith: '`@recvr innerForm'->'`@recvr innerFormImage'.
-	^ self innerFormImage
 ]
 
 { #category : #'form accessing' }

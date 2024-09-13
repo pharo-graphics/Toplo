@@ -9,18 +9,6 @@ Class {
 }
 
 { #category : #'private - hook' }
-ToSelectionModelShiftCommand >> applyOn: anOperator [
-
-	" ask the operator passed as argument to actually apply the command. "
-
-	self
-		deprecated: 'Use applyOnOperator: instead'
-		transformWith: '`@receiver applyOn: `@argument'
-			-> '`@receiver applyOnOperator: `@argument'.
-	self applyWithOperator: anOperator
-]
-
-{ #category : #'private - hook' }
 ToSelectionModelShiftCommand >> applyWithOperator: anOperator [
 
 	anOperator selectionModelShiftCommand: self.

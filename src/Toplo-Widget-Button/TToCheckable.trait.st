@@ -3,19 +3,6 @@ Trait {
 	#category : #'Toplo-Widget-Button-Checkable'
 }
 
-{ #category : #'t - checkable - group' }
-TToCheckable >> addToGroup: aGroup [
-
-	self
-		deprecated: 'send #registerInGroup: instead'
-		transformWith:
-		'`@receiver addToGroup: `@arg'
-		-> '`@receiver registerInGroup: `@arg'.
-
-
-	self registerInGroup: aGroup
-]
-
 { #category : #'t - checkable - accessing' }
 TToCheckable >> allowIndeterminate [
 
@@ -150,19 +137,6 @@ TToCheckable >> releaseCheckable [
 
 	self removeEventHandler: self checkableEventHandler.
 	self checkableEventHandler: nil.
-]
-
-{ #category : #'t - checkable - group' }
-TToCheckable >> removeFromGroup [
-
-	self
-		deprecated: 'send #unregisterFromGroup instead'
-		transformWith:
-		'`@receiver removeFromGroup'
-		-> '`@receiver unregisterFromGroup'.
-
-
-	self unregisterFromGroup
 ]
 
 { #category : #'t - checkable  - protocol' }

@@ -33,15 +33,6 @@ ToLabel >> addEditorEvent: anEvent [
 ]
 
 { #category : #styling }
-ToLabel >> applyAttributesBuilder [
-
-	self
-		deprecated: 'Use #applyStyle instead'
-		transformWith: '`@recvr applyAttributesBuilder' -> '`@recvr applyStyle'.
-	self applyStyle
-]
-
-{ #category : #styling }
 ToLabel >> applyStyle [
 
 	self text ifNil: [ ^ self ].
@@ -374,17 +365,6 @@ ToLabel >> rotateBy: aDegreesAngle [
 	self innerElement
 		constraintsDo: [ :c | c accountTransformation ];
 		transformDo: [ :t | t rotateBy: aDegreesAngle ]
-]
-
-{ #category : #styling }
-ToLabel >> style [
-
-
-	self
-		deprecated: 'Use #applyStyle instead'
-		transformWith: '`@recvr style' -> '`@recvr applyStyle'.
-
-	self applyStyle
 ]
 
 { #category : #accessing }

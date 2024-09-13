@@ -189,22 +189,6 @@ ToAlbum >> requestTextStyle [
 	self announce: ToTextStyleRequested new
 ]
 
-{ #category : #'transaction hook' }
-ToAlbum >> saveResult: aBoolean [
-
-	| event |
-	
-	self deprecated: 'Send #validated: to the event current target instead '.
-	
-	self edited: aBoolean not.
-	event := aBoolean
-		         ifTrue: [ ToAlbumSaveAcceptedEvent new ]
-		         ifFalse: [ ToAlbumSaveDeniedEvent new ].
-	self dispatchEvent: (event
-			 client: self;
-			 yourself)
-]
-
 { #category : #'styler configuration' }
 ToAlbum >> styler [
 

@@ -13,11 +13,13 @@ Class {
 }
 
 { #category : #initialization }
-ToBarNodeExamplePart >> initialize [ 
+ToBarNodeExamplePart >> initialize [
 
 	super initialize.
 	triplet := ToTripletElement new.
-	triplet hMatchParent; vFitContent.
+	triplet
+		hMatchParent;
+		vFitContent.
 	self addChild: triplet.
 	self initializeRemoveButton
 ]
@@ -64,7 +66,7 @@ ToBarNodeExamplePart >> label: aLabel [
 ]
 
 { #category : #initialization }
-ToBarNodeExamplePart >> removeFromBar [ 
+ToBarNodeExamplePart >> removeFromBar [
 
 	self holder barElement dataAccessor removeAt: self holder position
 ]

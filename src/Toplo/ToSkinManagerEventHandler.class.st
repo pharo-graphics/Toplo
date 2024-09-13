@@ -9,6 +9,7 @@ ToSkinManagerEventHandler >> enablementChangedEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
+	"target isFocused ifTrue: [ 'enablementChangedEvent:' trace. target traceCr. target loseFocus ]."
 	target requestNewSkin
 ]
 

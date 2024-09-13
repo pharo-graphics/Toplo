@@ -164,9 +164,7 @@ ToSkinManager >> installSkin: aSkin in: anElement [
 
 	self ensureHaveSkinContext.
 	self skinContext installSkin: aSkin in: anElement.
-	self skinStateQueue enqueueInstallStateForElement: anElement.
-	"'installSkin: aSkin in: ' trace. anElement traceCr."
-
+	self skinStateQueue enqueueInstallStateForElement: anElement
 ]
 
 { #category : #'accessing - installed skin' }

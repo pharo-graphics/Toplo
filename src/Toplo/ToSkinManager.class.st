@@ -129,6 +129,16 @@ ToSkinManager >> defaultSkin: aSkin [
 	self userData at: #defaultSkin put: aSkin
 ]
 
+{ #category : #'skin - installing / uninstalling' }
+ToSkinManager >> enablementChangedIn: anElement [
+
+	self skinContext ifNil: [ ^ self ].
+	self skinStateQueue
+		enqueueState: (ToEnablementState new enabled: anElement isEnabled)
+		for: anElement;
+		applyEnqueuedStatesIn: anElement
+]
+
 { #category : #'skin state generation' }
 ToSkinManager >> enqueueSkinState: aSkinState in: anElement [
 

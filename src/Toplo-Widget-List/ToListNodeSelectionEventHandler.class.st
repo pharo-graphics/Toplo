@@ -16,11 +16,15 @@ ToListNodeSelectionEventHandler >> clickEvent: anEvent [
 	anEvent consume
 ]
 
+{ #category : #'mouse handlers' }
+ToListNodeSelectionEventHandler >> doubleClickEvent: anEvent [
+]
+
 { #category : #'api - accessing' }
 ToListNodeSelectionEventHandler >> eventsToHandle [
 
 	^ {
-		  ToListDoubleClickEvent.
+		  BlDoubleClickEvent.
 		  BlPrimaryClickEvent.
 		  BlPrimaryMouseDownEvent.
 		  ToListClickOnNodeRequestEvent.

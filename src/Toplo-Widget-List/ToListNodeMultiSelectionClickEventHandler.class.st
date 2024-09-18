@@ -13,6 +13,13 @@ ToListNodeMultiSelectionClickEventHandler >> clickLauncher: aProcessOrNil [
 	clickLauncher := aProcessOrNil
 ]
 
+{ #category : #'mouse handlers' }
+ToListNodeMultiSelectionClickEventHandler >> doubleClickEvent: anEvent [
+	
+	self terminateClickLauncherOnNode: anEvent currentTarget.
+	super doubleClickEvent: anEvent
+]
+
 { #category : #'events handling' }
 ToListNodeMultiSelectionClickEventHandler >> hasClickLauncher [
 

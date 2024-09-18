@@ -10,7 +10,8 @@ ToSkinManagerEventHandler >> enablementChangedEvent: anEvent [
 	| target |
 	target := anEvent currentTarget.
 	"target isFocused ifTrue: [ 'enablementChangedEvent:' trace. target traceCr. target loseFocus ]."
-	target requestNewSkin
+	target skinManagerDo: [ :sm | sm enablementChangedIn: target ]
+	"target requestNewSkin"
 ]
 
 { #category : #'api - accessing' }

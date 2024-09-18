@@ -306,7 +306,7 @@ ToSkinStateGenerator >> generateReleasedStateFromEvent: anEvent [
 { #category : #'state generating' }
 ToSkinStateGenerator >> generateSelectionStateFromEvent: anEvent [
 
-	target skinManager
+	"target skinManager
 		addSkinStateGeneration: [
 			target withAllChildrenBreadthFirstDo: [ :child |
 				(child hasStamp: #unselectable) ifFalse: [
@@ -318,7 +318,7 @@ ToSkinStateGenerator >> generateSelectionStateFromEvent: anEvent [
 									 selectionOption: anEvent selectionOption;
 									 yourself)
 							in: child ] ] ] ]
-		in: target
+		in: target"
 ]
 
 { #category : #'state generating' }

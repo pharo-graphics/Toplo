@@ -33,11 +33,7 @@ ToSkinStateQueue >> applyOn: anElement [
 ]
 
 { #category : #adding }
-ToSkinStateQueue >> enqueueInstallStateForElement: anElement [
-	" install state required  "
-
-	previousInstallState := ToInstallState new.
-	self enqueueState: previousInstallState for: anElement.
+ToSkinStateQueue >> enqueueEnablementStateForElement: anElement [
 
 	" restitute the intrasic states (as enablement, check)
 	enablement state must always be the last one to be enqueued "
@@ -48,6 +44,16 @@ ToSkinStateQueue >> enqueueInstallStateForElement: anElement [
 		for: anElement.
 
 	
+]
+
+{ #category : #adding }
+ToSkinStateQueue >> enqueueInstallStateForElement: anElement [
+	" install state required  "
+
+	previousInstallState := ToInstallState new.
+	self enqueueState: previousInstallState for: anElement.
+
+	self enqueueEnablementStateForElement: anElement
 ]
 
 { #category : #adding }

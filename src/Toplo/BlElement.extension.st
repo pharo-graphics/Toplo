@@ -83,7 +83,7 @@ BlElement >> disable [
 
 	self isDisabled ifFalse: [
 		self flagAsDisabled.
-		self dispatchEvent: ToEnablementChangedEvent new  ].
+		self skinManagerDo: [ :sm | sm enablementChangedIn: self ] ].
 	self childrenDo: [ :child | child disable ]
 ]
 
@@ -92,7 +92,7 @@ BlElement >> enable [
 
 	self isEnabled ifFalse: [
 		self flagAsEnabled.
-		self dispatchEvent: ToEnablementChangedEvent new ].
+		self skinManagerDo: [ :sm | sm enablementChangedIn: self ] ].
 	self childrenDo: [ :child | child enable ]
 ]
 
@@ -111,10 +111,7 @@ BlElement >> ensureCanManageSkin [
 { #category : #'*Toplo' }
 BlElement >> ensureHaveSkinManager [
 
-	self userData at: #skinManager ifAbsentPut: [
-		self newSkinManager
-			onInstalledIn: self;
-			yourself ]
+	self userData at: #skinManager ifAbsentPut: [ self newSkinManager ]
 ]
 
 { #category : #'*Toplo' }

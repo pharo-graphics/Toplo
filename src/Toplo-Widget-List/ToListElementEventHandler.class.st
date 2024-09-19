@@ -9,7 +9,8 @@ Class {
 { #category : #'event handling' }
 ToListElementEventHandler >> blurEvent: anEvent [
 
-	self syncNodesSelectionIn: anEvent currentTarget 
+	anEvent currentTarget selectionElementsDo: [ :se |se dispatchEvent: anEvent copy].
+	self syncNodesSelectionIn: anEvent currentTarget
 ]
 
 { #category : #'selection managing' }
@@ -109,6 +110,7 @@ ToListElementEventHandler >> eventsToHandle [
 { #category : #'event handling' }
 ToListElementEventHandler >> focusEvent: anEvent [
 
+	anEvent currentTarget selectionElementsDo: [ :se |se dispatchEvent: anEvent copy].
 	self syncNodesSelectionIn: anEvent currentTarget 
 ]
 

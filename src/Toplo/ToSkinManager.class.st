@@ -132,10 +132,8 @@ ToSkinManager >> defaultSkin: aSkin [
 { #category : #'skin - installing / uninstalling' }
 ToSkinManager >> enablementChangedIn: anElement [
 
-	self skinContext ifNil: [ ^ self ].
 	self skinStateQueue
-		enqueueState: (ToEnablementState new enabled: anElement isEnabled)
-		for: anElement;
+		enqueueEnablementStateForElement: anElement;
 		applyEnqueuedStatesIn: anElement
 ]
 
@@ -203,25 +201,11 @@ ToSkinManager >> isSetUpForTheme: aTheme [
 	^ self registeredThemeClasses includes: aTheme class
 ]
 
-{ #category : #'api - hooks' }
-ToSkinManager >> onInstalledIn: anElement [
-
-	self skinManagementEventHandler: ToSkinManagerEventHandler new.
-	anElement addEventHandler: self skinManagementEventHandler
-]
-
 { #category : #private }
 ToSkinManager >> onSkinChangedIn: anElement [
 
 	skinRequestCount := 0.
 	self requestNewSkinIn: anElement
-]
-
-{ #category : #'api - hooks' }
-ToSkinManager >> onUninstalledIn: anElement [
-
-	anElement removeEventHandler: self skinManagementEventHandler.
-	self skinManagementEventHandler: nil
 ]
 
 { #category : #'skin - install / uninstall request' }
@@ -383,18 +367,6 @@ ToSkinManager >> skinContext [
 ToSkinManager >> skinInstaller [ 
 
 	^ self userData at: #skinInstaller ifAbsent: [  ]
-]
-
-{ #category : #accessing }
-ToSkinManager >> skinManagementEventHandler [
-
-	^ self userData at: #skinManagementEventHandler ifAbsent: [  ]
-]
-
-{ #category : #accessing }
-ToSkinManager >> skinManagementEventHandler: aHandler [
-
-	self userData at: #skinManagementEventHandler put: aHandler
 ]
 
 { #category : #'skin - install / uninstall request' }

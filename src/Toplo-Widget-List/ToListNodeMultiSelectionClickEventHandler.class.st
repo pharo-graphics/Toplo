@@ -75,13 +75,6 @@ ToListNodeMultiSelectionClickEventHandler >> listClickOnNodeEvent: anEvent [
 	anEvent consume
 ]
 
-{ #category : #'mouse handlers' }
-ToListNodeMultiSelectionClickEventHandler >> listDoubleClickEvent: anEvent [
-	
-	self terminateClickLauncherOnNode: anEvent currentTarget.
-	super listDoubleClickEvent: anEvent
-]
-
 { #category : #'selection events' }
 ToListNodeMultiSelectionClickEventHandler >> onClickOnNodeEvent: anEvent [
 

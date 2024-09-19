@@ -45,10 +45,6 @@ ToListNodeSelectionEventHandler >> listClickOnNodeRequestEvent: aListClickOnNode
 ]
 
 { #category : #'mouse handlers' }
-ToListNodeSelectionEventHandler >> listDoubleClickEvent: anEvent [
-]
-
-{ #category : #'mouse handlers' }
 ToListNodeSelectionEventHandler >> mouseDownEvent: anEvent [
 
 		anEvent

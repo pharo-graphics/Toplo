@@ -182,7 +182,8 @@ ToSelectionGroupHolder >> removeSelectionIn: aListElement [
 ToSelectionGroupHolder >> selectionElements [
 
 	^ Array streamContents: [ :stream |
-		  groups do: [ :grp | stream nextPut: grp selectionElement ] ]
+		  groups do: [ :grp |
+			  grp selectionElement ifNotNil: [ :se | stream nextPut: se ] ] ]
 ]
 
 { #category : #'private - selection updating' }

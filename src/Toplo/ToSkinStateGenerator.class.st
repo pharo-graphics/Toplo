@@ -29,22 +29,10 @@ ToSkinStateGenerator >> checkableCheckEvent: anEvent [
 ToSkinStateGenerator >> clickEvent: anEvent [
 
 	anEvent
-		  ifPrimary: [ self primaryClickEvent: anEvent ]
-		  secondary: [ self secondaryClickEvent: anEvent ]
-		  middle: [ self middleClickEvent: anEvent ]
-		  other: [ self otherClickEvent: anEvent ]
-]
-
-{ #category : #'window opening - closing handlers' }
-ToSkinStateGenerator >> contextMenuClosedEvent: anEvent [
-
-	self generateClosedStateFromEvent: anEvent
-]
-
-{ #category : #'window opening - closing handlers' }
-ToSkinStateGenerator >> contextMenuOpenedEvent: anEvent [
-
-	self generateOpenedStateFromEvent: anEvent
+		ifPrimary: [ self primaryClickEvent: anEvent ]
+		secondary: [  ]
+		middle: [  ]
+		other: [  ]
 ]
 
 { #category : #'dnd handlers' }
@@ -54,19 +42,9 @@ ToSkinStateGenerator >> dragEndEvent: anEvent [
 	self leaved ifTrue: [ ^ self ].
 	self leaved: true.
 	
-	target skinManager
-		addSkinStateGeneration: [
-			self enqueueTransientStateFromSkinEvent:
-				(ToReleasedSkinEvent sourceEvent: anEvent) ]
-		in: target.
-
+	self generateReleasedStateFromEvent: anEvent.
 	target isEnabled ifFalse: [ ^ self ].
-
-	target skinManager
-		addSkinStateGeneration: [
-			self enqueueTransientStateFromSkinEvent:
-				(ToLeavedSkinEvent sourceEvent: anEvent) ]
-		in: target
+	self generateLeavedStateFromEvent: anEvent
 ]
 
 { #category : #'dnd handlers' }
@@ -78,6 +56,7 @@ ToSkinStateGenerator >> dragEnterEvent: anEvent [
 { #category : #'dnd handlers' }
 ToSkinStateGenerator >> dragEvent: anEvent [
 
+	self dragged ifFalse: [ ^ self ].
 	self generateDraggedStateFromEvent: anEvent
 ]
 
@@ -90,6 +69,7 @@ ToSkinStateGenerator >> dragLeaveEvent: anEvent [
 { #category : #'dnd handlers' }
 ToSkinStateGenerator >> dragStartEvent: anEvent [
 
+	self dragged: true.
 	self generateDragStartedStateFromEvent: anEvent
 ]
 
@@ -128,13 +108,12 @@ ToSkinStateGenerator >> eventsToHandle [
 	^ {
 		  ToCheckableCheckEvent.
 		  BlBaseDragEvent.
-		  BlKeyboardEvent.
 		  BlBlurEvent.
 		  BlFocusEvent.
 		  BlClickEvent.
 		  BlMouseDownEvent.
 		  BlMouseUpEvent.
-		  BlMousePickOutsideEvent.
+		  BlMouseUpOutsideEvent.
 		  BlMouseEnterEvent.
 		  BlMouseLeaveEvent.
 		  ToWindowEvent.
@@ -197,7 +176,6 @@ ToSkinStateGenerator >> generateClosedStateFromEvent: anEvent [
 { #category : #'state generating' }
 ToSkinStateGenerator >> generateDragStartedStateFromEvent: anEvent [
 
-	self dragged: true.
 	target skinManager
 		addSkinStateGeneration: [
 			self enqueueTransientStateFromSkinEvent:
@@ -208,7 +186,6 @@ ToSkinStateGenerator >> generateDragStartedStateFromEvent: anEvent [
 { #category : #'state generating' }
 ToSkinStateGenerator >> generateDraggedStateFromEvent: anEvent [
 
-	self dragged ifFalse: [ ^ self ].
 	target skinManager
 		addDraggedSkinStateGeneration: [
 			self enqueueTransientStateFromSkinEvent:
@@ -243,11 +220,6 @@ ToSkinStateGenerator >> generateFocusStateFromEvent: anEvent [
 { #category : #'state generating' }
 ToSkinStateGenerator >> generateHoveredStateFromEvent: anEvent [
 
-	self leaved: false.
-	self dragged ifTrue: [ ^ self ].
-	target isEnabled ifFalse: [ ^ self ].
-	self startStillHoveredEvent: anEvent.
-
 	target skinManager
 		addSkinStateGeneration: [
 			self enqueueTransientStateFromSkinEvent:
@@ -257,11 +229,6 @@ ToSkinStateGenerator >> generateHoveredStateFromEvent: anEvent [
 
 { #category : #'state generating' }
 ToSkinStateGenerator >> generateLeavedStateFromEvent: anEvent [
-
-	self dragged ifTrue: [ ^ self ].
-	self leaved ifTrue: [ ^ self ].
-	self leaved: true.
-	target isEnabled ifFalse: [ ^ self ].
 
 	target skinManager
 		addSkinStateGeneration: [
@@ -283,7 +250,6 @@ ToSkinStateGenerator >> generateOpenedStateFromEvent: anEvent [
 { #category : #'state generating' }
 ToSkinStateGenerator >> generatePressedStateFromEvent: anEvent [
 
-	self pressed: true.
 	target skinManager
 		addSkinStateGeneration: [
 			self enqueueTransientStateFromSkinEvent:
@@ -295,7 +261,6 @@ ToSkinStateGenerator >> generatePressedStateFromEvent: anEvent [
 { #category : #'state generating' }
 ToSkinStateGenerator >> generateReleasedStateFromEvent: anEvent [
 
-	self dragged: false.
 	target skinManager
 		addSkinStateGeneration: [
 			self enqueueTransientStateFromSkinEvent:
@@ -345,38 +310,11 @@ ToSkinStateGenerator >> generateStillPressedStateFromEvent: anEvent [
 ToSkinStateGenerator >> handleEvent: anEvent [
 
 	self stopTasks: anEvent.
+	(anEvent isKindOf: ToWindowClosedEvent) ifTrue: [
+		^ self windowClosedEvent: anEvent ].
+	(anEvent isKindOf: ToWindowOpenedEvent) ifTrue: [
+		^ self windowOpenedEvent: anEvent ].
 	anEvent sendTo: self
-]
-
-{ #category : #'mouse handlers' }
-ToSkinStateGenerator >> isPickOutsideEventRelevantForTarget: anEvent [
-
-	"Outside event can have a button label or icon as target. 
-	In that case, no action is triggered "
-	(anEvent originalEvent target notNil and: [
-		 anEvent originalEvent target hasParent: target ]) ifTrue: [
-		^ false ].
-]
-
-{ #category : #'keyboard handlers' }
-ToSkinStateGenerator >> keyDownEvent: anEvent [
-
-]
-
-{ #category : #'keyboard handlers' }
-ToSkinStateGenerator >> keyUpEvent: anEvent [
-]
-
-{ #category : #'window opening - closing handlers' }
-ToSkinStateGenerator >> labelEditorClosedEvent: anEvent [
-
-	self generateClosedStateFromEvent: anEvent
-]
-
-{ #category : #'window opening - closing handlers' }
-ToSkinStateGenerator >> labelEditorOpenedEvent: anEvent [
-
-	self generateOpenedStateFromEvent: anEvent
 ]
 
 { #category : #accessing }
@@ -397,86 +335,44 @@ ToSkinStateGenerator >> listNodeSelectedEvent: anEvent [
 	self generateSelectionStateFromEvent: anEvent
 ]
 
-{ #category : #'window opening - closing handlers' }
-ToSkinStateGenerator >> menuWindowClosedEvent: anEvent [
-
-	self generateClosedStateFromEvent: anEvent
-]
-
-{ #category : #'window opening - closing handlers' }
-ToSkinStateGenerator >> menuWindowOpenedEvent: anEvent [
-
-	self generateOpenedStateFromEvent: anEvent
-]
-
-{ #category : #'mouse handlers' }
-ToSkinStateGenerator >> middleClickEvent: anEvent [
-
-]
-
-{ #category : #'mouse handlers' }
-ToSkinStateGenerator >> middleMouseDownEvent: anEvent [
-
-]
-
-{ #category : #'mouse handlers' }
-ToSkinStateGenerator >> middleMouseUpEvent: anEvent [
-
-]
-
 { #category : #'mouse handlers' }
 ToSkinStateGenerator >> mouseDownEvent: anEvent [
 
 	anEvent
-		  ifPrimary: [ self primaryMouseDownEvent: anEvent ]
-		  secondary: [ self secondaryMouseDownEvent: anEvent ]
-		  middle: [ self middleMouseDownEvent: anEvent ]
-		  other: [ self otherMouseDownEvent: anEvent ]
-]
-
-{ #category : #'mouse handlers' }
-ToSkinStateGenerator >> mouseDownOutsideEvent: anEvent [
-
+		ifPrimary: [ self primaryMouseDownEvent: anEvent ]
+		secondary: [  ]
+		middle: [  ]
+		other: [  ]
 ]
 
 { #category : #'mouse handlers' }
 ToSkinStateGenerator >> mouseEnterEvent: anEvent [
 
+	self leaved: false.
+	self dragged ifTrue: [ ^ self ].
+	target isEnabled ifFalse: [ ^ self ].
+	self startStillHoveredEvent: anEvent.
 	self generateHoveredStateFromEvent: anEvent
 ]
 
 { #category : #'mouse handlers' }
 ToSkinStateGenerator >> mouseLeaveEvent: anEvent [
 
-
+	self dragged ifTrue: [ ^ self ].
+	self leaved ifTrue: [ ^ self ].
+	self leaved: true.
+	target isEnabled ifFalse: [ ^ self ].
 	self generateLeavedStateFromEvent: anEvent
 ]
 
 { #category : #'mouse handlers' }
-ToSkinStateGenerator >> mouseMoveEvent: anEvent [
-]
-
-{ #category : #'mouse handlers' }
-ToSkinStateGenerator >> mouseOutEvent: anEvent [
-]
-
-{ #category : #'mouse handlers' }
-ToSkinStateGenerator >> mouseOverEvent: anEvent [
-]
-
-{ #category : #'mouse handlers' }
-ToSkinStateGenerator >> mousePickOutsideEvent: anEvent [
-
-
-]
-
-{ #category : #'mouse handlers' }
 ToSkinStateGenerator >> mouseUpEvent: anEvent [
+
 	anEvent
-		  ifPrimary: [ self primaryMouseUpEvent: anEvent ]
-		  secondary: [ self secondaryMouseUpEvent: anEvent ]
-		  middle: [ self middleMouseUpEvent: anEvent ]
-		  other: [ self otherMouseUpEvent: anEvent ]
+		ifPrimary: [ self primaryMouseUpEvent: anEvent ]
+		secondary: [  ]
+		middle: [  ]
+		other: [  ]
 ]
 
 { #category : #'mouse handlers' }
@@ -484,29 +380,21 @@ ToSkinStateGenerator >> mouseUpOutsideEvent: anEvent [
 	"Outside event can have a button label or icon as target. 
 	In that case, no action is triggered "
 
-	target skinManager
-		addSkinStateGeneration: [
-			| wasPressed |
-			wasPressed := self pressed.
-			self pressed: false.
-			(anEvent originalEvent target notNil and: [
-				 anEvent originalEvent target hasInParentChain: target ])
-				ifFalse: [
-					self dragged: false.
-					wasPressed ifTrue: [
-						self enqueueTransientStateFromSkinEvent:
-							(ToReleasedSkinEvent sourceEvent: anEvent) ].
+	| wasPressed |
+	wasPressed := self pressed.
+	self pressed: false.
+	self dragged: false.
 
-					self leaved ifFalse: [
-						self leaved: true.
-						target isEnabled ifTrue: [
-							self enqueueTransientStateFromSkinEvent:
-								(ToLeavedSkinEvent sourceEvent: anEvent) ] ] ] ]
-		in: target
-]
+	(anEvent originalEvent target notNil and: [
+		 anEvent originalEvent target hasInParentChain: target ]) ifTrue: [
+		^ self ].
 
-{ #category : #'mouse handlers' }
-ToSkinStateGenerator >> mouseWheelEvent: anEvent [
+	wasPressed ifTrue: [ self generateReleasedStateFromEvent: anEvent ].
+
+	self leaved ifTrue: [ ^ self ].
+	self leaved: true.
+	target isEnabled ifFalse: [ ^ self ].
+	self generateLeavedStateFromEvent: anEvent
 ]
 
 { #category : #'api - hooks' }
@@ -526,42 +414,6 @@ ToSkinStateGenerator >> onUninstalledIn: anElement [
 	self flag: 'Should take care of addSkinStateGeneration: to remove the generation valuable stored for target before setting it to nil'.
 	"target := nil."
 	super onUninstalledIn: anElement
-]
-
-{ #category : #'mouse handlers' }
-ToSkinStateGenerator >> otherClickEvent: anEvent [
-]
-
-{ #category : #'mouse handlers' }
-ToSkinStateGenerator >> otherMouseDownEvent: anEvent [
-]
-
-{ #category : #'mouse handlers' }
-ToSkinStateGenerator >> otherMouseUpEvent: anEvent [
-]
-
-{ #category : #'window opening - closing handlers' }
-ToSkinStateGenerator >> overlayWindowClosedEvent: anEvent [
-
-	self generateClosedStateFromEvent: anEvent
-]
-
-{ #category : #'window opening - closing handlers' }
-ToSkinStateGenerator >> overlayWindowOpenedEvent: anEvent [
-
-	self generateOpenedStateFromEvent: anEvent
-]
-
-{ #category : #'window opening - closing handlers' }
-ToSkinStateGenerator >> popupWindowClosedEvent: anEvent [
-
-	self generateClosedStateFromEvent: anEvent
-]
-
-{ #category : #'window opening - closing handlers' }
-ToSkinStateGenerator >> popupWindowOpenedEvent: anEvent [
-
-	self generateOpenedStateFromEvent: anEvent
 ]
 
 { #category : #accessing }
@@ -585,32 +437,19 @@ ToSkinStateGenerator >> primaryClickEvent: anEvent [
 { #category : #'mouse handlers' }
 ToSkinStateGenerator >> primaryMouseDownEvent: anEvent [
 
+	self pressed: true.
 	self generatePressedStateFromEvent: anEvent
 ]
 
 { #category : #'mouse handlers' }
 ToSkinStateGenerator >> primaryMouseUpEvent: anEvent [
 
-	target skinManager addSkinStateGeneration: [
-		self dragged: false.
-		self leaved: false.
-		self enqueueTransientStateFromSkinEvent: (ToReleasedSkinEvent sourceEvent: anEvent).
-		target isEnabled ifTrue: [
-			self startStillHoveredEvent: anEvent.
-			self enqueueTransientStateFromSkinEvent:
-				(ToHoveredSkinEvent sourceEvent: anEvent) ] ] in: target
-]
-
-{ #category : #'mouse handlers' }
-ToSkinStateGenerator >> secondaryClickEvent: anEvent [
-]
-
-{ #category : #'mouse handlers' }
-ToSkinStateGenerator >> secondaryMouseDownEvent: anEvent [
-]
-
-{ #category : #'mouse handlers' }
-ToSkinStateGenerator >> secondaryMouseUpEvent: anEvent [
+	self dragged: false.
+	self leaved: false.
+	self generateReleasedStateFromEvent: anEvent.
+	target isEnabled ifFalse: [ ^ self ].
+	self startStillHoveredEvent: anEvent.
+	self generateHoveredStateFromEvent: anEvent
 ]
 
 { #category : #'still pressed - hovered' }
@@ -700,18 +539,6 @@ ToSkinStateGenerator >> stopTasks: anEvent [
 ToSkinStateGenerator >> target [
 
 	^ target
-]
-
-{ #category : #'window opening - closing handlers' }
-ToSkinStateGenerator >> tooltipWindowClosedEvent: anEvent [
-
-	self generateClosedStateFromEvent: anEvent
-]
-
-{ #category : #'window opening - closing handlers' }
-ToSkinStateGenerator >> tooltipWindowOpenedEvent: anEvent [
-
-	self generateOpenedStateFromEvent: anEvent
 ]
 
 { #category : #'api - event managing' }

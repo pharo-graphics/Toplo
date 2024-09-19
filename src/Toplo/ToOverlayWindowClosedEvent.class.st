@@ -1,6 +1,6 @@
 Class {
 	#name : #ToOverlayWindowClosedEvent,
-	#superclass : #ToAnchoredWindowClosedEvent,
+	#superclass : #ToWindowClosedEvent,
 	#category : #'Toplo-Core-Window'
 }
 

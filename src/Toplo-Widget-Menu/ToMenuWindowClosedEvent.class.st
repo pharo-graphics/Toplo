@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMenuWindowClosedEvent,
-	#superclass : #ToAnchoredWindowClosedEvent,
+	#superclass : #ToWindowClosedEvent,
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 

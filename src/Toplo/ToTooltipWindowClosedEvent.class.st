@@ -1,6 +1,6 @@
 Class {
 	#name : #ToTooltipWindowClosedEvent,
-	#superclass : #ToAnchoredWindowClosedEvent,
+	#superclass : #ToWindowClosedEvent,
 	#category : #'Toplo-Core-Tooltip'
 }
 

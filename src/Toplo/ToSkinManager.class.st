@@ -15,16 +15,7 @@ Class {
 }
 
 { #category : #'skin state generation' }
-ToSkinManager >> addDraggedSkinStateGeneration: aValuable for: anElement [
-
-	" add a skin generation action to be evaluated by the states application phase "
-	anElement space
-		ifNotNil: [ :space | space addDraggedSkinStateGeneration: aValuable ]
-		ifNil: [ aValuable value ]
-]
-
-{ #category : #'skin state generation' }
-ToSkinManager >> addSkinStateGeneration: aValuable in: anElement [
+ToSkinManager >> addSkinStateGeneration: aValuable for: anElement [
 
 	" add a skin generation action to be evaluated by the states application phase "
 	anElement space

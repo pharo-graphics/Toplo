@@ -6,23 +6,17 @@ Class {
 		'allowSkinPhases',
 		'spaceShownEventHandler',
 		'needSkinInstallPass',
-		'stateGenerationHolder',
 		'needSkinStateApplicationPass',
-		'applyingSkinInstallers'
+		'applyingSkinInstallers',
+		'stateGenerations'
 	],
 	#category : #'Toplo-Core-SpaceFrame'
 }
 
 { #category : #adding }
-ToSpaceSkinPhasesManager >> addDraggedSkinStateGeneration: aValuable [
-
-	self stateGenerationHolder addDraggedSkinStateGeneration: aValuable
-]
-
-{ #category : #adding }
 ToSpaceSkinPhasesManager >> addSkinStateGeneration: aValuable [
 
-	self stateGenerationHolder addGeneration: aValuable
+	stateGenerations add: aValuable
 ]
 
 { #category : #accessing }
@@ -42,7 +36,7 @@ ToSpaceSkinPhasesManager >> allowSkinPhases: aBoolean [
 { #category : #'phases application' }
 ToSpaceSkinPhasesManager >> applyAllEnqueuedStatesIn: aSpace [
 
-	self runStatesGeneration.
+	self runStateGenerations.
 	self needSkinStateApplicationPass ifTrue: [
 		aSpace root applyEnqueuedStatesDeeply ].
 	self needSkinStateApplicationPass: false
@@ -79,7 +73,7 @@ ToSpaceSkinPhasesManager >> initialize [
 	needSkinInstallPass := true.
 	needSkinStateApplicationPass := true.
 	applyingSkinInstallers := false.
-	stateGenerationHolder := ToSpaceStateGenerationHolder new
+	stateGenerations := OrderedCollection new
 ]
 
 { #category : #'phases installation' }
@@ -184,9 +178,10 @@ ToSpaceSkinPhasesManager >> postponeStartSkinPhasesIn: aSpace [
 ]
 
 { #category : #'phases application' }
-ToSpaceSkinPhasesManager >> runStatesGeneration [
+ToSpaceSkinPhasesManager >> runStateGenerations [
 
-	self stateGenerationHolder run
+	stateGenerations do: [ :g | g value ].
+	stateGenerations removeAll
 ]
 
 { #category : #accessing }
@@ -246,12 +241,6 @@ ToSpaceSkinPhasesManager >> startSkinStateApplicationPhaseIn: aSpace [
 	" The skin phase must be inserted before the layout phase (that must be present) "
 	phaseAfter := aSpace frame detectPhase: [ :f | f class = BlSpaceFrameLayoutPhase ].
 	aSpace frame addPhase: ToSpaceSkinStateApplicationPhase new before: phaseAfter
-]
-
-{ #category : #accessing }
-ToSpaceSkinPhasesManager >> stateGenerationHolder [
-
-	^ stateGenerationHolder
 ]
 
 { #category : #'phases installation' }

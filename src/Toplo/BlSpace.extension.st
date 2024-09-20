@@ -3,7 +3,7 @@ Extension { #name : #BlSpace }
 { #category : #'*Toplo' }
 BlSpace >> addDraggedSkinStateGeneration: aValuable [
 
-	self skinPhasesManager addDraggedSkinStateGeneration: aValuable.
+	self skinPhasesManager addSkinStateGeneration: aValuable.
 	self requestNextPulse 
 ]
 
@@ -87,9 +87,9 @@ BlSpace >> needSkinStateApplicationPass: aBoolean [
 ]
 
 { #category : #'*Toplo' }
-BlSpace >> runStatesGeneration [
+BlSpace >> runStateGenerations [
 
-	self skinPhasesManager runStatesGeneration
+	self skinPhasesManager runStateGenerations
 ]
 
 { #category : #'*Toplo' }

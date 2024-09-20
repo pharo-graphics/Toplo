@@ -17,7 +17,7 @@ ToSkinStateGeneratorStub >> newElementInSpace [
 	self assert: e skinManager skinInstaller notNil.
 	" to install the element skin  "
 	space applyAllSkinInstallers.
-	space runStatesGeneration.
+	space runStateGenerations.
 
 	^ e
 ]
@@ -47,7 +47,7 @@ ToSkinStateGeneratorStub >> testGenerateCheckStateFromEvent [
 
 	e dispatchEvent: evt.
 	self assert: nextStates size equals: nextStatesSize.
-	e space runStatesGeneration.
+	e space runStateGenerations.
 	self assert: nextStates size equals: nextStatesSize + 1.
 
 	nextStatesSize := nextStates size.
@@ -57,7 +57,7 @@ ToSkinStateGeneratorStub >> testGenerateCheckStateFromEvent [
 		       previous: true;
 		       yourself.
 	e dispatchEvent: evt.
-	e space runStatesGeneration.
+	e space runStateGenerations.
 
 	" no changed since the element is in the same state (2 successives uncheck) "
 	self assert: nextStates size equals: nextStatesSize + 1.
@@ -67,7 +67,7 @@ ToSkinStateGeneratorStub >> testGenerateCheckStateFromEvent [
 		       previous: false;
 		       yourself.
 	e dispatchEvent: evt.
-	e space runStatesGeneration.
+	e space runStateGenerations.
 	self assert: nextStates size equals: nextStatesSize + 2
 ]
 
@@ -84,7 +84,7 @@ ToSkinStateGeneratorStub >> testGenerateClickedStateFromEvent [
 	nextStatesSize := nextStates size.
 
 	e dispatchEvent: evt.
-	e space runStatesGeneration.
+	e space runStateGenerations.
 	self assert: nextStates size equals: nextStatesSize + 1.
 
 
@@ -92,7 +92,7 @@ ToSkinStateGeneratorStub >> testGenerateClickedStateFromEvent [
 		       BlMouseButton primary.
 
 	e dispatchEvent: evt.
-	e space runStatesGeneration.
+	e space runStateGenerations.
 	self assert: nextStates size equals: nextStatesSize + 2
 ]
 
@@ -108,19 +108,19 @@ ToSkinStateGeneratorStub >> testGenerateHoveredStateFromEvent [
 	nextStatesSize := nextStates size.
 
 	e dispatchEvent: evt.
-	e space runStatesGeneration.
+	e space runStateGenerations.
 	self assert: nextStates size equals: nextStatesSize + 1.
 
 	evt := BlMouseEnterEvent new.
 
 	e dispatchEvent: evt.
-	e space runStatesGeneration.
+	e space runStateGenerations.
 	self assert: nextStates size equals: nextStatesSize + 2.
 
 	evt := BlMouseLeaveEvent new.
 
 	e dispatchEvent: evt.
-	e space runStatesGeneration.
+	e space runStateGenerations.
 
 	self assert: nextStates size equals: nextStatesSize + 3
 ]

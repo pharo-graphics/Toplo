@@ -137,7 +137,7 @@ ToSkinStateGenerator >> generateBlurStateFromEvent: anEvent [
 							 focused: false;
 							 yourself)
 					in: target ]
-			in: target ]
+			for: target ]
 ]
 
 { #category : #'state generating' }
@@ -150,7 +150,7 @@ ToSkinStateGenerator >> generateCheckStateFromEvent: anEvent [
 					enqueueSkinState:
 					(ToCheckState new checked: anEvent current yourself)
 					in: target ]
-			in: target ]
+			for: target ]
 ]
 
 { #category : #'state generating' }
@@ -160,7 +160,7 @@ ToSkinStateGenerator >> generateClickedStateFromEvent: anEvent [
 		addSkinStateGeneration: [
 			self enqueueTransientStateFromSkinEvent:
 				(ToClickedSkinEvent sourceEvent: anEvent) ]
-		in: target
+		for: target
 ]
 
 { #category : #'state generating' }
@@ -170,7 +170,7 @@ ToSkinStateGenerator >> generateClosedStateFromEvent: anEvent [
 		addSkinStateGeneration: [
 			self enqueueTransientStateFromSkinEvent:
 				(ToClosedSkinEvent sourceEvent: anEvent) ]
-		in: target
+		for: target
 ]
 
 { #category : #'state generating' }
@@ -180,14 +180,14 @@ ToSkinStateGenerator >> generateDragStartedStateFromEvent: anEvent [
 		addSkinStateGeneration: [
 			self enqueueTransientStateFromSkinEvent:
 				(ToDragStartedSkinEvent sourceEvent: anEvent) ]
-		in: target
+		for: target
 ]
 
 { #category : #'state generating' }
 ToSkinStateGenerator >> generateDraggedStateFromEvent: anEvent [
 
 	target skinManager
-		addDraggedSkinStateGeneration: [
+		addSkinStateGeneration: [
 			self enqueueTransientStateFromSkinEvent:
 				(ToDraggedSkinEvent sourceEvent: anEvent) ]
 		for: target
@@ -200,7 +200,7 @@ ToSkinStateGenerator >> generateDroppedStateFromEvent: anEvent [
 		addSkinStateGeneration: [
 			self enqueueTransientStateFromSkinEvent:
 				(ToDroppedSkinEvent sourceEvent: anEvent) ]
-		in: target
+		for: target
 ]
 
 { #category : #'state generating' }
@@ -214,7 +214,7 @@ ToSkinStateGenerator >> generateFocusStateFromEvent: anEvent [
 							 focused: true;
 							 yourself)
 					in: target ]
-			in: target ]
+			for: target ]
 ]
 
 { #category : #'state generating' }
@@ -224,7 +224,7 @@ ToSkinStateGenerator >> generateHoveredStateFromEvent: anEvent [
 		addSkinStateGeneration: [
 			self enqueueTransientStateFromSkinEvent:
 				(ToHoveredSkinEvent sourceEvent: anEvent) ]
-		in: target
+		for: target
 ]
 
 { #category : #'state generating' }
@@ -234,7 +234,7 @@ ToSkinStateGenerator >> generateLeavedStateFromEvent: anEvent [
 		addSkinStateGeneration: [
 			self enqueueTransientStateFromSkinEvent:
 				(ToLeavedSkinEvent sourceEvent: anEvent) ]
-		in: target
+		for: target
 ]
 
 { #category : #'state generating' }
@@ -244,7 +244,7 @@ ToSkinStateGenerator >> generateOpenedStateFromEvent: anEvent [
 		addSkinStateGeneration: [
 			self enqueueTransientStateFromSkinEvent:
 				(ToOpenedSkinEvent sourceEvent: anEvent) ]
-		in: target
+		for: target
 ]
 
 { #category : #'state generating' }
@@ -253,9 +253,8 @@ ToSkinStateGenerator >> generatePressedStateFromEvent: anEvent [
 	target skinManager
 		addSkinStateGeneration: [
 			self enqueueTransientStateFromSkinEvent:
-				(ToPressedSkinEvent sourceEvent: anEvent).
-			self startStillPressedEvent: anEvent ]
-		in: target
+				(ToPressedSkinEvent sourceEvent: anEvent) ]
+		for: target
 ]
 
 { #category : #'state generating' }
@@ -265,7 +264,7 @@ ToSkinStateGenerator >> generateReleasedStateFromEvent: anEvent [
 		addSkinStateGeneration: [
 			self enqueueTransientStateFromSkinEvent:
 				(ToReleasedSkinEvent sourceEvent: anEvent) ]
-		in: target
+		for: target
 ]
 
 { #category : #'state generating' }
@@ -283,7 +282,7 @@ ToSkinStateGenerator >> generateSelectionStateFromEvent: anEvent [
 									 selectionOption: anEvent selectionOption;
 									 yourself)
 							in: child ] ] ] ]
-		in: target
+		for: target
 ]
 
 { #category : #'state generating' }
@@ -293,7 +292,7 @@ ToSkinStateGenerator >> generateStillHoveredStateFromEvent: anEvent [
 		addSkinStateGeneration: [
 			self enqueueTransientStateFromSkinEvent:
 				(ToStillHoveredSkinEvent sourceEvent: anEvent) ]
-		in: target
+		for: target
 ]
 
 { #category : #'state generating' }
@@ -303,7 +302,7 @@ ToSkinStateGenerator >> generateStillPressedStateFromEvent: anEvent [
 		addSkinStateGeneration: [
 			self enqueueTransientStateFromSkinEvent:
 				(ToStillPressedSkinEvent sourceEvent: anEvent) ]
-		in: target
+		for: target
 ]
 
 { #category : #'api - event managing' }
@@ -438,6 +437,7 @@ ToSkinStateGenerator >> primaryClickEvent: anEvent [
 ToSkinStateGenerator >> primaryMouseDownEvent: anEvent [
 
 	self pressed: true.
+	self startStillPressedEvent: anEvent.
 	self generatePressedStateFromEvent: anEvent
 ]
 

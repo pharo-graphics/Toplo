@@ -521,6 +521,13 @@ ToAbstractListElement >> selecter [
 	^ self primarySelectionMode selecter
 ]
 
+{ #category : #'accessing selecters' }
+ToAbstractListElement >> selectionElementsDo: aBlock [
+
+	selectionModeMap valuesDo: [ :mode |
+		mode optionDo: [ :opt | opt selectionElements do: [ :se | aBlock value: se ] ] ]
+]
+
 { #category : #accessing }
 ToAbstractListElement >> selectionMode [
 

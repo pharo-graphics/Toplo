@@ -26,10 +26,8 @@ ToLabelSkin >> disabledSkinEvent: anEvent [
 ToLabelSkin >> enabledSkinEvent: anEvent [
 
 	super enabledSkinEvent: anEvent.
-	anEvent elementDo: [ :e | " do not change foreground here  to prevent from overwriting forground 
-		that has been eventually set by the SelectedSkinEvent 
-		The default foreground should be set when installing "
-		 ]
+	anEvent elementDo: [ :e |
+		e foreground: (e valueOfTokenNamed: #'color-text') ]
 ]
 
 { #category : #'event handling' }

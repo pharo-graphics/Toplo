@@ -22,7 +22,7 @@ ToEnablementState >> enabled: aBoolean [
 { #category : #accessing }
 ToEnablementState >> skinEventClass [
 
-	^ self enabled
+	^ enabled
 		  ifTrue: [ ToEnabledSkinEvent ]
 		  ifFalse: [ ToDisabledSkinEvent ]
 ]

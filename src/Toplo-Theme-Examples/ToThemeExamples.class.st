@@ -347,7 +347,6 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 	| space primaryButton2 pane c chb disachb themeSelect themePane mainPane |
 	space := BlSpace new.
 	space root layout: BlLinearLayout vertical.
-	space toTheme: ToBeeDarkTheme new.
 
 	themePane := ToPane horizontal.
 	themePane localTheme: ToRawTheme new.
@@ -371,7 +370,7 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 	themeSelect addEventHandler: (BlEventHandler
 			 on: ToChoiceChangedEvent
 			 do: [ space toTheme: themeSelect selectedData value new ]).
-	themeSelect selectIndex: 4.
+	themeSelect selectIndex: 1.
 
 	disachb := ToCheckbox new label:
 		           (ToLabel text: 'Disable all buttons').

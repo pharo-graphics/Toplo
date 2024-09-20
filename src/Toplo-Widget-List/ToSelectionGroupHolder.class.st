@@ -178,6 +178,14 @@ ToSelectionGroupHolder >> removeSelectionIn: aListElement [
 
 ]
 
+{ #category : #enumerating }
+ToSelectionGroupHolder >> selectionElements [
+
+	^ Array streamContents: [ :stream |
+		  groups do: [ :grp |
+			  grp selectionElement ifNotNil: [ :se | stream nextPut: se ] ] ]
+]
+
 { #category : #'private - selection updating' }
 ToSelectionGroupHolder >> updateSelectionIn: aListElement [
 

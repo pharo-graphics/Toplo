@@ -15,16 +15,7 @@ Class {
 }
 
 { #category : #'skin state generation' }
-ToSkinManager >> addDraggedSkinStateGeneration: aValuable for: anElement [
-
-	" add a skin generation action to be evaluated by the states application phase "
-	anElement space
-		ifNotNil: [ :space | space addDraggedSkinStateGeneration: aValuable ]
-		ifNil: [ aValuable value ]
-]
-
-{ #category : #'skin state generation' }
-ToSkinManager >> addSkinStateGeneration: aValuable in: anElement [
+ToSkinManager >> addSkinStateGeneration: aValuable for: anElement [
 
 	" add a skin generation action to be evaluated by the states application phase "
 	anElement space
@@ -129,6 +120,14 @@ ToSkinManager >> defaultSkin: aSkin [
 	self userData at: #defaultSkin put: aSkin
 ]
 
+{ #category : #'skin - installing / uninstalling' }
+ToSkinManager >> enablementChangedIn: anElement [
+
+	self skinStateQueue
+		enqueueEnablementStateForElement: anElement;
+		applyEnqueuedStatesIn: anElement
+]
+
 { #category : #'skin state generation' }
 ToSkinManager >> enqueueSkinState: aSkinState in: anElement [
 
@@ -193,25 +192,11 @@ ToSkinManager >> isSetUpForTheme: aTheme [
 	^ self registeredThemeClasses includes: aTheme class
 ]
 
-{ #category : #'api - hooks' }
-ToSkinManager >> onInstalledIn: anElement [
-
-	self skinManagementEventHandler: ToSkinManagerEventHandler new.
-	anElement addEventHandler: self skinManagementEventHandler
-]
-
 { #category : #private }
 ToSkinManager >> onSkinChangedIn: anElement [
 
 	skinRequestCount := 0.
 	self requestNewSkinIn: anElement
-]
-
-{ #category : #'api - hooks' }
-ToSkinManager >> onUninstalledIn: anElement [
-
-	anElement removeEventHandler: self skinManagementEventHandler.
-	self skinManagementEventHandler: nil
 ]
 
 { #category : #'skin - install / uninstall request' }
@@ -373,18 +358,6 @@ ToSkinManager >> skinContext [
 ToSkinManager >> skinInstaller [ 
 
 	^ self userData at: #skinInstaller ifAbsent: [  ]
-]
-
-{ #category : #accessing }
-ToSkinManager >> skinManagementEventHandler [
-
-	^ self userData at: #skinManagementEventHandler ifAbsent: [  ]
-]
-
-{ #category : #accessing }
-ToSkinManager >> skinManagementEventHandler: aHandler [
-
-	self userData at: #skinManagementEventHandler put: aHandler
 ]
 
 { #category : #'skin - install / uninstall request' }

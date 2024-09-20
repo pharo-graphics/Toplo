@@ -68,7 +68,7 @@ ToElementWithPopupEventHandlerTest >> testMouseDownOutsideEvent [
 	self assert: windowManager currentWindow isOpened.
 	closed := false.
 	windowManager currentWindow addEventHandler: (BlEventHandler
-			 on: ToAnchoredWindowClosedEvent
+			 on: ToWindowClosedEvent
 			 do: [ closed := true ]).
 	(windowManager autoCloseOnMouseUpDelay + 1 milliSecond) wait.
 	event := BlMouseDownEvent primary position: 0 @ 0.
@@ -101,7 +101,7 @@ ToElementWithPopupEventHandlerTest >> testMouseDownOutsideEventWithAutoCloseWith
 	self assert: windowManager currentWindow isOpened.
 	closed := false.
 	windowManager currentWindow addEventHandler: (BlEventHandler
-			 on: ToAnchoredWindowClosedEvent
+			 on: ToWindowClosedEvent
 			 do: [ closed := true ]).
 	(windowManager autoCloseOnMouseUpDelay + 1 milliSecond) wait.
 	event := BlMouseDownEvent primary position: 0 @ 0.
@@ -132,7 +132,7 @@ ToElementWithPopupEventHandlerTest >> testMouseUpEvent [
 	self assert: windowManager currentWindow isOpened.
 	closed := false.
 	windowManager currentWindow addEventHandler: (BlEventHandler
-			 on: ToAnchoredWindowClosedEvent
+			 on: ToWindowClosedEvent
 			 do: [ closed := true ]).
 	(windowManager autoCloseOnMouseUpDelay + 1 milliSecond) wait.
 	position := e bounds inSpace center.
@@ -165,7 +165,7 @@ ToElementWithPopupEventHandlerTest >> testMouseUpOutsideEvent [
 	self assert: windowManager currentWindow isOpened.
 	closed := false.
 	windowManager currentWindow addEventHandler: (BlEventHandler
-			 on: ToAnchoredWindowClosedEvent
+			 on: ToWindowClosedEvent
 			 do: [ closed := true ]).
 	(windowManager autoCloseOnMouseUpDelay + 1 milliSecond) wait.
 	event := BlMouseUpEvent primary position: 0 @ 0.
@@ -198,7 +198,7 @@ ToElementWithPopupEventHandlerTest >> testMouseUpOutsideEventWithAutoCloseWithDo
 	self assert: windowManager currentWindow isOpened.
 	closed := false.
 	windowManager currentWindow addEventHandler: (BlEventHandler
-			 on: ToAnchoredWindowClosedEvent
+			 on: ToWindowClosedEvent
 			 do: [ closed := true ]).
 	(windowManager autoCloseOnMouseUpDelay + 1 milliSecond) wait.
 	event := BlMouseUpEvent primary position: 0 @ 0.

@@ -1,8 +1,8 @@
 Class {
 	#name : #ToPlaceholderLayer,
 	#superclass : #ToOverlayElement,
-	#traits : 'TToElement + TToEnableable',
-	#classTraits : 'TToElement classTrait + TToEnableable classTrait',
+	#traits : 'TToElement',
+	#classTraits : 'TToElement classTrait',
 	#category : #'Toplo-Widget-Pane'
 }
 

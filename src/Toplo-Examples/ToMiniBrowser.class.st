@@ -27,7 +27,7 @@ ToMiniBrowser >> candidateProtocolsForClass: aClass [
 		         ifTrue: [
 			         aClass organization allProtocols select: [ :p |
 				         aClass isLocalMethodsProtocol: p ] ]
-		         ifFalse: [ aClass organization allProtocols ].
+		         ifFalse: [ aClass allProtocols ].
 	^ prots sort: [ :a :b | a name < b name ]
 ]
 

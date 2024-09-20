@@ -13,6 +13,13 @@ ToListNodeMultiSelectionClickEventHandler >> clickLauncher: aProcessOrNil [
 	clickLauncher := aProcessOrNil
 ]
 
+{ #category : #'mouse handlers' }
+ToListNodeMultiSelectionClickEventHandler >> doubleClickEvent: anEvent [
+	
+	self terminateClickLauncherOnNode: anEvent currentTarget.
+	super doubleClickEvent: anEvent
+]
+
 { #category : #'events handling' }
 ToListNodeMultiSelectionClickEventHandler >> hasClickLauncher [
 
@@ -66,13 +73,6 @@ ToListNodeMultiSelectionClickEventHandler >> listClickOnNodeEvent: anEvent [
 	super listClickOnNodeEvent: anEvent.
 	self launchClick: [ self onClickOnNodeEvent: anEvent ] event: anEvent.
 	anEvent consume
-]
-
-{ #category : #'mouse handlers' }
-ToListNodeMultiSelectionClickEventHandler >> listDoubleClickEvent: anEvent [
-	
-	self terminateClickLauncherOnNode: anEvent currentTarget.
-	super listDoubleClickEvent: anEvent
 ]
 
 { #category : #'selection events' }

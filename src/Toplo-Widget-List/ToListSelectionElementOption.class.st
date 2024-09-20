@@ -215,8 +215,7 @@ ToListSelectionElementOption >> selectionContainer [
 { #category : #accessing }
 ToListSelectionElementOption >> selectionElements [
 
-	^ selectionContainer children select: [ :child |
-		  child isKindOf: ToListSelectionElement ]
+	^ groupHolder selectionElements
 ]
 
 { #category : #accessing }

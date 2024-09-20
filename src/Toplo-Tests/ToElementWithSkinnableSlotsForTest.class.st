@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'#child1 => ToSkinnableSlot',
 		'#child2 => ToSkinnableSlot',
-		'#skinStatesApplied'
+		'#skinStateQueueApplicationCount'
 	],
 	#category : #'Toplo-Tests-Core-Slots'
 }
@@ -38,11 +38,7 @@ ToElementWithSkinnableSlotsForTest >> initialize [
 
 	super initialize.
 	" count the number of state engine applyOn: (only for dirty element stored in the space) "
-	skinStatesApplied := 0.
-
-	self addEventHandler: (BlEventHandler
-			 on: ToSkinStateQueueAppliedEvent 
-			 do: [ skinStatesApplied := skinStatesApplied + 1 ])
+	skinStateQueueApplicationCount := 0
 ]
 
 { #category : #initialization }
@@ -63,8 +59,14 @@ ToElementWithSkinnableSlotsForTest >> skinRequestCount [
 	^ self skinManager skinRequestCount 
 ]
 
-{ #category : #accessing }
-ToElementWithSkinnableSlotsForTest >> skinStatesApplied [
+{ #category : #initialization }
+ToElementWithSkinnableSlotsForTest >> skinStateQueueApplicationCount [
 
-	^ skinStatesApplied
+	^ skinStateQueueApplicationCount 
+]
+
+{ #category : #initialization }
+ToElementWithSkinnableSlotsForTest >> skinStateQueueApplied [
+
+	skinStateQueueApplicationCount := skinStateQueueApplicationCount + 1
 ]

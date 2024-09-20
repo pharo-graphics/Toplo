@@ -41,12 +41,6 @@ ToInstalledSkinContextTest >> testInstallSkinIn [
 	eventHandlerCount := e eventDispatcher handlers size.
 	e ensureHaveSkinManager.
 	self assert: e skinManager notNil.
-	self
-		assert: e eventDispatcher handlers size
-		equals: eventHandlerCount + 1.
-	self assert: (e eventDispatcher handlers
-			 detect: [ :h | h isKindOf: ToSkinManagerEventHandler ]
-			 ifNone: [  ]) notNil.
 	skin := ToSkin new.
 	e skinManager ensureHaveSkinContext.
 	e skinManager skinContext installSkin: skin in: e.
@@ -61,7 +55,7 @@ ToInstalledSkinContextTest >> testInstallSkinIn [
 	self assert: e skinManager installedSkin identicalTo: skin.
 	self
 		assert: e eventDispatcher handlers size
-		equals: eventHandlerCount + 3
+		equals: eventHandlerCount + 2
 ]
 
 { #category : #tests }
@@ -91,9 +85,6 @@ ToInstalledSkinContextTest >> testUninstallSkinIn [
 	eventHandlerCount := e eventDispatcher handlers size.
 	e ensureHaveSkinManager.
 	self assert: e skinManager notNil.
-	self
-		assert: e eventDispatcher handlers size
-		equals: eventHandlerCount + 1.
 	skin := ToSkin new.
 	e skinManager ensureHaveSkinContext.
 	e skinManager skinContext installSkin: skin in: e.
@@ -101,14 +92,11 @@ ToInstalledSkinContextTest >> testUninstallSkinIn [
 	self assert: e skinManager installedSkin identicalTo: skin.
 	self
 		assert: e eventDispatcher handlers size
-		equals: eventHandlerCount + 3.
+		equals: eventHandlerCount + 2.
 	e skinManager skinContext uninstallSkinIn: e.
 	self
 		assert: e eventDispatcher handlers size
-		equals: eventHandlerCount + 1.
-	self assert: (e eventDispatcher handlers
-			 detect: [ :h | h isKindOf: ToSkinManagerEventHandler ]
-			 ifNone: [  ]) notNil.
+		equals: eventHandlerCount.
 	self assert: e skinManager notNil.
 	self assert: e skinManager installedSkin identicalTo: nil
 ]

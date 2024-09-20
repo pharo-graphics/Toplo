@@ -16,11 +16,15 @@ ToListNodeSelectionEventHandler >> clickEvent: anEvent [
 	anEvent consume
 ]
 
+{ #category : #'mouse handlers' }
+ToListNodeSelectionEventHandler >> doubleClickEvent: anEvent [
+]
+
 { #category : #'api - accessing' }
 ToListNodeSelectionEventHandler >> eventsToHandle [
 
 	^ {
-		  ToListDoubleClickEvent.
+		  BlDoubleClickEvent.
 		  BlPrimaryClickEvent.
 		  BlPrimaryMouseDownEvent.
 		  ToListClickOnNodeRequestEvent.
@@ -38,10 +42,6 @@ ToListNodeSelectionEventHandler >> listClickOnNodeRequestEvent: aListClickOnNode
 	node := aListClickOnNodeRequestEvent currentTarget.
 	node holder isSelectable ifFalse: [
 		aListClickOnNodeRequestEvent deny ]
-]
-
-{ #category : #'mouse handlers' }
-ToListNodeSelectionEventHandler >> listDoubleClickEvent: anEvent [
 ]
 
 { #category : #'mouse handlers' }

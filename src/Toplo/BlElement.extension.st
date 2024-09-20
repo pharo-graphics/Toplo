@@ -83,8 +83,16 @@ BlElement >> disable [
 
 	self isDisabled ifFalse: [
 		self flagAsDisabled.
-		self dispatchEvent: ToEnablementChangedEvent new  ].
+		self skinManagerDo: [ :sm | sm enablementChangedIn: self ] ].
 	self childrenDo: [ :child | child disable ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> disabled: aBoolean [
+
+	aBoolean 
+		ifTrue: [ self disable ]
+		ifFalse: [ self enable ]
 ]
 
 { #category : #'*Toplo' }
@@ -92,8 +100,16 @@ BlElement >> enable [
 
 	self isEnabled ifFalse: [
 		self flagAsEnabled.
-		self dispatchEvent: ToEnablementChangedEvent new ].
+		self skinManagerDo: [ :sm | sm enablementChangedIn: self ] ].
 	self childrenDo: [ :child | child enable ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> enabled: aBoolean [
+
+	aBoolean 
+		ifTrue: [ self enable ]
+		ifFalse: [ self disable ]
 ]
 
 { #category : #'*Toplo' }
@@ -111,10 +127,7 @@ BlElement >> ensureCanManageSkin [
 { #category : #'*Toplo' }
 BlElement >> ensureHaveSkinManager [
 
-	self userData at: #skinManager ifAbsentPut: [
-		self newSkinManager
-			onInstalledIn: self;
-			yourself ]
+	self userData at: #skinManager ifAbsentPut: [ self newSkinManager ]
 ]
 
 { #category : #'*Toplo' }
@@ -190,11 +203,8 @@ BlElement >> installShortcuts [
 { #category : #'*Toplo' }
 BlElement >> installedSkin [
 
-	self
-		deprecated: 'Please delegate to the skinManager instead'
-		transformWith: '`@receiver installedSkin' -> '`@receiver skinManager installedSkin'.
-
-	^ self skinManager installedSkin
+	self skinManagerDo: [ :sm | ^ sm installedSkin ].
+	^ nil
 ]
 
 { #category : #'*Toplo' }

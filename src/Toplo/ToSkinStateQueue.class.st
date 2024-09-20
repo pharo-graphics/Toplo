@@ -12,13 +12,9 @@ Class {
 { #category : #hook }
 ToSkinStateQueue >> applyEnqueuedStatesIn: anElement [
 
-	| nextInQueue atLeastOne |
-	atLeastOne := false.
-	[ (nextInQueue := self nextStates nextOrNil) isNotNil ] whileTrue: [
-		atLeastOne := true.
+	nextStates do: [ :nextInQueue | 
 		nextInQueue applyOn: anElement ].
-	atLeastOne ifTrue: [
-		anElement dispatchEvent: ToSkinStateQueueAppliedEvent new ]
+	nextStates reset
 ]
 
 { #category : #hook }
@@ -33,11 +29,7 @@ ToSkinStateQueue >> applyOn: anElement [
 ]
 
 { #category : #adding }
-ToSkinStateQueue >> enqueueInstallStateForElement: anElement [
-	" install state required  "
-
-	previousInstallState := ToInstallState new.
-	self enqueueState: previousInstallState for: anElement.
+ToSkinStateQueue >> enqueueEnablementStateForElement: anElement [
 
 	" restitute the intrasic states (as enablement, check)
 	enablement state must always be the last one to be enqueued "
@@ -51,10 +43,19 @@ ToSkinStateQueue >> enqueueInstallStateForElement: anElement [
 ]
 
 { #category : #adding }
+ToSkinStateQueue >> enqueueInstallStateForElement: anElement [
+	" install state required  "
+	
+	previousInstallState := ToInstallState new.
+	self enqueueState: previousInstallState for: anElement.
+	self enqueueEnablementStateForElement: anElement
+]
+
+{ #category : #adding }
 ToSkinStateQueue >> enqueueState: aState for: anElement [
 	" all states kinds are enqueued here "
 
-	self nextStates nextPut: aState.
+	nextStates add: aState.
 	anElement spaceDo: [ :sp |
 		sp needSkinStateApplicationPass: true ]
 ]
@@ -64,16 +65,10 @@ ToSkinStateQueue >> enqueueUninstallStateForElement: anElement [
 	" uninstall state required  "
 
 	" have to ignore previous look events to avoid to apply them to the new skin"
-	self nextStates flush.
+	nextStates reset.
 	previousInstallState := nil.
 	" store the uninstall state "
 	self enqueueState: ToUninstallState new for: anElement
-]
-
-{ #category : #hook }
-ToSkinStateQueue >> flushStates: aBlock [
-
-	self nextStates flush: aBlock
 ]
 
 { #category : #accessing }
@@ -86,7 +81,7 @@ ToSkinStateQueue >> hasInstallStateEnqueued [
 ToSkinStateQueue >> initialize [ 
 
 	super initialize.
-	nextStates := WaitfreeQueue new.
+	nextStates := OrderedCollection new.
 	" Use an ordered dictionary for intrinsicStateIndex to ensure that an 
 	EnableState is always the last state "
 	intrinsicStateIndex := OrderedIdentityDictionary new
@@ -102,12 +97,6 @@ ToSkinStateQueue >> intrinsicStatesDo: aBlock [
 ToSkinStateQueue >> nextStates [
 
 	^ nextStates
-]
-
-{ #category : #accessing }
-ToSkinStateQueue >> nextStates: anObject [
-
-	nextStates := anObject
 ]
 
 { #category : #'intrinsic states' }

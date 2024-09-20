@@ -9,7 +9,8 @@ Class {
 { #category : #'event handling' }
 ToListElementEventHandler >> blurEvent: anEvent [
 
-	self syncNodesSelectionIn: anEvent currentTarget 
+	anEvent currentTarget selectionElementsDo: [ :se |se dispatchEvent: anEvent copy].
+	self syncNodesSelectionIn: anEvent currentTarget
 ]
 
 { #category : #'selection managing' }
@@ -41,9 +42,7 @@ ToListElementEventHandler >> doubleClickEvent: anEvent [
 	target := anEvent currentTarget.
 	" first, inform the node that a double click is received "
 	target innerContainer nodesDo: [ :node |
-		node dispatchEvent: (ToListDoubleClickEvent new
-				 sourceEvent: anEvent;
-				 yourself) ].
+		node dispatchEvent: anEvent copy ].
 	target dispatchEvent: (ToListStrongSelectionEvent new
 			 indexes: target selectionModel selectedIndexes;
 			 yourself).
@@ -111,6 +110,7 @@ ToListElementEventHandler >> eventsToHandle [
 { #category : #'event handling' }
 ToListElementEventHandler >> focusEvent: anEvent [
 
+	anEvent currentTarget selectionElementsDo: [ :se |se dispatchEvent: anEvent copy].
 	self syncNodesSelectionIn: anEvent currentTarget 
 ]
 

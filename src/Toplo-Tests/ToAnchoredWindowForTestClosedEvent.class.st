@@ -1,6 +1,6 @@
 Class {
 	#name : #ToAnchoredWindowForTestClosedEvent,
-	#superclass : #ToAnchoredWindowClosedEvent,
+	#superclass : #ToWindowClosedEvent,
 	#category : #'Toplo-Tests-Core-Window'
 }
 

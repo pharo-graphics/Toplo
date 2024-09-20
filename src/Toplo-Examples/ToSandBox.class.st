@@ -2708,6 +2708,37 @@ ToSandBox class >> example_buttonWithActionControl [
 ]
 
 { #category : #button }
+ToSandBox class >> example_buttonWithDisableEnable [
+
+
+	| space button pane disacbox |
+	space := BlSpace new.
+	space root layout: BlLinearLayout vertical.
+
+	pane := ToPane vertical.
+	pane layout cellSpacing: 5.
+	pane padding: (BlInsets all: 5).
+
+	disacbox := ToCheckbox new label:
+		           (ToLabel text: 'Disable').
+	button := (ToButton id: #buttonA)
+		                  labelText: 'Button';
+		                  yourself.
+
+	disacbox addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :evt |
+				 button disabled: evt current ]).
+
+	pane addChild: disacbox.
+	pane addChild: button.
+	disacbox checked: true.
+	button addEventHandlerOn: ToSkinEvent do: [ :event | event traceCr ].
+	space root addChild: pane.
+	space show
+]
+
+{ #category : #button }
 ToSandBox class >> example_buttonWithIcon [
 
 	| but space |
@@ -3536,13 +3567,12 @@ ToSandBox class >> example_segmentedWithToggleButton [
 
 	| seg dashBoard rootPane feedbackPane maj |
 	seg := ToSegmentedElement new.
-	seg matchParent.
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
 		seg segmentAccessor add:
 			((ToToggleButton new label: (ToLabel text: l))
 				 defaultRawSkin: ToToggleInSegmentedSkin new;
 				 whenClickedDo: [ :event | event currentTarget label text traceCr ];
-				" flexible: true;"
+				 flexible: true;
 				 yourself) ].
 
 	dashBoard := self segmentedDashBoardFor: seg.
@@ -3572,7 +3602,7 @@ ToSandBox class >> example_segmentedWithToggleButton [
 				 ' double click ' trace.
 				 event indexes traceCr ]).
 
-	seg addEventHandlerOn: ToListPrimarySelectionChangedEvent do: maj.
+	seg barElement addEventHandlerOn: ToListPrimarySelectionChangedEvent do: maj.
 	seg addEventHandlerOn: BlElementAddedToSceneGraphEvent do: maj.
 	rootPane := ToPane vertical.
 	rootPane matchParent.
@@ -4508,7 +4538,6 @@ ToSandBox class >> example_toLabel0 [
 
 	| lab |
 	lab := ToLabel new.
-	lab border: (BlBorder paint: Color black).
 	lab openInSpace
 ]
 

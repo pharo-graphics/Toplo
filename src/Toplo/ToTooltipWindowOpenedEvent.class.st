@@ -1,6 +1,6 @@
 Class {
 	#name : #ToTooltipWindowOpenedEvent,
-	#superclass : #ToAnchoredWindowOpenedEvent,
+	#superclass : #ToWindowOpenedEvent,
 	#category : #'Toplo-Core-Tooltip'
 }
 

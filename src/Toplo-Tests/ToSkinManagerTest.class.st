@@ -411,26 +411,6 @@ ToSkinManagerTest >> testOnInstalledIn [
 ]
 
 { #category : #tests }
-ToSkinManagerTest >> testOnUninstalledIn [
-
-	| e |
-	e := ToElement new.
-	self assert: (e eventDispatcher handlers
-			 detect: [ :h | h isKindOf: ToSkinManagerEventHandler ]
-			 ifNone: [  ]) notNil.
-	self assert: e skinManager registeredThemeClasses notNil.
-	self assert: e skinManager skinInstaller isNil.
-	self assert: e skinManager skinUninstaller isNil.
-	self assert: e skinManager skinManagementEventHandler notNil.
-	e skinManager onUninstalledIn: e.
-	e eventDispatcher handlers noneSatisfy: [ :h |
-		h isKindOf: ToSkinManagerEventHandler ].
-	self assert: e skinManager skinInstaller isNil.
-	self assert: e skinManager skinUninstaller isNil.
-	self assert: e skinManager skinManagementEventHandler isNil
-]
-
-{ #category : #tests }
 ToSkinManagerTest >> testPostponeRequestSkinIn [
 
 	| e handlersNb |

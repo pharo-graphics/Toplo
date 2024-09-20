@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMenuWindowOpenedEvent,
-	#superclass : #ToAnchoredWindowOpenedEvent,
+	#superclass : #ToWindowOpenedEvent,
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 

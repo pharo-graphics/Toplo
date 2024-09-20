@@ -16,7 +16,7 @@ ToIntrinsicStateTest >> testApplyOn [
 { #category : #tests }
 ToIntrinsicStateTest >> testApplyOnEnqueueFromElementInQueue [
 
-	| e nextInQueue firstValState secondValState |
+	| e firstValState secondValState |
 	e := ToElement new.
 	firstValState := ToIntrinsicStateStub new val: #firstVal.
 	firstValState
@@ -35,8 +35,7 @@ ToIntrinsicStateTest >> testApplyOnEnqueueFromElementInQueue [
 
 	self assert: firstValState applyCount equals: 1.
 	self assert: secondValState applyCount equals: 1.
-	nextInQueue := e skinManager skinStateQueue nextStates nextOrNil.
-	self assert: nextInQueue isNil
+	self assert: e skinManager skinStateQueue nextStates isEmpty
 ]
 
 { #category : #running }
@@ -96,22 +95,21 @@ ToIntrinsicStateTest >> testRequestEnqueueFromElementInQueue [
 		requestEnqueueFromElement: e
 		inQueue: e skinManager skinStateQueue.
 	self assert: state canBeEnqueued.
-	nextInQueue := e skinManager skinStateQueue nextStates nextOrNil.
+	nextInQueue := e skinManager skinStateQueue nextStates first.
 	self assert: (nextInQueue isKindOf: ToInstallState).
-	nextInQueue := e skinManager skinStateQueue nextStates nextOrNil.
+	nextInQueue := e skinManager skinStateQueue nextStates second.
 	self assert: (nextInQueue isKindOf: ToIntrinsicStateStub).
 	" the previously enqueued state was for #firstVal "
 	firstValState := nextInQueue.
 	self assert: nextInQueue val equals: #firstVal.
-	nextInQueue := e skinManager skinStateQueue nextStates nextOrNil.
+	nextInQueue := e skinManager skinStateQueue nextStates third.
 	self assert: (nextInQueue isKindOf: ToEnablementState).
-	nextInQueue := e skinManager skinStateQueue nextStates nextOrNil.
+	nextInQueue := e skinManager skinStateQueue nextStates fourth.
 	self assert: (nextInQueue isKindOf: ToIntrinsicStateStub).
 	" the last enqueued state is for #secondVal "
 	secondValState := nextInQueue.
 	self assert: nextInQueue val equals: #secondVal.
-	nextInQueue := e skinManager skinStateQueue nextStates nextOrNil.
-	self assert: nextInQueue isNil
+	self assert: e skinManager skinStateQueue nextStates size = 4
 ]
 
 { #category : #running }

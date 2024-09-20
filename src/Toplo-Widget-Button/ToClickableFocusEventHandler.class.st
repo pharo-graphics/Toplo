@@ -20,5 +20,8 @@ ToClickableFocusEventHandler >> handleEvent: anEvent [
 { #category : #'api - event managing' }
 ToClickableFocusEventHandler >> wantsEvent: anEvent [
 
-	^ anEvent isKindOf: anEvent currentTarget clickEventClass
+	| target |
+	target := anEvent currentTarget.
+	^ target takeFocusOnClick and: [
+		  anEvent isKindOf: target clickEventClass ]
 ]

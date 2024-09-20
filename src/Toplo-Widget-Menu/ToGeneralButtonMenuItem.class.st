@@ -48,6 +48,7 @@ ToGeneralButtonMenuItem >> initialize [
 	super initialize.
 	self button: self buttonClass new.
 	self button withNullSkin.
+	self button takeFocusOnClick: false.
 	self button clickEventClass: BlMouseUpEvent.
 	self layout: self defaultLayout
 ]

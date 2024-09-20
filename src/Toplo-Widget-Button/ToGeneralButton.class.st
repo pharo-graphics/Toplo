@@ -5,7 +5,8 @@ Class {
 	#classTraits : 'TToClickable classTrait',
 	#instVars : [
 		'clickHandler',
-		'clickEventClass'
+		'clickEventClass',
+		'takeFocusOnClick'
 	],
 	#category : #'Toplo-Widget-Button-Core'
 }
@@ -33,6 +34,7 @@ ToGeneralButton >> initialize [
 
 	super initialize.
 	self addEventHandler: ToClickableFocusEventHandler new.
+	takeFocusOnClick := true.
 	self allowMousePickOutsideEvent
 ]
 
@@ -52,4 +54,16 @@ ToGeneralButton >> rawClickEventClass [
 ToGeneralButton >> rawClickEventClass: anEventClass [
 
 	clickEventClass := anEventClass 
+]
+
+{ #category : #accessing }
+ToGeneralButton >> takeFocusOnClick [
+
+	^ takeFocusOnClick
+]
+
+{ #category : #accessing }
+ToGeneralButton >> takeFocusOnClick: aBoolean [
+
+	takeFocusOnClick := aBoolean
 ]

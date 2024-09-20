@@ -2708,6 +2708,37 @@ ToSandBox class >> example_buttonWithActionControl [
 ]
 
 { #category : #button }
+ToSandBox class >> example_buttonWithDisableEnable [
+
+
+	| space button pane disacbox |
+	space := BlSpace new.
+	space root layout: BlLinearLayout vertical.
+
+	pane := ToPane vertical.
+	pane layout cellSpacing: 5.
+	pane padding: (BlInsets all: 5).
+
+	disacbox := ToCheckbox new label:
+		           (ToLabel text: 'Disable').
+	button := (ToButton id: #buttonA)
+		                  labelText: 'Button';
+		                  yourself.
+
+	disacbox addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :evt |
+				 button disabled: evt current ]).
+
+	pane addChild: disacbox.
+	pane addChild: button.
+	disacbox checked: true.
+	button addEventHandlerOn: ToSkinEvent do: [ :event | event traceCr ].
+	space root addChild: pane.
+	space show
+]
+
+{ #category : #button }
 ToSandBox class >> example_buttonWithIcon [
 
 	| but space |

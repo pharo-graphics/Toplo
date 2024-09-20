@@ -401,7 +401,7 @@ ToSkinStateGenerator >> mouseUpOutsideEvent: anEvent [
 ToSkinStateGenerator >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	leaved := false.
+	leaved := true.
 	dragged := false.
 	pressed := false.
 	" need to store the element for mouse outside event interpreting "

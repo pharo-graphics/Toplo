@@ -11,7 +11,8 @@ Class {
 ToSkinManagerForTest >> initialize [ 
 
 	super initialize.
-	skinInstalledCount := 0
+	skinInstalledCount := 0.
+	skinStateQueue := ToSkinStateQueueForTest new
 ]
 
 { #category : #'skin - installing / uninstalling' }

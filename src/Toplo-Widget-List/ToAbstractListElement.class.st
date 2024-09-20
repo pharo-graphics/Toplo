@@ -525,7 +525,7 @@ ToAbstractListElement >> selecter [
 ToAbstractListElement >> selectionElementsDo: aBlock [
 
 	selectionModeMap valuesDo: [ :mode |
-		mode option selectionElements do: [ :se | aBlock value: se ] ]
+		mode optionDo: [ :opt | opt selectionElements do: [ :se | aBlock value: se ] ] ]
 ]
 
 { #category : #accessing }

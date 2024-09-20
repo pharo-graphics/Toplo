@@ -72,7 +72,7 @@ ToElementTest >> testApplySkinInstallerOnFirstRequestWithPostponedRequest [
 	- by the postponed request
 	- by the theme installation "
 	self assert: e skinManager skinInstaller notNil.
-	space applyAllSkinInstallers.
+	space applyAllSkinPhases.
 	" now all is in normal state "
 	self assert: e skinManager skinInstaller isNil.
 	self assert:

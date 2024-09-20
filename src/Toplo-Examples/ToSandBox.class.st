@@ -3536,13 +3536,12 @@ ToSandBox class >> example_segmentedWithToggleButton [
 
 	| seg dashBoard rootPane feedbackPane maj |
 	seg := ToSegmentedElement new.
-	seg matchParent.
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
 		seg segmentAccessor add:
 			((ToToggleButton new label: (ToLabel text: l))
 				 defaultRawSkin: ToToggleInSegmentedSkin new;
 				 whenClickedDo: [ :event | event currentTarget label text traceCr ];
-				" flexible: true;"
+				 flexible: true;
 				 yourself) ].
 
 	dashBoard := self segmentedDashBoardFor: seg.
@@ -3572,7 +3571,7 @@ ToSandBox class >> example_segmentedWithToggleButton [
 				 ' double click ' trace.
 				 event indexes traceCr ]).
 
-	seg addEventHandlerOn: ToListPrimarySelectionChangedEvent do: maj.
+	seg barElement addEventHandlerOn: ToListPrimarySelectionChangedEvent do: maj.
 	seg addEventHandlerOn: BlElementAddedToSceneGraphEvent do: maj.
 	rootPane := ToPane vertical.
 	rootPane matchParent.
@@ -4508,7 +4507,6 @@ ToSandBox class >> example_toLabel0 [
 
 	| lab |
 	lab := ToLabel new.
-	lab border: (BlBorder paint: Color black).
 	lab openInSpace
 ]
 

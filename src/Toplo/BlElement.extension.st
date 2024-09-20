@@ -88,12 +88,28 @@ BlElement >> disable [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> disabled: aBoolean [
+
+	aBoolean 
+		ifTrue: [ self disable ]
+		ifFalse: [ self enable ]
+]
+
+{ #category : #'*Toplo' }
 BlElement >> enable [
 
 	self isEnabled ifFalse: [
 		self flagAsEnabled.
 		self skinManagerDo: [ :sm | sm enablementChangedIn: self ] ].
 	self childrenDo: [ :child | child enable ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> enabled: aBoolean [
+
+	aBoolean 
+		ifTrue: [ self enable ]
+		ifFalse: [ self disable ]
 ]
 
 { #category : #'*Toplo' }
@@ -187,11 +203,8 @@ BlElement >> installShortcuts [
 { #category : #'*Toplo' }
 BlElement >> installedSkin [
 
-	self
-		deprecated: 'Please delegate to the skinManager instead'
-		transformWith: '`@receiver installedSkin' -> '`@receiver skinManager installedSkin'.
-
-	^ self skinManager installedSkin
+	self skinManagerDo: [ :sm | ^ sm installedSkin ].
+	^ nil
 ]
 
 { #category : #'*Toplo' }

@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Core-States'
 }
 
-{ #category : #'look event sending' }
+{ #category : #accessing }
 ToInstallState >> skinEventClass [
 
 	^ ToInstallSkinEvent

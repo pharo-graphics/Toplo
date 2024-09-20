@@ -43,9 +43,9 @@ ToSkinStateQueueTest >> testEnqueueInstallStateFor [
 	q enqueueInstallStateForElement: e.
 	" on enqueued, the state requests a next pulse and the queue is emptied "
 	self assert: q nextStates size equals: 2.
-	self assert: q nextStates nextOrNil class identicalTo: ToInstallState.
+	self assert: q nextStates first class identicalTo: ToInstallState.
 	self
-		assert: q nextStates nextOrNil class
+		assert: q nextStates second class
 		identicalTo: ToEnablementState.
 	" the skin should not be installed for now because the element has no skin installer"
 	self

@@ -71,6 +71,12 @@ ToSegmentedElement >> nodeWrapping: aBoolean [
 	barElement nodeWrapping: aBoolean
 ]
 
+{ #category : #accessing }
+ToSegmentedElement >> primarySelectionMode [
+
+	^ barElement primarySelectionMode
+]
+
 { #category : #'t - checkable holder' }
 ToSegmentedElement >> rawGroup [ 
 
@@ -93,12 +99,6 @@ ToSegmentedElement >> secondarySelectionMode [
 ToSegmentedElement >> segmentAccessor [ 
 
 	^ barElement segmentAccessor 
-]
-
-{ #category : #accessing }
-ToSegmentedElement >> selectionMode [
-
-	^ barElement primarySelectionMode
 ]
 
 { #category : #accessing }

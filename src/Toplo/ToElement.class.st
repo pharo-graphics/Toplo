@@ -1,8 +1,8 @@
 Class {
 	#name : #ToElement,
 	#superclass : #BlElement,
-	#traits : 'TBlLayoutResizable + TToElement + TToEnableable + TToElementWithTooltip + TToElementWithContextMenu + TToAuthorisationRequestTarget',
-	#classTraits : 'TBlLayoutResizable classTrait + TToElement classTrait + TToEnableable classTrait + TToElementWithTooltip classTrait + TToElementWithContextMenu classTrait + TToAuthorisationRequestTarget classTrait',
+	#traits : 'TBlLayoutResizable + TToElement + TToElementWithTooltip + TToElementWithContextMenu + TToAuthorisationRequestTarget',
+	#classTraits : 'TBlLayoutResizable classTrait + TToElement classTrait + TToElementWithTooltip classTrait + TToElementWithContextMenu classTrait + TToAuthorisationRequestTarget classTrait',
 	#category : #'Toplo-Core'
 }
 

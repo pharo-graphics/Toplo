@@ -16,5 +16,5 @@ ToWindowEvent >> windowManager [
 { #category : #accessing }
 ToWindowEvent >> windowManager: anAnchoredWindowManager [
 
-	windowManager := anAnchoredWindowManager
+	windowManager := anAnchoredWindowManager 
 ]

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'feedback',
 		'backgroundAnimation',
-		'coverColor'
+		'flashCoverColor'
 	],
 	#category : #'Toplo-Widget-Album-TextPane'
 }
@@ -13,8 +13,9 @@ Class {
 ToAlbumEditsFeedbackLayer >> attachTo: anEditorElement [
 
 	super attachTo: anEditorElement.
-
-	coverColor := Color red alpha: 0.1.
+	self flag: 'I should have my own skin'.
+	flashCoverColor := Color red alpha: 0.1.
+	
 	anEditorElement addEventHandler: (BlEventHandler
 			 on: ToAlbumFlashRequestedEvent
 			 do: [ self flash ]).
@@ -58,7 +59,7 @@ ToAlbumEditsFeedbackLayer >> coverWithColor: aCoverColor [
 { #category : #'api - attaching / detaching' }
 ToAlbumEditsFeedbackLayer >> flash [
 
-	self coverWithColor: coverColor
+	self coverWithColor: flashCoverColor
 ]
 
 { #category : #'edition-flag' }

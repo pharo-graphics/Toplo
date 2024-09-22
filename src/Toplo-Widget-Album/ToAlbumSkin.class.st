@@ -1,6 +1,9 @@
 Class {
 	#name : #ToAlbumSkin,
 	#superclass : #ToRawSkin,
+	#instVars : [
+		'enablementFeedbackLayer'
+	],
 	#category : #'Toplo-Widget-Album-TextPane'
 }
 
@@ -10,6 +13,31 @@ ToAlbumSkin >> blurBorderIn: anAlbum [
 	^ BlBorder
 		  paint: (anAlbum valueOfTokenNamed: #'border-paint')
 		  width: (anAlbum valueOfTokenNamed: #'border-width')
+]
+
+{ #category : #'event handling' }
+ToAlbumSkin >> disabledSkinEvent: anEvent [
+
+	super disabledSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e border: (self blurBorderIn: e).
+		self flag: 'A ToAlbumEnablementFeedbackLayer should have its own skin'.
+		enablementFeedbackLayer := ToAlbumEnablementFeedbackLayer new.
+		enablementFeedbackLayer background: 
+			(e valueOfTokenNamed: #'text-editor-background-disabled').
+		enablementFeedbackLayer attachTo: e.
+		e addChild: enablementFeedbackLayer ]
+]
+
+{ #category : #'event handling' }
+ToAlbumSkin >> enabledSkinEvent: anEvent [
+
+	super enabledSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e border: (self blurBorderIn: e).
+		enablementFeedbackLayer ifNotNil: [
+			enablementFeedbackLayer removeFromParent.
+			enablementFeedbackLayer := nil ] ]
 ]
 
 { #category : #accessing }
@@ -46,8 +74,6 @@ ToAlbumSkin >> installSkinEvent: anEvent [
 			e text
 				fontSize: 24;
 				foreground: Color gray lighter ].
-		e border: (self blurBorderIn: e).
-		e background: (e valueOfTokenNamed: #'color-bg-container').
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:
 				 (e valueOfTokenNamed: 'border-radius')).
 		e margin: BlInsets empty.

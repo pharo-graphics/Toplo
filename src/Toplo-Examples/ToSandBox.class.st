@@ -1224,6 +1224,10 @@ ToSandBox class >> example_ListWithAllClassesAsButton [
 				      labelText: dataItem name;
 				      hMatchParent) ].
 	l dataAccessor addAll: Smalltalk globals allClasses.
+	l addEventHandler: (BlEventHandler
+			 on: ToListPrimarySelectionChangedEvent
+			 do: [ :evt | evt traceCr ]).
+	l primarySelectionMode option beneath: false.
 	l openInSpace
 ]
 
@@ -1234,16 +1238,21 @@ ToSandBox class >> example_ListWithAllClassesAsToggleButton [
 	l := ToListElement new nodeBuilder: [ :node :dataItem :holder |
 		     | toggle |
 		     toggle := ToToggleButton new
-			               labelText: dataItem name;
+			               label: (ToLabel new
+					                text: dataItem name;
+					                withNullSkin);
 			               hMatchParent;
 			               checked: holder isSelected.
+		     toggle takeFocusOnClick: false.
 		     toggle whenClickedDo: [ :event |
+				" consume the source event here because the selection is managed through the toggle button"
+			     event sourceEvent consume.
 			     holder isSelected
 				     ifTrue: [
 				     holder listElement selecter deselectIndex: holder position ]
 				     ifFalse: [
 				     holder listElement selecter selectIndex: holder position ] ].
-		     node addChild: toggle ].
+		     node addChild: toggle. ].
 	l dataAccessor addAll: Smalltalk globals allClasses.
 	l primarySelectionMode option masked: true.
 	l openInSpace

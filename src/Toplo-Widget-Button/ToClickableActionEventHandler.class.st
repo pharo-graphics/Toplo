@@ -42,14 +42,16 @@ ToClickableActionEventHandler >> handleEvent: anEvent [
 	anEvent sendTo: self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'event handling' }
 ToClickableActionEventHandler >> receiveClickEvent: anEvent [
 
 	| req target |
 	target := anEvent currentTarget.
 	req := ToClickableActionRequestEvent new
 		       requestedAction: [
-			       target fireEvent: ToClickableRunActionEvent new ];
+			       target fireEvent: (ToClickableRunActionEvent new
+						        sourceEvent: anEvent;
+						        yourself) ];
 		       yourself.
 	target fireAuthorisationRequest: req
 ]

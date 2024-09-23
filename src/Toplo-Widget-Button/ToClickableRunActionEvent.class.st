@@ -1,6 +1,9 @@
 Class {
 	#name : #ToClickableRunActionEvent,
 	#superclass : #BlEvent,
+	#instVars : [
+		'sourceEvent'
+	],
 	#category : #'Toplo-Widget-Button-Core'
 }
 
@@ -8,4 +11,16 @@ Class {
 ToClickableRunActionEvent >> sendTo: anObject [
 
 	anObject clickableRunActionEvent: self
+]
+
+{ #category : #accessing }
+ToClickableRunActionEvent >> sourceEvent [
+
+	^ sourceEvent
+]
+
+{ #category : #accessing }
+ToClickableRunActionEvent >> sourceEvent: anEvent [
+
+	sourceEvent := anEvent
 ]

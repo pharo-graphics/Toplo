@@ -5547,6 +5547,7 @@ ToSandBox class >> resizerBoardFor: aBar [
 			             withoutLineWrapping;
 			             withSaveCapability;
 			             yourself.
+		"dir = #Horizontal ifTrue: [ sizeInput addEventHandlerOn: ToSkinEvent do: [ :event | event traceCr ] ]."
 		aBar addEventHandlerOn: BlElementExtentChangedEvent do: [ :event |
 			dir = #Horizontal
 				ifTrue: [ sizeInput text: aBar width asString ]

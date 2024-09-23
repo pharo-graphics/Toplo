@@ -2,13 +2,13 @@
 A ToSkinStateGeneratorTest is a test class for testing the behavior of ToSkinStateGenerator
 "
 Class {
-	#name : #ToSkinStateGeneratorStub,
+	#name : #ToSkinStateGeneratorTest,
 	#superclass : #ToTestCaseWithSpace,
 	#category : #'Toplo-Tests-Core-States'
 }
 
 { #category : #'instance creation' }
-ToSkinStateGeneratorStub >> newElementInSpace [
+ToSkinStateGeneratorTest >> newElementInSpace [
 
 	| e |
 	e := ToElement new.
@@ -23,13 +23,13 @@ ToSkinStateGeneratorStub >> newElementInSpace [
 ]
 
 { #category : #tests }
-ToSkinStateGeneratorStub >> testCheckableCheckEvent [
+ToSkinStateGeneratorTest >> testCheckableCheckEvent [
 
 	self testGenerateCheckStateFromEvent 
 ]
 
 { #category : #tests }
-ToSkinStateGeneratorStub >> testGenerateCheckStateFromEvent [
+ToSkinStateGeneratorTest >> testGenerateCheckStateFromEvent [
 
 	| e evt nextStates nextStatesSize |
 	e := self newElementInSpace.
@@ -72,7 +72,7 @@ ToSkinStateGeneratorStub >> testGenerateCheckStateFromEvent [
 ]
 
 { #category : #tests }
-ToSkinStateGeneratorStub >> testGenerateClickedStateFromEvent [
+ToSkinStateGeneratorTest >> testGenerateClickedStateFromEvent [
 
 	| e evt nextStates nextStatesSize |
 	e := self newElementInSpace.
@@ -97,7 +97,7 @@ ToSkinStateGeneratorStub >> testGenerateClickedStateFromEvent [
 ]
 
 { #category : #tests }
-ToSkinStateGeneratorStub >> testGenerateHoveredStateFromEvent [
+ToSkinStateGeneratorTest >> testGenerateHoveredStateFromEvent [
 
 	| e evt nextStates nextStatesSize |
 	e := self newElementInSpace.
@@ -126,7 +126,7 @@ ToSkinStateGeneratorStub >> testGenerateHoveredStateFromEvent [
 ]
 
 { #category : #tests }
-ToSkinStateGeneratorStub >> testOnInstalledIn [
+ToSkinStateGeneratorTest >> testOnInstalledIn [
 
 	| e h |
 	e := ToElement new.
@@ -139,13 +139,13 @@ ToSkinStateGeneratorStub >> testOnInstalledIn [
 ]
 
 { #category : #tests }
-ToSkinStateGeneratorStub >> testOnUninstalledIn [
+ToSkinStateGeneratorTest >> testOnUninstalledIn [
 
 	self testOnInstalledIn
 ]
 
 { #category : #tests }
-ToSkinStateGeneratorStub >> testTarget [
+ToSkinStateGeneratorTest >> testTarget [
 
 	| e gen |
 	e := ToElement new.
@@ -160,7 +160,7 @@ ToSkinStateGeneratorStub >> testTarget [
 ]
 
 { #category : #tests }
-ToSkinStateGeneratorStub >> testWantsEvent [
+ToSkinStateGeneratorTest >> testWantsEvent [
 
 	| e gen  |
 	e := ToElement new.

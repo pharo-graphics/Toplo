@@ -1110,66 +1110,6 @@ ToSandBox class >> example_LabeledIconlWithIconAndText_vertical_interspace [
 ]
 
 { #category : #list }
-ToSandBox class >> example_List2WithAllClassesMono [
-
-	| l |
-	l := ToListElement new.
-	l primarySelectionMode beSingleSelection.
-	l dataAccessor addAll:
-		(Smalltalk globals allClasses collect: [ :cls | cls name ]).
-	l openInSpace
-]
-
-{ #category : #list }
-ToSandBox class >> example_List2WithAllClassesMulti [
-
-	| l |
-	l := ToListElement new.
-	l withRowNumbers.
-	"l selectionModel inspect."
-	l dataAccessor addAll:
-		(Smalltalk globals allClasses collect: [ :cls | cls name ]).
-	l openInSpace
-]
-
-{ #category : #list }
-ToSandBox class >> example_List2WithAllClassesNone [
-
-	| l |
-	l := ToListElement new.
-	l primarySelectionMode disable.
-	l dataAccessor addAll:
-		(Smalltalk globals allClasses collect: [ :cls | cls name ]).
-	l openInSpace
-]
-
-{ #category : #list }
-ToSandBox class >> example_List2WithSelectionHistory [
-
-	| statesList historyList pane |
-	pane := ToPane horizontal.
-	statesList := ToListElement new matchParent.
-
-	historyList := ToListElement new matchParent.
-	statesList dataAccessor addAll: self statesOfAmerica.
-	pane addChildren: {
-			statesList.
-			historyList }.
-
-	statesList addEventHandler:
-		(ToListSelectionHistoryEventHandlerExamplePart new historyList:
-			 historyList).
-	statesList addEventHandler: (BlEventHandler
-			 on: ToListSelectionCommandAppliedEvent
-			 do: [ :event | event traceCr ]).
-
-	pane
-		matchParent;
-		addDividers.
-	pane openInInnerWindow
-]
-
-{ #category : #list }
 ToSandBox class >> example_ListOneClass [
 
 	| l |
@@ -1302,11 +1242,44 @@ ToSandBox class >> example_ListWithAllClassesAsToggleButton [
 				     ifTrue: [
 				     holder listElement selecter deselectIndex: holder position ]
 				     ifFalse: [
-				     holder listElement selecter selectIndex: holder position ].
-			     event traceCr ].
+				     holder listElement selecter selectIndex: holder position ] ].
 		     node addChild: toggle ].
 	l dataAccessor addAll: Smalltalk globals allClasses.
 	l primarySelectionMode option masked: true.
+	l openInSpace
+]
+
+{ #category : #list }
+ToSandBox class >> example_ListWithAllClassesMono [
+
+	| l |
+	l := ToListElement new.
+	l primarySelectionMode beSingleSelection.
+	l dataAccessor addAll:
+		(Smalltalk globals allClasses collect: [ :cls | cls name ]).
+	l openInSpace
+]
+
+{ #category : #list }
+ToSandBox class >> example_ListWithAllClassesMulti [
+
+	| l |
+	l := ToListElement new.
+	l withRowNumbers.
+	"l selectionModel inspect."
+	l dataAccessor addAll:
+		(Smalltalk globals allClasses collect: [ :cls | cls name ]).
+	l openInSpace
+]
+
+{ #category : #list }
+ToSandBox class >> example_ListWithAllClassesNone [
+
+	| l |
+	l := ToListElement new.
+	l primarySelectionMode disable.
+	l dataAccessor addAll:
+		(Smalltalk globals allClasses collect: [ :cls | cls name ]).
 	l openInSpace
 ]
 
@@ -1393,6 +1366,54 @@ ToSandBox class >> example_ListWithPanes [
 	list primarySelectionMode option beneath: false.
 	list dataAccessor addAll: (1 to: 1000).
 	list openInSpace
+]
+
+{ #category : #list }
+ToSandBox class >> example_ListWithSelectionHistory [
+
+	| statesList historyList pane |
+	pane := ToPane horizontal.
+	statesList := ToListElement new matchParent.
+
+	historyList := ToListElement new matchParent.
+	statesList dataAccessor addAll: self statesOfAmerica.
+	pane addChildren: {
+			statesList.
+			historyList }.
+
+	statesList addEventHandler:
+		(ToListSelectionHistoryExampleEventHandler new historyList:
+			 historyList).
+	statesList addEventHandler: (BlEventHandler
+			 on: ToListSelectionCommandAppliedEvent
+			 do: [ :event | event traceCr ]).
+
+	pane
+		matchParent;
+		addDividers.
+	pane openInInnerWindow
+]
+
+{ #category : #list }
+ToSandBox class >> example_ListWithSelectionTrace [
+
+	| statesList |
+	statesList := ToListElement new matchParent.
+	statesList withRowNumbers.
+	statesList dataAccessor addAll: self statesOfAmerica.
+	statesList addEventHandler:
+		ToListSelectionTraceExampleEventHandler new.
+	" use of userData is ok here for the example but a subclass of ToListElement 
+	would be preferable to store the traceSelectionModel as an instance variable"
+	statesList userData
+		at: #traceSelectionModel
+		put: statesList newSelectionModel.
+	" mandatory option here: the selection are separate (one selection element for each selected node)"
+	statesList primarySelectionMode option grouped: false.
+	statesList primarySelectionMode option elementFactory: [
+		ToListBasicSelectionElement new defaultSkin:
+			ToTraceListPrimarySelectionElementSkin new ].
+	statesList openInSpace
 ]
 
 { #category : #list }

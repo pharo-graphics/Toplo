@@ -13,9 +13,10 @@ ToToggleButtonSkin >> checkedSkinEvent: anEvent [
 		e iconDo: [ :ic |
 			ic innerImageColor:
 				(e valueOfTokenNamed: #'text-color-primary-checked') ].
-		e labelDo: [ :lab |
-			lab text attributes: { (BlTextForegroundAttribute paint:
-					 (e valueOfTokenNamed: #'text-color-primary-checked')) } ] ]
+		e labelDo: [ :lab | 
+			lab foreground:  
+					 (e valueOfTokenNamed: #'text-color-primary-checked').
+			lab applyStyle ] ]
 ]
 
 { #category : #'event handling' }

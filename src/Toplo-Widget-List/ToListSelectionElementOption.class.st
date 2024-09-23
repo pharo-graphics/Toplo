@@ -9,9 +9,9 @@ Class {
 		'animationDuration',
 		'selectionContainer',
 		'groupHolder',
-		'selectionModel',
 		'listEventHandler',
-		'elementFactory'
+		'elementFactory',
+		'selectionMode'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
@@ -76,11 +76,11 @@ ToListSelectionElementOption >> currentSelectionGroupsFrom: aListElement [
 	^ grouped
 		  ifTrue: [
 			  (aListElement innerContainer nodeGroupsSatisfying: [ :node |
-				   selectionModel containsIndex: node holder position ]) collect: [
+				   self selectionModel containsIndex: node holder position ]) collect: [
 				  :arr | ToNeighboringSelection new nodes: arr ] ]
 		  ifFalse: [
 			  (aListElement innerContainer nodesSelect: [ :node |
-				   selectionModel containsIndex: node holder position ]) collect: [
+				   self selectionModel containsIndex: node holder position ]) collect: [
 				  :node | ToSeparateSelection new node: node ] ]
 ]
 
@@ -147,6 +147,12 @@ ToListSelectionElementOption >> isSeparate [
 ]
 
 { #category : #accessing }
+ToListSelectionElementOption >> listElement [
+
+	^ selectionMode listElement
+]
+
+{ #category : #accessing }
 ToListSelectionElementOption >> listEventHandler: aListEventHandler [
 
 	listEventHandler := aListEventHandler
@@ -188,22 +194,16 @@ ToListSelectionElementOption >> newSelectionElementIn: aListElement [
 ]
 
 { #category : #'api - hooks' }
-ToListSelectionElementOption >> onInstalledIn: aListElement [
+ToListSelectionElementOption >> onMode: aListSelectionMode [
 
-	aListElement addEventHandler: listEventHandler.
-	selectionContainer := self newSelectionContainerIn: aListElement.
-	aListElement addChild: selectionContainer
-]
-
-{ #category : #'api - hooks' }
-ToListSelectionElementOption >> onUninstalledIn: aListElement [
-
-	aListElement removeEventHandler: listEventHandler.
-	selectionContainer removeFromParent.
-	selectionContainer := nil.
-	listEventHandler := nil.
-	elementFactory := nil.
-	selectionModel := nil
+	| listElement |
+	selectionMode ifNotNil: [
+		(BlImmutableObjectChangeError object: self) signal ].
+	selectionMode := aListSelectionMode.
+	listElement := selectionMode listElement.
+	listElement addEventHandler: listEventHandler.
+	selectionContainer := self newSelectionContainerIn: listElement.
+	listElement addChild: selectionContainer
 ]
 
 { #category : #accessing }
@@ -219,9 +219,15 @@ ToListSelectionElementOption >> selectionElements [
 ]
 
 { #category : #accessing }
-ToListSelectionElementOption >> selectionModel: aSelectionModel [
+ToListSelectionElementOption >> selectionMode [
 
-	selectionModel := aSelectionModel
+	^ selectionMode 
+]
+
+{ #category : #accessing }
+ToListSelectionElementOption >> selectionModel [
+
+	^ selectionMode selectionModel
 ]
 
 { #category : #testing }

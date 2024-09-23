@@ -180,6 +180,7 @@ ToSpaceSkinPhasesManager >> postponeStartSkinPhasesIn: aSpace [
 { #category : #'phases application' }
 ToSpaceSkinPhasesManager >> runStateGenerations [
 
+	stateGenerations ifNil: [ ^ self ].
 	stateGenerations do: [ :g | g value ].
 	stateGenerations removeAll
 ]

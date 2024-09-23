@@ -21,7 +21,6 @@ ToAlbumSkin >> disabledSkinEvent: anEvent [
 	super disabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: (self blurBorderIn: e).
-		self flag: 'A ToAlbumEnablementFeedbackLayer should have its own skin'.
 		enablementFeedbackLayer := ToAlbumEnablementFeedbackLayer new.
 		enablementFeedbackLayer background: 
 			(e valueOfTokenNamed: #'text-editor-background-disabled').

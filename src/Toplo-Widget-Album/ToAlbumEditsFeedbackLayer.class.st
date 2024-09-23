@@ -2,9 +2,9 @@ Class {
 	#name : #ToAlbumEditsFeedbackLayer,
 	#superclass : #ToOverlayElement,
 	#instVars : [
-		'feedback',
 		'backgroundAnimation',
-		'flashCoverColor'
+		'flashCoverColor',
+		'editsFeedback'
 	],
 	#category : #'Toplo-Widget-Album-TextPane'
 }
@@ -13,7 +13,6 @@ Class {
 ToAlbumEditsFeedbackLayer >> attachTo: anEditorElement [
 
 	super attachTo: anEditorElement.
-	self flag: 'I should have my own skin'.
 	flashCoverColor := Color red alpha: 0.1.
 	
 	anEditorElement addEventHandler: (BlEventHandler
@@ -29,6 +28,7 @@ ToAlbumEditsFeedbackLayer >> attachTo: anEditorElement [
 	anEditorElement addEventHandler: (BlEventHandler
 			 on: ToAlbumSaveAcceptedEvent
 			 do: [ :event | self hideEditsFeedback ]).
+
 	anEditorElement addEventHandler: (BlEventHandler
 			 on: ToAlbumCancelRequestedEvent
 			 do: [ :event | self hideEditsFeedback ]).
@@ -56,6 +56,12 @@ ToAlbumEditsFeedbackLayer >> coverWithColor: aCoverColor [
 	self addAnimation: backgroundAnimation
 ]
 
+{ #category : #accessing }
+ToAlbumEditsFeedbackLayer >> editsFeedback [
+
+	^ editsFeedback 
+]
+
 { #category : #'api - attaching / detaching' }
 ToAlbumEditsFeedbackLayer >> flash [
 
@@ -65,9 +71,9 @@ ToAlbumEditsFeedbackLayer >> flash [
 { #category : #'edition-flag' }
 ToAlbumEditsFeedbackLayer >> hideEditsFeedback [
 
-	feedback ifNil: [ ^ self ].
-	self removeChild: feedback.
-	feedback := nil
+	editsFeedback ifNil: [ ^ self ].
+	self removeChild: editsFeedback.
+	editsFeedback := nil
 ]
 
 { #category : #initialization }
@@ -83,21 +89,8 @@ ToAlbumEditsFeedbackLayer >> initialize [
 { #category : #'edition-flag' }
 ToAlbumEditsFeedbackLayer >> newEditsFeedback [
 
-	| flag |
-	flag := BlElement new
-		        geometry: (BlRoundedRectangleGeometry cornerRadius: 8);
-		        background: ((BlLinearGradientPaint direction: 1 @ 1)
-				         start: 25 @ 0;
-				         stops: { 
-						         (0 -> Color orange).
-						         (0.35 -> (Color orange alpha: 0.4)).
-						         (0.45 -> (Color orange alpha: 0.1)).
-						         (0.50 -> (Color orange alpha: 0.0)).
-						         (1 -> Color transparent) });
-		        size: 25 @ 25.
-	flag constraintsDo: [ :c | 
-		c frame horizontal alignRight.
-		c frame vertical alignTop ].
+	| flag  |
+	flag := ToAlbumEditsFeedbackElement new.
 	flag preventMouseEvents.
 	^ flag
 ]
@@ -105,7 +98,7 @@ ToAlbumEditsFeedbackLayer >> newEditsFeedback [
 { #category : #'edition-flag' }
 ToAlbumEditsFeedbackLayer >> showEditsFeedback [
 
-	feedback ifNotNil: [ ^ self ].
-	feedback := self newEditsFeedback.
-	self addChild: feedback 
+	editsFeedback ifNotNil: [ ^ self ].
+	editsFeedback := self newEditsFeedback.
+	self addChild: editsFeedback
 ]

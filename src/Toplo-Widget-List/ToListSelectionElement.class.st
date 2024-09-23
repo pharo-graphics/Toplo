@@ -24,6 +24,12 @@ ToListSelectionElement >> isBeneath [
 ]
 
 { #category : #accessing }
+ToListSelectionElement >> listElement [
+
+	^ selectionOption listElement
+]
+
+{ #category : #accessing }
 ToListSelectionElement >> nodes [
 
 	^ nodes

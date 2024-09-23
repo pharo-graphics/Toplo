@@ -79,6 +79,12 @@ ToAbstractListSelectionMode >> itemCount [
 	^ self selectionModel itemCount
 ]
 
+{ #category : #accessing }
+ToAbstractListSelectionMode >> listElement [
+
+	^ listElement
+]
+
 { #category : #'instance creation' }
 ToAbstractListSelectionMode >> newSelecter [
 
@@ -100,8 +106,7 @@ ToAbstractListSelectionMode >> on: aListElement [
 	self installSelecter.
 	option ifNotNil: [
 		selecter selectionOption: option.
-		option selectionModel: self selectionModel.
-		option onInstalledIn: listElement ]
+		option onMode: self ]
 ]
 
 { #category : #accessing }
@@ -119,8 +124,10 @@ ToAbstractListSelectionMode >> option [
 { #category : #accessing }
 ToAbstractListSelectionMode >> option: aSelectionOption [
 
+	option ifNotNil: [
+		(BlImmutableObjectChangeError object: self) signal ].
 	option := aSelectionOption.
-	selecter ifNotNil: [ selecter option: option ]
+	selecter ifNotNil: [ selecter selectionOption: option ]
 ]
 
 { #category : #accessing }

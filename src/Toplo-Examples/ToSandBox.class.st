@@ -1288,6 +1288,29 @@ ToSandBox class >> example_ListWithAllClassesAsButton [
 ]
 
 { #category : #list }
+ToSandBox class >> example_ListWithAllClassesAsToggleButton [
+
+	| l |
+	l := ToListElement new nodeBuilder: [ :node :dataItem :holder |
+		     | toggle |
+		     toggle := ToToggleButton new
+			               labelText: dataItem name;
+			               hMatchParent;
+			               checked: holder isSelected.
+		     toggle whenClickedDo: [ :event |
+			     holder isSelected
+				     ifTrue: [
+				     holder listElement selecter deselectIndex: holder position ]
+				     ifFalse: [
+				     holder listElement selecter selectIndex: holder position ].
+			     event traceCr ].
+		     node addChild: toggle ].
+	l dataAccessor addAll: Smalltalk globals allClasses.
+	l primarySelectionMode option masked: true.
+	l openInSpace
+]
+
+{ #category : #list }
 ToSandBox class >> example_ListWithAllMethods [
 
 	| l nbItems vscrollBar space |

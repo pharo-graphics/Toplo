@@ -37,7 +37,9 @@ ToSwitchButton >> initialize [
 	super initialize.
 	self icon: ToSwitchIcon new.
 	self initializeCheckable.
-	self checked: false
+	self checked: false.
+	self clickEventClass: ToCheckableCheckEvent.
+
 ]
 
 { #category : #skin }

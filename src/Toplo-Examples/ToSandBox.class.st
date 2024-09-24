@@ -22,8 +22,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	menu addItem: (ToCheckMenuItem new
 			 label: (ToLabel text: 'Disable bar');
 			 whenClickedDo: [ :event |
-				event currentTarget isChecked traceCr.
-				 aBar enabled: event currentTarget isChecked ];
+				 aBar disabled: event currentTarget isChecked ];
 			 yourself).
 	confPane addChild: menu.
 
@@ -31,9 +30,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	verticalSwitch startFlexible: true.
 	verticalSwitch hMatchParent.
 
-	verticalSwitch addEventHandler: (BlEventHandler
-			 on: ToCheckableCheckEvent
-			 do: [ :event | aBar vertical: event current ]).
+	verticalSwitch whenClickedDo: [ :event | aBar vertical: event current ].
 
 	confPane addChild: verticalSwitch.
 
@@ -55,28 +52,22 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 
 	confPane addChild: scrollingSwitch.
 
-	wrappingSwitch addEventHandler: (BlEventHandler
-			 on: ToCheckableCheckEvent
-			 do: [ :event |
+	wrappingSwitch whenClickedDo: [ :event |
 				 | v |
 				 v := event current.
 				 aBar nodeWrapping: v.
 				 sameWidthSwitch enabled: v.
-				 scrollingSwitch disabled: v ]).
+				 scrollingSwitch disabled: v ].
 
-	sameWidthSwitch addEventHandler: (BlEventHandler
-			 on: ToCheckableCheckEvent
-			 do: [ :event |
+	sameWidthSwitch whenClickedDo: [ :event |
 				 | v |
 				 v := event current.
-				 aBar flowLineUniformWidth: v ]).
+				 aBar flowLineUniformWidth: v ].
 
-	scrollingSwitch addEventHandler: (BlEventHandler
-			 on: ToCheckableCheckEvent
-			 do: [ :event |
+	scrollingSwitch whenClickedDo: [ :event |
 				 | v |
 				 v := event current.
-				 aBar nodeScrolling: v ]).
+				 aBar nodeScrolling: v ].
 
 	autoDistributionSwitch := ToSwitchButton new labelText:
 		                          'Auto-distribution'.
@@ -84,12 +75,10 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	autoDistributionSwitch hMatchParent.
 
 	confPane addChild: autoDistributionSwitch.
-	autoDistributionSwitch addEventHandler: (BlEventHandler
-			 on: ToCheckableCheckEvent
-			 do: [ :event |
+	autoDistributionSwitch whenClickedDo: [ :event |
 				 | v |
 				 v := event current.
-				 aBar nodeAutoDistribution: v ]).
+				 aBar nodeAutoDistribution: v ].
 
 	selectionAnimationSwitch := ToSwitchButton new labelText:
 		                            'Animate selection transition'.
@@ -97,9 +86,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	selectionAnimationSwitch hMatchParent.
 
 	confPane addChild: selectionAnimationSwitch.
-	selectionAnimationSwitch addEventHandler: (BlEventHandler
-			 on: ToCheckableCheckEvent
-			 do: [ :event |
+	selectionAnimationSwitch whenClickedDo: [ :event |
 				 | v |
 				 v := event current.
 				 aBar primarySelectionMode option animationDuration: (v
@@ -107,7 +94,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 						  ifFalse: [ 0 milliSeconds ]).
 				 aBar secondarySelectionMode option animationDuration: (v
 						  ifTrue: [ 150 milliSeconds ]
-						  ifFalse: [ 0 milliSeconds ]) ]).
+						  ifFalse: [ 0 milliSeconds ]) ].
 
 	wrappingSwitch checked: true.
 
@@ -118,10 +105,8 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	selectOnMouseDownSwitch hMatchParent.
 
 	confPane addChild: selectOnMouseDownSwitch.
-	selectOnMouseDownSwitch addEventHandler: (BlEventHandler
-			 on: ToCheckableCheckEvent
-			 do: [ :event |
-			 aBar primarySelectionMode selectOnMouseDown: event current ]).
+	selectOnMouseDownSwitch whenClickedDo: [ :event |
+			 aBar primarySelectionMode selectOnMouseDown: event current ].
 
 	wrappingSwitch checked: true.
 
@@ -475,8 +460,7 @@ ToSandBox class >> example_CheckboxChecked [
 			 on: ToSkinEvent
 			 do: [ :evt | evt target = chb ifTrue: [ evt traceCr ] ])."
 	chb whenClickedDo: [ :event |
-		event currentTarget isChecked traceCr.
-		event traceCr ].
+		event currentTarget isChecked traceCr ].
 	chb checked: true.
 	chb isChecked traceCr.
 	chb openInInnerWindow
@@ -2697,7 +2681,7 @@ ToSandBox class >> example_bar [
 	bar := ToBarElement new.
 	bar addStamp: #background withValue: Color veryLightGray.
 	bar nodeFactory: [ :holder | ToBarNodeExamplePart new ].
-	bar nodeBuilder: [ :node :dataItem :holder|
+	bar nodeBuilder: [ :node :dataItem :holder |
 		node label:
 			(ToLabel text: holder position asString , ': ' , dataItem asString) ].
 
@@ -2719,11 +2703,11 @@ ToSandBox class >> example_bar [
 	confBoard := self barConfigurationBoardFor: bar.
 	selectionModeBoard := self selectionModeChooserFor: bar.
 	confBoard addChild: selectionModeBoard.
-	
+
 	rootPane := ToPane horizontal.
 	rootPane padding: (BlInsets all: 5).
 	rootPane matchParent.
-	
+
 	rootPane addChild: confBoard.
 	rootPane addChild: bar.
 	rootPane addDividers.
@@ -2764,17 +2748,12 @@ ToSandBox class >> example_buttonWithActionControl [
 	but label: (ToLabel text: 'Button with label').
 	count := 0.
 	but whenClickedDo: [ :event | self inform: 'Action runned' ].
-	but addEventHandlerOn: ToClickableActionRequestEvent do: [ :event |
-		count := count + 1.
-		event authorized: count odd.
-		event denied ifTrue: [ self inform: 'Action denied' ] ].
 	but openInSpace.
 	^ but
 ]
 
 { #category : #button }
 ToSandBox class >> example_buttonWithDisableEnable [
-
 
 	| space button pane disacbox |
 	space := BlSpace new.
@@ -2784,16 +2763,12 @@ ToSandBox class >> example_buttonWithDisableEnable [
 	pane layout cellSpacing: 5.
 	pane padding: (BlInsets all: 5).
 
-	disacbox := ToCheckbox new label:
-		           (ToLabel text: 'Disable').
+	disacbox := ToCheckbox new label: (ToLabel text: 'Disable').
 	button := (ToButton id: #buttonA)
-		                  labelText: 'Button';
-		                  yourself.
+		          labelText: 'Button';
+		          yourself.
 
-	disacbox addEventHandler: (BlEventHandler
-			 on: ToCheckableCheckEvent
-			 do: [ :evt |
-				 button disabled: evt current ]).
+	disacbox whenClickedDo: [ :evt | button disabled: evt current ].
 
 	pane addChild: disacbox.
 	pane addChild: button.
@@ -2938,10 +2913,7 @@ ToSandBox class >> example_closeableTabs [
 	(Color wheel: 5) withIndexDo: [ :eachColor :index |
 		but := ToTab new.
 		but closable: true.
-		but addEventHandler: (BlEventHandler
-				 on: ToCheckableCheckEvent
-				 do: [ :event | event current traceCr ]).
-
+		but whenClickedDo: [ :event | event current traceCr ].
 		but labelText: 'Button ' , index asString.
 		but paneBuilder: [ :pane :theNoteBook | pane background: eachColor ].
 		nb addTab: but ].
@@ -3811,9 +3783,7 @@ ToSandBox class >> example_switchButton2 [
 		((ToImage inner: (self iconNamed: #glamorousClose))
 			 innerImageColor: Color white).
 
-	th addEventHandler: (BlEventHandler
-			 on: ToCheckableCheckEvent
-			 do: [ :event | event current traceCr ]).
+	th whenClickedDo: [ :event | event current traceCr ].
 	sp := th openInSpace
 ]
 

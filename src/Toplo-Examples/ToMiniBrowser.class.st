@@ -25,7 +25,7 @@ ToMiniBrowser >> candidateProtocolsForClass: aClass [
 	| prots |
 	prots := classSide
 		         ifTrue: [
-			         aClass organization allProtocols select: [ :p |
+			         aClass allProtocols select: [ :p |
 				         aClass isLocalMethodsProtocol: p ] ]
 		         ifFalse: [ aClass allProtocols ].
 	^ prots sort: [ :a :b | a name < b name ]
@@ -126,12 +126,10 @@ ToMiniBrowser >> newClassPane [
 	classesPane addChild: classesButtonPane.
 
 	sideToggle checked: self classSide.
-	sideToggle addEventHandler: (BlEventHandler
-			 on: ToCheckableCheckEvent
-			 do: [ :event |
+	sideToggle whenClickedDo: [ :event |
 				 classSide := event current.
 				 self refreshClassSelectionWithSelectedIndexes:
-					 classes selectionModel selectedIndexes ]).
+					 classes selectionModel selectedIndexes ].
 	^ classesPane
 ]
 

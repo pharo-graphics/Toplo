@@ -401,23 +401,19 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 		primaryButton2
 			addTokenNamed: #'color-primary-hover'
 			withValue: c twiceLighter ].
-	chb addEventHandler: (BlEventHandler
-			 on: ToCheckableCheckEvent
-			 do: [ :evt |
+	chb whenClickedDo: [ :evt |
 				 evt current
 					 ifTrue: [ primaryButton2 addStamp: #primary ]
-					 ifFalse: [ primaryButton2 removeStamp: #primary ] ]).
+					 ifFalse: [ primaryButton2 removeStamp: #primary ] ].
 	chb checked: true.
-	disachb addEventHandler: (BlEventHandler
-			 on: ToCheckableCheckEvent
-			 do: [ :evt |
+	disachb whenClickedDo: [ :evt |
 				 evt current
 					 ifTrue: [
 						 pane childrenDo: [ :child |
 							 child ~= disachb ifTrue: [ child disable ] ] ]
 					 ifFalse: [
 						 pane childrenDo: [ :child |
-							 child ~= disachb ifTrue: [ child enable ] ] ] ]).
+							 child ~= disachb ifTrue: [ child enable ] ] ] ].
 
 	pane addChild: primaryButton1.
 	pane addChild: chb.

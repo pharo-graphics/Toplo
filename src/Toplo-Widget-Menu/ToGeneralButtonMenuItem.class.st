@@ -30,6 +30,18 @@ ToGeneralButtonMenuItem >> buttonClass [
 	^ ToGeneralButton 
 ]
 
+{ #category : #initialization }
+ToGeneralButtonMenuItem >> buttonClickEventClass [
+
+	^ BlMouseUpEvent
+]
+
+{ #category : #initialization }
+ToGeneralButtonMenuItem >> clickEventClass [
+
+	^ button clickEventClass
+]
+
 { #category : #testing }
 ToGeneralButtonMenuItem >> closeOnMouseEvent [
 
@@ -49,7 +61,7 @@ ToGeneralButtonMenuItem >> initialize [
 	self button: self buttonClass new.
 	self button withNullSkin.
 	self button takeFocusOnClick: false.
-	self button clickEventClass: BlMouseUpEvent.
+	self button clickEventClass: self buttonClickEventClass.
 	self layout: self defaultLayout
 ]
 

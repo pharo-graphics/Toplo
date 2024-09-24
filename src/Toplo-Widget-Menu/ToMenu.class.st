@@ -20,8 +20,8 @@ ToMenu >> addedInMenu: aMenu [
 
 ]
 
-{ #category : #'t - clickable - click behavior' }
-ToMenu >> clickEventClass [
+{ #category : #initialization }
+ToMenu >> buttonClickEventClass [
 
 	^ BlMouseDownEvent
 ]

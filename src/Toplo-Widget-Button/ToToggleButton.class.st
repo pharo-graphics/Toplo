@@ -14,7 +14,9 @@ ToToggleButton >> checkable: aBoolean [
 ToToggleButton >> initialize [ 
 
 	super initialize.
-	self initializeCheckable 
+	self initializeCheckable.
+	self clickEventClass: ToCheckableCheckEvent.
+
 ]
 
 { #category : #skin }

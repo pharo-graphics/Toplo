@@ -1,6 +1,6 @@
 Class {
 	#name : #ToClickableActionEventHandler,
-	#superclass : #BlCustomEventHandler,
+	#superclass : #BlBasicEventHandler,
 	#instVars : [
 		'action'
 	],
@@ -19,47 +19,18 @@ ToClickableActionEventHandler >> action: aBlock [
 	action := aBlock
 ]
 
-{ #category : #'as yet unclassified' }
-ToClickableActionEventHandler >> clickableRunActionEvent: anEvent [
-
-	anEvent currentTarget clickEvent: anEvent.
-	action cull: anEvent
-]
-
-{ #category : #'as yet unclassified' }
-ToClickableActionEventHandler >> eventsToHandle [
-
-	^ { ToClickableRunActionEvent }
-]
-
 { #category : #'api - event managing' }
 ToClickableActionEventHandler >> handleEvent: anEvent [
 
-	(anEvent isKindOf: anEvent currentTarget clickEventClass)
-		ifTrue: [
-			self receiveClickEvent: anEvent.
-			^ self ].
-	anEvent sendTo: self
-]
-
-{ #category : #'event handling' }
-ToClickableActionEventHandler >> receiveClickEvent: anEvent [
-
-	| req target |
+	| target |
 	target := anEvent currentTarget.
 	target isDisabled ifTrue: [ ^ self ].
-	req := ToClickableActionRequestEvent new
-		       requestedAction: [
-			       target fireEvent: (ToClickableRunActionEvent new
-						        sourceEvent: anEvent;
-						        yourself) ];
-		       yourself.
-	target fireAuthorisationRequest: req
+	action ifNil: [ ^ self ].
+	action cull: anEvent
 ]
 
 { #category : #'api - event managing' }
 ToClickableActionEventHandler >> wantsEvent: anEvent [
 
-	^ (anEvent isKindOf: anEvent currentTarget clickEventClass) or: [
-		  super wantsEvent: anEvent ]
+	^ (anEvent isKindOf: anEvent currentTarget clickEventClass) 
 ]

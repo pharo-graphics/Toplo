@@ -20,6 +20,12 @@ ToCheckMenuItem >> buttonClass [
 	^ ToCheckbox
 ]
 
+{ #category : #initialization }
+ToCheckMenuItem >> buttonClickEventClass [ 
+
+	^ ToCheckableCheckEvent 
+]
+
 { #category : #'t - checkable - accessing' }
 ToCheckMenuItem >> checkableData [
 

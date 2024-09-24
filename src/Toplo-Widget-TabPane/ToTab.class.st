@@ -116,7 +116,9 @@ ToTab >> initialize [
 	filler := ToElement new size: 0@0.
 	filler id: #filler.
 	self addChild: filler.
-	self initializeCheckable 
+	self initializeCheckable.
+	self clickEventClass: ToCheckableCheckEvent.
+	
 ]
 
 { #category : #accessing }

@@ -7,15 +7,24 @@ Class {
 { #category : #bar }
 ToSandBox class >> barConfigurationBoardFor: aBar [
 
-	| confPane verticalSwitch wrappingSwitch scrollingSwitch autoDistributionSwitch sameWidthSwitch selectionAnimationSwitch selectOnMouseDownSwitch inspectButton |
+	| menu confPane verticalSwitch wrappingSwitch scrollingSwitch autoDistributionSwitch sameWidthSwitch selectionAnimationSwitch selectOnMouseDownSwitch |
 	confPane := ToPane vertical.
 	confPane padding: (BlInsets all: 5).
 	confPane width: 250.
 	confPane border: Color lightGray.
 
-	inspectButton := ToButton new labelText: 'Inspect'.
-	inspectButton whenClickedDo: [ aBar inspect ].
-	confPane addChild: inspectButton.
+	menu := ToMenu new.
+	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	menu addItem: (ToMenuItem new
+			 label: (ToLabel text: 'Inspect bar');
+			 whenClickedDo: [ aBar inspect ];
+			 yourself).
+	menu addItem: (ToCheckMenuItem new
+			 label: (ToLabel text: 'Disable bar');
+			 whenClickedDo: [ :event |
+				 aBar enabled: event currentTarget isChecked ];
+			 yourself).
+	confPane addChild: menu.
 
 	verticalSwitch := ToSwitchButton new labelText: 'Vertical'.
 	verticalSwitch startFlexible: true.
@@ -120,7 +129,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 		do: [ :event |
 		event invisibleNodes ifNotEmpty: [ :in | in traceCr ] ].
 
-	confPane addChild: (self resizerBoardFor: aBar ).
+	confPane addChild: (self resizerBoardFor: aBar).
 
 	^ confPane
 ]

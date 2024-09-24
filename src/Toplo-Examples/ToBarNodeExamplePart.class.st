@@ -34,11 +34,7 @@ ToBarNodeExamplePart >> initializeRemoveButton [
 	but constraintsDo: [ :c | c linear vertical alignCenter ].
 	but geometry: BlCircleGeometry new.
 
-	but addEventHandler: (BlEventHandler
-			 on: BlClickEvent
-			 do: [ :event |
-				 event consume.
-				 self removeFromBar ]).
+	but whenClickedDo: [ :event | self removeFromBar ].
 
 	" consume mouseUp/mouseDown to avoid unwanted opening/closing of the popup list element"
 	but addEventHandler: (BlEventHandler

@@ -21,11 +21,12 @@ ToAlbumSkin >> disabledSkinEvent: anEvent [
 	super disabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: (self blurBorderIn: e).
-		enablementFeedbackLayer := ToAlbumEnablementFeedbackLayer new.
-		enablementFeedbackLayer background: 
-			(e valueOfTokenNamed: #'text-editor-background-disabled').
-		enablementFeedbackLayer attachTo: e.
-		e addChild: enablementFeedbackLayer ]
+		enablementFeedbackLayer ifNil: [
+			enablementFeedbackLayer := ToOverlayElement new.
+			enablementFeedbackLayer background:
+				(e valueOfTokenNamed: #'text-editor-background-disabled').
+			enablementFeedbackLayer attachTo: e.
+			e addChild: enablementFeedbackLayer ] ]
 ]
 
 { #category : #'event handling' }
@@ -96,4 +97,14 @@ ToAlbumSkin >> unfocusedSkinEvent: anEvent [
 
 	super unfocusedSkinEvent: anEvent.
 	anEvent elementDo: [ :e | e border: (self blurBorderIn: e) ]
+]
+
+{ #category : #'event handling' }
+ToAlbumSkin >> uninstallSkinEvent: anEvent [
+
+	super uninstallSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		enablementFeedbackLayer ifNotNil: [
+			enablementFeedbackLayer removeFromParent.
+			enablementFeedbackLayer := nil ] ]
 ]

@@ -47,6 +47,7 @@ ToClickableActionEventHandler >> receiveClickEvent: anEvent [
 
 	| req target |
 	target := anEvent currentTarget.
+	target isDisabled ifTrue: [ ^ self ].
 	req := ToClickableActionRequestEvent new
 		       requestedAction: [
 			       target fireEvent: (ToClickableRunActionEvent new

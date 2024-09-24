@@ -48,7 +48,6 @@ ToAlbumEventHandler >> mouseDownEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	target isDisabled ifTrue: [ ^ self ].
 	" copy the event, else the double click can't works "
 	target infinite dispatchEvent: anEvent copy.
 	anEvent consume

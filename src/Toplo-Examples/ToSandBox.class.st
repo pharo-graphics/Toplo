@@ -698,7 +698,20 @@ ToSandBox class >> example_CheckboxWithIndeterminate [
 { #category : #album }
 ToSandBox class >> example_CodeEditor [
 
-	| text album menuBuilder |
+	| topBtnPane pane text album menuBuilder disabox inspectBtn |
+	topBtnPane := ToPane horizontal.
+	topBtnPane layout cellSpacing: 5.
+	
+	pane := ToPane vertical matchParent.
+	pane layout cellSpacing: 5.
+	pane padding: (BlInsets all: 5).
+
+	inspectBtn := ToButton new labelText: 'Inspect'.
+	disabox := ToCheckbox new label: (ToLabel text: 'Disable').
+
+	topBtnPane addChild: inspectBtn.
+	topBtnPane addChild: disabox.
+
 	text := self methodText asRopedText fontName: 'Source Code Pro'.
 	album := ToAlbum new.
 	album styler: (BlPharoCodeStyler new
@@ -748,7 +761,13 @@ ToSandBox class >> example_CodeEditor [
 			                yourself) ].
 	album contextMenu: menuBuilder.
 	album cursorColor: Color black.
-	album openInSpace
+	
+	inspectBtn whenClickedDo: [ :evt | album inspect ].
+	pane addChild: topBtnPane.
+	pane addChild: album.
+	disabox whenClickedDo: [ :evt | album disabled: disabox isChecked ].
+
+	pane openInSpace
 ]
 
 { #category : #list }
@@ -2755,7 +2774,7 @@ ToSandBox class >> example_buttonWithActionControl [
 { #category : #button }
 ToSandBox class >> example_buttonWithDisableEnable [
 
-	| space button pane disacbox |
+	| space button pane disabox |
 	space := BlSpace new.
 	space root layout: BlLinearLayout vertical.
 
@@ -2763,16 +2782,16 @@ ToSandBox class >> example_buttonWithDisableEnable [
 	pane layout cellSpacing: 5.
 	pane padding: (BlInsets all: 5).
 
-	disacbox := ToCheckbox new label: (ToLabel text: 'Disable').
+	disabox := ToCheckbox new label: (ToLabel text: 'Disable').
 	button := (ToButton id: #buttonA)
 		          labelText: 'Button';
 		          yourself.
 
-	disacbox whenClickedDo: [ :evt | button disabled: disacbox isChecked ].
+	disabox whenClickedDo: [ :evt | button disabled: disabox isChecked ].
 
-	pane addChild: disacbox.
+	pane addChild: disabox.
 	pane addChild: button.
-	disacbox checked: true.
+	disabox checked: true.
 	button addEventHandlerOn: ToSkinEvent do: [ :event | event traceCr ].
 	space root addChild: pane.
 	space show

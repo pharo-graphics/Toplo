@@ -9,6 +9,7 @@ ToAlbumEditsFeedbackElement >> initialize [
 
 	super initialize.
 	self size: 25 @ 25.
+	self preventMouseEvents.
 	self constraintsDo: [ :c |
 		c frame horizontal alignRight.
 		c frame vertical alignTop ]

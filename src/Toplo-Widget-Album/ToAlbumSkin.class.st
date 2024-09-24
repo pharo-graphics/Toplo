@@ -21,10 +21,11 @@ ToAlbumSkin >> disabledSkinEvent: anEvent [
 	super disabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: (self blurBorderIn: e).
+		e beReadonlyWithSelection.
 		enablementFeedbackLayer ifNil: [
-			enablementFeedbackLayer := ToOverlayElement new.
-			enablementFeedbackLayer background:
-				(e valueOfTokenNamed: #'text-editor-background-disabled').
+			enablementFeedbackLayer := ToOverlayElement new.			
+			enablementFeedbackLayer preventMouseEvents.
+			enablementFeedbackLayer background: (e valueOfTokenNamed: #'text-editor-background-disabled').
 			enablementFeedbackLayer attachTo: e.
 			e addChild: enablementFeedbackLayer ] ]
 ]
@@ -35,6 +36,7 @@ ToAlbumSkin >> enabledSkinEvent: anEvent [
 	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: (self blurBorderIn: e).
+		e beEditable.
 		enablementFeedbackLayer ifNotNil: [
 			enablementFeedbackLayer removeFromParent.
 			enablementFeedbackLayer := nil ] ]
@@ -60,7 +62,7 @@ ToAlbumSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e isEditable
+		(e isEditable and: [ e isEnabled ])
 			ifTrue: [ e mouseCursor: Cursor overEditableText ]
 			ifFalse: [ e mouseCursor: Cursor normal ] ]
 ]

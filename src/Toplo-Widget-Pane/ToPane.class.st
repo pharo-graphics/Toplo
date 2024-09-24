@@ -56,12 +56,6 @@ ToPane >> dividers [
 	^ self children select: [ :child | child isKindOf: ToDivider ]
 ]
 
-{ #category : #initialization }
-ToPane >> initialize [ 
-
-	super initialize
-]
-
 { #category : #skin }
 ToPane >> installRawStyle [ 
 

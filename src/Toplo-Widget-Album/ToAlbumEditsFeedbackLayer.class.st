@@ -88,10 +88,7 @@ ToAlbumEditsFeedbackLayer >> initialize [
 { #category : #'edition-flag' }
 ToAlbumEditsFeedbackLayer >> newEditsFeedback [
 
-	| flag  |
-	flag := ToAlbumEditsFeedbackElement new.
-	flag preventMouseEvents.
-	^ flag
+	^ ToAlbumEditsFeedbackElement new
 ]
 
 { #category : #'edition-flag' }

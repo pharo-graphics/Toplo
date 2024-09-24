@@ -22,6 +22,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	menu addItem: (ToCheckMenuItem new
 			 label: (ToLabel text: 'Disable bar');
 			 whenClickedDo: [ :event |
+				event currentTarget isChecked traceCr.
 				 aBar enabled: event currentTarget isChecked ];
 			 yourself).
 	confPane addChild: menu.
@@ -470,13 +471,14 @@ ToSandBox class >> example_CheckboxChecked [
 	| chb |
 	ToTheme cleanUp.
 	chb := ToCheckbox new label: (ToLabel text: 'Checkbox').
-	chb addEventHandler: (BlEventHandler
+	"chb addEventHandler: (BlEventHandler
 			 on: ToSkinEvent
-			 do: [ :evt | evt target = chb ifTrue: [ evt traceCr ] ]).
+			 do: [ :evt | evt target = chb ifTrue: [ evt traceCr ] ])."
 	chb whenClickedDo: [ :event |
 		event currentTarget isChecked traceCr.
 		event traceCr ].
 	chb checked: true.
+	chb isChecked traceCr.
 	chb openInInnerWindow
 ]
 
@@ -1256,6 +1258,7 @@ ToSandBox class >> example_ListWithAllClassesAsToggleButton [
 		     toggle whenClickedDo: [ :event |
 				" consume the source event here because the selection is managed through the toggle button"
 			     event sourceEvent consume.
+				" management of the liste primary selection "
 			     holder isSelected
 				     ifTrue: [
 				     holder listElement selecter deselectIndex: holder position ]
@@ -5013,6 +5016,11 @@ ToSandBox class >> example_withCheckBox [
 	menu addItem: (ToMenuItem new labelText: 'Open file').
 	menu items last icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	menu addItem: (ToMenuItem new labelText: 'Export').
+	menu addSeparator.
+	menu addItem: (ToCheckMenuItem new
+			 label: (ToLabel text: 'Disable');
+			 whenClickedDo: [ :event | event currentTarget isChecked traceCr ];
+			 yourself).
 	grp := ToCheckableGroup new.
 	right := ToCheckMenuItem new
 		         labelText: 'Right';

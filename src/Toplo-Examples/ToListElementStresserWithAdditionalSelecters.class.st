@@ -6,7 +6,7 @@ Class {
 		'maxHiddenIntervals',
 		'maxDisabledIntervals'
 	],
-	#category : #'Toplo-Examples-Crashing Examples'
+	#category : #'Toplo-Examples-Stressers'
 }
 
 { #category : #running }

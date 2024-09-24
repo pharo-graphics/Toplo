@@ -2768,7 +2768,7 @@ ToSandBox class >> example_buttonWithDisableEnable [
 		          labelText: 'Button';
 		          yourself.
 
-	disacbox whenClickedDo: [ :evt | button disabled: evt current ].
+	disacbox whenClickedDo: [ :evt | button disabled: disacbox isChecked ].
 
 	pane addChild: disacbox.
 	pane addChild: button.
@@ -5230,7 +5230,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 
 	unselectableMode := l newUnselectableSelectionMode.
 	unselectableMode option: ToListSelectionElementOption new.
-	
+
 	" or unselectableMode option listEventHandler: ToListUnselectableSelectionElementEventHandler new 
 	but the following code is kept for the record to show how to manage an additional selection mode 
 	with a selection option"
@@ -5244,7 +5244,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 				 target secondarySelecter deselectAll.
 				 event touchedIntervals do: [ :int |
 					 target dataSource notifyItemsChanged: int ] ]).
-			
+
 	unselectableMode option grouped: false.
 	unselectableMode option beneath: false.
 	unselectableMode option elementFactory: [
@@ -5342,8 +5342,8 @@ ToSandBox class >> listWithEditableAndContextMenu [
 						                labelText:
 							                'start selection transition animation';
 						                whenClickedDo: [ :event |
-							                target selectionMode option animationDuration:
-									                200 milliSeconds ];
+							                target primarySelectionMode option
+								                animationDuration: 200 milliSeconds ];
 						                yourself) ] ].
 	               indexes ifNotEmpty: [
 		               selectionMenu := ToMenu new.

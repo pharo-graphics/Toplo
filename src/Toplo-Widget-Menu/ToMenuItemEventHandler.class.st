@@ -19,7 +19,7 @@ ToMenuItemEventHandler >> mouseEnterEvent: anEvent [
 	" check event and current target "
 	(anEvent anyButtonPressed and: [ anEvent currentTarget ~= target ])
 		ifTrue: [ ^ self ].
-
+	target isEnabled ifFalse: [ ^ self ].
 	target isTopMenu ifTrue: [ ^ self ].
 	target closeSiblingMenuWindow.
 	target isMenu ifFalse: [ ^ self ].
@@ -34,7 +34,7 @@ ToMenuItemEventHandler >> mouseUpEvent: anEvent [
 
 	(anEvent currentTarget ~= target)
 		ifTrue: [ ^ self ].
-
+	target isEnabled ifFalse: [ ^ self ].
 	target closeOnMouseEvent ifFalse: [ ^ self ].
 	target rootMenu closeWindow
 ]

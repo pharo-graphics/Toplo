@@ -20,8 +20,6 @@ ToCheckMenuItemSkin >> disabledSkinEvent: anEvent [
 
 	super disabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e background: Color transparent.
-		e border: BlBorder empty.		
 		e icon innerImage border: (e valueOfTokenNamed: #'color-border-disabled').
 		e icon border: (e valueOfTokenNamed: #'color-border-disabled').
 		e indeterminateBar background: Color transparent ]
@@ -41,10 +39,10 @@ ToCheckMenuItemSkin >> enabledSkinEvent: anEvent [
 ToCheckMenuItemSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
-	anEvent elementDo: [ :e | 
-		e border: (BlBorder empty).		
-		e mouseCursor: Cursor webLink.
-		e icon border: (BlBorder paint: (e valueOfTokenNamed: #'color-primary') width: 1) ]
+	anEvent elementDo: [ :e |
+		e border: BlBorder empty.
+		e icon border:
+			(BlBorder paint: (e valueOfTokenNamed: #'color-primary') width: 1) ]
 ]
 
 { #category : #accessing }
@@ -80,8 +78,8 @@ ToCheckMenuItemSkin >> installSkinEvent: anEvent [
 ToCheckMenuItemSkin >> leavedSkinEvent: anEvent [
 
 	super leavedSkinEvent: anEvent.
-	anEvent elementDo: [ :e | 
-		e border: (BlBorder empty).	
+	anEvent elementDo: [ :e |
+		e border: BlBorder empty.
 		e icon border: (e valueOfTokenNamed: #'color-border') ]
 ]
 

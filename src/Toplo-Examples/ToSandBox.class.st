@@ -5005,6 +5005,7 @@ ToSandBox class >> example_withCheckBox [
 	menu addItem: (ToMenuItem new labelText: 'Open file').
 	menu items last icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	menu addItem: (ToMenuItem new labelText: 'Export').
+	menu items last disable.
 	menu addSeparator.
 	menu addItem: (ToCheckMenuItem new
 			 label: (ToLabel text: 'Disable');

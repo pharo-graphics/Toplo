@@ -10,7 +10,6 @@ ToGeneralButtonMenuItemSkin >> disabledSkinEvent: anEvent [
 	super disabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor normal.
-		e border: (BlBorder paint: (e valueOfTokenNamed: #'color-border-disabled') width: (e valueOfTokenNamed: #'line-width')).
 		e background: (e valueOfTokenNamed: #'color-bg-container-disabled') ]
 ]
 
@@ -19,7 +18,6 @@ ToGeneralButtonMenuItemSkin >> enabledSkinEvent: anEvent [
 
 	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e border: (BlBorder paint: (Color transparent) width: (e valueOfTokenNamed: #'line-width')).
 		e background: (e valueOfTokenNamed: #'color-bg-container') ]
 ]
 
@@ -39,6 +37,7 @@ ToGeneralButtonMenuItemSkin >> installSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e vFitContent.
 		e mouseCursor: Cursor normal.
+		e border: BlBorder empty.
 		e background: (e valueOfTokenNamed: #'color-bg-container').
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:
 				 (e valueOfTokenNamed: 'border-radius')).
@@ -54,8 +53,8 @@ ToGeneralButtonMenuItemSkin >> leavedSkinEvent: anEvent [
 
 	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e border: (BlBorder paint: (Color transparent) width: (e valueOfTokenNamed: #'line-width')).
-		e background: (e valueOfTokenNamed: #'color-bg-container') ]
+		e mouseCursor: Cursor normal.
+		e border: BlBorder empty ]
 ]
 
 { #category : #'event handling' }

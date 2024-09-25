@@ -34,6 +34,13 @@ TToMenuWindowModel >> menuWindow [
 ]
 
 { #category : #'t - menu window model' }
+TToMenuWindowModel >> menuWindowDo: aValuable [
+
+	self menuWindow ifNil: [ ^ self ].
+	aValuable value: self menuWindow
+]
+
+{ #category : #'t - menu window model' }
 TToMenuWindowModel >> popupEvent: anEvent [
 
 	^ self explicitRequirement 

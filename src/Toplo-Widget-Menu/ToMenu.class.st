@@ -26,7 +26,7 @@ ToMenu >> buttonClickEventClass [
 	^ BlMouseDownEvent
 ]
 
-{ #category : #'menu window' }
+{ #category : #'t - menu window model' }
 ToMenu >> closeWindow [
 
 	self items do: [ :it | it isOpened ifTrue: [ it closeWindow ] ].
@@ -94,13 +94,6 @@ ToMenu >> items [
 ToMenu >> menuWindow [ 
 
 	^ windowManager currentWindow
-]
-
-{ #category : #'menu window' }
-ToMenu >> menuWindowDo: aValuable [
-
-	self menuWindow ifNil: [ ^ self ].
-	aValuable value: self menuWindow
 ]
 
 { #category : #skin }

@@ -27,7 +27,7 @@ ToMenuItemElement >> closeSiblingMenuWindow [
 		it menuWindowDo: [ :w | w isOpened ifTrue: [ w close ] ] ]
 ]
 
-{ #category : #'menu window' }
+{ #category : #'t - menu window model' }
 ToMenuItemElement >> closeWindow [
 ]
 
@@ -81,7 +81,7 @@ ToMenuItemElement >> isMenu [
 	^ false
 ]
 
-{ #category : #'menu window' }
+{ #category : #'t - menu window model' }
 ToMenuItemElement >> isOpened [
 
 	^ false
@@ -89,19 +89,19 @@ ToMenuItemElement >> isOpened [
 	
 ]
 
-{ #category : #testing }
+{ #category : #'t - menu window model' }
 ToMenuItemElement >> isSubmenu [ 
 
 	^ false
 ]
 
-{ #category : #testing }
+{ #category : #'t - menu window model' }
 ToMenuItemElement >> isTopMenu [
 
 	^ false
 ]
 
-{ #category : #'menu window' }
+{ #category : #'t - menu window model' }
 ToMenuItemElement >> menuWindowDo: aValuable [
 ]
 
@@ -130,7 +130,7 @@ ToMenuItemElement >> removedFromMenu: aMenu [
 	self parentMenu: nil
 ]
 
-{ #category : #'parent menu' }
+{ #category : #'t - menu window model' }
 ToMenuItemElement >> rootMenu [
 
 	 ^ parentMenu ifNil: [ self ] ifNotNil: [ :pm | pm rootMenu  ]

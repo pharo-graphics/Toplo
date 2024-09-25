@@ -169,6 +169,9 @@ ToAnchoredWindowManager >> newWindowEvent: anEvent [
 		^ Error signal: 'An element is required for building a window' ].
 	self builder ifNil: [
 		^ Error signal: 'A window builder is required for building a window' ].
+	
+	self element isEnabled ifFalse: [ ^ self ].
+	
 	request := self newWindowOpenRequestEventFromSourceEvent: anEvent.
 	
 	" dispatch the event. handlers can eventually feed the event with additional data 
@@ -233,6 +236,8 @@ ToAnchoredWindowManager >> popupWindowEvent: anEvent [
 	(currentWindow notNil and: [ currentWindow isOpened ]) ifTrue: [
 		^ self ].
 	currentWindow ifNil: [ self newWindowEvent: anEvent ].
+	" currentWindow can be nil in case the element is disabled "
+	currentWindow ifNil: [ ^ self ].
 	currentWindow popupEvent: anEvent
 ]
 

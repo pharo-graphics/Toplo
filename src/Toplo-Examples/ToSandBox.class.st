@@ -847,7 +847,7 @@ ToSandBox class >> example_EditorWithPlaceholderWithAlbum [
 					lab background: Color transparent.
 					lab next background: Color transparent.
 					lab border: BlBorder empty.
-					lab beReadonlyWithSelection.
+					lab beReadonlyWithoutSelection.
 					placeholder addChild: lab ];
 		        withRowNumbers;
 		        withSaveCapability;

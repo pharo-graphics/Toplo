@@ -76,6 +76,8 @@ ToPopupWindowManager >> mouseDownInElementEvent: anEvent [
 		currentWindow isOpened ifTrue: [ currentWindow close ].
 		^ self ].
 	self newWindowEvent: anEvent.
+	" currentWindow can be nil in case the element is disabled "
+	currentWindow ifNil: [ ^ self ].
 	element enqueueTask:
 		(BlTaskAction new action: [ currentWindow popupEvent: anEvent ])
 ]

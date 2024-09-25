@@ -92,13 +92,6 @@ TToElementWithContextMenu >> hasOpenedContextMenu [
 ]
 
 { #category : #'t - element with context menu' }
-TToElementWithContextMenu >> isTopMenu [
-
-	"need it for mouse outside event handling "
-	^ false
-]
-
-{ #category : #'t - element with context menu' }
 TToElementWithContextMenu >> newContextMenuEvent: anEvent [
 
 	^ self rawContextMenuWindowManager newWindowEvent: anEvent

@@ -98,12 +98,12 @@ ToIntrinsicStateTest >> testRequestEnqueueFromElementInQueue [
 	nextInQueue := e skinManager skinStateQueue nextStates first.
 	self assert: (nextInQueue isKindOf: ToInstallState).
 	nextInQueue := e skinManager skinStateQueue nextStates second.
+	self assert: (nextInQueue isKindOf: ToEnablementState).
+	nextInQueue := e skinManager skinStateQueue nextStates third.
 	self assert: (nextInQueue isKindOf: ToIntrinsicStateStub).
 	" the previously enqueued state was for #firstVal "
 	firstValState := nextInQueue.
 	self assert: nextInQueue val equals: #firstVal.
-	nextInQueue := e skinManager skinStateQueue nextStates third.
-	self assert: (nextInQueue isKindOf: ToEnablementState).
 	nextInQueue := e skinManager skinStateQueue nextStates fourth.
 	self assert: (nextInQueue isKindOf: ToIntrinsicStateStub).
 	" the last enqueued state is for #secondVal "

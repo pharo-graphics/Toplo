@@ -30,16 +30,22 @@ ToSkinStateQueue >> applyOn: anElement [
 
 { #category : #adding }
 ToSkinStateQueue >> enqueueEnablementStateForElement: anElement [
-
 	" restitute the intrasic states (as enablement, check)
-	enablement state must always be the last one to be enqueued "
+	enablement state must always be the first one for an enabled element, 
+	it must be the last one to be enqueued for a disabled element  "
+
+	anElement isEnabled ifTrue: [
+		self
+			enqueueState: (ToEnablementState new enabled: true)
+			for: anElement ].
+
 	self intrinsicStatesDo: [ :state |
 		self enqueueState: state for: anElement ].
-	self
-		enqueueState: (ToEnablementState new enabled: anElement isEnabled)
-		for: anElement.
 
-	
+	anElement isEnabled ifFalse: [
+		self
+			enqueueState: (ToEnablementState new enabled: false)
+			for: anElement ]
 ]
 
 { #category : #adding }

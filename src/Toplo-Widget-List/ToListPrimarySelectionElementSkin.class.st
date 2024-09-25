@@ -5,32 +5,27 @@ Class {
 }
 
 { #category : #'event handling' }
-ToListPrimarySelectionElementSkin >> focusedSkinEvent: anEvent [
+ToListPrimarySelectionElementSkin >> disabledSkinEvent: anEvent [
 
-	super focusedSkinEvent: anEvent.
+	super disabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e isBeneath
-			ifTrue: [
-				e background:
-					(e valueOfTokenNamed: #'color-primary-selection-focused') ]
-			ifFalse: [
-				e background:
-					(e valueOfTokenNamed: #'color-primary-selection-over-focused') ] ]
+		e border: (BlBorder
+				 paint: (e valueOfTokenNamed: #'color-primary-selection-disabled')
+				 width: (e valueOfTokenNamed: #'border-width-primary-selection')).
+		e background: BlBackground transparent ]
 ]
 
 { #category : #'event handling' }
-ToListPrimarySelectionElementSkin >> installSkinEvent: anEvent [
+ToListPrimarySelectionElementSkin >> enabledSkinEvent: anEvent [
 
-	super installSkinEvent: anEvent.
+	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		
-		e geometry: (BlRoundedRectangleGeometry cornerRadius:
-				 (e valueOfTokenNamed: #'border-radius-SM')).
-				
-		e selectionOption isGrouped ifTrue: [
-			e border: (BlBorder
-					 paint: (e valueOfTokenNamed: #'border-color-primary-selection')
-					 width: (e valueOfTokenNamed: #'border-width-primary-selection')) ].
+		e selectionOption isGrouped
+			ifTrue: [
+				e border: (BlBorder
+						 paint: (e valueOfTokenNamed: #'border-color-primary-selection')
+						 width: (e valueOfTokenNamed: #'border-width-primary-selection')) ]
+			ifFalse: [ e border: BlBorder empty ].
 
 		" I must take into account the focused state of the node container element 
 		here to start with the right background "
@@ -51,6 +46,29 @@ ToListPrimarySelectionElementSkin >> installSkinEvent: anEvent [
 					ifFalse: [
 						e background:
 							(e valueOfTokenNamed: #'color-primary-selection-over-unfocused') ] ] ]
+]
+
+{ #category : #'event handling' }
+ToListPrimarySelectionElementSkin >> focusedSkinEvent: anEvent [
+
+	super focusedSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e isBeneath
+			ifTrue: [
+				e background:
+					(e valueOfTokenNamed: #'color-primary-selection-focused') ]
+			ifFalse: [
+				e background:
+					(e valueOfTokenNamed: #'color-primary-selection-over-focused') ] ]
+]
+
+{ #category : #'event handling' }
+ToListPrimarySelectionElementSkin >> installSkinEvent: anEvent [
+
+	super installSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e geometry: (BlRoundedRectangleGeometry cornerRadius:
+				 (e valueOfTokenNamed: #'border-radius-SM')) ]
 ]
 
 { #category : #'event handling' }

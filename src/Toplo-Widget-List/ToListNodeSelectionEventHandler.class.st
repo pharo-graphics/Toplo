@@ -10,6 +10,7 @@ ToListNodeSelectionEventHandler >> clickEvent: anEvent [
 	| node listElement mode |
 	node := anEvent currentTarget.
 	listElement := node holder listElement.
+	listElement isEnabled ifFalse: [ ^ self ].
 	mode := listElement primarySelectionMode.
 	mode selectOnMouseDown ifTrue: [ ^ self ].
 	self notifyClickOnNodeFromEvent: anEvent.
@@ -47,11 +48,16 @@ ToListNodeSelectionEventHandler >> listClickOnNodeRequestEvent: aListClickOnNode
 { #category : #'mouse handlers' }
 ToListNodeSelectionEventHandler >> mouseDownEvent: anEvent [
 
-		anEvent
-		  ifPrimary: [ self primaryMouseDownEvent: anEvent ]
-		  secondary: [  ]
-		  middle: [  ]
-		  other: [  ]
+	| node listElement |
+	node := anEvent currentTarget.
+	listElement := node holder listElement.
+	listElement isEnabled ifFalse: [ ^ self ].
+
+	anEvent
+		ifPrimary: [ self primaryMouseDownEvent: anEvent ]
+		secondary: [  ]
+		middle: [  ]
+		other: [  ]
 ]
 
 { #category : #'mouse handlers' }

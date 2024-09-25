@@ -56,5 +56,6 @@ ToLabelSkin >> selectedSkinEvent: anEvent [
 			           ifTrue: [ #'label-selected-focused' ]
 			           ifFalse: [ #'label-selected-unfocused' ].
 		to := e valueOfTokenNamed: tokname.
-		e foreground: to ]
+		e foreground: to.
+		e applyStyle ]
 ]

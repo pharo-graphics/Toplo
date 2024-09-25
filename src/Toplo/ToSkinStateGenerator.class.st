@@ -15,6 +15,7 @@ Class {
 { #category : #'focus events handling' }
 ToSkinStateGenerator >> blurEvent: anEvent [
 
+	target isEnabled ifFalse: [ ^ self ].
 	self generateBlurStateFromEvent: anEvent
 ]
 
@@ -28,6 +29,7 @@ ToSkinStateGenerator >> checkableCheckEvent: anEvent [
 { #category : #'mouse handlers' }
 ToSkinStateGenerator >> clickEvent: anEvent [
 
+	target isEnabled ifFalse: [ ^ self ].
 	anEvent
 		ifPrimary: [ self primaryClickEvent: anEvent ]
 		secondary: [  ]
@@ -38,6 +40,7 @@ ToSkinStateGenerator >> clickEvent: anEvent [
 { #category : #'dnd handlers' }
 ToSkinStateGenerator >> dragEndEvent: anEvent [
 
+	target isEnabled ifFalse: [ ^ self ].
 	self dragged: false.
 	self leaved ifTrue: [ ^ self ].
 	self leaved: true.
@@ -50,12 +53,14 @@ ToSkinStateGenerator >> dragEndEvent: anEvent [
 { #category : #'dnd handlers' }
 ToSkinStateGenerator >> dragEnterEvent: anEvent [
 
+	target isEnabled ifFalse: [ ^ self ].
 	self leaved: false
 ]
 
 { #category : #'dnd handlers' }
 ToSkinStateGenerator >> dragEvent: anEvent [
 
+	target isEnabled ifFalse: [ ^ self ].
 	self dragged ifFalse: [ ^ self ].
 	self generateDraggedStateFromEvent: anEvent
 ]
@@ -63,12 +68,14 @@ ToSkinStateGenerator >> dragEvent: anEvent [
 { #category : #'dnd handlers' }
 ToSkinStateGenerator >> dragLeaveEvent: anEvent [
 
+	target isEnabled ifFalse: [ ^ self ].
 	self leaved: true
 ]
 
 { #category : #'dnd handlers' }
 ToSkinStateGenerator >> dragStartEvent: anEvent [
 
+	target isEnabled ifFalse: [ ^ self ].
 	self dragged: true.
 	self generateDragStartedStateFromEvent: anEvent
 ]
@@ -88,6 +95,7 @@ ToSkinStateGenerator >> dragged: aBoolean [
 { #category : #'dnd handlers' }
 ToSkinStateGenerator >> dropEvent: anEvent [
 
+	target isEnabled ifFalse: [ ^ self ].
 	self generateDroppedStateFromEvent: anEvent
 ]
 
@@ -123,12 +131,14 @@ ToSkinStateGenerator >> eventsToHandle [
 { #category : #'focus events handling' }
 ToSkinStateGenerator >> focusEvent: anEvent [
 
+	target isEnabled ifFalse: [ ^ self ].
 	self generateFocusStateFromEvent: anEvent
 ]
 
 { #category : #'state generating' }
 ToSkinStateGenerator >> generateBlurStateFromEvent: anEvent [
 
+	target isEnabled ifFalse: [ ^ self ].
 	target skinManagerDo: [ :sm |
 		sm
 			addSkinStateGeneration: [
@@ -337,6 +347,7 @@ ToSkinStateGenerator >> listNodeSelectedEvent: anEvent [
 { #category : #'mouse handlers' }
 ToSkinStateGenerator >> mouseDownEvent: anEvent [
 
+	target isEnabled ifFalse: [ ^ self ].
 	anEvent
 		ifPrimary: [ self primaryMouseDownEvent: anEvent ]
 		secondary: [  ]
@@ -347,6 +358,7 @@ ToSkinStateGenerator >> mouseDownEvent: anEvent [
 { #category : #'mouse handlers' }
 ToSkinStateGenerator >> mouseEnterEvent: anEvent [
 
+	target isEnabled ifFalse: [ ^ self ].
 	self leaved: false.
 	self dragged ifTrue: [ ^ self ].
 	target isEnabled ifFalse: [ ^ self ].
@@ -357,6 +369,7 @@ ToSkinStateGenerator >> mouseEnterEvent: anEvent [
 { #category : #'mouse handlers' }
 ToSkinStateGenerator >> mouseLeaveEvent: anEvent [
 
+	target isEnabled ifFalse: [ ^ self ].
 	self dragged ifTrue: [ ^ self ].
 	self leaved ifTrue: [ ^ self ].
 	self leaved: true.
@@ -367,6 +380,7 @@ ToSkinStateGenerator >> mouseLeaveEvent: anEvent [
 { #category : #'mouse handlers' }
 ToSkinStateGenerator >> mouseUpEvent: anEvent [
 
+	target isEnabled ifFalse: [ ^ self ].
 	anEvent
 		ifPrimary: [ self primaryMouseUpEvent: anEvent ]
 		secondary: [  ]
@@ -380,6 +394,7 @@ ToSkinStateGenerator >> mouseUpOutsideEvent: anEvent [
 	In that case, no action is triggered "
 
 	| wasPressed |
+	target isEnabled ifFalse: [ ^ self ].
 	wasPressed := self pressed.
 	self pressed: false.
 	self dragged: false.
@@ -457,6 +472,7 @@ ToSkinStateGenerator >> startStillHoveredEvent: anEvent [
 
 	| startDelay space |
 	target ifNil: [ ^ self ].
+	target isEnabled ifFalse: [ ^ self ].
 	target space ifNil: [ ^ self ].
 	space := target space.
 	startDelay := target stillHoveredStartDelay.
@@ -478,6 +494,7 @@ ToSkinStateGenerator >> startStillPressedEvent: anEvent [
 
 	| startDelay space targetPos |
 	target space ifNil: [ ^ self ].
+	target isEnabled ifFalse: [ ^ self ].
 	space := target space.
 	startDelay := target stillPressedStartDelay.
 	startDelay ifNil: [ ^ self ].

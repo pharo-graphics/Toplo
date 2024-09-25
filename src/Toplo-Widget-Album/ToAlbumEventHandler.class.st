@@ -30,6 +30,16 @@ ToAlbumEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 	self checkTextIn: target
 ]
 
+{ #category : #'event handling' }
+ToAlbumEventHandler >> enablementChangedEvent: anEvent [
+
+	| target |
+	target := anEvent currentTarget.
+	target isEnabled
+		ifTrue: [ target beEditable ]
+		ifFalse: [ target beReadonlyWithSelection ]
+]
+
 { #category : #'api - accessing' }
 ToAlbumEventHandler >> eventsToHandle [
 
@@ -40,6 +50,7 @@ ToAlbumEventHandler >> eventsToHandle [
 		  BlElementAddedToSceneGraphEvent.
 		  AlbTextEditedEvent.
 		  AlbTextReplacedEvent.
+		  ToEnablementChangedEvent.
 		  ToTextEmptinessChangeEvent }
 ]
 

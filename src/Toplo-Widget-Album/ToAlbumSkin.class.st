@@ -21,7 +21,6 @@ ToAlbumSkin >> disabledSkinEvent: anEvent [
 	super disabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: (self blurBorderIn: e).
-		e beReadonlyWithSelection.
 		enablementFeedbackLayer ifNil: [
 			enablementFeedbackLayer := ToOverlayElement new.			
 			enablementFeedbackLayer preventMouseEvents.
@@ -36,7 +35,6 @@ ToAlbumSkin >> enabledSkinEvent: anEvent [
 	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: (self blurBorderIn: e).
-		e beEditable.
 		enablementFeedbackLayer ifNotNil: [
 			enablementFeedbackLayer removeFromParent.
 			enablementFeedbackLayer := nil ] ]

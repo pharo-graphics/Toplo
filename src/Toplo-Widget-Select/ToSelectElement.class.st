@@ -84,7 +84,7 @@ ToSelectElement >> iconContainer: anIconContainer [
 ToSelectElement >> initialize [
 
 	super initialize.
-	filtrable := true.
+	filtrable := false.
 
 	" for the popup "
 	windowManager := self newWindowManager.

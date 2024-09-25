@@ -10,7 +10,8 @@ Class {
 		'dataView',
 		'dataViewFactory',
 		'dataViewBuilder',
-		'fakeDataItem'
+		'fakeDataItem',
+		'currentSelectedIndex'
 	],
 	#category : #'Toplo-Widget-Select-Single'
 }
@@ -21,12 +22,6 @@ ToSingleSelectInnerContainerElement class >> onSelectElement: aSelectElement [
 	^ self basicNew
 		  selectElement: aSelectElement;
 		  initialize
-]
-
-{ #category : #accessing }
-ToSingleSelectInnerContainerElement >> dataViewBuilder [
-
-	^ dataViewBuilder
 ]
 
 { #category : #accessing }
@@ -116,12 +111,14 @@ ToSingleSelectInnerContainerElement >> newDataView [
 { #category : #'t - select inner container' }
 ToSingleSelectInnerContainerElement >> refresh [
 
-	| selectedIndex dataItem selectionModel originalData newResultView |
+	| selectedIndex dataItem selectionModel originalData newResultView changedEvent |
 	selectionModel := self windowManager sieve selectionModel.
 	originalData := self windowManager sieve originalData.
 	selectedIndex := selectionModel isEmpty
 		                 ifTrue: [ 0 ]
 		                 ifFalse: [ selectionModel firstIndex ].
+	currentSelectedIndex = selectedIndex ifTrue: [ ^ self ].
+	currentSelectedIndex := selectedIndex.
 	self inputTextField text: '' asRopedText.
 
 	dataView startContainer removeChildren.
@@ -129,12 +126,17 @@ ToSingleSelectInnerContainerElement >> refresh [
 		                 textInputElement: textInputElement;
 		                 yourself.
 	dataView startContainer addChild: newResultView.
-	selectedIndex isZero ifTrue: [
-		self selectedDataTextField text: '' asRopedText.
-		^ self ].
-	
-	dataItem := originalData at: selectedIndex.
-	dataViewBuilder cull: newResultView cull: dataItem
+
+	selectedIndex isZero
+		ifTrue: [ self selectedDataTextField text: '' asRopedText ]
+		ifFalse: [
+			dataItem := originalData at: selectedIndex.
+			dataViewBuilder cull: newResultView cull: dataItem ].
+		
+	changedEvent := ToSingleSelectChangedEvent new.
+	changedEvent selectedData: dataItem.
+	changedEvent selectedIndex: selectedIndex.
+	selectElement dispatchEvent: changedEvent
 ]
 
 { #category : #'t - select inner container' }

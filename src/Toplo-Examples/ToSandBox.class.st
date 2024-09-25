@@ -2491,6 +2491,17 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 	container openInSpace
 ]
 
+{ #category : #select }
+ToSandBox class >> example_ThemeSelect [
+
+	| select |
+	select := self themeSelect.
+	select addEventHandlerOn: ToSingleSelectChangedEvent do: [ :event | self inform: event selectedData asString ].
+	select selecter selectIndex: 4.
+	select filtrable: true.
+	select openInSpace
+]
+
 { #category : #'button-dep' }
 ToSandBox class >> example_ToButtonWithDefaultSkin0 [
 
@@ -5813,6 +5824,29 @@ ToSandBox class >> subsubsubTabPane [
 		but paneBuilder: [ :pane :theNoteBook | pane background: Color random ].
 		nb addTab: but ].
 	^ nb
+]
+
+{ #category : #select }
+ToSandBox class >> themeSelect [
+
+	| select themes |
+	select := ToSingleSelectElement new.
+	themes := {
+		          ('Bee Light' -> ToBeeTheme new).
+		          ('Bee Dark' -> ToBeeDarkTheme new).
+		          ('Raw Light' -> ToRawTheme new).
+		          ('Raw Dark' -> ToRawDarkTheme new) }.
+
+	select dataViewBuilder: [ :dataItemView :themeAssoc |
+		dataItemView selectedDataTextField text: themeAssoc key ].
+	select listElement nodeBuilder: [ :node :themeAssoc :holder |
+		node addChild: (ToLabel text: themeAssoc key) ].
+
+	select sieve dataFilter: [ :themeAssoc :pattern |
+		themeAssoc key beginsWith: pattern caseSensitive: true ].
+
+	select dataAccessor addAll: themes.
+	^ select
 ]
 
 { #category : #triplet }

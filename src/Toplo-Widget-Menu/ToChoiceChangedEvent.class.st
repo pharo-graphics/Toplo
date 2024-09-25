@@ -8,7 +8,7 @@ Class {
 	#category : #'Toplo-Widget-Menu-Choice menu deprecated'
 }
 
-{ #category : #testing }
+{ #category : #'as yet unclassified' }
 ToChoiceChangedEvent class >> isDeprecated [
 
 	^ true

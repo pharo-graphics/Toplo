@@ -77,14 +77,15 @@ ToSingleSelectInnerContainerElement >> installDataView [
 
 { #category : #'t - select inner container' }
 ToSingleSelectInnerContainerElement >> installFakeDataView [
-		
 	" add the fake node (to keep a constant minimum height )"
+
 	fakeDataView := self newDataView.
 	dataViewBuilder cull: fakeDataView cull: fakeDataItem.
+	" the selectedDataTextFiled text should be emptied since it can be set by the dataViewBuilder "
+	self selectedDataTextField text: ''.
 	fakeDataView id: #fakeDataView.
 	fakeDataView width: 0.
-	self addChild: fakeDataView before: dataView.
-
+	self addChild: fakeDataView before: dataView
 ]
 
 { #category : #'t - select inner container' }

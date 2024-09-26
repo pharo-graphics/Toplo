@@ -2496,10 +2496,14 @@ ToSandBox class >> example_ThemeSelect [
 
 	| select |
 	select := self themeSelect.
-	select addEventHandlerOn: ToSingleSelectChangedEvent do: [ :event | self inform: event selectedData asString ].
+	select placeholderText:
+		('Select a Toplo theme' asRopedText foreground: Color lightGray).
+	select
+		addEventHandlerOn: ToSingleSelectChangedEvent
+		do: [ :event | self inform: event selectedData asString ].
 	select selecter selectIndex: 4.
-	select filtrable: true.
-	select openInSpace
+	select openInSpace.
+	select inspect
 ]
 
 { #category : #'button-dep' }
@@ -3892,6 +3896,16 @@ ToSandBox class >> example_tabPaneInTabPane [
 			pane addChild: self subTabPane withHeaderOnLeftTop ].
 		tabPane addTab: tab ].
 	tabPane openInSpace
+]
+
+{ #category : #tabs }
+ToSandBox class >> example_tabPaneWithCustomSelectionBar [
+
+	| nb |
+	nb := self example_tabPane.
+	nb tabs do: [ :but |
+		but defaultSkin: ToTabWithCustomSelectionBarSkin new ].
+	^ nb
 ]
 
 { #category : #tabs }

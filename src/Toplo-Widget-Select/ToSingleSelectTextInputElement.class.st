@@ -6,8 +6,8 @@ Class {
 
 { #category : #private }
 ToSingleSelectTextInputElement >> checkPlaceholderText [
-	" In case of single selection, the selectedDataTextField can contain 
-	either the placeholder text or the selected data string"
+	" the selectedDataTextField contains the selected data string 
+	which is hidden when the inputTextField is not empty "
 
 	self inputTextField text
 		ifEmpty: [

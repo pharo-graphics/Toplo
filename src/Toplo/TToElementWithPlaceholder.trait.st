@@ -113,7 +113,7 @@ TToElementWithPlaceholder >> placeholderMinWidth: aNumber [
 
 { #category : #'t - element with placeholder' }
 TToElementWithPlaceholder >> placeholderText: aText [
-	"Syntaxic sugar to set a string has a placeholder message"
+	"Syntactic sugar to set a string has a placeholder message"
 
 	aText ifNil: [ self placeholderBuilder: nil.
 		^ self ].

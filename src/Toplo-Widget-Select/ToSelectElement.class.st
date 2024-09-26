@@ -293,6 +293,8 @@ ToSelectElement >> selectionModel [
 { #category : #private }
 ToSelectElement >> showHidePlaceholder [
 
+	" show the placeholder in case no item is selected and nothing 
+	is entered in the input text field "
 	self selectionModel ifEmpty: [
 		self inputTextField text ifEmpty: [
 			^ self showPlaceholder ] ].

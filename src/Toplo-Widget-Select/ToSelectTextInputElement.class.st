@@ -111,7 +111,6 @@ ToSelectTextInputElement >> onFilterTextUpdated: anEvent [
 { #category : #'api - hooks' }
 ToSelectTextInputElement >> onInstalledIn: aNodeContainer [
 
-	selectFiltrable := aNodeContainer isFiltrable.
 	windowManager := aNodeContainer windowManager.
 	selectedDataTextField := self newTextFieldIn: aNodeContainer.
 	selectedDataTextField beReadonlyWithSelection.
@@ -120,9 +119,7 @@ ToSelectTextInputElement >> onInstalledIn: aNodeContainer [
 	inputTextField id: #inputTextField.
 	self addChild: selectedDataTextField.
 	self addChild: inputTextField.
-	selectFiltrable
-		ifTrue: [ self beEditable ]
-		ifFalse: [ self beReadonly ].
+	self selectFiltrable: aNodeContainer isFiltrable.
 
 	" Window handler open the window on text input.
 	the window stays invisible until the sieve is applied to avoid inconfortable effect 

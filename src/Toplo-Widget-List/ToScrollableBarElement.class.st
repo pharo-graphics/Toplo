@@ -94,6 +94,7 @@ ToScrollableBarElement >> initialize [
 
 	super initialize.
 	self matchParent.
+	self focusability: BlFocusability ignore
 
 ]
 

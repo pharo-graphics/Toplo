@@ -108,6 +108,13 @@ ToScrollableBarTrackElement >> horizontal: anObject [
 	horizontal := anObject
 ]
 
+{ #category : #initialization }
+ToScrollableBarTrackElement >> initialize [
+
+	super initialize.
+	self focusability: BlFocusability ignore
+]
+
 { #category : #testing }
 ToScrollableBarTrackElement >> isFlowLineUniformWidth [
 

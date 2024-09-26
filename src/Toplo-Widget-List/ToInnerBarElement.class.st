@@ -129,7 +129,8 @@ ToInnerBarElement >> initialize [
 	self addEventHandler: ToListInnerContainerEventHandler new.
 	self middleElement: ToScrollableBarTrackElement new.
 	self scrollableElement trackElement: self middleElement.
-	self matchParent
+	self matchParent.
+	self focusability: BlFocusability ignore
 ]
 
 { #category : #initialization }

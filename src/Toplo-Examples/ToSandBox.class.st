@@ -7,7 +7,7 @@ Class {
 { #category : #bar }
 ToSandBox class >> barConfigurationBoardFor: aBar [
 
-	| menu confPane verticalSwitch wrappingSwitch scrollingSwitch autoDistributionSwitch sameWidthSwitch selectionAnimationSwitch selectOnMouseDownSwitch |
+	| menu confPane verticalSwitch wrappingSwitch scrollingSwitch autoDistributionSwitch sameWidthSwitch selectionAnimationSwitch selectOnMouseDownSwitch deselectOnMouseDownSwitch |
 	confPane := ToPane vertical.
 	confPane padding: (BlInsets all: 5).
 	confPane width: 250.
@@ -108,6 +108,17 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	selectOnMouseDownSwitch whenClickedDo: [ :event |
 			 aBar primarySelectionMode selectOnMouseDown: event current ].
 
+	deselectOnMouseDownSwitch := ToSwitchButton new
+		                           labelText: 'Deselect on mouse down';
+		                           id: #deselectOnMouseDownSwitch.
+	deselectOnMouseDownSwitch startFlexible: true.
+	deselectOnMouseDownSwitch hMatchParent.
+
+	confPane addChild: deselectOnMouseDownSwitch.
+	deselectOnMouseDownSwitch whenClickedDo: [ :event |
+			 aBar primarySelectionMode deselectOnMouseDown: event current ].
+	deselectOnMouseDownSwitch checked: aBar primarySelectionMode deselectOnMouseDown.
+	
 	wrappingSwitch checked: true.
 
 	aBar
@@ -2502,8 +2513,8 @@ ToSandBox class >> example_ThemeSelect [
 		addEventHandlerOn: ToSingleSelectChangedEvent
 		do: [ :event | self inform: event selectedData asString ].
 	select selecter selectIndex: 4.
-	select openInSpace.
-	select inspect
+	select allowDeselection: false.
+	select openInSpace
 ]
 
 { #category : #'button-dep' }

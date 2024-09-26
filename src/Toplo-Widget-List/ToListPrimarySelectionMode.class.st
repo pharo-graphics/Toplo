@@ -5,6 +5,7 @@ Class {
 		'requestFocusOnMouseDown',
 		'preserveSelectionOnFocused',
 		'selectOnMouseDown',
+		'deselectOnMouseDown',
 		'multiple'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
@@ -33,6 +34,18 @@ ToListPrimarySelectionMode >> beSingleSelection [
 	self multiple: false
 ]
 
+{ #category : #accessing }
+ToListPrimarySelectionMode >> deselectOnMouseDown [
+
+	^ deselectOnMouseDown
+]
+
+{ #category : #accessing }
+ToListPrimarySelectionMode >> deselectOnMouseDown: aBoolean [
+
+	deselectOnMouseDown := aBoolean
+]
+
 { #category : #initialization }
 ToListPrimarySelectionMode >> initialize [
 
@@ -40,6 +53,7 @@ ToListPrimarySelectionMode >> initialize [
 	requestFocusOnMouseDown := true.
 	preserveSelectionOnFocused := true.
 	selectOnMouseDown := false.
+	deselectOnMouseDown := true.
 	multiple := true.
 
 	option := ToListSelectionElementOption new.
@@ -105,35 +119,38 @@ ToListPrimarySelectionMode >> onAddedNode: aNode [
 ToListPrimarySelectionMode >> onClickEvent: anEvent onNode: aNode [
 	" implement the default/standard selection/deselection protocol"
 
+	| index modifiers |
 	self isDisabled ifTrue: [ ^ self ].
+	index := aNode holder position.
+	modifiers := anEvent sourceEvent modifiers.
 
 	" Multiple selection "
 	self isMultipleSelection ifTrue: [ " SHIFT "
-		anEvent sourceEvent modifiers isShift ifTrue: [
+		modifiers isShift ifTrue: [
 			| curr |
 			curr := self selecter currentIndex.
-			self selecter selectIndex: curr to: aNode holder position.
+			self selecter selectIndex: curr to: index.
 			^ self ].
 		" CMD-CTRL "
-		(anEvent sourceEvent modifiers isPrimaryModifier or: [
-			 selectOnMouseDown ]) ifTrue: [
-			self selectOrDeselectOnNode: aNode.
+		(modifiers isPrimaryModifier or: [ selectOnMouseDown ]) ifTrue: [
+			(self selectionModel containsIndex: index)
+				ifTrue: [
+				(modifiers isPrimaryModifier or: [ deselectOnMouseDown ]) ifTrue: [ self selecter deselectIndex: index ] ]
+				ifFalse: [ self selecter selectIndex: index ].
 			^ self ].
 		" No modifier"
-		self selecter selectOnlyIndex: aNode holder position.
+		self selecter selectOnlyIndex: index.
 		^ self ].
 
 	" Single selection "
 	" CMD-CTRL  "
-	(anEvent sourceEvent modifiers isPrimaryModifier or: [
-		 selectOnMouseDown ]) ifTrue: [
-		| index |
-		index := aNode holder position.
-		(self selectionModel containsIndex: index) ifTrue: [
+	(modifiers isPrimaryModifier or: [ selectOnMouseDown ]) ifTrue: [
+		(deselectOnMouseDown and: [
+			 self selectionModel containsIndex: index ]) ifTrue: [
 			^ self selecter deselectIndex: index ] ].
 
 	" No modifier"
-	self selecter selectOnlyIndex: aNode holder position
+	self selecter selectOnlyIndex: index
 ]
 
 { #category : #accessing }
@@ -179,17 +196,6 @@ ToListPrimarySelectionMode >> selectOnMouseDown [
 ToListPrimarySelectionMode >> selectOnMouseDown: aBoolean [
 
 	selectOnMouseDown := aBoolean
-]
-
-{ #category : #'event handling' }
-ToListPrimarySelectionMode >> selectOrDeselectOnNode: aNode [
-
-	| index target |
-	index := aNode holder position.
-	target := aNode holder listElement.
-	(target selectionModel containsIndex: index)
-		ifTrue: [ self selecter deselectIndex: index ]
-		ifFalse: [ self selecter selectIndex: index ]
 ]
 
 { #category : #'instance creation' }

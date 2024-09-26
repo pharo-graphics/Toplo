@@ -4,6 +4,18 @@ Class {
 	#category : #'Toplo-Widget-Select-Single'
 }
 
+{ #category : #testing }
+ToSingleSelectElement >> allowDeselection [
+
+	^ self listElement primarySelectionMode deselectOnMouseDown
+]
+
+{ #category : #accessing }
+ToSingleSelectElement >> allowDeselection: aBoolean [
+
+	self listElement primarySelectionMode deselectOnMouseDown: aBoolean
+]
+
 { #category : #accessing }
 ToSingleSelectElement >> dataViewBuilder: aValuable [
 	" aValuable takes 2 args: the dataItemView and the selected dataItem "

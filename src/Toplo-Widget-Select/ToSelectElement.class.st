@@ -12,6 +12,12 @@ Class {
 	#category : #'Toplo-Widget-Select-Core'
 }
 
+{ #category : #testing }
+ToSelectElement >> allowDeselection [
+
+	^ true
+]
+
 { #category : #'accessing - window' }
 ToSelectElement >> closeWindow [
 

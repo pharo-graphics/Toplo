@@ -1699,7 +1699,7 @@ ToSandBox class >> example_SelectAntDesignIconMonoFiltrable [
 		dataItemView selectedDataTextField text: iconDesc style prefix , ' ' , iconDesc name.
 		dataItemView addChild: ((iconDesc icon size: 48 asPoint) background: Color veryLightGray) ].
 	
-	select fakeDataItem: select dataAccessor first.
+	select fakeDataItem: (select dataAccessor at: 1).
 
 	select hMatchParent.
 	select placeholderText:

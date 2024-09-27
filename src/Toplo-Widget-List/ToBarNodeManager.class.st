@@ -47,6 +47,12 @@ ToBarNodeManager >> constraintNode: aNode [
 ]
 
 { #category : #initialization }
+ToBarNodeManager >> defaultHolderClass [
+
+	^ ToBarNodeHolder
+]
+
+{ #category : #initialization }
 ToBarNodeManager >> defaultNodeBuilder [
 
 	^ [ :node :dataItem :holder |
@@ -57,12 +63,6 @@ ToBarNodeManager >> defaultNodeBuilder [
 ToBarNodeManager >> defaultNodeFactory [
 
 	^ [ :holder | ToBarNode new ]
-]
-
-{ #category : #initialization }
-ToBarNodeManager >> defaultNodeHolderClass [
-
-	^ ToBarNodeHolder
 ]
 
 { #category : #accessing }

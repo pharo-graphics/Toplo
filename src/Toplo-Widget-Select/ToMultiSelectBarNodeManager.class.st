@@ -1,6 +1,9 @@
 Class {
 	#name : #ToMultiSelectBarNodeManager,
 	#superclass : #ToBarNodeManager,
+	#instVars : [
+		'compositeNodeBuilder'
+	],
 	#category : #'Toplo-Widget-Select-Multi'
 }
 
@@ -30,10 +33,17 @@ ToMultiSelectBarNodeManager >> buildNode: aNode inHolder: aNodeHolder [
 				event consume.
 				aNode removeFromBar ] ]
 		ifTrue: [
-			self defaultCompositeNodeBuilder
+			compositeNodeBuilder
 				value: aNode
 				value: multiSelectDataItem
 				value: aNodeHolder ]
+]
+
+{ #category : #accessing }
+ToMultiSelectBarNodeManager >> compositeNodeBuilder: aValuable [
+
+	" aValuable takes the node, then the compositeDataItem then the holder as arguments "
+	compositeNodeBuilder := aValuable 
 ]
 
 { #category : #initialization }
@@ -41,7 +51,13 @@ ToMultiSelectBarNodeManager >> defaultCompositeNodeBuilder [
 
 	^ [ :node :compositeDataItem :holder |
 	  node addChild:
-		  (ToLabel text: compositeDataItem content asString asRopedText) ]
+		  (ToLabel text: compositeDataItem content asString) ]
+]
+
+{ #category : #initialization }
+ToMultiSelectBarNodeManager >> defaultHolderClass [ 
+
+	^ ToMultiSelectBarNodeHolder
 ]
 
 { #category : #initialization }
@@ -64,7 +80,8 @@ ToMultiSelectBarNodeManager >> defaultNodeFactory [
 ]
 
 { #category : #initialization }
-ToMultiSelectBarNodeManager >> defaultNodeHolderClass [ 
+ToMultiSelectBarNodeManager >> initialize [ 
 
-	^ ToMultiSelectBarNodeHolder
+	super initialize.
+	compositeNodeBuilder := self defaultCompositeNodeBuilder
 ]

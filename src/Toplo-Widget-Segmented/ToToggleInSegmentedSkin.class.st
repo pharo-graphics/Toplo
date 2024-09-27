@@ -31,6 +31,7 @@ ToToggleInSegmentedSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
+		e focusability: BlFocusability ignore.
 		e layout alignCenter.
 		e border: BlBorder empty.
 		e padding: (BlInsets

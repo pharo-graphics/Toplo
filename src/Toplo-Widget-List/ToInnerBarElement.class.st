@@ -156,15 +156,17 @@ ToInnerBarElement >> installFakeNode [
 	and the data kind."
 
 	| holder fakeNode |
-	holder := dataSource createHolder: self.
+	holder := self nodeManager newHolder.
 	holder infiniteElement: self.
 	holder dataItem: self nodeManager fakeDataItem.
 	holder bindAtPosition: 0.
 	fakeNode := self nodeManager newNodeForHolder: holder.
+	fakeNode id: #fakeNode.
+
+	self nodeManager buildFakeNode: fakeNode inHolder: holder.
 	" add the fake node (to keep a constant minimum size ) "
 	self scrollableElement addFakeNode: fakeNode.
-	self nodeManager buildFakeNode: fakeNode inHolder: holder.
-	fakeNode id: #fakeNode.
+
 
 
 ]
@@ -190,7 +192,7 @@ ToInnerBarElement >> newMiddleContainer [
 { #category : #'instance creation' }
 ToInnerBarElement >> newNodeHolderFromDataSource: aDataSource [
 
-	^ listElement nodeManager newNodeHolder
+	^ listElement nodeManager newHolder
 ]
 
 { #category : #initialization }

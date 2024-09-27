@@ -8,11 +8,17 @@ Class {
 ToSegmentedNodeManager >> buildFakeNode: aFakeNode inHolder: anHolder [
 
 	| contentElement |
-	contentElement := ToLabeledIcon new
+	contentElement := ToToggleButton new
 		                  labelText: self fakeDataItem asString;
 		                  yourself.
 	anHolder dataItem: contentElement.
 	super buildFakeNode: aFakeNode inHolder: anHolder
+]
+
+{ #category : #initialization }
+ToSegmentedNodeManager >> defaultHolderClass [
+
+	^ ToSegmentedNodeHolder
 ]
 
 { #category : #initialization }
@@ -30,12 +36,6 @@ ToSegmentedNodeManager >> defaultNodeBuilder [
 ToSegmentedNodeManager >> defaultNodeFactory [
 
 	^ [ :holder | ToSegmentedNode new ]
-]
-
-{ #category : #initialization }
-ToSegmentedNodeManager >> defaultNodeHolderClass [
-
-	^ ToSegmentedNodeHolder
 ]
 
 { #category : #initialization }

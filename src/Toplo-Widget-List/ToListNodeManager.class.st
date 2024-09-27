@@ -5,14 +5,14 @@ Class {
 }
 
 { #category : #initialization }
+ToListNodeManager >> defaultHolderClass [
+
+	^ ToListNodeHolder
+]
+
+{ #category : #initialization }
 ToListNodeManager >> defaultNodeBuilder [
 
 	^ [ :node :dataItem :holder |
 	  node addChild: (ToLabel text: dataItem asString) hMatchParent ]
-]
-
-{ #category : #initialization }
-ToListNodeManager >> defaultNodeHolderClass [
-
-	^ ToListNodeHolder
 ]

@@ -387,7 +387,7 @@ ToAbstractListElement >> nodeFactory: aValuable [
 { #category : #accessing }
 ToAbstractListElement >> nodeHolderClass: aNodeHolderClass [
 
-	nodeManager nodeHolderClass: aNodeHolderClass
+	nodeManager holderClass: aNodeHolderClass
 ]
 
 { #category : #accessing }

@@ -135,7 +135,7 @@ ToInfiniteElement >> listElement: aListElement [
 { #category : #'instance creation' }
 ToInfiniteElement >> newNodeHolderFromDataSource: aDataSource [
 
-	^ listElement nodeManager newNodeHolder
+	^ listElement nodeManager newHolder
 ]
 
 { #category : #'accessing - nodes' }

@@ -2,10 +2,10 @@ Class {
 	#name : #ToAbstractListNodeManager,
 	#superclass : #Object,
 	#instVars : [
-		'nodeHolderClass',
 		'nodeFactory',
 		'nodeBuilder',
-		'nodeUnbuilder'
+		'nodeUnbuilder',
+		'holderClass'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -26,6 +26,12 @@ ToAbstractListNodeManager >> constraintNode: aNode [
 ]
 
 { #category : #initialization }
+ToAbstractListNodeManager >> defaultHolderClass [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #initialization }
 ToAbstractListNodeManager >> defaultNodeBuilder [
 
 	^ self subclassResponsibility 
@@ -38,25 +44,31 @@ ToAbstractListNodeManager >> defaultNodeFactory [
 ]
 
 { #category : #initialization }
-ToAbstractListNodeManager >> defaultNodeHolderClass [
-
-	^ self subclassResponsibility 
-]
-
-{ #category : #initialization }
 ToAbstractListNodeManager >> defaultNodeUnbuilder [
 
 	^ [ :node :dataItem :holder | ]
+]
+
+{ #category : #accessing }
+ToAbstractListNodeManager >> holderClass: aNodeHolderClass [
+
+	holderClass := aNodeHolderClass
 ]
 
 { #category : #initialization }
 ToAbstractListNodeManager >> initialize [
 
 	super initialize.
-	nodeHolderClass := self defaultNodeHolderClass.
+	holderClass := self defaultHolderClass.
 	nodeBuilder := self defaultNodeBuilder.
 	nodeUnbuilder := self defaultNodeUnbuilder.
 	nodeFactory := self defaultNodeFactory
+]
+
+{ #category : #'instance creation' }
+ToAbstractListNodeManager >> newHolder [
+
+	^ holderClass new
 ]
 
 { #category : #'instance creation' }
@@ -67,12 +79,6 @@ ToAbstractListNodeManager >> newNodeForHolder: aNodeHolder [
 	infiniteConstraints := node constraints infinite.
 	infiniteConstraints holder: aNodeHolder.
 	^ node
-]
-
-{ #category : #'instance creation' }
-ToAbstractListNodeManager >> newNodeHolder [
-
-	^ nodeHolderClass new
 ]
 
 { #category : #accessing }
@@ -87,12 +93,6 @@ ToAbstractListNodeManager >> nodeFactory: aValuable [
 	" aValuable that takes a node holder as unique argument and which running results in a new node "
 
 	nodeFactory := aValuable
-]
-
-{ #category : #accessing }
-ToAbstractListNodeManager >> nodeHolderClass: aNodeHolderClass [
-
-	nodeHolderClass := aNodeHolderClass
 ]
 
 { #category : #accessing }

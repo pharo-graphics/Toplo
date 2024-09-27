@@ -10,14 +10,7 @@ Class {
 { #category : #'instance creation' }
 ToBarNodeManager >> buildFakeNode: aFakeNode inHolder: anHolder [
 
-	self buildNode: aFakeNode inHolder: anHolder.
-	self constraintNode: aFakeNode.
-	aFakeNode constraintsDo: [ :c |
-		aFakeNode holder listElement isHorizontal
-			ifTrue: [ c horizontal exact: 0 ]
-			ifFalse: [ c vertical exact: 0 ] ].
-	aFakeNode margin: BlInsets empty.
-	anHolder node: aFakeNode
+	self buildNode: aFakeNode inHolder: anHolder
 ]
 
 { #category : #initialization }

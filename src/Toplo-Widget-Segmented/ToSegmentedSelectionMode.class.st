@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-Widget-Segmented'
 }
 
+{ #category : #accessing }
+ToSegmentedSelectionMode >> deselectOnMouseDown [
+
+	^ false
+]
+
 { #category : #initialization }
 ToSegmentedSelectionMode >> initialize [
 

@@ -7,7 +7,7 @@ Class {
 { #category : #'instance creation' }
 ToMultiSelectBarNodeManager >> buildFakeNode: aFakeNode inHolder: anHolder [
 
-	" The fake data item is always store in node with holder which position is zero "
+	" The fake data item is always store in node with an holder for position zero "
 	anHolder dataItem: (ToMultiSelectItem index: 0).
 	super buildFakeNode: aFakeNode inHolder: anHolder
 ]
@@ -16,6 +16,7 @@ ToMultiSelectBarNodeManager >> buildFakeNode: aFakeNode inHolder: anHolder [
 ToMultiSelectBarNodeManager >> buildNode: aNode inHolder: aNodeHolder [
 
 	| multiSelectDataItem |
+	aNodeHolder node: aNode.
 	multiSelectDataItem := aNodeHolder dataItem.
 	multiSelectDataItem isComposite
 		ifFalse: [

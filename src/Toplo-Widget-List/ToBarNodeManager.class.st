@@ -47,19 +47,6 @@ ToBarNodeManager >> constraintNode: aNode [
 ]
 
 { #category : #initialization }
-ToBarNodeManager >> defaultHolderClass [
-
-	^ ToListNodeHolder
-]
-
-{ #category : #initialization }
-ToBarNodeManager >> defaultNodeBuilder [
-
-	^ [ :node :dataItem :holder |
-	  node addChild: (ToLabel text: dataItem asString) hMatchParent ]
-]
-
-{ #category : #initialization }
 ToBarNodeManager >> defaultNodeFactory [
 
 	^ [ :holder | ToBarNode new ]

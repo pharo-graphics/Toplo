@@ -25,13 +25,14 @@ ToAbstractListNodeManager >> constraintNode: aNode [
 { #category : #initialization }
 ToAbstractListNodeManager >> defaultHolderClass [
 
-	^ self subclassResponsibility 
+	^ ToListNodeHolder
 ]
 
 { #category : #initialization }
 ToAbstractListNodeManager >> defaultNodeBuilder [
 
-	^ self subclassResponsibility 
+	^ [ :node :dataItem :holder |
+	  node addChild: (ToLabel text: dataItem asString) hMatchParent ]
 ]
 
 { #category : #initialization }

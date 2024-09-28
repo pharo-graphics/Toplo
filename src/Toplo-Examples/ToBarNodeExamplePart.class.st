@@ -64,5 +64,5 @@ ToBarNodeExamplePart >> label: aLabel [
 { #category : #initialization }
 ToBarNodeExamplePart >> removeFromBar [
 
-	self holder barElement dataAccessor removeAt: self holder position
+	self holder listElement dataAccessor removeAt: self holder position
 ]

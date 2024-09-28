@@ -38,7 +38,7 @@ ToBarNodeManager >> constraintNode: aNode [
 
 	| bar |
 	aNode isFake ifTrue: [ ^ self ].
-	bar := aNode holder barElement.
+	bar := aNode holder listElement.
 	aNode constraintsDo: [ :c |
 		c horizontal fitContent.
 		c vertical fitContent ].
@@ -49,7 +49,7 @@ ToBarNodeManager >> constraintNode: aNode [
 { #category : #initialization }
 ToBarNodeManager >> defaultHolderClass [
 
-	^ ToBarNodeHolder
+	^ ToListNodeHolder
 ]
 
 { #category : #initialization }

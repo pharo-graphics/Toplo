@@ -13,16 +13,13 @@ Class {
 { #category : #'instance creation' }
 ToAbstractListNodeManager >> buildNode: aNode inHolder: aNodeHolder [
 
-	aNodeHolder node: aNode.
 	nodeBuilder cull: aNode cull: aNodeHolder dataItem cull: aNodeHolder
 ]
 
 { #category : #initialization }
 ToAbstractListNodeManager >> constraintNode: aNode [
 
-	aNode constraintsDo: [ :c |
-		c horizontal matchParent.
-		c vertical fitContent ]
+	self subclassResponsibility 
 ]
 
 { #category : #initialization }
@@ -78,6 +75,7 @@ ToAbstractListNodeManager >> newNodeForHolder: aNodeHolder [
 	node := nodeFactory cull: aNodeHolder.
 	infiniteConstraints := node constraints infinite.
 	infiniteConstraints holder: aNodeHolder.
+	aNodeHolder node: node.
 	^ node
 ]
 

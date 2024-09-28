@@ -10,22 +10,9 @@ Class {
 { #category : #accessing }
 ToListNodeHolder >> bindDataItem: aDataItem [
 
-	| nodeManager |
-	nodeManager := self nodeManager.
-	self dataItem: aDataItem.
-	self node: (nodeManager newNodeForHolder: self).
-	self build
-]
+	self node: (self nodeManager newNodeForHolder: self).
+	self setDataItemAndBuildNode: aDataItem.
 
-{ #category : #accessing }
-ToListNodeHolder >> build [
-
-	| nodeManager |
-	nodeManager := self nodeManager.
-	nodeManager buildNode: self node inHolder: self.
-	nodeManager constraintNode: self node.
-	self node enabled: self isEnabled.
-	self isHidden ifTrue: [ self node height: 0 ]
 ]
 
 { #category : #accessing }
@@ -160,10 +147,21 @@ ToListNodeHolder >> selectionModel [
 ]
 
 { #category : #accessing }
+ToListNodeHolder >> setDataItemAndBuildNode: aDataItem [ 
+
+	| nodeManager |
+	self dataItem: aDataItem.
+	nodeManager := self nodeManager.
+	nodeManager buildNode: self node inHolder: self.
+	nodeManager constraintNode: self node.
+	self node enabled: self isEnabled.
+	self isHidden ifTrue: [ self node height: 0 ]
+]
+
+{ #category : #accessing }
 ToListNodeHolder >> unbindDataItem [
 
 	| nodeManager |
-	
 	nodeManager := self listElement nodeManager.
 	nodeManager unbuildNode: self node
 ]

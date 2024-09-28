@@ -16,7 +16,7 @@ ToSegmentedElementEventHandler >> eventsToHandle [
 { #category : #'event handling' }
 ToSegmentedElementEventHandler >> layoutDirectionChangedEvent: anEvent [
 
-	anEvent currentTarget barElement leftToRight: anEvent currentTarget isLeftToRight 
+	anEvent currentTarget listElement leftToRight: anEvent currentTarget isLeftToRight 
 ]
 
 { #category : #'event handling' }

@@ -21,12 +21,13 @@ ToMultiSelectBarNodeManager >> buildNode: aNode inHolder: aNodeHolder [
 	| multiSelectDataItem |
 	aNodeHolder node: aNode.
 	multiSelectDataItem := aNodeHolder dataItem.
+	" an holder can have a composite data item if not wraping and not scrolling "
 	multiSelectDataItem isComposite
 		ifFalse: [
 			| index data |
 			index := multiSelectDataItem index.
 			data := index isZero
-				        ifTrue: [ self fakeDataItem ]
+				        ifTrue: [ fakeDataItem ]
 				        ifFalse: [ aNodeHolder dataAccessor at: index ].
 			nodeBuilder value: aNode value: data value: aNodeHolder.
 			aNode addEventHandlerOn: ToInnerElementRemovedEvent do: [ :event |
@@ -57,7 +58,7 @@ ToMultiSelectBarNodeManager >> defaultCompositeNodeBuilder [
 { #category : #initialization }
 ToMultiSelectBarNodeManager >> defaultHolderClass [ 
 
-	^ ToMultiSelectBarNodeHolder
+	^ ToMultiSelectNodeHolder
 ]
 
 { #category : #initialization }

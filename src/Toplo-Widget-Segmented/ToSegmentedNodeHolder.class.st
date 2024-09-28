@@ -1,6 +1,6 @@
 Class {
 	#name : #ToSegmentedNodeHolder,
-	#superclass : #ToBarNodeHolder,
+	#superclass : #ToListNodeHolder,
 	#category : #'Toplo-Widget-Segmented'
 }
 
@@ -32,7 +32,7 @@ ToSegmentedNodeHolder >> isChecked [
 { #category : #accessing }
 ToSegmentedNodeHolder >> segmentedBarElement [
 
-	^ self barElement
+	^ self listElement
 ]
 
 { #category : #'t - checkable - accessing' }

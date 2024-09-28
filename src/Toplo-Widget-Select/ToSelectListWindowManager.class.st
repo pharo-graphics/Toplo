@@ -146,7 +146,7 @@ ToSelectListWindowManager >> newListElement [
 { #category : #'api - hooks' }
 ToSelectListWindowManager >> nodeHolderClass [
 
-	^ ToSelectListNodeHolder
+	^ ToListNodeHolder
 ]
 
 { #category : #'api - hooks' }

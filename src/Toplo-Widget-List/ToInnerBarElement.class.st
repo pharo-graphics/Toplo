@@ -285,8 +285,10 @@ ToInnerBarElement >> onItemRangeChanged: aPositionStart itemCount: anItemCount [
 	self nodesDo: [ :node |
 		(node holder position
 			 between: aPositionStart 
-			 and: aPositionStart + anItemCount - 1) ifTrue: [
-			node holder changeDataItem: (dataSource at: node holder position) ] ].
+			 and: aPositionStart + anItemCount - 1) ifTrue: [ | dataItem |
+			node holder unbindDataItem.
+			dataItem := dataSource at: node holder position.
+			node holder setDataItemAndBuildNode: dataItem ] ].
 	self requestLayout 
 ]
 

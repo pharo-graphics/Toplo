@@ -9,6 +9,15 @@ Class {
 	#category : #'Toplo-Widget-Select-Multi'
 }
 
+{ #category : #'node building' }
+ToMultiSelectCompositeItem >> buildNode: aNode inHolder: aNodeHolder withManager: aNodeManager [
+
+	aNodeManager compositeNodeBuilder
+		value: aNode
+		value: self
+		value: aNodeHolder
+]
+
 { #category : #accessing }
 ToMultiSelectCompositeItem >> content [
 

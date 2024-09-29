@@ -14,6 +14,17 @@ ToMultiSelectItem class >> index: anIndex [
 	^ self new index: anIndex; yourself
 ]
 
+{ #category : #'node building' }
+ToMultiSelectItem >> buildNode: aNode inHolder: aNodeHolder withManager: aNodeManager [
+
+	| data |
+	data := aNodeHolder dataAccessor at: index.
+	aNodeManager nodeBuilder value: aNode value: data value: aNodeHolder.
+	aNode addEventHandlerOn: ToInnerElementRemovedEvent do: [ :event |
+		event consume.
+		aNode removeFromBar ]
+]
+
 { #category : #accessing }
 ToMultiSelectItem >> index [
 

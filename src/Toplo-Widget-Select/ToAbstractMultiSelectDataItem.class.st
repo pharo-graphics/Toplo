@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-Widget-Select-Multi'
 }
 
+{ #category : #'node building' }
+ToAbstractMultiSelectDataItem >> buildNode: aNode inHolder: aNodeHolder withManager: aNodeManager [
+
+	self subclassResponsibility 
+]
+
 { #category : #accessing }
 ToAbstractMultiSelectDataItem >> indexes [
 

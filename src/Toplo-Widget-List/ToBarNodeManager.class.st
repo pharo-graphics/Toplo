@@ -10,7 +10,7 @@ Class {
 { #category : #'instance creation' }
 ToBarNodeManager >> buildFakeNode: aFakeNode inHolder: anHolder [
 
-	self buildNode: aFakeNode inHolder: anHolder
+	nodeBuilder cull: aFakeNode cull: fakeDataItem cull: anHolder
 ]
 
 { #category : #initialization }
@@ -47,6 +47,12 @@ ToBarNodeManager >> constraintNode: aNode [
 ]
 
 { #category : #initialization }
+ToBarNodeManager >> defaultFakeDataItem [
+
+	^ nil
+]
+
+{ #category : #initialization }
 ToBarNodeManager >> defaultNodeFactory [
 
 	^ [ :holder | ToBarNode new ]
@@ -62,4 +68,11 @@ ToBarNodeManager >> fakeDataItem [
 ToBarNodeManager >> fakeDataItem: anObject [
 
 	fakeDataItem := anObject
+]
+
+{ #category : #initialization }
+ToBarNodeManager >> initialize [ 
+
+	super initialize.
+	fakeDataItem := self defaultFakeDataItem 
 ]

@@ -81,6 +81,12 @@ ToAbstractListNodeManager >> newNodeForHolder: aNodeHolder [
 ]
 
 { #category : #accessing }
+ToAbstractListNodeManager >> nodeBuilder [
+
+	^ nodeBuilder 
+]
+
+{ #category : #accessing }
 ToAbstractListNodeManager >> nodeBuilder: aValuable [
 
 	"aValuable takes 2 args: first, the node to build and second, its holder in the list element "

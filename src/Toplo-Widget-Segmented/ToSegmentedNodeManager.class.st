@@ -4,15 +4,10 @@ Class {
 	#category : #'Toplo-Widget-Segmented'
 }
 
-{ #category : #'instance creation' }
-ToSegmentedNodeManager >> buildFakeNode: aFakeNode inHolder: anHolder [
+{ #category : #initialization }
+ToSegmentedNodeManager >> defaultFakeDataItem [ 
 
-	| contentElement |
-	contentElement := ToToggleButton new
-		                  labelText: self fakeDataItem asString;
-		                  yourself.
-	anHolder dataItem: contentElement.
-	super buildFakeNode: aFakeNode inHolder: anHolder
+	^ ToToggleButton new
 ]
 
 { #category : #initialization }

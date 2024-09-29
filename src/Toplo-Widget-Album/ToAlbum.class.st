@@ -270,7 +270,7 @@ ToAlbum >> whenSaveAcceptedDo: aBlock [
 { #category : #'transaction hook' }
 ToAlbum >> whenSaveDeniedDo: aBlock [
 
-	self when: ToAlbumSaveDeniedEvent do: aBlock
+	self addEventHandlerOn: ToAlbumSaveDeniedEvent do: aBlock
 ]
 
 { #category : #'transaction hook' }

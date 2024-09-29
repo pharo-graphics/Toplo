@@ -5241,7 +5241,7 @@ ToSandBox class >> group [
 	container layout: BlLinearLayout horizontal.
 	container layout cellSpacing: 2.
 	container addChildren: group buttons.
-	group when: ToCheckableGroupChangedEvent do: [ :event |
+	group addEventHandlerOn: ToCheckableGroupChangedEvent do: [ :event |
 		('checked: ' , event uncheckedList asString , ' unchecked: '
 		 , event uncheckedList asString) traceCr ].
 	ToInnerWindow new

@@ -19,12 +19,9 @@ ToSegmentedNodeManager >> defaultHolderClass [
 { #category : #initialization }
 ToSegmentedNodeManager >> defaultNodeBuilder [
 
-	^ [ :node :contentElement :holder |
-	  node isFake ifFalse: [
-		  contentElement registerInGroup: holder segmentedBarElement group.
-		  contentElement constraints infinite holder: holder.
-		  contentElement constraintsDo: [ :c | c horizontal matchParent ] ].
-	  node addChild: contentElement ]
+	^ [ :node :checkableElement :holder |
+		" in a segmented, the dataItem is a checkable element "
+	  node checkableElement: checkableElement ]
 ]
 
 { #category : #initialization }
@@ -36,8 +33,7 @@ ToSegmentedNodeManager >> defaultNodeFactory [
 { #category : #initialization }
 ToSegmentedNodeManager >> unbuildNode: aNode [
 
-	aNode isFake ifFalse: [
-		  aNode content unregisterFromGroup ].
-	aNode content removeFromParent.
+	aNode isFake ifFalse: [ aNode checkableElement unregisterFromGroup ].
+	aNode checkableElement removeFromParent.
 	super unbuildNode: aNode
 ]

@@ -10,9 +10,21 @@ ToSegmentedNode >> autoDistribute: aBoolean [
 
 	super autoDistribute: aBoolean.
 	aBoolean ifTrue: [
-		self content constraintsDo: [ :c |
+		self checkableElement constraintsDo: [ :c |
 			c horizontal matchParent.
 			c vertical matchParent ] ]
+]
+
+{ #category : #accessing }
+ToSegmentedNode >> checkableElement [ 
+
+	^ self firstChild
+]
+
+{ #category : #accessing }
+ToSegmentedNode >> checkableElement: aCheckable [
+
+	^ self addChild: aCheckable
 ]
 
 { #category : #'t - list node' }
@@ -22,9 +34,12 @@ ToSegmentedNode >> clickEventHandlerClasses [
 ]
 
 { #category : #accessing }
-ToSegmentedNode >> content [ 
+ToSegmentedNode >> content [
 
-	^ self firstChild
+	self
+		deprecated: 'Use #checkableElement instead'
+		transformWith: '`@rcvr content' -> '`@rcvr checkableElement'.
+	^ self checkableElement
 ]
 
 { #category : #testing }

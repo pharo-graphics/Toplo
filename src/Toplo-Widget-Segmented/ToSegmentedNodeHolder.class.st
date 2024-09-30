@@ -35,6 +35,15 @@ ToSegmentedNodeHolder >> segmentedBarElement [
 	^ self listElement
 ]
 
+{ #category : #accessing }
+ToSegmentedNodeHolder >> setDataItemAndBuildNode: aDataItem [
+
+	super setDataItemAndBuildNode: aDataItem.
+	" aDataItem is a checkable element. 
+	It must be registered in the checkable group managed by the segmented bar"
+	aDataItem registerInGroup: self segmentedBarElement group
+]
+
 { #category : #'t - checkable - accessing' }
 ToSegmentedNodeHolder >> updateSelection [
 

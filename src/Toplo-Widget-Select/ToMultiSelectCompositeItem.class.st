@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMultiSelectCompositeItem,
-	#superclass : #ToAbstractMultiSelectDataItem,
+	#superclass : #ToAbstractMultiSelectItem,
 	#instVars : [
 		'indexes',
 		'content',

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMultiSelectItem,
-	#superclass : #ToAbstractMultiSelectDataItem,
+	#superclass : #ToAbstractMultiSelectItem,
 	#instVars : [
 		'index',
 		'pickOrder'
@@ -25,43 +25,43 @@ ToMultiSelectItem >> buildNode: aNode inHolder: aNodeHolder withManager: aNodeMa
 		aNode removeFromBar ]
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToMultiSelectItem >> index [
 
 	^ index
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToMultiSelectItem >> index: anInteger [
 
 	index := anInteger
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToMultiSelectItem >> indexes [
 
 	^ Array with: index
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToMultiSelectItem >> items [
 
 	^ { self }
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToMultiSelectItem >> nodesCount [
 
 	^ 1
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToMultiSelectItem >> pickOrder [
 
 	^ pickOrder
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToMultiSelectItem >> pickOrder: anInteger [
 
 	pickOrder := anInteger

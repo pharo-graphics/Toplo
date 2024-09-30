@@ -41,7 +41,7 @@ ToMultiSelectBarNodeManager >> defaultCompositeNodeBuilder [
 { #category : #initialization }
 ToMultiSelectBarNodeManager >> defaultFakeDataItem [
 
-	^ ToMultiSelectItem index: 0
+	^ ToMultiSelectFakeItem new
 ]
 
 { #category : #initialization }
@@ -67,6 +67,14 @@ ToMultiSelectBarNodeManager >> defaultNodeBuilder [
 ToMultiSelectBarNodeManager >> defaultNodeFactory [
 
 	^ [ :holder | ToMultiSelectBarNode new ]
+]
+
+{ #category : #accessing }
+ToMultiSelectBarNodeManager >> fakeDataItem: aDataItem [
+
+	fakeDataItem := ToMultiSelectFakeItem new
+		                dataItem: aDataItem;
+		                yourself
 ]
 
 { #category : #initialization }

@@ -7,12 +7,6 @@ Class {
 	#category : #'Toplo-Widget-List-Core-BarElement'
 }
 
-{ #category : #'instance creation' }
-ToBarNodeManager >> buildFakeNode: aFakeNode inHolder: anHolder [
-
-	nodeBuilder cull: aFakeNode cull: fakeDataItem cull: anHolder
-]
-
 { #category : #initialization }
 ToBarNodeManager >> constraintFakeNode: aNode [
 
@@ -37,7 +31,6 @@ ToBarNodeManager >> constraintFakeNode: aNode [
 ToBarNodeManager >> constraintNode: aNode [
 
 	| bar |
-	aNode isFake ifTrue: [ ^ self ].
 	bar := aNode holder listElement.
 	aNode constraintsDo: [ :c |
 		c horizontal fitContent.

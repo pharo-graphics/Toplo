@@ -33,7 +33,7 @@ ToSegmentedNodeManager >> defaultNodeFactory [
 { #category : #initialization }
 ToSegmentedNodeManager >> unbuildNode: aNode [
 
-	aNode isFake ifFalse: [ aNode checkableElement unregisterFromGroup ].
+	aNode checkableElement unregisterFromGroup.
 	aNode checkableElement removeFromParent.
 	super unbuildNode: aNode
 ]

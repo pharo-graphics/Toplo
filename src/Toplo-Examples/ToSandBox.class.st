@@ -1729,6 +1729,7 @@ ToSandBox class >> example_SelectAntDesignIconMultiFiltrable [
 		('Select icons' asRopedText foreground: Color red).
 
 	select inputTextField requestFocus.
+	select inspect.
 	select openInSpace
 ]
 

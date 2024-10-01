@@ -52,6 +52,7 @@ ToSmartBarNodeManager >> defaultNodeBuilder [
 		         labelText: dataItem asString;
 		         flexible: true;
 		         hMatchParent.
+	  tag removable: holder withCloseButton.
 	  node addChild: tag.
 	  tag constraintsDo: [ :c | c linear vertical alignCenter ] ]
 ]

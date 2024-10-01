@@ -2,7 +2,8 @@ Class {
 	#name : #ToMultiSelectElement,
 	#superclass : #ToSelectElement,
 	#instVars : [
-		'hideSelected'
+		'hideSelected',
+		'nodesWithCloseButton'
 	],
 	#category : #'Toplo-Widget-Select-Multi'
 }
@@ -61,7 +62,7 @@ ToMultiSelectElement >> iconContainer: anIconContainer [
 ToMultiSelectElement >> initialize [
 
 	super initialize.
-	hideSelected := false.
+	hideSelected := false
 ]
 
 { #category : #'instance creation' }
@@ -124,6 +125,18 @@ ToMultiSelectElement >> nodeScrolling: aBoolean [
 ToMultiSelectElement >> nodeWrapping: aBoolean [
 
 	self innerContainer nodeWrapping: aBoolean
+]
+
+{ #category : #accessing }
+ToMultiSelectElement >> nodesWithCloseButton [
+
+	^ nodesWithCloseButton ifNil: [ nodesWithCloseButton := true ]
+]
+
+{ #category : #accessing }
+ToMultiSelectElement >> nodesWithCloseButton: aBoolean [
+
+	nodesWithCloseButton := aBoolean
 ]
 
 { #category : #'accessing - list' }

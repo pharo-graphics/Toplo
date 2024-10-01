@@ -42,3 +42,9 @@ ToMultiSelectHolder >> sieve [
 
 	^  self listElement sieve
 ]
+
+{ #category : #accessing }
+ToMultiSelectHolder >> withCloseButton [
+
+	^  self selectElement nodesWithCloseButton
+]

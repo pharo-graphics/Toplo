@@ -42,9 +42,8 @@ ToSingleSelectInnerContainerElement >> dataViewFactory [
 ToSingleSelectInnerContainerElement >> fakeDataItem: aData [
 
 	fakeDataItem := aData.
-	fakeDataView ifNotNil: [
-		self uninstallFakeDataView.
-		self installFakeDataView ]
+	self uninstallFakeDataView.
+	self installFakeDataView
 ]
 
 { #category : #initialization }
@@ -140,6 +139,12 @@ ToSingleSelectInnerContainerElement >> refresh [
 	changedEvent selectedData: dataItem.
 	changedEvent selectedIndex: selectedIndex.
 	selectElement dispatchEvent: changedEvent
+]
+
+{ #category : #accessing }
+ToSingleSelectInnerContainerElement >> sample: aDataItem [
+
+	self fakeDataItem: aDataItem
 ]
 
 { #category : #'t - select inner container' }

@@ -258,6 +258,14 @@ ToMultiSelectBarElement >> refresh [
 	self checkMaxSelectedCount
 ]
 
+{ #category : #accessing }
+ToMultiSelectBarElement >> sample: aDataItem [
+
+	super sample: (ToMultiSelectFakeItem new
+			 dataItem: aDataItem;
+			 yourself)
+]
+
 { #category : #'t - select inner container' }
 ToMultiSelectBarElement >> selectElement [
 

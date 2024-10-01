@@ -34,8 +34,7 @@ ToMultiSelectBarNodeManager >> compositeNodeBuilder: aValuable [
 ToMultiSelectBarNodeManager >> defaultCompositeNodeBuilder [
 
 	^ [ :node :compositeDataItem :holder |
-	  node addChild:
-		  (ToLabel text: compositeDataItem content asString) ]
+	  node addChild: (ToLabel text: compositeDataItem content asString) ]
 ]
 
 { #category : #initialization }
@@ -67,14 +66,6 @@ ToMultiSelectBarNodeManager >> defaultNodeBuilder [
 ToMultiSelectBarNodeManager >> defaultNodeFactory [
 
 	^ [ :holder | ToMultiSelectBarNode new ]
-]
-
-{ #category : #accessing }
-ToMultiSelectBarNodeManager >> fakeDataItem: aDataItem [
-
-	fakeDataItem := ToMultiSelectFakeItem new
-		                dataItem: aDataItem;
-		                yourself
 ]
 
 { #category : #initialization }

@@ -49,7 +49,7 @@ ToScrollableBarTrackElement >> configureLayoutIn: aBarElement [
 	nodeScrolling := aBarElement nodeScrolling.
 	nodeWrapping := aBarElement nodeWrapping.
 	nodeAutoDistribution := aBarElement nodeAutoDistribution.
-	flowLineUniformWidth := aBarElement flowLineUniformWidth.
+	flowLineUniformWidth := aBarElement uniformNodeWidth.
 	self horizontal: aBarElement isHorizontal.
 
 	self layout: self newLayout.
@@ -71,12 +71,6 @@ ToScrollableBarTrackElement >> configureLayoutIn: aBarElement [
 ToScrollableBarTrackElement >> fakeNode [ 
 
 	^ fakeNode
-]
-
-{ #category : #accessing }
-ToScrollableBarTrackElement >> flowLineUniformWidth: anObject [
-
-	flowLineUniformWidth := anObject
 ]
 
 { #category : #'accessing - children' }
@@ -153,7 +147,7 @@ ToScrollableBarTrackElement >> newLayout [
 			  (self isHorizontal
 				   ifTrue: [ ToBarFlowLayout horizontal ]
 				   ifFalse: [ ToBarFlowLayout vertical ])
-				  lineUniformWidth: flowLineUniformWidth;
+				  uniformNodeWidth: flowLineUniformWidth;
 				  yourself ]
 		  ifFalse: [
 			  self isHorizontal
@@ -240,4 +234,10 @@ ToScrollableBarTrackElement >> removeFakeNode [
 ToScrollableBarTrackElement >> removeNode: aNode [
 
 	aNode removeFromParent
+]
+
+{ #category : #accessing }
+ToScrollableBarTrackElement >> uniformNodeWidth: anObject [
+
+	flowLineUniformWidth := anObject
 ]

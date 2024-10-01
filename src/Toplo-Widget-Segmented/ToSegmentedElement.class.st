@@ -21,12 +21,6 @@ ToSegmentedElement >> defaultEventHandler [
 	^ ToSegmentedElementEventHandler new
 ]
 
-{ #category : #accessing }
-ToSegmentedElement >> flowLineUniformWidth: aBoolean [
-
-	barElement flowLineUniformWidth: aBoolean
-]
-
 { #category : #initialization }
 ToSegmentedElement >> initialize [
 
@@ -105,4 +99,10 @@ ToSegmentedElement >> segmentAccessor [
 ToSegmentedElement >> selectionModel [ 
 
 	^ barElement selectionModel
+]
+
+{ #category : #accessing }
+ToSegmentedElement >> uniformNodeWidth: aBoolean [
+
+	barElement uniformNodeWidth: aBoolean
 ]

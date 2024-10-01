@@ -7,10 +7,10 @@ Class {
 { #category : #bar }
 ToSandBox class >> barConfigurationBoardFor: aBar [
 
-	| menu confPane verticalSwitch wrappingSwitch scrollingSwitch autoDistributionSwitch sameWidthSwitch selectionAnimationSwitch selectOnMouseDownSwitch deselectOnMouseDownSwitch |
+	| menu confPane verticalSwitch wrappingSwitch scrollingSwitch autoDistributionSwitch uniformNodeWidthSwitch selectionAnimationSwitch selectOnMouseDownSwitch deselectOnMouseDownSwitch |
 	confPane := ToPane vertical.
 	confPane padding: (BlInsets all: 5).
-	confPane width: 250.
+	confPane width: 300.
 	confPane border: Color lightGray.
 
 	menu := ToMenu new.
@@ -39,12 +39,12 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	wrappingSwitch hMatchParent.
 	confPane addChild: wrappingSwitch.
 
-	sameWidthSwitch := ToSwitchButton new labelText:
-		                   'Uniform element width'.
-	sameWidthSwitch startFlexible: true.
-	sameWidthSwitch hMatchParent.
-	sameWidthSwitch checked: false.
-	confPane addChild: sameWidthSwitch.
+	uniformNodeWidthSwitch := ToSwitchButton new labelText:
+		                   'Uniform Node width'.
+	uniformNodeWidthSwitch startFlexible: true.
+	uniformNodeWidthSwitch hMatchParent.
+	uniformNodeWidthSwitch checked: false.
+	confPane addChild: uniformNodeWidthSwitch.
 
 	scrollingSwitch := ToSwitchButton new labelText: 'Scrolling'.
 	scrollingSwitch startFlexible: true.
@@ -56,13 +56,13 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 				 | v |
 				 v := event current.
 				 aBar nodeWrapping: v.
-				 sameWidthSwitch enabled: v.
+				 uniformNodeWidthSwitch enabled: v.
 				 scrollingSwitch disabled: v ].
 
-	sameWidthSwitch whenClickedDo: [ :event |
+	uniformNodeWidthSwitch whenClickedDo: [ :event |
 				 | v |
 				 v := event current.
-				 aBar flowLineUniformWidth: v ].
+				 aBar uniformNodeWidth: v ].
 
 	scrollingSwitch whenClickedDo: [ :event |
 				 | v |
@@ -149,6 +149,48 @@ ToSandBox class >> barDashBoardFor: aBar [
 			aBar }.
 	"barPane addChild: aBar."
 	^ mainPane
+]
+
+{ #category : #bar }
+ToSandBox class >> barWithData: aCollection [
+
+	| bar confBoard rootPane selectionModeBoard |
+	bar := ToBarElement new.
+	bar addStamp: #background withValue: Color veryLightGray.
+	bar nodeFactory: [ :holder | ToBarNodeExamplePart new ].
+	bar nodeBuilder: [ :node :dataItem :holder |
+		node label:
+			(ToLabel text: holder position asString , ': ' , dataItem asString) ].
+
+	bar contextMenu: [ :menu :request |
+		| selectedIndexes target |
+		target := request currentTarget.
+		selectedIndexes := request selectedIndexes.
+		menu addItem: (ToMenuItem new
+				 labelText: 'Inspect list';
+				 whenClickedDo: [ :event | target inspect ]).
+		selectedIndexes ifNotEmpty: [
+			menu addItem: (ToMenuItem new
+					 labelText: 'Inspect selected nodes';
+					 whenClickedDo: [
+						 Array withAll:
+								 (selectedIndexes collect: [ :idx | target nodeAt: idx ])
+									 inspect ]) ] ].
+
+	confBoard := self barConfigurationBoardFor: bar.
+	selectionModeBoard := self selectionModeChooserFor: bar.
+	confBoard addChild: selectionModeBoard.
+
+	bar dataAccessor addAll: aCollection.
+
+	rootPane := ToPane horizontal.
+	rootPane padding: (BlInsets all: 5).
+	rootPane matchParent.
+
+	rootPane addChild: confBoard.
+	rootPane addChild: bar.
+	rootPane addDividers.
+	rootPane openInSpace
 ]
 
 { #category : #select }
@@ -1699,7 +1741,7 @@ ToSandBox class >> example_SelectAntDesignIconMonoFiltrable [
 		dataItemView selectedDataTextField text: iconDesc style prefix , ' ' , iconDesc name.
 		dataItemView addChild: ((iconDesc icon size: 48 asPoint) background: Color veryLightGray) ].
 	
-	select fakeDataItem: (select dataAccessor at: 1).
+	select sample: (select dataAccessor at: 1).
 
 	select hMatchParent.
 	select placeholderText:
@@ -1723,7 +1765,7 @@ ToSandBox class >> example_SelectAntDesignIconMultiFiltrable [
 		tag icon: ((iconDesc icon size: 48 asPoint)).
 		tag addStamp: #closeIcon.
 		node addChild: tag ].
-	select fakeDataItem: select dataAccessor first.
+	select sample: select dataAccessor first.
 	select hMatchParent.
 	select placeholderText:
 		('Select icons' asRopedText foreground: Color red).
@@ -1746,7 +1788,7 @@ ToSandBox class >> example_SelectMaterialDesignIconMonoFiltrable [
 		dataItemView selectedDataTextField text: iconDesc style prefix , ' ' , iconDesc name.
 		dataItemView addChild: ((iconDesc icon size: 48 asPoint) background: Color veryLightGray) ].
 	
-	select fakeDataItem: select dataAccessor first.
+	select sample: select dataAccessor first.
 
 	select hMatchParent.
 	select placeholderText:
@@ -1776,7 +1818,7 @@ ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
 		tag bordered: false.
 		tag icon: (iconDesc icon size: 48 asPoint).
 		node addChild: tag ].
-	select fakeDataItem: select dataAccessor first.
+	select sample: select dataAccessor first.
 	select hMatchParent.
 	select placeholderText:
 		('Select icons' asRopedText foreground: Color red).
@@ -2722,45 +2764,15 @@ ToSandBox class >> example_TwoCoordinateLists [
 { #category : #bar }
 ToSandBox class >> example_bar [
 
-	| bar confBoard rootPane selectionModeBoard |
-	bar := ToBarElement new.
-	bar addStamp: #background withValue: Color veryLightGray.
-	bar nodeFactory: [ :holder | ToBarNodeExamplePart new ].
-	bar nodeBuilder: [ :node :dataItem :holder |
-		node label:
-			(ToLabel text: holder position asString , ': ' , dataItem asString) ].
+	self barWithData: ToSandBox statesOfAmerica. "copyFrom: 1 to: 20"
 
-	bar contextMenu: [ :menu :request |
-		| selectedIndexes target |
-		target := request currentTarget.
-		selectedIndexes := request selectedIndexes.
-		menu addItem: (ToMenuItem new
-				 labelText: 'Inspect list';
-				 whenClickedDo: [ :event | target inspect ]).
-		selectedIndexes ifNotEmpty: [
-			menu addItem: (ToMenuItem new
-					 labelText: 'Inspect selected nodes';
-					 whenClickedDo: [
-						 Array withAll:
-								 (selectedIndexes collect: [ :idx | target nodeAt: idx ])
-									 inspect ]) ] ].
+]
 
-	confBoard := self barConfigurationBoardFor: bar.
-	selectionModeBoard := self selectionModeChooserFor: bar.
-	confBoard addChild: selectionModeBoard.
+{ #category : #bar }
+ToSandBox class >> example_bar2 [
 
-	rootPane := ToPane horizontal.
-	rootPane padding: (BlInsets all: 5).
-	rootPane matchParent.
+	self barWithData: { 'B'. 'BB'. 'BB'}
 
-	rootPane addChild: confBoard.
-	rootPane addChild: bar.
-	rootPane addDividers.
-
-	bar dataAccessor addAll: ToSandBox statesOfAmerica. "copyFrom: 1 to: 20"
-	"bar dataAccessor addAll:
-		(Smalltalk globals allClasses copyFrom: 1 to: 1800)."
-	rootPane openInSpace
 ]
 
 { #category : #button }

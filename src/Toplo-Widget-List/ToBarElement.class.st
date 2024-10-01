@@ -5,7 +5,7 @@ Class {
 		'nodeWrapping',
 		'nodeScrolling',
 		'nodeAutoDistribution',
-		'flowLineUniformWidth'
+		'uniformNodeWidth'
 	],
 	#category : #'Toplo-Widget-List-Core-BarElement'
 }
@@ -47,34 +47,9 @@ ToBarElement >> defaultNodeManagerClass [
 ]
 
 { #category : #accessing }
-ToBarElement >> fakeDataItem: aDataItem [
-
-	nodeManager fakeDataItem: aDataItem.
-	self uninstallFakeNode.
-	self installFakeNode.
-	self configureLayout
-	
-]
-
-{ #category : #accessing }
 ToBarElement >> fakeNode [
 
 	^ self innerContainer fakeNode
-]
-
-{ #category : #accessing }
-ToBarElement >> flowLineUniformWidth [
-
-	^ flowLineUniformWidth ifNil: [ flowLineUniformWidth := false ]
-]
-
-{ #category : #accessing }
-ToBarElement >> flowLineUniformWidth: aBoolean [
-
-	flowLineUniformWidth := aBoolean.
-	self configureLayout.
-	self notifyDataSourceChanged
-
 ]
 
 { #category : #initialization }
@@ -180,6 +155,31 @@ ToBarElement >> nodeWrapping: aBoolean [
 ToBarElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 
 	super onLayout: aBounds context: aBlElementBoundsUpdateContext
+]
+
+{ #category : #accessing }
+ToBarElement >> sample: aDataItem [
+
+	nodeManager fakeDataItem: aDataItem.
+	self uninstallFakeNode.
+	self installFakeNode.
+	self configureLayout
+	
+]
+
+{ #category : #accessing }
+ToBarElement >> uniformNodeWidth [
+
+	^ uniformNodeWidth ifNil: [ uniformNodeWidth := false ]
+]
+
+{ #category : #accessing }
+ToBarElement >> uniformNodeWidth: aBoolean [
+
+	uniformNodeWidth := aBoolean.
+	self configureLayout.
+	self notifyDataSourceChanged
+
 ]
 
 { #category : #initialization }

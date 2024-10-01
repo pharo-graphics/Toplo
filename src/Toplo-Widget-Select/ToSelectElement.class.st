@@ -43,12 +43,6 @@ ToSelectElement >> defaultLayout [
 ]
 
 { #category : #accessing }
-ToSelectElement >> fakeDataItem: aDataItem [
-
-	self innerContainer fakeDataItem: aDataItem
-]
-
-{ #category : #accessing }
 ToSelectElement >> filterString [ 
 
 	^ self textInputElement filterString
@@ -282,6 +276,12 @@ ToSelectElement >> refresh [
 ToSelectElement >> requestLayout: x [
 
 	super requestLayout: x.
+]
+
+{ #category : #accessing }
+ToSelectElement >> sample: aDataItem [
+
+	self innerContainer sample: aDataItem
 ]
 
 { #category : #accessing }

@@ -9,19 +9,18 @@ ToBarFlowLayoutMeasurer >> measure: anElement with: anExtentSpec [
 
 	| measureAgain lwidth |
 	super measure: anElement with: anExtentSpec.
-	layout lineUniformWidth ifFalse: [ ^ self ].
+	layout uniformNodeWidth ifFalse: [ ^ self ].
 	measureAgain := false.
 	lwidth := 0.
 	lines do: [ :aLine |
 		aLine children do: [ :aChild |
-			lwidth := lwidth max: aChild width.
-			aChild element measuredWidth = lwidth ifFalse: [
-				measureAgain := true ] ] ].
-	measureAgain ifFalse: [ ^ self ].
+			lwidth := lwidth max: aChild element measuredWidth ] ].
 	lines do: [ :aLine |
 		aLine children do: [ :aChild |
-			aChild element holder position isZero ifFalse: [
-				aChild width: lwidth.
-				aChild element constraints horizontal exact: lwidth ] ] ].
+			aChild element isFake ifFalse: [
+				aChild element measuredWidth = lwidth ifFalse: [
+					aChild element width: lwidth.
+					measureAgain := true ] ] ] ].
+	measureAgain ifFalse: [ ^ self ].
 	self measure: anElement with: anExtentSpec
 ]

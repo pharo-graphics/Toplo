@@ -1,6 +1,6 @@
 Class {
-	#name : #ToMultiSelectCompositeItem,
-	#superclass : #ToAbstractMultiSelectItem,
+	#name : #ToBarCompositeItem,
+	#superclass : #ToAbstractBarItem,
 	#instVars : [
 		'indexes',
 		'content',
@@ -10,7 +10,7 @@ Class {
 }
 
 { #category : #'node building' }
-ToMultiSelectCompositeItem >> buildNode: aNode inHolder: aNodeHolder withManager: aNodeManager [
+ToBarCompositeItem >> buildNode: aNode inHolder: aNodeHolder withManager: aNodeManager [
 
 	aNodeManager compositeNodeBuilder
 		value: aNode
@@ -19,67 +19,67 @@ ToMultiSelectCompositeItem >> buildNode: aNode inHolder: aNodeHolder withManager
 ]
 
 { #category : #accessing }
-ToMultiSelectCompositeItem >> content [
+ToBarCompositeItem >> content [
 
 	^ content
 ]
 
 { #category : #accessing }
-ToMultiSelectCompositeItem >> content: anObject [
+ToBarCompositeItem >> content: anObject [
 
 	content := anObject
 ]
 
 { #category : #accessing }
-ToMultiSelectCompositeItem >> dataItems [
+ToBarCompositeItem >> dataItems [
 
 	^ items
 ]
 
 { #category : #accessing }
-ToMultiSelectCompositeItem >> dataItems: aCollection [
+ToBarCompositeItem >> dataItems: aCollection [
 
 	items := aCollection asArray
 ]
 
 { #category : #accessing }
-ToMultiSelectCompositeItem >> index [
+ToBarCompositeItem >> index [
 
 	^ -1
 ]
 
 { #category : #accessing }
-ToMultiSelectCompositeItem >> indexes [
+ToBarCompositeItem >> indexes [
 
 	^ indexes
 ]
 
 { #category : #accessing }
-ToMultiSelectCompositeItem >> indexes: aCollection [
+ToBarCompositeItem >> indexes: aCollection [
 
 	indexes := aCollection asArray
 ]
 
 { #category : #testing }
-ToMultiSelectCompositeItem >> isComposite [
+ToBarCompositeItem >> isComposite [
 
 	^ true
 ]
 
 { #category : #accessing }
-ToMultiSelectCompositeItem >> items [
+ToBarCompositeItem >> items [
 
 	^ items
 ]
 
 { #category : #accessing }
-ToMultiSelectCompositeItem >> items: aCollection [
+ToBarCompositeItem >> items: aCollection [
 
 	items := aCollection asArray
 ]
 
 { #category : #accessing }
-ToMultiSelectCompositeItem >> nodesCount [ 
+ToBarCompositeItem >> nodesCount [ 
 	
 	^ items size
 ]

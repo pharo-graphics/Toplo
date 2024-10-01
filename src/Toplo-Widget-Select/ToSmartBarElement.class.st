@@ -34,26 +34,26 @@ ToSmartBarElement >> assertMaxSelectedCount: aNumber [
 { #category : #'accessing - selection' }
 ToSmartBarElement >> checkMaxSelectedCount [
 
-	maxSelectedCount isZero ifTrue: [ ^ self ].
-	self updateSelectedCountLabel
+	self flag: 'see later'.
+	maxSelectedCount isZero ifTrue: [ ^ self ]
 ]
 
 { #category : #initialization }
 ToSmartBarElement >> defaultEventHandler [ 
 
-	^ ToMultiSelectBarEventHandler new
+	^ ToSmartBarEventHandler new
 ]
 
 { #category : #initialization }
 ToSmartBarElement >> defaultNodeManager [
 
-	^ ToMultiSelectBarNodeManager new
+	^ ToSmartBarNodeManager new
 ]
 
 { #category : #layout }
 ToSmartBarElement >> haveFullyInvisibleNodes: theInvisibleNodes [
 
-	| visibleNodes invisibleNodes shower finalCount |
+	| visibleNodes invisibleNodes compositeItem finalCount |
 	" in case of composite node at first it means that 
 	there is no more visible node to cumulate in a composite node"
 	self nodes size = 1 ifTrue: [ ^ self ].
@@ -65,19 +65,19 @@ ToSmartBarElement >> haveFullyInvisibleNodes: theInvisibleNodes [
 		visibleNodes := visibleNodes copyWithout: visibleNodes last ].
 
 	" now cumulate invisible nodes in a composite holder "
-	shower := ToMultiSelectCompositeItem new.
-	shower items: (Array streamContents: [ :stream |
+	compositeItem := ToBarCompositeItem new.
+	compositeItem items: (Array streamContents: [ :stream |
 			 invisibleNodes do: [ :n |
 				 stream nextPutAll: n holder dataItem items ] ]).
-	shower indexes: (Array streamContents: [ :stream |
+	compositeItem indexes: (Array streamContents: [ :stream |
 			 invisibleNodes do: [ :node |
 				 stream nextPutAll: node holder dataItem indexes ] ]).
 
 	finalCount := self nodesCount - visibleNodes size.
-	shower content: '+ ' , finalCount asString , ' ...'.
+	compositeItem content: '+ ' , finalCount asString , ' ...'.
 	invisibleNodes do: [ :node |
 		self dataAccessor removeAt: node holder position ].
-	self dataAccessor add: shower
+	self dataAccessor add: compositeItem
 ]
 
 { #category : #initialization }
@@ -89,7 +89,10 @@ ToSmartBarElement >> initialize [
 	self primarySelectionMode option masked: true.
 	self secondarySelectionMode option masked: true.
 
+	maxSelectedCount := 0.
+	keepPickOrder := false.
 	pickCount := 0.
+
 	" mandatory resizer setting. 
 	Normally, should not be changed"
 	self vFitContent.
@@ -102,10 +105,30 @@ ToSmartBarElement >> isMultipleSelection [
 	^ true
 ]
 
+{ #category : #accessing }
+ToSmartBarElement >> keepPickOrder [
+
+	^ keepPickOrder 
+]
+
+{ #category : #accessing }
+ToSmartBarElement >> keepPickOrder: aBoolean [
+
+	keepPickOrder := aBoolean.
+	self refresh
+]
+
+{ #category : #accessing }
+ToSmartBarElement >> maxSelectedCount: aNumber [
+
+	maxSelectedCount := aNumber.
+	self refresh
+]
+
 { #category : #skin }
 ToSmartBarElement >> newRawSkin [ 
 
-	^ ToMultiSelectBarElementSkin new
+	^ ToSmartBarElementSkin new
 ]
 
 { #category : #'t - children - accessing' }
@@ -141,7 +164,6 @@ ToSmartBarElement >> refresh [
 	" first remove all data nodes "
 
 	| previousItems newItems |
-	self showHidePlaceholder.
 
 	" copy the previous items "
 	previousItems := self dataAccessor asOrderedCollection.
@@ -165,7 +187,7 @@ ToSmartBarElement >> refresh [
 				new := previous.
 				previousItems remove: previous ]
 			ifNil: [
-				new := ToMultiSelectItem index: idx.
+				new := ToBarItem index: idx.
 				pickCount := pickCount + 1.
 				new pickOrder: pickCount ].
 		newItems add: new ].
@@ -176,6 +198,14 @@ ToSmartBarElement >> refresh [
 	" replace all in one datasource command "
 	self dataAccessor updateAllWith: newItems.
 	self checkMaxSelectedCount
+]
+
+{ #category : #accessing }
+ToSmartBarElement >> sample: aDataItem [
+
+	super sample: (ToBarFakeItem new
+			 dataItem: aDataItem;
+			 yourself)
 ]
 
 { #category : #'t - select inner container' }

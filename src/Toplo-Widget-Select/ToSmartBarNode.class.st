@@ -1,5 +1,5 @@
 Class {
-	#name : #ToMultiSelectBarNode,
+	#name : #ToSmartBarNode,
 	#superclass : #ToBarNode,
 	#instVars : [
 		'removable'
@@ -8,13 +8,13 @@ Class {
 }
 
 { #category : #'t - list node' }
-ToMultiSelectBarNode >> clickEventHandlerClasses [
+ToSmartBarNode >> clickEventHandlerClasses [
 
 	^  { ToListNodeMultiSelectionClickEventHandler } 
 ]
 
 { #category : #initialization }
-ToMultiSelectBarNode >> initialize [
+ToSmartBarNode >> initialize [
 
 	super initialize.
 	self applySkinInstallerOnFirstRequest: true.
@@ -22,7 +22,7 @@ ToMultiSelectBarNode >> initialize [
 ]
 
 { #category : #skin }
-ToMultiSelectBarNode >> installRawStyle [
+ToSmartBarNode >> installRawStyle [
 
 	super installRawStyle.
 	self constraintsDo: [ :c | c linear vertical alignCenter ].
@@ -44,25 +44,25 @@ ToMultiSelectBarNode >> installRawStyle [
 ]
 
 { #category : #testing }
-ToMultiSelectBarNode >> isRemovable [
+ToSmartBarNode >> isRemovable [
 
 	^ removable and: [  self nodesCount = 1 ]
 ]
 
 { #category : #accessing }
-ToMultiSelectBarNode >> nodesCount [ 
+ToSmartBarNode >> nodesCount [ 
 
 	^ self holder dataItem nodesCount
 ]
 
 { #category : #accessing }
-ToMultiSelectBarNode >> removeButton [ 
+ToSmartBarNode >> removeButton [ 
 
 	^ self childWithId: #removeButton ifNone: [  ]
 ]
 
 { #category : #private }
-ToMultiSelectBarNode >> removeFromBar [
+ToSmartBarNode >> removeFromBar [
 
 	self holder removeNodeFromBar 
 ]

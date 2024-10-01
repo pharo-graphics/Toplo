@@ -1,17 +1,17 @@
 Class {
-	#name : #ToMultiSelectNodeHolder,
+	#name : #ToMultiSelectHolder,
 	#superclass : #ToListNodeHolder,
 	#category : #'Toplo-Widget-Select-Multi'
 }
 
 { #category : #accessing }
-ToMultiSelectNodeHolder >> dataAccessor [
+ToMultiSelectHolder >> dataAccessor [
 
 	^ self sieve originalData
 ]
 
 { #category : #removing }
-ToMultiSelectNodeHolder >> removeNodeFromBar [
+ToMultiSelectHolder >> removeNodeFromBar [
 	" 
 	since a select node is created by selecting and item in the list element, 
 	removing the node is by deselecting the corresponding list item in the select list "
@@ -20,25 +20,25 @@ ToMultiSelectNodeHolder >> removeNodeFromBar [
 ]
 
 { #category : #accessing }
-ToMultiSelectNodeHolder >> selectElement [
+ToMultiSelectHolder >> selectElement [
 
 	^  self listElement selectElement
 ]
 
 { #category : #accessing }
-ToMultiSelectNodeHolder >> selecter [
+ToMultiSelectHolder >> selecter [
 
 	^  self selectElement selecter
 ]
 
 { #category : #accessing }
-ToMultiSelectNodeHolder >> selectionModel [
+ToMultiSelectHolder >> selectionModel [
 
 	^ self selectElement selectionModel
 ]
 
 { #category : #accessing }
-ToMultiSelectNodeHolder >> sieve [
+ToMultiSelectHolder >> sieve [
 
 	^  self listElement sieve
 ]

@@ -1,14 +1,11 @@
 Class {
 	#name : #ToMultiSelectBarElement,
-	#superclass : #ToBarElement,
+	#superclass : #ToSmartBarElement,
 	#traits : 'TToSelectInnerContainerElement',
 	#classTraits : 'TToSelectInnerContainerElement classTrait',
 	#instVars : [
 		'selectElement',
-		'textInputElement',
-		'pickCount',
-		'maxSelectedCount',
-		'keepPickOrder'
+		'textInputElement'
 	],
 	#category : #'Toplo-Widget-Select-Multi'
 }
@@ -19,20 +16,6 @@ ToMultiSelectBarElement class >> onSelectElement: aSelectElement [
 	^ self basicNew
 		  selectElement: aSelectElement;
 		  initialize
-]
-
-{ #category : #'accessing - selection' }
-ToMultiSelectBarElement >> allowSelectedCount: aNumber [
-
-	^ maxSelectedCount isZero or: [ aNumber <= maxSelectedCount ]
-]
-
-{ #category : #'accessing - selection' }
-ToMultiSelectBarElement >> assertMaxSelectedCount: aNumber [
-
-	(self allowSelectedCount: aNumber) ifFalse: [
-		self enqueueTask: (BlTaskAction new action: [
-				 Error signal: 'Max selected count reached' ]) ]
 ]
 
 { #category : #'accessing - selection' }
@@ -71,15 +54,9 @@ ToMultiSelectBarElement >> checkMaxSelectedCount [
 ]
 
 { #category : #initialization }
-ToMultiSelectBarElement >> defaultEventHandler [ 
-
-	^ ToMultiSelectBarEventHandler new
-]
-
-{ #category : #initialization }
 ToMultiSelectBarElement >> defaultNodeManager [
 
-	^ ToMultiSelectBarNodeManager new
+	^ ToMultiSelectNodeManager new
 ]
 
 { #category : #layout }
@@ -97,7 +74,7 @@ ToMultiSelectBarElement >> haveFullyInvisibleNodes: theInvisibleNodes [
 		visibleNodes := visibleNodes copyWithout: visibleNodes last ].
 
 	" now cumulate invisible nodes in a composite holder "
-	shower := ToMultiSelectCompositeItem new.
+	shower := ToBarCompositeItem new.
 	shower items: (Array streamContents: [ :stream |
 			 invisibleNodes do: [ :n |
 				 stream nextPutAll: n holder dataItem items ] ]).
@@ -116,20 +93,7 @@ ToMultiSelectBarElement >> haveFullyInvisibleNodes: theInvisibleNodes [
 ToMultiSelectBarElement >> initialize [
 
 	super initialize.
-	self installTextInputElement.
-	
-	" no primary and secondary selection elements "
-	self primarySelectionMode option masked: true.
-	self secondarySelectionMode option masked: true.
-
-	maxSelectedCount := 0.
-	keepPickOrder := false.
-	pickCount := 0.
-
-	" mandatory resizer setting. 
-	Normally, should not be changed"
-	self vFitContent.
-	self hMatchParent 
+	self installTextInputElement
 ]
 
 { #category : #'t - select inner container' }
@@ -149,67 +113,13 @@ ToMultiSelectBarElement >> installTextInputElement [
 { #category : #'t - select inner container' }
 ToMultiSelectBarElement >> isMultipleSelection [ 
 
-	^ true
-]
-
-{ #category : #accessing }
-ToMultiSelectBarElement >> keepPickOrder [
-
-	^ keepPickOrder 
-]
-
-{ #category : #accessing }
-ToMultiSelectBarElement >> keepPickOrder: aBoolean [
-
-	keepPickOrder := aBoolean.
-	self refresh
+	^ true 
 ]
 
 { #category : #accessing }
 ToMultiSelectBarElement >> listElement [
 
 	^ selectElement listElement
-]
-
-{ #category : #accessing }
-ToMultiSelectBarElement >> maxSelectedCount: aNumber [
-
-	maxSelectedCount := aNumber.
-	self refresh
-]
-
-{ #category : #skin }
-ToMultiSelectBarElement >> newRawSkin [ 
-
-	^ ToMultiSelectBarElementSkin new
-]
-
-{ #category : #'t - children - accessing' }
-ToMultiSelectBarElement >> nodes [
-
-	^ self innerContainer nodes
-]
-
-{ #category : #accessing }
-ToMultiSelectBarElement >> nodesCount [
-
-	| count |
-	count := 0.
-	self nodesDo: [ :node |
-		count := count + node nodesCount ].
-	^ count
-]
-
-{ #category : #accessing }
-ToMultiSelectBarElement >> nodesDo: aBlock [
-
-	self innerContainer nodesDo: aBlock
-]
-
-{ #category : #accessing }
-ToMultiSelectBarElement >> nodesSelect: aBlock [
-
-	^ self innerContainer nodesSelect: aBlock
 ]
 
 { #category : #'t - select inner container' }
@@ -242,7 +152,7 @@ ToMultiSelectBarElement >> refresh [
 				new := previous.
 				previousItems remove: previous ]
 			ifNil: [
-				new := ToMultiSelectItem index: idx.
+				new := ToBarItem index: idx.
 				pickCount := pickCount + 1.
 				new pickOrder: pickCount ].
 		newItems add: new ].
@@ -256,14 +166,6 @@ ToMultiSelectBarElement >> refresh [
 
 	self checkHideSelectionFromListElement.
 	self checkMaxSelectedCount
-]
-
-{ #category : #accessing }
-ToMultiSelectBarElement >> sample: aDataItem [
-
-	super sample: (ToMultiSelectFakeItem new
-			 dataItem: aDataItem;
-			 yourself)
 ]
 
 { #category : #'t - select inner container' }

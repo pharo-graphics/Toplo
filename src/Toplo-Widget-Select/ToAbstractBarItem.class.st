@@ -1,35 +1,35 @@
 Class {
-	#name : #ToAbstractMultiSelectItem,
+	#name : #ToAbstractBarItem,
 	#superclass : #Object,
 	#category : #'Toplo-Widget-Select-Multi'
 }
 
 { #category : #'node building' }
-ToAbstractMultiSelectItem >> buildNode: aNode inHolder: aNodeHolder withManager: aNodeManager [
+ToAbstractBarItem >> buildNode: aNode inHolder: aNodeHolder withManager: aNodeManager [
 
 	self subclassResponsibility 
 ]
 
 { #category : #accessing }
-ToAbstractMultiSelectItem >> indexes [
+ToAbstractBarItem >> indexes [
 
 	^ self subclassResponsibility 
 ]
 
 { #category : #testing }
-ToAbstractMultiSelectItem >> isComposite [
+ToAbstractBarItem >> isComposite [
 
 	^ false
 ]
 
 { #category : #accessing }
-ToAbstractMultiSelectItem >> items [
+ToAbstractBarItem >> items [
 
 	^ self subclassResponsibility 
 ]
 
 { #category : #accessing }
-ToAbstractMultiSelectItem >> nodesCount [
+ToAbstractBarItem >> nodesCount [
 
 	^ self subclassResponsibility
 ]

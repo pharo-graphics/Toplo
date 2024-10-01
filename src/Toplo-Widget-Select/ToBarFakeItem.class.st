@@ -1,6 +1,6 @@
 Class {
-	#name : #ToMultiSelectFakeItem,
-	#superclass : #ToAbstractMultiSelectItem,
+	#name : #ToBarFakeItem,
+	#superclass : #ToAbstractBarItem,
 	#instVars : [
 		'dataItem'
 	],
@@ -8,43 +8,43 @@ Class {
 }
 
 { #category : #'instance creation' }
-ToMultiSelectFakeItem class >> index: anIndex [
+ToBarFakeItem class >> index: anIndex [
 
 	^ self new index: anIndex; yourself
 ]
 
 { #category : #'node building' }
-ToMultiSelectFakeItem >> buildNode: aNode inHolder: aNodeHolder withManager: aNodeManager [
+ToBarFakeItem >> buildNode: aNode inHolder: aNodeHolder withManager: aNodeManager [
 
 	aNodeManager nodeBuilder value: aNode value: dataItem value: aNodeHolder
 ]
 
 { #category : #accessing }
-ToMultiSelectFakeItem >> dataItem [
+ToBarFakeItem >> dataItem [
 
 	^ dataItem 
 ]
 
 { #category : #accessing }
-ToMultiSelectFakeItem >> dataItem: aDataItem [
+ToBarFakeItem >> dataItem: aDataItem [
 
 	dataItem := aDataItem 
 ]
 
 { #category : #accessing }
-ToMultiSelectFakeItem >> indexes [
+ToBarFakeItem >> indexes [
 
 	^ { }
 ]
 
 { #category : #accessing }
-ToMultiSelectFakeItem >> items [
+ToBarFakeItem >> items [
 
 	^ { }
 ]
 
 { #category : #accessing }
-ToMultiSelectFakeItem >> nodesCount [
+ToBarFakeItem >> nodesCount [
 
 	^ 0
 ]

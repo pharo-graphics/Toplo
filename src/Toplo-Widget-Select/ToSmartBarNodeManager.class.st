@@ -1,5 +1,5 @@
 Class {
-	#name : #ToMultiSelectBarNodeManager,
+	#name : #ToSmartBarNodeManager,
 	#superclass : #ToBarNodeManager,
 	#instVars : [
 		'compositeNodeBuilder'
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #'instance creation' }
-ToMultiSelectBarNodeManager >> buildNode: aNode inHolder: aNodeHolder [
+ToSmartBarNodeManager >> buildNode: aNode inHolder: aNodeHolder [
 
 	aNodeHolder dataItem
 		buildNode: aNode
@@ -17,40 +17,34 @@ ToMultiSelectBarNodeManager >> buildNode: aNode inHolder: aNodeHolder [
 ]
 
 { #category : #accessing }
-ToMultiSelectBarNodeManager >> compositeNodeBuilder [
+ToSmartBarNodeManager >> compositeNodeBuilder [
 
 	" aValuable takes the node, then the compositeDataItem then the holder as arguments "
 	^ compositeNodeBuilder 
 ]
 
 { #category : #accessing }
-ToMultiSelectBarNodeManager >> compositeNodeBuilder: aValuable [
+ToSmartBarNodeManager >> compositeNodeBuilder: aValuable [
 
 	" aValuable takes the node, then the compositeDataItem then the holder as arguments "
 	compositeNodeBuilder := aValuable 
 ]
 
 { #category : #initialization }
-ToMultiSelectBarNodeManager >> defaultCompositeNodeBuilder [
+ToSmartBarNodeManager >> defaultCompositeNodeBuilder [
 
 	^ [ :node :compositeDataItem :holder |
 	  node addChild: (ToLabel text: compositeDataItem content asString) ]
 ]
 
 { #category : #initialization }
-ToMultiSelectBarNodeManager >> defaultFakeDataItem [
+ToSmartBarNodeManager >> defaultFakeDataItem [
 
-	^ ToMultiSelectFakeItem new
+	^ ToBarFakeItem new
 ]
 
 { #category : #initialization }
-ToMultiSelectBarNodeManager >> defaultHolderClass [ 
-
-	^ ToMultiSelectNodeHolder
-]
-
-{ #category : #initialization }
-ToMultiSelectBarNodeManager >> defaultNodeBuilder [
+ToSmartBarNodeManager >> defaultNodeBuilder [
 
 	^ [ :node :dataItem :holder |
 	  | tag |
@@ -63,13 +57,13 @@ ToMultiSelectBarNodeManager >> defaultNodeBuilder [
 ]
 
 { #category : #initialization }
-ToMultiSelectBarNodeManager >> defaultNodeFactory [
+ToSmartBarNodeManager >> defaultNodeFactory [
 
-	^ [ :holder | ToMultiSelectBarNode new ]
+	^ [ :holder | ToSmartBarNode new ]
 ]
 
 { #category : #initialization }
-ToMultiSelectBarNodeManager >> initialize [ 
+ToSmartBarNodeManager >> initialize [ 
 
 	super initialize.
 	compositeNodeBuilder := self defaultCompositeNodeBuilder

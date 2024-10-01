@@ -1,18 +1,18 @@
 Class {
-	#name : #ToMultiSelectBarEventHandler,
+	#name : #ToSmartBarEventHandler,
 	#superclass : #ToBarElementEventHandler,
 	#category : #'Toplo-Widget-Select-Multi'
 }
 
 { #category : #'node bar event handling' }
-ToMultiSelectBarEventHandler >> barNodeVisibilityEvent: anEvent [
+ToSmartBarEventHandler >> barNodeVisibilityEvent: anEvent [
 
 	anEvent invisibleNodes ifNotEmpty: [ :in |
 		anEvent currentTarget haveFullyInvisibleNodes: in ]
 ]
 
 { #category : #'selection managing' }
-ToMultiSelectBarEventHandler >> elementExtentChangedEvent: anEvent [
+ToSmartBarEventHandler >> elementExtentChangedEvent: anEvent [
 
 	| target |
 	super elementExtentChangedEvent: anEvent.
@@ -23,7 +23,7 @@ ToMultiSelectBarEventHandler >> elementExtentChangedEvent: anEvent [
 ]
 
 { #category : #'api - accessing' }
-ToMultiSelectBarEventHandler >> eventsToHandle [
+ToSmartBarEventHandler >> eventsToHandle [
 
 	^ super eventsToHandle , {
 		  BlElementExtentChangedEvent.

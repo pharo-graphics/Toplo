@@ -55,7 +55,7 @@ ToMultiSelectElement >> iconContainer: anIconContainer [
 	self iconContainer ifNotNil: [
 		self iconContainer onUninstalledIn: self ].
 	super iconContainer: anIconContainer.
-	anIconContainer selectionModel: self selectionModel
+	anIconContainer selectionModel: self popupListSelectionModel
 ]
 
 { #category : #initialization }
@@ -91,16 +91,16 @@ ToMultiSelectElement >> newIconContainer [
 	^ ToMultiSelectIconContainer new forFiltering: self isFiltrable 
 ]
 
+{ #category : #'instance creation' }
+ToMultiSelectElement >> newPopupWindowManager [
+
+	^ ToMultiSelectPopupWindowManager new
+]
+
 { #category : #skin }
 ToMultiSelectElement >> newRawSkin [ 
 
 	^ ToMultiSelectElementSkin new
-]
-
-{ #category : #'instance creation' }
-ToMultiSelectElement >> newWindowManager [
-
-	^ ToMultiSelectListWindowManager new
 ]
 
 { #category : #accessing }
@@ -142,8 +142,8 @@ ToMultiSelectElement >> nodesWithCloseButton: aBoolean [
 { #category : #'accessing - list' }
 ToMultiSelectElement >> setGroupIndex: anIndex [
 
-	self listElement groupSelecter selectIndex: anIndex.
-	self listElement unselectableSelecter selectIndex: anIndex
+	self popupListElement groupSelecter selectIndex: anIndex.
+	self popupListElement unselectableSelecter selectIndex: anIndex
 ]
 
 { #category : #private }

@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'removable'
 	],
-	#category : #'Toplo-Widget-Tag'
+	#category : #'Toplo-Widget-Tag-Core'
 }
 
 { #category : #'t - labeled icon' }

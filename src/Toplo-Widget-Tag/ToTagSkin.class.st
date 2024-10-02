@@ -1,7 +1,7 @@
 Class {
 	#name : #ToTagSkin,
 	#superclass : #ToRawSkin,
-	#category : #'Toplo-Widget-Tag'
+	#category : #'Toplo-Widget-Tag-Core'
 }
 
 { #category : #'event handling' }

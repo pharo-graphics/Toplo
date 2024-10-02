@@ -1,14 +1,14 @@
 Class {
-	#name : #ToSmartBarNodeManager,
+	#name : #ToTagNodeManager,
 	#superclass : #ToBarNodeManager,
 	#instVars : [
 		'compositeNodeBuilder'
 	],
-	#category : #'Toplo-Widget-Select-Multi'
+	#category : #'Toplo-Widget-Tag-Bar'
 }
 
 { #category : #'instance creation' }
-ToSmartBarNodeManager >> buildNode: aNode inHolder: aNodeHolder [
+ToTagNodeManager >> buildNode: aNode inHolder: aNodeHolder [
 
 	aNodeHolder dataItem
 		buildNode: aNode
@@ -17,34 +17,40 @@ ToSmartBarNodeManager >> buildNode: aNode inHolder: aNodeHolder [
 ]
 
 { #category : #accessing }
-ToSmartBarNodeManager >> compositeNodeBuilder [
+ToTagNodeManager >> compositeNodeBuilder [
 
 	" aValuable takes the node, then the compositeDataItem then the holder as arguments "
 	^ compositeNodeBuilder 
 ]
 
 { #category : #accessing }
-ToSmartBarNodeManager >> compositeNodeBuilder: aValuable [
+ToTagNodeManager >> compositeNodeBuilder: aValuable [
 
 	" aValuable takes the node, then the compositeDataItem then the holder as arguments "
 	compositeNodeBuilder := aValuable 
 ]
 
 { #category : #initialization }
-ToSmartBarNodeManager >> defaultCompositeNodeBuilder [
+ToTagNodeManager >> defaultCompositeNodeBuilder [
 
 	^ [ :node :compositeDataItem :holder |
 	  node addChild: (ToLabel text: compositeDataItem content asString) ]
 ]
 
 { #category : #initialization }
-ToSmartBarNodeManager >> defaultFakeDataItem [
+ToTagNodeManager >> defaultFakeDataItem [
 
-	^ ToBarFakeItem new
+	^ ToSingleTagModel new
 ]
 
 { #category : #initialization }
-ToSmartBarNodeManager >> defaultNodeBuilder [
+ToTagNodeManager >> defaultHolderClass [
+
+	^ ToTagNodeHolder
+]
+
+{ #category : #initialization }
+ToTagNodeManager >> defaultNodeBuilder [
 
 	^ [ :node :dataItem :holder |
 	  | tag |
@@ -58,13 +64,13 @@ ToSmartBarNodeManager >> defaultNodeBuilder [
 ]
 
 { #category : #initialization }
-ToSmartBarNodeManager >> defaultNodeFactory [
+ToTagNodeManager >> defaultNodeFactory [
 
-	^ [ :holder | ToSmartBarNode new ]
+	^ [ :holder | ToTagNode new ]
 ]
 
 { #category : #initialization }
-ToSmartBarNodeManager >> initialize [ 
+ToTagNodeManager >> initialize [ 
 
 	super initialize.
 	compositeNodeBuilder := self defaultCompositeNodeBuilder

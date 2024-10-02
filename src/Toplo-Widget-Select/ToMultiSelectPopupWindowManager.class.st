@@ -1,6 +1,6 @@
 Class {
-	#name : #ToMultiSelectListWindowManager,
-	#superclass : #ToSelectListWindowManager,
+	#name : #ToMultiSelectPopupWindowManager,
+	#superclass : #ToSelectPopupWindowManager,
 	#instVars : [
 		'listGroupNodeBuilder'
 	],
@@ -8,24 +8,24 @@ Class {
 }
 
 { #category : #initialization }
-ToMultiSelectListWindowManager >> defaultGroupNodeBuilder [
+ToMultiSelectPopupWindowManager >> defaultGroupNodeBuilder [
 
 	^ [ :node :dataItem :holder |
 	  node addChild: (ToAttributedLabel text: dataItem asString) hMatchParent ]
 ]
 
 { #category : #initialization }
-ToMultiSelectListWindowManager >> defaultNodeBuilder [
+ToMultiSelectPopupWindowManager >> defaultNodeBuilder [
 
 	^ [ :node :dataItem :holder | | nodebuilder |
 		nodebuilder := holder isGroup
 		  ifTrue: [  listGroupNodeBuilder]
-		  ifFalse: [ listDataNodeBuilder].
+		  ifFalse: [ nodeBuilder].
 	  nodebuilder value: node value: dataItem value: holder ] 
 ]
 
 { #category : #initialization }
-ToMultiSelectListWindowManager >> defaultNodeFactory [
+ToMultiSelectPopupWindowManager >> defaultNodeFactory [
 
 	^ [ :theHolder |
 	  theHolder isGroup
@@ -34,27 +34,27 @@ ToMultiSelectListWindowManager >> defaultNodeFactory [
 ]
 
 { #category : #initialization }
-ToMultiSelectListWindowManager >> initialize [ 
+ToMultiSelectPopupWindowManager >> initialize [ 
 
 	super initialize.
-	listDataNodeBuilder := self defaultDataNodeBuilder.
+	nodeBuilder := self defaultDataNodeBuilder.
 	listGroupNodeBuilder := self defaultGroupNodeBuilder 
 ]
 
 { #category : #initialization }
-ToMultiSelectListWindowManager >> listElementClass [
+ToMultiSelectPopupWindowManager >> listElementClass [
 
 	^ ToMultiSelectListElement
 ]
 
 { #category : #accessing }
-ToMultiSelectListWindowManager >> listGroupNodeBuilder: aValuable [
+ToMultiSelectPopupWindowManager >> listGroupNodeBuilder: aValuable [
 
 	listGroupNodeBuilder := aValuable
 ]
 
 { #category : #initialization }
-ToMultiSelectListWindowManager >> newListElement [
+ToMultiSelectPopupWindowManager >> newListElement [
 
 	| newListElement |
 	newListElement := super newListElement.
@@ -63,7 +63,7 @@ ToMultiSelectListWindowManager >> newListElement [
 ]
 
 { #category : #'api - hooks' }
-ToMultiSelectListWindowManager >> nodeHolderClass [
+ToMultiSelectPopupWindowManager >> nodeHolderClass [
 
 	^ ToMultiSelectListNodeHolder
 ]

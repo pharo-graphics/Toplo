@@ -1,25 +1,16 @@
 Class {
 	#name : #ToMultiSelectBarElementSkin,
-	#superclass : #ToBasicListElementSkin,
+	#superclass : #ToRawSkin,
 	#category : #'Toplo-Widget-Select-Multi'
 }
-
-{ #category : #'event handling' }
-ToMultiSelectBarElementSkin >> focusedSkinEvent: anEvent [
-
-	super focusedSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e border: BlBorder empty ]
-]
 
 { #category : #'event handling' }
 ToMultiSelectBarElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
-	anEvent elementDo: [ :e | 
-		e border: BlBorder empty.
-		e padding: BlInsets empty.
-		e margin: BlInsets empty ]
+	anEvent elementDo: [ :e |
+		e shortcuts: (self shortcutsToInstallIn: e).
+		e installShortcuts ]
 ]
 
 { #category : #'accessing - shortcuts' }
@@ -64,14 +55,6 @@ ToMultiSelectBarElementSkin >> shortcutsToInstallIn: aListElement [
 						   idx := aListElement selecter previousDeselectedIndex.
 						   aListElement selecter selectIndex: idx.
 						   aListElement selecter scrollToDataSourcePosition: idx ]) ] ]
-]
-
-{ #category : #'event handling' }
-ToMultiSelectBarElementSkin >> unfocusedSkinEvent: anEvent [
-
-	super unfocusedSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e border: BlBorder empty ]
 ]
 
 { #category : #'event handling' }

@@ -1,50 +1,45 @@
 Class {
 	#name : #ToMultiSelectHolder,
-	#superclass : #ToListNodeHolder,
+	#superclass : #ToTagNodeHolder,
 	#category : #'Toplo-Widget-Select-Multi'
 }
 
-{ #category : #accessing }
-ToMultiSelectHolder >> dataAccessor [
+{ #category : #'accessing - list' }
+ToMultiSelectHolder >> popupListElement [
 
-	^ self sieve originalData
+	^ self selectElement popupListElement
+]
+
+{ #category : #'as yet unclassified' }
+ToMultiSelectHolder >> popupListSelecter [
+
+	^ self selectElement popupListSelecter
+]
+
+{ #category : #'as yet unclassified' }
+ToMultiSelectHolder >> popupListSelectionModel [
+
+	^ self selectElement popupListSelectionModel
+]
+
+{ #category : #'accessing - list' }
+ToMultiSelectHolder >> popupListSieve [
+
+	^ self listElement popupListSieve
 ]
 
 { #category : #removing }
 ToMultiSelectHolder >> removeNodeFromBar [
 	" 
 	since a select node is created by selecting and item in the list element, 
-	removing the node is by deselecting the corresponding list item in the select list "
-
-	self selecter deselectIndex: self dataItem index
+	removing the node is done by deselecting the corresponding list item in the select popu list "
+	| index |
+	index := self popupListSieve originalData indexOf: self dataItem data.
+	self popupListSelecter deselectIndex: index
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToMultiSelectHolder >> selectElement [
 
 	^  self listElement selectElement
-]
-
-{ #category : #accessing }
-ToMultiSelectHolder >> selecter [
-
-	^  self selectElement selecter
-]
-
-{ #category : #accessing }
-ToMultiSelectHolder >> selectionModel [
-
-	^ self selectElement selectionModel
-]
-
-{ #category : #accessing }
-ToMultiSelectHolder >> sieve [
-
-	^  self listElement sieve
-]
-
-{ #category : #accessing }
-ToMultiSelectHolder >> withCloseButton [
-
-	^  self selectElement nodesWithCloseButton
 ]

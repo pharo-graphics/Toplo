@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMultiSelectNodeManager,
-	#superclass : #ToSmartBarNodeManager,
+	#superclass : #ToTagNodeManager,
 	#category : #'Toplo-Widget-Select-Multi'
 }
 

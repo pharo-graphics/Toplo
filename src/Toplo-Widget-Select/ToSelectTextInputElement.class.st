@@ -111,7 +111,7 @@ ToSelectTextInputElement >> onFilterTextUpdated: anEvent [
 { #category : #'api - hooks' }
 ToSelectTextInputElement >> onInstalledIn: aNodeContainer [
 
-	windowManager := aNodeContainer windowManager.
+	windowManager := aNodeContainer popupWindowManager.
 	selectedDataTextField := self newTextFieldIn: aNodeContainer.
 	selectedDataTextField beReadonlyWithSelection.
 	selectedDataTextField id: #selectedDataTextField.
@@ -126,13 +126,28 @@ ToSelectTextInputElement >> onInstalledIn: aNodeContainer [
 	(the window is first opened with unsieved content then the content is changed with sieve result).
 	The window is set as visible in ToSelectListElement>>applyDataSourceSieveCommand: "
 	windowPopupHandler := BlEventHandler
-		                 on: BlTextInputEvent
-		                 do: [ :event |
-			                 event text ifNotEmpty: [
-				                 event text asString first isAlphaNumeric ifTrue: [
-					                 windowManager
-						                 popupWindowHiddenEvent: event ] ] ].
+		                      on: BlTextInputEvent
+		                      do: [ :event |
+			                      event text ifNotEmpty: [
+				                      event text asString first isAlphaNumeric
+					                      ifTrue: [
+					                      windowManager popupWindowHiddenEvent: event ] ] ].
 	inputTextField infinite addEventHandler: windowPopupHandler
+]
+
+{ #category : #window }
+ToSelectTextInputElement >> onPopupWindowClosed [
+
+	self selectedDataTextField visibility: BlVisibility visible.
+	self selectedDataTextField text foreground: Color black.
+	self updateFocus
+]
+
+{ #category : #window }
+ToSelectTextInputElement >> onPopupWindowOpened [		
+		
+	self selectedDataTextField text foreground: Color lightGray.
+	self updateFocus
 ]
 
 { #category : #'api - hooks' }
@@ -144,21 +159,6 @@ ToSelectTextInputElement >> onUninstalledIn: aNodeContainer [
 	selectedDataTextField := nil.
 	inputTextField := nil.
 	self removeChildren
-]
-
-{ #category : #window }
-ToSelectTextInputElement >> onWindowClosed [
-
-	self selectedDataTextField visibility: BlVisibility visible.
-	self selectedDataTextField text foreground: Color black.
-	self updateFocus
-]
-
-{ #category : #window }
-ToSelectTextInputElement >> onWindowOpened [		
-		
-	self selectedDataTextField text foreground: Color lightGray.
-	self updateFocus
 ]
 
 { #category : #accessing }

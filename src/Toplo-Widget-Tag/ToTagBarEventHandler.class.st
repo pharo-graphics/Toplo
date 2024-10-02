@@ -1,29 +1,29 @@
 Class {
-	#name : #ToSmartBarEventHandler,
+	#name : #ToTagBarEventHandler,
 	#superclass : #ToBarElementEventHandler,
-	#category : #'Toplo-Widget-Select-Multi'
+	#category : #'Toplo-Widget-Tag-Bar'
 }
 
 { #category : #'node bar event handling' }
-ToSmartBarEventHandler >> barNodeVisibilityEvent: anEvent [
+ToTagBarEventHandler >> barNodeVisibilityEvent: anEvent [
 
 	anEvent invisibleNodes ifNotEmpty: [ :in |
-		anEvent currentTarget haveFullyInvisibleNodes: in ]
+		anEvent currentTarget haveInvisibleNodes: in ]
 ]
 
 { #category : #'selection managing' }
-ToSmartBarEventHandler >> elementExtentChangedEvent: anEvent [
+ToTagBarEventHandler >> elementExtentChangedEvent: anEvent [
 
 	| target |
 	super elementExtentChangedEvent: anEvent.
 	target := anEvent currentTarget.
 	(target dataSource anySatisfy: [ :item | item isComposite ])
 		ifFalse: [ ^ self ].
-	target refresh
+	target extentChanged
 ]
 
 { #category : #'api - accessing' }
-ToSmartBarEventHandler >> eventsToHandle [
+ToTagBarEventHandler >> eventsToHandle [
 
 	^ super eventsToHandle , {
 		  BlElementExtentChangedEvent.

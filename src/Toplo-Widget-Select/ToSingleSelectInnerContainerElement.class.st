@@ -114,8 +114,8 @@ ToSingleSelectInnerContainerElement >> refresh [
 	| selectedIndex dataItem selectionModel originalData newResultView changedEvent |
 	selectElement showHidePlaceholder.
 
-	selectionModel := self windowManager sieve selectionModel.
-	originalData := self windowManager sieve originalData.
+	selectionModel := self popupWindowManager sieve selectionModel.
+	originalData := self popupWindowManager sieve originalData.
 	selectedIndex := selectionModel isEmpty
 		                 ifTrue: [ 0 ]
 		                 ifFalse: [ selectionModel firstIndex ].
@@ -134,7 +134,7 @@ ToSingleSelectInnerContainerElement >> refresh [
 		ifFalse: [
 			dataItem := originalData at: selectedIndex.
 			dataViewBuilder cull: newResultView cull: dataItem ].
-		
+
 	changedEvent := ToSingleSelectChangedEvent new.
 	changedEvent selectedData: dataItem.
 	changedEvent selectedIndex: selectedIndex.

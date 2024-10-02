@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToTagElement,
-	#category : #'Toplo-Widget-Tag'
+	#category : #'Toplo-Widget-Tag-Core'
 }
 
 { #category : #adding }

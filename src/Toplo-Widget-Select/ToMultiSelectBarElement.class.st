@@ -54,11 +54,11 @@ ToMultiSelectBarElement >> checkMaxSelectedCount [
 	sM := self popupListElement selectionModel.
 
 	selectElement updateSelectedCountLabel.
-	selectedIndexCount := self popupListSieve selectionModel
+	selectedIndexCount := selectElement selectionModel
 		                      selectedIndexesCount.
 
 	"self assertMaxSelectedCount: selectedIndexCount."
-	self popupListSieve currentDataWithLocalAndOriginalIndexDo: [
+	self selectElement sieve currentDataWithLocalAndOriginalIndexDo: [
 		:d
 		:localIndex
 		:originalIndex |
@@ -68,10 +68,14 @@ ToMultiSelectBarElement >> checkMaxSelectedCount [
 					unselectableSM deselectIndex: localIndex.
 					disabledSM deselectIndex: localIndex ]
 				ifFalse: [
-					(selectElement popupListSelectionModel containsIndex:
-						 originalIndex) ifFalse: [
-						disabledSM selectIndex: localIndex.
-						unselectableSM selectIndex: localIndex ] ] ] ].
+					(selectElement selectionModel containsIndex: originalIndex)
+						ifFalse: [
+							disabledSM selectIndex: localIndex.
+							unselectableSM selectIndex: localIndex ] ].
+			sM
+				transferSelectionFromIndex: localIndex
+				toIndex: originalIndex
+				in: selectElement selectionModel ] ].
 
 	self popupListElement notifyDataSourceChanged
 ]
@@ -182,12 +186,6 @@ ToMultiSelectBarElement >> popupListElement [
 	^ selectElement popupListElement
 ]
 
-{ #category : #accessing }
-ToMultiSelectBarElement >> popupListSieve [
-
-	^ selectElement popupListSieve
-]
-
 { #category : #'t - select inner container' }
 ToMultiSelectBarElement >> refresh [
 
@@ -217,9 +215,9 @@ ToMultiSelectBarElement >> refreshFromPopupListSelection [
 			previousItems addAll: last items ] ].
 
 	" reconstruct the item list. ensure the reuse of pre-existing items"
-	selectElement popupListSelectionModel selectedIndexesDo: [ :idx |
+	selectElement selectionModel selectedIndexesDo: [ :idx |
 		| new previous data |
-		data := selectElement popupListSieve originalData at: idx.
+		data := selectElement sieve originalData at: idx.
 		previous := previousItems
 			            detect: [ :item | item data = data ]
 			            ifNone: [  ].
@@ -259,11 +257,7 @@ ToMultiSelectBarElement >> selectElement: aSelectElement [
 { #category : #accessing }
 ToMultiSelectBarElement >> sieve [
 
-	self
-		deprecated: 'Use #popupListSieve'
-		transformWith: '`@rcvr sieve' -> '`@rcvr popupListSieve'.
-
-	^ self popupListSieve
+	^ selectElement sieve
 ]
 
 { #category : #'t - select inner container' }

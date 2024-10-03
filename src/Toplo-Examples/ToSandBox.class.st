@@ -260,7 +260,7 @@ ToSandBox class >> buildSelectListElementIn: aSelectElement withIconProvider: an
 		node childrenDo: [ :child |
 			child constraintsDo: [ :c | c linear vertical alignCenter ] ] ].
 
-	aSelectElement popupListSieve dataFilter: [ :iconDesc :pattern |
+	aSelectElement sieve dataFilter: [ :iconDesc :pattern |
 		(iconDesc style prefix beginsWith: pattern caseSensitive: true) or: [
 			iconDesc name beginsWith: pattern caseSensitive: true ] ].
 
@@ -1930,7 +1930,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	select popupListElement nodeBuilder: [ :node :stateColorAssoc :holder |
 		node addChild: (newTagFactory value: stateColorAssoc) ].
 
-	select popupListSieve dataFilter: [ :stateAssoc :pattern |
+	select sieve dataFilter: [ :stateAssoc :pattern |
 		(stateAssoc key beginsWith: pattern caseSensitive: false) ].
 
 	select hideSelected: false.
@@ -1944,7 +1944,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	select popupWindowManager anchorRoot: innerWindow root.
 	select position: 50 @ 10.
 	select width: 300.
-	select popupListSelecter selectIndex: 2.
+	select selecter selectIndex: 2.
 	innerWindow pane addChild: select.
 	innerWindow height: 600.
 	innerWindow openInSpace.
@@ -2126,7 +2126,6 @@ ToSandBox class >> example_SelectMultiFiltrableWithMax [
 
 	| select  |
 	select := self example_SelectMultiFiltrable.
-	select inspect.
 	select maxSelectedCount: 4
 ]
 
@@ -2569,7 +2568,7 @@ ToSandBox class >> example_ThemeSelect [
 	select
 		addEventHandlerOn: ToSingleSelectChangedEvent
 		do: [ :event | self inform: event selectedData asString ].
-	select popupListSelecter selectIndex: 4.
+	select selecter selectIndex: 4.
 	select allowDeselection: false.
 	select openInSpace
 ]
@@ -5897,7 +5896,7 @@ ToSandBox class >> themeSelect [
 	select popupListElement nodeBuilder: [ :node :themeAssoc :holder |
 		node addChild: (ToLabel text: themeAssoc key) ].
 
-	select popupListSieve dataFilter: [ :themeAssoc :pattern |
+	select sieve dataFilter: [ :themeAssoc :pattern |
 		themeAssoc key beginsWith: pattern caseSensitive: true ].
 
 	select popupListElement dataAccessor addAll: themes.

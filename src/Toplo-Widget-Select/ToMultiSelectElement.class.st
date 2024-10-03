@@ -55,7 +55,7 @@ ToMultiSelectElement >> iconContainer: anIconContainer [
 	self iconContainer ifNotNil: [
 		self iconContainer onUninstalledIn: self ].
 	super iconContainer: anIconContainer.
-	anIconContainer selectionModel: self popupListSelectionModel
+	anIconContainer selectionModel: self selectionModel
 ]
 
 { #category : #initialization }

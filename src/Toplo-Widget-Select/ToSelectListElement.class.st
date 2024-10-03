@@ -68,5 +68,5 @@ ToSelectListElement >> selectElement: aSelectElement [
 { #category : #accessing }
 ToSelectListElement >> sieve [
 
-	^ selectElement popupListSieve
+	^ selectElement sieve
 ]

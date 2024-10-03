@@ -56,7 +56,7 @@ ToSelectElement >> filterString [
 { #category : #'accessing - selection' }
 ToSelectElement >> filterStringChanged [
 
-	self popupListPattern: self filterString
+	self pattern: self filterString
 ]
 
 { #category : #accessing }
@@ -238,23 +238,9 @@ ToSelectElement >> onWindowOpened [
 ]
 
 { #category : #accessing }
-ToSelectElement >> pattern [
-	self
-		deprecated: 'Use #popupListPattern'
-		transformWith: '`@rcvr pattern' -> '`@rcvr popupListPattern'.
-
-	^ self popupListPattern
-]
-
-{ #category : #accessing }
 ToSelectElement >> pattern: aPattern [
 
-
-	self
-		deprecated: 'Use #popupListPattern: '
-		transformWith: '`@rcvr pattern: `@arg' -> '`@rcvr popupListPattern: `@arg'.
-
-	self popupListPattern: aPattern
+	self sieve pattern: aPattern
 ]
 
 { #category : #'accessing - list' }
@@ -273,34 +259,15 @@ ToSelectElement >> popupListElement [
 	^ self popupWindowManager listElement
 ]
 
-{ #category : #'accessing - list' }
-ToSelectElement >> popupListPattern [
-
-	^ self sieve pattern
-]
-
-{ #category : #'accessing - list' }
-ToSelectElement >> popupListPattern: aPattern [
-
-	self popupListSieve pattern: aPattern
-]
-
-{ #category : #'accessing - list' }
-ToSelectElement >> popupListSelecter [
-
-	^ self popupListSieve selecter
-]
-
 { #category : #'accessing - selection' }
 ToSelectElement >> popupListSelectionModel [
 
-	^ self popupListSieve selectionModel
-]
 
-{ #category : #'accessing - list' }
-ToSelectElement >> popupListSieve [
+	self
+		deprecated: 'Use #selectionModel'
+		transformWith: '`@rcvr popupListSelectionModel' -> '`@rcvr selectionModel'.
 
-	^ popupWindowManager sieve
+	^ self selectionModel
 ]
 
 { #category : #'accessing - list' }
@@ -361,22 +328,14 @@ ToSelectElement >> sample: aDataItem [
 { #category : #accessing }
 ToSelectElement >> selecter [ 
 
-	self
-		deprecated: 'Use #popupListSelecter'
-		transformWith: '`@rcvr selecter' -> '`@rcvr popupListSelecter'.
-
-	^ self popupListSelecter
+	^ self sieve selecter
 ]
 
 { #category : #'accessing - selection' }
 ToSelectElement >> selectionModel [
 
 
-	self
-		deprecated: 'Use #popupListSelectionModel'
-		transformWith: '`@rcvr selectionModel' -> '`@rcvr popupListSelectionModel'.
-
-	^ self popupListSelectionModel
+	^ self sieve selectionModel
 ]
 
 { #category : #private }
@@ -384,18 +343,15 @@ ToSelectElement >> showHidePlaceholder [
 	" show the placeholder in case no item is selected and nothing 
 	is entered in the input text field "
 
-	self popupListSelectionModel ifEmpty: [
+	self selectionModel ifEmpty: [
 		self inputTextField text ifEmpty: [ ^ self showPlaceholder ] ].
 	self hidePlaceholder
 ]
 
 { #category : #accessing }
 ToSelectElement >> sieve [
-	self
-		deprecated: 'Use #popupListSieve'
-		transformWith: '`@rcvr sieve' -> '`@rcvr popupListSieve'.
 
-	^ self popupListSieve
+	^ popupWindowManager sieve
 ]
 
 { #category : #accessing }

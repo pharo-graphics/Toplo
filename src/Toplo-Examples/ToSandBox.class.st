@@ -1930,6 +1930,8 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	select popupListElement nodeBuilder: [ :node :stateColorAssoc :holder |
 		node addChild: (newTagFactory value: stateColorAssoc) ].
 
+	select popupListSieve dataFilter: [ :stateAssoc :pattern |
+		(stateAssoc key beginsWith: pattern caseSensitive: false) ].
 
 	select hideSelected: false.
 	select popupListElement dataAccessor addAll:

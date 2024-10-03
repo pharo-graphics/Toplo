@@ -13,7 +13,7 @@ ToMultiSelectListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 	selectElement checkMaxSelectedCount.
 	" the window can be opened but invisible if opened from the text input element.
 	see ToSelectTextInputElement>>onInstalledIn:"
-	selectElement currentWindow ifNotNil: [ :w |
+	selectElement currentPopupWindow ifNotNil: [ :w |
 		w visibility: BlVisibility visible ]
 ]
 

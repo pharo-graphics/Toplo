@@ -589,7 +589,7 @@ ToAbstractListElement >> unselectableSelectionMode [
 { #category : #accessing }
 ToAbstractListElement >> unselectableSelectionModel [
 
-	^ self unselectableSelecter selectionModel
+	^ self selectionModel unselectableSelectionModel
 ]
 
 { #category : #accessing }

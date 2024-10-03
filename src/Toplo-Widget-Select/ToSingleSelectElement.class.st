@@ -13,7 +13,8 @@ ToSingleSelectElement >> allowDeselection [
 { #category : #accessing }
 ToSingleSelectElement >> allowDeselection: aBoolean [
 
-	self listElement primarySelectionMode deselectOnMouseDown: aBoolean
+	self popupListElement primarySelectionMode deselectOnMouseDown:
+		aBoolean
 ]
 
 { #category : #accessing }

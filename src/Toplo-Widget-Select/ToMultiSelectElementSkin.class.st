@@ -8,7 +8,7 @@ Class {
 ToMultiSelectElementSkin >> shortcutsToInstallIn: aSelect [
 
 	| listElement |
-	listElement := aSelect listElement.
+	listElement := aSelect popupListElement.
 
 	^ Array streamContents: [ :stream |
 		  stream nextPutAll: (super shortcutsToInstallIn: aSelect).

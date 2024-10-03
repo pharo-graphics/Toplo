@@ -23,5 +23,5 @@ ToSelectListElementEventHandler >> select: aSelect [
 { #category : #'element handlers' }
 ToSelectListElementEventHandler >> sieveSelectionChangedEvent: anEvent [
 
-	select onSelectionChangedInListElement: anEvent
+	select onSelectionChangedInPopupListElement: anEvent
 ]

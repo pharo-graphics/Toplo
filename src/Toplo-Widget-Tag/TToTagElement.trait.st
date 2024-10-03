@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToTagElement,
-	#category : #'Toplo-Widget-Tag'
+	#category : #'Toplo-Widget-Tag-Core'
 }
 
 { #category : #adding }
@@ -56,12 +56,10 @@ TToTagElement >> rawRemovable: aBoolean [
 	self explicitRequirement
 ]
 
-{ #category : #accessing }
+{ #category : #configurating }
 TToTagElement >> removable: aBoolean [
 
-	self rawRemovable = aBoolean ifTrue: [ ^ self ].
-	self rawRemovable: aBoolean.
-	self rawRemovable
+	aBoolean
 		ifTrue: [ self beRemovable ]
 		ifFalse: [ self beUnremovable ]
 ]

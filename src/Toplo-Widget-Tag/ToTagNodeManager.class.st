@@ -1,14 +1,14 @@
 Class {
-	#name : #ToMultiSelectBarNodeManager,
+	#name : #ToTagNodeManager,
 	#superclass : #ToBarNodeManager,
 	#instVars : [
 		'compositeNodeBuilder'
 	],
-	#category : #'Toplo-Widget-Select-Multi'
+	#category : #'Toplo-Widget-Tag-Bar'
 }
 
 { #category : #'instance creation' }
-ToMultiSelectBarNodeManager >> buildNode: aNode inHolder: aNodeHolder [
+ToTagNodeManager >> buildNode: aNode inHolder: aNodeHolder [
 
 	aNodeHolder dataItem
 		buildNode: aNode
@@ -17,59 +17,60 @@ ToMultiSelectBarNodeManager >> buildNode: aNode inHolder: aNodeHolder [
 ]
 
 { #category : #accessing }
-ToMultiSelectBarNodeManager >> compositeNodeBuilder [
+ToTagNodeManager >> compositeNodeBuilder [
 
 	" aValuable takes the node, then the compositeDataItem then the holder as arguments "
 	^ compositeNodeBuilder 
 ]
 
 { #category : #accessing }
-ToMultiSelectBarNodeManager >> compositeNodeBuilder: aValuable [
+ToTagNodeManager >> compositeNodeBuilder: aValuable [
 
 	" aValuable takes the node, then the compositeDataItem then the holder as arguments "
 	compositeNodeBuilder := aValuable 
 ]
 
 { #category : #initialization }
-ToMultiSelectBarNodeManager >> defaultCompositeNodeBuilder [
+ToTagNodeManager >> defaultCompositeNodeBuilder [
 
 	^ [ :node :compositeDataItem :holder |
 	  node addChild: (ToLabel text: compositeDataItem content asString) ]
 ]
 
 { #category : #initialization }
-ToMultiSelectBarNodeManager >> defaultFakeDataItem [
+ToTagNodeManager >> defaultFakeDataItem [
 
-	^ ToMultiSelectFakeItem new
+	^ ToSingleTagModel new
 ]
 
 { #category : #initialization }
-ToMultiSelectBarNodeManager >> defaultHolderClass [ 
+ToTagNodeManager >> defaultHolderClass [
 
-	^ ToMultiSelectNodeHolder
+	^ ToTagNodeHolder
 ]
 
 { #category : #initialization }
-ToMultiSelectBarNodeManager >> defaultNodeBuilder [
+ToTagNodeManager >> defaultNodeBuilder [
 
-	^ [ :node :dataItem :holder |
+	^ [ :node :data :holder |
 	  | tag |
 	  tag := ToTagElement new
-		         labelText: dataItem asString;
+		         labelText: data asString;
 		         flexible: true;
 		         hMatchParent.
+	  tag removable: holder withCloseButton.
 	  node addChild: tag.
 	  tag constraintsDo: [ :c | c linear vertical alignCenter ] ]
 ]
 
 { #category : #initialization }
-ToMultiSelectBarNodeManager >> defaultNodeFactory [
+ToTagNodeManager >> defaultNodeFactory [
 
-	^ [ :holder | ToMultiSelectBarNode new ]
+	^ [ :holder | ToTagNode new ]
 ]
 
 { #category : #initialization }
-ToMultiSelectBarNodeManager >> initialize [ 
+ToTagNodeManager >> initialize [ 
 
 	super initialize.
 	compositeNodeBuilder := self defaultCompositeNodeBuilder

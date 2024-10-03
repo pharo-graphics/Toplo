@@ -1,134 +1,125 @@
 Class {
-	#name : #ToSelectListWindowManager,
+	#name : #ToSelectPopupWindowManager,
 	#superclass : #ToPopupWindowManager,
 	#instVars : [
 		'listElement',
 		'sieve',
-		'listDataNodeBuilder'
+		'nodeBuilder'
 	],
 	#category : #'Toplo-Widget-Select-List'
 }
 
-{ #category : #accessing }
-ToSelectListWindowManager >> dataNodeBuilder [
-
-	^ listDataNodeBuilder
-]
-
 { #category : #initialization }
-ToSelectListWindowManager >> defaultAutoCloseOnMouseUpDelay [
+ToSelectPopupWindowManager >> defaultAutoCloseOnMouseUpDelay [
 
 	^ nil
 ]
 
 { #category : #initialization }
-ToSelectListWindowManager >> defaultAutoClosePickOutsideEventClass [
+ToSelectPopupWindowManager >> defaultAutoClosePickOutsideEventClass [
 
 	^ BlMouseDownOutsideEvent
 ]
 
 { #category : #initialization }
-ToSelectListWindowManager >> defaultDataNodeBuilder [
+ToSelectPopupWindowManager >> defaultDataNodeBuilder [
 
 	^ [ :node :dataItem :holder |
 	  node addChild: (ToLabel text: dataItem asString) hMatchParent ]
 ]
 
 { #category : #initialization }
-ToSelectListWindowManager >> defaultMaxHeight [
+ToSelectPopupWindowManager >> defaultMaxHeight [
 
 	^ 300
 ]
 
 { #category : #initialization }
-ToSelectListWindowManager >> defaultMinHeight [
+ToSelectPopupWindowManager >> defaultMinHeight [
 
 	^ 0
 ]
 
 { #category : #initialization }
-ToSelectListWindowManager >> defaultNodeBuilder [
+ToSelectPopupWindowManager >> defaultNodeBuilder [
 
-	^ [ :node :dataItem :holder | listDataNodeBuilder value: node value: dataItem value: holder ]
+	^ [ :node :dataItem :holder | nodeBuilder value: node value: dataItem value: holder ]
 ]
 
 { #category : #initialization }
-ToSelectListWindowManager >> defaultNodeFactory [
+ToSelectPopupWindowManager >> defaultNodeFactory [
 
 	^ [ :theHolder | ToSelectDataListNode new ]
 ]
 
 { #category : #initialization }
-ToSelectListWindowManager >> defaultPositionHook [
-
-	^ [ :window :theElement :event |
-	  window position: (theElement bounds inParent: self anchorRoot) bounds bottomLeft ]
-]
-
-{ #category : #initialization }
-ToSelectListWindowManager >> defaultSizeHook [
+ToSelectPopupWindowManager >> defaultSizeHook [
 
 	^ [ :theWindow :theElement :event |
 	  theWindow width: theElement measuredWidth]
 ]
 
 { #category : #accessing }
-ToSelectListWindowManager >> elementEventHandlerClass [ 
+ToSelectPopupWindowManager >> elementEventHandlerClass [ 
 
 	^ ToSelectEventHandler
 ]
 
 { #category : #initialization }
-ToSelectListWindowManager >> initialize [ 
+ToSelectPopupWindowManager >> initialize [ 
 
 	super initialize.
-	listDataNodeBuilder := self defaultDataNodeBuilder
+	nodeBuilder := self defaultDataNodeBuilder
 ]
 
 { #category : #accessing }
-ToSelectListWindowManager >> listDataNodeBuilder: aValuable [
+ToSelectPopupWindowManager >> listDataNodeBuilder: aValuable [
 
-	listDataNodeBuilder := aValuable
+	self
+		deprecated: 'Use #nodeBuilder:'
+		transformWith: '`@rcvr listDataNodeBuilder: `@arg' -> '`@rcvr nodeBuilder: `@arg'.
+
+	self nodeBuilder: aValuable
 ]
 
 { #category : #accessing }
-ToSelectListWindowManager >> listElement [
+ToSelectPopupWindowManager >> listElement [
 
 	^ listElement 
 ]
 
 { #category : #initialization }
-ToSelectListWindowManager >> listElementClass [
+ToSelectPopupWindowManager >> listElementClass [
 
 	^ ToSelectListElement
 ]
 
 { #category : #accessing }
-ToSelectListWindowManager >> maxHeight [
+ToSelectPopupWindowManager >> maxHeight [
 
 	^ listElement maxHeight
 ]
 
 { #category : #accessing }
-ToSelectListWindowManager >> maxHeight: aNumber [
+ToSelectPopupWindowManager >> maxHeight: aNumber [
 
 	listElement maxHeight: aNumber
 ]
 
 { #category : #accessing }
-ToSelectListWindowManager >> minHeight [
+ToSelectPopupWindowManager >> minHeight [
 
 	^ listElement minHeight
 ]
 
 { #category : #accessing }
-ToSelectListWindowManager >> minHeight: aNumber [
+ToSelectPopupWindowManager >> minHeight: aNumber [
 
 	listElement minHeight: aNumber
 ]
 
 { #category : #initialization }
-ToSelectListWindowManager >> newListElement [
+ToSelectPopupWindowManager >> newListElement [
 
 	| newListElement |
 	newListElement := self listElementClass new.
@@ -143,14 +134,20 @@ ToSelectListWindowManager >> newListElement [
 	^ newListElement
 ]
 
+{ #category : #accessing }
+ToSelectPopupWindowManager >> nodeBuilder: aValuable [
+
+	nodeBuilder := aValuable
+]
+
 { #category : #'api - hooks' }
-ToSelectListWindowManager >> nodeHolderClass [
+ToSelectPopupWindowManager >> nodeHolderClass [
 
 	^ ToListNodeHolder
 ]
 
 { #category : #'api - hooks' }
-ToSelectListWindowManager >> onInstalledIn: anElement [
+ToSelectPopupWindowManager >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	listElement := self newListElement.
@@ -175,7 +172,7 @@ ToSelectListWindowManager >> onInstalledIn: anElement [
 ]
 
 { #category : #'api - hooks' }
-ToSelectListWindowManager >> onUninstalledIn: anElement [
+ToSelectPopupWindowManager >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
 	sieve onInstalledIn: listElement.
@@ -185,24 +182,22 @@ ToSelectListWindowManager >> onUninstalledIn: anElement [
 ]
 
 { #category : #'window handling' }
-ToSelectListWindowManager >> onWindowClosed [
+ToSelectPopupWindowManager >> onWindowClosed [
 
 	super onWindowClosed.
 	" if case one of my children has focus "
-	self element onWindowClosed.
-
-
+	self element onPopupWindowClosed
 ]
 
 { #category : #'window handling' }
-ToSelectListWindowManager >> onWindowOpened [
+ToSelectPopupWindowManager >> onWindowOpened [
 
 	super onWindowOpened.
-	self element onWindowOpened
+	self element onPopupWindowOpened
 ]
 
 { #category : #'window handling' }
-ToSelectListWindowManager >> popupWindowHiddenEvent: anEvent [
+ToSelectPopupWindowManager >> popupWindowHiddenEvent: anEvent [
 
 	(currentWindow notNil and: [ currentWindow isOpened ]) ifTrue: [
 		^ self ].
@@ -213,13 +208,13 @@ ToSelectListWindowManager >> popupWindowHiddenEvent: anEvent [
 ]
 
 { #category : #accessing }
-ToSelectListWindowManager >> sieve [ 
+ToSelectPopupWindowManager >> sieve [ 
 
 	^ sieve
 ]
 
 { #category : #accessing }
-ToSelectListWindowManager >> windowClass [
+ToSelectPopupWindowManager >> windowClass [
 
-	^ ToSelectListWindow 
+	^ ToSelectPopupWindow 
 ]

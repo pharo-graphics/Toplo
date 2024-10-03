@@ -15,7 +15,7 @@ ToSelectElementSkin >> installSkinEvent: anEvent [
 ToSelectElementSkin >> shortcutsToInstallIn: aSelect [
 
 	| listElement |
-	listElement := aSelect listElement.
+	listElement := aSelect popupListElement.
 
 	^ Array streamContents: [ :stream |
 		  stream nextPut: (BlShortcutWithAction new
@@ -26,7 +26,7 @@ ToSelectElementSkin >> shortcutsToInstallIn: aSelect [
 						          nextSelectableIndexToScrollTo.
 					   listElement secondarySelecter selectOnlyIndex: idx.
 					   listElement secondarySelecter scrollToDataSourcePosition: idx.
-					   aSelect windowManager currentWindow ifNil: [
+					   aSelect popupWindowManager currentWindow ifNil: [
 							   aSelect popupWindowEvent: aShortcutEvent ] ]).
 
 		  stream nextPut: (BlShortcutWithAction new

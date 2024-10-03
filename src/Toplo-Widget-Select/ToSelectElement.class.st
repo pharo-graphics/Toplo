@@ -5,9 +5,9 @@ Class {
 	#classTraits : 'TToElementWithPlaceholder classTrait',
 	#instVars : [
 		'filtrable',
-		'windowManager',
 		'iconContainer',
-		'innerContainer'
+		'innerContainer',
+		'popupWindowManager'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -19,21 +19,26 @@ ToSelectElement >> allowDeselection [
 ]
 
 { #category : #'accessing - window' }
-ToSelectElement >> closeWindow [
+ToSelectElement >> closePopupWindow [
 
-	^ self windowManager closeWindow
+	^ self popupWindowManager closeWindow
 ]
 
 { #category : #'accessing - window' }
-ToSelectElement >> currentWindow [ 
+ToSelectElement >> currentPopupWindow [ 
 
-	^ self windowManager currentWindow
+	^ self popupWindowManager currentWindow
 ]
 
 { #category : #'accessing - list' }
 ToSelectElement >> dataAccessor [
 
-	^ self listElement dataAccessor
+	self
+		deprecated: 'Use #popupListDataAccessor'
+		transformWith:
+		'`@rcvr dataAccessor' -> '`@rcvr popupListDataAccessor'.
+
+	^ self popupListElement dataAccessor
 ]
 
 { #category : #initialization }
@@ -43,7 +48,7 @@ ToSelectElement >> defaultLayout [
 ]
 
 { #category : #accessing }
-ToSelectElement >> filterString [ 
+ToSelectElement >> filterString [
 
 	^ self textInputElement filterString
 ]
@@ -87,8 +92,8 @@ ToSelectElement >> initialize [
 	filtrable := false.
 
 	" for the popup "
-	windowManager := self newWindowManager.
-	windowManager onInstalledIn: self.
+	popupWindowManager := self newPopupWindowManager.
+	popupWindowManager onInstalledIn: self.
 
 	self iconContainer: self newIconContainer.
 	self innerContainer: self newInnerContainer.
@@ -149,21 +154,13 @@ ToSelectElement >> isMultipleSelection [
 ]
 
 { #category : #'accessing - list' }
-ToSelectElement >> listDataNodeBuilder: aBuilder [
-
-	self windowManager listDataNodeBuilder: aBuilder
-]
-
-{ #category : #'accessing - list' }
 ToSelectElement >> listElement [
 
-	^ self windowManager listElement
-]
+	self
+		deprecated: 'Use #popupListElement'
+		transformWith: '`@rcvr listElement' -> '`@rcvr popupListElement'.
 
-{ #category : #'accessing - list' }
-ToSelectElement >> listNodeBuilder: aValuable [
-
-	self listElement nodeBuilder: aValuable
+	^ self popupListElement
 ]
 
 { #category : #'instance creation' }
@@ -181,6 +178,12 @@ ToSelectElement >> newInnerContainer [
 	^ container
 ]
 
+{ #category : #'instance creation' }
+ToSelectElement >> newPopupWindowManager [
+
+	^ ToSelectPopupWindowManager new
+]
+
 { #category : #skin }
 ToSelectElement >> newRawSkin [ 
 
@@ -193,12 +196,6 @@ ToSelectElement >> newShortcutsStore [
 	^ ToSelectShortcutsStore new
 ]
 
-{ #category : #'instance creation' }
-ToSelectElement >> newWindowManager [
-
-	^ ToSelectListWindowManager new
-]
-
 { #category : #layout }
 ToSelectElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 
@@ -206,28 +203,38 @@ ToSelectElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 	"self class name trace. ' ' trace. 'onLayout: context:' traceCr"
 ]
 
-{ #category : #'accessing - selection' }
-ToSelectElement >> onSelectionChangedInListElement: anEvent [
+{ #category : #window }
+ToSelectElement >> onPopupWindowClosed [
 
-	self innerContainer onSelectionChangedInSelectElement: anEvent
+	self textInputElement onPopupWindowClosed
+]
+
+{ #category : #window }
+ToSelectElement >> onPopupWindowOpened [
+
+	self textInputElement onPopupWindowOpened
+]
+
+{ #category : #'accessing - selection' }
+ToSelectElement >> onSelectionChangedInPopupListElement: anEvent [
+
+	self innerContainer onSelectionChangedInPopupListElement: anEvent
 ]
 
 { #category : #window }
 ToSelectElement >> onWindowClosed [
-
-	self textInputElement onWindowClosed
+	self
+		deprecated: 'Use #onPopupWindowClosed'
+		transformWith: '`@rcvr onWindowClosed' -> '`@rcvr onPopupWindowClosed'.
+	self onPopupWindowClosed
 ]
 
 { #category : #window }
 ToSelectElement >> onWindowOpened [
-
-	self textInputElement onWindowOpened
-]
-
-{ #category : #accessing }
-ToSelectElement >> pattern [
-
-	^ self sieve pattern
+	self
+		deprecated: 'Use #onPopupWindowOpened'
+		transformWith: '`@rcvr onWindowOpened' -> '`@rcvr onPopupWindowOpened'.
+	self onPopupWindowOpened
 ]
 
 { #category : #accessing }
@@ -237,9 +244,36 @@ ToSelectElement >> pattern: aPattern [
 ]
 
 { #category : #'accessing - list' }
+ToSelectElement >> popupListDataAccessor [
+
+	self
+		deprecated: 'Use #popupListElement dataAccessor'
+		transformWith: '`@rcvr popupListDataAccessor' -> '`@rcvr popupListElement dataAccessor'.
+
+	^ self popupListElement dataAccessor
+]
+
+{ #category : #'accessing - list' }
+ToSelectElement >> popupListElement [
+
+	^ self popupWindowManager listElement
+]
+
+{ #category : #'accessing - selection' }
+ToSelectElement >> popupListSelectionModel [
+
+
+	self
+		deprecated: 'Use #selectionModel'
+		transformWith: '`@rcvr popupListSelectionModel' -> '`@rcvr selectionModel'.
+
+	^ self selectionModel
+]
+
+{ #category : #'accessing - list' }
 ToSelectElement >> popupMaxHeight: aNumber [
 
-	self windowManager maxHeight: aNumber
+	self popupWindowManager maxHeight: aNumber
 ]
 
 { #category : #'accessing - list' }
@@ -267,9 +301,16 @@ ToSelectElement >> popupWindowEvent: anEvent [
 ]
 
 { #category : #accessing }
+ToSelectElement >> popupWindowManager [
+
+
+	^ popupWindowManager
+]
+
+{ #category : #accessing }
 ToSelectElement >> refresh [
 
-	self innerContainer refresh
+	self innerContainer refreshFromPopupListSelection
 ]
 
 { #category : #layout }
@@ -293,24 +334,24 @@ ToSelectElement >> selecter [
 { #category : #'accessing - selection' }
 ToSelectElement >> selectionModel [
 
+
 	^ self sieve selectionModel
 ]
 
 { #category : #private }
 ToSelectElement >> showHidePlaceholder [
-
 	" show the placeholder in case no item is selected and nothing 
 	is entered in the input text field "
+
 	self selectionModel ifEmpty: [
-		self inputTextField text ifEmpty: [
-			^ self showPlaceholder ] ].
+		self inputTextField text ifEmpty: [ ^ self showPlaceholder ] ].
 	self hidePlaceholder
 ]
 
 { #category : #accessing }
 ToSelectElement >> sieve [
 
-	^ windowManager sieve
+	^ popupWindowManager sieve
 ]
 
 { #category : #accessing }
@@ -322,11 +363,9 @@ ToSelectElement >> textInputElement [
 { #category : #accessing }
 ToSelectElement >> windowManager [
 
-	^ windowManager
-]
+	self
+		deprecated: 'Use #popupWindowManager'
+		transformWith: '`@rcvr windowManager' -> '`@rcvr popupWindowManager'.
 
-{ #category : #accessing }
-ToSelectElement >> windowManager: aSelectWindowManager [
-
-	windowManager := aSelectWindowManager 
+	^ self popupWindowManager
 ]

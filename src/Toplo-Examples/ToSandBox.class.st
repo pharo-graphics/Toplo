@@ -196,15 +196,15 @@ ToSandBox class >> barWithData: aCollection [
 { #category : #select }
 ToSandBox class >> buildSelectListElementIn: aSelectElement withIconProvider: anIconProviderClass [
 
-	|  phtext icProvider styles iconDescs |
-	aSelectElement listElement placeholderMinHeight: 35.
-	aSelectElement listElement withRowNumbers.
+	| phtext icProvider styles iconDescs |
+	aSelectElement popupListElement placeholderMinHeight: 35.
+	aSelectElement popupListElement withRowNumbers.
 	phtext := ('No Icon' asRopedText
 		           foreground: Color lightGray;
 		           yourself)
 		          fontSize: 24;
 		          yourself.
-	aSelectElement listElement placeholderBuilder: [ :placeholder :e |
+	aSelectElement popupListElement placeholderBuilder: [ :placeholder :e |
 		| lab |
 		placeholder layout alignCenter.
 		lab := ToAttributedLabel text: phtext.
@@ -228,7 +228,7 @@ ToSandBox class >> buildSelectListElementIn: aSelectElement withIconProvider: an
 							              provider: icProvider;
 							              yourself) ] ] ] ].
 
-	aSelectElement listElement nodeBuilder: [ :node :iconDesc :holder  |
+	aSelectElement popupListElement nodeBuilder: [ :node :iconDesc :holder |
 		| styleLab stylePane iclab iclabPane imPane iconStyle iconName icon |
 		iconStyle := iconDesc style.
 		iconName := iconDesc name.
@@ -264,7 +264,7 @@ ToSandBox class >> buildSelectListElementIn: aSelectElement withIconProvider: an
 		(iconDesc style prefix beginsWith: pattern caseSensitive: true) or: [
 			iconDesc name beginsWith: pattern caseSensitive: true ] ].
 
-	aSelectElement dataAccessor addAll: iconDescs
+	aSelectElement popupListElement dataAccessor addAll: iconDescs
 ]
 
 { #category : #bar }
@@ -1731,17 +1731,21 @@ ToSandBox class >> example_RawParallelTransition [
 { #category : #select }
 ToSandBox class >> example_SelectAntDesignIconMonoFiltrable [
 
-	| select   |
+	| select |
 	select := ToSingleSelectElement new.
-	self buildSelectListElementIn: select withIconProvider: ToAntDesignIconProvider.
+	self
+		buildSelectListElementIn: select
+		withIconProvider: ToAntDesignIconProvider.
 
 	select filtrable: true.
 
 	select dataViewBuilder: [ :dataItemView :iconDesc |
-		dataItemView selectedDataTextField text: iconDesc style prefix , ' ' , iconDesc name.
-		dataItemView addChild: ((iconDesc icon size: 48 asPoint) background: Color veryLightGray) ].
-	
-	select sample: (select dataAccessor at: 1).
+		dataItemView selectedDataTextField text:
+			iconDesc style prefix , ' ' , iconDesc name.
+		dataItemView addChild:
+			((iconDesc icon size: 48 asPoint) background: Color veryLightGray) ].
+
+	select sample: (select popupListElement dataAccessor at: 1).
 
 	select hMatchParent.
 	select placeholderText:
@@ -1754,18 +1758,21 @@ ToSandBox class >> example_SelectAntDesignIconMonoFiltrable [
 { #category : #select }
 ToSandBox class >> example_SelectAntDesignIconMultiFiltrable [
 
-	| select   |
+	| select |
 	select := ToMultiSelectElement new.
-	self buildSelectListElementIn: select withIconProvider: ToAntDesignIconProvider.
+	self
+		buildSelectListElementIn: select
+		withIconProvider: ToAntDesignIconProvider.
 
 	select filtrable: true.
 
-	select nodeBuilder: [ :node :iconDesc :holder | | tag |
+	select nodeBuilder: [ :node :iconDesc :holder |
+		| tag |
 		tag := ToTagElement new.
-		tag icon: ((iconDesc icon size: 48 asPoint)).
+		tag icon: (iconDesc icon size: 48 asPoint).
 		tag addStamp: #closeIcon.
 		node addChild: tag ].
-	select sample: select dataAccessor first.
+	select sample: select popupListDataAccessor first.
 	select hMatchParent.
 	select placeholderText:
 		('Select icons' asRopedText foreground: Color red).
@@ -1778,17 +1785,21 @@ ToSandBox class >> example_SelectAntDesignIconMultiFiltrable [
 { #category : #select }
 ToSandBox class >> example_SelectMaterialDesignIconMonoFiltrable [
 
-	| select   |
+	| select |
 	select := ToSingleSelectElement new.
-	self buildSelectListElementIn: select withIconProvider: ToMaterialDesignIconProvider.
+	self
+		buildSelectListElementIn: select
+		withIconProvider: ToMaterialDesignIconProvider.
 
 	select filtrable: true.
 
 	select dataViewBuilder: [ :dataItemView :iconDesc |
-		dataItemView selectedDataTextField text: iconDesc style prefix , ' ' , iconDesc name.
-		dataItemView addChild: ((iconDesc icon size: 48 asPoint) background: Color veryLightGray) ].
-	
-	select sample: select dataAccessor first.
+		dataItemView selectedDataTextField text:
+			iconDesc style prefix , ' ' , iconDesc name.
+		dataItemView addChild:
+			((iconDesc icon size: 48 asPoint) background: Color veryLightGray) ].
+
+	select sample: select popupListElement dataAccessor first.
 
 	select hMatchParent.
 	select placeholderText:
@@ -1818,7 +1829,7 @@ ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
 		tag bordered: false.
 		tag icon: (iconDesc icon size: 48 asPoint).
 		node addChild: tag ].
-	select sample: select dataAccessor first.
+	select sample: select popupListElement dataAccessor first.
 	select hMatchParent.
 	select placeholderText:
 		('Select icons' asRopedText foreground: Color red).
@@ -1832,25 +1843,25 @@ ToSandBox class >> example_SelectMonoFiltrable [
 
 	| select innerWindow phtext |
 	select := ToSingleSelectElement new.
-	select listElement placeholderMinHeight: 35.
+	select popupListElement placeholderMinHeight: 35.
 	phtext := ('No Data' asRopedText
 		           foreground: Color lightGray;
 		           yourself)
 		          fontSize: 24;
 		          yourself.
-	select listElement placeholderBuilder: [ :placeholder :e |
+	select popupListElement placeholderBuilder: [ :placeholder :e |
 		| lab |
 		placeholder layout alignCenter.
 		lab := ToAttributedLabel text: phtext.
 		placeholder addChild: lab ].
 
 	select filtrable: true.
-	select dataAccessor addAll: self statesOfAmerica.
+	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	"select selecter selectIndex: 2."
 	select placeholderText:
 		('Select a state' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select popupWindowManager anchorRoot: innerWindow root.
 	select width: 300.
 	select position: 50 @ 50.
 	select inputTextField requestFocus.
@@ -1864,11 +1875,12 @@ ToSandBox class >> example_SelectMonoNotFiltrable [
 
 	| select innerWindow |
 	select := ToSingleSelectElement new.
-	select dataAccessor addAll: self statesOfAmerica.
-	select placeholderText: ('Select a state' asRopedText foreground: Color red).
+	select popupListElement dataAccessor addAll: self statesOfAmerica.
+	select placeholderText:
+		('Select a state' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
-	select listElement withRowNumbers.
+	select popupWindowManager anchorRoot: innerWindow root.
+	select popupListElement withRowNumbers.
 	select width: 300.
 	select position: 50 @ 50.
 	innerWindow pane addChild: select.
@@ -1883,18 +1895,16 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	select := ToMultiSelectElement new.
 	select nodeWrapping: true.
 	select keepPickOrder: true.
-	select listElement primarySelectionMode option grouped: false.
-	select listElement primarySelectionMode option beneath: false.
-	select listElement primarySelectionMode option elementFactory: [
+	select popupListElement primarySelectionMode option grouped: false.
+	select popupListElement primarySelectionMode option beneath: false.
+	select popupListElement primarySelectionMode option elementFactory: [
 		ToListBasicSelectionElement new defaultSkin:
 			ToMultiSelectElementCheckSkin new ].
 
 	newTagFactory := [ :stateColorAssoc |
 	                 | tag |
 	                 tag := ToTagElement new
-		                        labelText:
-			                        (
-					                         stateColorAssoc key asString);
+		                        labelText: stateColorAssoc key asString;
 		                        hMatchParent;
 		                        yourself.
 	                 tag constraintsDo: [ :c |
@@ -1917,18 +1927,21 @@ ToSandBox class >> example_SelectMultiFiltrable [
 		tag addStamp: #closeIcon withValue: true.
 		node addChild: tag ].
 
-	select listElement nodeBuilder: [ :node :stateColorAssoc :holder |
+	select popupListElement nodeBuilder: [ :node :stateColorAssoc :holder |
 		node addChild: (newTagFactory value: stateColorAssoc) ].
 
+	select sieve dataFilter: [ :stateAssoc :pattern |
+		(stateAssoc key beginsWith: pattern caseSensitive: false) ].
 
 	select hideSelected: false.
-	select dataAccessor addAll: self statesOfAmericaWithColor.
+	select popupListElement dataAccessor addAll:
+		self statesOfAmericaWithColor.
 	select filtrable: true.
 	select popupMaxHeight: 200.
 	select placeholderText:
 		('Select states' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select popupWindowManager anchorRoot: innerWindow root.
 	select position: 50 @ 10.
 	select width: 300.
 	select selecter selectIndex: 2.
@@ -1944,7 +1957,7 @@ ToSandBox class >> example_SelectMultiFiltrableAutoDistribution [
 	| select innerWindow |
 	select := ToMultiSelectElement new.
 	select nodeWrapping: false.
-	select dataAccessor addAll: self statesOfAmerica.
+	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	select nodeAutoDistribution: true.
 
 	select filtrable: true.
@@ -1952,7 +1965,7 @@ ToSandBox class >> example_SelectMultiFiltrableAutoDistribution [
 	select placeholderText:
 		('Select states' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select popupWindowManager anchorRoot: innerWindow root.
 	select hMatchParent.
 	innerWindow pane addChild: select.
 	innerWindow height: 600.
@@ -1968,13 +1981,13 @@ ToSandBox class >> example_SelectMultiFiltrableAutoDistributionWithMax [
 	select nodeWrapping: false.
 	select nodeAutoDistribution: true.
 	select hideSelected: false.
-	select dataAccessor addAll: self statesOfAmerica.
+	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	select filtrable: true.
 	select popupMaxHeight: 200.
 	select placeholderText:
 		('Select states' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select popupWindowManager anchorRoot: innerWindow root.
 	select hMatchParent.
 	innerWindow pane addChild: select.
 	innerWindow height: 600.
@@ -1989,13 +2002,13 @@ ToSandBox class >> example_SelectMultiFiltrableNoWrapping [
 	select maxSelectedCount: 6.
 	select nodeWrapping: false.
 	select hideSelected: false.
-	select dataAccessor addAll: self statesOfAmerica.
+	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	select filtrable: true.
 	select popupMaxHeight: 200.
 	select placeholderText:
 		('Select states' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select popupWindowManager anchorRoot: innerWindow root.
 	select hMatchParent.
 	innerWindow pane addChild: select.
 	innerWindow height: 600.
@@ -2010,13 +2023,13 @@ ToSandBox class >> example_SelectMultiFiltrableNoWrappingKeepPickOrder [
 	select keepPickOrder: true.
 	select nodeWrapping: false.
 	select hideSelected: false.
-	select dataAccessor addAll: self statesOfAmerica.
+	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	select filtrable: true.
 	select popupMaxHeight: 200.
 	select placeholderText:
 		('Select states' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select popupWindowManager anchorRoot: innerWindow root.
 	select hMatchParent.
 	innerWindow pane addChild: select.
 	innerWindow height: 600.
@@ -2031,13 +2044,13 @@ ToSandBox class >> example_SelectMultiFiltrableNotWrappingAutoDistribution [
 	select nodeWrapping: false.
 	select nodeAutoDistribution: true.
 	select hideSelected: false.
-	select dataAccessor addAll: self statesOfAmerica.
+	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	select filtrable: true.
 	select popupMaxHeight: 200.
 	select placeholderText:
 		('Select states' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select popupWindowManager anchorRoot: innerWindow root.
 	select hMatchParent.
 	innerWindow pane addChild: select.
 	innerWindow height: 600.
@@ -2052,13 +2065,13 @@ ToSandBox class >> example_SelectMultiFiltrableScrolling [
 	select nodeScrolling: true.
 	select nodeWrapping: false.
 	select hideSelected: false.
-	select dataAccessor addAll: self statesOfAmerica.
+	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	select filtrable: true.
 	select popupMaxHeight: 200.
 	select placeholderText:
 		('Select states' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select popupWindowManager anchorRoot: innerWindow root.
 	select hMatchParent.
 	innerWindow pane addChild: select.
 	innerWindow height: 600.
@@ -2070,17 +2083,18 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected [
 
 	| select innerWindow |
 	select := ToMultiSelectElement new.
-	select listElement primarySelectionMode option masked: true.
+	select popupListElement primarySelectionMode option masked: true.
 	select hideSelected: true.
-	select dataAccessor updateAllWith: self statesOfAmerica.
+	select popupListElement dataAccessor updateAllWith:
+		self statesOfAmerica.
 	select filtrable: true.
 	select popupMaxHeight: 200.
 	select placeholderText:
 		('Selected are removed' asRopedText foreground: Color veryLightGray).
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select popupWindowManager anchorRoot: innerWindow root.
 	select hMatchParent.
-	select listElement withRowNumbers.
+	select popupListElement withRowNumbers.
 	innerWindow pane addChild: select.
 	innerWindow height: 600.
 	innerWindow openInSpace
@@ -2092,13 +2106,14 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected2 [
 	| select innerWindow |
 	select := ToMultiSelectElement new.
 	select hideSelected: true.
-	select dataAccessor addAll: {'Apples'.'Nails'. 'Bananas'. 'Helicopter'}.
+	select popupListElement dataAccessor addAll:
+		{ 'Apples'. 'Nails'. 'Bananas'. 'Helicopter' }.
 	select filtrable: true.
 	select popupMaxHeight: 200.
 	select placeholderText:
 		('Selected are removed' asRopedText foreground: Color veryLightGray).
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select popupWindowManager anchorRoot: innerWindow root.
 	select width: 300.
 	select position: 50 @ 10.
 	innerWindow pane addChild: select.
@@ -2111,7 +2126,6 @@ ToSandBox class >> example_SelectMultiFiltrableWithMax [
 
 	| select  |
 	select := self example_SelectMultiFiltrable.
-	select hExact: 200.
 	select maxSelectedCount: 4
 ]
 
@@ -2124,7 +2138,7 @@ ToSandBox class >> example_SelectMultiFiltrableWrappingAutoDistribution [
 	select nodeWrapping: true.
 	select nodeAutoDistribution: true.
 	select hideSelected: false.
-	select dataAccessor addAll: self statesOfAmerica.
+	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	select filtrable: true.
 	select popupMaxHeight: 200.
 	select placeholderText:
@@ -2165,13 +2179,13 @@ ToSandBox class >> example_SelectMultiNotFiltrableWithGroups [
 
 	| select innerWindow phtext |
 	select := ToMultiSelectElement new.
-	select listElement placeholderMinHeight: 35.
+	select popupListElement placeholderMinHeight: 35.
 	phtext := ('No Data' asRopedText
 		           foreground: Color lightGray;
 		           yourself)
 		          fontSize: 24;
 		          yourself.
-	select listElement placeholderBuilder: [ :placeholder :e |
+	select popupListElement placeholderBuilder: [ :placeholder :e |
 		| lab |
 		placeholder layout alignCenter.
 		lab := ToAttributedLabel text: phtext.
@@ -2179,15 +2193,14 @@ ToSandBox class >> example_SelectMultiNotFiltrableWithGroups [
 
 	select filtrable: false.
 	self statesOfAmericaWithGroups do: [ :assoc |
-		select dataAccessor add: assoc key.
-		select dataAccessor itemCount.
-		select setGroupIndex: select dataAccessor itemCount.
-		select dataAccessor addAll: assoc value ].
+		select popupListElement dataAccessor add: assoc key.
+		select setGroupIndex: select popupListElement dataAccessor itemCount.
+		select popupListElement dataAccessor addAll: assoc value ].
 
 	select placeholderText:
 		('Select a state' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select popupWindowManager anchorRoot: innerWindow root.
 	select width: 300.
 	select position: 50 @ 50.
 	select inputTextField requestFocus.
@@ -2543,6 +2556,16 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 		addChild: root;
 		addChild: vscrollBar.
 	container openInSpace
+]
+
+{ #category : #tag }
+ToSandBox class >> example_TagBar [
+
+	| tb |
+	tb := ToTagBarElement new.
+	tb dataAccessor addAll: (ToSandBox statesOfAmerica collect: [ :s |
+			 ToSingleTagModel new data: s ]).
+	tb openInSpace
 ]
 
 { #category : #select }
@@ -3728,16 +3751,17 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWithAllClassNames [
 	| select innerWindow space |
 	select := self selectWithEditingMultiSelection.
 	select filtrable: true.
-	
+
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select popupWindowManager anchorRoot: innerWindow root.
 	select hMatchParent.
-	select dataAccessor updateAllWith: (Smalltalk globals allClasses collect: [ :cls | cls name ]).
+	select dataAccessor updateAllWith:
+		(Smalltalk globals allClasses collect: [ :cls | cls name ]).
 
 	innerWindow pane addChild: select.
 	innerWindow height: 800.
 	space := BlSpace new.
-	space extent: 800@900.
+	space extent: 800 @ 900.
 	space root addChild: innerWindow.
 	space show
 ]
@@ -5699,22 +5723,23 @@ ToSandBox class >> selectWithEditingMultiSelection [
 		          fontSize: 24;
 		          yourself.
 	select popupMaxHeight: 600.
-	select listElement placeholderMinHeight: 35.
+	select popupListElement placeholderMinHeight: 35.
 
 	select listElement placeholderBuilder: [ :placeholder :e |
 		| lab |
 		placeholder layout alignCenter.
 		lab := ToAttributedLabel text: phtext.
 		placeholder addChild: lab ].
-	
+
 	select addEventHandler: (BlEventHandler
 			 on: ToAlbumSaveAcceptedEvent
 			 do: [ :event |
 				 | d |
 				 d := event client text asString asSymbol.
 				 event client text: ''.
-				event currentTarget data add: d.
-				event currentTarget mode selectIndex: event currentTarget data size ]).
+				 event currentTarget data add: d.
+				 event currentTarget mode selectIndex:
+					 event currentTarget data size ]).
 
 	select addEventHandler: (BlEventHandler
 			 on: ToAlbumSaveRequestedEvent
@@ -5878,13 +5903,13 @@ ToSandBox class >> themeSelect [
 
 	select dataViewBuilder: [ :dataItemView :themeAssoc |
 		dataItemView selectedDataTextField text: themeAssoc key ].
-	select listElement nodeBuilder: [ :node :themeAssoc :holder |
+	select popupListElement nodeBuilder: [ :node :themeAssoc :holder |
 		node addChild: (ToLabel text: themeAssoc key) ].
 
 	select sieve dataFilter: [ :themeAssoc :pattern |
 		themeAssoc key beginsWith: pattern caseSensitive: true ].
 
-	select dataAccessor addAll: themes.
+	select popupListElement dataAccessor addAll: themes.
 	^ select
 ]
 

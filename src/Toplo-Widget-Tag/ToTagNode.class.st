@@ -1,20 +1,14 @@
 Class {
-	#name : #ToMultiSelectBarNode,
+	#name : #ToTagNode,
 	#superclass : #ToBarNode,
 	#instVars : [
 		'removable'
 	],
-	#category : #'Toplo-Widget-Select-Multi'
+	#category : #'Toplo-Widget-Tag-Bar'
 }
 
-{ #category : #'t - list node' }
-ToMultiSelectBarNode >> clickEventHandlerClasses [
-
-	^  { ToListNodeMultiSelectionClickEventHandler } 
-]
-
 { #category : #initialization }
-ToMultiSelectBarNode >> initialize [
+ToTagNode >> initialize [
 
 	super initialize.
 	self applySkinInstallerOnFirstRequest: true.
@@ -22,7 +16,7 @@ ToMultiSelectBarNode >> initialize [
 ]
 
 { #category : #skin }
-ToMultiSelectBarNode >> installRawStyle [
+ToTagNode >> installRawStyle [
 
 	super installRawStyle.
 	self constraintsDo: [ :c | c linear vertical alignCenter ].
@@ -37,32 +31,30 @@ ToMultiSelectBarNode >> installRawStyle [
 				| pane |
 				pane := ToPane vertical.
 				self holder dataItem items do: [ :item |
-					| t |
-					t := self holder dataAccessor at: item index.
-					pane addChild: (ToLabel text: t asString) ].
+					pane addChild: (ToLabel text: item data asString) ].
 				win root addChild: pane ] ]
 ]
 
 { #category : #testing }
-ToMultiSelectBarNode >> isRemovable [
+ToTagNode >> isRemovable [
 
 	^ removable and: [  self nodesCount = 1 ]
 ]
 
 { #category : #accessing }
-ToMultiSelectBarNode >> nodesCount [ 
+ToTagNode >> nodesCount [ 
 
 	^ self holder dataItem nodesCount
 ]
 
 { #category : #accessing }
-ToMultiSelectBarNode >> removeButton [ 
+ToTagNode >> removeButton [ 
 
 	^ self childWithId: #removeButton ifNone: [  ]
 ]
 
 { #category : #private }
-ToMultiSelectBarNode >> removeFromBar [
+ToTagNode >> removeFromBar [
 
 	self holder removeNodeFromBar 
 ]

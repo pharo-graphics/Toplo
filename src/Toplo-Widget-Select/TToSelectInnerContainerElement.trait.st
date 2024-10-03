@@ -16,16 +16,16 @@ TToSelectInnerContainerElement >> isFiltrable [
 ]
 
 { #category : #'t - select inner container' }
-TToSelectInnerContainerElement >> isMultipleSelection [ 
+TToSelectInnerContainerElement >> onSelectionChangedInPopupListElement: anEvent [
 
-	^ self explicitRequirement 
+	self refreshFromPopupListSelection.
+	self requestLayout
 ]
 
 { #category : #'t - select inner container' }
-TToSelectInnerContainerElement >> onSelectionChangedInSelectElement: anEvent [
+TToSelectInnerContainerElement >> popupWindowManager [
 
-	self refresh.
-	self requestLayout
+	^ self selectElement popupWindowManager
 ]
 
 { #category : #'t - select inner container' }
@@ -65,7 +65,10 @@ TToSelectInnerContainerElement >> textInputElementClass [
 ]
 
 { #category : #'t - select inner container' }
-TToSelectInnerContainerElement >> windowManager [ 
+TToSelectInnerContainerElement >> windowManager [
 
-	^ self selectElement windowManager
+	self
+		deprecated: 'Use #popupWindowManager'
+		transformWith: '`@rcvr windowManager' -> '`@rcvr popupWindowManager'.
+	^ self selectElement popupWindowManager
 ]

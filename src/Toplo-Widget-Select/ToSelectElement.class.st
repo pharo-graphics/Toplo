@@ -343,7 +343,7 @@ ToSelectElement >> popupWindowManager [
 { #category : #accessing }
 ToSelectElement >> refresh [
 
-	self innerContainer refresh
+	self innerContainer refreshFromPopupListSelection
 ]
 
 { #category : #layout }

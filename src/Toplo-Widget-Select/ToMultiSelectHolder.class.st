@@ -16,12 +16,6 @@ ToMultiSelectHolder >> popupListSelecter [
 	^ self selectElement popupListSelecter
 ]
 
-{ #category : #'as yet unclassified' }
-ToMultiSelectHolder >> popupListSelectionModel [
-
-	^ self selectElement popupListSelectionModel
-]
-
 { #category : #'accessing - list' }
 ToMultiSelectHolder >> popupListSieve [
 

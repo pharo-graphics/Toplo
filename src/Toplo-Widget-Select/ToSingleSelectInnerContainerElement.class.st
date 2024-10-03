@@ -26,10 +26,10 @@ ToSingleSelectInnerContainerElement class >> onSelectElement: aSelectElement [
 
 { #category : #accessing }
 ToSingleSelectInnerContainerElement >> dataViewBuilder: aValuable [
-
 	" aValuable takes 2 args: the dataItemView and the selected dataItem "
+
 	dataViewBuilder := aValuable.
-	self refresh
+	self refreshFromPopupListSelection
 ]
 
 { #category : #accessing }
@@ -110,6 +110,16 @@ ToSingleSelectInnerContainerElement >> newDataView [
 
 { #category : #'t - select inner container' }
 ToSingleSelectInnerContainerElement >> refresh [
+
+		self
+		deprecated: '#refreshFromPopupListSelection instead'
+		transformWith:
+		'`@rcvr refresh' -> '`@rcvr refreshFromPopupListSelection'.
+	self refreshFromPopupListSelection
+]
+
+{ #category : #'t - select inner container' }
+ToSingleSelectInnerContainerElement >> refreshFromPopupListSelection [
 
 	| selectedIndex dataItem selectionModel originalData newResultView changedEvent |
 	selectElement showHidePlaceholder.

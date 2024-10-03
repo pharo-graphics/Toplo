@@ -45,10 +45,11 @@ ToMultiSelectBarElement >> checkHideSelectionFromListElement [
 { #category : #'accessing - selection' }
 ToMultiSelectBarElement >> checkMaxSelectedCount [
 
-	| sM unselectableSM groupeSM selectedIndexCount |
+	| sM unselectableSM disabledSM groupeSM selectedIndexCount |
 	maxSelectedCount isZero ifTrue: [ ^ self ].
 
 	unselectableSM := self popupListElement unselectableSelectionModel.
+	disabledSM := self popupListElement disabledSelectionModel.
 	groupeSM := self popupListElement groupSelectionModel.
 	sM := self popupListElement selectionModel.
 
@@ -56,17 +57,20 @@ ToMultiSelectBarElement >> checkMaxSelectedCount [
 	selectedIndexCount := self popupListSieve selectionModel
 		                      selectedIndexesCount.
 
-	self assertMaxSelectedCount: selectedIndexCount.
+	"self assertMaxSelectedCount: selectedIndexCount."
 	self popupListSieve currentDataWithLocalAndOriginalIndexDo: [
 		:d
 		:localIndex
 		:originalIndex |
 		(groupeSM containsIndex: localIndex) ifFalse: [
 			selectedIndexCount < maxSelectedCount
-				ifTrue: [ unselectableSM deselectIndex: localIndex ]
+				ifTrue: [
+					unselectableSM deselectIndex: localIndex.
+					disabledSM deselectIndex: localIndex ]
 				ifFalse: [
 					(selectElement popupListSelectionModel containsIndex:
 						 originalIndex) ifFalse: [
+						disabledSM selectIndex: localIndex.
 						unselectableSM selectIndex: localIndex ] ] ] ].
 
 	self popupListElement notifyDataSourceChanged
@@ -82,7 +86,7 @@ ToMultiSelectBarElement >> defaultNodeManager [
 ToMultiSelectBarElement >> extentChanged [
 
 	super extentChanged.
-	self refresh
+	self refreshFromPopupListSelection
 ]
 
 { #category : #layout }
@@ -145,7 +149,7 @@ ToMultiSelectBarElement >> keepPickOrder [
 ToMultiSelectBarElement >> keepPickOrder: aBoolean [
 
 	keepPickOrder := aBoolean.
-	self refresh
+	self refreshFromPopupListSelection
 ]
 
 { #category : #accessing }
@@ -162,7 +166,7 @@ ToMultiSelectBarElement >> listElement [
 ToMultiSelectBarElement >> maxSelectedCount: aNumber [
 
 	maxSelectedCount := aNumber.
-	self refresh
+	self refreshFromPopupListSelection
 ]
 
 { #category : #skin }
@@ -186,12 +190,21 @@ ToMultiSelectBarElement >> popupListSieve [
 
 { #category : #'t - select inner container' }
 ToMultiSelectBarElement >> refresh [
-	" first remove all data nodes "
+
+	self
+		deprecated: '#refreshFromPopupListSelection instead'
+		transformWith:
+		'`@rcvr refresh' -> '`@rcvr refreshFromPopupListSelection'.
+	self refreshFromPopupListSelection
+]
+
+{ #category : #'t - select inner container' }
+ToMultiSelectBarElement >> refreshFromPopupListSelection [
+	" rebuild the current bar nodes according to the selection in the popup list "
 
 	| previousItems newItems |
 	selectElement showHidePlaceholder.
 
-	self selecter deselectAll.
 	" copy the previous items "
 	previousItems := self dataAccessor asOrderedCollection.
 	newItems := OrderedCollection new.
@@ -205,9 +218,10 @@ ToMultiSelectBarElement >> refresh [
 
 	" reconstruct the item list. ensure the reuse of pre-existing items"
 	selectElement popupListSelectionModel selectedIndexesDo: [ :idx |
-		| new previous |
+		| new previous data |
+		data := selectElement popupListSieve originalData at: idx.
 		previous := previousItems
-			            detect: [ :item | item data = (selectElement popupListSieve originalData at: idx) ]
+			            detect: [ :item | item data = data ]
 			            ifNone: [  ].
 		previous
 			ifNotNil: [
@@ -215,7 +229,7 @@ ToMultiSelectBarElement >> refresh [
 				previousItems remove: previous ]
 			ifNil: [
 				new := ToPickedTagModel new
-					       data: (selectElement popupListSieve originalData at: idx);
+					       data: data;
 					       yourself.
 				pickCount := pickCount + 1.
 				new pickOrder: pickCount ].
@@ -226,8 +240,6 @@ ToMultiSelectBarElement >> refresh [
 
 	" replace all in one datasource command "
 	self dataAccessor updateAllWith: newItems.
-	self selecter selectAll.
-
 	self checkHideSelectionFromListElement.
 	self checkMaxSelectedCount
 ]

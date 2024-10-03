@@ -18,7 +18,7 @@ TToSelectInnerContainerElement >> isFiltrable [
 { #category : #'t - select inner container' }
 TToSelectInnerContainerElement >> onSelectionChangedInPopupListElement: anEvent [
 
-	self refresh.
+	self refreshFromPopupListSelection.
 	self requestLayout
 ]
 

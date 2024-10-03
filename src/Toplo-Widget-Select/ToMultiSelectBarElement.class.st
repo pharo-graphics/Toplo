@@ -122,6 +122,11 @@ ToMultiSelectBarElement >> haveInvisibleNodes: theInvisibleNodes [
 ToMultiSelectBarElement >> initialize [
 
 	super initialize.
+
+	" no visible primary and secondary selection elements "
+	self primarySelectionMode option masked: true.
+	self secondarySelectionMode option masked: true.
+
 	maxSelectedCount := 0.
 	keepPickOrder := false.
 	pickCount := 0.

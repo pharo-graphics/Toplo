@@ -39,9 +39,6 @@ ToTagBarElement >> initialize [
 
 	super initialize.
 	
-	" no visible primary and secondary selection elements "
-	self primarySelectionMode option masked: true.
-	self secondarySelectionMode option masked: true.
 	" mandatory resizer setting. 
 	Normally, should not be changed"
 	self vFitContent.

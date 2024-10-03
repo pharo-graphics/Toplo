@@ -21,8 +21,16 @@ ToTagElement >> icon: anElement [
 ToTagElement >> initialize [ 
 
 	super initialize.
+	self takeFocusOnClick: false.
 	self addStamp: #bordered withValue: true.
 	self addStamp: #closeIcon withValue: false
+]
+
+{ #category : #'t - checkable  - protocol' }
+ToTagElement >> initializeCheckable [ 
+
+	super initializeCheckable.
+	self takeFocusOnClick: true
 ]
 
 { #category : #'t - labeled icon' }

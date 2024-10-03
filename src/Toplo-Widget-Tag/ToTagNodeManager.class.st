@@ -52,10 +52,10 @@ ToTagNodeManager >> defaultHolderClass [
 { #category : #initialization }
 ToTagNodeManager >> defaultNodeBuilder [
 
-	^ [ :node :dataItem :holder |
+	^ [ :node :data :holder |
 	  | tag |
 	  tag := ToTagElement new
-		         labelText: dataItem asString;
+		         labelText: data asString;
 		         flexible: true;
 		         hMatchParent.
 	  tag removable: holder withCloseButton.

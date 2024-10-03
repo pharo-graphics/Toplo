@@ -2558,6 +2558,16 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 	container openInSpace
 ]
 
+{ #category : #tag }
+ToSandBox class >> example_TagBar [
+
+	| tb |
+	tb := ToTagBarElement new.
+	tb dataAccessor addAll: (ToSandBox statesOfAmerica collect: [ :s |
+			 ToSingleTagModel new data: s ]).
+	tb openInSpace
+]
+
 { #category : #select }
 ToSandBox class >> example_ThemeSelect [
 

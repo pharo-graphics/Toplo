@@ -1,6 +1,6 @@
 Class {
-	#name : #ToQueueBasedCommandApplierEventHandler,
-	#superclass : #ToCommandApplierEventHandler,
+	#name : #ToQueueBasedCommandApplier,
+	#superclass : #ToCommandApplier,
 	#instVars : [
 		'commandQueue',
 		'applicationTask',
@@ -11,7 +11,7 @@ Class {
 }
 
 { #category : #'event handling' }
-ToQueueBasedCommandApplierEventHandler >> elementCommandAddedEvent: aCommandAddedEvent [
+ToQueueBasedCommandApplier >> elementCommandAddedEvent: aCommandAddedEvent [
 
 	weak ifTrue: [
 		element isAttachedToSceneGraph ifFalse: [
@@ -25,19 +25,19 @@ ToQueueBasedCommandApplierEventHandler >> elementCommandAddedEvent: aCommandAdde
 ]
 
 { #category : #'event handling' }
-ToQueueBasedCommandApplierEventHandler >> elementCommandApplicationRequest: anEvent [
+ToQueueBasedCommandApplier >> elementCommandApplicationRequest: anEvent [
 
 	anEvent currentTarget applyCommand: anEvent command
 ]
 
 { #category : #'event handling' }
-ToQueueBasedCommandApplierEventHandler >> elementCommandApplicationTaskActivationEvent: aCommandsApplicationRequestEvent [
+ToQueueBasedCommandApplier >> elementCommandApplicationTaskActivationEvent: aCommandsApplicationRequestEvent [
 
 	self postApplicationTask
 ]
 
 { #category : #'api - accessing' }
-ToQueueBasedCommandApplierEventHandler >> eventsToHandle [
+ToQueueBasedCommandApplier >> eventsToHandle [
 
 	^ super eventsToHandle , {
 		  ToElementCommandApplicationRequest.
@@ -45,14 +45,14 @@ ToQueueBasedCommandApplierEventHandler >> eventsToHandle [
 ]
 
 { #category : #initialization }
-ToQueueBasedCommandApplierEventHandler >> initialize [ 
+ToQueueBasedCommandApplier >> initialize [ 
 
 	super initialize.
 	weak := true
 ]
 
 { #category : #'api - hooks' }
-ToQueueBasedCommandApplierEventHandler >> onInstalledIn: aSelecter [
+ToQueueBasedCommandApplier >> onInstalledIn: aSelecter [
 
 	super onInstalledIn: aSelecter.
 
@@ -68,7 +68,7 @@ ToQueueBasedCommandApplierEventHandler >> onInstalledIn: aSelecter [
 ]
 
 { #category : #'api - hooks' }
-ToQueueBasedCommandApplierEventHandler >> onUninstalledIn: aSelecter [
+ToQueueBasedCommandApplier >> onUninstalledIn: aSelecter [
 
 	super onUninstalledIn: aSelecter.
 
@@ -77,7 +77,7 @@ ToQueueBasedCommandApplierEventHandler >> onUninstalledIn: aSelecter [
 ]
 
 { #category : #'event handling' }
-ToQueueBasedCommandApplierEventHandler >> postApplicationTask [
+ToQueueBasedCommandApplier >> postApplicationTask [
 	"Post children update runnable to consume update operations"
 	queued ifTrue: [ ^ self ].
 	queued := true.
@@ -88,7 +88,7 @@ ToQueueBasedCommandApplierEventHandler >> postApplicationTask [
 ]
 
 { #category : #accessing }
-ToQueueBasedCommandApplierEventHandler >> weak: aBoolean [
+ToQueueBasedCommandApplier >> weak: aBoolean [
 
 	weak := aBoolean
 ]

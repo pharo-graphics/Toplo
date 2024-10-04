@@ -19,7 +19,7 @@ ToListContextMenuSelectionMode >> initialize [
 { #category : #'instance creation' }
 ToListContextMenuSelectionMode >> newSelecter [
 
-	^ super newSelecter
+	^ ToSimpleSelecter new
 		  selectionChangedEventClass: self selectionChangedEventClass;
 		  yourself
 ]

@@ -7,7 +7,7 @@ Class {
 { #category : #initialization }
 ToSecondarySelecter >> initializeCommandApplier [
 
-	commandApplierEventHandler := ToDataSourceCommandApplierEventHandler new.
-	"commandApplierEventHandler := ToDirectCommandApplierEventHandler new."
-	"commandApplierEventHandler := ToQueueBasedCommandApplierEventHandler new"
+	commandApplier := ToDataSourceCommandApplier new.
+	"commandApplier := ToDirectCommandApplier new."
+	"commandApplier := ToQueueBasedCommandApplier new"
 ]

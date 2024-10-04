@@ -1,5 +1,5 @@
 Class {
-	#name : #ToCommandApplierEventHandler,
+	#name : #ToCommandApplier,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'element'
@@ -8,19 +8,19 @@ Class {
 }
 
 { #category : #accessing }
-ToCommandApplierEventHandler >> element: anElement [
+ToCommandApplier >> element: anElement [
 
 	element := anElement
 ]
 
 { #category : #'event handling' }
-ToCommandApplierEventHandler >> elementCommandAddedEvent: aCommandAddedEvent [
+ToCommandApplier >> elementCommandAddedEvent: aCommandAddedEvent [
 
 	self subclassResponsibility 
 ]
 
 { #category : #'api - accessing' }
-ToCommandApplierEventHandler >> eventsToHandle [
+ToCommandApplier >> eventsToHandle [
 
 	^ { ToElementCommandAddedEvent. }
 ]

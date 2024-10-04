@@ -18,6 +18,22 @@ ToPrimarySelectionModelTest >> testCopy [
 ]
 
 { #category : #tests }
+ToPrimarySelectionModelTest >> testCopySelectionFrom [
+
+	| s sub dup |
+	s := ToPrimarySelectionModel new.
+	sub := ToSubSelectionModel new uniqueId: #sub.
+	s recordSubSelectionModel: sub.
+	s selectIndex: 10.
+	sub selectIndex: 2.
+	dup := ToPrimarySelectionModel new.
+	dup copySelectionFrom: s.
+	self assert: (dup containsIndex: 10).
+	self assert: (dup subSelectionModelWithId: #sub) notNil.
+	self deny: (dup subSelectionModelWithId: #sub) identicalTo: sub
+]
+
+{ #category : #tests }
 ToPrimarySelectionModelTest >> testCopyWithSelectedIndexes [
 
 	| s c |
@@ -28,7 +44,7 @@ ToPrimarySelectionModelTest >> testCopyWithSelectedIndexes [
 ]
 
 { #category : #tests }
-ToPrimarySelectionModelTest >> testDuplicate [
+ToPrimarySelectionModelTest >> testCopyWithSubs [
 
 	| s sub dup |
 	s := ToPrimarySelectionModel new.

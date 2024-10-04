@@ -1,11 +1,11 @@
 Class {
-	#name : #ToDataSourceCommandApplierEventHandler,
-	#superclass : #ToCommandApplierEventHandler,
+	#name : #ToDataSourceCommandApplier,
+	#superclass : #ToCommandApplier,
 	#category : #'Toplo-Widget-List-Command-Support'
 }
 
 { #category : #'event handling' }
-ToDataSourceCommandApplierEventHandler >> elementCommandAddedEvent: aCommandAddedEvent [
+ToDataSourceCommandApplier >> elementCommandAddedEvent: aCommandAddedEvent [
 
 	element isAttachedToSceneGraph ifFalse: [
 		aCommandAddedEvent currentTarget applyCommand:

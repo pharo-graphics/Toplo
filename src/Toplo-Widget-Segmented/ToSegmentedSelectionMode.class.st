@@ -26,7 +26,7 @@ ToSegmentedSelectionMode >> initialize [
 { #category : #'instance creation' }
 ToSegmentedSelectionMode >> newSelecter [
 
-	^ super newSelecter
+	^ ToSimpleSelecter new
 		  selectionChangedEventClass: self selectionChangedEventClass;
 		  yourself
 ]

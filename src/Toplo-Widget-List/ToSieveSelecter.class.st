@@ -7,5 +7,5 @@ Class {
 { #category : #initialization }
 ToSieveSelecter >> initializeCommandApplier [
 
-	commandApplierEventHandler := ToDirectCommandApplierEventHandler new
+	commandApplier := ToDirectCommandApplier new
 ]

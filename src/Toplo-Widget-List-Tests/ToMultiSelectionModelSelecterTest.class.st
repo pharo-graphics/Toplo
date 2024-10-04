@@ -22,7 +22,7 @@ ToMultiSelectionModelSelecterTest >> setUp [
 		            selectionChangedEventClass:
 			            ToListPrimarySelectionChangedEvent;
 		            yourself.
-	selecter commandApplierEventHandler: ToQueueBasedCommandApplierEventHandler new.
+	selecter commandApplier: ToQueueBasedCommandApplier new.
 	selecter onInstalledIn: element.
 	selecter multiple: true
 ]

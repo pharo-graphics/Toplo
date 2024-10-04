@@ -88,7 +88,7 @@ ToAbstractListSelectionMode >> listElement [
 { #category : #'instance creation' }
 ToAbstractListSelectionMode >> newSelecter [
 
-	^ ToListSelecter new
+	^ self subclassResponsibility 
 ]
 
 { #category : #'instance creation' }

@@ -10,9 +10,9 @@ Class {
 		'selectionModel',
 		'multiple',
 		'eventDispatcher',
-		'commandApplierEventHandler',
 		'selectionChangedEventClass',
-		'selectionOption'
+		'selectionOption',
+		'commandApplier'
 	],
 	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
@@ -68,9 +68,9 @@ ToListSelecter >> commandApplied: aCommand [
 ]
 
 { #category : #accessing }
-ToListSelecter >> commandApplierEventHandler: aCommandApplierEventHandler [
+ToListSelecter >> commandApplier: aCommandApplierEventHandler [
 
-	commandApplierEventHandler := aCommandApplierEventHandler
+	commandApplier := aCommandApplierEventHandler
 ]
 
 { #category : #testing }
@@ -184,9 +184,9 @@ ToListSelecter >> initialize [
 { #category : #initialization }
 ToListSelecter >> initializeCommandApplier [
 
-	"commandApplierEventHandler := ToDataSourceCommandApplierEventHandler new."
-	"commandApplierEventHandler := ToDirectCommandApplierEventHandler new."
-	commandApplierEventHandler := ToQueueBasedCommandApplierEventHandler new
+	"commandApplier := ToDataSourceCommandApplier new."
+	"commandApplier := ToDirectCommandApplier new."
+	commandApplier := ToQueueBasedCommandApplier new
 ]
 
 { #category : #testing }
@@ -273,16 +273,16 @@ ToListSelecter >> onInstalledIn: anEventTarget [
 
 	selectionModel on: anEventTarget.
 	eventTarget := anEventTarget.
-	commandApplierEventHandler element: anEventTarget.
-	self addEventHandler: commandApplierEventHandler
+	commandApplier element: anEventTarget.
+	self addEventHandler: commandApplier
 ]
 
 { #category : #'api - hooks' }
 ToListSelecter >> onUninstalledIn: anEventTarget [
 
 	eventTarget := nil.
-	self removeEventHandler: commandApplierEventHandler.
-	commandApplierEventHandler := nil
+	self removeEventHandler: commandApplier.
+	commandApplier := nil
 ]
 
 { #category : #accessing }

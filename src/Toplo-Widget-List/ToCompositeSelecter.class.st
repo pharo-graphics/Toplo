@@ -17,7 +17,6 @@ ToCompositeSelecter >> initialize [
 { #category : #accessing }
 ToCompositeSelecter >> recordSubSelecter: aSelecter [
 
-	aSelecter ifNil: [ ^ self ].
 	subSelecterIndex 
 		at: aSelecter selectionChangedEventClass
 		ifPresent: [

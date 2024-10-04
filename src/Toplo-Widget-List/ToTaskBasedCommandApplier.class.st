@@ -1,6 +1,6 @@
 Class {
-	#name : #ToTaskBasedCommandApplierEventHandler,
-	#superclass : #ToCommandApplierEventHandler,
+	#name : #ToTaskBasedCommandApplier,
+	#superclass : #ToCommandApplier,
 	#instVars : [
 		'weak'
 	],
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #'event handling' }
-ToTaskBasedCommandApplierEventHandler >> elementCommandAddedEvent: aCommandAddedEvent [
+ToTaskBasedCommandApplier >> elementCommandAddedEvent: aCommandAddedEvent [
 
 	weak ifTrue: [
 		element isAttachedToSceneGraph ifFalse: [
@@ -21,14 +21,14 @@ ToTaskBasedCommandApplierEventHandler >> elementCommandAddedEvent: aCommandAdded
 ]
 
 { #category : #initialization }
-ToTaskBasedCommandApplierEventHandler >> initialize [ 
+ToTaskBasedCommandApplier >> initialize [ 
 
 	super initialize.
 	weak := true
 ]
 
 { #category : #accessing }
-ToTaskBasedCommandApplierEventHandler >> weak: anObject [
+ToTaskBasedCommandApplier >> weak: anObject [
 
 	weak := anObject
 ]

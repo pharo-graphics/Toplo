@@ -74,6 +74,40 @@ ToListElementTest >> testDataRemovedWhenNodeRemoved [
 		list primarySelectionMode option selectionElements isEmpty
 ]
 
+{ #category : #'test selection - mode' }
+ToListElementTest >> testDisabledSelectionModel [
+
+	| l |
+	l := ToListElement new.
+	l newDisabledSelectionMode on: l.
+	self assert: (l disabledSelectionMode selectionModel isKindOf:
+			 ToSubSelectionModel).
+	self
+		assert: l disabledSelectionMode selectionModel
+		identicalTo: l disabledSelecter selectionModel.
+	self
+		assert: l disabledSelectionModel
+		identicalTo: l disabledSelecter selectionModel
+]
+
+{ #category : #'test selection - mode' }
+ToListElementTest >> testDisabledSelectionModel2 [
+
+	| l |
+	l := ToListElement new.
+	l newDisabledSelectionMode on: l.
+	l dataAccessor addAll: { #A. #B. #C }.
+	l selecter selectIndex: 2.
+	self waitTestingSpaces.
+	self assert: l selectionModel selectedIndexes equals: { 2 }.
+	self
+		assert: l disabledSelectionMode selectionModel
+		identicalTo: l disabledSelecter selectionModel.
+	self
+		assert: l disabledSelectionModel
+		identicalTo: l disabledSelecter selectionModel
+]
+
 { #category : #tests }
 ToListElementTest >> testDoubleListsSelectionEvents [
 
@@ -167,6 +201,22 @@ ToListElementTest >> testEmptyListSelectPreviousInSelection [
 	l selecter scrollToDataSourcePosition: l selecter currentIndex.
 	self assert: l selecter currentIndex isZero.
 	self assert: l selectionModel isEmpty
+]
+
+{ #category : #'test selection - mode' }
+ToListElementTest >> testHiddenSelectionModel [
+
+	| l |
+	l := ToListElement new.
+	l newHiddenSelectionMode on: l.
+	self assert: (l hiddenSelectionMode selectionModel isKindOf:
+			 ToSubSelectionModel).
+	self
+		assert: l hiddenSelectionMode selectionModel
+		identicalTo: l hiddenSelecter selectionModel.
+	self
+		assert: l hiddenSelectionModel
+		identicalTo: l hiddenSelecter selectionModel
 ]
 
 { #category : #'test selection - mode' }
@@ -569,4 +619,20 @@ ToListElementTest >> testSelectionUpdatedAfterRemove6 [
 	l dataAccessor removeAt: 3.
 	self waitTestingSpaces.
 	self assert: l selectionModel selectedIndexes equals: #(  )
+]
+
+{ #category : #'test selection - mode' }
+ToListElementTest >> testUnselectableSelectionModel [
+
+	| l |
+	l := ToListElement new.
+	l newUnselectableSelectionMode on: l.
+	self assert: (l unselectableSelectionMode selectionModel isKindOf:
+			 ToSubSelectionModel).
+	self
+		assert: l unselectableSelectionMode selectionModel
+		identicalTo: l unselectableSelecter selectionModel.
+	self
+		assert: l unselectableSelectionModel
+		identicalTo: l unselectableSelecter selectionModel
 ]

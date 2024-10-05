@@ -3,7 +3,7 @@ Class {
 	#superclass : #ToSelectElement,
 	#instVars : [
 		'hideSelected',
-		'nodesWithCloseButton'
+		'withCloseButton'
 	],
 	#category : #'Toplo-Widget-Select-Multi'
 }
@@ -127,18 +127,6 @@ ToMultiSelectElement >> nodeWrapping: aBoolean [
 	self innerContainer nodeWrapping: aBoolean
 ]
 
-{ #category : #accessing }
-ToMultiSelectElement >> nodesWithCloseButton [
-
-	^ nodesWithCloseButton ifNil: [ nodesWithCloseButton := true ]
-]
-
-{ #category : #accessing }
-ToMultiSelectElement >> nodesWithCloseButton: aBoolean [
-
-	nodesWithCloseButton := aBoolean
-]
-
 { #category : #'accessing - list' }
 ToMultiSelectElement >> setGroupIndex: anIndex [
 
@@ -150,4 +138,16 @@ ToMultiSelectElement >> setGroupIndex: anIndex [
 ToMultiSelectElement >> updateSelectedCountLabel [
 
 	self iconContainer updateSelectedCountLabel
+]
+
+{ #category : #accessing }
+ToMultiSelectElement >> withCloseButton [
+
+	^ withCloseButton ifNil: [ withCloseButton := true ]
+]
+
+{ #category : #accessing }
+ToMultiSelectElement >> withCloseButton: aBoolean [
+
+	withCloseButton := aBoolean
 ]

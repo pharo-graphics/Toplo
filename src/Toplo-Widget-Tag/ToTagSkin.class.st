@@ -56,7 +56,6 @@ ToTagSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e | 
-		e removable: (e valueOfStamp: #closeIcon).
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:
 				 (e valueOfTokenNamed: 'border-radius')).
 		e padding: (BlInsets

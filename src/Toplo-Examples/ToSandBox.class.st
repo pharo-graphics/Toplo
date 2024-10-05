@@ -1771,7 +1771,7 @@ ToSandBox class >> example_SelectAntDesignIconMultiFiltrable [
 		tag icon: (iconDesc icon size: 48 asPoint).
 		tag addStamp: #closeIcon.
 		node addChild: tag ].
-	select sample: select popupListDataAccessor first.
+	select sample: select popupListElement dataAccessor first.
 	select hMatchParent.
 	select placeholderText:
 		('Select icons' asRopedText foreground: Color red).
@@ -1824,7 +1824,7 @@ ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
 	select nodeBuilder: [ :node :iconDesc :holder |
 		| tag |
 		tag := ToTagElement new.
-		tag closeIcon: true.
+		tag removable: true.
 		tag bordered: false.
 		tag icon: (iconDesc icon size: 48 asPoint).
 		node addChild: tag ].
@@ -1906,6 +1906,8 @@ ToSandBox class >> example_SelectMultiFiltrable [
 		                        labelText: stateColorAssoc key asString;
 		                        hMatchParent;
 		                        yourself.
+		tag removable: true.
+		
 	                 tag constraintsDo: [ :c |
 		                 c linear vertical alignCenter ].
 	                 tag
@@ -2082,6 +2084,7 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected [
 
 	| select innerWindow |
 	select := ToMultiSelectElement new.
+	select withCloseButton: true.
 	select popupListElement primarySelectionMode option masked: true.
 	select hideSelected: true.
 	select popupListElement dataAccessor updateAllWith:

@@ -22,7 +22,7 @@ ToMultiSelectHolder >> removeNodeFromBar [
 	self selecter deselectIndex: index
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'t - select inner container' }
 ToMultiSelectHolder >> selectElement [
 
 	^  self listElement selectElement
@@ -32,4 +32,10 @@ ToMultiSelectHolder >> selectElement [
 ToMultiSelectHolder >> selecter [
 
 	^ self selectElement selecter
+]
+
+{ #category : #accessing }
+ToMultiSelectHolder >> withCloseButton [
+
+	^ self selectElement withCloseButton
 ]

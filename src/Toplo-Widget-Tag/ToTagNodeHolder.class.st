@@ -9,8 +9,8 @@ ToTagNodeHolder >> removeNodeFromBar [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToTagNodeHolder >> withCloseButton [
 
-	^  self listElement nodesWithCloseButton
+	^  self listElement withCloseButton
 ]

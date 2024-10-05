@@ -17,16 +17,16 @@ ToTagLabelSkin >> enabledSkinEvent: anEvent [
 
 	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		| foregroundColor defaultTokn |
-		defaultTokn := #'border-color-primary-selection'.
+		| foregroundColor defaultToken |
+		defaultToken := #'border-color-primary-selection'.
 		e
 			withStamp: #'parent-tag'
 			do: [ :tag |
 				tag
 					withStamp: #foregroundColor
 					do: [ :v | foregroundColor := v ]
-					ifNone: [ foregroundColor := e valueOfTokenNamed: defaultTokn ] ]
-			ifNone: [ foregroundColor := e valueOfTokenNamed: defaultTokn ].
+					ifNone: [ foregroundColor := e valueOfTokenNamed: defaultToken ] ]
+			ifNone: [ foregroundColor := e valueOfTokenNamed: defaultToken ].
 		e foreground: foregroundColor ]
 ]
 

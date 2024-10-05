@@ -74,15 +74,15 @@ ToTagBarElement >> nodesSelect: aBlock [
 ]
 
 { #category : #accessing }
-ToTagBarElement >> nodesWithCloseButton [
-
-	^ false
-]
-
-{ #category : #accessing }
 ToTagBarElement >> sample: aData [
 
 	super sample: (ToSingleTagModel new
 			 data: aData;
 			 yourself)
+]
+
+{ #category : #accessing }
+ToTagBarElement >> withCloseButton [
+
+	^ false
 ]

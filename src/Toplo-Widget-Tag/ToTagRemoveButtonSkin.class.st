@@ -5,6 +5,27 @@ Class {
 }
 
 { #category : #'event handling' }
+ToTagRemoveButtonSkin >> disabledSkinEvent: anEvent [
+
+	super disabledSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e icon innerImageColor: Color veryLightGray ]
+]
+
+{ #category : #'event handling' }
+ToTagRemoveButtonSkin >> enabledSkinEvent: anEvent [
+
+	super enabledSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		| c |
+		c := Color veryLightGray.
+		e
+			withStamp: #'parent-tag'
+			do: [ :tag | tag withStamp: #foregroundColor do: [ :v | c := v ] ].
+		e icon innerImageColor: c ]
+]
+
+{ #category : #'event handling' }
 ToTagRemoveButtonSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
@@ -18,7 +39,6 @@ ToTagRemoveButtonSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e icon innerImageColor: Color gray.
 		e fitContent.
 		e geometry: BlCircleGeometry new.
 		e border: BlBorder empty.

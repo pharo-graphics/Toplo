@@ -9,6 +9,7 @@ TToTagElement >> addRemoveButton [
 	| but |
 	but := ToButton new.
 	but applySkinInstallerOnFirstRequest: true.
+	but addStamp: #'parent-tag' withValue: self.
 	but defaultRawSkin: ToTagRemoveButtonSkin new.
 	but icon: (ToImage inner: (self iconNamed: #windowClose)).
 	but constraintsDo: [ :c | c linear vertical alignCenter ].
@@ -36,12 +37,6 @@ TToTagElement >> beUnremovable [
 TToTagElement >> bordered: aBoolean [
 
 	self addStamp: #bordered withValue: aBoolean
-]
-
-{ #category : #accessing }
-TToTagElement >> closeIcon: aBoolean [
-
-	self addStamp: #closeIcon withValue: aBoolean
 ]
 
 { #category : #accessing }

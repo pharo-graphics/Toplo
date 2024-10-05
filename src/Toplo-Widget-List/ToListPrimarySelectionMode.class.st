@@ -98,14 +98,9 @@ ToListPrimarySelectionMode >> multiple: aBoolean [
 ToListPrimarySelectionMode >> newSelecter [
 
 	^ ToPrimarySelecter new
+		  selectionModel: ToPrimarySelectionModel new;
 		  selectionChangedEventClass: self selectionChangedEventClass;
 		  yourself
-]
-
-{ #category : #'instance creation' }
-ToListPrimarySelectionMode >> newSelectionModelIn: aListElement [
-
-	^ aListElement newPrimarySelectionModel 
 ]
 
 { #category : #accessing }

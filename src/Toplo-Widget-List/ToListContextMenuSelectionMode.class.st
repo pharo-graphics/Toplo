@@ -20,6 +20,7 @@ ToListContextMenuSelectionMode >> initialize [
 ToListContextMenuSelectionMode >> newSelecter [
 
 	^ ToSimpleSelecter new
+		  selectionModel: ToSelectionModel new;
 		  selectionChangedEventClass: self selectionChangedEventClass;
 		  yourself
 ]

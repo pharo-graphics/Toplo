@@ -4,6 +4,13 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Model'
 }
 
+{ #category : #copying }
+ToDictionaryBasedSubSelectionModelRegistry >> copySelectionFrom: otherRegistry [
+
+	self subModelKeys = otherRegistry subModelKeys ifFalse: [ Error new signal: '' ].
+	subs keysAndValuesDo: [ :k :v | v copySelectionFrom: (otherRegistry subSelectionModelWithId: k) ]
+]
+
 { #category : #initialization }
 ToDictionaryBasedSubSelectionModelRegistry >> newSubSelectionModelRegistry [
 
@@ -31,6 +38,12 @@ ToDictionaryBasedSubSelectionModelRegistry >> recordSubSelectionModel: aSelectio
 ToDictionaryBasedSubSelectionModelRegistry >> selectionModelsDo: aBlock [
 
 	subs valuesDo: aBlock
+]
+
+{ #category : #accessing }
+ToDictionaryBasedSubSelectionModelRegistry >> subModelKeys [
+
+	^ subs keys
 ]
 
 { #category : #accessing }

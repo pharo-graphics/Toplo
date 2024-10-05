@@ -42,13 +42,9 @@ ToListSecondarySelectionMode >> newSelecter [
 
 	^ ToSecondarySelecter new
 		  selectionChangedEventClass: self selectionChangedEventClass;
+		  selectionModel:
+			  listElement selectionModel newSecondarySelectionModel;
 		  yourself
-]
-
-{ #category : #'instance creation' }
-ToListSecondarySelectionMode >> newSelectionModelIn: aListElement [
-
-	^ aListElement newSecondarySelectionModel 
 ]
 
 { #category : #'instance creation' }

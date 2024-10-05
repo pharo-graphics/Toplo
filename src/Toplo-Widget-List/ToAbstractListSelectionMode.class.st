@@ -48,7 +48,6 @@ ToAbstractListSelectionMode >> initialize [
 ToAbstractListSelectionMode >> installSelecter [
 
 	selecter := self newSelecter.
-	selecter selectionModel: (self newSelectionModelIn: listElement).
 	selecter
 		onInstalledIn: listElement;
 		enabled: self enabled;
@@ -89,12 +88,6 @@ ToAbstractListSelectionMode >> listElement [
 ToAbstractListSelectionMode >> newSelecter [
 
 	^ self subclassResponsibility 
-]
-
-{ #category : #'instance creation' }
-ToAbstractListSelectionMode >> newSelectionModelIn: aListElement [
-
-	^ aListElement newSelectionModel
 ]
 
 { #category : #initialization }

@@ -323,30 +323,10 @@ ToAbstractListElement >> newHiddenSelectionMode [
 	^ self newSubSelectionModeWithEventClass: ToListHiddenSelectionChangedEvent
 ]
 
-{ #category : #'instance creation' }
-ToAbstractListElement >> newPrimarySelectionModel [
-
-	^ ToPrimarySelectionModel new
-]
-
 { #category : #skin }
 ToAbstractListElement >> newRawSkin [ 
 
 	^ ToBasicListElementSkin new
-]
-
-{ #category : #'instance creation' }
-ToAbstractListElement >> newSecondarySelectionModel [
-
-	^ self selectionModel newSecondarySelectionModel
-]
-
-{ #category : #'instance creation' }
-ToAbstractListElement >> newSelectionModel [
-
-	^ ToSelectionModel new
-		  itemCountGetter: [ self dataSource itemCount ];
-		  yourself
 ]
 
 { #category : #'instance creation' }

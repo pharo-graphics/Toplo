@@ -32,6 +32,7 @@ ToSelectionModel >> containsIndex: anIndex [
 { #category : #copying }
 ToSelectionModel >> copySelectionFrom: anotherSelectionModel [
 
+	" just copy the root selection "
 	underlyingModel := anotherSelectionModel underlyingModel copy
 ]
 

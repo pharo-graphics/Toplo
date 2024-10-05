@@ -36,9 +36,3 @@ ToSubSelecter >> parentSelecter: aCompositeSelecter [
 	parentSelecter ifNotNil: [ BlImmutableObjectChangeError signal ].
 	parentSelecter := aCompositeSelecter
 ]
-
-{ #category : #accessing }
-ToSubSelecter >> selectionModel: aSelectionModel [
-
-	super selectionModel: aSelectionModel
-]

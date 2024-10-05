@@ -27,14 +27,9 @@ ToSegmentedSelectionMode >> initialize [
 ToSegmentedSelectionMode >> newSelecter [
 
 	^ ToSimpleSelecter new
+		  selectionModel: ToPrimarySelectionModel new;
 		  selectionChangedEventClass: self selectionChangedEventClass;
 		  yourself
-]
-
-{ #category : #'instance creation' }
-ToSegmentedSelectionMode >> newSelectionModelIn: aListElement [
-
-	^ aListElement newPrimarySelectionModel
 ]
 
 { #category : #accessing }

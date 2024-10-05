@@ -10,8 +10,9 @@ Class {
 { #category : #copying }
 ToPrimarySelectionModel >> copySelectionFrom: anotherSelectionModel [
 
+	subSelectionModelIndex copySelectionFrom: anotherSelectionModel subSelectionModelIndex.
 	super copySelectionFrom: anotherSelectionModel.
-	subSelectionModelIndex := anotherSelectionModel subSelectionModelIndex copy
+
 ]
 
 { #category : #initialization }

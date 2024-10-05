@@ -7,12 +7,12 @@ Class {
 		'eventTarget',
 		'enabled',
 		'operator',
-		'selectionModel',
 		'multiple',
 		'eventDispatcher',
 		'selectionChangedEventClass',
 		'selectionOption',
-		'commandApplier'
+		'commandApplier',
+		'selectionModel'
 	],
 	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
@@ -271,8 +271,8 @@ ToListSelecter >> onInstalledIn: anEventTarget [
 	" the argument is passed as the target of commands.
 	It receives the selection change event after the application of commands "
 
-	selectionModel on: anEventTarget.
 	eventTarget := anEventTarget.
+	selectionModel on: eventTarget.
 	commandApplier element: anEventTarget.
 	self addEventHandler: commandApplier
 ]
@@ -482,7 +482,7 @@ ToListSelecter >> selectionModel [
 { #category : #accessing }
 ToListSelecter >> selectionModel: aSelectionModel [
 
-	selectionModel := aSelectionModel
+	selectionModel := aSelectionModel 
 ]
 
 { #category : #accessing }

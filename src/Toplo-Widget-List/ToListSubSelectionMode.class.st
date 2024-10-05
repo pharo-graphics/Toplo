@@ -20,15 +20,10 @@ ToListSubSelectionMode class >> parentMode: aSelectionMode [
 ToListSubSelectionMode >> newSelecter [
 
 	^ ToSubSelecter new
+		  selectionModel: ToSubSelectionModel new;
 		  selectionChangedEventClass: self selectionChangedEventClass;
 		  parentSelecter: parentMode selecter;
 		  yourself
-]
-
-{ #category : #'instance creation' }
-ToListSubSelectionMode >> newSelectionModelIn: aListElement [
-
-	^ ToSubSelectionModel new
 ]
 
 { #category : #accessing }

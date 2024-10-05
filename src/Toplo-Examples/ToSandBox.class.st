@@ -1311,18 +1311,17 @@ ToSandBox class >> example_ListWithAllClassesAsToggleButton [
 			               hMatchParent;
 			               checked: holder isSelected.
 		     toggle takeFocusOnClick: false.
-		     toggle whenClickedDo: [ :event |
-				" consume the source event here because the selection is managed through the toggle button"
-			     event sourceEvent consume.
+		     toggle whenClickedDo: [ :event | 
 				" management of the liste primary selection "
-			     holder isSelected
+				'click ' traceCr.
+			     toggle isChecked
 				     ifTrue: [
-				     holder listElement selecter deselectIndex: holder position ]
+				     holder listElement selecter selectIndex: holder position ]
 				     ifFalse: [
-				     holder listElement selecter selectIndex: holder position ] ].
+				     holder listElement selecter deselectIndex: holder position ] ].
 		     node addChild: toggle. ].
 	l dataAccessor addAll: Smalltalk globals allClasses.
-	l primarySelectionMode option masked: true.
+	"l primarySelectionMode option masked: true."
 	l openInSpace
 ]
 
@@ -1484,7 +1483,7 @@ ToSandBox class >> example_ListWithSelectionTrace [
 	would be preferable to store the traceSelectionModel as an instance variable"
 	statesList userData
 		at: #traceSelectionModel
-		put: statesList newSelectionModel.
+		put: (ToSelectionModel new on: statesList).
 	" mandatory option here: the selection are separate (one selection element for each selected node)"
 	statesList primarySelectionMode option grouped: false.
 	statesList primarySelectionMode option elementFactory: [

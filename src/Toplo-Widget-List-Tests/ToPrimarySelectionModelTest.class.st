@@ -27,6 +27,9 @@ ToPrimarySelectionModelTest >> testCopySelectionFrom [
 	s selectIndex: 10.
 	sub selectIndex: 2.
 	dup := ToPrimarySelectionModel new.
+	self should: [dup copySelectionFrom: s] raise: Error.
+	self deny: (dup containsIndex: 10).
+	dup recordSubSelectionModel: sub copy.
 	dup copySelectionFrom: s.
 	self assert: (dup containsIndex: 10).
 	self assert: (dup subSelectionModelWithId: #sub) notNil.

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSegmentedNodeHolder,
 	#superclass : #ToListNodeHolder,
-	#category : #'Toplo-Widget-Segmented'
+	#category : #'Toplo-Widget-Segmented-Node'
 }
 
 { #category : #'t - checkable - accessing' }

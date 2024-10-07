@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSegmentedNodeManager,
 	#superclass : #ToBarNodeManager,
-	#category : #'Toplo-Widget-Segmented'
+	#category : #'Toplo-Widget-Segmented-Node'
 }
 
 { #category : #initialization }

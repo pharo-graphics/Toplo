@@ -6,13 +6,22 @@ Class {
 	#instVars : [
 		'barElement'
 	],
-	#category : #'Toplo-Widget-Segmented'
+	#category : #'Toplo-Widget-Segmented-Bar'
 }
 
 { #category : #accessing }
 ToSegmentedElement >> barElement [ 
 
 	^ barElement
+]
+
+{ #category : #accessing }
+ToSegmentedElement >> dataAccessor [
+
+	self
+		deprecated: 'Use #segmentAccessor'
+		transformWith: '`@rcvr dataAccessor' -> '`@rcvr segmentAccessor'.
+	^ self segmentAccessor
 ]
 
 { #category : #initialization }
@@ -92,7 +101,7 @@ ToSegmentedElement >> secondarySelectionMode [
 { #category : #accessing }
 ToSegmentedElement >> segmentAccessor [ 
 
-	^ barElement segmentAccessor 
+	^ barElement dataAccessor 
 ]
 
 { #category : #accessing }

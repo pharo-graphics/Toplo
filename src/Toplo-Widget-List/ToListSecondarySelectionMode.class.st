@@ -18,8 +18,7 @@ ToListSecondarySelectionMode >> initialize [
 		beneath: true;
 		elementFactory: [
 			ToListBasicSelectionElement new defaultSkin:
-					ToListSecondarySelectionElementSkin new ];
-		listEventHandler: ToListSecondarySelectionElementEventHandler new
+					ToListSecondarySelectionElementSkin new ]
 ]
 
 { #category : #testing }
@@ -45,6 +44,19 @@ ToListSecondarySelectionMode >> newSelecter [
 		  selectionModel:
 			  listElement selectionModel newSecondarySelectionModel;
 		  yourself
+]
+
+{ #category : #'instance creation' }
+ToListSecondarySelectionMode >> newSelectionChangeEventHandler [ 
+
+	^ ToListSecondarySelectionElementEventHandler new
+]
+
+{ #category : #initialization }
+ToListSecondarySelectionMode >> on: aListElement [
+
+	super on: aListElement.
+	aListElement addEventHandler: self newSelectionChangeEventHandler 
 ]
 
 { #category : #'instance creation' }

@@ -1,25 +1,11 @@
 Class {
-	#name : #ToToggleInSegmentedSkin,
+	#name : #ToSegmentedButtonSkin,
 	#superclass : #ToBasicSkin,
-	#category : #'Toplo-Widget-Segmented'
+	#category : #'Toplo-Widget-Segmented-Button'
 }
 
 { #category : #'event handling' }
-ToToggleInSegmentedSkin >> disabledSkinEvent: anEvent [
-
-	super disabledSkinEvent: anEvent.
-	anEvent elementDo: [ :e |  ]
-]
-
-{ #category : #'event handling' }
-ToToggleInSegmentedSkin >> enabledSkinEvent: anEvent [
-
-	super enabledSkinEvent: anEvent.
-	anEvent elementDo: [ :e |  ]
-]
-
-{ #category : #'event handling' }
-ToToggleInSegmentedSkin >> hoveredSkinEvent: anEvent [
+ToSegmentedButtonSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -27,7 +13,7 @@ ToToggleInSegmentedSkin >> hoveredSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToToggleInSegmentedSkin >> installSkinEvent: anEvent [
+ToSegmentedButtonSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -48,7 +34,7 @@ ToToggleInSegmentedSkin >> installSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToToggleInSegmentedSkin >> leavedSkinEvent: anEvent [
+ToSegmentedButtonSkin >> leavedSkinEvent: anEvent [
 
 	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |

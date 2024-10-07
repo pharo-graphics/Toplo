@@ -237,8 +237,14 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'segmented-node-padding-H' value: 0).
 		  (ToTokenProperty name: #'segmented-node-padding-V' value: 0).
 		  (ToTokenProperty name: #'segmented-border-radius' value: 12).
+		  (ToTokenProperty
+			   name: #'segmented-background'
+			   value: (Color fromHexString: 'f5f5f5')).
 
-		  (ToTokenProperty name: #'text-editor-background-disabled' value: (Color black alpha: 0.1)).
+
+		  (ToTokenProperty
+			   name: #'text-editor-background-disabled'
+			   value: (Color black alpha: 0.1)).
 		  (ToTokenProperty name: #'text-editor-padding-H' value: 3).
 		  (ToTokenProperty name: #'text-editor-padding-V' value: 2).
 		  (ToTokenProperty name: #'menu-item-start-alignment' value: 25).

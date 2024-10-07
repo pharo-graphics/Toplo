@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSegmentedSelectionMode,
 	#superclass : #ToAbstractListSelectionMode,
-	#category : #'Toplo-Widget-Segmented'
+	#category : #'Toplo-Widget-Segmented-Bar'
 }
 
 { #category : #accessing }
@@ -19,17 +19,29 @@ ToSegmentedSelectionMode >> initialize [
 		grouped: true;
 		beneath: true;
 		triggerSelectionState: true;
-		elementFactory: [ ToListBasicSelectionElement new defaultSkin: ToListPrimarySelectionElementSkin new];
-		listEventHandler: ToListPrimarySelectionElementEventHandler new
+		elementFactory: [ ToListBasicSelectionElement new defaultSkin: ToListPrimarySelectionElementSkin new]
 ]
 
 { #category : #'instance creation' }
 ToSegmentedSelectionMode >> newSelecter [
 
-	^ ToSimpleSelecter new
+	^ ToPrimarySelecter new
 		  selectionModel: ToPrimarySelectionModel new;
 		  selectionChangedEventClass: self selectionChangedEventClass;
 		  yourself
+]
+
+{ #category : #'instance creation' }
+ToSegmentedSelectionMode >> newSelectionChangeEventHandler [ 
+
+	^ ToListPrimarySelectionElementEventHandler new
+]
+
+{ #category : #initialization }
+ToSegmentedSelectionMode >> on: aListElement [
+
+	super on: aListElement.
+	aListElement addEventHandler: self newSelectionChangeEventHandler 
 ]
 
 { #category : #accessing }

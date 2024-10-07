@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSegmentedElementEventHandler,
 	#superclass : #BlCustomEventHandler,
-	#category : #'Toplo-Widget-Segmented'
+	#category : #'Toplo-Widget-Segmented-Bar'
 }
 
 { #category : #'api - accessing' }

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSegmentedNodeEventHandler,
 	#superclass : #BlCustomEventHandler,
-	#category : #'Toplo-Widget-Segmented'
+	#category : #'Toplo-Widget-Segmented-Node'
 }
 
 { #category : #'event handling' }

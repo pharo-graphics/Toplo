@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSegmentedBarElementSkin,
 	#superclass : #ToBarElementSkin,
-	#category : #'Toplo-Widget-Segmented'
+	#category : #'Toplo-Widget-Segmented-Bar'
 }
 
 { #category : #'event handling' }

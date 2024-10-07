@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'group'
 	],
-	#category : #'Toplo-Widget-Segmented'
+	#category : #'Toplo-Widget-Segmented-Bar'
 }
 
 { #category : #accessing }
@@ -37,7 +37,15 @@ ToSegmentedBarElement >> defaultPrimarySelectionModeClass [
 { #category : #initialization }
 ToSegmentedBarElement >> initialize [
 
+	| disabledMode unselectableMode |
 	super initialize.
+
+	disabledMode := self newDisabledSelectionMode.
+	disabledMode on: self.
+	
+	unselectableMode := self newUnselectableSelectionMode.
+	unselectableMode on: self.
+	
 	self group
 		addEventHandlerOn: ToCheckableGroupChangedEvent
 		do: [ :event | self dispatchEvent: event ]
@@ -59,11 +67,4 @@ ToSegmentedBarElement >> rawGroup [
 ToSegmentedBarElement >> rawGroup: aGroup [
 
 	self shouldNotImplement 
-]
-
-{ #category : #accessing }
-ToSegmentedBarElement >> segmentAccessor [
-	"according to the specific vocabulary - the data items are checkables of the checkable bar element "
-
-	^ self dataAccessor
 ]

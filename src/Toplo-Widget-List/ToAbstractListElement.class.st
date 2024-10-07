@@ -313,8 +313,13 @@ ToAbstractListElement >> layoutStrategy [
 
 { #category : #'instance creation' }
 ToAbstractListElement >> newDisabledSelectionMode [
+	" note that a disabled mode need an event handler to force the building of disabled nodes "
 
-	^ self newSubSelectionModeWithEventClass: ToListDisabledSelectionChangedEvent
+	^ (self newSubSelectionModeWithEventClass:
+			   ToListDisabledSelectionChangedEvent)
+		  selectionChangeEventHandler:
+			  ToListDisabledSelectionElementEventHandler new;
+		  yourself
 ]
 
 { #category : #'instance creation' }

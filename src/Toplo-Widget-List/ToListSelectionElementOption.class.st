@@ -9,7 +9,6 @@ Class {
 		'animationDuration',
 		'selectionContainer',
 		'groupHolder',
-		'listEventHandler',
 		'elementFactory',
 		'selectionMode'
 	],
@@ -153,12 +152,6 @@ ToListSelectionElementOption >> listElement [
 ]
 
 { #category : #accessing }
-ToListSelectionElementOption >> listEventHandler: aListEventHandler [
-
-	listEventHandler := aListEventHandler
-]
-
-{ #category : #accessing }
 ToListSelectionElementOption >> masked [
 
 	^ masked
@@ -201,7 +194,6 @@ ToListSelectionElementOption >> onMode: aListSelectionMode [
 		(BlImmutableObjectChangeError object: self) signal ].
 	selectionMode := aListSelectionMode.
 	listElement := selectionMode listElement.
-	listElement addEventHandler: listEventHandler.
 	selectionContainer := self newSelectionContainerIn: listElement.
 	listElement addChild: selectionContainer
 ]

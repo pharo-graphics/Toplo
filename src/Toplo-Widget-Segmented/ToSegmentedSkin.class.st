@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSegmentedSkin,
 	#superclass : #ToRawSkin,
-	#category : #'Toplo-Widget-Segmented'
+	#category : #'Toplo-Widget-Segmented-Bar'
 }
 
 { #category : #'event handling' }
@@ -9,7 +9,9 @@ ToSegmentedSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e background: (Color fromHexString: 'f5f5f5').
+		e background: (e valueOfTokenNamed: #'segmented-background').
+		e geometry: (BlRoundedRectangleGeometry cornerRadius:
+				 (e valueOfTokenNamed: #'segmented-border-radius')).
 		e padding: (BlInsets
 				 top: (e valueOfTokenNamed: #'padding-content-V')
 				 left: (e valueOfTokenNamed: #'padding-XS')

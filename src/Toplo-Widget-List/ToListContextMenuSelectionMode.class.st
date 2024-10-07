@@ -12,8 +12,7 @@ ToListContextMenuSelectionMode >> initialize [
 	option
 		grouped: true;
 		beneath: false;
-		elementFactory: [ ToListContextMenuSelectionElement new ];
-		listEventHandler: ToListContextMenuSelectionElementEventHandler new
+		elementFactory: [ ToListContextMenuSelectionElement new ]
 ]
 
 { #category : #'instance creation' }
@@ -23,6 +22,19 @@ ToListContextMenuSelectionMode >> newSelecter [
 		  selectionModel: ToSelectionModel new;
 		  selectionChangedEventClass: self selectionChangedEventClass;
 		  yourself
+]
+
+{ #category : #'instance creation' }
+ToListContextMenuSelectionMode >> newSelectionChangeEventHandler [
+
+	^ ToListContextMenuSelectionElementEventHandler new
+]
+
+{ #category : #initialization }
+ToListContextMenuSelectionMode >> on: aListElement [
+
+	super on: aListElement.
+	aListElement addEventHandler: self newSelectionChangeEventHandler 
 ]
 
 { #category : #'instance creation' }

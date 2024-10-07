@@ -3684,14 +3684,16 @@ ToSandBox class >> example_segmentedWithToggleButton [
 
 	| seg dashBoard rootPane feedbackPane maj |
 	seg := ToSegmentedElement new.
+
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
 		seg segmentAccessor add:
-			((ToToggleButton new label: (ToLabel text: l))
-				 defaultRawSkin: ToToggleInSegmentedSkin new;
+			((ToSegmentedButton new label: (ToLabel text: l))
 				 whenClickedDo: [ :event | event currentTarget label text traceCr ];
 				 flexible: true;
 				 yourself) ].
 
+	seg barElement disabledSelecter selectIndex: 2.
+	seg barElement unselectableSelecter selectIndex: 2.
 	dashBoard := self segmentedDashBoardFor: seg.
 
 	feedbackPane := ToPane horizontal.
@@ -3719,7 +3721,9 @@ ToSandBox class >> example_segmentedWithToggleButton [
 				 ' double click ' trace.
 				 event indexes traceCr ]).
 
-	seg barElement addEventHandlerOn: ToListPrimarySelectionChangedEvent do: maj.
+	seg barElement
+		addEventHandlerOn: ToListPrimarySelectionChangedEvent
+		do: maj.
 	seg addEventHandlerOn: BlElementAddedToSceneGraphEvent do: maj.
 	rootPane := ToPane vertical.
 	rootPane matchParent.
@@ -5309,10 +5313,6 @@ ToSandBox class >> listWithEditableAndContextMenu [
 	l newHiddenSelectionMode on: l.
 	disabledMode := l newDisabledSelectionMode.
 	disabledMode option: ToListSelectionElementOption new.
-	disabledMode option listEventHandler:
-		(ToListBasicAdditionalSelectionElementEventHandler new
-			 selectionChangedEventClass:
-			 disabledMode selectionChangedEventClass).
 	disabledMode option grouped: false.
 	disabledMode option beneath: false.
 	disabledMode option elementFactory: [
@@ -5320,14 +5320,14 @@ ToSandBox class >> listWithEditableAndContextMenu [
 			ToListDisabledSelectionElementExampleSkin new ].
 	disabledMode on: l.
 
-
 	unselectableMode := l newUnselectableSelectionMode.
 	unselectableMode option: ToListSelectionElementOption new.
 
-	" or unselectableMode option listEventHandler: ToListUnselectableSelectionElementEventHandler new 
+	" or unselectableMode selectionChangeEventHandler: ToListUnselectableSelectionElementEventHandler new 
 	but the following code is kept for the record to show how to manage an additional selection mode 
-	with a selection option"
-	unselectableMode option listEventHandler: (BlEventHandler
+	with a specific handler "
+	
+	unselectableMode selectionChangeEventHandler: (BlEventHandler
 			 on: unselectableMode selectionChangedEventClass
 			 do: [ :event |
 				 | target |
@@ -5627,7 +5627,7 @@ ToSandBox class >> resizerBoardFor: aBar [
 			             withoutLineWrapping;
 			             withSaveCapability;
 			             yourself.
-		"dir = #Horizontal ifTrue: [ sizeInput addEventHandlerOn: ToSkinEvent do: [ :event | event traceCr ] ]."
+
 		aBar addEventHandlerOn: BlElementExtentChangedEvent do: [ :event |
 			dir = #Horizontal
 				ifTrue: [ sizeInput text: aBar width asString ]

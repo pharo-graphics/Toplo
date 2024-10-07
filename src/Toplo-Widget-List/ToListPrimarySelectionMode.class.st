@@ -61,8 +61,7 @@ ToListPrimarySelectionMode >> initialize [
 		grouped: true;
 		beneath: true;
 		triggerSelectionState: true;
-		elementFactory: [ ToListBasicSelectionElement new defaultSkin: ToListPrimarySelectionElementSkin new];
-		listEventHandler: ToListPrimarySelectionElementEventHandler new
+		elementFactory: [ ToListBasicSelectionElement new defaultSkin: ToListPrimarySelectionElementSkin new]
 ]
 
 { #category : #testing }
@@ -101,6 +100,19 @@ ToListPrimarySelectionMode >> newSelecter [
 		  selectionModel: ToPrimarySelectionModel new;
 		  selectionChangedEventClass: self selectionChangedEventClass;
 		  yourself
+]
+
+{ #category : #'instance creation' }
+ToListPrimarySelectionMode >> newSelectionChangeEventHandler [ 
+
+	^ ToListPrimarySelectionElementEventHandler new
+]
+
+{ #category : #initialization }
+ToListPrimarySelectionMode >> on: aListElement [
+
+	super on: aListElement.
+	aListElement addEventHandler: self newSelectionChangeEventHandler 
 ]
 
 { #category : #accessing }

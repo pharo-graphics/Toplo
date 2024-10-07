@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSegmentedNodeSkin,
 	#superclass : #ToRawSkin,
-	#category : #'Toplo-Widget-Segmented'
+	#category : #'Toplo-Widget-Segmented-Node'
 }
 
 { #category : #'event handling' }

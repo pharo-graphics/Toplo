@@ -226,6 +226,7 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'padding-content-V-S' value: 2).
 		  (ToTokenProperty name: #'padding-content-V-XS' value: 1).
 		  (ToTokenProperty name: #'padding-XS' value: 8).
+		  (ToTokenProperty name: #'padding-XXS' value: 3).
 
 		  (ToTokenProperty name: #'list-padding-H' value: 6).
 		  (ToTokenProperty name: #'list-padding-V' value: 6).

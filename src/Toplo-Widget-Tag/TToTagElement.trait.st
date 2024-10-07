@@ -7,36 +7,41 @@ Trait {
 TToTagElement >> addRemoveButton [
 
 	| but |
+	self removeButton ifNotNil: [ ^ self ].
 	but := ToButton new.
 	but applySkinInstallerOnFirstRequest: true.
 	but addStamp: #'parent-tag' withValue: self.
-	but defaultRawSkin: ToTagRemoveButtonSkin new.
+	but addStamp: #circle.
+	but addStamp: #iconic.
 	but icon: (ToImage inner: (self iconNamed: #windowClose)).
 	but constraintsDo: [ :c | c linear vertical alignCenter ].
 	but whenClickedDo: [ :event |
 		self fireEvent: ToInnerElementRemovedEvent new.
-		self removeFromParent. ].
+		self removeFromParent ].
 	but id: #removeButton.
 	self addChild: but after: self endContainer
 ]
 
-{ #category : #configurating }
-TToTagElement >> beRemovable [
+{ #category : #accessing }
+TToTagElement >> backgroundColor: aColorOrNil [
 
-	self addRemoveButton
-	
-]
-
-{ #category : #configurating }
-TToTagElement >> beUnremovable [
-
-	self removeRemoveButton
+	aColorOrNil
+		ifNil: [ self removeStamp: #backgroundColor ]
+		ifNotNil: [ self addStamp: #backgroundColor withValue: aColorOrNil ]
 ]
 
 { #category : #accessing }
 TToTagElement >> bordered: aBoolean [
 
 	self addStamp: #bordered withValue: aBoolean
+]
+
+{ #category : #accessing }
+TToTagElement >> foregroundColor: aColorOrNil [
+
+	aColorOrNil
+		ifNil: [ self removeStamp: #foregroundColor ]
+		ifNotNil: [ self addStamp: #foregroundColor withValue: aColorOrNil ]
 ]
 
 { #category : #accessing }
@@ -55,8 +60,8 @@ TToTagElement >> rawRemovable: aBoolean [
 TToTagElement >> removable: aBoolean [
 
 	aBoolean
-		ifTrue: [ self beRemovable ]
-		ifFalse: [ self beUnremovable ]
+		ifTrue: [ self addRemoveButton ]
+		ifFalse: [ self removeRemoveButton ]
 ]
 
 { #category : #accessing }

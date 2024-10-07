@@ -1769,7 +1769,7 @@ ToSandBox class >> example_SelectAntDesignIconMultiFiltrable [
 		| tag |
 		tag := ToTagElement new.
 		tag icon: (iconDesc icon size: 48 asPoint).
-		tag addStamp: #closeIcon.
+		tag removable: true.
 		node addChild: tag ].
 	select sample: select popupListElement dataAccessor first.
 	select hMatchParent.
@@ -1906,13 +1906,10 @@ ToSandBox class >> example_SelectMultiFiltrable [
 		                        labelText: stateColorAssoc key asString;
 		                        hMatchParent;
 		                        yourself.
-		tag removable: true.
-		
+
 	                 tag constraintsDo: [ :c |
 		                 c linear vertical alignCenter ].
-	                 tag
-		                 addStamp: #foregroundColor
-		                 withValue:
+	                 tag foregroundColor:
 		                 (Color fromString: stateColorAssoc value).
 	                 tag
 		                 addStamp: #backgroundColor
@@ -1922,17 +1919,18 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	                 tag ].
 
 
-	select innerContainer nodeBuilder: [ :node :stateColorAssoc :holder |
+	select nodeBuilder: [ :node :stateColorAssoc :holder |
 		| tag |
 		tag := newTagFactory value: stateColorAssoc.
-		tag addStamp: #closeIcon withValue: true.
+		tag bordered: true.
+		tag removable: true.
 		node addChild: tag ].
 
 	select popupListElement nodeBuilder: [ :node :stateColorAssoc :holder |
 		node addChild: (newTagFactory value: stateColorAssoc) ].
 
 	select sieve dataFilter: [ :stateAssoc :pattern |
-		(stateAssoc key beginsWith: pattern caseSensitive: false) ].
+		stateAssoc key beginsWith: pattern caseSensitive: false ].
 
 	select hideSelected: false.
 	select popupListElement dataAccessor addAll:
@@ -2161,13 +2159,13 @@ ToSandBox class >> example_SelectMultiNotFiltrable [
 	select maxSelectedCount: 4.
 	select filtrable: false.
 	select nodeWrapping: true.
-	select dataAccessor addAll: self statesOfAmerica.
+	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	select placeholderText:
 		('Select states' asRopedText foreground: Color red).
-	select listElement nodeBuilder: [ :node :dataItem :holder |
+	select popupListElement nodeBuilder: [ :node :dataItem :holder |
 		node addChild: (ToLabel text: dataItem asString) hMatchParent ].
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select popupWindowManager anchorRoot: innerWindow root.
 	select hExact: 300.
 	select position: 50 @ 50.
 
@@ -3736,13 +3734,14 @@ ToSandBox class >> example_selectWith5Nodes [
 
 	| select innerWindow |
 	select := ToMultiSelectElement new.
-	select listElement nodeBuilder: [ :node :dataItem :holder |
+	select popupListElement nodeBuilder: [ :node :dataItem :holder |
 		node addChild: (ToLabel text: dataItem asString) hMatchParent ].
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select popupWindowManager anchorRoot: innerWindow root.
 	select width: 300.
 	select position: 50 @ 50.
-	select dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	select popupListElement dataAccessor addAll:
+		(self statesOfAmerica copyFrom: 1 to: 5).
 	innerWindow pane addChild: select.
 	innerWindow openInSpace
 ]

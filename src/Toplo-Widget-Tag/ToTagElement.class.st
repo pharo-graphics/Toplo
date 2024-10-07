@@ -4,7 +4,8 @@ Class {
 	#traits : 'TToTagElement',
 	#classTraits : 'TToTagElement classTrait',
 	#instVars : [
-		'removable'
+		'removable',
+		'withBorder'
 	],
 	#category : #'Toplo-Widget-Tag-Core'
 }
@@ -22,8 +23,8 @@ ToTagElement >> initialize [
 
 	super initialize.
 	self takeFocusOnClick: false.
-	self addStamp: #bordered withValue: true.
-	self addStamp: #closeIcon withValue: false
+	withBorder := true.
+	self removable: false
 ]
 
 { #category : #'t - checkable  - protocol' }

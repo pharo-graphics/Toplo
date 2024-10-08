@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-Widget-Segmented-Button'
 }
 
+{ #category : #'t - checkable  - protocol' }
+ToSegmentedButton >> checkableEventHandlerClass [
+
+	^ ToSegmentedButtonEventHandler 
+]
+
 { #category : #skin }
 ToSegmentedButton >> newRawSkin [
 

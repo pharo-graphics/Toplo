@@ -21,7 +21,7 @@ ToMultiSelectBarElementSkin >> shortcutsToInstallIn: aListElement [
 		  stream nextPut: (BlShortcutWithAction new
 				   combination: BlKeyCombination builder arrowDown build;
 				   action: [ :aShortcutEvent :aShortcut |
-					   | idx |
+					   | idx | 
 					   idx := aListElement selecter nextSelectableIndexToScrollTo.
 					   aListElement selecter scrollToDataSourcePosition: idx.
 					   aListElement selecter selectOnlyIndex: idx ]).

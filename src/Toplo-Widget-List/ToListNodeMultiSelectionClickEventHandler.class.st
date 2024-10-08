@@ -79,6 +79,7 @@ ToListNodeMultiSelectionClickEventHandler >> listClickOnNodeEvent: anEvent [
 ToListNodeMultiSelectionClickEventHandler >> onClickOnNodeEvent: anEvent [
 
 	| listElement node holder mode |
+
 	node := anEvent currentTarget.
 	holder := node holder.
 	listElement := node holder listElement.

@@ -4,23 +4,22 @@ Class {
 	#category : #'Toplo-Widget-Segmented-Node'
 }
 
+{ #category : #accessing }
+ToSegmentedNodeHolder >> checkableElement [
+
+	^ self dataItem
+]
+
 { #category : #'t - checkable - accessing' }
 ToSegmentedNodeHolder >> checked [
 
-	^ self contentElement checked
+	^ self checkableElement checked
 ]
 
 { #category : #'t - checkable - accessing' }
 ToSegmentedNodeHolder >> checked: aBoolean [
 
-	self contentElement checked: aBoolean.
-	self updateSelection
-]
-
-{ #category : #accessing }
-ToSegmentedNodeHolder >> contentElement [
-
-	^ self dataItem
+	self checkableElement checked: aBoolean
 ]
 
 { #category : #'t - checkable - accessing' }
@@ -59,7 +58,7 @@ ToSegmentedNodeHolder >> setDataItemAndBuildNode: aDataItem [
 { #category : #'t - checkable - accessing' }
 ToSegmentedNodeHolder >> updateSelection [
 
-	self contentElement checked ifTrue: [
+	self checkableElement checked ifTrue: [
 		self selecter selectIndex: self position.
 		^ self ].
 	self selecter deselectIndex: self position

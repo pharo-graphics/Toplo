@@ -29,12 +29,6 @@ ToSegmentedBarElement >> defaultNodeManagerClass [
 ]
 
 { #category : #initialization }
-ToSegmentedBarElement >> defaultPrimarySelectionModeClass [
-
-	^ ToSegmentedSelectionMode
-]
-
-{ #category : #initialization }
 ToSegmentedBarElement >> initialize [
 
 	| disabledMode unselectableMode hiddenMode |

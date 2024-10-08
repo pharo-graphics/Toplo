@@ -181,7 +181,7 @@ ToMultiSelectBarElement >> maxSelectedCount: aNumber [
 { #category : #skin }
 ToMultiSelectBarElement >> newRawSkin [ 
 
-	^ ToMultiSelectBarElementSkin new
+	^ ToNullSkin new
 ]
 
 { #category : #accessing }

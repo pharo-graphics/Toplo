@@ -62,3 +62,10 @@ ToBasicListElementSkin >> unfocusedSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e border: (e valueOfTokenNamed: #'color-border') ]
 ]
+
+{ #category : #'event handling' }
+ToBasicListElementSkin >> uninstallSkinEvent: anEvent [
+
+	super uninstallSkinEvent: anEvent.
+	anEvent elementDo: [ :e | e uninstallShortcuts ]
+]

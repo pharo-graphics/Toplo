@@ -30,7 +30,8 @@ ToSegmentedNode >> checkableElement: aCheckable [
 { #category : #'t - list node' }
 ToSegmentedNode >> clickEventHandlerClasses [
 
-	^  { ToSegmentedNodeEventHandler } 
+	^ super clickEventHandlerClasses
+	"^  { ToSegmentedNodeEventHandler } "
 ]
 
 { #category : #accessing }

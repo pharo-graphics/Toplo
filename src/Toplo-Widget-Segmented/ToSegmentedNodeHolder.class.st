@@ -29,6 +29,18 @@ ToSegmentedNodeHolder >> isChecked [
 	^ self checked
 ]
 
+{ #category : #testing }
+ToSegmentedNodeHolder >> isDisabled [
+
+	^ super isDisabled or: [ self isUnselectable  ]
+]
+
+{ #category : #testing }
+ToSegmentedNodeHolder >> isSelectable [
+
+	^ super isSelectable and: [ self isEnabled ]
+]
+
 { #category : #accessing }
 ToSegmentedNodeHolder >> segmentedBarElement [
 

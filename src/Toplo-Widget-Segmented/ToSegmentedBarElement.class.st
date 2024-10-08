@@ -37,11 +37,13 @@ ToSegmentedBarElement >> defaultPrimarySelectionModeClass [
 { #category : #initialization }
 ToSegmentedBarElement >> initialize [
 
-	| disabledMode unselectableMode |
+	| disabledMode unselectableMode hiddenMode |
 	super initialize.
 
 	disabledMode := self newDisabledSelectionMode.
 	disabledMode on: self.
+	hiddenMode := self newHiddenSelectionMode.
+	hiddenMode on: self.
 	
 	unselectableMode := self newUnselectableSelectionMode.
 	unselectableMode on: self.

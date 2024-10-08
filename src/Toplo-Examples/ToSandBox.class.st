@@ -3693,7 +3693,7 @@ ToSandBox class >> example_segmentedWithToggleButton [
 				 yourself) ].
 
 	seg barElement disabledSelecter selectIndex: 2.
-	seg barElement unselectableSelecter selectIndex: 2.
+	"seg barElement unselectableSelecter selectIndex: 2."
 	dashBoard := self segmentedDashBoardFor: seg.
 
 	feedbackPane := ToPane horizontal.

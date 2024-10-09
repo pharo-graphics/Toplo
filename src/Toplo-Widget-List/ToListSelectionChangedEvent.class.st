@@ -23,7 +23,7 @@ ToListSelectionChangedEvent >> command: aCommand [
 { #category : #accessing }
 ToListSelectionChangedEvent >> groupHolder [
 
-	^ selectionOption groupHolder
+	^ selectionOption ifNotNil: [ :so | so groupHolder ]
 ]
 
 { #category : #accessing }

@@ -38,5 +38,5 @@ ToListSelectionElementEventHandler >> updateSelectionFromEvent: anEvent [
 		self differUpdateSelectionFrom: target.
 		^ self ].
 
-	anEvent groupHolder updateSelectionIn: target
+	anEvent groupHolder ifNotNil: [:gh | gh updateSelectionIn: target ]
 ]

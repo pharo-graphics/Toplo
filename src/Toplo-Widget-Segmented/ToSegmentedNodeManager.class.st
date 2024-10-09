@@ -7,7 +7,7 @@ Class {
 { #category : #initialization }
 ToSegmentedNodeManager >> defaultFakeDataItem [ 
 
-	^ ToToggleButton new
+	^ ToSegmentedButton new
 ]
 
 { #category : #initialization }

@@ -11,6 +11,21 @@ Class {
 }
 
 { #category : #accessing }
+ToAbstractListSelectionMode >> changeOptionWith: aSelectionOption [
+
+	option ifNotNil: [option onUninstallOnMode: self ].
+	option := aSelectionOption.
+	option ifNil: [ ^ self ].
+	option onInstallOnMode: self 
+]
+
+{ #category : #initialization }
+ToAbstractListSelectionMode >> defaultOption [
+
+	^ nil
+]
+
+{ #category : #accessing }
 ToAbstractListSelectionMode >> disable [
 
 	self enabled: false
@@ -48,6 +63,9 @@ ToAbstractListSelectionMode >> initialize [
 ToAbstractListSelectionMode >> installSelecter [
 
 	selecter := self newSelecter.
+	selecter selectionMode: self.
+	selecter selectionModel: self newSelectionModel.
+	selecter selectionChangedEventClass: self selectionChangedEventClass.
 	selecter
 		onInstalledIn: listElement;
 		enabled: self enabled;
@@ -90,16 +108,31 @@ ToAbstractListSelectionMode >> newSelecter [
 	^ self subclassResponsibility 
 ]
 
+{ #category : #'instance creation' }
+ToAbstractListSelectionMode >> newSelectionChangedEventHandler [
+
+	^ nil
+]
+
+{ #category : #'instance creation' }
+ToAbstractListSelectionMode >> newSelectionModel [
+
+	^ self subclassResponsibility 
+]
+
 { #category : #initialization }
 ToAbstractListSelectionMode >> on: aListElement [
 
-	listElement ifNotNil: [ BlImmutableObjectChangeError new signal ].
+	listElement ifNotNil: [
+		(BlImmutableObjectChangeError object: listElement) signal ].
 	listElement := aListElement.
 	listElement addSelectionMode: self.
+	self newSelectionChangedEventHandler ifNotNil: [ :handler |
+		listElement addEventHandler: handler ].
 	self installSelecter.
-	option ifNotNil: [
-		selecter selectionOption: option.
-		option onMode: self ]
+	option := self defaultOption.
+	option ifNil: [ ^ self ].
+	option onInstallOnMode: self 
 ]
 
 { #category : #accessing }
@@ -112,15 +145,6 @@ ToAbstractListSelectionMode >> operator [
 ToAbstractListSelectionMode >> option [
 
 	^ option 
-]
-
-{ #category : #accessing }
-ToAbstractListSelectionMode >> option: aSelectionOption [
-
-	option ifNotNil: [
-		(BlImmutableObjectChangeError object: self) signal ].
-	option := aSelectionOption.
-	selecter ifNotNil: [ selecter selectionOption: option ]
 ]
 
 { #category : #accessing }

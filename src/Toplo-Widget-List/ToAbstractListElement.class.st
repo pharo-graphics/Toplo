@@ -202,7 +202,7 @@ ToAbstractListElement >> disabledSelecter [
 	^ self disabledSelectionMode selecter
 ]
 
-{ #category : #'instance creation' }
+{ #category : #accessing }
 ToAbstractListElement >> disabledSelectionMode [
 
 	^ self selectionModeWithEventClass: ToListDisabledSelectionChangedEvent
@@ -259,6 +259,9 @@ ToAbstractListElement >> initialize [
 	self contextMenuSelectionMode: self defaultContextMenuSelectionMode.
 	self contextMenuWindowManagerClass:
 		self defaultContextMenuWindowManagerClass.
+	self newUnselectableSelectionMode on: self.
+	self newHiddenSelectionMode on: self.
+	self newDisabledSelectionMode on: self.
 
 	self matchParent
 ]
@@ -315,17 +318,13 @@ ToAbstractListElement >> layoutStrategy [
 ToAbstractListElement >> newDisabledSelectionMode [
 	" note that a disabled mode need an event handler to force the building of disabled nodes "
 
-	^ (self newSubSelectionModeWithEventClass:
-			   ToListDisabledSelectionChangedEvent)
-		  selectionChangeEventHandler:
-			  ToListDisabledSelectionElementEventHandler new;
-		  yourself
+	^ ToListDisabledSelectionMode parentMode: self primarySelectionMode
 ]
 
 { #category : #'instance creation' }
 ToAbstractListElement >> newHiddenSelectionMode [
 
-	^ self newSubSelectionModeWithEventClass: ToListHiddenSelectionChangedEvent
+	^ ToListHiddenSelectionMode parentMode: self primarySelectionMode
 ]
 
 { #category : #skin }
@@ -335,18 +334,10 @@ ToAbstractListElement >> newRawSkin [
 ]
 
 { #category : #'instance creation' }
-ToAbstractListElement >> newSubSelectionModeWithEventClass: aSelectionChangedEventClass [
-
-	^ (ToListSubSelectionMode parentMode: self primarySelectionMode)
-		  selectionChangedEventClass: aSelectionChangedEventClass;
-		  yourself
-]
-
-{ #category : #'instance creation' }
 ToAbstractListElement >> newUnselectableSelectionMode [
 
 
-	^ self newSubSelectionModeWithEventClass: ToListUnselectableSelectionChangedEvent
+	^ ToListUnselectableSelectionMode parentMode: self primarySelectionMode
 ]
 
 { #category : #'t - infinite accessing' }

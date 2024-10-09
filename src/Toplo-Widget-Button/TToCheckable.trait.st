@@ -70,7 +70,7 @@ TToCheckable >> checked [
 	^ self checkableData checked
 ]
 
-{ #category : #'t - checkable - accessing' }
+{ #category : #'t - checkable  - protocol' }
 TToCheckable >> checked: aBooleanOrIndeterminate [
 
 	self checkableData checked: aBooleanOrIndeterminate 
@@ -163,6 +163,12 @@ TToCheckable >> removeFromGroup [
 
 
 	self unregisterFromGroup
+]
+
+{ #category : #'t - checkable  - protocol' }
+TToCheckable >> switchToNextCheckState [
+
+	self checkableData switchToNextCheckState
 ]
 
 { #category : #'t - checkable  - protocol' }

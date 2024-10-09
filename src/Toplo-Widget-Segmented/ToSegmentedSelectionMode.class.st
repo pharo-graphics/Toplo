@@ -4,6 +4,18 @@ Class {
 	#category : #'Toplo-Widget-Segmented-Bar'
 }
 
+{ #category : #initialization }
+ToSegmentedSelectionMode >> defaultOption [
+
+	^ ToListSelectionElementOption new
+		  grouped: false;
+		  beneath: true;
+		  triggerSelectionState: true;
+		  elementFactory: [
+			  ToListBasicSelectionElement new defaultSkin:
+					  ToListPrimarySelectionElementSkin new ]
+]
+
 { #category : #accessing }
 ToSegmentedSelectionMode >> deselectOnMouseDown [
 
@@ -26,22 +38,18 @@ ToSegmentedSelectionMode >> initialize [
 ToSegmentedSelectionMode >> newSelecter [
 
 	^ ToPrimarySelecter new
-		  selectionModel: ToPrimarySelectionModel new;
-		  selectionChangedEventClass: self selectionChangedEventClass;
-		  yourself
 ]
 
 { #category : #'instance creation' }
-ToSegmentedSelectionMode >> newSelectionChangeEventHandler [ 
+ToSegmentedSelectionMode >> newSelectionChangedEventHandler [ 
 
 	^ ToListPrimarySelectionElementEventHandler new
 ]
 
-{ #category : #initialization }
-ToSegmentedSelectionMode >> on: aListElement [
+{ #category : #'instance creation' }
+ToSegmentedSelectionMode >> newSelectionModel [
 
-	super on: aListElement.
-	aListElement addEventHandler: self newSelectionChangeEventHandler 
+	^ ToPrimarySelectionModel new
 ]
 
 { #category : #accessing }

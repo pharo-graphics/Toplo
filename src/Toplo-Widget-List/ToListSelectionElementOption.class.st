@@ -187,7 +187,7 @@ ToListSelectionElementOption >> newSelectionElementIn: aListElement [
 ]
 
 { #category : #'api - hooks' }
-ToListSelectionElementOption >> onMode: aListSelectionMode [
+ToListSelectionElementOption >> onInstallOnMode: aListSelectionMode [
 
 	| listElement |
 	selectionMode ifNotNil: [
@@ -196,6 +196,16 @@ ToListSelectionElementOption >> onMode: aListSelectionMode [
 	listElement := selectionMode listElement.
 	selectionContainer := self newSelectionContainerIn: listElement.
 	listElement addChild: selectionContainer
+]
+
+{ #category : #'api - hooks' }
+ToListSelectionElementOption >> onUninstallOnMode: aListSelectionMode [
+
+	| listElement |
+	listElement := aListSelectionMode listElement.
+	selectionContainer detach.
+	listElement removeChild: selectionContainer.
+	selectionContainer := nil
 ]
 
 { #category : #accessing }

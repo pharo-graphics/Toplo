@@ -10,7 +10,7 @@ Class {
 		'multiple',
 		'eventDispatcher',
 		'selectionChangedEventClass',
-		'selectionOption',
+		'selectionMode',
 		'commandApplier',
 		'selectionModel'
 	],
@@ -60,7 +60,7 @@ ToListSelecter >> commandApplied: aCommand [
 		       requestedAction: [
 			       eventTarget dispatchEvent: (selectionChangedEventClass new
 						        command: aCommand;
-						        selectionOption: selectionOption;
+						        selectionOption: self selectionOption;
 						        yourself) ];
 		       yourself.
 
@@ -474,6 +474,12 @@ ToListSelecter >> selectionChangedEventClass: anEventClass [
 ]
 
 { #category : #accessing }
+ToListSelecter >> selectionMode: aSelectionMode [
+
+	selectionMode := aSelectionMode
+]
+
+{ #category : #accessing }
 ToListSelecter >> selectionModel [
 
 	^ selectionModel
@@ -486,9 +492,9 @@ ToListSelecter >> selectionModel: aSelectionModel [
 ]
 
 { #category : #accessing }
-ToListSelecter >> selectionOption: aSelectionElementOption [
+ToListSelecter >> selectionOption [
 
-	selectionOption := aSelectionElementOption
+	^ selectionMode ifNotNil: [ :sm | sm option ]
 ]
 
 { #category : #operations }

@@ -79,7 +79,6 @@ ToListElementTest >> testDisabledSelectionModel [
 
 	| l |
 	l := ToListElement new.
-	l newDisabledSelectionMode on: l.
 	self assert: (l disabledSelectionMode selectionModel isKindOf:
 			 ToSubSelectionModel).
 	self
@@ -95,7 +94,6 @@ ToListElementTest >> testDisabledSelectionModel2 [
 
 	| l |
 	l := ToListElement new.
-	l newDisabledSelectionMode on: l.
 	l dataAccessor addAll: { #A. #B. #C }.
 	l selecter selectIndex: 2.
 	self waitTestingSpaces.
@@ -208,7 +206,6 @@ ToListElementTest >> testHiddenSelectionModel [
 
 	| l |
 	l := ToListElement new.
-	l newHiddenSelectionMode on: l.
 	self assert: (l hiddenSelectionMode selectionModel isKindOf:
 			 ToSubSelectionModel).
 	self
@@ -626,7 +623,6 @@ ToListElementTest >> testUnselectableSelectionModel [
 
 	| l |
 	l := ToListElement new.
-	l newUnselectableSelectionMode on: l.
 	self assert: (l unselectableSelectionMode selectionModel isKindOf:
 			 ToSubSelectionModel).
 	self

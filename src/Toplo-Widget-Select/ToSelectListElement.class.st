@@ -38,11 +38,7 @@ ToSelectListElement >> groupSelectionModel [
 ToSelectListElement >> initialize [
 
 	super initialize.
-	self newUnselectableSelectionMode on: self.
-	self newHiddenSelectionMode on: self.
-	self newDisabledSelectionMode on: self.
 	self newGroupSelectionMode on: self.
-
 	self primarySelectionMode selectOnMouseDown: true.
 	self primarySelectionMode requestFocusOnMouseDown: false
 ]
@@ -50,7 +46,7 @@ ToSelectListElement >> initialize [
 { #category : #accessing }
 ToSelectListElement >> newGroupSelectionMode [
 
-	^ self newSubSelectionModeWithEventClass: ToSelectGroupSelectionChangedEvent
+	^ ToSelectListGroupSelectionMode parentMode: self primarySelectionMode
 ]
 
 { #category : #skin }

@@ -8,6 +8,17 @@ Class {
 }
 
 { #category : #initialization }
+ToListSecondarySelectionMode >> defaultOption [
+
+	^ ToListSelectionElementOption new
+		  grouped: true;
+		  beneath: true;
+		  elementFactory: [
+			  ToListBasicSelectionElement new defaultSkin:
+					  ToListSecondarySelectionElementSkin new ]
+]
+
+{ #category : #initialization }
 ToListSecondarySelectionMode >> initialize [
 
 	super initialize.
@@ -40,23 +51,18 @@ ToListSecondarySelectionMode >> multiple: aBoolean [
 ToListSecondarySelectionMode >> newSelecter [
 
 	^ ToSecondarySelecter new
-		  selectionChangedEventClass: self selectionChangedEventClass;
-		  selectionModel:
-			  listElement selectionModel newSecondarySelectionModel;
-		  yourself
 ]
 
 { #category : #'instance creation' }
-ToListSecondarySelectionMode >> newSelectionChangeEventHandler [ 
+ToListSecondarySelectionMode >> newSelectionChangedEventHandler [ 
 
 	^ ToListSecondarySelectionElementEventHandler new
 ]
 
-{ #category : #initialization }
-ToListSecondarySelectionMode >> on: aListElement [
+{ #category : #'instance creation' }
+ToListSecondarySelectionMode >> newSelectionModel [
 
-	super on: aListElement.
-	aListElement addEventHandler: self newSelectionChangeEventHandler 
+	^ listElement selectionModel newSecondarySelectionModel
 ]
 
 { #category : #'instance creation' }

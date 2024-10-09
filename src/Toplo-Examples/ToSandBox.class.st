@@ -1390,6 +1390,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 
 	| l |
 	l := self listWithEditableAndContextMenu.
+	l inspect.
 	l openInInnerWindow
 ]
 
@@ -1572,7 +1573,6 @@ ToSandBox class >> example_PicsumPhotosGallery [
 	list primarySelectionMode option
 		grouped: false;
 		beneath: false;
-		triggerSelectionState: true;
 		elementFactory: [
 			ToListBasicSelectionElement new defaultSkin:
 					ToPicsumPhotosGallerySelectionSkin new ].
@@ -5307,28 +5307,21 @@ ToSandBox class >> labeledIconlWithIconAndText [
 { #category : #list }
 ToSandBox class >> listWithEditableAndContextMenu [
 
-	| l selectionMenu menuFactory phtext disabledMode unselectableMode |
+	| l selectionMenu menuFactory phtext disabledMode unselectableMode option |
 	l := ToListElement new.
 
-	l newHiddenSelectionMode on: l.
-	disabledMode := l newDisabledSelectionMode.
-	disabledMode option: ToListSelectionElementOption new.
-	disabledMode option grouped: false.
-	disabledMode option beneath: false.
-	disabledMode option elementFactory: [
+	disabledMode := l disabledSelectionMode.
+
+	option := ToListSelectionElementOption new.
+	option grouped: false.
+	option beneath: false.
+	option elementFactory: [
 		ToListBasicSelectionElement new defaultSkin:
 			ToListDisabledSelectionElementExampleSkin new ].
-	disabledMode on: l.
+	disabledMode changeOptionWith: option.
 
-	unselectableMode := l newUnselectableSelectionMode.
-	unselectableMode option: ToListSelectionElementOption new.
-
-	" or unselectableMode selectionChangeEventHandler: ToListUnselectableSelectionElementEventHandler new 
-	but the following code is kept for the record to show how to manage an additional selection mode 
-	with a specific handler "
-	
-	unselectableMode selectionChangeEventHandler: (BlEventHandler
-			 on: unselectableMode selectionChangedEventClass
+	unselectableMode := l unselectableSelectionMode.
+	l addEventHandlerOn: unselectableMode selectionChangedEventClass
 			 do: [ :event |
 				 | target |
 				 target := event currentTarget.
@@ -5336,14 +5329,15 @@ ToSandBox class >> listWithEditableAndContextMenu [
 				 target selecter deselectIndexes: event touchedIndexes.
 				 target secondarySelecter deselectAll.
 				 event touchedIntervals do: [ :int |
-					 target dataSource notifyItemsChanged: int ] ]).
+					 target dataSource notifyItemsChanged: int ] ].
 
-	unselectableMode option grouped: false.
-	unselectableMode option beneath: false.
-	unselectableMode option elementFactory: [
+	option := ToListSelectionElementOption new.
+	option grouped: false.
+	option beneath: false.
+	option elementFactory: [
 		ToListBasicSelectionElement new defaultSkin:
 			ToListUnselectableSelectionElementExampleSkin new ].
-	unselectableMode on: l.
+	unselectableMode changeOptionWith: option.
 
 	phtext := (('Invoke the context menu ' , String cr
 	            , 'with a right-click' , String cr

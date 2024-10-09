@@ -34,6 +34,18 @@ ToListPrimarySelectionMode >> beSingleSelection [
 	self multiple: false
 ]
 
+{ #category : #initialization }
+ToListPrimarySelectionMode >> defaultOption [
+
+	^ ToListSelectionElementOption new
+		  grouped: true;
+		  beneath: true;
+		  triggerSelectionState: true;
+		  elementFactory: [
+			  ToListBasicSelectionElement new defaultSkin:
+					  ToListPrimarySelectionElementSkin new ]
+]
+
 { #category : #accessing }
 ToListPrimarySelectionMode >> deselectOnMouseDown [
 
@@ -54,14 +66,7 @@ ToListPrimarySelectionMode >> initialize [
 	preserveSelectionOnFocused := true.
 	selectOnMouseDown := false.
 	deselectOnMouseDown := true.
-	multiple := true.
-
-	option := ToListSelectionElementOption new.
-	option
-		grouped: true;
-		beneath: true;
-		triggerSelectionState: true;
-		elementFactory: [ ToListBasicSelectionElement new defaultSkin: ToListPrimarySelectionElementSkin new]
+	multiple := true
 ]
 
 { #category : #testing }
@@ -97,22 +102,18 @@ ToListPrimarySelectionMode >> multiple: aBoolean [
 ToListPrimarySelectionMode >> newSelecter [
 
 	^ ToPrimarySelecter new
-		  selectionModel: ToPrimarySelectionModel new;
-		  selectionChangedEventClass: self selectionChangedEventClass;
-		  yourself
 ]
 
 { #category : #'instance creation' }
-ToListPrimarySelectionMode >> newSelectionChangeEventHandler [ 
+ToListPrimarySelectionMode >> newSelectionChangedEventHandler [ 
 
 	^ ToListPrimarySelectionElementEventHandler new
 ]
 
-{ #category : #initialization }
-ToListPrimarySelectionMode >> on: aListElement [
+{ #category : #'instance creation' }
+ToListPrimarySelectionMode >> newSelectionModel [
 
-	super on: aListElement.
-	aListElement addEventHandler: self newSelectionChangeEventHandler 
+	^ ToPrimarySelectionModel new
 ]
 
 { #category : #accessing }

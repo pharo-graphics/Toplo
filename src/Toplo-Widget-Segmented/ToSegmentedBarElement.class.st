@@ -37,15 +37,7 @@ ToSegmentedBarElement >> defaultPrimarySelectionModeClass [
 { #category : #initialization }
 ToSegmentedBarElement >> initialize [
 
-	| disabledMode unselectableMode |
 	super initialize.
-
-	disabledMode := self newDisabledSelectionMode.
-	disabledMode on: self.
-	
-	unselectableMode := self newUnselectableSelectionMode.
-	unselectableMode on: self.
-	
 	self group
 		addEventHandlerOn: ToCheckableGroupChangedEvent
 		do: [ :event | self dispatchEvent: event ]

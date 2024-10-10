@@ -158,7 +158,7 @@ ToSkinStateGenerator >> generateCheckStateFromEvent: anEvent [
 			addSkinStateGeneration: [
 				sm
 					enqueueSkinState:
-					(ToCheckState new checked: anEvent current yourself)
+					(ToCheckState new checked: anEvent checked; yourself)
 					in: target ]
 			for: target ]
 ]

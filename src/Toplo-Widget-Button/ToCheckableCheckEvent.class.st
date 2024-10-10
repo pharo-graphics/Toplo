@@ -18,6 +18,12 @@ ToCheckableCheckEvent class >> current: aBoolean previous: aPreviousBoolean [
 ]
 
 { #category : #accessing }
+ToCheckableCheckEvent >> checked [
+
+	^ self current
+]
+
+{ #category : #accessing }
 ToCheckableCheckEvent >> current [
 
 	^ current

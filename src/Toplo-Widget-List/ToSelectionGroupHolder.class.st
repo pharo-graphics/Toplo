@@ -25,22 +25,28 @@ ToSelectionGroupHolder >> addSelectionElementsIn: aListElement startingAt: aPosi
 
 { #category : #'private - selection updating' }
 ToSelectionGroupHolder >> addSelectionIn: aListElement [
+	" add new selection with animation if possible. 
+	Pay attention, an animation can be used. In case of animation, the SelectedSkinEvent is sent only
+	when the animation ends to have a nice visual effect. If no animation is used, then SelectedSkinEvent is
+	sent just after the selection is added "
 
 	| first finalBounds startBounds |
 	self notifyNodesDeselectedIn: aListElement.
-
 	groups ifEmpty: [ ^ self ].
-	(self canAnimateSelectionUpdate and: [ groups size = 1 ])
-		ifFalse: [
+
+	startBounds := previousSelectionBounds.
+	finalBounds := groups first preComputedBounds.
+	" animation is used if the start and the final bounds differs and in case of one selection group only "
+	(startBounds = finalBounds or: [
+		 (self canAnimateSelectionUpdate and: [ groups size = 1 ]) not ])
+		ifTrue: [
 			self addSelectionElementsIn: aListElement startingAt: 1.
 			self notifyNodesSelectedIn: aListElement.
 			^ self ].
 
-	startBounds := previousSelectionBounds.
 	first := groups first selectionElement.
 	first position: startBounds origin.
 	first size: startBounds extent.
-	finalBounds := groups first preComputedBounds.
 
 	animation := self
 		             boundsAnimationFrom: startBounds
@@ -68,7 +74,7 @@ ToSelectionGroupHolder >> boundsAnimationFrom: startBounds to: finalBounds onGro
 			  theSelectionElement position: anArray origin.
 			  theSelectionElement size: anArray extent ];
 		  onFinishedDo: [
-			  theSelectionElement position: finalBounds position.
+			  theSelectionElement position: finalBounds origin.
 			  theSelectionElement size: finalBounds extent.
 			  theSelectionElement whenLayoutedDoOnce: [
 					  self notifyNodesSelectedIn: aListElement. ] ]
@@ -77,7 +83,8 @@ ToSelectionGroupHolder >> boundsAnimationFrom: startBounds to: finalBounds onGro
 { #category : #'private - selection updating' }
 ToSelectionGroupHolder >> canAnimateSelectionUpdate [
 
-	^ selectionElementOption animationDuration isZero not and: [previousSelectionBounds notNil]
+	^ selectionElementOption animationDuration isZero not and: [
+		  previousSelectionBounds notNil ]
 ]
 
 { #category : #enumerating }

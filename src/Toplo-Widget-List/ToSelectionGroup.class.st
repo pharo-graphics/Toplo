@@ -28,7 +28,7 @@ ToSelectionGroup >> boundsFromNodesIn: aListElement [
 			corner := w @ endBnds corner y ]
 		ifFalse: [ corner := endBnds corner ].
 
-	^ (BlBounds origin: startBnds origin corner: corner)
+	^ (BlBounds origin: startBnds origin corner: corner) asRectangle
 ]
 
 { #category : #'private - selection element' }

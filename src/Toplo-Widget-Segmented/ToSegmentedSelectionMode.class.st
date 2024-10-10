@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #initialization }
-ToSegmentedSelectionMode >> defaultOption [
+ToSegmentedSelectionMode >> defaultSelectionElementOption [
 
 	^ ToListSelectionElementOption new
 		  grouped: false;
@@ -26,8 +26,8 @@ ToSegmentedSelectionMode >> deselectOnMouseDown [
 ToSegmentedSelectionMode >> initialize [
 
 	super initialize.
-	option := ToListSelectionElementOption new.
-	option
+	selectionElementOption := ToListSelectionElementOption new.
+	selectionElementOption
 		grouped: true;
 		beneath: true;
 		triggerSelectionState: true;

@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #initialization }
-ToListContextMenuSelectionMode >> defaultOption [
+ToListContextMenuSelectionMode >> defaultSelectionElementOption [
 
 	^ ToListSelectionElementOption new
 		  grouped: true;
@@ -17,8 +17,8 @@ ToListContextMenuSelectionMode >> defaultOption [
 ToListContextMenuSelectionMode >> initialize [
 
 	super initialize.
-	option := ToListSelectionElementOption new.
-	option
+	selectionElementOption := ToListSelectionElementOption new.
+	selectionElementOption
 		grouped: true;
 		beneath: false;
 		elementFactory: [ ToListContextMenuSelectionElement new ]

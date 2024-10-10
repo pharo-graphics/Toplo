@@ -107,10 +107,10 @@ ToListElementSieve >> onInstalledIn: aListElement [
 		            selectionChangedEventClass:
 			            ToListPrimarySelectionChangedEvent;
 		            yourself.
+	selecter onInstalledIn: self.
 	selecter
 		enabled: true;
 		multiple: aListElement isMultipleSelection.
-	selecter onInstalledIn: self.
 
 	self addEventHandler: sieveEventHandler
 ]

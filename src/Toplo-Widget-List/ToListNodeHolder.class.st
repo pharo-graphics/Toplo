@@ -112,7 +112,7 @@ ToListNodeHolder >> notifyDeselectedInGroupHolder: aSelectionGroupHolder [
 	self isSelected ifTrue: [ ^ self ].
 	self node dispatchEvent: (ToListNodeSelectedEvent new
 			 listElement: self listElement;
-			 selectionOption: aSelectionGroupHolder option;
+			 selectionOption: aSelectionGroupHolder selectionElementOption;
 			 selected: false)
 ]
 
@@ -122,7 +122,7 @@ ToListNodeHolder >> notifySelectedInGroupHolder: aSelectionGroupHolder [
 	self isSelected ifFalse: [ ^ self ].
 	self node dispatchEvent: (ToListNodeSelectedEvent new
 			 listElement: self listElement;
-			 selectionOption: aSelectionGroupHolder option;
+			 selectionOption: aSelectionGroupHolder selectionElementOption;
 			 selected: true)
 ]
 

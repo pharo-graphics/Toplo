@@ -3,9 +3,9 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'groups',
-		'option',
 		'previousSelectionBounds',
-		'animation'
+		'animation',
+		'selectionElementOption'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
@@ -20,7 +20,7 @@ ToSelectionGroupHolder >> addSelectionElementsIn: aListElement startingAt: aPosi
 				            ((groups at: p) updatedSelectionElementIn:
 					             aListElement) ] ].
 
-	option addSelectionElements: elements
+	selectionElementOption addSelectionElements: elements
 ]
 
 { #category : #'private - selection updating' }
@@ -50,7 +50,7 @@ ToSelectionGroupHolder >> addSelectionIn: aListElement [
 
 	first addAnimation: animation.
 	" directly add the selection element without computing its bounds "
-	option addSelectionElement: first.
+	selectionElementOption addSelectionElement: first.
 	" add others "
 	self addSelectionElementsIn: aListElement startingAt: 2
 ]
@@ -63,7 +63,7 @@ ToSelectionGroupHolder >> boundsAnimationFrom: startBounds to: finalBounds onGro
 	^ ToBoundsTransition new
 		  from: startBounds;
 		  to: finalBounds;
-		  duration: option animationDuration;
+		  duration: selectionElementOption animationDuration;
 		  onStepDo: [ :anArray :target |
 			  theSelectionElement position: anArray origin.
 			  theSelectionElement size: anArray extent ];
@@ -77,14 +77,14 @@ ToSelectionGroupHolder >> boundsAnimationFrom: startBounds to: finalBounds onGro
 { #category : #'private - selection updating' }
 ToSelectionGroupHolder >> canAnimateSelectionUpdate [
 
-	^ option animationDuration isZero not and: [previousSelectionBounds notNil]
+	^ selectionElementOption animationDuration isZero not and: [previousSelectionBounds notNil]
 ]
 
 { #category : #enumerating }
 ToSelectionGroupHolder >> createSelectionElementsFrom: aListElement [
 
 	groups do: [ :grp |
-		  grp refreshSelectionElementIn: aListElement option: option]
+		  grp refreshSelectionElementIn: aListElement option: selectionElementOption]
 ]
 
 { #category : #'private - selection updating' }
@@ -116,7 +116,7 @@ ToSelectionGroupHolder >> newGroups: aGroupArray in: aListElement [
 
 	self removeSelectionIn: aListElement.
 	groups := aGroupArray.
-	option masked ifTrue: [ ^ self ].
+	selectionElementOption masked ifTrue: [ ^ self ].
 	self createSelectionElementsFrom: aListElement.
 	self addSelectionIn: aListElement.
 	self rememberSelectionBoundsIn: aListElement
@@ -125,28 +125,16 @@ ToSelectionGroupHolder >> newGroups: aGroupArray in: aListElement [
 { #category : #'private - selection updating' }
 ToSelectionGroupHolder >> notifyNodesDeselectedIn: aListElement [
 
-	option triggerSelectionState ifFalse: [ ^ self ].
+	selectionElementOption triggerSelectionState ifFalse: [ ^ self ].
 	aListElement innerContainer nodesDo: [ :n | n holder notifyDeselectedInGroupHolder: self ]
 ]
 
 { #category : #'private - selection updating' }
 ToSelectionGroupHolder >> notifyNodesSelectedIn: aListElement [
 
-	option triggerSelectionState ifFalse: [ ^ self ].
+	selectionElementOption triggerSelectionState ifFalse: [ ^ self ].
 	aListElement innerContainer nodesDo: [ :n |
 		n holder notifySelectedInGroupHolder: self ]
-]
-
-{ #category : #accessing }
-ToSelectionGroupHolder >> option [
-
-	^ option
-]
-
-{ #category : #accessing }
-ToSelectionGroupHolder >> option: aSelectionOption [
-
-	option := aSelectionOption
 ]
 
 { #category : #'private - selection updating' }
@@ -178,6 +166,18 @@ ToSelectionGroupHolder >> removeSelectionIn: aListElement [
 
 ]
 
+{ #category : #accessing }
+ToSelectionGroupHolder >> selectionElementOption [
+
+	^ selectionElementOption
+]
+
+{ #category : #accessing }
+ToSelectionGroupHolder >> selectionElementOption: aSelectionOption [
+
+	selectionElementOption := aSelectionOption
+]
+
 { #category : #enumerating }
 ToSelectionGroupHolder >> selectionElements [
 
@@ -192,7 +192,7 @@ ToSelectionGroupHolder >> updateSelectionIn: aListElement [
 	| newGroups |
 	"option selectionMode selecter selectionChangedEventClass = ToListDisabledSelectionChangedEvent ifTrue: [self haltOnce]."
 	"'updateSelectionIn: ' trace. option selectionMode selecter selectionChangedEventClass traceCr."
-	newGroups := option collectSelectionGroupsFrom: aListElement.
+	newGroups := selectionElementOption collectSelectionGroupsFrom: aListElement.
 	(self groups: groups equals: newGroups) ifTrue: [ ^ self ].
 	self newGroups: newGroups in: aListElement
 ]

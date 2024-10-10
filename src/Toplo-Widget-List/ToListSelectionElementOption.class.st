@@ -111,7 +111,7 @@ ToListSelectionElementOption >> initialize [
 	beneath := true.
 	grouped := false.
 	groupHolder := ToSelectionGroupHolder new.
-	groupHolder option: self.
+	groupHolder selectionElementOption: self.
 
 ]
 

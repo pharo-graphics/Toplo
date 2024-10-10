@@ -5,22 +5,22 @@ Class {
 		'listElement',
 		'enabled',
 		'selecter',
-		'option'
+		'selectionElementOption'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
 { #category : #accessing }
-ToAbstractListSelectionMode >> changeOptionWith: aSelectionOption [
+ToAbstractListSelectionMode >> changeSelectionElementOptionWith: aSelectionOption [
 
-	option ifNotNil: [option onUninstallOnMode: self ].
-	option := aSelectionOption.
-	option ifNil: [ ^ self ].
-	option onInstallOnMode: self 
+	selectionElementOption ifNotNil: [selectionElementOption onUninstallOnMode: self ].
+	selectionElementOption := aSelectionOption.
+	selectionElementOption ifNil: [ ^ self ].
+	selectionElementOption onInstallOnMode: self 
 ]
 
 { #category : #initialization }
-ToAbstractListSelectionMode >> defaultOption [
+ToAbstractListSelectionMode >> defaultSelectionElementOption [
 
 	^ nil
 ]
@@ -70,6 +70,14 @@ ToAbstractListSelectionMode >> installSelecter [
 		onInstalledIn: listElement;
 		enabled: self enabled;
 		multiple: self isMultipleSelection
+]
+
+{ #category : #initialization }
+ToAbstractListSelectionMode >> installSelectionElementOption [
+
+	selectionElementOption := self defaultSelectionElementOption.
+	selectionElementOption ifNil: [ ^ self ].
+	selectionElementOption onInstallOnMode: self 
 ]
 
 { #category : #testing }
@@ -130,28 +138,13 @@ ToAbstractListSelectionMode >> on: aListElement [
 	self newSelectionChangedEventHandler ifNotNil: [ :handler |
 		listElement addEventHandler: handler ].
 	self installSelecter.
-	option := self defaultOption.
-	option ifNil: [ ^ self ].
-	option onInstallOnMode: self 
+	self installSelectionElementOption
 ]
 
 { #category : #accessing }
 ToAbstractListSelectionMode >> operator [
 
 	^ selecter operator
-]
-
-{ #category : #accessing }
-ToAbstractListSelectionMode >> option [
-
-	^ option 
-]
-
-{ #category : #accessing }
-ToAbstractListSelectionMode >> optionDo: aBlock [
-
-	option ifNil: [ ^ self ].
-	aBlock value: option
 ]
 
 { #category : #accessing }
@@ -185,6 +178,19 @@ ToAbstractListSelectionMode >> selectionChangedEventClass [
 ]
 
 { #category : #accessing }
+ToAbstractListSelectionMode >> selectionElementOption [
+
+	^ selectionElementOption 
+]
+
+{ #category : #accessing }
+ToAbstractListSelectionMode >> selectionElementOptionDo: aBlock [
+
+	selectionElementOption ifNil: [ ^ self ].
+	aBlock value: selectionElementOption
+]
+
+{ #category : #accessing }
 ToAbstractListSelectionMode >> selectionModel [
 
 	^ selecter selectionModel
@@ -193,10 +199,10 @@ ToAbstractListSelectionMode >> selectionModel [
 { #category : #initialization }
 ToAbstractListSelectionMode >> uninstall [
 
-	option ifNotNil: [ option onUninstalledIn: listElement ].
+	selectionElementOption ifNotNil: [ selectionElementOption onUninstalledIn: listElement ].
 	self uninstallSelecter.
 	listElement removeSelectionMode: self.
-	option := nil.
+	selectionElementOption := nil.
 	listElement := nil
 ]
 

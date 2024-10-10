@@ -103,8 +103,7 @@ ToListElementEventHandler >> eventsToHandle [
 
 		  ToListPrimarySelectionModeChangedEvent.
 		  ToListSecondarySelectionModeChangedEvent.
-		  ToListHiddenSelectionChangedEvent.
-		  ToSelecterChangedEvent }
+		  ToListHiddenSelectionChangedEvent }
 ]
 
 { #category : #'event handling' }
@@ -276,16 +275,6 @@ ToListElementEventHandler >> refreshSelectionFromEvent: anEvent [
 
 { #category : #'event handling' }
 ToListElementEventHandler >> secondaryClickEvent: anEvent [
-]
-
-{ #category : #'infinite event handling' }
-ToListElementEventHandler >> selecterChangedEvent: anEvent [
-
-	| target |
-	target := anEvent currentTarget.
-	" don't use the selecter because it can be disabled "
-	target selectionModel deselectAll.
-	target notifyPrimarySelectionDirty 
 ]
 
 { #category : #'list element handling' }

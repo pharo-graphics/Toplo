@@ -150,10 +150,7 @@ ToListSelecter >> enabled: aBoolean [
 
 	enabled = aBoolean ifTrue: [ ^ self ].
 	enabled := aBoolean.
-	eventTarget ifNil: [ ^ self ].
-	eventTarget dispatchEvent: ToSelecterChangedEvent new.
-
-
+	self updateSelection
 ]
 
 { #category : #'event management accessing' }
@@ -218,8 +215,7 @@ ToListSelecter >> multiple: aBoolean [
 
 	multiple = aBoolean ifTrue: [ ^ self ].
 	multiple := aBoolean.
-	eventTarget ifNil: [ ^ self ].
-	eventTarget dispatchEvent: ToSelecterChangedEvent new
+	self updateSelection 
 ]
 
 { #category : #private }
@@ -518,4 +514,11 @@ ToListSelecter >> switchIndexSelection: anIndex [
 	(self containsIndex: anIndex)
 		ifTrue: [ self deselectIndex: anIndex ]
 		ifFalse: [ self selectIndex: anIndex ]
+]
+
+{ #category : #accessing }
+ToListSelecter >> updateSelection [
+
+	self selectionModel deselectAll.
+	eventTarget notifyPrimarySelectionDirty 
 ]

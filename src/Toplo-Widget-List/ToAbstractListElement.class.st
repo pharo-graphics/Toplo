@@ -379,7 +379,7 @@ ToAbstractListElement >> notifyDataSourceItemsFiltered: aDataSourceEvent [
 ToAbstractListElement >> notifyPrimarySelectionDirty [
 
 	self dispatchEvent: (ToListPrimarySelectionDirtyEvent new
-			 selectionOption: self primarySelectionMode option;
+			 selectionOption: self primarySelectionMode selectionElementOption;
 			 itemCount: self itemCount;
 			 yourself)
 ]
@@ -472,7 +472,7 @@ ToAbstractListElement >> selecter [
 ToAbstractListElement >> selectionElementsDo: aBlock [
 
 	selectionModeMap valuesDo: [ :mode |
-		mode optionDo: [ :opt | opt selectionElements do: [ :se | aBlock value: se ] ] ]
+		mode selectionElementOptionDo: [ :opt | opt selectionElements do: [ :se | aBlock value: se ] ] ]
 ]
 
 { #category : #accessing }

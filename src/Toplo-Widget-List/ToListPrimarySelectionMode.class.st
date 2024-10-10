@@ -34,18 +34,6 @@ ToListPrimarySelectionMode >> beSingleSelection [
 	self multiple: false
 ]
 
-{ #category : #initialization }
-ToListPrimarySelectionMode >> defaultOption [
-
-	^ ToListSelectionElementOption new
-		  grouped: true;
-		  beneath: true;
-		  triggerSelectionState: true;
-		  elementFactory: [
-			  ToListBasicSelectionElement new defaultSkin:
-					  ToListPrimarySelectionElementSkin new ]
-]
-
 { #category : #accessing }
 ToListPrimarySelectionMode >> deselectOnMouseDown [
 
@@ -210,4 +198,16 @@ ToListPrimarySelectionMode >> selectOnMouseDown: aBoolean [
 ToListPrimarySelectionMode >> selectionChangedEventClass [ 
 
 	^ ToListPrimarySelectionChangedEvent
+]
+
+{ #category : #initialization }
+ToListPrimarySelectionMode >> selectionElementOption [
+
+	^ ToListSelectionElementOption new
+		  grouped: true;
+		  beneath: true;
+		  triggerSelectionState: true;
+		  elementFactory: [
+			  ToListBasicSelectionElement new defaultSkin:
+					  ToListPrimarySelectionElementSkin new ]
 ]

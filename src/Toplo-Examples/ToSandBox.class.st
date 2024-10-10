@@ -89,10 +89,10 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	selectionAnimationSwitch whenClickedDo: [ :event |
 				 | v |
 				 v := event current.
-				 aBar primarySelectionMode option animationDuration: (v
+				 aBar primarySelectionMode selectionElementOption animationDuration: (v
 						  ifTrue: [ 200 milliSeconds ]
 						  ifFalse: [ 0 milliSeconds ]).
-				 aBar secondarySelectionMode option animationDuration: (v
+				 aBar secondarySelectionMode selectionElementOption animationDuration: (v
 						  ifTrue: [ 150 milliSeconds ]
 						  ifFalse: [ 0 milliSeconds ]) ].
 
@@ -1227,8 +1227,8 @@ ToSandBox class >> example_ListWithAllClasses3 [
 				      icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
 				      startInterspace: 10;
 				      hMatchParent) ].
-	l primarySelectionMode option animationDuration: 200 milliSeconds.
-	l secondarySelectionMode option animationDuration: 150 milliSeconds.
+	l primarySelectionMode selectionElementOption animationDuration: 200 milliSeconds.
+	l secondarySelectionMode selectionElementOption animationDuration: 150 milliSeconds.
 	l dataAccessor addAll: Smalltalk globals allClasses.
 	l selecter selectIndex: 3.
 	l withRowNumbers.
@@ -1251,7 +1251,7 @@ ToSandBox class >> example_ListWithAllClasses4 [
 		     cbox checked: holder isSelected.
 		     node addChild: cbox ].
 	l primarySelectionMode selectOnMouseDown: true.
-	l primarySelectionMode option masked: true.
+	l primarySelectionMode selectionElementOption masked: true.
 	l dataAccessor addAll: Smalltalk globals allClasses.
 	l openInSpace
 ]
@@ -1294,7 +1294,7 @@ ToSandBox class >> example_ListWithAllClassesAsButton [
 	l addEventHandler: (BlEventHandler
 			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :evt | evt traceCr ]).
-	l primarySelectionMode option beneath: false.
+	l primarySelectionMode selectionElementOption beneath: false.
 	l openInSpace
 ]
 
@@ -1440,7 +1440,7 @@ ToSandBox class >> example_ListWithPanes [
 				        (BlRoundedRectangleGeometry cornerRadius: 6).
 			        blContent border: (BlBorder paint: Color lightGray).
 			        node addChild: blContent ].
-	list primarySelectionMode option beneath: false.
+	list primarySelectionMode selectionElementOption beneath: false.
 	list dataAccessor addAll: (1 to: 1000).
 	list openInSpace
 ]
@@ -1486,8 +1486,8 @@ ToSandBox class >> example_ListWithSelectionTrace [
 		at: #traceSelectionModel
 		put: (ToSelectionModel new on: statesList).
 	" mandatory option here: the selection are separate (one selection element for each selected node)"
-	statesList primarySelectionMode option grouped: false.
-	statesList primarySelectionMode option elementFactory: [
+	statesList primarySelectionMode selectionElementOption grouped: false.
+	statesList primarySelectionMode selectionElementOption elementFactory: [
 		ToListBasicSelectionElement new defaultSkin:
 			ToTraceListPrimarySelectionElementSkin new ].
 	statesList openInSpace
@@ -1570,7 +1570,7 @@ ToSandBox class >> example_PicsumPhotosGallery [
 		nodeFactory: [ ToPicsumPhotosGalleryImageNode new ];
 		nodeBuilder: [ :node :dataItem :holder |
 			node labelString: dataItem id ].
-	list primarySelectionMode option
+	list primarySelectionMode selectionElementOption
 		grouped: false;
 		beneath: false;
 		elementFactory: [
@@ -1894,9 +1894,9 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	select := ToMultiSelectElement new.
 	select nodeWrapping: true.
 	select keepPickOrder: true.
-	select popupListElement primarySelectionMode option grouped: false.
-	select popupListElement primarySelectionMode option beneath: false.
-	select popupListElement primarySelectionMode option elementFactory: [
+	select popupListElement primarySelectionMode selectionElementOption grouped: false.
+	select popupListElement primarySelectionMode selectionElementOption beneath: false.
+	select popupListElement primarySelectionMode selectionElementOption elementFactory: [
 		ToListBasicSelectionElement new defaultSkin:
 			ToMultiSelectElementCheckSkin new ].
 
@@ -2083,7 +2083,7 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected [
 	| select innerWindow |
 	select := ToMultiSelectElement new.
 	select withCloseButton: true.
-	select popupListElement primarySelectionMode option masked: true.
+	select popupListElement primarySelectionMode selectionElementOption masked: true.
 	select hideSelected: true.
 	select popupListElement dataAccessor updateAllWith:
 		self statesOfAmerica.
@@ -5318,7 +5318,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 	option elementFactory: [
 		ToListBasicSelectionElement new defaultSkin:
 			ToListDisabledSelectionElementExampleSkin new ].
-	disabledMode changeOptionWith: option.
+	disabledMode changeSelectionElementOptionWith: option.
 
 	unselectableMode := l unselectableSelectionMode.
 	l addEventHandlerOn: unselectableMode selectionChangedEventClass
@@ -5337,7 +5337,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 	option elementFactory: [
 		ToListBasicSelectionElement new defaultSkin:
 			ToListUnselectableSelectionElementExampleSkin new ].
-	unselectableMode changeOptionWith: option.
+	unselectableMode changeSelectionElementOptionWith: option.
 
 	phtext := (('Invoke the context menu ' , String cr
 	            , 'with a right-click' , String cr
@@ -5416,12 +5416,12 @@ ToSandBox class >> listWithEditableAndContextMenu [
 				                whenClickedDo: [ :event |
 					                target hiddenSelecter deselectAll ];
 				                yourself).
-		               target primarySelectionMode option isAnimated
+		               target primarySelectionMode selectionElementOption isAnimated
 			               ifTrue: [
 				               menu addItem: (ToMenuItem new
 						                labelText: 'stop selection transition animation';
 						                whenClickedDo: [ :event |
-							                target selectionMode option animationDuration:
+							                target selectionMode selectionElementOption animationDuration:
 									                0 milliSeconds ];
 						                yourself) ]
 			               ifFalse: [
@@ -5429,7 +5429,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 						                labelText:
 							                'start selection transition animation';
 						                whenClickedDo: [ :event |
-							                target primarySelectionMode option
+							                target primarySelectionMode selectionElementOption
 								                animationDuration: 200 milliSeconds ];
 						                yourself) ] ].
 	               indexes ifNotEmpty: [

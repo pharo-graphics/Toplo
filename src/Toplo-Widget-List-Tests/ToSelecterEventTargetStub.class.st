@@ -16,6 +16,10 @@ ToSelecterEventTargetStub >> itemCount [
 	^ 100
 ]
 
+{ #category : #'event firing' }
+ToSelecterEventTargetStub >> notifyPrimarySelectionDirty [
+]
+
 { #category : #accessing }
 ToSelecterEventTargetStub >> scrollIndex [ 
 

@@ -9,3 +9,9 @@ ToSieveSelecter >> initializeCommandApplier [
 
 	commandApplier := ToDirectCommandApplier new
 ]
+
+{ #category : #'event firing' }
+ToSieveSelecter >> notifyPrimarySelectionDirty [
+
+	
+]

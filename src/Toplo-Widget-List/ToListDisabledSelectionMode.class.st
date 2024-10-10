@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
-{ #category : #'instance creation' }
+{ #category : #'as yet unclassified' }
 ToListDisabledSelectionMode >> newSelectionChangedEventHandler [
 
 	^ ToListDisabledSelectionElementEventHandler new

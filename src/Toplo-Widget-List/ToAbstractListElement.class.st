@@ -7,8 +7,6 @@ Class {
 		'next',
 		'dataSource',
 		'nodeManager',
-		'commandChecker',
-		'withContextMenuSelection',
 		'selectionModeMap'
 	],
 	#category : #'Toplo-Widget-List-Core'
@@ -21,12 +19,6 @@ ToAbstractListElement >> addSelectionMode: aSelectionMode [
 		at: aSelectionMode selectionChangedEventClass
 		ifPresent: [ Error signal: 'Duplicate selection mode' ].
 	selectionModeMap at: aSelectionMode selectionChangedEventClass put: aSelectionMode
-]
-
-{ #category : #'private - commands' }
-ToAbstractListElement >> allowApplicationOfCommand: aCommand [
-
-	^ self commandChecker allowCommand: aCommand
 ]
 
 { #category : #'private - commands' }
@@ -55,12 +47,6 @@ ToAbstractListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 					in: self selectionModel ] ]
 		ifEmpty: [
 		self selectionModel copySelectionFrom: sieve selectionModel ]
-]
-
-{ #category : #accessing }
-ToAbstractListElement >> commandChecker [
-
-	^ commandChecker
 ]
 
 { #category : #'accessing selecters' }
@@ -244,11 +230,9 @@ ToAbstractListElement >> initialize [
 	super initialize.
 
 	nodeManager := self defaultNodeManager.
-	withContextMenuSelection := true.
 	selectionModeMap := IdentityDictionary new.
 
 	self initializeDataSource.
-	self initializeCommandChecker.
 	self initializeInnerContainer.
 
 	self layout: self defaultLayout.
@@ -264,13 +248,6 @@ ToAbstractListElement >> initialize [
 	self newDisabledSelectionMode on: self.
 
 	self matchParent
-]
-
-{ #category : #initialization }
-ToAbstractListElement >> initializeCommandChecker [
-
-	commandChecker := self defaultCommandCheckerClass new.
-	commandChecker listElement: self
 ]
 
 { #category : #initialization }
@@ -292,12 +269,6 @@ ToAbstractListElement >> initializeInnerContainer [
 ToAbstractListElement >> isMultipleSelection [
 
 	^ self primarySelectionMode isMultipleSelection
-]
-
-{ #category : #accessing }
-ToAbstractListElement >> isWithContextMenuSelection [
-
-	^ withContextMenuSelection
 ]
 
 { #category : #accessing }
@@ -408,7 +379,7 @@ ToAbstractListElement >> notifyDataSourceItemsFiltered: aDataSourceEvent [
 ToAbstractListElement >> notifyPrimarySelectionDirty [
 
 	self dispatchEvent: (ToListPrimarySelectionDirtyEvent new
-			 selectionOption: self primarySelectionMode option;
+			 selectionOption: self primarySelectionMode selectionElementOption;
 			 itemCount: self itemCount;
 			 yourself)
 ]
@@ -501,7 +472,7 @@ ToAbstractListElement >> selecter [
 ToAbstractListElement >> selectionElementsDo: aBlock [
 
 	selectionModeMap valuesDo: [ :mode |
-		mode optionDo: [ :opt | opt selectionElements do: [ :se | aBlock value: se ] ] ]
+		mode selectionElementOptionDo: [ :opt | opt selectionElements do: [ :se | aBlock value: se ] ] ]
 ]
 
 { #category : #accessing }
@@ -566,10 +537,4 @@ ToAbstractListElement >> unselectableSelectionMode [
 ToAbstractListElement >> unselectableSelectionModel [
 
 	^ self selectionModel unselectableSelectionModel
-]
-
-{ #category : #accessing }
-ToAbstractListElement >> withContextMenuSelection: aBoolean [
-
-	withContextMenuSelection := aBoolean
 ]

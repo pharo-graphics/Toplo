@@ -269,7 +269,7 @@ ToListElementEventHandler >> refreshSelectionFromEvent: anEvent [
 	| target |
 	target := anEvent currentTarget.
 	target selectionModes do: [ :mode |
-		mode optionDo: [ :option |
+		mode selectionElementOptionDo: [ :option |
 			option groupHolder refreshSelectionIn: target ] ]
 ]
 
@@ -280,7 +280,9 @@ ToListElementEventHandler >> secondaryClickEvent: anEvent [
 { #category : #'list element handling' }
 ToListElementEventHandler >> showHidePlaceholderIn: aListElement [
 
-	aListElement dataAccessor ifEmpty: [ ^ aListElement showPlaceholder ].
+	aListElement dataAccessor ifEmpty: [ 
+		aListElement selecter deselectAll.
+		^ aListElement showPlaceholder ].
 	aListElement hidePlaceholder
 ]
 
@@ -288,7 +290,7 @@ ToListElementEventHandler >> showHidePlaceholderIn: aListElement [
 ToListElementEventHandler >> syncNodesSelectionIn: aListElement [
 
 	| option |
-	option := aListElement primarySelectionMode option.
+	option := aListElement primarySelectionMode selectionElementOption.
 	option masked ifTrue: [ ^ self ].
 	option groupHolder notifyNodesSelectedIn: aListElement
 ]

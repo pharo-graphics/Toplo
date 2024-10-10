@@ -74,6 +74,10 @@ ToListElementSieve >> isInstalled [
 	^ originalData notNil
 ]
 
+{ #category : #'event firing' }
+ToListElementSieve >> notifyPrimarySelectionDirty [
+]
+
 { #category : #'api - hooks' }
 ToListElementSieve >> onInstalledIn: aListElement [
 	" install the sieve on the listElement "

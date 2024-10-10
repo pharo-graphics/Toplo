@@ -4,7 +4,6 @@ Class {
 	#traits : 'TBlEventTarget',
 	#classTraits : 'TBlEventTarget classTrait',
 	#instVars : [
-		'eventTarget',
 		'enabled',
 		'operator',
 		'multiple',
@@ -58,13 +57,13 @@ ToListSelecter >> commandApplied: aCommand [
 	req := ToListSelectionCommandAppliedEvent new
 		       command: aCommand;
 		       requestedAction: [
-			       eventTarget dispatchEvent: (selectionChangedEventClass new
+			       self listElement dispatchEvent: (selectionChangedEventClass new
 						        command: aCommand;
 						        selectionOption: self selectionOption;
 						        yourself) ];
 		       yourself.
 
-	eventTarget dispatchAuthorisationRequest: req
+	self listElement dispatchAuthorisationRequest: req
 ]
 
 { #category : #accessing }
@@ -162,12 +161,6 @@ ToListSelecter >> eventDispatcher [
 		  eventDispatcher := BlDirectEventDispatcher on: self ]
 ]
 
-{ #category : #accessing }
-ToListSelecter >> eventTarget: anEventTarget [
-
-	eventTarget := anEventTarget 
-]
-
 { #category : #initialization }
 ToListSelecter >> initialize [ 
 
@@ -202,6 +195,12 @@ ToListSelecter >> isSingleSelection [
 ToListSelecter >> itemCount [
 
 	^ selectionModel itemCount
+]
+
+{ #category : #accessing }
+ToListSelecter >> listElement [ 
+
+	^ selectionMode listElement
 ]
 
 { #category : #accessing }
@@ -263,20 +262,18 @@ ToListSelecter >> nextSelectableIndexToScrollTo [
 ]
 
 { #category : #'api - hooks' }
-ToListSelecter >> onInstalledIn: anEventTarget [
+ToListSelecter >> onInstalledIn: aListElement [
 	" the argument is passed as the target of commands.
 	It receives the selection change event after the application of commands "
 
-	eventTarget := anEventTarget.
-	selectionModel on: eventTarget.
-	commandApplier element: anEventTarget.
+	selectionModel on: aListElement.
+	commandApplier element: aListElement.
 	self addEventHandler: commandApplier
 ]
 
 { #category : #'api - hooks' }
-ToListSelecter >> onUninstalledIn: anEventTarget [
+ToListSelecter >> onUninstalledIn: aListElement [
 
-	eventTarget := nil.
 	self removeEventHandler: commandApplier.
 	commandApplier := nil
 ]
@@ -335,7 +332,7 @@ ToListSelecter >> scrollToDataSourcePosition: anIndex [
 	enabled ifFalse: [ ^ self ].
 	selectionModel itemCount >= anIndex ifTrue: [
 		self addCommand: (ToScrollCommand new
-				 target: eventTarget;
+				 target: self listElement;
 				 index: anIndex;
 				 yourself) ]
 ]
@@ -358,7 +355,7 @@ ToListSelecter >> scrollTowardEndToDataSourcePosition: anIndex [
 	selectionModel itemCount >= anIndex ifTrue: [
 		self addCommand: (ToScrollCommand new
 				 towardEnd: true;
-				 target: eventTarget;
+				 target: self listElement;
 				 index: anIndex;
 				 yourself) ]
 ]
@@ -370,7 +367,7 @@ ToListSelecter >> scrollTowardStartToDataSourcePosition: anIndex [
 	selectionModel itemCount >= anIndex ifTrue: [
 		self addCommand: (ToScrollCommand new
 				 towardEnd: false;
-				 target: eventTarget;
+				 target: self listElement;
 				 index: anIndex;
 				 yourself) ]
 ]
@@ -490,7 +487,7 @@ ToListSelecter >> selectionModel: aSelectionModel [
 { #category : #accessing }
 ToListSelecter >> selectionOption [
 
-	^ selectionMode ifNotNil: [ :sm | sm option ]
+	^ selectionMode option
 ]
 
 { #category : #operations }
@@ -520,5 +517,5 @@ ToListSelecter >> switchIndexSelection: anIndex [
 ToListSelecter >> updateSelection [
 
 	self selectionModel deselectAll.
-	eventTarget notifyPrimarySelectionDirty 
+	self listElement notifyPrimarySelectionDirty 
 ]

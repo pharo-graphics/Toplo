@@ -41,8 +41,6 @@ ToListContextMenuSelectionElementEventHandler >> listElementContextMenuRequest: 
 	target disableScrolledEvent.
 	globalPosition := anEvent sourceEvent position.
 
-	target isWithContextMenuSelection ifFalse: [ ^ self ].
-
 	" find de node at the event position "
 	self
 		withTargetNodeFromEvent: anEvent sourceEvent

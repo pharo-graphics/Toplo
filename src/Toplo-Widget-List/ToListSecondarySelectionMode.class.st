@@ -8,6 +8,17 @@ Class {
 }
 
 { #category : #initialization }
+ToListSecondarySelectionMode >> defaultSelectionElementOption [
+
+	^ ToListSelectionElementOption new
+		  grouped: true;
+		  beneath: true;
+		  elementFactory: [
+			  ToListBasicSelectionElement new defaultSkin:
+					  ToListSecondarySelectionElementSkin new ]
+]
+
+{ #category : #initialization }
 ToListSecondarySelectionMode >> initialize [
 
 	super initialize.
@@ -58,15 +69,4 @@ ToListSecondarySelectionMode >> newSelectionModel [
 ToListSecondarySelectionMode >> selectionChangedEventClass [ 
 
 	^ ToListSecondarySelectionChangedEvent
-]
-
-{ #category : #initialization }
-ToListSecondarySelectionMode >> selectionElementOption [
-
-	^ ToListSelectionElementOption new
-		  grouped: true;
-		  beneath: true;
-		  elementFactory: [
-			  ToListBasicSelectionElement new defaultSkin:
-					  ToListSecondarySelectionElementSkin new ]
 ]

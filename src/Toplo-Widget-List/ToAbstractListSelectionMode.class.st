@@ -19,6 +19,12 @@ ToAbstractListSelectionMode >> changeSelectionElementOptionWith: aSelectionOptio
 	selectionElementOption onInstallOnMode: self 
 ]
 
+{ #category : #initialization }
+ToAbstractListSelectionMode >> defaultSelectionElementOption [
+
+	^ nil
+]
+
 { #category : #accessing }
 ToAbstractListSelectionMode >> disable [
 
@@ -64,6 +70,14 @@ ToAbstractListSelectionMode >> installSelecter [
 		onInstalledIn: listElement;
 		enabled: self enabled;
 		multiple: self isMultipleSelection
+]
+
+{ #category : #initialization }
+ToAbstractListSelectionMode >> installSelectionElementOption [
+
+	selectionElementOption := self defaultSelectionElementOption.
+	selectionElementOption ifNil: [ ^ self ].
+	selectionElementOption onInstallOnMode: self 
 ]
 
 { #category : #testing }
@@ -124,9 +138,7 @@ ToAbstractListSelectionMode >> on: aListElement [
 	self newSelectionChangedEventHandler ifNotNil: [ :handler |
 		listElement addEventHandler: handler ].
 	self installSelecter.
-	selectionElementOption := self selectionElementOption.
-	selectionElementOption ifNil: [ ^ self ].
-	selectionElementOption onInstallOnMode: self 
+	self installSelectionElementOption
 ]
 
 { #category : #accessing }

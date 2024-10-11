@@ -47,7 +47,7 @@ ToSegmentedSelectionMode >> newSelectionChangedEventHandler [
 ]
 
 { #category : #'instance creation' }
-ToSegmentedSelectionMode >> newSelectionModel [
+ToSegmentedSelectionMode >> newSelectionModelIn: aListElement [
 
 	^ ToPrimarySelectionModel new
 ]

@@ -5317,7 +5317,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 	option elementFactory: [
 		ToListBasicSelectionElement new defaultSkin:
 			ToListDisabledSelectionElementExampleSkin new ].
-	disabledMode changeSelectionElementOptionWith: option.
+	disabledMode changeSelectionElementOptionWith: option in: l.
 
 	unselectableMode := l unselectableSelectionMode.
 	l addEventHandlerOn: unselectableMode selectionChangedEventClass
@@ -5336,7 +5336,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 	option elementFactory: [
 		ToListBasicSelectionElement new defaultSkin:
 			ToListUnselectableSelectionElementExampleSkin new ].
-	unselectableMode changeSelectionElementOptionWith: option.
+	unselectableMode changeSelectionElementOptionWith: option in: l.
 
 	phtext := (('Invoke the context menu ' , String cr
 	            , 'with a right-click' , String cr

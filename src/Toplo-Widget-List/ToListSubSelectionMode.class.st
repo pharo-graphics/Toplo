@@ -25,7 +25,7 @@ ToListSubSelectionMode >> newSelecter [
 ]
 
 { #category : #'instance creation' }
-ToListSubSelectionMode >> newSelectionModel [
+ToListSubSelectionMode >> newSelectionModelIn: aListElement [
 
 	^ ToSubSelectionModel new
 ]

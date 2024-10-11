@@ -239,7 +239,7 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'segmented-border-radius' value: 12).
 		  (ToTokenProperty
 			   name: #'segmented-background'
-			   value: (Color fromHexString: 'f5f5f5')).
+			   value: (Color veryLightGray alpha: 0.06)).
 
 
 		  (ToTokenProperty

@@ -37,7 +37,7 @@ ToListContextMenuSelectionMode >> newSelectionChangedEventHandler [
 ]
 
 { #category : #'instance creation' }
-ToListContextMenuSelectionMode >> newSelectionModel [
+ToListContextMenuSelectionMode >> newSelectionModelIn: aListElement [
 
 	^ ToSelectionModel new
 ]

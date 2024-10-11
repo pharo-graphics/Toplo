@@ -64,8 +64,8 @@ ToAbstractListElement >> contextMenuSelectionMode [
 { #category : #accessing }
 ToAbstractListElement >> contextMenuSelectionMode: aSelectionMode [
 
-	self contextMenuSelectionMode ifNotNil: [ :m | m uninstall ].
-	aSelectionMode ifNotNil: [ aSelectionMode on: self ]
+	self contextMenuSelectionMode ifNotNil: [ :m | m onUninstalledIn: self ].
+	aSelectionMode ifNotNil: [ aSelectionMode onInstalledIn: self ]
 ]
 
 { #category : #accessing }
@@ -243,9 +243,9 @@ ToAbstractListElement >> initialize [
 	self contextMenuSelectionMode: self defaultContextMenuSelectionMode.
 	self contextMenuWindowManagerClass:
 		self defaultContextMenuWindowManagerClass.
-	self newUnselectableSelectionMode on: self.
-	self newHiddenSelectionMode on: self.
-	self newDisabledSelectionMode on: self.
+	self newUnselectableSelectionMode onInstalledIn: self.
+	self newHiddenSelectionMode onInstalledIn: self.
+	self newDisabledSelectionMode onInstalledIn: self.
 
 	self matchParent
 ]
@@ -420,8 +420,8 @@ ToAbstractListElement >> primarySelectionMode [
 { #category : #accessing }
 ToAbstractListElement >> primarySelectionMode: aSelectionMode [
 
-	self primarySelectionMode ifNotNil: [ :m | m uninstall ].
-	aSelectionMode ifNotNil: [ aSelectionMode on: self ].
+	self primarySelectionMode ifNotNil: [ :m | m onUninstalledIn: self ].
+	aSelectionMode ifNotNil: [ aSelectionMode onInstalledIn: self ].
 	self dispatchEvent: ToListPrimarySelectionModeChangedEvent new.
 	self requestNewSkin
 ]
@@ -450,8 +450,8 @@ ToAbstractListElement >> secondarySelectionMode [
 { #category : #accessing }
 ToAbstractListElement >> secondarySelectionMode: aSelectionMode [
 
-	self secondarySelectionMode ifNotNil: [ :m | m uninstall ].
-	aSelectionMode ifNotNil: [ aSelectionMode on: self ].
+	self secondarySelectionMode ifNotNil: [ :m | m onUninstalledIn: self ].
+	aSelectionMode ifNotNil: [ aSelectionMode onInstalledIn: self ].
 	self dispatchEvent: ToListSecondarySelectionModeChangedEvent new.
 	self requestNewSkin.
 

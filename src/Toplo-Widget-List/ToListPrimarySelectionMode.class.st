@@ -111,7 +111,7 @@ ToListPrimarySelectionMode >> newSelectionChangedEventHandler [
 ]
 
 { #category : #'instance creation' }
-ToListPrimarySelectionMode >> newSelectionModel [
+ToListPrimarySelectionMode >> newSelectionModelIn: aListElement [
 
 	^ ToPrimarySelectionModel new
 ]

@@ -38,7 +38,7 @@ ToSelectListElement >> groupSelectionModel [
 ToSelectListElement >> initialize [
 
 	super initialize.
-	self newGroupSelectionMode on: self.
+	self newGroupSelectionMode onInstalledIn: self.
 	self primarySelectionMode selectOnMouseDown: true.
 	self primarySelectionMode requestFocusOnMouseDown: false
 ]

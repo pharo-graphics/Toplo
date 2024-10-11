@@ -10,7 +10,7 @@ Class {
 		'selectionContainer',
 		'elementFactory',
 		'previousSelectionBounds',
-		'selectionGroups'
+		'currentSelectionGroups'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
@@ -44,9 +44,9 @@ ToListSelectionElementOption >> addSelectionElementsIn: aListElement startingAt:
 
 	| elements |
 	elements := Array streamContents: [ :stream |
-		            aPosition to: selectionGroups size do: [ :p |
+		            aPosition to: currentSelectionGroups size do: [ :p |
 			            stream nextPut:
-				            ((selectionGroups at: p) updatedSelectionElementIn:
+				            ((currentSelectionGroups at: p) updatedSelectionElementIn:
 					             aListElement) ] ].
 
 	self addSelectionElements: elements
@@ -67,30 +67,30 @@ ToListSelectionElementOption >> addSelectionIn: aListElement [
 	because the content skin will not receive the DeselectedSkinEvent "
 	self notifyNodesDeselectedIn: aListElement.
 
-	selectionGroups ifEmpty: [ ^ self ].
-	selectionGroups do: [ :grp |
+	currentSelectionGroups ifEmpty: [ ^ self ].
+	currentSelectionGroups do: [ :grp |
 		grp
 			refreshSelectionElementIn: aListElement
 			option: self ].
 
 	startBounds := previousSelectionBounds.
-	finalBounds := selectionGroups first preComputedBounds.
+	finalBounds := currentSelectionGroups first preComputedBounds.
 	" animation is used if the start and the final bounds differs and in case of one selection group only "
 	(startBounds = finalBounds or: [
-		 (self canAnimateSelectionUpdate and: [ selectionGroups size = 1 ]) not ])
+		 (self canAnimateSelectionUpdate and: [ currentSelectionGroups size = 1 ]) not ])
 		ifTrue: [
 			self addSelectionElementsIn: aListElement startingAt: 1.
 			self notifyNodesSelectedIn: aListElement.
 			^ self ].
 
-	first := selectionGroups first selectionElement.
+	first := currentSelectionGroups first selectionElement.
 	first position: startBounds origin.
 	first size: startBounds extent.
 
 	animation := self
 		             boundsAnimationFrom: startBounds
 		             to: finalBounds
-		             onGroup: selectionGroups first
+		             onGroup: currentSelectionGroups first
 		             in: aListElement.
 
 	first addAnimation: animation.
@@ -178,9 +178,9 @@ ToListSelectionElementOption >> grouped: aBoolean [
 { #category : #'private - selection updating' }
 ToListSelectionElementOption >> groups: aSelectionGroupArray equals: otherSelectionGroupArray [
 
-	aSelectionGroupArray == otherSelectionGroupArray ifTrue: [ ^ true ].
-	aSelectionGroupArray size ~= otherSelectionGroupArray size ifTrue: [ ^ false ].
-	aSelectionGroupArray withIndexDo: [ :g :idx |
+	currentSelectionGroups == otherSelectionGroupArray ifTrue: [ ^ true ].
+	currentSelectionGroups size ~= otherSelectionGroupArray size ifTrue: [ ^ false ].
+	currentSelectionGroups withIndexDo: [ :g :idx |
 		g = (otherSelectionGroupArray at: idx) ifFalse: [ ^ false ] ].
 	^ true
 ]
@@ -189,7 +189,7 @@ ToListSelectionElementOption >> groups: aSelectionGroupArray equals: otherSelect
 ToListSelectionElementOption >> initialize [ 
 
 	super initialize.
-	selectionGroups := #(  ).
+	currentSelectionGroups := #(  ).
 	triggerSelectionState := false.
 	animationDuration := 0 milliSecond.
 	masked := false.
@@ -287,17 +287,10 @@ ToListSelectionElementOption >> onUninstalledIn: aListElement [
 ]
 
 { #category : #'private - selection updating' }
-ToListSelectionElementOption >> refreshGroupsIn: aListElement [
-
-	selectionGroups := #()
-]
-
-{ #category : #'private - selection updating' }
 ToListSelectionElementOption >> refreshSelectionIn: aListElement withSelectionModel: aSelectionModel [
 
 	self forgetPreviousBoundsIn: aListElement.
 	self removeSelectionIn: aListElement.
-	self refreshGroupsIn: aListElement.
 	self
 		updateSelectionIn: aListElement
 		withSelectionModel: aSelectionModel
@@ -306,22 +299,33 @@ ToListSelectionElementOption >> refreshSelectionIn: aListElement withSelectionMo
 { #category : #'private - selection updating' }
 ToListSelectionElementOption >> rememberSelectionBoundsIn: aListElement [
 
-	selectionGroups ifEmpty: [ ^ self ].
-	previousSelectionBounds := Rectangle merging: (selectionGroups collect: [:g | g preComputedBounds])
+	currentSelectionGroups ifEmpty: [ ^ self ].
+	previousSelectionBounds := Rectangle merging: (currentSelectionGroups collect: [:g | g preComputedBounds])
 ]
 
 { #category : #'private - selection updating' }
 ToListSelectionElementOption >> removeSelectionIn: aListElement [
 
-	selectionGroups do: [ :g | g removeSelectionElementIn: aListElement ]
+	currentSelectionGroups do: [ :g | g removeSelectionElementIn: aListElement ].
+	currentSelectionGroups := #()
 ]
 
 { #category : #accessing }
 ToListSelectionElementOption >> selectionElements [
 
 	^ Array streamContents: [ :stream |
-		  selectionGroups do: [ :grp |
+		  currentSelectionGroups do: [ :grp |
 			  grp selectionElement ifNotNil: [ :se | stream nextPut: se ] ] ]
+]
+
+{ #category : #'private - selection updating' }
+ToListSelectionElementOption >> selectionGroupsChangeWith: otherSelectionGroupArray [
+
+	currentSelectionGroups == otherSelectionGroupArray ifTrue: [ ^ false ].
+	currentSelectionGroups size ~= otherSelectionGroupArray size ifTrue: [ ^ true ].
+	currentSelectionGroups withIndexDo: [ :g :idx |
+		g = (otherSelectionGroupArray at: idx) ifFalse: [ ^ true ] ].
+	^ false
 ]
 
 { #category : #accessing }
@@ -334,13 +338,12 @@ ToListSelectionElementOption >> triggerSelectionState: aBoolean [
 ToListSelectionElementOption >> updateSelectionIn: aListElement withSelectionModel: aSelectionModel [
 
 	| newGroups |
-	"option selectionMode selecter selectionChangedEventClass = ToListDisabledSelectionChangedEvent ifTrue: [self haltOnce].""'updateSelectionIn: ' trace. option selectionMode selecter selectionChangedEventClass traceCr."
 	newGroups := self
 		             currentSelectionGroupsFrom: aListElement
 		             withSelectionModel: aSelectionModel.
-	(self groups: selectionGroups equals: newGroups) ifTrue: [ ^ self ].
+	(self selectionGroupsChangeWith: newGroups) ifFalse: [ ^ self ].
 	self removeSelectionIn: aListElement.
-	selectionGroups := newGroups.
+	currentSelectionGroups := newGroups.
 	masked ifTrue: [ ^ self ].
 	self addSelectionIn: aListElement.
 	self rememberSelectionBoundsIn: aListElement

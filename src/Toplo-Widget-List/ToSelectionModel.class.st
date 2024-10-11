@@ -109,18 +109,6 @@ ToSelectionModel >> initialize [
 	underlyingModel := self newUnderlyingModel 
 ]
 
-{ #category : #private }
-ToSelectionModel >> intervalFirstFromIndex: anIndex [
-
-	^ anIndex
-]
-
-{ #category : #private }
-ToSelectionModel >> intervalLastFromIndex: anIndex [
-
-	^ anIndex
-]
-
 { #category : #testing }
 ToSelectionModel >> isDisabledIndex: anIndex [
 

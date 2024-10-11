@@ -5507,7 +5507,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Remove';
 				                whenClickedDo: [ :event |
-					                indexes reverseDo: [ :idx |
+					                indexes sort reverseDo: [ :idx |
 							                target dataAccessor removeAt: idx ] ];
 				                yourself).
 		               menu addSeparator.

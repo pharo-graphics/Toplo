@@ -76,12 +76,6 @@ ToSelectionModel >> firstIndex [
 	^ underlyingModel firstIndex
 ]
 
-{ #category : #testing }
-ToSelectionModel >> hasUnselectableInInterval: anInterval [
-
-	^ false
-]
-
 { #category : #comparing }
 ToSelectionModel >> hash [
 
@@ -164,6 +158,12 @@ ToSelectionModel >> itemCountGetter: aValuable [
 ToSelectionModel >> lastIndex [
 
 	^ underlyingModel lastIndex
+]
+
+{ #category : #accessing }
+ToSelectionModel >> makeDisabledUnselectable: aBoolean [
+
+	"make nothing for the general case"
 ]
 
 { #category : #initialization }

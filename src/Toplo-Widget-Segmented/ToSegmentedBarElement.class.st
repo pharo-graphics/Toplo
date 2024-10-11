@@ -38,6 +38,7 @@ ToSegmentedBarElement >> defaultPrimarySelectionModeClass [
 ToSegmentedBarElement >> initialize [
 
 	super initialize.
+	self primarySelectionMode makeDisabledUnselectable: true.
 	self group
 		addEventHandlerOn: ToCheckableGroupChangedEvent
 		do: [ :event | self dispatchEvent: event ]

@@ -83,6 +83,12 @@ ToAbstractListSelectionMode >> itemCount [
 	^ self selectionModel itemCount
 ]
 
+{ #category : #accessing }
+ToAbstractListSelectionMode >> makeDisabledUnselectable: aBoolean [
+
+	self selectionModel makeDisabledUnselectable: aBoolean
+]
+
 { #category : #'instance creation' }
 ToAbstractListSelectionMode >> newSelecter [
 

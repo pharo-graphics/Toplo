@@ -85,34 +85,16 @@ ToFrontSelectionModel >> isUnselectableIndex: anIndex [
 { #category : #accessing }
 ToFrontSelectionModel >> nextSelectableIndexStartingAt: anIndex [
 
-	(self unselectableSelectionModel isNil or: [
-		 self hiddenSelectionModel isNil ]) ifTrue: [
-		^ super nextSelectableIndexStartingAt: anIndex ].
-	
-	(self unselectableSelectionModel isEmpty and: [
-		 self hiddenSelectionModel isEmpty ]) ifTrue: [
-		^ super nextSelectableIndexStartingAt: anIndex ].
-
 	anIndex to: self itemCount do: [ :idx |
-		((self unselectableSelectionModel containsIndex: idx) or: [
-			 self hiddenSelectionModel containsIndex: idx ]) ifFalse: [ ^ idx ] ].
+	(self isUnselectableIndex: idx) ifFalse: [ ^ idx ] ].
 	^ 0
 ]
 
 { #category : #accessing }
 ToFrontSelectionModel >> previousSelectableIndexStartingAt: anIndex [
 
-	(self unselectableSelectionModel isNil or: [
-		 self hiddenSelectionModel isNil ]) ifTrue: [
-		^ super previousSelectableIndexStartingAt: anIndex ].
-
-	(self unselectableSelectionModel isEmpty and: [
-		 self hiddenSelectionModel isEmpty ]) ifTrue: [
-		^ super previousSelectableIndexStartingAt: anIndex ].
-
 	anIndex to: 1 by: -1 do: [ :idx |
-		((self unselectableSelectionModel containsIndex: idx) or: [
-			 self hiddenSelectionModel containsIndex: idx ]) ifFalse: [ ^ idx ] ].
+	(self isUnselectableIndex: idx) ifFalse: [ ^ idx ] ].
 	^ 0
 ]
 

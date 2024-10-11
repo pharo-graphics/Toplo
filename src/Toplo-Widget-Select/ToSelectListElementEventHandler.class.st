@@ -10,8 +10,7 @@ Class {
 { #category : #'api - accessing' }
 ToSelectListElementEventHandler >> eventsToHandle [
 
-	^ {
-		  ToSieveSelectionChangedEvent }
+	^ { ToSieveSelectionChangedEvent }
 ]
 
 { #category : #accessing }

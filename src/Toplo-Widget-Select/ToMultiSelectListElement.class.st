@@ -34,6 +34,7 @@ ToMultiSelectListElement >> hideSelection [
 ToMultiSelectListElement >> initialize [
 
 	super initialize.
+	self primarySelectionMode makeDisabledUnselectable: true.
 	self primarySelectionMode selectOnMouseDown: true.
 	self primarySelectionMode requestFocusOnMouseDown: false
 ]

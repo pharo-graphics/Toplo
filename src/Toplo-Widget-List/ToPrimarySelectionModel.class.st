@@ -2,7 +2,8 @@ Class {
 	#name : #ToPrimarySelectionModel,
 	#superclass : #ToFrontSelectionModel,
 	#instVars : [
-		'subSelectionModelIndex'
+		'subSelectionModelIndex',
+		'makeDisabledUnselectable'
 	],
 	#category : #'Toplo-Widget-List-Selection-Model'
 }
@@ -19,7 +20,23 @@ ToPrimarySelectionModel >> copySelectionFrom: anotherSelectionModel [
 ToPrimarySelectionModel >> initialize [
 
 	super initialize.
-	subSelectionModelIndex := ToDictionaryBasedSubSelectionModelRegistry new
+	subSelectionModelIndex := ToDictionaryBasedSubSelectionModelRegistry new.
+	makeDisabledUnselectable := false
+]
+
+{ #category : #testing }
+ToPrimarySelectionModel >> isUnselectableIndex: anIndex [
+
+	makeDisabledUnselectable ifTrue: [
+		self disabledSelectionModelDo: [ :sm |
+			(sm containsIndex: anIndex) ifTrue: [ ^ true ] ] ].
+	^ super isUnselectableIndex: anIndex
+]
+
+{ #category : #accessing }
+ToPrimarySelectionModel >> makeDisabledUnselectable: aBoolean [
+
+	makeDisabledUnselectable := aBoolean
 ]
 
 { #category : #'instance creation' }

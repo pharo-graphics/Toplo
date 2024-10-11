@@ -501,6 +501,7 @@ ToListElementStresser >> selectActionsToRun [
 ToListElementStresser >> selectionResultsTextOn: aListElement [
 
 	| nb nbTasks |
+	self tabsPanel space ifNil: [ ^ self ].
 	nbTasks := self tabsPanel space taskQueue tasks size.
 	maxNbTasks := maxNbTasks max: nbTasks.
 	nb := aListElement selectionModel underlyingModel intervals size.

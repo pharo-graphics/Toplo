@@ -41,7 +41,8 @@ ToListSelectionElementEventHandler >> updateSelectionFromEvent: anEvent [
 		self differUpdateSelectionFrom: target.
 		^ self ].
 
-	anEvent selectionOption
-		updateSelectionIn: target
-		withSelectionModel: anEvent selectionModel
+	anEvent selectionOption ifNotNil: [ :option |
+		option
+			updateSelectionIn: target
+			withSelectionModel: anEvent selectionModel ]
 ]

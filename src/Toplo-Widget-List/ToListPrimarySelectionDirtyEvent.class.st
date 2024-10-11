@@ -3,21 +3,34 @@ Class {
 	#superclass : #ToListElementEvent,
 	#instVars : [
 		'itemCount',
-		'selectionOption'
+		'selectionOption',
+		'selectionModel'
 	],
 	#category : #'Toplo-Widget-List-Selection-Events'
 }
 
 { #category : #accessing }
-ToListPrimarySelectionDirtyEvent >> groupHolder [
-
-	^ selectionOption groupHolder
-]
-
-{ #category : #accessing }
 ToListPrimarySelectionDirtyEvent >> itemCount: anInteger [
 
 	itemCount := anInteger
+]
+
+{ #category : #accessing }
+ToListPrimarySelectionDirtyEvent >> selectionModel [
+
+	^ selectionModel
+]
+
+{ #category : #accessing }
+ToListPrimarySelectionDirtyEvent >> selectionModel: aSelectionModel [
+
+	selectionModel := aSelectionModel
+]
+
+{ #category : #accessing }
+ToListPrimarySelectionDirtyEvent >> selectionOption [
+
+	^ selectionOption 
 ]
 
 { #category : #accessing }

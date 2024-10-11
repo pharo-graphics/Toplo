@@ -13,10 +13,11 @@ Class {
 { #category : #accessing }
 ToAbstractListSelectionMode >> changeSelectionElementOptionWith: aSelectionOption [
 
-	selectionElementOption ifNotNil: [selectionElementOption onUninstallOnMode: self ].
+	selectionElementOption ifNotNil: [
+		selectionElementOption onUninstalledIn: listElement ].
 	selectionElementOption := aSelectionOption.
 	selectionElementOption ifNil: [ ^ self ].
-	selectionElementOption onInstallOnMode: self 
+	selectionElementOption onInstalledIn: listElement
 ]
 
 { #category : #initialization }
@@ -77,7 +78,7 @@ ToAbstractListSelectionMode >> installSelectionElementOption [
 
 	selectionElementOption := self defaultSelectionElementOption.
 	selectionElementOption ifNil: [ ^ self ].
-	selectionElementOption onInstallOnMode: self 
+	selectionElementOption onInstalledIn: listElement
 ]
 
 { #category : #testing }

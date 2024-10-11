@@ -21,12 +21,6 @@ ToListSelectionChangedEvent >> command: aCommand [
 ]
 
 { #category : #accessing }
-ToListSelectionChangedEvent >> groupHolder [
-
-	^ selectionOption ifNotNil: [ :so | so groupHolder ]
-]
-
-{ #category : #accessing }
 ToListSelectionChangedEvent >> selectedIndexes [ 
 
 	^ self selectionModel selectedIndexes 
@@ -36,6 +30,12 @@ ToListSelectionChangedEvent >> selectedIndexes [
 ToListSelectionChangedEvent >> selectionModel [
 
 	^ command selectionModel
+]
+
+{ #category : #accessing }
+ToListSelectionChangedEvent >> selectionOption [
+
+	^ selectionOption
 ]
 
 { #category : #accessing }

@@ -20,7 +20,10 @@ ToListSelectionElementEventHandler >> refreshSelectionFromEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	anEvent groupHolder ifNotNil: [:gh | gh refreshSelectionIn: target ]
+	anEvent selectionOption ifNotNil: [ :option |
+		option
+			refreshSelectionIn: target
+			withSelectionModel: anEvent selectionModel ]
 ]
 
 { #category : #'selection managing' }
@@ -38,5 +41,7 @@ ToListSelectionElementEventHandler >> updateSelectionFromEvent: anEvent [
 		self differUpdateSelectionFrom: target.
 		^ self ].
 
-	anEvent groupHolder ifNotNil: [:gh | gh updateSelectionIn: target ]
+	anEvent selectionOption
+		updateSelectionIn: target
+		withSelectionModel: anEvent selectionModel
 ]

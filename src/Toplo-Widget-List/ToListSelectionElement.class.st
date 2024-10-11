@@ -24,12 +24,6 @@ ToListSelectionElement >> isBeneath [
 ]
 
 { #category : #accessing }
-ToListSelectionElement >> listElement [
-
-	^ selectionOption listElement
-]
-
-{ #category : #accessing }
 ToListSelectionElement >> nodes [
 
 	^ nodes
@@ -45,12 +39,6 @@ ToListSelectionElement >> nodes: aNodeArray [
 ToListSelectionElement >> positionFrom: aPoint in: aListElement [
 
 	^ aPoint
-]
-
-{ #category : #accessing }
-ToListSelectionElement >> selectionMode [
-
-	^ selectionOption selectionMode
 ]
 
 { #category : #accessing }

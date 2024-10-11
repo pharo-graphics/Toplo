@@ -3689,11 +3689,10 @@ ToSandBox class >> example_segmentedWithToggleButton [
 		seg segmentAccessor add:
 			((ToSegmentedButton new label: (ToLabel text: l))
 				 whenClickedDo: [ :event | event currentTarget label text traceCr ];
-				 flexible: true;
 				 yourself) ].
 
 	seg barElement disabledSelecter selectIndex: 2.
-	seg barElement unselectableSelecter selectIndex: 2.
+	"seg barElement unselectableSelecter selectIndex: 2."
 	dashBoard := self segmentedDashBoardFor: seg.
 
 	feedbackPane := ToPane horizontal.
@@ -5325,7 +5324,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 			 do: [ :event |
 				 | target |
 				 target := event currentTarget.
-				 event groupHolder updateSelectionIn: target.
+				 event selectionOption updateSelectionIn: target withSelectionModel: target selecter selectionModel.
 				 target selecter deselectIndexes: event touchedIndexes.
 				 target secondarySelecter deselectAll.
 				 event touchedIntervals do: [ :int |

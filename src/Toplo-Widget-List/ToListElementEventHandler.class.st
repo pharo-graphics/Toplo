@@ -270,7 +270,9 @@ ToListElementEventHandler >> refreshSelectionFromEvent: anEvent [
 	target := anEvent currentTarget.
 	target selectionModes do: [ :mode |
 		mode selectionElementOptionDo: [ :option |
-			option groupHolder refreshSelectionIn: target ] ]
+			option
+				refreshSelectionIn: target
+				withSelectionModel: mode selectionModel ] ]
 ]
 
 { #category : #'event handling' }
@@ -291,6 +293,5 @@ ToListElementEventHandler >> syncNodesSelectionIn: aListElement [
 
 	| option |
 	option := aListElement primarySelectionMode selectionElementOption.
-	option masked ifTrue: [ ^ self ].
-	option groupHolder notifyNodesSelectedIn: aListElement
+	option notifyNodesSelectedIn: aListElement
 ]

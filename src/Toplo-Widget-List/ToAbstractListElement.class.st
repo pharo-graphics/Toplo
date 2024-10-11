@@ -380,6 +380,7 @@ ToAbstractListElement >> notifyPrimarySelectionDirty [
 
 	self dispatchEvent: (ToListPrimarySelectionDirtyEvent new
 			 selectionOption: self primarySelectionMode selectionElementOption;
+			 selectionModel: self primarySelectionMode selectionModel;
 			 itemCount: self itemCount;
 			 yourself)
 ]

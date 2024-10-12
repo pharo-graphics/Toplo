@@ -251,6 +251,7 @@ ToListSelectionOption >> newSelectionContainerIn: aListElement [
 ToListSelectionOption >> newSelectionElementIn: aListElement [
 
 	^ elementFactory value
+		  listElement: aListElement;
 		  selectionOption: self;
 		  focused: (triggerSelectionState and: [ aListElement isFocused ]);
 		  yourself

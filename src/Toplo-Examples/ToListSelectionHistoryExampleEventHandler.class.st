@@ -45,13 +45,13 @@ ToListSelectionHistoryExampleEventHandler >> eventsToHandle [
 	^ { ToListSelectionCommandAppliedEvent }
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToListSelectionHistoryExampleEventHandler >> historyList [
 
 	^ historyList
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToListSelectionHistoryExampleEventHandler >> historyList: aList [
 
 	historyList := aList

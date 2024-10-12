@@ -1227,8 +1227,10 @@ ToSandBox class >> example_ListWithAllClasses3 [
 				      icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
 				      startInterspace: 10;
 				      hMatchParent) ].
-	l primarySelectionMode selectionElementOption animationDuration: 200 milliSeconds.
-	l secondarySelectionMode selectionElementOption animationDuration: 150 milliSeconds.
+	l primarySelectionMode selectionOption animationDuration:
+		200 milliSeconds.
+	l secondarySelectionMode selectionElementOption animationDuration:
+		150 milliSeconds.
 	l dataAccessor addAll: Smalltalk globals allClasses.
 	l selecter selectIndex: 3.
 	l withRowNumbers.
@@ -1453,6 +1455,7 @@ ToSandBox class >> example_ListWithSelectionHistory [
 	statesList := ToListElement new matchParent.
 
 	historyList := ToListElement new matchParent.
+	historyList inspect.
 	statesList dataAccessor addAll: self statesOfAmerica.
 	pane addChildren: {
 			statesList.
@@ -1461,9 +1464,6 @@ ToSandBox class >> example_ListWithSelectionHistory [
 	statesList addEventHandler:
 		(ToListSelectionHistoryExampleEventHandler new historyList:
 			 historyList).
-	statesList addEventHandler: (BlEventHandler
-			 on: ToListSelectionCommandAppliedEvent
-			 do: [ :event | event traceCr ]).
 
 	pane
 		matchParent;
@@ -1486,8 +1486,8 @@ ToSandBox class >> example_ListWithSelectionTrace [
 		at: #traceSelectionModel
 		put: (ToSelectionModel new on: statesList).
 	" mandatory option here: the selection are separate (one selection element for each selected node)"
-	statesList primarySelectionMode selectionElementOption grouped: false.
-	statesList primarySelectionMode selectionElementOption elementFactory: [
+	statesList selectionOption grouped: false.
+	statesList selectionOption elementFactory: [
 		ToListBasicSelectionElement new defaultSkin:
 			ToTraceListPrimarySelectionElementSkin new ].
 	statesList openInSpace

@@ -2,6 +2,7 @@ Class {
 	#name : #ToListSelectionElement,
 	#superclass : #ToElement,
 	#instVars : [
+		'listElement',
 		'selectionOption',
 		'nodes'
 	],
@@ -21,6 +22,18 @@ ToListSelectionElement >> initialize [
 ToListSelectionElement >> isBeneath [
 
 	^ selectionOption isBeneath
+]
+
+{ #category : #accessing }
+ToListSelectionElement >> listElement [
+
+	^ listElement
+]
+
+{ #category : #accessing }
+ToListSelectionElement >> listElement: aListElement [
+
+	listElement := aListElement
 ]
 
 { #category : #accessing }

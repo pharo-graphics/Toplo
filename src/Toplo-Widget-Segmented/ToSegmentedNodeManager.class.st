@@ -20,7 +20,7 @@ ToSegmentedNodeManager >> defaultHolderClass [
 ToSegmentedNodeManager >> defaultNodeBuilder [
 
 	^ [ :node :checkableElement :holder |
-		" in a segmented, the dataItem is a checkable element "
+		" in a segmented, the dataItem is a TToCheckable "
 	  node checkableElement: checkableElement ]
 ]
 

@@ -30,16 +30,7 @@ ToSegmentedNode >> checkableElement: aCheckable [
 { #category : #'t - list node' }
 ToSegmentedNode >> clickEventHandlerClasses [
 
-	^  { ToSegmentedNodeEventHandler } 
-]
-
-{ #category : #accessing }
-ToSegmentedNode >> content [
-
-	self
-		deprecated: 'Use #checkableElement instead'
-		transformWith: '`@rcvr content' -> '`@rcvr checkableElement'.
-	^ self checkableElement
+	^  {  } 
 ]
 
 { #category : #testing }

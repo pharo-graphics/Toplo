@@ -269,7 +269,7 @@ ToListElementEventHandler >> refreshSelectionFromEvent: anEvent [
 	| target |
 	target := anEvent currentTarget.
 	target selectionModes do: [ :mode |
-		mode selectionElementOptionDo: [ :option |
+		mode selectionOptionDo: [ :option |
 			option
 				refreshSelectionIn: target
 				withSelectionModel: mode selectionModel ] ]
@@ -292,6 +292,6 @@ ToListElementEventHandler >> showHidePlaceholderIn: aListElement [
 ToListElementEventHandler >> syncNodesSelectionIn: aListElement [
 
 	| option |
-	option := aListElement primarySelectionMode selectionElementOption.
+	option := aListElement selectionOption.
 	option notifyNodesSelectedIn: aListElement
 ]

@@ -124,8 +124,8 @@ ToMultiSelectBarElement >> initialize [
 	super initialize.
 
 	" no visible primary and secondary selection elements "
-	self primarySelectionMode selectionElementOption masked: true.
-	self secondarySelectionMode selectionElementOption masked: true.
+	self primarySelectionMode selectionOption masked: true.
+	self secondarySelectionMode selectionOption masked: true.
 
 	maxSelectedCount := 0.
 	keepPickOrder := false.

@@ -57,8 +57,7 @@ ToListElementTest >> testDataRemovedWhenNodeRemoved [
 	self waitTestingSpaces.
 	self assert: list dataAccessor size equals: 2.
 	fillers := (list allChildrenBreadthFirstSelect: [ :child |
-		               child id asString = 'filler' ])
-		              asOrderedCollection.
+		            child id asString = 'filler' ]) asOrderedCollection.
 	remButtons := (list allChildrenBreadthFirstSelect: [ :child |
 		               child id asString beginsWith: 'remove-button' ])
 		              asOrderedCollection.
@@ -71,7 +70,7 @@ ToListElementTest >> testDataRemovedWhenNodeRemoved [
 	BlSpace simulateClickOn: but.
 	self assert: list dataAccessor isEmpty.
 	self assert:
-		list primarySelectionMode selectionElementOption selectionElements isEmpty
+		list primarySelectionMode selectionOption selectionElements isEmpty
 ]
 
 { #category : #'test selection - mode' }
@@ -244,7 +243,8 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved [
 	self assert: list dataAccessor size equals: 2.
 	self assert: list selectionModel selectedIndexes equals: { 1 }.
 	self
-		assert: list primarySelectionMode selectionElementOption selectionElements size
+		assert:
+		list primarySelectionMode selectionOption selectionElements size
 		equals: 1.
 	but := remButtons at: 2.
 	BlSpace simulateMouseDownOn: but.
@@ -252,7 +252,8 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved [
 	self assert: list dataAccessor size equals: 1.
 	self assert: list selectionModel selectedIndexes equals: { 1 }.
 	self
-		assert: list primarySelectionMode selectionElementOption selectionElements size
+		assert:
+		list primarySelectionMode selectionOption selectionElements size
 		equals: 1
 ]
 
@@ -273,7 +274,8 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved2 [
 	self assert: list dataAccessor size equals: 2.
 	self assert: list selectionModel selectedIndexes equals: { 1 }.
 	self
-		assert: list primarySelectionMode selectionElementOption selectionElements size
+		assert:
+		list primarySelectionMode selectionOption selectionElements size
 		equals: 1.
 	but := list childWithId: #'remove-button-1'.
 	BlSpace simulateMouseDownOn: but.
@@ -282,7 +284,7 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved2 [
 	self assert: list dataAccessor size equals: 1.
 	self assert: list selectionModel selectedIndexes isEmpty.
 	self assert:
-		list primarySelectionMode selectionElementOption selectionElements isEmpty
+		list primarySelectionMode selectionOption selectionElements isEmpty
 ]
 
 { #category : #tests }
@@ -302,7 +304,8 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved3 [
 	self assert: list dataAccessor size equals: 2.
 	self assert: list selectionModel selectedIndexes equals: { 1 }.
 	self
-		assert: list primarySelectionMode selectionElementOption selectionElements size
+		assert:
+		list primarySelectionMode selectionOption selectionElements size
 		equals: 1.
 	but := list childWithId: #'remove-button-1'.
 	BlSpace simulateMouseDownOn: but.
@@ -317,7 +320,7 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved3 [
 	self assert: list dataAccessor size equals: 0.
 	self assert: list selectionModel selectedIndexes isEmpty.
 	self assert:
-		list primarySelectionMode selectionElementOption selectionElements isEmpty
+		list primarySelectionMode selectionOption selectionElements isEmpty
 ]
 
 { #category : #tests }
@@ -343,7 +346,8 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved4 [
 	self assert: list dataAccessor size equals: 1.
 	self assert: list selectionModel selectedIndexes equals: { 1 }.
 	self
-		assert: list primarySelectionMode selectionElementOption selectionElements size
+		assert:
+		list primarySelectionMode selectionOption selectionElements size
 		equals: 1.
 	but := list childWithId: #'remove-button-1'.
 	BlSpace simulateMouseDownOn: but.
@@ -352,7 +356,7 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved4 [
 	self assert: list dataAccessor size equals: 0.
 	self assert: list selectionModel selectedIndexes isEmpty.
 	self assert:
-		list primarySelectionMode selectionElementOption selectionElements isEmpty
+		list primarySelectionMode selectionOption selectionElements isEmpty
 ]
 
 { #category : #'test selection - adding/removing' }

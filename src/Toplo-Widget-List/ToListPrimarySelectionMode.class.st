@@ -35,9 +35,9 @@ ToListPrimarySelectionMode >> beSingleSelection [
 ]
 
 { #category : #initialization }
-ToListPrimarySelectionMode >> defaultSelectionElementOption [
+ToListPrimarySelectionMode >> defaultSelectionOption [
 
-	^ ToListSelectionElementOption new
+	^ ToListSelectionOption new
 		  grouped: true;
 		  beneath: true;
 		  triggerSelectionState: true;

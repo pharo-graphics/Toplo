@@ -10,6 +10,35 @@ Class {
 }
 
 { #category : #accessing }
+ToSegmentedElement >> addLabel: aLabel [
+
+	self segmentAccessor add: (ToSegmentedButton new
+			 label: aLabel;
+			 yourself)
+]
+
+{ #category : #accessing }
+ToSegmentedElement >> addLabelText: aText [
+
+	self segmentAccessor add: (ToSegmentedButton new
+			 label: (ToLabel text: aText);
+			 yourself)
+]
+
+{ #category : #accessing }
+ToSegmentedElement >> addLabelText: aText withIcon: anIcon [
+
+	self addLabelText: aText.
+	self segmentAccessor last icon: anIcon
+]
+
+{ #category : #accessing }
+ToSegmentedElement >> addLabelText: aText withIconImage: anImage [
+
+	self addLabelText: aText withIcon: (ToImage inner: anImage)
+]
+
+{ #category : #accessing }
 ToSegmentedElement >> barElement [ 
 
 	^ barElement
@@ -108,6 +137,12 @@ ToSegmentedElement >> segmentAccessor [
 ToSegmentedElement >> selectionModel [ 
 
 	^ barElement selectionModel
+]
+
+{ #category : #accessing }
+ToSegmentedElement >> selectionOption [
+
+	^ barElement selectionOption
 ]
 
 { #category : #accessing }

@@ -133,6 +133,13 @@ ToListSelecter >> disable [
 	self enabled: false
 ]
 
+{ #category : #accessing }
+ToListSelecter >> element [
+
+	^ element
+
+]
+
 { #category : #protocol }
 ToListSelecter >> enable [
 
@@ -484,7 +491,7 @@ ToListSelecter >> selectionModel: aSelectionModel [
 { #category : #accessing }
 ToListSelecter >> selectionOption [
 
-	^ selectionMode ifNotNil: [:sm | sm selectionElementOption ]
+	^ selectionMode ifNotNil: [ :sm | sm selectionOption ]
 ]
 
 { #category : #operations }

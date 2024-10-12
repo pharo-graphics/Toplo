@@ -4,23 +4,25 @@ Class {
 	#instVars : [
 		'enabled',
 		'selecter',
-		'selectionElementOption'
+		'selectionOption'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
 { #category : #accessing }
-ToAbstractListSelectionMode >> changeSelectionElementOptionWith: aSelectionOption in: aListElement [
+ToAbstractListSelectionMode >> changeSelectionOptionWith: aSelectionOption [
 
-	selectionElementOption ifNotNil: [
-		selectionElementOption onUninstalledIn: aListElement ].
-	selectionElementOption := aSelectionOption.
-	selectionElementOption ifNil: [ ^ self ].
-	selectionElementOption onInstalledIn: aListElement
+	| listElement |
+	listElement := selecter element.
+	selectionOption ifNotNil: [
+		selectionOption onUninstalledIn: listElement ].
+	selectionOption := aSelectionOption.
+	selectionOption ifNil: [ ^ self ].
+	selectionOption onInstalledIn: listElement
 ]
 
 { #category : #initialization }
-ToAbstractListSelectionMode >> defaultSelectionElementOption [
+ToAbstractListSelectionMode >> defaultSelectionOption [
 
 	^ nil
 ]
@@ -129,18 +131,18 @@ ToAbstractListSelectionMode >> onInstalledIn: aListElement [
 	selecter enabled: self enabled.
 	selecter multiple: self isMultipleSelection.
 	selecter onInstalledIn: aListElement.
-	selectionElementOption := self defaultSelectionElementOption.
-	selectionElementOption ifNil: [ ^ self ].
-	selectionElementOption onInstalledIn: aListElement
+	selectionOption := self defaultSelectionOption.
+	selectionOption ifNil: [ ^ self ].
+	selectionOption onInstalledIn: aListElement
 ]
 
 { #category : #'api - hooks' }
 ToAbstractListSelectionMode >> onUninstalledIn: aListElement [
 
-	selectionElementOption ifNotNil: [ selectionElementOption onUninstalledIn: aListElement ].
+	selectionOption ifNotNil: [ selectionOption onUninstalledIn: aListElement ].
 	selecter onUninstalledIn: aListElement.
 	aListElement removeSelectionMode: self.
-	selectionElementOption := nil.
+	selectionOption := nil.
 	selecter := nil.
 
 ]
@@ -149,6 +151,17 @@ ToAbstractListSelectionMode >> onUninstalledIn: aListElement [
 ToAbstractListSelectionMode >> operator [
 
 	^ selecter operator
+]
+
+{ #category : #accessing }
+ToAbstractListSelectionMode >> option [
+
+	self
+		deprecated: 'Use #selectionOption'
+		transformWith:
+		'`@rcvr option' -> '`@rcvr selectionOption'.
+
+	^ self selectionOption
 ]
 
 { #category : #accessing }
@@ -184,18 +197,29 @@ ToAbstractListSelectionMode >> selectionChangedEventClass [
 { #category : #accessing }
 ToAbstractListSelectionMode >> selectionElementOption [
 
-	^ selectionElementOption 
-]
+	self
+		deprecated: 'Use #selectionOption'
+		transformWith:
+		'`@rcvr selectionElementOption' -> '`@rcvr selectionOption'.
 
-{ #category : #accessing }
-ToAbstractListSelectionMode >> selectionElementOptionDo: aBlock [
-
-	selectionElementOption ifNil: [ ^ self ].
-	aBlock value: selectionElementOption
+	^ self selectionOption
 ]
 
 { #category : #accessing }
 ToAbstractListSelectionMode >> selectionModel [
 
 	^ selecter selectionModel
+]
+
+{ #category : #accessing }
+ToAbstractListSelectionMode >> selectionOption [
+
+	^ selectionOption 
+]
+
+{ #category : #accessing }
+ToAbstractListSelectionMode >> selectionOptionDo: aBlock [
+
+	selectionOption ifNil: [ ^ self ].
+	aBlock value: selectionOption
 ]

@@ -3667,20 +3667,117 @@ ToSandBox class >> example_scaledImage [
 ToSandBox class >> example_segmentedWithCheckboxes [
 
 	| checkableBar dashBoard |
-	checkableBar := ToSegmentedBarElement new.
+	checkableBar := ToSegmentedElement new.
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
-		checkableBar checkableElementAccessor add: (ToCheckbox new
-				 label: (ToLabel text: l);
-				 startFlexible: true;
-				 beEndToStart;
+		| lab |
+		lab := ToLabel text: l.
+		lab addStamp: #'ignore-selection'.
+		checkableBar segmentAccessor add: (ToCheckbox new
+				 label: lab;
 				 yourself) ].
-
+	checkableBar selectionOption masked: true.
 	dashBoard := self segmentedDashBoardFor: checkableBar.
 	dashBoard openInSpace
 ]
 
 { #category : #segmented }
-ToSandBox class >> example_segmentedWithToggleButton [
+ToSandBox class >> example_segmentedWithLabels [
+
+	| seg dashBoard rootPane feedbackPane maj |
+	seg := ToSegmentedElement new.
+
+	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
+		seg addLabelText: l ].
+
+	dashBoard := self segmentedDashBoardFor: seg.
+
+	feedbackPane := ToPane horizontal.
+	feedbackPane layout alignCenter.
+	maj := [
+	       | t |
+	       feedbackPane removeChildren.
+	       t := String streamContents: [ :stream |
+		            seg segmentAccessor withIndexDo: [ :e :idx |
+			            stream
+				            nextPutAll: e label text asString;
+				            nextPutAll: ': '.
+			            (seg selectionModel containsIndex: idx)
+				            ifTrue: [ stream nextPutAll: 'V ' ]
+				            ifFalse: [ stream nextPutAll: 'X ' ].
+			            stream nextPutAll: e checked asString.
+			            stream nextPutAll: ' '.
+			            idx < seg segmentAccessor itemCount ifTrue: [
+				            stream nextPutAll: '- ' ] ] ].
+	       feedbackPane addChild: (ToLabel text: t) ].
+
+	seg addEventHandler: (BlEventHandler
+			 on: ToListStrongSelectionEvent
+			 do: [ :event |
+				 ' double click ' trace.
+				 event indexes traceCr ]).
+
+	seg barElement
+		addEventHandlerOn: ToListPrimarySelectionChangedEvent
+		do: maj.
+	seg addEventHandlerOn: BlElementAddedToSceneGraphEvent do: maj.
+	rootPane := ToPane vertical.
+	rootPane matchParent.
+	rootPane addChildren: {
+			dashBoard.
+			feedbackPane }.
+	rootPane openInSpace
+]
+
+{ #category : #segmented }
+ToSandBox class >> example_segmentedWithLabelsAndIcons [
+
+	| seg dashBoard rootPane feedbackPane maj |
+	seg := ToSegmentedElement new.
+
+	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
+		seg addLabelText: l withIconImage: ToThemeIcons searchOutlined16x16].
+
+	dashBoard := self segmentedDashBoardFor: seg.
+
+	feedbackPane := ToPane horizontal.
+	feedbackPane layout alignCenter.
+	maj := [
+	       | t |
+	       feedbackPane removeChildren.
+	       t := String streamContents: [ :stream |
+		            seg segmentAccessor withIndexDo: [ :e :idx |
+			            stream
+				            nextPutAll: e label text asString;
+				            nextPutAll: ': '.
+			            (seg selectionModel containsIndex: idx)
+				            ifTrue: [ stream nextPutAll: 'V ' ]
+				            ifFalse: [ stream nextPutAll: 'X ' ].
+			            stream nextPutAll: e checked asString.
+			            stream nextPutAll: ' '.
+			            idx < seg segmentAccessor itemCount ifTrue: [
+				            stream nextPutAll: '- ' ] ] ].
+	       feedbackPane addChild: (ToLabel text: t) ].
+
+	seg addEventHandler: (BlEventHandler
+			 on: ToListStrongSelectionEvent
+			 do: [ :event |
+				 ' double click ' trace.
+				 event indexes traceCr ]).
+
+	seg barElement
+		addEventHandlerOn: ToListPrimarySelectionChangedEvent
+		do: maj.
+	seg addEventHandlerOn: BlElementAddedToSceneGraphEvent do: maj.
+	rootPane := ToPane vertical.
+	rootPane matchParent.
+	rootPane addChildren: {
+			dashBoard.
+			feedbackPane }.
+	rootPane openInSpace
+]
+
+{ #category : #segmented }
+ToSandBox class >> example_segmentedWithSegmentedButton [
 
 	| seg dashBoard rootPane feedbackPane maj |
 	seg := ToSegmentedElement new.
@@ -5310,32 +5407,35 @@ ToSandBox class >> listWithEditableAndContextMenu [
 
 	disabledMode := l disabledSelectionMode.
 
-	option := ToListSelectionElementOption new.
+	option := ToListSelectionOption new.
 	option grouped: false.
 	option beneath: false.
 	option elementFactory: [
 		ToListBasicSelectionElement new defaultSkin:
 			ToListDisabledSelectionElementExampleSkin new ].
-	disabledMode changeSelectionElementOptionWith: option in: l.
+	disabledMode changeSelectionOptionWith: option.
 
 	unselectableMode := l unselectableSelectionMode.
-	l addEventHandlerOn: unselectableMode selectionChangedEventClass
-			 do: [ :event |
-				 | target |
-				 target := event currentTarget.
-				 event selectionOption updateSelectionIn: target withSelectionModel: target selecter selectionModel.
-				 target selecter deselectIndexes: event touchedIndexes.
-				 target secondarySelecter deselectAll.
-				 event touchedIntervals do: [ :int |
-					 target dataSource notifyItemsChanged: int ] ].
+	l
+		addEventHandlerOn: unselectableMode selectionChangedEventClass
+		do: [ :event |
+			| target |
+			target := event currentTarget.
+			event selectionOption
+				updateSelectionIn: target
+				withSelectionModel: target selecter selectionModel.
+			target selecter deselectIndexes: event touchedIndexes.
+			target secondarySelecter deselectAll.
+			event touchedIntervals do: [ :int |
+				target dataSource notifyItemsChanged: int ] ].
 
-	option := ToListSelectionElementOption new.
+	option := ToListSelectionOption new.
 	option grouped: false.
 	option beneath: false.
 	option elementFactory: [
 		ToListBasicSelectionElement new defaultSkin:
 			ToListUnselectableSelectionElementExampleSkin new ].
-	unselectableMode changeSelectionElementOptionWith: option in: l.
+	unselectableMode changeSelectionOptionWith: option.
 
 	phtext := (('Invoke the context menu ' , String cr
 	            , 'with a right-click' , String cr
@@ -5414,21 +5514,23 @@ ToSandBox class >> listWithEditableAndContextMenu [
 				                whenClickedDo: [ :event |
 					                target hiddenSelecter deselectAll ];
 				                yourself).
-		               target primarySelectionMode selectionElementOption isAnimated
+		               target primarySelectionMode selectionOption
+			               isAnimated
 			               ifTrue: [
 				               menu addItem: (ToMenuItem new
 						                labelText: 'stop selection transition animation';
 						                whenClickedDo: [ :event |
-							                target selectionMode selectionElementOption animationDuration:
-									                0 milliSeconds ];
+							                target selectionMode selectionElementOption
+								                animationDuration: 0 milliSeconds ];
 						                yourself) ]
 			               ifFalse: [
 				               menu addItem: (ToMenuItem new
 						                labelText:
 							                'start selection transition animation';
 						                whenClickedDo: [ :event |
-							                target primarySelectionMode selectionElementOption
-								                animationDuration: 200 milliSeconds ];
+							                target primarySelectionMode
+								                selectionElementOption animationDuration:
+									                200 milliSeconds ];
 						                yourself) ] ].
 	               indexes ifNotEmpty: [
 		               selectionMenu := ToMenu new.

@@ -10,7 +10,6 @@ ToSegmentedBarElementSkin >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e background: BlBackground transparent.
-		e primarySelectionMode selectionElementOption animationDuration: 200 milliSeconds.
 		e shortcuts: (self shortcutsToInstallIn: e).
 		e installShortcuts ]
 ]

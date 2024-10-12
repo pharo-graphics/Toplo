@@ -56,11 +56,11 @@ ToBarElement >> fakeNode [
 ToBarElement >> initialize [
 
 	super initialize.
-	self primarySelectionMode selectionElementOption
+	self primarySelectionMode selectionOption
 		grouped: false;
 		beneath: true;
 		triggerSelectionState: true.
-	self contextMenuSelectionMode selectionElementOption
+	self contextMenuSelectionMode selectionOption
 		grouped: false;
 		beneath: false.
 	self matchParent.

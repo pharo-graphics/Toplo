@@ -1,5 +1,5 @@
 Class {
-	#name : #ToListSelectionElementOption,
+	#name : #ToListSelectionOption,
 	#superclass : #Object,
 	#instVars : [
 		'masked',
@@ -16,31 +16,31 @@ Class {
 }
 
 { #category : #'instance creation' }
-ToListSelectionElementOption class >> grouped [
+ToListSelectionOption class >> grouped [
 
 	^ self new grouped: true
 ]
 
 { #category : #'instance creation' }
-ToListSelectionElementOption class >> separate [
+ToListSelectionOption class >> separate [
 
 	^ self new grouped: false
 ]
 
 { #category : #'instance creation' }
-ToListSelectionElementOption >> addSelectionElement: aSelectionElement [
+ToListSelectionOption >> addSelectionElement: aSelectionElement [
 
 	selectionContainer addChild: aSelectionElement
 ]
 
 { #category : #'instance creation' }
-ToListSelectionElementOption >> addSelectionElements: aSelectionElementArray [
+ToListSelectionOption >> addSelectionElements: aSelectionElementArray [
 
 	selectionContainer addChildren: aSelectionElementArray
 ]
 
 { #category : #'private - selection updating' }
-ToListSelectionElementOption >> addSelectionElementsIn: aListElement startingAt: aPosition [
+ToListSelectionOption >> addSelectionElementsIn: aListElement startingAt: aPosition [
 
 	| elements |
 	elements := Array streamContents: [ :stream |
@@ -53,7 +53,7 @@ ToListSelectionElementOption >> addSelectionElementsIn: aListElement startingAt:
 ]
 
 { #category : #'private - selection updating' }
-ToListSelectionElementOption >> addSelectionIn: aListElement [ 
+ToListSelectionOption >> addSelectionIn: aListElement [ 
 	" add new selection with animation if possible. 
 	Pay attention, an animation can be used. In case of animation, the SelectedSkinEvent is sent only
 	when the animation ends to have a nice visual effect. If no animation is used, then SelectedSkinEvent is
@@ -101,13 +101,13 @@ ToListSelectionElementOption >> addSelectionIn: aListElement [
 ]
 
 { #category : #accessing }
-ToListSelectionElementOption >> animationDuration: aDuration [
+ToListSelectionOption >> animationDuration: aDuration [
 
 	animationDuration := aDuration
 ]
 
 { #category : #accessing }
-ToListSelectionElementOption >> beneath: aBoolean [
+ToListSelectionOption >> beneath: aBoolean [
 
 	beneath := aBoolean.
 	selectionContainer ifNotNil: [
@@ -119,7 +119,7 @@ ToListSelectionElementOption >> beneath: aBoolean [
 ]
 
 { #category : #'private - selection updating' }
-ToListSelectionElementOption >> boundsAnimationFrom: startBounds to: finalBounds onGroup: aGroup in: aListElement [
+ToListSelectionOption >> boundsAnimationFrom: startBounds to: finalBounds onGroup: aGroup in: aListElement [
 
 	| theSelectionElement |
 	theSelectionElement := aGroup selectionElement.
@@ -138,13 +138,13 @@ ToListSelectionElementOption >> boundsAnimationFrom: startBounds to: finalBounds
 ]
 
 { #category : #'private - selection updating' }
-ToListSelectionElementOption >> canAnimateSelectionUpdate [
+ToListSelectionOption >> canAnimateSelectionUpdate [
 
 	^ animationDuration isZero not and: [ previousSelectionBounds notNil ]
 ]
 
 { #category : #'nodes collecting' }
-ToListSelectionElementOption >> currentSelectionGroupsFrom: aListElement withSelectionModel: aSelectionModel [
+ToListSelectionOption >> currentSelectionGroupsFrom: aListElement withSelectionModel: aSelectionModel [
 
 	^ grouped
 		  ifTrue: [
@@ -158,25 +158,25 @@ ToListSelectionElementOption >> currentSelectionGroupsFrom: aListElement withSel
 ]
 
 { #category : #accessing }
-ToListSelectionElementOption >> elementFactory: aSelectionElementFactoryValuable [
+ToListSelectionOption >> elementFactory: aSelectionElementFactoryValuable [
 
 	elementFactory := aSelectionElementFactoryValuable
 ]
 
 { #category : #'private - selection updating' }
-ToListSelectionElementOption >> forgetPreviousBoundsIn: aListElement [
+ToListSelectionOption >> forgetPreviousBoundsIn: aListElement [
 
 	previousSelectionBounds := nil
 ]
 
 { #category : #accessing }
-ToListSelectionElementOption >> grouped: aBoolean [
+ToListSelectionOption >> grouped: aBoolean [
 
 	grouped := aBoolean
 ]
 
 { #category : #'private - selection updating' }
-ToListSelectionElementOption >> groups: aSelectionGroupArray equals: otherSelectionGroupArray [
+ToListSelectionOption >> groups: aSelectionGroupArray equals: otherSelectionGroupArray [
 
 	currentSelectionGroups == otherSelectionGroupArray ifTrue: [ ^ true ].
 	currentSelectionGroups size ~= otherSelectionGroupArray size ifTrue: [ ^ false ].
@@ -186,7 +186,7 @@ ToListSelectionElementOption >> groups: aSelectionGroupArray equals: otherSelect
 ]
 
 { #category : #initialization }
-ToListSelectionElementOption >> initialize [ 
+ToListSelectionOption >> initialize [ 
 
 	super initialize.
 	currentSelectionGroups := #(  ).
@@ -198,43 +198,43 @@ ToListSelectionElementOption >> initialize [
 ]
 
 { #category : #accessing }
-ToListSelectionElementOption >> isAnimated [
+ToListSelectionOption >> isAnimated [
 
 	^ animationDuration asMilliSeconds > 0
 ]
 
 { #category : #testing }
-ToListSelectionElementOption >> isBeneath [
+ToListSelectionOption >> isBeneath [
 
 	^ beneath
 ]
 
 { #category : #testing }
-ToListSelectionElementOption >> isGrouped [
+ToListSelectionOption >> isGrouped [
 
 	^ grouped
 ]
 
 { #category : #testing }
-ToListSelectionElementOption >> isOver [
+ToListSelectionOption >> isOver [
 
 	^ self isBeneath not
 ]
 
 { #category : #testing }
-ToListSelectionElementOption >> isSeparate [
+ToListSelectionOption >> isSeparate [
 
 	^ self isGrouped not
 ]
 
 { #category : #accessing }
-ToListSelectionElementOption >> masked: aBoolean [
+ToListSelectionOption >> masked: aBoolean [
 
 	masked := aBoolean
 ]
 
 { #category : #'instance creation' }
-ToListSelectionElementOption >> newSelectionContainerIn: aListElement [
+ToListSelectionOption >> newSelectionContainerIn: aListElement [
 
 	| container elevation |
 	container := ToOverlayElement new.
@@ -248,7 +248,7 @@ ToListSelectionElementOption >> newSelectionContainerIn: aListElement [
 ]
 
 { #category : #'instance creation' }
-ToListSelectionElementOption >> newSelectionElementIn: aListElement [
+ToListSelectionOption >> newSelectionElementIn: aListElement [
 
 	^ elementFactory value
 		  selectionOption: self;
@@ -257,14 +257,14 @@ ToListSelectionElementOption >> newSelectionElementIn: aListElement [
 ]
 
 { #category : #'private - selection updating' }
-ToListSelectionElementOption >> notifyNodesDeselectedIn: aListElement [
+ToListSelectionOption >> notifyNodesDeselectedIn: aListElement [
 
 	triggerSelectionState ifFalse: [ ^ self ].
 	aListElement innerContainer nodesDo: [ :n | n holder notifyDeselectedWithOption: self ]
 ]
 
 { #category : #'private - selection updating' }
-ToListSelectionElementOption >> notifyNodesSelectedIn: aListElement [
+ToListSelectionOption >> notifyNodesSelectedIn: aListElement [
 
 	masked ifTrue: [ ^ self ].
 	triggerSelectionState ifFalse: [ ^ self ].
@@ -272,14 +272,14 @@ ToListSelectionElementOption >> notifyNodesSelectedIn: aListElement [
 ]
 
 { #category : #'api - hooks' }
-ToListSelectionElementOption >> onInstalledIn: aListElement [
+ToListSelectionOption >> onInstalledIn: aListElement [
 
 	selectionContainer := self newSelectionContainerIn: aListElement.
 	aListElement addChild: selectionContainer
 ]
 
 { #category : #'api - hooks' }
-ToListSelectionElementOption >> onUninstalledIn: aListElement [
+ToListSelectionOption >> onUninstalledIn: aListElement [
 
 	selectionContainer detach.
 	selectionContainer removeFromParent.
@@ -287,7 +287,7 @@ ToListSelectionElementOption >> onUninstalledIn: aListElement [
 ]
 
 { #category : #'private - selection updating' }
-ToListSelectionElementOption >> refreshSelectionIn: aListElement withSelectionModel: aSelectionModel [
+ToListSelectionOption >> refreshSelectionIn: aListElement withSelectionModel: aSelectionModel [
 
 	self forgetPreviousBoundsIn: aListElement.
 	self removeSelectionIn: aListElement.
@@ -297,21 +297,21 @@ ToListSelectionElementOption >> refreshSelectionIn: aListElement withSelectionMo
 ]
 
 { #category : #'private - selection updating' }
-ToListSelectionElementOption >> rememberSelectionBoundsIn: aListElement [
+ToListSelectionOption >> rememberSelectionBoundsIn: aListElement [
 
 	currentSelectionGroups ifEmpty: [ ^ self ].
 	previousSelectionBounds := Rectangle merging: (currentSelectionGroups collect: [:g | g preComputedBounds])
 ]
 
 { #category : #'private - selection updating' }
-ToListSelectionElementOption >> removeSelectionIn: aListElement [
+ToListSelectionOption >> removeSelectionIn: aListElement [
 
 	currentSelectionGroups do: [ :g | g removeSelectionElementIn: aListElement ].
 	currentSelectionGroups := #()
 ]
 
 { #category : #accessing }
-ToListSelectionElementOption >> selectionElements [
+ToListSelectionOption >> selectionElements [
 
 	^ Array streamContents: [ :stream |
 		  currentSelectionGroups do: [ :grp |
@@ -319,7 +319,7 @@ ToListSelectionElementOption >> selectionElements [
 ]
 
 { #category : #'private - selection updating' }
-ToListSelectionElementOption >> selectionGroupsChangeWith: otherSelectionGroupArray [
+ToListSelectionOption >> selectionGroupsChangeWith: otherSelectionGroupArray [
 
 	currentSelectionGroups == otherSelectionGroupArray ifTrue: [ ^ false ].
 	currentSelectionGroups size ~= otherSelectionGroupArray size ifTrue: [ ^ true ].
@@ -329,13 +329,13 @@ ToListSelectionElementOption >> selectionGroupsChangeWith: otherSelectionGroupAr
 ]
 
 { #category : #accessing }
-ToListSelectionElementOption >> triggerSelectionState: aBoolean [
+ToListSelectionOption >> triggerSelectionState: aBoolean [
 
 	triggerSelectionState := aBoolean
 ]
 
 { #category : #'private - selection updating' }
-ToListSelectionElementOption >> updateSelectionIn: aListElement withSelectionModel: aSelectionModel [
+ToListSelectionOption >> updateSelectionIn: aListElement withSelectionModel: aSelectionModel [
 
 	| newGroups |
 	newGroups := self

@@ -9,9 +9,10 @@ ToLabelSkin >> deselectedSkinEvent: anEvent [
 
 	super deselectedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		| to |
-		to := e valueOfTokenNamed: #'label-foreground-deselected'.
-		e foreground: to ]
+		(e hasStamp: #'ignore-selection') ifFalse: [
+			| to |
+			to := e valueOfTokenNamed: #'label-foreground-deselected'.
+			e foreground: to ] ]
 ]
 
 { #category : #'event handling' }
@@ -52,10 +53,11 @@ ToLabelSkin >> selectedSkinEvent: anEvent [
 	super selectedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		| tokname to |
-		tokname := anEvent focused
-			           ifTrue: [ #'label-selected-focused' ]
-			           ifFalse: [ #'label-selected-unfocused' ].
-		to := e valueOfTokenNamed: tokname.
-		e foreground: to.
-		e applyStyle ]
+		(e hasStamp: #'ignore-selection') ifFalse: [
+			tokname := anEvent focused
+				           ifTrue: [ #'label-selected-focused' ]
+				           ifFalse: [ #'label-selected-unfocused' ].
+			to := e valueOfTokenNamed: tokname.
+			e foreground: to.
+			e applyStyle ] ]
 ]

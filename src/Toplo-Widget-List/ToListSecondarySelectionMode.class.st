@@ -8,9 +8,9 @@ Class {
 }
 
 { #category : #initialization }
-ToListSecondarySelectionMode >> defaultSelectionElementOption [
+ToListSecondarySelectionMode >> defaultSelectionOption [
 
-	^ ToListSelectionElementOption new
+	^ ToListSelectionOption new
 		  grouped: true;
 		  beneath: true;
 		  elementFactory: [
@@ -22,14 +22,7 @@ ToListSecondarySelectionMode >> defaultSelectionElementOption [
 ToListSecondarySelectionMode >> initialize [
 
 	super initialize.
-	multiple := true.
-	selectionElementOption := ToListSelectionElementOption new.
-	selectionElementOption
-		grouped: true;
-		beneath: true;
-		elementFactory: [
-			ToListBasicSelectionElement new defaultSkin:
-					ToListSecondarySelectionElementSkin new ]
+	multiple := true
 ]
 
 { #category : #testing }

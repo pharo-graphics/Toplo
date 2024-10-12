@@ -379,8 +379,8 @@ ToAbstractListElement >> notifyDataSourceItemsFiltered: aDataSourceEvent [
 ToAbstractListElement >> notifyPrimarySelectionDirty [
 
 	self dispatchEvent: (ToListPrimarySelectionDirtyEvent new
-			 selectionOption: self primarySelectionMode selectionElementOption;
-			 selectionModel: self primarySelectionMode selectionModel;
+			 selectionOption: self selectionOption;
+			 selectionModel: self selectionModel;
 			 itemCount: self itemCount;
 			 yourself)
 ]
@@ -473,7 +473,7 @@ ToAbstractListElement >> selecter [
 ToAbstractListElement >> selectionElementsDo: aBlock [
 
 	selectionModeMap valuesDo: [ :mode |
-		mode selectionElementOptionDo: [ :opt | opt selectionElements do: [ :se | aBlock value: se ] ] ]
+		mode selectionOptionDo: [ :opt | opt selectionElements do: [ :se | aBlock value: se ] ] ]
 ]
 
 { #category : #accessing }
@@ -514,6 +514,12 @@ ToAbstractListElement >> selectionModel [
 ToAbstractListElement >> selectionModes [
 
 	^ selectionModeMap values
+]
+
+{ #category : #accessing }
+ToAbstractListElement >> selectionOption [
+
+	^ self primarySelectionMode selectionOption
 ]
 
 { #category : #'private - commands' }

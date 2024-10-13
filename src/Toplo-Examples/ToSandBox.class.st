@@ -1894,9 +1894,9 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	select := ToMultiSelectElement new.
 	select nodeWrapping: true.
 	select keepPickOrder: true.
-	select popupListElement primarySelectionMode selectionElementOption grouped: false.
-	select popupListElement primarySelectionMode selectionElementOption beneath: false.
-	select popupListElement primarySelectionMode selectionElementOption elementFactory: [
+	select popupListElement selectionOption grouped: false.
+	select popupListElement selectionOption beneath: false.
+	select popupListElement selectionOption elementFactory: [
 		ToListBasicSelectionElement new defaultSkin:
 			ToMultiSelectElementCheckSkin new ].
 
@@ -3855,7 +3855,7 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWithAllClassNames [
 	innerWindow := ToInnerWindow new.
 	select popupWindowManager anchorRoot: innerWindow root.
 	select hMatchParent.
-	select dataAccessor updateAllWith:
+	select popupListDataAccessor updateAllWith:
 		(Smalltalk globals allClasses collect: [ :cls | cls name ]).
 
 	innerWindow pane addChild: select.
@@ -5820,7 +5820,7 @@ ToSandBox class >> selectWithEditingMultiSelection [
 	select popupMaxHeight: 600.
 	select popupListElement placeholderMinHeight: 35.
 
-	select listElement placeholderBuilder: [ :placeholder :e |
+	select popupListElement placeholderBuilder: [ :placeholder :e |
 		| lab |
 		placeholder layout alignCenter.
 		lab := ToAttributedLabel text: phtext.

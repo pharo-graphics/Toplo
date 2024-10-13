@@ -57,3 +57,9 @@ ToDictionaryBasedSubSelectionModelRegistry >> unrecordSubSelectionModel: aSelect
 
 	subs removeKey: aSelectionModel uniqueId
 ]
+
+{ #category : #accessing }
+ToDictionaryBasedSubSelectionModelRegistry >> withAllSubModelsDo: aValuable [
+
+	subs keysAndValuesDo: [ :k :v | aValuable value: v ]
+]

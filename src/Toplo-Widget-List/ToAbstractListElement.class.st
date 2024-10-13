@@ -110,12 +110,6 @@ ToAbstractListElement >> dataUpdater [
 ]
 
 { #category : #initialization }
-ToAbstractListElement >> defaultCommandCheckerClass [
-
-	^ ToListElementCommandChecker 
-]
-
-{ #category : #initialization }
 ToAbstractListElement >> defaultContextMenuSelectionMode [
 
 	^ ToListContextMenuSelectionMode new

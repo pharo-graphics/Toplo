@@ -65,3 +65,11 @@ ToPrimarySelectionModel >> subSelectionModelIndex: anIdentityDictionary [
 
 	subSelectionModelIndex := anIdentityDictionary
 ]
+
+{ #category : #enumerating }
+ToPrimarySelectionModel >> withAllSubModelsDo: aValuable [
+
+	aValuable value: self.
+	subSelectionModelIndex withAllSubModelsDo: aValuable
+	
+]

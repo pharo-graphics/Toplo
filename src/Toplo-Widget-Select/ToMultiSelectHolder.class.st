@@ -18,7 +18,7 @@ ToMultiSelectHolder >> removeNodeFromBar [
 
 	| index |
 	index := self selectElement sieve originalData indexOf:
-		         self dataItem data.
+		         self tagModel data.
 	self selecter deselectIndex: index
 ]
 

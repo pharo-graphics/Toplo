@@ -25,12 +25,12 @@ ToTagNode >> installRawStyle [
 	self padding: (BlInsets
 			 horizontal: (self valueOfTokenNamed: #'bar-node-padding-H')
 			 vertical: (self valueOfTokenNamed: #'bar-node-padding-V')).
-	(self holder node isFake not and: [ self holder dataItem isComposite ])
+	(self holder node isFake not and: [ self holder tagModel isComposite ])
 		ifTrue: [
 			self tooltipBuilder: [ :win :theElement |
 				| pane |
 				pane := ToPane vertical.
-				self holder dataItem items do: [ :item |
+				self holder tagModel items do: [ :item |
 					pane addChild: (ToLabel text: item data asString) ].
 				win root addChild: pane ] ]
 ]
@@ -44,7 +44,7 @@ ToTagNode >> isRemovable [
 { #category : #accessing }
 ToTagNode >> nodesCount [ 
 
-	^ self holder dataItem nodesCount
+	^ self holder tagModel nodesCount
 ]
 
 { #category : #accessing }

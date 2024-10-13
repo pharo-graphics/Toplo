@@ -17,7 +17,7 @@ ToTagBarEventHandler >> elementExtentChangedEvent: anEvent [
 	| target |
 	super elementExtentChangedEvent: anEvent.
 	target := anEvent currentTarget.
-	(target dataSource anySatisfy: [ :item | item isComposite ])
+	(target dataSource anySatisfy: [ :tagModel | tagModel isComposite ])
 		ifFalse: [ ^ self ].
 	target extentChanged
 ]

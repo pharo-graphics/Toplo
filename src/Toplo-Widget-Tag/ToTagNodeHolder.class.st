@@ -10,6 +10,12 @@ ToTagNodeHolder >> removeNodeFromBar [
 ]
 
 { #category : #accessing }
+ToTagNodeHolder >> tagModel [
+
+	^ self dataItem
+]
+
+{ #category : #accessing }
 ToTagNodeHolder >> withCloseButton [
 
 	^  self listElement withCloseButton

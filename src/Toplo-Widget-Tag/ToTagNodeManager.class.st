@@ -10,7 +10,7 @@ Class {
 { #category : #'instance creation' }
 ToTagNodeManager >> buildNode: aNode inHolder: aNodeHolder [
 
-	aNodeHolder dataItem
+	aNodeHolder tagModel
 		buildNode: aNode
 		inHolder: aNodeHolder
 		withManager: self
@@ -33,8 +33,8 @@ ToTagNodeManager >> compositeNodeBuilder: aValuable [
 { #category : #initialization }
 ToTagNodeManager >> defaultCompositeNodeBuilder [
 
-	^ [ :node :compositeDataItem :holder |
-	  node addChild: (ToLabel text: compositeDataItem content asString) ]
+	^ [ :node :compositeTagModel :holder |
+	  node addChild: (ToLabel text: compositeTagModel content asString) ]
 ]
 
 { #category : #initialization }
@@ -52,10 +52,10 @@ ToTagNodeManager >> defaultHolderClass [
 { #category : #initialization }
 ToTagNodeManager >> defaultNodeBuilder [
 
-	^ [ :node :data :holder |
+	^ [ :node :tagModel :holder |
 	  | tag |
 	  tag := ToTagElement new
-		         labelText: data asString;
+		         labelText: tagModel asString;
 		         flexible: true;
 		         hMatchParent.
 	  tag removable: holder withCloseButton.

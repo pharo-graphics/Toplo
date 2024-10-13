@@ -45,7 +45,7 @@ ToTagBarElement >> initialize [
 	self hMatchParent 
 ]
 
-{ #category : #accessing }
+{ #category : #'t - children - accessing' }
 ToTagBarElement >> nodes [
 
 	^ self innerContainer nodes

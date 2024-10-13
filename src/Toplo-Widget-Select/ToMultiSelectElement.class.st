@@ -111,6 +111,7 @@ ToMultiSelectElement >> nodeAutoDistribution: aBoolean [
 
 { #category : #accessing }
 ToMultiSelectElement >> nodeBuilder: aValuable [
+	"aValuable takes 3 optional args: first, the node to build, second, the dataItem and third, the holder in the list element "
 
 	self innerContainer nodeBuilder: aValuable
 ]

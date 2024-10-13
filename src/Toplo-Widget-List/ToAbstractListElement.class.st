@@ -313,8 +313,8 @@ ToAbstractListElement >> next [
 
 { #category : #accessing }
 ToAbstractListElement >> nodeBuilder: aValuable [
+	"aValuable takes 3 optional args: first, the node to build, second, the dataItem and third, the holder in the list element "
 
-	"aValuable takes 3 args: first, the node to build and second, its holder in the list element and the data item"
 	nodeManager nodeBuilder: aValuable
 ]
 

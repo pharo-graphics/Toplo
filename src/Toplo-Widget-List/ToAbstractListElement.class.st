@@ -539,3 +539,10 @@ ToAbstractListElement >> unselectableSelectionModel [
 
 	^ self selectionModel unselectableSelectionModel
 ]
+
+{ #category : #accessing }
+ToAbstractListElement >> withoutNodeBuilder [
+
+	" Possible if the holder is fully building its node in #bindDataItem: "
+	nodeManager withoutNodeBuilder
+]

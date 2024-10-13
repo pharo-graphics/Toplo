@@ -189,10 +189,15 @@ ToListElementEventHandler >> listDataSourceItemsRemovedEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
+	" update the secondary selection because it can be on the removed nodes " 
+	target secondarySelecter
+		deselectIndex: anEvent position
+		to: anEvent position + anEvent itemCount - 1.
 	"Have to update directly the selection model here (not from the selecter).
 	If done by the selecter, the model update is postponed, the consequence
 	can be that the skin can be updated whereas the selection model 
 	is not up-to-date leading to a baddly SelectedSkinEvent sent"
+
 	target selectionModel withAllSubModelsDo: [ :sm |
 		sm
 			deselectIndex: anEvent position

@@ -14,9 +14,10 @@ Class {
 ToPicsumPhotosGalleryImageHolder >> bindDataItem: aImageData [
 
 	super bindDataItem: aImageData.
+	self node labelString: aImageData id.
 	aImageData loadedForm ifNil: [ ^ self ].
-	self node background: (BlBackground image: aImageData loadedForm)
-	
+	self node background: (BlBackground image: aImageData loadedForm).
+
 ]
 
 { #category : #loading }

@@ -114,3 +114,9 @@ ToAbstractListNodeManager >> unbuildNode: aNode [
 
 
 ]
+
+{ #category : #accessing }
+ToAbstractListNodeManager >> withoutNodeBuilder [
+
+	self nodeBuilder: [  ]
+]

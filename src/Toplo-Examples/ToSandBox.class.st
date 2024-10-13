@@ -30,7 +30,8 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	verticalSwitch startFlexible: true.
 	verticalSwitch hMatchParent.
 
-	verticalSwitch whenClickedDo: [ :event | aBar vertical: event current ].
+	verticalSwitch whenClickedDo: [ :event |
+		aBar vertical: event current ].
 
 	confPane addChild: verticalSwitch.
 
@@ -40,7 +41,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	confPane addChild: wrappingSwitch.
 
 	uniformNodeWidthSwitch := ToSwitchButton new labelText:
-		                   'Uniform Node width'.
+		                          'Uniform Node width'.
 	uniformNodeWidthSwitch startFlexible: true.
 	uniformNodeWidthSwitch hMatchParent.
 	uniformNodeWidthSwitch checked: false.
@@ -53,21 +54,21 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	confPane addChild: scrollingSwitch.
 
 	wrappingSwitch whenClickedDo: [ :event |
-				 | v |
-				 v := event current.
-				 aBar nodeWrapping: v.
-				 uniformNodeWidthSwitch enabled: v.
-				 scrollingSwitch disabled: v ].
+		| v |
+		v := event current.
+		aBar nodeWrapping: v.
+		uniformNodeWidthSwitch enabled: v.
+		scrollingSwitch disabled: v ].
 
 	uniformNodeWidthSwitch whenClickedDo: [ :event |
-				 | v |
-				 v := event current.
-				 aBar uniformNodeWidth: v ].
+		| v |
+		v := event current.
+		aBar uniformNodeWidth: v ].
 
 	scrollingSwitch whenClickedDo: [ :event |
-				 | v |
-				 v := event current.
-				 aBar nodeScrolling: v ].
+		| v |
+		v := event current.
+		aBar nodeScrolling: v ].
 
 	autoDistributionSwitch := ToSwitchButton new labelText:
 		                          'Auto-distribution'.
@@ -76,9 +77,9 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 
 	confPane addChild: autoDistributionSwitch.
 	autoDistributionSwitch whenClickedDo: [ :event |
-				 | v |
-				 v := event current.
-				 aBar nodeAutoDistribution: v ].
+		| v |
+		v := event current.
+		aBar nodeAutoDistribution: v ].
 
 	selectionAnimationSwitch := ToSwitchButton new labelText:
 		                            'Animate selection transition'.
@@ -87,14 +88,15 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 
 	confPane addChild: selectionAnimationSwitch.
 	selectionAnimationSwitch whenClickedDo: [ :event |
-				 | v |
-				 v := event current.
-				 aBar primarySelectionMode selectionElementOption animationDuration: (v
-						  ifTrue: [ 200 milliSeconds ]
-						  ifFalse: [ 0 milliSeconds ]).
-				 aBar secondarySelectionMode selectionElementOption animationDuration: (v
-						  ifTrue: [ 150 milliSeconds ]
-						  ifFalse: [ 0 milliSeconds ]) ].
+		| v |
+		v := event current.
+		aBar selectionOption animationDuration: (v
+				 ifTrue: [ 200 milliSeconds ]
+				 ifFalse: [ 0 milliSeconds ]).
+		aBar secondarySelectionMode selectionOption
+			animationDuration: (v
+					 ifTrue: [ 150 milliSeconds ]
+					 ifFalse: [ 0 milliSeconds ]) ].
 
 	wrappingSwitch checked: true.
 
@@ -106,19 +108,20 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 
 	confPane addChild: selectOnMouseDownSwitch.
 	selectOnMouseDownSwitch whenClickedDo: [ :event |
-			 aBar primarySelectionMode selectOnMouseDown: event current ].
+		aBar primarySelectionMode selectOnMouseDown: event current ].
 
 	deselectOnMouseDownSwitch := ToSwitchButton new
-		                           labelText: 'Deselect on mouse down';
-		                           id: #deselectOnMouseDownSwitch.
+		                             labelText: 'Deselect on mouse down';
+		                             id: #deselectOnMouseDownSwitch.
 	deselectOnMouseDownSwitch startFlexible: true.
 	deselectOnMouseDownSwitch hMatchParent.
 
 	confPane addChild: deselectOnMouseDownSwitch.
 	deselectOnMouseDownSwitch whenClickedDo: [ :event |
-			 aBar primarySelectionMode deselectOnMouseDown: event current ].
-	deselectOnMouseDownSwitch checked: aBar primarySelectionMode deselectOnMouseDown.
-	
+		aBar primarySelectionMode deselectOnMouseDown: event current ].
+	deselectOnMouseDownSwitch checked:
+		aBar primarySelectionMode deselectOnMouseDown.
+
 	wrappingSwitch checked: true.
 
 	aBar
@@ -1253,7 +1256,7 @@ ToSandBox class >> example_ListWithAllClasses4 [
 		     cbox checked: holder isSelected.
 		     node addChild: cbox ].
 	l primarySelectionMode selectOnMouseDown: true.
-	l primarySelectionMode selectionElementOption masked: true.
+	l selectionOption masked: true.
 	l dataAccessor addAll: Smalltalk globals allClasses.
 	l openInSpace
 ]

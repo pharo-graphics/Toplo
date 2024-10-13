@@ -1229,7 +1229,7 @@ ToSandBox class >> example_ListWithAllClasses3 [
 				      hMatchParent) ].
 	l primarySelectionMode selectionOption animationDuration:
 		200 milliSeconds.
-	l secondarySelectionMode selectionElementOption animationDuration:
+	l secondarySelectionMode selectionOption animationDuration:
 		150 milliSeconds.
 	l dataAccessor addAll: Smalltalk globals allClasses.
 	l selecter selectIndex: 3.

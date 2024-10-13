@@ -47,11 +47,30 @@ ToButton >> checkableData: aCheckableData [
 	optCheckableData := aCheckableData
 ]
 
+{ #category : #'t - labeled icon' }
+ToButton >> icon: anElement [
+
+	self icon = anElement ifTrue: [ ^ self ].
+	self iconDo: [ :ic | ic removeStamp: #'parent-button' ].
+	self startElement: anElement.
+	self iconDo: [ :ic | ic addStamp: #'parent-button' withValue: self ]
+]
+
 { #category : #initialization }
 ToButton >> initialize [
 
 	super initialize.
 	self initializeTripletElement
+]
+
+{ #category : #'t - labeled icon' }
+ToButton >> label: anElement [
+
+	self label = anElement ifTrue: [ ^ self ].
+	self labelDo: [ :lab | lab removeStamp: #'parent-button' ].
+	self middleElement: anElement.
+	self labelDo: [ :lab | lab addStamp: #'parent-button' withValue: self ].
+
 ]
 
 { #category : #'t - orientable - accessing' }

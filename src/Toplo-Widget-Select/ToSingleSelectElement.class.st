@@ -7,7 +7,7 @@ Class {
 { #category : #testing }
 ToSingleSelectElement >> allowDeselection [
 
-	^ self listElement primarySelectionMode deselectOnMouseDown
+	^ self popupListElement primarySelectionMode deselectOnMouseDown
 ]
 
 { #category : #accessing }

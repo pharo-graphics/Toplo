@@ -123,7 +123,9 @@ ToSingleSelectInnerContainerElement >> refreshFromPopupListSelection [
 
 	| selectedIndex dataItem selectionModel originalData newResultView changedEvent |
 	selectElement showHidePlaceholder.
-
+	" No data to select from, just do nothing here "
+	selectElement popupListElement dataAccessor ifEmpty: [ ^ self ].
+	
 	selectionModel := self popupWindowManager sieve selectionModel.
 	originalData := self popupWindowManager sieve originalData.
 	selectedIndex := selectionModel isEmpty

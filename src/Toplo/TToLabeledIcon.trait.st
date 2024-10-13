@@ -43,9 +43,7 @@ TToLabeledIcon >> icon [
 TToLabeledIcon >> icon: anElement [
 
 	self icon = anElement ifTrue: [ ^ self ].
-	self startElement: anElement.
-	" since the skin can depend on the icon "
-	self requestNewSkin
+	self startElement: anElement
 ]
 
 { #category : #'t - labeled icon' }
@@ -82,9 +80,7 @@ TToLabeledIcon >> label [
 TToLabeledIcon >> label: anElement [
 
 	self label = anElement ifTrue: [ ^ self ].
-	self middleElement: anElement.
-	" since the skin can depend on the label "
-	self requestNewSkin
+	self middleElement: anElement
 ]
 
 { #category : #'t - labeled icon' }

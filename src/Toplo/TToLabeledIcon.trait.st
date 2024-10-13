@@ -42,9 +42,7 @@ TToLabeledIcon >> icon [
 { #category : #'t - labeled icon' }
 TToLabeledIcon >> icon: anElement [
 
-	| prevIcon |
 	self icon = anElement ifTrue: [ ^ self ].
-	prevIcon := self icon.
 	self startElement: anElement.
 	" since the skin can depend on the icon "
 	self requestNewSkin

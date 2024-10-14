@@ -11,8 +11,7 @@ ToSingleSelectTextInputElement >> checkPlaceholderText [
 
 	self inputTextField text
 		ifEmpty: [
-		self selectedDataTextField visibility: BlVisibility visible.
-		self selectedDataTextField text foreground: Color lightGray ]
+		self selectedDataTextField visibility: BlVisibility visible ]
 		ifNotEmpty: [
 		self selectedDataTextField visibility: BlVisibility hidden ]
 ]

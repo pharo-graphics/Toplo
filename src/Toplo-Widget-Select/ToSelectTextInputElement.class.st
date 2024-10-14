@@ -139,14 +139,12 @@ ToSelectTextInputElement >> onInstalledIn: aNodeContainer [
 ToSelectTextInputElement >> onPopupWindowClosed [
 
 	self selectedDataTextField visibility: BlVisibility visible.
-	self selectedDataTextField text foreground: Color black.
 	self updateFocus
 ]
 
 { #category : #window }
 ToSelectTextInputElement >> onPopupWindowOpened [		
 		
-	self selectedDataTextField text foreground: Color lightGray.
 	self updateFocus
 ]
 

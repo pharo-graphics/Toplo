@@ -131,7 +131,7 @@ ToSingleSelectInnerContainerElement >> refreshFromPopupListSelection [
 	selectedIndex := selectionModel isEmpty
 		                 ifTrue: [ 0 ]
 		                 ifFalse: [ selectionModel firstIndex ].
-	currentSelectedIndex = selectedIndex ifTrue: [ ^ self ].
+
 	currentSelectedIndex := selectedIndex.
 	self inputTextField text: '' asRopedText.
 

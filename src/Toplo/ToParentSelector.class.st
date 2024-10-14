@@ -7,7 +7,7 @@ Class {
 	#category : #'Toplo-Core-Selectors'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #comparing }
 ToParentSelector >> = anObject [
 
 	super = anObject ifFalse: [ ^ false ].
@@ -20,18 +20,24 @@ ToParentSelector >> accept: aVisitor [
 	aVisitor visitParentSelector: self
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToParentSelector >> depth [
 	"evaluate only for parent at a given depth or at any depth if selector depth is not specified "
 
 	^ depth
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToParentSelector >> depth: anInteger [
 	"evaluate only for parent at a given depth or at any depth if selector depth is not specified "
 
 	depth := anInteger
+]
+
+{ #category : #comparing }
+ToParentSelector >> hash [
+
+	^ super hash bitXor: depth hash
 ]
 
 { #category : #initialization }

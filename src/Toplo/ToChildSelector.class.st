@@ -7,7 +7,7 @@ Class {
 	#category : #'Toplo-Core-Selectors'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #comparing }
 ToChildSelector >> = anObject [
 
 	super = anObject ifFalse: [ ^ false ].
@@ -32,6 +32,12 @@ ToChildSelector >> depth: anInteger [
 	"evaluate only for children at a given depth or at any depth if selector depth is not specified "
 
 	depth := anInteger
+]
+
+{ #category : #comparing }
+ToChildSelector >> hash [
+
+	^ super hash bitXor: depth hash
 ]
 
 { #category : #initialization }

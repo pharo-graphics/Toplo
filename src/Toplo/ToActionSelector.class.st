@@ -37,3 +37,9 @@ ToActionSelector >> asActionSelector [
 
 	^ self
 ]
+
+{ #category : #comparing }
+ToActionSelector >> hash [
+
+	^ super hash bitXor: action hash
+]

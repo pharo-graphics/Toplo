@@ -35,6 +35,10 @@ ToElementSelectorVisitor >> visitOrSelector: aSelector [
 ]
 
 { #category : #visiting }
+ToElementSelectorVisitor >> visitParentSatisfyingSelector: aSelector [
+]
+
+{ #category : #visiting }
 ToElementSelectorVisitor >> visitParentSelector: aSelector [
 ]
 

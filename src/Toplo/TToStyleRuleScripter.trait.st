@@ -155,9 +155,19 @@ TToStyleRuleScripter >> withParent: aSelector [
 TToStyleRuleScripter >> withParent: aSelector atDepth: anInteger [
 
 	^ ToParentSelector new
-		depth: anInteger;
+		  depth: anInteger;
 		  left: self any;
 		  right: aSelector;
+		  yourself
+]
+
+{ #category : #'t - stylesheet scripter - syntactic sugar' }
+TToStyleRuleScripter >> withParent: aSelector satisfying: aLookupSelector [
+
+	^ ToParentSatisfyingSelector new
+		  left: self any;
+		  right: aSelector;
+		  lookupSelector: aLookupSelector;
 		  yourself
 ]
 

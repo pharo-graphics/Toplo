@@ -47,6 +47,12 @@ ToStampSelector >> asStampSelector [
 	
 ]
 
+{ #category : #comparing }
+ToStampSelector >> hash [
+
+	^ super hash bitXor: stamps hash
+]
+
 { #category : #initialization }
 ToStampSelector >> initialize [ 
 

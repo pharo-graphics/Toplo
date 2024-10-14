@@ -15,6 +15,12 @@ ToBinarySelector >> = anObject [
 	^ self left = anObject left and: [ self right = anObject right ]
 ]
 
+{ #category : #comparing }
+ToBinarySelector >> hash [
+
+	^ super hash bitXor: (left hash bitXor: right hash)
+]
+
 { #category : #accessing }
 ToBinarySelector >> left [
 

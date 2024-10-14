@@ -311,6 +311,35 @@ ToSelectorInterpreterTest >> testVisitIdSelector [
 ]
 
 { #category : #tests }
+ToSelectorInterpreterTest >> testVisitNoneSelector [
+	" the result is always false "
+
+	| selector e engine |
+	selector := ToIdSelector new id: #'my-id'.
+	selector := ToNoneSelector new left: selector.
+	e := ToElement new.
+	engine := ToSelectorInterpreter new.
+	engine check: selector on: e.
+	self deny: engine result.
+	e id: #'my-id'.
+	engine check: selector on: e.
+	self deny: engine result
+]
+
+{ #category : #tests }
+ToSelectorInterpreterTest >> testVisitNoneSelector2 [
+	" the result is alway false "
+
+	| selector e engine |
+	selector := ToUniversalSelector new .
+	selector := ToNoneSelector new left: selector.
+	e := ToElement new.
+	engine := ToSelectorInterpreter new.
+	engine check: selector on: e.
+	self deny: engine result
+]
+
+{ #category : #tests }
 ToSelectorInterpreterTest >> testVisitNotSelector [
 
 	| selector e engine |
@@ -392,6 +421,94 @@ ToSelectorInterpreterTest >> testVisitOrSelectorWithParentSelector [
 	e addStamp: #justified.
 	engine check: selector on: child.
 	self assert: engine result
+]
+
+{ #category : #tests }
+ToSelectorInterpreterTest >> testVisitParentSatisfyingSelector [
+
+	| engine selector button label |
+	selector := ToUniversalSelector new
+		            withParent: #'big-button' asStampSelector
+		            satisfying: ToButton asTypeSelector.
+
+	button := ToButton new.
+	label := ToLabel new.
+	engine := ToSelectorInterpreter new.
+	engine check: selector on: label.
+	self deny: engine result.
+	button label: label.
+	engine check: selector on: label.
+	self deny: engine result.
+	button addStamp: #'big-button'.
+	engine check: selector on: label.
+	self assert: engine result
+]
+
+{ #category : #tests }
+ToSelectorInterpreterTest >> testVisitParentSatisfyingSelector2 [
+
+	| engine selector element label |
+	selector := ToUniversalSelector new
+		            withParent: #'big-button' asStampSelector
+		            satisfying: ToButton asTypeSelector.
+
+	element := ToLabeledIcon new.
+	label := ToLabel new.
+	engine := ToSelectorInterpreter new.
+	engine check: selector on: label.
+	self deny: engine result.
+	element label: label.
+	engine check: selector on: label.
+	self deny: engine result.
+	element addStamp: #'big-button'.
+	engine check: selector on: label.
+	self deny: engine result
+]
+
+{ #category : #tests }
+ToSelectorInterpreterTest >> testVisitParentSatisfyingSelector3 [
+
+	| engine selector element label |
+	selector := ToUniversalSelector new
+		            withParent: #'big-button' asStampSelector
+		            satisfying: ToLabeledIcon asTypeSelector.
+
+	element := ToLabeledIcon new.
+	label := ToLabel new.
+	engine := ToSelectorInterpreter new.
+	engine check: selector on: label.
+	self deny: engine result.
+	element label: label.
+	engine check: selector on: label.
+	self deny: engine result.
+	element addStamp: #'big-button'.
+	engine check: selector on: label.
+	self assert: engine result.
+	
+
+]
+
+{ #category : #tests }
+ToSelectorInterpreterTest >> testVisitParentSatisfyingSelector4 [
+
+	| engine selector element label |
+	selector := ToUniversalSelector new
+		            withParent: ToLabeledIcon asTypeSelector
+		            satisfying: #'big-button' asStampSelector .
+
+	element := ToLabeledIcon new.
+	label := ToLabel new.
+	engine := ToSelectorInterpreter new.
+	engine check: selector on: label.
+	self deny: engine result.
+	element label: label.
+	engine check: selector on: label.
+	self deny: engine result.
+	element addStamp: #'big-button'.
+	engine check: selector on: label.
+	self assert: engine result.
+	
+
 ]
 
 { #category : #tests }

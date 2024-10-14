@@ -110,6 +110,12 @@ ToSelectorInterpreter >> visitIdSelector: aSelector [
 ]
 
 { #category : #visiting }
+ToSelectorInterpreter >> visitNoneSelector: aSelector [
+
+	result := false
+]
+
+{ #category : #visiting }
 ToSelectorInterpreter >> visitNotSelector: aSelector [
 
 	aSelector left accept: self.
@@ -122,6 +128,30 @@ ToSelectorInterpreter >> visitOrSelector: aSelector [
 	aSelector left accept: self.
 	result ifTrue: [ ^ self ].
 	aSelector right accept: self.
+]
+
+{ #category : #visiting }
+ToSelectorInterpreter >> visitParentSatisfyingSelector: aSelector [
+
+	| current lookup |
+	aSelector left accept: self.
+	result ifFalse: [ ^ self ].
+
+	result := false.
+	current := self top.
+	lookup := aSelector lookupSelector.
+
+	[
+	current := current parent.
+	current ifNil: [ ^ self ].
+	self push: current.
+	lookup accept: self.
+	self pop.
+	result ifTrue: [
+		self push: current.
+		aSelector right accept: self.
+		self pop.
+		^ self ] ] repeat
 ]
 
 { #category : #visiting }

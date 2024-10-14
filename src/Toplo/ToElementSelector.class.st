@@ -40,7 +40,7 @@ ToElementSelector >> - aStyleSelector [
 		  yourself
 ]
 
-{ #category : #converting }
+{ #category : #comparing }
 ToElementSelector >> = anObject [ 
 
 	self == anObject ifTrue: [ ^ true ].
@@ -114,6 +114,14 @@ ToElementSelector >> child: aSelector depth: anInteger [
 ToElementSelector >> isTypeSelector [
 
 	^ false
+]
+
+{ #category : #'logical operator' }
+ToElementSelector >> none [
+
+	^ ToNoneSelector new
+		  left: self;
+		  yourself
 ]
 
 { #category : #'logical operator' }
@@ -203,6 +211,16 @@ ToElementSelector >> withParent: aSelector atDepth: anInteger [
 		  left: self;
 		  right: aSelector;
 		  depth: anInteger;
+		  yourself
+]
+
+{ #category : #'logical operator' }
+ToElementSelector >> withParent: aSelector satisfying: aLookupSelector [
+
+	^ ToParentSatisfyingSelector new
+		  left: self;
+		  right: aSelector;
+		  lookupSelector: aLookupSelector;
 		  yourself
 ]
 

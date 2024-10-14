@@ -119,6 +119,18 @@ ToSelectorPrinter >> visitOrSelector: aSelector [
 ]
 
 { #category : #visiting }
+ToSelectorPrinter >> visitParentSatisfyingSelector: aSelector [
+
+	self nextPut: '('.
+	aSelector left accept: self.
+	self nextPut: ' parent:('.	
+		aSelector right accept: self.
+		self nextPut: ') satisfying:('.
+		aSelector lookupSelector accept: self.
+	self nextPut: '))'
+]
+
+{ #category : #visiting }
 ToSelectorPrinter >> visitParentSelector: aSelector [
 
 	self nextPut: '('.

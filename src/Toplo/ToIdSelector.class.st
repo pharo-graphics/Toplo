@@ -7,7 +7,7 @@ Class {
 	#category : #'Toplo-Core-Selectors'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #comparing }
 ToIdSelector >> = anObject [
 
 	super = anObject ifFalse: [ ^ false ].
@@ -24,6 +24,12 @@ ToIdSelector >> accept: aVisitor [
 ToIdSelector >> asIdSelector [
 
 	^ self
+]
+
+{ #category : #comparing }
+ToIdSelector >> hash [
+
+	^ super hash bitXor: id hash
 ]
 
 { #category : #accessing }

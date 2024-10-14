@@ -40,6 +40,12 @@ ToTypeSelector >> exact: aBoolean [
 	exact := aBoolean
 ]
 
+{ #category : #comparing }
+ToTypeSelector >> hash [
+
+	^ super hash bitXor: type hash
+]
+
 { #category : #initialization }
 ToTypeSelector >> initialize [ 
 

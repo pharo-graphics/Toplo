@@ -32,5 +32,6 @@ ToSelectEventHandler >> eventsToHandle [
 { #category : #'element handlers' }
 ToSelectEventHandler >> selectInputTextFieldUpdatedEvent: anEvent [
 
+	anEvent currentTarget showHidePlaceholder.
 	anEvent currentTarget filterStringChanged.
 ]

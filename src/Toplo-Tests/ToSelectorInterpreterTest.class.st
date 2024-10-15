@@ -445,6 +445,24 @@ ToSelectorInterpreterTest >> testVisitParentSatisfyingSelector [
 ]
 
 { #category : #tests }
+ToSelectorInterpreterTest >> testVisitParentSatisfyingSelector0 [
+	" fails if the element has no parent "
+
+	| engine selector button |
+	selector := ToUniversalSelector new
+		            withParent: #'big-button' asStampSelector
+		            satisfying: ToButton asTypeSelector.
+
+	button := ToButton new.
+	engine := ToSelectorInterpreter new.
+	engine check: selector on: button.
+	self deny: engine result.
+	button addStamp: #'big-button'.
+	engine check: selector on: button.
+	self deny: engine result
+]
+
+{ #category : #tests }
 ToSelectorInterpreterTest >> testVisitParentSatisfyingSelector2 [
 
 	| engine selector element label |
@@ -530,6 +548,24 @@ ToSelectorInterpreterTest >> testVisitParentSelector [
 	selector right exact: false.
 	engine check: selector on: e.
 	self assert: engine result
+]
+
+{ #category : #tests }
+ToSelectorInterpreterTest >> testVisitParentSelector0 [
+	" selector: an element with a parent of type ToElement fails 
+	if runned on anElement without any parent event the selected type matches"
+
+	| selector e engine |
+	selector := ToUniversalSelector new withParent:
+		            (ToTypeSelector new type: ToElement).
+	e := ToElement new.
+	engine := ToSelectorInterpreter new.
+	engine check: selector on: e.
+	self deny: engine result.
+	" now allow isKindOf: "
+	selector right exact: false.
+	engine check: selector on: e.
+	self deny: engine result
 ]
 
 { #category : #tests }

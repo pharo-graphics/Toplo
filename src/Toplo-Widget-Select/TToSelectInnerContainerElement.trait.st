@@ -10,6 +10,17 @@ TToSelectInnerContainerElement >> inputTextField [
 ]
 
 { #category : #'t - select inner container' }
+TToSelectInnerContainerElement >> installTextInputElement [ 
+
+	self textInputElement: ToSelectTextInputElement new.
+	self textInputElement onInstalledIn: self.
+	self textInputElement constraintsDo: [ :c |
+		c linear vertical alignCenter.
+		c flow vertical alignCenter ].
+	self addChild: self textInputElement
+]
+
+{ #category : #'t - select inner container' }
 TToSelectInnerContainerElement >> isFiltrable [
 
 	^ self selectElement isFiltrable
@@ -29,9 +40,9 @@ TToSelectInnerContainerElement >> popupWindowManager [
 ]
 
 { #category : #'t - select inner container' }
-TToSelectInnerContainerElement >> refresh [
+TToSelectInnerContainerElement >> refreshFromPopupListSelection [
 
-	self explicitRequirement 
+	^ self explicitRequirement 
 ]
 
 { #category : #'t - select inner container' }
@@ -47,19 +58,13 @@ TToSelectInnerContainerElement >> selectElement: aSelectElement [
 ]
 
 { #category : #'t - select inner container' }
-TToSelectInnerContainerElement >> selectedDataTextField [
-
-	^ self textInputElement selectedDataTextField
-]
-
-{ #category : #'t - select inner container' }
 TToSelectInnerContainerElement >> textInputElement [
 
 	self explicitRequirement 
 ]
 
 { #category : #'t - select inner container' }
-TToSelectInnerContainerElement >> textInputElementClass [
+TToSelectInnerContainerElement >> textInputElement: aTextInputElement [
 
 	self explicitRequirement 
 ]

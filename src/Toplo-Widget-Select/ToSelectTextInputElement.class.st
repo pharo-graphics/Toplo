@@ -2,7 +2,6 @@ Class {
 	#name : #ToSelectTextInputElement,
 	#superclass : #ToElement,
 	#instVars : [
-		'selectedDataTextField',
 		'inputTextField',
 		'installedInputTextFieldTextEventHandler',
 		'windowPopupHandler',
@@ -26,18 +25,6 @@ ToSelectTextInputElement >> beReadonly [
 	self inputTextField beReadonlyWithoutSelection
 ]
 
-{ #category : #private }
-ToSelectTextInputElement >> checkPlaceholderText [
-
-	self subclassResponsibility 
-]
-
-{ #category : #initialization }
-ToSelectTextInputElement >> configureTextField: aTextField [
-
-	self subclassResponsibility 
-]
-
 { #category : #accessing }
 ToSelectTextInputElement >> filterString [
 
@@ -54,8 +41,7 @@ ToSelectTextInputElement >> initialize [
 		c frame vertical alignCenter.
 		c flow vertical alignCenter.
 		c linear vertical alignCenter ].
-	self hMatchParent.
-	self vFitContent
+	self fitContent
 ]
 
 { #category : #accessing }
@@ -79,47 +65,23 @@ ToSelectTextInputElement >> installInputTextFieldEventHandlers [
 		self inputTextField addEventHandler: h ]
 ]
 
-{ #category : #initialization }
-ToSelectTextInputElement >> newTextFieldIn: aNodeContainer [
-
-	| textField |
-	textField := ToSelectTextField new.
-	textField headerNodeContainer: aNodeContainer.
-	self configureTextField: textField.
-	^ textField
-]
-
-{ #category : #private }
-ToSelectTextInputElement >> onFilterTextReplaced: anEvent [
-
-	self fireEvent: ToSelectInputTextFieldUpdatedEvent new.
-	self parent sieve pattern: self filterString.
-	self checkPlaceholderText
-]
-
 { #category : #private }
 ToSelectTextInputElement >> onFilterTextUpdated: anEvent [
 
-	self fireEvent: ToSelectInputTextFieldUpdatedEvent new.
-	self inputTextField text
-		ifEmpty: [
-		self selectedDataTextField visibility: BlVisibility visible ]
-		ifNotEmpty: [
-		self selectedDataTextField visibility: BlVisibility hidden ]
+	self fireEvent: ToSelectInputTextFieldUpdatedEvent new
 ]
 
 { #category : #'api - hooks' }
 ToSelectTextInputElement >> onInstalledIn: aNodeContainer [
 
 	windowManager := aNodeContainer popupWindowManager.
-	selectedDataTextField := self newTextFieldIn: aNodeContainer.
-	selectedDataTextField beReadonlyWithSelection.
-	selectedDataTextField id: #selectedDataTextField.
-	inputTextField := self newTextFieldIn: aNodeContainer.
+	inputTextField := ToSelectTextField new.
+	inputTextField headerNodeContainer: aNodeContainer.
+	inputTextField withoutLineWrapping.
 	inputTextField id: #inputTextField.
-	self addChild: selectedDataTextField.
 	self addChild: inputTextField.
 	self selectFiltrable: aNodeContainer isFiltrable.
+	self hFitContent.
 
 	" Window handler open the window on text input.
 	the window stays invisible until the sieve is applied to avoid inconfortable effect 
@@ -138,7 +100,6 @@ ToSelectTextInputElement >> onInstalledIn: aNodeContainer [
 { #category : #window }
 ToSelectTextInputElement >> onPopupWindowClosed [
 
-	self selectedDataTextField visibility: BlVisibility visible.
 	self updateFocus
 ]
 
@@ -154,7 +115,6 @@ ToSelectTextInputElement >> onUninstalledIn: aNodeContainer [
 	self uninstallInputTextFieldEventHandlers.
 	inputTextField infinite removeEventHandler: windowPopupHandler.
 	windowPopupHandler := nil.
-	selectedDataTextField := nil.
 	inputTextField := nil.
 	self removeChildren
 ]
@@ -166,12 +126,6 @@ ToSelectTextInputElement >> selectFiltrable: aBoolean [
 	aBoolean
 		ifTrue: [ self beEditable ]
 		ifFalse: [ self beReadonly ].
-]
-
-{ #category : #accessing }
-ToSelectTextInputElement >> selectedDataTextField [
-
-	^ selectedDataTextField
 ]
 
 { #category : #initialization }

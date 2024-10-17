@@ -134,20 +134,6 @@ ToMultiSelectBarElement >> initialize [
 	self installTextInputElement
 ]
 
-{ #category : #'t - select inner container' }
-ToMultiSelectBarElement >> installTextInputElement [
-
-	textInputElement := self textInputElementClass new.
-	textInputElement onInstalledIn: self.
-	
-	textInputElement hFitContent.
-	textInputElement constraintsDo: [ :c |
-		c linear vertical alignCenter.
-		c flow vertical alignCenter ].
-	self addChild: textInputElement
-
-]
-
 { #category : #accessing }
 ToMultiSelectBarElement >> keepPickOrder [
 
@@ -272,7 +258,7 @@ ToMultiSelectBarElement >> textInputElement [
 ]
 
 { #category : #'t - select inner container' }
-ToMultiSelectBarElement >> textInputElementClass [
+ToMultiSelectBarElement >> textInputElement: aTextInputElement [
 
-	^ ToMultiSelectTextInputElement
+	textInputElement := aTextInputElement 
 ]

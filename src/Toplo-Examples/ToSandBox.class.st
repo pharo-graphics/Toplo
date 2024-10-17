@@ -1742,10 +1742,14 @@ ToSandBox class >> example_SelectAntDesignIconMonoFiltrable [
 	select filtrable: true.
 
 	select dataViewBuilder: [ :dataItemView :iconDesc |
-		dataItemView selectedDataTextField text:
-			iconDesc style prefix , ' ' , iconDesc name.
 		dataItemView addChild:
-			((iconDesc icon size: 48 asPoint) background: Color veryLightGray) ].
+			((iconDesc icon size: 48 asPoint) background: Color veryLightGray).
+		dataItemView addChild:
+			((ToLabel text: iconDesc style prefix , ' ' , iconDesc name)
+				 margin: (BlInsets all: 3);
+				 yourself).
+		dataItemView childrenDo: [ :child |
+			child constraintsDo: [ :c | c linear vertical alignCenter ] ] ].
 
 	select sample: (select popupListElement dataAccessor at: 1).
 
@@ -1754,6 +1758,7 @@ ToSandBox class >> example_SelectAntDesignIconMonoFiltrable [
 		('Select an icon' asRopedText foreground: Color red).
 
 	select inputTextField requestFocus.
+	select inspect.
 	select openInSpace
 ]
 
@@ -1796,10 +1801,14 @@ ToSandBox class >> example_SelectMaterialDesignIconMonoFiltrable [
 	select filtrable: true.
 
 	select dataViewBuilder: [ :dataItemView :iconDesc |
-		dataItemView selectedDataTextField text:
-			iconDesc style prefix , ' ' , iconDesc name.
 		dataItemView addChild:
-			((iconDesc icon size: 48 asPoint) background: Color veryLightGray) ].
+			((iconDesc icon size: 48 asPoint) background: Color veryLightGray).
+		dataItemView addChild:
+			((ToLabel text: iconDesc style prefix , ' ' , iconDesc name)
+				 margin: (BlInsets all: 3);
+				 yourself).
+		dataItemView childrenDo: [ :child |
+			child constraintsDo: [ :c | c linear vertical alignCenter ] ] ].
 
 	select sample: select popupListElement dataAccessor first.
 
@@ -1831,6 +1840,7 @@ ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
 		tag bordered: false.
 		tag icon: (iconDesc icon size: 48 asPoint).
 		node addChild: tag ].
+	
 	select sample: select popupListElement dataAccessor first.
 	select hMatchParent.
 	select placeholderText:
@@ -1856,10 +1866,14 @@ ToSandBox class >> example_SelectMonoFiltrable [
 		placeholder layout alignCenter.
 		lab := ToAttributedLabel text: phtext.
 		placeholder addChild: lab ].
-
+	select dataViewBuilder: [ :dataItemView :aString |
+		dataItemView addChild: ((ToLabel text: aString)
+				 fontSize: 28;
+				 yourself) ].
 	select filtrable: true.
+
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
-	"select selecter selectIndex: 2."
+	select selecter selectIndex: 2.
 	select placeholderText:
 		('Select a state' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
@@ -1867,6 +1881,7 @@ ToSandBox class >> example_SelectMonoFiltrable [
 	select width: 300.
 	select position: 50 @ 50.
 	select inputTextField requestFocus.
+	select inspect.
 	innerWindow pane addChild: select.
 	innerWindow height: 500.
 	innerWindow openInSpace
@@ -1895,6 +1910,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 
 	| select innerWindow newTagFactory |
 	select := ToMultiSelectElement new.
+	select inspect.
 	select nodeWrapping: true.
 	select keepPickOrder: true.
 	select popupListElement selectionOption grouped: false.
@@ -2086,7 +2102,8 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected [
 	| select innerWindow |
 	select := ToMultiSelectElement new.
 	select withCloseButton: true.
-	select popupListElement primarySelectionMode selectionElementOption masked: true.
+	select popupListElement primarySelectionMode selectionOption masked:
+		true.
 	select hideSelected: true.
 	select popupListElement dataAccessor updateAllWith:
 		self statesOfAmerica.
@@ -6000,7 +6017,8 @@ ToSandBox class >> themeSelect [
 		          ('Raw Dark' -> ToRawDarkTheme new) }.
 
 	select dataViewBuilder: [ :dataItemView :themeAssoc |
-		dataItemView selectedDataTextField text: themeAssoc key ].
+		dataItemView addChild: (ToLabel text: themeAssoc key) ].
+
 	select popupListElement nodeBuilder: [ :node :themeAssoc :holder |
 		node addChild: (ToLabel text: themeAssoc key) ].
 

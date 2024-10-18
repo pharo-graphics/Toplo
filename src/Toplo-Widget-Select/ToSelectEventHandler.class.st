@@ -25,13 +25,5 @@ ToSelectEventHandler >> eventsToHandle [
 
 	^ super eventsToHandle , {
 		  BlElementAddedToSceneGraphEvent.
-		  BlElementExtentChangedEvent.
-		  ToSelectInputTextFieldUpdatedEvent }
-]
-
-{ #category : #'element handlers' }
-ToSelectEventHandler >> selectInputTextFieldUpdatedEvent: anEvent [
-
-	anEvent currentTarget showHidePlaceholder.
-	anEvent currentTarget filterStringChanged.
+		  BlElementExtentChangedEvent }
 ]

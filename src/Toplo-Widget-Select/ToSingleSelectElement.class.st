@@ -34,8 +34,7 @@ ToSingleSelectElement >> dataViewFactory: aValuable [
 ToSingleSelectElement >> defaultDataViewBuilder [
 
 	^ [ :theView :theDataItem |
-	  theView selectedDataTextField text:
-		  (theDataItem ifNil: [ '' ] ifNotNil: [ :d | d asString ]) asRopedText ]
+		theView addChild: (ToLabel text: theDataItem asString) ]
 ]
 
 { #category : #initialization }

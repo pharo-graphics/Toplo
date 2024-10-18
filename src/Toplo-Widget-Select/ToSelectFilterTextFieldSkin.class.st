@@ -1,23 +1,23 @@
 Class {
-	#name : #ToSelectTextFieldSkin,
+	#name : #ToSelectFilterTextFieldSkin,
 	#superclass : #ToAlbumSkin,
-	#category : #'Toplo-Widget-Select-textInput'
+	#category : #'Toplo-Widget-Select-Filter-TextField'
 }
 
 { #category : #accessing }
-ToSelectTextFieldSkin >> blurBorderIn: anAlbum [
+ToSelectFilterTextFieldSkin >> blurBorderIn: anAlbum [
 
 	^ BlBorder empty
 ]
 
 { #category : #accessing }
-ToSelectTextFieldSkin >> focusBorderIn: anAlbum [
+ToSelectFilterTextFieldSkin >> focusBorderIn: anAlbum [
 
 	^ BlBorder empty
 ]
 
 { #category : #'event handling' }
-ToSelectTextFieldSkin >> installSkinEvent: anEvent [
+ToSelectFilterTextFieldSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |

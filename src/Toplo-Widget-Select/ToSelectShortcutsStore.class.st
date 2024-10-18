@@ -10,7 +10,7 @@ ToSelectShortcutsStore >> shortcut: aShortCut in: aSelect [
 	aSelect isFiltrable ifTrue: [
 		self addInstaller: (ToEditorShortcutsInstaller new
 				 shortcut: aShortCut;
-				 eventTarget: aSelect inputTextField;
+				 eventTarget: aSelect filterTextField;
 				 yourself).
 		^ self ].
 	self addInstaller: (ToShortcutsInstaller new

@@ -47,7 +47,7 @@ ToInfiniteDataSourceManager >> onItemsSieved: aPositionStart itemCount: anItemCo
 	"Return true if pending commands should be processed,
 	otherwise false"
 
-	"Register add command"
+	"Register the sieve command"
 	finalStepCommands add: (ToInfiniteDataSourceSieveCommand new
 			 positionStart: aPositionStart;
 			 itemCount: anItemCount;

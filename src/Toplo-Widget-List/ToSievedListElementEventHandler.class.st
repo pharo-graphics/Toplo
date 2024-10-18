@@ -69,6 +69,8 @@ ToSievedListElementEventHandler >> listSelectionCommandAppliedEvent: aPreNotific
 	" first check if the request is for the primary selection model "
 	listSelModel = aPreNotification selectionModel ifFalse: [ ^ self ].
 
+	" have to do nothing if the list is empty. Else, the selection can be lost in case of single select"
+	listElement dataAccessor ifEmpty: [ ^ self ].
 	" reset the selection in case of single selection mode "
 	aPreNotification currentTarget isMultipleSelection ifFalse: [
 		sieveSelectionModel deselectAll ].

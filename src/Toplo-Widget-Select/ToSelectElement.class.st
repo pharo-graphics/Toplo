@@ -50,13 +50,19 @@ ToSelectElement >> defaultLayout [
 { #category : #accessing }
 ToSelectElement >> filterString [
 
-	^ self textInputElement filterString
+	^ self filterTextField text asString
 ]
 
 { #category : #'accessing - selection' }
 ToSelectElement >> filterStringChanged [
 
 	self pattern: self filterString
+]
+
+{ #category : #accessing }
+ToSelectElement >> filterTextField [ 
+
+	^ self innerContainer filterTextField
 ]
 
 { #category : #accessing }
@@ -69,7 +75,7 @@ ToSelectElement >> filtrable [
 ToSelectElement >> filtrable: aBoolean [
 
 	filtrable := aBoolean.
-	self textInputElement selectFiltrable: aBoolean
+	self filterTextField selectFiltrable: aBoolean
 ]
 
 { #category : #accessing }
@@ -133,12 +139,6 @@ ToSelectElement >> innerContainer: anInnerContainerElement [
 ToSelectElement >> innerContainerClass [
 
 	^ self subclassResponsibility 
-]
-
-{ #category : #accessing }
-ToSelectElement >> inputTextField [ 
-
-	^ self innerContainer inputTextField
 ]
 
 { #category : #testing }
@@ -206,13 +206,13 @@ ToSelectElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 { #category : #window }
 ToSelectElement >> onPopupWindowClosed [
 
-	self textInputElement onPopupWindowClosed
+	self filterTextField requestFocus
 ]
 
 { #category : #window }
 ToSelectElement >> onPopupWindowOpened [
 
-	self textInputElement onPopupWindowOpened
+	self filterTextField requestFocus
 ]
 
 { #category : #'accessing - selection' }
@@ -295,9 +295,9 @@ ToSelectElement >> popupSizeHook: aValuable [
 ]
 
 { #category : #'accessing - window' }
-ToSelectElement >> popupWindowEvent: anEvent [ 
+ToSelectElement >> popupWindowEvent: anEvent [
 
-	^ self windowManager popupWindowEvent: anEvent 
+	^ self popupWindowManager popupWindowEvent: anEvent
 ]
 
 { #category : #accessing }
@@ -344,7 +344,7 @@ ToSelectElement >> showHidePlaceholder [
 	is entered in the input text field "
 
 	self selectionModel ifEmpty: [
-		self inputTextField text ifEmpty: [ ^ self showPlaceholder ] ].
+		self filterTextField text ifEmpty: [ ^ self showPlaceholder ] ].
 	self hidePlaceholder
 ]
 
@@ -352,12 +352,6 @@ ToSelectElement >> showHidePlaceholder [
 ToSelectElement >> sieve [
 
 	^ popupWindowManager sieve
-]
-
-{ #category : #accessing }
-ToSelectElement >> textInputElement [ 
-
-	^ self innerContainer textInputElement
 ]
 
 { #category : #accessing }

@@ -1756,7 +1756,6 @@ ToSandBox class >> example_SelectAntDesignIconMonoFiltrable [
 		('Select an icon' asRopedText foreground: Color red).
 
 	select filterTextField requestFocus.
-	select inspect.
 	select openInSpace
 ]
 
@@ -1783,7 +1782,6 @@ ToSandBox class >> example_SelectAntDesignIconMultiFiltrable [
 		('Select icons' asRopedText foreground: Color red).
 
 	select filterTextField requestFocus.
-	select inspect.
 	select openInSpace
 ]
 
@@ -1880,7 +1878,6 @@ ToSandBox class >> example_SelectMonoFiltrable [
 	select width: 300.
 	select position: 50 @ 50.
 	select filterTextField requestFocus.
-	select inspect.
 	innerWindow pane addChild: select.
 	innerWindow height: 500.
 	innerWindow openInSpace

@@ -30,3 +30,17 @@ ToSingleSelectDataItemView >> installRawStyle [
 	self padding: (BlInsets all: 5)
 
 ]
+
+{ #category : #accessing }
+ToSingleSelectDataItemView >> selectedDataTextField [
+
+	self deprecated: 'No more implemented. Please, add a ToLabel child in the data item view'.
+	^ self
+]
+
+{ #category : #accessing }
+ToSingleSelectDataItemView >> text: aText [
+
+	self deprecated: 'No more implemented. Please, add a ToLabel child in the data item view'.
+	self addChild: (ToLabel text: aText)
+]

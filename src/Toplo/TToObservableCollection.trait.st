@@ -724,7 +724,7 @@ TToObservableCollection >> select: aBlock [
 TToObservableCollection >> sieveResultWith: aSieve [
 
 	| interval |
-	interval := 1 to: aSieve currentData.
+	interval := 1 to: aSieve currentData size.
 	self
 		notifySievedWith: aSieve
 		around: [

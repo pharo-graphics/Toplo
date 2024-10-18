@@ -5,13 +5,13 @@ Class {
 	#classTraits : 'TToSelectInnerContainerElement classTrait',
 	#instVars : [
 		'selectElement',
-		'textInputElement',
 		'fakeDataView',
 		'dataView',
 		'dataViewFactory',
 		'dataViewBuilder',
 		'fakeDataItem',
-		'currentSelectedIndex'
+		'currentSelectedIndex',
+		'filterTextField'
 	],
 	#category : #'Toplo-Widget-Select-Single'
 }
@@ -52,6 +52,18 @@ ToSingleSelectInnerContainerElement >> fakeDataItem: aData [
 	self installFakeDataView
 ]
 
+{ #category : #'t - select inner container' }
+ToSingleSelectInnerContainerElement >> filterTextField [
+
+	^ filterTextField 
+]
+
+{ #category : #'t - select inner container' }
+ToSingleSelectInnerContainerElement >> filterTextField: aTextField [
+
+	filterTextField := aTextField
+]
+
 { #category : #initialization }
 ToSingleSelectInnerContainerElement >> initialize [
 
@@ -67,7 +79,7 @@ ToSingleSelectInnerContainerElement >> initialize [
 		
 	self installDataView.
 	self installFakeDataView.
-	self installTextInputElement
+	self installFilterTextField
 
 ]
 
@@ -128,7 +140,7 @@ ToSingleSelectInnerContainerElement >> refreshFromPopupListSelection [
 		                 ifFalse: [ selectionModel firstIndex ].
 
 	currentSelectedIndex := selectedIndex.
-	self inputTextField text: '' asRopedText.
+	self filterTextField text: '' asRopedText.
 
 	dataView removeChildren.
 
@@ -160,18 +172,6 @@ ToSingleSelectInnerContainerElement >> selectElement [
 ToSingleSelectInnerContainerElement >> selectElement: aSelectElement [
 
 	selectElement := aSelectElement
-]
-
-{ #category : #'t - select inner container' }
-ToSingleSelectInnerContainerElement >> textInputElement [
-
-	^ textInputElement 
-]
-
-{ #category : #'t - select inner container' }
-ToSingleSelectInnerContainerElement >> textInputElement: aTextInputElement [
-
-	textInputElement := aTextInputElement 
 ]
 
 { #category : #initialization }

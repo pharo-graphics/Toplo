@@ -4,20 +4,26 @@ Trait {
 }
 
 { #category : #'t - select inner container' }
-TToSelectInnerContainerElement >> inputTextField [
+TToSelectInnerContainerElement >> filterTextField [
 
-	^ self textInputElement inputTextField
+	self explicitRequirement 
 ]
 
 { #category : #'t - select inner container' }
-TToSelectInnerContainerElement >> installTextInputElement [ 
+TToSelectInnerContainerElement >> filterTextField: aTextField [
 
-	self textInputElement: ToSelectTextInputElement new.
-	self textInputElement onInstalledIn: self.
-	self textInputElement constraintsDo: [ :c |
+	self explicitRequirement 
+]
+
+{ #category : #'t - select inner container' }
+TToSelectInnerContainerElement >> installFilterTextField [ 
+
+	self filterTextField: ToSelectFilterTextField new.
+	self filterTextField onInstalledIn: self selectElement.
+	self filterTextField constraintsDo: [ :c |
 		c linear vertical alignCenter.
 		c flow vertical alignCenter ].
-	self addChild: self textInputElement
+	self addChild: self filterTextField
 ]
 
 { #category : #'t - select inner container' }
@@ -53,18 +59,6 @@ TToSelectInnerContainerElement >> selectElement [
 
 { #category : #'t - select inner container' }
 TToSelectInnerContainerElement >> selectElement: aSelectElement [
-
-	self explicitRequirement 
-]
-
-{ #category : #'t - select inner container' }
-TToSelectInnerContainerElement >> textInputElement [
-
-	self explicitRequirement 
-]
-
-{ #category : #'t - select inner container' }
-TToSelectInnerContainerElement >> textInputElement: aTextInputElement [
 
 	self explicitRequirement 
 ]

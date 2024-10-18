@@ -1757,7 +1757,7 @@ ToSandBox class >> example_SelectAntDesignIconMonoFiltrable [
 	select placeholderText:
 		('Select an icon' asRopedText foreground: Color red).
 
-	select inputTextField requestFocus.
+	select filterTextField requestFocus.
 	select inspect.
 	select openInSpace
 ]
@@ -1784,7 +1784,7 @@ ToSandBox class >> example_SelectAntDesignIconMultiFiltrable [
 	select placeholderText:
 		('Select icons' asRopedText foreground: Color red).
 
-	select inputTextField requestFocus.
+	select filterTextField requestFocus.
 	select inspect.
 	select openInSpace
 ]
@@ -1816,7 +1816,7 @@ ToSandBox class >> example_SelectMaterialDesignIconMonoFiltrable [
 	select placeholderText:
 		('Select an icon' asRopedText foreground: Color red).
 
-	select inputTextField requestFocus.
+	select filterTextField requestFocus.
 	select openInSpace
 ]
 
@@ -1846,7 +1846,7 @@ ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
 	select placeholderText:
 		('Select icons' asRopedText foreground: Color red).
 
-	select inputTextField requestFocus.
+	select filterTextField requestFocus.
 	select openInSpace
 ]
 
@@ -1880,7 +1880,7 @@ ToSandBox class >> example_SelectMonoFiltrable [
 	select popupWindowManager anchorRoot: innerWindow root.
 	select width: 300.
 	select position: 50 @ 50.
-	select inputTextField requestFocus.
+	select filterTextField requestFocus.
 	select inspect.
 	innerWindow pane addChild: select.
 	innerWindow height: 500.
@@ -2223,7 +2223,7 @@ ToSandBox class >> example_SelectMultiNotFiltrableWithGroups [
 	select popupWindowManager anchorRoot: innerWindow root.
 	select width: 300.
 	select position: 50 @ 50.
-	select inputTextField requestFocus.
+	select filterTextField requestFocus.
 	innerWindow pane addChild: select.
 	innerWindow height: 500.
 	innerWindow openInSpace

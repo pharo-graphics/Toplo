@@ -5,10 +5,10 @@ Class {
 	#classTraits : 'TToSelectInnerContainerElement classTrait',
 	#instVars : [
 		'selectElement',
-		'textInputElement',
 		'maxSelectedCount',
 		'keepPickOrder',
-		'pickCount'
+		'pickCount',
+		'filterTextField'
 	],
 	#category : #'Toplo-Widget-Select-Multi'
 }
@@ -93,6 +93,18 @@ ToMultiSelectBarElement >> extentChanged [
 	self refreshFromPopupListSelection
 ]
 
+{ #category : #'t - select inner container' }
+ToMultiSelectBarElement >> filterTextField [ 
+
+	^ filterTextField 
+]
+
+{ #category : #'t - select inner container' }
+ToMultiSelectBarElement >> filterTextField: aTextField [
+
+	filterTextField := aTextField 
+]
+
 { #category : #layout }
 ToMultiSelectBarElement >> haveInvisibleNodes: theInvisibleNodes [
 
@@ -131,7 +143,7 @@ ToMultiSelectBarElement >> initialize [
 	keepPickOrder := false.
 	pickCount := 0.
 
-	self installTextInputElement
+	self installFilterTextField
 ]
 
 { #category : #accessing }
@@ -249,16 +261,4 @@ ToMultiSelectBarElement >> selectElement: aSelectElement [
 ToMultiSelectBarElement >> sieve [
 
 	^ selectElement sieve
-]
-
-{ #category : #'t - select inner container' }
-ToMultiSelectBarElement >> textInputElement [ 
-
-	^ textInputElement 
-]
-
-{ #category : #'t - select inner container' }
-ToMultiSelectBarElement >> textInputElement: aTextInputElement [
-
-	textInputElement := aTextInputElement 
 ]

@@ -9,12 +9,6 @@ Class {
 	#category : #'Toplo-Widget-Select-textInput'
 }
 
-{ #category : #accessing }
-ToSelectFilterTextField >> filterString [
-
-	^ self text asString
-]
-
 { #category : #initialization }
 ToSelectFilterTextField >> initialize [
 
@@ -78,18 +72,6 @@ ToSelectFilterTextField >> onInstalledIn: aSelectElement [
 	self infinite addEventHandler: windowPopupHandler
 ]
 
-{ #category : #window }
-ToSelectFilterTextField >> onPopupWindowClosed [
-
-	self requestFocus
-]
-
-{ #category : #window }
-ToSelectFilterTextField >> onPopupWindowOpened [		
-		
-	self requestFocus
-]
-
 { #category : #'api - hooks' }
 ToSelectFilterTextField >> onUninstalledIn: aSelectElement [
 
@@ -114,5 +96,7 @@ ToSelectFilterTextField >> selectFiltrable: aBoolean [
 { #category : #accessing }
 ToSelectFilterTextField >> selectNodeBefore [
 
-	^ selectInnerContainer nodes ifEmpty: [] ifNotEmpty: [:nodes | nodes last]
+	^ selectInnerContainer nodes
+		  ifEmpty: [  ]
+		  ifNotEmpty: [ :nodes | nodes last ]
 ]

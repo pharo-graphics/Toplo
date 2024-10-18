@@ -10,11 +10,13 @@ Class {
 { #category : #'private - commands' }
 ToSelectListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 	" update the selection according to the sieve selection model"
+
 	super applyDataSourceSieveCommand: aDataSourceCommand.
 	" the window can be opened but invisible if opened from the text input element.
 	see ToSelectFilterTextField>>onInstalledIn:. #popupWindowHiddenEvent: is sent
 	to the select popup window manager when the filter is changed "
-	selectElement currentPopupWindow ifNotNil: [:w | w visibility: BlVisibility visible  ]
+	selectElement currentPopupWindow ifNotNil: [ :w |
+		w visibility: BlVisibility visible ]
 ]
 
 { #category : #accessing }

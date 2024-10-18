@@ -50,7 +50,7 @@ ToSelectElement >> defaultLayout [
 { #category : #accessing }
 ToSelectElement >> filterString [
 
-	^ self filterTextField filterString
+	^ self filterTextField text asString
 ]
 
 { #category : #'accessing - selection' }
@@ -206,13 +206,13 @@ ToSelectElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 { #category : #window }
 ToSelectElement >> onPopupWindowClosed [
 
-	self filterTextField onPopupWindowClosed
+	self filterTextField requestFocus
 ]
 
 { #category : #window }
 ToSelectElement >> onPopupWindowOpened [
 
-	self filterTextField onPopupWindowOpened
+	self filterTextField requestFocus
 ]
 
 { #category : #'accessing - selection' }

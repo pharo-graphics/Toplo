@@ -29,7 +29,9 @@ ToSingleSelectInnerContainerElement >> dataViewBuilder: aValuable [
 	" aValuable takes 2 args: the dataItemView and the selected dataItem "
 
 	dataViewBuilder := aValuable.
-	self refreshFromPopupListSelection
+	self refreshFromPopupListSelection.
+	fakeDataItem ifNil: [ ^ self ].
+	self reinstallFakeDataView
 ]
 
 { #category : #accessing }
@@ -48,8 +50,7 @@ ToSingleSelectInnerContainerElement >> defaultLayout [
 ToSingleSelectInnerContainerElement >> fakeDataItem: aData [
 
 	fakeDataItem := aData.
-	self uninstallFakeDataView.
-	self installFakeDataView
+	self reinstallFakeDataView
 ]
 
 { #category : #'t - select inner container' }
@@ -73,7 +74,6 @@ ToSingleSelectInnerContainerElement >> initialize [
 		hMatchParent;
 		constraintsDo: [ :c | c linear vertical alignCenter ].
 
-	fakeDataItem := 'X'.
 	dataViewFactory := selectElement defaultDataViewFactory.
 	dataViewBuilder := selectElement defaultDataViewBuilder.
 		
@@ -154,6 +154,14 @@ ToSingleSelectInnerContainerElement >> refreshFromPopupListSelection [
 	changedEvent selectedData: dataItem.
 	changedEvent selectedIndex: selectedIndex.
 	selectElement dispatchEvent: changedEvent
+]
+
+{ #category : #initialization }
+ToSingleSelectInnerContainerElement >> reinstallFakeDataView [
+		
+	self uninstallFakeDataView.
+	self installFakeDataView 
+
 ]
 
 { #category : #accessing }

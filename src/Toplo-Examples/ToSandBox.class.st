@@ -1740,7 +1740,7 @@ ToSandBox class >> example_SelectAntDesignIconMonoFiltrable [
 		withIconProvider: ToAntDesignIconProvider.
 
 	select filtrable: true.
-
+	select sample: (select popupListElement dataAccessor at: 1).
 	select dataViewBuilder: [ :dataItemView :iconDesc |
 		dataItemView addChild:
 			((iconDesc icon size: 48 asPoint) background: Color veryLightGray).
@@ -1750,8 +1750,6 @@ ToSandBox class >> example_SelectAntDesignIconMonoFiltrable [
 				 yourself).
 		dataItemView childrenDo: [ :child |
 			child constraintsDo: [ :c | c linear vertical alignCenter ] ] ].
-
-	select sample: (select popupListElement dataAccessor at: 1).
 
 	select hMatchParent.
 	select placeholderText:
@@ -1861,6 +1859,7 @@ ToSandBox class >> example_SelectMonoFiltrable [
 		           yourself)
 		          fontSize: 24;
 		          yourself.
+	select sample: 'X'.
 	select popupListElement placeholderBuilder: [ :placeholder :e |
 		| lab |
 		placeholder layout alignCenter.
@@ -1868,7 +1867,7 @@ ToSandBox class >> example_SelectMonoFiltrable [
 		placeholder addChild: lab ].
 	select dataViewBuilder: [ :dataItemView :aString |
 		dataItemView addChild: ((ToLabel text: aString)
-				 fontSize: 28;
+				 fontSize: 18;
 				 yourself) ].
 	select filtrable: true.
 

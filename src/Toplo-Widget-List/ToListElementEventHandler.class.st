@@ -298,7 +298,9 @@ ToListElementEventHandler >> secondaryClickEvent: anEvent [
 { #category : #'list element handling' }
 ToListElementEventHandler >> showHidePlaceholderIn: aListElement [
 
-	aListElement dataAccessor ifEmpty: [ ^ aListElement showPlaceholder ].
+	aListElement dataAccessor ifEmpty: [ 
+		aListElement selecter deselectAll.
+		^ aListElement showPlaceholder ].
 	aListElement hidePlaceholder
 ]
 

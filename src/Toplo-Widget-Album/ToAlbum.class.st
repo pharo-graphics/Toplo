@@ -50,6 +50,12 @@ ToAlbum >> defaultEditorElement [
 ]
 
 { #category : #initialization }
+ToAlbum >> defaultEventHandler [
+
+	^ ToAlbumEventHandler new
+]
+
+{ #category : #initialization }
 ToAlbum >> defaultStyler [
 
 	^ nil 
@@ -91,7 +97,7 @@ ToAlbum >> initialize [
 	self next primarySelectionElementClass: ToAlbumPrimarySelectionElement.
 	self addChild: self next.
 	self matchParent.
-	self addEventHandler: ToAlbumEventHandler new.
+	self addEventHandler: self defaultEventHandler.
 	sharedDistributor := BlSharedEventDistributor new.
 	sharedDistributor
 		adjustMousePosition: false;

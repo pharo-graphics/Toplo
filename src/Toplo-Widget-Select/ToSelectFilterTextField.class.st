@@ -2,12 +2,16 @@ Class {
 	#name : #ToSelectFilterTextField,
 	#superclass : #ToTextField,
 	#instVars : [
-		'windowPopupHandler',
-		'selectInnerContainer',
-		'installedEventHandler'
+		'selectElement'
 	],
-	#category : #'Toplo-Widget-Select-textInput'
+	#category : #'Toplo-Widget-Select-Filter-TextField'
 }
+
+{ #category : #initialization }
+ToSelectFilterTextField >> defaultEventHandler [ 
+
+	^ ToSelectFilterTextFieldEventHandler new
+]
 
 { #category : #initialization }
 ToSelectFilterTextField >> initialize [
@@ -38,22 +42,13 @@ ToSelectFilterTextField >> nodeBeforeDo: aBlock [
 ]
 
 { #category : #'api - hooks' }
-ToSelectFilterTextField >> onInstalledIn: aSelectElement [
+ToSelectFilterTextField >> on: aSelectElement [
 
-	selectInnerContainer := aSelectElement innerContainer.
+	| windowPopupHandler |
+	selectElement := aSelectElement.
 	self withoutLineWrapping.
 	self id: #filterTextField.
 	self selectFiltrable: aSelectElement isFiltrable.
-	installedEventHandler := {
-		                         (BlEventHandler
-			                          on: AlbTextEditedEvent
-			                          do: [ :event |
-			                          aSelectElement filterStringChanged ]).
-		                         (BlEventHandler
-			                          on: AlbTextReplacedEvent
-			                          do: [ :event |
-			                          aSelectElement filterStringChanged ]) }.
-	installedEventHandler do: [ :h | self addEventHandler: h ].
 
 	self hFitContent.
 
@@ -72,13 +67,10 @@ ToSelectFilterTextField >> onInstalledIn: aSelectElement [
 	self infinite addEventHandler: windowPopupHandler
 ]
 
-{ #category : #'api - hooks' }
-ToSelectFilterTextField >> onUninstalledIn: aSelectElement [
+{ #category : #accessing }
+ToSelectFilterTextField >> selectElement [
 
-	installedEventHandler do: [ :h | self removeEventHandler: h ].
-	installedEventHandler := #(  ).
-	self infinite removeEventHandler: windowPopupHandler.
-	windowPopupHandler := nil
+	^ selectElement
 ]
 
 { #category : #accessing }
@@ -96,7 +88,7 @@ ToSelectFilterTextField >> selectFiltrable: aBoolean [
 { #category : #accessing }
 ToSelectFilterTextField >> selectNodeBefore [
 
-	^ selectInnerContainer nodes
+	^ selectElement innerContainer nodes
 		  ifEmpty: [  ]
 		  ifNotEmpty: [ :nodes | nodes last ]
 ]

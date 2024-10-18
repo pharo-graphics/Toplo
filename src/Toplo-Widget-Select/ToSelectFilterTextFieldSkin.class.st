@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSelectFilterTextFieldSkin,
 	#superclass : #ToAlbumSkin,
-	#category : #'Toplo-Widget-Select-textInput'
+	#category : #'Toplo-Widget-Select-Filter-TextField'
 }
 
 { #category : #accessing }

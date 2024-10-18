@@ -18,8 +18,7 @@ TToSelectInnerContainerElement >> filterTextField: aTextField [
 { #category : #'t - select inner container' }
 TToSelectInnerContainerElement >> installFilterTextField [ 
 
-	self filterTextField: ToSelectFilterTextField new.
-	self filterTextField onInstalledIn: self selectElement.
+	self filterTextField: self newFilterTextField.
 	self filterTextField constraintsDo: [ :c |
 		c linear vertical alignCenter.
 		c flow vertical alignCenter ].
@@ -30,6 +29,12 @@ TToSelectInnerContainerElement >> installFilterTextField [
 TToSelectInnerContainerElement >> isFiltrable [
 
 	^ self selectElement isFiltrable
+]
+
+{ #category : #'t - select inner container' }
+TToSelectInnerContainerElement >> newFilterTextField [
+
+	^ ToSelectFilterTextField new on: self selectElement
 ]
 
 { #category : #'t - select inner container' }

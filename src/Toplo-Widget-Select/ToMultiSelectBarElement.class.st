@@ -45,33 +45,25 @@ ToMultiSelectBarElement >> checkHideSelectionFromListElement [
 { #category : #'accessing - selection' }
 ToMultiSelectBarElement >> checkMaxSelectedCount [
 
-	| sM unselectableSM disabledSM groupeSM selectedIndexCount |
+	| sM disabledSM groupeSM selectedCount |
 	maxSelectedCount isZero ifTrue: [ ^ self ].
 
-	unselectableSM := self popupListElement unselectableSelectionModel.
 	disabledSM := self popupListElement disabledSelectionModel.
 	groupeSM := self popupListElement groupSelectionModel.
 	sM := self popupListElement selectionModel.
 
 	selectElement updateSelectedCountLabel.
-	selectedIndexCount := selectElement selectionModel
-		                      selectedIndexesCount.
+	selectedCount := selectElement selectionModel selectedIndexesCount.
 
 	"self assertMaxSelectedCount: selectedIndexCount."
-	self selectElement sieve currentDataWithLocalAndOriginalIndexDo: [
-		:d
-		:localIndex
-		:originalIndex |
+	self sieve withLocalAndOriginalIndexDo: [ :d :localIndex :originalIndex |
 		(groupeSM containsIndex: localIndex) ifFalse: [
-			selectedIndexCount < maxSelectedCount
-				ifTrue: [
-					unselectableSM deselectIndex: localIndex.
-					disabledSM deselectIndex: localIndex ]
+			selectedCount < maxSelectedCount
+				ifTrue: [ disabledSM deselectIndex: localIndex ]
 				ifFalse: [
 					(selectElement selectionModel containsIndex: originalIndex)
-						ifFalse: [
-							disabledSM selectIndex: localIndex.
-							unselectableSM selectIndex: localIndex ] ].
+						ifFalse: [ disabledSM selectIndex: localIndex ] ].
+			" to transfer the selection to the sieve selection model "
 			sM
 				transferSelectionFromIndex: localIndex
 				toIndex: originalIndex
@@ -118,7 +110,7 @@ ToMultiSelectBarElement >> haveInvisibleNodes: theInvisibleNodes [
 	visibleNodes ifNotEmpty: [
 		invisibleNodes := theInvisibleNodes copyWith: visibleNodes last.
 		visibleNodes := visibleNodes copyWithout: visibleNodes last ].
-	" now cumulate invisible nodes in a composite holder "
+	" now cumulate invisible nodes in a composite tag model "
 	composite := ToCompositeTagModel new.
 	composite items: (Array streamContents: [ :stream |
 			 invisibleNodes do: [ :n |
@@ -136,7 +128,8 @@ ToMultiSelectBarElement >> initialize [
 	super initialize.
 
 	" no visible primary and secondary selection elements "
-	self primarySelectionMode selectionOption masked: true.
+	self selectionOption masked: true.
+	self primarySelectionMode makeDisabledUnselectable: true.
 	self secondarySelectionMode selectionOption masked: true.
 
 	maxSelectedCount := 0.
@@ -203,44 +196,42 @@ ToMultiSelectBarElement >> refresh [
 ToMultiSelectBarElement >> refreshFromPopupListSelection [
 	" rebuild the current bar nodes according to the selection in the popup list "
 
-	| previousItems newItems |
-	selectElement showHidePlaceholder.
-
-	" copy the previous items "
-	previousItems := self dataAccessor asOrderedCollection.
-	newItems := OrderedCollection new.
-	" take care of a possible composite that represents a list of items "
-	previousItems ifNotEmpty: [
+	| previousTagModels newTagModels |
+	" copy the previous tag models "
+	previousTagModels := self dataAccessor asOrderedCollection.
+	newTagModels := OrderedCollection new.
+	" take care of a possible composite tag models that represents a list of items "
+	previousTagModels ifNotEmpty: [
 		| last |
-		last := previousItems last.
+		last := previousTagModels last.
 		last isComposite ifTrue: [
-			previousItems removeLast.
-			previousItems addAll: last items ] ].
+			previousTagModels removeLast.
+			previousTagModels addAll: last items ] ].
 
 	" reconstruct the item list. ensure the reuse of pre-existing items"
 	selectElement selectionModel selectedIndexesDo: [ :idx |
 		| new previous data |
 		data := selectElement sieve originalData at: idx.
-		previous := previousItems
+		previous := previousTagModels
 			            detect: [ :item | item data = data ]
 			            ifNone: [  ].
 		previous
 			ifNotNil: [
 				new := previous.
-				previousItems remove: previous ]
+				previousTagModels remove: previous ]
 			ifNil: [
 				new := ToPickedTagModel new
 					       data: data;
 					       yourself.
 				pickCount := pickCount + 1.
 				new pickOrder: pickCount ].
-		newItems add: new ].
+		newTagModels add: new ].
 
 	keepPickOrder ifTrue: [
-		newItems sort: [ :a :b | a pickOrder < b pickOrder ] ].
+		newTagModels sort: [ :a :b | a pickOrder < b pickOrder ] ].
 
 	" replace all in one datasource command "
-	self dataAccessor updateAllWith: newItems.
+	self dataAccessor updateAllWith: newTagModels.
 	self checkHideSelectionFromListElement.
 	self checkMaxSelectedCount
 ]

@@ -16,10 +16,7 @@ ToMultiSelectListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 { #category : #'accessing - selection' }
 ToMultiSelectListElement >> hideSelection [
 
-	self sieve currentDataWithLocalAndOriginalIndexDo: [
-		:d
-		:localIndex
-		:originalIndex |
+	self sieve withLocalAndOriginalIndexDo: [ :d :localIndex :originalIndex |
 		(self selectionModel containsIndex: localIndex)
 			ifTrue: [ self selectionModel hideIndex: localIndex ]
 			ifFalse: [ self selectionModel unhideIndex: localIndex ] ].

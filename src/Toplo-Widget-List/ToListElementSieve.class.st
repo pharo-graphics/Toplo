@@ -25,26 +25,6 @@ ToListElementSieve >> currentData [
 	^ currentData 
 ]
 
-{ #category : #enumerating }
-ToListElementSieve >> currentDataWithLocalAndOriginalIndexDo: aBlock [
-	" aBlock takes a data, its local index and its original index "
-
-	self currentData withIndexDo: [ :d :localIndex |
-		| originalIndex |
-		originalIndex := originalIndexMap at: d.
-		aBlock value: d value: localIndex value: originalIndex ]
-]
-
-{ #category : #enumerating }
-ToListElementSieve >> currentDataWithOriginalIndexDo: aBlock [
-	" aBlock takes a data an its index as arguments "
-
-	self currentData do: [ :d |
-		| idx |
-		idx := originalIndexMap at: d.
-		aBlock value: d value: idx ]
-]
-
 { #category : #accessing }
 ToListElementSieve >> dataFilter: aValuable [
 	" filter takes a data and a pattern as argument "
@@ -191,4 +171,24 @@ ToListElementSieve >> updateCurrentData [
 			               queryRunner selectedIndexes collect: [ :idx |
 				               originalData at: idx ] ].
 
+]
+
+{ #category : #enumerating }
+ToListElementSieve >> withLocalAndOriginalIndexDo: aBlock [
+	" aBlock takes a data, its local index and its original index "
+
+	self currentData withIndexDo: [ :d :localIndex |
+		| originalIndex |
+		originalIndex := originalIndexMap at: d.
+		aBlock value: d value: localIndex value: originalIndex ]
+]
+
+{ #category : #enumerating }
+ToListElementSieve >> withOriginalIndexDo: aBlock [
+	" aBlock takes a data an its index as arguments "
+
+	self currentData do: [ :d |
+		| idx |
+		idx := originalIndexMap at: d.
+		aBlock value: d value: idx ]
 ]

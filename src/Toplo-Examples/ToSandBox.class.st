@@ -1906,7 +1906,6 @@ ToSandBox class >> example_SelectMultiFiltrable [
 
 	| select innerWindow newTagFactory |
 	select := ToMultiSelectElement new.
-	select inspect.
 	select nodeWrapping: true.
 	select keepPickOrder: true.
 	select popupListElement selectionOption grouped: false.

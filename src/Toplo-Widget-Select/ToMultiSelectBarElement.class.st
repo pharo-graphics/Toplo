@@ -197,6 +197,7 @@ ToMultiSelectBarElement >> refreshFromPopupListSelection [
 	" rebuild the current bar nodes according to the selection in the popup list "
 
 	| previousTagModels newTagModels |
+	selectElement showHidePlaceholder.
 	" copy the previous tag models "
 	previousTagModels := self dataAccessor asOrderedCollection.
 	newTagModels := OrderedCollection new.

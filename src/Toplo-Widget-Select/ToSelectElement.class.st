@@ -344,7 +344,7 @@ ToSelectElement >> showHidePlaceholder [
 	is entered in the input text field "
 
 	self selectionModel ifEmpty: [
-		self filterTextField text ifEmpty: [ ^ self showPlaceholder ] ].
+		^ self showPlaceholder ].
 	self hidePlaceholder
 ]
 

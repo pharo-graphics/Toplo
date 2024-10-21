@@ -2194,6 +2194,7 @@ ToSandBox class >> example_SelectMultiNotFiltrableWithGroups [
 
 	| select innerWindow phtext |
 	select := ToMultiSelectElement new.
+	select withGroups: true.
 	select popupListElement placeholderMinHeight: 35.
 	phtext := ('No Data' asRopedText
 		           foreground: Color lightGray;

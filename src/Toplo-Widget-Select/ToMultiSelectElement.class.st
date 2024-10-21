@@ -3,7 +3,8 @@ Class {
 	#superclass : #ToSelectElement,
 	#instVars : [
 		'hideSelected',
-		'withCloseButton'
+		'withCloseButton',
+		'withGroups'
 	],
 	#category : #'Toplo-Widget-Select-Multi'
 }
@@ -62,7 +63,8 @@ ToMultiSelectElement >> iconContainer: anIconContainer [
 ToMultiSelectElement >> initialize [
 
 	super initialize.
-	hideSelected := false
+	hideSelected := false.
+	withGroups := false
 ]
 
 { #category : #'instance creation' }
@@ -151,4 +153,16 @@ ToMultiSelectElement >> withCloseButton [
 ToMultiSelectElement >> withCloseButton: aBoolean [
 
 	withCloseButton := aBoolean
+]
+
+{ #category : #accessing }
+ToMultiSelectElement >> withGroups [
+
+	^ withGroups 
+]
+
+{ #category : #accessing }
+ToMultiSelectElement >> withGroups: aBoolean [
+
+	withGroups := aBoolean
 ]

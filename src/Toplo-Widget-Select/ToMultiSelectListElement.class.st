@@ -29,5 +29,7 @@ ToMultiSelectListElement >> initialize [
 	super initialize.
 	self primarySelectionMode makeDisabledUnselectable: true.
 	self primarySelectionMode selectOnMouseDown: true.
-	self primarySelectionMode requestFocusOnMouseDown: false
+	self primarySelectionMode requestFocusOnMouseDown: false.
+	self nodeHolderClass: ToMultiSelectListNodeHolder.
+	self nodeFactory: [ :holder | ToMultiSelectListNode new ]
 ]

@@ -3,8 +3,7 @@ Class {
 	#superclass : #ToPopupWindowManager,
 	#instVars : [
 		'listElement',
-		'sieve',
-		'nodeBuilder'
+		'sieve'
 	],
 	#category : #'Toplo-Widget-Select-List'
 }
@@ -22,13 +21,6 @@ ToSelectPopupWindowManager >> defaultAutoClosePickOutsideEventClass [
 ]
 
 { #category : #initialization }
-ToSelectPopupWindowManager >> defaultDataNodeBuilder [
-
-	^ [ :node :dataItem :holder |
-	  node addChild: (ToLabel text: dataItem asString) hMatchParent ]
-]
-
-{ #category : #initialization }
 ToSelectPopupWindowManager >> defaultMaxHeight [
 
 	^ 300
@@ -38,18 +30,6 @@ ToSelectPopupWindowManager >> defaultMaxHeight [
 ToSelectPopupWindowManager >> defaultMinHeight [
 
 	^ 0
-]
-
-{ #category : #initialization }
-ToSelectPopupWindowManager >> defaultNodeBuilder [
-
-	^ [ :node :dataItem :holder | nodeBuilder value: node value: dataItem value: holder ]
-]
-
-{ #category : #initialization }
-ToSelectPopupWindowManager >> defaultNodeFactory [
-
-	^ [ :theHolder | ToListNode new ]
 ]
 
 { #category : #initialization }
@@ -63,23 +43,6 @@ ToSelectPopupWindowManager >> defaultSizeHook [
 ToSelectPopupWindowManager >> elementEventHandlerClass [ 
 
 	^ ToSelectEventHandler
-]
-
-{ #category : #initialization }
-ToSelectPopupWindowManager >> initialize [ 
-
-	super initialize.
-	nodeBuilder := self defaultDataNodeBuilder
-]
-
-{ #category : #accessing }
-ToSelectPopupWindowManager >> listDataNodeBuilder: aValuable [
-
-	self
-		deprecated: 'Use #nodeBuilder:'
-		transformWith: '`@rcvr listDataNodeBuilder: `@arg' -> '`@rcvr nodeBuilder: `@arg'.
-
-	self nodeBuilder: aValuable
 ]
 
 { #category : #accessing }
@@ -124,27 +87,12 @@ ToSelectPopupWindowManager >> newListElement [
 	| newListElement |
 	newListElement := self listElementClass new.
 	newListElement primarySelectionMode multiple: false.
-	newListElement nodeFactory: self defaultNodeFactory.
-	newListElement nodeBuilder: self defaultNodeBuilder.
 	newListElement innerContainer maxHeight: self defaultMaxHeight.
 	newListElement innerContainer minHeight: self defaultMinHeight.
 	newListElement innerContainer vFitContent.
 	newListElement vFitContent.
 	newListElement hMatchParent.
 	^ newListElement
-]
-
-{ #category : #accessing }
-ToSelectPopupWindowManager >> nodeBuilder: aValuable [
-	"aValuable takes 3 optional args: first, the node to build, second, the dataItem and third, the holder in the list element "
-
-	nodeBuilder := aValuable
-]
-
-{ #category : #'api - hooks' }
-ToSelectPopupWindowManager >> nodeHolderClass [
-
-	^ ToListNodeHolder
 ]
 
 { #category : #'api - hooks' }
@@ -167,9 +115,7 @@ ToSelectPopupWindowManager >> onInstalledIn: anElement [
 			self listElement secondarySelecter selectIndex: 1 ] ].
 
 	sieve := ToListElementSieve new.
-	sieve onInstalledIn: listElement.
-
-	listElement nodeHolderClass: self nodeHolderClass
+	sieve onInstalledIn: listElement
 ]
 
 { #category : #'api - hooks' }

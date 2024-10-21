@@ -9,3 +9,9 @@ ToMultiSelectListNodeHolder >> isGroup [
 
 	^ self listElement groupSelectionModel containsIndex: self position
 ]
+
+{ #category : #testing }
+ToMultiSelectListNodeHolder >> selectElement [
+
+	^ self listElement selectElement
+]

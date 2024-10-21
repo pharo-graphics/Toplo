@@ -22,5 +22,5 @@ ToSelectDataListNode >> installRawStyle [
 { #category : #skin }
 ToSelectDataListNode >> newRawSkin [ 
 
-	^ ToSelectDataListNodeSkin new
+	^ ToRawSkin new
 ]

@@ -132,7 +132,7 @@ ToMultiSelectElement >> nodeWrapping: aBoolean [
 ToMultiSelectElement >> setGroupIndex: anIndex [
 
 	self popupListElement groupSelecter selectIndex: anIndex.
-	self popupListElement unselectableSelecter selectIndex: anIndex
+	self popupListElement disabledSelecter selectIndex: anIndex
 ]
 
 { #category : #private }

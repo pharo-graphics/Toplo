@@ -72,12 +72,6 @@ ToMultiSelectBarElement >> checkMaxSelectedCount [
 	self popupListElement notifyDataSourceChanged
 ]
 
-{ #category : #initialization }
-ToMultiSelectBarElement >> defaultNodeManager [
-
-	^ ToMultiSelectNodeManager new
-]
-
 { #category : #layout }
 ToMultiSelectBarElement >> extentChanged [
 
@@ -131,7 +125,7 @@ ToMultiSelectBarElement >> initialize [
 	self selectionOption masked: true.
 	self primarySelectionMode makeDisabledUnselectable: true.
 	self secondarySelectionMode selectionOption masked: true.
-
+	self nodeHolderClass: ToMultiSelectHolder.
 	maxSelectedCount := 0.
 	keepPickOrder := false.
 	pickCount := 0.

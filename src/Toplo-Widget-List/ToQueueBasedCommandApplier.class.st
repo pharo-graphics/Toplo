@@ -11,23 +11,16 @@ Class {
 }
 
 { #category : #'event handling' }
-ToQueueBasedCommandApplier >> elementCommandAddedEvent: aCommandAddedEvent [
+ToQueueBasedCommandApplier >> command: aCommand addedIn: aSelecter [
 
 	weak ifTrue: [
 		element isAttachedToSceneGraph ifFalse: [
-			aCommandAddedEvent currentTarget applyCommand:
-				aCommandAddedEvent command.
+			aSelecter applyCommand: aCommand.
 			^ self ] ].
 
-	commandQueue nextPut: aCommandAddedEvent command.
+	commandQueue nextPut: aCommand.
 	self postApplicationTask.
 	element spaceDo: [ :sp | sp requestNextPulse ]
-]
-
-{ #category : #'event handling' }
-ToQueueBasedCommandApplier >> elementCommandApplicationRequest: anEvent [
-
-	anEvent currentTarget applyCommand: anEvent command
 ]
 
 { #category : #'event handling' }
@@ -40,7 +33,6 @@ ToQueueBasedCommandApplier >> elementCommandApplicationTaskActivationEvent: aCom
 ToQueueBasedCommandApplier >> eventsToHandle [
 
 	^ super eventsToHandle , {
-		  ToElementCommandApplicationRequest.
 		  ToCommandApplicationTaskActivationEvent }
 ]
 

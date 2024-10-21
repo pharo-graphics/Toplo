@@ -7,7 +7,7 @@ Class {
 { #category : #initialization }
 ToSieveSelecter >> initializeCommandApplier [
 
-	commandApplier := ToDirectCommandApplier new
+	commandApplier := ToImmediateCommandApplier new
 ]
 
 { #category : #'event firing' }

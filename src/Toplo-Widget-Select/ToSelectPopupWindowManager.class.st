@@ -20,6 +20,12 @@ ToSelectPopupWindowManager >> defaultAutoClosePickOutsideEventClass [
 	^ BlMouseDownOutsideEvent
 ]
 
+{ #category : #'api - hooks' }
+ToSelectPopupWindowManager >> defaultListElementEventHandler [ 
+
+	^ ToSelectListElementEventHandler new
+]
+
 { #category : #initialization }
 ToSelectPopupWindowManager >> defaultMaxHeight [
 
@@ -103,7 +109,7 @@ ToSelectPopupWindowManager >> onInstalledIn: anElement [
 	listElement selectElement: self element.
 	listElement focusability: BlFocusability none.
 
-	listElement addEventHandler: (ToSelectListElementEventHandler new
+	listElement addEventHandler: (self defaultListElementEventHandler
 			 select: self element;
 			 yourself).
 

@@ -21,25 +21,23 @@ ToCommandApplicationTask >> applier: anObject [
 { #category : #'api - running' }
 ToCommandApplicationTask >> applyAll [
 
-	| nextInQueue |
-	
+	element ifNil: [ ^ self ].
 	self canApplyCommands ifFalse: [
-		finishedAction value.
 		posponedRequestTask ifNotNil: [ ^ self ].
 		posponedRequestTask := BlTaskAction new.
 		posponedRequestTask action: [
-			applier dispatchEvent: ToCommandApplicationTaskActivationEvent new ].
+			"applier dispatchEvent: ToCommandApplicationTaskActivationEvent new"
+			self privateApplyAll ].
 		element enqueueTask: posponedRequestTask.
 		^ self ].
 
-	[ (nextInQueue := commandQueue nextOrNil) isNotNil ] whileTrue: [
-		applier applyCommand: nextInQueue ]
+	self privateApplyAll 
 ]
 
 { #category : #'api - running' }
 ToCommandApplicationTask >> canApplyCommands [
-
-	^ element isAttachedToSceneGraph
+	
+	^ element notNil and: [ element isAttachedToSceneGraph ]
 ]
 
 { #category : #initialization }
@@ -67,8 +65,16 @@ ToCommandApplicationTask >> operator: anOperator [
 ]
 
 { #category : #'api - running' }
+ToCommandApplicationTask >> privateApplyAll [
+
+	| nextInQueue |
+	[ (nextInQueue := commandQueue nextOrNil) isNotNil ] whileTrue: [
+		applier applyCommand: nextInQueue ]
+]
+
+{ #category : #'api - running' }
 ToCommandApplicationTask >> run [
 
 	self applyAll.
-	finishedAction value
+	finishedAction value.
 ]

@@ -11,13 +11,9 @@ ToMultiSelectListNode >> installRawStyle [
 	self holder selectElement withGroups ifTrue: [
 		self holder isGroup
 			ifTrue: [
-				| label |
 				self padding:
 					((self padding withTop: self padding top + 6) withBottom:
-						 self padding bottom + 3).
-				label := self firstChild.
-				label foreground: Color lightGray.
-				label applyStyle ]
+						 self padding bottom + 3) ]
 			ifFalse: [
 			self padding: (self padding withLeft: self padding left + 6) ] ]
 ]

@@ -3871,7 +3871,7 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWithAllClassNames [
 	innerWindow := ToInnerWindow new.
 	select popupWindowManager anchorRoot: innerWindow root.
 	select hMatchParent.
-	select popupListDataAccessor updateAllWith:
+	select popupListElement dataAccessor updateAllWith:
 		(Smalltalk globals allClasses collect: [ :cls | cls name ]).
 
 	innerWindow pane addChild: select.

@@ -4,15 +4,14 @@ Class {
 	#category : #'Toplo-Widget-List-Command-Support'
 }
 
-{ #category : #'event handling' }
-ToDataSourceCommandApplier >> elementCommandAddedEvent: aCommandAddedEvent [
+{ #category : #accessing }
+ToDataSourceCommandApplier >> command: aCommand addedIn: aSelecter [
 
 	element isAttachedToSceneGraph ifFalse: [
-		aCommandAddedEvent currentTarget applyCommand:
-			aCommandAddedEvent command.
+		aSelecter applyCommand: aCommand.
 		^ self ].
 	element dataSource
-		notifySelecterCommandApplicationRequest: aCommandAddedEvent command
-		from: aCommandAddedEvent currentTarget.
+		notifySelecterCommandApplicationRequest: aCommand
+		from: aSelecter.
 	element spaceDo: [ :sp | sp requestNextPulse ]
 ]

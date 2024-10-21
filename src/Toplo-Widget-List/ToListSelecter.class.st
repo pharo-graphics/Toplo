@@ -21,9 +21,7 @@ Class {
 ToListSelecter >> addCommand: aCommand [
 
 	enabled ifFalse: [ ^ self ].
-	self dispatchEvent: (ToElementCommandAddedEvent new
-			 command: aCommand;
-			 yourself)
+	commandApplier command: aCommand addedIn: self
 ]
 
 { #category : #'command application' }

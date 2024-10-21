@@ -8,16 +8,14 @@ Class {
 }
 
 { #category : #'event handling' }
-ToTaskBasedCommandApplier >> elementCommandAddedEvent: aCommandAddedEvent [
+ToTaskBasedCommandApplier >> command: aCommand addedIn: aSelecter [
 
 	weak ifTrue: [
 		element isAttachedToSceneGraph ifFalse: [
-			aCommandAddedEvent currentTarget applyCommand:
-				aCommandAddedEvent command.
+			aSelecter applyCommand: aCommand.
 			^ self ] ].
-	element enqueueTask: (BlTaskAction new action: [
-			 aCommandAddedEvent currentTarget applyCommand:
-				 aCommandAddedEvent command ])
+	element enqueueTask:
+		(BlTaskAction new action: [ aSelecter applyCommand: aCommand ])
 ]
 
 { #category : #initialization }

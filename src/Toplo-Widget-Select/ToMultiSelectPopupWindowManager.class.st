@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-Widget-Select-List'
 }
 
+{ #category : #'api - hooks' }
+ToMultiSelectPopupWindowManager >> defaultListElementEventHandler [ 
+
+	^ ToMultiSelectListElementEventHandler new
+]
+
 { #category : #initialization }
 ToMultiSelectPopupWindowManager >> listElementClass [
 

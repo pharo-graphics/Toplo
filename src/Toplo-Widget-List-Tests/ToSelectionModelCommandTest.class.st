@@ -51,19 +51,6 @@ ToSelectionModelCommandTest >> applyCommand: aCommand [
 	aCommand applyWithOperator: self
 ]
 
-{ #category : #'event management' }
-ToSelectionModelCommandTest >> dispatchEvent: anEvent [
-
-	(anEvent isKindOf: ToElementCommandApplicationRequest) ifTrue: [
-		anEvent sendTo: self ]
-]
-
-{ #category : #'event management' }
-ToSelectionModelCommandTest >> elementCommandApplicationRequest: anEvent [
-
-	anEvent currentTarget applyCommand: anEvent command
-]
-
 { #category : #accessing }
 ToSelectionModelCommandTest >> noSelectionCommand [
 

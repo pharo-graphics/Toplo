@@ -30,7 +30,7 @@ ToMultiSelectPopupWindowManager >> defaultNodeFactory [
 	^ [ :theHolder |
 	  theHolder isGroup
 		  ifTrue: [ ToSelectGroupListNode new ]
-		  ifFalse: [ ToSelectDataListNode new ] ]
+		  ifFalse: [ ToListNode new ] ]
 ]
 
 { #category : #initialization }

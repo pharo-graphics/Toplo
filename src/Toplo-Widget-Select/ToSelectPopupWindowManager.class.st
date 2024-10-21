@@ -49,7 +49,7 @@ ToSelectPopupWindowManager >> defaultNodeBuilder [
 { #category : #initialization }
 ToSelectPopupWindowManager >> defaultNodeFactory [
 
-	^ [ :theHolder | ToSelectDataListNode new ]
+	^ [ :theHolder | ToListNode new ]
 ]
 
 { #category : #initialization }

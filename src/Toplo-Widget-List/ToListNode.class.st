@@ -13,8 +13,12 @@ ToListNode >> clickEventHandlerClasses [
 		  ifFalse: [ { ToListNodeSingleSelectionClickEventHandler } ]
 ]
 
-{ #category : #'instance creation' }
-ToListNode >> newRawSkin [ 
+{ #category : #skin }
+ToListNode >> installRawStyle [
 
-	^ ToListNodeSkin new
+	super installRawStyle.
+	self outskirts: BlOutskirts inside.
+	self padding: (BlInsets
+			 horizontal: (self valueOfTokenNamed: #'list-node-padding-H')
+			 vertical: (self valueOfTokenNamed: #'list-node-padding-V'))
 ]

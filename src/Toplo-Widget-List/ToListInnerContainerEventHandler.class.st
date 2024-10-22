@@ -14,15 +14,15 @@ ToListInnerContainerEventHandler >> boundsHasChangedDuringScrollingEvent: anEven
 ]
 
 { #category : #'infinite event handling' }
-ToListInnerContainerEventHandler >> elementAddedToSceneGraphEvent:  anEvent [
+ToListInnerContainerEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 
-	"anEvent currentTarget listElement notifyPrimarySelectionDirty"
+	"anEvent currentTarget listElement updateAllSelections"
 ]
 
 { #category : #'infinite event handling' }
 ToListInnerContainerEventHandler >> elementPositionChangedEvent: anEvent [
 
-	anEvent currentTarget listElement notifyPrimarySelectionDirty
+	anEvent currentTarget listElement updateAllSelections
 ]
 
 { #category : #'infinite event handling' }

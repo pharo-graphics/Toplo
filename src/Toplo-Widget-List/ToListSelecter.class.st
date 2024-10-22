@@ -57,7 +57,8 @@ ToListSelecter >> commandApplied: aCommand [
 		       command: aCommand;
 		       requestedAction: [
 			       element dispatchEvent: (selectionChangedEventClass new
-						        command: aCommand;
+						        selectionModel: aCommand selectionModel;
+						        touchedIntervals: aCommand intervals;
 						        selectionOption: self selectionOption;
 						        yourself) ];
 		       yourself.
@@ -519,5 +520,5 @@ ToListSelecter >> switchIndexSelection: anIndex [
 ToListSelecter >> updateSelection [
 
 	self selectionModel deselectAll.
-	element notifyPrimarySelectionDirty 
+	element updateAllSelections
 ]

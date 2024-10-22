@@ -10,9 +10,9 @@ TToListElementWithDecoration >> withDecoration: aDecorationClass [
 ]
 
 { #category : #'t - infinite accessing' }
-TToListElementWithDecoration >> withRowNumbers [ 
+TToListElementWithDecoration >> withRowNumbers [
 
 	self next withRowNumbers.
-	self notifyPrimarySelectionDirty.
+	self updateAllSelections.
 	self requestLayout
 ]

@@ -354,12 +354,7 @@ ToAbstractListElement >> notifyDataSourceChanged [
 { #category : #'event firing' }
 ToAbstractListElement >> notifyDataSourceItemChanged: aDataSourceEvent [
 
-	| request |
-	request := ToListDataSourceItemChangeRequestEvent new
-		           dataSourceEvent: aDataSourceEvent;
-		           requestedAction: [ self dispatchEvent: aDataSourceEvent ];
-		           yourself.
-	self dispatchAuthorisationRequest: request
+	self dispatchEvent: aDataSourceEvent
 ]
 
 { #category : #'event firing' }
@@ -372,11 +367,11 @@ ToAbstractListElement >> notifyDataSourceItemsFiltered: aDataSourceEvent [
 { #category : #'event firing' }
 ToAbstractListElement >> notifyPrimarySelectionDirty [
 
-	self dispatchEvent: (ToListPrimarySelectionDirtyEvent new
-			 selectionOption: self selectionOption;
-			 selectionModel: self selectionModel;
-			 itemCount: self itemCount;
-			 yourself)
+	self
+		deprecated: 'use #updateAllSelections instead'
+		transformWith:
+		'`@rcvr notifyPrimarySelectionDirty' -> '`@rcvr updateAllSelections'.
+	self updateAllSelections
 ]
 
 { #category : #'private - commands' }
@@ -538,6 +533,16 @@ ToAbstractListElement >> unselectableSelectionMode [
 ToAbstractListElement >> unselectableSelectionModel [
 
 	^ self selectionModel unselectableSelectionModel
+]
+
+{ #category : #'event firing' }
+ToAbstractListElement >> updateAllSelections [
+
+	self selectionModes do: [ :mode |
+		mode selectionOption ifNotNil: [ :option |
+			option
+				updateSelectionIn: self
+				withSelectionModel: mode selectionModel ] ]
 ]
 
 { #category : #accessing }

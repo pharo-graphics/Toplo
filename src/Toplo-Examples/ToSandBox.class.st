@@ -1395,7 +1395,6 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 
 	| l |
 	l := self listWithEditableAndContextMenu.
-	l inspect.
 	l openInInnerWindow
 ]
 
@@ -3867,6 +3866,16 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWithAllClassNames [
 	| select innerWindow space |
 	select := self selectWithEditingMultiSelection.
 	select filtrable: true.
+	select placeholderText: ('Choose a class' asRopedText
+			 foreground: Color lightGray;
+			 yourself).
+	select popupListElement placeholderBuilder: [ :placeholder :e |
+		placeholder layout alignCenter.
+		placeholder addChild:
+			(ToAttributedLabel text: ('No Data' asRopedText
+					  fontSize: 24;
+					  foreground: Color lightGray;
+					  yourself)) ].
 
 	innerWindow := ToInnerWindow new.
 	select popupWindowManager anchorRoot: innerWindow root.
@@ -5432,19 +5441,6 @@ ToSandBox class >> listWithEditableAndContextMenu [
 	disabledMode changeSelectionOptionWith: option.
 
 	unselectableMode := l unselectableSelectionMode.
-	l
-		addEventHandlerOn: unselectableMode selectionChangedEventClass
-		do: [ :event |
-			| target |
-			target := event currentTarget.
-			event selectionOption
-				updateSelectionIn: target
-				withSelectionModel: target selecter selectionModel.
-			target selecter deselectIndexes: event touchedIndexes.
-			target secondarySelecter deselectAll.
-			event touchedIntervals do: [ :int |
-				target dataSource notifyItemsChanged: int ] ].
-
 	option := ToListSelectionOption new.
 	option grouped: false.
 	option beneath: false.

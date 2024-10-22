@@ -9,9 +9,7 @@ ToTagSkin >> disabledSkinEvent: anEvent [
 
 	super disabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e border: (BlBorder
-				 paint: (e valueOfTokenNamed: #'color-border-disabled')
-				 width: (e valueOfTokenNamed: #'line-width')).
+		e border: BlBorder empty.
 		e background: (e valueOfTokenNamed: #'color-bg-container-disabled').
 		e iconDo: [ :ic |
 			ic formColor: (e valueOfTokenNamed: #'color-text-disabled') ].

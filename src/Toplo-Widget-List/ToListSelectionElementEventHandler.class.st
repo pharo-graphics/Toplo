@@ -33,9 +33,6 @@ ToListSelectionElementEventHandler >> updateSelectionFromEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	anEvent touchedIndexes ifEmpty: [
-		self refreshSelectionFromEvent: anEvent.
-		^ self ].
 
 	target isAttachedToSceneGraph ifFalse: [
 		self differUpdateSelectionFrom: target.

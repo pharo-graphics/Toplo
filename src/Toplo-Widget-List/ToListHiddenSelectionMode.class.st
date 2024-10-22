@@ -5,6 +5,14 @@ Class {
 }
 
 { #category : #'instance creation' }
+ToListHiddenSelectionMode >> newSelectionChangedEventHandler [
+
+	^ ToListBasicAdditionalSelectionElementEventHandler new
+		  selectionChangedEventClass: self selectionChangedEventClass;
+		  yourself
+]
+
+{ #category : #'instance creation' }
 ToListHiddenSelectionMode >> selectionChangedEventClass [ 
 
 	^ ToListHiddenSelectionChangedEvent

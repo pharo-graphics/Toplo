@@ -67,7 +67,7 @@ ToSievedListElementEventHandler >> listSelectionCommandAppliedEvent: aPreNotific
 	listElement := aPreNotification currentTarget.
 	listSelModel := listElement selectionModel.
 	" first check if the request is for the primary selection model "
-	listSelModel = aPreNotification selectionModel ifFalse: [ ^ self ].
+	listSelModel == aPreNotification selectionModel ifFalse: [ ^ self ].
 
 	" have to do nothing if the list is empty. Else, the selection can be lost in case of single select"
 	listElement dataAccessor ifEmpty: [ ^ self ].
@@ -99,8 +99,6 @@ ToSievedListElementEventHandler >> listSelectionCommandAppliedEvent: aPreNotific
 	according to the sieve selection"
 	listElement dispatchEvent: (ToSieveSelectionChangedEvent new
 			 sieve: sieve;
-			 sourceCommand: aPreNotification command;
-			 touchedIndexes: touchedIndexes asArray;
 			 selectionModel: sieveSelectionModel;
 			 yourself)
 ]

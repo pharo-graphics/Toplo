@@ -25,17 +25,13 @@ ToSieveEventHandler >> listPrimarySelectionChangedEvent: anEvent [
 	" I'm sent when the selecter of my sieve is used directly for a selection operation
 	as an example, to intialize some selected elements programmatically "
 
-	| touchedIndexes |
 	anEvent currentTarget pattern
 		ifEmpty: [
-			touchedIndexes := anEvent touchedIndexes.
 			listElement selectionModel copySelectionFrom: sieveSelectionModel ]
 		ifNotEmpty: [
-			touchedIndexes := OrderedCollection new.
 			listElement dataAccessor withIndexDo: [ :dataItem :localIndex |
 				| originalIndex |
 				originalIndex := originalIndexMap at: dataItem.
-				touchedIndexes add: originalIndex.
 				sieveSelectionModel
 					transferSelectionFromIndex: originalIndex
 					toIndex: localIndex
@@ -46,8 +42,6 @@ ToSieveEventHandler >> listPrimarySelectionChangedEvent: anEvent [
 	according to the sieve selection"
 	listElement dispatchEvent: (ToSieveSelectionChangedEvent new
 			 sieve: anEvent currentTarget;
-			 sourceCommand: anEvent command;
-			 touchedIndexes: touchedIndexes asArray;
 			 selectionModel: sieveSelectionModel;
 			 yourself).
 	listElement notifyPrimarySelectionDirty

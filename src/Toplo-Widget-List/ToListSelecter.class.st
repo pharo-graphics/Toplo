@@ -80,7 +80,7 @@ ToListSelecter >> containsIndex: anIndex [
 { #category : #copying }
 ToListSelecter >> copySelectionFrom: aSourceSelectionModel [
 
-	self addCommand: (ToSelectionModelCopyFromCommand new
+	self addCommand: (ToSelectionCopyFromCommand new
 			 sourceSelectionModel: aSourceSelectionModel;
 			 yourself)
 ]
@@ -495,7 +495,7 @@ ToListSelecter >> selectionOption [
 { #category : #operations }
 ToListSelecter >> shiftSelection: anInteger from: anIndex [
 
-	self addCommand: (ToSelectionModelShiftCommand new
+	self addCommand: (ToSelectionShiftCommand new
 			 itemCount: anInteger;
 			 fromIndex: anIndex;
 			 yourself)

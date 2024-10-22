@@ -1,6 +1,6 @@
 Class {
 	#name : #ToIntervalSelectionCommand,
-	#superclass : #ToSelectionModelAddRemoveCommand,
+	#superclass : #ToSelectionAddRemoveCommand,
 	#instVars : [
 		'from',
 		'to'

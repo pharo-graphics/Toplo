@@ -1,6 +1,6 @@
 Class {
-	#name : #ToSelectionModelShiftCommand,
-	#superclass : #ToSelectionModelCommand,
+	#name : #ToSelectionShiftCommand,
+	#superclass : #ToSelectionCommand,
 	#instVars : [
 		'fromIndex',
 		'itemCount'
@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #'private - hook' }
-ToSelectionModelShiftCommand >> applyOn: anOperator [
+ToSelectionShiftCommand >> applyOn: anOperator [
 
 	" ask the operator passed as argument to actually apply the command. "
 
@@ -21,44 +21,44 @@ ToSelectionModelShiftCommand >> applyOn: anOperator [
 ]
 
 { #category : #'private - hook' }
-ToSelectionModelShiftCommand >> applyWithOperator: anOperator [
+ToSelectionShiftCommand >> applyWithOperator: anOperator [
 
 	anOperator selectionModelShiftCommand: self.
 	super applyWithOperator: anOperator
 ]
 
 { #category : #accessing }
-ToSelectionModelShiftCommand >> fromIndex [
+ToSelectionShiftCommand >> fromIndex [
 
 	^ fromIndex
 ]
 
 { #category : #accessing }
-ToSelectionModelShiftCommand >> fromIndex: anIndex [
+ToSelectionShiftCommand >> fromIndex: anIndex [
 
 	fromIndex := anIndex
 ]
 
 { #category : #accessing }
-ToSelectionModelShiftCommand >> indexes [ 
+ToSelectionShiftCommand >> indexes [ 
 
 	^ fromIndex to: fromIndex + itemCount - 1
 ]
 
 { #category : #accessing }
-ToSelectionModelShiftCommand >> intervals [ 
+ToSelectionShiftCommand >> intervals [ 
 
 	^ Array with: (fromIndex to: fromIndex + itemCount - 1)
 ]
 
 { #category : #accessing }
-ToSelectionModelShiftCommand >> itemCount [
+ToSelectionShiftCommand >> itemCount [
 
 	^ itemCount
 ]
 
 { #category : #accessing }
-ToSelectionModelShiftCommand >> itemCount: anInteger [
+ToSelectionShiftCommand >> itemCount: anInteger [
 
 	itemCount := anInteger
 ]

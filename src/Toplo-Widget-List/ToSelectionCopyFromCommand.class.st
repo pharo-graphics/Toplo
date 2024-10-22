@@ -1,6 +1,6 @@
 Class {
-	#name : #ToSelectionModelCopyFromCommand,
-	#superclass : #ToSelectionModelCommand,
+	#name : #ToSelectionCopyFromCommand,
+	#superclass : #ToSelectionCommand,
 	#instVars : [
 		'sourceSelectionModel'
 	],
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #'private - hook' }
-ToSelectionModelCopyFromCommand >> applyOn: anOperator [
+ToSelectionCopyFromCommand >> applyOn: anOperator [
 
 	" ask the operator passed as argument to actually apply the command. "
 
@@ -20,32 +20,32 @@ ToSelectionModelCopyFromCommand >> applyOn: anOperator [
 ]
 
 { #category : #'private - hook' }
-ToSelectionModelCopyFromCommand >> applyWithOperator: anOperator [
+ToSelectionCopyFromCommand >> applyWithOperator: anOperator [
 
 	anOperator selectionModelCopyFromCommand: self.
 	super applyWithOperator: anOperator 
 ]
 
 { #category : #accessing }
-ToSelectionModelCopyFromCommand >> indexes [ 
+ToSelectionCopyFromCommand >> indexes [ 
 
 	^ 1 to: sourceSelectionModel itemCount
 ]
 
 { #category : #accessing }
-ToSelectionModelCopyFromCommand >> intervals [ 
+ToSelectionCopyFromCommand >> intervals [ 
 
 	^ Array with: (1 to: sourceSelectionModel itemCount)
 ]
 
 { #category : #accessing }
-ToSelectionModelCopyFromCommand >> sourceSelectionModel [
+ToSelectionCopyFromCommand >> sourceSelectionModel [
 
 	^ sourceSelectionModel
 ]
 
 { #category : #accessing }
-ToSelectionModelCopyFromCommand >> sourceSelectionModel: aSelectionModel [
+ToSelectionCopyFromCommand >> sourceSelectionModel: aSelectionModel [
 
 	sourceSelectionModel := aSelectionModel
 ]

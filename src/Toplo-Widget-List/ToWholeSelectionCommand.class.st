@@ -1,6 +1,6 @@
 Class {
 	#name : #ToWholeSelectionCommand,
-	#superclass : #ToSelectionModelAddRemoveCommand,
+	#superclass : #ToSelectionAddRemoveCommand,
 	#category : #'Toplo-Widget-List-Command'
 }
 

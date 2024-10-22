@@ -1,6 +1,6 @@
 Class {
 	#name : #ToAddSelectionOperation,
-	#superclass : #ToSelectionModelOperation,
+	#superclass : #ToSelectionOperation,
 	#instVars : [
 		'deselectAllBefore'
 	],

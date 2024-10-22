@@ -27,7 +27,7 @@ ToListElement >> defaultNodeManagerClass [
 { #category : #'private - invalidation' }
 ToListElement >> invalidateItemDecorations [
 
-	self notifyPrimarySelectionDirty
+	self updateAllSelections
 ]
 
 { #category : #skin }

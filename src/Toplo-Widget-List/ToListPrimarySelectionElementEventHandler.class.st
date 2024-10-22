@@ -12,7 +12,7 @@ ToListPrimarySelectionElementEventHandler >> differUpdateSelectionFrom: anElemen
 
 	differedUpdateTask ifNotNil: [ ^ self ].
 	differedUpdateTask := BlTaskAction new action: [
-		                      anElement notifyPrimarySelectionDirty.
+		                      anElement updateAllSelections.
 		                      differedUpdateTask := nil ].
 	anElement enqueueTask: differedUpdateTask
 ]
@@ -20,19 +20,11 @@ ToListPrimarySelectionElementEventHandler >> differUpdateSelectionFrom: anElemen
 { #category : #'api - accessing' }
 ToListPrimarySelectionElementEventHandler >> eventsToHandle [
 
-	^ super eventsToHandle, {
-		  ToListPrimarySelectionDirtyEvent.
-		  ToListPrimarySelectionChangedEvent }
+	^ super eventsToHandle , { ToListPrimarySelectionChangedEvent }
 ]
 
 { #category : #'element handlers' }
 ToListPrimarySelectionElementEventHandler >> listPrimarySelectionChangedEvent: anEvent [
-
-	self updateSelectionFromEvent: anEvent
-]
-
-{ #category : #'element handlers' }
-ToListPrimarySelectionElementEventHandler >> listPrimarySelectionDirtyEvent: anEvent [
 
 	self updateSelectionFromEvent: anEvent
 ]

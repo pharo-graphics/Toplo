@@ -9,9 +9,3 @@ ToSieveSelecter >> initializeCommandApplier [
 
 	commandApplier := ToImmediateCommandApplier new
 ]
-
-{ #category : #'event firing' }
-ToSieveSelecter >> notifyPrimarySelectionDirty [
-
-	
-]

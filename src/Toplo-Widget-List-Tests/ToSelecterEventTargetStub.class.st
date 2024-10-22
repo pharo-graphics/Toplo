@@ -16,10 +16,6 @@ ToSelecterEventTargetStub >> itemCount [
 	^ 100
 ]
 
-{ #category : #'event firing' }
-ToSelecterEventTargetStub >> notifyPrimarySelectionDirty [
-]
-
 { #category : #accessing }
 ToSelecterEventTargetStub >> scrollIndex [ 
 
@@ -50,4 +46,8 @@ ToSelecterEventTargetStub >> selectionModel: aSelectionModel [
 	selectionModel := aSelectionModel
 		                  on: self;
 		                  yourself
+]
+
+{ #category : #'event firing' }
+ToSelecterEventTargetStub >> updateAllSelections [
 ]

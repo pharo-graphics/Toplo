@@ -13,12 +13,10 @@ ToListUnselectableSelectionElementEventHandler >> eventsToHandle [
 { #category : #'element handlers' }
 ToListUnselectableSelectionElementEventHandler >> listUnselectableSelectionChangedEvent: anEvent [
 
-	| touchedIndexes target |
-	touchedIndexes := anEvent touchedIndexes.
+	| target |
 	target := anEvent currentTarget.
 	self updateSelectionFromEvent: anEvent.
-	target selecter deselectIndexes: touchedIndexes.
-	target secondarySelecter deselectAll.
 	anEvent touchedIntervals do: [ :int |
-		target dataSource notifyItemsChanged: int ]
+		target selecter deselectIndex: int first to: int last ].
+	target secondarySelecter deselectAll
 ]

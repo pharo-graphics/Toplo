@@ -5,6 +5,12 @@ Class {
 }
 
 { #category : #'instance creation' }
+ToListUnselectableSelectionMode >> newSelectionChangedEventHandler [ 
+
+	^ ToListUnselectableSelectionElementEventHandler new
+]
+
+{ #category : #'instance creation' }
 ToListUnselectableSelectionMode >> selectionChangedEventClass [ 
 
 	^ ToListUnselectableSelectionChangedEvent

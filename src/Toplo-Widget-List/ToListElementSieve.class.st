@@ -54,10 +54,6 @@ ToListElementSieve >> isInstalled [
 	^ originalData notNil
 ]
 
-{ #category : #'event firing' }
-ToListElementSieve >> notifyPrimarySelectionDirty [
-]
-
 { #category : #'api - hooks' }
 ToListElementSieve >> onInstalledIn: aListElement [
 	" install the sieve on the listElement "
@@ -159,6 +155,10 @@ ToListElementSieve >> selecter [
 ToListElementSieve >> selectionModel [ 
 
 	^ selectionModel
+]
+
+{ #category : #'selection updating' }
+ToListElementSieve >> updateAllSelections [
 ]
 
 { #category : #private }

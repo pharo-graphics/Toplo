@@ -23,19 +23,6 @@ ToQueueBasedCommandApplier >> command: aCommand addedIn: aSelecter [
 	element spaceDo: [ :sp | sp requestNextPulse ]
 ]
 
-{ #category : #'event handling' }
-ToQueueBasedCommandApplier >> elementCommandApplicationTaskActivationEvent: aCommandsApplicationRequestEvent [
-
-	self postApplicationTask
-]
-
-{ #category : #'api - accessing' }
-ToQueueBasedCommandApplier >> eventsToHandle [
-
-	^ super eventsToHandle , {
-		  ToCommandApplicationTaskActivationEvent }
-]
-
 { #category : #initialization }
 ToQueueBasedCommandApplier >> initialize [ 
 
@@ -47,7 +34,6 @@ ToQueueBasedCommandApplier >> initialize [
 ToQueueBasedCommandApplier >> onInstalledIn: aSelecter [
 
 	super onInstalledIn: aSelecter.
-
 	commandQueue := ToCommandQueue new.
 	applicationTask := ToCommandApplicationTask new
 		                   operator: aSelecter operator;
@@ -63,7 +49,6 @@ ToQueueBasedCommandApplier >> onInstalledIn: aSelecter [
 ToQueueBasedCommandApplier >> onUninstalledIn: aSelecter [
 
 	super onUninstalledIn: aSelecter.
-
 	commandQueue := nil.
 	applicationTask := nil.
 ]

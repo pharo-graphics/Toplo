@@ -1,6 +1,6 @@
 Class {
 	#name : #ToCommandApplier,
-	#superclass : #BlCustomEventHandler,
+	#superclass : #Object,
 	#instVars : [
 		'element'
 	],
@@ -19,8 +19,12 @@ ToCommandApplier >> element: anElement [
 	element := anElement
 ]
 
-{ #category : #'api - accessing' }
-ToCommandApplier >> eventsToHandle [
+{ #category : #'api - hooks' }
+ToCommandApplier >> onInstalledIn: aSelecter [
 
-	^ {  }
+]
+
+{ #category : #'api - hooks' }
+ToCommandApplier >> onUninstalledIn: aSelecter [
+
 ]

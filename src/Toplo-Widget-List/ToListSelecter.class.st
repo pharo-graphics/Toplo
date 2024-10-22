@@ -269,13 +269,13 @@ ToListSelecter >> onInstalledIn: anElement [
 	element := anElement.
 	selectionModel on: anElement.
 	commandApplier element: anElement.
-	self addEventHandler: commandApplier
+	commandApplier onInstalledIn: self
 ]
 
 { #category : #'api - hooks' }
 ToListSelecter >> onUninstalledIn: anElement [
 
-	self removeEventHandler: commandApplier.
+	commandApplier onUninstalledIn: self.
 	commandApplier := nil.
 	element := nil
 ]

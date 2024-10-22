@@ -344,27 +344,27 @@ ToAbstractListElement >> nodeUnbuilder: aValuable [
 	nodeManager nodeUnbuilder: aValuable
 ]
 
-{ #category : #'event firing' }
+{ #category : #notifications }
 ToAbstractListElement >> notifyDataSourceChanged [
 
 	
 	self dataSource notifyChanged
 ]
 
-{ #category : #'event firing' }
+{ #category : #notifications }
 ToAbstractListElement >> notifyDataSourceItemChanged: aDataSourceEvent [
 
 	self dispatchEvent: aDataSourceEvent
 ]
 
-{ #category : #'event firing' }
+{ #category : #notifications }
 ToAbstractListElement >> notifyDataSourceItemsFiltered: aDataSourceEvent [
 
 	
 	self dispatchEvent: aDataSourceEvent
 ]
 
-{ #category : #'event firing' }
+{ #category : #notifications }
 ToAbstractListElement >> notifyPrimarySelectionDirty [
 
 	self
@@ -535,7 +535,7 @@ ToAbstractListElement >> unselectableSelectionModel [
 	^ self selectionModel unselectableSelectionModel
 ]
 
-{ #category : #'event firing' }
+{ #category : #'selection updating' }
 ToAbstractListElement >> updateAllSelections [
 
 	self selectionModes do: [ :mode |

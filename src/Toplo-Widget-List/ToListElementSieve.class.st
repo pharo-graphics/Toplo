@@ -157,6 +157,10 @@ ToListElementSieve >> selectionModel [
 	^ selectionModel
 ]
 
+{ #category : #'selection updating' }
+ToListElementSieve >> updateAllSelections [
+]
+
 { #category : #private }
 ToListElementSieve >> updateCurrentData [
 

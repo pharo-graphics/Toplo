@@ -27,7 +27,7 @@ ToSieveEventHandler >> listPrimarySelectionChangedEvent: anEvent [
 
 	anEvent currentTarget pattern
 		ifEmpty: [
-			listElement selectionModel copySelectionFrom: sieveSelectionModel ]
+		listElement selectionModel copySelectionFrom: sieveSelectionModel ]
 		ifNotEmpty: [
 			listElement dataAccessor withIndexDo: [ :dataItem :localIndex |
 				| originalIndex |
@@ -44,7 +44,7 @@ ToSieveEventHandler >> listPrimarySelectionChangedEvent: anEvent [
 			 sieve: anEvent currentTarget;
 			 selectionModel: sieveSelectionModel;
 			 yourself).
-	listElement notifyPrimarySelectionDirty
+	listElement updateAllSelections
 ]
 
 { #category : #'api - hooks' }

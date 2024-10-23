@@ -2,23 +2,11 @@ Class {
 	#name : #ToSelecterCommandApplication,
 	#superclass : #BlInfiniteDataSourceCommand,
 	#instVars : [
-		'applier',
-		'command'
+		'command',
+		'selecter'
 	],
 	#category : #'Toplo-Widget-List-InnerInfinite'
 }
-
-{ #category : #accessing }
-ToSelecterCommandApplication >> applier [
-
-	^ applier
-]
-
-{ #category : #accessing }
-ToSelecterCommandApplication >> applier: aCommandApplier [
-
-	applier := aCommandApplier
-]
 
 { #category : #commands }
 ToSelecterCommandApplication >> applyOnPosition: aPosition [
@@ -49,5 +37,17 @@ ToSelecterCommandApplication >> dispatchToLayout: aLayout [
 { #category : #commands }
 ToSelecterCommandApplication >> offsetPositionsIn: anInfiniteElement [
 
-	applier applyCommand: command
+	selecter applyCommand: command
+]
+
+{ #category : #accessing }
+ToSelecterCommandApplication >> selecter [
+
+	^ selecter
+]
+
+{ #category : #accessing }
+ToSelecterCommandApplication >> selecter: aSelecter [
+
+	selecter := aSelecter
 ]

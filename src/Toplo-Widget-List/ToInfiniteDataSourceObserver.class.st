@@ -71,7 +71,7 @@ ToInfiniteDataSourceObserver >> selecterCommandApplicationRequest: anEvent [
 	self assertNotInLayoutOrScroll.
 	
 	infiniteElement dataSourceManager
-		onSelecterCommand: anEvent command appliedBy: anEvent applier.
+		onSelecterCommand: anEvent command appliedBy: anEvent selecter.
 
 	self triggerUpdateProcessor.
 	infiniteElement listElement dispatchEvent: anEvent copy

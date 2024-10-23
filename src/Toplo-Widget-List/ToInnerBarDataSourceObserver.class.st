@@ -96,8 +96,8 @@ ToInnerBarDataSourceObserver >> initializeWith: anInnerLinearBarElement [
 { #category : #'event handling' }
 ToInnerBarDataSourceObserver >> selecterCommandApplicationRequest: aCommandApplicationRequest [
 
-	| command applier |
+	| command selecter |
 	command := aCommandApplicationRequest command.
-	applier := aCommandApplicationRequest applier.
-	applier applyCommand: command
+	selecter := aCommandApplicationRequest selecter.
+	selecter applyCommand: command
 ]

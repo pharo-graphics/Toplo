@@ -3,22 +3,10 @@ Class {
 	#superclass : #BlInfiniteDataSourceRangeChanged,
 	#instVars : [
 		'command',
-		'applier'
+		'selecter'
 	],
 	#category : #'Toplo-Widget-List-InnerInfinite'
 }
-
-{ #category : #accessing }
-ToSelecterCommandApplicationRequest >> applier [
-
-	^ applier
-]
-
-{ #category : #accessing }
-ToSelecterCommandApplicationRequest >> applier: anApplier [
-
-	applier := anApplier
-]
 
 { #category : #accessing }
 ToSelecterCommandApplicationRequest >> command [
@@ -30,6 +18,18 @@ ToSelecterCommandApplicationRequest >> command [
 ToSelecterCommandApplicationRequest >> command: aCommand [
 
 	command := aCommand
+]
+
+{ #category : #accessing }
+ToSelecterCommandApplicationRequest >> selecter [
+
+	^ selecter
+]
+
+{ #category : #accessing }
+ToSelecterCommandApplicationRequest >> selecter: aSelecter [
+
+	selecter := aSelecter
 ]
 
 { #category : #sending }

@@ -32,12 +32,12 @@ ToInfiniteDataSource >> notifyItemsSievedWith: aSieve [
 ]
 
 { #category : #'event firing' }
-ToInfiniteDataSource >> notifySelecterCommandApplicationRequest: aCommand from: anApplier [
+ToInfiniteDataSource >> notifySelecterCommandApplicationRequest: aCommand from: aSelecter [
 	"Notify any registered observers that a selecter request the application of a command.
 	This is not a structural change event"
 
 	self notifyWithEvent: (ToSelecterCommandApplicationRequest new
-			 applier: anApplier;
+			 selecter: aSelecter;
 			 command: aCommand;
 			 yourself)
 ]

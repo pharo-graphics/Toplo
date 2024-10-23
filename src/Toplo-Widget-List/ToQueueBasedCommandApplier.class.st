@@ -36,10 +36,8 @@ ToQueueBasedCommandApplier >> onInstalledIn: aSelecter [
 	super onInstalledIn: aSelecter.
 	commandQueue := ToCommandQueue new.
 	applicationTask := ToCommandApplicationTask new
-		                   operator: aSelecter operator;
-		                   applier: aSelecter;
+		                   selecter: aSelecter;
 		                   commandQueue: commandQueue;
-		                   element: element;
 		                   finishedAction: [ queued := false ];
 		                   yourself.
 	queued := false

@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #initialization }
-ToSieveSelecter >> initializeCommandApplier [
+ToSieveSelecter >> defaultCommandApplicationStrategy [
 
-	commandApplier := ToImmediateCommandApplier new
+	^ ToImmediateCommandApplicationStrategy new
 ]

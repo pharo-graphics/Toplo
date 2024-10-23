@@ -22,7 +22,7 @@ ToSingleSelectionModelSelecterTest >> setUp [
 		            selectionChangedEventClass:
 			            ToListPrimarySelectionChangedEvent;
 		            yourself.
-	selecter commandApplier: ToQueueBasedCommandApplier new.
+	selecter commandApplicationStrategy: ToQueueBasedCommandApplicationStrategy new.
 	selecter onInstalledIn: element.
 	selecter multiple: false
 ]

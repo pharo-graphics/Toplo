@@ -1,6 +1,6 @@
 Class {
-	#name : #ToQueueBasedCommandApplier,
-	#superclass : #ToCommandApplier,
+	#name : #ToQueueBasedCommandApplicationStrategy,
+	#superclass : #ToCommandApplicationStrategy,
 	#instVars : [
 		'commandQueue',
 		'applicationTask',
@@ -10,49 +10,42 @@ Class {
 	#category : #'Toplo-Widget-List-Command-Support'
 }
 
-{ #category : #'event handling' }
-ToQueueBasedCommandApplier >> command: aCommand addedIn: aSelecter [
+{ #category : #accessing }
+ToQueueBasedCommandApplicationStrategy >> addCommand: aCommand [ 
 
 	weak ifTrue: [
 		element isAttachedToSceneGraph ifFalse: [
-			aSelecter applyCommand: aCommand.
+			commandApplier applyCommand: aCommand.
 			^ self ] ].
 
-	commandQueue nextPut: aCommand.
+	commandQueue add: aCommand.
 	self postApplicationTask.
 	element spaceDo: [ :sp | sp requestNextPulse ]
 ]
 
-{ #category : #initialization }
-ToQueueBasedCommandApplier >> initialize [ 
+{ #category : #accessing }
+ToQueueBasedCommandApplicationStrategy >> commandApplier: aCommandApplier element: anElement [
 
-	super initialize.
-	weak := true
-]
-
-{ #category : #'api - hooks' }
-ToQueueBasedCommandApplier >> onInstalledIn: aSelecter [
-
-	super onInstalledIn: aSelecter.
-	commandQueue := ToCommandQueue new.
+	super commandApplier: aCommandApplier element: anElement.
+	commandQueue := OrderedCollection new.
 	applicationTask := ToCommandApplicationTask new
-		                   selecter: aSelecter;
+		                   element: aCommandApplier element;
+		                   applier: aCommandApplier;
 		                   commandQueue: commandQueue;
 		                   finishedAction: [ queued := false ];
 		                   yourself.
 	queued := false
 ]
 
-{ #category : #'api - hooks' }
-ToQueueBasedCommandApplier >> onUninstalledIn: aSelecter [
+{ #category : #initialization }
+ToQueueBasedCommandApplicationStrategy >> initialize [ 
 
-	super onUninstalledIn: aSelecter.
-	commandQueue := nil.
-	applicationTask := nil.
+	super initialize.
+	weak := true
 ]
 
 { #category : #'event handling' }
-ToQueueBasedCommandApplier >> postApplicationTask [
+ToQueueBasedCommandApplicationStrategy >> postApplicationTask [
 	"Post children update runnable to consume update operations"
 	queued ifTrue: [ ^ self ].
 	queued := true.
@@ -63,7 +56,7 @@ ToQueueBasedCommandApplier >> postApplicationTask [
 ]
 
 { #category : #accessing }
-ToQueueBasedCommandApplier >> weak: aBoolean [
+ToQueueBasedCommandApplicationStrategy >> weak: aBoolean [
 
 	weak := aBoolean
 ]

@@ -1,17 +1,17 @@
 Class {
-	#name : #ToDataSourceCommandApplier,
-	#superclass : #ToCommandApplier,
+	#name : #ToDataSourceCommandApplicationStrategy,
+	#superclass : #ToCommandApplicationStrategy,
 	#category : #'Toplo-Widget-List-Command-Support'
 }
 
 { #category : #accessing }
-ToDataSourceCommandApplier >> command: aCommand addedIn: aSelecter [
+ToDataSourceCommandApplicationStrategy >> addCommand: aCommand [ 
 
 	element isAttachedToSceneGraph ifFalse: [
-		aSelecter applyCommand: aCommand.
+		commandApplier applyCommand: aCommand.
 		^ self ].
 	element dataSource
 		notifySelecterCommandApplicationRequest: aCommand
-		from: aSelecter.
+		from: commandApplier.
 	element spaceDo: [ :sp | sp requestNextPulse ]
 ]

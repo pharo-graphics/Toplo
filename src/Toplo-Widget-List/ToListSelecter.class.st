@@ -11,8 +11,8 @@ Class {
 		'eventDispatcher',
 		'selectionChangedEventClass',
 		'selectionMode',
-		'commandApplier',
-		'selectionModel'
+		'selectionModel',
+		'commandApplicationStrategy'
 	],
 	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
@@ -21,7 +21,7 @@ Class {
 ToListSelecter >> addCommand: aCommand [
 
 	enabled ifFalse: [ ^ self ].
-	commandApplier command: aCommand addedIn: self
+	commandApplicationStrategy addCommand: aCommand 
 ]
 
 { #category : #'command application' }
@@ -47,6 +47,12 @@ ToListSelecter >> beSingleSelection [
 	self multiple: false
 ]
 
+{ #category : #accessing }
+ToListSelecter >> commandApplicationStrategy: aCommandApplicationStrategy [
+
+	commandApplicationStrategy := aCommandApplicationStrategy
+]
+
 { #category : #'command application' }
 ToListSelecter >> commandApplied: aCommand [
 
@@ -64,12 +70,6 @@ ToListSelecter >> commandApplied: aCommand [
 		       yourself.
 
 	element dispatchAuthorisationRequest: req
-]
-
-{ #category : #accessing }
-ToListSelecter >> commandApplier: aCommandApplierEventHandler [
-
-	commandApplier := aCommandApplierEventHandler
 ]
 
 { #category : #testing }
@@ -92,6 +92,12 @@ ToListSelecter >> currentIndex [
 	^ enabled
 		  ifFalse: [ 0 ]
 		  ifTrue: [ operator currentIndex ]
+]
+
+{ #category : #initialization }
+ToListSelecter >> defaultCommandApplicationStrategy [
+
+	^ ToQueueBasedCommandApplicationStrategy new
 ]
 
 { #category : #operations }
@@ -175,15 +181,7 @@ ToListSelecter >> initialize [
 	multiple := true.
 	enabled := true.
 	operator := ToSelectionModelOperator new.
-	self initializeCommandApplier
-]
-
-{ #category : #initialization }
-ToListSelecter >> initializeCommandApplier [
-
-	"commandApplier := ToDataSourceCommandApplier new."
-	"commandApplier := ToDirectCommandApplier new."
-	commandApplier := ToQueueBasedCommandApplier new
+	commandApplicationStrategy := self defaultCommandApplicationStrategy 
 ]
 
 { #category : #testing }
@@ -264,20 +262,16 @@ ToListSelecter >> nextSelectableIndexToScrollTo [
 
 { #category : #'api - hooks' }
 ToListSelecter >> onInstalledIn: anElement [
-	" the argument is passed as the target of commands.
-	It receives the selection change event after the application of commands "
 
 	element := anElement.
 	selectionModel on: anElement.
-	commandApplier element: anElement.
-	commandApplier onInstalledIn: self
+	commandApplicationStrategy commandApplier: self element: element
 ]
 
 { #category : #'api - hooks' }
 ToListSelecter >> onUninstalledIn: anElement [
 
-	commandApplier onUninstalledIn: self.
-	commandApplier := nil.
+	commandApplicationStrategy := nil.
 	element := nil
 ]
 

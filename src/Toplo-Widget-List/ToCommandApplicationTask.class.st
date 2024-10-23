@@ -5,20 +5,27 @@ Class {
 		'commandQueue',
 		'finishedAction',
 		'posponedRequestTask',
-		'selecter'
+		'applier',
+		'element'
 	],
 	#category : #'Toplo-Widget-List-Command-Support'
 }
 
+{ #category : #accessing }
+ToCommandApplicationTask >> applier: aCommandApplier [
+
+	applier := aCommandApplier
+]
+
 { #category : #'api - running' }
 ToCommandApplicationTask >> applyAll [
 
-	self element ifNil: [ ^ self ].
+	element ifNil: [ ^ self ].
 	self canApplyCommands ifFalse: [
 		posponedRequestTask ifNotNil: [ ^ self ].
 		posponedRequestTask := BlTaskAction new.
 		posponedRequestTask action: [ self privateApplyAll ].
-		self element enqueueTask: posponedRequestTask.
+		element enqueueTask: posponedRequestTask.
 		^ self ].
 
 	self privateApplyAll
@@ -27,7 +34,7 @@ ToCommandApplicationTask >> applyAll [
 { #category : #'api - running' }
 ToCommandApplicationTask >> canApplyCommands [
 	
-	^ self element notNil and: [ self element isAttachedToSceneGraph ]
+	^ element notNil and: [ element isAttachedToSceneGraph ]
 ]
 
 { #category : #initialization }
@@ -37,9 +44,9 @@ ToCommandApplicationTask >> commandQueue: aQueue [
 ]
 
 { #category : #accessing }
-ToCommandApplicationTask >> element [
+ToCommandApplicationTask >> element: anElement [
 
-	^ selecter element
+	element := anElement
 ]
 
 { #category : #accessing }
@@ -52,8 +59,9 @@ ToCommandApplicationTask >> finishedAction: aValuable [
 ToCommandApplicationTask >> privateApplyAll [
 
 	| nextInQueue |
-	[ (nextInQueue := commandQueue nextOrNil) isNotNil ] whileTrue: [
-		selecter applyCommand: nextInQueue ]
+	[ commandQueue isEmpty ] whileFalse: [
+		nextInQueue := commandQueue removeFirst.
+		applier applyCommand: nextInQueue ]
 ]
 
 { #category : #'api - running' }
@@ -61,10 +69,4 @@ ToCommandApplicationTask >> run [
 
 	self applyAll.
 	finishedAction value.
-]
-
-{ #category : #accessing }
-ToCommandApplicationTask >> selecter: aSelecter [
-
-	selecter := aSelecter
 ]

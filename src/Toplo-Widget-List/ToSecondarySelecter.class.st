@@ -5,9 +5,7 @@ Class {
 }
 
 { #category : #initialization }
-ToSecondarySelecter >> initializeCommandApplier [
+ToSecondarySelecter >> defaultCommandApplicationStrategy [
 
-	commandApplier := ToDataSourceCommandApplier new.
-	"commandApplier := ToDirectCommandApplier new."
-	"commandApplier := ToQueueBasedCommandApplier new"
+	^ ToDataSourceCommandApplicationStrategy new
 ]

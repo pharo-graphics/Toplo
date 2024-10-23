@@ -1954,8 +1954,8 @@ ToSandBox class >> example_SelectMultiFiltrable [
 		('Select states' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
 	select popupWindowManager anchorRoot: innerWindow root.
-	select position: 50 @ 10.
-	select width: 300.
+	select position: 5 @ 10.
+	select width: 380.
 	select selecter selectIndex: 2.
 	innerWindow pane addChild: select.
 	innerWindow height: 600.

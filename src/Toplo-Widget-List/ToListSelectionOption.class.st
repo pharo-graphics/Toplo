@@ -149,12 +149,18 @@ ToListSelectionOption >> currentSelectionGroupsFrom: aListElement withSelectionM
 	^ grouped
 		  ifTrue: [
 			  (aListElement innerContainer nodeGroupsSatisfying: [ :node |
-				   aSelectionModel containsIndex: node holder position ]) collect: [
-				  :arr | ToNeighboringSelection new nodes: arr ] ]
+				   | idx |
+				   idx := node holder position.
+				   (aSelectionModel containsIndex: idx) and: [
+					   aSelectionModel isVisibleIndex: idx ] ]) collect: [ :arr |
+				  ToNeighboringSelection new nodes: arr ] ]
 		  ifFalse: [
 			  (aListElement innerContainer nodesSelect: [ :node |
-				   aSelectionModel containsIndex: node holder position ]) collect: [
-				  :node | ToSeparateSelection new node: node ] ]
+				   | idx |
+				   idx := node holder position.
+				   (aSelectionModel containsIndex: idx) and: [
+					   aSelectionModel isVisibleIndex: idx ] ]) collect: [ :node |
+				  ToSeparateSelection new node: node ] ]
 ]
 
 { #category : #accessing }
@@ -173,16 +179,6 @@ ToListSelectionOption >> forgetPreviousBoundsIn: aListElement [
 ToListSelectionOption >> grouped: aBoolean [
 
 	grouped := aBoolean
-]
-
-{ #category : #'private - selection updating' }
-ToListSelectionOption >> groups: aSelectionGroupArray equals: otherSelectionGroupArray [
-
-	currentSelectionGroups == otherSelectionGroupArray ifTrue: [ ^ true ].
-	currentSelectionGroups size ~= otherSelectionGroupArray size ifTrue: [ ^ false ].
-	currentSelectionGroups withIndexDo: [ :g :idx |
-		g = (otherSelectionGroupArray at: idx) ifFalse: [ ^ false ] ].
-	^ true
 ]
 
 { #category : #initialization }

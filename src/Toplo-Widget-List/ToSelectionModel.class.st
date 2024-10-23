@@ -128,9 +128,21 @@ ToSelectionModel >> isNotEmpty [
 ]
 
 { #category : #testing }
+ToSelectionModel >> isSelectableIndex: anIndex [
+
+	^ self containsIndex: anIndex
+]
+
+{ #category : #testing }
 ToSelectionModel >> isUnselectableIndex: anIndex [
 
 	^ false
+]
+
+{ #category : #testing }
+ToSelectionModel >> isVisibleIndex: anIndex [
+
+	^ (self isHiddenIndex: anIndex) not
 ]
 
 { #category : #accessing }

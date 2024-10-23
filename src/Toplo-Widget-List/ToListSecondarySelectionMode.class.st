@@ -11,7 +11,7 @@ Class {
 ToListSecondarySelectionMode >> defaultSelectionOption [
 
 	^ ToListSelectionOption new
-		  grouped: true;
+		  grouped: false;
 		  beneath: true;
 		  elementFactory: [
 			  ToListBasicSelectionElement new defaultSkin:

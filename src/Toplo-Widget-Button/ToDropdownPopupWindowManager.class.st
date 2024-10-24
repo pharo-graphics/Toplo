@@ -59,7 +59,7 @@ ToDropdownPopupWindowManager >> listElement [
 { #category : #initialization }
 ToDropdownPopupWindowManager >> listElementClass [
 
-	^ ToSelectListElement
+	^ ToDropdownListElement
 ]
 
 { #category : #accessing }
@@ -122,8 +122,6 @@ ToDropdownPopupWindowManager >> onInstalledIn: anElement [
 ToDropdownPopupWindowManager >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
-	sieve onInstalledIn: listElement.
-	sieve := nil.
 	listElement := nil.
 
 ]
@@ -155,13 +153,7 @@ ToDropdownPopupWindowManager >> popupWindowHiddenEvent: anEvent [
 ]
 
 { #category : #accessing }
-ToDropdownPopupWindowManager >> sieve [ 
-
-	^ sieve
-]
-
-{ #category : #accessing }
 ToDropdownPopupWindowManager >> windowClass [
 
-	^ ToSelectPopupWindow 
+	^ ToDropdownPopupWindow 
 ]

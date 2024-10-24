@@ -52,6 +52,12 @@ ToBarElement >> fakeNode [
 	^ self innerContainer fakeNode
 ]
 
+{ #category : #layout }
+ToBarElement >> haveInvisibleNodes: theInvisibleNodes [
+
+	
+]
+
 { #category : #initialization }
 ToBarElement >> initialize [
 

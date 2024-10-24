@@ -124,11 +124,6 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 
 	wrappingSwitch checked: true.
 
-	aBar
-		addEventHandlerOn: ToBarNodeVisibilityEvent
-		do: [ :event |
-		event invisibleNodes ifNotEmpty: [ :in | in traceCr ] ].
-
 	confPane addChild: (self resizerBoardFor: aBar).
 
 	^ confPane
@@ -1245,6 +1240,7 @@ ToSandBox class >> example_ListWithAllClasses3 [
 ToSandBox class >> example_ListWithAllClasses4 [
 
 	| l |
+	self flag: 'Does not work as expected. A dedicated node type seems necessary'.
 	l := ToListElement new nodeBuilder: [ :node :dataItem :holder |
 		     | cbox |
 		     cbox := ToCheckbox new.
@@ -1253,9 +1249,12 @@ ToSandBox class >> example_ListWithAllClasses4 [
 			     startInterspace: 10;
 			     hMatchParent;
 			     startFlexible: true.
+		     cbox label addStamp: #'ignore-selection'.
+		     cbox focusability: BlFocusability none.
 		     cbox checked: holder isSelected.
 		     node addChild: cbox ].
-	l primarySelectionMode selectOnMouseDown: true.
+	"l primarySelectionMode selectOnMouseDown: true."
+	"l primarySelectionMode deselectOnMouseDown: false"
 	l selectionOption masked: true.
 	l dataAccessor addAll: Smalltalk globals allClasses.
 	l openInSpace
@@ -1905,6 +1904,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 
 	| select innerWindow newTagFactory |
 	select := ToMultiSelectElement new.
+	select inspect.
 	select nodeWrapping: true.
 	select keepPickOrder: true.
 	select popupListElement selectionOption grouped: false.
@@ -2571,6 +2571,17 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 		addChild: root;
 		addChild: vscrollBar.
 	container openInSpace
+]
+
+{ #category : #tag }
+ToSandBox class >> example_TabBar [
+
+	| tb |
+	tb := ToTabBarElement new.
+	tb nodeWrapping: false.
+	tb dataAccessor addAll: ((ToSandBox statesOfAmerica collect: [ :s |
+			 ToSingleTagModel new data: s ]) copyFrom: 1 to: 8).
+	tb openInSpace
 ]
 
 { #category : #tag }

@@ -33,9 +33,7 @@ ToInnerBarElement >> checkFullyVisibleNodes [
 	self scrollableElement isNodeScrolling ifTrue: [ ^ self ].
 	self scrollableElement isNodeAutoDistribution ifTrue: [ ^ self ].
 	invisibleNodes := self nodesSelect: [ :n | n isFullyVisible not ].
-	listElement dispatchEvent: (ToBarNodeVisibilityEvent new
-			 invisibleNodes: invisibleNodes;
-			 yourself)
+	listElement haveInvisibleNodes: invisibleNodes
 ]
 
 { #category : #layout }

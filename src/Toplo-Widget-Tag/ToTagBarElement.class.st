@@ -28,12 +28,6 @@ ToTagBarElement >> defaultNodeManager [
 ToTagBarElement >> extentChanged [
 ]
 
-{ #category : #layout }
-ToTagBarElement >> haveInvisibleNodes: theInvisibleNodes [
-
-	
-]
-
 { #category : #initialization }
 ToTagBarElement >> initialize [
 

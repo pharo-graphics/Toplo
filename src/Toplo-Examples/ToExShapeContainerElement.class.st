@@ -34,7 +34,7 @@ ToExShapeContainerElement >> aeDrawOn: aeCanvas [
 ToExShapeContainerElement >> initialize [
 
 	super initialize.
-	shapes := [  ].
+	shapes := #(  ).
 	self background: Color veryLightGray.
 	self constraintsDo: [ :c |
 		c horizontal matchParent.

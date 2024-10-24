@@ -50,7 +50,7 @@ ToExShapeContainerManager >> open [
 		addEventHandlerOn: BlElementRemovedFromSceneGraphEvent
 		do: [ self terminateAllProcesses ].
 	self addCommand: (ToExShapeNewGenerationCommand new
-			 size: 1000;
+			 size: 2000;
 			 yourself).
 	self startShuffleProcess.
 	self startSortProcess.
@@ -99,7 +99,7 @@ ToExShapeContainerManager >> startRemoveProcess [
 	           [ shapeContainer shapes size < 2 ] whileFalse: [
 		           | indexes |
 		           indexes := Array streamContents: [ :stream |
-			                      1 to: 3 do: [ :n |
+			                      1 to: 4 do: [ :n |
 				                      stream nextPut:
 					                      (rand
 						                       nextBetween: 1

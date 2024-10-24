@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'listElement'
 	],
-	#category : #'Toplo-Widget-Button-Dropdown'
+	#category : #'Toplo-Widget-DropdownButton'
 }
 
 { #category : #initialization }

@@ -1,5 +1,5 @@
 Class {
 	#name : #ToDropdownButton,
 	#superclass : #ToButton,
-	#category : #'Toplo-Widget-Button-Dropdown'
+	#category : #'Toplo-Widget-DropdownButton'
 }

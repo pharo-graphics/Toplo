@@ -1,7 +1,7 @@
 Class {
 	#name : #ToDropdownPopupWindow,
 	#superclass : #ToAnchoredWindow,
-	#category : #'Toplo-Widget-Button-Dropdown'
+	#category : #'Toplo-Widget-DropdownButton'
 }
 
 { #category : #skin }

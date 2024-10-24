@@ -41,9 +41,35 @@ ToExShapeContainerManager >> open [
 	self addCommand: (ToExShapeNewGenerationCommand new
 			 size: 1000;
 			 yourself).
+	self startShuffleProcess.
+	self startSortProcess
+]
+
+{ #category : #accessing }
+ToExShapeContainerManager >> shapeContainer: aShapeContainer [
+
+	shapeContainer := aShapeContainer.
+	commandApplicationStrategy := self defaultCommandApplicationStrategy.
+	commandApplicationStrategy commandApplier: self element: shapeContainer
+]
+
+{ #category : #'instance creation' }
+ToExShapeContainerManager >> startShuffleProcess [
+
 	[
-	1 to: 500 do: [ :n |
+	self inform: 'Shuffle process started'.
+	1 to: 150 do: [ :n |
 		self addCommand: ToExShapeShuffleCommand new.
+		(Delay forMilliseconds: 300) wait ].
+	self inform: 'Shuffle process finished' ] fork
+]
+
+{ #category : #'instance creation' }
+ToExShapeContainerManager >> startSortProcess [
+
+	[
+	self inform: 'Sort process started'.
+	1 to: 500 do: [ :n |
 		n odd
 			ifTrue: [
 				self addCommand: (ToExShapeSortCommand new
@@ -54,13 +80,6 @@ ToExShapeContainerManager >> open [
 						 sortBlock: [ :a :b | a num < b num ];
 						 yourself) ].
 
-		(Delay forMilliseconds: 50) wait ] ] fork
-]
-
-{ #category : #accessing }
-ToExShapeContainerManager >> shapeContainer: aShapeContainer [
-
-	shapeContainer := aShapeContainer.
-	commandApplicationStrategy := self defaultCommandApplicationStrategy.
-	commandApplicationStrategy commandApplier: self element: shapeContainer
+		(Delay forMilliseconds: 50) wait ].
+	self inform: 'Sort process finished' ] fork
 ]

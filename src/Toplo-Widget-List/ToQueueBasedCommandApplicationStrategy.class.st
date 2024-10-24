@@ -29,7 +29,7 @@ ToQueueBasedCommandApplicationStrategy >> commandApplier: aCommandApplier elemen
 	super commandApplier: aCommandApplier element: anElement.
 	commandQueue := OrderedCollection new.
 	applicationTask := ToCommandApplicationTask new
-		                   element: aCommandApplier element;
+		                   element: anElement;
 		                   applier: aCommandApplier;
 		                   commandQueue: commandQueue;
 		                   finishedAction: [ queued := false ];

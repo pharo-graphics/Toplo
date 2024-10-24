@@ -17,7 +17,7 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
 
-{ #category : #adding }
+{ #category : #'command application' }
 ToListSelecter >> addCommand: aCommand [
 
 	enabled ifFalse: [ ^ self ].

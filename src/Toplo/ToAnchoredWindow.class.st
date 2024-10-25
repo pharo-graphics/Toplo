@@ -146,7 +146,8 @@ ToAnchoredWindow >> popupEvent: anEvent [
 		            self toFront.
 		            self checkBeforePopupEvent: anEvent.
 		            openTask := nil ].
-	self anchorRoot enqueueTask: openTask
+	self anchorRoot enqueueTask: openTask.
+	self anchorRoot spaceDo: [ :sp | sp requestNextPulse ].
 ]
 
 { #category : #accessing }

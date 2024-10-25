@@ -10,7 +10,6 @@ Class {
 		'selectionModel',
 		'selecter',
 		'selectionHandler',
-		'sharedHandler',
 		'eventDispatcher',
 		'originalIndexMap',
 		'sieveEventHandler',
@@ -64,17 +63,17 @@ ToListElementSieve >> onInstalledIn: aListElement [
 	selectionModel := aListElement selectionModel copy.
 
 	originalData := aListElement dataAccessor newMirror.
+	
 	queryRunner := ToObservableCollectionFilter new.
+	" When a query has occured (because the query pattern has changed), update the list element accordingly then
+	 ask the list to process the appropiate data source command and to update the selection model "
+	queryRunner applicationResultAction: [
+		self updateCurrentData.
+		aListElement onSievedWith: self ].	
 	queryRunner onInstalledIn: originalData.
 
 	" initialization of the current result with the current pattern "
 	self updateCurrentData.
-	sharedHandler := BlSharedEventDistributor new.
-	sharedHandler shareEvents:
-		{ ToObservableCollectionFilterResultEvent }.
-	originalData addEventHandler: sharedHandler.
-	aListElement addEventHandler: sharedHandler.
-
 	selectionHandler := ToSievedListElementEventHandler new.
 	selectionHandler sieve: self.
 	aListElement addEventHandler: selectionHandler.
@@ -82,16 +81,16 @@ ToListElementSieve >> onInstalledIn: aListElement [
 	sieveEventHandler := ToSieveEventHandler new
 		                     listElement: aListElement;
 		                     yourself.
+	" selectionChangedEventClass: is needed to update the selection 
+	of the list when the selecter is used programmatically.
+	This is the case when a tag in a ToSelect is removed from its remove button"
 	selecter := ToSieveSelecter new
 		            selectionModel: self selectionModel;
 		            selectionChangedEventClass:
 			            ToListPrimarySelectionChangedEvent;
+		            multiple: aListElement isMultipleSelection;
 		            yourself.
 	selecter onInstalledIn: self.
-	selecter
-		enabled: true;
-		multiple: aListElement isMultipleSelection.
-
 	self addEventHandler: sieveEventHandler
 ]
 
@@ -101,13 +100,10 @@ ToListElementSieve >> onUninstalledIn: aListElement [
 
 	aListElement removeEventHandler: selectionHandler.
 	queryRunner onUninstalledIn: originalData.
-	originalData removeEventHandler: sharedHandler.
-	aListElement removeEventHandler: sharedHandler.
 	self removeEventHandler: sieveEventHandler.
 	self removeEventHandler: commandEventHandler.
 	sieveEventHandler := nil.
 	commandEventHandler := nil.
-	sharedHandler := nil.
 	originalData unmirrored.
 	originalData := nil.
 	currentData := nil.

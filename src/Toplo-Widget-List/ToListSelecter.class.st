@@ -32,7 +32,7 @@ ToListSelecter >> applyCommand: aCommand [
 	previousModel := selectionModel copy.
 	aCommand applyWithOperator: operator.
 	previousModel = aCommand selectionModel ifTrue: [ ^ self ].
-	self commandApplied: aCommand
+	self onCommandApplied: aCommand
 ]
 
 { #category : #accessing }
@@ -51,25 +51,6 @@ ToListSelecter >> beSingleSelection [
 ToListSelecter >> commandApplicationStrategy: aCommandApplicationStrategy [
 
 	commandApplicationStrategy := aCommandApplicationStrategy
-]
-
-{ #category : #'command application' }
-ToListSelecter >> commandApplied: aCommand [
-
-	| req |
-	selectionChangedEventClass ifNil: [ ^ self ].
-
-	req := ToListSelectionCommandAppliedEvent new
-		       command: aCommand;
-		       requestedAction: [
-			       element dispatchEvent: (selectionChangedEventClass new
-						        selectionModel: aCommand selectionModel;
-						        touchedIntervals: aCommand intervals;
-						        selectionOption: self selectionOption;
-						        yourself) ];
-		       yourself.
-
-	element dispatchAuthorisationRequest: req
 ]
 
 { #category : #testing }
@@ -258,6 +239,25 @@ ToListSelecter >> nextSelectableIndexToScrollTo [
 			  selectionModel itemCount > 0
 				  ifTrue: [ 1 ]
 				  ifFalse: [ 0 ] ]
+]
+
+{ #category : #'command application' }
+ToListSelecter >> onCommandApplied: aCommand [
+
+	| req |
+	selectionChangedEventClass ifNil: [ ^ self ].
+
+	req := ToListSelectionCommandAppliedEvent new
+		       command: aCommand;
+		       requestedAction: [
+			       element dispatchEvent: (selectionChangedEventClass new
+						        selectionModel: aCommand selectionModel;
+						        touchedIntervals: aCommand intervals;
+						        selectionOption: self selectionOption;
+						        yourself) ];
+		       yourself.
+
+	element dispatchAuthorisationRequest: req
 ]
 
 { #category : #'api - hooks' }
@@ -514,5 +514,6 @@ ToListSelecter >> switchIndexSelection: anIndex [
 ToListSelecter >> updateSelection [
 
 	self selectionModel deselectAll.
+	element ifNil: [ ^ self ].
 	element updateAllSelections
 ]

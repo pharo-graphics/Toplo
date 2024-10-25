@@ -494,6 +494,22 @@ TToObservableCollection >> notifyUpdateChangeAround: aBlock interval: anInterval
 			 yourself)
 ]
 
+{ #category : #'t - observable collection - removing' }
+TToObservableCollection >> onSievedWith: aSieve [
+
+	| interval |
+	interval := 1 to: aSieve currentData size.
+	self
+		notifySievedWith: aSieve
+		around: [
+			self initializeWith: aSieve currentData.
+			self dispatchEvent: (ToCollectionSievedEvent new
+					 interval: interval;
+					 sieve: aSieve;
+					 yourself) ]
+		interval: interval
+]
+
 { #category : #'t - observable collection - copying' }
 TToObservableCollection >> postCopy [
 
@@ -718,22 +734,6 @@ TToObservableCollection >> second [
 TToObservableCollection >> select: aBlock [
 
 	^ self collection select: aBlock
-]
-
-{ #category : #'t - observable collection - removing' }
-TToObservableCollection >> sieveResultWith: aSieve [
-
-	| interval |
-	interval := 1 to: aSieve currentData size.
-	self
-		notifySievedWith: aSieve
-		around: [
-			self initializeWith: aSieve currentData.
-			self dispatchEvent: (ToCollectionSievedEvent new
-					 interval: interval;
-					 sieve: aSieve;
-					 yourself) ]
-		interval: interval
 ]
 
 { #category : #'t - observable collection - accessing' }

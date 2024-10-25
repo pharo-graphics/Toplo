@@ -23,7 +23,7 @@ ToSievedListElementEventHandler >> buildOriginalIndexMapFrom: aListElement [
 ToSievedListElementEventHandler >> eventsToHandle [
 
 	^ {
-		  ToObservableCollectionFilterResultEvent.
+		 " ToObservableCollectionFilterResultEvent."
 		  BlInfiniteDataSourceChanged.
 		  BlInfiniteDataSourceItemRangeChanged.
 		  BlInfiniteDataSourceItemRangeInserted.
@@ -101,20 +101,6 @@ ToSievedListElementEventHandler >> listSelectionCommandAppliedEvent: aPreNotific
 			 sieve: sieve;
 			 selectionModel: sieveSelectionModel;
 			 yourself)
-]
-
-{ #category : #'element handlers' }
-ToSievedListElementEventHandler >> observableCollectionFilterResultEvent: anEvent [
-
-
-	| listElement |
-	listElement := anEvent currentTarget.
-
-	" a query has occured (because the query pattern has changed), update the list element accordingly "
-	sieve updateCurrentData.
-
-	" ask the list to process the appropiate data source command and to update the selection model"
-	listElement sieveResultWith: sieve
 ]
 
 { #category : #'api - hooks' }

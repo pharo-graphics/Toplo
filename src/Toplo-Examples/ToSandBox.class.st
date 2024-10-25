@@ -927,6 +927,9 @@ ToSandBox class >> example_EditorWithoutSoftLine [
 { #category : #list }
 ToSandBox class >> example_FilterOnList2WithStatesOfAmerica [
 
+	" When filtered, update the primary selection with filtered items 
+	 - the contents of the list remains unchanged"
+	
 	| listElement pane filterField data selector |
 	pane := ToPane new
 		        beVertical;
@@ -939,6 +942,8 @@ ToSandBox class >> example_FilterOnList2WithStatesOfAmerica [
 	filterField margin: (BlInsets all: 2).
 
 	selector := ToObservableCollectionFilter new.
+	selector applicationResultAction: [
+		listElement selecter selectOnlyIndexes: selector selectedIndexes ].
 	listElement dataAccessor addAll: data.
 
 	selector onInstalledIn: listElement dataAccessor.
@@ -950,16 +955,12 @@ ToSandBox class >> example_FilterOnList2WithStatesOfAmerica [
 				 pattern := filterField text asString.
 				 selector pattern: pattern ]).
 
-	listElement dataAccessor addEventHandler: (BlEventHandler
-			 on: ToObservableCollectionFilterResultEvent
-			 do: [ :event |
-				 listElement selecter selectOnlyIndexes:
-					 event filter selectedIndexes ]).
-
 	listElement placeholderBuilder: [ :ph :e |
 		| lab |
-		lab := (ToLabel text: 'No Data') foreground: Color lightGray;
-				        fontSize: 24; yourself.
+		lab := (ToLabel text: 'No Data')
+			       foreground: Color lightGray;
+			       fontSize: 24;
+			       yourself.
 		lab matchParent.
 		ph addChild: lab ].
 
@@ -1904,7 +1905,6 @@ ToSandBox class >> example_SelectMultiFiltrable [
 
 	| select innerWindow newTagFactory |
 	select := ToMultiSelectElement new.
-	select inspect.
 	select nodeWrapping: true.
 	select keepPickOrder: true.
 	select popupListElement selectionOption grouped: false.

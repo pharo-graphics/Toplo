@@ -8,24 +8,28 @@ Class {
 		'previousPattern',
 		'dataFilter',
 		'selectedIndexes',
-		'delay'
+		'delay',
+		'resultAction'
 	],
-	#category : #'Toplo-Core-CollectionFilter'
+	#category : #'Toplo-Core-Collection'
 }
+
+{ #category : #accessing }
+ToObservableCollectionFilter >> applicationResultAction: aValuable [
+
+	" A valuable takes the collection as argument "
+	resultAction := aValuable
+]
 
 { #category : #'private filtering' }
 ToObservableCollectionFilter >> applyDataFilterIn: anObservableCollection [
 
-	| event |
 	selectedIndexes := self pattern ifEmpty: [ #(  ) ] ifNotEmpty: [
 		                   Array streamContents: [ :stream |
 			                   anObservableCollection withIndexDo: [ :d :idx |
 				                   (self dataFilter value: d value: self pattern)
 					                   ifTrue: [ stream nextPut: idx ] ] ] ].
-	event := ToObservableCollectionFilterResultEvent new
-		         filter: self;
-		         yourself.
-	anObservableCollection dispatchEvent: event
+	self onAppliedOn: anObservableCollection 
 ]
 
 { #category : #accessing }
@@ -68,13 +72,20 @@ ToObservableCollectionFilter >> newProcessIn: anObservableCollection [
 	semaphore := Semaphore new.
 	^ [
 	  [
-	  self semaphore wait.	
+	  semaphore wait.
 	  pattern ifNotEmpty: [ self delay wait ].
 	  previousPattern = pattern ifFalse: [
 		  previousPattern := pattern.
 		  self applyDataFilterIn: anObservableCollection ] ] repeat ]
-		  forkAt: Processor userBackgroundPriority
+		  forkAt: Processor lowIOPriority
 		  named: self class name , ' filter process'
+]
+
+{ #category : #'private filtering' }
+ToObservableCollectionFilter >> onAppliedOn: anObservableCollection [
+
+	resultAction ifNil: [ ^ self ].
+	resultAction cull: anObservableCollection 
 ]
 
 { #category : #'api - hooks' }
@@ -106,7 +117,7 @@ ToObservableCollectionFilter >> pattern: aString [
 	pattern = aString ifTrue: [ ^ self ].
 	pattern := aString asString trimBoth.
 	previousPattern = pattern ifTrue: [ ^ self ].
-	self semaphore signal
+	semaphore signal
 ]
 
 { #category : #accessing }

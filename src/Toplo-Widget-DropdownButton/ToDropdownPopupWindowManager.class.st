@@ -19,12 +19,6 @@ ToDropdownPopupWindowManager >> defaultAutoClosePickOutsideEventClass [
 	^ BlMouseDownOutsideEvent
 ]
 
-{ #category : #'api - hooks' }
-ToDropdownPopupWindowManager >> defaultListElementEventHandler [ 
-
-	^ ToSelectListElementEventHandler new
-]
-
 { #category : #initialization }
 ToDropdownPopupWindowManager >> defaultMaxHeight [
 
@@ -47,7 +41,7 @@ ToDropdownPopupWindowManager >> defaultSizeHook [
 { #category : #accessing }
 ToDropdownPopupWindowManager >> elementEventHandlerClass [ 
 
-	^ ToSelectEventHandler
+	^ ToDropdownEventHandler
 ]
 
 { #category : #accessing }
@@ -107,11 +101,6 @@ ToDropdownPopupWindowManager >> onInstalledIn: anElement [
 	listElement := self newListElement.
 	listElement selectElement: self element.
 	listElement focusability: BlFocusability none.
-
-	listElement addEventHandler: (self defaultListElementEventHandler
-			 select: self element;
-			 yourself).
-
 	self builder: [ :selectWin :request |
 		selectWin root hMatchParent.
 		selectWin root vFitContent.

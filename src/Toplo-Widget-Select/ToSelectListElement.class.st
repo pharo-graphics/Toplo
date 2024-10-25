@@ -7,7 +7,7 @@ Class {
 	#category : #'Toplo-Widget-Select-List'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'private - commands' }
 ToSelectListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 	" update the selection according to the sieve selection model"
 
@@ -19,19 +19,19 @@ ToSelectListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 		w visibility: BlVisibility visible ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToSelectListElement >> groupSelecter [
 
 	^ self groupSelectionMode selecter
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToSelectListElement >> groupSelectionMode [
 
 	^ self selectionModeWithEventClass: ToSelectGroupSelectionChangedEvent
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToSelectListElement >> groupSelectionModel [
 
 	^ self groupSelecter selectionModel
@@ -47,7 +47,7 @@ ToSelectListElement >> initialize [
 	self primarySelectionMode makeDisabledUnselectable: true
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToSelectListElement >> newGroupSelectionMode [
 
 	^ ToSelectListGroupSelectionMode parentMode: self primarySelectionMode
@@ -59,19 +59,19 @@ ToSelectListElement >> newRawSkin [
 	^ ToBasicListElementSkin new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToSelectListElement >> selectElement [
 
 	^ selectElement 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToSelectListElement >> selectElement: aSelectElement [
 
 	selectElement := aSelectElement
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToSelectListElement >> sieve [
 
 	^ selectElement sieve

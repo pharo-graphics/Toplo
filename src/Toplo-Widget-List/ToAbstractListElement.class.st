@@ -394,6 +394,13 @@ ToAbstractListElement >> offsetPositionRecordsForFilter: aStartPosition itemCoun
 ToAbstractListElement >> onScrolled: aPoint [
 ]
 
+{ #category : #'private - commands' }
+ToAbstractListElement >> onSievedWith: aSieve [
+
+	self dataAccessor onSievedWith: aSieve.
+	self requestLayout
+]
+
 { #category : #'t - element with placeholder' }
 ToAbstractListElement >> placeholderElevation [
 
@@ -509,12 +516,6 @@ ToAbstractListElement >> selectionModes [
 ToAbstractListElement >> selectionOption [
 
 	^ self primarySelectionMode selectionOption
-]
-
-{ #category : #'private - commands' }
-ToAbstractListElement >> sieveResultWith: aSieve [
-
-	self dataAccessor sieveResultWith: aSieve
 ]
 
 { #category : #'accessing selecters' }

@@ -133,15 +133,17 @@ ToSingleSelectInnerContainerElement >> refreshFromPopupListSelection [
 
 	" No data to select from, just do nothing here "
 	selectElement popupListElement dataAccessor ifEmpty: [ ^ self ].
-	
+
 	selectionModel := self popupWindowManager sieve selectionModel.
 	originalData := self popupWindowManager sieve originalData.
 	selectedIndex := selectionModel isEmpty
 		                 ifTrue: [ 0 ]
 		                 ifFalse: [ selectionModel firstIndex ].
 
+	selectedIndex isZero ifFalse: [
+		self filterTextField text: '' asRopedText ].
+	currentSelectedIndex = selectedIndex ifTrue: [ ^ self ].
 	currentSelectedIndex := selectedIndex.
-	self filterTextField text: '' asRopedText.
 
 	dataView removeChildren.
 

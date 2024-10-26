@@ -1,33 +1,12 @@
 Class {
 	#name : #ToSingleSelectChangedEvent,
-	#superclass : #BlEvent,
-	#instVars : [
-		'selectedDataArray',
-		'selectedIndexes'
-	],
+	#superclass : #ToSelectChangedEvent,
 	#category : #'Toplo-Widget-Select-Single'
 }
 
-{ #category : #accessing }
-ToSingleSelectChangedEvent >> selectedData [
+{ #category : #testing }
+ToSingleSelectChangedEvent class >> isDeprecated [
+	" use ToSelectChangedEvent instead "
 
-	^ selectedDataArray ifNotEmpty: [ :s | s anyOne ] ifEmpty: [  ]
-]
-
-{ #category : #accessing }
-ToSingleSelectChangedEvent >> selectedDataArray: aDataArray [
-
-	selectedDataArray := aDataArray
-]
-
-{ #category : #accessing }
-ToSingleSelectChangedEvent >> selectedIndex [
-
-	^ selectedIndexes ifNotEmpty: [ :s | s anyOne ] ifEmpty: [ 0 ]
-]
-
-{ #category : #accessing }
-ToSingleSelectChangedEvent >> selectedIndexes: anArray [
-
-	selectedIndexes := anArray
+	^ true
 ]

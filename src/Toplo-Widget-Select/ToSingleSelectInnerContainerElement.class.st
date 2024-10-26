@@ -152,10 +152,9 @@ ToSingleSelectInnerContainerElement >> refreshFromPopupListSelection [
 			dataItem := originalData at: selectedIndex.
 			dataViewBuilder cull: dataView cull: dataItem ].
 
-	changedEvent := ToSingleSelectChangedEvent new.
-	changedEvent selectedDataArray:
-		(dataItem ifNil: [ #(  ) ] ifNotNil: [ { dataItem } ]).
-	changedEvent selectedIndexes: { selectedIndex }.
+	changedEvent := ToSelectChangedEvent new.
+	changedEvent selectedData: dataItem.
+	changedEvent selectedIndex: selectedIndex.
 	selectElement dispatchEvent: changedEvent
 ]
 

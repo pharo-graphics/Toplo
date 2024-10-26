@@ -1905,6 +1905,10 @@ ToSandBox class >> example_SelectMultiFiltrable [
 
 	| select innerWindow newTagFactory |
 	select := ToMultiSelectElement new.
+	select
+		addEventHandlerOn: ToSelectChangedEvent
+		do: [ :event | event selectedIndexes traceCr ].
+
 	select nodeWrapping: true.
 	select keepPickOrder: true.
 	select popupListElement selectionOption grouped: false.
@@ -2602,7 +2606,7 @@ ToSandBox class >> example_ThemeSelect [
 	select placeholderText:
 		('Select a Toplo theme' asRopedText foreground: Color lightGray).
 	select
-		addEventHandlerOn: ToSingleSelectChangedEvent
+		addEventHandlerOn: ToSelectChangedEvent
 		do: [ :event | event selectedData asString traceCr ].
 	select selecter selectIndex: 4.
 	select allowDeselection: false.

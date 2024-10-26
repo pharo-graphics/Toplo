@@ -130,6 +130,19 @@ ToMultiSelectElement >> nodeWrapping: aBoolean [
 	self innerContainer nodeWrapping: aBoolean
 ]
 
+{ #category : #'accessing - selection' }
+ToMultiSelectElement >> onSelectionChangedInPopupListElement: anEvent [
+
+	| selectedDataItems changedEvent |
+	super onSelectionChangedInPopupListElement: anEvent.
+	selectedDataItems := self selectionModel selectedIndexesCollect: [
+		                     :idx | self sieve originalData at: idx ].
+	changedEvent := ToSelectChangedEvent new.
+	changedEvent selectedDataItems: selectedDataItems.
+	changedEvent selectedIndexes: self selectionModel selectedIndexes.
+	self dispatchEvent: changedEvent
+]
+
 { #category : #'accessing - list' }
 ToMultiSelectElement >> setGroupIndex: anIndex [
 

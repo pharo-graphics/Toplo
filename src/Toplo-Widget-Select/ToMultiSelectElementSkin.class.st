@@ -1,7 +1,7 @@
 Class {
 	#name : #ToMultiSelectElementSkin,
 	#superclass : #ToSelectElementSkin,
-	#category : #'Toplo-Widget-Select-Core'
+	#category : #'Toplo-Widget-Select-Multi'
 }
 
 { #category : #'accessing - shortcuts' }

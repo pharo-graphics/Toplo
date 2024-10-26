@@ -51,8 +51,9 @@ ToSelectElementSkin >> shortcutsToInstallIn: aSelect [
 										   ifTrue: [ deselIdxes add: idx ]
 										   ifFalse: [ selIdxes add: idx ] ] ].
 					   listElement selecter selectIndexes: selIdxes.
-					   aSelect allowDeselection ifTrue: [
-							   listElement selecter deselectIndexes: deselIdxes ] ]) ]
+					   aSelect allowDeselection
+						   ifTrue: [ listElement selecter selectOnlyIndexes: selIdxes ]
+						   ifFalse: [ listElement selecter selectIndexes: selIdxes ] ]) ]
 ]
 
 { #category : #'event handling' }

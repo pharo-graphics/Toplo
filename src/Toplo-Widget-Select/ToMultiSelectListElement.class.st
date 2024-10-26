@@ -6,7 +6,7 @@ Class {
 
 { #category : #'private - commands' }
 ToMultiSelectListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
-	" update the selection according to the sieve selection model"
+	" update the selection and the select list according to the sieve selection model"
 
 	super applyDataSourceSieveCommand: aDataSourceCommand.
 	selectElement checkHideSelectionFromListElement.

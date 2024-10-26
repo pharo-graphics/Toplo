@@ -87,6 +87,13 @@ ToSelectPopupWindowManager >> minHeight: aNumber [
 	listElement minHeight: aNumber
 ]
 
+{ #category : #'mouse handlers' }
+ToSelectPopupWindowManager >> mouseDownInElementEvent: anEvent [
+
+	super mouseDownInElementEvent: anEvent.
+	element filterTextField requestFocus
+]
+
 { #category : #initialization }
 ToSelectPopupWindowManager >> newListElement [
 

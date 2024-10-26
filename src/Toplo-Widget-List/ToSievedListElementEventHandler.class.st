@@ -63,7 +63,7 @@ ToSievedListElementEventHandler >> listSelectionCommandAppliedEvent: aPreNotific
 	" the list selection change event is about to be dispatched.
 	I take care of the sieve internal selectionSet according to the list element selection model"
 
-	| listElement listSelModel touchedIndexes |
+	| listElement listSelModel |
 	listElement := aPreNotification currentTarget.
 	listSelModel := listElement selectionModel.
 	" first check if the request is for the primary selection model "
@@ -80,15 +80,12 @@ ToSievedListElementEventHandler >> listSelectionCommandAppliedEvent: aPreNotific
 	- if not empty, the selection set is computed according to the current list node list "
 	sieve pattern
 		ifEmpty: [
-			touchedIndexes := aPreNotification command indexes.
 			sieveSelectionModel copySelectionFrom: listSelModel ]
 		ifNotEmpty: [
-			touchedIndexes := OrderedCollection new.
 			aPreNotification command indexes do: [ :localIndex |
 				| originalIndex dataItem |
 				dataItem := listElement dataAccessor at: localIndex.
 				originalIndex := dataPositionIndex at: dataItem.
-				touchedIndexes add: originalIndex.
 				listSelModel
 					transferSelectionFromIndex: localIndex
 					toIndex: originalIndex

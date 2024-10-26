@@ -2,8 +2,8 @@ Class {
 	#name : #ToSingleSelectChangedEvent,
 	#superclass : #BlEvent,
 	#instVars : [
-		'selectedData',
-		'selectedIndex'
+		'selectedDataArray',
+		'selectedIndexes'
 	],
 	#category : #'Toplo-Widget-Select-Single'
 }
@@ -11,23 +11,23 @@ Class {
 { #category : #accessing }
 ToSingleSelectChangedEvent >> selectedData [
 
-	^ selectedData
+	^ selectedDataArray ifNotEmpty: [ :s | s anyOne ] ifEmpty: [  ]
 ]
 
 { #category : #accessing }
-ToSingleSelectChangedEvent >> selectedData: aData [
+ToSingleSelectChangedEvent >> selectedDataArray: aDataArray [
 
-	selectedData := aData
+	selectedDataArray := aDataArray
 ]
 
 { #category : #accessing }
 ToSingleSelectChangedEvent >> selectedIndex [
 
-	^ selectedIndex
+	^ selectedIndexes ifNotEmpty: [ :s | s anyOne ] ifEmpty: [ 0 ]
 ]
 
 { #category : #accessing }
-ToSingleSelectChangedEvent >> selectedIndex: anInteger [
+ToSingleSelectChangedEvent >> selectedIndexes: anArray [
 
-	selectedIndex := anInteger
+	selectedIndexes := anArray
 ]

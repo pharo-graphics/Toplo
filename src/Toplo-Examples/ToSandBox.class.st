@@ -2603,7 +2603,7 @@ ToSandBox class >> example_ThemeSelect [
 		('Select a Toplo theme' asRopedText foreground: Color lightGray).
 	select
 		addEventHandlerOn: ToSingleSelectChangedEvent
-		do: [ :event | self inform: event selectedData asString ].
+		do: [ :event | event selectedData asString traceCr ].
 	select selecter selectIndex: 4.
 	select allowDeselection: false.
 	select openInSpace
@@ -3887,12 +3887,15 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWithAllClassNames [
 					  fontSize: 24;
 					  foreground: Color lightGray;
 					  yourself)) ].
-
+	select sieve dataFilter: [ :aClass :aPattern |
+		aClass name
+			includesSubstring: aPattern asString
+			caseSensitive: false ].
 	innerWindow := ToInnerWindow new.
 	select popupWindowManager anchorRoot: innerWindow root.
 	select hMatchParent.
 	select popupListElement dataAccessor updateAllWith:
-		(Smalltalk globals allClasses collect: [ :cls | cls name ]).
+		Smalltalk globals allClasses.
 
 	innerWindow pane addChild: select.
 	innerWindow height: 800.

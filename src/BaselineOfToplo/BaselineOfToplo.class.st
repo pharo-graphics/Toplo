@@ -134,7 +134,7 @@ BaselineOfToplo >> registerPackages: spec [
 			   #'Toplo-Widget-Menu' #'Toplo-Widget-Pane' #'Toplo-Widget-Segmented' ) ].
 
 	spec package: #'Toplo-Widget-Select' with: [
-		spec requires: #( #Toplo #'Toplo-Widget-DropdownButton' #'Toplo-Widget-List' #'Toplo-Widget-Album'
+		spec requires: #( #Toplo #'Toplo-Widget-List' #'Toplo-Widget-Album'
 			   #'Toplo-Widget-Button' #'Toplo-Widget-Image'
 			   #'Toplo-Widget-Menu' #'Toplo-Widget-Tag' #'Toplo-Theme' ) ].
 

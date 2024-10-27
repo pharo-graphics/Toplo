@@ -38,20 +38,41 @@ TToSelectInnerContainerElement >> newFilterTextField [
 ]
 
 { #category : #'t - select inner container' }
+TToSelectInnerContainerElement >> onSelectionChangedInPopupListElement: anEvent [
+
+	self refreshFromPopupListSelection.
+	self requestLayout
+]
+
+{ #category : #'t - select inner container' }
+TToSelectInnerContainerElement >> popupWindowManager [
+
+	^ self selectElement popupWindowManager
+]
+
+{ #category : #'t - select inner container' }
+TToSelectInnerContainerElement >> refreshFromPopupListSelection [
+
+	^ self explicitRequirement 
+]
+
+{ #category : #'t - select inner container' }
 TToSelectInnerContainerElement >> selectElement [
 
-	self
-		deprecated: 'Use #dropdownButton instead'
-		transformWith: '`@rcvr selectElement' -> '`@rcvr dropdownButton'.
-	^ self dropdownButton
+	^ self explicitRequirement 
 ]
 
 { #category : #'t - select inner container' }
 TToSelectInnerContainerElement >> selectElement: aSelectElement [
 
-	self
-		deprecated: 'Use #dropdownButton: instead'
-		transformWith: '`@rcvr selectElement: `@arg' -> '`@rcvr dropdownButton: `@arg'.
-	self dropdownButton: aSelectElement
+	self explicitRequirement 
+]
 
+{ #category : #'t - select inner container' }
+TToSelectInnerContainerElement >> windowManager [
+
+	self
+		deprecated: 'Use #popupWindowManager'
+		transformWith: '`@rcvr windowManager' -> '`@rcvr popupWindowManager'.
+	^ self selectElement popupWindowManager
 ]

@@ -1,17 +1,17 @@
 Class {
 	#name : #ToSingleSelectInnerContainerElement,
 	#superclass : #ToElement,
-	#traits : 'TToSelectInnerContainerElement',
-	#classTraits : 'TToSelectInnerContainerElement classTrait',
+	#traits : 'TToDropdownInnerContainerElement + TToSelectInnerContainerElement',
+	#classTraits : 'TToDropdownInnerContainerElement classTrait + TToSelectInnerContainerElement classTrait',
 	#instVars : [
-		'selectElement',
 		'fakeDataView',
 		'dataView',
 		'dataViewFactory',
 		'dataViewBuilder',
 		'fakeDataItem',
 		'currentSelectedIndex',
-		'filterTextField'
+		'filterTextField',
+		'dropdownButton'
 	],
 	#category : #'Toplo-Widget-Select-Single'
 }
@@ -46,6 +46,18 @@ ToSingleSelectInnerContainerElement >> defaultLayout [
 	^ BlLinearLayout horizontal
 ]
 
+{ #category : #'t - dropdown inner container' }
+ToSingleSelectInnerContainerElement >> dropdownButton [ 
+
+	^ dropdownButton 
+]
+
+{ #category : #'t - dropdown inner container' }
+ToSingleSelectInnerContainerElement >> dropdownButton: aDropdownButton [
+
+	dropdownButton := aDropdownButton
+]
+
 { #category : #accessing }
 ToSingleSelectInnerContainerElement >> fakeDataItem: aData [
 
@@ -74,8 +86,8 @@ ToSingleSelectInnerContainerElement >> initialize [
 		hMatchParent;
 		constraintsDo: [ :c | c linear vertical alignCenter ].
 
-	dataViewFactory := selectElement defaultDataViewFactory.
-	dataViewBuilder := selectElement defaultDataViewBuilder.
+	dataViewFactory := dropdownButton defaultDataViewFactory.
+	dataViewBuilder := dropdownButton defaultDataViewBuilder.
 		
 	self installDataView.
 	self installFakeDataView.
@@ -129,10 +141,10 @@ ToSingleSelectInnerContainerElement >> refresh [
 ToSingleSelectInnerContainerElement >> refreshFromPopupListSelection [
 
 	| selectedIndex dataItem selectionModel originalData changedEvent |
-	selectElement showHidePlaceholder.
+	dropdownButton showHidePlaceholder.
 
 	" No data to select from, just do nothing here "
-	selectElement popupListElement dataAccessor ifEmpty: [ ^ self ].
+	dropdownButton popupListElement dataAccessor ifEmpty: [ ^ self ].
 
 	selectionModel := self popupWindowManager sieve selectionModel.
 	originalData := self popupWindowManager sieve originalData.
@@ -155,7 +167,7 @@ ToSingleSelectInnerContainerElement >> refreshFromPopupListSelection [
 	changedEvent := ToSelectChangedEvent new.
 	changedEvent selectedData: dataItem.
 	changedEvent selectedIndex: selectedIndex.
-	selectElement dispatchEvent: changedEvent
+	dropdownButton dispatchEvent: changedEvent
 ]
 
 { #category : #initialization }
@@ -175,13 +187,13 @@ ToSingleSelectInnerContainerElement >> sample: aDataItem [
 { #category : #'t - select inner container' }
 ToSingleSelectInnerContainerElement >> selectElement [
 
-	^ selectElement
+	^ dropdownButton
 ]
 
 { #category : #'t - select inner container' }
 ToSingleSelectInnerContainerElement >> selectElement: aSelectElement [
 
-	selectElement := aSelectElement
+	dropdownButton := aSelectElement
 ]
 
 { #category : #initialization }

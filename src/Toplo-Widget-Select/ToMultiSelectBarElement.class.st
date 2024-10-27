@@ -1,14 +1,14 @@
 Class {
 	#name : #ToMultiSelectBarElement,
 	#superclass : #ToTagBarElement,
-	#traits : 'TToSelectInnerContainerElement',
-	#classTraits : 'TToSelectInnerContainerElement classTrait',
+	#traits : 'TToDropdownInnerContainerElement + TToSelectInnerContainerElement',
+	#classTraits : 'TToDropdownInnerContainerElement classTrait + TToSelectInnerContainerElement classTrait',
 	#instVars : [
-		'selectElement',
 		'maxSelectedCount',
 		'keepPickOrder',
 		'pickCount',
-		'filterTextField'
+		'filterTextField',
+		'dropdownButton'
 	],
 	#category : #'Toplo-Widget-Select-Multi'
 }
@@ -30,7 +30,7 @@ ToMultiSelectBarElement >> assertMaxSelectedCount: aNumber [
 { #category : #'accessing - selection' }
 ToMultiSelectBarElement >> checkHideSelectionFromListElement [
 
-	selectElement hideSelected ifFalse: [ ^ self ].
+	dropdownButton hideSelected ifFalse: [ ^ self ].
 	self popupListElement hideSelection
 ]
 
@@ -44,8 +44,8 @@ ToMultiSelectBarElement >> checkMaxSelectedCount [
 	groupeSM := self popupListElement groupSelectionModel.
 	sM := self popupListElement selectionModel.
 
-	selectElement updateSelectedCountLabel.
-	selectedCount := selectElement selectionModel selectedIndexesCount.
+	dropdownButton updateSelectedCountLabel.
+	selectedCount := dropdownButton selectionModel selectedIndexesCount.
 
 	"self assertMaxSelectedCount: selectedIndexCount."
 	self sieve withLocalAndOriginalIndexDo: [ :d :localIndex :originalIndex |
@@ -53,15 +53,27 @@ ToMultiSelectBarElement >> checkMaxSelectedCount [
 			selectedCount < maxSelectedCount
 				ifTrue: [ disabledSM deselectIndex: localIndex ]
 				ifFalse: [
-					(selectElement selectionModel containsIndex: originalIndex)
+					(dropdownButton selectionModel containsIndex: originalIndex)
 						ifFalse: [ disabledSM selectIndex: localIndex ] ].
 			" to transfer the selection to the sieve selection model "
 			sM
 				transferSelectionFromIndex: localIndex
 				toIndex: originalIndex
-				in: selectElement selectionModel ] ].
+				in: dropdownButton selectionModel ] ].
 
 	self popupListElement notifyDataSourceChanged
+]
+
+{ #category : #'t - dropdown inner container' }
+ToMultiSelectBarElement >> dropdownButton [ 
+
+	^ dropdownButton 
+]
+
+{ #category : #'t - dropdown inner container' }
+ToMultiSelectBarElement >> dropdownButton: aDropdownButton [
+
+	dropdownButton := aDropdownButton
 ]
 
 { #category : #layout }
@@ -160,7 +172,7 @@ ToMultiSelectBarElement >> maxSelectedCount: aNumber [
 ToMultiSelectBarElement >> popupListElement [
 
 
-	^ selectElement popupListElement
+	^ dropdownButton popupListElement
 ]
 
 { #category : #'t - select inner container' }
@@ -178,7 +190,7 @@ ToMultiSelectBarElement >> refreshFromPopupListSelection [
 	" rebuild the current bar nodes according to the selection in the popup list "
 
 	| previousTagModels newTagModels |
-	selectElement showHidePlaceholder.
+	dropdownButton showHidePlaceholder.
 	" copy the previous tag models "
 	previousTagModels := self dataAccessor asOrderedCollection.
 	newTagModels := OrderedCollection new.
@@ -191,9 +203,9 @@ ToMultiSelectBarElement >> refreshFromPopupListSelection [
 			previousTagModels addAll: last items ] ].
 
 	" reconstruct the item list. ensure the reuse of pre-existing items"
-	selectElement selectionModel selectedIndexesDo: [ :idx |
+	dropdownButton selectionModel selectedIndexesDo: [ :idx |
 		| new previous data |
-		data := selectElement sieve originalData at: idx.
+		data := dropdownButton sieve originalData at: idx.
 		previous := previousTagModels
 			            detect: [ :item | item data = data ]
 			            ifNone: [  ].
@@ -221,17 +233,17 @@ ToMultiSelectBarElement >> refreshFromPopupListSelection [
 { #category : #'t - select inner container' }
 ToMultiSelectBarElement >> selectElement [
 
-	^ selectElement
+	^ dropdownButton
 ]
 
 { #category : #'t - select inner container' }
 ToMultiSelectBarElement >> selectElement: aSelectElement [
 
-	selectElement := aSelectElement
+	dropdownButton := aSelectElement
 ]
 
 { #category : #accessing }
 ToMultiSelectBarElement >> sieve [
 
-	^ selectElement sieve
+	^ dropdownButton sieve
 ]

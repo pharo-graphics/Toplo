@@ -93,11 +93,6 @@ BaselineOfToplo >> registerPackages: spec [
 			   #'Toplo-Theme' ) ].
 
 	spec
-		package: #'Toplo-Widget-DropdownButton'
-		with: [
-		spec requires: #( #Toplo #'Toplo-Widget-List' #'Toplo-Widget-Button' ) ].
-
-	spec
 		package: #'Toplo-Widget-List-Tests'
 		with: [ spec requires: #( #Toplo #'Toplo-Widget-List' ) ].
 

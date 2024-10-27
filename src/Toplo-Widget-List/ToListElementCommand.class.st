@@ -7,6 +7,12 @@ Class {
 	#category : #'Toplo-Widget-List-Command'
 }
 
+{ #category : #'private - adding' }
+ToListElementCommand >> addedIn: aCommandApplier [
+
+	selectionModel := aCommandApplier selectionModel
+]
+
 { #category : #accessing }
 ToListElementCommand >> indexes [
 

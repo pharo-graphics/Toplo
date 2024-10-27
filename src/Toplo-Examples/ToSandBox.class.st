@@ -1850,6 +1850,11 @@ ToSandBox class >> example_SelectMonoFiltrable [
 
 	| select innerWindow phtext |
 	select := ToSingleSelectElement new.
+	select
+		addEventHandlerOn: ToSelectChangedEvent
+		do: [ :event | event selectedIndexes traceCr ].
+
+
 	select popupListElement placeholderMinHeight: 35.
 	phtext := ('No Data' asRopedText
 		           foreground: Color lightGray;

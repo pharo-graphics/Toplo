@@ -5,7 +5,7 @@ Class {
 		'selectedIndexes',
 		'selectedDataItems'
 	],
-	#category : #'Toplo-Widget-Select-Single'
+	#category : #'Toplo-Widget-Select-Core'
 }
 
 { #category : #accessing }

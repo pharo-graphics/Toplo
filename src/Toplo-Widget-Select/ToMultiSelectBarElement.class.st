@@ -164,12 +164,6 @@ ToMultiSelectBarElement >> maxSelectedCount: aNumber [
 	self refreshFromPopupListSelection
 ]
 
-{ #category : #skin }
-ToMultiSelectBarElement >> newRawSkin [ 
-
-	^ ToMultiSelectBarElementSkin new
-]
-
 { #category : #accessing }
 ToMultiSelectBarElement >> popupListElement [
 

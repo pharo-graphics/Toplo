@@ -21,6 +21,7 @@ Class {
 ToListSelecter >> addCommand: aCommand [
 
 	enabled ifFalse: [ ^ self ].
+	aCommand addedIn: self.
 	commandApplicationStrategy addCommand: aCommand 
 ]
 
@@ -28,7 +29,6 @@ ToListSelecter >> addCommand: aCommand [
 ToListSelecter >> applyCommand: aCommand [
 
 	| previousModel |
-	aCommand selectionModel: selectionModel.
 	previousModel := selectionModel copy.
 	aCommand applyWithOperator: operator.
 	previousModel = aCommand selectionModel ifTrue: [ ^ self ].

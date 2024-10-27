@@ -8,6 +8,10 @@ Class {
 	#category : #'Toplo-Widget-List-Command'
 }
 
+{ #category : #'private - adding' }
+ToElementBasicCommand >> addedIn: aCommandApplier [
+]
+
 { #category : #'private - hook' }
 ToElementBasicCommand >> applyWithOperator: anOperator [
 

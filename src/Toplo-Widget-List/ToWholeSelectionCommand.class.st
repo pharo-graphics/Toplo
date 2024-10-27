@@ -4,6 +4,22 @@ Class {
 	#category : #'Toplo-Widget-List-Command'
 }
 
+{ #category : #'instance creation' }
+ToWholeSelectionCommand class >> add [
+
+	^ self new
+		  operation: ToAddSelectionOperation new;
+		  yourself
+]
+
+{ #category : #'instance creation' }
+ToWholeSelectionCommand class >> remove [
+
+	^ self new
+		  operation: ToRemoveSelectionOperation new;
+		  yourself
+]
+
 { #category : #'private - hook' }
 ToWholeSelectionCommand >> applyOn: anOperator [
 

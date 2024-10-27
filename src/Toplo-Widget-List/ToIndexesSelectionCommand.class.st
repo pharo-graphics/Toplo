@@ -7,6 +7,24 @@ Class {
 	#category : #'Toplo-Widget-List-Command'
 }
 
+{ #category : #'instance creation' }
+ToIndexesSelectionCommand class >> add: indexes [
+
+	^ self new
+		  indexes: indexes;
+		  operation: ToAddSelectionOperation new;
+		  yourself
+]
+
+{ #category : #'instance creation' }
+ToIndexesSelectionCommand class >> remove: indexes [
+
+	^ self new
+		  indexes: indexes;
+		  operation: ToRemoveSelectionOperation new;
+		  yourself
+]
+
 { #category : #'private - hook' }
 ToIndexesSelectionCommand >> applyOn: anOperator [
 

@@ -41,7 +41,7 @@ ToSelectElementSkin >> shortcutsToInstallIn: aSelect [
 		  stream nextPut: (BlShortcutWithAction new
 				   combination: BlKeyCombination builder return build;
 				   action: [ :aShortcutEvent :aShortcut |
-					   | selIdxes deselIdxes |
+					   | selIdxes deselIdxes cmd |
 					   selIdxes := OrderedCollection new.
 					   deselIdxes := OrderedCollection new.
 					   listElement secondarySelectionModel selectedIndexesDo: [ :idx |
@@ -50,10 +50,18 @@ ToSelectElementSkin >> shortcutsToInstallIn: aSelect [
 									   (listElement selectionModel containsIndex: idx)
 										   ifTrue: [ deselIdxes add: idx ]
 										   ifFalse: [ selIdxes add: idx ] ] ].
-					   listElement selecter selectIndexes: selIdxes.
-					   aSelect allowDeselection
-						   ifTrue: [ listElement selecter selectOnlyIndexes: selIdxes ]
-						   ifFalse: [ listElement selecter selectIndexes: selIdxes ] ]) ]
+						" use a composite command to have only one ToSelectChangedEvent for multiple sub-commands "
+					   cmd := ToListElementCompositeCommand new.
+					   aSelect isMultipleSelection ifFalse: [
+							   aSelect allowDeselection
+								   ifTrue: [ cmd add: ToWholeSelectionCommand remove ]
+								   ifFalse: [
+									   selIdxes ifNotEmpty:[ (listElement selecter containsIndex: selIdxes first)
+										   ifFalse: [ cmd add: ToWholeSelectionCommand remove ] ] ] ].
+					   aSelect allowDeselection ifTrue: [
+							   cmd add: (ToIndexesSelectionCommand remove: deselIdxes) ].
+					   cmd add: (ToIndexesSelectionCommand add: selIdxes).
+					   listElement selecter addCommand: cmd ]) ]
 ]
 
 { #category : #'event handling' }

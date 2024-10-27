@@ -13,14 +13,6 @@ Class {
 	#category : #'Toplo-Widget-Select-Multi'
 }
 
-{ #category : #'instance creation' }
-ToMultiSelectBarElement class >> onSelectElement: aSelectElement [
-
-	^ self basicNew
-		  selectElement: aSelectElement;
-		  initialize
-]
-
 { #category : #'accessing - selection' }
 ToMultiSelectBarElement >> allowSelectedCount: aNumber [
 

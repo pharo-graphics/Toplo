@@ -21,13 +21,13 @@ ToSingleSelectElement >> allowDeselection: aBoolean [
 ToSingleSelectElement >> dataViewBuilder: aValuable [
 	" aValuable takes 2 args: the dataItemView and the selected dataItem "
 
-	self innerContainer dataViewBuilder: aValuable
+	self innerElement dataViewBuilder: aValuable
 ]
 
 { #category : #accessing }
 ToSingleSelectElement >> dataViewFactory: aValuable [
 
-	self innerContainer dataViewFactory: aValuable
+	self innerElement dataViewFactory: aValuable
 ]
 
 { #category : #initialization }
@@ -44,7 +44,7 @@ ToSingleSelectElement >> defaultDataViewFactory [
 ]
 
 { #category : #'instance creation' }
-ToSingleSelectElement >> innerContainerClass [
+ToSingleSelectElement >> innerElementClass [
 
 	^ ToSingleSelectInnerContainerElement
 ]

@@ -16,7 +16,7 @@ TToListElementEventHandler >> withTargetNodeFromEvent: anEvent do: aValuable [
 			             node holder isSelectable and: [
 				             node containsGlobalPoint: globalPosition ] ]
 		             ifNone: [
-			             target innerContainer nodes
+			             target innerElement nodes
 				             detect: [ :node |
 					             | gap |
 					             gap := target isHorizontal
@@ -26,7 +26,7 @@ TToListElementEventHandler >> withTargetNodeFromEvent: anEvent do: aValuable [
 						             node containsGlobalPoint:
 							             globalPosition - (0 @ gap) ] ]
 				             ifNone: [
-					             target innerContainer nodes
+					             target innerElement nodes
 						             detect: [ :node |
 							             | gap |
 							             gap := target isHorizontal

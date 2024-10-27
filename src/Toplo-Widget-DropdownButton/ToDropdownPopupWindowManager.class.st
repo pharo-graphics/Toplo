@@ -86,9 +86,9 @@ ToDropdownPopupWindowManager >> newListElement [
 	| newListElement |
 	newListElement := self listElementClass new.
 	newListElement primarySelectionMode multiple: false.
-	newListElement innerContainer maxHeight: self defaultMaxHeight.
-	newListElement innerContainer minHeight: self defaultMinHeight.
-	newListElement innerContainer vFitContent.
+	newListElement innerElement maxHeight: self defaultMaxHeight.
+	newListElement innerElement minHeight: self defaultMinHeight.
+	newListElement innerElement vFitContent.
 	newListElement vFitContent.
 	newListElement hMatchParent.
 	^ newListElement
@@ -99,7 +99,7 @@ ToDropdownPopupWindowManager >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	listElement := self newListElement.
-	listElement selectElement: self element.
+	listElement dropdownButton: self element.
 	listElement focusability: BlFocusability none.
 	self builder: [ :selectWin :request |
 		selectWin root hMatchParent.

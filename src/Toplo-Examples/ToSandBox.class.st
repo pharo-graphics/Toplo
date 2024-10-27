@@ -346,7 +346,7 @@ ToSandBox class >> example_BasicListWithAllClasses3 [
 	l dataAccessor addAll: Smalltalk globals allClasses.
 	l selecter selectIndexes: #(10 12 3).
 
-	l innerContainer requestFocus.
+	l innerElement requestFocus.
 	l openInInnerWindow
 ]
 
@@ -847,7 +847,7 @@ ToSandBox class >> example_EditableList2WithAllClassesNames [
 		c margin: (BlInsets right: 2).
 		c ignored horizontal alignRight.
 		c ignored vertical alignBottom ].
-	vscrollBar attachTo: l innerContainer.
+	vscrollBar attachTo: l innerElement.
 	innerWin := ToInnerWindow new.
 	innerWin pane addChild: l.
 	innerWin pane addChild: vscrollBar.
@@ -1058,7 +1058,7 @@ ToSandBox class >> example_HugeIntegerList [
 		c margin: (BlInsets left: 10).
 		c ignored horizontal alignRight.
 		c ignored vertical alignBottom ].
-	vscrollBar attachTo: l innerContainer.
+	vscrollBar attachTo: l innerElement.
 
 	space := BlSpace new
 		         extent: 100 @ 600;
@@ -1279,7 +1279,7 @@ ToSandBox class >> example_ListWithAllClassesAndTraitsSorted [
 		c margin: (BlInsets left: 10).
 		c ignored horizontal alignRight.
 		c ignored vertical alignBottom ].
-	vscrollBar attachTo: l innerContainer.
+	vscrollBar attachTo: l innerElement.
 
 	space := BlSpace new.
 	space root addChild: l.
@@ -1381,7 +1381,7 @@ ToSandBox class >> example_ListWithAllMethods [
 		c margin: (BlInsets left: 10).
 		c ignored horizontal alignRight.
 		c ignored vertical alignBottom ].
-	vscrollBar attachTo: l innerContainer.
+	vscrollBar attachTo: l innerElement.
 
 	space := BlSpace new.
 
@@ -1415,7 +1415,7 @@ ToSandBox class >> example_ListWithIndexedColors [
 		c margin: (BlInsets right: 2).
 		c ignored horizontal alignRight.
 		c ignored vertical alignBottom ].
-	vscrollBar attachTo: l innerContainer.
+	vscrollBar attachTo: l innerElement.
 	space := BlSpace new.
 	space root addChild: l.
 	space root addChild: vscrollBar.
@@ -1595,7 +1595,7 @@ ToSandBox class >> example_PicsumPhotosGallery [
 		c margin: (BlInsets left: 10).
 		c ignored horizontal alignRight.
 		c ignored vertical alignBottom ].
-	vscrollBar attachTo: list innerContainer.
+	vscrollBar attachTo: list innerElement.
 
 	space := BlSpace new
 		         extent: 200 @ 600;
@@ -2601,6 +2601,18 @@ ToSandBox class >> example_TagBar [
 	tb dataAccessor addAll: (ToSandBox statesOfAmerica collect: [ :s |
 			 ToSingleTagModel new data: s ]).
 	tb openInSpace
+]
+
+{ #category : #select }
+ToSandBox class >> example_ThemeDropdown [
+
+	| dd |
+	dd := self themeDropdown.
+	dd placeholderText:
+		('Select a Toplo theme' asRopedText foreground: Color lightGray).
+	dd selecter selectIndex: 4.
+	dd allowDeselection: false.
+	dd openInSpace
 ]
 
 { #category : #select }
@@ -6018,6 +6030,27 @@ ToSandBox class >> subsubsubTabPane [
 		but paneBuilder: [ :pane :theNoteBook | pane background: Color random ].
 		nb addTab: but ].
 	^ nb
+]
+
+{ #category : #select }
+ToSandBox class >> themeDropdown [
+
+	| dd themes |
+	dd := ToDropdownButton new.
+	themes := {
+		          ('Bee Light' -> ToBeeTheme new).
+		          ('Bee Dark' -> ToBeeDarkTheme new).
+		          ('Raw Light' -> ToRawTheme new).
+		          ('Raw Dark' -> ToRawDarkTheme new) }.
+
+	dd dataViewBuilder: [ :dataItemView :themeAssoc |
+		dataItemView addChild: (ToLabel text: themeAssoc key) ].
+
+	dd popupListElement nodeBuilder: [ :node :themeAssoc :holder |
+		node addChild: (ToLabel text: themeAssoc key) ].
+
+	dd popupListElement dataAccessor addAll: themes.
+	^ dd
 ]
 
 { #category : #select }

@@ -365,17 +365,17 @@ ToListElementTest >> testRemoveAll [
 	| l |
 	l := ToListElement new.
 	space root addChild: l.
-	l innerContainer size: 800 @ 600.
+	l innerElement size: 800 @ 600.
 	l fitContent.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	self waitTestingSpaces.
-	self assert: l innerContainer children size equals: 5.
+	self assert: l innerElement children size equals: 5.
 	l selecter selectOnlyIndex: 2.
 	self waitTestingSpaces.
 	self assert: l selectionModel selectedIndexes equals: #( 2 ).
 	l dataAccessor removeAll.
 	self waitTestingSpaces.
-	self assert: l innerContainer children size equals: 0.
+	self assert: l innerElement children size equals: 0.
 	self assert: l selectionModel selectedIndexes isEmpty
 ]
 
@@ -471,10 +471,10 @@ ToListElementTest >> testSelectionUpdatedAfterInsert1 [
 	self assert: l selectionModel selectedIndexes equals: { 3 }.
 	self assert: l selecter currentIndex equals: 3.
 	l forceLayout.
-	self assert: l innerContainer children size equals: 5.
+	self assert: l innerElement children size equals: 5.
 	l dataAccessor addAllFirst: (self statesOfAmerica copyFrom: 6 to: 10).
 	self assert: l dataAccessor size equals: 10.
-	self assert: l innerContainer children size equals: 5.
+	self assert: l innerElement children size equals: 5.
 	self waitTestingSpaces.
 	self assert: l selectionModel lastIndex equals: 8
 ]

@@ -103,12 +103,12 @@ ToInfiniteElement >> fullyVisibleNodesSelect: aBlock [
 ToInfiniteElement >> initialize [
 
 	super initialize.
-	self addEventHandler: ToListInnerContainerEventHandler new.
+	self addEventHandler: ToListInnerElementEventHandler new.
 	self matchParent
 ]
 
 { #category : #'t - infinite accessing' }
-ToInfiniteElement >> innerContainer [ 
+ToInfiniteElement >> innerElement [ 
 
 	^ self
 ]

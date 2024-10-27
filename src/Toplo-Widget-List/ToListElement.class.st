@@ -13,7 +13,7 @@ ToListElement >> defaultDataSource [
 ]
 
 { #category : #initialization }
-ToListElement >> defaultInnerContainer [
+ToListElement >> defaultInnerElement [
 
 	^ ToInfiniteElement onListElement: self
 ]

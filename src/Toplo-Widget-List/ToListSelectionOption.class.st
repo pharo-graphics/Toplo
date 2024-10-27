@@ -148,14 +148,14 @@ ToListSelectionOption >> currentSelectionGroupsFrom: aListElement withSelectionM
 
 	^ grouped
 		  ifTrue: [
-			  (aListElement innerContainer nodeGroupsSatisfying: [ :node |
+			  (aListElement innerElement nodeGroupsSatisfying: [ :node |
 				   | idx |
 				   idx := node holder position.
 				   (aSelectionModel containsIndex: idx) and: [
 					   aSelectionModel isVisibleIndex: idx ] ]) collect: [ :arr |
 				  ToNeighboringSelection new nodes: arr ] ]
 		  ifFalse: [
-			  (aListElement innerContainer nodesSelect: [ :node |
+			  (aListElement innerElement nodesSelect: [ :node |
 				   | idx |
 				   idx := node holder position.
 				   (aSelectionModel containsIndex: idx) and: [
@@ -235,7 +235,7 @@ ToListSelectionOption >> newSelectionContainerIn: aListElement [
 	| container elevation |
 	container := ToOverlayElement new.
 	container clipChildren: false.
-	container attachTo: aListElement innerContainer.
+	container attachTo: aListElement innerElement.
 	elevation := beneath
 		             ifTrue: [ BlRelativeElevation elevation: 5 ]
 		             ifFalse: [ BlRelativeElevation elevation: 15 ].
@@ -257,7 +257,7 @@ ToListSelectionOption >> newSelectionElementIn: aListElement [
 ToListSelectionOption >> notifyNodesDeselectedIn: aListElement [
 
 	triggerSelectionState ifFalse: [ ^ self ].
-	aListElement innerContainer nodesDo: [ :n | n holder notifyDeselectedWithOption: self ]
+	aListElement innerElement nodesDo: [ :n | n holder notifyDeselectedWithOption: self ]
 ]
 
 { #category : #'private - selection updating' }
@@ -265,7 +265,7 @@ ToListSelectionOption >> notifyNodesSelectedIn: aListElement [
 
 	masked ifTrue: [ ^ self ].
 	triggerSelectionState ifFalse: [ ^ self ].
-	aListElement innerContainer nodesDo: [ :n | n holder notifySelectedWithOption: self ]
+	aListElement innerElement nodesDo: [ :n | n holder notifySelectedWithOption: self ]
 ]
 
 { #category : #'api - hooks' }

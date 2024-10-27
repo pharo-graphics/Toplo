@@ -88,7 +88,7 @@ ToSelectFilterTextField >> selectFiltrable: aBoolean [
 { #category : #accessing }
 ToSelectFilterTextField >> selectNodeBefore [
 
-	^ selectElement innerContainer nodes
+	^ selectElement innerElement nodes
 		  ifEmpty: [  ]
 		  ifNotEmpty: [ :nodes | nodes last ]
 ]

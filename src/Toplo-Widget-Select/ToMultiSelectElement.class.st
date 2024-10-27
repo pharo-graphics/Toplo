@@ -22,19 +22,19 @@ ToMultiSelectElement >> addGroup: anObject withData: aCollection [
 { #category : #accessing }
 ToMultiSelectElement >> barElement [ 
 
-	^ self innerContainer
+	^ self innerElement
 ]
 
 { #category : #'accessing - selection' }
 ToMultiSelectElement >> checkHideSelectionFromListElement [
 
-	self innerContainer checkHideSelectionFromListElement
+	self innerElement checkHideSelectionFromListElement
 ]
 
 { #category : #'accessing - selection' }
 ToMultiSelectElement >> checkMaxSelectedCount [
 
-	self innerContainer checkMaxSelectedCount
+	self innerElement checkMaxSelectedCount
 ]
 
 { #category : #accessing }
@@ -68,7 +68,7 @@ ToMultiSelectElement >> initialize [
 ]
 
 { #category : #'instance creation' }
-ToMultiSelectElement >> innerContainerClass [
+ToMultiSelectElement >> innerElementClass [
 
 	^ ToMultiSelectBarElement
 ]
@@ -76,14 +76,14 @@ ToMultiSelectElement >> innerContainerClass [
 { #category : #accessing }
 ToMultiSelectElement >> keepPickOrder: aBoolean [
 
-	self innerContainer keepPickOrder: aBoolean
+	self innerElement keepPickOrder: aBoolean
 ]
 
 { #category : #accessing }
 ToMultiSelectElement >> maxSelectedCount: aNumber [
 
 	self iconContainer maxSelectedCount: aNumber.
-	self innerContainer maxSelectedCount: aNumber.
+	self innerElement maxSelectedCount: aNumber.
 
 ]
 
@@ -108,26 +108,26 @@ ToMultiSelectElement >> newRawSkin [
 { #category : #accessing }
 ToMultiSelectElement >> nodeAutoDistribution: aBoolean [
 
-	self innerContainer nodeAutoDistribution: aBoolean
+	self innerElement nodeAutoDistribution: aBoolean
 ]
 
 { #category : #accessing }
 ToMultiSelectElement >> nodeBuilder: aValuable [
 	"aValuable takes 3 optional args: first, the node to build, second, the dataItem and third, the holder in the list element "
 
-	self innerContainer nodeBuilder: aValuable
+	self innerElement nodeBuilder: aValuable
 ]
 
 { #category : #accessing }
 ToMultiSelectElement >> nodeScrolling: aBoolean [
 
-	self innerContainer nodeScrolling: aBoolean
+	self innerElement nodeScrolling: aBoolean
 ]
 
 { #category : #accessing }
 ToMultiSelectElement >> nodeWrapping: aBoolean [
 
-	self innerContainer nodeWrapping: aBoolean
+	self innerElement nodeWrapping: aBoolean
 ]
 
 { #category : #'accessing - selection' }

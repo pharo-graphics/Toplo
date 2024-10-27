@@ -13,13 +13,13 @@ Class {
 { #category : #layout }
 ToBarElement >> checkFullyVisibleNodes [ 
 
-	self innerContainer checkFullyVisibleNodes 
+	self innerElement checkFullyVisibleNodes 
 ]
 
 { #category : #layout }
 ToBarElement >> configureLayout [
 
-	self innerContainer configureLayoutIn: self
+	self innerElement configureLayoutIn: self
 ]
 
 { #category : #initialization }
@@ -35,7 +35,7 @@ ToBarElement >> defaultEventHandler [
 ]
 
 { #category : #initialization }
-ToBarElement >> defaultInnerContainer [
+ToBarElement >> defaultInnerElement [
 
 	^ ToInnerBarElement onBarElement: self
 ]
@@ -49,7 +49,7 @@ ToBarElement >> defaultNodeManagerClass [
 { #category : #accessing }
 ToBarElement >> fakeNode [
 
-	^ self innerContainer fakeNode
+	^ self innerElement fakeNode
 ]
 
 { #category : #layout }
@@ -74,16 +74,16 @@ ToBarElement >> initialize [
 ]
 
 { #category : #initialization }
-ToBarElement >> initializeInnerContainer [
+ToBarElement >> initializeInnerElement [
 
-	super initializeInnerContainer.
+	super initializeInnerElement.
 	self installFakeNode
 ]
 
 { #category : #initialization }
 ToBarElement >> installFakeNode [
 
-	self innerContainer installFakeNode
+	self innerElement installFakeNode
 ]
 
 { #category : #skin }
@@ -192,5 +192,5 @@ ToBarElement >> uniformNodeWidth: aBoolean [
 { #category : #initialization }
 ToBarElement >> uninstallFakeNode [
 
-	self innerContainer uninstallFakeNode
+	self innerElement uninstallFakeNode
 ]

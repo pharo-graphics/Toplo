@@ -134,7 +134,7 @@ ToAbstractListElement >> defaultEventHandler [
 ]
 
 { #category : #initialization }
-ToAbstractListElement >> defaultInnerContainer [ 
+ToAbstractListElement >> defaultInnerElement [ 
 
 	^ self subclassResponsibility 
 ]
@@ -227,7 +227,7 @@ ToAbstractListElement >> initialize [
 	selectionModeMap := IdentityDictionary new.
 
 	self initializeDataSource.
-	self initializeInnerContainer.
+	self initializeInnerElement.
 
 	self layout: self defaultLayout.
 
@@ -251,9 +251,9 @@ ToAbstractListElement >> initializeDataSource [
 ]
 
 { #category : #initialization }
-ToAbstractListElement >> initializeInnerContainer [
+ToAbstractListElement >> initializeInnerElement [
 
-	next := self defaultInnerContainer.
+	next := self defaultInnerElement.
 	self next elevation: (BlRelativeElevation elevation: 10).
 	self addChild: self next.
 
@@ -274,7 +274,7 @@ ToAbstractListElement >> itemCount [
 { #category : #'t - orientable - accessing' }
 ToAbstractListElement >> layoutStrategy [
 
-	^ self innerContainer layout
+	^ self innerElement layout
 
 	
 ]
@@ -404,7 +404,7 @@ ToAbstractListElement >> onSievedWith: aSieve [
 { #category : #'t - element with placeholder' }
 ToAbstractListElement >> placeholderElevation [
 
-	^ self innerContainer elevation
+	^ self innerElement elevation
 ]
 
 { #category : #accessing }

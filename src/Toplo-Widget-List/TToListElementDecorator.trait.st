@@ -22,9 +22,9 @@ TToListElementDecorator >> findElementHolderForDataSourcePosition: anInteger [
 ]
 
 { #category : #'t - infinite accessing' }
-TToListElementDecorator >> innerContainer [
+TToListElementDecorator >> innerElement [
 
-	^ self next innerContainer
+	^ self next innerElement
 ]
 
 { #category : #'t - infinite accessing' }

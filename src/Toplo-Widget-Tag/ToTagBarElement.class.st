@@ -42,7 +42,7 @@ ToTagBarElement >> initialize [
 { #category : #'t - children - accessing' }
 ToTagBarElement >> nodes [
 
-	^ self innerContainer nodes
+	^ self innerElement nodes
 ]
 
 { #category : #accessing }
@@ -58,13 +58,13 @@ ToTagBarElement >> nodesCount [
 { #category : #accessing }
 ToTagBarElement >> nodesDo: aBlock [
 
-	self innerContainer nodesDo: aBlock
+	self innerElement nodesDo: aBlock
 ]
 
 { #category : #accessing }
 ToTagBarElement >> nodesSelect: aBlock [
 
-	^ self innerContainer nodesSelect: aBlock
+	^ self innerElement nodesSelect: aBlock
 ]
 
 { #category : #accessing }

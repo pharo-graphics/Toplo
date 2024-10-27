@@ -8,7 +8,11 @@ Class {
 ToSelectElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
-	anEvent elementDo: [ :e | e padding: (BlInsets all: 1) ]
+	anEvent elementDo: [ :e | e padding: (BlInsets
+						 top: (e valueOfTokenNamed: #'padding-content-V')
+						 left: (e valueOfTokenNamed: #'padding-XS')
+						 bottom: (e valueOfTokenNamed: #'padding-content-V')
+						 right: (e valueOfTokenNamed: #'padding-XS')) ]
 ]
 
 { #category : #'accessing - shortcuts' }

@@ -41,7 +41,7 @@ ToListElementEventHandler >> doubleClickEvent: anEvent [
 	| target |
 	target := anEvent currentTarget.
 	" first, inform the node that a double click is received "
-	target innerContainer nodesDo: [ :node |
+	target innerElement nodesDo: [ :node |
 		node dispatchEvent: anEvent copy ].
 	target dispatchEvent: (ToListStrongSelectionEvent new
 			 indexes: target selectionModel selectedIndexes;

@@ -24,7 +24,7 @@ ToSelectionGroup >> boundsFromNodesIn: aListElement [
 		 first constraints horizontal isMatchParent ])
 		ifTrue: [
 			| w |
-			w := aListElement innerContainer bounds width.
+			w := aListElement innerElement bounds width.
 			corner := w @ endBnds corner y ]
 		ifFalse: [ corner := endBnds corner ].
 
@@ -34,7 +34,7 @@ ToSelectionGroup >> boundsFromNodesIn: aListElement [
 { #category : #'private - selection element' }
 ToSelectionGroup >> boundsOfNode: aNode in: aListElement [
 	" compute local node bounds "
-	^ (aNode measuredBounds inSpace inChild: aListElement innerContainer) bounds
+	^ (aNode measuredBounds inSpace inChild: aListElement innerElement) bounds
 ]
 
 { #category : #'private - selection element' }

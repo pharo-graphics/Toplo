@@ -7,9 +7,7 @@ Class {
 { #category : #'event handling' }
 ToDropdownEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 
-	| select |
-	select := anEvent currentTarget.
-	select refresh 
+
 ]
 
 { #category : #'element handlers' }

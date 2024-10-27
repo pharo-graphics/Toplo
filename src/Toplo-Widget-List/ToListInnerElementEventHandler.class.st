@@ -1,5 +1,5 @@
 Class {
-	#name : #ToListInnerContainerEventHandler,
+	#name : #ToListInnerElementEventHandler,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'previousDecorationSize'
@@ -8,32 +8,32 @@ Class {
 }
 
 { #category : #'infinite event handling' }
-ToListInnerContainerEventHandler >> boundsHasChangedDuringScrollingEvent: anEvent [
+ToListInnerElementEventHandler >> boundsHasChangedDuringScrollingEvent: anEvent [
 
 	anEvent currentTarget listElement dispatchEvent: anEvent
 ]
 
 { #category : #'infinite event handling' }
-ToListInnerContainerEventHandler >> elementAddedToSceneGraphEvent: anEvent [
+ToListInnerElementEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 
 	"anEvent currentTarget listElement updateAllSelections"
 ]
 
 { #category : #'infinite event handling' }
-ToListInnerContainerEventHandler >> elementPositionChangedEvent: anEvent [
+ToListInnerElementEventHandler >> elementPositionChangedEvent: anEvent [
 
 	anEvent currentTarget listElement updateAllSelections
 ]
 
 { #category : #'infinite event handling' }
-ToListInnerContainerEventHandler >> elementScrolledEvent: anEvent [
+ToListInnerElementEventHandler >> elementScrolledEvent: anEvent [
 
 	anEvent delta = (0 @ 0) ifTrue: [ ^ self ].
 	anEvent currentTarget listElement dispatchEvent: anEvent 
 ]
 
 { #category : #'api - accessing' }
-ToListInnerContainerEventHandler >> eventsToHandle [
+ToListInnerElementEventHandler >> eventsToHandle [
 
 	^ {
 		  BlElementAddedToSceneGraphEvent.
@@ -47,13 +47,13 @@ ToListInnerContainerEventHandler >> eventsToHandle [
 ]
 
 { #category : #'infinite event handling' }
-ToListInnerContainerEventHandler >> infiniteDataSourceEmptinessChangedEvent: anEvent [
+ToListInnerElementEventHandler >> infiniteDataSourceEmptinessChangedEvent: anEvent [
 
 	anEvent currentTarget listElement dispatchEvent: anEvent 
 ]
 
 { #category : #'infinite event handling' }
-ToListInnerContainerEventHandler >> infiniteDecorationBoundsChangedEvent: anEvent [
+ToListInnerElementEventHandler >> infiniteDecorationBoundsChangedEvent: anEvent [
 	" not used here but kept for the record "
 
 	| s decoration insets |
@@ -75,7 +75,7 @@ ToListInnerContainerEventHandler >> infiniteDecorationBoundsChangedEvent: anEven
 ]
 
 { #category : #'infinite event handling' }
-ToListInnerContainerEventHandler >> infiniteElementAttachedEvent: anEvent [
+ToListInnerElementEventHandler >> infiniteElementAttachedEvent: anEvent [
 
 	anEvent currentTarget listElement dispatchEvent:
 		(ToListNodeAddedEvent new
@@ -84,7 +84,7 @@ ToListInnerContainerEventHandler >> infiniteElementAttachedEvent: anEvent [
 ]
 
 { #category : #'infinite event handling' }
-ToListInnerContainerEventHandler >> infiniteElementDetachedEvent: anEvent [
+ToListInnerElementEventHandler >> infiniteElementDetachedEvent: anEvent [
 
 	anEvent currentTarget listElement dispatchEvent:
 		(ToListNodeRemovedEvent new
@@ -93,7 +93,7 @@ ToListInnerContainerEventHandler >> infiniteElementDetachedEvent: anEvent [
 ]
 
 { #category : #'infinite event handling' }
-ToListInnerContainerEventHandler >> infiniteScrollFinishedEvent: anEvent [
+ToListInnerElementEventHandler >> infiniteScrollFinishedEvent: anEvent [
 
 	anEvent currentTarget listElement dispatchEvent: anEvent
 ]

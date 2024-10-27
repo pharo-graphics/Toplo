@@ -124,7 +124,7 @@ ToInnerBarElement >> initialize [
 
 	super initialize.
 	self initializeDataSource.
-	self addEventHandler: ToListInnerContainerEventHandler new.
+	self addEventHandler: ToListInnerElementEventHandler new.
 	self middleElement: ToScrollableBarTrackElement new.
 	self scrollableElement trackElement: self middleElement.
 	self matchParent.
@@ -142,7 +142,7 @@ ToInnerBarElement >> initializeDataSource [
 ]
 
 { #category : #'t - infinite accessing' }
-ToInnerBarElement >> innerContainer [
+ToInnerBarElement >> innerElement [
 
 	^ self
 ]

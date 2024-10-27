@@ -37,7 +37,7 @@ ToListContextMenuSelectionElementEventHandler >> listElementContextMenuRequest: 
 
 	| childNode target nodeContainer globalPosition selectionModel |
 	target := anEvent currentTarget.
-	nodeContainer := target innerContainer.
+	nodeContainer := target innerElement.
 	target disableScrolledEvent.
 	globalPosition := anEvent sourceEvent position.
 

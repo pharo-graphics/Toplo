@@ -6,8 +6,8 @@ Class {
 	#instVars : [
 		'filtrable',
 		'iconContainer',
-		'innerContainer',
-		'popupWindowManager'
+		'popupWindowManager',
+		'innerElement'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -62,7 +62,7 @@ ToSelectElement >> filterStringChanged [
 { #category : #accessing }
 ToSelectElement >> filterTextField [ 
 
-	^ self innerContainer filterTextField
+	^ self innerElement filterTextField
 ]
 
 { #category : #accessing }
@@ -102,15 +102,15 @@ ToSelectElement >> initialize [
 	popupWindowManager onInstalledIn: self.
 
 	self iconContainer: self newIconContainer.
-	self innerContainer: self newInnerContainer.
+	self innerElement: self newInnerElement.
 	self addChildren: {
-			self innerContainer.
+			self innerElement.
 			self iconContainer }.
 
 	self addEventHandlerOn: ToPlaceholderShownEvent do: [ :event |
 		self flag:
 			'The width of 16???. Why ? Anyway, it should be handled via a skin'.
-		event placeholder padding: (BlInsets left: 16).
+		event placeholder padding: (BlInsets left: (self valueOfTokenNamed: #'padding-XS')).
 		event placeholder layout alignCenterLeft ].
 
 	" a select is made to be horizontal. the following constraints 
@@ -120,23 +120,23 @@ ToSelectElement >> initialize [
 ]
 
 { #category : #accessing }
-ToSelectElement >> innerContainer [
+ToSelectElement >> innerElement [
 
-	^ innerContainer
+	^ innerElement
 ]
 
 { #category : #accessing }
-ToSelectElement >> innerContainer: anInnerContainerElement [
+ToSelectElement >> innerElement: anInnerContainerElement [
 
-	innerContainer := anInnerContainerElement.
-	innerContainer constraintsDo: [ :c |
+	innerElement := anInnerContainerElement.
+	innerElement constraintsDo: [ :c |
 		c linear vertical alignCenter.
 		c horizontal matchParent.
 		c vertical fitContent ]
 ]
 
 { #category : #'instance creation' }
-ToSelectElement >> innerContainerClass [
+ToSelectElement >> innerElementClass [
 
 	^ self subclassResponsibility 
 ]
@@ -150,7 +150,7 @@ ToSelectElement >> isFiltrable [
 { #category : #testing }
 ToSelectElement >> isMultipleSelection [ 
 
-	^ self innerContainer isMultipleSelection
+	^ self innerElement isMultipleSelection
 ]
 
 { #category : #'accessing - list' }
@@ -170,11 +170,11 @@ ToSelectElement >> newIconContainer [
 ]
 
 { #category : #'instance creation' }
-ToSelectElement >> newInnerContainer [
+ToSelectElement >> newInnerElement [
 
 	| container |
-	container := self innerContainerClass onSelectElement: self.
-	container id: #innerContainer.
+	container := self innerElementClass onSelectElement: self.
+	container id: #innerElement.
 	^ container
 ]
 
@@ -218,7 +218,7 @@ ToSelectElement >> onPopupWindowOpened [
 { #category : #'accessing - selection' }
 ToSelectElement >> onSelectionChangedInPopupListElement: anEvent [
 
-	self innerContainer onSelectionChangedInPopupListElement: anEvent
+	self innerElement onSelectionChangedInPopupListElement: anEvent
 ]
 
 { #category : #window }
@@ -310,7 +310,7 @@ ToSelectElement >> popupWindowManager [
 { #category : #accessing }
 ToSelectElement >> refresh [
 
-	self innerContainer refreshFromPopupListSelection
+	self innerElement refreshFromPopupListSelection
 ]
 
 { #category : #layout }
@@ -322,7 +322,7 @@ ToSelectElement >> requestLayout: x [
 { #category : #accessing }
 ToSelectElement >> sample: aDataItem [
 
-	self innerContainer sample: aDataItem
+	self innerElement sample: aDataItem
 ]
 
 { #category : #accessing }

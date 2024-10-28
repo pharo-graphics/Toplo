@@ -294,6 +294,16 @@ ToBasicSkin >> selectedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
+ToBasicSkin >> startStillHoveredSkinEvent: anEvent [
+
+]
+
+{ #category : #'event handling' }
+ToBasicSkin >> startStillPressedSkinEvent: anEvent [
+
+]
+
+{ #category : #'event handling' }
 ToBasicSkin >> stillHoveredLookEvent: anEvent [
 
 	self
@@ -322,6 +332,16 @@ ToBasicSkin >> stillPressedLookEvent: anEvent [
 
 { #category : #'event handling' }
 ToBasicSkin >> stillPressedSkinEvent: anEvent [
+
+]
+
+{ #category : #'event handling' }
+ToBasicSkin >> stopStillHoveredSkinEvent: anEvent [
+
+]
+
+{ #category : #'event handling' }
+ToBasicSkin >> stopStillPressedSkinEvent: anEvent [
 
 ]
 

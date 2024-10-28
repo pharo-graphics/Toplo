@@ -2604,18 +2604,6 @@ ToSandBox class >> example_TagBar [
 ]
 
 { #category : #select }
-ToSandBox class >> example_ThemeDropdown [
-
-	| dd |
-	dd := self themeDropdown.
-	dd placeholderText:
-		('Select a Toplo theme' asRopedText foreground: Color lightGray).
-	dd selecter selectIndex: 4.
-	dd allowDeselection: false.
-	dd openInSpace
-]
-
-{ #category : #select }
 ToSandBox class >> example_ThemeSelect [
 
 	| select |
@@ -3958,11 +3946,17 @@ ToSandBox class >> example_stillHoveredEvent [
 	e border: Color black.
 	count := 0.
 	e addEventHandler: (BlEventHandler
+			 on: ToStartStillHoveredSkinEvent
+			 do: [ :event | event traceCr ]).
+	e addEventHandler: (BlEventHandler
+			 on: ToStopStillHoveredSkinEvent
+			 do: [ :event | event traceCr ]).
+	e addEventHandler: (BlEventHandler
 			 on: ToStillHoveredSkinEvent
 			 do: [ :event |
 				 lab text: count asString asRopedText.
 				 count := count + 1.
-				 count > 50 ifTrue: [
+				 count > 20 ifTrue: [
 					 event consume.
 					 count := 0 ] ]).
 	e openInSpace
@@ -3985,13 +3979,19 @@ ToSandBox class >> example_stillPressedEvent [
 	count := 0.
 	color := Color white alpha: 0.3.
 	e addEventHandler: (BlEventHandler
+			 on: ToStartStillPressedSkinEvent
+			 do: [ :event | event traceCr ]).
+	e addEventHandler: (BlEventHandler
+			 on: ToStopStillPressedSkinEvent
+			 do: [ :event | event traceCr ]).
+	e addEventHandler: (BlEventHandler
 			 on: ToStillPressedSkinEvent
 			 do: [ :event |
 				 e background: color.
 				 lab text: count asString asRopedText.
 				 count := count + 1.
 				 color := color darker.
-				 count > 50 ifTrue: [
+				 count > 200 ifTrue: [
 					 event consume.
 					 count := 0.
 					 color := Color white alpha: 0.3 ] ]).
@@ -6030,27 +6030,6 @@ ToSandBox class >> subsubsubTabPane [
 		but paneBuilder: [ :pane :theNoteBook | pane background: Color random ].
 		nb addTab: but ].
 	^ nb
-]
-
-{ #category : #select }
-ToSandBox class >> themeDropdown [
-
-	| dd themes |
-	dd := ToDropdownButton new.
-	themes := {
-		          ('Bee Light' -> ToBeeTheme new).
-		          ('Bee Dark' -> ToBeeDarkTheme new).
-		          ('Raw Light' -> ToRawTheme new).
-		          ('Raw Dark' -> ToRawDarkTheme new) }.
-
-	dd dataViewBuilder: [ :dataItemView :themeAssoc |
-		dataItemView addChild: (ToLabel text: themeAssoc key) ].
-
-	dd popupListElement nodeBuilder: [ :node :themeAssoc :holder |
-		node addChild: (ToLabel text: themeAssoc key) ].
-
-	dd popupListElement dataAccessor addAll: themes.
-	^ dd
 ]
 
 { #category : #select }

@@ -177,6 +177,20 @@ ToRawSkinForTest >> selectedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
+ToRawSkinForTest >> startStillHoveredSkinEvent: anEvent [
+
+	super startStillHoveredSkinEvent: anEvent.
+	self addReceivedEvent: anEvent
+]
+
+{ #category : #'event handling' }
+ToRawSkinForTest >> startStillPressedSkinEvent: anEvent [
+
+	super startStillPressedSkinEvent: anEvent.
+	self addReceivedEvent: anEvent
+]
+
+{ #category : #'event handling' }
 ToRawSkinForTest >> stillHoveredSkinEvent: anEvent [
 
 	super stillHoveredSkinEvent: anEvent.
@@ -187,6 +201,20 @@ ToRawSkinForTest >> stillHoveredSkinEvent: anEvent [
 ToRawSkinForTest >> stillPressedSkinEvent: anEvent [
 
 	super stillPressedSkinEvent: anEvent.
+	self addReceivedEvent: anEvent
+]
+
+{ #category : #'event handling' }
+ToRawSkinForTest >> stopStillHoveredSkinEvent: anEvent [
+
+	super stopStillHoveredSkinEvent: anEvent.
+	self addReceivedEvent: anEvent
+]
+
+{ #category : #'event handling' }
+ToRawSkinForTest >> stopStillPressedSkinEvent: anEvent [
+
+	super stopStillPressedSkinEvent: anEvent.
 	self addReceivedEvent: anEvent
 ]
 

@@ -446,7 +446,10 @@ BlElement >> stillPressedStartDelay [
 BlElement >> stillPressedStartDelay: aDuration [
 
 	" must have a skin state generator "
-	self userData at: #stillPressedStartDelay put: aDuration asDuration
+	self userData at: #stillPressedStartDelay put: aDuration asDuration.
+	" one have to allow mouse pick outside event to make it possible stopping 
+	the dedicated task from the skin state generator (ToSkinStateGenerator) "
+	aDuration ifNil: [ self preventMousePickOutsideEvent ] ifNotNil: [ self allowMousePickOutsideEvent ]
 ]
 
 { #category : #'*Toplo' }

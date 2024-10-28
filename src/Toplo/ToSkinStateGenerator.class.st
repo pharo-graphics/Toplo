@@ -6,8 +6,8 @@ Class {
 		'leaved',
 		'dragged',
 		'pressed',
-		'stillPressedTask',
-		'stillHoveredTask'
+		'stillHoveredManager',
+		'stillPressedManager'
 	],
 	#category : #'Toplo-Core-States'
 }
@@ -41,9 +41,9 @@ ToSkinStateGenerator >> clickEvent: anEvent [
 ToSkinStateGenerator >> dragEndEvent: anEvent [
 
 	target isEnabled ifFalse: [ ^ self ].
-	self dragged: false.
-	self leaved ifTrue: [ ^ self ].
-	self leaved: true.
+	dragged := false.
+	leaved ifTrue: [ ^ self ].
+	leaved := true.
 	
 	self generateReleasedStateFromEvent: anEvent.
 	target isEnabled ifFalse: [ ^ self ].
@@ -54,14 +54,14 @@ ToSkinStateGenerator >> dragEndEvent: anEvent [
 ToSkinStateGenerator >> dragEnterEvent: anEvent [
 
 	target isEnabled ifFalse: [ ^ self ].
-	self leaved: false
+	leaved := false
 ]
 
 { #category : #'dnd handlers' }
 ToSkinStateGenerator >> dragEvent: anEvent [
 
 	target isEnabled ifFalse: [ ^ self ].
-	self dragged ifFalse: [ ^ self ].
+	dragged ifFalse: [ ^ self ].
 	self generateDraggedStateFromEvent: anEvent
 ]
 
@@ -69,27 +69,15 @@ ToSkinStateGenerator >> dragEvent: anEvent [
 ToSkinStateGenerator >> dragLeaveEvent: anEvent [
 
 	target isEnabled ifFalse: [ ^ self ].
-	self leaved: true
+	leaved := true
 ]
 
 { #category : #'dnd handlers' }
 ToSkinStateGenerator >> dragStartEvent: anEvent [
 
 	target isEnabled ifFalse: [ ^ self ].
-	self dragged: true.
+	dragged := true.
 	self generateDragStartedStateFromEvent: anEvent
-]
-
-{ #category : #accessing }
-ToSkinStateGenerator >> dragged [
-
-	^ dragged
-]
-
-{ #category : #accessing }
-ToSkinStateGenerator >> dragged: aBoolean [
-
-	dragged := aBoolean
 ]
 
 { #category : #'dnd handlers' }
@@ -295,47 +283,15 @@ ToSkinStateGenerator >> generateSelectionStateFromEvent: anEvent [
 		for: target
 ]
 
-{ #category : #'state generating' }
-ToSkinStateGenerator >> generateStillHoveredStateFromEvent: anEvent [
-
-	target skinManager
-		addSkinStateGeneration: [
-			self enqueueTransientStateFromSkinEvent:
-				(ToStillHoveredSkinEvent sourceEvent: anEvent) ]
-		for: target
-]
-
-{ #category : #'state generating' }
-ToSkinStateGenerator >> generateStillPressedStateFromEvent: anEvent [
-
-	target skinManager
-		addSkinStateGeneration: [
-			self enqueueTransientStateFromSkinEvent:
-				(ToStillPressedSkinEvent sourceEvent: anEvent) ]
-		for: target
-]
-
 { #category : #'api - event managing' }
 ToSkinStateGenerator >> handleEvent: anEvent [
 
-	self stopTasks: anEvent.
+	self stopProcesses: anEvent.
 	(anEvent isKindOf: ToWindowClosedEvent) ifTrue: [
 		^ self windowClosedEvent: anEvent ].
 	(anEvent isKindOf: ToWindowOpenedEvent) ifTrue: [
 		^ self windowOpenedEvent: anEvent ].
 	anEvent sendTo: self
-]
-
-{ #category : #accessing }
-ToSkinStateGenerator >> leaved [
-
-	^ leaved
-]
-
-{ #category : #accessing }
-ToSkinStateGenerator >> leaved: aBoolean [
-
-	leaved := aBoolean
 ]
 
 { #category : #'list selection' }
@@ -359,10 +315,10 @@ ToSkinStateGenerator >> mouseDownEvent: anEvent [
 ToSkinStateGenerator >> mouseEnterEvent: anEvent [
 
 	target isEnabled ifFalse: [ ^ self ].
-	self leaved: false.
-	self dragged ifTrue: [ ^ self ].
+	leaved := false.
+	dragged ifTrue: [ ^ self ].
 	target isEnabled ifFalse: [ ^ self ].
-	self startStillHoveredEvent: anEvent.
+	stillHoveredManager startProcessFromEvent: anEvent.
 	self generateHoveredStateFromEvent: anEvent
 ]
 
@@ -370,9 +326,9 @@ ToSkinStateGenerator >> mouseEnterEvent: anEvent [
 ToSkinStateGenerator >> mouseLeaveEvent: anEvent [
 
 	target isEnabled ifFalse: [ ^ self ].
-	self dragged ifTrue: [ ^ self ].
-	self leaved ifTrue: [ ^ self ].
-	self leaved: true.
+	dragged ifTrue: [ ^ self ].
+	leaved ifTrue: [ ^ self ].
+	leaved := true.
 	target isEnabled ifFalse: [ ^ self ].
 	self generateLeavedStateFromEvent: anEvent
 ]
@@ -395,18 +351,20 @@ ToSkinStateGenerator >> mouseUpOutsideEvent: anEvent [
 
 	| wasPressed |
 	target isEnabled ifFalse: [ ^ self ].
-	wasPressed := self pressed.
-	self pressed: false.
-	self dragged: false.
+	wasPressed := pressed.
+	pressed := false.
+	dragged := false.
 
 	(anEvent originalEvent target notNil and: [
 		 anEvent originalEvent target hasInParentChain: target ]) ifTrue: [
 		^ self ].
 
-	wasPressed ifTrue: [ self generateReleasedStateFromEvent: anEvent ].
+	wasPressed ifTrue: [
+		self generateReleasedStateFromEvent: anEvent.
+		stillPressedManager stopProcessFromEvent: anEvent ].
 
-	self leaved ifTrue: [ ^ self ].
-	self leaved: true.
+	leaved ifTrue: [ ^ self ].
+	leaved := true.
 	target isEnabled ifFalse: [ ^ self ].
 	self generateLeavedStateFromEvent: anEvent
 ]
@@ -415,6 +373,12 @@ ToSkinStateGenerator >> mouseUpOutsideEvent: anEvent [
 ToSkinStateGenerator >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
+	stillHoveredManager := ToStillHoveredProcessManager new
+		                       skinStateGenerator: self;
+		                       yourself.
+	stillPressedManager := ToStillPressedProcessManager new
+		                       skinStateGenerator: self;
+		                       yourself.
 	leaved := true.
 	dragged := false.
 	pressed := false.
@@ -427,19 +391,9 @@ ToSkinStateGenerator >> onUninstalledIn: anElement [
 
 	self flag: 'Should take care of addSkinStateGeneration: to remove the generation valuable stored for target before setting it to nil'.
 	"target := nil."
+	stillPressedManager := nil.
+	stillHoveredManager := nil.
 	super onUninstalledIn: anElement
-]
-
-{ #category : #accessing }
-ToSkinStateGenerator >> pressed [
-
-	^ pressed
-]
-
-{ #category : #accessing }
-ToSkinStateGenerator >> pressed: aBoolean [
-
-	pressed := aBoolean
 ]
 
 { #category : #'mouse handlers' }
@@ -451,105 +405,27 @@ ToSkinStateGenerator >> primaryClickEvent: anEvent [
 { #category : #'mouse handlers' }
 ToSkinStateGenerator >> primaryMouseDownEvent: anEvent [
 
-	self pressed: true.
-	self startStillPressedEvent: anEvent.
+	pressed := true.
+	stillPressedManager startProcessFromEvent: anEvent.
 	self generatePressedStateFromEvent: anEvent
 ]
 
 { #category : #'mouse handlers' }
 ToSkinStateGenerator >> primaryMouseUpEvent: anEvent [
 
-	self dragged: false.
-	self leaved: false.
+	dragged := false.
+	leaved := false.
 	self generateReleasedStateFromEvent: anEvent.
 	target isEnabled ifFalse: [ ^ self ].
-	self startStillHoveredEvent: anEvent.
+	stillHoveredManager startProcessFromEvent: anEvent.
 	self generateHoveredStateFromEvent: anEvent
 ]
 
 { #category : #'still pressed - hovered' }
-ToSkinStateGenerator >> startStillHoveredEvent: anEvent [
+ToSkinStateGenerator >> stopProcesses: anEvent [
 
-	| startDelay space |
-	target ifNil: [ ^ self ].
-	target isEnabled ifFalse: [ ^ self ].
-	target space ifNil: [ ^ self ].
-	space := target space.
-	startDelay := target stillHoveredStartDelay.
-	startDelay ifNil: [ ^ self ].
-	stillHoveredTask := [
-	                    | event |
-	                    event := anEvent copy.
-	                    startDelay asDelay wait.
-	                    [ space isOpened  and: [ target space notNil and: [event isConsumed not ] ] ]
-		                    whileTrue: [
-			                    self generateStillHoveredStateFromEvent: event.
-			                    (Delay forMilliseconds: 50) wait ] ]
-		                    forkAt: Processor userBackgroundPriority
-		                    named: self class name , ' stillHoveredTask'
-]
-
-{ #category : #'still pressed - hovered' }
-ToSkinStateGenerator >> startStillPressedEvent: anEvent [
-
-	| startDelay space targetPos |
-	target space ifNil: [ ^ self ].
-	target isEnabled ifFalse: [ ^ self ].
-	space := target space.
-	startDelay := target stillPressedStartDelay.
-	startDelay ifNil: [ ^ self ].
-	targetPos := target bounds inSpace bounds position.
-	stillPressedTask := [
-	                    startDelay asDelay wait.
-	                    [
-	                    space isOpened and: [
-		                    target space notNil and: [
-			                    anEvent isConsumed not and: [
-				                    target bounds inSpace bounds position
-				                    = targetPos ] ] ] ] whileTrue: [
-		                    self generateStillPressedStateFromEvent: anEvent.
-		                    (Delay forMilliseconds: 10) wait ] ]
-		                    forkAt: Processor userBackgroundPriority
-		                    named: self class name , ' stillPressedTask'
-]
-
-{ #category : #'still pressed - hovered' }
-ToSkinStateGenerator >> stillHoveredTask [
-	
-	^ stillHoveredTask 
-]
-
-{ #category : #'still pressed - hovered' }
-ToSkinStateGenerator >> stillPressedTask [
-	
-	^ stillPressedTask 
-]
-
-{ #category : #'still pressed - hovered' }
-ToSkinStateGenerator >> stopStillHoveredTaskEvent: anEvent [
-
-	stillHoveredTask ifNil: [ ^ self ].
-	((anEvent isKindOf: BlMouseLeaveEvent)) ifFalse: [ ^ self ].
-	stillHoveredTask terminate.
-	stillHoveredTask := nil
-]
-
-{ #category : #'still pressed - hovered' }
-ToSkinStateGenerator >> stopStillPressedTaskEvent: anEvent [
-
-	stillPressedTask ifNil: [ ^ self ].
-	((anEvent isKindOf: BlMouseUpEvent) or: [
-		 anEvent isKindOf: BlMousePickOutsideEvent ]) ifFalse: [ ^ self ].
-	stillPressedTask terminate.
-	stillPressedTask := nil
-]
-
-{ #category : #'still pressed - hovered' }
-ToSkinStateGenerator >> stopTasks: anEvent [
-
-	self stopStillPressedTaskEvent: anEvent.
-	self stopStillHoveredTaskEvent: anEvent.
-
+	stillPressedManager checkEvent: anEvent.
+	stillHoveredManager checkEvent: anEvent
 ]
 
 { #category : #accessing }

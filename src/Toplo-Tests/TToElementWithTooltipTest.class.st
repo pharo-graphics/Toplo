@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #tests }
-TToElementWithTooltipTest >> testCloseTooltipWindowOnMouseLeave [
+TToElementWithTooltipTest >> testCloseTooltipOnMouseLeave [
 
 	| e |
 	e := ToElement new.
@@ -27,12 +27,12 @@ TToElementWithTooltipTest >> testCloseTooltipWindowOnMouseLeave [
 ]
 
 { #category : #tests }
-TToElementWithTooltipTest >> testCloseTooltipWindowOnMouseLeave2 [
+TToElementWithTooltipTest >> testCloseTooltipOnMouseLeave2 [
 
 	| e |
 	e := ToElement new.
 	e size: 50@50.
-	e closeTooltipWindowOnMouseLeave: false.
+	e closeTooltipOnMouseLeave: false.
 	e tooltipPopupDelay: 10 milliSeconds.
 	space root addChild: e.
 	self assert: e currentTooltipWindow isNil.

@@ -4,7 +4,13 @@ Class {
 	#instVars : [
 		'autoCloseOnMouseUpDelay',
 		'autoClosePickOutsideEventClass',
-		'mouseButton'
+		'mouseButton',
+		'popupDelay',
+		'popupOnMouseEnter',
+		'closeOnMouseLeave',
+		'closeOnMouseDown',
+		'popupOnMouseDown',
+		'delayedPopupTask'
 	],
 	#category : #'Toplo-Core-Window'
 }
@@ -33,6 +39,32 @@ ToPopupWindowManager >> autoClosePickOutsideEventClass: anEventClass [
 	autoClosePickOutsideEventClass := anEventClass
 ]
 
+{ #category : #accessing }
+ToPopupWindowManager >> closeOnMouseDown [
+
+	^ closeOnMouseDown
+]
+
+{ #category : #accessing }
+ToPopupWindowManager >> closeOnMouseLeave [
+
+	^ closeOnMouseLeave
+]
+
+{ #category : #accessing }
+ToPopupWindowManager >> closeOnMouseLeave: aBoolean [
+
+	closeOnMouseLeave := aBoolean
+]
+
+{ #category : #'window handling' }
+ToPopupWindowManager >> closeWindow [ 
+
+	self unqueuePopupTaskIn: element.
+	super closeWindow.
+
+]
+
 { #category : #initialization }
 ToPopupWindowManager >> defaultAutoCloseOnMouseUpDelay [
 
@@ -43,6 +75,12 @@ ToPopupWindowManager >> defaultAutoCloseOnMouseUpDelay [
 ToPopupWindowManager >> defaultAutoClosePickOutsideEventClass [
 
 	^ BlMouseUpOutsideEvent
+]
+
+{ #category : #accessing }
+ToPopupWindowManager >> defaultPopupDelay [
+
+	^ 0 milliSeconds
 ]
 
 { #category : #initialization }
@@ -58,34 +96,78 @@ ToPopupWindowManager >> elementEventHandlerClass [
 	^ ToElementWithPopupEventHandler
 ]
 
+{ #category : #'window handling' }
+ToPopupWindowManager >> enqueuePopupTaskFromEvent: anEvent [
+
+	currentWindow ifNotNil: [ ^ self ].
+	element isEnabled ifFalse: [ ^ self ].
+	popupDelay isZero ifTrue: [
+		(self newWindowEvent: anEvent) popupEvent: anEvent.
+		^ self ].
+	delayedPopupTask := BlDelayedTaskAction new
+		                    delay: popupDelay;
+		                    action: [
+			                    (self newWindowEvent: anEvent) popupEvent:
+					                    anEvent.
+			                    delayedPopupTask := nil ].
+	element enqueueTask: delayedPopupTask
+]
+
 { #category : #initialization }
 ToPopupWindowManager >> initialize [ 
 
 	super initialize.
 	self usePrimaryMouseButton .
 	self autoClosePickOutsideEventClass: self defaultAutoClosePickOutsideEventClass.
- 	autoCloseOnMouseUpDelay := self defaultAutoCloseOnMouseUpDelay 
+	popupDelay := self defaultPopupDelay.
+ 	autoCloseOnMouseUpDelay := self defaultAutoCloseOnMouseUpDelay.
+	popupOnMouseEnter := false.
+	closeOnMouseLeave := false.
+	popupOnMouseDown := true.
+	closeOnMouseDown := true
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : #'event handling' }
 ToPopupWindowManager >> mouseDownInElementEvent: anEvent [
 
 	builder ifNil: [ ^ self ].
+	closeOnMouseDown ifTrue: [ self unqueuePopupTaskIn: element ].
 	anEvent button = mouseButton ifFalse: [ ^ self ].
 	currentWindow ifNotNil: [
-		currentWindow isOpened ifTrue: [ currentWindow close ].
-		^ self ].
-	self newWindowEvent: anEvent.
+		closeOnMouseDown ifTrue: [
+			currentWindow isOpened ifTrue: [ currentWindow close ].
+			^ self ] ].
+	popupOnMouseDown ifFalse: [ ^ self ].
+	currentWindow ifNotNil: [ ^ self ].
+
+	self enqueuePopupTaskFromEvent: anEvent.
 	" currentWindow can be nil in case the element is disabled "
-	currentWindow ifNil: [ ^ self ].
-	element enqueueTask:
-		(BlTaskAction new action: [ currentWindow popupEvent: anEvent ])
+
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : #'event handling' }
+ToPopupWindowManager >> mouseEnterInElementEvent: anEvent [
+
+	popupOnMouseEnter ifFalse: [ ^ self ].
+	self unqueuePopupTaskIn: anEvent currentTarget.
+	anEvent anyButtonPressed ifTrue: [ ^ self ].
+	self enqueuePopupTaskFromEvent: anEvent
+]
+
+{ #category : #'event handling' }
+ToPopupWindowManager >> mouseLeaveInElementEvent: anEvent [
+
+	self unqueuePopupTaskIn: anEvent currentTarget.
+	closeOnMouseLeave ifFalse: [ ^ self ].
+	self closeWindow
+
+]
+
+{ #category : #'event handling' }
 ToPopupWindowManager >> mouseUpInElementEvent: anEvent [
 
 	| delay maxDelay |
+
 	currentWindow ifNil: [ ^ self ].
 	currentWindow popupTimestamp ifNil: [ ^ self ].
 	maxDelay := self autoCloseOnMouseUpDelay.
@@ -96,6 +178,61 @@ ToPopupWindowManager >> mouseUpInElementEvent: anEvent [
 		After a given delay between down and up, the popup window is closed "
 	delay := anEvent timestamp - currentWindow popupTimestamp.
 	delay > maxDelay ifTrue: [ currentWindow close ]
+]
+
+{ #category : #'event handling' }
+ToPopupWindowManager >> pickOutsideElementEvent: anEvent [
+	" 
+	if the original event target is the element with popup or
+	if the original event target is the popup window then do nothing
+	"
+
+	anEvent originalEvent target ifNotNil: [ :originalTarget |
+		(originalTarget hasInParentChain: element) ifTrue: [ ^ self ].
+		self currentWindowDo: [ :w |
+			(originalTarget hasInParentChain: w) ifTrue: [ ^ self ] ] ].
+
+	" ok, mouseUp outside the element and outside of the popup window "
+	anEvent consume.
+	self currentWindowDo: [ :w | w close ]
+]
+
+{ #category : #accessing }
+ToPopupWindowManager >> popupDelay [
+
+	^ popupDelay 
+]
+
+{ #category : #accessing }
+ToPopupWindowManager >> popupDelay: aDuration [
+
+	popupDelay := aDuration asDuration
+]
+
+{ #category : #accessing }
+ToPopupWindowManager >> popupOnMouseEnter [
+
+	^ popupOnMouseEnter 
+]
+
+{ #category : #accessing }
+ToPopupWindowManager >> popupOnMouseEnter: aBoolean [
+
+	popupOnMouseEnter := aBoolean
+]
+
+{ #category : #'window handling' }
+ToPopupWindowManager >> unqueuePopupTaskIn: anElement [
+
+	delayedPopupTask ifNotNil: [ 
+		anElement dequeueTask: delayedPopupTask.
+		delayedPopupTask := nil ]
+]
+
+{ #category : #initialization }
+ToPopupWindowManager >> useNoMouseButton [
+
+	mouseButton := nil
 ]
 
 { #category : #initialization }

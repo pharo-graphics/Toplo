@@ -8,23 +8,33 @@ Class {
 }
 
 { #category : #'event handling' }
+ToAnchorEventHandler >> elementAddedToSceneGraphEvent: anEvent [
+
+	windowManager elementAddedToSceneGraphEvent: anEvent
+]
+
+{ #category : #'event handling' }
+ToAnchorEventHandler >> elementExtentChangedEvent: anEvent [
+
+	windowManager elementExtentChangedEvent: anEvent
+]
+
+{ #category : #'event handling' }
 ToAnchorEventHandler >> elementPositionInSpaceChangedEvent: anEvent [
 
-	self windowManager currentWindowDo: [ :w |
-		w applyPositionHookFromEvent: anEvent ]
+	windowManager elementPositionInSpaceChangedEvent: anEvent
 ]
 
-{ #category : #'element handlers' }
+{ #category : #'event handling' }
 ToAnchorEventHandler >> elementRemovedFromParentEvent: anEvent [
 
-	self windowManager currentWindowDo: [ :cw | cw close ]
+	windowManager elementRemovedFromParentEvent: anEvent
 ]
 
-{ #category : #'element handlers' }
+{ #category : #'event handling' }
 ToAnchorEventHandler >> elementRemovedFromSceneGraphEvent: anEvent [
 
-	self windowManager currentWindowDo: [ :cw |
-		cw isOpened ifTrue: [ cw close ] ]
+	windowManager elementRemovedFromSceneGraphEvent: anEvent
 ]
 
 { #category : #'api - accessing' }
@@ -33,7 +43,9 @@ ToAnchorEventHandler >> eventsToHandle [
 	^ {
 		  windowManager windowClosedEventClass.
 		  windowManager windowOpenedEventClass.
+		  BlElementExtentChangedEvent.
 		  BlElementRemovedFromParentEvent.
+		  BlElementAddedToSceneGraphEvent.
 		  BlElementRemovedFromSceneGraphEvent.
 		  BlElementPositionInSpaceChangedEvent }
 ]
@@ -41,7 +53,7 @@ ToAnchorEventHandler >> eventsToHandle [
 { #category : #'event handling' }
 ToAnchorEventHandler >> windowClosedEvent: anEvent [
 
-	windowManager onWindowClosed 
+	windowManager windowClosedEvent: anEvent
 ]
 
 { #category : #'api - accessing' }
@@ -59,5 +71,5 @@ ToAnchorEventHandler >> windowManager: aWindowManager [
 { #category : #'event handling' }
 ToAnchorEventHandler >> windowOpenedEvent: anEvent [
 
-	windowManager onWindowOpened
+	windowManager windowOpenedEvent: anEvent
 ]

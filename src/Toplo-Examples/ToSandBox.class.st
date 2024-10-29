@@ -4568,7 +4568,6 @@ ToSandBox class >> example_toButtonWithElementTooltip [
 				 background: Color random;
 				 size: 70 @ 100;
 				 yourself) ].
-	but whenClickedDo: [ :ann | self inform: 'Button clicked' ].
 	but openInInnerWindow
 ]
 
@@ -4786,7 +4785,7 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeave [
 	| but  |
 	self flag: 'not working as expected'.
 	but := ToButton new.
-	but closeTooltipWindowOnMouseLeave: false.
+	but closeTooltipOnMouseLeave: false.
 	but labelText: 'Button with tooltip text'.
 	but tooltipText: ('This is a button', String cr, 'so, click on me...') asRopedText. 
 	but whenClickedDo: [ :ann | self inform: 'Button clicked' ].
@@ -4801,7 +4800,7 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 	self flag: 'Check the elevation of the editor'.
 	but := ToButton new.
 	but labelText: 'Button with editable tooltip'.
-	but closeTooltipWindowOnMouseLeave: false.
+	but closeTooltipOnMouseLeave: false.
 	but tooltipBuilder: [ :win :theElement |
 		| lab |
 		lab := ToLabel text: ' keep mouse over with shift key to edit / Return to accept' asRopedText.

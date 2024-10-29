@@ -10,23 +10,23 @@ Class {
 { #category : #tests }
 ToTooltipWindowTest >> testContent [
 
-	| e windowHandler |
+	| e windowManager |
 
 	e := ToElement new  size: 100@100.
 	e tooltipContent: (ToLabel text: 'Tooltip content').
-	windowHandler := e tooltipWindowManager.
-	self assert: (windowHandler isKindOf: ToTooltipWindowManager).
+	windowManager := e tooltipWindowManager.
+	self assert: (windowManager isKindOf: ToTooltipWindowManager).
 	space root addChild: e.
 	"self waitTestingSpaces."
 
 	BlSpace simulateMouseMoveInside: e.
 	self waitTestingSpaces.
-	(windowHandler popupDelay + 100 milliSecond ) wait.
+	(windowManager popupDelay + 100 milliSecond ) wait.
 	self waitTestingSpaces.
 
-	self assert: (windowHandler currentWindow root firstChild isKindOf: ToLabel) .
-	self assert: windowHandler currentWindow root firstChild text asString equals: 'Tooltip content' .
-	^  windowHandler currentWindow
+	self assert: (windowManager currentWindow root firstChild isKindOf: ToLabel) .
+	self assert: windowManager currentWindow root firstChild text asString equals: 'Tooltip content' .
+	^  windowManager currentWindow
 ]
 
 { #category : #tests }

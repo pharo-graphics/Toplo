@@ -119,6 +119,7 @@ ToMultiSelectBarElement >> initialize [
 	self primarySelectionMode makeDisabledUnselectable: true.
 	self secondarySelectionMode selectionOption masked: true.
 	self nodeHolderClass: ToMultiSelectHolder.
+	self focusability: BlFocusability ignore.
 	maxSelectedCount := 0.
 	keepPickOrder := false.
 	pickCount := 0.

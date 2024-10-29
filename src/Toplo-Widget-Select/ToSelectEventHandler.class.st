@@ -1,29 +1,26 @@
 Class {
 	#name : #ToSelectEventHandler,
-	#superclass : #ToElementWithPopupEventHandler,
+	#superclass : #BlCustomEventHandler,
 	#category : #'Toplo-Widget-Select-Core'
 }
 
 { #category : #'event handling' }
 ToSelectEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 
-	| select |
-	select := anEvent currentTarget.
-	select refresh 
-]
-
-{ #category : #'element handlers' }
-ToSelectEventHandler >> elementExtentChangedEvent: anEvent [
-
-	windowManager currentWindow ifNil: [ ^ self ].
-	windowManager applyPositionHookFromEvent: anEvent.
-	windowManager applySizeHookFromEvent: anEvent
+	anEvent currentTarget refresh 
 ]
 
 { #category : #'api - accessing' }
 ToSelectEventHandler >> eventsToHandle [
+	^ { BlElementAddedToSceneGraphEvent. ToPlaceholderShownEvent }
+]
 
-	^ super eventsToHandle , {
-		  BlElementAddedToSceneGraphEvent.
-		  BlElementExtentChangedEvent }
+{ #category : #'event handling' }
+ToSelectEventHandler >> placeHolderShownEvent: anEvent [
+
+	self flag:
+		'The width of 16???. Why ? Anyway, it should be handled via a skin'.
+	anEvent placeholder padding: (BlInsets left:
+			 (anEvent currentTarget valueOfTokenNamed: #'padding-XS')).
+	anEvent placeholder layout alignCenterLeft
 ]

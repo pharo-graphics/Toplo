@@ -13,28 +13,42 @@ ToElementWithPopupEventHandler >> eventsToHandle [
 	^ super eventsToHandle , {
 		  BlMouseUpEvent.
 		  BlMouseDownEvent.
-		  windowManager autoClosePickOutsideEventClass}
+		  BlMouseEnterEvent.
+		  BlMouseLeaveEvent.
+		  windowManager autoClosePickOutsideEventClass }
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : #'event handling' }
 ToElementWithPopupEventHandler >> mouseDownEvent: anEvent [
 
-	windowManager mouseDownInElementEvent: anEvent 
+	windowManager mouseDownInElementEvent: anEvent
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : #'event handling' }
 ToElementWithPopupEventHandler >> mouseDownOutsideEvent: anEvent [
 
 	self pickOutsideEvent: anEvent
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : #'event handling' }
+ToElementWithPopupEventHandler >> mouseEnterEvent: anEvent [
+
+	windowManager mouseEnterInElementEvent: anEvent
+]
+
+{ #category : #'event handling' }
+ToElementWithPopupEventHandler >> mouseLeaveEvent: anEvent [
+
+	windowManager mouseLeaveInElementEvent: anEvent
+]
+
+{ #category : #'event handling' }
 ToElementWithPopupEventHandler >> mouseUpEvent: anEvent [
 
 	windowManager mouseUpInElementEvent: anEvent
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : #'event handling' }
 ToElementWithPopupEventHandler >> mouseUpOutsideEvent: anEvent [
 
 	self pickOutsideEvent: anEvent
@@ -56,30 +70,19 @@ ToElementWithPopupEventHandler >> onUninstalledIn: anElement [
 
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : #'event handling' }
 ToElementWithPopupEventHandler >> pickOutsideEvent: anEvent [
 
-	" 
-	if the original event target is the element with popup or
-	if the original event target is the popup window then do nothing
-	"
-
-	anEvent originalEvent target ifNotNil: [ :originalTarget |
-		(originalTarget hasInParentChain: self target) ifTrue: [ ^ self  ].
-		(originalTarget hasInParentChain: windowManager currentWindow) ifTrue: [ ^ self ] ].
-	
-	" ok, mouseUp outside the element and outside of the popup window "
-	anEvent consume.
-	windowManager currentWindowDo: [:w | w close ]
+	windowManager pickOutsideElementEvent: anEvent
 ]
 
-{ #category : #'window opening - closing handlers' }
+{ #category : #'event handling' }
 ToElementWithPopupEventHandler >> popupWindowClosedEvent: anEvent [
 
 	self windowClosedEvent: anEvent
 ]
 
-{ #category : #'window opening - closing handlers' }
+{ #category : #'event handling' }
 ToElementWithPopupEventHandler >> popupWindowOpenedEvent: anEvent [
 
 	self windowOpenedEvent: anEvent

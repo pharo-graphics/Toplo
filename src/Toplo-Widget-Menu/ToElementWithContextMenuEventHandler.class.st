@@ -4,22 +4,14 @@ Class {
 	#category : #'Toplo-Widget-Menu-Context menu'
 }
 
-{ #category : #'element handlers' }
+{ #category : #'event handling' }
 ToElementWithContextMenuEventHandler >> contextMenuClosedEvent: anEvent [
 
-	anEvent windowManager = windowManager ifFalse: [ ^ self ].
-	windowManager onWindowClosed 
-]
-
-{ #category : #'element handlers' }
-ToElementWithContextMenuEventHandler >> contextMenuOpenedEvent: anEvent [
-
-	anEvent windowManager = windowManager ifFalse: [ ^ self ].
-	windowManager onWindowOpened
+	self windowClosedEvent: anEvent
 ]
 
 { #category : #'event handling' }
-ToElementWithContextMenuEventHandler >> elementPositionInSpaceChangedEvent: anEvent [
+ToElementWithContextMenuEventHandler >> contextMenuOpenedEvent: anEvent [
 
-	windowManager currentWindowDo: [ :cw | cw close ] 
+	self windowOpenedEvent: anEvent
 ]

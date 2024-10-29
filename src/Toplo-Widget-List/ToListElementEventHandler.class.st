@@ -260,7 +260,7 @@ ToListElementEventHandler >> mouseDownEvent: anEvent [
 	self withTargetNodeFromEvent: anEvent do: [ :node |
 		node dispatchEvent: anEvent copy.
 		anEvent consume ].
-	target isFocused ifTrue: [ ^ self ].
+	(target isFocusable not or: [ target isFocused ]) ifTrue: [ ^ self ].
 	target requestFocus.
 	anEvent consume
 ]

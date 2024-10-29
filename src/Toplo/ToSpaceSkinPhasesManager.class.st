@@ -212,9 +212,9 @@ ToSpaceSkinPhasesManager >> startSkinPhasesIn: aSpace [
 
 	self skinPhasesInstalled ifTrue: [ ^ self ].
 	self allowSkinPhases ifFalse: [ ^ self ].
-	self isSkinPhasesInstallationPostponed ifTrue: [ 
+	self isSkinPhasesInstallationPostponed ifTrue: [
 		aSpace removeEventHandler: spaceShownEventHandler.
-		spaceShownEventHandler := nil. ].
+		spaceShownEventHandler := nil ].
 	self
 		startSkinInstallerPhaseIn: aSpace;
 		startSkinStateApplicationPhaseIn: aSpace.
@@ -224,14 +224,14 @@ ToSpaceSkinPhasesManager >> startSkinPhasesIn: aSpace [
 
 	" reading the theme will install the default "
 	aSpace toTheme.
-	aSpace addEventHandlerOn: BlSpaceRootChangeEvent do: [ 
-		aSpace toTheme ].
+	aSpace
+		addEventHandlerOn: BlSpaceRootChangeEvent
+		do: [ aSpace toTheme ].
 
 	aSpace dispatchEvent: ToSpaceSkinPhasesStarted new.
 	aSpace
-		when: BlSpaceClosedEvent
-		doOnce: [ 
-			self stopSkinPhasesIn: aSpace ]
+		addEventHandlerOn: BlSpaceClosedEvent
+		doOnce: [ self stopSkinPhasesIn: aSpace ]
 ]
 
 { #category : #'phases installation' }

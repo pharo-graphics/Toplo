@@ -67,7 +67,7 @@ ToAnchoredWindowManager >> builder: aWindowBuilderValuable [
 	builder := aWindowBuilderValuable
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : #'window handling' }
 ToAnchoredWindowManager >> closeWindow [
 
 	currentWindow ifNotNil: [
@@ -122,6 +122,12 @@ ToAnchoredWindowManager >> element [
 	^ element
 ]
 
+{ #category : #'event handling' }
+ToAnchoredWindowManager >> elementAddedToSceneGraphEvent: anEvent [
+
+
+]
+
 { #category : #accessing }
 ToAnchoredWindowManager >> elementEventHandler [
 
@@ -132,6 +138,28 @@ ToAnchoredWindowManager >> elementEventHandler [
 ToAnchoredWindowManager >> elementEventHandlerClass [
 
 	^ ToAnchorEventHandler 
+]
+
+{ #category : #'event handling' }
+ToAnchoredWindowManager >> elementExtentChangedEvent: anEvent [
+]
+
+{ #category : #'event handling' }
+ToAnchoredWindowManager >> elementPositionInSpaceChangedEvent: anEvent [
+
+	self currentWindowDo: [ :w | w applyPositionHookFromEvent: anEvent ]
+]
+
+{ #category : #'event handling' }
+ToAnchoredWindowManager >> elementRemovedFromParentEvent: anEvent [
+
+	self currentWindowDo: [ :cw | cw close ]
+]
+
+{ #category : #'event handling' }
+ToAnchoredWindowManager >> elementRemovedFromSceneGraphEvent: anEvent [
+
+	self currentWindowDo: [ :w | w isOpened ifTrue: [ w close ] ]
 ]
 
 { #category : #testing }
@@ -212,7 +240,10 @@ ToAnchoredWindowManager >> onUninstalledIn: anElement [
 { #category : #'window handling' }
 ToAnchoredWindowManager >> onWindowClosed [
 
-	self onWindowRemoved
+	self currentWindow ifNil: [ ^self ].
+	self currentWindow root removeChildren.
+	currentWindow manager: nil.
+	currentWindow := nil
 ]
 
 { #category : #'window handling' }
@@ -222,15 +253,6 @@ ToAnchoredWindowManager >> onWindowOpened [
 ]
 
 { #category : #'window handling' }
-ToAnchoredWindowManager >> onWindowRemoved [
-
-	self currentWindow ifNil: [ ^self ].
-	self currentWindow root removeChildren.
-	currentWindow manager: nil.
-	currentWindow := nil
-]
-
-{ #category : #'mouse handlers' }
 ToAnchoredWindowManager >> popupWindowEvent: anEvent [
 
 	(currentWindow notNil and: [ currentWindow isOpened ]) ifTrue: [
@@ -261,7 +283,7 @@ ToAnchoredWindowManager >> removeWindow [
 
 	self currentWindow ifNil: [ ^ self ].
 	self currentWindow isOpened ifTrue: [ ^ self currentWindow close ].
-	self onWindowRemoved
+	self onWindowClosed
 ]
 
 { #category : #accessing }
@@ -284,6 +306,12 @@ ToAnchoredWindowManager >> windowClass [
 	^ ToAnchoredWindow 
 ]
 
+{ #category : #'event handling' }
+ToAnchoredWindowManager >> windowClosedEvent: anEvent [
+
+	self onWindowClosed
+]
+
 { #category : #accessing }
 ToAnchoredWindowManager >> windowClosedEventClass [
 
@@ -294,6 +322,12 @@ ToAnchoredWindowManager >> windowClosedEventClass [
 ToAnchoredWindowManager >> windowOpenRequestClass [
 
 	^ ToAnchoredWindowOpenRequest 
+]
+
+{ #category : #'event handling' }
+ToAnchoredWindowManager >> windowOpenedEvent: anEvent [
+
+	self onWindowOpened 
 ]
 
 { #category : #accessing }

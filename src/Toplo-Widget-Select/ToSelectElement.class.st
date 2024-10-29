@@ -42,6 +42,12 @@ ToSelectElement >> dataAccessor [
 ]
 
 { #category : #initialization }
+ToSelectElement >> defaultEventHandler [
+
+	^ ToSelectEventHandler new
+]
+
+{ #category : #initialization }
 ToSelectElement >> defaultLayout [ 
 
 	^ BlLinearLayout horizontal
@@ -106,12 +112,8 @@ ToSelectElement >> initialize [
 	self addChildren: {
 			self innerElement.
 			self iconContainer }.
-
-	self addEventHandlerOn: ToPlaceholderShownEvent do: [ :event |
-		self flag:
-			'The width of 16???. Why ? Anyway, it should be handled via a skin'.
-		event placeholder padding: (BlInsets left: (self valueOfTokenNamed: #'padding-XS')).
-		event placeholder layout alignCenterLeft ].
+			
+	self addEventHandler: self defaultEventHandler.
 
 	" a select is made to be horizontal. the following constraints 
 	must be set here to initialize the resizers properly "

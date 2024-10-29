@@ -279,6 +279,25 @@ ToPopupWindowManagerTest >> testNoAutoCloseEvenAfterLongDelay [
 ]
 
 { #category : #tests }
+ToPopupWindowManagerTest >> testUseNoMouseButton [
+
+	| e windowManager event |
+	e := ToElement new.
+	e size: 100 asPoint.
+	space root addChild: e.
+	self waitTestingSpaces.
+
+	windowManager := ToPopupWindowManager new.
+	windowManager useNoMouseButton.
+	windowManager onInstalledIn: e.
+	event := BlMouseDownEvent primary.
+	event position: e bounds inSpace center.
+	BlSpace simulateEvent: event on: e.
+	self waitTestingSpaces.
+	self assert: windowManager currentWindow isNil.
+]
+
+{ #category : #tests }
 ToPopupWindowManagerTest >> testUsePrimaryMouseButton [
 
 	| e windowManager event |

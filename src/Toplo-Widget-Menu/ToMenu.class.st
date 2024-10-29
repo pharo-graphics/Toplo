@@ -105,7 +105,7 @@ ToMenu >> newRawSkin [
 { #category : #'t - menu window model' }
 ToMenu >> popupEvent: anEvent [
 
-	(windowManager newWindowEvent: anEvent) popupEvent: anEvent
+	windowManager enqueuePopupTaskFromEvent: anEvent
 ]
 
 { #category : #'adding-removing' }

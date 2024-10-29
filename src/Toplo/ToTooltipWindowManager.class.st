@@ -1,9 +1,6 @@
 Class {
 	#name : #ToTooltipWindowManager,
-	#superclass : #ToAnchoredWindowManager,
-	#instVars : [
-		'popupDelay'
-	],
+	#superclass : #ToPopupWindowManager,
 	#category : #'Toplo-Core-Tooltip'
 }
 
@@ -18,7 +15,7 @@ ToTooltipWindowManager >> defaultPositionHook [
 
 	^ [ :theWindow :theElement :event |
 	  theWindow position: (event position x)
-		  @ ((theElement localPointToGlobal: 0 @ theElement height) y + self vgap) ]
+		  @ ((theElement localPointToGlobal: 0 @ theElement height) y + 5 ) ]
 ]
 
 { #category : #accessing }
@@ -27,22 +24,15 @@ ToTooltipWindowManager >> elementEventHandlerClass [
 	^ ToElementWithTooltipEventHandler 
 ]
 
-{ #category : #accessing }
-ToTooltipWindowManager >> popupDelay [
+{ #category : #initialization }
+ToTooltipWindowManager >> initialize [
 
-	^ popupDelay ifNil: [ popupDelay:= self defaultPopupDelay] 
-]
-
-{ #category : #accessing }
-ToTooltipWindowManager >> popupDelay: aDuration [
-
-	popupDelay := aDuration asDuration
-]
-
-{ #category : #accessing }
-ToTooltipWindowManager >> vgap [
-
-	^ 5
+	super initialize.
+	self useNoMouseButton.
+	popupOnMouseEnter := true.
+	closeOnMouseLeave := true.
+	popupOnMouseDown := false.
+	closeOnMouseDown := true
 ]
 
 { #category : #accessing }

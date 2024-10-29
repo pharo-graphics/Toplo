@@ -45,10 +45,13 @@ ToSelectPopupWindowManager >> defaultSizeHook [
 	  theWindow width: theElement measuredWidth]
 ]
 
-{ #category : #accessing }
-ToSelectPopupWindowManager >> elementEventHandlerClass [ 
+{ #category : #'event handling' }
+ToSelectPopupWindowManager >> elementExtentChangedEvent: anEvent [
 
-	^ ToSelectEventHandler
+	super elementExtentChangedEvent: anEvent.
+	currentWindow ifNil: [ ^ self ].
+	self applyPositionHookFromEvent: anEvent.
+	self applySizeHookFromEvent: anEvent
 ]
 
 { #category : #accessing }
@@ -87,7 +90,7 @@ ToSelectPopupWindowManager >> minHeight: aNumber [
 	listElement minHeight: aNumber
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : #'event handling' }
 ToSelectPopupWindowManager >> mouseDownInElementEvent: anEvent [
 
 	super mouseDownInElementEvent: anEvent.

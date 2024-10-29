@@ -16,6 +16,12 @@ ToContextMenuWindowManager >> elementEventHandlerClass [
 	^ ToElementWithContextMenuEventHandler
 ]
 
+{ #category : #'event handling' }
+ToContextMenuWindowManager >> elementPositionInSpaceChangedEvent: anEvent [
+
+	self currentWindowDo: [ :cw | cw close ] 
+]
+
 { #category : #initialization }
 ToContextMenuWindowManager >> initialize [
 

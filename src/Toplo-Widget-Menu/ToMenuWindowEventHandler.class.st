@@ -15,3 +15,12 @@ ToMenuWindowEventHandler >> menuWindowOpenedEvent: anEvent [
 
 	self windowOpenedEvent: anEvent
 ]
+
+{ #category : #'api - accessing' }
+ToMenuWindowEventHandler >> windowEventsToHandle [
+
+	^ {
+		  ToAnchoredWindowOpenRequest.
+		  ToMenuWindowClosedEvent.
+		  ToMenuWindowOpenedEvent }
+]

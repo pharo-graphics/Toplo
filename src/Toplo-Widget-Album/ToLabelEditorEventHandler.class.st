@@ -15,3 +15,12 @@ ToLabelEditorEventHandler >> labelEditorOpenedEvent: anEvent [
 
 	self windowOpenedEvent: anEvent
 ]
+
+{ #category : #'api - accessing' }
+ToLabelEditorEventHandler >> windowEventsToHandle [
+
+	^ {
+		  ToAnchoredWindowOpenRequest.
+		  ToLabelEditorClosedEvent.
+		  ToLabelEditorOpenedEvent }
+]

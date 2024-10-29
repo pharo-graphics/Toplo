@@ -8,6 +8,10 @@ Class {
 }
 
 { #category : #'event handling' }
+ToAnchorEventHandler >> anchoredWindowOpenRequest: anEvent [
+]
+
+{ #category : #'event handling' }
 ToAnchorEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 
 	windowManager elementAddedToSceneGraphEvent: anEvent
@@ -40,9 +44,7 @@ ToAnchorEventHandler >> elementRemovedFromSceneGraphEvent: anEvent [
 { #category : #'api - accessing' }
 ToAnchorEventHandler >> eventsToHandle [
 
-	^ {
-		  windowManager windowClosedEventClass.
-		  windowManager windowOpenedEventClass.
+	^ self windowEventsToHandle , {
 		  BlElementExtentChangedEvent.
 		  BlElementRemovedFromParentEvent.
 		  BlElementAddedToSceneGraphEvent.
@@ -54,6 +56,12 @@ ToAnchorEventHandler >> eventsToHandle [
 ToAnchorEventHandler >> windowClosedEvent: anEvent [
 
 	windowManager windowClosedEvent: anEvent
+]
+
+{ #category : #'api - accessing' }
+ToAnchorEventHandler >> windowEventsToHandle [
+
+	^ { ToAnchoredWindowOpenRequest }
 ]
 
 { #category : #'api - accessing' }

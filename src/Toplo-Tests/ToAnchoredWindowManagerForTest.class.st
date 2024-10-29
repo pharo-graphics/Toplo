@@ -5,6 +5,12 @@ Class {
 }
 
 { #category : #accessing }
+ToAnchoredWindowManagerForTest >> elementEventHandlerClass [
+
+	^ ToElementWithAnchoredWindowManagerTestEventHandler
+]
+
+{ #category : #accessing }
 ToAnchoredWindowManagerForTest >> windowClosedEventClass [
 
 	^ ToAnchoredWindowForTestClosedEvent

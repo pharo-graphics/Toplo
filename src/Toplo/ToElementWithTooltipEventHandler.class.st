@@ -15,3 +15,12 @@ ToElementWithTooltipEventHandler >> tooltipWindowOpenedEvent: anEvent [
 
 	self windowOpenedEvent: anEvent
 ]
+
+{ #category : #'api - accessing' }
+ToElementWithTooltipEventHandler >> windowEventsToHandle [
+
+	^ {
+		  ToAnchoredWindowOpenRequest.
+		  ToTooltipWindowClosedEvent.
+		  ToTooltipWindowOpenedEvent }
+]

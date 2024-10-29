@@ -15,3 +15,12 @@ ToElementWithContextMenuEventHandler >> contextMenuOpenedEvent: anEvent [
 
 	self windowOpenedEvent: anEvent
 ]
+
+{ #category : #'api - accessing' }
+ToElementWithContextMenuEventHandler >> windowEventsToHandle [
+
+	^ {
+		  ToContextMenuRequest.
+		  ToContextMenuClosedEvent.
+		  ToContextMenuOpenedEvent }
+]

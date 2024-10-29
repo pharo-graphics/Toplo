@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-Widget-List-Context-menu'
 }
 
+{ #category : #accessing }
+ToListElementContextMenuWindowManager >> elementEventHandlerClass [ 
+
+	^ ToListElementWithContextMenuEventHandler
+]
+
 { #category : #'window handling' }
 ToListElementContextMenuWindowManager >> newWindowOpenRequestEventFromSourceEvent: anEvent [
 	" request from the ToElementContextMenuEventHandler>>mouseDownEvent: "

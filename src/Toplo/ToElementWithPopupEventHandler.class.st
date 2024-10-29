@@ -7,6 +7,10 @@ Class {
 	#category : #'Toplo-Core-Window'
 }
 
+{ #category : #'event handling' }
+ToElementWithPopupEventHandler >> contextMenuRequest: anEvent [
+]
+
 { #category : #'api - accessing' }
 ToElementWithPopupEventHandler >> eventsToHandle [
 
@@ -92,4 +96,13 @@ ToElementWithPopupEventHandler >> popupWindowOpenedEvent: anEvent [
 ToElementWithPopupEventHandler >> target [
 
 	^ target
+]
+
+{ #category : #'api - accessing' }
+ToElementWithPopupEventHandler >> windowEventsToHandle [
+
+	^ {
+		  ToAnchoredWindowOpenRequest.
+		  ToPopupWindowClosedEvent.
+		  ToPopupWindowOpenedEvent }
 ]

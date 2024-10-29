@@ -7,5 +7,5 @@ Class {
 { #category : #sending }
 ToAnchoredWindowOpenRequest >> sendTo: anObject [
 
-	Error signal: 'Abstract event'
+	anObject anchoredWindowOpenRequest: self
 ]

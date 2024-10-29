@@ -27,3 +27,12 @@ ToOverlayedEventHandler >> overlayWindowOpenedEvent: anEvent [
 
 	self windowOpenedEvent: anEvent
 ]
+
+{ #category : #'api - accessing' }
+ToOverlayedEventHandler >> windowEventsToHandle [
+
+	^ {
+		  ToAnchoredWindowOpenRequest.
+		  ToOverlayWindowClosedEvent.
+		  ToOverlayWindowOpenedEvent }
+]

@@ -64,7 +64,7 @@ TToElementWithTooltip >> removeTooltipWindowManager [
 	manager := self rawTooltipWindowManager.
 	manager ifNil: [ ^ self ].
 	manager currentWindowDo: [:cw | cw isOpened ifTrue: [ cw close ] ].
-	manager onUninstalledIn: self.
+	self removeEventHandler: manager.
 	self userData removeKey: #tooltipWindowManager
 ]
 
@@ -88,7 +88,7 @@ TToElementWithTooltip >> tooltipBuilder: aValuable [
 	
 	aValuable 
 		ifNil: [
-			self tooltipWindowManager: nil.
+			self removeTooltipWindowManager.
 			^ self ].
 	self tooltipWindowManager builder: aValuable
 ]
@@ -139,18 +139,6 @@ TToElementWithTooltip >> tooltipWindowManager [
 		  | handler |
 		  handler := ToTooltipWindowManager new.
 		  self tooltipPopupDelay ifNotNil: [ :d | handler popupDelay: d ].
-		  handler
-			  onInstalledIn: self;
-			  yourself ]
-]
-
-{ #category : #'t - element with tooltip' }
-TToElementWithTooltip >> tooltipWindowManager: aWindowHandler [
-
-	self rawTooltipWindowManager = aWindowHandler ifTrue: [ ^ self ].
-	self removeTooltipWindowManager.
-	aWindowHandler ifNil: [ ^ self ].
-	self userData at: #tooltipWindowManager put: (aWindowHandler
-			 onInstalledIn: self;
-			 yourself)
+		  self addEventHandler: handler.
+		  handler ]
 ]

@@ -56,7 +56,5 @@ ToTooltipWindowTest >> testInitialize [
 
 	| w |
 	w := ToTooltipWindow new.
-	self assert: w element isNil.
-	self assert: (w eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 eh isKindOf: ToTooltipWindowEventHandler ])
+	self assert: w element isNil
 ]

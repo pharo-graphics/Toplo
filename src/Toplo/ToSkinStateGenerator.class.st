@@ -102,7 +102,6 @@ ToSkinStateGenerator >> enqueueTransientStateFromSkinEvent: aSkinEvent [
 ToSkinStateGenerator >> eventsToHandle [
 
 	^ {
-		  ToCheckableCheckEvent.
 		  BlBaseDragEvent.
 		  BlBlurEvent.
 		  BlFocusEvent.
@@ -112,7 +111,7 @@ ToSkinStateGenerator >> eventsToHandle [
 		  BlMouseUpOutsideEvent.
 		  BlMouseEnterEvent.
 		  BlMouseLeaveEvent.
-		  ToWindowEvent.
+		  ToCheckableCheckEvent.
 		  ToListNodeSelectedEvent }
 ]
 
@@ -158,16 +157,6 @@ ToSkinStateGenerator >> generateClickedStateFromEvent: anEvent [
 		addSkinStateGeneration: [
 			self enqueueTransientStateFromSkinEvent:
 				(ToClickedSkinEvent sourceEvent: anEvent) ]
-		for: target
-]
-
-{ #category : #'state generating' }
-ToSkinStateGenerator >> generateClosedStateFromEvent: anEvent [
-
-	target skinManager
-		addSkinStateGeneration: [
-			self enqueueTransientStateFromSkinEvent:
-				(ToClosedSkinEvent sourceEvent: anEvent) ]
 		for: target
 ]
 
@@ -236,16 +225,6 @@ ToSkinStateGenerator >> generateLeavedStateFromEvent: anEvent [
 ]
 
 { #category : #'state generating' }
-ToSkinStateGenerator >> generateOpenedStateFromEvent: anEvent [
-
-	target skinManager
-		addSkinStateGeneration: [
-			self enqueueTransientStateFromSkinEvent:
-				(ToOpenedSkinEvent sourceEvent: anEvent) ]
-		for: target
-]
-
-{ #category : #'state generating' }
 ToSkinStateGenerator >> generatePressedStateFromEvent: anEvent [
 
 	target skinManager
@@ -287,10 +266,6 @@ ToSkinStateGenerator >> generateSelectionStateFromEvent: anEvent [
 ToSkinStateGenerator >> handleEvent: anEvent [
 
 	self stopProcesses: anEvent.
-	(anEvent isKindOf: ToWindowClosedEvent) ifTrue: [
-		^ self windowClosedEvent: anEvent ].
-	(anEvent isKindOf: ToWindowOpenedEvent) ifTrue: [
-		^ self windowOpenedEvent: anEvent ].
 	anEvent sendTo: self
 ]
 
@@ -439,16 +414,4 @@ ToSkinStateGenerator >> wantsEvent: anEvent [
 
 	target isEnabled ifFalse: [ ^ false ].
 	^ super wantsEvent: anEvent
-]
-
-{ #category : #'window opening - closing handlers' }
-ToSkinStateGenerator >> windowClosedEvent: anEvent [
-
-	self generateClosedStateFromEvent: anEvent
-]
-
-{ #category : #'window opening - closing handlers' }
-ToSkinStateGenerator >> windowOpenedEvent: anEvent [
-
-	self generateOpenedStateFromEvent: anEvent
 ]

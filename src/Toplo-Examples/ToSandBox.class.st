@@ -1655,7 +1655,7 @@ ToSandBox class >> example_Popup1 [
 				 on: BlPrimaryClickEvent
 				 do: [ self inform: 'Click' ]).
 		popup root addChild: item ].
-	popupWindowHandler onInstalledIn: menu.
+	menu addEventHandler: popupWindowHandler.
 	container pane addChild: menu.
 	container openInSpace
 ]
@@ -3500,41 +3500,41 @@ ToSandBox class >> example_notPreservingPane [
 { #category : #window }
 ToSandBox class >> example_overlayWindow1 [
 
-	| e windowHandler |
+	| e windowManager |
 	e := ToElement new
 		     size: 100 @ 100;
 		     position: 50 @ 50;
 		     background: Color yellow;
 		     border: (BlBorder paint: Color red).
-	windowHandler := ToOverlayWindowManager new.
-	windowHandler onInstalledIn: e.
-	windowHandler builder: [ :anchWin :element |
+	windowManager := ToOverlayWindowManager new.
+	e addEventHandler: windowManager.
+	windowManager builder: [ :anchWin :element |
 		anchWin background: (Color gray alpha: 0.2).
 		anchWin border: (BlBorder paint: Color black width: 2) ].
 	e openInInnerWindow.
-	(windowHandler newWindowEvent: nil) popup
+	(windowManager newWindowEvent: nil) popup
 ]
 
 { #category : #window }
 ToSandBox class >> example_overlayWindow2 [
 
-	| e windowHandler |
+	| e windowManager |
 	e := ToInnerWindow new
 		     size: 100 @ 100;
 		     position: 50 @ 50.
-	windowHandler := ToOverlayWindowManager new.
-	windowHandler positionHook: [ :theWindow :theElement :event |
+	windowManager := ToOverlayWindowManager new.
+	windowManager positionHook: [ :theWindow :theElement :event |
 		theWindow position:
 			theElement bounds inSpace bounds topLeft + (20 @ 40) ].
-	windowHandler sizeHook: [ :theWindow :theElement :event |
+	windowManager sizeHook: [ :theWindow :theElement :event |
 		theWindow size:
 			theElement measuredWidth - 40 @ (theElement measuredHeight - 60) ].
-	windowHandler onInstalledIn: e.
-	windowHandler builder: [ :anchWin :element |
+	e addEventHandler: windowManager.
+	windowManager builder: [ :anchWin :element |
 		anchWin background: (Color gray alpha: 0.2).
 		anchWin border: (BlBorder paint: Color black width: 2) ].
 	e openInInnerWindow.
-	(windowHandler newWindowEvent: nil) popup
+	(windowManager newWindowEvent: nil) popup
 ]
 
 { #category : #tabs }

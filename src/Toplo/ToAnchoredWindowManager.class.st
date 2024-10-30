@@ -1,12 +1,11 @@
 Class {
 	#name : #ToAnchoredWindowManager,
-	#superclass : #Object,
+	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'anchorRoot',
 		'currentWindow',
 		'element',
 		'builder',
-		'elementEventHandler',
 		'positionHook',
 		'sizeHook'
 	],
@@ -23,6 +22,10 @@ ToAnchoredWindowManager >> anchorRoot [
 ToAnchoredWindowManager >> anchorRoot: anElement [
 
 	anchorRoot := anElement
+]
+
+{ #category : #'event handling' }
+ToAnchoredWindowManager >> anchoredWindowOpenRequest: anEvent [
 ]
 
 { #category : #'bounds hook' }
@@ -128,18 +131,6 @@ ToAnchoredWindowManager >> elementAddedToSceneGraphEvent: anEvent [
 
 ]
 
-{ #category : #accessing }
-ToAnchoredWindowManager >> elementEventHandler [
-
-	^ elementEventHandler
-]
-
-{ #category : #accessing }
-ToAnchoredWindowManager >> elementEventHandlerClass [
-
-	^ ToAnchorEventHandler 
-]
-
 { #category : #'event handling' }
 ToAnchoredWindowManager >> elementExtentChangedEvent: anEvent [
 ]
@@ -162,6 +153,20 @@ ToAnchoredWindowManager >> elementRemovedFromSceneGraphEvent: anEvent [
 	self currentWindowDo: [ :w | w isOpened ifTrue: [ w close ] ]
 ]
 
+{ #category : #'api - accessing' }
+ToAnchoredWindowManager >> eventsToHandle [
+
+	^ {
+		  self windowOpenRequestClass.
+		  self windowOpenedEventClass.
+		  self windowClosedEventClass.
+		  BlElementExtentChangedEvent.
+		  BlElementRemovedFromParentEvent.
+		  BlElementAddedToSceneGraphEvent.
+		  BlElementRemovedFromSceneGraphEvent.
+		  BlElementPositionInSpaceChangedEvent }
+]
+
 { #category : #testing }
 ToAnchoredWindowManager >> hasWindow [
 
@@ -177,14 +182,6 @@ ToAnchoredWindowManager >> initialize [
 	self builder: self defaultBuilder.
 
 	
-]
-
-{ #category : #accessing }
-ToAnchoredWindowManager >> newElementEventHandler [
-
-	elementEventHandler := self elementEventHandlerClass new.
-	elementEventHandler windowManager: self.
-	^ elementEventHandler
 ]
 
 { #category : #'window handling' }
@@ -224,16 +221,14 @@ ToAnchoredWindowManager >> newWindowOpenRequestEventFromSourceEvent: anEvent [
 { #category : #'api - hooks' }
 ToAnchoredWindowManager >> onInstalledIn: anElement [
 
-	element := anElement.
-	element ifNotNil: [
-		element addEventHandler: self newElementEventHandler ]
+	super onInstalledIn: anElement.
+	element := anElement
 ]
 
 { #category : #'api - hooks' }
 ToAnchoredWindowManager >> onUninstalledIn: anElement [
 
-	element removeEventHandler: elementEventHandler.
-	elementEventHandler := nil.
+	super onUninstalledIn: anElement.
 	element := nil
 ]
 
@@ -315,7 +310,7 @@ ToAnchoredWindowManager >> windowClosedEvent: anEvent [
 { #category : #accessing }
 ToAnchoredWindowManager >> windowClosedEventClass [
 
-	^ self subclassResponsibility  
+	^ ToWindowClosedEvent 
 ]
 
 { #category : #accessing }
@@ -333,5 +328,5 @@ ToAnchoredWindowManager >> windowOpenedEvent: anEvent [
 { #category : #accessing }
 ToAnchoredWindowManager >> windowOpenedEventClass [
 
-	^ self subclassResponsibility 
+	^ ToWindowOpenedEvent 
 ]

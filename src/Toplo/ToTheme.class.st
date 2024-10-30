@@ -308,7 +308,7 @@ ToTheme class >> technicalTokenProperties [
 	^ {
 		  (ToTokenProperty
 			   name: #'toplo-double-click-delay'
-			   value: 250 milliSeconds).
+			   value: 200 milliSeconds).
 
 		}
 ]

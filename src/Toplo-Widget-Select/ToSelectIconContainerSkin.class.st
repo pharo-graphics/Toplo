@@ -5,14 +5,6 @@ Class {
 }
 
 { #category : #'event handling' }
-ToSelectIconContainerSkin >> closedSkinEvent: anEvent [
-
-	super closedSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e icon: self popupClosedIcon   ].
-]
-
-{ #category : #'event handling' }
 ToSelectIconContainerSkin >> disabledSkinEvent: anEvent [
 
 	super disabledSkinEvent: anEvent.
@@ -43,16 +35,6 @@ ToSelectIconContainerSkin >> leavedSkinEvent: anEvent [
 	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor normal  ].
-]
-
-{ #category : #'event handling' }
-ToSelectIconContainerSkin >> openedSkinEvent: anEvent [
-
-	super openedSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e icon: (e isSelectFiltrable
-			 ifTrue: [ self searchIcon ]
-			 ifFalse: [ self popupOpenedIcon ]) ].
 ]
 
 { #category : #accessing }

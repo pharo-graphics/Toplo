@@ -2,6 +2,7 @@ Class {
 	#name : #ToListElementStresser,
 	#superclass : #Object,
 	#instVars : [
+		'commandApplicationStrategy',
 		'tabsPanel',
 		'maxTab',
 		'maxRound',
@@ -200,6 +201,18 @@ ToListElementStresser >> afterRoundInList: aList [
 ]
 
 { #category : #running }
+ToListElementStresser >> applyCommand: aCommand [
+
+	| tab s |
+	tab := self tabsPanel tabs at: aCommand listNumber.
+	s := ' [' asRopedText , aCommand round asString asRopedText bold
+	     , ('/' , self maxRound asString , ']') asRopedText.
+	(tab childAt: 2) text: s.
+	self selectActionsToRun shuffled do: [ :act |
+		self perform: act with: aCommand list ]
+]
+
+{ #category : #running }
 ToListElementStresser >> finishedInAllTabs [
 
 	^ tabsPanel tabs allSatisfy: [ :tab |
@@ -221,6 +234,7 @@ ToListElementStresser >> initialize [
 
 	tabsPanel := ToTabPane new.
 	listIdentifiers := Array new: self maxTab.
+
 
 	1 to: self maxTab do: [ :i |
 		| paneListAssoc tab list ident |
@@ -256,6 +270,12 @@ ToListElementStresser >> initialize [
 
 	tabSelectionProcess name: self class name.
 	tabSelectionProcess priority: Processor userBackgroundPriority.
+
+	commandApplicationStrategy := ToQueueBasedCommandApplicationStrategy
+		                              new
+		                              commandApplier: self
+		                              element: self tabsPanel;
+		                              yourself.
 
 	self tabsPanel
 		addEventHandlerOn: BlElementAddedToSceneGraphEvent
@@ -443,15 +463,12 @@ ToListElementStresser >> processEndInList: aList number: aNumber [
 { #category : #running }
 ToListElementStresser >> processingRound: aRound inList: aList number: aNumber [
 
-	| tab s |
-	tab := self tabsPanel tabs at: aNumber.
-	s := ' [' asRopedText , aRound asString asRopedText bold
-	     , ('/' , self maxRound asString , ']') asRopedText.
-
-	self tabsPanel enqueueTask: (BlTaskAction new action: [
-			 (tab childAt: 2) text: s.
-			 self selectActionsToRun shuffled do: [ :act |
-				 self perform: act with: aList ] ])
+	commandApplicationStrategy addCommand:
+		(ToListElementStresserCommand new
+			 round: aRound;
+			 list: aList;
+			 listNumber: aNumber;
+			 yourself)
 ]
 
 { #category : #private }
@@ -502,7 +519,7 @@ ToListElementStresser >> selectionResultsTextOn: aListElement [
 
 	| nb nbTasks |
 	self tabsPanel space ifNil: [ ^ self ].
-	nbTasks := self tabsPanel space taskQueue tasks size.
+	nbTasks := self tabsPanel space taskQueue size.
 	maxNbTasks := maxNbTasks max: nbTasks.
 	nb := aListElement selectionModel underlyingModel intervals size.
 	maxPrimaryIntervals := nb max: maxPrimaryIntervals.

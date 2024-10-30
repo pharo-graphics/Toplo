@@ -43,9 +43,8 @@ TToElementWithContextMenu >> contextMenuWindowManager [
 	^ self userData at: #contextMenuWindowManager ifAbsentPut: [
 		  | handler |
 		  handler := self contextMenuWindowManagerClass new.
-		  handler
-			  onInstalledIn: self;
-			  yourself ]
+		  self addEventHandler: handler.
+		  handler ]
 ]
 
 { #category : #'t - element with context menu' }
@@ -54,9 +53,8 @@ TToElementWithContextMenu >> contextMenuWindowManager: aWindowHandler [
 	self rawContextMenuWindowManager = aWindowHandler ifTrue: [ ^ self ].
 	self removeContextMenuWindowManager.
 	aWindowHandler ifNil: [ ^ self ].
-	self userData at: #contextMenuWindowManager put: (aWindowHandler
-			 onInstalledIn: self;
-			 yourself)
+	self addEventHandler: aWindowHandler.
+	self userData at: #contextMenuWindowManager put: aWindowHandler
 ]
 
 { #category : #'t - element with context menu' }
@@ -116,6 +114,6 @@ TToElementWithContextMenu >> removeContextMenuWindowManager [
 	manager := self rawContextMenuWindowManager.
 	manager ifNil: [ ^ self ].
 	manager hasWindow ifTrue: [ manager currentWindow close ].
-	manager onUninstalledIn: self.
+	self removeEventHandler: manager.
 	self userData removeKey: #contextMenuWindowManager
 ]

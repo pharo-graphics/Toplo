@@ -63,7 +63,7 @@ ToListNodeMultiSelectionClickEventHandler >> launchClick: aBlock event: anEvent 
 			 asDelay wait.
 		 aBlock value.
 		 self clickLauncher: nil ]
-			 forkAt: Processor highIOPriority
+			 forkAt: Processor lowIOPriority
 			 named: self class name)
 ]
 

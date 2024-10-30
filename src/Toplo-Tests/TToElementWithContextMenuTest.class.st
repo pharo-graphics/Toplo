@@ -20,8 +20,6 @@ TToElementWithContextMenuTest >> testContextMenu [
 	self waitTestingSpaces.
 	self assert: ttwin root firstChild identicalTo: tt.
 	self assert: ttwin element identicalTo: e.
-	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 eh isKindOf: ToElementWithPopupEventHandler ]).
 	ttwin close.
 	^ e
 ]
@@ -111,6 +109,7 @@ TToElementWithContextMenuTest >> testContextMenuContent [
 	|  e ttwin |
 	e := self testContextMenu.
 	self assert: e hasContextMenu.
+	self assert: e contextMenuWindowManager currentWindow isNil.
 	ttwin := e newContextMenuEvent: (BlMouseDownEvent new).
 	ttwin popupEvent: (BlMouseDownEvent new position: 0@0).
 	self waitTestingSpaces.
@@ -118,8 +117,6 @@ TToElementWithContextMenuTest >> testContextMenuContent [
 	e contextMenuContent: nil.
 	self assert: e currentContextMenu isNil.
 	self assert: e hasContextMenu not.
-	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
-		eh isKindOf: ToElementWithPopupEventHandler ]) not.
 	self should: [ttwin close] raise: Error.
 	^ e
 ]
@@ -180,7 +177,7 @@ TToElementWithContextMenuTest >> testCurrentContextMenu [
 	e := self testHasContextMenu.
 	self assert: e currentContextMenu isNil.
 	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 eh isKindOf: ToElementWithPopupEventHandler ]).
+			 eh isKindOf: ToContextMenuWindowManager ]).
 	ttwin := e newContextMenuEvent: nil.
 	e contextMenuContent: { ToMenuItem new }.
 	self assert: e hasContextMenu.
@@ -212,8 +209,6 @@ TToElementWithContextMenuTest >> testHasContextMenu [
 	e := ToElement new.
 	self assert: e hasContextMenu not.
 	self should: [e newContextMenuEvent: nil] raise: Error.
-	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 eh isKindOf: ToElementWithPopupEventHandler ]) not.
 	e contextMenuContent: { ToMenuItem new }.
 	self assert: e hasContextMenu.
 	^ e
@@ -279,8 +274,6 @@ TToElementWithContextMenuTest >> testRemoveContextMenuWindowManager [
 	e := self testContextMenu.
 	self assert: e hasContextMenu.
 	e removeContextMenuWindowManager.
-	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 eh isKindOf: ToElementWithPopupEventHandler ]) not.
 	self assert: e currentContextMenu isNil.
 	self assert: e hasContextMenu not.
 	^ e

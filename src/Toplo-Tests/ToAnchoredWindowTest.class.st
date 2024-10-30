@@ -20,7 +20,7 @@ ToAnchoredWindowTest >> testClose [
 	windowManager := ToAnchoredWindowManagerForTest new builder: [
 		                 :anchWin
 		                 :element | anchWin root addChild: winRootChild ].
-	windowManager onInstalledIn: e.
+	e addEventHandler: windowManager.
 	win := windowManager newWindowEvent: nil.
 	self assert: winRootChild parent identicalTo: win root.
 	self deny: win isOpened.
@@ -40,10 +40,10 @@ ToAnchoredWindowTest >> testClosedEventClass [
 	windowManager := ToAnchoredWindowManagerForTest new builder: [
 		                 :anchWin
 		                 :element |  ].
-	windowManager onInstalledIn: e.
+	e addEventHandler: windowManager.
 	win := windowManager newWindowEvent: nil.
 	win addEventHandler: (BlEventHandler
-			 on: win closedEventClass
+			 on: windowManager windowClosedEventClass
 			 do: [ :event | closeEvent := event ]).
 	self assert: closeEvent isNil.
 	win popup.
@@ -57,16 +57,16 @@ ToAnchoredWindowTest >> testClosedEventClass [
 { #category : #tests }
 ToAnchoredWindowTest >> testDefaultElevation [
 
-	| win e windowHandler |
+	| win e windowManager |
 	e := ToElement new.
 	space root addChild: e.
 	self waitTestingSpaces.
 
-	windowHandler := ToAnchoredWindowManagerForTest new builder: [
+	windowManager := ToAnchoredWindowManagerForTest new builder: [
 		                 :anchWin
 		                 :element |  ].
-	windowHandler onInstalledIn: e.
-	win := windowHandler newWindowEvent: nil.
+	e addEventHandler: windowManager.
+	win := windowManager newWindowEvent: nil.
 	e position: 10 asPoint.
 	e size: 10 asPoint.
 	win popup.
@@ -78,20 +78,20 @@ ToAnchoredWindowTest >> testDefaultElevation [
 { #category : #tests }
 ToAnchoredWindowTest >> testDispatchClosedEvent [
 
-	| win e windowHandler closedEventReceivedByWin closedEventReceivedByElement |
+	| win e windowManager closedEventReceivedByWin closedEventReceivedByElement |
 	e := ToElement new.
 	space root addChild: e.
 	self waitTestingSpaces.
 	self applyAllEnqueuedStates.
 
-	windowHandler := ToAnchoredWindowManagerForTest new.
-	windowHandler onInstalledIn: e.
-	win := windowHandler newWindowEvent: nil.
+	windowManager := ToAnchoredWindowManagerForTest new.
+	e addEventHandler: windowManager.
+	win := windowManager newWindowEvent: nil.
 	win addEventHandler: (BlEventHandler
-			 on: win closedEventClass
+			 on: windowManager windowClosedEventClass
 			 do: [ :event | closedEventReceivedByWin := event ]).
 	e addEventHandler: (BlEventHandler
-			 on: win closedEventClass
+			 on: windowManager windowClosedEventClass
 			 do: [ :event | closedEventReceivedByElement := event ]).
 	win popup.
 	self waitTestingSpaces.
@@ -104,19 +104,19 @@ ToAnchoredWindowTest >> testDispatchClosedEvent [
 { #category : #tests }
 ToAnchoredWindowTest >> testDispatchOpenedEvent [
 
-	| win e windowHandler openedEventReceivedByWin openedEventReceivedByElement |
+	| win e windowManager openedEventReceivedByWin openedEventReceivedByElement |
 	e := ToElement new.
 	space root addChild: e.
 	self waitTestingSpaces.
 
-	windowHandler := ToAnchoredWindowManagerForTest new.
-	windowHandler onInstalledIn: e.
-	win := windowHandler newWindowEvent: nil.
+	windowManager := ToAnchoredWindowManagerForTest new.
+	e addEventHandler: windowManager.
+	win := windowManager newWindowEvent: nil.
 	win addEventHandler: (BlEventHandler
-			 on: win openedEventClass
+			 on: windowManager windowOpenedEventClass
 			 do: [ :event | openedEventReceivedByWin := event ]).
 	e addEventHandler: (BlEventHandler
-			 on: win openedEventClass
+			 on: windowManager windowOpenedEventClass
 			 do: [ :event | openedEventReceivedByElement := event ]).
 	win popup.
 	self waitTestingSpaces.
@@ -135,7 +135,7 @@ ToAnchoredWindowTest >> testElement [
 	self waitTestingSpaces.
 
 	windowManager := ToAnchoredWindowManagerForTest new.
-	windowManager onInstalledIn: e.
+	e addEventHandler: windowManager.
 	win := windowManager newWindowEvent: nil.
 	self assert: win element identicalTo: e
 ]
@@ -152,7 +152,7 @@ ToAnchoredWindowTest >> testHasAssociateElement [
 	self waitTestingSpaces.
 
 	windowManager := ToAnchoredWindowManagerForTest new.
-	windowManager onInstalledIn: e.
+	e addEventHandler: windowManager.
 	win := windowManager newWindowEvent: nil.
 	self assert: win hasAssociateElement
 ]
@@ -160,14 +160,14 @@ ToAnchoredWindowTest >> testHasAssociateElement [
 { #category : #tests }
 ToAnchoredWindowTest >> testLocalThemeSetOnPopupEvent [
 
-	| win e windowHandler |
+	| win e windowManager |
 	e := ToElement new.
 	space root addChild: e.
 	self waitTestingSpaces.
 
-	windowHandler := ToAnchoredWindowManagerForTest new.
-	windowHandler onInstalledIn: e.
-	win := windowHandler newWindowEvent: nil.
+	windowManager := ToAnchoredWindowManagerForTest new.
+	e addEventHandler: windowManager.
+	win := windowManager newWindowEvent: nil.
 	self assert: win localTheme isNil.
 	win popupEvent: nil.
 	self waitTestingSpaces.
@@ -180,14 +180,14 @@ ToAnchoredWindowTest >> testLocalThemeSetOnPopupEvent [
 { #category : #tests }
 ToAnchoredWindowTest >> testLocalThemeSetOnPopupEvent2 [
 
-	| win e windowHandler localTheme |
+	| win e windowManager localTheme |
 	e := ToElement new.
 	space root addChild: e.
 	self waitTestingSpaces.
 
-	windowHandler := ToAnchoredWindowManagerForTest new.
-	windowHandler onInstalledIn: e.
-	win := windowHandler newWindowEvent: nil.
+	windowManager := ToAnchoredWindowManagerForTest new.
+	e addEventHandler: windowManager.
+	win := windowManager newWindowEvent: nil.
 	self assert: win localTheme isNil.
 	localTheme := ToRawDarkTheme new.
 	win localTheme: localTheme.
@@ -211,9 +211,32 @@ ToAnchoredWindowTest >> testManager [
 	self waitTestingSpaces.
 
 	windowManager := ToAnchoredWindowManagerForTest new.
-	windowManager onInstalledIn: e.
+	e addEventHandler: windowManager.
 	win := windowManager newWindowEvent: nil.
 	self assert: win manager identicalTo: windowManager
+]
+
+{ #category : #tests }
+ToAnchoredWindowTest >> testOnOpened [
+
+	| win e windowManager openedEventReceivedByWin openedEventReceivedByElement |
+	e := ToElement new.
+	space root addChild: e.
+	self waitTestingSpaces.
+
+	windowManager := ToAnchoredWindowManagerForTest new.
+	e addEventHandler: windowManager.
+	win := windowManager newWindowEvent: nil.
+	win addEventHandler: (BlEventHandler
+			 on: windowManager windowOpenedEventClass
+			 do: [ :event | openedEventReceivedByWin := event ]).
+	e addEventHandler: (BlEventHandler
+			 on: windowManager windowOpenedEventClass
+			 do: [ :event | openedEventReceivedByElement := event ]).
+	win popup.
+	self waitTestingSpaces.
+	self assert: openedEventReceivedByWin notNil.
+	self assert: openedEventReceivedByElement notNil
 ]
 
 { #category : #tests }
@@ -225,10 +248,10 @@ ToAnchoredWindowTest >> testOpenedEventClass [
 	windowManager := ToAnchoredWindowManagerForTest new builder: [
 		                 :anchWin
 		                 :element |  ].
-	windowManager onInstalledIn: e.
+	e addEventHandler: windowManager.
 	win := windowManager newWindowEvent: nil.
 	win addEventHandler: (BlEventHandler
-			 on: win openedEventClass
+			 on: windowManager windowOpenedEventClass
 			 do: [ :event | openedEvent := event ]).
 	self assert: openedEvent isNil.
 	win popup.
@@ -240,15 +263,15 @@ ToAnchoredWindowTest >> testOpenedEventClass [
 { #category : #tests }
 ToAnchoredWindowTest >> testPopup [
 
-	| win e windowHandler |
+	| win e windowManager |
 	e := ToElement new.
 	space root addChild: e.
 	self waitTestingSpaces.
 	self applyAllEnqueuedStates.
 
-	windowHandler := ToAnchoredWindowManagerForTest new.
-	windowHandler onInstalledIn: e.
-	win := windowHandler newWindowEvent: nil.
+	windowManager := ToAnchoredWindowManagerForTest new.
+	e addEventHandler: windowManager.
+	win := windowManager newWindowEvent: nil.
 	win popup.
 	self waitTestingSpaces.
 	self assert: win isOpened.
@@ -258,53 +281,53 @@ ToAnchoredWindowTest >> testPopup [
 { #category : #tests }
 ToAnchoredWindowTest >> testPopupEvent [
 
-	| win e windowHandler openedEvent sourceEvent |
+	| win e windowManager openedEvent sourceEvent |
 	e := ToElement new.
 	space root addChild: e.
 	self waitTestingSpaces.
 	self applyAllEnqueuedStates.
 
-	windowHandler := ToAnchoredWindowManagerForTest new.
-	windowHandler onInstalledIn: e.
-	win := windowHandler newWindowEvent: nil.
+	windowManager := ToAnchoredWindowManagerForTest new.
+	e addEventHandler: windowManager.
+	win := windowManager newWindowEvent: nil.
 	win addEventHandler: (BlEventHandler
-			 on: win openedEventClass
+			 on: windowManager windowOpenedEventClass
 			 do: [ :event | openedEvent := event ]).
 	win popupEvent: nil.
 	self waitTestingSpaces.
 	win close.
 	sourceEvent := BlEvent new.
-	win := windowHandler newWindowEvent: nil.
+	win := windowManager newWindowEvent: nil.
 	win addEventHandler: (BlEventHandler
-			 on: win openedEventClass
+			 on: windowManager windowOpenedEventClass
 			 do: [ :event | openedEvent := event ]).
 	win popupEvent: sourceEvent.
 	self waitTestingSpaces.
-	self assert: openedEvent class equals: win openedEventClass
+	self assert: openedEvent class equals: windowManager windowOpenedEventClass
 ]
 
 { #category : #tests }
 ToAnchoredWindowTest >> testPopupEventNotInSpace [
 
-	| win e openEventFromWindow openEventFromWidget closeEventFromWindow closeEventFromWidget windowHandler |
+	| win e openEventFromWindow openEventFromWidget closeEventFromWindow closeEventFromWidget windowManager |
 	e := ToElement new.
-	windowHandler := ToAnchoredWindowManagerForTest new builder: [
+	windowManager := ToAnchoredWindowManagerForTest new builder: [
 		                 :anchWin
 		                 :element |  ].
-	windowHandler onInstalledIn: e.
-	win := windowHandler newWindowEvent: nil.
+	e addEventHandler: windowManager.
+	win := windowManager newWindowEvent: nil.
 	self assert: win hasAssociateElement.
 	win addEventHandler: (BlEventHandler
-			 on: win openedEventClass
+			 on: windowManager windowOpenedEventClass
 			 do: [ :event | openEventFromWindow := event ]).
 	e addEventHandler: (BlEventHandler
-			 on: win openedEventClass
+			 on: windowManager windowOpenedEventClass
 			 do: [ :event | openEventFromWidget := event ]).
 	win addEventHandler: (BlEventHandler
-			 on: win closedEventClass
+			 on: windowManager windowClosedEventClass
 			 do: [ :event | closeEventFromWindow := event ]).
 	e addEventHandler: (BlEventHandler
-			 on: win closedEventClass
+			 on: windowManager windowClosedEventClass
 			 do: [ :event | closeEventFromWidget := event ]).
 
 	self should: [ win popup ] raise: Error.
@@ -322,13 +345,13 @@ ToAnchoredWindowTest >> testPopupEventNotInSpace [
 { #category : #tests }
 ToAnchoredWindowTest >> testPopupEventNotInSpace2 [
 
-	| win e windowHandler |
+	| win e windowManager |
 	e := ToElement new.
-	windowHandler := ToAnchoredWindowManagerForTest new builder: [
+	windowManager := ToAnchoredWindowManagerForTest new builder: [
 		                 :anchWin
 		                 :element |  ].
-	windowHandler onInstalledIn: e.
-	win := windowHandler newWindowEvent: nil.
+	e addEventHandler: windowManager.
+	win := windowManager newWindowEvent: nil.
 	self waitTestingSpaces.
 	self should: [ win popup ] raise: Error.
 	self assert: win isOpened not.
@@ -353,10 +376,10 @@ ToAnchoredWindowTest >> testPopupTimeStamp [
 	windowManager := ToAnchoredWindowManagerForTest new builder: [
 		                 :anchWin
 		                 :element |  ].
-	windowManager onInstalledIn: e.
+	e addEventHandler: windowManager.
 	win := windowManager newWindowEvent: nil.
 	win addEventHandler: (BlEventHandler
-			 on: win openedEventClass
+			 on: windowManager windowOpenedEventClass
 			 do: [ :event | openedEvent := event ]).
 	self assert: openedEvent isNil.
 	self assert: win popupTimestamp isNil.
@@ -378,17 +401,17 @@ ToAnchoredWindowTest >> testPopupTimeStamp [
 { #category : #tests }
 ToAnchoredWindowTest >> testValueOfTokenNamedInWindow [
 
-	| win e windowHandler lab |
+	| win e windowManager lab |
 	e := ToElement new.
 	e localTheme: ToRawThemeForTest new.
 	space root addChild: e.
-	windowHandler := ToAnchoredWindowManagerForTest new builder: [
+	windowManager := ToAnchoredWindowManagerForTest new builder: [
 		                 :anchWin
 		                 :requestEvent |
 		                 lab := ToLabel new text: 'H'.
 		                 anchWin root addChild: lab ].
-	windowHandler onInstalledIn: e.
-	win := windowHandler newWindowEvent: nil.
+	e addEventHandler: windowManager.
+	win := windowManager newWindowEvent: nil.
 	win popupEvent: nil.
 	self waitTestingSpaces.
 	self
@@ -413,18 +436,18 @@ ToAnchoredWindowTest >> testValueOfTokenNamedInWindow [
 ToAnchoredWindowTest >> testWindowSize [
 	" since there is no size hook by default, the window is fitContent by default"
 
-	| win e windowHandler |
+	| win e windowManager |
 	e := ToElement new.
 	space root addChild: e.
 	e position: 10 asPoint.
 	e size: 10 asPoint.
 	self waitTestingSpaces.
 
-	windowHandler := ToAnchoredWindowManagerForTest new builder: [
+	windowManager := ToAnchoredWindowManagerForTest new builder: [
 		                 :anchWin
 		                 :element |  ].
-	windowHandler onInstalledIn: e.
-	win := windowHandler newWindowEvent: nil.
+	e addEventHandler: windowManager.
+	win := windowManager newWindowEvent: nil.
 	self assert: win constraints horizontal resizer isFitContent.
 	self assert: win constraints vertical resizer isFitContent.
 	self assert: win root constraints horizontal resizer isFitContent.

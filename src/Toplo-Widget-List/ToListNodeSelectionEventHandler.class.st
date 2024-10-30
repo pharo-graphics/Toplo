@@ -36,7 +36,7 @@ ToListNodeSelectionEventHandler >> eventsToHandle [
 ToListNodeSelectionEventHandler >> listClickOnNodeEvent: anEvent [
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : #'events handling' }
 ToListNodeSelectionEventHandler >> listClickOnNodeRequestEvent: aListClickOnNodeRequestEvent [
 
 	| node |

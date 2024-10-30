@@ -7,5 +7,5 @@ Class {
 { #category : #sending }
 ToWindowClosedEvent >> sendTo: anObject [
 
-	Error signal: 'Abstract event'
+	anObject windowClosedEvent: self
 ]

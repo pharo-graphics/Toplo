@@ -6,15 +6,6 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Element'
 }
 
-{ #category : #'element handlers' }
-ToListContextMenuSelectionElementEventHandler >> contextMenuClosedEvent: anEvent [
-
-	| target |
-	target := anEvent currentTarget.
-	target enableScrolledEvent.
-	target contextMenuSelecter deselectAll
-]
-
 { #category : #'api - accessing' }
 ToListContextMenuSelectionElementEventHandler >> eventsToHandle [
 
@@ -23,6 +14,15 @@ ToListContextMenuSelectionElementEventHandler >> eventsToHandle [
 		  ToListElementContextMenuRequest.
 		  ToContextMenuClosedEvent.
 		  ToListContextMenuSelectionChangedEvent }
+]
+
+{ #category : #'element handlers' }
+ToListContextMenuSelectionElementEventHandler >> listContextMenuClosedEvent: anEvent [
+
+	| target |
+	target := anEvent currentTarget.
+	target enableScrolledEvent.
+	target contextMenuSelecter deselectAll
 ]
 
 { #category : #'element handlers' }
@@ -38,7 +38,6 @@ ToListContextMenuSelectionElementEventHandler >> listElementContextMenuRequest: 
 	| childNode target nodeContainer globalPosition selectionModel |
 	target := anEvent currentTarget.
 	nodeContainer := target innerElement.
-	target disableScrolledEvent.
 	globalPosition := anEvent sourceEvent position.
 
 	" find de node at the event position "

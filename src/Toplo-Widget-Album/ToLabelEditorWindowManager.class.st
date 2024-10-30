@@ -14,12 +14,6 @@ ToLabelEditorWindowManager >> defaultPositionHook [
 		  @ theLabel editor padding top ]
 ]
 
-{ #category : #accessing }
-ToLabelEditorWindowManager >> elementEventHandlerClass [
-
-	^ ToLabelEditorEventHandler 
-]
-
 { #category : #initialization }
 ToLabelEditorWindowManager >> initialize [
 
@@ -30,6 +24,18 @@ ToLabelEditorWindowManager >> initialize [
 		ed := label newEditor.
 		anchWin root addChild: ed.
 		ed text: label text copy ]
+]
+
+{ #category : #'window opening - closing handlers' }
+ToLabelEditorWindowManager >> labelEditorClosedEvent: anEvent [
+
+	self windowClosedEvent: anEvent
+]
+
+{ #category : #'window opening - closing handlers' }
+ToLabelEditorWindowManager >> labelEditorOpenedEvent: anEvent [
+
+	self windowOpenedEvent: anEvent
 ]
 
 { #category : #accessing }

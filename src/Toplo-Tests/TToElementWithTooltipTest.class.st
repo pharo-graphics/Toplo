@@ -86,8 +86,6 @@ TToElementWithTooltipTest >> testHasTooltip [
 	e := ToElement new.
 	self assert: e hasTooltip not.
 	self should: [e newTooltipWindowEvent: nil] raise: Error.
-	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 eh isKindOf: ToElementWithTooltipEventHandler ]) not.
 	e tooltipContent: ToElement new.
 	self assert: e hasTooltip.
 	^ e
@@ -130,8 +128,6 @@ TToElementWithTooltipTest >> testRemoveTooltip [
 	e := self testTooltip.
 	self assert: e hasTooltip.
 	e removeTooltip.
-	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 eh isKindOf: ToElementWithTooltipEventHandler ]) not.
 	self assert: e currentTooltipWindow isNil.
 	self assert: e hasTooltip not.
 	^ e
@@ -162,8 +158,6 @@ TToElementWithTooltipTest >> testTooltip [
 	self assert: e currentTooltipWindow identicalTo: ttwin.
 	self assert: ttwin root firstChild identicalTo: tt.
 	self assert: ttwin element identicalTo: e.
-	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 eh isKindOf: ToElementWithTooltipEventHandler ]).
 	^ e
 ]
 

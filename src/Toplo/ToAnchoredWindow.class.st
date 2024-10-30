@@ -44,12 +44,6 @@ ToAnchoredWindow >> close [
 ]
 
 { #category : #accessing }
-ToAnchoredWindow >> closedEventClass [
-
-	^ windowManager windowClosedEventClass
-]
-
-{ #category : #accessing }
 ToAnchoredWindow >> defaultElevation [
 
 	^ BlRelativeElevation elevation: (SmallInteger maxVal - 900)
@@ -59,7 +53,7 @@ ToAnchoredWindow >> defaultElevation [
 ToAnchoredWindow >> dispatchClosedEvent [
 
 	| event |
-	event := self closedEventClass new
+	event := windowManager windowClosedEventClass new
 		         windowManager: windowManager;
 		         yourself.
 	self element ifNotNil: [ :e | e dispatchEvent: event copy ].
@@ -67,12 +61,10 @@ ToAnchoredWindow >> dispatchClosedEvent [
 ]
 
 { #category : #'api - displaying' }
-ToAnchoredWindow >> dispatchOpenedEvent: anEvent [
+ToAnchoredWindow >> dispatchOpenedEvent [
 
 	| event |
-	event := self openedEventClass new
-		         windowManager: windowManager;
-		         yourself.
+	event := windowManager windowOpenedEventClass new.
 	self dispatchEvent: event.
 	self element dispatchEvent: event copy
 ]
@@ -109,12 +101,6 @@ ToAnchoredWindow >> open [
 	^ self
 ]
 
-{ #category : #accessing }
-ToAnchoredWindow >> openedEventClass [
-
-	^ windowManager windowOpenedEventClass
-]
-
 { #category : #'api - displaying' }
 ToAnchoredWindow >> popup [
 	
@@ -142,7 +128,7 @@ ToAnchoredWindow >> popupEvent: anEvent [
 			            self localTheme ifNil: [
 				            self localTheme: self element lookupTheme ].
 			            popupTimestamp := self space time now.
-			            self dispatchOpenedEvent: anEvent ].
+			            self dispatchOpenedEvent ].
 		            self toFront.
 		            self checkBeforePopupEvent: anEvent.
 		            openTask := nil ].

@@ -11,20 +11,15 @@ ToOverlayWindowManager >> defaultSizeHook [
 	  theWindow size: theElement measuredWidth @ theElement measuredHeight ]
 ]
 
-{ #category : #accessing }
-ToOverlayWindowManager >> elementEventHandlerClass [
+{ #category : #'event handling' }
+ToOverlayWindowManager >> elementExtentChangedEvent: anEvent [
 
-	^ ToOverlayedEventHandler 
+	super elementExtentChangedEvent: anEvent.
+	self applySizeHookFromEvent: anEvent
 ]
 
-{ #category : #accessing }
-ToOverlayWindowManager >> windowClosedEventClass [
+{ #category : #'api - accessing' }
+ToOverlayWindowManager >> eventsToHandle [
 
-	^ ToOverlayWindowClosedEvent
-]
-
-{ #category : #accessing }
-ToOverlayWindowManager >> windowOpenedEventClass [
-
-	^ ToOverlayWindowOpenedEvent
+	^ super eventsToHandle , { BlElementExtentChangedEvent }
 ]

@@ -140,12 +140,6 @@ ToScriptableSkin >> onLeavedSkinEvent: aValuable [
 ]
 
 { #category : #'event handling' }
-ToScriptableSkin >> onOpenedSkinEvent: aValuable [
-
-	handlerMap at: ToOpenedSkinEvent put: aValuable
-]
-
-{ #category : #'event handling' }
 ToScriptableSkin >> onPressedSkinEvent: aValuable [
 
 	handlerMap at: ToPressedSkinEvent put: aValuable

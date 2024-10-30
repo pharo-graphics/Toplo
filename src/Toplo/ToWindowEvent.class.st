@@ -10,7 +10,7 @@ Class {
 { #category : #accessing }
 ToWindowEvent >> windowManager [
 
-	^ windowManager
+	^ windowManager 
 ]
 
 { #category : #accessing }

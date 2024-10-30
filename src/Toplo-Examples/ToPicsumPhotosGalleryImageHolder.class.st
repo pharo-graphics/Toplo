@@ -66,6 +66,14 @@ ToPicsumPhotosGalleryImageHolder >> terminateLoader [
 ]
 
 { #category : #accessing }
+ToPicsumPhotosGalleryImageHolder >> unbindDataItem [
+
+	self terminateLoader.
+	super unbindDataItem 
+	
+]
+
+{ #category : #accessing }
 ToPicsumPhotosGalleryImageHolder >> urlStringFromNodeSize [
 
 	| s |

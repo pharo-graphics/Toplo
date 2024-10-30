@@ -105,7 +105,7 @@ ToSelectElement >> initialize [
 
 	" for the popup "
 	popupWindowManager := self newPopupWindowManager.
-	popupWindowManager onInstalledIn: self.
+	self addEventHandler: popupWindowManager.
 
 	self iconContainer: self newIconContainer.
 	self innerElement: self newInnerElement.

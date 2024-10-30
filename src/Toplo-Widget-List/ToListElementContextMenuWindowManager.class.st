@@ -4,10 +4,22 @@ Class {
 	#category : #'Toplo-Widget-List-Context-menu'
 }
 
-{ #category : #accessing }
-ToListElementContextMenuWindowManager >> elementEventHandlerClass [ 
+{ #category : #'element handlers' }
+ToListElementContextMenuWindowManager >> listContextMenuClosedEvent: anEvent [
 
-	^ ToListElementWithContextMenuEventHandler
+	self contextMenuClosedEvent: anEvent
+]
+
+{ #category : #'element handlers' }
+ToListElementContextMenuWindowManager >> listContextMenuOpenedEvent: anEvent [
+
+	self contextMenuOpenedEvent: anEvent
+]
+
+{ #category : #'element handlers' }
+ToListElementContextMenuWindowManager >> listElementContextMenuRequest: anEvent [
+
+	self contextMenuRequest: anEvent
 ]
 
 { #category : #'window handling' }
@@ -27,8 +39,38 @@ ToListElementContextMenuWindowManager >> newWindowOpenRequestEventFromSourceEven
 		  yourself
 ]
 
+{ #category : #'window handling' }
+ToListElementContextMenuWindowManager >> onWindowClosed [
+
+	super onWindowClosed.
+	element enableScrolledEvent.
+	element contextMenuSelecter deselectAll
+
+]
+
+{ #category : #'window handling' }
+ToListElementContextMenuWindowManager >> onWindowOpened [ 
+
+	super onWindowOpened.
+	element disableScrolledEvent.
+
+
+]
+
+{ #category : #accessing }
+ToListElementContextMenuWindowManager >> windowClosedEventClass [ 
+
+	^ ToListContextMenuClosedEvent  
+]
+
 { #category : #accessing }
 ToListElementContextMenuWindowManager >> windowOpenRequestClass [
 
 	^ ToListElementContextMenuRequest
+]
+
+{ #category : #accessing }
+ToListElementContextMenuWindowManager >> windowOpenedEventClass [ 
+
+	^ ToListContextMenuOpenedEvent  
 ]

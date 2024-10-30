@@ -48,7 +48,8 @@ ToMenu >> initialize [
 	super initialize.
 	isSubmenu := false.
 	self initializeWithMenuConstraints.
-	windowManager := ToMenuWindowManager new onInstalledIn: self.
+	windowManager := ToMenuWindowManager new.
+	self addEventHandler: windowManager.
 	windowManager builder: [ :menWin :request |
 		request currentTarget items do: [ :it | menWin root addChild: it ] ]
 ]

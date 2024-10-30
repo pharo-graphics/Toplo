@@ -30,13 +30,6 @@ ToRawSkinForTest >> clickedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToRawSkinForTest >> closedSkinEvent: anEvent [
-
-	super closedSkinEvent: anEvent.
-	self addReceivedEvent: anEvent
-]
-
-{ #category : #'event handling' }
 ToRawSkinForTest >> deselectedSkinEvent: anEvent [
 
 	super deselectedSkinEvent: anEvent.
@@ -126,14 +119,6 @@ ToRawSkinForTest >> installSkinEvent: anEvent [
 ToRawSkinForTest >> leavedSkinEvent: anEvent [
 
 	super leavedSkinEvent: anEvent.
-	self addReceivedEvent: anEvent
-
-]
-
-{ #category : #'event handling' }
-ToRawSkinForTest >> openedSkinEvent: anEvent [
-
-	super openedSkinEvent: anEvent.
 	self addReceivedEvent: anEvent
 
 ]

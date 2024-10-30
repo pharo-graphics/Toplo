@@ -182,10 +182,10 @@ ToLabel >> initializeEditorFrameBuilder [
 	self isEditable
 		ifTrue: [
 			frameManager := ToLabelEditorWindowManager new.
-			frameManager onInstalledIn: self ]
+			self addEventHandler: frameManager ]
 		ifFalse: [
 			frameManager ifNil: [ ^ self ].
-			frameManager element: nil.
+			self removeEventHandler: frameManager.
 			frameManager := nil ]
 ]
 

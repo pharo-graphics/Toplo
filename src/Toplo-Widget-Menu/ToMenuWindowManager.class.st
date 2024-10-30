@@ -13,10 +13,16 @@ ToMenuWindowManager >> defaultPositionHook [
 			   ifFalse: [ (theMenu bounds inParent: self anchorRoot) bounds bottomLeft ]) ]
 ]
 
-{ #category : #accessing }
-ToMenuWindowManager >> elementEventHandlerClass [ 
+{ #category : #'event handling' }
+ToMenuWindowManager >> menuWindowClosedEvent: anEvent [
 
-	^ ToMenuWindowEventHandler
+	self windowClosedEvent: anEvent
+]
+
+{ #category : #'event handling' }
+ToMenuWindowManager >> menuWindowOpenedEvent: anEvent [
+
+	self windowOpenedEvent: anEvent
 ]
 
 { #category : #'theme event handling' }

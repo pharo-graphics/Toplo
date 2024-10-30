@@ -16,7 +16,7 @@ ToOverlayWindowManagerTest >> testDefaultSizeHook [
 	e position: 10 asPoint.
 	e size: 10 asPoint.
 	windowManager := ToOverlayWindowManager new.
-	windowManager onInstalledIn: e.
+	e addEventHandler: windowManager.
 	self assert: (windowManager defaultSizeHook isKindOf: BlockClosure).
 	win := windowManager newWindowEvent: nil.
 	win popup.
@@ -37,14 +37,34 @@ ToOverlayWindowManagerTest >> testElementEventHandlerClass [
 	windowManager := ToOverlayWindowManager new builder: [
 		                 :anchWin
 		                 :element |  ].
-	windowManager onInstalledIn: e.
+	e addEventHandler: windowManager.
 	win := windowManager newWindowEvent: nil.
 	win popup.
 	self waitTestingSpaces.
 	self assert: win element equals: e.
 	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 eh isKindOf: ToOverlayedEventHandler ]).
+			 eh isKindOf: ToOverlayWindowManager ]).
 	win close.
 	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 eh isKindOf: ToOverlayedEventHandler ])
+			 eh isKindOf: ToOverlayWindowManager ])
+]
+
+{ #category : #tests }
+ToOverlayWindowManagerTest >> testElementExtentChangedEvent [
+
+	| e windowManager win |
+	e := ToElement new.
+	space root addChild: e.
+	e position: 10 asPoint.
+	e size: 10 asPoint.
+	windowManager := ToOverlayWindowManager new.
+	e addEventHandler: windowManager.
+	self assert: (windowManager defaultSizeHook isKindOf: BlockClosure).
+	win := windowManager newWindowEvent: nil.
+	win popup.
+	self waitTestingSpaces.
+	self assert: win bounds inSpace extent equals: 10 asPoint.
+	e size: 100 asPoint.
+	self waitTestingSpaces.
+	self assert: win bounds inSpace extent equals: 100 asPoint
 ]

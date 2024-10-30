@@ -130,9 +130,3 @@ ToBasicWindowElement >> toFront [
 	self elevation: self defaultElevation.
 	self root elevation: self defaultElevation
 ]
-
-{ #category : #'api - compositing' }
-ToBasicWindowElement >> wantsSeparateCompositingLayer [
-
-	^ true
-]

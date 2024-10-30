@@ -10,14 +10,6 @@ ToTooltipWindow >> defaultElevation [
 	^ BlRelativeElevation elevation: (SmallInteger maxVal - 300)
 ]
 
-{ #category : #initialization }
-ToTooltipWindow >> initialize [
-
-	super initialize.
-	self fitContent.
-	self addEventHandler: ToTooltipWindowEventHandler new
-]
-
 { #category : #skin }
 ToTooltipWindow >> installRawStyle [
 

@@ -18,12 +18,6 @@ ToTooltipWindowManager >> defaultPositionHook [
 		  @ ((theElement localPointToGlobal: 0 @ theElement height) y + 5 ) ]
 ]
 
-{ #category : #accessing }
-ToTooltipWindowManager >> elementEventHandlerClass [
-
-	^ ToElementWithTooltipEventHandler 
-]
-
 { #category : #initialization }
 ToTooltipWindowManager >> initialize [
 
@@ -33,6 +27,18 @@ ToTooltipWindowManager >> initialize [
 	closeOnMouseLeave := true.
 	popupOnMouseDown := false.
 	closeOnMouseDown := true
+]
+
+{ #category : #'event handling' }
+ToTooltipWindowManager >> tooltipWindowClosedEvent: anEvent [
+
+	self windowClosedEvent: anEvent
+]
+
+{ #category : #'event handling' }
+ToTooltipWindowManager >> tooltipWindowOpenedEvent: anEvent [
+
+	self windowOpenedEvent: anEvent
 ]
 
 { #category : #accessing }

@@ -19,8 +19,7 @@ ToQueueBasedCommandApplicationStrategy >> addCommand: aCommand [
 			^ self ] ].
 
 	commandQueue add: aCommand.
-	self postApplicationTask.
-	element spaceDo: [ :sp | sp requestNextPulse ]
+	self postApplicationTask
 ]
 
 { #category : #accessing }

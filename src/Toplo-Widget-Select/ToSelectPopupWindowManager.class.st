@@ -14,12 +14,6 @@ ToSelectPopupWindowManager >> defaultAutoCloseOnMouseUpDelay [
 	^ nil
 ]
 
-{ #category : #initialization }
-ToSelectPopupWindowManager >> defaultAutoClosePickOutsideEventClass [
-
-	^ BlMouseUpOutsideEvent
-]
-
 { #category : #'api - hooks' }
 ToSelectPopupWindowManager >> defaultListElementEventHandler [ 
 

@@ -3,7 +3,6 @@ Class {
 	#superclass : #ToAnchoredWindowManager,
 	#instVars : [
 		'autoCloseOnMouseUpDelay',
-		'autoClosePickOutsideEventClass',
 		'mouseButton',
 		'popupDelay',
 		'popupOnMouseEnter',
@@ -25,18 +24,6 @@ ToPopupWindowManager >> autoCloseOnMouseUpDelay [
 ToPopupWindowManager >> autoCloseOnMouseUpDelay: aDelay [
 
 	autoCloseOnMouseUpDelay := aDelay ifNotNil: [:d| d asDuration ]
-]
-
-{ #category : #accessing }
-ToPopupWindowManager >> autoClosePickOutsideEventClass [
-
-	^ autoClosePickOutsideEventClass
-]
-
-{ #category : #accessing }
-ToPopupWindowManager >> autoClosePickOutsideEventClass: anEventClass [
-
-	autoClosePickOutsideEventClass := anEventClass
 ]
 
 { #category : #accessing }
@@ -73,12 +60,6 @@ ToPopupWindowManager >> contextMenuRequest: anEvent [
 ToPopupWindowManager >> defaultAutoCloseOnMouseUpDelay [
 
 	^ 300 milliSeconds
-]
-
-{ #category : #initialization }
-ToPopupWindowManager >> defaultAutoClosePickOutsideEventClass [
-
-	^ BlMouseUpOutsideEvent
 ]
 
 { #category : #accessing }
@@ -119,7 +100,7 @@ ToPopupWindowManager >> eventsToHandle [
 		  BlMouseDownEvent.
 		  BlMouseEnterEvent.
 		  BlMouseLeaveEvent.
-		  self autoClosePickOutsideEventClass }
+		  BlMouseUpOutsideEvent }
 ]
 
 { #category : #initialization }
@@ -127,7 +108,6 @@ ToPopupWindowManager >> initialize [
 
 	super initialize.
 	self usePrimaryMouseButton .
-	self autoClosePickOutsideEventClass: self defaultAutoClosePickOutsideEventClass.
 	popupDelay := self defaultPopupDelay.
  	autoCloseOnMouseUpDelay := self defaultAutoCloseOnMouseUpDelay.
 	popupOnMouseEnter := false.

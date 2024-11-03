@@ -17,7 +17,7 @@ ToSelectPopupWindowManager >> defaultAutoCloseOnMouseUpDelay [
 { #category : #initialization }
 ToSelectPopupWindowManager >> defaultAutoClosePickOutsideEventClass [
 
-	^ BlMouseDownOutsideEvent
+	^ BlMouseUpOutsideEvent
 ]
 
 { #category : #'api - hooks' }
@@ -88,13 +88,6 @@ ToSelectPopupWindowManager >> minHeight [
 ToSelectPopupWindowManager >> minHeight: aNumber [
 
 	listElement minHeight: aNumber
-]
-
-{ #category : #'event handling' }
-ToSelectPopupWindowManager >> mouseDownInElementEvent: anEvent [
-
-	super mouseDownInElementEvent: anEvent.
-	element filterTextField requestFocus
 ]
 
 { #category : #initialization }

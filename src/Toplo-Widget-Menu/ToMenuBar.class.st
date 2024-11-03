@@ -4,6 +4,7 @@ Class {
 	#traits : 'TToOrientable',
 	#classTraits : 'TToOrientable classTrait',
 	#instVars : [
+		'autoOpen',
 		'menus'
 	],
 	#category : #'Toplo-Widget-Menu-Bar'
@@ -55,11 +56,24 @@ ToMenuBar >> addSeparator [
 	sep horizontal: self isHorizontal not
 ]
 
-{ #category : #initialize }
+{ #category : #accessing }
+ToMenuBar >> autoOpen [
+
+	^ autoOpen
+]
+
+{ #category : #accessing }
+ToMenuBar >> autoOpen: anObject [
+
+	autoOpen := anObject
+]
+
+{ #category : #initialization }
 ToMenuBar >> initialize [
 
 	super initialize.
 
+	autoOpen := false.
 	self layout: BlLinearLayout new.
 	self layout cellSpacing: 5.
 	self background: Color transparent.
@@ -70,7 +84,8 @@ ToMenuBar >> initialize [
 			 on: ToLayoutOrientationChangedEvent
 			 do: [ self adaptToOrientation ]).
 	menus := OrderedCollection new.
-	self addEventFilter: ToMenuBarEventHandler new
+	self addEventFilter: ToMenuBarEventFilter new.
+	self addEventHandler: ToMenuBarEventHandler new
 ]
 
 { #category : #'t - orientable - accessing' }

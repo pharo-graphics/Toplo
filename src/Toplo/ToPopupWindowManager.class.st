@@ -155,24 +155,6 @@ ToPopupWindowManager >> mouseDownEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToPopupWindowManager >> mouseDownInElementEvent: anEvent [
-
-	builder ifNil: [ ^ self ].
-	closeOnMouseDown ifTrue: [ self unqueuePopupTaskIn: element ].
-	anEvent button = mouseButton ifFalse: [ ^ self ].
-	currentWindow ifNotNil: [
-		closeOnMouseDown ifTrue: [
-			currentWindow isOpened ifTrue: [ currentWindow close ].
-			^ self ] ].
-	popupOnMouseDown ifFalse: [ ^ self ].
-	currentWindow ifNotNil: [ ^ self ].
-
-	self enqueuePopupTaskFromEvent: anEvent.
-	" currentWindow can be nil in case the element is disabled "
-
-]
-
-{ #category : #'event handling' }
 ToPopupWindowManager >> mouseDownOutsideEvent: anEvent [
 
 	self pickOutsideEvent: anEvent
@@ -188,25 +170,7 @@ ToPopupWindowManager >> mouseEnterEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToPopupWindowManager >> mouseEnterInElementEvent: anEvent [
-
-	popupOnMouseEnter ifFalse: [ ^ self ].
-	self unqueuePopupTaskIn: anEvent currentTarget.
-	anEvent anyButtonPressed ifTrue: [ ^ self ].
-	self enqueuePopupTaskFromEvent: anEvent
-]
-
-{ #category : #'event handling' }
 ToPopupWindowManager >> mouseLeaveEvent: anEvent [
-
-	self unqueuePopupTaskIn: anEvent currentTarget.
-	closeOnMouseLeave ifFalse: [ ^ self ].
-	self closeWindow
-
-]
-
-{ #category : #'event handling' }
-ToPopupWindowManager >> mouseLeaveInElementEvent: anEvent [
 
 	self unqueuePopupTaskIn: anEvent currentTarget.
 	closeOnMouseLeave ifFalse: [ ^ self ].
@@ -229,23 +193,6 @@ ToPopupWindowManager >> mouseUpEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToPopupWindowManager >> mouseUpInElementEvent: anEvent [
-
-	| delay maxDelay |
-
-	currentWindow ifNil: [ ^ self ].
-	currentWindow popupTimestamp ifNil: [ ^ self ].
-	maxDelay := self autoCloseOnMouseUpDelay.
-	" maxDelay if nil -> no auto closing here "
-	maxDelay ifNil: [ ^ self ].
-	" check a minimal delay between opening and closing.
-		The mouse up can occur immediately after the window opening -> don't close the popup window.
-		After a given delay between down and up, the popup window is closed "
-	delay := anEvent timestamp - currentWindow popupTimestamp.
-	delay > maxDelay ifTrue: [ currentWindow close ]
-]
-
-{ #category : #'event handling' }
 ToPopupWindowManager >> mouseUpOutsideEvent: anEvent [
 
 	self pickOutsideEvent: anEvent
@@ -256,23 +203,6 @@ ToPopupWindowManager >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	anElement allowMousePickOutsideEvent.
-]
-
-{ #category : #'event handling' }
-ToPopupWindowManager >> pickOutsideElementEvent: anEvent [
-	" 
-	if the original event target is the element with popup or
-	if the original event target is the popup window then do nothing
-	"
-
-	anEvent originalEvent target ifNotNil: [ :originalTarget |
-		(originalTarget hasInParentChain: element) ifTrue: [ ^ self ].
-		self currentWindowDo: [ :w |
-			(originalTarget hasInParentChain: w) ifTrue: [ ^ self ] ] ].
-
-	" ok, mouseUp outside the element and outside of the popup window "
-	anEvent consume.
-	self currentWindowDo: [ :w | w close ]
 ]
 
 { #category : #'event handling' }

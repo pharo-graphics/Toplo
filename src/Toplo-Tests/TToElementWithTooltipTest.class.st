@@ -68,10 +68,8 @@ TToElementWithTooltipTest >> testHasOpenedTooltip [
 	| e |
 	e := ToElement new.
 	e tooltipContent: ToElement new.
-	self assert: e hasOpenedTooltip not.
 	self assert: e currentTooltipWindow isNil.
 	e newTooltipWindowEvent: nil.
-	self assert: e hasOpenedTooltip.
 	self assert: e currentTooltipWindow notNil.
 	self
 		assert: e currentTooltipWindow class

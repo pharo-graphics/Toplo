@@ -218,17 +218,14 @@ ToPopupWindowManager >> mouseLeaveInElementEvent: anEvent [
 ToPopupWindowManager >> mouseUpEvent: anEvent [
 
 	| delay maxDelay |
-
 	currentWindow ifNil: [ ^ self ].
 	currentWindow popupTimestamp ifNil: [ ^ self ].
 	maxDelay := self autoCloseOnMouseUpDelay.
-	" maxDelay if nil -> no auto closing here "
 	maxDelay ifNil: [ ^ self ].
-	" check a minimal delay between opening and closing.
-		The mouse up can occur immediately after the window opening -> don't close the popup window.
-		After a given delay between down and up, the popup window is closed "
 	delay := anEvent timestamp - currentWindow popupTimestamp.
-	delay > maxDelay ifTrue: [ currentWindow close ]
+	delay > maxDelay ifFalse: [ ^ self ].
+	anEvent consume.
+	currentWindow close
 ]
 
 { #category : #'event handling' }
@@ -291,8 +288,10 @@ ToPopupWindowManager >> pickOutsideEvent: anEvent [
 			(originalTarget hasInParentChain: w) ifTrue: [ ^ self ] ] ].
 
 	" ok, mouseUp outside the element and outside of the popup window "
-	anEvent consume.
-	self currentWindowDo: [ :w | w close ]
+
+	self currentWindowDo: [ :w |
+		anEvent consume.
+		w close ]
 ]
 
 { #category : #accessing }

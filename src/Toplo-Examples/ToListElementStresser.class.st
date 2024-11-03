@@ -66,6 +66,16 @@ ToListElementStresser >> _actionHiddenIndexesIn: aList [
 ]
 
 { #category : #actions }
+ToListElementStresser >> _actionReplaceAllIn: aList [
+
+	| size |
+	size := self nextSizeForListNumber: 0.
+	aList dataAccessor removeAll.
+	aList dataAccessor addAll:
+		((1 to: size) collect: [ :i | 'Hello ' , i asString ])
+]
+
+{ #category : #actions }
 ToListElementStresser >> _actionUnhiddenAllIn: aList [
 
 	aList hiddenSelecter deselectAll
@@ -87,6 +97,15 @@ ToListElementStresser >> actionAddAfterIndexIn: aList [
 	aList dataAccessor
 		add: 'Goodbye ' , self nextCounter asString
 		afterIndex: (self randIndexIn: aList)
+]
+
+{ #category : #actions }
+ToListElementStresser >> actionAddAllIn: aList [
+
+	| size |
+	size := self nextSizeForListNumber: 0.
+	aList dataAccessor addAll:
+		((1 to: size) collect: [ :i | 'Hello ' , i asString ])
 ]
 
 { #category : #actions }
@@ -123,6 +142,12 @@ ToListElementStresser >> actionDeselectIndexesIn: aList [
 	nb isZero ifTrue: [ ^ self ].
 	selected := (1 to: nb) collect: [ :i | self randIndexIn: aList ].
 	aList selecter deselectIndexes: selected
+]
+
+{ #category : #actions }
+ToListElementStresser >> actionRemoveAllIn: aList [
+
+	aList dataAccessor removeAll
 ]
 
 { #category : #actions }

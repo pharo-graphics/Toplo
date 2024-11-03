@@ -95,7 +95,7 @@ ToExShapeContainerManager >> startRemoveProcess [
 	process := [
 	           [ shapeContainer shapes isEmpty ] whileTrue: [
 		           Delay forMilliseconds: 300 ].
-	           self inform: 'Remove process started'.
+	           'Remove process started' traceCr.
 	           [ shapeContainer shapes size < 2 ] whileFalse: [
 		           | indexes |
 		           indexes := Array streamContents: [ :stream |
@@ -109,7 +109,7 @@ ToExShapeContainerManager >> startRemoveProcess [
 				            indexes: indexes;
 				            yourself).
 		           (Delay forMilliseconds: 50) wait ].
-	           self inform: 'Remove process finished' ] newProcess.
+	           'Remove process finished' traceCr] newProcess.
 	self startProcess: process
 ]
 
@@ -120,13 +120,13 @@ ToExShapeContainerManager >> startShuffleProcess [
 	process := [
 	           | round |
 	           round := 0.
-	           self inform: 'Shuffle process started'.
+	           'Shuffle process started' traceCr.
 	           [ round < 100 and: [ shapeContainer shapes size > 2 ] ]
 		           whileTrue: [
 			           round := round + 1.
 			           self addCommand: ToExShapeShuffleCommand new.
 			           (Delay forMilliseconds: 300) wait ].
-	           self inform: 'Shuffle process finished' ] newProcess.
+	           'Shuffle process finished' traceCr] newProcess.
 	self startProcess: process
 ]
 
@@ -137,7 +137,7 @@ ToExShapeContainerManager >> startSortProcess [
 	process := [
 	           | round |
 	           round := 0.
-	           self inform: 'Sort process started'.
+	           'Sort process started' traceCr.
 	           [ round < 200 and: [ shapeContainer shapes size > 2 ] ]
 		           whileTrue: [
 			           round := round + 1.
@@ -152,7 +152,7 @@ ToExShapeContainerManager >> startSortProcess [
 							            yourself) ].
 
 			           (Delay forMilliseconds: 100) wait ].
-	           self inform: 'Sort process finished' ] newProcess.
+	           'Sort process finished' traceCr] newProcess.
 	self startProcess: process
 ]
 

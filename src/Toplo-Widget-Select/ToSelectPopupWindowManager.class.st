@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #initialization }
-ToSelectPopupWindowManager >> defaultAutoCloseOnMouseUpDelay [
+ToSelectPopupWindowManager >> defaultAutoCloseDelay [
 
 	^ nil
 ]

@@ -15,13 +15,13 @@ Class {
 }
 
 { #category : #accessing }
-ToPopupWindowManager >> autoCloseOnMouseUpDelay [
+ToPopupWindowManager >> autoCloseDelay [
 
 	^ autoCloseOnMouseUpDelay
 ]
 
 { #category : #accessing }
-ToPopupWindowManager >> autoCloseOnMouseUpDelay: aDelay [
+ToPopupWindowManager >> autoCloseDelay: aDelay [
 
 	autoCloseOnMouseUpDelay := aDelay ifNotNil: [:d| d asDuration ]
 ]
@@ -57,7 +57,7 @@ ToPopupWindowManager >> contextMenuRequest: anEvent [
 ]
 
 { #category : #initialization }
-ToPopupWindowManager >> defaultAutoCloseOnMouseUpDelay [
+ToPopupWindowManager >> defaultAutoCloseDelay [
 
 	^ 300 milliSeconds
 ]
@@ -109,7 +109,7 @@ ToPopupWindowManager >> initialize [
 	super initialize.
 	self usePrimaryMouseButton .
 	popupDelay := self defaultPopupDelay.
- 	autoCloseOnMouseUpDelay := self defaultAutoCloseOnMouseUpDelay.
+ 	autoCloseOnMouseUpDelay := self defaultAutoCloseDelay.
 	popupOnMouseEnter := false.
 	closeOnMouseLeave := false.
 	popupOnMouseDown := true.
@@ -164,7 +164,7 @@ ToPopupWindowManager >> mouseUpEvent: anEvent [
 	| delay maxDelay |
 	currentWindow ifNil: [ ^ self ].
 	currentWindow popupTimestamp ifNil: [ ^ self ].
-	maxDelay := self autoCloseOnMouseUpDelay.
+	maxDelay := self autoCloseDelay.
 	maxDelay ifNil: [ ^ self ].
 	delay := anEvent timestamp - currentWindow popupTimestamp.
 	delay > maxDelay ifFalse: [ ^ self ].
@@ -198,9 +198,8 @@ ToPopupWindowManager >> pickOutsideEvent: anEvent [
 			(originalTarget hasInParentChain: w) ifTrue: [ ^ self ] ] ].
 
 	" ok, mouseUp outside the element and outside of the popup window "
-
 	self currentWindowDo: [ :w |
-		anEvent consume.
+		"anEvent consume."
 		w close ]
 ]
 

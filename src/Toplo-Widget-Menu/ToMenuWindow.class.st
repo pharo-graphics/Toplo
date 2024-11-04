@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMenuWindow,
-	#superclass : #ToAnchoredWindow,
+	#superclass : #ToPopupWindow,
 	#instVars : [
 		'openedSubmenuWindow'
 	],

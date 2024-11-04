@@ -178,13 +178,6 @@ ToPopupWindowManager >> mouseUpOutsideEvent: anEvent [
 	self pickOutsideEvent: anEvent
 ]
 
-{ #category : #'api - hooks' }
-ToPopupWindowManager >> onInstalledIn: anElement [
-
-	super onInstalledIn: anElement.
-	anElement allowMousePickOutsideEvent.
-]
-
 { #category : #'event handling' }
 ToPopupWindowManager >> pickOutsideEvent: anEvent [
 	" 

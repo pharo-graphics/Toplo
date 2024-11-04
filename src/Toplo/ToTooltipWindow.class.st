@@ -1,6 +1,6 @@
 Class {
 	#name : #ToTooltipWindow,
-	#superclass : #ToAnchoredWindow,
+	#superclass : #ToPopupWindow,
 	#category : #'Toplo-Core-Tooltip'
 }
 

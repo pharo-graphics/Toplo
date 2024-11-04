@@ -257,3 +257,9 @@ ToPopupWindowManager >> useSecondaryMouseButton [
 
 	mouseButton := BlMouseButton secondary
 ]
+
+{ #category : #accessing }
+ToPopupWindowManager >> windowClass [
+
+	^ ToPopupWindow 
+]

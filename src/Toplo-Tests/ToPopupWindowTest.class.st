@@ -92,6 +92,7 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownDelayUp2 [
 	self waitTestingSpaces.
 	self assert: windowManager currentWindow notNil.
 	self assert: windowManager currentWindow isOpened.
+	self assert: e shouldHandleMousePickOutsideEvent.
 	(windowManager autoCloseDelay + 1 milliSecond) wait.
 	BlSpace simulateMouseUpOn: e.
 	self waitTestingSpaces.
@@ -103,7 +104,7 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownDelayUp2 [
 ToPopupWindowTest >> testPopupOpenCloseWithMouseDownOutside [
 
 	| e windowManager closed |
-	e := e := ToElement new
+	e := ToElement new
 		          background: Color red;
 		          size: 100 @ 40;
 		          position: 50 @ 50.
@@ -121,6 +122,7 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownOutside [
 	BlSpace simulateMouseUpOn: e.
 	self waitTestingSpaces.
 	self assert: windowManager currentWindow isOpened.
+	self assert: e shouldHandleMousePickOutsideEvent.
 
 	closed := false.
 	windowManager currentWindow addEventHandler: (BlEventHandler

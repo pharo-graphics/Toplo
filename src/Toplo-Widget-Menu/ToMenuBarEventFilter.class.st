@@ -49,17 +49,6 @@ ToMenuBarEventFilter >> mouseOverEvent: anEvent [
 			ifFalse: [ m closeWindow ] ]
 ]
 
-{ #category : #'as yet unclassified' }
-ToMenuBarEventFilter >> mouseUpOutsideEvent: anEvent [
-
-	target autoOpen ifFalse: [ ^ self ].
-	anEvent originalEvent target ifNil: [ ^ self ].
-	(anEvent originalEvent target hasInParentChain: target)
-		ifTrue: [ ^ self ].
-	anEvent consume.
-	target autoOpen: false
-]
-
 { #category : #'api - hooks' }
 ToMenuBarEventFilter >> onInstalledIn: anElement [
 

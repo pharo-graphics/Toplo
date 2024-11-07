@@ -60,10 +60,6 @@ ToTagNodeManager >> defaultNodeBuilder [
 		         hMatchParent.
 	  tag removable: holder withCloseButton.
 	  node addChild: tag.
-	  tag removeButton ifNotNil: [ :btn | 
-		  tag
-			  addEventHandlerOn: BlElementRemovedFromParentEvent
-			  do: [ node removeFromBar ] ].
 	  tag constraintsDo: [ :c | c linear vertical alignCenter ] ]
 ]
 

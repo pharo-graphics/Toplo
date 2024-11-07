@@ -11,7 +11,6 @@ Class {
 ToTagNode >> initialize [
 
 	super initialize.
-	self applySkinInstallerOnFirstRequest: true.
 	removable := true
 ]
 

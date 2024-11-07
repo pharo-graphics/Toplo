@@ -12,13 +12,6 @@ ToBarNode >> clickEventHandlerClasses [
 	^  { ToListNodeMultiSelectionClickEventHandler } 
 ]
 
-{ #category : #initialization }
-ToBarNode >> initialize [ 
-
-	super initialize.
-	self initializeForToplo 
-]
-
 { #category : #skin }
 ToBarNode >> newRawSkin [ 
 

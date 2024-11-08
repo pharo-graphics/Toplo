@@ -34,8 +34,7 @@ ToGeneralButton >> initialize [
 
 	super initialize.
 	self addEventHandler: ToClickableFocusEventHandler new.
-	takeFocusOnClick := true.
-	self allowMousePickOutsideEvent
+	takeFocusOnClick := true
 ]
 
 { #category : #skin }

@@ -2,8 +2,8 @@ Class {
 	#name : #ToPopupPickOutsideEventFilter,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
-		'popupWindowManager',
-		'upCount'
+		'upCount',
+		'windowManager'
 	],
 	#category : #'Toplo-Core-Window'
 }
@@ -11,7 +11,7 @@ Class {
 { #category : #accessing }
 ToPopupPickOutsideEventFilter >> element [
 
-	^ popupWindowManager element
+	^ windowManager element
 
 ]
 
@@ -29,7 +29,7 @@ ToPopupPickOutsideEventFilter >> mouseUpEvent: anEvent [
 	"
 
 	| target |
-	popupWindowManager popupOnMouseDown ifTrue: [
+	windowManager popupOnMouseDown ifTrue: [
 		upCount isZero ifTrue: [
 			upCount := upCount + 1.
 			^ self ] ].
@@ -53,12 +53,12 @@ ToPopupPickOutsideEventFilter >> onInstalledIn: anElement [
 { #category : #accessing }
 ToPopupPickOutsideEventFilter >> popupWindow [
 
-	^ popupWindowManager currentWindow
+	^ windowManager currentWindow
 
 ]
 
 { #category : #accessing }
-ToPopupPickOutsideEventFilter >> popupWindowManager: anObject [
+ToPopupPickOutsideEventFilter >> windowManager: aPopupWindowManager [
 
-	popupWindowManager := anObject
+	windowManager := aPopupWindowManager
 ]

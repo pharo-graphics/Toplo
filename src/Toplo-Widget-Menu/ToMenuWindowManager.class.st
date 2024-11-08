@@ -13,16 +13,25 @@ ToMenuWindowManager >> defaultPositionHook [
 			   ifFalse: [ (theMenu bounds inParent: self anchorRoot) bounds bottomLeft ]) ]
 ]
 
+{ #category : #initialization }
+ToMenuWindowManager >> initialize [ 
+
+	super initialize.
+	popupOnMouseEnter := true.
+	closeOnMouseLeave := false.
+
+]
+
 { #category : #'event handling' }
 ToMenuWindowManager >> menuWindowClosedEvent: anEvent [
 
-	self windowClosedEvent: anEvent
+	self popupWindowClosedEvent: anEvent
 ]
 
 { #category : #'event handling' }
 ToMenuWindowManager >> menuWindowOpenedEvent: anEvent [
 
-	self windowOpenedEvent: anEvent
+	self popupWindowOpenedEvent: anEvent
 ]
 
 { #category : #'theme event handling' }

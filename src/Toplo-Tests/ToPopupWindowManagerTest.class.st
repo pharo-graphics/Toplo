@@ -361,8 +361,7 @@ ToPopupWindowManagerTest >> testOnInstalledIn [
 	| e windowManager  |
 	e := ToElement new.
 	windowManager := ToPopupWindowManager new.
-	e addEventHandler: windowManager.
-	self deny: e shouldHandleMousePickOutsideEvent
+	e addEventHandler: windowManager
 ]
 
 { #category : #tests }

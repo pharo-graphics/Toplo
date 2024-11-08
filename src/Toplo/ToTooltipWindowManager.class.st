@@ -32,13 +32,13 @@ ToTooltipWindowManager >> initialize [
 { #category : #'event handling' }
 ToTooltipWindowManager >> tooltipWindowClosedEvent: anEvent [
 
-	self windowClosedEvent: anEvent
+	self popupWindowClosedEvent: anEvent
 ]
 
 { #category : #'event handling' }
 ToTooltipWindowManager >> tooltipWindowOpenedEvent: anEvent [
 
-	self windowOpenedEvent: anEvent
+	self popupWindowOpenedEvent: anEvent
 ]
 
 { #category : #accessing }

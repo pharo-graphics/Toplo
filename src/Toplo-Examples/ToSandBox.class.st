@@ -3408,24 +3408,22 @@ ToSandBox class >> example_menuBar1 [
 	win width: 600.
 
 	bar := ToMenuBar new
-		hMatchParent;
-		vFitContent;
-		yourself.
+		       hMatchParent;
+		       vFitContent;
+		       yourself.
 
-	bar addMenu: (fileMenu := ToMenu new
-			 labelText: 'File').
-	fileMenu addItem: (ToMenuItem new labelText: 'Open'; yourself).
+	bar addMenu: (fileMenu := ToMenu new labelText: 'File').
+	fileMenu addItem: (ToMenuItem new
+			 labelText: 'Open';
+			 whenClickedDo: [ :event | event traceCr ]).
 	fileMenu padding: (BlInsets all: 10).
 
 	bar addFiller.
-	bar addMenu:
-		(ToMenu new
-			labelText: 'Help';
-			tooltipString: 'help stuffs';
-			yourself).
-	bar
-		addEventHandlerOn: BlMouseDownEvent
-		do: [ :event | event target traceCr ].
+	bar addMenu: (ToMenu new
+			 labelText: 'Help';
+			 tooltipString: 'help stuffs';
+			 yourself).
+
 	bar border: (BlBorder paint: Color red).
 
 	win pane addChild: bar.
@@ -3471,7 +3469,7 @@ ToSandBox class >> example_menuBar2 [
 				subMenu addItem:
 					((ToMenuItem new labelText: stream) addEventHandler:
 						 (BlEventHandler
-							  on: BlPrimaryMouseUpEvent
+							  on: BlPrimaryClickEvent
 							  do: [ :event | self inform: selector asSymbol ])) ].
 			menu addItem: subMenu ].
 

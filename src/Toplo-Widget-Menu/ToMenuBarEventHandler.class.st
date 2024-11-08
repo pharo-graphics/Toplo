@@ -28,8 +28,7 @@ ToMenuBarEventHandler >> mouseDownOutsideEvent: anEvent [
 ToMenuBarEventHandler >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	target := anElement.
-	anElement allowMousePickOutsideEvent 
+	target := anElement
 ]
 
 { #category : #'api - hooks' }

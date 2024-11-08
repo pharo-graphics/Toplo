@@ -10,7 +10,7 @@ Class {
 { #category : #'api - accessing' }
 ToMenuBarEventFilter >> eventsToHandle [
 
-	^ { BlMouseDownEvent. BlMouseOverEvent }
+	^ { "BlMouseDownEvent." BlMouseOverEvent }
 ]
 
 { #category : #'as yet unclassified' }

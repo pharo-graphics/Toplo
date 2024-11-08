@@ -127,7 +127,7 @@ ToPopupWindowManager >> initialize [
 ToPopupWindowManager >> installPickOutsideFilter [
 
 	pickOutsideFilter ifNotNil: [ ^ self ].
-	pickOutsideFilter := ToPopupPickOutsideEventFilter new popupWindowManager: self.
+	pickOutsideFilter := ToPopupPickOutsideEventFilter new windowManager: self.
 	element space root addEventFilter: pickOutsideFilter.
 ]
 
@@ -148,12 +148,6 @@ ToPopupWindowManager >> mouseDownEvent: anEvent [
 	anEvent consume
 	" currentWindow can be nil in case the element is disabled "
 
-]
-
-{ #category : #'event handling' }
-ToPopupWindowManager >> mouseDownOutsideEvent: anEvent [
-
-	self pickOutsideEvent: anEvent
 ]
 
 { #category : #'event handling' }
@@ -186,30 +180,6 @@ ToPopupWindowManager >> mouseUpEvent: anEvent [
 	delay > maxDelay ifFalse: [ ^ self ].
 	anEvent consume.
 	currentWindow close
-]
-
-{ #category : #'event handling' }
-ToPopupWindowManager >> mouseUpOutsideEvent: anEvent [
-
-	self pickOutsideEvent: anEvent
-]
-
-{ #category : #'event handling' }
-ToPopupWindowManager >> pickOutsideEvent: anEvent [
-	" 
-	if the original event target is the element with popup or
-	if the original event target is the popup window then do nothing
-	"
-
-	"anEvent originalEvent target ifNotNil: [ :originalTarget |
-		(originalTarget hasInParentChain: element) ifTrue: [ ^ self ].
-		self currentWindowDo: [ :w |
-			(originalTarget hasInParentChain: w) ifTrue: [ ^ self ] ] ]."
-
-	" ok, mouseUp outside the element and outside of the popup window "
-	"self currentWindowDo: [ :w |"
-		"anEvent consume."
-		"w close ]"
 ]
 
 { #category : #accessing }
@@ -245,13 +215,15 @@ ToPopupWindowManager >> popupOnMouseEnter: aBoolean [
 { #category : #'event handling' }
 ToPopupWindowManager >> popupWindowClosedEvent: anEvent [
 
+	self uninstallPickOutsideFilter.
 	self windowClosedEvent: anEvent
 ]
 
 { #category : #'event handling' }
 ToPopupWindowManager >> popupWindowOpenedEvent: anEvent [
 
-	self windowOpenedEvent: anEvent
+	self windowOpenedEvent: anEvent.
+	self installPickOutsideFilter 
 ]
 
 { #category : #'window handling' }
@@ -296,17 +268,14 @@ ToPopupWindowManager >> windowClass [
 	^ ToPopupWindow 
 ]
 
-{ #category : #'event handling' }
-ToPopupWindowManager >> windowClosedEvent: anEvent [
+{ #category : #accessing }
+ToPopupWindowManager >> windowClosedEventClass [
 
-	self uninstallPickOutsideFilter.
-	super windowClosedEvent: anEvent
-	
+	^ ToPopupWindowClosedEvent
 ]
 
-{ #category : #'event handling' }
-ToPopupWindowManager >> windowOpenedEvent: anEvent [
+{ #category : #accessing }
+ToPopupWindowManager >> windowOpenedEventClass [
 
-	super windowOpenedEvent: anEvent.
-	self installPickOutsideFilter 
+	^ ToPopupWindowOpenedEvent
 ]

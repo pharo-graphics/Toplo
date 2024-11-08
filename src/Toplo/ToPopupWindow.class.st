@@ -7,13 +7,12 @@ Class {
 { #category : #'api - displaying' }
 ToPopupWindow >> close [ 
 
-	windowManager element preventMousePickOutsideEvent.
 	super close
 ]
 
 { #category : #'api - displaying' }
 ToPopupWindow >> popupEvent: anEvent [
 
-	windowManager element allowMousePickOutsideEvent.
-	^ super popupEvent: anEvent
+	super popupEvent: anEvent
+
 ]

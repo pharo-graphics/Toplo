@@ -26,9 +26,9 @@ ToListClassNodeExamplePart >> forClassNameAssoc: aClassNameAssoc [
 		text: aClassNameAssoc value;
 		beEditable.
 	self
-		stillPressedStartDelay: 400 milliSeconds;
+		stillPressedStartDelay: 800 milliSeconds;
 		addEventHandler: (BlEventHandler
-				 on: ToStillPressedSkinEvent
+				 on: ToStartStillPressedSkinEvent
 				 do: [ :event |
 					 event consume.
 					 event currentTarget label addEditorEvent: event ]);

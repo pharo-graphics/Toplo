@@ -42,6 +42,7 @@ ToStillPressedPickOutsideEventFilter >> mouseUpEvent: anEvent [
 	(anEvent target hasInParentChain: element) ifTrue: [ ^ self ].
 
 	anEvent consume.
+	holder ifNil: [ ^ self ].
 	" ok, mouseUp outside the element and outside of the popup window "
 	holder removeEventFilter: self.
 	element dispatchEvent: ToPickOutsideEvent new
@@ -57,6 +58,7 @@ ToStillPressedPickOutsideEventFilter >> onInstalledIn: anElement [
 { #category : #'api - hooks' }
 ToStillPressedPickOutsideEventFilter >> onUninstalledIn: anElement [
 
-	super onUninstalledIn: anElement.
-	holder := nil
+	holder := nil.
+	super onUninstalledIn: anElement
+
 ]

@@ -94,13 +94,14 @@ ToSkinStateMouseEventProcessManager >> startDelay [
 ToSkinStateMouseEventProcessManager >> startProcessFromEvent: anEvent [
 
 	self canStartProcess ifFalse: [ ^ self ].
-	self startDelay asDelay wait.
-	self generateStartStateFromEvent: anEvent.
+	process ifNotNil: [ ^ self ].
 	process := [
+	           self startDelay asDelay wait.
+	           self generateStartStateFromEvent: anEvent.
 	           self mainLoopFromEvent: anEvent copy.
 	           self generateStopStateFromEvent: anEvent ] newProcess.
 
-	process name: self class name , ' stillHoveredTask'.
+	process name: self class name , ' process'.
 	process priority: Processor userBackgroundPriority.
 	process resume
 ]
@@ -122,9 +123,9 @@ ToSkinStateMouseEventProcessManager >> stopProcessFromEvent: anEvent [
 
 	process ifNil: [ ^ self ].
 	mutex critical: [
-		process isTerminated ifFalse: [
 			process terminate.
-			self generateStopStateFromEvent: anEvent ] ]
+			process := nil.
+			self generateStopStateFromEvent: anEvent ] 
 ]
 
 { #category : #'state generating' }

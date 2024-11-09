@@ -69,7 +69,7 @@ ToAlbumEventHandler >> mouseUpEvent: anEvent [
 
 	" copy the event, else the double click can't works "
 	anEvent currentTarget infinite dispatchEvent: anEvent copy.
-	anEvent consume
+	"anEvent consume"
 ]
 
 { #category : #'event handling' }

@@ -4,16 +4,8 @@ Class {
 	#category : #'Toplo-Core-Window'
 }
 
-{ #category : #'api - displaying' }
-ToPopupWindow >> close [ 
+{ #category : #enumerating }
+ToPopupWindow >> withAllSubwindowsDo: aBlock [
 
-	windowManager element preventMousePickOutsideEvent.
-	super close
-]
-
-{ #category : #'api - displaying' }
-ToPopupWindow >> popupEvent: anEvent [
-
-	windowManager element allowMousePickOutsideEvent.
-	^ super popupEvent: anEvent
+	aBlock value: self
 ]

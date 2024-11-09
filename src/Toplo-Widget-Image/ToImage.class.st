@@ -54,12 +54,6 @@ ToImage >> defaultInnerImage [
 		  yourself
 ]
 
-{ #category : #initialization }
-ToImage >> defaultLayout [ 
-
-	^ BlFrameLayout new
-]
-
 { #category : #'form accessing' }
 ToImage >> errorInnerFormNotFound [
 	"Raise a NotFound exception."
@@ -203,7 +197,7 @@ ToImage >> unknownInnerImageId [
 
 { #category : #'form accessing' }
 ToImage >> withInnerFormDo: aBlock [
-	" aBlock is evaluated with the form as arguments 
+	" aBlock is evaluated with the form as arguments
 	if the result of #innerForm is not nil "
 
 	self withInnerFormDo: aBlock ifNone: [ self errorInnerFormNotFound ]

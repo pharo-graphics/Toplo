@@ -4,8 +4,7 @@ Class {
 	#instVars : [
 		'sieve',
 		'dataPositionIndex',
-		'sieveSelectionModel',
-		'queryApplicationTask'
+		'sieveSelectionModel'
 	],
 	#category : #'Toplo-Widget-List-Sieve'
 }

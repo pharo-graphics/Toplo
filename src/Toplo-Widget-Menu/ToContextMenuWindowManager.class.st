@@ -7,13 +7,13 @@ Class {
 { #category : #'event handling' }
 ToContextMenuWindowManager >> contextMenuClosedEvent: anEvent [
 
-	self windowClosedEvent: anEvent
+	self popupWindowClosedEvent: anEvent
 ]
 
 { #category : #'event handling' }
 ToContextMenuWindowManager >> contextMenuOpenedEvent: anEvent [
 
-	self windowOpenedEvent: anEvent
+	self popupWindowOpenedEvent: anEvent
 ]
 
 { #category : #initialization }

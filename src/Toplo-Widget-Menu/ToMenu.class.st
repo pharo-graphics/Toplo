@@ -15,9 +15,7 @@ Class {
 ToMenu >> addedInMenu: aMenu [
 
 	super addedInMenu: aMenu.
-	isSubmenu := true.
-	self initializeWithMenuItemConstraints
-
+	isSubmenu := true
 ]
 
 { #category : #initialization }
@@ -29,7 +27,9 @@ ToMenu >> buttonClickEventClass [
 { #category : #'t - menu window model' }
 ToMenu >> closeWindow [
 
-	self items do: [ :it | it isOpened ifTrue: [ it closeWindow ] ].
+	" first ask the items to close "
+	self items do: [ :it | it closeWindow ].
+	" now my window "
 	self menuWindow ifNotNil: [:mw | mw close ]
 ]
 
@@ -47,18 +47,11 @@ ToMenu >> initialize [
 
 	super initialize.
 	isSubmenu := false.
-	self initializeWithMenuConstraints.
+	self fitContent.
 	windowManager := ToMenuWindowManager new.
 	self addEventHandler: windowManager.
 	windowManager builder: [ :menWin :request |
 		request currentTarget items do: [ :it | menWin root addChild: it ] ]
-]
-
-{ #category : #initialization }
-ToMenu >> initializeWithMenuConstraints [
-
-	self fitContent.
-
 ]
 
 { #category : #testing }
@@ -114,9 +107,6 @@ ToMenu >> removedFromMenu: aMenu [
 
 	super removedFromMenu: aMenu.
 	isSubmenu := false.
-	self initializeWithMenuConstraints 
-
-	
 ]
 
 { #category : #'t - menu window model' }

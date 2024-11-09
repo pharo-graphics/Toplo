@@ -126,12 +126,6 @@ ToAnchoredWindowManager >> element [
 ]
 
 { #category : #'event handling' }
-ToAnchoredWindowManager >> elementAddedToSceneGraphEvent: anEvent [
-
-
-]
-
-{ #category : #'event handling' }
 ToAnchoredWindowManager >> elementExtentChangedEvent: anEvent [
 ]
 
@@ -150,7 +144,7 @@ ToAnchoredWindowManager >> elementRemovedFromParentEvent: anEvent [
 { #category : #'event handling' }
 ToAnchoredWindowManager >> elementRemovedFromSceneGraphEvent: anEvent [
 
-	self currentWindowDo: [ :w | w isOpened ifTrue: [ w close ] ]
+	self currentWindowDo: [ :cw | cw close ]
 ]
 
 { #category : #'api - accessing' }
@@ -162,7 +156,6 @@ ToAnchoredWindowManager >> eventsToHandle [
 		  self windowClosedEventClass.
 		  BlElementExtentChangedEvent.
 		  BlElementRemovedFromParentEvent.
-		  BlElementAddedToSceneGraphEvent.
 		  BlElementRemovedFromSceneGraphEvent.
 		  BlElementPositionInSpaceChangedEvent }
 ]

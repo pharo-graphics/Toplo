@@ -46,6 +46,12 @@ ToTagNode >> nodesCount [
 ]
 
 { #category : #accessing }
+ToTagNode >> removable: aBoolean [
+
+	removable := aBoolean
+]
+
+{ #category : #accessing }
 ToTagNode >> removeButton [ 
 
 	^ self childWithId: #removeButton ifNone: [  ]

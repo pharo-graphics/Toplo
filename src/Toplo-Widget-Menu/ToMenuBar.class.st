@@ -85,7 +85,7 @@ ToMenuBar >> initialize [
 			 do: [ self adaptToOrientation ]).
 	menus := OrderedCollection new.
 	self addEventFilter: ToMenuBarEventFilter new.
-	self addEventHandler: ToMenuBarEventHandler new
+	self addEventHandler: ToMenuBarEventHandler new.
 ]
 
 { #category : #'t - orientable - accessing' }

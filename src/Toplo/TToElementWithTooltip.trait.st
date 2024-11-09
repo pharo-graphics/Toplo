@@ -4,14 +4,6 @@ Trait {
 }
 
 { #category : #'t - element with tooltip' }
-TToElementWithTooltip >> closeTooltipOnMouseLeave [
-
-	"Set a help string to display to the user if he let the mouse over the widget (a tooltip)."
-
-	^ self tooltipWindowManager closeOnMouseLeave
-]
-
-{ #category : #'t - element with tooltip' }
 TToElementWithTooltip >> closeTooltipOnMouseLeave: aBoolean [
 
 	"Set a help string to display to the user if he let the mouse over the widget (a tooltip)."

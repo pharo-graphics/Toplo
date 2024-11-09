@@ -10,26 +10,26 @@ Class {
 { #category : #'api - accessing' }
 ToMenuBarEventHandler >> eventsToHandle [
 
-	^ { BlMouseDownOutsideEvent }
+	^ { BlMouseOverEvent }
 ]
 
-{ #category : #'mouse handlers' }
-ToMenuBarEventHandler >> mouseDownOutsideEvent: anEvent [
+{ #category : #'event handling' }
+ToMenuBarEventHandler >> mouseOverEvent: anEvent [
 
 	target autoOpen ifFalse: [ ^ self ].
-	anEvent originalEvent target ifNil: [ ^ self ].
-	(anEvent originalEvent target hasInParentChain: target) ifTrue: [
-		^ self ].
-	anEvent consume.
-	target autoOpen: false
+	
+	" auto-open action "
+	target menus do: [ :m | 
+		(anEvent target hasInParentChain: m)
+			ifTrue: [ m menuWindow ifNil: [ m popupEvent: anEvent ] ]
+			ifFalse: [ m closeWindow ] ]
 ]
 
 { #category : #'api - hooks' }
 ToMenuBarEventHandler >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	target := anElement.
-	anElement allowMousePickOutsideEvent 
+	target := anElement
 ]
 
 { #category : #'api - hooks' }

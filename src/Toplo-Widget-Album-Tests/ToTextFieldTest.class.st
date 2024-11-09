@@ -7,7 +7,7 @@ Class {
 	#category : #'Toplo-Widget-Album-Tests-TextField'
 }
 
-{ #category : #test }
+{ #category : #tests }
 ToTextFieldTest >> testPlaceholderText [
 
 	| e ph |

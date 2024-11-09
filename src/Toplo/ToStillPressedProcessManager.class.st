@@ -23,7 +23,7 @@ ToStillPressedProcessManager >> generateStartStateFromEvent: anEvent [
 		                     element: skinStateGenerator target;
 		                     yourself.
 	skinStateGenerator target spaceDo: [ :sp |
-		sp addEventFilter: pickOutsideFilter ].
+		sp root addEventFilter: pickOutsideFilter ].
 	super generateStartStateFromEvent: anEvent
 ]
 
@@ -50,7 +50,7 @@ ToStillPressedProcessManager >> stopProcessFromEvent: anEvent [
 
 	pickOutsideFilter isInstalled ifTrue: [
 		skinStateGenerator target spaceDo: [ :sp |
-			sp removeEventFilter: pickOutsideFilter ] ].
+			sp root removeEventFilter: pickOutsideFilter ] ].
 	pickOutsideFilter := nil.
 	super stopProcessFromEvent: anEvent
 ]

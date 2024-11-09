@@ -9,7 +9,7 @@ Class {
 	#category : #'Toplo-Theme-Examples'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToThemeApplicationLineAndStampsPanelModel >> allStampsVariation [
 
 	^ self shouldBeImplemented
@@ -50,7 +50,7 @@ ToThemeApplicationLineAndStampsPanelModel >> elements [
 	^ elements 
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 ToThemeApplicationLineAndStampsPanelModel >> initialize [
 
 	super initialize.

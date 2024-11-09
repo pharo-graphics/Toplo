@@ -2,7 +2,6 @@ Class {
 	#name : #ToCompositeTagModel,
 	#superclass : #ToAbstractTagModel,
 	#instVars : [
-		'indexes',
 		'content',
 		'items'
 	],

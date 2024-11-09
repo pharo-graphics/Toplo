@@ -74,7 +74,8 @@ ToTab >> closable: aBoolean [
 			self addChild: but after: self lastChild ]
 		ifFalse: [
 			filler size: 0 @ 0.
-			self removeChildNamed: #innerCloseButton ]
+			(self childWithId: #innerCloseButton ifNone: [  ]) ifNotNil: [
+				:child | child removeFromParent ] ]
 ]
 
 { #category : #initialization }

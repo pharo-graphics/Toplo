@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Theme-Examples'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToThemeApplicationButtonsWithIconsPanelModel >> allStampsVariation [
 
 	^ { nil. #'small-sizing'. #'large-sizing'. #round . #'label-first'}

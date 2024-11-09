@@ -202,7 +202,7 @@ ToSelectionModelTest >> testFirstIndex [
 ]
 
 { #category : #tests }
-ToSelectionModelTest >> testInitialize [ 
+ToSelectionModelTest >> testInitialize [
 
 	| s |
 	s := ToSelectionModel new.

@@ -17,7 +17,7 @@ ToChoiceMenuTest >> assertEmpty: select [
 	self assert: select dataToTextConverter notNil
 ]
 
-{ #category : #' tests' }
+{ #category : #tests }
 ToChoiceMenuTest >> testAddRemoveOneStringData [
 
 	| cb d |
@@ -29,7 +29,7 @@ ToChoiceMenuTest >> testAddRemoveOneStringData [
 
 ]
 
-{ #category : #' tests' }
+{ #category : #tests }
 ToChoiceMenuTest >> testCheckUncheckWithUncheckStrategy [
 
 	| cb d1 d2 d3 |
@@ -91,7 +91,7 @@ ToChoiceMenuTest >> testDefaultLabel3 [
 	self assert: cb selectedData isNil
 ]
 
-{ #category : #' tests' }
+{ #category : #tests }
 ToChoiceMenuTest >> testEmpty [
 
 	| cb d |
@@ -101,7 +101,7 @@ ToChoiceMenuTest >> testEmpty [
 	self assert: (cb dataToTextConverter value: d) equals: d.
 ]
 
-{ #category : #' tests' }
+{ #category : #tests }
 ToChoiceMenuTest >> testNoSelectedData [
 
 	| cb d |
@@ -131,7 +131,7 @@ ToChoiceMenuTest >> testNoSelectedDataWithDefaultLabel [
 		(cb group registeredCheckables noneSatisfy: [ :b | b checked ])
 ]
 
-{ #category : #' tests' }
+{ #category : #tests }
 ToChoiceMenuTest >> testRemove [
 
 	| cb d1 d2 d3 |
@@ -160,7 +160,7 @@ ToChoiceMenuTest >> testRemove [
 	self assert: cb group registeredCheckables second checked not
 ]
 
-{ #category : #' tests' }
+{ #category : #tests }
 ToChoiceMenuTest >> testRemoveWithSeparator [
 
 	| cb d1 d2 d3 |
@@ -194,7 +194,7 @@ ToChoiceMenuTest >> testRemoveWithSeparator [
 		cb group registeredCheckables second label text asString = '#3'
 ]
 
-{ #category : #' tests' }
+{ #category : #tests }
 ToChoiceMenuTest >> testRemoveWithSeparator2 [
 
 	| cb d1 d2 d3 |
@@ -227,7 +227,7 @@ ToChoiceMenuTest >> testRemoveWithSeparator2 [
 		cb group registeredCheckables second label text asString = '#3'
 ]
 
-{ #category : #' tests' }
+{ #category : #tests }
 ToChoiceMenuTest >> testRemoveWithStrictStrategy [
 
 	| cb d1 d2 d3 |
@@ -253,7 +253,7 @@ ToChoiceMenuTest >> testRemoveWithStrictStrategy [
 	cb removeData: '#2'.
 	self assert: cb group registeredCheckables first checked.
 	self assert: cb group registeredCheckables second checked not.
-	self assert: cb data first = '#1'.
+	self assert: cb data first equals: '#1'.
 	self assert: cb data second = '#3'.
 	self assert: cb group registeredCheckables size equals: 2.
 	self assert:
@@ -262,7 +262,7 @@ ToChoiceMenuTest >> testRemoveWithStrictStrategy [
 		cb group registeredCheckables second label text asString = '#3'
 ]
 
-{ #category : #' tests' }
+{ #category : #tests }
 ToChoiceMenuTest >> testRemoveWithStrictUncheckingStrategy [
 
 	| cb d1 d2 d3 |
@@ -291,11 +291,12 @@ ToChoiceMenuTest >> testRemoveWithStrictUncheckingStrategy [
 	self assert: cb group registeredCheckables size equals: 2.
 	self assert:
 		cb group registeredCheckables first label text asString = '#1'.
-	self assert:
-		cb group registeredCheckables second label text asString = '#3'
+	self
+		assert: cb group registeredCheckables second label text asString
+		equals: '#3'
 ]
 
-{ #category : #' tests' }
+{ #category : #tests }
 ToChoiceMenuTest >> testSelectedData1 [
 
 	| cb d |
@@ -309,7 +310,7 @@ ToChoiceMenuTest >> testSelectedData1 [
 	self assert: cb group registeredCheckables second checked
 ]
 
-{ #category : #' tests' }
+{ #category : #tests }
 ToChoiceMenuTest >> testSelectedData2 [
 
 	| cb d |
@@ -434,7 +435,7 @@ ToChoiceMenuTest >> testWithWeakStrategy [
 	self assert: cb label isNil
 ]
 
-{ #category : #' tests' }
+{ #category : #tests }
 ToChoiceMenuTest >> testdefaultLabel [
 
 	| cb |

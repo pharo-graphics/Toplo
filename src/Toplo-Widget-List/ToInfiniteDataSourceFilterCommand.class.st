@@ -25,12 +25,6 @@ ToInfiniteDataSourceFilterCommand >> dispatchToLayout: aLayout [
 ]
 
 { #category : #testing }
-ToInfiniteDataSourceFilterCommand >> isAdd [
-
-	^ false
-]
-
-{ #category : #testing }
 ToInfiniteDataSourceFilterCommand >> isFilter [
 
 	^ true

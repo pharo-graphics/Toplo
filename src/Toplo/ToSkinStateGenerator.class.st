@@ -111,7 +111,8 @@ ToSkinStateGenerator >> eventsToHandle [
 		  BlMouseEnterEvent.
 		  BlMouseLeaveEvent.
 		  ToCheckableCheckEvent.
-		  ToListNodeSelectedEvent }
+		  ToListNodeSelectedEvent.
+		  ToPickOutsideEvent }
 ]
 
 { #category : #'focus events handling' }
@@ -343,6 +344,25 @@ ToSkinStateGenerator >> onUninstalledIn: anElement [
 	stillPressedManager := nil.
 	stillHoveredManager := nil.
 	super onUninstalledIn: anElement
+]
+
+{ #category : #'mouse handlers' }
+ToSkinStateGenerator >> pickOutsideEvent: anEvent [
+	"Outside event can have a button label or icon as target. 
+	In that case, no action is triggered "
+
+	| wasPressed |
+	target isEnabled ifFalse: [ ^ self ].
+	wasPressed := pressed.
+	pressed := false.
+	dragged := false.
+
+	wasPressed ifTrue: [ self generateReleasedStateFromEvent: anEvent ].
+
+	leaved ifTrue: [ ^ self ].
+	leaved := true.
+	target isEnabled ifFalse: [ ^ self ].
+	self generateLeavedStateFromEvent: anEvent
 ]
 
 { #category : #'mouse handlers' }

@@ -107,7 +107,8 @@ ToPopupWindowManager >> eventsToHandle [
 		  BlMouseUpEvent.
 		  BlMouseDownEvent.
 		  BlMouseEnterEvent.
-		  BlMouseLeaveEvent }
+		  BlMouseLeaveEvent.
+		  ToPickOutsideEvent }
 ]
 
 { #category : #initialization }
@@ -187,6 +188,12 @@ ToPopupWindowManager >> newPickOutsideFilter [
 	^ ToPopupPickOutsideEventFilter new
 		  windowManager: self;
 		  yourself
+]
+
+{ #category : #'event handling' }
+ToPopupWindowManager >> pickOutsideEvent: anEvent [
+
+	self currentWindowDo: [ :w | w close ]
 ]
 
 { #category : #accessing }

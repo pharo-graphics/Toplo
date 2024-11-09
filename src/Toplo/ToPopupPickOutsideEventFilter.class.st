@@ -9,7 +9,7 @@ Class {
 	#category : #'Toplo-Core-Window'
 }
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToPopupPickOutsideEventFilter >> element [
 
 	^ windowManager element
@@ -33,7 +33,8 @@ ToPopupPickOutsideEventFilter >> mouseUpEvent: anEvent [
 	
 	"self class name trace. '>>mouseUpEvent: with upCount=' trace. upCount traceCr."
 	
-	self popupWindow ifNil: [ " if the window is not present it means that it has been removed directly with "" This can be the case if the parent of the popup element is removed "
+	self popupWindow ifNil: [ " if the window is not present 
+		This can be the case if the parent of the popup element is removed "
 		holder removeEventFilter: self.
 		holder := nil.
 		^ self ].
@@ -43,6 +44,7 @@ ToPopupPickOutsideEventFilter >> mouseUpEvent: anEvent [
 			upCount := upCount + 1.
 			^ self ] ].
 
+	" It it ouside the element and outside the popup windows "
 	target := anEvent target.
 	(target hasInParentChain: self element) ifTrue: [ ^ self ].
 	self popupWindow withAllSubwindowsDo: [ :w |
@@ -50,7 +52,7 @@ ToPopupPickOutsideEventFilter >> mouseUpEvent: anEvent [
 
 	anEvent consume.
 	" ok, mouseUp outside the element and outside of the popup window "
-	self popupWindow ifNotNil: [ :w | w close ]
+	self element dispatchEvent: ToPickOutsideEvent new
 ]
 
 { #category : #'api - hooks' }
@@ -61,14 +63,14 @@ ToPopupPickOutsideEventFilter >> onInstalledIn: anElement [
 	upCount := 0
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToPopupPickOutsideEventFilter >> popupWindow [
 
 	^ windowManager currentWindow
 
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToPopupPickOutsideEventFilter >> windowManager: aPopupWindowManager [
 
 	windowManager := aPopupWindowManager

@@ -108,7 +108,6 @@ ToSkinStateGenerator >> eventsToHandle [
 		  BlClickEvent.
 		  BlMouseDownEvent.
 		  BlMouseUpEvent.
-		  BlMouseUpOutsideEvent.
 		  BlMouseEnterEvent.
 		  BlMouseLeaveEvent.
 		  ToCheckableCheckEvent.
@@ -317,31 +316,6 @@ ToSkinStateGenerator >> mouseUpEvent: anEvent [
 		secondary: [  ]
 		middle: [  ]
 		other: [  ]
-]
-
-{ #category : #'mouse handlers' }
-ToSkinStateGenerator >> mouseUpOutsideEvent: anEvent [
-	"Outside event can have a button label or icon as target. 
-	In that case, no action is triggered "
-
-	| wasPressed |
-	target isEnabled ifFalse: [ ^ self ].
-	wasPressed := pressed.
-	pressed := false.
-	dragged := false.
-
-	(anEvent originalEvent target notNil and: [
-		 anEvent originalEvent target hasInParentChain: target ]) ifTrue: [
-		^ self ].
-
-	wasPressed ifTrue: [
-		self generateReleasedStateFromEvent: anEvent.
-		stillPressedManager stopProcessFromEvent: anEvent ].
-
-	leaved ifTrue: [ ^ self ].
-	leaved := true.
-	target isEnabled ifFalse: [ ^ self ].
-	self generateLeavedStateFromEvent: anEvent
 ]
 
 { #category : #'api - hooks' }

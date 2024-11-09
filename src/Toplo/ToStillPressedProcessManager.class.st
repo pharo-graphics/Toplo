@@ -7,9 +7,7 @@ Class {
 { #category : #'starting - stopping' }
 ToStillPressedProcessManager >> checkEvent: anEvent [
 
-	(process notNil and: [
-		 (anEvent isKindOf: BlMouseUpEvent) or: [
-			 anEvent isKindOf: BlMousePickOutsideEvent ] ]) ifTrue: [
+	(process notNil and: [ anEvent isKindOf: BlMouseUpEvent ]) ifTrue: [
 		self stopProcessFromEvent: anEvent ]
 ]
 

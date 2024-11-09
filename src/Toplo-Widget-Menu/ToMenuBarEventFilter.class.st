@@ -10,7 +10,7 @@ Class {
 { #category : #'api - accessing' }
 ToMenuBarEventFilter >> eventsToHandle [
 
-	^ { "BlMouseDownEvent." BlMouseOverEvent }
+	^ { BlMouseDownEvent.  }
 ]
 
 { #category : #'as yet unclassified' }
@@ -18,7 +18,6 @@ ToMenuBarEventFilter >> mouseDownEvent: anEvent [
 	"switch auto=open filter "
 
 	" mouse down on the menubar stops auto-open "
-
 	(anEvent target = target or: [
 		 target menus noneSatisfy: [ :m |
 			 anEvent target hasInParentChain: m ] ]) ifTrue: [ " stop auto open on mouse over "
@@ -35,18 +34,6 @@ ToMenuBarEventFilter >> mouseDownEvent: anEvent [
 
 	" now auto open on mouse over  "
 	target autoOpen: true
-]
-
-{ #category : #'as yet unclassified' }
-ToMenuBarEventFilter >> mouseOverEvent: anEvent [
-
-	target autoOpen ifFalse: [ ^ self ].
-	
-	" auto-open action "
-	target menus do: [ :m |
-		(anEvent target hasInParentChain: m)
-			ifTrue: [ m menuWindow ifNil: [ m popupEvent: anEvent ] ]
-			ifFalse: [ m closeWindow ] ]
 ]
 
 { #category : #'api - hooks' }

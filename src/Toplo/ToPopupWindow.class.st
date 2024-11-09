@@ -4,15 +4,8 @@ Class {
 	#category : #'Toplo-Core-Window'
 }
 
-{ #category : #'api - displaying' }
-ToPopupWindow >> close [ 
+{ #category : #enumerating }
+ToPopupWindow >> withAllSubwindowsDo: aBlock [
 
-	super close
-]
-
-{ #category : #'api - displaying' }
-ToPopupWindow >> popupEvent: anEvent [
-
-	super popupEvent: anEvent
-
+	aBlock value: self
 ]

@@ -17,7 +17,7 @@ ToMenuWindowManager >> defaultPositionHook [
 ToMenuWindowManager >> initialize [ 
 
 	super initialize.
-	popupOnMouseEnter := true.
+	popupOnMouseEnter := false.
 	closeOnMouseLeave := false.
 
 ]

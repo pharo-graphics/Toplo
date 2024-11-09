@@ -2,7 +2,6 @@ Class {
 	#name : #ToPopupWindowManager,
 	#superclass : #ToAnchoredWindowManager,
 	#instVars : [
-		'autoCloseOnMouseUpDelay',
 		'mouseButton',
 		'popupDelay',
 		'popupOnMouseEnter',
@@ -10,7 +9,8 @@ Class {
 		'closeOnMouseDown',
 		'popupOnMouseDown',
 		'delayedPopupTask',
-		'pickOutsideFilter'
+		'pickOutsideFilter',
+		'autoCloseDelay'
 	],
 	#category : #'Toplo-Core-Window'
 }
@@ -18,13 +18,13 @@ Class {
 { #category : #accessing }
 ToPopupWindowManager >> autoCloseDelay [
 
-	^ autoCloseOnMouseUpDelay
+	^ autoCloseDelay
 ]
 
 { #category : #accessing }
 ToPopupWindowManager >> autoCloseDelay: aDelay [
 
-	autoCloseOnMouseUpDelay := aDelay ifNotNil: [:d| d asDuration ]
+	autoCloseDelay := aDelay ifNotNil: [:d| d asDuration ]
 ]
 
 { #category : #accessing }
@@ -116,7 +116,7 @@ ToPopupWindowManager >> initialize [
 	super initialize.
 	self usePrimaryMouseButton .
 	popupDelay := self defaultPopupDelay.
- 	autoCloseOnMouseUpDelay := self defaultAutoCloseDelay.
+ 	autoCloseDelay := self defaultAutoCloseDelay.
 	popupOnMouseEnter := false.
 	closeOnMouseLeave := false.
 	popupOnMouseDown := true.
@@ -127,7 +127,7 @@ ToPopupWindowManager >> initialize [
 ToPopupWindowManager >> installPickOutsideFilter [
 
 	pickOutsideFilter ifNotNil: [ ^ self ].
-	pickOutsideFilter := ToPopupPickOutsideEventFilter new windowManager: self.
+	pickOutsideFilter := self newPickOutsideFilter.
 	element space root addEventFilter: pickOutsideFilter.
 ]
 
@@ -171,15 +171,22 @@ ToPopupWindowManager >> mouseLeaveEvent: anEvent [
 { #category : #'event handling' }
 ToPopupWindowManager >> mouseUpEvent: anEvent [
 
-	| delay maxDelay |
+	| delay |
 	currentWindow ifNil: [ ^ self ].
 	currentWindow popupTimestamp ifNil: [ ^ self ].
-	maxDelay := self autoCloseDelay.
-	maxDelay ifNil: [ ^ self ].
+	autoCloseDelay ifNil: [ ^ self ].
 	delay := anEvent timestamp - currentWindow popupTimestamp.
-	delay > maxDelay ifFalse: [ ^ self ].
+	delay > autoCloseDelay ifFalse: [ ^ self ].
 	anEvent consume.
 	currentWindow close
+]
+
+{ #category : #'window handling' }
+ToPopupWindowManager >> newPickOutsideFilter [
+
+	^ ToPopupPickOutsideEventFilter new
+		  windowManager: self;
+		  yourself
 ]
 
 { #category : #accessing }

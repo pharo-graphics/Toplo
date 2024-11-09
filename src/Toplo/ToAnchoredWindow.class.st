@@ -39,7 +39,6 @@ ToAnchoredWindow >> close [
 
 	openTask ifNotNil: [ :t | self anchorRoot dequeueTask: openTask].
 	super close.
-	self root removeChildren.
 	self dispatchClosedEvent
 ]
 

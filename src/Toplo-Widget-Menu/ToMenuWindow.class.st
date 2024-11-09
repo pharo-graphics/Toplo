@@ -1,16 +1,13 @@
 Class {
 	#name : #ToMenuWindow,
 	#superclass : #ToPopupWindow,
-	#instVars : [
-		'openedSubmenuWindow'
-	],
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
 { #category : #'api - displaying' }
 ToMenuWindow >> close [ 
 
-	openedSubmenuWindow ifNotNil: [ :w | w close ].
+	self items do: [ :it | it closeWindow ].
 	super close
 ]
 
@@ -58,15 +55,9 @@ ToMenuWindow >> menuWindow [
 	^ self
 ]
 
-{ #category : #accessing }
-ToMenuWindow >> openedSubmenuWindow [
+{ #category : #enumerating }
+ToMenuWindow >> withAllSubwindowsDo: aBlock [
 
-	^ openedSubmenuWindow
-]
-
-{ #category : #accessing }
-ToMenuWindow >> openedSubmenuWindow: aWindow [
-
-	openedSubmenuWindow ifNotNil: [ openedSubmenuWindow close ].
-	openedSubmenuWindow := aWindow.
+	self items do: [ :i | i menuWindowDo: [ :w | w withAllSubwindowsDo: aBlock ] ].
+	super withAllSubwindowsDo: aBlock
 ]

@@ -24,7 +24,7 @@ ToMenuItemElement >> closeSiblingMenuWindow [
 
 	self parentMenu ifNil: [ ^ self ].
 	self parentMenu items do: [ :it |
-		it menuWindowDo: [ :w | w isOpened ifTrue: [ w close ] ] ]
+		it menuWindowDo: [ :w |  w close ] ]
 ]
 
 { #category : #'t - menu window model' }

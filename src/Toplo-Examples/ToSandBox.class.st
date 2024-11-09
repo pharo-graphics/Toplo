@@ -1,6 +1,9 @@
 Class {
 	#name : #ToSandBox,
 	#superclass : #Object,
+	#classInstVars : [
+		'frame'
+	],
 	#category : #'Toplo-Examples-SandBox'
 }
 
@@ -3430,7 +3433,7 @@ ToSandBox class >> example_menuBar1 [
 	win openInSpace
 ]
 
-{ #category : #'context menu + menubar' }
+{ #category : #menu }
 ToSandBox class >> example_menuBar2 [
 
 	| menu frame bar |
@@ -5274,7 +5277,9 @@ ToSandBox class >> example_withCheckBox [
 
 	menu addItem: sub.
 	menu position: 10 @ 10.
-	menu openInInnerWindow
+	frame := ToInnerWindow new.
+	frame pane addChild: menu.
+	frame openInSpace
 ]
 
 { #category : #menu }

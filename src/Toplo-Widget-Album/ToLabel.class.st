@@ -25,11 +25,12 @@ ToLabel >> addEditorEvent: anEvent [
 	self innerElement visibility: BlVisibility hidden.
 	self hasEditor ifTrue: [  ^ self ].
 	(self newEditorFrameEvent: anEvent) popupEvent: anEvent.
-	self editor requestFocus.
+	
 	self editor selecter
 		all;
 		apply.
-	self editorBuilder value: self editor value: self
+	self editorBuilder value: self editor value: self.
+	self editor requestFocus
 ]
 
 { #category : #styling }

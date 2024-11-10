@@ -3936,9 +3936,14 @@ ToSandBox class >> example_spaceRootSkin [
 ToSandBox class >> example_stillHoveredEvent [
 
 	| e count lab |
-	e := ToElement new.
-	e stillHoveredStartDelay: 200 milliSeconds.
-	e layout: BlFrameLayout new.
+	e := ToElement new layout: BlBasicLayout new.
+	e addChild: (BlElement new
+			 size: 30 asPoint;
+			 position: 40 asPoint;
+			 background: Color gray;
+			 yourself).
+	e addEventHandler: ToStillHoveredEventHandler new.
+	
 	lab := ToLabel new text: 'Keep mouse inside'.
 	lab constraintsDo: [ :c |
 		c frame vertical alignCenter.
@@ -3948,13 +3953,10 @@ ToSandBox class >> example_stillHoveredEvent [
 	e border: Color black.
 	count := 0.
 	e addEventHandler: (BlEventHandler
-			 on: ToStartStillHoveredSkinEvent
+			 on: ToHoveredEvent
 			 do: [ :event | event traceCr ]).
 	e addEventHandler: (BlEventHandler
-			 on: ToStopStillHoveredSkinEvent
-			 do: [ :event | event traceCr ]).
-	e addEventHandler: (BlEventHandler
-			 on: ToStillHoveredSkinEvent
+			 on: ToStillHoveredEvent
 			 do: [ :event |
 				 lab text: count asString asRopedText.
 				 count := count + 1.
@@ -4805,14 +4807,16 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 	but closeTooltipOnMouseLeave: false.
 	but tooltipBuilder: [ :win :theElement |
 		| lab |
-		lab := ToLabel text: ' keep mouse over with shift key to edit / Return to accept' asRopedText.
+		lab := ToLabel text:
+			       ' keep mouse over with shift key to edit / Return to accept'
+				       asRopedText.
+		lab addEventHandler: ToStillHoveredEventHandler new.
 		lab
 			beEditable;
-			stillHoveredStartDelay: 800 milliSeconds;
 			addEventHandler: (BlEventHandler
-					 on: ToStillHoveredSkinEvent
+					 on: ToStartStillHoveredEvent
 					 do: [ :event |
-						 event sourceEvent modifiers isShift ifTrue: [
+						 event modifiers isShift ifTrue: [
 								 event consume.
 								 event currentTarget addEditorEvent: event ] ]).
 		win root addChild: lab ].

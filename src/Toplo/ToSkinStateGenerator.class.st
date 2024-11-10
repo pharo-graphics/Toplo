@@ -6,7 +6,6 @@ Class {
 		'leaved',
 		'dragged',
 		'pressed',
-		'stillHoveredManager',
 		'stillPressedManager'
 	],
 	#category : #'Toplo-Core-States'
@@ -102,6 +101,7 @@ ToSkinStateGenerator >> enqueueTransientStateFromSkinEvent: aSkinEvent [
 ToSkinStateGenerator >> eventsToHandle [
 
 	^ {
+		  ToHoveredEvent.
 		  BlBaseDragEvent.
 		  BlBlurEvent.
 		  BlFocusEvent.
@@ -292,8 +292,6 @@ ToSkinStateGenerator >> mouseEnterEvent: anEvent [
 	target isEnabled ifFalse: [ ^ self ].
 	leaved := false.
 	dragged ifTrue: [ ^ self ].
-	target isEnabled ifFalse: [ ^ self ].
-	stillHoveredManager startProcessFromEvent: anEvent.
 	self generateHoveredStateFromEvent: anEvent
 ]
 
@@ -323,9 +321,6 @@ ToSkinStateGenerator >> mouseUpEvent: anEvent [
 ToSkinStateGenerator >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	stillHoveredManager := ToStillHoveredProcessManager new
-		                       skinStateGenerator: self;
-		                       yourself.
 	stillPressedManager := ToStillPressedProcessManager new
 		                       skinStateGenerator: self;
 		                       yourself.
@@ -342,7 +337,6 @@ ToSkinStateGenerator >> onUninstalledIn: anElement [
 	self flag: 'Should take care of addSkinStateGeneration: to remove the generation valuable stored for target before setting it to nil'.
 	"target := nil."
 	stillPressedManager := nil.
-	stillHoveredManager := nil.
 	super onUninstalledIn: anElement
 ]
 
@@ -386,15 +380,43 @@ ToSkinStateGenerator >> primaryMouseUpEvent: anEvent [
 	leaved := false.
 	self generateReleasedStateFromEvent: anEvent.
 	target isEnabled ifFalse: [ ^ self ].
-	stillHoveredManager startProcessFromEvent: anEvent.
 	self generateHoveredStateFromEvent: anEvent
+]
+
+{ #category : #'still pressed - hovered' }
+ToSkinStateGenerator >> startStillHoveredEvent: anEvent [
+
+	self target skinManager
+		addSkinStateGeneration: [
+			self enqueueTransientStateFromSkinEvent:
+				(ToStartStillHoveredSkinEvent sourceEvent: anEvent) ]
+		for: self target
+]
+
+{ #category : #'still pressed - hovered' }
+ToSkinStateGenerator >> stillHoveredEvent: anEvent [
+
+	self target skinManager
+		addSkinStateGeneration: [
+			self enqueueTransientStateFromSkinEvent:
+				(ToStillHoveredSkinEvent sourceEvent: anEvent) ]
+		for: self target
 ]
 
 { #category : #'still pressed - hovered' }
 ToSkinStateGenerator >> stopProcesses: anEvent [
 
-	stillPressedManager checkEvent: anEvent.
-	stillHoveredManager checkEvent: anEvent
+	stillPressedManager checkEvent: anEvent
+]
+
+{ #category : #'still pressed - hovered' }
+ToSkinStateGenerator >> stopStillHoveredEvent: anEvent [
+
+	self target skinManager
+		addSkinStateGeneration: [
+			self enqueueTransientStateFromSkinEvent:
+				(ToStopStillHoveredSkinEvent sourceEvent: anEvent) ]
+		for: self target
 ]
 
 { #category : #accessing }

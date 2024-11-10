@@ -424,19 +424,6 @@ BlElement >> skinUninstaller: aSkinUninstaller [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> stillPressedStartDelay [
-
-	^ self userData at: #stillPressedStartDelay ifAbsent: [ ]
-]
-
-{ #category : #'*Toplo' }
-BlElement >> stillPressedStartDelay: aDuration [
-	" must have a skin state generator "
-
-	self userData at: #stillPressedStartDelay put: aDuration asDuration
-]
-
-{ #category : #'*Toplo' }
 BlElement >> styleSheet [
 
 	self skinManagerDo: [ :sm | ^ sm styleSheet  ].

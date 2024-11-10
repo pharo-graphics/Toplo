@@ -3,7 +3,11 @@ Class {
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'checker',
-		'delay'
+		'delay',
+		'time',
+		'startDelay',
+		'startTime',
+		'startEvent'
 	],
 	#category : #'Toplo-Core-States'
 }
@@ -26,50 +30,64 @@ ToStillHoveredEventHandler >> eventsToHandle [
 ToStillHoveredEventHandler >> initialize [ 
 
 	super initialize.
-	delay := 0 milliSeconds 
+	delay := 0 milliSeconds.
+	startDelay := 0 milliSeconds.
+	time := BlTime real
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : #'as yet unclassified' }
 ToStillHoveredEventHandler >> mouseEnterEvent: anEvent [
 
-	| startEvt |
+	| target |
 	checker ifNotNil: [ ^ self ].
+	target := anEvent currentTarget.
+	startTime := time now.
 	checker := BlRepeatedTaskAction new
 		           delay: delay asDuration;
-		           action: [
-			           | evt |
-			           evt := ToStillHoveredEvent new
-				                  modifiers: anEvent modifiers;
-				                  yourself.
-			           anEvent currentTarget dispatchEvent: evt.
-			           evt isConsumed ifTrue: [
-				           self stopTaskIn: anEvent currentTarget ] ].
-
-	startEvt := ToStartStillHoveredEvent new
-		            modifiers: anEvent modifiers;
-		            yourself.
-	anEvent currentTarget dispatchEvent: startEvt.
-	startEvt isConsumed ifTrue: [
-		self stopTaskIn: anEvent currentTarget.
-		^ self ].
-
-	anEvent currentTarget enqueueTask: checker
+		           action: [ self taskActionFromEvent: anEvent in: target].
+	target enqueueTask: checker
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : #'as yet unclassified' }
 ToStillHoveredEventHandler >> mouseLeaveEvent: anEvent [
 
 	checker ifNil: [ ^ self ].
 	self stopTaskIn: anEvent currentTarget
 ]
 
+{ #category : #accessing }
+ToStillHoveredEventHandler >> startDelay: aDuration [
+
+	startDelay := aDuration
+]
+
 { #category : #'mouse handlers' }
 ToStillHoveredEventHandler >> stopTaskIn: target [
 
+	startEvent := nil.
 	checker ifNil: [ ^ self ].
 	checker stop.
 	target dequeueTask: checker.
 	checker := nil.
 	target dispatchEvent: ToStopStillHoveredEvent new
 
+]
+
+{ #category : #'mouse handlers' }
+ToStillHoveredEventHandler >> taskActionFromEvent: anEvent in: aTarget [
+
+	| evt now |
+	now := time now.
+	now >= (startTime + startDelay) ifFalse: [ ^ self ].
+	evt := startEvent
+		       ifNil: [
+			       startEvent := ToStartStillHoveredEvent new
+				                     modifiers: anEvent modifiers;
+				                     yourself ]
+		       ifNotNil: [
+			       ToStillHoveredEvent new
+				       modifiers: anEvent modifiers;
+				       yourself ].
+	aTarget dispatchEvent: evt.
+	evt isConsumed ifTrue: [ self stopTaskIn: aTarget ]
 ]

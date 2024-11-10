@@ -2543,7 +2543,6 @@ ToSandBox class >> example_SkinEventTrace [
 	but addEventHandler: (BlEventHandler
 			 on: ToSkinEvent
 			 do: [ :evt | evt target = but ifTrue: [ evt traceCr ] ]).
-	but stillPressedStartDelay: 3000 milliSeconds.
 	but openInSpace
 ]
 
@@ -3942,7 +3941,9 @@ ToSandBox class >> example_stillHoveredEvent [
 			 position: 40 asPoint;
 			 background: Color gray;
 			 yourself).
-	e addEventHandler: ToStillHoveredEventHandler new.
+	e addEventHandler: (ToStillHoveredEventHandler new
+	startDelay: 1000 milliSeconds;
+	yourself).
 	
 	lab := ToLabel new text: 'Keep mouse inside'.
 	lab constraintsDo: [ :c |
@@ -3970,8 +3971,13 @@ ToSandBox class >> example_stillHoveredEvent [
 ToSandBox class >> example_stillPressedEvent [
 
 	| e count lab color |
-	e := ToElement new.
-	e stillPressedStartDelay: 200 milliSeconds.
+	e := ToElement new
+		     id: #'my-element';
+		     yourself.
+	e addEventHandler: (ToStillPressedEventHandler new
+			 startDelay: 1000 milliSeconds;
+			 delay: 200 milliSeconds;
+			 yourself).
 	e layout: BlFrameLayout new.
 	lab := ToLabel new text: 'Keep mouse pressed here'.
 	lab constraintsDo: [ :c |
@@ -3982,23 +3988,27 @@ ToSandBox class >> example_stillPressedEvent [
 	e border: Color black.
 	count := 0.
 	color := Color white alpha: 0.3.
+
 	e addEventHandler: (BlEventHandler
-			 on: ToStartStillPressedSkinEvent
+			 on: ToPressedEvent
 			 do: [ :event | event traceCr ]).
+
 	e addEventHandler: (BlEventHandler
-			 on: ToStopStillPressedSkinEvent
-			 do: [ :event | event traceCr ]).
-	e addEventHandler: (BlEventHandler
-			 on: ToStillPressedSkinEvent
+			 on: ToStillPressedEvent
 			 do: [ :event |
 				 e background: color.
 				 lab text: count asString asRopedText.
 				 count := count + 1.
 				 color := color darker.
-				 count > 200 ifTrue: [
-					 event consume.
-					 count := 0.
-					 color := Color white alpha: 0.3 ] ]).
+				 count > 50 ifTrue: [ event consume ] ]).
+
+	e addEventHandler: (BlEventHandler
+			 on: ToStopStillPressedEvent
+			 do: [ :event |
+				 count := 0.
+				 color := Color white alpha: 0.3.
+				 e background: color ]).
+
 	e openInSpace
 ]
 
@@ -4810,11 +4820,13 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 		lab := ToLabel text:
 			       ' keep mouse over with shift key to edit / Return to accept'
 				       asRopedText.
-		lab addEventHandler: ToStillHoveredEventHandler new.
+		lab addEventHandler: (ToStillHoveredEventHandler new
+	startDelay: 1000 milliSeconds;
+	yourself).
 		lab
 			beEditable;
 			addEventHandler: (BlEventHandler
-					 on: ToStartStillHoveredEvent
+					 on: ToStillHoveredEvent
 					 do: [ :event |
 						 event modifiers isShift ifTrue: [
 								 event consume.
@@ -5515,9 +5527,8 @@ ToSandBox class >> listWithEditableAndContextMenu [
 		lab beMultiLine.
 		holder isSelectable ifTrue: [
 			lab beEditable.
-			lab stillPressedStartDelay: 800 milliSeconds.
 			lab addEventHandler: (BlEventHandler
-					 on: ToStillPressedSkinEvent
+					 on: ToStillPressedEvent
 					 do: [ :event |
 						 event consume.
 						 lab addEditorEvent: event ]).

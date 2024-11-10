@@ -3942,7 +3942,7 @@ ToSandBox class >> example_stillHoveredEvent [
 			 background: Color gray;
 			 yourself).
 	e addEventHandler: (ToStillHoveredEventHandler new
-	startDelay: 1000 milliSeconds;
+	startDelay: 500 milliSeconds;
 	yourself).
 	
 	lab := ToLabel new text: 'Keep mouse inside'.
@@ -3975,7 +3975,7 @@ ToSandBox class >> example_stillPressedEvent [
 		     id: #'my-element';
 		     yourself.
 	e addEventHandler: (ToStillPressedEventHandler new
-			 startDelay: 1000 milliSeconds;
+			 startDelay: 500 milliSeconds;
 			 delay: 200 milliSeconds;
 			 yourself).
 	e layout: BlFrameLayout new.

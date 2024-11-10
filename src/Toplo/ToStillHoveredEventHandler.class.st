@@ -64,13 +64,13 @@ ToStillHoveredEventHandler >> startDelay: aDuration [
 { #category : #'mouse handlers' }
 ToStillHoveredEventHandler >> stopTaskIn: target [
 
+	checker ifNotNil: [
+		checker stop.
+		target dequeueTask: checker.
+		checker := nil ].
+	startEvent ifNil: [ ^ self ].
 	startEvent := nil.
-	checker ifNil: [ ^ self ].
-	checker stop.
-	target dequeueTask: checker.
-	checker := nil.
 	target dispatchEvent: ToStopStillHoveredEvent new
-
 ]
 
 { #category : #'mouse handlers' }

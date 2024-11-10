@@ -143,13 +143,14 @@ ToExShapeContainerManager >> startSortProcess [
 			           round := round + 1.
 			           round odd
 				           ifTrue: [
-					           commandApplicationStrategy
-							            sortBlock: [ :a :b | b num < a num ] ]
+				           commandApplicationStrategy sortBlock: [ :a :b |
+					           b num < a num ] ]
 				           ifFalse: [
-					           commandApplicationStrategy
-							            sortBlock: [ :a :b | a num < b num ] ].
+				           commandApplicationStrategy sortBlock: [ :a :b |
+					           a num < b num ] ].
 			           (Delay forMilliseconds: 100) wait ].
-	           'Sort process finished' traceCr] newProcess.
+	           commandApplicationStrategy sortBlock: nil.
+	           'Sort process finished' traceCr ] newProcess.
 	self startProcess: process
 ]
 

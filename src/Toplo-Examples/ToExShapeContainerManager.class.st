@@ -31,7 +31,7 @@ ToExShapeContainerManager >> applyCommand: aCommand [
 { #category : #initialization }
 ToExShapeContainerManager >> defaultCommandApplicationStrategy [
 
-	^ ToQueueBasedCommandApplicationStrategy new
+	^ ToExShapeCommandApplicationStrategy new
 ]
 
 { #category : #initialization }
@@ -143,14 +143,11 @@ ToExShapeContainerManager >> startSortProcess [
 			           round := round + 1.
 			           round odd
 				           ifTrue: [
-					           self addCommand: (ToExShapeSortCommand new
-							            sortBlock: [ :a :b | b num < a num ];
-							            yourself) ]
+					           commandApplicationStrategy
+							            sortBlock: [ :a :b | b num < a num ] ]
 				           ifFalse: [
-					           self addCommand: (ToExShapeSortCommand new
-							            sortBlock: [ :a :b | a num < b num ];
-							            yourself) ].
-
+					           commandApplicationStrategy
+							            sortBlock: [ :a :b | a num < b num ] ].
 			           (Delay forMilliseconds: 100) wait ].
 	           'Sort process finished' traceCr] newProcess.
 	self startProcess: process

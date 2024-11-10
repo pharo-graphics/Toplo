@@ -27,7 +27,7 @@ ToQueueBasedCommandApplicationStrategy >> commandApplier: aCommandApplier elemen
 
 	super commandApplier: aCommandApplier element: anElement.
 	commandQueue := OrderedCollection new.
-	applicationTask := ToCommandApplicationTask new
+	applicationTask := self newCommandApplicationTask
 		                   element: anElement;
 		                   applier: aCommandApplier;
 		                   commandQueue: commandQueue;
@@ -41,6 +41,12 @@ ToQueueBasedCommandApplicationStrategy >> initialize [
 
 	super initialize.
 	weak := true
+]
+
+{ #category : #accessing }
+ToQueueBasedCommandApplicationStrategy >> newCommandApplicationTask [ 
+
+	^ ToCommandApplicationTask new
 ]
 
 { #category : #'event handling' }

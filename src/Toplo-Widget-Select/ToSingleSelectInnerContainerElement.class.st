@@ -25,6 +25,13 @@ ToSingleSelectInnerContainerElement class >> onSelectElement: aSelectElement [
 ]
 
 { #category : #accessing }
+ToSingleSelectInnerContainerElement >> dataView [
+	" return the element containing the selection result "
+
+	^ dataView
+]
+
+{ #category : #accessing }
 ToSingleSelectInnerContainerElement >> dataViewBuilder: aValuable [
 	" aValuable takes 2 args: the dataItemView and the selected dataItem "
 

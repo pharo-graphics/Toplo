@@ -61,25 +61,3 @@ ToChoiceMenuInSpaceTest >> testWithStructuredDataWithStrictStrategy [
 		(cb group registeredCheckables select: [ :b | b checked ]) size
 		equals: 1
 ]
-
-{ #category : #tests }
-ToChoiceMenuInSpaceTest >> testWithStructuredDataWithWeakStrategy [
-
-	| cb d |
-	cb := ToChoiceMenu new.
-	cb withWeakCheckingStrategy.
-	space root addChild: cb.
-	cb dataToTextConverter: [ :assoc | assoc key ].
-	cb data addAll: (d := {
-			      ('Bee Theme' -> ToBeeTheme).
-			      ('Raw Theme' -> ToRawTheme) }).
-	cb selectIndex: 1.
-	self waitTestingSpaces.
-	self assert: cb selectedData value identicalTo: ToBeeTheme.
-	self assert: cb label text asString equals: d first key.
-	cb selectData: nil.
-	self assert: cb selectedData isNil.
-	self assert: cb label isNil.
-	self assert:
-		(cb group registeredCheckables noneSatisfy: [ :b | b checked ])
-]

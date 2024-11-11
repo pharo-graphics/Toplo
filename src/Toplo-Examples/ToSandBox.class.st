@@ -2604,7 +2604,7 @@ ToSandBox class >> example_TagBar [
 ]
 
 { #category : #select }
-ToSandBox class >> example_ThemeSelect [
+ToSandBox class >> example_ThemeSelectNoDeselection [
 
 	| select |
 	select := self themeSelect.
@@ -2616,6 +2616,25 @@ ToSandBox class >> example_ThemeSelect [
 	select selecter selectIndex: 4.
 	select allowDeselection: false.
 	select openInSpace
+]
+
+{ #category : #select }
+ToSandBox class >> example_ThemeSelectWithPlaceholder [
+
+	| win choice |
+	win := ToInnerWindow new title: 'Operating system'.
+
+	choice := ToSingleSelectElement new.
+	choice popupDataAccessor addAll:
+		{ 'OS-X'. 'Windows'. 'Linux' }.
+	choice placeholderBuilder: [ :ph :e |
+		ph addChild:
+			((ToAttributedLabel text: 'Invalid choice' asRopedText)
+				 foreground: Color red;
+				 freeze;
+				 yourself) ].
+	win pane addChild: choice.
+	win openInSpace
 ]
 
 { #category : #'button-dep' }
@@ -2944,25 +2963,6 @@ ToSandBox class >> example_buttonWithLabel [
 	but label: (ToLabel text: 'Button with label').
 	but openInSpace.
 	^ but
-]
-
-{ #category : #'choice menu' }
-ToSandBox class >> example_choiceButtonWithPlaceholder [
-
-	| win choice |
-	win := ToInnerWindow new title: 'Operating system'.
-
-	choice := ToChoiceMenu new.
-	"choice width: 250."
-	choice withWeakCheckingStrategy.
-	choice data addAll: { 'OS-X'. 'Windows'. 'Linux' }.
-	choice defaultLabel:
-		((ToAttributedLabel text: 'Invalid choice' asRopedText)
-			 foreground: Color red;
-			 freeze;
-			 yourself).
-	win pane addChild: choice.
-	win openInSpace
 ]
 
 { #category : #'choice menu' }

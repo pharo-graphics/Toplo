@@ -246,6 +246,12 @@ ToSelectElement >> pattern: aPattern [
 ]
 
 { #category : #'accessing - list' }
+ToSelectElement >> popupDataAccessor [
+
+	^ self popupListElement dataAccessor
+]
+
+{ #category : #'accessing - list' }
 ToSelectElement >> popupListDataAccessor [
 
 	self

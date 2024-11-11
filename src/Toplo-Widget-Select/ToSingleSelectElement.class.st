@@ -18,6 +18,13 @@ ToSingleSelectElement >> allowDeselection: aBoolean [
 ]
 
 { #category : #accessing }
+ToSingleSelectElement >> dataView [
+	" return the element containing the selection result "
+
+	^ self innerElement dataView
+]
+
+{ #category : #accessing }
 ToSingleSelectElement >> dataViewBuilder: aValuable [
 	" aValuable takes 2 args: the dataItemView and the selected dataItem "
 

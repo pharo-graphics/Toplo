@@ -1,7 +1,7 @@
 Class {
 	#name : #ToStillHoveredEvent,
-	#superclass : #ToHoveredEvent,
-	#category : #'Toplo-Core-States'
+	#superclass : #ToGeneratorEvent,
+	#category : #'Toplo-Support-EventGenerator'
 }
 
 { #category : #sending }

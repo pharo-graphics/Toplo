@@ -3954,7 +3954,7 @@ ToSandBox class >> example_stillHoveredEvent [
 	e border: Color black.
 	count := 0.
 	e addEventHandler: (BlEventHandler
-			 on: ToHoveredEvent
+			 on: ToGeneratorEvent
 			 do: [ :event | event traceCr ]).
 	e addEventHandler: (BlEventHandler
 			 on: ToStillHoveredEvent
@@ -3990,7 +3990,7 @@ ToSandBox class >> example_stillPressedEvent [
 	color := Color white alpha: 0.3.
 
 	e addEventHandler: (BlEventHandler
-			 on: ToPressedEvent
+			 on: ToGeneratorEvent
 			 do: [ :event | event traceCr ]).
 
 	e addEventHandler: (BlEventHandler

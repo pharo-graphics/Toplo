@@ -1,23 +1,11 @@
 Class {
 	#name : #ToStillPressedEventHandler,
-	#superclass : #BlCustomEventHandler,
+	#superclass : #ToEventGeneratorHandler,
 	#instVars : [
-		'checker',
-		'delay',
-		'pickOutsideFilter',
-		'time',
-		'startDelay',
-		'startTime',
-		'startEvent'
+		'pickOutsideFilter'
 	],
-	#category : #'Toplo-Core-States'
+	#category : #'Toplo-Support-EventGenerator'
 }
-
-{ #category : #accessing }
-ToStillPressedEventHandler >> delay: aDuration [
-
-	delay := aDuration
-]
 
 { #category : #'api - accessing' }
 ToStillPressedEventHandler >> eventsToHandle [
@@ -58,8 +46,25 @@ ToStillPressedEventHandler >> mouseDownEvent: anEvent [
 { #category : #'mouse handlers' }
 ToStillPressedEventHandler >> mouseUpEvent: anEvent [
 
-	checker ifNil: [ ^ self ].
-	self stopTaskIn: anEvent currentTarget 
+	self stopTaskIn: anEvent currentTarget
+]
+
+{ #category : #'instance creation' }
+ToStillPressedEventHandler >> newRepeatedEvent [
+
+	^ ToStillPressedEvent new
+]
+
+{ #category : #'instance creation' }
+ToStillPressedEventHandler >> newStartEvent [
+
+	^ ToStartStillPressedEvent new
+]
+
+{ #category : #'instance creation' }
+ToStillPressedEventHandler >> newStopEvent [
+
+	^ ToStopStillPressedEvent new
 ]
 
 { #category : #'as yet unclassified' }
@@ -69,13 +74,7 @@ ToStillPressedEventHandler >> pickOutsideEvent: anEvent [
 	self stopTaskIn: anEvent currentTarget
 ]
 
-{ #category : #accessing }
-ToStillPressedEventHandler >> startDelay: aDuration [
-
-	startDelay := aDuration
-]
-
-{ #category : #'mouse handlers' }
+{ #category : #'as yet unclassified' }
 ToStillPressedEventHandler >> stopTaskIn: target [
 
 	pickOutsideFilter ifNotNil: [
@@ -84,30 +83,5 @@ ToStillPressedEventHandler >> stopTaskIn: target [
 				sp root removeEventFilter: pickOutsideFilter ] ].
 		pickOutsideFilter := nil ].
 
-	checker ifNotNil: [
-		checker stop.
-		target dequeueTask: checker.
-		checker := nil ].
-	startEvent ifNil: [ ^ self ].
-	startEvent := nil.
-	target dispatchEvent: ToStopStillPressedEvent new
-]
-
-{ #category : #'mouse handlers' }
-ToStillPressedEventHandler >> taskActionFromEvent: anEvent in: aTarget [
-
-	| evt now |
-	now := time now.
-	now >= (startTime + startDelay) ifFalse: [ ^ self ].
-	evt := startEvent
-		       ifNil: [
-			       startEvent := ToStartStillPressedEvent new
-				                     modifiers: anEvent modifiers;
-				                     yourself ]
-		       ifNotNil: [
-			       ToStillPressedEvent new
-				       modifiers: anEvent modifiers;
-				       yourself ].
-	aTarget dispatchEvent: evt.
-	evt isConsumed ifTrue: [ self stopTaskIn: aTarget ]
+	super stopTaskIn: target
 ]

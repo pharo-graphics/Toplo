@@ -8,7 +8,7 @@ Class {
 		'to',
 		'duration'
 	],
-	#category : #'Toplo-Support'
+	#category : #'Toplo-Support-Transition'
 }
 
 { #category : #pulse }

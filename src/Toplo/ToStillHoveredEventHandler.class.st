@@ -1,22 +1,8 @@
 Class {
 	#name : #ToStillHoveredEventHandler,
-	#superclass : #BlCustomEventHandler,
-	#instVars : [
-		'checker',
-		'delay',
-		'time',
-		'startDelay',
-		'startTime',
-		'startEvent'
-	],
-	#category : #'Toplo-Core-States'
+	#superclass : #ToEventGeneratorHandler,
+	#category : #'Toplo-Support-EventGenerator'
 }
-
-{ #category : #accessing }
-ToStillHoveredEventHandler >> delay: aDuration [
-
-	delay := aDuration
-]
 
 { #category : #'api - accessing' }
 ToStillHoveredEventHandler >> eventsToHandle [
@@ -26,16 +12,7 @@ ToStillHoveredEventHandler >> eventsToHandle [
 		  BlMouseLeaveEvent }
 ]
 
-{ #category : #initialization }
-ToStillHoveredEventHandler >> initialize [ 
-
-	super initialize.
-	delay := 0 milliSeconds.
-	startDelay := 0 milliSeconds.
-	time := BlTime real
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #'mouse handlers' }
 ToStillHoveredEventHandler >> mouseEnterEvent: anEvent [
 
 	| target |
@@ -48,46 +25,27 @@ ToStillHoveredEventHandler >> mouseEnterEvent: anEvent [
 	target enqueueTask: checker
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'mouse handlers' }
 ToStillHoveredEventHandler >> mouseLeaveEvent: anEvent [
 
 	checker ifNil: [ ^ self ].
 	self stopTaskIn: anEvent currentTarget
 ]
 
-{ #category : #accessing }
-ToStillHoveredEventHandler >> startDelay: aDuration [
+{ #category : #'instance creation' }
+ToStillHoveredEventHandler >> newRepeatedEvent [
 
-	startDelay := aDuration
+	^ ToStillHoveredEvent new
 ]
 
-{ #category : #'mouse handlers' }
-ToStillHoveredEventHandler >> stopTaskIn: target [
+{ #category : #'instance creation' }
+ToStillHoveredEventHandler >> newStartEvent [ 
 
-	checker ifNotNil: [
-		checker stop.
-		target dequeueTask: checker.
-		checker := nil ].
-	startEvent ifNil: [ ^ self ].
-	startEvent := nil.
-	target dispatchEvent: ToStopStillHoveredEvent new
+	^ ToStartStillHoveredEvent new
 ]
 
-{ #category : #'mouse handlers' }
-ToStillHoveredEventHandler >> taskActionFromEvent: anEvent in: aTarget [
+{ #category : #'instance creation' }
+ToStillHoveredEventHandler >> newStopEvent [
 
-	| evt now |
-	now := time now.
-	now >= (startTime + startDelay) ifFalse: [ ^ self ].
-	evt := startEvent
-		       ifNil: [
-			       startEvent := ToStartStillHoveredEvent new
-				                     modifiers: anEvent modifiers;
-				                     yourself ]
-		       ifNotNil: [
-			       ToStillHoveredEvent new
-				       modifiers: anEvent modifiers;
-				       yourself ].
-	aTarget dispatchEvent: evt.
-	evt isConsumed ifTrue: [ self stopTaskIn: aTarget ]
+	^ ToStopStillHoveredEvent new
 ]

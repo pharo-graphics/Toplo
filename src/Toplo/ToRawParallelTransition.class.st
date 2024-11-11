@@ -6,7 +6,7 @@ Class {
 		'stepAction',
 		'stepArray'
 	],
-	#category : #'Toplo-Support'
+	#category : #'Toplo-Support-Transition'
 }
 
 { #category : #'instance creation' }

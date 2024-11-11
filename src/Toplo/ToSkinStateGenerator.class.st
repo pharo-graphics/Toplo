@@ -100,8 +100,7 @@ ToSkinStateGenerator >> enqueueTransientStateFromSkinEvent: aSkinEvent [
 ToSkinStateGenerator >> eventsToHandle [
 
 	^ {
-		  ToHoveredEvent.
-		  ToPressedEvent.
+		  ToGeneratorEvent.
 		  BlBaseDragEvent.
 		  BlBlurEvent.
 		  BlFocusEvent.

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToStillPressedEvent,
-	#superclass : #ToPressedEvent,
-	#category : #'Toplo-Core-States'
+	#superclass : #ToGeneratorEvent,
+	#category : #'Toplo-Support-EventGenerator'
 }
 
 { #category : #sending }

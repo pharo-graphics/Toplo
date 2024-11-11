@@ -10,7 +10,7 @@ Class {
 		'stepPosition',
 		'stepSize'
 	],
-	#category : #'Toplo-Support'
+	#category : #'Toplo-Support-Transition'
 }
 
 { #category : #pulse }

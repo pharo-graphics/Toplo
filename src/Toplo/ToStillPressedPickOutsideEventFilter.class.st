@@ -5,7 +5,7 @@ Class {
 		'holder',
 		'element'
 	],
-	#category : #'Toplo-Core-States'
+	#category : #'Toplo-Support-EventGenerator'
 }
 
 { #category : #accessing }

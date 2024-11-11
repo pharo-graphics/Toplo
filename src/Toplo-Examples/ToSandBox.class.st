@@ -1,9 +1,6 @@
 Class {
 	#name : #ToSandBox,
 	#superclass : #Object,
-	#classInstVars : [
-		'frame'
-	],
 	#category : #'Toplo-Examples-SandBox'
 }
 
@@ -5248,7 +5245,7 @@ ToSandBox class >> example_verticalPaneWithDividerAndSubpanesWithWeight [
 { #category : #menu }
 ToSandBox class >> example_withCheckBox [
 
-	| menu sub subsub grp right center left |
+	| menu sub subsub grp right center left frame |
 	menu := ToMenu new.
 	menu labelText: 'File'.
 	menu addItem: (ToMenuItem new labelText: 'Open file').
@@ -5292,7 +5289,7 @@ ToSandBox class >> example_withCheckBox [
 	sub addItem: subsub.
 
 	menu addItem: sub.
-	menu position: 10 @ 10.
+	menu position: 10 @ 10. 
 	frame := ToInnerWindow new.
 	frame pane addChild: menu.
 	frame openInSpace

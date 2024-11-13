@@ -119,7 +119,9 @@ ToAnchoredWindow >> popupEvent: anEvent [
 	self element isAttachedToSceneGraph ifFalse: [
 		Error signal:
 			'Can''t popup an anchored window if the element is not attached to a space' ].
-
+	self element isDisabled ifTrue: [ Error signal:
+			'A window with a disabled element shouldn''t popup' ].
+	
 	openTask ifNotNil: [ ^ self ].
 	openTask := BlTaskAction new action: [
 		            self isOpened ifFalse: [

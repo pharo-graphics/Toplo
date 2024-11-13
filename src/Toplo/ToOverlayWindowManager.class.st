@@ -17,9 +17,3 @@ ToOverlayWindowManager >> elementExtentChangedEvent: anEvent [
 	super elementExtentChangedEvent: anEvent.
 	self applySizeHookFromEvent: anEvent
 ]
-
-{ #category : #'api - accessing' }
-ToOverlayWindowManager >> eventsToHandle [
-
-	^ super eventsToHandle , { BlElementExtentChangedEvent }
-]

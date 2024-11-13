@@ -188,14 +188,16 @@ ToPopupWindowManager >> popupDelay: aDuration [
 ToPopupWindowManager >> popupEvent: anEvent [
 
 	currentWindow ifNotNil: [ ^ self ].
+	delayedPopupTask ifNotNil: [ ^ self ].
 	element isEnabled ifFalse: [ ^ self ].
-	delayedPopupTask := BlDelayedTaskAction new
-		                    delay: popupDelay;
-		                    action: [
-			                    | w |
-			                    w := self newWindowEvent: anEvent.
-			                    w popupEvent: anEvent.
-			                    delayedPopupTask := nil ].
+	delayedPopupTask := BlDelayedTaskAction new.
+	delayedPopupTask
+		delay: popupDelay;
+		action: [
+			| w |
+			w := self newWindowEvent: anEvent.
+			w popupEvent: anEvent.
+			delayedPopupTask := nil ].
 	element enqueueTask: delayedPopupTask
 ]
 

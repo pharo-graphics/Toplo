@@ -5,18 +5,10 @@ Class {
 	#classTraits : 'TToMenuItemContainer classTrait + TToMenuWindowModel classTrait',
 	#instVars : [
 		'items',
-		'isSubmenu',
 		'windowManager'
 	],
 	#category : #'Toplo-Widget-Menu-Basic'
 }
-
-{ #category : #'adding-removing' }
-ToMenu >> addedInMenu: aMenu [
-
-	super addedInMenu: aMenu.
-	isSubmenu := true
-]
 
 { #category : #initialization }
 ToMenu >> buttonClickEventClass [
@@ -46,7 +38,6 @@ ToMenu >> includes: anElement [
 ToMenu >> initialize [
 
 	super initialize.
-	isSubmenu := false.
 	self fitContent.
 	windowManager := ToMenuWindowManager new.
 	self addEventHandler: windowManager.
@@ -69,7 +60,7 @@ ToMenu >> isOpened [
 { #category : #'t - menu window model' }
 ToMenu >> isSubmenu [
 
-	^ isSubmenu 
+	^ parentMenu notNil
 ]
 
 { #category : #'t - menu window model' }
@@ -100,13 +91,6 @@ ToMenu >> newRawSkin [
 ToMenu >> popupEvent: anEvent [
 
 	windowManager enqueuePopupTaskFromEvent: anEvent
-]
-
-{ #category : #'adding-removing' }
-ToMenu >> removedFromMenu: aMenu [
-
-	super removedFromMenu: aMenu.
-	isSubmenu := false.
 ]
 
 { #category : #'t - menu window model' }

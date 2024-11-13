@@ -12,17 +12,7 @@ ToListContextMenuSelectionElementEventHandler >> eventsToHandle [
 	^ super eventsToHandle , {
 		  ToListPrimarySelectionChangedEvent.
 		  ToListElementContextMenuRequest.
-		  ToContextMenuClosedEvent.
 		  ToListContextMenuSelectionChangedEvent }
-]
-
-{ #category : #'element handlers' }
-ToListContextMenuSelectionElementEventHandler >> listContextMenuClosedEvent: anEvent [
-
-	| target |
-	target := anEvent currentTarget.
-	target enableScrolledEvent.
-	target contextMenuSelecter deselectAll
 ]
 
 { #category : #'element handlers' }

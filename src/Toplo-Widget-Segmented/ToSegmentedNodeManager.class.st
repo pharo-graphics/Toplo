@@ -31,9 +31,10 @@ ToSegmentedNodeManager >> defaultNodeFactory [
 ]
 
 { #category : #initialization }
-ToSegmentedNodeManager >> unbuildNode: aNode [
+ToSegmentedNodeManager >> defaultNodeUnbuilder [
 
-	aNode checkableElement unregisterFromGroup.
-	aNode checkableElement removeFromParent.
-	super unbuildNode: aNode
+	^ [ :node :checkableElement :holder | 
+	  " in a segmented, the dataItem is a TToCheckable "
+	  node checkableElement unregisterFromGroup.
+	  node checkableElement removeFromParent ]
 ]

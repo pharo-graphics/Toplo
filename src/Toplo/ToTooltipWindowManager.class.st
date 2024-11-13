@@ -29,32 +29,8 @@ ToTooltipWindowManager >> initialize [
 	closeOnMouseDown := true
 ]
 
-{ #category : #'event handling' }
-ToTooltipWindowManager >> tooltipWindowClosedEvent: anEvent [
-
-	self popupWindowClosedEvent: anEvent
-]
-
-{ #category : #'event handling' }
-ToTooltipWindowManager >> tooltipWindowOpenedEvent: anEvent [
-
-	self popupWindowOpenedEvent: anEvent
-]
-
 { #category : #accessing }
 ToTooltipWindowManager >> windowClass [
 
 	^ ToTooltipWindow 
-]
-
-{ #category : #accessing }
-ToTooltipWindowManager >> windowClosedEventClass [
-
-	^ ToTooltipWindowClosedEvent
-]
-
-{ #category : #accessing }
-ToTooltipWindowManager >> windowOpenedEventClass [
-
-	^ ToTooltipWindowOpenedEvent
 ]

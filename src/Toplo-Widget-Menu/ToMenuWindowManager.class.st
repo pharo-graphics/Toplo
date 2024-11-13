@@ -51,17 +51,3 @@ ToMenuWindowManager >> windowClass [
 
 	^ ToMenuWindow 
 ]
-
-{ #category : #accessing }
-ToMenuWindowManager >> windowClosedEventClass [
-
-	^ ToMenuWindowClosedEvent 
-	
-]
-
-{ #category : #accessing }
-ToMenuWindowManager >> windowOpenedEventClass [
-
-	^ ToMenuWindowOpenedEvent 
-	
-]

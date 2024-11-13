@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMenu,
 	#superclass : #ToMenuItem,
-	#traits : 'TToMenuItemHolder + TToMenuWindowModel',
-	#classTraits : 'TToMenuItemHolder classTrait + TToMenuWindowModel classTrait',
+	#traits : 'TToMenuItemContainer + TToMenuWindowModel',
+	#classTraits : 'TToMenuItemContainer classTrait + TToMenuWindowModel classTrait',
 	#instVars : [
 		'items',
 		'isSubmenu',
@@ -78,7 +78,7 @@ ToMenu >> isTopMenu [
 	^ self parentMenu isNil
 ]
 
-{ #category : #'t - menu item holder - accessing' }
+{ #category : #'t - menu item container - accessing' }
 ToMenu >> items [
 
 	^ items ifNil: [ items := OrderedCollection new ]

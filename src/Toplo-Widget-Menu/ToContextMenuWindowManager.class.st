@@ -4,18 +4,6 @@ Class {
 	#category : #'Toplo-Widget-Menu-Context menu'
 }
 
-{ #category : #'event handling' }
-ToContextMenuWindowManager >> contextMenuClosedEvent: anEvent [
-
-	self popupWindowClosedEvent: anEvent
-]
-
-{ #category : #'event handling' }
-ToContextMenuWindowManager >> contextMenuOpenedEvent: anEvent [
-
-	self popupWindowOpenedEvent: anEvent
-]
-
 { #category : #initialization }
 ToContextMenuWindowManager >> defaultPositionHook [
 
@@ -51,19 +39,7 @@ ToContextMenuWindowManager >> windowClass [
 ]
 
 { #category : #accessing }
-ToContextMenuWindowManager >> windowClosedEventClass [
-
-	^ ToContextMenuClosedEvent 
-]
-
-{ #category : #accessing }
 ToContextMenuWindowManager >> windowOpenRequestClass [
 
 	^ ToContextMenuRequest 
-]
-
-{ #category : #accessing }
-ToContextMenuWindowManager >> windowOpenedEventClass [ 
-
-	^ ToContextMenuOpenedEvent  
 ]

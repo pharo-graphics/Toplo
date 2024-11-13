@@ -76,7 +76,7 @@ ToPopupWindowManager >> defaultPositionHook [
 	  window position: (theElement bounds inParent: self anchorRoot) bounds bottomLeft ]
 ]
 
-{ #category : #'window handling' }
+{ #category : #'private - window handling' }
 ToPopupWindowManager >> doPopupFromEvent: anEvent [
 
 	| w |

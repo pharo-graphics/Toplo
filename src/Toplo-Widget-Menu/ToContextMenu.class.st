@@ -1,15 +1,15 @@
 Class {
 	#name : #ToContextMenu,
 	#superclass : #ToMenuWindow,
-	#traits : 'TToMenuItemHolder + TToMenuWindowModel',
-	#classTraits : 'TToMenuItemHolder classTrait + TToMenuWindowModel classTrait',
+	#traits : 'TToMenuItemContainer + TToMenuWindowModel',
+	#classTraits : 'TToMenuItemContainer classTrait + TToMenuWindowModel classTrait',
 	#instVars : [
 		'items'
 	],
 	#category : #'Toplo-Widget-Menu-Context menu'
 }
 
-{ #category : #'t - menu item holder - adding/removing' }
+{ #category : #'t - menu item container - adding/removing' }
 ToContextMenu >> addItem: aMenuItem [
 
 	self items add: aMenuItem.
@@ -47,7 +47,7 @@ ToContextMenu >> itemHolder [
 	^ self 
 ]
 
-{ #category : #'t - menu item holder - accessing' }
+{ #category : #'t - menu item container - accessing' }
 ToContextMenu >> items [
 
 	^ items ifNil: [ items := OrderedCollection new ]
@@ -65,7 +65,7 @@ ToContextMenu >> popupEvent: anEvent [
 	^ super popupEvent: anEvent
 ]
 
-{ #category : #'t - menu item holder - adding/removing' }
+{ #category : #'t - menu item container - adding/removing' }
 ToContextMenu >> removeItem: aMenuItem [
 
 	self items remove: aMenuItem.

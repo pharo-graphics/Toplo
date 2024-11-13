@@ -23,15 +23,6 @@ ToContextMenuWindowManager >> initialize [
 	self useSecondaryMouseButton
 ]
 
-{ #category : #'window handling' }
-ToContextMenuWindowManager >> newWindowOpenRequestEventFromSourceEvent: anEvent [
-	" request from the ToElementContextMenuEventHandler>>mouseDownEvent: "
-
-	^ (super newWindowOpenRequestEventFromSourceEvent: anEvent)
-		  sourceEvent: anEvent;
-		  yourself
-]
-
 { #category : #accessing }
 ToContextMenuWindowManager >> windowClass [
 
@@ -39,7 +30,7 @@ ToContextMenuWindowManager >> windowClass [
 ]
 
 { #category : #accessing }
-ToContextMenuWindowManager >> windowOpenRequestClass [
+ToContextMenuWindowManager >> windowRequestClass [
 
 	^ ToContextMenuRequest 
 ]

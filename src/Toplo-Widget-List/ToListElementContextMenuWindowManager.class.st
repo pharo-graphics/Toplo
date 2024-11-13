@@ -11,18 +11,16 @@ ToListElementContextMenuWindowManager >> listElementContextMenuRequest: anEvent 
 ]
 
 { #category : #'window handling' }
-ToListElementContextMenuWindowManager >> newWindowOpenRequestEventFromSourceEvent: anEvent [
-	" request from the ToElementContextMenuEventHandler>>mouseDownEvent: "
+ToListElementContextMenuWindowManager >> newWindowRequestFrom: anEvent [
+	" as an example from the ToElementContextMenuEventHandler>>mouseDownEvent: "
 
-	| target selectionModel |
-	target := anEvent currentTarget.
+	|  selectionModel |
 	" copy the selection to have unabled, hidden and unselectable selection passed to the menu builder "
-	selectionModel := target selectionModel copy.
+	selectionModel := anEvent currentTarget selectionModel copy.
 	" pass the selection model to the event for the context menu window builder.
 	see ToAnchoredWindowManager>>newWindowEvent: "
 
-	^ (super newWindowOpenRequestEventFromSourceEvent: anEvent)
-		  sourceEvent: anEvent;
+	^ (super newWindowRequestFrom: anEvent)
 		  selectionModel: selectionModel;
 		  yourself
 ]
@@ -35,7 +33,7 @@ ToListElementContextMenuWindowManager >> popupWindowClosedEvent: anEvent [
 ]
 
 { #category : #accessing }
-ToListElementContextMenuWindowManager >> windowOpenRequestClass [
+ToListElementContextMenuWindowManager >> windowRequestClass [
 
 	^ ToListElementContextMenuRequest
 ]

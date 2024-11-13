@@ -507,5 +507,5 @@ ToAnchoredWindowManagerTest >> testWindowOpenRequestClass [
 
 	| windowManager |
 	windowManager := ToAnchoredWindowManager new builder: [ :anchWin :element | ].
-	self assert: windowManager windowOpenRequestClass identicalTo: ToAnchoredWindowOpenRequest
+	self assert: windowManager windowRequestClass identicalTo: ToAnchoredWindowRequest
 ]

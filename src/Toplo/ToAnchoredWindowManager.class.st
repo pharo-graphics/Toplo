@@ -25,7 +25,7 @@ ToAnchoredWindowManager >> anchorRoot: anElement [
 ]
 
 { #category : #'event handling' }
-ToAnchoredWindowManager >> anchoredWindowOpenRequest: anEvent [
+ToAnchoredWindowManager >> anchoredWindowRequest: anEvent [
 ]
 
 { #category : #'bounds hook' }
@@ -151,7 +151,7 @@ ToAnchoredWindowManager >> elementRemovedFromSceneGraphEvent: anEvent [
 ToAnchoredWindowManager >> eventsToHandle [
 
 	^ {
-		  self windowOpenRequestClass.
+		  self windowRequestClass.
 		  self windowOpenedEventClass.
 		  self windowClosedEventClass.
 		  BlElementExtentChangedEvent.
@@ -190,7 +190,7 @@ ToAnchoredWindowManager >> newWindowEvent: anEvent [
 	
 	self element isEnabled ifFalse: [ ^ self ].
 	
-	request := self newWindowOpenRequestEventFromSourceEvent: anEvent.
+	request := self newWindowRequestFrom: anEvent.
 	
 	" dispatch the event. handlers can eventually feed the event with additional data 
 	that can be used by the builder "
@@ -206,9 +206,11 @@ ToAnchoredWindowManager >> newWindowEvent: anEvent [
 ]
 
 { #category : #'window handling' }
-ToAnchoredWindowManager >> newWindowOpenRequestEventFromSourceEvent: anEvent [
+ToAnchoredWindowManager >> newWindowRequestFrom: anEvent [
 
-	^ self windowOpenRequestClass new
+	^ self windowRequestClass new
+		  sourceEvent: anEvent;
+		  yourself
 ]
 
 { #category : #'api - hooks' }
@@ -287,12 +289,6 @@ ToAnchoredWindowManager >> windowClosedEventClass [
 	^ ToWindowClosedEvent 
 ]
 
-{ #category : #accessing }
-ToAnchoredWindowManager >> windowOpenRequestClass [
-
-	^ ToAnchoredWindowOpenRequest 
-]
-
 { #category : #'event handling' }
 ToAnchoredWindowManager >> windowOpenedEvent: anEvent [
 
@@ -303,4 +299,10 @@ ToAnchoredWindowManager >> windowOpenedEvent: anEvent [
 ToAnchoredWindowManager >> windowOpenedEventClass [
 
 	^ ToWindowOpenedEvent 
+]
+
+{ #category : #accessing }
+ToAnchoredWindowManager >> windowRequestClass [
+
+	^ ToAnchoredWindowRequest 
 ]

@@ -133,7 +133,7 @@ TToElementWithContextMenuTest >> testContextMenuRequest [
 	e contextMenu: [:win :theRequest | win addItem: ToMenuItem new. request := theRequest].
 	ttwin := e newContextMenuEvent: nil.
 	self assert: request notNil.
-	self assert: request class identicalTo: ttwin manager windowOpenRequestClass.
+	self assert: request class identicalTo: ttwin manager windowRequestClass.
 	self assert: request target identicalTo: e 
 ]
 

@@ -1,9 +1,6 @@
 Class {
 	#name : #ToContextMenuRequest,
-	#superclass : #ToAnchoredWindowOpenRequest,
-	#instVars : [
-		'sourceEvent'
-	],
+	#superclass : #ToAnchoredWindowRequest,
 	#category : #'Toplo-Widget-Menu-Context menu'
 }
 
@@ -11,16 +8,4 @@ Class {
 ToContextMenuRequest >> sendTo: anEvent [
 
 	anEvent contextMenuRequest: self
-]
-
-{ #category : #accessing }
-ToContextMenuRequest >> sourceEvent [
-
-	^ sourceEvent
-]
-
-{ #category : #accessing }
-ToContextMenuRequest >> sourceEvent: anEvent [
-
-	sourceEvent := anEvent
 ]

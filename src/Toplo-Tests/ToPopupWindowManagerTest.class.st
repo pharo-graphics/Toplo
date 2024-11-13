@@ -107,6 +107,7 @@ ToPopupWindowManagerTest >> testMouseDownEvent [
 	position := e bounds inSpace center.
 	event := BlMouseDownEvent primary position: position.
 	e dispatchEvent: event.
+	self waitTestingSpaces.
 	self assert: windowManager currentWindow notNil.
 	self waitTestingSpaces.
 	self assert: windowManager currentWindow isOpened

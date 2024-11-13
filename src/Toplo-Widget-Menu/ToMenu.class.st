@@ -90,7 +90,7 @@ ToMenu >> newRawSkin [
 { #category : #'t - menu window model' }
 ToMenu >> popupEvent: anEvent [
 
-	windowManager enqueuePopupTaskFromEvent: anEvent
+	windowManager popupEvent: anEvent
 ]
 
 { #category : #'t - menu window model' }

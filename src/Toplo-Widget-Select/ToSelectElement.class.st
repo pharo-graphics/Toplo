@@ -302,12 +302,6 @@ ToSelectElement >> popupSizeHook: aValuable [
 	self windowManager sizeHook: aValuable
 ]
 
-{ #category : #'accessing - window' }
-ToSelectElement >> popupWindowEvent: anEvent [
-
-	^ self popupWindowManager popupWindowEvent: anEvent
-]
-
 { #category : #accessing }
 ToSelectElement >> popupWindowManager [
 

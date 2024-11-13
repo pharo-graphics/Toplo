@@ -163,7 +163,7 @@ ToAlbumAutocompletionEventHandler >> onInstalledIn: anElement [
 ToAlbumAutocompletionEventHandler >> openWindowFromEvent: anEvent [
 
 	windowManager currentWindow ifNil: [
-		windowManager popupWindowEvent: anEvent ]
+		windowManager popupEvent: anEvent ]
 ]
 
 { #category : #'event handling' }

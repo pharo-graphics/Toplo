@@ -383,7 +383,7 @@ ToAnchoredWindowManagerTest >> testNewWindowEvent2 [
 	self assert: windowManager currentWindow identicalTo: win1.
 	" the window is already built -> Error "
 	self should: [ windowManager newWindowEvent: nil ] raise: Error.
-	windowManager removeWindow.
+	windowManager closeWindow.
 	win2 := windowManager newWindowEvent: nil.
 	self deny: win1 identicalTo: win2
 ]

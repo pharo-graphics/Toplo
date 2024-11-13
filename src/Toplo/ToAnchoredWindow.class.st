@@ -3,8 +3,7 @@ Class {
 	#superclass : #ToBasicWindowElement,
 	#instVars : [
 		'popupTimestamp',
-		'windowManager',
-		'openTask'
+		'windowManager'
 	],
 	#category : #'Toplo-Core-Window'
 }
@@ -37,7 +36,6 @@ ToAnchoredWindow >> checkBeforePopupEvent: anEvent [
 { #category : #'api - displaying' }
 ToAnchoredWindow >> close [
 
-	openTask ifNotNil: [ :t | self anchorRoot dequeueTask: openTask].
 	super close.
 	self dispatchClosedEvent
 ]
@@ -94,10 +92,11 @@ ToAnchoredWindow >> manager: aWindowHandler [
 
 { #category : #'api - displaying' }
 ToAnchoredWindow >> open [
-	self flag: 'TODO'.
-	(true or: [ self useMorphicHost ]) ifFalse: [ ^ self ].
-	self anchorRoot addChild: self.
-	^ self
+
+	self show.
+	self localTheme ifNil: [ self localTheme: self element lookupTheme ].
+	popupTimestamp := self space time now.
+	self dispatchOpenedEvent
 ]
 
 { #category : #'api - displaying' }
@@ -119,28 +118,25 @@ ToAnchoredWindow >> popupEvent: anEvent [
 	self element isAttachedToSceneGraph ifFalse: [
 		Error signal:
 			'Can''t popup an anchored window if the element is not attached to a space' ].
-	self element isDisabled ifTrue: [ Error signal:
-			'A window with a disabled element shouldn''t popup' ].
+	self element isDisabled ifTrue: [
+		Error signal: 'A window with a disabled element shouldn''t popup' ].
 	
-	openTask ifNotNil: [ ^ self ].
-	openTask := BlTaskAction new action: [
-		            self isOpened ifFalse: [
-			            self open.
-			            self localTheme ifNil: [
-				            self localTheme: self element lookupTheme ].
-			            popupTimestamp := self space time now.
-			            self dispatchOpenedEvent ].
-		            self toFront.
-		            self checkBeforePopupEvent: anEvent.
-		            openTask := nil ].
-	self anchorRoot enqueueTask: openTask.
-	self anchorRoot spaceDo: [ :sp | sp requestNextPulse ].
+	self checkBeforePopupEvent: anEvent.
+	self isOpened ifFalse: [ self open ].
+	self toFront.
+
 ]
 
 { #category : #accessing }
 ToAnchoredWindow >> popupTimestamp [
 
 	^ popupTimestamp 
+]
+
+{ #category : #'api - displaying' }
+ToAnchoredWindow >> show [
+
+	self anchorRoot addChild: self
 ]
 
 { #category : #testing }

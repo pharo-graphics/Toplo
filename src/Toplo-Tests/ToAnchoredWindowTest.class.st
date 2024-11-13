@@ -25,7 +25,7 @@ ToAnchoredWindowTest >> testClose [
 	self assert: winRootChild parent identicalTo: win root.
 	self deny: win isOpened.
 	win close.
-	windowManager removeWindow.
+	windowManager closeWindow.
 	self assert: winRootChild parent isNil.
 	" but after it has been closed, it can't be opened anymore "
 	self should: [ win popup ] raise: Error

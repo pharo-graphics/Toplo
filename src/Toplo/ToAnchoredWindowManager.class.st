@@ -240,17 +240,6 @@ ToAnchoredWindowManager >> onWindowOpened [
 
 ]
 
-{ #category : #'window handling' }
-ToAnchoredWindowManager >> popupWindowEvent: anEvent [
-
-	(currentWindow notNil and: [ currentWindow isOpened ]) ifTrue: [
-		^ self ].
-	currentWindow ifNil: [ self newWindowEvent: anEvent ].
-	" currentWindow can be nil in case the element is disabled "
-	currentWindow ifNil: [ ^ self ].
-	currentWindow popupEvent: anEvent
-]
-
 { #category : #accessing }
 ToAnchoredWindowManager >> positionHook [
 
@@ -264,14 +253,6 @@ ToAnchoredWindowManager >> positionHook: aValuable [
 	Computes the window position according to the element position "
 	
 	positionHook := aValuable
-]
-
-{ #category : #'window handling' }
-ToAnchoredWindowManager >> removeWindow [
-
-	self currentWindow ifNil: [ ^ self ].
-	self currentWindow isOpened ifTrue: [ ^ self currentWindow close ].
-	self onWindowClosed
 ]
 
 { #category : #accessing }

@@ -30,8 +30,8 @@ ToSelectElementSkin >> shortcutsToInstallIn: aSelect [
 						          nextSelectableIndexToScrollTo.
 					   listElement secondarySelecter selectOnlyIndex: idx.
 					   listElement secondarySelecter scrollToDataSourcePosition: idx.
-					   aSelect popupWindowManager currentWindow ifNil: [
-							   aSelect popupWindowEvent: aShortcutEvent ] ]).
+					   aSelect popupWindowManager popupEvent:
+							   aShortcutEvent ]).
 
 		  stream nextPut: (BlShortcutWithAction new
 				   combination: BlKeyCombination builder arrowUp build;
@@ -54,14 +54,15 @@ ToSelectElementSkin >> shortcutsToInstallIn: aSelect [
 									   (listElement selectionModel containsIndex: idx)
 										   ifTrue: [ deselIdxes add: idx ]
 										   ifFalse: [ selIdxes add: idx ] ] ].
-						" use a composite command to have only one ToSelectChangedEvent for multiple sub-commands "
+					   " use a composite command to have only one ToSelectChangedEvent for multiple sub-commands "
 					   cmd := ToListElementCompositeCommand new.
 					   aSelect isMultipleSelection ifFalse: [
 							   aSelect allowDeselection
 								   ifTrue: [ cmd add: ToWholeSelectionCommand remove ]
 								   ifFalse: [
-									   selIdxes ifNotEmpty:[ (listElement selecter containsIndex: selIdxes first)
-										   ifFalse: [ cmd add: ToWholeSelectionCommand remove ] ] ] ].
+									   selIdxes ifNotEmpty: [
+											   (listElement selecter containsIndex: selIdxes first)
+												   ifFalse: [ cmd add: ToWholeSelectionCommand remove ] ] ] ].
 					   aSelect allowDeselection ifTrue: [
 							   cmd add: (ToIndexesSelectionCommand remove: deselIdxes) ].
 					   cmd add: (ToIndexesSelectionCommand add: selIdxes).

@@ -43,7 +43,7 @@ ToBarElement >> defaultInnerElement [
 { #category : #initialization }
 ToBarElement >> defaultNodeManagerClass [
 
-	^ ToBarNodeManager 
+	^ ToGenericBarNodeManager 
 ]
 
 { #category : #accessing }

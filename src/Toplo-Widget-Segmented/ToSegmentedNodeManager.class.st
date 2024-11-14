@@ -1,6 +1,6 @@
 Class {
 	#name : #ToSegmentedNodeManager,
-	#superclass : #ToBarNodeManager,
+	#superclass : #ToGenericBarNodeManager,
 	#category : #'Toplo-Widget-Segmented-Node'
 }
 

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToTagNodeManager,
-	#superclass : #ToBarNodeManager,
+	#superclass : #ToGenericBarNodeManager,
 	#instVars : [
 		'compositeNodeBuilder'
 	],
@@ -8,11 +8,10 @@ Class {
 }
 
 { #category : #'instance creation' }
-ToTagNodeManager >> buildNode: aNode inHolder: aNodeHolder [
+ToTagNodeManager >> buildNode: aNode [ 
 
-	aNodeHolder tagModel
+	aNode holder tagModel
 		buildNode: aNode
-		inHolder: aNodeHolder
 		withManager: self
 ]
 

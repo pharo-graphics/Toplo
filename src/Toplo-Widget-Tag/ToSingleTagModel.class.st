@@ -8,9 +8,9 @@ Class {
 }
 
 { #category : #'node building' }
-ToSingleTagModel >> buildNode: aNode inHolder: aNodeHolder withManager: aNodeManager [
+ToSingleTagModel >> buildNode: aNode withManager: aNodeManager [
 
-	aNodeManager nodeBuilder value: aNode value: data value: aNodeHolder.
+	aNodeManager nodeBuilder value: aNode value: data value: aNode holder.
 	aNode addEventHandlerOn: ToTagRemovedEvent do: [ :event |
 		event consume.
 		event currentTarget removeFromBar ]

@@ -21,7 +21,7 @@ ToListElement >> defaultInnerElement [
 { #category : #initialization }
 ToListElement >> defaultNodeManagerClass [
 
-	^ ToListNodeManager  
+	^ ToGenericListNodeManager  
 ]
 
 { #category : #'private - invalidation' }

@@ -1,21 +1,28 @@
 Class {
-	#name : #ToSegmentedBarElementSkin,
+	#name : #ToSegmentedElementSkin,
 	#superclass : #ToRawSkin,
 	#category : #'Toplo-Widget-Segmented-Bar'
 }
 
 { #category : #'event handling' }
-ToSegmentedBarElementSkin >> installSkinEvent: anEvent [
+ToSegmentedElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e background: BlBackground transparent.
+		e background: (e valueOfTokenNamed: #'segmented-background').
+		e geometry: (BlRoundedRectangleGeometry cornerRadius:
+				 (e valueOfTokenNamed: #'segmented-border-radius')).
+		e padding: (BlInsets
+				 top: (e valueOfTokenNamed: #'padding-content-V')
+				 left: (e valueOfTokenNamed: #'padding-XS')
+				 bottom: (e valueOfTokenNamed: #'padding-content-V')
+				 right: (e valueOfTokenNamed: #'padding-XS')).
 		e shortcuts: (self shortcutsToInstallIn: e).
 		e installShortcuts ]
 ]
 
 { #category : #'accessing - shortcuts' }
-ToSegmentedBarElementSkin >> shortcutsToInstallIn: aSegmentedBar [
+ToSegmentedElementSkin >> shortcutsToInstallIn: aSegmentedBar [
 
 	| listElement |
 	listElement := aSegmentedBar.
@@ -47,7 +54,7 @@ ToSegmentedBarElementSkin >> shortcutsToInstallIn: aSegmentedBar [
 ]
 
 { #category : #'event handling' }
-ToSegmentedBarElementSkin >> uninstallSkinEvent: anEvent [
+ToSegmentedElementSkin >> uninstallSkinEvent: anEvent [
 
 	super uninstallSkinEvent: anEvent.
 	anEvent elementDo: [ :e | e uninstallShortcuts ]

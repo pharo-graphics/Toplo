@@ -3745,7 +3745,7 @@ ToSandBox class >> example_segmentedWithLabels [
 				 ' double click ' trace.
 				 event indexes traceCr ]).
 
-	seg barElement
+	seg 
 		addEventHandlerOn: ToListPrimarySelectionChangedEvent
 		do: maj.
 	seg addEventHandlerOn: BlElementAddedToSceneGraphEvent do: maj.
@@ -3793,7 +3793,7 @@ ToSandBox class >> example_segmentedWithLabelsAndIcons [
 				 ' double click ' trace.
 				 event indexes traceCr ]).
 
-	seg barElement
+	seg 
 		addEventHandlerOn: ToListPrimarySelectionChangedEvent
 		do: maj.
 	seg addEventHandlerOn: BlElementAddedToSceneGraphEvent do: maj.
@@ -3817,7 +3817,7 @@ ToSandBox class >> example_segmentedWithSegmentedButton [
 				 whenClickedDo: [ :event | event currentTarget label text traceCr ];
 				 yourself) ].
 
-	seg barElement disabledSelecter selectIndex: 2.
+	seg  disabledSelecter selectIndex: 2.
 	dashBoard := self segmentedDashBoardFor: seg.
 
 	feedbackPane := ToPane horizontal.
@@ -3845,7 +3845,7 @@ ToSandBox class >> example_segmentedWithSegmentedButton [
 				 ' double click ' trace.
 				 event indexes traceCr ]).
 
-	seg barElement
+	seg 
 		addEventHandlerOn: ToListPrimarySelectionChangedEvent
 		do: maj.
 	seg addEventHandlerOn: BlElementAddedToSceneGraphEvent do: maj.

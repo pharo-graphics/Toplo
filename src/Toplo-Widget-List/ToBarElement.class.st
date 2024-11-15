@@ -1,26 +1,10 @@
 Class {
 	#name : #ToBarElement,
 	#superclass : #ToGenericListElement,
-	#instVars : [
-		'nodeWrapping',
-		'nodeScrolling',
-		'nodeAutoDistribution',
-		'uniformNodeWidth'
-	],
+	#traits : 'TToBarElement',
+	#classTraits : 'TToBarElement classTrait',
 	#category : #'Toplo-Widget-List-Core-BarElement'
 }
-
-{ #category : #layout }
-ToBarElement >> checkFullyVisibleNodes [ 
-
-	self innerElement checkFullyVisibleNodes 
-]
-
-{ #category : #layout }
-ToBarElement >> configureLayout [
-
-	self innerElement configureLayoutIn: self
-]
 
 { #category : #initialization }
 ToBarElement >> defaultDataSource [
@@ -29,27 +13,9 @@ ToBarElement >> defaultDataSource [
 ]
 
 { #category : #initialization }
-ToBarElement >> defaultEventHandler [
-
-	^ ToBarElementEventHandler new
-]
-
-{ #category : #initialization }
-ToBarElement >> defaultInnerElement [
-
-	^ ToInnerBarElement onBarElement: self
-]
-
-{ #category : #initialization }
 ToBarElement >> defaultNodeManagerClass [
 
 	^ ToGenericBarNodeManager 
-]
-
-{ #category : #accessing }
-ToBarElement >> fakeNode [
-
-	^ self innerElement fakeNode
 ]
 
 { #category : #layout }
@@ -80,32 +46,10 @@ ToBarElement >> initializeInnerElement [
 	self installFakeNode
 ]
 
-{ #category : #initialization }
-ToBarElement >> installFakeNode [
-
-	self innerElement installFakeNode
-]
-
 { #category : #skin }
 ToBarElement >> newRawSkin [ 
 
 	^ ToBarElementSkin new
-]
-
-{ #category : #accessing }
-ToBarElement >> nodeAutoDistribution [
-
-	^ nodeAutoDistribution ifNil: [ nodeAutoDistribution := false ]
-]
-
-{ #category : #accessing }
-ToBarElement >> nodeAutoDistribution: aBoolean [
-
-	nodeAutoDistribution = aBoolean ifTrue: [ ^ self ].
-	nodeAutoDistribution := aBoolean.
-	" notify dataSource changed to renew all nodes "
-	self notifyDataSourceChanged.
-	self configureLayout
 ]
 
 { #category : #accessing }
@@ -132,61 +76,10 @@ ToBarElement >> nodeHolderClass: aNodeHolderClass [
 	self notifyDataSourceChanged
 ]
 
-{ #category : #accessing }
-ToBarElement >> nodeScrolling [
-
-	^ nodeScrolling ifNil: [ nodeScrolling := false ]
-]
-
-{ #category : #accessing }
-ToBarElement >> nodeScrolling: aBoolean [
-
-	nodeScrolling := aBoolean.
-	self configureLayout
-]
-
-{ #category : #accessing }
-ToBarElement >> nodeWrapping [
-
-	^ nodeWrapping ifNil: [ nodeWrapping := true ]
-]
-
-{ #category : #accessing }
-ToBarElement >> nodeWrapping: aBoolean [
-
-	nodeWrapping := aBoolean.
-	self configureLayout
-]
-
 { #category : #layout }
 ToBarElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 
 	super onLayout: aBounds context: aBlElementBoundsUpdateContext
-]
-
-{ #category : #accessing }
-ToBarElement >> sample: aDataItem [
-
-	nodeManager fakeDataItem: aDataItem.
-	self uninstallFakeNode.
-	self installFakeNode.
-	self configureLayout
-	
-]
-
-{ #category : #accessing }
-ToBarElement >> uniformNodeWidth [
-
-	^ uniformNodeWidth ifNil: [ uniformNodeWidth := false ]
-]
-
-{ #category : #accessing }
-ToBarElement >> uniformNodeWidth: aBoolean [
-
-	uniformNodeWidth := aBoolean.
-	self configureLayout.
-	self notifyDataSourceChanged
-
 ]
 
 { #category : #initialization }

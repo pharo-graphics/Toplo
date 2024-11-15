@@ -35,12 +35,6 @@ TToGenericNodeManager >> newNodeForHolder: aNodeHolder [
 ]
 
 { #category : #'t - generic node manager' }
-TToGenericNodeManager >> nodeBuilder [
-
-	^ nodeBuilder 
-]
-
-{ #category : #'t - generic node manager' }
 TToGenericNodeManager >> nodeBuilder: aValuable [
 	"aValuable takes 3 optional args: first, the node to build, second, the dataItem and third, the holder in the list element "
 

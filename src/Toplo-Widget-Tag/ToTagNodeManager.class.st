@@ -7,19 +7,30 @@ Class {
 	#category : #'Toplo-Widget-Tag-Bar'
 }
 
-{ #category : #'instance creation' }
+{ #category : #'node building' }
 ToTagNodeManager >> buildNode: aNode [ 
 
 	aNode holder tagModel
 		buildNode: aNode
-		withManager: self
+		fromManager: self
 ]
 
-{ #category : #accessing }
-ToTagNodeManager >> compositeNodeBuilder [
+{ #category : #'node building' }
+ToTagNodeManager >> buildNode: aNode forCompositeTagModel: aTagModel [
 
-	" aValuable takes the node, then the compositeDataItem then the holder as arguments "
-	^ compositeNodeBuilder 
+	compositeNodeBuilder
+		value: aNode
+		value: aTagModel
+		value: aNode holder
+]
+
+{ #category : #'node building' }
+ToTagNodeManager >> buildNode: aNode forSingleTagModel: aTagModel [
+
+	nodeBuilder value: aNode value: aTagModel data value: aNode holder.
+	aNode addEventHandlerOn: ToTagRemovedEvent do: [ :event |
+		event consume.
+		event currentTarget removeFromBar ]
 ]
 
 { #category : #accessing }

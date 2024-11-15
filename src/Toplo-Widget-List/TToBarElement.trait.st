@@ -111,3 +111,9 @@ TToBarElement >> uniformNodeWidth: aBoolean [
 	self notifyDataSourceChanged
 
 ]
+
+{ #category : #'t - bar element' }
+TToBarElement >> uninstallFakeNode [
+
+	self innerElement uninstallFakeNode
+]

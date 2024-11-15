@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #'node building' }
-ToAbstractTagModel >> buildNode: aNode withManager: aNodeManager [
+ToAbstractTagModel >> buildNode: aNode fromManager: aNodeManager [
 
 	self subclassResponsibility 
 ]

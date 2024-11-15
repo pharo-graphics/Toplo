@@ -9,12 +9,9 @@ Class {
 }
 
 { #category : #'node building' }
-ToCompositeTagModel >> buildNode: aNode withManager: aNodeManager [
+ToCompositeTagModel >> buildNode: aNode fromManager: aNodeManager [
 
-	aNodeManager compositeNodeBuilder
-		value: aNode
-		value: self
-		value: aNode holder
+	aNodeManager buildNode: aNode forCompositeTagModel: self
 ]
 
 { #category : #accessing }

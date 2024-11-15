@@ -81,9 +81,3 @@ ToBarElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 
 	super onLayout: aBounds context: aBlElementBoundsUpdateContext
 ]
-
-{ #category : #initialization }
-ToBarElement >> uninstallFakeNode [
-
-	self innerElement uninstallFakeNode
-]

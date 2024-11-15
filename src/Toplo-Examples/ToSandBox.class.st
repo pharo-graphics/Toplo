@@ -1564,27 +1564,23 @@ ToSandBox class >> example_PicsumPhotosGallery [
 	" Images loaded from https://picsum.photos "
 
 	| space list vscrollBar |
-	list := ToListElement new
+	list := ToPicsumListElement new
 		        matchParent;
 		        yourself.
-	list
-		nodeHolderClass: ToPicsumPhotosGalleryImageHolder;
-		nodeFactory: [ ToPicsumPhotosGalleryImageNode new ];
-		withoutNodeBuilder.
 
 	list selectionOption
 		grouped: false;
 		beneath: false;
 		elementFactory: [
 			ToListBasicSelectionElement new defaultSkin:
-					ToPicsumPhotosGallerySelectionSkin new ].
+					ToPicsumSelectionSkin new ].
 
 	[
 	| allImagesData |
 	allImagesData := (STONJSON fromString:
 		                  'https://picsum.photos/list' asUrl
 			                  retrieveContents) collect: [ :aDictionary |
-		                 ToPicsumPhotosGalleryImageData fromDictionary:
+		                 ToPicsumImageData fromDictionary:
 			                 aDictionary ].
 	allImagesData sort: [ :a :b | a id > b id ].
 	list dataAccessor addAll: allImagesData ] fork.

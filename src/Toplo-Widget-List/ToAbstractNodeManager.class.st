@@ -4,16 +4,13 @@ Class {
 	#category : #'Toplo-Widget-List-Core'
 }
 
-{ #category : #'instance creation' }
+{ #category : #initialization }
 ToAbstractNodeManager >> buildNode: aNode [ 
 
-	self subclassResponsibility 
 ]
 
 { #category : #initialization }
 ToAbstractNodeManager >> constraintNode: aNode [
-
-	aNode hMatchParent
 ]
 
 { #category : #'instance creation' }
@@ -28,9 +25,8 @@ ToAbstractNodeManager >> newNodeForHolder: aNodeHolder [
 	^ self subclassResponsibility 
 ]
 
-{ #category : #'instance creation' }
+{ #category : #initialization }
 ToAbstractNodeManager >> unbuildNode: aNode [
 
-	self subclassResponsibility 
 
 ]

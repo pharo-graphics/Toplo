@@ -48,9 +48,3 @@ ToGenericListNodeManager >> initialize [
 	nodeUnbuilder := self defaultNodeUnbuilder.
 	nodeFactory := self defaultNodeFactory
 ]
-
-{ #category : #accessing }
-ToGenericListNodeManager >> withoutNodeBuilder [
-
-	self nodeBuilder: [  ]
-]

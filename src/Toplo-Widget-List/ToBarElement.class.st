@@ -1,6 +1,6 @@
 Class {
 	#name : #ToBarElement,
-	#superclass : #ToAbstractListElement,
+	#superclass : #ToGenericListElement,
 	#instVars : [
 		'nodeWrapping',
 		'nodeScrolling',

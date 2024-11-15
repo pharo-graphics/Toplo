@@ -2,7 +2,7 @@
 I'm part of the Photo gallery example. I'm not expected to be used as a standalone.
 "
 Class {
-	#name : #ToPicsumPhotosGalleryImageData,
+	#name : #ToPicsumImageData,
 	#superclass : #Object,
 	#instVars : [
 		'format',
@@ -19,7 +19,7 @@ Class {
 }
 
 { #category : #'instance creation' }
-ToPicsumPhotosGalleryImageData class >> fromDictionary: aDictionary [
+ToPicsumImageData class >> fromDictionary: aDictionary [
 	^ self new
 		format: (aDictionary at: #format);
 		filename: (aDictionary at: #filename);
@@ -33,93 +33,93 @@ ToPicsumPhotosGalleryImageData class >> fromDictionary: aDictionary [
 ]
 
 { #category : #accessing }
-ToPicsumPhotosGalleryImageData >> author [
+ToPicsumImageData >> author [
 	^ author
 ]
 
 { #category : #accessing }
-ToPicsumPhotosGalleryImageData >> author: anObject [
+ToPicsumImageData >> author: anObject [
 	author := anObject
 ]
 
 { #category : #accessing }
-ToPicsumPhotosGalleryImageData >> authorUrl [
+ToPicsumImageData >> authorUrl [
 	^ authorUrl
 ]
 
 { #category : #accessing }
-ToPicsumPhotosGalleryImageData >> authorUrl: anObject [
+ToPicsumImageData >> authorUrl: anObject [
 	authorUrl := anObject
 ]
 
 { #category : #accessing }
-ToPicsumPhotosGalleryImageData >> filename [
+ToPicsumImageData >> filename [
 	^ filename
 ]
 
 { #category : #accessing }
-ToPicsumPhotosGalleryImageData >> filename: anObject [
+ToPicsumImageData >> filename: anObject [
 	filename := anObject
 ]
 
 { #category : #accessing }
-ToPicsumPhotosGalleryImageData >> format [
+ToPicsumImageData >> format [
 	^ format
 ]
 
 { #category : #accessing }
-ToPicsumPhotosGalleryImageData >> format: anObject [
+ToPicsumImageData >> format: anObject [
 	format := anObject
 ]
 
 { #category : #accessing }
-ToPicsumPhotosGalleryImageData >> height [
+ToPicsumImageData >> height [
 	^ height
 ]
 
 { #category : #accessing }
-ToPicsumPhotosGalleryImageData >> height: anObject [
+ToPicsumImageData >> height: anObject [
 	height := anObject
 ]
 
 { #category : #accessing }
-ToPicsumPhotosGalleryImageData >> id [
+ToPicsumImageData >> id [
 	^ id
 ]
 
 { #category : #accessing }
-ToPicsumPhotosGalleryImageData >> id: anObject [
+ToPicsumImageData >> id: anObject [
 	id := anObject
 ]
 
 { #category : #accessing }
-ToPicsumPhotosGalleryImageData >> loadedForm [
+ToPicsumImageData >> loadedForm [
 
 	^ loadedForm
 ]
 
 { #category : #accessing }
-ToPicsumPhotosGalleryImageData >> loadedForm: aForm [
+ToPicsumImageData >> loadedForm: aForm [
 
 	loadedForm := aForm
 ]
 
 { #category : #accessing }
-ToPicsumPhotosGalleryImageData >> postUrl [
+ToPicsumImageData >> postUrl [
 	^ postUrl
 ]
 
 { #category : #accessing }
-ToPicsumPhotosGalleryImageData >> postUrl: anObject [
+ToPicsumImageData >> postUrl: anObject [
 	postUrl := anObject
 ]
 
 { #category : #accessing }
-ToPicsumPhotosGalleryImageData >> width [
+ToPicsumImageData >> width [
 	^ width
 ]
 
 { #category : #accessing }
-ToPicsumPhotosGalleryImageData >> width: anObject [
+ToPicsumImageData >> width: anObject [
 	width := anObject
 ]

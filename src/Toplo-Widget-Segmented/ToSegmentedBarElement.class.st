@@ -1,8 +1,8 @@
 Class {
 	#name : #ToSegmentedBarElement,
 	#superclass : #ToBarElement,
-	#traits : 'TToCheckableGroupHolder',
-	#classTraits : 'TToCheckableGroupHolder classTrait',
+	#traits : 'TToCheckableGroupOwner',
+	#classTraits : 'TToCheckableGroupOwner classTrait',
 	#instVars : [
 		'group'
 	],
@@ -38,13 +38,13 @@ ToSegmentedBarElement >> newRawSkin [
 	^ ToSegmentedBarElementSkin new
 ]
 
-{ #category : #'t - checkable holder' }
+{ #category : #'t - checkable group owner' }
 ToSegmentedBarElement >> rawGroup [
 
 	^ group ifNil: [ group := ToCheckableGroup new ]
 ]
 
-{ #category : #'t - checkable holder' }
+{ #category : #'t - checkable group owner' }
 ToSegmentedBarElement >> rawGroup: aGroup [
 
 	self shouldNotImplement 

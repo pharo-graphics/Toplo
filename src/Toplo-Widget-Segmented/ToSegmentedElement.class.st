@@ -1,8 +1,8 @@
 Class {
 	#name : #ToSegmentedElement,
 	#superclass : #ToElement,
-	#traits : 'TToCheckableGroupHolder + TToOrientable',
-	#classTraits : 'TToCheckableGroupHolder classTrait + TToOrientable classTrait',
+	#traits : 'TToCheckableGroupOwner + TToOrientable',
+	#classTraits : 'TToCheckableGroupOwner classTrait + TToOrientable classTrait',
 	#instVars : [
 		'barElement'
 	],
@@ -109,13 +109,13 @@ ToSegmentedElement >> primarySelectionMode [
 	^ barElement primarySelectionMode
 ]
 
-{ #category : #'t - checkable holder' }
+{ #category : #'t - checkable group owner' }
 ToSegmentedElement >> rawGroup [ 
 
 	^ barElement rawGroup 
 ]
 
-{ #category : #'t - checkable holder' }
+{ #category : #'t - checkable group owner' }
 ToSegmentedElement >> rawGroup: aGroup [
 
 	self shouldNotImplement

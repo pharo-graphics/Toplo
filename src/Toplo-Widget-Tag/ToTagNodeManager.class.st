@@ -9,7 +9,8 @@ Class {
 
 { #category : #'node building' }
 ToTagNodeManager >> buildNode: aNode [ 
-
+	" tagModel can be nil for the fakeNode "
+	aNode holder tagModel ifNil: [ ^ self ].
 	aNode holder tagModel
 		buildNode: aNode
 		fromManager: self
@@ -45,12 +46,6 @@ ToTagNodeManager >> defaultCompositeNodeBuilder [
 
 	^ [ :node :compositeTagModel :holder |
 	  node addChild: (ToLabel text: compositeTagModel content asString) ]
-]
-
-{ #category : #initialization }
-ToTagNodeManager >> defaultFakeDataItem [
-
-	^ ToSingleTagModel new
 ]
 
 { #category : #initialization }

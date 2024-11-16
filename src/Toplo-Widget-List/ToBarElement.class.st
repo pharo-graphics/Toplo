@@ -39,13 +39,6 @@ ToBarElement >> initialize [
 	self configureLayout
 ]
 
-{ #category : #initialization }
-ToBarElement >> initializeInnerElement [
-
-	super initializeInnerElement.
-	self installFakeNode
-]
-
 { #category : #skin }
 ToBarElement >> newRawSkin [ 
 
@@ -57,6 +50,7 @@ ToBarElement >> nodeBuilder: aValuable [
 	"aValuable takes 3 optional args: first, the node to build, second, the dataItem and third, the holder in the list element "
 
 	super nodeBuilder: aValuable.
+	self reinstallFakeNode.
 	self notifyDataSourceChanged
 ]
 

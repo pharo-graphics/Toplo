@@ -6,6 +6,15 @@ Class {
 	#category : #'Toplo-Widget-List-Core-BarElement'
 }
 
+{ #category : #'t - generic node manager' }
+ToGenericBarNodeManager >> buildNode: aNode [
+
+	nodeBuilder
+		cull: aNode
+		cull: aNode holder dataItem
+		cull: aNode holder
+]
+
 { #category : #initialization }
 ToGenericBarNodeManager >> defaultHolderClass [
 

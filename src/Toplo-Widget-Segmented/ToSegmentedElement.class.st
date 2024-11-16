@@ -76,13 +76,6 @@ ToSegmentedElement >> initialize [
 		do: [ :event | self dispatchEvent: event ]
 ]
 
-{ #category : #initialization }
-ToSegmentedElement >> initializeInnerElement [
-
-	super initializeInnerElement.
-	self installFakeNode
-]
-
 { #category : #skin }
 ToSegmentedElement >> newRawSkin [ 
 

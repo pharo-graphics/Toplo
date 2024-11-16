@@ -260,7 +260,12 @@ ToAbstractListElement >> initializeInnerElement [
 	next := self defaultInnerElement.
 	self next elevation: (BlRelativeElevation elevation: 10).
 	self addChild: self next.
+	self installFakeNode 
 
+]
+
+{ #category : #initialization }
+ToAbstractListElement >> installFakeNode [
 ]
 
 { #category : #testing }

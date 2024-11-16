@@ -1823,7 +1823,7 @@ ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
 		withIconProvider: ToMaterialDesignIconProvider.
 
 	select filtrable: true.
-
+	select sample: select popupListElement dataAccessor first.
 	select nodeBuilder: [ :node :iconDesc :holder |
 		| tag |
 		tag := ToTagElement new.
@@ -1831,8 +1831,7 @@ ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
 		tag bordered: false.
 		tag icon: (iconDesc icon size: 48 asPoint).
 		node addChild: tag ].
-	
-	select sample: select popupListElement dataAccessor first.
+
 	select hMatchParent.
 	select placeholderText:
 		('Select icons' asRopedText foreground: Color red).

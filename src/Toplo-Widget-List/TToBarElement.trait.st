@@ -88,11 +88,17 @@ TToBarElement >> nodeWrapping: aBoolean [
 ]
 
 { #category : #'t - bar element' }
+TToBarElement >> reinstallFakeNode [
+
+	self uninstallFakeNode.
+	self installFakeNode
+]
+
+{ #category : #'t - bar element' }
 TToBarElement >> sample: aDataItem [
 
 	self nodeManager fakeDataItem: aDataItem.
-	self uninstallFakeNode.
-	self installFakeNode.
+	self reinstallFakeNode.
 	self configureLayout
 	
 ]

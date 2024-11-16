@@ -19,5 +19,5 @@ ToPicsumListElement >> defaultInnerElement [
 { #category : #initialization }
 ToPicsumListElement >> defaultNodeManagerClass [
 
-	^ ToPicsumNodeManager  
+	^ ToPicsumNodeManager
 ]

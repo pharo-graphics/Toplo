@@ -3,6 +3,9 @@ Class {
 	#superclass : #BlCustomEventHandler,
 	#traits : 'TToListElementEventHandler',
 	#classTraits : 'TToListElementEventHandler classTrait',
+	#instVars : [
+		'selectionRefreshTask'
+	],
 	#category : #'Toplo-Widget-List-Core'
 }
 
@@ -60,7 +63,9 @@ ToListElementEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 { #category : #'selection managing' }
 ToListElementEventHandler >> elementExtentChangedEvent: anEvent [
 
-	self refreshSelectionFromEvent: anEvent
+	self refreshSelectionFromEvent: anEvent.
+	anEvent currentTarget extentChanged.
+
 ]
 
 { #category : #'selection managing' }
@@ -68,7 +73,7 @@ ToListElementEventHandler >> elementScrolledEvent: anEvent [
 
 	anEvent currentTarget spaceDo: [ :sp | 
 		sp mouseProcessor handleLastMouseMove ].
-	self refreshSelectionFromEvent: anEvent.
+	self refreshSelectionIn: anEvent currentTarget
 ]
 
 { #category : #'api - accessing' }
@@ -284,11 +289,21 @@ ToListElementEventHandler >> refreshSelectionFromEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	target selectionModes do: [ :mode |
+	selectionRefreshTask ifNotNil: [ ^ self ].
+	selectionRefreshTask := BlTaskAction new.
+	selectionRefreshTask action: [ self refreshSelectionIn: target ].
+	target enqueueTask: selectionRefreshTask
+]
+
+{ #category : #'selection managing' }
+ToListElementEventHandler >> refreshSelectionIn: aTarget [
+
+	aTarget selectionModes do: [ :mode |
 		mode selectionOptionDo: [ :option |
 			option
-				refreshSelectionIn: target
-				withSelectionModel: mode selectionModel ] ]
+				refreshSelectionIn: aTarget
+				withSelectionModel: mode selectionModel ] ].
+	selectionRefreshTask := nil
 ]
 
 { #category : #'event handling' }

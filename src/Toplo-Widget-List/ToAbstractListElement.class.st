@@ -194,6 +194,10 @@ ToAbstractListElement >> disabledSelectionModel [
 	^ self selectionModel disabledSelectionModel
 ]
 
+{ #category : #layout }
+ToAbstractListElement >> extentChanged [
+]
+
 { #category : #accessing }
 ToAbstractListElement >> fakeNode [
 

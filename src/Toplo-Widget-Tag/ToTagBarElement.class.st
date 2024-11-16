@@ -16,19 +16,9 @@ ToTagBarElement class >> onSelectElement: aSelectElement [
 ]
 
 { #category : #initialization }
-ToTagBarElement >> defaultEventHandler [ 
-
-	^ ToTagBarEventHandler new
-]
-
-{ #category : #initialization }
 ToTagBarElement >> defaultNodeManager [
 
 	^ ToTagNodeManager new
-]
-
-{ #category : #layout }
-ToTagBarElement >> extentChanged [
 ]
 
 { #category : #initialization }

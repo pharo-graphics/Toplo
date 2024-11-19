@@ -99,7 +99,7 @@ BaselineOfToplo >> registerPackages: spec [
 	spec
 		package: #'Toplo-Widget-Menu'
 		with: [
-			spec requires: #( #Toplo #'Toplo-Widget-Button'
+			spec requires: #( #Toplo #'Toplo-Widget-Button' #'Toplo-Widget-List'
 			   #'Toplo-Theme' ) ].
 
 	spec

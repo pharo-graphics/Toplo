@@ -684,6 +684,77 @@ ToExperiments class >> example_TextFlowWithBlElements2 [
 	element openInNewSpace
 ]
 
+{ #category : #collapse }
+ToExperiments class >> example_collapse1 [
+
+	| container opened bgPaint openedAnimation collapsed closedAnimation openCollapsedBlock bar collapsedChild |
+	container := BlElement new
+		             layout: BlLinearLayout vertical;
+		             constraintsDo: [ :c |
+			             c horizontal fitContent.
+			             c vertical fitContent ];
+		             yourself.
+
+	opened := true.
+
+	bgPaint := BlLinearGradientPaint vertical
+		           from: Color lightGreen
+		           to: Color lightRed.
+
+
+	openedAnimation := BlNumberTransition new
+		                   from: 0;
+		                   to: 150;
+		                   duration: 0.2 second;
+		                   onStepDo: [ :point | collapsed height: 0 + point ].
+	closedAnimation := BlNumberTransition new
+		                   from: 0;
+		                   to: 150;
+		                   duration: 0.2 second;
+		                   onStepDo: [ :point |
+			                   collapsed height: 150 - point + 0.01 ].
+
+	openCollapsedBlock := [
+	                      opened
+		                      ifTrue: [
+		                      collapsed addAnimation: openedAnimation copy ]
+		                      ifFalse: [
+		                      collapsed addAnimation: closedAnimation copy ] ].
+
+	bar := BlElement new
+		       background: Color lightBlue;
+		       size: 250 @ 50;
+		       addEventHandlerOn: BlClickEvent do: [ :e |
+			       e consume.
+			       opened := opened not.
+			       openCollapsedBlock value ];
+		       yourself.
+
+	collapsed := BlElement new
+		             background: bgPaint;
+		             size: 250 @ 150;
+		             border: (BlBorderBuilder new
+				              paint: Color red;
+				              width: 3;
+				              dashed;
+				              build);
+		             yourself.
+
+	collapsedChild := BlElement new
+		                  background: Color purple;
+		                  size: 50 @ 100;
+		                  position: 50 asPoint;
+		                  yourself.
+	collapsed addChild: collapsedChild.
+
+	container addChild: bar.
+	container addChild: collapsed.
+	container border: (BlBorder paint: Color black width: 3).
+	container background: Color red.
+	container padding: (BlInsets all: 3).
+	container openInSpace
+]
+
 { #category : #'mouse drag' }
 ToExperiments class >> example_drag [
 

@@ -23,5 +23,6 @@ ToMenuNode >> item [
 { #category : #'t - bar node' }
 ToMenuNode >> item: aMenuItem [
 
+	aMenuItem removeFromParent.
 	self addChild: aMenuItem
 ]

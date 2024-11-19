@@ -18,7 +18,7 @@ TToElementWithContextMenuTest >> testContextMenu [
 	self assert: e currentContextMenu identicalTo: ttwin.
 	ttwin popupEvent: (BlMouseDownEvent new position: 0@0).
 	self waitTestingSpaces.
-	self assert: ttwin root firstChild identicalTo: tt.
+	self assert: ttwin root firstChild nodes first item identicalTo: tt.
 	self assert: ttwin element identicalTo: e.
 	ttwin close.
 	^ e

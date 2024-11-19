@@ -18,12 +18,6 @@ ToBarElement >> defaultNodeManagerClass [
 	^ ToGenericBarNodeManager 
 ]
 
-{ #category : #layout }
-ToBarElement >> haveInvisibleNodes: theInvisibleNodes [
-
-	
-]
-
 { #category : #initialization }
 ToBarElement >> initialize [
 

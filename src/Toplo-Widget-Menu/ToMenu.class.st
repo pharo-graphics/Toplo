@@ -4,11 +4,17 @@ Class {
 	#traits : 'TToMenuItemContainer + TToMenuWindowModel',
 	#classTraits : 'TToMenuItemContainer classTrait + TToMenuWindowModel classTrait',
 	#instVars : [
-		'items',
+		'bar',
 		'windowManager'
 	],
 	#category : #'Toplo-Widget-Menu-Basic'
 }
+
+{ #category : #accessing }
+ToMenu >> bar [
+
+	^ bar
+]
 
 { #category : #initialization }
 ToMenu >> buttonClickEventClass [
@@ -39,10 +45,11 @@ ToMenu >> initialize [
 
 	super initialize.
 	self fitContent.
+	bar := ToMenuBarElement new.
 	windowManager := ToMenuWindowManager new.
 	self addEventHandler: windowManager.
-	windowManager builder: [ :menWin :request |
-		request currentTarget items do: [ :it | menWin root addChild: it ] ]
+	windowManager builder: [ :menWin :request | 
+		 menWin root addChild: request currentTarget bar ]
 ]
 
 { #category : #testing }
@@ -72,7 +79,7 @@ ToMenu >> isTopMenu [
 { #category : #'t - menu item container - accessing' }
 ToMenu >> items [
 
-	^ items ifNil: [ items := OrderedCollection new ]
+	^ bar dataAccessor
 ]
 
 { #category : #'t - menu window model' }

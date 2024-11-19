@@ -4,6 +4,13 @@ Class {
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
+{ #category : #'adding-removing' }
+ToSeparatorMenuItem >> addedInMenu: aMenu [
+
+	super addedInMenu: aMenu.
+	aMenu bar unselectableSelecter selectIndex: self positionInMenu
+]
+
 { #category : #initialization }
 ToSeparatorMenuItem >> initialize [ 
 

@@ -40,6 +40,12 @@ TToBarElement >> fakeNode [
 ]
 
 { #category : #'t - bar element' }
+TToBarElement >> haveInvisibleNodes: aCollection [
+
+	
+]
+
+{ #category : #'t - bar element' }
 TToBarElement >> installFakeNode [
 
 	self innerElement installFakeNode

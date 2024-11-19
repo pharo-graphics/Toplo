@@ -31,6 +31,10 @@ BlElement >> addTokenNamed: aSymbol withValue: anObject [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> addedInMenu: aMenu [
+]
+
+{ #category : #'*Toplo' }
 BlElement >> allStamps [
 
 	^ self toStyleStore
@@ -311,6 +315,10 @@ BlElement >> removeStamp: aSymbol [
 BlElement >> removeTokenNamed: aSymbol [
 
 	self toStyleStoreDo: [ :tst | tst removeTokenPropertyNamed: aSymbol ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> removedFromMenu: aMenu [
 ]
 
 { #category : #'*Toplo' }

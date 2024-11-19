@@ -7,6 +7,14 @@ Class {
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
+{ #category : #'adding-removing' }
+ToCustomMenuItem >> addedInMenu: aMenu [
+
+	super addedInMenu: aMenu.
+	self isSelectable ifTrue: [ ^ self ].
+	aMenu bar unselectableSelecter selectIndex: self positionInMenu
+]
+
 { #category : #accessing }
 ToCustomMenuItem >> innerElement [
 
@@ -18,4 +26,10 @@ ToCustomMenuItem >> innerElement: anElement [
 
 	innerElement := anElement.
 	self addChild: anElement
+]
+
+{ #category : #testing }
+ToCustomMenuItem >> isSelectable [
+
+	^ false
 ]

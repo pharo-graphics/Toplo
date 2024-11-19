@@ -23,7 +23,7 @@ ToChoiceMenuInSpaceTest >> testChoiceItemRightLabelAlignmentOnFirstPopup [
 	self waitTestingSpaces.
 	space applyAllSkinInstallers.
 	self assert: themeSelect menuWindow notNil.
-	choiceItem := themeSelect menuWindow root firstChild.
+	choiceItem := themeSelect menuWindow root firstChild nodes first item.
 	self assert: choiceItem icon notNil.
 	ralign := choiceItem valueOfTokenNamed: #'menu-item-start-alignment'.
 	self assert: ralign notNil.

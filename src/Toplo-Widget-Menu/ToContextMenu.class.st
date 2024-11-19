@@ -4,23 +4,30 @@ Class {
 	#traits : 'TToMenuItemContainer + TToMenuWindowModel',
 	#classTraits : 'TToMenuItemContainer classTrait + TToMenuWindowModel classTrait',
 	#instVars : [
-		'items'
+		'bar'
 	],
 	#category : #'Toplo-Widget-Menu-Context menu'
 }
 
-{ #category : #'t - menu item container - adding/removing' }
-ToContextMenu >> addItem: aMenuItem [
+{ #category : #accessing }
+ToContextMenu >> bar [ 
 
-	self items add: aMenuItem.
-	self root addChild: aMenuItem.
-	aMenuItem  addedInMenu: self
+	^ bar
 ]
 
 { #category : #'t - menu window model' }
 ToContextMenu >> closeWindow [
 
 	self close
+]
+
+{ #category : #initialization }
+ToContextMenu >> initialize [ 
+
+	super initialize.
+	self fitContent.
+	bar := ToMenuBarElement new.
+	self root addChild: bar
 ]
 
 { #category : #'t - menu window model' }
@@ -47,10 +54,10 @@ ToContextMenu >> itemHolder [
 	^ self 
 ]
 
-{ #category : #'t - menu item container - accessing' }
+{ #category : #accessing }
 ToContextMenu >> items [
 
-	^ items ifNil: [ items := OrderedCollection new ]
+	^ bar dataAccessor
 ]
 
 { #category : #'t - menu window model' }
@@ -63,13 +70,6 @@ ToContextMenu >> menuWindow [
 ToContextMenu >> popupEvent: anEvent [
 
 	^ super popupEvent: anEvent
-]
-
-{ #category : #'t - menu item container - adding/removing' }
-ToContextMenu >> removeItem: aMenuItem [
-
-	self items remove: aMenuItem.
-	self root removeChild: aMenuItem.
 ]
 
 { #category : #'t - menu window model' }

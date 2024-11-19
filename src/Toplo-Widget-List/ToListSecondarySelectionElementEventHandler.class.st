@@ -1,9 +1,6 @@
 Class {
 	#name : #ToListSecondarySelectionElementEventHandler,
 	#superclass : #ToListSelectionElementEventHandler,
-	#instVars : [
-		'previousNode'
-	],
 	#category : #'Toplo-Widget-List-Selection-Element'
 }
 
@@ -32,8 +29,6 @@ ToListSecondarySelectionElementEventHandler >> mouseMoveEvent: anEvent [
 	globalPosition := anEvent position.
 
 	childNode := nodeContainer selectableNodeContainingGlobalPosition: globalPosition.
-	childNode = previousNode ifTrue: [ ^ self ].
-	previousNode := childNode.
 	childNode ifNil: [
 		target secondarySelecter deselectAll.
 		^ self ].

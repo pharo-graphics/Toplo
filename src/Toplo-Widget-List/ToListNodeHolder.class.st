@@ -43,6 +43,12 @@ ToListNodeHolder >> dataSource [
 	^ self listElement dataSource
 ]
 
+{ #category : #accessing }
+ToListNodeHolder >> disabled: aBoolean [
+
+	self listElement disabledSelecter selectIndex: self position
+]
+
 { #category : #testing }
 ToListNodeHolder >> isDisabled [
 

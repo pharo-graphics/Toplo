@@ -26,8 +26,8 @@ ToMenuBarElement >> initialize [
 	self fitContent.
 	self vertical: true.
 	self uniformNodeWidth: true.
+	self primarySelectionMode makeDisabledUnselectable: true.
 	self focusability: BlFocusability ignore
-
 ]
 
 { #category : #skin }

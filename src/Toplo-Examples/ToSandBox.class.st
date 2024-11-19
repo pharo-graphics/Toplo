@@ -2509,16 +2509,16 @@ ToSandBox class >> example_SimpleOpenSaveSaveAsClose [
 	menu addItem: (ToMenuItem new
 			 icon: ((ToImage inner: (self iconNamed: #solidMenu)));
 			 label: (ToLabel text: 'Save');
-			 background: Color random).
+			 background: (Color random alpha: 0.2)).
 	menu addItem: (ToMenuItem new
 			 icon: ((ToImage inner: (self iconNamed: #solidMenu)));
 			 label: (ToLabel text: 'Save as');
-			 background: Color random).
+			 background: (Color random alpha: 0.2)).
 	menu items last whenClickedDo: [ :event | event currentTarget inspect ].
 	menu addSeparator.
 	menu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Close');
-			 background: Color random).
+			 background: (Color random alpha: 0.2)).
 	menu items last whenClickedDo: [ :event | event currentTarget inspect ].
 	container pane addChild: menu.
 	
@@ -5246,7 +5246,7 @@ ToSandBox class >> example_withCheckBox [
 	menu addItem: (ToMenuItem new labelText: 'Open file').
 	menu items last icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	menu addItem: (ToMenuItem new labelText: 'Export').
-	menu items last disable.
+	menu items last disabled: true.
 	menu addSeparator.
 	menu addItem: (ToCheckMenuItem new
 			 label: (ToLabel text: 'Disable');

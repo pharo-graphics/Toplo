@@ -31,8 +31,8 @@ ToMenuWindow >> installRawStyle [
 
 	super installRawStyle.
 	self padding: (BlInsets
-			 horizontal: (self valueOfTokenNamed: #'padding-content-H')
-			 vertical: (self valueOfTokenNamed: #'padding-content-V')).
+			 horizontal: (self valueOfTokenNamed: #'menu-window-padding-H')
+			 vertical: (self valueOfTokenNamed: #'menu-window-padding-V')).
 	(self valueOfTokenNamed: #'animation-window-opening') value: self.
 	self effect: (self valueOfTokenNamed: #'effect-window')
 ]

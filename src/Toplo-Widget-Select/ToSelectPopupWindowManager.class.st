@@ -113,9 +113,7 @@ ToSelectPopupWindowManager >> onInstalledIn: anElement [
 	self builder: [ :selectWin :request |
 		selectWin root hMatchParent.
 		selectWin root vFitContent.
-		selectWin root addChild: self listElement.
-		self listElement secondarySelectionModel ifEmpty: [
-			self listElement secondarySelecter selectIndex: 1 ] ].
+		selectWin root addChild: self listElement ].
 
 	sieve := ToListElementSieve new.
 	sieve onInstalledIn: listElement

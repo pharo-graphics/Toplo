@@ -9,7 +9,8 @@ ToMenuNodeManager >> buildNode: aNode [
 
 	| holder |
 	holder := aNode holder.
-	aNode item: holder dataItem
+	aNode item: holder dataItem.
+	aNode addEnablementHandler
 ]
 
 { #category : #initialization }
@@ -40,5 +41,6 @@ ToMenuNodeManager >> newNodeForHolder: aNodeHolder [
 { #category : #initialization }
 ToMenuNodeManager >> unbuildNode: aNode [
 
+	aNode removeEnablementHandler.
 	aNode item removeFromParent
 ]

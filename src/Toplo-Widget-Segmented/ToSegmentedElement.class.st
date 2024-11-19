@@ -1,10 +1,10 @@
 Class {
 	#name : #ToSegmentedElement,
-	#superclass : #ToElement,
-	#traits : 'TToCheckableGroupHolder + TToOrientable',
-	#classTraits : 'TToCheckableGroupHolder classTrait + TToOrientable classTrait',
+	#superclass : #ToAbstractListElement,
+	#traits : 'TToCheckableGroupOwner + TToBarElement',
+	#classTraits : 'TToCheckableGroupOwner classTrait + TToBarElement classTrait',
 	#instVars : [
-		'barElement'
+		'group'
 	],
 	#category : #'Toplo-Widget-Segmented-Bar'
 }
@@ -38,19 +38,10 @@ ToSegmentedElement >> addLabelText: aText withIconImage: anImage [
 	self addLabelText: aText withIcon: (ToImage inner: anImage)
 ]
 
-{ #category : #accessing }
-ToSegmentedElement >> barElement [ 
+{ #category : #initialization }
+ToSegmentedElement >> defaultDataSource [
 
-	^ barElement
-]
-
-{ #category : #accessing }
-ToSegmentedElement >> dataAccessor [
-
-	self
-		deprecated: 'Use #segmentAccessor'
-		transformWith: '`@rcvr dataAccessor' -> '`@rcvr segmentAccessor'.
-	^ self segmentAccessor
+	^ ToInfiniteCollectionDataSource new
 ]
 
 { #category : #initialization }
@@ -60,93 +51,51 @@ ToSegmentedElement >> defaultEventHandler [
 ]
 
 { #category : #initialization }
+ToSegmentedElement >> defaultNodeManagerClass [ 
+
+	^ ToSegmentedNodeManager 
+]
+
+{ #category : #initialization }
 ToSegmentedElement >> initialize [
 
 	super initialize.
-	self layout: BlLinearLayout new.
-	barElement := ToSegmentedBarElement new.
-	barElement matchParent.
-	self addChild: barElement.
-	self addEventHandler: self defaultEventHandler.
-
+	self primarySelectionMode selectionOption
+		grouped: false;
+		beneath: true;
+		triggerSelectionState: true.
+	self contextMenuSelectionMode selectionOption
+		grouped: false;
+		beneath: false.
+	self matchParent.
+	self configureLayout.
+	self primarySelectionMode makeDisabledUnselectable: true.
+	self primarySelectionMode selectionOption grouped: false.
+	self group
+		addEventHandlerOn: ToCheckableGroupChangedEvent
+		do: [ :event | self dispatchEvent: event ]
 ]
 
-{ #category : #'t - orientable - accessing' }
-ToSegmentedElement >> layoutStrategy [
-
-	^ self layout
-
-	
-]
-
-{ #category : #'instance creation' }
+{ #category : #skin }
 ToSegmentedElement >> newRawSkin [ 
 
-	^ ToSegmentedSkin new
+	^ ToSegmentedElementSkin new
 ]
 
-{ #category : #accessing }
-ToSegmentedElement >> nodeAutoDistribution: aBoolean [
+{ #category : #'t - checkable group owner' }
+ToSegmentedElement >> rawGroup [
 
-	barElement nodeAutoDistribution: aBoolean
+	^ group ifNil: [ group := ToCheckableGroup new ]
 ]
 
-{ #category : #accessing }
-ToSegmentedElement >> nodeScrolling: aBoolean [
-
-	barElement nodeScrolling: aBoolean
-]
-
-{ #category : #accessing }
-ToSegmentedElement >> nodeWrapping: aBoolean [
-
-	barElement nodeWrapping: aBoolean
-]
-
-{ #category : #accessing }
-ToSegmentedElement >> primarySelectionMode [
-
-	^ barElement primarySelectionMode
-]
-
-{ #category : #'t - checkable holder' }
-ToSegmentedElement >> rawGroup [ 
-
-	^ barElement rawGroup 
-]
-
-{ #category : #'t - checkable holder' }
+{ #category : #'t - checkable group owner' }
 ToSegmentedElement >> rawGroup: aGroup [
 
-	self shouldNotImplement
-]
-
-{ #category : #accessing }
-ToSegmentedElement >> secondarySelectionMode [
-
-	^ barElement secondarySelectionMode
+	self shouldNotImplement 
 ]
 
 { #category : #accessing }
 ToSegmentedElement >> segmentAccessor [ 
 
-	^ barElement dataAccessor 
-]
-
-{ #category : #accessing }
-ToSegmentedElement >> selectionModel [ 
-
-	^ barElement selectionModel
-]
-
-{ #category : #accessing }
-ToSegmentedElement >> selectionOption [
-
-	^ barElement selectionOption
-]
-
-{ #category : #accessing }
-ToSegmentedElement >> uniformNodeWidth: aBoolean [
-
-	barElement uniformNodeWidth: aBoolean
+	^ self dataAccessor
 ]

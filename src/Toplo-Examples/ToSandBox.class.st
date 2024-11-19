@@ -1564,27 +1564,23 @@ ToSandBox class >> example_PicsumPhotosGallery [
 	" Images loaded from https://picsum.photos "
 
 	| space list vscrollBar |
-	list := ToListElement new
+	list := ToPicsumListElement new
 		        matchParent;
 		        yourself.
-	list
-		nodeHolderClass: ToPicsumPhotosGalleryImageHolder;
-		nodeFactory: [ ToPicsumPhotosGalleryImageNode new ];
-		withoutNodeBuilder.
 
 	list selectionOption
 		grouped: false;
 		beneath: false;
 		elementFactory: [
 			ToListBasicSelectionElement new defaultSkin:
-					ToPicsumPhotosGallerySelectionSkin new ].
+					ToPicsumSelectionSkin new ].
 
 	[
 	| allImagesData |
 	allImagesData := (STONJSON fromString:
 		                  'https://picsum.photos/list' asUrl
 			                  retrieveContents) collect: [ :aDictionary |
-		                 ToPicsumPhotosGalleryImageData fromDictionary:
+		                 ToPicsumImageData fromDictionary:
 			                 aDictionary ].
 	allImagesData sort: [ :a :b | a id > b id ].
 	list dataAccessor addAll: allImagesData ] fork.
@@ -1827,7 +1823,7 @@ ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
 		withIconProvider: ToMaterialDesignIconProvider.
 
 	select filtrable: true.
-
+	select sample: select popupListElement dataAccessor first.
 	select nodeBuilder: [ :node :iconDesc :holder |
 		| tag |
 		tag := ToTagElement new.
@@ -1835,8 +1831,7 @@ ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
 		tag bordered: false.
 		tag icon: (iconDesc icon size: 48 asPoint).
 		node addChild: tag ].
-	
-	select sample: select popupListElement dataAccessor first.
+
 	select hMatchParent.
 	select placeholderText:
 		('Select icons' asRopedText foreground: Color red).
@@ -3749,7 +3744,7 @@ ToSandBox class >> example_segmentedWithLabels [
 				 ' double click ' trace.
 				 event indexes traceCr ]).
 
-	seg barElement
+	seg 
 		addEventHandlerOn: ToListPrimarySelectionChangedEvent
 		do: maj.
 	seg addEventHandlerOn: BlElementAddedToSceneGraphEvent do: maj.
@@ -3797,7 +3792,7 @@ ToSandBox class >> example_segmentedWithLabelsAndIcons [
 				 ' double click ' trace.
 				 event indexes traceCr ]).
 
-	seg barElement
+	seg 
 		addEventHandlerOn: ToListPrimarySelectionChangedEvent
 		do: maj.
 	seg addEventHandlerOn: BlElementAddedToSceneGraphEvent do: maj.
@@ -3821,7 +3816,7 @@ ToSandBox class >> example_segmentedWithSegmentedButton [
 				 whenClickedDo: [ :event | event currentTarget label text traceCr ];
 				 yourself) ].
 
-	seg barElement disabledSelecter selectIndex: 2.
+	seg  disabledSelecter selectIndex: 2.
 	dashBoard := self segmentedDashBoardFor: seg.
 
 	feedbackPane := ToPane horizontal.
@@ -3849,7 +3844,7 @@ ToSandBox class >> example_segmentedWithSegmentedButton [
 				 ' double click ' trace.
 				 event indexes traceCr ]).
 
-	seg barElement
+	seg 
 		addEventHandlerOn: ToListPrimarySelectionChangedEvent
 		do: maj.
 	seg addEventHandlerOn: BlElementAddedToSceneGraphEvent do: maj.

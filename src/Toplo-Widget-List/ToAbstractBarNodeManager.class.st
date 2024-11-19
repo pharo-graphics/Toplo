@@ -1,14 +1,14 @@
 Class {
-	#name : #ToBarNodeManager,
-	#superclass : #ToAbstractListNodeManager,
+	#name : #ToAbstractBarNodeManager,
+	#superclass : #ToAbstractNodeManager,
 	#instVars : [
 		'fakeDataItem'
 	],
-	#category : #'Toplo-Widget-List-Core-BarElement'
+	#category : #'Toplo-Widget-List-Core'
 }
 
 { #category : #initialization }
-ToBarNodeManager >> constraintFakeNode: aNode [
+ToAbstractBarNodeManager >> constraintFakeNode: aNode [
 
 	| bar |
 	bar := aNode holder listElement.
@@ -28,7 +28,7 @@ ToBarNodeManager >> constraintFakeNode: aNode [
 ]
 
 { #category : #initialization }
-ToBarNodeManager >> constraintNode: aNode [
+ToAbstractBarNodeManager >> constraintNode: aNode [
 
 	| bar |
 	bar := aNode holder listElement.
@@ -40,31 +40,25 @@ ToBarNodeManager >> constraintNode: aNode [
 ]
 
 { #category : #initialization }
-ToBarNodeManager >> defaultFakeDataItem [
+ToAbstractBarNodeManager >> defaultFakeDataItem [
 
 	^ nil
 ]
 
-{ #category : #initialization }
-ToBarNodeManager >> defaultNodeFactory [
-
-	^ [ :holder | ToBarNode new ]
-]
-
 { #category : #accessing }
-ToBarNodeManager >> fakeDataItem [
+ToAbstractBarNodeManager >> fakeDataItem [
 
 	^ fakeDataItem
 ]
 
 { #category : #accessing }
-ToBarNodeManager >> fakeDataItem: anObject [
+ToAbstractBarNodeManager >> fakeDataItem: anObject [
 
 	fakeDataItem := anObject
 ]
 
 { #category : #initialization }
-ToBarNodeManager >> initialize [ 
+ToAbstractBarNodeManager >> initialize [ 
 
 	super initialize.
 	fakeDataItem := self defaultFakeDataItem 

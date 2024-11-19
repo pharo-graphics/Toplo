@@ -24,7 +24,7 @@ ToSegmentedNode >> checkableElement [
 { #category : #accessing }
 ToSegmentedNode >> checkableElement: aCheckable [
 
-	^ self addChild: aCheckable
+	self addChild: aCheckable
 ]
 
 { #category : #'t - list node' }

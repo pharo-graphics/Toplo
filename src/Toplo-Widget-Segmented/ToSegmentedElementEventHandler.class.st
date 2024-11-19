@@ -1,36 +1,25 @@
 Class {
 	#name : #ToSegmentedElementEventHandler,
-	#superclass : #BlCustomEventHandler,
+	#superclass : #ToBarElementEventHandler,
 	#category : #'Toplo-Widget-Segmented-Bar'
 }
+
+{ #category : #'event handling' }
+ToSegmentedElementEventHandler >> checkableGroupChangedEvent: anEvent [
+
+	| target checkList uncheckedList |
+	target := anEvent currentTarget.
+	checkList := anEvent checkedList.
+	uncheckedList := anEvent uncheckedList.
+	target dataAccessor withIndexDo: [ :e :idx |
+		e isChecked
+			ifTrue: [ target selecter selectIndex: idx ]
+			ifFalse: [ target selecter deselectIndex: idx ] ].
+
+]
 
 { #category : #'api - accessing' }
 ToSegmentedElementEventHandler >> eventsToHandle [
 
-	^ {
-		  ToLayoutDirectionChangedEvent.
-		  ToLayoutOrientationChangedEvent.
-		  BlLayoutResizerChangedEvent }
-]
-
-{ #category : #'event handling' }
-ToSegmentedElementEventHandler >> layoutDirectionChangedEvent: anEvent [
-
-	anEvent currentTarget listElement leftToRight: anEvent currentTarget isLeftToRight 
-]
-
-{ #category : #'event handling' }
-ToSegmentedElementEventHandler >> layoutOrientationChangedEvent: anEvent [
-
-	anEvent currentTarget barElement horizontal: anEvent currentTarget isHorizontal
-]
-
-{ #category : #'event handling' }
-ToSegmentedElementEventHandler >> layoutResizerChangedEvent: anEvent [
-
-	| target |
-	target := anEvent currentTarget.
-	target barElement matchParent.
-	target isHMatchParent ifFalse: [ target barElement hFitContent ].
-	target isVMatchParent ifFalse: [ target barElement vFitContent ]
+	^ super eventsToHandle , { ToCheckableGroupChangedEvent }
 ]

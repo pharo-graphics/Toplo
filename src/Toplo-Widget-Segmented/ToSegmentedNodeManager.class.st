@@ -1,8 +1,19 @@
 Class {
 	#name : #ToSegmentedNodeManager,
-	#superclass : #ToBarNodeManager,
+	#superclass : #ToAbstractBarNodeManager,
 	#category : #'Toplo-Widget-Segmented-Node'
 }
+
+{ #category : #initialization }
+ToSegmentedNodeManager >> buildNode: aNode [
+
+	| checkableElement holder |
+	holder := aNode holder.
+	checkableElement := holder dataItem.
+	aNode checkableElement: checkableElement.
+	"the TToCheckable must be registered in the checkable group managed by the segmented bar"
+	checkableElement registerInGroup: holder listElement group
+]
 
 { #category : #initialization }
 ToSegmentedNodeManager >> defaultFakeDataItem [ 
@@ -10,31 +21,21 @@ ToSegmentedNodeManager >> defaultFakeDataItem [
 	^ ToSegmentedButton new
 ]
 
-{ #category : #initialization }
-ToSegmentedNodeManager >> defaultHolderClass [
+{ #category : #'instance creation' }
+ToSegmentedNodeManager >> newHolder [
 
-	^ ToSegmentedNodeHolder
+	^ ToListNodeHolder new
+]
+
+{ #category : #'instance creation' }
+ToSegmentedNodeManager >> newNodeForHolder: aNodeHolder [
+
+	^ ToSegmentedNode new
 ]
 
 { #category : #initialization }
-ToSegmentedNodeManager >> defaultNodeBuilder [
+ToSegmentedNodeManager >> unbuildNode: aNode [
 
-	^ [ :node :checkableElement :holder |
-		" in a segmented, the dataItem is a TToCheckable "
-	  node checkableElement: checkableElement ]
-]
-
-{ #category : #initialization }
-ToSegmentedNodeManager >> defaultNodeFactory [
-
-	^ [ :holder | ToSegmentedNode new ]
-]
-
-{ #category : #initialization }
-ToSegmentedNodeManager >> defaultNodeUnbuilder [
-
-	^ [ :node :checkableElement :holder | 
-	  " in a segmented, the dataItem is a TToCheckable "
-	  node checkableElement unregisterFromGroup.
-	  node checkableElement removeFromParent ]
+	aNode checkableElement unregisterFromGroup.
+	aNode checkableElement removeFromParent
 ]

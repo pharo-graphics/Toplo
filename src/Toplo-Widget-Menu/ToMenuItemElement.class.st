@@ -10,6 +10,7 @@ Class {
 { #category : #'adding-removing' }
 ToMenuItemElement >> addedInMenu: aMenu [
 
+	super addedInMenu: aMenu.
 	self parentMenu: aMenu
 ]
 
@@ -124,9 +125,17 @@ ToMenuItemElement >> parentMenuDo: aBlock [
 	aBlock value: self parentMenu
 ]
 
+{ #category : #accessing }
+ToMenuItemElement >> positionInMenu [
+
+	self parentMenuDo: [ :pm | ^ pm items indexOf: self ].
+	^ 0
+]
+
 { #category : #'adding-removing' }
 ToMenuItemElement >> removedFromMenu: aMenu [
 
+	super removedFromMenu: aMenu.
 	self parentMenu: nil
 ]
 

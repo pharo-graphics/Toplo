@@ -1,26 +1,37 @@
 Class {
 	#name : #ToTagNodeManager,
-	#superclass : #ToBarNodeManager,
+	#superclass : #ToGenericBarNodeManager,
 	#instVars : [
 		'compositeNodeBuilder'
 	],
 	#category : #'Toplo-Widget-Tag-Bar'
 }
 
-{ #category : #'instance creation' }
-ToTagNodeManager >> buildNode: aNode inHolder: aNodeHolder [
-
-	aNodeHolder tagModel
+{ #category : #'node building' }
+ToTagNodeManager >> buildNode: aNode [ 
+	" tagModel can be nil for the fakeNode "
+	aNode holder tagModel ifNil: [ ^ self ].
+	aNode holder tagModel
 		buildNode: aNode
-		inHolder: aNodeHolder
-		withManager: self
+		fromManager: self
 ]
 
-{ #category : #accessing }
-ToTagNodeManager >> compositeNodeBuilder [
+{ #category : #'node building' }
+ToTagNodeManager >> buildNode: aNode forCompositeTagModel: aTagModel [
 
-	" aValuable takes the node, then the compositeDataItem then the holder as arguments "
-	^ compositeNodeBuilder 
+	compositeNodeBuilder
+		value: aNode
+		value: aTagModel
+		value: aNode holder
+]
+
+{ #category : #'node building' }
+ToTagNodeManager >> buildNode: aNode forSingleTagModel: aTagModel [
+
+	nodeBuilder value: aNode value: aTagModel data value: aNode holder.
+	aNode addEventHandlerOn: ToTagRemovedEvent do: [ :event |
+		event consume.
+		event currentTarget removeFromBar ]
 ]
 
 { #category : #accessing }
@@ -35,12 +46,6 @@ ToTagNodeManager >> defaultCompositeNodeBuilder [
 
 	^ [ :node :compositeTagModel :holder |
 	  node addChild: (ToLabel text: compositeTagModel content asString) ]
-]
-
-{ #category : #initialization }
-ToTagNodeManager >> defaultFakeDataItem [
-
-	^ ToSingleTagModel new
 ]
 
 { #category : #initialization }

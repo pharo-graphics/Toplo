@@ -1,6 +1,6 @@
 Class {
 	#name : #ToListElement,
-	#superclass : #ToAbstractListElement,
+	#superclass : #ToGenericListElement,
 	#traits : 'TToListElementWithDecoration',
 	#classTraits : 'TToListElementWithDecoration classTrait',
 	#category : #'Toplo-Widget-List-Core-ListElement'
@@ -21,7 +21,7 @@ ToListElement >> defaultInnerElement [
 { #category : #initialization }
 ToListElement >> defaultNodeManagerClass [
 
-	^ ToListNodeManager  
+	^ ToGenericListNodeManager  
 ]
 
 { #category : #'private - invalidation' }

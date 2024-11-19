@@ -9,7 +9,7 @@ Class {
 	#category : #'Toplo-Core-Window'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToPopupPickOutsideEventFilter >> element [
 
 	^ windowManager element
@@ -63,14 +63,14 @@ ToPopupPickOutsideEventFilter >> onInstalledIn: anElement [
 	upCount := 0
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToPopupPickOutsideEventFilter >> popupWindow [
 
 	^ windowManager currentWindow
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToPopupPickOutsideEventFilter >> windowManager: aPopupWindowManager [
 
 	windowManager := aPopupWindowManager

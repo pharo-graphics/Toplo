@@ -2,7 +2,7 @@
 I'm part of the Photo gallery example. I'm not expected to be used as a standalone.
 "
 Class {
-	#name : #ToPicsumPhotosGalleryImageHolder,
+	#name : #ToPicsumHolder,
 	#superclass : #ToListNodeHolder,
 	#instVars : [
 		'loader'
@@ -11,7 +11,7 @@ Class {
 }
 
 { #category : #accessing }
-ToPicsumPhotosGalleryImageHolder >> bindDataItem: aImageData [
+ToPicsumHolder >> bindDataItem: aImageData [
 
 	super bindDataItem: aImageData.
 	self node labelString: aImageData id.
@@ -21,7 +21,7 @@ ToPicsumPhotosGalleryImageHolder >> bindDataItem: aImageData [
 ]
 
 { #category : #loading }
-ToPicsumPhotosGalleryImageHolder >> loadImage [
+ToPicsumHolder >> loadImage [
 
 	| form |
 	self terminateLoader.
@@ -52,21 +52,14 @@ ToPicsumPhotosGalleryImageHolder >> loadImage [
 ]
 
 { #category : #accessing }
-ToPicsumPhotosGalleryImageHolder >> release [ 
-
-	self terminateLoader.
-	super release
-]
-
-{ #category : #accessing }
-ToPicsumPhotosGalleryImageHolder >> terminateLoader [
+ToPicsumHolder >> terminateLoader [
 
 	loader ifNotNil: #terminate.
 	loader := nil
 ]
 
 { #category : #accessing }
-ToPicsumPhotosGalleryImageHolder >> unbindDataItem [
+ToPicsumHolder >> unbindDataItem [
 
 	self terminateLoader.
 	super unbindDataItem 
@@ -74,7 +67,7 @@ ToPicsumPhotosGalleryImageHolder >> unbindDataItem [
 ]
 
 { #category : #accessing }
-ToPicsumPhotosGalleryImageHolder >> urlStringFromNodeSize [
+ToPicsumHolder >> urlStringFromNodeSize [
 
 	| s |
 	s := self node size asIntegerPoint.

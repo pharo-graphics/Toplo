@@ -10,9 +10,8 @@ Class {
 { #category : #accessing }
 ToListNodeHolder >> bindDataItem: aDataItem [
 
-	self node: (self nodeManager newNodeForHolder: self).
-	self setDataItemAndBuildNode: aDataItem.
-
+	self setupNodeWith: (self nodeManager newNodeForHolder: self).
+	self setDataItemAndBuildNode: aDataItem
 ]
 
 { #category : #accessing }
@@ -152,10 +151,19 @@ ToListNodeHolder >> setDataItemAndBuildNode: aDataItem [
 	| nodeManager |
 	self dataItem: aDataItem.
 	nodeManager := self nodeManager.
-	nodeManager buildNode: self node inHolder: self.
+	nodeManager buildNode: self node.
 	nodeManager constraintNode: self node.
 	self node enabled: self isEnabled.
 	self isHidden ifTrue: [ self node height: 0 ]
+]
+
+{ #category : #accessing }
+ToListNodeHolder >> setupNodeWith: aNode [
+
+	| infiniteConstraints |
+	self node: aNode.
+	infiniteConstraints := aNode constraints infinite.
+	infiniteConstraints holder: self
 ]
 
 { #category : #accessing }

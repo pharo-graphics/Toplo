@@ -160,11 +160,13 @@ ToInnerBarElement >> installFakeNode [
 	holder bindAtPosition: 0.
 	fakeNode := self nodeManager newNodeForHolder: holder.
 	fakeNode id: #fakeNode.
+	holder setupNodeWith: fakeNode.
 
 	" add the fake node (to keep a constant minimum size ).
 	Pay attention to add the fake node ** before ** the fake node building "
 	self scrollableElement addFakeNode: fakeNode.
-	self nodeManager buildNode: fakeNode inHolder: holder.
+	self nodeManager buildNode: fakeNode.
+	self nodeManager constraintFakeNode: fakeNode
 
 
 

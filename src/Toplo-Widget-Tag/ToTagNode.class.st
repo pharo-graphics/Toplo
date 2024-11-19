@@ -24,13 +24,15 @@ ToTagNode >> installRawStyle [
 	self padding: (BlInsets
 			 horizontal: (self valueOfTokenNamed: #'bar-node-padding-H')
 			 vertical: (self valueOfTokenNamed: #'bar-node-padding-V')).
-	self holder tagModel isComposite ifTrue: [
-		self tooltipBuilder: [ :win :theElement |
-			| pane |
-			pane := ToPane vertical.
-			self holder tagModel items do: [ :item |
-				pane addChild: (ToLabel text: item data asString) ].
-			win root addChild: pane ] ]
+	" the tagModel can be nil in case of the default fakeDataItem "
+	self holder tagModel ifNotNil: [ :tm |
+		tm isComposite ifTrue: [
+			self tooltipBuilder: [ :win :theElement |
+				| pane |
+				pane := ToPane vertical.
+				self holder tagModel items do: [ :item |
+					pane addChild: (ToLabel text: item data asString) ].
+				win root addChild: pane ] ] ]
 ]
 
 { #category : #testing }

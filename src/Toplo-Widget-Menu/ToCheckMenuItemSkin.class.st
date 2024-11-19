@@ -30,8 +30,6 @@ ToCheckMenuItemSkin >> enabledSkinEvent: anEvent [
 
 	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e border: (BlBorder empty).
-		e background: (e valueOfTokenNamed: #'color-bg-container').
 		e icon border: (e valueOfTokenNamed: #'color-border') ]
 ]
 
@@ -40,7 +38,6 @@ ToCheckMenuItemSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e border: BlBorder empty.
 		e icon border:
 			(BlBorder paint: (e valueOfTokenNamed: #'color-primary') width: 1) ]
 ]
@@ -65,7 +62,6 @@ ToCheckMenuItemSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e | 
-		e border: (e valueOfTokenNamed: #'color-border-checkable').		
 		e iconImage: ((e valueOfTokenNamed: #'checkbox-image-builder') value).
 		e icon geometry: (self iconGeometryIn: e).
 		e button startAlignment: (e valueOfTokenNamed: #'menu-item-start-alignment').
@@ -79,16 +75,7 @@ ToCheckMenuItemSkin >> leavedSkinEvent: anEvent [
 
 	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e border: BlBorder empty.
 		e icon border: (e valueOfTokenNamed: #'color-border') ]
-]
-
-{ #category : #'event handling' }
-ToCheckMenuItemSkin >> pressedSkinEvent: anEvent [
-
-	super pressedSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e border: BlBorder empty ]
 ]
 
 { #category : #'event handling' }

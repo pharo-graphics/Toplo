@@ -1,8 +1,8 @@
 Class {
 	#name : #ToCheckMenuItem,
 	#superclass : #ToMenuItem,
-	#traits : 'TToCheckable + TToCheckableHolder',
-	#classTraits : 'TToCheckable classTrait + TToCheckableHolder classTrait',
+	#traits : 'TToCheckable + TToCheckableOwner',
+	#classTraits : 'TToCheckable classTrait + TToCheckableOwner classTrait',
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToToggleButtonSkin,
-	#superclass : #ToBasicSkin,
+	#superclass : #ToGeneralButtonSkin,
 	#category : #'Toplo-Widget-Button-Checkable'
 }
 

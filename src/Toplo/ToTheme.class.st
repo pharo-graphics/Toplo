@@ -179,9 +179,6 @@ ToTheme class >> defaultTokenProperties [
 			   name: #'label-selected-unfocused'
 			   value: self defaultColorPrimary).
 		  (ToTokenProperty
-			   name: #'label-foreground-deselected'
-			   value: Color black).
-		  (ToTokenProperty
 			   name: #'text-foreground-in-tooltip'
 			   value: (Color fromHexString: '#313339')).
 

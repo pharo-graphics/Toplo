@@ -1814,7 +1814,7 @@ ToSandBox class >> example_SelectMaterialDesignIconMonoFiltrable [
 { #category : #select }
 ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
 
-	| select |
+	| select space |
 	select := ToMultiSelectElement new.
 	select nodeWrapping: false.
 	select keepPickOrder: true.
@@ -1837,7 +1837,8 @@ ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
 		('Select icons' asRopedText foreground: Color red).
 
 	select filterTextField requestFocus.
-	select openInSpace
+	space := select openInSpace.
+	space toTheme: ToRawDarkTheme new
 ]
 
 { #category : #select }

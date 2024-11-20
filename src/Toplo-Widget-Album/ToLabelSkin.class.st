@@ -11,7 +11,7 @@ ToLabelSkin >> deselectedSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 		(e hasStamp: #'ignore-selection') ifFalse: [
 			| to |
-			to := e valueOfTokenNamed: #'label-foreground-deselected'.
+			to := e valueOfTokenNamed: #'color-text'.
 			e foreground: to ] ]
 ]
 

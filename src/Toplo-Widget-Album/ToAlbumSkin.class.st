@@ -70,10 +70,19 @@ ToAlbumSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		(e hasStamp: #placeholder) ifTrue: [
-			e text
-				fontSize: 24;
-				foreground: Color gray lighter ].
+		(e hasStamp: #placeholder)
+			ifTrue: [
+				e text
+					fontSize: 24;
+					foreground: Color gray lighter ]
+			ifFalse: [
+				(e hasStamp: #'ignore-default') ifFalse: [
+					e text
+						defaultFontName: (e valueOfTokenNamed: #'font-family-code');
+						defaultFontSize: (e valueOfTokenNamed: #'font-size');
+						lineSpacing: (e valueOfTokenNamed: #'line-height');
+						foreground: (e valueOfTokenNamed: #'color-text') ] ].
+
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:
 				 (e valueOfTokenNamed: 'border-radius')).
 		e margin: BlInsets empty.

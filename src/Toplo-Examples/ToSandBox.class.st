@@ -765,6 +765,7 @@ ToSandBox class >> example_CodeEditor [
 
 	text := self methodText asRopedText fontName: 'Source Code Pro'.
 	album := ToAlbum new.
+	album addStamp: #'ignore-default'.
 	album styler: (BlPharoCodeStyler new
 			 classOrMetaClass: self class;
 			 yourself).

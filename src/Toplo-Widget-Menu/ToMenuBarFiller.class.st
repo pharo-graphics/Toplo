@@ -9,6 +9,6 @@ ToMenuBarFiller >> initialize [
 
 	super initialize.
 	self
-		id: #'match-parent-fill';
+		id: #filler;
 		matchParent
 ]

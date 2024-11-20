@@ -13,7 +13,7 @@ ToMenuBarEventFilter >> eventsToHandle [
 	^ { BlMouseDownEvent.  }
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'mouse handlers' }
 ToMenuBarEventFilter >> mouseDownEvent: anEvent [
 	"switch auto=open filter "
 

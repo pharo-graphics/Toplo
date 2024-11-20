@@ -154,7 +154,7 @@ ToSandBox class >> barWithData: aCollection [
 
 	| bar confBoard rootPane selectionModeBoard |
 	bar := ToBarElement new.
-	bar addStamp: #background withValue: Color veryLightGray.
+	bar addStamp: #background withValue: (Color veryLightGray alpha: 0.1).
 	bar nodeFactory: [ :holder | ToBarNodeExamplePart new ].
 	bar nodeBuilder: [ :node :dataItem :holder |
 		node label:

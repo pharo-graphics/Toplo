@@ -28,6 +28,9 @@ ToGeneralButtonMenuItemSkin >> installSkinEvent: anEvent [
 		e vFitContent.
 		e mouseCursor: Cursor normal.
 		e border: BlBorder empty.
+		e padding: (BlInsets
+				 horizontal: (e valueOfTokenNamed: #'menu-button-padding-H')
+				 vertical: (e valueOfTokenNamed: #'menu-button-padding-V')).
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:
 				 (e valueOfTokenNamed: 'border-radius')) ]
 ]

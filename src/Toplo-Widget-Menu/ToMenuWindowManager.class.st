@@ -10,8 +10,7 @@ ToMenuWindowManager >> defaultPositionHook [
 	^ [ :window :theMenu :event |
 	  window position: (theMenu isSubmenu
 			   ifTrue: [
-				   (theMenu bounds inParent: self anchorRoot) bounds topRight
-				   + (theMenu padding topRight + (theMenu padding left @ 0)) ]
+			   (theMenu bounds inParent: self anchorRoot) bounds topRight ]
 			   ifFalse: [
 			   (theMenu bounds inParent: self anchorRoot) bounds bottomLeft ]) ]
 ]

@@ -5349,9 +5349,16 @@ ToSandBox class >> example_withCustomMenuItems [
 	menu addItem: (ToMenuItem new
 			 labelText: 'Export';
 			 whenClickedDo: [ self inform: 'Export' ]).
-	menu addItem: (ToMenuItem new
-			 labelText: 'Export';
-			 whenClickedDo: [ self inform: 'Export' ]).
+	menu addSeparator.
+	menu addItem: (ToCustomMenuItem new
+			 innerElement: (ToSwitchButton new
+					  checked: true;
+					  beEndToStart;
+					startFlexible: true;
+					hMatchParent;
+					  labelText: 'Switch';
+					  yourself);
+			 yourself).
 
 	grp := ToCheckableGroup new.
 	right := ToRadioMenuItem new
@@ -5378,10 +5385,10 @@ ToSandBox class >> example_withCustomMenuItems [
 	menu addSeparator.
 
 	lbl := ToAttributedLabel text: 'Radio button icon first'.
-	lbl 
-			italic;
-			fontSize: 12;
-			foreground: Color blue.
+	lbl
+		italic;
+		fontSize: 12;
+		foreground: Color blue.
 
 	menu addItem: (ToCustomMenuItem new
 			 innerElement: lbl;

@@ -3461,10 +3461,8 @@ ToSandBox class >> example_menuBar2 [
 						            nextPutAll: ' Grid ';
 						            print: i ].
 				subMenu addItem:
-					((ToMenuItem new labelText: stream) addEventHandler:
-						 (BlEventHandler
-							  on: BlPrimaryClickEvent
-							  do: [ :event | self inform: selector asSymbol ])) ].
+					((ToMenuItem new labelText: stream) whenClickedDo: [ :event |
+						 self inform: selector asSymbol ]; yourself) ].
 			menu addItem: subMenu ].
 
 		bar addMenu: menu ].

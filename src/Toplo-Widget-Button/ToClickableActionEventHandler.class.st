@@ -13,7 +13,7 @@ ToClickableActionEventHandler class >> action: aBlock [
 	^ self new action: aBlock
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToClickableActionEventHandler >> action: aBlock [
 
 	action := aBlock

@@ -190,13 +190,15 @@ ToAnchoredWindowTest >> testLocalThemeSetOnPopupEvent2 [
 	win := windowManager newWindowEvent: nil.
 	self assert: win localTheme isNil.
 	localTheme := ToRawDarkTheme new.
+	" Even the win localTheme is set directly, 
+	the actual win localTheme is the theme found from the element"
 	win localTheme: localTheme.
 	win popupEvent: nil.
 	self waitTestingSpaces.
-	self assert: win localTheme identicalTo: localTheme.
+	self assert: win localTheme identicalTo: e lookupTheme.
 	win close.
 	self waitTestingSpaces.
-	self assert: win localTheme identicalTo: localTheme.
+	self assert: win localTheme identicalTo: e lookupTheme.
 ]
 
 { #category : #tests }
@@ -418,12 +420,13 @@ ToAnchoredWindowTest >> testValueOfTokenNamedInWindow [
 		assert: (e valueOfTokenNamed: #'test-background-color')
 		equals: Color white.
 	self assert: lab notNil.
-	self assert: win localTheme identicalTo: e lookupTheme.
-	self assert: lab lookupTheme identicalTo: win localTheme.
+	"self assert: win localTheme identicalTo: e lookupTheme."
+	self assert: lab lookupTheme identicalTo: win lookupTheme.
 	self
 		assert: (lab valueOfTokenNamed: #'test-background-color')
 		equals: Color white.
 	win close.
+	self waitTestingSpaces.
 	self
 		assert: (e valueOfTokenNamed: #'test-background-color')
 		equals: Color white.

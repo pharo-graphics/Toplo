@@ -130,3 +130,9 @@ ToBasicWindowElement >> toFront [
 	self elevation: self defaultElevation.
 	self root elevation: self defaultElevation
 ]
+
+{ #category : #enumerating }
+ToBasicWindowElement >> withAllSubwindowsDo: aBlock [
+
+	aBlock value: self
+]

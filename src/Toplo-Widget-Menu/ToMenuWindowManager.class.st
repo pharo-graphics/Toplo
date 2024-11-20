@@ -33,12 +33,6 @@ ToMenuWindowManager >> popupWindowClosedEvent: anEvent [
 ]
 
 { #category : #'theme event handling' }
-ToMenuWindowManager >> toThemeInstalled [
-
-	currentWindow ifNotNil: [ currentWindow toThemeInstalled ]
-]
-
-{ #category : #'theme event handling' }
 ToMenuWindowManager >> toThemeUninstalled: aTheme [
 
 	currentWindow ifNotNil: [ currentWindow toThemeUninstalled: aTheme ]

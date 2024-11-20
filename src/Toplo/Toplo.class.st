@@ -29,7 +29,9 @@ Toplo class >> defaultThemeClass [
 { #category : #settings }
 Toplo class >> defaultThemeClass: aClass [
 
-	DefaultThemeClass := aClass
+	DefaultThemeClass = aClass ifTrue: [ ^ self ].
+	DefaultThemeClass := aClass.
+	SystemAnnouncer uniqueInstance announce: ToThemeSettingChangedEvent
 ]
 
 { #category : #settings }

@@ -763,9 +763,8 @@ ToSandBox class >> example_CodeEditor [
 	topBtnPane addChild: inspectBtn.
 	topBtnPane addChild: disabox.
 
-	text := self methodText asRopedText fontName: 'Source Code Pro'.
+	text := self methodText asRopedText.
 	album := ToAlbum new.
-	album addStamp: #'ignore-default'.
 	album styler: (BlPharoCodeStyler new
 			 classOrMetaClass: self class;
 			 yourself).
@@ -1838,8 +1837,7 @@ ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
 		('Select icons' asRopedText foreground: Color red).
 
 	select filterTextField requestFocus.
-	space := select openInSpace.
-	space toTheme: ToRawDarkTheme new
+	space := select openInSpace
 ]
 
 { #category : #select }
@@ -3468,6 +3466,52 @@ ToSandBox class >> example_menuBar2 [
 			menu addItem: subMenu ].
 
 		bar addMenu: menu ].
+
+	frame pane addChild: bar.
+	frame openInSpace
+]
+
+{ #category : #menu }
+ToSandBox class >> example_menuBar3 [
+
+	| menu frame bar |
+	bar := ToMenu new.
+	bar labelText: 'Menu'.
+	frame := ToInnerWindow new.
+
+	3 timesRepeat: [
+		menu := ToMenu new.
+		menu label: (ToLabel text: 'Levels').
+		menu icon:
+			(ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
+
+		4 to: 12 by: 2 do: [ :index |
+			| subMenu |
+			subMenu := ToMenu new label:
+				           (ToLabel new text: (String streamContents: [ :out |
+						             out
+							             print: index;
+							             nextPut: $x;
+							             print: index ])).
+			1 to: 5 do: [ :i |
+				| stream selector |
+				stream := String streamContents: [ :out |
+					          out
+						          nextPutAll: 'Level ';
+						          space;
+						          print: i ].
+				selector := String streamContents: [ :out |
+					            out
+						            nextPutAll: 'level ';
+						            print: index;
+						            nextPutAll: ' Grid ';
+						            print: i ].
+				subMenu addItem: ((ToMenuItem new labelText: stream)
+						 whenClickedDo: [ :event | self inform: selector asSymbol ];
+						 yourself) ].
+			menu addItem: subMenu ].
+
+		bar addItem: menu ].
 
 	frame pane addChild: bar.
 	frame openInSpace

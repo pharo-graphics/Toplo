@@ -76,7 +76,9 @@ ToAlbumSkin >> installSkinEvent: anEvent [
 					fontSize: 24;
 					foreground: Color gray lighter ]
 			ifFalse: [
-				(e hasStamp: #'ignore-default') ifFalse: [
+				(e hasStamp: #'sh-styled') 
+				ifTrue: [e styleTable: (e valueOfTokenNamed: #'sh-style-table') ]
+				ifFalse: [
 					e text
 						defaultFontName: (e valueOfTokenNamed: #'font-family-code');
 						defaultFontSize: (e valueOfTokenNamed: #'font-size');

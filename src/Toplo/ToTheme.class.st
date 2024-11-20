@@ -45,6 +45,9 @@ ToTheme class >> defaultTokenProperties [
 	" skin managing need a list of unique stamps . "
 
 	^ {
+		  (ToTokenProperty
+			   name: #'sh-style-table'
+			   value: SHRBTextStyler defaultStyleTable).
 		  (ToTokenProperty name: #'background-color' value: Color white).
 
 		  (ToTokenProperty name: #'border-radius' value: 6).

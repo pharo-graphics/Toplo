@@ -8,6 +8,9 @@ Class {
 ToRawDarkTheme class >> defaultTokenProperties [
 
 	^ super defaultTokenProperties , {
+			  (ToTokenProperty
+			   name: #'sh-style-table'
+			   value: SHRBTextStyler darkStyleTable).
 		  (ToTokenProperty
 			   name: #'background-color'
 			   value: (Color fromHexString: '#313339')).

@@ -139,6 +139,15 @@ ToAnchoredWindow >> show [
 	self anchorRoot addChild: self
 ]
 
+{ #category : #'api - displaying' }
+ToAnchoredWindow >> toThemeInstalled [
+
+	| lt |
+	lt := self element lookupTheme.
+	self localTheme = lt ifFalse: [ self localTheme: lt ].
+	super toThemeInstalled
+]
+
 { #category : #testing }
 ToAnchoredWindow >> useMorphicHost [ 
 

@@ -86,6 +86,12 @@ BlSpace >> needSkinStateApplicationPass: aBoolean [
 	aBoolean ifTrue: [ self requestNextPulse ]
 ]
 
+{ #category : #'*Toplo-LookAndFeel' }
+BlSpace >> resetToTheme [
+
+	self toTheme: Toplo newDefaultThemeInstance
+]
+
 { #category : #'*Toplo' }
 BlSpace >> runStateGenerations [
 
@@ -120,7 +126,11 @@ BlSpace >> stopSkinPhases [
 BlSpace >> toTheme [
 
 	^ self userData at: #toTheme ifAbsent: [
-		  self toTheme: Toplo newDefaultThemeInstance.
+		  SystemAnnouncer uniqueInstance weak
+			  when: ToThemeSettingChangedEvent
+			  send: #resetToTheme
+			  to: self.
+		  self resetToTheme.
 		  self userData at: #toTheme ]
 ]
 

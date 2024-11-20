@@ -211,6 +211,14 @@ ToAlbum >> saveResult: aBoolean [
 			 yourself)
 ]
 
+{ #category : #accessing }
+ToAlbum >> styleTable: aStyleTable [
+
+	self styler styleTable = aStyleTable ifTrue: [ ^ self ].
+	self styler styleTable: aStyleTable.
+	self styler announceStateChanged
+]
+
 { #category : #'styler configuration' }
 ToAlbum >> styler [
 
@@ -223,10 +231,13 @@ ToAlbum >> styler: aBlStyler [
 	self styler ifNotNil: [ :styler |
 		self styler unsubscribe: self.
 		self unsubscribe: styler ].
-
+	
+	self removeStamp: #'sh-styled'.
 	self userData at: #styler put: aBlStyler.
 
 	self styler ifNil: [ ^ self ].
+	
+	self addStamp: #'sh-styled'.
 
 	aBlStyler fontName: self codeFontName.
 	aBlStyler
@@ -254,7 +265,9 @@ ToAlbum >> text: aBlText [
 { #category : #'event handling' }
 ToAlbum >> textChanged [
 
-	self invalidate; requestLayout
+	self
+		invalidate;
+		requestLayout
 ]
 
 { #category : #'transaction hook' }

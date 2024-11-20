@@ -157,7 +157,8 @@ ToAnchoredWindowManager >> eventsToHandle [
 		  BlElementExtentChangedEvent.
 		  BlElementRemovedFromParentEvent.
 		  BlElementRemovedFromSceneGraphEvent.
-		  BlElementPositionInSpaceChangedEvent }
+		  BlElementPositionInSpaceChangedEvent.
+		  ToThemeInstalledEvent }
 ]
 
 { #category : #testing }
@@ -271,6 +272,12 @@ ToAnchoredWindowManager >> sizeHook: aValuable [
 	self applySizeHookFromEvent: nil
 ]
 
+{ #category : #'event handling' }
+ToAnchoredWindowManager >> themeInstalledEvent: anEvent [
+
+	self withAllSubwindowsDo: [ :cw | cw toThemeInstalled ]
+]
+
 { #category : #accessing }
 ToAnchoredWindowManager >> windowClass [
 
@@ -305,4 +312,11 @@ ToAnchoredWindowManager >> windowOpenedEventClass [
 ToAnchoredWindowManager >> windowRequestClass [
 
 	^ ToAnchoredWindowRequest 
+]
+
+{ #category : #'event handling' }
+ToAnchoredWindowManager >> withAllSubwindowsDo: aBlock [
+
+	self currentWindowDo: [ :cw |
+		cw withAllSubwindowsDo: [ :sw | sw toThemeInstalled ] ]
 ]

@@ -107,15 +107,6 @@ ToMenu >> rootMenu [
 ]
 
 { #category : #'theme event handling' }
-ToMenu >> toThemeInstalled [ 
-
-	windowManager toThemeInstalled.
-	super toThemeInstalled.
-
-	
-]
-
-{ #category : #'theme event handling' }
 ToMenu >> toThemeUninstalled: aTheme [
 
 	windowManager toThemeUninstalled: aTheme.

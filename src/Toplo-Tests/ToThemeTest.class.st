@@ -15,6 +15,7 @@ ToThemeTest >> testThemeChanged [
 	self waitTestingSpaces.
 	self assert: e skinManager skinInstaller isNil.
 	space toTheme: ToRawDarkTheme new.
+	self waitTestingSpaces.
 	self assert: e skinManager skinUninstaller notNil.
 	self assert: e skinManager skinInstaller notNil.
 	self applyAllEnqueuedStates.
@@ -35,6 +36,7 @@ ToThemeTest >> testThemeChangedWithStyleSheetTheme [
 	self waitTestingSpaces.
 	self assert: e skinManager skinInstaller isNil.
 	space toTheme: ToBeeDarkTheme new.
+	self waitTestingSpaces.
 	self assert: e skinManager skinUninstaller notNil.
 	self assert: e skinManager skinInstaller notNil.
 	self applyAllEnqueuedStates.
@@ -55,6 +57,7 @@ ToThemeTest >> testThemeChangedWithStyleSheetTheme2 [
 	self applyAllEnqueuedStates.
 	self waitTestingSpaces.
 	space toTheme: ToBeeDarkTheme new.
+	self waitTestingSpaces.
 	self assert: e skinManager skinInstaller notNil.
 	self assert: e skinManager skinUninstaller notNil.
 	self applyAllEnqueuedStates.

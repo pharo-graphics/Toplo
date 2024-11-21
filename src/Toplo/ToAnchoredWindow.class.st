@@ -143,8 +143,9 @@ ToAnchoredWindow >> show [
 ToAnchoredWindow >> toThemeInstalled [
 
 	| lt |
-	lt := self element lookupTheme.
-	self localTheme = lt ifFalse: [ self localTheme: lt ].
+	self element ifNotNil: [ :e |
+		lt := e lookupTheme.
+		self localTheme = lt ifFalse: [ self localTheme: lt ] ].
 	super toThemeInstalled
 ]
 

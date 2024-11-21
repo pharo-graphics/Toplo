@@ -2895,7 +2895,7 @@ ToSandBox class >> example_buttonWithDisableEnable [
 	button := (ToButton id: #buttonA)
 		          labelText: 'Button';
 		          yourself.
-
+	"button whenClickedDo: [ self inform: 'clicked' ]."
 	disabox whenClickedDo: [ :evt | button disabled: disabox isChecked ].
 
 	pane addChild: disabox.

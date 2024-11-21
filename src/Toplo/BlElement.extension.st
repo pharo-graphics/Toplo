@@ -236,10 +236,11 @@ BlElement >> localTheme: aTheme [
 
 	(self parent isNil and: [
 		 self space notNil and: [ self space toTheme ~= aTheme ] ]) ifTrue: [
-		Error signal: 'The space root local theme can''t be changed directly, use the space API (#toTheme:)' ].
-	self localTheme ifNotNil: [ :th | th onUninstalledIn: self ].
-	self userData at: #localTheme put: aTheme.
-	self localTheme ifNotNil: [ :th | th onInstalledIn: self ]
+		Error signal:
+			'The space root local theme can''t be changed directly, use the space API (#toTheme:)' ].
+	self localTheme ifNil: [ ^ self updateLocalThemeWith: aTheme ].
+	self enqueueTask:
+		(BlTaskAction new action: [ self updateLocalThemeWith: aTheme ])
 ]
 
 { #category : #'*Toplo' }
@@ -471,12 +472,6 @@ BlElement >> toStyleStoreDo: aBlock [
 ]
 
 { #category : #'*Toplo-LookAndFeel' }
-BlElement >> toThemeAboutToBeUninstalled: aTheme [
-
-	self childrenDo: [ :c | c toThemeAboutToBeUninstalled: aTheme ]
-]
-
-{ #category : #'*Toplo-LookAndFeel' }
 BlElement >> toThemeInstalled [
 
 	self childrenDo: [ :c | c toThemeInstalled ].
@@ -494,8 +489,7 @@ BlElement >> toThemePreInstall: aTheme [
 { #category : #'*Toplo-LookAndFeel' }
 BlElement >> toThemeUninstalled: aTheme [
 
-	self childrenDo: [ :c | c toThemeUninstalled: aTheme ].
-	self requestNewSkin
+	self childrenDo: [ :c | c toThemeUninstalled: aTheme ]
 ]
 
 { #category : #'*Toplo' }
@@ -517,6 +511,14 @@ BlElement >> uninstallRawStyle [
 BlElement >> uninstallShortcuts [
 
 	self shortcutsStoreDo: [ :store | store uninstall ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> updateLocalThemeWith: aTheme [
+
+	self localTheme ifNotNil: [ :th | th onUninstalledIn: self ].
+	self userData at: #localTheme put: aTheme.
+	self localTheme ifNotNil: [ :th | th onInstalledIn: self ]
 ]
 
 { #category : #'*Toplo' }

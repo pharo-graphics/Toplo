@@ -363,11 +363,11 @@ ToTheme >> icons: aThemeIcons [
 ]
 
 { #category : #initialization }
-ToTheme >> initialize [ 
+ToTheme >> initialize [
 
 	super initialize.
 	tokenProperties := self technicalTokenProperties asOrderedCollection.
-	tokenProperties addAll: self defaultTokenProperties asOrderedCollection
+	tokenProperties addAll: self defaultTokenProperties
 ]
 
 { #category : #accessing }
@@ -400,7 +400,6 @@ ToTheme >> onInstalledIn: anElement [
 { #category : #'api - hooks' }
 ToTheme >> onUninstalledIn: anElement [
 
-	anElement toThemeAboutToBeUninstalled: self.
 	anElement removeAllTokenPropertiesFromNames: (self tokenProperties collect: [:tp | tp name]).
 	anElement toThemeUninstalled: self
 ]

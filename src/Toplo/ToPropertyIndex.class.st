@@ -83,7 +83,7 @@ ToPropertyIndex >> removeAllProperties [
 { #category : #removing }
 ToPropertyIndex >> removeAllPropertyFromNames: aCollectionOfSymbol [
 
-	aCollectionOfSymbol do: [ :s | self removePropertyNamed: s ]
+	aCollectionOfSymbol do: [ :s | self index removeKey: s ifAbsent: [  ] ]
 ]
 
 { #category : #removing }

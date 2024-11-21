@@ -811,7 +811,6 @@ ToSandBox class >> example_CodeEditor [
 			                whenClickedDo: [ :event | element requestCancel ];
 			                yourself) ].
 	album contextMenu: menuBuilder.
-	album cursorColor: Color black.
 	
 	inspectBtn whenClickedDo: [ :evt | album inspect ].
 	pane addChild: topBtnPane.

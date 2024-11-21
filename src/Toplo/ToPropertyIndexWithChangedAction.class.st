@@ -10,18 +10,16 @@ Class {
 { #category : #adding }
 ToPropertyIndexWithChangedAction >> addAllProperties: aCollectionOfProperties [
 
-	(aCollectionOfProperties anySatisfy: [ :p |
-		 (self hasProperty: p) not ]) ifFalse: [ ^ self ].
+	aCollectionOfProperties ifEmpty: [ ^ self ].
 	aCollectionOfProperties do: [ :p | self index at: p name asSymbol put: p ].
-	self changedAction value
+	changedAction value
 ]
 
 { #category : #adding }
 ToPropertyIndexWithChangedAction >> addProperty: anElementProperty [
 
-	(self hasProperty: anElementProperty) ifTrue: [ ^ self ].
 	super addProperty: anElementProperty.
-	self changedAction value 
+	changedAction value 
 ]
 
 { #category : #accessing }
@@ -59,25 +57,20 @@ ToPropertyIndexWithChangedAction >> removeAllProperties [
 
 	index ifEmpty: [ ^ self ].
 	super removeAllProperties.
-	self changedAction value
+	changedAction value
 ]
 
-{ #category : #adding }
+{ #category : #removing }
 ToPropertyIndexWithChangedAction >> removeAllPropertyFromNames: aCollectionOfSymbol [
 
-	| change |
-	change := false.
-	(aCollectionOfSymbol anySatisfy: [ :s | self hasPropertyNamed: s])
-		ifTrue: [ change := true ].
-	change ifFalse: [ ^ self ].
+	aCollectionOfSymbol ifEmpty: [ ^ self ].
 	super removeAllPropertyFromNames: aCollectionOfSymbol.
-	self changedAction value
+	changedAction value
 ]
 
 { #category : #removing }
 ToPropertyIndexWithChangedAction >> removePropertyNamed: aSymbol [
 
-	(self hasPropertyNamed: aSymbol) ifFalse: [ ^ self ].
-	super removePropertyNamed: aSymbol.
-	self changedAction value
+	self index removeKey: aSymbol ifAbsent: [ ^ self ].
+	changedAction value
 ]

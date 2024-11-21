@@ -7,7 +7,6 @@ Class {
 		'spaceShownEventHandler',
 		'needSkinInstallPass',
 		'needSkinStateApplicationPass',
-		'applyingSkinInstallers',
 		'stateGenerations'
 	],
 	#category : #'Toplo-Core-SpaceFrame'
@@ -37,8 +36,8 @@ ToSpaceSkinPhasesManager >> allowSkinPhases: aBoolean [
 ToSpaceSkinPhasesManager >> applyAllEnqueuedStatesIn: aSpace [
 
 	self runStateGenerations.
-	self needSkinStateApplicationPass ifTrue: [
-		aSpace root applyEnqueuedStatesDeeply ].
+	self needSkinStateApplicationPass ifFalse: [ ^ self ].
+	aSpace root applyEnqueuedStatesDeeply.
 	self needSkinStateApplicationPass: false
 ]
 
@@ -46,13 +45,10 @@ ToSpaceSkinPhasesManager >> applyAllEnqueuedStatesIn: aSpace [
 ToSpaceSkinPhasesManager >> applyAllSkinInstallersIn: aSpace [
 
 	self needSkinInstallPass ifFalse: [ ^ self ].
-	self isApplyingSkinInstallers ifTrue: [ ^ self ].
 	" flag it now, before a skin installation pass because nothing prevent a skin installation to ask for another installation.
 	This is normally not the case. One known case is the space root installation that induce a skin installation "
 	self needSkinInstallPass: false.
-	applyingSkinInstallers := true.
-	[ aSpace root applySkinInstallersDeeply ] ensure: [
-		applyingSkinInstallers := false ]
+	aSpace root applySkinInstallersDeeply
 ]
 
 { #category : #'phases installation' }
@@ -72,7 +68,6 @@ ToSpaceSkinPhasesManager >> initialize [
 	allowSkinPhases := true.
 	needSkinInstallPass := true.
 	needSkinStateApplicationPass := true.
-	applyingSkinInstallers := false.
 	stateGenerations := OrderedCollection new
 ]
 
@@ -90,12 +85,6 @@ ToSpaceSkinPhasesManager >> installedSkinStateApplicationPhaseIn: aSpace [
 	^ aSpace frame phases
 		  detect: [ :p | p isKindOf: ToSpaceSkinStateApplicationPhase ]
 		  ifNone: [  ]
-]
-
-{ #category : #testing }
-ToSpaceSkinPhasesManager >> isApplyingSkinInstallers [
-
-	^ applyingSkinInstallers 
 ]
 
 { #category : #testing }
@@ -182,7 +171,7 @@ ToSpaceSkinPhasesManager >> runStateGenerations [
 
 	stateGenerations ifNil: [ ^ self ].
 	stateGenerations do: [ :g | g value ].
-	stateGenerations removeAll
+	stateGenerations reset
 ]
 
 { #category : #accessing }

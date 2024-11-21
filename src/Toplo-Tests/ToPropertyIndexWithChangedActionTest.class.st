@@ -17,7 +17,7 @@ ToPropertyIndexWithChangedActionTest >> testAddAllProperties [
 	" no duplication allowed "
 	idx addAllProperties: { (ToTokenProperty new name: #color). (ToTokenProperty new name: #background) } .
 	self assert: idx size equals: 2.
-	self assert: count equals: 1
+	self assert: count equals: 2
 
 		
 ]
@@ -35,7 +35,7 @@ ToPropertyIndexWithChangedActionTest >> testAddProperty [
 	self assert: count equals: 2.
 	self assert: idx size equals: 1.
 	idx addProperty: (ToTokenProperty new name: #color; value: Color blue).
-	self assert: count equals: 2.
+	self assert: count equals: 3.
 	self assert: idx size equals: 1.
 
 
@@ -52,10 +52,10 @@ ToPropertyIndexWithChangedActionTest >> testAddPropertyWithBlockClosure [
 	self assert: count equals: 1.
 	self assert: idx size equals: 1.
 	idx addProperty: (ToTokenProperty new name: #color; value: [:e | e defaultColor ]).
-	self assert: count equals: 1.
+	self assert: count equals: 2.
 	self assert: idx size equals: 1.
 	idx addProperty: (ToTokenProperty new name: #color; value: Color blue).
-	self assert: count equals: 2.
+	self assert: count equals: 3.
 	self assert: idx size equals: 1.
 
 

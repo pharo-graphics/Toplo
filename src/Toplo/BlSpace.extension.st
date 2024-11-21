@@ -55,12 +55,6 @@ BlSpace >> checkSkinPhases [
 ]
 
 { #category : #'*Toplo' }
-BlSpace >> isApplyingSkinInstallers [
-
-	^ self skinPhasesManager isApplyingSkinInstallers
-]
-
-{ #category : #'*Toplo' }
 BlSpace >> needSkinInstallPass [
 
 	^ self skinPhasesManager needSkinInstallPass

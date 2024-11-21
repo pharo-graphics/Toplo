@@ -4126,6 +4126,7 @@ ToSandBox class >> example_switchButtonWithSize [
 
 { #category : #tabs }
 ToSandBox class >> example_tabPane [
+
 	| nb but |
 	nb := ToTabPane new.
 	nb resizablePanes: true.
@@ -4133,7 +4134,10 @@ ToSandBox class >> example_tabPane [
 		but := ToTab new.
 		but closable: true.
 		but labelText: 'Button ' , index asString.
-		but paneBuilder: [ :pane :theNoteBook | pane background: Color random ].
+		but paneBuilder: [ :pane :theNoteBook |
+			pane addChild: (ToSwitchButton new
+					 checked: false;
+					 yourself) ].
 		nb addTab: but ].
 	nb openInSpace.
 	^ nb
@@ -4163,6 +4167,470 @@ ToSandBox class >> example_tabPaneWithCustomSelectionBar [
 	nb := self example_tabPane.
 	nb tabs do: [ :but |
 		but defaultSkin: ToTabWithCustomSelectionBarSkin new ].
+	^ nb
+]
+
+{ #category : #tabs }
+ToSandBox class >> example_tabPaneWithPyramidGeneratedPane [
+
+	| nb but |
+	nb := ToTabPane new.
+	nb resizablePanes: true.
+	1 to: 5 do: [ :index |
+		but := ToTab new.
+		but closable: true.
+		but labelText: 'Button ' , index asString.
+		but paneBuilder: [ :pane :theNoteBook |
+			pane addChildren: {(BlElement new
+   addChildren: {(ToLabel new
+         text: (BlRopedText new
+               rope: (BlAttributeRope attributes: {(BlFontWeightAttribute new
+                           weight: 600;
+                           yourself) . 
+                        (BlFontFamilyDefaultAttribute new
+                           name: 'Courier';
+                           yourself) . 
+                        (BlFontSizeDefaultAttribute new
+                           size: 14;
+                           yourself) . 
+                        AlbTextParagraphLineSpacingAttribute new . 
+                        (BlTextForegroundAttribute new
+                           paint: (Color r: 0.0 g: 0.0 b: 0.0 alpha: 1.0);
+                           yourself)} rope: (BlCollectionRope new
+                           collection: 'Mode';
+                           yourself));
+               yourself);
+         constraintsDo: [:constraints |  constraints horizontal matchParent.
+            constraints vertical fitContent.
+            constraints margin: (BlInsets top: 4.0 right: 0.0 bottom: 8.0 left: 8.0) ];
+         addStamp: #caption1 withValue: true;
+         id: #modeLabelId;
+         yourself) . 
+      (ToSingleSelectElement new
+         filtrable: false;
+         constraintsDo: [:constraints |  constraints horizontal matchParent.
+            constraints vertical fitContent.
+            constraints padding: (BlInsets top: 4.0 right: 8.0 bottom: 4.0 left: 8.0).
+            constraints margin: (BlInsets top: 0.0 right: 8.0 bottom: 8.0 left: 8.0) ];
+         id: #modeChoiceBoxId;
+         yourself) . 
+      (ToPane new
+         addChildren: {(ToSwitchButton new
+               constraintsDo: [:constraints |  constraints horizontal fitContent.
+                  constraints vertical fitContent.
+                  constraints padding: (BlInsets top: 4.0 right: 8.0 bottom: 4.0 left: 8.0).
+                  constraints margin: (BlInsets top: 0.0 right: 8.0 bottom: 0.0 left: 4.0) ];
+               id: #audioSwitchId;
+               yourself) . 
+            (ToLabel new
+               text: (BlRopedText new
+                     rope: (BlAttributeRope attributes: {(BlFontWeightAttribute new
+                                 weight: 600;
+                                 yourself) . 
+                              (BlFontFamilyDefaultAttribute new
+                                 name: 'Courier';
+                                 yourself) . 
+                              (BlFontSizeDefaultAttribute new
+                                 size: 14;
+                                 yourself) . 
+                              AlbTextParagraphLineSpacingAttribute new . 
+                              (BlTextForegroundAttribute new
+                                 paint: (Color r: 0.0 g: 0.0 b: 0.0 alpha: 1.0);
+                                 yourself)} rope: (BlCollectionRope new
+                                 collection: 'Audio';
+                                 yourself));
+                     yourself);
+               constraintsDo: [:constraints |  constraints horizontal fitContent.
+                  constraints vertical fitContent.
+                  constraints margin: (BlInsets top: 4.0 right: 0.0 bottom: 0.0 left: 0.0) ];
+               addStamp: #body1 withValue: true;
+               id: #audioLabelId;
+               yourself)};
+         constraintsDo: [:constraints |  constraints horizontal matchParent.
+            constraints vertical fitContent.
+            constraints margin: (BlInsets top: 0.0 right: 0.0 bottom: 42.0 left: 0.0) ];
+         id: #paneId;
+         yourself) . 
+      (ToButton new
+         middleElement: (ToLabel new
+               text: (BlRopedText new
+                     rope: (BlAttributeRope attributes: {(BlFontWeightAttribute new
+                                 weight: 600;
+                                 yourself) . 
+                              (BlFontFamilyDefaultAttribute new
+                                 name: 'Courier';
+                                 yourself) . 
+                              (BlFontSizeDefaultAttribute new
+                                 size: 14;
+                                 yourself) . 
+                              AlbTextParagraphLineSpacingAttribute new . 
+                              (BlTextForegroundAttribute new
+                                 paint: (Color r: 0.0 g: 0.0 b: 0.0 alpha: 1.0);
+                                 yourself)} rope: (BlCollectionRope new
+                                 collection: 'Delete all librairies';
+                                 yourself));
+                     yourself);
+               constraintsDo: [:constraints |  constraints horizontal fitContent.
+                  constraints vertical fitContent ];
+               yourself);
+         constraintsDo: [:constraints |  constraints horizontal matchParent.
+            constraints vertical fitContent.
+            constraints padding: (BlInsets top: 4.0 right: 8.0 bottom: 4.0 left: 8.0).
+            constraints margin: (BlInsets top: 0.0 right: 8.0 bottom: 0.0 left: 8.0) ];
+         addStamp: #filled withValue: true;
+         addStamp: #danger withValue: true;
+         id: #deleteButtonId;
+         yourself) . 
+      (ToLabel new
+         text: (BlRopedText new
+               rope: (BlAttributeRope attributes: {(BlFontWeightAttribute new
+                           weight: 600;
+                           yourself) . 
+                        (BlFontFamilyDefaultAttribute new
+                           name: 'Courier';
+                           yourself) . 
+                        (BlFontSizeDefaultAttribute new
+                           size: 14;
+                           yourself) . 
+                        AlbTextParagraphLineSpacingAttribute new . 
+                        (BlTextForegroundAttribute new
+                           paint: (Color r: 0.0 g: 0.0 b: 0.0 alpha: 1.0);
+                           yourself)} rope: (BlCollectionRope new
+                           collection: 'Demonstration mode';
+                           yourself));
+               yourself);
+         constraintsDo: [:constraints |
+				constraints margin: (BlInsets all: 8.0).
+				constraints horizontal fitContent.
+            constraints vertical fitContent ];
+         addStamp: #caption1 withValue: true;
+         id: #demoModeLabelId;
+         yourself) . 
+      (ToSingleSelectElement new
+         filtrable: false;
+         constraintsDo: [:constraints |  constraints horizontal matchParent.
+            constraints vertical fitContent.
+				constraints margin: (BlInsets top: 0.0 right: 8.0 bottom: 8.0 left: 8.0).
+            constraints padding: (BlInsets all: 1.0) ];
+         id: #demoSelectId;
+         yourself) . 
+      (ToLabel new
+         text: (BlRopedText new
+               rope: (BlAttributeRope attributes: {(BlFontWeightAttribute new
+                           weight: 600;
+                           yourself) . 
+                        (BlFontFamilyDefaultAttribute new
+                           name: 'Courier';
+                           yourself) . 
+                        (BlFontSizeDefaultAttribute new
+                           size: 14;
+                           yourself) . 
+                        AlbTextParagraphLineSpacingAttribute new . 
+                        (BlTextForegroundAttribute new
+                           paint: (Color r: 0.0 g: 0.0 b: 0.0 alpha: 1.0);
+                           yourself)} rope: (BlCollectionRope new
+                           collection: 'Demonstration scenario';
+                           yourself));
+               yourself);
+         constraintsDo: [:constraints |  constraints horizontal fitContent.
+            constraints vertical fitContent.
+            constraints margin: (BlInsets all: 8.0) ];
+         addStamp: #caption1 withValue: true;
+         id: #demoScenarioLabelId;
+         yourself) . 
+      (ToPane new
+         addChildren: {(ToButton new
+               middleElement: (ToLabel new
+                     text: (BlRopedText new
+                           rope: (BlAttributeRope attributes: {(BlFontWeightAttribute new
+                                       weight: 600;
+                                       yourself) . 
+                                    (BlFontFamilyDefaultAttribute new
+                                       name: 'Courier';
+                                       yourself) . 
+                                    (BlFontSizeDefaultAttribute new
+                                       size: 14;
+                                       yourself) . 
+                                    AlbTextParagraphLineSpacingAttribute new . 
+                                    (BlTextForegroundAttribute new
+                                       paint: (Color r: 0.0 g: 0.0 b: 0.0 alpha: 1.0);
+                                       yourself)} rope: (BlCollectionRope new
+                                       collection: 'EW EEZ';
+                                       yourself));
+                           yourself);
+                     constraintsDo: [:constraints |  constraints horizontal fitContent.
+                        constraints vertical fitContent ];
+                     yourself);
+               constraintsDo: [:constraints |  constraints horizontal matchParent.
+                  constraints vertical fitContent.
+                  constraints padding: (BlInsets top: 4.0 right: 8.0 bottom: 4.0 left: 8.0).
+                  constraints margin: (BlInsets top: 0.0 right: 8.0 bottom: 0.0 left: 8.0) ];
+               addStamp: #filled withValue: true;
+               id: #ewButtonId;
+               yourself) . 
+            (ToButton new
+               middleElement: (ToLabel new
+                     text: (BlRopedText new
+                           rope: (BlAttributeRope attributes: {(BlFontWeightAttribute new
+                                       weight: 600;
+                                       yourself) . 
+                                    (BlFontFamilyDefaultAttribute new
+                                       name: 'Courier';
+                                       yourself) . 
+                                    (BlFontSizeDefaultAttribute new
+                                       size: 14;
+                                       yourself) . 
+                                    AlbTextParagraphLineSpacingAttribute new . 
+                                    (BlTextForegroundAttribute new
+                                       paint: (Color r: 0.0 g: 0.0 b: 0.0 alpha: 1.0);
+                                       yourself)} rope: (BlCollectionRope new
+                                       collection: 'Safety at sea';
+                                       yourself));
+                           yourself);
+                     constraintsDo: [:constraints |  constraints horizontal fitContent.
+                        constraints vertical fitContent ];
+                     yourself);
+               constraintsDo: [:constraints |  constraints horizontal matchParent.
+                  constraints vertical fitContent.
+                  constraints padding: (BlInsets top: 4.0 right: 8.0 bottom: 4.0 left: 8.0).
+                  constraints margin: (BlInsets top: 0.0 right: 8.0 bottom: 0.0 left: 0.0) ];
+               addStamp: #outline withValue: true;
+               id: #safetyButtonId;
+               yourself)};
+         constraintsDo: [:constraints |  constraints horizontal matchParent.
+            constraints vertical fitContent ];
+         id: #demoPane;
+         yourself) . 
+      (ToLabel new
+         text: (BlRopedText new
+               rope: (BlAttributeRope attributes: {(BlFontWeightAttribute new
+                           weight: 600;
+                           yourself) . 
+                        (BlFontFamilyDefaultAttribute new
+                           name: 'Courier';
+                           yourself) . 
+                        (BlFontSizeDefaultAttribute new
+                           size: 14;
+                           yourself) . 
+                        AlbTextParagraphLineSpacingAttribute new . 
+                        (BlTextForegroundAttribute new
+                           paint: (Color r: 0.0 g: 0.0 b: 0.0 alpha: 1.0);
+                           yourself)} rope: (BlCollectionRope new
+                           collection: 'Scenario control';
+                           yourself));
+               yourself);
+         constraintsDo: [:constraints |  constraints horizontal fitContent.
+            constraints vertical fitContent.
+            constraints margin: (BlInsets all: 8.0) ];
+         addStamp: #caption1 withValue: true;
+         id: #scenarioControlLabelId;
+         yourself) . 
+      (ToPane new
+         addChildren: {(ToButton new
+               constraintsDo: [:constraints |  constraints horizontal exact: 44.0.
+                  constraints vertical exact: 40.0.
+                  constraints padding: (BlInsets top: 4.0 right: 8.0 bottom: 4.0 left: 8.0).
+                  constraints margin: (BlInsets top: 0.0 right: 8.0 bottom: 0.0 left: 8.0) ];
+               addStamp: #filled withValue: true;
+               id: #playButtonId;
+               yourself) . 
+            (ToButton new
+               constraintsDo: [:constraints |  constraints horizontal exact: 44.0.
+                  constraints vertical exact: 40.0.
+                  constraints padding: (BlInsets top: 4.0 right: 8.0 bottom: 4.0 left: 8.0) ];
+               addStamp: #filled withValue: true;
+               id: #rewindButtonId;
+               yourself) . 
+            (ToSwitchButton new
+               constraintsDo: [:constraints |  constraints horizontal fitContent.
+                  constraints vertical fitContent.
+                  constraints padding: (BlInsets top: 4.0 right: 8.0 bottom: 4.0 left: 8.0).
+                  constraints margin: (BlInsets top: 6.0 right: 8.0 bottom: 0.0 left: 4.0) ];
+               id: #loopSwitchId;
+               yourself) . 
+            (ToLabel new
+               text: (BlRopedText new
+                     rope: (BlAttributeRope attributes: {(BlFontWeightAttribute new
+                                 weight: 600;
+                                 yourself) . 
+                              (BlFontFamilyDefaultAttribute new
+                                 name: 'Courier';
+                                 yourself) . 
+                              (BlFontSizeDefaultAttribute new
+                                 size: 14;
+                                 yourself) . 
+                              AlbTextParagraphLineSpacingAttribute new . 
+                              (BlTextForegroundAttribute new
+                                 paint: (Color r: 0.0 g: 0.0 b: 0.0 alpha: 1.0);
+                                 yourself)} rope: (BlCollectionRope new
+                                 collection: 'Loop scenario';
+                                 yourself));
+                     yourself);
+               constraintsDo: [:constraints |  constraints horizontal fitContent.
+                  constraints vertical fitContent.
+                  constraints margin: (BlInsets top: 9.0 right: 0.0 bottom: 0.0 left: 0.0) ];
+               addStamp: #body1 withValue: true;
+               id: #loopSwitchLabelId;
+               yourself)};
+         constraintsDo: [:constraints |  constraints horizontal matchParent.
+            constraints vertical fitContent ];
+         id: #scenarioControlPaneId;
+         yourself) . 
+      (ToLabel new
+         text: (BlRopedText new
+               rope: (BlAttributeRope attributes: {(BlFontWeightAttribute new
+                           weight: 600;
+                           yourself) . 
+                        (BlFontFamilyDefaultAttribute new
+                           name: 'Courier';
+                           yourself) . 
+                        (BlFontSizeDefaultAttribute new
+                           size: 14;
+                           yourself) . 
+                        AlbTextParagraphLineSpacingAttribute new . 
+                        (BlTextForegroundAttribute new
+                           paint: (Color r: 0.0 g: 0.0 b: 0.0 alpha: 1.0);
+                           yourself)} rope: (BlCollectionRope new
+                           collection: 'Demonstration display settings';
+                           yourself));
+               yourself);
+         constraintsDo: [:constraints |  constraints horizontal fitContent.
+            constraints vertical fitContent.
+            constraints margin: (BlInsets all: 8.0) ];
+         addStamp: #caption1 withValue: true;
+         id: #displayLabelId;
+         yourself) . 
+      (ToPane new
+         addChildren: {(ToSwitchButton new
+               constraintsDo: [:constraints |  constraints horizontal fitContent.
+                  constraints vertical fitContent.
+                  constraints padding: (BlInsets top: 4.0 right: 8.0 bottom: 4.0 left: 8.0).
+                  constraints margin: (BlInsets top: 0.0 right: 0.0 bottom: 0.0 left: 4.0) ];
+               id: #groundSwitchId;
+               yourself) . 
+            (ToLabel new
+               text: (BlRopedText new
+                     rope: (BlAttributeRope attributes: {(BlFontWeightAttribute new
+                                 weight: 600;
+                                 yourself) . 
+                              (BlFontFamilyDefaultAttribute new
+                                 name: 'Courier';
+                                 yourself) . 
+                              (BlFontSizeDefaultAttribute new
+                                 size: 14;
+                                 yourself) . 
+                              AlbTextParagraphLineSpacingAttribute new . 
+                              (BlTextForegroundAttribute new
+                                 paint: (Color r: 0.0 g: 0.0 b: 0.0 alpha: 1.0);
+                                 yourself)} rope: (BlCollectionRope new
+                                 collection: 'Ground Truth';
+                                 yourself));
+                     yourself);
+               constraintsDo: [:constraints |  constraints horizontal fitContent.
+                  constraints vertical fitContent.
+                  constraints margin: (BlInsets top: 5.0 right: 0.0 bottom: 0.0 left: 4.0) ];
+               addStamp: #body1 withValue: true;
+               id: #groundLabelId;
+               yourself)};
+         constraintsDo: [:constraints |  constraints horizontal matchParent.
+            constraints vertical fitContent ];
+         id: #groundPaneId;
+         yourself) .
+      (ToPane new
+         constraintsDo: [:constraints |  constraints horizontal matchParent.
+            constraints vertical matchParent ];
+         id: #spacePaneId;
+         yourself) . 
+      (ToButton new
+         middleElement: (ToLabel new
+               text: (BlRopedText new
+                     rope: (BlAttributeRope attributes: {(BlFontWeightAttribute new
+                                 weight: 600;
+                                 yourself) . 
+                              (BlFontFamilyDefaultAttribute new
+                                 name: 'Courier';
+                                 yourself) . 
+                              (BlFontSizeDefaultAttribute new
+                                 size: 14;
+                                 yourself) . 
+                              AlbTextParagraphLineSpacingAttribute new . 
+                              (BlTextForegroundAttribute new
+                                 paint: (Color r: 0.0 g: 0.0 b: 0.0 alpha: 1.0);
+                                 yourself)} rope: (BlCollectionRope new
+                                 collection: 'Configuration';
+                                 yourself));
+                     yourself);
+               constraintsDo: [:constraints |  constraints horizontal fitContent.
+                  constraints vertical fitContent ];
+               yourself);
+         constraintsDo: [:constraints |  constraints horizontal fitContent.
+            constraints vertical fitContent.
+            constraints padding: (BlInsets top: 4.0 right: 8.0 bottom: 4.0 left: 8.0).
+            constraints margin: (BlInsets all: 8.0) ];
+         addStamp: #ghost withValue: true;
+         id: #configButtonId;
+         yourself) .
+(ToLabel new
+         text: (BlRopedText new
+               rope: (BlAttributeRope attributes: {(BlFontWeightAttribute new
+                           weight: 600;
+                           yourself) . 
+                        (BlFontFamilyDefaultAttribute new
+                           name: 'Courier';
+                           yourself) . 
+                        (BlFontSizeDefaultAttribute new
+                           size: 14;
+                           yourself) . 
+                        AlbTextParagraphLineSpacingAttribute new . 
+                        (BlTextForegroundAttribute new
+                           paint: (Color r: 0.0 g: 0.0 b: 0.0 alpha: 1.0);
+                           yourself)} rope: (BlCollectionRope new
+                           collection: 'Version Alpha';
+                           yourself));
+               yourself);
+         constraintsDo: [:constraints |  constraints horizontal fitContent.
+            constraints vertical fitContent.
+            constraints margin: (BlInsets top: 0.0 right: 0.0 bottom: 8.0 left: 8.0) ];
+         addStamp: #caption1 withValue: true;
+         id: #versionLabelId;
+         yourself). 
+      (ToButton new
+         middleElement: (ToLabel new
+               text: (BlRopedText new
+                     rope: (BlAttributeRope attributes: {(BlFontWeightAttribute new
+                                 weight: 600;
+                                 yourself) . 
+                              (BlFontFamilyDefaultAttribute new
+                                 name: 'Courier';
+                                 yourself) . 
+                              (BlFontSizeDefaultAttribute new
+                                 size: 14;
+                                 yourself) . 
+                              AlbTextParagraphLineSpacingAttribute new . 
+                              (BlTextForegroundAttribute new
+                                 paint: (Color r: 0.0 g: 0.0 b: 0.0 alpha: 1.0);
+                                 yourself)} rope: (BlCollectionRope new
+                                 collection: 'Quit';
+                                 yourself));
+                     yourself);
+               constraintsDo: [:constraints |  constraints horizontal fitContent.
+                  constraints vertical fitContent ];
+               yourself);
+         constraintsDo: [:constraints |  constraints horizontal matchParent.
+            constraints vertical fitContent.
+            constraints padding: (BlInsets top: 4.0 right: 8.0 bottom: 4.0 left: 8.0).
+            constraints margin: (BlInsets top: 0.0 right: 8.0 bottom: 8.0 left: 8.0) ];
+         addStamp: #filled withValue: true;
+         id: #quitButtonId;
+         yourself)};
+   constraintsDo: [:constraints |  constraints horizontal matchParent.
+      constraints vertical matchParent ];
+   clipChildren: false;
+   id: #group;
+   layout: BlLinearLayout vertical;
+   yourself)} ].
+		nb addTab: but ].
+	nb openInSpace.
 	^ nb
 ]
 

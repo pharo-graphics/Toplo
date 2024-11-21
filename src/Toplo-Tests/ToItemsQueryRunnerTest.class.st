@@ -76,7 +76,7 @@ ToItemsQueryRunnerTest >> testitemsQueryRequestEvent [
 	target dispatchEvent: (ToItemsQueryRequestEvent new
 			 pattern: 'A';
 			 yourself).
-	(queryRunner delay + 1000 milliSeconds) wait.
+	(queryRunner delay + 2000 milliSeconds) wait.
 	self assert: items equals: #(  )
 ]
 

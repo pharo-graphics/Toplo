@@ -10,16 +10,23 @@ Class {
 { #category : #adding }
 ToPropertyIndexWithChangedAction >> addAllProperties: aCollectionOfProperties [
 
+	| done |
 	aCollectionOfProperties ifEmpty: [ ^ self ].
-	aCollectionOfProperties do: [ :p | self index at: p name asSymbol put: p ].
-	changedAction value
+	done := false.
+	aCollectionOfProperties do: [ :p |
+		(self hasProperty: p) ifFalse: [
+			done := true.
+			index at: p name asSymbol put: p ] ].
+	done ifTrue: [ changedAction value ]
 ]
 
 { #category : #adding }
 ToPropertyIndexWithChangedAction >> addProperty: anElementProperty [
 
+	(self hasProperty: anElementProperty) ifTrue: [ ^ false ].
 	super addProperty: anElementProperty.
-	changedAction value 
+	changedAction value.
+	^ true
 ]
 
 { #category : #accessing }
@@ -36,13 +43,15 @@ ToPropertyIndexWithChangedAction >> changedAction: aBlockNoArg [
 
 { #category : #testing }
 ToPropertyIndexWithChangedAction >> hasProperty: anElementProperty [
-
 	" compare property value conversion to string to get a correct result in case of BlockClosure "
 
-	| key |
+	| key prop |
 	key := anElementProperty name asSymbol.
-	^ (self hasPropertyNamed: key) and: [
-		  (self propertyNamed: key) value asString = anElementProperty value asString ]
+	prop := self propertyNamed: key ifAbsent: [  ].
+	^ prop notNil and: [
+		  prop value isBlock
+			  ifTrue: [ prop value asString = anElementProperty value asString ]
+			  ifFalse: [ prop value = anElementProperty value ] ]
 ]
 
 { #category : #initialization }
@@ -55,22 +64,27 @@ ToPropertyIndexWithChangedAction >> initialize [
 { #category : #removing }
 ToPropertyIndexWithChangedAction >> removeAllProperties [
 
-	index ifEmpty: [ ^ self ].
+	self isEmpty ifTrue: [ ^ self ].
 	super removeAllProperties.
 	changedAction value
 ]
 
 { #category : #removing }
-ToPropertyIndexWithChangedAction >> removeAllPropertyFromNames: aCollectionOfSymbol [
+ToPropertyIndexWithChangedAction >> removeAllPropertiesFromNames: aCollectionOfSymbol [
 
+	| done |
 	aCollectionOfSymbol ifEmpty: [ ^ self ].
-	super removeAllPropertyFromNames: aCollectionOfSymbol.
-	changedAction value
+	done := false.
+	aCollectionOfSymbol do: [ :symb |
+		index at: symb asSymbol ifPresent: [ :prop |
+			done := true.
+			index removeKey: symb ] ].
+	done ifTrue: [ changedAction value ]
 ]
 
 { #category : #removing }
 ToPropertyIndexWithChangedAction >> removePropertyNamed: aSymbol [
 
-	self index removeKey: aSymbol ifAbsent: [ ^ self ].
+	index removeKey: aSymbol ifAbsent: [ ^ self ].
 	changedAction value
 ]

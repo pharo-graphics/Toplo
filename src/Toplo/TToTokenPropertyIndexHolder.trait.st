@@ -67,7 +67,7 @@ TToTokenPropertyIndexHolder >> rawTokenPropertyIndex: aPropertyIndex [
 { #category : #'t - token property index holder' }
 TToTokenPropertyIndexHolder >> removeAllTokenPropertiesFromNames: aCollection [
 
-	self tokenPropertyIndex removeAllPropertyFromNames: aCollection
+	self tokenPropertyIndex removeAllPropertiesFromNames: aCollection
 ]
 
 { #category : #'t - token property index holder' }

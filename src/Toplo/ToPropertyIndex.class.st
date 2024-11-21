@@ -16,19 +16,19 @@ ToPropertyIndex >> addAllProperties: aCollectionOfProperties [
 { #category : #adding }
 ToPropertyIndex >> addProperty: anElementProperty [
 
-	self index at: anElementProperty name asSymbol put: anElementProperty
+	index at: anElementProperty name asSymbol put: anElementProperty
 ]
 
 { #category : #accessing }
 ToPropertyIndex >> allProperties [
 
-	^ self index associations
+	^ index associations
 ]
 
 { #category : #accessing }
 ToPropertyIndex >> allPropertyNames [
 
-	^ self index keys
+	^ index keys
 ]
 
 { #category : #testing }
@@ -53,7 +53,7 @@ ToPropertyIndex >> initialize [
 { #category : #testing }
 ToPropertyIndex >> isEmpty [
 
-	^ self index isEmpty
+	^ index isEmpty
 ]
 
 { #category : #testing }
@@ -71,7 +71,7 @@ ToPropertyIndex >> propertyNamed: aName [
 { #category : #querying }
 ToPropertyIndex >> propertyNamed: aName ifAbsent: absentBlock [
 
-	^ self index at: aName asSymbol ifAbsent: absentBlock
+	^ index at: aName asSymbol ifAbsent: absentBlock
 ]
 
 { #category : #removing }
@@ -81,15 +81,15 @@ ToPropertyIndex >> removeAllProperties [
 ]
 
 { #category : #removing }
-ToPropertyIndex >> removeAllPropertyFromNames: aCollectionOfSymbol [
+ToPropertyIndex >> removeAllPropertiesFromNames: aCollectionOfSymbol [
 
-	aCollectionOfSymbol do: [ :s | self index removeKey: s ifAbsent: [  ] ]
+	aCollectionOfSymbol do: [ :s | index removeKey: s ifAbsent: [  ] ]
 ]
 
 { #category : #removing }
 ToPropertyIndex >> removePropertyNamed: aSymbol [
 
-	self index removeKey: aSymbol ifAbsent: [ ^ self ]
+	index removeKey: aSymbol ifAbsent: [ ^ self ]
 ]
 
 { #category : #accessing }

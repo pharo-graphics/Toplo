@@ -60,7 +60,7 @@ TToStampsHolder >> removeAllStamps [
 { #category : #'t - stamps holder' }
 TToStampsHolder >> removeAllStamps: aSymbolCollection [
 
-	self stampIndex removeAllPropertyFromNames: aSymbolCollection
+	self stampIndex removeAllPropertiesFromNames: aSymbolCollection
 ]
 
 { #category : #'t - stamps holder' }

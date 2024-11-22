@@ -100,6 +100,7 @@ ToSkinStateGenerator >> enqueueTransientStateFromSkinEvent: aSkinEvent [
 ToSkinStateGenerator >> eventsToHandle [
 
 	^ {
+		  ToWindowEvent.
 		  ToGeneratorEvent.
 		  BlBaseDragEvent.
 		  BlBlurEvent.
@@ -156,6 +157,16 @@ ToSkinStateGenerator >> generateClickedStateFromEvent: anEvent [
 		addSkinStateGeneration: [
 			self enqueueTransientStateFromSkinEvent:
 				(ToClickedSkinEvent sourceEvent: anEvent) ]
+		for: target
+]
+
+{ #category : #'state generating' }
+ToSkinStateGenerator >> generateClosedStateFromEvent: anEvent [
+
+	target skinManager
+		addSkinStateGeneration: [
+			self enqueueTransientStateFromSkinEvent:
+				(ToClosedSkinEvent sourceEvent: anEvent) ]
 		for: target
 ]
 
@@ -224,6 +235,16 @@ ToSkinStateGenerator >> generateLeavedStateFromEvent: anEvent [
 ]
 
 { #category : #'state generating' }
+ToSkinStateGenerator >> generateOpenedStateFromEvent: anEvent [
+
+	target skinManager
+		addSkinStateGeneration: [
+			self enqueueTransientStateFromSkinEvent:
+				(ToOpenedSkinEvent sourceEvent: anEvent) ]
+		for: target
+]
+
+{ #category : #'state generating' }
 ToSkinStateGenerator >> generatePressedStateFromEvent: anEvent [
 
 	target skinManager
@@ -259,6 +280,14 @@ ToSkinStateGenerator >> generateSelectionStateFromEvent: anEvent [
 									 yourself)
 							in: child ] ] ] ]
 		for: target
+]
+
+{ #category : #'api - event managing' }
+ToSkinStateGenerator >> handleEvent: anEvent [
+
+	(anEvent isKindOf: ToWindowClosedEvent) ifTrue: [ ^ self windowClosedEvent: anEvent ].	
+	(anEvent isKindOf: ToWindowOpenedEvent) ifTrue: [ ^ self windowOpenedEvent: anEvent ].
+	super handleEvent: anEvent
 ]
 
 { #category : #'list selection' }
@@ -441,4 +470,16 @@ ToSkinStateGenerator >> wantsEvent: anEvent [
 
 	target isEnabled ifFalse: [ ^ false ].
 	^ super wantsEvent: anEvent
+]
+
+{ #category : #'window event handling' }
+ToSkinStateGenerator >> windowClosedEvent: anEvent [
+
+	self generateClosedStateFromEvent: anEvent
+]
+
+{ #category : #'window event handling' }
+ToSkinStateGenerator >> windowOpenedEvent: anEvent [
+
+	self generateOpenedStateFromEvent: anEvent
 ]

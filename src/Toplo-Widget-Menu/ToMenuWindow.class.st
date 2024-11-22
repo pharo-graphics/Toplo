@@ -26,17 +26,6 @@ ToMenuWindow >> includes: anElement [
 	^ false
 ]
 
-{ #category : #skin }
-ToMenuWindow >> installRawStyle [
-
-	super installRawStyle.
-	self padding: (BlInsets
-			 horizontal: (self valueOfTokenNamed: #'menu-window-padding-H')
-			 vertical: (self valueOfTokenNamed: #'menu-window-padding-V')).
-	(self valueOfTokenNamed: #'animation-window-opening') value: self.
-	self effect: (self valueOfTokenNamed: #'effect-window')
-]
-
 { #category : #accessing }
 ToMenuWindow >> itemHolder [
 
@@ -53,6 +42,12 @@ ToMenuWindow >> items [
 ToMenuWindow >> menuWindow [
 
 	^ self
+]
+
+{ #category : #skin }
+ToMenuWindow >> newRawSkin [ 
+
+	^ ToMenuWindowSkin new
 ]
 
 { #category : #enumerating }

@@ -48,6 +48,10 @@ ToBasicSkin >> closedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
+ToBasicSkin >> closedSkinEvent: anEvent [
+]
+
+{ #category : #'event handling' }
 ToBasicSkin >> deselectedLookEvent: anEvent [
 
 	self
@@ -232,6 +236,10 @@ ToBasicSkin >> openedLookEvent: anEvent [
 
 	self openedSkinEvent: anEvent
 
+]
+
+{ #category : #'event handling' }
+ToBasicSkin >> openedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }

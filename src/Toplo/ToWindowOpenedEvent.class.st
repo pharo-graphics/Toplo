@@ -9,3 +9,9 @@ ToWindowOpenedEvent >> sendTo: anObject [
 
 	anObject windowOpenedEvent: self
 ]
+
+{ #category : #sending }
+ToWindowOpenedEvent >> sendToSkinStateGenerator: aSkinStateGenerator [
+
+	aSkinStateGenerator windowOpenedEvent: self
+]

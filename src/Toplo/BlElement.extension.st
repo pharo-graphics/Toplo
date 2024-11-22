@@ -43,6 +43,19 @@ BlElement >> allStamps [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> allowSelectionSkinEvents [
+
+	self allowSkinEventClass: ToSelectedSkinEvent.
+	self allowSkinEventClass: ToDeselectedSkinEvent.
+]
+
+{ #category : #'*Toplo' }
+BlElement >> allowSkinEventClass: aSkinEventClass [
+
+	self preventedSkinEventClasses remove: aSkinEventClass ifAbsent: [  ]
+]
+
+{ #category : #'*Toplo' }
 BlElement >> applyEnqueuedStatesDeeply [
 
 	self withAllChildrenDepthFirstDo: [ :child |
@@ -62,6 +75,13 @@ BlElement >> applySkinInstallersDeeply [
 		child skinManagerDo: [ :sm |
 			sm applySkinUninstallerIn: child.
 			sm applySkinInstallerIn: child ] ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> areSelectionSkinEventsPrevented [
+
+	^ (self isPreventedSkinEventClass: ToSelectedSkinEvent) or: [
+		  self isPreventedSkinEventClass: ToDeselectedSkinEvent ]
 ]
 
 { #category : #'*Toplo' }
@@ -226,6 +246,18 @@ BlElement >> isEnabled [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> isPreventedSkinEvent: aSkinEvent [
+
+	^ self isPreventedSkinEventClass: aSkinEvent class
+]
+
+{ #category : #'*Toplo' }
+BlElement >> isPreventedSkinEventClass: aSkinEventClass [
+
+	^ self preventedSkinEventClasses includes: aSkinEventClass
+]
+
+{ #category : #'*Toplo' }
 BlElement >> localTheme [
 
 	^ self userData at: #localTheme ifAbsent: [ ]
@@ -291,6 +323,28 @@ BlElement >> openInInnerWindow [
 	frame := ToInnerWindow new.
 	frame pane addChild: self.
 	frame openInSpace
+]
+
+{ #category : #'*Toplo' }
+BlElement >> preventSelectionSkinEvents [
+
+	self preventSkinEventClass: ToSelectedSkinEvent.
+	self preventSkinEventClass: ToDeselectedSkinEvent.
+]
+
+{ #category : #'*Toplo' }
+BlElement >> preventSkinEventClass: aSkinEventClass [
+
+	self preventedSkinEventClasses add: aSkinEventClass
+]
+
+{ #category : #'*Toplo' }
+BlElement >> preventedSkinEventClasses [
+
+	self userData
+		at: #preventedSkinEventClasses
+		ifAbsentPut: IdentitySet new.
+	^ self userData at: #preventedSkinEventClasses
 ]
 
 { #category : #'*Toplo' }

@@ -44,7 +44,13 @@ ToTransientState >> skinEvent: aSkinEvent [
 ]
 
 { #category : #accessing }
+ToTransientState >> skinEventClass [
+
+	^ skinEvent class
+]
+
+{ #category : #accessing }
 ToTransientState >> sourceEvent [
 
-	^ self skinEvent sourceEvent
+	^ skinEvent sourceEvent
 ]

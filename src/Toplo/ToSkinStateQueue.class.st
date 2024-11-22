@@ -61,16 +61,16 @@ ToSkinStateQueue >> enqueueInstallStateForElement: anElement [
 ToSkinStateQueue >> enqueueState: aState for: anElement [
 	" all states kinds are enqueued here "
 
+	(anElement isPreventedSkinEvent: aState skinEvent) ifTrue: [ ^ self ].
 	nextStates add: aState.
-	anElement spaceDo: [ :sp |
-		sp needSkinStateApplicationPass: true ]
+	anElement spaceDo: [ :sp | sp needSkinStateApplicationPass: true ]
 ]
 
 { #category : #adding }
 ToSkinStateQueue >> enqueueUninstallStateForElement: anElement [
 	" uninstall state required  "
 
-	" have to ignore previous look events to avoid to apply them to the new skin"
+	" have to ignore previous skin events to avoid to apply them to the new skin"
 	nextStates reset.
 	previousInstallState := nil.
 	" store the uninstall state "

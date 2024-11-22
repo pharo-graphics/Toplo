@@ -18,6 +18,9 @@ ToRawDarkTheme class >> defaultTokenProperties [
 			   name: #'color-bg-container'
 			   value: (Color fromHexString: '#313339')).
 		  (ToTokenProperty name: #'color-bg-tooltip' value: Color black).
+		  (ToTokenProperty
+			   name: #'color-primary-unchecked'
+			   value: (Color fromHexString: '#313339')).
 
 		  (ToTokenProperty
 			   name: #'color-bg-container-disabled'

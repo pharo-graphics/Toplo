@@ -21,6 +21,14 @@ ToSkinEvent >> sendTo: anObject [
 ]
 
 { #category : #sending }
+ToSkinEvent >> sendToSkin: aSkin [
+
+	self sendTo: aSkin
+
+	
+]
+
+{ #category : #sending }
 ToSkinEvent >> sendToStyleSheetSkin: aStyleSheetSkin [
 
 	aStyleSheetSkin sendEventToPropertyWriters: self

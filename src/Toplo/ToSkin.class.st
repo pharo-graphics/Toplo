@@ -10,6 +10,12 @@ ToSkin >> eventsToHandle [
 	^ { ToSkinEvent }
 ]
 
+{ #category : #'api - event managing' }
+ToSkin >> handleEvent: anEvent [
+
+	anEvent sendToSkin: self
+]
+
 { #category : #testing }
 ToSkin >> isNullSkin [
 

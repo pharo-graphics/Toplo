@@ -1249,7 +1249,7 @@ ToSandBox class >> example_ListWithAllClasses4 [
 			     startInterspace: 10;
 			     hMatchParent;
 			     startFlexible: true.
-		     cbox label addStamp: #'ignore-selection'.
+		     cbox label preventSelectionSkinEvents.
 		     cbox focusability: BlFocusability none.
 		     cbox checked: holder isSelected.
 		     node addChild: cbox ].
@@ -2705,6 +2705,60 @@ ToSandBox class >> example_ToggleButtonGroupAndWeakStrategy [
 ]
 
 { #category : #'toggle button' }
+ToSandBox class >> example_ToggleButtonInListElement [
+
+	| group moveListElement space |
+	group := ToCheckableGroup new.
+	moveListElement := ToListElement new.
+	moveListElement primarySelectionMode selectOnMouseDown: false.
+	moveListElement nodeBuilder: [ :node :move :holder |
+		| moveElement moveNumberLabel whiteMoveLabel moveButtons blackMoveLabel |
+		moveButtons := OrderedCollection new.
+		moveElement := BlElement new.
+		moveElement layout: BlLinearLayout horizontal.
+		moveElement margin: (BlInsets all: 5).
+		moveElement constraintsDo: [ :c |
+			c vertical fitContent.
+			c horizontal fitContent ].
+
+		moveNumberLabel := BlTextElement new.
+		moveNumberLabel text: move first asString asRopedText.
+		moveNumberLabel constraintsDo: [ :c |
+			c linear vertical alignCenter.
+			c horizontal exact: 30 ].
+
+		whiteMoveLabel := ToToggleButton new.
+		whiteMoveLabel labelText: move second asString asRopedText.
+		moveButtons add: whiteMoveLabel.
+
+		blackMoveLabel := ToToggleButton new.
+		blackMoveLabel labelText: move third asString asRopedText.
+		moveButtons add: blackMoveLabel.
+		blackMoveLabel addStamp: #link.
+
+		moveElement addChild: moveNumberLabel.
+		moveElement addChild: whiteMoveLabel.
+		moveElement addChild: blackMoveLabel.
+
+		moveNumberLabel constraintsDo: [ :c |
+			c ignored vertical alignCenter ].
+
+		moveButtons do: [ :e | group register: e ].
+		node addChild: moveElement.
+		node preventSelectionSkinEvents ].
+	moveListElement size: 800 @ 600.
+	moveListElement dataAccessor addAll: {
+			{ 1. 'e4'. 'e5' }.
+			{ 2. nil. nil } }.
+
+	space := BlSpace new.
+	space root addChild: moveListElement.
+	space pulse.
+	space resizable: true.
+	space show
+]
+
+{ #category : #'toggle button' }
 ToSandBox class >> example_ToggleButtonWithIndeterminate [
 
 	| toggle |
@@ -3742,7 +3796,7 @@ ToSandBox class >> example_segmentedWithCheckboxes [
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
 		| lab |
 		lab := ToLabel text: l.
-		lab addStamp: #'ignore-selection'.
+		lab preventSelectionSkinEvents.
 		checkableBar segmentAccessor add: (ToCheckbox new
 				 label: lab;
 				 yourself) ].
@@ -6103,9 +6157,8 @@ ToSandBox class >> listWithEditableAndContextMenu [
 						                labelText:
 							                'start selection transition animation';
 						                whenClickedDo: [ :event |
-							                target primarySelectionMode
-								                selectionElementOption animationDuration:
-									                200 milliSeconds ];
+							                target primarySelectionMode selectionOption
+								                animationDuration: 200 milliSeconds ];
 						                yourself) ] ].
 	               indexes ifNotEmpty: [
 		               selectionMenu := ToMenu new.

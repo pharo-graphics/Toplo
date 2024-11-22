@@ -17,9 +17,3 @@ ToImplicitState >> skinEvent [
 
 	^ self newSkinEvent 
 ]
-
-{ #category : #accessing }
-ToImplicitState >> skinEventClass [
-
-	^ self subclassResponsibility 
-]

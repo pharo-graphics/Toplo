@@ -34,3 +34,9 @@ ToElementState >> skinEvent [
 
 	^ self subclassResponsibility 
 ]
+
+{ #category : #accessing }
+ToElementState >> skinEventClass [
+
+	^ self subclassResponsibility 
+]

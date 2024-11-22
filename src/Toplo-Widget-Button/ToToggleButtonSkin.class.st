@@ -71,17 +71,10 @@ ToToggleButtonSkin >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e layout alignCenter.
-		e mouseCursor: Cursor normal.
-		"e geometry: (BlRoundedRectangleGeometry cornerRadius:
-				 (e valueOfTokenNamed: 'border-radius'))."
+		e background: (e valueOfTokenNamed: #'color-primary-unchecked').
 		e border: (BlBorder
 				 paint: (e valueOfTokenNamed: #'color-border')
 				 width: (e valueOfTokenNamed: #'line-width')).
-		e padding: (BlInsets
-				 top: (e valueOfTokenNamed: #'padding-content-V')
-				 left: (e valueOfTokenNamed: #'padding-XS')
-				 bottom: (e valueOfTokenNamed: #'padding-content-V')
-				 right: (e valueOfTokenNamed: #'padding-XS')).
 		(e hasIcon and: [ e hasLabel ])
 			ifTrue: [ e startInterspace: 10 ]
 			ifFalse: [ e startInterspace: 0 ].

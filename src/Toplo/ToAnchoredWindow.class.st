@@ -36,8 +36,9 @@ ToAnchoredWindow >> checkBeforePopupEvent: anEvent [
 { #category : #'api - displaying' }
 ToAnchoredWindow >> close [
 
-	super close.
-	self dispatchClosedEvent
+	self dispatchClosedEvent.
+	super close
+
 ]
 
 { #category : #accessing }

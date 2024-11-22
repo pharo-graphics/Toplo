@@ -4,15 +4,19 @@ Class {
 	#traits : 'TToMenuItemContainer + TToMenuWindowModel',
 	#classTraits : 'TToMenuItemContainer classTrait + TToMenuWindowModel classTrait',
 	#instVars : [
-		'bar'
+		'itemList'
 	],
 	#category : #'Toplo-Widget-Menu-Context menu'
 }
 
 { #category : #accessing }
-ToContextMenu >> bar [ 
+ToContextMenu >> bar [
 
-	^ bar
+	self
+		deprecated: 'Use #itemList instead'
+		transformWith: '`@rcvr bar' -> '`@rcvr itemList'.
+
+	^ self itemList
 ]
 
 { #category : #'t - menu window model' }
@@ -26,8 +30,8 @@ ToContextMenu >> initialize [
 
 	super initialize.
 	self fitContent.
-	bar := ToMenuBarElement new.
-	self root addChild: bar
+	itemList := ToMenuItemListElement new.
+	self root addChild: itemList
 ]
 
 { #category : #'t - menu window model' }
@@ -49,15 +53,21 @@ ToContextMenu >> isTopMenu [
 ]
 
 { #category : #accessing }
-ToContextMenu >> itemHolder [
+ToContextMenu >> itemContainer [
 
 	^ self 
 ]
 
 { #category : #accessing }
+ToContextMenu >> itemList [
+
+	^ itemList
+]
+
+{ #category : #accessing }
 ToContextMenu >> items [
 
-	^ bar dataAccessor
+	^ itemList dataAccessor
 ]
 
 { #category : #'t - menu window model' }

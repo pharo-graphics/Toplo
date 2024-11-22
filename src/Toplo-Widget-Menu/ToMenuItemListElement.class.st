@@ -1,5 +1,5 @@
 Class {
-	#name : #ToMenuBarElement,
+	#name : #ToMenuItemListElement,
 	#superclass : #ToAbstractListElement,
 	#traits : 'TToBarElement',
 	#classTraits : 'TToBarElement classTrait',
@@ -7,19 +7,19 @@ Class {
 }
 
 { #category : #initialization }
-ToMenuBarElement >> defaultDataSource [
+ToMenuItemListElement >> defaultDataSource [
 
 	^ ToInfiniteCollectionDataSource new
 ]
 
 { #category : #initialization }
-ToMenuBarElement >> defaultNodeManagerClass [
+ToMenuItemListElement >> defaultNodeManagerClass [
 
 	^ ToMenuNodeManager
 ]
 
 { #category : #initialization }
-ToMenuBarElement >> initialize [
+ToMenuItemListElement >> initialize [
 
 	super initialize.
 	self nodeWrapping: true.
@@ -31,7 +31,7 @@ ToMenuBarElement >> initialize [
 ]
 
 { #category : #skin }
-ToMenuBarElement >> newRawSkin [ 
+ToMenuItemListElement >> newRawSkin [ 
 
-	^ ToMenuBarElementSkin new
+	^ ToMenuItemListElementSkin new
 ]

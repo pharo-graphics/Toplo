@@ -26,16 +26,10 @@ ToMenuWindowManager >> initialize [
 
 { #category : #'event handling' }
 ToMenuWindowManager >> popupWindowClosedEvent: anEvent [
-
 	" deselect all to have a freshed window without any selection on next popup "
-	anEvent currentTarget bar secondarySelectionModel deselectAll.
+
+	anEvent currentTarget itemList secondarySelectionModel deselectAll.
 	super popupWindowClosedEvent: anEvent
-]
-
-{ #category : #'theme event handling' }
-ToMenuWindowManager >> toThemeUninstalled: aTheme [
-
-	currentWindow ifNotNil: [ currentWindow toThemeUninstalled: aTheme ]
 ]
 
 { #category : #accessing }

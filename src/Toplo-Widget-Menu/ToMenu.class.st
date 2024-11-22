@@ -4,8 +4,8 @@ Class {
 	#traits : 'TToMenuItemContainer + TToMenuWindowModel',
 	#classTraits : 'TToMenuItemContainer classTrait + TToMenuWindowModel classTrait',
 	#instVars : [
-		'bar',
-		'windowManager'
+		'windowManager',
+		'itemList'
 	],
 	#category : #'Toplo-Widget-Menu-Basic'
 }
@@ -13,7 +13,11 @@ Class {
 { #category : #accessing }
 ToMenu >> bar [
 
-	^ bar
+	self
+		deprecated: 'Use #itemList instead'
+		transformWith: '`@rcvr bar' -> '`@rcvr itemList'.
+
+	^ self itemList
 ]
 
 { #category : #initialization }
@@ -45,11 +49,11 @@ ToMenu >> initialize [
 
 	super initialize.
 	self fitContent.
-	bar := ToMenuBarElement new.
+	itemList := ToMenuItemListElement new.
 	windowManager := ToMenuWindowManager new.
 	self addEventHandler: windowManager.
-	windowManager builder: [ :menWin :request | 
-		 menWin root addChild: request currentTarget bar ]
+	windowManager builder: [ :menWin :request |
+		menWin root addChild: request currentTarget itemList ]
 ]
 
 { #category : #testing }
@@ -76,10 +80,16 @@ ToMenu >> isTopMenu [
 	^ self parentMenu isNil
 ]
 
+{ #category : #accessing }
+ToMenu >> itemList [
+
+	^  itemList
+]
+
 { #category : #'t - menu item container - accessing' }
 ToMenu >> items [
 
-	^ bar dataAccessor
+	^ itemList dataAccessor
 ]
 
 { #category : #'t - menu window model' }
@@ -104,13 +114,4 @@ ToMenu >> popupEvent: anEvent [
 ToMenu >> rootMenu [
 
 	^ super rootMenu
-]
-
-{ #category : #'theme event handling' }
-ToMenu >> toThemeUninstalled: aTheme [
-
-	windowManager toThemeUninstalled: aTheme.
-	super toThemeUninstalled: aTheme
-
-	
 ]

@@ -8,7 +8,7 @@ Class {
 ToSeparatorMenuItem >> addedInMenu: aMenu [
 
 	super addedInMenu: aMenu.
-	aMenu bar unselectableSelecter selectIndex: self positionInMenu
+	aMenu itemList unselectableSelecter selectIndex: self positionInMenu
 ]
 
 { #category : #initialization }

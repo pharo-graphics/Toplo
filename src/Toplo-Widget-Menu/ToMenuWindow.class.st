@@ -27,7 +27,7 @@ ToMenuWindow >> includes: anElement [
 ]
 
 { #category : #accessing }
-ToMenuWindow >> itemHolder [
+ToMenuWindow >> itemContainer [
 
 	^ self element
 ]
@@ -35,7 +35,7 @@ ToMenuWindow >> itemHolder [
 { #category : #accessing }
 ToMenuWindow >> items [
 
-	^ self itemHolder ifNil: [ ^ #(  ) ] ifNotNil: [ :w | w items ]
+	^ self itemContainer ifNil: [ ^ #(  ) ] ifNotNil: [ :w | w items ]
 ]
 
 { #category : #'t - menu window model' }

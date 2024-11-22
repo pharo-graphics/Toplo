@@ -749,18 +749,20 @@ ToSandBox class >> example_CheckboxWithIndeterminate [
 { #category : #album }
 ToSandBox class >> example_CodeEditor [
 
-	| topBtnPane pane text album menuBuilder disabox inspectBtn |
+	| topBtnPane pane text album menuBuilder disabox inspectBtn showStatisticsBtn |
 	topBtnPane := ToPane horizontal.
 	topBtnPane layout cellSpacing: 5.
-	
+
 	pane := ToPane vertical matchParent.
 	pane layout cellSpacing: 5.
 	pane padding: (BlInsets all: 5).
 
 	inspectBtn := ToButton new labelText: 'Inspect'.
+	showStatisticsBtn := ToButton new labelText: 'Statistics'.
 	disabox := ToCheckbox new label: (ToLabel text: 'Disable').
 
 	topBtnPane addChild: inspectBtn.
+	topBtnPane addChild: showStatisticsBtn.
 	topBtnPane addChild: disabox.
 
 	text := self methodText asRopedText.
@@ -811,8 +813,11 @@ ToSandBox class >> example_CodeEditor [
 			                whenClickedDo: [ :event | element requestCancel ];
 			                yourself) ].
 	album contextMenu: menuBuilder.
-	
+
 	inspectBtn whenClickedDo: [ :evt | album inspect ].
+	showStatisticsBtn whenClickedDo: [ :evt |
+		album space showStatisticsWindow ].
+
 	pane addChild: topBtnPane.
 	pane addChild: album.
 	disabox whenClickedDo: [ :evt | album disabled: disabox isChecked ].

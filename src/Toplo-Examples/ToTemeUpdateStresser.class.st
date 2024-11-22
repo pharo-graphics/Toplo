@@ -10,7 +10,8 @@ ToTemeUpdateStresser class >> run [
 	<script>
 	| p |
 	p := [
-	     | r th |
+	     | r th rand delay |
+	     rand := Random new.
 	     r := 0.
 	     [
 	     r := r + 1.
@@ -18,7 +19,8 @@ ToTemeUpdateStresser class >> run [
 		           ToRawTheme.
 		           ToRawDarkTheme } at: r \\ 2 + 1.
 	     Toplo defaultThemeClass: th.
-	     4000 milliSeconds asDelay wait ] repeat ] newProcess.
+	     delay := rand nextIntegerBetween: 50 and: 4000.
+	     delay milliSeconds asDelay wait ] repeat ] newProcess.
 	p name: 'Toplo defaultThemeClass stress'.
 	p resume
 ]

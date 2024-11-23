@@ -1303,7 +1303,7 @@ ToSandBox class >> example_ListWithAllClassesAsButton [
 	l addEventHandler: (BlEventHandler
 			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :evt | evt traceCr ]).
-	l primarySelectionMode selectionElementOption beneath: false.
+	l primarySelectionMode selectionOption beneath: false.
 	l openInSpace
 ]
 
@@ -1320,16 +1320,17 @@ ToSandBox class >> example_ListWithAllClassesAsToggleButton [
 			               hMatchParent;
 			               checked: holder isSelected.
 		     toggle takeFocusOnClick: false.
-		     toggle whenClickedDo: [ :event | 
-				" management of the liste primary selection "
-				'click ' traceCr.
+		     toggle whenClickedDo: [ :event | " management of the liste primary selection "
+			     'click ' traceCr.
 			     toggle isChecked
 				     ifTrue: [
 				     holder listElement selecter selectIndex: holder position ]
 				     ifFalse: [
 				     holder listElement selecter deselectIndex: holder position ] ].
-		     node addChild: toggle. ].
+		     node addChild: toggle ].
 	l dataAccessor addAll: Smalltalk globals allClasses.
+	l primarySelectionMode selectOnMouseDown: true.	
+	l primarySelectionMode deselectOnMouseDown: true.
 	"l primarySelectionMode option masked: true."
 	l openInSpace
 ]

@@ -39,12 +39,6 @@ ToSegmentedElement >> addLabelText: aText withIconImage: anImage [
 ]
 
 { #category : #initialization }
-ToSegmentedElement >> defaultDataSource [
-
-	^ ToInfiniteCollectionDataSource new
-]
-
-{ #category : #initialization }
 ToSegmentedElement >> defaultEventHandler [
 
 	^ ToSegmentedElementEventHandler new

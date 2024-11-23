@@ -1,7 +1,7 @@
 Class {
 	#name : #ToMenuNodeManager,
 	#superclass : #ToAbstractBarNodeManager,
-	#category : #'Toplo-Widget-Menu-Basic'
+	#category : #'Toplo-Widget-Menu-Item-List'
 }
 
 { #category : #initialization }
@@ -10,7 +10,8 @@ ToMenuNodeManager >> buildNode: aNode [
 	| holder |
 	holder := aNode holder.
 	aNode item: holder dataItem.
-	aNode addEnablementHandler
+	aNode holder listElement enqueueTask: (BlTaskAction new action: [
+			 aNode disabled: holder dataItem isDisabled ])
 ]
 
 { #category : #initialization }
@@ -53,6 +54,5 @@ ToMenuNodeManager >> newNodeForHolder: aNodeHolder [
 { #category : #initialization }
 ToMenuNodeManager >> unbuildNode: aNode [
 
-	aNode removeEnablementHandler.
 	aNode item removeFromParent
 ]

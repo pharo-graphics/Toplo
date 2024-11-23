@@ -20,8 +20,9 @@ ToAbstractListNode >> defaultLayout [
 { #category : #accessing }
 ToAbstractListNode >> disabled: aBoolean [
 
+	super disabled: aBoolean.
 	self holder disabled: aBoolean.
-	super disabled: aBoolean
+
 ]
 
 { #category : #initialization }

@@ -7,12 +7,6 @@ Class {
 }
 
 { #category : #initialization }
-ToBarElement >> defaultDataSource [
-
-	^ ToInfiniteCollectionDataSource new
-]
-
-{ #category : #initialization }
 ToBarElement >> defaultNodeManagerClass [
 
 	^ ToGenericBarNodeManager 

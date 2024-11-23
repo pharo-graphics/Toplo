@@ -3,14 +3,8 @@ Class {
 	#superclass : #ToAbstractListElement,
 	#traits : 'TToBarElement',
 	#classTraits : 'TToBarElement classTrait',
-	#category : #'Toplo-Widget-Menu-Basic'
+	#category : #'Toplo-Widget-Menu-Item-List'
 }
-
-{ #category : #initialization }
-ToMenuItemListElement >> defaultDataSource [
-
-	^ ToInfiniteCollectionDataSource new
-]
 
 { #category : #initialization }
 ToMenuItemListElement >> defaultNodeManagerClass [

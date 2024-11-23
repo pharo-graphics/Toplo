@@ -12,7 +12,7 @@ ToCustomMenuItem >> addedInMenu: aMenu [
 
 	super addedInMenu: aMenu.
 	self isSelectable ifTrue: [ ^ self ].
-	aMenu bar unselectableSelecter selectIndex: self positionInMenu
+	aMenu itemList unselectableSelecter selectIndex: self positionInMenu
 ]
 
 { #category : #accessing }

@@ -69,6 +69,12 @@ ToAbstractListElement >> contextMenuSelectionMode: aSelectionMode [
 ]
 
 { #category : #accessing }
+ToAbstractListElement >> contextMenuSelectionModel [
+
+	^ self	 contextMenuSelectionMode selectionModel
+]
+
+{ #category : #accessing }
 ToAbstractListElement >> data [
 
 	self
@@ -122,9 +128,9 @@ ToAbstractListElement >> defaultContextMenuWindowManagerClass [
 ]
 
 { #category : #initialization }
-ToAbstractListElement >> defaultDataSource [ 
+ToAbstractListElement >> defaultDataSource [
 
-	^ self subclassResponsibility 
+	^ ToInfiniteCollectionDataSource new
 ]
 
 { #category : #initialization }

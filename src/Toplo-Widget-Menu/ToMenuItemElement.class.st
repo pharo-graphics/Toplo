@@ -33,6 +33,20 @@ ToMenuItemElement >> closeWindow [
 ]
 
 { #category : #initialization }
+ToMenuItemElement >> constraintInMenuNode: aNode [
+
+	aNode holder listElement isHorizontal
+		ifTrue: [
+			self constraintsDo: [ :c |
+				c horizontal fitContent.
+				c vertical fitContent ] ]
+		ifFalse: [
+			self constraintsDo: [ :c |
+				c horizontal matchParent.
+				c vertical fitContent ] ]
+]
+
+{ #category : #initialization }
 ToMenuItemElement >> defaultEventHandler [
 
 	^ self defaultEventHandlerClass new
@@ -63,17 +77,7 @@ ToMenuItemElement >> initialize [
 
 	super initialize.
 	self layout: BlLinearLayout horizontal.
-	self addEventHandler: self defaultEventHandler.
-	self initializeWithMenuItemConstraints
-
-]
-
-{ #category : #initialization }
-ToMenuItemElement >> initializeWithMenuItemConstraints [ 
-
-	self hMatchParent.
-	self vFitContent.
-
+	self addEventHandler: self defaultEventHandler
 ]
 
 { #category : #testing }

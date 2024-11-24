@@ -91,6 +91,10 @@ BlElement >> borderBuilder [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> constraintInMenuNode: aNode [
+]
+
+{ #category : #'*Toplo' }
 BlElement >> defaultRawSkin: aSkin [
 
 	self ensuredSkinManager setDefaultRawSkin: aSkin in: self

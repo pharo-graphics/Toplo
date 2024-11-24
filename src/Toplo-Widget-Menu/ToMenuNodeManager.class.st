@@ -28,7 +28,14 @@ ToMenuNodeManager >> constraintFakeNode: aNode [
 ToMenuNodeManager >> constraintNode: aNode [
 
 	super constraintNode: aNode.
-	aNode hFitContent
+	aNode hFitContent.
+	aNode vFitContent.
+	aNode holder dataItem constraintInMenuNode: aNode.
+	aNode constraintsDo: [ :c |
+		c linear vertical alignCenter.
+		c flow vertical alignCenter.
+		c linear horizontal alignCenter.
+		c flow horizontal alignCenter ]
 ]
 
 { #category : #initialization }

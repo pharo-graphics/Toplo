@@ -9,9 +9,7 @@ ToMenuNodeManager >> buildNode: aNode [
 
 	| holder |
 	holder := aNode holder.
-	aNode item: holder dataItem.
-	aNode holder listElement enqueueTask: (BlTaskAction new action: [
-			 aNode disabled: holder dataItem isDisabled ])
+	aNode item: holder dataItem
 ]
 
 { #category : #initialization }

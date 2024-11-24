@@ -63,8 +63,15 @@ ToScrollableBarTrackElement >> configureLayoutIn: aBarElement [
 			ifTrue: [ self hFitContent ]
 			ifFalse: [ self vFitContent ] ].
 
-	aBarElement nodeManager constraintFakeNode: fakeNode.
+	self constraintFakeNodeIn: aBarElement.
 	self nodesDo: [ :n | aBarElement nodeManager constraintNode: n ]
+]
+
+{ #category : #layout }
+ToScrollableBarTrackElement >> constraintFakeNodeIn: aBarElement [
+
+	fakeNode ifNil: [ aBarElement installFakeNode ].
+	aBarElement nodeManager constraintFakeNode: fakeNode
 ]
 
 { #category : #accessing }

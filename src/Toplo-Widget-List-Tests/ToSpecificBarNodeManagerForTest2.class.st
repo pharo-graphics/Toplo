@@ -10,10 +10,7 @@ Class {
 { #category : #initialization }
 ToSpecificBarNodeManagerForTest2 >> buildNode: aNode [
 
-	aNode addChild: aNode holder dataItem.
-	aNode holder listElement enqueueTask: (BlTaskAction new action: [
-			 aNode disabled: aNode holder dataItem isDisabled ])
-
+	aNode addChild: aNode holder dataItem
 ]
 
 { #category : #initialization }

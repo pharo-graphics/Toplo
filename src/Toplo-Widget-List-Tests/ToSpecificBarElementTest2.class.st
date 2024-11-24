@@ -21,9 +21,9 @@ ToSpecificBarElementTest2 >> setUp [
 ToSpecificBarElementTest2 >> testDisabledWithFiveNodes [
 
 	l dataAccessor add: (ToLabel text: 'first').
+	l nodes first disabled: true.
 	space root addChild: l.
 	self waitTestingSpaces.
-	l nodes first disabled: true.
 	l dataAccessor addFirst: (ToLabel text: 'second').
 	l dataAccessor add: (ToLabel text: 'third').
 	l dataAccessor add: (ToLabel text: 'fourth') afterIndex: 2.
@@ -37,7 +37,8 @@ ToSpecificBarElementTest2 >> testDisabledWithFiveNodes2 [
 
 	space root addChild: l.
 	l dataAccessor add: (ToLabel text: 'first').
-	l dataAccessor add: ((ToLabel text: 'second') disabled: true).
+	l dataAccessor add: ((ToLabel text: 'second')).
+	l nodes last disabled: true.
 	self waitTestingSpaces.
 	self assert: l disabledSelecter selectedIndexes equals: { 2 }.
 	l dataAccessor add: (ToLabel text: 'third').
@@ -58,7 +59,7 @@ ToSpecificBarElementTest2 >> testDisabledWithFiveNodes3 [
 	space root addChild: l.
 	l dataAccessor add: (ToLabel text: 'first').
 	l dataAccessor add: ((ToLabel text: 'second')).
-	l nodes second disable.
+	l nodes second disabled: true.
 	self waitTestingSpaces.
 	self assert: l disabledSelecter selectedIndexes equals: { 2 }.
 	l dataAccessor add: (ToLabel text: 'third').
@@ -70,6 +71,27 @@ ToSpecificBarElementTest2 >> testDisabledWithFiveNodes3 [
 	l dataAccessor add: (ToLabel text: 'fifth').
 	self waitTestingSpaces.
 	self assert: l disabledSelecter selectedIndexes equals: { 2 }.
+
+]
+
+{ #category : #tests }
+ToSpecificBarElementTest2 >> testDisabledWithFiveNodes4 [
+
+	space root addChild: l.
+	l dataAccessor add: (ToLabel text: 'first').
+	l dataAccessor add: ((ToLabel text: 'second')).
+	l nodes second disabled: true.
+	self waitTestingSpaces.
+	self assert: l disabledSelecter selectedIndexes equals: { 2 }.
+	l dataAccessor add: (ToLabel text: 'third').
+	self waitTestingSpaces.
+	self assert: l disabledSelecter selectedIndexes equals: { 2 }.
+	l dataAccessor addFirst: (ToLabel text: 'fourth').
+	self waitTestingSpaces.
+	self assert: l disabledSelecter selectedIndexes equals: { 3 }.
+	l dataAccessor add: (ToLabel text: 'fifth').
+	self waitTestingSpaces.
+	self assert: l disabledSelecter selectedIndexes equals: { 3 }.
 
 ]
 
@@ -106,11 +128,12 @@ ToSpecificBarElementTest2 >> testDisabledWithFourNodes3 [
 
 	space root addChild: l.
 	l dataAccessor add: (ToLabel text: 'first').
-	l dataAccessor add: ((ToLabel text: 'second') disabled: true).
-	l dataAccessor add: (ToLabel text: 'third').
+	l dataAccessor add: ((ToLabel text: 'second')).
+	l nodes second disabled: true.
+	l dataAccessor addFirst: (ToLabel text: 'third').
 	l dataAccessor add: (ToLabel text: 'fourth').
 	self waitTestingSpaces.
-	self assert: l disabledSelecter selectedIndexes equals: { 2 }
+	self assert: l disabledSelecter selectedIndexes equals: { 3 }
 ]
 
 { #category : #tests }

@@ -23,7 +23,7 @@ ToSpecificBarElementTest >> testDisabledWithFiveNodes [
 	l dataAccessor add: 'first'.
 	space root addChild: l.
 	self waitTestingSpaces.
-	l nodes first disabled: true.
+	l disabledSelecter selectIndex: 1.
 	l dataAccessor addFirst: 'second'.
 	l dataAccessor add: 'third'.
 	l dataAccessor add: 'fourth' afterIndex: 2.
@@ -38,7 +38,7 @@ ToSpecificBarElementTest >> testDisabledWithFourNodes [
 	l dataAccessor add: 'first'.
 	space root addChild: l.
 	self waitTestingSpaces.
-	l nodes first disabled: true.
+	l disabledSelecter selectIndex: 1.
 	l dataAccessor addFirst: 'second'.
 	l dataAccessor add: 'third'.
 	l dataAccessor add: 'fourth' afterIndex: 2.
@@ -53,7 +53,7 @@ ToSpecificBarElementTest >> testDisabledWithFourNodes2 [
 	l dataAccessor add: 'first'.
 	l dataAccessor add: 'second'.
 	self waitTestingSpaces.
-	l nodes second disabled: true.
+	l disabledSelecter selectIndex: 2.
 	l dataAccessor add: 'third'.
 	l dataAccessor add: 'fourth'.
 	self waitTestingSpaces.
@@ -68,7 +68,7 @@ ToSpecificBarElementTest >> testDisabledWithThreeNodes [
 	self waitTestingSpaces.
 	self assert: l nodes size equals: 1.
 	self assert: l disabledSelectionModel isEmpty.
-	l nodes first disabled: true.
+	l disabledSelecter selectIndex: 1.
 	self waitTestingSpaces.
 	self assert: l disabledSelecter selectedIndex equals: 1.
 	l dataAccessor addFirst: 'second'.
@@ -105,7 +105,7 @@ ToSpecificBarElementTest >> testDisabledWithTwoNodes2 [
 	self waitTestingSpaces.
 	self assert: l nodes size equals: 1.
 	self assert: l disabledSelectionModel isEmpty.
-	l nodes first disabled: true.
+	l disabledSelecter selectIndex: 1.
 	self waitTestingSpaces.
 	self assert: l disabledSelecter selectedIndex equals: 1.
 	l dataAccessor addFirst: 'second'.

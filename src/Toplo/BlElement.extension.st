@@ -105,37 +105,31 @@ BlElement >> defaultSkin: aSkin [
 { #category : #'*Toplo' }
 BlElement >> disable [
 
-	self isDisabled ifFalse: [
-		self flagAsDisabled.
-		self dispatchEvent: ToEnablementChangedEvent new.
-		self skinManagerDo: [ :sm | sm enablementChangedIn: self ] ].
-	self childrenDo: [ :child | child disable ]
+	self disabled: true
 ]
 
 { #category : #'*Toplo' }
 BlElement >> disabled: aBoolean [
 
-	aBoolean 
-		ifTrue: [ self disable ]
-		ifFalse: [ self enable ]
+	self isDisabled = aBoolean ifFalse: [
+		aBoolean
+			ifTrue: [ self flagAsDisabled ]
+			ifFalse: [ self flagAsEnabled ].
+		self dispatchEvent: ToEnablementChangedEvent new.
+		self skinManagerDo: [ :sm | sm enablementChangedIn: self ] ].
+	self childrenDo: [ :child | child disabled: aBoolean ]
 ]
 
 { #category : #'*Toplo' }
 BlElement >> enable [
 
-	self isEnabled ifFalse: [
-		self flagAsEnabled.
-		self dispatchEvent: ToEnablementChangedEvent new.
-		self skinManagerDo: [ :sm | sm enablementChangedIn: self ] ].
-	self childrenDo: [ :child | child enable ]
+	self disabled: false
 ]
 
 { #category : #'*Toplo' }
 BlElement >> enabled: aBoolean [
 
-	aBoolean 
-		ifTrue: [ self enable ]
-		ifFalse: [ self disable ]
+	self disabled: aBoolean not
 ]
 
 { #category : #'*Toplo' }

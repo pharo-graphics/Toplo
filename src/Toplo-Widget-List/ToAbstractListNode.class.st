@@ -17,14 +17,6 @@ ToAbstractListNode >> defaultLayout [
 	^ BlLinearLayout vertical
 ]
 
-{ #category : #accessing }
-ToAbstractListNode >> disabled: aBoolean [
-
-	super disabled: aBoolean.
-	self holder disabled: aBoolean.
-
-]
-
 { #category : #initialization }
 ToAbstractListNode >> initialize [
 

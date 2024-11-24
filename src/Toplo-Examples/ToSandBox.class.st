@@ -7,7 +7,7 @@ Class {
 { #category : #bar }
 ToSandBox class >> barConfigurationBoardFor: aBar [
 
-	| menu confPane verticalSwitch wrappingSwitch scrollingSwitch autoDistributionSwitch uniformNodeWidthSwitch selectionAnimationSwitch selectOnMouseDownSwitch deselectOnMouseDownSwitch |
+	| menu confPane verticalSwitch wrappingSwitch scrollingSwitch autoDistributionSwitch uniformNodeWidthSwitch selectionAnimationSwitch selectOnMouseDownSwitch deselectOnMouseDownSwitch makeDisabledUnselectableSwitch |
 	confPane := ToPane vertical.
 	confPane padding: (BlInsets all: 5).
 	confPane width: 300.
@@ -93,10 +93,9 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 		aBar selectionOption animationDuration: (v
 				 ifTrue: [ 200 milliSeconds ]
 				 ifFalse: [ 0 milliSeconds ]).
-		aBar secondarySelectionMode selectionOption
-			animationDuration: (v
-					 ifTrue: [ 150 milliSeconds ]
-					 ifFalse: [ 0 milliSeconds ]) ].
+		aBar secondarySelectionMode selectionOption animationDuration: (v
+				 ifTrue: [ 150 milliSeconds ]
+				 ifFalse: [ 0 milliSeconds ]) ].
 
 	wrappingSwitch checked: true.
 
@@ -116,11 +115,23 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	deselectOnMouseDownSwitch startFlexible: true.
 	deselectOnMouseDownSwitch hMatchParent.
 
+	makeDisabledUnselectableSwitch := ToSwitchButton new
+		                                  labelText:
+			                                  'Make disabled unselectable';
+		                                  id:
+			                                  #makeDisabledUnselectableSwitch.
+	makeDisabledUnselectableSwitch startFlexible: true.
+	makeDisabledUnselectableSwitch hMatchParent.
+	makeDisabledUnselectableSwitch whenClickedDo: [ :event |
+		aBar primarySelectionMode makeDisabledUnselectable: event current ].
+
 	confPane addChild: deselectOnMouseDownSwitch.
 	deselectOnMouseDownSwitch whenClickedDo: [ :event |
 		aBar primarySelectionMode deselectOnMouseDown: event current ].
 	deselectOnMouseDownSwitch checked:
 		aBar primarySelectionMode deselectOnMouseDown.
+
+	confPane addChild: makeDisabledUnselectableSwitch.
 
 	wrappingSwitch checked: true.
 
@@ -173,7 +184,14 @@ ToSandBox class >> barWithData: aCollection [
 					 whenClickedDo: [
 						 Array withAll:
 								 (selectedIndexes collect: [ :idx | target nodeAt: idx ])
-									 inspect ]) ] ].
+									 inspect ]).
+			menu addItem: (ToMenuItem new
+					 labelText: 'Unable/disable';
+					 whenClickedDo: [
+						 selectedIndexes do: [ :idx |
+								 (bar nodes at: idx) isDisabled
+									 ifTrue: [ bar disabledSelecter deselectIndex: idx ]
+									 ifFalse: [ bar disabledSelecter selectIndex: idx ] ] ]) ] ].
 
 	confBoard := self barConfigurationBoardFor: bar.
 	selectionModeBoard := self selectionModeChooserFor: bar.

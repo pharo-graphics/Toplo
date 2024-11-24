@@ -23,7 +23,7 @@ ToSpecificListElementTest >> testDisabledWithFiveNodes [
 	l dataAccessor add: 'first'.
 	space root addChild: l.
 	self waitTestingSpaces.
-	l innerElement firstChild disabled: true.
+	l innerElement firstChild holder disabled: true.
 	l dataAccessor addFirst: 'second'.
 	l dataAccessor add: 'third'.
 	l dataAccessor add: 'fourth' afterIndex: 2.
@@ -38,7 +38,7 @@ ToSpecificListElementTest >> testDisabledWithFourNodes [
 	l dataAccessor add: 'first'.
 	space root addChild: l.
 	self waitTestingSpaces.
-	l innerElement firstChild disabled: true.
+	l innerElement firstChild holder disabled: true.
 	l dataAccessor addFirst: 'second'.
 	l dataAccessor add: 'third'.
 	l dataAccessor add: 'fourth' afterIndex: 2.
@@ -53,7 +53,7 @@ ToSpecificListElementTest >> testDisabledWithFourNodes2 [
 	l dataAccessor add: 'first'.
 	l dataAccessor add: 'second'.
 	self waitTestingSpaces.
-	l nodes second disabled: true.
+	l nodes second holder disabled: true.
 	l dataAccessor add: 'third'.
 	l dataAccessor add: 'fourth'.
 	self waitTestingSpaces.
@@ -68,7 +68,7 @@ ToSpecificListElementTest >> testDisabledWithThreeNodes [
 	self waitTestingSpaces.
 	self assert: l innerElement children size equals: 1.
 	self assert: l disabledSelectionModel isEmpty.
-	l innerElement firstChild disabled: true.
+	l innerElement firstChild holder disabled: true.
 	self waitTestingSpaces.
 	self assert: l disabledSelecter selectedIndex equals: 1.
 	l dataAccessor addFirst: 'second'.
@@ -105,7 +105,7 @@ ToSpecificListElementTest >> testDisabledWithTwoNodes2 [
 	self waitTestingSpaces.
 	self assert: l nodes size equals: 1.
 	self assert: l disabledSelectionModel isEmpty.
-	l nodes first disabled: true.
+	l nodes first holder disabled: true.
 	self waitTestingSpaces.
 	self assert: l disabledSelecter selectedIndex equals: 1.
 	l dataAccessor addFirst: 'second'.

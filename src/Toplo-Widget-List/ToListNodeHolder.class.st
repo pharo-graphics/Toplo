@@ -173,7 +173,8 @@ ToListNodeHolder >> setupNodeWith: aNode [
 	| infiniteConstraints |
 	self node: aNode.
 	infiniteConstraints := aNode constraints infinite.
-	infiniteConstraints holder: self
+	infiniteConstraints holder: self.
+	aNode disabled: self isDisabled
 ]
 
 { #category : #accessing }

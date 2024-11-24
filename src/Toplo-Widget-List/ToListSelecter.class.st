@@ -257,7 +257,7 @@ ToListSelecter >> onCommandApplied: aCommand [
 						        yourself) ];
 		       yourself.
 
-	element dispatchAuthorisationRequest: req
+	element dispatchAuthorisationRequest: req.
 ]
 
 { #category : #'api - hooks' }

@@ -8,19 +8,19 @@ Class {
 ToSeparatorMenuItem >> addedInMenu: aMenu [
 
 	super addedInMenu: aMenu.
-
 	aMenu itemList unselectableSelecter selectIndex: self positionInMenu
 ]
 
 { #category : #initialization }
 ToSeparatorMenuItem >> constraintInMenuNode: aNode [
 
+	" Sent to let any menu item to adapt its resizer/layout  constraints before the node is added in the menu list. Notice that I am sent before the node adding + the selections shift is actually finished. Thus, this place is not adequate for changing one of the list selections (use #addedInMenu for that) "
+
 	super constraintInMenuNode: aNode.
-	aNode holder listElement unselectableSelecter selectIndex: aNode holder position.
 	aNode holder listElement isHorizontal
 		ifTrue: [
 			self firstChild constraintsDo: [ :c |
-				c vertical exact: 8.
+				c vertical exact: aNode holder listElement measuredHeight.
 				c horizontal exact: 1 ] ]
 		ifFalse: [
 			self firstChild constraintsDo: [ :c |
@@ -36,5 +36,6 @@ ToSeparatorMenuItem >> initialize [
 			 background: Color lightGray;
 			 layout: BlLinearLayout new;
 			 yourself).
+	self firstChild layout alignCenter.
 	self padding: (BlInsets all: 2)
 ]

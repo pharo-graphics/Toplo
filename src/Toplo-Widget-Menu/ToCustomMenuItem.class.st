@@ -11,17 +11,8 @@ Class {
 ToCustomMenuItem >> addedInMenu: aMenu [
 
 	super addedInMenu: aMenu.
-	"self isSelectable ifTrue: [ ^ self ].
-	aMenu itemList unselectableSelecter selectIndex: self positionInMenu"
-]
-
-{ #category : #initialization }
-ToCustomMenuItem >> constraintInMenuNode: aNode [
-
-	super constraintInMenuNode: aNode.
 	self isSelectable ifTrue: [ ^ self ].
-	aNode holder listElement unselectableSelecter selectIndex: aNode holder position
-	
+	aMenu itemList unselectableSelecter selectIndex: self positionInMenu
 ]
 
 { #category : #accessing }

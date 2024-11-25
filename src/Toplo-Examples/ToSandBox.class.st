@@ -172,26 +172,60 @@ ToSandBox class >> barWithData: aCollection [
 			(ToLabel text: holder position asString , ': ' , dataItem asString) ].
 
 	bar contextMenu: [ :menu :request |
-		| selectedIndexes target |
+		| idxes target |
 		target := request currentTarget.
-		selectedIndexes := request selectedIndexes.
+		idxes := request selectedIndexes.
 		menu addItem: (ToMenuItem new
 				 labelText: 'Inspect list';
 				 whenClickedDo: [ :event | target inspect ]).
-		selectedIndexes ifNotEmpty: [
+		menu addItem: (ToMenuItem new
+				 labelText: 'Remove all';
+				 whenClickedDo: [ target dataAccessor removeAll ]).
+		menu addItem: (ToMenuItem new
+				 labelText: 'Add first a new item';
+				 whenClickedDo: [
+					 target dataAccessor addFirst:
+							 String loremIpsum substrings first , ' (added first)' ]).
+		menu addItem: (ToMenuItem new
+				 labelText: 'Add last a new item';
+				 whenClickedDo: [
+					 target dataAccessor add:
+							 String loremIpsum substrings first , ' (added last)' ]).
+		idxes ifNotEmpty: [
 			menu addItem: (ToMenuItem new
 					 labelText: 'Inspect selected nodes';
 					 whenClickedDo: [
 						 Array withAll:
-								 (selectedIndexes collect: [ :idx | target nodeAt: idx ])
-									 inspect ]).
+								 (idxes collect: [ :idx | target nodeAt: idx ]) inspect ]).
 			menu addItem: (ToMenuItem new
 					 labelText: 'Unable/disable';
 					 whenClickedDo: [
-						 selectedIndexes do: [ :idx |
+						 idxes do: [ :idx |
 								 (bar nodes at: idx) isDisabled
 									 ifTrue: [ bar disabledSelecter deselectIndex: idx ]
-									 ifFalse: [ bar disabledSelecter selectIndex: idx ] ] ]) ] ].
+									 ifFalse: [ bar disabledSelecter selectIndex: idx ] ] ]).
+			menu addItem: (ToMenuItem new
+					 labelText: 'Unselectable';
+					 whenClickedDo: [
+						 idxes do: [ :idx | bar unselectableSelecter selectIndex: idx ] ]).
+			menu addItem: (ToMenuItem new
+					 labelText: 'Insert before';
+					 whenClickedDo: [ :event |
+						 | idx |
+						 idx := idxes first.
+						 target dataAccessor
+							 add: String loremIpsum substrings first , ' (inserted before)'
+							 beforeIndex: idx ];
+					 yourself).
+			menu addItem: (ToMenuItem new
+					 labelText: 'Insert after';
+					 whenClickedDo: [ :event |
+						 | idx |
+						 idx := idxes last.
+						 target dataAccessor
+							 add: String loremIpsum substrings first , ' (inserted after)'
+							 afterIndex: idx ];
+					 yourself) ] ].
 
 	confBoard := self barConfigurationBoardFor: bar.
 	selectionModeBoard := self selectionModeChooserFor: bar.
@@ -2908,6 +2942,25 @@ ToSandBox class >> example_TwoCoordinateLists [
 	list1 selecter selectIndex: 1.
 	list2 selecter selectIndex: 2.
 	panel openInSpace
+]
+
+{ #category : #menu }
+ToSandBox class >> example_WithSeparator [
+
+	| menu container |
+	container := ToInnerWindow new
+		             position: 10 @ 10;
+		             size: 400 @ 200;
+		             yourself.
+	menu := ToMenu new.
+	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	menu addItem: (ToMenuItem new
+			 label: (ToLabel text: 'Open')).
+	menu addSeparator.
+	menu addItem: (ToMenuItem new
+			 label: (ToLabel text: 'Close')).
+	container pane addChild: menu.
+	container openInSpace
 ]
 
 { #category : #bar }
@@ -5884,7 +5937,7 @@ ToSandBox class >> example_withCustomMenuItems [
 
 	| menu grp right center left textField sub lbl |
 	menu := ToMenu new.
-
+	
 	menu labelText: 'File'.
 	menu addItem: (ToMenuItem new
 			 labelText: 'Open file';

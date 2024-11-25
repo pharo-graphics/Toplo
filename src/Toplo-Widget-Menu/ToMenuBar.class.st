@@ -1,59 +1,32 @@
 Class {
 	#name : #ToMenuBar,
 	#superclass : #ToElement,
-	#traits : 'TToOrientable',
-	#classTraits : 'TToOrientable classTrait',
+	#traits : 'TToMenuItemContainer + TToOrientable',
+	#classTraits : 'TToMenuItemContainer classTrait + TToOrientable classTrait',
 	#instVars : [
-		'autoOpen',
-		'menus'
+		'autoOpen'
 	],
 	#category : #'Toplo-Widget-Menu-Bar'
 }
 
-{ #category : #initialize }
-ToMenuBar >> adaptToOrientation [
-
-	self isHorizontal
-		ifTrue: [ 
-			self hMatchParent.
-			self vFitContent ]
-		ifFalse: [ 
-			self vMatchParent.
-			self hFitContent ]
-]
-
 { #category : #adding }
 ToMenuBar >> addFiller [
 
-	| filler |
-	self addChild: (filler := ToMenuBarFiller new)
+	self addItem: ToMenuFiller new
 ]
 
 { #category : #adding }
 ToMenuBar >> addMenu: aMenu [
 
-	self menus add: aMenu.
-	aMenu constraintsDo: [ :c | c linear vertical alignCenter ].
-	aMenu constraintsDo: [ :c | c linear horizontal alignCenter ].
-	self addChild: aMenu.
-	self addEventHandler: (BlEventHandler
-			 on: ToLayoutOrientationChangedEvent
-			 do: [
-				 self isHorizontal
-					 ifTrue: [ aMenu hFitContent ]
-					 ifFalse: [ aMenu hMatchParent ] ]).
-	self dispatchEvent: (ToMenuBarMenuAddedEvent new menu: aMenu)
+	self
+		deprecated: '#use addItem: instead'
+		transformWith: '`@rcvr addMenu: `@arg' -> '`@rcvr addItem: `@arg'.
+	self addItem: aMenu
 ]
 
-{ #category : #adding }
-ToMenuBar >> addSeparator [
+{ #category : #'t - menu item container - double dispatch' }
+ToMenuBar >> addedMenuItem: aMenuItem [
 
-	| sep |
-	self addChild: (sep := ToMenuBarSeparator new).
-	self addEventHandler: (BlEventHandler
-			 on: ToLayoutOrientationChangedEvent
-			 do: [ sep horizontal: self isHorizontal not ]).
-	sep horizontal: self isHorizontal not
 ]
 
 { #category : #accessing }
@@ -68,6 +41,24 @@ ToMenuBar >> autoOpen: anObject [
 	autoOpen := anObject
 ]
 
+{ #category : #'friend only' }
+ToMenuBar >> closeRequestFrom: anItem [
+]
+
+{ #category : #initialization }
+ToMenuBar >> configureLayout [
+
+	self isHorizontal
+		ifTrue: [ 
+			self itemList horizontal: true.
+			self hMatchParent.
+			self vFitContent ]
+		ifFalse: [ 
+			self itemList horizontal: false.
+			self vMatchParent.
+			self hFitContent ]
+]
+
 { #category : #initialization }
 ToMenuBar >> initialize [
 
@@ -75,17 +66,21 @@ ToMenuBar >> initialize [
 
 	autoOpen := false.
 	self layout: BlLinearLayout new.
-	self layout cellSpacing: 5.
-	self background: Color transparent.
-	self border: BlBorder empty.
-	self padding: (BlInsets all: 4).
-	self beHorizontal.
 	self addEventHandler: (BlEventHandler
 			 on: ToLayoutOrientationChangedEvent
-			 do: [ self adaptToOrientation ]).
-	menus := OrderedCollection new.
+			 do: [ self configureLayout ]).
 	self addEventFilter: ToMenuBarEventFilter new.
 	self addEventHandler: ToMenuBarEventHandler new.
+	self addChild: self itemList.
+	self beHorizontal.
+	self configureLayout
+
+]
+
+{ #category : #testing }
+ToMenuBar >> isMenu [
+
+	^ true
 ]
 
 { #category : #'t - orientable - accessing' }
@@ -96,16 +91,23 @@ ToMenuBar >> layoutStrategy [
 
 ]
 
-{ #category : #accessing }
-ToMenuBar >> menus [
+{ #category : #skin }
+ToMenuBar >> newRawSkin [
 
-	^ menus
+	^ ToMenuBarSkin new
 ]
 
 { #category : #adding }
 ToMenuBar >> removeMenu: aMenu [
 
-	self menus remove: aMenu.
-	self removeChild: aMenu.
-	self dispatchEvent: (ToMenuBarMenuRemovedEvent new menu: aMenu)
+	self
+		deprecated: '#use removeItem: instead'
+		transformWith: '`@rcvr removeMenu: `@arg' -> '`@rcvr removeItem: `@arg'.
+	self removeItem: aMenu
+]
+
+{ #category : #accessing }
+ToMenuBar >> rootMenu [
+
+	^ self
 ]

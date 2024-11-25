@@ -3524,6 +3524,21 @@ ToSandBox class >> example_horizontalPaneWithDivider [
 ]
 
 { #category : #'context menu + menubar' }
+ToSandBox class >> example_menuBar0 [
+
+	| mb m1 |
+	mb := ToMenuBar new.
+	mb hMatchParent.
+	m1 := ToMenu new labelText: 'Menu 2'.
+	m1 addItem: (ToMenuItem new labelText: 'item 1').
+	m1 addItem: ToSeparatorMenuItem new.
+	m1 addItem: (ToMenuItem new labelText: 'item 2').
+	mb addItem: m1.
+	mb addItem: (ToMenuItem new labelText: 'Menu 1').
+	mb openInSpace
+]
+
+{ #category : #'context menu + menubar' }
 ToSandBox class >> example_menuBar1 [
 
 	| win bar fileMenu |
@@ -3536,13 +3551,13 @@ ToSandBox class >> example_menuBar1 [
 		       vFitContent;
 		       yourself.
 
-	bar addMenu: (fileMenu := ToMenu new labelText: 'File').
+	bar addItem: (fileMenu := ToMenu new labelText: 'File').
 	fileMenu addItem: (ToMenuItem new
 			 labelText: 'Open';
 			 whenClickedDo: [ :event | event traceCr ]).
 	fileMenu padding: (BlInsets all: 10).
 
-	bar addFiller.
+	"bar addFiller."
 	bar addMenu: (ToMenu new
 			 labelText: 'Help';
 			 tooltipString: 'help stuffs';
@@ -3563,7 +3578,7 @@ ToSandBox class >> example_menuBar2 [
 		       vFitContent.
 	frame := ToInnerWindow new.
 
-	3 timesRepeat: [
+	2 timesRepeat: [
 		menu := ToMenu new.
 		menu label: (ToLabel text: 'Levels').
 		menu icon:
@@ -3590,12 +3605,12 @@ ToSandBox class >> example_menuBar2 [
 						            print: index;
 						            nextPutAll: ' Grid ';
 						            print: i ].
-				subMenu addItem:
-					((ToMenuItem new labelText: stream) whenClickedDo: [ :event |
-						 self inform: selector asSymbol ]; yourself) ].
+				subMenu addItem: ((ToMenuItem new labelText: stream)
+						 whenClickedDo: [ :event | self inform: selector asSymbol ];
+						 yourself) ].
 			menu addItem: subMenu ].
 
-		bar addMenu: menu ].
+		bar addItem: menu ].
 
 	frame pane addChild: bar.
 	frame openInSpace
@@ -3605,8 +3620,7 @@ ToSandBox class >> example_menuBar2 [
 ToSandBox class >> example_menuBar3 [
 
 	| menu frame bar |
-	bar := ToMenu new.
-	bar labelText: 'Menu'.
+	bar := ToMenuBar new.
 	frame := ToInnerWindow new.
 
 	3 timesRepeat: [
@@ -5887,11 +5901,12 @@ ToSandBox class >> example_withCheckBox [
 	menu labelText: 'File'.
 	menu addItem: (ToMenuItem new labelText: 'Open file').
 	menu items last icon: (ToImage inner: (self iconNamed: #solidMenu)).
-	menu addItem: (ToMenuItem new labelText: 'Export').
-	menu items last disabled: true.
+	menu addItem: (ToMenuItem new labelText: 'Disabled').
+	menu itemList disabledSelecter selectIndex: menu items last positionInMenu.
+	
 	menu addSeparator.
 	menu addItem: (ToCheckMenuItem new
-			 label: (ToLabel text: 'Disable');
+			 label: (ToLabel text: 'Check');
 			 whenClickedDo: [ :event | event currentTarget isChecked traceCr ];
 			 yourself).
 	grp := ToCheckableGroup new.

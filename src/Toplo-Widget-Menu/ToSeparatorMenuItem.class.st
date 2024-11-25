@@ -7,8 +7,7 @@ Class {
 { #category : #'adding-removing' }
 ToSeparatorMenuItem >> addedInMenu: aMenu [
 
-	super addedInMenu: aMenu.
-	aMenu itemList unselectableSelecter selectIndex: self positionInMenu
+	aMenu addedSeparatorMenuItem: self
 ]
 
 { #category : #initialization }

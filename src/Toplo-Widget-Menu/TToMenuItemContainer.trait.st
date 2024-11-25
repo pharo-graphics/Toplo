@@ -1,5 +1,8 @@
 Trait {
 	#name : #TToMenuItemContainer,
+	#instVars : [
+		'itemList'
+	],
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
@@ -22,6 +25,31 @@ TToMenuItemContainer >> addSeparator [
 	self addItem: ToSeparatorMenuItem new
 ]
 
+{ #category : #'t - menu item container - double dispatch' }
+TToMenuItemContainer >> addedCustomMenuItem: aMenuItem [
+
+	self addedMenuItem: aMenuItem.
+	aMenuItem isSelectable ifTrue: [ ^ self ].
+	self itemList unselectableSelecter selectIndex: aMenuItem positionInMenu
+]
+
+{ #category : #'t - menu item container - double dispatch' }
+TToMenuItemContainer >> addedMenuItem: aMenuItem [
+
+	aMenuItem parentMenu: self
+]
+
+{ #category : #'t - menu item container - double dispatch' }
+TToMenuItemContainer >> addedSeparatorMenuItem: aMenuItem [
+
+	self addedMenuItem: aMenuItem.
+	self itemList unselectableSelecter selectIndex: aMenuItem positionInMenu
+]
+
+{ #category : #'t - menu item container - double dispatch' }
+TToMenuItemContainer >> addedUnknownItemKind: anItem [
+]
+
 { #category : #'t - menu item container - testing' }
 TToMenuItemContainer >> hasItems [ 
 
@@ -29,9 +57,15 @@ TToMenuItemContainer >> hasItems [
 ]
 
 { #category : #'t - menu item container - accessing' }
+TToMenuItemContainer >> itemList [
+
+	^ itemList ifNil: [ itemList := ToMenuItemListElement new ]
+]
+
+{ #category : #'t - menu item container - accessing' }
 TToMenuItemContainer >> items [
 
-	^ self explicitRequirement 
+	^ self itemList dataAccessor
 ]
 
 { #category : #'t - menu item container - adding/removing' }

@@ -32,6 +32,8 @@ BlElement >> addTokenNamed: aSymbol withValue: anObject [
 
 { #category : #'*Toplo' }
 BlElement >> addedInMenu: aMenu [
+
+	aMenu addedUnknownItemKind: self
 ]
 
 { #category : #'*Toplo' }

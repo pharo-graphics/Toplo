@@ -36,7 +36,7 @@ ToMenuItemEventHandler >> mouseUpEvent: anEvent [
 		ifTrue: [ ^ self ].
 	target isEnabled ifFalse: [ ^ self ].
 	target closeOnMouseEvent ifFalse: [ ^ self ].
-	target rootMenu closeWindow
+	target rootMenu closeRequestFrom: target
 ]
 
 { #category : #'api - hooks' }

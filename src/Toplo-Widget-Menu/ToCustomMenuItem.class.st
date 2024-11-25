@@ -10,9 +10,8 @@ Class {
 { #category : #'adding-removing' }
 ToCustomMenuItem >> addedInMenu: aMenu [
 
-	super addedInMenu: aMenu.
-	self isSelectable ifTrue: [ ^ self ].
-	aMenu itemList unselectableSelecter selectIndex: self positionInMenu
+	aMenu addedCustomMenuItem: self
+
 ]
 
 { #category : #accessing }

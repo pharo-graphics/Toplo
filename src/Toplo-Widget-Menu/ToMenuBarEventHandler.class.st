@@ -19,7 +19,7 @@ ToMenuBarEventHandler >> mouseOverEvent: anEvent [
 	target autoOpen ifFalse: [ ^ self ].
 	
 	" auto-open action "
-	target menus do: [ :m | 
+	target items do: [ :m | 
 		(anEvent target hasInParentChain: m)
 			ifTrue: [ m menuWindow ifNil: [ m popupEvent: anEvent ] ]
 			ifFalse: [ m closeWindow ] ]

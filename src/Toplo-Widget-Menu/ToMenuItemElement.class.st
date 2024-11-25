@@ -10,14 +10,19 @@ Class {
 { #category : #'adding-removing' }
 ToMenuItemElement >> addedInMenu: aMenu [
 
-	super addedInMenu: aMenu.
-	self parentMenu: aMenu
+	aMenu addedMenuItem: self
 ]
 
 { #category : #testing }
 ToMenuItemElement >> closeOnMouseEvent [
 
 	^ false
+]
+
+{ #category : #'friend only' }
+ToMenuItemElement >> closeRequestFrom: anItem [
+
+	self closeWindow
 ]
 
 { #category : #'adding-removing' }
@@ -147,5 +152,10 @@ ToMenuItemElement >> removedFromMenu: aMenu [
 { #category : #'t - menu window model' }
 ToMenuItemElement >> rootMenu [
 
-	 ^ parentMenu ifNil: [ self ] ifNotNil: [ :pm | pm rootMenu  ]
+	| rm |
+	parentMenu ifNil: [ ^ self ].
+	rm := parentMenu rootMenu.
+	^ rm isMenu
+		  ifTrue: [ rm ]
+		  ifFalse: [ self ]
 ]

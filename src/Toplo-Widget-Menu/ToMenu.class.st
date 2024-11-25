@@ -4,13 +4,12 @@ Class {
 	#traits : 'TToMenuItemContainer + TToMenuWindowModel',
 	#classTraits : 'TToMenuItemContainer classTrait + TToMenuWindowModel classTrait',
 	#instVars : [
-		'windowManager',
-		'itemList'
+		'windowManager'
 	],
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToMenu >> bar [
 
 	self
@@ -20,13 +19,13 @@ ToMenu >> bar [
 	^ self itemList
 ]
 
-{ #category : #initialization }
+{ #category : #'as yet unclassified' }
 ToMenu >> buttonClickEventClass [
 
 	^ BlMouseDownEvent
 ]
 
-{ #category : #'t - menu window model' }
+{ #category : #'as yet unclassified' }
 ToMenu >> closeWindow [
 
 	" first ask the items to close "
@@ -35,7 +34,7 @@ ToMenu >> closeWindow [
 	self menuWindow ifNotNil: [:mw | mw close ]
 ]
 
-{ #category : #testing }
+{ #category : #'as yet unclassified' }
 ToMenu >> includes: anElement [
 
 	self menuWindow = anElement ifTrue: [ ^ true ].
@@ -49,68 +48,55 @@ ToMenu >> initialize [
 
 	super initialize.
 	self fitContent.
-	itemList := ToMenuItemListElement new.
 	windowManager := ToMenuWindowManager new.
 	self addEventHandler: windowManager.
 	windowManager builder: [ :menWin :request |
 		menWin root addChild: request currentTarget itemList ]
 ]
 
-{ #category : #testing }
+{ #category : #'as yet unclassified' }
 ToMenu >> isMenu [
 
 	^ true
 ]
 
-{ #category : #'t - menu window model' }
+{ #category : #'as yet unclassified' }
 ToMenu >> isOpened [ 
 
 	^ self menuWindow notNil
 ]
 
-{ #category : #'t - menu window model' }
+{ #category : #'as yet unclassified' }
 ToMenu >> isSubmenu [
 
 	^ parentMenu notNil
 ]
 
-{ #category : #'t - menu window model' }
+{ #category : #'as yet unclassified' }
 ToMenu >> isTopMenu [
 
 	^ self parentMenu isNil
 ]
 
-{ #category : #accessing }
-ToMenu >> itemList [
-
-	^  itemList
-]
-
-{ #category : #'t - menu item container - accessing' }
-ToMenu >> items [
-
-	^ itemList dataAccessor
-]
-
-{ #category : #'t - menu window model' }
+{ #category : #'as yet unclassified' }
 ToMenu >> menuWindow [ 
 
 	^ windowManager currentWindow
 ]
 
-{ #category : #skin }
+{ #category : #'as yet unclassified' }
 ToMenu >> newRawSkin [ 
 
 	^ ToMenuSkin new
 ]
 
-{ #category : #'t - menu window model' }
+{ #category : #'as yet unclassified' }
 ToMenu >> popupEvent: anEvent [
 
 	windowManager popupEvent: anEvent
 ]
 
-{ #category : #'t - menu window model' }
+{ #category : #'as yet unclassified' }
 ToMenu >> rootMenu [
 
 	^ super rootMenu

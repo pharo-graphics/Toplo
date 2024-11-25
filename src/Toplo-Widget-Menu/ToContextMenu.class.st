@@ -3,9 +3,6 @@ Class {
 	#superclass : #ToMenuWindow,
 	#traits : 'TToMenuItemContainer + TToMenuWindowModel',
 	#classTraits : 'TToMenuItemContainer classTrait + TToMenuWindowModel classTrait',
-	#instVars : [
-		'itemList'
-	],
 	#category : #'Toplo-Widget-Menu-Context menu'
 }
 
@@ -19,7 +16,13 @@ ToContextMenu >> bar [
 	^ self itemList
 ]
 
-{ #category : #'t - menu window model' }
+{ #category : #'friend only' }
+ToContextMenu >> closeRequestFrom: anItem [
+
+	self closeWindow
+]
+
+{ #category : #'as yet unclassified' }
 ToContextMenu >> closeWindow [
 
 	self close
@@ -30,59 +33,52 @@ ToContextMenu >> initialize [
 
 	super initialize.
 	self fitContent.
-	itemList := ToMenuItemListElement new.
-	self root addChild: itemList
+	self root addChild: self itemList
 ]
 
-{ #category : #'t - menu window model' }
+{ #category : #testing }
+ToContextMenu >> isMenu [
+
+	^ true
+]
+
+{ #category : #'as yet unclassified' }
 ToContextMenu >> isOpened [
 
 	^ super isOpened
 ]
 
-{ #category : #'t - menu window model' }
+{ #category : #'as yet unclassified' }
 ToContextMenu >> isSubmenu [ 
 
 	^ false
 ]
 
-{ #category : #'t - menu window model' }
+{ #category : #'as yet unclassified' }
 ToContextMenu >> isTopMenu [
 
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToContextMenu >> itemContainer [
 
 	^ self 
 ]
 
-{ #category : #accessing }
-ToContextMenu >> itemList [
-
-	^ itemList
-]
-
-{ #category : #accessing }
-ToContextMenu >> items [
-
-	^ itemList dataAccessor
-]
-
-{ #category : #'t - menu window model' }
+{ #category : #'as yet unclassified' }
 ToContextMenu >> menuWindow [
 
 	^ super menuWindow
 ]
 
-{ #category : #'t - menu window model' }
+{ #category : #'as yet unclassified' }
 ToContextMenu >> popupEvent: anEvent [
 
 	^ super popupEvent: anEvent
 ]
 
-{ #category : #'t - menu window model' }
+{ #category : #'as yet unclassified' }
 ToContextMenu >> rootMenu [
 
 	^ self 

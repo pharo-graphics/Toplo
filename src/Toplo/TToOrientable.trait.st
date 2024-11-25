@@ -63,7 +63,7 @@ TToOrientable >> direction: aDirection [
 	self requestLayout
 ]
 
-{ #category : #configurating }
+{ #category : #'t - orientable - direction' }
 TToOrientable >> endToStart: aBoolean [
 
 	self startToEnd: aBoolean not
@@ -159,7 +159,7 @@ TToOrientable >> rightToLeft: aBoolean [
 	aBoolean ifTrue: [ self beRightToLeft ] ifFalse: [ self beLeftToRight ]
 ]
 
-{ #category : #configurating }
+{ #category : #'t - orientable - direction' }
 TToOrientable >> startToEnd: aBoolean [
 
 	aBoolean

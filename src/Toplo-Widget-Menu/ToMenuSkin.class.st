@@ -71,7 +71,9 @@ ToMenuSkin >> leavedSkinEvent: anEvent [
 
 	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e isSubmenu ifFalse: [ e border: BlBorder empty ] ]
+		e border: (BlBorder
+				 paint: (e valueOfTokenNamed: #'color-bg-container')
+				 width: (e valueOfTokenNamed: #'line-width')) ]
 ]
 
 { #category : #'event handling' }

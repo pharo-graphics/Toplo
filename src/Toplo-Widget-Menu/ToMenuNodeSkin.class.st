@@ -9,8 +9,9 @@ ToMenuNodeSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e background: BlBackground transparent.
-		e padding: (BlInsets
+		"e background: BlBackground transparent."
+		"e border: Color black."
+		"e padding: (BlInsets
 				 horizontal: (e valueOfTokenNamed: #'menu-node-padding-H')
-				 vertical: (e valueOfTokenNamed: #'menu-node-padding-V')) ]
+				 vertical: (e valueOfTokenNamed: #'menu-node-padding-V'))" ]
 ]

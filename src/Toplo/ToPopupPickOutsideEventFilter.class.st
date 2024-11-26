@@ -34,7 +34,7 @@ ToPopupPickOutsideEventFilter >> mouseUpEvent: anEvent [
 	
 	self popupWindow ifNil: [ " if the window is not present 
 		This can be the case if the parent of the popup element is removed "
-		holder removeEventFilter: self.
+		holder removeEventFilter: self. 
 		holder := nil.
 		^ self ].
 
@@ -72,7 +72,7 @@ ToPopupPickOutsideEventFilter >> popupWindow [
 { #category : #accessing }
 ToPopupPickOutsideEventFilter >> upCountRequired: anInteger [
 
-	upCount := anInteger
+	upCount := anInteger 
 ]
 
 { #category : #accessing }

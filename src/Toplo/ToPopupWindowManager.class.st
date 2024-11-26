@@ -185,7 +185,7 @@ ToPopupWindowManager >> newPickOutsideFilter [
 	^ ToPopupPickOutsideEventFilter new
 		  windowManager: self;
 		  upCountRequired: upCountRequired;
-		  yourself
+		  yourself 
 ]
 
 { #category : #'window handling' }

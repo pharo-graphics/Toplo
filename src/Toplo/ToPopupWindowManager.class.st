@@ -54,7 +54,10 @@ ToPopupWindowManager >> closeWindow [
 ]
 
 { #category : #'event handling' }
-ToPopupWindowManager >> contextMenuRequest: anEvent [
+ToPopupWindowManager >> closedEvent: anEvent [
+
+	self uninstallPickOutsideFilter.
+	super closedEvent: anEvent
 ]
 
 { #category : #initialization }
@@ -112,6 +115,7 @@ ToPopupWindowManager >> installPickOutsideFilter [
 ToPopupWindowManager >> mouseDownEvent: anEvent [
 
 	builder ifNil: [ ^ self ].
+
 	closeOnMouseDown ifTrue: [ self unqueuePopupTaskIn: element ].
 	anEvent button = mouseButton ifFalse: [ ^ self ].
 	currentWindow ifNotNil: [
@@ -167,6 +171,13 @@ ToPopupWindowManager >> newPickOutsideFilter [
 ]
 
 { #category : #'event handling' }
+ToPopupWindowManager >> openedEvent: anEvent [
+
+	super openedEvent: anEvent.
+	self installPickOutsideFilter 
+]
+
+{ #category : #'event handling' }
 ToPopupWindowManager >> pickOutsideEvent: anEvent [
 
 	self currentWindowDo: [ :w | w close ]
@@ -190,15 +201,22 @@ ToPopupWindowManager >> popupEvent: anEvent [
 	currentWindow ifNotNil: [ ^ self ].
 	delayedPopupTask ifNotNil: [ ^ self ].
 	element isEnabled ifFalse: [ ^ self ].
+	popupDelay isZero ifTrue: [ ^ self popupNewWindowEvent: anEvent ].
 	delayedPopupTask := BlDelayedTaskAction new.
 	delayedPopupTask
 		delay: popupDelay;
 		action: [
-			| w |
-			w := self newWindowEvent: anEvent.
-			w popupEvent: anEvent.
+			self popupNewWindowEvent: anEvent.
 			delayedPopupTask := nil ].
 	element enqueueTask: delayedPopupTask
+]
+
+{ #category : #'window handling' }
+ToPopupWindowManager >> popupNewWindowEvent: anEvent [
+
+	| w |
+	w := self newWindowEvent: anEvent.
+	w popupEvent: anEvent
 ]
 
 { #category : #accessing }
@@ -217,20 +235,6 @@ ToPopupWindowManager >> popupOnMouseEnter [
 ToPopupWindowManager >> popupOnMouseEnter: aBoolean [
 
 	popupOnMouseEnter := aBoolean
-]
-
-{ #category : #'event handling' }
-ToPopupWindowManager >> popupWindowClosedEvent: anEvent [
-
-	self uninstallPickOutsideFilter.
-	self closedEvent: anEvent
-]
-
-{ #category : #'event handling' }
-ToPopupWindowManager >> popupWindowOpenedEvent: anEvent [
-
-	self openedEvent: anEvent.
-	self installPickOutsideFilter 
 ]
 
 { #category : #'window handling' }
@@ -273,16 +277,4 @@ ToPopupWindowManager >> useSecondaryMouseButton [
 ToPopupWindowManager >> windowClass [
 
 	^ ToPopupWindow 
-]
-
-{ #category : #accessing }
-ToPopupWindowManager >> windowClosedEventClass [
-
-	^ ToPopupWindowClosedEvent
-]
-
-{ #category : #accessing }
-ToPopupWindowManager >> windowOpenedEventClass [
-
-	^ ToPopupWindowOpenedEvent
 ]

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToClosedEvent,
-	#superclass : #ToRelationShipWithSpaceEvent,
+	#superclass : #ToOpenedClosedEvent,
 	#category : #'Toplo-Core-Window'
 }
 
@@ -14,4 +14,10 @@ ToClosedEvent >> sendTo: anObject [
 ToClosedEvent >> sendToSkinStateGenerator: aSkinStateGenerator [
 
 	aSkinStateGenerator closedEvent: self
+]
+
+{ #category : #sending }
+ToClosedEvent >> sendToWindowManager: aWindowManager [
+
+	aWindowManager closedEvent: self
 ]

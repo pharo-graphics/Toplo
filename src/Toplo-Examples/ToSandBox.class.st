@@ -3551,14 +3551,18 @@ ToSandBox class >> example_menuBar1 [
 		       vFitContent;
 		       yourself.
 
-	bar addItem: (fileMenu := ToMenu new labelText: 'File').
+	bar addItem: (fileMenu := ToMenu new
+			             labelText: 'File';
+			             tooltipString: 'File stuffs';
+			             yourself).
 	fileMenu addItem: (ToMenuItem new
 			 labelText: 'Open';
+			 tooltipString: 'open stuffs';
 			 whenClickedDo: [ :event | event traceCr ]).
 	fileMenu padding: (BlInsets all: 10).
 
 	"bar addFiller."
-	bar addMenu: (ToMenu new
+	bar addItem: (ToMenu new
 			 labelText: 'Help';
 			 tooltipString: 'help stuffs';
 			 yourself).
@@ -3780,7 +3784,7 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 	bar := ToMenuBar new
 		       hMatchParent;
 		       vFitContent.
-	bar addMenu: (ToMenu new
+	bar addItem: (ToMenu new
 			 labelText: 'File';
 			 tooltipString: 'file stuffs').
 	bar addMenu: (ToMenu new

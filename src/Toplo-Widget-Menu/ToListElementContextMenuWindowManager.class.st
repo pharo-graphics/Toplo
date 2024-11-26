@@ -5,9 +5,10 @@ Class {
 }
 
 { #category : #'event handling' }
-ToListElementContextMenuWindowManager >> listElementContextMenuRequest: anEvent [
+ToListElementContextMenuWindowManager >> closedEvent: anEvent [
 
-	self contextMenuRequest: anEvent
+	super closedEvent: anEvent.
+	element contextMenuSelecter deselectAll
 ]
 
 { #category : #'window handling' }
@@ -23,13 +24,6 @@ ToListElementContextMenuWindowManager >> newWindowRequestFrom: anEvent [
 	^ (super newWindowRequestFrom: anEvent)
 		  selectionModel: selectionModel;
 		  yourself
-]
-
-{ #category : #'event handling' }
-ToListElementContextMenuWindowManager >> popupWindowClosedEvent: anEvent [
-
-	super popupWindowClosedEvent: anEvent.
-	element contextMenuSelecter deselectAll
 ]
 
 { #category : #accessing }

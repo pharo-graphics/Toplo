@@ -26,32 +26,8 @@ ToLabelEditorWindowManager >> initialize [
 		ed text: label text copy ]
 ]
 
-{ #category : #'window opening - closing handlers' }
-ToLabelEditorWindowManager >> labelEditorClosedEvent: anEvent [
-
-	self closedEvent: anEvent
-]
-
-{ #category : #'window opening - closing handlers' }
-ToLabelEditorWindowManager >> labelEditorOpenedEvent: anEvent [
-
-	self openedEvent: anEvent
-]
-
 { #category : #accessing }
 ToLabelEditorWindowManager >> windowClass [
 
 	^ ToLabelEditorWindow 
-]
-
-{ #category : #accessing }
-ToLabelEditorWindowManager >> windowClosedEventClass [
-
-	^ ToLabelEditorClosedEvent
-]
-
-{ #category : #accessing }
-ToLabelEditorWindowManager >> windowOpenedEventClass [
-
-	^ ToLabelEditorOpenedEvent
 ]

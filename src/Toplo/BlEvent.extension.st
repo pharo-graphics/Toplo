@@ -7,3 +7,11 @@ BlEvent >> sendToSkinStateGenerator: aSkinStateGenerator [
 
 	
 ]
+
+{ #category : #'*Toplo' }
+BlEvent >> sendToWindowManager: aWindowManager [
+
+	self sendTo: aWindowManager
+
+	
+]

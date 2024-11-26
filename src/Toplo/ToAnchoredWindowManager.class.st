@@ -24,10 +24,6 @@ ToAnchoredWindowManager >> anchorRoot: anElement [
 	anchorRoot := anElement
 ]
 
-{ #category : #'event handling' }
-ToAnchoredWindowManager >> anchoredWindowRequest: anEvent [
-]
-
 { #category : #'bounds hook' }
 ToAnchoredWindowManager >> applyPositionAnsSizeHooksFromEvent: anEvent [
 
@@ -157,14 +153,19 @@ ToAnchoredWindowManager >> elementRemovedFromSceneGraphEvent: anEvent [
 ToAnchoredWindowManager >> eventsToHandle [
 
 	^ {
-		  self windowRequestClass.
-		  self windowOpenedEventClass.
-		  self windowClosedEventClass.
+		  ToWindowRequest.
+		  ToOpenedClosedEvent.
 		  BlElementExtentChangedEvent.
 		  BlElementRemovedFromParentEvent.
 		  BlElementRemovedFromSceneGraphEvent.
 		  BlElementPositionInSpaceChangedEvent.
 		  ToThemeInstalledEvent }
+]
+
+{ #category : #'api - event managing' }
+ToAnchoredWindowManager >> handleEvent: anEvent [
+
+	anEvent sendToWindowManager: self
 ]
 
 { #category : #testing }
@@ -295,22 +296,14 @@ ToAnchoredWindowManager >> windowClass [
 	^ ToAnchoredWindow 
 ]
 
-{ #category : #accessing }
-ToAnchoredWindowManager >> windowClosedEventClass [
-
-	^ ToClosedEvent 
-]
-
-{ #category : #accessing }
-ToAnchoredWindowManager >> windowOpenedEventClass [
-
-	^ ToOpenedEvent 
+{ #category : #'event handling' }
+ToAnchoredWindowManager >> windowRequest: anEvent [
 ]
 
 { #category : #accessing }
 ToAnchoredWindowManager >> windowRequestClass [
 
-	^ ToAnchoredWindowRequest 
+	^ ToWindowRequest 
 ]
 
 { #category : #'event handling' }

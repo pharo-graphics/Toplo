@@ -1,11 +1,5 @@
 Class {
 	#name : #ToContextMenuRequest,
-	#superclass : #ToAnchoredWindowRequest,
+	#superclass : #ToWindowRequest,
 	#category : #'Toplo-Widget-Menu-Context menu'
 }
-
-{ #category : #sending }
-ToContextMenuRequest >> sendTo: anEvent [
-
-	anEvent contextMenuRequest: self
-]

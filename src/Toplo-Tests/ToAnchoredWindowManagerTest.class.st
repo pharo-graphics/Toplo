@@ -205,16 +205,16 @@ ToAnchoredWindowManagerTest >> testElement [
 	" a window handler can be used only for one window  "
 	self should: [ windowManager newWindowEvent: nil ] raise: Error.
 	win addEventHandler: (BlEventHandler
-			 on: windowManager windowOpenedEventClass 
+			 on: ToOpenedEvent 
 			 do: [ :event | openEventFromWindow := event ]).
 	e addEventHandler: (BlEventHandler
-			 on: windowManager windowOpenedEventClass 
+			 on: ToOpenedEvent
 			 do: [ :event | openEventFromWidget := event ]).
 	win addEventHandler: (BlEventHandler
-			 on: windowManager windowClosedEventClass 
+			 on: ToClosedEvent
 			 do: [ :event | closeEventFromWindow := event ]).
 	e addEventHandler: (BlEventHandler
-			 on: windowManager windowClosedEventClass 
+			 on: ToClosedEvent
 			 do: [ :event | closeEventFromWidget := event ]).
 	self assert: win element equals: e.
 
@@ -317,7 +317,7 @@ ToAnchoredWindowManagerTest >> testElementRemovedFromParentEvent [
 	win popup.
 	closed := false.
 	win addEventHandler: (BlEventHandler
-			 on: windowManager windowClosedEventClass
+			 on: ToClosedEvent 
 			 do: [ closed := true ]).
 	self waitTestingSpaces.
 	self assert: win isOpened.
@@ -507,5 +507,5 @@ ToAnchoredWindowManagerTest >> testWindowOpenRequestClass [
 
 	| windowManager |
 	windowManager := ToAnchoredWindowManager new builder: [ :anchWin :element | ].
-	self assert: windowManager windowRequestClass identicalTo: ToAnchoredWindowRequest
+	self assert: windowManager windowRequestClass identicalTo: ToWindowRequest
 ]

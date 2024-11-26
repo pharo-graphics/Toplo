@@ -7,6 +7,7 @@ Class {
 { #category : #'api - displaying' }
 ToMenuWindow >> close [ 
 
+	self isOpened ifFalse: [ Error signal: 'Closing a closed window' ].
 	self items do: [ :it | it closeWindow ].
 	super close
 ]

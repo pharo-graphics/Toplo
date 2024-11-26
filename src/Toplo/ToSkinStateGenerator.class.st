@@ -123,7 +123,7 @@ ToSkinStateGenerator >> enqueueSkinState: aState in: anElement [
 ToSkinStateGenerator >> eventsToHandle [
 
 	^ {
-		  ToRelationShipWithSpaceEvent.
+		  ToOpenedClosedEvent.
 		  ToGeneratorEvent.
 		  BlBaseDragEvent.
 		  BlBlurEvent.

@@ -93,6 +93,12 @@ BlElement >> borderBuilder [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> closedEventClass [
+
+	^ ToClosedEvent 
+]
+
+{ #category : #'*Toplo' }
 BlElement >> constraintInMenuNode: aNode [
 
 	" Sent to let any menu item to adapt its resizer/layout  constraints before the node is added in the menu list. Notice that I am sent before the node adding + the selections shift is actually finished. Thus, this place is not adequate for changing one of the list selections (use #addedInMenu for that) "
@@ -127,6 +133,22 @@ BlElement >> disabled: aBoolean [
 		self dispatchEvent: ToEnablementChangedEvent new.
 		self skinManagerDo: [ :sm | sm enablementChangedIn: self ] ].
 	self childrenDo: [ :child | child disabled: aBoolean ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> dispatchClosedEvent [
+
+	| event |
+	event := self closedEventClass new.
+	self dispatchEvent: event
+]
+
+{ #category : #'*Toplo' }
+BlElement >> dispatchOpenedEvent [
+
+	| event |
+	event := self openedEventClass new.
+	self dispatchEvent: event.
 ]
 
 { #category : #'*Toplo' }
@@ -326,6 +348,12 @@ BlElement >> openInInnerWindow [
 	frame := ToInnerWindow new.
 	frame pane addChild: self.
 	frame openInSpace
+]
+
+{ #category : #'*Toplo' }
+BlElement >> openedEventClass [
+
+	^ ToOpenedEvent 
 ]
 
 { #category : #'*Toplo' }

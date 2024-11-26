@@ -43,7 +43,7 @@ ToAnchoredWindowTest >> testClosedEventClass [
 	e addEventHandler: windowManager.
 	win := windowManager newWindowEvent: nil.
 	win addEventHandler: (BlEventHandler
-			 on: windowManager windowClosedEventClass
+			 on: ToClosedEvent
 			 do: [ :event | closeEvent := event ]).
 	self assert: closeEvent isNil.
 	win popup.
@@ -88,10 +88,10 @@ ToAnchoredWindowTest >> testDispatchClosedEvent [
 	e addEventHandler: windowManager.
 	win := windowManager newWindowEvent: nil.
 	win addEventHandler: (BlEventHandler
-			 on: windowManager windowClosedEventClass
+			 on: ToClosedEvent
 			 do: [ :event | closedEventReceivedByWin := event ]).
 	e addEventHandler: (BlEventHandler
-			 on: windowManager windowClosedEventClass
+			 on: ToClosedEvent
 			 do: [ :event | closedEventReceivedByElement := event ]).
 	win popup.
 	self waitTestingSpaces.
@@ -113,10 +113,10 @@ ToAnchoredWindowTest >> testDispatchOpenedEvent [
 	e addEventHandler: windowManager.
 	win := windowManager newWindowEvent: nil.
 	win addEventHandler: (BlEventHandler
-			 on: windowManager windowOpenedEventClass
+			 on: ToOpenedEvent
 			 do: [ :event | openedEventReceivedByWin := event ]).
 	e addEventHandler: (BlEventHandler
-			 on: windowManager windowOpenedEventClass
+			 on: ToOpenedEvent
 			 do: [ :event | openedEventReceivedByElement := event ]).
 	win popup.
 	self waitTestingSpaces.
@@ -230,10 +230,10 @@ ToAnchoredWindowTest >> testOnOpened [
 	e addEventHandler: windowManager.
 	win := windowManager newWindowEvent: nil.
 	win addEventHandler: (BlEventHandler
-			 on: windowManager windowOpenedEventClass
+			 on: ToOpenedEvent
 			 do: [ :event | openedEventReceivedByWin := event ]).
 	e addEventHandler: (BlEventHandler
-			 on: windowManager windowOpenedEventClass
+			 on: ToOpenedEvent
 			 do: [ :event | openedEventReceivedByElement := event ]).
 	win popup.
 	self waitTestingSpaces.
@@ -253,7 +253,7 @@ ToAnchoredWindowTest >> testOpenedEventClass [
 	e addEventHandler: windowManager.
 	win := windowManager newWindowEvent: nil.
 	win addEventHandler: (BlEventHandler
-			 on: windowManager windowOpenedEventClass
+			 on: ToOpenedEvent
 			 do: [ :event | openedEvent := event ]).
 	self assert: openedEvent isNil.
 	win popup.
@@ -293,7 +293,7 @@ ToAnchoredWindowTest >> testPopupEvent [
 	e addEventHandler: windowManager.
 	win := windowManager newWindowEvent: nil.
 	win addEventHandler: (BlEventHandler
-			 on: windowManager windowOpenedEventClass
+			 on: ToOpenedEvent
 			 do: [ :event | openedEvent := event ]).
 	win popupEvent: nil.
 	self waitTestingSpaces.
@@ -301,11 +301,11 @@ ToAnchoredWindowTest >> testPopupEvent [
 	sourceEvent := BlEvent new.
 	win := windowManager newWindowEvent: nil.
 	win addEventHandler: (BlEventHandler
-			 on: windowManager windowOpenedEventClass
+			 on: ToOpenedEvent
 			 do: [ :event | openedEvent := event ]).
 	win popupEvent: sourceEvent.
 	self waitTestingSpaces.
-	self assert: openedEvent class equals: windowManager windowOpenedEventClass
+	self assert: openedEvent class equals: win openedEventClass
 ]
 
 { #category : #tests }
@@ -320,16 +320,16 @@ ToAnchoredWindowTest >> testPopupEventNotInSpace [
 	win := windowManager newWindowEvent: nil.
 	self assert: win hasAssociateElement.
 	win addEventHandler: (BlEventHandler
-			 on: windowManager windowOpenedEventClass
+			 on: ToOpenedEvent
 			 do: [ :event | openEventFromWindow := event ]).
 	e addEventHandler: (BlEventHandler
-			 on: windowManager windowOpenedEventClass
+			 on: ToOpenedEvent
 			 do: [ :event | openEventFromWidget := event ]).
 	win addEventHandler: (BlEventHandler
-			 on: windowManager windowClosedEventClass
+			 on: ToClosedEvent
 			 do: [ :event | closeEventFromWindow := event ]).
 	e addEventHandler: (BlEventHandler
-			 on: windowManager windowClosedEventClass
+			 on: ToClosedEvent
 			 do: [ :event | closeEventFromWidget := event ]).
 
 	self should: [ win popup ] raise: Error.
@@ -381,7 +381,7 @@ ToAnchoredWindowTest >> testPopupTimeStamp [
 	e addEventHandler: windowManager.
 	win := windowManager newWindowEvent: nil.
 	win addEventHandler: (BlEventHandler
-			 on: windowManager windowOpenedEventClass
+			 on: ToOpenedEvent
 			 do: [ :event | openedEvent := event ]).
 	self assert: openedEvent isNil.
 	self assert: win popupTimestamp isNil.

@@ -5,6 +5,12 @@ Class {
 }
 
 { #category : #accessing }
+ToLabelEditorWindow >> closedEventClass [ 
+
+	^ ToLabelEditorClosedEvent 
+]
+
+{ #category : #accessing }
 ToLabelEditorWindow >> defaultElevation [
 
 	^ BlRelativeElevation elevation: (SmallInteger maxVal - 200)
@@ -16,4 +22,10 @@ ToLabelEditorWindow >> installRawStyle [
 	super installRawStyle.
 	self border: BlBorder empty.
 
+]
+
+{ #category : #accessing }
+ToLabelEditorWindow >> openedEventClass [ 
+
+	^ ToLabelEditorOpenedEvent 
 ]

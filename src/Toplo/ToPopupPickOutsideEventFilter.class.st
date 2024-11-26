@@ -30,7 +30,6 @@ ToPopupPickOutsideEventFilter >> mouseUpEvent: anEvent [
 	"
 
 	| target |
-	
 	"self class name trace. '>>mouseUpEvent: with upCount=' trace. upCount traceCr."
 	
 	self popupWindow ifNil: [ " if the window is not present 

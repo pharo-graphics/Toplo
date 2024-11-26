@@ -22,7 +22,7 @@ ToContextMenu >> closeRequestFrom: anItem [
 	self closeWindow
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'t - menu window model' }
 ToContextMenu >> closeWindow [
 
 	self close
@@ -42,43 +42,43 @@ ToContextMenu >> isMenu [
 	^ true
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'t - menu window model' }
 ToContextMenu >> isOpened [
 
 	^ super isOpened
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'t - menu window model' }
 ToContextMenu >> isSubmenu [ 
 
 	^ false
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'t - menu window model' }
 ToContextMenu >> isTopMenu [
 
 	^ true
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToContextMenu >> itemContainer [
 
 	^ self 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'t - menu window model' }
 ToContextMenu >> menuWindow [
 
 	^ super menuWindow
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'t - menu window model' }
 ToContextMenu >> popupEvent: anEvent [
 
 	^ super popupEvent: anEvent
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'t - menu window model' }
 ToContextMenu >> rootMenu [
 
 	^ self 

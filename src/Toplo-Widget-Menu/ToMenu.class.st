@@ -15,7 +15,7 @@ ToMenu >> autoPopupEvent: anEvent [
 	windowManager autoPopupEvent: anEvent
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToMenu >> bar [
 
 	self
@@ -25,13 +25,13 @@ ToMenu >> bar [
 	^ self itemList
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToMenu >> buttonClickEventClass [
 
 	^ BlMouseDownEvent
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'t - menu window model' }
 ToMenu >> closeWindow [
 
 	" first ask the items to close "
@@ -41,7 +41,7 @@ ToMenu >> closeWindow [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToMenu >> includes: anElement [
 
 	self menuWindow = anElement ifTrue: [ ^ true ].
@@ -61,37 +61,37 @@ ToMenu >> initialize [
 		menWin root addChild: request currentTarget itemList ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToMenu >> isMenu [
 
 	^ true
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'t - menu window model' }
 ToMenu >> isOpened [ 
 
 	^ self menuWindow notNil
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'t - menu window model' }
 ToMenu >> isSubmenu [
 
 	^ parentMenu notNil
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'t - menu window model' }
 ToMenu >> isTopMenu [
 
 	^ self parentMenu isNil
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'t - menu window model' }
 ToMenu >> menuWindow [ 
 
 	^ windowManager currentWindow
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToMenu >> newRawSkin [ 
 
 	^ ToMenuSkin new
@@ -103,7 +103,7 @@ ToMenu >> popupEvent: anEvent [
 	windowManager popupEvent: anEvent
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToMenu >> rootMenu [
 
 	^ super rootMenu

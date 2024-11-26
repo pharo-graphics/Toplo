@@ -1552,6 +1552,21 @@ ToSandBox class >> example_ListWithSelectionTrace [
 	statesList openInSpace
 ]
 
+{ #category : #menu }
+ToSandBox class >> example_Menu0 [
+
+	| menu container |
+	container := ToInnerWindow new
+		             position: 10 @ 10;
+		             size: 400 @ 200;
+		             yourself.
+	menu := ToMenu new.
+	menu tooltipString: 'tooltip content'.
+	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	container pane addChild: menu.
+	container openInSpace
+]
+
 { #category : #list }
 ToSandBox class >> example_NodeContainerWithStatesOfAmerica [
 
@@ -2953,6 +2968,7 @@ ToSandBox class >> example_WithSeparator [
 		             size: 400 @ 200;
 		             yourself.
 	menu := ToMenu new.
+	menu tooltipString: 'tooltip content'.
 	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	menu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Open')).
@@ -3567,6 +3583,8 @@ ToSandBox class >> example_menuBar1 [
 			 tooltipString: 'help stuffs';
 			 yourself).
 
+	bar items last addItem:
+		(ToCustomMenuItem new innerElement: (ToLabel text: 'Some help...')).
 	bar border: (BlBorder paint: Color red).
 
 	win pane addChild: bar.
@@ -3787,7 +3805,7 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 	bar addItem: (ToMenu new
 			 labelText: 'File';
 			 tooltipString: 'file stuffs').
-	bar addMenu: (ToMenu new
+	bar addItem: (ToMenu new
 			 labelText: 'Edit';
 			 tooltipString: 'editing stuffs').
 	bar addFiller.
@@ -3796,7 +3814,7 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 		             width: 200.
 	bar addChild: (ToLabel new text: 'Token :').
 	bar addChild: textField.
-	bar addMenu: (ToMenu new
+	bar addItem: (ToMenu new
 			 labelText: 'Help';
 			 tooltipString: 'help stuffs').
 
@@ -3832,12 +3850,12 @@ ToSandBox class >> example_rootFrameWithContextMenu_menubarVertical [
 
 	menu addItem: sub.
 
-	win pane contextMenu: [ :contextMenu :request | ].
+	win pane contextMenu: [ :contextMenu :request |  ].
 
 	bar := ToMenuBar new
 		       hMatchParent;
 		       vFitContent.
-	bar addMenu: (ToMenu new
+	bar addItem: (ToMenu new
 			 labelText: 'File';
 			 tooltipString: 'file stuffs').
 	bar addMenu: (ToMenu new

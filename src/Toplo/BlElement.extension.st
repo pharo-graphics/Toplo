@@ -138,17 +138,13 @@ BlElement >> disabled: aBoolean [
 { #category : #'*Toplo' }
 BlElement >> dispatchClosedEvent [
 
-	| event |
-	event := self closedEventClass new.
-	self dispatchEvent: event
+	self dispatchEvent: self newClosedEvent 
 ]
 
 { #category : #'*Toplo' }
 BlElement >> dispatchOpenedEvent [
 
-	| event |
-	event := self openedEventClass new.
-	self dispatchEvent: event.
+	self dispatchEvent: self newOpenedEvent
 ]
 
 { #category : #'*Toplo' }
@@ -315,6 +311,22 @@ BlElement >> lookupWritablePropertyNamed: aSymbol [
 	self styleSheetChain do: [ :ss |
 		(ss property: aSymbol) ifNotNil: [ :wp | ^ wp ] ].
 	^ nil
+]
+
+{ #category : #'*Toplo' }
+BlElement >> newClosedEvent [
+
+	^ self closedEventClass new
+		  window: self;
+		  yourself
+]
+
+{ #category : #'*Toplo' }
+BlElement >> newOpenedEvent [
+
+	^ self openedEventClass new
+		  window: self;
+		  yourself
 ]
 
 { #category : #'*Toplo' }

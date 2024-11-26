@@ -457,10 +457,6 @@ ToAbstractListElement >> selectionElementsDo: aBlock [
 { #category : #accessing }
 ToAbstractListElement >> selectionMode [
 
-	self
-		deprecated: 'use #primarySelectionMode'
-		transformWith:
-		'`@rcvr selectionMode' -> '`@rcvr primarySelectionMode'.
 	^ self primarySelectionMode
 ]
 

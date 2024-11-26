@@ -50,25 +50,22 @@ ToAnchoredWindow >> defaultElevation [
 { #category : #'api - displaying' }
 ToAnchoredWindow >> dispatchClosedEvent [
 
-	| event |
 	" need to dispatch also to the element holding the window
 	so that the window manager can manage the window 
-	(recall taht the window manager is an event handler of the element)"
-	event := self closedEventClass new.
-	self element  dispatchEvent: event.
-	super dispatchClosedEvent
+	(recall that the window manager is an event handler of the element)"
+	super dispatchClosedEvent.
+	self element  dispatchEvent: self newClosedEvent.
+
 ]
 
 { #category : #'api - displaying' }
 ToAnchoredWindow >> dispatchOpenedEvent [
 
-	| event |
 	super dispatchOpenedEvent.
 	" need to dispatch also to the element holding the window
 	so that the window manager can manage the window 
-	(recall taht the window manager is an event handler of the element)"
-	event := self openedEventClass new.
-	self element dispatchEvent: event
+	(recall that the window manager is an event handler of the element)"
+	self element dispatchEvent: self newOpenedEvent 
 ]
 
 { #category : #accessing }

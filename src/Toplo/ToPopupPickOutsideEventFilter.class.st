@@ -39,8 +39,8 @@ ToPopupPickOutsideEventFilter >> mouseUpEvent: anEvent [
 		^ self ].
 
 	windowManager popupOnMouseDown ifTrue: [
-		upCount isZero ifTrue: [
-			upCount := upCount + 1.
+		upCount isZero ifFalse: [
+			upCount := upCount - 1.
 			^ self ] ].
 
 	" It it ouside the element and outside the popup windows "
@@ -67,6 +67,12 @@ ToPopupPickOutsideEventFilter >> popupWindow [
 
 	^ windowManager currentWindow
 
+]
+
+{ #category : #accessing }
+ToPopupPickOutsideEventFilter >> upCountRequired: anInteger [
+
+	upCount := anInteger
 ]
 
 { #category : #accessing }

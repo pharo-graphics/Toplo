@@ -10,7 +10,8 @@ Class {
 		'popupOnMouseDown',
 		'delayedPopupTask',
 		'pickOutsideFilter',
-		'autoCloseDelay'
+		'autoCloseDelay',
+		'upCountRequired'
 	],
 	#category : #'Toplo-Core-Window'
 }
@@ -25,6 +26,13 @@ ToPopupWindowManager >> autoCloseDelay [
 ToPopupWindowManager >> autoCloseDelay: aDelay [
 
 	autoCloseDelay := aDelay ifNotNil: [:d| d asDuration ]
+]
+
+{ #category : #'window handling' }
+ToPopupWindowManager >> autoPopupEvent: anEvent [
+
+	upCountRequired := 0.
+	self delayedPopupEvent: anEvent
 ]
 
 { #category : #accessing }
@@ -53,13 +61,6 @@ ToPopupWindowManager >> closeWindow [
 
 ]
 
-{ #category : #'event handling' }
-ToPopupWindowManager >> closedEvent: anEvent [
-
-	self uninstallPickOutsideFilter.
-	super closedEvent: anEvent
-]
-
 { #category : #initialization }
 ToPopupWindowManager >> defaultAutoCloseDelay [
 
@@ -77,6 +78,22 @@ ToPopupWindowManager >> defaultPositionHook [
 
 	^ [ :window :theElement :event |
 	  window position: (theElement bounds inParent: self anchorRoot) bounds bottomLeft ]
+]
+
+{ #category : #'window handling' }
+ToPopupWindowManager >> delayedPopupEvent: anEvent [
+
+	currentWindow ifNotNil: [ ^ self ].
+	delayedPopupTask ifNotNil: [ ^ self ].
+	element isEnabled ifFalse: [ ^ self ].
+	popupDelay isZero ifTrue: [ ^ self popupNewWindowEvent: anEvent ].
+	delayedPopupTask := BlDelayedTaskAction new.
+	delayedPopupTask
+		delay: popupDelay;
+		action: [
+			self popupNewWindowEvent: anEvent.
+			delayedPopupTask := nil ].
+	element enqueueTask: delayedPopupTask
 ]
 
 { #category : #'api - accessing' }
@@ -167,13 +184,21 @@ ToPopupWindowManager >> newPickOutsideFilter [
 
 	^ ToPopupPickOutsideEventFilter new
 		  windowManager: self;
+		  upCountRequired: upCountRequired;
 		  yourself
 ]
 
-{ #category : #'event handling' }
-ToPopupWindowManager >> openedEvent: anEvent [
+{ #category : #'window handling' }
+ToPopupWindowManager >> onClosed [
 
-	super openedEvent: anEvent.
+	self uninstallPickOutsideFilter.
+	super onClosed
+]
+
+{ #category : #'window handling' }
+ToPopupWindowManager >> onOpened [ 
+
+	super onOpened.
 	self installPickOutsideFilter 
 ]
 
@@ -198,17 +223,8 @@ ToPopupWindowManager >> popupDelay: aDuration [
 { #category : #'window handling' }
 ToPopupWindowManager >> popupEvent: anEvent [
 
-	currentWindow ifNotNil: [ ^ self ].
-	delayedPopupTask ifNotNil: [ ^ self ].
-	element isEnabled ifFalse: [ ^ self ].
-	popupDelay isZero ifTrue: [ ^ self popupNewWindowEvent: anEvent ].
-	delayedPopupTask := BlDelayedTaskAction new.
-	delayedPopupTask
-		delay: popupDelay;
-		action: [
-			self popupNewWindowEvent: anEvent.
-			delayedPopupTask := nil ].
-	element enqueueTask: delayedPopupTask
+	upCountRequired := 1.
+	self delayedPopupEvent: anEvent
 ]
 
 { #category : #'window handling' }

@@ -311,12 +311,7 @@ ToTheme class >> label [
 ToTheme class >> technicalTokenProperties [
 	" toplo need a list of unique stamps for widget technical parameters. "
 
-	^ {
-		  (ToTokenProperty
-			   name: #'toplo-double-click-delay'
-			   value: 200 milliSeconds).
-
-		}
+	^ {  }
 ]
 
 { #category : #accessing }

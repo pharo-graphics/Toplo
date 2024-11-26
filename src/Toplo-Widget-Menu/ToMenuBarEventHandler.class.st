@@ -20,9 +20,9 @@ ToMenuBarEventHandler >> mouseOverEvent: anEvent [
 	
 	" auto-open action "
 	target items do: [ :m | 
-		(anEvent target hasInParentChain: m)
+		m isMenu ifTrue: [(anEvent target hasInParentChain: m)
 			ifTrue: [ m menuWindow ifNil: [ m popupEvent: anEvent ] ]
-			ifFalse: [ m closeWindow ] ]
+			ifFalse: [ m closeWindow ] ] ]
 ]
 
 { #category : #'api - hooks' }

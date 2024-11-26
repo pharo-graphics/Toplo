@@ -35,6 +35,7 @@ ToMenuItemElement >> closeSiblingMenuWindow [
 
 { #category : #'t - menu window model' }
 ToMenuItemElement >> closeWindow [
+
 ]
 
 { #category : #initialization }

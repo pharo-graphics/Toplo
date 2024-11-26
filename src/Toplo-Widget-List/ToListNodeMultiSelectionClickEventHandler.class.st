@@ -30,12 +30,12 @@ ToListNodeMultiSelectionClickEventHandler >> hasClickLauncher [
 ToListNodeMultiSelectionClickEventHandler >> launchClick: aBlock event: anEvent [
 	" click launcher management to allow double click to work with several selected nodes "
 
-	| listElement node holder mode |
+	| listElement node holder mode dblClickDelay |
 	node := anEvent currentTarget.
 	holder := node holder.
 	listElement := node holder listElement.
 	mode := listElement primarySelectionMode.
-
+	dblClickDelay := listElement selectionMode doubleClickTimeout.
 	(listElement isFocused not and: [
 		 listElement primarySelectionMode requestFocusOnMouseDown ])
 		ifTrue: [
@@ -59,8 +59,7 @@ ToListNodeMultiSelectionClickEventHandler >> launchClick: aBlock event: anEvent 
 	mode selectedIndexesCount > 0 ifFalse: [ ^ aBlock value ].
 
 	self clickLauncher: ([
-		 (listElement valueOfTokenNamed: #'toplo-double-click-delay')
-			 asDelay wait.
+		 dblClickDelay asDelay wait.
 		 aBlock value.
 		 self clickLauncher: nil ]
 			 forkAt: Processor lowIOPriority

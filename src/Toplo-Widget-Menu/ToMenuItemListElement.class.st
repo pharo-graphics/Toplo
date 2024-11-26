@@ -21,6 +21,7 @@ ToMenuItemListElement >> initialize [
 	self vertical: true.
 	self uniformNodeWidth: true.
 	self primarySelectionMode makeDisabledUnselectable: true.
+	self selectionOption masked: true.
 	self focusability: BlFocusability ignore
 ]
 

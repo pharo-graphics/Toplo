@@ -4,13 +4,6 @@ Class {
 	#category : #'Toplo-Widget-Menu-Context menu'
 }
 
-{ #category : #'event handling' }
-ToListElementContextMenuWindowManager >> closedEvent: anEvent [
-
-	super closedEvent: anEvent.
-	element contextMenuSelecter deselectAll
-]
-
 { #category : #'window handling' }
 ToListElementContextMenuWindowManager >> newWindowRequestFrom: anEvent [
 	" as an example from the ToElementContextMenuEventHandler>>mouseDownEvent: "
@@ -24,6 +17,13 @@ ToListElementContextMenuWindowManager >> newWindowRequestFrom: anEvent [
 	^ (super newWindowRequestFrom: anEvent)
 		  selectionModel: selectionModel;
 		  yourself
+]
+
+{ #category : #'window handling' }
+ToListElementContextMenuWindowManager >> onClosed [
+
+	super onClosed.
+	element contextMenuSelecter deselectAll
 ]
 
 { #category : #accessing }

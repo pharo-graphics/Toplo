@@ -9,6 +9,12 @@ Class {
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
+{ #category : #'window handling' }
+ToMenu >> autoPopupEvent: anEvent [
+
+	windowManager autoPopupEvent: anEvent
+]
+
 { #category : #'as yet unclassified' }
 ToMenu >> bar [
 
@@ -31,7 +37,8 @@ ToMenu >> closeWindow [
 	" first ask the items to close "
 	self items do: [ :it | it closeWindow ].
 	" now my window "
-	self menuWindow ifNotNil: [:mw | mw close ]
+	self menuWindow ifNotNil: [:mw | mw close ].
+
 ]
 
 { #category : #'as yet unclassified' }
@@ -90,7 +97,7 @@ ToMenu >> newRawSkin [
 	^ ToMenuSkin new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'t - menu window model' }
 ToMenu >> popupEvent: anEvent [
 
 	windowManager popupEvent: anEvent

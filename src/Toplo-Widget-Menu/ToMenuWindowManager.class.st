@@ -4,14 +4,6 @@ Class {
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
-{ #category : #'event handling' }
-ToMenuWindowManager >> closedEvent: anEvent [
-	" deselect all to have a freshed window without any selection on next popup "
-
-	anEvent currentTarget itemList secondarySelectionModel deselectAll.
-	super closedEvent: anEvent
-]
-
 { #category : #initialization }
 ToMenuWindowManager >> defaultPositionHook [
 
@@ -23,13 +15,11 @@ ToMenuWindowManager >> defaultPositionHook [
 			   (theMenu bounds inParent: self anchorRoot) bounds bottomLeft ]) ]
 ]
 
-{ #category : #initialization }
-ToMenuWindowManager >> initialize [ 
+{ #category : #'window handling' }
+ToMenuWindowManager >> popupNewWindowEvent: anEvent [
 
-	super initialize.
-	popupOnMouseEnter := false.
-	closeOnMouseLeave := false.
-
+	element items ifEmpty: [ ^ self ].
+	super popupNewWindowEvent: anEvent
 ]
 
 { #category : #accessing }

@@ -27,7 +27,7 @@ ToAnchoredWindowManager >> anchorRoot: anElement [
 { #category : #'bounds hook' }
 ToAnchoredWindowManager >> applyPositionAnsSizeHooksFromEvent: anEvent [
 
-	self currentWindow ifNil: [ Error signal: 'No current window' ].
+	currentWindow ifNil: [ Error signal: 'No current window' ].
 	self applyPositionHookFromEvent: anEvent.
 	self applySizeHookFromEvent: anEvent
 ]
@@ -35,10 +35,10 @@ ToAnchoredWindowManager >> applyPositionAnsSizeHooksFromEvent: anEvent [
 { #category : #'bounds hook' }
 ToAnchoredWindowManager >> applyPositionHookFromEvent: anEvent [
 
-	self currentWindow ifNil: [ Error signal: 'No current window' ].
+	currentWindow ifNil: [ Error signal: 'No current window' ].
 	self positionHook ifNil: [ ^ self ].
 	self positionHook
-		value: self currentWindow
+		value: currentWindow
 		value: self element
 		value: anEvent
 ]
@@ -46,12 +46,18 @@ ToAnchoredWindowManager >> applyPositionHookFromEvent: anEvent [
 { #category : #'bounds hook' }
 ToAnchoredWindowManager >> applySizeHookFromEvent: anEvent [
 
-	self currentWindow ifNil: [ Error signal: 'No current window' ].
+	currentWindow ifNil: [ Error signal: 'No current window' ].
 	self sizeHook ifNil: [ ^ self ].
 	self sizeHook
-			 value: self currentWindow
+			 value: currentWindow
 			 value: self element
 			 value: anEvent
+]
+
+{ #category : #'window handling' }
+ToAnchoredWindowManager >> buildCurrentWindowFromRequest: aRequest [
+
+	builder value: currentWindow value: aRequest
 ]
 
 { #category : #accessing }
@@ -77,6 +83,10 @@ ToAnchoredWindowManager >> closeWindow [
 { #category : #'event handling' }
 ToAnchoredWindowManager >> closedEvent: anEvent [
 
+	" send from the window. Since I'm the only handler whatever the closed event, 
+	I must be sure that the event is sent from my current window "
+
+	currentWindow = anEvent window ifFalse: [ ^ self ].
 	self onClosed
 ]
 
@@ -87,15 +97,9 @@ ToAnchoredWindowManager >> currentWindow [
 ]
 
 { #category : #accessing }
-ToAnchoredWindowManager >> currentWindow: aWindowElement [
-
-	currentWindow := aWindowElement
-]
-
-{ #category : #accessing }
 ToAnchoredWindowManager >> currentWindowDo: aValuable [
 
-	self currentWindow ifNotNil: [ :cw | aValuable value: cw ]
+	currentWindow ifNotNil: [ :cw | aValuable value: cw ]
 ]
 
 { #category : #initialization }
@@ -171,7 +175,7 @@ ToAnchoredWindowManager >> handleEvent: anEvent [
 { #category : #testing }
 ToAnchoredWindowManager >> hasWindow [
 
-	^ self currentWindow notNil
+	^ currentWindow notNil
 ]
 
 { #category : #initialization }
@@ -186,16 +190,24 @@ ToAnchoredWindowManager >> initialize [
 ]
 
 { #category : #'window handling' }
+ToAnchoredWindowManager >> newWindow [
+
+	^ self windowClass new
+		  manager: self;
+		  yourself
+]
+
+{ #category : #'window handling' }
 ToAnchoredWindowManager >> newWindowEvent: anEvent [
 
 	| request |
-	self currentWindow ifNotNil: [
+	currentWindow ifNotNil: [
 		^ Error signal: 'Asking for a window building twice' ].
 	self element ifNil: [
 		^ Error signal: 'An element is required for building a window' ].
 	self builder ifNil: [
 		^ Error signal: 'A window builder is required for building a window' ].
-	
+
 	self element isEnabled ifFalse: [ ^ self ].
 	
 	request := self newWindowRequestFrom: anEvent.
@@ -205,12 +217,10 @@ ToAnchoredWindowManager >> newWindowEvent: anEvent [
 	self element dispatchEvent: request.
 	
 	" the event is dispatched, eventually updated with additional data, 
-	the widow can be created	then built"
-	self currentWindow: (self windowClass new
-			 manager: self;
-			 yourself).
-	builder value: self currentWindow value: request.
-	^ self currentWindow
+	the current window can be created then built"
+	currentWindow := self newWindow.
+	self buildCurrentWindowFromRequest: request.
+	^ currentWindow
 ]
 
 { #category : #'window handling' }
@@ -224,8 +234,8 @@ ToAnchoredWindowManager >> newWindowRequestFrom: anEvent [
 { #category : #'window handling' }
 ToAnchoredWindowManager >> onClosed [
 
-	self currentWindow ifNil: [ ^ self ].
-	self currentWindow root removeChildren.
+	currentWindow ifNil: [ ^ self ].
+	currentWindow root removeChildren.
 	currentWindow manager: nil.
 	currentWindow := nil
 ]
@@ -252,7 +262,10 @@ ToAnchoredWindowManager >> onUninstalledIn: anElement [
 { #category : #'event handling' }
 ToAnchoredWindowManager >> openedEvent: anEvent [
 
-	self onOpened 
+	" send from the window. Since I'm the only handler whatever the opened event, 
+	I must be sure that the event is sent from my current window "
+	currentWindow = anEvent window ifFalse: [ ^ self ].
+	self onOpened
 ]
 
 { #category : #accessing }
@@ -280,7 +293,7 @@ ToAnchoredWindowManager >> sizeHook [
 ToAnchoredWindowManager >> sizeHook: aValuable [
 	
 	sizeHook := aValuable.
-	self currentWindow ifNil: [ ^ self ].
+	currentWindow ifNil: [ ^ self ].
 	self applySizeHookFromEvent: nil
 ]
 

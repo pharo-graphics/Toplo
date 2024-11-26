@@ -71,6 +71,7 @@ ToMenuBar >> initialize [
 			 do: [ self configureLayout ]).
 	self addEventFilter: ToMenuBarEventFilter new.
 	self addEventHandler: ToMenuBarEventHandler new.
+	self itemList uniformNodeWidth: false.
 	self addChild: self itemList.
 	self beHorizontal.
 	self configureLayout

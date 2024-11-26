@@ -38,6 +38,14 @@ ToSkinStateGenerator >> clickEvent: anEvent [
 		other: [  ]
 ]
 
+{ #category : #'window event handling' }
+ToSkinStateGenerator >> closedEvent: anEvent [
+
+	self enqueueSkinState:
+		(ToTransientState skinEvent:
+			 (ToClosedSkinEvent sourceEvent: anEvent))
+]
+
 { #category : #'dnd handlers' }
 ToSkinStateGenerator >> dragEndEvent: anEvent [
 
@@ -115,7 +123,7 @@ ToSkinStateGenerator >> enqueueSkinState: aState in: anElement [
 ToSkinStateGenerator >> eventsToHandle [
 
 	^ {
-		  ToWindowEvent.
+		  ToRelationShipWithSpaceEvent.
 		  ToGeneratorEvent.
 		  BlBaseDragEvent.
 		  BlBlurEvent.
@@ -224,6 +232,14 @@ ToSkinStateGenerator >> onUninstalledIn: anElement [
 	super onUninstalledIn: anElement
 ]
 
+{ #category : #'window event handling' }
+ToSkinStateGenerator >> openedEvent: anEvent [
+
+	self enqueueSkinState:
+		(ToTransientState skinEvent:
+			 (ToOpenedSkinEvent sourceEvent: anEvent))
+]
+
 { #category : #'mouse handlers' }
 ToSkinStateGenerator >> pickOutsideEvent: anEvent [
 	"Outside event can have a button label or icon as target. 
@@ -330,20 +346,4 @@ ToSkinStateGenerator >> wantsEvent: anEvent [
 
 	target isEnabled ifFalse: [ ^ false ].
 	^ super wantsEvent: anEvent
-]
-
-{ #category : #'window event handling' }
-ToSkinStateGenerator >> windowClosedEvent: anEvent [
-
-	self enqueueSkinState:
-		(ToTransientState skinEvent:
-			 (ToClosedSkinEvent sourceEvent: anEvent))
-]
-
-{ #category : #'window event handling' }
-ToSkinStateGenerator >> windowOpenedEvent: anEvent [
-
-	self enqueueSkinState:
-		(ToTransientState skinEvent:
-			 (ToOpenedSkinEvent sourceEvent: anEvent))
 ]

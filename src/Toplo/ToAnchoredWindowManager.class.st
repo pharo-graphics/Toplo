@@ -78,6 +78,12 @@ ToAnchoredWindowManager >> closeWindow [
 		^ self ]
 ]
 
+{ #category : #'event handling' }
+ToAnchoredWindowManager >> closedEvent: anEvent [
+
+	self onClosed
+]
+
 { #category : #accessing }
 ToAnchoredWindowManager >> currentWindow [
 
@@ -214,11 +220,25 @@ ToAnchoredWindowManager >> newWindowRequestFrom: anEvent [
 		  yourself
 ]
 
+{ #category : #'window handling' }
+ToAnchoredWindowManager >> onClosed [
+
+	self currentWindow ifNil: [ ^ self ].
+	self currentWindow root removeChildren.
+	currentWindow manager: nil.
+	currentWindow := nil
+]
+
 { #category : #'api - hooks' }
 ToAnchoredWindowManager >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	element := anElement
+]
+
+{ #category : #'window handling' }
+ToAnchoredWindowManager >> onOpened [
+
 ]
 
 { #category : #'api - hooks' }
@@ -228,19 +248,10 @@ ToAnchoredWindowManager >> onUninstalledIn: anElement [
 	element := nil
 ]
 
-{ #category : #'window handling' }
-ToAnchoredWindowManager >> onWindowClosed [
+{ #category : #'event handling' }
+ToAnchoredWindowManager >> openedEvent: anEvent [
 
-	self currentWindow ifNil: [ ^self ].
-	self currentWindow root removeChildren.
-	currentWindow manager: nil.
-	currentWindow := nil
-]
-
-{ #category : #'window handling' }
-ToAnchoredWindowManager >> onWindowOpened [
-
-
+	self onOpened 
 ]
 
 { #category : #accessing }
@@ -284,28 +295,16 @@ ToAnchoredWindowManager >> windowClass [
 	^ ToAnchoredWindow 
 ]
 
-{ #category : #'event handling' }
-ToAnchoredWindowManager >> windowClosedEvent: anEvent [
-
-	self onWindowClosed
-]
-
 { #category : #accessing }
 ToAnchoredWindowManager >> windowClosedEventClass [
 
-	^ ToWindowClosedEvent 
-]
-
-{ #category : #'event handling' }
-ToAnchoredWindowManager >> windowOpenedEvent: anEvent [
-
-	self onWindowOpened 
+	^ ToClosedEvent 
 ]
 
 { #category : #accessing }
 ToAnchoredWindowManager >> windowOpenedEventClass [
 
-	^ ToWindowOpenedEvent 
+	^ ToOpenedEvent 
 ]
 
 { #category : #accessing }

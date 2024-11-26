@@ -1,6 +1,6 @@
 Class {
 	#name : #ToLabelEditorClosedEvent,
-	#superclass : #ToWindowClosedEvent,
+	#superclass : #ToClosedEvent,
 	#category : #'Toplo-Widget-Album-Label'
 }
 

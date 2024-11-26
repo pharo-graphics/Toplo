@@ -198,11 +198,27 @@ ToSelectElement >> newShortcutsStore [
 	^ ToSelectShortcutsStore new
 ]
 
+{ #category : #window }
+ToSelectElement >> onClosed [
+	self
+		deprecated: 'Use #onPopupWindowClosed'
+		transformWith: '`@rcvr onWindowClosed' -> '`@rcvr onPopupWindowClosed'.
+	self onPopupWindowClosed
+]
+
 { #category : #layout }
 ToSelectElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 
 	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
 	"self class name trace. ' ' trace. 'onLayout: context:' traceCr"
+]
+
+{ #category : #window }
+ToSelectElement >> onOpened [
+	self
+		deprecated: 'Use #onPopupWindowOpened'
+		transformWith: '`@rcvr onWindowOpened' -> '`@rcvr onPopupWindowOpened'.
+	self onPopupWindowOpened
 ]
 
 { #category : #window }
@@ -221,22 +237,6 @@ ToSelectElement >> onPopupWindowOpened [
 ToSelectElement >> onSelectionChangedInPopupListElement: anEvent [
 
 	self innerElement onSelectionChangedInPopupListElement: anEvent
-]
-
-{ #category : #window }
-ToSelectElement >> onWindowClosed [
-	self
-		deprecated: 'Use #onPopupWindowClosed'
-		transformWith: '`@rcvr onWindowClosed' -> '`@rcvr onPopupWindowClosed'.
-	self onPopupWindowClosed
-]
-
-{ #category : #window }
-ToSelectElement >> onWindowOpened [
-	self
-		deprecated: 'Use #onPopupWindowOpened'
-		transformWith: '`@rcvr onWindowOpened' -> '`@rcvr onPopupWindowOpened'.
-	self onPopupWindowOpened
 ]
 
 { #category : #accessing }

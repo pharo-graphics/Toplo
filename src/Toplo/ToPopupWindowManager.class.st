@@ -223,13 +223,13 @@ ToPopupWindowManager >> popupOnMouseEnter: aBoolean [
 ToPopupWindowManager >> popupWindowClosedEvent: anEvent [
 
 	self uninstallPickOutsideFilter.
-	self windowClosedEvent: anEvent
+	self closedEvent: anEvent
 ]
 
 { #category : #'event handling' }
 ToPopupWindowManager >> popupWindowOpenedEvent: anEvent [
 
-	self windowOpenedEvent: anEvent.
+	self openedEvent: anEvent.
 	self installPickOutsideFilter 
 ]
 

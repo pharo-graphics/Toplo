@@ -24,6 +24,7 @@ ToMenuNode >> item [
 ToMenuNode >> item: aMenuItem [
 
 	aMenuItem ifNil: [ ^ self ].
+	aMenuItem parent = self ifTrue: [ ^ self ].
 	aMenuItem removeFromParent.
 	self addChild: aMenuItem
 ]

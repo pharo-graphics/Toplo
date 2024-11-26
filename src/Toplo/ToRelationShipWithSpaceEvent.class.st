@@ -1,5 +1,5 @@
 Class {
-	#name : #ToWindowEvent,
+	#name : #ToRelationShipWithSpaceEvent,
 	#superclass : #BlEvent,
 	#instVars : [
 		'windowManager'
@@ -8,13 +8,13 @@ Class {
 }
 
 { #category : #accessing }
-ToWindowEvent >> windowManager [
+ToRelationShipWithSpaceEvent >> windowManager [
 
 	^ windowManager 
 ]
 
 { #category : #accessing }
-ToWindowEvent >> windowManager: anAnchoredWindowManager [
+ToRelationShipWithSpaceEvent >> windowManager: anAnchoredWindowManager [
 
 	windowManager := anAnchoredWindowManager 
 ]

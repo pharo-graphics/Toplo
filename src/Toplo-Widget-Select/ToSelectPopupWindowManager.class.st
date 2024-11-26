@@ -98,6 +98,14 @@ ToSelectPopupWindowManager >> newListElement [
 	^ newListElement
 ]
 
+{ #category : #'window handling' }
+ToSelectPopupWindowManager >> onClosed [
+
+	super onClosed.
+	" if case one of my children has focus "
+	self element onPopupWindowClosed
+]
+
 { #category : #'api - hooks' }
 ToSelectPopupWindowManager >> onInstalledIn: anElement [
 
@@ -119,6 +127,13 @@ ToSelectPopupWindowManager >> onInstalledIn: anElement [
 	sieve onInstalledIn: listElement
 ]
 
+{ #category : #'window handling' }
+ToSelectPopupWindowManager >> onOpened [
+
+	super onOpened.
+	self element onPopupWindowOpened
+]
+
 { #category : #'api - hooks' }
 ToSelectPopupWindowManager >> onUninstalledIn: anElement [
 
@@ -127,21 +142,6 @@ ToSelectPopupWindowManager >> onUninstalledIn: anElement [
 	sieve := nil.
 	listElement := nil.
 
-]
-
-{ #category : #'window handling' }
-ToSelectPopupWindowManager >> onWindowClosed [
-
-	super onWindowClosed.
-	" if case one of my children has focus "
-	self element onPopupWindowClosed
-]
-
-{ #category : #'window handling' }
-ToSelectPopupWindowManager >> onWindowOpened [
-
-	super onWindowOpened.
-	self element onPopupWindowOpened
 ]
 
 { #category : #'window handling' }

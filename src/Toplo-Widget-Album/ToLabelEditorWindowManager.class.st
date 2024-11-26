@@ -29,13 +29,13 @@ ToLabelEditorWindowManager >> initialize [
 { #category : #'window opening - closing handlers' }
 ToLabelEditorWindowManager >> labelEditorClosedEvent: anEvent [
 
-	self windowClosedEvent: anEvent
+	self closedEvent: anEvent
 ]
 
 { #category : #'window opening - closing handlers' }
 ToLabelEditorWindowManager >> labelEditorOpenedEvent: anEvent [
 
-	self windowOpenedEvent: anEvent
+	self openedEvent: anEvent
 ]
 
 { #category : #accessing }

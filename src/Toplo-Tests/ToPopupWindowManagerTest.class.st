@@ -38,7 +38,7 @@ ToPopupWindowManagerTest >> testAutoClosePickOutsideEventClass [
 	self assert: windowManager currentWindow isOpened.
 	closed := false.
 	windowManager currentWindow addEventHandler: (BlEventHandler
-			 on: ToWindowClosedEvent
+			 on: ToClosedEvent
 			 do: [ :anEvent | closed := true ]).
 	" 
 	two mouseUp are necessary because by default, windowManager popupOnMouseDown is true.
@@ -149,7 +149,7 @@ ToPopupWindowManagerTest >> testMouseUpEvent [
 	self assert: windowManager currentWindow isOpened.
 	closed := false.
 	windowManager currentWindow addEventHandler: (BlEventHandler
-			 on: ToWindowClosedEvent
+			 on: ToClosedEvent
 			 do: [ closed := true ]).
 	(windowManager autoCloseDelay + 1 milliSecond) wait.
 	position := e bounds inSpace center.
@@ -181,7 +181,7 @@ ToPopupWindowManagerTest >> testMouseUpInElementEvent [
 	self assert: windowManager currentWindow isOpened.
 	closed := false.
 	windowManager currentWindow addEventHandler: (BlEventHandler
-			 on: ToWindowClosedEvent
+			 on: ToClosedEvent
 			 do: [ :event | closed := true ]).
 	(windowManager autoCloseDelay + 1 milliSecond) wait.
 	BlSpace simulateMouseUpOn: e.
@@ -208,7 +208,7 @@ ToPopupWindowManagerTest >> testMouseUpInElementEventAfterLongDelayShouldCloseWi
 	self assert: windowManager currentWindow isOpened.
 	closed := false.
 	windowManager currentWindow addEventHandler: (BlEventHandler
-			 on: ToWindowClosedEvent
+			 on: ToClosedEvent
 			 do: [ :event | closed := true ]).
 	(windowManager autoCloseDelay + 1 milliSecond) wait.
 	BlSpace simulateMouseUpOn: e.
@@ -236,7 +236,7 @@ ToPopupWindowManagerTest >> testMouseUpOutsideEvent [
 	self assert: windowManager currentWindow isOpened.
 	closed := false.
 	windowManager currentWindow addEventHandler: (BlEventHandler
-			 on: ToWindowClosedEvent
+			 on: ToClosedEvent
 			 do: [ closed := true ]).
 	(windowManager autoCloseDelay + 1 milliSecond) wait.
 	event := BlMouseUpEvent primary position: 0 @ 0; timestamp: space time now.
@@ -269,7 +269,7 @@ ToPopupWindowManagerTest >> testNoAutoCloseEvenAfterLongDelay [
 	windowManager autoCloseDelay: nil.
 	self assert: windowManager autoCloseDelay isNil.
 	windowManager currentWindow addEventHandler: (BlEventHandler
-			 on: ToWindowClosedEvent
+			 on: ToClosedEvent
 			 do: [ :event | closed := true ]).
 	" use an huge waiting time "
 	(5000 milliSecond) wait.

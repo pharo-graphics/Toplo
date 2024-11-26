@@ -124,7 +124,7 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownOutside [
 
 	closed := false.
 	windowManager currentWindow addEventHandler: (BlEventHandler
-			 on: ToWindowClosedEvent
+			 on: ToClosedEvent
 			 do: [ :event | closed := true ]).
 	BlSpace simulateMouseMoveOutside: windowManager currentWindow.
 	BlSpace simulateMouseDownOn: space root.
@@ -160,7 +160,7 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseUpOutsideAssociateElement [
 
 	closed := false.
 	windowManager currentWindow addEventHandler: (BlEventHandler
-			 on: ToWindowClosedEvent
+			 on: ToClosedEvent
 			 do: [ :event | closed := true ]).
 	BlSpace simulateMouseDownOn: space root.
 	BlSpace simulateMouseUpOn: space root.

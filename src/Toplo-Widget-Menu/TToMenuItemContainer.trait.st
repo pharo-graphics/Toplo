@@ -16,7 +16,7 @@ TToMenuItemContainer >> addAllItems: aCollection [
 TToMenuItemContainer >> addItem: aMenuItem [
 
 	self items add: aMenuItem.
-	aMenuItem  addedInMenu: self
+	aMenuItem addedInMenuItemContainer: self
 ]
 
 { #category : #'t - menu item container - adding/removing' }
@@ -30,30 +30,64 @@ TToMenuItemContainer >> addedCustomMenuItem: aMenuItem [
 
 	self addedMenuItem: aMenuItem.
 	aMenuItem isSelectable ifTrue: [ ^ self ].
-	self itemList unselectableSelecter selectIndex: aMenuItem positionInMenu
+	self itemList unselectableSelecter selectIndex: aMenuItem positionInItemContainer
+]
+
+{ #category : #'t - menu item container - double dispatch' }
+TToMenuItemContainer >> addedFillerMenuItem: aFiller [
+
+	self addedMenuItem: aFiller.
+	self itemList unselectableSelecter selectIndex: aFiller positionInItemContainer
+]
+
+{ #category : #'t - menu item container - double dispatch' }
+TToMenuItemContainer >> addedMenu: aMenu [
+
+	aMenu parentItemContainer: self.
+	aMenu isSubmenu: true
+]
+
+{ #category : #'t - menu item container - double dispatch' }
+TToMenuItemContainer >> addedMenuBar: aMenuBar [
+
+	self addedMenuItem: aMenuBar.
+	self itemList unselectableSelecter selectIndex: aMenuBar positionInItemContainer
 ]
 
 { #category : #'t - menu item container - double dispatch' }
 TToMenuItemContainer >> addedMenuItem: aMenuItem [
 
-	aMenuItem parentMenu: self
+	aMenuItem parentItemContainer: self
 ]
 
 { #category : #'t - menu item container - double dispatch' }
 TToMenuItemContainer >> addedSeparatorMenuItem: aMenuItem [
 
 	self addedMenuItem: aMenuItem.
-	self itemList unselectableSelecter selectIndex: aMenuItem positionInMenu
+	self itemList unselectableSelecter selectIndex: aMenuItem positionInItemContainer
 ]
 
 { #category : #'t - menu item container - double dispatch' }
 TToMenuItemContainer >> addedUnknownItemKind: anItem [
 ]
 
+{ #category : #'t - menu item container - adding/removing' }
+TToMenuItemContainer >> closeAllWindowsForItemsSatisfying: aBlock [
+
+	self items do: [ :it |
+		(aBlock value: it) ifTrue: [ it menuWindowDo: [ :w | w close ] ] ]
+]
+
 { #category : #'t - menu item container - testing' }
 TToMenuItemContainer >> hasItems [ 
 
 	^ self items notEmpty
+]
+
+{ #category : #testing }
+TToMenuItemContainer >> isMenuItemContainer [
+
+	^ true
 ]
 
 { #category : #'t - menu item container - accessing' }

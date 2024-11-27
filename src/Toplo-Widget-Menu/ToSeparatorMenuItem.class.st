@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #'adding-removing' }
-ToSeparatorMenuItem >> addedInMenu: aMenu [
+ToSeparatorMenuItem >> addedInMenuItemContainer: aMenu [
 
 	aMenu addedSeparatorMenuItem: self
 ]

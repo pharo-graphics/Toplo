@@ -31,7 +31,6 @@ ToMenuItemEventHandler >> mouseEnterEvent: anEvent [
 ToMenuItemEventHandler >> mouseUpEvent: anEvent [
 
 	" check event and current target "
-
 	(anEvent currentTarget ~= target)
 		ifTrue: [ ^ self ].
 	target isEnabled ifFalse: [ ^ self ].

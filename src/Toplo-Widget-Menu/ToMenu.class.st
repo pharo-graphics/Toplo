@@ -5,10 +5,17 @@ Class {
 	#classTraits : 'TToMenuItemContainer classTrait + TToMenuWindowModel classTrait',
 	#instVars : [
 		'windowManager',
-		'itemList'
+		'itemList',
+		'isSubmenu'
 	],
 	#category : #'Toplo-Widget-Menu-Basic'
 }
+
+{ #category : #'adding-removing' }
+ToMenu >> addedInMenuItemContainer: aMenu [
+
+	aMenu addedMenu: self
+]
 
 { #category : #'window handling' }
 ToMenu >> autoPopupEvent: anEvent [
@@ -56,6 +63,7 @@ ToMenu >> initialize [
 
 	super initialize.
 	self fitContent.
+	isSubmenu := false.
 	windowManager := ToMenuWindowManager new.
 	self addEventHandler: windowManager.
 	windowManager builder: [ :menWin :request |
@@ -77,19 +85,33 @@ ToMenu >> isOpened [
 { #category : #'t - menu window model' }
 ToMenu >> isSubmenu [
 
-	^ parentMenu notNil
+	^ isSubmenu
+]
+
+{ #category : #accessing }
+ToMenu >> isSubmenu: aBoolean [
+
+	isSubmenu := aBoolean
 ]
 
 { #category : #'t - menu window model' }
 ToMenu >> isTopMenu [
 
-	^ self parentMenu isNil
+	^ self isSubmenu not
 ]
 
 { #category : #'t - menu window model' }
 ToMenu >> menuWindow [ 
 
 	^ windowManager currentWindow
+]
+
+{ #category : #'event handling' }
+ToMenu >> mouseOverEvent: anEvent [
+
+	(anEvent target hasInParentChain: self)
+		ifTrue: [ self menuWindow ifNil: [ self popupEvent: anEvent ] ]
+		ifFalse: [ self closeWindow ]
 ]
 
 { #category : #accessing }

@@ -51,7 +51,7 @@ ToContextMenu >> isOpened [
 	^ super isOpened
 ]
 
-{ #category : #'t - menu window model' }
+{ #category : #testing }
 ToContextMenu >> isSubmenu [ 
 
 	^ false

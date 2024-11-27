@@ -31,7 +31,7 @@ BlElement >> addTokenNamed: aSymbol withValue: anObject [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> addedInMenu: aMenu [
+BlElement >> addedInMenuItemContainer: aMenu [
 
 	aMenu addedUnknownItemKind: self
 ]
@@ -273,7 +273,19 @@ BlElement >> isMenu [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> isMenuBar [
+
+	^ false
+]
+
+{ #category : #'*Toplo' }
 BlElement >> isMenuItem [
+
+	^ false
+]
+
+{ #category : #'*Toplo' }
+BlElement >> isMenuItemContainer [
 
 	^ false
 ]

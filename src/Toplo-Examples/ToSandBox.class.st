@@ -3297,7 +3297,7 @@ ToSandBox class >> example_contactList [
 	panel openInSpace
 ]
 
-{ #category : #'context menu + menubar' }
+{ #category : #'context menu' }
 ToSandBox class >> example_contextMenu [
 
 	| container |
@@ -3539,7 +3539,7 @@ ToSandBox class >> example_horizontalPaneWithDivider [
 	pane openInSpace
 ]
 
-{ #category : #'context menu + menubar' }
+{ #category : #menu }
 ToSandBox class >> example_menuBar0 [
 
 	| mb m1 |
@@ -3554,7 +3554,7 @@ ToSandBox class >> example_menuBar0 [
 	mb openInSpace
 ]
 
-{ #category : #'context menu + menubar' }
+{ #category : #menu }
 ToSandBox class >> example_menuBar1 [
 
 	| win bar fileMenu |
@@ -3688,6 +3688,31 @@ ToSandBox class >> example_menuBar3 [
 	frame openInSpace
 ]
 
+{ #category : #menu }
+ToSandBox class >> example_menuBarInMenuBar [
+
+	| topMenuBar menuBar1 menuBar2 |
+	topMenuBar := ToMenuBar new.
+	menuBar1 := ToMenuBar new.
+	menuBar2 := ToMenuBar new.
+	{
+		menuBar1.
+		menuBar2 } do: [ :mb |
+		1 to: 3 do: [ :i |
+			| m |
+			m := ToMenu new labelText: 'Menu' , i asString.
+			1 to: 3 do: [ :j |
+			m addItem: (ToMenuItem new labelText: 'item ' , j asString) ].
+			mb addItem: m ].
+		topMenuBar addItem: mb ].
+
+	topMenuBar addItem: (ToMenuItem new
+			 labelText: 'Inspect';
+			 whenClickedDo: [ topMenuBar inspect ];
+			 yourself).
+	topMenuBar openInSpace
+]
+
 { #category : #tabs }
 ToSandBox class >> example_notPreservingPane [
 
@@ -3771,7 +3796,7 @@ ToSandBox class >> example_rootFrame1 [
 		openInSpace
 ]
 
-{ #category : #'context menu + menubar' }
+{ #category : #menu }
 ToSandBox class >> example_rootFrameWithContextMenu [
 
 	| win sub subsub bar textField helpMenu inner |
@@ -3807,12 +3832,15 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 	bar := ToMenuBar new
 		       hMatchParent;
 		       vFitContent.
+	bar nodeWrapping: false.
+	bar itemList hMatchParent.
 	bar addItem: (ToMenu new
 			 labelText: 'File';
 			 tooltipString: 'file stuffs').
 	bar addItem: (ToMenu new
 			 labelText: 'Edit';
 			 tooltipString: 'editing stuffs').
+			
 	bar addFiller.
 
 	inner := ToPane horizontal.
@@ -3842,7 +3870,7 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 	win openInSpace
 ]
 
-{ #category : #'context menu + menubar' }
+{ #category : #menu }
 ToSandBox class >> example_rootFrameWithContextMenu_menubarVertical [
 
 	| win menu sub subsub bar |
@@ -5942,7 +5970,7 @@ ToSandBox class >> example_withCheckBox [
 	menu addItem: (ToMenuItem new labelText: 'Open file').
 	menu items last icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	menu addItem: (ToMenuItem new labelText: 'Disabled').
-	menu itemList disabledSelecter selectIndex: menu items last positionInMenu.
+	menu itemList disabledSelecter selectIndex: menu items last positionInItemContainer.
 	
 	menu addSeparator.
 	menu addItem: (ToCheckMenuItem new

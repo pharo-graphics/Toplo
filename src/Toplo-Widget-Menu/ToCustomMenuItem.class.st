@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #'adding-removing' }
-ToCustomMenuItem >> addedInMenu: aMenu [
+ToCustomMenuItem >> addedInMenuItemContainer: aMenu [
 
 	builder value: innerElement.
 	aMenu addedCustomMenuItem: self

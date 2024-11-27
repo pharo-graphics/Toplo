@@ -1,14 +1,13 @@
 Class {
 	#name : #ToMenuItemElement,
 	#superclass : #ToElement,
-	#instVars : [
-		'parentMenu'
-	],
+	#traits : 'TToMenuItem',
+	#classTraits : 'TToMenuItem classTrait',
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
 { #category : #'adding-removing' }
-ToMenuItemElement >> addedInMenu: aMenu [
+ToMenuItemElement >> addedInMenuItemContainer: aMenu [
 
 	aMenu addedMenuItem: self
 ]
@@ -28,9 +27,8 @@ ToMenuItemElement >> closeRequestFrom: anItem [
 { #category : #'adding-removing' }
 ToMenuItemElement >> closeSiblingMenuWindow [
 
-	self parentMenu ifNil: [ ^ self ].
-	self parentMenu items do: [ :it |
-		it = self ifFalse: [ it menuWindowDo: [ :w | w close ] ] ]
+	parentItemContainer ifNil: [ ^ self ].
+	parentItemContainer closeAllWindowsForItemsSatisfying: [ :it | it ~= self ]
 ]
 
 { #category : #'t - menu window model' }
@@ -87,24 +85,12 @@ ToMenuItemElement >> initialize [
 	self addEventHandler: self defaultEventHandler
 ]
 
-{ #category : #testing }
-ToMenuItemElement >> isMenuItem [ 
-
-	^ true
-]
-
 { #category : #'t - menu window model' }
 ToMenuItemElement >> isOpened [
 
 	^ false
 
 	
-]
-
-{ #category : #'t - menu window model' }
-ToMenuItemElement >> isSubmenu [ 
-
-	^ false
 ]
 
 { #category : #'t - menu window model' }
@@ -117,45 +103,19 @@ ToMenuItemElement >> isTopMenu [
 ToMenuItemElement >> menuWindowDo: aValuable [
 ]
 
-{ #category : #'parent menu' }
-ToMenuItemElement >> parentMenu [
-
-	 ^ parentMenu
-]
-
-{ #category : #'parent menu' }
-ToMenuItemElement >> parentMenu: aMenu [
-
-	parentMenu := aMenu
-]
-
-{ #category : #'parent menu' }
-ToMenuItemElement >> parentMenuDo: aBlock [
-
-	self parentMenu ifNil: [ ^ self ].
-	aBlock value: self parentMenu
-]
-
-{ #category : #accessing }
-ToMenuItemElement >> positionInMenu [
-
-	self parentMenuDo: [ :pm | ^ pm items indexOf: self ].
-	^ 0
-]
-
 { #category : #'adding-removing' }
 ToMenuItemElement >> removedFromMenu: aMenu [
 
 	super removedFromMenu: aMenu.
-	self parentMenu: nil
+	self parentItemContainer: nil
 ]
 
 { #category : #'t - menu window model' }
 ToMenuItemElement >> rootMenu [
 
 	| rm |
-	parentMenu ifNil: [ ^ self ].
-	rm := parentMenu rootMenu.
+	parentItemContainer ifNil: [ ^ self ].
+	rm := parentItemContainer rootMenu.
 	^ rm isMenu
 		  ifTrue: [ rm ]
 		  ifFalse: [ self ]

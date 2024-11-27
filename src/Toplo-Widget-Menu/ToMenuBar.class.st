@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMenuBar,
 	#superclass : #ToElement,
-	#traits : 'TToMenuItemContainer + TToOrientable',
-	#classTraits : 'TToMenuItemContainer classTrait + TToOrientable classTrait',
+	#traits : 'TToMenuItem + TToMenuItemContainer + TToOrientable',
+	#classTraits : 'TToMenuItem classTrait + TToMenuItemContainer classTrait + TToOrientable classTrait',
 	#instVars : [
 		'autoOpen'
 	],
@@ -24,9 +24,17 @@ ToMenuBar >> addMenu: aMenu [
 	self addItem: aMenu
 ]
 
-{ #category : #'t - menu item container - double dispatch' }
-ToMenuBar >> addedMenuItem: aMenuItem [
+{ #category : #'adding-removing' }
+ToMenuBar >> addedInMenuItemContainer: aMenuItemContainer [
 
+	aMenuItemContainer addedMenuBar: self
+]
+
+{ #category : #'t - menu item container - double dispatch' }
+ToMenuBar >> addedMenu: aMenu [
+
+	aMenu parentItemContainer: self.
+	aMenu isSubmenu: false
 ]
 
 { #category : #accessing }
@@ -43,6 +51,14 @@ ToMenuBar >> autoOpen: anObject [
 
 { #category : #'friend only' }
 ToMenuBar >> closeRequestFrom: anItem [
+
+	self items do: [ :i | i closeRequestFrom: anItem ]
+]
+
+{ #category : #'t - menu window model' }
+ToMenuBar >> closeWindow [
+
+	itemList do: [ :it | it isMenuItem ifTrue: [ it closeWindow ] ]
 ]
 
 { #category : #initialization }
@@ -78,7 +94,7 @@ ToMenuBar >> initialize [
 ]
 
 { #category : #testing }
-ToMenuBar >> isMenu [
+ToMenuBar >> isMenuBar [
 
 	^ true
 ]
@@ -91,10 +107,30 @@ ToMenuBar >> layoutStrategy [
 
 ]
 
+{ #category : #enumerating }
+ToMenuBar >> menuWindowDo: aValuable [
+]
+
+{ #category : #'event handling' }
+ToMenuBar >> mouseOverEvent: anEvent [
+
+	autoOpen ifFalse: [ ^ self ].
+
+	" auto-open action "
+	self items do: [ :m |
+		m isMenuItemContainer ifTrue: [ m mouseOverEvent: anEvent ] ]
+]
+
 { #category : #skin }
 ToMenuBar >> newRawSkin [
 
 	^ ToMenuBarSkin new
+]
+
+{ #category : #initialization }
+ToMenuBar >> nodeWrapping: aBoolean [
+
+	itemList nodeWrapping: aBoolean
 ]
 
 { #category : #adding }

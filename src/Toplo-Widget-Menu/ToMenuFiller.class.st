@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #initialization }
-ToMenuFiller >> constraintInMenuNode: aNode [
+ToMenuFiller >> constraintMenuNode: aNode [
 	" Sent to let any menu item to adapt its resizer/layout  constraints before the node is added in the menu list. Notice that I am sent before the node adding + the selections shift is actually finished. Thus, this place is not adequate for changing one of the list selections (use #addedInMenu for that) "
 	
 	aNode matchParent

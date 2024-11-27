@@ -3,6 +3,9 @@ Class {
 	#superclass : #ToMenuWindow,
 	#traits : 'TToMenuItemContainer + TToMenuWindowModel',
 	#classTraits : 'TToMenuItemContainer classTrait + TToMenuWindowModel classTrait',
+	#instVars : [
+		'itemList'
+	],
 	#category : #'Toplo-Widget-Menu-Context menu'
 }
 

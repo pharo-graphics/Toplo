@@ -2,7 +2,8 @@ Class {
 	#name : #ToCustomMenuItem,
 	#superclass : #ToMenuItemElement,
 	#instVars : [
-		'innerElement'
+		'innerElement',
+		'builder'
 	],
 	#category : #'Toplo-Widget-Menu-Basic'
 }
@@ -10,21 +11,30 @@ Class {
 { #category : #'adding-removing' }
 ToCustomMenuItem >> addedInMenu: aMenu [
 
+	builder value: innerElement.
 	aMenu addedCustomMenuItem: self
 
+]
+
+{ #category : #accessing }
+ToCustomMenuItem >> builder: aValuable [
+	" aValuable takes the inner element as argument "
+	builder := aValuable
+]
+
+{ #category : #initialization }
+ToCustomMenuItem >> initialize [ 
+
+	super initialize.
+	innerElement := ToPane horizontal.
+	self addChild: innerElement.
+	builder := [ :e | ]
 ]
 
 { #category : #accessing }
 ToCustomMenuItem >> innerElement [
 
 	^ innerElement
-]
-
-{ #category : #accessing }
-ToCustomMenuItem >> innerElement: anElement [
-
-	innerElement := anElement.
-	self addChild: anElement
 ]
 
 { #category : #testing }

@@ -1599,7 +1599,7 @@ ToSandBox class >> example_OpenSaveSaveAsCloseWithSubmenu [
 			        italic;
 			        foreground: (Color blue alpha: 0.7)).
 	menu addSeparator.
-	menu addItem: (ToCustomMenuItem new innerElement: lbl).
+	menu addItem: (ToCustomMenuItem new builder: [ :e | e addChild: lbl]).
 
 	menu addItem: (ToMenuItem new
 			 icon: (ToImage inner: (self iconNamed: #solidMenu));
@@ -3587,8 +3587,9 @@ ToSandBox class >> example_menuBar1 [
 			 tooltipString: 'help stuffs';
 			 yourself).
 
-	bar items last addItem:
-		(ToCustomMenuItem new innerElement: (ToLabel text: 'Some help...')).
+	bar items last addItem: (ToCustomMenuItem new
+			 builder: [ :e | e addChild: (ToLabel text: 'Some help...') ];
+			 yourself).
 	bar border: (BlBorder paint: Color red).
 
 	win pane addChild: bar.
@@ -3818,13 +3819,13 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 	textField := ToTextField new
 		             withLineWrapping;
 		             width: 200.
-	inner addChild: (ToLabel new text: 'Token :').
+	inner addChild: (ToLabel new text: 'Token: ').
 	inner addChild: textField.
 	inner childrenDo: [ :child |
 		child constraintsDo: [ :c | c linear vertical alignCenter ] ].
 	
-	bar addItem: (ToCustomMenuItem new
-			 innerElement: inner;
+	bar addItem: (ToCustomMenuItem new builder: [ :e | e addChild:
+			 inner];
 			 yourself).
 	helpMenu := ToMenu new
 		            labelText: 'Help';
@@ -3880,7 +3881,7 @@ ToSandBox class >> example_rootFrameWithContextMenu_menubarVertical [
 			 tooltipString: 'editing stuffs').
 	bar addFiller.
 	bar addSeparator.
-	bar addMenu: (ToMenu new
+	bar addItem: (ToMenu new
 			 labelText: 'Help';
 			 tooltipString: 'help stuffs').
 
@@ -6002,14 +6003,14 @@ ToSandBox class >> example_withCustomMenuItems [
 			 labelText: 'Export';
 			 whenClickedDo: [ self inform: 'Export' ]).
 	menu addSeparator.
-	menu addItem: (ToCustomMenuItem new
-			 innerElement: (ToSwitchButton new
+	menu addItem: (ToCustomMenuItem new builder: [ :e | e 
+			 addChild: (ToSwitchButton new
 					  checked: true;
 					  beEndToStart;
 					startFlexible: true;
 					hMatchParent;
 					  labelText: 'Switch';
-					  yourself);
+					  yourself)];
 			 yourself).
 
 	grp := ToCheckableGroup new.
@@ -6042,11 +6043,11 @@ ToSandBox class >> example_withCustomMenuItems [
 		fontSize: 12;
 		foreground: Color blue.
 
-	menu addItem: (ToCustomMenuItem new
-			 innerElement: lbl;
+	menu addItem: (ToCustomMenuItem new builder: [ :e | e 
+			 addChild: lbl;
 			 margin: (BlInsets
 					  top: 2;
-					  bottom: 4)).
+					  bottom: 4)]).
 	menu addAllItems: grp registeredCheckables.
 
 	grp := ToCheckableGroup new.
@@ -6081,10 +6082,10 @@ ToSandBox class >> example_withCustomMenuItems [
 			        fontSize: 12;
 			        foreground: (Color blue alpha: 0.7)).
 	menu addItem: (ToCustomMenuItem new
-			 innerElement: lbl;
+			 builder: [ :e | e addChild: lbl;
 			 margin: (BlInsets
 					  top: 2;
-					  bottom: 4)).
+					  bottom: 4)]).
 	menu addAllItems: grp registeredCheckables.
 	menu addSeparator.
 	textField := ToTextField new
@@ -6096,7 +6097,7 @@ ToSandBox class >> example_withCustomMenuItems [
 								               yourself)) ];
 		             withLineWrapping;
 		             width: 200.
-	menu addItem: (ToCustomMenuItem new innerElement: textField).
+	menu addItem: (ToCustomMenuItem new builder: [ :e | e addChild: textField ]).
 	menu addSeparator.
 	sub := ToMenu new labelText: 'Save All'.
 	sub addItem: (ToMenuItem new labelText: 'Locally').

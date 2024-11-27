@@ -17,37 +17,25 @@ ToMenuBarEventFilter >> eventsToHandle [
 ToMenuBarEventFilter >> mouseDownEvent: anEvent [
 	"switch auto=open filter "
 
-	" mouse down on the menubar stops auto-open "
+	" mouse down on the menubar, outside menu items or, ouside the menubar is a pick outside "
 
 	(anEvent target = target or: [
 		 target items noneSatisfy: [ :m |
-			 anEvent target hasInParentChain: m ] ]) ifTrue: [ " stop auto open on mouse over "
-		target autoOpen: false.
+			 anEvent target hasInParentChain: m ] ]) ifTrue: [
+		target dispatchEvent: ToPickOutsideEvent new.
 		^ self ].
 
-	" a mouse down on an opened menu stops auto-open"
-	target autoOpen ifTrue: [
-		target items do: [ :m |
-			m isMenu ifTrue: [
-				((anEvent target hasInParentChain: m) and: [ m menuWindow notNil ])
-					ifTrue: [
-						target autoOpen: false.
-						^ self ] ] ] ].
-
-	" now auto open on mouse over  "
-	target autoOpen: true
+	target dispatchEvent: ToPickInsideEvent new
 ]
 
-{ #category : #'api - hooks' }
-ToMenuBarEventFilter >> onInstalledIn: anElement [
+{ #category : #accessing }
+ToMenuBarEventFilter >> target [
 
-	super onInstalledIn: anElement.
-	target := anElement
+	^ target
 ]
 
-{ #category : #'api - hooks' }
-ToMenuBarEventFilter >> onUninstalledIn: anElement [
+{ #category : #accessing }
+ToMenuBarEventFilter >> target: anObject [
 
-	super onUninstalledIn: anElement.
-	target := nil
+	target := anObject
 ]

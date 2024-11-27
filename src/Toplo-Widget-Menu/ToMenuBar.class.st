@@ -69,7 +69,6 @@ ToMenuBar >> initialize [
 	self addEventHandler: (BlEventHandler
 			 on: ToLayoutOrientationChangedEvent
 			 do: [ self configureLayout ]).
-	self addEventFilter: ToMenuBarEventFilter new.
 	self addEventHandler: ToMenuBarEventHandler new.
 	self itemList uniformNodeWidth: false.
 	self addChild: self itemList.

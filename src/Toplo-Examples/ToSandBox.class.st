@@ -3575,7 +3575,11 @@ ToSandBox class >> example_menuBar1 [
 			 labelText: 'Open';
 			 tooltipString: 'open stuffs';
 			 whenClickedDo: [ :event | event traceCr ]).
-	fileMenu padding: (BlInsets all: 10).
+	fileMenu addSeparator.
+	fileMenu addItem: (ToMenuItem new
+			 labelText: 'Close';
+			 tooltipString: 'close stuffs';
+			 whenClickedDo: [ :event | event traceCr ]).
 
 	"bar addFiller."
 	bar addItem: (ToMenu new
@@ -3769,7 +3773,7 @@ ToSandBox class >> example_rootFrame1 [
 { #category : #'context menu + menubar' }
 ToSandBox class >> example_rootFrameWithContextMenu [
 
-	| win sub subsub bar textField |
+	| win sub subsub bar textField helpMenu inner |
 	win := ToInnerWindow new title: 'Context menu Example'.
 	win width: 600.
 
@@ -3809,14 +3813,27 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 			 labelText: 'Edit';
 			 tooltipString: 'editing stuffs').
 	bar addFiller.
+
+	inner := ToPane horizontal.
 	textField := ToTextField new
 		             withLineWrapping;
 		             width: 200.
-	bar addChild: (ToLabel new text: 'Token :').
-	bar addChild: textField.
-	bar addItem: (ToMenu new
-			 labelText: 'Help';
-			 tooltipString: 'help stuffs').
+	inner addChild: (ToLabel new text: 'Token :').
+	inner addChild: textField.
+	inner childrenDo: [ :child |
+		child constraintsDo: [ :c | c linear vertical alignCenter ] ].
+	
+	bar addItem: (ToCustomMenuItem new
+			 innerElement: inner;
+			 yourself).
+	helpMenu := ToMenu new
+		            labelText: 'Help';
+		            tooltipString: 'help stuffs'.
+	helpMenu addItem: (ToMenuItem new
+			 labelText: 'Inspect';
+			 whenClickedDo: [ bar inspect ];
+			 yourself).
+	bar addItem: helpMenu.
 
 	bar position: 0 @ 0.
 	bar border: (BlBorder paint: Color black).
@@ -3858,7 +3875,7 @@ ToSandBox class >> example_rootFrameWithContextMenu_menubarVertical [
 	bar addItem: (ToMenu new
 			 labelText: 'File';
 			 tooltipString: 'file stuffs').
-	bar addMenu: (ToMenu new
+	bar addItem: (ToMenu new
 			 labelText: 'Edit';
 			 tooltipString: 'editing stuffs').
 	bar addFiller.

@@ -267,6 +267,18 @@ BlElement >> isEnabled [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> isMenu [
+
+	^ false
+]
+
+{ #category : #'*Toplo' }
+BlElement >> isMenuItem [
+
+	^ false
+]
+
+{ #category : #'*Toplo' }
 BlElement >> isPreventedSkinEvent: aSkinEvent [
 
 	^ self isPreventedSkinEventClass: aSkinEvent class

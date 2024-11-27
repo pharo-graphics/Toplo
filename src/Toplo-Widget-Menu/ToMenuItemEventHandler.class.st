@@ -23,7 +23,7 @@ ToMenuItemEventHandler >> mouseEnterEvent: anEvent [
 	target isTopMenu ifTrue: [ ^ self ].
 	target closeSiblingMenuWindow.
 	target isMenu ifFalse: [ ^ self ].
-	target closeWindow.
+	target isOpened ifTrue: [ ^ self ].
 	target popupEvent: anEvent
 ]
 

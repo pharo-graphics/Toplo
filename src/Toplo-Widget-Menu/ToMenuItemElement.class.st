@@ -30,7 +30,7 @@ ToMenuItemElement >> closeSiblingMenuWindow [
 
 	self parentMenu ifNil: [ ^ self ].
 	self parentMenu items do: [ :it |
-		it menuWindowDo: [ :w |  w close ] ]
+		it = self ifFalse: [ it menuWindowDo: [ :w | w close ] ] ]
 ]
 
 { #category : #'t - menu window model' }
@@ -88,9 +88,9 @@ ToMenuItemElement >> initialize [
 ]
 
 { #category : #testing }
-ToMenuItemElement >> isMenu [
+ToMenuItemElement >> isMenuItem [ 
 
-	^ false
+	^ true
 ]
 
 { #category : #'t - menu window model' }

@@ -21,7 +21,6 @@ ToMenuItemElement >> closeOnMouseEvent [
 { #category : #'friend only' }
 ToMenuItemElement >> closeRequestFrom: anItem [
 
-	self closeWindow
 ]
 
 { #category : #'adding-removing' }
@@ -100,6 +99,21 @@ ToMenuItemElement >> isTopMenu [
 ]
 
 { #category : #'t - menu window model' }
+ToMenuItemElement >> menuBar [
+
+	parentItemContainer ifNil: [ ^ nil ].
+	^ parentItemContainer menuBar
+]
+
+{ #category : #'t - menu window model' }
+ToMenuItemElement >> menuBarDo: aBlock [
+
+	| mb |
+	mb := self menuBar ifNil: [ ^ self ].
+	aBlock value: mb
+]
+
+{ #category : #'t - menu window model' }
 ToMenuItemElement >> menuWindowDo: aValuable [
 ]
 
@@ -113,10 +127,16 @@ ToMenuItemElement >> removedFromMenu: aMenu [
 { #category : #'t - menu window model' }
 ToMenuItemElement >> rootMenu [
 
-	| rm |
 	parentItemContainer ifNil: [ ^ self ].
-	rm := parentItemContainer rootMenu.
-	^ rm isMenu
-		  ifTrue: [ rm ]
-		  ifFalse: [ self ]
+	parentItemContainer isMenuBar ifTrue: [ 
+		^ self isMenu ifTrue: [ self ] ifFalse: [ nil ] ].
+	^ parentItemContainer rootMenu
+]
+
+{ #category : #'t - menu window model' }
+ToMenuItemElement >> rootMenuDo: aBlock [
+
+	| rm |
+	rm := self rootMenu ifNil: [ ^ self ].
+	aBlock value: rm
 ]

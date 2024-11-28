@@ -61,6 +61,18 @@ ToPopupWindowManager >> closeWindow [
 
 ]
 
+{ #category : #'event handling' }
+ToPopupWindowManager >> closeWindowOnMouseDownEvent: anEvent [
+
+	self closeWindow
+]
+
+{ #category : #'event handling' }
+ToPopupWindowManager >> closeWindowOnMouseUp: anEvent [
+
+	self closeWindow
+]
+
 { #category : #initialization }
 ToPopupWindowManager >> defaultAutoCloseDelay [
 
@@ -137,15 +149,14 @@ ToPopupWindowManager >> mouseDownEvent: anEvent [
 	anEvent button = mouseButton ifFalse: [ ^ self ].
 	currentWindow ifNotNil: [
 		closeOnMouseDown ifTrue: [
-			currentWindow isOpened ifTrue: [ currentWindow close ].
+			currentWindow isOpened ifTrue: [
+				self closeWindowOnMouseDownEvent: anEvent ].
 			^ self ] ].
 	popupOnMouseDown ifFalse: [ ^ self ].
 	currentWindow ifNotNil: [ ^ self ].
 
 	self popupEvent: anEvent.
 	anEvent consume
-	" currentWindow can be nil in case the element is disabled "
-
 ]
 
 { #category : #'event handling' }
@@ -176,7 +187,7 @@ ToPopupWindowManager >> mouseUpEvent: anEvent [
 	delay := anEvent timestamp - currentWindow popupTimestamp.
 	delay > autoCloseDelay ifFalse: [ ^ self ].
 	anEvent consume.
-	currentWindow close
+	self closeWindowOnMouseUp: anEvent
 ]
 
 { #category : #'window handling' }
@@ -185,7 +196,7 @@ ToPopupWindowManager >> newPickOutsideFilter [
 	^ ToPopupPickOutsideEventFilter new
 		  windowManager: self;
 		  upCountRequired: upCountRequired;
-		  yourself 
+		  yourself
 ]
 
 { #category : #'window handling' }

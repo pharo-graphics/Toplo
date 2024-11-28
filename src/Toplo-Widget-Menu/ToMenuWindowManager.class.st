@@ -4,6 +4,32 @@ Class {
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
+{ #category : #'event handling' }
+ToMenuWindowManager >> cancelAutoOpenOnMenu: aMenu [
+
+	aMenu isTopMenu ifFalse: [ ^ self ].
+	aMenu parentItemContainer isMenuBar ifFalse: [ ^ self ].
+	aMenu parentItemContainer cancelAutoOpen 
+]
+
+{ #category : #'event handling' }
+ToMenuWindowManager >> closeWindowOnMouseDownEvent: anEvent [
+
+	| menu |
+	super closeWindowOnMouseDownEvent: anEvent.
+	menu := anEvent currentTarget.
+	self cancelAutoOpenOnMenu: menu
+]
+
+{ #category : #'event handling' }
+ToMenuWindowManager >> closeWindowOnMouseUp: anEvent [
+
+	| menu |
+	super closeWindowOnMouseUp: anEvent.
+	menu := anEvent currentTarget.
+	self cancelAutoOpenOnMenu: menu
+]
+
 { #category : #initialization }
 ToMenuWindowManager >> defaultPositionHook [
 

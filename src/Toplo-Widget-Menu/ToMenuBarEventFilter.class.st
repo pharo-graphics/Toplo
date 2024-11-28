@@ -10,7 +10,7 @@ Class {
 { #category : #'api - accessing' }
 ToMenuBarEventFilter >> eventsToHandle [
 
-	^ { BlMouseDownEvent.  }
+	^ { BlMouseDownEvent. BlMouseUpEvent}
 ]
 
 { #category : #'mouse handlers' }
@@ -19,6 +19,8 @@ ToMenuBarEventFilter >> mouseDownEvent: anEvent [
 
 	" mouse down on the menubar, outside menu items or, ouside the menubar is a pick outside "
 
+	" do nothing in case of a sub-menuBar "
+	target parentItemContainerDo: [ :mb | ^ self ].
 	(anEvent target = target or: [
 		 target items noneSatisfy: [ :m |
 			 anEvent target hasInParentChain: m ] ]) ifTrue: [
@@ -26,6 +28,21 @@ ToMenuBarEventFilter >> mouseDownEvent: anEvent [
 		^ self ].
 
 	target dispatchEvent: ToPickInsideEvent new
+]
+
+{ #category : #'mouse handlers' }
+ToMenuBarEventFilter >> mouseUpEvent: anEvent [
+	"switch auto=open filter "
+
+	" mouse up outside the menubar cancels autoOpen "
+
+	" do nothing in case of a sub-menuBar "
+	target parentItemContainerDo: [ :mb | ^ self ].
+	
+	(anEvent target = target or: [
+		 target items noneSatisfy: [ :m |
+			 anEvent target hasInParentChain: m ] ]) ifTrue: [
+		target cancelAutoOpen ]
 ]
 
 { #category : #accessing }

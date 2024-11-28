@@ -45,9 +45,3 @@ TToMenuWindowModel >> popupEvent: anEvent [
 
 	^ self explicitRequirement 
 ]
-
-{ #category : #'t - menu window model' }
-TToMenuWindowModel >> rootMenu [
-
-	^ self explicitRequirement 
-]

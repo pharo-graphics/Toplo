@@ -37,22 +37,28 @@ ToMenuBar >> addedMenu: aMenu [
 	aMenu isSubmenu: false
 ]
 
-{ #category : #accessing }
+{ #category : #'auto opening' }
 ToMenuBar >> autoOpen [
 
 	^ autoOpen
 ]
 
-{ #category : #accessing }
+{ #category : #'auto opening' }
 ToMenuBar >> autoOpen: anObject [
 
 	autoOpen := anObject
 ]
 
+{ #category : #'auto opening' }
+ToMenuBar >> cancelAutoOpen [
+
+	self rootMenuBar autoOpen: false
+]
+
 { #category : #'friend only' }
 ToMenuBar >> closeRequestFrom: anItem [
 
-	autoOpen := false.
+	self cancelAutoOpen.
 	self items do: [ :i | i closeRequestFrom: anItem ]
 ]
 
@@ -94,6 +100,12 @@ ToMenuBar >> initialize [
 
 ]
 
+{ #category : #'auto opening' }
+ToMenuBar >> isAutoOpen [
+
+	^ self rootMenuBar autoOpen
+]
+
 { #category : #testing }
 ToMenuBar >> isMenuBar [
 
@@ -108,6 +120,12 @@ ToMenuBar >> layoutStrategy [
 
 ]
 
+{ #category : #'t - menu window model' }
+ToMenuBar >> menuBar [
+
+	^ self
+]
+
 { #category : #enumerating }
 ToMenuBar >> menuWindowDo: aValuable [
 ]
@@ -115,7 +133,7 @@ ToMenuBar >> menuWindowDo: aValuable [
 { #category : #'event handling' }
 ToMenuBar >> mouseOverEvent: anEvent [
 
-	autoOpen ifFalse: [ ^ self ].
+	self isAutoOpen ifFalse: [ ^ self ].
 
 	" auto-open action "
 	self items do: [ :m |
@@ -144,7 +162,14 @@ ToMenuBar >> removeMenu: aMenu [
 ]
 
 { #category : #accessing }
-ToMenuBar >> rootMenu [
+ToMenuBar >> rootMenuBar [ 
 
-	^ self
+	parentItemContainer ifNil: [ ^ self ].
+	^ parentItemContainer rootMenuBar
+]
+
+{ #category : #'auto opening' }
+ToMenuBar >> startAutoOpen [
+
+	self rootMenuBar autoOpen: true
 ]

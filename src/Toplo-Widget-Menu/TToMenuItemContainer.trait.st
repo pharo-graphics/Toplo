@@ -51,7 +51,8 @@ TToMenuItemContainer >> addedMenu: aMenu [
 TToMenuItemContainer >> addedMenuBar: aMenuBar [
 
 	self addedMenuItem: aMenuBar.
-	self itemList unselectableSelecter selectIndex: aMenuBar positionInItemContainer
+	self itemList unselectableSelecter selectIndex:
+		aMenuBar positionInItemContainer
 ]
 
 { #category : #'t - menu item container - double dispatch' }

@@ -23,6 +23,14 @@ ToContextMenuWindowManager >> initialize [
 	self useSecondaryMouseButton
 ]
 
+{ #category : #'window handling' }
+ToContextMenuWindowManager >> newPickOutsideFilter [
+
+	^ super newPickOutsideFilter
+		  checkElement: false;
+		  yourself
+]
+
 { #category : #accessing }
 ToContextMenuWindowManager >> windowClass [
 

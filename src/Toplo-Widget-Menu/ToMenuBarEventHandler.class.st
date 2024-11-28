@@ -62,11 +62,11 @@ ToMenuBarEventHandler >> onUninstalledIn: anElement [
 { #category : #'event handling' }
 ToMenuBarEventHandler >> pickInsideEvent: anEvent [
 
-	anEvent currentTarget autoOpen: true
+	anEvent currentTarget startAutoOpen
 ]
 
 { #category : #'event handling' }
 ToMenuBarEventHandler >> pickOutsideEvent: anEvent [
 
-	anEvent currentTarget autoOpen: false
+	anEvent currentTarget cancelAutoOpen 
 ]

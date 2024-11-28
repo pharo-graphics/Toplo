@@ -19,6 +19,12 @@ ToContextMenu >> bar [
 	^ self itemList
 ]
 
+{ #category : #'t - menu window model' }
+ToContextMenu >> close [
+
+	super close
+]
+
 { #category : #'friend only' }
 ToContextMenu >> closeRequestFrom: anItem [
 
@@ -67,6 +73,12 @@ ToContextMenu >> isTopMenu [
 ToContextMenu >> itemContainer [
 
 	^ self 
+]
+
+{ #category : #accessing }
+ToContextMenu >> menuBar [ 
+	" a context menu can't be in a menubar "
+	^ nil
 ]
 
 { #category : #'t - menu window model' }

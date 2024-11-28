@@ -35,7 +35,8 @@ ToMenuItemEventHandler >> mouseUpEvent: anEvent [
 		ifTrue: [ ^ self ].
 	target isEnabled ifFalse: [ ^ self ].
 	target closeOnMouseEvent ifFalse: [ ^ self ].
-	target rootMenu closeRequestFrom: target
+	target rootMenuDo: [ :rm | rm closeRequestFrom: target ].
+	target menuBarDo: [ :mb | mb cancelAutoOpen ]
 ]
 
 { #category : #'api - hooks' }

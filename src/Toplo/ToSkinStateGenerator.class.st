@@ -65,7 +65,8 @@ ToSkinStateGenerator >> dragEndEvent: anEvent [
 ToSkinStateGenerator >> dragEnterEvent: anEvent [
 
 	target isEnabled ifFalse: [ ^ self ].
-	leaved := false
+	leaved := false.
+	dragged := true
 ]
 
 { #category : #'dnd handlers' }
@@ -82,7 +83,8 @@ ToSkinStateGenerator >> dragEvent: anEvent [
 ToSkinStateGenerator >> dragLeaveEvent: anEvent [
 
 	target isEnabled ifFalse: [ ^ self ].
-	leaved := true
+	leaved := true.
+	dragged := false
 ]
 
 { #category : #'dnd handlers' }
@@ -183,7 +185,6 @@ ToSkinStateGenerator >> mouseEnterEvent: anEvent [
 
 	target isEnabled ifFalse: [ ^ self ].
 	leaved := false.
-	dragged ifTrue: [ ^ self ].
 	self enqueueSkinState:
 		(ToTransientState skinEvent:
 			 (ToHoveredSkinEvent sourceEvent: anEvent))
@@ -193,10 +194,8 @@ ToSkinStateGenerator >> mouseEnterEvent: anEvent [
 ToSkinStateGenerator >> mouseLeaveEvent: anEvent [
 
 	target isEnabled ifFalse: [ ^ self ].
-	dragged ifTrue: [ ^ self ].
 	leaved ifTrue: [ ^ self ].
 	leaved := true.
-	target isEnabled ifFalse: [ ^ self ].
 	self enqueueSkinState:
 		(ToTransientState skinEvent:
 			 (ToLeavedSkinEvent sourceEvent: anEvent))

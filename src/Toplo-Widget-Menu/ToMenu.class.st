@@ -34,17 +34,26 @@ ToMenu >> bar [
 ]
 
 { #category : #accessing }
+ToMenu >> builder: aBlock [
+
+	self in: aBlock 
+]
+
+{ #category : #accessing }
 ToMenu >> buttonClickEventClass [
 
 	^ BlMouseDownEvent
 ]
 
+{ #category : #'friend only' }
+ToMenu >> closeRequestFrom: anItem [
+
+	self closeWindow
+]
+
 { #category : #'t - menu window model' }
 ToMenu >> closeWindow [
 
-	" first ask the items to close "
-	self items do: [ :it | it closeWindow ].
-	" now my window "
 	self menuWindow ifNotNil: [:mw | mw close ].
 
 ]
@@ -124,10 +133,4 @@ ToMenu >> newRawSkin [
 ToMenu >> popupEvent: anEvent [
 
 	windowManager popupEvent: anEvent
-]
-
-{ #category : #accessing }
-ToMenu >> rootMenu [
-
-	^ super rootMenu
 ]

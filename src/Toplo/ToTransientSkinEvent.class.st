@@ -28,5 +28,5 @@ ToTransientSkinEvent >> sourceEvent [
 { #category : #accessing }
 ToTransientSkinEvent >> sourceEvent: anEvent [
 
-	sourceEvent := anEvent
+	sourceEvent := anEvent copy
 ]

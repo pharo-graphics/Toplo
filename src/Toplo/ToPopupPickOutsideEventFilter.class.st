@@ -4,10 +4,17 @@ Class {
 	#instVars : [
 		'upCount',
 		'windowManager',
-		'holder'
+		'holder',
+		'checkElement'
 	],
 	#category : #'Toplo-Core-Window'
 }
+
+{ #category : #accessing }
+ToPopupPickOutsideEventFilter >> checkElement: aBoolean [
+
+	checkElement := aBoolean
+]
 
 { #category : #accessing }
 ToPopupPickOutsideEventFilter >> element [
@@ -31,10 +38,9 @@ ToPopupPickOutsideEventFilter >> mouseUpEvent: anEvent [
 
 	| target |
 	"self class name trace. '>>mouseUpEvent: with upCount=' trace. upCount traceCr."
-	
 	self popupWindow ifNil: [ " if the window is not present 
 		This can be the case if the parent of the popup element is removed "
-		holder removeEventFilter: self. 
+		holder removeEventFilter: self.
 		holder := nil.
 		^ self ].
 
@@ -45,7 +51,8 @@ ToPopupPickOutsideEventFilter >> mouseUpEvent: anEvent [
 
 	" It it ouside the element and outside the popup windows "
 	target := anEvent target.
-	(target hasInParentChain: self element) ifTrue: [ ^ self ].
+	checkElement ifTrue: [
+		(target hasInParentChain: self element) ifTrue: [ ^ self ] ].
 	self popupWindow withAllSubwindowsDo: [ :w |
 		(target hasInParentChain: w) ifTrue: [ ^ self ] ].
 
@@ -59,6 +66,7 @@ ToPopupPickOutsideEventFilter >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	holder := anElement.
+	checkElement := true.
 	upCount := 0
 ]
 

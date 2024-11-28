@@ -840,41 +840,56 @@ ToSandBox class >> example_CodeEditor [
 					                all;
 					                apply ];
 			                yourself).
-	               menu addItem: (ToMenuItem new
-			                labelText: 'Copy';
-			                whenClickedDo: [ :event |
-				                element editor copySelected ];
-			                yourself).
-	               menu addItem: (ToMenuItem new
-			                labelText: 'Cut';
-			                whenClickedDo: [ :event |
-				                element editor cutSelected ];
-			                yourself).
-	               menu addItem: (ToMenuItem new
-			                labelText: 'Paste';
-			                whenClickedDo: [ :event | element editor paste ];
-			                yourself).
-	               menu addSeparator.
-	               menu addItem: (ToMenuItem new
-			                labelText: 'Accept';
-			                whenClickedDo: [ :event | element requestSave ];
-			                yourself).
-	               menu addSeparator.
-	               menu addItem: (ToMenuItem new
-			                labelText: 'Cancel';
-			                whenClickedDo: [ :event | element requestCancel ];
-			                yourself) ].
+	               menu addItem: (ToMenu new
+			                labelText: 'Edit';
+			                builder: [ :m |
+				                m addItem: (ToMenuItem new
+							                 labelText: 'Copy';
+							                 whenClickedDo: [ :event |
+								                 element editor copySelected ];
+							                 yourself).
+				                m addItem: (ToMenuItem new
+						                 labelText: 'Cut';
+						                 whenClickedDo: [ :event |
+							                 element editor cutSelected ];
+						                 yourself).
+				                m addItem: (ToMenuItem new
+						                 labelText: 'Paste';
+						                 whenClickedDo: [ :event | element editor paste ];
+						                 yourself).
+				                m addSeparator.
+				                m addItem: (ToMenuItem new
+						                 labelText: 'Accept';
+						                 whenClickedDo: [ :event | element requestSave ];
+						                 yourself).
+				                m addSeparator.
+				                m addItem: (ToMenuItem new
+						                 labelText: 'Cancel';
+						                 whenClickedDo: [ :event |
+							                 element requestCancel ];
+						                 yourself).
+						
+						m addItem: (ToMenu new
+			                labelText: 'Edit';
+			                builder: [ :m2 |
+				                m2 addItem: (ToMenuItem new
+							                 labelText: 'Copy';
+							                 whenClickedDo: [ :event |
+								                 element editor copySelected ];
+							                 yourself) ]).
+						
+						
+						
+						 ]) ].
 	album contextMenu: menuBuilder.
 
 	inspectBtn whenClickedDo: [ :evt | album inspect ].
-	showStatisticsBtn whenClickedDo: [ :evt |
-		album space showStatisticsWindow ].
 
 	pane addChild: topBtnPane.
 	pane addChild: album.
 	disabox whenClickedDo: [ :evt | album disabled: disabox isChecked ].
 
-	pane openInSpace
+	pane openInInnerWindow 
 ]
 
 { #category : #list }
@@ -3691,15 +3706,13 @@ ToSandBox class >> example_menuBar3 [
 { #category : #menu }
 ToSandBox class >> example_menuBarInMenuBar [
 
-	| topMenuBar menuBar1 menuBar2 |
+	| topMenuBar |
 	topMenuBar := ToMenuBar new.
 	topMenuBar nodeWrapping: false.
 	topMenuBar itemList hMatchParent.
-	menuBar1 := ToMenuBar new.
-	menuBar2 := ToMenuBar new.
-	{
-		menuBar1.
-		menuBar2 } do: [ :mb |
+	3 timesRepeat: [
+		| mb |
+		mb := ToMenuBar new.
 		1 to: 3 do: [ :i |
 			| m |
 			m := ToMenu new labelText: 'Menu' , i asString.
@@ -3713,6 +3726,7 @@ ToSandBox class >> example_menuBarInMenuBar [
 			 labelText: 'Inspect';
 			 whenClickedDo: [ topMenuBar inspect ];
 			 yourself).
+
 	topMenuBar openInSpace
 ]
 

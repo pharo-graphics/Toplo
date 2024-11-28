@@ -3693,6 +3693,8 @@ ToSandBox class >> example_menuBarInMenuBar [
 
 	| topMenuBar menuBar1 menuBar2 |
 	topMenuBar := ToMenuBar new.
+	topMenuBar nodeWrapping: false.
+	topMenuBar itemList hMatchParent.
 	menuBar1 := ToMenuBar new.
 	menuBar2 := ToMenuBar new.
 	{
@@ -3704,7 +3706,8 @@ ToSandBox class >> example_menuBarInMenuBar [
 			1 to: 3 do: [ :j |
 			m addItem: (ToMenuItem new labelText: 'item ' , j asString) ].
 			mb addItem: m ].
-		topMenuBar addItem: mb ].
+		topMenuBar addItem: mb.
+		topMenuBar addFiller ].
 
 	topMenuBar addItem: (ToMenuItem new
 			 labelText: 'Inspect';

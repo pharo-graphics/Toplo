@@ -12,6 +12,7 @@ ToMenuBarSkin >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e background: (Color veryLightGray alpha: 0.2).
+		e itemList background: BlBackground transparent.
 		e border: BlBorder empty.
 		e parentItemContainer ifNil: [e padding: (BlInsets all: 4) ] ]
 ]

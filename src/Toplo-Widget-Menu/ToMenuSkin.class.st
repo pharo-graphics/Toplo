@@ -38,7 +38,7 @@ ToMenuSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e parentItemContainerDo: [ :pm |
+		e parentMenuDo: [ :pm |
 			pm items do: [ :it |
 				(it isKindOf: ToMenuItem) ifTrue: [
 					it isStartToEnd

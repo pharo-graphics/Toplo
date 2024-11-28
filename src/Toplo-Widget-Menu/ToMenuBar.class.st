@@ -52,6 +52,7 @@ ToMenuBar >> autoOpen: anObject [
 { #category : #'friend only' }
 ToMenuBar >> closeRequestFrom: anItem [
 
+	autoOpen := false.
 	self items do: [ :i | i closeRequestFrom: anItem ]
 ]
 

@@ -36,9 +36,9 @@ ToAnchoredWindow >> checkBeforePopupEvent: anEvent [
 { #category : #'api - displaying' }
 ToAnchoredWindow >> close [
 
+	self isOpened ifFalse: [ Error signal: 'Closing a closed window' ].
 	self dispatchClosedEvent.
 	super close
-
 ]
 
 { #category : #accessing }

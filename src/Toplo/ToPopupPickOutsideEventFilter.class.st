@@ -52,18 +52,18 @@ ToPopupPickOutsideEventFilter >> mouseUpEvent: anEvent [
 	" It it ouside the element and outside the popup windows "
 	target := anEvent target.
 	checkElement ifTrue: [
-		(target hasInParentChain: self element) ifTrue: [ | delay |
-				delay := anEvent timestamp - self popupWindow popupTimestamp.
-				delay < 100 milliSeconds ifTrue: [ ^ self ].
-
+		(target hasInParentChain: self element) ifTrue: [
+			| delay |
+			delay := anEvent timestamp - self popupWindow popupTimestamp.
+			delay < self pickoutsideDelay ifTrue: [ ^ self ].
 			self element dispatchEvent: ToPickOutsideEvent new.
 			^ self ] ].
+
 	self popupWindow withAllSubwindowsDo: [ :w |
 		(target hasInParentChain: w) ifTrue: [ ^ self ] ].
 
 	anEvent consume.
 	" ok, mouseUp outside the element and outside of the popup window "
-	'pickoutside' traceCr.
 	self element dispatchEvent: ToPickOutsideEvent new
 ]
 
@@ -74,6 +74,12 @@ ToPopupPickOutsideEventFilter >> onInstalledIn: anElement [
 	holder := anElement.
 	checkElement := true.
 	upCount := 0
+]
+
+{ #category : #accessing }
+ToPopupPickOutsideEventFilter >> pickoutsideDelay [
+
+	^ 800 milliSeconds 
 ]
 
 { #category : #accessing }

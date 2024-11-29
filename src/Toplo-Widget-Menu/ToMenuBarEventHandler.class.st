@@ -33,6 +33,7 @@ ToMenuBarEventHandler >> eventsToHandle [
 
 	^ {
 		  BlMouseOverEvent.
+		  BlMouseUpEvent.
 		  ToPickInsideEvent.
 		  ToPickOutsideEvent.
 		  BlElementAddedToSceneGraphEvent.
@@ -43,6 +44,18 @@ ToMenuBarEventHandler >> eventsToHandle [
 ToMenuBarEventHandler >> mouseOverEvent: anEvent [
 
 	target mouseOverEvent: anEvent
+]
+
+{ #category : #'event handling' }
+ToMenuBarEventHandler >> mouseUpEvent: anEvent [
+
+"	anEvent target traceCr.
+	(anEvent target = target or: [
+		 target items anySatisfy: [ :m |
+			 m isMenu not and: [ anEvent target hasInParentChain: m ] ] ]) ifTrue: [
+		^ self ].
+"
+"	anEvent currentTarget startAutoOpen"
 ]
 
 { #category : #'api - hooks' }

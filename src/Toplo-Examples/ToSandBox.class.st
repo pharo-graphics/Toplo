@@ -867,20 +867,7 @@ ToSandBox class >> example_CodeEditor [
 						                 labelText: 'Cancel';
 						                 whenClickedDo: [ :event |
 							                 element requestCancel ];
-						                 yourself).
-						
-						m addItem: (ToMenu new
-			                labelText: 'Edit';
-			                builder: [ :m2 |
-				                m2 addItem: (ToMenuItem new
-							                 labelText: 'Copy';
-							                 whenClickedDo: [ :event |
-								                 element editor copySelected ];
-							                 yourself) ]).
-						
-						
-						
-						 ]) ].
+						                 yourself) ]) ].
 	album contextMenu: menuBuilder.
 
 	inspectBtn whenClickedDo: [ :evt | album inspect ].
@@ -889,7 +876,7 @@ ToSandBox class >> example_CodeEditor [
 	pane addChild: album.
 	disabox whenClickedDo: [ :evt | album disabled: disabox isChecked ].
 
-	pane openInInnerWindow 
+	pane openInInnerWindow
 ]
 
 { #category : #list }

@@ -4,14 +4,6 @@ Class {
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
-{ #category : #'api - displaying' }
-ToMenuWindow >> close [ 
-
-	self isOpened ifFalse: [ Error signal: 'Closing a closed window' ].
-	self items do: [ :it | it closeWindow ].
-	super close
-]
-
 { #category : #accessing }
 ToMenuWindow >> defaultElevation [
 

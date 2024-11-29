@@ -4,6 +4,10 @@ Class {
 	#category : #'Toplo-Widget-Menu-Context menu'
 }
 
+{ #category : #'event handling' }
+ToContextMenuWindowManager >> closeWindowOnMouseUp: anEvent [
+]
+
 { #category : #initialization }
 ToContextMenuWindowManager >> defaultPositionHook [
 
@@ -20,7 +24,8 @@ ToContextMenuWindowManager >> elementPositionInSpaceChangedEvent: anEvent [
 ToContextMenuWindowManager >> initialize [
 
 	super initialize.
-	self useSecondaryMouseButton
+	self useSecondaryMouseButton.
+	closeOnMouseDown := true
 ]
 
 { #category : #'window handling' }

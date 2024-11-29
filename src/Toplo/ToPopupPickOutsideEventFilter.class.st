@@ -52,12 +52,15 @@ ToPopupPickOutsideEventFilter >> mouseUpEvent: anEvent [
 	" It it ouside the element and outside the popup windows "
 	target := anEvent target.
 	checkElement ifTrue: [
-		(target hasInParentChain: self element) ifTrue: [ ^ self ] ].
+		(target hasInParentChain: self element) ifTrue: [
+			self element dispatchEvent: ToPickOutsideEvent new.
+			^ self ] ].
 	self popupWindow withAllSubwindowsDo: [ :w |
 		(target hasInParentChain: w) ifTrue: [ ^ self ] ].
 
 	anEvent consume.
 	" ok, mouseUp outside the element and outside of the popup window "
+	'pickoutside' traceCr.
 	self element dispatchEvent: ToPickOutsideEvent new
 ]
 

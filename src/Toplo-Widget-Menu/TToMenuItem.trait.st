@@ -18,26 +18,34 @@ TToMenuItem >> isSubmenu [
 	^ false
 ]
 
-{ #category : #accessing }
+{ #category : #'t - menu item' }
+TToMenuItem >> itemContaining: anElement [
+
+	^ (anElement hasInParentChain: self)
+		  ifTrue: [ self ]
+		  ifFalse: [ nil ]
+]
+
+{ #category : #'t - menu item' }
 TToMenuItem >> parentItemContainer [
 
 	^ parentItemContainer
 ]
 
-{ #category : #accessing }
+{ #category : #'t - menu item' }
 TToMenuItem >> parentItemContainer: anItemContainer [
 
 	parentItemContainer := anItemContainer
 ]
 
-{ #category : #parent }
+{ #category : #'t - menu item' }
 TToMenuItem >> parentItemContainerDo: aBlock [
 
 	parentItemContainer ifNil: [ ^ self ].
 	aBlock value: parentItemContainer
 ]
 
-{ #category : #parent }
+{ #category : #'t - menu item' }
 TToMenuItem >> parentMenuDo: aBlock [
 
 	parentItemContainer ifNil: [ ^ self ].
@@ -45,7 +53,7 @@ TToMenuItem >> parentMenuDo: aBlock [
 	aBlock value: parentItemContainer
 ]
 
-{ #category : #accessing }
+{ #category : #'t - menu item' }
 TToMenuItem >> positionInItemContainer [
 
 	self parentItemContainerDo: [ :pm | ^ pm items indexOf: self ].

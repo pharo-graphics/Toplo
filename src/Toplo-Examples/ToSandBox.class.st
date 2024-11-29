@@ -3651,7 +3651,7 @@ ToSandBox class >> example_menuBar3 [
 	| menu frame bar |
 	bar := ToMenuBar new.
 	frame := ToInnerWindow new.
-
+	bar addFiller.
 	3 timesRepeat: [
 		menu := ToMenu new.
 		menu label: (ToLabel text: 'Levels').
@@ -3685,6 +3685,9 @@ ToSandBox class >> example_menuBar3 [
 			menu addItem: subMenu ].
 
 		bar addItem: menu ].
+	bar addFiller.
+	bar nodeWrapping: false.
+	bar itemList hMatchParent.
 
 	frame pane addChild: bar.
 	frame openInSpace

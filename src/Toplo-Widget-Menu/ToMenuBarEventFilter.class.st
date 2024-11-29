@@ -15,19 +15,17 @@ ToMenuBarEventFilter >> eventsToHandle [
 
 { #category : #'mouse handlers' }
 ToMenuBarEventFilter >> mouseDownEvent: anEvent [
-	"switch auto=open filter "
+	"switch auto=open filter 
+	- mouse down on the menubar, outside menu items or, ouside the menubar is a pick outside
+	- do nothing in case of a sub-menuBar "
 
-	" mouse down on the menubar, outside menu items or, ouside the menubar is a pick outside "
-
-	" do nothing in case of a sub-menuBar "
 	target parentItemContainerDo: [ :mb | ^ self ].
-	(anEvent target = target or: [
-		 target items noneSatisfy: [ :m |
-			 anEvent target hasInParentChain: m ] ]) ifTrue: [
-		target dispatchEvent: ToPickOutsideEvent new.
-		^ self ].
+	(target itemContaining: anEvent target) ifNotNil: [ :found |
+		found isMenu ifTrue: [
+			target dispatchEvent: ToPickInsideEvent new.
+			^ self ] ].
 
-	target dispatchEvent: ToPickInsideEvent new
+	target dispatchEvent: ToPickOutsideEvent new
 ]
 
 { #category : #'mouse handlers' }
@@ -37,12 +35,12 @@ ToMenuBarEventFilter >> mouseUpEvent: anEvent [
 	" mouse up outside the menubar cancels autoOpen "
 
 	" do nothing in case of a sub-menuBar "
+
 	target parentItemContainerDo: [ :mb | ^ self ].
-	
-	(anEvent target = target or: [
-		 target items noneSatisfy: [ :m |
-			 anEvent target hasInParentChain: m ] ]) ifTrue: [
-		target cancelAutoOpen ]
+
+	(target itemContaining: anEvent target) ifNotNil: [ :found |
+		found isMenu ifTrue: [ ^ self ] ].
+	target cancelAutoOpen
 ]
 
 { #category : #accessing }

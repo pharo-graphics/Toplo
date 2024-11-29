@@ -274,6 +274,7 @@ ToPopupWindowManagerTest >> testNoAutoCloseEvenAfterLongDelay [
 	" use an huge waiting time "
 	(5000 milliSecond) wait.
 	BlSpace simulateMouseUpOn: e.
+
 	" window is not closed on mouse-up "
 	self deny: windowManager currentWindow isNil.
 	self deny: closed

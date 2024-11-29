@@ -27,7 +27,7 @@ ToAnchoredWindow >> applySizeHookFromEvent: anEvent [
 ]
 
 { #category : #'api - displaying' }
-ToAnchoredWindow >> checkBeforePopupEvent: anEvent [
+ToAnchoredWindow >> checkSizeHooksBeforePopupEvent: anEvent [
 
 	self applyPositionHookFromEvent: anEvent.
 	self applySizeHookFromEvent: anEvent
@@ -123,8 +123,11 @@ ToAnchoredWindow >> popupEvent: anEvent [
 	self element isDisabled ifTrue: [
 		Error signal: 'A window with a disabled element shouldn''t popup' ].
 	
-	self checkBeforePopupEvent: anEvent.
-	self isOpened ifFalse: [ self open ].
+	self isOpened  ifTrue: [
+		Error signal: 'An opened window shouldn''t been asked to popup' ].
+	
+	self checkSizeHooksBeforePopupEvent: anEvent.
+	self open.
 	self toFront.
 
 ]

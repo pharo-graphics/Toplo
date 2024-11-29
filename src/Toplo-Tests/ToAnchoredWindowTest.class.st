@@ -24,11 +24,11 @@ ToAnchoredWindowTest >> testClose [
 	win := windowManager newWindowEvent: nil.
 	self assert: winRootChild parent identicalTo: win root.
 	self deny: win isOpened.
-	win close.
-	windowManager closeWindow.
-	self assert: winRootChild parent isNil.
+	" can't close a closed window "
+	self should: [ win close ] raise: Error.
+	self should: [ windowManager closeWindow ] raise: Error.
 	" but after it has been closed, it can't be opened anymore "
-	self should: [ win popup ] raise: Error
+	win popup
 ]
 
 { #category : #tests }

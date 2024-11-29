@@ -112,6 +112,15 @@ ToMenuBar >> isMenuBar [
 	^ true
 ]
 
+{ #category : #'t - menu item' }
+ToMenuBar >> itemContaining: anElement [
+
+	self = anElement ifTrue: [ ^ self ].
+	self items do: [ :i |
+		  (i itemContaining: anElement) ifNotNil: [ :found | ^ found ] ].
+	^ nil
+]
+
 { #category : #'t - orientable - accessing' }
 ToMenuBar >> layoutStrategy [
 

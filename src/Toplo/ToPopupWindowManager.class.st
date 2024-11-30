@@ -31,11 +31,15 @@ ToPopupWindowManager >> autoCloseWindow [
 	self closeWindow
 ]
 
-{ #category : #'window handling' }
-ToPopupWindowManager >> autoPopupEvent: anEvent [
+{ #category : #accessing }
+ToPopupWindowManager >> autoPopupDelay: aDuration [
 
-	upCountRequired := 0.
-	self delayedPopupEvent: anEvent
+	element addEventHandler: (ToStillHoveredEventHandler new
+			 startDelay: aDuration;
+			 yourself).
+	element addEventHandlerOn: ToStartStillHoveredEvent do: [ :event |
+		event consume.
+		self popupEvent: event ]
 ]
 
 { #category : #'window handling' }
@@ -79,22 +83,6 @@ ToPopupWindowManager >> defaultPositionHook [
 	  window position: (theElement bounds inParent: self anchorRoot) bounds bottomLeft ]
 ]
 
-{ #category : #'window handling' }
-ToPopupWindowManager >> delayedPopupEvent: anEvent [
-
-	currentWindow ifNotNil: [ ^ self ].
-	delayedPopupTask ifNotNil: [ ^ self ].
-	element isEnabled ifFalse: [ ^ self ].
-	popupDelay isZero ifTrue: [ ^ self popupNewWindowEvent: anEvent ].
-	delayedPopupTask := BlDelayedTaskAction new.
-	delayedPopupTask
-		delay: popupDelay;
-		action: [
-			self popupNewWindowEvent: anEvent.
-			delayedPopupTask := nil ].
-	element enqueueTask: delayedPopupTask
-]
-
 { #category : #'api - accessing' }
 ToPopupWindowManager >> eventsToHandle [
 
@@ -134,7 +122,7 @@ ToPopupWindowManager >> mouseDownEvent: anEvent [
 		^ self ].
 	self popupOnMouseDown ifFalse: [ ^ self ].
 	currentWindow ifNotNil: [ ^ self ].
-	self popupEvent: anEvent.
+	self popupEvent: anEvent delay: 0 milliSeconds.
 	anEvent consume
 ]
 
@@ -191,14 +179,32 @@ ToPopupWindowManager >> popupDelay [
 { #category : #accessing }
 ToPopupWindowManager >> popupDelay: aDuration [
 
-	popupDelay := aDuration asDuration
+	popupDelay := aDuration
 ]
 
 { #category : #'window handling' }
 ToPopupWindowManager >> popupEvent: anEvent [
 
 	upCountRequired := 1.
-	self delayedPopupEvent: anEvent
+	self popupEvent: anEvent delay: popupDelay
+]
+
+{ #category : #'window handling' }
+ToPopupWindowManager >> popupEvent: anEvent delay: aDelay [
+
+	currentWindow ifNotNil: [ ^ self ].
+	delayedPopupTask ifNotNil: [
+		element dequeueTask: delayedPopupTask.
+		delayedPopupTask := nil ].
+	element isEnabled ifFalse: [ ^ self ].
+	aDelay isZero ifTrue: [ ^ self popupNewWindowEvent: anEvent ].
+	delayedPopupTask := BlDelayedTaskAction new.
+	delayedPopupTask
+		delay: aDelay;
+		action: [
+			self popupNewWindowEvent: anEvent.
+			delayedPopupTask := nil ].
+	element enqueueTask: delayedPopupTask
 ]
 
 { #category : #'window handling' }

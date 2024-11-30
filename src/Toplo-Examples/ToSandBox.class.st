@@ -1979,6 +1979,8 @@ ToSandBox class >> example_SelectMultiFiltrable [
 
 	| select innerWindow newTagFactory |
 	select := ToMultiSelectElement new.
+	select popupWindowManager autoPopupDelay: 400 milliSeconds.
+
 	select
 		addEventHandlerOn: ToSelectChangedEvent
 		do: [ :event | event selectedIndexes traceCr ].
@@ -6027,7 +6029,6 @@ ToSandBox class >> example_withCustomMenuItems [
 
 	| menu grp right center left textField sub lbl |
 	menu := ToMenu new.
-	
 	menu labelText: 'File'.
 	menu addItem: (ToMenuItem new
 			 labelText: 'Open file';

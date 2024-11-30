@@ -305,7 +305,6 @@ ToSelectElement >> popupSizeHook: aValuable [
 { #category : #accessing }
 ToSelectElement >> popupWindowManager [
 
-
 	^ popupWindowManager
 ]
 

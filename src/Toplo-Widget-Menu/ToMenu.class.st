@@ -17,12 +17,6 @@ ToMenu >> addedInMenuItemContainer: aMenu [
 	aMenu addedMenu: self
 ]
 
-{ #category : #'window handling' }
-ToMenu >> autoPopupEvent: anEvent [
-
-	windowManager autoPopupEvent: anEvent
-]
-
 { #category : #accessing }
 ToMenu >> bar [
 
@@ -133,4 +127,10 @@ ToMenu >> newRawSkin [
 ToMenu >> popupEvent: anEvent [
 
 	windowManager popupEvent: anEvent
+]
+
+{ #category : #accessing }
+ToMenu >> windowManager [ 
+
+	^ windowManager 
 ]

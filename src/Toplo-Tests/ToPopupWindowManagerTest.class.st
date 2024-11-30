@@ -46,6 +46,7 @@ ToPopupWindowManagerTest >> testAutoClosePickOutsideEventClass [
 	"
 	BlSpace simulateMouseUpOn: space root.
 	BlSpace simulateMouseDownOn: space root.
+	windowManager autoCloseDelay asDelay wait.
 	BlSpace simulateMouseUpOn: space root.
 	" window is closed on mouse-up-outside"
 	self assert: windowManager currentWindow isNil.
@@ -258,26 +259,38 @@ ToPopupWindowManagerTest >> testNoAutoCloseEvenAfterLongDelay [
 	self waitTestingSpaces.
 
 	windowManager := ToPopupWindowManager new.
+	closed := false.
+	" should avoid auto-close"
+	windowManager autoCloseDelay: 0 milliSeconds.
+	self assert: windowManager autoCloseDelay equals: 0 milliSeconds .
+	e addEventHandler: (BlEventHandler
+			 on: ToClosedEvent
+			 do: [ :event | closed := true ]).
 
 	e addEventHandler: windowManager.
 	BlSpace simulateMouseDownOn: e.
-	self waitTestingSpaces.
 	self assert: windowManager currentWindow notNil.
 	self assert: windowManager currentWindow isOpened.
-	closed := false.
-	" should avoid auto-close"
-	windowManager autoCloseDelay: nil.
-	self assert: windowManager autoCloseDelay equals: windowManager defaultAutoCloseDelay.
-	windowManager currentWindow addEventHandler: (BlEventHandler
-			 on: ToClosedEvent
-			 do: [ :event | closed := true ]).
-	" use an huge waiting time "
-	(5000 milliSecond) wait.
 	BlSpace simulateMouseUpOn: e.
-
 	" window is not closed on mouse-up "
-	self deny: windowManager currentWindow isNil.
-	self deny: closed
+	self assert: windowManager currentWindow isNil.
+	self assert: closed.
+
+	windowManager autoCloseDelay: 400 milliSeconds.
+	closed := false.
+	BlSpace simulateMouseDownOn: e.
+	BlSpace simulateMouseUpOn: e.
+	self assert: windowManager currentWindow notNil.
+	self deny: closed.
+	
+	closed := false.
+	BlSpace simulateMouseDownOn: e.
+	500 milliSeconds asDelay wait.
+	BlSpace simulateMouseUpOn: e.
+	self assert: windowManager currentWindow isNil.
+	self assert: closed.
+
+
 ]
 
 { #category : #tests }

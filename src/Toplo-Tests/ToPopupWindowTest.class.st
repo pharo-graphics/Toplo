@@ -164,19 +164,25 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownOutside [
 	windowManager := ToPopupWindowManager new builder: [ :anchWin :element |
 		                 anchWin addChild: (ToElement new size: 20 @ 20) ].
 	e addEventHandler: windowManager.
+	windowManager autoCloseDelay: 0 milliSeconds.
 
 	" mouse down immediately followed by a mouse up -> the popup should stay opened"
 	BlSpace simulateMouseDownOn: e.
 	self assert: windowManager currentWindow isOpened.
 	BlSpace simulateMouseUpOn: e.
-	self assert: windowManager currentWindow isOpened.
+	self assert: windowManager currentWindow isNil.
 
 	closed := false.
-	windowManager currentWindow addEventHandler: (BlEventHandler
+	e addEventHandler: (BlEventHandler
 			 on: ToClosedEvent
 			 do: [ :event | closed := true ]).
-	BlSpace simulateMouseMoveOutside: windowManager currentWindow.
+	windowManager autoCloseDelay: 200 milliSeconds.
+	BlSpace simulateMouseDownOn: e.		
+	BlSpace simulateMouseUpOn: e.
+	self assert: windowManager currentWindow notNil.
+	
 	BlSpace simulateMouseDownOn: space root.
+	300 milliSeconds asDelay wait.
 	BlSpace simulateMouseUpOn: space root.
 	self waitTestingSpaces.
 	self assert: closed.
@@ -201,6 +207,7 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseUpOutsideAssociateElement [
 	windowManager := ToPopupWindowManager new builder: [ :anchWin :element |
 		                 anchWin addChild: (ToElement new size: 20 @ 20) ].
 	e addEventHandler: windowManager.
+	windowManager autoCloseDelay: 0 milliSeconds.
 
 	" mouse down on widget then up on popup"
 	BlSpace simulateMouseDownOn: e.

@@ -269,10 +269,12 @@ ToPopupWindowManagerTest >> testNoAutoCloseEvenAfterLongDelay [
 
 	e addEventHandler: windowManager.
 	BlSpace simulateMouseDownOn: e.
+	self waitTestingSpaces.
 	self assert: windowManager currentWindow notNil.
 	self assert: windowManager currentWindow isOpened.
 	BlSpace simulateMouseUpOn: e.
 	" window is not closed on mouse-up "
+	self waitTestingSpaces.
 	self assert: windowManager currentWindow isNil.
 	self assert: closed.
 
@@ -280,6 +282,7 @@ ToPopupWindowManagerTest >> testNoAutoCloseEvenAfterLongDelay [
 	closed := false.
 	BlSpace simulateMouseDownOn: e.
 	BlSpace simulateMouseUpOn: e.
+	self waitTestingSpaces.
 	self assert: windowManager currentWindow notNil.
 	self deny: closed.
 	
@@ -287,6 +290,7 @@ ToPopupWindowManagerTest >> testNoAutoCloseEvenAfterLongDelay [
 	BlSpace simulateMouseDownOn: e.
 	800 milliSeconds asDelay wait.
 	BlSpace simulateMouseUpOn: e.
+	self waitTestingSpaces.
 	self assert: windowManager currentWindow isNil.
 	self assert: closed.
 

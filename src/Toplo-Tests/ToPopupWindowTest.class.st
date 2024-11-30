@@ -183,6 +183,7 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownOutside [
 	
 	BlSpace simulateMouseDownOn: space root.
 	400 milliSeconds asDelay wait.
+	self waitTestingSpaces.
 	BlSpace simulateMouseUpOn: space root.
 	self waitTestingSpaces.
 	self assert: closed.

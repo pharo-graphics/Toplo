@@ -109,7 +109,8 @@ ToMenuBar >> isMenuBar [
 ToMenuBar >> itemContaining: anElement [
 
 	self = anElement ifTrue: [ ^ self ].
-	^ self itemList itemContaining: anElement
+	^ (self itemList itemContaining: anElement) ifNotNil: [ :found |
+		  found item ]
 ]
 
 { #category : #'t - orientable - accessing' }

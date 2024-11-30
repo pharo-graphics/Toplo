@@ -285,7 +285,7 @@ ToPopupWindowManagerTest >> testNoAutoCloseEvenAfterLongDelay [
 	
 	closed := false.
 	BlSpace simulateMouseDownOn: e.
-	500 milliSeconds asDelay wait.
+	800 milliSeconds asDelay wait.
 	BlSpace simulateMouseUpOn: e.
 	self assert: windowManager currentWindow isNil.
 	self assert: closed.

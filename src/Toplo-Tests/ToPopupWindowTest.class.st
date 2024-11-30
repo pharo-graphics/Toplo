@@ -156,11 +156,10 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownOutside [
 
 	| e windowManager closed |
 	e := ToElement new
-		          background: Color red;
-		          size: 100 @ 40;
-		          position: 50 @ 50.
+		     background: Color red;
+		     size: 100 @ 40;
+		     position: 50 @ 50.
 	space root addChild: e.
-	self waitTestingSpaces.
 
 	windowManager := ToPopupWindowManager new builder: [ :anchWin :element |
 		                 anchWin addChild: (ToElement new size: 20 @ 20) ].
@@ -168,10 +167,8 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownOutside [
 
 	" mouse down immediately followed by a mouse up -> the popup should stay opened"
 	BlSpace simulateMouseDownOn: e.
-	self waitTestingSpaces.
 	self assert: windowManager currentWindow isOpened.
 	BlSpace simulateMouseUpOn: e.
-	self waitTestingSpaces.
 	self assert: windowManager currentWindow isOpened.
 
 	closed := false.
@@ -189,34 +186,35 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownOutside [
 { #category : #tests }
 ToPopupWindowTest >> testPopupOpenCloseWithMouseUpOutsideAssociateElement [
 
-	| e windowManager closed |
+	| e windowManager closed other |
 	e := ToElement new
 		     background: Color red;
 		     size: 100 @ 40;
 		     position: 50 @ 50.
+	other := ToElement new
+		     background: Color blue;
+		     size: 10 @ 10;
+		     position: 500 @ 500.
 	space root addChild: e.
-	self waitTestingSpaces.
+	space root addChild: other.
 
 	windowManager := ToPopupWindowManager new builder: [ :anchWin :element |
 		                 anchWin addChild: (ToElement new size: 20 @ 20) ].
 	e addEventHandler: windowManager.
 
 	" mouse down on widget then up on popup"
-	self waitTestingSpaces.
 	BlSpace simulateMouseDownOn: e.
-	"self waitTestingSpaces."
 	self assert: windowManager currentWindow isOpened.
-	self waitTestingSpaces.
 	BlSpace simulateMouseUpOn: windowManager currentWindow.
 	self assert: windowManager currentWindow isOpened.
-
+	self waitTestingSpaces.
 	closed := false.
-	windowManager currentWindow addEventHandler: (BlEventHandler
+	e addEventHandler: (BlEventHandler
 			 on: ToClosedEvent
 			 do: [ :event | closed := true ]).
-	BlSpace simulateMouseMoveOutside: e.
-	BlSpace simulateMouseDownOn: space root.
-	BlSpace simulateMouseUpOn: space root.
+	BlSpace simulateMouseDownOn: other.
+	self waitTestingSpaces.
+	BlSpace simulateMouseUpOn: other.
 	self waitTestingSpaces.
 	self assert: closed.
 	self assert: windowManager currentWindow isNil

@@ -17,7 +17,7 @@ ToPopupWindowManagerTest >> testAutoCloseDelay [
 	windowManager autoCloseDelay: 1 second.
 	self assert: windowManager autoCloseDelay equals: 1 second.
 	windowManager autoCloseDelay: nil.
-	self assert: windowManager autoCloseDelay isNil
+	self assert: windowManager autoCloseDelay equals: windowManager defaultAutoCloseDelay 
 
 ]
 
@@ -267,7 +267,7 @@ ToPopupWindowManagerTest >> testNoAutoCloseEvenAfterLongDelay [
 	closed := false.
 	" should avoid auto-close"
 	windowManager autoCloseDelay: nil.
-	self assert: windowManager autoCloseDelay isNil.
+	self assert: windowManager autoCloseDelay equals: windowManager defaultAutoCloseDelay.
 	windowManager currentWindow addEventHandler: (BlEventHandler
 			 on: ToClosedEvent
 			 do: [ :event | closed := true ]).

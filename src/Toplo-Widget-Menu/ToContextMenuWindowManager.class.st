@@ -20,8 +20,7 @@ ToContextMenuWindowManager >> elementPositionInSpaceChangedEvent: anEvent [
 ToContextMenuWindowManager >> initialize [
 
 	super initialize.
-	self useSecondaryMouseButton.
-	closeOnMouseDown := true
+	self useSecondaryMouseButton
 ]
 
 { #category : #'window handling' }

@@ -3,11 +3,8 @@ Class {
 	#superclass : #ToAnchoredWindowManager,
 	#instVars : [
 		'mouseButton',
-		'popupDelay',
 		'popupOnMouseEnter',
-		'closeOnMouseLeave',
-		'closeOnMouseDown',
-		'popupOnMouseDown',
+		'popupDelay',
 		'delayedPopupTask',
 		'pickOutsideFilter',
 		'autoCloseDelay',
@@ -53,24 +50,6 @@ ToPopupWindowManager >> checkAutoCloseWindowOnMouseUp: anEvent [
 	anEvent consume.
 	self autoCloseWindow.
 	^ true
-]
-
-{ #category : #accessing }
-ToPopupWindowManager >> closeOnMouseDown [
-
-	^ closeOnMouseDown
-]
-
-{ #category : #accessing }
-ToPopupWindowManager >> closeOnMouseLeave [
-
-	^ closeOnMouseLeave
-]
-
-{ #category : #accessing }
-ToPopupWindowManager >> closeOnMouseLeave: aBoolean [
-
-	closeOnMouseLeave := aBoolean
 ]
 
 { #category : #'window handling' }
@@ -123,7 +102,6 @@ ToPopupWindowManager >> eventsToHandle [
 		  BlMouseUpEvent.
 		  BlMouseDownEvent.
 		  BlMouseEnterEvent.
-		  BlMouseLeaveEvent.
 		  ToPickOutsideEvent }
 ]
 
@@ -134,10 +112,7 @@ ToPopupWindowManager >> initialize [
 	self usePrimaryMouseButton .
 	popupDelay := self defaultPopupDelay.
  	autoCloseDelay := self defaultAutoCloseDelay.
-	popupOnMouseEnter := false.
-	closeOnMouseLeave := false.
-	popupOnMouseDown := true.
-	closeOnMouseDown := true
+	popupOnMouseEnter := false
 ]
 
 { #category : #'window handling' }
@@ -152,13 +127,12 @@ ToPopupWindowManager >> installPickOutsideFilter [
 ToPopupWindowManager >> mouseDownEvent: anEvent [
 
 	builder ifNil: [ ^ self ].
-	closeOnMouseDown ifTrue: [ self unqueuePopupTaskIn: element ].
+	self unqueuePopupTaskIn: element.
 	anEvent button = mouseButton ifFalse: [ ^ self ].
 	currentWindow ifNotNil: [
-		closeOnMouseDown ifTrue: [
-			currentWindow isOpened ifTrue: [ self closeWindow ].
-			^ self ] ].
-	popupOnMouseDown ifFalse: [ ^ self ].
+		currentWindow isOpened ifTrue: [ self closeWindow ].
+		^ self ].
+	self popupOnMouseDown ifFalse: [ ^ self ].
 	currentWindow ifNotNil: [ ^ self ].
 	self popupEvent: anEvent.
 	anEvent consume
@@ -171,15 +145,6 @@ ToPopupWindowManager >> mouseEnterEvent: anEvent [
 	self unqueuePopupTaskIn: anEvent currentTarget.
 	anEvent anyButtonPressed ifTrue: [ ^ self ].
 	self popupEvent: anEvent
-]
-
-{ #category : #'event handling' }
-ToPopupWindowManager >> mouseLeaveEvent: anEvent [
-
-	self unqueuePopupTaskIn: anEvent currentTarget.
-	closeOnMouseLeave ifFalse: [ ^ self ].
-	self closeWindow
-
 ]
 
 { #category : #'event handling' }
@@ -247,13 +212,7 @@ ToPopupWindowManager >> popupNewWindowEvent: anEvent [
 { #category : #accessing }
 ToPopupWindowManager >> popupOnMouseDown [
 
-	^ popupOnMouseDown 
-]
-
-{ #category : #accessing }
-ToPopupWindowManager >> popupOnMouseEnter [
-
-	^ popupOnMouseEnter 
+	^ true
 ]
 
 { #category : #accessing }

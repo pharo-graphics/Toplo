@@ -19,14 +19,6 @@ TToMenuItem >> isSubmenu [
 ]
 
 { #category : #'t - menu item' }
-TToMenuItem >> itemContaining: anElement [
-
-	^ (anElement hasInParentChain: self)
-		  ifTrue: [ self ]
-		  ifFalse: [ nil ]
-]
-
-{ #category : #'t - menu item' }
 TToMenuItem >> parentItemContainer [
 
 	^ parentItemContainer

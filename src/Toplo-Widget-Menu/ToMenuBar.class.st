@@ -55,13 +55,6 @@ ToMenuBar >> cancelAutoOpen [
 	self rootMenuBar autoOpen: false
 ]
 
-{ #category : #'friend only' }
-ToMenuBar >> closeRequestFrom: anItem [
-
-	self cancelAutoOpen.
-	self items do: [ :i | i closeRequestFrom: anItem ]
-]
-
 { #category : #'t - menu window model' }
 ToMenuBar >> closeWindow [
 
@@ -116,9 +109,7 @@ ToMenuBar >> isMenuBar [
 ToMenuBar >> itemContaining: anElement [
 
 	self = anElement ifTrue: [ ^ self ].
-	self items do: [ :i |
-		  (i itemContaining: anElement) ifNotNil: [ :found | ^ found ] ].
-	^ nil
+	^ self itemList itemContaining: anElement
 ]
 
 { #category : #'t - orientable - accessing' }
@@ -181,4 +172,12 @@ ToMenuBar >> rootMenuBar [
 ToMenuBar >> startAutoOpen [
 
 	self rootMenuBar autoOpen: true
+]
+
+{ #category : #'auto opening' }
+ToMenuBar >> switchAutoOpen [
+
+	self isAutoOpen
+		ifTrue: [ self cancelAutoOpen ]
+		ifFalse: [ self startAutoOpen ]
 ]

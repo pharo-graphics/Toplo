@@ -303,6 +303,14 @@ BlElement >> isPreventedSkinEventClass: aSkinEventClass [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> itemContaining: anElement [
+
+	^ (anElement hasInParentChain: self)
+		  ifTrue: [ self ]
+		  ifFalse: [ nil ]
+]
+
+{ #category : #'*Toplo' }
 BlElement >> localTheme [
 
 	^ self userData at: #localTheme ifAbsent: [ ]

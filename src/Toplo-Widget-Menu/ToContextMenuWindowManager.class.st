@@ -4,10 +4,6 @@ Class {
 	#category : #'Toplo-Widget-Menu-Context menu'
 }
 
-{ #category : #'event handling' }
-ToContextMenuWindowManager >> closeWindowOnMouseUp: anEvent [
-]
-
 { #category : #initialization }
 ToContextMenuWindowManager >> defaultPositionHook [
 
@@ -32,7 +28,7 @@ ToContextMenuWindowManager >> initialize [
 ToContextMenuWindowManager >> newPickOutsideFilter [
 
 	^ super newPickOutsideFilter
-		  checkElement: false;
+		  shouldCheckElement: false;
 		  yourself
 ]
 

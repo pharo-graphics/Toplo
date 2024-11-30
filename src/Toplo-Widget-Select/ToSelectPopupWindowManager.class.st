@@ -8,12 +8,6 @@ Class {
 	#category : #'Toplo-Widget-Select-List'
 }
 
-{ #category : #initialization }
-ToSelectPopupWindowManager >> defaultAutoCloseDelay [
-
-	^ nil
-]
-
 { #category : #'api - hooks' }
 ToSelectPopupWindowManager >> defaultListElementEventHandler [ 
 

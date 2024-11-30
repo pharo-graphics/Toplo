@@ -34,8 +34,6 @@ ToMenuBarEventHandler >> eventsToHandle [
 	^ {
 		  BlMouseOverEvent.
 		  BlMouseUpEvent.
-		  ToPickInsideEvent.
-		  ToPickOutsideEvent.
 		  BlElementAddedToSceneGraphEvent.
 		  BlElementRemovedFromSceneGraphEvent }
 ]
@@ -49,13 +47,10 @@ ToMenuBarEventHandler >> mouseOverEvent: anEvent [
 { #category : #'event handling' }
 ToMenuBarEventHandler >> mouseUpEvent: anEvent [
 
-"	anEvent target traceCr.
-	(anEvent target = target or: [
-		 target items anySatisfy: [ :m |
-			 m isMenu not and: [ anEvent target hasInParentChain: m ] ] ]) ifTrue: [
-		^ self ].
-"
-"	anEvent currentTarget startAutoOpen"
+	(target itemContaining: anEvent target) ifNotNil: [ :found |
+		found isMenu ifFalse: [
+			target cancelAutoOpen.
+			^ self ] ]
 ]
 
 { #category : #'api - hooks' }
@@ -70,16 +65,4 @@ ToMenuBarEventHandler >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
 	target := nil
-]
-
-{ #category : #'event handling' }
-ToMenuBarEventHandler >> pickInsideEvent: anEvent [
-
-	anEvent currentTarget startAutoOpen
-]
-
-{ #category : #'event handling' }
-ToMenuBarEventHandler >> pickOutsideEvent: anEvent [
-
-	anEvent currentTarget cancelAutoOpen 
 ]

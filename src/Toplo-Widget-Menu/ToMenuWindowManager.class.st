@@ -4,30 +4,11 @@ Class {
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
-{ #category : #'event handling' }
-ToMenuWindowManager >> cancelAutoOpenOnMenu: aMenu [
+{ #category : #'window handling' }
+ToMenuWindowManager >> autoCloseWindow [
 
-	aMenu isTopMenu ifFalse: [ ^ self ].
-	aMenu parentItemContainer isMenuBar ifFalse: [ ^ self ].
-	aMenu parentItemContainer cancelAutoOpen 
-]
-
-{ #category : #'event handling' }
-ToMenuWindowManager >> closeWindowOnMouseDownEvent: anEvent [
-
-	| menu |
-	super closeWindowOnMouseDownEvent: anEvent.
-	menu := anEvent currentTarget.
-	self cancelAutoOpenOnMenu: menu
-]
-
-{ #category : #'event handling' }
-ToMenuWindowManager >> closeWindowOnMouseUp: anEvent [
-
-	| menu |
-	super closeWindowOnMouseUp: anEvent.
-	menu := anEvent currentTarget.
-	self cancelAutoOpenOnMenu: menu
+	super autoCloseWindow.
+	element menuBarDo: [ :mb | mb cancelAutoOpen ]
 ]
 
 { #category : #initialization }
@@ -39,6 +20,22 @@ ToMenuWindowManager >> defaultPositionHook [
 			   (theMenu bounds inParent: self anchorRoot) bounds topRight ]
 			   ifFalse: [
 			   (theMenu bounds inParent: self anchorRoot) bounds bottomLeft ]) ]
+]
+
+{ #category : #'event handling' }
+ToMenuWindowManager >> mouseDownEvent: anEvent [
+
+	super mouseDownEvent: anEvent.
+	(element itemContaining: anEvent target) ifNotNil: [ :found |
+		found isMenu ifTrue: [
+			element menuBarDo: [ :mb | mb switchAutoOpen ] ] ].
+]
+
+{ #category : #'event handling' }
+ToMenuWindowManager >> pickOutsideEvent: anEvent [
+
+	super pickOutsideEvent: anEvent.
+	element menuBarDo: [ :mb | mb cancelAutoOpen ]
 ]
 
 { #category : #'window handling' }

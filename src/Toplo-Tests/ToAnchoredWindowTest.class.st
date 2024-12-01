@@ -26,7 +26,7 @@ ToAnchoredWindowTest >> testClose [
 	self deny: win isOpened.
 	" can't close a closed window "
 	self should: [ win close ] raise: Error.
-	self should: [ windowManager closeWindow ] raise: Error.
+	windowManager closeWindow.
 	" but after it has been closed, it can't be opened anymore "
 	win popup
 ]

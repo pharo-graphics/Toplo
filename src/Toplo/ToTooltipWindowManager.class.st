@@ -14,7 +14,7 @@ ToTooltipWindowManager >> closeOnMouseLeave: aBoolean [
 ]
 
 { #category : #accessing }
-ToTooltipWindowManager >> defaultPopupDelay [
+ToTooltipWindowManager >> defaultAutoPopupDelay [
 
 	^ 700 milliSeconds
 ]
@@ -38,17 +38,24 @@ ToTooltipWindowManager >> initialize [
 
 	super initialize.
 	self useNoMouseButton.
-	popupOnMouseEnter := true.
-	closeOnMouseLeave := true
+	closeOnMouseLeave := true.
 ]
 
 { #category : #'event handling' }
 ToTooltipWindowManager >> mouseLeaveEvent: anEvent [
 
-	self unqueuePopupTaskIn: anEvent currentTarget.
+	self unqueuePopupTaskFromEvent: anEvent.
 	closeOnMouseLeave ifFalse: [ ^ self ].
 	self closeWindow
 
+]
+
+{ #category : #'api - hooks' }
+ToTooltipWindowManager >> onInstalledIn: anElement [
+
+	super onInstalledIn: anElement.
+	self autoPopupDelay: self defaultAutoPopupDelay 
+	 
 ]
 
 { #category : #accessing }

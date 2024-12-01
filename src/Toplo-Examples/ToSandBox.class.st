@@ -1947,7 +1947,7 @@ ToSandBox class >> example_SelectMonoFiltrable [
 	select placeholderText:
 		('Select a state' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
-	select popupWindowManager anchorRoot: innerWindow root.
+	select windowManager anchorRoot: innerWindow root.
 	select width: 300.
 	select position: 50 @ 50.
 	select filterTextField requestFocus.
@@ -1979,7 +1979,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 
 	| select innerWindow newTagFactory |
 	select := ToMultiSelectElement new.
-	select popupWindowManager autoPopupDelay: 400 milliSeconds.
+	select windowManager autoPopupDelay: 400 milliSeconds.
 
 	select
 		addEventHandlerOn: ToSelectChangedEvent
@@ -2033,7 +2033,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	select placeholderText:
 		('Select states' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
-	select popupWindowManager anchorRoot: innerWindow root.
+	select windowManager anchorRoot: innerWindow root.
 	select position: 5 @ 10.
 	select width: 380.
 	select selecter selectIndex: 2.
@@ -4212,7 +4212,7 @@ ToSandBox class >> example_stillHoveredEvent [
 	count := 0.
 	e addEventHandler: (BlEventHandler
 			 on: ToGeneratorEvent
-			 do: [ :event | event traceCr ]).
+			 do: [ :event | event trace. ' ' trace. event sourceEvent traceCr ]).
 	e addEventHandler: (BlEventHandler
 			 on: ToStillHoveredEvent
 			 do: [ :event |
@@ -4248,7 +4248,7 @@ ToSandBox class >> example_stillPressedEvent [
 
 	e addEventHandler: (BlEventHandler
 			 on: ToGeneratorEvent
-			 do: [ :event | event traceCr ]).
+			 do: [ :event | event trace. event sourceEvent traceCr ]).
 
 	e addEventHandler: (BlEventHandler
 			 on: ToStillPressedEvent

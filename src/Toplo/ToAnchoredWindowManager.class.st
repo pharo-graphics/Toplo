@@ -15,7 +15,7 @@ Class {
 { #category : #accessing }
 ToAnchoredWindowManager >> anchorRoot [
 
-	^ anchorRoot ifNil: [ anchorRoot := self element space root ]
+	^ anchorRoot ifNil: [ anchorRoot := element space root ]
 ]
 
 { #category : #accessing }
@@ -75,9 +75,9 @@ ToAnchoredWindowManager >> builder: aWindowBuilderValuable [
 { #category : #'window handling' }
 ToAnchoredWindowManager >> closeWindow [
 
-	currentWindow ifNotNil: [
-		currentWindow close.
-		^ self ]
+	currentWindow ifNil: [ ^ self ].
+	currentWindow isOpened ifFalse: [ ^ self ].
+	currentWindow close.
 ]
 
 { #category : #'event handling' }

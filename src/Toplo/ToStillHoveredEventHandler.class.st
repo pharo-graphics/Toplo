@@ -29,7 +29,7 @@ ToStillHoveredEventHandler >> mouseEnterEvent: anEvent [
 ToStillHoveredEventHandler >> mouseLeaveEvent: anEvent [
 
 	checker ifNil: [ ^ self ].
-	self stopTaskIn: anEvent currentTarget
+	self stopTaskFromEvent: anEvent in: anEvent currentTarget
 ]
 
 { #category : #'instance creation' }

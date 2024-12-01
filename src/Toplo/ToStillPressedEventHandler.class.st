@@ -46,7 +46,7 @@ ToStillPressedEventHandler >> mouseDownEvent: anEvent [
 { #category : #'mouse handlers' }
 ToStillPressedEventHandler >> mouseUpEvent: anEvent [
 
-	self stopTaskIn: anEvent currentTarget
+	self stopTaskFromEvent: anEvent in: anEvent currentTarget
 ]
 
 { #category : #'instance creation' }
@@ -67,14 +67,26 @@ ToStillPressedEventHandler >> newStopEvent [
 	^ ToStopStillPressedEvent new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'mouse handlers' }
 ToStillPressedEventHandler >> pickOutsideEvent: anEvent [
 
 	checker ifNil: [ ^ self ].
-	self stopTaskIn: anEvent currentTarget
+	self stopTaskFromEvent: anEvent in: anEvent currentTarget
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
+ToStillPressedEventHandler >> stopTaskFromEvent: anEvent in: aTarget [
+
+	pickOutsideFilter ifNotNil: [
+		pickOutsideFilter isInstalled ifTrue: [
+			aTarget spaceDo: [ :sp |
+				sp root removeEventFilter: pickOutsideFilter ] ].
+		pickOutsideFilter := nil ].
+
+	super stopTaskFromEvent: anEvent in: aTarget
+]
+
+{ #category : #accessing }
 ToStillPressedEventHandler >> stopTaskIn: target [
 
 	pickOutsideFilter ifNotNil: [

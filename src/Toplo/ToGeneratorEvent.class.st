@@ -2,26 +2,31 @@ Class {
 	#name : #ToGeneratorEvent,
 	#superclass : #BlEvent,
 	#instVars : [
-		'modifiers'
+		'sourceEvent'
 	],
 	#category : #'Toplo-Support-EventGenerator'
 }
 
-{ #category : #initialization }
-ToGeneratorEvent >> initialize [ 
-
-	super initialize.
-	modifiers := BlKeyModifiers new
-]
-
 { #category : #accessing }
 ToGeneratorEvent >> modifiers [
 
-	^ modifiers
+	^ sourceEvent modifiers
 ]
 
 { #category : #accessing }
-ToGeneratorEvent >> modifiers: anObject [
+ToGeneratorEvent >> position [
 
-	modifiers := anObject
+	^ sourceEvent position
+]
+
+{ #category : #accessing }
+ToGeneratorEvent >> sourceEvent [
+
+	^ sourceEvent
+]
+
+{ #category : #accessing }
+ToGeneratorEvent >> sourceEvent: anObject [
+
+	sourceEvent := anObject
 ]

@@ -52,6 +52,20 @@ ToEventGeneratorHandler >> startDelay: aDuration [
 ]
 
 { #category : #accessing }
+ToEventGeneratorHandler >> stopTaskFromEvent: anEvent in: aTarget [
+
+	checker ifNotNil: [
+		checker stop.
+		aTarget dequeueTask: checker.
+		checker := nil ].
+	startEvent ifNil: [ ^ self ].
+	startEvent := nil.
+	aTarget dispatchEvent: (self newStopEvent
+			 sourceEvent: anEvent;
+			 yourself)
+]
+
+{ #category : #accessing }
 ToEventGeneratorHandler >> stopTaskIn: target [
 
 	checker ifNotNil: [
@@ -72,12 +86,12 @@ ToEventGeneratorHandler >> taskActionFromEvent: anEvent in: aTarget [
 	evt := startEvent
 		       ifNil: [
 			       startEvent := self newStartEvent
-				                     modifiers: anEvent modifiers;
+				                     sourceEvent: anEvent;
 				                     yourself ]
 		       ifNotNil: [
 			       self newRepeatedEvent 
-				       modifiers: anEvent modifiers;
+				       sourceEvent: anEvent;
 				       yourself ].
 	aTarget dispatchEvent: evt.
-	evt isConsumed ifTrue: [ self stopTaskIn: aTarget ]
+	evt isConsumed ifTrue: [ self stopTaskFromEvent: anEvent in: aTarget ]
 ]

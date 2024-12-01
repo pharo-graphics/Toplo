@@ -264,7 +264,7 @@ ToSelectElement >> popupListDataAccessor [
 { #category : #'accessing - list' }
 ToSelectElement >> popupListElement [
 
-	^ self popupWindowManager listElement
+	^ self windowManager listElement
 ]
 
 { #category : #'accessing - selection' }
@@ -281,7 +281,7 @@ ToSelectElement >> popupListSelectionModel [
 { #category : #'accessing - list' }
 ToSelectElement >> popupMaxHeight: aNumber [
 
-	self popupWindowManager maxHeight: aNumber
+	self windowManager maxHeight: aNumber
 ]
 
 { #category : #'accessing - list' }
@@ -305,7 +305,11 @@ ToSelectElement >> popupSizeHook: aValuable [
 { #category : #accessing }
 ToSelectElement >> popupWindowManager [
 
-	^ popupWindowManager
+	self
+		deprecated: 'Use #windowManager'
+		transformWith: '`@rcvr popupWindowManager' -> '`@rcvr windowManager'.
+
+	^ self windowManager 
 ]
 
 { #category : #accessing }
@@ -358,9 +362,5 @@ ToSelectElement >> sieve [
 { #category : #accessing }
 ToSelectElement >> windowManager [
 
-	self
-		deprecated: 'Use #popupWindowManager'
-		transformWith: '`@rcvr windowManager' -> '`@rcvr popupWindowManager'.
-
-	^ self popupWindowManager
+	^ popupWindowManager
 ]

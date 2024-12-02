@@ -6,7 +6,8 @@ Class {
 		'pickOutsideFilter',
 		'autoCloseDelay',
 		'upCountRequired',
-		'autoPopupHandler'
+		'autoPopupHandler',
+		'closeOnMouseDown'
 	],
 	#category : #'Toplo-Core-Window'
 }
@@ -88,6 +89,12 @@ ToPopupWindowManager >> defaultAutoCloseDelay [
 ]
 
 { #category : #initialization }
+ToPopupWindowManager >> defaultCloseOnMouseDown [
+
+	^ true
+]
+
+{ #category : #initialization }
 ToPopupWindowManager >> defaultPositionHook [
 
 	^ [ :window :theElement :event |
@@ -109,7 +116,8 @@ ToPopupWindowManager >> initialize [
 
 	super initialize.
 	self usePrimaryMouseButton .
- 	autoCloseDelay := self defaultAutoCloseDelay
+ 	autoCloseDelay := self defaultAutoCloseDelay.
+	closeOnMouseDown := self defaultCloseOnMouseDown.
 ]
 
 { #category : #'window handling' }
@@ -127,7 +135,7 @@ ToPopupWindowManager >> mouseDownEvent: anEvent [
 	self unqueuePopupTaskFromEvent: anEvent.
 	anEvent button = mouseButton ifFalse: [ ^ self ].
 	currentWindow ifNotNil: [
-		self closeWindow.
+		closeOnMouseDown ifTrue: [ self closeWindow ].
 		^ self ].
 	self popupOnMouseDown ifFalse: [ ^ self ].
 	currentWindow ifNotNil: [ ^ self ].

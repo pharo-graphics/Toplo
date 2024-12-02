@@ -20,6 +20,12 @@ ToTooltipWindowManager >> defaultAutoPopupDelay [
 ]
 
 { #category : #initialization }
+ToTooltipWindowManager >> defaultCloseOnMouseDown [
+
+	^ false
+]
+
+{ #category : #initialization }
 ToTooltipWindowManager >> defaultPositionHook [
 
 	^ [ :theWindow :theElement :event |

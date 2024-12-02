@@ -25,6 +25,15 @@ ToLabelEditorWindow >> installRawStyle [
 ]
 
 { #category : #accessing }
+ToLabelEditorWindow >> newClosedEvent [
+
+	^ self closedEventClass new
+		  window: self;
+		  text: windowManager element text copy;
+		  yourself
+]
+
+{ #category : #accessing }
 ToLabelEditorWindow >> openedEventClass [ 
 
 	^ ToLabelEditorOpenedEvent 

@@ -4930,6 +4930,15 @@ ToSandBox class >> example_textFieldOnlyDigits [
 ]
 
 { #category : #'text field' }
+ToSandBox class >> example_textFieldReadOnlyWithSelectableText [
+
+	| t |
+	t := ToTextField new text: 'AAAA BBBBB CCCCCC DDDDD EEEEEEE FFFFFF GGGGGG'.
+	t beReadonlyWithSelection.
+	t openInInnerWindow 
+]
+
+{ #category : #'text field' }
 ToSandBox class >> example_textFieldWithAutocompletePopup [
 
 	| t |
@@ -5302,8 +5311,8 @@ ToSandBox class >> example_toButtonWithElementTooltip [
 	| but |
 	but := ToButton new.
 	but labelText: 'Button with tooltip'.
-	but tooltipBuilder: [ :win :theElement |
-		win root addChild: (BlElement new
+	but tooltipBuilder: [ :window :request |
+		window root addChild: (BlElement new
 				 background: Color random;
 				 size: 70 @ 100;
 				 yourself) ].
@@ -5535,33 +5544,37 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeave [
 { #category : #tooltip }
 ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 
-	| but |
+	| but text |
 	but := ToButton new.
 	but labelText: 'Button with editable tooltip'.
 	but closeTooltipOnMouseLeave: false.
+
+	text := 'Edit <Double click> - Accept <Return>' asRopedText.
+
 	but tooltipBuilder: [ :window :request |
-		| lab |
-		lab := ToLabel text:
-			       ' keep mouse over with shift key to edit / Return to accept'
-				       asRopedText.
-		lab addEventHandler: (ToStillHoveredEventHandler new
-				 startDelay: 1000 milliSeconds;
+		| editedLabel |
+		editedLabel := ToLabel text: text.
+		editedLabel addEventHandler: (ToStillPressedEventHandler new
+				 startDelay: 800 milliSeconds;
 				 yourself).
-		lab
+
+		editedLabel
 			beEditable;
-			addEventHandler: (BlEventHandler
-					 on: ToLabelEditorOpenedEvent
-					 do: [ window preventPickOutsideClosing ]);
-			addEventHandler: (BlEventHandler
-					 on: ToLabelEditorClosedEvent
-					 do: [ window allowPickOutsideClosing ]);
-			addEventHandler: (BlEventHandler
-					 on: ToStillHoveredEvent
-					 do: [ :event |
-						 event modifiers isShift ifTrue: [
-								 event consume.
-								 event currentTarget addEditorEvent: event ] ]).
-		window root addChild: lab ].
+			addEventHandlerOn: ToStartStillPressedEvent do: [ :event |
+				event consume.
+				editedLabel addEditorEvent: event ].
+
+		editedLabel
+			addEventHandlerOn: ToLabelTextReplacedEvent
+			do: [ text := editedLabel text ];
+			addEventHandlerOn: ToLabelEditorOpenedEvent
+			do: [ window preventPickOutsideClosing ];
+			addEventHandlerOn: ToLabelEditorClosedEvent do: [ :event |
+				text := event text.
+				window allowPickOutsideClosing ].
+
+		window root addChild: editedLabel ].
+
 	but whenClickedDo: [ :ann | self inform: 'Button clicked' ].
 	but openInSpace
 ]

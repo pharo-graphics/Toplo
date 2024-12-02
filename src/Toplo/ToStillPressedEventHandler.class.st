@@ -58,13 +58,17 @@ ToStillPressedEventHandler >> newRepeatedEvent [
 { #category : #'instance creation' }
 ToStillPressedEventHandler >> newStartEvent [
 
-	^ ToStartStillPressedEvent new sourceHandler: self; yourself
+	^ ToStartStillPressedEvent new
+		  emitter: self;
+		  yourself
 ]
 
 { #category : #'instance creation' }
 ToStillPressedEventHandler >> newStopEvent [
 
-	^ ToStopStillPressedEvent new sourceHandler: self; yourself
+	^ ToStopStillPressedEvent new
+		  emitter: self;
+		  yourself
 ]
 
 { #category : #'mouse handlers' }

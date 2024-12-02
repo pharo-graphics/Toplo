@@ -5536,27 +5536,32 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeave [
 ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 
 	| but |
-	self flag: 'Check the elevation of the editor'.
 	but := ToButton new.
 	but labelText: 'Button with editable tooltip'.
 	but closeTooltipOnMouseLeave: false.
-	but tooltipBuilder: [ :win :theElement |
+	but tooltipBuilder: [ :window :request |
 		| lab |
 		lab := ToLabel text:
 			       ' keep mouse over with shift key to edit / Return to accept'
 				       asRopedText.
 		lab addEventHandler: (ToStillHoveredEventHandler new
-	startDelay: 1000 milliSeconds;
-	yourself).
+				 startDelay: 1000 milliSeconds;
+				 yourself).
 		lab
 			beEditable;
+			addEventHandler: (BlEventHandler
+					 on: ToLabelEditorOpenedEvent
+					 do: [ window preventPickOutsideClosing ]);
+			addEventHandler: (BlEventHandler
+					 on: ToLabelEditorClosedEvent
+					 do: [ window allowPickOutsideClosing ]);
 			addEventHandler: (BlEventHandler
 					 on: ToStillHoveredEvent
 					 do: [ :event |
 						 event modifiers isShift ifTrue: [
 								 event consume.
 								 event currentTarget addEditorEvent: event ] ]).
-		win root addChild: lab ].
+		window root addChild: lab ].
 	but whenClickedDo: [ :ann | self inform: 'Button clicked' ].
 	but openInSpace
 ]

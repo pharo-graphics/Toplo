@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-Core-Window'
 }
 
+{ #category : #'api - displaying' }
+ToPopupWindow >> allowPickOutsideClosing [
+
+	windowManager plugPickOutsideFilter
+]
+
 { #category : #accessing }
 ToPopupWindow >> closedEventClass [ 
 
@@ -14,4 +20,10 @@ ToPopupWindow >> closedEventClass [
 ToPopupWindow >> openedEventClass [ 
 
 	^ ToPopupWindowOpenedEvent 
+]
+
+{ #category : #'api - displaying' }
+ToPopupWindow >> preventPickOutsideClosing [
+
+	windowManager unplugPickOutsideFilter
 ]

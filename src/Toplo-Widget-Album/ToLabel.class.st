@@ -7,8 +7,8 @@ Class {
 		'isEditable',
 		'innerElement',
 		'lineMode',
-		'frameManager',
-		'currText'
+		'currText',
+		'editorWindowManager'
 	],
 	#category : #'Toplo-Widget-Album-Label'
 }
@@ -24,7 +24,7 @@ ToLabel >> addEditorEvent: anEvent [
 
 	self innerElement visibility: BlVisibility hidden.
 	self hasEditor ifTrue: [  ^ self ].
-	(self newEditorFrameEvent: anEvent) popupEvent: anEvent.
+	(self newEditorWindowEvent: anEvent) popupEvent: anEvent.
 	
 	self editor selecter
 		all;
@@ -93,9 +93,9 @@ ToLabel >> cleanUpUserData [
 ]
 
 { #category : #'private-editing' }
-ToLabel >> currentEditorFrame [
+ToLabel >> currentEditorWindow [
 
-	^ frameManager currentWindow
+	^ editorWindowManager currentWindow
 ]
 
 { #category : #initialization }
@@ -152,7 +152,7 @@ ToLabel >> editorBuilder: aValuable [
 { #category : #'private-editing' }
 ToLabel >> hasEditor [
 
-	^ frameManager notNil and: [ frameManager currentWindow notNil ]
+	^ editorWindowManager notNil and: [ editorWindowManager currentWindow notNil ]
 ]
 
 { #category : #accessing }
@@ -178,16 +178,16 @@ ToLabel >> initialize [
 ]
 
 { #category : #'private-editing' }
-ToLabel >> initializeEditorFrameBuilder [
+ToLabel >> initializeEditorWindowBuilder [
 
 	self isEditable
 		ifTrue: [
-			frameManager := ToLabelEditorWindowManager new.
-			self addEventHandler: frameManager ]
+			editorWindowManager := ToLabelEditorWindowManager new.
+			self addEventHandler: editorWindowManager ]
 		ifFalse: [
-			frameManager ifNil: [ ^ self ].
-			self removeEventHandler: frameManager.
-			frameManager := nil ]
+			editorWindowManager ifNil: [ ^ self ].
+			self removeEventHandler: editorWindowManager.
+			editorWindowManager := nil ]
 ]
 
 { #category : #accessing }
@@ -216,7 +216,7 @@ ToLabel >> isEditable: aBoolean [
 
 	isEditable = aBoolean ifTrue: [ ^ self ].
 	isEditable := aBoolean.
-	self initializeEditorFrameBuilder
+	self initializeEditorWindowBuilder
 ]
 
 { #category : #testing }
@@ -276,9 +276,9 @@ ToLabel >> newEditor [
 ]
 
 { #category : #'private-editing' }
-ToLabel >> newEditorFrameEvent: anEvent [
+ToLabel >> newEditorWindowEvent: anEvent [
 
-	^  frameManager newWindowEvent: anEvent
+	^  editorWindowManager newWindowEvent: anEvent
 ]
 
 { #category : #skin }
@@ -354,7 +354,7 @@ ToLabel >> privateText: aText [
 { #category : #'private-editing' }
 ToLabel >> removeEditor [
 
-	self currentEditorFrame ifNotNil: [:w | w close].
+	editorWindowManager closeWindow.
 	self innerElement visibility: BlVisibility visible.
 	self cleanUpUserData
 ]

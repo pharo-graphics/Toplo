@@ -5,7 +5,8 @@ Class {
 		'upCount',
 		'windowManager',
 		'holder',
-		'checkElement'
+		'checkElement',
+		'plugged'
 	],
 	#category : #'Toplo-Core-Window'
 }
@@ -53,7 +54,14 @@ ToPopupPickOutsideEventFilter >> eventsToHandle [
 ToPopupPickOutsideEventFilter >> initialize [ 
 
 	super initialize.
-	checkElement := true
+	checkElement := true.
+	plugged := true.
+]
+
+{ #category : #testing }
+ToPopupPickOutsideEventFilter >> isPlugged [
+
+	^ plugged
 ]
 
 { #category : #'mouse handlers' }
@@ -66,6 +74,7 @@ ToPopupPickOutsideEventFilter >> mouseUpEvent: anEvent [
 	| target delay |
 	"self class name trace. '>>mouseUpEvent: with upCount=' trace. upCount traceCr."
 	self checkLegitimacy ifFalse: [ ^ self ].
+	self isPlugged ifFalse: [ ^ self ].
 	self checkUpCount ifFalse: [ ^ self ].
 
 	" check a minimum delay between opening and closing - 
@@ -73,11 +82,12 @@ ToPopupPickOutsideEventFilter >> mouseUpEvent: anEvent [
 	delay := anEvent timestamp - self popupWindow popupTimestamp.
 	delay < windowManager autoCloseDelay ifTrue: [ ^ self ].
 
-	" It it ouside the element "
+	" Is it ouside the element ? "
 	target := anEvent target.
 	checkElement ifTrue: [
 		(self element itemContaining: target) ifNotNil: [ :found | ^ self ] ].
-	"and outside the popup windows "
+	
+	"and outside of the popup windows ? "
 	self popupWindow withAllSubwindowsDo: [ :w |
 		(w itemContaining: target) ifNotNil: [ ^ self ] ].
 
@@ -94,6 +104,12 @@ ToPopupPickOutsideEventFilter >> onInstalledIn: anElement [
 	upCount := 0
 ]
 
+{ #category : #'mouse handlers' }
+ToPopupPickOutsideEventFilter >> plug [ 
+
+	plugged := true
+]
+
 { #category : #accessing }
 ToPopupPickOutsideEventFilter >> popupWindow [
 
@@ -105,6 +121,12 @@ ToPopupPickOutsideEventFilter >> popupWindow [
 ToPopupPickOutsideEventFilter >> shouldCheckElement: aBoolean [
 
 	checkElement := aBoolean
+]
+
+{ #category : #'mouse handlers' }
+ToPopupPickOutsideEventFilter >> unplug [ 
+
+	plugged := false
 ]
 
 { #category : #accessing }

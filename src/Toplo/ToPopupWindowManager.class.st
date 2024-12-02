@@ -53,6 +53,12 @@ ToPopupWindowManager >> autoPopupDelay: aDuration [
 ]
 
 { #category : #'window handling' }
+ToPopupWindowManager >> canCloseWindow [
+
+	^ pickOutsideFilter isNil or: [ pickOutsideFilter isPlugged ]
+]
+
+{ #category : #'window handling' }
 ToPopupWindowManager >> checkAutoCloseWindowAfter: aTimestamp [
 
 	| delay |
@@ -75,8 +81,10 @@ ToPopupWindowManager >> checkAutoCloseWindowOnMouseUp: anEvent [
 { #category : #'window handling' }
 ToPopupWindowManager >> closeWindow [ 
 
+	self canCloseWindow ifFalse: [ ^ false ].
 	self unqueuePopupTaskFromEvent: nil.
 	super closeWindow.
+	^ true
 
 ]
 
@@ -175,7 +183,15 @@ ToPopupWindowManager >> onOpened [
 { #category : #'event handling' }
 ToPopupWindowManager >> pickOutsideEvent: anEvent [
 
-	self currentWindowDo: [ :w | w close ]
+	self closeWindow
+]
+
+{ #category : #'window handling' }
+ToPopupWindowManager >> plugPickOutsideFilter [
+
+	pickOutsideFilter ifNil: [ ^ self ].
+	pickOutsideFilter plug.
+
 ]
 
 { #category : #'window handling' }
@@ -216,6 +232,14 @@ ToPopupWindowManager >> uninstallPickOutsideFilter [
 	element space ifNil: [ ^ self ].
 	element space root removeEventFilter: pickOutsideFilter.
 	pickOutsideFilter := nil.
+
+]
+
+{ #category : #'window handling' }
+ToPopupWindowManager >> unplugPickOutsideFilter [
+
+	pickOutsideFilter ifNil: [ Error signal: 'The pick outside event filter should be present' ].
+	pickOutsideFilter unplug.
 
 ]
 

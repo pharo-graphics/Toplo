@@ -2,7 +2,8 @@ Class {
 	#name : #ToGeneratorEvent,
 	#superclass : #BlEvent,
 	#instVars : [
-		'sourceEvent'
+		'sourceEvent',
+		'sourceHandler'
 	],
 	#category : #'Toplo-Support-EventGenerator'
 }
@@ -29,4 +30,16 @@ ToGeneratorEvent >> sourceEvent [
 ToGeneratorEvent >> sourceEvent: anObject [
 
 	sourceEvent := anObject
+]
+
+{ #category : #accessing }
+ToGeneratorEvent >> sourceHandler [
+
+	^ sourceHandler
+]
+
+{ #category : #accessing }
+ToGeneratorEvent >> sourceHandler: anObject [
+
+	sourceHandler := anObject
 ]

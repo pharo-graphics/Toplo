@@ -35,17 +35,17 @@ ToStillHoveredEventHandler >> mouseLeaveEvent: anEvent [
 { #category : #'instance creation' }
 ToStillHoveredEventHandler >> newRepeatedEvent [
 
-	^ ToStillHoveredEvent new
+	^ ToStillHoveredEvent new sourceHandler: self; yourself
 ]
 
 { #category : #'instance creation' }
 ToStillHoveredEventHandler >> newStartEvent [ 
 
-	^ ToStartStillHoveredEvent new
+	^ ToStartStillHoveredEvent new sourceHandler: self; yourself
 ]
 
 { #category : #'instance creation' }
 ToStillHoveredEventHandler >> newStopEvent [
 
-	^ ToStopStillHoveredEvent new
+	^ ToStopStillHoveredEvent new sourceHandler: self; yourself
 ]

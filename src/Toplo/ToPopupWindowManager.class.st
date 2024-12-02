@@ -196,7 +196,8 @@ ToPopupWindowManager >> popupOnMouseDown [
 { #category : #'still pressed - hovered' }
 ToPopupWindowManager >> startStillHoveredEvent: anEvent [
 	" test if I'am concerned by this event "
-	anEvent sourceHandler = autoPopupHandler ifFalse: [ ^ self ].
+
+	anEvent emitter = autoPopupHandler ifFalse: [ ^ self ].
 	self popupEvent: anEvent
 ]
 

@@ -34,7 +34,7 @@ ToOverlayWindowManagerTest >> testElementEventHandlerClass [
 	space root addChild: e.
 	self waitTestingSpaces.
 
-	windowManager := ToOverlayWindowManager new builder: [
+	windowManager := ToOverlayWindowManager new windowBuilder: [
 		                 :anchWin
 		                 :element |  ].
 	e addEventHandler: windowManager.

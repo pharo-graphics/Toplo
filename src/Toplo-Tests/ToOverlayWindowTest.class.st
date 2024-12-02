@@ -15,7 +15,7 @@ ToOverlayWindowTest >> testWindowSize [
 	space root addChild: e.
 	e position: 10 asPoint.
 	e size: 10 asPoint.
-	windowManager := ToOverlayWindowManager new builder: [
+	windowManager := ToOverlayWindowManager new windowBuilder: [
 		                 :anchWin
 		                 :requestEvent |  ].
 	e addEventHandler: windowManager.
@@ -39,7 +39,7 @@ ToOverlayWindowTest >> testWindowSize2 [
 	space root addChild: e.
 	e position: 10 asPoint.
 	e size: 10 asPoint.
-	windowManager := ToOverlayWindowManager new builder: [
+	windowManager := ToOverlayWindowManager new windowBuilder: [
 		                 :anchWin
 		                 :requestEvent |
 		                 anchWin root addChild:

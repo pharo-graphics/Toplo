@@ -167,7 +167,7 @@ TToElementWithTooltipTest >> testTooltipBuilder [
 	b := [ :win :theRequest | win root addChild: ToElement new ].
 	e tooltipBuilder: b.
 	self assert: e rawTooltipWindowManager notNil.
-	self assert: e rawTooltipWindowManager builder identicalTo: b.
+	self assert: e rawTooltipWindowManager windowBuilder identicalTo: b.
 	e removeTooltipWindowManager.
 	self assert: e rawTooltipWindowManager isNil
 ]

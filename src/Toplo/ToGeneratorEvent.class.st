@@ -3,10 +3,22 @@ Class {
 	#superclass : #BlEvent,
 	#instVars : [
 		'sourceEvent',
-		'sourceHandler'
+		'emitter'
 	],
 	#category : #'Toplo-Support-EventGenerator'
 }
+
+{ #category : #accessing }
+ToGeneratorEvent >> emitter [
+
+	^ emitter
+]
+
+{ #category : #accessing }
+ToGeneratorEvent >> emitter: anObject [
+
+	emitter := anObject
+]
 
 { #category : #accessing }
 ToGeneratorEvent >> modifiers [
@@ -35,11 +47,19 @@ ToGeneratorEvent >> sourceEvent: anObject [
 { #category : #accessing }
 ToGeneratorEvent >> sourceHandler [
 
-	^ sourceHandler
+	self
+		deprecated: 'Use #emitter'
+		transformWith:
+		'`@rcvr sourceHandler' -> '`@rcvr emitter'.
+	^ emitter
 ]
 
 { #category : #accessing }
 ToGeneratorEvent >> sourceHandler: anObject [
 
-	sourceHandler := anObject
+	self
+		deprecated: 'Use #emitter:'
+		transformWith:
+		'`@rcvr sourceHandler: `@arg' -> '`@rcvr emitter: `@arg'.
+	emitter := anObject
 ]

@@ -19,8 +19,9 @@ ToPopupWindowTest >> testElement [
 
 	" have to layout the space here to ensure that no position changed event is sent (which should close the window and make the test failing fail the test)"
 	self waitTestingSpaces.
-	windowManager := ToPopupWindowManager new builder: [ :anchWin :element |
-		                  ].
+	windowManager := ToPopupWindowManager new windowBuilder: [
+		                 :anchWin
+		                 :element |  ].
 	e addEventHandler: windowManager.
 	win := windowManager newWindowEvent: nil.
 	win popup.
@@ -55,7 +56,7 @@ ToPopupWindowTest >> testElementWithLabelEditorAndPopupWindowManager [
 	self waitTestingSpaces.
 
 	e addEventHandler:
-		(ToPopupWindowManager new builder: [ :anchWin :element |  ]).
+		(ToPopupWindowManager new windowBuilder: [ :anchWin :element |  ]).
 	e addEventHandler: ToLabelEditorWindowManager new.
 	e dispatchEvent: ToPopupWindowOpenedEvent new.
 	e dispatchEvent: ToLabelEditorOpenedEvent new
@@ -72,12 +73,14 @@ ToPopupWindowTest >> testElementWithTooltipAndPopupWindowManager [
 	space root addChild: e.
 	self waitTestingSpaces.
 
-	windowManager := ToPopupWindowManager new builder: [ :anchWin :element | ].
+	windowManager := ToPopupWindowManager new windowBuilder: [
+		                 :anchWin
+		                 :element |  ].
 	e addEventHandler: windowManager.
 	e tooltipContent: (ToLabel text: 'Tooltip content').
 	tooltipWindowManager := e tooltipWindowManager.
 	self assert: tooltipWindowManager notNil.
-	
+
 	" mouse down immediately followed by a mouse up -> the popup should stay opened"
 	BlSpace simulateMouseDownOn: e.
 	self waitTestingSpaces.
@@ -106,7 +109,9 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownDelayUp [
 	space root addChild: e.
 	self waitTestingSpaces.
 
-	windowManager := ToPopupWindowManager new builder: [ :anchWin :element | ].
+	windowManager := ToPopupWindowManager new windowBuilder: [
+		                 :anchWin
+		                 :element |  ].
 	e addEventHandler: windowManager.
 
 	" mouse down immediately followed by a mouse up -> the popup should stay opened"
@@ -136,7 +141,9 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownDelayUp2 [
 	space root addChild: e.
 	self waitTestingSpaces.
 
-	windowManager := ToPopupWindowManager new builder: [ :anchWin :element | ].
+	windowManager := ToPopupWindowManager new windowBuilder: [
+		                 :anchWin
+		                 :element |  ].
 	e addEventHandler: windowManager.
 
 	" mouse down then wait a delay then a mouse up -> the popup should be closed"
@@ -161,7 +168,9 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownOutside [
 		     position: 50 @ 50.
 	space root addChild: e.
 
-	windowManager := ToPopupWindowManager new builder: [ :anchWin :element |
+	windowManager := ToPopupWindowManager new windowBuilder: [
+		                 :anchWin
+		                 :element |
 		                 anchWin addChild: (ToElement new size: 20 @ 20) ].
 	e addEventHandler: windowManager.
 	windowManager autoCloseDelay: 0 milliSeconds.
@@ -177,10 +186,10 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownOutside [
 			 on: ToClosedEvent
 			 do: [ :event | closed := true ]).
 	windowManager autoCloseDelay: 200 milliSeconds.
-	BlSpace simulateMouseDownOn: e.		
+	BlSpace simulateMouseDownOn: e.
 	BlSpace simulateMouseUpOn: e.
 	self assert: windowManager currentWindow notNil.
-	
+
 	BlSpace simulateMouseDownOn: space root.
 	400 milliSeconds asDelay wait.
 	self waitTestingSpaces.
@@ -199,13 +208,15 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseUpOutsideAssociateElement [
 		     size: 100 @ 40;
 		     position: 50 @ 50.
 	other := ToElement new
-		     background: Color blue;
-		     size: 10 @ 10;
-		     position: 500 @ 500.
+		         background: Color blue;
+		         size: 10 @ 10;
+		         position: 500 @ 500.
 	space root addChild: e.
 	space root addChild: other.
 
-	windowManager := ToPopupWindowManager new builder: [ :anchWin :element |
+	windowManager := ToPopupWindowManager new windowBuilder: [
+		                 :anchWin
+		                 :element |
 		                 anchWin addChild: (ToElement new size: 20 @ 20) ].
 	e addEventHandler: windowManager.
 	windowManager autoCloseDelay: 0 milliSeconds.

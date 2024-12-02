@@ -17,7 +17,7 @@ ToAnchoredWindowTest >> testClose [
 	self applyAllEnqueuedStates.
 	winRootChild := ToElement new.
 
-	windowManager := ToAnchoredWindowManagerForTest new builder: [
+	windowManager := ToAnchoredWindowManagerForTest new windowBuilder: [
 		                 :anchWin
 		                 :element | anchWin root addChild: winRootChild ].
 	e addEventHandler: windowManager.
@@ -37,7 +37,7 @@ ToAnchoredWindowTest >> testClosedEventClass [
 	| win windowManager e closeEvent |
 	e := ToElement new.
 	space root addChild: e.
-	windowManager := ToAnchoredWindowManagerForTest new builder: [
+	windowManager := ToAnchoredWindowManagerForTest new windowBuilder: [
 		                 :anchWin
 		                 :element |  ].
 	e addEventHandler: windowManager.
@@ -62,7 +62,7 @@ ToAnchoredWindowTest >> testDefaultElevation [
 	space root addChild: e.
 	self waitTestingSpaces.
 
-	windowManager := ToAnchoredWindowManagerForTest new builder: [
+	windowManager := ToAnchoredWindowManagerForTest new windowBuilder: [
 		                 :anchWin
 		                 :element |  ].
 	e addEventHandler: windowManager.
@@ -247,7 +247,7 @@ ToAnchoredWindowTest >> testOpenedEventClass [
 	| win windowManager e openedEvent |
 	e := ToElement new.
 	space root addChild: e.
-	windowManager := ToAnchoredWindowManagerForTest new builder: [
+	windowManager := ToAnchoredWindowManagerForTest new windowBuilder: [
 		                 :anchWin
 		                 :element |  ].
 	e addEventHandler: windowManager.
@@ -313,7 +313,7 @@ ToAnchoredWindowTest >> testPopupEventNotInSpace [
 
 	| win e openEventFromWindow openEventFromWidget closeEventFromWindow closeEventFromWidget windowManager |
 	e := ToElement new.
-	windowManager := ToAnchoredWindowManagerForTest new builder: [
+	windowManager := ToAnchoredWindowManagerForTest new windowBuilder: [
 		                 :anchWin
 		                 :element |  ].
 	e addEventHandler: windowManager.
@@ -349,7 +349,7 @@ ToAnchoredWindowTest >> testPopupEventNotInSpace2 [
 
 	| win e windowManager |
 	e := ToElement new.
-	windowManager := ToAnchoredWindowManagerForTest new builder: [
+	windowManager := ToAnchoredWindowManagerForTest new windowBuilder: [
 		                 :anchWin
 		                 :element |  ].
 	e addEventHandler: windowManager.
@@ -375,7 +375,7 @@ ToAnchoredWindowTest >> testPopupTimeStamp [
 	| win windowManager e openedEvent timeStamp |
 	e := ToElement new.
 	space root addChild: e.
-	windowManager := ToAnchoredWindowManagerForTest new builder: [
+	windowManager := ToAnchoredWindowManagerForTest new windowBuilder: [
 		                 :anchWin
 		                 :element |  ].
 	e addEventHandler: windowManager.
@@ -407,7 +407,7 @@ ToAnchoredWindowTest >> testValueOfTokenNamedInWindow [
 	e := ToElement new.
 	e localTheme: ToRawThemeForTest new.
 	space root addChild: e.
-	windowManager := ToAnchoredWindowManagerForTest new builder: [
+	windowManager := ToAnchoredWindowManagerForTest new windowBuilder: [
 		                 :anchWin
 		                 :requestEvent |
 		                 lab := ToLabel new text: 'H'.
@@ -446,7 +446,7 @@ ToAnchoredWindowTest >> testWindowSize [
 	e size: 10 asPoint.
 	self waitTestingSpaces.
 
-	windowManager := ToAnchoredWindowManagerForTest new builder: [
+	windowManager := ToAnchoredWindowManagerForTest new windowBuilder: [
 		                 :anchWin
 		                 :element |  ].
 	e addEventHandler: windowManager.

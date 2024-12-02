@@ -112,7 +112,7 @@ ToSelectPopupWindowManager >> onInstalledIn: anElement [
 			 select: self element;
 			 yourself).
 
-	self builder: [ :selectWin :request |
+	self windowBuilder: [ :selectWin :request |
 		selectWin root hMatchParent.
 		selectWin root vFitContent.
 		selectWin root addChild: self listElement ].

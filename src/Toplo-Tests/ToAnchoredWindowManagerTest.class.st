@@ -17,7 +17,7 @@ ToAnchoredWindowManagerTest >> testApplyPositionHookFromEvent [
 	e size: 10 asPoint.
 	self waitTestingSpaces.
 
-	windowManager := ToAnchoredWindowManagerForTest new builder: [
+	windowManager := ToAnchoredWindowManagerForTest new windowBuilder: [
 		                 :anchWin
 		                 :element |  ].
 	self
@@ -52,7 +52,7 @@ ToAnchoredWindowManagerTest >> testApplySizeHookFromEvent [
 	e size: 10 asPoint.
 	self waitTestingSpaces.
 
-	windowManager := ToAnchoredWindowManagerForTest new builder: [
+	windowManager := ToAnchoredWindowManagerForTest new windowBuilder: [
 		                 :anchWin
 		                 :element |  ].
 	self
@@ -87,8 +87,9 @@ ToAnchoredWindowManagerTest >> testBuilder [
 		                    id: #child.
 	           child background: Color red.
 	           theWindow root addChild: child ].
-	windowManager := ToAnchoredWindowManagerForTest new builder: builder.
-	self assert: windowManager builder identicalTo: builder.
+	windowManager := ToAnchoredWindowManagerForTest new windowBuilder:
+		                 builder.
+	self assert: windowManager windowBuilder identicalTo: builder.
 	e addEventHandler: windowManager.
 	win := windowManager newWindowEvent: nil.
 	self assert: win root children size equals: 1.
@@ -108,7 +109,7 @@ ToAnchoredWindowManagerTest >> testCloseWindow [
 	e := ToElement new.
 	space root addChild: e.
 
-	windowManager := ToAnchoredWindowManagerForTest new builder: [
+	windowManager := ToAnchoredWindowManagerForTest new windowBuilder: [
 		                 :anchWin
 		                 :request |  ].
 	e addEventHandler: windowManager.
@@ -126,7 +127,7 @@ ToAnchoredWindowManagerTest >> testCurrentWindow [
 	| win e windowManager |
 	e := ToElement new.
 	space root addChild: e.
-	windowManager := ToAnchoredWindowManagerForTest new builder: [
+	windowManager := ToAnchoredWindowManagerForTest new windowBuilder: [
 		                 :anchWin
 		                 :element |  ].
 	e addEventHandler: windowManager.
@@ -148,7 +149,7 @@ ToAnchoredWindowManagerTest >> testDefaultPositionHook [
 	space root addChild: e.
 	e position: 10 asPoint.
 	e size: 10 asPoint.
-	windowManager := ToAnchoredWindowManagerForTest new builder: [
+	windowManager := ToAnchoredWindowManagerForTest new windowBuilder: [
 		                 :anchWin
 		                 :element |  ].
 	self assert:
@@ -193,7 +194,7 @@ ToAnchoredWindowManagerTest >> testElement [
 	e size: 10 asPoint.
 	self waitTestingSpaces.
 
-	windowManager := ToAnchoredWindowManagerForTest new builder: [
+	windowManager := ToAnchoredWindowManagerForTest new windowBuilder: [
 		                 :window
 		                 :element |  ].
 	e addEventHandler: windowManager.
@@ -205,7 +206,7 @@ ToAnchoredWindowManagerTest >> testElement [
 	" a window handler can be used only for one window  "
 	self should: [ windowManager newWindowEvent: nil ] raise: Error.
 	win addEventHandler: (BlEventHandler
-			 on: ToOpenedEvent 
+			 on: ToOpenedEvent
 			 do: [ :event | openEventFromWindow := event ]).
 	e addEventHandler: (BlEventHandler
 			 on: ToOpenedEvent
@@ -237,12 +238,11 @@ ToAnchoredWindowManagerTest >> testElementEventHandler [
 	| e windowManager |
 	e := ToElement new.
 	space root addChild: e.
-	windowManager := ToAnchoredWindowManagerForTest new builder: [
+	windowManager := ToAnchoredWindowManagerForTest new windowBuilder: [
 		                 :anchWin
 		                 :element |  ].
 	e addEventHandler: windowManager.
-	self assert: (e eventDispatcher handlers includes:
-			 windowManager)
+	self assert: (e eventDispatcher handlers includes: windowManager)
 ]
 
 { #category : #tests }
@@ -253,7 +253,7 @@ ToAnchoredWindowManagerTest >> testElementEventHandlerClass [
 	space root addChild: e.
 	self waitTestingSpaces.
 
-	windowManager := ToAnchoredWindowManagerForTest new builder: [
+	windowManager := ToAnchoredWindowManagerForTest new windowBuilder: [
 		                 :anchWin
 		                 :element |  ].
 	e addEventHandler: windowManager.
@@ -281,7 +281,7 @@ ToAnchoredWindowManagerTest >> testElementPositionInSpaceChangedEvent [
 	e size: 10 asPoint.
 	self waitTestingSpaces.
 
-	windowManager := ToAnchoredWindowManagerForTest new builder: [
+	windowManager := ToAnchoredWindowManagerForTest new windowBuilder: [
 		                 :anchWin
 		                 :element |  ].
 	e addEventHandler: windowManager.
@@ -309,7 +309,7 @@ ToAnchoredWindowManagerTest >> testElementRemovedFromParentEvent [
 	e size: 10 asPoint.
 	self waitTestingSpaces.
 
-	windowManager := ToAnchoredWindowManagerForTest new builder: [
+	windowManager := ToAnchoredWindowManagerForTest new windowBuilder: [
 		                 :anchWin
 		                 :element |  ].
 	e addEventHandler: windowManager.
@@ -317,7 +317,7 @@ ToAnchoredWindowManagerTest >> testElementRemovedFromParentEvent [
 	win popup.
 	closed := false.
 	win addEventHandler: (BlEventHandler
-			 on: ToClosedEvent 
+			 on: ToClosedEvent
 			 do: [ closed := true ]).
 	self waitTestingSpaces.
 	self assert: win isOpened.
@@ -338,7 +338,7 @@ ToAnchoredWindowManagerTest >> testHasWindow [
 	| win e windowManager |
 	e := ToElement new.
 	space root addChild: e.
-	windowManager := ToAnchoredWindowManagerForTest new builder: [
+	windowManager := ToAnchoredWindowManagerForTest new windowBuilder: [
 		                 :anchWin
 		                 :element |  ].
 	e addEventHandler: windowManager.
@@ -358,7 +358,7 @@ ToAnchoredWindowManagerTest >> testNewWindowEvent [
 	| win e windowManager |
 	e := ToElement new.
 	space root addChild: e.
-	windowManager := ToAnchoredWindowManagerForTest new builder: [
+	windowManager := ToAnchoredWindowManagerForTest new windowBuilder: [
 		                 :anchWin
 		                 :element |  ].
 	" no element -> Error "
@@ -397,7 +397,7 @@ ToAnchoredWindowManagerTest >> testPositionHook [
 	e size: 10 asPoint.
 	self waitTestingSpaces.
 
-	windowManager := ToAnchoredWindowManagerForTest new builder: [
+	windowManager := ToAnchoredWindowManagerForTest new windowBuilder: [
 		                 :anchWin
 		                 :element |  ].
 	e addEventHandler: windowManager.
@@ -426,7 +426,7 @@ ToAnchoredWindowManagerTest >> testPositionHook2 [
 	e size: 10 asPoint.
 	self waitTestingSpaces.
 
-	windowManager := ToAnchoredWindowManagerForTest new builder: [
+	windowManager := ToAnchoredWindowManagerForTest new windowBuilder: [
 		                 :anchWin
 		                 :element |  ].
 	e addEventHandler: windowManager.
@@ -456,7 +456,7 @@ ToAnchoredWindowManagerTest >> testPositionHook3 [
 	e size: 10 asPoint.
 	self waitTestingSpaces.
 
-	windowManager := ToAnchoredWindowManagerForTest new builder: [
+	windowManager := ToAnchoredWindowManagerForTest new windowBuilder: [
 		                 :anchWin
 		                 :element |  ].
 	e addEventHandler: windowManager.
@@ -497,7 +497,9 @@ ToAnchoredWindowManagerTest >> testSizeHook [
 ToAnchoredWindowManagerTest >> testWindowClass [
 
 	| windowManager |
-	windowManager := ToAnchoredWindowManager new builder: [ :anchWin :element | ].
+	windowManager := ToAnchoredWindowManager new windowBuilder: [
+		                 :anchWin
+		                 :element |  ].
 	self assert: windowManager windowClass identicalTo: ToAnchoredWindow
 ]
 
@@ -505,6 +507,10 @@ ToAnchoredWindowManagerTest >> testWindowClass [
 ToAnchoredWindowManagerTest >> testWindowOpenRequestClass [
 
 	| windowManager |
-	windowManager := ToAnchoredWindowManager new builder: [ :anchWin :element | ].
-	self assert: windowManager windowRequestClass identicalTo: ToWindowRequest
+	windowManager := ToAnchoredWindowManager new windowBuilder: [
+		                 :anchWin
+		                 :element |  ].
+	self
+		assert: windowManager windowRequestClass
+		identicalTo: ToWindowRequest
 ]

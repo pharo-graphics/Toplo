@@ -5530,15 +5530,17 @@ ToSandBox class >> example_toImageWithSVG6 [
 { #category : #tooltip }
 ToSandBox class >> example_toKeepTooltipWindowOnMouseLeave [
 
-	| but  |
+	| but |
 	self flag: 'not working as expected'.
 	but := ToButton new.
 	but closeTooltipOnMouseLeave: false.
-	but labelText: 'Button with tooltip text'.
-	but tooltipText: ('This is a button', String cr, 'so, click on me...') asRopedText. 
-	but whenClickedDo: [ :ann | self inform: 'Button clicked' ].
+	but labelText: 'Button with tooltip with selectable text'.
+	but tooltipBuilder: [ :window :request |
+		| txtfld |
+		txtfld := ToTextField new text: 'Selectable text'.
+		window root addChild: txtfld.
+		txtfld beReadonlyWithSelection ].
 	but openInSpace
- 
 ]
 
 { #category : #tooltip }

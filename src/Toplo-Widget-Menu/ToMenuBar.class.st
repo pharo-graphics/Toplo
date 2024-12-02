@@ -105,6 +105,12 @@ ToMenuBar >> isMenuBar [
 	^ true
 ]
 
+{ #category : #testing }
+ToMenuBar >> isSubBar [ 
+
+	^ parentItemContainer notNil
+]
+
 { #category : #'t - menu item' }
 ToMenuBar >> itemContaining: anElement [
 

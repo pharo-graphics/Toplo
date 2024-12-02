@@ -28,12 +28,6 @@ ToMenu >> bar [
 ]
 
 { #category : #accessing }
-ToMenu >> builder: aBlock [
-
-	self in: aBlock 
-]
-
-{ #category : #accessing }
 ToMenu >> buttonClickEventClass [
 
 	^ BlMouseDownEvent
@@ -69,7 +63,7 @@ ToMenu >> initialize [
 	isSubmenu := false.
 	windowManager := ToMenuWindowManager new.
 	self addEventHandler: windowManager.
-	windowManager builder: [ :menWin :request |
+	windowManager windowBuilder: [ :menWin :request |
 		menWin root addChild: request currentTarget itemList ]
 ]
 

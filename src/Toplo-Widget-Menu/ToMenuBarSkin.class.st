@@ -11,8 +11,12 @@ ToMenuBarSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e background: (Color veryLightGray alpha: 0.2).
+		e geometry: (BlRoundedRectangleGeometry cornerRadius:
+				 (e valueOfTokenNamed: 'border-radius')).
+		e isSubBar
+			ifTrue: [ e background: (e valueOfTokenNamed: #'background-color') ]
+			ifFalse: [ e background: (Color veryLightGray alpha: 0.2) ].
 		e itemList background: BlBackground transparent.
 		e border: BlBorder empty.
-		e parentItemContainer ifNil: [e padding: (BlInsets all: 4) ] ]
+		e parentItemContainer ifNil: [ e padding: (BlInsets all: 4) ] ]
 ]

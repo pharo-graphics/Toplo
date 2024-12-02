@@ -5,9 +5,9 @@ Class {
 		'anchorRoot',
 		'currentWindow',
 		'element',
-		'builder',
 		'positionHook',
-		'sizeHook'
+		'sizeHook',
+		'windowBuilder'
 	],
 	#category : #'Toplo-Core-Window'
 }
@@ -57,19 +57,27 @@ ToAnchoredWindowManager >> applySizeHookFromEvent: anEvent [
 { #category : #'window handling' }
 ToAnchoredWindowManager >> buildCurrentWindowFromRequest: aRequest [
 
-	builder value: currentWindow value: aRequest
+	windowBuilder value: currentWindow value: aRequest
 ]
 
 { #category : #accessing }
 ToAnchoredWindowManager >> builder [
 
-	^ builder
+	self
+		deprecated: 'Use #windowBuilder'
+		transformWith:
+		'`@rcvr builder' -> '`@rcvr windowBuilder'.
+		
+	^ self windowBuilder
 ]
 
 { #category : #accessing }
 ToAnchoredWindowManager >> builder: aWindowBuilderValuable [
-
-	builder := aWindowBuilderValuable
+	self
+		deprecated: 'Use #windowBuilder:'
+		transformWith:
+		'`@rcvr builder: `@arg' -> '`@rcvr windowBuilder: `@arg'.
+	self windowBuilder: aWindowBuilderValuable
 ]
 
 { #category : #'window handling' }
@@ -179,14 +187,12 @@ ToAnchoredWindowManager >> hasWindow [
 ]
 
 { #category : #initialization }
-ToAnchoredWindowManager >> initialize [ 
+ToAnchoredWindowManager >> initialize [
 
 	super initialize.
 	self positionHook: self defaultPositionHook.
 	self sizeHook: self defaultSizeHook.
-	self builder: self defaultBuilder.
-
-	
+	self windowBuilder: self defaultBuilder
 ]
 
 { #category : #'window handling' }
@@ -205,17 +211,17 @@ ToAnchoredWindowManager >> newWindowEvent: anEvent [
 		^ Error signal: 'Asking for a window building twice' ].
 	self element ifNil: [
 		^ Error signal: 'An element is required for building a window' ].
-	self builder ifNil: [
+	self windowBuilder ifNil: [
 		^ Error signal: 'A window builder is required for building a window' ].
 
 	self element isEnabled ifFalse: [ ^ self ].
-	
+
 	request := self newWindowRequestFrom: anEvent.
-	
+
 	" dispatch the event. handlers can eventually feed the event with additional data 
 	that can be used by the builder "
 	self element dispatchEvent: request.
-	
+
 	" the event is dispatched, eventually updated with additional data, 
 	the current window can be created then built"
 	currentWindow := self newWindow.
@@ -301,6 +307,18 @@ ToAnchoredWindowManager >> sizeHook: aValuable [
 ToAnchoredWindowManager >> themeInstalledEvent: anEvent [
 
 	self withAllSubwindowsDo: [ :cw | cw toThemeInstalled ]
+]
+
+{ #category : #accessing }
+ToAnchoredWindowManager >> windowBuilder [
+
+	^ windowBuilder
+]
+
+{ #category : #accessing }
+ToAnchoredWindowManager >> windowBuilder: aWindowBuilderValuable [
+
+	windowBuilder := aWindowBuilderValuable
 ]
 
 { #category : #accessing }

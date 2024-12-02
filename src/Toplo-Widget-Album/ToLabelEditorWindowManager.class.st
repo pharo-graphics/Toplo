@@ -18,7 +18,7 @@ ToLabelEditorWindowManager >> defaultPositionHook [
 ToLabelEditorWindowManager >> initialize [
 
 	super initialize.
-	self builder: [ :anchWin :request |
+	self windowBuilder: [ :anchWin :request |
 		| ed label |
 		label := request currentTarget.
 		ed := label newEditor.

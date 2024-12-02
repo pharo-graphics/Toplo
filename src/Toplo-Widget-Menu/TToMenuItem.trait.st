@@ -6,6 +6,16 @@ Trait {
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
+{ #category : #accessing }
+TToMenuItem >> builder: aBlock [
+
+	self
+		deprecated: 'Use #itemBuilder'
+		transformWith:
+		'`@rcvr builder: `@arg' -> '`@rcvr itemBuilder: `@arg'.
+	self itemBuilder: aBlock
+]
+
 { #category : #testing }
 TToMenuItem >> isMenuItem [ 
 
@@ -16,6 +26,12 @@ TToMenuItem >> isMenuItem [
 TToMenuItem >> isSubmenu [ 
 
 	^ false
+]
+
+{ #category : #accessing }
+TToMenuItem >> itemBuilder: aBlock [
+
+	self in: aBlock
 ]
 
 { #category : #'t - menu item' }

@@ -842,7 +842,7 @@ ToSandBox class >> example_CodeEditor [
 			                yourself).
 	               menu addItem: (ToMenu new
 			                labelText: 'Edit';
-			                builder: [ :m |
+			                itemBuilder: [ :m |
 				                m addItem: (ToMenuItem new
 							                 labelText: 'Copy';
 							                 whenClickedDo: [ :event |
@@ -1601,7 +1601,7 @@ ToSandBox class >> example_OpenSaveSaveAsCloseWithSubmenu [
 			        italic;
 			        foreground: (Color blue alpha: 0.7)).
 	menu addSeparator.
-	menu addItem: (ToCustomMenuItem new builder: [ :e | e addChild: lbl]).
+	menu addItem: (ToCustomMenuItem new itemBuilder: [ :e | e addChild: lbl]).
 
 	menu addItem: (ToMenuItem new
 			 icon: (ToImage inner: (self iconNamed: #solidMenu));
@@ -3592,7 +3592,7 @@ ToSandBox class >> example_menuBar1 [
 			 yourself).
 
 	bar items last addItem: (ToCustomMenuItem new
-			 builder: [ :e | e addChild: (ToLabel text: 'Some help...') ];
+			 itemBuilder: [ :e | e addChild: (ToLabel text: 'Some help...') ];
 			 yourself).
 	bar border: (BlBorder paint: Color red).
 
@@ -3861,7 +3861,7 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 	inner childrenDo: [ :child |
 		child constraintsDo: [ :c | c linear vertical alignCenter ] ].
 	
-	bar addItem: (ToCustomMenuItem new builder: [ :e | e addChild:
+	bar addItem: (ToCustomMenuItem new itemBuilder: [ :e | e addChild:
 			 inner];
 			 yourself).
 	helpMenu := ToMenu new
@@ -6039,7 +6039,7 @@ ToSandBox class >> example_withCustomMenuItems [
 			 labelText: 'Export';
 			 whenClickedDo: [ self inform: 'Export' ]).
 	menu addSeparator.
-	menu addItem: (ToCustomMenuItem new builder: [ :e | e 
+	menu addItem: (ToCustomMenuItem new itemBuilder: [ :e | e 
 			 addChild: (ToSwitchButton new
 					  checked: true;
 					  beEndToStart;

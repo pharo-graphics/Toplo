@@ -123,7 +123,7 @@ ToPopupWindowManager >> installPickOutsideFilter [
 { #category : #'event handling' }
 ToPopupWindowManager >> mouseDownEvent: anEvent [
 
-	builder ifNil: [ ^ self ].
+	windowBuilder ifNil: [ ^ self ].
 	self unqueuePopupTaskFromEvent: anEvent.
 	anEvent button = mouseButton ifFalse: [ ^ self ].
 	currentWindow ifNotNil: [
@@ -195,7 +195,8 @@ ToPopupWindowManager >> popupOnMouseDown [
 
 { #category : #'still pressed - hovered' }
 ToPopupWindowManager >> startStillHoveredEvent: anEvent [
-
+	" test if I'am concerned by this event "
+	autoPopupHandler ifNil: [ ^ self ].
 	self popupEvent: anEvent
 ]
 

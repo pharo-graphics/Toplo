@@ -5551,7 +5551,7 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 	but labelText: 'Button with editable tooltip'.
 	but closeTooltipOnMouseLeave: false.
 
-	text := 'Edit <Double click> - Accept <Return>' asRopedText.
+	text := 'Edit <Mouse still pressed> - Accept <Return>' asRopedText.
 
 	but tooltipBuilder: [ :window :request |
 		| editedLabel |

@@ -37,7 +37,6 @@ ToLabelSkin >> installSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor normal.
 		e textAttributesBuilder
-			defaultFontName: (e valueOfTokenNamed: #'font-family-code');
 			defaultFontSize: (e valueOfTokenNamed: #'font-size');
 			lineSpacing: (e valueOfTokenNamed: #'line-height');
 			foreground: (e valueOfTokenNamed: #'color-text').
@@ -45,9 +44,9 @@ ToLabelSkin >> installSkinEvent: anEvent [
 			ed text foreground: (lab valueOfTokenNamed: #'color-text') ].
 		e applyStyle.
 		e padding: (BlInsets
-				 top: (e valueOfTokenNamed: #'padding-content-V')
+				 top: (e valueOfTokenNamed: #'padding-content-VS')
 				 left: (e valueOfTokenNamed: #'padding-XS')
-				 bottom: (e valueOfTokenNamed: #'padding-content-V')
+				 bottom: (e valueOfTokenNamed: #'padding-content-VS')
 				 right: (e valueOfTokenNamed: #'padding-XS')) ]
 ]
 

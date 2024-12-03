@@ -21,9 +21,9 @@ ToSegmentedButtonSkin >> installSkinEvent: anEvent [
 		e layout alignCenter.
 		e border: BlBorder empty.
 		e padding: (BlInsets
-				 top: (e valueOfTokenNamed: #'padding-content-V')
+				 top: (e valueOfTokenNamed: #'padding-content-VS')
 				 left: (e valueOfTokenNamed: #'padding-XS')
-				 bottom: (e valueOfTokenNamed: #'padding-content-V')
+				 bottom: (e valueOfTokenNamed: #'padding-content-VS')
 				 right: (e valueOfTokenNamed: #'padding-XS')).
 		(e hasIcon and: [ e hasLabel ])
 			ifTrue: [ e startInterspace: 10 ]

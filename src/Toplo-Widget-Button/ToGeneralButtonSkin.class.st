@@ -53,9 +53,9 @@ ToGeneralButtonSkin >> installSkinEvent: anEvent [
 		(e hasStamp: #iconic)
 			ifFalse: [
 				e padding: (BlInsets
-						 top: (e valueOfTokenNamed: #'padding-content-V')
+						 top: (e valueOfTokenNamed: #'padding-content-VS')
 						 left: (e valueOfTokenNamed: #'padding-XS')
-						 bottom: (e valueOfTokenNamed: #'padding-content-V')
+						 bottom: (e valueOfTokenNamed: #'padding-content-VS')
 						 right: (e valueOfTokenNamed: #'padding-XS')) ] ]
 ]
 

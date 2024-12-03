@@ -32,9 +32,9 @@ ToTabSkin >> installSkinEvent: anEvent [
 		e vFitContent.
 		e border: (BlBorder paint: (e valueOfTokenNamed: #'color-border') width: (e valueOfTokenNamed: #'line-width')).
 		e padding: (BlInsets
-				 top: (e valueOfTokenNamed: #'padding-content-V')
+				 top: (e valueOfTokenNamed: #'padding-content-VS')
 				 left: (e valueOfTokenNamed: #'padding-content-H')
-				 bottom: (e valueOfTokenNamed: #'padding-content-V')
+				 bottom: (e valueOfTokenNamed: #'padding-content-VS')
 				 right: (e valueOfTokenNamed: #'padding-content-H')).
 		e geometry: e defaultGeometry ]
 ]

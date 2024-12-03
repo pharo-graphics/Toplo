@@ -61,7 +61,7 @@ ToTabPaneTest >> testCloseSelectedPage [
 	self deny: redButton isSelected.
 
 	BlSpace simulateClickOn: redButton innerCloseButton.
-	"self waitTestingSpaces."
+	self waitTestingSpaces.
 	self deny: (notebook tabs includes: redButton).
 	self assert: greenButton isSelected.
 

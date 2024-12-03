@@ -41,9 +41,9 @@ ToTabWithCustomSelectionBarSkin >> installSkinEvent: anEvent [
 		e border: BlBorder empty.
 		e background: BlBackground transparent.
 		e padding: (BlInsets
-				 top: (e valueOfTokenNamed: #'padding-content-V')
+				 top: (e valueOfTokenNamed: #'padding-content-VS')
 				 left: (e valueOfTokenNamed: #'padding-content-H')
-				 bottom: (e valueOfTokenNamed: #'padding-content-V')
+				 bottom: (e valueOfTokenNamed: #'padding-content-VS')
 				 right: (e valueOfTokenNamed: #'padding-content-H')).
 		e geometry: e defaultGeometry ]
 ]

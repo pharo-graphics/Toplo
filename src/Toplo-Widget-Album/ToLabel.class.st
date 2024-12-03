@@ -60,12 +60,6 @@ ToLabel >> attributesBuilder [
 	^ self textAttributesBuilder
 ]
 
-{ #category : #'api - text style' }
-ToLabel >> background: aPaint [
-
-	self attributesBuilder attribute: (BlTextBackgroundAttribute paint: aPaint)
-]
-
 { #category : #accessing }
 ToLabel >> beEditable [
 

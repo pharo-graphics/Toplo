@@ -27,6 +27,7 @@ ToCustomMenuItem >> initialize [
 
 	super initialize.
 	innerElement := ToPane horizontal.
+	innerElement withNullSkin.
 	self addChild: innerElement.
 	builder := [ :e | ]
 ]

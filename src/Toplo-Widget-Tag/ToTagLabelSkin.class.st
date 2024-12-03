@@ -37,7 +37,6 @@ ToTagLabelSkin >> installSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e textAttributesBuilder
 			weight: (e valueOfTokenNamed: #'font-weight-strong');
-			defaultFontName: (e valueOfTokenNamed: #'font-family-code');
 			defaultFontSize: (e valueOfTokenNamed: #'font-size');
 			lineSpacing: (e valueOfTokenNamed: #'line-height').
 		e editorBuilder: [ :ed :lab |

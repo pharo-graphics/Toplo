@@ -21,8 +21,20 @@ ToSelectableLabelSkin >> focusBorderIn: anAlbum [
 ]
 
 { #category : #'event handling' }
+ToSelectableLabelSkin >> hoveredSkinEvent: anEvent [
+
+	super hoveredSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e isEnabled
+			ifTrue: [ e mouseCursor: Cursor overEditableText ]
+			ifFalse: [ e mouseCursor: Cursor normal ] ]
+]
+
+{ #category : #'event handling' }
 ToSelectableLabelSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
-	anEvent elementDo: [ :e | e margin: BlInsets empty ]
+	anEvent elementDo: [ :e |
+		e mouseCursor: Cursor normal.
+		e margin: BlInsets empty ]
 ]

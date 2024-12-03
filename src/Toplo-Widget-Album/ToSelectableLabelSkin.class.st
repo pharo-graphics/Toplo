@@ -19,3 +19,10 @@ ToSelectableLabelSkin >> focusBorderIn: anAlbum [
 		  paint: Color transparent
 		  width: (anAlbum valueOfTokenNamed: #'focus-border-width')
 ]
+
+{ #category : #'event handling' }
+ToSelectableLabelSkin >> installSkinEvent: anEvent [
+
+	super installSkinEvent: anEvent.
+	anEvent elementDo: [ :e | e margin: BlInsets empty ]
+]

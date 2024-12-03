@@ -1127,6 +1127,33 @@ ToSandBox class >> example_HugeIntegerList [
 	space show
 ]
 
+{ #category : #label }
+ToSandBox class >> example_LabelAndSelectableLabelAndTextField [
+
+	| lab1 lab2 txtfld pane |
+	lab1 := ToSelectableLabel new text: 'SelectableLabel__________________'.
+	lab2 := ToSelectableLabel new text: '_______________Regular Label'.
+	txtfld := ToTextField new text: '_______ TextField_______'.
+	pane := ToPane horizontal.
+	pane addChildren: { lab1. txtfld. lab2 }.
+	pane openInSpace
+]
+
+{ #category : #label }
+ToSandBox class >> example_LabelAndSelectableLabelAndTextFieldWithNullSkin [
+
+	| lab1 lab2 txtfld pane |
+	lab1 := ToSelectableLabel new text: 'SelectableLabel__________________'.
+	lab2 := ToSelectableLabel new text: '_______________Regular Label'.
+	txtfld := ToTextField new text: '_______ TextField_______'.
+	pane := ToPane horizontal.
+	lab1 defaultSkin: ToNullSkin new.
+	lab2 defaultSkin: ToNullSkin new.
+	txtfld defaultSkin: ToNullSkin new.
+	pane addChildren: { lab1. txtfld. lab2 }.
+	pane openInSpace
+]
+
 { #category : #'labeled icon' }
 ToSandBox class >> example_LabeledIconlWithIconAndText [
 

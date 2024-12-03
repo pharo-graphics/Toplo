@@ -589,6 +589,12 @@ BlElement >> textAttributesBuilder [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> textAttributesBuilderDo: aBlock [
+
+	aBlock value: self textAttributesBuilder
+]
+
+{ #category : #'*Toplo' }
 BlElement >> toStyleStore [
 
 	^ self userData at: #toStyleStore ifAbsent: [ ]

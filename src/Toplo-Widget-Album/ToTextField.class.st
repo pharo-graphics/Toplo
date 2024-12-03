@@ -11,12 +11,6 @@ ToTextField >> defaultEditorElement [
 ]
 
 { #category : #initialization }
-ToTextField >> defaultGeometry [
-
-	^ BlRoundedRectangleGeometry cornerRadius: 4
-]
-
-{ #category : #initialization }
 ToTextField >> initialize [
 
 	super initialize.

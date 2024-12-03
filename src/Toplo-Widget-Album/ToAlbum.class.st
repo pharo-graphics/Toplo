@@ -94,7 +94,7 @@ ToAlbum >> initialize [
 
 	self next: self defaultEditorElement.
 	self rootAlbumElement: self.
-	self next primarySelectionElementClass: ToAlbumPrimarySelectionElement.
+	self next primarySelectionElementClass: self primarySelectionElementClass.
 	self addChild: self next.
 	self matchParent.
 	self addEventHandler: self defaultEventHandler.
@@ -154,6 +154,12 @@ ToAlbum >> next: aDecoratorOrInfinite [
 ToAlbum >> placeholderClass [
 
 	^ ToAlbumPlaceholder
+]
+
+{ #category : #initialization }
+ToAlbum >> primarySelectionElementClass [
+
+	^ ToAlbumPrimarySelectionElement 
 ]
 
 { #category : #'transaction hook' }

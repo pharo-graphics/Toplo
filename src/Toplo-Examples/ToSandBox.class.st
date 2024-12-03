@@ -2304,6 +2304,14 @@ ToSandBox class >> example_SelectMultiNotFiltrableWithGroups [
 	innerWindow openInSpace
 ]
 
+{ #category : #label }
+ToSandBox class >> example_SelectableLabel [
+
+	| t |
+	t := ToSelectableLabel new text: 'AAAA BBBBB CCCCCC DDDDD EEEEEEE FFFFFF GGGGGG'.
+	t openInInnerWindow 
+]
+
 { #category : #list }
 ToSandBox class >> example_SieveOnList2WithStatesOfAmerica [
 
@@ -3843,6 +3851,7 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 		       vFitContent.
 	bar nodeWrapping: false.
 	bar itemList hMatchParent.
+	bar addItem: (ToCustomMenuItem new builder: [ :i | i addChild: (ToSelectableLabel new text: 'File')]).
 	bar addItem: (ToMenu new
 			 labelText: 'File';
 			 tooltipString: 'file stuffs').
@@ -3857,6 +3866,7 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 		             withLineWrapping;
 		             width: 200.
 	inner addChild: (ToLabel new text: 'Token: ').
+	inner addChild: (ToSelectableLabel new text: 'Token: ').
 	inner addChild: textField.
 	inner childrenDo: [ :child |
 		child constraintsDo: [ :c | c linear vertical alignCenter ] ].
@@ -4930,15 +4940,6 @@ ToSandBox class >> example_textFieldOnlyDigits [
 ]
 
 { #category : #'text field' }
-ToSandBox class >> example_textFieldReadOnlyWithSelectableText [
-
-	| t |
-	t := ToTextField new text: 'AAAA BBBBB CCCCCC DDDDD EEEEEEE FFFFFF GGGGGG'.
-	t beReadonlyWithSelection.
-	t openInInnerWindow 
-]
-
-{ #category : #'text field' }
 ToSandBox class >> example_textFieldWithAutocompletePopup [
 
 	| t |
@@ -5537,9 +5538,8 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeave [
 	but labelText: 'Button with tooltip with selectable text'.
 	but tooltipBuilder: [ :window :request |
 		| txtfld |
-		txtfld := ToTextField new text: 'Selectable text'.
-		window root addChild: txtfld.
-		txtfld beReadonlyWithSelection ].
+		txtfld := ToSelectableLabel new text: 'Selectable text'.
+		window root addChild: txtfld ].
 	but openInSpace
 ]
 

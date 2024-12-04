@@ -221,13 +221,16 @@ ToTheme class >> defaultTokenProperties [
 
 		  (ToTokenProperty name: #'margin-XS' value: 8).
 
-		  (ToTokenProperty name: #'padding-content-H' value: 15).
-		  (ToTokenProperty name: #'padding-content-V' value: 4).
-		  (ToTokenProperty name: #'padding-content-VS' value: 2).
-		  (ToTokenProperty name: #'padding-content-VXS' value: 1).
+		  (ToTokenProperty name: #'padding-content-H' value: 6).
+		  (ToTokenProperty name: #'padding-content-HS' value: 4).
+		  (ToTokenProperty name: #'padding-content-HXS' value: 2).
+		  (ToTokenProperty name: #'padding-content-V' value: 6).
+		  (ToTokenProperty name: #'padding-content-VS' value: 4).
+		  (ToTokenProperty name: #'padding-content-VXS' value: 2).
 		  (ToTokenProperty name: #'padding-XS' value: 8).
 		  (ToTokenProperty name: #'padding-XXS' value: 3).
 
+		  (ToTokenProperty name: #'button-interspace' value: 6).
 		  (ToTokenProperty name: #'list-padding-H' value: 6).
 		  (ToTokenProperty name: #'list-padding-V' value: 6).
 		  (ToTokenProperty name: #'list-node-padding-H' value: 3).

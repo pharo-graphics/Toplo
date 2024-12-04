@@ -44,10 +44,8 @@ ToLabelSkin >> installSkinEvent: anEvent [
 			ed text foreground: (lab valueOfTokenNamed: #'color-text') ].
 		e applyStyle.
 		e padding: (BlInsets
-				 top: (e valueOfTokenNamed: #'padding-content-VS')
-				 left: (e valueOfTokenNamed: #'padding-XS')
-				 bottom: (e valueOfTokenNamed: #'padding-content-VS')
-				 right: (e valueOfTokenNamed: #'padding-XS')) ]
+				 horizontal: (e valueOfTokenNamed: #'padding-content-H')
+				 vertical: (e valueOfTokenNamed: #'padding-content-VXS')) ]
 ]
 
 { #category : #'event handling' }

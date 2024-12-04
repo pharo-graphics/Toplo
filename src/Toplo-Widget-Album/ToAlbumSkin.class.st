@@ -89,10 +89,8 @@ ToAlbumSkin >> installSkinEvent: anEvent [
 		e margin: BlInsets empty.
 		e outskirts: BlOutskirts inside.
 		e padding: (BlInsets
-				 top: (e valueOfTokenNamed: #'padding-content-VS')
-				 left: (e valueOfTokenNamed: #'padding-XS')
-				 bottom: (e valueOfTokenNamed: #'padding-content-VS')
-				 right: (e valueOfTokenNamed: #'padding-XS')) ]
+				 horizontal: (e valueOfTokenNamed: #'padding-content-HS')
+				 vertical: (e valueOfTokenNamed: #'padding-content-VXS')) ]
 ]
 
 { #category : #'event handling' }

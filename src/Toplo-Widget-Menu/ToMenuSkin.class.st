@@ -43,10 +43,10 @@ ToMenuSkin >> installSkinEvent: anEvent [
 				(it isKindOf: ToMenuItem) ifTrue: [
 					it isStartToEnd
 						ifTrue: [
-							it endInterspace: 10.
+							it endInterspace: (e valueOfTokenNamed: #'button-interspace').
 							it endFlexible: true ]
 						ifFalse: [
-							it startInterspace: 10.
+							it startInterspace: (e valueOfTokenNamed: #'button-interspace').
 							it startFlexible: true ] ] ] ].
 		e isSubmenu
 			ifTrue: [
@@ -56,13 +56,13 @@ ToMenuSkin >> installSkinEvent: anEvent [
 						 foreground: Color veryLightGray;
 						 yourself) ]
 			ifFalse: [
-				e padding: (BlInsets
-						 top: (e valueOfTokenNamed: #'padding-content-VS')
+				"e padding: (BlInsets
+						 top: (e valueOfTokenNamed: #'padding-content-VXS')
 						 left: (e valueOfTokenNamed: #'padding-XS')
-						 bottom: (e valueOfTokenNamed: #'padding-content-VS')
-						 right: (e valueOfTokenNamed: #'padding-XS')).
+						 bottom: (e valueOfTokenNamed: #'padding-content-VXS')
+						 right: (e valueOfTokenNamed: #'padding-XS'))".
 				(e hasIcon and: [ e hasLabel ])
-					ifTrue: [ e startInterspace: 10 ]
+					ifTrue: [ e startInterspace: (e valueOfTokenNamed: #'button-interspace') ]
 					ifFalse: [ e startInterspace: 0 ] ] ]
 ]
 

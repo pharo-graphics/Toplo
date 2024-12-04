@@ -66,10 +66,10 @@ ToButtonSkin >> installSkinEvent: anEvent [
 
 	anEvent elementDo: [ :e |
 		(e hasIcon and: [ e hasLabel ])
-			ifTrue: [ e startInterspace: 10 ]
+			ifTrue: [ e startInterspace: (e valueOfTokenNamed: #'button-interspace') ]
 			ifFalse: [ e startInterspace: 0 ].
 		(e hasEndElement and: [ e hasLabel ])
-			ifTrue: [ e endInterspace: 10 ]
+			ifTrue: [ e endInterspace: (e valueOfTokenNamed: #'button-interspace') ]
 			ifFalse: [ e endInterspace: 0 ].
 		e endElementDo: [ :ic |
 			(ic respondsTo: #innerImageColor:) ifTrue: [

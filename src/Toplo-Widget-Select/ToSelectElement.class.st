@@ -25,9 +25,9 @@ ToSelectElement >> closePopupWindow [
 ]
 
 { #category : #'accessing - window' }
-ToSelectElement >> currentPopupWindow [ 
+ToSelectElement >> currentPopupWindow [
 
-	^ self popupWindowManager currentWindow
+	^ self windowManager currentWindow
 ]
 
 { #category : #'accessing - list' }

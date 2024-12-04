@@ -1111,7 +1111,7 @@ ToSandBox class >> example_HugeIntegerList [
 	l dataAccessor addAll: (1 to: nbItems).
 	l nodeBuilder: [ :node :anInteger |
 		node addChild:
-			(BlTextElement new text: anInteger asString asRopedText) ].
+			(ToLabel new text: anInteger asString asRopedText) ].
 	vscrollBar := BlVerticalScrollbarElement new.
 	vscrollBar constraintsDo: [ :c |
 		c ignoreByLayout.
@@ -2014,7 +2014,7 @@ ToSandBox class >> example_SelectMonoNotFiltrable [
 	select placeholderText:
 		('Select a state' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
-	select popupWindowManager anchorRoot: innerWindow root.
+	select windowManager anchorRoot: innerWindow root.
 	select popupListElement withRowNumbers.
 	select width: 300.
 	select position: 50 @ 50.
@@ -2046,18 +2046,12 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	                 | tag |
 	                 tag := ToTagElement new
 		                        labelText: stateColorAssoc key asString;
-		                        hMatchParent;
 		                        yourself.
-
-	                 tag constraintsDo: [ :c |
-		                 c linear vertical alignCenter ].
-	                 tag foregroundColor:
-		                 (Color fromString: stateColorAssoc value).
+	                 tag foregroundColor: stateColorAssoc value.
 	                 tag
 		                 addStamp: #backgroundColor
 		                 withValue:
-		                 ((Color fromString: stateColorAssoc value)
-			                  veryMuchLighter alpha: 0.5).
+		                 (stateColorAssoc value veryMuchLighter alpha: 0.5).
 	                 tag ].
 
 
@@ -2067,9 +2061,10 @@ ToSandBox class >> example_SelectMultiFiltrable [
 		tag bordered: true.
 		tag removable: true.
 		node addChild: tag ].
-
+	
 	select popupListElement nodeBuilder: [ :node :stateColorAssoc :holder |
 		node addChild: (newTagFactory value: stateColorAssoc) ].
+	select sample: 'X' -> Color white.
 
 	select sieve dataFilter: [ :stateAssoc :pattern |
 		stateAssoc key beginsWith: pattern caseSensitive: false ].
@@ -2106,7 +2101,7 @@ ToSandBox class >> example_SelectMultiFiltrableAutoDistribution [
 	select placeholderText:
 		('Select states' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
-	select popupWindowManager anchorRoot: innerWindow root.
+	select windowManager anchorRoot: innerWindow root.
 	select hMatchParent.
 	innerWindow pane addChild: select.
 	innerWindow height: 600.
@@ -2308,7 +2303,7 @@ ToSandBox class >> example_SelectMultiNotFiltrable [
 	select popupListElement nodeBuilder: [ :node :dataItem :holder |
 		node addChild: (ToLabel text: dataItem asString) hMatchParent ].
 	innerWindow := ToInnerWindow new.
-	select popupWindowManager anchorRoot: innerWindow root.
+	select windowManager anchorRoot: innerWindow root.
 	select hExact: 300.
 	select position: 50 @ 50.
 
@@ -3311,6 +3306,8 @@ ToSandBox class >> example_contactList [
 			phoneTxtF.
 			addressTxtF.
 			button }.
+	inputPane childrenDo: [ :child |
+		child constraintsDo: [ :c | c linear vertical alignCenter ] ].
 	contacts := OrderedCollection new.
 	contact := ToContactExampleObject new.
 	contact name: 'Patty'.
@@ -6784,7 +6781,7 @@ ToSandBox class >> statesOfAmericaWithColor [
 		  p := 0.
 		  states do: [ :s |
 			  p := p + 1 \\ colorStrings size + 1.
-			  stream nextPut: s -> (colorStrings at: p) ] ]
+			  stream nextPut: s -> (Color fromString: (colorStrings at: p)) ] ]
 ]
 
 { #category : #accessing }

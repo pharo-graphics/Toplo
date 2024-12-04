@@ -40,9 +40,9 @@ ToSwitchButtonSkin >> installSkinEvent: anEvent [
 				 (e valueOfTokenNamed: 'border-radius')).
 		e border: BlBorder empty.
 		e padding: (BlInsets
-				 top: (e valueOfTokenNamed: #'padding-content-VS')
+				 top: (e valueOfTokenNamed: #'padding-content-VXS')
 				 left: (e valueOfTokenNamed: #'padding-XS')
-				 bottom: (e valueOfTokenNamed: #'padding-content-VS')
+				 bottom: (e valueOfTokenNamed: #'padding-content-VXS')
 				 right: (e valueOfTokenNamed: #'padding-XS')) ]
 ]
 

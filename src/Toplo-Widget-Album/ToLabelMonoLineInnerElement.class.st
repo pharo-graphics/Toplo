@@ -45,7 +45,8 @@ ToLabelMonoLineInnerElement >> newEditorIn: aLabel [
 
 	| ed |
 	ed := ToTextField new.
-	(self editorShortcutsIn: aLabel) do: [ :s | ed editor addEditorShortcut: s ].
+	(self editorShortcutsIn: aLabel) do: [ :s |
+		ed editor addEditorShortcut: s ].
 	^ ed
 ]
 

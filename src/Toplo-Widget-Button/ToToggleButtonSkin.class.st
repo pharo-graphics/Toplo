@@ -76,10 +76,10 @@ ToToggleButtonSkin >> installSkinEvent: anEvent [
 				 paint: (e valueOfTokenNamed: #'color-border')
 				 width: (e valueOfTokenNamed: #'line-width')).
 		(e hasIcon and: [ e hasLabel ])
-			ifTrue: [ e startInterspace: 10 ]
+			ifTrue: [ e startInterspace: (e valueOfTokenNamed: #'button-interspace') ]
 			ifFalse: [ e startInterspace: 0 ].
 		(e hasEndElement and: [ e hasLabel ])
-			ifTrue: [ e endInterspace: 10 ]
+			ifTrue: [ e endInterspace: (e valueOfTokenNamed: #'button-interspace') ]
 			ifFalse: [ e endInterspace: 0 ] ]
 ]
 

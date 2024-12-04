@@ -10,6 +10,6 @@ ToMenuNodeSkin >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		"e padding: (BlInsets
-				 horizontal: (e valueOfTokenNamed: #'menu-button-padding-H')
-				 vertical: (e valueOfTokenNamed: #'menu-button-padding-V'))" ]
+				 horizontal: (e valueOfTokenNamed: #'padding-content-HXS')
+				 vertical: (e valueOfTokenNamed: #'padding-content-VXS'))" ]
 ]

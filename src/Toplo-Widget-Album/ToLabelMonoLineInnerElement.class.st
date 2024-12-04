@@ -36,7 +36,8 @@ ToLabelMonoLineInnerElement >> initializeMeasurement [
 
 	" Need Label measurement to ensure right vertical alignement with labels/menus "
 	self flag: 'To be checked'.
-	self labelMeasurement
+	"self labelMeasurement."
+	self editorMeasurement
 ]
 
 { #category : #'t - label inner element' }

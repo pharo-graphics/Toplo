@@ -80,7 +80,6 @@ ToAlbumSkin >> installSkinEvent: anEvent [
 				ifTrue: [e styleTable: (e valueOfTokenNamed: #'sh-style-table') ]
 				ifFalse: [
 					e text
-						"defaultFontName: (e valueOfTokenNamed: #'font-family-code');"
 						defaultFontSize: (e valueOfTokenNamed: #'font-size');
 						lineSpacing: (e valueOfTokenNamed: #'line-height');
 						foreground: (e valueOfTokenNamed: #'color-text') ] ].

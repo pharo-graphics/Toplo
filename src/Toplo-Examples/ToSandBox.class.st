@@ -875,6 +875,8 @@ ToSandBox class >> example_CodeEditor [
 	pane addChild: topBtnPane.
 	pane addChild: album.
 	disabox whenClickedDo: [ :evt | album disabled: disabox isChecked ].
+	showStatisticsBtn whenClickedDo: [ :evt |
+		album space showStatisticsWindow ].
 
 	pane openInInnerWindow
 ]
@@ -6363,6 +6365,10 @@ ToSandBox class >> listWithEditableAndContextMenu [
 	               menu addItem: (ToMenuItem new
 			                labelText: 'Inspect list';
 			                whenClickedDo: [ :event | target inspect ]).
+	               menu addItem: (ToMenuItem new
+			                labelText: 'Statistics window';
+			                whenClickedDo: [ :evt |
+				                evt currentTarget space showStatisticsWindow ]).
 	               target dataAccessor ifNotEmpty: [
 		               menu addItem: (ToMenuItem new
 				                labelText: 'Select all';

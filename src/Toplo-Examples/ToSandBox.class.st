@@ -1131,17 +1131,21 @@ ToSandBox class >> example_HugeIntegerList [
 ToSandBox class >> example_LabelAndSelectableLabelAndTextField [
 
 	| lab1 lab2 txtfld pane |
-	lab1 := ToSelectableLabel new text: 'SelectableLabel__________________'.
+	lab1 := ToSelectableLabel new text:
+		        'SelectableLabel__________________'.
 	lab2 := ToLabel new text: '_______________Regular Label'.
 	txtfld := ToTextField new text: '_______ TextField_______'.
 	"{ lab1. txtfld. lab2 } do: [ :l | l hFitContent ]."
 	{
 		lab1.
-		txtfld.
-		lab2 } do: [ :l |
+		lab2.
+		txtfld } do: [ :l |
 		l constraintsDo: [ :c | c linear vertical alignCenter ] ].
 	pane := ToPane horizontal.
-	pane addChildren: { lab1. txtfld. lab2 }.
+	pane addChildren: {
+			lab1.
+			lab2.
+			txtfld }.
 	pane openInSpace
 ]
 
@@ -1164,9 +1168,9 @@ ToSandBox class >> example_LabelAndSelectableLabelAndTextFieldWithNullSkin [
 	lab2 defaultSkin: ToNullSkin new.
 	txtfld defaultSkin: ToNullSkin new.
 	pane addChildren: {
-			lab1.
+			lab1.lab2.
 			txtfld.
-			lab2 }.
+			 }.
 	pane openInSpace
 ]
 

@@ -3900,14 +3900,16 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 		       vFitContent.
 	bar nodeWrapping: false.
 	bar itemList hMatchParent.
-	bar addItem: (ToCustomMenuItem new builder: [ :i | i addChild: (ToSelectableLabel new text: 'File')]).
+	
+	bar addItem: (ToCustomMenuItem new itemBuilder: [ :e |
+			 e addChild: (ToSelectableLabel new text: 'File') ]).
 	bar addItem: (ToMenu new
 			 labelText: 'File';
 			 tooltipString: 'file stuffs').
 	bar addItem: (ToMenu new
 			 labelText: 'Edit';
 			 tooltipString: 'editing stuffs').
-			
+
 	bar addFiller.
 
 	inner := ToPane horizontal.
@@ -3919,9 +3921,9 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 	inner addChild: textField.
 	inner childrenDo: [ :child |
 		child constraintsDo: [ :c | c linear vertical alignCenter ] ].
-	
-	bar addItem: (ToCustomMenuItem new itemBuilder: [ :e | e addChild:
-			 inner];
+
+	bar addItem: (ToCustomMenuItem new
+			 itemBuilder: [ :e | e addChild: inner ];
 			 yourself).
 	helpMenu := ToMenu new
 		            labelText: 'Help';
@@ -6148,7 +6150,7 @@ ToSandBox class >> example_withCustomMenuItems [
 		fontSize: 12;
 		foreground: Color blue.
 
-	menu addItem: (ToCustomMenuItem new builder: [ :e | e 
+	menu addItem: (ToCustomMenuItem new itemBuilder: [ :e | e 
 			 addChild: lbl;
 			 margin: (BlInsets
 					  top: 2;
@@ -6187,7 +6189,7 @@ ToSandBox class >> example_withCustomMenuItems [
 			        fontSize: 12;
 			        foreground: (Color blue alpha: 0.7)).
 	menu addItem: (ToCustomMenuItem new
-			 builder: [ :e | e addChild: lbl;
+			 itemBuilder: [ :e | e addChild: lbl;
 			 margin: (BlInsets
 					  top: 2;
 					  bottom: 4)]).
@@ -6202,7 +6204,7 @@ ToSandBox class >> example_withCustomMenuItems [
 								               yourself)) ];
 		             withLineWrapping;
 		             width: 200.
-	menu addItem: (ToCustomMenuItem new builder: [ :e | e addChild: textField ]).
+	menu addItem: (ToCustomMenuItem new itemBuilder: [ :e | e addChild: textField ]).
 	menu addSeparator.
 	sub := ToMenu new labelText: 'Save All'.
 	sub addItem: (ToMenuItem new labelText: 'Locally').

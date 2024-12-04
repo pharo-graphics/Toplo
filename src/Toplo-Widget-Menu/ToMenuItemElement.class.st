@@ -62,6 +62,12 @@ ToMenuItemElement >> defaultEventHandlerClass [
 	^ ToMenuItemEventHandler
 ]
 
+{ #category : #initialization }
+ToMenuItemElement >> defaultLayout [
+
+	^ BlLinearLayout horizontal
+]
+
 { #category : #testing }
 ToMenuItemElement >> hasIcon [
 
@@ -80,7 +86,6 @@ ToMenuItemElement >> includes: anElement [
 ToMenuItemElement >> initialize [
 
 	super initialize.
-	self layout: BlLinearLayout horizontal.
 	self addEventHandler: self defaultEventHandler
 ]
 

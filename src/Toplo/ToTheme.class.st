@@ -198,7 +198,7 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'font-size-H5' value: 16).
 		  (ToTokenProperty name: #'font-weight-strong' value: 600).
 
-		  (ToTokenProperty name: #'line-height' value: 1.5).
+		  (ToTokenProperty name: #'line-height' value: 1).
 		  (ToTokenProperty name: #'line-height-H1' value: 1.2).
 		  (ToTokenProperty name: #'line-height-H2' value: 1.3).
 		  (ToTokenProperty name: #'line-height-H3' value: 1.3).

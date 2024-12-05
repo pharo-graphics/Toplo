@@ -32,10 +32,17 @@ ToMenuBarEventHandler >> elementRemovedFromSceneGraphEvent: anEvent [
 ToMenuBarEventHandler >> eventsToHandle [
 
 	^ {
+		  BlMouseLeaveEvent.
 		  BlMouseOverEvent.
 		  BlMouseUpEvent.
 		  BlElementAddedToSceneGraphEvent.
 		  BlElementRemovedFromSceneGraphEvent }
+]
+
+{ #category : #'event handling' }
+ToMenuBarEventHandler >> mouseLeaveEvent: anEvent [
+
+	target itemList secondarySelecter deselectAll
 ]
 
 { #category : #'event handling' }

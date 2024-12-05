@@ -22,6 +22,14 @@ ToMenuWindowManager >> defaultPositionHook [
 			   (theMenu bounds inParent: self anchorRoot) bounds bottomLeft ]) ]
 ]
 
+{ #category : #'api - accessing' }
+ToMenuWindowManager >> eventsToHandle [
+
+	^ super eventsToHandle , {
+		  BlMouseEnterEvent.
+		  BlMouseLeaveEvent }
+]
+
 { #category : #'event handling' }
 ToMenuWindowManager >> mouseDownEvent: anEvent [
 
@@ -29,6 +37,25 @@ ToMenuWindowManager >> mouseDownEvent: anEvent [
 	(element itemContaining: anEvent target) ifNotNil: [ :found |
 		found isMenu ifTrue: [
 			element menuBarDo: [ :mb | mb switchAutoOpen ] ] ].
+]
+
+{ #category : #'event handling' }
+ToMenuWindowManager >> mouseEnterEvent: anEvent [
+
+	element itemList secondarySelecter deselectAll
+]
+
+{ #category : #'event handling' }
+ToMenuWindowManager >> mouseLeaveEvent: anEvent [
+
+	element itemList secondarySelecter deselectAll
+]
+
+{ #category : #'window handling' }
+ToMenuWindowManager >> onClosed [ 
+
+	super onClosed.
+	element itemList secondarySelecter deselectAll
 ]
 
 { #category : #'event handling' }

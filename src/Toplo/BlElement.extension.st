@@ -197,6 +197,15 @@ BlElement >> ensuredToStyleStore [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> firstInParentChainSatisfying: aValuable [
+	"Return the first parent for which the valuable answers true with one of my parent starting from myself "
+
+	(aValuable value: self) ifTrue: [ ^ self ].
+	self parentDo: [ :p | ^ p firstInParentChainSatisfying: aValuable ].
+	^ nil
+]
+
+{ #category : #'*Toplo' }
 BlElement >> flagAsDisabled [
 
 	self userData at: #enabled put: false
@@ -209,9 +218,26 @@ BlElement >> flagAsEnabled [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> hasAnyInParentChainSatisfying: aValuable [
+	"Return true if the valuable answers true with one of my parent including myself "
+
+	(aValuable value: self) ifTrue: [ ^ true ].
+	self parentDo: [ :p | ^ p hasAnyInParentChainSatisfying: aValuable ].
+	^ false
+]
+
+{ #category : #'*Toplo' }
 BlElement >> hasEnablementFlag [
 
 	^ self userData includesKey: #enabled
+]
+
+{ #category : #'*Toplo' }
+BlElement >> hasParentSatisfying: aValuable [
+	"Return true if the valuable answers true with my parent "
+
+	self parentDo: [ :p | (aValuable value: p) ifTrue: [ ^ true ] ].
+	^ false
 ]
 
 { #category : #'*Toplo' }

@@ -2356,6 +2356,35 @@ ToSandBox class >> example_SelectableLabel [
 	t openInInnerWindow 
 ]
 
+{ #category : #'labeled icon' }
+ToSandBox class >> example_SelectableLabeledIconlWithIconAndText [
+
+	| but  |
+	but := self selectableLabeledIconlWithIconAndText.
+	but hMatchParent.
+	but openInSpace.
+	^ but
+]
+
+{ #category : #'labeled icon' }
+ToSandBox class >> example_SelectableLabeledIconlWithIconAndText_labelFirst [
+
+	| but  |
+	but := self example_SelectableLabeledIconlWithIconAndText.
+	but endToStart: true.
+	^ but
+]
+
+{ #category : #'labeled icon' }
+ToSandBox class >> example_SelectableLabeledIconlWithIconAndText_labelFirst_startFlexible [
+
+	| but  |
+	but := self example_SelectableLabeledIconlWithIconAndText_labelFirst.
+	but startFlexible: true.
+	but matchParent.
+	^ but
+]
+
 { #category : #list }
 ToSandBox class >> example_SieveOnList2WithStatesOfAmerica [
 
@@ -6715,6 +6744,20 @@ ToSandBox class >> selectWithEditingMultiSelection [
 					 event client text: ''.
 					 target listElement selection selectIndex: idx ] ]).
 	^ select
+]
+
+{ #category : #'labeled icon' }
+ToSandBox class >> selectableLabeledIconlWithIconAndText [
+
+	| but  |
+	but := ToLabeledIcon new.
+	but label: (ToSelectableLabel new text: 'Selectable Labeled icon').
+	but icon: (ToImage inner: (BlElement new
+			 size: 60 @ 60;
+			 background: (Color blue alpha: 0.2);
+			 yourself)).
+			but inspect.
+	^ but
 ]
 
 { #category : #bar }

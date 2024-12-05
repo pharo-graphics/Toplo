@@ -8,6 +8,7 @@ Class {
 ToSelectableLabel >> initialize [
 
 	super initialize.
+	self fitContent.
 	self focusability: BlFocusability none.
 	self beReadonlyWithSelection 
 ]

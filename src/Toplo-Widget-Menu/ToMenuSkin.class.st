@@ -56,11 +56,6 @@ ToMenuSkin >> installSkinEvent: anEvent [
 						 foreground: Color veryLightGray;
 						 yourself) ]
 			ifFalse: [
-				"e padding: (BlInsets
-						 top: (e valueOfTokenNamed: #'padding-content-VXS')
-						 left: (e valueOfTokenNamed: #'padding-XS')
-						 bottom: (e valueOfTokenNamed: #'padding-content-VXS')
-						 right: (e valueOfTokenNamed: #'padding-XS'))".
 				(e hasIcon and: [ e hasLabel ])
 					ifTrue: [ e startInterspace: (e valueOfTokenNamed: #'button-interspace') ]
 					ifFalse: [ e startInterspace: 0 ] ] ]

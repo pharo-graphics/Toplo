@@ -14,4 +14,5 @@ ToRadioMenuItem >> buttonClass [
 ToRadioMenuItem >> newRawSkin [ 
 
 	^ ToRadioMenuItemSkin new
+
 ]

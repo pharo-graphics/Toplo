@@ -702,6 +702,14 @@ BlElement >> valueOfTokenNamed: aSymbol [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> windowManager [
+
+	self eventDispatcher handlersDo: [ :h |
+		(h isKindOf: ToAnchoredWindowManager) ifTrue: [ ^ h ] ].
+	^ nil
+]
+
+{ #category : #'*Toplo' }
 BlElement >> withNullSkin [
 
 	self ensuredSkinManager setDefaultSkin: ToNullSkin new in: self

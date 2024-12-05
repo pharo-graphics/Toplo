@@ -36,22 +36,17 @@ ToAnchoredWindowManager >> applyPositionAnsSizeHooksFromEvent: anEvent [
 ToAnchoredWindowManager >> applyPositionHookFromEvent: anEvent [
 
 	currentWindow ifNil: [ Error signal: 'No current window' ].
-	self positionHook ifNil: [ ^ self ].
-	self positionHook
-		value: currentWindow
-		value: self element
-		value: anEvent
+	positionHook ifNil: [ ^ self ].
+	positionHook value: currentWindow value: element value: anEvent.
+
 ]
 
 { #category : #'bounds hook' }
 ToAnchoredWindowManager >> applySizeHookFromEvent: anEvent [
 
 	currentWindow ifNil: [ Error signal: 'No current window' ].
-	self sizeHook ifNil: [ ^ self ].
-	self sizeHook
-			 value: currentWindow
-			 value: self element
-			 value: anEvent
+	sizeHook ifNil: [ ^ self ].
+	sizeHook value: currentWindow value: self element value: anEvent
 ]
 
 { #category : #'window handling' }

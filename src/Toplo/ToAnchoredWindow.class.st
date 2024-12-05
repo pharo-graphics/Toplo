@@ -27,7 +27,7 @@ ToAnchoredWindow >> applySizeHookFromEvent: anEvent [
 ]
 
 { #category : #'api - displaying' }
-ToAnchoredWindow >> checkSizeHooksBeforePopupEvent: anEvent [
+ToAnchoredWindow >> checkPositionAndSizeBeforePopupEvent: anEvent [
 
 	self applyPositionHookFromEvent: anEvent.
 	self applySizeHookFromEvent: anEvent
@@ -122,14 +122,18 @@ ToAnchoredWindow >> popupEvent: anEvent [
 			'Can''t popup an anchored window if the element is not attached to a space' ].
 	self element isDisabled ifTrue: [
 		Error signal: 'A window with a disabled element shouldn''t popup' ].
-	
-	self isOpened  ifTrue: [
-		Error signal: 'An opened window shouldn''t been asked to popup' ].
-	
-	self checkSizeHooksBeforePopupEvent: anEvent.
-	self open.
-	self toFront.
 
+	self isOpened ifTrue: [
+		Error signal: 'An opened window shouldn''t been asked to popup' ].
+
+	" open at a fake position to get a first layouting "
+	self position: 9999999 asPoint negated.
+	self open.
+	self whenLayoutedDoOnce: [
+		" ok, now that my size is known, size and position hooks can be applied "
+		self checkPositionAndSizeBeforePopupEvent: anEvent.
+		self toFront ].
+	self space requestNextPulse 
 ]
 
 { #category : #accessing }

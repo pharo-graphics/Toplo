@@ -1766,7 +1766,7 @@ ToSandBox class >> example_Popup1 [
 		       position: 10 @ 10.
 	menu addChild: sub.
 	popupWindowHandler := ToPopupWindowManager new.
-	popupWindowHandler builder: [ :popup :element |
+	popupWindowHandler windowBuilder: [ :popup :element |
 		popup border: Color black.
 		item := ToElement new size: 50 @ 90.
 		item background: Color yellow.
@@ -2207,7 +2207,7 @@ ToSandBox class >> example_SelectMultiFiltrableScrolling [
 	select placeholderText:
 		('Select states' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
-	select popupWindowManager anchorRoot: innerWindow root.
+	select windowManager anchorRoot: innerWindow root.
 	select hMatchParent.
 	innerWindow pane addChild: select.
 	innerWindow height: 600.
@@ -2680,6 +2680,79 @@ ToSandBox class >> example_SimpleOpenSaveSaveAsClose [
 	container pane addChild: menu.
 	
 	container openInSpace
+]
+
+{ #category : #window }
+ToSandBox class >> example_SimplePopupBottom [
+
+	| p |
+	p := self newPopup.
+	p windowManager positionHook: [ :theWindow :theElement :event |
+		| x1 x2 w1 w2 |
+		x1 := theElement position x.
+		w1 := theElement width / 2.0.
+		w2 := theWindow width / 2.0.
+		x2 := x1 + w1 - w2.
+		theWindow position: x2 @ (theElement position y + theElement height) ].
+	p openInSpace
+]
+
+{ #category : #window }
+ToSandBox class >> example_SimplePopupBottomLeft [
+
+	| p |
+	p := self newPopup.
+	p openInSpace
+]
+
+{ #category : #window }
+ToSandBox class >> example_SimplePopupBottomRight [
+
+	| p |
+	p := self newPopup.
+	p windowManager positionHook: [ :theWindow :theElement :event |
+		theWindow position:
+			theElement bounds inSpace bounds bottomRight - (theWindow width @ 0) ].
+	p openInSpace
+]
+
+{ #category : #window }
+ToSandBox class >> example_SimplePopupTop [
+
+	| p |
+	p := self newPopup.
+	p windowManager positionHook: [ :theWindow :theElement :event |
+		| x1 x2 w1 w2 |
+		x1 := theElement position x.
+		w1 := theElement width / 2.0.
+		w2 := theWindow width / 2.0.
+		x2 := x1 + w1 - w2.
+		theWindow position: x2 @ (theElement position y - theElement height) ].
+	p openInSpace
+]
+
+{ #category : #window }
+ToSandBox class >> example_SimplePopupTopLeft [
+
+	| p |
+	p := self newPopup.
+	p windowManager positionHook: [ :theWindow :theElement :event |
+		theWindow position:
+			theElement bounds inSpace bounds topLeft - (0 @ theElement height) ].
+
+	p openInSpace
+]
+
+{ #category : #window }
+ToSandBox class >> example_SimplePopupTopRight [
+
+	| p |
+	p := self newPopup.
+	p windowManager positionHook: [ :theWindow :theElement :event |
+		theWindow position:
+			theElement bounds inSpace bounds topRight - (theWindow width @ theElement height) ].
+
+	p openInSpace
 ]
 
 { #category : #'look event' }
@@ -3855,7 +3928,7 @@ ToSandBox class >> example_overlayWindow2 [
 		theWindow size:
 			theElement measuredWidth - 40 @ (theElement measuredHeight - 60) ].
 	e addEventHandler: windowManager.
-	windowManager builder: [ :anchWin :element |
+	windowManager windowBuilder: [ :anchWin :element |
 		anchWin background: (Color gray alpha: 0.2).
 		anchWin border: (BlBorder paint: Color black width: 2) ].
 	e openInInnerWindow.
@@ -4216,7 +4289,7 @@ ToSandBox class >> example_selectWith5Nodes [
 	select popupListElement nodeBuilder: [ :node :dataItem :holder |
 		node addChild: (ToLabel text: dataItem asString) hMatchParent ].
 	innerWindow := ToInnerWindow new.
-	select popupWindowManager anchorRoot: innerWindow root.
+	select windowManager anchorRoot: innerWindow root.
 	select width: 300.
 	select position: 50 @ 50.
 	select popupListElement dataAccessor addAll:
@@ -4246,7 +4319,7 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWithAllClassNames [
 			includesSubstring: aPattern asString
 			caseSensitive: false ].
 	innerWindow := ToInnerWindow new.
-	select popupWindowManager anchorRoot: innerWindow root.
+	select windowManager anchorRoot: innerWindow root.
 	select hMatchParent.
 	select popupListElement dataAccessor updateAllWith:
 		Smalltalk globals allClasses.
@@ -6519,6 +6592,25 @@ ToSandBox class >> listWithEditableAndContextMenu [
 { #category : #accessing }
 ToSandBox class >> methodText [
 	^ self  class sourceCodeAt: #example_CodeEditor
+]
+
+{ #category : #window }
+ToSandBox class >> newPopup [
+
+	| e popupWindowHandler |
+	e := ToLabel new
+		     text: 'Popup button';
+		     id: #popup;
+		     geometry: (BlRoundedRectangleGeometry cornerRadius: 6);
+		     background: (Color red alpha: 0.2);
+		     position: 200 @ 100;
+		     yourself.
+	popupWindowHandler := ToPopupWindowManager new.
+	popupWindowHandler windowBuilder: [ :popup :request |
+		popup border: Color gray.
+		popup addChild: (ToLabel new text: 'A popup window') ].
+	e addEventHandler: popupWindowHandler.
+	^ e
 ]
 
 { #category : #accessing }

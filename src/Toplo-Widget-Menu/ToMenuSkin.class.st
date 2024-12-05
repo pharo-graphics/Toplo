@@ -5,24 +5,6 @@ Class {
 }
 
 { #category : #'event handling' }
-ToMenuSkin >> disabledSkinEvent: anEvent [
-
-	super disabledSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e isSubmenu ifFalse: [
-			e background: (e valueOfTokenNamed: #'color-bg-container-disabled') ] ]
-]
-
-{ #category : #'event handling' }
-ToMenuSkin >> enabledSkinEvent: anEvent [
-
-	super enabledSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e isSubmenu ifFalse: [
-			e background: (e valueOfTokenNamed: #'color-bg-container') ] ]
-]
-
-{ #category : #'event handling' }
 ToMenuSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.

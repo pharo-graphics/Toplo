@@ -13,16 +13,6 @@ ToGeneralButtonMenuItemSkin >> disabledSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToGeneralButtonMenuItemSkin >> enabledSkinEvent: anEvent [
-
-	super enabledSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e border: (BlBorder
-				 paint: (e valueOfTokenNamed: #'color-bg-container')
-				 width: (e valueOfTokenNamed: #'line-width')) ]
-]
-
-{ #category : #'event handling' }
 ToGeneralButtonMenuItemSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
@@ -35,13 +25,12 @@ ToGeneralButtonMenuItemSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e vFitContent.
 		e mouseCursor: Cursor normal.
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:
 				 (e valueOfTokenNamed: 'border-radius')).
 		e padding: (BlInsets
-						 horizontal: (e valueOfTokenNamed: #'padding-content-HS')
-						 vertical: (e valueOfTokenNamed: #'padding-content-VXS')) ]
+				 horizontal: (e valueOfTokenNamed: #'padding-content-HS')
+				 vertical: (e valueOfTokenNamed: #'padding-content-VXS')) ]
 ]
 
 { #category : #'event handling' }

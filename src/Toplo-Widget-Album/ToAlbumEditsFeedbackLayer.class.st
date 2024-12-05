@@ -13,7 +13,7 @@ Class {
 ToAlbumEditsFeedbackLayer >> attachTo: anEditorElement [
 
 	super attachTo: anEditorElement.
-	flashCoverColor := Color red alpha: 0.1.
+	flashCoverColor := Color red alpha: 0.2.
 	
 	anEditorElement addEventHandler: (BlEventHandler
 			 on: ToAlbumFlashRequestedEvent

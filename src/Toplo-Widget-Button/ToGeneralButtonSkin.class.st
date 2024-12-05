@@ -13,8 +13,8 @@ ToGeneralButtonSkin >> disabledSkinEvent: anEvent [
 		e isMenuButton ifFalse: [
 			e border: (BlBorder
 					 paint: (e valueOfTokenNamed: #'color-border-disabled')
-					 width: (e valueOfTokenNamed: #'line-width')) ].
-		e background: (e valueOfTokenNamed: #'color-bg-container-disabled') ]
+					 width: (e valueOfTokenNamed: #'line-width')).
+			e background: (e valueOfTokenNamed: #'color-bg-container-disabled') ] ]
 ]
 
 { #category : #'event handling' }

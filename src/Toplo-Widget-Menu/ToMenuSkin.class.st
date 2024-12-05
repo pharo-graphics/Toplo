@@ -38,16 +38,6 @@ ToMenuSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e parentMenuDo: [ :pm |
-			pm items do: [ :it |
-				(it isKindOf: ToMenuItem) ifTrue: [
-					it isStartToEnd
-						ifTrue: [
-							it endInterspace: (e valueOfTokenNamed: #'button-interspace').
-							it endFlexible: true ]
-						ifFalse: [
-							it startInterspace: (e valueOfTokenNamed: #'button-interspace').
-							it startFlexible: true ] ] ] ].
 		e isSubmenu
 			ifTrue: [
 				e endFlexible: true.
@@ -57,7 +47,8 @@ ToMenuSkin >> installSkinEvent: anEvent [
 						 yourself) ]
 			ifFalse: [
 				(e hasIcon and: [ e hasLabel ])
-					ifTrue: [ e startInterspace: (e valueOfTokenNamed: #'button-interspace') ]
+					ifTrue: [
+					e startInterspace: (e valueOfTokenNamed: #'button-interspace') ]
 					ifFalse: [ e startInterspace: 0 ] ] ]
 ]
 
@@ -66,9 +57,10 @@ ToMenuSkin >> leavedSkinEvent: anEvent [
 
 	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e border: (BlBorder
-				 paint: (e valueOfTokenNamed: #'color-bg-container')
-				 width: (e valueOfTokenNamed: #'line-width')) ]
+		e isSubmenu ifFalse: [
+			e border: (BlBorder
+					 paint: (e valueOfTokenNamed: #'color-bg-container')
+					 width: (e valueOfTokenNamed: #'line-width')) ] ]
 ]
 
 { #category : #'event handling' }

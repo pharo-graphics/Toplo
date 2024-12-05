@@ -6050,7 +6050,7 @@ ToSandBox class >> example_withCheckBox [
 	menu itemList disabledSelecter selectIndex: menu items last positionInItemContainer.
 	
 	menu addSeparator.
-	menu addItem: (ToCheckMenuItem new
+	menu addItem: (ToRadioMenuItem new
 			 label: (ToLabel text: 'Check');
 			 whenClickedDo: [ :event | event currentTarget isChecked traceCr ];
 			 yourself).
@@ -6110,7 +6110,6 @@ ToSandBox class >> example_withCustomMenuItems [
 	menu addItem: (ToCustomMenuItem new itemBuilder: [ :e | e 
 			 addChild: (ToSwitchButton new
 					  checked: true;
-					  beEndToStart;
 					startFlexible: true;
 					hMatchParent;
 					  labelText: 'Switch';

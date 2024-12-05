@@ -66,12 +66,15 @@ ToButtonSkin >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 
 	anEvent elementDo: [ :e |
-		(e hasIcon and: [ e hasLabel ])
-			ifTrue: [ e startInterspace: (e valueOfTokenNamed: #'button-interspace') ]
-			ifFalse: [ e startInterspace: 0 ].
-		(e hasEndElement and: [ e hasLabel ])
-			ifTrue: [ e endInterspace: (e valueOfTokenNamed: #'button-interspace') ]
-			ifFalse: [ e endInterspace: 0 ].
+		e isMenuButton ifFalse: [
+			(e hasIcon and: [ e hasLabel ])
+				ifTrue: [
+				e startInterspace: (e valueOfTokenNamed: #'button-interspace') ]
+				ifFalse: [ e startInterspace: 0 ].
+			(e hasEndElement and: [ e hasLabel ])
+				ifTrue: [
+				e endInterspace: (e valueOfTokenNamed: #'button-interspace') ]
+				ifFalse: [ e endInterspace: 0 ] ].
 		e endElementDo: [ :ic |
 			(ic respondsTo: #innerImageColor:) ifTrue: [
 				ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ].

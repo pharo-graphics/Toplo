@@ -32,12 +32,6 @@ ToMenu >> buttonClickEventClass [
 	^ BlMouseDownEvent
 ]
 
-{ #category : #'friend only' }
-ToMenu >> closeRequestFrom: anItem [
-
-	self closeWindow
-]
-
 { #category : #'t - menu window model' }
 ToMenu >> closeWindow [
 

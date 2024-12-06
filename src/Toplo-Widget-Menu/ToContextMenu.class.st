@@ -25,12 +25,6 @@ ToContextMenu >> close [
 	super close
 ]
 
-{ #category : #'friend only' }
-ToContextMenu >> closeRequestFrom: anItem [
-
-	self closeWindow
-]
-
 { #category : #'t - menu window model' }
 ToContextMenu >> closeWindow [
 

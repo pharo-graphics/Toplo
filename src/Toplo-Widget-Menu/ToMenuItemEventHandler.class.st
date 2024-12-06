@@ -29,13 +29,14 @@ ToMenuItemEventHandler >> mouseEnterEvent: anEvent [
 
 { #category : #'mouse handlers' }
 ToMenuItemEventHandler >> mouseUpEvent: anEvent [
-
 	" check event and current target "
-	(anEvent currentTarget ~= target)
-		ifTrue: [ ^ self ].
+
 	target isEnabled ifFalse: [ ^ self ].
 	target closeOnMouseEvent ifFalse: [ ^ self ].
-	target rootMenuDo: [ :rm | rm closeRequestFrom: target ]
+	" ask the window manager because it can manage the timestamp 
+	and finally can decide to not close the menu window"
+	target rootMenuDo: [ :rm |
+		rm windowManager checkAutoCloseWindowOnMouseUp: anEvent ]
 ]
 
 { #category : #'api - hooks' }

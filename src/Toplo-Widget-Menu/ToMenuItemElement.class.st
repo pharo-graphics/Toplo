@@ -18,11 +18,6 @@ ToMenuItemElement >> closeOnMouseEvent [
 	^ false
 ]
 
-{ #category : #'friend only' }
-ToMenuItemElement >> closeRequestFrom: anItem [
-
-]
-
 { #category : #'adding-removing' }
 ToMenuItemElement >> closeSiblingMenuWindow [
 

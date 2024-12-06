@@ -180,3 +180,9 @@ ToAnchoredWindow >> useMorphicHost [
 
 	^ BlHost preferableHostClass = BlMorphicWindowHost
 ]
+
+{ #category : #accessing }
+ToAnchoredWindow >> windowManager [ 
+
+	^ windowManager 
+]

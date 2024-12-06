@@ -19,7 +19,8 @@ ToLabelSkin >> disabledSkinEvent: anEvent [
 
 	super disabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e foreground: (e valueOfTokenNamed: #'color-text-disabled') ]
+		e foreground: (e valueOfTokenNamed: #'color-text-disabled').
+		e applyStyle ]
 ]
 
 { #category : #'event handling' }
@@ -27,7 +28,8 @@ ToLabelSkin >> enabledSkinEvent: anEvent [
 
 	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e foreground: (e valueOfTokenNamed: #'color-text') ]
+		e foreground: (e valueOfTokenNamed: #'color-text').
+		e applyStyle ]
 ]
 
 { #category : #'event handling' }

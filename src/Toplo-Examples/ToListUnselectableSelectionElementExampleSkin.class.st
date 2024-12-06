@@ -11,7 +11,8 @@ ToListUnselectableSelectionElementExampleSkin >> installSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 		| btn border |
 		e positionHook: [ :p :l | p - (l padding left / 2 @ 0) ].
-		e sizeHook: [ :p :l | p + ((l padding left / 2) + (l padding right / 2) @ 0) ].
+		e sizeHook: [ :p :l |
+			p + (l padding left / 2 + (l padding right / 2) @ 0) ].
 		e layout: BlFrameLayout new.
 		e padding: (BlInsets right: 5).
 		btn := ToButton new
@@ -22,20 +23,15 @@ ToListUnselectableSelectionElementExampleSkin >> installSkinEvent: anEvent [
 			c frame horizontal alignRight.
 			c frame vertical alignCenter ].
 
-		btn addEventHandler: (BlEventHandler
-				 on: BlClickEvent
-				 do: [ :event |
-					 event consume.
-					 e nodes do: [ :node |
-						 node holder listElement unselectableSelecter deselectIndex:
-							 node holder position ] ]).
+		btn whenClickedDo: [ :event |
+			event consume.
+			e nodes do: [ :node |
+				node holder listElement unselectableSelecter deselectIndex:
+					node holder position ] ].
 
 		" consume mouseUp/mouseDown to avoid unwanted opening/closing of the popup list element"
 		btn addEventHandler: (BlEventHandler
 				 on: BlMouseDownEvent
-				 do: [ :event | event consume ]).
-		btn addEventHandler: (BlEventHandler
-				 on: BlMouseUpEvent
 				 do: [ :event | event consume ]).
 		btn addEventHandler: (BlEventHandler
 				 on: BlMouseEnterEvent

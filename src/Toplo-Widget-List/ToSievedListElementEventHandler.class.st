@@ -80,11 +80,10 @@ ToSievedListElementEventHandler >> listSelectionCommandAppliedEvent: aPreNotific
 	sieve pattern
 		ifEmpty: [
 			sieveSelectionModel copySelectionFrom: listSelModel ]
-		ifNotEmpty: [
-			aPreNotification command indexes do: [ :localIndex |
-				| originalIndex dataItem |
-				dataItem := listElement dataAccessor at: localIndex.
-				originalIndex := dataPositionIndex at: dataItem.
+		ifNotEmpty: [ 
+			listElement dataAccessor withIndexDo: [ :d :localIndex |
+				| originalIndex |
+				originalIndex := dataPositionIndex at: d.
 				listSelModel
 					transferSelectionFromIndex: localIndex
 					toIndex: originalIndex

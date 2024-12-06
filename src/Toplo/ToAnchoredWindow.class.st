@@ -93,6 +93,12 @@ ToAnchoredWindow >> manager: aWindowHandler [
 ]
 
 { #category : #'api - displaying' }
+ToAnchoredWindow >> onPositionChangedToFitAnchorRootDo: aBlock [
+
+	aBlock value
+]
+
+{ #category : #'api - displaying' }
 ToAnchoredWindow >> open [
 
 	self show.
@@ -128,19 +134,29 @@ ToAnchoredWindow >> popupEvent: anEvent [
 
 	self visibility: BlVisibility hidden.
 	self open.
-	self whenLayoutedDoOnce: [ 
-		" ok, now that my size is known, size and position hooks can be applied "
+	self whenLayoutedDoOnce: [ " ok, now that my size is known, size and position hooks can be applied "
 		self checkBeforePopupEvent: anEvent.
 		" since the position/size could have been changed, one have to wait a second layout"
 		self whenLayoutedDoOnce: [
-			self toFront.
-			self visibility: BlVisibility visible ] ]
+			self onPositionChangedToFitAnchorRootDo: [
+				self toFront.
+				self visibility: BlVisibility visible ] ] ]
 ]
 
 { #category : #accessing }
 ToAnchoredWindow >> popupTimestamp [
 
 	^ popupTimestamp 
+]
+
+{ #category : #'api - displaying' }
+ToAnchoredWindow >> positionWithinAnchorRoot [
+
+	| t rect rootRect |
+	rect := self bounds inSpace bounds asRectangle.
+	rootRect := 0 @ 0 extent: self anchorRoot extent.
+	t := rect amountToTranslateWithin: rootRect.
+	^ self position + t
 ]
 
 { #category : #'api - displaying' }

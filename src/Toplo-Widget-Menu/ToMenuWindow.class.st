@@ -43,6 +43,18 @@ ToMenuWindow >> newRawSkin [
 	^ ToMenuWindowSkin new
 ]
 
+{ #category : #'api - displaying' }
+ToMenuWindow >> onPositionChangedToFitAnchorRootDo: aBlock [
+
+	| p |
+	p := self positionWithinAnchorRoot.
+	p ~= self position ifTrue: [
+		self position: p.
+		self whenLayoutedDoOnce: aBlock.
+		^ self ].
+	super onPositionChangedToFitAnchorRootDo: aBlock
+]
+
 { #category : #enumerating }
 ToMenuWindow >> withAllSubwindowsDo: aBlock [
 

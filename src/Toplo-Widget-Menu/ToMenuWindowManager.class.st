@@ -15,7 +15,7 @@ ToMenuWindowManager >> autoCloseWindow [
 ToMenuWindowManager >> defaultPositionHook [
 
 	^ [ :window :theMenu :event |
-	  window position: (theMenu isSubmenu
+	  (theMenu isSubmenu
 			   ifTrue: [
 			   (theMenu bounds inParent: self anchorRoot) bounds topRight ]
 			   ifFalse: [

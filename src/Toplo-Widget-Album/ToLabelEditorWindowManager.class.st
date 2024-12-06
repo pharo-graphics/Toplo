@@ -8,7 +8,6 @@ Class {
 ToLabelEditorWindowManager >> defaultPositionHook [
 
 	^ [ :theWindow :theLabel :event |
-	  theWindow position:
 		  (theLabel innerElement bounds inParent: self anchorRoot) bounds
 			  topLeft - theLabel editor padding left
 		  @ theLabel editor padding top ]

@@ -60,8 +60,10 @@ ToAnchoredWindowManagerTest >> testApplySizeHookFromEvent [
 		raise: Error.
 	e addEventHandler: windowManager.
 	win := windowManager newWindowEvent: nil.
-	windowManager sizeHook: [ :theWindow :theElement :theEvent |
-		theWindow size: 100 asPoint ].
+	windowManager heightHook: [ :theWindow :theElement :theEvent |
+		100  ].
+	windowManager widthHook: [ :theWindow :theElement :theEvent |
+		100  ].
 	windowManager applySizeHookFromEvent: nil.
 	self assert: windowManager currentWindow identicalTo: win.
 	win forceLayout.
@@ -181,7 +183,8 @@ ToAnchoredWindowManagerTest >> testDefaultSizeHook [
 	e position: 10 asPoint.
 	e size: 10 asPoint.
 	windowManager := ToAnchoredWindowManager new.
-	self assert: windowManager defaultSizeHook isNil
+	self assert: windowManager heightHook isNil.
+	self assert: windowManager widthHook isNil
 ]
 
 { #category : #tests }
@@ -434,7 +437,7 @@ ToAnchoredWindowManagerTest >> testPositionHook2 [
 	win popup.
 	self waitTestingSpaces.
 	windowManager positionHook: [ :theWindow :theElement :event |
-		theWindow position: theElement bounds inSpace bounds bottomRight ].
+		theElement bounds inSpace bounds bottomRight ].
 	self
 		assert: win bounds inSpace bounds origin
 		equals: e bounds inSpace bounds origin.
@@ -461,7 +464,7 @@ ToAnchoredWindowManagerTest >> testPositionHook3 [
 		                 :element |  ].
 	e addEventHandler: windowManager.
 	windowManager positionHook: [ :theWindow :theElement :event |
-		theWindow position: 30 @ 30 ].
+		30 @ 30 ].
 	win := windowManager newWindowEvent: nil.
 	self assert: windowManager positionHook notNil.
 	win popup.
@@ -486,8 +489,10 @@ ToAnchoredWindowManagerTest >> testSizeHook [
 	windowManager := ToAnchoredWindowManagerForTest new.
 	e addEventHandler: windowManager.
 	win := windowManager newWindowEvent: nil.
-	windowManager sizeHook: [ :theWindow :theElement :tenEvent |
-		theWindow size: 100 asPoint ].
+	windowManager widthHook: [ :theWindow :theElement :tenEvent |
+		100  ].
+	windowManager heightHook: [ :theWindow :theElement :tenEvent |
+		100  ].
 	windowManager applySizeHookFromEvent: nil.
 	win forceLayout.
 	self assert: win bounds extent equals: 100 asPoint

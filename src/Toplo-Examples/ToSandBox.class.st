@@ -2694,7 +2694,7 @@ ToSandBox class >> example_SimplePopupBottom [
 		w1 := theElement width / 2.0.
 		w2 := theWindow width / 2.0.
 		x2 := x1 + w1 - w2.
-		theWindow position: x2 @ (theElement position y + theElement height) ].
+		x2 @ (theElement position y + theElement height) ].
 	p openInSpace
 ]
 
@@ -2712,7 +2712,6 @@ ToSandBox class >> example_SimplePopupBottomRight [
 	| p |
 	p := self newPopup.
 	p windowManager positionHook: [ :theWindow :theElement :event |
-		theWindow position:
 			theElement bounds inSpace bounds bottomRight - (theWindow width @ 0) ].
 	p openInSpace
 ]
@@ -2728,7 +2727,7 @@ ToSandBox class >> example_SimplePopupTop [
 		w1 := theElement width / 2.0.
 		w2 := theWindow width / 2.0.
 		x2 := x1 + w1 - w2.
-		theWindow position: x2 @ (theElement position y - theElement height) ].
+		x2 @ (theElement position y - theElement height) ].
 	p openInSpace
 ]
 
@@ -2738,7 +2737,6 @@ ToSandBox class >> example_SimplePopupTopLeft [
 	| p |
 	p := self newPopup.
 	p windowManager positionHook: [ :theWindow :theElement :event |
-		theWindow position:
 			theElement bounds inSpace bounds topLeft - (0 @ theElement height) ].
 
 	p openInSpace
@@ -2750,7 +2748,6 @@ ToSandBox class >> example_SimplePopupTopRight [
 	| p |
 	p := self newPopup.
 	p windowManager positionHook: [ :theWindow :theElement :event |
-		theWindow position:
 			theElement bounds inSpace bounds topRight - (theWindow width @ theElement height) ].
 
 	p openInSpace
@@ -3923,11 +3920,11 @@ ToSandBox class >> example_overlayWindow2 [
 		     position: 50 @ 50.
 	windowManager := ToOverlayWindowManager new.
 	windowManager positionHook: [ :theWindow :theElement :event |
-		theWindow position:
 			theElement bounds inSpace bounds topLeft + (20 @ 40) ].
-	windowManager sizeHook: [ :theWindow :theElement :event |
-		theWindow size:
-			theElement measuredWidth - 40 @ (theElement measuredHeight - 60) ].
+	windowManager widthHook: [ :theWindow :theElement :tenEvent |
+		theElement measuredWidth - 40  ].
+	windowManager heightHook: [ :theWindow :theElement :tenEvent |
+		(theElement measuredHeight - 60)  ].
 	e addEventHandler: windowManager.
 	windowManager windowBuilder: [ :anchWin :element |
 		anchWin background: (Color gray alpha: 0.2).

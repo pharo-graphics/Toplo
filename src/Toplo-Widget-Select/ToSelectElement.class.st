@@ -288,18 +288,6 @@ ToSelectElement >> popupMinHeight: aNumber [
 	self windowManager minHeight: aNumber
 ]
 
-{ #category : #'accessing - list' }
-ToSelectElement >> popupPositionHook: aValuable [
-
-	self windowManager positionHook: aValuable
-]
-
-{ #category : #'accessing - list' }
-ToSelectElement >> popupSizeHook: aValuable [
-
-	self windowManager sizeHook: aValuable
-]
-
 { #category : #accessing }
 ToSelectElement >> popupWindowManager [
 

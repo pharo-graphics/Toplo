@@ -29,7 +29,7 @@ ToTooltipWindowManager >> defaultCloseOnMouseDown [
 ToTooltipWindowManager >> defaultPositionHook [
 
 	^ [ :theWindow :theElement :event |
-	  theWindow position: (event position x)
+	  (event position x)
 		  @ ((theElement localPointToGlobal: 0 @ theElement height) y + 5 ) ]
 ]
 

@@ -27,10 +27,10 @@ ToSelectPopupWindowManager >> defaultMinHeight [
 ]
 
 { #category : #initialization }
-ToSelectPopupWindowManager >> defaultSizeHook [
+ToSelectPopupWindowManager >> defaultWidthHook [
 
 	^ [ :theWindow :theElement :event |
-	  theWindow width: theElement measuredWidth]
+	  theElement measuredWidth ]
 ]
 
 { #category : #'event handling' }

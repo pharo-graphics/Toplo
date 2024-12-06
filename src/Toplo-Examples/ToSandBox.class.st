@@ -2047,6 +2047,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	                 tag := ToTagElement new
 		                        labelText: stateColorAssoc key asString;
 		                        yourself.
+	                 tag hMatchParent.
 	                 tag foregroundColor: stateColorAssoc value.
 	                 tag
 		                 addStamp: #backgroundColor
@@ -2061,7 +2062,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 		tag bordered: true.
 		tag removable: true.
 		node addChild: tag ].
-	
+
 	select popupListElement nodeBuilder: [ :node :stateColorAssoc :holder |
 		node addChild: (newTagFactory value: stateColorAssoc) ].
 	select sample: 'X' -> Color white.
@@ -2144,7 +2145,7 @@ ToSandBox class >> example_SelectMultiFiltrableNoWrapping [
 	select placeholderText:
 		('Select states' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
-	select popupWindowManager anchorRoot: innerWindow root.
+	select windowManager anchorRoot: innerWindow root.
 	select hMatchParent.
 	innerWindow pane addChild: select.
 	innerWindow height: 600.

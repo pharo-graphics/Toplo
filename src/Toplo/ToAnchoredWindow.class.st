@@ -27,7 +27,7 @@ ToAnchoredWindow >> applySizeHookFromEvent: anEvent [
 ]
 
 { #category : #'api - displaying' }
-ToAnchoredWindow >> checkPositionAndSizeBeforePopupEvent: anEvent [
+ToAnchoredWindow >> checkBeforePopupEvent: anEvent [
 
 	self applyPositionHookFromEvent: anEvent.
 	self applySizeHookFromEvent: anEvent
@@ -126,14 +126,15 @@ ToAnchoredWindow >> popupEvent: anEvent [
 	self isOpened ifTrue: [
 		Error signal: 'An opened window shouldn''t been asked to popup' ].
 
-	" open at a fake position to get a first layouting "
-	self position: 9999999 asPoint negated.
+	self visibility: BlVisibility hidden.
 	self open.
-	self whenLayoutedDoOnce: [
+	self whenLayoutedDoOnce: [ 
 		" ok, now that my size is known, size and position hooks can be applied "
-		self checkPositionAndSizeBeforePopupEvent: anEvent.
-		self toFront ].
-	self space requestNextPulse 
+		self checkBeforePopupEvent: anEvent.
+		" since the position/size could have been changed, one have to wait a second layout"
+		self whenLayoutedDoOnce: [
+			self toFront.
+			self visibility: BlVisibility visible ] ]
 ]
 
 { #category : #accessing }

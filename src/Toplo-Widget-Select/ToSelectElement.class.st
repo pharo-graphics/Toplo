@@ -18,12 +18,6 @@ ToSelectElement >> allowDeselection [
 ]
 
 { #category : #'accessing - window' }
-ToSelectElement >> closePopupWindow [
-
-	^ self popupWindowManager closeWindow
-]
-
-{ #category : #'accessing - window' }
 ToSelectElement >> currentPopupWindow [
 
 	^ self windowManager currentWindow

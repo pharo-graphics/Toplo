@@ -46,6 +46,9 @@ TToSelectInnerContainerElement >> onSelectionChangedInPopupListElement: anEvent 
 
 { #category : #'t - select inner container' }
 TToSelectInnerContainerElement >> popupWindowManager [
+	self
+		deprecated: 'Use #windowManager'
+		transformWith: '`@rcvr popupWindowManager' -> '`@rcvr windowManager'.
 
 	^ self selectElement windowManager
 ]

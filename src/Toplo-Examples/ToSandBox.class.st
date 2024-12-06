@@ -2124,7 +2124,7 @@ ToSandBox class >> example_SelectMultiFiltrableAutoDistributionWithMax [
 	select placeholderText:
 		('Select states' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
-	select popupWindowManager anchorRoot: innerWindow root.
+	select windowManager anchorRoot: innerWindow root.
 	select hMatchParent.
 	innerWindow pane addChild: select.
 	innerWindow height: 600.
@@ -2166,7 +2166,7 @@ ToSandBox class >> example_SelectMultiFiltrableNoWrappingKeepPickOrder [
 	select placeholderText:
 		('Select states' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
-	select popupWindowManager anchorRoot: innerWindow root.
+	select windowManager anchorRoot: innerWindow root.
 	select hMatchParent.
 	innerWindow pane addChild: select.
 	innerWindow height: 600.
@@ -2187,7 +2187,7 @@ ToSandBox class >> example_SelectMultiFiltrableNotWrappingAutoDistribution [
 	select placeholderText:
 		('Select states' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
-	select popupWindowManager anchorRoot: innerWindow root.
+	select windowManager anchorRoot: innerWindow root.
 	select hMatchParent.
 	innerWindow pane addChild: select.
 	innerWindow height: 600.
@@ -2231,7 +2231,7 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected [
 	select placeholderText:
 		('Selected are removed' asRopedText foreground: Color veryLightGray).
 	innerWindow := ToInnerWindow new.
-	select popupWindowManager anchorRoot: innerWindow root.
+	select windowManager anchorRoot: innerWindow root.
 	select hMatchParent.
 	select popupListElement withRowNumbers.
 	innerWindow pane addChild: select.
@@ -2252,7 +2252,7 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected2 [
 	select placeholderText:
 		('Selected are removed' asRopedText foreground: Color veryLightGray).
 	innerWindow := ToInnerWindow new.
-	select popupWindowManager anchorRoot: innerWindow root.
+	select windowManager anchorRoot: innerWindow root.
 	select width: 300.
 	select position: 50 @ 10.
 	innerWindow pane addChild: select.
@@ -2340,7 +2340,7 @@ ToSandBox class >> example_SelectMultiNotFiltrableWithGroups [
 	select placeholderText:
 		('Select a state' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
-	select popupWindowManager anchorRoot: innerWindow root.
+	select windowManager anchorRoot: innerWindow root.
 	select width: 300.
 	select position: 50 @ 50.
 	select filterTextField requestFocus.
@@ -3102,12 +3102,12 @@ ToSandBox class >> example_TwoCoordinateLists [
 				 list2 selectionModel deselectAll.
 				 e currentTarget selectionModel selectedIndexesDo: [ :idx |
 					 list2 selectionModel selectIndex: idx ].
-				 list2 notifyPrimarySelectionDirty ]).
+				 list2 updateAllSelections ]).
 	list2 addEventHandler: (BlEventHandler
 			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :e |
 				 list1 selectionModel deselectAll.
-				 list1 notifyPrimarySelectionDirty ]).
+				 list1 updateAllSelections ]).
 	panel addChild: list1.
 	panel addChild: list2.
 	list1 selecter selectIndex: 1.

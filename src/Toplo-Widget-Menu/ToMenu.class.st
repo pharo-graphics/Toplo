@@ -4,7 +4,6 @@ Class {
 	#traits : 'TToMenuItemContainer + TToMenuWindowModel',
 	#classTraits : 'TToMenuItemContainer classTrait + TToMenuWindowModel classTrait',
 	#instVars : [
-		'windowManager',
 		'itemList',
 		'isSubmenu'
 	],
@@ -61,10 +60,11 @@ ToMenu >> initialize [
 	super initialize.
 	self fitContent.
 	isSubmenu := false.
-	windowManager := ToMenuWindowManager new.
-	self addEventHandler: windowManager.
-	windowManager windowBuilder: [ :menWin :request |
-		menWin root addChild: request currentTarget itemList ]
+
+	self addEventHandler: (ToMenuWindowManager new
+			 windowBuilder: [ :menWin :request |
+				 menWin root addChild: request currentTarget itemList ];
+			 yourself)
 ]
 
 { #category : #accessing }
@@ -100,7 +100,7 @@ ToMenu >> isTopMenu [
 { #category : #'t - menu window model' }
 ToMenu >> menuWindow [ 
 
-	^ windowManager currentWindow
+	^ self windowManager currentWindow
 ]
 
 { #category : #'event handling' }
@@ -120,11 +120,5 @@ ToMenu >> newRawSkin [
 { #category : #'t - menu window model' }
 ToMenu >> popupEvent: anEvent [
 
-	windowManager popupEvent: anEvent
-]
-
-{ #category : #accessing }
-ToMenu >> windowManager [ 
-
-	^ windowManager 
+	self windowManager popupEvent: anEvent
 ]

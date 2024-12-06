@@ -31,7 +31,9 @@ BlElement >> addTokenNamed: aSymbol withValue: anObject [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> addedInMenu: aMenu [
+BlElement >> addedInMenuItemContainer: aMenu [
+
+	aMenu addedUnknownItemKind: self
 ]
 
 { #category : #'*Toplo' }
@@ -91,6 +93,19 @@ BlElement >> borderBuilder [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> closedEventClass [
+
+	^ ToClosedEvent 
+]
+
+{ #category : #'*Toplo' }
+BlElement >> constraintMenuNode: aNode [
+
+	" Sent to let any menu item to adapt its resizer/layout  constraints before the node is added in the menu list. Notice that I am sent before the node adding + the selections shift is actually finished. Thus, this place is not adequate for changing one of the list selections (use #addedInMenu for that) "
+
+]
+
+{ #category : #'*Toplo' }
 BlElement >> defaultRawSkin: aSkin [
 
 	self ensuredSkinManager setDefaultRawSkin: aSkin in: self
@@ -105,37 +120,43 @@ BlElement >> defaultSkin: aSkin [
 { #category : #'*Toplo' }
 BlElement >> disable [
 
-	self isDisabled ifFalse: [
-		self flagAsDisabled.
-		self dispatchEvent: ToEnablementChangedEvent new.
-		self skinManagerDo: [ :sm | sm enablementChangedIn: self ] ].
-	self childrenDo: [ :child | child disable ]
+	self disabled: true
 ]
 
 { #category : #'*Toplo' }
 BlElement >> disabled: aBoolean [
 
-	aBoolean 
-		ifTrue: [ self disable ]
-		ifFalse: [ self enable ]
+	self isDisabled = aBoolean ifFalse: [
+		aBoolean
+			ifTrue: [ self flagAsDisabled ]
+			ifFalse: [ self flagAsEnabled ].
+		self dispatchEvent: ToEnablementChangedEvent new.
+		self skinManagerDo: [ :sm | sm enablementChangedIn: self ] ].
+	self childrenDo: [ :child | child disabled: aBoolean ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> dispatchClosedEvent [
+
+	self dispatchEvent: self newClosedEvent 
+]
+
+{ #category : #'*Toplo' }
+BlElement >> dispatchOpenedEvent [
+
+	self dispatchEvent: self newOpenedEvent
 ]
 
 { #category : #'*Toplo' }
 BlElement >> enable [
 
-	self isEnabled ifFalse: [
-		self flagAsEnabled.
-		self dispatchEvent: ToEnablementChangedEvent new.
-		self skinManagerDo: [ :sm | sm enablementChangedIn: self ] ].
-	self childrenDo: [ :child | child enable ]
+	self disabled: false
 ]
 
 { #category : #'*Toplo' }
 BlElement >> enabled: aBoolean [
 
-	aBoolean 
-		ifTrue: [ self enable ]
-		ifFalse: [ self disable ]
+	self disabled: aBoolean not
 ]
 
 { #category : #'*Toplo' }
@@ -176,6 +197,15 @@ BlElement >> ensuredToStyleStore [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> firstInParentChainSatisfying: aValuable [
+	"Return the first parent for which the valuable answers true with one of my parent starting from myself "
+
+	(aValuable value: self) ifTrue: [ ^ self ].
+	self parentDo: [ :p | ^ p firstInParentChainSatisfying: aValuable ].
+	^ nil
+]
+
+{ #category : #'*Toplo' }
 BlElement >> flagAsDisabled [
 
 	self userData at: #enabled put: false
@@ -188,9 +218,26 @@ BlElement >> flagAsEnabled [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> hasAnyInParentChainSatisfying: aValuable [
+	"Return true if the valuable answers true with one of my parent including myself "
+
+	(aValuable value: self) ifTrue: [ ^ true ].
+	self parentDo: [ :p | ^ p hasAnyInParentChainSatisfying: aValuable ].
+	^ false
+]
+
+{ #category : #'*Toplo' }
 BlElement >> hasEnablementFlag [
 
 	^ self userData includesKey: #enabled
+]
+
+{ #category : #'*Toplo' }
+BlElement >> hasParentSatisfying: aValuable [
+	"Return true if the valuable answers true with my parent "
+
+	self parentDo: [ :p | (aValuable value: p) ifTrue: [ ^ true ] ].
+	^ false
 ]
 
 { #category : #'*Toplo' }
@@ -246,6 +293,30 @@ BlElement >> isEnabled [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> isMenu [
+
+	^ false
+]
+
+{ #category : #'*Toplo' }
+BlElement >> isMenuBar [
+
+	^ false
+]
+
+{ #category : #'*Toplo' }
+BlElement >> isMenuItem [
+
+	^ false
+]
+
+{ #category : #'*Toplo' }
+BlElement >> isMenuItemContainer [
+
+	^ false
+]
+
+{ #category : #'*Toplo' }
 BlElement >> isPreventedSkinEvent: aSkinEvent [
 
 	^ self isPreventedSkinEventClass: aSkinEvent class
@@ -255,6 +326,14 @@ BlElement >> isPreventedSkinEvent: aSkinEvent [
 BlElement >> isPreventedSkinEventClass: aSkinEventClass [
 
 	^ self preventedSkinEventClasses includes: aSkinEventClass
+]
+
+{ #category : #'*Toplo' }
+BlElement >> itemContaining: anElement [
+
+	^ (anElement hasInParentChain: self)
+		  ifTrue: [ self ]
+		  ifFalse: [ nil ]
 ]
 
 { #category : #'*Toplo' }
@@ -293,6 +372,22 @@ BlElement >> lookupWritablePropertyNamed: aSymbol [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> newClosedEvent [
+
+	^ self closedEventClass new
+		  window: self;
+		  yourself
+]
+
+{ #category : #'*Toplo' }
+BlElement >> newOpenedEvent [
+
+	^ self openedEventClass new
+		  window: self;
+		  yourself
+]
+
+{ #category : #'*Toplo' }
 BlElement >> newRawSkin [
 
 	^  ToRawSkin new
@@ -323,6 +418,12 @@ BlElement >> openInInnerWindow [
 	frame := ToInnerWindow new.
 	frame pane addChild: self.
 	frame openInSpace
+]
+
+{ #category : #'*Toplo' }
+BlElement >> openedEventClass [
+
+	^ ToOpenedEvent 
 ]
 
 { #category : #'*Toplo' }
@@ -514,6 +615,12 @@ BlElement >> textAttributesBuilder [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> textAttributesBuilderDo: aBlock [
+
+	aBlock value: self textAttributesBuilder
+]
+
+{ #category : #'*Toplo' }
 BlElement >> toStyleStore [
 
 	^ self userData at: #toStyleStore ifAbsent: [ ]
@@ -592,6 +699,14 @@ BlElement >> valueOfTokenNamed: aSymbol [
 		found := sm tokenPropertyValue: aSymbol from: self ].
 	found ifNil: [ (ToElementPropertyNotFound name: aSymbol) signal ].
 	^ found
+]
+
+{ #category : #'*Toplo' }
+BlElement >> windowManager [
+
+	self eventDispatcher handlersDo: [ :h |
+		(h isKindOf: ToAnchoredWindowManager) ifTrue: [ ^ h ] ].
+	^ nil
 ]
 
 { #category : #'*Toplo' }

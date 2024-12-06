@@ -2,30 +2,17 @@ Class {
 	#name : #ToCustomMenuItem,
 	#superclass : #ToMenuItemElement,
 	#instVars : [
-		'innerElement'
+		'innerElement',
+		'builder'
 	],
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
 { #category : #'adding-removing' }
-ToCustomMenuItem >> addedInMenu: aMenu [
+ToCustomMenuItem >> addedInMenuItemContainer: aMenu [
 
-	super addedInMenu: aMenu.
-	self isSelectable ifTrue: [ ^ self ].
-	aMenu bar unselectableSelecter selectIndex: self positionInMenu
-]
+	aMenu addedCustomMenuItem: self
 
-{ #category : #accessing }
-ToCustomMenuItem >> innerElement [
-
-	^ innerElement
-]
-
-{ #category : #accessing }
-ToCustomMenuItem >> innerElement: anElement [
-
-	innerElement := anElement.
-	self addChild: anElement
 ]
 
 { #category : #testing }

@@ -1,71 +1,78 @@
 Class {
 	#name : #ToMenuBar,
 	#superclass : #ToElement,
-	#traits : 'TToOrientable',
-	#classTraits : 'TToOrientable classTrait',
+	#traits : 'TToMenuItem + TToMenuItemContainer + TToOrientable',
+	#classTraits : 'TToMenuItem classTrait + TToMenuItemContainer classTrait + TToOrientable classTrait',
 	#instVars : [
-		'autoOpen',
-		'menus'
+		'autoOpen'
 	],
 	#category : #'Toplo-Widget-Menu-Bar'
 }
 
-{ #category : #initialize }
-ToMenuBar >> adaptToOrientation [
-
-	self isHorizontal
-		ifTrue: [ 
-			self hMatchParent.
-			self vFitContent ]
-		ifFalse: [ 
-			self vMatchParent.
-			self hFitContent ]
-]
-
 { #category : #adding }
 ToMenuBar >> addFiller [
 
-	| filler |
-	self addChild: (filler := ToMenuBarFiller new)
+	self addItem: ToMenuFiller new
 ]
 
 { #category : #adding }
 ToMenuBar >> addMenu: aMenu [
 
-	self menus add: aMenu.
-	aMenu constraintsDo: [ :c | c linear vertical alignCenter ].
-	aMenu constraintsDo: [ :c | c linear horizontal alignCenter ].
-	self addChild: aMenu.
-	self addEventHandler: (BlEventHandler
-			 on: ToLayoutOrientationChangedEvent
-			 do: [
-				 self isHorizontal
-					 ifTrue: [ aMenu hFitContent ]
-					 ifFalse: [ aMenu hMatchParent ] ]).
-	self dispatchEvent: (ToMenuBarMenuAddedEvent new menu: aMenu)
+	self
+		deprecated: '#use addItem: instead'
+		transformWith: '`@rcvr addMenu: `@arg' -> '`@rcvr addItem: `@arg'.
+	self addItem: aMenu
 ]
 
-{ #category : #adding }
-ToMenuBar >> addSeparator [
+{ #category : #'adding-removing' }
+ToMenuBar >> addedInMenuItemContainer: aMenuItemContainer [
 
-	| sep |
-	self addChild: (sep := ToMenuBarSeparator new).
-	self addEventHandler: (BlEventHandler
-			 on: ToLayoutOrientationChangedEvent
-			 do: [ sep horizontal: self isHorizontal not ]).
-	sep horizontal: self isHorizontal not
+	aMenuItemContainer addedMenuBar: self
 ]
 
-{ #category : #accessing }
+{ #category : #'t - menu item container - double dispatch' }
+ToMenuBar >> addedMenu: aMenu [
+
+	aMenu parentItemContainer: self.
+	aMenu isSubmenu: false
+]
+
+{ #category : #'auto opening' }
 ToMenuBar >> autoOpen [
 
 	^ autoOpen
 ]
 
-{ #category : #accessing }
+{ #category : #'auto opening' }
 ToMenuBar >> autoOpen: anObject [
 
 	autoOpen := anObject
+]
+
+{ #category : #'auto opening' }
+ToMenuBar >> cancelAutoOpen [
+
+	self rootMenuBar autoOpen: false
+]
+
+{ #category : #'t - menu window model' }
+ToMenuBar >> closeWindow [
+
+	itemList do: [ :it | it isMenuItem ifTrue: [ it closeWindow ] ]
+]
+
+{ #category : #initialization }
+ToMenuBar >> configureLayout [
+
+	self isHorizontal
+		ifTrue: [ 
+			self itemList horizontal: true.
+			self hMatchParent.
+			self vFitContent ]
+		ifFalse: [ 
+			self itemList horizontal: false.
+			self vMatchParent.
+			self hFitContent ]
 ]
 
 { #category : #initialization }
@@ -75,17 +82,45 @@ ToMenuBar >> initialize [
 
 	autoOpen := false.
 	self layout: BlLinearLayout new.
-	self layout cellSpacing: 5.
-	self background: Color transparent.
-	self border: BlBorder empty.
-	self padding: (BlInsets all: 4).
-	self beHorizontal.
 	self addEventHandler: (BlEventHandler
 			 on: ToLayoutOrientationChangedEvent
-			 do: [ self adaptToOrientation ]).
-	menus := OrderedCollection new.
-	self addEventFilter: ToMenuBarEventFilter new.
+			 do: [ self configureLayout ]).
 	self addEventHandler: ToMenuBarEventHandler new.
+	self itemList uniformNodeWidth: false.
+	self addChild: self itemList.
+	self beHorizontal.
+	self configureLayout
+
+]
+
+{ #category : #'auto opening' }
+ToMenuBar >> isAutoOpen [
+
+	^ self rootMenuBar autoOpen
+]
+
+{ #category : #testing }
+ToMenuBar >> isMenuBar [
+
+	^ true
+]
+
+{ #category : #testing }
+ToMenuBar >> isSubBar [ 
+
+	^ parentItemContainer notNil
+]
+
+{ #category : #'t - menu item' }
+ToMenuBar >> itemContaining: anElement [
+
+	self = anElement ifTrue: [ ^ self ].
+	^ (self itemList itemContaining: anElement) ifNotNil: [ :found |
+		  | item |
+		  item := found item.
+		  item isMenuBar
+			  ifTrue: [ item itemContaining: anElement ]
+			  ifFalse: [ item ] ]
 ]
 
 { #category : #'t - orientable - accessing' }
@@ -96,16 +131,64 @@ ToMenuBar >> layoutStrategy [
 
 ]
 
-{ #category : #accessing }
-ToMenuBar >> menus [
+{ #category : #'t - menu window model' }
+ToMenuBar >> menuBar [
 
-	^ menus
+	^ self
+]
+
+{ #category : #enumerating }
+ToMenuBar >> menuWindowDo: aValuable [
+]
+
+{ #category : #'event handling' }
+ToMenuBar >> mouseOverEvent: anEvent [
+
+	self isAutoOpen ifFalse: [ ^ self ].
+
+	" auto-open action "
+	self items do: [ :m |
+		m isMenuItemContainer ifTrue: [ m mouseOverEvent: anEvent ] ]
+]
+
+{ #category : #skin }
+ToMenuBar >> newRawSkin [
+
+	^ ToMenuBarSkin new
+]
+
+{ #category : #initialization }
+ToMenuBar >> nodeWrapping: aBoolean [
+
+	itemList nodeWrapping: aBoolean
 ]
 
 { #category : #adding }
 ToMenuBar >> removeMenu: aMenu [
 
-	self menus remove: aMenu.
-	self removeChild: aMenu.
-	self dispatchEvent: (ToMenuBarMenuRemovedEvent new menu: aMenu)
+	self
+		deprecated: '#use removeItem: instead'
+		transformWith: '`@rcvr removeMenu: `@arg' -> '`@rcvr removeItem: `@arg'.
+	self removeItem: aMenu
+]
+
+{ #category : #accessing }
+ToMenuBar >> rootMenuBar [ 
+
+	parentItemContainer ifNil: [ ^ self ].
+	^ parentItemContainer rootMenuBar
+]
+
+{ #category : #'auto opening' }
+ToMenuBar >> startAutoOpen [
+
+	self rootMenuBar autoOpen: true
+]
+
+{ #category : #'auto opening' }
+ToMenuBar >> switchAutoOpen [
+
+	self isAutoOpen
+		ifTrue: [ self cancelAutoOpen ]
+		ifFalse: [ self startAutoOpen ]
 ]

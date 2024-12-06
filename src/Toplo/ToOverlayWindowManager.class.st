@@ -5,10 +5,17 @@ Class {
 }
 
 { #category : #initialization }
-ToOverlayWindowManager >> defaultSizeHook [
+ToOverlayWindowManager >> defaultHeightHook [
 
 	^ [ :theWindow :theElement :event |
-	  theWindow size: theElement measuredWidth @ theElement measuredHeight ]
+	  theElement measuredHeight ]
+]
+
+{ #category : #initialization }
+ToOverlayWindowManager >> defaultWidthHook [
+
+	^ [ :theWindow :theElement :event |
+	  theElement measuredWidth ]
 ]
 
 { #category : #'event handling' }

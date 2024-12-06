@@ -382,7 +382,6 @@ ToBeeTheme >> declareLabelRules [
 			with: [ :e |
 				e textAttributesBuilder
 					weight: (e valueOfTokenNamed: #'font-weight-strong');
-					defaultFontName: (e valueOfTokenNamed: #'font-family-code');
 					defaultFontSize: (e valueOfTokenNamed: #'font-size');
 					lineSpacing: (e valueOfTokenNamed: #'line-height');
 					yourself ].
@@ -721,7 +720,6 @@ ToBeeTheme >> declareTextPaneRules [
 				with: [ :e | 
 					e textAttributesBuilder
 						weight: (e valueOfTokenNamed: #'font-weight-strong');
-						defaultFontName: (e valueOfTokenNamed: #'font-family-code');
 						defaultFontSize: 28;
 						foreground: Color lightGray lighter;
 						lineSpacing: (e valueOfTokenNamed: #'line-height');

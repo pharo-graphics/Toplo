@@ -36,9 +36,9 @@ ToAnchoredWindow >> checkBeforePopupEvent: anEvent [
 { #category : #'api - displaying' }
 ToAnchoredWindow >> close [
 
+	self isOpened ifFalse: [ Error signal: 'Closing a closed window' ].
 	self dispatchClosedEvent.
 	super close
-
 ]
 
 { #category : #accessing }
@@ -50,21 +50,22 @@ ToAnchoredWindow >> defaultElevation [
 { #category : #'api - displaying' }
 ToAnchoredWindow >> dispatchClosedEvent [
 
-	| event |
-	event := windowManager windowClosedEventClass new
-		         windowManager: windowManager;
-		         yourself.
-	self element ifNotNil: [ :e | e dispatchEvent: event copy ].
-	self dispatchEvent: event
+	" need to dispatch also to the element holding the window
+	so that the window manager can manage the window 
+	(recall that the window manager is an event handler of the element)"
+	super dispatchClosedEvent.
+	self element  dispatchEvent: self newClosedEvent.
+
 ]
 
 { #category : #'api - displaying' }
 ToAnchoredWindow >> dispatchOpenedEvent [
 
-	| event |
-	event := windowManager windowOpenedEventClass new.
-	self dispatchEvent: event.
-	self element dispatchEvent: event copy
+	super dispatchOpenedEvent.
+	" need to dispatch also to the element holding the window
+	so that the window manager can manage the window 
+	(recall that the window manager is an event handler of the element)"
+	self element dispatchEvent: self newOpenedEvent 
 ]
 
 { #category : #accessing }
@@ -89,6 +90,12 @@ ToAnchoredWindow >> manager [
 ToAnchoredWindow >> manager: aWindowHandler [
 
 	windowManager := aWindowHandler 
+]
+
+{ #category : #'api - displaying' }
+ToAnchoredWindow >> onPositionChangedToFitAnchorRootDo: aBlock [
+
+	aBlock value
 ]
 
 { #category : #'api - displaying' }
@@ -121,17 +128,35 @@ ToAnchoredWindow >> popupEvent: anEvent [
 			'Can''t popup an anchored window if the element is not attached to a space' ].
 	self element isDisabled ifTrue: [
 		Error signal: 'A window with a disabled element shouldn''t popup' ].
-	
-	self checkBeforePopupEvent: anEvent.
-	self isOpened ifFalse: [ self open ].
-	self toFront.
 
+	self isOpened ifTrue: [
+		Error signal: 'An opened window shouldn''t been asked to popup' ].
+
+	self visibility: BlVisibility hidden.
+	self open.
+	self whenLayoutedDoOnce: [ " ok, now that my size is known, size and position hooks can be applied "
+		self checkBeforePopupEvent: anEvent.
+		" since the position/size could have been changed, one have to wait a second layout"
+		self whenLayoutedDoOnce: [
+			self onPositionChangedToFitAnchorRootDo: [
+				self toFront.
+				self visibility: BlVisibility visible ] ] ]
 ]
 
 { #category : #accessing }
 ToAnchoredWindow >> popupTimestamp [
 
 	^ popupTimestamp 
+]
+
+{ #category : #'api - displaying' }
+ToAnchoredWindow >> positionWithinAnchorRoot [
+
+	| t rect rootRect |
+	rect := self bounds inSpace bounds asRectangle.
+	rootRect := 0 @ 0 extent: self anchorRoot extent.
+	t := rect amountToTranslateWithin: rootRect.
+	^ self position + t
 ]
 
 { #category : #'api - displaying' }
@@ -154,4 +179,10 @@ ToAnchoredWindow >> toThemeInstalled [
 ToAnchoredWindow >> useMorphicHost [ 
 
 	^ BlHost preferableHostClass = BlMorphicWindowHost
+]
+
+{ #category : #accessing }
+ToAnchoredWindow >> windowManager [ 
+
+	^ windowManager 
 ]

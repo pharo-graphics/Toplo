@@ -20,6 +20,12 @@ ToContextMenu >> bar [
 ]
 
 { #category : #'t - menu window model' }
+ToContextMenu >> close [
+
+	super close
+]
+
+{ #category : #'t - menu window model' }
 ToContextMenu >> closeWindow [
 
 	self close
@@ -30,8 +36,13 @@ ToContextMenu >> initialize [
 
 	super initialize.
 	self fitContent.
-	itemList := ToMenuItemListElement new.
-	self root addChild: itemList
+	self root addChild: self itemList
+]
+
+{ #category : #testing }
+ToContextMenu >> isMenu [
+
+	^ true
 ]
 
 { #category : #'t - menu window model' }
@@ -40,7 +51,7 @@ ToContextMenu >> isOpened [
 	^ super isOpened
 ]
 
-{ #category : #'t - menu window model' }
+{ #category : #testing }
 ToContextMenu >> isSubmenu [ 
 
 	^ false
@@ -59,15 +70,9 @@ ToContextMenu >> itemContainer [
 ]
 
 { #category : #accessing }
-ToContextMenu >> itemList [
-
-	^ itemList
-]
-
-{ #category : #accessing }
-ToContextMenu >> items [
-
-	^ itemList dataAccessor
+ToContextMenu >> menuBar [ 
+	" a context menu can't be in a menubar "
+	^ nil
 ]
 
 { #category : #'t - menu window model' }

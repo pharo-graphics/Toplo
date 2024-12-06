@@ -38,17 +38,6 @@ ToSkinManager >> applySkinInstallerIn: anElement [
 ]
 
 { #category : #'skin - installing / uninstalling' }
-ToSkinManager >> applySkinInstallerNowIn: anElement [
-
-	skinRequestCount > 1 ifTrue: [ ^ false ].
-	self applySkinInstallerOnFirstRequest ifTrue: [ ^ true ].
-	anElement parentDo: [ :p |
-		p skinManagerDo: [ :sm |
-			(sm applySkinInstallerNowIn: p) ifTrue: [ ^ true ] ] ].
-	^ false
-]
-
-{ #category : #'skin - installing / uninstalling' }
 ToSkinManager >> applySkinInstallerOnFirstRequest [
 
 	^ applySkinInstallerOnFirstRequest 
@@ -78,6 +67,17 @@ ToSkinManager >> applySkinUninstallerIn: anElement [
 ToSkinManager >> borderBuilder [
 
 	^ self skinContext borderBuilder
+]
+
+{ #category : #'skin - installing / uninstalling' }
+ToSkinManager >> canApplySkinInstallerNowIn: anElement [
+
+	skinRequestCount > 1 ifTrue: [ ^ false ].
+	self applySkinInstallerOnFirstRequest ifTrue: [ ^ true ].
+	anElement parentDo: [ :p |
+		p skinManagerDo: [ :sm |
+			(sm canApplySkinInstallerNowIn: p) ifTrue: [ ^ true ] ] ].
+	^ false
 ]
 
 { #category : #accessing }
@@ -247,21 +247,20 @@ ToSkinManager >> registeredThemeClasses [
 ToSkinManager >> requestInstallSkinIn: anElement [
 
 	anElement space ifNil: [ ^ self postponeRequestSkinIn: anElement ].
-	self skinInstaller
-		ifNil: [
-			"'requestInstallSkinIn: ' trace. anElement traceCr."
-			skinRequestCount := skinRequestCount + 1.
-			" check that the skin related space phases are installed "
-			anElement space checkSkinPhases.
-			self setSkinInstaller: ToSkinInstaller new in: anElement ]
-		ifNotNil: [ skinRequestCount > 1 ifTrue: [ ^ self ] ].
+	self skinInstaller ifNil: [ "'requestInstallSkinIn: ' trace. anElement traceCr."
+		skinRequestCount := skinRequestCount + 1.
+		" check that the skin related space phases are installed "
+		anElement space checkSkinPhases.
+		self setSkinInstaller: ToSkinInstaller new in: anElement ].
+	skinRequestCount = 1 ifFalse: [ ^ self ].
 	" *** Important point: a skin can be installed instantly.
-	This is used to avoid visual flashing effects in some situations: selection or labels updating in lists as examples. 
+	This is used to avoid visual flashing effects in some situations: 
+	selection or labels updating in lists as examples. 
 	But but but it is possible only at the first request. Why ?
-	Because requestInstallSkin can be sent many times (as an example during a theme installation). Thus, applying 
-	each request instantly could increase time consuming for nothing **** "
-	((self applySkinInstallerNowIn: anElement) and: [
-		 skinRequestCount = 1 ]) ifFalse: [ ^ self ].
+	Because requestInstallSkin can be sent many times 
+	(as an example during a theme installation). 
+	Thus, applying each request instantly could increase time consuming for nothing **** "
+	(self canApplySkinInstallerNowIn: anElement) ifFalse: [ ^ self ].
 	" then apply the installer now "
 	self skinInstaller applyOn: anElement
 ]

@@ -148,15 +148,15 @@ ToAlbumAutocompletionEventHandler >> onInstalledIn: anElement [
 
 	windowManager := ToPopupWindowManager new.
 	anElement addEventHandler: windowManager.
-	windowManager builder: [ :anchWin :element |
+	windowManager windowBuilder: [ :anchWin :element |
 		anchWin root hMatchParent.
 		anchWin root vFitContent.
 		anchWin root addChild: self listElement ].
 
-	windowManager sizeHook: [ :theWindow :theElement :event |
-		theWindow width: 200 ].
+	windowManager widthHook: [ :theWindow :theElement :event |
+		200 ].
 	windowManager positionHook: [ :theWindow :theElement :event |
-		theWindow position: self windowPosition ]
+		self windowPosition ]
 ]
 
 { #category : #'event handling' }

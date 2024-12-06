@@ -29,23 +29,29 @@ ToStillHoveredEventHandler >> mouseEnterEvent: anEvent [
 ToStillHoveredEventHandler >> mouseLeaveEvent: anEvent [
 
 	checker ifNil: [ ^ self ].
-	self stopTaskIn: anEvent currentTarget
+	self stopTaskFromEvent: anEvent in: anEvent currentTarget
 ]
 
 { #category : #'instance creation' }
 ToStillHoveredEventHandler >> newRepeatedEvent [
 
 	^ ToStillHoveredEvent new
+		  emitter: self;
+		  yourself
 ]
 
 { #category : #'instance creation' }
-ToStillHoveredEventHandler >> newStartEvent [ 
+ToStillHoveredEventHandler >> newStartEvent [
 
 	^ ToStartStillHoveredEvent new
+		  emitter: self;
+		  yourself
 ]
 
 { #category : #'instance creation' }
 ToStillHoveredEventHandler >> newStopEvent [
 
 	^ ToStopStillHoveredEvent new
+		  emitter: self;
+		  yourself
 ]

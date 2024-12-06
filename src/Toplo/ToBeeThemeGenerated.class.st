@@ -73,8 +73,8 @@ ToBeeThemeGenerated class >> defaultTokenProperties [
   (ToTokenProperty name: #'margin-XS' value: 8) . 
   (ToTokenProperty name: #'padding-content-H' value: 15) . 
   (ToTokenProperty name: #'padding-content-V' value: 4) . 
-  (ToTokenProperty name: #'padding-content-V-S' value: 2) . 
-  (ToTokenProperty name: #'padding-content-V-XS' value: 0) . 
+  (ToTokenProperty name: #'padding-content-VS' value: 2) . 
+  (ToTokenProperty name: #'padding-content-VXS' value: 0) . 
   (ToTokenProperty name: #'padding-XS' value: 8) . 
   (ToTokenProperty name: #'list-infinite-padding-H' value: 4) . 
   (ToTokenProperty name: #'list-infinite-padding-V' value: 1) . 

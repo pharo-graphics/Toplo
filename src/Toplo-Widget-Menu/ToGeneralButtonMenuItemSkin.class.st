@@ -25,14 +25,12 @@ ToGeneralButtonMenuItemSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e vFitContent.
 		e mouseCursor: Cursor normal.
-		e border: BlBorder empty.
-		e padding: (BlInsets
-				 horizontal: (e valueOfTokenNamed: #'menu-button-padding-H')
-				 vertical: (e valueOfTokenNamed: #'menu-button-padding-V')).
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:
-				 (e valueOfTokenNamed: 'border-radius')) ]
+				 (e valueOfTokenNamed: 'border-radius')).
+		e padding: (BlInsets
+				 horizontal: (e valueOfTokenNamed: #'padding-content-HS')
+				 vertical: (e valueOfTokenNamed: #'padding-content-VXS')) ]
 ]
 
 { #category : #'event handling' }

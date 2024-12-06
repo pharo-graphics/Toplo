@@ -2,26 +2,64 @@ Class {
 	#name : #ToGeneratorEvent,
 	#superclass : #BlEvent,
 	#instVars : [
-		'modifiers'
+		'sourceEvent',
+		'emitter'
 	],
 	#category : #'Toplo-Support-EventGenerator'
 }
 
-{ #category : #initialization }
-ToGeneratorEvent >> initialize [ 
+{ #category : #accessing }
+ToGeneratorEvent >> emitter [
 
-	super initialize.
-	modifiers := BlKeyModifiers new
+	^ emitter
+]
+
+{ #category : #accessing }
+ToGeneratorEvent >> emitter: anObject [
+
+	emitter := anObject
 ]
 
 { #category : #accessing }
 ToGeneratorEvent >> modifiers [
 
-	^ modifiers
+	^ sourceEvent modifiers
 ]
 
 { #category : #accessing }
-ToGeneratorEvent >> modifiers: anObject [
+ToGeneratorEvent >> position [
 
-	modifiers := anObject
+	^ sourceEvent position
+]
+
+{ #category : #accessing }
+ToGeneratorEvent >> sourceEvent [
+
+	^ sourceEvent
+]
+
+{ #category : #accessing }
+ToGeneratorEvent >> sourceEvent: anObject [
+
+	sourceEvent := anObject
+]
+
+{ #category : #accessing }
+ToGeneratorEvent >> sourceHandler [
+
+	self
+		deprecated: 'Use #emitter'
+		transformWith:
+		'`@rcvr sourceHandler' -> '`@rcvr emitter'.
+	^ emitter
+]
+
+{ #category : #accessing }
+ToGeneratorEvent >> sourceHandler: anObject [
+
+	self
+		deprecated: 'Use #emitter:'
+		transformWith:
+		'`@rcvr sourceHandler: `@arg' -> '`@rcvr emitter: `@arg'.
+	emitter := anObject
 ]

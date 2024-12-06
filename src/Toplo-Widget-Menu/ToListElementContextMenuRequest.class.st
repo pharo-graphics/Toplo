@@ -24,9 +24,3 @@ ToListElementContextMenuRequest >> selectionModel: aSelectionModel [
 
 	selectionModel := aSelectionModel
 ]
-
-{ #category : #sending }
-ToListElementContextMenuRequest >> sendTo: anEvent [
-
-	anEvent listElementContextMenuRequest: self
-]

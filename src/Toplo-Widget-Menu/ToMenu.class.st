@@ -4,11 +4,17 @@ Class {
 	#traits : 'TToMenuItemContainer + TToMenuWindowModel',
 	#classTraits : 'TToMenuItemContainer classTrait + TToMenuWindowModel classTrait',
 	#instVars : [
-		'windowManager',
-		'itemList'
+		'itemList',
+		'isSubmenu'
 	],
 	#category : #'Toplo-Widget-Menu-Basic'
 }
+
+{ #category : #'adding-removing' }
+ToMenu >> addedInMenuItemContainer: aMenu [
+
+	aMenu addedMenu: self
+]
 
 { #category : #accessing }
 ToMenu >> bar [
@@ -20,7 +26,7 @@ ToMenu >> bar [
 	^ self itemList
 ]
 
-{ #category : #initialization }
+{ #category : #accessing }
 ToMenu >> buttonClickEventClass [
 
 	^ BlMouseDownEvent
@@ -29,13 +35,11 @@ ToMenu >> buttonClickEventClass [
 { #category : #'t - menu window model' }
 ToMenu >> closeWindow [
 
-	" first ask the items to close "
-	self items do: [ :it | it closeWindow ].
-	" now my window "
-	self menuWindow ifNotNil: [:mw | mw close ]
+	self menuWindow ifNotNil: [:mw | mw close ].
+
 ]
 
-{ #category : #testing }
+{ #category : #accessing }
 ToMenu >> includes: anElement [
 
 	self menuWindow = anElement ifTrue: [ ^ true ].
@@ -49,14 +53,15 @@ ToMenu >> initialize [
 
 	super initialize.
 	self fitContent.
-	itemList := ToMenuItemListElement new.
-	windowManager := ToMenuWindowManager new.
-	self addEventHandler: windowManager.
-	windowManager builder: [ :menWin :request |
-		menWin root addChild: request currentTarget itemList ]
+	isSubmenu := false.
+
+	self addEventHandler: (ToMenuWindowManager new
+			 windowBuilder: [ :menWin :request |
+				 menWin root addChild: request currentTarget itemList ];
+			 yourself)
 ]
 
-{ #category : #testing }
+{ #category : #accessing }
 ToMenu >> isMenu [
 
 	^ true
@@ -71,34 +76,36 @@ ToMenu >> isOpened [
 { #category : #'t - menu window model' }
 ToMenu >> isSubmenu [
 
-	^ parentMenu notNil
+	^ isSubmenu
+]
+
+{ #category : #accessing }
+ToMenu >> isSubmenu: aBoolean [
+
+	isSubmenu := aBoolean
 ]
 
 { #category : #'t - menu window model' }
 ToMenu >> isTopMenu [
 
-	^ self parentMenu isNil
-]
-
-{ #category : #accessing }
-ToMenu >> itemList [
-
-	^  itemList
-]
-
-{ #category : #'t - menu item container - accessing' }
-ToMenu >> items [
-
-	^ itemList dataAccessor
+	^ self isSubmenu not
 ]
 
 { #category : #'t - menu window model' }
 ToMenu >> menuWindow [ 
 
-	^ windowManager currentWindow
+	^ self windowManager currentWindow
 ]
 
-{ #category : #skin }
+{ #category : #'event handling' }
+ToMenu >> mouseOverEvent: anEvent [
+
+	(anEvent target hasInParentChain: self)
+		ifTrue: [ self menuWindow ifNil: [ self popupEvent: anEvent ] ]
+		ifFalse: [ self closeWindow ]
+]
+
+{ #category : #accessing }
 ToMenu >> newRawSkin [ 
 
 	^ ToMenuSkin new
@@ -107,11 +114,5 @@ ToMenu >> newRawSkin [
 { #category : #'t - menu window model' }
 ToMenu >> popupEvent: anEvent [
 
-	windowManager popupEvent: anEvent
-]
-
-{ #category : #'t - menu window model' }
-ToMenu >> rootMenu [
-
-	^ super rootMenu
+	self windowManager popupEvent: anEvent
 ]

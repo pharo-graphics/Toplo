@@ -7,7 +7,7 @@ Class {
 { #category : #initialization }
 ToContextMenuWindowManager >> defaultPositionHook [
 
-	^ [ :window :theElement :event | window position: event position ]
+	^ [ :window :theElement :event | event position ]
 ]
 
 { #category : #'event handling' }
@@ -21,6 +21,14 @@ ToContextMenuWindowManager >> initialize [
 
 	super initialize.
 	self useSecondaryMouseButton
+]
+
+{ #category : #'window handling' }
+ToContextMenuWindowManager >> newPickOutsideFilter [
+
+	^ super newPickOutsideFilter
+		  shouldCheckElement: false;
+		  yourself
 ]
 
 { #category : #accessing }

@@ -58,15 +58,16 @@ TToElementWithContextMenuTest >> testContextMenuAddItem [
 { #category : #tests }
 TToElementWithContextMenuTest >> testContextMenuBuilder [
 
-	| e b  |
+	| e b |
 	e := ToElement new.
-	b := [:win :theRequest | win addItem: ToMenuItem new.  ].
+	b := [ :win :theRequest | win addItem: ToMenuItem new ].
 	e contextMenuBuilder: b.
 	self assert: e rawContextMenuWindowManager notNil.
-	self assert: e rawContextMenuWindowManager builder identicalTo: b.
+	self
+		assert: e rawContextMenuWindowManager windowBuilder
+		identicalTo: b.
 	e removeContextMenuWindowManager.
-	self assert: e rawContextMenuWindowManager isNil.
-
+	self assert: e rawContextMenuWindowManager isNil
 ]
 
 { #category : #tests }

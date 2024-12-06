@@ -3,14 +3,8 @@ Class {
 	#superclass : #ToAbstractListElement,
 	#traits : 'TToBarElement',
 	#classTraits : 'TToBarElement classTrait',
-	#category : #'Toplo-Widget-Menu-Basic'
+	#category : #'Toplo-Widget-Menu-Item-List'
 }
-
-{ #category : #initialization }
-ToMenuItemListElement >> defaultDataSource [
-
-	^ ToInfiniteCollectionDataSource new
-]
 
 { #category : #initialization }
 ToMenuItemListElement >> defaultNodeManagerClass [
@@ -27,6 +21,7 @@ ToMenuItemListElement >> initialize [
 	self vertical: true.
 	self uniformNodeWidth: true.
 	self primarySelectionMode makeDisabledUnselectable: true.
+	self selectionOption masked: true.
 	self focusability: BlFocusability ignore
 ]
 

@@ -1,14 +1,12 @@
 Class {
 	#name : #ToLabel,
 	#superclass : #ToElement,
-	#traits : 'TBlTextStyleable',
-	#classTraits : 'TBlTextStyleable classTrait',
 	#instVars : [
 		'isEditable',
 		'innerElement',
 		'lineMode',
-		'frameManager',
-		'currText'
+		'currText',
+		'editorWindowManager'
 	],
 	#category : #'Toplo-Widget-Album-Label'
 }
@@ -24,7 +22,7 @@ ToLabel >> addEditorEvent: anEvent [
 
 	self innerElement visibility: BlVisibility hidden.
 	self hasEditor ifTrue: [  ^ self ].
-	(self newEditorFrameEvent: anEvent) popupEvent: anEvent.
+	(self newEditorWindowEvent: anEvent) popupEvent: anEvent.
 	
 	self editor selecter
 		all;
@@ -86,6 +84,12 @@ ToLabel >> beReadOnly [
 	self isEditable: false
 ]
 
+{ #category : #'api - text weight' }
+ToLabel >> bold [
+
+	self attributesBuilder attribute: BlFontWeightAttribute bold
+]
+
 { #category : #'private-editing' }
 ToLabel >> cleanUpUserData [
 
@@ -93,15 +97,27 @@ ToLabel >> cleanUpUserData [
 ]
 
 { #category : #'private-editing' }
-ToLabel >> currentEditorFrame [
+ToLabel >> currentEditorWindow [
 
-	^ frameManager currentWindow
+	^ editorWindowManager currentWindow
 ]
 
 { #category : #initialization }
 ToLabel >> defaultEventHandler [ 
 
 	^ ToLabelEventHandler new
+]
+
+{ #category : #'api - text font' }
+ToLabel >> defaultFontName: aString [
+
+	self attributesBuilder attribute: (BlFontFamilyDefaultAttribute named: aString)
+]
+
+{ #category : #'api - text font' }
+ToLabel >> defaultFontSize: aNumber [
+
+	self attributesBuilder attribute: (BlFontSizeDefaultAttribute size: aNumber)
 ]
 
 { #category : #initialization }
@@ -149,10 +165,28 @@ ToLabel >> editorBuilder: aValuable [
 	self userData at: #editorBuilder put: aValuable
 ]
 
+{ #category : #'api - text font' }
+ToLabel >> fontName: aString [
+
+	self attributesBuilder attribute: (BlFontFamilyAttribute named: aString)
+]
+
+{ #category : #'api - text font' }
+ToLabel >> fontSize: aNumber [
+
+	self attributesBuilder attribute: (BlFontSizeAttribute size: aNumber)
+]
+
+{ #category : #'api - text style' }
+ToLabel >> foreground: aBlPaint [
+
+	self attributesBuilder attribute: (BlTextForegroundAttribute paint: aBlPaint)
+]
+
 { #category : #'private-editing' }
 ToLabel >> hasEditor [
 
-	^ frameManager notNil and: [ frameManager currentWindow notNil ]
+	^ editorWindowManager notNil and: [ editorWindowManager currentWindow notNil ]
 ]
 
 { #category : #accessing }
@@ -178,16 +212,16 @@ ToLabel >> initialize [
 ]
 
 { #category : #'private-editing' }
-ToLabel >> initializeEditorFrameBuilder [
+ToLabel >> initializeEditorWindowBuilder [
 
 	self isEditable
 		ifTrue: [
-			frameManager := ToLabelEditorWindowManager new.
-			self addEventHandler: frameManager ]
+			editorWindowManager := ToLabelEditorWindowManager new.
+			self addEventHandler: editorWindowManager ]
 		ifFalse: [
-			frameManager ifNil: [ ^ self ].
-			self removeEventHandler: frameManager.
-			frameManager := nil ]
+			editorWindowManager ifNil: [ ^ self ].
+			self removeEventHandler: editorWindowManager.
+			editorWindowManager := nil ]
 ]
 
 { #category : #accessing }
@@ -216,7 +250,7 @@ ToLabel >> isEditable: aBoolean [
 
 	isEditable = aBoolean ifTrue: [ ^ self ].
 	isEditable := aBoolean.
-	self initializeEditorFrameBuilder
+	self initializeEditorWindowBuilder
 ]
 
 { #category : #testing }
@@ -239,6 +273,12 @@ ToLabel >> isMultiLine [
 	^ self lineMode
 		  ifNil: [ ^ false ]
 		  ifNotNil: [ :mode | mode isMultiLine ]
+]
+
+{ #category : #'api - text emphasis' }
+ToLabel >> italic [
+
+	self attributesBuilder attribute: BlFontEmphasisAttribute italic
 ]
 
 { #category : #accessing }
@@ -276,9 +316,9 @@ ToLabel >> newEditor [
 ]
 
 { #category : #'private-editing' }
-ToLabel >> newEditorFrameEvent: anEvent [
+ToLabel >> newEditorWindowEvent: anEvent [
 
-	^  frameManager newWindowEvent: anEvent
+	^  editorWindowManager newWindowEvent: anEvent
 ]
 
 { #category : #skin }
@@ -291,6 +331,18 @@ ToLabel >> newRawSkin [
 ToLabel >> newTextAttributesBuilder [
 	
 	^ ToLabelAttributesBuilder onLabel: self
+]
+
+{ #category : #'api - text emphasis' }
+ToLabel >> normal [
+
+	self attributesBuilder attribute: BlFontEmphasisAttribute normal
+]
+
+{ #category : #'api - text emphasis' }
+ToLabel >> oblique [
+
+	self attributesBuilder attribute: BlFontEmphasisAttribute oblique
 ]
 
 { #category : #'private-change' }
@@ -351,10 +403,16 @@ ToLabel >> privateText: aText [
 		to: self
 ]
 
+{ #category : #'api - text weight' }
+ToLabel >> regular [
+
+	self attributesBuilder attribute: BlFontWeightAttribute normal
+]
+
 { #category : #'private-editing' }
 ToLabel >> removeEditor [
 
-	self currentEditorFrame ifNotNil: [:w | w close].
+	editorWindowManager closeWindow.
 	self innerElement visibility: BlVisibility visible.
 	self cleanUpUserData
 ]
@@ -375,6 +433,12 @@ ToLabel >> rotateBy: aDegreesAngle [
 	self innerElement
 		constraintsDo: [ :c | c accountTransformation ];
 		transformDo: [ :t | t rotateBy: aDegreesAngle ]
+]
+
+{ #category : #'api - text style' }
+ToLabel >> spacing: aNumber [
+
+	self attributesBuilder attribute: (BlTextSpacingAttribute spacing: aNumber)
 ]
 
 { #category : #styling }
@@ -414,4 +478,10 @@ ToLabel >> text: aBlTextOrString [
 ToLabel >> textChanged [
 
 	self innerElement textChanged
+]
+
+{ #category : #'api - text weight' }
+ToLabel >> weight: aNumber [
+
+	self attributesBuilder attribute: (BlFontWeightAttribute weight: aNumber)
 ]

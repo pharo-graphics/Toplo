@@ -60,9 +60,9 @@ ToTagSkin >> installSkinEvent: anEvent [
 				 horizontal: (e valueOfTokenNamed: #'bar-node-padding-H')
 				 vertical: (e valueOfTokenNamed: #'bar-node-padding-V')).
 		(e hasIcon and: [ e hasLabel ])
-			ifTrue: [ e startInterspace: 2 ]
+			ifTrue: [ e startInterspace: (e valueOfTokenNamed: #'button-interspace') ]
 			ifFalse: [ e startInterspace: 0 ].
 		(e hasEndElement and: [ e hasLabel ])
-			ifTrue: [ e endInterspace: 2 ]
+			ifTrue: [ e endInterspace: (e valueOfTokenNamed: #'button-interspace') ]
 			ifFalse: [ e endInterspace: 0 ] ]
 ]

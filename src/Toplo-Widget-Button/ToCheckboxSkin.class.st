@@ -20,8 +20,9 @@ ToCheckboxSkin >> disabledSkinEvent: anEvent [
 
 	super disabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e background: Color transparent.
-		e icon innerImage border: (e valueOfTokenNamed: #'color-border-disabled').
+		e isMenuButton ifFalse: [ e background: Color transparent.
+		e icon innerImage border:
+			(e valueOfTokenNamed: #'color-border-disabled') ].
 		e icon border: (e valueOfTokenNamed: #'color-border-disabled').
 		e indeterminateBar background: Color transparent ]
 ]
@@ -31,8 +32,9 @@ ToCheckboxSkin >> enabledSkinEvent: anEvent [
 
 	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e border: (e valueOfTokenNamed: #'color-border-checkable').
-		e background: (e valueOfTokenNamed: #'color-bg-container').
+		e isMenuButton ifFalse: [
+			e border: (e valueOfTokenNamed: #'color-border-checkable').
+			e background: (e valueOfTokenNamed: #'color-bg-container') ].
 		e icon border: (e valueOfTokenNamed: #'color-border') ]
 ]
 
@@ -64,8 +66,9 @@ ToCheckboxSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e startInterspace: 10.
-		e border: (e valueOfTokenNamed: #'color-border-checkable').
+		e isMenuButton ifFalse: [
+			e startInterspace: (e valueOfTokenNamed: #'button-interspace').
+			e border: (e valueOfTokenNamed: #'color-border-checkable') ].
 		e iconImage: (e valueOfTokenNamed: #'checkbox-image-builder') value.
 		e icon geometry: (self iconGeometryIn: e).
 		e icon border: (e valueOfTokenNamed: #'color-border') ]

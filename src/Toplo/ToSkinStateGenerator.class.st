@@ -38,6 +38,14 @@ ToSkinStateGenerator >> clickEvent: anEvent [
 		other: [  ]
 ]
 
+{ #category : #'window event handling' }
+ToSkinStateGenerator >> closedEvent: anEvent [
+
+	self enqueueSkinState:
+		(ToTransientState skinEvent:
+			 (ToClosedSkinEvent sourceEvent: anEvent))
+]
+
 { #category : #'dnd handlers' }
 ToSkinStateGenerator >> dragEndEvent: anEvent [
 
@@ -57,7 +65,8 @@ ToSkinStateGenerator >> dragEndEvent: anEvent [
 ToSkinStateGenerator >> dragEnterEvent: anEvent [
 
 	target isEnabled ifFalse: [ ^ self ].
-	leaved := false
+	leaved := false.
+	dragged := true
 ]
 
 { #category : #'dnd handlers' }
@@ -74,7 +83,8 @@ ToSkinStateGenerator >> dragEvent: anEvent [
 ToSkinStateGenerator >> dragLeaveEvent: anEvent [
 
 	target isEnabled ifFalse: [ ^ self ].
-	leaved := true
+	leaved := true.
+	dragged := false
 ]
 
 { #category : #'dnd handlers' }
@@ -115,7 +125,7 @@ ToSkinStateGenerator >> enqueueSkinState: aState in: anElement [
 ToSkinStateGenerator >> eventsToHandle [
 
 	^ {
-		  ToWindowEvent.
+		  ToOpenedClosedEvent.
 		  ToGeneratorEvent.
 		  BlBaseDragEvent.
 		  BlBlurEvent.
@@ -175,7 +185,6 @@ ToSkinStateGenerator >> mouseEnterEvent: anEvent [
 
 	target isEnabled ifFalse: [ ^ self ].
 	leaved := false.
-	dragged ifTrue: [ ^ self ].
 	self enqueueSkinState:
 		(ToTransientState skinEvent:
 			 (ToHoveredSkinEvent sourceEvent: anEvent))
@@ -185,10 +194,8 @@ ToSkinStateGenerator >> mouseEnterEvent: anEvent [
 ToSkinStateGenerator >> mouseLeaveEvent: anEvent [
 
 	target isEnabled ifFalse: [ ^ self ].
-	dragged ifTrue: [ ^ self ].
 	leaved ifTrue: [ ^ self ].
 	leaved := true.
-	target isEnabled ifFalse: [ ^ self ].
 	self enqueueSkinState:
 		(ToTransientState skinEvent:
 			 (ToLeavedSkinEvent sourceEvent: anEvent))
@@ -222,6 +229,14 @@ ToSkinStateGenerator >> onUninstalledIn: anElement [
 	self flag: 'Should take care of addSkinStateGeneration: to remove the generation valuable stored for target before setting it to nil'.
 	"target := nil."
 	super onUninstalledIn: anElement
+]
+
+{ #category : #'window event handling' }
+ToSkinStateGenerator >> openedEvent: anEvent [
+
+	self enqueueSkinState:
+		(ToTransientState skinEvent:
+			 (ToOpenedSkinEvent sourceEvent: anEvent))
 ]
 
 { #category : #'mouse handlers' }
@@ -330,20 +345,4 @@ ToSkinStateGenerator >> wantsEvent: anEvent [
 
 	target isEnabled ifFalse: [ ^ false ].
 	^ super wantsEvent: anEvent
-]
-
-{ #category : #'window event handling' }
-ToSkinStateGenerator >> windowClosedEvent: anEvent [
-
-	self enqueueSkinState:
-		(ToTransientState skinEvent:
-			 (ToClosedSkinEvent sourceEvent: anEvent))
-]
-
-{ #category : #'window event handling' }
-ToSkinStateGenerator >> windowOpenedEvent: anEvent [
-
-	self enqueueSkinState:
-		(ToTransientState skinEvent:
-			 (ToOpenedSkinEvent sourceEvent: anEvent))
 ]

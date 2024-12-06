@@ -5,24 +5,6 @@ Class {
 }
 
 { #category : #'event handling' }
-ToMenuSkin >> disabledSkinEvent: anEvent [
-
-	super disabledSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e isSubmenu ifFalse: [
-			e background: (e valueOfTokenNamed: #'color-bg-container-disabled') ] ]
-]
-
-{ #category : #'event handling' }
-ToMenuSkin >> enabledSkinEvent: anEvent [
-
-	super enabledSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e isSubmenu ifFalse: [
-			e background: (e valueOfTokenNamed: #'color-bg-container') ] ]
-]
-
-{ #category : #'event handling' }
 ToMenuSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
@@ -38,16 +20,6 @@ ToMenuSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e parentMenuDo: [ :pm |
-			pm items do: [ :it |
-				(it isKindOf: ToMenuItem) ifTrue: [
-					it isStartToEnd
-						ifTrue: [
-							it endInterspace: 10.
-							it endFlexible: true ]
-						ifFalse: [
-							it startInterspace: 10.
-							it startFlexible: true ] ] ] ].
 		e isSubmenu
 			ifTrue: [
 				e endFlexible: true.
@@ -56,13 +28,9 @@ ToMenuSkin >> installSkinEvent: anEvent [
 						 foreground: Color veryLightGray;
 						 yourself) ]
 			ifFalse: [
-				e padding: (BlInsets
-						 top: (e valueOfTokenNamed: #'padding-content-V')
-						 left: (e valueOfTokenNamed: #'padding-XS')
-						 bottom: (e valueOfTokenNamed: #'padding-content-V')
-						 right: (e valueOfTokenNamed: #'padding-XS')).
 				(e hasIcon and: [ e hasLabel ])
-					ifTrue: [ e startInterspace: 10 ]
+					ifTrue: [
+					e startInterspace: (e valueOfTokenNamed: #'button-interspace') ]
 					ifFalse: [ e startInterspace: 0 ] ] ]
 ]
 
@@ -71,7 +39,10 @@ ToMenuSkin >> leavedSkinEvent: anEvent [
 
 	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e isSubmenu ifFalse: [ e border: BlBorder empty ] ]
+		e isSubmenu ifFalse: [
+			e border: (BlBorder
+					 paint: (e valueOfTokenNamed: #'color-bg-container')
+					 width: (e valueOfTokenNamed: #'line-width')) ] ]
 ]
 
 { #category : #'event handling' }

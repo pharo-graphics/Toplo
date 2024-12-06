@@ -8,7 +8,6 @@ Class {
 ToLabelEditorWindowManager >> defaultPositionHook [
 
 	^ [ :theWindow :theLabel :event |
-	  theWindow position:
 		  (theLabel innerElement bounds inParent: self anchorRoot) bounds
 			  topLeft - theLabel editor padding left
 		  @ theLabel editor padding top ]
@@ -18,40 +17,16 @@ ToLabelEditorWindowManager >> defaultPositionHook [
 ToLabelEditorWindowManager >> initialize [
 
 	super initialize.
-	self builder: [ :anchWin :request |
+	self windowBuilder: [ :window :request |
 		| ed label |
 		label := request currentTarget.
 		ed := label newEditor.
-		anchWin root addChild: ed.
+		window root addChild: ed.
 		ed text: label text copy ]
-]
-
-{ #category : #'window opening - closing handlers' }
-ToLabelEditorWindowManager >> labelEditorClosedEvent: anEvent [
-
-	self windowClosedEvent: anEvent
-]
-
-{ #category : #'window opening - closing handlers' }
-ToLabelEditorWindowManager >> labelEditorOpenedEvent: anEvent [
-
-	self windowOpenedEvent: anEvent
 ]
 
 { #category : #accessing }
 ToLabelEditorWindowManager >> windowClass [
 
 	^ ToLabelEditorWindow 
-]
-
-{ #category : #accessing }
-ToLabelEditorWindowManager >> windowClosedEventClass [
-
-	^ ToLabelEditorClosedEvent
-]
-
-{ #category : #accessing }
-ToLabelEditorWindowManager >> windowOpenedEventClass [
-
-	^ ToLabelEditorOpenedEvent
 ]

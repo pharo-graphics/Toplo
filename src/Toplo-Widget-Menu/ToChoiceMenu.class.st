@@ -144,7 +144,6 @@ ToChoiceMenu >> newMenuItemFromData: anObject [
 ToChoiceMenu >> newRawSkin [
 
 	^ ToChoiceMenuSkin new
-	
 ]
 
 { #category : #'private - notifications' }

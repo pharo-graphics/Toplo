@@ -39,11 +39,12 @@ ToSwitchButtonSkin >> installSkinEvent: anEvent [
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:
 				 (e valueOfTokenNamed: 'border-radius')).
 		e border: BlBorder empty.
-		e padding: (BlInsets
-				 top: (e valueOfTokenNamed: #'padding-content-V')
-				 left: (e valueOfTokenNamed: #'padding-XS')
-				 bottom: (e valueOfTokenNamed: #'padding-content-V')
-				 right: (e valueOfTokenNamed: #'padding-XS')) ]
+		(e hasAnyInParentChainSatisfying: [ :p | p isMenuItem ]) ifFalse: [
+			e padding: (BlInsets
+					 top: (e valueOfTokenNamed: #'padding-content-VXS')
+					 left: (e valueOfTokenNamed: #'padding-XS')
+					 bottom: (e valueOfTokenNamed: #'padding-content-VXS')
+					 right: (e valueOfTokenNamed: #'padding-XS')) ] ]
 ]
 
 { #category : #'event handling' }

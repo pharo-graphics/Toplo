@@ -198,7 +198,7 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'font-size-H5' value: 16).
 		  (ToTokenProperty name: #'font-weight-strong' value: 600).
 
-		  (ToTokenProperty name: #'line-height' value: 1.5).
+		  (ToTokenProperty name: #'line-height' value: 1).
 		  (ToTokenProperty name: #'line-height-H1' value: 1.2).
 		  (ToTokenProperty name: #'line-height-H2' value: 1.3).
 		  (ToTokenProperty name: #'line-height-H3' value: 1.3).
@@ -221,13 +221,16 @@ ToTheme class >> defaultTokenProperties [
 
 		  (ToTokenProperty name: #'margin-XS' value: 8).
 
-		  (ToTokenProperty name: #'padding-content-H' value: 15).
-		  (ToTokenProperty name: #'padding-content-V' value: 4).
-		  (ToTokenProperty name: #'padding-content-V-S' value: 2).
-		  (ToTokenProperty name: #'padding-content-V-XS' value: 1).
+		  (ToTokenProperty name: #'padding-content-H' value: 6).
+		  (ToTokenProperty name: #'padding-content-HS' value: 4).
+		  (ToTokenProperty name: #'padding-content-HXS' value: 2).
+		  (ToTokenProperty name: #'padding-content-V' value: 6).
+		  (ToTokenProperty name: #'padding-content-VS' value: 4).
+		  (ToTokenProperty name: #'padding-content-VXS' value: 2).
 		  (ToTokenProperty name: #'padding-XS' value: 8).
 		  (ToTokenProperty name: #'padding-XXS' value: 3).
 
+		  (ToTokenProperty name: #'button-interspace' value: 10).
 		  (ToTokenProperty name: #'list-padding-H' value: 6).
 		  (ToTokenProperty name: #'list-padding-V' value: 6).
 		  (ToTokenProperty name: #'list-node-padding-H' value: 3).
@@ -311,12 +314,7 @@ ToTheme class >> label [
 ToTheme class >> technicalTokenProperties [
 	" toplo need a list of unique stamps for widget technical parameters. "
 
-	^ {
-		  (ToTokenProperty
-			   name: #'toplo-double-click-delay'
-			   value: 200 milliSeconds).
-
-		}
+	^ {  }
 ]
 
 { #category : #accessing }

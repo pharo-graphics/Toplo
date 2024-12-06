@@ -18,14 +18,12 @@ TToElementWithContextMenu >> contextMenuBuilder [
 
 { #category : #'t - element with context menu' }
 TToElementWithContextMenu >> contextMenuBuilder: aValuable [
-
 	" aValuable take the context menu to build as first argument and the request event  as second aargument "
-	
-	aValuable 
-		ifNil: [
-			self contextMenuWindowManager: nil.
-			^ self ].
-	self contextMenuWindowManager builder: aValuable
+
+	aValuable ifNil: [
+		self contextMenuWindowManager: nil.
+		^ self ].
+	self contextMenuWindowManager windowBuilder: aValuable
 ]
 
 { #category : #'t - element with context menu' }

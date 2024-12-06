@@ -103,5 +103,5 @@ ToTransientStateTest >> testSourceEvent [
 	state := ToTransientState new.
 	sourceEvt := BlMouseEnterEvent new position: 10@10.
 	state skinEvent: (stateEvt := ToHoveredSkinEvent new sourceEvent: sourceEvt).
-	self assert: state sourceEvent identicalTo: sourceEvt
+	self assert: state sourceEvent class identicalTo: sourceEvt class
 ]

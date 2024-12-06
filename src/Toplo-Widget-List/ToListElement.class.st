@@ -7,12 +7,6 @@ Class {
 }
 
 { #category : #initialization }
-ToListElement >> defaultDataSource [
-
-	^ ToInfiniteCollectionDataSource new
-]
-
-{ #category : #initialization }
 ToListElement >> defaultInnerElement [
 
 	^ ToInfiniteElement onListElement: self

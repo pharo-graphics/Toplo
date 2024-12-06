@@ -5,12 +5,6 @@ Class {
 }
 
 { #category : #initialization }
-ToPicsumListElement >> defaultDataSource [
-
-	^ ToInfiniteCollectionDataSource new
-]
-
-{ #category : #initialization }
 ToPicsumListElement >> defaultInnerElement [
 
 	^ ToInfiniteElement onListElement: self

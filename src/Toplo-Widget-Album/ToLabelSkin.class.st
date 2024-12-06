@@ -36,14 +36,17 @@ ToLabelSkin >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e textAttributesBuilder
-			weight: (e valueOfTokenNamed: #'font-weight-strong');
-			defaultFontName: (e valueOfTokenNamed: #'font-family-code');
 			defaultFontSize: (e valueOfTokenNamed: #'font-size');
 			lineSpacing: (e valueOfTokenNamed: #'line-height');
 			foreground: (e valueOfTokenNamed: #'color-text').
 		e editorBuilder: [ :ed :lab |
 			ed text foreground: (lab valueOfTokenNamed: #'color-text') ].
-		e applyStyle ]
+		e applyStyle.
+		(e hasAnyInParentChainSatisfying: [ :p | p isMenuItem ])
+			ifFalse: [
+				e padding: (BlInsets
+						 horizontal: (e valueOfTokenNamed: #'padding-content-H')
+						 vertical: (e valueOfTokenNamed: #'padding-content-VXS')) ] ]
 ]
 
 { #category : #'event handling' }

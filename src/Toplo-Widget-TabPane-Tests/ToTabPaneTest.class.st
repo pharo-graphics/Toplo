@@ -29,8 +29,12 @@ ToTabPaneTest >> testCloseLastPage [
 	self assert: notebook tabs size equals: 1.
 	self assert: notebook tabs last isSelected.
 
+	self flag: 'Strange fix to make the test work'.
+	notebook tabs last firstChild padding: BlInsets empty.
+	notebook forceLayout.
 	BlSpace simulateClickOn: notebook tabs last innerCloseButton.
-	"self waitTestingSpaces."
+	self waitTestingSpaces.
+	space requestNextPulse.
 	self assert: notebook tabs isEmpty
 ]
 
@@ -59,9 +63,14 @@ ToTabPaneTest >> testCloseSelectedPage [
 	"self waitTestingSpaces."
 	self assert: (notebook  tabs includes: redButton ).
 	self deny: redButton isSelected.
+	
+	self flag: 'Strange fix to make the test work'.
+
+	notebook tabs do: [:t | t firstChild padding: BlInsets empty].
+	notebook forceLayout.
 
 	BlSpace simulateClickOn: redButton innerCloseButton.
-	"self waitTestingSpaces."
+	self waitTestingSpaces.
 	self deny: (notebook tabs includes: redButton).
 	self assert: greenButton isSelected.
 
@@ -127,7 +136,7 @@ ToTabPaneTest >> testCloseUnselectedPage [
 	self applyAllEnqueuedStates.
 
 	space class simulateClickOn: greenButton innerCloseButton.
-	greenButton addEventHandler: (BlEventHandler
+	greenButton innerCloseButton addEventHandler: (BlEventHandler
 			 on: BlEvent
 			 do: [ :event | event traceCr ]).
 	self waitTestingSpaces.

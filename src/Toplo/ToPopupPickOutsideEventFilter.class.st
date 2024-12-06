@@ -4,10 +4,38 @@ Class {
 	#instVars : [
 		'upCount',
 		'windowManager',
-		'holder'
+		'holder',
+		'checkElement',
+		'plugged'
 	],
 	#category : #'Toplo-Core-Window'
 }
+
+{ #category : #private }
+ToPopupPickOutsideEventFilter >> checkLegitimacy [
+	" 
+	check if the window is still present.
+	If it is not present, the simply remove myself as event filter.
+	"
+
+	self popupWindow ifNil: [ " if the window is not present 
+		This can be the case if the parent of the popup element is removed "
+		holder removeEventFilter: self.
+		holder := nil.
+		^ false ].
+	^ true
+
+]
+
+{ #category : #private }
+ToPopupPickOutsideEventFilter >> checkUpCount [
+
+	windowManager popupOnMouseDown ifTrue: [
+		upCount isZero ifFalse: [
+			upCount := upCount - 1.
+			^ false ] ].
+	^ true
+]
 
 { #category : #accessing }
 ToPopupPickOutsideEventFilter >> element [
@@ -22,6 +50,20 @@ ToPopupPickOutsideEventFilter >> eventsToHandle [
 	^ { BlMouseUpEvent }
 ]
 
+{ #category : #initialization }
+ToPopupPickOutsideEventFilter >> initialize [ 
+
+	super initialize.
+	checkElement := true.
+	plugged := true.
+]
+
+{ #category : #testing }
+ToPopupPickOutsideEventFilter >> isPlugged [
+
+	^ plugged
+]
+
 { #category : #'mouse handlers' }
 ToPopupPickOutsideEventFilter >> mouseUpEvent: anEvent [
 	" 
@@ -29,29 +71,28 @@ ToPopupPickOutsideEventFilter >> mouseUpEvent: anEvent [
 	if the original event target is the popup window 
 	"
 
-	| target |
-	
+	| target delay |
 	"self class name trace. '>>mouseUpEvent: with upCount=' trace. upCount traceCr."
-	
-	self popupWindow ifNil: [ " if the window is not present 
-		This can be the case if the parent of the popup element is removed "
-		holder removeEventFilter: self.
-		holder := nil.
-		^ self ].
+	self checkLegitimacy ifFalse: [ ^ self ].
+	self isPlugged ifFalse: [ ^ self ].
+	self checkUpCount ifFalse: [ ^ self ].
 
-	windowManager popupOnMouseDown ifTrue: [
-		upCount isZero ifTrue: [
-			upCount := upCount + 1.
-			^ self ] ].
+	" check a minimum delay between opening and closing - 
+	useful to not close immediately context menu on mouse up"
+	delay := anEvent timestamp - self popupWindow popupTimestamp.
+	delay < windowManager autoCloseDelay ifTrue: [ ^ self ].
 
-	" It it ouside the element and outside the popup windows "
+	" Is it ouside the element ? "
 	target := anEvent target.
-	(target hasInParentChain: self element) ifTrue: [ ^ self ].
+	checkElement ifTrue: [
+		(self element itemContaining: target) ifNotNil: [ :found | ^ self ] ].
+	
+	"and outside of the popup windows ? "
 	self popupWindow withAllSubwindowsDo: [ :w |
-		(target hasInParentChain: w) ifTrue: [ ^ self ] ].
+		(w itemContaining: target) ifNotNil: [ ^ self ] ].
 
-	anEvent consume.
 	" ok, mouseUp outside the element and outside of the popup window "
+	anEvent consume.
 	self element dispatchEvent: ToPickOutsideEvent new
 ]
 
@@ -63,11 +104,35 @@ ToPopupPickOutsideEventFilter >> onInstalledIn: anElement [
 	upCount := 0
 ]
 
+{ #category : #'mouse handlers' }
+ToPopupPickOutsideEventFilter >> plug [ 
+
+	plugged := true
+]
+
 { #category : #accessing }
 ToPopupPickOutsideEventFilter >> popupWindow [
 
 	^ windowManager currentWindow
 
+]
+
+{ #category : #accessing }
+ToPopupPickOutsideEventFilter >> shouldCheckElement: aBoolean [
+
+	checkElement := aBoolean
+]
+
+{ #category : #'mouse handlers' }
+ToPopupPickOutsideEventFilter >> unplug [ 
+
+	plugged := false
+]
+
+{ #category : #accessing }
+ToPopupPickOutsideEventFilter >> upCountRequired: anInteger [
+
+	upCount := anInteger 
 ]
 
 { #category : #accessing }

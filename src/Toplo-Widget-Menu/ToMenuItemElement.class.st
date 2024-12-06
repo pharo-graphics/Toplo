@@ -1,17 +1,15 @@
 Class {
 	#name : #ToMenuItemElement,
 	#superclass : #ToElement,
-	#instVars : [
-		'parentMenu'
-	],
+	#traits : 'TToMenuItem',
+	#classTraits : 'TToMenuItem classTrait',
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
 { #category : #'adding-removing' }
-ToMenuItemElement >> addedInMenu: aMenu [
+ToMenuItemElement >> addedInMenuItemContainer: aMenu [
 
-	super addedInMenu: aMenu.
-	self parentMenu: aMenu
+	aMenu addedMenuItem: self
 ]
 
 { #category : #testing }
@@ -23,13 +21,28 @@ ToMenuItemElement >> closeOnMouseEvent [
 { #category : #'adding-removing' }
 ToMenuItemElement >> closeSiblingMenuWindow [
 
-	self parentMenu ifNil: [ ^ self ].
-	self parentMenu items do: [ :it |
-		it menuWindowDo: [ :w |  w close ] ]
+	parentItemContainer ifNil: [ ^ self ].
+	parentItemContainer closeAllWindowsForItemsSatisfying: [ :it | it ~= self ]
 ]
 
 { #category : #'t - menu window model' }
 ToMenuItemElement >> closeWindow [
+
+]
+
+{ #category : #initialization }
+ToMenuItemElement >> constraintMenuNode: aNode [
+	" Sent to let any menu item to adapt its resizer/layout  constraints before the node is added in the menu list. Notice that I am sent before the node adding + the selections shift is actually finished. Thus, this place is not adequate for changing one of the list selections (use #addedInMenu for that) "
+
+	aNode holder listElement isHorizontal
+		ifTrue: [
+			self constraintsDo: [ :c |
+				c horizontal fitContent.
+				c vertical fitContent ] ]
+		ifFalse: [
+			self constraintsDo: [ :c |
+				c horizontal matchParent.
+				c vertical fitContent ] ]
 ]
 
 { #category : #initialization }
@@ -42,6 +55,12 @@ ToMenuItemElement >> defaultEventHandler [
 ToMenuItemElement >> defaultEventHandlerClass [ 
 
 	^ ToMenuItemEventHandler
+]
+
+{ #category : #initialization }
+ToMenuItemElement >> defaultLayout [
+
+	^ BlLinearLayout horizontal
 ]
 
 { #category : #testing }
@@ -62,24 +81,7 @@ ToMenuItemElement >> includes: anElement [
 ToMenuItemElement >> initialize [
 
 	super initialize.
-	self layout: BlLinearLayout horizontal.
-	self addEventHandler: self defaultEventHandler.
-	self initializeWithMenuItemConstraints
-
-]
-
-{ #category : #initialization }
-ToMenuItemElement >> initializeWithMenuItemConstraints [ 
-
-	self hMatchParent.
-	self vFitContent.
-
-]
-
-{ #category : #testing }
-ToMenuItemElement >> isMenu [
-
-	^ false
+	self addEventHandler: self defaultEventHandler
 ]
 
 { #category : #'t - menu window model' }
@@ -91,56 +93,50 @@ ToMenuItemElement >> isOpened [
 ]
 
 { #category : #'t - menu window model' }
-ToMenuItemElement >> isSubmenu [ 
-
-	^ false
-]
-
-{ #category : #'t - menu window model' }
 ToMenuItemElement >> isTopMenu [
 
 	^ false
 ]
 
 { #category : #'t - menu window model' }
+ToMenuItemElement >> menuBar [
+
+	parentItemContainer ifNil: [ ^ nil ].
+	^ parentItemContainer menuBar
+]
+
+{ #category : #'t - menu window model' }
+ToMenuItemElement >> menuBarDo: aBlock [
+
+	| mb |
+	mb := self menuBar ifNil: [ ^ self ].
+	aBlock value: mb
+]
+
+{ #category : #'t - menu window model' }
 ToMenuItemElement >> menuWindowDo: aValuable [
-]
-
-{ #category : #'parent menu' }
-ToMenuItemElement >> parentMenu [
-
-	 ^ parentMenu
-]
-
-{ #category : #'parent menu' }
-ToMenuItemElement >> parentMenu: aMenu [
-
-	parentMenu := aMenu
-]
-
-{ #category : #'parent menu' }
-ToMenuItemElement >> parentMenuDo: aBlock [
-
-	self parentMenu ifNil: [ ^ self ].
-	aBlock value: self parentMenu
-]
-
-{ #category : #accessing }
-ToMenuItemElement >> positionInMenu [
-
-	self parentMenuDo: [ :pm | ^ pm items indexOf: self ].
-	^ 0
 ]
 
 { #category : #'adding-removing' }
 ToMenuItemElement >> removedFromMenu: aMenu [
 
 	super removedFromMenu: aMenu.
-	self parentMenu: nil
+	self parentItemContainer: nil
 ]
 
 { #category : #'t - menu window model' }
 ToMenuItemElement >> rootMenu [
 
-	 ^ parentMenu ifNil: [ self ] ifNotNil: [ :pm | pm rootMenu  ]
+	parentItemContainer ifNil: [ ^ self ].
+	parentItemContainer isMenuBar ifTrue: [ 
+		^ self isMenu ifTrue: [ self ] ifFalse: [ nil ] ].
+	^ parentItemContainer rootMenu
+]
+
+{ #category : #'t - menu window model' }
+ToMenuItemElement >> rootMenuDo: aBlock [
+
+	| rm |
+	rm := self rootMenu ifNil: [ ^ self ].
+	aBlock value: rm
 ]

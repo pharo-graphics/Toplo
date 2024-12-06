@@ -4,13 +4,6 @@ Class {
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
-{ #category : #'api - displaying' }
-ToMenuWindow >> close [ 
-
-	self items do: [ :it | it closeWindow ].
-	super close
-]
-
 { #category : #accessing }
 ToMenuWindow >> defaultElevation [
 
@@ -48,6 +41,18 @@ ToMenuWindow >> menuWindow [
 ToMenuWindow >> newRawSkin [ 
 
 	^ ToMenuWindowSkin new
+]
+
+{ #category : #'api - displaying' }
+ToMenuWindow >> onPositionChangedToFitAnchorRootDo: aBlock [
+
+	| p |
+	p := self positionWithinAnchorRoot.
+	p ~= self position ifTrue: [
+		self position: p.
+		self whenLayoutedDoOnce: aBlock.
+		^ self ].
+	super onPositionChangedToFitAnchorRootDo: aBlock
 ]
 
 { #category : #enumerating }

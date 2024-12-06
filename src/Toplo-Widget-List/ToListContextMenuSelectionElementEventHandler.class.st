@@ -23,7 +23,17 @@ ToListContextMenuSelectionElementEventHandler >> listContextMenuSelectionChanged
 ]
 
 { #category : #'element handlers' }
-ToListContextMenuSelectionElementEventHandler >> listElementContextMenuRequest: anEvent [
+ToListContextMenuSelectionElementEventHandler >> listPrimarySelectionChangedEvent: anEvent [
+	" the context menu should be close "
+
+	| target |
+	target := anEvent currentTarget.
+	target currentContextMenu ifNotNil: [ :win |
+		win isOpened ifTrue: [ win close ] ]
+]
+
+{ #category : #'element handlers' }
+ToListContextMenuSelectionElementEventHandler >> windowRequest: anEvent [
 
 	| childNode target nodeContainer globalPosition selectionModel |
 	target := anEvent currentTarget.
@@ -54,14 +64,4 @@ ToListContextMenuSelectionElementEventHandler >> listElementContextMenuRequest: 
 						selectIndex: childNode holder position.
 					target contextMenuSelecter selectOnlyIndex:
 						childNode holder position ] ]
-]
-
-{ #category : #'element handlers' }
-ToListContextMenuSelectionElementEventHandler >> listPrimarySelectionChangedEvent: anEvent [
-	" the context menu should be close "
-
-	| target |
-	target := anEvent currentTarget.
-	target currentContextMenu ifNotNil: [ :win |
-		win isOpened ifTrue: [ win close ] ]
 ]

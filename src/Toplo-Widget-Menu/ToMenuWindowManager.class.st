@@ -4,32 +4,72 @@ Class {
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
+{ #category : #'window handling' }
+ToMenuWindowManager >> autoCloseWindow [
+
+	super autoCloseWindow.
+	element menuBarDo: [ :mb | mb cancelAutoOpen ]
+]
+
 { #category : #initialization }
 ToMenuWindowManager >> defaultPositionHook [
 
 	^ [ :window :theMenu :event |
-	  window position: (theMenu isSubmenu
+	  (theMenu isSubmenu
 			   ifTrue: [
 			   (theMenu bounds inParent: self anchorRoot) bounds topRight ]
 			   ifFalse: [
 			   (theMenu bounds inParent: self anchorRoot) bounds bottomLeft ]) ]
 ]
 
-{ #category : #initialization }
-ToMenuWindowManager >> initialize [ 
+{ #category : #'api - accessing' }
+ToMenuWindowManager >> eventsToHandle [
 
-	super initialize.
-	popupOnMouseEnter := false.
-	closeOnMouseLeave := false.
-
+	^ super eventsToHandle , {
+		  BlMouseEnterEvent.
+		  BlMouseLeaveEvent }
 ]
 
 { #category : #'event handling' }
-ToMenuWindowManager >> popupWindowClosedEvent: anEvent [
-	" deselect all to have a freshed window without any selection on next popup "
+ToMenuWindowManager >> mouseDownEvent: anEvent [
 
-	anEvent currentTarget itemList secondarySelectionModel deselectAll.
-	super popupWindowClosedEvent: anEvent
+	super mouseDownEvent: anEvent.
+	(element itemContaining: anEvent target) ifNotNil: [ :found |
+		found isMenu ifTrue: [
+			element menuBarDo: [ :mb | mb switchAutoOpen ] ] ].
+]
+
+{ #category : #'event handling' }
+ToMenuWindowManager >> mouseEnterEvent: anEvent [
+
+	element itemList secondarySelecter deselectAll
+]
+
+{ #category : #'event handling' }
+ToMenuWindowManager >> mouseLeaveEvent: anEvent [
+
+	element itemList secondarySelecter deselectAll
+]
+
+{ #category : #'window handling' }
+ToMenuWindowManager >> onClosed [ 
+
+	super onClosed.
+	element itemList secondarySelecter deselectAll
+]
+
+{ #category : #'event handling' }
+ToMenuWindowManager >> pickOutsideEvent: anEvent [
+
+	super pickOutsideEvent: anEvent.
+	element menuBarDo: [ :mb | mb cancelAutoOpen ]
+]
+
+{ #category : #'window handling' }
+ToMenuWindowManager >> popupNewWindowEvent: anEvent [
+
+	element items ifEmpty: [ ^ self ].
+	super popupNewWindowEvent: anEvent
 ]
 
 { #category : #accessing }

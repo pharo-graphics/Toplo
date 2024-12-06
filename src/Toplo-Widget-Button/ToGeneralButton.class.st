@@ -37,6 +37,18 @@ ToGeneralButton >> initialize [
 	takeFocusOnClick := true
 ]
 
+{ #category : #testing }
+ToGeneralButton >> isMenuButton [ 
+
+	^ self hasAnyInParentChainSatisfying: [ :p | p isMenuItem ]
+]
+
+{ #category : #testing }
+ToGeneralButton >> menuButton [ 
+
+	^ self firstInParentChainSatisfying: [ :p | p isMenuItem ]
+]
+
 { #category : #skin }
 ToGeneralButton >> newRawSkin [
 

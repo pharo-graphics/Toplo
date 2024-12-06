@@ -75,14 +75,12 @@ TToElementWithTooltip >> tooltipBuilder [
 
 { #category : #'t - element with tooltip' }
 TToElementWithTooltip >> tooltipBuilder: aValuable [
-
 	" aValuable take the tooltip window to build as first argument and the request event as second argument "
-	
-	aValuable 
-		ifNil: [
-			self removeTooltipWindowManager.
-			^ self ].
-	self tooltipWindowManager builder: aValuable
+
+	aValuable ifNil: [
+		self removeTooltipWindowManager.
+		^ self ].
+	self tooltipWindowManager windowBuilder: aValuable
 ]
 
 { #category : #'t - element with tooltip' }
@@ -104,7 +102,7 @@ TToElementWithTooltip >> tooltipPopupDelay [
 TToElementWithTooltip >> tooltipPopupDelay: aDuration [
 	
 	self userData at: #tooltipPopupDelay put: aDuration.
-	self rawTooltipWindowManager ifNotNil: [ :h | h popupDelay: aDuration ]
+	self rawTooltipWindowManager ifNotNil: [ :h | h autoPopupDelay: aDuration ]
 ]
 
 { #category : #'t - element with tooltip' }
@@ -130,7 +128,8 @@ TToElementWithTooltip >> tooltipWindowManager [
 	^ self userData at: #tooltipWindowManager ifAbsentPut: [
 		  | handler |
 		  handler := ToTooltipWindowManager new.
-		  self tooltipPopupDelay ifNotNil: [ :d | handler popupDelay: d ].
+			" pay attention that the handler must be added before changing the delay "
 		  self addEventHandler: handler.
+		  self tooltipPopupDelay ifNotNil: [ :d | handler autoPopupDelay: d ].
 		  handler ]
 ]

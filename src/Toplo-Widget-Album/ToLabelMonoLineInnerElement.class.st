@@ -36,7 +36,8 @@ ToLabelMonoLineInnerElement >> initializeMeasurement [
 
 	" Need Label measurement to ensure right vertical alignement with labels/menus "
 	self flag: 'To be checked'.
-	self labelMeasurement
+	"self labelMeasurement."
+	self editorMeasurement
 ]
 
 { #category : #'t - label inner element' }
@@ -44,7 +45,8 @@ ToLabelMonoLineInnerElement >> newEditorIn: aLabel [
 
 	| ed |
 	ed := ToTextField new.
-	(self editorShortcutsIn: aLabel) do: [ :s | ed editor addEditorShortcut: s ].
+	(self editorShortcutsIn: aLabel) do: [ :s |
+		ed editor addEditorShortcut: s ].
 	^ ed
 ]
 

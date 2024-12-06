@@ -49,7 +49,7 @@ ToChoiceMenuSkin >> installSkinEvent: anEvent [
 		e icon: (ToImage inner: (self iconNamed: #bottom)).
 		e endToStart: true.
 		e startFlexible: true.
-		e startInterspace: 10 ]
+		e startInterspace: (e valueOfTokenNamed: #'button-interspace') ]
 ]
 
 { #category : #'event handling' }

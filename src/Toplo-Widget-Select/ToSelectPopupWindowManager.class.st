@@ -8,12 +8,6 @@ Class {
 	#category : #'Toplo-Widget-Select-List'
 }
 
-{ #category : #initialization }
-ToSelectPopupWindowManager >> defaultAutoCloseDelay [
-
-	^ nil
-]
-
 { #category : #'api - hooks' }
 ToSelectPopupWindowManager >> defaultListElementEventHandler [ 
 
@@ -33,10 +27,10 @@ ToSelectPopupWindowManager >> defaultMinHeight [
 ]
 
 { #category : #initialization }
-ToSelectPopupWindowManager >> defaultSizeHook [
+ToSelectPopupWindowManager >> defaultWidthHook [
 
 	^ [ :theWindow :theElement :event |
-	  theWindow width: theElement measuredWidth]
+	  theElement measuredWidth ]
 ]
 
 { #category : #'event handling' }
@@ -98,6 +92,14 @@ ToSelectPopupWindowManager >> newListElement [
 	^ newListElement
 ]
 
+{ #category : #'window handling' }
+ToSelectPopupWindowManager >> onClosed [
+
+	super onClosed.
+	" if case one of my children has focus "
+	self element onPopupWindowClosed
+]
+
 { #category : #'api - hooks' }
 ToSelectPopupWindowManager >> onInstalledIn: anElement [
 
@@ -110,13 +112,20 @@ ToSelectPopupWindowManager >> onInstalledIn: anElement [
 			 select: self element;
 			 yourself).
 
-	self builder: [ :selectWin :request |
+	self windowBuilder: [ :selectWin :request |
 		selectWin root hMatchParent.
 		selectWin root vFitContent.
 		selectWin root addChild: self listElement ].
 
 	sieve := ToListElementSieve new.
 	sieve onInstalledIn: listElement
+]
+
+{ #category : #'window handling' }
+ToSelectPopupWindowManager >> onOpened [
+
+	super onOpened.
+	self element onPopupWindowOpened
 ]
 
 { #category : #'api - hooks' }
@@ -127,21 +136,6 @@ ToSelectPopupWindowManager >> onUninstalledIn: anElement [
 	sieve := nil.
 	listElement := nil.
 
-]
-
-{ #category : #'window handling' }
-ToSelectPopupWindowManager >> onWindowClosed [
-
-	super onWindowClosed.
-	" if case one of my children has focus "
-	self element onPopupWindowClosed
-]
-
-{ #category : #'window handling' }
-ToSelectPopupWindowManager >> onWindowOpened [
-
-	super onWindowOpened.
-	self element onPopupWindowOpened
 ]
 
 { #category : #'window handling' }

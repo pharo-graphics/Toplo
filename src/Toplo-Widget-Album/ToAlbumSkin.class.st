@@ -80,7 +80,6 @@ ToAlbumSkin >> installSkinEvent: anEvent [
 				ifTrue: [e styleTable: (e valueOfTokenNamed: #'sh-style-table') ]
 				ifFalse: [
 					e text
-						defaultFontName: (e valueOfTokenNamed: #'font-family-code');
 						defaultFontSize: (e valueOfTokenNamed: #'font-size');
 						lineSpacing: (e valueOfTokenNamed: #'line-height');
 						foreground: (e valueOfTokenNamed: #'color-text') ] ].
@@ -90,10 +89,8 @@ ToAlbumSkin >> installSkinEvent: anEvent [
 		e margin: BlInsets empty.
 		e outskirts: BlOutskirts inside.
 		e padding: (BlInsets
-				 top: (e valueOfTokenNamed: #'padding-content-V')
-				 left: (e valueOfTokenNamed: #'padding-XS')
-				 bottom: (e valueOfTokenNamed: #'padding-content-V')
-				 right: (e valueOfTokenNamed: #'padding-XS')) ]
+				 horizontal: (e valueOfTokenNamed: #'padding-content-HS')
+				 vertical: (e valueOfTokenNamed: #'padding-content-VXS')) ]
 ]
 
 { #category : #'event handling' }

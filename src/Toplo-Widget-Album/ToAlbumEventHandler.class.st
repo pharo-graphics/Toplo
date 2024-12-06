@@ -59,7 +59,7 @@ ToAlbumEventHandler >> mouseDownEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	" copy the event, else the double click can't works "
+	" copy the event, else the double click can't works in textfield in case of clicking outside the infinite bounds" 
 	target infinite dispatchEvent: anEvent copy.
 	anEvent consume
 ]
@@ -67,7 +67,7 @@ ToAlbumEventHandler >> mouseDownEvent: anEvent [
 { #category : #'mouse handlers' }
 ToAlbumEventHandler >> mouseUpEvent: anEvent [
 
-	" copy the event, else the double click can't works "
+	" copy the event, else the double click can't works in textfield in case of clicking outside the infinite bounds"
 	anEvent currentTarget infinite dispatchEvent: anEvent copy.
 	"anEvent consume"
 ]

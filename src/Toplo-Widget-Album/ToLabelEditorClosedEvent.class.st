@@ -1,11 +1,20 @@
 Class {
 	#name : #ToLabelEditorClosedEvent,
-	#superclass : #ToWindowClosedEvent,
+	#superclass : #ToClosedEvent,
+	#instVars : [
+		'text'
+	],
 	#category : #'Toplo-Widget-Album-Label'
 }
 
-{ #category : #sending }
-ToLabelEditorClosedEvent >> sendTo: anObject [
+{ #category : #accessing }
+ToLabelEditorClosedEvent >> text [
 
-	anObject labelEditorClosedEvent: self
+	^ text
+]
+
+{ #category : #accessing }
+ToLabelEditorClosedEvent >> text: aText [
+
+	text := aText
 ]

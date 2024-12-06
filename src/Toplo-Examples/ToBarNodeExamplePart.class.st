@@ -36,14 +36,6 @@ ToBarNodeExamplePart >> initializeRemoveButton [
 
 	but whenClickedDo: [ :event | self removeFromBar ].
 
-	" consume mouseUp/mouseDown to avoid unwanted opening/closing of the popup list element"
-	but addEventHandler: (BlEventHandler
-			 on: BlMouseDownEvent
-			 do: [ :event | event consume ]).
-	but addEventHandler: (BlEventHandler
-			 on: BlMouseUpEvent
-			 do: [ :event | event consume ]).
-
 	but id: #removeButton.
 	triplet startElement: but.
 	triplet startInterspace: 5

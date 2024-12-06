@@ -69,6 +69,12 @@ ToAbstractListElement >> contextMenuSelectionMode: aSelectionMode [
 ]
 
 { #category : #accessing }
+ToAbstractListElement >> contextMenuSelectionModel [
+
+	^ self	 contextMenuSelectionMode selectionModel
+]
+
+{ #category : #accessing }
 ToAbstractListElement >> data [
 
 	self
@@ -122,9 +128,9 @@ ToAbstractListElement >> defaultContextMenuWindowManagerClass [
 ]
 
 { #category : #initialization }
-ToAbstractListElement >> defaultDataSource [ 
+ToAbstractListElement >> defaultDataSource [
 
-	^ self subclassResponsibility 
+	^ ToInfiniteCollectionDataSource new
 ]
 
 { #category : #initialization }
@@ -259,19 +265,22 @@ ToAbstractListElement >> initializeInnerElement [
 
 	next := self defaultInnerElement.
 	self next elevation: (BlRelativeElevation elevation: 10).
-	self addChild: self next.
-	self installFakeNode 
-
-]
-
-{ #category : #initialization }
-ToAbstractListElement >> installFakeNode [
+	self addChild: self next
 ]
 
 { #category : #testing }
 ToAbstractListElement >> isMultipleSelection [
 
 	^ self primarySelectionMode isMultipleSelection
+]
+
+{ #category : #'t - menu item' }
+ToAbstractListElement >> itemContaining: anElement [
+
+	self = anElement ifTrue: [ ^ self ].
+	self nodes do: [ :n |
+		  (n itemContaining: anElement) ifNotNil: [ :found | ^ found ] ].
+	^ nil
 ]
 
 { #category : #accessing }
@@ -457,10 +466,6 @@ ToAbstractListElement >> selectionElementsDo: aBlock [
 { #category : #accessing }
 ToAbstractListElement >> selectionMode [
 
-	self
-		deprecated: 'use #primarySelectionMode'
-		transformWith:
-		'`@rcvr selectionMode' -> '`@rcvr primarySelectionMode'.
 	^ self primarySelectionMode
 ]
 

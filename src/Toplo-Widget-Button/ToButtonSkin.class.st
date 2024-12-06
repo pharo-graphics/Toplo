@@ -33,9 +33,10 @@ ToButtonSkin >> enabledSkinEvent: anEvent [
 					ifNone: [
 					e icon innerImageColor: (e valueOfTokenNamed: #'color-primary') ] ]
 			ifNone: [
-				e border: (BlBorder
-						 paint: (e valueOfTokenNamed: #'color-border')
-						 width: (e valueOfTokenNamed: #'line-width')).
+				e isMenuButton ifFalse: [
+					e border: (BlBorder
+							 paint: (e valueOfTokenNamed: #'color-border')
+							 width: (e valueOfTokenNamed: #'line-width')) ].
 				e iconDo: [ :ic |
 					ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ].
 		e endElementDo: [ :ic |
@@ -65,12 +66,15 @@ ToButtonSkin >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 
 	anEvent elementDo: [ :e |
-		(e hasIcon and: [ e hasLabel ])
-			ifTrue: [ e startInterspace: 10 ]
-			ifFalse: [ e startInterspace: 0 ].
-		(e hasEndElement and: [ e hasLabel ])
-			ifTrue: [ e endInterspace: 10 ]
-			ifFalse: [ e endInterspace: 0 ].
+		e isMenuButton ifFalse: [
+			(e hasIcon and: [ e hasLabel ])
+				ifTrue: [
+				e startInterspace: (e valueOfTokenNamed: #'button-interspace') ]
+				ifFalse: [ e startInterspace: 0 ].
+			(e hasEndElement and: [ e hasLabel ])
+				ifTrue: [
+				e endInterspace: (e valueOfTokenNamed: #'button-interspace') ]
+				ifFalse: [ e endInterspace: 0 ] ].
 		e endElementDo: [ :ic |
 			(ic respondsTo: #innerImageColor:) ifTrue: [
 				ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ].

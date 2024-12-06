@@ -34,6 +34,12 @@ ToAbstractListSelectionMode >> disable [
 ]
 
 { #category : #accessing }
+ToAbstractListSelectionMode >> doubleClickTimeout [
+
+	^ 200 milliSeconds 
+]
+
+{ #category : #accessing }
 ToAbstractListSelectionMode >> enable [
 
 	self enabled: true

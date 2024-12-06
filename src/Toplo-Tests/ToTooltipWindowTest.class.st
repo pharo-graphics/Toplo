@@ -17,11 +17,10 @@ ToTooltipWindowTest >> testContent [
 	windowManager := e tooltipWindowManager.
 	self assert: (windowManager isKindOf: ToTooltipWindowManager).
 	space root addChild: e.
-	"self waitTestingSpaces."
 
 	BlSpace simulateMouseMoveInside: e.
 	self waitTestingSpaces.
-	(windowManager popupDelay + 100 milliSecond ) wait.
+	900 milliSecond wait.
 	self waitTestingSpaces.
 
 	self assert: (windowManager currentWindow root firstChild isKindOf: ToLabel) .

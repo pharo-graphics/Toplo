@@ -9,9 +9,3 @@ ToRadioMenuItem >> buttonClass [
 
 	^ ToRadioButton 
 ]
-
-{ #category : #skin }
-ToRadioMenuItem >> newRawSkin [ 
-
-	^ ToRadioMenuItemSkin new
-]

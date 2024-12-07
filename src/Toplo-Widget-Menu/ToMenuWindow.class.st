@@ -4,6 +4,16 @@ Class {
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
+{ #category : #'api - displaying' }
+ToMenuWindow >> correctedPositionWithinAnchorRoot [
+
+	| t rect rootRect |
+	rect := self bounds inSpace bounds asRectangle.
+	rootRect := 0 @ 0 extent: self anchorRoot extent.
+	t := rect amountToTranslateWithin: rootRect.
+	^ super correctedPositionWithinAnchorRoot + t
+]
+
 { #category : #accessing }
 ToMenuWindow >> defaultElevation [
 
@@ -41,18 +51,6 @@ ToMenuWindow >> menuWindow [
 ToMenuWindow >> newRawSkin [ 
 
 	^ ToMenuWindowSkin new
-]
-
-{ #category : #'api - displaying' }
-ToMenuWindow >> onPositionChangedToFitAnchorRootDo: aBlock [
-
-	| p |
-	p := self positionWithinAnchorRoot.
-	p ~= self position ifTrue: [
-		self position: p.
-		self whenLayoutedDoOnce: aBlock.
-		^ self ].
-	super onPositionChangedToFitAnchorRootDo: aBlock
 ]
 
 { #category : #enumerating }

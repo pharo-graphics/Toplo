@@ -870,10 +870,9 @@ ToSandBox class >> example_CodeEditor [
 						                 yourself) ]) ].
 	album contextMenu: menuBuilder.
 
-	inspectBtn whenClickedDo: [ :evt | album inspect ].
-
 	pane addChild: topBtnPane.
 	pane addChild: album.
+	inspectBtn whenClickedDo: [ :evt | album space root inspect ].
 	disabox whenClickedDo: [ :evt | album disabled: disabox isChecked ].
 	showStatisticsBtn whenClickedDo: [ :evt |
 		album space showStatisticsWindow ].

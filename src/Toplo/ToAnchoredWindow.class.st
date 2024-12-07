@@ -41,6 +41,12 @@ ToAnchoredWindow >> close [
 	super close
 ]
 
+{ #category : #'api - displaying' }
+ToAnchoredWindow >> correctedPositionWithinAnchorRoot [
+
+	^ self position
+]
+
 { #category : #accessing }
 ToAnchoredWindow >> defaultElevation [
 
@@ -95,6 +101,12 @@ ToAnchoredWindow >> manager: aWindowHandler [
 { #category : #'api - displaying' }
 ToAnchoredWindow >> onPositionChangedToFitAnchorRootDo: aBlock [
 
+	| p |
+	p := self correctedPositionWithinAnchorRoot.
+	p ~= self position ifTrue: [
+		self position: p.
+		self whenLayoutedDoOnce: aBlock.
+		^ self ].
 	aBlock value
 ]
 
@@ -147,16 +159,6 @@ ToAnchoredWindow >> popupEvent: anEvent [
 ToAnchoredWindow >> popupTimestamp [
 
 	^ popupTimestamp 
-]
-
-{ #category : #'api - displaying' }
-ToAnchoredWindow >> positionWithinAnchorRoot [
-
-	| t rect rootRect |
-	rect := self bounds inSpace bounds asRectangle.
-	rootRect := 0 @ 0 extent: self anchorRoot extent.
-	t := rect amountToTranslateWithin: rootRect.
-	^ self position + t
 ]
 
 { #category : #'api - displaying' }

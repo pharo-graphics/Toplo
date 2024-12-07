@@ -2140,6 +2140,7 @@ ToSandBox class >> example_SelectMultiFiltrableNoWrapping [
 	select nodeWrapping: false.
 	select hideSelected: false.
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
+	select sample: 'X'.
 	select filtrable: true.
 	select popupMaxHeight: 200.
 	select placeholderText:

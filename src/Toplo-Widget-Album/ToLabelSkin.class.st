@@ -43,12 +43,12 @@ ToLabelSkin >> installSkinEvent: anEvent [
 			foreground: (e valueOfTokenNamed: #'color-text').
 		e editorBuilder: [ :ed :lab |
 			ed text foreground: (lab valueOfTokenNamed: #'color-text') ].
-		e applyStyle.
+		e applyStyle."
 		(e hasAnyInParentChainSatisfying: [ :p | p isMenuItem ])
 			ifFalse: [
 				e padding: (BlInsets
 						 horizontal: (e valueOfTokenNamed: #'padding-content-H')
-						 vertical: (e valueOfTokenNamed: #'padding-content-VS')) ] ]
+						 vertical: (e valueOfTokenNamed: #'padding-content-VS')) ]" ]
 ]
 
 { #category : #'event handling' }

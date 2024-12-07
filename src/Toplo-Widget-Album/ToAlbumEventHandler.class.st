@@ -67,9 +67,10 @@ ToAlbumEventHandler >> mouseDownEvent: anEvent [
 { #category : #'mouse handlers' }
 ToAlbumEventHandler >> mouseUpEvent: anEvent [
 
+	anEvent target = self ifFalse: [ ^ self ].
 	" copy the event, else the double click can't works in textfield in case of clicking outside the infinite bounds"
 	anEvent currentTarget infinite dispatchEvent: anEvent copy.
-	"anEvent consume"
+	anEvent consume
 ]
 
 { #category : #'event handling' }

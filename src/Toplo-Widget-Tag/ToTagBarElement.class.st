@@ -25,7 +25,7 @@ ToTagBarElement >> defaultNodeManager [
 ToTagBarElement >> initialize [
 
 	super initialize.
-	
+	self sample: 'X'.
 	" mandatory resizer setting. 
 	Normally, should not be changed"
 	self vFitContent.

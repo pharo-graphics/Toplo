@@ -18,13 +18,13 @@ ToPopupPickOutsideEventFilter >> checkLegitimacy [
 	If it is not present, the simply remove myself as event filter.
 	"
 
-	self popupWindow ifNil: [ " if the window is not present 
-		This can be the case if the parent of the popup element is removed "
-		holder removeEventFilter: self.
-		holder := nil.
-		^ false ].
+	(self popupWindow isNil or: [ windowManager checkPickOutside not ])
+		ifTrue: [ " if the window is not present or the checking flag is set to false in the windowManager.
+		The window can be nil if the parent of the popup element is removed "
+			holder removeEventFilter: self.
+			holder := nil.
+			^ false ].
 	^ true
-
 ]
 
 { #category : #private }

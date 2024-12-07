@@ -7,7 +7,8 @@ Class {
 		'autoCloseDelay',
 		'upCountRequired',
 		'autoPopupHandler',
-		'closeOnMouseDown'
+		'closeOnMouseDown',
+		'checkPickOutside'
 	],
 	#category : #'Toplo-Core-Window'
 }
@@ -78,6 +79,18 @@ ToPopupWindowManager >> checkAutoCloseWindowOnMouseUp: anEvent [
 		anEvent consume ]
 ]
 
+{ #category : #accessing }
+ToPopupWindowManager >> checkPickOutside [
+
+	^ checkPickOutside
+]
+
+{ #category : #accessing }
+ToPopupWindowManager >> checkPickOutside: aBoolean [
+
+	checkPickOutside := aBoolean
+]
+
 { #category : #'window handling' }
 ToPopupWindowManager >> closeWindow [ 
 
@@ -126,6 +139,7 @@ ToPopupWindowManager >> initialize [
 	self usePrimaryMouseButton .
  	autoCloseDelay := self defaultAutoCloseDelay.
 	closeOnMouseDown := self defaultCloseOnMouseDown.
+	checkPickOutside := true
 ]
 
 { #category : #'window handling' }
@@ -174,10 +188,13 @@ ToPopupWindowManager >> onClosed [
 ]
 
 { #category : #'window handling' }
-ToPopupWindowManager >> onOpened [ 
+ToPopupWindowManager >> onOpened [
 
 	super onOpened.
-	self installPickOutsideFilter 
+	checkPickOutside ifFalse: [
+		self uninstallPickOutsideFilter.
+		^ self ].
+	self installPickOutsideFilter
 ]
 
 { #category : #'event handling' }
@@ -238,7 +255,7 @@ ToPopupWindowManager >> uninstallPickOutsideFilter [
 { #category : #'window handling' }
 ToPopupWindowManager >> unplugPickOutsideFilter [
 
-	pickOutsideFilter ifNil: [ Error signal: 'The pick outside event filter should be present' ].
+	pickOutsideFilter ifNil: [ ^ self ].
 	pickOutsideFilter unplug.
 
 ]

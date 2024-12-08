@@ -7,11 +7,18 @@ Class {
 { #category : #'api - displaying' }
 ToMenuWindow >> correctedPositionWithinAnchorRoot [
 
-	| t rect rootRect |
+	| t rect rootRect parentMenu parentMenuBounds |
 	rect := self bounds inSpace bounds asRectangle.
 	rootRect := 0 @ 0 extent: self anchorRoot extent.
 	t := rect amountToTranslateWithin: rootRect.
-	^ super correctedPositionWithinAnchorRoot + t
+	" the parent menu is the element of my window manager "
+	parentMenu := self windowManager element.
+	" in case of a root menu (including context menu), just keep the computed position "
+	(t x isZero or: [ parentMenu isSubmenu not ]) ifTrue: [
+		^ super correctedPositionWithinAnchorRoot + t ].
+	" If a translation is necessary, then open on the parent menu left "
+	parentMenuBounds := parentMenu bounds inParent: self anchorRoot.
+	^ parentMenuBounds topLeft - (self width @ t y negated)
 ]
 
 { #category : #accessing }

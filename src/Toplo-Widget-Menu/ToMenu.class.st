@@ -4,7 +4,6 @@ Class {
 	#traits : 'TToMenuItemContainer + TToMenuWindowModel',
 	#classTraits : 'TToMenuItemContainer classTrait + TToMenuWindowModel classTrait',
 	#instVars : [
-		'itemList',
 		'isSubmenu'
 	],
 	#category : #'Toplo-Widget-Menu-Basic'

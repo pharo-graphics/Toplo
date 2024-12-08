@@ -146,7 +146,8 @@ ToAnchoredWindow >> popupEvent: anEvent [
 
 	self visibility: BlVisibility hidden.
 	self open.
-	self whenLayoutedDoOnce: [ " ok, now that my size is known, size and position hooks can be applied "
+	self whenLayoutedDoOnce: [ " ok, now that my size is known, 
+		size and position hooks can be applied "
 		self checkBeforePopupEvent: anEvent.
 		" since the position/size could have been changed, one have to wait a second layout"
 		self whenLayoutedDoOnce: [

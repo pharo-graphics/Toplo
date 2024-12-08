@@ -3,9 +3,6 @@ Class {
 	#superclass : #ToMenuWindow,
 	#traits : 'TToMenuItemContainer + TToMenuWindowModel',
 	#classTraits : 'TToMenuItemContainer classTrait + TToMenuWindowModel classTrait',
-	#instVars : [
-		'itemList'
-	],
 	#category : #'Toplo-Widget-Menu-Context menu'
 }
 
@@ -29,6 +26,17 @@ ToContextMenu >> close [
 ToContextMenu >> closeWindow [
 
 	self close
+]
+
+{ #category : #'api - displaying' }
+ToContextMenu >> correctedPositionWithinAnchorRoot [
+
+	| t rect rootRect |
+	rect := self bounds inSpace bounds asRectangle.
+	rootRect := 0 @ 0 extent: self anchorRoot extent.
+	" just translate the position to remain (if possible) within the root bounds "
+	t := rect amountToTranslateWithin: rootRect.
+	^ self position + t
 ]
 
 { #category : #initialization }

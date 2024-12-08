@@ -17,9 +17,9 @@ ToMenuWindowManager >> defaultPositionHook [
 	^ [ :window :theMenu :event |
 	  (theMenu isSubmenu
 			   ifTrue: [
-			   (theMenu bounds inParent: self anchorRoot) bounds topRight ]
+			   (theMenu bounds inParent: self anchorRoot) topRight ]
 			   ifFalse: [
-			   (theMenu bounds inParent: self anchorRoot) bounds bottomLeft ]) ]
+			   (theMenu bounds inParent: self anchorRoot) bottomLeft ]) ]
 ]
 
 { #category : #'api - accessing' }

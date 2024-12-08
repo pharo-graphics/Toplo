@@ -7,7 +7,10 @@ Class {
 { #category : #'look event sending' }
 ToElementState >> applyOn: anElement [
 
-	anElement dispatchEvent: self skinEvent.
+	| se |
+	se := self skinEvent.
+	anElement spaceDo: [ :sp | se timestamp: anElement space time now ].
+	anElement dispatchEvent: se.
 	self onAppliedOn: anElement
 ]
 

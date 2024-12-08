@@ -59,7 +59,7 @@ ToSwitchIcon >> defaultHandleMarginWidth [
 { #category : #initialization }
 ToSwitchIcon >> defaultSize [
 
-	^ 28@15.0
+	^ 24@14.0
 ]
 
 { #category : #'private - layout' }

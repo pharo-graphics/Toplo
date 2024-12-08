@@ -33,6 +33,12 @@ ToLabelEditorWindow >> newClosedEvent [
 		  yourself
 ]
 
+{ #category : #'api - displaying' }
+ToLabelEditorWindow >> onPositionChangedToFitAnchorRootDo: aBlock [
+
+	aBlock value
+]
+
 { #category : #accessing }
 ToLabelEditorWindow >> openedEventClass [ 
 

@@ -28,10 +28,16 @@ ToTheme class >> defaultCheckboxBlankImage [
 	bar geometry: (BlRoundedRectangleGeometry cornerRadius: 2).
 	im := BlElement new id: #'icon-image'.
 	im layout: BlFrameLayout new.
-	im size: 14 asPoint.
+	im size: self defaultCheckboxHeight asPoint.
 	im addChild: bar.
 	im addAllStamps: #( #'inner-image' #unchecked ).
 	^ im
+]
+
+{ #category : #accessing }
+ToTheme class >> defaultCheckboxHeight [
+
+	^ 14
 ]
 
 { #category : #accessing }
@@ -275,6 +281,9 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty
 			   name: #'switch-handle-enabled-background'
 			   value: Color white).
+		  (ToTokenProperty
+			   name: #'switch-icon-size'
+			   value: 24 @ self defaultCheckboxHeight).
 
 		  (ToTokenProperty
 			   name: #'color-primary-selection-focused'

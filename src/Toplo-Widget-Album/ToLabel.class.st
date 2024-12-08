@@ -23,7 +23,6 @@ ToLabel >> addEditorEvent: anEvent [
 	self innerElement visibility: BlVisibility hidden.
 	self hasEditor ifTrue: [  ^ self ].
 	(self newEditorWindowEvent: anEvent) popupEvent: anEvent.
-	
 	self editor selecter
 		all;
 		apply.

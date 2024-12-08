@@ -2054,7 +2054,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 		                 (stateColorAssoc value veryMuchLighter alpha: 0.5).
 	                 tag ].
 
-
+	select sample: 'X' -> Color white.
 	select nodeBuilder: [ :node :stateColorAssoc :holder |
 		| tag |
 		tag := newTagFactory value: stateColorAssoc.
@@ -2064,7 +2064,6 @@ ToSandBox class >> example_SelectMultiFiltrable [
 
 	select popupListElement nodeBuilder: [ :node :stateColorAssoc :holder |
 		node addChild: (newTagFactory value: stateColorAssoc) ].
-	select sample: 'X' -> Color white.
 
 	select sieve dataFilter: [ :stateAssoc :pattern |
 		stateAssoc key beginsWith: pattern caseSensitive: false ].
@@ -4436,7 +4435,6 @@ ToSandBox class >> example_switchButton [
 		addEventHandlerOn: ToSkinEvent
 		do: [ :event | event traceCr ].
 	th checked: true.
-	"th wishedTrackSize: 100 @ 30."
 	th openInSpace
 ]
 

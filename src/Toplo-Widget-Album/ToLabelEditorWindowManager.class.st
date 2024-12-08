@@ -7,10 +7,11 @@ Class {
 { #category : #initialization }
 ToLabelEditorWindowManager >> defaultPositionHook [
 
+	" take into accound the gap used to compute the textField padding "
 	^ [ :theWindow :theLabel :event |
-		  (theLabel innerElement bounds inParent: self anchorRoot) bounds
-			  topLeft - theLabel editor padding left
-		  @ theLabel editor padding top ]
+	  (theLabel innerElement bounds inParent: self anchorRoot) topLeft
+	  - ((theLabel valueOfTokenNamed: #'padding-content-HS')
+		   @ (theLabel valueOfTokenNamed: #'padding-content-VS')) ]
 ]
 
 { #category : #initialization }

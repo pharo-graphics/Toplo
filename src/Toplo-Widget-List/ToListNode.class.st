@@ -14,11 +14,7 @@ ToListNode >> clickEventHandlerClasses [
 ]
 
 { #category : #skin }
-ToListNode >> installRawStyle [
+ToListNode >> newRawSkin [ 
 
-	super installRawStyle.
-	self outskirts: BlOutskirts inside.
-	self padding: (BlInsets
-			 horizontal: (self valueOfTokenNamed: #'list-node-padding-H')
-			 vertical: (self valueOfTokenNamed: #'list-node-padding-V'))
+	^ ToListNodeSkin new
 ]

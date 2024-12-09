@@ -801,21 +801,8 @@ ToSandBox class >> example_CheckboxWithIndeterminate [
 { #category : #album }
 ToSandBox class >> example_CodeEditor [
 
-	| topBtnPane pane text album menuBuilder disabox inspectBtn showStatisticsBtn |
-	topBtnPane := ToPane horizontal.
-	topBtnPane layout cellSpacing: 5.
-
+	| pane menuBar text album menuBuilder disabox inspectBtn showStatisticsBtn fileMenu |
 	pane := ToPane vertical matchParent.
-	pane layout cellSpacing: 5.
-	pane padding: (BlInsets all: 5).
-
-	inspectBtn := ToButton new labelText: 'Inspect'.
-	showStatisticsBtn := ToButton new labelText: 'Statistics'.
-	disabox := ToCheckbox new label: (ToLabel text: 'Disable').
-
-	topBtnPane addChild: inspectBtn.
-	topBtnPane addChild: showStatisticsBtn.
-	topBtnPane addChild: disabox.
 
 	text := self methodText asRopedText.
 	album := ToAlbum new.
@@ -832,7 +819,7 @@ ToSandBox class >> example_CodeEditor [
 
 	menuBuilder := [ :menu :request |
 	               | element |
-	               element := request currentTarget.
+	               element := album.
 	               menu addItem: (ToMenuItem new
 			                labelText: 'Select all';
 			                whenClickedDo: [ :event |
@@ -870,8 +857,21 @@ ToSandBox class >> example_CodeEditor [
 						                 yourself) ]) ].
 	album contextMenu: menuBuilder.
 
-	pane addChild: topBtnPane.
+	fileMenu := ToMenu new labelText: 'Edit'.
+	menuBuilder value: fileMenu value: nil.
+	inspectBtn := ToMenuItem new labelText: 'Inspect'.
+	showStatisticsBtn := ToMenuItem new labelText: 'Statistics'.
+	disabox := ToCheckMenuItem new label: (ToLabel text: 'Disable').
+	
+	menuBar := ToMenuBar new.
+	menuBar addItem: fileMenu.
+	menuBar addItem: inspectBtn.
+	menuBar addItem: showStatisticsBtn.
+	menuBar addItem: disabox.
+
+	pane addChild: menuBar.
 	pane addChild: album.
+	
 	inspectBtn whenClickedDo: [ :evt | album space root inspect ].
 	disabox whenClickedDo: [ :evt | album disabled: disabox isChecked ].
 	showStatisticsBtn whenClickedDo: [ :evt |

@@ -6,12 +6,6 @@ Class {
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
-{ #category : #'adding-removing' }
-ToMenuItemElement >> addedInMenuItemContainer: aMenu [
-
-	aMenu addedMenuItem: self
-]
-
 { #category : #testing }
 ToMenuItemElement >> closeOnMouseEvent [
 
@@ -115,6 +109,12 @@ ToMenuItemElement >> menuBarDo: aBlock [
 
 { #category : #'t - menu window model' }
 ToMenuItemElement >> menuWindowDo: aValuable [
+]
+
+{ #category : #'adding-removing' }
+ToMenuItemElement >> onAddedInMenuItemContainer: aMenu [
+
+	aMenu onAddedMenuItem: self
 ]
 
 { #category : #'adding-removing' }

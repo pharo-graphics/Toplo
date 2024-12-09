@@ -31,12 +31,6 @@ BlElement >> addTokenNamed: aSymbol withValue: anObject [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> addedInMenuItemContainer: aMenu [
-
-	aMenu addedUnknownItemKind: self
-]
-
-{ #category : #'*Toplo' }
 BlElement >> allStamps [
 
 	^ self toStyleStore
@@ -409,6 +403,12 @@ BlElement >> newSkinManager [
 BlElement >> newTextAttributesBuilder [
 
 	^ BlTextAttributesBuilder new
+]
+
+{ #category : #'*Toplo' }
+BlElement >> onAddedInMenuItemContainer: aMenu [
+
+	aMenu onAddedUnknownItemKind: self
 ]
 
 { #category : #'*Toplo' }

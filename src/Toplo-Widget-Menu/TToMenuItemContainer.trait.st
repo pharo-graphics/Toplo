@@ -16,60 +16,13 @@ TToMenuItemContainer >> addAllItems: aCollection [
 TToMenuItemContainer >> addItem: aMenuItem [
 
 	self items add: aMenuItem.
-	aMenuItem addedInMenuItemContainer: self
+	aMenuItem onAddedInMenuItemContainer: self
 ]
 
 { #category : #'t - menu item container - adding/removing' }
 TToMenuItemContainer >> addSeparator [
 
 	self addItem: ToSeparatorMenuItem new
-]
-
-{ #category : #'t - menu item container - double dispatch' }
-TToMenuItemContainer >> addedCustomMenuItem: aMenuItem [
-
-	self addedMenuItem: aMenuItem.
-	aMenuItem isSelectable ifTrue: [ ^ self ].
-	self itemList unselectableSelecter selectIndex: aMenuItem positionInItemContainer
-]
-
-{ #category : #'t - menu item container - double dispatch' }
-TToMenuItemContainer >> addedFillerMenuItem: aFiller [
-
-	self addedMenuItem: aFiller.
-	self itemList unselectableSelecter selectIndex: aFiller positionInItemContainer
-]
-
-{ #category : #'t - menu item container - double dispatch' }
-TToMenuItemContainer >> addedMenu: aMenu [
-
-	aMenu parentItemContainer: self.
-	aMenu isSubmenu: true
-]
-
-{ #category : #'t - menu item container - double dispatch' }
-TToMenuItemContainer >> addedMenuBar: aMenuBar [
-
-	self addedMenuItem: aMenuBar.
-	self itemList unselectableSelecter selectIndex:
-		aMenuBar positionInItemContainer
-]
-
-{ #category : #'t - menu item container - double dispatch' }
-TToMenuItemContainer >> addedMenuItem: aMenuItem [
-
-	aMenuItem parentItemContainer: self
-]
-
-{ #category : #'t - menu item container - double dispatch' }
-TToMenuItemContainer >> addedSeparatorMenuItem: aMenuItem [
-
-	self addedMenuItem: aMenuItem.
-	self itemList unselectableSelecter selectIndex: aMenuItem positionInItemContainer
-]
-
-{ #category : #'t - menu item container - double dispatch' }
-TToMenuItemContainer >> addedUnknownItemKind: anItem [
 ]
 
 { #category : #'t - menu item container - adding/removing' }
@@ -101,6 +54,53 @@ TToMenuItemContainer >> itemList [
 TToMenuItemContainer >> items [
 
 	^ self itemList dataAccessor
+]
+
+{ #category : #'t - menu item container - double dispatch' }
+TToMenuItemContainer >> onAddedCustomMenuItem: aMenuItem [
+
+	self onAddedMenuItem: aMenuItem.
+	aMenuItem isSelectable ifTrue: [ ^ self ].
+	self itemList unselectableSelecter selectIndex: aMenuItem positionInItemContainer
+]
+
+{ #category : #'t - menu item container - double dispatch' }
+TToMenuItemContainer >> onAddedFillerMenuItem: aFiller [
+
+	self onAddedMenuItem: aFiller.
+	self itemList unselectableSelecter selectIndex: aFiller positionInItemContainer
+]
+
+{ #category : #'t - menu item container - double dispatch' }
+TToMenuItemContainer >> onAddedMenu: aMenu [
+
+	aMenu parentItemContainer: self.
+	aMenu isSubmenu: true
+]
+
+{ #category : #'t - menu item container - double dispatch' }
+TToMenuItemContainer >> onAddedMenuBar: aMenuBar [
+
+	self onAddedMenuItem: aMenuBar.
+	self itemList unselectableSelecter selectIndex:
+		aMenuBar positionInItemContainer
+]
+
+{ #category : #'t - menu item container - double dispatch' }
+TToMenuItemContainer >> onAddedMenuItem: aMenuItem [
+
+	aMenuItem parentItemContainer: self
+]
+
+{ #category : #'t - menu item container - double dispatch' }
+TToMenuItemContainer >> onAddedSeparatorMenuItem: aMenuItem [
+
+	self onAddedMenuItem: aMenuItem.
+	self itemList unselectableSelecter selectIndex: aMenuItem positionInItemContainer
+]
+
+{ #category : #'t - menu item container - double dispatch' }
+TToMenuItemContainer >> onAddedUnknownItemKind: anItem [
 ]
 
 { #category : #'t - menu item container - adding/removing' }

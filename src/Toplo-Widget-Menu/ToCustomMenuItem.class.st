@@ -8,15 +8,15 @@ Class {
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
-{ #category : #'adding-removing' }
-ToCustomMenuItem >> addedInMenuItemContainer: aMenu [
-
-	aMenu addedCustomMenuItem: self
-
-]
-
 { #category : #testing }
 ToCustomMenuItem >> isSelectable [
 
 	^ false
+]
+
+{ #category : #'adding-removing' }
+ToCustomMenuItem >> onAddedInMenuItemContainer: aMenu [
+
+	aMenu onAddedCustomMenuItem: self
+
 ]

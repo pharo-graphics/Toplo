@@ -9,12 +9,6 @@ Class {
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
-{ #category : #'adding-removing' }
-ToMenu >> addedInMenuItemContainer: aMenu [
-
-	aMenu addedMenu: self
-]
-
 { #category : #accessing }
 ToMenu >> bar [
 
@@ -108,6 +102,12 @@ ToMenu >> mouseOverEvent: anEvent [
 ToMenu >> newRawSkin [ 
 
 	^ ToMenuSkin new
+]
+
+{ #category : #'adding-removing' }
+ToMenu >> onAddedInMenuItemContainer: aMenu [
+
+	aMenu onAddedMenu: self
 ]
 
 { #category : #'t - menu window model' }

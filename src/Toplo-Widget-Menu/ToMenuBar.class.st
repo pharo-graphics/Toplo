@@ -24,19 +24,6 @@ ToMenuBar >> addMenu: aMenu [
 	self addItem: aMenu
 ]
 
-{ #category : #'adding-removing' }
-ToMenuBar >> addedInMenuItemContainer: aMenuItemContainer [
-
-	aMenuItemContainer addedMenuBar: self
-]
-
-{ #category : #'t - menu item container - double dispatch' }
-ToMenuBar >> addedMenu: aMenu [
-
-	aMenu parentItemContainer: self.
-	aMenu isSubmenu: false
-]
-
 { #category : #'auto opening' }
 ToMenuBar >> autoOpen [
 
@@ -161,6 +148,19 @@ ToMenuBar >> newRawSkin [
 ToMenuBar >> nodeWrapping: aBoolean [
 
 	itemList nodeWrapping: aBoolean
+]
+
+{ #category : #'adding-removing' }
+ToMenuBar >> onAddedInMenuItemContainer: aMenuItemContainer [
+
+	aMenuItemContainer onAddedMenuBar: self
+]
+
+{ #category : #'t - menu item container - double dispatch' }
+ToMenuBar >> onAddedMenu: aMenu [
+
+	aMenu parentItemContainer: self.
+	aMenu isSubmenu: false
 ]
 
 { #category : #adding }

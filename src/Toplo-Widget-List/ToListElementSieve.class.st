@@ -63,13 +63,16 @@ ToListElementSieve >> onInstalledIn: aListElement [
 	selectionModel := aListElement selectionModel copy.
 
 	originalData := aListElement dataAccessor newMirror.
-	
+
 	queryRunner := ToObservableCollectionFilter new.
 	" When a query has occured (because the query pattern has changed), update the list element accordingly then
-	 ask the list to process the appropiate data source command and to update the selection model "
+	 ask the list to process the appropiate data source command and to update the selection model.
+	A task must be used to avoid that the list update occurs during the BlSpaceFrameEventPhase  
+	 which can cause an issue because the layout must be launched each time a sieve result occurs "
 	queryRunner applicationResultAction: [
-		self updateCurrentData.
-		aListElement onSievedWith: self ].	
+		aListElement enqueueTask: (BlTaskAction new action: [
+				 self updateCurrentData.
+				 aListElement onSievedWith: self ]) ].
 	queryRunner onInstalledIn: originalData.
 
 	" initialization of the current result with the current pattern "

@@ -2,10 +2,17 @@ Class {
 	#name : #Toplo,
 	#superclass : #Object,
 	#classVars : [
-		'DefaultThemeClass'
+		'DefaultThemeClass',
+		'ToploAnnouncer'
 	],
 	#category : #'Toplo-Core'
 }
+
+{ #category : #accessing }
+Toplo class >> announcer [
+
+	^ ToploAnnouncer ifNil: [ ToploAnnouncer := Announcer  new ]
+]
 
 { #category : #initialization }
 Toplo class >> closeAllSpaces [
@@ -31,7 +38,7 @@ Toplo class >> defaultThemeClass: aClass [
 
 	DefaultThemeClass = aClass ifTrue: [ ^ self ].
 	DefaultThemeClass := aClass.
-	SystemAnnouncer uniqueInstance announce: ToThemeSettingChangedEvent
+	self announcer announce: ToThemeSettingChangedEvent
 ]
 
 { #category : #settings }

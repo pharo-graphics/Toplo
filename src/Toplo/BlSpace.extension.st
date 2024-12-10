@@ -120,7 +120,7 @@ BlSpace >> stopSkinPhases [
 BlSpace >> toTheme [
 
 	^ self userData at: #toTheme ifAbsent: [
-		  SystemAnnouncer uniqueInstance weak
+		  Toplo announcer weak
 			  when: ToThemeSettingChangedEvent
 			  send: #resetToTheme
 			  to: self.

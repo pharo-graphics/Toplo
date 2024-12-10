@@ -70,8 +70,8 @@ ToListElementSieve >> onInstalledIn: aListElement [
 	A task must be used to avoid that the list update occurs during the BlSpaceFrameEventPhase  
 	 which can cause an issue because the layout must be launched each time a sieve result occurs "
 	queryRunner applicationResultAction: [
+		self updateCurrentData.
 		aListElement enqueueTask: (BlTaskAction new action: [
-				 self updateCurrentData.
 				 aListElement onSievedWith: self ]) ].
 	queryRunner onInstalledIn: originalData.
 

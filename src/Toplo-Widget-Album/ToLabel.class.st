@@ -3,7 +3,6 @@ Class {
 	#superclass : #ToElement,
 	#instVars : [
 		'innerElement',
-		'lineMode',
 		'editorWindowManager',
 		'currentText'
 	],
@@ -45,25 +44,25 @@ ToLabel >> attributesBuilder [
 	^ self textAttributesBuilder
 ]
 
-{ #category : #accessing }
+{ #category : #configurating }
 ToLabel >> beEditable [
 
 	self isEditable: true
 ]
 
-{ #category : #initialization }
+{ #category : #configurating }
 ToLabel >> beMonoLine [
 
-	self restoreTextAfter: [ self lineMode: ToLabelLineMode mono ]
+	self multiLine: false
 ]
 
-{ #category : #initialization }
+{ #category : #configurating }
 ToLabel >> beMultiLine [
 
-	self restoreTextAfter: [ self lineMode: ToLabelLineMode multi ]
+	self multiLine: true
 ]
 
-{ #category : #accessing }
+{ #category : #configurating }
 ToLabel >> beReadOnly [
 
 	self isEditable: false
@@ -94,12 +93,6 @@ ToLabel >> defaultFontSize: aNumber [
 ]
 
 { #category : #initialization }
-ToLabel >> defaultLineMode [
-
-	^ ToLabelLineMode mono
-]
-
-{ #category : #initialization }
 ToLabel >> defaultPadding [
 
 	^ BlInsets empty
@@ -110,12 +103,6 @@ ToLabel >> defaultPadding [
 ToLabel >> defaultText [
 
 	^ '' asRopedText
-]
-
-{ #category : #initialization }
-ToLabel >> defaultTextElement [
-
-	^ self lineMode newTextElementIn: self
 ]
 
 { #category : #'api - text font' }
@@ -158,12 +145,17 @@ ToLabel >> initialize [
 	self applySkinInstallerOnFirstRequest: true.
 	self fitContent.
 
-	self lineMode: self defaultLineMode.
-	self innerElement: self defaultTextElement.	
+	self initializeInnerElement.
 	self text: self defaultText.
 
 	self isEditable: false.
 	self addEventHandler: self defaultEventHandler 
+]
+
+{ #category : #initialization }
+ToLabel >> initializeInnerElement [
+
+	self innerElement: ToLabelMonoLineInnerElement new
 ]
 
 { #category : #accessing }
@@ -181,7 +173,7 @@ ToLabel >> innerElement: anInnerElement [
 	self addChild: innerElement
 ]
 
-{ #category : #accessing }
+{ #category : #testing }
 ToLabel >> isEditable [
 
 	^ editorWindowManager notNil 
@@ -207,20 +199,16 @@ ToLabel >> isFrozen [
 	^ false
 ]
 
-{ #category : #accessing }
+{ #category : #testing }
 ToLabel >> isMonoLine [
 
-	^ self lineMode
-		  ifNil: [ ^ false ]
-		  ifNotNil: [ :mode | mode isMonoLine ]
+	^ innerElement isMonoLine 
 ]
 
-{ #category : #accessing }
+{ #category : #testing }
 ToLabel >> isMultiLine [
 
-	^ self lineMode
-		  ifNil: [ ^ false ]
-		  ifNotNil: [ :mode | mode isMultiLine ]
+	^ innerElement isMonoLine not
 ]
 
 { #category : #'api - text emphasis' }
@@ -230,31 +218,23 @@ ToLabel >> italic [
 ]
 
 { #category : #accessing }
-ToLabel >> lineMode [
+ToLabel >> monoLine: aBoolean [
 
-	^ lineMode
+	self multiLine: aBoolean not
 ]
 
 { #category : #accessing }
-ToLabel >> lineMode: aLineMode [
+ToLabel >> multiLine: aBoolean [
 
-	lineMode = aLineMode ifTrue: [ ^ self ].
-	lineMode := aLineMode.
-	self lineModeChanged 
-]
-
-{ #category : #'private-change' }
-ToLabel >> lineModeChanged [
-
-	self restoreTextAfter: [ self innerElement: self defaultTextElement ]
-]
-
-{ #category : #initialization }
-ToLabel >> monoLine: aBoolean [
-
+	| inner |
 	aBoolean
-		ifTrue: [ self beMonoLine ]
-		ifFalse: [ self beMultiLine ]
+		ifTrue: [
+			self isMultiLine ifTrue: [ ^ self ].
+			inner := ToLabelMultiLineInnerElement new ]
+		ifFalse: [
+			self isMonoLine ifTrue: [ ^ self ].
+			inner := ToLabelMonoLineInnerElement new ].
+	self restoreTextAfter: [ self innerElement: inner ]
 ]
 
 { #category : #'private-editing' }

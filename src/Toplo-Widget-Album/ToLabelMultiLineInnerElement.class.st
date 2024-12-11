@@ -64,6 +64,12 @@ ToLabelMultiLineInnerElement >> initialize [
 	self preventMouseEvents
 ]
 
+{ #category : #testing }
+ToLabelMultiLineInnerElement >> isMonoLine [ 
+
+	^ false
+]
+
 { #category : #accessing }
 ToLabelMultiLineInnerElement >> newEditor [
 

@@ -5706,21 +5706,20 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 		editedLabel addEventHandler: (ToStillPressedEventHandler new
 				 startDelay: 800 milliSeconds;
 				 yourself).
-
 		editedLabel
 			beEditable;
 			addEventHandlerOn: ToStartStillPressedEvent do: [ :event |
 				event consume.
-				editedLabel popupEditorEvent: event ].
-
-		editedLabel
-			addEventHandlerOn: ToLabelTextReplacedEvent
-			do: [ text := editedLabel text ];
+				editedLabel popupEditorEvent: event ];
+			addEventHandlerOn: ToAlbumSaveRequestedEvent
+			do: [ :event | event accepted: true ];
+			addEventHandlerOn: ToAlbumSaveAcceptedEvent do: [ :event |
+				text := event editorElement text.
+				editedLabel text: text ];
 			addEventHandlerOn: ToLabelEditorOpenedWindowEvent
 			do: [ window preventPickOutsideClosing ];
-			addEventHandlerOn: ToLabelEditorWindowClosedEvent do: [ :event |
-				text := event text.
-				window allowPickOutsideClosing ].
+			addEventHandlerOn: ToLabelEditorWindowClosedEvent
+			do: [ :event | window allowPickOutsideClosing ].
 
 		window root addChild: editedLabel ].
 

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'editorElement'
 	],
-	#category : #'Toplo-Widget-Album-Label'
+	#category : #'Toplo-Widget-Album-LabelEditor'
 }
 
 { #category : #accessing }

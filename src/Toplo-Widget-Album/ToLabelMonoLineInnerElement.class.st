@@ -20,6 +20,12 @@ ToLabelMonoLineInnerElement >> initializeMeasurement [
 	self editorMeasurement
 ]
 
+{ #category : #testing }
+ToLabelMonoLineInnerElement >> isMonoLine [ 
+
+	^ true
+]
+
 { #category : #accessing }
 ToLabelMonoLineInnerElement >> newEditor [
 

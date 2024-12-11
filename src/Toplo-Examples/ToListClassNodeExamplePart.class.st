@@ -26,16 +26,18 @@ ToListClassNodeExamplePart >> forClassNameAssoc: aClassNameAssoc [
 		text: aClassNameAssoc value;
 		beEditable.
 	self addEventHandler:
-		(ToStillPressedEventHandler new delay: 800 milliSeconds).
-	self
-		addEventHandler: (BlEventHandler
-				 on: ToStartStillPressedEvent
-				 do: [ :event |
-					 event consume.
-					 event currentTarget label popupEditorEvent: event ]);
-		addEventHandler: (BlEventHandler
-				 on: ToLabelTextReplacedEvent
-				 do: [ self holder data value: label text asString ]).
+		(ToStillPressedEventHandler new startDelay: 800 milliSeconds).
+	self addEventHandler: (BlEventHandler
+			 on: ToStartStillPressedEvent
+			 do: [ :event |
+				 event consume.
+				 event currentTarget label popupEditorEvent: event ]).
+	label
+		addEventHandlerOn: ToAlbumSaveRequestedEvent
+		do: [ :event | event accepted: event editorElement text isNotEmpty ].
+	label addEventHandlerOn: ToAlbumSaveAcceptedEvent do: [ :event |
+		event target text: event editorElement text.
+		self holder dataItem value: label text asString ].
 
 	self addChild: (ToLabeledIcon new
 			 label: label;

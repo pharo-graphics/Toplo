@@ -21,13 +21,17 @@ ToLabel class >> text: aText [
 ToLabel >> addEditorEvent: anEvent [
 
 	self innerElement visibility: BlVisibility hidden.
-	self hasEditor ifTrue: [  ^ self ].
+	self hasEditor ifTrue: [ ^ self ].
 	(self newEditorWindowEvent: anEvent) popupEvent: anEvent.
-	self editor selecter
-		all;
-		apply.
-	self editorBuilder value: self editor value: self.
-	self editor requestFocus
+	self flag: 'Have to understand why one need a task'. 
+	" A task must be used here. If not, then the first mouse event 
+	will not lead to a correct cursor position (for an unknown reason)"
+	self enqueueTask: (BlTaskAction new action: [
+			 self editorBuilder value: self editor value: self.
+			 self editor requestFocus.
+			 self editor selecter
+				 all;
+				 apply ])
 ]
 
 { #category : #styling }

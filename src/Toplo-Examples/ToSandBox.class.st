@@ -1134,7 +1134,7 @@ ToSandBox class >> example_LabelAndSelectableLabelAndTextField [
 	| lab1 lab2 txtfld pane |
 	lab1 := ToSelectableLabel new text:
 		        'SelectableLabel__________________'.
-	lab2 := ToLabel new text: '_______________Regular Label'.
+	lab2 := ToLabel new text: '_______________Regular Label_____________'.
 	txtfld := ToTextField new text: '_______ TextField_______'.
 	"{ lab1. txtfld. lab2 } do: [ :l | l hFitContent ]."
 	{

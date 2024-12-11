@@ -77,7 +77,7 @@ ToAlbum >> edited: aBoolean [
 { #category : #'client - protocol' }
 ToAlbum >> flash [
 
-	self dispatchEvent: (ToAlbumFlashRequestedEvent new client: self)
+	self dispatchEvent: ToAlbumFlashRequestedEvent new
 ]
 
 { #category : #'private - accessing' }
@@ -179,7 +179,7 @@ ToAlbum >> requestSave [
 
 	| request answer |
 	request := ToAlbumSaveRequestedEvent new
-		           client: self;
+		           editorElement: self;
 		           unacceptedEdits: self edited;
 		           yourself.
 
@@ -191,7 +191,7 @@ ToAlbum >> requestSave [
 		          ifFalse: [ ToAlbumSaveDeniedEvent new ].
 
 	self dispatchEvent: (answer
-			 client: self;
+			 editorElement: self;
 			 yourself)
 ]
 
@@ -369,6 +369,13 @@ ToAlbum >> withoutEditsFeedback [
 	self removeChild: editsFeedbackLayer.
 
 	editsFeedbackLayer := nil
+]
+
+{ #category : #initialization }
+ToAlbum >> withoutLineWrapping [
+
+	self infinite hFitContent.
+	self next hFitContent
 ]
 
 { #category : #layers }

@@ -1,5 +1,5 @@
 Class {
 	#name : #ToAlbumSaveAcceptedEvent,
-	#superclass : #ToAlbumClientEvent,
+	#superclass : #ToAlbumEditingFrontEvent,
 	#category : #'Toplo-Widget-Album-TextPane'
 }

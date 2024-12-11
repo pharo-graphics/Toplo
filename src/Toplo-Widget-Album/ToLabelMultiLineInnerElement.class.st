@@ -39,26 +39,6 @@ ToLabelMultiLineInnerElement >> collectNewLines [
 					  stream nextPut: lineElement ] ] ]
 ]
 
-{ #category : #'t - label inner element' }
-ToLabelMultiLineInnerElement >> editorShortcutsIn: aLabel [
-
-	^ { 
-		  (BlShortcutWithAction new
-			   combination: (BlKeyCombination primaryReturn or: BlKeyCombination primaryS);
-			   action: [ 
-				   aLabel text: aLabel editor text.
-				   aLabel removeEditor ];
-			   description: 'Accept the edited text';
-			   name: 'Accept';
-			   yourself).
-		  (BlShortcutWithAction new
-			   combination: (BlKeyCombination escape or: BlKeyCombination primaryL);
-			   action: [ aLabel removeEditor ];
-			   description: 'Escape from text editing';
-			   name: 'Escape';
-			   yourself) }
-]
-
 { #category : #'private - text splitting' }
 ToLabelMultiLineInnerElement >> emptyLineText [
 
@@ -84,12 +64,15 @@ ToLabelMultiLineInnerElement >> initialize [
 	self preventMouseEvents
 ]
 
-{ #category : #'t - label inner element' }
-ToLabelMultiLineInnerElement >> newEditorIn: aLabel [
+{ #category : #accessing }
+ToLabelMultiLineInnerElement >> newEditor [
 
 	| ed |
-	ed := ToTextField new.
-	(self editorShortcutsIn: aLabel) do: [ :s | ed editor addEditorShortcut: s ].
+	ed := ToAlbum new.
+	ed hMatchParent.
+	ed vFitContent.
+	ed next fitContent.
+	ed infinite fitContent.
 	^ ed
 ]
 

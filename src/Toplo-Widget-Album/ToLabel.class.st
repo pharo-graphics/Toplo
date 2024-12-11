@@ -2,11 +2,10 @@ Class {
 	#name : #ToLabel,
 	#superclass : #ToElement,
 	#instVars : [
-		'isEditable',
 		'innerElement',
 		'lineMode',
-		'currText',
-		'editorWindowManager'
+		'editorWindowManager',
+		'currentText'
 	],
 	#category : #'Toplo-Widget-Album-Label'
 }
@@ -15,23 +14,6 @@ Class {
 ToLabel class >> text: aText [
 
 	^ self new text: aText
-]
-
-{ #category : #'private-editing' }
-ToLabel >> addEditorEvent: anEvent [
-
-	self innerElement visibility: BlVisibility hidden.
-	self hasEditor ifTrue: [ ^ self ].
-	(self newEditorWindowEvent: anEvent) popupEvent: anEvent.
-	self flag: 'Have to understand why one need a task'. 
-	" A task must be used here. If not, then the first mouse event 
-	will not lead to a correct cursor position (for an unknown reason)"
-	self enqueueTask: (BlTaskAction new action: [
-			 self editorBuilder value: self editor value: self.
-			 self editor requestFocus.
-			 self editor selecter
-				 all;
-				 apply ])
 ]
 
 { #category : #styling }
@@ -93,18 +75,6 @@ ToLabel >> bold [
 	self attributesBuilder attribute: BlFontWeightAttribute bold
 ]
 
-{ #category : #'private-editing' }
-ToLabel >> cleanUpUserData [
-
-	self userData removeKey: #editor ifAbsent: [  ]
-]
-
-{ #category : #'private-editing' }
-ToLabel >> currentEditorWindow [
-
-	^ editorWindowManager currentWindow
-]
-
 { #category : #initialization }
 ToLabel >> defaultEventHandler [ 
 
@@ -148,26 +118,6 @@ ToLabel >> defaultTextElement [
 	^ self lineMode newTextElementIn: self
 ]
 
-{ #category : #'private-editing' }
-ToLabel >> editor [
-
-	^ self userData at: #editor ifAbsent: [  ]
-]
-
-{ #category : #accessing }
-ToLabel >> editorBuilder [
-	" returns a valuable that takes the editor and the label as arguments "
-
-	^ self userData at: #editorBuilder ifAbsentPut: [ [ :ed :theLabel | ] ]
-]
-
-{ #category : #accessing }
-ToLabel >> editorBuilder: aValuable [
-	" aValuable takes the editor and the label as arguments "
-
-	self userData at: #editorBuilder put: aValuable
-]
-
 { #category : #'api - text font' }
 ToLabel >> fontName: aString [
 
@@ -188,8 +138,10 @@ ToLabel >> foreground: aBlPaint [
 
 { #category : #'private-editing' }
 ToLabel >> hasEditor [
+	" my window manager has a window "
 
-	^ editorWindowManager notNil and: [ editorWindowManager currentWindow notNil ]
+	^ editorWindowManager notNil and: [
+		  editorWindowManager currentWindow notNil ]
 ]
 
 { #category : #accessing }
@@ -214,19 +166,6 @@ ToLabel >> initialize [
 	self addEventHandler: self defaultEventHandler 
 ]
 
-{ #category : #'private-editing' }
-ToLabel >> initializeEditorWindowBuilder [
-
-	self isEditable
-		ifTrue: [
-			editorWindowManager := ToLabelEditorWindowManager new.
-			self addEventHandler: editorWindowManager ]
-		ifFalse: [
-			editorWindowManager ifNil: [ ^ self ].
-			self removeEventHandler: editorWindowManager.
-			editorWindowManager := nil ]
-]
-
 { #category : #accessing }
 ToLabel >> innerElement [
 
@@ -245,15 +184,21 @@ ToLabel >> innerElement: anInnerElement [
 { #category : #accessing }
 ToLabel >> isEditable [
 
-	^ isEditable 
+	^ editorWindowManager notNil 
 ]
 
 { #category : #accessing }
 ToLabel >> isEditable: aBoolean [
 
-	isEditable = aBoolean ifTrue: [ ^ self ].
-	isEditable := aBoolean.
-	self initializeEditorWindowBuilder
+	aBoolean
+		ifTrue: [
+			editorWindowManager ifNotNil: [ ^ self ].
+			editorWindowManager := ToLabelEditorWindowManager new.
+			self addEventHandler: editorWindowManager ]
+		ifFalse: [
+			editorWindowManager ifNil: [ ^ self ].
+			self removeEventHandler: editorWindowManager.
+			editorWindowManager := nil ]
 ]
 
 { #category : #testing }
@@ -314,14 +259,9 @@ ToLabel >> monoLine: aBoolean [
 
 { #category : #'private-editing' }
 ToLabel >> newEditor [
+	" sent from the window manager "
 
-	^ self userData at: #editor put: (self innerElement newEditorIn: self)
-]
-
-{ #category : #'private-editing' }
-ToLabel >> newEditorWindowEvent: anEvent [
-
-	^  editorWindowManager newWindowEvent: anEvent
+	^ innerElement newEditor
 ]
 
 { #category : #skin }
@@ -348,12 +288,26 @@ ToLabel >> oblique [
 	self attributesBuilder attribute: BlFontEmphasisAttribute oblique
 ]
 
+{ #category : #'private-editing' }
+ToLabel >> onEditorClosed [
+	" sent from the window manager "
+
+	innerElement visibility: BlVisibility visible
+]
+
+{ #category : #'private-editing' }
+ToLabel >> onEditorOpened [
+	" sent from the window manager "
+
+	innerElement visibility: BlVisibility hidden
+]
+
 { #category : #'private-change' }
 ToLabel >> onStringsInserted: aBlTextStringsInserted [
 
 	self isFrozen ifTrue: [ ^ self ].
 	aBlTextStringsInserted strings ifEmpty: [ ^ self ].
-	currText := self text copy.
+	currentText := self text copy.
 	self textChanged
 ]
 
@@ -361,8 +315,8 @@ ToLabel >> onStringsInserted: aBlTextStringsInserted [
 ToLabel >> onTextAttributeAdded: aBlTextAttributeAdded [
 	
 	self isFrozen ifTrue: [ ^ self ].
-	currText rope = self text rope ifTrue: [ ^ self ].
-	currText := self text copy.
+	currentText rope = self text rope ifTrue: [ ^ self ].
+	currentText := self text copy.
 	self textChanged
 
 ]
@@ -371,26 +325,33 @@ ToLabel >> onTextAttributeAdded: aBlTextAttributeAdded [
 ToLabel >> onTextAttributesRemoved: aBlTextAttributesRemoved [
 
 	self isFrozen ifTrue: [ ^ self ].
-	currText rope = self text rope ifTrue: [ ^ self ].
-	currText := self text copy.
+	currentText rope = self text rope ifTrue: [ ^ self ].
+	currentText := self text copy.
 	self textChanged
 
 ]
 
 { #category : #'private-change' }
-ToLabel >> onTextsDeleted: aString [
+ToLabel >> onTextsDeleted: aBlTextsDeleted [
 
 	self isFrozen ifTrue: [ ^ self ].
-	aString ifEmpty: [  ^ self ].
-	currText := self text copy.
+	currentText := self text copy.
 	self textChanged
+]
+
+{ #category : #'private-editing' }
+ToLabel >> popupEditorEvent: anEvent [
+	" prepare the window with the editor and open it"
+
+	self hasEditor ifTrue: [ ^ self ].
+	(editorWindowManager newWindowEvent: anEvent) popupEvent: anEvent
 ]
 
 { #category : #'private-change' }
 ToLabel >> privateText: aText [
 
 	self innerElement text: aText.
-	currText:= self text copy.
+	currentText:= self text copy.
 	self text
 		when: BlTextStringsInserted
 		send: #onStringsInserted:
@@ -410,14 +371,6 @@ ToLabel >> privateText: aText [
 ToLabel >> regular [
 
 	self attributesBuilder attribute: BlFontWeightAttribute normal
-]
-
-{ #category : #'private-editing' }
-ToLabel >> removeEditor [
-
-	editorWindowManager closeWindow.
-	self innerElement visibility: BlVisibility visible.
-	self cleanUpUserData
 ]
 
 { #category : #'private-change' }

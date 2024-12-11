@@ -59,10 +59,3 @@ ToTextField >> withoutLineBreak [
 
 	self inputFilter: AlbTextEditorNoLineBreakInputFilter new
 ]
-
-{ #category : #initialization }
-ToTextField >> withoutLineWrapping [
-
-	self infinite hFitContent.
-	self next hFitContent
-]

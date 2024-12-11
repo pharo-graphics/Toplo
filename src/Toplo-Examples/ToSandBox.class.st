@@ -894,7 +894,7 @@ ToSandBox class >> example_EditableList2WithAllClassesNames [
 				 on: ToListStrongSelectionEvent
 				 do: [ :event |
 					 event indexes size == 1 ifTrue: [
-							 (l nodeAt: event indexes first) label addEditorEvent: event ] ]);
+							 (l nodeAt: event indexes first) label popupEditorEvent: event ] ]);
 		withRowNumbers.
 
 	l dataAccessor addAll:
@@ -5711,14 +5711,14 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 			beEditable;
 			addEventHandlerOn: ToStartStillPressedEvent do: [ :event |
 				event consume.
-				editedLabel addEditorEvent: event ].
+				editedLabel popupEditorEvent: event ].
 
 		editedLabel
 			addEventHandlerOn: ToLabelTextReplacedEvent
 			do: [ text := editedLabel text ];
-			addEventHandlerOn: ToLabelEditorOpenedEvent
+			addEventHandlerOn: ToLabelEditorOpenedWindowEvent
 			do: [ window preventPickOutsideClosing ];
-			addEventHandlerOn: ToLabelEditorClosedEvent do: [ :event |
+			addEventHandlerOn: ToLabelEditorWindowClosedEvent do: [ :event |
 				text := event text.
 				window allowPickOutsideClosing ].
 
@@ -5761,16 +5761,26 @@ ToSandBox class >> example_toLabel2 [
 ToSandBox class >> example_toLabel3 [
 
 	| lab |
-	lab := ToLabel new text: ('This is a bold label' asRopedText
+	lab := ToAttributedLabel new text: ('This is a bold gray label' asRopedText
 			        fontSize: 20;
 			        bold;
 			        foreground: Color gray;
 			        yourself).
-	lab withNullSkin.
+	lab
+		addEventHandlerOn: ToLabelEditorCreatedEvent
+		do: [ :event | event editorElement addStamp: #preformatted ].
+	lab
+		addEventHandlerOn: ToAlbumSaveRequestedEvent
+		do: [ :event | event accepted: true ].
+	lab
+		addEventHandlerOn: ToAlbumSaveAcceptedEvent
+		do: [ :event | event target text: event editorElement text ].
+
 	lab background: Color lightBlue.
 	lab hMatchParent.
 	lab isEditable: true.
-	lab innerElement constraintsDo: [:c | c frame horizontal alignCenter].
+	lab innerElement constraintsDo: [ :c |
+		c frame horizontal alignCenter ].
 	lab border: (BlBorder paint: Color yellow width: 1).
 	lab openInSpace
 ]
@@ -5779,7 +5789,7 @@ ToSandBox class >> example_toLabel3 [
 ToSandBox class >> example_toLabel4 [
 
 	| lab1 lab2 lab3 root |
-	root := ToElement new constraintsDo: [ :c | 
+	root := ToElement new constraintsDo: [ :c |
 		        c vertical fitContent.
 		        c horizontal matchParent ].
 
@@ -5790,7 +5800,8 @@ ToSandBox class >> example_toLabel4 [
 	lab1 isEditable: true.
 	lab1 vFitContent.
 	lab1 hMatchParent.
-	lab1 innerElement constraintsDo: [:c | c frame horizontal alignCenter].
+	lab1 innerElement constraintsDo: [ :c |
+		c frame horizontal alignCenter ].
 	lab1 border: (BlBorder paint: Color lightGray width: 1).
 	root addChild: lab1.
 
@@ -5814,7 +5825,20 @@ ToSandBox class >> example_toLabel4 [
 	root addChild: lab3.
 	root clipChildren: false.
 
-	root openInInnerWindow 
+	{
+		lab1.
+		lab2 } do: [ :l |
+		l
+			addEventHandlerOn: ToLabelEditorCreatedEvent
+			do: [ :event | event editorElement addStamp: #preformatted ].
+
+		l
+			addEventHandlerOn: ToAlbumSaveRequestedEvent
+			do: [ :event | event accepted: true ].
+		l
+			addEventHandlerOn: ToAlbumSaveAcceptedEvent
+			do: [ :event | event target text: event editorElement text ] ].
+	root openInInnerWindow
 ]
 
 { #category : #label }
@@ -5895,6 +5919,19 @@ ToSandBox class >> example_toLabel_Multiline2_Centered [
 	lab2 innerElement layout alignCenter.
 	lab1 isEditable: true.
 	lab2 isEditable: true.
+	lab2
+		addEventHandlerOn: ToLabelEditorCreatedEvent
+		do: [ :event | event editorElement addStamp: #preformatted ].
+
+	{
+		lab1.
+		lab2 } do: [ :l |
+		l
+			addEventHandlerOn: ToAlbumSaveRequestedEvent
+			do: [ :event | event accepted: true ].
+		l
+			addEventHandlerOn: ToAlbumSaveAcceptedEvent
+			do: [ :event | event target text: event editorElement text ] ].
 	container := BlElement new
 		             layout: BlLinearLayout vertical;
 		             constraintsDo: [ :c |
@@ -5914,6 +5951,13 @@ ToSandBox class >> example_toLabel_editableMultiline [
 	lab beMultiLine.
 	lab hMatchParent.
 	lab isEditable: true.
+	lab
+		addEventHandlerOn: ToAlbumSaveRequestedEvent
+		do: [ :event | event accepted: true ].
+	lab
+		addEventHandlerOn: ToAlbumSaveAcceptedEvent
+		do: [ :event | event target text: event editorElement text ].
+
 	lab openInSpace
 ]
 
@@ -6430,16 +6474,20 @@ ToSandBox class >> listWithEditableAndContextMenu [
 					 on: ToStillPressedEvent
 					 do: [ :event |
 						 event consume.
-						 lab addEditorEvent: event ]).
+						 lab popupEditorEvent: event ]).
 			lab addEventHandler: (BlEventHandler
-					 on: ToLabelEditorOpenedEvent
+					 on: ToLabelEditorOpenedWindowEvent
 					 do: [ l disableScrolledEvent ]).
 			lab addEventHandler: (BlEventHandler
-					 on: ToLabelEditorClosedEvent
+					 on: ToLabelEditorWindowClosedEvent
 					 do: [ l enableScrolledEvent ]).
-			lab addEventHandler: (BlEventHandler
-					 on: ToLabelTextReplacedEvent
-					 do: [ l dataAccessor at: holder position put: lab text asString ]) ].
+			lab
+				addEventHandlerOn: ToAlbumSaveRequestedEvent
+				do: [ :event | event accepted: true ].
+			lab addEventHandlerOn: ToAlbumSaveAcceptedEvent do: [ :event |
+				event target text: event editorElement text.
+				l dataAccessor at: holder position put: lab text asString ] ].
+
 		node addChild: (ToLabeledIcon new
 				 label: lab;
 				 hMatchParent) ].
@@ -6514,7 +6562,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 			               selectionMenu addItem: (ToMenuItem new
 					                labelText: 'Edit';
 					                whenClickedDo: [ :event |
-						                label addEditorEvent: nil ];
+						                label popupEditorEvent: nil ];
 					                yourself).
 			               selectionMenu addItem: (ToMenuItem new
 					                labelText: (label isMonoLine

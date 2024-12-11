@@ -41,8 +41,8 @@ ToLabelSkin >> installSkinEvent: anEvent [
 			defaultFontSize: (e valueOfTokenNamed: #'font-size');
 			lineSpacing: (e valueOfTokenNamed: #'line-height');
 			foreground: (e valueOfTokenNamed: #'color-text').
-		e editorBuilder: [ :ed :lab |
-			ed text foreground: (lab valueOfTokenNamed: #'color-text') ].
+		"e editorBuilder: [ :ed :lab |
+			ed text foreground: (lab valueOfTokenNamed: #'color-text') ]."
 		e applyStyle ]
 ]
 

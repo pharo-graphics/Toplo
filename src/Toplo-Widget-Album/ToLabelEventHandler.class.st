@@ -16,9 +16,9 @@ ToLabelEventHandler >> mouseDownEvent: anEvent [
 	| target |
 	target := anEvent currentTarget.
 	target isEditable ifFalse: [ ^ self ].
-	target editor ifNotNil: [ ^ self ].
+	target hasEditor ifTrue: [ ^ self ].
 	(anEvent modifiers isShift and: [
 		 anEvent modifiers isPrimaryModifier ]) ifFalse: [ ^ self ].
 	anEvent consume.
-	target addEditorEvent: anEvent
+	target popupEditorEvent: anEvent
 ]

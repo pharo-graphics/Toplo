@@ -1,6 +1,6 @@
 Class {
 	#name : #ToAlbumSaveRequestedEvent,
-	#superclass : #ToAlbumClientEvent,
+	#superclass : #ToAlbumEditingFrontEvent,
 	#instVars : [
 		'unacceptedEdits',
 		'accepted'

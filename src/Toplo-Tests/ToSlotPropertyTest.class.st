@@ -44,15 +44,13 @@ ToSlotPropertyTest >> testRead [
 ToSlotPropertyTest >> testWrite [
 
 	| w prop |
-	w := ToLabel new.
+	w := ToLabel new text: 'test'.
 	prop := ToSlotProperty new.
-	prop name: #isEditable.
-	self assert: (w class hasSlotNamed: #isEditable).
-	self assert: (prop read: w) equals: w isEditable.
-	prop write: true to: w.
-	self assert: (prop read: w) equals: true.
-	prop write: false to: w.
-	self assert: (prop read: w) equals: false
+	prop name: #currentText.
+	self assert: (w class hasSlotNamed: #currentText).
+	self assert: (prop read: w) asString equals: 'test'.
+	prop write: 'TEST' to: w.
+	self assert: (prop read: w) asString equals: 'TEST'
 ]
 
 { #category : #tests }

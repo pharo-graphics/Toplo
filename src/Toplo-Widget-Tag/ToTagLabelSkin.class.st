@@ -39,7 +39,7 @@ ToTagLabelSkin >> installSkinEvent: anEvent [
 			weight: (e valueOfTokenNamed: #'font-weight-strong');
 			defaultFontSize: (e valueOfTokenNamed: #'font-size');
 			lineSpacing: (e valueOfTokenNamed: #'line-height').
-		e editorBuilder: [ :ed :lab |
-			ed text foreground: (lab valueOfTokenNamed: #'color-text') ].
+		"e editorBuilder: [ :ed :lab |
+			ed text foreground: (lab valueOfTokenNamed: #'color-text') ]."
 		e applyStyle ]
 ]

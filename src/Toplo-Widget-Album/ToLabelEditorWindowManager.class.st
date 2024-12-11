@@ -1,6 +1,9 @@
 Class {
 	#name : #ToLabelEditorWindowManager,
 	#superclass : #ToAnchoredWindowManager,
+	#instVars : [
+		'editor'
+	],
 	#category : #'Toplo-Widget-Album-Label'
 }
 
@@ -14,16 +17,38 @@ ToLabelEditorWindowManager >> defaultPositionHook [
 		   @ (theLabel valueOfTokenNamed: #'padding-content-VS')) ]
 ]
 
-{ #category : #initialization }
-ToLabelEditorWindowManager >> initialize [
+{ #category : #accessing }
+ToLabelEditorWindowManager >> editor [
 
-	super initialize.
-	self windowBuilder: [ :window :request |
-		| ed label |
-		label := request currentTarget.
-		ed := label newEditor.
-		window root addChild: ed.
-		ed text: label text copy ]
+	^ editor
+]
+
+{ #category : #'window handling' }
+ToLabelEditorWindowManager >> onClosed [
+
+	super onClosed.
+	element onEditorClosed.
+	editor := nil
+]
+
+{ #category : #'window handling' }
+ToLabelEditorWindowManager >> onOpened [
+
+	super onOpened.
+	editor := element newEditor.
+	editor text: element text copy.
+	editor withSaveCapability.
+	editor addEventHandlerOn: ToAlbumEditingFrontEvent do: [ :event |
+		element dispatchEvent: event.
+		self closeWindow ].
+	element dispatchEvent: (ToLabelEditorCreatedEvent new editorElement: editor; yourself).
+	currentWindow root addChild: editor.
+	element onEditorOpened.
+	element enqueueTask: (BlTaskAction new action: [
+			 editor requestFocus.
+			 editor selecter
+				 all;
+				 apply ])
 ]
 
 { #category : #accessing }

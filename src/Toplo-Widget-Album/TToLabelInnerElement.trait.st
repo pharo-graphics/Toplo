@@ -3,14 +3,8 @@ Trait {
 	#category : #'Toplo-Widget-Album-Label'
 }
 
-{ #category : #'t - label inner element' }
-TToLabelInnerElement >> editorShortcutsIn: aLabel [
-
-	^ self explicitRequirement 
-]
-
-{ #category : #'t - label inner element' }
-TToLabelInnerElement >> newEditorIn: aLabel [
+{ #category : #accessing }
+TToLabelInnerElement >> newEditor [
 
 	^ self explicitRequirement 
 ]

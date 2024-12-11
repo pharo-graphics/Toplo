@@ -7,7 +7,7 @@ Class {
 { #category : #accessing }
 ToLabelEditorWindow >> closedEventClass [ 
 
-	^ ToLabelEditorClosedEvent 
+	^ ToLabelEditorWindowClosedEvent 
 ]
 
 { #category : #accessing }
@@ -42,5 +42,5 @@ ToLabelEditorWindow >> onPositionChangedToFitAnchorRootDo: aBlock [
 { #category : #accessing }
 ToLabelEditorWindow >> openedEventClass [ 
 
-	^ ToLabelEditorOpenedEvent 
+	^ ToLabelEditorOpenedWindowEvent 
 ]

@@ -32,7 +32,7 @@ ToListClassNodeExamplePart >> forClassNameAssoc: aClassNameAssoc [
 				 on: ToStartStillPressedEvent
 				 do: [ :event |
 					 event consume.
-					 event currentTarget label addEditorEvent: event ]);
+					 event currentTarget label popupEditorEvent: event ]);
 		addEventHandler: (BlEventHandler
 				 on: ToLabelTextReplacedEvent
 				 do: [ self holder data value: label text asString ]).

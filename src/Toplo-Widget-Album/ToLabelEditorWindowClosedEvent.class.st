@@ -1,5 +1,5 @@
 Class {
-	#name : #ToLabelEditorClosedEvent,
+	#name : #ToLabelEditorWindowClosedEvent,
 	#superclass : #ToClosedEvent,
 	#instVars : [
 		'text'
@@ -8,13 +8,13 @@ Class {
 }
 
 { #category : #accessing }
-ToLabelEditorClosedEvent >> text [
+ToLabelEditorWindowClosedEvent >> text [
 
 	^ text
 ]
 
 { #category : #accessing }
-ToLabelEditorClosedEvent >> text: aText [
+ToLabelEditorWindowClosedEvent >> text: aText [
 
 	text := aText
 ]

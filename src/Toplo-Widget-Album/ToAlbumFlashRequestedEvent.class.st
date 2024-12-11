@@ -1,5 +1,5 @@
 Class {
 	#name : #ToAlbumFlashRequestedEvent,
-	#superclass : #ToAlbumClientEvent,
+	#superclass : #BlEvent,
 	#category : #'Toplo-Widget-Album-TextPane'
 }

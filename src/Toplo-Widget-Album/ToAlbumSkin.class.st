@@ -76,13 +76,14 @@ ToAlbumSkin >> installSkinEvent: anEvent [
 					fontSize: 24;
 					foreground: Color gray lighter ]
 			ifFalse: [
-				(e hasStamp: #'sh-styled') 
-				ifTrue: [e styleTable: (e valueOfTokenNamed: #'sh-style-table') ]
-				ifFalse: [
-					e text
-						defaultFontSize: (e valueOfTokenNamed: #'font-size');
-						lineSpacing: (e valueOfTokenNamed: #'line-height');
-						foreground: (e valueOfTokenNamed: #'color-text') ] ].
+				(e hasStamp: #'sh-styled')
+					ifTrue: [ e styleTable: (e valueOfTokenNamed: #'sh-style-table') ]
+					ifFalse: [
+						(e hasStamp: #preformatted) ifFalse: [
+							e text
+								defaultFontSize: (e valueOfTokenNamed: #'font-size');
+								lineSpacing: (e valueOfTokenNamed: #'line-height');
+								foreground: (e valueOfTokenNamed: #'color-text') ] ] ].
 
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:
 				 (e valueOfTokenNamed: 'border-radius')).

@@ -24,7 +24,7 @@ ToAttributedLabel >> frozen: aBoolean [
 ToAttributedLabel >> initialize [ 
 
 	super initialize.
-	self defaultSkin: ToNullSkin new
+	self withNullSkin 
 ]
 
 { #category : #testing }

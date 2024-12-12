@@ -398,7 +398,7 @@ ToSandBox class >> example_BasicListWithAllClasses3 [
 	l dataAccessor addAll: Smalltalk globals allClasses.
 	l selecter selectIndexes: #(10 12 3).
 
-	l innerElement requestFocus.
+	l requestFocus.
 	l openInInnerWindow
 ]
 

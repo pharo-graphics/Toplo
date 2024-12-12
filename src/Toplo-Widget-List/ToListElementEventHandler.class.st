@@ -277,10 +277,13 @@ ToListElementEventHandler >> otherClickEvent: anEvent [
 
 { #category : #'event handling' }
 ToListElementEventHandler >> primaryClickEvent: anEvent [
+	"Request the focus only if a node is not focused after it received the click event
+	This can be the case if nodes include a textr field as an example "
 
 	self
 		withTargetNodeFromEvent: anEvent
 		do: [ :node | node hasFocus ifTrue: [ ^ self ] ].
+	"no focused node, then I take the focus"
 	target requestFocus
 ]
 

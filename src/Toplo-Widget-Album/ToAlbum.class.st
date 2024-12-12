@@ -80,10 +80,10 @@ ToAlbum >> flash [
 	self dispatchEvent: ToAlbumFlashRequestedEvent new
 ]
 
-{ #category : #'private - accessing' }
-ToAlbum >> focused: aBoolean [
+{ #category : #'focus requesting' }
+ToAlbum >> focusHolder [
 
-	self infinite focused: aBoolean
+	^ self infinite focusHolder
 ]
 
 { #category : #initialization }

@@ -815,15 +815,13 @@ ToSandBox class >> example_CodeEditor [
 	album whenSaveRequestedDo: [ :saveRequested |
 		saveRequested accepted: true ].
 	album whenCancelRequestedDo: [ :cancelRequested |
-		cancelRequested client text: text copy ].
+		cancelRequested editorElement text: text copy ].
 
 	menuBuilder := [ :menu :request |
-	               | element |
-	               element := album.
 	               menu addItem: (ToMenuItem new
 			                labelText: 'Select all';
 			                whenClickedDo: [ :event |
-				                element selecter
+				                album selecter
 					                all;
 					                apply ];
 			                yourself).
@@ -833,28 +831,39 @@ ToSandBox class >> example_CodeEditor [
 				                m addItem: (ToMenuItem new
 							                 labelText: 'Copy';
 							                 whenClickedDo: [ :event |
-								                 element editor copySelected ];
+								                 album editor copySelected ];
 							                 yourself).
+				                album hasSelection ifFalse: [
+					                m disableItem: m items last ].
 				                m addItem: (ToMenuItem new
 						                 labelText: 'Cut';
 						                 whenClickedDo: [ :event |
-							                 element editor cutSelected ];
+							                 album editor cutSelected ];
 						                 yourself).
+				                album hasSelection ifFalse: [
+					                m disableItem: m items last ].
+
 				                m addItem: (ToMenuItem new
 						                 labelText: 'Paste';
-						                 whenClickedDo: [ :event | element editor paste ];
+						                 whenClickedDo: [ :event | album editor paste ];
 						                 yourself).
+				                album editor paster fromClipboard isEmpty ifTrue: [
+					                m disableItem: m items last ].
 				                m addSeparator.
+
 				                m addItem: (ToMenuItem new
 						                 labelText: 'Accept';
-						                 whenClickedDo: [ :event | element requestSave ];
+						                 whenClickedDo: [ :event | album requestSave ];
 						                 yourself).
-				                m addSeparator.
+				                album edited ifFalse: [
+					                m disableItem: m items last ].
+
 				                m addItem: (ToMenuItem new
 						                 labelText: 'Cancel';
-						                 whenClickedDo: [ :event |
-							                 element requestCancel ];
-						                 yourself) ]) ].
+						                 whenClickedDo: [ :event | album requestCancel ];
+						                 yourself).
+				                album edited ifFalse: [
+					                m disableItem: m items last ] ]) ].
 	album contextMenu: menuBuilder.
 
 	fileMenu := ToMenu new labelText: 'Edit'.
@@ -862,7 +871,7 @@ ToSandBox class >> example_CodeEditor [
 	inspectBtn := ToMenuItem new labelText: 'Inspect'.
 	showStatisticsBtn := ToMenuItem new labelText: 'Statistics'.
 	disabox := ToCheckMenuItem new label: (ToLabel text: 'Disable').
-	
+
 	menuBar := ToMenuBar new.
 	menuBar addItem: fileMenu.
 	menuBar addItem: inspectBtn.
@@ -871,7 +880,7 @@ ToSandBox class >> example_CodeEditor [
 
 	pane addChild: menuBar.
 	pane addChild: album.
-	
+
 	inspectBtn whenClickedDo: [ :evt | album space root inspect ].
 	disabox whenClickedDo: [ :evt | album disabled: disabox isChecked ].
 	showStatisticsBtn whenClickedDo: [ :evt |
@@ -6223,7 +6232,7 @@ ToSandBox class >> example_withCheckBox [
 	menu items last icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	menu addItem: (ToMenuItem new labelText: 'Disabled').
 	menu items last icon: (ToImage inner: (self iconNamed: #solidMenu)).
-	menu itemList disabledSelecter selectIndex: menu items last positionInItemContainer.
+	menu disableAtPosition: menu items last positionInItemContainer.
 	
 	menu addSeparator.
 	menu addItem: (ToRadioMenuItem new

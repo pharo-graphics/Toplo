@@ -183,6 +183,12 @@ ToAbstractListElement >> defaultSecondarySelectionMode [
 ]
 
 { #category : #'accessing selecters' }
+ToAbstractListElement >> disableAtPosition: anInteger [
+
+	self disabledSelecter selectIndex: anInteger
+]
+
+{ #category : #'accessing selecters' }
 ToAbstractListElement >> disabledSelecter [ 
 
 	^ self disabledSelectionMode selecter
@@ -198,6 +204,12 @@ ToAbstractListElement >> disabledSelectionMode [
 ToAbstractListElement >> disabledSelectionModel [
 
 	^ self selectionModel disabledSelectionModel
+]
+
+{ #category : #'accessing selecters' }
+ToAbstractListElement >> enableAtPosition: anInteger [
+
+	self disabledSelecter deselectIndex: anInteger
 ]
 
 { #category : #layout }

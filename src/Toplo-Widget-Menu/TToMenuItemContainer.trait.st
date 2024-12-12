@@ -32,6 +32,30 @@ TToMenuItemContainer >> closeAllWindowsForItemsSatisfying: aBlock [
 		(aBlock value: it) ifTrue: [ it menuWindowDo: [ :w | w close ] ] ]
 ]
 
+{ #category : #'t - menu item container - enable/disable' }
+TToMenuItemContainer >> disableAtPosition: anInteger [
+
+	self itemList disableAtPosition: anInteger
+]
+
+{ #category : #'t - menu item container - enable/disable' }
+TToMenuItemContainer >> disableItem: anItem [
+
+	self disableAtPosition: anItem positionInItemContainer
+]
+
+{ #category : #'t - menu item container - enable/disable' }
+TToMenuItemContainer >> enableAtPosition: anInteger [
+
+	self itemList enableAtPosition: anInteger
+]
+
+{ #category : #'t - menu item container - enable/disable' }
+TToMenuItemContainer >> enableItem: anItem [
+
+	self enableAtPosition: anItem positionInItemContainer
+]
+
 { #category : #'t - menu item container - testing' }
 TToMenuItemContainer >> hasItems [ 
 

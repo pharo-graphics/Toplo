@@ -161,7 +161,8 @@ ToAlbum >> primarySelectionElementClass [
 { #category : #'transaction hook' }
 ToAlbum >> requestCancel [
 
-	self dispatchEvent: (ToAlbumCancelRequestedEvent new client: self)
+	self dispatchEvent:
+		(ToAlbumCancelRequestedEvent new editorElement: self)
 ]
 
 { #category : #'transaction hook' }

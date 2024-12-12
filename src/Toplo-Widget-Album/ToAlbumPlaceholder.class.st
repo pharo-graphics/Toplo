@@ -8,5 +8,6 @@ Class {
 ToAlbumPlaceholder >> initialize [
 
 	super initialize.
-	self layout alignCenter
+	self layout alignCenter.
+	self focusability: BlFocusability none
 ]

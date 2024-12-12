@@ -144,6 +144,7 @@ ToLabel >> initialize [
 	super initialize.
 	self applySkinInstallerOnFirstRequest: true.
 	self fitContent.
+	self focusability: BlFocusability none.
 
 	self initializeInnerElement.
 	self text: self defaultText.
@@ -324,7 +325,8 @@ ToLabel >> popupEditorEvent: anEvent [
 	" prepare the window with the editor and open it"
 
 	self hasEditor ifTrue: [ ^ self ].
-	(editorWindowManager newWindowEvent: anEvent) popupEvent: anEvent
+	(editorWindowManager newWindowEvent: anEvent) ifNotNil: [ :win |
+		win popupEvent: anEvent ]
 ]
 
 { #category : #'private-change' }

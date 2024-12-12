@@ -97,7 +97,9 @@ ToAlbum >> initialize [
 	self next primarySelectionElementClass: self primarySelectionElementClass.
 	self addChild: self next.
 	self matchParent.
-	self addEventHandler: self defaultEventHandler.
+	self addEventHandler: (self defaultEventHandler
+	target: self;
+	yourself).
 	sharedDistributor := BlSharedEventDistributor new.
 	sharedDistributor
 		adjustMousePosition: false;
@@ -116,12 +118,6 @@ ToAlbum >> initialize [
 	self infinite addEventHandler: sharedDistributor.
 	" for the styler "
 	self editor addEventHandler: sharedDistributor
-]
-
-{ #category : #'private - accessing' }
-ToAlbum >> isFocused [
-
-	^ self infinite isFocused
 ]
 
 { #category : #'t - element with placeholder' }
@@ -166,12 +162,6 @@ ToAlbum >> primarySelectionElementClass [
 ToAlbum >> requestCancel [
 
 	self dispatchEvent: (ToAlbumCancelRequestedEvent new client: self)
-]
-
-{ #category : #'focus requesting' }
-ToAlbum >> requestFocus [
-
-	self infinite requestFocus
 ]
 
 { #category : #'transaction hook' }

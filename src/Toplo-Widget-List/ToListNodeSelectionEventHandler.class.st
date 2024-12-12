@@ -14,7 +14,7 @@ ToListNodeSelectionEventHandler >> clickEvent: anEvent [
 	mode := listElement primarySelectionMode.
 	mode selectOnMouseDown ifTrue: [ ^ self ].
 	self notifyClickOnNodeFromEvent: anEvent.
-	anEvent consume
+	"anEvent consume"
 ]
 
 { #category : #'mouse handlers' }
@@ -68,6 +68,7 @@ ToListNodeSelectionEventHandler >> notifyClickOnNodeFromEvent: anEvent [
 	req := ToListClickOnNodeRequestEvent new
 		       requestedAction: [
 			       node dispatchEvent: (ToListClickOnNodeEvent new
+						        timestamp: node space time now;
 						        sourceEvent: anEvent;
 						        yourself) ];
 		       yourself.

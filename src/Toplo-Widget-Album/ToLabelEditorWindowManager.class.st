@@ -45,7 +45,7 @@ ToLabelEditorWindowManager >> onOpened [
 	currentWindow root addChild: editor.
 	element onEditorOpened.
 	element enqueueTask: (BlTaskAction new action: [
-			 editor requestFocus.
+			 editor infinite requestFocus.
 			 editor selecter
 				 all;
 				 apply ])

@@ -241,7 +241,7 @@ ToAbstractListElement >> initialize [
 
 	self layout: self defaultLayout.
 
-	self addEventHandler: self defaultEventHandler.
+	self addEventHandler: (self defaultEventHandler target: self; yourself).
 	self primarySelectionMode: self defaultPrimarySelectionMode.
 	self secondarySelectionMode: self defaultSecondarySelectionMode.
 	self contextMenuSelectionMode: self defaultContextMenuSelectionMode.

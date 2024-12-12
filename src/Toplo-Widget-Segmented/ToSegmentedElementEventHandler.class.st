@@ -7,14 +7,14 @@ Class {
 { #category : #'event handling' }
 ToSegmentedElementEventHandler >> checkableGroupChangedEvent: anEvent [
 
-	| target checkList uncheckedList |
-	target := anEvent currentTarget.
+	| currTarget checkList uncheckedList |
+	currTarget := anEvent currentTarget.
 	checkList := anEvent checkedList.
 	uncheckedList := anEvent uncheckedList.
-	target dataAccessor withIndexDo: [ :e :idx |
+	currTarget dataAccessor withIndexDo: [ :e :idx |
 		e isChecked
-			ifTrue: [ target selecter selectIndex: idx ]
-			ifFalse: [ target selecter deselectIndex: idx ] ].
+			ifTrue: [ currTarget selecter selectIndex: idx ]
+			ifFalse: [ currTarget selecter deselectIndex: idx ] ].
 
 ]
 

@@ -260,7 +260,7 @@ ToAnchoredWindowManager >> newWindowEvent: anEvent [
 	self windowBuilder ifNil: [
 		^ Error signal: 'A window builder is required for building a window' ].
 
-	self element isEnabled ifFalse: [ ^ self ].
+	self element isEnabled ifFalse: [ ^ nil ].
 
 	request := self newWindowRequestFrom: anEvent.
 

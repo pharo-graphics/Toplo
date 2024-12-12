@@ -57,10 +57,12 @@ ToPane >> dividers [
 ]
 
 { #category : #skin }
-ToPane >> installRawStyle [ 
+ToPane >> installRawStyle [
 
 	super installRawStyle.
-	self background: (self valueOfTokenNamed: #'background-color')
+	self background: (self valueOfTokenNamed: #'background-color').
+	self geometry: (BlRoundedRectangleGeometry cornerRadius:
+			 (self valueOfTokenNamed: #'border-radius'))
 ]
 
 { #category : #'t - orientable - accessing' }

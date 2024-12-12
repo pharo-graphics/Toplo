@@ -86,7 +86,7 @@ ToAlbumSkin >> installSkinEvent: anEvent [
 								foreground: (e valueOfTokenNamed: #'color-text') ] ] ].
 
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:
-				 (e valueOfTokenNamed: 'border-radius')).
+				 (e valueOfTokenNamed: #'border-radius')).
 		e margin: BlInsets empty.
 		e outskirts: BlOutskirts inside.
 		e padding: (BlInsets

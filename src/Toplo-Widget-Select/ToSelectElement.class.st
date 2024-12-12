@@ -216,13 +216,13 @@ ToSelectElement >> onOpened [
 { #category : #window }
 ToSelectElement >> onPopupWindowClosed [
 
-	self filterTextField requestFocus
+	self filterTextField infinite requestFocus
 ]
 
 { #category : #window }
 ToSelectElement >> onPopupWindowOpened [
 
-	self filterTextField requestFocus
+	self filterTextField infinite requestFocus
 ]
 
 { #category : #'accessing - selection' }

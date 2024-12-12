@@ -36,10 +36,10 @@ ToListNodeMultiSelectionClickEventHandler >> launchClick: aBlock event: anEvent 
 	listElement := node holder listElement.
 	mode := listElement primarySelectionMode.
 	dblClickDelay := listElement selectionMode doubleClickTimeout.
+
 	(listElement isFocused not and: [
 		 listElement primarySelectionMode requestFocusOnMouseDown ])
 		ifTrue: [
-			listElement requestFocus.
 			mode preserveSelectionOnFocused ifTrue: [
 				self terminateClickLauncherOnNode: node.
 				^ self ] ].
@@ -71,7 +71,7 @@ ToListNodeMultiSelectionClickEventHandler >> listClickOnNodeEvent: anEvent [
 
 	super listClickOnNodeEvent: anEvent.
 	self launchClick: [ self onClickOnNodeEvent: anEvent ] event: anEvent.
-	anEvent consume
+	"anEvent consume"
 ]
 
 { #category : #'selection events' }

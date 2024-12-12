@@ -61,9 +61,8 @@ ToMultiSelectionModelSelecterTest >> testDispatchSelectionChanged [
 	element addEventHandler: (BlEventHandler
 			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :event | selChangedEvent := event ]).
-	
-		selecter selectionModel deselectAll.
-	selecter selectionModel selectedIndexes traceCr.
+
+	selecter selectionModel deselectAll.
 	selecter selectIndexes: { 2. 6. 9 }.
 	self waitTestingSpaces.
 	self assert: selChangedEvent notNil.

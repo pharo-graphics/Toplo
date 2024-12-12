@@ -5145,8 +5145,7 @@ ToSandBox class >> example_textFieldWithCRAction [
 ToSandBox class >> example_textFieldWithLineWrapping [
 
 	| t |
-	t := ToTextField new
-		     withLineWrapping.
+	t := ToTextField new withLineWrapping.
 	t openInSpace
 ]
 
@@ -5227,8 +5226,7 @@ ToSandBox class >> example_textFieldWithoutLineWrapping [
 
 	| t |
 	t := ToTextField new
-		     withoutLineWrapping;
-		     withSaveCapability.
+		     withoutLineWrapping.
 	t openInSpace
 ]
 
@@ -5240,6 +5238,34 @@ ToSandBox class >> example_textFields [
 	pane matchParent.
 	10 timesRepeat: [ pane addChild: (ToTextField new text: (String loremIpsum: 50) ) ].
 	10 timesRepeat: [ pane addChild: (ToTextField new) ].
+	pane openInSpace
+]
+
+{ #category : #'text field' }
+ToSandBox class >> example_textFieldsInListElement [
+
+	| pane l |
+	pane := ToPane vertical.
+	pane matchParent.
+	l := ToListElement new.
+	l nodeBuilder: [ :node :string :holder |
+		| txtf |
+		txtf := ToTextField new
+			        text: string;
+			        yourself.
+		node addChild: txtf.
+		txtf withSaveCapability.
+		txtf
+			addEventHandlerOn: ToAlbumSaveRequestedEvent
+			do: [ :event | event accepted: event editorElement text isNotEmpty ].
+		txtf addEventHandlerOn: ToAlbumSaveAcceptedEvent do: [ :event |
+			l dataAccessor
+				at: holder position
+				put: event editorElement text asString ] ].
+	l dataAccessor addAll: (String loremIpsum: 20000) substrings.
+	l matchParent.
+	l withRowNumbers.
+	pane addChild: l.
 	pane openInSpace
 ]
 
@@ -5679,7 +5705,6 @@ ToSandBox class >> example_toImageWithSVG6 [
 ToSandBox class >> example_toKeepTooltipWindowOnMouseLeave [
 
 	| but |
-	self flag: 'not working as expected'.
 	but := ToButton new.
 	but closeTooltipOnMouseLeave: false.
 	but labelText: 'Button with tooltip with selectable text'.
@@ -5693,15 +5718,16 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeave [
 { #category : #tooltip }
 ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 
-	| but text |
+	| but text origString |
 	but := ToButton new.
 	but labelText: 'Button with editable tooltip'.
 	but closeTooltipOnMouseLeave: false.
 
-	text := 'Edit <Mouse still pressed> - Accept <Return>' asRopedText.
+	origString := 'Edit <Mouse still pressed> - Accept <Return>'.
+	text := origString asRopedText.
 
 	but tooltipBuilder: [ :window :request |
-		| editedLabel |
+		| editedLabel resetBtn |
 		editedLabel := ToLabel text: text.
 		editedLabel addEventHandler: (ToStillPressedEventHandler new
 				 startDelay: 800 milliSeconds;
@@ -5720,8 +5746,15 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 			do: [ window preventPickOutsideClosing ];
 			addEventHandlerOn: ToLabelEditorWindowClosedEvent
 			do: [ :event | window allowPickOutsideClosing ].
-
-		window root addChild: editedLabel ].
+		resetBtn := ToButton new
+			            labelText: 'Reset';
+			            whenClickedDo: [
+				            text := origString asRopedText.
+				            editedLabel text: text ];
+			            yourself.
+		editedLabel margin: (BlInsets vertical: 5).
+		window root addChild: editedLabel.
+		window root addChild: resetBtn ].
 
 	but whenClickedDo: [ :ann | self inform: 'Button clicked' ].
 	but openInSpace

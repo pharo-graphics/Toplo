@@ -377,6 +377,8 @@ ToListElementStresser >> newSelectionBoardOn: aListElement [
 			| nb |
 			nb := aListElement selectionModel underlyingModel intervals size.
 			lab text: (self selectionResultsTextOn: aListElement) ].
+	pane layout cellSpacing: 5.
+	pane childrenDo: [ :child | child constraintsDo: [ :c | c linear vertical alignCenter ] ].
 	^ pane
 ]
 

@@ -4,6 +4,7 @@ Class {
 	#traits : 'TToListElementEventHandler',
 	#classTraits : 'TToListElementEventHandler classTrait',
 	#instVars : [
+		'target',
 		'selectionRefreshTask'
 	],
 	#category : #'Toplo-Widget-List-Core'
@@ -181,10 +182,10 @@ ToListElementEventHandler >> layoutResizerChangedEvent: anEvent [
 { #category : #'infinite event handling' }
 ToListElementEventHandler >> listDataSourceItemsAddedEvent: anEvent [
 
-	| target |
+	| currTarget |
 
-	target := anEvent currentTarget.
-	target selecter
+	currTarget := anEvent currentTarget.
+	currTarget selecter
 		shiftSelection: anEvent itemCount
 		from: anEvent position
 ]
@@ -192,27 +193,27 @@ ToListElementEventHandler >> listDataSourceItemsAddedEvent: anEvent [
 { #category : #'infinite event handling' }
 ToListElementEventHandler >> listDataSourceItemsRemovedEvent: anEvent [
 
-	| target |
-	target := anEvent currentTarget.
+	| currTarget |
+	currTarget := anEvent currentTarget.
 	" update the secondary selection because it can be on the removed nodes "
-	target secondarySelecter
+	currTarget secondarySelecter
 		deselectIndex: anEvent position
 		to: anEvent position + anEvent itemCount - 1.
 	"Have to update directly the selection model here (not from the selecter).
 	If done by the selecter, the model update is postponed, the consequence
 	can be that the skin can be updated whereas the selection model 
 	is not up-to-date leading to a baddly SelectedSkinEvent sent"
-	target selectionModel withAllSubModelsDo: [ :sm |
+	currTarget selectionModel withAllSubModelsDo: [ :sm |
 		sm
 			deselectIndex: anEvent position
 			to: anEvent position + anEvent itemCount - 1 ].
 	" since the delection model as been updated, one have to force the renewal 
 	of selection elements "
-	target selecter
+	currTarget selecter
 		shiftSelection: anEvent itemCount negated
 		from: anEvent position.
 
-	target updateAllSelections
+	currTarget updateAllSelections
 ]
 
 { #category : #'infinite event handling' }
@@ -259,14 +260,14 @@ ToListElementEventHandler >> middleClickEvent: anEvent [
 { #category : #'mouse handlers' }
 ToListElementEventHandler >> mouseDownEvent: anEvent [
 
-	| target |
-	target := anEvent currentTarget.
-	target stopScroll.
+	| currTarget |
+	currTarget := anEvent currentTarget.
+	currTarget stopScroll.
 	self withTargetNodeFromEvent: anEvent do: [ :node |
 		node dispatchEvent: anEvent copy.
 		anEvent consume ].
-	(target isFocusable not or: [ target isFocused ]) ifTrue: [ ^ self ].
-	target requestFocus.
+	(currTarget isFocusable not or: [ currTarget isFocused ]) ifTrue: [ ^ self ].
+	currTarget requestFocus.
 	anEvent consume
 ]
 
@@ -277,22 +278,21 @@ ToListElementEventHandler >> otherClickEvent: anEvent [
 { #category : #'event handling' }
 ToListElementEventHandler >> primaryClickEvent: anEvent [
 
-	| target |
-	target := anEvent currentTarget.
 	self
 		withTargetNodeFromEvent: anEvent
-		do: [ :node | node dispatchEvent: anEvent copy ]
+		do: [ :node | node hasFocus ifTrue: [ ^ self ] ].
+	target requestFocus
 ]
 
 { #category : #'selection managing' }
 ToListElementEventHandler >> refreshSelectionFromEvent: anEvent [
 
-	| target |
-	target := anEvent currentTarget.
+	| currTarget |
+	currTarget := anEvent currentTarget.
 	selectionRefreshTask ifNotNil: [ ^ self ].
 	selectionRefreshTask := BlTaskAction new.
-	selectionRefreshTask action: [ self refreshSelectionIn: target ].
-	target enqueueTask: selectionRefreshTask
+	selectionRefreshTask action: [ self refreshSelectionIn: currTarget ].
+	currTarget enqueueTask: selectionRefreshTask
 ]
 
 { #category : #'selection managing' }
@@ -326,4 +326,16 @@ ToListElementEventHandler >> syncNodesSelectionIn: aListElement [
 	| option |
 	option := aListElement selectionOption.
 	option notifyNodesSelectedIn: aListElement
+]
+
+{ #category : #accessing }
+ToListElementEventHandler >> target [
+
+	^ target
+]
+
+{ #category : #accessing }
+ToListElementEventHandler >> target: aListElement [
+
+	target := aListElement
 ]

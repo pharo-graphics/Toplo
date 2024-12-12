@@ -26,7 +26,6 @@ ToWindowElementLayout >> layout: aParentNode [
 	super layout: aParentNode.
 	aParentNode constraints position: 0@0.
 	"self measuredBounds position: 0@0."
-	'layout: ' trace. aParentNode position trace. ' ' trace. aParentNode extent traceCr.
 ]
 
 { #category : #layout }

@@ -227,7 +227,7 @@ ToTheme class >> defaultTokenProperties [
 
 		  (ToTokenProperty name: #'margin-XS' value: 8).
 
-		  (ToTokenProperty name: #'padding-content-H' value: 6).
+		  (ToTokenProperty name: #'padding-content-H' value: 12).
 		  (ToTokenProperty name: #'padding-content-HS' value: 4).
 		  (ToTokenProperty name: #'padding-content-HXS' value: 2).
 		  (ToTokenProperty name: #'padding-content-V' value: 6).

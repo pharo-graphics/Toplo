@@ -86,6 +86,12 @@ ToMenuItemElement >> isOpened [
 	
 ]
 
+{ #category : #testing }
+ToMenuItemElement >> isRootMenuItem [ 
+
+	^ parentItemContainer isNil  or: [ parentItemContainer isMenuBar ]
+]
+
 { #category : #'t - menu window model' }
 ToMenuItemElement >> isTopMenu [
 

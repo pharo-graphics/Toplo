@@ -30,19 +30,18 @@ TToElementWithPlaceholderTest >> testHidePlaceholder [
 ]
 
 { #category : #tests }
-TToElementWithPlaceholderTest >> testIsShowingPlaceholder [
+TToElementWithPlaceholderTest >> testIsPlaceholderVisible [
 
 	| e |
 	e := ToElementWithPlaceholderForTest new size: 100 asPoint.
 	e rawPlaceholderBuilder: [ :thePlaceholder :theElement |
 		thePlaceholder addChild: (BlElement new id: #child) ].
-	self deny: e isShowingPlaceholder.
-	
-	e isShowingPlaceholder: true.
-	self assert: e isShowingPlaceholder.
-	
-	e isShowingPlaceholder: false.
-	self deny: e isShowingPlaceholder.
+	self deny: e isPlaceholderVisible.
+	e showPlaceholder.
+	self assert: e isPlaceholderVisible.
+	e hidePlaceholder.
+	self deny: e isPlaceholderVisible.
+
 ]
 
 { #category : #tests }

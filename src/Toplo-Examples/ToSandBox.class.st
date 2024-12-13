@@ -200,10 +200,7 @@ ToSandBox class >> barWithData: aCollection [
 			menu addItem: (ToMenuItem new
 					 labelText: 'Unable/disable';
 					 whenClickedDo: [
-						 idxes do: [ :idx |
-								 (bar nodes at: idx) isDisabled
-									 ifTrue: [ bar disabledSelecter deselectIndex: idx ]
-									 ifFalse: [ bar disabledSelecter selectIndex: idx ] ] ]).
+						 idxes do: [ :idx | bar disabledSelecter switchIndexSelection: idx ] ]).
 			menu addItem: (ToMenuItem new
 					 labelText: 'Unselectable';
 					 whenClickedDo: [
@@ -247,7 +244,7 @@ ToSandBox class >> barWithData: aCollection [
 ToSandBox class >> buildSelectListElementIn: aSelectElement withIconProvider: anIconProviderClass [
 
 	| phtext icProvider styles iconDescs |
-	aSelectElement popupListElement placeholderMinHeight: 35.
+	aSelectElement windowManager minHeight: 35.
 	aSelectElement popupListElement withRowNumbers.
 	phtext := ('No Icon' asRopedText
 		           foreground: Color lightGray;
@@ -935,45 +932,42 @@ ToSandBox class >> example_EditorWithPlaceholder [
 	placeholderText fontSize: 24.
 
 	view := ToAlbum new
-				placeholderBuilder: [:placeholder :e | 		
-					| lab |
-					placeholder preventMeAndChildrenMouseEvents.
-					lab := ToAttributedLabel new text: placeholderText.
-					lab beMultiLine.
-					placeholder addChild: lab ];
+		        placeholderBuilder: [ :placeholder :e |
+			        | lab |
+			        lab := ToAttributedLabel new text: placeholderText.
+			        lab beMultiLine.
+			        placeholder addChild: lab ];
 		        withRowNumbers;
 		        withSaveCapability;
 		        whenSaveRequestedDo: [ :saveRequested |
 			        saveRequested client saveResult: true ];
 		        withEditsFeedback.
-	view openInInnerWindow 
+	view openInInnerWindow
 ]
 
 { #category : #album }
 ToSandBox class >> example_EditorWithPlaceholderWithAlbum [
 
 	| placeholderText view |
-	placeholderText := 'Here is a placeholder text visible only if the editor is empty' asRopedText.
+	placeholderText := ('Here is a placeholder text' , String cr
+	                    , 'visible only if the text' , String cr
+	                    , 'is empty') asRopedText.
 	placeholderText foreground: Color veryLightGray.
 	placeholderText fontSize: 30.
 
 	view := ToAlbum new
-				placeholderBuilder: [:placeholder :e | 		
-					| lab |
-					placeholder layout: BlLinearLayout new.
-					placeholder padding: (BlInsets all: 40).
-					lab := ToAlbum new text: placeholderText.
-					lab background: Color transparent.
-					lab next background: Color transparent.
-					lab border: BlBorder empty.
-					lab beReadonlyWithoutSelection.
-					placeholder addChild: lab ];
+		        placeholderBuilder: [ :placeholder :e |
+			        | lab |
+			        lab := ToAlbum new text: placeholderText.
+			        lab beReadonlyWithSelection.
+			        lab addStamp: #preformatted.
+			        placeholder addChild: lab ];
 		        withRowNumbers;
 		        withSaveCapability;
 		        whenSaveRequestedDo: [ :saveRequested |
 			        saveRequested client saveResult: true ];
 		        withEditsFeedback.
-	view openInInnerWindow 
+	view openInInnerWindow
 ]
 
 { #category : #album }
@@ -1981,7 +1975,7 @@ ToSandBox class >> example_SelectMonoFiltrable [
 		do: [ :event | event selectedIndexes traceCr ].
 
 
-	select popupListElement placeholderMinHeight: 35.
+	select windowManager minHeight: 35.
 	phtext := ('No Data' asRopedText
 		           foreground: Color lightGray;
 		           yourself)
@@ -2327,7 +2321,7 @@ ToSandBox class >> example_SelectMultiNotFiltrableWithGroups [
 	| select innerWindow phtext |
 	select := ToMultiSelectElement new.
 	select withGroups: true.
-	select popupListElement placeholderMinHeight: 35.
+	select windowManager minHeight: 35.
 	phtext := ('No Data' asRopedText
 		           foreground: Color lightGray;
 		           yourself)
@@ -6893,7 +6887,7 @@ ToSandBox class >> selectWithEditingMultiSelection [
 		          fontSize: 24;
 		          yourself.
 	select popupMaxHeight: 600.
-	select popupListElement placeholderMinHeight: 35.
+	select windowManager minHeight: 35.
 
 	select popupListElement placeholderBuilder: [ :placeholder :e |
 		| lab |

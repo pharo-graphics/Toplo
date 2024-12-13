@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Widget-Tag-Tab'
 }
 
-{ #category : #layout }
+{ #category : #'t - bar element' }
 ToTabBarElement >> haveInvisibleNodes: theInvisibleNodes [
 
 	theInvisibleNodes ifEmpty: [ ^ self ].

@@ -342,8 +342,7 @@ ToInnerBarElement >> onItemsChanged [
 ToInnerBarElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 
 	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
-	self checkFullyVisibleNodes.
-	"self class name trace. ' ' trace. 'onLayout: context:' traceCr"
+	self checkFullyVisibleNodes
 ]
 
 { #category : #'node enumerating' }

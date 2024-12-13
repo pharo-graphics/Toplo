@@ -287,6 +287,12 @@ BlElement >> isEnabled [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> isItemContainer [
+
+	^ false
+]
+
+{ #category : #'*Toplo' }
 BlElement >> isMenu [
 
 	^ false
@@ -300,12 +306,6 @@ BlElement >> isMenuBar [
 
 { #category : #'*Toplo' }
 BlElement >> isMenuItem [
-
-	^ false
-]
-
-{ #category : #'*Toplo' }
-BlElement >> isMenuItemContainer [
 
 	^ false
 ]
@@ -406,7 +406,7 @@ BlElement >> newTextAttributesBuilder [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> onAddedInMenuItemContainer: aMenu [
+BlElement >> onAddedInItemContainer: aMenu [
 
 	aMenu onAddedUnknownItemKind: self
 ]

@@ -2814,8 +2814,8 @@ ToSandBox class >> example_TabBar [
 	tb withCloseButton: true.
 	tb nodeWrapping: false.
 	tb dataAccessor addAll: ((ToSandBox statesOfAmerica collect: [ :s |
-			 ToSingleTagModel new data: s ]) copyFrom: 1 to: 8).
-	tb openInSpace
+			 ToButton new labelText: s ]) copyFrom: 1 to: 8).
+	tb openInSpace 
 ]
 
 { #category : #tag }

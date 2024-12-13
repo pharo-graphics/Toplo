@@ -1,12 +1,9 @@
 Trait {
 	#name : #TToMenuItem,
-	#instVars : [
-		'parentItemContainer'
-	],
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
-{ #category : #accessing }
+{ #category : #'t - menu item' }
 TToMenuItem >> builder: aBlock [
 
 	self
@@ -16,54 +13,22 @@ TToMenuItem >> builder: aBlock [
 	self itemBuilder: aBlock
 ]
 
-{ #category : #testing }
+{ #category : #'t - menu item' }
 TToMenuItem >> isMenuItem [ 
 
 	^ true
 ]
 
-{ #category : #testing }
+{ #category : #'t - menu item' }
 TToMenuItem >> isSubmenu [ 
 
 	^ false
 ]
 
-{ #category : #accessing }
-TToMenuItem >> itemBuilder: aBlock [
-
-	self in: aBlock
-]
-
-{ #category : #'t - menu item' }
-TToMenuItem >> parentItemContainer [
-
-	^ parentItemContainer
-]
-
-{ #category : #'t - menu item' }
-TToMenuItem >> parentItemContainer: anItemContainer [
-
-	parentItemContainer := anItemContainer
-]
-
-{ #category : #'t - menu item' }
-TToMenuItem >> parentItemContainerDo: aBlock [
-
-	parentItemContainer ifNil: [ ^ self ].
-	aBlock value: parentItemContainer
-]
-
 { #category : #'t - menu item' }
 TToMenuItem >> parentMenuDo: aBlock [
 
-	parentItemContainer ifNil: [ ^ self ].
-	parentItemContainer isMenuBar ifTrue: [ ^ self ].
-	aBlock value: parentItemContainer
-]
-
-{ #category : #'t - menu item' }
-TToMenuItem >> positionInItemContainer [
-
-	self parentItemContainerDo: [ :pm | ^ pm items indexOf: self ].
-	^ 0
+	self parentItemContainer ifNil: [ ^ self ].
+	self parentItemContainer isMenuBar ifTrue: [ ^ self ].
+	aBlock value: self parentItemContainer
 ]

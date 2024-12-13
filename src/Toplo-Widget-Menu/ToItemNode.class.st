@@ -1,11 +1,11 @@
 Class {
-	#name : #ToMenuNode,
+	#name : #ToItemNode,
 	#superclass : #ToBarNode,
 	#category : #'Toplo-Widget-Menu-Item-List'
 }
 
 { #category : #'t - bar node' }
-ToMenuNode >> autoDistribute: aBoolean [
+ToItemNode >> autoDistribute: aBoolean [
 
 	super autoDistribute: aBoolean.
 	aBoolean ifTrue: [
@@ -14,14 +14,14 @@ ToMenuNode >> autoDistribute: aBoolean [
 			c vertical matchParent ] ]
 ]
 
-{ #category : #'t - bar node' }
-ToMenuNode >> item [
+{ #category : #'as yet unclassified' }
+ToItemNode >> item [
 
 	^ self firstChild
 ]
 
-{ #category : #'t - bar node' }
-ToMenuNode >> item: aMenuItem [
+{ #category : #'as yet unclassified' }
+ToItemNode >> item: aMenuItem [
 
 	aMenuItem ifNil: [ ^ self ].
 	aMenuItem parent = self ifTrue: [ ^ self ].
@@ -30,7 +30,7 @@ ToMenuNode >> item: aMenuItem [
 ]
 
 { #category : #skin }
-ToMenuNode >> newRawSkin [ 
+ToItemNode >> newRawSkin [ 
 
-	^ ToMenuNodeSkin new
+	^ ToItemNodeSkin new
 ]

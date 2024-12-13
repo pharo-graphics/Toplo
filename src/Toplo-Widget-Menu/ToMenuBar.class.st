@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMenuBar,
 	#superclass : #ToElement,
-	#traits : 'TToMenuItem + TToMenuItemContainer + TToOrientable',
-	#classTraits : 'TToMenuItem classTrait + TToMenuItemContainer classTrait + TToOrientable classTrait',
+	#traits : 'TToItem + TToMenuItem + TToItemContainer + TToMenuItemContainer + TToOrientable',
+	#classTraits : 'TToItem classTrait + TToMenuItem classTrait + TToItemContainer classTrait + TToMenuItemContainer classTrait + TToOrientable classTrait',
 	#instVars : [
 		'autoOpen'
 	],
@@ -135,7 +135,7 @@ ToMenuBar >> mouseOverEvent: anEvent [
 
 	" auto-open action "
 	self items do: [ :m |
-		m isMenuItemContainer ifTrue: [ m mouseOverEvent: anEvent ] ]
+		m isItemContainer ifTrue: [ m mouseOverEvent: anEvent ] ]
 ]
 
 { #category : #skin }
@@ -151,7 +151,7 @@ ToMenuBar >> nodeWrapping: aBoolean [
 ]
 
 { #category : #'adding-removing' }
-ToMenuBar >> onAddedInMenuItemContainer: aMenuItemContainer [
+ToMenuBar >> onAddedInItemContainer: aMenuItemContainer [
 
 	aMenuItemContainer onAddedMenuBar: self
 ]

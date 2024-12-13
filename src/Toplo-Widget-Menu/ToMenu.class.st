@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMenu,
 	#superclass : #ToMenuItem,
-	#traits : 'TToMenuItemContainer + TToMenuWindowModel',
-	#classTraits : 'TToMenuItemContainer classTrait + TToMenuWindowModel classTrait',
+	#traits : 'TToItemContainer + TToMenuItemContainer + TToMenuWindowModel',
+	#classTraits : 'TToItemContainer classTrait + TToMenuItemContainer classTrait + TToMenuWindowModel classTrait',
 	#instVars : [
 		'isSubmenu'
 	],
@@ -105,7 +105,7 @@ ToMenu >> newRawSkin [
 ]
 
 { #category : #'adding-removing' }
-ToMenu >> onAddedInMenuItemContainer: aMenu [
+ToMenu >> onAddedInItemContainer: aMenu [
 
 	aMenu onAddedMenu: self
 ]

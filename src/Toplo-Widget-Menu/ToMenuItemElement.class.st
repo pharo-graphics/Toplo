@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMenuItemElement,
 	#superclass : #ToElement,
-	#traits : 'TToMenuItem',
-	#classTraits : 'TToMenuItem classTrait',
+	#traits : 'TToItem + TToMenuItem',
+	#classTraits : 'TToItem classTrait + TToMenuItem classTrait',
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
@@ -118,7 +118,7 @@ ToMenuItemElement >> menuWindowDo: aValuable [
 ]
 
 { #category : #'adding-removing' }
-ToMenuItemElement >> onAddedInMenuItemContainer: aMenu [
+ToMenuItemElement >> onAddedInItemContainer: aMenu [
 
 	aMenu onAddedMenuItem: self
 ]

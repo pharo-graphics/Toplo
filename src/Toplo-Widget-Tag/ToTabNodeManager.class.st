@@ -1,19 +1,19 @@
 Class {
-	#name : #ToMenuNodeManager,
+	#name : #ToTabNodeManager,
 	#superclass : #ToAbstractBarNodeManager,
-	#category : #'Toplo-Widget-Menu-Item-List'
+	#category : #'Toplo-Widget-Tag-Tab'
 }
 
 { #category : #initialization }
-ToMenuNodeManager >> buildNode: aNode [
+ToTabNodeManager >> buildNode: aNode [
 
 	| holder |
 	holder := aNode holder.
-	aNode item: holder dataItem
+	aNode tab: holder dataItem
 ]
 
 { #category : #initialization }
-ToMenuNodeManager >> constraintFakeNode: aNode [
+ToTabNodeManager >> constraintFakeNode: aNode [
 
 	| bar |
 	bar := aNode holder listElement.
@@ -25,7 +25,7 @@ ToMenuNodeManager >> constraintFakeNode: aNode [
 ]
 
 { #category : #initialization }
-ToMenuNodeManager >> constraintNode: aNode [
+ToTabNodeManager >> constraintNode: aNode [
 
 	super constraintNode: aNode.
 	aNode hFitContent.
@@ -34,31 +34,29 @@ ToMenuNodeManager >> constraintNode: aNode [
 		c linear vertical alignCenter.
 		c flow vertical alignCenter.
 		c linear horizontal alignCenter.
-		c flow horizontal alignCenter ].
-	aNode holder dataItem constraintMenuNode: aNode.
-
+		c flow horizontal alignCenter ]
 ]
 
 { #category : #initialization }
-ToMenuNodeManager >> defaultFakeDataItem [ 
+ToTabNodeManager >> defaultFakeDataItem [ 
 
-	^ ToMenuItem new
+	^ ToButton new
 ]
 
 { #category : #'instance creation' }
-ToMenuNodeManager >> newHolder [
+ToTabNodeManager >> newHolder [
 
 	^ ToListNodeHolder new
 ]
 
 { #category : #'instance creation' }
-ToMenuNodeManager >> newNodeForHolder: aNodeHolder [
+ToTabNodeManager >> newNodeForHolder: aNodeHolder [
 
-	^ ToMenuNode new
+	^ ToTabNode new
 ]
 
 { #category : #initialization }
-ToMenuNodeManager >> unbuildNode: aNode [
+ToTabNodeManager >> unbuildNode: aNode [
 
-	aNode item removeFromParent
+	aNode tab removeFromParent
 ]

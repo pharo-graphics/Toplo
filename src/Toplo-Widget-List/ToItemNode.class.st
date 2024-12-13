@@ -1,7 +1,7 @@
 Class {
 	#name : #ToItemNode,
 	#superclass : #ToBarNode,
-	#category : #'Toplo-Widget-Menu-Item-List'
+	#category : #'Toplo-Widget-List-ItemList'
 }
 
 { #category : #'t - bar node' }
@@ -14,13 +14,13 @@ ToItemNode >> autoDistribute: aBoolean [
 			c vertical matchParent ] ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToItemNode >> item [
 
 	^ self firstChild
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToItemNode >> item: aMenuItem [
 
 	aMenuItem ifNil: [ ^ self ].

@@ -26,9 +26,21 @@ ToAbstractListNode >> initialize [
 ]
 
 { #category : #testing }
+ToAbstractListNode >> isFirst [
+
+	^ self holder position = 1
+]
+
+{ #category : #testing }
 ToAbstractListNode >> isHorizontal [
 
 	^ self holder listElement isHorizontal
+]
+
+{ #category : #testing }
+ToAbstractListNode >> isLast [
+
+	^ self holder position = self holder dataSource itemCount 
 ]
 
 { #category : #testing }

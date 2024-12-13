@@ -20,9 +20,9 @@ ToMenuItemSkin >> installSkinEvent: anEvent [
 				(pm items anySatisfy: [ :mi | mi isMenu ]) ifTrue: [
 					e isStartToEnd
 						ifTrue: [
-							e endInterspace: (e valueOfTokenNamed: #'button-interspace').
+							e endInterspace: 10.
 							e endFlexible: true ]
 						ifFalse: [
-							e startInterspace: (e valueOfTokenNamed: #'button-interspace').
+							e startInterspace: 10.
 							e startFlexible: true ] ] ] ] ]
 ]

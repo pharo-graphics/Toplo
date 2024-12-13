@@ -1,7 +1,7 @@
 Class {
 	#name : #ToItemNodeManager,
 	#superclass : #ToAbstractBarNodeManager,
-	#category : #'Toplo-Widget-Menu-Item-List'
+	#category : #'Toplo-Widget-List-ItemList'
 }
 
 { #category : #initialization }
@@ -42,7 +42,7 @@ ToItemNodeManager >> constraintNode: aNode [
 { #category : #initialization }
 ToItemNodeManager >> defaultFakeDataItem [ 
 
-	^ ToElement new
+	^ ToItemElement new
 ]
 
 { #category : #'instance creation' }

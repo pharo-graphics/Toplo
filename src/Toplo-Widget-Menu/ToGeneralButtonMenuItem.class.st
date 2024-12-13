@@ -49,12 +49,6 @@ ToGeneralButtonMenuItem >> closeOnMouseEvent [
 ]
 
 { #category : #initialization }
-ToGeneralButtonMenuItem >> defaultLayout [ 
-
-	^ BlLinearLayout horizontal
-]
-
-{ #category : #initialization }
 ToGeneralButtonMenuItem >> initialize [ 
 
 	super initialize.

@@ -56,8 +56,6 @@ ToListElementEventHandler >> doubleClickEvent: anEvent [
 { #category : #'element events handling' }
 ToListElementEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 
-	| target |
-	target := anEvent currentTarget.
 	self showHidePlaceholderIn: target
 ]
 
@@ -164,19 +162,19 @@ ToListElementEventHandler >> infiniteDataSourceItemsFiltered: anEvent [
 { #category : #'element events handling' }
 ToListElementEventHandler >> layoutDirectionChangedEvent: anEvent [
 
-	anEvent currentTarget dispatchMainLayoutDirectionChanged
+	anEvent currentTarget configureLayout
 ]
 
 { #category : #'element events handling' }
 ToListElementEventHandler >> layoutOrientationChangedEvent: anEvent [
 
-	anEvent currentTarget dispatchMainLayoutOrientationChanged 
+	anEvent currentTarget configureLayout
 ]
 
 { #category : #'element events handling' }
 ToListElementEventHandler >> layoutResizerChangedEvent: anEvent [
 
-	anEvent currentTarget dispatchMainResizerChanged 
+	anEvent currentTarget configureLayout
 ]
 
 { #category : #'infinite event handling' }

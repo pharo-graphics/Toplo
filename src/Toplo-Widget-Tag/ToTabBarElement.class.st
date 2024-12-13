@@ -9,19 +9,6 @@ Class {
 	#category : #'Toplo-Widget-Tag-Tab'
 }
 
-{ #category : #'t - bar element' }
-ToTabBarElement >> configureLayout [
-
-	self isHorizontal
-		ifTrue: [ 
-			self hMatchParent.
-			self vFitContent ]
-		ifFalse: [ 
-			self vMatchParent.
-			self hFitContent ].
-	self innerElement configureLayoutIn: self
-]
-
 { #category : #initialization }
 ToTabBarElement >> defaultNodeManagerClass [
 

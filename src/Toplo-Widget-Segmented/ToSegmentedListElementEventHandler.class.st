@@ -1,11 +1,11 @@
 Class {
-	#name : #ToSegmentedElementEventHandler,
-	#superclass : #ToBarElementEventHandler,
+	#name : #ToSegmentedListElementEventHandler,
+	#superclass : #ToListElementEventHandler,
 	#category : #'Toplo-Widget-Segmented-Bar'
 }
 
 { #category : #'event handling' }
-ToSegmentedElementEventHandler >> checkableGroupChangedEvent: anEvent [
+ToSegmentedListElementEventHandler >> checkableGroupChangedEvent: anEvent [
 
 	| currTarget checkList uncheckedList |
 	currTarget := anEvent currentTarget.
@@ -19,7 +19,7 @@ ToSegmentedElementEventHandler >> checkableGroupChangedEvent: anEvent [
 ]
 
 { #category : #'api - accessing' }
-ToSegmentedElementEventHandler >> eventsToHandle [
+ToSegmentedListElementEventHandler >> eventsToHandle [
 
 	^ super eventsToHandle , { ToCheckableGroupChangedEvent }
 ]

@@ -22,12 +22,6 @@ TToBarElement >> configureLayout [
 ]
 
 { #category : #'t - bar element' }
-TToBarElement >> defaultEventHandler [
-
-	^ ToBarElementEventHandler new
-]
-
-{ #category : #'t - bar element' }
 TToBarElement >> defaultInnerElement [
 
 	^ ToInnerBarElement onBarElement: self

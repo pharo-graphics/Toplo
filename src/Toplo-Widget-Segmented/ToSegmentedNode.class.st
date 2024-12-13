@@ -1,7 +1,6 @@
 Class {
 	#name : #ToSegmentedNode,
-	#superclass : #ToBarNode,
-	#classTraits : 'TToCheckable classTrait',
+	#superclass : #ToItemNode,
 	#category : #'Toplo-Widget-Segmented-Node'
 }
 
@@ -18,31 +17,19 @@ ToSegmentedNode >> autoDistribute: aBoolean [
 { #category : #accessing }
 ToSegmentedNode >> checkableElement [ 
 
-	^ self firstChild
+	^ self item
 ]
 
 { #category : #accessing }
 ToSegmentedNode >> checkableElement: aCheckable [
 
-	self addChild: aCheckable
+	self item: aCheckable
 ]
 
 { #category : #'t - list node' }
 ToSegmentedNode >> clickEventHandlerClasses [
 
 	^  {  } 
-]
-
-{ #category : #testing }
-ToSegmentedNode >> isFirst [
-
-	^ self holder position = 1
-]
-
-{ #category : #testing }
-ToSegmentedNode >> isLast [
-
-	^ self holder position = self holder dataSource itemCount 
 ]
 
 { #category : #skin }

@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMenuItemElement,
-	#superclass : #ToElement,
-	#traits : 'TToItem + TToMenuItem',
-	#classTraits : 'TToItem classTrait + TToMenuItem classTrait',
+	#superclass : #ToItemElement,
+	#traits : 'TToMenuItem',
+	#classTraits : 'TToMenuItem classTrait',
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
@@ -54,7 +54,7 @@ ToMenuItemElement >> defaultEventHandlerClass [
 { #category : #initialization }
 ToMenuItemElement >> defaultLayout [
 
-	^ BlLinearLayout horizontal
+	^ BlLinearLayout vertical
 ]
 
 { #category : #testing }

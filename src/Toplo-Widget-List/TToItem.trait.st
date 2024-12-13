@@ -3,7 +3,7 @@ Trait {
 	#instVars : [
 		'parentItemContainer'
 	],
-	#category : #'Toplo-Widget-Menu-Basic'
+	#category : #'Toplo-Widget-List-ItemList'
 }
 
 { #category : #'t - item' }

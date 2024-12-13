@@ -29,7 +29,7 @@ ToMenuItem >> initialize [
 { #category : #'t - orientable - accessing' }
 ToMenuItem >> layoutStrategy [
 
-	^ self button layout
+	^ self layout
 
 	
 ]
@@ -57,7 +57,7 @@ ToMenuItem >> newRightHandSide [
 { #category : #layout }
 ToMenuItem >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 
-	self configureLayout.
+	"self configureLayout."
 	super onLayout: aBounds context: aBlElementBoundsUpdateContext
 ]
 

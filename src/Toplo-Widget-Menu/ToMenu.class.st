@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMenu,
 	#superclass : #ToMenuItem,
-	#traits : 'TToItemContainer + TToMenuItemContainer + TToMenuWindowModel',
-	#classTraits : 'TToItemContainer classTrait + TToMenuItemContainer classTrait + TToMenuWindowModel classTrait',
+	#traits : 'TToItemListHolder + TToMenuItemListHolder + TToMenuWindowModel',
+	#classTraits : 'TToItemListHolder classTrait + TToMenuItemListHolder classTrait + TToMenuWindowModel classTrait',
 	#instVars : [
 		'isSubmenu'
 	],
@@ -47,7 +47,6 @@ ToMenu >> initialize [
 	super initialize.
 	self fitContent.
 	isSubmenu := false.
-
 	self addEventHandler: (ToMenuWindowManager new
 			 windowBuilder: [ :menWin :request |
 				 menWin root addChild: request currentTarget itemList ];
@@ -96,6 +95,12 @@ ToMenu >> mouseOverEvent: anEvent [
 	(anEvent target hasInParentChain: self)
 		ifTrue: [ self menuWindow ifNil: [ self popupEvent: anEvent ] ]
 		ifFalse: [ self closeWindow ]
+]
+
+{ #category : #'t - item list holder - accessing' }
+ToMenu >> newItemList [
+
+	^ ToMenuItemListElement new
 ]
 
 { #category : #accessing }

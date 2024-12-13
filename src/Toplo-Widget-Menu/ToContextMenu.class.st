@@ -1,8 +1,8 @@
 Class {
 	#name : #ToContextMenu,
 	#superclass : #ToMenuWindow,
-	#traits : 'TToItemContainer + TToMenuItemContainer + TToMenuWindowModel',
-	#classTraits : 'TToItemContainer classTrait + TToMenuItemContainer classTrait + TToMenuWindowModel classTrait',
+	#traits : 'TToOrientable + TToItemListHolder + TToMenuItemListHolder + TToMenuWindowModel',
+	#classTraits : 'TToOrientable classTrait + TToItemListHolder classTrait + TToMenuItemListHolder classTrait + TToMenuWindowModel classTrait',
 	#category : #'Toplo-Widget-Menu-Context menu'
 }
 
@@ -77,6 +77,14 @@ ToContextMenu >> itemContainer [
 	^ self 
 ]
 
+{ #category : #'t - orientable - accessing' }
+ToContextMenu >> layoutStrategy [
+
+	^ self layout 
+
+	
+]
+
 { #category : #accessing }
 ToContextMenu >> menuBar [ 
 	" a context menu can't be in a menubar "
@@ -87,6 +95,12 @@ ToContextMenu >> menuBar [
 ToContextMenu >> menuWindow [
 
 	^ super menuWindow
+]
+
+{ #category : #'t - item list holder - accessing' }
+ToContextMenu >> newItemList [
+
+	^ ToMenuItemListElement new
 ]
 
 { #category : #'t - menu window model' }

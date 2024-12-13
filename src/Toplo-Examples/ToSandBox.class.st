@@ -16,8 +16,8 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	menu := ToMenu new.
 	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	menu addItem: (ToMenuItem new
-			 label: (ToLabel text: 'Inspect bar');
-			 whenClickedDo: [ aBar inspect ];
+			 label: (ToLabel text: 'Inspect');
+			 whenClickedDo: [ aBar space root inspect ];
 			 yourself).
 	menu addItem: (ToCheckMenuItem new
 			 label: (ToLabel text: 'Disable bar');
@@ -3723,9 +3723,9 @@ ToSandBox class >> example_menuBar1 [
 	win title: 'Menu bar example'.
 	win width: 600.
 
-	bar := ToMenuBar new
+	bar := ToMenuBar new"
 		       hMatchParent;
-		       vFitContent;
+		       vFitContent;"
 		       yourself.
 
 	bar addItem: (fileMenu := ToMenu new
@@ -6382,6 +6382,7 @@ ToSandBox class >> example_withCustomMenuItems [
 	menu addItem: (ToCustomMenuItem new itemBuilder: [ :e | e addChild: textField ]).
 	menu addSeparator.
 	sub := ToMenu new labelText: 'Save All'.
+
 	sub addItem: (ToMenuItem new labelText: 'Locally').
 	menu addItem: sub.
 

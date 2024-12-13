@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMenuBar,
 	#superclass : #ToElement,
-	#traits : 'TToItem + TToMenuItem + TToItemContainer + TToMenuItemContainer + TToOrientable',
-	#classTraits : 'TToItem classTrait + TToMenuItem classTrait + TToItemContainer classTrait + TToMenuItemContainer classTrait + TToOrientable classTrait',
+	#traits : 'TToItem + TToMenuItem + TToItemListHolder + TToMenuItemListHolder + TToOrientable',
+	#classTraits : 'TToItem classTrait + TToMenuItem classTrait + TToItemListHolder classTrait + TToMenuItemListHolder classTrait + TToOrientable classTrait',
 	#instVars : [
 		'autoOpen'
 	],
@@ -45,21 +45,21 @@ ToMenuBar >> cancelAutoOpen [
 { #category : #'t - menu window model' }
 ToMenuBar >> closeWindow [
 
-	itemList do: [ :it | it isMenuItem ifTrue: [ it closeWindow ] ]
+	self itemList do: [ :it | it isMenuItem ifTrue: [ it closeWindow ] ]
 ]
 
-{ #category : #initialization }
+{ #category : #'t - item list holder - initializing' }
 ToMenuBar >> configureLayout [
 
 	self isHorizontal
-		ifTrue: [ 
-			self itemList horizontal: true.
+		ifTrue: [
 			self hMatchParent.
-			self vFitContent ]
-		ifFalse: [ 
-			self itemList horizontal: false.
+			self vFitContent.
+			self itemList horizontal: true ]
+		ifFalse: [
 			self vMatchParent.
-			self hFitContent ]
+			self hFitContent.
+			self itemList horizontal: false ]
 ]
 
 { #category : #initialization }
@@ -68,7 +68,7 @@ ToMenuBar >> initialize [
 	super initialize.
 
 	autoOpen := false.
-	self layout: BlLinearLayout new.
+	self layout: BlLinearLayout horizontal.
 	self addEventHandler: (BlEventHandler
 			 on: ToLayoutOrientationChangedEvent
 			 do: [ self configureLayout ]).
@@ -138,16 +138,16 @@ ToMenuBar >> mouseOverEvent: anEvent [
 		m isItemContainer ifTrue: [ m mouseOverEvent: anEvent ] ]
 ]
 
+{ #category : #'t - item list holder - accessing' }
+ToMenuBar >> newItemList [
+
+	^ ToMenuItemListElement new
+]
+
 { #category : #skin }
 ToMenuBar >> newRawSkin [
 
 	^ ToMenuBarSkin new
-]
-
-{ #category : #initialization }
-ToMenuBar >> nodeWrapping: aBoolean [
-
-	itemList nodeWrapping: aBoolean
 ]
 
 { #category : #'adding-removing' }
@@ -156,7 +156,7 @@ ToMenuBar >> onAddedInItemContainer: aMenuItemContainer [
 	aMenuItemContainer onAddedMenuBar: self
 ]
 
-{ #category : #'t - menu item container - double dispatch' }
+{ #category : #'t - menu item list holder - double dispatch' }
 ToMenuBar >> onAddedMenu: aMenu [
 
 	aMenu parentItemContainer: self.

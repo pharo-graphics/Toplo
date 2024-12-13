@@ -49,6 +49,10 @@ ToAbstractListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 		self selectionModel copySelectionFrom: sieve selectionModel ]
 ]
 
+{ #category : #'t - bar element' }
+ToAbstractListElement >> configureLayout [
+]
+
 { #category : #'accessing selecters' }
 ToAbstractListElement >> contextMenuSelecter [ 
 

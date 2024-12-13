@@ -3,10 +3,10 @@ Class {
 	#superclass : #ToAbstractListElement,
 	#traits : 'TToBarElement',
 	#classTraits : 'TToBarElement classTrait',
-	#category : #'Toplo-Widget-Menu-Item-List'
+	#category : #'Toplo-Widget-List-ItemList'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 ToItemListElement >> defaultNodeManagerClass [
 
 	^ ToItemNodeManager
@@ -16,11 +16,10 @@ ToItemListElement >> defaultNodeManagerClass [
 ToItemListElement >> initialize [
 
 	super initialize.
-	self primarySelectionMode makeDisabledUnselectable: true.
-	self focusability: BlFocusability none
+	self primarySelectionMode makeDisabledUnselectable: true
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #skin }
 ToItemListElement >> newRawSkin [ 
 
 	^ ToItemListElementSkin new

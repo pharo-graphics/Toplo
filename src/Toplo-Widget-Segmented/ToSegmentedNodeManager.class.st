@@ -1,6 +1,6 @@
 Class {
 	#name : #ToSegmentedNodeManager,
-	#superclass : #ToAbstractBarNodeManager,
+	#superclass : #ToItemNodeManager,
 	#category : #'Toplo-Widget-Segmented-Bar'
 }
 
@@ -8,9 +8,9 @@ Class {
 ToSegmentedNodeManager >> buildNode: aNode [
 
 	| checkableElement holder |
+	super buildNode: aNode.
 	holder := aNode holder.
 	checkableElement := holder dataItem.
-	aNode checkableElement: checkableElement.
 	"the TToCheckable must be registered in the checkable group managed by the segmented bar"
 	checkableElement registerInGroup: holder listElement group
 ]
@@ -19,12 +19,6 @@ ToSegmentedNodeManager >> buildNode: aNode [
 ToSegmentedNodeManager >> defaultFakeDataItem [ 
 
 	^ ToSegmentedButton new
-]
-
-{ #category : #'instance creation' }
-ToSegmentedNodeManager >> newHolder [
-
-	^ ToListNodeHolder new
 ]
 
 { #category : #'instance creation' }
@@ -37,5 +31,5 @@ ToSegmentedNodeManager >> newNodeForHolder: aNodeHolder [
 ToSegmentedNodeManager >> unbuildNode: aNode [
 
 	aNode checkableElement unregisterFromGroup.
-	aNode checkableElement removeFromParent
+	super unbuildNode: aNode 
 ]

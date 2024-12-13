@@ -1,18 +1,15 @@
 Class {
 	#name : #ToSegmentedElement,
-	#superclass : #ToAbstractListElement,
-	#traits : 'TToCheckableGroupOwner + TToBarElement',
-	#classTraits : 'TToCheckableGroupOwner classTrait + TToBarElement classTrait',
-	#instVars : [
-		'group'
-	],
+	#superclass : #ToElement,
+	#traits : 'TToItemListHolder + TToOrientable',
+	#classTraits : 'TToItemListHolder classTrait + TToOrientable classTrait',
 	#category : #'Toplo-Widget-Segmented-Bar'
 }
 
 { #category : #accessing }
 ToSegmentedElement >> addLabel: aLabel [
 
-	self segmentAccessor add: (ToSegmentedButton new
+	self addItem: (ToSegmentedButton new
 			 label: aLabel;
 			 yourself)
 ]
@@ -20,7 +17,7 @@ ToSegmentedElement >> addLabel: aLabel [
 { #category : #accessing }
 ToSegmentedElement >> addLabelText: aText [
 
-	self segmentAccessor add: (ToSegmentedButton new
+	self addItem: (ToSegmentedButton new
 			 label: (ToLabel text: aText);
 			 yourself)
 ]
@@ -28,46 +25,58 @@ ToSegmentedElement >> addLabelText: aText [
 { #category : #accessing }
 ToSegmentedElement >> addLabelText: aText withIcon: anIcon [
 
-	self addLabelText: aText.
-	self segmentAccessor last icon: anIcon
+	self addItem: (ToSegmentedButton new
+			 label: (ToLabel text: aText);
+			 icon: anIcon;
+			 yourself)
 ]
 
 { #category : #accessing }
 ToSegmentedElement >> addLabelText: aText withIconImage: anImage [
 
-	self addLabelText: aText withIcon: (ToImage inner: anImage)
+	self addItem: (ToSegmentedButton new
+			 label: (ToLabel text: aText);
+			 icon: (ToImage inner: anImage))
 ]
 
 { #category : #initialization }
-ToSegmentedElement >> defaultEventHandler [
+ToSegmentedElement >> defaultLayout [ 
 
-	^ ToSegmentedElementEventHandler new
-]
-
-{ #category : #initialization }
-ToSegmentedElement >> defaultNodeManagerClass [ 
-
-	^ ToSegmentedNodeManager 
+	^ BlLinearLayout horizontal
 ]
 
 { #category : #initialization }
 ToSegmentedElement >> initialize [
 
 	super initialize.
-	self primarySelectionMode selectionOption
-		grouped: false;
-		beneath: true;
-		triggerSelectionState: true.
-	self contextMenuSelectionMode selectionOption
-		grouped: false;
-		beneath: false.
-	self matchParent.
-	self configureLayout.
-	self primarySelectionMode makeDisabledUnselectable: true.
-	self primarySelectionMode selectionOption grouped: false.
-	self group
-		addEventHandlerOn: ToCheckableGroupChangedEvent
-		do: [ :event | self dispatchEvent: event ]
+	self addChild: self itemList.
+	
+	self addEventHandler: (BlEventHandler
+			 on: ToLayoutOrientationChangedEvent
+			 do: [ self configureLayout ]).
+	self addEventHandler: (BlEventHandler
+			 on: BlLayoutResizerChangedEvent
+			 do: [ self configureLayout ]).
+	self addEventHandler: (BlEventHandler
+			 on: ToLayoutDirectionChangedEvent
+			 do: [ self configureLayout ]).	
+			
+
+	self configureLayout
+]
+
+{ #category : #'t - orientable - accessing' }
+ToSegmentedElement >> layoutStrategy [
+
+	^ self layout 
+
+	
+]
+
+{ #category : #'t - item list holder - accessing' }
+ToSegmentedElement >> newItemList [
+
+	^ ToSegmentedListElement new
 ]
 
 { #category : #skin }
@@ -76,20 +85,26 @@ ToSegmentedElement >> newRawSkin [
 	^ ToSegmentedElementSkin new
 ]
 
-{ #category : #'t - checkable group owner' }
-ToSegmentedElement >> rawGroup [
-
-	^ group ifNil: [ group := ToCheckableGroup new ]
-]
-
-{ #category : #'t - checkable group owner' }
-ToSegmentedElement >> rawGroup: aGroup [
-
-	self shouldNotImplement 
-]
-
 { #category : #accessing }
 ToSegmentedElement >> segmentAccessor [ 
 
-	^ self dataAccessor
+	^ self itemList dataAccessor
+]
+
+{ #category : #'t - checkable group owner' }
+ToSegmentedElement >> withStrictCheckingStrategy [
+
+	self itemList withStrictCheckingStrategy
+]
+
+{ #category : #'t - checkable group owner' }
+ToSegmentedElement >> withWeakCheckingStrategy [
+
+	self itemList withWeakCheckingStrategy
+]
+
+{ #category : #'t - checkable group owner' }
+ToSegmentedElement >> withoutCheckingStrategy [
+
+	self itemList withoutCheckingStrategy
 ]

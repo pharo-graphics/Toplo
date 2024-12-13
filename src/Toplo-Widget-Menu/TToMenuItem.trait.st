@@ -28,7 +28,7 @@ TToMenuItem >> isSubmenu [
 { #category : #'t - menu item' }
 TToMenuItem >> parentMenuDo: aBlock [
 
-	self parentItemContainer ifNil: [ ^ self ].
-	self parentItemContainer isMenuBar ifTrue: [ ^ self ].
-	aBlock value: self parentItemContainer
+	self parentItemListHolder ifNil: [ ^ self ].
+	self parentItemListHolder isMenuBar ifTrue: [ ^ self ].
+	aBlock value: self parentItemListHolder
 ]

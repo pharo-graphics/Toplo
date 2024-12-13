@@ -95,7 +95,7 @@ ToMenuBar >> isMenuBar [
 { #category : #testing }
 ToMenuBar >> isSubBar [ 
 
-	^ parentItemContainer notNil
+	^ self parentItemListHolder notNil
 ]
 
 { #category : #'t - menu item' }
@@ -151,7 +151,7 @@ ToMenuBar >> newRawSkin [
 ]
 
 { #category : #'adding-removing' }
-ToMenuBar >> onAddedInItemContainer: aMenuItemContainer [
+ToMenuBar >> onAddedInItemListHolder: aMenuItemContainer [
 
 	aMenuItemContainer onAddedMenuBar: self
 ]
@@ -159,7 +159,20 @@ ToMenuBar >> onAddedInItemContainer: aMenuItemContainer [
 { #category : #'t - menu item list holder - double dispatch' }
 ToMenuBar >> onAddedMenu: aMenu [
 
-	aMenu parentItemContainer: self.
+	aMenu parentItemListHolder: self.
+	aMenu isSubmenu: false
+]
+
+{ #category : #'adding-removing' }
+ToMenuBar >> onRemovedFromItemListHolder: aMenuItemContainer [
+
+	aMenuItemContainer onRemovedMenuBar: self
+]
+
+{ #category : #'t - menu item list holder - double dispatch' }
+ToMenuBar >> onRemovedMenu: aMenu [
+
+	aMenu parentItemListHolder: nil.
 	aMenu isSubmenu: false
 ]
 
@@ -175,8 +188,8 @@ ToMenuBar >> removeMenu: aMenu [
 { #category : #accessing }
 ToMenuBar >> rootMenuBar [ 
 
-	parentItemContainer ifNil: [ ^ self ].
-	^ parentItemContainer rootMenuBar
+	self parentItemListHolder ifNil: [ ^ self ].
+	^ self parentItemListHolder rootMenuBar
 ]
 
 { #category : #'auto opening' }

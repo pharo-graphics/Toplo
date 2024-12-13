@@ -13,10 +13,10 @@ TToItemListHolder >> addAllItems: aCollection [
 ]
 
 { #category : #'t - item list holder - adding/removing' }
-TToItemListHolder >> addItem: aMenuItem [
+TToItemListHolder >> addItem: anItem [
 
-	self items add: aMenuItem.
-	aMenuItem onAddedInItemContainer: self
+	self items add: anItem.
+	anItem onAddedInItemListHolder: self
 ]
 
 { #category : #'t - item list holder - initializing' }
@@ -36,7 +36,7 @@ TToItemListHolder >> disableAtPosition: anInteger [
 { #category : #'t - item list holder - enable/disable' }
 TToItemListHolder >> disableItem: anItem [
 
-	self disableAtPosition: anItem positionInItemContainer
+	self disableAtPosition: anItem positionInItemList
 ]
 
 { #category : #'t - item list holder - enable/disable' }
@@ -48,7 +48,7 @@ TToItemListHolder >> enableAtPosition: anInteger [
 { #category : #'t - item list holder - enable/disable' }
 TToItemListHolder >> enableItem: anItem [
 
-	self enableAtPosition: anItem positionInItemContainer
+	self enableAtPosition: anItem positionInItemList
 ]
 
 { #category : #'t - item list holder - testing' }
@@ -106,6 +106,10 @@ TToItemListHolder >> nodeWrapping: aBoolean [
 TToItemListHolder >> onAddedUnknownItemKind: anItem [
 ]
 
+{ #category : #'t - item list holder - double dispatch' }
+TToItemListHolder >> onRemovedUnknownItemKind: anItem [
+]
+
 { #category : #'t - item list holder - accessing' }
 TToItemListHolder >> primarySelectionMode [
 
@@ -113,9 +117,10 @@ TToItemListHolder >> primarySelectionMode [
 ]
 
 { #category : #'t - item list holder - adding/removing' }
-TToItemListHolder >> removeItem: aMenuItem [
+TToItemListHolder >> removeItem: anItem [
 
-	self items remove: aMenuItem
+	anItem onRemovedFromItemListHolder: self.
+	self items remove: anItem
 ]
 
 { #category : #'t - item list holder - accessing' }

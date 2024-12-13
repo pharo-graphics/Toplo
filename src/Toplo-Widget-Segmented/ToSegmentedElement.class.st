@@ -85,6 +85,19 @@ ToSegmentedElement >> newRawSkin [
 	^ ToSegmentedElementSkin new
 ]
 
+{ #category : #'t - item list holder - double dispatch' }
+ToSegmentedElement >> onAddedSegmentedButton: aButton [
+
+	aButton parentItemListHolder: self
+
+]
+
+{ #category : #'t - item list holder - double dispatch' }
+ToSegmentedElement >> onRemovedSegmentedButton: aButton [
+
+	aButton parentItemListHolder: nil
+]
+
 { #category : #accessing }
 ToSegmentedElement >> segmentAccessor [ 
 

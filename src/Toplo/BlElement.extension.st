@@ -406,9 +406,15 @@ BlElement >> newTextAttributesBuilder [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> onAddedInItemContainer: aMenu [
+BlElement >> onAddedInItemListHolder: anItemList [
 
-	aMenu onAddedUnknownItemKind: self
+	anItemList onAddedUnknownItemKind: self
+]
+
+{ #category : #'*Toplo' }
+BlElement >> onRemovedFromItemListHolder: anItemList [
+
+	anItemList onRemovedUnknownItemKind: self
 ]
 
 { #category : #'*Toplo' }

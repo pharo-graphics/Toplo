@@ -1,7 +1,7 @@
 Trait {
 	#name : #TToItem,
 	#instVars : [
-		'parentItemContainer'
+		'parentItemListHolder'
 	],
 	#category : #'Toplo-Widget-List-ItemList'
 }
@@ -13,27 +13,27 @@ TToItem >> itemBuilder: aBlock [
 ]
 
 { #category : #'t - item' }
-TToItem >> parentItemContainer [
+TToItem >> parentItemListHolder [
 
-	^ parentItemContainer
+	^ parentItemListHolder
 ]
 
 { #category : #'t - item' }
-TToItem >> parentItemContainer: anItemContainer [
+TToItem >> parentItemListHolder: anItemContainer [
 
-	parentItemContainer := anItemContainer
+	parentItemListHolder := anItemContainer
 ]
 
 { #category : #'t - item' }
-TToItem >> parentItemContainerDo: aBlock [
+TToItem >> parentItemListHolderDo: aBlock [
 
-	parentItemContainer ifNil: [ ^ self ].
-	aBlock value: parentItemContainer
+	parentItemListHolder ifNil: [ ^ self ].
+	aBlock value: parentItemListHolder
 ]
 
 { #category : #'t - item' }
-TToItem >> positionInItemContainer [
+TToItem >> positionInItemList [
 
-	self parentItemContainerDo: [ :pm | ^ pm items indexOf: self ].
+	self parentItemListHolderDo: [ :pm | ^ pm items indexOf: self ].
 	^ 0
 ]

@@ -6226,7 +6226,7 @@ ToSandBox class >> example_withCheckBox [
 	menu items last icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	menu addItem: (ToMenuItem new labelText: 'Disabled').
 	menu items last icon: (ToImage inner: (self iconNamed: #solidMenu)).
-	menu disableAtPosition: menu items last positionInItemContainer.
+	menu disableAtPosition: menu items last positionInItemList.
 	
 	menu addSeparator.
 	menu addItem: (ToRadioMenuItem new

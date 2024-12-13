@@ -15,8 +15,8 @@ ToMenuItemElement >> closeOnMouseEvent [
 { #category : #'adding-removing' }
 ToMenuItemElement >> closeSiblingMenuWindow [
 
-	parentItemContainer ifNil: [ ^ self ].
-	parentItemContainer closeAllWindowsForItemsSatisfying: [ :it | it ~= self ]
+	self parentItemListHolder ifNil: [ ^ self ].
+	self parentItemListHolder closeAllWindowsForItemsSatisfying: [ :it | it ~= self ]
 ]
 
 { #category : #'t - menu window model' }
@@ -89,7 +89,7 @@ ToMenuItemElement >> isOpened [
 { #category : #testing }
 ToMenuItemElement >> isRootMenuItem [ 
 
-	^ parentItemContainer isNil  or: [ parentItemContainer isMenuBar ]
+	^ self parentItemListHolder isNil  or: [ self parentItemListHolder isMenuBar ]
 ]
 
 { #category : #'t - menu window model' }
@@ -101,8 +101,8 @@ ToMenuItemElement >> isTopMenu [
 { #category : #'t - menu window model' }
 ToMenuItemElement >> menuBar [
 
-	parentItemContainer ifNil: [ ^ nil ].
-	^ parentItemContainer menuBar
+	self parentItemListHolder ifNil: [ ^ nil ].
+	^ self parentItemListHolder menuBar
 ]
 
 { #category : #'t - menu window model' }
@@ -118,25 +118,31 @@ ToMenuItemElement >> menuWindowDo: aValuable [
 ]
 
 { #category : #'adding-removing' }
-ToMenuItemElement >> onAddedInItemContainer: aMenu [
+ToMenuItemElement >> onAddedInItemListHolder: aMenu [
 
 	aMenu onAddedMenuItem: self
+]
+
+{ #category : #'adding-removing' }
+ToMenuItemElement >> onRemovedFromItemListHolder: aMenu [
+
+	aMenu onRemovedMenuItem: self
 ]
 
 { #category : #'adding-removing' }
 ToMenuItemElement >> removedFromMenu: aMenu [
 
 	super removedFromMenu: aMenu.
-	self parentItemContainer: nil
+	self parentItemListHolder: nil
 ]
 
 { #category : #'t - menu window model' }
 ToMenuItemElement >> rootMenu [
 
-	parentItemContainer ifNil: [ ^ self ].
-	parentItemContainer isMenuBar ifTrue: [ 
-		^ self isMenu ifTrue: [ self ] ifFalse: [ nil ] ].
-	^ parentItemContainer rootMenu
+	self parentItemListHolder ifNil: [ ^ self ].
+	self parentItemListHolder isMenuBar ifTrue: [ 
+		^ self isMenu ifTrue: [ self ] ifFalse: [  ] ].
+	^ self parentItemListHolder rootMenu
 ]
 
 { #category : #'t - menu window model' }

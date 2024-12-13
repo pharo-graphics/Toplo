@@ -34,7 +34,13 @@ ToSeparatorMenuItem >> initialize [
 ]
 
 { #category : #'adding-removing' }
-ToSeparatorMenuItem >> onAddedInItemContainer: aMenu [
+ToSeparatorMenuItem >> onAddedInItemListHolder: aMenu [
 
 	aMenu onAddedSeparatorMenuItem: self
+]
+
+{ #category : #'adding-removing' }
+ToSeparatorMenuItem >> onRemovedFromItemListHolder: aMenu [
+
+	aMenu onRemovedSeparatorMenuItem: self
 ]

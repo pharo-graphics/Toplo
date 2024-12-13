@@ -18,7 +18,7 @@ ToMenuBarEventFilter >> mouseUpEvent: anEvent [
 	"switch auto open filter "
 
 	" do nothing in case of a sub-menuBar "
-	target parentItemContainerDo: [ :mb | ^ self ].
+	target parentItemListHolderDo: [ :mb | ^ self ].
 	
 	" mouse up outside the menubar cancels autoOpen "
 	(target itemContaining: anEvent target) ifNotNil: [ :found |

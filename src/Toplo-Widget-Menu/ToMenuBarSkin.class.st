@@ -15,6 +15,8 @@ ToMenuBarSkin >> installSkinEvent: anEvent [
 				 (e valueOfTokenNamed: 'border-radius')).
 		e background: (e valueOfTokenNamed: #'background-color').
 		e itemList background: BlBackground transparent.
-		e border: BlBorder empty.
-		e parentItemListHolder ifNil: [ e padding: (BlInsets all: 4) ] ]
+		e parentItemListHolder ifNil: [
+			e itemList hMatchParent.
+			e padding: (BlInsets all: 4) ].
+		e border: BlBorder empty ]
 ]

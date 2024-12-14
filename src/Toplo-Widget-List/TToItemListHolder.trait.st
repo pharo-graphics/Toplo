@@ -63,6 +63,12 @@ TToItemListHolder >> hasItems [
 	^ self items notEmpty
 ]
 
+{ #category : #'t - item list holder - accessing' }
+TToItemListHolder >> innerElement [
+
+	^ self itemList innerElement
+]
+
 { #category : #'t - item list holder - testing' }
 TToItemListHolder >> isItemContainer [
 
@@ -120,6 +126,18 @@ TToItemListHolder >> onRemovedUnknownItemKind: anItem [
 TToItemListHolder >> primarySelectionMode [
 
 	^ self itemList primarySelectionMode
+]
+
+{ #category : #'t - item list holder - adding/removing' }
+TToItemListHolder >> removeAllItems [
+
+	self removeAllItems: self items asArray
+]
+
+{ #category : #'t - item list holder - adding/removing' }
+TToItemListHolder >> removeAllItems: aCollection [
+
+	aCollection do: [ :item | self removeItem: item ]
 ]
 
 { #category : #'t - item list holder - adding/removing' }

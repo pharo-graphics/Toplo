@@ -18,6 +18,9 @@ ToSegmentedElementSkin >> installSkinEvent: anEvent [
 				 bottom: (e valueOfTokenNamed: #'padding-content-VXS')
 				 right: (e valueOfTokenNamed: #'padding-XS')).
 		e shortcuts: (self shortcutsToInstallIn: e).
+		e border: (BlBorder
+				 paint: (e valueOfTokenNamed: #'border-paint')
+				 width: (e valueOfTokenNamed: #'border-width')).
 		e installShortcuts ]
 ]
 

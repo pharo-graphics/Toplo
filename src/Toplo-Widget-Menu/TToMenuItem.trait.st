@@ -4,16 +4,6 @@ Trait {
 }
 
 { #category : #'t - menu item' }
-TToMenuItem >> builder: aBlock [
-
-	self
-		deprecated: 'Use #itemBuilder'
-		transformWith:
-		'`@rcvr builder: `@arg' -> '`@rcvr itemBuilder: `@arg'.
-	self itemBuilder: aBlock
-]
-
-{ #category : #'t - menu item' }
 TToMenuItem >> isMenuItem [ 
 
 	^ true

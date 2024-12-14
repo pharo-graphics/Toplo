@@ -75,7 +75,7 @@ ToMenuWindowManager >> pickOutsideEvent: anEvent [
 { #category : #'window handling' }
 ToMenuWindowManager >> popupNewWindowEvent: anEvent [
 
-	element items ifEmpty: [ ^ self ].
+	"element items ifEmpty: [ ^ self ]."
 	super popupNewWindowEvent: anEvent
 ]
 

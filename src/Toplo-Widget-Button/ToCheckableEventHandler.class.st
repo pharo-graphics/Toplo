@@ -17,7 +17,8 @@ ToCheckableEventHandler >> clickEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	target switchToNextCheckState 
+	target switchToNextCheckState.
+	anEvent consume
 ]
 
 { #category : #'api - accessing' }

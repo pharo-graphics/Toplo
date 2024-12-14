@@ -65,6 +65,7 @@ ToListNodeSelectionEventHandler >> notifyClickOnNodeFromEvent: anEvent [
 
 	| node req |
 	node := anEvent currentTarget.
+	node isAttachedToSceneGraph ifFalse: [ ^ self ].
 	req := ToListClickOnNodeRequestEvent new
 		       requestedAction: [
 			       node dispatchEvent: (ToListClickOnNodeEvent new

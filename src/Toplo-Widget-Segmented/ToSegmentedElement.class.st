@@ -112,12 +112,6 @@ ToSegmentedElement >> onRemovedSegmentedButton: aButton [
 	aButton parentItemListHolder: nil
 ]
 
-{ #category : #accessing }
-ToSegmentedElement >> segmentAccessor [ 
-
-	^ self itemList dataAccessor
-]
-
 { #category : #'t - checkable group owner' }
 ToSegmentedElement >> withStrictCheckingStrategy [
 

@@ -7,12 +7,6 @@ Trait {
 }
 
 { #category : #'t - item' }
-TToItem >> itemBuilder: aBlock [
-
-	self in: aBlock
-]
-
-{ #category : #'t - item' }
 TToItem >> parentItemListHolder [
 
 	^ parentItemListHolder

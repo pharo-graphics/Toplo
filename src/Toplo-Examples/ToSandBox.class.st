@@ -824,7 +824,7 @@ ToSandBox class >> example_CodeEditor [
 			                yourself).
 	               menu addItem: (ToMenu new
 			                labelText: 'Edit';
-			                itemBuilder: [ :m |
+			                builder: [ :m |
 				                m addItem: (ToMenuItem new
 							                 labelText: 'Copy';
 							                 whenClickedDo: [ :event |
@@ -864,7 +864,7 @@ ToSandBox class >> example_CodeEditor [
 	album contextMenu: menuBuilder.
 
 	fileMenu := ToMenu new labelText: 'Edit'.
-	menuBuilder value: fileMenu value: nil.
+	fileMenu builder: menuBuilder.
 	inspectBtn := ToMenuItem new labelText: 'Inspect'.
 	showStatisticsBtn := ToMenuItem new labelText: 'Statistics'.
 	disabox := ToCheckMenuItem new label: (ToLabel text: 'Disable').
@@ -1652,7 +1652,7 @@ ToSandBox class >> example_OpenSaveSaveAsCloseWithSubmenu [
 			        italic;
 			        foreground: (Color blue alpha: 0.7)).
 	menu addSeparator.
-	menu addItem: (ToCustomMenuItem new itemBuilder: [ :e | e addChild: lbl]).
+	menu addItem: (ToCustomMenuItem new in: [ :e | e addChild: lbl]).
 
 	menu addItem: (ToMenuItem new
 			 icon: (ToImage inner: (self iconNamed: #solidMenu));
@@ -2943,7 +2943,7 @@ ToSandBox class >> example_ToggleButtonInListElement [
 	moveListElement := ToListElement new.
 	moveListElement primarySelectionMode selectOnMouseDown: false.
 	moveListElement nodeBuilder: [ :node :move :holder |
-		| moveElement moveNumberLabel whiteMoveLabel moveButtons blackMoveLabel |
+		| moveElement moveNumberLabel whiteMoveLabel moveButtons blackMoveLabel inspectButton |
 		moveButtons := OrderedCollection new.
 		moveElement := BlElement new.
 		moveElement layout: BlLinearLayout horizontal.
@@ -2970,13 +2970,18 @@ ToSandBox class >> example_ToggleButtonInListElement [
 		moveElement addChild: moveNumberLabel.
 		moveElement addChild: whiteMoveLabel.
 		moveElement addChild: blackMoveLabel.
+		inspectButton := ToButton new
+			                 labelText: 'Inspect';
+			                 whenClickedDo: [ node inspect ];
+			                 yourself.
+
 
 		moveNumberLabel constraintsDo: [ :c |
 			c ignored vertical alignCenter ].
 
 		moveButtons do: [ :e | group register: e ].
 		node addChild: moveElement.
-		node preventSelectionSkinEvents ].
+		node addChild: inspectButton ].
 	moveListElement size: 800 @ 600.
 	moveListElement dataAccessor addAll: {
 			{ 1. 'e4'. 'e5' }.
@@ -3749,7 +3754,7 @@ ToSandBox class >> example_menuBar1 [
 			 yourself).
 
 	bar items last addItem: (ToCustomMenuItem new
-			 itemBuilder: [ :e | e addChild: (ToLabel text: 'Some help...') ];
+			 in: [ :e | e addChild: (ToLabel text: 'Some help...') ];
 			 yourself).
 	bar border: (BlBorder paint: Color red).
 
@@ -3807,46 +3812,60 @@ ToSandBox class >> example_menuBar2 [
 { #category : #menu }
 ToSandBox class >> example_menuBar3 [
 
-	| menu frame bar |
+	| menu frame bar rand |
 	bar := ToMenuBar new.
+	rand := Random new.
 	frame := ToInnerWindow new.
 	bar addFiller.
+
 	3 timesRepeat: [
 		menu := ToMenu new.
 		menu label: (ToLabel text: 'Levels').
 		menu icon:
 			(ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
 
-		4 to: 12 by: 2 do: [ :index |
-			| subMenu |
-			subMenu := ToMenu new label:
-				           (ToLabel new text: (String streamContents: [ :out |
-						             out
-							             print: index;
-							             nextPut: $x;
-							             print: index ])).
-			1 to: 5 do: [ :i |
-				| stream selector |
-				stream := String streamContents: [ :out |
-					          out
-						          nextPutAll: 'Level ';
-						          space;
-						          print: i ].
-				selector := String streamContents: [ :out |
-					            out
-						            nextPutAll: 'level ';
-						            print: index;
-						            nextPutAll: ' Grid ';
-						            print: i ].
-				subMenu addItem: ((ToMenuItem new labelText: stream)
-						 whenClickedDo: [ :event | self inform: selector asSymbol ];
-						 yourself) ].
-			menu addItem: subMenu ].
+		menu builder: [ :m |
+			1 to: (rand nextIntegerBetween: 2 and: 16) do: [ :index |
+				| subMenu |
+				subMenu := ToMenu new label:
+					           (ToLabel new text: (String streamContents: [ :out |
+							             out
+								             print: index;
+								             nextPut: $x;
+								             print: index ])).
+				subMenu builder: [ :sm |
+					1 to: (rand nextIntegerBetween: 1 and: 20) do: [ :i |
+						| stream selector iconImage color |
+						stream := String streamContents: [ :out |
+							          out
+								          nextPutAll: 'Level ';
+								          space;
+								          print: i ].
+						selector := String streamContents: [ :out |
+							            out
+								            nextPutAll: 'level ';
+								            print: index;
+								            nextPutAll: ' Grid ';
+								            print: i ].
+						color := Color random.
+						iconImage := BlElement new
+							             padding: (BlInsets all: 2);
+							             geometry:
+								             (BlRoundedRectangleGeometry cornerRadius: 3);
+							             background: color;
+							             size: 16 asPoint;
+							             yourself.
+						sm addItem: ((ToMenuItem new
+								  labelText: stream;
+								  iconImage: iconImage)
+								 whenClickedDo: [ :event | frame background: color ];
+								 yourself) ] ].
+				m addItem: subMenu ] ].
 
 		bar addItem: menu ].
 	bar addFiller.
 	bar nodeWrapping: false.
-	bar itemList hMatchParent.
+	bar hMatchParent.
 
 	frame pane addChild: bar.
 	frame openInSpace
@@ -3858,7 +3877,7 @@ ToSandBox class >> example_menuBarInMenuBar [
 	| topMenuBar |
 	topMenuBar := ToMenuBar new.
 	topMenuBar nodeWrapping: false.
-	topMenuBar itemList hMatchParent.
+	topMenuBar hMatchParent.
 	3 timesRepeat: [
 		| mb |
 		mb := ToMenuBar new.
@@ -3875,7 +3894,6 @@ ToSandBox class >> example_menuBarInMenuBar [
 			 labelText: 'Inspect';
 			 whenClickedDo: [ topMenuBar inspect ];
 			 yourself).
-
 	topMenuBar openInSpace
 ]
 
@@ -4001,7 +4019,7 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 	bar nodeWrapping: false.
 	bar itemList hMatchParent.
 	
-	bar addItem: (ToCustomMenuItem new itemBuilder: [ :e |
+	bar addItem: (ToCustomMenuItem new in: [ :e |
 			 e addChild: (ToSelectableLabel new text: 'File') ]).
 	bar addItem: (ToMenu new
 			 labelText: 'File';
@@ -4023,7 +4041,7 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 		child constraintsDo: [ :c | c linear vertical alignCenter ] ].
 
 	bar addItem: (ToCustomMenuItem new
-			 itemBuilder: [ :e | e addChild: inner ];
+			 in: [ :e | e addChild: inner ];
 			 yourself).
 	helpMenu := ToMenu new
 		            labelText: 'Help';
@@ -4123,11 +4141,8 @@ ToSandBox class >> example_segmentedWithCheckboxes [
 	| checkableBar dashBoard |
 	checkableBar := ToSegmentedElement new.
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
-		| lab |
-		lab := ToLabel text: l.
-		lab preventSelectionSkinEvents.
-		checkableBar segmentAccessor add: (ToCheckbox new
-				 label: lab;
+		checkableBar dataAccessor add: (ToCheckbox new
+				 labelText: l;
 				 yourself) ].
 	checkableBar selectionOption masked: true.
 	dashBoard := self segmentedDashBoardFor: checkableBar.
@@ -4151,7 +4166,7 @@ ToSandBox class >> example_segmentedWithLabels [
 	       | t |
 	       feedbackPane removeChildren.
 	       t := String streamContents: [ :stream |
-		            seg segmentAccessor withIndexDo: [ :e :idx |
+		            seg dataAccessor withIndexDo: [ :e :idx |
 			            stream
 				            nextPutAll: e label text asString;
 				            nextPutAll: ': '.
@@ -4160,7 +4175,7 @@ ToSandBox class >> example_segmentedWithLabels [
 				            ifFalse: [ stream nextPutAll: 'X ' ].
 			            stream nextPutAll: e checked asString.
 			            stream nextPutAll: ' '.
-			            idx < seg segmentAccessor itemCount ifTrue: [
+			            idx < seg dataAccessor itemCount ifTrue: [
 				            stream nextPutAll: '- ' ] ] ].
 	       feedbackPane addChild: (ToLabel text: t) ].
 
@@ -4199,7 +4214,7 @@ ToSandBox class >> example_segmentedWithLabelsAndIcons [
 	       | t |
 	       feedbackPane removeChildren.
 	       t := String streamContents: [ :stream |
-		            seg segmentAccessor withIndexDo: [ :e :idx |
+		            seg dataAccessor withIndexDo: [ :e :idx |
 			            stream
 				            nextPutAll: e label text asString;
 				            nextPutAll: ': '.
@@ -4208,7 +4223,7 @@ ToSandBox class >> example_segmentedWithLabelsAndIcons [
 				            ifFalse: [ stream nextPutAll: 'X ' ].
 			            stream nextPutAll: e checked asString.
 			            stream nextPutAll: ' '.
-			            idx < seg segmentAccessor itemCount ifTrue: [
+			            idx < seg dataAccessor itemCount ifTrue: [
 				            stream nextPutAll: '- ' ] ] ].
 	       feedbackPane addChild: (ToLabel text: t) ].
 
@@ -4237,7 +4252,7 @@ ToSandBox class >> example_segmentedWithSegmentedButton [
 	seg := ToSegmentedElement new.
 
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
-		seg segmentAccessor add:
+		seg dataAccessor add:
 			((ToSegmentedButton new label: (ToLabel text: l))
 				 whenClickedDo: [ :event | event currentTarget label text traceCr ];
 				 yourself) ].
@@ -4251,7 +4266,7 @@ ToSandBox class >> example_segmentedWithSegmentedButton [
 	       | t |
 	       feedbackPane removeChildren.
 	       t := String streamContents: [ :stream |
-		            seg segmentAccessor withIndexDo: [ :e :idx |
+		            seg dataAccessor withIndexDo: [ :e :idx |
 			            stream
 				            nextPutAll: e label text asString;
 				            nextPutAll: ': '.
@@ -4260,7 +4275,7 @@ ToSandBox class >> example_segmentedWithSegmentedButton [
 				            ifFalse: [ stream nextPutAll: 'X ' ].
 			            stream nextPutAll: e checked asString.
 			            stream nextPutAll: ' '.
-			            idx < seg segmentAccessor itemCount ifTrue: [
+			            idx < seg dataAccessor itemCount ifTrue: [
 				            stream nextPutAll: '- ' ] ] ].
 	       feedbackPane addChild: (ToLabel text: t) ].
 
@@ -6286,7 +6301,7 @@ ToSandBox class >> example_withCustomMenuItems [
 			 labelText: 'Export';
 			 whenClickedDo: [ self inform: 'Export' ]).
 	menu addSeparator.
-	menu addItem: (ToCustomMenuItem new itemBuilder: [ :e | e 
+	menu addItem: (ToCustomMenuItem new in: [ :e | e 
 			 addChild: (ToSwitchButton new
 					  checked: true;
 					startFlexible: true;
@@ -6325,7 +6340,7 @@ ToSandBox class >> example_withCustomMenuItems [
 		fontSize: 12;
 		foreground: Color blue.
 
-	menu addItem: (ToCustomMenuItem new itemBuilder: [ :e | e 
+	menu addItem: (ToCustomMenuItem new in: [ :e | e 
 			 addChild: lbl;
 			 margin: (BlInsets
 					  top: 2;
@@ -6364,7 +6379,7 @@ ToSandBox class >> example_withCustomMenuItems [
 			        fontSize: 12;
 			        foreground: (Color blue alpha: 0.7)).
 	menu addItem: (ToCustomMenuItem new
-			 itemBuilder: [ :e | e addChild: lbl;
+			 in: [ :e | e addChild: lbl;
 			 margin: (BlInsets
 					  top: 2;
 					  bottom: 4)]).
@@ -6379,7 +6394,7 @@ ToSandBox class >> example_withCustomMenuItems [
 								               yourself)) ];
 		             withLineWrapping;
 		             width: 200.
-	menu addItem: (ToCustomMenuItem new itemBuilder: [ :e | e addChild: textField ]).
+	menu addItem: (ToCustomMenuItem new in: [ :e | e addChild: textField ]).
 	menu addSeparator.
 	sub := ToMenu new labelText: 'Save All'.
 

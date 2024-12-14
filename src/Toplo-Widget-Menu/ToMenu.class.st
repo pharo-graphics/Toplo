@@ -4,7 +4,8 @@ Class {
 	#traits : 'TToItemListHolder + TToMenuItemListHolder + TToMenuWindowModel',
 	#classTraits : 'TToItemListHolder classTrait + TToMenuItemListHolder classTrait + TToMenuWindowModel classTrait',
 	#instVars : [
-		'isSubmenu'
+		'isSubmenu',
+		'builder'
 	],
 	#category : #'Toplo-Widget-Menu-Basic'
 }
@@ -17,6 +18,20 @@ ToMenu >> bar [
 		transformWith: '`@rcvr bar' -> '`@rcvr itemList'.
 
 	^ self itemList
+]
+
+{ #category : #accessing }
+ToMenu >> builder [ 
+
+	^ builder
+]
+
+{ #category : #accessing }
+ToMenu >> builder: aValuable [
+
+	" aValuable takes myself and the request event as arguments "
+
+	builder := aValuable
 ]
 
 { #category : #accessing }
@@ -48,8 +63,11 @@ ToMenu >> initialize [
 	self fitContent.
 	isSubmenu := false.
 	self addEventHandler: (ToMenuWindowManager new
-			 windowBuilder: [ :menWin :request |
-				 menWin root addChild: request currentTarget itemList ];
+			 windowBuilder: [ :window :request |
+				 builder ifNotNil: [
+						 self removeAllItems.
+						 self builder cull: self cull: request ].
+				 window root addChild: self itemList ];
 			 yourself)
 ]
 

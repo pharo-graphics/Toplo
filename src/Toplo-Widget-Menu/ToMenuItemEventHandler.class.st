@@ -7,10 +7,29 @@ Class {
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
+{ #category : #'mouse handlers' }
+ToMenuItemEventHandler >> clickableActionPerformedEvent: anEvent [
+	" check event and current target "
+
+	self closeWindowOnEvent: anEvent
+]
+
+{ #category : #'mouse handlers' }
+ToMenuItemEventHandler >> closeWindowOnEvent: anEvent [
+	" check event and current target "
+
+	target isEnabled ifFalse: [ ^ self ].
+	target closeOnMouseEvent ifFalse: [ ^ self ].
+	" ask the window manager because it can manage the timestamp 
+	and finally can decide to not close the menu window"
+	target rootMenuDo: [ :rm |
+		rm windowManager checkAutoCloseWindowOnMouseUp: anEvent ]
+]
+
 { #category : #'api - accessing' }
 ToMenuItemEventHandler >> eventsToHandle [
 
-	^  { BlMouseEnterEvent. BlMouseUpEvent }
+	^  { BlMouseEnterEvent. BlMouseUpEvent. ToClickableActionPerformedEvent }
 ]
 
 { #category : #'mouse handlers' }
@@ -31,12 +50,7 @@ ToMenuItemEventHandler >> mouseEnterEvent: anEvent [
 ToMenuItemEventHandler >> mouseUpEvent: anEvent [
 	" check event and current target "
 
-	target isEnabled ifFalse: [ ^ self ].
-	target closeOnMouseEvent ifFalse: [ ^ self ].
-	" ask the window manager because it can manage the timestamp 
-	and finally can decide to not close the menu window"
-	target rootMenuDo: [ :rm |
-		rm windowManager checkAutoCloseWindowOnMouseUp: anEvent ]
+	self closeWindowOnEvent: anEvent
 ]
 
 { #category : #'api - hooks' }

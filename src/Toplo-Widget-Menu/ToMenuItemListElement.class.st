@@ -15,7 +15,10 @@ ToMenuItemListElement >> horizontal: aBoolean [
 ToMenuItemListElement >> initialize [
 
 	super initialize.
+	
+	self flag: 'no focusability until focus management is understood and working '.
 	self focusability: BlFocusability none.
+	
 	self nodeWrapping: true.
 	self fitContent.
 	self vertical: true.

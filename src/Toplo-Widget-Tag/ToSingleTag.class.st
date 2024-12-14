@@ -1,6 +1,6 @@
 Class {
-	#name : #ToSingleTagModel,
-	#superclass : #ToAbstractTagModel,
+	#name : #ToSingleTag,
+	#superclass : #ToAbstractTag,
 	#instVars : [
 		'data'
 	],
@@ -8,31 +8,31 @@ Class {
 }
 
 { #category : #'node building' }
-ToSingleTagModel >> buildNode: aNode fromManager: aNodeManager [
+ToSingleTag >> buildNode: aNode fromManager: aNodeManager [
 
 	aNodeManager buildNode: aNode forSingleTagModel: self
 ]
 
 { #category : #accessing }
-ToSingleTagModel >> data [
+ToSingleTag >> data [
 
 	^ data 
 ]
 
 { #category : #accessing }
-ToSingleTagModel >> data: aData [
+ToSingleTag >> data: aData [
 
 	data := aData
 ]
 
 { #category : #accessing }
-ToSingleTagModel >> items [
+ToSingleTag >> items [
 
 	^ { self }
 ]
 
 { #category : #accessing }
-ToSingleTagModel >> nodesCount [
+ToSingleTag >> nodesCount [
 
 	^ 1
 ]

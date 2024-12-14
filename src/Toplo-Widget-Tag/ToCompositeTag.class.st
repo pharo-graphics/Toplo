@@ -1,6 +1,6 @@
 Class {
-	#name : #ToCompositeTagModel,
-	#superclass : #ToAbstractTagModel,
+	#name : #ToCompositeTag,
+	#superclass : #ToAbstractTag,
 	#instVars : [
 		'content',
 		'items'
@@ -9,43 +9,43 @@ Class {
 }
 
 { #category : #'node building' }
-ToCompositeTagModel >> buildNode: aNode fromManager: aNodeManager [
+ToCompositeTag >> buildNode: aNode fromManager: aNodeManager [
 
 	aNodeManager buildNode: aNode forCompositeTagModel: self
 ]
 
 { #category : #accessing }
-ToCompositeTagModel >> content [
+ToCompositeTag >> content [
 
 	^ content
 ]
 
 { #category : #accessing }
-ToCompositeTagModel >> content: anObject [
+ToCompositeTag >> content: anObject [
 
 	content := anObject
 ]
 
 { #category : #testing }
-ToCompositeTagModel >> isComposite [
+ToCompositeTag >> isComposite [
 
 	^ true
 ]
 
 { #category : #accessing }
-ToCompositeTagModel >> items [
+ToCompositeTag >> items [
 
 	^ items
 ]
 
 { #category : #accessing }
-ToCompositeTagModel >> items: aCollection [
+ToCompositeTag >> items: aCollection [
 
 	items := aCollection asArray
 ]
 
 { #category : #accessing }
-ToCompositeTagModel >> nodesCount [ 
+ToCompositeTag >> nodesCount [ 
 	
 	^ items size
 ]

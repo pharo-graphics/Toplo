@@ -18,6 +18,5 @@ ToListContextMenuSelectionElementSkin >> installSkinEvent: anEvent [
 		e inner border: (BlBorder paint: Color white width: 2).
 		e border: (BlBorder
 				 paint: (e valueOfTokenNamed: #'border-color-primary-selection')
-				 width: (e valueOfTokenNamed: #'border-width-primary-selection')).
-		e padding: (BlInsets all: (e valueOfTokenNamed: #'list-context-menu-selection-border-gap')) ]
+				 width: (e valueOfTokenNamed: #'border-width-primary-selection')) ]
 ]

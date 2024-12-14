@@ -12,6 +12,7 @@ Class {
 ToListBasicSelectionElement >> initialize [
 
 	super initialize.
+	self outskirts: BlOutskirts inside.
 	positionHook := [ :aPoint :aListElement | aPoint ].
 	sizeHook := [ :aPoint :aListElement | aPoint ].
 

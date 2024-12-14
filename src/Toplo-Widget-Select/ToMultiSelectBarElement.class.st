@@ -98,7 +98,7 @@ ToMultiSelectBarElement >> haveInvisibleNodes: theInvisibleNodes [
 		invisibleNodes := theInvisibleNodes copyWith: visibleNodes last.
 		visibleNodes := visibleNodes copyWithout: visibleNodes last ].
 	" now cumulate invisible nodes in a composite tag model "
-	composite := ToCompositeTagModel new.
+	composite := ToCompositeTag new.
 	composite items: (Array streamContents: [ :stream |
 			 invisibleNodes do: [ :n |
 				 stream nextPutAll: n holder dataItem items ] ]).
@@ -203,7 +203,7 @@ ToMultiSelectBarElement >> refreshFromPopupListSelection [
 				new := previous.
 				previousTagModels remove: previous ]
 			ifNil: [
-				new := ToPickedTagModel new
+				new := ToPickedTag new
 					       data: data;
 					       yourself.
 				pickCount := pickCount + 1.

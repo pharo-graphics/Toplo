@@ -13,6 +13,5 @@ TToListElementWithDecoration >> withDecoration: aDecorationClass [
 TToListElementWithDecoration >> withRowNumbers [
 
 	self next withRowNumbers.
-	self updateAllSelections.
-	self requestLayout
+	self updateAllSelections
 ]

@@ -1,29 +1,29 @@
 Class {
-	#name : #ToAbstractTagModel,
+	#name : #ToAbstractTag,
 	#superclass : #Object,
 	#category : #'Toplo-Widget-Tag-Bar'
 }
 
 { #category : #'node building' }
-ToAbstractTagModel >> buildNode: aNode fromManager: aNodeManager [
+ToAbstractTag >> buildNode: aNode fromManager: aNodeManager [
 
 	self subclassResponsibility 
 ]
 
 { #category : #testing }
-ToAbstractTagModel >> isComposite [
+ToAbstractTag >> isComposite [
 
 	^ false
 ]
 
 { #category : #accessing }
-ToAbstractTagModel >> items [
+ToAbstractTag >> items [
 
 	^ self subclassResponsibility 
 ]
 
 { #category : #accessing }
-ToAbstractTagModel >> nodesCount [
+ToAbstractTag >> nodesCount [
 
 	^ self subclassResponsibility
 ]

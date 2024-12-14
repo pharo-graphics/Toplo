@@ -1,5 +1,5 @@
 Class {
-	#name : #ToBarElement,
+	#name : #ToGenericBarElement,
 	#superclass : #ToGenericListElement,
 	#traits : 'TToBarElement',
 	#classTraits : 'TToBarElement classTrait',
@@ -7,13 +7,13 @@ Class {
 }
 
 { #category : #initialization }
-ToBarElement >> defaultNodeManagerClass [
+ToGenericBarElement >> defaultNodeManagerClass [
 
 	^ ToGenericBarNodeManager 
 ]
 
 { #category : #initialization }
-ToBarElement >> initialize [
+ToGenericBarElement >> initialize [
 
 	super initialize.
 	self primarySelectionMode selectionOption
@@ -28,13 +28,13 @@ ToBarElement >> initialize [
 ]
 
 { #category : #skin }
-ToBarElement >> newRawSkin [ 
+ToGenericBarElement >> newRawSkin [ 
 
 	^ ToBarElementSkin new
 ]
 
 { #category : #accessing }
-ToBarElement >> nodeBuilder: aValuable [
+ToGenericBarElement >> nodeBuilder: aValuable [
 	"aValuable takes 3 optional args: first, the node to build, second, the dataItem and third, the holder in the list element "
 
 	super nodeBuilder: aValuable.
@@ -43,7 +43,7 @@ ToBarElement >> nodeBuilder: aValuable [
 ]
 
 { #category : #accessing }
-ToBarElement >> nodeFactory: aValuable [
+ToGenericBarElement >> nodeFactory: aValuable [
 	" aValuable that takes a node holder as unique argument and which running results in a new node "
 
 	super nodeFactory: aValuable.
@@ -51,15 +51,9 @@ ToBarElement >> nodeFactory: aValuable [
 ]
 
 { #category : #accessing }
-ToBarElement >> nodeHolderClass: aNodeHolderClass [
+ToGenericBarElement >> nodeHolderClass: aNodeHolderClass [
 	" aValuable that takes a node holder as unique argument and which running results in a new node "
 
 	super nodeHolderClass: aNodeHolderClass.
 	self notifyDataSourceChanged
-]
-
-{ #category : #layout }
-ToBarElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
-
-	super onLayout: aBounds context: aBlElementBoundsUpdateContext
 ]

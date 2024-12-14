@@ -45,12 +45,26 @@ ToSegmentedElement >> defaultLayout [
 	^ BlLinearLayout horizontal
 ]
 
+{ #category : #accessing }
+ToSegmentedElement >> group [
+
+	^ self itemList group
+]
+
 { #category : #initialization }
 ToSegmentedElement >> initialize [
 
 	super initialize.
 	self addChild: self itemList.
-	
+
+	self group
+		addEventHandlerOn: ToCheckableGroupChangedEvent
+		do: [ :event | self dispatchEvent: event ].
+
+	self itemList
+		addEventHandlerOn: ToListSelectionChangedEvent
+		do: [ :event | self dispatchEvent: event ].
+
 	self addEventHandler: (BlEventHandler
 			 on: ToLayoutOrientationChangedEvent
 			 do: [ self configureLayout ]).
@@ -59,8 +73,8 @@ ToSegmentedElement >> initialize [
 			 do: [ self configureLayout ]).
 	self addEventHandler: (BlEventHandler
 			 on: ToLayoutDirectionChangedEvent
-			 do: [ self configureLayout ]).	
-			
+			 do: [ self configureLayout ]).
+
 
 	self configureLayout
 ]

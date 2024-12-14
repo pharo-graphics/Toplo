@@ -58,6 +58,13 @@ ToMenuWindowManager >> onClosed [
 	element itemList secondarySelecter deselectAll
 ]
 
+{ #category : #'window handling' }
+ToMenuWindowManager >> onOpened [
+
+	super onOpened.
+	element itemList requestFocus
+]
+
 { #category : #'event handling' }
 ToMenuWindowManager >> pickOutsideEvent: anEvent [
 

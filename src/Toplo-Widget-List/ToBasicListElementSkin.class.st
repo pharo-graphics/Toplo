@@ -29,8 +29,7 @@ ToBasicListElementSkin >> installSkinEvent: anEvent [
 				 horizontal: (e valueOfTokenNamed: #'list-padding-H')
 				 vertical: (e valueOfTokenNamed: #'list-padding-V')).
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:
-				 (e valueOfTokenNamed: 'border-radius')).
-		e margin: BlInsets empty ]
+				 (e valueOfTokenNamed: 'border-radius')) ]
 ]
 
 { #category : #'accessing - shortcuts' }

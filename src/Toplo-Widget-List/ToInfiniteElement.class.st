@@ -113,13 +113,6 @@ ToInfiniteElement >> innerElement [
 	^ self
 ]
 
-{ #category : #'private - invalidation' }
-ToInfiniteElement >> invalidateItemDecorations [
-
-	super invalidateItemDecorations.
-	listElement invalidateItemDecorations
-]
-
 { #category : #accessing }
 ToInfiniteElement >> listElement [
 

@@ -1,6 +1,6 @@
 Class {
-	#name : #ToPickedTagModel,
-	#superclass : #ToSingleTagModel,
+	#name : #ToPickedTag,
+	#superclass : #ToSingleTag,
 	#instVars : [
 		'pickOrder'
 	],
@@ -8,13 +8,13 @@ Class {
 }
 
 { #category : #accessing }
-ToPickedTagModel >> pickOrder [
+ToPickedTag >> pickOrder [
 
 	^ pickOrder
 ]
 
 { #category : #accessing }
-ToPickedTagModel >> pickOrder: anInteger [
+ToPickedTag >> pickOrder: anInteger [
 
 	pickOrder := anInteger
 ]

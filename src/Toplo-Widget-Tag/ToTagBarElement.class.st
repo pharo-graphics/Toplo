@@ -1,6 +1,6 @@
 Class {
 	#name : #ToTagBarElement,
-	#superclass : #ToBarElement,
+	#superclass : #ToGenericBarElement,
 	#instVars : [
 		'withCloseButton'
 	],
@@ -63,7 +63,7 @@ ToTagBarElement >> nodesSelect: aBlock [
 { #category : #accessing }
 ToTagBarElement >> sample: aData [
 
-	super sample: (ToSingleTagModel new
+	super sample: (ToSingleTag new
 			 data: aData;
 			 yourself)
 ]

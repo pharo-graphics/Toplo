@@ -27,6 +27,12 @@ TToItemListHolder >> configureLayout [
 		ifFalse: [ self itemList horizontal: false ]
 ]
 
+{ #category : #'t - item list holder - accessing' }
+TToItemListHolder >> dataAccessor [ 
+
+	^ self itemList dataAccessor
+]
+
 { #category : #'t - item list holder - enable/disable' }
 TToItemListHolder >> disableAtPosition: anInteger [
 
@@ -127,6 +133,12 @@ TToItemListHolder >> removeItem: anItem [
 TToItemListHolder >> secondarySelectionMode [
 
 	^ self itemList secondarySelectionMode
+]
+
+{ #category : #'t - item list holder - accessing' }
+TToItemListHolder >> secondarySelectionModel [
+
+	^ self itemList secondarySelectionModel
 ]
 
 { #category : #'t - item list holder - accessing' }

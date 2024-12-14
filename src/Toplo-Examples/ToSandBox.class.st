@@ -164,7 +164,7 @@ ToSandBox class >> barDashBoardFor: aBar [
 ToSandBox class >> barWithData: aCollection [
 
 	| bar confBoard rootPane selectionModeBoard |
-	bar := ToBarElement new.
+	bar := ToGenericBarElement new.
 	bar addStamp: #background withValue: (Color veryLightGray alpha: 0.1).
 	bar nodeFactory: [ :holder | ToBarNodeExamplePart new ].
 	bar nodeBuilder: [ :node :dataItem :holder |
@@ -1624,7 +1624,7 @@ ToSandBox class >> example_Menu0 [
 ToSandBox class >> example_NodeContainerWithStatesOfAmerica [
 
 	| l |
-	l := ToBarElement new.
+	l := ToGenericBarElement new.
 	l addEventHandler: (BlEventHandler
 			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :evt | evt traceCr ]).
@@ -2824,7 +2824,7 @@ ToSandBox class >> example_TagBar [
 	| tb |
 	tb := ToTagBarElement new.
 	tb dataAccessor addAll: (ToSandBox statesOfAmerica collect: [ :s |
-			 ToSingleTagModel new data: s ]).
+			 ToSingleTag new data: s ]).
 	tb openInSpace
 ]
 

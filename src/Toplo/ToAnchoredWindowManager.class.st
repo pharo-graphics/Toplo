@@ -314,6 +314,7 @@ ToAnchoredWindowManager >> onUninstalledIn: anElement [
 { #category : #'event handling' }
 ToAnchoredWindowManager >> openedEvent: anEvent [
 
+	"self trace. ' openedEvent: ' trace. currentWindow trace. ' ' trace. anEvent window traceCr."
 	" send from the window. Since I'm the only handler whatever the opened event, 
 	I must be sure that the event is sent from my current window "
 	currentWindow = anEvent window ifFalse: [ ^ self ].

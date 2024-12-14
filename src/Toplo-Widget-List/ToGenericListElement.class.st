@@ -4,6 +4,18 @@ Class {
 	#category : #'Toplo-Widget-List-Core'
 }
 
+{ #category : #initialization }
+ToGenericListElement >> defaultInnerElement [
+
+	^ ToInfiniteElement onListElement: self
+]
+
+{ #category : #initialization }
+ToGenericListElement >> defaultNodeManagerClass [
+
+	^ ToGenericListNodeManager  
+]
+
 { #category : #accessing }
 ToGenericListElement >> nodeBuilder: aValuable [
 	"aValuable takes 3 optional args: first, the node to build, second, the dataItem and third, the holder in the list element "

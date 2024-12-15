@@ -41,11 +41,6 @@ ToLabelSkin >> installSkinEvent: anEvent [
 			defaultFontSize: (e valueOfTokenNamed: #'font-size');
 			lineSpacing: (e valueOfTokenNamed: #'line-height');
 			foreground: (e valueOfTokenNamed: #'color-text').
-		((e hasAnyInParentChainSatisfying: [ :p |
-			  p isKindOf: ToAbstractListNode ]) and: [
-			 e hasAnyInParentChainSatisfying: [ :p |
-				 p isKindOf: ToCheckbox ] ]) ifTrue: [
-			e preventSelectionSkinEvents ].
 		e applyStyle ]
 ]
 

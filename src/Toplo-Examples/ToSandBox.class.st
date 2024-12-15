@@ -2975,10 +2975,11 @@ ToSandBox class >> example_ToggleButtonInListElement [
 			                 yourself.
 
 
-		moveNumberLabel constraintsDo: [ :c |
-			c ignored vertical alignCenter ].
+		moveNumberLabel constraintsDo: [ :c | c linear vertical alignCenter ].
 
-		moveButtons do: [ :e | group register: e ].
+		moveButtons do: [ :e |
+			group register: e.
+			e preventSelectionSkinEvents ].
 		node addChild: moveElement.
 		node addChild: inspectButton ].
 	moveListElement size: 800 @ 600.
@@ -6812,7 +6813,7 @@ ToSandBox class >> resizerBoardFor: aBar [
 				ifFalse: [ sizeInput text: aBar height asString ] ].
 		sizeInput whenSaveRequestedDo: [ :saveRequested |
 			| size |
-			size := saveRequested client text asString asInteger.
+			size := saveRequested editorElement text asString asInteger.
 			size ifNotNil: [
 				saveRequested accepted: true.
 				dir = #Horizontal
@@ -6849,8 +6850,7 @@ ToSandBox class >> resizerBoardFor: aBar [
 									 dir = #Horizontal
 										 ifTrue: [ aBar hFitContent ]
 										 ifFalse: [ aBar vFitContent ] ]
-								 ifFalse: [
-									 sizeInputPane enabled: true] ] ]).
+								 ifFalse: [ sizeInputPane enabled: true ] ] ]).
 		buttons first checked: true.
 		container := ToPane vertical.
 		container border: Color lightGray.

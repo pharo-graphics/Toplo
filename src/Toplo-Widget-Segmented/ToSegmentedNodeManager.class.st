@@ -22,9 +22,16 @@ ToSegmentedNodeManager >> constraintNode: aNode [
 	| bar |
 	super constraintNode: aNode.
 	bar := aNode holder listElement.
-	(bar isVertical and: [ bar isHFitContent ])
-		ifTrue: [ aNode hFitContent ]
-		ifFalse: [ aNode hMatchParent ]
+	aNode vFitContent.
+	bar isVertical
+		ifTrue: [
+			bar isHMatchParent
+				ifTrue: [ aNode hMatchParent ]
+				ifFalse: [ aNode hFitContent ] ]
+		ifFalse: [
+			bar nodeWrapping
+				ifTrue: [ aNode hFitContent ]
+				ifFalse: [ aNode hMatchParent ] ]
 ]
 
 { #category : #initialization }

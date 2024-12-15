@@ -17,9 +17,22 @@ ToSegmentedNodeManager >> buildNode: aNode [
 ]
 
 { #category : #initialization }
-ToSegmentedNodeManager >> defaultFakeDataItem [ 
+ToSegmentedNodeManager >> constraintNode: aNode [
+
+	| bar |
+	super constraintNode: aNode.
+	bar := aNode holder listElement.
+	(bar isVertical and: [ bar isHFitContent ])
+		ifTrue: [ aNode hFitContent ]
+		ifFalse: [ aNode hMatchParent ]
+]
+
+{ #category : #initialization }
+ToSegmentedNodeManager >> defaultFakeDataItem [
 
 	^ ToSegmentedButton new
+		  labelText: 'X';
+		  yourself
 ]
 
 { #category : #'instance creation' }

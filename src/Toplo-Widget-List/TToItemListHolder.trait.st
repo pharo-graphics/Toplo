@@ -33,6 +33,12 @@ TToItemListHolder >> dataAccessor [
 	^ self itemList dataAccessor
 ]
 
+{ #category : #'t - item list holder - accessing' }
+TToItemListHolder >> dataSource [
+
+	^ self itemList dataSource
+]
+
 { #category : #'t - item list holder - enable/disable' }
 TToItemListHolder >> disableAtPosition: anInteger [
 

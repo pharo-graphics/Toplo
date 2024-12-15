@@ -1359,7 +1359,6 @@ ToSandBox class >> example_ListWithAllClasses4 [
 			     startInterspace: 10;
 			     hMatchParent;
 			     startFlexible: true.
-		     cbox label preventSelectionSkinEvents.
 		     cbox focusability: BlFocusability none.
 		     cbox checked: holder isSelected.
 		     node addChild: cbox ].
@@ -4257,7 +4256,7 @@ ToSandBox class >> example_segmentedWithSegmentedButton [
 				 whenClickedDo: [ :event | event currentTarget label text traceCr ];
 				 yourself) ].
 
-	seg  disabledSelecter selectIndex: 2.
+	seg  disableAtPosition: 2.
 	dashBoard := self segmentedDashBoardFor: seg.
 
 	feedbackPane := ToPane horizontal.

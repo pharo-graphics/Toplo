@@ -22,10 +22,10 @@ ToItemListElementSkin >> installSkinEvent: anEvent [
 			withStamp: #background
 			do: [ :v | e background: v ]
 			ifNone: [
-			e background: (e valueOfTokenNamed: #'color-bg-container') ].
+			e background: BlBackground transparent ].
 		e padding: (BlInsets
-				 horizontal: (e valueOfTokenNamed: #'list-padding-H')
-				 vertical: (e valueOfTokenNamed: #'list-padding-V')).
+				 horizontal: (e valueOfTokenNamed: #'padding-content-HS')
+				 vertical: (e valueOfTokenNamed: #'padding-content-VS')).
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:
 				 (e valueOfTokenNamed: 'border-radius')) ]
 ]

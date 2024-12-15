@@ -27,14 +27,7 @@ ToTabNodeManager >> constraintFakeNode: aNode [
 { #category : #initialization }
 ToTabNodeManager >> constraintNode: aNode [
 
-	super constraintNode: aNode.
-	aNode hFitContent.
-	aNode vFitContent.
-	aNode constraintsDo: [ :c |
-		c linear vertical alignCenter.
-		c flow vertical alignCenter.
-		c linear horizontal alignCenter.
-		c flow horizontal alignCenter ]
+	super constraintNode: aNode
 ]
 
 { #category : #initialization }

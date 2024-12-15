@@ -37,7 +37,9 @@ ToAbstractBarNodeManager >> constraintNode: aNode [
 		c vertical fitContent ].
 	aNode constraintsDo: [ :c |
 		c linear vertical alignCenter.
-		c flow vertical alignCenter ].
+		c flow vertical alignCenter.
+		c linear horizontal alignCenter.
+		c flow horizontal alignCenter ].
 	bar nodeScrolling ifTrue: [ ^ self ].
 	aNode autoDistribute: bar nodeAutoDistribution
 ]

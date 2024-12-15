@@ -28,13 +28,6 @@ ToItemNodeManager >> constraintFakeNode: aNode [
 ToItemNodeManager >> constraintNode: aNode [
 
 	super constraintNode: aNode.
-	aNode hFitContent.
-	aNode vFitContent.
-	aNode constraintsDo: [ :c |
-		c linear vertical alignCenter.
-		c flow vertical alignCenter.
-		c linear horizontal alignCenter.
-		c flow horizontal alignCenter ].
 	aNode holder dataItem constraintMenuNode: aNode.
 
 ]

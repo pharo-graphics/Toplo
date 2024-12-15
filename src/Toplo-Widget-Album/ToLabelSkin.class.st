@@ -44,7 +44,7 @@ ToLabelSkin >> installSkinEvent: anEvent [
 		((e hasAnyInParentChainSatisfying: [ :p |
 			  p isKindOf: ToAbstractListNode ]) and: [
 			 e hasAnyInParentChainSatisfying: [ :p |
-				 p isKindOf: ToButton ] ]) ifTrue: [
+				 p isKindOf: ToCheckbox ] ]) ifTrue: [
 			e preventSelectionSkinEvents ].
 		e applyStyle ]
 ]

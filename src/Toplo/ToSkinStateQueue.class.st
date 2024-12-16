@@ -31,10 +31,11 @@ ToSkinStateQueue >> applyOn: anElement [
 
 { #category : #adding }
 ToSkinStateQueue >> enablementChangedIn: anElement [
-
 	" Do not force state application if the element is not in a space.
 	It can also be the case when a layout is computed for an infinite "
-	installStateApplied ifFalse: [ ^ anElement requestNewSkin ].
+
+	(anElement isAttachedToSceneGraph not or: [ installStateApplied not ])
+		ifTrue: [ ^ anElement requestNewSkin ].
 	nextStates reset.
 	self enqueueEnablementStateForElement: anElement.
 	self applyEnqueuedStatesIn: anElement

@@ -82,6 +82,30 @@ TToItemListHolder >> isItemContainer [
 ]
 
 { #category : #'t - item list holder - accessing' }
+TToItemListHolder >> isNodeAutoDistribution [
+
+	^ self itemList isNodeAutoDistribution
+]
+
+{ #category : #'t - item list holder - accessing' }
+TToItemListHolder >> isNodeScrolling [
+
+	^ self itemList isNodeScrolling
+]
+
+{ #category : #'t - item list holder - accessing' }
+TToItemListHolder >> isNodeWrapping [
+
+	^ self itemList isNodeWrapping
+]
+
+{ #category : #'t - item list holder - accessing' }
+TToItemListHolder >> isUniformNodeWidth [
+
+	^ self itemList isUniformNodeWidth
+]
+
+{ #category : #'t - item list holder - accessing' }
 TToItemListHolder >> itemList [
 
 	^ itemList ifNil: [ itemList := self newItemList ]

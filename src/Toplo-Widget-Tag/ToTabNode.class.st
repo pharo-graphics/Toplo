@@ -4,16 +4,6 @@ Class {
 	#category : #'Toplo-Widget-Tag-Tab'
 }
 
-{ #category : #'t - bar node' }
-ToTabNode >> autoDistribute: aBoolean [
-
-	super autoDistribute: aBoolean.
-	aBoolean ifTrue: [
-		self tab constraintsDo: [ :c |
-			c horizontal matchParent.
-			c vertical matchParent ] ]
-]
-
 { #category : #skin }
 ToTabNode >> newRawSkin [ 
 

@@ -25,14 +25,6 @@ ToItemNodeManager >> constraintFakeNode: aNode [
 ]
 
 { #category : #initialization }
-ToItemNodeManager >> constraintNode: aNode [
-
-	super constraintNode: aNode.
-	aNode holder dataItem constraintMenuNode: aNode.
-
-]
-
-{ #category : #initialization }
 ToItemNodeManager >> defaultFakeDataItem [ 
 
 	^ ToItemElement new

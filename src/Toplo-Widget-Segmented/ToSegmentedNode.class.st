@@ -4,16 +4,6 @@ Class {
 	#category : #'Toplo-Widget-Segmented-Node'
 }
 
-{ #category : #'t - bar node' }
-ToSegmentedNode >> autoDistribute: aBoolean [
-
-	super autoDistribute: aBoolean.
-	aBoolean ifTrue: [
-		self checkableElement constraintsDo: [ :c |
-			c horizontal matchParent.
-			c vertical matchParent ] ]
-]
-
 { #category : #accessing }
 ToSegmentedNode >> checkableElement [ 
 

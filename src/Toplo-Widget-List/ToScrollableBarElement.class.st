@@ -258,6 +258,9 @@ ToScrollableBarElement >> trackElement [
 ToScrollableBarElement >> trackElement: anElement [
 
 	trackElement = anElement ifTrue: [ ^ self ].
+	trackElement ifNotNil: [ trackElement removeFromParent ].
 	trackElement := anElement.
-	trackElement id: #track
+	trackElement ifNil: [ ^ self ].
+	trackElement id: #track.
+	self addChild: trackElement 
 ]

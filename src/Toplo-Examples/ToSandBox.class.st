@@ -1889,13 +1889,13 @@ ToSandBox class >> example_SelectAntDesignIconMultiFiltrable [
 
 	select filtrable: true.
 
+	select sample: select popupListElement dataAccessor first.
 	select nodeBuilder: [ :node :iconDesc :holder |
 		| tag |
 		tag := ToTagElement new.
 		tag icon: (iconDesc icon size: 48 asPoint).
 		tag removable: true.
 		node addChild: tag ].
-	select sample: select popupListElement dataAccessor first.
 	select hMatchParent.
 	select placeholderText:
 		('Select icons' asRopedText foreground: Color red).

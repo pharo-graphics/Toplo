@@ -39,10 +39,28 @@ ToSegmentedElement >> addLabelText: aText withIconImage: anImage [
 			 icon: (ToImage inner: anImage))
 ]
 
+{ #category : #'t - item list holder - initializing' }
+ToSegmentedElement >> configureLayout [
+
+	self itemList configureLayoutIn: self
+]
+
+{ #category : #initialization }
+ToSegmentedElement >> defaultEventHandler [
+
+	^ ToSegmentedElementEventHandler new
+]
+
 { #category : #initialization }
 ToSegmentedElement >> defaultLayout [ 
 
 	^ BlLinearLayout horizontal
+]
+
+{ #category : #'focus requesting' }
+ToSegmentedElement >> focusHolder [ 
+
+	^ self itemList
 ]
 
 { #category : #accessing }
@@ -65,18 +83,7 @@ ToSegmentedElement >> initialize [
 		addEventHandlerOn: ToListSelectionChangedEvent
 		do: [ :event | self dispatchEvent: event ].
 
-	self addEventHandler: (BlEventHandler
-			 on: ToLayoutOrientationChangedEvent
-			 do: [ self configureLayout ]).
-	self addEventHandler: (BlEventHandler
-			 on: BlLayoutResizerChangedEvent
-			 do: [ self configureLayout ]).
-	self addEventHandler: (BlEventHandler
-			 on: ToLayoutDirectionChangedEvent
-			 do: [ self configureLayout ]).
-
-
-	self configureLayout
+	self addEventHandler: self defaultEventHandler
 ]
 
 { #category : #'t - orientable - accessing' }

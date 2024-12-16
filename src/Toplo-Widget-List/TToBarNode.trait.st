@@ -4,15 +4,6 @@ Trait {
 }
 
 { #category : #'t - bar node' }
-TToBarNode >> autoDistribute: aBoolean [
-
-	aBoolean ifTrue: [
-		self isHorizontal
-			ifTrue: [ self hMatchParent ]
-			ifFalse: [ self vMatchParent ] ]
-]
-
-{ #category : #'t - bar node' }
 TToBarNode >> isFake [
 
 	^ self holder listElement fakeNode = self

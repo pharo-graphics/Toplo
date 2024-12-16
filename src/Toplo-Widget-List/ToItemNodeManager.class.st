@@ -17,26 +17,23 @@ ToItemNodeManager >> constraintFakeNode: aNode [
 
 	| bar |
 	bar := aNode holder listElement.
+	aNode visibility: BlVisibility hidden.
 	aNode constraintsDo: [ :c |
 		c horizontal exact: 0.
-		c vertical exact: 0.
-		c flow vertical alignCenter.
-		c linear vertical alignCenter ]
+		c vertical exact: 0 ]
 ]
 
 { #category : #initialization }
 ToItemNodeManager >> constraintNode: aNode [
 
+	| bar |
 	super constraintNode: aNode.
-	aNode hFitContent.
-	aNode vFitContent.
-	aNode constraintsDo: [ :c |
-		c linear vertical alignCenter.
-		c flow vertical alignCenter.
-		c linear horizontal alignCenter.
-		c flow horizontal alignCenter ].
-	aNode holder dataItem constraintMenuNode: aNode.
-
+	bar := aNode holder listElement.
+	bar nodeScrolling ifTrue: [ ^ self ].
+ 	bar nodeAutoDistribution ifTrue: [
+		aNode item constraintsDo: [ :c |
+			c horizontal matchParent.
+			c vertical matchParent ] ]
 ]
 
 { #category : #initialization }

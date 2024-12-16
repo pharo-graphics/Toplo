@@ -1090,14 +1090,13 @@ ToSandBox class >> example_HorizontalListWithIndexedColors [
 
 	| l space |
 	l := ToListElement new nodeBuilder: [ :node :dataItem :holder |
-		     node constraintsDo: [ :c |
-			     c horizontal fitContent.
-			     c vertical fitContent ].
+		     node fitContent.
 		     node addChild: (ToElement new
 				      size: 70 @ 50;
 				      background: dataItem) ].
 	l background: Color yellow.
 	l beHorizontal.
+	l hMatchParent.
 	l dataAccessor addAll: Color indexedColors.
 	space := BlSpace new.
 	space root addChild: l.
@@ -1359,7 +1358,6 @@ ToSandBox class >> example_ListWithAllClasses4 [
 			     startInterspace: 10;
 			     hMatchParent;
 			     startFlexible: true.
-		     cbox label preventSelectionSkinEvents.
 		     cbox focusability: BlFocusability none.
 		     cbox checked: holder isSelected.
 		     node addChild: cbox ].
@@ -1890,13 +1888,13 @@ ToSandBox class >> example_SelectAntDesignIconMultiFiltrable [
 
 	select filtrable: true.
 
+	select sample: select popupListElement dataAccessor first.
 	select nodeBuilder: [ :node :iconDesc :holder |
 		| tag |
 		tag := ToTagElement new.
 		tag icon: (iconDesc icon size: 48 asPoint).
 		tag removable: true.
 		node addChild: tag ].
-	select sample: select popupListElement dataAccessor first.
 	select hMatchParent.
 	select placeholderText:
 		('Select icons' asRopedText foreground: Color red).
@@ -2976,10 +2974,11 @@ ToSandBox class >> example_ToggleButtonInListElement [
 			                 yourself.
 
 
-		moveNumberLabel constraintsDo: [ :c |
-			c ignored vertical alignCenter ].
+		moveNumberLabel constraintsDo: [ :c | c linear vertical alignCenter ].
 
-		moveButtons do: [ :e | group register: e ].
+		moveButtons do: [ :e |
+			group register: e.
+			e preventSelectionSkinEvents ].
 		node addChild: moveElement.
 		node addChild: inspectButton ].
 	moveListElement size: 800 @ 600.
@@ -4257,7 +4256,7 @@ ToSandBox class >> example_segmentedWithSegmentedButton [
 				 whenClickedDo: [ :event | event currentTarget label text traceCr ];
 				 yourself) ].
 
-	seg  disabledSelecter selectIndex: 2.
+	seg  disableAtPosition: 2.
 	dashBoard := self segmentedDashBoardFor: seg.
 
 	feedbackPane := ToPane horizontal.
@@ -6813,7 +6812,7 @@ ToSandBox class >> resizerBoardFor: aBar [
 				ifFalse: [ sizeInput text: aBar height asString ] ].
 		sizeInput whenSaveRequestedDo: [ :saveRequested |
 			| size |
-			size := saveRequested client text asString asInteger.
+			size := saveRequested editorElement text asString asInteger.
 			size ifNotNil: [
 				saveRequested accepted: true.
 				dir = #Horizontal
@@ -6850,8 +6849,7 @@ ToSandBox class >> resizerBoardFor: aBar [
 									 dir = #Horizontal
 										 ifTrue: [ aBar hFitContent ]
 										 ifFalse: [ aBar vFitContent ] ]
-								 ifFalse: [
-									 sizeInputPane enabled: true] ] ]).
+								 ifFalse: [ sizeInputPane enabled: true ] ] ]).
 		buttons first checked: true.
 		container := ToPane vertical.
 		container border: Color lightGray.

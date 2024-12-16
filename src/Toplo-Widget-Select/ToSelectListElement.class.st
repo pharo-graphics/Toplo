@@ -19,6 +19,12 @@ ToSelectListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 		w visibility: BlVisibility visible ]
 ]
 
+{ #category : #initialization }
+ToSelectListElement >> defaultLayout [
+
+	^ BlLinearLayout vertical
+]
+
 { #category : #accessing }
 ToSelectListElement >> groupSelecter [
 

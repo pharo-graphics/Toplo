@@ -43,6 +43,7 @@ ToCheckboxSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
 	anEvent elementDo: [ :e | 
+		e border: (e valueOfTokenNamed: #'color-border-checkable').
 		e icon border: (BlBorder paint: (e valueOfTokenNamed: #'color-primary') width: 1) ]
 ]
 

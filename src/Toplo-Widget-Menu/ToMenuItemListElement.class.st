@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
+{ #category : #initialization }
+ToMenuItemListElement >> defaultNodeManager [ 
+
+	^ToMenuItemNodeManager new
+]
+
 { #category : #'t - orientable - orientation' }
 ToMenuItemListElement >> horizontal: aBoolean [
 

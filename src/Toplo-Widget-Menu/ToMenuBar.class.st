@@ -69,9 +69,6 @@ ToMenuBar >> initialize [
 
 	autoOpen := false.
 	self layout: BlLinearLayout horizontal.
-	self addEventHandler: (BlEventHandler
-			 on: ToLayoutOrientationChangedEvent
-			 do: [ self configureLayout ]).
 	self addEventHandler: ToMenuBarEventHandler new.
 	self itemList uniformNodeWidth: false.
 	self addChild: self itemList.

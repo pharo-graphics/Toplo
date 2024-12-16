@@ -99,7 +99,7 @@ TToBarElement >> sample: aDataItem [
 
 	self nodeManager fakeDataItem: aDataItem.
 	self reinstallFakeNode.
-	self configureLayout
+	self requestLayout
 	
 ]
 

@@ -9,6 +9,16 @@ Class {
 	#category : #'Toplo-Widget-Segmented-Bar'
 }
 
+{ #category : #layout }
+ToSegmentedListElement >> configureLayoutIn: aSegmentedElement [
+
+	self matchParent.
+	self horizontal: aSegmentedElement isHorizontal.
+	aSegmentedElement isHMatchParent ifFalse: [ self hFitContent ].
+	aSegmentedElement isVMatchParent ifFalse: [ self vFitContent ].
+	self configureLayout
+]
+
 { #category : #initialization }
 ToSegmentedListElement >> defaultEventHandler [
 
@@ -25,8 +35,6 @@ ToSegmentedListElement >> defaultNodeManagerClass [
 ToSegmentedListElement >> initialize [
 
 	super initialize.
-
-	self fitContent.
 	
 	self group
 		addEventHandlerOn: ToCheckableGroupChangedEvent
@@ -41,11 +49,7 @@ ToSegmentedListElement >> initialize [
 		grouped: false;
 		beneath: false.
 
-	self primarySelectionMode makeDisabledUnselectable: true.
-
-	self nodeWrapping: true.
-	self vertical: false.
-	self uniformNodeWidth: true
+	self primarySelectionMode makeDisabledUnselectable: true
 ]
 
 { #category : #'t - checkable group owner' }

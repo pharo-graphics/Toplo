@@ -9,14 +9,9 @@ ToSegmentedElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e background: (e valueOfTokenNamed: #'segmented-background').
+		e background: (e valueOfTokenNamed: #'color-bg-container').
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:
-				 (e valueOfTokenNamed: #'segmented-border-radius')).
-		e padding: (BlInsets
-				 top: (e valueOfTokenNamed: #'padding-content-VXS')
-				 left: (e valueOfTokenNamed: #'padding-XS')
-				 bottom: (e valueOfTokenNamed: #'padding-content-VXS')
-				 right: (e valueOfTokenNamed: #'padding-XS')).
+				 (e valueOfTokenNamed: #'border-radius')).
 		e shortcuts: (self shortcutsToInstallIn: e).
 		e border: (BlBorder
 				 paint: (e valueOfTokenNamed: #'border-paint')

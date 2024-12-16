@@ -37,9 +37,14 @@ ToAbstractBarNodeManager >> constraintNode: aNode [
 		c vertical fitContent ].
 	aNode constraintsDo: [ :c |
 		c linear vertical alignCenter.
-		c flow vertical alignCenter ].
+		c flow vertical alignCenter.
+		c linear horizontal alignCenter.
+		c flow horizontal alignCenter ].
 	bar nodeScrolling ifTrue: [ ^ self ].
-	aNode autoDistribute: bar nodeAutoDistribution
+	bar nodeAutoDistribution ifTrue: [
+		bar isHorizontal
+			ifTrue: [ aNode hMatchParent ]
+			ifFalse: [ aNode vMatchParent ] ]
 ]
 
 { #category : #initialization }
@@ -65,4 +70,18 @@ ToAbstractBarNodeManager >> initialize [
 
 	super initialize.
 	fakeDataItem := self defaultFakeDataItem 
+]
+
+{ #category : #'instance creation' }
+ToAbstractBarNodeManager >> newFakeNodeIn: anInnerBarElement [
+
+	| holder fakeNode |
+	holder := self newHolder.
+	holder infiniteElement: anInnerBarElement.
+	holder dataItem: fakeDataItem.
+	holder bindAtPosition: 0.
+	fakeNode := self newNodeForHolder: holder.
+	fakeNode id: #fakeNode.
+	holder setupNodeWith: fakeNode.
+	^ fakeNode
 ]

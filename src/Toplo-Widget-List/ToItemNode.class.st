@@ -4,16 +4,6 @@ Class {
 	#category : #'Toplo-Widget-List-ItemList'
 }
 
-{ #category : #'t - bar node' }
-ToItemNode >> autoDistribute: aBoolean [
-
-	super autoDistribute: aBoolean.
-	aBoolean ifTrue: [
-		self item constraintsDo: [ :c |
-			c horizontal matchParent.
-			c vertical matchParent ] ]
-]
-
 { #category : #accessing }
 ToItemNode >> item [
 

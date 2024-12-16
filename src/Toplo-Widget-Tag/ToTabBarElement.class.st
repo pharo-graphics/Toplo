@@ -18,7 +18,6 @@ ToTabBarElement >> defaultNodeManagerClass [
 { #category : #'t - bar element' }
 ToTabBarElement >> haveInvisibleNodes: theInvisibleNodes [
 
-	theInvisibleNodes ifEmpty: [ ^ self ].
 	nodeWrapping ifTrue: [ ^ self ].
 	nodeScrolling ifTrue: [ ^ self ].
 	nodeAutoDistribution ifFalse: [ ^ self ].

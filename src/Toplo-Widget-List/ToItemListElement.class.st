@@ -19,6 +19,14 @@ ToItemListElement >> initialize [
 	self primarySelectionMode makeDisabledUnselectable: true
 ]
 
+{ #category : #'t - orientable - accessing' }
+ToItemListElement >> layoutStrategy [
+
+	^ self layout
+
+	
+]
+
 { #category : #skin }
 ToItemListElement >> newRawSkin [ 
 

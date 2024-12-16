@@ -427,12 +427,6 @@ ToInnerBarElement >> scrollTowardStartToDataSourcePosition: anIndex [
 		scrollableElement scrollBy: p x negated @ p y ]
 ]
 
-{ #category : #accessing }
-ToInnerBarElement >> scrollableElement [
-
-	^ scrollableElement
-]
-
 { #category : #'accessing - children' }
 ToInnerBarElement >> selectableNodeContainingGlobalPosition: aPoint [
 

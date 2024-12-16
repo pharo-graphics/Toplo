@@ -11,14 +11,14 @@ Class {
 ToScrollableBarEventHandler >> boundsHasChangedDuringScrollingEvent: anEvent [
 
 	parentBar ifNil: [ ^ self ].
-	parentBar dispatchEvent: anEvent
+	"parentBar dispatchEvent: anEvent"
 ]
 
 { #category : #'infinite event handling' }
 ToScrollableBarEventHandler >> elementScrolledEvent: anEvent [
 
 	parentBar ifNil: [ ^ self ].
-	parentBar dispatchEvent: anEvent
+	"parentBar dispatchEvent: anEvent"
 ]
 
 { #category : #'api - accessing' }
@@ -33,7 +33,7 @@ ToScrollableBarEventHandler >> eventsToHandle [
 { #category : #'infinite event handling' }
 ToScrollableBarEventHandler >> infiniteScrollFinishedEvent: anEvent [
 
-	parentBar dispatchEvent: anEvent
+	"parentBar dispatchEvent: anEvent"
 ]
 
 { #category : #accessing }

@@ -85,6 +85,14 @@ ToCheckboxSkin >> leavedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
+ToCheckboxSkin >> pressedSkinEvent: anEvent [
+
+	super pressedSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e border: (e valueOfTokenNamed: #'color-border-checkable') ]
+]
+
+{ #category : #'event handling' }
 ToCheckboxSkin >> uncheckedSkinEvent: anEvent [
 
 	super uncheckedSkinEvent: anEvent.

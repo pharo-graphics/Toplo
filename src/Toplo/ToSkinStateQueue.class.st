@@ -4,20 +4,21 @@ Class {
 	#instVars : [
 		'nextStates',
 		'previousInstallState',
-		'intrinsicStateIndex'
+		'intrinsicStateIndex',
+		'installStateApplied'
 	],
 	#category : #'Toplo-Core-States'
 }
 
-{ #category : #hook }
+{ #category : #'state application' }
 ToSkinStateQueue >> applyEnqueuedStatesIn: anElement [
 
 	nextStates do: [ :nextInQueue | 
-		nextInQueue applyOn: anElement ].
+		nextInQueue applyOn: anElement fromQueue: self ].
 	nextStates reset
 ]
 
-{ #category : #hook }
+{ #category : #'state application' }
 ToSkinStateQueue >> applyOn: anElement [
 
 	self
@@ -25,6 +26,17 @@ ToSkinStateQueue >> applyOn: anElement [
 		transformWith: '`@receiver applyOn: `@argument'
 			-> '`@receiver applyEnqueuedStatesIn: `@argument'.
 
+	self applyEnqueuedStatesIn: anElement
+]
+
+{ #category : #adding }
+ToSkinStateQueue >> enablementChangedIn: anElement [
+
+	" Do not force state application if the element is not in a space.
+	It can also be the case when a layout is computed for an infinite "
+	installStateApplied ifFalse: [ ^ anElement requestNewSkin ].
+	nextStates reset.
+	self enqueueEnablementStateForElement: anElement.
 	self applyEnqueuedStatesIn: anElement
 ]
 
@@ -87,10 +99,17 @@ ToSkinStateQueue >> hasInstallStateEnqueued [
 ToSkinStateQueue >> initialize [ 
 
 	super initialize.
+	installStateApplied := false.
 	nextStates := OrderedCollection new.
 	" Use an ordered dictionary for intrinsicStateIndex to ensure that an 
 	EnableState is always the last state "
 	intrinsicStateIndex := OrderedIdentityDictionary new
+]
+
+{ #category : #'state application' }
+ToSkinStateQueue >> installStateApplied: aBoolean [
+
+	installStateApplied := aBoolean
 ]
 
 { #category : #'intrinsic states' }

@@ -34,6 +34,12 @@ ToPrimarySelectionModel >> isUnselectableIndex: anIndex [
 ]
 
 { #category : #accessing }
+ToPrimarySelectionModel >> makeDisabledUnselectable [
+
+	^ makeDisabledUnselectable
+]
+
+{ #category : #accessing }
 ToPrimarySelectionModel >> makeDisabledUnselectable: aBoolean [
 
 	makeDisabledUnselectable := aBoolean

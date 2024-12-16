@@ -173,6 +173,12 @@ ToSelectionModel >> lastIndex [
 ]
 
 { #category : #accessing }
+ToSelectionModel >> makeDisabledUnselectable [
+
+	^ false
+]
+
+{ #category : #accessing }
 ToSelectionModel >> makeDisabledUnselectable: aBoolean [
 
 	"make nothing for the general case"

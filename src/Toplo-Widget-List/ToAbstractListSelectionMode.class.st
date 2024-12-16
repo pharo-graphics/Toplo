@@ -92,6 +92,12 @@ ToAbstractListSelectionMode >> itemCount [
 ]
 
 { #category : #accessing }
+ToAbstractListSelectionMode >> makeDisabledUnselectable [
+
+	^ self selectionModel makeDisabledUnselectable
+]
+
+{ #category : #accessing }
 ToAbstractListSelectionMode >> makeDisabledUnselectable: aBoolean [
 
 	self selectionModel makeDisabledUnselectable: aBoolean

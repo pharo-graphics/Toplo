@@ -29,9 +29,9 @@ ToIntrinsicStateStub >> initialize [
 ]
 
 { #category : #'look event sending' }
-ToIntrinsicStateStub >> onAppliedOn: anElement [
+ToIntrinsicStateStub >> onAppliedOn: anElement fromQueue: aQueue [
 
-	super onAppliedOn: anElement.
+	super onAppliedOn: anElement fromQueue: aQueue.
 	applyCount := applyCount + 1
 ]
 

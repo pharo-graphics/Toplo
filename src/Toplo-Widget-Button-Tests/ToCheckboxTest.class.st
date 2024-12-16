@@ -28,6 +28,33 @@ ToCheckboxTest >> testChecked [
 ]
 
 { #category : #tests }
+ToCheckboxTest >> testCheckedDisabledInSpace [
+
+	| chb |
+	chb := ToCheckbox new label: (ToLabel text: 'Checkbox').
+	chb checked: true.
+	self assert: chb icon isNil.
+	space root addChild: chb.
+	self assert: chb icon isNil.
+	space applyAllSkinPhases.
+	self assert: chb icon notNil.
+	chb disabled: true.
+
+]
+
+{ #category : #tests }
+ToCheckboxTest >> testCheckedDisabledInSpace2 [
+
+	| chb |
+	chb := ToCheckbox new label: (ToLabel text: 'Checkbox').
+	chb checked: true.
+	chb disabled: true.
+	space root addChild: chb.
+	space applyAllSkinPhases.
+	self assert: chb icon notNil
+]
+
+{ #category : #tests }
 ToCheckboxTest >> testCheckedWhenDisabled [
 
 	| cb  checked |
@@ -50,7 +77,7 @@ ToCheckboxTest >> testIndeterminateBar [
 	cb := ToCheckbox new.
 	self assert: cb indeterminateBar isNil.
 	space root addChild: cb.
-	space applyAllSkinInstallers.
+	space applyAllSkinPhases.
 	self assert: cb indeterminateBar notNil
 	
 ]

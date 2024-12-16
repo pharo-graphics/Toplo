@@ -46,6 +46,30 @@ TToBarElement >> installFakeNode [
 ]
 
 { #category : #'t - bar element' }
+TToBarElement >> isNodeAutoDistribution [
+
+	^ self nodeAutoDistribution
+]
+
+{ #category : #'t - bar element' }
+TToBarElement >> isNodeScrolling [
+
+	^ self nodeScrolling 
+]
+
+{ #category : #'t - bar element' }
+TToBarElement >> isNodeWrapping [
+
+	^ self nodeWrapping 
+]
+
+{ #category : #'t - bar element' }
+TToBarElement >> isUniformNodeWidth [
+
+	^ self uniformNodeWidth 
+]
+
+{ #category : #'t - bar element' }
 TToBarElement >> nodeAutoDistribution [
 
 	^ nodeAutoDistribution ifNil: [ nodeAutoDistribution := false ] 

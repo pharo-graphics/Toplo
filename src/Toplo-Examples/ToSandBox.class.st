@@ -34,21 +34,24 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 		aBar vertical: event current ].
 
 	confPane addChild: verticalSwitch.
+	verticalSwitch checked: aBar isVertical.
 
 	wrappingSwitch := ToSwitchButton new labelText: 'Wrapping'.
 	wrappingSwitch startFlexible: true.
 	wrappingSwitch hMatchParent.
+	wrappingSwitch checked: aBar isNodeWrapping.
 	confPane addChild: wrappingSwitch.
 
 	uniformNodeWidthSwitch := ToSwitchButton new labelText:
 		                          'Uniform Node width'.
 	uniformNodeWidthSwitch startFlexible: true.
 	uniformNodeWidthSwitch hMatchParent.
-	uniformNodeWidthSwitch checked: false.
+	uniformNodeWidthSwitch checked: aBar isUniformNodeWidth.
 	confPane addChild: uniformNodeWidthSwitch.
 
 	scrollingSwitch := ToSwitchButton new labelText: 'Scrolling'.
 	scrollingSwitch startFlexible: true.
+	scrollingSwitch checked: aBar isNodeScrolling.
 	scrollingSwitch hMatchParent.
 
 	confPane addChild: scrollingSwitch.
@@ -74,7 +77,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 		                          'Auto-distribution'.
 	autoDistributionSwitch startFlexible: true.
 	autoDistributionSwitch hMatchParent.
-
+	autoDistributionSwitch checked: aBar isNodeAutoDistribution.
 	confPane addChild: autoDistributionSwitch.
 	autoDistributionSwitch whenClickedDo: [ :event |
 		| v |
@@ -84,6 +87,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	selectionAnimationSwitch := ToSwitchButton new labelText:
 		                            'Animate selection transition'.
 	selectionAnimationSwitch startFlexible: true.
+	selectionAnimationSwitch checked: aBar selectionOption isAnimated.
 	selectionAnimationSwitch hMatchParent.
 
 	confPane addChild: selectionAnimationSwitch.
@@ -103,6 +107,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 		                           labelText: 'Select on mouse down';
 		                           id: #selectOnMouseDownSwitch.
 	selectOnMouseDownSwitch startFlexible: true.
+	selectionAnimationSwitch checked: aBar primarySelectionMode selectOnMouseDown.
 	selectOnMouseDownSwitch hMatchParent.
 
 	confPane addChild: selectOnMouseDownSwitch.
@@ -113,6 +118,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 		                             labelText: 'Deselect on mouse down';
 		                             id: #deselectOnMouseDownSwitch.
 	deselectOnMouseDownSwitch startFlexible: true.
+	deselectOnMouseDownSwitch checked: aBar primarySelectionMode deselectOnMouseDown.
 	deselectOnMouseDownSwitch hMatchParent.
 
 	makeDisabledUnselectableSwitch := ToSwitchButton new
@@ -122,19 +128,15 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 			                                  #makeDisabledUnselectableSwitch.
 	makeDisabledUnselectableSwitch startFlexible: true.
 	makeDisabledUnselectableSwitch hMatchParent.
+	makeDisabledUnselectableSwitch checked: aBar primarySelectionMode makeDisabledUnselectable.
 	makeDisabledUnselectableSwitch whenClickedDo: [ :event |
 		aBar primarySelectionMode makeDisabledUnselectable: event current ].
 
 	confPane addChild: deselectOnMouseDownSwitch.
 	deselectOnMouseDownSwitch whenClickedDo: [ :event |
 		aBar primarySelectionMode deselectOnMouseDown: event current ].
-	deselectOnMouseDownSwitch checked:
-		aBar primarySelectionMode deselectOnMouseDown.
 
 	confPane addChild: makeDisabledUnselectableSwitch.
-
-	wrappingSwitch checked: true.
-
 	confPane addChild: (self resizerBoardFor: aBar).
 
 	^ confPane
@@ -151,12 +153,9 @@ ToSandBox class >> barDashBoardFor: aBar [
 	confPane padding: (BlInsets all: 5).
 	confPane width: 250.
 	confPane border: Color lightGray.
-	"barPane := ToPane vertical."
-	"barPane matchParent."
 	mainPane addChildren: {
 			confPane.
 			aBar }.
-	"barPane addChild: aBar."
 	^ mainPane
 ]
 
@@ -564,6 +563,31 @@ ToSandBox class >> example_CheckboxChecked [
 	chb checked: true.
 	chb isChecked traceCr.
 	chb openInInnerWindow
+]
+
+{ #category : #checkbox }
+ToSandBox class >> example_CheckboxCheckedDisabled [
+
+	| chb sp disBtn |
+	ToTheme cleanUp.
+	chb := ToCheckbox new label: (ToLabel text: 'Checkbox').
+	"chb addEventHandler: (BlEventHandler
+			 on: ToSkinEvent
+			 do: [ :evt | evt target = chb ifTrue: [ evt traceCr ] ])."
+	chb whenClickedDo: [ :event |
+		event currentTarget isChecked traceCr ].
+	chb checked: true.
+	chb disabled: true.
+	disBtn := ToSwitchButton new labelText: 'Enable/disable'.
+	disBtn whenClickedDo: [ :event | chb enabled: chb isEnabled not ].
+	disBtn checked: chb isEnabled.
+
+	sp := BlSpace new.
+	sp root layout: BlLinearLayout vertical.
+	sp root addChild: chb.
+	sp root addChild: disBtn.
+	
+	sp show
 ]
 
 { #category : #checkbox }
@@ -4137,14 +4161,15 @@ ToSandBox class >> example_scaledImage [
 { #category : #segmented }
 ToSandBox class >> example_segmentedWithCheckboxes [
 
-	| checkableBar dashBoard |
-	checkableBar := ToSegmentedElement new.
+	| seg dashBoard |
+	seg := ToSegmentedElement new.
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
-		checkableBar dataAccessor add: (ToCheckbox new
+		seg dataAccessor add: (ToCheckbox new
 				 labelText: l;
 				 yourself) ].
-	checkableBar selectionOption masked: true.
-	dashBoard := self segmentedDashBoardFor: checkableBar.
+	seg  disableAtPosition: 2.
+	seg selectionOption masked: true.
+	dashBoard := self segmentedDashBoardFor: seg.
 	dashBoard openInSpace
 ]
 
@@ -6850,7 +6875,7 @@ ToSandBox class >> resizerBoardFor: aBar [
 										 ifTrue: [ aBar hFitContent ]
 										 ifFalse: [ aBar vFitContent ] ]
 								 ifFalse: [ sizeInputPane enabled: true ] ] ]).
-		buttons first checked: true.
+		buttons second checked: true.
 		container := ToPane vertical.
 		container border: Color lightGray.
 		container padding: (BlInsets all: 2).

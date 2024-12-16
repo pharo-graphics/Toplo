@@ -123,11 +123,7 @@ ToSkinManager >> defaultSkin: aSkin [
 { #category : #'skin - installing / uninstalling' }
 ToSkinManager >> enablementChangedIn: anElement [
 
-	self skinStateQueue enqueueEnablementStateForElement: anElement.
-	" Do not force state application if the element is not in a space.
-	It can also be the case when a layout is computed for an infinite "
-	anElement space ifNil: [ ^ anElement requestNewSkin ].
-	self skinStateQueue applyEnqueuedStatesIn: anElement
+	self skinStateQueue enablementChangedIn: anElement
 ]
 
 { #category : #'skin state generation' }

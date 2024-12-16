@@ -16,16 +16,16 @@ ToTransientState class >> skinEvent: aSkinEvent [
 ]
 
 { #category : #'look event sending' }
-ToTransientState >> applyOn: anElement [
+ToTransientState >> applyOn: anElement fromQueue: aQueue [
 
 	skinEvent ifNil: [ Error signal: 'An explicit state must provide its own skin event instance' ].
-	super applyOn: anElement
+	super applyOn: anElement fromQueue: aQueue
 ]
 
 { #category : #'look event sending' }
-ToTransientState >> onAppliedOn: anElement [
+ToTransientState >> onAppliedOn: anElement fromQueue: aQueue [
 
-	super onAppliedOn: anElement.
+	super onAppliedOn: anElement fromQueue: aQueue.
 	skinEvent isConsumed ifTrue: [ self sourceEvent consume ].
 	skinEvent := nil
 

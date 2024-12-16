@@ -36,7 +36,28 @@ ToMenuBarEventHandler >> eventsToHandle [
 		  BlMouseOverEvent.
 		  BlMouseUpEvent.
 		  BlElementAddedToSceneGraphEvent.
-		  BlElementRemovedFromSceneGraphEvent }
+		  BlElementRemovedFromSceneGraphEvent.
+		  ToLayoutOrientationChangedEvent.
+		  ToLayoutDirectionChangedEvent.
+		  BlLayoutResizerChangedEvent }
+]
+
+{ #category : #'event handling' }
+ToMenuBarEventHandler >> layoutDirectionChangedEvent: anEvent [
+
+	anEvent currentTarget configureLayout
+]
+
+{ #category : #'event handling' }
+ToMenuBarEventHandler >> layoutOrientationChangedEvent: anEvent [
+
+	anEvent currentTarget configureLayout
+]
+
+{ #category : #'event handling' }
+ToMenuBarEventHandler >> layoutResizerChangedEvent: anEvent [
+
+	anEvent currentTarget configureLayout
 ]
 
 { #category : #'event handling' }

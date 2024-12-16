@@ -51,6 +51,8 @@ ToAbstractListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 
 { #category : #'t - bar element' }
 ToAbstractListElement >> configureLayout [
+
+	self innerElement configureLayoutIn: self
 ]
 
 { #category : #'accessing selecters' }
@@ -152,7 +154,7 @@ ToAbstractListElement >> defaultInnerElement [
 { #category : #initialization }
 ToAbstractListElement >> defaultLayout [
 
-	^ BlLinearLayout new
+	^ BlLinearLayout vertical
 ]
 
 { #category : #initialization }
@@ -308,7 +310,7 @@ ToAbstractListElement >> itemCount [
 { #category : #'t - orientable - accessing' }
 ToAbstractListElement >> layoutStrategy [
 
-	^ self innerElement layout
+	^ self layout
 
 	
 ]

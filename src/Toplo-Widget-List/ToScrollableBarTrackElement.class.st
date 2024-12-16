@@ -13,12 +13,6 @@ Class {
 }
 
 { #category : #adding }
-ToScrollableBarTrackElement >> addAllHolders: anArray at: aPosition [
-
-	anArray reverseDo: [ :h | self addHolder: h at: aPosition]
-]
-
-{ #category : #adding }
 ToScrollableBarTrackElement >> addFakeNode: aNode [
 
 	fakeNode ifNotNil: [ self removeFakeNode ].
@@ -41,6 +35,18 @@ ToScrollableBarTrackElement >> artlyVisibleNodesSelect: aBlock [
 	^ Array streamContents: [ :stream |
 		  self partlyVisibleNodesDo: [ :node |
 			  (aBlock value: node) ifTrue: [ stream nextPut: node ] ] ]
+]
+
+{ #category : #layout }
+ToScrollableBarTrackElement >> checkFullyVisibleNodesIn: aListElement [
+
+	| invisibleNodes |
+	self isNodeWrapping ifTrue: [ ^ self ].
+	self isNodeScrolling ifTrue: [ ^ self ].
+	self isNodeAutoDistribution ifTrue: [ ^ self ].
+	invisibleNodes := self nodesSelect: [ :n | n isFullyVisible not ].
+	invisibleNodes ifEmpty: [ ^ self ].
+	aListElement haveInvisibleNodes: invisibleNodes
 ]
 
 { #category : #layout }

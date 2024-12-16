@@ -10,8 +10,15 @@ Class {
 ToGenericListNodeManager >> constraintNode: aNode [
 
 	aNode constraintsDo: [ :c |
-		c horizontal matchParent.
-		c vertical fitContent ]
+		| l |
+		l := aNode holder listElement.
+		l isHorizontal
+			ifTrue: [
+				c horizontal fitContent.
+				c vertical fitContent ]
+			ifFalse: [
+				c horizontal matchParent.
+				c vertical fitContent ] ]
 ]
 
 { #category : #initialization }

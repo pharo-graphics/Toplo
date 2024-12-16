@@ -1,8 +1,8 @@
 Class {
 	#name : #ToInfiniteElement,
 	#superclass : #BlInfiniteElement,
-	#traits : 'TBlLayoutResizable',
-	#classTraits : 'TBlLayoutResizable classTrait',
+	#traits : 'TToListNodeHolder + TBlLayoutResizable + TToOrientable',
+	#classTraits : 'TToListNodeHolder classTrait + TBlLayoutResizable classTrait + TToOrientable classTrait',
 	#instVars : [
 		'listElement'
 	],
@@ -27,6 +27,15 @@ ToInfiniteElement >> applyDataSourceFilterCommand: aDataSourceCommand [
 ToInfiniteElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 
 	listElement applyDataSourceSieveCommand: aDataSourceCommand
+]
+
+{ #category : #'t - list node holder' }
+ToInfiniteElement >> configureLayoutIn: aListElement [
+
+	self matchParent.
+	self horizontal: aListElement isHorizontal.
+	aListElement isHMatchParent ifFalse: [ self hFitContent ].
+	aListElement isVMatchParent ifFalse: [ self vFitContent ].
 ]
 
 { #category : #initialization }
@@ -67,12 +76,6 @@ ToInfiniteElement >> defaultScrollFlinger [
 	^ ToInfiniteScrollFlinger
 ]
 
-{ #category : #'scrolled event' }
-ToInfiniteElement >> disableScrolledEvent [
-
-	self eventDispatcher disableScrolledEvent 
-]
-
 { #category : #layout }
 ToInfiniteElement >> dispatchLayoutFinalStep [
 
@@ -81,10 +84,10 @@ ToInfiniteElement >> dispatchLayoutFinalStep [
 
 ]
 
-{ #category : #'scrolled event' }
-ToInfiniteElement >> enableScrolledEvent [
+{ #category : #'t - list node holder' }
+ToInfiniteElement >> findElementHolderForDataSourcePosition: aPosition [
 
-	self eventDispatcher enableScrolledEvent 
+	^ super findElementHolderForDataSourcePosition: aPosition
 ]
 
 { #category : #'node enumerating' }
@@ -113,6 +116,14 @@ ToInfiniteElement >> innerElement [
 	^ self
 ]
 
+{ #category : #'t - orientable - accessing' }
+ToInfiniteElement >> layoutStrategy [
+
+	^ self layout
+
+	
+]
+
 { #category : #accessing }
 ToInfiniteElement >> listElement [
 
@@ -131,16 +142,6 @@ ToInfiniteElement >> newNodeHolderFromDataSource: aDataSource [
 	^ listElement nodeManager newHolder
 ]
 
-{ #category : #'accessing - nodes' }
-ToInfiniteElement >> nodeAt: anIndex [
-
-	" return the holder for the data at anIndex according to currently viewed data range. 
-	Returns nil if anIndex is not currently viewed in the infinite element"
-	^ (self findElementHolderForDataSourcePosition: anIndex)
-		  ifNotNil: [ :holder | holder itemElement ]
-		  ifNil: [  ]
-]
-
 { #category : #'accessing - children' }
 ToInfiniteElement >> nodeContainingGlobalPosition: aPoint [
 
@@ -149,36 +150,19 @@ ToInfiniteElement >> nodeContainingGlobalPosition: aPoint [
 	^ nil
 ]
 
-{ #category : #'accessing - nodes' }
-ToInfiniteElement >> nodeGroupsSatisfying: aBlock [
-	" return an array of collection. Each collection contains a list of adjacent selected nodes "
-
-	^ Array streamContents: [ :stream |
-		  | g |
-		  g := OrderedCollection new.
-		  self partlyVisibleNodesDo: [ :node |
-			  (aBlock value: node)
-				  ifTrue: [ g add: node ]
-				  ifFalse: [
-					  g ifNotEmpty: [
-						  stream nextPut: g.
-						  g := OrderedCollection new ] ] ].
-		  g ifNotEmpty: [ stream nextPut: g ] ]
-]
-
-{ #category : #'node enumerating' }
+{ #category : #'t - list node holder' }
 ToInfiniteElement >> nodes [
 
 	^ self children
 ]
 
-{ #category : #'node enumerating' }
+{ #category : #'t - list node holder' }
 ToInfiniteElement >> nodesDo: aBlock [
 
 	self childrenDo: [ :node | aBlock value: node ]
 ]
 
-{ #category : #'node enumerating' }
+{ #category : #'t - list node holder' }
 ToInfiniteElement >> nodesSelect: aBlock [
 
 	^ Array streamContents: [ :stream |
@@ -186,7 +170,7 @@ ToInfiniteElement >> nodesSelect: aBlock [
 			  (aBlock value: node) ifTrue: [ stream nextPut: node ] ] ]
 ]
 
-{ #category : #'node enumerating' }
+{ #category : #'t - list node holder' }
 ToInfiniteElement >> nodesWithIndexDo: aBlock [
 
 	self nodesDo: [ :node |
@@ -199,13 +183,13 @@ ToInfiniteElement >> onScrolled: aPoint [
 	listElement onScrolled: aPoint
 ]
 
-{ #category : #'node enumerating' }
+{ #category : #'t - list node holder' }
 ToInfiniteElement >> partlyVisibleNodesDo: aBlock [
 
 	self nodesDo: aBlock
 ]
 
-{ #category : #'node enumerating' }
+{ #category : #'t - list node holder' }
 ToInfiniteElement >> partlyVisibleNodesSelect: aBlock [
 
 	^ Array streamContents: [ :stream |
@@ -267,15 +251,6 @@ ToInfiniteElement >> scrollTowardStartToDataSourcePosition: anIndex [
 	it is positionned at the top or at the bottom of the listElement "
 
 	self scrollToPosition: anIndex 
-]
-
-{ #category : #'accessing - children' }
-ToInfiniteElement >> selectableNodeContainingGlobalPosition: aPoint [
-
-	self nodesDo: [ :node |
-		((node containsGlobalPoint: aPoint) and: [ node holder isSelectable ])
-			ifTrue: [ ^ node ] ].
-	^ nil
 ]
 
 { #category : #private }

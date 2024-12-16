@@ -64,6 +64,12 @@ ToMultiSelectBarElement >> checkMaxSelectedCount [
 	self popupListElement notifyDataSourceChanged
 ]
 
+{ #category : #initialization }
+ToMultiSelectBarElement >> defaultLayout [
+
+	^ BlLinearLayout horizontal
+]
+
 { #category : #layout }
 ToMultiSelectBarElement >> extentChanged [
 
@@ -87,7 +93,6 @@ ToMultiSelectBarElement >> filterTextField: aTextField [
 ToMultiSelectBarElement >> haveInvisibleNodes: theInvisibleNodes [
 
 	| visibleNodes invisibleNodes composite finalCount |
-	theInvisibleNodes ifEmpty: [ ^ self ].
 	" in case of composite node at first it means that 
 	there is no more visible node to cumulate in a composite node"
 	self nodes size = 1 ifTrue: [ ^ self ].

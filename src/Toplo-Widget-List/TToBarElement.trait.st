@@ -24,7 +24,7 @@ TToBarElement >> configureLayout [
 { #category : #'t - bar element' }
 TToBarElement >> defaultInnerElement [
 
-	^ ToInnerScrollableBarElement onBarElement: self
+	^ ToInnerBarElement onBarElement: self
 ]
 
 { #category : #'t - bar element' }
@@ -99,7 +99,7 @@ TToBarElement >> sample: aDataItem [
 
 	self nodeManager fakeDataItem: aDataItem.
 	self reinstallFakeNode.
-	self configureLayout
+	self requestLayout
 	
 ]
 

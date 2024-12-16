@@ -1090,14 +1090,13 @@ ToSandBox class >> example_HorizontalListWithIndexedColors [
 
 	| l space |
 	l := ToListElement new nodeBuilder: [ :node :dataItem :holder |
-		     node constraintsDo: [ :c |
-			     c horizontal fitContent.
-			     c vertical fitContent ].
+		     node fitContent.
 		     node addChild: (ToElement new
 				      size: 70 @ 50;
 				      background: dataItem) ].
 	l background: Color yellow.
 	l beHorizontal.
+	l hMatchParent.
 	l dataAccessor addAll: Color indexedColors.
 	space := BlSpace new.
 	space root addChild: l.

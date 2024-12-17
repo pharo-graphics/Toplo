@@ -2,10 +2,10 @@ Class {
 	#name : #ToListPrimarySelectionMode,
 	#superclass : #ToAbstractListSelectionMode,
 	#instVars : [
-		'requestFocusOnMouseDown',
+		'requestFocusOnPressed',
 		'preserveSelectionOnFocused',
-		'selectOnMouseDown',
-		'deselectOnMouseDown',
+		'selectOnPressed',
+		'deselectOnPressed',
 		'multiple'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
@@ -15,11 +15,11 @@ Class {
 ToListPrimarySelectionMode >> allowRequestFocusOnMouseDown [
 
 	| max |
-	self isDisabled ifTrue: [ ^ self requestFocusOnMouseDown ].
+	self isDisabled ifTrue: [ ^ self requestFocusOnPressed ].
 	max := self maxSelectedIndexesForSelectionPreserving.
 	self selectedIndexesCount > max ifTrue: [
 		self preserveSelectionOnFocused ifTrue: [ ^ false ] ].
-	^ self requestFocusOnMouseDown
+	^ self requestFocusOnPressed
 ]
 
 { #category : #accessing }
@@ -47,25 +47,25 @@ ToListPrimarySelectionMode >> defaultSelectionOption [
 ]
 
 { #category : #accessing }
-ToListPrimarySelectionMode >> deselectOnMouseDown [
+ToListPrimarySelectionMode >> deselectOnPressed [
 
-	^ deselectOnMouseDown
+	^ deselectOnPressed
 ]
 
 { #category : #accessing }
-ToListPrimarySelectionMode >> deselectOnMouseDown: aBoolean [
+ToListPrimarySelectionMode >> deselectOnPressed: aBoolean [
 
-	deselectOnMouseDown := aBoolean
+	deselectOnPressed := aBoolean
 ]
 
 { #category : #initialization }
 ToListPrimarySelectionMode >> initialize [
 
 	super initialize.
-	requestFocusOnMouseDown := true.
+	requestFocusOnPressed := true.
 	preserveSelectionOnFocused := true.
-	selectOnMouseDown := false.
-	deselectOnMouseDown := false.
+	selectOnPressed := false.
+	deselectOnPressed := false.
 	multiple := true
 ]
 
@@ -142,10 +142,10 @@ ToListPrimarySelectionMode >> onClickEvent: anEvent onNode: aNode [
 			^ self ].
 		" CMD-CTRL "
 		(modifiers isPrimaryModifier or: [
-			 selectOnMouseDown or: [ deselectOnMouseDown ] ]) ifTrue: [
+			 selectOnPressed or: [ deselectOnPressed ] ]) ifTrue: [
 			(self selectionModel containsIndex: index)
 				ifTrue: [
-					(modifiers isPrimaryModifier or: [ deselectOnMouseDown ])
+					(modifiers isPrimaryModifier or: [ deselectOnPressed ])
 						ifTrue: [ self selecter deselectIndex: index ] ]
 				ifFalse: [ self selecter selectIndex: index ].
 			^ self ].
@@ -155,8 +155,8 @@ ToListPrimarySelectionMode >> onClickEvent: anEvent onNode: aNode [
 
 	" Single selection "
 	" CMD-CTRL  "
-	(modifiers isPrimaryModifier or: [ selectOnMouseDown ]) ifTrue: [
-		(deselectOnMouseDown and: [
+	(modifiers isPrimaryModifier or: [ selectOnPressed ]) ifTrue: [
+		(deselectOnPressed and: [
 			 self selectionModel containsIndex: index ]) ifTrue: [
 			^ self selecter deselectIndex: index ] ].
 
@@ -186,27 +186,27 @@ ToListPrimarySelectionMode >> preserveSelectionOnFocused: aBoolean [
 ]
 
 { #category : #accessing }
-ToListPrimarySelectionMode >> requestFocusOnMouseDown [
+ToListPrimarySelectionMode >> requestFocusOnPressed [
 
-	^ requestFocusOnMouseDown
+	^ requestFocusOnPressed
 ]
 
 { #category : #accessing }
-ToListPrimarySelectionMode >> requestFocusOnMouseDown: aBoolean [
+ToListPrimarySelectionMode >> requestFocusOnPressed: aBoolean [
 
-	requestFocusOnMouseDown := aBoolean 
+	requestFocusOnPressed := aBoolean 
 ]
 
 { #category : #accessing }
-ToListPrimarySelectionMode >> selectOnMouseDown [
+ToListPrimarySelectionMode >> selectOnPressed [
 
-	^ selectOnMouseDown
+	^ selectOnPressed
 ]
 
 { #category : #accessing }
-ToListPrimarySelectionMode >> selectOnMouseDown: aBoolean [
+ToListPrimarySelectionMode >> selectOnPressed: aBoolean [
 
-	selectOnMouseDown := aBoolean
+	selectOnPressed := aBoolean
 ]
 
 { #category : #'instance creation' }

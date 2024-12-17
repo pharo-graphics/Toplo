@@ -12,7 +12,7 @@ ToListNodeSelectionEventHandler >> clickEvent: anEvent [
 	listElement := node holder listElement.
 	listElement isEnabled ifFalse: [ ^ self ].
 	mode := listElement primarySelectionMode.
-	mode selectOnMouseDown ifTrue: [ ^ self ].
+	mode selectOnPressed ifTrue: [ ^ self ].
 	self notifyClickOnNodeFromEvent: anEvent.
 	"anEvent consume"
 ]
@@ -85,6 +85,6 @@ ToListNodeSelectionEventHandler >> primaryMouseDownEvent: anEvent [
 	mode := listElement primarySelectionMode.
 	mode allowRequestFocusOnMouseDown ifFalse: [ anEvent consume ].
 	mode := listElement primarySelectionMode.
-	mode selectOnMouseDown ifFalse: [ ^ self ].
+	mode selectOnPressed ifFalse: [ ^ self ].
 	self notifyClickOnNodeFromEvent: anEvent
 ]

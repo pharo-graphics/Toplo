@@ -7,7 +7,7 @@ Class {
 { #category : #bar }
 ToSandBox class >> barConfigurationBoardFor: aBar [
 
-	| menu confPane verticalSwitch wrappingSwitch scrollingSwitch autoDistributionSwitch uniformNodeWidthSwitch selectionAnimationSwitch selectOnMouseDownSwitch deselectOnMouseDownSwitch makeDisabledUnselectableSwitch uniformNodeHeightSwitch |
+	| menu confPane verticalSwitch wrappingSwitch scrollingSwitch autoDistributionSwitch uniformNodeWidthSwitch selectionAnimationSwitch selectOnPressedSwitch deselectOnPressedSwitch makeDisabledUnselectableSwitch uniformNodeHeightSwitch |
 	confPane := ToPane vertical.
 	confPane padding: (BlInsets all: 5).
 	confPane width: 300.
@@ -113,23 +113,23 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 
 	wrappingSwitch checked: aBar isNodeWrapping.
 
-	selectOnMouseDownSwitch := ToSwitchButton new
-		                           labelText: 'Select on mouse down';
-		                           id: #selectOnMouseDownSwitch.
-	selectOnMouseDownSwitch startFlexible: true.
-	selectionAnimationSwitch checked: aBar primarySelectionMode selectOnMouseDown.
-	selectOnMouseDownSwitch hMatchParent.
+	selectOnPressedSwitch := ToSwitchButton new
+		                           labelText: 'Select on node pressed';
+		                           id: #selectOnPressedSwitch.
+	selectOnPressedSwitch startFlexible: true.
+	selectionAnimationSwitch checked: aBar primarySelectionMode selectOnPressed.
+	selectOnPressedSwitch hMatchParent.
 
-	confPane addChild: selectOnMouseDownSwitch.
-	selectOnMouseDownSwitch whenClickedDo: [ :event |
-		aBar primarySelectionMode selectOnMouseDown: event current ].
+	confPane addChild: selectOnPressedSwitch.
+	selectOnPressedSwitch whenClickedDo: [ :event |
+		aBar primarySelectionMode selectOnPressed: event current ].
 
-	deselectOnMouseDownSwitch := ToSwitchButton new
-		                             labelText: 'Deselect on mouse down';
-		                             id: #deselectOnMouseDownSwitch.
-	deselectOnMouseDownSwitch startFlexible: true.
-	deselectOnMouseDownSwitch checked: aBar primarySelectionMode deselectOnMouseDown.
-	deselectOnMouseDownSwitch hMatchParent.
+	deselectOnPressedSwitch := ToSwitchButton new
+		                             labelText: 'Deselect on node pressed';
+		                             id: #deselectOnPressedSwitch.
+	deselectOnPressedSwitch startFlexible: true.
+	deselectOnPressedSwitch checked: aBar primarySelectionMode deselectOnPressed.
+	deselectOnPressedSwitch hMatchParent.
 
 	makeDisabledUnselectableSwitch := ToSwitchButton new
 		                                  labelText:
@@ -142,9 +142,9 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	makeDisabledUnselectableSwitch whenClickedDo: [ :event |
 		aBar primarySelectionMode makeDisabledUnselectable: event current ].
 
-	confPane addChild: deselectOnMouseDownSwitch.
-	deselectOnMouseDownSwitch whenClickedDo: [ :event |
-		aBar primarySelectionMode deselectOnMouseDown: event current ].
+	confPane addChild: deselectOnPressedSwitch.
+	deselectOnPressedSwitch whenClickedDo: [ :event |
+		aBar primarySelectionMode deselectOnPressed: event current ].
 
 	confPane addChild: makeDisabledUnselectableSwitch.
 	confPane addChild: (self resizerBoardFor: aBar).
@@ -1471,8 +1471,8 @@ ToSandBox class >> example_ListWithAllClassesAsToggleButton [
 				     holder listElement selecter deselectIndex: holder position ] ].
 		     node addChild: toggle ].
 	l dataAccessor addAll: Smalltalk globals allClasses.
-	l primarySelectionMode selectOnMouseDown: true.	
-	l primarySelectionMode deselectOnMouseDown: true.
+	l primarySelectionMode selectOnPressed: true.	
+	l primarySelectionMode deselectOnPressed: true.
 	"l primarySelectionMode option masked: true."
 	l openInSpace
 ]
@@ -2978,7 +2978,7 @@ ToSandBox class >> example_ToggleButtonInListElement [
 	| group moveListElement space |
 	group := ToCheckableGroup new.
 	moveListElement := ToListElement new.
-	moveListElement primarySelectionMode selectOnMouseDown: false.
+	moveListElement primarySelectionMode selectOnPressed: false.
 	moveListElement nodeBuilder: [ :node :move :holder |
 		| moveElement moveNumberLabel whiteMoveLabel moveButtons blackMoveLabel inspectButton |
 		moveButtons := OrderedCollection new.

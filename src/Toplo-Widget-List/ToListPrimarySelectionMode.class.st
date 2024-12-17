@@ -129,6 +129,7 @@ ToListPrimarySelectionMode >> onClickEvent: anEvent onNode: aNode [
 
 	| index modifiers |
 	self isDisabled ifTrue: [ ^ self ].
+
 	index := aNode holder position.
 	modifiers := anEvent sourceEvent modifiers.
 
@@ -140,10 +141,12 @@ ToListPrimarySelectionMode >> onClickEvent: anEvent onNode: aNode [
 			self selecter selectIndex: curr to: index.
 			^ self ].
 		" CMD-CTRL "
-		(modifiers isPrimaryModifier or: [ selectOnMouseDown ]) ifTrue: [
+		(modifiers isPrimaryModifier or: [
+			 selectOnMouseDown or: [ deselectOnMouseDown ] ]) ifTrue: [
 			(self selectionModel containsIndex: index)
 				ifTrue: [
-				(modifiers isPrimaryModifier or: [ deselectOnMouseDown ]) ifTrue: [ self selecter deselectIndex: index ] ]
+					(modifiers isPrimaryModifier or: [ deselectOnMouseDown ])
+						ifTrue: [ self selecter deselectIndex: index ] ]
 				ifFalse: [ self selecter selectIndex: index ].
 			^ self ].
 		" No modifier"

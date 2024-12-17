@@ -172,21 +172,16 @@ ToSandBox class >> barDashBoardFor: aBar [
 { #category : #bar }
 ToSandBox class >> barWithData: aCollection [
 
-	| bar confBoard rootPane selectionModeBoard |
+	| bar confBoard rootPane selectionModeBoard rand |
 	bar := ToGenericBarElement new.
+	rand := Random new.
 	bar addStamp: #background withValue: (Color veryLightGray alpha: 0.1).
 	bar nodeFactory: [ :holder | ToBarNodeExamplePart new ].
 	bar nodeBuilder: [ :node :dataItem :holder |
-		| fontSize cls |
-		holder position = 1
-			ifTrue: [
-				fontSize := 24.
-				cls := ToLabel ]
-			ifFalse: [
-				fontSize := 14.
-				cls := ToLabel ].
+		| fontSize |
+		fontSize := rand nextIntegerBetween: 10 and: 28. 
 		node label:
-			((cls text: holder position asString , ': ' , dataItem asString)
+			((ToLabel text: holder position asString , ': ' , dataItem asString)
 				 fontSize: fontSize;
 				 yourself) ].
 

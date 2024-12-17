@@ -65,7 +65,7 @@ ToListPrimarySelectionMode >> initialize [
 	requestFocusOnMouseDown := true.
 	preserveSelectionOnFocused := true.
 	selectOnMouseDown := false.
-	deselectOnMouseDown := true.
+	deselectOnMouseDown := false.
 	multiple := true
 ]
 

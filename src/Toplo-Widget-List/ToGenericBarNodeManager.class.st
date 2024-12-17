@@ -31,7 +31,7 @@ ToGenericBarNodeManager >> defaultNodeBuilder [
 { #category : #initialization }
 ToGenericBarNodeManager >> defaultNodeFactory [
 
-	^ [ :holder | ToListNode new ]
+	^ [ :holder | ToBarNode new ]
 ]
 
 { #category : #initialization }

@@ -176,14 +176,35 @@ ToSandBox class >> barWithData: aCollection [
 	bar := ToGenericBarElement new.
 	rand := Random new.
 	bar addStamp: #background withValue: (Color veryLightGray alpha: 0.1).
-	bar nodeFactory: [ :holder | ToBarNodeExamplePart new ].
 	bar nodeBuilder: [ :node :dataItem :holder |
-		| fontSize |
-		fontSize := rand nextIntegerBetween: 10 and: 28. 
-		node label:
-			((ToLabel text: holder position asString , ': ' , dataItem asString)
-				 fontSize: fontSize;
-				 yourself) ].
+		| fontSize triplet but label |
+		triplet := ToTripletElement new.
+		triplet
+			hMatchParent;
+			vFitContent.
+		fontSize := rand nextIntegerBetween: 10 and: 28.
+		label := (ToLabel text:
+				          holder position asString , ': ' , dataItem asString)
+			         fontSize: fontSize;
+			         yourself.
+		but := ToButton new.
+		but addStamp: #iconic.
+		but addStamp: #circle.
+		but icon: (ToImage inner: (self iconNamed: #windowClose)).
+		but constraintsDo: [ :c | c linear vertical alignCenter ].
+		but whenClickedDo: [ :event |
+			holder listElement dataAccessor removeAt: holder position ].
+		triplet startElement: but.
+		"triplet middleElement: label."
+		"triplet startFlexible: true."
+		triplet startInterspace: 10.
+		triplet constraintsDo: [ :c | c linear vertical alignCenter ].
+		triplet geometry: (BlRoundedRectangleGeometry cornerRadius: 6).
+		triplet padding: (BlInsets all: 3).
+		triplet border: Color veryLightGray.
+		label constraintsDo: [ :c | c linear vertical alignCenter ].
+		label border: Color veryLightGray.
+		node addChild: label ].
 
 	bar contextMenu: [ :menu :request |
 		| idxes target |
@@ -6911,8 +6932,8 @@ ToSandBox class >> segmentedDashBoardFor: aSegmentedElement [
 	mainPane matchParent.
 
 	confPane := self barConfigurationBoardFor: aSegmentedElement.
-	(confPane childWithId: #selectOnMouseDownSwitch) disable.
-	(confPane childWithId: #deselectOnMouseDownSwitch) disable.
+	(confPane childWithId: #selectOnPressedSwitch) disable.
+	(confPane childWithId: #deselectOnPressedSwitch) disable.
 	confPane padding: (BlInsets all: 5).
 	confPane width: 250.
 	confPane border: Color lightGray.

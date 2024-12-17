@@ -58,8 +58,30 @@ ToInnerBarElement >> checkFullyVisibleNodes [
 ToInnerBarElement >> configureLayoutIn: aBarElement [
 
 	self matchParent.
-	aBarElement isHMatchParent ifFalse: [ self hFitContent ].
-	aBarElement isVMatchParent ifFalse: [ self vFitContent ].
+	aBarElement isNodeWrapping
+		ifTrue: [
+			aBarElement isVertical
+				ifTrue: [
+					aBarElement isUniformNodeWidth
+						ifTrue: [ self hMatchParent ]
+						ifFalse: [
+							aBarElement isHMatchParent
+								ifTrue: [ self hMatchParent ]
+								ifFalse: [ self hFitContent ] ] ]
+				ifFalse: [
+					aBarElement isUniformNodeHeight
+						ifTrue: [ self vMatchParent ]
+						ifFalse: [
+							aBarElement isVMatchParent
+								ifTrue: [ self vMatchParent ]
+								ifFalse: [ self vFitContent ] ] ] ]
+		ifFalse: [
+			aBarElement isHMatchParent
+				ifTrue: [ self hMatchParent ]
+				ifFalse: [ self hFitContent ].
+			aBarElement isVMatchParent
+				ifTrue: [ self vMatchParent ]
+				ifFalse: [ self vFitContent ] ].
 	trackElement configureLayoutIn: aBarElement
 ]
 

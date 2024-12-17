@@ -287,6 +287,12 @@ BlElement >> isEnabled [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> isFake [ 
+
+	^ false
+]
+
+{ #category : #'*Toplo' }
 BlElement >> isItemContainer [
 
 	^ false

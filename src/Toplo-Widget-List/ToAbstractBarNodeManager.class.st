@@ -32,14 +32,38 @@ ToAbstractBarNodeManager >> constraintNode: aNode [
 
 	| bar |
 	bar := aNode holder listElement.
-	aNode constraintsDo: [ :c |
-		c horizontal fitContent.
-		c vertical fitContent ].
+	bar nodeWrapping
+		ifFalse: [
+			bar isVertical
+				ifTrue: [
+					bar isHMatchParent
+						ifTrue: [
+							aNode constraintsDo: [ :c |
+								c horizontal matchParent.
+								c vertical fitContent ] ]
+						ifFalse: [
+							aNode constraintsDo: [ :c |
+								c horizontal fitContent.
+								c vertical fitContent ] ] ]
+				ifFalse: [					
+					bar isVMatchParent
+						ifTrue: [
+							aNode constraintsDo: [ :c |
+								c vertical matchParent.
+								c horizontal fitContent ] ]
+						ifFalse: [
+							aNode constraintsDo: [ :c |
+								c horizontal fitContent.
+								c vertical fitContent ] ]] ]
+		ifTrue: [
+			aNode constraintsDo: [ :c |
+				c horizontal fitContent.
+				c vertical fitContent ] ].
+		
 	aNode constraintsDo: [ :c |
 		c linear vertical alignCenter.
-		c flow vertical alignCenter.
-		c linear horizontal alignCenter.
-		c flow horizontal alignCenter ].
+		c flow vertical alignCenter ].
+	
 	bar nodeScrolling ifTrue: [ ^ self ].
 	bar nodeAutoDistribution ifTrue: [
 		bar isHorizontal

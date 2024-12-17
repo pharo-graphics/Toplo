@@ -173,8 +173,8 @@ ToSandBox class >> barDashBoardFor: aBar [
 ToSandBox class >> barWithData: aCollection [
 
 	| bar confBoard rootPane selectionModeBoard rand |
-	bar := ToGenericBarElement new.
 	rand := Random new.
+	bar := ToGenericBarElement new.
 	bar addStamp: #background withValue: (Color veryLightGray alpha: 0.1).
 	bar nodeBuilder: [ :node :dataItem :holder |
 		| fontSize triplet but label |
@@ -182,7 +182,7 @@ ToSandBox class >> barWithData: aCollection [
 		triplet
 			hMatchParent;
 			vFitContent.
-		fontSize := rand nextIntegerBetween: 10 and: 28.
+		fontSize := rand nextIntegerBetween: 10 and: 16.
 		label := (ToLabel text:
 				          holder position asString , ': ' , dataItem asString)
 			         fontSize: fontSize;
@@ -195,16 +195,12 @@ ToSandBox class >> barWithData: aCollection [
 		but whenClickedDo: [ :event |
 			holder listElement dataAccessor removeAt: holder position ].
 		triplet startElement: but.
-		"triplet middleElement: label."
-		"triplet startFlexible: true."
+		triplet middleElement: label.
 		triplet startInterspace: 10.
-		triplet constraintsDo: [ :c | c linear vertical alignCenter ].
-		triplet geometry: (BlRoundedRectangleGeometry cornerRadius: 6).
-		triplet padding: (BlInsets all: 3).
-		triplet border: Color veryLightGray.
-		label constraintsDo: [ :c | c linear vertical alignCenter ].
-		label border: Color veryLightGray.
-		node addChild: label ].
+		"triplet startFlexible: true."
+		triplet constraintsDo: [ :c |
+			c linear vertical alignCenter ].
+		node addChild: triplet ].
 
 	bar contextMenu: [ :menu :request |
 		| idxes target |
@@ -227,37 +223,44 @@ ToSandBox class >> barWithData: aCollection [
 					 target dataAccessor add:
 							 String loremIpsum substrings first , ' (added last)' ]).
 		idxes ifNotEmpty: [
-			menu addItem: (ToMenuItem new
-					 labelText: 'Inspect selected nodes';
-					 whenClickedDo: [
-						 Array withAll:
-								 (idxes collect: [ :idx | target nodeAt: idx ]) inspect ]).
-			menu addItem: (ToMenuItem new
-					 labelText: 'Unable/disable';
-					 whenClickedDo: [
-						 idxes do: [ :idx |
-								 bar disabledSelecter switchIndexSelection: idx ] ]).
-			menu addItem: (ToMenuItem new
-					 labelText: 'Unselectable';
-					 whenClickedDo: [
-						 idxes do: [ :idx | bar unselectableSelecter selectIndex: idx ] ]).
-			menu addItem: (ToMenuItem new
-					 labelText: 'Insert before';
-					 whenClickedDo: [ :event |
-						 | idx |
-						 idx := idxes first.
-						 target dataAccessor
-							 add: String loremIpsum substrings first , ' (inserted before)'
-							 beforeIndex: idx ];
-					 yourself).
-			menu addItem: (ToMenuItem new
-					 labelText: 'Insert after';
-					 whenClickedDo: [ :event |
-						 | idx |
-						 idx := idxes last.
-						 target dataAccessor
-							 add: String loremIpsum substrings first , ' (inserted after)'
-							 afterIndex: idx ];
+			menu addItem: (ToMenu new
+					 labelText: 'Selected node';
+					 in: [ :m |
+						 m addItem: (ToMenuItem new
+									  labelText: 'Inspect';
+									  whenClickedDo: [
+										  Array withAll:
+												  (idxes collect: [ :idx | target nodeAt: idx ]) inspect ]).
+						 m addItem: (ToMenuItem new
+								  labelText: 'Unable/disable';
+								  whenClickedDo: [
+									  idxes do: [ :idx |
+											  bar disabledSelecter switchIndexSelection: idx ] ]).
+						 m addItem: (ToMenuItem new
+								  labelText: 'Unselectable';
+								  whenClickedDo: [
+									  idxes do: [ :idx |
+											  bar unselectableSelecter selectIndex: idx ] ]).
+						 m addItem: (ToMenuItem new
+								  labelText: 'Insert before';
+								  whenClickedDo: [ :event |
+									  | idx |
+									  idx := idxes first.
+									  target dataAccessor
+										  add:
+											  String loremIpsum substrings first , ' (inserted before)'
+										  beforeIndex: idx ];
+								  yourself).
+						 m addItem: (ToMenuItem new
+								  labelText: 'Insert after';
+								  whenClickedDo: [ :event |
+									  | idx |
+									  idx := idxes last.
+									  target dataAccessor
+										  add:
+											  String loremIpsum substrings first , ' (inserted after)'
+										  afterIndex: idx ];
+								  yourself) ];
 					 yourself) ] ].
 
 	confBoard := self barConfigurationBoardFor: bar.
@@ -2881,6 +2884,7 @@ ToSandBox class >> example_TagBar [
 
 	| tb |
 	tb := ToTagBarElement new.
+	tb horizontal: true.
 	tb dataAccessor addAll: (ToSandBox statesOfAmerica collect: [ :s |
 			 ToSingleTag new data: s ]).
 	tb openInSpace

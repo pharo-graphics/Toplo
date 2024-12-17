@@ -7,7 +7,8 @@ Class {
 		'nodeAutoDistribution',
 		'horizontal',
 		'flowLineUniformWidth',
-		'fakeNode'
+		'fakeNode',
+		'flowLineUniformHeight'
 	],
 	#category : #'Toplo-Widget-List-InnerBar'
 }
@@ -41,9 +42,9 @@ ToScrollableBarTrackElement >> artlyVisibleNodesSelect: aBlock [
 ToScrollableBarTrackElement >> checkFullyVisibleNodesIn: aListElement [
 
 	| invisibleNodes |
-	self isNodeWrapping ifTrue: [ ^ self ].
-	self isNodeScrolling ifTrue: [ ^ self ].
-	self isNodeAutoDistribution ifTrue: [ ^ self ].
+	nodeWrapping ifTrue: [ ^ self ].
+	nodeScrolling ifTrue: [ ^ self ].
+	nodeAutoDistribution ifTrue: [ ^ self ].
 	invisibleNodes := self nodesSelect: [ :n | n isFullyVisible not ].
 	invisibleNodes ifEmpty: [ ^ self ].
 	aListElement haveInvisibleNodes: invisibleNodes
@@ -52,11 +53,12 @@ ToScrollableBarTrackElement >> checkFullyVisibleNodesIn: aListElement [
 { #category : #layout }
 ToScrollableBarTrackElement >> configureLayoutIn: aBarElement [
 
-	nodeScrolling := aBarElement nodeScrolling.
-	nodeWrapping := aBarElement nodeWrapping.
-	nodeAutoDistribution := aBarElement nodeAutoDistribution.
-	flowLineUniformWidth := aBarElement uniformNodeWidth.
-	self horizontal: aBarElement isHorizontal.
+	nodeScrolling := aBarElement isNodeScrolling.
+	nodeWrapping := aBarElement isNodeWrapping.
+	nodeAutoDistribution := aBarElement isNodeAutoDistribution.
+	flowLineUniformWidth := aBarElement isUniformNodeWidth.
+	flowLineUniformHeight := aBarElement isUniformNodeHeight.
+	horizontal := aBarElement isHorizontal.
 
 	self layout: self newLayout.
 
@@ -110,7 +112,7 @@ ToScrollableBarTrackElement >> fullyVisibleNodesSelect: aBlock [
 ]
 
 { #category : #accessing }
-ToScrollableBarTrackElement >> horizontal: anObject [
+ToScrollableBarTrackElement >> horizontal: anObject [ 
 
 	horizontal := anObject
 ]
@@ -120,12 +122,6 @@ ToScrollableBarTrackElement >> initialize [
 
 	super initialize.
 	self focusability: BlFocusability ignore
-]
-
-{ #category : #testing }
-ToScrollableBarTrackElement >> isFlowLineUniformWidth [
-
-	^ flowLineUniformWidth 
 ]
 
 { #category : #testing }
@@ -157,33 +153,16 @@ ToScrollableBarTrackElement >> newLayout [
 
 	^ nodeWrapping
 		  ifTrue: [
-			  (self isHorizontal
+			  (horizontal
 				   ifTrue: [ ToBarFlowLayout horizontal ]
 				   ifFalse: [ ToBarFlowLayout vertical ])
 				  uniformNodeWidth: flowLineUniformWidth;
+				  uniformNodeHeight: flowLineUniformHeight;
 				  yourself ]
 		  ifFalse: [
-			  self isHorizontal
+			  horizontal
 				  ifTrue: [ BlLinearLayout horizontal ]
 				  ifFalse: [ BlLinearLayout vertical ] ]
-]
-
-{ #category : #accessing }
-ToScrollableBarTrackElement >> nodeAutoDistribution: anObject [
-
-	nodeAutoDistribution := anObject
-]
-
-{ #category : #accessing }
-ToScrollableBarTrackElement >> nodeScrolling: anObject [
-
-	nodeScrolling := anObject
-]
-
-{ #category : #accessing }
-ToScrollableBarTrackElement >> nodeWrapping: anObject [
-
-	nodeWrapping := anObject
 ]
 
 { #category : #accessing }
@@ -247,10 +226,4 @@ ToScrollableBarTrackElement >> removeFakeNode [
 ToScrollableBarTrackElement >> removeNode: aNode [
 
 	aNode removeFromParent
-]
-
-{ #category : #accessing }
-ToScrollableBarTrackElement >> uniformNodeWidth: anObject [
-
-	flowLineUniformWidth := anObject
 ]

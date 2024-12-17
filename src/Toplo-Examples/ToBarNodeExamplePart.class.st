@@ -50,7 +50,8 @@ ToBarNodeExamplePart >> label [
 { #category : #accessing }
 ToBarNodeExamplePart >> label: aLabel [
 
-	triplet middleElement: aLabel
+	triplet middleElement: aLabel.
+	aLabel applyStyle
 ]
 
 { #category : #initialization }

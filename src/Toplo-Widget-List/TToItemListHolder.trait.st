@@ -100,6 +100,12 @@ TToItemListHolder >> isNodeWrapping [
 ]
 
 { #category : #'t - item list holder - accessing' }
+TToItemListHolder >> isUniformNodeHeight [
+
+	^ self itemList isUniformNodeHeight
+]
+
+{ #category : #'t - item list holder - accessing' }
 TToItemListHolder >> isUniformNodeWidth [
 
 	^ self itemList isUniformNodeWidth
@@ -199,6 +205,13 @@ TToItemListHolder >> selectionModel [
 TToItemListHolder >> selectionOption [
 
 	^ self itemList selectionOption
+]
+
+{ #category : #'t - item list holder - accessing' }
+TToItemListHolder >> uniformNodeHeight: aBoolean [
+
+	self itemList uniformNodeHeight: aBoolean.
+	self configureLayout
 ]
 
 { #category : #'t - item list holder - accessing' }

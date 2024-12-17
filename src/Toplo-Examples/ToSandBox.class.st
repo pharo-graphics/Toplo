@@ -7,7 +7,7 @@ Class {
 { #category : #bar }
 ToSandBox class >> barConfigurationBoardFor: aBar [
 
-	| menu confPane verticalSwitch wrappingSwitch scrollingSwitch autoDistributionSwitch uniformNodeWidthSwitch selectionAnimationSwitch selectOnMouseDownSwitch deselectOnMouseDownSwitch makeDisabledUnselectableSwitch |
+	| menu confPane verticalSwitch wrappingSwitch scrollingSwitch autoDistributionSwitch uniformNodeWidthSwitch selectionAnimationSwitch selectOnMouseDownSwitch deselectOnMouseDownSwitch makeDisabledUnselectableSwitch uniformNodeHeightSwitch |
 	confPane := ToPane vertical.
 	confPane padding: (BlInsets all: 5).
 	confPane width: 300.
@@ -39,7 +39,6 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	wrappingSwitch := ToSwitchButton new labelText: 'Wrapping'.
 	wrappingSwitch startFlexible: true.
 	wrappingSwitch hMatchParent.
-	wrappingSwitch checked: aBar isNodeWrapping.
 	confPane addChild: wrappingSwitch.
 
 	uniformNodeWidthSwitch := ToSwitchButton new labelText:
@@ -48,6 +47,12 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	uniformNodeWidthSwitch hMatchParent.
 	uniformNodeWidthSwitch checked: aBar isUniformNodeWidth.
 	confPane addChild: uniformNodeWidthSwitch.
+	uniformNodeHeightSwitch := ToSwitchButton new labelText:
+		                          'Uniform Node height'.
+	uniformNodeHeightSwitch startFlexible: true.
+	uniformNodeHeightSwitch hMatchParent.
+	uniformNodeHeightSwitch checked: aBar isUniformNodeHeight.
+	confPane addChild: uniformNodeHeightSwitch.
 
 	scrollingSwitch := ToSwitchButton new labelText: 'Scrolling'.
 	scrollingSwitch startFlexible: true.
@@ -61,12 +66,17 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 		v := event current.
 		aBar nodeWrapping: v.
 		uniformNodeWidthSwitch enabled: v.
+		uniformNodeHeightSwitch enabled: v.
 		scrollingSwitch disabled: v ].
 
 	uniformNodeWidthSwitch whenClickedDo: [ :event |
 		| v |
 		v := event current.
 		aBar uniformNodeWidth: v ].
+	uniformNodeHeightSwitch whenClickedDo: [ :event |
+		| v |
+		v := event current.
+		aBar uniformNodeHeight: v ].
 
 	scrollingSwitch whenClickedDo: [ :event |
 		| v |
@@ -101,7 +111,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 				 ifTrue: [ 150 milliSeconds ]
 				 ifFalse: [ 0 milliSeconds ]) ].
 
-	wrappingSwitch checked: true.
+	wrappingSwitch checked: aBar isNodeWrapping.
 
 	selectOnMouseDownSwitch := ToSwitchButton new
 		                           labelText: 'Select on mouse down';
@@ -167,8 +177,18 @@ ToSandBox class >> barWithData: aCollection [
 	bar addStamp: #background withValue: (Color veryLightGray alpha: 0.1).
 	bar nodeFactory: [ :holder | ToBarNodeExamplePart new ].
 	bar nodeBuilder: [ :node :dataItem :holder |
+		| fontSize cls |
+		holder position = 1
+			ifTrue: [
+				fontSize := 24.
+				cls := ToLabel ]
+			ifFalse: [
+				fontSize := 14.
+				cls := ToLabel ].
 		node label:
-			(ToLabel text: holder position asString , ': ' , dataItem asString) ].
+			((cls text: holder position asString , ': ' , dataItem asString)
+				 fontSize: fontSize;
+				 yourself) ].
 
 	bar contextMenu: [ :menu :request |
 		| idxes target |
@@ -199,7 +219,8 @@ ToSandBox class >> barWithData: aCollection [
 			menu addItem: (ToMenuItem new
 					 labelText: 'Unable/disable';
 					 whenClickedDo: [
-						 idxes do: [ :idx | bar disabledSelecter switchIndexSelection: idx ] ]).
+						 idxes do: [ :idx |
+								 bar disabledSelecter switchIndexSelection: idx ] ]).
 			menu addItem: (ToMenuItem new
 					 labelText: 'Unselectable';
 					 whenClickedDo: [
@@ -571,10 +592,9 @@ ToSandBox class >> example_CheckboxCheckedDisabled [
 	| chb sp disBtn |
 	ToTheme cleanUp.
 	chb := ToCheckbox new label: (ToLabel text: 'Checkbox').
-	"chb addEventHandler: (BlEventHandler
-			 on: ToSkinEvent
-			 do: [ :evt | evt target = chb ifTrue: [ evt traceCr ] ])."
+	chb addEventHandlerOn: ToSkinEvent do: [ :evt | evt traceCr ].
 	chb whenClickedDo: [ :event |
+		'isChecked: ' trace.
 		event currentTarget isChecked traceCr ].
 	chb checked: true.
 	chb disabled: true.
@@ -586,7 +606,7 @@ ToSandBox class >> example_CheckboxCheckedDisabled [
 	sp root layout: BlLinearLayout vertical.
 	sp root addChild: chb.
 	sp root addChild: disBtn.
-	
+
 	sp show
 ]
 

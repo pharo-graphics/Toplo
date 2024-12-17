@@ -2,7 +2,8 @@ Class {
 	#name : #ToBarFlowLayout,
 	#superclass : #BlFlowLayout,
 	#instVars : [
-		'uniformNodeWidth'
+		'uniformNodeWidth',
+		'uniformNodeHeight'
 	],
 	#category : #'Toplo-Widget-List-InnerBar'
 }
@@ -12,13 +13,23 @@ ToBarFlowLayout >> = anObject [
 
 	super = anObject ifFalse: [ ^ false ].
 	self uniformNodeWidth = anObject uniformNodeWidth ifFalse: [ ^ false ].
+	self uniformNodeHeight = anObject uniformNodeHeight ifFalse: [ ^ false ].
 	^ true
 ]
 
 { #category : #comparing }
 ToBarFlowLayout >> hash [
 
-	^ super hash bitXor: self uniformNodeWidth hash
+	^ (super hash bitXor: self uniformNodeWidth hash) bitXor:
+		  self uniformNodeHeight
+]
+
+{ #category : #initialization }
+ToBarFlowLayout >> initialize [ 
+
+	super initialize.
+	uniformNodeWidth := false.
+	uniformNodeHeight := false
 ]
 
 { #category : #initialization }
@@ -28,9 +39,21 @@ ToBarFlowLayout >> newMeasurer [
 ]
 
 { #category : #accessing }
+ToBarFlowLayout >> uniformNodeHeight [
+
+	^ uniformNodeHeight 
+]
+
+{ #category : #accessing }
+ToBarFlowLayout >> uniformNodeHeight: aBoolean [
+	" an option that set the same width to all elements of a line "
+	uniformNodeHeight := aBoolean
+]
+
+{ #category : #accessing }
 ToBarFlowLayout >> uniformNodeWidth [
 
-	^ uniformNodeWidth ifNil: [ uniformNodeWidth := false ]
+	^ uniformNodeWidth 
 ]
 
 { #category : #accessing }

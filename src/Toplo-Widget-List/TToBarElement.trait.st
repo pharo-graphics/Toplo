@@ -4,7 +4,8 @@ Trait {
 		'nodeWrapping',
 		'nodeScrolling',
 		'nodeAutoDistribution',
-		'uniformNodeWidth'
+		'uniformNodeWidth',
+		'uniformNodeHeight'
 	],
 	#category : #'Toplo-Widget-List-Core-BarElement'
 }
@@ -61,6 +62,12 @@ TToBarElement >> isNodeScrolling [
 TToBarElement >> isNodeWrapping [
 
 	^ self nodeWrapping 
+]
+
+{ #category : #'t - bar element' }
+TToBarElement >> isUniformNodeHeight [
+
+	^ self uniformNodeHeight
 ]
 
 { #category : #'t - bar element' }
@@ -125,6 +132,21 @@ TToBarElement >> sample: aDataItem [
 	self reinstallFakeNode.
 	self requestLayout
 	
+]
+
+{ #category : #'t - bar element' }
+TToBarElement >> uniformNodeHeight [
+
+	^ uniformNodeHeight ifNil: [ uniformNodeHeight := false ]
+]
+
+{ #category : #'t - bar element' }
+TToBarElement >> uniformNodeHeight: aBoolean [
+
+	uniformNodeHeight := aBoolean.
+	self configureLayout.
+	self notifyDataSourceChanged
+
 ]
 
 { #category : #'t - bar element' }

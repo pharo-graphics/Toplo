@@ -9,6 +9,11 @@ Class {
 }
 
 { #category : #'event handling' }
+ToAlbumEventHandler >> blurEvent: anEvent [
+
+]
+
+{ #category : #'event handling' }
 ToAlbumEventHandler >> checkTextIn: anEditorElement [
 
 	(textEmpty isNil or: [ anEditorElement text isEmpty ~= textEmpty ])
@@ -35,11 +40,10 @@ ToAlbumEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 { #category : #'event handling' }
 ToAlbumEventHandler >> enablementChangedEvent: anEvent [
 
-	| target |
-	target := anEvent currentTarget.
 	target isEnabled
 		ifTrue: [ target beEditable ]
-		ifFalse: [ target beReadonlyWithSelection ]
+		ifFalse: [
+			target beReadonlyWithSelection ]
 ]
 
 { #category : #'api - accessing' }
@@ -54,6 +58,12 @@ ToAlbumEventHandler >> eventsToHandle [
 		  AlbTextReplacedEvent.
 		  ToEnablementChangedEvent.
 		  ToTextEmptinessChangeEvent }
+]
+
+{ #category : #'event handling' }
+ToAlbumEventHandler >> focusEvent: anEvent [
+
+
 ]
 
 { #category : #'mouse handlers' }

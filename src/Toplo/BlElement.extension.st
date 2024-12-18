@@ -122,7 +122,9 @@ BlElement >> disabled: aBoolean [
 
 	self isDisabled = aBoolean ifFalse: [
 		aBoolean
-			ifTrue: [ self flagAsDisabled ]
+			ifTrue: [
+				self loseFocus.
+				self flagAsDisabled ]
 			ifFalse: [ self flagAsEnabled ].
 		self dispatchEvent: ToEnablementChangedEvent new.
 		self skinManagerDo: [ :sm | sm enablementChangedIn: self ] ].

@@ -50,6 +50,8 @@ ToAlbumEventHandler >> enablementChangedEvent: anEvent [
 ToAlbumEventHandler >> eventsToHandle [
 
 	^ {
+		  BlFocusEvent.
+		  BlBlurEvent.
 		  BlMouseDownEvent.
 		  BlMouseUpEvent.
 		  BlDoubleClickEvent.

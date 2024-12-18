@@ -12,16 +12,19 @@ ToAbstractBarNodeManager >> constraintFakeNode: aNode [
 
 	| bar |
 	bar := aNode holder listElement.
-	aNode visibility: BlVisibility hidden.
 	bar isHorizontal
 		ifTrue: [
 			aNode constraintsDo: [ :c |
 				c horizontal exact: 0.
-				c vertical fitContent ] ]
+				c vertical fitContent.
+				c flow vertical alignCenter.
+				c linear vertical alignCenter ] ]
 		ifFalse: [
 			aNode constraintsDo: [ :c |
 				c vertical exact: 0.
-				c horizontal fitContent ] ].
+				c horizontal fitContent.
+				c flow horizontal alignCenter.
+				c linear horizontal alignCenter ] ].
 ]
 
 { #category : #initialization }
@@ -61,7 +64,6 @@ ToAbstractBarNodeManager >> constraintNode: aNode [
 		c linear vertical alignCenter.
 		c flow vertical alignCenter ].
 	
-	bar nodeWrapping ifTrue: [ ^ self ].
 	bar nodeScrolling ifTrue: [ ^ self ].
 	bar nodeAutoDistribution ifTrue: [
 		bar isHorizontal

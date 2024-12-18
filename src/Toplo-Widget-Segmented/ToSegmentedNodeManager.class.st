@@ -16,6 +16,22 @@ ToSegmentedNodeManager >> buildNode: aNode [
 ]
 
 { #category : #initialization }
+ToSegmentedNodeManager >> constraintNode: aNode [
+
+	| bar |
+	super constraintNode: aNode.
+	bar := aNode holder listElement.
+	aNode item constraintsDo: [ :c |
+		c horizontal fitContent.
+		c vertical fitContent ].
+	bar nodeWrapping ifTrue: [ ^ self ].
+	bar nodeAutoDistribution ifFalse: [ ^ self ].
+	aNode item constraintsDo: [ :c |
+		c horizontal matchParent.
+		c vertical matchParent ]
+]
+
+{ #category : #initialization }
 ToSegmentedNodeManager >> defaultFakeDataItem [
 
 	^ ToSegmentedButton new

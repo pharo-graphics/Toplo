@@ -13,24 +13,6 @@ ToTabNodeManager >> buildNode: aNode [
 ]
 
 { #category : #initialization }
-ToTabNodeManager >> constraintFakeNode: aNode [
-
-	| bar |
-	bar := aNode holder listElement.
-	aNode constraintsDo: [ :c |
-		c horizontal exact: 0.
-		c vertical exact: 0.
-		c flow vertical alignCenter.
-		c linear vertical alignCenter ]
-]
-
-{ #category : #initialization }
-ToTabNodeManager >> constraintNode: aNode [
-
-	super constraintNode: aNode
-]
-
-{ #category : #initialization }
 ToTabNodeManager >> defaultFakeDataItem [ 
 
 	^ ToButton new

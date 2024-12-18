@@ -5,6 +5,14 @@ Class {
 }
 
 { #category : #'event handling' }
+ToSegmentedNodeSkin >> hoveredSkinEvent: anEvent [
+
+	super hoveredSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e mouseCursor: Cursor webLink ]
+]
+
+{ #category : #'event handling' }
 ToSegmentedNodeSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
@@ -14,4 +22,12 @@ ToSegmentedNodeSkin >> installSkinEvent: anEvent [
 				 horizontal: (e valueOfTokenNamed: #'segmented-node-padding-H')
 				 vertical: (e valueOfTokenNamed: #'segmented-node-padding-V')).
 		e border: (BlBorder empty) ]
+]
+
+{ #category : #'event handling' }
+ToSegmentedNodeSkin >> leavedSkinEvent: anEvent [
+
+	super leavedSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e mouseCursor: Cursor normal ]
 ]

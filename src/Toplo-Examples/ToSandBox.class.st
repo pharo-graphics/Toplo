@@ -3869,7 +3869,7 @@ ToSandBox class >> example_menuBar2 [
 		bar addItem: menu ].
 
 	frame pane addChild: bar.
-	frame openInSpace
+	frame openInSpace 
 ]
 
 { #category : #menu }

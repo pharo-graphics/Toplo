@@ -19,7 +19,7 @@ ToSegmentedNode >> checkableElement: aCheckable [
 { #category : #'t - list node' }
 ToSegmentedNode >> clickEventHandlerClasses [
 
-	^  {  } 
+	^  { ToSegmentedNodeSelectionEventHandler } 
 ]
 
 { #category : #skin }

@@ -13,8 +13,7 @@ ToListNodeSelectionEventHandler >> clickEvent: anEvent [
 	listElement isEnabled ifFalse: [ ^ self ].
 	mode := listElement primarySelectionMode.
 	mode selectOnPressed ifTrue: [ ^ self ].
-	self notifyClickOnNodeFromEvent: anEvent.
-	"anEvent consume"
+	self notifyClickOnNodeFromEvent: anEvent
 ]
 
 { #category : #'mouse handlers' }

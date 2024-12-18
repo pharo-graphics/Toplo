@@ -16,7 +16,7 @@ ToItemNode >> item: aMenuItem [
 	aMenuItem ifNil: [ ^ self ].
 	aMenuItem parent = self ifTrue: [ ^ self ].
 	aMenuItem removeFromParent.
-	self addChild: aMenuItem
+	self addChild: aMenuItem at: 1
 ]
 
 { #category : #skin }

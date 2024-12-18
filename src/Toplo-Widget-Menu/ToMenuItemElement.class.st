@@ -29,14 +29,9 @@ ToMenuItemElement >> constraintMenuNode: aNode [
 	" Sent to let any menu item to adapt its resizer/layout  constraints before the node is added in the menu list. Notice that I am sent before the node adding + the selections shift is actually finished. Thus, this place is not adequate for changing one of the list selections (use #addedInMenu for that) "
 
 	aNode holder listElement isHorizontal
-		ifTrue: [
-			self constraintsDo: [ :c |
-				c horizontal fitContent.
-				c vertical fitContent ] ]
-		ifFalse: [
-			self constraintsDo: [ :c |
-				c horizontal matchParent.
-				c vertical fitContent ] ]
+		ifTrue: [ self hFitContent ]
+		ifFalse: [ self hMatchParent ].
+	self vFitContent
 ]
 
 { #category : #initialization }

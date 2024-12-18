@@ -26,7 +26,6 @@ ToListElementEventHandler >> boundsHasChangedDuringScrollingEvent: anEvent [
 { #category : #'event handling' }
 ToListElementEventHandler >> clickEvent: anEvent [
 
-	anEvent isConsumed ifTrue: [ ^ self ].
 	anEvent ifPrimary: [ self primaryClickEvent: anEvent ]
 		  secondary: [ self secondaryClickEvent: anEvent ]
 		  middle: [ self middleClickEvent: anEvent ]

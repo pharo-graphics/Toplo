@@ -101,6 +101,7 @@ ToMenuBar >> itemContaining: anElement [
 	self = anElement ifTrue: [ ^ self ].
 	^ (self itemList itemContaining: anElement) ifNotNil: [ :found |
 		  | item |
+		  found = anElement ifTrue: [ ^ self ].
 		  item := found item.
 		  item isMenuBar
 			  ifTrue: [ item itemContaining: anElement ]

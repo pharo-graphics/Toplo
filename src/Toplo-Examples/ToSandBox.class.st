@@ -3985,15 +3985,19 @@ ToSandBox class >> example_overlayWindow1 [
 
 	| e windowManager |
 	e := ToElement new
-		     size: 100 @ 100;
+		     size: 200 @ 200;
 		     position: 50 @ 50;
 		     background: Color yellow;
 		     border: (BlBorder paint: Color red).
 	windowManager := ToOverlayWindowManager new.
 	e addEventHandler: windowManager.
-	windowManager builder: [ :anchWin :element |
-		anchWin background: (Color gray alpha: 0.2).
-		anchWin border: (BlBorder paint: Color black width: 2) ].
+	windowManager windowBuilder: [ :anchWin :element |
+		anchWin withNullSkin.
+		anchWin addEventHandlerOn: BlClickEvent do: [ anchWin close ].
+		anchWin background: Color red.
+		anchWin border: (BlBorder paint: Color black width: 4).
+		anchWin padding: (BlInsets all: 5).
+		anchWin root addChild: (ToLabel new text: 'Click to close me'; yourself)].
 	e openInInnerWindow.
 	(windowManager newWindowEvent: nil) popup
 ]
@@ -4003,18 +4007,20 @@ ToSandBox class >> example_overlayWindow2 [
 
 	| e windowManager |
 	e := ToInnerWindow new
-		     size: 100 @ 100;
+		     size: 300 @ 300;
 		     position: 50 @ 50.
 	windowManager := ToOverlayWindowManager new.
-	windowManager positionHook: [ :theWindow :theElement :event |
-			theElement bounds inSpace bounds topLeft + (20 @ 40) ].
+	windowManager positionHook: [ :win :elem :event |
+			(elem bounds inParent: win anchorRoot) bounds topLeft + (20 @ 40) ].
 	windowManager widthHook: [ :theWindow :theElement :tenEvent |
-		theElement measuredWidth - 40  ].
+		theElement width - 40  ].
 	windowManager heightHook: [ :theWindow :theElement :tenEvent |
-		(theElement measuredHeight - 60)  ].
+		(theElement height - 60)  ].
+	windowManager anchorRoot: e.
 	e addEventHandler: windowManager.
 	windowManager windowBuilder: [ :anchWin :element |
-		anchWin background: (Color gray alpha: 0.2).
+		anchWin withNullSkin.
+		anchWin background: Color red.
 		anchWin border: (BlBorder paint: Color black width: 2) ].
 	e openInInnerWindow.
 	(windowManager newWindowEvent: nil) popup

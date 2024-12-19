@@ -150,6 +150,7 @@ ToAnchoredWindow >> popupEvent: anEvent [
 		size and position hooks can be applied "
 		self checkBeforePopupEvent: anEvent.
 		" since the position/size could have been changed, one have to wait a second layout"
+		self requestLayout.
 		self whenLayoutedDoOnce: [
 			self onPositionChangedToFitAnchorRootDo: [
 				self toFront.

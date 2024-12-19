@@ -62,19 +62,13 @@ ToInnerBarElement >> configureLayoutIn: aBarElement [
 		ifTrue: [
 			aBarElement isVertical
 				ifTrue: [
-					aBarElement isUniformNodeWidth
+					aBarElement isHMatchParent
 						ifTrue: [ self hMatchParent ]
-						ifFalse: [
-							aBarElement isHMatchParent
-								ifTrue: [ self hMatchParent ]
-								ifFalse: [ self hFitContent ] ] ]
+						ifFalse: [ self hFitContent ] ]
 				ifFalse: [
-					aBarElement isUniformNodeHeight
+					aBarElement isVMatchParent
 						ifTrue: [ self vMatchParent ]
-						ifFalse: [
-							aBarElement isVMatchParent
-								ifTrue: [ self vMatchParent ]
-								ifFalse: [ self vFitContent ] ] ] ]
+						ifFalse: [ self vFitContent ] ] ]
 		ifFalse: [
 			aBarElement isHMatchParent
 				ifTrue: [ self hMatchParent ]
@@ -82,6 +76,7 @@ ToInnerBarElement >> configureLayoutIn: aBarElement [
 			aBarElement isVMatchParent
 				ifTrue: [ self vMatchParent ]
 				ifFalse: [ self vFitContent ] ].
+			
 	trackElement configureLayoutIn: aBarElement
 ]
 

@@ -46,12 +46,6 @@ ToMenuItemElement >> defaultEventHandlerClass [
 	^ ToMenuItemEventHandler
 ]
 
-{ #category : #initialization }
-ToMenuItemElement >> defaultLayout [
-
-	^ BlLinearLayout vertical
-]
-
 { #category : #testing }
 ToMenuItemElement >> hasIcon [
 

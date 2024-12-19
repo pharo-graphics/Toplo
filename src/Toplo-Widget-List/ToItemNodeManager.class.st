@@ -13,9 +13,11 @@ ToItemNodeManager >> buildNode: aNode [
 ]
 
 { #category : #initialization }
-ToItemNodeManager >> defaultFakeDataItem [ 
+ToItemNodeManager >> defaultFakeDataItem [
 
 	^ ToItemElement new
+		  size: 10 asPoint;
+		  yourself
 ]
 
 { #category : #'instance creation' }

@@ -55,7 +55,11 @@ ToTheme class >> defaultTokenProperties [
 			   name: #'sh-style-table'
 			   value: SHRBTextStyler defaultStyleTable).
 		  (ToTokenProperty name: #'background-color' value: Color white).
-
+		  (ToTokenProperty name: #'submenu-arrow-right' value: [
+			   (ToMaterialDesignIconProvider iconNamed:
+					    'outlined_keyboardarrowright') yourself
+				   size: 18 asPoint;
+				   yourself ]).
 		  (ToTokenProperty name: #'border-radius' value: 4).
 		  (ToTokenProperty name: #'border-radius-LG' value: 8).
 		  (ToTokenProperty name: #'border-radius-SM' value: 4).

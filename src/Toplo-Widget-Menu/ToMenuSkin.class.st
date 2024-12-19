@@ -12,10 +12,9 @@ ToMenuSkin >> installSkinEvent: anEvent [
 		e isSubmenu
 			ifTrue: [
 				e endFlexible: true.
-				e endElement addChild: (ToAttributedLabel new
-						 text: '>' asRopedText;
-						 foreground: Color veryLightGray;
-						 yourself) ]
+				e endInterspace: 10.
+				e endElement addChild:
+					(e valueOfTokenNamed: #'submenu-arrow-right') value ]
 			ifFalse: [
 				(e hasIcon and: [ e hasLabel ])
 					ifTrue: [

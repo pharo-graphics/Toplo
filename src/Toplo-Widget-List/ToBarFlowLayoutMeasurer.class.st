@@ -7,7 +7,7 @@ Class {
 { #category : #measure }
 ToBarFlowLayoutMeasurer >> measure: anElement with: anExtentSpec [
 
-	| measureAgain lwidth lheight |
+	| lwidth lheight measureAgain |
 	super measure: anElement with: anExtentSpec.
 	(layout uniformNodeWidth or: [ layout uniformNodeHeight ]) ifFalse: [
 		^ self ].
@@ -26,11 +26,11 @@ ToBarFlowLayoutMeasurer >> measure: anElement with: anExtentSpec [
 		aLine children do: [ :aChild |
 			aChild element isFake ifFalse: [
 				layout uniformNodeWidth ifTrue: [
-					aChild element measuredWidth = lwidth ifFalse: [
+					(aChild element measuredWidth - lwidth) isZero ifFalse: [
 						aChild element width: lwidth.
 						measureAgain := true ] ].
 				layout uniformNodeHeight ifTrue: [
-					aChild element measuredHeight = lheight ifFalse: [
+					(aChild element measuredHeight - lheight) isZero ifFalse: [
 						aChild element height: lheight.
 						measureAgain := true ] ] ] ] ].
 

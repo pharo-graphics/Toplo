@@ -67,7 +67,7 @@ ToPopupWindowManager >> checkAutoCloseWindowAfter: aTimestamp [
 	currentWindow popupTimestamp ifNil: [ ^ false ].
 	autoCloseDelay ifNil: [ ^ false ].
 	delay := aTimestamp - currentWindow popupTimestamp.
-	delay > autoCloseDelay ifFalse: [ ^ false ].
+	delay >= autoCloseDelay ifFalse: [ ^ false ].
 	self autoCloseWindow.
 	^ true
 ]

@@ -12,19 +12,10 @@ ToAbstractBarNodeManager >> constraintFakeNode: aNode [
 
 	| bar |
 	bar := aNode holder listElement.
+	self constraintNode: aNode.
 	bar isHorizontal
-		ifTrue: [
-			aNode constraintsDo: [ :c |
-				c horizontal exact: 0.
-				c vertical exact: 0.
-				c flow vertical alignCenter.
-				c linear vertical alignCenter ] ]
-		ifFalse: [
-			aNode constraintsDo: [ :c |
-				c vertical exact: 0.
-				c horizontal exact: 0.
-				c flow horizontal alignCenter.
-				c linear horizontal alignCenter ] ].
+		ifTrue: [ aNode constraintsDo: [ :c | c horizontal exact: 0 ] ]
+		ifFalse: [ aNode constraintsDo: [ :c | c vertical exact: 0 ] ]
 ]
 
 { #category : #initialization }

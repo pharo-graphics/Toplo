@@ -4,28 +4,8 @@ Class {
 	#category : #'Toplo-Demo'
 }
 
-{ #category : #running }
-ToploDemoPresenter class >> menuCommandOn: aBuilder [
-
-	<worldMenu>
-
-	(aBuilder item: #'Open Toplo Demo')
-		action: [ self open ];
-		parent: #Help;
-		iconName: #group;
-		withSeparatorAfter
-]
-
-{ #category : #running }
-ToploDemoPresenter class >> open [
-
-	<script>
-
-	super open
-]
-
 { #category : #demos }
-ToploDemoPresenter >> demo1 [
+ToploDemoPresenter class >> demo1 [
 
 	<demo>
 
@@ -36,7 +16,7 @@ ToploDemoPresenter >> demo1 [
 ]
 
 { #category : #demos }
-ToploDemoPresenter >> demo2 [
+ToploDemoPresenter class >> demo2 [
 
 	<demo>
 	| list colorAssociations |
@@ -71,7 +51,7 @@ ToploDemoPresenter >> demo2 [
 ]
 
 { #category : #demos }
-ToploDemoPresenter >> demo3 [
+ToploDemoPresenter class >> demo3 [
 
 	<demo>
 	| containerElement radioButtonLightTheme radioButtonDarkTheme checkableGroup |
@@ -99,6 +79,26 @@ ToploDemoPresenter >> demo3 [
 								  ifFalse: [ ToRawDarkTheme new ]) ]).
 	containerElement addChildren: checkableGroup registeredCheckables.
 	^ containerElement
+]
+
+{ #category : #running }
+ToploDemoPresenter class >> menuCommandOn: aBuilder [
+
+	<worldMenu>
+
+	(aBuilder item: #'Open Toplo Demo')
+		action: [ self open ];
+		parent: #Help;
+		iconName: #group;
+		withSeparatorAfter
+]
+
+{ #category : #running }
+ToploDemoPresenter class >> open [
+
+	<script>
+
+	super open
 ]
 
 { #category : #private }

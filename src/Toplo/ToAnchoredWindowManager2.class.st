@@ -10,6 +10,18 @@ Class {
 	#category : #'Toplo-Core-Window'
 }
 
+{ #category : #modes }
+ToAnchoredWindowManager2 class >> anchored [ 
+
+	^ self new 
+]
+
+{ #category : #modes }
+ToAnchoredWindowManager2 class >> overlay [ 
+
+	^ self new openingStrategy: ToOverlayWindowStrategy new
+]
+
 { #category : #accessing }
 ToAnchoredWindowManager2 >> anchorRoot [
 
@@ -25,8 +37,8 @@ ToAnchoredWindowManager2 >> anchorRoot: anElement [
 { #category : #'bounds hook' }
 ToAnchoredWindowManager2 >> applyHeightHookFromEvent: anEvent [
 
-	currentWindow ifNil: [ Error signal: 'No current window' ].
 	openingStrategy heightHook ifNil: [ ^ self ].
+	currentWindow ifNil: [ Error signal: 'No current window' ].
 	currentWindow height: (openingStrategy heightHook value: currentWindow value: self element value: anEvent)
 ]
 
@@ -50,9 +62,9 @@ ToAnchoredWindowManager2 >> applyPositionHookFromEvent: anEvent [
 { #category : #'bounds hook' }
 ToAnchoredWindowManager2 >> applySizeHookFromEvent: anEvent [
 
-	currentWindow ifNil: [ Error signal: 'No current window' ].
 	(openingStrategy widthHook notNil and: [openingStrategy heightHook notNil ]) ifTrue: [
 		| w h |
+		currentWindow ifNil: [ Error signal: 'No current window' ].
 		w := openingStrategy widthHook
 			     value: currentWindow
 			     value: self element
@@ -70,8 +82,9 @@ ToAnchoredWindowManager2 >> applySizeHookFromEvent: anEvent [
 { #category : #'bounds hook' }
 ToAnchoredWindowManager2 >> applyWidthHookFromEvent: anEvent [
 
-	currentWindow ifNil: [ Error signal: 'No current window' ].
 	openingStrategy widthHook ifNil: [ ^ self ].
+	currentWindow ifNil: [ Error signal: 'No current window' ].
+
 	currentWindow width: (openingStrategy widthHook value: currentWindow value: self element value: anEvent)
 ]
 
@@ -141,21 +154,9 @@ ToAnchoredWindowManager2 >> defaultBuilder [
 ]
 
 { #category : #initialization }
-ToAnchoredWindowManager2 >> defaultHeightHook [
-
-	^ nil
-]
-
-{ #category : #initialization }
 ToAnchoredWindowManager2 >> defaultOpeningStrategy [
 
-	^ ToWindowStrategy new
-]
-
-{ #category : #initialization }
-ToAnchoredWindowManager2 >> defaultWidthHook [
-
-	^ nil
+	^ ToAnchoredWindowStrategy new
 ]
 
 { #category : #accessing }
@@ -166,6 +167,8 @@ ToAnchoredWindowManager2 >> element [
 
 { #category : #'event handling' }
 ToAnchoredWindowManager2 >> elementExtentChangedEvent: anEvent [
+
+	self applySizeHookFromEvent: anEvent
 ]
 
 { #category : #'event handling' }
@@ -209,12 +212,6 @@ ToAnchoredWindowManager2 >> handleEvent: anEvent [
 ToAnchoredWindowManager2 >> hasWindow [
 
 	^ currentWindow notNil
-]
-
-{ #category : #accessing }
-ToAnchoredWindowManager2 >> heightHook [
-	
-	^ openingStrategy heightHook
 ]
 
 { #category : #initialization }
@@ -311,6 +308,13 @@ ToAnchoredWindowManager2 >> openedEvent: anEvent [
 ToAnchoredWindowManager2 >> openingStrategy [
 
 	^ openingStrategy 
+]
+
+{ #category : #accessing }
+ToAnchoredWindowManager2 >> openingStrategy: aWindowStrategy [
+
+	openingStrategy := aWindowStrategy.
+	openingStrategy element: element
 ]
 
 { #category : #'event handling' }

@@ -55,9 +55,7 @@ ToAnchoredWindowManagerTest >> testApplySizeHookFromEvent [
 	windowManager := ToAnchoredWindowManagerForTest new windowBuilder: [
 		                 :anchWin
 		                 :element |  ].
-	self
-		should: [ windowManager applySizeHookFromEvent: nil ]
-		raise: Error.
+	windowManager applySizeHookFromEvent: nil.
 	e addEventHandler: windowManager.
 	win := windowManager newWindowEvent: nil.
 	windowManager openingStrategy heightHook: [ :theWindow :theElement :theEvent |

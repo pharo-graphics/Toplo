@@ -143,7 +143,7 @@ ToAnchoredWindowManager >> defaultBuilder [
 	
 ]
 
-{ #category : #initialization }
+{ #category : #'as yet unclassified' }
 ToAnchoredWindowManager >> defaultHeightHook [
 
 	^ nil
@@ -156,7 +156,7 @@ ToAnchoredWindowManager >> defaultPositionHook [
 		  (theElement bounds inParent: self anchorRoot) bounds topLeft ]
 ]
 
-{ #category : #initialization }
+{ #category : #'as yet unclassified' }
 ToAnchoredWindowManager >> defaultWidthHook [
 
 	^ nil
@@ -215,7 +215,7 @@ ToAnchoredWindowManager >> hasWindow [
 	^ currentWindow notNil
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToAnchoredWindowManager >> heightHook [
 	
 	^ heightHook

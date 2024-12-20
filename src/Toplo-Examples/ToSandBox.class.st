@@ -3989,7 +3989,7 @@ ToSandBox class >> example_overlayWindow1 [
 		     position: 50 @ 50;
 		     background: Color yellow;
 		     border: (BlBorder paint: Color red).
-	windowManager := ToOverlayWindowManager new.
+	windowManager := ToAnchoredWindowManager2 overlay.
 	e addEventHandler: windowManager.
 	windowManager windowBuilder: [ :anchWin :element |
 		anchWin withNullSkin.
@@ -4009,14 +4009,14 @@ ToSandBox class >> example_overlayWindow2 [
 	e := ToInnerWindow new
 		     size: 300 @ 300;
 		     position: 50 @ 50.
-	windowManager := ToOverlayWindowManager new.
-	windowManager positionHook: [ :win :elem :event |
+	windowManager := ToAnchoredWindowManager2 overlay.
+	windowManager openingStrategy positionHook: [ :win :elem :event |
 			(elem bounds inParent: win anchorRoot) bounds topLeft + (20 @ 40) ].
-	windowManager widthHook: [ :theWindow :theElement :tenEvent |
+	windowManager openingStrategy widthHook: [ :theWindow :theElement :tenEvent |
 		theElement width - 40  ].
-	windowManager heightHook: [ :theWindow :theElement :tenEvent |
+	windowManager openingStrategy heightHook: [ :theWindow :theElement :tenEvent |
 		(theElement height - 60)  ].
-	windowManager anchorRoot: e.
+	windowManager openingStrategy anchorRoot: e.
 	e addEventHandler: windowManager.
 	windowManager windowBuilder: [ :anchWin :element |
 		anchWin withNullSkin.

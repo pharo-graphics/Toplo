@@ -2,35 +2,50 @@ Class {
 	#name : #ToAnchoredWindowManager,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
-		'anchorRoot',
+		'openingStrategy',
 		'currentWindow',
 		'element',
-		'positionHook',
-		'widthHook',
-		'heightHook',
 		'windowBuilder'
 	],
 	#category : #'Toplo-Core-Window'
 }
 
+{ #category : #modes }
+ToAnchoredWindowManager class >> anchored [ 
+
+	^ self new 
+]
+
+{ #category : #modes }
+ToAnchoredWindowManager class >> labelEditor [ 
+
+	^ ToLabelEditorWindowManager new
+]
+
+{ #category : #modes }
+ToAnchoredWindowManager class >> overlay [ 
+
+	^ self new openingStrategy: ToOverlayWindowStrategy new
+]
+
 { #category : #accessing }
 ToAnchoredWindowManager >> anchorRoot [
 
-	^ anchorRoot ifNil: [ anchorRoot := element space root ]
+	^ openingStrategy anchorRoot
 ]
 
 { #category : #accessing }
 ToAnchoredWindowManager >> anchorRoot: anElement [
 
-	anchorRoot := anElement
+	openingStrategy anchorRoot: anElement
 ]
 
 { #category : #'bounds hook' }
 ToAnchoredWindowManager >> applyHeightHookFromEvent: anEvent [
 
+	openingStrategy heightHook ifNil: [ ^ self ].
 	currentWindow ifNil: [ Error signal: 'No current window' ].
-	heightHook ifNil: [ ^ self ].
-	currentWindow height: (heightHook value: currentWindow value: self element value: anEvent)
+	currentWindow height: (openingStrategy heightHook value: currentWindow value: self element value: anEvent)
 ]
 
 { #category : #'bounds hook' }
@@ -45,22 +60,22 @@ ToAnchoredWindowManager >> applyPositionAnsSizeHooksFromEvent: anEvent [
 ToAnchoredWindowManager >> applyPositionHookFromEvent: anEvent [
 
 	currentWindow ifNil: [ Error signal: 'No current window' ].
-	positionHook ifNil: [ ^ self ].
-	currentWindow position: (positionHook value: currentWindow value: element value: anEvent).
+	openingStrategy positionHook ifNil: [ ^ self ].
+	currentWindow position: (openingStrategy positionHook value: currentWindow value: element value: anEvent).
 
 ]
 
 { #category : #'bounds hook' }
 ToAnchoredWindowManager >> applySizeHookFromEvent: anEvent [
 
-	currentWindow ifNil: [ Error signal: 'No current window' ].
-	(widthHook notNil and: [ heightHook notNil ]) ifTrue: [
+	(openingStrategy widthHook notNil and: [openingStrategy heightHook notNil ]) ifTrue: [
 		| w h |
-		w := widthHook
+		currentWindow ifNil: [ Error signal: 'No current window' ].
+		w := openingStrategy widthHook
 			     value: currentWindow
 			     value: self element
 			     value: anEvent.
-		h := heightHook
+		h := openingStrategy heightHook
 			     value: currentWindow
 			     value: self element
 			     value: anEvent.
@@ -73,9 +88,10 @@ ToAnchoredWindowManager >> applySizeHookFromEvent: anEvent [
 { #category : #'bounds hook' }
 ToAnchoredWindowManager >> applyWidthHookFromEvent: anEvent [
 
+	openingStrategy widthHook ifNil: [ ^ self ].
 	currentWindow ifNil: [ Error signal: 'No current window' ].
-	widthHook ifNil: [ ^ self ].
-	currentWindow width: (widthHook value: currentWindow value: self element value: anEvent)
+
+	currentWindow width: (openingStrategy widthHook value: currentWindow value: self element value: anEvent)
 ]
 
 { #category : #'window handling' }
@@ -143,23 +159,10 @@ ToAnchoredWindowManager >> defaultBuilder [
 	
 ]
 
-{ #category : #'as yet unclassified' }
-ToAnchoredWindowManager >> defaultHeightHook [
+{ #category : #initialization }
+ToAnchoredWindowManager >> defaultOpeningStrategy [
 
-	^ nil
-]
-
-{ #category : #'as yet unclassified' }
-ToAnchoredWindowManager >> defaultPositionHook [
-
-	^ [ :window :theElement :event |
-		  (theElement bounds inParent: self anchorRoot) bounds topLeft ]
-]
-
-{ #category : #'as yet unclassified' }
-ToAnchoredWindowManager >> defaultWidthHook [
-
-	^ nil
+	^ ToAnchoredWindowStrategy new
 ]
 
 { #category : #accessing }
@@ -170,6 +173,8 @@ ToAnchoredWindowManager >> element [
 
 { #category : #'event handling' }
 ToAnchoredWindowManager >> elementExtentChangedEvent: anEvent [
+
+	self applySizeHookFromEvent: anEvent
 ]
 
 { #category : #'event handling' }
@@ -215,27 +220,11 @@ ToAnchoredWindowManager >> hasWindow [
 	^ currentWindow notNil
 ]
 
-{ #category : #'as yet unclassified' }
-ToAnchoredWindowManager >> heightHook [
-	
-	^ heightHook
-]
-
-{ #category : #'as yet unclassified' }
-ToAnchoredWindowManager >> heightHook: aValuable [
-	" aValuable takes the window as first argument, the element as second argument 
-	and the event as third argument. 
-	return the new window size according to the element and the (optional) received event"
-	heightHook := aValuable
-]
-
 { #category : #initialization }
 ToAnchoredWindowManager >> initialize [
 
 	super initialize.
-	self positionHook: self defaultPositionHook.
-	widthHook := self defaultWidthHook.
-	heightHook := self defaultHeightHook.
+	openingStrategy := self defaultOpeningStrategy.
 	windowBuilder := self defaultBuilder
 ]
 
@@ -294,7 +283,8 @@ ToAnchoredWindowManager >> onClosed [
 ToAnchoredWindowManager >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	element := anElement
+	element := anElement.
+	openingStrategy element: element
 ]
 
 { #category : #'window handling' }
@@ -306,6 +296,7 @@ ToAnchoredWindowManager >> onOpened [
 ToAnchoredWindowManager >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
+	openingStrategy := nil.
 	element := nil
 ]
 
@@ -319,39 +310,23 @@ ToAnchoredWindowManager >> openedEvent: anEvent [
 	self onOpened
 ]
 
-{ #category : #'as yet unclassified' }
-ToAnchoredWindowManager >> positionHook [
+{ #category : #accessing }
+ToAnchoredWindowManager >> opening [
 
-	^ positionHook
+	^ openingStrategy 
 ]
 
-{ #category : #'as yet unclassified' }
-ToAnchoredWindowManager >> positionHook: aValuable [
-	" aValuable takes the window as first argument, the element as second argument 
-	and the event as third argument. 
-	return the new window position according to the element and the (optional) received event"
-	
-	positionHook := aValuable
+{ #category : #accessing }
+ToAnchoredWindowManager >> openingStrategy: aWindowStrategy [
+
+	openingStrategy := aWindowStrategy.
+	openingStrategy element: element
 ]
 
 { #category : #'event handling' }
 ToAnchoredWindowManager >> themeInstalledEvent: anEvent [
 
 	self withAllSubwindowsDo: [ :cw | cw toThemeInstalled ]
-]
-
-{ #category : #'as yet unclassified' }
-ToAnchoredWindowManager >> widthHook [
-	
-	^ widthHook
-]
-
-{ #category : #'as yet unclassified' }
-ToAnchoredWindowManager >> widthHook: aValuable [
-	" aValuable takes the window as first argument, the element as second argument 
-	and the event as third argument. 
-	return the new window width according to the element and the (optional) received event"
-	widthHook := aValuable.
 ]
 
 { #category : #accessing }

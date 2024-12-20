@@ -8,13 +8,9 @@ Class {
 }
 
 { #category : #initialization }
-ToLabelEditorWindowManager >> defaultPositionHook [
+ToLabelEditorWindowManager >> defaultOpeningStrategy [
 
-	" take into accound the gap used to compute the textField padding "
-	^ [ :theWindow :theLabel :event |
-	  (theLabel innerElement bounds inParent: self anchorRoot) topLeft
-	  - ((theLabel valueOfTokenNamed: #'padding-content-HS')
-		   @ (theLabel valueOfTokenNamed: #'padding-content-VS')) ]
+	^ ToLabelEditorWindowStrategy new
 ]
 
 { #category : #accessing }
@@ -23,11 +19,35 @@ ToLabelEditorWindowManager >> editor [
 	^ editor
 ]
 
+{ #category : #initialization }
+ToLabelEditorWindowManager >> initialize [ 
+
+	super initialize.
+	
+]
+
+{ #category : #'instance creation' }
+ToLabelEditorWindowManager >> newEditor [
+
+	^ element newEditor
+]
+
 { #category : #'window handling' }
 ToLabelEditorWindowManager >> onClosed [
 
 	super onClosed.
-	element onEditorClosed.
+	element dispatchEvent: (ToLabelEditorClosedEvent new
+			 editorElement: editor;
+			 yourself).
+	element dispatchEvent: (ToLabelEditorAfterClosingEvent new
+			 editorElement: editor;
+			 yourself).
+
+	element currentEditorOpeningEventHandlers do: [ :h |
+		element removeEventHandler: h ].
+	element currentEditorClosingEventHandlers do: [ :h |
+		element removeEventHandler: h ].
+
 	editor := nil
 ]
 
@@ -35,20 +55,30 @@ ToLabelEditorWindowManager >> onClosed [
 ToLabelEditorWindowManager >> onOpened [
 
 	super onOpened.
-	editor := element newEditor.
-	editor text: element text copy.
-	editor withSaveCapability.
-	editor addEventHandlerOn: ToAlbumEditingFrontEvent do: [ :event |
-		element dispatchEvent: event.
-		self closeWindow ].
-	element dispatchEvent: (ToLabelEditorCreatedEvent new editorElement: editor; yourself).
-	currentWindow root addChild: editor.
-	element onEditorOpened.
+	self openEditor.
+	element dispatchEvent: (ToLabelEditorBeforeOpeningEvent new
+			 editorElement: editor;
+			 yourself).
 	element enqueueTask: (BlTaskAction new action: [
 			 editor infinite requestFocus.
 			 editor selecter
 				 all;
-				 apply ])
+				 apply.
+			 element dispatchEvent: (ToLabelEditorOpenedEvent new
+					  editorElement: editor;
+					  yourself) ])
+]
+
+{ #category : #'instance creation' }
+ToLabelEditorWindowManager >> openEditor [
+
+	editor := self newEditor.
+	editor withSaveCapability.
+	editor addEventHandlerOn: ToAlbumEditingFrontEvent do: [ :event |
+		self closeWindow ].
+	currentWindow root addChild: editor.
+
+
 ]
 
 { #category : #accessing }

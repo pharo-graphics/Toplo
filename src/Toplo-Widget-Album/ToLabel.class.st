@@ -1,6 +1,8 @@
 Class {
 	#name : #ToLabel,
 	#superclass : #ToElement,
+	#traits : 'TToElementWithContentEditor',
+	#classTraits : 'TToElementWithContentEditor classTrait',
 	#instVars : [
 		'innerElement',
 		'editorWindowManager',
@@ -68,10 +70,31 @@ ToLabel >> beReadOnly [
 	self isEditable: false
 ]
 
+{ #category : #'private-editing' }
+ToLabel >> beforeEditorClosed: anEditorElement [
+	" sent from the window manager "
+
+	innerElement visibility: BlVisibility visible
+]
+
+{ #category : #'private-editing' }
+ToLabel >> beforeEditorOpened: anEditorElement [
+	" sent from the window manager "
+
+	anEditorElement text: self text copy.
+	innerElement visibility: BlVisibility hidden
+]
+
 { #category : #'api - text weight' }
 ToLabel >> bold [
 
 	self attributesBuilder attribute: BlFontWeightAttribute bold
+]
+
+{ #category : #'t - element with content editor' }
+ToLabel >> boundsForEditor [
+
+	^ self innerElement bounds
 ]
 
 { #category : #initialization }
@@ -103,6 +126,12 @@ ToLabel >> defaultPadding [
 ToLabel >> defaultText [
 
 	^ '' asRopedText
+]
+
+{ #category : #accessing }
+ToLabel >> editorWindowManager [
+
+	^ editorWindowManager 
 ]
 
 { #category : #'api - text font' }
@@ -187,7 +216,11 @@ ToLabel >> isEditable: aBoolean [
 		ifTrue: [
 			editorWindowManager ifNotNil: [ ^ self ].
 			editorWindowManager := ToLabelEditorWindowManager new.
-			self addEventHandler: editorWindowManager ]
+			self addEventHandler: editorWindowManager.
+			self beforeEditorOpeningDo: [ :event |
+				self beforeEditorOpened: event editorElement ].
+			self afterEditorClosingDo: [ :event |
+				self beforeEditorClosed: event editorElement ] ]
 		ifFalse: [
 			editorWindowManager ifNil: [ ^ self ].
 			self removeEventHandler: editorWindowManager.
@@ -240,7 +273,6 @@ ToLabel >> multiLine: aBoolean [
 
 { #category : #'private-editing' }
 ToLabel >> newEditor [
-	" sent from the window manager "
 
 	^ innerElement newEditor
 ]
@@ -267,20 +299,6 @@ ToLabel >> normal [
 ToLabel >> oblique [
 
 	self attributesBuilder attribute: BlFontEmphasisAttribute oblique
-]
-
-{ #category : #'private-editing' }
-ToLabel >> onEditorClosed [
-	" sent from the window manager "
-
-	innerElement visibility: BlVisibility visible
-]
-
-{ #category : #'private-editing' }
-ToLabel >> onEditorOpened [
-	" sent from the window manager "
-
-	innerElement visibility: BlVisibility hidden
 ]
 
 { #category : #'private-change' }

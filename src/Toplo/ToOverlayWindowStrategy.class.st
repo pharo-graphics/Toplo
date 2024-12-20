@@ -4,14 +4,14 @@ Class {
 	#category : #'Toplo-Core-Window'
 }
 
-{ #category : #initialization }
+{ #category : #'as yet unclassified' }
 ToOverlayWindowStrategy >> defaultHeightHook [
 
 	^ [ :theWindow :theElement :event |
 	  theElement measuredHeight ]
 ]
 
-{ #category : #initialization }
+{ #category : #'as yet unclassified' }
 ToOverlayWindowStrategy >> defaultWidthHook [
 
 	^ [ :theWindow :theElement :event |

@@ -12,14 +12,9 @@ ToMenuWindowManager >> autoCloseWindow [
 ]
 
 { #category : #initialization }
-ToMenuWindowManager >> defaultPositionHook [
+ToMenuWindowManager >> defaultOpeningStrategy [ 
 
-	^ [ :window :theMenu :event |
-	  (theMenu isSubmenu
-			   ifTrue: [
-			   (theMenu bounds inParent: self anchorRoot) topRight ]
-			   ifFalse: [
-			   (theMenu bounds inParent: self anchorRoot) bottomLeft ]) ]
+	^ ToMenuStrategy new
 ]
 
 { #category : #'api - accessing' }

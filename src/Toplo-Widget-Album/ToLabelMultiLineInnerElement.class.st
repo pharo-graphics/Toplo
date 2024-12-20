@@ -70,7 +70,7 @@ ToLabelMultiLineInnerElement >> isMonoLine [
 	^ false
 ]
 
-{ #category : #accessing }
+{ #category : #'instance creation' }
 ToLabelMultiLineInnerElement >> newEditor [
 
 	| ed |

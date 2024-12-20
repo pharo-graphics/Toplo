@@ -3543,6 +3543,23 @@ ToSandBox class >> example_contextMenu [
 	container openInSpace
 ]
 
+{ #category : #window }
+ToSandBox class >> example_elementWithEditor [
+
+	| e editorWindowManager |
+	e := ToElementWithEditor new
+		     background: Color blue;
+		     size: 100 asPoint;
+		     position: 20 asPoint;
+		     yourself.
+	editorWindowManager := ToLabelEditorWindowManager new.
+	e addEventHandler: editorWindowManager.
+	e addEventHandlerOn: BlClickEvent do: [ :event |
+		(editorWindowManager newWindowEvent: event) ifNotNil: [ :win |
+			win popupEvent: event ] ].
+	e openInSpace
+]
+
 { #category : #'header positionning' }
 ToSandBox class >> example_headerOnBottomCenter [
 
@@ -3989,7 +4006,7 @@ ToSandBox class >> example_overlayWindow1 [
 		     position: 50 @ 50;
 		     background: Color yellow;
 		     border: (BlBorder paint: Color red).
-	windowManager := ToAnchoredWindowManager2 overlay.
+	windowManager := ToAnchoredWindowManager overlay.
 	e addEventHandler: windowManager.
 	windowManager windowBuilder: [ :anchWin :element |
 		anchWin withNullSkin.
@@ -4009,14 +4026,14 @@ ToSandBox class >> example_overlayWindow2 [
 	e := ToInnerWindow new
 		     size: 300 @ 300;
 		     position: 50 @ 50.
-	windowManager := ToAnchoredWindowManager2 overlay.
-	windowManager openingStrategy positionHook: [ :win :elem :event |
+	windowManager := ToAnchoredWindowManager overlay.
+	windowManager opening positionHook: [ :win :elem :event |
 			(elem bounds inParent: win anchorRoot) bounds topLeft + (20 @ 40) ].
-	windowManager openingStrategy widthHook: [ :theWindow :theElement :tenEvent |
+	windowManager opening widthHook: [ :theWindow :theElement :tenEvent |
 		theElement width - 40  ].
-	windowManager openingStrategy heightHook: [ :theWindow :theElement :tenEvent |
+	windowManager opening heightHook: [ :theWindow :theElement :tenEvent |
 		(theElement height - 60)  ].
-	windowManager openingStrategy anchorRoot: e.
+	windowManager opening anchorRoot: e.
 	e addEventHandler: windowManager.
 	windowManager windowBuilder: [ :anchWin :element |
 		anchWin withNullSkin.
@@ -4391,6 +4408,7 @@ ToSandBox class >> example_selectWith5Nodes [
 ToSandBox class >> example_selectWithEditingMultiSelectionWithAllClassNames [
 
 	| select innerWindow space |
+	self flag: 'To check'.
 	select := self selectWithEditingMultiSelection.
 	select filtrable: true.
 	select placeholderText: ('Choose a class' asRopedText
@@ -5336,6 +5354,7 @@ ToSandBox class >> example_textFields [
 ToSandBox class >> example_textFieldsInListElement [
 
 	| pane l |
+	self flag: 'Not working'.
 	pane := ToPane vertical.
 	pane matchParent.
 	l := ToListElement new.
@@ -5348,7 +5367,7 @@ ToSandBox class >> example_textFieldsInListElement [
 		txtf withSaveCapability.
 		txtf
 			addEventHandlerOn: ToAlbumSaveRequestedEvent
-			do: [ :event | event accepted: event editorElement text isNotEmpty ].
+			do: [ :event | event accepted: event currentTarget text isNotEmpty ].
 		txtf addEventHandlerOn: ToAlbumSaveAcceptedEvent do: [ :event |
 			l dataAccessor
 				at: holder position
@@ -5828,15 +5847,14 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 			addEventHandlerOn: ToStartStillPressedEvent do: [ :event |
 				event consume.
 				editedLabel popupEditorEvent: event ];
-			addEventHandlerOn: ToAlbumSaveRequestedEvent
-			do: [ :event | event accepted: true ];
-			addEventHandlerOn: ToAlbumSaveAcceptedEvent do: [ :event |
-				text := event editorElement text.
-				editedLabel text: text ];
-			addEventHandlerOn: ToLabelEditorOpenedWindowEvent
-			do: [ window preventPickOutsideClosing ];
-			addEventHandlerOn: ToLabelEditorWindowClosedEvent
-			do: [ :event | window allowPickOutsideClosing ].
+			whenEditorOpenedDo: [ :editorEvent |
+				window preventPickOutsideClosing.
+				editorEvent editorElement addStamp: #preformatted.
+				editorEvent editorElement whenSaveRequestedDo: [ :saveRequest |
+						saveRequest accepted: true ].
+				editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
+						editorEvent target text: acceptedEvent target text ] ];
+			whenEditorClosedDo: [ :event | window allowPickOutsideClosing ].
 		resetBtn := ToButton new
 			            labelText: 'Reset';
 			            whenClickedDo: [
@@ -5884,20 +5902,19 @@ ToSandBox class >> example_toLabel2 [
 ToSandBox class >> example_toLabel3 [
 
 	| lab |
-	lab := ToAttributedLabel new text: ('This is a bold gray label' asRopedText
+	lab := ToAttributedLabel new text:
+		       ('This is a bold gray label' asRopedText
 			        fontSize: 20;
 			        bold;
 			        foreground: Color gray;
 			        yourself).
-	lab
-		addEventHandlerOn: ToLabelEditorCreatedEvent
-		do: [ :event | event editorElement addStamp: #preformatted ].
-	lab
-		addEventHandlerOn: ToAlbumSaveRequestedEvent
-		do: [ :event | event accepted: true ].
-	lab
-		addEventHandlerOn: ToAlbumSaveAcceptedEvent
-		do: [ :event | event target text: event editorElement text ].
+
+	lab whenEditorOpenedDo: [ :editorEvent |
+		editorEvent editorElement addStamp: #preformatted.
+		editorEvent editorElement whenSaveRequestedDo: [ :request |
+			request accepted: true ].
+		editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
+			editorEvent target text: acceptedEvent target text ] ].
 
 	lab background: Color lightBlue.
 	lab hMatchParent.
@@ -5951,16 +5968,13 @@ ToSandBox class >> example_toLabel4 [
 	{
 		lab1.
 		lab2 } do: [ :l |
-		l
-			addEventHandlerOn: ToLabelEditorCreatedEvent
-			do: [ :event | event editorElement addStamp: #preformatted ].
+		l whenEditorOpenedDo: [ :editorEvent |
+			editorEvent editorElement addStamp: #preformatted.
+			editorEvent editorElement whenSaveRequestedDo: [ :request |
+				request accepted: true ].
+			editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
+				editorEvent target text: acceptedEvent target text ] ] ].
 
-		l
-			addEventHandlerOn: ToAlbumSaveRequestedEvent
-			do: [ :event | event accepted: true ].
-		l
-			addEventHandlerOn: ToAlbumSaveAcceptedEvent
-			do: [ :event | event target text: event editorElement text ] ].
 	root openInInnerWindow
 ]
 
@@ -6043,18 +6057,18 @@ ToSandBox class >> example_toLabel_Multiline2_Centered [
 	lab1 isEditable: true.
 	lab2 isEditable: true.
 	lab2
-		addEventHandlerOn: ToLabelEditorCreatedEvent
+		addEventHandlerOn: ToLabelEditorOpenedEvent
 		do: [ :event | event editorElement addStamp: #preformatted ].
 
 	{
 		lab1.
 		lab2 } do: [ :l |
-		l
-			addEventHandlerOn: ToAlbumSaveRequestedEvent
-			do: [ :event | event accepted: true ].
-		l
-			addEventHandlerOn: ToAlbumSaveAcceptedEvent
-			do: [ :event | event target text: event editorElement text ] ].
+		l whenEditorOpenedDo: [ :editorEvent |
+			editorEvent editorElement whenSaveRequestedDo: [ :request |
+				request accepted: true ].
+			editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
+				editorEvent target text: acceptedEvent target text ] ] ].
+
 	container := BlElement new
 		             layout: BlLinearLayout vertical;
 		             constraintsDo: [ :c |
@@ -6074,12 +6088,11 @@ ToSandBox class >> example_toLabel_editableMultiline [
 	lab beMultiLine.
 	lab hMatchParent.
 	lab isEditable: true.
-	lab
-		addEventHandlerOn: ToAlbumSaveRequestedEvent
-		do: [ :event | event accepted: true ].
-	lab
-		addEventHandlerOn: ToAlbumSaveAcceptedEvent
-		do: [ :event | event target text: event editorElement text ].
+	lab whenEditorOpenedDo: [ :editorEvent |
+		editorEvent editorElement whenSaveRequestedDo: [ :request |
+			request accepted: true ].
+		editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
+			editorEvent target text: acceptedEvent target text ] ].
 
 	lab openInSpace
 ]
@@ -6599,18 +6612,14 @@ ToSandBox class >> listWithEditableAndContextMenu [
 					 do: [ :event |
 						 event consume.
 						 lab popupEditorEvent: event ]).
-			lab addEventHandler: (BlEventHandler
-					 on: ToLabelEditorOpenedWindowEvent
-					 do: [ l disableScrolledEvent ]).
-			lab addEventHandler: (BlEventHandler
-					 on: ToLabelEditorWindowClosedEvent
-					 do: [ l enableScrolledEvent ]).
-			lab
-				addEventHandlerOn: ToAlbumSaveRequestedEvent
-				do: [ :event | event accepted: true ].
-			lab addEventHandlerOn: ToAlbumSaveAcceptedEvent do: [ :event |
-				event target text: event editorElement text.
-				l dataAccessor at: holder position put: lab text asString ] ].
+			lab whenEditorOpenedDo: [ :editorEvent |
+				l disableScrolledEvent.
+				editorEvent editorElement whenSaveRequestedDo: [ :request |
+					request accepted: true ].
+				editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
+					editorEvent target text: acceptedEvent target text.
+					l dataAccessor at: holder position put: lab text asString ] ] ].
+		lab whenEditorClosedDo: [ l enableScrolledEvent ].
 
 		node addChild: (ToLabeledIcon new
 				 label: lab;

@@ -15,10 +15,10 @@ ToOverlayWindowManagerTest >> testDefaultSizeHook [
 	space root addChild: e.
 	e position: 10 asPoint.
 	e size: 10 asPoint.
-	windowManager := ToAnchoredWindowManager2 overlay.
+	windowManager := ToAnchoredWindowManager overlay.
 	e addEventHandler: windowManager.
-	self assert: (windowManager openingStrategy heightHook isKindOf: BlockClosure).
-	self assert: (windowManager openingStrategy widthHook isKindOf: BlockClosure).
+	self assert: (windowManager opening heightHook isKindOf: BlockClosure).
+	self assert: (windowManager opening widthHook isKindOf: BlockClosure).
 	win := windowManager newWindowEvent: nil.
 	win popup.
 	self waitTestingSpaces.
@@ -35,17 +35,17 @@ ToOverlayWindowManagerTest >> testElementEventHandlerClass [
 	space root addChild: e.
 	self waitTestingSpaces.
 
-	windowManager := ToAnchoredWindowManager2 overlay.
+	windowManager := ToAnchoredWindowManager overlay.
 	e addEventHandler: windowManager.
 	win := windowManager newWindowEvent: nil.
 	win popup.
 	self waitTestingSpaces.
 	self assert: win element equals: e.
 	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 eh isKindOf: ToAnchoredWindowManager2 ]).
+			 eh isKindOf: ToAnchoredWindowManager ]).
 	win close.
 	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 eh isKindOf: ToAnchoredWindowManager2 ])
+			 eh isKindOf: ToAnchoredWindowManager ])
 ]
 
 { #category : #tests }
@@ -56,10 +56,10 @@ ToOverlayWindowManagerTest >> testElementExtentChangedEvent [
 	space root addChild: e.
 	e position: 10 asPoint.
 	e size: 10 asPoint.
-	windowManager := ToAnchoredWindowManager2 overlay.
+	windowManager := ToAnchoredWindowManager overlay.
 	e addEventHandler: windowManager.
-	self assert: (windowManager openingStrategy heightHook isKindOf: BlockClosure).
-	self assert: (windowManager openingStrategy widthHook isKindOf: BlockClosure).
+	self assert: (windowManager opening heightHook isKindOf: BlockClosure).
+	self assert: (windowManager opening widthHook isKindOf: BlockClosure).
 	win := windowManager newWindowEvent: nil.
 	win popup.
 	self waitTestingSpaces.

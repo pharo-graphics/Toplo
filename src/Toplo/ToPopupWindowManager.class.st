@@ -116,10 +116,9 @@ ToPopupWindowManager >> defaultCloseOnMouseDown [
 ]
 
 { #category : #initialization }
-ToPopupWindowManager >> defaultPositionHook [
+ToPopupWindowManager >> defaultOpeningStrategy [ 
 
-	^ [ :window :theElement :event |
-	  (theElement bounds inParent: self anchorRoot) bounds bottomLeft ]
+	^ ToPopupWindowStrategy new
 ]
 
 { #category : #'api - accessing' }

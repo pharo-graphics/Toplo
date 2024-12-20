@@ -24,15 +24,6 @@ ToLabelEditorWindow >> installRawStyle [
 
 ]
 
-{ #category : #accessing }
-ToLabelEditorWindow >> newClosedEvent [
-
-	^ self closedEventClass new
-		  window: self;
-		  text: windowManager element text copy;
-		  yourself
-]
-
 { #category : #'api - displaying' }
 ToLabelEditorWindow >> onPositionChangedToFitAnchorRootDo: aBlock [
 
@@ -42,5 +33,5 @@ ToLabelEditorWindow >> onPositionChangedToFitAnchorRootDo: aBlock [
 { #category : #accessing }
 ToLabelEditorWindow >> openedEventClass [ 
 
-	^ ToLabelEditorOpenedWindowEvent 
+	^ ToLabelEditorWindowOpenedEvent 
 ]

@@ -26,11 +26,9 @@ ToTooltipWindowManager >> defaultCloseOnMouseDown [
 ]
 
 { #category : #initialization }
-ToTooltipWindowManager >> defaultPositionHook [
+ToTooltipWindowManager >> defaultOpeningStrategy [ 
 
-	^ [ :theWindow :theElement :event |
-	  (event position x)
-		  @ ((theElement localPointToGlobal: 0 @ theElement height) y + 5 ) ]
+	^ ToTooltipWindowStrategy new
 ]
 
 { #category : #'api - accessing' }

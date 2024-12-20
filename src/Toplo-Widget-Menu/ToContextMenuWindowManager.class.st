@@ -5,9 +5,9 @@ Class {
 }
 
 { #category : #initialization }
-ToContextMenuWindowManager >> defaultPositionHook [
+ToContextMenuWindowManager >> defaultOpeningStrategy [ 
 
-	^ [ :window :theElement :event | event position ]
+	^ ToContextMenuStrategy new
 ]
 
 { #category : #'event handling' }

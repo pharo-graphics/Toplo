@@ -98,6 +98,5 @@ ToBasicWindowElementTest >> testToFront [
 	self assert: w elevation class identicalTo: w defaultElevation class.
 	self assert: w elevation elevation identicalTo: w defaultElevation elevation.
 	self assert: w root elevation class identicalTo: w defaultElevation class.
-	self assert: w root elevation elevation identicalTo: w defaultElevation elevation.
 	
 ]

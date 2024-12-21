@@ -5,7 +5,8 @@ Class {
 	#classTraits : 'TToItemListHolder classTrait + TToMenuItemListHolder classTrait + TToMenuWindowModel classTrait',
 	#instVars : [
 		'isSubmenu',
-		'builder'
+		'builder',
+		'windowManager'
 	],
 	#category : #'Toplo-Widget-Menu-Basic'
 }
@@ -62,13 +63,14 @@ ToMenu >> initialize [
 	super initialize.
 	self fitContent.
 	isSubmenu := false.
-	self addEventHandler: (ToMenuWindowManager new
-			 windowBuilder: [ :window :request |
-				 builder ifNotNil: [
-						 self removeAllItems.
-						 self builder cull: self cull: request ].
-				 window root addChild: self itemList ];
-			 yourself)
+	windowManager := ToMenuWindowManager new
+		                 windowBuilder: [ :window :request |
+			                 builder ifNotNil: [
+					                 self removeAllItems.
+					                 self builder cull: self cull: request ].
+			                 window root addChild: self itemList ];
+		                 yourself.
+	self addEventHandler: windowManager
 ]
 
 { #category : #accessing }
@@ -143,4 +145,10 @@ ToMenu >> onRemovedFromItemListHolder: aMenu [
 ToMenu >> popupEvent: anEvent [
 
 	self windowManager popupEvent: anEvent
+]
+
+{ #category : #accessing }
+ToMenu >> windowManager [ 
+
+	^ windowManager 
 ]

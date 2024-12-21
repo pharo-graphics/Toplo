@@ -14,29 +14,18 @@ ToAlbumEditsFeedbackLayer >> attachTo: anEditorElement [
 
 	super attachTo: anEditorElement.
 	flashCoverColor := Color red alpha: 0.2.
-	
-	anEditorElement addEventHandler: (BlEventHandler
-			 on: ToAlbumFlashRequestedEvent
-			 do: [ self flash ]).
 
+	anEditorElement whenFlashRequestedDo: [ self flash ].
 	" flash if save requested with no text change "
-	anEditorElement addEventHandler: (BlEventHandler
-			 on: ToAlbumSaveRequestedEvent
-			 do: [ :event | event unacceptedEdits ifFalse: [ self flash ] ]).
-
+	anEditorElement whenSaveRequestedDo: [ :event |
+		event unacceptedEdits ifFalse: [ self flash ] ].
 	" hide edit feedback when save is accepted or cancelled "
-	anEditorElement addEventHandler: (BlEventHandler
-			 on: ToAlbumSaveAcceptedEvent
-			 do: [ :event | self hideEditsFeedback ]).
-
-	anEditorElement addEventHandler: (BlEventHandler
-			 on: ToAlbumCancelRequestedEvent
-			 do: [ :event | self hideEditsFeedback ]).
-
+	anEditorElement whenSaveAcceptedDo: [ :event |
+		self hideEditsFeedback ].
+	anEditorElement whenCancelRequestedDo: [ :event |
+		self hideEditsFeedback ].
 	" show edit feedback when text is edited "
-	anEditorElement addEventHandler: (BlEventHandler
-			 on: AlbTextEditedEvent
-			 do: [ :event | self showEditsFeedback ])
+	anEditorElement whenTextEditedDo: [ :event | self showEditsFeedback ]
 ]
 
 { #category : #'api - attaching / detaching' }

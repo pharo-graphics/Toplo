@@ -170,7 +170,6 @@ ToAlbum >> requestSave [
 
 	| request answer |
 	request := ToAlbumSaveRequestedEvent new
-		           editorElement: self;
 		           unacceptedEdits: self edited;
 		           yourself.
 
@@ -270,31 +269,31 @@ ToAlbum >> textChanged [
 { #category : #'transaction hook' }
 ToAlbum >> whenCancelRequestedDo: aBlock [
 
-	self addEventHandler: (BlEventHandler
-			 on: ToAlbumCancelRequestedEvent
-			 do: aBlock)
+	^ self addEventHandlerOn: ToAlbumCancelRequestedEvent do: aBlock
+]
+
+{ #category : #'transaction hook' }
+ToAlbum >> whenFlashRequestedDo: aBlock [
+
+	^ self addEventHandlerOn: ToAlbumFlashRequestedEvent do: aBlock
 ]
 
 { #category : #'transaction hook' }
 ToAlbum >> whenSaveAcceptedDo: aBlock [
 
-	self addEventHandler: (BlEventHandler
-			 on: ToAlbumSaveAcceptedEvent
-			 do: aBlock)
+	^ self addEventHandlerOn: ToAlbumSaveAcceptedEvent do: aBlock
 ]
 
 { #category : #'transaction hook' }
 ToAlbum >> whenSaveDeniedDo: aBlock [
 
-	self addEventHandlerOn: ToAlbumSaveDeniedEvent do: aBlock
+	^ self addEventHandlerOn: ToAlbumSaveDeniedEvent do: aBlock
 ]
 
 { #category : #'transaction hook' }
 ToAlbum >> whenSaveRequestedDo: aBlock [
 
-	self addEventHandler: (BlEventHandler
-			 on: ToAlbumSaveRequestedEvent
-			 do: aBlock)
+	^ self addEventHandlerOn: ToAlbumSaveRequestedEvent do: aBlock
 ]
 
 { #category : #'styler configuration' }
@@ -313,6 +312,12 @@ ToAlbum >> whenStylerTextStyled: aBlStylerTextStyledAnnouncement [
 	(result isNextGenerationOf: self text) ifFalse: [ ^ self ].
 	self text takeInternalRepresentationOf: result.
 	self textInternalRepresentationChanged
+]
+
+{ #category : #'transaction hook' }
+ToAlbum >> whenTextEditedDo: aBlock [
+
+	^ self addEventHandlerOn: AlbTextEditedEvent do: aBlock
 ]
 
 { #category : #'styler configuration' }

@@ -166,7 +166,7 @@ TToElementWithContextMenuTest >> testContextMenuWindowManagerClass [
 	| e  |
 	e := ToElement new.
 	space root addChild: e.
-	self assert: e contextMenuWindowManagerClass identicalTo: ToContextMenuWindowManager.
+	self assert: e contextMenuWindowManagerClass identicalTo: ToContextMenuManager.
 	
 
 ]
@@ -178,7 +178,7 @@ TToElementWithContextMenuTest >> testCurrentContextMenu [
 	e := self testHasContextMenu.
 	self assert: e currentContextMenu isNil.
 	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 eh isKindOf: ToContextMenuWindowManager ]).
+			 eh isKindOf: ToContextMenuManager ]).
 	ttwin := e newContextMenuEvent: nil.
 	e contextMenuContent: { ToMenuItem new }.
 	self assert: e hasContextMenu.

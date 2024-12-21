@@ -63,9 +63,12 @@ ToPopupWindowManager >> canCloseWindow [
 ToPopupWindowManager >> checkAutoCloseWindowAfter: aTimestamp [
 
 	| delay |
-	currentWindow ifNil: [ ^ false ].
-	currentWindow popupTimestamp ifNil: [ ^ false ].
+
+	currentWindow ifNil: [ ^ false ].	
+	currentWindow popupTimestamp ifNil: [ ^ false ].	
 	autoCloseDelay ifNil: [ ^ false ].
+	self canCloseWindow ifFalse: [ ^ false ].
+
 	delay := aTimestamp - currentWindow popupTimestamp.
 	delay >= autoCloseDelay ifFalse: [ ^ false ].
 	self autoCloseWindow.
@@ -115,11 +118,10 @@ ToPopupWindowManager >> defaultCloseOnMouseDown [
 	^ true
 ]
 
-{ #category : #initialization }
-ToPopupWindowManager >> defaultPositionHook [
+{ #category : #initializing }
+ToPopupWindowManager >> defaultPlacement [
 
-	^ [ :window :theElement :event |
-	  (theElement bounds inParent: self anchorRoot) bounds bottomLeft ]
+	^ ToBottomLeftDownPlacement new
 ]
 
 { #category : #'api - accessing' }
@@ -154,8 +156,10 @@ ToPopupWindowManager >> installPickOutsideFilter [
 ToPopupWindowManager >> mouseDownEvent: anEvent [
 
 	windowBuilder ifNil: [ ^ self ].
+
 	self unqueuePopupTaskFromEvent: anEvent.
 	anEvent button = mouseButton ifFalse: [ ^ self ].
+
 	currentWindow ifNotNil: [
 		closeOnMouseDown ifTrue: [ self closeWindow ].
 		^ self ].
@@ -167,7 +171,7 @@ ToPopupWindowManager >> mouseDownEvent: anEvent [
 
 { #category : #'event handling' }
 ToPopupWindowManager >> mouseUpEvent: anEvent [
-
+		
 	self checkAutoCloseWindowOnMouseUp: anEvent
 ]
 

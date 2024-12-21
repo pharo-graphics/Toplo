@@ -11,15 +11,10 @@ ToMenuWindowManager >> autoCloseWindow [
 	element menuBarDo: [ :mb | mb cancelAutoOpen ]
 ]
 
-{ #category : #initialization }
-ToMenuWindowManager >> defaultPositionHook [
+{ #category : #initializing }
+ToMenuWindowManager >> defaultPlacement [
 
-	^ [ :window :theMenu :event |
-	  (theMenu isSubmenu
-			   ifTrue: [
-			   (theMenu bounds inParent: self anchorRoot) topRight ]
-			   ifFalse: [
-			   (theMenu bounds inParent: self anchorRoot) bottomLeft ]) ]
+	^ ToMenuPlacement new
 ]
 
 { #category : #'api - accessing' }

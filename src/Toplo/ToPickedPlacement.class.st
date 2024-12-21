@@ -5,8 +5,11 @@ Class {
 }
 
 { #category : #api }
-ToPickedPlacement >> arrangeWindow: aWindow forElement: anElement fromEvent: anEvent in: aRootElement [
+ToPickedPlacement >> arrangeWindowFromManager: aManager onEvent: anEvent [
+
+	| window |
+	window := aManager currentWindow.
 
 	anEvent ifNil: [ ^ self ].
-	aWindow position: anEvent position
+	window position: anEvent position
 ]

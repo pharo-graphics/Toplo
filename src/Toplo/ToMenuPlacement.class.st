@@ -5,11 +5,15 @@ Class {
 }
 
 { #category : #api }
-ToMenuPlacement >> arrangeWindow: aWindow forElement: anElement fromEvent: anEvent in: aRoot [
+ToMenuPlacement >> arrangeWindowFromManager: aManager onEvent: anEvent [
 
-	| pos |
-	pos := anElement isSubmenu
-		       ifTrue: [ (anElement bounds inParent: aRoot) topRight ]
-		       ifFalse: [ (anElement bounds inParent: aRoot) bottomLeft ].
-	aWindow position: pos
+	| window root element pos |
+	window := aManager currentWindow.
+	root := aManager anchorRoot.
+	element := aManager element.
+
+	pos := element isSubmenu
+		       ifTrue: [ (element bounds inParent: root) topRight ]
+		       ifFalse: [ (element bounds inParent: root) bottomLeft ].
+	window position: pos
 ]

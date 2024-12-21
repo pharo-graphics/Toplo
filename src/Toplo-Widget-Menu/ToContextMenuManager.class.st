@@ -1,30 +1,30 @@
 Class {
-	#name : #ToContextMenuWindowManager,
+	#name : #ToContextMenuManager,
 	#superclass : #ToPopupWindowManager,
 	#category : #'Toplo-Widget-Menu-Context menu'
 }
 
 { #category : #initializing }
-ToContextMenuWindowManager >> defaultPlacement [
+ToContextMenuManager >> defaultPlacement [
 
 	^ ToPickedPlacement new
 ]
 
 { #category : #'event handling' }
-ToContextMenuWindowManager >> elementPositionInSpaceChangedEvent: anEvent [
+ToContextMenuManager >> elementPositionInSpaceChangedEvent: anEvent [
 
 	self currentWindowDo: [ :cw | cw close ] 
 ]
 
 { #category : #initialization }
-ToContextMenuWindowManager >> initialize [
+ToContextMenuManager >> initialize [
 
 	super initialize.
 	self useSecondaryMouseButton
 ]
 
 { #category : #'window handling' }
-ToContextMenuWindowManager >> newPickOutsideFilter [
+ToContextMenuManager >> newPickOutsideFilter [
 
 	^ super newPickOutsideFilter
 		  shouldCheckElement: false;
@@ -32,20 +32,20 @@ ToContextMenuWindowManager >> newPickOutsideFilter [
 ]
 
 { #category : #'window handling' }
-ToContextMenuWindowManager >> onOpened [
+ToContextMenuManager >> onOpened [
 
 	super onOpened.
 	currentWindow itemList requestFocus.
 ]
 
 { #category : #accessing }
-ToContextMenuWindowManager >> windowClass [
+ToContextMenuManager >> windowClass [
 
 	^ ToContextMenu 
 ]
 
 { #category : #accessing }
-ToContextMenuWindowManager >> windowRequestClass [
+ToContextMenuManager >> windowRequestClass [
 
 	^ ToContextMenuRequest 
 ]

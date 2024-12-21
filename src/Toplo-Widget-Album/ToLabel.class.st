@@ -70,18 +70,17 @@ ToLabel >> beReadOnly [
 	self isEditable: false
 ]
 
-{ #category : #'private-editing' }
-ToLabel >> beforeEditorClosed: anEditorElement [
+{ #category : #'t - element with content editor' }
+ToLabel >> beforeEditorClosed: anEditorElement fromManager: aManager [
 	" sent from the window manager "
 
 	innerElement visibility: BlVisibility visible
 ]
 
-{ #category : #'private-editing' }
-ToLabel >> beforeEditorOpened: anEditorElement [
+{ #category : #'t - element with content editor' }
+ToLabel >> beforeEditorOpened: anEditorElement fromManager: aManager [
 	" sent from the window manager "
 
-	anEditorElement text: self text copy.
 	innerElement visibility: BlVisibility hidden
 ]
 
@@ -89,12 +88,6 @@ ToLabel >> beforeEditorOpened: anEditorElement [
 ToLabel >> bold [
 
 	self attributesBuilder attribute: BlFontWeightAttribute bold
-]
-
-{ #category : #'t - element with content editor' }
-ToLabel >> boundsForEditor [
-
-	^ self innerElement bounds
 ]
 
 { #category : #initialization }
@@ -215,16 +208,10 @@ ToLabel >> isEditable: aBoolean [
 	aBoolean
 		ifTrue: [
 			editorWindowManager ifNotNil: [ ^ self ].
-			editorWindowManager := ToLabelEditorWindowManager new.
-			self addEventHandler: editorWindowManager.
-			self beforeEditorOpeningDo: [ :event |
-				self beforeEditorOpened: event editorElement ].
-			self afterEditorClosingDo: [ :event |
-				self beforeEditorClosed: event editorElement ] ]
+			self addEventHandler: ToLabelEditorManager new ]
 		ifFalse: [
 			editorWindowManager ifNil: [ ^ self ].
-			self removeEventHandler: editorWindowManager.
-			editorWindowManager := nil ]
+			self removeEventHandler: editorWindowManager ]
 ]
 
 { #category : #testing }
@@ -271,10 +258,10 @@ ToLabel >> multiLine: aBoolean [
 	self restoreTextAfter: [ self innerElement: inner ]
 ]
 
-{ #category : #'private-editing' }
-ToLabel >> newEditor [
+{ #category : #'t - element with content editor' }
+ToLabel >> newEditorForManager: aManager [
 
-	^ innerElement newEditor
+	^ aManager newEditorForLabel: self
 ]
 
 { #category : #skin }
@@ -299,6 +286,12 @@ ToLabel >> normal [
 ToLabel >> oblique [
 
 	self attributesBuilder attribute: BlFontEmphasisAttribute oblique
+]
+
+{ #category : #'t - element with content editor' }
+ToLabel >> onInstalledEditorManager: anEditorManager [
+
+	editorWindowManager := anEditorManager
 ]
 
 { #category : #'private-change' }
@@ -336,6 +329,12 @@ ToLabel >> onTextsDeleted: aBlTextsDeleted [
 	self isFrozen ifTrue: [ ^ self ].
 	currentText := self text copy.
 	self textChanged
+]
+
+{ #category : #'t - element with content editor' }
+ToLabel >> onUninstalledEditorManager: anEditorManager [
+
+	editorWindowManager := nil
 ]
 
 { #category : #'private-editing' }
@@ -440,4 +439,16 @@ ToLabel >> textChanged [
 ToLabel >> weight: aNumber [
 
 	self attributesBuilder attribute: (BlFontWeightAttribute weight: aNumber)
+]
+
+{ #category : #'private-editing' }
+ToLabel >> whenEditorClosedDo: aValuable [
+
+	editorWindowManager whenEditorClosedDo: aValuable
+]
+
+{ #category : #'private-editing' }
+ToLabel >> whenEditorOpenedDo: aValuable [
+
+	editorWindowManager whenEditorOpenedDo: aValuable
 ]

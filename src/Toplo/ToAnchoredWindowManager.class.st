@@ -37,7 +37,7 @@ ToAnchoredWindowManager >> anchorRoot: anElement [
 ToAnchoredWindowManager >> arrangeWindowFromEvent: anEvent [
 
 	currentWindow ifNil: [ ^ self ].
-	self placement arrangeWindow: currentWindow forElement: element fromEvent: anEvent in: self anchorRoot 
+	self placement arrangeWindowFromManager: self onEvent: anEvent
 ]
 
 { #category : #'window handling' }

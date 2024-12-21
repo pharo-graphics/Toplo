@@ -3,23 +3,34 @@ Class {
 	#superclass : #ToElement,
 	#traits : 'TToElementWithContentEditor',
 	#classTraits : 'TToElementWithContentEditor classTrait',
+	#instVars : [
+		'contents'
+	],
 	#category : #'Toplo-Examples-Parts'
 }
 
-{ #category : #'private-editing' }
-ToElementWithEditor >> editorClosed: aToAlbum [ 
+{ #category : #'t - element with content editor' }
+ToElementWithEditor >> beforeEditorClosed: anEditor fromManager: aManager [
 
-	
+	contents := anEditor text
 ]
 
-{ #category : #'private-editing' }
-ToElementWithEditor >> editorOpened: aToAlbum [
+{ #category : #'t - element with content editor' }
+ToElementWithEditor >> beforeEditorOpened: anEditor fromManager: aManager [
 
-	aToAlbum text: self background paint color asString.
+	anEditor
+		addEventHandlerOn: ToAlbumEditingFrontEvent
+		do: [ :event | aManager closeWindow ].
+
+	anEditor text: (contents ifNil: [self background paint color asString]).
+	anEditor infinite requestFocus.
+	anEditor selecter
+		all;
+		apply.
 
 	" flash if save requested with no text change "
-	aToAlbum whenFlashRequestedDo: [ :event | event traceCr ].
-	aToAlbum whenSaveRequestedDo: [ :event |
+	anEditor whenFlashRequestedDo: [ :event | event traceCr ].
+	anEditor whenSaveRequestedDo: [ :event |
 		event unacceptedEdits
 			ifTrue: [
 				| newColor |
@@ -30,32 +41,35 @@ ToElementWithEditor >> editorOpened: aToAlbum [
 				newColor ifNotNil: [ event accepted: true ] ]
 			ifFalse: [ 'No text change' traceCr ] ].
 	" hide edit feedback when save is accepted or cancelled "
-	aToAlbum whenSaveAcceptedDo: [ :event |
+	anEditor whenSaveAcceptedDo: [ :event |
 		| newColor |
 		event traceCr.
 		newColor := OpalCompiler new
 			            source: event currentTarget text asString;
 			            evaluate.
 		self background: newColor ].
-	aToAlbum whenCancelRequestedDo: [ :event | event traceCr ].
+	anEditor whenCancelRequestedDo: [ :event | event traceCr ].
 	" show edit feedback when text is edited "
-	aToAlbum whenTextEditedDo: [ :event | event traceCr ]
-]
-
-{ #category : #initialization }
-ToElementWithEditor >> initialize [
-
-	super initialize.
-	self whenEditorOpenedDo: [ :event |
-		self editorOpened: event editorElement ].
-	self whenEditorClosedDo: [ :event |
-		self editorClosed: event editorElement ]
+	anEditor whenTextEditedDo: [ :event | event traceCr ]
 ]
 
 { #category : #'t - element with content editor' }
-ToElementWithEditor >> newEditor [
+ToElementWithEditor >> newEditorForManager: aManager [
 
 	^ ToAlbum new
 		  size: 100 @ 100;
+		  withSaveCapability;
 		  yourself
+]
+
+{ #category : #'t - element with content editor' }
+ToElementWithEditor >> onInstalledEditorManager: aManager [
+
+
+]
+
+{ #category : #'t - element with content editor' }
+ToElementWithEditor >> onUninstalledEditorManager: aManager [
+
+	
 ]

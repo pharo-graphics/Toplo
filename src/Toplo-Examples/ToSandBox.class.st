@@ -1073,12 +1073,10 @@ ToSandBox class >> example_FilterOnList2WithStatesOfAmerica [
 
 	selector onInstalledIn: listElement dataAccessor.
 
-	filterField addEventHandler: (BlEventHandler
-			 on: AlbTextEditedEvent
-			 do: [
+	filterField whenTextEditedDo: [
 				 | pattern |
 				 pattern := filterField text asString.
-				 selector pattern: pattern ]).
+				 selector pattern: pattern ].
 
 	listElement placeholderBuilder: [ :ph :e |
 		| lab |
@@ -2474,12 +2472,10 @@ ToSandBox class >> example_SieveOnList2WithStatesOfAmerica [
 	sieve onInstalledIn: listElement.
 	listElement dataAccessor addAll: data.
 
-	filterField addEventHandler: (BlEventHandler
-			 on: AlbTextEditedEvent
-			 do: [
+	filterField whenTextEditedDo: [
 				 | pattern |
 				 pattern := filterField text asString.
-				 sieve pattern: pattern ]).
+				 sieve pattern: pattern ].
 
 	listElement placeholderBuilder: [ :ph :e |
 		| lab |
@@ -2528,12 +2524,10 @@ ToSandBox class >> example_SieveOnList2With_350000_Items [
 	sieve onInstalledIn: listElement.
 	listElement dataAccessor addAll: data.
 	listElement dataAccessor size traceCr.
-	filterField addEventHandler: (BlEventHandler
-			 on: AlbTextEditedEvent
-			 do: [
+	filterField whenTextEditedDo: [
 				 | pattern |
 				 pattern := filterField text asString.
-				 sieve pattern: pattern ]).
+				 sieve pattern: pattern ].
 
 	listElement placeholderBuilder: [ :ph :e |
 		| lab |
@@ -2583,12 +2577,10 @@ ToSandBox class >> example_SieveOnList2With_AllClassNames [
 
 	sieve dataFilter: [ :aClass :aPattern |
 		aClass name beginsWith: aPattern caseSensitive: true ].
-	filterField addEventHandler: (BlEventHandler
-			 on: AlbTextEditedEvent
-			 do: [
+	filterField whenTextEditedDo: [
 				 | pattern |
 				 pattern := filterField text asString.
-				 sieve pattern: pattern ]).
+				 sieve pattern: pattern ].
 
 	listElement placeholderBuilder: [ :ph :e |
 		| lab |
@@ -2639,12 +2631,10 @@ ToSandBox class >> example_SieveOnList2With_AllMethods [
 
 	sieve dataFilter: [ :aCompiledMethod :aPattern |
 		aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
-	filterField addEventHandler: (BlEventHandler
-			 on: AlbTextEditedEvent
-			 do: [
+	filterField whenTextEditedDo: [
 				 | pattern |
 				 pattern := filterField text asString.
-				 sieve pattern: pattern ]).
+				 sieve pattern: pattern ].
 
 	listElement placeholderBuilder: [ :ph :e |
 		| lab |
@@ -2755,14 +2745,17 @@ ToSandBox class >> example_SimplePopupBottom [
 	| p |
 	p := self newPopup.
 	p placement:
-		(ToActionPlacement new action: [ :theWindow :theElement :event :theRoot |
-			 | x1 x2 w1 w2 pos |
-			 x1 := theElement position x.
-			 w1 := theElement width / 2.0.
-			 w2 := theWindow width / 2.0.
+		(ToActionPlacement new action: [ :manager :evt | 
+			| theWin theElem theRoot x1 x2 w1 w2 pos |
+				theWin := manager currentWindow.
+				theElem := manager element.
+				theRoot := manager anchorRoot.
+			 x1 := theElem position x.
+			 w1 := theElem width / 2.0.
+			 w2 := theWin width / 2.0.
 			 x2 := x1 + w1 - w2.
-			 pos := x2 @ (theElement position y + theElement height).
-			 theWindow position: pos ]).
+			 pos := x2 @ (theElem position y + theElem height).
+			 theWin position: pos ]).
 	p element openInSpace
 ]
 
@@ -2780,9 +2773,13 @@ ToSandBox class >> example_SimplePopupBottomRight [
 	| p |
 	p := self newPopup.
 	p placement:
-		(ToActionPlacement new action: [ :theWindow :theElement :event :theRoot |
-			 theWindow position: theElement bounds inSpace bounds bottomRight
-			 - (theWindow width @ 0) ]).
+		(ToActionPlacement new action: [ :manager :evt | 
+			| theWin theElem theRoot |
+				theWin := manager currentWindow.
+				theElem := manager element.
+				theRoot := manager anchorRoot.
+			 theWin position: theElem bounds inSpace bounds bottomRight
+			 - (theWin width @ 0) ]).
 	p element openInSpace
 ]
 
@@ -2792,14 +2789,17 @@ ToSandBox class >> example_SimplePopupTop [
 	| p |
 	p := self newPopup.
 	p placement:
-		(ToActionPlacement new action: [ :theWindow :theElement :event :theRoot |
-			 | x1 x2 w1 w2 |
-			 x1 := theElement position x.
-			 w1 := theElement width / 2.0.
-			 w2 := theWindow width / 2.0.
+		(ToActionPlacement new action: [ :manager :evt | 
+			| theWin theElem theRoot x1 x2 w1 w2 |
+				theWin := manager currentWindow.
+				theElem := manager element.
+				theRoot := manager anchorRoot.	
+			 x1 := theElem position x.
+			 w1 := theElem width / 2.0.
+			 w2 := theWin width / 2.0.
 			 x2 := x1 + w1 - w2.
-			 theWindow position:
-				 x2 @ (theElement position y - theElement height) ]).
+			 theWin position:
+				 x2 @ (theElem position y - theElem height) ]).
 	p element openInSpace
 ]
 
@@ -2809,10 +2809,14 @@ ToSandBox class >> example_SimplePopupTopLeft [
 	| p |
 	p := self newPopup.
 	p placement:
-		(ToActionPlacement new action: [ :theWindow :theElement :event :theRoot |
-			 theWindow position:
-				 theElement bounds inSpace bounds topLeft
-				 - (0 @ theElement height) ]).
+		(ToActionPlacement new action: [ :manager :evt | 
+			| theWin theElem theRoot |
+				theWin := manager currentWindow.
+				theElem := manager element.
+				theRoot := manager anchorRoot.	
+			 theWin position:
+				 theElem bounds inSpace bounds topLeft
+				 - (0 @ theElem height) ]).
 
 	p element openInSpace
 ]
@@ -2823,9 +2827,13 @@ ToSandBox class >> example_SimplePopupTopRight [
 	| p |
 	p := self newPopup.
 	p placement:
-		(ToActionPlacement new action: [ :theWindow :theElement :event :theRoot |
-			 theWindow position: theElement bounds inSpace bounds topRight
-				 - (theWindow width @ theElement height) ]).
+		(ToActionPlacement new action: [ :manager :evt | 
+			| theWin theElem theRoot |
+				theWin := manager currentWindow.
+				theElem := manager element.
+				theRoot := manager anchorRoot.	
+			 theWin position: theElem bounds inSpace bounds topRight
+				 - (theWin width @ theElem height) ]).
 
 	p element openInSpace
 ]
@@ -3563,7 +3571,7 @@ ToSandBox class >> example_elementWithEditor [
 		     size: 100 asPoint;
 		     position: 20 asPoint;
 		     yourself.
-	editorWindowManager := ToLabelEditorWindowManager new.
+	editorWindowManager := ToElementContentEditorManager new.
 	e addEventHandler: editorWindowManager.
 	e addEventHandlerOn: BlClickEvent do: [ :event |
 		(editorWindowManager newWindowEvent: event) ifNotNil: [ :win |
@@ -4038,10 +4046,14 @@ ToSandBox class >> example_overlayWindow2 [
 		     size: 300 @ 300;
 		     position: 50 @ 50.
 	windowManager := ToAnchoredWindowManager new.
-	windowManager placement: (ToActionPlacement new action: [ :win :elem :event :theRoot |
-			win position: (elem bounds inParent: win anchorRoot) bounds topLeft + (20 @ 40).
-	win width: elem width - 40.
-	win height: elem height - 60  ]).
+	windowManager placement: (ToActionPlacement new action: [ :manager :evt | 
+			| theWin theElem theRoot |
+				theWin := manager currentWindow.
+				theElem := manager element.
+				theRoot := manager anchorRoot.	
+			theWin position: (theElem bounds inParent: theRoot) bounds topLeft + (20 @ 40).
+	theWin width: theElem width - 40.
+	theWin height: theElem height - 60  ]).
 
 	windowManager anchorRoot: e.
 	e addEventHandler: windowManager.
@@ -5375,10 +5387,8 @@ ToSandBox class >> example_textFieldsInListElement [
 			        yourself.
 		node addChild: txtf.
 		txtf withSaveCapability.
-		txtf
-			addEventHandlerOn: ToAlbumSaveRequestedEvent
-			do: [ :event | event accepted: event currentTarget text isNotEmpty ].
-		txtf addEventHandlerOn: ToAlbumSaveAcceptedEvent do: [ :event |
+		txtf whenSaveRequestedDo: [ :event | event accepted: event currentTarget text isNotEmpty ].
+		txtf whenSaveAcceptedDo: [ :event |
 			l dataAccessor
 				at: holder position
 				put: event editorElement text asString ] ].
@@ -5860,11 +5870,16 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 			whenEditorOpenedDo: [ :editorEvent |
 				window preventPickOutsideClosing.
 				editorEvent editorElement addStamp: #preformatted.
+				editorEvent editorElement whenCancelRequestedDo: [ :cancelRequest |
+						text := origString asRopedText.
+						editorEvent target text: text ].
 				editorEvent editorElement whenSaveRequestedDo: [ :saveRequest |
 						saveRequest accepted: true ].
 				editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
-						editorEvent target text: acceptedEvent target text ] ];
+						editorEvent target text: acceptedEvent target text.
+						text := acceptedEvent target text ] ];
 			whenEditorClosedDo: [ :event | window allowPickOutsideClosing ].
+
 		resetBtn := ToButton new
 			            labelText: 'Reset';
 			            whenClickedDo: [
@@ -5875,7 +5890,7 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 		window root addChild: editedLabel.
 		window root addChild: resetBtn ].
 
-	but whenClickedDo: [ :ann | self inform: 'Button clicked' ].
+	but whenClickedDo: [ :ann | 'Button clicked' traceCr ].
 	but openInSpace
 ]
 
@@ -5918,7 +5933,7 @@ ToSandBox class >> example_toLabel3 [
 			        bold;
 			        foreground: Color gray;
 			        yourself).
-
+lab isEditable: true.
 	lab whenEditorOpenedDo: [ :editorEvent |
 		editorEvent editorElement addStamp: #preformatted.
 		editorEvent editorElement whenSaveRequestedDo: [ :request |
@@ -5928,7 +5943,7 @@ ToSandBox class >> example_toLabel3 [
 
 	lab background: Color lightBlue.
 	lab hMatchParent.
-	lab isEditable: true.
+	
 	lab innerElement constraintsDo: [ :c |
 		c frame horizontal alignCenter ].
 	lab border: (BlBorder paint: Color yellow width: 1).
@@ -6396,6 +6411,9 @@ ToSandBox class >> example_withCustomMenuItems [
 	menu addItem: (ToMenuItem new
 			 labelText: 'Export';
 			 whenClickedDo: [ self inform: 'Export' ]).
+	menu addItem: (ToMenuItem new
+			 labelText: 'Inspect';
+			 whenClickedDo: [ menu inspect ]).
 	menu addSeparator.
 	menu addItem: (ToCustomMenuItem new in: [ :e | e 
 			 addChild: (ToSwitchButton new
@@ -7002,26 +7020,22 @@ ToSandBox class >> selectWithEditingMultiSelection [
 		lab := ToAttributedLabel text: phtext.
 		placeholder addChild: lab ].
 
-	select addEventHandler: (BlEventHandler
-			 on: ToAlbumSaveAcceptedEvent
-			 do: [ :event |
+	select whenSaveAcceptedDo: [ :event |
 				 | d |
 				 d := event client text asString asSymbol.
 				 event client text: ''.
 				 event currentTarget data add: d.
 				 event currentTarget mode selectIndex:
-					 event currentTarget data size ]).
+					 event currentTarget data size ].
 
-	select addEventHandler: (BlEventHandler
-			 on: ToAlbumSaveRequestedEvent
-			 do: [ :event |
+	select whenSaveRequestedDo: [ :event |
 				 | target idx |
 				 target := event currentTarget.
 				 idx := target data indexOf: event client text asString asSymbol.
 				 event accepted: idx isZero.
 				 idx > 0 ifTrue: [
 					 event client text: ''.
-					 target listElement selection selectIndex: idx ] ]).
+					 target listElement selection selectIndex: idx ] ].
 	^ select
 ]
 

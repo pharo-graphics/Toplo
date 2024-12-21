@@ -5,8 +5,13 @@ Class {
 }
 
 { #category : #api }
-ToTopLeftDownPlacement >> arrangeWindow: aWindow forElement: anElement fromEvent: anEvent in: aRootElement [
+ToTopLeftDownPlacement >> arrangeWindowFromManager: aManager onEvent: anEvent [
 
-	aWindow position: (anElement bounds inParent: aRootElement) topLeft.
+	| window root element pos |
+	window := aManager currentWindow.
+	root := aManager anchorRoot.
+	element := aManager element.
+	pos := (element bounds inParent: root) topLeft.
+	window position: pos
 
 ]

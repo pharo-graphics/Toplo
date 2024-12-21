@@ -5,8 +5,14 @@ Class {
 }
 
 { #category : #api }
-ToTooltipPlacement >> arrangeWindow: aWindow forElement: anElement fromEvent: anEvent in: aRootElement [
+ToTooltipPlacement >> arrangeWindowFromManager: aManager onEvent: anEvent [
 
-	aWindow position: anEvent position x
-		@ ((anElement localPointToGlobal: 0 @ anElement height) y + 5)
+	| window root element pos |
+	window := aManager currentWindow.
+	root := aManager anchorRoot.
+	element := aManager element.
+
+	pos :=  anEvent position x
+		@ ((element localPointToGlobal: 0 @ element height) y + 5).
+	window position: pos
 ]

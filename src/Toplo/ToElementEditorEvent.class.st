@@ -1,20 +1,20 @@
 Class {
-	#name : #ToLabelEditorEvent,
+	#name : #ToElementEditorEvent,
 	#superclass : #BlEvent,
 	#instVars : [
 		'editorElement'
 	],
-	#category : #'Toplo-Widget-Album-LabelEditor'
+	#category : #'Toplo-Core-Window'
 }
 
 { #category : #'as yet unclassified' }
-ToLabelEditorEvent >> editorElement [
+ToElementEditorEvent >> editorElement [
 
 	^ editorElement
 ]
 
 { #category : #'as yet unclassified' }
-ToLabelEditorEvent >> editorElement: anEditorElement [
+ToElementEditorEvent >> editorElement: anEditorElement [
 
 	editorElement := anEditorElement
 ]

@@ -58,7 +58,7 @@ TToElementWithContextMenu >> contextMenuWindowManager: aWindowHandler [
 { #category : #'t - element with context menu' }
 TToElementWithContextMenu >> contextMenuWindowManagerClass [
 
-	^ self userData at: #contextMenuWindowManagerClass ifAbsentPut: [ ToContextMenuWindowManager]
+	^ self userData at: #contextMenuWindowManagerClass ifAbsentPut: [ ToContextMenuManager]
 ]
 
 { #category : #'t - element with context menu' }

@@ -63,9 +63,12 @@ ToPopupWindowManager >> canCloseWindow [
 ToPopupWindowManager >> checkAutoCloseWindowAfter: aTimestamp [
 
 	| delay |
-	currentWindow ifNil: [ ^ false ].
-	currentWindow popupTimestamp ifNil: [ ^ false ].
+
+	currentWindow ifNil: [ ^ false ].	
+	currentWindow popupTimestamp ifNil: [ ^ false ].	
 	autoCloseDelay ifNil: [ ^ false ].
+	self canCloseWindow ifFalse: [ ^ false ].
+
 	delay := aTimestamp - currentWindow popupTimestamp.
 	delay >= autoCloseDelay ifFalse: [ ^ false ].
 	self autoCloseWindow.
@@ -153,8 +156,10 @@ ToPopupWindowManager >> installPickOutsideFilter [
 ToPopupWindowManager >> mouseDownEvent: anEvent [
 
 	windowBuilder ifNil: [ ^ self ].
+
 	self unqueuePopupTaskFromEvent: anEvent.
 	anEvent button = mouseButton ifFalse: [ ^ self ].
+
 	currentWindow ifNotNil: [
 		closeOnMouseDown ifTrue: [ self closeWindow ].
 		^ self ].
@@ -166,7 +171,7 @@ ToPopupWindowManager >> mouseDownEvent: anEvent [
 
 { #category : #'event handling' }
 ToPopupWindowManager >> mouseUpEvent: anEvent [
-
+		
 	self checkAutoCloseWindowOnMouseUp: anEvent
 ]
 

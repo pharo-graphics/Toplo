@@ -173,12 +173,10 @@ ToMiniBrowser >> newPackagePane [
 			includesSubstring: aPattern asString
 			caseSensitive: false ].
 
-	pkgFilterField addEventHandler: (BlEventHandler
-			 on: AlbTextEditedEvent
-			 do: [
+	pkgFilterField whenTextEditedDo: [
 				 | pattern |
 				 pattern := pkgFilterField text asString.
-				 pkgSieve pattern: pattern ]).
+				 pkgSieve pattern: pattern ].
 
 	packageBottomPane := ToPane new
 		                     hMatchParent;

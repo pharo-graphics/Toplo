@@ -60,6 +60,11 @@ ToTheme class >> defaultTokenProperties [
 					    'outlined_keyboardarrowright') yourself
 				   size: 18 asPoint;
 				   yourself ]).
+		  (ToTokenProperty name: #'submenu-arrow-down' value: [
+			   (ToMaterialDesignIconProvider iconNamed:
+					    'outlined_keyboardarrowdown') yourself
+				   size: 18 asPoint;
+				   yourself ]).
 		  (ToTokenProperty name: #'border-radius' value: 4).
 		  (ToTokenProperty name: #'border-radius-LG' value: 8).
 		  (ToTokenProperty name: #'border-radius-SM' value: 4).

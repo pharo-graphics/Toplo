@@ -69,7 +69,7 @@ ToTooltipWindowManager >> popupOnMouseDown [
 ]
 
 { #category : #accessing }
-ToTooltipWindowManager >> windowClass [
+ToTooltipWindowManager >> popupWindowClass [
 
 	^ ToTooltipWindow 
 ]

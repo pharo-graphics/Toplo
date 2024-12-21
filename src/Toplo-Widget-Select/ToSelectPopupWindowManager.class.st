@@ -144,6 +144,12 @@ ToSelectPopupWindowManager >> onUninstalledIn: anElement [
 
 ]
 
+{ #category : #accessing }
+ToSelectPopupWindowManager >> popupWindowClass [
+
+	^ ToSelectPopupWindow 
+]
+
 { #category : #'window handling' }
 ToSelectPopupWindowManager >> popupWindowHiddenEvent: anEvent [
 
@@ -159,10 +165,4 @@ ToSelectPopupWindowManager >> popupWindowHiddenEvent: anEvent [
 ToSelectPopupWindowManager >> sieve [ 
 
 	^ sieve
-]
-
-{ #category : #accessing }
-ToSelectPopupWindowManager >> windowClass [
-
-	^ ToSelectPopupWindow 
 ]

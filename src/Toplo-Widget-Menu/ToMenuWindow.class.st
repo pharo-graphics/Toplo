@@ -12,7 +12,7 @@ ToMenuWindow >> correctedPositionWithinAnchorRoot [
 	rootRect := 0 @ 0 extent: self anchorRoot extent.
 	t := rect amountToTranslateWithin: rootRect.
 	" the parent menu is the element of my window manager "
-	parentMenu := self windowManager element.
+	parentMenu := self manager element.
 	" in case of a root menu (including context menu), just keep the computed position "
 	(t x isZero or: [ parentMenu isSubmenu not ]) ifTrue: [
 		^ super correctedPositionWithinAnchorRoot + t ].

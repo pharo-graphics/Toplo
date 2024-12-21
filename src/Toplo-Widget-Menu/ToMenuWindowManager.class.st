@@ -75,7 +75,7 @@ ToMenuWindowManager >> popupNewWindowEvent: anEvent [
 ]
 
 { #category : #accessing }
-ToMenuWindowManager >> windowClass [
+ToMenuWindowManager >> popupWindowClass [
 
 	^ ToMenuWindow 
 ]

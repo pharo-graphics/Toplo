@@ -304,6 +304,16 @@ ToAnchoredWindowManagerTest >> testNewWindowEvent2 [
 ]
 
 { #category : #tests }
+ToAnchoredWindowManagerTest >> testPopupWindowClass [
+
+	| windowManager |
+	windowManager := ToAnchoredWindowManager new windowBuilder: [
+		                 :anchWin
+		                 :element |  ].
+	self assert: windowManager popupWindowClass identicalTo: ToAnchoredWindow
+]
+
+{ #category : #tests }
 ToAnchoredWindowManagerTest >> testPositionHook [
 
 	| win e windowManager |
@@ -395,16 +405,6 @@ ToAnchoredWindowManagerTest >> testPositionHook3 [
 	self waitTestingSpaces.
 	self assert: e bounds inSpace bounds origin equals: 20 asPoint.
 	self assert: win bounds inSpace bounds origin equals: 30 @ 30
-]
-
-{ #category : #tests }
-ToAnchoredWindowManagerTest >> testWindowClass [
-
-	| windowManager |
-	windowManager := ToAnchoredWindowManager new windowBuilder: [
-		                 :anchWin
-		                 :element |  ].
-	self assert: windowManager windowClass identicalTo: ToAnchoredWindow
 ]
 
 { #category : #tests }

@@ -42,7 +42,7 @@ ToLabelEditorManager >> newEditorForLabel: aLabel [
 ]
 
 { #category : #accessing }
-ToLabelEditorManager >> windowClass [
+ToLabelEditorManager >> popupWindowClass [
 
 	^ ToLabelEditorWindow 
 ]

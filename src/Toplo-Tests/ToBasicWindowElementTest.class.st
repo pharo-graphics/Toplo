@@ -90,16 +90,6 @@ ToBasicWindowElementTest >> testRoot [
 ]
 
 { #category : #tests }
-ToBasicWindowElementTest >> testRootLayout [
-
-	| w l |
-	w := ToBasicWindowElement new.
-	l := BlLinearLayout horizontal.
-	w rootLayout: l.
-	self assert: w rootLayout identicalTo: l
-]
-
-{ #category : #tests }
 ToBasicWindowElementTest >> testToFront [
 
 	| w |

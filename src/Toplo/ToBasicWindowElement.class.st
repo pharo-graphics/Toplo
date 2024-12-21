@@ -110,25 +110,10 @@ ToBasicWindowElement >> root: anElement [
 	rootElement := anElement
 ]
 
-{ #category : #initialization }
-ToBasicWindowElement >> rootLayout [
-
-	^ self root layout
-
-]
-
-{ #category : #initialization }
-ToBasicWindowElement >> rootLayout: aLayout [
-
-	self root layout: aLayout
-
-]
-
 { #category : #'api - displaying' }
 ToBasicWindowElement >> toFront [
 
-	self elevation: self defaultElevation.
-	self root elevation: self defaultElevation
+	self elevation: self defaultElevation
 ]
 
 { #category : #enumerating }

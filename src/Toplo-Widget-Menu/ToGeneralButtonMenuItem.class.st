@@ -42,12 +42,6 @@ ToGeneralButtonMenuItem >> clickEventClass [
 	^ button clickEventClass
 ]
 
-{ #category : #testing }
-ToGeneralButtonMenuItem >> closeOnMouseEvent [
-
-	^ true
-]
-
 { #category : #initialization }
 ToGeneralButtonMenuItem >> initialize [ 
 
@@ -55,7 +49,8 @@ ToGeneralButtonMenuItem >> initialize [
 	self button: self buttonClass new.
 	self button takeFocusOnClick: false.
 	self button clickEventClass: self buttonClickEventClass.
-	self layout: self defaultLayout
+	self layout: self defaultLayout.
+	closeOnMouseEvent := true
 ]
 
 { #category : #skin }

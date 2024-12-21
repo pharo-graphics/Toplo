@@ -2,11 +2,10 @@ Class {
 	#name : #ToAnchoredWindowManager,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
-		'anchorRoot',
+		'mode',
 		'currentWindow',
 		'element',
-		'windowBuilder',
-		'placement'
+		'windowBuilder'
 	],
 	#category : #'Toplo-Core-Window'
 }
@@ -23,21 +22,29 @@ ToAnchoredWindowManager class >> overlay [
 ToAnchoredWindowManager >> anchorRoot [
 
 	" the root element in which the window is placed "
-	^ anchorRoot ifNil: [ anchorRoot := element space root ]
+	^ mode anchorRoot 
 ]
 
 { #category : #accessing }
 ToAnchoredWindowManager >> anchorRoot: anElement [
 
 	" the root element in which the window is placed "
-	anchorRoot := anElement
+	mode anchorRoot: anElement
 ]
 
 { #category : #'bounds hook' }
-ToAnchoredWindowManager >> arrangeWindowFromEvent: anEvent [
+ToAnchoredWindowManager >> arrangeWindowOnEvent: anEvent [
 
 	currentWindow ifNil: [ ^ self ].
-	self placement arrangeWindowFromManager: self onEvent: anEvent
+	mode arrangeWindowOnEvent: anEvent
+]
+
+{ #category : #'window handling' }
+ToAnchoredWindowManager >> beInline [
+
+	mode := ToWindowInlineMode new
+		        manager: self;
+		        yourself
 ]
 
 { #category : #'window handling' }
@@ -105,6 +112,12 @@ ToAnchoredWindowManager >> defaultBuilder [
 	
 ]
 
+{ #category : #initialization }
+ToAnchoredWindowManager >> defaultMode [
+
+		 ^ ToWindowPopupMode new
+]
+
 { #category : #initializing }
 ToAnchoredWindowManager >> defaultPlacement [ 
 
@@ -121,13 +134,14 @@ ToAnchoredWindowManager >> element [
 ToAnchoredWindowManager >> elementExtentChangedEvent: anEvent [
 
 	currentWindow ifNil: [ ^ self ].
-	self arrangeWindowFromEvent: nil
+	mode arrangeWindowOnEvent: nil
 ]
 
 { #category : #'event handling' }
 ToAnchoredWindowManager >> elementPositionInSpaceChangedEvent: anEvent [
 
-	self arrangeWindowFromEvent: anEvent
+	currentWindow ifNil: [ ^ self ].
+	mode arrangeWindowOnEvent: anEvent
 ]
 
 { #category : #'event handling' }
@@ -171,13 +185,28 @@ ToAnchoredWindowManager >> hasWindow [
 ToAnchoredWindowManager >> initialize [
 
 	super initialize.
-	windowBuilder := self defaultBuilder
+	windowBuilder := self defaultBuilder.
+	mode := self defaultMode
+		        manager: self;
+		        yourself
+]
+
+{ #category : #accessing }
+ToAnchoredWindowManager >> inlineWindowClass [
+
+	^ ToInlineWindowElement 
+]
+
+{ #category : #testing }
+ToAnchoredWindowManager >> isInline [ 
+
+	^ mode isInline
 ]
 
 { #category : #'window handling' }
 ToAnchoredWindowManager >> newWindow [
 
-	^ self windowClass new
+	^ self popupWindowClass new
 		  manager: self;
 		  yourself
 ]
@@ -203,7 +232,7 @@ ToAnchoredWindowManager >> newWindowEvent: anEvent [
 
 	" the event is dispatched, eventually updated with additional data, 
 	the current window can be created then built"
-	currentWindow := self newWindow.
+	currentWindow := mode newWindow.
 	self buildCurrentWindowFromRequest: request.
 	^ currentWindow
 ]
@@ -255,15 +284,21 @@ ToAnchoredWindowManager >> openedEvent: anEvent [
 ]
 
 { #category : #accessing }
-ToAnchoredWindowManager >> placement [ 
+ToAnchoredWindowManager >> placement: aPlacement [
 
-	^ placement ifNil: [ placement := self defaultPlacement ] 
+	mode placement: aPlacement 
 ]
 
 { #category : #accessing }
-ToAnchoredWindowManager >> placement: aPlacement [
+ToAnchoredWindowManager >> popupWindowClass [
 
-	placement := aPlacement 
+	^ ToAnchoredWindow 
+]
+
+{ #category : #'window handling' }
+ToAnchoredWindowManager >> showWindow: aWindow [ 
+
+	mode showWindow: aWindow
 ]
 
 { #category : #'event handling' }
@@ -282,12 +317,6 @@ ToAnchoredWindowManager >> windowBuilder [
 ToAnchoredWindowManager >> windowBuilder: aWindowBuilderValuable [
 
 	windowBuilder := aWindowBuilderValuable
-]
-
-{ #category : #accessing }
-ToAnchoredWindowManager >> windowClass [
-
-	^ ToAnchoredWindow 
 ]
 
 { #category : #'event handling' }

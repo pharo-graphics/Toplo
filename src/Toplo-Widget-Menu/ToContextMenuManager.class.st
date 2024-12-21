@@ -39,7 +39,7 @@ ToContextMenuManager >> onOpened [
 ]
 
 { #category : #accessing }
-ToContextMenuManager >> windowClass [
+ToContextMenuManager >> popupWindowClass [
 
 	^ ToContextMenu 
 ]

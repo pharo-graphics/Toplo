@@ -73,6 +73,12 @@ ToMenu >> initialize [
 	self addEventHandler: windowManager
 ]
 
+{ #category : #testing }
+ToMenu >> isInline [
+
+	^ self windowManager isInline
+]
+
 { #category : #accessing }
 ToMenu >> isMenu [
 

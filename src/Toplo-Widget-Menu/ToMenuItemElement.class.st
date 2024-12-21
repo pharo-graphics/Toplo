@@ -3,20 +3,30 @@ Class {
 	#superclass : #ToItemElement,
 	#traits : 'TToMenuItem',
 	#classTraits : 'TToMenuItem classTrait',
+	#instVars : [
+		'closeOnMouseEvent'
+	],
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
 { #category : #testing }
 ToMenuItemElement >> closeOnMouseEvent [
 
-	^ false
+	^ closeOnMouseEvent
+]
+
+{ #category : #testing }
+ToMenuItemElement >> closeOnMouseEvent: aBoolean [
+
+	closeOnMouseEvent := aBoolean
 ]
 
 { #category : #'adding-removing' }
 ToMenuItemElement >> closeSiblingMenuWindow [
 
 	self parentItemListHolder ifNil: [ ^ self ].
-	self parentItemListHolder closeAllWindowsForItemsSatisfying: [ :it | it ~= self ]
+	self parentItemListHolder closeAllWindowsForItemsSatisfying: [ :it |
+		it ~= self ]
 ]
 
 { #category : #'t - menu window model' }
@@ -64,7 +74,8 @@ ToMenuItemElement >> includes: anElement [
 ToMenuItemElement >> initialize [
 
 	super initialize.
-	self addEventHandler: self defaultEventHandler
+	self addEventHandler: self defaultEventHandler.
+	closeOnMouseEvent := false
 ]
 
 { #category : #'t - menu window model' }

@@ -9,6 +9,12 @@ Class {
 }
 
 { #category : #'api - displaying' }
+ToAnchoredWindow >> afterCustomizedToFitAnchorRootDo: aBlock [
+
+	aBlock value
+]
+
+{ #category : #'api - displaying' }
 ToAnchoredWindow >> allowPickOutsideClosing [
 
 	windowManager plugPickOutsideFilter
@@ -20,16 +26,10 @@ ToAnchoredWindow >> anchorRoot [
 	^ self manager anchorRoot
 ]
 
-{ #category : #accessing }
-ToAnchoredWindow >> applySizeHookFromEvent: anEvent [
-
-	windowManager applySizeHookFromEvent: anEvent
-]
-
 { #category : #'api - displaying' }
-ToAnchoredWindow >> arrangeWindowFromEvent: anEvent [
+ToAnchoredWindow >> arrangeWindowOnEvent: anEvent [
 
-	windowManager arrangeWindowFromEvent: anEvent
+	windowManager arrangeWindowOnEvent: anEvent
 ]
 
 { #category : #'api - displaying' }
@@ -38,12 +38,6 @@ ToAnchoredWindow >> close [
 	self isOpened ifFalse: [ Error signal: 'Closing a closed window' ].
 	self dispatchClosedEvent.
 	super close
-]
-
-{ #category : #'api - displaying' }
-ToAnchoredWindow >> correctedPositionWithinAnchorRoot [
-
-	^ self position
 ]
 
 { #category : #accessing }
@@ -98,18 +92,6 @@ ToAnchoredWindow >> manager: aWindowHandler [
 ]
 
 { #category : #'api - displaying' }
-ToAnchoredWindow >> onPositionChangedToFitAnchorRootDo: aBlock [
-
-	| p |
-	p := self correctedPositionWithinAnchorRoot.
-	p ~= self position ifTrue: [
-		self position: p.
-		self whenLayoutedDoOnce: aBlock.
-		^ self ].
-	aBlock value
-]
-
-{ #category : #'api - displaying' }
 ToAnchoredWindow >> open [
 
 	self show.
@@ -141,17 +123,17 @@ ToAnchoredWindow >> popupEvent: anEvent [
 		Error signal: 'A window with a disabled element shouldn''t popup' ].
 
 	self isOpened ifTrue: [
-		Error signal: 'An opened window shouldn''t been asked to popup' ].
+		Error signal: 'An opened window shouldn''t be asked to popup' ].
 
 	self visibility: BlVisibility hidden.
 	self open.
 	self whenLayoutedDoOnce: [ " ok, now that my size is known, 
 		size and position hooks can be applied "
-		self arrangeWindowFromEvent: anEvent.
+		self arrangeWindowOnEvent: anEvent.
 		" since the position/size could have been changed, one have to wait a second layout"
 		self requestLayout.
 		self whenLayoutedDoOnce: [
-			self onPositionChangedToFitAnchorRootDo: [
+			self afterCustomizedToFitAnchorRootDo: [
 				self toFront.
 				self visibility: BlVisibility visible ] ] ]
 ]
@@ -171,7 +153,7 @@ ToAnchoredWindow >> preventPickOutsideClosing [
 { #category : #'api - displaying' }
 ToAnchoredWindow >> show [
 
-	self anchorRoot addChild: self
+	self manager showWindow: self 
 ]
 
 { #category : #'api - displaying' }
@@ -184,14 +166,11 @@ ToAnchoredWindow >> toThemeInstalled [
 	super toThemeInstalled
 ]
 
-{ #category : #testing }
-ToAnchoredWindow >> useMorphicHost [ 
-
-	^ BlHost preferableHostClass = BlMorphicWindowHost
-]
-
 { #category : #accessing }
-ToAnchoredWindow >> windowManager [ 
+ToAnchoredWindow >> windowManager [
 
-	^ windowManager 
+	self
+		deprecated: 'Use #manager instead'
+		transformWith: '`@rcvr windowManager' -> '`@rcvr manager'.
+	^ self manager
 ]

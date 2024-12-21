@@ -38,16 +38,17 @@ ToCheckMenuItem >> checkableData: aCheckableData [
 	^ self shouldNotImplement 
 ]
 
-{ #category : #testing }
-ToCheckMenuItem >> closeOnMouseEvent [
-
-	^ false
-]
-
 { #category : #accessing }
 ToCheckMenuItem >> indeterminateBar [
 
 	^ self button indeterminateBar
+]
+
+{ #category : #initialization }
+ToCheckMenuItem >> initialize [
+
+	super initialize.
+	closeOnMouseEvent := false
 ]
 
 { #category : #skin }

@@ -15,6 +15,7 @@ ToMenuItem >> buttonClass [
 { #category : #testing }
 ToMenuItem >> closeOnMouseEvent [
 
+	closeOnMouseEvent ifFalse: [ ^ false ].
 	^ self isTopMenu not
 ]
 

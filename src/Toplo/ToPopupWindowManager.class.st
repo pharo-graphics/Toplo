@@ -159,7 +159,6 @@ ToPopupWindowManager >> mouseDownEvent: anEvent [
 
 	self unqueuePopupTaskFromEvent: anEvent.
 	anEvent button = mouseButton ifFalse: [ ^ self ].
-
 	currentWindow ifNotNil: [
 		closeOnMouseDown ifTrue: [ self closeWindow ].
 		^ self ].
@@ -238,6 +237,12 @@ ToPopupWindowManager >> popupOnMouseDown [
 	^ true
 ]
 
+{ #category : #accessing }
+ToPopupWindowManager >> popupWindowClass [
+
+	^ ToPopupWindow 
+]
+
 { #category : #'still pressed - hovered' }
 ToPopupWindowManager >> startStillHoveredEvent: anEvent [
 	" test if I'am concerned by this event "
@@ -287,10 +292,4 @@ ToPopupWindowManager >> usePrimaryMouseButton [
 ToPopupWindowManager >> useSecondaryMouseButton [
 
 	mouseButton := BlMouseButton secondary
-]
-
-{ #category : #accessing }
-ToPopupWindowManager >> windowClass [
-
-	^ ToPopupWindow 
 ]

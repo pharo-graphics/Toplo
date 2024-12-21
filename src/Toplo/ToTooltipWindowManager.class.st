@@ -25,10 +25,10 @@ ToTooltipWindowManager >> defaultCloseOnMouseDown [
 	^ false
 ]
 
-{ #category : #initialization }
-ToTooltipWindowManager >> defaultOpeningStrategy [ 
+{ #category : #initializing }
+ToTooltipWindowManager >> defaultPlacement [
 
-	^ ToTooltipWindowStrategy new
+	^ ToTooltipPlacement new
 ]
 
 { #category : #'api - accessing' }

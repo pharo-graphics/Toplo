@@ -8,16 +8,16 @@ Class {
 	#category : #'Toplo-Core-Window'
 }
 
+{ #category : #'api - displaying' }
+ToAnchoredWindow >> allowPickOutsideClosing [
+
+	windowManager plugPickOutsideFilter
+]
+
 { #category : #accessing }
 ToAnchoredWindow >> anchorRoot [
 
 	^ self manager anchorRoot
-]
-
-{ #category : #accessing }
-ToAnchoredWindow >> applyPositionHookFromEvent: anEvent [
-
-	windowManager applyPositionHookFromEvent: anEvent
 ]
 
 { #category : #accessing }
@@ -27,10 +27,9 @@ ToAnchoredWindow >> applySizeHookFromEvent: anEvent [
 ]
 
 { #category : #'api - displaying' }
-ToAnchoredWindow >> checkBeforePopupEvent: anEvent [
+ToAnchoredWindow >> arrangeWindowFromEvent: anEvent [
 
-	self applyPositionHookFromEvent: anEvent.
-	self applySizeHookFromEvent: anEvent
+	windowManager arrangeWindowFromEvent: anEvent
 ]
 
 { #category : #'api - displaying' }
@@ -148,7 +147,7 @@ ToAnchoredWindow >> popupEvent: anEvent [
 	self open.
 	self whenLayoutedDoOnce: [ " ok, now that my size is known, 
 		size and position hooks can be applied "
-		self checkBeforePopupEvent: anEvent.
+		self arrangeWindowFromEvent: anEvent.
 		" since the position/size could have been changed, one have to wait a second layout"
 		self requestLayout.
 		self whenLayoutedDoOnce: [
@@ -161,6 +160,12 @@ ToAnchoredWindow >> popupEvent: anEvent [
 ToAnchoredWindow >> popupTimestamp [
 
 	^ popupTimestamp 
+]
+
+{ #category : #'api - displaying' }
+ToAnchoredWindow >> preventPickOutsideClosing [
+
+	windowManager unplugPickOutsideFilter
 ]
 
 { #category : #'api - displaying' }

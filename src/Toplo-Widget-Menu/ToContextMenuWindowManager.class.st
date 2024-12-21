@@ -4,10 +4,10 @@ Class {
 	#category : #'Toplo-Widget-Menu-Context menu'
 }
 
-{ #category : #initialization }
-ToContextMenuWindowManager >> defaultOpeningStrategy [ 
+{ #category : #initializing }
+ToContextMenuWindowManager >> defaultPlacement [
 
-	^ ToContextMenuStrategy new
+	^ ToPickedPlacement new
 ]
 
 { #category : #'event handling' }

@@ -115,10 +115,10 @@ ToPopupWindowManager >> defaultCloseOnMouseDown [
 	^ true
 ]
 
-{ #category : #initialization }
-ToPopupWindowManager >> defaultOpeningStrategy [ 
+{ #category : #initializing }
+ToPopupWindowManager >> defaultPlacement [
 
-	^ ToPopupWindowStrategy new
+	^ ToBottomLeftDownPlacement new
 ]
 
 { #category : #'api - accessing' }

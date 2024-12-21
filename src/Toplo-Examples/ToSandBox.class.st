@@ -2754,14 +2754,16 @@ ToSandBox class >> example_SimplePopupBottom [
 
 	| p |
 	p := self newPopup.
-	p windowManager positionHook: [ :theWindow :theElement :event |
-		| x1 x2 w1 w2 |
-		x1 := theElement position x.
-		w1 := theElement width / 2.0.
-		w2 := theWindow width / 2.0.
-		x2 := x1 + w1 - w2.
-		x2 @ (theElement position y + theElement height) ].
-	p openInSpace
+	p placement:
+		(ToActionPlacement new action: [ :theWindow :theElement :event :theRoot |
+			 | x1 x2 w1 w2 pos |
+			 x1 := theElement position x.
+			 w1 := theElement width / 2.0.
+			 w2 := theWindow width / 2.0.
+			 x2 := x1 + w1 - w2.
+			 pos := x2 @ (theElement position y + theElement height).
+			 theWindow position: pos ]).
+	p element openInSpace
 ]
 
 { #category : #window }
@@ -2769,7 +2771,7 @@ ToSandBox class >> example_SimplePopupBottomLeft [
 
 	| p |
 	p := self newPopup.
-	p openInSpace
+	p element openInSpace
 ]
 
 { #category : #window }
@@ -2777,9 +2779,11 @@ ToSandBox class >> example_SimplePopupBottomRight [
 
 	| p |
 	p := self newPopup.
-	p windowManager positionHook: [ :theWindow :theElement :event |
-			theElement bounds inSpace bounds bottomRight - (theWindow width @ 0) ].
-	p openInSpace
+	p placement:
+		(ToActionPlacement new action: [ :theWindow :theElement :event :theRoot |
+			 theWindow position: theElement bounds inSpace bounds bottomRight
+			 - (theWindow width @ 0) ]).
+	p element openInSpace
 ]
 
 { #category : #window }
@@ -2787,14 +2791,16 @@ ToSandBox class >> example_SimplePopupTop [
 
 	| p |
 	p := self newPopup.
-	p windowManager positionHook: [ :theWindow :theElement :event |
-		| x1 x2 w1 w2 |
-		x1 := theElement position x.
-		w1 := theElement width / 2.0.
-		w2 := theWindow width / 2.0.
-		x2 := x1 + w1 - w2.
-		x2 @ (theElement position y - theElement height) ].
-	p openInSpace
+	p placement:
+		(ToActionPlacement new action: [ :theWindow :theElement :event :theRoot |
+			 | x1 x2 w1 w2 |
+			 x1 := theElement position x.
+			 w1 := theElement width / 2.0.
+			 w2 := theWindow width / 2.0.
+			 x2 := x1 + w1 - w2.
+			 theWindow position:
+				 x2 @ (theElement position y - theElement height) ]).
+	p element openInSpace
 ]
 
 { #category : #window }
@@ -2802,10 +2808,13 @@ ToSandBox class >> example_SimplePopupTopLeft [
 
 	| p |
 	p := self newPopup.
-	p windowManager positionHook: [ :theWindow :theElement :event |
-			theElement bounds inSpace bounds topLeft - (0 @ theElement height) ].
+	p placement:
+		(ToActionPlacement new action: [ :theWindow :theElement :event :theRoot |
+			 theWindow position:
+				 theElement bounds inSpace bounds topLeft
+				 - (0 @ theElement height) ]).
 
-	p openInSpace
+	p element openInSpace
 ]
 
 { #category : #window }
@@ -2813,10 +2822,12 @@ ToSandBox class >> example_SimplePopupTopRight [
 
 	| p |
 	p := self newPopup.
-	p windowManager positionHook: [ :theWindow :theElement :event |
-			theElement bounds inSpace bounds topRight - (theWindow width @ theElement height) ].
+	p placement:
+		(ToActionPlacement new action: [ :theWindow :theElement :event :theRoot |
+			 theWindow position: theElement bounds inSpace bounds topRight
+				 - (theWindow width @ theElement height) ]).
 
-	p openInSpace
+	p element openInSpace
 ]
 
 { #category : #'look event' }
@@ -4006,7 +4017,7 @@ ToSandBox class >> example_overlayWindow1 [
 		     position: 50 @ 50;
 		     background: Color yellow;
 		     border: (BlBorder paint: Color red).
-	windowManager := ToAnchoredWindowManager overlay.
+	windowManager := ToAnchoredWindowManager new.
 	e addEventHandler: windowManager.
 	windowManager windowBuilder: [ :anchWin :element |
 		anchWin withNullSkin.
@@ -4026,14 +4037,13 @@ ToSandBox class >> example_overlayWindow2 [
 	e := ToInnerWindow new
 		     size: 300 @ 300;
 		     position: 50 @ 50.
-	windowManager := ToAnchoredWindowManager overlay.
-	windowManager opening positionHook: [ :win :elem :event |
-			(elem bounds inParent: win anchorRoot) bounds topLeft + (20 @ 40) ].
-	windowManager opening widthHook: [ :theWindow :theElement :tenEvent |
-		theElement width - 40  ].
-	windowManager opening heightHook: [ :theWindow :theElement :tenEvent |
-		(theElement height - 60)  ].
-	windowManager opening anchorRoot: e.
+	windowManager := ToAnchoredWindowManager new.
+	windowManager placement: (ToActionPlacement new action: [ :win :elem :event :theRoot |
+			win position: (elem bounds inParent: win anchorRoot) bounds topLeft + (20 @ 40).
+	win width: elem width - 40.
+	win height: elem height - 60  ]).
+
+	windowManager anchorRoot: e.
 	e addEventHandler: windowManager.
 	windowManager windowBuilder: [ :anchWin :element |
 		anchWin withNullSkin.
@@ -6788,7 +6798,7 @@ ToSandBox class >> newPopup [
 		popup border: Color gray.
 		popup addChild: (ToLabel new text: 'A popup window') ].
 	e addEventHandler: popupWindowHandler.
-	^ e
+	^ popupWindowHandler
 ]
 
 { #category : #accessing }

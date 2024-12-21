@@ -26,20 +26,22 @@ ToSelectPopupWindowManager >> defaultMinHeight [
 	^ 0
 ]
 
+{ #category : #initializing }
+ToSelectPopupWindowManager >> defaultPlacement [
+
+	^ ToActionPlacement new
+			   action: [ :theWindow :theElement :event :root |
+				   theWindow width: theElement measuredWidth.
+				   theWindow position:
+						   (theElement bounds inParent: root) bounds bottomLeft ];
+			   yourself
+]
+
 { #category : #initialization }
 ToSelectPopupWindowManager >> defaultWidthHook [
 
 	^ [ :theWindow :theElement :event |
 	  theElement measuredWidth ]
-]
-
-{ #category : #'event handling' }
-ToSelectPopupWindowManager >> elementExtentChangedEvent: anEvent [
-
-	super elementExtentChangedEvent: anEvent.
-	currentWindow ifNil: [ ^ self ].
-	self applyPositionHookFromEvent: anEvent.
-	self applySizeHookFromEvent: anEvent
 ]
 
 { #category : #accessing }

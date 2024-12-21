@@ -7,10 +7,10 @@ Class {
 	#category : #'Toplo-Widget-Album-LabelEditor'
 }
 
-{ #category : #initialization }
-ToLabelEditorWindowManager >> defaultOpeningStrategy [
+{ #category : #initializing }
+ToLabelEditorWindowManager >> defaultPlacement [
 
-	^ ToLabelEditorWindowStrategy new
+	^ ToLabelEditorPlacement new
 ]
 
 { #category : #accessing }

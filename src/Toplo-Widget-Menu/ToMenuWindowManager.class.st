@@ -11,10 +11,10 @@ ToMenuWindowManager >> autoCloseWindow [
 	element menuBarDo: [ :mb | mb cancelAutoOpen ]
 ]
 
-{ #category : #initialization }
-ToMenuWindowManager >> defaultOpeningStrategy [ 
+{ #category : #initializing }
+ToMenuWindowManager >> defaultPlacement [
 
-	^ ToMenuStrategy new
+	^ ToMenuPlacement new
 ]
 
 { #category : #'api - accessing' }

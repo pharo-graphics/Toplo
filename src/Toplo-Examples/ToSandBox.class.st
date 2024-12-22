@@ -3840,27 +3840,41 @@ ToSandBox class >> example_horizontalPaneWithDivider [
 { #category : #menu }
 ToSandBox class >> example_inline1 [
 
-	| menu sub subsub |
+	| menu sub subsub space |
 	menu := ToMenu new.
+	space := BlSpace new.
 	menu labelText: 'File'.
-	sub := ToMenu new labelText: 'Save All'.
+	"menu addItem: (ToMenu new labelText: 'Sub menu')."
+	"sub := ToMenu new
+		       labelText: 'Sub menu';
+		       "" icon: (ToImage inner: (self iconNamed: #solidMenu));""
+			       yourself.
+	sub addItem: (ToMenuItem new labelText: 'Sub item').
+	menu addItem: sub."
+
+	sub := ToMenu new
+		       labelText: 'Save All';
+		       icon: (ToImage inner: (self iconNamed: #solidMenu));
+		       yourself.
 	sub beInline.
-	sub closeOnMouseEvent: false.
 	sub addItem: (ToMenuItem new
 			 labelText: 'Locally';
-			 closeOnMouseEvent: false;
 			 yourself).
-	subsub := ToMenu new labelText: 'Externally'.
+	subsub := ToMenu new
+		          labelText: 'Externally';
+		          icon: (ToImage inner: (self iconNamed: #solidMenu));
+		          yourself.
 	subsub beInline.
 	subsub closeOnMouseEvent: false.
 	subsub addItem: (ToMenuItem new
-			 labelText: 'Here';
-			 closeOnMouseEvent: false;
+			 labelText: 'Inspect';
+			 whenClickedDo: [ space root inspect ];
 			 yourself).
 
 	sub addItem: subsub.
 	menu addItem: sub.
-	menu openInSpace
+	space root addChild: menu.
+	space show
 ]
 
 { #category : #menu }

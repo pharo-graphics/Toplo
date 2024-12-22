@@ -14,9 +14,7 @@ ToMenuItemSkin >> installSkinEvent: anEvent [
 			e parentMenuDo: [ :pm |
 				(pm items anySatisfy: [ :mi | mi hasIcon ]) ifTrue: [
 					e button startAlignment:
-						(e valueOfTokenNamed: #'menu-item-start-alignment') ] ] ].
-		e isTopMenu ifFalse: [
-			e parentMenuDo: [ :pm |
+						(e valueOfTokenNamed: #'menu-item-start-alignment') ].
 				(pm items anySatisfy: [ :mi | mi isMenu ]) ifTrue: [
 					e isStartToEnd
 						ifTrue: [

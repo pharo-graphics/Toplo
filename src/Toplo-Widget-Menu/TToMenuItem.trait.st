@@ -16,9 +16,15 @@ TToMenuItem >> isSubmenu [
 ]
 
 { #category : #'t - menu item' }
+TToMenuItem >> parentMenu [
+
+	self parentItemListHolder ifNil: [ ^ nil ].
+	self parentItemListHolder isMenuBar ifTrue: [ ^ nil ].
+	^ self parentItemListHolder
+]
+
+{ #category : #'t - menu item' }
 TToMenuItem >> parentMenuDo: aBlock [
 
-	self parentItemListHolder ifNil: [ ^ self ].
-	self parentItemListHolder isMenuBar ifTrue: [ ^ self ].
-	aBlock value: self parentItemListHolder
+	self parentMenu ifNotNil: [ :p | aBlock value: p ]
 ]

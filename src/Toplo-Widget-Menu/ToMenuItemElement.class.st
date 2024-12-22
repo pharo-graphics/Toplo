@@ -136,13 +136,6 @@ ToMenuItemElement >> onRemovedFromItemListHolder: aMenu [
 	aMenu onRemovedMenuItem: self
 ]
 
-{ #category : #'t - menu item' }
-ToMenuItemElement >> parentMenu [
-
-	self parentMenuDo: [ :m | ^ m ].
-	^ nil
-]
-
 { #category : #'adding-removing' }
 ToMenuItemElement >> removedFromMenu: aMenu [
 

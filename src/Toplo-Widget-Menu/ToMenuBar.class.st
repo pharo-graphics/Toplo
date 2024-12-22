@@ -84,6 +84,12 @@ ToMenuBar >> isAutoOpen [
 ]
 
 { #category : #testing }
+ToMenuBar >> isInline [
+
+	^ false
+]
+
+{ #category : #testing }
 ToMenuBar >> isMenuBar [
 
 	^ true

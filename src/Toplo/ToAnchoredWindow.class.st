@@ -36,8 +36,9 @@ ToAnchoredWindow >> arrangeWindowOnEvent: anEvent [
 ToAnchoredWindow >> close [
 
 	self isOpened ifFalse: [ Error signal: 'Closing a closed window' ].
+	self manager stopWindow: self.
 	self dispatchClosedEvent.
-	super close
+
 ]
 
 { #category : #accessing }
@@ -94,7 +95,7 @@ ToAnchoredWindow >> manager: aWindowHandler [
 { #category : #'api - displaying' }
 ToAnchoredWindow >> open [
 
-	self show.
+	self manager startWindow: self.
 	self localTheme ifNil: [ self localTheme: self element lookupTheme ].
 	popupTimestamp := self space time now.
 	self dispatchOpenedEvent
@@ -148,12 +149,6 @@ ToAnchoredWindow >> popupTimestamp [
 ToAnchoredWindow >> preventPickOutsideClosing [
 
 	windowManager unplugPickOutsideFilter
-]
-
-{ #category : #'api - displaying' }
-ToAnchoredWindow >> show [
-
-	self manager showWindow: self 
 ]
 
 { #category : #'api - displaying' }

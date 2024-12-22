@@ -54,6 +54,13 @@ ToPopupWindowManager >> autoPopupDelay: aDuration [
 ]
 
 { #category : #'window handling' }
+ToPopupWindowManager >> beInline [ 
+
+	super beInline.
+	self unplugPickOutsideFilter
+]
+
+{ #category : #'window handling' }
 ToPopupWindowManager >> canCloseWindow [
 
 	^ pickOutsideFilter isNil or: [ pickOutsideFilter isPlugged ]
@@ -170,7 +177,8 @@ ToPopupWindowManager >> mouseDownEvent: anEvent [
 
 { #category : #'event handling' }
 ToPopupWindowManager >> mouseUpEvent: anEvent [
-		
+	
+	self isInline ifTrue: [ ^ self ].
 	self checkAutoCloseWindowOnMouseUp: anEvent
 ]
 
@@ -203,6 +211,7 @@ ToPopupWindowManager >> onOpened [
 { #category : #'event handling' }
 ToPopupWindowManager >> pickOutsideEvent: anEvent [
 
+	self isInline ifTrue: [ ^ self ].
 	self closeWindow
 ]
 

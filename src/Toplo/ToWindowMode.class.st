@@ -34,7 +34,13 @@ ToWindowMode >> newWindow [
 ]
 
 { #category : #'window handling' }
-ToWindowMode >> showWindow: aWindow [
+ToWindowMode >> startWindow: aWindow [
+
+	self subclassResponsibility 
+]
+
+{ #category : #'window handling' }
+ToWindowMode >> stopWindow: aWindow [
 
 	self subclassResponsibility 
 ]

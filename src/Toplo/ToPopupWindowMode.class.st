@@ -1,5 +1,5 @@
 Class {
-	#name : #ToWindowPopupMode,
+	#name : #ToPopupWindowMode,
 	#superclass : #ToWindowMode,
 	#instVars : [
 		'anchorRoot',
@@ -9,45 +9,51 @@ Class {
 }
 
 { #category : #accessing }
-ToWindowPopupMode >> anchorRoot [
+ToPopupWindowMode >> anchorRoot [
 
 	" the root element in which the window is placed "
 	^ anchorRoot ifNil: [ anchorRoot := manager element space root ]
 ]
 
 { #category : #accessing }
-ToWindowPopupMode >> anchorRoot: anElement [
+ToPopupWindowMode >> anchorRoot: anElement [
 
 	" the root element in which the window is placed "
 	anchorRoot := anElement
 ]
 
 { #category : #'api - displaying' }
-ToWindowPopupMode >> arrangeWindowOnEvent: anEvent [
+ToPopupWindowMode >> arrangeWindowOnEvent: anEvent [
 
 	self placement arrangeWindowFromManager: manager onEvent: anEvent
 ]
 
 { #category : #accessing }
-ToWindowPopupMode >> placement [ 
+ToPopupWindowMode >> placement [ 
 
 	^ placement ifNil: [ placement := manager defaultPlacement ] 
 ]
 
 { #category : #accessing }
-ToWindowPopupMode >> placement: aPlacement [
+ToPopupWindowMode >> placement: aPlacement [
 
 	placement := aPlacement
 ]
 
 { #category : #'window handling' }
-ToWindowPopupMode >> showWindow: aWindow [
+ToPopupWindowMode >> startWindow: aWindow [
 
 	self anchorRoot addChild: aWindow
 ]
 
+{ #category : #'window handling' }
+ToPopupWindowMode >> stopWindow: aWindow [
+
+	aWindow removeFromParent
+]
+
 { #category : #accessing }
-ToWindowPopupMode >> windowClass [ 
+ToPopupWindowMode >> windowClass [ 
 
 	^ manager popupWindowClass 
 ]

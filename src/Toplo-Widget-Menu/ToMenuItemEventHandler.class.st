@@ -22,6 +22,7 @@ ToMenuItemEventHandler >> closeWindowOnEvent: anEvent [
 	target closeOnMouseEvent ifFalse: [ ^ self ].
 	" ask the window manager because it can manage the timestamp 
 	and finally can decide to not close the menu window"
+	target isInline ifTrue: [ ^ self ].
 	target rootMenuDo: [ :rm |
 		rm windowManager checkAutoCloseWindowOnMouseUp: anEvent ]
 ]
@@ -44,6 +45,7 @@ ToMenuItemEventHandler >> mouseEnterEvent: anEvent [
 	target closeSiblingMenuWindow.
 	target isMenu ifFalse: [ ^ self ].
 	target isOpened ifTrue: [ ^ self ].
+	target isInline ifTrue: [ ^ self ].
 	target popupEvent: anEvent
 ]
 

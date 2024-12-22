@@ -32,3 +32,9 @@ ToMenuItemListElement >> initialize [
 	self selectionOption masked: true.
 	self configureLayout
 ]
+
+{ #category : #skin }
+ToMenuItemListElement >> newRawSkin [ 
+
+	^ ToMenuItemListElementSkin new
+]

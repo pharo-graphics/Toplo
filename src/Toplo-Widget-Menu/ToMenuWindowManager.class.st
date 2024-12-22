@@ -25,6 +25,12 @@ ToMenuWindowManager >> eventsToHandle [
 		  BlMouseLeaveEvent }
 ]
 
+{ #category : #accessing }
+ToMenuWindowManager >> inlineWindowClass [
+
+	^ ToInlineMenuWindowElement
+]
+
 { #category : #'event handling' }
 ToMenuWindowManager >> mouseDownEvent: anEvent [
 
@@ -44,6 +50,12 @@ ToMenuWindowManager >> mouseEnterEvent: anEvent [
 ToMenuWindowManager >> mouseLeaveEvent: anEvent [
 
 	element itemList secondarySelecter deselectAll
+]
+
+{ #category : #'window handling' }
+ToMenuWindowManager >> newInlineMode [ 
+
+	^ ToMenuInlineWindowMode new
 ]
 
 { #category : #'window handling' }
@@ -77,5 +89,7 @@ ToMenuWindowManager >> popupNewWindowEvent: anEvent [
 { #category : #accessing }
 ToMenuWindowManager >> popupWindowClass [
 
-	^ ToMenuWindow 
+	^ self isInline
+		  ifTrue: [ ToInlineMenuWindowElement ]
+		  ifFalse: [ ToMenuWindow ]
 ]

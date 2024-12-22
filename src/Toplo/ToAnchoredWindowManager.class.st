@@ -42,9 +42,7 @@ ToAnchoredWindowManager >> arrangeWindowOnEvent: anEvent [
 { #category : #'window handling' }
 ToAnchoredWindowManager >> beInline [
 
-	mode := ToWindowInlineMode new
-		        manager: self;
-		        yourself
+	self mode: self newInlineMode 
 ]
 
 { #category : #'window handling' }
@@ -115,7 +113,7 @@ ToAnchoredWindowManager >> defaultBuilder [
 { #category : #initialization }
 ToAnchoredWindowManager >> defaultMode [
 
-		 ^ ToWindowPopupMode new
+	^ self newPopupMode 
 ]
 
 { #category : #initializing }
@@ -186,9 +184,13 @@ ToAnchoredWindowManager >> initialize [
 
 	super initialize.
 	windowBuilder := self defaultBuilder.
-	mode := self defaultMode
-		        manager: self;
-		        yourself
+	self initializeMode
+]
+
+{ #category : #initialization }
+ToAnchoredWindowManager >> initializeMode [
+
+	self mode: self defaultMode
 ]
 
 { #category : #accessing }
@@ -201,6 +203,26 @@ ToAnchoredWindowManager >> inlineWindowClass [
 ToAnchoredWindowManager >> isInline [ 
 
 	^ mode isInline
+]
+
+{ #category : #accessing }
+ToAnchoredWindowManager >> mode: aWindowMode [
+
+	mode ifNotNil: [ mode manager: nil ].
+	mode := aWindowMode.
+	mode manager: self
+]
+
+{ #category : #'window handling' }
+ToAnchoredWindowManager >> newInlineMode [
+
+	^ ToInlineWindowMode new
+]
+
+{ #category : #initialization }
+ToAnchoredWindowManager >> newPopupMode [
+
+	^ ToPopupWindowMode new
 ]
 
 { #category : #'window handling' }
@@ -296,9 +318,15 @@ ToAnchoredWindowManager >> popupWindowClass [
 ]
 
 { #category : #'window handling' }
-ToAnchoredWindowManager >> showWindow: aWindow [ 
+ToAnchoredWindowManager >> startWindow: aWindow [ 
 
-	mode showWindow: aWindow
+	mode startWindow: aWindow
+]
+
+{ #category : #'window handling' }
+ToAnchoredWindowManager >> stopWindow: aWindow [ 
+
+	mode stopWindow: aWindow
 ]
 
 { #category : #'event handling' }

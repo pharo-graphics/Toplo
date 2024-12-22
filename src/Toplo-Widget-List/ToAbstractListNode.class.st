@@ -14,7 +14,7 @@ Class {
 { #category : #initialization }
 ToAbstractListNode >> defaultLayout [ 
 
-	" don't use vertical or horizontal to allow aligning of children "
+	" don't use vertical or horizontal to allow vertical centering of children "
 	^ BlLinearLayout new
 ]
 

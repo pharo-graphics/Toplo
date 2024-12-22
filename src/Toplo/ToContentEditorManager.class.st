@@ -1,5 +1,5 @@
 Class {
-	#name : #ToElementContentEditorManager,
+	#name : #ToContentEditorManager,
 	#superclass : #ToAnchoredWindowManager,
 	#instVars : [
 		'editor'
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #accessing }
-ToElementContentEditorManager >> currentEditorEventHandlers [
+ToContentEditorManager >> currentEditorEventHandlers [
 
 	^ Array streamContents: [ :stream |
 		  element eventDispatcher handlersDo: [ :h |
@@ -17,31 +17,31 @@ ToElementContentEditorManager >> currentEditorEventHandlers [
 ]
 
 { #category : #initializing }
-ToElementContentEditorManager >> defaultPlacement [
+ToContentEditorManager >> defaultPlacement [
 
 	^ ToElementEditorPlacement new
 ]
 
 { #category : #accessing }
-ToElementContentEditorManager >> editor [
+ToContentEditorManager >> editor [
 
 	^ editor
 ]
 
 { #category : #accessing }
-ToElementContentEditorManager >> editorClosedEventClass [ 
+ToContentEditorManager >> editorClosedEventClass [ 
 
 	^ ToElementEditorClosedEvent 
 ]
 
 { #category : #accessing }
-ToElementContentEditorManager >> editorOpenedEventClass [ 
+ToContentEditorManager >> editorOpenedEventClass [ 
 
 	^ ToElementEditorOpenedEvent 
 ]
 
 { #category : #'window handling' }
-ToElementContentEditorManager >> onClosed [
+ToContentEditorManager >> onClosed [
 
 	super onClosed.
 	element dispatchEvent: (self editorClosedEventClass new
@@ -56,14 +56,14 @@ ToElementContentEditorManager >> onClosed [
 ]
 
 { #category : #'api - hooks' }
-ToElementContentEditorManager >> onInstalledIn: anElement [
+ToContentEditorManager >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	anElement onInstalledEditorManager: self
 ]
 
 { #category : #'window handling' }
-ToElementContentEditorManager >> onOpened [
+ToContentEditorManager >> onOpened [
 
 	super onOpened.
 
@@ -79,7 +79,7 @@ ToElementContentEditorManager >> onOpened [
 ]
 
 { #category : #'api - hooks' }
-ToElementContentEditorManager >> onUninstalledIn: anElement [
+ToContentEditorManager >> onUninstalledIn: anElement [
 
 	anElement onUninstalledEditorManager: self.
 	super onInstalledIn: anElement.
@@ -87,14 +87,14 @@ ToElementContentEditorManager >> onUninstalledIn: anElement [
 ]
 
 { #category : #enumerating }
-ToElementContentEditorManager >> whenEditorClosedDo: aValuable [
+ToContentEditorManager >> whenEditorClosedDo: aValuable [
 
 	" aValuable takes the event as argument "
 	^ element addEventHandlerOn: self editorClosedEventClass do: aValuable
 ]
 
 { #category : #enumerating }
-ToElementContentEditorManager >> whenEditorOpenedDo: aValuable [
+ToContentEditorManager >> whenEditorOpenedDo: aValuable [
 
 	" aValuable takes the event as argument "
 	^ element addEventHandlerOn: self editorOpenedEventClass do: aValuable

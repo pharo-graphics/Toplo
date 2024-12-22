@@ -26,7 +26,7 @@ ToMenuItemElement >> closeSiblingMenuWindow [
 
 	self parentItemListHolder ifNil: [ ^ self ].
 	self parentItemListHolder closeAllWindowsForItemsSatisfying: [ :it |
-		it ~= self ]
+		it ~= self and: [it isInline not]]
 ]
 
 { #category : #'t - menu window model' }
@@ -78,6 +78,13 @@ ToMenuItemElement >> initialize [
 	closeOnMouseEvent := false
 ]
 
+{ #category : #testing }
+ToMenuItemElement >> isInline [ 
+
+	self parentMenuDo: [ :m | ^ m isInline ].
+	^ false
+]
+
 { #category : #'t - menu window model' }
 ToMenuItemElement >> isOpened [
 
@@ -127,6 +134,13 @@ ToMenuItemElement >> onAddedInItemListHolder: aMenu [
 ToMenuItemElement >> onRemovedFromItemListHolder: aMenu [
 
 	aMenu onRemovedMenuItem: self
+]
+
+{ #category : #'t - menu item' }
+ToMenuItemElement >> parentMenu [
+
+	self parentMenuDo: [ :m | ^ m ].
+	^ nil
 ]
 
 { #category : #'adding-removing' }

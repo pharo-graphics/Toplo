@@ -48,6 +48,12 @@ ToContextMenu >> initialize [
 ]
 
 { #category : #testing }
+ToContextMenu >> isInline [ 
+
+	^ false
+]
+
+{ #category : #testing }
 ToContextMenu >> isMenu [
 
 	^ true

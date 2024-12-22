@@ -3601,7 +3601,7 @@ ToSandBox class >> example_elementWithEditor [
 		     size: 100 asPoint;
 		     position: 20 asPoint;
 		     yourself.
-	editorWindowManager := ToElementContentEditorManager new.
+	editorWindowManager := ToContentEditorManager new.
 	e addEventHandler: editorWindowManager.
 	e addEventHandlerOn: BlClickEvent do: [ :event |
 		(editorWindowManager newWindowEvent: event) ifNotNil: [ :win |
@@ -3835,6 +3835,32 @@ ToSandBox class >> example_horizontalPaneWithDivider [
 	pane dividers second weight: 5.
 	pane dividers third weight: 0.5.
 	pane openInSpace
+]
+
+{ #category : #menu }
+ToSandBox class >> example_inline1 [
+
+	| menu sub subsub |
+	menu := ToMenu new.
+	menu labelText: 'File'.
+	sub := ToMenu new labelText: 'Save All'.
+	sub beInline.
+	sub closeOnMouseEvent: false.
+	sub addItem: (ToMenuItem new
+			 labelText: 'Locally';
+			 closeOnMouseEvent: false;
+			 yourself).
+	subsub := ToMenu new labelText: 'Externally'.
+	subsub beInline.
+	subsub closeOnMouseEvent: false.
+	subsub addItem: (ToMenuItem new
+			 labelText: 'Here';
+			 closeOnMouseEvent: false;
+			 yourself).
+
+	sub addItem: subsub.
+	menu addItem: sub.
+	menu openInSpace
 ]
 
 { #category : #menu }

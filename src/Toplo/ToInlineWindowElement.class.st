@@ -22,8 +22,9 @@ ToInlineWindowElement >> arrangeWindowOnEvent: anEvent [
 ToInlineWindowElement >> close [
 
 	self isOpened ifFalse: [ Error signal: 'Closing a closed window' ].
+	self manager stopWindow: self.
 	self dispatchClosedEvent.
-	self removeFromParent
+
 ]
 
 { #category : #'api - displaying' }
@@ -77,7 +78,7 @@ ToInlineWindowElement >> manager: aWindowHandler [
 { #category : #'instance creation' }
 ToInlineWindowElement >> open [
 
-	self show.
+	self manager startWindow: self.
 	self localTheme ifNil: [ self localTheme: self element lookupTheme ].
 	popupTimestamp := self space time now.
 	self dispatchOpenedEvent
@@ -125,12 +126,6 @@ ToInlineWindowElement >> popupTimestamp [
 ToInlineWindowElement >> root [ 
 
 	^ self
-]
-
-{ #category : #'host space - displaying' }
-ToInlineWindowElement >> show [
-
-	self manager showWindow: self 
 ]
 
 { #category : #'host space - displaying' }

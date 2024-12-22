@@ -21,6 +21,12 @@ ToMenu >> bar [
 	^ self itemList
 ]
 
+{ #category : #testing }
+ToMenu >> beInline [
+
+	self windowManager beInline
+]
+
 { #category : #accessing }
 ToMenu >> builder [ 
 

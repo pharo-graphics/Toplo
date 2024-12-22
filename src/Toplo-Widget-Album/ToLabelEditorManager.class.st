@@ -1,6 +1,6 @@
 Class {
 	#name : #ToLabelEditorManager,
-	#superclass : #ToElementContentEditorManager,
+	#superclass : #ToContentEditorManager,
 	#category : #'Toplo-Widget-Album-LabelEditor'
 }
 

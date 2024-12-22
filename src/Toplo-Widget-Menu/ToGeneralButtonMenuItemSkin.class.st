@@ -32,10 +32,6 @@ ToGeneralButtonMenuItemSkin >> installSkinEvent: anEvent [
 			ifTrue: [
 				e padding: (BlInsets
 						 horizontal: (e valueOfTokenNamed: #'padding-content-H')
-						 vertical: (e valueOfTokenNamed: #'padding-content-VXS')) ]
-			ifFalse: [
-				e padding: (BlInsets
-						 horizontal: (e valueOfTokenNamed: #'padding-content-HS')
 						 vertical: (e valueOfTokenNamed: #'padding-content-VXS')) ] ]
 ]
 

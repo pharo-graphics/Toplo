@@ -11,3 +11,9 @@ ToMenuItemNodeManager >> constraintNode: aNode [
 	aNode holder dataItem constraintMenuNode: aNode.
 
 ]
+
+{ #category : #'instance creation' }
+ToMenuItemNodeManager >> newNodeForHolder: aNodeHolder [
+
+	^ ToMenuItemNode new
+]

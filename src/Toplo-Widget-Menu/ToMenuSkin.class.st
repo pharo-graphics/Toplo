@@ -13,7 +13,8 @@ ToMenuSkin >> installSkinEvent: anEvent [
 			ifTrue: [
 				| arrowTk |
 				e endFlexible: true.
-				e endInterspace: 10.
+				e endInterspace:
+					(e valueOfTokenNamed: #'menu-item-start-alignment').
 				arrowTk := e isInline
 					           ifTrue: [
 						           e isOpened

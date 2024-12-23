@@ -33,6 +33,18 @@ ToWindowMode >> newWindow [
 		  yourself
 ]
 
+{ #category : #'api - hooks' }
+ToWindowMode >> onInstalledIn: aManager [
+
+	manager := aManager
+]
+
+{ #category : #'api - hooks' }
+ToWindowMode >> onUninstalledIn: aManager [
+
+	manager := nil
+]
+
 { #category : #'window handling' }
 ToWindowMode >> startWindow: aWindow [
 

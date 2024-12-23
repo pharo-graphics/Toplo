@@ -11,11 +11,17 @@ ToMenuItemSkin >> installSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e isTopMenu ifFalse: [
 			e hMatchParent.
-			e parentMenuDo: [ :pm |
-				(pm items anySatisfy: [ :mi | mi hasIcon ]) ifTrue: [
+			e popupWindowParentMenuDo: [ :pm |
+				| anyHaveIcon anyIsMenu |
+				anyHaveIcon := false.
+				anyIsMenu := false.
+				pm collectedItemsDo: [ :item |
+					item hasIcon ifTrue: [ anyHaveIcon := true ].
+					item isMenu ifTrue: [ anyIsMenu := true ] ].
+				anyHaveIcon ifTrue: [
 					e button startAlignment:
 						(e valueOfTokenNamed: #'menu-item-start-alignment') ].
-				(pm items anySatisfy: [ :mi | mi isMenu ]) ifTrue: [
+				anyIsMenu ifTrue: [
 					e isStartToEnd
 						ifTrue: [
 							e endInterspace: 10.

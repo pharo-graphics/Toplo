@@ -6419,7 +6419,7 @@ ToSandBox class >> example_verticalPaneWithDividerAndSubpanesWithWeight [
 { #category : #menu }
 ToSandBox class >> example_withCheckBox [
 
-	| menu sub subsub grp right center left frame |
+	| menu sub subsub grp right center left frame subsubsub |
 	menu := ToMenu new.
 	menu labelText: 'File'.
 	menu addItem: (ToMenuItem new
@@ -6445,9 +6445,11 @@ ToSandBox class >> example_withCheckBox [
 	subsub := ToMenu new labelText: 'Externally'.
 	subsub windowManager beInline.
 	subsub closeOnMouseEvent: false.
-	subsub addItem: (ToMenuItem new labelText: 'Here'; closeOnMouseEvent: false;
-			 yourself).
-
+	subsubsub := ToMenu new labelText: 'When'.
+	subsubsub addItem: (ToMenuItem new labelText: 'now'; yourself).
+	subsubsub addItem: (ToMenuItem new labelText: 'later'; yourself).
+	
+	subsub addItem: subsubsub.
 	sub addItem: subsub.
 	menu addItem: sub.
 	menu addSeparator.

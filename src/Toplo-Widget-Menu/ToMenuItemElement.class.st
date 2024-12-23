@@ -78,25 +78,12 @@ ToMenuItemElement >> initialize [
 	closeOnMouseEvent := false
 ]
 
-{ #category : #testing }
-ToMenuItemElement >> isInline [ 
-
-	self parentMenuDo: [ :m | ^ m isInline ].
-	^ false
-]
-
 { #category : #'t - menu window model' }
 ToMenuItemElement >> isOpened [
 
 	^ false
 
 	
-]
-
-{ #category : #testing }
-ToMenuItemElement >> isRootMenuItem [ 
-
-	^ self parentItemListHolder isNil  or: [ self parentItemListHolder isMenuBar ]
 ]
 
 { #category : #'t - menu window model' }

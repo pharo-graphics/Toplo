@@ -208,9 +208,9 @@ ToAnchoredWindowManager >> isInline [
 { #category : #accessing }
 ToAnchoredWindowManager >> mode: aWindowMode [
 
-	mode ifNotNil: [ mode manager: nil ].
+	mode ifNotNil: [ mode onUninstalledIn: self ].
 	mode := aWindowMode.
-	mode manager: self
+	mode onInstalledIn: self
 ]
 
 { #category : #'window handling' }

@@ -10,6 +10,21 @@ TToMenuWindowModel >> closeWindow [
 ]
 
 { #category : #'t - menu window model' }
+TToMenuWindowModel >> collectedItems [
+
+	^ Array streamContents: [ :stream |
+		  self collectedItemsDo: [ :child | stream nextPut: child ] ]
+]
+
+{ #category : #'t - menu window model' }
+TToMenuWindowModel >> collectedItemsDo: aValuable [
+
+	self menuWindow allChildrenBreadthFirstDo: [ :child |
+		(child isKindOf: ToMenuItemElement) ifTrue: [
+			aValuable value: child ] ]
+]
+
+{ #category : #'t - menu window model' }
 TToMenuWindowModel >> isOpened [
 
 	^ self explicitRequirement 

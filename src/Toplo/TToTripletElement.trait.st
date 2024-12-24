@@ -54,14 +54,14 @@ TToTripletElement >> defaultTripletEventHandler [
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> endAlignment [
 
-	^ self props endAlignment
+	^ self properties endAlignment
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> endAlignment: aNumber [
 
 	self endAlignment = aNumber ifTrue: [ ^ self ].
-	self props endAlignment: aNumber.
+	self properties endAlignment: aNumber.
 	self endAlignment ifNotNil: [
 		self isHorizontal
 			ifTrue: [

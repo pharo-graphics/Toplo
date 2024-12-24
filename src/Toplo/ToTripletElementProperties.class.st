@@ -148,12 +148,14 @@ ToTripletElementProperties >> on: anElement [
 		            yourself.
 	endGap := anElement newFiller
 		          id: #'end-gap';
+		"border: Color blue;"
 		          yourself.
 	startFiller := anElement newFiller
 		               id: #'start-filler';
 		               yourself.
 	endFiller := anElement newFiller
 		             id: #'end-filler';
+		"border: Color red;"
 		             yourself.
 
 	startContainer := anElement newBaseContainer

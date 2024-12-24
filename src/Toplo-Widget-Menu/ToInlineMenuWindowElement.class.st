@@ -1,8 +1,21 @@
 Class {
 	#name : #ToInlineMenuWindowElement,
-	#superclass : #ToInlineWindowElement,
+	#superclass : #ToCustomMenuItem,
+	#traits : 'TToWindowElement',
+	#classTraits : 'TToWindowElement classTrait',
 	#category : #'Toplo-Widget-Menu-Basic'
 }
+
+{ #category : #'api - displaying' }
+ToInlineMenuWindowElement >> dispatchClosedEvent [
+
+	" need to dispatch also to the element holding the window
+	so that the window manager can manage the window 
+	(recall that the window manager is an event handler of the element)"
+	super dispatchClosedEvent.
+	self element  dispatchEvent: self newClosedEvent.
+
+]
 
 { #category : #testing }
 ToInlineMenuWindowElement >> includes: anElement [
@@ -14,10 +27,10 @@ ToInlineMenuWindowElement >> includes: anElement [
 ]
 
 { #category : #initialization }
-ToInlineMenuWindowElement >> initialize [ 
+ToInlineMenuWindowElement >> initialize [
 
 	super initialize.
-	self hMatchParent
+	self fitContent 
 ]
 
 { #category : #accessing }
@@ -26,13 +39,13 @@ ToInlineMenuWindowElement >> itemContainer [
 	^ self element
 ]
 
-{ #category : #testing }
+{ #category : #accessing }
 ToInlineMenuWindowElement >> items [
 
 	^ self itemContainer ifNil: [ ^ #(  ) ] ifNotNil: [ :w | w items ]
 ]
 
-{ #category : #'t - menu window model' }
+{ #category : #accessing }
 ToInlineMenuWindowElement >> menuWindow [
 
 	^ self
@@ -52,11 +65,4 @@ ToInlineMenuWindowElement >> toThemeInstalled [
 		lt := e lookupTheme.
 		self localTheme = lt ifFalse: [ self localTheme: lt ] ].
 	super toThemeInstalled
-]
-
-{ #category : #enumerating }
-ToInlineMenuWindowElement >> withAllSubwindowsDo: aBlock [
-
-	self items do: [ :i | i menuWindowDo: [ :w | w withAllSubwindowsDo: aBlock ] ].
-	super withAllSubwindowsDo: aBlock
 ]

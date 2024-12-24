@@ -9,8 +9,9 @@ ToInlineMenuWindowSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e padding:
-			(BlInsets left: (e valueOfTokenNamed: #'menu-item-start-alignment')) ]
+		e border: Color black.
+		"e margin:
+			(BlInsets left: (e valueOfTokenNamed: #'menu-item-start-alignment'))" ]
 ]
 
 { #category : #'event handling' }

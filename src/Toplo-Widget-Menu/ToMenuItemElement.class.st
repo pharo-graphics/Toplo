@@ -74,7 +74,6 @@ ToMenuItemElement >> includes: anElement [
 ToMenuItemElement >> initialize [
 
 	super initialize.
-	self addEventHandler: self defaultEventHandler.
 	closeOnMouseEvent := false
 ]
 

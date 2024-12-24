@@ -19,14 +19,14 @@ ToMenuItemSkin >> installSkinEvent: anEvent [
 					item hasIcon ifTrue: [ anyHaveIcon := true ].
 					item isMenu ifTrue: [ anyIsMenu := true ] ].
 				anyHaveIcon ifTrue: [
-					e button startAlignment:
+					e button startAlignment: 
 						(e valueOfTokenNamed: #'menu-item-start-alignment') ].
 				anyIsMenu ifTrue: [
 					e isStartToEnd
 						ifTrue: [
-							e endInterspace: 10.
+							e endInterspace: (e valueOfTokenNamed: #'menu-item-start-alignment').
 							e endFlexible: true ]
 						ifFalse: [
-							e startInterspace: 10.
+							e startInterspace: (e valueOfTokenNamed: #'menu-item-start-alignment').
 							e startFlexible: true ] ] ] ] ]
 ]

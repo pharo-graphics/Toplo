@@ -11,9 +11,3 @@ ToItemElement >> defaultLayout [
 
 	^ BlLinearLayout vertical
 ]
-
-{ #category : #'as yet unclassified' }
-ToItemElement >> width: aNumber fromParentNode: aNode [
-
-	self width: aNumber
-]

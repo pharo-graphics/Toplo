@@ -57,6 +57,27 @@ ToInlineMenuWindowElement >> newRawSkin [
 	^ ToInlineMenuWindowSkin new
 ]
 
+{ #category : #layout }
+ToInlineMenuWindowElement >> onMeasure: anExtentMeasurementSpec [
+
+	| w measureAgain |
+	super onMeasure: anExtentMeasurementSpec.
+	w := 0.
+	self popupWindowParentMenuDo: [ :pm |
+		pm collectedNodesDo: [ :node | w := w max: node item knownMinWidth ] ].
+	measureAgain := false.
+	self popupWindowParentMenuDo: [ :pm |
+		pm collectedNodesDo: [ :node |
+			node item measuredWidth < w ifTrue: [ measureAgain := true ] ] ].
+	measureAgain ifFalse: [ ^ self ].
+	self measuredWidth < w ifFalse: [ ^ self ].
+	self childrenDo: [ :child | child width: w ].
+	self popupWindowParentMenuDo: [ :pm |
+		pm collectedItemsDo: [ :item | item width: w ] ].
+	anExtentMeasurementSpec widthSpec size: w.
+	super onMeasure: anExtentMeasurementSpec
+]
+
 { #category : #'api - displaying' }
 ToInlineMenuWindowElement >> toThemeInstalled [
 

@@ -21,7 +21,22 @@ TToMenuWindowModel >> collectedItemsDo: aValuable [
 
 	self menuWindow allChildrenBreadthFirstDo: [ :child |
 		(child isKindOf: ToMenuItemElement) ifTrue: [
-			aValuable value: child ] ]
+			child parent isFake ifFalse: [ aValuable value: child ] ] ]
+]
+
+{ #category : #'t - menu window model' }
+TToMenuWindowModel >> collectedNodes [
+
+	^ Array streamContents: [ :stream |
+		  self collectedNodesDo: [ :child | stream nextPut: child ] ]
+]
+
+{ #category : #'t - menu window model' }
+TToMenuWindowModel >> collectedNodesDo: aValuable [
+
+	self menuWindow allChildrenBreadthFirstDo: [ :child |
+		(child isKindOf: ToMenuItemNode) ifTrue: [
+			child isFake ifFalse: [ aValuable value: child ] ] ]
 ]
 
 { #category : #'t - menu window model' }

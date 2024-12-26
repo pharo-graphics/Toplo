@@ -1,8 +1,14 @@
 Class {
 	#name : #ToMenuItemListElement,
 	#superclass : #ToItemListElement,
-	#category : #'Toplo-Widget-Menu-Basic'
+	#category : #'Toplo-Widget-Menu-ItemList'
 }
+
+{ #category : #'t - bar element' }
+ToMenuItemListElement >> defaultInnerElement [
+
+	^ ToMenuInnerBarElement onBarElement: self
+]
 
 { #category : #initialization }
 ToMenuItemListElement >> defaultNodeManager [ 

@@ -3857,19 +3857,19 @@ ToSandBox class >> example_inline1 [
 		       icon: (ToImage inner: (self iconNamed: #solidMenu));
 		       yourself.
 	sub beInline.
-	sub addItem: (ToMenuItem new
+	"sub addItem: (ToMenuItem new
 			 labelText: 'Locally';
-			 yourself).
+			 yourself)."
 	subsub := ToMenu new
-		          labelText: 'Externallyyyyyyyy';
+		          labelText: 'X';
 		          "icon: (ToImage inner: (self iconNamed: #solidMenu));"
 		          yourself.
 	subsub beInline.
 	subsub closeOnMouseEvent: false.
-	subsub addItem: (ToMenuItem new
+	"subsub addItem: (ToMenuItem new
 			 labelText: 'Inspect';
 			 whenClickedDo: [ space root inspect ];
-			 yourself).
+			 yourself)."
 
 	sub addItem: subsub.
 	menu addItem: sub.
@@ -6442,7 +6442,7 @@ ToSandBox class >> example_withCheckBox [
 			 closeOnMouseEvent: false;
 			 yourself).
 
-	subsub := ToMenu new labelText: 'Externally'.
+	subsub := ToMenu new labelText: 'Externally'; icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	subsub windowManager beInline.
 	subsub closeOnMouseEvent: false.
 	subsubsub := ToMenu new labelText: 'When'; icon: (ToImage inner: (self iconNamed: #solidMenu)).

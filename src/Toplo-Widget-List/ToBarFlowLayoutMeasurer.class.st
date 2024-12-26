@@ -9,31 +9,39 @@ ToBarFlowLayoutMeasurer >> measure: anElement with: anExtentSpec [
 
 	| lwidth lheight measureAgain |
 	super measure: anElement with: anExtentSpec.
+	
 	(layout uniformNodeWidth or: [ layout uniformNodeHeight ]) ifFalse: [
 		^ self ].
 
+	lwidth := layout wishedNodeWidth ifNil: [ 0 ] ifNotNil: [ :w | w ].
+	lheight := layout wishedNodeHeight ifNil: [ 0 ] ifNotNil: [ :w | w ].
 	measureAgain := false.
-
-	lwidth := 0.
-	lheight := 0.
 
 	lines do: [ :aLine |
 		aLine children do: [ :aChild |
-			lwidth := lwidth max: aChild element measuredWidth.
-			lheight := lheight max: aChild element measuredHeight ] ].
+			| ms |
+			ms := self measuredSizeFor: aChild element.
+			lwidth := lwidth max: ms x.
+			lheight := lheight max: ms y ] ].
 
 	lines do: [ :aLine |
 		aLine children do: [ :aChild |
 			aChild element isFake ifFalse: [
 				layout uniformNodeWidth ifTrue: [
-					(aChild element measuredWidth - lwidth) isZero ifFalse: [
+					aChild element measuredWidth < lwidth ifTrue: [
 						aChild element width: lwidth.
 						measureAgain := true ] ].
 				layout uniformNodeHeight ifTrue: [
-					(aChild element measuredHeight - lheight) isZero ifFalse: [
+					aChild element measuredHeight < lheight ifTrue: [
 						aChild element height: lheight.
 						measureAgain := true ] ] ] ] ].
 
 	measureAgain ifFalse: [ ^ self ].
 	self measure: anElement with: anExtentSpec
+]
+
+{ #category : #measure }
+ToBarFlowLayoutMeasurer >> measuredSizeFor: anElement [
+
+	^ anElement measuredWidth @ anElement measuredHeight
 ]

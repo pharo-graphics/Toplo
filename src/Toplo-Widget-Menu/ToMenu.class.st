@@ -69,6 +69,8 @@ ToMenu >> initialize [
 	super initialize.
 	self fitContent.
 	isSubmenu := false.
+	self applySkinInstallerOnFirstRequest: true.
+
 	windowManager := ToMenuWindowManager new
 		                 windowBuilder: [ :window :request |
 			                 builder ifNotNil: [

@@ -53,6 +53,12 @@ ToGeneralButtonMenuItem >> initialize [
 	closeOnMouseEvent := true
 ]
 
+{ #category : #'t - menu item' }
+ToGeneralButtonMenuItem >> knownMinWidth [ 
+
+	^ self button knownMinWidth
+]
+
 { #category : #skin }
 ToGeneralButtonMenuItem >> newRawSkin [
 

@@ -25,7 +25,7 @@ ToItemListElementSkin >> installSkinEvent: anEvent [
 			e background: BlBackground transparent ].
 		e padding: (BlInsets
 				 horizontal: (e valueOfTokenNamed: #'padding-content-HS')
-				 vertical: (e valueOfTokenNamed: #'padding-content-VS')).
+				 vertical: (e valueOfTokenNamed: #'padding-content-VXS')).
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:
 				 (e valueOfTokenNamed: 'border-radius')) ]
 ]

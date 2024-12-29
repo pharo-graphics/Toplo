@@ -39,10 +39,10 @@ TToMenuWindowModel >> collectedNodesDo: aValuable [
 			child isFake ifFalse: [ aValuable value: child ] ] ]
 ]
 
-{ #category : #'t - menu window model' }
-TToMenuWindowModel >> isOpened [
+{ #category : #testing }
+TToMenuWindowModel >> isInline [
 
-	^ self explicitRequirement 
+	^ self windowManager isInline
 ]
 
 { #category : #'t - menu window model' }
@@ -68,10 +68,4 @@ TToMenuWindowModel >> menuWindowDo: aValuable [
 
 	self menuWindow ifNil: [ ^ self ].
 	aValuable value: self menuWindow
-]
-
-{ #category : #'t - menu window model' }
-TToMenuWindowModel >> popupEvent: anEvent [
-
-	^ self explicitRequirement 
 ]

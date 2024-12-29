@@ -23,9 +23,9 @@ ToPopupWindowMode >> anchorRoot: anElement [
 ]
 
 { #category : #'api - displaying' }
-ToPopupWindowMode >> arrangeWindowOnEvent: anEvent [
+ToPopupWindowMode >> arrangeWindow: aWindow onEvent: anEvent [
 
-	self placement arrangeWindowFromManager: manager onEvent: anEvent
+	self placement arrangeWindow: aWindow onEvent: anEvent
 ]
 
 { #category : #accessing }

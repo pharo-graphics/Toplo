@@ -36,7 +36,7 @@ ToAnchoredWindowManager >> anchorRoot: anElement [
 ToAnchoredWindowManager >> arrangeWindowOnEvent: anEvent [
 
 	currentWindow ifNil: [ ^ self ].
-	mode arrangeWindowOnEvent: anEvent
+	mode arrangeWindow: currentWindow onEvent: anEvent
 ]
 
 { #category : #'window handling' }
@@ -132,14 +132,14 @@ ToAnchoredWindowManager >> element [
 ToAnchoredWindowManager >> elementExtentChangedEvent: anEvent [
 
 	currentWindow ifNil: [ ^ self ].
-	mode arrangeWindowOnEvent: nil
+	mode arrangeWindow: currentWindow onEvent: nil
 ]
 
 { #category : #'event handling' }
 ToAnchoredWindowManager >> elementPositionInSpaceChangedEvent: anEvent [
 
 	currentWindow ifNil: [ ^ self ].
-	mode arrangeWindowOnEvent: anEvent
+	mode arrangeWindow: currentWindow onEvent: anEvent
 ]
 
 { #category : #'event handling' }
@@ -361,5 +361,5 @@ ToAnchoredWindowManager >> windowRequestClass [
 ToAnchoredWindowManager >> withAllSubwindowsDo: aBlock [
 
 	self currentWindowDo: [ :cw |
-		cw withAllSubwindowsDo: [ :sw | sw toThemeInstalled ] ]
+		cw withAllSubwindowsDo: aBlock ]
 ]

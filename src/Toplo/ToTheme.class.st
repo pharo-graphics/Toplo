@@ -277,6 +277,7 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'text-editor-padding-H' value: 3).
 		  (ToTokenProperty name: #'text-editor-padding-V' value: 2).
 		  (ToTokenProperty name: #'menu-item-start-alignment' value: 22).
+		  (ToTokenProperty name: #'inline-item-gap' value: 7).
 		  (ToTokenProperty
 			   name: #'checkbox-image-builder'
 			   value: [ self defaultCheckboxBlankImage ]).

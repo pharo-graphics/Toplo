@@ -1,7 +1,7 @@
 Class {
 	#name : #ToInlineWindowElement,
 	#superclass : #ToElement,
-	#traits : 'TToWindowElement',
-	#classTraits : 'TToWindowElement classTrait',
+	#traits : 'TToAnchoredWindowElement',
+	#classTraits : 'TToAnchoredWindowElement classTrait',
 	#category : #'Toplo-Core-Window'
 }

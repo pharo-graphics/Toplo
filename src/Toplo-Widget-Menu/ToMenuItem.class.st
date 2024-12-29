@@ -13,10 +13,9 @@ ToMenuItem >> buttonClass [
 ]
 
 { #category : #testing }
-ToMenuItem >> closeOnMouseEvent [
+ToMenuItem >> closeOnPicking [
 
-	closeOnMouseEvent ifFalse: [ ^ false ].
-	^ self isTopMenu not
+	^ closeOnPicking and: [ self isTopMenu not ]
 ]
 
 { #category : #initialization }

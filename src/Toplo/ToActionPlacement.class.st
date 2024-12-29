@@ -9,13 +9,13 @@ Class {
 
 { #category : #accessing }
 ToActionPlacement >> action: aValuable [
-	" aValuable take thewindow, the window manager element, the event and the anchor root as arguments "
+	" aValuable takes the window and the event as arguments "
 
 	action := aValuable
 ]
 
 { #category : #api }
-ToActionPlacement >> arrangeWindowFromManager: aManager onEvent: anEvent [
+ToActionPlacement >> arrangeWindow: aWindow onEvent: anEvent [
 
-	action value: aManager value: anEvent 
+	action value: aWindow value: anEvent 
 ]

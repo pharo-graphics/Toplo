@@ -63,6 +63,7 @@ ToMenuWindow >> newRawSkin [
 { #category : #enumerating }
 ToMenuWindow >> withAllSubwindowsDo: aBlock [
 
-	self items do: [ :i | i menuWindowDo: [ :w | w withAllSubwindowsDo: aBlock ] ].
+	self items do: [ :i |
+		i menuWindowDo: [ :w | w withAllSubwindowsDo: aBlock ] ].
 	super withAllSubwindowsDo: aBlock
 ]

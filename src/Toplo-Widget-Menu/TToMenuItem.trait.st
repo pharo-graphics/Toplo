@@ -4,9 +4,22 @@ Trait {
 }
 
 { #category : #'t - menu item' }
-TToMenuItem >> isInline [ 
+TToMenuItem >> closeOnPicking [ 
 
+	^ false
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> isInInlineWindow [
+
+	self isInline ifTrue: [ ^ true ].
 	self parentMenuDo: [ :m | ^ m isInline ].
+	^ false
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> isInline [
+
 	^ false
 ]
 

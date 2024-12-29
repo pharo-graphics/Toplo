@@ -1,18 +1,8 @@
 Class {
 	#name : #ToCheckMenuItem,
-	#superclass : #ToMenuItem,
-	#traits : 'TToCheckable + TToCheckableOwner',
-	#classTraits : 'TToCheckable classTrait + TToCheckableOwner classTrait',
+	#superclass : #ToToggleMenuItem,
 	#category : #'Toplo-Widget-Menu-Basic'
 }
-
-{ #category : #accessing }
-ToCheckMenuItem >> button: aCheckbox [
-
-	super button: aCheckbox.
-	self registerInCheckable 
-
-]
 
 { #category : #initialization }
 ToCheckMenuItem >> buttonClass [
@@ -38,17 +28,10 @@ ToCheckMenuItem >> checkableData: aCheckableData [
 	^ self shouldNotImplement 
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToCheckMenuItem >> indeterminateBar [
 
 	^ self button indeterminateBar
-]
-
-{ #category : #initialization }
-ToCheckMenuItem >> initialize [
-
-	super initialize.
-	closeOnMouseEvent := false
 ]
 
 { #category : #skin }

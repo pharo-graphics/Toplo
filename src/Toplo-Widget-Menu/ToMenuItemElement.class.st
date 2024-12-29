@@ -3,30 +3,16 @@ Class {
 	#superclass : #ToItemElement,
 	#traits : 'TToMenuItem',
 	#classTraits : 'TToMenuItem classTrait',
-	#instVars : [
-		'closeOnMouseEvent'
-	],
 	#category : #'Toplo-Widget-Menu-Basic'
 }
-
-{ #category : #testing }
-ToMenuItemElement >> closeOnMouseEvent [
-
-	^ closeOnMouseEvent
-]
-
-{ #category : #testing }
-ToMenuItemElement >> closeOnMouseEvent: aBoolean [
-
-	closeOnMouseEvent := aBoolean
-]
 
 { #category : #'adding-removing' }
 ToMenuItemElement >> closeSiblingMenuWindow [
 
 	self parentItemListHolder ifNil: [ ^ self ].
 	self parentItemListHolder closeAllWindowsForItemsSatisfying: [ :it |
-		it ~= self and: [it isInline not]]
+		it notNil and: [
+			it ~= self and: [ it isInline not or: [ it isInInlineWindow not ] ] ] ]
 ]
 
 { #category : #'t - menu window model' }
@@ -56,6 +42,12 @@ ToMenuItemElement >> defaultEventHandlerClass [
 	^ ToMenuItemEventHandler
 ]
 
+{ #category : #initialization }
+ToMenuItemElement >> defaultLayout [
+
+	^ BlLinearLayout horizontal
+]
+
 { #category : #testing }
 ToMenuItemElement >> hasIcon [
 
@@ -74,7 +66,18 @@ ToMenuItemElement >> includes: anElement [
 ToMenuItemElement >> initialize [
 
 	super initialize.
-	closeOnMouseEvent := false
+	self addEventHandler: self defaultEventHandler.
+	self constraintsDo: [ :c | c linear vertical alignCenter ]
+]
+
+{ #category : #accessing }
+ToMenuItemElement >> inlineWindowLevel [
+
+	| l |
+	l := 0.
+	self withAllParentsDo: [ :p |
+		(p isKindOf: ToInlineMenuWindowElement) ifTrue: [ l := l + 1 ] ].
+	^ l
 ]
 
 { #category : #'t - menu window model' }
@@ -108,6 +111,12 @@ ToMenuItemElement >> menuBarDo: aBlock [
 
 { #category : #'t - menu window model' }
 ToMenuItemElement >> menuWindowDo: aValuable [
+]
+
+{ #category : #skin }
+ToMenuItemElement >> newRawSkin [
+
+	^ ToMenuItemElementSkin new
 ]
 
 { #category : #'adding-removing' }

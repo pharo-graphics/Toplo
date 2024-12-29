@@ -5,12 +5,12 @@ Class {
 }
 
 { #category : #api }
-ToOverlayPlacement >> arrangeWindowFromManager: aManager onEvent: anEvent [
+ToOverlayPlacement >> arrangeWindow: aWindow onEvent: anEvent [
 
-	| window element |
-	window := aManager currentWindow.
-	element := aManager element.
+	| root element |
+	root := aWindow anchorRoot.
+	element := aWindow element.
 
-	super arrangeWindowFromManager: aManager onEvent: anEvent.
-	window size: element measuredWidth @ element measuredHeight
+	super arrangeWindow: aWindow onEvent: anEvent.
+	aWindow size: element measuredWidth @ element measuredHeight
 ]

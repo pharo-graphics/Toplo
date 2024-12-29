@@ -63,15 +63,6 @@ ToButton >> initialize [
 	self initializeTripletElement
 ]
 
-{ #category : #'t - toElement' }
-ToButton >> knownMinWidth [
-
-	| w |
-	w := super knownMinWidth.
-	self childrenDo: [ :child | w := w + child measuredWidth ].
-	^ w 
-]
-
 { #category : #'t - labeled icon' }
 ToButton >> label: anElement [
 

@@ -5,8 +5,15 @@ Class {
 }
 
 { #category : #'api - displaying' }
-ToInlineWindowMode >> arrangeWindowOnEvent: anEvent [
+ToInlineWindowMode >> arrangeWindow: aWindow onEvent: anEvent [
 
+	| w |
+	w := 0.
+	aWindow popupWindowParentMenuDo: [ :pm |
+		pm collectedNodesDo: [ :node |
+			w := w max: node measuredWidth ] ].
+	aWindow popupWindowParentMenuDo: [ :pm |
+		pm collectedNodesDo: [ :node | node width: w ] ]
 ]
 
 { #category : #testing }

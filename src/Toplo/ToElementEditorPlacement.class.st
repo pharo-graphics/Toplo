@@ -8,18 +8,17 @@ Class {
 }
 
 { #category : #api }
-ToElementEditorPlacement >> arrangeWindowFromManager: aManager onEvent: anEvent [
+ToElementEditorPlacement >> arrangeWindow: aWindow onEvent: anEvent [
 
-	| window root element pos inner |
-	window := aManager currentWindow.
-	root := aManager anchorRoot.
-	element := aManager element.
+	| root element inner pos |
+	root := aWindow anchorRoot.
+	element := aWindow element.
 	inner := innerElement ifNil: [ element ].
 	" take into accound the gap used to compute the textField padding "
 	pos := (inner bounds inParent: root) topLeft
 	       - ((element valueOfTokenNamed: #'padding-content-HS')
 		        @ (element valueOfTokenNamed: #'padding-content-VS')).
-	window position: pos
+	aWindow position: pos
 ]
 
 { #category : #accessing }

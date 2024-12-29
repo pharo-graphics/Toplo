@@ -12,7 +12,8 @@ ToSwitchButtonSkin >> disabledSkinEvent: anEvent [
 		e mouseCursor: Cursor normal.
 		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-text-disabled') ].
-		e background: (e valueOfTokenNamed: #'color-bg-container-disabled') ]
+		e isMenuButton ifFalse: [
+			e background: (e valueOfTokenNamed: #'color-bg-container-disabled') ] ]
 ]
 
 { #category : #'event handling' }

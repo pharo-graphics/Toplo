@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMenuItemSkin,
-	#superclass : #ToGeneralButtonMenuItemSkin,
+	#superclass : #ToMenuItemElementSkin,
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
@@ -12,21 +12,27 @@ ToMenuItemSkin >> installSkinEvent: anEvent [
 		e isTopMenu ifFalse: [
 			e hMatchParent.
 			e popupWindowParentMenuDo: [ :pm |
-				| anyHaveIcon anyIsMenu |
+				| anyHaveIcon anyIsMenu align inlineGap |
 				anyHaveIcon := false.
 				anyIsMenu := false.
 				pm collectedItemsDo: [ :item |
 					item hasIcon ifTrue: [ anyHaveIcon := true ].
 					item isMenu ifTrue: [ anyIsMenu := true ] ].
+				align := 0.0.
+				inlineGap := e valueOfTokenNamed: #'inline-item-gap'.
 				anyHaveIcon ifTrue: [
-					e button startAlignment: 
-						(e valueOfTokenNamed: #'menu-item-start-alignment') ].
+					align := e valueOfTokenNamed: #'menu-item-start-alignment' ].
+				e isInInlineWindow ifTrue: [
+					align := align + (e inlineWindowLevel * inlineGap) ].
+				e button startAlignment: align.
 				anyIsMenu ifTrue: [
 					e isStartToEnd
 						ifTrue: [
-							e endInterspace: (e valueOfTokenNamed: #'menu-item-start-alignment').
+							e endInterspace:
+								(e valueOfTokenNamed: #'menu-item-start-alignment').
 							e endFlexible: true ]
 						ifFalse: [
-							e startInterspace: (e valueOfTokenNamed: #'menu-item-start-alignment').
+							e startInterspace:
+								(e valueOfTokenNamed: #'menu-item-start-alignment').
 							e startFlexible: true ] ] ] ] ]
 ]

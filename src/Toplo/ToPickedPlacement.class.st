@@ -5,11 +5,8 @@ Class {
 }
 
 { #category : #api }
-ToPickedPlacement >> arrangeWindowFromManager: aManager onEvent: anEvent [
-
-	| window |
-	window := aManager currentWindow.
+ToPickedPlacement >> arrangeWindow: aWindow onEvent: anEvent [
 
 	anEvent ifNil: [ ^ self ].
-	window position: anEvent position
+	aWindow position: anEvent position
 ]

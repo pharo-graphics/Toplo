@@ -1,10 +1,16 @@
 Class {
 	#name : #ToInlineMenuWindowElement,
 	#superclass : #ToCustomMenuItem,
-	#traits : 'TToWindowElement',
-	#classTraits : 'TToWindowElement classTrait',
+	#traits : 'TToAnchoredWindowElement + TToMenuWindowModel',
+	#classTraits : 'TToAnchoredWindowElement classTrait + TToMenuWindowModel classTrait',
 	#category : #'Toplo-Widget-Menu-Basic'
 }
+
+{ #category : #'t - menu window model' }
+ToInlineMenuWindowElement >> closeWindow [
+
+	self close
+]
 
 { #category : #'api - displaying' }
 ToInlineMenuWindowElement >> dispatchClosedEvent [
@@ -26,11 +32,22 @@ ToInlineMenuWindowElement >> includes: anElement [
 	^ false
 ]
 
-{ #category : #initialization }
-ToInlineMenuWindowElement >> initialize [
+{ #category : #'t - menu window model' }
+ToInlineMenuWindowElement >> isInline [ 
 
-	super initialize.
-	self fitContent 
+	^ true
+]
+
+{ #category : #'t - menu window model' }
+ToInlineMenuWindowElement >> isSubmenu [
+
+	^ super isSubmenu
+]
+
+{ #category : #'t - menu window model' }
+ToInlineMenuWindowElement >> isTopMenu [
+
+	^ false
 ]
 
 { #category : #accessing }
@@ -45,37 +62,16 @@ ToInlineMenuWindowElement >> items [
 	^ self itemContainer ifNil: [ ^ #(  ) ] ifNotNil: [ :w | w items ]
 ]
 
-{ #category : #accessing }
+{ #category : #'t - menu window model' }
 ToInlineMenuWindowElement >> menuWindow [
 
-	^ self
+	^ self 
 ]
 
 { #category : #'instance creation' }
 ToInlineMenuWindowElement >> newRawSkin [ 
 
 	^ ToInlineMenuWindowSkin new
-]
-
-{ #category : #layout }
-ToInlineMenuWindowElement >> onMeasure: anExtentMeasurementSpec [
-
-	| w measureAgain |
-	super onMeasure: anExtentMeasurementSpec.
-	w := 0.
-	self popupWindowParentMenuDo: [ :pm |
-		pm collectedNodesDo: [ :node | w := w max: node item knownMinWidth ] ].
-	measureAgain := false.
-	self popupWindowParentMenuDo: [ :pm |
-		pm collectedNodesDo: [ :node |
-			node item measuredWidth < w ifTrue: [ measureAgain := true ] ] ].
-	measureAgain ifFalse: [ ^ self ].
-	self measuredWidth < w ifFalse: [ ^ self ].
-	self childrenDo: [ :child | child width: w ].
-	self popupWindowParentMenuDo: [ :pm |
-		pm collectedItemsDo: [ :item | item width: w ] ].
-	anExtentMeasurementSpec widthSpec size: w.
-	super onMeasure: anExtentMeasurementSpec
 ]
 
 { #category : #'api - displaying' }

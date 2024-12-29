@@ -30,11 +30,9 @@ ToSelectPopupWindowManager >> defaultMinHeight [
 ToSelectPopupWindowManager >> defaultPlacement [
 
 	^ ToActionPlacement new
-		  action: [ :manager :evt |
-			  | theWin theElem theRoot |
-			  theWin := manager currentWindow.
-			  theElem := manager element.
-			  theRoot := manager anchorRoot.
+		  action: [ :theWin  :evt | | theElem theRoot |
+			  theElem := theWin  element.
+			  theRoot := theWin  anchorRoot.
 			  theWin width: theElem measuredWidth.
 			  theWin position:
 					  (theElem bounds inParent: theRoot) bounds bottomLeft ];

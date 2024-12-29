@@ -2775,11 +2775,10 @@ ToSandBox class >> example_SimplePopupBottom [
 	| p |
 	p := self newPopup.
 	p placement:
-		(ToActionPlacement new action: [ :manager :evt | 
-			| theWin theElem theRoot x1 x2 w1 w2 pos |
-				theWin := manager currentWindow.
-				theElem := manager element.
-				theRoot := manager anchorRoot.
+		(ToActionPlacement new action: [ :theWin :evt | 
+			| theElem theRoot x1 x2 w1 w2 pos |
+				theElem := theWin element.
+				theRoot := theWin anchorRoot.
 			 x1 := theElem position x.
 			 w1 := theElem width / 2.0.
 			 w2 := theWin width / 2.0.
@@ -2803,12 +2802,11 @@ ToSandBox class >> example_SimplePopupBottomRight [
 	| p |
 	p := self newPopup.
 	p placement:
-		(ToActionPlacement new action: [ :manager :evt | 
-			| theWin theElem theRoot |
-				theWin := manager currentWindow.
-				theElem := manager element.
-				theRoot := manager anchorRoot.
-			 theWin position: theElem bounds inSpace bounds bottomRight
+		(ToActionPlacement new action: [ :theWin :evt | 
+			|  theElem theRoot |
+			theElem := theWin element.
+			theRoot := theWin anchorRoot.
+			theWin position: theElem bounds inSpace bounds bottomRight
 			 - (theWin width @ 0) ]).
 	p element openInSpace
 ]
@@ -2819,11 +2817,10 @@ ToSandBox class >> example_SimplePopupTop [
 	| p |
 	p := self newPopup.
 	p placement:
-		(ToActionPlacement new action: [ :manager :evt | 
-			| theWin theElem theRoot x1 x2 w1 w2 |
-				theWin := manager currentWindow.
-				theElem := manager element.
-				theRoot := manager anchorRoot.	
+		(ToActionPlacement new action: [ :theWin  :evt | 
+			| theElem theRoot x1 x2 w1 w2 |
+				theElem := theWin  element.
+				theRoot := theWin  anchorRoot.	
 			 x1 := theElem position x.
 			 w1 := theElem width / 2.0.
 			 w2 := theWin width / 2.0.
@@ -2839,11 +2836,10 @@ ToSandBox class >> example_SimplePopupTopLeft [
 	| p |
 	p := self newPopup.
 	p placement:
-		(ToActionPlacement new action: [ :manager :evt | 
-			| theWin theElem theRoot |
-				theWin := manager currentWindow.
-				theElem := manager element.
-				theRoot := manager anchorRoot.	
+		(ToActionPlacement new action: [ :theWin  :evt | 
+			| theElem theRoot |
+				theElem := theWin  element.
+				theRoot := theWin  anchorRoot.	
 			 theWin position:
 				 theElem bounds inSpace bounds topLeft
 				 - (0 @ theElem height) ]).
@@ -2857,11 +2853,10 @@ ToSandBox class >> example_SimplePopupTopRight [
 	| p |
 	p := self newPopup.
 	p placement:
-		(ToActionPlacement new action: [ :manager :evt | 
-			| theWin theElem theRoot |
-				theWin := manager currentWindow.
-				theElem := manager element.
-				theRoot := manager anchorRoot.	
+		(ToActionPlacement new action: [ :theWin  :evt | 
+			| theElem theRoot |
+				theElem := theWin element.
+				theRoot := theWin anchorRoot.	
 			 theWin position: theElem bounds inSpace bounds topRight
 				 - (theWin width @ theElem height) ]).
 
@@ -3023,6 +3018,30 @@ ToSandBox class >> example_ToggleButtonChecked [
 		event traceCr ].
 	toggle checked: true.
 	toggle openInInnerWindow
+]
+
+{ #category : #'toggle button' }
+ToSandBox class >> example_ToggleButtonGroupAndStrictStrategy [
+
+	| group groupContainer |
+	group := ToCheckableGroup new.
+	group withStrictCheckingStrategy.
+	{ 'Monday'. 'Tuesday'. 'Wednesday'. 'Thursday'. 'Friday' } do: [ :day |
+		group register: (ToToggleButton new
+				 labelText: day;
+				 hMatchParent;
+				 yourself) ].
+	group registeredCheckables second checked: true.
+	group addEventHandler: (BlEventHandler
+			 on: ToCheckableGroupChangedEvent
+			 do: [ :event |
+				 ('checked: ' , event checkedList asString , ' unchecked: '
+				  , event uncheckedList asString) traceCr ]).
+
+	groupContainer := ToPane vertical.
+	groupContainer width: 150.
+	groupContainer addChildren: group registeredCheckables.
+	groupContainer openInSpace
 ]
 
 { #category : #'toggle button' }
@@ -3865,7 +3884,7 @@ ToSandBox class >> example_inline1 [
 		          "icon: (ToImage inner: (self iconNamed: #solidMenu));"
 		          yourself.
 	subsub beInline.
-	subsub closeOnMouseEvent: false.
+	subsub closeOnPicking: false.
 	"subsub addItem: (ToMenuItem new
 			 labelText: 'Inspect';
 			 whenClickedDo: [ space root inspect ];
@@ -4120,11 +4139,10 @@ ToSandBox class >> example_overlayWindow2 [
 		     size: 300 @ 300;
 		     position: 50 @ 50.
 	windowManager := ToAnchoredWindowManager new.
-	windowManager placement: (ToActionPlacement new action: [ :manager :evt | 
-			| theWin theElem theRoot |
-				theWin := manager currentWindow.
-				theElem := manager element.
-				theRoot := manager anchorRoot.	
+	windowManager placement: (ToActionPlacement new action: [ :theWin  :evt | 
+			| theElem theRoot |
+				theElem := theWin  element.
+				theRoot := theWin  anchorRoot.	
 			theWin position: (theElem bounds inParent: theRoot) bounds topLeft + (20 @ 40).
 	theWin width: theElem width - 40.
 	theWin height: theElem height - 60  ]).
@@ -6426,6 +6444,7 @@ ToSandBox class >> example_withCheckBox [
 			 labelText: 'Inspect';
 			 whenClickedDo: [ menu space root inspect ];
 			 yourself).
+	menu addItem: (ToToggleMenuItem new labelText: 'Toggle'; yourself).
 	menu addItem: (ToMenuItem new labelText: 'Open file').
 	menu items last icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	menu addItem: (ToMenuItem new labelText: 'Disabled').
@@ -6436,20 +6455,25 @@ ToSandBox class >> example_withCheckBox [
 
 	sub := ToMenu new labelText: 'Save All'.
 	sub windowManager beInline.
-	sub closeOnMouseEvent: false.
 	sub addItem: (ToMenuItem new
 			 labelText: 'Locally';
-			 closeOnMouseEvent: false;
 			 yourself).
 
-	subsub := ToMenu new labelText: 'Externally'; icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	subsub := ToMenu new
+		          labelText: 'Externally';
+		          icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	subsub windowManager beInline.
-	subsub closeOnMouseEvent: false.
-	subsubsub := ToMenu new labelText: 'When'; icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	subsubsub := ToMenu new
+		             labelText: 'When';
+		             icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	subsubsub beInline.
-	subsubsub addItem: (ToMenuItem new labelText: 'now'; yourself).
-	subsubsub addItem: (ToMenuItem new labelText: 'later'; yourself).
-	
+	subsubsub addItem: (ToMenuItem new
+			 labelText: 'now';
+			 yourself).
+	subsubsub addItem: (ToMenuItem new
+			 labelText: 'later';
+			 yourself).
+
 	subsub addItem: subsubsub.
 	sub addItem: subsub.
 	menu addItem: sub.
@@ -6506,6 +6530,7 @@ ToSandBox class >> example_withCustomMenuItems [
 			 labelText: 'Inspect';
 			 whenClickedDo: [ menu inspect ]).
 	menu addSeparator.
+	menu addItem: (ToToggleMenuItem new labelText: 'Toggle'; yourself).
 	menu addItem: (ToCustomMenuItem new in: [ :e | e 
 			 addChild: (ToSwitchButton new
 					  checked: true;

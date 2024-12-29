@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #'api - displaying' }
-ToWindowMode >> arrangeWindowOnEvent: anEvent [
+ToWindowMode >> arrangeWindow: aWindow onEvent: anEvent [
 
 	self subclassResponsibility 
 ]

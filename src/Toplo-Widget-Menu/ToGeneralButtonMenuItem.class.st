@@ -2,7 +2,8 @@ Class {
 	#name : #ToGeneralButtonMenuItem,
 	#superclass : #ToMenuItemElement,
 	#instVars : [
-		'button'
+		'button',
+		'closeOnPicking'
 	],
 	#category : #'Toplo-Widget-Menu-Basic'
 }
@@ -21,6 +22,7 @@ ToGeneralButtonMenuItem >> button: aButton [
 	button := aButton.
 	button ifNotNil: [
 		self addChild: button at: 1.
+		aButton constraintsDo: [ :c | c linear vertical alignCenter ].
 		aButton hMatchParent ]
 ]
 
@@ -42,6 +44,12 @@ ToGeneralButtonMenuItem >> clickEventClass [
 	^ button clickEventClass
 ]
 
+{ #category : #testing }
+ToGeneralButtonMenuItem >> closeOnPicking: aBoolean [
+
+	closeOnPicking := aBoolean
+]
+
 { #category : #initialization }
 ToGeneralButtonMenuItem >> initialize [ 
 
@@ -50,19 +58,7 @@ ToGeneralButtonMenuItem >> initialize [
 	self button takeFocusOnClick: false.
 	self button clickEventClass: self buttonClickEventClass.
 	self layout: self defaultLayout.
-	closeOnMouseEvent := true
-]
-
-{ #category : #'t - menu item' }
-ToGeneralButtonMenuItem >> knownMinWidth [ 
-
-	^ self button knownMinWidth
-]
-
-{ #category : #skin }
-ToGeneralButtonMenuItem >> newRawSkin [
-
-	^ ToGeneralButtonMenuItemSkin new
+	closeOnPicking := true
 ]
 
 { #category : #'t - clickable - click behavior' }

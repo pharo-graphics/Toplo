@@ -1,5 +1,5 @@
 Trait {
-	#name : #TToWindowElement,
+	#name : #TToAnchoredWindowElement,
 	#instVars : [
 		'windowManager',
 		'popupTimestamp'
@@ -8,17 +8,31 @@ Trait {
 }
 
 { #category : #'t - inline window element - displaying' }
-TToWindowElement >> afterCustomizedToFitAnchorRootDo: aBlock [
+TToAnchoredWindowElement >> afterCustomizedToFitAnchorRootDo: aBlock [
 
 	aBlock value
 ]
 
-{ #category : #'t - inline window element - displaying' }
-TToWindowElement >> arrangeWindowOnEvent: anEvent [
+{ #category : #'t - inline window element - testing' }
+TToAnchoredWindowElement >> allowPickOutsideClosing [
+
+	self manager plugPickOutsideFilter
+]
+
+{ #category : #'t - inline window element - accessing' }
+TToAnchoredWindowElement >> anchorRoot [
+
+	^ self manager anchorRoot
 ]
 
 { #category : #'t - inline window element - displaying' }
-TToWindowElement >> close [
+TToAnchoredWindowElement >> arrangeWindowOnEvent: anEvent [
+
+	self manager arrangeWindowOnEvent: anEvent
+]
+
+{ #category : #'t - inline window element - displaying' }
+TToAnchoredWindowElement >> close [
 
 	self isOpened ifFalse: [ Error signal: 'Closing a closed window' ].
 	self manager stopWindow: self.
@@ -27,37 +41,43 @@ TToWindowElement >> close [
 ]
 
 { #category : #'t - inline window element - accessing' }
-TToWindowElement >> element [
+TToAnchoredWindowElement >> defaultElevation [
+
+	^ BlRelativeElevation elevation: (SmallInteger maxVal - 900)
+]
+
+{ #category : #'t - inline window element - accessing' }
+TToAnchoredWindowElement >> element [
 
 	^ self manager ifNotNil: [:h | h element]
 ]
 
 { #category : #'t - inline window element - testing' }
-TToWindowElement >> hasAssociateElement [
+TToAnchoredWindowElement >> hasAssociateElement [
 
 	^ self element notNil
 ]
 
 { #category : #'t - inline window element - testing' }
-TToWindowElement >> isOpened [
+TToAnchoredWindowElement >> isOpened [
 
 	^ self hasParent
 ]
 
 { #category : #'t - inline window element - accessing' }
-TToWindowElement >> manager [
+TToAnchoredWindowElement >> manager [
 
 	^ windowManager
 ]
 
 { #category : #'t - inline window element - accessing' }
-TToWindowElement >> manager: aWindowHandler [
+TToAnchoredWindowElement >> manager: aWindowHandler [
 
 	windowManager := aWindowHandler 
 ]
 
 { #category : #'t - inline window element - displaying' }
-TToWindowElement >> open [
+TToAnchoredWindowElement >> open [
 
 	self manager startWindow: self.
 	self localTheme ifNil: [ self localTheme: self element lookupTheme ].
@@ -66,7 +86,13 @@ TToWindowElement >> open [
 ]
 
 { #category : #'t - inline window element - displaying' }
-TToWindowElement >> popupEvent: anEvent [
+TToAnchoredWindowElement >> popup [
+	
+	self popupEvent: nil
+]
+
+{ #category : #'t - inline window element - displaying' }
+TToAnchoredWindowElement >> popupEvent: anEvent [
 	" I have to set the position here "
 
 	self manager ifNil: [
@@ -86,10 +112,11 @@ TToWindowElement >> popupEvent: anEvent [
 
 	self visibility: BlVisibility hidden.
 	self open.
-	self whenLayoutedDoOnce: [ " ok, now that my size is known, 
-		size and position hooks can be applied "
+	self whenLayoutedDoOnce: [ " ok, now that sizes are known, 
+		position and size of mine or of my children can be adapted "
 		self arrangeWindowOnEvent: anEvent.
-		" since the position/size could have been changed, one have to wait a second layout"
+		" since the position/size could have been changed, 
+		one have to wait a second layout"
 		self requestLayout.
 		self whenLayoutedDoOnce: [
 			self afterCustomizedToFitAnchorRootDo: [
@@ -98,27 +125,31 @@ TToWindowElement >> popupEvent: anEvent [
 ]
 
 { #category : #'t - inline window element - accessing' }
-TToWindowElement >> popupTimestamp [
+TToAnchoredWindowElement >> popupTimestamp [
 
 	^ popupTimestamp 
 ]
 
+{ #category : #'t - inline window element - displaying' }
+TToAnchoredWindowElement >> preventPickOutsideClosing [
+
+	self manager unplugPickOutsideFilter
+]
+
 { #category : #'t - inline window element - accessing' }
-TToWindowElement >> root [ 
+TToAnchoredWindowElement >> root [ 
 
 	^ self
 ]
 
 { #category : #'t - inline window element - displaying' }
-TToWindowElement >> toFront [
+TToAnchoredWindowElement >> toFront [
 
 	self elevation: self defaultElevation
 ]
 
-{ #category : #'t - inline window element - accessing' }
-TToWindowElement >> withAllSubwindowsDo: aBlock [
+{ #category : #'t - inline window element - displaying' }
+TToAnchoredWindowElement >> withAllSubwindowsDo: aBlock [
 
-	self items do: [ :i | i menuWindowDo: [ :w | w withAllSubwindowsDo: aBlock ] ].
 	aBlock value: self
-
 ]

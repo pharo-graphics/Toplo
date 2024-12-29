@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #api }
-ToWindowPlacement >> arrangeWindowFromManager: aManager onEvent: anEvent [
+ToWindowPlacement >> arrangeWindow: aWindow onEvent: anEvent [
 
 	self subclassResponsibility 
 

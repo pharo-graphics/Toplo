@@ -96,7 +96,7 @@ ToMenu >> isMenu [
 { #category : #'t - menu window model' }
 ToMenu >> isOpened [ 
 
-	^ self menuWindow notNil
+	^ self menuWindow notNil and: [ self menuWindow isOpened ]
 ]
 
 { #category : #'t - menu window model' }

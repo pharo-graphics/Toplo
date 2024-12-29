@@ -5,11 +5,10 @@ Class {
 }
 
 { #category : #api }
-ToBottomLeftDownPlacement >> arrangeWindowFromManager: aManager onEvent: anEvent [
+ToBottomLeftDownPlacement >> arrangeWindow: aWindow onEvent: anEvent [
 
-	| window root element |
-	window := aManager currentWindow.
-	root := aManager anchorRoot.
-	element := aManager element.
-	window position: (element bounds inParent: root) bottomLeft
+	| root element |
+	root := aWindow anchorRoot.
+	element := aWindow element.
+	aWindow position: (element bounds inParent: root) bottomLeft
 ]

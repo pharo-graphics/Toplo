@@ -26,7 +26,7 @@ ToGeneralButton >> clickHandler: anEventHandler [
 { #category : #initialization }
 ToGeneralButton >> defaultLayout [ 
 
-	^ BlLinearLayout new
+	^ BlLinearLayout horizontal
 ]
 
 { #category : #initialization }
@@ -34,6 +34,7 @@ ToGeneralButton >> initialize [
 
 	super initialize.
 	self addEventHandler: ToClickableFocusEventHandler new.
+	self applySkinInstallerOnFirstRequest: true.
 	takeFocusOnClick := true
 ]
 

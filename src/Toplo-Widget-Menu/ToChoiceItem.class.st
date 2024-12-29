@@ -14,7 +14,7 @@ ToChoiceItem class >> isDeprecated [
 ]
 
 { #category : #testing }
-ToChoiceItem >> closeOnMouseEvent [
+ToChoiceItem >> closeOnPicking [
 
 	^ true
 ]

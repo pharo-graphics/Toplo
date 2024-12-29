@@ -65,12 +65,6 @@ ToContextMenu >> isOpened [
 	^ super isOpened
 ]
 
-{ #category : #testing }
-ToContextMenu >> isSubmenu [ 
-
-	^ false
-]
-
 { #category : #'t - menu window model' }
 ToContextMenu >> isTopMenu [
 

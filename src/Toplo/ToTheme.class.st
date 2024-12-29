@@ -57,18 +57,21 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'background-color' value: Color white).
 		  (ToTokenProperty name: #'submenu-arrow-right' value: [
 			   (ToMaterialDesignIconProvider iconNamed:
-					    'outlined_keyboardarrowright') yourself
+					    'outlined_keyboardarrowright')
 				   size: 18 asPoint;
+				   innerImageColor: Color gray;
 				   yourself ]).
 		  (ToTokenProperty name: #'submenu-arrow-down' value: [
 			   (ToMaterialDesignIconProvider iconNamed:
-					    'outlined_keyboardarrowdown') yourself
+					    'outlined_keyboardarrowdown')
 				   size: 18 asPoint;
+				   innerImageColor: Color gray;
 				   yourself ]).
 		  (ToTokenProperty name: #'submenu-arrow-up' value: [
 			   (ToMaterialDesignIconProvider iconNamed:
-					    'outlined_keyboardarrowup') yourself
+					    'outlined_keyboardarrowup')
 				   size: 18 asPoint;
+				   innerImageColor: Color gray;
 				   yourself ]).
 		  (ToTokenProperty name: #'border-radius' value: 4).
 		  (ToTokenProperty name: #'border-radius-LG' value: 8).

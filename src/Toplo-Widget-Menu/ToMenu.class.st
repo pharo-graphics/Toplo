@@ -124,6 +124,12 @@ ToMenu >> menuWindow [
 ]
 
 { #category : #'event handling' }
+ToMenu >> mouseLeaveEvent: anEvent [
+
+	self itemList secondarySelecter deselectAll
+]
+
+{ #category : #'event handling' }
 ToMenu >> mouseOverEvent: anEvent [
 
 	(anEvent target hasInParentChain: self)

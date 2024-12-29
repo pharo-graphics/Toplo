@@ -24,7 +24,7 @@ ToMenuItemEventHandler >> closeOnEvent: anEvent [
 	and finally can decide to not close the menu window"
 	(target isInInlineWindow or: [ target isInline ]) ifTrue: [ ^ self ].
 	target rootMenuDo: [ :rm |
-		rm windowManager checkAutoCloseWindowOnMouseUp: anEvent ]
+		rm manager checkAutoCloseWindowOnMouseUp: anEvent ]
 ]
 
 { #category : #'api - accessing' }

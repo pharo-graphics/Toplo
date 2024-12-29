@@ -139,7 +139,7 @@ TToAnchoredWindowElement >> preventPickOutsideClosing [
 { #category : #'t - inline window element - accessing' }
 TToAnchoredWindowElement >> root [ 
 
-	^ self
+	^ self explicitRequirement 
 ]
 
 { #category : #'t - inline window element - displaying' }

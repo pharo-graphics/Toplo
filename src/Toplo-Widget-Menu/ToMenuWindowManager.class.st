@@ -49,7 +49,6 @@ ToMenuWindowManager >> mouseEnterEvent: anEvent [
 { #category : #'event handling' }
 ToMenuWindowManager >> mouseLeaveEvent: anEvent [
 
-	element itemList secondarySelecter deselectAll
 ]
 
 { #category : #'window handling' }
@@ -89,7 +88,5 @@ ToMenuWindowManager >> popupNewWindowEvent: anEvent [
 { #category : #accessing }
 ToMenuWindowManager >> popupWindowClass [
 
-	^ self isInline
-		  ifTrue: [ ToInlineMenuWindowElement ]
-		  ifFalse: [ ToMenuWindow ]
+	^ ToMenuWindow
 ]

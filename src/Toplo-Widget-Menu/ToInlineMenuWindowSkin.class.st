@@ -1,7 +1,7 @@
 Class {
 	#name : #ToInlineMenuWindowSkin,
 	#superclass : #ToRawSkin,
-	#category : #'Toplo-Widget-Menu-Basic'
+	#category : #'Toplo-Widget-Menu-Inline'
 }
 
 { #category : #'event handling' }
@@ -9,9 +9,7 @@ ToInlineMenuWindowSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		"e background: (Color veryLightGray alpha: 0.2)."
-		"e margin:
-			(BlInsets left: (e valueOfTokenNamed: #'menu-item-start-alignment'))" ]
+		e background: (Color veryLightGray alpha: 0.1) ]
 ]
 
 { #category : #'event handling' }

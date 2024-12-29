@@ -3,7 +3,7 @@ Class {
 	#superclass : #ToCustomMenuItem,
 	#traits : 'TToAnchoredWindowElement + TToMenuWindowModel',
 	#classTraits : 'TToAnchoredWindowElement classTrait + TToMenuWindowModel classTrait',
-	#category : #'Toplo-Widget-Menu-Basic'
+	#category : #'Toplo-Widget-Menu-Inline'
 }
 
 { #category : #'t - menu window model' }
@@ -32,6 +32,13 @@ ToInlineMenuWindowElement >> includes: anElement [
 	^ false
 ]
 
+{ #category : #initialization }
+ToInlineMenuWindowElement >> initialize [ 
+
+	super initialize.
+	self addEventHandler: ToMenuWindowEventHandler new
+]
+
 { #category : #'t - menu window model' }
 ToInlineMenuWindowElement >> isInline [ 
 
@@ -57,6 +64,12 @@ ToInlineMenuWindowElement >> itemContainer [
 ]
 
 { #category : #accessing }
+ToInlineMenuWindowElement >> itemList [
+
+	^ self element itemList
+]
+
+{ #category : #accessing }
 ToInlineMenuWindowElement >> items [
 
 	^ self itemContainer ifNil: [ ^ #(  ) ] ifNotNil: [ :w | w items ]
@@ -68,10 +81,16 @@ ToInlineMenuWindowElement >> menuWindow [
 	^ self 
 ]
 
-{ #category : #'instance creation' }
+{ #category : #skin }
 ToInlineMenuWindowElement >> newRawSkin [ 
 
 	^ ToInlineMenuWindowSkin new
+]
+
+{ #category : #'t - inline window element - accessing' }
+ToInlineMenuWindowElement >> root [ 
+
+	^ self
 ]
 
 { #category : #'api - displaying' }

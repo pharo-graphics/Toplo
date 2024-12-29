@@ -27,6 +27,12 @@ ToAnchoredWindow >> dispatchOpenedEvent [
 	self element dispatchEvent: self newOpenedEvent 
 ]
 
+{ #category : #'t - inline window element - accessing' }
+ToAnchoredWindow >> root [ 
+
+	^ super root
+]
+
 { #category : #'api - displaying' }
 ToAnchoredWindow >> toThemeInstalled [
 

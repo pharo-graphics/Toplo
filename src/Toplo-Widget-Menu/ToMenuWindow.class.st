@@ -36,10 +36,23 @@ ToMenuWindow >> includes: anElement [
 	^ false
 ]
 
+{ #category : #initialization }
+ToMenuWindow >> initialize [
+
+	super initialize.
+	self addEventHandler: ToMenuWindowEventHandler new
+]
+
 { #category : #accessing }
 ToMenuWindow >> itemContainer [
 
 	^ self element
+]
+
+{ #category : #accessing }
+ToMenuWindow >> itemList [ 
+
+	^ self element itemList
 ]
 
 { #category : #accessing }

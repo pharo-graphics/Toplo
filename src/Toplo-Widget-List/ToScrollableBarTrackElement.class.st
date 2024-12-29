@@ -60,7 +60,7 @@ ToScrollableBarTrackElement >> configureLayoutIn: aBarElement [
 	flowLineUniformHeight := aBarElement isUniformNodeHeight.
 	horizontal := aBarElement isHorizontal.
 
-	self layout: self newLayout.
+	self layout: (self newLayoutStrategyIn: aBarElement).
 
 	self matchParent.
 	aBarElement isHMatchParent ifFalse: [ self hFitContent ].
@@ -86,6 +86,12 @@ ToScrollableBarTrackElement >> constraintFakeNodeIn: aBarElement [
 ToScrollableBarTrackElement >> fakeNode [ 
 
 	^ fakeNode
+]
+
+{ #category : #layout }
+ToScrollableBarTrackElement >> flowLayoutClass [
+
+	^ ToBarFlowLayout
 ]
 
 { #category : #'accessing - children' }
@@ -149,20 +155,26 @@ ToScrollableBarTrackElement >> isNodeWrapping [
 ]
 
 { #category : #layout }
-ToScrollableBarTrackElement >> newLayout [
+ToScrollableBarTrackElement >> linearLayoutClass [
+
+	^ BlLinearLayout
+]
+
+{ #category : #layout }
+ToScrollableBarTrackElement >> newLayoutStrategyIn: aBarElement [
 
 	^ nodeWrapping
 		  ifTrue: [
 			  (horizontal
-				   ifTrue: [ ToBarFlowLayout horizontal ]
-				   ifFalse: [ ToBarFlowLayout vertical ])
+				   ifTrue: [ self flowLayoutClass horizontal ]
+				   ifFalse: [ self flowLayoutClass vertical ])
 				  uniformNodeWidth: flowLineUniformWidth;
 				  uniformNodeHeight: flowLineUniformHeight;
 				  yourself ]
 		  ifFalse: [
 			  horizontal
-				  ifTrue: [ BlLinearLayout horizontal ]
-				  ifFalse: [ BlLinearLayout vertical ] ]
+				  ifTrue: [ self linearLayoutClass horizontal ]
+				  ifFalse: [ self linearLayoutClass vertical ] ]
 ]
 
 { #category : #accessing }

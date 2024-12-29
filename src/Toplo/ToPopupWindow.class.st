@@ -5,9 +5,15 @@ Class {
 }
 
 { #category : #'api - displaying' }
-ToPopupWindow >> allowPickOutsideClosing [
+ToPopupWindow >> afterCustomizedToFitAnchorRootDo: aBlock [
 
-	windowManager plugPickOutsideFilter
+	| p |
+	p := self correctedPositionWithinAnchorRoot.
+	p ~= self position ifTrue: [
+		self position: p.
+		self whenLayoutedDoOnce: aBlock.
+		^ self ].
+	aBlock value
 ]
 
 { #category : #accessing }
@@ -16,14 +22,14 @@ ToPopupWindow >> closedEventClass [
 	^ ToPopupWindowClosedEvent 
 ]
 
+{ #category : #'api - displaying' }
+ToPopupWindow >> correctedPositionWithinAnchorRoot [
+
+	^ self position
+]
+
 { #category : #accessing }
 ToPopupWindow >> openedEventClass [ 
 
 	^ ToPopupWindowOpenedEvent 
-]
-
-{ #category : #'api - displaying' }
-ToPopupWindow >> preventPickOutsideClosing [
-
-	windowManager unplugPickOutsideFilter
 ]

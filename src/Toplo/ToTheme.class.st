@@ -57,8 +57,21 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'background-color' value: Color white).
 		  (ToTokenProperty name: #'submenu-arrow-right' value: [
 			   (ToMaterialDesignIconProvider iconNamed:
-					    'outlined_keyboardarrowright') yourself
+					    'outlined_keyboardarrowright')
 				   size: 18 asPoint;
+				   innerImageColor: Color gray;
+				   yourself ]).
+		  (ToTokenProperty name: #'submenu-arrow-down' value: [
+			   (ToMaterialDesignIconProvider iconNamed:
+					    'outlined_keyboardarrowdown')
+				   size: 18 asPoint;
+				   innerImageColor: Color gray;
+				   yourself ]).
+		  (ToTokenProperty name: #'submenu-arrow-up' value: [
+			   (ToMaterialDesignIconProvider iconNamed:
+					    'outlined_keyboardarrowup')
+				   size: 18 asPoint;
+				   innerImageColor: Color gray;
 				   yourself ]).
 		  (ToTokenProperty name: #'border-radius' value: 4).
 		  (ToTokenProperty name: #'border-radius-LG' value: 8).
@@ -266,7 +279,8 @@ ToTheme class >> defaultTokenProperties [
 			   value: (Color black alpha: 0.1)).
 		  (ToTokenProperty name: #'text-editor-padding-H' value: 3).
 		  (ToTokenProperty name: #'text-editor-padding-V' value: 2).
-		  (ToTokenProperty name: #'menu-item-start-alignment' value: 25).
+		  (ToTokenProperty name: #'menu-item-start-alignment' value: 22).
+		  (ToTokenProperty name: #'inline-item-gap' value: 7).
 		  (ToTokenProperty
 			   name: #'checkbox-image-builder'
 			   value: [ self defaultCheckboxBlankImage ]).

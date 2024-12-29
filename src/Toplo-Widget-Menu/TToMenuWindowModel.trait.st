@@ -10,9 +10,39 @@ TToMenuWindowModel >> closeWindow [
 ]
 
 { #category : #'t - menu window model' }
-TToMenuWindowModel >> isOpened [
+TToMenuWindowModel >> collectedItems [
 
-	^ self explicitRequirement 
+	^ Array streamContents: [ :stream |
+		  self collectedItemsDo: [ :child | stream nextPut: child ] ]
+]
+
+{ #category : #'t - menu window model' }
+TToMenuWindowModel >> collectedItemsDo: aValuable [
+
+	self menuWindow allChildrenBreadthFirstDo: [ :child |
+		(child isKindOf: ToMenuItemElement) ifTrue: [
+			child parent isFake ifFalse: [ aValuable value: child ] ] ]
+]
+
+{ #category : #'t - menu window model' }
+TToMenuWindowModel >> collectedNodes [
+
+	^ Array streamContents: [ :stream |
+		  self collectedNodesDo: [ :child | stream nextPut: child ] ]
+]
+
+{ #category : #'t - menu window model' }
+TToMenuWindowModel >> collectedNodesDo: aValuable [
+
+	self menuWindow allChildrenBreadthFirstDo: [ :child |
+		(child isKindOf: ToMenuItemNode) ifTrue: [
+			child isFake ifFalse: [ aValuable value: child ] ] ]
+]
+
+{ #category : #testing }
+TToMenuWindowModel >> isInline [
+
+	^ self windowManager isInline
 ]
 
 { #category : #'t - menu window model' }
@@ -38,10 +68,4 @@ TToMenuWindowModel >> menuWindowDo: aValuable [
 
 	self menuWindow ifNil: [ ^ self ].
 	aValuable value: self menuWindow
-]
-
-{ #category : #'t - menu window model' }
-TToMenuWindowModel >> popupEvent: anEvent [
-
-	^ self explicitRequirement 
 ]

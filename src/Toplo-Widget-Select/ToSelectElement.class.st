@@ -6,7 +6,8 @@ Class {
 	#instVars : [
 		'filtrable',
 		'iconContainer',
-		'innerElement'
+		'innerElement',
+		'windowManager'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -97,7 +98,8 @@ ToSelectElement >> initialize [
 	filtrable := false.
 
 	" for the popup "
-	self addEventHandler: self newPopupWindowManager.
+	windowManager := self newPopupWindowManager.
+	self addEventHandler: windowManager.
 
 	self iconContainer: self newIconContainer.
 	self innerElement: self newInnerElement.
@@ -337,4 +339,10 @@ ToSelectElement >> showHidePlaceholder [
 ToSelectElement >> sieve [
 
 	^ self windowManager sieve
+]
+
+{ #category : #accessing }
+ToSelectElement >> windowManager [
+
+	^ windowManager 
 ]

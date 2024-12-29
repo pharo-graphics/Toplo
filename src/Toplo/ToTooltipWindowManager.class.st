@@ -25,12 +25,10 @@ ToTooltipWindowManager >> defaultCloseOnMouseDown [
 	^ false
 ]
 
-{ #category : #initialization }
-ToTooltipWindowManager >> defaultPositionHook [
+{ #category : #initializing }
+ToTooltipWindowManager >> defaultPlacement [
 
-	^ [ :theWindow :theElement :event |
-	  (event position x)
-		  @ ((theElement localPointToGlobal: 0 @ theElement height) y + 5 ) ]
+	^ ToTooltipPlacement new
 ]
 
 { #category : #'api - accessing' }
@@ -71,7 +69,7 @@ ToTooltipWindowManager >> popupOnMouseDown [
 ]
 
 { #category : #accessing }
-ToTooltipWindowManager >> windowClass [
+ToTooltipWindowManager >> popupWindowClass [
 
 	^ ToTooltipWindow 
 ]

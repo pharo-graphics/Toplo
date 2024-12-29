@@ -58,7 +58,7 @@ TToElementWithTooltipTest >> testCurrentTooltipWindow [
 	self assert: e currentTooltipWindow notNil.
 	self
 		assert: e currentTooltipWindow class
-		equals: e tooltipWindowManager windowClass.
+		equals: e tooltipWindowManager popupWindowClass.
 	^ e
 ]
 
@@ -73,7 +73,7 @@ TToElementWithTooltipTest >> testHasOpenedTooltip [
 	self assert: e currentTooltipWindow notNil.
 	self
 		assert: e currentTooltipWindow class
-		equals: e tooltipWindowManager windowClass.
+		equals: e tooltipWindowManager popupWindowClass.
 	^ e
 ]
 

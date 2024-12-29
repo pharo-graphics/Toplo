@@ -19,6 +19,34 @@ TToItemListHolder >> addItem: anItem [
 	anItem onAddedInItemListHolder: self
 ]
 
+{ #category : #'t - item list holder - adding/removing' }
+TToItemListHolder >> addItem: anItem after: anotherItem [
+
+	self items add: anItem after: anotherItem.
+	anItem onAddedInItemListHolder: self
+]
+
+{ #category : #'t - item list holder - adding/removing' }
+TToItemListHolder >> addItem: anItem afterIndex: anInteger [
+
+	self items add: anItem afterIndex: anInteger.
+	anItem onAddedInItemListHolder: self
+]
+
+{ #category : #'t - item list holder - adding/removing' }
+TToItemListHolder >> addItem: anItem before: anotherItem [
+
+	self items add: anItem before: anotherItem.
+	anItem onAddedInItemListHolder: self
+]
+
+{ #category : #'t - item list holder - adding/removing' }
+TToItemListHolder >> addItem: anItem beforeIndex: anInteger [
+
+	self items add: anItem beforeIndex: anInteger.
+	anItem onAddedInItemListHolder: self
+]
+
 { #category : #'t - item list holder - initializing' }
 TToItemListHolder >> configureLayout [
 

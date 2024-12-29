@@ -6,17 +6,13 @@ Class {
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
-{ #category : #testing }
-ToMenuItemElement >> closeOnMouseEvent [
-
-	^ false
-]
-
 { #category : #'adding-removing' }
 ToMenuItemElement >> closeSiblingMenuWindow [
 
 	self parentItemListHolder ifNil: [ ^ self ].
-	self parentItemListHolder closeAllWindowsForItemsSatisfying: [ :it | it ~= self ]
+	self parentItemListHolder closeAllWindowsForItemsSatisfying: [ :it |
+		it notNil and: [
+			it ~= self and: [ it isInline not or: [ it isInInlineWindow not ] ] ] ]
 ]
 
 { #category : #'t - menu window model' }
@@ -46,6 +42,12 @@ ToMenuItemElement >> defaultEventHandlerClass [
 	^ ToMenuItemEventHandler
 ]
 
+{ #category : #initialization }
+ToMenuItemElement >> defaultLayout [
+
+	^ BlLinearLayout horizontal
+]
+
 { #category : #testing }
 ToMenuItemElement >> hasIcon [
 
@@ -64,7 +66,18 @@ ToMenuItemElement >> includes: anElement [
 ToMenuItemElement >> initialize [
 
 	super initialize.
-	self addEventHandler: self defaultEventHandler
+	self addEventHandler: self defaultEventHandler.
+	self constraintsDo: [ :c | c linear vertical alignCenter ]
+]
+
+{ #category : #accessing }
+ToMenuItemElement >> inlineWindowLevel [
+
+	| l |
+	l := 0.
+	self withAllParentsDo: [ :p |
+		(p isKindOf: ToInlineMenuWindowElement) ifTrue: [ l := l + 1 ] ].
+	^ l
 ]
 
 { #category : #'t - menu window model' }
@@ -73,12 +86,6 @@ ToMenuItemElement >> isOpened [
 	^ false
 
 	
-]
-
-{ #category : #testing }
-ToMenuItemElement >> isRootMenuItem [ 
-
-	^ self parentItemListHolder isNil  or: [ self parentItemListHolder isMenuBar ]
 ]
 
 { #category : #'t - menu window model' }
@@ -104,6 +111,12 @@ ToMenuItemElement >> menuBarDo: aBlock [
 
 { #category : #'t - menu window model' }
 ToMenuItemElement >> menuWindowDo: aValuable [
+]
+
+{ #category : #skin }
+ToMenuItemElement >> newRawSkin [
+
+	^ ToMenuItemElementSkin new
 ]
 
 { #category : #'adding-removing' }

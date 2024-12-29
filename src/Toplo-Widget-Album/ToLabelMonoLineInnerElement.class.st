@@ -26,10 +26,12 @@ ToLabelMonoLineInnerElement >> isMonoLine [
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : #'instance creation' }
 ToLabelMonoLineInnerElement >> newEditor [
 
-	^ ToTextField new
+	| ed |
+	ed := ToTextField new.
+	^ ed
 ]
 
 { #category : #'t - label inner element' }

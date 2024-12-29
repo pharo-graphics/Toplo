@@ -3,7 +3,9 @@ Class {
 	#superclass : #BlFlowLayout,
 	#instVars : [
 		'uniformNodeWidth',
-		'uniformNodeHeight'
+		'uniformNodeHeight',
+		'wishedNodeWidth',
+		'wishedNodeHeight'
 	],
 	#category : #'Toplo-Widget-List-InnerBar'
 }
@@ -60,4 +62,28 @@ ToBarFlowLayout >> uniformNodeWidth [
 ToBarFlowLayout >> uniformNodeWidth: aBoolean [
 	" an option that set the same width to all elements of a line "
 	uniformNodeWidth := aBoolean
+]
+
+{ #category : #accessing }
+ToBarFlowLayout >> wishedNodeHeight [
+
+	^ wishedNodeHeight
+]
+
+{ #category : #accessing }
+ToBarFlowLayout >> wishedNodeHeight: aNumber [
+
+	wishedNodeHeight := aNumber
+]
+
+{ #category : #accessing }
+ToBarFlowLayout >> wishedNodeWidth [
+
+	^ wishedNodeWidth
+]
+
+{ #category : #accessing }
+ToBarFlowLayout >> wishedNodeWidth: aNumber [
+
+	wishedNodeWidth := aNumber
 ]

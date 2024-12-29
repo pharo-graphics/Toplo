@@ -54,21 +54,21 @@ ToImage >> defaultInnerImage [
 		  yourself
 ]
 
-{ #category : #'form accessing' }
+{ #category : #'inner accessing' }
 ToImage >> errorInnerFormNotFound [
 	"Raise a NotFound exception."
 
 	NotFound signalFor: self
 ]
 
-{ #category : #'form accessing' }
+{ #category : #'inner accessing' }
 ToImage >> errorInnerSvgElementNotFound [
 	"Raise a NotFound exception."
 
 	NotFound signalFor: self
 ]
 
-{ #category : #'form accessing' }
+{ #category : #'inner accessing' }
 ToImage >> formColor: aColor [
 
 	self
@@ -101,7 +101,7 @@ ToImage >> initialize [
 	self preventChildrenMouseEvents
 ]
 
-{ #category : #'form accessing' }
+{ #category : #'inner accessing' }
 ToImage >> innerForm [
 	"Convenience method that returns nil if the request makes no sense or if there is no form."
 
@@ -109,14 +109,14 @@ ToImage >> innerForm [
 	^ self innerFormImage
 ]
 
-{ #category : #'form accessing' }
+{ #category : #'inner accessing' }
 ToImage >> innerFormImage [
 	"Convenience method that returns nil if the request makes no sense or if there is no form."
 
 	^ self innerImage background formImage
 ]
 
-{ #category : #'form accessing' }
+{ #category : #'inner accessing' }
 ToImage >> innerFormImageColor: aColor [
 
 	self
@@ -149,14 +149,14 @@ ToImage >> innerImage: anImage [
 				c vertical matchParent ] ] ]
 ]
 
-{ #category : #'form accessing' }
+{ #category : #'inner accessing' }
 ToImage >> innerImageColor: aColor [
 
 	self innerSvgImage ifNotNil: [ ^ self innerSvgImageColor: aColor ].
 	self innerFormImage ifNotNil: [ ^ self innerFormImageColor: aColor ]
 ]
 
-{ #category : #'form accessing' }
+{ #category : #'inner accessing' }
 ToImage >> innerSvgImage [
 	"Convenience method that returns nil if the request makes no sense or if there is no svg image."
 
@@ -165,7 +165,7 @@ ToImage >> innerSvgImage [
 		  ifFalse: [  ]
 ]
 
-{ #category : #'form accessing' }
+{ #category : #'inner accessing' }
 ToImage >> innerSvgImageColor: aColor [
 
 	self
@@ -195,7 +195,7 @@ ToImage >> unknownInnerImageId [
 	^ self class unknownInnerImageId
 ]
 
-{ #category : #'form accessing' }
+{ #category : #'inner accessing' }
 ToImage >> withInnerFormDo: aBlock [
 	" aBlock is evaluated with the form as arguments
 	if the result of #innerForm is not nil "
@@ -203,7 +203,7 @@ ToImage >> withInnerFormDo: aBlock [
 	self withInnerFormDo: aBlock ifNone: [ self errorInnerFormNotFound ]
 ]
 
-{ #category : #'form accessing' }
+{ #category : #'inner accessing' }
 ToImage >> withInnerFormDo: aBlock ifNone: aNoneBlock [
 	" aBlock is evaluated with the form as arguments 
 	if the result of #innerForm is not nil, else, aNoneBlock is evaluated "
@@ -213,7 +213,7 @@ ToImage >> withInnerFormDo: aBlock ifNone: aNoneBlock [
 		ifNotNil: [ :f | aBlock value: f ]
 ]
 
-{ #category : #'form accessing' }
+{ #category : #'inner accessing' }
 ToImage >> withInnerSvgElementDo: aBlock [
 	" aBlock is evaluated with the svg element as arguments 
 	if the result of #innerForm is not nil "
@@ -223,7 +223,7 @@ ToImage >> withInnerSvgElementDo: aBlock [
 		ifNone: [ self errorInnerSvgElementNotFound ]
 ]
 
-{ #category : #'form accessing' }
+{ #category : #'inner accessing' }
 ToImage >> withInnerSvgElementDo: aBlock ifNone: aNoneBlock [
 	" aBlock is evaluated with the svg element as arguments 
 	if the result of #innerSvgImage is not nil, else, aNoneBlock is evaluated "

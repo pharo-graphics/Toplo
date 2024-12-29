@@ -1073,12 +1073,10 @@ ToSandBox class >> example_FilterOnList2WithStatesOfAmerica [
 
 	selector onInstalledIn: listElement dataAccessor.
 
-	filterField addEventHandler: (BlEventHandler
-			 on: AlbTextEditedEvent
-			 do: [
+	filterField whenTextEditedDo: [
 				 | pattern |
 				 pattern := filterField text asString.
-				 selector pattern: pattern ]).
+				 selector pattern: pattern ].
 
 	listElement placeholderBuilder: [ :ph :e |
 		| lab |
@@ -1191,6 +1189,36 @@ ToSandBox class >> example_HugeIntegerList [
 	space root addChild: l.
 	space root addChild: vscrollBar.
 	space show
+]
+
+{ #category : #window }
+ToSandBox class >> example_Inline1 [
+
+	| menu popupWindowHandler |
+	menu := ToElement new
+		        layout: BlLinearLayout vertical;
+		        background: Color transparent;
+		        id: #'red-button';
+		        border: Color red;
+		        size: 100 @ 100;
+		        position: 50 @ 50.
+
+	popupWindowHandler := ToPopupWindowManager new.
+	menu addEventHandler: popupWindowHandler.
+
+	popupWindowHandler beInline.
+	popupWindowHandler windowBuilder: [ :popup :element |
+		| item |
+		popup border: Color black.
+		item := ToElement new
+			        height: 50;
+			        hMatchParent.
+		item background: Color yellow.
+		item addEventHandler: (BlEventHandler
+				 on: BlPrimaryClickEvent
+				 do: [ self inform: 'Click' ]).
+		popup root addChild: item ].
+	menu openInSpace
 ]
 
 { #category : #label }
@@ -1817,7 +1845,7 @@ ToSandBox class >> example_Popup1 [
 		             yourself.
 
 	menu := ToElement new
-		        layout: BlBasicLayout new;
+		        layout: BlLinearLayout vertical;
 		        id: #'red-button';
 		        background: Color red;
 		        size: 100 @ 40;
@@ -2474,12 +2502,10 @@ ToSandBox class >> example_SieveOnList2WithStatesOfAmerica [
 	sieve onInstalledIn: listElement.
 	listElement dataAccessor addAll: data.
 
-	filterField addEventHandler: (BlEventHandler
-			 on: AlbTextEditedEvent
-			 do: [
+	filterField whenTextEditedDo: [
 				 | pattern |
 				 pattern := filterField text asString.
-				 sieve pattern: pattern ]).
+				 sieve pattern: pattern ].
 
 	listElement placeholderBuilder: [ :ph :e |
 		| lab |
@@ -2528,12 +2554,10 @@ ToSandBox class >> example_SieveOnList2With_350000_Items [
 	sieve onInstalledIn: listElement.
 	listElement dataAccessor addAll: data.
 	listElement dataAccessor size traceCr.
-	filterField addEventHandler: (BlEventHandler
-			 on: AlbTextEditedEvent
-			 do: [
+	filterField whenTextEditedDo: [
 				 | pattern |
 				 pattern := filterField text asString.
-				 sieve pattern: pattern ]).
+				 sieve pattern: pattern ].
 
 	listElement placeholderBuilder: [ :ph :e |
 		| lab |
@@ -2583,12 +2607,10 @@ ToSandBox class >> example_SieveOnList2With_AllClassNames [
 
 	sieve dataFilter: [ :aClass :aPattern |
 		aClass name beginsWith: aPattern caseSensitive: true ].
-	filterField addEventHandler: (BlEventHandler
-			 on: AlbTextEditedEvent
-			 do: [
+	filterField whenTextEditedDo: [
 				 | pattern |
 				 pattern := filterField text asString.
-				 sieve pattern: pattern ]).
+				 sieve pattern: pattern ].
 
 	listElement placeholderBuilder: [ :ph :e |
 		| lab |
@@ -2639,12 +2661,10 @@ ToSandBox class >> example_SieveOnList2With_AllMethods [
 
 	sieve dataFilter: [ :aCompiledMethod :aPattern |
 		aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
-	filterField addEventHandler: (BlEventHandler
-			 on: AlbTextEditedEvent
-			 do: [
+	filterField whenTextEditedDo: [
 				 | pattern |
 				 pattern := filterField text asString.
-				 sieve pattern: pattern ]).
+				 sieve pattern: pattern ].
 
 	listElement placeholderBuilder: [ :ph :e |
 		| lab |
@@ -2754,14 +2774,18 @@ ToSandBox class >> example_SimplePopupBottom [
 
 	| p |
 	p := self newPopup.
-	p windowManager positionHook: [ :theWindow :theElement :event |
-		| x1 x2 w1 w2 |
-		x1 := theElement position x.
-		w1 := theElement width / 2.0.
-		w2 := theWindow width / 2.0.
-		x2 := x1 + w1 - w2.
-		x2 @ (theElement position y + theElement height) ].
-	p openInSpace
+	p placement:
+		(ToActionPlacement new action: [ :theWin :evt | 
+			| theElem theRoot x1 x2 w1 w2 pos |
+				theElem := theWin element.
+				theRoot := theWin anchorRoot.
+			 x1 := theElem position x.
+			 w1 := theElem width / 2.0.
+			 w2 := theWin width / 2.0.
+			 x2 := x1 + w1 - w2.
+			 pos := x2 @ (theElem position y + theElem height).
+			 theWin position: pos ]).
+	p element openInSpace
 ]
 
 { #category : #window }
@@ -2769,7 +2793,7 @@ ToSandBox class >> example_SimplePopupBottomLeft [
 
 	| p |
 	p := self newPopup.
-	p openInSpace
+	p element openInSpace
 ]
 
 { #category : #window }
@@ -2777,9 +2801,14 @@ ToSandBox class >> example_SimplePopupBottomRight [
 
 	| p |
 	p := self newPopup.
-	p windowManager positionHook: [ :theWindow :theElement :event |
-			theElement bounds inSpace bounds bottomRight - (theWindow width @ 0) ].
-	p openInSpace
+	p placement:
+		(ToActionPlacement new action: [ :theWin :evt | 
+			|  theElem theRoot |
+			theElem := theWin element.
+			theRoot := theWin anchorRoot.
+			theWin position: theElem bounds inSpace bounds bottomRight
+			 - (theWin width @ 0) ]).
+	p element openInSpace
 ]
 
 { #category : #window }
@@ -2787,14 +2816,18 @@ ToSandBox class >> example_SimplePopupTop [
 
 	| p |
 	p := self newPopup.
-	p windowManager positionHook: [ :theWindow :theElement :event |
-		| x1 x2 w1 w2 |
-		x1 := theElement position x.
-		w1 := theElement width / 2.0.
-		w2 := theWindow width / 2.0.
-		x2 := x1 + w1 - w2.
-		x2 @ (theElement position y - theElement height) ].
-	p openInSpace
+	p placement:
+		(ToActionPlacement new action: [ :theWin  :evt | 
+			| theElem theRoot x1 x2 w1 w2 |
+				theElem := theWin  element.
+				theRoot := theWin  anchorRoot.	
+			 x1 := theElem position x.
+			 w1 := theElem width / 2.0.
+			 w2 := theWin width / 2.0.
+			 x2 := x1 + w1 - w2.
+			 theWin position:
+				 x2 @ (theElem position y - theElem height) ]).
+	p element openInSpace
 ]
 
 { #category : #window }
@@ -2802,10 +2835,16 @@ ToSandBox class >> example_SimplePopupTopLeft [
 
 	| p |
 	p := self newPopup.
-	p windowManager positionHook: [ :theWindow :theElement :event |
-			theElement bounds inSpace bounds topLeft - (0 @ theElement height) ].
+	p placement:
+		(ToActionPlacement new action: [ :theWin  :evt | 
+			| theElem theRoot |
+				theElem := theWin  element.
+				theRoot := theWin  anchorRoot.	
+			 theWin position:
+				 theElem bounds inSpace bounds topLeft
+				 - (0 @ theElem height) ]).
 
-	p openInSpace
+	p element openInSpace
 ]
 
 { #category : #window }
@@ -2813,10 +2852,15 @@ ToSandBox class >> example_SimplePopupTopRight [
 
 	| p |
 	p := self newPopup.
-	p windowManager positionHook: [ :theWindow :theElement :event |
-			theElement bounds inSpace bounds topRight - (theWindow width @ theElement height) ].
+	p placement:
+		(ToActionPlacement new action: [ :theWin  :evt | 
+			| theElem theRoot |
+				theElem := theWin element.
+				theRoot := theWin anchorRoot.	
+			 theWin position: theElem bounds inSpace bounds topRight
+				 - (theWin width @ theElem height) ]).
 
-	p openInSpace
+	p element openInSpace
 ]
 
 { #category : #'look event' }
@@ -2974,6 +3018,30 @@ ToSandBox class >> example_ToggleButtonChecked [
 		event traceCr ].
 	toggle checked: true.
 	toggle openInInnerWindow
+]
+
+{ #category : #'toggle button' }
+ToSandBox class >> example_ToggleButtonGroupAndStrictStrategy [
+
+	| group groupContainer |
+	group := ToCheckableGroup new.
+	group withStrictCheckingStrategy.
+	{ 'Monday'. 'Tuesday'. 'Wednesday'. 'Thursday'. 'Friday' } do: [ :day |
+		group register: (ToToggleButton new
+				 labelText: day;
+				 hMatchParent;
+				 yourself) ].
+	group registeredCheckables second checked: true.
+	group addEventHandler: (BlEventHandler
+			 on: ToCheckableGroupChangedEvent
+			 do: [ :event |
+				 ('checked: ' , event checkedList asString , ' unchecked: '
+				  , event uncheckedList asString) traceCr ]).
+
+	groupContainer := ToPane vertical.
+	groupContainer width: 150.
+	groupContainer addChildren: group registeredCheckables.
+	groupContainer openInSpace
 ]
 
 { #category : #'toggle button' }
@@ -3543,6 +3611,23 @@ ToSandBox class >> example_contextMenu [
 	container openInSpace
 ]
 
+{ #category : #window }
+ToSandBox class >> example_elementWithEditor [
+
+	| e editorWindowManager |
+	e := ToElementWithEditor new
+		     background: Color blue;
+		     size: 100 asPoint;
+		     position: 20 asPoint;
+		     yourself.
+	editorWindowManager := ToContentEditorManager new.
+	e addEventHandler: editorWindowManager.
+	e addEventHandlerOn: BlClickEvent do: [ :event |
+		(editorWindowManager newWindowEvent: event) ifNotNil: [ :win |
+			win popupEvent: event ] ].
+	e openInSpace
+]
+
 { #category : #'header positionning' }
 ToSandBox class >> example_headerOnBottomCenter [
 
@@ -3772,6 +3857,46 @@ ToSandBox class >> example_horizontalPaneWithDivider [
 ]
 
 { #category : #menu }
+ToSandBox class >> example_inline1 [
+
+	| menu sub subsub space |
+	menu := ToMenu new.
+	space := BlSpace new.
+	menu labelText: 'File'.
+	"menu addItem: (ToMenu new labelText: 'Sub menu')."
+	"sub := ToMenu new
+		       labelText: 'Sub menu';
+		       "" icon: (ToImage inner: (self iconNamed: #solidMenu));""
+			       yourself.
+	sub addItem: (ToMenuItem new labelText: 'Sub item').
+	menu addItem: sub."
+
+	sub := ToMenu new
+		       labelText: 'Save All';
+		       icon: (ToImage inner: (self iconNamed: #solidMenu));
+		       yourself.
+	sub beInline.
+	"sub addItem: (ToMenuItem new
+			 labelText: 'Locally';
+			 yourself)."
+	subsub := ToMenu new
+		          labelText: 'X';
+		          "icon: (ToImage inner: (self iconNamed: #solidMenu));"
+		          yourself.
+	subsub beInline.
+	subsub closeOnPicking: false.
+	"subsub addItem: (ToMenuItem new
+			 labelText: 'Inspect';
+			 whenClickedDo: [ space root inspect ];
+			 yourself)."
+
+	sub addItem: subsub.
+	menu addItem: sub.
+	space root addChild: menu.
+	space show
+]
+
+{ #category : #menu }
 ToSandBox class >> example_menuBar0 [
 
 	| mb m1 |
@@ -3883,7 +4008,11 @@ ToSandBox class >> example_menuBar3 [
 	rand := Random new.
 	frame := ToInnerWindow new.
 	bar addFiller.
-
+	bar addItem: (ToMenuItem new
+			 labelText: 'Inspect';
+			 whenClickedDo: [ frame space root inspect ];
+			 yourself).
+	bar addFiller.
 	3 timesRepeat: [
 		menu := ToMenu new.
 		menu label: (ToLabel text: 'Levels').
@@ -3989,7 +4118,7 @@ ToSandBox class >> example_overlayWindow1 [
 		     position: 50 @ 50;
 		     background: Color yellow;
 		     border: (BlBorder paint: Color red).
-	windowManager := ToOverlayWindowManager new.
+	windowManager := ToAnchoredWindowManager new.
 	e addEventHandler: windowManager.
 	windowManager windowBuilder: [ :anchWin :element |
 		anchWin withNullSkin.
@@ -4009,13 +4138,15 @@ ToSandBox class >> example_overlayWindow2 [
 	e := ToInnerWindow new
 		     size: 300 @ 300;
 		     position: 50 @ 50.
-	windowManager := ToOverlayWindowManager new.
-	windowManager positionHook: [ :win :elem :event |
-			(elem bounds inParent: win anchorRoot) bounds topLeft + (20 @ 40) ].
-	windowManager widthHook: [ :theWindow :theElement :tenEvent |
-		theElement width - 40  ].
-	windowManager heightHook: [ :theWindow :theElement :tenEvent |
-		(theElement height - 60)  ].
+	windowManager := ToAnchoredWindowManager new.
+	windowManager placement: (ToActionPlacement new action: [ :theWin  :evt | 
+			| theElem theRoot |
+				theElem := theWin  element.
+				theRoot := theWin  anchorRoot.	
+			theWin position: (theElem bounds inParent: theRoot) bounds topLeft + (20 @ 40).
+	theWin width: theElem width - 40.
+	theWin height: theElem height - 60  ]).
+
 	windowManager anchorRoot: e.
 	e addEventHandler: windowManager.
 	windowManager windowBuilder: [ :anchWin :element |
@@ -4391,6 +4522,7 @@ ToSandBox class >> example_selectWith5Nodes [
 ToSandBox class >> example_selectWithEditingMultiSelectionWithAllClassNames [
 
 	| select innerWindow space |
+	self flag: 'To check'.
 	select := self selectWithEditingMultiSelection.
 	select filtrable: true.
 	select placeholderText: ('Choose a class' asRopedText
@@ -5336,6 +5468,7 @@ ToSandBox class >> example_textFields [
 ToSandBox class >> example_textFieldsInListElement [
 
 	| pane l |
+	self flag: 'Not working'.
 	pane := ToPane vertical.
 	pane matchParent.
 	l := ToListElement new.
@@ -5346,10 +5479,8 @@ ToSandBox class >> example_textFieldsInListElement [
 			        yourself.
 		node addChild: txtf.
 		txtf withSaveCapability.
-		txtf
-			addEventHandlerOn: ToAlbumSaveRequestedEvent
-			do: [ :event | event accepted: event editorElement text isNotEmpty ].
-		txtf addEventHandlerOn: ToAlbumSaveAcceptedEvent do: [ :event |
+		txtf whenSaveRequestedDo: [ :event | event accepted: event currentTarget text isNotEmpty ].
+		txtf whenSaveAcceptedDo: [ :event |
 			l dataAccessor
 				at: holder position
 				put: event editorElement text asString ] ].
@@ -5828,15 +5959,19 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 			addEventHandlerOn: ToStartStillPressedEvent do: [ :event |
 				event consume.
 				editedLabel popupEditorEvent: event ];
-			addEventHandlerOn: ToAlbumSaveRequestedEvent
-			do: [ :event | event accepted: true ];
-			addEventHandlerOn: ToAlbumSaveAcceptedEvent do: [ :event |
-				text := event editorElement text.
-				editedLabel text: text ];
-			addEventHandlerOn: ToLabelEditorOpenedWindowEvent
-			do: [ window preventPickOutsideClosing ];
-			addEventHandlerOn: ToLabelEditorWindowClosedEvent
-			do: [ :event | window allowPickOutsideClosing ].
+			whenEditorOpenedDo: [ :editorEvent |
+				window preventPickOutsideClosing.
+				editorEvent editorElement addStamp: #preformatted.
+				editorEvent editorElement whenCancelRequestedDo: [ :cancelRequest |
+						text := origString asRopedText.
+						editorEvent target text: text ].
+				editorEvent editorElement whenSaveRequestedDo: [ :saveRequest |
+						saveRequest accepted: true ].
+				editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
+						editorEvent target text: acceptedEvent target text.
+						text := acceptedEvent target text ] ];
+			whenEditorClosedDo: [ :event | window allowPickOutsideClosing ].
+
 		resetBtn := ToButton new
 			            labelText: 'Reset';
 			            whenClickedDo: [
@@ -5847,7 +5982,7 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 		window root addChild: editedLabel.
 		window root addChild: resetBtn ].
 
-	but whenClickedDo: [ :ann | self inform: 'Button clicked' ].
+	but whenClickedDo: [ :ann | 'Button clicked' traceCr ].
 	but openInSpace
 ]
 
@@ -5884,24 +6019,23 @@ ToSandBox class >> example_toLabel2 [
 ToSandBox class >> example_toLabel3 [
 
 	| lab |
-	lab := ToAttributedLabel new text: ('This is a bold gray label' asRopedText
+	lab := ToAttributedLabel new text:
+		       ('This is a bold gray label' asRopedText
 			        fontSize: 20;
 			        bold;
 			        foreground: Color gray;
 			        yourself).
-	lab
-		addEventHandlerOn: ToLabelEditorCreatedEvent
-		do: [ :event | event editorElement addStamp: #preformatted ].
-	lab
-		addEventHandlerOn: ToAlbumSaveRequestedEvent
-		do: [ :event | event accepted: true ].
-	lab
-		addEventHandlerOn: ToAlbumSaveAcceptedEvent
-		do: [ :event | event target text: event editorElement text ].
+lab isEditable: true.
+	lab whenEditorOpenedDo: [ :editorEvent |
+		editorEvent editorElement addStamp: #preformatted.
+		editorEvent editorElement whenSaveRequestedDo: [ :request |
+			request accepted: true ].
+		editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
+			editorEvent target text: acceptedEvent target text ] ].
 
 	lab background: Color lightBlue.
 	lab hMatchParent.
-	lab isEditable: true.
+	
 	lab innerElement constraintsDo: [ :c |
 		c frame horizontal alignCenter ].
 	lab border: (BlBorder paint: Color yellow width: 1).
@@ -5951,16 +6085,13 @@ ToSandBox class >> example_toLabel4 [
 	{
 		lab1.
 		lab2 } do: [ :l |
-		l
-			addEventHandlerOn: ToLabelEditorCreatedEvent
-			do: [ :event | event editorElement addStamp: #preformatted ].
+		l whenEditorOpenedDo: [ :editorEvent |
+			editorEvent editorElement addStamp: #preformatted.
+			editorEvent editorElement whenSaveRequestedDo: [ :request |
+				request accepted: true ].
+			editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
+				editorEvent target text: acceptedEvent target text ] ] ].
 
-		l
-			addEventHandlerOn: ToAlbumSaveRequestedEvent
-			do: [ :event | event accepted: true ].
-		l
-			addEventHandlerOn: ToAlbumSaveAcceptedEvent
-			do: [ :event | event target text: event editorElement text ] ].
 	root openInInnerWindow
 ]
 
@@ -6043,18 +6174,18 @@ ToSandBox class >> example_toLabel_Multiline2_Centered [
 	lab1 isEditable: true.
 	lab2 isEditable: true.
 	lab2
-		addEventHandlerOn: ToLabelEditorCreatedEvent
+		addEventHandlerOn: ToLabelEditorOpenedEvent
 		do: [ :event | event editorElement addStamp: #preformatted ].
 
 	{
 		lab1.
 		lab2 } do: [ :l |
-		l
-			addEventHandlerOn: ToAlbumSaveRequestedEvent
-			do: [ :event | event accepted: true ].
-		l
-			addEventHandlerOn: ToAlbumSaveAcceptedEvent
-			do: [ :event | event target text: event editorElement text ] ].
+		l whenEditorOpenedDo: [ :editorEvent |
+			editorEvent editorElement whenSaveRequestedDo: [ :request |
+				request accepted: true ].
+			editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
+				editorEvent target text: acceptedEvent target text ] ] ].
+
 	container := BlElement new
 		             layout: BlLinearLayout vertical;
 		             constraintsDo: [ :c |
@@ -6074,12 +6205,11 @@ ToSandBox class >> example_toLabel_editableMultiline [
 	lab beMultiLine.
 	lab hMatchParent.
 	lab isEditable: true.
-	lab
-		addEventHandlerOn: ToAlbumSaveRequestedEvent
-		do: [ :event | event accepted: true ].
-	lab
-		addEventHandlerOn: ToAlbumSaveAcceptedEvent
-		do: [ :event | event target text: event editorElement text ].
+	lab whenEditorOpenedDo: [ :editorEvent |
+		editorEvent editorElement whenSaveRequestedDo: [ :request |
+			request accepted: true ].
+		editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
+			editorEvent target text: acceptedEvent target text ] ].
 
 	lab openInSpace
 ]
@@ -6307,16 +6437,48 @@ ToSandBox class >> example_verticalPaneWithDividerAndSubpanesWithWeight [
 { #category : #menu }
 ToSandBox class >> example_withCheckBox [
 
-	| menu sub subsub grp right center left frame |
+	| menu sub subsub grp right center left frame subsubsub |
 	menu := ToMenu new.
 	menu labelText: 'File'.
+	menu addItem: (ToMenuItem new
+			 labelText: 'Inspect';
+			 whenClickedDo: [ menu space root inspect ];
+			 yourself).
+	menu addItem: (ToToggleMenuItem new labelText: 'Toggle'; yourself).
 	menu addItem: (ToMenuItem new labelText: 'Open file').
 	menu items last icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	menu addItem: (ToMenuItem new labelText: 'Disabled').
 	menu items last icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	menu disableAtPosition: menu items last positionInItemList.
-	
+
 	menu addSeparator.
+
+	sub := ToMenu new labelText: 'Save All'.
+	sub windowManager beInline.
+	sub addItem: (ToMenuItem new
+			 labelText: 'Locally';
+			 yourself).
+
+	subsub := ToMenu new
+		          labelText: 'Externally';
+		          icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	subsub windowManager beInline.
+	subsubsub := ToMenu new
+		             labelText: 'When';
+		             icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	subsubsub beInline.
+	subsubsub addItem: (ToMenuItem new
+			 labelText: 'now';
+			 yourself).
+	subsubsub addItem: (ToMenuItem new
+			 labelText: 'later';
+			 yourself).
+
+	subsub addItem: subsubsub.
+	sub addItem: subsub.
+	menu addItem: sub.
+	menu addSeparator.
+
 	menu addItem: (ToRadioMenuItem new
 			 label: (ToLabel text: 'Check');
 			 whenClickedDo: [ :event | event currentTarget isChecked traceCr ];
@@ -6344,16 +6506,7 @@ ToSandBox class >> example_withCheckBox [
 			left }.
 	menu addSeparator.
 
-	sub := ToMenu new labelText: 'Save All'.
-	sub addItem: (ToMenuItem new labelText: 'Locally').
-
-	subsub := ToMenu new labelText: 'Externally'.
-	subsub addItem: (ToMenuItem new labelText: 'Here').
-
-	sub addItem: subsub.
-
-	menu addItem: sub.
-	menu position: 10 @ 10. 
+	menu position: 10 @ 10.
 	frame := ToInnerWindow new.
 	frame pane addChild: menu.
 	frame openInSpace
@@ -6373,7 +6526,11 @@ ToSandBox class >> example_withCustomMenuItems [
 	menu addItem: (ToMenuItem new
 			 labelText: 'Export';
 			 whenClickedDo: [ self inform: 'Export' ]).
+	menu addItem: (ToMenuItem new
+			 labelText: 'Inspect';
+			 whenClickedDo: [ menu inspect ]).
 	menu addSeparator.
+	menu addItem: (ToToggleMenuItem new labelText: 'Toggle'; yourself).
 	menu addItem: (ToCustomMenuItem new in: [ :e | e 
 			 addChild: (ToSwitchButton new
 					  checked: true;
@@ -6599,18 +6756,14 @@ ToSandBox class >> listWithEditableAndContextMenu [
 					 do: [ :event |
 						 event consume.
 						 lab popupEditorEvent: event ]).
-			lab addEventHandler: (BlEventHandler
-					 on: ToLabelEditorOpenedWindowEvent
-					 do: [ l disableScrolledEvent ]).
-			lab addEventHandler: (BlEventHandler
-					 on: ToLabelEditorWindowClosedEvent
-					 do: [ l enableScrolledEvent ]).
-			lab
-				addEventHandlerOn: ToAlbumSaveRequestedEvent
-				do: [ :event | event accepted: true ].
-			lab addEventHandlerOn: ToAlbumSaveAcceptedEvent do: [ :event |
-				event target text: event editorElement text.
-				l dataAccessor at: holder position put: lab text asString ] ].
+			lab whenEditorOpenedDo: [ :editorEvent |
+				l disableScrolledEvent.
+				editorEvent editorElement whenSaveRequestedDo: [ :request |
+					request accepted: true ].
+				editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
+					editorEvent target text: acceptedEvent target text.
+					l dataAccessor at: holder position put: lab text asString ] ] ].
+		lab whenEditorClosedDo: [ l enableScrolledEvent ].
 
 		node addChild: (ToLabeledIcon new
 				 label: lab;
@@ -6779,7 +6932,7 @@ ToSandBox class >> newPopup [
 		popup border: Color gray.
 		popup addChild: (ToLabel new text: 'A popup window') ].
 	e addEventHandler: popupWindowHandler.
-	^ e
+	^ popupWindowHandler
 ]
 
 { #category : #accessing }
@@ -6983,26 +7136,22 @@ ToSandBox class >> selectWithEditingMultiSelection [
 		lab := ToAttributedLabel text: phtext.
 		placeholder addChild: lab ].
 
-	select addEventHandler: (BlEventHandler
-			 on: ToAlbumSaveAcceptedEvent
-			 do: [ :event |
+	select whenSaveAcceptedDo: [ :event |
 				 | d |
 				 d := event client text asString asSymbol.
 				 event client text: ''.
 				 event currentTarget data add: d.
 				 event currentTarget mode selectIndex:
-					 event currentTarget data size ]).
+					 event currentTarget data size ].
 
-	select addEventHandler: (BlEventHandler
-			 on: ToAlbumSaveRequestedEvent
-			 do: [ :event |
+	select whenSaveRequestedDo: [ :event |
 				 | target idx |
 				 target := event currentTarget.
 				 idx := target data indexOf: event client text asString asSymbol.
 				 event accepted: idx isZero.
 				 idx > 0 ifTrue: [
 					 event client text: ''.
-					 target listElement selection selectIndex: idx ] ]).
+					 target listElement selection selectIndex: idx ] ].
 	^ select
 ]
 

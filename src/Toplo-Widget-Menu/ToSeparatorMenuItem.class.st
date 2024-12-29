@@ -30,7 +30,12 @@ ToSeparatorMenuItem >> initialize [
 			 layout: BlLinearLayout new;
 			 yourself).
 	self firstChild layout alignCenter.
-	self padding: (BlInsets all: 2)
+]
+
+{ #category : #skin }
+ToSeparatorMenuItem >> newRawSkin [ 
+
+	^ ToSeparatorMenuItemSkin new
 ]
 
 { #category : #'adding-removing' }

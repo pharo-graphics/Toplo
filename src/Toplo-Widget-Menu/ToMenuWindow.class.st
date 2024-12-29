@@ -12,7 +12,7 @@ ToMenuWindow >> correctedPositionWithinAnchorRoot [
 	rootRect := 0 @ 0 extent: self anchorRoot extent.
 	t := rect amountToTranslateWithin: rootRect.
 	" the parent menu is the element of my window manager "
-	parentMenu := self windowManager element.
+	parentMenu := self manager element.
 	" in case of a root menu (including context menu), just keep the computed position "
 	(t x isZero or: [ parentMenu isSubmenu not ]) ifTrue: [
 		^ super correctedPositionWithinAnchorRoot + t ].
@@ -36,10 +36,23 @@ ToMenuWindow >> includes: anElement [
 	^ false
 ]
 
+{ #category : #initialization }
+ToMenuWindow >> initialize [
+
+	super initialize.
+	self addEventHandler: ToMenuWindowEventHandler new
+]
+
 { #category : #accessing }
 ToMenuWindow >> itemContainer [
 
 	^ self element
+]
+
+{ #category : #accessing }
+ToMenuWindow >> itemList [ 
+
+	^ self element itemList
 ]
 
 { #category : #accessing }
@@ -63,6 +76,7 @@ ToMenuWindow >> newRawSkin [
 { #category : #enumerating }
 ToMenuWindow >> withAllSubwindowsDo: aBlock [
 
-	self items do: [ :i | i menuWindowDo: [ :w | w withAllSubwindowsDo: aBlock ] ].
+	self items do: [ :i |
+		i menuWindowDo: [ :w | w withAllSubwindowsDo: aBlock ] ].
 	super withAllSubwindowsDo: aBlock
 ]

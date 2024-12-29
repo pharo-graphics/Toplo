@@ -26,20 +26,24 @@ ToSelectPopupWindowManager >> defaultMinHeight [
 	^ 0
 ]
 
+{ #category : #initializing }
+ToSelectPopupWindowManager >> defaultPlacement [
+
+	^ ToActionPlacement new
+		  action: [ :theWin  :evt | | theElem theRoot |
+			  theElem := theWin  element.
+			  theRoot := theWin  anchorRoot.
+			  theWin width: theElem measuredWidth.
+			  theWin position:
+					  (theElem bounds inParent: theRoot) bounds bottomLeft ];
+		  yourself
+]
+
 { #category : #initialization }
 ToSelectPopupWindowManager >> defaultWidthHook [
 
 	^ [ :theWindow :theElement :event |
 	  theElement measuredWidth ]
-]
-
-{ #category : #'event handling' }
-ToSelectPopupWindowManager >> elementExtentChangedEvent: anEvent [
-
-	super elementExtentChangedEvent: anEvent.
-	currentWindow ifNil: [ ^ self ].
-	self applyPositionHookFromEvent: anEvent.
-	self applySizeHookFromEvent: anEvent
 ]
 
 { #category : #accessing }
@@ -138,6 +142,12 @@ ToSelectPopupWindowManager >> onUninstalledIn: anElement [
 
 ]
 
+{ #category : #accessing }
+ToSelectPopupWindowManager >> popupWindowClass [
+
+	^ ToSelectPopupWindow 
+]
+
 { #category : #'window handling' }
 ToSelectPopupWindowManager >> popupWindowHiddenEvent: anEvent [
 
@@ -153,10 +163,4 @@ ToSelectPopupWindowManager >> popupWindowHiddenEvent: anEvent [
 ToSelectPopupWindowManager >> sieve [ 
 
 	^ sieve
-]
-
-{ #category : #accessing }
-ToSelectPopupWindowManager >> windowClass [
-
-	^ ToSelectPopupWindow 
 ]

@@ -54,12 +54,17 @@ ToGeneralButtonSkin >> installSkinEvent: anEvent [
 				e geometry: (BlRoundedRectangleGeometry cornerRadius:
 						 (e valueOfTokenNamed: 'border-radius')) ].
 		(e hasStamp: #iconic) ifFalse: [
-			e isMenuButton ifFalse: [
-				e padding: (BlInsets
-						 top: (e valueOfTokenNamed: #'padding-content-VXS')
-						 left: (e valueOfTokenNamed: #'padding-XS')
-						 bottom: (e valueOfTokenNamed: #'padding-content-VXS')
-						 right: (e valueOfTokenNamed: #'padding-XS')) ] ] ]
+			e isMenuButton
+				ifTrue: [
+					e padding:
+						(BlInsets vertical:
+							 (e valueOfTokenNamed: #'padding-content-VXS')) ]
+				ifFalse: [
+					e padding: (BlInsets
+							 top: (e valueOfTokenNamed: #'padding-content-VXS')
+							 left: (e valueOfTokenNamed: #'padding-XS')
+							 bottom: (e valueOfTokenNamed: #'padding-content-VXS')
+							 right: (e valueOfTokenNamed: #'padding-XS')) ] ] ]
 ]
 
 { #category : #'event handling' }

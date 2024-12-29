@@ -83,6 +83,12 @@ ToMenuBar >> isAutoOpen [
 	^ self rootMenuBar autoOpen
 ]
 
+{ #category : #'t - menu item' }
+ToMenuBar >> isInline [
+
+	^ false
+]
+
 { #category : #testing }
 ToMenuBar >> isMenuBar [
 

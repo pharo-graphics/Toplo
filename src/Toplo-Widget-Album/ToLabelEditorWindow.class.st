@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-Widget-Album-LabelEditor'
 }
 
+{ #category : #'api - displaying' }
+ToLabelEditorWindow >> afterCustomizedToFitAnchorRootDo: aBlock [
+
+	aBlock value
+]
+
 { #category : #accessing }
 ToLabelEditorWindow >> closedEventClass [ 
 
@@ -25,22 +31,7 @@ ToLabelEditorWindow >> installRawStyle [
 ]
 
 { #category : #accessing }
-ToLabelEditorWindow >> newClosedEvent [
-
-	^ self closedEventClass new
-		  window: self;
-		  text: windowManager element text copy;
-		  yourself
-]
-
-{ #category : #'api - displaying' }
-ToLabelEditorWindow >> onPositionChangedToFitAnchorRootDo: aBlock [
-
-	aBlock value
-]
-
-{ #category : #accessing }
 ToLabelEditorWindow >> openedEventClass [ 
 
-	^ ToLabelEditorOpenedWindowEvent 
+	^ ToLabelEditorWindowOpenedEvent 
 ]

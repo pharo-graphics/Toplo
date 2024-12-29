@@ -5,7 +5,8 @@ Class {
 	#classTraits : 'TToItemListHolder classTrait + TToMenuItemListHolder classTrait + TToMenuWindowModel classTrait',
 	#instVars : [
 		'isSubmenu',
-		'builder'
+		'builder',
+		'windowManager'
 	],
 	#category : #'Toplo-Widget-Menu-Basic'
 }
@@ -18,6 +19,12 @@ ToMenu >> bar [
 		transformWith: '`@rcvr bar' -> '`@rcvr itemList'.
 
 	^ self itemList
+]
+
+{ #category : #testing }
+ToMenu >> beInline [
+
+	self windowManager beInline
 ]
 
 { #category : #accessing }
@@ -62,13 +69,22 @@ ToMenu >> initialize [
 	super initialize.
 	self fitContent.
 	isSubmenu := false.
-	self addEventHandler: (ToMenuWindowManager new
-			 windowBuilder: [ :window :request |
-				 builder ifNotNil: [
-						 self removeAllItems.
-						 self builder cull: self cull: request ].
-				 window root addChild: self itemList ];
-			 yourself)
+	self applySkinInstallerOnFirstRequest: true.
+
+	windowManager := ToMenuWindowManager new
+		                 windowBuilder: [ :window :request |
+			                 builder ifNotNil: [
+					                 self removeAllItems.
+					                 self builder cull: self cull: request ].
+			                 window root addChild: self itemList ];
+		                 yourself.
+	self addEventHandler: windowManager
+]
+
+{ #category : #testing }
+ToMenu >> isInline [
+
+	^ self windowManager isInline
 ]
 
 { #category : #accessing }
@@ -80,7 +96,7 @@ ToMenu >> isMenu [
 { #category : #'t - menu window model' }
 ToMenu >> isOpened [ 
 
-	^ self menuWindow notNil
+	^ self menuWindow notNil and: [ self menuWindow isOpened ]
 ]
 
 { #category : #'t - menu window model' }
@@ -105,6 +121,12 @@ ToMenu >> isTopMenu [
 ToMenu >> menuWindow [ 
 
 	^ self windowManager currentWindow
+]
+
+{ #category : #'event handling' }
+ToMenu >> mouseLeaveEvent: anEvent [
+
+	self itemList secondarySelecter deselectAll
 ]
 
 { #category : #'event handling' }
@@ -143,4 +165,10 @@ ToMenu >> onRemovedFromItemListHolder: aMenu [
 ToMenu >> popupEvent: anEvent [
 
 	self windowManager popupEvent: anEvent
+]
+
+{ #category : #accessing }
+ToMenu >> windowManager [ 
+
+	^ windowManager 
 ]

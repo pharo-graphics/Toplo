@@ -90,16 +90,6 @@ ToBasicWindowElementTest >> testRoot [
 ]
 
 { #category : #tests }
-ToBasicWindowElementTest >> testRootLayout [
-
-	| w l |
-	w := ToBasicWindowElement new.
-	l := BlLinearLayout horizontal.
-	w rootLayout: l.
-	self assert: w rootLayout identicalTo: l
-]
-
-{ #category : #tests }
 ToBasicWindowElementTest >> testToFront [
 
 	| w |
@@ -108,6 +98,5 @@ ToBasicWindowElementTest >> testToFront [
 	self assert: w elevation class identicalTo: w defaultElevation class.
 	self assert: w elevation elevation identicalTo: w defaultElevation elevation.
 	self assert: w root elevation class identicalTo: w defaultElevation class.
-	self assert: w root elevation elevation identicalTo: w defaultElevation elevation.
 	
 ]

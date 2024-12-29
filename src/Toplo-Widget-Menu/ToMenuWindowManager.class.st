@@ -11,15 +11,10 @@ ToMenuWindowManager >> autoCloseWindow [
 	element menuBarDo: [ :mb | mb cancelAutoOpen ]
 ]
 
-{ #category : #initialization }
-ToMenuWindowManager >> defaultPositionHook [
+{ #category : #initializing }
+ToMenuWindowManager >> defaultPlacement [
 
-	^ [ :window :theMenu :event |
-	  (theMenu isSubmenu
-			   ifTrue: [
-			   (theMenu bounds inParent: self anchorRoot) topRight ]
-			   ifFalse: [
-			   (theMenu bounds inParent: self anchorRoot) bottomLeft ]) ]
+	^ ToMenuPlacement new
 ]
 
 { #category : #'api - accessing' }
@@ -28,6 +23,12 @@ ToMenuWindowManager >> eventsToHandle [
 	^ super eventsToHandle , {
 		  BlMouseEnterEvent.
 		  BlMouseLeaveEvent }
+]
+
+{ #category : #accessing }
+ToMenuWindowManager >> inlineWindowClass [
+
+	^ ToInlineMenuWindowElement
 ]
 
 { #category : #'event handling' }
@@ -48,7 +49,12 @@ ToMenuWindowManager >> mouseEnterEvent: anEvent [
 { #category : #'event handling' }
 ToMenuWindowManager >> mouseLeaveEvent: anEvent [
 
-	element itemList secondarySelecter deselectAll
+]
+
+{ #category : #'window handling' }
+ToMenuWindowManager >> newInlineMode [ 
+
+	^ ToMenuInlineWindowMode new
 ]
 
 { #category : #'window handling' }
@@ -80,7 +86,7 @@ ToMenuWindowManager >> popupNewWindowEvent: anEvent [
 ]
 
 { #category : #accessing }
-ToMenuWindowManager >> windowClass [
+ToMenuWindowManager >> popupWindowClass [
 
-	^ ToMenuWindow 
+	^ ToMenuWindow
 ]

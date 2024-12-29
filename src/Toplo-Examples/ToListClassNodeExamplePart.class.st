@@ -32,12 +32,12 @@ ToListClassNodeExamplePart >> forClassNameAssoc: aClassNameAssoc [
 			 do: [ :event |
 				 event consume.
 				 event currentTarget label popupEditorEvent: event ]).
-	label
-		addEventHandlerOn: ToAlbumSaveRequestedEvent
-		do: [ :event | event accepted: event editorElement text isNotEmpty ].
-	label addEventHandlerOn: ToAlbumSaveAcceptedEvent do: [ :event |
-		event target text: event editorElement text.
-		self holder dataItem value: label text asString ].
+	label whenEditorOpenedDo: [ :editorEvent |
+		editorEvent editorElement whenSaveRequestedDo: [ :request |
+			request accepted: request currentTarget text isNotEmpty ].
+		editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
+			editorEvent target text: acceptedEvent target text.
+			self holder dataItem value: label text asString ] ].
 
 	self addChild: (ToLabeledIcon new
 			 label: label;

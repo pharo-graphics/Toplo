@@ -47,7 +47,7 @@ ToPopupWindowTest >> testElement [
 { #category : #tests }
 ToPopupWindowTest >> testElementWithLabelEditorAndPopupWindowManager [
 
-	| e |
+	| e windowManager |
 	e := ToLabel new
 		     text: 'a text that can be edited';
 		     background: Color red;
@@ -55,16 +55,25 @@ ToPopupWindowTest >> testElementWithLabelEditorAndPopupWindowManager [
 		     position: 50 @ 50.
 	e isEditable: true.
 	space root addChild: e.
+	
+	windowManager := ToPopupWindowManager new.
+	e addEventHandler: windowManager.
+	BlSpace simulateMouseDownOn: e.
+	self waitTestingSpaces.
+	
+	self assert: windowManager currentWindow notNil.
+	self assert: windowManager currentWindow isOpened.
+	
 	self waitTestingSpaces.
 	e popupEditorEvent: nil.
 	
 	self waitTestingSpaces.
-	self assert: e windowManager notNil.
-	self assert: e windowManager editor notNil.
-	self assert: e windowManager editor text asString equals: e text asString.
-	e windowManager currentWindow close.
-	self assert: e windowManager currentWindow isNil.
-	self assert: e windowManager editor isNil
+	self assert: e editorWindowManager notNil.
+	self assert: e editorWindowManager editor notNil.
+	self assert: e editorWindowManager editor text asString equals: e text asString.
+	e editorWindowManager currentWindow close.
+	self assert: e editorWindowManager currentWindow isNil.
+	self assert: e editorWindowManager editor isNil
 ]
 
 { #category : #tests }

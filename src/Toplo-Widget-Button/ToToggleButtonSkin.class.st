@@ -47,9 +47,10 @@ ToToggleButtonSkin >> hoveredSkinEvent: anEvent [
 	super hoveredSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor webLink.
-		e border: (BlBorder
-				 paint: (e valueOfTokenNamed: #'color-primary-hover')
-				 width: (e valueOfTokenNamed: #'line-width')) ]
+		e isMenuButton ifFalse: [
+			e border: (BlBorder
+					 paint: (e valueOfTokenNamed: #'color-primary-hover')
+					 width: (e valueOfTokenNamed: #'line-width')) ] ]
 ]
 
 { #category : #'event handling' }
@@ -71,15 +72,21 @@ ToToggleButtonSkin >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e layout alignCenter.
-		e background: (e valueOfTokenNamed: #'color-primary-unchecked').
-		e border: (BlBorder
-				 paint: (e valueOfTokenNamed: #'color-border')
-				 width: (e valueOfTokenNamed: #'line-width')).
+		e isMenuButton
+			ifTrue: [ e background: BlBackground transparent ]
+			ifFalse: [
+			e background: (e valueOfTokenNamed: #'color-primary-unchecked') ].
+		e isMenuButton ifFalse: [
+			e border: (BlBorder
+					 paint: (e valueOfTokenNamed: #'color-border')
+					 width: (e valueOfTokenNamed: #'line-width')) ].
 		(e hasIcon and: [ e hasLabel ])
-			ifTrue: [ e startInterspace: (e valueOfTokenNamed: #'button-interspace') ]
+			ifTrue: [
+			e startInterspace: (e valueOfTokenNamed: #'button-interspace') ]
 			ifFalse: [ e startInterspace: 0 ].
 		(e hasEndElement and: [ e hasLabel ])
-			ifTrue: [ e endInterspace: (e valueOfTokenNamed: #'button-interspace') ]
+			ifTrue: [
+			e endInterspace: (e valueOfTokenNamed: #'button-interspace') ]
 			ifFalse: [ e endInterspace: 0 ] ]
 ]
 
@@ -89,9 +96,10 @@ ToToggleButtonSkin >> leavedSkinEvent: anEvent [
 	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor normal.
-		e border: (BlBorder
+		e isMenuButton ifFalse: [
+			e border: (BlBorder
 				 paint: (e valueOfTokenNamed: #'color-border')
-				 width: (e valueOfTokenNamed: #'line-width')) ]
+				 width: (e valueOfTokenNamed: #'line-width')) ] ]
 ]
 
 { #category : #'event handling' }
@@ -99,7 +107,10 @@ ToToggleButtonSkin >> uncheckedSkinEvent: anEvent [
 
 	super uncheckedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e background: (e valueOfTokenNamed: #'color-primary-unchecked').
+		e isMenuButton
+			ifTrue: [ e background: BlBackground transparent ]
+			ifFalse: [
+			e background: (e valueOfTokenNamed: #'color-primary-unchecked') ].
 		e iconDo: [ :ic |
 			ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
 		e labelDo: [ :lab |

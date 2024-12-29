@@ -48,6 +48,12 @@ ToContextMenu >> initialize [
 ]
 
 { #category : #testing }
+ToContextMenu >> isInline [ 
+
+	^ false
+]
+
+{ #category : #testing }
 ToContextMenu >> isMenu [
 
 	^ true
@@ -57,12 +63,6 @@ ToContextMenu >> isMenu [
 ToContextMenu >> isOpened [
 
 	^ super isOpened
-]
-
-{ #category : #testing }
-ToContextMenu >> isSubmenu [ 
-
-	^ false
 ]
 
 { #category : #'t - menu window model' }

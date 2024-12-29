@@ -1,11 +1,11 @@
 Class {
-	#name : #ToGeneralButtonMenuItemSkin,
+	#name : #ToMenuItemElementSkin,
 	#superclass : #ToRawSkin,
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
 { #category : #'event handling' }
-ToGeneralButtonMenuItemSkin >> disabledSkinEvent: anEvent [
+ToMenuItemElementSkin >> disabledSkinEvent: anEvent [
 
 	super disabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -13,7 +13,7 @@ ToGeneralButtonMenuItemSkin >> disabledSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToGeneralButtonMenuItemSkin >> hoveredSkinEvent: anEvent [
+ToMenuItemElementSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -21,7 +21,7 @@ ToGeneralButtonMenuItemSkin >> hoveredSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToGeneralButtonMenuItemSkin >> installSkinEvent: anEvent [
+ToMenuItemElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -32,15 +32,14 @@ ToGeneralButtonMenuItemSkin >> installSkinEvent: anEvent [
 			ifTrue: [
 				e padding: (BlInsets
 						 horizontal: (e valueOfTokenNamed: #'padding-content-H')
-						 vertical: (e valueOfTokenNamed: #'padding-content-VXS')) ]
+						 vertical: (e valueOfTokenNamed: #'padding-content-VS')) ]
 			ifFalse: [
-				e padding: (BlInsets
-						 horizontal: (e valueOfTokenNamed: #'padding-content-HS')
-						 vertical: (e valueOfTokenNamed: #'padding-content-VXS')) ] ]
+				e padding:
+					(BlInsets horizontal: (e valueOfTokenNamed: #'padding-content-VS')) ] ]
 ]
 
 { #category : #'event handling' }
-ToGeneralButtonMenuItemSkin >> leavedSkinEvent: anEvent [
+ToMenuItemElementSkin >> leavedSkinEvent: anEvent [
 
 	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |

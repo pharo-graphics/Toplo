@@ -11,10 +11,17 @@ ToMenuSkin >> installSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e isSubmenu
 			ifTrue: [
+				| arrowTk |
 				e endFlexible: true.
-				e endInterspace: 10.
-				e endElement addChild:
-					(e valueOfTokenNamed: #'submenu-arrow-right') value ]
+				e endInterspace:
+					(e valueOfTokenNamed: #'menu-item-start-alignment').
+				arrowTk := e isInline
+					           ifTrue: [
+						           e isOpened
+							           ifTrue: [ #'submenu-arrow-up' ]
+							           ifFalse: [ #'submenu-arrow-down' ] ]
+					           ifFalse: [ #'submenu-arrow-right' ].
+				e endElement addChild: (e valueOfTokenNamed: arrowTk) value ]
 			ifFalse: [
 				(e hasIcon and: [ e hasLabel ])
 					ifTrue: [

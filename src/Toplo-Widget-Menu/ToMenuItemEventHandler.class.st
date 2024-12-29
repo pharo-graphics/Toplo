@@ -11,46 +11,61 @@ Class {
 ToMenuItemEventHandler >> clickableActionPerformedEvent: anEvent [
 	" check event and current target "
 
-	self closeWindowOnEvent: anEvent
+	self closeOnEvent: anEvent
 ]
 
 { #category : #'mouse handlers' }
-ToMenuItemEventHandler >> closeWindowOnEvent: anEvent [
+ToMenuItemEventHandler >> closeOnEvent: anEvent [
 	" check event and current target "
 
 	target isEnabled ifFalse: [ ^ self ].
-	target closeOnMouseEvent ifFalse: [ ^ self ].
+	target closeOnPicking ifFalse: [ ^ self ].
 	" ask the window manager because it can manage the timestamp 
 	and finally can decide to not close the menu window"
+	(target isInInlineWindow or: [ target isInline ]) ifTrue: [ ^ self ].
 	target rootMenuDo: [ :rm |
-		rm windowManager checkAutoCloseWindowOnMouseUp: anEvent ]
+		rm manager checkAutoCloseWindowOnMouseUp: anEvent ]
 ]
 
 { #category : #'api - accessing' }
 ToMenuItemEventHandler >> eventsToHandle [
 
-	^  { BlMouseEnterEvent. BlMouseUpEvent. ToClickableActionPerformedEvent }
+	^  { BlMouseEnterEvent. BlMouseLeaveEvent. BlMouseUpEvent. ToClickableActionPerformedEvent }
 ]
 
 { #category : #'mouse handlers' }
 ToMenuItemEventHandler >> mouseEnterEvent: anEvent [
-
 	" check event and current target "
+
 	(anEvent anyButtonPressed and: [ anEvent currentTarget ~= target ])
 		ifTrue: [ ^ self ].
 	target isEnabled ifFalse: [ ^ self ].
 	target isTopMenu ifTrue: [ ^ self ].
+	target closeOnPicking ifFalse: [ ^ self ].
 	target closeSiblingMenuWindow.
 	target isMenu ifFalse: [ ^ self ].
 	target isOpened ifTrue: [ ^ self ].
+	target isInInlineWindow ifTrue: [ ^ self ].
 	target popupEvent: anEvent
+]
+
+{ #category : #'mouse handlers' }
+ToMenuItemEventHandler >> mouseLeaveEvent: anEvent [
+	" check event and current target "
+
+	(anEvent anyButtonPressed and: [ anEvent currentTarget ~= target ])
+		ifTrue: [ ^ self ].
+	target isEnabled ifFalse: [ ^ self ].
+	target isTopMenu ifTrue: [ ^ self ].
+	target closeOnPicking ifFalse: [ ^ self ].
+	target closeSiblingMenuWindow
 ]
 
 { #category : #'mouse handlers' }
 ToMenuItemEventHandler >> mouseUpEvent: anEvent [
 	" check event and current target "
 
-	self closeWindowOnEvent: anEvent
+	self closeOnEvent: anEvent
 ]
 
 { #category : #'api - hooks' }

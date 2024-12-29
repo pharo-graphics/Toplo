@@ -130,7 +130,7 @@ ToAbstractListElement >> defaultContextMenuSelectionMode [
 { #category : #initialization }
 ToAbstractListElement >> defaultContextMenuWindowManagerClass [
 
-	^ ToListElementContextMenuWindowManager
+	^ ToListElementContextMenuManager
 ]
 
 { #category : #initialization }

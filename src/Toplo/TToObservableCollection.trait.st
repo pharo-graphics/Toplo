@@ -45,7 +45,7 @@ TToObservableCollection >> add: newObject afterIndex: index [
 		interval: interval
 ]
 
-{ #category : #'t - observable collection - private' }
+{ #category : #'t - observable collection - adding' }
 TToObservableCollection >> add: newObject before: oldObject [ 
 	"Add the argument, newObject, as an element of the receiver. Put it in 
 	the sequence just preceding oldObject. Answer newObject."
@@ -55,7 +55,7 @@ TToObservableCollection >> add: newObject before: oldObject [
 	self add: newObject beforeIndex: idx
 ]
 
-{ #category : #'t - observable collection - private' }
+{ #category : #'t - observable collection - adding' }
 TToObservableCollection >> add: newObject beforeIndex: index [ 
 	"Add the argument, newObject, as an element of the receiver. Put it in 
 	the sequence just before index. Answer newObject."

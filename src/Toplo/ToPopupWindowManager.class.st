@@ -54,6 +54,13 @@ ToPopupWindowManager >> autoPopupDelay: aDuration [
 ]
 
 { #category : #'window handling' }
+ToPopupWindowManager >> beInline [ 
+
+	super beInline.
+	self unplugPickOutsideFilter
+]
+
+{ #category : #'window handling' }
 ToPopupWindowManager >> canCloseWindow [
 
 	^ pickOutsideFilter isNil or: [ pickOutsideFilter isPlugged ]
@@ -63,9 +70,12 @@ ToPopupWindowManager >> canCloseWindow [
 ToPopupWindowManager >> checkAutoCloseWindowAfter: aTimestamp [
 
 	| delay |
-	currentWindow ifNil: [ ^ false ].
-	currentWindow popupTimestamp ifNil: [ ^ false ].
+
+	currentWindow ifNil: [ ^ false ].	
+	currentWindow popupTimestamp ifNil: [ ^ false ].	
 	autoCloseDelay ifNil: [ ^ false ].
+	self canCloseWindow ifFalse: [ ^ false ].
+
 	delay := aTimestamp - currentWindow popupTimestamp.
 	delay >= autoCloseDelay ifFalse: [ ^ false ].
 	self autoCloseWindow.
@@ -115,11 +125,10 @@ ToPopupWindowManager >> defaultCloseOnMouseDown [
 	^ true
 ]
 
-{ #category : #initialization }
-ToPopupWindowManager >> defaultPositionHook [
+{ #category : #initializing }
+ToPopupWindowManager >> defaultPlacement [
 
-	^ [ :window :theElement :event |
-	  (theElement bounds inParent: self anchorRoot) bounds bottomLeft ]
+	^ ToBottomLeftDownPlacement new
 ]
 
 { #category : #'api - accessing' }
@@ -154,6 +163,7 @@ ToPopupWindowManager >> installPickOutsideFilter [
 ToPopupWindowManager >> mouseDownEvent: anEvent [
 
 	windowBuilder ifNil: [ ^ self ].
+
 	self unqueuePopupTaskFromEvent: anEvent.
 	anEvent button = mouseButton ifFalse: [ ^ self ].
 	currentWindow ifNotNil: [
@@ -167,7 +177,8 @@ ToPopupWindowManager >> mouseDownEvent: anEvent [
 
 { #category : #'event handling' }
 ToPopupWindowManager >> mouseUpEvent: anEvent [
-
+	
+	self isInline ifTrue: [ ^ self ].
 	self checkAutoCloseWindowOnMouseUp: anEvent
 ]
 
@@ -200,6 +211,7 @@ ToPopupWindowManager >> onOpened [
 { #category : #'event handling' }
 ToPopupWindowManager >> pickOutsideEvent: anEvent [
 
+	self isInline ifTrue: [ ^ self ].
 	self closeWindow
 ]
 
@@ -232,6 +244,12 @@ ToPopupWindowManager >> popupNewWindowEvent: anEvent [
 ToPopupWindowManager >> popupOnMouseDown [
 
 	^ true
+]
+
+{ #category : #accessing }
+ToPopupWindowManager >> popupWindowClass [
+
+	^ ToPopupWindow 
 ]
 
 { #category : #'still pressed - hovered' }
@@ -283,10 +301,4 @@ ToPopupWindowManager >> usePrimaryMouseButton [
 ToPopupWindowManager >> useSecondaryMouseButton [
 
 	mouseButton := BlMouseButton secondary
-]
-
-{ #category : #accessing }
-ToPopupWindowManager >> windowClass [
-
-	^ ToPopupWindow 
 ]

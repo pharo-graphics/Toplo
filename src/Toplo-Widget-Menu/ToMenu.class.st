@@ -24,7 +24,7 @@ ToMenu >> bar [
 { #category : #testing }
 ToMenu >> beInline [
 
-	self windowManager beInline
+	self manager beInline
 ]
 
 { #category : #accessing }
@@ -84,7 +84,7 @@ ToMenu >> initialize [
 { #category : #testing }
 ToMenu >> isInline [
 
-	^ self windowManager isInline
+	^ self manager isInline
 ]
 
 { #category : #accessing }
@@ -117,10 +117,16 @@ ToMenu >> isTopMenu [
 	^ self isSubmenu not
 ]
 
-{ #category : #'t - menu window model' }
-ToMenu >> menuWindow [ 
+{ #category : #accessing }
+ToMenu >> manager [ 
 
-	^ self windowManager currentWindow
+	^ windowManager 
+]
+
+{ #category : #'t - menu window model' }
+ToMenu >> menuWindow [
+
+	^ self manager currentWindow
 ]
 
 { #category : #'event handling' }
@@ -164,11 +170,14 @@ ToMenu >> onRemovedFromItemListHolder: aMenu [
 { #category : #'t - menu window model' }
 ToMenu >> popupEvent: anEvent [
 
-	self windowManager popupEvent: anEvent
+	self manager popupEvent: anEvent
 ]
 
 { #category : #accessing }
-ToMenu >> windowManager [ 
+ToMenu >> windowManager [
 
-	^ windowManager 
+	self
+		deprecated: 'Use #manager instead'
+		transformWith: '`@rcvr windowManager' -> '`@rcvr manager'.
+	^ self manager
 ]

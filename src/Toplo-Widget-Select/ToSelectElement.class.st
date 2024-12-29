@@ -159,6 +159,12 @@ ToSelectElement >> listElement [
 	^ self popupListElement
 ]
 
+{ #category : #accessing }
+ToSelectElement >> manager [
+
+	^ windowManager 
+]
+
 { #category : #'instance creation' }
 ToSelectElement >> newIconContainer [
 
@@ -258,7 +264,7 @@ ToSelectElement >> popupListDataAccessor [
 { #category : #'accessing - list' }
 ToSelectElement >> popupListElement [
 
-	^ self windowManager listElement
+	^ self manager listElement
 ]
 
 { #category : #'accessing - selection' }
@@ -275,7 +281,7 @@ ToSelectElement >> popupListSelectionModel [
 { #category : #'accessing - list' }
 ToSelectElement >> popupMaxHeight: aNumber [
 
-	self windowManager maxHeight: aNumber
+	self manager maxHeight: aNumber
 ]
 
 { #category : #'accessing - list' }
@@ -338,11 +344,14 @@ ToSelectElement >> showHidePlaceholder [
 { #category : #accessing }
 ToSelectElement >> sieve [
 
-	^ self windowManager sieve
+	^ self manager sieve
 ]
 
 { #category : #accessing }
 ToSelectElement >> windowManager [
 
-	^ windowManager 
+	self
+		deprecated: 'Use #manager instead'
+		transformWith: '`@rcvr windowManager' -> '`@rcvr manager'.
+	^ self manager
 ]

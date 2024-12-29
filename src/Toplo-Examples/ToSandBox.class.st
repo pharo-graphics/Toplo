@@ -283,7 +283,7 @@ ToSandBox class >> barWithData: aCollection [
 ToSandBox class >> buildSelectListElementIn: aSelectElement withIconProvider: anIconProviderClass [
 
 	| phtext icProvider styles iconDescs |
-	aSelectElement windowManager minHeight: 35.
+	aSelectElement manager minHeight: 35.
 	aSelectElement popupListElement withRowNumbers.
 	phtext := ('No Icon' asRopedText
 		           foreground: Color lightGray;
@@ -2122,7 +2122,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 
 	| select innerWindow newTagFactory |
 	select := ToMultiSelectElement new.
-	select windowManager autoPopupDelay: 400 milliSeconds.
+	select manager autoPopupDelay: 400 milliSeconds.
 
 	select
 		addEventHandlerOn: ToSelectChangedEvent
@@ -6444,7 +6444,9 @@ ToSandBox class >> example_withCheckBox [
 			 labelText: 'Inspect';
 			 whenClickedDo: [ menu space root inspect ];
 			 yourself).
-	menu addItem: (ToToggleMenuItem new labelText: 'Toggle'; yourself).
+	menu addItem: (ToToggleMenuItem new
+			 labelText: 'Toggle';
+			 yourself).
 	menu addItem: (ToMenuItem new labelText: 'Open file').
 	menu items last icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	menu addItem: (ToMenuItem new labelText: 'Disabled').
@@ -6454,7 +6456,7 @@ ToSandBox class >> example_withCheckBox [
 	menu addSeparator.
 
 	sub := ToMenu new labelText: 'Save All'.
-	sub windowManager beInline.
+	sub manager beInline.
 	sub addItem: (ToMenuItem new
 			 labelText: 'Locally';
 			 yourself).

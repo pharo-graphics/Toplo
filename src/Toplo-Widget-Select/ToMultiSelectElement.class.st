@@ -47,7 +47,7 @@ ToMultiSelectElement >> hideSelected [
 ToMultiSelectElement >> hideSelected: aBoolean [
 
 	hideSelected := aBoolean.
-	self windowManager checkPickOutside: aBoolean not
+	self manager checkPickOutside: aBoolean not
 ]
 
 { #category : #accessing }

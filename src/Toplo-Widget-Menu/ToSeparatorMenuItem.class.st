@@ -26,7 +26,6 @@ ToSeparatorMenuItem >> initialize [
 
 	super initialize.
 	self addChild: (ToElement new
-			 background: Color lightGray;
 			 layout: BlLinearLayout new;
 			 yourself).
 	self firstChild layout alignCenter.

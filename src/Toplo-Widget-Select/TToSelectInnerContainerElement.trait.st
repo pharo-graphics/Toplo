@@ -32,6 +32,12 @@ TToSelectInnerContainerElement >> isFiltrable [
 ]
 
 { #category : #'t - select inner container' }
+TToSelectInnerContainerElement >> manager [
+
+	^ self selectElement manager
+]
+
+{ #category : #'t - select inner container' }
 TToSelectInnerContainerElement >> newFilterTextField [
 
 	^ ToSelectFilterTextField new on: self selectElement
@@ -74,5 +80,8 @@ TToSelectInnerContainerElement >> selectElement: aSelectElement [
 { #category : #'t - select inner container' }
 TToSelectInnerContainerElement >> windowManager [
 
-	^ self selectElement windowManager
+	self
+		deprecated: 'Use #manager instead'
+		transformWith: '`@rcvr windowManager' -> '`@rcvr manager'.
+	^ self manager
 ]

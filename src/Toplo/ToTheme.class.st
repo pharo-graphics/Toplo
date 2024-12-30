@@ -83,7 +83,7 @@ ToTheme class >> defaultTokenProperties [
 				   win opacity: 0.1.
 				   win addAnimation:
 					   ((BlOpacityAnimation new opacity: 1.9) duration:
-						    900 milliSeconds) ]).
+						    500 milliSeconds) ]).
 
 		  (ToTokenProperty
 			   name: #'effect-window'

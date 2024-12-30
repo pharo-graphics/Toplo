@@ -3919,9 +3919,8 @@ ToSandBox class >> example_menuBar1 [
 	win title: 'Menu bar example'.
 	win width: 600.
 
-	bar := ToMenuBar new"
+	bar := ToMenuBar new
 		       hMatchParent;
-		       vFitContent;"
 		       yourself.
 
 	bar addItem: (fileMenu := ToMenu new
@@ -3938,7 +3937,7 @@ ToSandBox class >> example_menuBar1 [
 			 tooltipString: 'close stuffs';
 			 whenClickedDo: [ :event | event traceCr ]).
 
-	"bar addFiller."
+	bar addFiller.
 	bar addItem: (ToMenu new
 			 labelText: 'Help';
 			 tooltipString: 'help stuffs';
@@ -4059,9 +4058,7 @@ ToSandBox class >> example_menuBar3 [
 
 		bar addItem: menu ].
 	bar addFiller.
-	bar nodeWrapping: false.
 	bar hMatchParent.
-
 	frame pane addChild: bar.
 	frame openInSpace
 ]
@@ -4090,6 +4087,74 @@ ToSandBox class >> example_menuBarInMenuBar [
 			 whenClickedDo: [ topMenuBar inspect ];
 			 yourself).
 	topMenuBar openInSpace
+]
+
+{ #category : #menu }
+ToSandBox class >> example_menuBarVertical [
+
+	| menu frame bar rand |
+	bar := ToMenuBar new.
+
+	rand := Random new.
+	frame := ToInnerWindow new.
+	bar addFiller.
+	bar addItem: (ToMenuItem new
+			 labelText: 'Inspect';
+			 whenClickedDo: [ frame space root inspect ];
+			 yourself).
+	bar addFiller.
+	3 timesRepeat: [
+		menu := ToMenu new.
+		menu label: (ToLabel text: 'Levels').
+		menu icon:
+			(ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
+
+		menu builder: [ :m |
+			1 to: (rand nextIntegerBetween: 2 and: 16) do: [ :index |
+				| subMenu |
+				subMenu := ToMenu new label:
+					           (ToLabel new text: (String streamContents: [ :out |
+							             out
+								             print: index;
+								             nextPut: $x;
+								             print: index ])).
+				subMenu builder: [ :sm |
+					1 to: (rand nextIntegerBetween: 1 and: 20) do: [ :i |
+						| stream selector iconImage color |
+						stream := String streamContents: [ :out |
+							          out
+								          nextPutAll: 'Level ';
+								          space;
+								          print: i ].
+						selector := String streamContents: [ :out |
+							            out
+								            nextPutAll: 'level ';
+								            print: index;
+								            nextPutAll: ' Grid ';
+								            print: i ].
+						color := Color random.
+						iconImage := BlElement new
+							             padding: (BlInsets all: 2);
+							             geometry:
+								             (BlRoundedRectangleGeometry cornerRadius: 3);
+							             background: color;
+							             size: 16 asPoint;
+							             yourself.
+						sm addItem: ((ToMenuItem new
+								  labelText: stream;
+								  iconImage: iconImage)
+								 whenClickedDo: [ :event | frame background: color ];
+								 yourself) ] ].
+				m addItem: subMenu ] ].
+
+		bar addItem: menu ].
+	bar addFiller.
+	bar vMatchParent.
+
+	bar vertical: true.
+	frame pane addChild: bar.
+	frame openInSpace.
+	frame inspect
 ]
 
 { #category : #tabs }
@@ -6464,7 +6529,7 @@ ToSandBox class >> example_withCheckBox [
 	subsub := ToMenu new
 		          labelText: 'Externally';
 		          icon: (ToImage inner: (self iconNamed: #solidMenu)).
-	subsub windowManager beInline.
+	subsub manager beInline.
 	subsubsub := ToMenu new
 		             labelText: 'When';
 		             icon: (ToImage inner: (self iconNamed: #solidMenu)).

@@ -3,7 +3,7 @@ Class {
 	#superclass : #ToItemElement,
 	#traits : 'TToMenuItem',
 	#classTraits : 'TToMenuItem classTrait',
-	#category : #'Toplo-Widget-Menu-Basic'
+	#category : #'Toplo-Widget-Menu-Items'
 }
 
 { #category : #'adding-removing' }

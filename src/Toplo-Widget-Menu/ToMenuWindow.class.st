@@ -1,7 +1,7 @@
 Class {
 	#name : #ToMenuWindow,
 	#superclass : #ToPopupWindow,
-	#category : #'Toplo-Widget-Menu-Basic'
+	#category : #'Toplo-Widget-Menu-Window'
 }
 
 { #category : #'api - displaying' }

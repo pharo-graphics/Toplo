@@ -1,7 +1,7 @@
 Class {
 	#name : #ToCustomMenuItem,
 	#superclass : #ToMenuItemElement,
-	#category : #'Toplo-Widget-Menu-Basic'
+	#category : #'Toplo-Widget-Menu-Items'
 }
 
 { #category : #testing }

@@ -8,7 +8,7 @@ Class {
 		'builder',
 		'windowManager'
 	],
-	#category : #'Toplo-Widget-Menu-Basic'
+	#category : #'Toplo-Widget-Menu-Items'
 }
 
 { #category : #accessing }

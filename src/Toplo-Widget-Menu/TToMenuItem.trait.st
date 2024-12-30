@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToMenuItem,
-	#category : #'Toplo-Widget-Menu-Basic'
+	#category : #'Toplo-Widget-Menu-Items'
 }
 
 { #category : #'t - menu item' }

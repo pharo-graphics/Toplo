@@ -1,7 +1,7 @@
 Class {
 	#name : #ToMenuWindowEventHandler,
 	#superclass : #BlCustomEventHandler,
-	#category : #'Toplo-Widget-Menu-Basic'
+	#category : #'Toplo-Widget-Menu-Window'
 }
 
 { #category : #'api - accessing' }

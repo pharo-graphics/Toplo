@@ -3,7 +3,7 @@ Class {
 	#superclass : #ToMenuItem,
 	#traits : 'TToCheckable + TToCheckableOwner',
 	#classTraits : 'TToCheckable classTrait + TToCheckableOwner classTrait',
-	#category : #'Toplo-Widget-Menu-Basic'
+	#category : #'Toplo-Widget-Menu-Items'
 }
 
 { #category : #'as yet unclassified' }

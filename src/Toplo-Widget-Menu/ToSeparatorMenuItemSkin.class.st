@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSeparatorMenuItemSkin,
 	#superclass : #ToRawSkin,
-	#category : #'Toplo-Widget-Menu-Basic'
+	#category : #'Toplo-Widget-Menu-Items'
 }
 
 { #category : #'event handling' }

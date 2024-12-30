@@ -5,9 +5,9 @@ Class {
 }
 
 { #category : #'t - bar element' }
-ToMenuItemListElement >> defaultInnerElement [
+ToMenuItemListElement >> configureLayout [
 
-	^ ToMenuInnerBarElement onBarElement: self
+	super configureLayout
 ]
 
 { #category : #initialization }

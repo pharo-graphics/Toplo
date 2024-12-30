@@ -3,7 +3,7 @@ Class {
 	#superclass : #ToGeneralButtonMenuItem,
 	#traits : 'TToOrientable + TToTripletElement + TToLabeledIcon',
 	#classTraits : 'TToOrientable classTrait + TToTripletElement classTrait + TToLabeledIcon classTrait',
-	#category : #'Toplo-Widget-Menu-Basic'
+	#category : #'Toplo-Widget-Menu-Items'
 }
 
 { #category : #initialization }

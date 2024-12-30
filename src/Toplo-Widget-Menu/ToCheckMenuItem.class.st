@@ -1,7 +1,7 @@
 Class {
 	#name : #ToCheckMenuItem,
 	#superclass : #ToToggleMenuItem,
-	#category : #'Toplo-Widget-Menu-Basic'
+	#category : #'Toplo-Widget-Menu-Items'
 }
 
 { #category : #initialization }

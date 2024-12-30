@@ -3,7 +3,7 @@ Class {
 	#superclass : #ToCustomMenuItem,
 	#traits : 'TToAnchoredWindowElement + TToMenuWindowModel',
 	#classTraits : 'TToAnchoredWindowElement classTrait + TToMenuWindowModel classTrait',
-	#category : #'Toplo-Widget-Menu-Inline'
+	#category : #'Toplo-Widget-Menu-Window'
 }
 
 { #category : #'t - menu window model' }

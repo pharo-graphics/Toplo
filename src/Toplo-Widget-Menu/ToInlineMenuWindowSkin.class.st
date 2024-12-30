@@ -1,7 +1,7 @@
 Class {
 	#name : #ToInlineMenuWindowSkin,
 	#superclass : #ToRawSkin,
-	#category : #'Toplo-Widget-Menu-Inline'
+	#category : #'Toplo-Widget-Menu-Window'
 }
 
 { #category : #'event handling' }

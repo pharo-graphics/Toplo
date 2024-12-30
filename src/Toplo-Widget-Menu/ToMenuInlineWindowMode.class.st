@@ -1,7 +1,7 @@
 Class {
 	#name : #ToMenuInlineWindowMode,
 	#superclass : #ToInlineWindowMode,
-	#category : #'Toplo-Widget-Menu-Inline'
+	#category : #'Toplo-Widget-Menu-Window'
 }
 
 { #category : #'window handling' }

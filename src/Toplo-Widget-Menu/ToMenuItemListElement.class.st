@@ -7,6 +7,9 @@ Class {
 { #category : #'t - bar element' }
 ToMenuItemListElement >> configureLayout [
 
+	self isHorizontal
+		ifTrue: [ self hMatchParent. self vFitContent ]
+		ifFalse: [ self vMatchParent. self hFitContent ].
 	super configureLayout
 ]
 

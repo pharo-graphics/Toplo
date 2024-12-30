@@ -4150,7 +4150,6 @@ ToSandBox class >> example_menuBarVertical [
 		bar addItem: menu ].
 	bar addFiller.
 	bar vMatchParent.
-
 	bar vertical: true.
 	frame pane addChild: bar.
 	frame openInSpace.

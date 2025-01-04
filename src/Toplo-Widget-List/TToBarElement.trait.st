@@ -17,12 +17,6 @@ TToBarElement >> checkFullyVisibleNodes [
 ]
 
 { #category : #'t - bar element' }
-TToBarElement >> configureLayout [
-
-	self innerElement configureLayoutIn: self
-]
-
-{ #category : #'t - bar element' }
 TToBarElement >> defaultInnerElement [
 
 	^ ToInnerBarElement onBarElement: self

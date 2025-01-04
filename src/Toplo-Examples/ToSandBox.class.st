@@ -4105,6 +4105,7 @@ ToSandBox class >> example_menuBarVertical [
 	bar addFiller.
 	3 timesRepeat: [
 		menu := ToMenu new.
+		menu beInline.
 		menu label: (ToLabel text: 'Levels').
 		menu icon:
 			(ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
@@ -4149,8 +4150,10 @@ ToSandBox class >> example_menuBarVertical [
 
 		bar addItem: menu ].
 	bar addFiller.
-	bar vMatchParent.
+
+	
 	bar vertical: true.
+	bar vMatchParent.
 	frame pane addChild: bar.
 	frame openInSpace.
 	frame inspect

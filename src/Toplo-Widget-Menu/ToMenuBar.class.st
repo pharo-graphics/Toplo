@@ -51,6 +51,9 @@ ToMenuBar >> closeWindow [
 { #category : #'t - item list holder - initializing' }
 ToMenuBar >> configureLayout [
 
+	" just force the resizer of the secondary direction 
+	( vertical direction in case of an horizontal bar )"
+	
 	self isHorizontal
 		ifTrue: [
 			self vFitContent.

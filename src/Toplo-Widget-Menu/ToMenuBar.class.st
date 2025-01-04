@@ -175,13 +175,6 @@ ToMenuBar >> onRemovedFromItemListHolder: aMenuItemContainer [
 	aMenuItemContainer onRemovedMenuBar: self
 ]
 
-{ #category : #'t - menu item list holder - double dispatch' }
-ToMenuBar >> onRemovedMenu: aMenu [
-
-	aMenu parentItemListHolder: nil.
-	aMenu isSubmenu: false
-]
-
 { #category : #adding }
 ToMenuBar >> removeMenu: aMenu [
 

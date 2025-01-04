@@ -18,12 +18,6 @@ TToMenuItem >> isInInlineWindow [
 ]
 
 { #category : #'t - menu item' }
-TToMenuItem >> isInline [
-
-	^ false
-]
-
-{ #category : #'t - menu item' }
 TToMenuItem >> isMenuItem [ 
 
 	^ true

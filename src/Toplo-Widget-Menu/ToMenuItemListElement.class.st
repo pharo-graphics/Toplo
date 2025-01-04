@@ -4,26 +4,22 @@ Class {
 	#category : #'Toplo-Widget-Menu-ItemList'
 }
 
-{ #category : #'t - bar element' }
-ToMenuItemListElement >> configureLayout [
+{ #category : #'t - list node holder' }
+ToMenuItemListElement >> configureLayoutIn: aListHolder [
 
-	self isHorizontal
-		ifTrue: [ self hMatchParent. self vFitContent ]
-		ifFalse: [ self vMatchParent. self hFitContent ].
-	super configureLayout
+	self horizontal: aListHolder isHorizontal.
+	aListHolder isHMatchParent
+		ifTrue: [ self hMatchParent ]
+		ifFalse: [ self hFitContent ].
+	aListHolder isVMatchParent
+		ifTrue: [ self vMatchParent ]
+		ifFalse: [ self vFitContent ]
 ]
 
 { #category : #initialization }
 ToMenuItemListElement >> defaultNodeManager [ 
 
 	^ToMenuItemNodeManager new
-]
-
-{ #category : #'t - orientable - orientation' }
-ToMenuItemListElement >> horizontal: aBoolean [
-
-	super horizontal: aBoolean.
-
 ]
 
 { #category : #initialization }

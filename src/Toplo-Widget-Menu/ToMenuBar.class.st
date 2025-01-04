@@ -54,10 +54,11 @@ ToMenuBar >> configureLayout [
 	self isHorizontal
 		ifTrue: [
 			self vFitContent.
-			self itemList horizontal: true ]
-		ifFalse: [ 
+			self isSubBar ifTrue: [ self hFitContent ] ]
+		ifFalse: [
 			self hFitContent.
-			self itemList horizontal: false ]
+			self isSubBar ifTrue: [ self vFitContent ] ].
+	self itemList configureLayoutIn: self
 ]
 
 { #category : #initialization }
@@ -68,7 +69,6 @@ ToMenuBar >> initialize [
 	autoOpen := false.
 	self layout: BlLinearLayout horizontal.
 	self addEventHandler: ToMenuBarEventHandler new.
-
 	self addChild: self itemList.
 	self beHorizontal.
 	self nodeWrapping: false.

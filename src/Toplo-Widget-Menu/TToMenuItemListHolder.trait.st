@@ -42,6 +42,7 @@ TToMenuItemListHolder >> onAddedMenu: aMenu [
 TToMenuItemListHolder >> onAddedMenuBar: aMenuBar [
 
 	self onAddedMenuItem: aMenuBar.
+	aMenuBar configureLayout.
 	self itemList unselectableSelecter selectIndex:
 		aMenuBar positionInItemList
 ]

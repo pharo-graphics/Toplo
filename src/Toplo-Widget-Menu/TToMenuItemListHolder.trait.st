@@ -89,6 +89,7 @@ TToMenuItemListHolder >> onRemovedMenuBar: aMenuBar [
 
 	self itemList unselectableSelecter deselectIndex:
 		aMenuBar positionInItemList.
+	aMenuBar configureLayout.
 	self onRemovedMenuItem: aMenuBar.
 
 ]

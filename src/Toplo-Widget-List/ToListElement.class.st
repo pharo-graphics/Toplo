@@ -6,6 +6,12 @@ Class {
 	#category : #'Toplo-Widget-List-Core-ListElement'
 }
 
+{ #category : #initialization }
+ToListElement >> defaultInnerElement [
+
+	^ ToInfiniteElement onListElement: self
+]
+
 { #category : #skin }
 ToListElement >> newRawSkin [ 
 

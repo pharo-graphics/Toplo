@@ -5,12 +5,6 @@ Class {
 }
 
 { #category : #initialization }
-ToGenericListElement >> defaultInnerElement [
-
-	^ ToInfiniteElement onListElement: self
-]
-
-{ #category : #initialization }
 ToGenericListElement >> defaultNodeManagerClass [
 
 	^ ToGenericListNodeManager  

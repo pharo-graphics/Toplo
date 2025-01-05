@@ -11,6 +11,13 @@ ToMenuWindowManager >> autoCloseWindow [
 	element menuBarDo: [ :mb | mb cancelAutoOpen ]
 ]
 
+{ #category : #'window handling' }
+ToMenuWindowManager >> beInline [ 
+
+	super beInline.
+	element openOnHovered: false
+]
+
 { #category : #initializing }
 ToMenuWindowManager >> defaultPlacement [
 

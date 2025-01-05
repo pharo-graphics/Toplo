@@ -138,10 +138,11 @@ ToMenuBar >> menuWindowDo: aValuable [
 ToMenuBar >> mouseOverEvent: anEvent [
 
 	self isAutoOpen ifFalse: [ ^ self ].
-
 	" auto-open action "
-	self items do: [ :m |
-		m isItemContainer ifTrue: [ m mouseOverEvent: anEvent ] ]
+	" do not send mouseOverEvent in case of an inline menu "
+	self items withIndexDo: [ :m :idx |
+		m isItemContainer ifTrue: [
+			m isInline ifFalse: [ m mouseOverEvent: anEvent ] ] ]
 ]
 
 { #category : #'t - item list holder - accessing' }

@@ -9,7 +9,7 @@ ToSeparatorMenuItemSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e firstChild background: (e valueOfTokenNamed: #'color-text').
+		e firstChild background: (e valueOfTokenNamed: #'color-border').
 		e padding:
-			(BlInsets vertical: (e valueOfTokenNamed: #'padding-content-VXS')) ]
+			(BlInsets vertical: (e valueOfTokenNamed: #'padding-content-VS')) ]
 ]

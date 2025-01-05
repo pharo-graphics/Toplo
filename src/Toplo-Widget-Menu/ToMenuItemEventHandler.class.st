@@ -8,14 +8,7 @@ Class {
 }
 
 { #category : #'mouse handlers' }
-ToMenuItemEventHandler >> clickableActionPerformedEvent: anEvent [
-	" check event and current target "
-
-	self closeOnEvent: anEvent
-]
-
-{ #category : #'mouse handlers' }
-ToMenuItemEventHandler >> closeOnEvent: anEvent [
+ToMenuItemEventHandler >> checkCloseOnPickingEvent: anEvent [
 	" check event and current target "
 
 	target isEnabled ifFalse: [ ^ self ].
@@ -25,6 +18,13 @@ ToMenuItemEventHandler >> closeOnEvent: anEvent [
 	(target isInInlineWindow or: [ target isInline ]) ifTrue: [ ^ self ].
 	target rootMenuDo: [ :rm |
 		rm manager checkAutoCloseWindowOnMouseUp: anEvent ]
+]
+
+{ #category : #'mouse handlers' }
+ToMenuItemEventHandler >> clickableActionPerformedEvent: anEvent [
+	" check event and current target "
+
+	self checkCloseOnPickingEvent: anEvent
 ]
 
 { #category : #'api - accessing' }
@@ -41,11 +41,10 @@ ToMenuItemEventHandler >> mouseEnterEvent: anEvent [
 		ifTrue: [ ^ self ].
 	target isEnabled ifFalse: [ ^ self ].
 	target isTopMenu ifTrue: [ ^ self ].
-	target closeOnPicking ifFalse: [ ^ self ].
 	target closeSiblingMenuWindow.
 	target isMenu ifFalse: [ ^ self ].
 	target isOpened ifTrue: [ ^ self ].
-	target isInInlineWindow ifTrue: [ ^ self ].
+	target openOnHovered ifFalse: [  ^ self ].
 	target popupEvent: anEvent
 ]
 
@@ -65,7 +64,7 @@ ToMenuItemEventHandler >> mouseLeaveEvent: anEvent [
 ToMenuItemEventHandler >> mouseUpEvent: anEvent [
 	" check event and current target "
 
-	self closeOnEvent: anEvent
+	self checkCloseOnPickingEvent: anEvent
 ]
 
 { #category : #'api - hooks' }

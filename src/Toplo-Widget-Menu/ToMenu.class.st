@@ -6,7 +6,8 @@ Class {
 	#instVars : [
 		'isSubmenu',
 		'builder',
-		'windowManager'
+		'windowManager',
+		'openOnHovered'
 	],
 	#category : #'Toplo-Widget-Menu-Items'
 }
@@ -69,6 +70,7 @@ ToMenu >> initialize [
 	super initialize.
 	self fitContent.
 	isSubmenu := false.
+	openOnHovered := true.
 	self applySkinInstallerOnFirstRequest: true.
 
 	windowManager := ToMenuWindowManager new
@@ -165,6 +167,18 @@ ToMenu >> onAddedInItemListHolder: aMenu [
 ToMenu >> onRemovedFromItemListHolder: aMenu [
 
 	aMenu onRemovedMenu: self
+]
+
+{ #category : #accessing }
+ToMenu >> openOnHovered [
+
+	^ openOnHovered
+]
+
+{ #category : #accessing }
+ToMenu >> openOnHovered: aBoolean [
+
+	openOnHovered := aBoolean
 ]
 
 { #category : #'t - menu window model' }

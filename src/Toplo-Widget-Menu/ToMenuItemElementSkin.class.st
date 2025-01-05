@@ -27,15 +27,7 @@ ToMenuItemElementSkin >> installSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor normal.
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:
-				 (e valueOfTokenNamed: 'border-radius')).
-		e isRootMenuItem
-			ifTrue: [
-				e padding: (BlInsets
-						 horizontal: (e valueOfTokenNamed: #'padding-content-H')
-						 vertical: (e valueOfTokenNamed: #'padding-content-VS')) ]
-			ifFalse: [
-				e padding:
-					(BlInsets horizontal: (e valueOfTokenNamed: #'padding-content-VS')) ] ]
+				 (e valueOfTokenNamed: 'border-radius')) ]
 ]
 
 { #category : #'event handling' }

@@ -4092,17 +4092,16 @@ ToSandBox class >> example_menuBarInMenuBar [
 { #category : #menu }
 ToSandBox class >> example_menuBarVertical [
 
-	| menu frame bar rand |
+	| menu frame bar |
 	bar := ToMenuBar new.
 
-	rand := Random new.
 	frame := ToInnerWindow new.
-	bar addFiller.
+	"bar addFiller."
 	bar addItem: (ToMenuItem new
 			 labelText: 'Inspect';
 			 whenClickedDo: [ frame space root inspect ];
 			 yourself).
-	bar addFiller.
+	"bar addFiller."
 	3 timesRepeat: [
 		menu := ToMenu new.
 		menu beInline.
@@ -4111,7 +4110,7 @@ ToSandBox class >> example_menuBarVertical [
 			(ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
 
 		menu builder: [ :m |
-			1 to: (rand nextIntegerBetween: 2 and: 16) do: [ :index |
+			1 to: 6 do: [ :index |
 				| subMenu |
 				subMenu := ToMenu new label:
 					           (ToLabel new text: (String streamContents: [ :out |
@@ -4120,7 +4119,7 @@ ToSandBox class >> example_menuBarVertical [
 								             nextPut: $x;
 								             print: index ])).
 				subMenu builder: [ :sm |
-					1 to: (rand nextIntegerBetween: 1 and: 20) do: [ :i |
+					1 to: 10 do: [ :i |
 						| stream selector iconImage color |
 						stream := String streamContents: [ :out |
 							          out
@@ -4149,14 +4148,12 @@ ToSandBox class >> example_menuBarVertical [
 				m addItem: subMenu ] ].
 
 		bar addItem: menu ].
-	bar addFiller.
-
-	
+	"bar addFiller."
 	bar vertical: true.
-	bar vMatchParent.
+	bar vFitContent.
 	frame pane addChild: bar.
 	frame openInSpace.
-	frame inspect
+	"frame inspect"
 ]
 
 { #category : #tabs }
@@ -6523,7 +6520,7 @@ ToSandBox class >> example_withCheckBox [
 	menu addSeparator.
 
 	sub := ToMenu new labelText: 'Save All'.
-	sub manager beInline.
+	sub beInline.
 	sub addItem: (ToMenuItem new
 			 labelText: 'Locally';
 			 yourself).

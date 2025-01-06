@@ -15,7 +15,7 @@ ToMenuItemEventHandler >> checkCloseOnPickingEvent: anEvent [
 	target closeOnPicking ifFalse: [ ^ self ].
 	" ask the window manager because it can manage the timestamp 
 	and finally can decide to not close the menu window"
-	(target isInInlineWindow or: [ target isInline ]) ifTrue: [ ^ self ].
+	target isInline ifTrue: [ ^ self ].
 	target rootMenuDo: [ :rm |
 		rm manager checkAutoCloseWindowOnMouseUp: anEvent ]
 ]
@@ -41,7 +41,7 @@ ToMenuItemEventHandler >> mouseEnterEvent: anEvent [
 		ifTrue: [ ^ self ].
 	target isEnabled ifFalse: [ ^ self ].
 	target isTopMenu ifTrue: [ ^ self ].
-	target closeSiblingMenuWindow.
+	target closeAllRelatedMenuWindows.
 	target isMenu ifFalse: [ ^ self ].
 	target isOpened ifTrue: [ ^ self ].
 	target openOnHovered ifFalse: [  ^ self ].
@@ -57,7 +57,7 @@ ToMenuItemEventHandler >> mouseLeaveEvent: anEvent [
 	target isEnabled ifFalse: [ ^ self ].
 	target isTopMenu ifTrue: [ ^ self ].
 	target closeOnPicking ifFalse: [ ^ self ].
-	target closeSiblingMenuWindow
+	target closeAllRelatedMenuWindows 
 ]
 
 { #category : #'mouse handlers' }

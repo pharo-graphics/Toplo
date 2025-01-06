@@ -145,7 +145,7 @@ ToAnchoredWindowManager >> elementPositionInSpaceChangedEvent: anEvent [
 { #category : #'event handling' }
 ToAnchoredWindowManager >> elementRemovedFromParentEvent: anEvent [
 
-	self currentWindowDo: [ :cw | cw close ]
+	self currentWindowDo: [ :cw | cw isOpened ifTrue: [ cw close ] ]
 ]
 
 { #category : #'event handling' }

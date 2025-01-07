@@ -1,7 +1,7 @@
 Class {
 	#name : #ToTooltipPlacement,
 	#superclass : #ToWindowPlacement,
-	#category : #'Toplo-Core-Window'
+	#category : #'Toplo-Core-Tooltip'
 }
 
 { #category : #api }

@@ -4096,15 +4096,12 @@ ToSandBox class >> example_menuBarVertical [
 	bar := ToMenuBar new.
 
 	frame := ToInnerWindow new.
-	"bar addFiller."
 	bar addItem: (ToMenuItem new
 			 labelText: 'Inspect';
 			 whenClickedDo: [ frame space root inspect ];
 			 yourself).
-	"bar addFiller."
 	3 timesRepeat: [
 		menu := ToMenu new.
-		menu beInline.
 		menu label: (ToLabel text: 'Levels').
 		menu icon:
 			(ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).

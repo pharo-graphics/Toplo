@@ -1709,6 +1709,25 @@ ToSandBox class >> example_Menu0 [
 	container openInSpace
 ]
 
+{ #category : #menu }
+ToSandBox class >> example_MenuWithSelect [
+
+	| menu selector item |
+	menu := ToMenu new.
+	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	selector := ToSingleSelectElement new.
+	selector placeholderText: ('Choose a level number' asRopedText
+			 foreground: Color veryLightGray;
+			 yourself).
+	selector filtrable: false.
+	selector width: 170.
+	selector popupListElement dataAccessor addAll:
+		{ 1. 2. 3. 4. 5. 6. 7. 8. 9. 10. 11. 12 }.
+	item := ToCustomMenuItem new in: [ :e | e addChild: selector ].
+	menu addItem: item.
+	menu openInSpace
+]
+
 { #category : #list }
 ToSandBox class >> example_NodeContainerWithStatesOfAmerica [
 
@@ -4004,6 +4023,7 @@ ToSandBox class >> example_menuBar3 [
 
 	| menu frame bar rand |
 	bar := ToMenuBar new.
+	bar beHorizontal.
 	rand := Random new.
 	frame := ToInnerWindow new.
 	bar addFiller.

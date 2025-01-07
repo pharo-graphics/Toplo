@@ -212,6 +212,12 @@ TToItemListHolder >> removeItem: anItem [
 ]
 
 { #category : #'t - item list holder - accessing' }
+TToItemListHolder >> secondarySelecter [
+
+	^ itemList secondarySelecter
+]
+
+{ #category : #'t - item list holder - accessing' }
 TToItemListHolder >> secondarySelectionMode [
 
 	^ self itemList secondarySelectionMode

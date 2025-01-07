@@ -41,11 +41,14 @@ ToMenuItemEventHandler >> mouseEnterEvent: anEvent [
 		ifTrue: [ ^ self ].
 	target isEnabled ifFalse: [ ^ self ].
 	target isMenu ifFalse: [ ^ self ].
-	" topmenu case is managed at the menubar level "
-	target isTopMenu ifTrue: [ ^ self ].
+
 	target closeAllOtherPopupMenuWindows.
+	target menuBar
+		ifNil: [ target isSubmenu ifFalse: [ ^ self ] ]
+		ifNotNil: [ :mb | mb isAutoOpen ifFalse: [ ^ self ] ].
+
 	target isOpened ifTrue: [ ^ self ].
-	target openOnHovered ifFalse: [  ^ self ].
+	target openOnHovered ifFalse: [ ^ self ].
 	target popupEvent: anEvent
 ]
 
@@ -56,9 +59,9 @@ ToMenuItemEventHandler >> mouseLeaveEvent: anEvent [
 	(anEvent anyButtonPressed and: [ anEvent currentTarget ~= target ])
 		ifTrue: [ ^ self ].
 	target isEnabled ifFalse: [ ^ self ].
-	" topmenu case is managed at the menubar level "
-	target isTopMenu ifTrue: [ ^ self ].
-	target isInline ifTrue: [ ^ self ].
+	(target firstInParentChainSatisfying: [ :e |
+		 e isKindOf: ToInlineMenuWindowElement ]) ifNotNil: [ :w | ^ self ].
+
 	target closeAllOtherPopupMenuWindows 
 ]
 
@@ -66,6 +69,8 @@ ToMenuItemEventHandler >> mouseLeaveEvent: anEvent [
 ToMenuItemEventHandler >> mouseUpEvent: anEvent [
 	" check event and current target "
 
+	target isMenu ifTrue: [
+		target menuBarDo: [ :mb | mb switchAutoOpen ] ].
 	self checkCloseOnPickingEvent: anEvent
 ]
 

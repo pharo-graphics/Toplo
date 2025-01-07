@@ -101,13 +101,6 @@ ToMenuItemElement >> isTopMenu [
 ]
 
 { #category : #'t - menu window model' }
-ToMenuItemElement >> menuBar [
-
-	self parentItemListHolder ifNil: [ ^ nil ].
-	^ self parentItemListHolder menuBar
-]
-
-{ #category : #'t - menu window model' }
 ToMenuItemElement >> menuBarDo: aBlock [
 
 	| mb |

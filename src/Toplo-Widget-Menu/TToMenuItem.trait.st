@@ -4,6 +4,22 @@ Trait {
 }
 
 { #category : #'t - menu item' }
+TToMenuItem >> allMenuWindows [
+
+	^ Array streamContents: [ :stream |
+		  self allMenuWindowsDo: [ :mw | stream nextPut: mw ] ]
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> allMenuWindowsDo: aValuable [
+
+	| r |
+	r := self rootMenuWindowOrMenuBar ifNil: [ ^ self ].
+	r allChildrenDepthFirstDo: [ :child |
+		(child isKindOf: ToMenu) ifTrue: [ child menuWindowDo: aValuable ] ]
+]
+
+{ #category : #'t - menu item' }
 TToMenuItem >> allOtherMenuWindows [
 
 	^ Array streamContents: [ :stream |
@@ -25,6 +41,13 @@ TToMenuItem >> allOtherMenuWindowsDo: aValuable [
 TToMenuItem >> closeAllOtherPopupMenuWindows [
 
 	self allOtherMenuWindowsDo: [ :mw |
+		mw isInline ifFalse: [ mw close ] ]
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> closeAllPopupMenuWindows [
+
+	self allMenuWindowsDo: [ :mw |
 		mw isInline ifFalse: [ mw close ] ]
 ]
 
@@ -57,6 +80,14 @@ TToMenuItem >> isRootMenuItem [
 TToMenuItem >> isSubmenu [ 
 
 	^ false
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> menuBar [
+
+	self parentChainReverseDo: [ :e |
+		(e isKindOf: ToMenuBar) ifTrue: [ ^ e ] ].
+	^ nil
 ]
 
 { #category : #'t - menu item' }

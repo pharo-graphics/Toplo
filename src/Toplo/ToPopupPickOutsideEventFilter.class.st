@@ -88,11 +88,30 @@ ToPopupPickOutsideEventFilter >> mouseUpEvent: anEvent [
 	if the original event target is the popup window 
 	"
 
-	| delay |
 	"self class name trace. '>>mouseUpEvent: with upCount=' trace. upCount traceCr."
 	self checkLegitimacy ifFalse: [ ^ self ].
 	self isPlugged ifFalse: [ ^ self ].
 	self checkUpCount ifFalse: [ ^ self ].
+
+	self onMouseUpEvent: anEvent
+]
+
+{ #category : #'api - hooks' }
+ToPopupPickOutsideEventFilter >> onInstalledIn: anElement [
+
+	super onInstalledIn: anElement.
+	holder := anElement.
+	upCount := 0
+]
+
+{ #category : #'mouse handlers' }
+ToPopupPickOutsideEventFilter >> onMouseUpEvent: anEvent [
+	" 
+	do nothing if the original event target is the element with popup or
+	if the original event target is the popup window 
+	"
+
+	| delay |
 
 	" check a minimum delay between opening and closing - 
 	useful to not close immediately context menu on mouse up"
@@ -106,14 +125,6 @@ ToPopupPickOutsideEventFilter >> mouseUpEvent: anEvent [
 	self element dispatchEvent: (ToPickOutsideEvent new
 			 timestamp: anEvent target space time now;
 			 yourself)
-]
-
-{ #category : #'api - hooks' }
-ToPopupPickOutsideEventFilter >> onInstalledIn: anElement [
-
-	super onInstalledIn: anElement.
-	holder := anElement.
-	upCount := 0
 ]
 
 { #category : #'mouse handlers' }

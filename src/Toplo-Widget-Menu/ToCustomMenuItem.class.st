@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-Widget-Menu-Items'
 }
 
+{ #category : #'t - menu item' }
+ToCustomMenuItem >> closeOnPicking [ 
+
+	^ false
+]
+
 { #category : #testing }
 ToCustomMenuItem >> isSelectable [
 

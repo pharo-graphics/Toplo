@@ -15,7 +15,7 @@ Class {
 ToPopupPickOutsideEventFilter >> checkLegitimacy [
 	" 
 	check if the window is still present.
-	If it is not present, the simply remove myself as event filter.
+	If it is not present, then simply remove myself as event filter.
 	"
 
 	(self popupWindow isNil or: [ windowManager checkPickOutside not ])
@@ -58,6 +58,23 @@ ToPopupPickOutsideEventFilter >> initialize [
 	plugged := true.
 ]
 
+{ #category : #private }
+ToPopupPickOutsideEventFilter >> isPickedOutsideEvent: anEvent [
+	" return true if the event is considered as a pick outside event "
+
+	| target |
+	target := anEvent target.
+	" Is it ouside the element ? "
+	checkElement ifTrue: [
+		(self element itemContaining: target) ifNotNil: [ :found | ^ false ] ].
+
+	"and outside of the popup windows ? "
+	self popupWindow withAllSubwindowsDo: [ :w |
+		(w itemContaining: target) ifNotNil: [ ^ false ] ].
+
+	^ true
+]
+
 { #category : #testing }
 ToPopupPickOutsideEventFilter >> isPlugged [
 
@@ -71,7 +88,7 @@ ToPopupPickOutsideEventFilter >> mouseUpEvent: anEvent [
 	if the original event target is the popup window 
 	"
 
-	| target delay |
+	| delay |
 	"self class name trace. '>>mouseUpEvent: with upCount=' trace. upCount traceCr."
 	self checkLegitimacy ifFalse: [ ^ self ].
 	self isPlugged ifFalse: [ ^ self ].
@@ -82,18 +99,13 @@ ToPopupPickOutsideEventFilter >> mouseUpEvent: anEvent [
 	delay := anEvent timestamp - self popupWindow popupTimestamp.
 	delay < windowManager autoCloseDelay ifTrue: [ ^ self ].
 
-	" Is it ouside the element ? "
-	target := anEvent target.
-	checkElement ifTrue: [
-		(self element itemContaining: target) ifNotNil: [ :found | ^ self ] ].
-	
-	"and outside of the popup windows ? "
-	self popupWindow withAllSubwindowsDo: [ :w |
-		(w itemContaining: target) ifNotNil: [ ^ self ] ].
+	(self isPickedOutsideEvent: anEvent) ifFalse: [ ^ self ].
 
 	" ok, mouseUp outside the element and outside of the popup window "
 	anEvent consume.
-	self element dispatchEvent: ToPickOutsideEvent new
+	self element dispatchEvent: (ToPickOutsideEvent new
+			 timestamp: anEvent target space time now;
+			 yourself)
 ]
 
 { #category : #'api - hooks' }

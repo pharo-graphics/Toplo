@@ -35,7 +35,8 @@ TToMenuItemListHolder >> onAddedFillerMenuItem: aFiller [
 TToMenuItemListHolder >> onAddedMenu: aMenu [
 
 	aMenu parentItemListHolder: self.
-	aMenu isSubmenu: true
+	aMenu isSubmenu: true.
+	aMenu closeOnPicking: false
 ]
 
 { #category : #'t - menu item list holder - double dispatch' }

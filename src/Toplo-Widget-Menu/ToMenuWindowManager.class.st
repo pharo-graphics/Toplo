@@ -18,6 +18,13 @@ ToMenuWindowManager >> beInline [
 	element openOnHovered: false
 ]
 
+{ #category : #'event handling' }
+ToMenuWindowManager >> checkCloseOnPickingEvent: anEvent [
+
+	anEvent currentTarget isInline ifTrue: [ ^ currentWindow notNil ].
+	^ super checkCloseOnPickingEvent: anEvent
+]
+
 { #category : #initializing }
 ToMenuWindowManager >> defaultPlacement [
 
@@ -83,6 +90,12 @@ ToMenuWindowManager >> pickOutsideEvent: anEvent [
 
 	super pickOutsideEvent: anEvent.
 	element menuBarDo: [ :mb | mb cancelAutoOpen ]
+]
+
+{ #category : #'window handling' }
+ToMenuWindowManager >> pickOutsideFilterClass [ 
+
+	^ ToMenuWindowPickOutsideEventFilter
 ]
 
 { #category : #'window handling' }

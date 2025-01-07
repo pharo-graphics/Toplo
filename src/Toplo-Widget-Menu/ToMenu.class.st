@@ -48,6 +48,18 @@ ToMenu >> buttonClickEventClass [
 	^ BlMouseDownEvent
 ]
 
+{ #category : #testing }
+ToMenu >> closeOnPicking [
+
+	^ self manager closeOnPicking and: [ self isTopMenu not ]
+]
+
+{ #category : #testing }
+ToMenu >> closeOnPicking: aBoolean [
+
+	self manager closeOnPicking: aBoolean
+]
+
 { #category : #'t - menu window model' }
 ToMenu >> closeWindow [
 

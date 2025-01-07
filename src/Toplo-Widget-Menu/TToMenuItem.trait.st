@@ -15,11 +15,11 @@ TToMenuItem >> allRelatedMenuWindowsDo: aValuable [
 
 	| r |
 	r := self rootMenuWindowOrMenuBar ifNil: [ ^ self ].
-	r traceCr.
-	r allChildrenBreadthFirstDo: [ :child |
+	r allChildrenDepthFirstDo: [ :child |
 		(child ~= self and: [
-			 (child isKindOf: ToMenu) and: [ child isInline not ] ]) ifTrue: [
-			child menuWindowDo: aValuable ] ]
+			 self isInline not and: [
+				 (child isKindOf: ToMenu) and: [ child isInline not ] ] ])
+			ifTrue: [ child menuWindowDo: aValuable ] ]
 ]
 
 { #category : #'t - menu item' }
@@ -31,7 +31,7 @@ TToMenuItem >> closeAllRelatedMenuWindows [
 { #category : #'t - menu item' }
 TToMenuItem >> closeOnPicking [ 
 
-	^ false
+	^ true
 ]
 
 { #category : #'t - menu item' }

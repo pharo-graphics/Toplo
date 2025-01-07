@@ -20,7 +20,7 @@ ToTooltipWindowManager >> defaultAutoPopupDelay [
 ]
 
 { #category : #initialization }
-ToTooltipWindowManager >> defaultCloseOnMouseDown [
+ToTooltipWindowManager >> defaultCloseOnPicking [
 
 	^ false
 ]

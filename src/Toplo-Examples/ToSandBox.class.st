@@ -6528,7 +6528,7 @@ ToSandBox class >> example_withCheckBox [
 	subsub := ToMenu new
 		          labelText: 'Externally';
 		          icon: (ToImage inner: (self iconNamed: #solidMenu)).
-	subsub manager beInline.
+	"subsub beInline."
 	subsubsub := ToMenu new
 		             labelText: 'When';
 		             icon: (ToImage inner: (self iconNamed: #solidMenu)).

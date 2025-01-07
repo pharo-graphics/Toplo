@@ -6,6 +6,7 @@ Class {
 
 { #category : #api }
 ToMenuPlacement >> arrangeWindow: aWindow onEvent: anEvent [
+	" The window placing is at top right or bottom left according to menu or the menubar "
 
 	| root element pos rootMenuOrMenuBar |
 	root := aWindow anchorRoot.

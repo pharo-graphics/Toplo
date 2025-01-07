@@ -142,7 +142,7 @@ ToMenuBar >> mouseOverEvent: anEvent [
 	" do not send mouseOverEvent in case of an inline menu "
 	self items withIndexDo: [ :m :idx |
 		m isItemContainer ifTrue: [
-			m isInline ifFalse: [ m mouseOverEvent: anEvent ] ] ]
+			m mouseOverEvent: anEvent ] ]
 ]
 
 { #category : #'t - item list holder - accessing' }

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToMenuPlacement,
 	#superclass : #ToWindowPlacement,
-	#category : #'Toplo-Core-Window'
+	#category : #'Toplo-Widget-Menu-Window'
 }
 
 { #category : #api }

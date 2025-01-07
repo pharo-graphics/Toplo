@@ -4,28 +4,28 @@ Trait {
 }
 
 { #category : #'t - menu item' }
-TToMenuItem >> allRelatedMenuWindows [
+TToMenuItem >> allOtherMenuWindows [
 
 	^ Array streamContents: [ :stream |
-		  self allRelatedMenuWindowsDo: [ :mw | stream nextPut: mw ] ]
+		  self allOtherMenuWindowsDo: [ :mw | stream nextPut: mw ] ]
 ]
 
 { #category : #'t - menu item' }
-TToMenuItem >> allRelatedMenuWindowsDo: aValuable [
+TToMenuItem >> allOtherMenuWindowsDo: aValuable [
 
 	| r |
 	r := self rootMenuWindowOrMenuBar ifNil: [ ^ self ].
 	r allChildrenDepthFirstDo: [ :child |
 		(child ~= self and: [
-			 self isInline not and: [
-				 (child isKindOf: ToMenu) and: [ child isInline not ] ] ])
-			ifTrue: [ child menuWindowDo: aValuable ] ]
+			 (child isKindOf: ToMenu) ]) ifTrue: [
+			child menuWindowDo: aValuable ] ]
 ]
 
 { #category : #'t - menu item' }
-TToMenuItem >> closeAllRelatedMenuWindows [
+TToMenuItem >> closeAllOtherPopupMenuWindows [
 
-	self allRelatedMenuWindowsDo: [ :mw | mw close ]
+	self allOtherMenuWindowsDo: [ :mw |
+		mw isInline ifFalse: [ mw close ] ]
 ]
 
 { #category : #'t - menu item' }

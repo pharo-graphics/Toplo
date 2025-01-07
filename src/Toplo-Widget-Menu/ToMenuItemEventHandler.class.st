@@ -40,9 +40,10 @@ ToMenuItemEventHandler >> mouseEnterEvent: anEvent [
 	(anEvent anyButtonPressed and: [ anEvent currentTarget ~= target ])
 		ifTrue: [ ^ self ].
 	target isEnabled ifFalse: [ ^ self ].
-	target isTopMenu ifTrue: [ ^ self ].
-	target closeAllRelatedMenuWindows.
 	target isMenu ifFalse: [ ^ self ].
+	" topmenu case is managed at the menubar level "
+	target isTopMenu ifTrue: [ ^ self ].
+	target closeAllOtherPopupMenuWindows.
 	target isOpened ifTrue: [ ^ self ].
 	target openOnHovered ifFalse: [  ^ self ].
 	target popupEvent: anEvent
@@ -55,8 +56,10 @@ ToMenuItemEventHandler >> mouseLeaveEvent: anEvent [
 	(anEvent anyButtonPressed and: [ anEvent currentTarget ~= target ])
 		ifTrue: [ ^ self ].
 	target isEnabled ifFalse: [ ^ self ].
+	" topmenu case is managed at the menubar level "
 	target isTopMenu ifTrue: [ ^ self ].
-	target closeAllRelatedMenuWindows 
+	target isInline ifTrue: [ ^ self ].
+	target closeAllOtherPopupMenuWindows 
 ]
 
 { #category : #'mouse handlers' }

@@ -4100,8 +4100,9 @@ ToSandBox class >> example_menuBarVertical [
 			 labelText: 'Inspect';
 			 whenClickedDo: [ frame space root inspect ];
 			 yourself).
-	3 timesRepeat: [
+	1 to: 3 do: [ :count |
 		menu := ToMenu new.
+		count = 2 ifTrue: [ menu beInline ].
 		menu label: (ToLabel text: 'Levels').
 		menu icon:
 			(ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).

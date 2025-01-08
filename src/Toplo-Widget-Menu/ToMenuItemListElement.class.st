@@ -17,9 +17,9 @@ ToMenuItemListElement >> configureLayoutIn: aListHolder [
 ]
 
 { #category : #initialization }
-ToMenuItemListElement >> defaultNodeManager [ 
+ToMenuItemListElement >> defaultNodeManager [
 
-	^ToMenuItemNodeManager new
+	^ ToMenuItemNodeManager new
 ]
 
 { #category : #initialization }
@@ -42,4 +42,15 @@ ToMenuItemListElement >> initialize [
 ToMenuItemListElement >> newRawSkin [ 
 
 	^ ToMenuItemListElementSkin new
+]
+
+{ #category : #layout }
+ToMenuItemListElement >> onMeasure: anExtentMeasurementSpec [
+
+	"| w |
+	super onMeasure: anExtentMeasurementSpec.
+	w := 0.
+	self nodesDo: [ :node | w := w max: node measuredWidth ].
+	self nodesDo: [ :node | node width: w ]."
+	super onMeasure: anExtentMeasurementSpec
 ]

@@ -63,6 +63,18 @@ TToListElementDecorator >> nodes [
 	^ self next nodes
 ]
 
+{ #category : #'t - children - accessing' }
+TToListElementDecorator >> nodesDo: aValuable [
+
+	self next nodesDo: aValuable
+]
+
+{ #category : #'t - children - accessing' }
+TToListElementDecorator >> nodesSelect: aValuable [
+
+	^ self next nodesSelect: aValuable
+]
+
 { #category : #'t - infinite accessing' }
 TToListElementDecorator >> scrollToDataSourcePosition: anIndex [
 

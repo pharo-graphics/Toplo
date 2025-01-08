@@ -4088,8 +4088,7 @@ ToSandBox class >> example_menuBarInMenuBar [
 
 	| topMenuBar |
 	topMenuBar := ToMenuBar new.
-	topMenuBar nodeWrapping: false.
-	topMenuBar hMatchParent.
+	
 	3 timesRepeat: [
 		| mb |
 		mb := ToMenuBar new.
@@ -4106,7 +4105,42 @@ ToSandBox class >> example_menuBarInMenuBar [
 			 labelText: 'Inspect';
 			 whenClickedDo: [ topMenuBar inspect ];
 			 yourself).
+	"topMenuBar beVertical."
+	topMenuBar hMatchParent.
+
 	topMenuBar openInSpace
+]
+
+{ #category : #menu }
+ToSandBox class >> example_menuBarInMenuBarVertical [
+
+	| topMenuBar |
+	topMenuBar := ToMenuBar new.
+	topMenuBar beVertical.
+	topMenuBar nodeWrapping: false.
+	
+	3 timesRepeat: [
+		| mb |
+		mb := ToMenuBar new.
+		mb beVertical.
+		mb vMatchParent.
+		1 to: 3 do: [ :i |
+			| m |
+			m := ToMenu new labelText: 'Menu' , i asString.
+			1 to: 3 do: [ :j |
+			m addItem: (ToMenuItem new labelText: 'item ' , j asString) ].
+			mb addItem: m ].
+		topMenuBar addItem: mb.
+		topMenuBar addFiller ].
+
+	topMenuBar addItem: (ToMenuItem new
+			 labelText: 'Inspect';
+			 whenClickedDo: [ topMenuBar inspect ];
+			 yourself).
+
+	topMenuBar hMatchParent.
+
+	topMenuBar openInInnerWindow 
 ]
 
 { #category : #menu }

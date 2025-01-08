@@ -11,3 +11,16 @@ ToItemElement >> defaultLayout [
 
 	^ BlLinearLayout vertical
 ]
+
+{ #category : #accessing }
+ToItemElement >> disabled: aBoolean [
+
+	aBoolean
+		ifTrue: [
+			self parentItemListHolderDo: [ :l |
+				l disableItem: self ] ]
+		ifFalse: [
+			self parentItemListHolderDo: [ :l |
+				l enableItem: self ] ].
+	super disabled: aBoolean
+]

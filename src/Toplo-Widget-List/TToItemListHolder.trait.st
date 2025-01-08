@@ -16,35 +16,35 @@ TToItemListHolder >> addAllItems: aCollection [
 TToItemListHolder >> addItem: anItem [
 
 	self items add: anItem.
-	anItem onAddedInItemListHolder: self
+	self onAddedItem: anItem
 ]
 
 { #category : #'t - item list holder - adding/removing' }
 TToItemListHolder >> addItem: anItem after: anotherItem [
 
 	self items add: anItem after: anotherItem.
-	anItem onAddedInItemListHolder: self
+	self onAddedItem: anItem
 ]
 
 { #category : #'t - item list holder - adding/removing' }
 TToItemListHolder >> addItem: anItem afterIndex: anInteger [
 
 	self items add: anItem afterIndex: anInteger.
-	anItem onAddedInItemListHolder: self
+	self onAddedItem: anItem
 ]
 
 { #category : #'t - item list holder - adding/removing' }
 TToItemListHolder >> addItem: anItem before: anotherItem [
 
 	self items add: anItem before: anotherItem.
-	anItem onAddedInItemListHolder: self
+	self onAddedItem: anItem
 ]
 
 { #category : #'t - item list holder - adding/removing' }
 TToItemListHolder >> addItem: anItem beforeIndex: anInteger [
 
 	self items add: anItem beforeIndex: anInteger.
-	anItem onAddedInItemListHolder: self
+	self onAddedItem: anItem
 ]
 
 { #category : #'t - item list holder - initializing' }
@@ -179,11 +179,42 @@ TToItemListHolder >> nodeWrapping: aBoolean [
 ]
 
 { #category : #'t - item list holder - double dispatch' }
+TToItemListHolder >> onAddedAnyItemKind: anItem [
+
+	anItem isDisabled ifTrue: [
+		self disableAtPosition: anItem positionInItemList ]
+]
+
+{ #category : #'t - item list holder - adding/removing' }
+TToItemListHolder >> onAddedItem: anItem [
+
+	self onAddedAnyItemKind: anItem.
+	anItem onAddedInItemListHolder: self
+]
+
+{ #category : #'t - item list holder - double dispatch' }
 TToItemListHolder >> onAddedUnknownItemKind: anItem [
+
+
+]
+
+{ #category : #'t - item list holder - double dispatch' }
+TToItemListHolder >> onRemovedAnyItemKind: anItem [
+
+	
+]
+
+{ #category : #'t - item list holder - adding/removing' }
+TToItemListHolder >> onRemovedItem: anItem [
+
+	self onRemovedAnyItemKind: anItem.
+	anItem onRemovedFromItemListHolder: self
 ]
 
 { #category : #'t - item list holder - double dispatch' }
 TToItemListHolder >> onRemovedUnknownItemKind: anItem [
+
+
 ]
 
 { #category : #'t - item list holder - accessing' }
@@ -207,7 +238,7 @@ TToItemListHolder >> removeAllItems: aCollection [
 { #category : #'t - item list holder - adding/removing' }
 TToItemListHolder >> removeItem: anItem [
 
-	anItem onRemovedFromItemListHolder: self.
+	self onRemovedItem: anItem.
 	self items remove: anItem
 ]
 

@@ -3925,7 +3925,10 @@ ToSandBox class >> example_menuBar0 [
 	m1 addItem: (ToMenuItem new labelText: 'item 1').
 	m1 addItem: ToSeparatorMenuItem new.
 	m1 addItem: (ToMenuItem new labelText: 'item 2').
+	self halt.
+	m1 disable.
 	mb addItem: m1.
+
 	mb addItem: (ToMenuItem new labelText: 'Menu 1').
 	mb openInSpace
 ]
@@ -3946,6 +3949,7 @@ ToSandBox class >> example_menuBar1 [
 			             labelText: 'File';
 			             tooltipString: 'File stuffs';
 			             yourself).
+
 	fileMenu addItem: (ToMenuItem new
 			 labelText: 'Open';
 			 tooltipString: 'open stuffs';
@@ -4088,7 +4092,7 @@ ToSandBox class >> example_menuBarInMenuBar [
 
 	| topMenuBar |
 	topMenuBar := ToMenuBar new.
-	
+
 	3 timesRepeat: [
 		| mb |
 		mb := ToMenuBar new.
@@ -4098,9 +4102,11 @@ ToSandBox class >> example_menuBarInMenuBar [
 			1 to: 3 do: [ :j |
 			m addItem: (ToMenuItem new labelText: 'item ' , j asString) ].
 			mb addItem: m ].
-		topMenuBar addItem: mb.
-		topMenuBar addFiller ].
 
+		topMenuBar addItem: mb.
+		(mb items at: 2) disable.
+		
+		topMenuBar addFiller ].
 	topMenuBar addItem: (ToMenuItem new
 			 labelText: 'Inspect';
 			 whenClickedDo: [ topMenuBar inspect ];
@@ -6567,7 +6573,8 @@ ToSandBox class >> example_withCheckBox [
 	menu items last icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	menu addItem: (ToMenuItem new labelText: 'Disabled').
 	menu items last icon: (ToImage inner: (self iconNamed: #solidMenu)).
-	menu disableAtPosition: menu items last positionInItemList.
+	"menu disableAtPosition: menu items last positionInItemList."
+	menu items last disable.
 
 	menu addSeparator.
 

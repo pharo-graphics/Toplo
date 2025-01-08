@@ -15,12 +15,33 @@ ToItemElement >> defaultLayout [
 { #category : #accessing }
 ToItemElement >> disabled: aBoolean [
 
-	aBoolean
-		ifTrue: [
-			self parentItemListHolderDo: [ :l |
-				l disableItem: self ] ]
-		ifFalse: [
-			self parentItemListHolderDo: [ :l |
-				l enableItem: self ] ].
+	self parentItemListHolder
+		ifNil: [ self presetDisabledWith: aBoolean ]
+		ifNotNil: [ :l |
+			aBoolean
+				ifTrue: [ l disabledItem: self ]
+				ifFalse: [ l enabledItem: self ] ].
 	super disabled: aBoolean
+]
+
+{ #category : #accessing }
+ToItemElement >> hidden: aBoolean [
+
+	self parentItemListHolder
+		ifNil: [ self presetHiddenWith: aBoolean ]
+		ifNotNil: [ :l |
+			aBoolean
+				ifTrue: [ l hiddenItem: self ]
+				ifFalse: [ l visibleItem: self ] ]
+]
+
+{ #category : #accessing }
+ToItemElement >> unselectable: aBoolean [
+
+	self parentItemListHolder
+		ifNil: [ self presetUnselectableWith: aBoolean ]
+		ifNotNil: [ :l |
+			aBoolean
+				ifTrue: [ l unselectableItem: self ]
+				ifFalse: [ l selectableItem: self ] ]
 ]

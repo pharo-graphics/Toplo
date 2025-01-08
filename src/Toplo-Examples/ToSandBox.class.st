@@ -3918,19 +3918,21 @@ ToSandBox class >> example_inline1 [
 { #category : #menu }
 ToSandBox class >> example_menuBar0 [
 
-	| mb m1 |
-	mb := ToMenuBar new.
-	mb hMatchParent.
-	m1 := ToMenu new labelText: 'Menu 2'.
-	m1 addItem: (ToMenuItem new labelText: 'item 1').
-	m1 addItem: ToSeparatorMenuItem new.
-	m1 addItem: (ToMenuItem new labelText: 'item 2').
-	self halt.
-	m1 disable.
-	mb addItem: m1.
+	| bar menu |
+	bar := ToMenuBar new.
+	bar hMatchParent.
+	menu := ToMenu new labelText: 'Menu 2'.
+	menu addItem: (ToMenuItem new labelText: 'item 1').
+	menu addItem: ToSeparatorMenuItem new.
+	menu addItem: (ToMenuItem new labelText: 'item 2').
 
-	mb addItem: (ToMenuItem new labelText: 'Menu 1').
-	mb openInSpace
+
+	bar addItem: menu.
+	menu disable.
+
+	menu := ToMenuItem new labelText: 'Menu 1'.
+	bar addItem: menu.
+	bar openInSpace
 ]
 
 { #category : #menu }
@@ -4469,7 +4471,7 @@ ToSandBox class >> example_segmentedWithCheckboxes [
 		seg dataAccessor add: (ToCheckbox new
 				 labelText: l;
 				 yourself) ].
-	seg  disableAtPosition: 2.
+	seg  disabledAtPosition: 2.
 	seg selectionOption masked: true.
 	dashBoard := self segmentedDashBoardFor: seg.
 	dashBoard openInSpace
@@ -4583,7 +4585,7 @@ ToSandBox class >> example_segmentedWithSegmentedButton [
 				 whenClickedDo: [ :event | event currentTarget label text traceCr ];
 				 yourself) ].
 
-	seg  disableAtPosition: 2.
+	seg  disabledAtPosition: 2.
 	dashBoard := self segmentedDashBoardFor: seg.
 
 	feedbackPane := ToPane horizontal.

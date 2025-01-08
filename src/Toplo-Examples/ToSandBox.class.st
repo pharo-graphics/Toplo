@@ -2190,7 +2190,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	select placeholderText:
 		('Select states' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select manager anchorRoot: innerWindow root.
 	select position: 5 @ 10.
 	select width: 380.
 	select selecter selectIndex: 2.
@@ -2258,7 +2258,7 @@ ToSandBox class >> example_SelectMultiFiltrableNoWrapping [
 	select placeholderText:
 		('Select states' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select manager anchorRoot: innerWindow root.
 	select hMatchParent.
 	innerWindow pane addChild: select.
 	innerWindow height: 600.

@@ -12,7 +12,7 @@ ToMenuItemElement >> closeSiblingMenuWindow [
 	self parentItemListHolder ifNil: [ ^ self ].
 	self parentItemListHolder closeAllWindowsForItemsSatisfying: [ :it |
 		it notNil and: [
-			it ~= self and: [ it isInline not or: [ it isInInlineWindow not ] ] ] ]
+			it ~= self and: [ it isInline not ] ] ]
 ]
 
 { #category : #'t - menu window model' }
@@ -98,13 +98,6 @@ ToMenuItemElement >> isOpened [
 ToMenuItemElement >> isTopMenu [
 
 	^ false
-]
-
-{ #category : #'t - menu window model' }
-ToMenuItemElement >> menuBar [
-
-	self parentItemListHolder ifNil: [ ^ nil ].
-	^ self parentItemListHolder menuBar
 ]
 
 { #category : #'t - menu window model' }

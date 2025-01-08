@@ -45,7 +45,9 @@ ToStillPressedPickOutsideEventFilter >> mouseUpEvent: anEvent [
 	holder ifNil: [ ^ self ].
 	" ok, mouseUp outside the element and outside of the popup window "
 	holder removeEventFilter: self.
-	element dispatchEvent: ToPickOutsideEvent new
+	element dispatchEvent: (ToPickOutsideEvent new
+			 timestamp: element space time now;
+			 yourself)
 ]
 
 { #category : #'api - hooks' }

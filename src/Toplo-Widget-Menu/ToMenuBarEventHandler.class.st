@@ -2,31 +2,10 @@ Class {
 	#name : #ToMenuBarEventHandler,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
-		'target',
-		'pickOutsideFilter',
-		'root'
+		'target'
 	],
 	#category : #'Toplo-Widget-Menu-Bar'
 }
-
-{ #category : #'event handling' }
-ToMenuBarEventHandler >> elementAddedToSceneGraphEvent: anEvent [
-
-	pickOutsideFilter ifNotNil: [ ^ self ].
-	pickOutsideFilter := ToMenuBarEventFilter new.
-	pickOutsideFilter target: target.
-	root := target space root.
-	root addEventFilter: pickOutsideFilter
-]
-
-{ #category : #'event handling' }
-ToMenuBarEventHandler >> elementRemovedFromSceneGraphEvent: anEvent [
-
-	pickOutsideFilter ifNil: [ ^ self ].
-	root removeEventFilter: pickOutsideFilter.
-	pickOutsideFilter := nil.
-	root := nil
-]
 
 { #category : #'api - accessing' }
 ToMenuBarEventHandler >> eventsToHandle [
@@ -34,9 +13,6 @@ ToMenuBarEventHandler >> eventsToHandle [
 	^ {
 		  BlMouseLeaveEvent.
 		  BlMouseOverEvent.
-		  BlMouseUpEvent.
-		  BlElementAddedToSceneGraphEvent.
-		  BlElementRemovedFromSceneGraphEvent.
 		  ToLayoutOrientationChangedEvent.
 		  ToLayoutDirectionChangedEvent.
 		  BlLayoutResizerChangedEvent }
@@ -51,6 +27,13 @@ ToMenuBarEventHandler >> layoutDirectionChangedEvent: anEvent [
 { #category : #'event handling' }
 ToMenuBarEventHandler >> layoutOrientationChangedEvent: anEvent [
 
+	target isHorizontal
+		ifTrue: [
+			target nodeWrapping: false.
+			target uniformNodeWidth: false ]
+		ifFalse: [
+			target nodeWrapping: true.
+			target uniformNodeWidth: true ].
 	anEvent currentTarget configureLayout
 ]
 
@@ -70,15 +53,6 @@ ToMenuBarEventHandler >> mouseLeaveEvent: anEvent [
 ToMenuBarEventHandler >> mouseOverEvent: anEvent [
 
 	target mouseOverEvent: anEvent
-]
-
-{ #category : #'event handling' }
-ToMenuBarEventHandler >> mouseUpEvent: anEvent [
-
-	(target itemContaining: anEvent target) ifNotNil: [ :found |
-		found isMenu ifFalse: [
-			target cancelAutoOpen.
-			^ self ] ]
 ]
 
 { #category : #'api - hooks' }

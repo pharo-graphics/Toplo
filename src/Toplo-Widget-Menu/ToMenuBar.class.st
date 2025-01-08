@@ -73,13 +73,12 @@ ToMenuBar >> initialize [
 	self layout: BlLinearLayout horizontal.
 	self addEventHandler: ToMenuBarEventHandler new.
 	self addChild: self itemList.
-	self beHorizontal.
 	self nodeWrapping: false.
-	self uniformNodeWidth: false
-
+	self uniformNodeWidth: false.
+	self beHorizontal
 ]
 
-{ #category : #'auto opening' }
+{ #category : #testing }
 ToMenuBar >> isAutoOpen [
 
 	^ self rootMenuBar autoOpen
@@ -138,11 +137,11 @@ ToMenuBar >> menuWindowDo: aValuable [
 ToMenuBar >> mouseOverEvent: anEvent [
 
 	self isAutoOpen ifFalse: [ ^ self ].
+
 	" auto-open action "
-	" do not send mouseOverEvent in case of an inline menu "
-	self items withIndexDo: [ :m :idx |
-		m isItemContainer ifTrue: [
-			m isInline ifFalse: [ m mouseOverEvent: anEvent ] ] ]
+	self items do: [ :m |
+		(m isItemContainer and: [ m isInline not ]) ifTrue: [
+			m mouseOverEvent: anEvent ] ]
 ]
 
 { #category : #'t - item list holder - accessing' }

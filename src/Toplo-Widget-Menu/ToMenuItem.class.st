@@ -12,12 +12,6 @@ ToMenuItem >> buttonClass [
 	^ ToButton 
 ]
 
-{ #category : #testing }
-ToMenuItem >> closeOnPicking [
-
-	^ closeOnPicking and: [ self isTopMenu not ]
-]
-
 { #category : #initialization }
 ToMenuItem >> initialize [ 
 

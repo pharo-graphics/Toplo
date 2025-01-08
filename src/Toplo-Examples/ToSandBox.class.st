@@ -1709,6 +1709,25 @@ ToSandBox class >> example_Menu0 [
 	container openInSpace
 ]
 
+{ #category : #menu }
+ToSandBox class >> example_MenuWithSelect [
+
+	| menu selector item |
+	menu := ToMenu new.
+	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	selector := ToSingleSelectElement new.
+	selector placeholderText: ('Choose a level number' asRopedText
+			 foreground: Color veryLightGray;
+			 yourself).
+	selector filtrable: false.
+	selector width: 170.
+	selector popupListElement dataAccessor addAll:
+		{ 1. 2. 3. 4. 5. 6. 7. 8. 9. 10. 11. 12 }.
+	item := ToCustomMenuItem new in: [ :e | e addChild: selector ].
+	menu addItem: item.
+	menu openInSpace
+]
+
 { #category : #list }
 ToSandBox class >> example_NodeContainerWithStatesOfAmerica [
 
@@ -2171,7 +2190,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	select placeholderText:
 		('Select states' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select manager anchorRoot: innerWindow root.
 	select position: 5 @ 10.
 	select width: 380.
 	select selecter selectIndex: 2.
@@ -2239,7 +2258,7 @@ ToSandBox class >> example_SelectMultiFiltrableNoWrapping [
 	select placeholderText:
 		('Select states' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select manager anchorRoot: innerWindow root.
 	select hMatchParent.
 	innerWindow pane addChild: select.
 	innerWindow height: 600.
@@ -4004,6 +4023,7 @@ ToSandBox class >> example_menuBar3 [
 
 	| menu frame bar rand |
 	bar := ToMenuBar new.
+	bar beHorizontal.
 	rand := Random new.
 	frame := ToInnerWindow new.
 	bar addFiller.
@@ -4096,15 +4116,13 @@ ToSandBox class >> example_menuBarVertical [
 	bar := ToMenuBar new.
 
 	frame := ToInnerWindow new.
-	"bar addFiller."
 	bar addItem: (ToMenuItem new
 			 labelText: 'Inspect';
 			 whenClickedDo: [ frame space root inspect ];
 			 yourself).
-	"bar addFiller."
-	3 timesRepeat: [
+	1 to: 3 do: [ :count |
 		menu := ToMenu new.
-		menu beInline.
+		count = 2 ifTrue: [ menu beInline ].
 		menu label: (ToLabel text: 'Levels').
 		menu icon:
 			(ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
@@ -6528,7 +6546,7 @@ ToSandBox class >> example_withCheckBox [
 	subsub := ToMenu new
 		          labelText: 'Externally';
 		          icon: (ToImage inner: (self iconNamed: #solidMenu)).
-	subsub manager beInline.
+	"subsub beInline."
 	subsubsub := ToMenu new
 		             labelText: 'When';
 		             icon: (ToImage inner: (self iconNamed: #solidMenu)).

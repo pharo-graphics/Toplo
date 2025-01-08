@@ -5,17 +5,20 @@ Class {
 }
 
 { #category : #'window handling' }
-ToMenuWindowManager >> autoCloseWindow [
-
-	super autoCloseWindow.
-	element menuBarDo: [ :mb | mb cancelAutoOpen ]
-]
-
-{ #category : #'window handling' }
 ToMenuWindowManager >> beInline [ 
 
 	super beInline.
 	element openOnHovered: false
+]
+
+{ #category : #'event handling' }
+ToMenuWindowManager >> checkCloseOnPickingEvent: anEvent [
+
+	| target |
+	target := anEvent currentTarget.
+	(target isInline or: [ target isInInlineWindow ]) ifTrue: [
+		^ currentWindow notNil ].
+	^ super checkCloseOnPickingEvent: anEvent
 ]
 
 { #category : #initializing }
@@ -36,15 +39,6 @@ ToMenuWindowManager >> eventsToHandle [
 ToMenuWindowManager >> inlineWindowClass [
 
 	^ ToInlineMenuWindowElement
-]
-
-{ #category : #'event handling' }
-ToMenuWindowManager >> mouseDownEvent: anEvent [
-
-	super mouseDownEvent: anEvent.
-	(element itemContaining: anEvent target) ifNotNil: [ :found |
-		found isMenu ifTrue: [
-			element menuBarDo: [ :mb | mb switchAutoOpen ] ] ].
 ]
 
 { #category : #'event handling' }
@@ -82,7 +76,14 @@ ToMenuWindowManager >> onOpened [
 ToMenuWindowManager >> pickOutsideEvent: anEvent [
 
 	super pickOutsideEvent: anEvent.
-	element menuBarDo: [ :mb | mb cancelAutoOpen ]
+	element menuBarDo: [ :mb |
+		mb cancelAutoOpen ]
+]
+
+{ #category : #'window handling' }
+ToMenuWindowManager >> pickOutsideFilterClass [ 
+
+	^ ToMenuWindowPickOutsideEventFilter
 ]
 
 { #category : #'window handling' }

@@ -2,8 +2,7 @@ Class {
 	#name : #ToGeneralButtonMenuItem,
 	#superclass : #ToMenuItemElement,
 	#instVars : [
-		'button',
-		'closeOnPicking'
+		'button'
 	],
 	#category : #'Toplo-Widget-Menu-Items'
 }
@@ -44,12 +43,6 @@ ToGeneralButtonMenuItem >> clickEventClass [
 	^ button clickEventClass
 ]
 
-{ #category : #testing }
-ToGeneralButtonMenuItem >> closeOnPicking: aBoolean [
-
-	closeOnPicking := aBoolean
-]
-
 { #category : #initialization }
 ToGeneralButtonMenuItem >> initialize [ 
 
@@ -57,8 +50,7 @@ ToGeneralButtonMenuItem >> initialize [
 	self button: self buttonClass new.
 	self button takeFocusOnClick: false.
 	self button clickEventClass: self buttonClickEventClass.
-	self layout: self defaultLayout.
-	closeOnPicking := true
+	self layout: self defaultLayout
 ]
 
 { #category : #'t - clickable - click behavior' }

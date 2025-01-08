@@ -441,6 +441,32 @@ BlElement >> openedEventClass [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> parentChain [
+	"Return an array containing all my parents (including myself) ordered from myself to the space root   "
+
+	| p |
+	p := self.
+	^ Array streamContents: [ :stream |
+		  [ p isNil ] whileFalse: [
+			  stream nextPut: p.
+			  p := p parent ] ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> parentChainDo: aBlock [
+	"evaluate a block with each of my parents (including myself) ordered from myself to the space root   "
+
+	self parentChain do: aBlock
+]
+
+{ #category : #'*Toplo' }
+BlElement >> parentChainReverseDo: aBlock [
+	"evaluate a block with each of my parents (including myself) ordered from my space root to myself  "
+
+	self parentChain reverseDo: aBlock
+]
+
+{ #category : #'*Toplo' }
 BlElement >> preventSelectionSkinEvents [
 
 	self preventSkinEventClass: ToSelectedSkinEvent.

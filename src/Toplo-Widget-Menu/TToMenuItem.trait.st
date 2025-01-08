@@ -4,15 +4,62 @@ Trait {
 }
 
 { #category : #'t - menu item' }
+TToMenuItem >> allMenuWindows [
+
+	^ Array streamContents: [ :stream |
+		  self allMenuWindowsDo: [ :mw | stream nextPut: mw ] ]
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> allMenuWindowsDo: aValuable [
+
+	| r |
+	r := self rootMenuWindowOrMenuBar ifNil: [ ^ self ].
+	r allChildrenDepthFirstDo: [ :child |
+		(child isKindOf: ToMenu) ifTrue: [ child menuWindowDo: aValuable ] ]
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> allOtherMenuWindows [
+
+	^ Array streamContents: [ :stream |
+		  self allOtherMenuWindowsDo: [ :mw | stream nextPut: mw ] ]
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> allOtherMenuWindowsDo: aValuable [
+
+	| r |
+	r := self rootMenuWindowOrMenuBar ifNil: [ ^ self ].
+	r allChildrenDepthFirstDo: [ :child |
+		(child ~= self and: [
+			 (child isKindOf: ToMenu) ]) ifTrue: [
+			child menuWindowDo: aValuable ] ]
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> closeAllOtherPopupMenuWindows [
+
+	self allOtherMenuWindowsDo: [ :mw |
+		mw isInline ifFalse: [ mw close ] ]
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> closeAllPopupMenuWindows [
+
+	self allMenuWindowsDo: [ :mw |
+		mw isInline ifFalse: [ mw close ] ]
+]
+
+{ #category : #'t - menu item' }
 TToMenuItem >> closeOnPicking [ 
 
-	^ false
+	^ true
 ]
 
 { #category : #'t - menu item' }
 TToMenuItem >> isInInlineWindow [
 
-	self isInline ifTrue: [ ^ true ].
 	self parentMenuDo: [ :m | ^ m isInline ].
 	^ false
 ]
@@ -33,6 +80,14 @@ TToMenuItem >> isRootMenuItem [
 TToMenuItem >> isSubmenu [ 
 
 	^ false
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> menuBar [
+
+	self parentChainReverseDo: [ :e |
+		(e isKindOf: ToMenuBar) ifTrue: [ ^ e ] ].
+	^ nil
 ]
 
 { #category : #'t - menu item' }
@@ -63,4 +118,13 @@ TToMenuItem >> popupWindowParentMenu [
 TToMenuItem >> popupWindowParentMenuDo: aBlock [
 
 	self popupWindowParentMenu ifNotNil: [ :p | aBlock value: p ]
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> rootMenuWindowOrMenuBar [
+
+	self parentChainReverseDo: [ :e |
+		((e isKindOf: ToMenuWindow) or: [ e isKindOf: ToMenuBar ]) ifTrue: [
+			^ e ] ].
+	^ nil
 ]

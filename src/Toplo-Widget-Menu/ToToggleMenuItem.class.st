@@ -6,7 +6,7 @@ Class {
 	#category : #'Toplo-Widget-Menu-Items'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToToggleMenuItem >> button: aCheckbox [
 
 	super button: aCheckbox.
@@ -38,11 +38,10 @@ ToToggleMenuItem >> checkableData: aCheckableData [
 	^ self shouldNotImplement 
 ]
 
-{ #category : #'as yet unclassified' }
-ToToggleMenuItem >> initialize [
+{ #category : #'t - menu item' }
+ToToggleMenuItem >> closeOnPicking [ 
 
-	super initialize.
-	closeOnPicking := false
+	^ false
 ]
 
 { #category : #skin }

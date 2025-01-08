@@ -7,15 +7,20 @@ Class {
 { #category : #'api - displaying' }
 ToMenuWindow >> correctedPositionWithinAnchorRoot [
 
-	| t rect rootRect parentMenu parentMenuBounds |
+	| t rect rootRect parentMenu parentMenuBounds rootMenuOrMenuBar |
 	rect := self bounds inSpace bounds asRectangle.
 	rootRect := 0 @ 0 extent: self anchorRoot extent.
 	t := rect amountToTranslateWithin: rootRect.
 	" the parent menu is the element of my window manager "
 	parentMenu := self manager element.
-	" in case of a root menu (including context menu), just keep the computed position "
-	(t x isZero or: [ parentMenu isSubmenu not ]) ifTrue: [
-		^ super correctedPositionWithinAnchorRoot + t ].
+	" in case of a root menu (including context menu), just keep the computed position.
+	If not, then in case of an horizontal menubar, keep also the computed position.
+	In case of a vertical menubar, it may be necessary to also fix the position x "
+	rootMenuOrMenuBar := parentMenu rootMenuWindowOrMenuBar.
+	(t x isZero or: [
+		 parentMenu isSubmenu not and: [
+			 rootMenuOrMenuBar isNil or: [ rootMenuOrMenuBar isHorizontal ] ] ])
+		ifTrue: [ ^ super correctedPositionWithinAnchorRoot + t ].
 	" If a translation is necessary, then open on the parent menu left "
 	parentMenuBounds := parentMenu bounds inParent: self anchorRoot.
 	^ parentMenuBounds topLeft - (self width @ t y negated)
@@ -41,6 +46,12 @@ ToMenuWindow >> initialize [
 
 	super initialize.
 	self addEventHandler: ToMenuWindowEventHandler new
+]
+
+{ #category : #testing }
+ToMenuWindow >> isInline [ 
+
+	^ self element isInline
 ]
 
 { #category : #accessing }

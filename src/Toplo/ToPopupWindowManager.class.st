@@ -7,8 +7,8 @@ Class {
 		'autoCloseDelay',
 		'upCountRequired',
 		'autoPopupHandler',
-		'closeOnMouseDown',
-		'checkPickOutside'
+		'checkPickOutside',
+		'closeOnPicking'
 	],
 	#category : #'Toplo-Core-Window'
 }
@@ -89,6 +89,13 @@ ToPopupWindowManager >> checkAutoCloseWindowOnMouseUp: anEvent [
 		anEvent consume ]
 ]
 
+{ #category : #'event handling' }
+ToPopupWindowManager >> checkCloseOnPickingEvent: anEvent [
+
+	currentWindow ifNotNil: [ closeOnPicking ifTrue: [ ^ true ] ].
+	^ false
+]
+
 { #category : #accessing }
 ToPopupWindowManager >> checkPickOutside [
 
@@ -99,6 +106,18 @@ ToPopupWindowManager >> checkPickOutside [
 ToPopupWindowManager >> checkPickOutside: aBoolean [
 
 	checkPickOutside := aBoolean
+]
+
+{ #category : #accessing }
+ToPopupWindowManager >> closeOnPicking [
+
+	^ closeOnPicking 
+]
+
+{ #category : #accessing }
+ToPopupWindowManager >> closeOnPicking: aBoolean [
+
+	closeOnPicking := aBoolean
 ]
 
 { #category : #'window handling' }
@@ -120,7 +139,7 @@ ToPopupWindowManager >> defaultAutoCloseDelay [
 ]
 
 { #category : #initialization }
-ToPopupWindowManager >> defaultCloseOnMouseDown [
+ToPopupWindowManager >> defaultCloseOnPicking [
 
 	^ true
 ]
@@ -147,7 +166,7 @@ ToPopupWindowManager >> initialize [
 	super initialize.
 	self usePrimaryMouseButton .
  	autoCloseDelay := self defaultAutoCloseDelay.
-	closeOnMouseDown := self defaultCloseOnMouseDown.
+	closeOnPicking := self defaultCloseOnPicking.
 	checkPickOutside := true
 ]
 
@@ -166,8 +185,8 @@ ToPopupWindowManager >> mouseDownEvent: anEvent [
 
 	self unqueuePopupTaskFromEvent: anEvent.
 	anEvent button = mouseButton ifFalse: [ ^ self ].
-	currentWindow ifNotNil: [
-		closeOnMouseDown ifTrue: [ self closeWindow ].
+	(self checkCloseOnPickingEvent: anEvent) ifTrue: [
+		self closeWindow.
 		^ self ].
 	self popupOnMouseDown ifFalse: [ ^ self ].
 	currentWindow ifNotNil: [ ^ self ].
@@ -185,7 +204,7 @@ ToPopupWindowManager >> mouseUpEvent: anEvent [
 { #category : #'window handling' }
 ToPopupWindowManager >> newPickOutsideFilter [
 
-	^ ToPopupPickOutsideEventFilter new
+	^ self pickOutsideFilterClass new
 		  windowManager: self;
 		  upCountRequired: upCountRequired;
 		  yourself
@@ -212,7 +231,13 @@ ToPopupWindowManager >> onOpened [
 ToPopupWindowManager >> pickOutsideEvent: anEvent [
 
 	self isInline ifTrue: [ ^ self ].
-	self closeWindow
+	self checkAutoCloseWindowOnMouseUp: anEvent
+]
+
+{ #category : #'window handling' }
+ToPopupWindowManager >> pickOutsideFilterClass [
+
+	^ ToPopupPickOutsideEventFilter
 ]
 
 { #category : #'window handling' }

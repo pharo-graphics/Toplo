@@ -10,6 +10,17 @@ Class {
 	#category : #'Toplo-Widget-Collapse'
 }
 
+{ #category : #examples }
+ToCollapseElement class >> exampleWithLabel [
+
+	<sampleInstance>
+	| inst |
+	inst := ToCollapseElement new.
+	inst labelText: 'coucou'.
+	inst openInSpace.
+	^ inst
+]
+
 { #category : #initialization }
 ToCollapseElement >> buttonClass [
 
@@ -41,8 +52,9 @@ ToCollapseElement >> initialize [
 	self hMatchParent.
 	self vFitContent.
 	self background: Color random.
-	self initializeHeader.
-	self initializeBody
+
+	self initializeBody.
+	self initializeClick
 ]
 
 { #category : #initialization }
@@ -62,15 +74,14 @@ ToCollapseElement >> initializeBody [
 ]
 
 { #category : #initialization }
-ToCollapseElement >> initializeHeader [
+ToCollapseElement >> initializeClick [
 
-	self whenClickedDo:  [ :e |
+	self whenClickedDo: [ :e |
 		e consume.
 		collapsed := collapsed not.
 		collapsed
 			ifFalse: [ self expand ]
-			ifTrue: [ self collapse ] ].
-	
+			ifTrue: [ self collapse ] ]
 ]
 
 { #category : #'t - triplet element - private - accessing' }

@@ -887,44 +887,42 @@ ToSandBox class >> example_CodeEditor [
 			                yourself).
 	               menu addItem: (ToMenu new
 			                labelText: 'Edit';
-			                builder: [ :m | | item |
-											item := ToMenuItem new
-							                 labelText: 'Copy';
-							                 whenClickedDo: [ :event |
-								                 album editor copySelected ];
-							                 yourself.
-										 album hasSelection ifFalse: [
-					                	item disable].
-				                m addItem: (item).
+			                builder: [ :m |
+				                | item |
+				                item := ToMenuItem new
+					                        labelText: 'Copy';
+					                        whenClickedDo: [ :event |
+						                        album editor copySelected ];
+					                        yourself.
+				                album hasSelection ifFalse: [ item disable ].
+				                m addItem: item.
 				                m addItem: (ToMenuItem new
 						                 labelText: 'Cut';
 						                 whenClickedDo: [ :event |
 							                 album editor cutSelected ];
 						                 yourself).
 				                album hasSelection ifFalse: [
-					                m items last disable].
+					                m items last disable ].
 
 				                m addItem: (ToMenuItem new
 						                 labelText: 'Paste';
 						                 whenClickedDo: [ :event | album editor paste ];
 						                 yourself).
 				                album editor paster fromClipboard isEmpty ifTrue: [
-					                m items last disable].
+					                m items last disable ].
 				                m addSeparator.
 
 				                m addItem: (ToMenuItem new
 						                 labelText: 'Accept';
 						                 whenClickedDo: [ :event | album requestSave ];
 						                 yourself).
-				                album edited ifFalse: [
-					                m items last disable].
+				                album edited ifFalse: [ m items last disable ].
 
 				                m addItem: (ToMenuItem new
 						                 labelText: 'Cancel';
 						                 whenClickedDo: [ :event | album requestCancel ];
 						                 yourself).
-				                album edited ifFalse: [
-					                m items last disable] ]) ].
+				                album edited ifFalse: [ m items last disable ] ]) ].
 	album contextMenu: menuBuilder.
 
 	fileMenu := ToMenu new labelText: 'Edit'.

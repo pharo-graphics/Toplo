@@ -1,3 +1,7 @@
+"
+I'm a tab pane i.e. the complete widget with multiple tabs and a pane displaying the contents of my selected tab. 
+My header groups the tabs that compose me.
+"
 Class {
 	#name : #ToTabPane,
 	#superclass : #ToPane,
@@ -7,7 +11,7 @@ Class {
 		'body',
 		'resizablePanes'
 	],
-	#category : #'Toplo-Widget-TabPane'
+	#category : #'Toplo-Widget-TabPane-Core'
 }
 
 { #category : #'adding-removing' }

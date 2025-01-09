@@ -1,3 +1,6 @@
+"
+I'm a list whose node contents is a menu item element.
+"
 Class {
 	#name : #ToMenuItemListElement,
 	#superclass : #ToItemListElement,

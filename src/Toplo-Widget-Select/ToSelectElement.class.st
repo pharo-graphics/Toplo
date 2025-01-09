@@ -1,3 +1,17 @@
+"
+Conceptually I'm a kind of abstract combox where one or several elements are selected from a list.
+ 
+There are two main kind of select: 
+- single where only one element from the list can be selected
+- multiple where multiple elements from the list can be selected
+
+My innerElement reflects this difference: it will be either a single element or a list of elements. 
+In addition the contents of my list can be filtered.
+The header can be composed of the selected elements and an icon.
+
+See https://ant.design/components/select for a functional reference. 
+
+"
 Class {
 	#name : #ToSelectElement,
 	#superclass : #ToElement,

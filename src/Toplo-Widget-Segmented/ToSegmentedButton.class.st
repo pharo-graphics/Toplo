@@ -6,18 +6,6 @@ Class {
 	#category : #'Toplo-Widget-Segmented-Button'
 }
 
-{ #category : #'t - item' }
-ToSegmentedButton >> disabled: aBoolean [
-
-	self parentItemListHolder
-		ifNil: [ self presetDisabledWith: aBoolean ]
-		ifNotNil: [ :l |
-			aBoolean
-				ifTrue: [ l disabledItem: self ]
-				ifFalse: [ l enabledItem: self ] ].
-	super disabled: aBoolean
-]
-
 { #category : #skin }
 ToSegmentedButton >> newRawSkin [
 

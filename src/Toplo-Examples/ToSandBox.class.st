@@ -4175,7 +4175,7 @@ ToSandBox class >> example_menuBarVertical [
 					           (ToLabel new text: (String streamContents: [ :out |
 							             out
 								             print: index;
-								             nextPut: $x;
+								             nextPutAll: 'x';
 								             print: index ])).
 				subMenu builder: [ :sm |
 					1 to: 10 do: [ :i |
@@ -6650,7 +6650,7 @@ ToSandBox class >> example_withCustomMenuItems [
 			 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
 
 	menu addItem: (ToMenuItem new
-			 labelText: 'Export';
+			 labelText: 'Export'; disable;
 			 whenClickedDo: [ self inform: 'Export' ]).
 	menu addItem: (ToMenuItem new
 			 labelText: 'Inspect';

@@ -48,6 +48,14 @@ ToMenuBar >> closeWindow [
 	self itemList do: [ :it | it isMenuItem ifTrue: [ it closeWindow ] ]
 ]
 
+{ #category : #enumerating }
+ToMenuBar >> collectedNodesDo: aValuable [
+
+	self allChildrenBreadthFirstDo: [ :child |
+		(child isKindOf: ToMenuItemNode) ifTrue: [
+			child isFake ifFalse: [ aValuable value: child ] ] ]
+]
+
 { #category : #'t - item list holder - initializing' }
 ToMenuBar >> configureLayout [
 
@@ -167,6 +175,21 @@ ToMenuBar >> onAddedMenu: aMenu [
 
 	aMenu parentItemListHolder: self.
 	aMenu isSubmenu: false
+]
+
+{ #category : #layout }
+ToMenuBar >> onMeasure: anExtentMeasurementSpec [
+	"By default let layout strategy do the measuring job.
+	If needed override this method to do some additional
+	actions or just implement custom layout strategy"
+
+	| w |
+	super onMeasure: anExtentMeasurementSpec.
+	self isHorizontal ifTrue: [ ^ self ].
+	w := 0.
+	self collectedNodesDo: [ :child | w := w max: child measuredWidth ].
+	self collectedNodesDo: [ :child |
+		child measuredExtent: w @ child measuredHeight ]
 ]
 
 { #category : #'adding-removing' }

@@ -40,7 +40,7 @@ ToElement >> initialize [
 ]
 
 { #category : #converting }
-ToElement >> newScrollableParent [
+ToElement >> newScrollable [
 
 	^ ToScrollableElement new
 ]

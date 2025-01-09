@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'placeholder'
 	],
-	#category : #'Toplo-Widget-Pane'
+	#category : #'Toplo-Widget-Pane-Events'
 }
 
 { #category : #accessing }

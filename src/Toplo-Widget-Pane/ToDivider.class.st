@@ -8,7 +8,7 @@ Class {
 		'secondResizedElement',
 		'firstLayoutDone'
 	],
-	#category : #'Toplo-Widget-Pane'
+	#category : #'Toplo-Widget-Pane-Core'
 }
 
 { #category : #'instance creation' }

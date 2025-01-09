@@ -1,3 +1,7 @@
+"
+I'm a menu item with toggle behavior. 
+I'm one of the leave of menu composite.
+"
 Class {
 	#name : #ToToggleMenuItem,
 	#superclass : #ToMenuItem,

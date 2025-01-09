@@ -1,3 +1,6 @@
+"
+I'm a data item for menu item list.
+"
 Class {
 	#name : #ToMenuItemElement,
 	#superclass : #ToItemElement,

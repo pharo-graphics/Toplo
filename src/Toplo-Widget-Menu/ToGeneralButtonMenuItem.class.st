@@ -1,3 +1,6 @@
+"
+I'm a data item that behaves as a button. 
+"
 Class {
 	#name : #ToGeneralButtonMenuItem,
 	#superclass : #ToMenuItemElement,

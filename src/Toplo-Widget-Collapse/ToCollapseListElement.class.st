@@ -7,11 +7,11 @@ Class {
 { #category : #example }
 ToCollapseListElement class >> example [
 
-	<sampleInstance>
+	<script>
 	| list |
 	list := ToCollapseListElement new.
-	list dataAccessor addAll:
-		((1 to: 5) collect: [ :i | ToCollapseElement new labelText: 'coucou ', i asString  ]).
+	list dataAccessor addAll: ((1 to: 5) collect: [ :i |
+			 ToCollapseElement new labelText: 'coucou ' , i asString ]).
 	list matchParent.
 	list openInSpace
 ]
@@ -19,12 +19,12 @@ ToCollapseListElement class >> example [
 { #category : #example }
 ToCollapseListElement class >> exampleBasicCollapse [
 
-	<sampleInstance>
+	<script>
 	| list |
 	list := ToCollapseListElement new.
-	list dataAccessor addAll:
-		((1 to: 5) collect: [ :i | ToBasicCollapseElement new 
-												button addChild:  (ToLabel text: 'coucou ', i asString ) ]).
+	list dataAccessor addAll: ((1 to: 5) collect: [ :i |
+			 ToBasicCollapseElement new button addChild:
+				 (ToLabel text: 'coucou ' , i asString) ]).
 	list matchParent.
 	list openInSpace
 ]
@@ -32,11 +32,23 @@ ToCollapseListElement class >> exampleBasicCollapse [
 { #category : #example }
 ToCollapseListElement class >> exampleCollapse [
 
-	<sampleInstance>
+	<script>
 	| list |
 	list := ToCollapseListElement new.
-	list dataAccessor addAll:
-		((1 to: 5) collect: [ :i | ToCollapseElement new labelText: 'coucou ', i asString  ]).
+	list dataAccessor addAll: ((1 to: 5) collect: [ :i |
+			 ToCollapseElement new labelText: 'coucou ' , i asString ]).
+	list matchParent.
+	list openInSpace
+]
+
+{ #category : #example }
+ToCollapseListElement class >> exampleWorkingSkinCollapse [
+
+	<script>
+	| list |
+	list := ToCollapseListElement new.
+	list dataAccessor addAll: ((1 to: 5) collect: [ :i |
+			 ToWorkingCollapseElement new builder: [ :h | h addChild: (ToLabel text:'coucou ' , i asString) ]]).
 	list matchParent.
 	list openInSpace
 ]

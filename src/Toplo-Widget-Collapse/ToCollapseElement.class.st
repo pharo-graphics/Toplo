@@ -1,11 +1,16 @@
+"
+This version works but failed to honor the clicked skin event because  (which is used as the underlying implementation for the header) the skin clicked event is not passed by design to the parent. 
+
+
+"
 Class {
 	#name : #ToCollapseElement,
 	#superclass : #ToElement,
 	#traits : 'TToButtonHolder + (TToTripletElement - {#properties:}) + TToLabeledIcon',
 	#classTraits : 'TToButtonHolder classTrait + TToTripletElement classTrait + TToLabeledIcon classTrait',
 	#instVars : [
-		'collapsed',
-		'body'
+		'body',
+		'isCollapsed'
 	],
 	#category : #'Toplo-Widget-Collapse'
 }
@@ -13,10 +18,11 @@ Class {
 { #category : #examples }
 ToCollapseElement class >> exampleWithLabel [
 
-	<sampleInstance>
+	<script>
 	| inst |
 	inst := ToCollapseElement new.
 	inst labelText: 'coucou'.
+	inst addEventHandlerOn: ToSkinEvent do: [ :e | e traceCr ]. 
 	inst openInSpace.
 	^ inst
 ]
@@ -46,7 +52,7 @@ ToCollapseElement >> initialize [
 
 	super initialize.
 	self initializeButtonHolder.
-	collapsed := true.
+	isCollapsed := true.
 	self height: 30.
 	self layout: BlLinearLayout vertical.
 	self hMatchParent.
@@ -78,10 +84,22 @@ ToCollapseElement >> initializeClick [
 
 	self whenClickedDo: [ :e |
 		e consume.
-		collapsed := collapsed not.
-		collapsed
+		isCollapsed := isCollapsed not.
+		isCollapsed
 			ifFalse: [ self expand ]
 			ifTrue: [ self collapse ] ]
+]
+
+{ #category : #initialization }
+ToCollapseElement >> isCollapsed [
+
+	^ isCollapsed 
+]
+
+{ #category : #skin }
+ToCollapseElement >> newRawSkin [
+
+	^ ToCollapseElementSkin new 
 ]
 
 { #category : #'t - triplet element - private - accessing' }

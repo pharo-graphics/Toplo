@@ -4,9 +4,9 @@ Class {
 	#traits : 'TToButtonHolder',
 	#classTraits : 'TToButtonHolder classTrait',
 	#instVars : [
-		'collapsed',
 		'body',
-		'headerBuilder'
+		'headerBuilder',
+		'isCollapsed'
 	],
 	#category : #'Toplo-Widget-Collapse'
 }
@@ -14,7 +14,7 @@ Class {
 { #category : #examples }
 ToBasicCollapseElement class >> example [
 
-	<sampleInstance>
+	<script>
 	| inst |
 	inst := self new.
 	inst openInSpace.
@@ -24,7 +24,7 @@ ToBasicCollapseElement class >> example [
 { #category : #examples }
 ToBasicCollapseElement class >> exampleWithLabel [
 
-	<sampleInstance>
+	<script>
 	| inst |
 	inst := self new.
 	inst builder: [ :header | header addChild: (ToLabel text: 'coucou') ].
@@ -63,7 +63,7 @@ ToBasicCollapseElement >> initialize [
 
 	super initialize.
 	self initializeButtonHolder.
-	collapsed := true.
+	isCollapsed := true.
 	self height: 30.
 	self layout: BlLinearLayout vertical.
 	self hMatchParent.
@@ -94,8 +94,8 @@ ToBasicCollapseElement >> initializeClick [
 
 	self whenClickedDo: [ :e |
 		e consume.
-		collapsed := collapsed not.
-		collapsed
+		isCollapsed := isCollapsed not.
+		isCollapsed
 			ifFalse: [ self expand ]
 			ifTrue: [ self collapse ] ]
 ]

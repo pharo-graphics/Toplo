@@ -1,8 +1,8 @@
 Class {
-	#name : #ToCollapseElement,
+	#name : #ToBasicCollapseElement,
 	#superclass : #ToElement,
-	#traits : 'TToButtonHolder + (TToTripletElement - {#properties:}) + TToLabeledIcon',
-	#classTraits : 'TToButtonHolder classTrait + TToTripletElement classTrait + TToLabeledIcon classTrait',
+	#traits : 'TToButtonHolder',
+	#classTraits : 'TToButtonHolder classTrait',
 	#instVars : [
 		'collapsed',
 		'body'
@@ -10,28 +10,49 @@ Class {
 	#category : #'Toplo-Widget-Collapse'
 }
 
-{ #category : #initialization }
-ToCollapseElement >> buttonClass [
+{ #category : #examples }
+ToBasicCollapseElement class >> example [
 
-	^ ToButton
+	<sampleInstance>
+	| inst |
+	inst := ToBasicCollapseElement new.
+	inst openInSpace.
+	^ inst
+]
+
+{ #category : #examples }
+ToBasicCollapseElement class >> exampleWithLabel [
+
+	<sampleInstance>
+	| inst |
+	inst := ToBasicCollapseElement new.
+	inst labelText: 'coucou'.
+	inst openInSpace.
+	^ inst
 ]
 
 { #category : #initialization }
-ToCollapseElement >> collapse [
+ToBasicCollapseElement >> buttonClass [
+
+	^ ToGeneralButton
+]
+
+{ #category : #initialization }
+ToBasicCollapseElement >> collapse [
 
 	body removeFromParent.
 	
 ]
 
 { #category : #initialization }
-ToCollapseElement >> expand [
+ToBasicCollapseElement >> expand [
 
 	self addChild: body.
 	
 ]
 
 { #category : #initialization }
-ToCollapseElement >> initialize [
+ToBasicCollapseElement >> initialize [
 
 	super initialize.
 	self initializeButtonHolder.
@@ -46,7 +67,7 @@ ToCollapseElement >> initialize [
 ]
 
 { #category : #initialization }
-ToCollapseElement >> initializeBody [
+ToBasicCollapseElement >> initializeBody [
 
 	body := ToElement new
 		           constraintsDo: [ :c |
@@ -62,7 +83,7 @@ ToCollapseElement >> initializeBody [
 ]
 
 { #category : #initialization }
-ToCollapseElement >> initializeHeader [
+ToBasicCollapseElement >> initializeHeader [
 
 	self whenClickedDo:  [ :e |
 		e consume.
@@ -71,10 +92,4 @@ ToCollapseElement >> initializeHeader [
 			ifFalse: [ self expand ]
 			ifTrue: [ self collapse ] ].
 	
-]
-
-{ #category : #'t - triplet element - private - accessing' }
-ToCollapseElement >> properties [
-
-	^ self button properties
 ]

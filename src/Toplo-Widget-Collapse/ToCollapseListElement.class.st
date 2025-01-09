@@ -10,7 +10,7 @@ ToCollapseListElement class >> example [
 	
 	| list |
 	list := ToCollapseListElement new.
-	list dataAccessor addAll: ((1 to: 5) collect: [ :i | ToCollapseElement new  ]).
+	list dataAccessor addAll: ((1 to: 5) collect: [ :i | ToBasicCollapseElement new  ]).
 	list matchParent.
 	list openInSpace
 		

@@ -467,6 +467,15 @@ BlElement >> parentChainReverseDo: aBlock [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> presetDataDo: aValuable [
+
+	" do nothing at this level.
+	It redefined for an element that is used as a list data item.
+	This is the case for a menu or a segmented button as examples
+	( see `TToItem` users )"
+]
+
+{ #category : #'*Toplo' }
 BlElement >> preventSelectionSkinEvents [
 
 	self preventSkinEventClass: ToSelectedSkinEvent.

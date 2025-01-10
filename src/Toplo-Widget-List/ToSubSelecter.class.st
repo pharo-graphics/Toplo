@@ -7,6 +7,12 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
 
+{ #category : #initialization }
+ToSubSelecter >> defaultCommandApplicationStrategy [
+
+	^ ToImmediateCommandApplicationStrategy new
+]
+
 { #category : #'api - hooks' }
 ToSubSelecter >> onInstalledIn: anEventTarget [
 

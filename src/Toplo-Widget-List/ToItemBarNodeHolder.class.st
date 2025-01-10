@@ -7,7 +7,12 @@ Class {
 { #category : #accessing }
 ToItemBarNodeHolder >> initializeNode [
 
+
 	self dataItem presetDataDo: [ :pd |
-		pd setupItem: dataItem ].
-	super initializeNode 
+		pd setupItem: self dataItem.
+		self disabled: self dataItem isDisabled.
+		self isHidden ifTrue: [ self node height: 0 ].
+		^ self ].
+	super initializeNode
+
 ]

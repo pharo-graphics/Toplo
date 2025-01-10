@@ -3924,12 +3924,12 @@ ToSandBox class >> example_menuBar0 [
 	menu addItem: (ToMenuItem new labelText: 'item 1').
 	menu addItem: ToSeparatorMenuItem new.
 	sub := ToMenuItem new labelText: 'item 2'.
-	sub disable.
 	menu addItem: sub.
+	sub disable.
 	bar addItem: menu.
 	menu := ToMenuItem new labelText: 'Menu 1'.
 	bar addItem: menu.
-	menu disable.
+	menu disabled: true.
 	bar openInSpace
 ]
 

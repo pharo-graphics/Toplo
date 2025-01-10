@@ -67,6 +67,7 @@ ToSpecificBarElementTest >> testDisabledWithFourNodes [
 	self waitTestingSpaces.
 	l disabledSelecter selectIndex: 1.
 	self waitTestingSpaces.
+	self assert: l nodes first isDisabled.
 	l dataAccessor addFirst: 'second'.
 	self waitTestingSpaces.
 	l dataAccessor add: 'third'.

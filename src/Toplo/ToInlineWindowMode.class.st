@@ -11,7 +11,7 @@ ToInlineWindowMode >> arrangeWindow: aWindow onEvent: anEvent [
 	w := 0.
 	aWindow popupWindowParentMenuDo: [ :pm |
 		pm collectedNodesDo: [ :node |
-			w := w max: node measuredWidth ] ].
+			w := w max: node width ] ].
 	aWindow popupWindowParentMenuDo: [ :pm |
 		pm collectedNodesDo: [ :node | node width: w ] ]
 ]

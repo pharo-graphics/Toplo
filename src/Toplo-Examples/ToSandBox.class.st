@@ -888,42 +888,41 @@ ToSandBox class >> example_CodeEditor [
 	               menu addItem: (ToMenu new
 			                labelText: 'Edit';
 			                builder: [ :m |
-				                m addItem: (ToMenuItem new
-							                 labelText: 'Copy';
-							                 whenClickedDo: [ :event |
-								                 album editor copySelected ];
-							                 yourself).
-				                album hasSelection ifFalse: [
-					                m disableItem: m items last ].
+				                | item |
+				                item := ToMenuItem new
+					                        labelText: 'Copy';
+					                        whenClickedDo: [ :event |
+						                        album editor copySelected ];
+					                        yourself.
+				                album hasSelection ifFalse: [ item disable ].
+				                m addItem: item.
 				                m addItem: (ToMenuItem new
 						                 labelText: 'Cut';
 						                 whenClickedDo: [ :event |
 							                 album editor cutSelected ];
 						                 yourself).
 				                album hasSelection ifFalse: [
-					                m disableItem: m items last ].
+					                m items last disable ].
 
 				                m addItem: (ToMenuItem new
 						                 labelText: 'Paste';
 						                 whenClickedDo: [ :event | album editor paste ];
 						                 yourself).
 				                album editor paster fromClipboard isEmpty ifTrue: [
-					                m disableItem: m items last ].
+					                m items last disable ].
 				                m addSeparator.
 
 				                m addItem: (ToMenuItem new
 						                 labelText: 'Accept';
 						                 whenClickedDo: [ :event | album requestSave ];
 						                 yourself).
-				                album edited ifFalse: [
-					                m disableItem: m items last ].
+				                album edited ifFalse: [ m items last disable ].
 
 				                m addItem: (ToMenuItem new
 						                 labelText: 'Cancel';
 						                 whenClickedDo: [ :event | album requestCancel ];
 						                 yourself).
-				                album edited ifFalse: [
-					                m disableItem: m items last ] ]) ].
+				                album edited ifFalse: [ m items last disable ] ]) ].
 	album contextMenu: menuBuilder.
 
 	fileMenu := ToMenu new labelText: 'Edit'.
@@ -2344,7 +2343,7 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected [
 	select placeholderText:
 		('Selected are removed' asRopedText foreground: Color veryLightGray).
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select manager anchorRoot: innerWindow root.
 	select hMatchParent.
 	select popupListElement withRowNumbers.
 	innerWindow pane addChild: select.
@@ -2432,7 +2431,7 @@ ToSandBox class >> example_SelectMultiNotFiltrableWithGroups [
 	| select innerWindow phtext |
 	select := ToMultiSelectElement new.
 	select withGroups: true.
-	select windowManager minHeight: 35.
+	select manager minHeight: 35.
 	phtext := ('No Data' asRopedText
 		           foreground: Color lightGray;
 		           yourself)
@@ -2789,7 +2788,7 @@ ToSandBox class >> example_SimpleOpenSaveSaveAsClose [
 ]
 
 { #category : #window }
-ToSandBox class >> example_SimplePopupBottom [
+ToSandBox class >> example_SimplePopupBottomCenter [
 
 	| p |
 	p := self newPopup.
@@ -2831,7 +2830,7 @@ ToSandBox class >> example_SimplePopupBottomRight [
 ]
 
 { #category : #window }
-ToSandBox class >> example_SimplePopupTop [
+ToSandBox class >> example_SimplePopupTopCenter [
 
 	| p |
 	p := self newPopup.
@@ -3918,16 +3917,20 @@ ToSandBox class >> example_inline1 [
 { #category : #menu }
 ToSandBox class >> example_menuBar0 [
 
-	| mb m1 |
-	mb := ToMenuBar new.
-	mb hMatchParent.
-	m1 := ToMenu new labelText: 'Menu 2'.
-	m1 addItem: (ToMenuItem new labelText: 'item 1').
-	m1 addItem: ToSeparatorMenuItem new.
-	m1 addItem: (ToMenuItem new labelText: 'item 2').
-	mb addItem: m1.
-	mb addItem: (ToMenuItem new labelText: 'Menu 1').
-	mb openInSpace
+	| bar menu sub |
+	bar := ToMenuBar new.
+	bar hMatchParent.
+	menu := ToMenu new labelText: 'Menu 2'.
+	menu addItem: (ToMenuItem new labelText: 'item 1').
+	menu addItem: ToSeparatorMenuItem new.
+	sub := ToMenuItem new labelText: 'item 2'.
+	sub disable.
+	menu addItem: sub.
+	bar addItem: menu.
+	menu := ToMenuItem new labelText: 'Menu 1'.
+	bar addItem: menu.
+	menu disable.
+	bar openInSpace
 ]
 
 { #category : #menu }
@@ -3946,6 +3949,7 @@ ToSandBox class >> example_menuBar1 [
 			             labelText: 'File';
 			             tooltipString: 'File stuffs';
 			             yourself).
+
 	fileMenu addItem: (ToMenuItem new
 			 labelText: 'Open';
 			 tooltipString: 'open stuffs';
@@ -4088,7 +4092,7 @@ ToSandBox class >> example_menuBarInMenuBar [
 
 	| topMenuBar |
 	topMenuBar := ToMenuBar new.
-	
+
 	3 timesRepeat: [
 		| mb |
 		mb := ToMenuBar new.
@@ -4098,14 +4102,15 @@ ToSandBox class >> example_menuBarInMenuBar [
 			1 to: 3 do: [ :j |
 			m addItem: (ToMenuItem new labelText: 'item ' , j asString) ].
 			mb addItem: m ].
-		topMenuBar addItem: mb.
-		topMenuBar addFiller ].
 
+		topMenuBar addItem: mb.
+		(mb items at: 2) disable.		
+		topMenuBar addFiller ].
+	
 	topMenuBar addItem: (ToMenuItem new
 			 labelText: 'Inspect';
 			 whenClickedDo: [ topMenuBar inspect ];
 			 yourself).
-	"topMenuBar beVertical."
 	topMenuBar hMatchParent.
 
 	topMenuBar openInSpace
@@ -4168,7 +4173,7 @@ ToSandBox class >> example_menuBarVertical [
 					           (ToLabel new text: (String streamContents: [ :out |
 							             out
 								             print: index;
-								             nextPut: $x;
+								             nextPutAll: 'x';
 								             print: index ])).
 				subMenu builder: [ :sm |
 					1 to: 10 do: [ :i |
@@ -4460,10 +4465,10 @@ ToSandBox class >> example_segmentedWithCheckboxes [
 	| seg dashBoard |
 	seg := ToSegmentedElement new.
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
-		seg dataAccessor add: (ToCheckbox new
+		seg addItem: (ToCheckbox new
 				 labelText: l;
 				 yourself) ].
-	seg  disableAtPosition: 2.
+	(seg items at: 2) disable.
 	seg selectionOption masked: true.
 	dashBoard := self segmentedDashBoardFor: seg.
 	dashBoard openInSpace
@@ -4572,12 +4577,12 @@ ToSandBox class >> example_segmentedWithSegmentedButton [
 	seg := ToSegmentedElement new.
 
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
-		seg dataAccessor add:
+		seg addItem:
 			((ToSegmentedButton new label: (ToLabel text: l))
 				 whenClickedDo: [ :event | event currentTarget label text traceCr ];
 				 yourself) ].
 
-	seg  disableAtPosition: 2.
+	(seg items at: 2) disable.
 	dashBoard := self segmentedDashBoardFor: seg.
 
 	feedbackPane := ToPane horizontal.
@@ -6567,7 +6572,8 @@ ToSandBox class >> example_withCheckBox [
 	menu items last icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	menu addItem: (ToMenuItem new labelText: 'Disabled').
 	menu items last icon: (ToImage inner: (self iconNamed: #solidMenu)).
-	menu disableAtPosition: menu items last positionInItemList.
+	"menu disableAtPosition: menu items last positionInItemList."
+	menu items last disable.
 
 	menu addSeparator.
 
@@ -6642,7 +6648,7 @@ ToSandBox class >> example_withCustomMenuItems [
 			 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
 
 	menu addItem: (ToMenuItem new
-			 labelText: 'Export';
+			 labelText: 'Export'; disable;
 			 whenClickedDo: [ self inform: 'Export' ]).
 	menu addItem: (ToMenuItem new
 			 labelText: 'Inspect';
@@ -6867,8 +6873,8 @@ ToSandBox class >> listWithEditableAndContextMenu [
 		| lab |
 		lab := ToLabel text: dataItem.
 		lab beMultiLine.
+		lab beEditable.
 		holder isSelectable ifTrue: [
-			lab beEditable.
 			lab addEventHandler: (BlEventHandler
 					 on: ToStillPressedEvent
 					 do: [ :event |

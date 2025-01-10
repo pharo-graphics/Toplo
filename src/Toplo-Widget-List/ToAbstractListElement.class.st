@@ -189,7 +189,7 @@ ToAbstractListElement >> defaultSecondarySelectionMode [
 ]
 
 { #category : #'accessing selecters' }
-ToAbstractListElement >> disableAtPosition: anInteger [
+ToAbstractListElement >> disabledAtPosition: anInteger [
 
 	self disabledSelecter selectIndex: anInteger
 ]
@@ -213,7 +213,7 @@ ToAbstractListElement >> disabledSelectionModel [
 ]
 
 { #category : #'accessing selecters' }
-ToAbstractListElement >> enableAtPosition: anInteger [
+ToAbstractListElement >> enabledAtPosition: anInteger [
 
 	self disabledSelecter deselectIndex: anInteger
 ]
@@ -226,6 +226,12 @@ ToAbstractListElement >> extentChanged [
 ToAbstractListElement >> fakeNode [
 
 	^ nil
+]
+
+{ #category : #'accessing selecters' }
+ToAbstractListElement >> hiddenAtPosition: anInteger [
+
+	self hiddenSelecter selectIndex: anInteger
 ]
 
 { #category : #'accessing selecters' }
@@ -469,6 +475,12 @@ ToAbstractListElement >> secondarySelectionModel [
 ]
 
 { #category : #'accessing selecters' }
+ToAbstractListElement >> selectableAtPosition: anInteger [
+
+	self unselectableSelecter deselectIndex: anInteger
+]
+
+{ #category : #'accessing selecters' }
 ToAbstractListElement >> selecter [
 
 	^ self primarySelectionMode selecter
@@ -524,6 +536,12 @@ ToAbstractListElement >> selectionOption [
 ]
 
 { #category : #'accessing selecters' }
+ToAbstractListElement >> unselectableAtPosition: anInteger [
+
+	self unselectableSelecter selectIndex: anInteger
+]
+
+{ #category : #'accessing selecters' }
 ToAbstractListElement >> unselectableSelecter [
 
 	^ self unselectableSelectionMode selecter
@@ -549,4 +567,10 @@ ToAbstractListElement >> updateAllSelections [
 			option
 				updateSelectionIn: self
 				withSelectionModel: mode selectionModel ] ]
+]
+
+{ #category : #'accessing selecters' }
+ToAbstractListElement >> visibleAtPosition: anInteger [
+
+	self hiddenSelecter deselectIndex: anInteger
 ]

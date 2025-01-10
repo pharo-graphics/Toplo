@@ -23,7 +23,7 @@ ToItemNodeManager >> defaultFakeDataItem [
 { #category : #'instance creation' }
 ToItemNodeManager >> newHolder [
 
-	^ ToListNodeHolder new
+	^ ToBarNodeHolder new
 ]
 
 { #category : #'instance creation' }

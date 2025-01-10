@@ -1,6 +1,6 @@
 Class {
 	#name : #ToSpecificBarNodeHolderForTest2,
-	#superclass : #ToListNodeHolder,
+	#superclass : #ToBarNodeHolder,
 	#instVars : [
 		'num'
 	],

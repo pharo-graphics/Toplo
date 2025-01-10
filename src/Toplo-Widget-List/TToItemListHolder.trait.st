@@ -215,7 +215,6 @@ TToItemListHolder >> nodeWrapping: aBoolean [
 { #category : #'t - item list holder - double dispatch' }
 TToItemListHolder >> onAddedAnyItemKind: anItem [
 
-	anItem presetDataDo: [ :pd | pd setupItem: anItem ]
 ]
 
 { #category : #'t - item list holder - adding/removing' }

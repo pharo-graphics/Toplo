@@ -53,6 +53,13 @@ ToAbstractNodeHolder >> disabled: aBoolean [
 		ifFalse: [ selecter deselectIndex: self position ]
 ]
 
+{ #category : #accessing }
+ToAbstractNodeHolder >> initializeNode [
+
+	self node disabled: self isDisabled.
+	self isHidden ifTrue: [ self node height: 0 ]
+]
+
 { #category : #'as yet unclassified' }
 ToAbstractNodeHolder >> isDisabled [
 
@@ -155,14 +162,15 @@ ToAbstractNodeHolder >> selectionModel [
 	^ self listElement selectionModel
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToAbstractNodeHolder >> setDataItemAndBuildNode: aDataItem [ 
 
 	| nodeManager |
 	self dataItem: aDataItem.
 	nodeManager := self nodeManager.
 	nodeManager buildNode: self node.
-	nodeManager constraintNode: self node
+	nodeManager constraintNode: self node.
+	self initializeNode
 ]
 
 { #category : #'as yet unclassified' }

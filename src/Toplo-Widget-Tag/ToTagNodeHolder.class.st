@@ -1,6 +1,6 @@
 Class {
 	#name : #ToTagNodeHolder,
-	#superclass : #ToBarNodeHolder,
+	#superclass : #ToItemBarNodeHolder,
 	#category : #'Toplo-Widget-Tag-Bar'
 }
 

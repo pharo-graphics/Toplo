@@ -1,3 +1,6 @@
+"
+I'm a composite of Menu items. I can behave as a menu item (this is why I inherit from ToMenuItem) but I manage sub menu items.
+"
 Class {
 	#name : #ToMenu,
 	#superclass : #ToMenuItem,

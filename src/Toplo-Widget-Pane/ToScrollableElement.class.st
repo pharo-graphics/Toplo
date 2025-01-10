@@ -3,5 +3,5 @@ Class {
 	#superclass : #BlScrollableElement,
 	#traits : 'TToElement + TBlLayoutResizable',
 	#classTraits : 'TToElement classTrait + TBlLayoutResizable classTrait',
-	#category : #'Toplo-Widget-Pane'
+	#category : #'Toplo-Widget-Pane-Core'
 }

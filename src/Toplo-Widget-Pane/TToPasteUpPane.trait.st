@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToPasteUpPane,
-	#category : #'Toplo-Widget-Pane'
+	#category : #'Toplo-Widget-Pane-Utils'
 }
 
 { #category : #'t - paste-up pane' }

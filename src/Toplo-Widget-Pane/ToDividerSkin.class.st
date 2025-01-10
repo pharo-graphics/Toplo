@@ -1,7 +1,7 @@
 Class {
 	#name : #ToDividerSkin,
 	#superclass : #ToRawSkin,
-	#category : #'Toplo-Widget-Pane'
+	#category : #'Toplo-Widget-Pane-Core'
 }
 
 { #category : #'event handling' }

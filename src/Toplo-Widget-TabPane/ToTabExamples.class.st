@@ -1,7 +1,7 @@
 Class {
 	#name : #ToTabExamples,
 	#superclass : #Object,
-	#category : #'Toplo-Widget-TabPane'
+	#category : #'Toplo-Widget-TabPane-Examples'
 }
 
 { #category : #tabs }

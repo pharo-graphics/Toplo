@@ -1,3 +1,6 @@
+"
+I represent the group of tabs of a tab pane. 
+"
 Class {
 	#name : #ToTabPaneHeader,
 	#superclass : #ToPane,
@@ -15,7 +18,7 @@ Class {
 		'startContainer',
 		'endContainer'
 	],
-	#category : #'Toplo-Widget-TabPane'
+	#category : #'Toplo-Widget-TabPane-Core'
 }
 
 { #category : #'add-remove' }

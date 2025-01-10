@@ -1,3 +1,7 @@
+"
+I'm a tab of a tab pane. 
+A tab header contains a group of me.
+"
 Class {
 	#name : #ToTab,
 	#superclass : #ToGeneralButton,
@@ -12,7 +16,7 @@ Class {
 		'filler',
 		'header'
 	],
-	#category : #'Toplo-Widget-TabPane'
+	#category : #'Toplo-Widget-TabPane-Core'
 }
 
 { #category : #'t - checkable - accessing' }

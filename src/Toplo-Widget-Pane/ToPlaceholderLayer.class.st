@@ -3,7 +3,7 @@ Class {
 	#superclass : #ToOverlayElement,
 	#traits : 'TToElement',
 	#classTraits : 'TToElement classTrait',
-	#category : #'Toplo-Widget-Pane'
+	#category : #'Toplo-Widget-Pane-Utils'
 }
 
 { #category : #initialization }

@@ -1,9 +1,13 @@
+"
+I'm a pane that can contains other elements. 
+I can have dividers in between my elements.
+"
 Class {
 	#name : #ToPane,
 	#superclass : #ToElement,
 	#traits : 'TToOrientable + TToPasteUpPane + TToElementWithPlaceholder',
 	#classTraits : 'TToOrientable classTrait + TToPasteUpPane classTrait + TToElementWithPlaceholder classTrait',
-	#category : #'Toplo-Widget-Pane'
+	#category : #'Toplo-Widget-Pane-Core'
 }
 
 { #category : #factory }

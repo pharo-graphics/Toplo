@@ -1,3 +1,6 @@
+"
+I'm a list whose node contents is a BlElement
+"
 Class {
 	#name : #ToItemListElement,
 	#superclass : #ToAbstractListElement,

@@ -1,3 +1,7 @@
+"
+I'm menu item based on triplet element trait (see `TToTripletElement`). 
+Basically I'm composed of three subelements a start, a middle and an end part.
+"
 Class {
 	#name : #ToMenuItem,
 	#superclass : #ToGeneralButtonMenuItem,

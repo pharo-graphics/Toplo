@@ -1,6 +1,6 @@
 "
-I'm used as a data item of list. 
-My parent list old refers to the element that contains the list that contains me.
+I'm used as a data item of bar element (the data items are stored in the datasource)
+My bar holder refers to the element that contains the bar that contains me.
 
 "
 Class {

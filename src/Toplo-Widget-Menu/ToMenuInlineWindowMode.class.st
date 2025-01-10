@@ -7,7 +7,7 @@ Class {
 { #category : #'window handling' }
 ToMenuInlineWindowMode >> startWindow: aWindow [
 
-	manager element parent item parentItemListHolder 
+	manager element parent item barHolder 
 		addItem: aWindow
 		afterIndex: manager element parent holder position.
 	manager element requestNewSkin
@@ -16,7 +16,7 @@ ToMenuInlineWindowMode >> startWindow: aWindow [
 { #category : #'window handling' }
 ToMenuInlineWindowMode >> stopWindow: aWindow [
 
-	manager element parent item parentItemListHolder
+	manager element parent item barHolder
 		removeItem: aWindow.
 	manager element requestNewSkin
 ]

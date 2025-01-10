@@ -1,18 +1,18 @@
 Class {
-	#name : #ToItemListElementSkin,
+	#name : #ToItemBarElementSkin,
 	#superclass : #ToRawSkin,
 	#category : #'Toplo-Widget-List-ItemList'
 }
 
 { #category : #'event handling' }
-ToItemListElementSkin >> focusedSkinEvent: anEvent [
+ToItemBarElementSkin >> focusedSkinEvent: anEvent [
 
 	super focusedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |  ]
 ]
 
 { #category : #'event handling' }
-ToItemListElementSkin >> installSkinEvent: anEvent [
+ToItemBarElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -31,7 +31,7 @@ ToItemListElementSkin >> installSkinEvent: anEvent [
 ]
 
 { #category : #'accessing - shortcuts' }
-ToItemListElementSkin >> shortcutsToInstallIn: aListElement [
+ToItemBarElementSkin >> shortcutsToInstallIn: aListElement [
 
 	^ Array streamContents: [ :stream |
 		  stream nextPut: (BlShortcutWithAction new
@@ -53,7 +53,7 @@ ToItemListElementSkin >> shortcutsToInstallIn: aListElement [
 ]
 
 { #category : #'event handling' }
-ToItemListElementSkin >> unfocusedSkinEvent: anEvent [
+ToItemBarElementSkin >> unfocusedSkinEvent: anEvent [
 
 	super unfocusedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |  ]

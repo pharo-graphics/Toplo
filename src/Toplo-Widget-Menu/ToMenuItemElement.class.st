@@ -12,8 +12,8 @@ Class {
 { #category : #'adding-removing' }
 ToMenuItemElement >> closeSiblingMenuWindow [
 
-	self parentItemListHolder ifNil: [ ^ self ].
-	self parentItemListHolder closeAllWindowsForItemsSatisfying: [ :it |
+	self barHolder ifNil: [ ^ self ].
+	self barHolder closeAllWindowsForItemsSatisfying: [ :it |
 		it notNil and: [
 			it ~= self and: [ it isInline not ] ] ]
 ]
@@ -137,16 +137,16 @@ ToMenuItemElement >> onRemovedFromItemListHolder: aMenu [
 ToMenuItemElement >> removedFromMenu: aMenu [
 
 	super removedFromMenu: aMenu.
-	self parentItemListHolder: nil
+	self barHolder: nil
 ]
 
 { #category : #'t - menu window model' }
 ToMenuItemElement >> rootMenu [
 
-	self parentItemListHolder ifNil: [ ^ self ].
-	self parentItemListHolder isMenuBar ifTrue: [ 
+	self barHolder ifNil: [ ^ self ].
+	self barHolder isMenuBar ifTrue: [ 
 		^ self isMenu ifTrue: [ self ] ifFalse: [  ] ].
-	^ self parentItemListHolder rootMenu
+	^ self barHolder rootMenu
 ]
 
 { #category : #'t - menu window model' }

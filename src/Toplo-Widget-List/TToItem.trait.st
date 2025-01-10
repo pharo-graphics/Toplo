@@ -8,9 +8,28 @@ Trait {
 }
 
 { #category : #'t - item' }
+TToItem >> barHolder [
+
+	^ parentItemListHolder
+]
+
+{ #category : #'t - item' }
+TToItem >> barHolder: anItemContainer [
+
+	parentItemListHolder := anItemContainer
+]
+
+{ #category : #'t - item' }
+TToItem >> barHolderDo: aBlock [
+
+	parentItemListHolder ifNil: [ ^ self ].
+	aBlock value: parentItemListHolder
+]
+
+{ #category : #'t - item' }
 TToItem >> disabled: aBoolean [
 
-	self parentItemListHolder
+	self barHolder
 		ifNil: [ self presetDisabledWith: aBoolean ]
 		ifNotNil: [ :l |
 			aBoolean
@@ -28,7 +47,7 @@ TToItem >> ensurePresetData [
 { #category : #'t - item' }
 TToItem >> hidden: aBoolean [
 
-	self parentItemListHolder
+	self barHolder
 		ifNil: [ self presetHiddenWith: aBoolean ]
 		ifNotNil: [ :l |
 			aBoolean
@@ -37,28 +56,9 @@ TToItem >> hidden: aBoolean [
 ]
 
 { #category : #'t - item' }
-TToItem >> parentItemListHolder [
+TToItem >> positionInBar [
 
-	^ parentItemListHolder
-]
-
-{ #category : #'t - item' }
-TToItem >> parentItemListHolder: anItemContainer [
-
-	parentItemListHolder := anItemContainer
-]
-
-{ #category : #'t - item' }
-TToItem >> parentItemListHolderDo: aBlock [
-
-	parentItemListHolder ifNil: [ ^ self ].
-	aBlock value: parentItemListHolder
-]
-
-{ #category : #'t - item' }
-TToItem >> positionInItemList [
-
-	self parentItemListHolderDo: [ :pm | ^ pm items indexOf: self ].
+	self barHolderDo: [ :pm | ^ pm items indexOf: self ].
 	^ 0
 ]
 
@@ -94,7 +94,7 @@ TToItem >> presetUnselectableWith: aBoolean [
 { #category : #'t - item' }
 TToItem >> unselectable: aBoolean [
 
-	self parentItemListHolder
+	self barHolder
 		ifNil: [ self presetUnselectableWith: aBoolean ]
 		ifNotNil: [ :l |
 			aBoolean

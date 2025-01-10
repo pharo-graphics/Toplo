@@ -73,7 +73,7 @@ TToMenuItem >> isMenuItem [
 { #category : #'t - menu item' }
 TToMenuItem >> isRootMenuItem [ 
 
-	^ self parentItemListHolder isNil  or: [ self parentItemListHolder isMenuBar ]
+	^ self barHolder isNil  or: [ self barHolder isMenuBar ]
 ]
 
 { #category : #'t - menu item' }
@@ -93,9 +93,9 @@ TToMenuItem >> menuBar [
 { #category : #'t - menu item' }
 TToMenuItem >> parentMenu [
 
-	self parentItemListHolder ifNil: [ ^ nil ].
-	self parentItemListHolder isMenuBar ifTrue: [ ^ nil ].
-	^ self parentItemListHolder
+	self barHolder ifNil: [ ^ nil ].
+	self barHolder isMenuBar ifTrue: [ ^ nil ].
+	^ self barHolder
 ]
 
 { #category : #'t - menu item' }

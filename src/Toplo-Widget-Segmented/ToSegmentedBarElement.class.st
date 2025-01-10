@@ -2,8 +2,8 @@
 I'm list whose contents is a segmented element (i.e. a list of toggle elements)
 "
 Class {
-	#name : #ToSegmentedListElement,
-	#superclass : #ToItemListElement,
+	#name : #ToSegmentedBarElement,
+	#superclass : #ToItemBarElement,
 	#traits : 'TToCheckableGroupOwner',
 	#classTraits : 'TToCheckableGroupOwner classTrait',
 	#instVars : [
@@ -13,7 +13,7 @@ Class {
 }
 
 { #category : #layout }
-ToSegmentedListElement >> configureLayoutIn: aSegmentedElement [
+ToSegmentedBarElement >> configureLayoutIn: aSegmentedElement [
 
 	self matchParent.
 	self horizontal: aSegmentedElement isHorizontal.
@@ -23,19 +23,19 @@ ToSegmentedListElement >> configureLayoutIn: aSegmentedElement [
 ]
 
 { #category : #initialization }
-ToSegmentedListElement >> defaultEventHandler [
+ToSegmentedBarElement >> defaultEventHandler [
 
 	^ ToSegmentedListElementEventHandler new
 ]
 
 { #category : #initialization }
-ToSegmentedListElement >> defaultNodeManagerClass [ 
+ToSegmentedBarElement >> defaultNodeManagerClass [ 
 
 	^ ToSegmentedNodeManager 
 ]
 
 { #category : #initialization }
-ToSegmentedListElement >> initialize [
+ToSegmentedBarElement >> initialize [
 
 	super initialize.
 	
@@ -56,13 +56,13 @@ ToSegmentedListElement >> initialize [
 ]
 
 { #category : #'t - checkable group owner' }
-ToSegmentedListElement >> rawGroup [
+ToSegmentedBarElement >> rawGroup [
 
 	^ group ifNil: [ group := ToCheckableGroup new ]
 ]
 
 { #category : #'t - checkable group owner' }
-ToSegmentedListElement >> rawGroup: aGroup [
+ToSegmentedBarElement >> rawGroup: aGroup [
 
 	self shouldNotImplement 
 ]

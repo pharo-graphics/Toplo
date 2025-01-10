@@ -2,7 +2,7 @@
 A ToItemListElementTest is a test class for testing the behavior of ToItemListElement
 "
 Class {
-	#name : #ToItemListElementTest,
+	#name : #ToItemBarElementTest,
 	#superclass : #ToParameterizedHostTest,
 	#instVars : [
 		'l'
@@ -11,16 +11,16 @@ Class {
 }
 
 { #category : #running }
-ToItemListElementTest >> setUp [
+ToItemBarElementTest >> setUp [
 
 	super setUp.
-	l := ToItemListElementForTest new.
+	l := ToItemBarElementForTest new.
 	l vMatchParent.
 	space root addChild: l
 ]
 
 { #category : #tests }
-ToItemListElementTest >> test [
+ToItemBarElementTest >> test [
 
 	| n |
 	self assert: l nodes size equals: l dataAccessor size.
@@ -35,7 +35,7 @@ ToItemListElementTest >> test [
 ]
 
 { #category : #tests }
-ToItemListElementTest >> testDisableItemAfterAdding [
+ToItemBarElementTest >> testDisableItemAfterAdding [
 
 	| n item |
 	self skip.
@@ -51,7 +51,7 @@ ToItemListElementTest >> testDisableItemAfterAdding [
 ]
 
 { #category : #tests }
-ToItemListElementTest >> testDisableItemBeforeAdding [
+ToItemBarElementTest >> testDisableItemBeforeAdding [
 
 	| n item |
 	self skip.

@@ -2,7 +2,7 @@
 I'm a list whose node contents is a BlElement
 "
 Class {
-	#name : #ToItemListElement,
+	#name : #ToItemBarElement,
 	#superclass : #ToAbstractListElement,
 	#traits : 'TToBarElement',
 	#classTraits : 'TToBarElement classTrait',
@@ -10,20 +10,20 @@ Class {
 }
 
 { #category : #initialization }
-ToItemListElement >> defaultNodeManagerClass [
+ToItemBarElement >> defaultNodeManagerClass [
 
 	^ ToItemNodeManager
 ]
 
 { #category : #initialization }
-ToItemListElement >> initialize [
+ToItemBarElement >> initialize [
 
 	super initialize.
 	self primarySelectionMode makeDisabledUnselectable: true
 ]
 
 { #category : #'t - orientable - accessing' }
-ToItemListElement >> layoutStrategy [
+ToItemBarElement >> layoutStrategy [
 
 	^ self layout
 
@@ -31,7 +31,7 @@ ToItemListElement >> layoutStrategy [
 ]
 
 { #category : #skin }
-ToItemListElement >> newRawSkin [ 
+ToItemBarElement >> newRawSkin [ 
 
-	^ ToItemListElementSkin new
+	^ ToItemBarElementSkin new
 ]

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMenuItemListElementSkin,
-	#superclass : #ToItemListElementSkin,
+	#superclass : #ToItemBarElementSkin,
 	#category : #'Toplo-Widget-Menu-ItemList'
 }
 

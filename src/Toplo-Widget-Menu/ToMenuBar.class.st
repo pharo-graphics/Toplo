@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMenuBar,
 	#superclass : #ToElement,
-	#traits : 'TToItem + TToMenuItem + TToItemListHolder + TToMenuItemListHolder + TToOrientable',
-	#classTraits : 'TToItem classTrait + TToMenuItem classTrait + TToItemListHolder classTrait + TToMenuItemListHolder classTrait + TToOrientable classTrait',
+	#traits : 'TToItem + TToMenuItem + TToItemBarHolder + TToMenuItemBarHolder + TToOrientable',
+	#classTraits : 'TToItem classTrait + TToMenuItem classTrait + TToItemBarHolder classTrait + TToMenuItemBarHolder classTrait + TToOrientable classTrait',
 	#instVars : [
 		'autoOpen'
 	],
@@ -107,7 +107,7 @@ ToMenuBar >> isMenuBar [
 { #category : #testing }
 ToMenuBar >> isSubBar [ 
 
-	^ self parentItemListHolder notNil
+	^ self barHolder notNil
 ]
 
 { #category : #'t - menu item' }
@@ -155,7 +155,7 @@ ToMenuBar >> mouseOverEvent: anEvent [
 { #category : #'t - item list holder - accessing' }
 ToMenuBar >> newItemList [
 
-	^ ToMenuItemListElement new
+	^ ToMenuItemBarElement new
 ]
 
 { #category : #skin }
@@ -173,7 +173,7 @@ ToMenuBar >> onAddedInItemListHolder: aMenuItemContainer [
 { #category : #'t - menu item list holder - double dispatch' }
 ToMenuBar >> onAddedMenu: aMenu [
 
-	aMenu parentItemListHolder: self.
+	aMenu barHolder: self.
 	aMenu isSubmenu: false
 ]
 
@@ -210,8 +210,8 @@ ToMenuBar >> removeMenu: aMenu [
 { #category : #accessing }
 ToMenuBar >> rootMenuBar [ 
 
-	self parentItemListHolder ifNil: [ ^ self ].
-	^ self parentItemListHolder rootMenuBar
+	self barHolder ifNil: [ ^ self ].
+	^ self barHolder rootMenuBar
 ]
 
 { #category : #'auto opening' }

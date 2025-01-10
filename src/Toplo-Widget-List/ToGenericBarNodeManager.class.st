@@ -37,7 +37,7 @@ ToGenericBarNodeManager >> defaultNodeFactory [
 { #category : #initialization }
 ToGenericBarNodeManager >> defaultNodeUnbuilder [
 
-	^ [ :node :dataItem :holder | ]
+	^ [ :node :dataItem :holder | node removeChildren  ]
 ]
 
 { #category : #initialization }

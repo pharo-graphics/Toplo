@@ -26,7 +26,7 @@ ToItemListElementTest >> test [
 	self assert: l nodes size equals: l dataAccessor size.
 	self assert: (l nodeManager isKindOf: ToItemNodeManagerForTest).
 	l dataAccessor addAll:
-		((1 to: 10) collect: [ :i | ToItemElementForTest text: i asString ]).
+		((1 to: 10) collect: [ :i | ToItemElementForTest new text: i asString ]).
 	n := l nodes first.
 	self assert: (n isKindOf: ToItemNodeForTest).
 	self assert: (n holder isKindOf: ToBarNodeHolderForTest).
@@ -40,7 +40,7 @@ ToItemListElementTest >> testDisableItemAfterAdding [
 	| n item |
 	self skip.
 	self assert: l nodes size equals: 0.
-	item := ToItemElementForTest text: 'A'.
+	item := ToItemElementForTest new text: 'A'.
 	l dataAccessor add: item.
 	item disable.
 	n := l nodes first.
@@ -56,7 +56,7 @@ ToItemListElementTest >> testDisableItemBeforeAdding [
 	| n item |
 	self skip.
 	self assert: l nodes size equals: 0.
-	item := ToItemElementForTest text: 'A'.
+	item := ToItemElementForTest new text: 'A'.
 	item disable.
 	l dataAccessor add: item.
 	n := l nodes first.

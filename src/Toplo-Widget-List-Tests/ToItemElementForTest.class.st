@@ -1,7 +1,25 @@
 Class {
 	#name : #ToItemElementForTest,
-	#superclass : #ToLabel,
+	#superclass : #ToElement,
 	#traits : 'TToItem',
 	#classTraits : 'TToItem classTrait',
+	#instVars : [
+		'label'
+	],
 	#category : #'Toplo-Widget-List-Tests-ItemList'
 }
+
+{ #category : #initialization }
+ToItemElementForTest >> initialize [
+
+	super initialize.
+	label := ToLabel new.
+	self addChild: label.
+	self fitContent
+]
+
+{ #category : #accessing }
+ToItemElementForTest >> text: aText [
+
+	label text: aText
+]

@@ -7,7 +7,7 @@ Class {
 { #category : #initialization }
 ToItemNodeManagerForTest >> defaultFakeDataItem [
 
-	^ ToItemElementForTest text: 'X'
+	^ ToItemElementForTest new text: 'X'
 ]
 
 { #category : #'instance creation' }

@@ -215,6 +215,7 @@ TToItemListHolder >> nodeWrapping: aBoolean [
 { #category : #'t - item list holder - double dispatch' }
 TToItemListHolder >> onAddedAnyItemKind: anItem [
 
+	anItem parentItemListHolder: self  
 ]
 
 { #category : #'t - item list holder - adding/removing' }
@@ -234,7 +235,7 @@ TToItemListHolder >> onAddedUnknownItemKind: anItem [
 { #category : #'t - item list holder - double dispatch' }
 TToItemListHolder >> onRemovedAnyItemKind: anItem [
 
-	
+	anItem parentItemListHolder: nil  
 ]
 
 { #category : #'t - item list holder - adding/removing' }

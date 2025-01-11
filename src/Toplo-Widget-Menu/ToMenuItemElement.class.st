@@ -133,13 +133,6 @@ ToMenuItemElement >> onRemovedFromItemListHolder: aMenu [
 	aMenu onRemovedMenuItem: self
 ]
 
-{ #category : #'adding-removing' }
-ToMenuItemElement >> removedFromMenu: aMenu [
-
-	super removedFromMenu: aMenu.
-	self parentItemListHolder: nil
-]
-
 { #category : #'t - menu window model' }
 ToMenuItemElement >> rootMenu [
 

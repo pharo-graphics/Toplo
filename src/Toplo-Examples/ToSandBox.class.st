@@ -3924,8 +3924,11 @@ ToSandBox class >> example_menuBar0 [
 	menu addItem: (ToMenuItem new labelText: 'item 1').
 	menu addItem: ToSeparatorMenuItem new.
 	sub := ToMenuItem new labelText: 'item 2'.
-	menu addItem: sub.
+
+	self flag: 'Disabling the menu item does not work here because it is done before its adding'.
 	sub disable.
+	menu addItem: sub.
+
 	bar addItem: menu.
 	menu := ToMenuItem new labelText: 'Menu 1'.
 	bar addItem: menu.

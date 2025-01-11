@@ -109,14 +109,10 @@ ToSegmentedElement >> newRawSkin [
 { #category : #'t - item list holder - double dispatch' }
 ToSegmentedElement >> onAddedSegmentedButton: aButton [
 
-	aButton parentItemListHolder: self
-
 ]
 
 { #category : #'t - item list holder - double dispatch' }
 ToSegmentedElement >> onRemovedSegmentedButton: aButton [
-
-	aButton parentItemListHolder: nil
 ]
 
 { #category : #'t - checkable group owner' }

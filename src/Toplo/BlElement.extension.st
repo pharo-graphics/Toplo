@@ -414,15 +414,15 @@ BlElement >> newTextAttributesBuilder [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> onAddedInItemListHolder: anItemList [
+BlElement >> onAddedInItemBar: anItemBar [
 
-	anItemList onAddedUnknownItemKind: self
+	anItemBar onAddedUnknownItemKind: self
 ]
 
 { #category : #'*Toplo' }
-BlElement >> onRemovedFromItemListHolder: anItemList [
+BlElement >> onRemovedFromItemBar: anItemBar [
 
-	anItemList onRemovedUnknownItemKind: self
+	anItemBar onRemovedUnknownItemKind: self
 ]
 
 { #category : #'*Toplo' }

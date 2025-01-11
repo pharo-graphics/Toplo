@@ -1,8 +1,8 @@
 Class {
 	#name : #ToContextMenu,
 	#superclass : #ToMenuWindow,
-	#traits : 'TToOrientable + TToItemBarHolder + TToMenuItemBarHolder + TToMenuWindowModel',
-	#classTraits : 'TToOrientable classTrait + TToItemBarHolder classTrait + TToMenuItemBarHolder classTrait + TToMenuWindowModel classTrait',
+	#traits : 'TToOrientable + TToItemBarParent + TToMenuItemBarParent + TToMenuWindowModel',
+	#classTraits : 'TToOrientable classTrait + TToItemBarParent classTrait + TToMenuItemBarParent classTrait + TToMenuWindowModel classTrait',
 	#category : #'Toplo-Widget-Menu-Context menu'
 }
 
@@ -103,7 +103,7 @@ ToContextMenu >> menuWindow [
 	^ super menuWindow
 ]
 
-{ #category : #'t - item list holder - accessing' }
+{ #category : #'t - item bar parent - accessing' }
 ToContextMenu >> newItemList [
 
 	^ ToMenuItemBarElement new

@@ -11,12 +11,13 @@ ToItemNode >> item [
 ]
 
 { #category : #accessing }
-ToItemNode >> item: aMenuItem [
+ToItemNode >> item: anItemElement [
 
-	aMenuItem ifNil: [ ^ self ].
-	aMenuItem parent = self ifTrue: [ ^ self ].
-	aMenuItem removeFromParent.
-	self addChild: aMenuItem at: 1
+	anItemElement ifNil: [ ^ self ].
+	anItemElement parent = self ifTrue: [ ^ self ].
+	anItemElement removeFromParent.
+	self addChild: anItemElement at: 1.
+	anItemElement nodeHolder: self holder
 ]
 
 { #category : #skin }

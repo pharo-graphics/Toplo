@@ -1,35 +1,43 @@
 Trait {
 	#name : #TToItem,
 	#instVars : [
-		'parentItemListHolder',
-		'presetData'
+		'presetData',
+		'barParent',
+		'nodeHolder',
+		'bar'
 	],
 	#category : #'Toplo-Widget-List-ItemList'
 }
 
 { #category : #'t - item' }
-TToItem >> barHolder [
+TToItem >> bar: anItemBar [
 
-	^ parentItemListHolder
+	bar := anItemBar 
 ]
 
 { #category : #'t - item' }
-TToItem >> barHolder: anItemContainer [
+TToItem >> barParent [
 
-	parentItemListHolder := anItemContainer
+	^ barParent
 ]
 
 { #category : #'t - item' }
-TToItem >> barHolderDo: aBlock [
+TToItem >> barParent: anItemContainer [
 
-	parentItemListHolder ifNil: [ ^ self ].
-	aBlock value: parentItemListHolder
+	barParent := anItemContainer
+]
+
+{ #category : #'t - item' }
+TToItem >> barParentDo: aBlock [
+
+	self barParent ifNil: [ ^ self ].
+	aBlock value: self barParent
 ]
 
 { #category : #'t - item' }
 TToItem >> disabled: aBoolean [
 
-	self barHolder
+	self barParent
 		ifNil: [ self presetDisabledWith: aBoolean ]
 		ifNotNil: [ :l |
 			aBoolean
@@ -47,7 +55,7 @@ TToItem >> ensurePresetData [
 { #category : #'t - item' }
 TToItem >> hidden: aBoolean [
 
-	self barHolder
+	self barParent
 		ifNil: [ self presetHiddenWith: aBoolean ]
 		ifNotNil: [ :l |
 			aBoolean
@@ -56,9 +64,28 @@ TToItem >> hidden: aBoolean [
 ]
 
 { #category : #'t - item' }
+TToItem >> nodeHolder [
+
+	^ nodeHolder
+]
+
+{ #category : #'t - item' }
+TToItem >> nodeHolder: aNodeHolder [
+
+	nodeHolder := aNodeHolder
+]
+
+{ #category : #'t - item' }
 TToItem >> positionInBar [
 
-	self barHolderDo: [ :pm | ^ pm items indexOf: self ].
+	nodeHolder ifNotNil: [ ^ nodeHolder position ].
+	^ 0
+]
+
+{ #category : #'t - item' }
+TToItem >> positionInParentBar [
+
+	nodeHolder ifNotNil: [ ^ nodeHolder position ].
 	^ 0
 ]
 
@@ -94,7 +121,7 @@ TToItem >> presetUnselectableWith: aBoolean [
 { #category : #'t - item' }
 TToItem >> unselectable: aBoolean [
 
-	self barHolder
+	self barParent
 		ifNil: [ self presetUnselectableWith: aBoolean ]
 		ifNotNil: [ :l |
 			aBoolean

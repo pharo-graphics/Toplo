@@ -4,6 +4,8 @@ I'm a list whose node contents is a menu item element.
 Class {
 	#name : #ToMenuItemBarElement,
 	#superclass : #ToItemBarElement,
+	#traits : 'TToItemBar + TToMenuItemBar',
+	#classTraits : 'TToItemBar classTrait + TToMenuItemBar classTrait',
 	#category : #'Toplo-Widget-Menu-ItemList'
 }
 
@@ -44,5 +46,5 @@ ToMenuItemBarElement >> initialize [
 { #category : #skin }
 ToMenuItemBarElement >> newRawSkin [ 
 
-	^ ToMenuItemListElementSkin new
+	^ ToMenuItemBarElementSkin new
 ]

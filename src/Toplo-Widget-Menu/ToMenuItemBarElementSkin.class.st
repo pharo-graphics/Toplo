@@ -1,11 +1,11 @@
 Class {
-	#name : #ToMenuItemListElementSkin,
+	#name : #ToMenuItemBarElementSkin,
 	#superclass : #ToItemBarElementSkin,
 	#category : #'Toplo-Widget-Menu-ItemList'
 }
 
 { #category : #'event handling' }
-ToMenuItemListElementSkin >> installSkinEvent: anEvent [
+ToMenuItemBarElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |

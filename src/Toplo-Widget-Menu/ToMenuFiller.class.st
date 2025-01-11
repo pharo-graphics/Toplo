@@ -21,13 +21,13 @@ ToMenuFiller >> initialize [
 ]
 
 { #category : #'adding-removing' }
-ToMenuFiller >> onAddedInItemListHolder: aMenu [
+ToMenuFiller >> onAddedInItemBar: aMenuItemBar [
 
-	aMenu onAddedFillerMenuItem: self
+	aMenuItemBar onAddedFillerMenuItem: self
 ]
 
 { #category : #'adding-removing' }
-ToMenuFiller >> onRemovedFromItemListHolder: aMenu [
+ToMenuFiller >> onRemovedFromItemBar: aMenuItemBar [
 
-	aMenu onRemovedFillerMenuItem: self
+	aMenuItemBar onRemovedFillerMenuItem: self
 ]

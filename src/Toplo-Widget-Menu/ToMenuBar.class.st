@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMenuBar,
 	#superclass : #ToElement,
-	#traits : 'TToItem + TToMenuItem + TToItemBarHolder + TToMenuItemBarHolder + TToOrientable',
-	#classTraits : 'TToItem classTrait + TToMenuItem classTrait + TToItemBarHolder classTrait + TToMenuItemBarHolder classTrait + TToOrientable classTrait',
+	#traits : 'TToItem + TToMenuItem + TToItemBarParent + TToMenuItemBarParent + TToOrientable',
+	#classTraits : 'TToItem classTrait + TToMenuItem classTrait + TToItemBarParent classTrait + TToMenuItemBarParent classTrait + TToOrientable classTrait',
 	#instVars : [
 		'autoOpen'
 	],
@@ -56,7 +56,7 @@ ToMenuBar >> collectedNodesDo: aValuable [
 			child isFake ifFalse: [ aValuable value: child ] ] ]
 ]
 
-{ #category : #'t - item list holder - initializing' }
+{ #category : #'t - item bar parent - initializing' }
 ToMenuBar >> configureLayout [
 
 	" just force the resizer of the secondary direction 
@@ -107,7 +107,7 @@ ToMenuBar >> isMenuBar [
 { #category : #testing }
 ToMenuBar >> isSubBar [ 
 
-	^ self barHolder notNil
+	^ self barParent notNil
 ]
 
 { #category : #'t - menu item' }
@@ -152,7 +152,7 @@ ToMenuBar >> mouseOverEvent: anEvent [
 			m mouseOverEvent: anEvent ] ]
 ]
 
-{ #category : #'t - item list holder - accessing' }
+{ #category : #'t - item bar parent - accessing' }
 ToMenuBar >> newItemList [
 
 	^ ToMenuItemBarElement new
@@ -165,15 +165,14 @@ ToMenuBar >> newRawSkin [
 ]
 
 { #category : #'adding-removing' }
-ToMenuBar >> onAddedInItemListHolder: aMenuItemContainer [
+ToMenuBar >> onAddedInItemBar: aMenuItemBar [
 
-	aMenuItemContainer onAddedMenuBar: self
+	aMenuItemBar onAddedMenuBar: self
 ]
 
-{ #category : #'t - menu item list holder - double dispatch' }
+{ #category : #'t - menu item bar - double dispatch' }
 ToMenuBar >> onAddedMenu: aMenu [
 
-	aMenu barHolder: self.
 	aMenu isSubmenu: false
 ]
 
@@ -193,9 +192,9 @@ ToMenuBar >> onMeasure: anExtentMeasurementSpec [
 ]
 
 { #category : #'adding-removing' }
-ToMenuBar >> onRemovedFromItemListHolder: aMenuItemContainer [
+ToMenuBar >> onRemovedFromItemBar: aMenuItemBar [
 
-	aMenuItemContainer onRemovedMenuBar: self
+	aMenuItemBar onRemovedMenuBar: self
 ]
 
 { #category : #adding }
@@ -210,8 +209,8 @@ ToMenuBar >> removeMenu: aMenu [
 { #category : #accessing }
 ToMenuBar >> rootMenuBar [ 
 
-	self barHolder ifNil: [ ^ self ].
-	^ self barHolder rootMenuBar
+	self barParent ifNil: [ ^ self ].
+	^ self barParent rootMenuBar
 ]
 
 { #category : #'auto opening' }

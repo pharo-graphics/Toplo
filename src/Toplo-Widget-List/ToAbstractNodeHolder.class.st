@@ -7,14 +7,14 @@ Class {
 	#category : #'Toplo-Widget-List-Node'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToAbstractNodeHolder >> bindDataItem: aDataItem [
 
 	self setupNodeWith: (self nodeManager newNodeForHolder: self).
 	self setDataItemAndBuildNode: aDataItem
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToAbstractNodeHolder >> data [
 
 
@@ -25,25 +25,25 @@ ToAbstractNodeHolder >> data [
 	^ self dataItem
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToAbstractNodeHolder >> dataItem [
 
 	^ dataItem ifNotNil: [ :di | di first ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToAbstractNodeHolder >> dataItem: aData [ 
 
 	dataItem := aData asWeakReference
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToAbstractNodeHolder >> dataSource [
 
 	^ self listElement dataSource
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToAbstractNodeHolder >> disabled: aBoolean [
 
 	| selecter |
@@ -60,31 +60,31 @@ ToAbstractNodeHolder >> initializeNode [
 	self isHidden ifTrue: [ self node height: 0 ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToAbstractNodeHolder >> isDisabled [
 
 	^ self listElement selectionModel isDisabledIndex: self position
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToAbstractNodeHolder >> isEnabled [
 
 	^ self isDisabled not
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToAbstractNodeHolder >> isHidden [
 
 	^ self listElement selectionModel isHiddenIndex: self position
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToAbstractNodeHolder >> isSelectable [
 
 	^ self isUnselectable not
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToAbstractNodeHolder >> isSelected [
 
 	^ self listElement
@@ -92,37 +92,37 @@ ToAbstractNodeHolder >> isSelected [
 		  ifNotNil: [ :le | le selectionModel containsIndex: self position ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToAbstractNodeHolder >> isUnselectable [
 
 	^ self listElement selectionModel isUnselectableIndex: self position
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToAbstractNodeHolder >> listElement [
 
 	^ self infiniteElement listElement
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToAbstractNodeHolder >> node [
 
 	^ self itemElement 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToAbstractNodeHolder >> node: aNode [
 
 	itemElement := aNode
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToAbstractNodeHolder >> nodeManager [ 
 
 	^ self listElement nodeManager
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToAbstractNodeHolder >> notifyDeselectedWithOption: aSelectionElementOption [
 
 	self isSelected ifTrue: [ ^ self ].
@@ -132,7 +132,7 @@ ToAbstractNodeHolder >> notifyDeselectedWithOption: aSelectionElementOption [
 			 selected: false)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToAbstractNodeHolder >> notifySelectedWithOption: aSelectionElementOption [
 
 	self isSelected ifFalse: [ ^ self ].
@@ -142,7 +142,7 @@ ToAbstractNodeHolder >> notifySelectedWithOption: aSelectionElementOption [
 			 selected: true)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToAbstractNodeHolder >> release [
 
 	super release.
@@ -150,19 +150,19 @@ ToAbstractNodeHolder >> release [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToAbstractNodeHolder >> selecter [ 
 
 	^ self listElement selecter
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToAbstractNodeHolder >> selectionModel [
 
 	^ self listElement selectionModel
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToAbstractNodeHolder >> setDataItemAndBuildNode: aDataItem [ 
 
 	| nodeManager |
@@ -173,7 +173,7 @@ ToAbstractNodeHolder >> setDataItemAndBuildNode: aDataItem [
 	self initializeNode
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToAbstractNodeHolder >> setupNodeWith: aNode [
 
 	| infiniteConstraints |
@@ -182,7 +182,7 @@ ToAbstractNodeHolder >> setupNodeWith: aNode [
 	infiniteConstraints holder: self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToAbstractNodeHolder >> unbindDataItem [
 
 	| nodeManager |

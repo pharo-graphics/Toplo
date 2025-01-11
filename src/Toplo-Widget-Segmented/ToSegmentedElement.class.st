@@ -1,8 +1,8 @@
 Class {
 	#name : #ToSegmentedElement,
 	#superclass : #ToElement,
-	#traits : 'TToItemBarHolder + TToOrientable',
-	#classTraits : 'TToItemBarHolder classTrait + TToOrientable classTrait',
+	#traits : 'TToItemBarParent + TToOrientable',
+	#classTraits : 'TToItemBarParent classTrait + TToOrientable classTrait',
 	#category : #'Toplo-Widget-Segmented-Bar'
 }
 
@@ -39,7 +39,7 @@ ToSegmentedElement >> addLabelText: aText withIconImage: anImage [
 			 icon: (ToImage inner: anImage))
 ]
 
-{ #category : #'t - item list holder - initializing' }
+{ #category : #'t - item bar parent - initializing' }
 ToSegmentedElement >> configureLayout [
 
 	self itemList configureLayoutIn: self
@@ -94,7 +94,7 @@ ToSegmentedElement >> layoutStrategy [
 	
 ]
 
-{ #category : #'t - item list holder - accessing' }
+{ #category : #'t - item bar parent - accessing' }
 ToSegmentedElement >> newItemList [
 
 	^ ToSegmentedBarElement new
@@ -109,14 +109,11 @@ ToSegmentedElement >> newRawSkin [
 { #category : #'t - item list holder - double dispatch' }
 ToSegmentedElement >> onAddedSegmentedButton: aButton [
 
-	aButton barHolder: self
-
 ]
 
 { #category : #'t - item list holder - double dispatch' }
 ToSegmentedElement >> onRemovedSegmentedButton: aButton [
 
-	aButton barHolder: nil
 ]
 
 { #category : #'t - checkable group owner' }

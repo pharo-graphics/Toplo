@@ -12,8 +12,8 @@ Class {
 { #category : #'adding-removing' }
 ToMenuItemElement >> closeSiblingMenuWindow [
 
-	self barHolder ifNil: [ ^ self ].
-	self barHolder closeAllWindowsForItemsSatisfying: [ :it |
+	self barParent ifNil: [ ^ self ].
+	self barParent closeAllWindowsForItemsSatisfying: [ :it |
 		it notNil and: [
 			it ~= self and: [ it isInline not ] ] ]
 ]
@@ -122,31 +122,30 @@ ToMenuItemElement >> newRawSkin [
 ]
 
 { #category : #'adding-removing' }
-ToMenuItemElement >> onAddedInItemListHolder: aMenu [
+ToMenuItemElement >> onAddedInItemBar: aMenuItemBar [
 
-	aMenu onAddedMenuItem: self
+	aMenuItemBar onAddedMenuItem: self
 ]
 
 { #category : #'adding-removing' }
-ToMenuItemElement >> onRemovedFromItemListHolder: aMenu [
+ToMenuItemElement >> onRemovedFromItemBar: aMenuItemBar [
 
-	aMenu onRemovedMenuItem: self
+	aMenuItemBar onRemovedMenuItem: self
 ]
 
 { #category : #'adding-removing' }
 ToMenuItemElement >> removedFromMenu: aMenu [
 
-	super removedFromMenu: aMenu.
-	self barHolder: nil
+	super removedFromMenu: aMenu
 ]
 
 { #category : #'t - menu window model' }
 ToMenuItemElement >> rootMenu [
 
-	self barHolder ifNil: [ ^ self ].
-	self barHolder isMenuBar ifTrue: [ 
+	self barParent ifNil: [ ^ self ].
+	self barParent isMenuBar ifTrue: [ 
 		^ self isMenu ifTrue: [ self ] ifFalse: [  ] ].
-	^ self barHolder rootMenu
+	^ self barParent rootMenu
 ]
 
 { #category : #'t - menu window model' }

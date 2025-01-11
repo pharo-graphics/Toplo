@@ -4,8 +4,8 @@ I'm a composite of Menu items. I can behave as a menu item (this is why I inheri
 Class {
 	#name : #ToMenu,
 	#superclass : #ToMenuItem,
-	#traits : 'TToItemBarParent + TToMenuItemBarParent + TToMenuWindowModel',
-	#classTraits : 'TToItemBarParent classTrait + TToMenuItemBarParent classTrait + TToMenuWindowModel classTrait',
+	#traits : 'TToItemBarHolder + TToMenuItemBarHolder + TToMenuWindowModel',
+	#classTraits : 'TToItemBarHolder classTrait + TToMenuItemBarHolder classTrait + TToMenuWindowModel classTrait',
 	#instVars : [
 		'isSubmenu',
 		'builder',
@@ -160,7 +160,7 @@ ToMenu >> mouseOverEvent: anEvent [
 		ifFalse: [ self closeWindow ]
 ]
 
-{ #category : #'t - item bar parent - accessing' }
+{ #category : #'t - item list holder - accessing' }
 ToMenu >> newItemList [
 
 	^ ToMenuItemBarElement new
@@ -173,15 +173,15 @@ ToMenu >> newRawSkin [
 ]
 
 { #category : #'adding-removing' }
-ToMenu >> onAddedInItemBar: aMenuItemBar [
+ToMenu >> onAddedInItemListHolder: aMenu [
 
-	aMenuItemBar onAddedMenu: self
+	aMenu onAddedMenu: self
 ]
 
 { #category : #'adding-removing' }
-ToMenu >> onRemovedFromItemBar: aMenuItemBar [
+ToMenu >> onRemovedFromItemListHolder: aMenu [
 
-	aMenuItemBar onRemovedMenu: self
+	aMenu onRemovedMenu: self
 ]
 
 { #category : #accessing }

@@ -10,7 +10,7 @@ ToMenuBarSkin >> hoveredSkinEvent: anEvent [
 	super hoveredSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e itemList background: BlBackground transparent.
-		e barParent ifNotNil: [
+		e barHolder ifNotNil: [
 			e background: (Color veryLightGray alpha: 0.1) ] ]
 ]
 
@@ -25,7 +25,7 @@ ToMenuBarSkin >> installSkinEvent: anEvent [
 				 (e valueOfTokenNamed: 'border-radius')).
 		e background: (e valueOfTokenNamed: #'background-color').
 		e itemList background: BlBackground transparent.
-		e barParent ifNil: [
+		e barHolder ifNil: [
 			e padding: (BlInsets all: 4) ].
 		e border: BlBorder empty ]
 ]
@@ -36,6 +36,6 @@ ToMenuBarSkin >> leavedSkinEvent: anEvent [
 	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e itemList background: BlBackground transparent.
-		e barParent ifNotNil: [
+		e barHolder ifNotNil: [
 			e background: BlBackground transparent ] ]
 ]

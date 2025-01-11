@@ -1,6 +1,5 @@
 "
-I'm a Bar whose node child is a unique BlElement.
-The unique child is call an item
+I'm a list whose node contents is a BlElement
 "
 Class {
 	#name : #ToItemBarElement,

@@ -2085,7 +2085,7 @@ ToSandBox class >> example_SelectMonoFiltrable [
 		do: [ :event | event selectedIndexes traceCr ].
 
 
-	select windowManager minHeight: 35.
+	select manager minHeight: 35.
 	phtext := ('No Data' asRopedText
 		           foreground: Color lightGray;
 		           yourself)
@@ -2452,7 +2452,7 @@ ToSandBox class >> example_SelectMultiNotFiltrableWithGroups [
 	select placeholderText:
 		('Select a state' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select manager anchorRoot: innerWindow root.
 	select width: 300.
 	select position: 50 @ 50.
 	select filterTextField requestFocus.

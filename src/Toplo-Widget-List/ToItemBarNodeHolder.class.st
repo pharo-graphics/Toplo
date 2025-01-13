@@ -1,7 +1,7 @@
 Class {
 	#name : #ToItemBarNodeHolder,
 	#superclass : #ToBarNodeHolder,
-	#category : #'Toplo-Widget-List-Node'
+	#category : #'Toplo-Widget-List-ItemBar'
 }
 
 { #category : #accessing }

@@ -36,7 +36,6 @@ TToMenuItemBarOwner >> onAddedFillerMenuItem: aFiller [
 { #category : #'t - menu item list holder - double dispatch' }
 TToMenuItemBarOwner >> onAddedMenu: aMenu [
 
-	aMenu parentItemListHolder: self.
 	aMenu isSubmenu: true.
 	aMenu closeOnPicking: false
 ]
@@ -52,8 +51,6 @@ TToMenuItemBarOwner >> onAddedMenuBar: aMenuBar [
 
 { #category : #'t - menu item list holder - double dispatch' }
 TToMenuItemBarOwner >> onAddedMenuItem: aMenuItem [
-
-	aMenuItem parentItemListHolder: self
 ]
 
 { #category : #'t - menu item list holder - double dispatch' }
@@ -84,7 +81,6 @@ TToMenuItemBarOwner >> onRemovedFillerMenuItem: aFiller [
 { #category : #'t - menu item list holder - double dispatch' }
 TToMenuItemBarOwner >> onRemovedMenu: aMenu [
 
-	aMenu parentItemListHolder: nil.
 	aMenu isSubmenu: false
 ]
 
@@ -101,7 +97,6 @@ TToMenuItemBarOwner >> onRemovedMenuBar: aMenuBar [
 { #category : #'t - menu item list holder - double dispatch' }
 TToMenuItemBarOwner >> onRemovedMenuItem: aMenuItem [
 
-	aMenuItem parentItemListHolder: nil
 ]
 
 { #category : #'t - menu item list holder - double dispatch' }

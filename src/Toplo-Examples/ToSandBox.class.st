@@ -3283,13 +3283,12 @@ ToSandBox class >> example_WithSeparator [
 		             size: 400 @ 200;
 		             yourself.
 	menu := ToMenu new.
-	menu tooltipString: 'tooltip content'.
+	"menu tooltipString: 'tooltip content'."
 	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
-	menu addItem: (ToMenuItem new
-			 label: (ToLabel text: 'Open')).
-	menu addSeparator.
-	menu addItem: (ToMenuItem new
-			 label: (ToLabel text: 'Close')).
+	menu addItem: (ToMenuItem new label: (ToLabel text: 'Open')) disable.
+
+	"menu addSeparator."
+	menu addItem: (ToMenuItem new label: (ToLabel text: 'Close')).
 	container pane addChild: menu.
 	container openInSpace
 ]

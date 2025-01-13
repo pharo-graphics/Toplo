@@ -27,7 +27,8 @@ ToToggleButtonSkin >> disabledSkinEvent: anEvent [
 		e iconDo: [ :ic |
 			ic formColor: (e valueOfTokenNamed: #'color-text-disabled') ].
 		e endElementDo: [ :ic |
-			ic formColor: (e valueOfTokenNamed: #'color-text-disabled') ].
+			(ic respondsTo: #innerImageColor:) ifTrue: [
+				ic innerImageColor: (e valueOfTokenNamed: #'color-text-disabled') ] ].
 		e background: (e valueOfTokenNamed: #'color-bg-container-disabled').
 		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-text-disabled').
@@ -38,7 +39,16 @@ ToToggleButtonSkin >> disabledSkinEvent: anEvent [
 ToToggleButtonSkin >> enabledSkinEvent: anEvent [
 
 	super enabledSkinEvent: anEvent.
-	anEvent elementDo: [ :e |  ]
+	anEvent elementDo: [ :e |
+		e iconDo: [ :ic |
+			ic formColor: (e valueOfTokenNamed: #'color-text') ].
+		e endElementDo: [ :ic |
+			(ic respondsTo: #innerImageColor:) ifTrue: [
+				ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ].
+		e background: (e valueOfTokenNamed: #'color-bg-container').
+		e labelDo: [ :lab |
+			lab foreground: (e valueOfTokenNamed: #'color-text').
+			lab applyStyle ] ]
 ]
 
 { #category : #'event handling' }

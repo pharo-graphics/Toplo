@@ -303,27 +303,27 @@ ToSelectionModel >> selectedIndexesIntervalsDo: aBlock [
 { #category : #updating }
 ToSelectionModel >> shift: aGap from: aStartIndex [
 
-	| from to prevIntervals high |
+	| from to prevIntervals lastIndex |
 	aGap isZero ifTrue: [ ^ self ].
 	self isEmpty ifTrue: [ ^ self ].
 
 	" 1 - keep selected intervals to reselect them accordingly at 2"
 	prevIntervals := self selectedIndexesIntervals.
-	high := underlyingModel lastIndex.
+	lastIndex := underlyingModel lastIndex.
 
 	" deselect according to start index and gap "
 	aGap <= 0
 		ifTrue: [
 			from := aStartIndex + aGap.
 			to := aStartIndex.
-			(high >= 0 and: [ from <= high ]) ifTrue: [
-				underlyingModel removeIntervalFromIndex: from + 1 toIndex: high ] ]
+			(lastIndex >= 0 and: [ from <= lastIndex ]) ifTrue: [
+				underlyingModel removeIntervalFromIndex: from + 1 toIndex: lastIndex ] ]
 		ifFalse: [
 			from := aStartIndex.
-			to := aStartIndex + aGap min: high.
+			to := aStartIndex + aGap min: lastIndex.
 
-			from <= high ifTrue: [
-				underlyingModel removeIntervalFromIndex: from toIndex: high ] ].
+			from <= lastIndex ifTrue: [
+				underlyingModel removeIntervalFromIndex: from toIndex: lastIndex ] ].
 
 	" 2 - reselect "
 	prevIntervals do: [ :interval |
@@ -332,7 +332,12 @@ ToSelectionModel >> shift: aGap from: aStartIndex [
 			ifTrue: [
 				first := interval first max: aStartIndex.
 				last := interval last.
-				underlyingModel selectIndex: first + aGap to: last + aGap ] ]
+				underlyingModel selectIndex: first + aGap to: last + aGap ] ].
+	
+	" remove selection outside the valid selection interval (1 to: self itemCount) "
+	lastIndex := underlyingModel lastIndex.
+	lastIndex > self itemCount ifFalse: [ ^ self ].
+	underlyingModel deselectIndex: self itemCount + 1 to: lastIndex.
 ]
 
 { #category : #accessing }

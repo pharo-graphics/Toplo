@@ -460,6 +460,16 @@ ToSelectionModelTest >> testShiftFrom12 [
 ]
 
 { #category : #tests }
+ToSelectionModelTest >> testShiftFrom13 [
+
+	| s |
+	s := ToSelectionModel new itemCountGetter: 2.
+	s selectIndexes: { 2 }.
+	s shift: 4 from: 1.
+	self assert: s selectedIndexes  equals: {  }
+]
+
+{ #category : #tests }
 ToSelectionModelTest >> testShiftFrom2 [
 
 	| s |

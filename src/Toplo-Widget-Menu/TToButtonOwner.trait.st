@@ -1,5 +1,5 @@
 Trait {
-	#name : #TToButtonHolder,
+	#name : #TToButtonOwner,
 	#instVars : [
 		'button'
 	],
@@ -7,13 +7,13 @@ Trait {
 }
 
 { #category : #'t - button holder' }
-TToButtonHolder >> button [
+TToButtonOwner >> button [
 
 	^ button
 ]
 
 { #category : #'t - button holder' }
-TToButtonHolder >> button: aButton [
+TToButtonOwner >> button: aButton [
 
 	self button = aButton ifTrue: [ ^ self ].
 	button ifNotNil: [ button removeFromParent ].
@@ -25,25 +25,25 @@ TToButtonHolder >> button: aButton [
 ]
 
 { #category : #'t - button holder' }
-TToButtonHolder >> buttonClass [
+TToButtonOwner >> buttonClass [
 
 	^ ToGeneralButton
 ]
 
 { #category : #'t - button holder' }
-TToButtonHolder >> buttonClickEventClass [
+TToButtonOwner >> buttonClickEventClass [
 
 	^ BlMouseUpEvent
 ]
 
 { #category : #'t - button holder' }
-TToButtonHolder >> clickEventClass [
+TToButtonOwner >> clickEventClass [
 
 	^ self button clickEventClass
 ]
 
 { #category : #'t - button holder' }
-TToButtonHolder >> initializeButtonHolder [
+TToButtonOwner >> initializeButtonHolder [
 
 	self button: self buttonClass new.
 	self button takeFocusOnClick: false.
@@ -52,7 +52,7 @@ TToButtonHolder >> initializeButtonHolder [
 ]
 
 { #category : #'t - button holder' }
-TToButtonHolder >> whenClickedDo: aBlock [
+TToButtonOwner >> whenClickedDo: aBlock [
 	"Inform that the widget has been clicked."
 
 	self button whenClickedDo: aBlock

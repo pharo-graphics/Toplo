@@ -3924,14 +3924,13 @@ ToSandBox class >> example_menuBar0 [
 	menu addItem: (ToMenuItem new labelText: 'item 1').
 	menu addItem: ToSeparatorMenuItem new.
 	sub := ToMenuItem new labelText: 'item 2'.
-
-	self flag: 'Disabling the menu item does not work here because it is done before its adding'.
 	sub disable.
 	menu addItem: sub.
 
 	bar addItem: menu.
 	menu := ToMenuItem new labelText: 'Menu 1'.
 	bar addItem: menu.
+	self flag: 'To be fixed: disabling after the item is added does not update the disabledSelectionModel'.
 	menu disabled: true.
 	bar openInSpace
 ]
@@ -4585,6 +4584,7 @@ ToSandBox class >> example_segmentedWithSegmentedButton [
 				 whenClickedDo: [ :event | event currentTarget label text traceCr ];
 				 yourself) ].
 
+	self flag: 'To be fixed: disabling after the item is added does not update the disabledSelectionModel'.
 	(seg items at: 2) disable.
 	dashBoard := self segmentedDashBoardFor: seg.
 

@@ -6,7 +6,7 @@ Class {
 		'unselectable',
 		'hidden'
 	],
-	#category : #'Toplo-Widget-List-ItemList'
+	#category : #'Toplo-Widget-List-ItemBar'
 }
 
 { #category : #accessing }

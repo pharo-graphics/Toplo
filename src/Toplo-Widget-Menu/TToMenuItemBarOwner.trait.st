@@ -1,38 +1,40 @@
 Trait {
-	#name : #TToMenuItemListHolder,
+	#name : #TToMenuItemBarOwner,
 	#category : #'Toplo-Widget-Menu-Items'
 }
 
 { #category : #'t - menu item list holder - adding/removing' }
-TToMenuItemListHolder >> addSeparator [
+TToMenuItemBarOwner >> addSeparator [
 
 	self addItem: ToSeparatorMenuItem new
 ]
 
 { #category : #'t - menu item list holder - adding/removing' }
-TToMenuItemListHolder >> closeAllWindowsForItemsSatisfying: aBlock [
+TToMenuItemBarOwner >> closeAllWindowsForItemsSatisfying: aBlock [
 
 	self items do: [ :it |
 		(aBlock value: it) ifTrue: [ it menuWindowDo: [ :w | w close ] ] ]
 ]
 
 { #category : #'t - menu item list holder - double dispatch' }
-TToMenuItemListHolder >> onAddedCustomMenuItem: aMenuItem [
+TToMenuItemBarOwner >> onAddedCustomMenuItem: aMenuItem [
 
 	self onAddedMenuItem: aMenuItem.
 	aMenuItem isSelectable ifTrue: [ ^ self ].
-	self itemList unselectableSelecter selectIndex: aMenuItem positionInItemList
+	self itemBar unselectableSelecter selectIndex:
+		aMenuItem positionInItemList
 ]
 
 { #category : #'t - menu item list holder - double dispatch' }
-TToMenuItemListHolder >> onAddedFillerMenuItem: aFiller [
+TToMenuItemBarOwner >> onAddedFillerMenuItem: aFiller [
 
 	self onAddedMenuItem: aFiller.
-	self itemList unselectableSelecter selectIndex: aFiller positionInItemList
+	self itemBar unselectableSelecter selectIndex:
+		aFiller positionInItemList
 ]
 
 { #category : #'t - menu item list holder - double dispatch' }
-TToMenuItemListHolder >> onAddedMenu: aMenu [
+TToMenuItemBarOwner >> onAddedMenu: aMenu [
 
 	aMenu parentItemListHolder: self.
 	aMenu isSubmenu: true.
@@ -40,38 +42,39 @@ TToMenuItemListHolder >> onAddedMenu: aMenu [
 ]
 
 { #category : #'t - menu item list holder - double dispatch' }
-TToMenuItemListHolder >> onAddedMenuBar: aMenuBar [
+TToMenuItemBarOwner >> onAddedMenuBar: aMenuBar [
 
 	self onAddedMenuItem: aMenuBar.
 	aMenuBar configureLayout.
-	self itemList unselectableSelecter selectIndex:
+	self itemBar unselectableSelecter selectIndex:
 		aMenuBar positionInItemList
 ]
 
 { #category : #'t - menu item list holder - double dispatch' }
-TToMenuItemListHolder >> onAddedMenuItem: aMenuItem [
+TToMenuItemBarOwner >> onAddedMenuItem: aMenuItem [
 
 	aMenuItem parentItemListHolder: self
 ]
 
 { #category : #'t - menu item list holder - double dispatch' }
-TToMenuItemListHolder >> onAddedSeparatorMenuItem: aMenuItem [
+TToMenuItemBarOwner >> onAddedSeparatorMenuItem: aMenuItem [
 
 	self onAddedMenuItem: aMenuItem.
-	self itemList unselectableSelecter selectIndex: aMenuItem positionInItemList
+	self itemBar unselectableSelecter selectIndex:
+		aMenuItem positionInItemList
 ]
 
 { #category : #'t - menu item list holder - double dispatch' }
-TToMenuItemListHolder >> onRemovedCustomMenuItem: aMenuItem [
+TToMenuItemBarOwner >> onRemovedCustomMenuItem: aMenuItem [
 
 	aMenuItem isSelectable ifTrue: [ ^ self ].
-	self itemList unselectableSelecter deselectIndex: aMenuItem positionInItemList.
-	self onRemovedMenuItem: aMenuItem.
-
+	self itemBar unselectableSelecter deselectIndex:
+		aMenuItem positionInItemList.
+	self onRemovedMenuItem: aMenuItem
 ]
 
 { #category : #'t - menu item list holder - double dispatch' }
-TToMenuItemListHolder >> onRemovedFillerMenuItem: aFiller [
+TToMenuItemBarOwner >> onRemovedFillerMenuItem: aFiller [
 
 	self itemList unselectableSelecter deselectIndex: aFiller positionInItemList.
 	self onRemovedMenuItem: aFiller.
@@ -79,14 +82,14 @@ TToMenuItemListHolder >> onRemovedFillerMenuItem: aFiller [
 ]
 
 { #category : #'t - menu item list holder - double dispatch' }
-TToMenuItemListHolder >> onRemovedMenu: aMenu [
+TToMenuItemBarOwner >> onRemovedMenu: aMenu [
 
 	aMenu parentItemListHolder: nil.
 	aMenu isSubmenu: false
 ]
 
 { #category : #'t - menu item list holder - double dispatch' }
-TToMenuItemListHolder >> onRemovedMenuBar: aMenuBar [
+TToMenuItemBarOwner >> onRemovedMenuBar: aMenuBar [
 
 	self itemList unselectableSelecter deselectIndex:
 		aMenuBar positionInItemList.
@@ -96,15 +99,15 @@ TToMenuItemListHolder >> onRemovedMenuBar: aMenuBar [
 ]
 
 { #category : #'t - menu item list holder - double dispatch' }
-TToMenuItemListHolder >> onRemovedMenuItem: aMenuItem [
+TToMenuItemBarOwner >> onRemovedMenuItem: aMenuItem [
 
 	aMenuItem parentItemListHolder: nil
 ]
 
 { #category : #'t - menu item list holder - double dispatch' }
-TToMenuItemListHolder >> onRemovedSeparatorMenuItem: aMenuItem [
+TToMenuItemBarOwner >> onRemovedSeparatorMenuItem: aMenuItem [
 
-	self itemList unselectableSelecter deselectIndex: aMenuItem positionInItemList.
-	self onRemovedMenuItem: aMenuItem.
-
+	self itemBar unselectableSelecter deselectIndex:
+		aMenuItem positionInItemList.
+	self onRemovedMenuItem: aMenuItem
 ]

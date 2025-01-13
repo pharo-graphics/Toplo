@@ -44,7 +44,7 @@ ToMenuWindowManager >> inlineWindowClass [
 { #category : #'event handling' }
 ToMenuWindowManager >> mouseEnterEvent: anEvent [
 
-	element itemList secondarySelecter deselectAll
+	element itemBar secondarySelecter deselectAll
 ]
 
 { #category : #'event handling' }
@@ -59,17 +59,17 @@ ToMenuWindowManager >> newInlineMode [
 ]
 
 { #category : #'window handling' }
-ToMenuWindowManager >> onClosed [ 
+ToMenuWindowManager >> onClosed [
 
 	super onClosed.
-	element itemList secondarySelecter deselectAll
+	element itemBar secondarySelecter deselectAll
 ]
 
 { #category : #'window handling' }
 ToMenuWindowManager >> onOpened [
 
 	super onOpened.
-	element itemList requestFocus
+	element itemBar requestFocus
 ]
 
 { #category : #'event handling' }

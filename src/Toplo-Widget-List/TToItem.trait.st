@@ -4,7 +4,7 @@ Trait {
 		'parentItemListHolder',
 		'presetData'
 	],
-	#category : #'Toplo-Widget-List-ItemList'
+	#category : #'Toplo-Widget-List-ItemBar'
 }
 
 { #category : #'t - item' }

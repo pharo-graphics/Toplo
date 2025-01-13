@@ -13,5 +13,5 @@ ToMenuWindowEventHandler >> eventsToHandle [
 ToMenuWindowEventHandler >> mouseLeaveEvent: anEvent [
 
 	anEvent currentTarget isOpened ifFalse: [ ^ self ].
-	anEvent currentTarget itemList secondarySelecter deselectAll
+	anEvent currentTarget itemBar secondarySelecter deselectAll
 ]

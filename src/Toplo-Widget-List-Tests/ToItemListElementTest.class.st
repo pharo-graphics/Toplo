@@ -7,14 +7,14 @@ Class {
 	#instVars : [
 		'l'
 	],
-	#category : #'Toplo-Widget-List-Tests-ItemList'
+	#category : #'Toplo-Widget-List-Tests-ItemBar'
 }
 
 { #category : #running }
 ToItemListElementTest >> setUp [
 
 	super setUp.
-	l := ToItemListElementForTest new.
+	l := ToItemBarElementForTest new.
 	l vMatchParent.
 	space root addChild: l
 ]

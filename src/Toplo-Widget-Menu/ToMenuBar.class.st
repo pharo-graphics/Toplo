@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMenuBar,
 	#superclass : #ToElement,
-	#traits : 'TToItem + TToMenuItem + TToItemListHolder + TToMenuItemListHolder + TToOrientable',
-	#classTraits : 'TToItem classTrait + TToMenuItem classTrait + TToItemListHolder classTrait + TToMenuItemListHolder classTrait + TToOrientable classTrait',
+	#traits : 'TToItem + TToMenuItem + TToItemBarOwner + TToMenuItemBarOwner + TToOrientable',
+	#classTraits : 'TToItem classTrait + TToMenuItem classTrait + TToItemBarOwner classTrait + TToMenuItemBarOwner classTrait + TToOrientable classTrait',
 	#instVars : [
 		'autoOpen'
 	],
@@ -58,10 +58,9 @@ ToMenuBar >> collectedNodesDo: aValuable [
 
 { #category : #'t - item list holder - initializing' }
 ToMenuBar >> configureLayout [
-
 	" just force the resizer of the secondary direction 
 	( vertical direction in case of an horizontal bar )"
-	
+
 	self isHorizontal
 		ifTrue: [
 			self vFitContent.
@@ -69,7 +68,7 @@ ToMenuBar >> configureLayout [
 		ifFalse: [
 			self hFitContent.
 			self isSubBar ifTrue: [ self vFitContent ] ].
-	self itemList configureLayoutIn: self
+	self itemBar configureLayoutIn: self
 ]
 
 { #category : #initialization }
@@ -80,7 +79,7 @@ ToMenuBar >> initialize [
 	autoOpen := false.
 	self layout: BlLinearLayout horizontal.
 	self addEventHandler: ToMenuBarEventHandler new.
-	self addChild: self itemList.
+	self addChild: self itemBar.
 	self nodeWrapping: false.
 	self uniformNodeWidth: false.
 	self beHorizontal
@@ -155,7 +154,7 @@ ToMenuBar >> mouseOverEvent: anEvent [
 { #category : #'t - item list holder - accessing' }
 ToMenuBar >> newItemList [
 
-	^ ToMenuItemListElement new
+	^ ToMenuItemBarElement new
 ]
 
 { #category : #skin }

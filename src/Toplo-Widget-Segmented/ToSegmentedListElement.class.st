@@ -3,7 +3,7 @@ I'm list whose contents is a segmented element (i.e. a list of toggle elements)
 "
 Class {
 	#name : #ToSegmentedListElement,
-	#superclass : #ToItemListElement,
+	#superclass : #ToItemBarElement,
 	#traits : 'TToCheckableGroupOwner',
 	#classTraits : 'TToCheckableGroupOwner classTrait',
 	#instVars : [

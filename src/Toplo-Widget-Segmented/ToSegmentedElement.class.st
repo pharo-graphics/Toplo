@@ -1,8 +1,8 @@
 Class {
 	#name : #ToSegmentedElement,
 	#superclass : #ToElement,
-	#traits : 'TToItemListHolder + TToOrientable',
-	#classTraits : 'TToItemListHolder classTrait + TToOrientable classTrait',
+	#traits : 'TToItemBarOwner + TToOrientable',
+	#classTraits : 'TToItemBarOwner classTrait + TToOrientable classTrait',
 	#category : #'Toplo-Widget-Segmented-Bar'
 }
 

@@ -44,6 +44,7 @@ TToMenuItemBarOwner >> onAddedMenu: aMenu [
 TToMenuItemBarOwner >> onAddedMenuBar: aMenuBar [
 
 	self onAddedMenuItem: aMenuBar.
+	aMenuBar isSubBar: true.
 	aMenuBar configureLayout.
 	self itemBar unselectableSelecter selectIndex:
 		aMenuBar positionInItemList
@@ -89,6 +90,7 @@ TToMenuItemBarOwner >> onRemovedMenuBar: aMenuBar [
 
 	self itemList unselectableSelecter deselectIndex:
 		aMenuBar positionInItemList.
+	aMenuBar isSubBar: false.
 	aMenuBar configureLayout.
 	self onRemovedMenuItem: aMenuBar.
 

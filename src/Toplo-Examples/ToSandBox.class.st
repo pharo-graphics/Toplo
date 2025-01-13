@@ -3287,7 +3287,7 @@ ToSandBox class >> example_WithSeparator [
 	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	menu addItem: (ToMenuItem new label: (ToLabel text: 'Open')) disable.
 
-	"menu addSeparator."
+	menu addSeparator.
 	menu addItem: (ToMenuItem new label: (ToLabel text: 'Close')).
 	container pane addChild: menu.
 	container openInSpace

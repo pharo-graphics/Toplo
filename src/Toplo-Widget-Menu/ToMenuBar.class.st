@@ -4,6 +4,7 @@ Class {
 	#traits : 'TToItem + TToMenuItem + TToItemBarOwner + TToMenuItemBarOwner + TToOrientable',
 	#classTraits : 'TToItem classTrait + TToMenuItem classTrait + TToItemBarOwner classTrait + TToMenuItemBarOwner classTrait + TToOrientable classTrait',
 	#instVars : [
+		'isSubBar',
 		'autoOpen'
 	],
 	#category : #'Toplo-Widget-Menu-Bar'
@@ -77,6 +78,7 @@ ToMenuBar >> initialize [
 	super initialize.
 
 	autoOpen := false.
+	isSubBar := false.
 	self layout: BlLinearLayout horizontal.
 	self addEventHandler: ToMenuBarEventHandler new.
 	self addChild: self itemBar.
@@ -106,7 +108,13 @@ ToMenuBar >> isMenuBar [
 { #category : #testing }
 ToMenuBar >> isSubBar [ 
 
-	^ self parentItemListHolder notNil
+	^ isSubBar
+]
+
+{ #category : #accessing }
+ToMenuBar >> isSubBar: aBoolean [
+
+	isSubBar := aBoolean
 ]
 
 { #category : #'t - menu item' }

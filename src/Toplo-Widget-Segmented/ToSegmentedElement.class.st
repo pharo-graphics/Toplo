@@ -42,7 +42,7 @@ ToSegmentedElement >> addLabelText: aText withIconImage: anImage [
 { #category : #'t - item list holder - initializing' }
 ToSegmentedElement >> configureLayout [
 
-	self itemList configureLayoutIn: self
+	self itemBar configureLayoutIn: self
 ]
 
 { #category : #initialization }
@@ -58,28 +58,28 @@ ToSegmentedElement >> defaultLayout [
 ]
 
 { #category : #'focus requesting' }
-ToSegmentedElement >> focusHolder [ 
+ToSegmentedElement >> focusHolder [
 
-	^ self itemList
+	^ self itemBar
 ]
 
 { #category : #accessing }
 ToSegmentedElement >> group [
 
-	^ self itemList group
+	^ self itemBar group
 ]
 
 { #category : #initialization }
 ToSegmentedElement >> initialize [
 
 	super initialize.
-	self addChild: self itemList.
+	self addChild: self itemBar.
 
 	self group
 		addEventHandlerOn: ToCheckableGroupChangedEvent
 		do: [ :event | self dispatchEvent: event ].
 
-	self itemList
+	self itemBar
 		addEventHandlerOn: ToListSelectionChangedEvent
 		do: [ :event | self dispatchEvent: event ].
 
@@ -118,7 +118,7 @@ ToSegmentedElement >> onRemovedSegmentedButton: aButton [
 { #category : #'t - checkable group owner' }
 ToSegmentedElement >> withStrictCheckingStrategy [
 
-	self itemList withStrictCheckingStrategy
+	self itemBar withStrictCheckingStrategy
 ]
 
 { #category : #'t - checkable group owner' }

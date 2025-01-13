@@ -56,15 +56,15 @@ TToItemBarOwner >> configureLayout [
 ]
 
 { #category : #'t - item list holder - accessing' }
-TToItemBarOwner >> dataAccessor [ 
+TToItemBarOwner >> dataAccessor [
 
-	^ self itemList dataAccessor
+	^ self itemBar dataAccessor
 ]
 
 { #category : #'t - item list holder - accessing' }
 TToItemBarOwner >> dataSource [
 
-	^ self itemList dataSource
+	^ self itemBar dataSource
 ]
 
 { #category : #'t - item list holder - enable/disable' }
@@ -146,31 +146,31 @@ TToItemBarOwner >> isItemContainer [
 { #category : #'t - item list holder - accessing' }
 TToItemBarOwner >> isNodeAutoDistribution [
 
-	^ self itemList isNodeAutoDistribution
+	^ self itemBar isNodeAutoDistribution
 ]
 
 { #category : #'t - item list holder - accessing' }
 TToItemBarOwner >> isNodeScrolling [
 
-	^ self itemList isNodeScrolling
+	^ self itemBar isNodeScrolling
 ]
 
 { #category : #'t - item list holder - accessing' }
 TToItemBarOwner >> isNodeWrapping [
 
-	^ self itemList isNodeWrapping
+	^ self itemBar isNodeWrapping
 ]
 
 { #category : #'t - item list holder - accessing' }
 TToItemBarOwner >> isUniformNodeHeight [
 
-	^ self itemList isUniformNodeHeight
+	^ self itemBar isUniformNodeHeight
 ]
 
 { #category : #'t - item list holder - accessing' }
 TToItemBarOwner >> isUniformNodeWidth [
 
-	^ self itemList isUniformNodeWidth
+	^ self itemBar isUniformNodeWidth
 ]
 
 { #category : #'t - item list holder - accessing' }
@@ -240,8 +240,8 @@ TToItemBarOwner >> onAddedAnyItemKind: anItem [
 { #category : #'t - item list holder - adding/removing' }
 TToItemBarOwner >> onAddedItem: anItem [
 
-	anItem onAddedInItemListHolder: self.
 	self onAddedAnyItemKind: anItem.
+	anItem onAddedInItemListHolder: self.
 
 ]
 
@@ -273,7 +273,7 @@ TToItemBarOwner >> onRemovedUnknownItemKind: anItem [
 { #category : #'t - item list holder - accessing' }
 TToItemBarOwner >> primarySelectionMode [
 
-	^ self itemList primarySelectionMode
+	^ self itemBar primarySelectionMode
 ]
 
 { #category : #'t - item list holder - adding/removing' }
@@ -328,13 +328,13 @@ TToItemBarOwner >> selectableItem: anItem [
 { #category : #'t - item list holder - accessing' }
 TToItemBarOwner >> selectionModel [
 
-	^ self itemList selectionModel
+	^ self itemBar selectionModel
 ]
 
 { #category : #'t - item list holder - accessing' }
 TToItemBarOwner >> selectionOption [
 
-	^ self itemList selectionOption
+	^ self itemBar selectionOption
 ]
 
 { #category : #'t - item list holder - accessing' }

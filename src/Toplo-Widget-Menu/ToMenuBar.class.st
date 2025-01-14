@@ -177,7 +177,7 @@ ToMenuBar >> onAddedInItemListHolder: aMenuItemContainer [
 	aMenuItemContainer onAddedMenuBar: self
 ]
 
-{ #category : #'t - menu item list holder - double dispatch' }
+{ #category : #'t - menu item bar owner - double dispatch' }
 ToMenuBar >> onAddedMenu: aMenu [
 
 	aMenu isSubmenu: false

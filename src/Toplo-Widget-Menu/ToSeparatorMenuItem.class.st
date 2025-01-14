@@ -44,13 +44,13 @@ ToSeparatorMenuItem >> newRawSkin [
 ]
 
 { #category : #'adding-removing' }
-ToSeparatorMenuItem >> onAddedInItemListHolder: aMenu [
+ToSeparatorMenuItem >> onAddedInItemBar: aMenu [
 
 	aMenu onAddedSeparatorMenuItem: self
 ]
 
 { #category : #'adding-removing' }
-ToSeparatorMenuItem >> onRemovedFromItemListHolder: aMenu [
+ToSeparatorMenuItem >> onRemovedFromItemBar: aMenu [
 
 	aMenu onRemovedSeparatorMenuItem: self
 ]

@@ -3929,7 +3929,6 @@ ToSandBox class >> example_menuBar0 [
 	bar addItem: menu.
 	menu := ToMenuItem new labelText: 'Menu 1'.
 	bar addItem: menu.
-	self flag: 'To be fixed: disabling after the item is added does not update the disabledSelectionModel'.
 	menu disabled: true.
 	bar openInSpace
 ]
@@ -4342,8 +4341,8 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 		       hMatchParent;
 		       vFitContent.
 	bar nodeWrapping: false.
-	bar itemList hMatchParent.
-	
+	bar itemBar hMatchParent.
+
 	bar addItem: (ToCustomMenuItem new in: [ :e |
 			 e addChild: (ToSelectableLabel new text: 'File') ]).
 	bar addItem: (ToMenu new

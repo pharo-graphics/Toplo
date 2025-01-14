@@ -238,7 +238,7 @@ TToItemBarOwner >> onAddedAnyItemKind: anItem [
 TToItemBarOwner >> onAddedItem: anItem [
 
 	self onAddedAnyItemKind: anItem.
-	anItem onAddedInItemListHolder: self.
+	anItem onAddedInItemBar: self.
 
 ]
 
@@ -258,7 +258,7 @@ TToItemBarOwner >> onRemovedAnyItemKind: anItem [
 TToItemBarOwner >> onRemovedItem: anItem [
 
 	self onRemovedAnyItemKind: anItem.
-	anItem onRemovedFromItemListHolder: self
+	anItem onRemovedFromItemBar: self
 ]
 
 { #category : #'t - item bar owner - double dispatch' }

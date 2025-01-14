@@ -175,13 +175,13 @@ ToMenu >> newRawSkin [
 ]
 
 { #category : #'adding-removing' }
-ToMenu >> onAddedInItemListHolder: aMenu [
+ToMenu >> onAddedInItemBar: aMenu [
 
 	aMenu onAddedMenu: self
 ]
 
 { #category : #'adding-removing' }
-ToMenu >> onRemovedFromItemListHolder: aMenu [
+ToMenu >> onRemovedFromItemBar: aMenu [
 
 	aMenu onRemovedMenu: self
 ]

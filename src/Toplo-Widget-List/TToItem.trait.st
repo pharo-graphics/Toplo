@@ -1,9 +1,9 @@
 Trait {
 	#name : #TToItem,
 	#instVars : [
-		'presetData',
 		'barOwner',
-		'barElement'
+		'barElement',
+		'constraints'
 	],
 	#category : #'Toplo-Widget-List-ItemBar'
 }
@@ -49,30 +49,28 @@ TToItem >> barOwnerDo: aBlock [
 { #category : #'t - item' }
 TToItem >> disabled: aBoolean [
 
-	self barElement
-		ifNil: [ self presetDisabledWith: aBoolean ]
-		ifNotNil: [ :l |
-			aBoolean
-				ifTrue: [ l disabledItem: self ]
-				ifFalse: [ l enabledItem: self ] ].
+	self storeDisabled: aBoolean.
+	self barElement ifNotNil: [ :l |
+		aBoolean
+			ifTrue: [ l disabledItem: self ]
+			ifFalse: [ l enabledItem: self ] ].
 	super disabled: aBoolean
 ]
 
 { #category : #'t - item' }
-TToItem >> ensurePresetData [
+TToItem >> ensureConstraintsStorage [
 
-	presetData := ToItemPresetData new
+	constraints := ToItemConstraints new
 ]
 
 { #category : #'t - item' }
 TToItem >> hidden: aBoolean [
 
-	self barOwner
-		ifNil: [ self presetHiddenWith: aBoolean ]
-		ifNotNil: [ :l |
-			aBoolean
-				ifTrue: [ l hiddenItem: self ]
-				ifFalse: [ l visibleItem: self ] ]
+	self storeHidden: aBoolean.
+	self barOwner ifNotNil: [ :l |
+		aBoolean
+			ifTrue: [ l hiddenItem: self ]
+			ifFalse: [ l visibleItem: self ] ]
 ]
 
 { #category : #'t - item' }
@@ -83,39 +81,38 @@ TToItem >> positionInBar [
 ]
 
 { #category : #'t - item' }
-TToItem >> presetDataDo: aValuable [
+TToItem >> storeDisabled: aBoolean [
 
-	presetData ifNil: [ ^ self ].
-	aValuable value: presetData.
-	presetData := nil
+	self ensureConstraintsStorage.
+	constraints disabled: aBoolean
 ]
 
 { #category : #'t - item' }
-TToItem >> presetDisabledWith: aBoolean [
+TToItem >> storeHidden: aBoolean [
 
-	self ensurePresetData.
-	presetData disabled: aBoolean
+	self ensureConstraintsStorage.
+	constraints hidden: aBoolean
 ]
 
 { #category : #'t - item' }
-TToItem >> presetHiddenWith: aBoolean [
+TToItem >> storeUnselectable: aBoolean [
 
-	self ensurePresetData.
-	presetData hidden: aBoolean
+	self ensureConstraintsStorage.
+	constraints unselectable: aBoolean
 ]
 
 { #category : #'t - item' }
-TToItem >> presetUnselectableWith: aBoolean [
+TToItem >> storedConstraintsDo: aValuable [
 
-	self ensurePresetData.
-	presetData unselectable: aBoolean
+	constraints ifNil: [ ^ self ].
+	aValuable value: constraints
 ]
 
 { #category : #'t - item' }
 TToItem >> unselectable: aBoolean [
 
+	self storeUnselectable: aBoolean.
 	self barOwner
-		ifNil: [ self presetUnselectableWith: aBoolean ]
 		ifNotNil: [ :l |
 			aBoolean
 				ifTrue: [ l unselectableItem: self ]

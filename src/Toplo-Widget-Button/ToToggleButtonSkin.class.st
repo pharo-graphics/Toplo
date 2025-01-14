@@ -45,7 +45,13 @@ ToToggleButtonSkin >> enabledSkinEvent: anEvent [
 		e endElementDo: [ :ic |
 			(ic respondsTo: #innerImageColor:) ifTrue: [
 				ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ].
-		e background: (e valueOfTokenNamed: #'color-bg-container').
+		e isMenuButton
+			ifTrue: [ e background: BlBackground transparent ]
+			ifFalse: [
+				e background: (e valueOfTokenNamed: #'color-primary-unchecked').
+				e border: (BlBorder
+						 paint: (e valueOfTokenNamed: #'color-border')
+						 width: (e valueOfTokenNamed: #'line-width')) ].
 		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-text').
 			lab applyStyle ] ]
@@ -82,14 +88,6 @@ ToToggleButtonSkin >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e layout alignCenter.
-		e isMenuButton
-			ifTrue: [ e background: BlBackground transparent ]
-			ifFalse: [
-			e background: (e valueOfTokenNamed: #'color-primary-unchecked') ].
-		e isMenuButton ifFalse: [
-			e border: (BlBorder
-					 paint: (e valueOfTokenNamed: #'color-border')
-					 width: (e valueOfTokenNamed: #'line-width')) ].
 		(e hasIcon and: [ e hasLabel ])
 			ifTrue: [
 			e startInterspace: (e valueOfTokenNamed: #'button-interspace') ]

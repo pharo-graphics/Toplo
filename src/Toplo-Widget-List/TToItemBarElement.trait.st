@@ -13,31 +13,35 @@ TToItemBarElement >> addAllItems: aCollection [
 TToItemBarElement >> addItem: anItem [
 
 	self items add: anItem.
-	anItem barElement: self
+	self onAddedItem: anItem
 ]
 
 { #category : #'t - item bar element - adding/removing' }
 TToItemBarElement >> addItem: anItem after: anotherItem [
 
 	self items add: anItem after: anotherItem.
+	self onAddedItem: anItem
 ]
 
 { #category : #'t - item bar element - adding/removing' }
 TToItemBarElement >> addItem: anItem afterIndex: anInteger [
 
 	self items add: anItem afterIndex: anInteger.
+	self onAddedItem: anItem
 ]
 
 { #category : #'t - item bar element - adding/removing' }
 TToItemBarElement >> addItem: anItem before: anotherItem [
 
 	self items add: anItem before: anotherItem.
+	self onAddedItem: anItem
 ]
 
 { #category : #'t - item bar element - adding/removing' }
 TToItemBarElement >> addItem: anItem beforeIndex: anInteger [
 
 	self items add: anItem beforeIndex: anInteger.
+	self onAddedItem: anItem
 ]
 
 { #category : #'t - item bar element - accessing' }
@@ -77,6 +81,18 @@ TToItemBarElement >> items [
 ]
 
 { #category : #'t - item bar element - adding/removing' }
+TToItemBarElement >> onAddedItem: anItem [
+
+	anItem barElement: self
+]
+
+{ #category : #'t - item bar element - adding/removing' }
+TToItemBarElement >> onRemovedItem: anItem [
+
+	anItem barElement: nil
+]
+
+{ #category : #'t - item bar element - adding/removing' }
 TToItemBarElement >> removeAllItems [
 
 	self removeAllItems: self items asArray
@@ -92,7 +108,7 @@ TToItemBarElement >> removeAllItems: aCollection [
 TToItemBarElement >> removeItem: anItem [
 
 	self items remove: anItem.
-	anItem barElement: nil
+	self onRemovedItem: anItem
 ]
 
 { #category : #'t - item bar element - unselectable/selectable' }

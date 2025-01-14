@@ -13,14 +13,14 @@ ToSegmentedButton >> newRawSkin [
 ]
 
 { #category : #'adding-removing' }
-ToSegmentedButton >> onAddedInItemListHolder: aSegmentedElement [
+ToSegmentedButton >> onAddedInItemBar: aSegmentedElement [
 
 	aSegmentedElement onAddedSegmentedButton: self
 	
 ]
 
 { #category : #'adding-removing' }
-ToSegmentedButton >> onRemovedFromItemListHolder: aSegmentedElement [
+ToSegmentedButton >> onRemovedFromItemBar: aSegmentedElement [
 
 	aSegmentedElement onRemovedSegmentedButton: self
 	

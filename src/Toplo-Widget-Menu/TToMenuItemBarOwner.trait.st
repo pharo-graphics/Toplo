@@ -21,16 +21,14 @@ TToMenuItemBarOwner >> onAddedCustomMenuItem: aMenuItem [
 
 	self onAddedMenuItem: aMenuItem.
 	aMenuItem isSelectable ifTrue: [ ^ self ].
-	self itemBar unselectableSelecter selectIndex:
-		aMenuItem positionInBar
+	aMenuItem unselectable: true
 ]
 
 { #category : #'t - menu item bar owner - double dispatch' }
 TToMenuItemBarOwner >> onAddedFillerMenuItem: aFiller [
 
 	self onAddedMenuItem: aFiller.
-	self itemBar unselectableSelecter selectIndex:
-		aFiller positionInBar
+	aFiller unselectable: true
 ]
 
 { #category : #'t - menu item bar owner - double dispatch' }
@@ -46,8 +44,7 @@ TToMenuItemBarOwner >> onAddedMenuBar: aMenuBar [
 	self onAddedMenuItem: aMenuBar.
 	aMenuBar isSubBar: true.
 	aMenuBar configureLayout.
-	self itemBar unselectableSelecter selectIndex:
-		aMenuBar positionInBar
+	aMenuBar unselectable: true
 ]
 
 { #category : #'t - menu item bar owner - double dispatch' }
@@ -58,8 +55,7 @@ TToMenuItemBarOwner >> onAddedMenuItem: aMenuItem [
 TToMenuItemBarOwner >> onAddedSeparatorMenuItem: aMenuItem [
 
 	self onAddedMenuItem: aMenuItem.
-	self itemBar unselectableSelecter selectIndex:
-		aMenuItem positionInBar
+	aMenuItem unselectable: true
 ]
 
 { #category : #'t - menu item bar owner - double dispatch' }

@@ -54,17 +54,56 @@ ToItemBarElementTest >> testAddItem [
 ToItemBarElementTest >> testDisableItemAfterAdding [
 
 	| n item |
-	self skip.
 	self assert: l nodes size equals: 0.
 	item := ToItemElementForTest new text: 'A'.
 	l addItem: item.
 	item disable.
-	n := l nodes first.
 	self waitTestingSpaces.
+	
+	n := l nodes first.
 	self assert: n holder dataItem identicalTo: item.
+	self assert: item positionInBar equals: 1.
 	self assert: (l disabledSelectionModel containsIndex: item positionInBar).
 	self assert: item isDisabled.
-	self assert: n isDisabled.
+	self deny: n isDisabled.
+
+
+]
+
+{ #category : #tests }
+ToItemBarElementTest >> testDisableItemAfterAdding2 [
+
+	| n item|
+	self assert: l nodes size equals: 0.
+	item := ToItemElementForTest new text: 'A'.
+	l addItem: item.
+	item := ToItemElementForTest new text: 'B'.
+	l addItem: item.
+	item disable.
+	item := ToItemElementForTest new text: 'B'.
+	l addItem: item.
+	self waitTestingSpaces.
+	
+	n := l nodes first.
+	self assert: n item positionInBar equals: 1.
+	self deny: (l disabledSelectionModel containsIndex: n item positionInBar).
+	self deny: n item isDisabled.
+	self deny: n isDisabled.
+	
+	n := l nodes second.
+	self waitTestingSpaces.
+	self assert: n item positionInBar equals: 2.
+	self assert: (l disabledSelectionModel containsIndex: n item positionInBar).
+	self assert: n item isDisabled.
+	self deny: n isDisabled.
+	
+	n := l nodes third.
+	self assert: n item positionInBar equals: 3.
+	self deny: (l disabledSelectionModel containsIndex: n item positionInBar).
+	self deny: n item isDisabled.
+	self deny: n isDisabled.
+	
+
 
 
 ]
@@ -73,7 +112,6 @@ ToItemBarElementTest >> testDisableItemAfterAdding [
 ToItemBarElementTest >> testDisableItemBeforeAdding [
 
 	| n item |
-	self skip.
 	self assert: l nodes size equals: 0.
 	item := ToItemElementForTest new text: 'A'.
 	item disabled: true.
@@ -86,6 +124,42 @@ ToItemBarElementTest >> testDisableItemBeforeAdding [
 	self assert: item positionInBar equals: 1.
 	self assert: (l disabledSelectionModel containsIndex: item positionInBar).
 	self assert: item isDisabled.
-	self assert: n isDisabled.
+	self deny: n isDisabled.
+
+]
+
+{ #category : #tests }
+ToItemBarElementTest >> testDisableItemBeforeAdding2 [
+
+	| n item|
+	self assert: l nodes size equals: 0.
+	item := ToItemElementForTest new text: 'A'.
+	l addItem: item.
+	item := ToItemElementForTest new text: 'B'.
+	item disable.
+	l addItem: item.
+	item := ToItemElementForTest new text: 'B'.
+	l addItem: item.
+	self waitTestingSpaces.
+	
+	n := l nodes first.
+	self assert: n item positionInBar equals: 1.
+	self deny: (l disabledSelectionModel containsIndex: n item positionInBar).
+	self deny: n item isDisabled.
+	self deny: n isDisabled.
+	
+	n := l nodes second.
+	self waitTestingSpaces.
+	self assert: n item positionInBar equals: 2.
+	self assert: (l disabledSelectionModel containsIndex: n item positionInBar).
+	self assert: n item isDisabled.
+	self deny: n isDisabled.
+	
+	n := l nodes third.
+	self assert: n item positionInBar equals: 3.
+	self deny: (l disabledSelectionModel containsIndex: n item positionInBar).
+	self deny: n item isDisabled.
+	self deny: n isDisabled.
+	
 
 ]

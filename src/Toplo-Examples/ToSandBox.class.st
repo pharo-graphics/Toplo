@@ -6641,7 +6641,7 @@ ToSandBox class >> example_withCheckBox [
 { #category : #menu }
 ToSandBox class >> example_withCustomMenuItems [
 
-	| menu grp right center left textField sub lbl |
+	| menu grp right center left textField sub lbl item |
 	menu := ToMenu new.
 	menu labelText: 'File'.
 	menu addItem: (ToMenuItem new
@@ -6649,21 +6649,27 @@ ToSandBox class >> example_withCustomMenuItems [
 			 whenClickedDo: [ self inform: 'Open file' ];
 			 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
 
-	menu addItem: (ToMenuItem new
-			 labelText: 'Export'; disable;
-			 whenClickedDo: [ self inform: 'Export' ]).
+	item := ToMenuItem new
+		        labelText: 'Export';
+		        whenClickedDo: [ self inform: 'Export' ].
+	menu addItem: item.
+	item disable.
+
 	menu addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 whenClickedDo: [ menu inspect ]).
+			 whenClickedDo: [ menu space root inspect ]).
 	menu addSeparator.
-	menu addItem: (ToToggleMenuItem new labelText: 'Toggle'; yourself).
-	menu addItem: (ToCustomMenuItem new in: [ :e | e 
-			 addChild: (ToSwitchButton new
-					  checked: true;
-					startFlexible: true;
-					hMatchParent;
-					  labelText: 'Switch';
-					  yourself)];
+	menu addItem: (ToToggleMenuItem new
+			 labelText: 'Toggle';
+			 yourself).
+	menu addItem: (ToCustomMenuItem new
+			 in: [ :e |
+				 e addChild: (ToSwitchButton new
+							  checked: true;
+							  startFlexible: true;
+							  hMatchParent;
+							  labelText: 'Switch';
+							  yourself) ];
 			 yourself).
 
 	grp := ToCheckableGroup new.
@@ -6696,11 +6702,12 @@ ToSandBox class >> example_withCustomMenuItems [
 		fontSize: 12;
 		foreground: Color blue.
 
-	menu addItem: (ToCustomMenuItem new in: [ :e | e 
-			 addChild: lbl;
-			 margin: (BlInsets
-					  top: 2;
-					  bottom: 4)]).
+	menu addItem: (ToCustomMenuItem new in: [ :e |
+			 e
+				 addChild: lbl;
+				 margin: (BlInsets
+						  top: 2;
+						  bottom: 4) ]).
 	menu addAllItems: grp registeredCheckables.
 
 	grp := ToCheckableGroup new.
@@ -6734,11 +6741,12 @@ ToSandBox class >> example_withCustomMenuItems [
 			        italic;
 			        fontSize: 12;
 			        foreground: (Color blue alpha: 0.7)).
-	menu addItem: (ToCustomMenuItem new
-			 in: [ :e | e addChild: lbl;
-			 margin: (BlInsets
-					  top: 2;
-					  bottom: 4)]).
+	menu addItem: (ToCustomMenuItem new in: [ :e |
+			 e
+				 addChild: lbl;
+				 margin: (BlInsets
+						  top: 2;
+						  bottom: 4) ]).
 	menu addAllItems: grp registeredCheckables.
 	menu addSeparator.
 	textField := ToTextField new
@@ -6750,7 +6758,8 @@ ToSandBox class >> example_withCustomMenuItems [
 								               yourself)) ];
 		             withLineWrapping;
 		             width: 200.
-	menu addItem: (ToCustomMenuItem new in: [ :e | e addChild: textField ]).
+	menu addItem:
+		(ToCustomMenuItem new in: [ :e | e addChild: textField ]).
 	menu addSeparator.
 	sub := ToMenu new labelText: 'Save All'.
 

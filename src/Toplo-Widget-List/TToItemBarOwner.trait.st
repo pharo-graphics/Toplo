@@ -9,41 +9,41 @@ Trait {
 { #category : #'t - item list holder - adding/removing' }
 TToItemBarOwner >> addAllItems: aCollection [
 
-	aCollection do: [ :item | self addItem: item ]
+	itemBar addAllItems: aCollection
 ]
 
 { #category : #'t - item list holder - adding/removing' }
 TToItemBarOwner >> addItem: anItem [
 
-	self items add: anItem.
+	itemBar addItem: anItem.
 	self onAddedItem: anItem
 ]
 
 { #category : #'t - item list holder - adding/removing' }
 TToItemBarOwner >> addItem: anItem after: anotherItem [
 
-	self items add: anItem after: anotherItem.
+	itemBar addItem: anItem after: anotherItem.
 	self onAddedItem: anItem
 ]
 
 { #category : #'t - item list holder - adding/removing' }
 TToItemBarOwner >> addItem: anItem afterIndex: anInteger [
 
-	self items add: anItem afterIndex: anInteger.
+	itemBar addItem: anItem afterIndex: anInteger.
 	self onAddedItem: anItem
 ]
 
 { #category : #'t - item list holder - adding/removing' }
 TToItemBarOwner >> addItem: anItem before: anotherItem [
 
-	self items add: anItem before: anotherItem.
+	itemBar addItem: anItem before: anotherItem.
 	self onAddedItem: anItem
 ]
 
 { #category : #'t - item list holder - adding/removing' }
 TToItemBarOwner >> addItem: anItem beforeIndex: anInteger [
 
-	self items add: anItem beforeIndex: anInteger.
+	itemBar addItem: anItem beforeIndex: anInteger.
 	self onAddedItem: anItem
 ]
 
@@ -87,7 +87,7 @@ TToItemBarOwner >> disabledAtPosition: anInteger [
 { #category : #'t - item list holder - enable/disable' }
 TToItemBarOwner >> disabledItem: anItem [
 
-	self disabledAtPosition: anItem positionInItemList
+	self disabledAtPosition: anItem positionInBar
 ]
 
 { #category : #'t - item list holder - enable/disable' }
@@ -110,7 +110,7 @@ TToItemBarOwner >> enabledAtPosition: anInteger [
 { #category : #'t - item list holder - enable/disable' }
 TToItemBarOwner >> enabledItem: anItem [
 
-	self enabledAtPosition: anItem positionInItemList
+	self enabledAtPosition: anItem positionInBar
 ]
 
 { #category : #'t - item list holder - testing' }
@@ -128,7 +128,13 @@ TToItemBarOwner >> hiddenAtPosition: anInteger [
 { #category : #'t - item list holder - hidden/visible' }
 TToItemBarOwner >> hiddenItem: anItem [
 
-	self hiddenAtPosition: anItem positionInItemList
+	self hiddenAtPosition: anItem positionInBar
+]
+
+{ #category : #'t - item list holder - initializing' }
+TToItemBarOwner >> initializeAsItemBarOwner [
+
+	itemBar := self newItemBar
 ]
 
 { #category : #'t - item list holder - accessing' }
@@ -176,7 +182,7 @@ TToItemBarOwner >> isUniformNodeWidth [
 { #category : #'t - item list holder - accessing' }
 TToItemBarOwner >> itemBar [
 
-	^ itemBar ifNil: [ itemBar := self newItemList ]
+	^ itemBar
 ]
 
 { #category : #'t - item list holder - accessing' }
@@ -199,15 +205,6 @@ TToItemBarOwner >> items [
 TToItemBarOwner >> newItemBar [
 
 	^ ToItemBarElement new
-]
-
-{ #category : #'t - item list holder - accessing' }
-TToItemBarOwner >> newItemList [
-
-	self
-		deprecated: 'Use newItemBar instead'
-		transformWith: '`@rcvr newItemList' -> '`@rcvr newItemBar'.
-	^ self newItemBar
 ]
 
 { #category : #'t - item list holder - accessing' }
@@ -234,7 +231,7 @@ TToItemBarOwner >> nodeWrapping: aBoolean [
 { #category : #'t - item list holder - double dispatch' }
 TToItemBarOwner >> onAddedAnyItemKind: anItem [
 
-	anItem parentItemListHolder: self  
+	anItem barOwner: self  
 ]
 
 { #category : #'t - item list holder - adding/removing' }
@@ -254,7 +251,7 @@ TToItemBarOwner >> onAddedUnknownItemKind: anItem [
 { #category : #'t - item list holder - double dispatch' }
 TToItemBarOwner >> onRemovedAnyItemKind: anItem [
 
-	anItem parentItemListHolder: nil  
+	anItem barOwner: nil  
 ]
 
 { #category : #'t - item list holder - adding/removing' }
@@ -279,20 +276,20 @@ TToItemBarOwner >> primarySelectionMode [
 { #category : #'t - item list holder - adding/removing' }
 TToItemBarOwner >> removeAllItems [
 
-	self removeAllItems: self items asArray
+	itemBar removeAllItems
 ]
 
 { #category : #'t - item list holder - adding/removing' }
 TToItemBarOwner >> removeAllItems: aCollection [
 
-	aCollection do: [ :item | self removeItem: item ]
+	itemBar removeAllItems: aCollection
 ]
 
 { #category : #'t - item list holder - adding/removing' }
 TToItemBarOwner >> removeItem: anItem [
 
 	self onRemovedItem: anItem.
-	self items remove: anItem
+	itemBar removeItem: anItem
 ]
 
 { #category : #'t - item list holder - accessing' }
@@ -322,7 +319,7 @@ TToItemBarOwner >> selectableAtPosition: anInteger [
 { #category : #'t - item list holder - selectable/unselectable' }
 TToItemBarOwner >> selectableItem: anItem [
 
-	self selectableAtPosition: anItem positionInItemList
+	self selectableAtPosition: anItem positionInBar
 ]
 
 { #category : #'t - item list holder - accessing' }
@@ -360,7 +357,7 @@ TToItemBarOwner >> unselectableAtPosition: anInteger [
 { #category : #'t - item list holder - selectable/unselectable' }
 TToItemBarOwner >> unselectableItem: anItem [
 
-	self unselectableAtPosition: anItem positionInItemList
+	self unselectableAtPosition: anItem positionInBar
 ]
 
 { #category : #'t - item list holder - hidden/visible' }
@@ -372,5 +369,5 @@ TToItemBarOwner >> visibleAtPosition: anInteger [
 { #category : #'t - item list holder - hidden/visible' }
 TToItemBarOwner >> visibleItem: anItem [
 
-	self visibleAtPosition: anItem positionInItemList
+	self visibleAtPosition: anItem positionInBar
 ]

@@ -22,7 +22,7 @@ TToMenuItemBarOwner >> onAddedCustomMenuItem: aMenuItem [
 	self onAddedMenuItem: aMenuItem.
 	aMenuItem isSelectable ifTrue: [ ^ self ].
 	self itemBar unselectableSelecter selectIndex:
-		aMenuItem positionInItemList
+		aMenuItem positionInBar
 ]
 
 { #category : #'t - menu item list holder - double dispatch' }
@@ -30,7 +30,7 @@ TToMenuItemBarOwner >> onAddedFillerMenuItem: aFiller [
 
 	self onAddedMenuItem: aFiller.
 	self itemBar unselectableSelecter selectIndex:
-		aFiller positionInItemList
+		aFiller positionInBar
 ]
 
 { #category : #'t - menu item list holder - double dispatch' }
@@ -47,7 +47,7 @@ TToMenuItemBarOwner >> onAddedMenuBar: aMenuBar [
 	aMenuBar isSubBar: true.
 	aMenuBar configureLayout.
 	self itemBar unselectableSelecter selectIndex:
-		aMenuBar positionInItemList
+		aMenuBar positionInBar
 ]
 
 { #category : #'t - menu item list holder - double dispatch' }
@@ -59,7 +59,7 @@ TToMenuItemBarOwner >> onAddedSeparatorMenuItem: aMenuItem [
 
 	self onAddedMenuItem: aMenuItem.
 	self itemBar unselectableSelecter selectIndex:
-		aMenuItem positionInItemList
+		aMenuItem positionInBar
 ]
 
 { #category : #'t - menu item list holder - double dispatch' }
@@ -67,14 +67,14 @@ TToMenuItemBarOwner >> onRemovedCustomMenuItem: aMenuItem [
 
 	aMenuItem isSelectable ifTrue: [ ^ self ].
 	self itemBar unselectableSelecter deselectIndex:
-		aMenuItem positionInItemList.
+		aMenuItem positionInBar.
 	self onRemovedMenuItem: aMenuItem
 ]
 
 { #category : #'t - menu item list holder - double dispatch' }
 TToMenuItemBarOwner >> onRemovedFillerMenuItem: aFiller [
 
-	self itemList unselectableSelecter deselectIndex: aFiller positionInItemList.
+	self itemList unselectableSelecter deselectIndex: aFiller positionInBar.
 	self onRemovedMenuItem: aFiller.
 
 ]
@@ -89,7 +89,7 @@ TToMenuItemBarOwner >> onRemovedMenu: aMenu [
 TToMenuItemBarOwner >> onRemovedMenuBar: aMenuBar [
 
 	self itemList unselectableSelecter deselectIndex:
-		aMenuBar positionInItemList.
+		aMenuBar positionInBar.
 	aMenuBar isSubBar: false.
 	aMenuBar configureLayout.
 	self onRemovedMenuItem: aMenuBar.
@@ -105,6 +105,6 @@ TToMenuItemBarOwner >> onRemovedMenuItem: aMenuItem [
 TToMenuItemBarOwner >> onRemovedSeparatorMenuItem: aMenuItem [
 
 	self itemBar unselectableSelecter deselectIndex:
-		aMenuItem positionInItemList.
+		aMenuItem positionInBar.
 	self onRemovedMenuItem: aMenuItem
 ]

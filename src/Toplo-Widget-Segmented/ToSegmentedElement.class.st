@@ -73,6 +73,8 @@ ToSegmentedElement >> group [
 ToSegmentedElement >> initialize [
 
 	super initialize.
+	self initializeAsItemBarOwner.
+
 	self addChild: self itemBar.
 
 	self group
@@ -95,7 +97,7 @@ ToSegmentedElement >> layoutStrategy [
 ]
 
 { #category : #'t - item list holder - accessing' }
-ToSegmentedElement >> newItemList [
+ToSegmentedElement >> newItemBar [
 
 	^ ToSegmentedListElement new
 ]

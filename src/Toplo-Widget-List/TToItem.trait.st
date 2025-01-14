@@ -1,16 +1,35 @@
 Trait {
 	#name : #TToItem,
 	#instVars : [
-		'parentItemListHolder',
-		'presetData'
+		'presetData',
+		'barOwner'
 	],
 	#category : #'Toplo-Widget-List-ItemBar'
 }
 
 { #category : #'t - item' }
+TToItem >> barOwner [
+
+	^ barOwner
+]
+
+{ #category : #'t - item' }
+TToItem >> barOwner: anItemContainer [
+
+	barOwner := anItemContainer
+]
+
+{ #category : #'t - item' }
+TToItem >> barOwnerDo: aBlock [
+
+	barOwner ifNil: [ ^ self ].
+	aBlock value: barOwner
+]
+
+{ #category : #'t - item' }
 TToItem >> disabled: aBoolean [
 
-	self parentItemListHolder
+	self barOwner
 		ifNil: [ self presetDisabledWith: aBoolean ]
 		ifNotNil: [ :l |
 			aBoolean
@@ -28,7 +47,7 @@ TToItem >> ensurePresetData [
 { #category : #'t - item' }
 TToItem >> hidden: aBoolean [
 
-	self parentItemListHolder
+	self barOwner
 		ifNil: [ self presetHiddenWith: aBoolean ]
 		ifNotNil: [ :l |
 			aBoolean
@@ -37,28 +56,9 @@ TToItem >> hidden: aBoolean [
 ]
 
 { #category : #'t - item' }
-TToItem >> parentItemListHolder [
+TToItem >> positionInBar [
 
-	^ parentItemListHolder
-]
-
-{ #category : #'t - item' }
-TToItem >> parentItemListHolder: anItemContainer [
-
-	parentItemListHolder := anItemContainer
-]
-
-{ #category : #'t - item' }
-TToItem >> parentItemListHolderDo: aBlock [
-
-	parentItemListHolder ifNil: [ ^ self ].
-	aBlock value: parentItemListHolder
-]
-
-{ #category : #'t - item' }
-TToItem >> positionInItemList [
-
-	self parentItemListHolderDo: [ :pm | ^ pm items indexOf: self ].
+	self barOwnerDo: [ :pm | ^ pm items indexOf: self ].
 	^ 0
 ]
 
@@ -94,7 +94,7 @@ TToItem >> presetUnselectableWith: aBoolean [
 { #category : #'t - item' }
 TToItem >> unselectable: aBoolean [
 
-	self parentItemListHolder
+	self barOwner
 		ifNil: [ self presetUnselectableWith: aBoolean ]
 		ifNotNil: [ :l |
 			aBoolean

@@ -44,6 +44,7 @@ ToContextMenu >> initialize [
 
 	super initialize.
 	self fitContent.
+	self initializeAsItemBarOwner.
 	self root addChild: self itemBar
 ]
 
@@ -104,7 +105,7 @@ ToContextMenu >> menuWindow [
 ]
 
 { #category : #'t - item list holder - accessing' }
-ToContextMenu >> newItemList [
+ToContextMenu >> newItemBar [
 
 	^ ToMenuItemBarElement new
 ]

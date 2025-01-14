@@ -84,6 +84,8 @@ ToMenu >> initialize [
 
 	super initialize.
 	self fitContent.
+	self initializeAsItemBarOwner.
+
 	isSubmenu := false.
 	openOnHovered := true.
 	self applySkinInstallerOnFirstRequest: true.
@@ -161,7 +163,7 @@ ToMenu >> mouseOverEvent: anEvent [
 ]
 
 { #category : #'t - item list holder - accessing' }
-ToMenu >> newItemList [
+ToMenu >> newItemBar [
 
 	^ ToMenuItemBarElement new
 ]

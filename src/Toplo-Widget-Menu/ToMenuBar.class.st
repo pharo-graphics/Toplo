@@ -76,7 +76,7 @@ ToMenuBar >> configureLayout [
 ToMenuBar >> initialize [
 
 	super initialize.
-
+	self initializeAsItemBarOwner.
 	autoOpen := false.
 	isSubBar := false.
 	self layout: BlLinearLayout horizontal.
@@ -159,8 +159,8 @@ ToMenuBar >> mouseOverEvent: anEvent [
 			m mouseOverEvent: anEvent ] ]
 ]
 
-{ #category : #'t - item list holder - accessing' }
-ToMenuBar >> newItemList [
+{ #category : #'t - item list holder - initializing' }
+ToMenuBar >> newItemBar [
 
 	^ ToMenuItemBarElement new
 ]
@@ -216,8 +216,8 @@ ToMenuBar >> removeMenu: aMenu [
 { #category : #accessing }
 ToMenuBar >> rootMenuBar [ 
 
-	self parentItemListHolder ifNil: [ ^ self ].
-	^ self parentItemListHolder rootMenuBar
+	self barOwner ifNil: [ ^ self ].
+	^ self barOwner rootMenuBar
 ]
 
 { #category : #'auto opening' }

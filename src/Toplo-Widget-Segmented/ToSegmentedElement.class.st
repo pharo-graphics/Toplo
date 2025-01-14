@@ -39,7 +39,7 @@ ToSegmentedElement >> addLabelText: aText withIconImage: anImage [
 			 icon: (ToImage inner: anImage))
 ]
 
-{ #category : #'t - item list holder - initializing' }
+{ #category : #'t - item bar owner - initializing' }
 ToSegmentedElement >> configureLayout [
 
 	self itemBar configureLayoutIn: self
@@ -96,7 +96,7 @@ ToSegmentedElement >> layoutStrategy [
 	
 ]
 
-{ #category : #'t - item list holder - accessing' }
+{ #category : #'t - item bar owner - accessing' }
 ToSegmentedElement >> newItemBar [
 
 	^ ToSegmentedListElement new

@@ -12,7 +12,8 @@ TToItemBarElement >> addAllItems: aCollection [
 { #category : #'t - item bar element - adding/removing' }
 TToItemBarElement >> addItem: anItem [
 
-	self items add: anItem
+	self items add: anItem.
+	anItem barElement: self
 ]
 
 { #category : #'t - item bar element - adding/removing' }
@@ -45,6 +46,24 @@ TToItemBarElement >> defaultNodeManagerClass [
 	^ ToItemNodeManager
 ]
 
+{ #category : #'t - item bar element - disabled/enabled' }
+TToItemBarElement >> disabledItem: anItem [
+
+	self disabledAtPosition: anItem positionInBar
+]
+
+{ #category : #'t - item bar element - disabled/enabled' }
+TToItemBarElement >> enabledItem: anItem [
+
+	self enabledAtPosition: anItem positionInBar
+]
+
+{ #category : #'t - item bar element - hidden/visible' }
+TToItemBarElement >> hiddenItem: anItem [
+
+	self hiddenAtPosition: anItem positionInBar
+]
+
 { #category : #'t - item bar element - accessing' }
 TToItemBarElement >> initializeItemBarElement [ 
 
@@ -72,5 +91,24 @@ TToItemBarElement >> removeAllItems: aCollection [
 { #category : #'t - item bar element - adding/removing' }
 TToItemBarElement >> removeItem: anItem [
 
-	self items remove: anItem
+	self items remove: anItem.
+	anItem barElement: nil
+]
+
+{ #category : #'t - item bar element - unselectable/selectable' }
+TToItemBarElement >> selectableItem: anItem [
+
+	self selectableAtPosition: anItem positionInBar
+]
+
+{ #category : #'t - item bar element - unselectable/selectable' }
+TToItemBarElement >> unselectableItem: anItem [
+
+	self unselectableAtPosition: anItem positionInBar
+]
+
+{ #category : #'t - item bar element - hidden/visible' }
+TToItemBarElement >> visibleItem: anItem [
+
+	self visibleAtPosition: anItem positionInBar
 ]

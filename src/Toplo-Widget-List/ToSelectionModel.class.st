@@ -130,7 +130,7 @@ ToSelectionModel >> isNotEmpty [
 { #category : #testing }
 ToSelectionModel >> isSelectableIndex: anIndex [
 
-	^ self containsIndex: anIndex
+	^ (self isUnselectableIndex: anIndex) not
 ]
 
 { #category : #testing }

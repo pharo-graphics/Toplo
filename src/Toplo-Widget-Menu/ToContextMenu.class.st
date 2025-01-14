@@ -104,7 +104,7 @@ ToContextMenu >> menuWindow [
 	^ super menuWindow
 ]
 
-{ #category : #'t - item list holder - accessing' }
+{ #category : #'t - item bar owner - accessing' }
 ToContextMenu >> newItemBar [
 
 	^ ToMenuItemBarElement new

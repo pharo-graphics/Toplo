@@ -6,48 +6,48 @@ Trait {
 	#category : #'Toplo-Widget-List-ItemBar'
 }
 
-{ #category : #'t - item list holder - adding/removing' }
+{ #category : #'t - item bar owner - adding/removing' }
 TToItemBarOwner >> addAllItems: aCollection [
 
 	itemBar addAllItems: aCollection
 ]
 
-{ #category : #'t - item list holder - adding/removing' }
+{ #category : #'t - item bar owner - adding/removing' }
 TToItemBarOwner >> addItem: anItem [
 
 	itemBar addItem: anItem.
 	self onAddedItem: anItem
 ]
 
-{ #category : #'t - item list holder - adding/removing' }
+{ #category : #'t - item bar owner - adding/removing' }
 TToItemBarOwner >> addItem: anItem after: anotherItem [
 
 	itemBar addItem: anItem after: anotherItem.
 	self onAddedItem: anItem
 ]
 
-{ #category : #'t - item list holder - adding/removing' }
+{ #category : #'t - item bar owner - adding/removing' }
 TToItemBarOwner >> addItem: anItem afterIndex: anInteger [
 
 	itemBar addItem: anItem afterIndex: anInteger.
 	self onAddedItem: anItem
 ]
 
-{ #category : #'t - item list holder - adding/removing' }
+{ #category : #'t - item bar owner - adding/removing' }
 TToItemBarOwner >> addItem: anItem before: anotherItem [
 
 	itemBar addItem: anItem before: anotherItem.
 	self onAddedItem: anItem
 ]
 
-{ #category : #'t - item list holder - adding/removing' }
+{ #category : #'t - item bar owner - adding/removing' }
 TToItemBarOwner >> addItem: anItem beforeIndex: anInteger [
 
 	itemBar addItem: anItem beforeIndex: anInteger.
 	self onAddedItem: anItem
 ]
 
-{ #category : #'t - item list holder - initializing' }
+{ #category : #'t - item bar owner - initializing' }
 TToItemBarOwner >> configureLayout [
 
 	self isHorizontal
@@ -55,19 +55,19 @@ TToItemBarOwner >> configureLayout [
 		ifFalse: [ self itemList horizontal: false ]
 ]
 
-{ #category : #'t - item list holder - accessing' }
+{ #category : #'t - item bar owner - accessing' }
 TToItemBarOwner >> dataAccessor [
 
 	^ self itemBar dataAccessor
 ]
 
-{ #category : #'t - item list holder - accessing' }
+{ #category : #'t - item bar owner - accessing' }
 TToItemBarOwner >> dataSource [
 
 	^ self itemBar dataSource
 ]
 
-{ #category : #'t - item list holder - enable/disable' }
+{ #category : #'t - item bar owner - disable/ enable' }
 TToItemBarOwner >> disableItem: anItem [
 
 	self
@@ -78,19 +78,19 @@ TToItemBarOwner >> disableItem: anItem [
 	self disabledItem: anItem
 ]
 
-{ #category : #'t - item list holder - enable/disable' }
+{ #category : #'t - item bar owner - disable/ enable' }
 TToItemBarOwner >> disabledAtPosition: anInteger [
 
-	self itemBar disabledAtPosition: anInteger
+	itemBar disabledAtPosition: anInteger
 ]
 
-{ #category : #'t - item list holder - enable/disable' }
+{ #category : #'t - item bar owner - disable/ enable' }
 TToItemBarOwner >> disabledItem: anItem [
 
-	self disabledAtPosition: anItem positionInBar
+	itemBar disabledItem: anItem
 ]
 
-{ #category : #'t - item list holder - enable/disable' }
+{ #category : #'t - item bar owner - disable/ enable' }
 TToItemBarOwner >> enableItem: anItem [
 
 	self
@@ -101,91 +101,91 @@ TToItemBarOwner >> enableItem: anItem [
 	self enabledItem: anItem
 ]
 
-{ #category : #'t - item list holder - enable/disable' }
+{ #category : #'t - item bar owner - disable/ enable' }
 TToItemBarOwner >> enabledAtPosition: anInteger [
 
-	self itemBar enabledAtPosition: anInteger
+	itemBar enabledAtPosition: anInteger
 ]
 
-{ #category : #'t - item list holder - enable/disable' }
+{ #category : #'t - item bar owner - disable/ enable' }
 TToItemBarOwner >> enabledItem: anItem [
 
-	self enabledAtPosition: anItem positionInBar
+	itemBar enabledItem: anItem
 ]
 
-{ #category : #'t - item list holder - testing' }
+{ #category : #'t - item bar owner - testing' }
 TToItemBarOwner >> hasItems [ 
 
 	^ self items notEmpty
 ]
 
-{ #category : #'t - item list holder - hidden/visible' }
+{ #category : #'t - item bar owner - hidden/visible' }
 TToItemBarOwner >> hiddenAtPosition: anInteger [
 
-	self itemList hiddenAtPosition: anInteger
+	itemBar hiddenAtPosition: anInteger
 ]
 
-{ #category : #'t - item list holder - hidden/visible' }
+{ #category : #'t - item bar owner - hidden/visible' }
 TToItemBarOwner >> hiddenItem: anItem [
 
-	self hiddenAtPosition: anItem positionInBar
+	itemBar hiddenItem: anItem
 ]
 
-{ #category : #'t - item list holder - initializing' }
+{ #category : #'t - item bar owner - initializing' }
 TToItemBarOwner >> initializeAsItemBarOwner [
 
 	itemBar := self newItemBar
 ]
 
-{ #category : #'t - item list holder - accessing' }
+{ #category : #'t - item bar owner - accessing' }
 TToItemBarOwner >> innerElement [
 
 	^ self itemBar innerElement
 ]
 
-{ #category : #'t - item list holder - testing' }
+{ #category : #'t - item bar owner - testing' }
 TToItemBarOwner >> isItemContainer [
 
 	^ true
 ]
 
-{ #category : #'t - item list holder - accessing' }
+{ #category : #'t - item bar owner - accessing' }
 TToItemBarOwner >> isNodeAutoDistribution [
 
 	^ self itemBar isNodeAutoDistribution
 ]
 
-{ #category : #'t - item list holder - accessing' }
+{ #category : #'t - item bar owner - accessing' }
 TToItemBarOwner >> isNodeScrolling [
 
 	^ self itemBar isNodeScrolling
 ]
 
-{ #category : #'t - item list holder - accessing' }
+{ #category : #'t - item bar owner - accessing' }
 TToItemBarOwner >> isNodeWrapping [
 
 	^ self itemBar isNodeWrapping
 ]
 
-{ #category : #'t - item list holder - accessing' }
+{ #category : #'t - item bar owner - accessing' }
 TToItemBarOwner >> isUniformNodeHeight [
 
 	^ self itemBar isUniformNodeHeight
 ]
 
-{ #category : #'t - item list holder - accessing' }
+{ #category : #'t - item bar owner - accessing' }
 TToItemBarOwner >> isUniformNodeWidth [
 
 	^ self itemBar isUniformNodeWidth
 ]
 
-{ #category : #'t - item list holder - accessing' }
+{ #category : #'t - item bar owner - accessing' }
 TToItemBarOwner >> itemBar [
 
 	^ itemBar
 ]
 
-{ #category : #'t - item list holder - accessing' }
+{ #category : #'t - item bar owner - accessing' }
 TToItemBarOwner >> itemList [
 
 	self
@@ -195,46 +195,46 @@ TToItemBarOwner >> itemList [
 	^ self itemBar
 ]
 
-{ #category : #'t - item list holder - accessing' }
+{ #category : #'t - item bar owner - accessing' }
 TToItemBarOwner >> items [
 
 	^ self itemBar dataAccessor
 ]
 
-{ #category : #'t - item list holder - accessing' }
+{ #category : #'t - item bar owner - accessing' }
 TToItemBarOwner >> newItemBar [
 
 	^ ToItemBarElement new
 ]
 
-{ #category : #'t - item list holder - accessing' }
+{ #category : #'t - item bar owner - accessing' }
 TToItemBarOwner >> nodeAutoDistribution: aBoolean [
 
 	self itemBar nodeAutoDistribution: aBoolean.
 	self configureLayout
 ]
 
-{ #category : #'t - item list holder - accessing' }
+{ #category : #'t - item bar owner - accessing' }
 TToItemBarOwner >> nodeScrolling: aBoolean [
 
 	self itemList nodeScrolling: aBoolean.
 	self configureLayout
 ]
 
-{ #category : #'t - item list holder - accessing' }
+{ #category : #'t - item bar owner - accessing' }
 TToItemBarOwner >> nodeWrapping: aBoolean [
 
 	self itemBar nodeWrapping: aBoolean.
 	self configureLayout
 ]
 
-{ #category : #'t - item list holder - double dispatch' }
+{ #category : #'t - item bar owner - double dispatch' }
 TToItemBarOwner >> onAddedAnyItemKind: anItem [
 
 	anItem barOwner: self  
 ]
 
-{ #category : #'t - item list holder - adding/removing' }
+{ #category : #'t - item bar owner - adding/removing' }
 TToItemBarOwner >> onAddedItem: anItem [
 
 	self onAddedAnyItemKind: anItem.
@@ -242,132 +242,132 @@ TToItemBarOwner >> onAddedItem: anItem [
 
 ]
 
-{ #category : #'t - item list holder - double dispatch' }
+{ #category : #'t - item bar owner - double dispatch' }
 TToItemBarOwner >> onAddedUnknownItemKind: anItem [
 
 
 ]
 
-{ #category : #'t - item list holder - double dispatch' }
+{ #category : #'t - item bar owner - double dispatch' }
 TToItemBarOwner >> onRemovedAnyItemKind: anItem [
 
 	anItem barOwner: nil  
 ]
 
-{ #category : #'t - item list holder - adding/removing' }
+{ #category : #'t - item bar owner - adding/removing' }
 TToItemBarOwner >> onRemovedItem: anItem [
 
 	self onRemovedAnyItemKind: anItem.
 	anItem onRemovedFromItemListHolder: self
 ]
 
-{ #category : #'t - item list holder - double dispatch' }
+{ #category : #'t - item bar owner - double dispatch' }
 TToItemBarOwner >> onRemovedUnknownItemKind: anItem [
 
 
 ]
 
-{ #category : #'t - item list holder - accessing' }
+{ #category : #'t - item bar owner - accessing' }
 TToItemBarOwner >> primarySelectionMode [
 
 	^ self itemBar primarySelectionMode
 ]
 
-{ #category : #'t - item list holder - adding/removing' }
+{ #category : #'t - item bar owner - adding/removing' }
 TToItemBarOwner >> removeAllItems [
 
 	itemBar removeAllItems
 ]
 
-{ #category : #'t - item list holder - adding/removing' }
+{ #category : #'t - item bar owner - adding/removing' }
 TToItemBarOwner >> removeAllItems: aCollection [
 
 	itemBar removeAllItems: aCollection
 ]
 
-{ #category : #'t - item list holder - adding/removing' }
+{ #category : #'t - item bar owner - adding/removing' }
 TToItemBarOwner >> removeItem: anItem [
 
 	self onRemovedItem: anItem.
 	itemBar removeItem: anItem
 ]
 
-{ #category : #'t - item list holder - accessing' }
+{ #category : #'t - item bar owner - accessing' }
 TToItemBarOwner >> secondarySelecter [
 
 	^ itemBar secondarySelecter
 ]
 
-{ #category : #'t - item list holder - accessing' }
+{ #category : #'t - item bar owner - accessing' }
 TToItemBarOwner >> secondarySelectionMode [
 
 	^ self itemList secondarySelectionMode
 ]
 
-{ #category : #'t - item list holder - accessing' }
+{ #category : #'t - item bar owner - accessing' }
 TToItemBarOwner >> secondarySelectionModel [
 
 	^ self itemList secondarySelectionModel
 ]
 
-{ #category : #'t - item list holder - selectable/unselectable' }
+{ #category : #'t - item bar owner - unselectable/selectable' }
 TToItemBarOwner >> selectableAtPosition: anInteger [
 
-	self itemList selectableAtPosition: anInteger
+	itemBar selectableAtPosition: anInteger
 ]
 
-{ #category : #'t - item list holder - selectable/unselectable' }
+{ #category : #'t - item bar owner - unselectable/selectable' }
 TToItemBarOwner >> selectableItem: anItem [
 
-	self selectableAtPosition: anItem positionInBar
+	itemBar selectableItem: anItem
 ]
 
-{ #category : #'t - item list holder - accessing' }
+{ #category : #'t - item bar owner - accessing' }
 TToItemBarOwner >> selectionModel [
 
 	^ self itemBar selectionModel
 ]
 
-{ #category : #'t - item list holder - accessing' }
+{ #category : #'t - item bar owner - accessing' }
 TToItemBarOwner >> selectionOption [
 
 	^ self itemBar selectionOption
 ]
 
-{ #category : #'t - item list holder - accessing' }
+{ #category : #'t - item bar owner - accessing' }
 TToItemBarOwner >> uniformNodeHeight: aBoolean [
 
 	self itemList uniformNodeHeight: aBoolean.
 	self configureLayout
 ]
 
-{ #category : #'t - item list holder - accessing' }
+{ #category : #'t - item bar owner - accessing' }
 TToItemBarOwner >> uniformNodeWidth: aBoolean [
 
 	self itemBar uniformNodeWidth: aBoolean.
 	self configureLayout
 ]
 
-{ #category : #'t - item list holder - selectable/unselectable' }
+{ #category : #'t - item bar owner - unselectable/selectable' }
 TToItemBarOwner >> unselectableAtPosition: anInteger [
 
-	self itemList unselectableAtPosition: anInteger
+	itemBar unselectableAtPosition: anInteger
 ]
 
-{ #category : #'t - item list holder - selectable/unselectable' }
+{ #category : #'t - item bar owner - unselectable/selectable' }
 TToItemBarOwner >> unselectableItem: anItem [
 
-	self unselectableAtPosition: anItem positionInBar
+	itemBar unselectableItem: anItem
 ]
 
-{ #category : #'t - item list holder - hidden/visible' }
+{ #category : #'t - item bar owner - hidden/visible' }
 TToItemBarOwner >> visibleAtPosition: anInteger [
 
-	self itemList visibleAtPosition: anInteger
+	itemBar visibleAtPosition: anInteger
 ]
 
-{ #category : #'t - item list holder - hidden/visible' }
+{ #category : #'t - item bar owner - hidden/visible' }
 TToItemBarOwner >> visibleItem: anItem [
 
-	self visibleAtPosition: anItem positionInBar
+	itemBar visibleItem: anItem
 ]

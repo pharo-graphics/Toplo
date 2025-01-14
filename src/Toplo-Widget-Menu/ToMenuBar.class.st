@@ -57,7 +57,7 @@ ToMenuBar >> collectedNodesDo: aValuable [
 			child isFake ifFalse: [ aValuable value: child ] ] ]
 ]
 
-{ #category : #'t - item list holder - initializing' }
+{ #category : #'t - item bar owner - initializing' }
 ToMenuBar >> configureLayout [
 	" just force the resizer of the secondary direction 
 	( vertical direction in case of an horizontal bar )"

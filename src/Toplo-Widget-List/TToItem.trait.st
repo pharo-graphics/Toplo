@@ -2,10 +2,30 @@ Trait {
 	#name : #TToItem,
 	#instVars : [
 		'presetData',
-		'barOwner'
+		'barOwner',
+		'barElement'
 	],
 	#category : #'Toplo-Widget-List-ItemBar'
 }
+
+{ #category : #'t - item' }
+TToItem >> barElement [ 
+
+	^ barElement
+]
+
+{ #category : #'t - item' }
+TToItem >> barElement: anItemBarElement [ 
+
+	barElement := anItemBarElement
+]
+
+{ #category : #'t - item' }
+TToItem >> barElementDo: aBlock [
+
+	barElement ifNil: [ ^ self ].
+	aBlock value: barElement
+]
 
 { #category : #'t - item' }
 TToItem >> barOwner [
@@ -29,7 +49,7 @@ TToItem >> barOwnerDo: aBlock [
 { #category : #'t - item' }
 TToItem >> disabled: aBoolean [
 
-	self barOwner
+	self barElement
 		ifNil: [ self presetDisabledWith: aBoolean ]
 		ifNotNil: [ :l |
 			aBoolean
@@ -58,7 +78,7 @@ TToItem >> hidden: aBoolean [
 { #category : #'t - item' }
 TToItem >> positionInBar [
 
-	self barOwnerDo: [ :pm | ^ pm items indexOf: self ].
+	self barElementDo: [ :pm | ^ pm items indexOf: self ].
 	^ 0
 ]
 

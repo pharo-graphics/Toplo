@@ -162,7 +162,7 @@ ToMenu >> mouseOverEvent: anEvent [
 		ifFalse: [ self closeWindow ]
 ]
 
-{ #category : #'t - item list holder - accessing' }
+{ #category : #'t - item bar owner - accessing' }
 ToMenu >> newItemBar [
 
 	^ ToMenuItemBarElement new

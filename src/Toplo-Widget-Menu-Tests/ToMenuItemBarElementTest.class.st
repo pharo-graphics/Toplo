@@ -1,61 +1,61 @@
 "
-A ToItemListElementTest is a test class for testing the behavior of ToItemListElement
+A ToMenuItemBarElementTest is a test class for testing the behavior of ToMenuItemBarElement
 "
 Class {
-	#name : #ToItemBarElementTest,
+	#name : #ToMenuItemBarElementTest,
 	#superclass : #ToParameterizedHostTest,
 	#instVars : [
 		'l'
 	],
-	#category : #'Toplo-Widget-List-Tests-ItemBar'
+	#category : #'Toplo-Widget-Menu-Tests-ItemBar'
 }
 
 { #category : #running }
-ToItemBarElementTest >> setUp [
+ToMenuItemBarElementTest >> setUp [
 
 	super setUp.
-	l := ToItemBarElementForTest new.
+	l := ToMenuItemBarElement new.
 	l vMatchParent.
 	space root addChild: l
 ]
 
 { #category : #tests }
-ToItemBarElementTest >> test [
+ToMenuItemBarElementTest >> test [
 
 	| n |
 	self assert: l nodes size equals: l dataAccessor size.
-	self assert: (l nodeManager isKindOf: ToItemNodeManagerForTest).
+	self assert: (l nodeManager isKindOf: ToMenuItemNodeManager).
 	l addAllItems:
-		((1 to: 10) collect: [ :i | ToItemElementForTest new text: i asString ]).
+		((1 to: 10) collect: [ :i | ToMenuItem new labelText: i asString ]).
 	n := l nodes first.
-	self assert: (n isKindOf: ToItemNodeForTest).
-	self assert: (n holder isKindOf: ToBarNodeHolderForTest).
-	self assert: (n holder dataItem isKindOf: ToItemElementForTest)
+	self assert: (n isKindOf: ToMenuItemNode).
+	self assert: (n holder isKindOf: ToItemBarNodeHolder).
+	self assert: (n holder dataItem isKindOf: ToMenuItem)
 	
 ]
 
 { #category : #tests }
-ToItemBarElementTest >> testAddItem [
+ToMenuItemBarElementTest >> testAddItem [
 
 	| n item |
-	item := ToItemElementForTest new text: '#1'.
+	item := ToMenuItem new labelText: '#1'.
 	l addItem: item.
 	self waitTestingSpaces.
 	self assert: l nodes size equals: 1.
 	n := l nodes first.
-	self assert: (n isKindOf: ToItemNodeForTest).
-	self assert: (n holder isKindOf: ToBarNodeHolderForTest).
-	self assert: (n holder dataItem isKindOf: ToItemElementForTest).
+	self assert: (n isKindOf: ToMenuItemNode).
+	self assert: (n holder isKindOf: ToItemBarNodeHolder).
+	self assert: (n holder dataItem isKindOf: ToMenuItem).
 	self assert: item barElement identicalTo: l.
 	self assert: item positionInBar equals: 1
 ]
 
 { #category : #tests }
-ToItemBarElementTest >> testDisableItemAfterAdding [
+ToMenuItemBarElementTest >> testDisableItemAfterAdding [
 
 	| n item |
 	self assert: l nodes size equals: 0.
-	item := ToItemElementForTest new text: 'A'.
+	item := ToMenuItem new labelText: 'A'.
 	l addItem: item.
 	item disable.
 	self waitTestingSpaces.
@@ -71,16 +71,16 @@ ToItemBarElementTest >> testDisableItemAfterAdding [
 ]
 
 { #category : #tests }
-ToItemBarElementTest >> testDisableItemAfterAdding2 [
+ToMenuItemBarElementTest >> testDisableItemAfterAdding2 [
 
 	| n item|
 	self assert: l nodes size equals: 0.
-	item := ToItemElementForTest new text: 'A'.
+	item := ToMenuItem new labelText: 'A'.
 	l addItem: item.
-	item := ToItemElementForTest new text: 'B'.
+	item := ToMenuItem new labelText: 'B'.
 	l addItem: item.
 	item disable.
-	item := ToItemElementForTest new text: 'C'.
+	item := ToMenuItem new labelText: 'C'.
 	l addItem: item.
 	self waitTestingSpaces.
 	
@@ -109,11 +109,11 @@ ToItemBarElementTest >> testDisableItemAfterAdding2 [
 ]
 
 { #category : #tests }
-ToItemBarElementTest >> testDisableItemBeforeAdding [
+ToMenuItemBarElementTest >> testDisableItemBeforeAdding [
 
 	| n item |
 	self assert: l nodes size equals: 0.
-	item := ToItemElementForTest new text: 'A'.
+	item := ToMenuItem new labelText: 'A'.
 	item disabled: true.
 	l addItem: item.
 	self waitTestingSpaces.
@@ -129,16 +129,16 @@ ToItemBarElementTest >> testDisableItemBeforeAdding [
 ]
 
 { #category : #tests }
-ToItemBarElementTest >> testDisableItemBeforeAdding2 [
+ToMenuItemBarElementTest >> testDisableItemBeforeAdding2 [
 
 	| n item|
 	self assert: l nodes size equals: 0.
-	item := ToItemElementForTest new text: 'A'.
+	item := ToMenuItem new labelText: 'A'.
 	l addItem: item.
-	item := ToItemElementForTest new text: 'B'.
+	item := ToMenuItem new labelText: 'B'.
 	item disable.
 	l addItem: item.
-	item := ToItemElementForTest new text: 'C'.
+	item := ToMenuItem new labelText: 'C'.
 	l addItem: item.
 	self waitTestingSpaces.
 	
@@ -161,5 +161,7 @@ ToItemBarElementTest >> testDisableItemBeforeAdding2 [
 	self deny: n item isDisabled.
 	self deny: n isDisabled.
 	
+
+
 
 ]

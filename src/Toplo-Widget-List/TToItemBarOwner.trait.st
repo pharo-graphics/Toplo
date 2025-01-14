@@ -140,7 +140,7 @@ TToItemBarOwner >> initializeAsItemBarOwner [
 { #category : #'t - item list holder - accessing' }
 TToItemBarOwner >> innerElement [
 
-	^ self itemList innerElement
+	^ self itemBar innerElement
 ]
 
 { #category : #'t - item list holder - testing' }
@@ -210,7 +210,7 @@ TToItemBarOwner >> newItemBar [
 { #category : #'t - item list holder - accessing' }
 TToItemBarOwner >> nodeAutoDistribution: aBoolean [
 
-	self itemList nodeAutoDistribution: aBoolean.
+	self itemBar nodeAutoDistribution: aBoolean.
 	self configureLayout
 ]
 

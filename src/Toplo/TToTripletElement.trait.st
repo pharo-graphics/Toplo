@@ -172,7 +172,7 @@ TToTripletElement >> hasStartElement [
 ]
 
 { #category : #'t - triplet element - initialization' }
-TToTripletElement >> initializeTripletElement [
+TToTripletElement >> initializeAsTripletElement [
 
 	self properties: ToTripletElementProperties new.
 	self properties on: self.

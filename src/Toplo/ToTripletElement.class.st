@@ -20,7 +20,7 @@ ToTripletElement >> defaultLayout [
 ToTripletElement >> initialize [
 
 	super initialize.
-	self initializeTripletElement 
+	self initializeAsTripletElement 
 ]
 
 { #category : #skin }

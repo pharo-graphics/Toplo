@@ -301,7 +301,7 @@ TToItemBarOwner >> secondarySelecter [
 { #category : #'t - item bar owner - accessing' }
 TToItemBarOwner >> secondarySelectionMode [
 
-	^ self itemList secondarySelectionMode
+	^ self itemBar secondarySelectionMode
 ]
 
 { #category : #'t - item bar owner - accessing' }
@@ -337,7 +337,7 @@ TToItemBarOwner >> selectionOption [
 { #category : #'t - item bar owner - accessing' }
 TToItemBarOwner >> uniformNodeHeight: aBoolean [
 
-	self itemList uniformNodeHeight: aBoolean.
+	self itemBar uniformNodeHeight: aBoolean.
 	self configureLayout
 ]
 

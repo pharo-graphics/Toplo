@@ -28,9 +28,9 @@ ToTagElement >> initialize [
 ]
 
 { #category : #'t - checkable  - protocol' }
-ToTagElement >> initializeCheckable [ 
+ToTagElement >> initializeAsCheckable [ 
 
-	super initializeCheckable.
+	super initializeAsCheckable.
 	self takeFocusOnClick: true
 ]
 

@@ -43,7 +43,7 @@ TToButtonOwner >> clickEventClass [
 ]
 
 { #category : #'t - button holder' }
-TToButtonOwner >> initializeButtonHolder [
+TToButtonOwner >> initializeAsButtonHolder [
 
 	self button: self buttonClass new.
 	self button takeFocusOnClick: false.

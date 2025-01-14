@@ -69,7 +69,7 @@ TToItemBarElement >> hiddenItem: anItem [
 ]
 
 { #category : #'t - item bar element - accessing' }
-TToItemBarElement >> initializeItemBarElement [ 
+TToItemBarElement >> initializeAsItemBarElement [ 
 
 	self primarySelectionMode makeDisabledUnselectable: true
 ]

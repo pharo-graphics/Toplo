@@ -101,7 +101,7 @@ TToCheckable >> group: aCheckableGroup [
 ]
 
 { #category : #'t - checkable  - protocol' }
-TToCheckable >> initializeCheckable [
+TToCheckable >> initializeAsCheckable [
 
 	self ensureCheckableData.
 	self checkableEventHandler: self newCheckableEventHandler .

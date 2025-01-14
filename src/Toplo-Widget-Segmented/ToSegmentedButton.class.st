@@ -6,6 +6,13 @@ Class {
 	#category : #'Toplo-Widget-Segmented-Button'
 }
 
+{ #category : #initialization }
+ToSegmentedButton >> initialize [ 
+
+	super initialize.
+	self matchParent
+]
+
 { #category : #skin }
 ToSegmentedButton >> newRawSkin [
 

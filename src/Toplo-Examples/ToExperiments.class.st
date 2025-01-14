@@ -78,7 +78,7 @@ ToExperiments class >> example_DragAndDropWithLinearLayout [
 	container border: Color black.
 	container matchParent.
 	container layout: BlLinearLayout new.
-	container setUpAsPasteUp.
+	container initializeAsPasteUp.
 
 	red := ToElement new id: #red.
 	red size: 100 asPoint.
@@ -473,7 +473,7 @@ ToExperiments class >> example_PasteUpPane [
 	container border: Color black.
 	container matchParent.
 	container layout: BlBasicLayout new.
-	container setUpAsPasteUp.
+	container initializeAsPasteUp.
 
 	red := ToElement new id: #red.
 	red size: 100 asPoint.

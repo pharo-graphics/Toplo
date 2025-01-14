@@ -414,15 +414,15 @@ BlElement >> newTextAttributesBuilder [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> onAddedInItemListHolder: anItemList [
+BlElement >> onAddedInItemBarOwner: anItemBar [
 
-	anItemList onAddedUnknownItemKind: self
+	anItemBar onAddedUnknownItemKind: self
 ]
 
 { #category : #'*Toplo' }
-BlElement >> onRemovedFromItemListHolder: anItemList [
+BlElement >> onRemovedFromItemBarOwner: anItemBar [
 
-	anItemList onRemovedUnknownItemKind: self
+	anItemBar onRemovedUnknownItemKind: self
 ]
 
 { #category : #'*Toplo' }
@@ -464,15 +464,6 @@ BlElement >> parentChainReverseDo: aBlock [
 	"evaluate a block with each of my parents (including myself) ordered from my space root to myself  "
 
 	self parentChain reverseDo: aBlock
-]
-
-{ #category : #'*Toplo' }
-BlElement >> presetDataDo: aValuable [
-
-	" do nothing at this level.
-	It redefined for an element that is used as a list data item.
-	This is the case for a menu or a segmented button as examples
-	( see `TToItem` users )"
 ]
 
 { #category : #'*Toplo' }
@@ -634,6 +625,15 @@ BlElement >> skinUninstaller: aSkinUninstaller [
 		deprecated: 'Please delegate to the skinManager instead'
 		transformWith: '`@receiver skinUninstaller: `@arg' -> '`@receiver skinManager setSkinUninstaller: `@arg in: `@receiver'.
 	self skinManager setSkinUninstaller: aSkinUninstaller in: self
+]
+
+{ #category : #'*Toplo' }
+BlElement >> storedConstraintsDo: aValuable [
+
+	" do nothing at this level.
+	It redefined for an element that is used as a list data item.
+	This is the case for a menu or a segmented button as examples
+	( see `TToItem` users )"
 ]
 
 { #category : #'*Toplo' }

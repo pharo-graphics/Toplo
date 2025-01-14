@@ -75,12 +75,6 @@ ToFrontSelectionModel >> isHiddenIndex: anIndex [
 ]
 
 { #category : #testing }
-ToFrontSelectionModel >> isSelectableIndex: anIndex [
-
-	^ (self isUnselectableIndex: anIndex) not
-]
-
-{ #category : #testing }
 ToFrontSelectionModel >> isUnselectableIndex: anIndex [
 
 	self unselectableSelectionModelDo: [ :sm |

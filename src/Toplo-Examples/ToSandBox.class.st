@@ -2085,7 +2085,7 @@ ToSandBox class >> example_SelectMonoFiltrable [
 		do: [ :event | event selectedIndexes traceCr ].
 
 
-	select windowManager minHeight: 35.
+	select manager minHeight: 35.
 	phtext := ('No Data' asRopedText
 		           foreground: Color lightGray;
 		           yourself)
@@ -2452,7 +2452,7 @@ ToSandBox class >> example_SelectMultiNotFiltrableWithGroups [
 	select placeholderText:
 		('Select a state' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select manager anchorRoot: innerWindow root.
 	select width: 300.
 	select position: 50 @ 50.
 	select filterTextField requestFocus.
@@ -3283,13 +3283,12 @@ ToSandBox class >> example_WithSeparator [
 		             size: 400 @ 200;
 		             yourself.
 	menu := ToMenu new.
-	menu tooltipString: 'tooltip content'.
+	"menu tooltipString: 'tooltip content'."
 	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
-	menu addItem: (ToMenuItem new
-			 label: (ToLabel text: 'Open')).
+	menu addItem: (ToMenuItem new label: (ToLabel text: 'Open')) disable.
+
 	menu addSeparator.
-	menu addItem: (ToMenuItem new
-			 label: (ToLabel text: 'Close')).
+	menu addItem: (ToMenuItem new label: (ToLabel text: 'Close')).
 	container pane addChild: menu.
 	container openInSpace
 ]
@@ -3924,8 +3923,6 @@ ToSandBox class >> example_menuBar0 [
 	menu addItem: (ToMenuItem new labelText: 'item 1').
 	menu addItem: ToSeparatorMenuItem new.
 	sub := ToMenuItem new labelText: 'item 2'.
-
-	self flag: 'Disabling the menu item does not work here because it is done before its adding'.
 	sub disable.
 	menu addItem: sub.
 
@@ -4344,8 +4341,8 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 		       hMatchParent;
 		       vFitContent.
 	bar nodeWrapping: false.
-	bar itemList hMatchParent.
-	
+	bar itemBar hMatchParent.
+
 	bar addItem: (ToCustomMenuItem new in: [ :e |
 			 e addChild: (ToSelectableLabel new text: 'File') ]).
 	bar addItem: (ToMenu new
@@ -6642,7 +6639,7 @@ ToSandBox class >> example_withCheckBox [
 { #category : #menu }
 ToSandBox class >> example_withCustomMenuItems [
 
-	| menu grp right center left textField sub lbl |
+	| menu grp right center left textField sub lbl item |
 	menu := ToMenu new.
 	menu labelText: 'File'.
 	menu addItem: (ToMenuItem new
@@ -6650,21 +6647,27 @@ ToSandBox class >> example_withCustomMenuItems [
 			 whenClickedDo: [ self inform: 'Open file' ];
 			 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
 
-	menu addItem: (ToMenuItem new
-			 labelText: 'Export'; disable;
-			 whenClickedDo: [ self inform: 'Export' ]).
+	item := ToMenuItem new
+		        labelText: 'Export';
+		        whenClickedDo: [ self inform: 'Export' ].
+	menu addItem: item.
+	item disable.
+
 	menu addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 whenClickedDo: [ menu inspect ]).
+			 whenClickedDo: [ menu space root inspect ]).
 	menu addSeparator.
-	menu addItem: (ToToggleMenuItem new labelText: 'Toggle'; yourself).
-	menu addItem: (ToCustomMenuItem new in: [ :e | e 
-			 addChild: (ToSwitchButton new
-					  checked: true;
-					startFlexible: true;
-					hMatchParent;
-					  labelText: 'Switch';
-					  yourself)];
+	menu addItem: (ToToggleMenuItem new
+			 labelText: 'Toggle';
+			 yourself).
+	menu addItem: (ToCustomMenuItem new
+			 in: [ :e |
+				 e addChild: (ToSwitchButton new
+							  checked: true;
+							  startFlexible: true;
+							  hMatchParent;
+							  labelText: 'Switch';
+							  yourself) ];
 			 yourself).
 
 	grp := ToCheckableGroup new.
@@ -6697,11 +6700,12 @@ ToSandBox class >> example_withCustomMenuItems [
 		fontSize: 12;
 		foreground: Color blue.
 
-	menu addItem: (ToCustomMenuItem new in: [ :e | e 
-			 addChild: lbl;
-			 margin: (BlInsets
-					  top: 2;
-					  bottom: 4)]).
+	menu addItem: (ToCustomMenuItem new in: [ :e |
+			 e
+				 addChild: lbl;
+				 margin: (BlInsets
+						  top: 2;
+						  bottom: 4) ]).
 	menu addAllItems: grp registeredCheckables.
 
 	grp := ToCheckableGroup new.
@@ -6735,11 +6739,12 @@ ToSandBox class >> example_withCustomMenuItems [
 			        italic;
 			        fontSize: 12;
 			        foreground: (Color blue alpha: 0.7)).
-	menu addItem: (ToCustomMenuItem new
-			 in: [ :e | e addChild: lbl;
-			 margin: (BlInsets
-					  top: 2;
-					  bottom: 4)]).
+	menu addItem: (ToCustomMenuItem new in: [ :e |
+			 e
+				 addChild: lbl;
+				 margin: (BlInsets
+						  top: 2;
+						  bottom: 4) ]).
 	menu addAllItems: grp registeredCheckables.
 	menu addSeparator.
 	textField := ToTextField new
@@ -6751,7 +6756,8 @@ ToSandBox class >> example_withCustomMenuItems [
 								               yourself)) ];
 		             withLineWrapping;
 		             width: 200.
-	menu addItem: (ToCustomMenuItem new in: [ :e | e addChild: textField ]).
+	menu addItem:
+		(ToCustomMenuItem new in: [ :e | e addChild: textField ]).
 	menu addSeparator.
 	sub := ToMenu new labelText: 'Save All'.
 

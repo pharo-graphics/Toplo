@@ -1,18 +1,14 @@
 Class {
 	#name : #ToItemBarNodeHolder,
 	#superclass : #ToBarNodeHolder,
-	#category : #'Toplo-Widget-List-Node'
+	#category : #'Toplo-Widget-List-ItemBar'
 }
 
 { #category : #accessing }
 ToItemBarNodeHolder >> initializeNode [
 
-
-	self dataItem presetDataDo: [ :pd |
-		pd setupItem: self dataItem.
+	self dataItem storedConstraintsDo: [ :pd |
+		pd constraintItem: self dataItem.
 		self disabled: self dataItem isDisabled.
-		self isHidden ifTrue: [ self node height: 0 ].
-		^ self ].
-	super initializeNode
-
+		self isHidden ifTrue: [ self node height: 0 ] ]
 ]

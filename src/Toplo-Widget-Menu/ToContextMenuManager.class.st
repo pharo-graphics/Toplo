@@ -35,7 +35,7 @@ ToContextMenuManager >> newPickOutsideFilter [
 ToContextMenuManager >> onOpened [
 
 	super onOpened.
-	currentWindow itemList requestFocus.
+	currentWindow itemBar requestFocus
 ]
 
 { #category : #accessing }

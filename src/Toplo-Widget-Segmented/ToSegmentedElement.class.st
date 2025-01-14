@@ -1,8 +1,8 @@
 Class {
 	#name : #ToSegmentedElement,
 	#superclass : #ToElement,
-	#traits : 'TToItemListHolder + TToOrientable',
-	#classTraits : 'TToItemListHolder classTrait + TToOrientable classTrait',
+	#traits : 'TToItemBarOwner + TToOrientable',
+	#classTraits : 'TToItemBarOwner classTrait + TToOrientable classTrait',
 	#category : #'Toplo-Widget-Segmented-Bar'
 }
 
@@ -39,10 +39,10 @@ ToSegmentedElement >> addLabelText: aText withIconImage: anImage [
 			 icon: (ToImage inner: anImage))
 ]
 
-{ #category : #'t - item list holder - initializing' }
+{ #category : #'t - item bar owner - initializing' }
 ToSegmentedElement >> configureLayout [
 
-	self itemList configureLayoutIn: self
+	self itemBar configureLayoutIn: self
 ]
 
 { #category : #initialization }
@@ -58,28 +58,30 @@ ToSegmentedElement >> defaultLayout [
 ]
 
 { #category : #'focus requesting' }
-ToSegmentedElement >> focusHolder [ 
+ToSegmentedElement >> focusHolder [
 
-	^ self itemList
+	^ self itemBar
 ]
 
 { #category : #accessing }
 ToSegmentedElement >> group [
 
-	^ self itemList group
+	^ self itemBar group
 ]
 
 { #category : #initialization }
 ToSegmentedElement >> initialize [
 
 	super initialize.
-	self addChild: self itemList.
+	self initializeAsItemBarOwner.
+
+	self addChild: self itemBar.
 
 	self group
 		addEventHandlerOn: ToCheckableGroupChangedEvent
 		do: [ :event | self dispatchEvent: event ].
 
-	self itemList
+	self itemBar
 		addEventHandlerOn: ToListSelectionChangedEvent
 		do: [ :event | self dispatchEvent: event ].
 
@@ -94,8 +96,8 @@ ToSegmentedElement >> layoutStrategy [
 	
 ]
 
-{ #category : #'t - item list holder - accessing' }
-ToSegmentedElement >> newItemList [
+{ #category : #'t - item bar owner - accessing' }
+ToSegmentedElement >> newItemBar [
 
 	^ ToSegmentedListElement new
 ]
@@ -118,7 +120,7 @@ ToSegmentedElement >> onRemovedSegmentedButton: aButton [
 { #category : #'t - checkable group owner' }
 ToSegmentedElement >> withStrictCheckingStrategy [
 
-	self itemList withStrictCheckingStrategy
+	self itemBar withStrictCheckingStrategy
 ]
 
 { #category : #'t - checkable group owner' }

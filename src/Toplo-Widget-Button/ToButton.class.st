@@ -14,7 +14,7 @@ Class {
 ToButton >> beCheckable [
 
 	self isCheckable ifTrue: [ ^ self ].
-	self initializeCheckable.
+	self initializeAsCheckable.
 	self requestNewSkin
 ]
 
@@ -60,7 +60,7 @@ ToButton >> icon: anElement [
 ToButton >> initialize [
 
 	super initialize.
-	self initializeTripletElement
+	self initializeAsTripletElement
 ]
 
 { #category : #'t - labeled icon' }

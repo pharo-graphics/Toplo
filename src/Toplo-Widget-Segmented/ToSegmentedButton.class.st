@@ -6,6 +6,13 @@ Class {
 	#category : #'Toplo-Widget-Segmented-Button'
 }
 
+{ #category : #initialization }
+ToSegmentedButton >> initialize [ 
+
+	super initialize.
+	self matchParent
+]
+
 { #category : #skin }
 ToSegmentedButton >> newRawSkin [
 
@@ -13,14 +20,14 @@ ToSegmentedButton >> newRawSkin [
 ]
 
 { #category : #'adding-removing' }
-ToSegmentedButton >> onAddedInItemListHolder: aSegmentedElement [
+ToSegmentedButton >> onAddedInItemBarOwner: aSegmentedElement [
 
 	aSegmentedElement onAddedSegmentedButton: self
 	
 ]
 
 { #category : #'adding-removing' }
-ToSegmentedButton >> onRemovedFromItemListHolder: aSegmentedElement [
+ToSegmentedButton >> onRemovedFromItemBarOwner: aSegmentedElement [
 
 	aSegmentedElement onRemovedSegmentedButton: self
 	

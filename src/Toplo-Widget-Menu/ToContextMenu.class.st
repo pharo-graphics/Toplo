@@ -1,8 +1,8 @@
 Class {
 	#name : #ToContextMenu,
 	#superclass : #ToMenuWindow,
-	#traits : 'TToOrientable + TToItemListHolder + TToMenuItemListHolder + TToMenuWindowModel',
-	#classTraits : 'TToOrientable classTrait + TToItemListHolder classTrait + TToMenuItemListHolder classTrait + TToMenuWindowModel classTrait',
+	#traits : 'TToOrientable + TToItemBarOwner + TToMenuItemBarOwner + TToMenuWindowModel',
+	#classTraits : 'TToOrientable classTrait + TToItemBarOwner classTrait + TToMenuItemBarOwner classTrait + TToMenuWindowModel classTrait',
 	#category : #'Toplo-Widget-Menu-Context menu'
 }
 
@@ -40,11 +40,12 @@ ToContextMenu >> correctedPositionWithinAnchorRoot [
 ]
 
 { #category : #initialization }
-ToContextMenu >> initialize [ 
+ToContextMenu >> initialize [
 
 	super initialize.
 	self fitContent.
-	self root addChild: self itemList
+	self initializeAsItemBarOwner.
+	self root addChild: self itemBar
 ]
 
 { #category : #testing }
@@ -103,10 +104,10 @@ ToContextMenu >> menuWindow [
 	^ super menuWindow
 ]
 
-{ #category : #'t - item list holder - accessing' }
-ToContextMenu >> newItemList [
+{ #category : #'t - item bar owner - accessing' }
+ToContextMenu >> newItemBar [
 
-	^ ToMenuItemListElement new
+	^ ToMenuItemBarElement new
 ]
 
 { #category : #'t - menu window model' }

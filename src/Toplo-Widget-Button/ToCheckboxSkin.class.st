@@ -21,10 +21,9 @@ ToCheckboxSkin >> disabledSkinEvent: anEvent [
 	super disabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: BlBorder empty.
-		e isMenuButton ifFalse: [
-			e background: Color transparent.
-			e icon innerImage border:
-				(e valueOfTokenNamed: #'color-border-disabled') ].
+		e background: Color transparent.
+		e icon innerImage border:
+			(e valueOfTokenNamed: #'color-border-disabled').
 		e icon border: (e valueOfTokenNamed: #'color-border-disabled').
 		e indeterminateBar background: Color transparent ]
 ]

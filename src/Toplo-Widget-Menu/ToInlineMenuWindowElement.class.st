@@ -58,6 +58,12 @@ ToInlineMenuWindowElement >> isTopMenu [
 ]
 
 { #category : #accessing }
+ToInlineMenuWindowElement >> itemBar [
+
+	^ self element itemBar
+]
+
+{ #category : #accessing }
 ToInlineMenuWindowElement >> itemContainer [
 
 	^ self element
@@ -66,7 +72,11 @@ ToInlineMenuWindowElement >> itemContainer [
 { #category : #accessing }
 ToInlineMenuWindowElement >> itemList [
 
-	^ self element itemList
+	self
+		deprecated: 'Use itemBar instead'
+		transformWith: '`@rcvr itemList' -> '`@rcvr itemBar'.
+
+	^ self itemBar
 ]
 
 { #category : #accessing }

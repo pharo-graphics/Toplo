@@ -1,9 +1,10 @@
 Class {
 	#name : #ToMenuBar,
 	#superclass : #ToElement,
-	#traits : 'TToItem + TToMenuItem + TToItemListHolder + TToMenuItemListHolder + TToOrientable',
-	#classTraits : 'TToItem classTrait + TToMenuItem classTrait + TToItemListHolder classTrait + TToMenuItemListHolder classTrait + TToOrientable classTrait',
+	#traits : 'TToItem + TToMenuItem + TToItemBarOwner + TToMenuItemBarOwner + TToOrientable',
+	#classTraits : 'TToItem classTrait + TToMenuItem classTrait + TToItemBarOwner classTrait + TToMenuItemBarOwner classTrait + TToOrientable classTrait',
 	#instVars : [
+		'isSubBar',
 		'autoOpen'
 	],
 	#category : #'Toplo-Widget-Menu-Bar'
@@ -56,12 +57,11 @@ ToMenuBar >> collectedNodesDo: aValuable [
 			child isFake ifFalse: [ aValuable value: child ] ] ]
 ]
 
-{ #category : #'t - item list holder - initializing' }
+{ #category : #'t - item bar owner - initializing' }
 ToMenuBar >> configureLayout [
-
 	" just force the resizer of the secondary direction 
 	( vertical direction in case of an horizontal bar )"
-	
+
 	self isHorizontal
 		ifTrue: [
 			self vFitContent.
@@ -69,18 +69,19 @@ ToMenuBar >> configureLayout [
 		ifFalse: [
 			self hFitContent.
 			self isSubBar ifTrue: [ self vFitContent ] ].
-	self itemList configureLayoutIn: self
+	self itemBar configureLayoutIn: self
 ]
 
 { #category : #initialization }
 ToMenuBar >> initialize [
 
 	super initialize.
-
+	self initializeAsItemBarOwner.
 	autoOpen := false.
+	isSubBar := false.
 	self layout: BlLinearLayout horizontal.
 	self addEventHandler: ToMenuBarEventHandler new.
-	self addChild: self itemList.
+	self addChild: self itemBar.
 	self nodeWrapping: false.
 	self uniformNodeWidth: false.
 	self beHorizontal
@@ -107,7 +108,13 @@ ToMenuBar >> isMenuBar [
 { #category : #testing }
 ToMenuBar >> isSubBar [ 
 
-	^ self parentItemListHolder notNil
+	^ isSubBar
+]
+
+{ #category : #accessing }
+ToMenuBar >> isSubBar: aBoolean [
+
+	isSubBar := aBoolean
 ]
 
 { #category : #'t - menu item' }
@@ -152,10 +159,10 @@ ToMenuBar >> mouseOverEvent: anEvent [
 			m mouseOverEvent: anEvent ] ]
 ]
 
-{ #category : #'t - item list holder - accessing' }
-ToMenuBar >> newItemList [
+{ #category : #'t - item list holder - initializing' }
+ToMenuBar >> newItemBar [
 
-	^ ToMenuItemListElement new
+	^ ToMenuItemBarElement new
 ]
 
 { #category : #skin }
@@ -165,12 +172,12 @@ ToMenuBar >> newRawSkin [
 ]
 
 { #category : #'adding-removing' }
-ToMenuBar >> onAddedInItemListHolder: aMenuItemContainer [
+ToMenuBar >> onAddedInItemBarOwner: aMenuItemBar [
 
-	aMenuItemContainer onAddedMenuBar: self
+	aMenuItemBar onAddedMenuBar: self
 ]
 
-{ #category : #'t - menu item list holder - double dispatch' }
+{ #category : #'t - menu item bar owner - double dispatch' }
 ToMenuBar >> onAddedMenu: aMenu [
 
 	aMenu isSubmenu: false
@@ -192,9 +199,9 @@ ToMenuBar >> onMeasure: anExtentMeasurementSpec [
 ]
 
 { #category : #'adding-removing' }
-ToMenuBar >> onRemovedFromItemListHolder: aMenuItemContainer [
+ToMenuBar >> onRemovedFromItemBarOwner: aMenuItemBar [
 
-	aMenuItemContainer onRemovedMenuBar: self
+	aMenuItemBar onRemovedMenuBar: self
 ]
 
 { #category : #adding }
@@ -209,8 +216,8 @@ ToMenuBar >> removeMenu: aMenu [
 { #category : #accessing }
 ToMenuBar >> rootMenuBar [ 
 
-	self parentItemListHolder ifNil: [ ^ self ].
-	^ self parentItemListHolder rootMenuBar
+	self barOwner ifNil: [ ^ self ].
+	^ self barOwner rootMenuBar
 ]
 
 { #category : #'auto opening' }

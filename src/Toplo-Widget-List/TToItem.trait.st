@@ -3,7 +3,7 @@ Trait {
 	#instVars : [
 		'barOwner',
 		'barElement',
-		'constraints'
+		'itemConstraints'
 	],
 	#category : #'Toplo-Widget-List-ItemBar'
 }
@@ -50,7 +50,7 @@ TToItem >> barOwnerDo: aBlock [
 TToItem >> disabled: aBoolean [
 
 	self storeDisabled: aBoolean.
-	self barElement ifNotNil: [ :l |
+	barElement ifNotNil: [ :l |
 		aBoolean
 			ifTrue: [ l disabledItem: self ]
 			ifFalse: [ l enabledItem: self ] ].
@@ -60,14 +60,14 @@ TToItem >> disabled: aBoolean [
 { #category : #'t - item' }
 TToItem >> ensureConstraintsStorage [
 
-	constraints := ToItemConstraints new
+	itemConstraints := ToItemConstraints new
 ]
 
 { #category : #'t - item' }
 TToItem >> hidden: aBoolean [
 
 	self storeHidden: aBoolean.
-	self barOwner ifNotNil: [ :l |
+	self barOwnerDo: [ :l |
 		aBoolean
 			ifTrue: [ l hiddenItem: self ]
 			ifFalse: [ l visibleItem: self ] ]
@@ -84,36 +84,35 @@ TToItem >> positionInBar [
 TToItem >> storeDisabled: aBoolean [
 
 	self ensureConstraintsStorage.
-	constraints disabled: aBoolean
+	itemConstraints disabled: aBoolean
 ]
 
 { #category : #'t - item' }
 TToItem >> storeHidden: aBoolean [
 
 	self ensureConstraintsStorage.
-	constraints hidden: aBoolean
+	itemConstraints hidden: aBoolean
 ]
 
 { #category : #'t - item' }
 TToItem >> storeUnselectable: aBoolean [
 
 	self ensureConstraintsStorage.
-	constraints unselectable: aBoolean
+	itemConstraints unselectable: aBoolean
 ]
 
 { #category : #'t - item' }
 TToItem >> storedConstraintsDo: aValuable [
 
-	constraints ifNil: [ ^ self ].
-	aValuable value: constraints
+	itemConstraints ifNil: [ ^ self ].
+	aValuable value: itemConstraints
 ]
 
 { #category : #'t - item' }
 TToItem >> unselectable: aBoolean [
 
 	self storeUnselectable: aBoolean.
-	self barOwner
-		ifNotNil: [ :l |
+	self barOwnerDo: [ :l |
 			aBoolean
 				ifTrue: [ l unselectableItem: self ]
 				ifFalse: [ l selectableItem: self ] ]

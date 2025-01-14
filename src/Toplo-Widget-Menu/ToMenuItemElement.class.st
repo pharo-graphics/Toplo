@@ -122,13 +122,13 @@ ToMenuItemElement >> newRawSkin [
 ]
 
 { #category : #'adding-removing' }
-ToMenuItemElement >> onAddedInItemBar: aMenu [
+ToMenuItemElement >> onAddedInItemBarOwner: aMenu [
 
 	aMenu onAddedMenuItem: self
 ]
 
 { #category : #'adding-removing' }
-ToMenuItemElement >> onRemovedFromItemBar: aMenu [
+ToMenuItemElement >> onRemovedFromItemBarOwner: aMenu [
 
 	aMenu onRemovedMenuItem: self
 ]
@@ -136,9 +136,10 @@ ToMenuItemElement >> onRemovedFromItemBar: aMenu [
 { #category : #'t - menu window model' }
 ToMenuItemElement >> rootMenu [
 
-	self barOwner ifNil: [ ^ self ].
-	self barOwner isMenuBar ifTrue: [ 
-		^ self isMenu ifTrue: [ self ] ifFalse: [  ] ].
+	(self barOwner isNil or: [ self barOwner isMenuBar ]) ifTrue: [
+		^ self isMenu
+			  ifTrue: [ self ]
+			  ifFalse: [  ] ].
 	^ self barOwner rootMenu
 ]
 

@@ -172,7 +172,7 @@ ToMenuBar >> newRawSkin [
 ]
 
 { #category : #'adding-removing' }
-ToMenuBar >> onAddedInItemBar: aMenuItemBar [
+ToMenuBar >> onAddedInItemBarOwner: aMenuItemBar [
 
 	aMenuItemBar onAddedMenuBar: self
 ]
@@ -199,7 +199,7 @@ ToMenuBar >> onMeasure: anExtentMeasurementSpec [
 ]
 
 { #category : #'adding-removing' }
-ToMenuBar >> onRemovedFromItemBar: aMenuItemBar [
+ToMenuBar >> onRemovedFromItemBarOwner: aMenuItemBar [
 
 	aMenuItemBar onRemovedMenuBar: self
 ]

@@ -8,8 +8,10 @@ Class {
 ToMultiSelectPopupWindowManager >> checkAutoCloseWindowOnMouseUp: anEvent [
 	" don't autoclose if mouse up on a select bar item "
 
-	(element barElement itemContaining: anEvent target) ifNotNil: [
-		:found | ^ self ].
+	| target |
+	target := anEvent target.
+	(element barElement itemContaining: target) ifNotNil: [ :found |
+		^ self ].
 	super checkAutoCloseWindowOnMouseUp: anEvent
 ]
 

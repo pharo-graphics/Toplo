@@ -4582,7 +4582,6 @@ ToSandBox class >> example_segmentedWithSegmentedButton [
 				 whenClickedDo: [ :event | event currentTarget label text traceCr ];
 				 yourself) ].
 
-	self flag: 'To be fixed: disabling after the item is added does not update the disabledSelectionModel'.
 	(seg items at: 2) disable.
 	dashBoard := self segmentedDashBoardFor: seg.
 

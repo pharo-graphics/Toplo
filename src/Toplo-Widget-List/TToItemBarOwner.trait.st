@@ -217,7 +217,7 @@ TToItemBarOwner >> nodeAutoDistribution: aBoolean [
 { #category : #'t - item bar owner - accessing' }
 TToItemBarOwner >> nodeScrolling: aBoolean [
 
-	self itemList nodeScrolling: aBoolean.
+	self itemBar nodeScrolling: aBoolean.
 	self configureLayout
 ]
 
@@ -238,7 +238,7 @@ TToItemBarOwner >> onAddedAnyItemKind: anItem [
 TToItemBarOwner >> onAddedItem: anItem [
 
 	self onAddedAnyItemKind: anItem.
-	anItem onAddedInItemBar: self.
+	anItem onAddedInItemBarOwner: self.
 
 ]
 
@@ -258,7 +258,7 @@ TToItemBarOwner >> onRemovedAnyItemKind: anItem [
 TToItemBarOwner >> onRemovedItem: anItem [
 
 	self onRemovedAnyItemKind: anItem.
-	anItem onRemovedFromItemBar: self
+	anItem onRemovedFromItemBarOwner: self
 ]
 
 { #category : #'t - item bar owner - double dispatch' }

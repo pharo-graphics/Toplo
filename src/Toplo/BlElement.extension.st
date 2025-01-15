@@ -331,6 +331,15 @@ BlElement >> isPreventedSkinEventClass: aSkinEventClass [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> itemConstraintsDo: aValuable [
+
+	" do nothing at this level.
+	It redefined for an element that is used as a list data item.
+	This is the case for a menu or a segmented button as examples
+	( see `TToItem` users )"
+]
+
+{ #category : #'*Toplo' }
 BlElement >> itemContaining: anElement [
 
 	^ (anElement hasInParentChain: self)
@@ -625,15 +634,6 @@ BlElement >> skinUninstaller: aSkinUninstaller [
 		deprecated: 'Please delegate to the skinManager instead'
 		transformWith: '`@receiver skinUninstaller: `@arg' -> '`@receiver skinManager setSkinUninstaller: `@arg in: `@receiver'.
 	self skinManager setSkinUninstaller: aSkinUninstaller in: self
-]
-
-{ #category : #'*Toplo' }
-BlElement >> storedConstraintsDo: aValuable [
-
-	" do nothing at this level.
-	It redefined for an element that is used as a list data item.
-	This is the case for a menu or a segmented button as examples
-	( see `TToItem` users )"
 ]
 
 { #category : #'*Toplo' }

@@ -2,8 +2,7 @@ Trait {
 	#name : #TToItem,
 	#instVars : [
 		'barOwner',
-		'barElement',
-		'itemConstraints'
+		'barElement'
 	],
 	#category : #'Toplo-Widget-List-ItemBar'
 }
@@ -11,13 +10,13 @@ Trait {
 { #category : #'t - item' }
 TToItem >> barElement [ 
 
-	^ barElement
+	^ self holder listElement
 ]
 
 { #category : #'t - item' }
 TToItem >> barElement: anItemBarElement [ 
 
-	barElement := anItemBarElement
+	"barElement := anItemBarElement"
 ]
 
 { #category : #'t - item' }
@@ -58,9 +57,11 @@ TToItem >> disabled: aBoolean [
 ]
 
 { #category : #'t - item' }
-TToItem >> ensureConstraintsStorage [
+TToItem >> ensuredItemConstraints [
 
-	itemConstraints := ToItemConstraints new
+	^ self userData
+		at: #itemConstraints
+		ifAbsentPut: [self newItemConstraints ]
 ]
 
 { #category : #'t - item' }
@@ -74,6 +75,25 @@ TToItem >> hidden: aBoolean [
 ]
 
 { #category : #'t - item' }
+TToItem >> itemConstraints [
+
+	^ self userData at: #itemConstraints ifAbsent: [  ]
+]
+
+{ #category : #'t - item' }
+TToItem >> itemConstraintsDo: aValuable [
+
+	self itemConstraints ifNil: [ ^ self ].
+	aValuable value: self itemConstraints
+]
+
+{ #category : #'t - item' }
+TToItem >> newItemConstraints [
+
+	^ ToItemConstraints new
+]
+
+{ #category : #'t - item' }
 TToItem >> positionInBar [
 
 	self barElementDo: [ :pm | ^ pm items indexOf: self ].
@@ -83,29 +103,19 @@ TToItem >> positionInBar [
 { #category : #'t - item' }
 TToItem >> storeDisabled: aBoolean [
 
-	self ensureConstraintsStorage.
-	itemConstraints disabled: aBoolean
+	self ensuredItemConstraints disabled: aBoolean
 ]
 
 { #category : #'t - item' }
 TToItem >> storeHidden: aBoolean [
 
-	self ensureConstraintsStorage.
-	itemConstraints hidden: aBoolean
+	self ensuredItemConstraints hidden: aBoolean
 ]
 
 { #category : #'t - item' }
 TToItem >> storeUnselectable: aBoolean [
 
-	self ensureConstraintsStorage.
-	itemConstraints unselectable: aBoolean
-]
-
-{ #category : #'t - item' }
-TToItem >> storedConstraintsDo: aValuable [
-
-	itemConstraints ifNil: [ ^ self ].
-	aValuable value: itemConstraints
+	self ensuredItemConstraints unselectable: aBoolean
 ]
 
 { #category : #'t - item' }

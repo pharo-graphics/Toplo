@@ -1,49 +1,46 @@
 Trait {
 	#name : #TToItemBarOwner,
-	#instVars : [
-		'itemBar'
-	],
 	#category : #'Toplo-Widget-List-ItemBar'
 }
 
 { #category : #'t - item bar owner - adding/removing' }
 TToItemBarOwner >> addAllItems: aCollection [
 
-	itemBar addAllItems: aCollection
+	self itemBar addAllItems: aCollection
 ]
 
 { #category : #'t - item bar owner - adding/removing' }
 TToItemBarOwner >> addItem: anItem [
 
-	itemBar addItem: anItem.
+	self itemBar addItem: anItem.
 	self onAddedItem: anItem
 ]
 
 { #category : #'t - item bar owner - adding/removing' }
 TToItemBarOwner >> addItem: anItem after: anotherItem [
 
-	itemBar addItem: anItem after: anotherItem.
+	self itemBar addItem: anItem after: anotherItem.
 	self onAddedItem: anItem
 ]
 
 { #category : #'t - item bar owner - adding/removing' }
 TToItemBarOwner >> addItem: anItem afterIndex: anInteger [
 
-	itemBar addItem: anItem afterIndex: anInteger.
+	self itemBar addItem: anItem afterIndex: anInteger.
 	self onAddedItem: anItem
 ]
 
 { #category : #'t - item bar owner - adding/removing' }
 TToItemBarOwner >> addItem: anItem before: anotherItem [
 
-	itemBar addItem: anItem before: anotherItem.
+	self itemBar addItem: anItem before: anotherItem.
 	self onAddedItem: anItem
 ]
 
 { #category : #'t - item bar owner - adding/removing' }
 TToItemBarOwner >> addItem: anItem beforeIndex: anInteger [
 
-	itemBar addItem: anItem beforeIndex: anInteger.
+	self itemBar addItem: anItem beforeIndex: anInteger.
 	self onAddedItem: anItem
 ]
 
@@ -81,13 +78,13 @@ TToItemBarOwner >> disableItem: anItem [
 { #category : #'t - item bar owner - disable/ enable' }
 TToItemBarOwner >> disabledAtPosition: anInteger [
 
-	itemBar disabledAtPosition: anInteger
+	self itemBar disabledAtPosition: anInteger
 ]
 
 { #category : #'t - item bar owner - disable/ enable' }
 TToItemBarOwner >> disabledItem: anItem [
 
-	itemBar disabledItem: anItem
+	self itemBar disabledItem: anItem
 ]
 
 { #category : #'t - item bar owner - disable/ enable' }
@@ -104,13 +101,13 @@ TToItemBarOwner >> enableItem: anItem [
 { #category : #'t - item bar owner - disable/ enable' }
 TToItemBarOwner >> enabledAtPosition: anInteger [
 
-	itemBar enabledAtPosition: anInteger
+	self itemBar enabledAtPosition: anInteger
 ]
 
 { #category : #'t - item bar owner - disable/ enable' }
 TToItemBarOwner >> enabledItem: anItem [
 
-	itemBar enabledItem: anItem
+	self itemBar enabledItem: anItem
 ]
 
 { #category : #'t - item bar owner - testing' }
@@ -122,19 +119,19 @@ TToItemBarOwner >> hasItems [
 { #category : #'t - item bar owner - hidden/visible' }
 TToItemBarOwner >> hiddenAtPosition: anInteger [
 
-	itemBar hiddenAtPosition: anInteger
+	self itemBar hiddenAtPosition: anInteger
 ]
 
 { #category : #'t - item bar owner - hidden/visible' }
 TToItemBarOwner >> hiddenItem: anItem [
 
-	itemBar hiddenItem: anItem
+	self itemBar hiddenItem: anItem
 ]
 
 { #category : #'t - item bar owner - initializing' }
 TToItemBarOwner >> initializeAsItemBarOwner [
 
-	itemBar := self newItemBar
+	self userData at: #itemBar put: self newItemBar
 ]
 
 { #category : #'t - item bar owner - accessing' }
@@ -182,7 +179,7 @@ TToItemBarOwner >> isUniformNodeWidth [
 { #category : #'t - item bar owner - accessing' }
 TToItemBarOwner >> itemBar [
 
-	^ itemBar
+	^ self userData at: #itemBar ifAbsent: [  ]
 ]
 
 { #category : #'t - item bar owner - accessing' }
@@ -276,26 +273,26 @@ TToItemBarOwner >> primarySelectionMode [
 { #category : #'t - item bar owner - adding/removing' }
 TToItemBarOwner >> removeAllItems [
 
-	itemBar removeAllItems
+	self itemBar removeAllItems
 ]
 
 { #category : #'t - item bar owner - adding/removing' }
 TToItemBarOwner >> removeAllItems: aCollection [
 
-	itemBar removeAllItems: aCollection
+	self itemBar removeAllItems: aCollection
 ]
 
 { #category : #'t - item bar owner - adding/removing' }
 TToItemBarOwner >> removeItem: anItem [
 
 	self onRemovedItem: anItem.
-	itemBar removeItem: anItem
+	self itemBar removeItem: anItem
 ]
 
 { #category : #'t - item bar owner - accessing' }
 TToItemBarOwner >> secondarySelecter [
 
-	^ itemBar secondarySelecter
+	^ self itemBar secondarySelecter
 ]
 
 { #category : #'t - item bar owner - accessing' }
@@ -313,13 +310,13 @@ TToItemBarOwner >> secondarySelectionModel [
 { #category : #'t - item bar owner - unselectable/selectable' }
 TToItemBarOwner >> selectableAtPosition: anInteger [
 
-	itemBar selectableAtPosition: anInteger
+	self itemBar selectableAtPosition: anInteger
 ]
 
 { #category : #'t - item bar owner - unselectable/selectable' }
 TToItemBarOwner >> selectableItem: anItem [
 
-	itemBar selectableItem: anItem
+	self itemBar selectableItem: anItem
 ]
 
 { #category : #'t - item bar owner - accessing' }
@@ -351,23 +348,23 @@ TToItemBarOwner >> uniformNodeWidth: aBoolean [
 { #category : #'t - item bar owner - unselectable/selectable' }
 TToItemBarOwner >> unselectableAtPosition: anInteger [
 
-	itemBar unselectableAtPosition: anInteger
+	self itemBar unselectableAtPosition: anInteger
 ]
 
 { #category : #'t - item bar owner - unselectable/selectable' }
 TToItemBarOwner >> unselectableItem: anItem [
 
-	itemBar unselectableItem: anItem
+	self itemBar unselectableItem: anItem
 ]
 
 { #category : #'t - item bar owner - hidden/visible' }
 TToItemBarOwner >> visibleAtPosition: anInteger [
 
-	itemBar visibleAtPosition: anInteger
+	self itemBar visibleAtPosition: anInteger
 ]
 
 { #category : #'t - item bar owner - hidden/visible' }
 TToItemBarOwner >> visibleItem: anItem [
 
-	itemBar visibleItem: anItem
+	self itemBar visibleItem: anItem
 ]

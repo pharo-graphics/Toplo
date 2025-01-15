@@ -51,7 +51,7 @@ ToMenuTest >> testBuilderDisableItemAfterAdding [
 		(m menuWindow itemBar disabledSelectionModel containsIndex:
 			 item positionInBar).
 	self assert: item isDisabled.
-	self deny: n isDisabled
+	self assert: n isDisabled
 ]
 
 { #category : #tests }
@@ -70,7 +70,7 @@ ToMenuTest >> testBuilderDisableItemBeforeAdding [
 		(m menuWindow itemBar disabledSelectionModel containsIndex:
 			 item positionInBar).
 	self assert: item isDisabled.
-	self deny: n isDisabled
+	self assert: n isDisabled
 ]
 
 { #category : #tests }
@@ -88,7 +88,7 @@ ToMenuTest >> testDisableItemAfterAdding [
 		(m menuWindow itemBar disabledSelectionModel containsIndex:
 			 item positionInBar).
 	self assert: item isDisabled.
-	self deny: n isDisabled
+	self assert: n isDisabled
 ]
 
 { #category : #tests }
@@ -106,5 +106,5 @@ ToMenuTest >> testDisableItemBeforeAdding [
 		(m menuWindow itemBar disabledSelectionModel containsIndex:
 			 item positionInBar).
 	self assert: item isDisabled.
-	self deny: n isDisabled
+	self assert: n isDisabled
 ]

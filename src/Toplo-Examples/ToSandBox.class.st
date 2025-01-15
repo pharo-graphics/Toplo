@@ -235,7 +235,7 @@ ToSandBox class >> barWithData: aCollection [
 								  labelText: 'Unable/disable';
 								  whenClickedDo: [
 									  idxes do: [ :idx |
-											  bar disabledSelecter switchIndexSelection: idx ] ]).
+											  (bar nodeAt: idx) disable ] ]).
 						 m addItem: (ToMenuItem new
 								  labelText: 'Unselectable';
 								  whenClickedDo: [
@@ -6991,9 +6991,9 @@ ToSandBox class >> listWithEditableAndContextMenu [
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Enable/Disable';
 				                whenClickedDo: [ :event |
-					                indexes do: [ :idx |
-							                target disabledSelecter switchIndexSelection:
-									                idx ] ];
+					                indexes do: [ :idx | | di |
+												di := (l nodeAt: idx) isDisabled.
+												(l nodeAt: idx) disabled: di not ] ];
 				                yourself).
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Set unselectable';

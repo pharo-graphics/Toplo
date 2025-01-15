@@ -228,6 +228,15 @@ ToAbstractListElement >> fakeNode [
 	^ nil
 ]
 
+{ #category : #'t - item' }
+ToAbstractListElement >> flagAsDisabled: aBoolean [
+
+	aBoolean ifTrue: [
+		self selecter deselectAll.
+		self secondarySelecter deselectAll ].
+	super flagAsDisabled: aBoolean
+]
+
 { #category : #'accessing selecters' }
 ToAbstractListElement >> hiddenAtPosition: anInteger [
 

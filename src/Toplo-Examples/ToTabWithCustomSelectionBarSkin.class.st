@@ -27,7 +27,7 @@ ToTabWithCustomSelectionBarSkin >> checkedSkinEvent: anEvent [
 ToTabWithCustomSelectionBarSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
+	anEvent enabledElementDo: [ :e |
 		e mouseCursor: Cursor webLink.
 		e background: e hoveredBackground. ]
 ]

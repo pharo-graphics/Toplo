@@ -16,7 +16,7 @@ ToMenuItemElementSkin >> disabledSkinEvent: anEvent [
 ToMenuItemElementSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
+	anEvent enabledElementDo: [ :e |
 		e mouseCursor: Cursor webLink ]
 ]
 

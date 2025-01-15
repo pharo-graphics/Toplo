@@ -58,18 +58,6 @@ ToToggleButtonSkin >> enabledSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToToggleButtonSkin >> hoveredSkinEvent: anEvent [
-
-	super hoveredSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e mouseCursor: Cursor webLink.
-		e isMenuButton ifFalse: [
-			e border: (BlBorder
-					 paint: (e valueOfTokenNamed: #'color-primary-hover')
-					 width: (e valueOfTokenNamed: #'line-width')) ] ]
-]
-
-{ #category : #'event handling' }
 ToToggleButtonSkin >> indeterminateSkinEvent: anEvent [
 
 	super indeterminateSkinEvent: anEvent.
@@ -96,18 +84,6 @@ ToToggleButtonSkin >> installSkinEvent: anEvent [
 			ifTrue: [
 			e endInterspace: (e valueOfTokenNamed: #'button-interspace') ]
 			ifFalse: [ e endInterspace: 0 ] ]
-]
-
-{ #category : #'event handling' }
-ToToggleButtonSkin >> leavedSkinEvent: anEvent [
-
-	super leavedSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e mouseCursor: Cursor normal.
-		e isMenuButton ifFalse: [
-			e border: (BlBorder
-				 paint: (e valueOfTokenNamed: #'color-border')
-				 width: (e valueOfTokenNamed: #'line-width')) ] ]
 ]
 
 { #category : #'event handling' }

@@ -40,7 +40,7 @@ ToSwitchIconSkin >> enabledSkinEvent: anEvent [
 ToSwitchIconSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
-	anEvent elementDo: [ :e |  ]
+	anEvent enabledElementDo: [ :e |  ]
 ]
 
 { #category : #'event handling' }

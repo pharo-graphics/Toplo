@@ -8,7 +8,7 @@ Class {
 ToMenuBarSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
+	anEvent enabledElementDo: [ :e |
 		e itemBar background: BlBackground transparent.
 		e barOwnerDo: [ :l |
 			e background: (Color veryLightGray alpha: 0.1) ] ]

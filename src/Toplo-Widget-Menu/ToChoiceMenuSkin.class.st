@@ -34,7 +34,7 @@ ToChoiceMenuSkin >> enabledSkinEvent: anEvent [
 ToChoiceMenuSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
+	anEvent enabledElementDo: [ :e |
 		e mouseCursor: Cursor webLink.
 		e border: (BlBorder
 				 paint: (e valueOfTokenNamed: #'color-primary-hover')
@@ -56,7 +56,7 @@ ToChoiceMenuSkin >> installSkinEvent: anEvent [
 ToChoiceMenuSkin >> leavedSkinEvent: anEvent [
 
 	super leavedSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
+	anEvent enabledElementDo: [ :e |
 		e border: (BlBorder
 				 paint: (e valueOfTokenNamed: #'color-border')
 				 width: (e valueOfTokenNamed: #'line-width')) ]

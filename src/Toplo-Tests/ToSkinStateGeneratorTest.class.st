@@ -172,5 +172,5 @@ ToSkinStateGeneratorTest >> testWantsEvent [
 		self assert: (gen wantsEvent: (cC new currentTarget: e)) ].
 	e disable.
 	self deny: e isEnabled.
-	gen eventsToHandle do: [ :cC | self deny: (gen wantsEvent: (cC new currentTarget: e)) ].
+	gen eventsToHandle do: [ :cC | self assert: (gen wantsEvent: (cC new currentTarget: e)) ].
 ]

@@ -34,10 +34,10 @@ ToGeneralButtonSkin >> enabledSkinEvent: anEvent [
 ToGeneralButtonSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e mouseCursor: Cursor webLink.
-		e isMenuButton ifFalse: [
-			e border: (BlBorder
+	anEvent enabledElementDo: [ :e |
+			e mouseCursor: Cursor webLink.
+			e isMenuButton ifFalse: [
+				e border: (BlBorder
 					 paint: (e valueOfTokenNamed: #'color-primary-hover')
 					 width: (e valueOfTokenNamed: #'line-width')) ] ]
 ]
@@ -65,10 +65,11 @@ ToGeneralButtonSkin >> leavedSkinEvent: anEvent [
 	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor normal.
-		e isMenuButton ifFalse: [
-			e border: (BlBorder
+		e isEnabled ifTrue: [ 
+			e isMenuButton ifFalse: [
+				e border: (BlBorder
 					 paint: (e valueOfTokenNamed: #'color-border')
-					 width: (e valueOfTokenNamed: #'line-width')) ] ]
+					 width: (e valueOfTokenNamed: #'line-width')) ] ] ]
 ]
 
 { #category : #'event handling' }

@@ -50,14 +50,14 @@ ToButtonSkin >> enabledSkinEvent: anEvent [
 ToButtonSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e iconDo: [ :ic |
-			ic innerImageColor: (e valueOfTokenNamed: #'color-primary') ].
-		e endElementDo: [ :ic |
-			(ic respondsTo: #innerImageColor:) ifTrue: [
-				ic innerImageColor: (e valueOfTokenNamed: #'color-primary') ] ].
-		e labelDo: [ :lab |
-			lab foreground: (e valueOfTokenNamed: #'color-primary') ] ]
+	anEvent enabledElementDo: [ :e |
+			e iconDo: [ :ic |
+				ic innerImageColor: (e valueOfTokenNamed: #'color-primary') ].
+			e endElementDo: [ :ic |
+				(ic respondsTo: #innerImageColor:) ifTrue: [
+					ic innerImageColor: (e valueOfTokenNamed: #'color-primary') ] ].
+			e labelDo: [ :lab |
+				lab foreground: (e valueOfTokenNamed: #'color-primary') ] ]
 ]
 
 { #category : #'event handling' }
@@ -86,7 +86,7 @@ ToButtonSkin >> installSkinEvent: anEvent [
 ToButtonSkin >> leavedSkinEvent: anEvent [
 
 	super leavedSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
+	anEvent enabledElementDo: [ :e |
 		e
 			withStamp: #'parent-tag'
 			do: [ :tag |

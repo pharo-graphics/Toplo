@@ -40,7 +40,7 @@ ToSegmentedButtonSkin >> enabledSkinEvent: anEvent [
 ToSegmentedButtonSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
+	anEvent enabledElementDo: [ :e |
 		e mouseCursor: Cursor webLink ]
 ]
 

@@ -16,7 +16,7 @@ ToSelectIconContainerSkin >> disabledSkinEvent: anEvent [
 ToSelectIconContainerSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
+	anEvent enabledElementDo: [ :e |
 		e mouseCursor: Cursor webLink  ].
 ]
 

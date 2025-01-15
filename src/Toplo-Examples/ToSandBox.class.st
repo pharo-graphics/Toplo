@@ -4630,7 +4630,7 @@ ToSandBox class >> example_selectWith5Nodes [
 	select popupListElement nodeBuilder: [ :node :dataItem :holder |
 		node addChild: (ToLabel text: dataItem asString) hMatchParent ].
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select manager anchorRoot: innerWindow root.
 	select width: 300.
 	select position: 50 @ 50.
 	select popupListElement dataAccessor addAll:
@@ -7261,7 +7261,7 @@ ToSandBox class >> selectWithEditingMultiSelection [
 		          fontSize: 24;
 		          yourself.
 	select popupMaxHeight: 600.
-	select windowManager minHeight: 35.
+	select manager minHeight: 35.
 
 	select popupListElement placeholderBuilder: [ :placeholder :e |
 		| lab |
@@ -7270,21 +7270,20 @@ ToSandBox class >> selectWithEditingMultiSelection [
 		placeholder addChild: lab ].
 
 	select whenSaveAcceptedDo: [ :event |
-				 | d |
-				 d := event client text asString asSymbol.
-				 event client text: ''.
-				 event currentTarget data add: d.
-				 event currentTarget mode selectIndex:
-					 event currentTarget data size ].
+		| d |
+		d := event client text asString asSymbol.
+		event client text: ''.
+		event currentTarget data add: d.
+		event currentTarget mode selectIndex: event currentTarget data size ].
 
 	select whenSaveRequestedDo: [ :event |
-				 | target idx |
-				 target := event currentTarget.
-				 idx := target data indexOf: event client text asString asSymbol.
-				 event accepted: idx isZero.
-				 idx > 0 ifTrue: [
-					 event client text: ''.
-					 target listElement selection selectIndex: idx ] ].
+		| target idx |
+		target := event currentTarget.
+		idx := target data indexOf: event client text asString asSymbol.
+		event accepted: idx isZero.
+		idx > 0 ifTrue: [
+			event client text: ''.
+			target listElement selection selectIndex: idx ] ].
 	^ select
 ]
 

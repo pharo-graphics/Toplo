@@ -8,7 +8,7 @@ Class {
 ToLabelSkin >> deselectedSkinEvent: anEvent [
 
 	super deselectedSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
+	anEvent enabledElementDo: [ :e |
 		| to |
 		to := e valueOfTokenNamed: #'color-text'.
 		e foreground: to ]
@@ -48,7 +48,7 @@ ToLabelSkin >> installSkinEvent: anEvent [
 ToLabelSkin >> selectedSkinEvent: anEvent [
 
 	super selectedSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
+	anEvent enabledElementDo: [ :e |
 		| tokname to |
 		tokname := anEvent focused
 			           ifTrue: [ #'label-selected-focused' ]

@@ -1,66 +1,61 @@
 Trait {
 	#name : #TToItem,
-	#instVars : [
-		'barOwner',
-		'barElement',
-		'itemConstraints'
-	],
 	#category : #'Toplo-Widget-List-ItemBar'
 }
 
 { #category : #'t - item' }
 TToItem >> barElement [ 
 
-	^ barElement
+	^ self userData at: #barElement ifAbsent: [  ]
 ]
 
 { #category : #'t - item' }
 TToItem >> barElement: anItemBarElement [ 
 
-	barElement := anItemBarElement
+	self userData at: #barElement put: anItemBarElement
 ]
 
 { #category : #'t - item' }
 TToItem >> barElementDo: aBlock [
 
-	barElement ifNil: [ ^ self ].
-	aBlock value: barElement
+	self barElement ifNotNil: [ :be | aBlock value: be ]
 ]
 
 { #category : #'t - item' }
 TToItem >> barOwner [
 
-	^ barOwner
+	^ self userData at: #barOwner ifAbsent: [  ]
 ]
 
 { #category : #'t - item' }
 TToItem >> barOwner: anItemContainer [
 
-	barOwner := anItemContainer
+	self userData at: #barOwner put: anItemContainer
 ]
 
 { #category : #'t - item' }
 TToItem >> barOwnerDo: aBlock [
 
-	barOwner ifNil: [ ^ self ].
-	aBlock value: barOwner
+	self barOwner ifNotNil: [ :bo | aBlock value: bo ]
 ]
 
 { #category : #'t - item' }
-TToItem >> disabled: aBoolean [
+TToItem >> ensuredItemConstraints [
+
+	^ self userData
+		at: #itemConstraints
+		ifAbsentPut: [self newItemConstraints ]
+]
+
+{ #category : #'t - item' }
+TToItem >> flagAsDisabled: aBoolean [
 
 	self storeDisabled: aBoolean.
-	barElement ifNotNil: [ :l |
+	self barElementDo: [ :be |
 		aBoolean
-			ifTrue: [ l disabledItem: self ]
-			ifFalse: [ l enabledItem: self ] ].
-	super disabled: aBoolean
-]
-
-{ #category : #'t - item' }
-TToItem >> ensureConstraintsStorage [
-
-	itemConstraints := ToItemConstraints new
+			ifTrue: [ be disabledItem: self ]
+			ifFalse: [ be enabledItem: self ] ].
+	super flagAsDisabled: aBoolean
 ]
 
 { #category : #'t - item' }
@@ -74,38 +69,46 @@ TToItem >> hidden: aBoolean [
 ]
 
 { #category : #'t - item' }
+TToItem >> itemConstraints [
+
+	^ self userData at: #itemConstraints ifAbsent: [  ]
+]
+
+{ #category : #'t - item' }
+TToItem >> itemConstraintsDo: aValuable [
+
+	self itemConstraints ifNil: [ ^ self ].
+	aValuable value: self itemConstraints
+]
+
+{ #category : #'t - item' }
+TToItem >> newItemConstraints [
+
+	^ ToItemConstraints new
+]
+
+{ #category : #'t - item' }
 TToItem >> positionInBar [
 
-	self barElementDo: [ :pm | ^ pm items indexOf: self ].
-	^ 0
+	^ self holder position
 ]
 
 { #category : #'t - item' }
 TToItem >> storeDisabled: aBoolean [
 
-	self ensureConstraintsStorage.
-	itemConstraints disabled: aBoolean
+	self ensuredItemConstraints disabled: aBoolean
 ]
 
 { #category : #'t - item' }
 TToItem >> storeHidden: aBoolean [
 
-	self ensureConstraintsStorage.
-	itemConstraints hidden: aBoolean
+	self ensuredItemConstraints hidden: aBoolean
 ]
 
 { #category : #'t - item' }
 TToItem >> storeUnselectable: aBoolean [
 
-	self ensureConstraintsStorage.
-	itemConstraints unselectable: aBoolean
-]
-
-{ #category : #'t - item' }
-TToItem >> storedConstraintsDo: aValuable [
-
-	itemConstraints ifNil: [ ^ self ].
-	aValuable value: itemConstraints
+	self ensuredItemConstraints unselectable: aBoolean
 ]
 
 { #category : #'t - item' }

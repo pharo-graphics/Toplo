@@ -115,6 +115,24 @@ ToSpecificListElementTest >> testDisabledWithTwoNodes2 [
 ]
 
 { #category : #tests }
+ToSpecificListElementTest >> testDisabledWithTwoNodes3 [
+
+	l dataAccessor add: 'first'.
+	space root addChild: l.
+	self waitTestingSpaces.
+	self assert: l nodes size equals: 1.
+	self assert: l disabledSelectionModel isEmpty.
+	l nodes first disabled: true.
+	self waitTestingSpaces.
+	self assert: l disabledSelecter selectedIndex equals: 1.
+	self assert: l nodes first isDisabled.
+	l dataAccessor addFirst: 'second'.
+	self waitTestingSpaces.
+	self assert: l disabledSelecter selectedIndex equals: 2.
+	self assert: l disabledSelecter selectedIndexes equals: { 2 }
+]
+
+{ #category : #tests }
 ToSpecificListElementTest >> testEmptyList [
 
 	self assert: l nodes identicalTo: l innerElement children.

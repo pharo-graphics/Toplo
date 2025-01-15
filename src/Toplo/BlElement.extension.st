@@ -120,14 +120,7 @@ BlElement >> disable [
 { #category : #'*Toplo' }
 BlElement >> disabled: aBoolean [
 
-	self isDisabled = aBoolean ifFalse: [
-		aBoolean
-			ifTrue: [
-				self loseFocus.
-				self flagAsDisabled ]
-			ifFalse: [ self flagAsEnabled ].
-		self dispatchEvent: ToEnablementChangedEvent new.
-		self skinManagerDo: [ :sm | sm enablementChangedIn: self ] ].
+	self flagAsDisabled: aBoolean.
 	self childrenDo: [ :child | child disabled: aBoolean ]
 ]
 
@@ -205,6 +198,19 @@ BlElement >> firstInParentChainSatisfying: aValuable [
 BlElement >> flagAsDisabled [
 
 	self userData at: #enabled put: false
+]
+
+{ #category : #'*Toplo' }
+BlElement >> flagAsDisabled: aBoolean [
+
+	self isDisabled = aBoolean ifTrue: [ ^ self ].
+	aBoolean
+		ifTrue: [
+			self loseFocus.
+			self flagAsDisabled ]
+		ifFalse: [ self flagAsEnabled ].
+	self dispatchEvent: ToEnablementChangedEvent new.
+	self skinManagerDo: [ :sm | sm enablementChangedIn: self ]
 ]
 
 { #category : #'*Toplo' }
@@ -625,15 +631,6 @@ BlElement >> skinUninstaller: aSkinUninstaller [
 		deprecated: 'Please delegate to the skinManager instead'
 		transformWith: '`@receiver skinUninstaller: `@arg' -> '`@receiver skinManager setSkinUninstaller: `@arg in: `@receiver'.
 	self skinManager setSkinUninstaller: aSkinUninstaller in: self
-]
-
-{ #category : #'*Toplo' }
-BlElement >> storedConstraintsDo: aValuable [
-
-	" do nothing at this level.
-	It redefined for an element that is used as a list data item.
-	This is the case for a menu or a segmented button as examples
-	( see `TToItem` users )"
 ]
 
 { #category : #'*Toplo' }

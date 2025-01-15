@@ -65,7 +65,7 @@ ToMenuItemBarElementTest >> testDisableItemAfterAdding [
 	self assert: item positionInBar equals: 1.
 	self assert: (l disabledSelectionModel containsIndex: item positionInBar).
 	self assert: item isDisabled.
-	self deny: n isDisabled.
+	self assert: n isDisabled.
 
 
 ]
@@ -95,7 +95,7 @@ ToMenuItemBarElementTest >> testDisableItemAfterAdding2 [
 	self assert: n item positionInBar equals: 2.
 	self assert: (l disabledSelectionModel containsIndex: n item positionInBar).
 	self assert: n item isDisabled.
-	self deny: n isDisabled.
+	self assert: n isDisabled.
 	
 	n := l nodes third.
 	self assert: n item positionInBar equals: 3.
@@ -124,7 +124,7 @@ ToMenuItemBarElementTest >> testDisableItemBeforeAdding [
 	self assert: item positionInBar equals: 1.
 	self assert: (l disabledSelectionModel containsIndex: item positionInBar).
 	self assert: item isDisabled.
-	self deny: n isDisabled.
+	self assert: n isDisabled.
 
 ]
 
@@ -153,7 +153,7 @@ ToMenuItemBarElementTest >> testDisableItemBeforeAdding2 [
 	self assert: n item positionInBar equals: 2.
 	self assert: (l disabledSelectionModel containsIndex: n item positionInBar).
 	self assert: n item isDisabled.
-	self deny: n isDisabled.
+	self assert: n isDisabled.
 	
 	n := l nodes third.
 	self assert: n item positionInBar equals: 3.

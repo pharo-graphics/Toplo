@@ -1,6 +1,6 @@
 Class {
 	#name : #ToNeighboringSelection,
-	#superclass : #ToSelectionGroup,
+	#superclass : #ToSelectionWithElement,
 	#instVars : [
 		'nodes'
 	],

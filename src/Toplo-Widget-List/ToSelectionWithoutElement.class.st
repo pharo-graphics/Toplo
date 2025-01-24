@@ -1,6 +1,6 @@
 Class {
-	#name : #ToSeparateSelection,
-	#superclass : #ToSelectionWithElement,
+	#name : #ToSelectionWithoutElement,
+	#superclass : #ToSelectionRepresentation,
 	#instVars : [
 		'node'
 	],
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #comparing }
-ToSeparateSelection >> = other [
+ToSelectionWithoutElement >> = other [
 
 	^ super = other
 		  ifFalse: [ false ]
@@ -16,25 +16,25 @@ ToSeparateSelection >> = other [
 ]
 
 { #category : #comparing }
-ToSeparateSelection >> hash [
+ToSelectionWithoutElement >> hash [
 
 	^ super hash bitXor: node hash
 ]
 
 { #category : #accessing }
-ToSeparateSelection >> node [
+ToSelectionWithoutElement >> node [
 
 	^ node
 ]
 
 { #category : #accessing }
-ToSeparateSelection >> node: anObject [
+ToSelectionWithoutElement >> node: anObject [
 
 	node := anObject
 ]
 
 { #category : #accessing }
-ToSeparateSelection >> nodes [
+ToSelectionWithoutElement >> nodes [
 
 	^ Array with: node
 ]

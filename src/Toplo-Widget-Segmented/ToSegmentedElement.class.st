@@ -83,7 +83,7 @@ ToSegmentedElement >> initialize [
 
 	self itemBar
 		addEventHandlerOn: ToListSelectionChangedEvent
-		do: [ :event | self dispatchEvent: event ].
+		do: [ :event | self dispatchEvent: event copy].
 
 	self addEventHandler: self defaultEventHandler
 ]

@@ -1,6 +1,6 @@
 Class {
-	#name : #ToSelectionGroup,
-	#superclass : #Object,
+	#name : #ToSelectionWithElement,
+	#superclass : #ToSelectionRepresentation,
 	#instVars : [
 		'cachedSelectionElement',
 		'preComputedBounds'
@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #'private - selection element' }
-ToSelectionGroup >> boundsFromNodesIn: aListElement [
+ToSelectionWithElement >> boundsFromNodesIn: aListElement [
 	" compute my bounds from my list of adjacent nodes. "
 
 	| first last startBnds endBnds corner myNodes |
@@ -32,64 +32,49 @@ ToSelectionGroup >> boundsFromNodesIn: aListElement [
 ]
 
 { #category : #'private - selection element' }
-ToSelectionGroup >> boundsOfNode: aNode in: aListElement [
+ToSelectionWithElement >> boundsOfNode: aNode in: aListElement [
 	" compute local node bounds "
 	^ (aNode measuredBounds inSpace inChild: aListElement innerElement) bounds
 ]
 
 { #category : #'private - selection element' }
-ToSelectionGroup >> computeSelectionElementBoundsIn: aListElement [
+ToSelectionWithElement >> computeSelectionElementBoundsIn: aListElement [
 
 	preComputedBounds := self boundsFromNodesIn: aListElement
 ]
 
 { #category : #'private - selection element' }
-ToSelectionGroup >> createSelectionElementIn: aListElement option: aSelectionOption [
+ToSelectionWithElement >> createSelectionElementIn: aListElement option: aSelectionRepresentationOption [
 
-	cachedSelectionElement := aSelectionOption newSelectionElementIn: aListElement.
+	cachedSelectionElement := aSelectionRepresentationOption newSelectionElementIn: aListElement.
 	cachedSelectionElement nodes: self nodes.
 	self computeSelectionElementBoundsIn: aListElement
 ]
 
 { #category : #accessing }
-ToSelectionGroup >> nodes [
-
-	^ self subclassResponsibility 
-]
-
-{ #category : #accessing }
-ToSelectionGroup >> preComputedBounds [
+ToSelectionWithElement >> preComputedBounds [
 
 	^ preComputedBounds  
 ]
 
 { #category : #'private - selection element' }
-ToSelectionGroup >> refreshSelectionElementIn: aListElement option: aSelectionOption [
+ToSelectionWithElement >> refreshSelectionElementIn: aListElement option: aSelectionRepresentationOption [
 
 	cachedSelectionElement ifNil: [
-		self createSelectionElementIn: aListElement option: aSelectionOption.
+		self createSelectionElementIn: aListElement option: aSelectionRepresentationOption.
 		^ self ].
 	self computeSelectionElementBoundsIn: aListElement.
 	cachedSelectionElement := self updatedSelectionElementIn: aListElement
 ]
 
-{ #category : #'private - selection element' }
-ToSelectionGroup >> removeSelectionElementIn: aListElement [
-
-	cachedSelectionElement ifNil: [  ^ self ].
-	cachedSelectionElement removeFromParent.
-	cachedSelectionElement := nil.
-	preComputedBounds := nil
-]
-
 { #category : #accessing }
-ToSelectionGroup >> selectionElement [
+ToSelectionWithElement >> selectionElement [
 
 	^ cachedSelectionElement 
 ]
 
 { #category : #accessing }
-ToSelectionGroup >> updatedSelectionElementIn: aListElement [
+ToSelectionWithElement >> updatedSelectionElementIn: aListElement [
 
 	cachedSelectionElement position: (cachedSelectionElement
 			 positionFrom: preComputedBounds origin

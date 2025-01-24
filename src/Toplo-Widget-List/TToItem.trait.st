@@ -34,12 +34,6 @@ TToItem >> barOwner: anItemContainer [
 ]
 
 { #category : #'t - item' }
-TToItem >> barOwnerDo: aBlock [
-
-	self barOwner ifNotNil: [ :bo | aBlock value: bo ]
-]
-
-{ #category : #'t - item' }
 TToItem >> ensuredItemConstraints [
 
 	^ self userData
@@ -62,7 +56,7 @@ TToItem >> flagAsDisabled: aBoolean [
 TToItem >> hidden: aBoolean [
 
 	self storeHidden: aBoolean.
-	self barOwnerDo: [ :l |
+	self barElementDo: [ :l |
 		aBoolean
 			ifTrue: [ l hiddenItem: self ]
 			ifFalse: [ l visibleItem: self ] ]
@@ -115,7 +109,7 @@ TToItem >> storeUnselectable: aBoolean [
 TToItem >> unselectable: aBoolean [
 
 	self storeUnselectable: aBoolean.
-	self barOwnerDo: [ :l |
+	self barElementDo: [ :l |
 			aBoolean
 				ifTrue: [ l unselectableItem: self ]
 				ifFalse: [ l selectableItem: self ] ]

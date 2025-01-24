@@ -2126,7 +2126,7 @@ ToSandBox class >> example_SelectMonoNotFiltrable [
 	select placeholderText:
 		('Select a state' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select manager anchorRoot: innerWindow root.
 	select popupListElement withRowNumbers.
 	select width: 300.
 	select position: 50 @ 50.
@@ -2278,7 +2278,7 @@ ToSandBox class >> example_SelectMultiFiltrableNoWrappingKeepPickOrder [
 	select placeholderText:
 		('Select states' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select manager anchorRoot: innerWindow root.
 	select hMatchParent.
 	innerWindow pane addChild: select.
 	innerWindow height: 600.
@@ -2299,7 +2299,7 @@ ToSandBox class >> example_SelectMultiFiltrableNotWrappingAutoDistribution [
 	select placeholderText:
 		('Select states' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select manager anchorRoot: innerWindow root.
 	select hMatchParent.
 	innerWindow pane addChild: select.
 	innerWindow height: 600.
@@ -2333,7 +2333,7 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected [
 	| select innerWindow |
 	select := ToMultiSelectElement new.
 	select withCloseButton: true.
-	select popupListElement primarySelectionMode selectionOption masked:
+	select popupListElement selectionOption masked:
 		true.
 	select hideSelected: true.
 	select popupListElement dataAccessor updateAllWith:
@@ -2395,7 +2395,7 @@ ToSandBox class >> example_SelectMultiFiltrableWrappingAutoDistribution [
 	select placeholderText:
 		('Select states' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select manager anchorRoot: innerWindow root.
 	select hMatchParent.
 	innerWindow pane addChild: select.
 	innerWindow height: 600.
@@ -3191,6 +3191,18 @@ ToSandBox class >> example_TripletElementWithIconAndText_flexible_Interspace [
 	but border: Color red.
 	but vFitContent.
 	but hMatchParent.
+	^ but
+]
+
+{ #category : #triplet }
+ToSandBox class >> example_TripletElementWithIconAndText_startAlignment [
+
+	| but  |
+	but := self example_TripletElementWithIconAndText.
+	but startAlignment: 50.
+	but border: Color red.
+	but vFitContent.
+	but hFitContent.
 	^ but
 ]
 
@@ -6940,6 +6952,19 @@ ToSandBox class >> listWithEditableAndContextMenu [
 				                whenClickedDo: [ :event |
 					                target hiddenSelecter deselectAll ];
 				                yourself).
+		               target primarySelectionMode selectionOption isMasked
+			               ifTrue: [
+				               menu addItem: (ToMenuItem new
+						                labelText: 'stop primary selection masking';
+						                whenClickedDo: [ :event |
+							                target selectionOption masked: false ];
+						                yourself) ]
+			               ifFalse: [
+				               menu addItem: (ToMenuItem new
+						                labelText: 'start primary selection masking';
+						                whenClickedDo: [ :event |
+							                target selectionOption masked: true ];
+						                yourself) ].
 		               target primarySelectionMode selectionOption
 			               isAnimated
 			               ifTrue: [
@@ -6991,9 +7016,10 @@ ToSandBox class >> listWithEditableAndContextMenu [
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Enable/Disable';
 				                whenClickedDo: [ :event |
-					                indexes do: [ :idx | | di |
-												di := (l nodeAt: idx) isDisabled.
-												(l nodeAt: idx) disabled: di not ] ];
+					                indexes do: [ :idx |
+							                | di |
+							                di := (l nodeAt: idx) isDisabled.
+							                (l nodeAt: idx) disabled: di not ] ];
 				                yourself).
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Set unselectable';

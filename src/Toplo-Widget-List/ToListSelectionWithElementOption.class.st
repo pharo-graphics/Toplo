@@ -176,6 +176,13 @@ ToListSelectionWithElementOption >> rememberSelectionBoundsIn: aListElement [
 			                            g preComputedBounds ])
 ]
 
+{ #category : #removing }
+ToListSelectionWithElementOption >> removeSelectionContainer [
+
+	selectionContainer ifNotNil: [
+		selectionContainer removeFromParent ]
+]
+
 { #category : #accessing }
 ToListSelectionWithElementOption >> selectionElements [
 

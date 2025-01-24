@@ -67,6 +67,15 @@ ToSelectionWithElement >> refreshSelectionElementIn: aListElement option: aSelec
 	cachedSelectionElement := self updatedSelectionElementIn: aListElement
 ]
 
+{ #category : #removing }
+ToSelectionWithElement >> removeSelectionElementIn: aListElement [
+
+	cachedSelectionElement ifNil: [  ^ self ].
+	cachedSelectionElement removeFromParent.
+	cachedSelectionElement := nil.
+	preComputedBounds := nil
+]
+
 { #category : #accessing }
 ToSelectionWithElement >> selectionElement [
 

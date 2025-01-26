@@ -8,6 +8,7 @@ Class {
 ToLabelSkin >> deselectedSkinEvent: anEvent [
 
 	super deselectedSkinEvent: anEvent.
+	anEvent selectionMode isPrimary ifFalse: [ ^ self ].
 	anEvent enabledElementDo: [ :e |
 		| to |
 		to := e valueOfTokenNamed: #'color-text'.
@@ -48,6 +49,7 @@ ToLabelSkin >> installSkinEvent: anEvent [
 ToLabelSkin >> selectedSkinEvent: anEvent [
 
 	super selectedSkinEvent: anEvent.
+	anEvent selectionMode isPrimary ifFalse: [ ^ self ].
 	anEvent enabledElementDo: [ :e |
 		| tokname to |
 		tokname := anEvent focused

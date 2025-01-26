@@ -2,6 +2,7 @@ Class {
 	#name : #ToListSelectionOption,
 	#superclass : #Object,
 	#instVars : [
+		'selectionMode',
 		'masked',
 		'triggerSelectionState',
 		'representationOption',
@@ -32,9 +33,9 @@ ToListSelectionOption >> beneath: aBoolean [
 ]
 
 { #category : #'private - selection updating' }
-ToListSelectionOption >> currentSelectionGroupsFrom: aListElement withSelectionModel: aSelectionModel [
+ToListSelectionOption >> currentSelectionRepresentationsFrom: aListElement withSelectionModel: aSelectionModel [
 
-	^ representationOption currentSelectionGroupsFrom: aListElement withSelectionModel: aSelectionModel
+	^ representationOption currentSelectionRepresentationsFrom: aListElement withSelectionModel: aSelectionModel
 ]
 
 { #category : #accessing }
@@ -158,6 +159,18 @@ ToListSelectionOption >> selectionElements [
 ]
 
 { #category : #accessing }
+ToListSelectionOption >> selectionMode [
+
+	^ selectionMode
+]
+
+{ #category : #accessing }
+ToListSelectionOption >> selectionMode: aListSelectionMode [
+
+	selectionMode := aListSelectionMode
+]
+
+{ #category : #accessing }
 ToListSelectionOption >> triggerSelectionState [
 
 	^ triggerSelectionState
@@ -173,4 +186,10 @@ ToListSelectionOption >> triggerSelectionState: aBoolean [
 ToListSelectionOption >> updateSelectionIn: aListElement withSelectionModel: aSelectionModel [
 
 	representationOption updateSelectionIn: aListElement withSelectionModel: aSelectionModel
+]
+
+{ #category : #accessing }
+ToListSelectionOption >> withEmbeddedRepresentation [
+
+	self representation: ToListSelectionRepresentationOption embedded
 ]

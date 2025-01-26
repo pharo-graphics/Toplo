@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #'nodes collecting' }
-ToListSelectionWithSeparateElementOption >> currentSelectionGroupsFrom: aListElement withSelectionModel: aSelectionModel [
+ToListSelectionWithSeparateElementOption >> currentSelectionRepresentationsFrom: aListElement withSelectionModel: aSelectionModel [
 
 	^ (aListElement innerElement nodesSelect: [ :node |
 		   | idx |

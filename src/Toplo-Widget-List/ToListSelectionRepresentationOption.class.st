@@ -3,7 +3,7 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'selectionOption',
-		'currentSelectionGroups'
+		'currentSelectionRepresentations'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
@@ -27,7 +27,7 @@ ToListSelectionRepresentationOption class >> separate [
 ]
 
 { #category : #'nodes collecting' }
-ToListSelectionRepresentationOption >> currentSelectionGroupsFrom: aListElement withSelectionModel: aSelectionModel [
+ToListSelectionRepresentationOption >> currentSelectionRepresentationsFrom: aListElement withSelectionModel: aSelectionModel [
 
 	^ self subclassResponsibility 
 ]
@@ -36,7 +36,7 @@ ToListSelectionRepresentationOption >> currentSelectionGroupsFrom: aListElement 
 ToListSelectionRepresentationOption >> initialize [ 
 
 	super initialize.
-	currentSelectionGroups := #(  )
+	currentSelectionRepresentations := #(  )
 ]
 
 { #category : #testing }
@@ -67,21 +67,22 @@ ToListSelectionRepresentationOption >> isSeparate [
 ToListSelectionRepresentationOption >> notifyNodesDeselectedIn: aListElement [
 
 	self triggerSelectionState ifFalse: [ ^ self ].
-	aListElement innerElement nodesDo: [ :n | n holder notifyDeselectedWithOption: self ]
+	aListElement innerElement nodesDo: [ :n |
+		n holder notifyDeselectedWithOption: selectionOption ]
 ]
 
 { #category : #'private - selection updating' }
 ToListSelectionRepresentationOption >> notifyNodesSelectedIn: aListElement [
 
-	self isMasked ifTrue: [ ^ self ].
 	self triggerSelectionState ifFalse: [ ^ self ].
-	aListElement innerElement nodesDo: [ :n | n holder notifySelectedWithOption: self ]
+	aListElement innerElement nodesDo: [ :n |
+		n holder notifySelectedWithOption: selectionOption ]
 ]
 
 { #category : #'nodes collecting' }
 ToListSelectionRepresentationOption >> refreshSelectionIn: aListElement withSelectionModel: aSelectionModel [
 
-	self removeSelectionIn: aListElement.
+	self removeSelectionRepresentationsIn: aListElement.
 	self
 		updateSelectionIn: aListElement
 		withSelectionModel: aSelectionModel
@@ -92,10 +93,10 @@ ToListSelectionRepresentationOption >> removeSelectionContainer [
 ]
 
 { #category : #removing }
-ToListSelectionRepresentationOption >> removeSelectionIn: aListElement [
+ToListSelectionRepresentationOption >> removeSelectionRepresentationsIn: aListElement [
 
-	currentSelectionGroups do: [ :g | g removeSelectionElementIn: aListElement ].
-	currentSelectionGroups := #()
+	currentSelectionRepresentations do: [ :g | g onRemovedFromListElement: aListElement ].
+	currentSelectionRepresentations := #()
 ]
 
 { #category : #accessing }
@@ -104,20 +105,20 @@ ToListSelectionRepresentationOption >> selectionElements [
 	^ #(  )
 ]
 
-{ #category : #'nodes collecting' }
-ToListSelectionRepresentationOption >> selectionGroupsChangeWith: otherSelectionGroupArray [
-
-	currentSelectionGroups == otherSelectionGroupArray ifTrue: [ ^ false ].
-	currentSelectionGroups size ~= otherSelectionGroupArray size ifTrue: [ ^ true ].
-	currentSelectionGroups withIndexDo: [ :g :idx |
-		g = (otherSelectionGroupArray at: idx) ifFalse: [ ^ true ] ].
-	^ false
-]
-
 { #category : #accessing }
 ToListSelectionRepresentationOption >> selectionOption: aSelectionOption [
 
 	selectionOption := aSelectionOption 
+]
+
+{ #category : #'nodes collecting' }
+ToListSelectionRepresentationOption >> selectionRepresentationsChangeWith: otherSelectionRepresentationArray [
+
+	currentSelectionRepresentations == otherSelectionRepresentationArray ifTrue: [ ^ false ].
+	currentSelectionRepresentations size ~= otherSelectionRepresentationArray size ifTrue: [ ^ true ].
+	currentSelectionRepresentations withIndexDo: [ :g :idx |
+		g = (otherSelectionRepresentationArray at: idx) ifFalse: [ ^ true ] ].
+	^ false
 ]
 
 { #category : #accessing }
@@ -129,12 +130,17 @@ ToListSelectionRepresentationOption >> triggerSelectionState [
 { #category : #'nodes collecting' }
 ToListSelectionRepresentationOption >> updateSelectionIn: aListElement withSelectionModel: aSelectionModel [
 
-	| newGroups |
-	newGroups := self
-		             currentSelectionGroupsFrom: aListElement
+	| newRepresentations |
+	newRepresentations := self
+		             currentSelectionRepresentationsFrom: aListElement
 		             withSelectionModel: aSelectionModel.
-	(self selectionGroupsChangeWith: newGroups) ifFalse: [ ^ false ].
-	self removeSelectionIn: aListElement.
-	currentSelectionGroups := newGroups.
+	(self selectionRepresentationsChangeWith: newRepresentations) ifFalse: [ ^ false ].
+	" send deselected even groups is empty. 
+	As an example, if not, if a selected node is turned as unselectable, 
+	the content of the node will not be updated correctly 
+	because the content skin will not receive the DeselectedSkinEvent "
+	self notifyNodesDeselectedIn: aListElement.
+	self removeSelectionRepresentationsIn: aListElement.
+	currentSelectionRepresentations := newRepresentations.
 	^ true
 ]

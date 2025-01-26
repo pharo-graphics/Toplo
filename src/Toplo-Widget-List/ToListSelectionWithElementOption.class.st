@@ -11,12 +11,14 @@ Class {
 { #category : #'private - selection updating' }
 ToListSelectionWithElementOption >> addSelectionElement: aSelectionElement [
 
+	selectionOption isMasked ifTrue: [ ^ self ].
 	selectionContainer addChild: aSelectionElement
 ]
 
 { #category : #'private - selection updating' }
 ToListSelectionWithElementOption >> addSelectionElements: aSelectionElementArray [
 
+	selectionOption isMasked ifTrue: [ ^ self ].
 	selectionContainer addChildren: aSelectionElementArray
 ]
 
@@ -26,9 +28,9 @@ ToListSelectionWithElementOption >> addSelectionElementsIn: aListElement startin
 	| elements |
 	self checkSelectionContainerIn: aListElement.
 	elements := Array streamContents: [ :stream |
-		            aPosition to: currentSelectionGroups size do: [ :p |
+		            aPosition to: currentSelectionRepresentations size do: [ :p |
 			            stream nextPut:
-				            ((currentSelectionGroups at: p)
+				            ((currentSelectionRepresentations at: p)
 					             updatedSelectionElementIn: aListElement) ] ].
 
 	self addSelectionElements: elements
@@ -43,36 +45,30 @@ ToListSelectionWithElementOption >> addSelectionIn: aListElement [
 
 	| first finalBounds startBounds animation |
 
-	" send deselected first even groups is empty. 
-	As an example, if not, if a selected node is turned as unselectable, 
-	the content of the node will not be updated correctly 
-	because the content skin will not receive the DeselectedSkinEvent "
-	self notifyNodesDeselectedIn: aListElement.
-
-	currentSelectionGroups ifEmpty: [ ^ self ].
-	currentSelectionGroups do: [ :grp |
+	currentSelectionRepresentations ifEmpty: [ ^ self ].
+	currentSelectionRepresentations do: [ :grp |
 		grp
 			refreshSelectionElementIn: aListElement
 			option: self ].
 
 	startBounds := previousSelectionBounds.
-	finalBounds := currentSelectionGroups first preComputedBounds.
+	finalBounds := currentSelectionRepresentations first preComputedBounds.
 	" animation is used if the start and the final bounds differs and in case of one selection group only "
 	(startBounds = finalBounds or: [
-		 (self canAnimateSelectionUpdate and: [ currentSelectionGroups size = 1 ]) not ])
+		 (self canAnimateSelectionUpdate and: [ currentSelectionRepresentations size = 1 ]) not ])
 		ifTrue: [
 			self addSelectionElementsIn: aListElement startingAt: 1.
 			self notifyNodesSelectedIn: aListElement.
 			^ self ].
 
-	first := currentSelectionGroups first selectionElement.
+	first := currentSelectionRepresentations first selectionElement.
 	first position: startBounds origin.
 	first size: startBounds extent.
 
 	animation := self
 		             boundsAnimationFrom: startBounds
 		             to: finalBounds
-		             onGroup: currentSelectionGroups first
+		             onGroup: currentSelectionRepresentations first
 		             in: aListElement.
 
 	first addAnimation: animation.
@@ -170,9 +166,9 @@ ToListSelectionWithElementOption >> refreshSelectionIn: aListElement withSelecti
 { #category : #'nodes collecting' }
 ToListSelectionWithElementOption >> rememberSelectionBoundsIn: aListElement [
 
-	currentSelectionGroups ifEmpty: [ ^ self ].
+	currentSelectionRepresentations ifEmpty: [ ^ self ].
 	previousSelectionBounds := Rectangle merging:
-		                           (currentSelectionGroups collect: [ :g |
+		                           (currentSelectionRepresentations collect: [ :g |
 			                            g preComputedBounds ])
 ]
 
@@ -187,7 +183,7 @@ ToListSelectionWithElementOption >> removeSelectionContainer [
 ToListSelectionWithElementOption >> selectionElements [
 
 	^ Array streamContents: [ :stream |
-		  currentSelectionGroups do: [ :grp |
+		  currentSelectionRepresentations do: [ :grp |
 			  grp selectionElement ifNotNil: [ :se | stream nextPut: se ] ] ]
 ]
 
@@ -197,7 +193,6 @@ ToListSelectionWithElementOption >> updateSelectionIn: aListElement withSelectio
 	(super
 		 updateSelectionIn: aListElement
 		 withSelectionModel: aSelectionModel) ifFalse: [ ^ false ].
-	self isMasked ifTrue: [ ^ false ].
 	self addSelectionIn: aListElement.
 	self rememberSelectionBoundsIn: aListElement.
 	^ true

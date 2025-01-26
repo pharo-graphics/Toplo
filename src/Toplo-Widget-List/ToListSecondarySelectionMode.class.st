@@ -31,6 +31,12 @@ ToListSecondarySelectionMode >> isMultipleSelection [
 	^ multiple
 ]
 
+{ #category : #testing }
+ToListSecondarySelectionMode >> isSecondary [ 
+
+	^ true
+]
+
 { #category : #accessing }
 ToListSecondarySelectionMode >> multiple: aBoolean [
 

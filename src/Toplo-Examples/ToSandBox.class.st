@@ -1563,6 +1563,20 @@ ToSandBox class >> example_ListWithAllClassesNone [
 ]
 
 { #category : #list }
+ToSandBox class >> example_ListWithAllClassesWithEmbeddedSelection [
+
+	| l |
+	l := ToListElement new.
+	l nodeBuilder: [ :node :dataItem :holder |
+		node defaultRawSkin: ToListEmbeddedNodeExampleSkin new.
+		node addChild: (ToLabel text: dataItem) withNullSkin ].
+	l selectionOption withEmbeddedRepresentation.
+	l dataAccessor addAll:
+		(Smalltalk globals allClasses collect: [ :cls | cls name ]).
+	l openInSpace
+]
+
+{ #category : #list }
 ToSandBox class >> example_ListWithAllMethods [
 
 	| l nbItems vscrollBar space |
@@ -6952,7 +6966,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 				                whenClickedDo: [ :event |
 					                target hiddenSelecter deselectAll ];
 				                yourself).
-		               target primarySelectionMode selectionOption isMasked
+		               target selectionOption isMasked
 			               ifTrue: [
 				               menu addItem: (ToMenuItem new
 						                labelText: 'stop primary selection masking';
@@ -6965,7 +6979,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 						                whenClickedDo: [ :event |
 							                target selectionOption masked: true ];
 						                yourself) ].
-		               target primarySelectionMode selectionOption
+		               target selectionOption
 			               isAnimated
 			               ifTrue: [
 				               menu addItem: (ToMenuItem new

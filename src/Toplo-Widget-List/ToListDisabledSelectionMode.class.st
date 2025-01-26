@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
+{ #category : #testing }
+ToListDisabledSelectionMode >> isDisabled [ 
+
+	^ true
+]
+
 { #category : #'instance creation' }
 ToListDisabledSelectionMode >> newSelectionChangedEventHandler [
 

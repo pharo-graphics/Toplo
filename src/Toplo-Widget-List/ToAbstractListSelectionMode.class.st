@@ -18,6 +18,7 @@ ToAbstractListSelectionMode >> changeSelectionOptionWith: aSelectionOption [
 		selectionOption onUninstalledIn: listElement ].
 	selectionOption := aSelectionOption.
 	selectionOption ifNil: [ ^ self ].
+	selectionOption selectionMode: self.
 	selectionOption onInstalledIn: listElement
 ]
 
@@ -68,9 +69,15 @@ ToAbstractListSelectionMode >> initialize [
 ]
 
 { #category : #testing }
+ToAbstractListSelectionMode >> isContextMenu [
+
+	^ false
+]
+
+{ #category : #testing }
 ToAbstractListSelectionMode >> isDisabled [
 
-	^ self enabled not
+	^ false
 ]
 
 { #category : #testing }
@@ -80,9 +87,33 @@ ToAbstractListSelectionMode >> isEnabled [
 ]
 
 { #category : #testing }
+ToAbstractListSelectionMode >> isHidden [
+
+	^ false
+]
+
+{ #category : #testing }
 ToAbstractListSelectionMode >> isMultipleSelection [
 
 	^ true
+]
+
+{ #category : #testing }
+ToAbstractListSelectionMode >> isPrimary [
+
+	^ false
+]
+
+{ #category : #testing }
+ToAbstractListSelectionMode >> isSecondary [
+
+	^ false
+]
+
+{ #category : #testing }
+ToAbstractListSelectionMode >> isUnselectable [
+
+	^ false
 ]
 
 { #category : #accessing }
@@ -145,18 +176,19 @@ ToAbstractListSelectionMode >> onInstalledIn: aListElement [
 	selecter onInstalledIn: aListElement.
 	selectionOption := self defaultSelectionOption.
 	selectionOption ifNil: [ ^ self ].
+	selectionOption selectionMode: self.
 	selectionOption onInstalledIn: aListElement
 ]
 
 { #category : #'api - hooks' }
 ToAbstractListSelectionMode >> onUninstalledIn: aListElement [
 
-	selectionOption ifNotNil: [ selectionOption onUninstalledIn: aListElement ].
+	selectionOption ifNotNil: [
+		selectionOption onUninstalledIn: aListElement ].
 	selecter onUninstalledIn: aListElement.
 	aListElement removeSelectionMode: self.
 	selectionOption := nil.
-	selecter := nil.
-
+	selecter := nil
 ]
 
 { #category : #accessing }

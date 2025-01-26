@@ -13,6 +13,12 @@ ToListContextMenuSelectionMode >> defaultSelectionOption [
 		  elementFactory: [ ToListContextMenuSelectionElement new ]
 ]
 
+{ #category : #testing }
+ToListContextMenuSelectionMode >> isContextMenu [
+
+	^ true
+]
+
 { #category : #'instance creation' }
 ToListContextMenuSelectionMode >> newSelecter [
 

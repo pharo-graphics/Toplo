@@ -4,11 +4,11 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToSelectionRepresentation >> nodes [
 	^ self subclassResponsibility
 ]
 
 { #category : #removing }
-ToSelectionRepresentation >> removeSelectionElementIn: aListElement [
+ToSelectionRepresentation >> onRemovedFromListElement: aListElement [
 ]

@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #'nodes collecting' }
-ToListSelectionWithoutElementOption >> currentSelectionGroupsFrom: aListElement withSelectionModel: aSelectionModel [
+ToListSelectionWithoutElementOption >> currentSelectionRepresentationsFrom: aListElement withSelectionModel: aSelectionModel [
 
 	^ (aListElement innerElement nodesSelect: [ :node |
 		   | idx |
@@ -19,4 +19,16 @@ ToListSelectionWithoutElementOption >> currentSelectionGroupsFrom: aListElement 
 ToListSelectionWithoutElementOption >> isEmbedded [ 
 
 	^ true
+]
+
+{ #category : #'nodes collecting' }
+ToListSelectionWithoutElementOption >> updateSelectionIn: aListElement withSelectionModel: aSelectionModel [
+
+	(super
+		 updateSelectionIn: aListElement
+		 withSelectionModel: aSelectionModel) ifFalse: [ ^ false ].
+	self notifyNodesDeselectedIn: aListElement.
+	self notifyNodesSelectedIn: aListElement.
+	^ true
+
 ]

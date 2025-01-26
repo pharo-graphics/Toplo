@@ -51,6 +51,15 @@ ToSelectionWithElement >> createSelectionElementIn: aListElement option: aSelect
 	self computeSelectionElementBoundsIn: aListElement
 ]
 
+{ #category : #removing }
+ToSelectionWithElement >> onRemovedFromListElement: aListElement [
+
+	cachedSelectionElement ifNil: [  ^ self ].
+	cachedSelectionElement removeFromParent.
+	cachedSelectionElement := nil.
+	preComputedBounds := nil
+]
+
 { #category : #accessing }
 ToSelectionWithElement >> preComputedBounds [
 
@@ -65,15 +74,6 @@ ToSelectionWithElement >> refreshSelectionElementIn: aListElement option: aSelec
 		^ self ].
 	self computeSelectionElementBoundsIn: aListElement.
 	cachedSelectionElement := self updatedSelectionElementIn: aListElement
-]
-
-{ #category : #removing }
-ToSelectionWithElement >> removeSelectionElementIn: aListElement [
-
-	cachedSelectionElement ifNil: [  ^ self ].
-	cachedSelectionElement removeFromParent.
-	cachedSelectionElement := nil.
-	preComputedBounds := nil
 ]
 
 { #category : #accessing }

@@ -4491,7 +4491,7 @@ ToSandBox class >> example_segmentedWithCheckboxes [
 	| seg dashBoard |
 	seg := ToSegmentedElement new.
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
-		seg addItem: (ToCheckbox new
+		seg addItem: (ToSegmentedCheckbox new
 				 labelText: l;
 				 yourself) ].
 	(seg items at: 2) disable.
@@ -4507,8 +4507,11 @@ ToSandBox class >> example_segmentedWithLabels [
 	seg := ToSegmentedElement new.
 
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
-		seg addLabelText: l ].
+		seg addItem: (ToSegmentedToggleButton new
+				 labelText: l;
+				 yourself) ].
 
+	(seg items at: 2) disable.
 	dashBoard := self segmentedDashBoardFor: seg.
 
 	feedbackPane := ToPane horizontal.
@@ -4555,7 +4558,10 @@ ToSandBox class >> example_segmentedWithLabelsAndIcons [
 	seg := ToSegmentedElement new.
 
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
-		seg addLabelText: l withIconImage: ToThemeIcons searchOutlined16x16].
+		seg addItem: (ToSegmentedToggleButton new
+				 iconImage: ToThemeIcons searchOutlined16x16;
+				 labelText: l;
+				 yourself) ].
 
 	dashBoard := self segmentedDashBoardFor: seg.
 
@@ -4584,9 +4590,7 @@ ToSandBox class >> example_segmentedWithLabelsAndIcons [
 				 ' double click ' trace.
 				 event indexes traceCr ]).
 
-	seg 
-		addEventHandlerOn: ToListPrimarySelectionChangedEvent
-		do: maj.
+	seg addEventHandlerOn: ToListPrimarySelectionChangedEvent do: maj.
 	seg addEventHandlerOn: BlElementAddedToSceneGraphEvent do: maj.
 	rootPane := ToPane vertical.
 	rootPane matchParent.
@@ -4597,55 +4601,18 @@ ToSandBox class >> example_segmentedWithLabelsAndIcons [
 ]
 
 { #category : #segmented }
-ToSandBox class >> example_segmentedWithSegmentedButton [
+ToSandBox class >> example_segmentedWithRadioButtons [
 
-	| seg dashBoard rootPane feedbackPane maj |
+	| seg dashBoard |
 	seg := ToSegmentedElement new.
-
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
-		seg addItem:
-			((ToSegmentedButton new label: (ToLabel text: l))
-				 whenClickedDo: [ :event | event currentTarget label text traceCr ];
+		seg addItem: (ToSegmentedRadioButton new
+				 labelText: l;
 				 yourself) ].
-
 	(seg items at: 2) disable.
+	seg selectionOption masked: true.
 	dashBoard := self segmentedDashBoardFor: seg.
-
-	feedbackPane := ToPane horizontal.
-	feedbackPane layout alignCenter.
-	maj := [
-	       | t |
-	       feedbackPane removeChildren.
-	       t := String streamContents: [ :stream |
-		            seg dataAccessor withIndexDo: [ :e :idx |
-			            stream
-				            nextPutAll: e label text asString;
-				            nextPutAll: ': '.
-			            (seg selectionModel containsIndex: idx)
-				            ifTrue: [ stream nextPutAll: 'V ' ]
-				            ifFalse: [ stream nextPutAll: 'X ' ].
-			            stream nextPutAll: e checked asString.
-			            stream nextPutAll: ' '.
-			            idx < seg dataAccessor itemCount ifTrue: [
-				            stream nextPutAll: '- ' ] ] ].
-	       feedbackPane addChild: (ToLabel text: t) ].
-
-	seg addEventHandler: (BlEventHandler
-			 on: ToListStrongSelectionEvent
-			 do: [ :event |
-				 ' double click ' trace.
-				 event indexes traceCr ]).
-
-	seg 
-		addEventHandlerOn: ToListPrimarySelectionChangedEvent
-		do: maj.
-	seg addEventHandlerOn: BlElementAddedToSceneGraphEvent do: maj.
-	rootPane := ToPane vertical.
-	rootPane matchParent.
-	rootPane addChildren: {
-			dashBoard.
-			feedbackPane }.
-	rootPane openInSpace
+	dashBoard openInSpace
 ]
 
 { #category : #select }

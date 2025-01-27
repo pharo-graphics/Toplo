@@ -7,16 +7,21 @@ Class {
 { #category : #'window handling' }
 ToMenuInlineWindowMode >> startWindow: aWindow [
 
-	manager element parent item barOwner 
+	" the manager element is a ToMenu. 
+	The window is added after the the ToMenu in its barOwner"
+	manager element barOwner 
 		addItem: aWindow
-		afterIndex: manager element parent holder position.
+		afterIndex: manager element positionInBar.
 	manager element requestNewSkin
 ]
 
 { #category : #'window handling' }
 ToMenuInlineWindowMode >> stopWindow: aWindow [
 
-	manager element parent item barOwner
+	" the manager element is a ToMenu. 
+	remove the window from the ToMenu barOwner ( see startWindow: ) "
+
+	manager element barOwner
 		removeItem: aWindow.
 	manager element requestNewSkin
 ]

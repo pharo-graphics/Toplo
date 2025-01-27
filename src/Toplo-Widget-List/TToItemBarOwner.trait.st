@@ -131,7 +131,11 @@ TToItemBarOwner >> hiddenItem: anItem [
 { #category : #'t - item bar owner - initializing' }
 TToItemBarOwner >> initializeAsItemBarOwner [
 
-	self userData at: #itemBar put: self newItemBar
+	| bar |
+	bar := self newItemBar.
+	self userData at: #itemBar put: bar.
+	bar barOwner: self
+	
 ]
 
 { #category : #'t - item bar owner - accessing' }
@@ -228,7 +232,7 @@ TToItemBarOwner >> nodeWrapping: aBoolean [
 { #category : #'t - item bar owner - double dispatch' }
 TToItemBarOwner >> onAddedAnyItemKind: anItem [
 
-	anItem barOwner: self  
+
 ]
 
 { #category : #'t - item bar owner - adding/removing' }
@@ -248,7 +252,7 @@ TToItemBarOwner >> onAddedUnknownItemKind: anItem [
 { #category : #'t - item bar owner - double dispatch' }
 TToItemBarOwner >> onRemovedAnyItemKind: anItem [
 
-	anItem barOwner: nil  
+
 ]
 
 { #category : #'t - item bar owner - adding/removing' }

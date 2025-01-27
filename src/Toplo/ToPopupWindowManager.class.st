@@ -83,7 +83,7 @@ ToPopupWindowManager >> checkAutoCloseWindowAfter: aTimestamp [
 ]
 
 { #category : #'window handling' }
-ToPopupWindowManager >> checkAutoCloseWindowOnMouseUp: anEvent [
+ToPopupWindowManager >> checkAutoCloseWindowOnPickingEvent: anEvent [
 
 	(self checkAutoCloseWindowAfter: anEvent timestamp) ifTrue: [
 		anEvent consume ]
@@ -198,7 +198,7 @@ ToPopupWindowManager >> mouseDownEvent: anEvent [
 ToPopupWindowManager >> mouseUpEvent: anEvent [
 	
 	self isInline ifTrue: [ ^ self ].
-	self checkAutoCloseWindowOnMouseUp: anEvent
+	self checkAutoCloseWindowOnPickingEvent: anEvent
 ]
 
 { #category : #'window handling' }
@@ -231,7 +231,7 @@ ToPopupWindowManager >> onOpened [
 ToPopupWindowManager >> pickOutsideEvent: anEvent [
 
 	self isInline ifTrue: [ ^ self ].
-	self checkAutoCloseWindowOnMouseUp: anEvent
+	self checkAutoCloseWindowOnPickingEvent: anEvent
 ]
 
 { #category : #'window handling' }

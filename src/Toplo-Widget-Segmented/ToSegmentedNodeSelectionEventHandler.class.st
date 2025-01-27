@@ -22,5 +22,5 @@ ToSegmentedNodeSelectionEventHandler >> eventsToHandle [
 { #category : #'event handling' }
 ToSegmentedNodeSelectionEventHandler >> primaryClickEvent: anEvent [
 
-	anEvent currentTarget item dispatchEvent: anEvent.
+	anEvent currentTarget item dispatchEvent: anEvent copy
 ]

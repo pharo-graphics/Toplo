@@ -93,9 +93,10 @@ TToMenuItem >> menuBar [
 { #category : #'t - menu item' }
 TToMenuItem >> parentMenu [
 
-	self barOwner ifNil: [ ^ nil ].
-	self barOwner isMenuBar ifTrue: [ ^ nil ].
-	^ self barOwner
+	^ self barOwner ifNotNil: [ :bo |
+		  bo isMenuBar
+			  ifTrue: [  ]
+			  ifFalse: [ bo ] ]
 ]
 
 { #category : #'t - menu item' }

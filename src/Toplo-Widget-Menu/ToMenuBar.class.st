@@ -214,10 +214,9 @@ ToMenuBar >> removeMenu: aMenu [
 ]
 
 { #category : #accessing }
-ToMenuBar >> rootMenuBar [ 
+ToMenuBar >> rootMenuBar [
 
-	self barOwner ifNil: [ ^ self ].
-	^ self barOwner rootMenuBar
+	^ self barOwner ifNotNil: [ :bo | bo rootMenuBar ] ifNil: [ self ]
 ]
 
 { #category : #'auto opening' }

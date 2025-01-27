@@ -6,39 +6,6 @@ Class {
 	#category : #'Toplo-Widget-Segmented-Bar'
 }
 
-{ #category : #accessing }
-ToSegmentedElement >> addLabel: aLabel [
-
-	self addItem: (ToSegmentedButton new
-			 label: aLabel;
-			 yourself)
-]
-
-{ #category : #accessing }
-ToSegmentedElement >> addLabelText: aText [
-
-	self addItem: (ToSegmentedButton new
-			 label: (ToLabel text: aText);
-			 yourself)
-]
-
-{ #category : #accessing }
-ToSegmentedElement >> addLabelText: aText withIcon: anIcon [
-
-	self addItem: (ToSegmentedButton new
-			 label: (ToLabel text: aText);
-			 icon: anIcon;
-			 yourself)
-]
-
-{ #category : #accessing }
-ToSegmentedElement >> addLabelText: aText withIconImage: anImage [
-
-	self addItem: (ToSegmentedButton new
-			 label: (ToLabel text: aText);
-			 icon: (ToImage inner: anImage))
-]
-
 { #category : #'t - item bar owner - initializing' }
 ToSegmentedElement >> configureLayout [
 
@@ -126,7 +93,7 @@ ToSegmentedElement >> withStrictCheckingStrategy [
 { #category : #'t - checkable group owner' }
 ToSegmentedElement >> withWeakCheckingStrategy [
 
-	self itemList withWeakCheckingStrategy
+	self itemBar withWeakCheckingStrategy
 ]
 
 { #category : #'t - checkable group owner' }

@@ -12,10 +12,9 @@ Class {
 { #category : #'adding-removing' }
 ToMenuItemElement >> closeSiblingMenuWindow [
 
-	self barOwner ifNil: [ ^ self ].
-	self barOwner closeAllWindowsForItemsSatisfying: [ :it |
-		it notNil and: [
-			it ~= self and: [ it isInline not ] ] ]
+	self barOwnerDo: [ :bo |
+		bo closeAllWindowsForItemsSatisfying: [ :it |
+			it notNil and: [ it ~= self and: [ it isInline not ] ] ] ]
 ]
 
 { #category : #'t - menu window model' }

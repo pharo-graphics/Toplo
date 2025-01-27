@@ -97,13 +97,13 @@ ToButton >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 ]
 
 { #category : #'t - triplet element - private - accessing' }
-ToButton >> properties [
+ToButton >> tripletProperties [
 
 	^ tripletProperties
 ]
 
 { #category : #'t - triplet element - private - accessing' }
-ToButton >> properties: aTripletElementProperties [
+ToButton >> tripletProperties: aTripletElementProperties [
 
 	tripletProperties := aTripletElementProperties
 ]

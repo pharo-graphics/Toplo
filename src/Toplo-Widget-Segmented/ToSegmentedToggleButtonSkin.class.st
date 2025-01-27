@@ -1,16 +1,16 @@
 Class {
-	#name : #ToSegmentedButtonSkin,
+	#name : #ToSegmentedToggleButtonSkin,
 	#superclass : #ToRawSkin,
 	#category : #'Toplo-Widget-Segmented-Button'
 }
 
 { #category : #'event handling' }
-ToSegmentedButtonSkin >> disabledSkinEvent: anEvent [
+ToSegmentedToggleButtonSkin >> disabledSkinEvent: anEvent [
 
 	super disabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic |
-			ic formColor: (e valueOfTokenNamed: #'color-text-disabled') ].
+			ic innerImageColor: (e valueOfTokenNamed: #'color-text-disabled') ].
 		e endElementDo: [ :ic |
 			(ic respondsTo: #innerImageColor:) ifTrue: [
 				ic innerImageColor: (e valueOfTokenNamed: #'color-text-disabled') ] ].
@@ -21,7 +21,7 @@ ToSegmentedButtonSkin >> disabledSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToSegmentedButtonSkin >> enabledSkinEvent: anEvent [
+ToSegmentedToggleButtonSkin >> enabledSkinEvent: anEvent [
 
 	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -37,7 +37,7 @@ ToSegmentedButtonSkin >> enabledSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToSegmentedButtonSkin >> hoveredSkinEvent: anEvent [
+ToSegmentedToggleButtonSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
 	anEvent enabledElementDo: [ :e |
@@ -45,7 +45,7 @@ ToSegmentedButtonSkin >> hoveredSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToSegmentedButtonSkin >> installSkinEvent: anEvent [
+ToSegmentedToggleButtonSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -67,7 +67,7 @@ ToSegmentedButtonSkin >> installSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToSegmentedButtonSkin >> leavedSkinEvent: anEvent [
+ToSegmentedToggleButtonSkin >> leavedSkinEvent: anEvent [
 
 	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |

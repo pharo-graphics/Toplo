@@ -10,7 +10,7 @@ Class {
 	#category : #'Toplo-Widget-Menu-Items'
 }
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToToggleMenuItem >> button: aCheckbox [
 
 	super button: aCheckbox.
@@ -18,13 +18,13 @@ ToToggleMenuItem >> button: aCheckbox [
 
 ]
 
-{ #category : #initialization }
+{ #category : #'as yet unclassified' }
 ToToggleMenuItem >> buttonClass [
 
 	^ ToToggleButton
 ]
 
-{ #category : #initialization }
+{ #category : #'as yet unclassified' }
 ToToggleMenuItem >> buttonClickEventClass [ 
 
 	^ ToCheckableCheckEvent 
@@ -42,7 +42,7 @@ ToToggleMenuItem >> checkableData: aCheckableData [
 	^ self shouldNotImplement 
 ]
 
-{ #category : #'t - menu item' }
+{ #category : #'as yet unclassified' }
 ToToggleMenuItem >> closeOnPicking [ 
 
 	^ false

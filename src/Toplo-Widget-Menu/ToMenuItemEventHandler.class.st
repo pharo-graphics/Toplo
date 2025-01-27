@@ -17,7 +17,7 @@ ToMenuItemEventHandler >> checkCloseOnPickingEvent: anEvent [
 	target rootMenuDo: [ :rm | " ask the window manager because 
 		it can manage the timestamp and finally can decide 
 		to not close the menu window"
-		rm manager checkAutoCloseWindowOnMouseUp: anEvent ]
+		rm manager checkAutoCloseWindowOnPickingEvent: anEvent ]
 ]
 
 { #category : #'mouse handlers' }

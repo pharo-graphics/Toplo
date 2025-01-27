@@ -29,6 +29,7 @@ ToStyleSheetSkinTest >> testPropertyWriterOrderMatter [
 
 	| w skin layoutDirectionProp layoutProp layoutWriter directionWriter |
 	w := ToElement new.
+	w applySkinInstallerOnFirstRequest: false.
 	space toTheme: ToStyleSheetTheme new.
 	space root addChild: w.
 	w layout: BlBasicLayout new.
@@ -287,6 +288,7 @@ ToStyleSheetSkinTest >> testWithTwoWritersTwoEventClasses [
 				 value: Color blue;
 				 yourself).
 			(ToPropertyWriter new
+				 eventClass: ToInstallSkinEvent;
 				 property: borderProp;
 				 value: Color yellow;
 				 yourself).
@@ -298,6 +300,7 @@ ToStyleSheetSkinTest >> testWithTwoWritersTwoEventClasses [
 	w defaultSkin: skin.
 	w skinManager applySkinReinstallIn: w.
 
+	self assert: (w background isKindOf: BlPaintBackground).
 	self assert: w background paint color equals: Color blue.
 	self assert: w border paint color equals: Color red
 ]

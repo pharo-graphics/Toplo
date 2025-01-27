@@ -45,6 +45,18 @@ TToItemBarElement >> addItem: anItem beforeIndex: anInteger [
 ]
 
 { #category : #'t - item bar element - accessing' }
+TToItemBarElement >> barOwner [
+
+	^ self userData at: #barOwner ifAbsent: [  ]
+]
+
+{ #category : #'t - item bar element - accessing' }
+TToItemBarElement >> barOwner: aBarOwner [
+
+	self userData at: #barOwner put: aBarOwner
+]
+
+{ #category : #'t - item bar element - accessing' }
 TToItemBarElement >> defaultNodeManagerClass [
 
 	^ ToItemNodeManager

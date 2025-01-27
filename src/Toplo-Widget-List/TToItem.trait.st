@@ -24,13 +24,13 @@ TToItem >> barElementDo: aBlock [
 { #category : #'t - item' }
 TToItem >> barOwner [
 
-	^ self userData at: #barOwner ifAbsent: [  ]
+	^ self barElement ifNotNil: [ :be | be barOwner ] 
 ]
 
 { #category : #'t - item' }
-TToItem >> barOwner: anItemContainer [
+TToItem >> barOwnerDo: aValuable [
 
-	self userData at: #barOwner put: anItemContainer
+	self barOwner ifNotNil: [ :bo | aValuable value: bo ]
 ]
 
 { #category : #'t - item' }

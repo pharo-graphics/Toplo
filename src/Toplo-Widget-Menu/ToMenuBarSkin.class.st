@@ -25,7 +25,7 @@ ToMenuBarSkin >> installSkinEvent: anEvent [
 				 (e valueOfTokenNamed: 'border-radius')).
 		e background: (e valueOfTokenNamed: #'background-color').
 		e itemBar background: BlBackground transparent.
-		e barOwner ifNil: [ e padding: (BlInsets all: 4) ].
+		e isSubBar ifFalse: [ e padding: (BlInsets all: 4) ].
 		e border: BlBorder empty ]
 ]
 

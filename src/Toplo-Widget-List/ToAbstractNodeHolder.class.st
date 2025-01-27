@@ -126,7 +126,6 @@ ToAbstractNodeHolder >> nodeManager [
 ToAbstractNodeHolder >> notifyDeselectedWithOption: aSelectionElementOption [
 
 	self isSelected ifTrue: [ ^ self ].
-	self isDisabled ifTrue: [ ^ self ].
 	self node dispatchEvent: (ToListNodeSelectedEvent new
 			 listElement: self listElement;
 			 selectionOption: aSelectionElementOption;

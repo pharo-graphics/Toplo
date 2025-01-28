@@ -1,17 +1,11 @@
 Class {
 	#name : #ToAccordionElement,
 	#superclass : #ToElement,
-	#traits : 'TToClickable',
-	#classTraits : 'TToClickable classTrait',
 	#instVars : [
+		'header',
 		'body',
 		'headerBuilder',
-		'clickHandler',
-		'clickEventClass',
-		'isCollapsed',
-		'header',
-		'headerContainer',
-		'iconContainer'
+		'bodyBuilder'
 	],
 	#category : #'Toplo-Widget-Accordion-Core'
 }
@@ -22,59 +16,82 @@ ToAccordionElement class >> exampleWithLabel [
 	<script>
 	| inst |
 	inst := self new.
-	inst builder: [ :header | header addChild: (ToLabel text: 'coucou') ].
+	inst headerBuilder: [ :header |
+		header addChild: (ToLabel text: 'Header') ].
+	inst bodyBuilder: [ :body |
+		body addChild:
+			(ToLabel new text: 'Body with random background color').
+		body
+			hMatchParent;
+			height: 100;
+			background: Color random ].
+	inst openInSpace.
+	^ inst
+]
+
+{ #category : #'as yet unclassified' }
+ToAccordionElement class >> exampleWithLabelAndAlbumInBody [
+
+	<script>
+	| inst |
+	inst := self new.
+	inst headerBuilder: [ :header |
+		header addChild: (ToLabel text: 'Header') ].
+	inst bodyBuilder: [ :body |
+		| album |
+		album := ToAlbum new
+			         withSaveCapability;
+			         whenSaveRequestedDo: [ :saveRequested |
+				         saveRequested accepted: true ];
+			         whenCancelRequestedDo: [ :cancelRequested |
+				         cancelRequested editorElement text: '' ];
+			         yourself.
+		album hMatchParent.
+		album vFitContent.
+		album next vFitContent.
+		album infinite vFitContent.
+		album text: 'AAAAAAAA'.
+		body addChild: album ].
 	inst openInSpace.
 	^ inst
 ]
 
 { #category : #accessing }
-ToAccordionElement >> builder: aValuable [
-	"With an header as argument"
+ToAccordionElement >> bodyBuilder: aValuable [
+	"With a body as argument"
 	
-	aValuable value: header
-]
-
-{ #category : #'t - clickable' }
-ToAccordionElement >> clickHandler [
-
-	^ clickHandler 
-]
-
-{ #category : #'t - clickable' }
-ToAccordionElement >> clickHandler: anHandler [
-
-	clickHandler := anHandler
+	bodyBuilder := aValuable
 ]
 
 { #category : #'expanding-collapsing' }
 ToAccordionElement >> collapse [
 
+	body removeChildren.
 	body removeFromParent
 ]
 
 { #category : #'expanding-collapsing' }
 ToAccordionElement >> expand [
 
+	bodyBuilder ifNil: [ ^ self ].
+	bodyBuilder value: body.
 	self addChild: body
 ]
 
 { #category : #accessing }
-ToAccordionElement >> icon: aToImage [
-
-	iconContainer removeChildren.
-	iconContainer addChild: aToImage	
+ToAccordionElement >> headerBuilder: aValuable [
+	"With an header as argument"
+	
+	header builder: aValuable
 ]
 
 { #category : #initialization }
 ToAccordionElement >> initialize [
 
 	super initialize.
-	isCollapsed := true.
-	self height: 30.
 	self layout: BlLinearLayout vertical.
 	self hMatchParent.
 	self vFitContent.
-	self background: Color random.
 	self initializeHeader.
 	self initializeClick.
 	self initializeBody.
@@ -89,20 +106,16 @@ ToAccordionElement >> initializeBody [
 			        c vertical fitContent.
 			        c horizontal matchParent ];
 		        border: (BlBorder paint: Color veryLightGray width: 1);
-		        yourself.
-	body addChild: (BlElement new
-			 border: Color black;
-			 background: Color black;
-			 size: 50 @ 50)
+		        yourself
 ]
 
 { #category : #initialization }
 ToAccordionElement >> initializeClick [
 
-	self whenClickedDo: [ :e |
+	header whenClickedDo: [ :e |
 		e consume.
-		isCollapsed := isCollapsed not.
-		isCollapsed
+		header isCollapsed: header isCollapsed not.
+		header isCollapsed
 			ifFalse: [ self expand ]
 			ifTrue: [ self collapse ] ]
 ]
@@ -110,43 +123,24 @@ ToAccordionElement >> initializeClick [
 { #category : #initialization }
 ToAccordionElement >> initializeHeader [
 
-	headerContainer := ToElement new.
-	headerContainer layout: BlLinearLayout horizontal.
-	headerContainer hMatchParent.
-	headerContainer vFitContent.
-	self addChild: headerContainer.
-
-	header := ToElement new.
-	header hMatchParent.
-	header vFitContent.
-
-	iconContainer := ToElement new.
-	iconContainer fitContent.
-	headerContainer addChild: iconContainer.
-
-	headerContainer addChild: header
+	header := ToAccordionHeaderElement new.
+	self addChild: header
 ]
 
-{ #category : #initialization }
+{ #category : #testing }
 ToAccordionElement >> isCollapsed [ 
 	
-	^ isCollapsed 
+	^ header isCollapsed 
+]
+
+{ #category : #accessing }
+ToAccordionElement >> isCollapsed: aBoolean [
+	
+	header isCollapsed: aBoolean
 ]
 
 { #category : #skin }
 ToAccordionElement >> newRawSkin [
 
 	^ ToAccordionElementSkin new
-]
-
-{ #category : #'t - clickable' }
-ToAccordionElement >> rawClickEventClass [
-
-	^ clickEventClass
-]
-
-{ #category : #'t - clickable' }
-ToAccordionElement >> rawClickEventClass: aClass [
-
-	clickEventClass := aClass
 ]

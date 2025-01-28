@@ -7,12 +7,11 @@ Class {
 { #category : #'instance creation' }
 ToAccordionListNodeManager >> buildNode: aNode [
 	
-	| collapse |
-	collapse := aNode holder dataItem. 
-	"in the case of this list the dateitem is in fact a bl element."
-	
-	collapse removeFromParent. 
-	aNode addChild: collapse at: 1
+	| accordionElement |
+	accordionElement := aNode holder dataItem. 
+	"in the case of this list the dateitem is in fact a ToAccordionElement"
+	accordionElement removeFromParent. 
+	aNode addChild: accordionElement at: 1
 ]
 
 { #category : #initialization }
@@ -33,7 +32,7 @@ ToAccordionListNodeManager >> newHolder [
 { #category : #'instance creation' }
 ToAccordionListNodeManager >> newNodeForHolder: aNodeHolder [
 
-	^ ToAccordionNode new
+	^ ToListNode new
 ]
 
 { #category : #initialization }

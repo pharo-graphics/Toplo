@@ -5,50 +5,22 @@ Class {
 }
 
 { #category : #'Xp to trash' }
-ToAccordionListElement class >> exampleBasicAccordion [
+ToAccordionListElement class >> example1 [
 
 	<script>
 	| list |
 	list := ToAccordionListElement new.
 	list dataAccessor addAll: ((1 to: 5) collect: [ :i |
-			 ToBasicAccordionElement new button addChild:
-				 (ToLabel text: 'coucou ' , i asString) ]).
-	list matchParent.
-	list openInSpace
-]
-
-{ #category : #'Xp to trash' }
-ToAccordionListElement class >> exampleCollapse [
-
-	<script>
-	| list |
-	list := ToAccordionListElement new.
-	list dataAccessor addAll: ((1 to: 5) collect: [ :i |
-			 ToAccordionXPElement new labelText: 'coucou ' , i asString ]).
-	list matchParent.
-	list openInSpace
-]
-
-{ #category : #example }
-ToAccordionListElement class >> exampleSkinAccordion [
-
-	<script>
-	| list |
-	list := self new.
-	list dataAccessor addAll: ((1 to: 5) collect: [ :i |
-			 ToAccordionElement new builder: [ :h | h addChild: (ToLabel text:'coucou ' , i asString) ]]).
-	list matchParent.
-	list openInSpace
-]
-
-{ #category : #'Xp to trash' }
-ToAccordionListElement class >> exampleToAccordionXPElement [
-
-	<script>
-	| list |
-	list := ToAccordionListElement new.
-	list dataAccessor addAll: ((1 to: 5) collect: [ :i |
-			 ToAccordionXPElement new labelText: 'coucou ' , i asString ]).
+			 ToAccordionElement new
+				 headerBuilder: [ :header |
+					 header addChild: (ToLabel text: 'Header ' , i asString) ];
+				 bodyBuilder: [ :body |
+					 body background: Color white.
+					 body addChild: (BlElement new
+								  margin: (BlInsets all: 5);
+								  border: Color random;
+								  background: Color random;
+								  size: 50 @ 50) ] ]).
 	list matchParent.
 	list openInSpace
 ]

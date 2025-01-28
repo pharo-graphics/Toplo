@@ -1,7 +1,7 @@
 Class {
 	#name : #ToItemNodeManager,
 	#superclass : #ToAbstractBarNodeManager,
-	#category : #'Toplo-Widget-List-ItemList'
+	#category : #'Toplo-Widget-List-ItemBar'
 }
 
 { #category : #initialization }
@@ -23,7 +23,7 @@ ToItemNodeManager >> defaultFakeDataItem [
 { #category : #'instance creation' }
 ToItemNodeManager >> newHolder [
 
-	^ ToBarNodeHolder new
+	^ ToItemBarNodeHolder new
 ]
 
 { #category : #'instance creation' }

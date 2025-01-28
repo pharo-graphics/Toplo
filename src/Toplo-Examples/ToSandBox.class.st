@@ -235,7 +235,7 @@ ToSandBox class >> barWithData: aCollection [
 								  labelText: 'Unable/disable';
 								  whenClickedDo: [
 									  idxes do: [ :idx |
-											  bar disabledSelecter switchIndexSelection: idx ] ]).
+											  (bar nodeAt: idx) disable ] ]).
 						 m addItem: (ToMenuItem new
 								  labelText: 'Unselectable';
 								  whenClickedDo: [
@@ -1563,6 +1563,20 @@ ToSandBox class >> example_ListWithAllClassesNone [
 ]
 
 { #category : #list }
+ToSandBox class >> example_ListWithAllClassesWithEmbeddedSelection [
+
+	| l |
+	l := ToListElement new.
+	l nodeBuilder: [ :node :dataItem :holder |
+		node defaultRawSkin: ToListEmbeddedNodeExampleSkin new.
+		node addChild: (ToLabel text: dataItem) withNullSkin ].
+	l selectionOption withEmbeddedRepresentation.
+	l dataAccessor addAll:
+		(Smalltalk globals allClasses collect: [ :cls | cls name ]).
+	l openInSpace
+]
+
+{ #category : #list }
 ToSandBox class >> example_ListWithAllMethods [
 
 	| l nbItems vscrollBar space |
@@ -2085,7 +2099,7 @@ ToSandBox class >> example_SelectMonoFiltrable [
 		do: [ :event | event selectedIndexes traceCr ].
 
 
-	select windowManager minHeight: 35.
+	select manager minHeight: 35.
 	phtext := ('No Data' asRopedText
 		           foreground: Color lightGray;
 		           yourself)
@@ -2126,7 +2140,7 @@ ToSandBox class >> example_SelectMonoNotFiltrable [
 	select placeholderText:
 		('Select a state' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select manager anchorRoot: innerWindow root.
 	select popupListElement withRowNumbers.
 	select width: 300.
 	select position: 50 @ 50.
@@ -2278,7 +2292,7 @@ ToSandBox class >> example_SelectMultiFiltrableNoWrappingKeepPickOrder [
 	select placeholderText:
 		('Select states' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select manager anchorRoot: innerWindow root.
 	select hMatchParent.
 	innerWindow pane addChild: select.
 	innerWindow height: 600.
@@ -2299,7 +2313,7 @@ ToSandBox class >> example_SelectMultiFiltrableNotWrappingAutoDistribution [
 	select placeholderText:
 		('Select states' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select manager anchorRoot: innerWindow root.
 	select hMatchParent.
 	innerWindow pane addChild: select.
 	innerWindow height: 600.
@@ -2333,7 +2347,7 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected [
 	| select innerWindow |
 	select := ToMultiSelectElement new.
 	select withCloseButton: true.
-	select popupListElement primarySelectionMode selectionOption masked:
+	select popupListElement selectionOption masked:
 		true.
 	select hideSelected: true.
 	select popupListElement dataAccessor updateAllWith:
@@ -2395,7 +2409,7 @@ ToSandBox class >> example_SelectMultiFiltrableWrappingAutoDistribution [
 	select placeholderText:
 		('Select states' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select manager anchorRoot: innerWindow root.
 	select hMatchParent.
 	innerWindow pane addChild: select.
 	innerWindow height: 600.
@@ -2452,7 +2466,7 @@ ToSandBox class >> example_SelectMultiNotFiltrableWithGroups [
 	select placeholderText:
 		('Select a state' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select manager anchorRoot: innerWindow root.
 	select width: 300.
 	select position: 50 @ 50.
 	select filterTextField requestFocus.
@@ -3195,6 +3209,18 @@ ToSandBox class >> example_TripletElementWithIconAndText_flexible_Interspace [
 ]
 
 { #category : #triplet }
+ToSandBox class >> example_TripletElementWithIconAndText_startAlignment [
+
+	| but  |
+	but := self example_TripletElementWithIconAndText.
+	but startAlignment: 50.
+	but border: Color red.
+	but vFitContent.
+	but hFitContent.
+	^ but
+]
+
+{ #category : #triplet }
 ToSandBox class >> example_TripletElementWithIconAndText_startFlexible [
 
 	| but  |
@@ -3283,13 +3309,12 @@ ToSandBox class >> example_WithSeparator [
 		             size: 400 @ 200;
 		             yourself.
 	menu := ToMenu new.
-	menu tooltipString: 'tooltip content'.
+	"menu tooltipString: 'tooltip content'."
 	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
-	menu addItem: (ToMenuItem new
-			 label: (ToLabel text: 'Open')).
+	menu addItem: (ToMenuItem new label: (ToLabel text: 'Open')) disable.
+
 	menu addSeparator.
-	menu addItem: (ToMenuItem new
-			 label: (ToLabel text: 'Close')).
+	menu addItem: (ToMenuItem new label: (ToLabel text: 'Close')).
 	container pane addChild: menu.
 	container openInSpace
 ]
@@ -3924,8 +3949,6 @@ ToSandBox class >> example_menuBar0 [
 	menu addItem: (ToMenuItem new labelText: 'item 1').
 	menu addItem: ToSeparatorMenuItem new.
 	sub := ToMenuItem new labelText: 'item 2'.
-
-	self flag: 'Disabling the menu item does not work here because it is done before its adding'.
 	sub disable.
 	menu addItem: sub.
 
@@ -4344,8 +4367,8 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 		       hMatchParent;
 		       vFitContent.
 	bar nodeWrapping: false.
-	bar itemList hMatchParent.
-	
+	bar itemBar hMatchParent.
+
 	bar addItem: (ToCustomMenuItem new in: [ :e |
 			 e addChild: (ToSelectableLabel new text: 'File') ]).
 	bar addItem: (ToMenu new
@@ -4468,7 +4491,7 @@ ToSandBox class >> example_segmentedWithCheckboxes [
 	| seg dashBoard |
 	seg := ToSegmentedElement new.
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
-		seg addItem: (ToCheckbox new
+		seg addItem: (ToSegmentedCheckbox new
 				 labelText: l;
 				 yourself) ].
 	(seg items at: 2) disable.
@@ -4484,8 +4507,11 @@ ToSandBox class >> example_segmentedWithLabels [
 	seg := ToSegmentedElement new.
 
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
-		seg addLabelText: l ].
+		seg addItem: (ToSegmentedToggleButton new
+				 labelText: l;
+				 yourself) ].
 
+	(seg items at: 2) disable.
 	dashBoard := self segmentedDashBoardFor: seg.
 
 	feedbackPane := ToPane horizontal.
@@ -4532,7 +4558,10 @@ ToSandBox class >> example_segmentedWithLabelsAndIcons [
 	seg := ToSegmentedElement new.
 
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
-		seg addLabelText: l withIconImage: ToThemeIcons searchOutlined16x16].
+		seg addItem: (ToSegmentedToggleButton new
+				 iconImage: ToThemeIcons searchOutlined16x16;
+				 labelText: l;
+				 yourself) ].
 
 	dashBoard := self segmentedDashBoardFor: seg.
 
@@ -4561,9 +4590,7 @@ ToSandBox class >> example_segmentedWithLabelsAndIcons [
 				 ' double click ' trace.
 				 event indexes traceCr ]).
 
-	seg 
-		addEventHandlerOn: ToListPrimarySelectionChangedEvent
-		do: maj.
+	seg addEventHandlerOn: ToListPrimarySelectionChangedEvent do: maj.
 	seg addEventHandlerOn: BlElementAddedToSceneGraphEvent do: maj.
 	rootPane := ToPane vertical.
 	rootPane matchParent.
@@ -4574,55 +4601,18 @@ ToSandBox class >> example_segmentedWithLabelsAndIcons [
 ]
 
 { #category : #segmented }
-ToSandBox class >> example_segmentedWithSegmentedButton [
+ToSandBox class >> example_segmentedWithRadioButtons [
 
-	| seg dashBoard rootPane feedbackPane maj |
+	| seg dashBoard |
 	seg := ToSegmentedElement new.
-
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
-		seg addItem:
-			((ToSegmentedButton new label: (ToLabel text: l))
-				 whenClickedDo: [ :event | event currentTarget label text traceCr ];
+		seg addItem: (ToSegmentedRadioButton new
+				 labelText: l;
 				 yourself) ].
-
 	(seg items at: 2) disable.
+	seg selectionOption masked: true.
 	dashBoard := self segmentedDashBoardFor: seg.
-
-	feedbackPane := ToPane horizontal.
-	feedbackPane layout alignCenter.
-	maj := [
-	       | t |
-	       feedbackPane removeChildren.
-	       t := String streamContents: [ :stream |
-		            seg dataAccessor withIndexDo: [ :e :idx |
-			            stream
-				            nextPutAll: e label text asString;
-				            nextPutAll: ': '.
-			            (seg selectionModel containsIndex: idx)
-				            ifTrue: [ stream nextPutAll: 'V ' ]
-				            ifFalse: [ stream nextPutAll: 'X ' ].
-			            stream nextPutAll: e checked asString.
-			            stream nextPutAll: ' '.
-			            idx < seg dataAccessor itemCount ifTrue: [
-				            stream nextPutAll: '- ' ] ] ].
-	       feedbackPane addChild: (ToLabel text: t) ].
-
-	seg addEventHandler: (BlEventHandler
-			 on: ToListStrongSelectionEvent
-			 do: [ :event |
-				 ' double click ' trace.
-				 event indexes traceCr ]).
-
-	seg 
-		addEventHandlerOn: ToListPrimarySelectionChangedEvent
-		do: maj.
-	seg addEventHandlerOn: BlElementAddedToSceneGraphEvent do: maj.
-	rootPane := ToPane vertical.
-	rootPane matchParent.
-	rootPane addChildren: {
-			dashBoard.
-			feedbackPane }.
-	rootPane openInSpace
+	dashBoard openInSpace
 ]
 
 { #category : #select }
@@ -4633,7 +4623,7 @@ ToSandBox class >> example_selectWith5Nodes [
 	select popupListElement nodeBuilder: [ :node :dataItem :holder |
 		node addChild: (ToLabel text: dataItem asString) hMatchParent ].
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select manager anchorRoot: innerWindow root.
 	select width: 300.
 	select position: 50 @ 50.
 	select popupListElement dataAccessor addAll:
@@ -6642,7 +6632,7 @@ ToSandBox class >> example_withCheckBox [
 { #category : #menu }
 ToSandBox class >> example_withCustomMenuItems [
 
-	| menu grp right center left textField sub lbl |
+	| menu grp right center left textField sub lbl item |
 	menu := ToMenu new.
 	menu labelText: 'File'.
 	menu addItem: (ToMenuItem new
@@ -6650,21 +6640,27 @@ ToSandBox class >> example_withCustomMenuItems [
 			 whenClickedDo: [ self inform: 'Open file' ];
 			 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
 
-	menu addItem: (ToMenuItem new
-			 labelText: 'Export'; disable;
-			 whenClickedDo: [ self inform: 'Export' ]).
+	item := ToMenuItem new
+		        labelText: 'Export';
+		        whenClickedDo: [ self inform: 'Export' ].
+	menu addItem: item.
+	item disable.
+
 	menu addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 whenClickedDo: [ menu inspect ]).
+			 whenClickedDo: [ menu space root inspect ]).
 	menu addSeparator.
-	menu addItem: (ToToggleMenuItem new labelText: 'Toggle'; yourself).
-	menu addItem: (ToCustomMenuItem new in: [ :e | e 
-			 addChild: (ToSwitchButton new
-					  checked: true;
-					startFlexible: true;
-					hMatchParent;
-					  labelText: 'Switch';
-					  yourself)];
+	menu addItem: (ToToggleMenuItem new
+			 labelText: 'Toggle';
+			 yourself).
+	menu addItem: (ToCustomMenuItem new
+			 in: [ :e |
+				 e addChild: (ToSwitchButton new
+							  checked: true;
+							  startFlexible: true;
+							  hMatchParent;
+							  labelText: 'Switch';
+							  yourself) ];
 			 yourself).
 
 	grp := ToCheckableGroup new.
@@ -6697,11 +6693,12 @@ ToSandBox class >> example_withCustomMenuItems [
 		fontSize: 12;
 		foreground: Color blue.
 
-	menu addItem: (ToCustomMenuItem new in: [ :e | e 
-			 addChild: lbl;
-			 margin: (BlInsets
-					  top: 2;
-					  bottom: 4)]).
+	menu addItem: (ToCustomMenuItem new in: [ :e |
+			 e
+				 addChild: lbl;
+				 margin: (BlInsets
+						  top: 2;
+						  bottom: 4) ]).
 	menu addAllItems: grp registeredCheckables.
 
 	grp := ToCheckableGroup new.
@@ -6735,11 +6732,12 @@ ToSandBox class >> example_withCustomMenuItems [
 			        italic;
 			        fontSize: 12;
 			        foreground: (Color blue alpha: 0.7)).
-	menu addItem: (ToCustomMenuItem new
-			 in: [ :e | e addChild: lbl;
-			 margin: (BlInsets
-					  top: 2;
-					  bottom: 4)]).
+	menu addItem: (ToCustomMenuItem new in: [ :e |
+			 e
+				 addChild: lbl;
+				 margin: (BlInsets
+						  top: 2;
+						  bottom: 4) ]).
 	menu addAllItems: grp registeredCheckables.
 	menu addSeparator.
 	textField := ToTextField new
@@ -6751,7 +6749,8 @@ ToSandBox class >> example_withCustomMenuItems [
 								               yourself)) ];
 		             withLineWrapping;
 		             width: 200.
-	menu addItem: (ToCustomMenuItem new in: [ :e | e addChild: textField ]).
+	menu addItem:
+		(ToCustomMenuItem new in: [ :e | e addChild: textField ]).
 	menu addSeparator.
 	sub := ToMenu new labelText: 'Save All'.
 
@@ -6934,7 +6933,20 @@ ToSandBox class >> listWithEditableAndContextMenu [
 				                whenClickedDo: [ :event |
 					                target hiddenSelecter deselectAll ];
 				                yourself).
-		               target primarySelectionMode selectionOption
+		               target selectionOption isMasked
+			               ifTrue: [
+				               menu addItem: (ToMenuItem new
+						                labelText: 'stop primary selection masking';
+						                whenClickedDo: [ :event |
+							                target selectionOption masked: false ];
+						                yourself) ]
+			               ifFalse: [
+				               menu addItem: (ToMenuItem new
+						                labelText: 'start primary selection masking';
+						                whenClickedDo: [ :event |
+							                target selectionOption masked: true ];
+						                yourself) ].
+		               target selectionOption
 			               isAnimated
 			               ifTrue: [
 				               menu addItem: (ToMenuItem new
@@ -6986,8 +6998,9 @@ ToSandBox class >> listWithEditableAndContextMenu [
 				                labelText: 'Enable/Disable';
 				                whenClickedDo: [ :event |
 					                indexes do: [ :idx |
-							                target disabledSelecter switchIndexSelection:
-									                idx ] ];
+							                | di |
+							                di := (l nodeAt: idx) isDisabled.
+							                (l nodeAt: idx) disabled: di not ] ];
 				                yourself).
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Set unselectable';
@@ -7255,7 +7268,7 @@ ToSandBox class >> selectWithEditingMultiSelection [
 		          fontSize: 24;
 		          yourself.
 	select popupMaxHeight: 600.
-	select windowManager minHeight: 35.
+	select manager minHeight: 35.
 
 	select popupListElement placeholderBuilder: [ :placeholder :e |
 		| lab |
@@ -7264,21 +7277,20 @@ ToSandBox class >> selectWithEditingMultiSelection [
 		placeholder addChild: lab ].
 
 	select whenSaveAcceptedDo: [ :event |
-				 | d |
-				 d := event client text asString asSymbol.
-				 event client text: ''.
-				 event currentTarget data add: d.
-				 event currentTarget mode selectIndex:
-					 event currentTarget data size ].
+		| d |
+		d := event client text asString asSymbol.
+		event client text: ''.
+		event currentTarget data add: d.
+		event currentTarget mode selectIndex: event currentTarget data size ].
 
 	select whenSaveRequestedDo: [ :event |
-				 | target idx |
-				 target := event currentTarget.
-				 idx := target data indexOf: event client text asString asSymbol.
-				 event accepted: idx isZero.
-				 idx > 0 ifTrue: [
-					 event client text: ''.
-					 target listElement selection selectIndex: idx ] ].
+		| target idx |
+		target := event currentTarget.
+		idx := target data indexOf: event client text asString asSymbol.
+		event accepted: idx isZero.
+		idx > 0 ifTrue: [
+			event client text: ''.
+			target listElement selection selectIndex: idx ] ].
 	^ select
 ]
 

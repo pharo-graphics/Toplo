@@ -442,8 +442,8 @@ ToElementTest >> testWithoutSkinNonContamination2 [
 	child := ToElement new.
 	childchild := ToElement new.
 	child addChild: childchild.
-	e ensuredSkinManager requestInstallSkinIn: e.
 	e withNullSkin.
+	e ensuredSkinManager requestInstallSkinIn: e.
 	self assert: (e skinManager skinToInstallIn: e) isNullSkin.
 	self assert: e skinManager installedSkin isNil.
 	self assert: childchild skinManager installedSkin isNil.

@@ -8,7 +8,8 @@ Class {
 ToCheckableTagSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
-	anEvent elementDo: [ :e | e mouseCursor: Cursor webLink ]
+	anEvent enabledElementDo: [ :e | 
+		e mouseCursor: Cursor webLink ]
 ]
 
 { #category : #'event handling' }

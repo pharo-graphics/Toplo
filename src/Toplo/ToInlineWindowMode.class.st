@@ -25,15 +25,15 @@ ToInlineWindowMode >> isInline [
 { #category : #'window handling' }
 ToInlineWindowMode >> startWindow: aWindow [
 
-	manager element addChild: aWindow.
-	manager element requestNewSkin
+	self element addChild: aWindow.
+	self element requestNewSkin
 ]
 
 { #category : #'window handling' }
 ToInlineWindowMode >> stopWindow: aWindow [
 
 	aWindow removeFromParent.
-	manager element requestNewSkin
+	self element requestNewSkin
 ]
 
 { #category : #accessing }

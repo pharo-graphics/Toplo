@@ -1,48 +1,15 @@
 Class {
 	#name : #ToSegmentedElement,
 	#superclass : #ToElement,
-	#traits : 'TToItemListHolder + TToOrientable',
-	#classTraits : 'TToItemListHolder classTrait + TToOrientable classTrait',
+	#traits : 'TToItemBarOwner + TToOrientable',
+	#classTraits : 'TToItemBarOwner classTrait + TToOrientable classTrait',
 	#category : #'Toplo-Widget-Segmented-Bar'
 }
 
-{ #category : #accessing }
-ToSegmentedElement >> addLabel: aLabel [
-
-	self addItem: (ToSegmentedButton new
-			 label: aLabel;
-			 yourself)
-]
-
-{ #category : #accessing }
-ToSegmentedElement >> addLabelText: aText [
-
-	self addItem: (ToSegmentedButton new
-			 label: (ToLabel text: aText);
-			 yourself)
-]
-
-{ #category : #accessing }
-ToSegmentedElement >> addLabelText: aText withIcon: anIcon [
-
-	self addItem: (ToSegmentedButton new
-			 label: (ToLabel text: aText);
-			 icon: anIcon;
-			 yourself)
-]
-
-{ #category : #accessing }
-ToSegmentedElement >> addLabelText: aText withIconImage: anImage [
-
-	self addItem: (ToSegmentedButton new
-			 label: (ToLabel text: aText);
-			 icon: (ToImage inner: anImage))
-]
-
-{ #category : #'t - item list holder - initializing' }
+{ #category : #'t - item bar owner - initializing' }
 ToSegmentedElement >> configureLayout [
 
-	self itemList configureLayoutIn: self
+	self itemBar configureLayoutIn: self
 ]
 
 { #category : #initialization }
@@ -58,30 +25,32 @@ ToSegmentedElement >> defaultLayout [
 ]
 
 { #category : #'focus requesting' }
-ToSegmentedElement >> focusHolder [ 
+ToSegmentedElement >> focusHolder [
 
-	^ self itemList
+	^ self itemBar
 ]
 
 { #category : #accessing }
 ToSegmentedElement >> group [
 
-	^ self itemList group
+	^ self itemBar group
 ]
 
 { #category : #initialization }
 ToSegmentedElement >> initialize [
 
 	super initialize.
-	self addChild: self itemList.
+	self initializeAsItemBarOwner.
+
+	self addChild: self itemBar.
 
 	self group
 		addEventHandlerOn: ToCheckableGroupChangedEvent
 		do: [ :event | self dispatchEvent: event ].
 
-	self itemList
+	self itemBar
 		addEventHandlerOn: ToListSelectionChangedEvent
-		do: [ :event | self dispatchEvent: event ].
+		do: [ :event | self dispatchEvent: event copy].
 
 	self addEventHandler: self defaultEventHandler
 ]
@@ -94,8 +63,8 @@ ToSegmentedElement >> layoutStrategy [
 	
 ]
 
-{ #category : #'t - item list holder - accessing' }
-ToSegmentedElement >> newItemList [
+{ #category : #'t - item bar owner - accessing' }
+ToSegmentedElement >> newItemBar [
 
 	^ ToSegmentedListElement new
 ]
@@ -118,13 +87,13 @@ ToSegmentedElement >> onRemovedSegmentedButton: aButton [
 { #category : #'t - checkable group owner' }
 ToSegmentedElement >> withStrictCheckingStrategy [
 
-	self itemList withStrictCheckingStrategy
+	self itemBar withStrictCheckingStrategy
 ]
 
 { #category : #'t - checkable group owner' }
 ToSegmentedElement >> withWeakCheckingStrategy [
 
-	self itemList withWeakCheckingStrategy
+	self itemBar withWeakCheckingStrategy
 ]
 
 { #category : #'t - checkable group owner' }

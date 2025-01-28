@@ -17,14 +17,14 @@ ToCustomMenuItem >> isSelectable [
 ]
 
 { #category : #'adding-removing' }
-ToCustomMenuItem >> onAddedInItemListHolder: aMenu [
+ToCustomMenuItem >> onAddedInItemBarOwner: aMenu [
 
 	aMenu onAddedCustomMenuItem: self
 
 ]
 
 { #category : #'adding-removing' }
-ToCustomMenuItem >> onRemovedFromItemListHolder: aMenu [
+ToCustomMenuItem >> onRemovedFromItemBarOwner: aMenu [
 
 	aMenu onRemovedCustomMenuItem: self
 

@@ -8,7 +8,7 @@ Class {
 ToTabInnerCloseButtonSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
-	anEvent elementDo: [ :e | e border: (Color red alpha: 0.5) ]
+	anEvent enabledElementDo: [ :e | e border: (Color red alpha: 0.5) ]
 ]
 
 { #category : #'event handling' }

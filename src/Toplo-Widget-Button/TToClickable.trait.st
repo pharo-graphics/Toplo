@@ -10,25 +10,31 @@ TToClickable >> clickEvent: anEvent [
 { #category : #'t - clickable' }
 TToClickable >> clickEventClass [
 
-	^ self rawClickEventClass ifNil: [ BlPrimaryClickEvent ]
+	^ self userData at: #clickEventClass ifAbsent: [ BlPrimaryClickEvent ]
 ]
 
 { #category : #'t - clickable' }
 TToClickable >> clickEventClass: anEventClass [
 
-	self rawClickEventClass: anEventClass 
+	anEventClass ifNil: [
+		self userData removeKey: #clickEventClass.
+		^ self ].
+	self userData at: #clickEventClass put: anEventClass
 ]
 
 { #category : #'t - clickable' }
 TToClickable >> clickHandler [
 
-	^ self explicitRequirement 
+	^ self userData at: #clickHandler ifAbsent: [  ]
 ]
 
 { #category : #'t - clickable' }
 TToClickable >> clickHandler: anEventHandler [
 
-	self explicitRequirement 
+	anEventHandler ifNil: [
+		self userData removeKey: #clickHandler.
+		^ self ].
+	self userData at: #clickHandler put: anEventHandler
 ]
 
 { #category : #'t - clickable' }
@@ -38,24 +44,18 @@ TToClickable >> newClickHandlerWith: aBlock [
 ]
 
 { #category : #'t - clickable' }
-TToClickable >> rawClickEventClass [
-
-	^ self explicitRequirement 
-]
-
-{ #category : #'t - clickable' }
-TToClickable >> rawClickEventClass: anEventClass [
-
-	self explicitRequirement 
-]
-
-{ #category : #'t - clickable' }
 TToClickable >> removeClickHandler [
 	"remove the click action"
 
 	self clickHandler ifNotNil: [ :ch |
 		self removeEventHandler: ch.
 		self clickHandler: nil ]
+]
+
+{ #category : #'t - clickable' }
+TToClickable >> takeFocusOnClick [
+
+	^ false
 ]
 
 { #category : #'t - clickable' }

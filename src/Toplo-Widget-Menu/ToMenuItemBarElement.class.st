@@ -2,13 +2,13 @@
 I'm a list whose node contents is a menu item element.
 "
 Class {
-	#name : #ToMenuItemListElement,
-	#superclass : #ToItemListElement,
-	#category : #'Toplo-Widget-Menu-ItemList'
+	#name : #ToMenuItemBarElement,
+	#superclass : #ToItemBarElement,
+	#category : #'Toplo-Widget-Menu-ItemBar'
 }
 
 { #category : #'t - list node holder' }
-ToMenuItemListElement >> configureLayoutIn: aListHolder [
+ToMenuItemBarElement >> configureLayoutIn: aListHolder [
 
 	self horizontal: aListHolder isHorizontal.
 	aListHolder isHMatchParent
@@ -20,13 +20,13 @@ ToMenuItemListElement >> configureLayoutIn: aListHolder [
 ]
 
 { #category : #initialization }
-ToMenuItemListElement >> defaultNodeManager [
+ToMenuItemBarElement >> defaultNodeManager [
 
 	^ ToMenuItemNodeManager new
 ]
 
 { #category : #initialization }
-ToMenuItemListElement >> initialize [
+ToMenuItemBarElement >> initialize [
 
 	super initialize.
 	
@@ -42,7 +42,7 @@ ToMenuItemListElement >> initialize [
 ]
 
 { #category : #skin }
-ToMenuItemListElement >> newRawSkin [ 
+ToMenuItemBarElement >> newRawSkin [ 
 
-	^ ToMenuItemListElementSkin new
+	^ ToMenuItemBarElementSkin new
 ]

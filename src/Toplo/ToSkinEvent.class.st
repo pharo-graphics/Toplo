@@ -5,8 +5,22 @@ Class {
 }
 
 { #category : #accessing }
+ToSkinEvent >> disabledElementDo: aBlock [
+
+	self target isDisabled ifFalse: [ ^ self ].
+	aBlock value: self target
+]
+
+{ #category : #accessing }
 ToSkinEvent >> elementDo: aBlock [
 
+	aBlock value: self target
+]
+
+{ #category : #accessing }
+ToSkinEvent >> enabledElementDo: aBlock [
+
+	self target isEnabled ifFalse: [ ^ self ].
 	aBlock value: self target
 ]
 

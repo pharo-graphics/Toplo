@@ -26,10 +26,10 @@ ToDividerSkin >> draggedSkinEvent: anEvent [
 ToDividerSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e mouseCursor: e resizerCursor.
-		e border: e hoveredBorder.
-		e background: e hoveredBackground ]
+	anEvent enabledElementDo: [ :e | 
+			e mouseCursor: e resizerCursor.
+			e border: e hoveredBorder.
+			e background: e hoveredBackground ]
 ]
 
 { #category : #'event handling' }
@@ -45,7 +45,7 @@ ToDividerSkin >> installSkinEvent: anEvent [
 ToDividerSkin >> leavedSkinEvent: anEvent [
 
 	super leavedSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
+	anEvent enabledElementDo: [ :e |
 		e border: e defaultBorder.
 		e background: e defaultBackground ]
 ]

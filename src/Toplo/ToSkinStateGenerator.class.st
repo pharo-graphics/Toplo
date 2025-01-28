@@ -183,7 +183,6 @@ ToSkinStateGenerator >> mouseDownEvent: anEvent [
 { #category : #'mouse handlers' }
 ToSkinStateGenerator >> mouseEnterEvent: anEvent [
 
-	target isEnabled ifFalse: [ ^ self ].
 	leaved := false.
 	self enqueueSkinState:
 		(ToTransientState skinEvent:
@@ -193,7 +192,6 @@ ToSkinStateGenerator >> mouseEnterEvent: anEvent [
 { #category : #'mouse handlers' }
 ToSkinStateGenerator >> mouseLeaveEvent: anEvent [
 
-	target isEnabled ifFalse: [ ^ self ].
 	leaved ifTrue: [ ^ self ].
 	leaved := true.
 	self enqueueSkinState:
@@ -338,11 +336,4 @@ ToSkinStateGenerator >> stopStillPressedEvent: anEvent [
 ToSkinStateGenerator >> target [
 
 	^ target
-]
-
-{ #category : #'api - event managing' }
-ToSkinStateGenerator >> wantsEvent: anEvent [
-
-	target isEnabled ifFalse: [ ^ false ].
-	^ super wantsEvent: anEvent
 ]

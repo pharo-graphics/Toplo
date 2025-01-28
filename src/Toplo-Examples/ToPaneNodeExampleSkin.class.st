@@ -30,7 +30,7 @@ ToPaneNodeExampleSkin >> createNodeButton [
 ToPaneNodeExampleSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
-	anEvent elementDo: [ :e | 
+	anEvent enabledElementDo: [ :e | 
 		" hovered skin can be dispatched whereas no leaved look event has been dispatched 
 		(in case of click event as an example)"
 		nodeButton ifNil: [
@@ -76,6 +76,7 @@ ToPaneNodeExampleSkin >> installSkinEvent: anEvent [
 ToPaneNodeExampleSkin >> leavedSkinEvent: anEvent [
 
 	super leavedSkinEvent: anEvent.
+	anEvent target isEnabled ifFalse: [ ^ self ].
 	nodeButton ifNotNil: [
 		nodeButton removeFromParent.
 		nodeButton := nil ]

@@ -76,6 +76,12 @@ ToListPrimarySelectionMode >> isMultipleSelection [
 ]
 
 { #category : #testing }
+ToListPrimarySelectionMode >> isPrimary [ 
+
+	^ true
+]
+
+{ #category : #testing }
 ToListPrimarySelectionMode >> maxSelectedIndexesForSelectionPreserving [
 
 	^ self isMultipleSelection

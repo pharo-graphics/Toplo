@@ -14,7 +14,7 @@ Class {
 ToButton >> beCheckable [
 
 	self isCheckable ifTrue: [ ^ self ].
-	self initializeCheckable.
+	self initializeAsCheckable.
 	self requestNewSkin
 ]
 
@@ -60,7 +60,7 @@ ToButton >> icon: anElement [
 ToButton >> initialize [
 
 	super initialize.
-	self initializeTripletElement
+	self initializeAsTripletElement
 ]
 
 { #category : #'t - labeled icon' }
@@ -97,13 +97,13 @@ ToButton >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 ]
 
 { #category : #'t - triplet element - private - accessing' }
-ToButton >> properties [
+ToButton >> tripletProperties [
 
 	^ tripletProperties
 ]
 
 { #category : #'t - triplet element - private - accessing' }
-ToButton >> properties: aTripletElementProperties [
+ToButton >> tripletProperties: aTripletElementProperties [
 
 	tripletProperties := aTripletElementProperties
 ]

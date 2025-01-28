@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
+{ #category : #testing }
+ToListUnselectableSelectionMode >> isUnselectable [ 
+
+	^ true
+]
+
 { #category : #'instance creation' }
 ToListUnselectableSelectionMode >> newSelectionChangedEventHandler [ 
 

@@ -30,7 +30,7 @@ ToSwitchButtonSkin >> enabledSkinEvent: anEvent [
 ToSwitchButtonSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
+	anEvent enabledElementDo: [ :e |
 		e mouseCursor: Cursor webLink.
 		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-primary') ] ]
@@ -68,8 +68,9 @@ ToSwitchButtonSkin >> leavedSkinEvent: anEvent [
 	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor normal.
-		e labelDo: [ :lab |
-			lab foreground: (e valueOfTokenNamed: #'color-text') ] ]
+		e isEnabled ifTrue: [ 
+			e labelDo: [ :lab |
+				lab foreground: (e valueOfTokenNamed: #'color-text') ] ] ]
 ]
 
 { #category : #'event handling' }

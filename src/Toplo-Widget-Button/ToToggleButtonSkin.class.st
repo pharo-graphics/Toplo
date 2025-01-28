@@ -27,7 +27,8 @@ ToToggleButtonSkin >> disabledSkinEvent: anEvent [
 		e iconDo: [ :ic |
 			ic formColor: (e valueOfTokenNamed: #'color-text-disabled') ].
 		e endElementDo: [ :ic |
-			ic formColor: (e valueOfTokenNamed: #'color-text-disabled') ].
+			(ic respondsTo: #innerImageColor:) ifTrue: [
+				ic innerImageColor: (e valueOfTokenNamed: #'color-text-disabled') ] ].
 		e background: (e valueOfTokenNamed: #'color-bg-container-disabled').
 		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-text-disabled').
@@ -38,19 +39,22 @@ ToToggleButtonSkin >> disabledSkinEvent: anEvent [
 ToToggleButtonSkin >> enabledSkinEvent: anEvent [
 
 	super enabledSkinEvent: anEvent.
-	anEvent elementDo: [ :e |  ]
-]
-
-{ #category : #'event handling' }
-ToToggleButtonSkin >> hoveredSkinEvent: anEvent [
-
-	super hoveredSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e mouseCursor: Cursor webLink.
-		e isMenuButton ifFalse: [
-			e border: (BlBorder
-					 paint: (e valueOfTokenNamed: #'color-primary-hover')
-					 width: (e valueOfTokenNamed: #'line-width')) ] ]
+		e iconDo: [ :ic |
+			ic formColor: (e valueOfTokenNamed: #'color-text') ].
+		e endElementDo: [ :ic |
+			(ic respondsTo: #innerImageColor:) ifTrue: [
+				ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ].
+		e isMenuButton
+			ifTrue: [ e background: BlBackground transparent ]
+			ifFalse: [
+				e background: (e valueOfTokenNamed: #'color-primary-unchecked').
+				e border: (BlBorder
+						 paint: (e valueOfTokenNamed: #'color-border')
+						 width: (e valueOfTokenNamed: #'line-width')) ].
+		e labelDo: [ :lab |
+			lab foreground: (e valueOfTokenNamed: #'color-text').
+			lab applyStyle ] ]
 ]
 
 { #category : #'event handling' }
@@ -72,14 +76,6 @@ ToToggleButtonSkin >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e layout alignCenter.
-		e isMenuButton
-			ifTrue: [ e background: BlBackground transparent ]
-			ifFalse: [
-			e background: (e valueOfTokenNamed: #'color-primary-unchecked') ].
-		e isMenuButton ifFalse: [
-			e border: (BlBorder
-					 paint: (e valueOfTokenNamed: #'color-border')
-					 width: (e valueOfTokenNamed: #'line-width')) ].
 		(e hasIcon and: [ e hasLabel ])
 			ifTrue: [
 			e startInterspace: (e valueOfTokenNamed: #'button-interspace') ]
@@ -88,18 +84,6 @@ ToToggleButtonSkin >> installSkinEvent: anEvent [
 			ifTrue: [
 			e endInterspace: (e valueOfTokenNamed: #'button-interspace') ]
 			ifFalse: [ e endInterspace: 0 ] ]
-]
-
-{ #category : #'event handling' }
-ToToggleButtonSkin >> leavedSkinEvent: anEvent [
-
-	super leavedSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e mouseCursor: Cursor normal.
-		e isMenuButton ifFalse: [
-			e border: (BlBorder
-				 paint: (e valueOfTokenNamed: #'color-border')
-				 width: (e valueOfTokenNamed: #'line-width')) ] ]
 ]
 
 { #category : #'event handling' }

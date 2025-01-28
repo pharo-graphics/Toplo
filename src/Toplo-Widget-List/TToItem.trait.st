@@ -1,102 +1,115 @@
 Trait {
 	#name : #TToItem,
-	#instVars : [
-		'parentItemListHolder',
-		'presetData'
-	],
-	#category : #'Toplo-Widget-List-ItemList'
+	#category : #'Toplo-Widget-List-ItemBar'
 }
 
 { #category : #'t - item' }
-TToItem >> disabled: aBoolean [
+TToItem >> barElement [ 
 
-	self parentItemListHolder
-		ifNil: [ self presetDisabledWith: aBoolean ]
-		ifNotNil: [ :l |
-			aBoolean
-				ifTrue: [ l disabledItem: self ]
-				ifFalse: [ l enabledItem: self ] ].
-	super disabled: aBoolean
+	^ self userData at: #barElement ifAbsent: [  ]
 ]
 
 { #category : #'t - item' }
-TToItem >> ensurePresetData [
+TToItem >> barElement: anItemBarElement [ 
 
-	presetData := ToItemPresetData new
+	self userData at: #barElement put: anItemBarElement
+]
+
+{ #category : #'t - item' }
+TToItem >> barElementDo: aBlock [
+
+	self barElement ifNotNil: [ :be | aBlock value: be ]
+]
+
+{ #category : #'t - item' }
+TToItem >> barOwner [
+
+	^ self barElement ifNotNil: [ :be | be barOwner ] 
+]
+
+{ #category : #'t - item' }
+TToItem >> barOwnerDo: aValuable [
+
+	self barOwner ifNotNil: [ :bo | aValuable value: bo ]
+]
+
+{ #category : #'t - item' }
+TToItem >> ensuredItemConstraints [
+
+	^ self userData
+		at: #itemConstraints
+		ifAbsentPut: [self newItemConstraints ]
+]
+
+{ #category : #'t - item' }
+TToItem >> flagAsDisabled: aBoolean [
+
+	self storeDisabled: aBoolean.
+	self barElementDo: [ :be |
+		aBoolean
+			ifTrue: [ be disabledItem: self ]
+			ifFalse: [ be enabledItem: self ] ].
+	super flagAsDisabled: aBoolean
 ]
 
 { #category : #'t - item' }
 TToItem >> hidden: aBoolean [
 
-	self parentItemListHolder
-		ifNil: [ self presetHiddenWith: aBoolean ]
-		ifNotNil: [ :l |
-			aBoolean
-				ifTrue: [ l hiddenItem: self ]
-				ifFalse: [ l visibleItem: self ] ]
+	self storeHidden: aBoolean.
+	self barElementDo: [ :l |
+		aBoolean
+			ifTrue: [ l hiddenItem: self ]
+			ifFalse: [ l visibleItem: self ] ]
 ]
 
 { #category : #'t - item' }
-TToItem >> parentItemListHolder [
+TToItem >> itemConstraints [
 
-	^ parentItemListHolder
+	^ self userData at: #itemConstraints ifAbsent: [  ]
 ]
 
 { #category : #'t - item' }
-TToItem >> parentItemListHolder: anItemContainer [
+TToItem >> itemConstraintsDo: aValuable [
 
-	parentItemListHolder := anItemContainer
+	self itemConstraints ifNil: [ ^ self ].
+	aValuable value: self itemConstraints
 ]
 
 { #category : #'t - item' }
-TToItem >> parentItemListHolderDo: aBlock [
+TToItem >> newItemConstraints [
 
-	parentItemListHolder ifNil: [ ^ self ].
-	aBlock value: parentItemListHolder
+	^ ToItemConstraints new
 ]
 
 { #category : #'t - item' }
-TToItem >> positionInItemList [
+TToItem >> positionInBar [
 
-	self parentItemListHolderDo: [ :pm | ^ pm items indexOf: self ].
-	^ 0
+	^ self holder position
 ]
 
 { #category : #'t - item' }
-TToItem >> presetDataDo: aValuable [
+TToItem >> storeDisabled: aBoolean [
 
-	presetData ifNil: [ ^ self ].
-	aValuable value: presetData.
-	presetData := nil
+	self ensuredItemConstraints disabled: aBoolean
 ]
 
 { #category : #'t - item' }
-TToItem >> presetDisabledWith: aBoolean [
+TToItem >> storeHidden: aBoolean [
 
-	self ensurePresetData.
-	presetData disabled: aBoolean
+	self ensuredItemConstraints hidden: aBoolean
 ]
 
 { #category : #'t - item' }
-TToItem >> presetHiddenWith: aBoolean [
+TToItem >> storeUnselectable: aBoolean [
 
-	self ensurePresetData.
-	presetData hidden: aBoolean
-]
-
-{ #category : #'t - item' }
-TToItem >> presetUnselectableWith: aBoolean [
-
-	self ensurePresetData.
-	presetData unselectable: aBoolean
+	self ensuredItemConstraints unselectable: aBoolean
 ]
 
 { #category : #'t - item' }
 TToItem >> unselectable: aBoolean [
 
-	self parentItemListHolder
-		ifNil: [ self presetUnselectableWith: aBoolean ]
-		ifNotNil: [ :l |
+	self storeUnselectable: aBoolean.
+	self barElementDo: [ :l |
 			aBoolean
 				ifTrue: [ l unselectableItem: self ]
 				ifFalse: [ l selectableItem: self ] ]

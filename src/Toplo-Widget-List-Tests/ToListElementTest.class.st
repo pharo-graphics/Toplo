@@ -74,6 +74,28 @@ ToListElementTest >> testDataRemovedWhenNodeRemoved [
 ]
 
 { #category : #'test selection - mode' }
+ToListElementTest >> testDisable [
+
+	| l |
+	l := ToListElement new.
+	space root addChild: l.
+	l matchParent.
+	l dataAccessor addAll: { #A. #B. #C }.
+	l selecter selectIndex: 2.
+	l secondarySelecter selectIndex: 3.
+	self waitTestingSpaces.
+	self assert: l selectionModel selectedIndexes equals: { 2 }.
+	self assert: l secondarySelectionModel selectedIndexes equals: { 3 }.
+	l disable.
+	self waitTestingSpaces.
+	self assert: l isDisabled.
+	self assert: l selectionModel isEmpty.
+	self assert: l secondarySelectionModel isEmpty.
+	l nodesDo: [ :n | self assert: n isDisabled ]
+	
+]
+
+{ #category : #'test selection - mode' }
 ToListElementTest >> testDisabledSelectionModel [
 
 	| l |
@@ -198,6 +220,32 @@ ToListElementTest >> testEmptyListSelectPreviousInSelection [
 	l selecter scrollToDataSourcePosition: l selecter currentIndex.
 	self assert: l selecter currentIndex isZero.
 	self assert: l selectionModel isEmpty
+]
+
+{ #category : #'test selection - mode' }
+ToListElementTest >> testEnable [
+
+	| l |
+	l := ToListElement new.
+	space root addChild: l.
+	l matchParent.
+	l dataAccessor addAll: { #A. #B. #C }.
+	l selecter selectIndex: 2.
+	l secondarySelecter selectIndex: 3.
+	l disable.
+	self waitTestingSpaces.
+	self assert: l isDisabled.
+	self assert: l selectionModel isEmpty.
+	self assert: l secondarySelectionModel isEmpty.
+	l nodesDo: [ :n | self assert: n isDisabled ].
+	l enable.
+	self assert: l isEnabled.
+	self assert: l selectionModel isEmpty.
+	self assert: l secondarySelectionModel isEmpty.
+	l nodesDo: [ :n | self deny: n isDisabled ].
+
+	
+	
 ]
 
 { #category : #'test selection - mode' }

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToSeparateSelection,
-	#superclass : #ToSelectionGroup,
+	#superclass : #ToSelectionWithElement,
 	#instVars : [
 		'node'
 	],

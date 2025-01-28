@@ -46,7 +46,7 @@ ToMenuBarEventHandler >> layoutResizerChangedEvent: anEvent [
 { #category : #'event handling' }
 ToMenuBarEventHandler >> mouseLeaveEvent: anEvent [
 
-	target itemList secondarySelecter deselectAll
+	target itemBar secondarySelecter deselectAll
 ]
 
 { #category : #'event handling' }

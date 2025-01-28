@@ -16,18 +16,6 @@ ToCheckMenuItem >> buttonClickEventClass [
 	^ ToCheckableCheckEvent 
 ]
 
-{ #category : #'t - checkable - accessing' }
-ToCheckMenuItem >> checkableData [
-
-	^ self button checkableData
-]
-
-{ #category : #'t - checkable - accessing' }
-ToCheckMenuItem >> checkableData: aCheckableData [
-
-	^ self shouldNotImplement 
-]
-
 { #category : #'as yet unclassified' }
 ToCheckMenuItem >> indeterminateBar [
 

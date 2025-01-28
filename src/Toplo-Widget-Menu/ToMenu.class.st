@@ -4,8 +4,8 @@ I'm a composite of Menu items. I can behave as a menu item (this is why I inheri
 Class {
 	#name : #ToMenu,
 	#superclass : #ToMenuItem,
-	#traits : 'TToItemListHolder + TToMenuItemListHolder + TToMenuWindowModel',
-	#classTraits : 'TToItemListHolder classTrait + TToMenuItemListHolder classTrait + TToMenuWindowModel classTrait',
+	#traits : 'TToItemBarOwner + TToMenuItemBarOwner + TToMenuWindowModel',
+	#classTraits : 'TToItemBarOwner classTrait + TToMenuItemBarOwner classTrait + TToMenuWindowModel classTrait',
 	#instVars : [
 		'isSubmenu',
 		'builder',
@@ -84,6 +84,8 @@ ToMenu >> initialize [
 
 	super initialize.
 	self fitContent.
+	self initializeAsItemBarOwner.
+
 	isSubmenu := false.
 	openOnHovered := true.
 	self applySkinInstallerOnFirstRequest: true.
@@ -93,7 +95,7 @@ ToMenu >> initialize [
 			                 builder ifNotNil: [
 					                 self removeAllItems.
 					                 self builder cull: self cull: request ].
-			                 window root addChild: self itemList ];
+			                 window root addChild: self itemBar ];
 		                 yourself.
 	self addEventHandler: windowManager
 ]
@@ -160,10 +162,10 @@ ToMenu >> mouseOverEvent: anEvent [
 		ifFalse: [ self closeWindow ]
 ]
 
-{ #category : #'t - item list holder - accessing' }
-ToMenu >> newItemList [
+{ #category : #'t - item bar owner - accessing' }
+ToMenu >> newItemBar [
 
-	^ ToMenuItemListElement new
+	^ ToMenuItemBarElement new
 ]
 
 { #category : #accessing }
@@ -173,13 +175,13 @@ ToMenu >> newRawSkin [
 ]
 
 { #category : #'adding-removing' }
-ToMenu >> onAddedInItemListHolder: aMenu [
+ToMenu >> onAddedInItemBarOwner: aMenu [
 
 	aMenu onAddedMenu: self
 ]
 
 { #category : #'adding-removing' }
-ToMenu >> onRemovedFromItemListHolder: aMenu [
+ToMenu >> onRemovedFromItemBarOwner: aMenu [
 
 	aMenu onRemovedMenu: self
 ]

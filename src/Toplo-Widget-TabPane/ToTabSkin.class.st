@@ -16,7 +16,7 @@ ToTabSkin >> checkedSkinEvent: anEvent [
 ToTabSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
+	anEvent enabledElementDo: [ :e |
 		e mouseCursor: Cursor webLink.
 		e border: (BlBorder paint: (e valueOfTokenNamed: #'color-primary-hover') width: (e valueOfTokenNamed: #'line-width')).
 		e isChecked
@@ -43,7 +43,7 @@ ToTabSkin >> installSkinEvent: anEvent [
 ToTabSkin >> leavedSkinEvent: anEvent [
 
 	super leavedSkinEvent: anEvent.
-	anEvent elementDo: [ :e | 
+	anEvent enabledElementDo: [ :e | 
 		e isChecked ifFalse: [e background: e defaultBackground].
 		e border: (BlBorder paint: (e valueOfTokenNamed: #'color-border') width: (e valueOfTokenNamed: #'line-width')).
 		e isChecked ifTrue: [ ^ self ] ].

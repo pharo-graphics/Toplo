@@ -1,7 +1,7 @@
 Class {
 	#name : #ToItemNodeManagerForTest,
 	#superclass : #ToItemNodeManager,
-	#category : #'Toplo-Widget-List-Tests-ItemList'
+	#category : #'Toplo-Widget-List-Tests-ItemBar'
 }
 
 { #category : #initialization }

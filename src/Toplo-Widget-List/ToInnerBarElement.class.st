@@ -275,11 +275,11 @@ ToInnerBarElement >> onExitLayoutOrScroll [
 ToInnerBarElement >> onItemRangeChanged: aPositionStart itemCount: anItemCount [
 
 	self nodesDo: [ :node |
-		(node holder position >= aPositionStart) ifTrue: [ | dataItem |
-			node holder unbindDataItem.
-			dataItem := dataSource at: node holder position.
-			node holder setDataItemAndBuildNode: dataItem ] ].
-	self requestLayout 
+		| pos |
+		pos := node holder position.
+		(pos >= aPositionStart and: [ pos < (aPositionStart + anItemCount) ])
+			ifTrue: [
+				node holder initializeNode ] ]
 ]
 
 { #category : #'data source updates' }

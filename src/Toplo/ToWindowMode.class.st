@@ -13,6 +13,18 @@ ToWindowMode >> arrangeWindow: aWindow onEvent: anEvent [
 	self subclassResponsibility 
 ]
 
+{ #category : #accessing }
+ToWindowMode >> barOwner [ 
+
+	^ self element barOwner
+]
+
+{ #category : #accessing }
+ToWindowMode >> element [ 
+
+	^ manager element
+]
+
 { #category : #testing }
 ToWindowMode >> isInline [ 
 

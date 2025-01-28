@@ -20,7 +20,7 @@ ToTripletElement >> defaultLayout [
 ToTripletElement >> initialize [
 
 	super initialize.
-	self initializeTripletElement 
+	self initializeAsTripletElement 
 ]
 
 { #category : #skin }
@@ -48,23 +48,23 @@ ToTripletElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 	super onLayout: aBounds context: aBlElementBoundsUpdateContext
 ]
 
-{ #category : #'t - triplet element - private - accessing' }
-ToTripletElement >> properties [
-
-	^ properties
-]
-
-{ #category : #'t - triplet element - private - accessing' }
-ToTripletElement >> properties: aTripletElementProperties [
-
-	properties ifNotNil: [ (BlImmutableObjectChangeError object: self) signal ].
-	properties := aTripletElementProperties
-]
-
 { #category : #dependencies }
 ToTripletElement >> release [ 
 
 	super release.
 	properties release.
 	properties := nil
+]
+
+{ #category : #'t - triplet element - private - accessing' }
+ToTripletElement >> tripletProperties [
+
+	^ properties
+]
+
+{ #category : #'t - triplet element - private - accessing' }
+ToTripletElement >> tripletProperties: aTripletElementProperties [
+
+	properties ifNotNil: [ (BlImmutableObjectChangeError object: self) signal ].
+	properties := aTripletElementProperties
 ]

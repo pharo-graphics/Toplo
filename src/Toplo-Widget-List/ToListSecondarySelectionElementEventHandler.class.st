@@ -24,7 +24,7 @@ ToListSecondarySelectionElementEventHandler >> mouseMoveEvent: anEvent [
 	| target nodeContainer globalPosition childNode |
 	anEvent anyButtonPressed ifTrue: [ ^ self ].
 	target := anEvent currentTarget.
-	target isEnabled ifFalse: [ ^ self ].
+	"target isEnabled ifFalse: [ ^ self ]."
 	nodeContainer := target innerElement.
 	globalPosition := anEvent position.
 

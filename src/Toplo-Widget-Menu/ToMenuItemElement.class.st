@@ -9,15 +9,6 @@ Class {
 	#category : #'Toplo-Widget-Menu-Items'
 }
 
-{ #category : #'adding-removing' }
-ToMenuItemElement >> closeSiblingMenuWindow [
-
-	self parentItemListHolder ifNil: [ ^ self ].
-	self parentItemListHolder closeAllWindowsForItemsSatisfying: [ :it |
-		it notNil and: [
-			it ~= self and: [ it isInline not ] ] ]
-]
-
 { #category : #'t - menu window model' }
 ToMenuItemElement >> closeWindow [
 
@@ -122,13 +113,13 @@ ToMenuItemElement >> newRawSkin [
 ]
 
 { #category : #'adding-removing' }
-ToMenuItemElement >> onAddedInItemListHolder: aMenu [
+ToMenuItemElement >> onAddedInItemBarOwner: aMenu [
 
 	aMenu onAddedMenuItem: self
 ]
 
 { #category : #'adding-removing' }
-ToMenuItemElement >> onRemovedFromItemListHolder: aMenu [
+ToMenuItemElement >> onRemovedFromItemBarOwner: aMenu [
 
 	aMenu onRemovedMenuItem: self
 ]
@@ -136,10 +127,11 @@ ToMenuItemElement >> onRemovedFromItemListHolder: aMenu [
 { #category : #'t - menu window model' }
 ToMenuItemElement >> rootMenu [
 
-	self parentItemListHolder ifNil: [ ^ self ].
-	self parentItemListHolder isMenuBar ifTrue: [ 
-		^ self isMenu ifTrue: [ self ] ifFalse: [  ] ].
-	^ self parentItemListHolder rootMenu
+	(self barOwner isNil or: [ self barOwner isMenuBar ]) ifTrue: [
+		^ self isMenu
+			  ifTrue: [ self ]
+			  ifFalse: [  ] ].
+	^ self barOwner rootMenu
 ]
 
 { #category : #'t - menu window model' }

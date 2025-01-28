@@ -120,14 +120,7 @@ BlElement >> disable [
 { #category : #'*Toplo' }
 BlElement >> disabled: aBoolean [
 
-	self isDisabled = aBoolean ifFalse: [
-		aBoolean
-			ifTrue: [
-				self loseFocus.
-				self flagAsDisabled ]
-			ifFalse: [ self flagAsEnabled ].
-		self dispatchEvent: ToEnablementChangedEvent new.
-		self skinManagerDo: [ :sm | sm enablementChangedIn: self ] ].
+	self flagAsDisabled: aBoolean.
 	self childrenDo: [ :child | child disabled: aBoolean ]
 ]
 
@@ -205,6 +198,19 @@ BlElement >> firstInParentChainSatisfying: aValuable [
 BlElement >> flagAsDisabled [
 
 	self userData at: #enabled put: false
+]
+
+{ #category : #'*Toplo' }
+BlElement >> flagAsDisabled: aBoolean [
+
+	self isDisabled = aBoolean ifTrue: [ ^ self ].
+	aBoolean
+		ifTrue: [
+			self loseFocus.
+			self flagAsDisabled ]
+		ifFalse: [ self flagAsEnabled ].
+	self dispatchEvent: ToEnablementChangedEvent new.
+	self skinManagerDo: [ :sm | sm enablementChangedIn: self ]
 ]
 
 { #category : #'*Toplo' }
@@ -414,15 +420,15 @@ BlElement >> newTextAttributesBuilder [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> onAddedInItemListHolder: anItemList [
+BlElement >> onAddedInItemBarOwner: anItemBar [
 
-	anItemList onAddedUnknownItemKind: self
+	anItemBar onAddedUnknownItemKind: self
 ]
 
 { #category : #'*Toplo' }
-BlElement >> onRemovedFromItemListHolder: anItemList [
+BlElement >> onRemovedFromItemBarOwner: anItemBar [
 
-	anItemList onRemovedUnknownItemKind: self
+	anItemBar onRemovedUnknownItemKind: self
 ]
 
 { #category : #'*Toplo' }
@@ -464,15 +470,6 @@ BlElement >> parentChainReverseDo: aBlock [
 	"evaluate a block with each of my parents (including myself) ordered from my space root to myself  "
 
 	self parentChain reverseDo: aBlock
-]
-
-{ #category : #'*Toplo' }
-BlElement >> presetDataDo: aValuable [
-
-	" do nothing at this level.
-	It redefined for an element that is used as a list data item.
-	This is the case for a menu or a segmented button as examples
-	( see `TToItem` users )"
 ]
 
 { #category : #'*Toplo' }

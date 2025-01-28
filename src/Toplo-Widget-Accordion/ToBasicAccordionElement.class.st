@@ -1,8 +1,8 @@
 Class {
 	#name : #ToBasicAccordionElement,
 	#superclass : #ToElement,
-	#traits : 'TToButtonHolder',
-	#classTraits : 'TToButtonHolder classTrait',
+	#traits : '',
+	#classTraits : '',
 	#instVars : [
 		'body',
 		'headerBuilder',

@@ -6,8 +6,6 @@ This version works but failed to honor the clicked skin event because  (which is
 Class {
 	#name : #ToAccordionXPElement,
 	#superclass : #ToElement,
-	#traits : '',
-	#classTraits : '',
 	#instVars : [
 		'body',
 		'isCollapsed'

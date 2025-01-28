@@ -13,5 +13,5 @@ Class {
 ToGeneralButtonMenuItem >> initialize [
 
 	super initialize.
-	self initializeAsButtonHolder 
+	self initializeAsButtonOwner 
 ]

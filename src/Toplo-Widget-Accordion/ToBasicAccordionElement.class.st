@@ -62,7 +62,7 @@ ToBasicAccordionElement >> expand [
 ToBasicAccordionElement >> initialize [
 
 	super initialize.
-	self initializeAsButtonHolder.
+	self initializeAsButtonOwner.
 	isCollapsed := true.
 	self height: 30.
 	self layout: BlLinearLayout vertical.

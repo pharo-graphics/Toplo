@@ -5,6 +5,13 @@ Class {
 }
 
 { #category : #'window handling' }
+ToMenuWindowManager >> autoCloseWindow [ 
+
+	super autoCloseWindow.
+	element menuBarDo: [ :mb | mb cancelAutoOpen ]
+]
+
+{ #category : #'window handling' }
 ToMenuWindowManager >> beInline [ 
 
 	super beInline.
@@ -12,13 +19,13 @@ ToMenuWindowManager >> beInline [
 ]
 
 { #category : #'event handling' }
-ToMenuWindowManager >> checkCloseOnPickingEvent: anEvent [
+ToMenuWindowManager >> canCloseOnPickingEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
 	(target isInline or: [ target isInInlineWindow ]) ifTrue: [
 		^ currentWindow notNil ].
-	^ super checkCloseOnPickingEvent: anEvent
+	^ super canCloseOnPickingEvent: anEvent
 ]
 
 { #category : #initializing }

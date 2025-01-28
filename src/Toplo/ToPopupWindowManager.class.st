@@ -36,7 +36,7 @@ ToPopupWindowManager >> autoCloseDelay: aDelay [
 ]
 
 { #category : #'window handling' }
-ToPopupWindowManager >> autoCloseWindow [ 
+ToPopupWindowManager >> autoCloseWindow [
 
 	self closeWindow
 ]
@@ -60,6 +60,13 @@ ToPopupWindowManager >> beInline [
 	self unplugPickOutsideFilter
 ]
 
+{ #category : #'event handling' }
+ToPopupWindowManager >> canCloseOnPickingEvent: anEvent [
+
+	currentWindow ifNotNil: [ closeOnPicking ifTrue: [ ^ true ] ].
+	^ false
+]
+
 { #category : #'window handling' }
 ToPopupWindowManager >> canCloseWindow [
 
@@ -67,7 +74,7 @@ ToPopupWindowManager >> canCloseWindow [
 ]
 
 { #category : #'window handling' }
-ToPopupWindowManager >> checkAutoCloseWindowAfter: aTimestamp [
+ToPopupWindowManager >> canCloseWindowAfter: aTimestamp [
 
 	| delay |
 
@@ -78,22 +85,16 @@ ToPopupWindowManager >> checkAutoCloseWindowAfter: aTimestamp [
 
 	delay := aTimestamp - currentWindow popupTimestamp.
 	delay >= autoCloseDelay ifFalse: [ ^ false ].
-	self autoCloseWindow.
+
 	^ true
 ]
 
 { #category : #'window handling' }
-ToPopupWindowManager >> checkAutoCloseWindowOnPickingEvent: anEvent [
+ToPopupWindowManager >> checkCloseWindowOnPickingEvent: anEvent [
 
-	(self checkAutoCloseWindowAfter: anEvent timestamp) ifTrue: [
-		anEvent consume ]
-]
-
-{ #category : #'event handling' }
-ToPopupWindowManager >> checkCloseOnPickingEvent: anEvent [
-
-	currentWindow ifNotNil: [ closeOnPicking ifTrue: [ ^ true ] ].
-	^ false
+	(self canCloseWindowAfter: anEvent timestamp) ifFalse: [ ^ self ].
+	self autoCloseWindow.
+	anEvent consume
 ]
 
 { #category : #accessing }
@@ -185,7 +186,7 @@ ToPopupWindowManager >> mouseDownEvent: anEvent [
 
 	self unqueuePopupTaskFromEvent: anEvent.
 	anEvent button = mouseButton ifFalse: [ ^ self ].
-	(self checkCloseOnPickingEvent: anEvent) ifTrue: [
+	(self canCloseOnPickingEvent: anEvent) ifTrue: [
 		self closeWindow.
 		^ self ].
 	self popupOnMouseDown ifFalse: [ ^ self ].
@@ -198,7 +199,7 @@ ToPopupWindowManager >> mouseDownEvent: anEvent [
 ToPopupWindowManager >> mouseUpEvent: anEvent [
 	
 	self isInline ifTrue: [ ^ self ].
-	self checkAutoCloseWindowOnPickingEvent: anEvent
+	self checkCloseWindowOnPickingEvent: anEvent
 ]
 
 { #category : #'window handling' }
@@ -231,7 +232,7 @@ ToPopupWindowManager >> onOpened [
 ToPopupWindowManager >> pickOutsideEvent: anEvent [
 
 	self isInline ifTrue: [ ^ self ].
-	self checkAutoCloseWindowOnPickingEvent: anEvent
+	self checkCloseWindowOnPickingEvent: anEvent
 ]
 
 { #category : #'window handling' }

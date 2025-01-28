@@ -9,10 +9,10 @@ ToMenuInlineWindowMode >> startWindow: aWindow [
 
 	" the manager element is a ToMenu. 
 	The window is added after the the ToMenu in its barOwner"
-	manager element barOwner 
+	self barOwner 
 		addItem: aWindow
-		afterIndex: manager element positionInBar.
-	manager element requestNewSkin
+		afterIndex: self element positionInBar.
+	self element requestNewSkin
 ]
 
 { #category : #'window handling' }
@@ -21,7 +21,7 @@ ToMenuInlineWindowMode >> stopWindow: aWindow [
 	" the manager element is a ToMenu. 
 	remove the window from the ToMenu barOwner ( see startWindow: ) "
 
-	manager element barOwner
+	self barOwner
 		removeItem: aWindow.
-	manager element requestNewSkin
+	self element requestNewSkin
 ]

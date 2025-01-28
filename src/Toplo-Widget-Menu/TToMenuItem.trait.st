@@ -71,12 +71,6 @@ TToMenuItem >> isMenuItem [
 ]
 
 { #category : #'t - menu item' }
-TToMenuItem >> isRootMenuItem [ 
-
-	^ self barOwner isNil  or: [ self barOwner isMenuBar ]
-]
-
-{ #category : #'t - menu item' }
 TToMenuItem >> isSubmenu [ 
 
 	^ false
@@ -93,10 +87,7 @@ TToMenuItem >> menuBar [
 { #category : #'t - menu item' }
 TToMenuItem >> parentMenu [
 
-	^ self barOwner ifNotNil: [ :bo |
-		  bo isMenuBar
-			  ifTrue: [  ]
-			  ifFalse: [ bo ] ]
+	^ self barOwner 
 ]
 
 { #category : #'t - menu item' }

@@ -9,14 +9,6 @@ Class {
 	#category : #'Toplo-Widget-Menu-Items'
 }
 
-{ #category : #'adding-removing' }
-ToMenuItemElement >> closeSiblingMenuWindow [
-
-	self barOwnerDo: [ :bo |
-		bo closeAllWindowsForItemsSatisfying: [ :it |
-			it notNil and: [ it ~= self and: [ it isInline not ] ] ] ]
-]
-
 { #category : #'t - menu window model' }
 ToMenuItemElement >> closeWindow [
 

@@ -78,7 +78,7 @@ BaselineOfToplo >> registerPackages: spec [
 	spec
 		package: #'Toplo-Widget-Accordion'
 		with: [
-		spec requires: #( #Toplo #'Toplo-Widget-Button' #'Toplo-Theme' ) ].
+		spec requires: #( #Toplo #'Toplo-Widget-Button' #'Toplo-Widget-List' #'Toplo-Theme' ) ].
 	
 	spec
 		package: #'Toplo-Widget-Image'

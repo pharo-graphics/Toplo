@@ -1,8 +1,6 @@
 Class {
 	#name : #ToBasicAccordionElement,
 	#superclass : #ToElement,
-	#traits : '',
-	#classTraits : '',
 	#instVars : [
 		'body',
 		'headerBuilder',

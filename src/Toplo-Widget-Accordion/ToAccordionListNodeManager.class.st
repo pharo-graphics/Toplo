@@ -15,7 +15,7 @@ ToAccordionListNodeManager >> buildNode: aNode [
 	aNode addChild: collapse at: 1
 ]
 
-{ #category : #'instance creation' }
+{ #category : #initialization }
 ToAccordionListNodeManager >> constraintNode: aNode [
 
 	aNode constraintsDo: [ :c |
@@ -36,7 +36,7 @@ ToAccordionListNodeManager >> newNodeForHolder: aNodeHolder [
 	^ ToAccordionNode new
 ]
 
-{ #category : #'instance creation' }
+{ #category : #initialization }
 ToAccordionListNodeManager >> unbuildNode: aNode [
 
 	aNode removeChildren.

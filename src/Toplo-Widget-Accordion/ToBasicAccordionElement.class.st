@@ -1,6 +1,8 @@
 Class {
 	#name : #ToBasicAccordionElement,
 	#superclass : #ToElement,
+	#traits : 'TToButtonOwner',
+	#classTraits : 'TToButtonOwner classTrait',
 	#instVars : [
 		'body',
 		'headerBuilder',
@@ -60,7 +62,7 @@ ToBasicAccordionElement >> expand [
 ToBasicAccordionElement >> initialize [
 
 	super initialize.
-	self initializeButtonHolder.
+	self initializeAsButtonHolder.
 	isCollapsed := true.
 	self height: 30.
 	self layout: BlLinearLayout vertical.

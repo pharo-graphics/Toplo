@@ -6,6 +6,8 @@ This version works but failed to honor the clicked skin event because  (which is
 Class {
 	#name : #ToAccordionXPElement,
 	#superclass : #ToElement,
+	#traits : 'TToButtonOwner + (TToTripletElement - {#tripletProperties:}) + TToLabeledIcon',
+	#classTraits : 'TToButtonOwner classTrait + TToTripletElement classTrait + TToLabeledIcon classTrait',
 	#instVars : [
 		'body',
 		'isCollapsed'
@@ -49,7 +51,7 @@ ToAccordionXPElement >> expand [
 ToAccordionXPElement >> initialize [
 
 	super initialize.
-	self initializeButtonHolder.
+	self initializeAsButtonHolder.
 	isCollapsed := true.
 	self height: 30.
 	self layout: BlLinearLayout vertical.
@@ -104,4 +106,10 @@ ToAccordionXPElement >> newRawSkin [
 ToAccordionXPElement >> properties [
 
 	^ self button properties
+]
+
+{ #category : #'t - triplet element - private - accessing' }
+ToAccordionXPElement >> tripletProperties [
+
+	^ self button tripletProperties
 ]

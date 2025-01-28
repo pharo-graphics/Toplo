@@ -6,8 +6,8 @@ This version works but failed to honor the clicked skin event because  (which is
 Class {
 	#name : #ToAccordionXPElement,
 	#superclass : #ToElement,
-	#traits : 'TToButtonOwner + (TToTripletElement - {#tripletProperties:}) + TToLabeledIcon',
-	#classTraits : 'TToButtonOwner classTrait + TToTripletElement classTrait + TToLabeledIcon classTrait',
+	#traits : '',
+	#classTraits : '',
 	#instVars : [
 		'body',
 		'isCollapsed'

@@ -2,7 +2,8 @@ Class {
 	#name : #ToGenericTreeNodeManager,
 	#superclass : #ToGenericListNodeManager,
 	#instVars : [
-		'nodeWrapperClass'
+		'nodeWrapperClass',
+		'treeElement'
 	],
 	#category : #'Toplo-Widget-Tree'
 }
@@ -33,7 +34,8 @@ ToGenericTreeNodeManager >> defaultNodeFactory [
 
 	^ [ :holder |
 	  holder wrapper: self defaultNodeWrapperClass new.
-	  ToTreeNode new nodeHolder: holder. ]
+	  holder treeElement: self treeElement.
+	  ToTreeNode new nodeHolder: holder ]
 ]
 
 { #category : #initialization }
@@ -61,4 +63,16 @@ ToGenericTreeNodeManager >> transparentIndentationElement [
 	^ ToElement new
 		  size: 20 @ 20;
 		  background: Color random
+]
+
+{ #category : #accessing }
+ToGenericTreeNodeManager >> treeElement [ 
+
+	^ treeElement
+]
+
+{ #category : #accessing }
+ToGenericTreeNodeManager >> treeElement: aTreeElement [
+
+	treeElement := aTreeElement 
 ]

@@ -3,10 +3,18 @@ Class {
 	#superclass : #ToListNodeHolder,
 	#instVars : [
 		'collapsed',
-		'wrapper'
+		'wrapper',
+		'treeElement'
 	],
 	#category : #'Toplo-Widget-Tree'
 }
+
+{ #category : #accessing }
+ToTreeNodeHolder >> bindDataItem: aDataItem [
+
+	super bindDataItem: aDataItem.
+	self wrapper wrappedObject: aDataItem.
+]
 
 { #category : #public }
 ToTreeNodeHolder >> click [
@@ -19,15 +27,24 @@ ToTreeNodeHolder >> click [
 { #category : #'expanding-collapsing' }
 ToTreeNodeHolder >> collapse [
 
+	| start stop |
 	collapsed := true.
-	'collapse' traceCr
+	'collapse' traceCr.
+	start := self treeElement dataAccessor indexOf: self wrapper wrappedObject.
+	stop := start + self wrapper children size. 
+	self treeElement dataAccessor removeFrom: start + 1 to: stop.
 ]
 
 { #category : #'expanding-collapsing' }
 ToTreeNodeHolder >> expand [
 
+	| oldObject |
 	collapsed := false.
-	'expand' traceCr
+	'expand' traceCr.
+	oldObject := self wrapper wrappedObject.
+	self wrapper children do: [ :nextObject |
+		self treeElement dataAccessor add: nextObject after: oldObject.
+		oldObject := nextObject ].
 ]
 
 { #category : #initialization }
@@ -41,6 +58,18 @@ ToTreeNodeHolder >> initialize [
 ToTreeNodeHolder >> isCollapsed [ 
 
  ^ collapsed 
+]
+
+{ #category : #accessing }
+ToTreeNodeHolder >> treeElement [ 
+
+	^ treeElement
+]
+
+{ #category : #accessing }
+ToTreeNodeHolder >> treeElement: aTreeElement [
+
+	treeElement := aTreeElement 
 ]
 
 { #category : #accessing }

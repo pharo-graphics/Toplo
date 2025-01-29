@@ -932,6 +932,7 @@ ToSandBox class >> example_CodeEditor [
 	disabox := ToCheckMenuItem new label: (ToLabel text: 'Disable').
 
 	menuBar := ToMenuBar new.
+	menuBar hMatchParent.
 	menuBar addItem: fileMenu.
 	menuBar addItem: inspectBtn.
 	menuBar addItem: showStatisticsBtn.
@@ -984,6 +985,46 @@ ToSandBox class >> example_EditableList2WithAllClassesNames [
 ]
 
 { #category : #album }
+ToSandBox class >> example_EditorWithMinHeight [
+
+	| pane menuBar text album disabox inspectBtn showStatisticsBtn |
+	pane := ToPane vertical matchParent.
+
+	text := ''.
+	album := ToAlbum new.
+	album hMatchParent.
+	album vFitContent.
+	album next constraintsDo: [ :c |
+		c vertical fitContent.
+		c horizontal matchParent ].
+	album infinite constraintsDo: [ :c |
+		c vertical fitContent.
+		c horizontal matchParent ].
+	album text: text copy.
+	album minHeight: 100.
+
+	inspectBtn := ToMenuItem new labelText: 'Inspect'.
+	showStatisticsBtn := ToMenuItem new labelText: 'Statistics'.
+	disabox := ToCheckMenuItem new label: (ToLabel text: 'Disable').
+
+	menuBar := ToMenuBar new.
+	menuBar hMatchParent.
+	menuBar addItem: inspectBtn.
+	menuBar addItem: showStatisticsBtn.
+	menuBar addItem: disabox.
+
+	pane addChild: menuBar.
+	pane addChild: album.
+
+	inspectBtn whenClickedDo: [ :evt | album space root inspect ].
+	disabox whenClickedDo: [ :evt | album disabled: disabox isChecked ].
+	showStatisticsBtn whenClickedDo: [ :evt |
+		album space showStatisticsWindow ].
+
+	pane openInSpace
+]
+
+{ #category : #album }
 ToSandBox class >> example_EditorWithPlaceholder [
 
 	| placeholderText view |
@@ -1002,8 +1043,8 @@ ToSandBox class >> example_EditorWithPlaceholder [
 		        withRowNumbers;
 		        withSaveCapability;
 		        whenSaveRequestedDo: [ :saveRequested |
-			        saveRequested client saveResult: true ];
-		        withEditsFeedback.
+			        saveRequested accepted: true ];
+		        yourself.
 	view openInInnerWindow
 ]
 
@@ -1027,7 +1068,7 @@ ToSandBox class >> example_EditorWithPlaceholderWithAlbum [
 		        withRowNumbers;
 		        withSaveCapability;
 		        whenSaveRequestedDo: [ :saveRequested |
-			        saveRequested client saveResult: true ];
+			        saveRequested accepted: true ];
 		        withEditsFeedback.
 	view openInInnerWindow
 ]
@@ -1041,10 +1082,10 @@ ToSandBox class >> example_EditorWithoutSoftLine [
 		        withRowNumbers;
 		        withSaveCapability;
 		        whenSaveRequestedDo: [ :saveRequested |
-			        saveRequested client saveResult: true ];
+			        saveRequested accepted: true  ];
 		        withEditsFeedback.
 	view withoutSoftLine.
-	view text: ((String loremIpsum: 100000) asRopedText fontName: 'Source Code Pro').
+	view text: ((String loremIpsum: 10000) asRopedText fontName: 'Source Code Pro').
 	view openInSpace
 ]
 

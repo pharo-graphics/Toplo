@@ -1,5 +1,5 @@
 Class {
-	#name : #ToAccordionHeaderElement,
+	#name : #ToAccordionItemHeaderElement,
 	#superclass : #ToElement,
 	#traits : 'TToClickable',
 	#classTraits : 'TToClickable classTrait',
@@ -15,7 +15,7 @@ Class {
 }
 
 { #category : #examples }
-ToAccordionHeaderElement class >> exampleWithLabel [
+ToAccordionItemHeaderElement class >> exampleWithLabel [
 
 	<script>
 	| inst |
@@ -26,39 +26,39 @@ ToAccordionHeaderElement class >> exampleWithLabel [
 ]
 
 { #category : #'as yet unclassified' }
-ToAccordionHeaderElement >> builder: aValuable [
+ToAccordionItemHeaderElement >> builder: aValuable [
 	"With an header as argument"
 	
 	aValuable value: content
 ]
 
 { #category : #'as yet unclassified' }
-ToAccordionHeaderElement >> clickHandler [
+ToAccordionItemHeaderElement >> clickHandler [
 
 	^ clickHandler 
 ]
 
 { #category : #'as yet unclassified' }
-ToAccordionHeaderElement >> clickHandler: anHandler [
+ToAccordionItemHeaderElement >> clickHandler: anHandler [
 
 	clickHandler := anHandler
 ]
 
 { #category : #accessing }
-ToAccordionHeaderElement >> content [ 
+ToAccordionItemHeaderElement >> content [ 
 
 	^ content
 ]
 
 { #category : #'as yet unclassified' }
-ToAccordionHeaderElement >> icon: aToImage [
+ToAccordionItemHeaderElement >> icon: aToImage [
 
 	iconContainer removeChildren.
 	iconContainer addChild: aToImage	
 ]
 
 { #category : #initialization }
-ToAccordionHeaderElement >> initialize [
+ToAccordionItemHeaderElement >> initialize [
 
 	super initialize.
 	isCollapsed := true.
@@ -77,31 +77,31 @@ ToAccordionHeaderElement >> initialize [
 ]
 
 { #category : #'as yet unclassified' }
-ToAccordionHeaderElement >> isCollapsed [ 
+ToAccordionItemHeaderElement >> isCollapsed [ 
 	
 	^ isCollapsed 
 ]
 
 { #category : #'as yet unclassified' }
-ToAccordionHeaderElement >> isCollapsed: aBoolean [
+ToAccordionItemHeaderElement >> isCollapsed: aBoolean [
 
 	isCollapsed := aBoolean
 ]
 
 { #category : #skin }
-ToAccordionHeaderElement >> newRawSkin [
+ToAccordionItemHeaderElement >> newRawSkin [
 
-	^ ToAccordionHeaderElementSkin new
+	^ ToAccordionItemHeaderElementSkin new
 ]
 
 { #category : #'as yet unclassified' }
-ToAccordionHeaderElement >> rawClickEventClass [
+ToAccordionItemHeaderElement >> rawClickEventClass [
 
 	^ clickEventClass
 ]
 
 { #category : #'as yet unclassified' }
-ToAccordionHeaderElement >> rawClickEventClass: aClass [
+ToAccordionItemHeaderElement >> rawClickEventClass: aClass [
 
 	clickEventClass := aClass
 ]

@@ -34,7 +34,7 @@ ToLabelEditorManager >> newEditorForLabel: aLabel [
 		do: [ :event | self closeWindow ].
 	ed withSaveCapability.
 	ed text: aLabel text copy.
-	ed infinite requestFocus.
+	ed requestFocus.
 	ed selecter
 		all;
 		apply.

@@ -28,7 +28,7 @@ ToSelectElementSkin >> shortcutsToInstallIn: aSelect [
 						          nextSelectableIndexToScrollTo.
 					   listElement secondarySelecter selectOnlyIndex: idx.
 					   listElement secondarySelecter scrollToDataSourcePosition: idx.
-					   aSelect windowManager popupEvent: aShortcutEvent ]).
+					   aSelect manager popupEvent: aShortcutEvent ]).
 
 		  stream nextPut: (BlShortcutWithAction new
 				   combination: BlKeyCombination builder arrowUp build;

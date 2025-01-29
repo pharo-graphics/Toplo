@@ -5,8 +5,8 @@ Class {
 	#name : #ToWorkspaceExample,
 	#superclass : #Object,
 	#instVars : [
-		'textModel',
-		'bindings'
+		'bindings',
+		'album'
 	],
 	#category : #'Toplo-Examples-TopLevel'
 }
@@ -72,8 +72,8 @@ ToWorkspaceExample >> correctFrom: start to: stop with: aString [
 ToWorkspaceExample >> doIt [
 
 	| toDo |
-	toDo := textModel selectedText asString.
-	toDo ifEmpty: [ toDo := textModel text asString ].
+	toDo := album selectedText asString.
+	toDo ifEmpty: [ toDo := album text asString ].
 	[
 	OpalCompiler new
 		source: toDo readStream;
@@ -93,14 +93,14 @@ ToWorkspaceExample >> hasBindingOf: aString [
 ToWorkspaceExample >> initialize [
 	super initialize.
 	bindings := Dictionary new.
-	textModel := ToAlbum new.
+	album := ToAlbum new.
 
 ]
 
 { #category : #'user interface' }
 ToWorkspaceExample >> initializeCodeEditor [
 
-	textModel
+	album
 		withRowNumbers;
 		placeholderBuilder: [ :thePlaceholder :e | | text lab |
 			text := (('Workspace example' , String cr , '- doit: Cmd-d') asRopedText
@@ -145,15 +145,15 @@ ToWorkspaceExample >> openInSpace: aSpace [
 
 	| frame |
 	self initializeCodeEditor.
-	textModel infinite requestFocus.
-	textModel showPlaceholder.
+	album requestFocus.
+	album showPlaceholder.
 	frame := ToInnerWindow new title: 'Workspace'.
-	frame pane addChild: textModel.
+	frame pane addChild: album.
 	aSpace root addChild: frame
 ]
 
 { #category : #accessing }
 ToWorkspaceExample >> text [
 
-	^ textModel text
+	^ album text
 ]

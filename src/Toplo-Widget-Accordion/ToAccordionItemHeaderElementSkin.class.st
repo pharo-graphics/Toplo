@@ -1,11 +1,11 @@
 Class {
-	#name : #ToAccordionHeaderElementSkin,
+	#name : #ToAccordionItemHeaderElementSkin,
 	#superclass : #ToRawSkin,
 	#category : #'Toplo-Widget-Accordion-Core'
 }
 
 { #category : #'as yet unclassified' }
-ToAccordionHeaderElementSkin >> clickedSkinEvent: anEvent [
+ToAccordionItemHeaderElementSkin >> clickedSkinEvent: anEvent [
 
 	super clickedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -17,7 +17,7 @@ ToAccordionHeaderElementSkin >> clickedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToAccordionHeaderElementSkin >> installSkinEvent: anEvent [
+ToAccordionItemHeaderElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |

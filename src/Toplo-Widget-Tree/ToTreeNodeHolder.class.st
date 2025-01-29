@@ -2,39 +2,55 @@ Class {
 	#name : #ToTreeNodeHolder,
 	#superclass : #ToListNodeHolder,
 	#instVars : [
-		'expanded',
-		'nodeHolder'
+		'collapsed',
+		'wrapper'
 	],
 	#category : #'Toplo-Widget-Tree'
 }
 
-{ #category : #'expanding-collapsing' }
-ToTreeNodeHolder >> expand [ 
+{ #category : #public }
+ToTreeNodeHolder >> click [
 
-	expanded := true.
+	collapsed
+		ifTrue: [ self expand ]
+		ifFalse: [ self collapse ]
 ]
 
 { #category : #'expanding-collapsing' }
-ToTreeNodeHolder >> fold [
+ToTreeNodeHolder >> collapse [
 
-	expanded := false.
+	collapsed := true.
+	'collapse' traceCr
+]
+
+{ #category : #'expanding-collapsing' }
+ToTreeNodeHolder >> expand [
+
+	collapsed := false.
+	'expand' traceCr
 ]
 
 { #category : #initialization }
-ToTreeNodeHolder >> initialize [ 
+ToTreeNodeHolder >> initialize [
 
 	super initialize.
-	expanded := false.
+	collapsed := true
 ]
 
 { #category : #accessing }
-ToTreeNodeHolder >> nodeHolder [ 
+ToTreeNodeHolder >> isCollapsed [ 
 
-	^ nodeHolder
+ ^ collapsed 
 ]
 
 { #category : #accessing }
-ToTreeNodeHolder >> nodeHolder: aTreeNodeHolder [ 
+ToTreeNodeHolder >> wrapper [
 
-	nodeHolder := aTreeNodeHolder 
+	^ wrapper
+]
+
+{ #category : #accessing }
+ToTreeNodeHolder >> wrapper: aNodeWrapper [ 
+
+	wrapper := aNodeWrapper 
 ]

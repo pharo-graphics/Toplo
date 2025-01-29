@@ -1,6 +1,9 @@
 Class {
 	#name : #ToGenericTreeNodeManager,
 	#superclass : #ToGenericListNodeManager,
+	#instVars : [
+		'nodeWrapperClass'
+	],
 	#category : #'Toplo-Widget-Tree'
 }
 
@@ -14,16 +17,23 @@ ToGenericTreeNodeManager >> defaultHolderClass [
 ToGenericTreeNodeManager >> defaultNodeBuilder [
 
 	^ [ :node :dataItem :holder |
-	  node addChild: 
-		(ToTripletElement new
-		startElement: self transparentIndentationElement;
-			middleElement: (ToLabel text: dataItem asString))  ]
+	  | start |
+	  start := self transparentIndentationElement.
+	  start addEventHandlerOn: BlClickEvent do: [ :e |
+		  e consume.
+		  holder click ].
+	  node addChild: (ToTripletElement new
+			   startElement: start;
+			   middleElement: (ToLabel text: dataItem asString);
+			   startInterspace: 5) ]
 ]
 
 { #category : #initialization }
 ToGenericTreeNodeManager >> defaultNodeFactory [
 
-	^ [ :holder | ToTreeNode new nodeHolder: holder]
+	^ [ :holder |
+	  holder wrapper: self defaultNodeWrapperClass new.
+	  ToTreeNode new nodeHolder: holder. ]
 ]
 
 { #category : #initialization }
@@ -32,8 +42,23 @@ ToGenericTreeNodeManager >> defaultNodeUnbuilder [
 	^ [ :node :dataItem :holder | ]
 ]
 
-{ #category : #'as yet unclassified' }
-ToGenericTreeNodeManager >> transparentIndentationElement [ 
+{ #category : #initialization }
+ToGenericTreeNodeManager >> defaultNodeWrapperClass [ 
 
-	^ ToElement new size: 15@1.
+	^ ToTreeClassWrapper
+]
+
+{ #category : #initialization }
+ToGenericTreeNodeManager >> initialize [ 
+
+	super initialize.
+	nodeWrapperClass := self defaultNodeWrapperClass 
+]
+
+{ #category : #initialization }
+ToGenericTreeNodeManager >> transparentIndentationElement [
+
+	^ ToElement new
+		  size: 20 @ 20;
+		  background: Color random
 ]

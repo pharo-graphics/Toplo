@@ -18,7 +18,7 @@ ToAccordionItemElement class >> exampleSeveralInPaneWithLabel [
 	pane hMatchParent.
 	pane vFitContent.
 	(1 to: 5) collect: [ :i |
-		pane addChild: ((self itemWithLabelText: 'Header ' , i asString) isExpanded: true)].
+		pane addChild: ((self itemWithLabelText: 'Header ' , i asString) isExpanded: false)].
 	pane openInSpace.
 	^ pane
 ]
@@ -127,7 +127,9 @@ ToAccordionItemElement class >> itemWithLabelText: aString [
 			hMatchParent;
 			height: 100;
 			background: Color random ].
-	inst vFitContent; hMatchParent.
+	inst
+		vFitContent;
+		hMatchParent.
 	^ inst
 ]
 

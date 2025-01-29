@@ -66,7 +66,7 @@ ToSegmentedElement >> layoutStrategy [
 { #category : #'t - item bar owner - accessing' }
 ToSegmentedElement >> newItemBar [
 
-	^ ToSegmentedListElement new
+	^ ToSegmentedBarElement new
 ]
 
 { #category : #skin }

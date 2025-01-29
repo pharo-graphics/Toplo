@@ -2,40 +2,40 @@
 I'm list whose contents is a segmented element (i.e. a list of toggle elements)
 "
 Class {
-	#name : #ToSegmentedListElement,
+	#name : #ToCheckableBarElement,
 	#superclass : #ToItemBarElement,
 	#traits : 'TToCheckableGroupOwner',
 	#classTraits : 'TToCheckableGroupOwner classTrait',
 	#instVars : [
 		'group'
 	],
-	#category : #'Toplo-Widget-Segmented-Bar'
+	#category : #'Toplo-Widget-List-ItemBar'
 }
 
-{ #category : #layout }
-ToSegmentedListElement >> configureLayoutIn: aSegmentedElement [
+{ #category : #'as yet unclassified' }
+ToCheckableBarElement >> configureLayoutIn: aBarOwner [
 
 	self matchParent.
-	self horizontal: aSegmentedElement isHorizontal.
-	aSegmentedElement isHMatchParent ifFalse: [ self hFitContent ].
-	aSegmentedElement isVMatchParent ifFalse: [ self vFitContent ].
+	self horizontal: aBarOwner isHorizontal.
+	aBarOwner isHMatchParent ifFalse: [ self hFitContent ].
+	aBarOwner isVMatchParent ifFalse: [ self vFitContent ].
 	self configureLayout
 ]
 
-{ #category : #initialization }
-ToSegmentedListElement >> defaultEventHandler [
+{ #category : #'as yet unclassified' }
+ToCheckableBarElement >> defaultEventHandler [
 
-	^ ToSegmentedListElementEventHandler new
+	^ ToCheckableBarElementEventHandler new
 ]
 
 { #category : #initialization }
-ToSegmentedListElement >> defaultNodeManagerClass [ 
+ToCheckableBarElement >> defaultNodeManagerClass [ 
 
 	^ ToSegmentedNodeManager 
 ]
 
-{ #category : #initialization }
-ToSegmentedListElement >> initialize [
+{ #category : #'as yet unclassified' }
+ToCheckableBarElement >> initialize [
 
 	super initialize.
 	
@@ -55,14 +55,14 @@ ToSegmentedListElement >> initialize [
 	self primarySelectionMode makeDisabledUnselectable: true
 ]
 
-{ #category : #'t - checkable group owner' }
-ToSegmentedListElement >> rawGroup [
+{ #category : #'as yet unclassified' }
+ToCheckableBarElement >> rawGroup [
 
 	^ group ifNil: [ group := ToCheckableGroup new ]
 ]
 
-{ #category : #'t - checkable group owner' }
-ToSegmentedListElement >> rawGroup: aGroup [
+{ #category : #'as yet unclassified' }
+ToCheckableBarElement >> rawGroup: aGroup [
 
 	self shouldNotImplement 
 ]

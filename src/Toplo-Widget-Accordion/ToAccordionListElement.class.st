@@ -1,16 +1,16 @@
 Class {
 	#name : #ToAccordionListElement,
-	#superclass : #ToAbstractListElement,
+	#superclass : #ToListElement,
 	#category : #'Toplo-Widget-Accordion-Core'
 }
 
-{ #category : #'Xp to trash' }
+{ #category : #examples }
 ToAccordionListElement class >> example1 [
 
 	<script>
 	| list |
 	list := ToAccordionListElement new.
-	list dataAccessor addAll: ((1 to: 5) collect: [ :i |
+	list dataAccessor addAll: ((1 to: 50) collect: [ :i |
 			 ToAccordionItemElement new
 				 headerBuilder: [ :header |
 					 header addChild: (ToLabel text: 'Header ' , i asString) ];
@@ -20,56 +20,50 @@ ToAccordionListElement class >> example1 [
 								  border: Color random;
 								  background: Color random;
 								  size: 50 @ 50) ] ]).
+	list nodeBuilder: [ :node :accordionElement :holder | node addChild: accordionElement ].
 	list matchParent.
 	list openInSpace
 ]
 
-{ #category : #'Xp to trash' }
+{ #category : #examples }
 ToAccordionListElement class >> example2WithAlbumInBody [
 
 	<script>
 	| list rand |
 	rand := Random new.
-	list := ToListElement new.
+	list := ToAccordionListElement new.
 	list dataAccessor addAll: ((1 to: 500) collect: [ :i |
-			 String loremIpsum: (rand nextIntegerBetween: 100 and: 600) ]).
-	list nodeBuilder: [ :node :loremString :holder |
-		| accordeon |
-		accordeon := ToAccordionItemElement new
-			             headerBuilder: [ :header |
-				             header addChild:
-						             (ToLabel text: 'Lorem ' , holder position asString) ];
-			             bodyBuilder: [ :body |
-				             | album |
-				             album := ToAlbum new
-					                      withSaveCapability;
-					                      whenSaveRequestedDo: [ :saveRequested |
-						                      saveRequested accepted: true ];
-					                      whenCancelRequestedDo: [ :cancelRequested |
-						                      cancelRequested editorElement text:
-								                      loremString ];
-					                      yourself.
-				             album hMatchParent.
-				             album vFitContent.
-				             album next constraintsDo: [ :c |
-					             c vertical fitContent.
-					             c horizontal matchParent ].
-				             album infinite constraintsDo: [ :c |
-					             c vertical fitContent.
-					             c horizontal matchParent ].
-				             album minHeight: 50.
-				             album text: loremString.
-				             body addChild: album ];
-			             yourself.
-		node addChild: accordeon ].
+			 | loremString |
+			 loremString := String loremIpsum:
+				                (rand nextIntegerBetween: 100 and: 600).
+			 ToAccordionItemElement new
+				 headerBuilder: [ :header |
+					 header addChild: (ToLabel text: 'Lorem ' , i asString) ];
+				 bodyBuilder: [ :body |
+					 | album |
+					 album := ToAlbum new
+						          withSaveCapability;
+						          whenSaveRequestedDo: [ :saveRequested |
+							          saveRequested accepted: true ];
+						          whenCancelRequestedDo: [ :cancelRequested |
+							          cancelRequested editorElement text: loremString ];
+						          yourself.
+					 album hMatchParent.
+					 album vFitContent.
+					 album next constraintsDo: [ :c |
+						 c vertical fitContent.
+						 c horizontal matchParent ].
+					 album infinite constraintsDo: [ :c |
+						 c vertical fitContent.
+						 c horizontal matchParent ].
+					 album minHeight: 50.
+					 album text: loremString.
+					 body addChild: album ];
+				 yourself ]).
+	list nodeBuilder: [ :node :accordion :holder |
+		node addChild: accordion ].
 	list matchParent.
 	list openInSpace
-]
-
-{ #category : #initialization }
-ToAccordionListElement >> defaultInnerElement [
-
-	^ ToInfiniteElement onListElement: self
 ]
 
 { #category : #initialization }

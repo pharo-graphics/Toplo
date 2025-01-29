@@ -1,11 +1,11 @@
 Class {
-	#name : #ToSegmentedNodeSelectionEventHandler,
+	#name : #ToCheckableNodeSelectionEventHandler,
 	#superclass : #BlCustomEventHandler,
-	#category : #'Toplo-Widget-Segmented-Node'
+	#category : #'Toplo-Widget-List-ItemBar'
 }
 
 { #category : #'event handling' }
-ToSegmentedNodeSelectionEventHandler >> clickEvent: anEvent [
+ToCheckableNodeSelectionEventHandler >> clickEvent: anEvent [
 
 	anEvent
 		ifPrimary: [ self primaryClickEvent: anEvent ]
@@ -15,12 +15,12 @@ ToSegmentedNodeSelectionEventHandler >> clickEvent: anEvent [
 ]
 
 { #category : #'api - accessing' }
-ToSegmentedNodeSelectionEventHandler >> eventsToHandle [
+ToCheckableNodeSelectionEventHandler >> eventsToHandle [
 	^ { BlPrimaryClickEvent }
 ]
 
 { #category : #'event handling' }
-ToSegmentedNodeSelectionEventHandler >> primaryClickEvent: anEvent [
+ToCheckableNodeSelectionEventHandler >> primaryClickEvent: anEvent [
 
 	anEvent currentTarget item dispatchEvent: anEvent copy
 ]

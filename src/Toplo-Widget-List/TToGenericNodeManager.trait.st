@@ -59,6 +59,7 @@ TToGenericNodeManager >> nodeUnbuilder: aValuable [
 TToGenericNodeManager >> unbuildNode: aNode [
 
 	nodeUnbuilder cull: aNode cull: aNode holder dataItem cull: aNode holder.
+	aNode removeChildren
 
 
 ]

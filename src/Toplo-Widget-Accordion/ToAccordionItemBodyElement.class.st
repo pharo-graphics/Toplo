@@ -25,6 +25,12 @@ ToAccordionItemBodyElement >> content [
 ]
 
 { #category : #initialization }
+ToAccordionItemBodyElement >> defaultLayout [ 
+
+	^ BlLinearLayout vertical
+]
+
+{ #category : #initialization }
 ToAccordionItemBodyElement >> initialize [ 
 
 	super initialize.

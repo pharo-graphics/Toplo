@@ -25,20 +25,20 @@ ToAccordionItemHeaderElement class >> exampleWithLabel [
 	^ inst
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToAccordionItemHeaderElement >> builder: aValuable [
 	"With an header as argument"
 	
 	aValuable value: content
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToAccordionItemHeaderElement >> clickHandler [
 
 	^ clickHandler 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToAccordionItemHeaderElement >> clickHandler: anHandler [
 
 	clickHandler := anHandler
@@ -50,7 +50,7 @@ ToAccordionItemHeaderElement >> content [
 	^ content
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToAccordionItemHeaderElement >> icon: aToImage [
 
 	iconContainer removeChildren.
@@ -76,13 +76,13 @@ ToAccordionItemHeaderElement >> initialize [
 	self addChild: content
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToAccordionItemHeaderElement >> isCollapsed [ 
 	
 	^ isCollapsed 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToAccordionItemHeaderElement >> isCollapsed: aBoolean [
 
 	isCollapsed := aBoolean
@@ -94,13 +94,13 @@ ToAccordionItemHeaderElement >> newRawSkin [
 	^ ToAccordionItemHeaderElementSkin new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToAccordionItemHeaderElement >> rawClickEventClass [
 
 	^ clickEventClass
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToAccordionItemHeaderElement >> rawClickEventClass: aClass [
 
 	clickEventClass := aClass

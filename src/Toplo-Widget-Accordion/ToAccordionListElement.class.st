@@ -1,7 +1,7 @@
 Class {
 	#name : #ToAccordionListElement,
 	#superclass : #ToListElement,
-	#category : #'Toplo-Widget-Accordion-Core'
+	#category : #'Toplo-Widget-Accordion-List'
 }
 
 { #category : #examples }
@@ -19,10 +19,12 @@ ToAccordionListElement class >> example1 [
 								  margin: (BlInsets all: 5);
 								  border: Color random;
 								  background: Color random;
-								  size: 50 @ 50) ] ]).
+								  size: 50 @ 50) ];
+							expand ]).
 	list nodeBuilder: [ :node :accordionElement :holder | node addChild: accordionElement ].
 	list matchParent.
-	list openInSpace
+	list openInSpace.
+	list inspect
 ]
 
 { #category : #examples }
@@ -41,6 +43,7 @@ ToAccordionListElement class >> example2WithAlbumInBody [
 					 header addChild: (ToLabel text: 'Lorem ' , i asString) ];
 				 bodyBuilder: [ :body |
 					 | album |
+					body margin: (BlInsets all: 5).
 					 album := ToAlbum new
 						          withSaveCapability;
 						          whenSaveRequestedDo: [ :saveRequested |
@@ -67,8 +70,24 @@ ToAccordionListElement class >> example2WithAlbumInBody [
 ]
 
 { #category : #initialization }
+ToAccordionListElement >> defaultEventHandler [
+
+	^ ToAccordionListElementEventHandler new
+]
+
+{ #category : #initialization }
 ToAccordionListElement >> defaultNodeManagerClass [
 	"The object responsible to populate the list nodes."
 
 	^ ToAccordionListNodeManager 
+]
+
+{ #category : #initialization }
+ToAccordionListElement >> initialize [ 
+
+	super initialize.
+	self primarySelectionMode selectOnPressed: true.
+	self primarySelectionMode deselectOnPressed: true.
+	self primarySelectionMode makeDisabledUnselectable: true
+
 ]

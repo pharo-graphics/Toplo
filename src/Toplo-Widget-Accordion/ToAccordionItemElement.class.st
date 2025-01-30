@@ -1,6 +1,8 @@
 Class {
 	#name : #ToAccordionItemElement,
 	#superclass : #ToElement,
+	#traits : 'TToItem',
+	#classTraits : 'TToItem classTrait',
 	#instVars : [
 		'header',
 		'body'
@@ -143,13 +145,16 @@ ToAccordionItemElement >> bodyBuilder: aValuable [
 { #category : #'expanding-collapsing' }
 ToAccordionItemElement >> collapse [
 
-	body switchCollapsed
+	body switchCollapsed.
+	self notifyChecked
+
 ]
 
 { #category : #'expanding-collapsing' }
 ToAccordionItemElement >> expand [
 
-	body switchExpanded 
+	body switchExpanded.
+	self notifyChecked
 
 ]
 
@@ -184,8 +189,7 @@ ToAccordionItemElement >> initializeBody [
 { #category : #initialization }
 ToAccordionItemElement >> initializeClick [
 
-	header whenClickedDo: [ :e |
-		"e consume."
+	header addEventHandlerOn: BlClickEvent do: [ :event |
 		header isCollapsed: header isCollapsed not.
 		header isCollapsed
 			ifFalse: [ self expand ]
@@ -227,6 +231,13 @@ ToAccordionItemElement >> isExpanded: aBoolean [
 ToAccordionItemElement >> newRawSkin [
 
 	^ ToAccordionItemElementSkin new
+]
+
+{ #category : #'expanding-collapsing' }
+ToAccordionItemElement >> notifyChecked [
+
+	self dispatchEvent: ToAccordionItemCheckedEvent new 
+
 ]
 
 { #category : #'hooks - children' }

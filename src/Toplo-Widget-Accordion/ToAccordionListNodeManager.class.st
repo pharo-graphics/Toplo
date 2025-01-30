@@ -1,13 +1,13 @@
 Class {
 	#name : #ToAccordionListNodeManager,
 	#superclass : #ToGenericListNodeManager,
-	#category : #'Toplo-Widget-Accordion-Core'
+	#category : #'Toplo-Widget-Accordion-List'
 }
 
 { #category : #'t - generic node manager' }
 ToAccordionListNodeManager >> newHolder [
 
-	^ ToListNodeHolder new
+	^ ToAccordionListNodeHolder new
 ]
 
 { #category : #'t - generic node manager' }

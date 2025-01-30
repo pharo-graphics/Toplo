@@ -1,12 +1,7 @@
 Class {
 	#name : #ToAccordionItemHeaderElement,
 	#superclass : #ToElement,
-	#traits : 'TToClickable',
-	#classTraits : 'TToClickable classTrait',
 	#instVars : [
-		'builder',
-		'clickHandler',
-		'clickEventClass',
 		'isCollapsed',
 		'iconContainer',
 		'content'
@@ -14,7 +9,7 @@ Class {
 	#category : #'Toplo-Widget-Accordion-Core'
 }
 
-{ #category : #examples }
+{ #category : #'as yet unclassified' }
 ToAccordionItemHeaderElement class >> exampleWithLabel [
 
 	<script>
@@ -33,18 +28,6 @@ ToAccordionItemHeaderElement >> builder: aValuable [
 ]
 
 { #category : #accessing }
-ToAccordionItemHeaderElement >> clickHandler [
-
-	^ clickHandler 
-]
-
-{ #category : #accessing }
-ToAccordionItemHeaderElement >> clickHandler: anHandler [
-
-	clickHandler := anHandler
-]
-
-{ #category : #accessing }
 ToAccordionItemHeaderElement >> content [ 
 
 	^ content
@@ -57,7 +40,7 @@ ToAccordionItemHeaderElement >> icon: aToImage [
 	iconContainer addChild: aToImage	
 ]
 
-{ #category : #initialization }
+{ #category : #'as yet unclassified' }
 ToAccordionItemHeaderElement >> initialize [
 
 	super initialize.
@@ -88,20 +71,8 @@ ToAccordionItemHeaderElement >> isCollapsed: aBoolean [
 	isCollapsed := aBoolean
 ]
 
-{ #category : #skin }
+{ #category : #'as yet unclassified' }
 ToAccordionItemHeaderElement >> newRawSkin [
 
 	^ ToAccordionItemHeaderElementSkin new
-]
-
-{ #category : #accessing }
-ToAccordionItemHeaderElement >> rawClickEventClass [
-
-	^ clickEventClass
-]
-
-{ #category : #accessing }
-ToAccordionItemHeaderElement >> rawClickEventClass: aClass [
-
-	clickEventClass := aClass
 ]

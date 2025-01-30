@@ -10,9 +10,6 @@ ToListUnselectableSelectionElementExampleSkin >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		| btn border |
-		e positionHook: [ :p :l | p - (l padding left / 2 @ 0) ].
-		e sizeHook: [ :p :l |
-			p + (l padding left / 2 + (l padding right / 2) @ 0) ].
 		e layout: BlFrameLayout new.
 		e padding: (BlInsets right: 5).
 		btn := ToButton new

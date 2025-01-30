@@ -1,6 +1,6 @@
 Class {
 	#name : #ToItemBarNodeHolder,
-	#superclass : #ToBarNodeHolder,
+	#superclass : #ToNodeHolder,
 	#category : #'Toplo-Widget-List-ItemBar'
 }
 

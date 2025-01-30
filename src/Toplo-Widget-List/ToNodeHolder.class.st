@@ -1,5 +1,5 @@
 Class {
-	#name : #ToAbstractNodeHolder,
+	#name : #ToNodeHolder,
 	#superclass : #BlInfiniteHolder,
 	#instVars : [
 		'dataItem'
@@ -8,14 +8,14 @@ Class {
 }
 
 { #category : #accessing }
-ToAbstractNodeHolder >> bindDataItem: aDataItem [
+ToNodeHolder >> bindDataItem: aDataItem [
 
 	self setupNodeWith: (self nodeManager newNodeForHolder: self).
 	self setDataItemAndBuildNode: aDataItem
 ]
 
 { #category : #accessing }
-ToAbstractNodeHolder >> data [
+ToNodeHolder >> data [
 
 
 	self
@@ -26,25 +26,25 @@ ToAbstractNodeHolder >> data [
 ]
 
 { #category : #accessing }
-ToAbstractNodeHolder >> dataItem [
+ToNodeHolder >> dataItem [
 
 	^ dataItem 
 ]
 
 { #category : #accessing }
-ToAbstractNodeHolder >> dataItem: aData [ 
+ToNodeHolder >> dataItem: aData [ 
 
 	dataItem := aData
 ]
 
 { #category : #accessing }
-ToAbstractNodeHolder >> dataSource [
+ToNodeHolder >> dataSource [
 
 	^ self listElement dataSource
 ]
 
 { #category : #accessing }
-ToAbstractNodeHolder >> disabled: aBoolean [
+ToNodeHolder >> disabled: aBoolean [
 
 	| selecter |
 	selecter := self listElement disabledSelecter.
@@ -54,38 +54,38 @@ ToAbstractNodeHolder >> disabled: aBoolean [
 ]
 
 { #category : #accessing }
-ToAbstractNodeHolder >> initializeNode [
+ToNodeHolder >> initializeNode [
 
 	self node disabled: self isDisabled.
 	self isHidden ifTrue: [ self node height: 0 ]
 ]
 
 { #category : #accessing }
-ToAbstractNodeHolder >> isDisabled [
+ToNodeHolder >> isDisabled [
 
 	^ self listElement selectionModel isDisabledIndex: self position
 ]
 
 { #category : #accessing }
-ToAbstractNodeHolder >> isEnabled [
+ToNodeHolder >> isEnabled [
 
 	^ self isDisabled not
 ]
 
 { #category : #accessing }
-ToAbstractNodeHolder >> isHidden [
+ToNodeHolder >> isHidden [
 
 	^ self listElement selectionModel isHiddenIndex: self position
 ]
 
 { #category : #accessing }
-ToAbstractNodeHolder >> isSelectable [
+ToNodeHolder >> isSelectable [
 
 	^ self isUnselectable not
 ]
 
 { #category : #accessing }
-ToAbstractNodeHolder >> isSelected [
+ToNodeHolder >> isSelected [
 
 	^ self listElement
 		  ifNil: [ false ]
@@ -93,37 +93,37 @@ ToAbstractNodeHolder >> isSelected [
 ]
 
 { #category : #accessing }
-ToAbstractNodeHolder >> isUnselectable [
+ToNodeHolder >> isUnselectable [
 
 	^ self listElement selectionModel isUnselectableIndex: self position
 ]
 
 { #category : #accessing }
-ToAbstractNodeHolder >> listElement [
+ToNodeHolder >> listElement [
 
 	^ self infiniteElement listElement
 ]
 
 { #category : #accessing }
-ToAbstractNodeHolder >> node [
+ToNodeHolder >> node [
 
 	^ self itemElement 
 ]
 
 { #category : #accessing }
-ToAbstractNodeHolder >> node: aNode [
+ToNodeHolder >> node: aNode [
 
 	itemElement := aNode
 ]
 
 { #category : #accessing }
-ToAbstractNodeHolder >> nodeManager [ 
+ToNodeHolder >> nodeManager [ 
 
 	^ self listElement nodeManager
 ]
 
 { #category : #accessing }
-ToAbstractNodeHolder >> notifyDeselectedWithOption: aSelectionElementOption [
+ToNodeHolder >> notifyDeselectedWithOption: aSelectionElementOption [
 
 	self isSelected ifTrue: [ ^ self ].
 	self node dispatchEvent: (ToListNodeSelectedEvent new
@@ -133,7 +133,7 @@ ToAbstractNodeHolder >> notifyDeselectedWithOption: aSelectionElementOption [
 ]
 
 { #category : #accessing }
-ToAbstractNodeHolder >> notifySelectedWithOption: aSelectionElementOption [
+ToNodeHolder >> notifySelectedWithOption: aSelectionElementOption [
 
 	self isSelected ifFalse: [ ^ self ].
 	self node dispatchEvent: (ToListNodeSelectedEvent new
@@ -143,7 +143,7 @@ ToAbstractNodeHolder >> notifySelectedWithOption: aSelectionElementOption [
 ]
 
 { #category : #accessing }
-ToAbstractNodeHolder >> release [
+ToNodeHolder >> release [
 
 	super release.
 	dataItem := nil
@@ -151,19 +151,19 @@ ToAbstractNodeHolder >> release [
 ]
 
 { #category : #accessing }
-ToAbstractNodeHolder >> selecter [ 
+ToNodeHolder >> selecter [ 
 
 	^ self listElement selecter
 ]
 
 { #category : #accessing }
-ToAbstractNodeHolder >> selectionModel [
+ToNodeHolder >> selectionModel [
 
 	^ self listElement selectionModel
 ]
 
 { #category : #accessing }
-ToAbstractNodeHolder >> setDataItemAndBuildNode: aDataItem [ 
+ToNodeHolder >> setDataItemAndBuildNode: aDataItem [ 
 
 	| nodeManager |
 	self dataItem: aDataItem.
@@ -174,7 +174,7 @@ ToAbstractNodeHolder >> setDataItemAndBuildNode: aDataItem [
 ]
 
 { #category : #accessing }
-ToAbstractNodeHolder >> setupNodeWith: aNode [
+ToNodeHolder >> setupNodeWith: aNode [
 
 	| infiniteConstraints |
 	self node: aNode.
@@ -183,7 +183,7 @@ ToAbstractNodeHolder >> setupNodeWith: aNode [
 ]
 
 { #category : #accessing }
-ToAbstractNodeHolder >> unbindDataItem [
+ToNodeHolder >> unbindDataItem [
 
 	| nodeManager |
 	nodeManager := self listElement nodeManager.

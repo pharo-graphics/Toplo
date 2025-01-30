@@ -24,7 +24,7 @@ ToAccordionListElement class >> example1 [
 	list nodeBuilder: [ :node :accordionElement :holder | node addChild: accordionElement ].
 	list matchParent.
 	list openInSpace.
-	list inspect
+	"list inspect"
 ]
 
 { #category : #examples }

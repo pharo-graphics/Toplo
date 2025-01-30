@@ -19,36 +19,14 @@ ToGenericListNodeManager >> constraintNode: aNode [
 ]
 
 { #category : #initialization }
-ToGenericListNodeManager >> defaultHolderClass [
-
-	^ ToListNodeHolder
-]
-
-{ #category : #initialization }
-ToGenericListNodeManager >> defaultNodeBuilder [
-
-	^ [ :node :dataItem :holder |
-	  node addChild: (ToLabel text: dataItem asString)  ]
-]
-
-{ #category : #initialization }
-ToGenericListNodeManager >> defaultNodeFactory [
-
-	^ [ :holder | ToListNode new ]
-]
-
-{ #category : #initialization }
-ToGenericListNodeManager >> defaultNodeUnbuilder [
-
-	^ [ :node :dataItem :holder | ]
-]
-
-{ #category : #initialization }
 ToGenericListNodeManager >> initialize [
 
 	super initialize.
-	holderClass := self defaultHolderClass.
-	nodeBuilder := self defaultNodeBuilder.
-	nodeUnbuilder := self defaultNodeUnbuilder.
-	nodeFactory := self defaultNodeFactory
+	self initializeAsGenericNodeManager 
+]
+
+{ #category : #'t - generic node manager' }
+ToGenericListNodeManager >> newHolder [
+
+	^ ToNodeHolder new
 ]

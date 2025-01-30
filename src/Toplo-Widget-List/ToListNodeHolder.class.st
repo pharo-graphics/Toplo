@@ -1,5 +1,5 @@
 Class {
 	#name : #ToListNodeHolder,
-	#superclass : #ToAbstractNodeHolder,
+	#superclass : #ToNodeHolder,
 	#category : #'Toplo-Widget-List-Node'
 }

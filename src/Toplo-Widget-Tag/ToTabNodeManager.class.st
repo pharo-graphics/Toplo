@@ -27,7 +27,7 @@ ToTabNodeManager >> defaultFakeDataItem [
 { #category : #'instance creation' }
 ToTabNodeManager >> newHolder [
 
-	^ ToListNodeHolder new
+	^ ToNodeHolder new
 ]
 
 { #category : #'instance creation' }

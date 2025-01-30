@@ -25,12 +25,6 @@ ToGenericListElement >> nodeFactory: aValuable [
 ]
 
 { #category : #accessing }
-ToGenericListElement >> nodeHolderClass: aNodeHolderClass [
-
-	nodeManager holderClass: aNodeHolderClass
-]
-
-{ #category : #accessing }
 ToGenericListElement >> nodeUnbuilder: aValuable [
 
 	"aValuable takes 3 args: first, the node to build and second, its holder in the list element and the data item"

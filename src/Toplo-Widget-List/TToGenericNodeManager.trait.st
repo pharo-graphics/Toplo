@@ -3,8 +3,7 @@ Trait {
 	#instVars : [
 		'nodeFactory',
 		'nodeBuilder',
-		'nodeUnbuilder',
-		'holderClass'
+		'nodeUnbuilder'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -17,15 +16,36 @@ TToGenericNodeManager >> buildNode: aNode [
 ]
 
 { #category : #'t - generic node manager' }
-TToGenericNodeManager >> holderClass: aNodeHolderClass [
+TToGenericNodeManager >> defaultNodeBuilder [
 
-	holderClass := aNodeHolderClass
+	^ [ :node :dataItem :holder |
+	  node addChild: (ToLabel text: dataItem asString)  ]
+]
+
+{ #category : #'t - generic node manager' }
+TToGenericNodeManager >> defaultNodeFactory [
+
+	^ [ :holder | ToListNode new ]
+]
+
+{ #category : #'t - generic node manager' }
+TToGenericNodeManager >> defaultNodeUnbuilder [
+
+	^ [ :node :dataItem :holder | node removeChildren  ]
+]
+
+{ #category : #'t - generic node manager' }
+TToGenericNodeManager >> initializeAsGenericNodeManager [
+
+	nodeBuilder := self defaultNodeBuilder.
+	nodeUnbuilder := self defaultNodeUnbuilder.
+	nodeFactory := self defaultNodeFactory
 ]
 
 { #category : #'t - generic node manager' }
 TToGenericNodeManager >> newHolder [
 
-	^ holderClass new
+	^ ToNodeHolder new
 ]
 
 { #category : #'t - generic node manager' }

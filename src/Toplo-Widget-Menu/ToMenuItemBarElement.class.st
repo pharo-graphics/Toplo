@@ -19,10 +19,10 @@ ToMenuItemBarElement >> configureLayoutIn: aListHolder [
 		ifFalse: [ self vFitContent ]
 ]
 
-{ #category : #initialization }
-ToMenuItemBarElement >> defaultNodeManager [
+{ #category : #'t - item bar element - accessing' }
+ToMenuItemBarElement >> defaultNodeManagerClass [
 
-	^ ToMenuItemNodeManager new
+	^ ToMenuItemNodeManager
 ]
 
 { #category : #initialization }

@@ -48,13 +48,7 @@ ToTagNodeManager >> defaultCompositeNodeBuilder [
 	  node addChild: (ToLabel text: compositeTagModel content asString) ]
 ]
 
-{ #category : #initialization }
-ToTagNodeManager >> defaultHolderClass [
-
-	^ ToTagNodeHolder
-]
-
-{ #category : #initialization }
+{ #category : #'t - generic node manager' }
 ToTagNodeManager >> defaultNodeBuilder [
 
 	^ [ :node :tagModel :holder |
@@ -68,7 +62,7 @@ ToTagNodeManager >> defaultNodeBuilder [
 	  tag constraintsDo: [ :c | c linear vertical alignCenter ] ]
 ]
 
-{ #category : #initialization }
+{ #category : #'t - generic node manager' }
 ToTagNodeManager >> defaultNodeFactory [
 
 	^ [ :holder | ToTagNode new ]
@@ -79,4 +73,10 @@ ToTagNodeManager >> initialize [
 
 	super initialize.
 	compositeNodeBuilder := self defaultCompositeNodeBuilder
+]
+
+{ #category : #initialization }
+ToTagNodeManager >> newHolder [
+
+	^ ToTagNodeHolder new
 ]

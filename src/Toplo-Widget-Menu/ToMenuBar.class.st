@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMenuBar,
 	#superclass : #ToElement,
-	#traits : 'TToItem + TToMenuItem + TToItemBarOwner + TToMenuItemBarOwner + TToOrientable',
-	#classTraits : 'TToItem classTrait + TToMenuItem classTrait + TToItemBarOwner classTrait + TToMenuItemBarOwner classTrait + TToOrientable classTrait',
+	#traits : 'TToItem + TToMenuItem + TToItemBarOwner + TToMenuItemBarOwner + TToMenuItemElementContainer + TToOrientable',
+	#classTraits : 'TToItem classTrait + TToMenuItem classTrait + TToItemBarOwner classTrait + TToMenuItemBarOwner classTrait + TToMenuItemElementContainer classTrait + TToOrientable classTrait',
 	#instVars : [
 		'isSubBar',
 		'autoOpen'
@@ -47,14 +47,6 @@ ToMenuBar >> cancelAutoOpen [
 ToMenuBar >> closeWindow [
 
 	self itemList do: [ :it | it isMenuItem ifTrue: [ it closeWindow ] ]
-]
-
-{ #category : #enumerating }
-ToMenuBar >> collectedNodesDo: aValuable [
-
-	self allChildrenBreadthFirstDo: [ :child |
-		(child isKindOf: ToMenuItemNode) ifTrue: [
-			child isFake ifFalse: [ aValuable value: child ] ] ]
 ]
 
 { #category : #'t - item bar owner - initializing' }

@@ -11,11 +11,11 @@ ToMenuItemSkin >> installSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e isTopMenu ifFalse: [
 			e hMatchParent.
-			e popupWindowParentMenuDo: [ :pm |
+			e parentMenuDo: [ :pm |
 				| anyHaveIcon anyIsMenu align inlineGap |
 				anyHaveIcon := false.
 				anyIsMenu := false.
-				pm collectedItemsDo: [ :item |
+				pm items do: [ :item |
 					item hasIcon ifTrue: [ anyHaveIcon := true ].
 					item isMenu ifTrue: [ anyIsMenu := true ] ].
 				align := 0.0.

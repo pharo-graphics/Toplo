@@ -16,9 +16,9 @@ ToTagBarElement class >> onSelectElement: aSelectElement [
 ]
 
 { #category : #initialization }
-ToTagBarElement >> defaultNodeManager [
+ToTagBarElement >> defaultNodeManagerClass [
 
-	^ ToTagNodeManager new
+	^ ToTagNodeManager
 ]
 
 { #category : #initialization }

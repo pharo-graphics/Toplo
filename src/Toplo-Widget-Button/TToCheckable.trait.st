@@ -37,13 +37,13 @@ TToCheckable >> check [
 { #category : #'t - checkable - accessing' }
 TToCheckable >> checkableData [
 
-	^ self explicitRequirement 
+	^ self userData at: #checkableData ifAbsent: [  ]
 ]
 
 { #category : #'t - checkable - accessing' }
 TToCheckable >> checkableData: aCheckableData [
 
-	^ self explicitRequirement 
+	self userData at: #checkableData put: aCheckableData
 ]
 
 { #category : #'t - checkable - accessing' }
@@ -136,6 +136,12 @@ TToCheckable >> isUnchecked [
 TToCheckable >> newCheckableEventHandler [
 
 	^ self checkableEventHandlerClass new
+]
+
+{ #category : #'t - checkable - accessing' }
+TToCheckable >> privateChecked: aBoolean [
+
+	self checkableData privateChecked: aBoolean
 ]
 
 { #category : #'t - checkable - group' }

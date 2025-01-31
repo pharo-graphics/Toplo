@@ -2,6 +2,7 @@ Class {
 	#name : #ToItemConstraints,
 	#superclass : #Object,
 	#instVars : [
+		'selected',
 		'disabled',
 		'unselectable',
 		'hidden'
@@ -10,8 +11,9 @@ Class {
 }
 
 { #category : #'updating list' }
-ToItemConstraints >> constraintItem: anItem [ 
+ToItemConstraints >> constraintItem: anItem [
 
+	selected ifNotNil: [ anItem selected: selected ].
 	disabled ifNotNil: [ anItem disabled: disabled ].
 	unselectable ifNotNil: [ anItem unselectable: unselectable ].
 	hidden ifNotNil: [ anItem hidden: hidden ]
@@ -39,6 +41,18 @@ ToItemConstraints >> hidden [
 ToItemConstraints >> hidden: aBoolean [
 
 	hidden := aBoolean
+]
+
+{ #category : #accessing }
+ToItemConstraints >> selected [
+
+	^ selected ifNil: [ false ]
+]
+
+{ #category : #accessing }
+ToItemConstraints >> selected: aBoolean [
+
+	selected := aBoolean
 ]
 
 { #category : #accessing }

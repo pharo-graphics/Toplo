@@ -1,6 +1,6 @@
 Class {
 	#name : #ToAccordionListElement,
-	#superclass : #ToListElement,
+	#superclass : #ToCheckableListElement,
 	#category : #'Toplo-Widget-Accordion-List'
 }
 
@@ -10,7 +10,8 @@ ToAccordionListElement class >> example1 [
 	<script>
 	| list |
 	list := ToAccordionListElement new.
-	list dataAccessor addAll: ((1 to: 50) collect: [ :i |
+	list group withoutCheckingStrategy.
+	list addAllItems: ((1 to: 1000) collect: [ :i |
 			 ToAccordionItemElement new
 				 headerBuilder: [ :header |
 					 header addChild: (ToLabel text: 'Header ' , i asString) ];
@@ -20,11 +21,9 @@ ToAccordionListElement class >> example1 [
 								  border: Color random;
 								  background: Color random;
 								  size: 50 @ 50) ];
-							expand ]).
-	list nodeBuilder: [ :node :accordionElement :holder | node addChild: accordionElement ].
+				 yourself ]).
 	list matchParent.
-	list openInSpace.
-	"list inspect"
+	list openInSpace
 ]
 
 { #category : #examples }
@@ -34,7 +33,7 @@ ToAccordionListElement class >> example2WithAlbumInBody [
 	| list rand |
 	rand := Random new.
 	list := ToAccordionListElement new.
-	list dataAccessor addAll: ((1 to: 500) collect: [ :i |
+	list addAllItems: ((1 to: 500) collect: [ :i |
 			 | loremString |
 			 loremString := String loremIpsum:
 				                (rand nextIntegerBetween: 100 and: 600).
@@ -63,8 +62,6 @@ ToAccordionListElement class >> example2WithAlbumInBody [
 					 album text: loremString.
 					 body addChild: album ];
 				 yourself ]).
-	list nodeBuilder: [ :node :accordion :holder |
-		node addChild: accordion ].
 	list matchParent.
 	list openInSpace
 ]
@@ -80,14 +77,4 @@ ToAccordionListElement >> defaultNodeManagerClass [
 	"The object responsible to populate the list nodes."
 
 	^ ToAccordionListNodeManager 
-]
-
-{ #category : #initialization }
-ToAccordionListElement >> initialize [ 
-
-	super initialize.
-	self primarySelectionMode selectOnPressed: true.
-	self primarySelectionMode deselectOnPressed: true.
-	self primarySelectionMode makeDisabledUnselectable: true
-
 ]

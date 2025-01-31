@@ -1,11 +1,11 @@
 Class {
-	#name : #ToCheckableNodeManager,
-	#superclass : #ToItemBarNodeManager,
+	#name : #ToCheckableItemNodeManager,
+	#superclass : #ToItemListNodeManager,
 	#category : #'Toplo-Widget-List-ItemBar'
 }
 
 { #category : #initialization }
-ToCheckableNodeManager >> buildNode: aNode [
+ToCheckableItemNodeManager >> buildNode: aNode [
 
 	| checkableElement holder |
 	super buildNode: aNode.
@@ -17,7 +17,7 @@ ToCheckableNodeManager >> buildNode: aNode [
 ]
 
 { #category : #initialization }
-ToCheckableNodeManager >> unbuildNode: aNode [
+ToCheckableItemNodeManager >> unbuildNode: aNode [
 
 	aNode holder dataItem unregisterFromGroup.
 	super unbuildNode: aNode 

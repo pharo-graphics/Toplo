@@ -1,6 +1,6 @@
 Class {
 	#name : #ToAccordionListNode,
-	#superclass : #ToListNode,
+	#superclass : #ToItemNode,
 	#category : #'Toplo-Widget-Accordion-List'
 }
 

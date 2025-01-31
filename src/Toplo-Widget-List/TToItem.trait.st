@@ -69,6 +69,12 @@ TToItem >> itemConstraints [
 ]
 
 { #category : #'t - item' }
+TToItem >> itemConstraintsClass [
+
+	^ ToItemConstraints 
+]
+
+{ #category : #'t - item' }
 TToItem >> itemConstraintsDo: aValuable [
 
 	self itemConstraints ifNil: [ ^ self ].
@@ -78,13 +84,23 @@ TToItem >> itemConstraintsDo: aValuable [
 { #category : #'t - item' }
 TToItem >> newItemConstraints [
 
-	^ ToItemConstraints new
+	^ self itemConstraintsClass new
 ]
 
 { #category : #'t - item' }
 TToItem >> positionInBar [
 
 	^ self holder position
+]
+
+{ #category : #'t - item' }
+TToItem >> selected: aBoolean [
+
+	self storeSelected: aBoolean.
+	self barElementDo: [ :l |
+		aBoolean
+			ifTrue: [ l selectedItem: self ]
+			ifFalse: [ l deselectedItem: self ] ]
 ]
 
 { #category : #'t - item' }
@@ -97,6 +113,12 @@ TToItem >> storeDisabled: aBoolean [
 TToItem >> storeHidden: aBoolean [
 
 	self ensuredItemConstraints hidden: aBoolean
+]
+
+{ #category : #'t - item' }
+TToItem >> storeSelected: aBoolean [
+
+	self ensuredItemConstraints selected: aBoolean
 ]
 
 { #category : #'t - item' }

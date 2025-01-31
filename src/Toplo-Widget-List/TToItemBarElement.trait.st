@@ -6,7 +6,7 @@ Trait {
 { #category : #'t - item bar element - adding/removing' }
 TToItemBarElement >> addAllItems: aCollection [
 
-	self items addAll: aCollection
+	aCollection do: [ :item | self addItem: item ]
 ]
 
 { #category : #'t - item bar element - adding/removing' }
@@ -59,7 +59,13 @@ TToItemBarElement >> barOwner: aBarOwner [
 { #category : #'t - item bar element - accessing' }
 TToItemBarElement >> defaultNodeManagerClass [
 
-	^ ToItemNodeManager
+	^ ToItemBarNodeManager
+]
+
+{ #category : #'t - item bar element - hidden/visible' }
+TToItemBarElement >> deselectedItem: anItem [
+
+	self deselectedAtPosition: anItem positionInBar
 ]
 
 { #category : #'t - item bar element - disabled/enabled' }
@@ -127,6 +133,12 @@ TToItemBarElement >> removeItem: anItem [
 TToItemBarElement >> selectableItem: anItem [
 
 	self selectableAtPosition: anItem positionInBar
+]
+
+{ #category : #'t - item bar element - hidden/visible' }
+TToItemBarElement >> selectedItem: anItem [
+
+	self selectedAtPosition: anItem positionInBar
 ]
 
 { #category : #'t - item bar element - unselectable/selectable' }

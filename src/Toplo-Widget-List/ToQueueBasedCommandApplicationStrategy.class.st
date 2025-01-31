@@ -11,25 +11,27 @@ Class {
 }
 
 { #category : #accessing }
-ToQueueBasedCommandApplicationStrategy >> addCommand: aCommand [ 
+ToQueueBasedCommandApplicationStrategy >> addCommand: aCommand from: aCommandApplier [
 
 	weak ifTrue: [
 		element isAttachedToSceneGraph ifFalse: [
-			commandApplier applyCommand: aCommand.
+			aCommandApplier applyCommand: aCommand.
 			^ self ] ].
 
-	commandQueue add: aCommand.
+	commandQueue add: (ToEnqueuedCommand new
+			 command: aCommand;
+			 applier: aCommandApplier;
+			 yourself).
 	self postApplicationTask
 ]
 
 { #category : #accessing }
-ToQueueBasedCommandApplicationStrategy >> commandApplier: aCommandApplier element: anElement [
+ToQueueBasedCommandApplicationStrategy >> element: anElement [
 
-	super commandApplier: aCommandApplier element: anElement.
+	super element: anElement.
 	commandQueue := OrderedCollection new.
 	applicationTask := self newCommandApplicationTask
 		                   element: anElement;
-		                   applier: aCommandApplier;
 		                   commandQueue: commandQueue;
 		                   finishedAction: [ queued := false ];
 		                   yourself.

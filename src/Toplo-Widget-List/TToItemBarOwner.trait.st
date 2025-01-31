@@ -64,6 +64,12 @@ TToItemBarOwner >> dataSource [
 	^ self itemBar dataSource
 ]
 
+{ #category : #'t - item bar owner - hidden/visible' }
+TToItemBarOwner >> deselectedAtPosition: anInteger [
+
+	self itemBar deselectedAtPosition: anInteger
+]
+
 { #category : #'t - item bar owner - disable/ enable' }
 TToItemBarOwner >> disableItem: anItem [
 
@@ -321,6 +327,12 @@ TToItemBarOwner >> selectableAtPosition: anInteger [
 TToItemBarOwner >> selectableItem: anItem [
 
 	self itemBar selectableItem: anItem
+]
+
+{ #category : #'t - item bar owner - hidden/visible' }
+TToItemBarOwner >> selectedAtPosition: anInteger [
+
+	self itemBar selectedAtPosition: anInteger
 ]
 
 { #category : #'t - item bar owner - accessing' }

@@ -8,7 +8,6 @@ Class {
 	#traits : 'TToCheckable + TToOrientable',
 	#classTraits : 'TToCheckable classTrait + TToOrientable classTrait',
 	#instVars : [
-		'checkableData',
 		'checkHandler',
 		'innerPane',
 		'paneBuilder',
@@ -44,18 +43,6 @@ ToTab >> checkableCheckEvent: event [
 		self onSelected.
 		^ self ].
 	self onDeselected 
-]
-
-{ #category : #'t - checkable - accessing' }
-ToTab >> checkableData [
-
-	^ checkableData 
-]
-
-{ #category : #'t - checkable - accessing' }
-ToTab >> checkableData: aCheckableData [
-
-	checkableData := aCheckableData
 ]
 
 { #category : #accessing }

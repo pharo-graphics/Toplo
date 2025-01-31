@@ -4,7 +4,7 @@ A ToListElementTest is a test class for testing the behavior of ToListElement
 Class {
 	#name : #ToListElementTest,
 	#superclass : #ToParameterizedHostTest,
-	#category : #'Toplo-Widget-List-Tests-Core'
+	#category : #'Toplo-Widget-List-Tests-Core-ListElement'
 }
 
 { #category : #tests }
@@ -271,6 +271,28 @@ ToListElementTest >> testListElementWithFiveDefaultSelectionMode [
 	l fitContent.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	self assert: l dataAccessor size equals: 5
+]
+
+{ #category : #'test selection - adding/removing' }
+ToListElementTest >> testMakeDisabledUnselectable [
+
+	| l |
+	l := ToListElement new.
+	l selectionMode makeDisabledUnselectable: true.
+	space root addChild: l.
+	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	l disabledSelecter selectIndex: 3.
+	self waitTestingSpaces.
+	self assert: l disabledSelecter selectedIndexes equals: { 3 }.
+	self assert: l unselectableSelecter selectedIndexes equals: {  }.
+	l selecter selectIndex: 3.
+	self waitTestingSpaces.
+	self assert: l selecter selectedIndexes equals: {  }.
+	l selectionMode makeDisabledUnselectable: false.
+	l selecter selectIndex: 3.
+	self waitTestingSpaces.
+	self assert: l selecter selectedIndexes equals: { 3 }.
+
 ]
 
 { #category : #tests }

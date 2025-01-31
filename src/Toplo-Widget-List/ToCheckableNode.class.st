@@ -4,19 +4,19 @@ Class {
 	#category : #'Toplo-Widget-List-ItemBar'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToCheckableNode >> checkableElement [ 
 
 	^ self item
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToCheckableNode >> checkableElement: aCheckable [
 
 	self item: aCheckable
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'t - list node' }
 ToCheckableNode >> clickEventHandlerClasses [
 
 	^  { ToCheckableNodeSelectionEventHandler } 

@@ -18,31 +18,13 @@ TToCheckableGroupOwner >> checkingStrategy: aCheckingStrategy [
 { #category : #'t - checkable group owner' }
 TToCheckableGroupOwner >> group [
 
-	^ self rawGroup
-]
-
-{ #category : #'t - checkable group owner' }
-TToCheckableGroupOwner >> group: aGroup [
-
-	self rawGroup: aGroup
+	^ self userData at: #group ifAbsentPut: [ ToCheckableGroup new ]
 ]
 
 { #category : #'t - checkable group owner' }
 TToCheckableGroupOwner >> hasNoneStrategy [
 
 	^ self group hasNoneStrategy
-]
-
-{ #category : #'t - checkable group owner' }
-TToCheckableGroupOwner >> rawGroup [ 
-
-	^ self explicitRequirement
-]
-
-{ #category : #'t - checkable group owner' }
-TToCheckableGroupOwner >> rawGroup: aGroup [
-
-	self explicitRequirement
 ]
 
 { #category : #'t - checkable group owner' }

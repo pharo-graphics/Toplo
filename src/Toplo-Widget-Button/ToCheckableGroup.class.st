@@ -72,7 +72,7 @@ ToCheckableGroup >> checkedButtons [
 { #category : #accessing }
 ToCheckableGroup >> checkedList [
 
-	^ registeredCheckables select: [ :b | b checked ]
+	^ registeredCheckables select: [ :b | b isChecked ]
 ]
 
 { #category : #accessing }
@@ -170,15 +170,15 @@ ToCheckableGroup >> removeAll [
 { #category : #'checking / unchecking request' }
 ToCheckableGroup >> uncheckAll [
 
-	self checkedList do: [ :b | b checkableData privateChecked: false ]
+	self checkedList do: [ :b | b privateChecked: false ]
 ]
 
 { #category : #'checking / unchecking request' }
 ToCheckableGroup >> uncheckAllExcept: aButton [
 
 	(self registeredCheckables select: [ :b |
-		 b ~= aButton and: [ b checked ] ]) do: [ :b |
-		b checkableData privateChecked: false ]
+		 b ~= aButton and: [ b isChecked ] ]) do: [ :b |
+		b privateChecked: false ]
 ]
 
 { #category : #accessing }
@@ -194,7 +194,7 @@ ToCheckableGroup >> uncheckedButtons [
 { #category : #accessing }
 ToCheckableGroup >> uncheckedList [
 
-	^ registeredCheckables reject: [ :b | b checked ]
+	^ registeredCheckables reject: [ :b | b isChecked ]
 ]
 
 { #category : #'registering / unregistering' }

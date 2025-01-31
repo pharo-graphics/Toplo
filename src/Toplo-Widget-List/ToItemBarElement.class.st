@@ -13,7 +13,7 @@ Class {
 ToItemBarElement >> initialize [
 
 	super initialize.
-	self primarySelectionMode makeDisabledUnselectable: true
+	self initializeAsItemBarElement 
 ]
 
 { #category : #skin }

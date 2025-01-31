@@ -1,6 +1,6 @@
 Class {
 	#name : #ToAccordionListNodeManager,
-	#superclass : #ToGenericListNodeManager,
+	#superclass : #ToCheckableItemNodeManager,
 	#category : #'Toplo-Widget-Accordion-List'
 }
 

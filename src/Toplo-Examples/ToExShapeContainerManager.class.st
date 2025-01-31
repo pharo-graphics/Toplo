@@ -19,7 +19,7 @@ ToExShapeContainerManager class >> open [
 { #category : #adding }
 ToExShapeContainerManager >> addCommand: aCommand [
 
-	commandApplicationStrategy addCommand: aCommand 
+	commandApplicationStrategy addCommand: aCommand from: self
 ]
 
 { #category : #adding }
@@ -74,7 +74,7 @@ ToExShapeContainerManager >> shapeContainer: aShapeContainer [
 
 	shapeContainer := aShapeContainer.
 	commandApplicationStrategy := self defaultCommandApplicationStrategy.
-	commandApplicationStrategy commandApplier: self element: shapeContainer
+	commandApplicationStrategy element: shapeContainer
 ]
 
 { #category : #'private - processes' }

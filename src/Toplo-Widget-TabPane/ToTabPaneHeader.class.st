@@ -8,7 +8,6 @@ Class {
 	#classTraits : 'TToCheckableGroupOwner classTrait',
 	#instVars : [
 		'tabsPane',
-		'group',
 		'positioningStrategy',
 		'tabs',
 		'tabRow',
@@ -68,8 +67,8 @@ ToTabPaneHeader >> endFiller [
 ToTabPaneHeader >> initialize [
 
 	super initialize.
-	group := ToCheckableGroup new.
-	group addEventHandler: (BlEventHandler
+	
+	self group addEventHandler: (BlEventHandler
 			 on: ToCheckableGroupChangedEvent
 			 do: [ :event | self checkableGroupChangedEvent: event ]).
 	tabs := OrderedCollection new.
@@ -127,12 +126,6 @@ ToTabPaneHeader >> positioningStrategy: anObject [
 
 	positioningStrategy := anObject.
 	self applyPositioning 
-]
-
-{ #category : #'t - checkable group owner' }
-ToTabPaneHeader >> rawGroup [
-
-	^ group
 ]
 
 { #category : #'t - checkable group owner' }

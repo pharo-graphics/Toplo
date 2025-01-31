@@ -1,19 +1,19 @@
 Class {
-	#name : #ToItemNodeManager,
+	#name : #ToItemBarNodeManager,
 	#superclass : #ToAbstractBarNodeManager,
 	#category : #'Toplo-Widget-List-ItemBar'
 }
 
 { #category : #initialization }
-ToItemNodeManager >> buildNode: aNode [
+ToItemBarNodeManager >> buildNode: aNode [
 
 	| holder |
 	holder := aNode holder.
 	aNode item: holder dataItem
 ]
 
-{ #category : #initialization }
-ToItemNodeManager >> defaultFakeDataItem [
+{ #category : #'as yet unclassified' }
+ToItemBarNodeManager >> defaultFakeDataItem [
 
 	^ ToItemElement new
 		  size: 10 asPoint;
@@ -21,19 +21,19 @@ ToItemNodeManager >> defaultFakeDataItem [
 ]
 
 { #category : #'instance creation' }
-ToItemNodeManager >> newHolder [
+ToItemBarNodeManager >> newHolder [
 
 	^ ToItemBarNodeHolder new
 ]
 
 { #category : #'instance creation' }
-ToItemNodeManager >> newNodeForHolder: aNodeHolder [
+ToItemBarNodeManager >> newNodeForHolder: aNodeHolder [
 
 	^ ToItemNode new
 ]
 
 { #category : #initialization }
-ToItemNodeManager >> unbuildNode: aNode [
+ToItemBarNodeManager >> unbuildNode: aNode [
 
 	aNode item removeFromParent
 ]

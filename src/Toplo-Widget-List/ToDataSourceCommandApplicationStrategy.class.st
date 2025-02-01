@@ -5,13 +5,13 @@ Class {
 }
 
 { #category : #accessing }
-ToDataSourceCommandApplicationStrategy >> addCommand: aCommand [ 
+ToDataSourceCommandApplicationStrategy >> addCommand: aCommand from: aCommandApplier [
 
 	element isAttachedToSceneGraph ifFalse: [
-		commandApplier applyCommand: aCommand.
+		aCommandApplier applyCommand: aCommand.
 		^ self ].
 	element dataSource
 		notifySelecterCommandApplicationRequest: aCommand
-		from: commandApplier.
+		from: aCommandApplier.
 	element spaceDo: [ :sp | sp requestNextPulse ]
 ]

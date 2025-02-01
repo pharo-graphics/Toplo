@@ -3,7 +3,7 @@ I'm a data item for menu item list.
 "
 Class {
 	#name : #ToMenuItemElement,
-	#superclass : #ToItemElement,
+	#superclass : #ToBarItemElement,
 	#traits : 'TToMenuItem',
 	#classTraits : 'TToMenuItem classTrait',
 	#category : #'Toplo-Widget-Menu-Items'

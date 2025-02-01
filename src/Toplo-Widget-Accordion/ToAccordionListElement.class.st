@@ -1,6 +1,6 @@
 Class {
 	#name : #ToAccordionListElement,
-	#superclass : #ToListElement,
+	#superclass : #ToCheckableListElement,
 	#category : #'Toplo-Widget-Accordion-List'
 }
 
@@ -10,7 +10,8 @@ ToAccordionListElement class >> example1 [
 	<script>
 	| list |
 	list := ToAccordionListElement new.
-	list dataAccessor addAll: ((1 to: 50) collect: [ :i |
+	"list group withoutCheckingStrategy."
+	list addAllItems: ((1 to: 1000) collect: [ :i |
 			 ToAccordionItemElement new
 				 headerBuilder: [ :header |
 					 header addChild: (ToLabel text: 'Header ' , i asString) ];
@@ -20,11 +21,9 @@ ToAccordionListElement class >> example1 [
 								  border: Color random;
 								  background: Color random;
 								  size: 50 @ 50) ];
-							expand ]).
-	list nodeBuilder: [ :node :accordionElement :holder | node addChild: accordionElement ].
+				 yourself ]).
 	list matchParent.
-	list openInSpace.
-	"list inspect"
+	list openInSpace
 ]
 
 { #category : #examples }
@@ -34,7 +33,7 @@ ToAccordionListElement class >> example2WithAlbumInBody [
 	| list rand |
 	rand := Random new.
 	list := ToAccordionListElement new.
-	list dataAccessor addAll: ((1 to: 500) collect: [ :i |
+	list addAllItems: ((1 to: 500) collect: [ :i |
 			 | loremString |
 			 loremString := String loremIpsum:
 				                (rand nextIntegerBetween: 100 and: 600).
@@ -63,10 +62,84 @@ ToAccordionListElement class >> example2WithAlbumInBody [
 					 album text: loremString.
 					 body addChild: album ];
 				 yourself ]).
-	list nodeBuilder: [ :node :accordion :holder |
-		node addChild: accordion ].
 	list matchParent.
 	list openInSpace
+]
+
+{ #category : #examples }
+ToAccordionListElement class >> example2WithClassComments [
+
+	<script>
+	| list pane filterField sieve |
+	pane := ToPane new
+		        beVertical;
+		        matchParent.
+	filterField := ToTextField new.
+	filterField margin: (BlInsets all: 2).
+	filterField placeholderBuilder: [ :placeholder :e |
+		placeholder addChild:
+			((ToAttributedLabel text: 'Class name filter')
+				 foreground: Color lightGray;
+				 yourself) ].
+	list := ToAccordionListElement new.
+	list withRowNumbers.
+
+	sieve := ToListElementSieve new.
+	sieve onInstalledIn: list.
+	sieve dataFilter: [ :item :aPattern |
+		(item userData at: #class) name
+			beginsWith: aPattern
+			caseSensitive: false ].
+
+	filterField whenTextEditedDo: [
+		| pattern |
+		pattern := filterField text asString.
+		sieve pattern: pattern ].
+
+	list placeholderBuilder: [ :ph :e |
+		| lab |
+		ph layout alignCenter.
+		lab := (ToAttributedLabel text: 'No Data')
+			       foreground: Color lightGray;
+			       fontSize: 24;
+			       yourself.
+		ph addChild: lab ].
+
+	"list group withoutCheckingStrategy."
+	list addAllItems:
+		((Smalltalk globals allClasses reject: [ :cls | cls comment isEmpty ])
+			 collect: [ :cls |
+				 ToAccordionItemElement new
+					 in: [ :item | item userData at: #class put: cls ];
+					 headerBuilder: [ :header |
+						 header addChild: (ToLabel text: cls name) ];
+					 bodyBuilder: [ :body |
+						 | album |
+						 body margin: (BlInsets all: 5).
+						 album := ToAlbum new
+							          withSaveCapability;
+							          whenSaveRequestedDo: [ :saveRequested |
+								          saveRequested accepted: true ];
+							          whenCancelRequestedDo: [ :cancelRequested |
+								          cancelRequested editorElement text: cls comment ];
+							          yourself.
+						 album hMatchParent.
+						 album vFitContent.
+						 album next constraintsDo: [ :c |
+							 c vertical fitContent.
+							 c horizontal matchParent ].
+						 album infinite constraintsDo: [ :c |
+							 c vertical fitContent.
+							 c horizontal matchParent ].
+						 album minHeight: 50.
+						 album text: cls comment.
+						 body addChild: album ];
+					 yourself ]).
+	list matchParent.
+
+	pane addChild: list.
+	pane addChild: filterField.
+	pane openInSpace
 ]
 
 { #category : #initialization }
@@ -80,14 +153,4 @@ ToAccordionListElement >> defaultNodeManagerClass [
 	"The object responsible to populate the list nodes."
 
 	^ ToAccordionListNodeManager 
-]
-
-{ #category : #initialization }
-ToAccordionListElement >> initialize [ 
-
-	super initialize.
-	self primarySelectionMode selectOnPressed: true.
-	self primarySelectionMode deselectOnPressed: true.
-	self primarySelectionMode makeDisabledUnselectable: true
-
 ]

@@ -30,6 +30,12 @@ ToExShapeContainerElement >> aeDrawOn: aeCanvas [
 		aeCanvas drawFigure ]
 ]
 
+{ #category : #'command application' }
+ToExShapeContainerElement >> applyCommand: aCommand [
+
+	aCommand applyOn: self 
+]
+
 { #category : #initialization }
 ToExShapeContainerElement >> initialize [
 

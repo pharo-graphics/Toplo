@@ -6,13 +6,10 @@ Class {
 	#superclass : #ToItemBarElement,
 	#traits : 'TToCheckableGroupOwner',
 	#classTraits : 'TToCheckableGroupOwner classTrait',
-	#instVars : [
-		'group'
-	],
-	#category : #'Toplo-Widget-List-ItemBar'
+	#category : #'Toplo-Widget-List-ItemList'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'t - list node holder' }
 ToCheckableBarElement >> configureLayoutIn: aBarOwner [
 
 	self matchParent.
@@ -22,7 +19,7 @@ ToCheckableBarElement >> configureLayoutIn: aBarOwner [
 	self configureLayout
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 ToCheckableBarElement >> defaultEventHandler [
 
 	^ ToCheckableBarElementEventHandler new
@@ -31,10 +28,10 @@ ToCheckableBarElement >> defaultEventHandler [
 { #category : #initialization }
 ToCheckableBarElement >> defaultNodeManagerClass [ 
 
-	^ ToSegmentedNodeManager 
+	^ ToCheckableBarNodeManager 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 ToCheckableBarElement >> initialize [
 
 	super initialize.
@@ -53,16 +50,4 @@ ToCheckableBarElement >> initialize [
 		beneath: false.
 
 	self primarySelectionMode makeDisabledUnselectable: true
-]
-
-{ #category : #'as yet unclassified' }
-ToCheckableBarElement >> rawGroup [
-
-	^ group ifNil: [ group := ToCheckableGroup new ]
-]
-
-{ #category : #'as yet unclassified' }
-ToCheckableBarElement >> rawGroup: aGroup [
-
-	self shouldNotImplement 
 ]

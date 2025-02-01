@@ -1,5 +1,5 @@
 Class {
 	#name : #ToBarNodeHolderForTest,
-	#superclass : #ToItemBarNodeHolder,
+	#superclass : #ToItemNodeHolder,
 	#category : #'Toplo-Widget-List-Tests-ItemBar'
 }

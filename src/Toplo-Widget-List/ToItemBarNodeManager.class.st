@@ -1,11 +1,11 @@
 Class {
-	#name : #ToItemNodeManager,
+	#name : #ToItemBarNodeManager,
 	#superclass : #ToAbstractBarNodeManager,
-	#category : #'Toplo-Widget-List-ItemBar'
+	#category : #'Toplo-Widget-List-ItemList'
 }
 
 { #category : #initialization }
-ToItemNodeManager >> buildNode: aNode [
+ToItemBarNodeManager >> buildNode: aNode [
 
 	| holder |
 	holder := aNode holder.
@@ -13,27 +13,27 @@ ToItemNodeManager >> buildNode: aNode [
 ]
 
 { #category : #initialization }
-ToItemNodeManager >> defaultFakeDataItem [
+ToItemBarNodeManager >> defaultFakeDataItem [
 
-	^ ToItemElement new
+	^ ToBarItemElement new
 		  size: 10 asPoint;
 		  yourself
 ]
 
 { #category : #'instance creation' }
-ToItemNodeManager >> newHolder [
+ToItemBarNodeManager >> newHolder [
 
-	^ ToItemBarNodeHolder new
+	^ ToItemNodeHolder new
 ]
 
 { #category : #'instance creation' }
-ToItemNodeManager >> newNodeForHolder: aNodeHolder [
+ToItemBarNodeManager >> newNodeForHolder: aNodeHolder [
 
 	^ ToItemNode new
 ]
 
 { #category : #initialization }
-ToItemNodeManager >> unbuildNode: aNode [
+ToItemBarNodeManager >> unbuildNode: aNode [
 
 	aNode item removeFromParent
 ]

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToSegmentedNodeManager,
-	#superclass : #ToCheckableNodeManager,
+	#superclass : #ToCheckableBarNodeManager,
 	#category : #'Toplo-Widget-Segmented-Bar'
 }
 

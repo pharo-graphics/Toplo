@@ -27,6 +27,6 @@ ToCheckableGroupStrictStrategy >> register: aCheckable in: aGroup [
 	aCheckable isChecked ifTrue: [
 		(aGroup registeredCheckables select: [ :b |
 			 b ~= aCheckable and: [ b checked ] ]) do: [ :b |
-			b checkableData privateChecked: false ] ].
+			b privateChecked: false ] ].
 	super register: aCheckable in: aGroup
 ]

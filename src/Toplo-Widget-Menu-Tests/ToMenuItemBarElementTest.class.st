@@ -29,7 +29,7 @@ ToMenuItemBarElementTest >> test [
 		((1 to: 10) collect: [ :i | ToMenuItem new labelText: i asString ]).
 	n := l nodes first.
 	self assert: (n isKindOf: ToMenuItemNode).
-	self assert: (n holder isKindOf: ToItemBarNodeHolder).
+	self assert: (n holder isKindOf: ToItemNodeHolder).
 	self assert: (n holder dataItem isKindOf: ToMenuItem)
 	
 ]
@@ -44,7 +44,7 @@ ToMenuItemBarElementTest >> testAddItem [
 	self assert: l nodes size equals: 1.
 	n := l nodes first.
 	self assert: (n isKindOf: ToMenuItemNode).
-	self assert: (n holder isKindOf: ToItemBarNodeHolder).
+	self assert: (n holder isKindOf: ToItemNodeHolder).
 	self assert: (n holder dataItem isKindOf: ToMenuItem).
 	self assert: item barElement identicalTo: l.
 	self assert: item positionInBar equals: 1

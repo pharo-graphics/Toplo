@@ -114,10 +114,10 @@ ToFrontSelectionModel >> selectIndex: aFirstIndex to: aSecondIndex [
 
 	from := (aFirstIndex min: aSecondIndex) max: 1.
 	to := aFirstIndex max: aSecondIndex.
-	
+
 	self unselectableSelectionModelDo: [ :sm |
 		from to: to do: [ :idx |
-		(sm containsIndex: idx) ifTrue: [ self deselectIndex: idx ] ] ]
+			(self isUnselectableIndex: idx) ifTrue: [ self deselectIndex: idx ] ] ]
 ]
 
 { #category : #updating }

@@ -4,7 +4,6 @@ Class {
 	#traits : 'TToCheckableGroupOwner',
 	#classTraits : 'TToCheckableGroupOwner classTrait',
 	#instVars : [
-		'group',
 		'data',
 		'dataToTextConverter',
 		'defaultLabel',
@@ -37,7 +36,7 @@ ToChoiceMenu >> checkableGroupChangedEvent: anEvent [
 { #category : #'private - accessing' }
 ToChoiceMenu >> checkedMenuItem [
 
-	^ group registeredCheckables
+	^ self group registeredCheckables
 		  detect: [ :btn | btn isChecked ]
 		  ifNone: [  ]
 ]
@@ -110,8 +109,8 @@ ToChoiceMenu >> initialize [
 	dataToTextConverter := [ :i | i ].
 
 	" a group with weak strategy that allows deselection by default "
-	group := ToCheckableGroup new withWeakCheckingStrategy.
-	group addEventHandler: (BlEventHandler
+	self group withWeakCheckingStrategy.
+	self group addEventHandler: (BlEventHandler
 			 on: ToCheckableGroupChangedEvent
 			 do: [ :event | self checkableGroupChangedEvent: event ]).
 	self privateData: self newDataCollection.
@@ -120,7 +119,7 @@ ToChoiceMenu >> initialize [
 { #category : #'private - accessing' }
 ToChoiceMenu >> menuItemFromData: anObject [
 
-	^ group registeredCheckables
+	^ self group registeredCheckables
 		  detect: [ :btn | btn data = anObject ]
 		  ifNone: [  ]
 ]
@@ -171,18 +170,6 @@ ToChoiceMenu >> privateData: anObservableCollection [
 	data := anObservableCollection.
 	data addEventHandler: (ToChoiceMenuDataEventHandler new choiceMenu: self; yourself).
 	self notifyChanged
-]
-
-{ #category : #'t - checkable group owner' }
-ToChoiceMenu >> rawGroup [ 
-
-	^ group
-]
-
-{ #category : #'t - checkable group owner' }
-ToChoiceMenu >> rawGroup: aGroup [
-
-	group := aGroup
 ]
 
 { #category : #'adding / removing' }

@@ -11,6 +11,23 @@ Class {
 }
 
 { #category : #examples }
+ToAccordionItemElement class >> exampleSeveralInCheckableGroup [
+
+	<script>
+	| pane group |
+	pane := ToPane new.
+	pane layout: BlLinearLayout vertical.
+	pane hMatchParent.
+	group := ToCheckableGroup new.
+	pane vFitContent.
+	(1 to: 5) collect: [ :i |
+		pane addChild: ((self itemWithLabelText: 'Header ' , i asString) isExpanded: false)].
+	group registerAll: pane children.
+	pane openInSpace.
+	^ pane
+]
+
+{ #category : #examples }
 ToAccordionItemElement class >> exampleSeveralInPaneWithLabel [
 
 	<script>
@@ -41,6 +58,17 @@ ToAccordionItemElement class >> exampleWithLabelAndAlbumInBody [
 	<script>
 	| inst |
 	inst := self itemWithLabelAndAlbumInBody.
+	inst openInSpace.
+	^ inst
+]
+
+{ #category : #examples }
+ToAccordionItemElement class >> exampleWithLabelChecked [
+
+	<script>
+	| inst |
+	inst := self itemWithLabel.
+	inst checked: true.
 	inst openInSpace.
 	^ inst
 ]
@@ -142,20 +170,28 @@ ToAccordionItemElement >> bodyBuilder: aValuable [
 	body builder: aValuable
 ]
 
+{ #category : #accessing }
+ToAccordionItemElement >> checked: aBoolean [
+
+	header checked: aBoolean
+]
+
 { #category : #'expanding-collapsing' }
 ToAccordionItemElement >> collapse [
 
-	body switchCollapsed.
-	self notifyChecked
-
+	body switchCollapsed
 ]
 
 { #category : #'expanding-collapsing' }
 ToAccordionItemElement >> expand [
 
-	body switchExpanded.
-	self notifyChecked
+	body switchExpanded
+]
 
+{ #category : #accessing }
+ToAccordionItemElement >> group: aCheckableGroup [
+
+	header group: aCheckableGroup
 ]
 
 { #category : #accessing }
@@ -174,7 +210,10 @@ ToAccordionItemElement >> initialize [
 	self vFitContent.
 	self initializeHeader.
 	self initializeBody.
-	self initializeClick
+	header addEventHandlerOn: ToCheckableCheckEvent do: [ :event |
+		self isExpanded
+			ifTrue: [ self expand ]
+			ifFalse: [ self collapse ] ]
 ]
 
 { #category : #initialization }
@@ -187,16 +226,6 @@ ToAccordionItemElement >> initializeBody [
 ]
 
 { #category : #initialization }
-ToAccordionItemElement >> initializeClick [
-
-	header addEventHandlerOn: BlClickEvent do: [ :event |
-		header isCollapsed: header isCollapsed not.
-		header isCollapsed
-			ifFalse: [ self expand ]
-			ifTrue: [ self collapse ] ]
-]
-
-{ #category : #initialization }
 ToAccordionItemElement >> initializeHeader [
 
 	header := ToAccordionItemHeaderElement new.
@@ -204,18 +233,24 @@ ToAccordionItemElement >> initializeHeader [
 ]
 
 { #category : #testing }
+ToAccordionItemElement >> isChecked [ 
+	
+	^ header isChecked
+]
+
+{ #category : #testing }
 ToAccordionItemElement >> isCollapsed [ 
 	
-	^ header isCollapsed 
+	^ header isCollapsed
 ]
 
 { #category : #accessing }
 ToAccordionItemElement >> isCollapsed: aBoolean [
-	
+
 	header isCollapsed: aBoolean
 ]
 
-{ #category : #accessing }
+{ #category : #testing }
 ToAccordionItemElement >> isExpanded [
 	
 	^ self isCollapsed not
@@ -224,7 +259,13 @@ ToAccordionItemElement >> isExpanded [
 { #category : #accessing }
 ToAccordionItemElement >> isExpanded: aBoolean [
 	
-	self isCollapsed: aBoolean not
+	header isExpanded: aBoolean
+]
+
+{ #category : #'t - item' }
+ToAccordionItemElement >> itemConstraintsClass [
+
+	^ ToAccordionConstraints 
 ]
 
 { #category : #skin }
@@ -233,22 +274,26 @@ ToAccordionItemElement >> newRawSkin [
 	^ ToAccordionItemElementSkin new
 ]
 
-{ #category : #'expanding-collapsing' }
-ToAccordionItemElement >> notifyChecked [
-
-	self dispatchEvent: ToAccordionItemCheckedEvent new 
-
-]
-
-{ #category : #'hooks - children' }
-ToAccordionItemElement >> onAddedToSceneGraph [
-
-	self isCollapsed ifFalse: [ self expand ].
-	super onAddedToSceneGraph
-]
-
 { #category : #accessing }
 ToAccordionItemElement >> preserveBody: aBoolean [
 
 	body preservedContent: aBoolean
+]
+
+{ #category : #'checking protocol' }
+ToAccordionItemElement >> privateChecked: aBoolean [
+
+	header privateChecked: aBoolean
+]
+
+{ #category : #'t - checkable - group' }
+ToAccordionItemElement >> registerInGroup: aGroup [
+
+	header registerInGroup: aGroup
+]
+
+{ #category : #'t - checkable - group' }
+ToAccordionItemElement >> unregisterFromGroup [
+
+	header unregisterFromGroup
 ]

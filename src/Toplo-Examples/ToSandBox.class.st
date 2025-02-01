@@ -1545,27 +1545,12 @@ ToSandBox class >> example_ListWithAllClassesAsButton [
 ToSandBox class >> example_ListWithAllClassesAsToggleButton [
 
 	| l |
-	l := ToListElement new nodeBuilder: [ :node :dataItem :holder |
-		     | toggle |
-		     toggle := ToToggleButton new
-			               label: (ToLabel new
-					                text: dataItem name;
-					                withNullSkin);
-			               hMatchParent;
-			               checked: holder isSelected.
-		     toggle takeFocusOnClick: false.
-		     toggle whenClickedDo: [ :event | " management of the liste primary selection "
-			     'click ' traceCr.
-			     toggle isChecked
-				     ifTrue: [
-				     holder listElement selecter selectIndex: holder position ]
-				     ifFalse: [
-				     holder listElement selecter deselectIndex: holder position ] ].
-		     node addChild: toggle ].
-	l dataAccessor addAll: Smalltalk globals allClasses.
-	l primarySelectionMode selectOnPressed: true.	
-	l primarySelectionMode deselectOnPressed: true.
-	"l primarySelectionMode option masked: true."
+	l := ToCheckableListElement new.
+	l group withoutCheckingStrategy.
+	l addAllItems: (Smalltalk globals allClasses collect: [ :cls |
+			 ToToggleButton new
+				 label: (ToLabel new text: cls name) preventSelectionSkinEvents;
+				 hMatchParent ]).
 	l openInSpace
 ]
 

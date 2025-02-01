@@ -1,7 +1,7 @@
 Class {
 	#name : #ToItemNode,
 	#superclass : #ToBarNode,
-	#category : #'Toplo-Widget-List-ItemBar'
+	#category : #'Toplo-Widget-List-ItemList'
 }
 
 { #category : #accessing }

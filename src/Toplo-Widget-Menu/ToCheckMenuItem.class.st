@@ -10,12 +10,6 @@ ToCheckMenuItem >> buttonClass [
 	^ ToCheckbox
 ]
 
-{ #category : #initialization }
-ToCheckMenuItem >> buttonClickEventClass [ 
-
-	^ ToCheckableCheckEvent 
-]
-
 { #category : #'as yet unclassified' }
 ToCheckMenuItem >> indeterminateBar [
 

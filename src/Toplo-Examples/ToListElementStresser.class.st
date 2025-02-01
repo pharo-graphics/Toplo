@@ -298,7 +298,6 @@ ToListElementStresser >> initialize [
 
 	commandApplicationStrategy := ToQueueBasedCommandApplicationStrategy
 		                              new
-		                              commandApplier: self
 		                              element: self tabsPanel;
 		                              yourself.
 
@@ -494,12 +493,13 @@ ToListElementStresser >> processEndInList: aList number: aNumber [
 { #category : #running }
 ToListElementStresser >> processingRound: aRound inList: aList number: aNumber [
 
-	commandApplicationStrategy addCommand:
-		(ToListElementStresserCommand new
-			 round: aRound;
-			 list: aList;
-			 listNumber: aNumber;
-			 yourself)
+	commandApplicationStrategy
+		addCommand: (ToListElementStresserCommand new
+				 round: aRound;
+				 list: aList;
+				 listNumber: aNumber;
+				 yourself)
+		from: self
 ]
 
 { #category : #private }

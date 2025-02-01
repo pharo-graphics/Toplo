@@ -4,7 +4,6 @@ Class {
 	#traits : 'TToOrientable + TToTripletElement + TToLabeledIcon + TToCheckable',
 	#classTraits : 'TToOrientable classTrait + TToTripletElement classTrait + TToLabeledIcon classTrait + TToCheckable classTrait',
 	#instVars : [
-		'optCheckableData',
 		'tripletProperties'
 	],
 	#category : #'Toplo-Widget-Button-Core'
@@ -23,7 +22,7 @@ ToButton >> beNotCheckable [
 
 	self isCheckable ifFalse: [ ^ self ].
 	self releaseCheckable.
-	optCheckableData := nil.
+	self checkableData: nil.
 	self requestNewSkin
 ]
 
@@ -33,18 +32,6 @@ ToButton >> checkable: aBoolean [
 	aBoolean
 		ifTrue: [ self beCheckable ]
 		ifFalse: [ self beNotCheckable ]
-]
-
-{ #category : #'t - checkable - accessing' }
-ToButton >> checkableData [
-
-	^ optCheckableData 
-]
-
-{ #category : #'t - checkable - accessing' }
-ToButton >> checkableData: aCheckableData [
-
-	optCheckableData := aCheckableData
 ]
 
 { #category : #'t - labeled icon' }

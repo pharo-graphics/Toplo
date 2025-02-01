@@ -16,15 +16,15 @@ ToElementCompositeCommand class >> withAll: commands [
 ]
 
 { #category : #accessing }
-ToElementCompositeCommand >> add: aCommand [
+ToElementCompositeCommand >> addCommand: aCommand [
 
 	commands add: aCommand
 ]
 
-{ #category : #accessing }
-ToElementCompositeCommand >> addAll: aCommandArray [
+{ #category : #application }
+ToElementCompositeCommand >> applicationResquestIn: aCommandApplier [
 
-	commands addAll: aCommandArray
+	aCommandApplier applyCompositeCommand: self
 ]
 
 { #category : #'private - hook' }
@@ -39,4 +39,11 @@ ToElementCompositeCommand >> initialize [
 
 	super initialize.
 	commands := OrderedCollection new
+]
+
+{ #category : #application }
+ToElementCompositeCommand >> onAppliedIn: aCommandApplier [
+
+	aCommandApplier onCompositeCommandApplied: self.
+	commands do: [ :cmd | aCommandApplier onCommandApplied: cmd ]
 ]

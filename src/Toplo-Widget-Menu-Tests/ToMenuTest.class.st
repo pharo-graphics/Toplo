@@ -29,7 +29,7 @@ ToMenuTest >> testAddItem [
 	self assert: m menuWindow itemBar nodes size equals: 1.
 	n := m manager currentWindow itemBar nodes first.
 	self assert: (n isKindOf: ToMenuItemNode).
-	self assert: (n holder isKindOf: ToItemBarNodeHolder).
+	self assert: (n holder isKindOf: ToItemNodeHolder).
 	self assert: (n holder dataItem isKindOf: ToMenuItem).
 	self assert: item barElement identicalTo: m menuWindow itemBar.
 	self assert: item positionInBar equals: 1

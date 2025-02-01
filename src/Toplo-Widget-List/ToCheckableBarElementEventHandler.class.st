@@ -1,7 +1,7 @@
 Class {
 	#name : #ToCheckableBarElementEventHandler,
 	#superclass : #ToListElementEventHandler,
-	#category : #'Toplo-Widget-List-ItemBar'
+	#category : #'Toplo-Widget-List-ItemList'
 }
 
 { #category : #'event handling' }

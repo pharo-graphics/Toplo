@@ -1,8 +1,9 @@
 Class {
 	#name : #ToAccordionItemHeaderElement,
 	#superclass : #ToElement,
+	#traits : 'TToCheckable',
+	#classTraits : 'TToCheckable classTrait',
 	#instVars : [
-		'isCollapsed',
 		'iconContainer',
 		'content'
 	],
@@ -27,6 +28,12 @@ ToAccordionItemHeaderElement >> builder: aValuable [
 	aValuable value: content
 ]
 
+{ #category : #'t - checkable  - protocol' }
+ToAccordionItemHeaderElement >> checkableEventHandlerClass [
+
+	^ ToAccordionItemHeaderEventHandler
+]
+
 { #category : #accessing }
 ToAccordionItemHeaderElement >> content [ 
 
@@ -40,11 +47,12 @@ ToAccordionItemHeaderElement >> icon: aToImage [
 	iconContainer addChild: aToImage	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 ToAccordionItemHeaderElement >> initialize [
 
 	super initialize.
-	isCollapsed := true.
+	self initializeAsCheckable.
+
 	self layout: BlLinearLayout horizontal.
 	self hMatchParent.
 	self vFitContent.
@@ -62,16 +70,28 @@ ToAccordionItemHeaderElement >> initialize [
 { #category : #accessing }
 ToAccordionItemHeaderElement >> isCollapsed [ 
 	
-	^ isCollapsed 
+	^ self isExpanded not 
 ]
 
 { #category : #accessing }
 ToAccordionItemHeaderElement >> isCollapsed: aBoolean [
 
-	isCollapsed := aBoolean
+	self isExpanded: aBoolean not
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
+ToAccordionItemHeaderElement >> isExpanded [
+	
+	^ self isChecked 
+]
+
+{ #category : #accessing }
+ToAccordionItemHeaderElement >> isExpanded: aBoolean [
+
+	self checked: aBoolean
+]
+
+{ #category : #initialization }
 ToAccordionItemHeaderElement >> newRawSkin [
 
 	^ ToAccordionItemHeaderElementSkin new

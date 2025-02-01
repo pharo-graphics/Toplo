@@ -1,11 +1,11 @@
 Class {
-	#name : #ToItemBarNodeHolder,
+	#name : #ToItemNodeHolder,
 	#superclass : #ToNodeHolder,
-	#category : #'Toplo-Widget-List-ItemBar'
+	#category : #'Toplo-Widget-List-ItemList'
 }
 
 { #category : #accessing }
-ToItemBarNodeHolder >> dataItem: aDataItem [
+ToItemNodeHolder >> dataItem: aDataItem [
 
 	| infiniteConstraints |
 	super dataItem: aDataItem.
@@ -14,7 +14,7 @@ ToItemBarNodeHolder >> dataItem: aDataItem [
 ]
 
 { #category : #accessing }
-ToItemBarNodeHolder >> initializeNode [
+ToItemNodeHolder >> initializeNode [
 
 	self dataItem itemConstraintsDo: [ :ic |
 		ic constraintItem: self dataItem.

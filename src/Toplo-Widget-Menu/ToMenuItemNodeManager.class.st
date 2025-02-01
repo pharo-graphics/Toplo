@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMenuItemNodeManager,
-	#superclass : #ToItemNodeManager,
+	#superclass : #ToItemBarNodeManager,
 	#category : #'Toplo-Widget-Menu-ItemBar'
 }
 

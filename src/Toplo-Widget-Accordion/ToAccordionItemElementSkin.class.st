@@ -8,5 +8,7 @@ Class {
 ToAccordionItemElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
-	anEvent elementDo: [ :e |  ]
+	anEvent elementDo: [ :e |
+		e geometry: (BlRoundedRectangleGeometry cornerRadius:
+				 (e valueOfTokenNamed: 'border-radius')) ]
 ]

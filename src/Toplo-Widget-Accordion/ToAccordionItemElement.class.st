@@ -179,19 +179,27 @@ ToAccordionItemElement >> checked: aBoolean [
 { #category : #'expanding-collapsing' }
 ToAccordionItemElement >> collapse [
 
-	body switchCollapsed
+	body switchCollapsed.
+	self dispatchEvent: ToAccordionItemChangedEvent new
 ]
 
 { #category : #'expanding-collapsing' }
 ToAccordionItemElement >> expand [
 
-	body switchExpanded
+	body switchExpanded.
+	self dispatchEvent: ToAccordionItemChangedEvent new
 ]
 
 { #category : #accessing }
 ToAccordionItemElement >> group: aCheckableGroup [
 
 	header group: aCheckableGroup
+]
+
+{ #category : #accessing }
+ToAccordionItemElement >> header [
+
+	^ header
 ]
 
 { #category : #accessing }

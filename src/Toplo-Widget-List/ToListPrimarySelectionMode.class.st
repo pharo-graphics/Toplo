@@ -42,7 +42,7 @@ ToListPrimarySelectionMode >> defaultSelectionOption [
 		  beneath: true;
 		  triggerSelectionState: true;
 		  elementFactory: [
-			  ToListBasicSelectionElement new defaultSkin:
+			  ToListSelectionElement new defaultSkin:
 					  ToListPrimarySelectionElementSkin new ]
 ]
 

@@ -142,6 +142,93 @@ ToAccordionListElement class >> example2WithClassComments [
 	pane openInSpace
 ]
 
+{ #category : #examples }
+ToAccordionListElement class >> example2WithClassComments2 [
+
+	<script>
+	| list pane filterField sieve |
+	pane := ToPane new
+		        beVertical;
+		        matchParent.
+	filterField := ToTextField new.
+	filterField margin: (BlInsets all: 2).
+	filterField placeholderBuilder: [ :placeholder :e |
+		placeholder addChild:
+			((ToAttributedLabel text: 'Class name filter')
+				 foreground: Color lightGray;
+				 yourself) ].
+	list := ToListElement new.
+	list selectionOption withEmbeddedRepresentation.
+	"list selectionOption elementFactory: [ ToAccordionListSelectionElement new ]."
+	list withRowNumbers.
+
+	sieve := ToListElementSieve new.
+	sieve onInstalledIn: list.
+	sieve dataFilter: [ :item :aPattern |
+		item name beginsWith: aPattern caseSensitive: false ].
+
+	filterField whenTextEditedDo: [
+		| pattern |
+		pattern := filterField text asString.
+		sieve pattern: pattern ].
+
+	list placeholderBuilder: [ :ph :e |
+		| lab |
+		ph layout alignCenter.
+		lab := (ToAttributedLabel text: 'No Data')
+			       foreground: Color lightGray;
+			       fontSize: 24;
+			       yourself.
+		ph addChild: lab ].
+
+	list nodeBuilder: [ :node :cls :holder |
+		| item |
+		item := ToAccordionItemElement new
+			        headerBuilder: [ :header |
+				        header addChild: (ToLabel text: cls name) preventSelectionSkinEvents ];
+			        bodyBuilder: [ :body |
+				        | album |
+				        body margin: (BlInsets all: 5).
+				        album := ToAlbum new
+					                 withSaveCapability;
+					                 whenSaveRequestedDo: [ :saveRequested |
+						                 saveRequested accepted: true ];
+					                 whenCancelRequestedDo: [ :cancelRequested |
+						                 cancelRequested editorElement text: cls comment ];
+					                 yourself.
+				        album hMatchParent.
+				        album vFitContent.
+				        album next constraintsDo: [ :c |
+					        c vertical fitContent.
+					        c horizontal matchParent ].
+				        album infinite constraintsDo: [ :c |
+					        c vertical fitContent.
+					        c horizontal matchParent ].
+				        album minHeight: 50.
+				        album text: cls comment.
+				        body addChild: album ];
+			        yourself.
+		node hMatchParent.
+		node vFitContent.
+		(holder listElement selectionModel containsIndex: holder position)
+			ifTrue: [ item checked: true ].
+		item addEventHandlerOn: ToAccordionItemChangedEvent do: [ :event |
+			item isExpanded
+				ifTrue: [
+				holder listElement selecter selectIndex: holder position ]
+				ifFalse: [
+				holder listElement selecter deselectIndex: holder position ] ].
+		node addChild: item ].
+
+	list dataAccessor addAll: Smalltalk globals allClasses. "reject: [ :cls | cls comment isEmpty ]"
+	"list selectionOption masked: true."
+	list matchParent.
+
+	pane addChild: list.
+	pane addChild: filterField.
+	pane openInSpace
+]
+
 { #category : #initialization }
 ToAccordionListElement >> defaultEventHandler [
 

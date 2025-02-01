@@ -17,7 +17,8 @@ ToListSelectionElement >> initialize [
 	" let install the skin immediately to speed-up selection updating "
 	self applySkinInstallerOnFirstRequest: true.
 	" must prevent mouse events for the scrolling events "
-	self preventMouseEvents 
+	self preventMouseEvents.
+	self outskirts: BlOutskirts inside
 ]
 
 { #category : #accessing }

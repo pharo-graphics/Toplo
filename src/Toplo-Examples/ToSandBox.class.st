@@ -1728,7 +1728,7 @@ ToSandBox class >> example_ListWithSelectionTrace [
 	" mandatory option here: the selection are separate (one selection element for each selected node)"
 	statesList selectionOption grouped: false.
 	statesList selectionOption elementFactory: [
-		ToListBasicSelectionElement new defaultSkin:
+		ToListSelectionElement new defaultSkin:
 			ToTraceListPrimarySelectionElementSkin new ].
 	statesList openInSpace
 ]
@@ -1844,7 +1844,7 @@ ToSandBox class >> example_PicsumPhotosGallery [
 		grouped: false;
 		beneath: false;
 		elementFactory: [
-			ToListBasicSelectionElement new defaultSkin:
+			ToListSelectionElement new defaultSkin:
 					ToPicsumSelectionSkin new ].
 
 	[
@@ -2191,7 +2191,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	select popupListElement selectionOption grouped: false.
 	select popupListElement selectionOption beneath: false.
 	select popupListElement selectionOption elementFactory: [
-		ToListBasicSelectionElement new defaultSkin:
+		ToListSelectionElement new defaultSkin:
 			ToMultiSelectElementCheckSkin new ].
 
 	newTagFactory := [ :stateColorAssoc |
@@ -4517,7 +4517,7 @@ ToSandBox class >> example_segmentedWithCheckboxes [
 	| seg dashBoard |
 	seg := ToSegmentedElement new.
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
-		seg addItem: (ToSegmentedCheckbox new
+		seg addItem: (ToCheckbox new
 				 labelText: l;
 				 yourself) ].
 	(seg items at: 2) disable.
@@ -4533,7 +4533,7 @@ ToSandBox class >> example_segmentedWithLabels [
 	seg := ToSegmentedElement new.
 
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
-		seg addItem: (ToSegmentedToggleButton new
+		seg addItem: (ToToggleButton new
 				 labelText: l;
 				 yourself) ].
 
@@ -4584,7 +4584,7 @@ ToSandBox class >> example_segmentedWithLabelsAndIcons [
 	seg := ToSegmentedElement new.
 
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
-		seg addItem: (ToSegmentedToggleButton new
+		seg addItem: (ToToggleButton new
 				 iconImage: ToThemeIcons searchOutlined16x16;
 				 labelText: l;
 				 yourself) ].
@@ -4632,7 +4632,7 @@ ToSandBox class >> example_segmentedWithRadioButtons [
 	| seg dashBoard |
 	seg := ToSegmentedElement new.
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
-		seg addItem: (ToSegmentedRadioButton new
+		seg addItem: (ToRadioButton new
 				 labelText: l;
 				 yourself) ].
 	(seg items at: 2) disable.
@@ -6866,7 +6866,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 	option grouped: false.
 	option beneath: false.
 	option elementFactory: [
-		ToListBasicSelectionElement new defaultSkin:
+		ToListSelectionElement new defaultSkin:
 			ToListDisabledSelectionElementExampleSkin new ].
 	disabledMode changeSelectionOptionWith: option.
 
@@ -6875,7 +6875,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 	option grouped: false.
 	option beneath: false.
 	option elementFactory: [
-		ToListBasicSelectionElement new defaultSkin:
+		ToListSelectionElement new defaultSkin:
 			ToListUnselectableSelectionElementExampleSkin new ].
 	unselectableMode changeSelectionOptionWith: option.
 

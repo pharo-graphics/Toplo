@@ -10,7 +10,7 @@ Class {
 	#category : #'Toplo-Widget-Accordion-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #examples }
 ToAccordionItemHeaderElement class >> exampleWithLabel [
 
 	<script>
@@ -67,7 +67,7 @@ ToAccordionItemHeaderElement >> initialize [
 	self addChild: content
 ]
 
-{ #category : #accessing }
+{ #category : #testing }
 ToAccordionItemHeaderElement >> isCollapsed [ 
 	
 	^ self isExpanded not 
@@ -79,7 +79,7 @@ ToAccordionItemHeaderElement >> isCollapsed: aBoolean [
 	self isExpanded: aBoolean not
 ]
 
-{ #category : #accessing }
+{ #category : #testing }
 ToAccordionItemHeaderElement >> isExpanded [
 	
 	^ self isChecked 

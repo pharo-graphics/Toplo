@@ -179,6 +179,7 @@ ToAccordionItemElement >> checked: aBoolean [
 { #category : #'expanding-collapsing' }
 ToAccordionItemElement >> collapse [
 
+	header isExpanded ifTrue: [ ^ self ].
 	body switchCollapsed.
 	self notifySelectionChanged
 ]
@@ -186,6 +187,7 @@ ToAccordionItemElement >> collapse [
 { #category : #'expanding-collapsing' }
 ToAccordionItemElement >> expand [
 
+	header isExpanded ifFalse: [ ^ self ].
 	body switchExpanded.
 	self notifySelectionChanged
 ]
@@ -285,7 +287,7 @@ ToAccordionItemElement >> newRawSkin [
 { #category : #'expanding-collapsing' }
 ToAccordionItemElement >> notifySelectionChanged [
 
-	self dispatchEvent: ToAccordionItemSelectionEvent new
+	self dispatchEvent: ToAccordionItemCheckedEvent new
 ]
 
 { #category : #accessing }

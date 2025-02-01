@@ -211,7 +211,7 @@ ToAccordionListElement class >> example2WithClassComments2 [
 		node vFitContent.
 		(holder listElement selectionModel containsIndex: holder position)
 			ifTrue: [ item checked: true ].
-		item addEventHandlerOn: ToAccordionItemSelectionEvent do: [ :event |
+		item addEventHandlerOn: ToAccordionItemCheckedEvent do: [ :event |
 			item isExpanded
 				ifTrue: [
 				holder listElement selecter selectIndex: holder position ]

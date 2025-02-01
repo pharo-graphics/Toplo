@@ -33,7 +33,8 @@ ToAccordionItemHeaderElementSkin >> installSkinEvent: anEvent [
 		arrowTk := e isCollapsed
 			           ifTrue: [ #'submenu-arrow-up' ]
 			           ifFalse: [ #'submenu-arrow-down' ].
-		e icon: (e valueOfTokenNamed: arrowTk) value ]
+		e icon: (e valueOfTokenNamed: arrowTk) value.
+		e background: Color transparent ]
 ]
 
 { #category : #'event handling' }
@@ -42,8 +43,7 @@ ToAccordionItemHeaderElementSkin >> selectedSkinEvent: anEvent [
 	super selectedSkinEvent: anEvent.
 	anEvent selectionMode isPrimary ifFalse: [ ^ self ].
 	anEvent enabledElementDo: [ :e |
-		e background:
-			(e valueOfTokenNamed: #'color-primary-selection-unfocused') ]
+		e background: (e valueOfTokenNamed: #'color-secondary-selection') ]
 ]
 
 { #category : #'event handling' }

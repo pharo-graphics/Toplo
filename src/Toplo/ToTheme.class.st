@@ -318,6 +318,9 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty
 			   name: #'color-primary-selection-disabled'
 			   value: (Color gray alpha: 0.3)).
+		  (ToTokenProperty
+			   name: #'color-secondary-selection'
+			   value: (Color veryLightGray alpha: 0.1)).
 
 		  (ToTokenProperty name: #'border-width-primary-selection' value: 1).
 		  (ToTokenProperty

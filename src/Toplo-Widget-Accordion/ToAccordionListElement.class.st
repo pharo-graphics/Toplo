@@ -1,6 +1,6 @@
 Class {
 	#name : #ToAccordionListElement,
-	#superclass : #ToCheckableListElement,
+	#superclass : #ToAbstractListElement,
 	#category : #'Toplo-Widget-Accordion-List'
 }
 
@@ -159,7 +159,6 @@ ToAccordionListElement class >> example2WithClassComments2 [
 				 yourself) ].
 	list := ToListElement new.
 	list selectionOption withEmbeddedRepresentation.
-	"list selectionOption elementFactory: [ ToAccordionListSelectionElement new ]."
 	list withRowNumbers.
 
 	sieve := ToListElementSieve new.
@@ -212,7 +211,7 @@ ToAccordionListElement class >> example2WithClassComments2 [
 		node vFitContent.
 		(holder listElement selectionModel containsIndex: holder position)
 			ifTrue: [ item checked: true ].
-		item addEventHandlerOn: ToAccordionItemChangedEvent do: [ :event |
+		item addEventHandlerOn: ToAccordionItemSelectionEvent do: [ :event |
 			item isExpanded
 				ifTrue: [
 				holder listElement selecter selectIndex: holder position ]
@@ -230,9 +229,9 @@ ToAccordionListElement class >> example2WithClassComments2 [
 ]
 
 { #category : #initialization }
-ToAccordionListElement >> defaultEventHandler [
+ToAccordionListElement >> defaultInnerElement [ 
 
-	^ ToAccordionListElementEventHandler new
+	^ ToInfiniteElement onListElement: self
 ]
 
 { #category : #initialization }

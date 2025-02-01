@@ -1,16 +1,16 @@
 Class {
 	#name : #ToAccordionListNodeManager,
-	#superclass : #ToCheckableListNodeManager,
+	#superclass : #ToAbstractNodeManager,
 	#category : #'Toplo-Widget-Accordion-List'
 }
 
-{ #category : #'t - generic node manager' }
+{ #category : #'instance creation' }
 ToAccordionListNodeManager >> newHolder [
 
 	^ ToAccordionListNodeHolder new
 ]
 
-{ #category : #'t - generic node manager' }
+{ #category : #'instance creation' }
 ToAccordionListNodeManager >> newNodeForHolder: aNodeHolder [
 
 	^ ToAccordionListNode new

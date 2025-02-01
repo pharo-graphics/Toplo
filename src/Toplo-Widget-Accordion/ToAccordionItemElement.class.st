@@ -180,14 +180,14 @@ ToAccordionItemElement >> checked: aBoolean [
 ToAccordionItemElement >> collapse [
 
 	body switchCollapsed.
-	self dispatchEvent: ToAccordionItemChangedEvent new
+	self notifySelectionChanged
 ]
 
 { #category : #'expanding-collapsing' }
 ToAccordionItemElement >> expand [
 
 	body switchExpanded.
-	self dispatchEvent: ToAccordionItemChangedEvent new
+	self notifySelectionChanged
 ]
 
 { #category : #accessing }
@@ -280,6 +280,12 @@ ToAccordionItemElement >> itemConstraintsClass [
 ToAccordionItemElement >> newRawSkin [
 
 	^ ToAccordionItemElementSkin new
+]
+
+{ #category : #'expanding-collapsing' }
+ToAccordionItemElement >> notifySelectionChanged [
+
+	self dispatchEvent: ToAccordionItemSelectionEvent new
 ]
 
 { #category : #accessing }

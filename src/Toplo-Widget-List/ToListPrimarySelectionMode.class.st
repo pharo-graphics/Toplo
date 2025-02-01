@@ -42,8 +42,7 @@ ToListPrimarySelectionMode >> defaultSelectionOption [
 		  beneath: true;
 		  triggerSelectionState: true;
 		  elementFactory: [
-			  ToListSelectionElement new defaultSkin:
-					  ToListPrimarySelectionElementSkin new ]
+			  ToListPrimarySelectionElement new ]
 ]
 
 { #category : #accessing }

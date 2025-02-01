@@ -10,7 +10,7 @@ ToAccordionListElement class >> example1 [
 	<script>
 	| list |
 	list := ToAccordionListElement new.
-	list group withoutCheckingStrategy.
+	"list group withoutCheckingStrategy."
 	list addAllItems: ((1 to: 1000) collect: [ :i |
 			 ToAccordionItemElement new
 				 headerBuilder: [ :header |
@@ -105,7 +105,7 @@ ToAccordionListElement class >> example2WithClassComments [
 			       yourself.
 		ph addChild: lab ].
 
-	list group withoutCheckingStrategy.
+	"list group withoutCheckingStrategy."
 	list addAllItems:
 		((Smalltalk globals allClasses reject: [ :cls | cls comment isEmpty ])
 			 collect: [ :cls |

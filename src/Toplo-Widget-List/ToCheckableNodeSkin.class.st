@@ -1,10 +1,10 @@
 Class {
 	#name : #ToCheckableNodeSkin,
 	#superclass : #ToRawSkin,
-	#category : #'Toplo-Widget-List-ItemBar'
+	#category : #'Toplo-Widget-List-ItemList'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'event handling' }
 ToCheckableNodeSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
@@ -21,7 +21,7 @@ ToCheckableNodeSkin >> installSkinEvent: anEvent [
 		e border: (BlBorder empty) ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'event handling' }
 ToCheckableNodeSkin >> leavedSkinEvent: anEvent [
 
 	super leavedSkinEvent: anEvent.

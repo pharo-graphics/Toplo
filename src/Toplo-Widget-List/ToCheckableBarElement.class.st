@@ -6,7 +6,7 @@ Class {
 	#superclass : #ToItemBarElement,
 	#traits : 'TToCheckableGroupOwner',
 	#classTraits : 'TToCheckableGroupOwner classTrait',
-	#category : #'Toplo-Widget-List-ItemBar'
+	#category : #'Toplo-Widget-List-ItemList'
 }
 
 { #category : #'t - list node holder' }
@@ -28,7 +28,7 @@ ToCheckableBarElement >> defaultEventHandler [
 { #category : #initialization }
 ToCheckableBarElement >> defaultNodeManagerClass [ 
 
-	^ ToCheckableNodeManager 
+	^ ToCheckableBarNodeManager 
 ]
 
 { #category : #initialization }

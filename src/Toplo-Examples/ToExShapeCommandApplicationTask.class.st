@@ -12,7 +12,7 @@ ToExShapeCommandApplicationTask >> run [
 
 	sortBlock ifNotNil: [
 		commandQueue add: (ToEnqueuedCommand new
-				 applier: self;
+				 applier: element;
 				 command: (ToExShapeSortCommand new sortBlock: sortBlock);
 				 yourself) ].
 	super run

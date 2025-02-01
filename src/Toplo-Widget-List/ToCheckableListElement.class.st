@@ -3,16 +3,13 @@ Class {
 	#superclass : #ToItemListElement,
 	#traits : 'TToCheckableGroupOwner',
 	#classTraits : 'TToCheckableGroupOwner classTrait',
-	#instVars : [
-		'group'
-	],
-	#category : #'Toplo-Widget-List-ItemBar'
+	#category : #'Toplo-Widget-List-ItemList'
 }
 
-{ #category : #initialization }
+{ #category : #'t - item bar element - accessing' }
 ToCheckableListElement >> defaultNodeManagerClass [ 
 
-	^ ToCheckableNodeManager
+	^ ToCheckableListNodeManager
 ]
 
 { #category : #initialization }

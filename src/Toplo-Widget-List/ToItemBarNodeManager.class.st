@@ -1,7 +1,7 @@
 Class {
 	#name : #ToItemBarNodeManager,
 	#superclass : #ToAbstractBarNodeManager,
-	#category : #'Toplo-Widget-List-ItemBar'
+	#category : #'Toplo-Widget-List-ItemList'
 }
 
 { #category : #initialization }
@@ -12,10 +12,10 @@ ToItemBarNodeManager >> buildNode: aNode [
 	aNode item: holder dataItem
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 ToItemBarNodeManager >> defaultFakeDataItem [
 
-	^ ToItemElement new
+	^ ToBarItemElement new
 		  size: 10 asPoint;
 		  yourself
 ]
@@ -23,7 +23,7 @@ ToItemBarNodeManager >> defaultFakeDataItem [
 { #category : #'instance creation' }
 ToItemBarNodeManager >> newHolder [
 
-	^ ToItemBarNodeHolder new
+	^ ToItemNodeHolder new
 ]
 
 { #category : #'instance creation' }

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToItemListNodeManager,
 	#superclass : #ToAbstractNodeManager,
-	#category : #'Toplo-Widget-List-ItemBar'
+	#category : #'Toplo-Widget-List-ItemList'
 }
 
 { #category : #initialization }
@@ -33,7 +33,7 @@ ToItemListNodeManager >> constraintNode: aNode [
 { #category : #'instance creation' }
 ToItemListNodeManager >> newHolder [
 
-	^ ToItemBarNodeHolder new
+	^ ToItemNodeHolder new
 ]
 
 { #category : #'instance creation' }

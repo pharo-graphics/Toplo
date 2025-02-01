@@ -1,7 +1,7 @@
 Class {
 	#name : #ToCheckableNode,
 	#superclass : #ToItemNode,
-	#category : #'Toplo-Widget-List-ItemBar'
+	#category : #'Toplo-Widget-List-ItemList'
 }
 
 { #category : #accessing }

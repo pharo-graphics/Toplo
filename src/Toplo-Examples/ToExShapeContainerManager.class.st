@@ -19,13 +19,7 @@ ToExShapeContainerManager class >> open [
 { #category : #adding }
 ToExShapeContainerManager >> addCommand: aCommand [
 
-	commandApplicationStrategy addCommand: aCommand from: self
-]
-
-{ #category : #adding }
-ToExShapeContainerManager >> applyCommand: aCommand [
-
-	aCommand applyOn: shapeContainer 
+	commandApplicationStrategy addCommand: aCommand from: shapeContainer 
 ]
 
 { #category : #initialization }

@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToItem,
-	#category : #'Toplo-Widget-List-ItemList'
+	#category : #'Toplo-Core'
 }
 
 { #category : #'t - item' }

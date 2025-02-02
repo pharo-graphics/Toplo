@@ -1,14 +1,18 @@
 Class {
 	#name : #ToAccordionItemElement,
 	#superclass : #ToElement,
-	#traits : 'TToItem',
-	#classTraits : 'TToItem classTrait',
 	#instVars : [
 		'header',
 		'body'
 	],
 	#category : #'Toplo-Widget-Accordion-Core'
 }
+
+{ #category : #accessing }
+ToAccordionItemElement class >> collapsed [
+
+	^ self new
+]
 
 { #category : #examples }
 ToAccordionItemElement class >> exampleSeveralInCheckableGroup [
@@ -105,6 +109,12 @@ ToAccordionItemElement class >> exampleWithLabelNotPreservingBodyAndExpanded [
 	inst isExpanded: true.
 	inst openInSpace.
 	^ inst
+]
+
+{ #category : #accessing }
+ToAccordionItemElement class >> expanded [
+
+	^ self new
 ]
 
 { #category : #examples }
@@ -270,12 +280,6 @@ ToAccordionItemElement >> isExpanded [
 ToAccordionItemElement >> isExpanded: aBoolean [
 	
 	header isExpanded: aBoolean
-]
-
-{ #category : #'t - item' }
-ToAccordionItemElement >> itemConstraintsClass [
-
-	^ ToAccordionConstraints 
 ]
 
 { #category : #skin }

@@ -41,11 +41,3 @@ ToItemListNodeManager >> newNodeForHolder: aNodeHolder [
 
 	^ ToItemNode new
 ]
-
-{ #category : #initialization }
-ToItemListNodeManager >> unbuildNode: aNode [
-
-	| holder |
-	holder := aNode holder.
-	aNode item: nil
-]

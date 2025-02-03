@@ -10,7 +10,6 @@ ToAccordionListElement class >> example1 [
 	<script>
 	| list |
 	list := ToAccordionListElement new.
-	"list group withoutCheckingStrategy."
 	list itemBuilder: [ :item :anInteger :holder |
 		item
 			headerBuilder: [ :header |
@@ -104,8 +103,8 @@ ToAccordionListElement class >> example2WithClassComments2 [
 				holder listElement selecter deselectIndex: holder position ] ].
 		node addChild: item ].
 
-	list dataAccessor addAll: Smalltalk globals allClasses. "reject: [ :cls | cls comment isEmpty ]"
-	"list selectionOption masked: true."
+	list dataAccessor addAll: Smalltalk globals allClasses.
+	list selectionOption masked: true.
 	list matchParent.
 
 	pane addChild: list.
@@ -129,7 +128,7 @@ ToAccordionListElement class >> example2WithClassComments3 [
 				 foreground: Color lightGray;
 				 yourself) ].
 	list := ToAccordionListElement new.
-
+	list selectionMode multiple: false.
 	sieve := ToListElementSieve new.
 	sieve onInstalledIn: list.
 	sieve dataFilter: [ :item :aPattern |

@@ -7,6 +7,6 @@ Class {
 { #category : #initialization }
 ToInfiniteRecycler >> newCustomRecycler [ 
 
-	^ super newCustomRecycler 
-	"^ ToInfiniteSimpleNodePoolRecycler new"
+	"^ super newCustomRecycler "
+	^ ToInfinitePositionBasedRecycler new
 ]

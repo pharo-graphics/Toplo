@@ -78,8 +78,6 @@ TToGenericNodeManager >> nodeUnbuilder: aValuable [
 { #category : #'t - generic node manager' }
 TToGenericNodeManager >> unbuildNode: aNode [
 
-	nodeUnbuilder cull: aNode cull: aNode holder dataItem cull: aNode holder.
-	aNode removeChildren
-
+	nodeUnbuilder cull: aNode cull: aNode holder dataItem cull: aNode holder
 
 ]

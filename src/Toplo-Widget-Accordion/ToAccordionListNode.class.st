@@ -8,5 +8,6 @@ Class {
 ToAccordionListNode >> clickEventHandlerClasses [
 
 	" An accordion is expanded/collapsed on click from its own handler. "
-	^ {  }
+	"^ {  }"
+	^ super clickEventHandlerClasses
 ]

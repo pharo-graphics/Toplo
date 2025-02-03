@@ -2,7 +2,8 @@ Class {
 	#name : #ToNodeHolder,
 	#superclass : #BlInfiniteHolder,
 	#instVars : [
-		'dataItem'
+		'dataItem',
+		'recyclingRequested'
 	],
 	#category : #'Toplo-Widget-List-Node'
 }
@@ -14,8 +15,8 @@ ToNodeHolder >> bindDataItem: aDataItem [
 	self flag: 'The recycling case have to be re-worked'.
 	" I can already have a node in case of recycling "
 	self node ifNil: [
-		self setupNodeWith: (self nodeManager newNodeForHolder: self) ].
-	self setDataItemAndBuildNode: aDataItem
+		self setupNodeWith: (self nodeManager newNodeForHolder: self).
+		self setDataItemAndBuildNode: aDataItem ]
 ]
 
 { #category : #accessing }
@@ -55,6 +56,13 @@ ToNodeHolder >> disabled: aBoolean [
 	aBoolean
 		ifTrue: [ selecter selectIndex: self position ]
 		ifFalse: [ selecter deselectIndex: self position ]
+]
+
+{ #category : #initialization }
+ToNodeHolder >> initialize [ 
+
+	super initialize.
+	recyclingRequested := false
 ]
 
 { #category : #accessing }
@@ -144,6 +152,18 @@ ToNodeHolder >> notifySelectedWithOption: aSelectionElementOption [
 			 listElement: self listElement;
 			 selectionOption: aSelectionElementOption;
 			 selected: true)
+]
+
+{ #category : #accessing }
+ToNodeHolder >> recyclingRequested [
+
+	^ recyclingRequested
+]
+
+{ #category : #accessing }
+ToNodeHolder >> recyclingRequested: aBoolean [
+
+	recyclingRequested := aBoolean
 ]
 
 { #category : #accessing }

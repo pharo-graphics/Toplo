@@ -9,8 +9,12 @@ Class {
 
 { #category : #accessing }
 ToNodeHolder >> bindDataItem: aDataItem [
+	" associate the data item and then build the node "
 
-	self setupNodeWith: (self nodeManager newNodeForHolder: self).
+	self flag: 'The recycling case have to be re-worked'.
+	" I can already have a node in case of recycling "
+	self node ifNil: [
+		self setupNodeWith: (self nodeManager newNodeForHolder: self) ].
 	self setDataItemAndBuildNode: aDataItem
 ]
 

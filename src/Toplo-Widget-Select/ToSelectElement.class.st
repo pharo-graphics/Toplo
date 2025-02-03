@@ -35,7 +35,7 @@ ToSelectElement >> allowDeselection [
 { #category : #'accessing - window' }
 ToSelectElement >> currentPopupWindow [
 
-	^ self windowManager currentWindow
+	^ self manager currentWindow
 ]
 
 { #category : #'accessing - list' }

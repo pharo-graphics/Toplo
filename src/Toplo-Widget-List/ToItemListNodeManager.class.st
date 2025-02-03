@@ -47,6 +47,5 @@ ToItemListNodeManager >> unbuildNode: aNode [
 
 	| holder |
 	holder := aNode holder.
-	aNode item: nil.
-	aNode removeChildren.
+	aNode item: nil
 ]

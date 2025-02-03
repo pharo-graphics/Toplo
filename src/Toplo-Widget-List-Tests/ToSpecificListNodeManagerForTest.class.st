@@ -52,7 +52,6 @@ ToSpecificListNodeManagerForTest >> nextCount [
 { #category : #initialization }
 ToSpecificListNodeManagerForTest >> unbuildNode: aNode [
 
-	aNode removeChildren.
 	aNode holder num: 0
 
 ]

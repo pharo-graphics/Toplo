@@ -1208,7 +1208,7 @@ ToSandBox class >> example_HorizontalListWithIndexedColors [
 ToSandBox class >> example_HugeIntegerList [
 
 	| l nbItems vscrollBar space |
-	nbItems := 50000.
+	nbItems := 500.
 	l := ToListElement new.
 	l dataAccessor addAll: (1 to: nbItems).
 	l nodeBuilder: [ :node :anInteger |
@@ -1682,7 +1682,7 @@ ToSandBox class >> example_ListWithPanes [
 				        (BlRoundedRectangleGeometry cornerRadius: 6).
 			        blContent border: (BlBorder paint: Color lightGray).
 			        node addChild: blContent ].
-	list primarySelectionMode selectionElementOption beneath: false.
+	list primarySelectionMode selectionOption beneath: false.
 	list dataAccessor addAll: (1 to: 1000).
 	list openInSpace
 ]

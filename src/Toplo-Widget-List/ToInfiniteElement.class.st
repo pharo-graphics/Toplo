@@ -71,6 +71,12 @@ ToInfiniteElement >> defaultMouseScrollEventHandler [
 ]
 
 { #category : #initialization }
+ToInfiniteElement >> defaultRecycler [
+
+	^ ToInfiniteRecycler new
+]
+
+{ #category : #initialization }
 ToInfiniteElement >> defaultScrollFlinger [
 	"Return class, actuall instantiation happens in initialize"
 	^ ToInfiniteScrollFlinger

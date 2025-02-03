@@ -12,6 +12,7 @@ Class {
 ToAccordionListNodeManager >> buildNode: aNode [
 
 	| item |
+	aNode removeChildren.
 	item := self newItemForNode: aNode.
 	itemBuilder cull: item cull: aNode holder dataItem cull: aNode holder.
 	(aNode holder listElement selectionModel containsIndex:

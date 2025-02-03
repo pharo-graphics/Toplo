@@ -31,7 +31,7 @@ TToGenericNodeManager >> defaultNodeFactory [
 { #category : #'t - generic node manager' }
 TToGenericNodeManager >> defaultNodeUnbuilder [
 
-	^ [ :node :dataItem :holder | node removeChildren  ]
+	^ [ :node :dataItem :holder |  ]
 ]
 
 { #category : #'t - generic node manager' }

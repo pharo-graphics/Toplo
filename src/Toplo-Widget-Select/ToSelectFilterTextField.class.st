@@ -62,7 +62,7 @@ ToSelectFilterTextField >> on: aSelectElement [
 			                      event text ifNotEmpty: [
 				                      event text asString first isAlphaNumeric
 					                      ifTrue: [
-					                      aSelectElement windowManager
+					                      aSelectElement manager
 						                      popupWindowHiddenEvent: event ] ] ].
 	self infinite addEventHandler: windowPopupHandler
 ]

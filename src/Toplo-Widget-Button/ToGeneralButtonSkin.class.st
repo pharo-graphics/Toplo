@@ -34,7 +34,7 @@ ToGeneralButtonSkin >> enabledSkinEvent: anEvent [
 ToGeneralButtonSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
-	anEvent enabledElementDo: [ :e |
+	anEvent elementDo: [ :e |
 			e mouseCursor: Cursor webLink.
 			e isMenuButton ifFalse: [
 				e border: (BlBorder

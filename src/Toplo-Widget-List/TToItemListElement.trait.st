@@ -92,6 +92,12 @@ TToItemListElement >> initializeAsItemBarElement [
 	self primarySelectionMode makeDisabledUnselectable: true
 ]
 
+{ #category : #'t - item bar element - hidden/visible' }
+TToItemListElement >> isSelectedItem: anItem [
+
+	^ self isSelectedAtPosition: anItem positionInBar
+]
+
 { #category : #'t - item bar element - accessing' }
 TToItemListElement >> items [ 
 

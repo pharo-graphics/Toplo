@@ -321,6 +321,12 @@ ToAbstractListElement >> isMultipleSelection [
 	^ self primarySelectionMode isMultipleSelection
 ]
 
+{ #category : #'accessing selecters' }
+ToAbstractListElement >> isSelectedAtPosition: anInteger [
+
+	^ self selectionModel containsIndex: anInteger
+]
+
 { #category : #'t - menu item' }
 ToAbstractListElement >> itemContaining: anElement [
 

@@ -13,9 +13,7 @@ ToAccordionListNodeHolder >> bindDataItem: aDataItem [
 	super bindDataItem: aDataItem.
 	recyclingHandler ifNotNil: [ ^ self ].
 	recyclingHandler := self node item
-		                         addEventHandlerOn:
-		                         ToAccordionItemCheckedEvent
-		                         do: [ :event |
-		                         self recyclingRequested:
-			                         event target isExpanded ]
+		                    addEventHandlerOn: ToAccordionCheckedEvent
+		                    do: [ :event |
+		                    self recyclingRequested: event target isExpanded ]
 ]

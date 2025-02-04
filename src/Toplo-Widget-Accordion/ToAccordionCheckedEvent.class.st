@@ -1,5 +1,5 @@
 Class {
-	#name : #ToAccordionItemCheckedEvent,
+	#name : #ToAccordionCheckedEvent,
 	#superclass : #BlEvent,
 	#category : #'Toplo-Widget-Accordion-Core'
 }

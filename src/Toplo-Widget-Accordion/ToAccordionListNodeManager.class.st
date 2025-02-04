@@ -17,7 +17,7 @@ ToAccordionListNodeManager >> buildNode: aNode [
 	itemBuilder cull: item cull: aNode holder dataItem cull: aNode holder.
 	(aNode holder listElement selectionModel containsIndex:
 		 aNode holder position) ifTrue: [ item checked: true ].
-	item addEventHandlerOn: ToAccordionItemCheckedEvent do: [ :event |
+	item addEventHandlerOn: ToAccordionCheckedEvent do: [ :event |
 		item isExpanded
 			ifTrue: [
 				aNode holder listElement selecter selectIndex:

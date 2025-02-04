@@ -123,7 +123,10 @@ ToSkinManager >> defaultSkin: aSkin [
 { #category : #'skin - installing / uninstalling' }
 ToSkinManager >> enablementChangedIn: anElement [
 
-	self skinStateQueue enablementChangedIn: anElement
+	self
+		addSkinStateGeneration: [
+		self skinStateQueue enablementChangedIn: anElement ]
+		for: anElement
 ]
 
 { #category : #'skin state generation' }

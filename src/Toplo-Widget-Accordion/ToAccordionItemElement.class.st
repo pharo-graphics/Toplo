@@ -26,6 +26,7 @@ ToAccordionItemElement >> isExpanded [
 { #category : #accessing }
 ToAccordionItemElement >> isExpanded: aBoolean [
 	
+	self isExpanded = aBoolean ifTrue: [ ^ self ].
 	header isExpanded: aBoolean.
 	self privateExpanded: aBoolean
 ]
@@ -39,5 +40,5 @@ ToAccordionItemElement >> newHeader [
 { #category : #'instance creation' }
 ToAccordionItemElement >> newRawSkin [ 
 
-	^ ToAccordionItemElementSkin new
+	^ ToAccordionBaseElementSkin new
 ]

@@ -203,10 +203,14 @@ ToAccordionListElement >> defaultNodeManagerClass [
 ]
 
 { #category : #initialization }
-ToAccordionListElement >> initialize [ 
+ToAccordionListElement >> initialize [
 
 	super initialize.
-	self selectionOption withEmbeddedRepresentation.
+	self addEventHandler:
+		(ToAccordionListSelectionCommandHandler new
+			 selectionModel: self selectionModel;
+			 yourself).
+	self selectionOption withEmbeddedRepresentation
 ]
 
 { #category : #initialization }

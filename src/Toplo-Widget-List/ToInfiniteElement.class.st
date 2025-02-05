@@ -148,6 +148,13 @@ ToInfiniteElement >> newNodeHolderFromDataSource: aDataSource [
 	^ listElement nodeManager newHolder
 ]
 
+{ #category : #'t - list node holder' }
+ToInfiniteElement >> nodeAt: aPosition [
+
+	^ (self findElementHolderForDataSourcePosition: aPosition) ifNotNil: [
+		  :holder | holder node ]
+]
+
 { #category : #'accessing - children' }
 ToInfiniteElement >> nodeContainingGlobalPosition: aPoint [
 

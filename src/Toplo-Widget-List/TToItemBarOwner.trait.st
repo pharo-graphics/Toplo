@@ -139,9 +139,7 @@ TToItemBarOwner >> initializeAsItemBarOwner [
 
 	| bar |
 	bar := self newItemBar.
-	self userData at: #itemBar put: bar.
-	bar barOwner: self
-	
+	self userData at: #itemBar put: bar
 ]
 
 { #category : #'t - item bar owner - accessing' }

@@ -22,18 +22,6 @@ TToItem >> barElementDo: aBlock [
 ]
 
 { #category : #'t - item' }
-TToItem >> barOwner [
-
-	^ self barElement ifNotNil: [ :be | be barOwner ] 
-]
-
-{ #category : #'t - item' }
-TToItem >> barOwnerDo: aValuable [
-
-	self barOwner ifNotNil: [ :bo | aValuable value: bo ]
-]
-
-{ #category : #'t - item' }
 TToItem >> ensuredItemConstraints [
 
 	^ self userData

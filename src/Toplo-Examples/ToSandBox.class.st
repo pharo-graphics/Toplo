@@ -4517,7 +4517,7 @@ ToSandBox class >> example_segmentedWithCheckboxes [
 	| seg dashBoard |
 	seg := ToSegmentedElement new.
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
-		seg addItem: (ToCheckbox new
+		seg addItem: (ToSegmentedCheckbox new
 				 labelText: l;
 				 yourself) ].
 	(seg items at: 2) disable.
@@ -4533,7 +4533,7 @@ ToSandBox class >> example_segmentedWithLabels [
 	seg := ToSegmentedElement new.
 
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
-		seg addItem: (ToToggleButton new
+		seg addItem: (ToSegmentedToggleButton new
 				 labelText: l;
 				 yourself) ].
 
@@ -4584,7 +4584,7 @@ ToSandBox class >> example_segmentedWithLabelsAndIcons [
 	seg := ToSegmentedElement new.
 
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
-		seg addItem: (ToToggleButton new
+		seg addItem: (ToSegmentedToggleButton new
 				 iconImage: ToThemeIcons searchOutlined16x16;
 				 labelText: l;
 				 yourself) ].
@@ -4632,7 +4632,7 @@ ToSandBox class >> example_segmentedWithRadioButtons [
 	| seg dashBoard |
 	seg := ToSegmentedElement new.
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
-		seg addItem: (ToRadioButton new
+		seg addItem: (ToSegmentedRadioButton new
 				 labelText: l;
 				 yourself) ].
 	(seg items at: 2) disable.

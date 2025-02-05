@@ -4,6 +4,8 @@ I'm a list whose node contents is a menu item element.
 Class {
 	#name : #ToMenuItemBarElement,
 	#superclass : #ToItemBarElement,
+	#traits : 'TToMenuItemBar',
+	#classTraits : 'TToMenuItemBar classTrait',
 	#category : #'Toplo-Widget-Menu-ItemBar'
 }
 

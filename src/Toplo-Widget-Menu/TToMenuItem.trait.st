@@ -38,6 +38,12 @@ TToMenuItem >> allOtherMenuWindowsDo: aValuable [
 ]
 
 { #category : #'t - menu item' }
+TToMenuItem >> barOwnerDo: aValuable [
+
+	self menuBarOwner ifNotNil: [ :bo | aValuable value: bo ]
+]
+
+{ #category : #'t - menu item' }
 TToMenuItem >> closeAllOtherPopupMenuWindows [
 
 	self allOtherMenuWindowsDo: [ :mw |
@@ -85,9 +91,15 @@ TToMenuItem >> menuBar [
 ]
 
 { #category : #'t - menu item' }
+TToMenuItem >> menuBarOwner [
+
+	^ self barElement ifNotNil: [ :be | be menuBarOwner ] 
+]
+
+{ #category : #'t - menu item' }
 TToMenuItem >> parentMenu [
 
-	^ self barOwner ifNotNil: [ :bo |
+	^ self menuBarOwner ifNotNil: [ :bo |
 		  bo isMenuBar
 			  ifTrue: [  ]
 			  ifFalse: [ bo ] ]

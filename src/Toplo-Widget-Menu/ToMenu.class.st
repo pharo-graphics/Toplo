@@ -85,6 +85,7 @@ ToMenu >> initialize [
 	super initialize.
 	self fitContent.
 	self initializeAsItemBarOwner.
+	self initializeAsMenuItemBarOwner.
 
 	isSubmenu := false.
 	openOnHovered := true.

@@ -17,15 +17,6 @@ ToAccordionListNodeManager >> buildNode: aNode [
 	itemBuilder cull: item cull: aNode holder dataItem cull: aNode holder.
 	(aNode holder listElement selectionModel containsIndex:
 		 aNode holder position) ifTrue: [ item checked: true ].
-	item addEventHandlerOn: ToAccordionCheckedEvent do: [ :event |
-		item isExpanded
-			ifTrue: [
-				aNode holder listElement selecter selectIndex:
-					aNode holder position ]
-			ifFalse: [
-				aNode holder listElement selecter deselectIndex:
-					aNode holder position ] ].
-
 	aNode addChild: item at: 1
 ]
 
@@ -51,7 +42,7 @@ ToAccordionListNodeManager >> initialize [
 
 { #category : #initialization }
 ToAccordionListNodeManager >> itemBuilder: aValuable [
-	" aValuable has 3 arguments: the the accordionElement (the item), the data and the holder "
+	" aValuable has 3 arguments: the accordionElement (the item), the data and the holder "
 
 	itemBuilder := aValuable
 ]
@@ -72,16 +63,14 @@ ToAccordionListNodeManager >> newHolder [
 { #category : #'instance creation' }
 ToAccordionListNodeManager >> newItemForNode: aNode [
 
-	| item |
-	item := itemFactory value: aNode.
-	^ item
+	^ itemFactory value: aNode
 ]
 
 { #category : #'instance creation' }
 ToAccordionListNodeManager >> newNodeForHolder: aNodeHolder [
 
 	| node |
-	node := ToAccordionListNode new.
+	node := ToItemNode new.
 	node hMatchParent.
 	node vFitContent.
 	^ node

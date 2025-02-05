@@ -1,6 +1,8 @@
 Class {
 	#name : #ToAccordionListElement,
 	#superclass : #ToAbstractListElement,
+	#traits : 'TToListElementWithDecoration',
+	#classTraits : 'TToListElementWithDecoration classTrait',
 	#category : #'Toplo-Widget-Accordion-List'
 }
 
@@ -22,6 +24,7 @@ ToAccordionListElement class >> example1 [
 							 background: Color random;
 							 size: 50 @ 50) ] ].
 	list dataAccessor addAll: (1 to: 1000).
+	list withRowNumbers.
 	list matchParent.
 	list openInSpace
 ]
@@ -128,7 +131,8 @@ ToAccordionListElement class >> example2WithClassComments3 [
 				 foreground: Color lightGray;
 				 yourself) ].
 	list := ToAccordionListElement new.
-	list selectionMode multiple: false.
+	list withRowNumbers.
+	list selectionMode multiple: true.
 	sieve := ToListElementSieve new.
 	sieve onInstalledIn: list.
 	sieve dataFilter: [ :item :aPattern |

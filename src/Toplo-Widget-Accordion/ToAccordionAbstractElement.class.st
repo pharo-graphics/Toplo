@@ -171,12 +171,6 @@ ToAccordionAbstractElement >> newHeader [
 	^ self subclassResponsibility 
 ]
 
-{ #category : #'instance creation' }
-ToAccordionAbstractElement >> newRawSkin [
-
-	^ ToAccordionBaseElementSkin new
-]
-
 { #category : #initialization }
 ToAccordionAbstractElement >> notifyChanged [
 

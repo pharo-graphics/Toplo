@@ -140,6 +140,12 @@ ToAccordionBaseElement >> newHeader [
 	^  ToAccordionCheckableHeaderElement new
 ]
 
+{ #category : #skin }
+ToAccordionBaseElement >> newRawSkin [
+
+	^ ToAccordionBaseElementSkin new
+]
+
 { #category : #'t - checkable - group' }
 ToAccordionBaseElement >> privateChecked: aBoolean [
 

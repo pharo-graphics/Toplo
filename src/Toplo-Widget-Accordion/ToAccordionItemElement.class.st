@@ -35,3 +35,9 @@ ToAccordionItemElement >> newHeader [
 
 	^ ToAccordionItemHeaderElement new
 ]
+
+{ #category : #'instance creation' }
+ToAccordionItemElement >> newRawSkin [ 
+
+	^ ToAccordionItemElementSkin new
+]

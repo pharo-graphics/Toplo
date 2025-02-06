@@ -17,7 +17,8 @@ Class {
 		'isCollapsed',
 		'nbChildren',
 		'children',
-		'dataSource'
+		'dataSource',
+		'nodeDepth'
 	],
 	#category : #'Toplo-Widget-Tree-Core'
 }
@@ -39,14 +40,11 @@ ToTreeDataSourceWrapper >> collapse [
 
 	self isCollapsed ifTrue: [ ^ self ].
 
-	self children do: [ :data |
-		| wrapper |
-		wrapper := (self dataSource select: [ :e | e dataItem = data ])
-			           anyOne.
+	self children do: [ :wrapper |
 		wrapper collapse.
 		self dataSource removeWrapper: wrapper ].
-	
-	isCollapsed := true.
+
+	isCollapsed := true
 ]
 
 { #category : #accessing }
@@ -68,9 +66,10 @@ ToTreeDataSourceWrapper >> dataSource [
 ]
 
 { #category : #accessing }
-ToTreeDataSourceWrapper >> dataSource: aDataSource [ 
+ToTreeDataSourceWrapper >> dataSource: aDataSource [
 
-	dataSource := aDataSource 
+	dataSource := aDataSource.
+	
 ]
 
 { #category : #accessing }
@@ -79,21 +78,19 @@ ToTreeDataSourceWrapper >> expand [
 	| currentWrapper |
 	self isLeaf ifTrue: [ ^ self ].
 	isCollapsed := false.
-	
+
 	currentWrapper := self.
 	self children do: [ :nextWrapper |
-		dataSource add: nextWrapper after: currentWrapper.
-		currentWrapper := dataSource at:
-			                  (dataSource indexOf: currentWrapper) + 1 ].
-
-	
+		dataSource addWrapper: nextWrapper after: currentWrapper.
+		currentWrapper := nextWrapper ]
 ]
 
 { #category : #initialization }
-ToTreeDataSourceWrapper >> initialize [ 
+ToTreeDataSourceWrapper >> initialize [
 
 	super initialize.
 	isCollapsed := true.
+	nodeDepth := 1
 ]
 
 { #category : #accessing }
@@ -121,10 +118,33 @@ ToTreeDataSourceWrapper >> nbChildren: aNumber [
 ]
 
 { #category : #accessing }
+ToTreeDataSourceWrapper >> nodeDepth [
+
+	^ nodeDepth
+]
+
+{ #category : #accessing }
+ToTreeDataSourceWrapper >> nodeDepth: aNumber [
+
+	nodeDepth := aNumber 
+]
+
+{ #category : #accessing }
 ToTreeDataSourceWrapper >> wrapAround: anObject with: aChildSelector [
 
 	dataItem := anObject.
 	aChildSelector dataItem: anObject.
-	children := aChildSelector children.
+	children := aChildSelector children collect: [ :each |
+		            self class new
+			            dataSource: self dataSource;
+			            wrapAround: each with: aChildSelector atDepth: self nodeDepth + 1 ].
 	nbChildren := children size
+]
+
+{ #category : #accessing }
+ToTreeDataSourceWrapper >> wrapAround: anObject with: aChildSelector atDepth: aNumber [
+
+	self nodeDepth: aNumber.
+	self wrapAround: anObject with: aChildSelector.
+
 ]

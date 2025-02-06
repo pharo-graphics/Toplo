@@ -12,6 +12,15 @@ Class {
 	#category : #'Toplo-Widget-Tree-Core'
 }
 
+{ #category : #'t - generic node manager' }
+ToGenericTreeNodeManager >> buildNode: aNode [
+
+	nodeBuilder
+		cull: aNode
+		cull: aNode holder dataWrapper 
+		cull: aNode holder
+]
+
 { #category : #initialization }
 ToGenericTreeNodeManager >> defaultHolderClass [
 
@@ -21,15 +30,17 @@ ToGenericTreeNodeManager >> defaultHolderClass [
 { #category : #initialization }
 ToGenericTreeNodeManager >> defaultNodeBuilder [
 
-	^ [ :node :dataItem :holder |
+	^ [ :node :dataWrapper :holder |
 	  | start |
-	  start := self transparentIndentationElement.
+	  start := self indentationDependingOnWrapper: dataWrapper.
 	  start addEventHandlerOn: BlClickEvent do: [ :e |
 		  e consume.
-		  holder click ].
+		  holder click.
+		self treeElement notifyDataSourceChanged ].
 	  node addChild: (ToTripletElement new
+			   margin: (BlInsets left: 20 * (dataWrapper nodeDepth - 1));
 			   startElement: start;
-			   middleElement: (ToLabel text: dataItem  asString);
+			   middleElement: (ToLabel text: dataWrapper dataItem asString);
 			   startInterspace: 5) ]
 ]
 
@@ -47,11 +58,20 @@ ToGenericTreeNodeManager >> defaultNodeUnbuilder [
 ]
 
 { #category : #initialization }
-ToGenericTreeNodeManager >> transparentIndentationElement [
+ToGenericTreeNodeManager >> indentationDependingOnWrapper: aDataSourceWrapper [
+
+	| icon |
+	icon := Smalltalk ui icons iconNamed: (aDataSourceWrapper isLeaf
+			         ifTrue: [ #glamorousGrayCircleEmpty ]
+			         ifFalse: [
+				         aDataSourceWrapper isCollapsed
+					         ifTrue: [ #glamorousGrayCircle ]
+					         ifFalse: [ #glamorousDropDown ] ]).
+	
 
 	^ ToElement new
 		  size: 20 @ 20;
-		  background: Color random
+		  background: icon
 ]
 
 { #category : #accessing }

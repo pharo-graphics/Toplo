@@ -18,18 +18,12 @@ Class {
 	#category : #'Toplo-Widget-Tree-Core'
 }
 
-{ #category : #accessing }
-ToTreeNodeHolder >> children [
-
-	^ self dataWrapper children
-]
-
 { #category : #public }
 ToTreeNodeHolder >> click [
 
-	self isCollapsed 
+	self isCollapsed
 		ifTrue: [ self dataWrapper expand ]
-		ifFalse: [ self dataWrapper collapse ]
+		ifFalse: [ self dataWrapper collapse ].
 ]
 
 { #category : #'expanding-collapsing' }
